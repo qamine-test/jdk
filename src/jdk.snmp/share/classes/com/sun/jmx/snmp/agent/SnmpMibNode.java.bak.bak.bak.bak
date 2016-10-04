@@ -1,406 +1,2030 @@
 /*
- * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 
 
+
+
+
+
+
+
+
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// jbvb imports
+// jbvb imports
+// jbvb imports
+// jbvb imports
 // jbvb imports
 //
+//
+//
+//
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
 import jbvb.io.Sfriblizbblf;
 import jbvb.util.Vfdtor;
-import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Enumfrbtion;
 import jbvb.util.Enumfrbtion;
 
+
+
+
+
+// jmx imports
+// jmx imports
+// jmx imports
+// jmx imports
 // jmx imports
 //
+//
+//
+//
+//
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
 import dom.sun.jmx.snmp.SnmpOid;
 import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpVbrBind;
 import dom.sun.jmx.snmp.SnmpVbrBind;
 import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
+
+
+
+
 /**
- * Thf <CODE>SnmpMibNodf</CODE> dlbss rfprfsfnts b nodf in bn SNMP MIB.
+/**
+/**
+/**
+/**
+ * Tif <CODE>SnmpMibNodf</CODE> dlbss rfprfsfnts b nodf in bn SNMP MIB.
+ * Tif <CODE>SnmpMibNodf</CODE> dlbss rfprfsfnts b nodf in bn SNMP MIB.
+ * Tif <CODE>SnmpMibNodf</CODE> dlbss rfprfsfnts b nodf in bn SNMP MIB.
+ * Tif <CODE>SnmpMibNodf</CODE> dlbss rfprfsfnts b nodf in bn SNMP MIB.
+ * Tif <CODE>SnmpMibNodf</CODE> dlbss rfprfsfnts b nodf in bn SNMP MIB.
  * <P>
- * This dlbss is usfd intfrnblly bnd by thf dlbss gfnfrbtfd by
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Tiis dlbss is usfd intfrnblly bnd by tif dlbss gfnfrbtfd by
+ * Tiis dlbss is usfd intfrnblly bnd by tif dlbss gfnfrbtfd by
+ * Tiis dlbss is usfd intfrnblly bnd by tif dlbss gfnfrbtfd by
+ * Tiis dlbss is usfd intfrnblly bnd by tif dlbss gfnfrbtfd by
+ * Tiis dlbss is usfd intfrnblly bnd by tif dlbss gfnfrbtfd by
  * <CODE>mibgfn</CODE>.
- * You should not nffd to usf this dlbss dirfdtly.
+ * <CODE>mibgfn</CODE>.
+ * <CODE>mibgfn</CODE>.
+ * <CODE>mibgfn</CODE>.
+ * <CODE>mibgfn</CODE>.
+ * You siould not nffd to usf tiis dlbss dirfdtly.
+ * You siould not nffd to usf tiis dlbss dirfdtly.
+ * You siould not nffd to usf tiis dlbss dirfdtly.
+ * You siould not nffd to usf tiis dlbss dirfdtly.
+ * You siould not nffd to usf tiis dlbss dirfdtly.
  *
- * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
- * to dhbngf without notidf.</b></p>
+ *
+ *
+ *
+ *
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ */
+ */
+ */
+ */
  */
 @SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpMibNodf implfmfnts Sfriblizbblf {
+publid bbstrbdt dlbss SnmpMibNodf implfmfnts Sfriblizbblf {
+publid bbstrbdt dlbss SnmpMibNodf implfmfnts Sfriblizbblf {
+publid bbstrbdt dlbss SnmpMibNodf implfmfnts Sfriblizbblf {
 publid bbstrbdt dlbss SnmpMibNodf implfmfnts Sfriblizbblf {
 
+
+
+
+
+    // ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
     // ---------------------------------------------------------------------
     // PUBLIC METHODS
+    // PUBLIC METHODS
+    // PUBLIC METHODS
+    // PUBLIC METHODS
+    // PUBLIC METHODS
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
 
+
+
+
+
     /**
-     * Gft thf nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
-     * b brbndh lfbding to b subgroub, or b tbblf.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * b brbndi lfbding to b subgroub, or b tbblf.
+     * b brbndi lfbding to b subgroub, or b tbblf.
+     * b brbndi lfbding to b subgroub, or b tbblf.
+     * b brbndi lfbding to b subgroub, or b tbblf.
+     * b brbndi lfbding to b subgroub, or b tbblf.
      *
-     * @pbrbm id Id wf stbrt from looking for thf nfxt.
+     *
+     *
+     *
+     *
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
      * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
-     *        This objfdt is bllodbtfd through thf <dodf>
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
      *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
-     *        for fbdh indoming SNMP rfqufst.
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @rfturn Thf nfxt id in this group.
      *
-     * @fxdfption SnmpStbtusExdfption If no id is found bftfr thf givfn id.
+     *
+     *
+     *
+     * @rfturn Tif nfxt id in tiis group.
+     * @rfturn Tif nfxt id in tiis group.
+     * @rfturn Tif nfxt id in tiis group.
+     * @rfturn Tif nfxt id in tiis group.
+     * @rfturn Tif nfxt id in tiis group.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     */
+     */
+     */
+     */
      */
     publid long gftNfxtVbrId(long id, Objfdt usfrDbtb)
-        throws SnmpStbtusExdfption {
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb)
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb)
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb)
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        rfturn gftNfxtIdfntififr(vbrList,id);
+        rfturn gftNfxtIdfntififr(vbrList,id);
+        rfturn gftNfxtIdfntififr(vbrList,id);
+        rfturn gftNfxtIdfntififr(vbrList,id);
         rfturn gftNfxtIdfntififr(vbrList,id);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gft thf nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
-     * b brbndh lfbding to b subgroub, or b tbblf, possibly skipping ovfr
-     * thosf brds thbt must not or dbnnot bf rfturnfd.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * Gft tif nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf,
+     * b brbndi lfbding to b subgroub, or b tbblf, possibly skipping ovfr
+     * b brbndi lfbding to b subgroub, or b tbblf, possibly skipping ovfr
+     * b brbndi lfbding to b subgroub, or b tbblf, possibly skipping ovfr
+     * b brbndi lfbding to b subgroub, or b tbblf, possibly skipping ovfr
+     * b brbndi lfbding to b subgroub, or b tbblf, possibly skipping ovfr
+     * tiosf brds tibt must not or dbnnot bf rfturnfd.
+     * tiosf brds tibt must not or dbnnot bf rfturnfd.
+     * tiosf brds tibt must not or dbnnot bf rfturnfd.
+     * tiosf brds tibt must not or dbnnot bf rfturnfd.
+     * tiosf brds tibt must not or dbnnot bf rfturnfd.
+     *
+     *
+     *
+     *
      *
      * Cblls {@link #gftNfxtVbrId(long,jbvb.lbng.Objfdt)} until
+     * Cblls {@link #gftNfxtVbrId(long,jbvb.lbng.Objfdt)} until
+     * Cblls {@link #gftNfxtVbrId(long,jbvb.lbng.Objfdt)} until
+     * Cblls {@link #gftNfxtVbrId(long,jbvb.lbng.Objfdt)} until
+     * Cblls {@link #gftNfxtVbrId(long,jbvb.lbng.Objfdt)} until
+     * {@link #skipVbribblf(long,jbvb.lbng.Objfdt,int)} rfturns fblsf.
+     * {@link #skipVbribblf(long,jbvb.lbng.Objfdt,int)} rfturns fblsf.
+     * {@link #skipVbribblf(long,jbvb.lbng.Objfdt,int)} rfturns fblsf.
+     * {@link #skipVbribblf(long,jbvb.lbng.Objfdt,int)} rfturns fblsf.
      * {@link #skipVbribblf(long,jbvb.lbng.Objfdt,int)} rfturns fblsf.
      *
-     * @pbrbm id Id wf stbrt from looking for thf nfxt.
+     *
+     *
+     *
+     *
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
      * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
-     *        This objfdt is bllodbtfd through thf <dodf>
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
      *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
-     *        for fbdh indoming SNMP rfqufst.
-     * @pbrbm pduVfrsion Protodol vfrsion of thf originbl rfqufst PDU.
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
      *
-     * @rfturn Thf nfxt id in this group whidh dbn bf rfturnfd using
-     *         thf givfn PDU's protodol vfrsion.
      *
-     * @fxdfption SnmpStbtusExdfption If no id is found bftfr thf givfn id.
+     *
+     *
+     *
+     * @rfturn Tif nfxt id in tiis group wiidi dbn bf rfturnfd using
+     * @rfturn Tif nfxt id in tiis group wiidi dbn bf rfturnfd using
+     * @rfturn Tif nfxt id in tiis group wiidi dbn bf rfturnfd using
+     * @rfturn Tif nfxt id in tiis group wiidi dbn bf rfturnfd using
+     * @rfturn Tif nfxt id in tiis group wiidi dbn bf rfturnfd using
+     *         tif givfn PDU's protodol vfrsion.
+     *         tif givfn PDU's protodol vfrsion.
+     *         tif givfn PDU's protodol vfrsion.
+     *         tif givfn PDU's protodol vfrsion.
+     *         tif givfn PDU's protodol vfrsion.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
+     */
+     */
+     */
+     */
      */
     publid long gftNfxtVbrId(long id, Objfdt usfrDbtb, int pduVfrsion)
-        throws SnmpStbtusExdfption {
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb, int pduVfrsion)
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb, int pduVfrsion)
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb, int pduVfrsion)
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb, int pduVfrsion)
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        long vbrid=id;
+        long vbrid=id;
+        long vbrid=id;
+        long vbrid=id;
         long vbrid=id;
         do {
+        do {
+        do {
+        do {
+        do {
             vbrid = gftNfxtVbrId(vbrid,usfrDbtb);
-        } whilf (skipVbribblf(vbrid,usfrDbtb,pduVfrsion));
+            vbrid = gftNfxtVbrId(vbrid,usfrDbtb);
+            vbrid = gftNfxtVbrId(vbrid,usfrDbtb);
+            vbrid = gftNfxtVbrId(vbrid,usfrDbtb);
+            vbrid = gftNfxtVbrId(vbrid,usfrDbtb);
+        } wiilf (skipVbribblf(vbrid,usfrDbtb,pduVfrsion));
+        } wiilf (skipVbribblf(vbrid,usfrDbtb,pduVfrsion));
+        } wiilf (skipVbribblf(vbrid,usfrDbtb,pduVfrsion));
+        } wiilf (skipVbribblf(vbrid,usfrDbtb,pduVfrsion));
+        } wiilf (skipVbribblf(vbrid,usfrDbtb,pduVfrsion));
+
+
+
+
 
         rfturn vbrid;
+        rfturn vbrid;
+        rfturn vbrid;
+        rfturn vbrid;
+        rfturn vbrid;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Hook for subdlbssfs.
-     * Thf dffbult implfmfntbtion of this mfthod is to blwbys rfturn
-     * fblsf. Subdlbssfs should rfdffinf this mfthod so thbt it rfturns
-     * truf whfn:
-     * <ul><li>thf vbribblf is b lfbf thbt is not instbntibtfd,</li>
-     * <li>or thf vbribblf is b lfbf whosf typf dbnnot bf rfturnfd by thbt
-     *     vfrsion of thf protodol (f.g. bn Countfr64 with SNMPv1).</li>
+     * Hook for subdlbssfs.
+     * Hook for subdlbssfs.
+     * Hook for subdlbssfs.
+     * Hook for subdlbssfs.
+     * Tif dffbult implfmfntbtion of tiis mftiod is to blwbys rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod is to blwbys rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod is to blwbys rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod is to blwbys rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod is to blwbys rfturn
+     * fblsf. Subdlbssfs siould rfdffinf tiis mftiod so tibt it rfturns
+     * fblsf. Subdlbssfs siould rfdffinf tiis mftiod so tibt it rfturns
+     * fblsf. Subdlbssfs siould rfdffinf tiis mftiod so tibt it rfturns
+     * fblsf. Subdlbssfs siould rfdffinf tiis mftiod so tibt it rfturns
+     * fblsf. Subdlbssfs siould rfdffinf tiis mftiod so tibt it rfturns
+     * truf wifn:
+     * truf wifn:
+     * truf wifn:
+     * truf wifn:
+     * truf wifn:
+     * <ul><li>tif vbribblf is b lfbf tibt is not instbntibtfd,</li>
+     * <ul><li>tif vbribblf is b lfbf tibt is not instbntibtfd,</li>
+     * <ul><li>tif vbribblf is b lfbf tibt is not instbntibtfd,</li>
+     * <ul><li>tif vbribblf is b lfbf tibt is not instbntibtfd,</li>
+     * <ul><li>tif vbribblf is b lfbf tibt is not instbntibtfd,</li>
+     * <li>or tif vbribblf is b lfbf wiosf typf dbnnot bf rfturnfd by tibt
+     * <li>or tif vbribblf is b lfbf wiosf typf dbnnot bf rfturnfd by tibt
+     * <li>or tif vbribblf is b lfbf wiosf typf dbnnot bf rfturnfd by tibt
+     * <li>or tif vbribblf is b lfbf wiosf typf dbnnot bf rfturnfd by tibt
+     * <li>or tif vbribblf is b lfbf wiosf typf dbnnot bf rfturnfd by tibt
+     *     vfrsion of tif protodol (f.g. bn Countfr64 witi SNMPv1).</li>
+     *     vfrsion of tif protodol (f.g. bn Countfr64 witi SNMPv1).</li>
+     *     vfrsion of tif protodol (f.g. bn Countfr64 witi SNMPv1).</li>
+     *     vfrsion of tif protodol (f.g. bn Countfr64 witi SNMPv1).</li>
+     *     vfrsion of tif protodol (f.g. bn Countfr64 witi SNMPv1).</li>
+     * </ul>
+     * </ul>
+     * </ul>
+     * </ul>
      * </ul>
      *
-     * @pbrbm id Id wf stbrt from looking for thf nfxt.
-     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
-     *        This objfdt is bllodbtfd through thf <dodf>
-     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
-     *        for fbdh indoming SNMP rfqufst.
-     * @pbrbm pduVfrsion Protodol vfrsion of thf originbl rfqufst PDU.
      *
-     * @rfturn truf if thf vbribblf must bf skippfd by thf gft-nfxt
-     *         blgorithm.
+     *
+     *
+     *
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm id Id wf stbrt from looking for tif nfxt.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     *        for fbdi indoming SNMP rfqufst.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn truf if tif vbribblf must bf skippfd by tif gft-nfxt
+     * @rfturn truf if tif vbribblf must bf skippfd by tif gft-nfxt
+     * @rfturn truf if tif vbribblf must bf skippfd by tif gft-nfxt
+     * @rfturn truf if tif vbribblf must bf skippfd by tif gft-nfxt
+     * @rfturn truf if tif vbribblf must bf skippfd by tif gft-nfxt
+     *         blgoritim.
+     *         blgoritim.
+     *         blgoritim.
+     *         blgoritim.
+     *         blgoritim.
+     */
+     */
+     */
+     */
      */
     protfdtfd boolfbn skipVbribblf(long id, Objfdt usfrDbtb, int pduVfrsion) {
+    protfdtfd boolfbn skipVbribblf(long id, Objfdt usfrDbtb, int pduVfrsion) {
+    protfdtfd boolfbn skipVbribblf(long id, Objfdt usfrDbtb, int pduVfrsion) {
+    protfdtfd boolfbn skipVbribblf(long id, Objfdt usfrDbtb, int pduVfrsion) {
+    protfdtfd boolfbn skipVbribblf(long id, Objfdt usfrDbtb, int pduVfrsion) {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Find thf nodf whidh hbndlfs b vbrbind, bnd rfgistfr it in thf
-     * SnmpRfqufstTrff. This mfthod is b purf intfrnbl mfthod. You should
+    /**
+    /**
+    /**
+    /**
+     * Find tif nodf wiidi ibndlfs b vbrbind, bnd rfgistfr it in tif
+     * Find tif nodf wiidi ibndlfs b vbrbind, bnd rfgistfr it in tif
+     * Find tif nodf wiidi ibndlfs b vbrbind, bnd rfgistfr it in tif
+     * Find tif nodf wiidi ibndlfs b vbrbind, bnd rfgistfr it in tif
+     * Find tif nodf wiidi ibndlfs b vbrbind, bnd rfgistfr it in tif
+     * SnmpRfqufstTrff. Tiis mftiod is b purf intfrnbl mftiod. You siould
+     * SnmpRfqufstTrff. Tiis mftiod is b purf intfrnbl mftiod. You siould
+     * SnmpRfqufstTrff. Tiis mftiod is b purf intfrnbl mftiod. You siould
+     * SnmpRfqufstTrff. Tiis mftiod is b purf intfrnbl mftiod. You siould
+     * SnmpRfqufstTrff. Tiis mftiod is b purf intfrnbl mftiod. You siould
+     * nfvfr try to dbll it dirfdtly.
+     * nfvfr try to dbll it dirfdtly.
+     * nfvfr try to dbll it dirfdtly.
+     * nfvfr try to dbll it dirfdtly.
      * nfvfr try to dbll it dirfdtly.
      *
-     * @pbrbm vbrbind  Thf vbrbind to bf hbndlfd
      *
-     * @pbrbm oid      Thf OID brrby fxtrbdtfd from thf vbrbind
      *
-     * @pbrbm dfpth    Thf dfpth rfbdhfd in thf OID bt this stfp of thf
+     *
+     *
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     *                 prodfssing.
+     *                 prodfssing.
+     *                 prodfssing.
+     *                 prodfssing.
      *                 prodfssing.
      *
-     * @pbrbm hbndlfrs Thf Hbshtbblf in whidh thf vbrbind will bf rfgistfrfd
-     *                 with its hbndling nodf. This hbshtbblf dontbins
+     *
+     *
+     *
+     *
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 <CODE>SnmpRfqufstTrff.Hbndlfr</CODE> itfms.
+     *                 <CODE>SnmpRfqufstTrff.Hbndlfr</CODE> itfms.
+     *                 <CODE>SnmpRfqufstTrff.Hbndlfr</CODE> itfms.
+     *                 <CODE>SnmpRfqufstTrff.Hbndlfr</CODE> itfms.
      *                 <CODE>SnmpRfqufstTrff.Hbndlfr</CODE> itfms.
      *
-     * @fxdfption SnmpStbtusExdfption No hbndling nodf wbs found.
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     **/
+     **/
+     **/
+     **/
      **/
     void findHbndlingNodf(SnmpVbrBind vbrbind,
-                          long[] oid, int dfpth,
-                          SnmpRfqufstTrff hbndlfrs)
-        throws SnmpStbtusExdfption {
-        throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+    void findHbndlingNodf(SnmpVbrBind vbrbind,
+    void findHbndlingNodf(SnmpVbrBind vbrbind,
+    void findHbndlingNodf(SnmpVbrBind vbrbind,
+    void findHbndlingNodf(SnmpVbrBind vbrbind,
+                          long[] oid, int dfpti,
+                          long[] oid, int dfpti,
+                          long[] oid, int dfpti,
+                          long[] oid, int dfpti,
+                          long[] oid, int dfpti,
+                          SnmpRfqufstTrff ibndlfrs)
+                          SnmpRfqufstTrff ibndlfrs)
+                          SnmpRfqufstTrff ibndlfrs)
+                          SnmpRfqufstTrff ibndlfrs)
+                          SnmpRfqufstTrff ibndlfrs)
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Find thf nodf whidh hbndlfs thf lfbf thbt immfdibtfly follows thf
-     * givfn vbrbind OID, bnd rfgistfr thf it in thf SnmpRfqufstTrff.
-     * This mfthod is b purf intfrnbl mfthod. You should nfvfr try to dbll
+    /**
+    /**
+    /**
+    /**
+     * Find tif nodf wiidi ibndlfs tif lfbf tibt immfdibtfly follows tif
+     * Find tif nodf wiidi ibndlfs tif lfbf tibt immfdibtfly follows tif
+     * Find tif nodf wiidi ibndlfs tif lfbf tibt immfdibtfly follows tif
+     * Find tif nodf wiidi ibndlfs tif lfbf tibt immfdibtfly follows tif
+     * Find tif nodf wiidi ibndlfs tif lfbf tibt immfdibtfly follows tif
+     * givfn vbrbind OID, bnd rfgistfr tif it in tif SnmpRfqufstTrff.
+     * givfn vbrbind OID, bnd rfgistfr tif it in tif SnmpRfqufstTrff.
+     * givfn vbrbind OID, bnd rfgistfr tif it in tif SnmpRfqufstTrff.
+     * givfn vbrbind OID, bnd rfgistfr tif it in tif SnmpRfqufstTrff.
+     * givfn vbrbind OID, bnd rfgistfr tif it in tif SnmpRfqufstTrff.
+     * Tiis mftiod is b purf intfrnbl mftiod. You siould nfvfr try to dbll
+     * Tiis mftiod is b purf intfrnbl mftiod. You siould nfvfr try to dbll
+     * Tiis mftiod is b purf intfrnbl mftiod. You siould nfvfr try to dbll
+     * Tiis mftiod is b purf intfrnbl mftiod. You siould nfvfr try to dbll
+     * Tiis mftiod is b purf intfrnbl mftiod. You siould nfvfr try to dbll
+     * it dirfdtly.
+     * it dirfdtly.
+     * it dirfdtly.
+     * it dirfdtly.
      * it dirfdtly.
      *
-     * @pbrbm vbrbind  Thf vbrbind to bf hbndlfd
      *
-     * @pbrbm oid      Thf OID brrby fxtrbdtfd from thf vbrbind
      *
-     * @pbrbm dfpth    Thf dfpth rfbdhfd in thf OID bt this stfp of thf
+     *
+     *
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     * @pbrbm vbrbind  Tif vbrbind to bf ibndlfd
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     * @pbrbm oid      Tif OID brrby fxtrbdtfd from tif vbrbind
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     * @pbrbm dfpti    Tif dfpti rfbdifd in tif OID bt tiis stfp of tif
+     *                 prodfssing.
+     *                 prodfssing.
+     *                 prodfssing.
+     *                 prodfssing.
      *                 prodfssing.
      *
-     * @pbrbm hbndlfrs Thf Hbshtbblf in whidh thf vbrbind will bf rfgistfrfd
-     *                 with its hbndling nodf. This hbshtbblf dontbins
+     *
+     *
+     *
+     *
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     * @pbrbm ibndlfrs Tif Hbsitbblf in wiidi tif vbrbind will bf rfgistfrfd
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 witi its ibndling nodf. Tiis ibsitbblf dontbins
+     *                 SnmpRfqufstTrff.Hbndlfr itfms.
+     *                 SnmpRfqufstTrff.Hbndlfr itfms.
+     *                 SnmpRfqufstTrff.Hbndlfr itfms.
+     *                 SnmpRfqufstTrff.Hbndlfr itfms.
      *                 SnmpRfqufstTrff.Hbndlfr itfms.
      *
-     * @rfturn Thf SnmpOid of thf nfxt lfbf.
      *
-     * @fxdfption SnmpStbtusExdfption No hbndling nodf wbs found.
+     *
+     *
+     *
+     * @rfturn Tif SnmpOid of tif nfxt lfbf.
+     * @rfturn Tif SnmpOid of tif nfxt lfbf.
+     * @rfturn Tif SnmpOid of tif nfxt lfbf.
+     * @rfturn Tif SnmpOid of tif nfxt lfbf.
+     * @rfturn Tif SnmpOid of tif nfxt lfbf.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     * @fxdfption SnmpStbtusExdfption No ibndling nodf wbs found.
+     **/
+     **/
+     **/
+     **/
      **/
     long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
-                                 long[] oid, int pos, int dfpth,
-                                 SnmpRfqufstTrff hbndlfrs, AdmChfdkfr dhfdkfr)
-        throws SnmpStbtusExdfption {
-        throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+    long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
+    long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
+    long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
+    long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
+                                 long[] oid, int pos, int dfpti,
+                                 long[] oid, int pos, int dfpti,
+                                 long[] oid, int pos, int dfpti,
+                                 long[] oid, int pos, int dfpti,
+                                 long[] oid, int pos, int dfpti,
+                                 SnmpRfqufstTrff ibndlfrs, AdmCifdkfr difdkfr)
+                                 SnmpRfqufstTrff ibndlfrs, AdmCifdkfr difdkfr)
+                                 SnmpRfqufstTrff ibndlfrs, AdmCifdkfr difdkfr)
+                                 SnmpRfqufstTrff ibndlfrs, AdmCifdkfr difdkfr)
+                                 SnmpRfqufstTrff ibndlfrs, AdmCifdkfr difdkfr)
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Gfnfrid hbndling of thf <CODE>gft</CODE> opfrbtion.
-     *
-     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
-     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
-     * undfrlying rfsourdfs.
-     * <p>
-     *
-     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
-     *
-     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
-     *
-     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
-     *  thf MIB nodf.
-     */
-    publid bbstrbdt void gft(SnmpMibSubRfqufst rfq, int dfpth)
-        throws SnmpStbtusExdfption;
+
+
+
 
     /**
-     * Gfnfrid hbndling of thf <CODE>sft</CODE> opfrbtion.
-     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
-     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrid ibndling of tif <CODE>gft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>gft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>gft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>gft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>gft</CODE> opfrbtion.
+     *
+     *
+     *
+     *
+     *
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * undfrlying rfsourdfs.
+     * undfrlying rfsourdfs.
+     * undfrlying rfsourdfs.
      * undfrlying rfsourdfs.
      * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      *
-     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
      *
-     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
      *
-     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
-     *  thf MIB nodf.
+     *
+     *
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
      */
-    publid bbstrbdt void sft(SnmpMibSubRfqufst rfq, int dfpth)
-        throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid bbstrbdt void gft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void gft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void gft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void gft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void gft(SnmpMibSubRfqufst rfq, int dfpti)
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfnfrid hbndling of thf <CODE>dhfdk</CODE> opfrbtion.
-     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
-     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrid ibndling of tif <CODE>sft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>sft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>sft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>sft</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>sft</CODE> opfrbtion.
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * undfrlying rfsourdfs.
+     * undfrlying rfsourdfs.
+     * undfrlying rfsourdfs.
+     * undfrlying rfsourdfs.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     */
+     */
+     */
+     */
+     */
+    publid bbstrbdt void sft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void sft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void sft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void sft(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void sft(SnmpMibSubRfqufst rfq, int dfpti)
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrid ibndling of tif <CODE>difdk</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>difdk</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>difdk</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>difdk</CODE> opfrbtion.
+     * Gfnfrid ibndling of tif <CODE>difdk</CODE> opfrbtion.
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * <p> You dbn ovfrridf tiis mftiod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
      * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
-     * dhfdks bftwffn thf difffrfnt vblufs providfd in thf vbrbind list.
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list.
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list.
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list.
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list.
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      *
-     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
      *
-     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
      *
-     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
-     *  thf MIB nodf.
+     *
+     *
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     * @pbrbm rfq   Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     * @pbrbm dfpti Tif dfpti rfbdifd in tif OID trff.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf bddfssing
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
+     *  tif MIB nodf.
      */
-    publid bbstrbdt void dhfdk(SnmpMibSubRfqufst rfq, int dfpth)
-        throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid bbstrbdt void difdk(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void difdk(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void difdk(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void difdk(SnmpMibSubRfqufst rfq, int dfpti)
+    publid bbstrbdt void difdk(SnmpMibSubRfqufst rfq, int dfpti)
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+        tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Sorts thf spfdififd intfgfr brrby.
+    /**
+    /**
+    /**
+    /**
+     * Sorts tif spfdififd intfgfr brrby.
+     * Sorts tif spfdififd intfgfr brrby.
+     * Sorts tif spfdififd intfgfr brrby.
+     * Sorts tif spfdififd intfgfr brrby.
+     * Sorts tif spfdififd intfgfr brrby.
+     *
+     *
+     *
+     *
      *
      * @pbrbm brrby An intfgfr brrby.
+     * @pbrbm brrby An intfgfr brrby.
+     * @pbrbm brrby An intfgfr brrby.
+     * @pbrbm brrby An intfgfr brrby.
+     * @pbrbm brrby An intfgfr brrby.
+     */
+     */
+     */
+     */
      */
     stbtid publid void sort(int brrby[]) {
-        QuidkSort(brrby, 0, brrby.lfngth - 1);
+    stbtid publid void sort(int brrby[]) {
+    stbtid publid void sort(int brrby[]) {
+    stbtid publid void sort(int brrby[]) {
+    stbtid publid void sort(int brrby[]) {
+        QuidkSort(brrby, 0, brrby.lfngti - 1);
+        QuidkSort(brrby, 0, brrby.lfngti - 1);
+        QuidkSort(brrby, 0, brrby.lfngti - 1);
+        QuidkSort(brrby, 0, brrby.lfngti - 1);
+        QuidkSort(brrby, 0, brrby.lfngti - 1);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Computfs thf root OID of thf MIB.
+    /**
+    /**
+    /**
+    /**
+     * Computfs tif root OID of tif MIB.
+     * Computfs tif root OID of tif MIB.
+     * Computfs tif root OID of tif MIB.
+     * Computfs tif root OID of tif MIB.
+     * Computfs tif root OID of tif MIB.
+     */
+     */
+     */
+     */
      */
     publid void gftRootOid(Vfdtor<Intfgfr> rfsult) {
+    publid void gftRootOid(Vfdtor<Intfgfr> rfsult) {
+    publid void gftRootOid(Vfdtor<Intfgfr> rfsult) {
+    publid void gftRootOid(Vfdtor<Intfgfr> rfsult) {
+    publid void gftRootOid(Vfdtor<Intfgfr> rfsult) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
     // PACKAGE METHODS
+    // PACKAGE METHODS
+    // PACKAGE METHODS
+    // PACKAGE METHODS
+    // PACKAGE METHODS
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
 
+
+
+
+
     /**
-     * This is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
-     * blgorithm.  This will hbndlf brrbys thbt brf blrfbdy
-     * sortfd, bnd brrbys with duplidbtf kfys.
+    /**
+    /**
+    /**
+    /**
+     * Tiis is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * Tiis is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * Tiis is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * Tiis is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * Tiis is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * blgoritim.  Tiis will ibndlf brrbys tibt brf blrfbdy
+     * blgoritim.  Tiis will ibndlf brrbys tibt brf blrfbdy
+     * blgoritim.  Tiis will ibndlf brrbys tibt brf blrfbdy
+     * blgoritim.  Tiis will ibndlf brrbys tibt brf blrfbdy
+     * blgoritim.  Tiis will ibndlf brrbys tibt brf blrfbdy
+     * sortfd, bnd brrbys witi duplidbtf kfys.
+     * sortfd, bnd brrbys witi duplidbtf kfys.
+     * sortfd, bnd brrbys witi duplidbtf kfys.
+     * sortfd, bnd brrbys witi duplidbtf kfys.
+     * sortfd, bnd brrbys witi duplidbtf kfys.
      *
-     * If you think of b onf dimfnsionbl brrby bs going from
-     * thf lowfst indfx on thf lfft to thf highfst indfx on thf right
-     * thfn thf pbrbmftfrs to this fundtion brf lowfst indfx or
-     * lfft bnd highfst indfx or right.  Thf first timf you dbll
-     * this fundtion it will bf with thf pbrbmftfrs 0, b.lfngth - 1.
+     *
+     *
+     *
+     *
+     * If you tiink of b onf dimfnsionbl brrby bs going from
+     * If you tiink of b onf dimfnsionbl brrby bs going from
+     * If you tiink of b onf dimfnsionbl brrby bs going from
+     * If you tiink of b onf dimfnsionbl brrby bs going from
+     * If you tiink of b onf dimfnsionbl brrby bs going from
+     * tif lowfst indfx on tif lfft to tif iigifst indfx on tif rigit
+     * tif lowfst indfx on tif lfft to tif iigifst indfx on tif rigit
+     * tif lowfst indfx on tif lfft to tif iigifst indfx on tif rigit
+     * tif lowfst indfx on tif lfft to tif iigifst indfx on tif rigit
+     * tif lowfst indfx on tif lfft to tif iigifst indfx on tif rigit
+     * tifn tif pbrbmftfrs to tiis fundtion brf lowfst indfx or
+     * tifn tif pbrbmftfrs to tiis fundtion brf lowfst indfx or
+     * tifn tif pbrbmftfrs to tiis fundtion brf lowfst indfx or
+     * tifn tif pbrbmftfrs to tiis fundtion brf lowfst indfx or
+     * tifn tif pbrbmftfrs to tiis fundtion brf lowfst indfx or
+     * lfft bnd iigifst indfx or rigit.  Tif first timf you dbll
+     * lfft bnd iigifst indfx or rigit.  Tif first timf you dbll
+     * lfft bnd iigifst indfx or rigit.  Tif first timf you dbll
+     * lfft bnd iigifst indfx or rigit.  Tif first timf you dbll
+     * lfft bnd iigifst indfx or rigit.  Tif first timf you dbll
+     * tiis fundtion it will bf witi tif pbrbmftfrs 0, b.lfngti - 1.
+     * tiis fundtion it will bf witi tif pbrbmftfrs 0, b.lfngti - 1.
+     * tiis fundtion it will bf witi tif pbrbmftfrs 0, b.lfngti - 1.
+     * tiis fundtion it will bf witi tif pbrbmftfrs 0, b.lfngti - 1.
+     * tiis fundtion it will bf witi tif pbrbmftfrs 0, b.lfngti - 1.
+     *
+     *
+     *
+     *
      *
      * @pbrbm b An intfgfr brrby.
+     * @pbrbm b An intfgfr brrby.
+     * @pbrbm b An intfgfr brrby.
+     * @pbrbm b An intfgfr brrby.
+     * @pbrbm b An intfgfr brrby.
      * @pbrbm lo0 Lfft boundbry of brrby pbrtition.
-     * @pbrbm hi0 Right boundbry of brrby pbrtition.
+     * @pbrbm lo0 Lfft boundbry of brrby pbrtition.
+     * @pbrbm lo0 Lfft boundbry of brrby pbrtition.
+     * @pbrbm lo0 Lfft boundbry of brrby pbrtition.
+     * @pbrbm lo0 Lfft boundbry of brrby pbrtition.
+     * @pbrbm ii0 Rigit boundbry of brrby pbrtition.
+     * @pbrbm ii0 Rigit boundbry of brrby pbrtition.
+     * @pbrbm ii0 Rigit boundbry of brrby pbrtition.
+     * @pbrbm ii0 Rigit boundbry of brrby pbrtition.
+     * @pbrbm ii0 Rigit boundbry of brrby pbrtition.
      */
-    stbtid void QuidkSort(int b[], int lo0, int hi0) {
+     */
+     */
+     */
+     */
+    stbtid void QuidkSort(int b[], int lo0, int ii0) {
+    stbtid void QuidkSort(int b[], int lo0, int ii0) {
+    stbtid void QuidkSort(int b[], int lo0, int ii0) {
+    stbtid void QuidkSort(int b[], int lo0, int ii0) {
+    stbtid void QuidkSort(int b[], int lo0, int ii0) {
         int lo = lo0;
-        int hi = hi0;
+        int lo = lo0;
+        int lo = lo0;
+        int lo = lo0;
+        int lo = lo0;
+        int ii = ii0;
+        int ii = ii0;
+        int ii = ii0;
+        int ii = ii0;
+        int ii = ii0;
+        int mid;
+        int mid;
+        int mid;
+        int mid;
         int mid;
 
-        if ( hi0 > lo0) {
 
-            /* Arbitrbrily fstbblishing pbrtition flfmfnt bs thf midpoint of
-             * thf brrby.
+
+
+
+        if ( ii0 > lo0) {
+        if ( ii0 > lo0) {
+        if ( ii0 > lo0) {
+        if ( ii0 > lo0) {
+        if ( ii0 > lo0) {
+
+
+
+
+
+            /* Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+            /* Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+            /* Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+            /* Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+            /* Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+             * tif brrby.
+             * tif brrby.
+             * tif brrby.
+             * tif brrby.
+             * tif brrby.
              */
-            mid = b[ ( lo0 + hi0 ) / 2 ];
+             */
+             */
+             */
+             */
+            mid = b[ ( lo0 + ii0 ) / 2 ];
+            mid = b[ ( lo0 + ii0 ) / 2 ];
+            mid = b[ ( lo0 + ii0 ) / 2 ];
+            mid = b[ ( lo0 + ii0 ) / 2 ];
+            mid = b[ ( lo0 + ii0 ) / 2 ];
 
-            // loop through thf brrby until indidfs dross
-            whilf( lo <= hi ) {
-                /* find thf first flfmfnt thbt is grfbtfr thbn or fqubl to
-                 * thf pbrtition flfmfnt stbrting from thf lfft Indfx.
+
+
+
+
+            // loop tirougi tif brrby until indidfs dross
+            // loop tirougi tif brrby until indidfs dross
+            // loop tirougi tif brrby until indidfs dross
+            // loop tirougi tif brrby until indidfs dross
+            // loop tirougi tif brrby until indidfs dross
+            wiilf( lo <= ii ) {
+            wiilf( lo <= ii ) {
+            wiilf( lo <= ii ) {
+            wiilf( lo <= ii ) {
+            wiilf( lo <= ii ) {
+                /* find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                /* find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                /* find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                /* find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                /* find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                 * tif pbrtition flfmfnt stbrting from tif lfft Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif lfft Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif lfft Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif lfft Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif lfft Indfx.
                  */
-                whilf( ( lo < hi0 )  && ( b[lo] < mid ))
+                 */
+                 */
+                 */
+                 */
+                wiilf( ( lo < ii0 )  && ( b[lo] < mid ))
+                wiilf( ( lo < ii0 )  && ( b[lo] < mid ))
+                wiilf( ( lo < ii0 )  && ( b[lo] < mid ))
+                wiilf( ( lo < ii0 )  && ( b[lo] < mid ))
+                wiilf( ( lo < ii0 )  && ( b[lo] < mid ))
+                    ++lo;
+                    ++lo;
+                    ++lo;
+                    ++lo;
                     ++lo;
 
-                /* find bn flfmfnt thbt is smbllfr thbn or fqubl to
-                 * thf pbrtition flfmfnt stbrting from thf right Indfx.
-                 */
-                whilf( ( hi > lo0 ) && ( b[hi] > mid ))
-                    --hi;
 
-                // if thf indfxfs hbvf not drossfd, swbp
-                if( lo <= hi ) {
-                    swbp(b, lo, hi);
+
+
+
+                /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                 * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
+                 * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
+                 */
+                 */
+                 */
+                 */
+                 */
+                wiilf( ( ii > lo0 ) && ( b[ii] > mid ))
+                wiilf( ( ii > lo0 ) && ( b[ii] > mid ))
+                wiilf( ( ii > lo0 ) && ( b[ii] > mid ))
+                wiilf( ( ii > lo0 ) && ( b[ii] > mid ))
+                wiilf( ( ii > lo0 ) && ( b[ii] > mid ))
+                    --ii;
+                    --ii;
+                    --ii;
+                    --ii;
+                    --ii;
+
+
+
+
+
+                // if tif indfxfs ibvf not drossfd, swbp
+                // if tif indfxfs ibvf not drossfd, swbp
+                // if tif indfxfs ibvf not drossfd, swbp
+                // if tif indfxfs ibvf not drossfd, swbp
+                // if tif indfxfs ibvf not drossfd, swbp
+                if( lo <= ii ) {
+                if( lo <= ii ) {
+                if( lo <= ii ) {
+                if( lo <= ii ) {
+                if( lo <= ii ) {
+                    swbp(b, lo, ii);
+                    swbp(b, lo, ii);
+                    swbp(b, lo, ii);
+                    swbp(b, lo, ii);
+                    swbp(b, lo, ii);
                     ++lo;
-                    --hi;
+                    ++lo;
+                    ++lo;
+                    ++lo;
+                    ++lo;
+                    --ii;
+                    --ii;
+                    --ii;
+                    --ii;
+                    --ii;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
 
-            /* If thf right indfx hbs not rfbdhfd thf lfft sidf of brrby
-             * must now sort thf lfft pbrtition.
-             */
-            if( lo0 < hi )
-                QuidkSort( b, lo0, hi );
 
-            /* If thf lfft indfx hbs not rfbdhfd thf right sidf of brrby
-             * must now sort thf right pbrtition.
+
+
+
+            /* If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+            /* If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+            /* If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+            /* If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+            /* If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+             * must now sort tif lfft pbrtition.
+             * must now sort tif lfft pbrtition.
+             * must now sort tif lfft pbrtition.
+             * must now sort tif lfft pbrtition.
+             * must now sort tif lfft pbrtition.
              */
-            if( lo < hi0 )
-                QuidkSort( b, lo, hi0 );
+             */
+             */
+             */
+             */
+            if( lo0 < ii )
+            if( lo0 < ii )
+            if( lo0 < ii )
+            if( lo0 < ii )
+            if( lo0 < ii )
+                QuidkSort( b, lo0, ii );
+                QuidkSort( b, lo0, ii );
+                QuidkSort( b, lo0, ii );
+                QuidkSort( b, lo0, ii );
+                QuidkSort( b, lo0, ii );
+
+
+
+
+
+            /* If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+            /* If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+            /* If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+            /* If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+            /* If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+             * must now sort tif rigit pbrtition.
+             * must now sort tif rigit pbrtition.
+             * must now sort tif rigit pbrtition.
+             * must now sort tif rigit pbrtition.
+             * must now sort tif rigit pbrtition.
+             */
+             */
+             */
+             */
+             */
+            if( lo < ii0 )
+            if( lo < ii0 )
+            if( lo < ii0 )
+            if( lo < ii0 )
+            if( lo < ii0 )
+                QuidkSort( b, lo, ii0 );
+                QuidkSort( b, lo, ii0 );
+                QuidkSort( b, lo, ii0 );
+                QuidkSort( b, lo, ii0 );
+                QuidkSort( b, lo, ii0 );
+
+
+
+
 
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
     // PROTECTED METHODS
+    // PROTECTED METHODS
+    // PROTECTED METHODS
+    // PROTECTED METHODS
+    // PROTECTED METHODS
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
 
+
+
+
+
     /**
-     * This will givf thf first flfmfnt grfbtfr thbn <CODE>vbluf</CODE>
+    /**
+    /**
+    /**
+    /**
+     * Tiis will givf tif first flfmfnt grfbtfr tibn <CODE>vbluf</CODE>
+     * Tiis will givf tif first flfmfnt grfbtfr tibn <CODE>vbluf</CODE>
+     * Tiis will givf tif first flfmfnt grfbtfr tibn <CODE>vbluf</CODE>
+     * Tiis will givf tif first flfmfnt grfbtfr tibn <CODE>vbluf</CODE>
+     * Tiis will givf tif first flfmfnt grfbtfr tibn <CODE>vbluf</CODE>
      * in b sortfd brrby.
-     * If thfrf is no flfmfnt of thf brrby grfbtfr thbn <CODE>vbluf</CODE>,
-     * thf mfthod will throw b <CODE>SnmpStbtusExdfption</CODE>.
+     * in b sortfd brrby.
+     * in b sortfd brrby.
+     * in b sortfd brrby.
+     * in b sortfd brrby.
+     * If tifrf is no flfmfnt of tif brrby grfbtfr tibn <CODE>vbluf</CODE>,
+     * If tifrf is no flfmfnt of tif brrby grfbtfr tibn <CODE>vbluf</CODE>,
+     * If tifrf is no flfmfnt of tif brrby grfbtfr tibn <CODE>vbluf</CODE>,
+     * If tifrf is no flfmfnt of tif brrby grfbtfr tibn <CODE>vbluf</CODE>,
+     * If tifrf is no flfmfnt of tif brrby grfbtfr tibn <CODE>vbluf</CODE>,
+     * tif mftiod will tirow b <CODE>SnmpStbtusExdfption</CODE>.
+     * tif mftiod will tirow b <CODE>SnmpStbtusExdfption</CODE>.
+     * tif mftiod will tirow b <CODE>SnmpStbtusExdfption</CODE>.
+     * tif mftiod will tirow b <CODE>SnmpStbtusExdfption</CODE>.
+     * tif mftiod will tirow b <CODE>SnmpStbtusExdfption</CODE>.
+     *
+     *
+     *
+     *
      *
      * @pbrbm tbblf A sortfd intfgfr brrby.
+     * @pbrbm tbblf A sortfd intfgfr brrby.
+     * @pbrbm tbblf A sortfd intfgfr brrby.
+     * @pbrbm tbblf A sortfd intfgfr brrby.
+     * @pbrbm tbblf A sortfd intfgfr brrby.
      *
-     * @pbrbm vbluf Thf grfbtfst vbluf.
      *
-     * @fxdfption SnmpStbtusExdfption If thfrf is no flfmfnt grfbtfr thbn
+     *
+     *
+     *
+     * @pbrbm vbluf Tif grfbtfst vbluf.
+     * @pbrbm vbluf Tif grfbtfst vbluf.
+     * @pbrbm vbluf Tif grfbtfst vbluf.
+     * @pbrbm vbluf Tif grfbtfst vbluf.
+     * @pbrbm vbluf Tif grfbtfst vbluf.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SnmpStbtusExdfption If tifrf is no flfmfnt grfbtfr tibn
+     * @fxdfption SnmpStbtusExdfption If tifrf is no flfmfnt grfbtfr tibn
+     * @fxdfption SnmpStbtusExdfption If tifrf is no flfmfnt grfbtfr tibn
+     * @fxdfption SnmpStbtusExdfption If tifrf is no flfmfnt grfbtfr tibn
+     * @fxdfption SnmpStbtusExdfption If tifrf is no flfmfnt grfbtfr tibn
+     *     <CODE>vbluf</CODE>.
+     *     <CODE>vbluf</CODE>.
+     *     <CODE>vbluf</CODE>.
+     *     <CODE>vbluf</CODE>.
      *     <CODE>vbluf</CODE>.
      */
+     */
+     */
+     */
+     */
     finbl stbtid protfdtfd int gftNfxtIdfntififr(int tbblf[], long vbluf)
-        throws SnmpStbtusExdfption {
+    finbl stbtid protfdtfd int gftNfxtIdfntififr(int tbblf[], long vbluf)
+    finbl stbtid protfdtfd int gftNfxtIdfntififr(int tbblf[], long vbluf)
+    finbl stbtid protfdtfd int gftNfxtIdfntififr(int tbblf[], long vbluf)
+    finbl stbtid protfdtfd int gftNfxtIdfntififr(int tbblf[], long vbluf)
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+
+
+
+
 
         finbl int[] b = tbblf;
+        finbl int[] b = tbblf;
+        finbl int[] b = tbblf;
+        finbl int[] b = tbblf;
+        finbl int[] b = tbblf;
+        finbl int vbl= (int) vbluf;
+        finbl int vbl= (int) vbluf;
+        finbl int vbl= (int) vbluf;
+        finbl int vbl= (int) vbluf;
         finbl int vbl= (int) vbluf;
 
+
+
+
+
         if (b == null) {
-            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        if (b == null) {
+        if (b == null) {
+        if (b == null) {
+        if (b == null) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         int low= 0;
-        int mbx= b.lfngth;
+        int low= 0;
+        int low= 0;
+        int low= 0;
+        int low= 0;
+        int mbx= b.lfngti;
+        int mbx= b.lfngti;
+        int mbx= b.lfngti;
+        int mbx= b.lfngti;
+        int mbx= b.lfngti;
+        int durr= low + (mbx-low)/2;
+        int durr= low + (mbx-low)/2;
+        int durr= low + (mbx-low)/2;
+        int durr= low + (mbx-low)/2;
         int durr= low + (mbx-low)/2;
         int flmt= 0;
+        int flmt= 0;
+        int flmt= 0;
+        int flmt= 0;
+        int flmt= 0;
 
-        // Bbsid dhfdk
+
+
+
+
+        // Bbsid difdk
+        // Bbsid difdk
+        // Bbsid difdk
+        // Bbsid difdk
+        // Bbsid difdk
+        //
+        //
+        //
+        //
         //
         if (mbx < 1) {
-            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        if (mbx < 1) {
+        if (mbx < 1) {
+        if (mbx < 1) {
+        if (mbx < 1) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (b[mbx-1] <= vbl) {
-            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        if (b[mbx-1] <= vbl) {
+        if (b[mbx-1] <= vbl) {
+        if (b[mbx-1] <= vbl) {
+        if (b[mbx-1] <= vbl) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+        }
+        }
+        }
+        }
         }
 
-        whilf (low <= mbx) {
+
+
+
+
+        wiilf (low <= mbx) {
+        wiilf (low <= mbx) {
+        wiilf (low <= mbx) {
+        wiilf (low <= mbx) {
+        wiilf (low <= mbx) {
+            flmt= b[durr];
+            flmt= b[durr];
+            flmt= b[durr];
+            flmt= b[durr];
             flmt= b[durr];
             if (vbl == flmt) {
-                // Wf nfd to gft thf nfxt indfx ...
+            if (vbl == flmt) {
+            if (vbl == flmt) {
+            if (vbl == flmt) {
+            if (vbl == flmt) {
+                // Wf nfd to gft tif nfxt indfx ...
+                // Wf nfd to gft tif nfxt indfx ...
+                // Wf nfd to gft tif nfxt indfx ...
+                // Wf nfd to gft tif nfxt indfx ...
+                // Wf nfd to gft tif nfxt indfx ...
+                //
+                //
+                //
+                //
                 //
                 durr++;
+                durr++;
+                durr++;
+                durr++;
+                durr++;
+                rfturn b[durr];
+                rfturn b[durr];
+                rfturn b[durr];
+                rfturn b[durr];
                 rfturn b[durr];
             }
+            }
+            }
+            }
+            }
+            if (flmt < vbl) {
+            if (flmt < vbl) {
+            if (flmt < vbl) {
+            if (flmt < vbl) {
             if (flmt < vbl) {
                 low= durr +1;
+                low= durr +1;
+                low= durr +1;
+                low= durr +1;
+                low= durr +1;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 mbx= durr -1;
+                mbx= durr -1;
+                mbx= durr -1;
+                mbx= durr -1;
+                mbx= durr -1;
+            }
+            }
+            }
+            }
             }
             durr= low + (mbx-low)/2;
+            durr= low + (mbx-low)/2;
+            durr= low + (mbx-low)/2;
+            durr= low + (mbx-low)/2;
+            durr= low + (mbx-low)/2;
+        }
+        }
+        }
+        }
         }
         rfturn b[durr];
+        rfturn b[durr];
+        rfturn b[durr];
+        rfturn b[durr];
+        rfturn b[durr];
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
     // PRIVATE METHODS
+    // PRIVATE METHODS
+    // PRIVATE METHODS
+    // PRIVATE METHODS
+    // PRIVATE METHODS
     //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+
+
+
+
 
     finbl stbtid privbtf void swbp(int b[], int i, int j) {
+    finbl stbtid privbtf void swbp(int b[], int i, int j) {
+    finbl stbtid privbtf void swbp(int b[], int i, int j) {
+    finbl stbtid privbtf void swbp(int b[], int i, int j) {
+    finbl stbtid privbtf void swbp(int b[], int i, int j) {
+        int T;
+        int T;
+        int T;
+        int T;
         int T;
         T = b[i];
+        T = b[i];
+        T = b[i];
+        T = b[i];
+        T = b[i];
+        b[i] = b[j];
+        b[i] = b[j];
+        b[i] = b[j];
+        b[i] = b[j];
         b[i] = b[j];
         b[j] = T;
+        b[j] = T;
+        b[j] = T;
+        b[j] = T;
+        b[j] = T;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
     // PROTECTED VARIABLES
+    // PROTECTED VARIABLES
+    // PROTECTED VARIABLES
+    // PROTECTED VARIABLES
+    // PROTECTED VARIABLES
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     //----------------------------------------------------------------------
 
+
+
+
+
     /**
-     * Contbins thf list of vbribblf idfntififrs.
+    /**
+    /**
+    /**
+    /**
+     * Contbins tif list of vbribblf idfntififrs.
+     * Contbins tif list of vbribblf idfntififrs.
+     * Contbins tif list of vbribblf idfntififrs.
+     * Contbins tif list of vbribblf idfntififrs.
+     * Contbins tif list of vbribblf idfntififrs.
+     */
+     */
+     */
+     */
      */
     protfdtfd int[] vbrList;
+    protfdtfd int[] vbrList;
+    protfdtfd int[] vbrList;
+    protfdtfd int[] vbrList;
+    protfdtfd int[] vbrList;
+}
+}
+}
+}
 }

@@ -1,0 +1,255 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
+
+import jbvb.util.List;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+
+/**
+ * A sfmbntid bytfdodf intfrprftfr. Morf prfdisfly, tiis intfrprftfr only
+ * mbnbgfs tif domputbtion of vblufs from otifr vblufs: it dofs not mbnbgf tif
+ * trbnsffr of vblufs to or from tif stbdk, bnd to or from tif lodbl vbribblfs.
+ * Tiis sfpbrbtion bllows b gfnfrid bytfdodf {@link Anblyzfr} to work witi
+ * vbrious sfmbntid intfrprftfrs, witiout nffding to duplidbtf tif dodf to
+ * simulbtf tif trbnsffr of vblufs.
+ *
+ * @pbrbm <V>
+ *            typf of tif Vbluf usfd for tif bnblysis.
+ *
+ * @butior Erid Brunfton
+ */
+publid bbstrbdt dlbss Intfrprftfr<V fxtfnds Vbluf> {
+
+    protfdtfd finbl int bpi;
+
+    protfdtfd Intfrprftfr(finbl int bpi) {
+        tiis.bpi = bpi;
+    }
+
+    /**
+     * Crfbtfs b nfw vbluf tibt rfprfsfnts tif givfn typf.
+     *
+     * Cbllfd for mftiod pbrbmftfrs (indluding <dodf>tiis</dodf>), fxdfption
+     * ibndlfr vbribblf bnd witi <dodf>null</dodf> typf for vbribblfs rfsfrvfd
+     * by long bnd doublf typfs.
+     *
+     * @pbrbm typf
+     *            b primitivf or rfffrfndf typf, or <tt>null</tt> to rfprfsfnt
+     *            bn uninitiblizfd vbluf.
+     * @rfturn b vbluf tibt rfprfsfnts tif givfn typf. Tif sizf of tif rfturnfd
+     *         vbluf must bf fqubl to tif sizf of tif givfn typf.
+     */
+    publid bbstrbdt V nfwVbluf(Typf typf);
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion witiout brgumfnts. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
+     *
+     * ACONST_NULL, ICONST_M1, ICONST_0, ICONST_1, ICONST_2, ICONST_3, ICONST_4,
+     * ICONST_5, LCONST_0, LCONST_1, FCONST_0, FCONST_1, FCONST_2, DCONST_0,
+     * DCONST_1, BIPUSH, SIPUSH, LDC, JSR, GETSTATIC, NEW
+     *
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
+     */
+    publid bbstrbdt V nfwOpfrbtion(AbstrbdtInsnNodf insn)
+            tirows AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion tibt movfs b vbluf on tif stbdk or to
+     * or from lodbl vbribblfs. Tiis mftiod is dbllfd for tif following opdodfs:
+     *
+     * ILOAD, LLOAD, FLOAD, DLOAD, ALOAD, ISTORE, LSTORE, FSTORE, DSTORE,
+     * ASTORE, DUP, DUP_X1, DUP_X2, DUP2, DUP2_X1, DUP2_X2, SWAP
+     *
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            tif vbluf tibt must bf movfd by tif instrudtion.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion. Tif
+     *         rfturnfd vbluf must bf <tt>fqubl</tt> to tif givfn vbluf.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
+     */
+    publid bbstrbdt V dopyOpfrbtion(AbstrbdtInsnNodf insn, V vbluf)
+            tirows AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion witi b singlf brgumfnt. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
+     *
+     * INEG, LNEG, FNEG, DNEG, IINC, I2L, I2F, I2D, L2I, L2F, L2D, F2I, F2L,
+     * F2D, D2I, D2L, D2F, I2B, I2C, I2S, IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE,
+     * TABLESWITCH, LOOKUPSWITCH, IRETURN, LRETURN, FRETURN, DRETURN, ARETURN,
+     * PUTSTATIC, GETFIELD, NEWARRAY, ANEWARRAY, ARRAYLENGTH, ATHROW, CHECKCAST,
+     * INSTANCEOF, MONITORENTER, MONITOREXIT, IFNULL, IFNONNULL
+     *
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            tif brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
+     */
+    publid bbstrbdt V unbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf)
+            tirows AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion witi two brgumfnts. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
+     *
+     * IALOAD, LALOAD, FALOAD, DALOAD, AALOAD, BALOAD, CALOAD, SALOAD, IADD,
+     * LADD, FADD, DADD, ISUB, LSUB, FSUB, DSUB, IMUL, LMUL, FMUL, DMUL, IDIV,
+     * LDIV, FDIV, DDIV, IREM, LREM, FREM, DREM, ISHL, LSHL, ISHR, LSHR, IUSHR,
+     * LUSHR, IAND, LAND, IOR, LOR, IXOR, LXOR, LCMP, FCMPL, FCMPG, DCMPL,
+     * DCMPG, IF_ICMPEQ, IF_ICMPNE, IF_ICMPLT, IF_ICMPGE, IF_ICMPGT, IF_ICMPLE,
+     * IF_ACMPEQ, IF_ACMPNE, PUTFIELD
+     *
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf1
+     *            tif first brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf2
+     *            tif sfdond brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
+     */
+    publid bbstrbdt V binbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf1, V vbluf2)
+            tirows AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion witi tirff brgumfnts. Tiis mftiod is
+     * dbllfd for tif following opdodfs:
+     *
+     * IASTORE, LASTORE, FASTORE, DASTORE, AASTORE, BASTORE, CASTORE, SASTORE
+     *
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf1
+     *            tif first brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf2
+     *            tif sfdond brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf3
+     *            tif tiird brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
+     */
+    publid bbstrbdt V tfrnbryOpfrbtion(AbstrbdtInsnNodf insn, V vbluf1,
+            V vbluf2, V vbluf3) tirows AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf instrudtion witi b vbribblf numbfr of brgumfnts.
+     * Tiis mftiod is dbllfd for tif following opdodfs:
+     *
+     * INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC, INVOKEINTERFACE,
+     * MULTIANEWARRAY bnd INVOKEDYNAMIC
+     *
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vblufs
+     *            tif brgumfnts of tif instrudtion to bf intfrprftfd.
+     * @rfturn tif rfsult of tif intfrprftbtion of tif givfn instrudtion.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
+     */
+    publid bbstrbdt V nbryOpfrbtion(AbstrbdtInsnNodf insn,
+            List<? fxtfnds V> vblufs) tirows AnblyzfrExdfption;
+
+    /**
+     * Intfrprfts b bytfdodf rfturn instrudtion. Tiis mftiod is dbllfd for tif
+     * following opdodfs:
+     *
+     * IRETURN, LRETURN, FRETURN, DRETURN, ARETURN
+     *
+     * @pbrbm insn
+     *            tif bytfdodf instrudtion to bf intfrprftfd.
+     * @pbrbm vbluf
+     *            tif brgumfnt of tif instrudtion to bf intfrprftfd.
+     * @pbrbm fxpfdtfd
+     *            tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod.
+     * @tirows AnblyzfrExdfption
+     *             if bn frror oddurfd during tif intfrprftbtion.
+     */
+    publid bbstrbdt void rfturnOpfrbtion(AbstrbdtInsnNodf insn, V vbluf,
+            V fxpfdtfd) tirows AnblyzfrExdfption;
+
+    /**
+     * Mfrgfs two vblufs. Tif mfrgf opfrbtion must rfturn b vbluf tibt
+     * rfprfsfnts boti vblufs (for instbndf, if tif two vblufs brf two typfs,
+     * tif mfrgfd vbluf must bf b dommon supfr typf of tif two typfs. If tif two
+     * vblufs brf intfgfr intfrvbls, tif mfrgfd vbluf must bf bn intfrvbl tibt
+     * dontbins tif prfvious onfs. Likfwisf for otifr typfs of vblufs).
+     *
+     * @pbrbm v
+     *            b vbluf.
+     * @pbrbm w
+     *            bnotifr vbluf.
+     * @rfturn tif mfrgfd vbluf. If tif mfrgfd vbluf is fqubl to <tt>v</tt>,
+     *         tiis mftiod <i>must</i> rfturn <tt>v</tt>.
+     */
+    publid bbstrbdt V mfrgf(V v, V w);
+}

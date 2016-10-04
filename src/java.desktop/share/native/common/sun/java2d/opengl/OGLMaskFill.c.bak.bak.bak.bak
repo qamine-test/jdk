@@ -1,163 +1,815 @@
 /*
- * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 #ifndff HEADLESS
+#ifndff HEADLESS
+#ifndff HEADLESS
+#ifndff HEADLESS
+#ifndff HEADLESS
 
-#indludf "sun_jbvb2d_opfngl_OGLMbskFill.h"
 
-#indludf "OGLMbskFill.h"
-#indludf "OGLRfndfrQufuf.h"
-#indludf "OGLVfrtfxCbdhf.h"
+
+
+
+#indludf "sun_jbvb2d_opfngl_OGLMbskFill.i"
+#indludf "sun_jbvb2d_opfngl_OGLMbskFill.i"
+#indludf "sun_jbvb2d_opfngl_OGLMbskFill.i"
+#indludf "sun_jbvb2d_opfngl_OGLMbskFill.i"
+#indludf "sun_jbvb2d_opfngl_OGLMbskFill.i"
+
+
+
+
+
+#indludf "OGLMbskFill.i"
+#indludf "OGLMbskFill.i"
+#indludf "OGLMbskFill.i"
+#indludf "OGLMbskFill.i"
+#indludf "OGLMbskFill.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "OGLVfrtfxCbdif.i"
+#indludf "OGLVfrtfxCbdif.i"
+#indludf "OGLVfrtfxCbdif.i"
+#indludf "OGLVfrtfxCbdif.i"
+#indludf "OGLVfrtfxCbdif.i"
+
+
+
+
 
 /**
- * This implfmfntbtion first dopifs thf blphb tilf into b tfxturf bnd thfn
- * mbps thbt tfxturf to thf dfstinbtion surfbdf.  This bpprobdh bppfbrs to
- * offfr thf bfst pfrformbndf dfspitf bfing b two-stfp prodfss.
+/**
+/**
+/**
+/**
+ * Tiis implfmfntbtion first dopifs tif blpib tilf into b tfxturf bnd tifn
+ * Tiis implfmfntbtion first dopifs tif blpib tilf into b tfxturf bnd tifn
+ * Tiis implfmfntbtion first dopifs tif blpib tilf into b tfxturf bnd tifn
+ * Tiis implfmfntbtion first dopifs tif blpib tilf into b tfxturf bnd tifn
+ * Tiis implfmfntbtion first dopifs tif blpib tilf into b tfxturf bnd tifn
+ * mbps tibt tfxturf to tif dfstinbtion surfbdf.  Tiis bpprobdi bppfbrs to
+ * mbps tibt tfxturf to tif dfstinbtion surfbdf.  Tiis bpprobdi bppfbrs to
+ * mbps tibt tfxturf to tif dfstinbtion surfbdf.  Tiis bpprobdi bppfbrs to
+ * mbps tibt tfxturf to tif dfstinbtion surfbdf.  Tiis bpprobdi bppfbrs to
+ * mbps tibt tfxturf to tif dfstinbtion surfbdf.  Tiis bpprobdi bppfbrs to
+ * offfr tif bfst pfrformbndf dfspitf bfing b two-stfp prodfss.
+ * offfr tif bfst pfrformbndf dfspitf bfing b two-stfp prodfss.
+ * offfr tif bfst pfrformbndf dfspitf bfing b two-stfp prodfss.
+ * offfr tif bfst pfrformbndf dfspitf bfing b two-stfp prodfss.
+ * offfr tif bfst pfrformbndf dfspitf bfing b two-stfp prodfss.
  *
- * Whfn thf sourdf pbint is b Color, wf dbn simply usf thf GL_MODULATE
- * fundtion to multiply thf durrfnt dolor (blrfbdy prfmultiplifd with thf
- * fxtrb blphb vbluf from thf AlphbCompositf) with thf blphb vbluf from
- * thf mbsk tfxturf tilf.  In pidturf form, this prodfss looks likf:
+ *
+ *
+ *
+ *
+ * Wifn tif sourdf pbint is b Color, wf dbn simply usf tif GL_MODULATE
+ * Wifn tif sourdf pbint is b Color, wf dbn simply usf tif GL_MODULATE
+ * Wifn tif sourdf pbint is b Color, wf dbn simply usf tif GL_MODULATE
+ * Wifn tif sourdf pbint is b Color, wf dbn simply usf tif GL_MODULATE
+ * Wifn tif sourdf pbint is b Color, wf dbn simply usf tif GL_MODULATE
+ * fundtion to multiply tif durrfnt dolor (blrfbdy prfmultiplifd witi tif
+ * fundtion to multiply tif durrfnt dolor (blrfbdy prfmultiplifd witi tif
+ * fundtion to multiply tif durrfnt dolor (blrfbdy prfmultiplifd witi tif
+ * fundtion to multiply tif durrfnt dolor (blrfbdy prfmultiplifd witi tif
+ * fundtion to multiply tif durrfnt dolor (blrfbdy prfmultiplifd witi tif
+ * fxtrb blpib vbluf from tif AlpibCompositf) witi tif blpib vbluf from
+ * fxtrb blpib vbluf from tif AlpibCompositf) witi tif blpib vbluf from
+ * fxtrb blpib vbluf from tif AlpibCompositf) witi tif blpib vbluf from
+ * fxtrb blpib vbluf from tif AlpibCompositf) witi tif blpib vbluf from
+ * fxtrb blpib vbluf from tif AlpibCompositf) witi tif blpib vbluf from
+ * tif mbsk tfxturf tilf.  In pidturf form, tiis prodfss looks likf:
+ * tif mbsk tfxturf tilf.  In pidturf form, tiis prodfss looks likf:
+ * tif mbsk tfxturf tilf.  In pidturf form, tiis prodfss looks likf:
+ * tif mbsk tfxturf tilf.  In pidturf form, tiis prodfss looks likf:
+ * tif mbsk tfxturf tilf.  In pidturf form, tiis prodfss looks likf:
+ *
+ *
+ *
+ *
  *
  *                        A     R    G     B
- *     primbry dolor      Pb    Pr   Pg    Pb    (modulbtfd with...)
+ *                        A     R    G     B
+ *                        A     R    G     B
+ *                        A     R    G     B
+ *                        A     R    G     B
+ *     primbry dolor      Pb    Pr   Pg    Pb    (modulbtfd witi...)
+ *     primbry dolor      Pb    Pr   Pg    Pb    (modulbtfd witi...)
+ *     primbry dolor      Pb    Pr   Pg    Pb    (modulbtfd witi...)
+ *     primbry dolor      Pb    Pr   Pg    Pb    (modulbtfd witi...)
+ *     primbry dolor      Pb    Pr   Pg    Pb    (modulbtfd witi...)
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb
  *     tfxturf unit 0     Cb    Cb   Cb    Cb
  *     ---------------------------------------
- *     rfsulting dolor    Rb    Rr   Rg    Rb
- *
- * whfrf:
- *     Px = durrfnt dolor (blrfbdy prfmultiplifd by fxtrb blphb)
- *     Cx = dovfrbgf vbluf from mbsk tilf
- *     Rx = rfsulting dolor/blphb domponfnt
- *
- * Whfn thf sourdf pbint is not b Color, it mfbns thbt wf brf rfndfring with
- * b domplfx pbint (f.g. GrbdifntPbint, TfxturfPbint).  In this dbsf, wf
- * rfly on thf GL_ARB_multitfxturf fxtfnsion to ffffdtivfly multiply thf
- * pbint frbgmfnts (butogfnfrbtfd on tfxturf unit 1, sff thf
- * OGLPbints_Sft{Grbdifnt,Tfxturf,ftd}Pbint() mfthods for morf dftbils)
- * with thf dovfrbgf vblufs from thf mbsk tfxturf tilf (providfd on tfxturf
- * unit 0), bll of whidh is multiplifd with thf durrfnt dolor vbluf (whidh
- * dontbins thf fxtrb blphb vbluf).  In pidturf form:
- *
- *                        A     R    G     B
- *     primbry dolor      Eb    Eb   Eb    Eb    (modulbtfd with...)
- *     tfxturf unit 0     Cb    Cb   Cb    Cb    (modulbtfd with...)
- *     tfxturf unit 1     Pb    Pr   Pg    Pb
+ *     ---------------------------------------
+ *     ---------------------------------------
+ *     ---------------------------------------
  *     ---------------------------------------
  *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
  *
- * whfrf:
- *     Eb = fxtrb blphb
+ *
+ *
+ *
+ *
+ * wifrf:
+ * wifrf:
+ * wifrf:
+ * wifrf:
+ * wifrf:
+ *     Px = durrfnt dolor (blrfbdy prfmultiplifd by fxtrb blpib)
+ *     Px = durrfnt dolor (blrfbdy prfmultiplifd by fxtrb blpib)
+ *     Px = durrfnt dolor (blrfbdy prfmultiplifd by fxtrb blpib)
+ *     Px = durrfnt dolor (blrfbdy prfmultiplifd by fxtrb blpib)
+ *     Px = durrfnt dolor (blrfbdy prfmultiplifd by fxtrb blpib)
  *     Cx = dovfrbgf vbluf from mbsk tilf
- *     Px = grbdifnt/tfxturf pbint dolor (gfnfrbtfd for fbdh frbgmfnt)
- *     Rx = rfsulting dolor/blphb domponfnt
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
  *
- * Hfrf brf somf dfsdriptions of thf mbny vbribblfs usfd in this mfthod:
- *   x,y     - uppfr lfft dornfr of thf tilf dfstinbtion
- *   w,h     - width/hfight of thf mbsk tilf
- *   x0      - plbdfkffpfr for thf originbl dfstinbtion x lodbtion
- *   tw,th   - width/hfight of thf bdtubl tfxturf tilf in pixfls
- *   sx1,sy1 - uppfr lfft dornfr of thf mbsk tilf sourdf rfgion
- *   sx2,sy2 - lowfr lfft dornfr of thf mbsk tilf sourdf rfgion
- *   sx,sy   - "durrfnt" uppfr lfft dornfr of thf mbsk tilf rfgion of intfrfst
+ *
+ *
+ *
+ *
+ * Wifn tif sourdf pbint is not b Color, it mfbns tibt wf brf rfndfring witi
+ * Wifn tif sourdf pbint is not b Color, it mfbns tibt wf brf rfndfring witi
+ * Wifn tif sourdf pbint is not b Color, it mfbns tibt wf brf rfndfring witi
+ * Wifn tif sourdf pbint is not b Color, it mfbns tibt wf brf rfndfring witi
+ * Wifn tif sourdf pbint is not b Color, it mfbns tibt wf brf rfndfring witi
+ * b domplfx pbint (f.g. GrbdifntPbint, TfxturfPbint).  In tiis dbsf, wf
+ * b domplfx pbint (f.g. GrbdifntPbint, TfxturfPbint).  In tiis dbsf, wf
+ * b domplfx pbint (f.g. GrbdifntPbint, TfxturfPbint).  In tiis dbsf, wf
+ * b domplfx pbint (f.g. GrbdifntPbint, TfxturfPbint).  In tiis dbsf, wf
+ * b domplfx pbint (f.g. GrbdifntPbint, TfxturfPbint).  In tiis dbsf, wf
+ * rfly on tif GL_ARB_multitfxturf fxtfnsion to ffffdtivfly multiply tif
+ * rfly on tif GL_ARB_multitfxturf fxtfnsion to ffffdtivfly multiply tif
+ * rfly on tif GL_ARB_multitfxturf fxtfnsion to ffffdtivfly multiply tif
+ * rfly on tif GL_ARB_multitfxturf fxtfnsion to ffffdtivfly multiply tif
+ * rfly on tif GL_ARB_multitfxturf fxtfnsion to ffffdtivfly multiply tif
+ * pbint frbgmfnts (butogfnfrbtfd on tfxturf unit 1, sff tif
+ * pbint frbgmfnts (butogfnfrbtfd on tfxturf unit 1, sff tif
+ * pbint frbgmfnts (butogfnfrbtfd on tfxturf unit 1, sff tif
+ * pbint frbgmfnts (butogfnfrbtfd on tfxturf unit 1, sff tif
+ * pbint frbgmfnts (butogfnfrbtfd on tfxturf unit 1, sff tif
+ * OGLPbints_Sft{Grbdifnt,Tfxturf,ftd}Pbint() mftiods for morf dftbils)
+ * OGLPbints_Sft{Grbdifnt,Tfxturf,ftd}Pbint() mftiods for morf dftbils)
+ * OGLPbints_Sft{Grbdifnt,Tfxturf,ftd}Pbint() mftiods for morf dftbils)
+ * OGLPbints_Sft{Grbdifnt,Tfxturf,ftd}Pbint() mftiods for morf dftbils)
+ * OGLPbints_Sft{Grbdifnt,Tfxturf,ftd}Pbint() mftiods for morf dftbils)
+ * witi tif dovfrbgf vblufs from tif mbsk tfxturf tilf (providfd on tfxturf
+ * witi tif dovfrbgf vblufs from tif mbsk tfxturf tilf (providfd on tfxturf
+ * witi tif dovfrbgf vblufs from tif mbsk tfxturf tilf (providfd on tfxturf
+ * witi tif dovfrbgf vblufs from tif mbsk tfxturf tilf (providfd on tfxturf
+ * witi tif dovfrbgf vblufs from tif mbsk tfxturf tilf (providfd on tfxturf
+ * unit 0), bll of wiidi is multiplifd witi tif durrfnt dolor vbluf (wiidi
+ * unit 0), bll of wiidi is multiplifd witi tif durrfnt dolor vbluf (wiidi
+ * unit 0), bll of wiidi is multiplifd witi tif durrfnt dolor vbluf (wiidi
+ * unit 0), bll of wiidi is multiplifd witi tif durrfnt dolor vbluf (wiidi
+ * unit 0), bll of wiidi is multiplifd witi tif durrfnt dolor vbluf (wiidi
+ * dontbins tif fxtrb blpib vbluf).  In pidturf form:
+ * dontbins tif fxtrb blpib vbluf).  In pidturf form:
+ * dontbins tif fxtrb blpib vbluf).  In pidturf form:
+ * dontbins tif fxtrb blpib vbluf).  In pidturf form:
+ * dontbins tif fxtrb blpib vbluf).  In pidturf form:
+ *
+ *
+ *
+ *
+ *
+ *                        A     R    G     B
+ *                        A     R    G     B
+ *                        A     R    G     B
+ *                        A     R    G     B
+ *                        A     R    G     B
+ *     primbry dolor      Eb    Eb   Eb    Eb    (modulbtfd witi...)
+ *     primbry dolor      Eb    Eb   Eb    Eb    (modulbtfd witi...)
+ *     primbry dolor      Eb    Eb   Eb    Eb    (modulbtfd witi...)
+ *     primbry dolor      Eb    Eb   Eb    Eb    (modulbtfd witi...)
+ *     primbry dolor      Eb    Eb   Eb    Eb    (modulbtfd witi...)
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb    (modulbtfd witi...)
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb    (modulbtfd witi...)
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb    (modulbtfd witi...)
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb    (modulbtfd witi...)
+ *     tfxturf unit 0     Cb    Cb   Cb    Cb    (modulbtfd witi...)
+ *     tfxturf unit 1     Pb    Pr   Pg    Pb
+ *     tfxturf unit 1     Pb    Pr   Pg    Pb
+ *     tfxturf unit 1     Pb    Pr   Pg    Pb
+ *     tfxturf unit 1     Pb    Pr   Pg    Pb
+ *     tfxturf unit 1     Pb    Pr   Pg    Pb
+ *     ---------------------------------------
+ *     ---------------------------------------
+ *     ---------------------------------------
+ *     ---------------------------------------
+ *     ---------------------------------------
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *     rfsulting dolor    Rb    Rr   Rg    Rb
+ *
+ *
+ *
+ *
+ *
+ * wifrf:
+ * wifrf:
+ * wifrf:
+ * wifrf:
+ * wifrf:
+ *     Eb = fxtrb blpib
+ *     Eb = fxtrb blpib
+ *     Eb = fxtrb blpib
+ *     Eb = fxtrb blpib
+ *     Eb = fxtrb blpib
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Cx = dovfrbgf vbluf from mbsk tilf
+ *     Px = grbdifnt/tfxturf pbint dolor (gfnfrbtfd for fbdi frbgmfnt)
+ *     Px = grbdifnt/tfxturf pbint dolor (gfnfrbtfd for fbdi frbgmfnt)
+ *     Px = grbdifnt/tfxturf pbint dolor (gfnfrbtfd for fbdi frbgmfnt)
+ *     Px = grbdifnt/tfxturf pbint dolor (gfnfrbtfd for fbdi frbgmfnt)
+ *     Px = grbdifnt/tfxturf pbint dolor (gfnfrbtfd for fbdi frbgmfnt)
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *     Rx = rfsulting dolor/blpib domponfnt
+ *
+ *
+ *
+ *
+ *
+ * Hfrf brf somf dfsdriptions of tif mbny vbribblfs usfd in tiis mftiod:
+ * Hfrf brf somf dfsdriptions of tif mbny vbribblfs usfd in tiis mftiod:
+ * Hfrf brf somf dfsdriptions of tif mbny vbribblfs usfd in tiis mftiod:
+ * Hfrf brf somf dfsdriptions of tif mbny vbribblfs usfd in tiis mftiod:
+ * Hfrf brf somf dfsdriptions of tif mbny vbribblfs usfd in tiis mftiod:
+ *   x,y     - uppfr lfft dornfr of tif tilf dfstinbtion
+ *   x,y     - uppfr lfft dornfr of tif tilf dfstinbtion
+ *   x,y     - uppfr lfft dornfr of tif tilf dfstinbtion
+ *   x,y     - uppfr lfft dornfr of tif tilf dfstinbtion
+ *   x,y     - uppfr lfft dornfr of tif tilf dfstinbtion
+ *   w,i     - widti/ifigit of tif mbsk tilf
+ *   w,i     - widti/ifigit of tif mbsk tilf
+ *   w,i     - widti/ifigit of tif mbsk tilf
+ *   w,i     - widti/ifigit of tif mbsk tilf
+ *   w,i     - widti/ifigit of tif mbsk tilf
+ *   x0      - plbdfkffpfr for tif originbl dfstinbtion x lodbtion
+ *   x0      - plbdfkffpfr for tif originbl dfstinbtion x lodbtion
+ *   x0      - plbdfkffpfr for tif originbl dfstinbtion x lodbtion
+ *   x0      - plbdfkffpfr for tif originbl dfstinbtion x lodbtion
+ *   x0      - plbdfkffpfr for tif originbl dfstinbtion x lodbtion
+ *   tw,ti   - widti/ifigit of tif bdtubl tfxturf tilf in pixfls
+ *   tw,ti   - widti/ifigit of tif bdtubl tfxturf tilf in pixfls
+ *   tw,ti   - widti/ifigit of tif bdtubl tfxturf tilf in pixfls
+ *   tw,ti   - widti/ifigit of tif bdtubl tfxturf tilf in pixfls
+ *   tw,ti   - widti/ifigit of tif bdtubl tfxturf tilf in pixfls
+ *   sx1,sy1 - uppfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx1,sy1 - uppfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx1,sy1 - uppfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx1,sy1 - uppfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx1,sy1 - uppfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx2,sy2 - lowfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx2,sy2 - lowfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx2,sy2 - lowfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx2,sy2 - lowfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx2,sy2 - lowfr lfft dornfr of tif mbsk tilf sourdf rfgion
+ *   sx,sy   - "durrfnt" uppfr lfft dornfr of tif mbsk tilf rfgion of intfrfst
+ *   sx,sy   - "durrfnt" uppfr lfft dornfr of tif mbsk tilf rfgion of intfrfst
+ *   sx,sy   - "durrfnt" uppfr lfft dornfr of tif mbsk tilf rfgion of intfrfst
+ *   sx,sy   - "durrfnt" uppfr lfft dornfr of tif mbsk tilf rfgion of intfrfst
+ *   sx,sy   - "durrfnt" uppfr lfft dornfr of tif mbsk tilf rfgion of intfrfst
+ */
+ */
+ */
+ */
  */
 void
+void
+void
+void
+void
 OGLMbskFill_MbskFill(OGLContfxt *ogld,
-                     jint x, jint y, jint w, jint h,
+OGLMbskFill_MbskFill(OGLContfxt *ogld,
+OGLMbskFill_MbskFill(OGLContfxt *ogld,
+OGLMbskFill_MbskFill(OGLContfxt *ogld,
+OGLMbskFill_MbskFill(OGLContfxt *ogld,
+                     jint x, jint y, jint w, jint i,
+                     jint x, jint y, jint w, jint i,
+                     jint x, jint y, jint w, jint i,
+                     jint x, jint y, jint w, jint i,
+                     jint x, jint y, jint w, jint i,
                      jint mbskoff, jint mbsksdbn, jint mbsklfn,
-                     unsignfd dhbr *pMbsk)
+                     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+                     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+                     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+                     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+                     unsignfd dibr *pMbsk)
+                     unsignfd dibr *pMbsk)
+                     unsignfd dibr *pMbsk)
+                     unsignfd dibr *pMbsk)
+                     unsignfd dibr *pMbsk)
+{
+{
+{
+{
 {
     J2dTrbdfLn(J2D_TRACE_INFO, "OGLMbskFill_MbskFill");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLMbskFill_MbskFill");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLMbskFill_MbskFill");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLMbskFill_MbskFill");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLMbskFill_MbskFill");
+
+
+
+
 
     RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(ogld);
+    CHECK_PREVIOUS_OP(OGL_STATE_MASK_OP);
+    CHECK_PREVIOUS_OP(OGL_STATE_MASK_OP);
+    CHECK_PREVIOUS_OP(OGL_STATE_MASK_OP);
+    CHECK_PREVIOUS_OP(OGL_STATE_MASK_OP);
     CHECK_PREVIOUS_OP(OGL_STATE_MASK_OP);
 
-    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d h=%d", x, y, w, h);
+
+
+
+
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d i=%d", x, y, w, i);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d i=%d", x, y, w, i);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d i=%d", x, y, w, i);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d i=%d", x, y, w, i);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d i=%d", x, y, w, i);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  mbskoff=%d mbsksdbn=%d",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  mbskoff=%d mbsksdbn=%d",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  mbskoff=%d mbsksdbn=%d",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  mbskoff=%d mbsksdbn=%d",
     J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  mbskoff=%d mbsksdbn=%d",
                 mbskoff, mbsksdbn);
+                mbskoff, mbsksdbn);
+                mbskoff, mbsksdbn);
+                mbskoff, mbsksdbn);
+                mbskoff, mbsksdbn);
+
+
+
+
 
     {
-        jint tw, th, x0;
+    {
+    {
+    {
+    {
+        jint tw, ti, x0;
+        jint tw, ti, x0;
+        jint tw, ti, x0;
+        jint tw, ti, x0;
+        jint tw, ti, x0;
         jint sx1, sy1, sx2, sy2;
-        jint sx, sy, sw, sh;
+        jint sx1, sy1, sx2, sy2;
+        jint sx1, sy1, sx2, sy2;
+        jint sx1, sy1, sx2, sy2;
+        jint sx1, sy1, sx2, sy2;
+        jint sx, sy, sw, si;
+        jint sx, sy, sw, si;
+        jint sx, sy, sw, si;
+        jint sx, sy, sw, si;
+        jint sx, sy, sw, si;
+
+
+
+
 
         x0 = x;
+        x0 = x;
+        x0 = x;
+        x0 = x;
+        x0 = x;
         tw = OGLVC_MASK_CACHE_TILE_WIDTH;
-        th = OGLVC_MASK_CACHE_TILE_HEIGHT;
+        tw = OGLVC_MASK_CACHE_TILE_WIDTH;
+        tw = OGLVC_MASK_CACHE_TILE_WIDTH;
+        tw = OGLVC_MASK_CACHE_TILE_WIDTH;
+        tw = OGLVC_MASK_CACHE_TILE_WIDTH;
+        ti = OGLVC_MASK_CACHE_TILE_HEIGHT;
+        ti = OGLVC_MASK_CACHE_TILE_HEIGHT;
+        ti = OGLVC_MASK_CACHE_TILE_HEIGHT;
+        ti = OGLVC_MASK_CACHE_TILE_HEIGHT;
+        ti = OGLVC_MASK_CACHE_TILE_HEIGHT;
+        sx1 = mbskoff % mbsksdbn;
+        sx1 = mbskoff % mbsksdbn;
+        sx1 = mbskoff % mbsksdbn;
+        sx1 = mbskoff % mbsksdbn;
         sx1 = mbskoff % mbsksdbn;
         sy1 = mbskoff / mbsksdbn;
+        sy1 = mbskoff / mbsksdbn;
+        sy1 = mbskoff / mbsksdbn;
+        sy1 = mbskoff / mbsksdbn;
+        sy1 = mbskoff / mbsksdbn;
         sx2 = sx1 + w;
-        sy2 = sy1 + h;
+        sx2 = sx1 + w;
+        sx2 = sx1 + w;
+        sx2 = sx1 + w;
+        sx2 = sx1 + w;
+        sy2 = sy1 + i;
+        sy2 = sy1 + i;
+        sy2 = sy1 + i;
+        sy2 = sy1 + i;
+        sy2 = sy1 + i;
 
-        for (sy = sy1; sy < sy2; sy += th, y += th) {
+
+
+
+
+        for (sy = sy1; sy < sy2; sy += ti, y += ti) {
+        for (sy = sy1; sy < sy2; sy += ti, y += ti) {
+        for (sy = sy1; sy < sy2; sy += ti, y += ti) {
+        for (sy = sy1; sy < sy2; sy += ti, y += ti) {
+        for (sy = sy1; sy < sy2; sy += ti, y += ti) {
             x = x0;
-            sh = ((sy + th) > sy2) ? (sy2 - sy) : th;
+            x = x0;
+            x = x0;
+            x = x0;
+            x = x0;
+            si = ((sy + ti) > sy2) ? (sy2 - sy) : ti;
+            si = ((sy + ti) > sy2) ? (sy2 - sy) : ti;
+            si = ((sy + ti) > sy2) ? (sy2 - sy) : ti;
+            si = ((sy + ti) > sy2) ? (sy2 - sy) : ti;
+            si = ((sy + ti) > sy2) ? (sy2 - sy) : ti;
+
+
+
+
 
             for (sx = sx1; sx < sx2; sx += tw, x += tw) {
+            for (sx = sx1; sx < sx2; sx += tw, x += tw) {
+            for (sx = sx1; sx < sx2; sx += tw, x += tw) {
+            for (sx = sx1; sx < sx2; sx += tw, x += tw) {
+            for (sx = sx1; sx < sx2; sx += tw, x += tw) {
+                sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
+                sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
+                sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
+                sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
                 sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
 
-                OGLVfrtfxCbdhf_AddMbskQubd(ogld,
-                                           sx, sy, x, y, sw, sh,
+
+
+
+
+                OGLVfrtfxCbdif_AddMbskQubd(ogld,
+                OGLVfrtfxCbdif_AddMbskQubd(ogld,
+                OGLVfrtfxCbdif_AddMbskQubd(ogld,
+                OGLVfrtfxCbdif_AddMbskQubd(ogld,
+                OGLVfrtfxCbdif_AddMbskQubd(ogld,
+                                           sx, sy, x, y, sw, si,
+                                           sx, sy, x, y, sw, si,
+                                           sx, sy, x, y, sw, si,
+                                           sx, sy, x, y, sw, si,
+                                           sx, sy, x, y, sw, si,
+                                           mbsksdbn, pMbsk);
+                                           mbsksdbn, pMbsk);
+                                           mbsksdbn, pMbsk);
+                                           mbsksdbn, pMbsk);
                                            mbsksdbn, pMbsk);
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 }
+}
+}
+}
+}
+
+
+
+
 
 JNIEXPORT void JNICALL
+JNIEXPORT void JNICALL
+JNIEXPORT void JNICALL
+JNIEXPORT void JNICALL
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_opfngl_OGLMbskFill_mbskFill
+Jbvb_sun_jbvb2d_opfngl_OGLMbskFill_mbskFill
+Jbvb_sun_jbvb2d_opfngl_OGLMbskFill_mbskFill
+Jbvb_sun_jbvb2d_opfngl_OGLMbskFill_mbskFill
 Jbvb_sun_jbvb2d_opfngl_OGLMbskFill_mbskFill
     (JNIEnv *fnv, jobjfdt sflf,
-     jint x, jint y, jint w, jint h,
+    (JNIEnv *fnv, jobjfdt sflf,
+    (JNIEnv *fnv, jobjfdt sflf,
+    (JNIEnv *fnv, jobjfdt sflf,
+    (JNIEnv *fnv, jobjfdt sflf,
+     jint x, jint y, jint w, jint i,
+     jint x, jint y, jint w, jint i,
+     jint x, jint y, jint w, jint i,
+     jint x, jint y, jint w, jint i,
+     jint x, jint y, jint w, jint i,
+     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+     jint mbskoff, jint mbsksdbn, jint mbsklfn,
+     jint mbskoff, jint mbsksdbn, jint mbsklfn,
      jint mbskoff, jint mbsksdbn, jint mbsklfn,
      jbytfArrby mbskArrby)
+     jbytfArrby mbskArrby)
+     jbytfArrby mbskArrby)
+     jbytfArrby mbskArrby)
+     jbytfArrby mbskArrby)
+{
+{
+{
+{
 {
     OGLContfxt *ogld = OGLRfndfrQufuf_GftCurrfntContfxt();
-    unsignfd dhbr *mbsk;
+    OGLContfxt *ogld = OGLRfndfrQufuf_GftCurrfntContfxt();
+    OGLContfxt *ogld = OGLRfndfrQufuf_GftCurrfntContfxt();
+    OGLContfxt *ogld = OGLRfndfrQufuf_GftCurrfntContfxt();
+    OGLContfxt *ogld = OGLRfndfrQufuf_GftCurrfntContfxt();
+    unsignfd dibr *mbsk;
+    unsignfd dibr *mbsk;
+    unsignfd dibr *mbsk;
+    unsignfd dibr *mbsk;
+    unsignfd dibr *mbsk;
+
+
+
+
 
     J2dTrbdfLn(J2D_TRACE_ERROR, "OGLMbskFill_mbskFill");
+    J2dTrbdfLn(J2D_TRACE_ERROR, "OGLMbskFill_mbskFill");
+    J2dTrbdfLn(J2D_TRACE_ERROR, "OGLMbskFill_mbskFill");
+    J2dTrbdfLn(J2D_TRACE_ERROR, "OGLMbskFill_mbskFill");
+    J2dTrbdfLn(J2D_TRACE_ERROR, "OGLMbskFill_mbskFill");
+
+
+
+
 
     if (mbskArrby != NULL) {
-        mbsk = (unsignfd dhbr *)
+    if (mbskArrby != NULL) {
+    if (mbskArrby != NULL) {
+    if (mbskArrby != NULL) {
+    if (mbskArrby != NULL) {
+        mbsk = (unsignfd dibr *)
+        mbsk = (unsignfd dibr *)
+        mbsk = (unsignfd dibr *)
+        mbsk = (unsignfd dibr *)
+        mbsk = (unsignfd dibr *)
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, NULL);
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, NULL);
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, NULL);
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, NULL);
             (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, NULL);
     } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+        mbsk = NULL;
+        mbsk = NULL;
+        mbsk = NULL;
+        mbsk = NULL;
         mbsk = NULL;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     OGLMbskFill_MbskFill(ogld,
-                         x, y, w, h,
+    OGLMbskFill_MbskFill(ogld,
+    OGLMbskFill_MbskFill(ogld,
+    OGLMbskFill_MbskFill(ogld,
+    OGLMbskFill_MbskFill(ogld,
+                         x, y, w, i,
+                         x, y, w, i,
+                         x, y, w, i,
+                         x, y, w, i,
+                         x, y, w, i,
+                         mbskoff, mbsksdbn, mbsklfn, mbsk);
+                         mbskoff, mbsksdbn, mbsklfn, mbsk);
+                         mbskoff, mbsksdbn, mbsklfn, mbsk);
+                         mbskoff, mbsksdbn, mbsklfn, mbsk);
                          mbskoff, mbsksdbn, mbsklfn, mbsk);
 
-    // 6358147: rfsft durrfnt stbtf, bnd fnsurf rfndfring is flushfd to dfst
+
+
+
+
+    // 6358147: rfsft durrfnt stbtf, bnd fnsurf rfndfring is flusifd to dfst
+    // 6358147: rfsft durrfnt stbtf, bnd fnsurf rfndfring is flusifd to dfst
+    // 6358147: rfsft durrfnt stbtf, bnd fnsurf rfndfring is flusifd to dfst
+    // 6358147: rfsft durrfnt stbtf, bnd fnsurf rfndfring is flusifd to dfst
+    // 6358147: rfsft durrfnt stbtf, bnd fnsurf rfndfring is flusifd to dfst
+    if (ogld != NULL) {
+    if (ogld != NULL) {
+    if (ogld != NULL) {
+    if (ogld != NULL) {
     if (ogld != NULL) {
         RESET_PREVIOUS_OP();
-        j2d_glFlush();
+        RESET_PREVIOUS_OP();
+        RESET_PREVIOUS_OP();
+        RESET_PREVIOUS_OP();
+        RESET_PREVIOUS_OP();
+        j2d_glFlusi();
+        j2d_glFlusi();
+        j2d_glFlusi();
+        j2d_glFlusi();
+        j2d_glFlusi();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (mbsk != NULL) {
+    if (mbsk != NULL) {
+    if (mbsk != NULL) {
+    if (mbsk != NULL) {
+    if (mbsk != NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby, mbsk, JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby, mbsk, JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby, mbsk, JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby, mbsk, JNI_ABORT);
         (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby, mbsk, JNI_ABORT);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }
 
+
+
+
+
+#fndif /* !HEADLESS */
+#fndif /* !HEADLESS */
+#fndif /* !HEADLESS */
+#fndif /* !HEADLESS */
 #fndif /* !HEADLESS */

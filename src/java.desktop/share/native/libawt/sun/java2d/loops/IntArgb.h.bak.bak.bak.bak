@@ -1,211 +1,1055 @@
 /*
- * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-#ifndff IntArgb_h_Indludfd
-#dffinf IntArgb_h_Indludfd
-
-#indludf "IntDdm.h"
-#indludf "BytfGrby.h"
-#indludf "UshortGrby.h"
-
-/*
- * This filf dontbins mbdro bnd typf dffinitions usfd by thf mbdros in
- * LoopMbdros.h to mbnipulbtf b surfbdf of typf "IntArgb".
+ */
+ */
+ */
  */
 
+
+
+
+
+#ifndff IntArgb_i_Indludfd
+#ifndff IntArgb_i_Indludfd
+#ifndff IntArgb_i_Indludfd
+#ifndff IntArgb_i_Indludfd
+#ifndff IntArgb_i_Indludfd
+#dffinf IntArgb_i_Indludfd
+#dffinf IntArgb_i_Indludfd
+#dffinf IntArgb_i_Indludfd
+#dffinf IntArgb_i_Indludfd
+#dffinf IntArgb_i_Indludfd
+
+
+
+
+
+#indludf "IntDdm.i"
+#indludf "IntDdm.i"
+#indludf "IntDdm.i"
+#indludf "IntDdm.i"
+#indludf "IntDdm.i"
+#indludf "BytfGrby.i"
+#indludf "BytfGrby.i"
+#indludf "BytfGrby.i"
+#indludf "BytfGrby.i"
+#indludf "BytfGrby.i"
+#indludf "UsiortGrby.i"
+#indludf "UsiortGrby.i"
+#indludf "UsiortGrby.i"
+#indludf "UsiortGrby.i"
+#indludf "UsiortGrby.i"
+
+
+
+
+
+/*
+/*
+/*
+/*
+/*
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "IntArgb".
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "IntArgb".
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "IntArgb".
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "IntArgb".
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "IntArgb".
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+typfdff jint    IntArgbPixflTypf;
+typfdff jint    IntArgbPixflTypf;
+typfdff jint    IntArgbPixflTypf;
+typfdff jint    IntArgbPixflTypf;
 typfdff jint    IntArgbPixflTypf;
 typfdff jint    IntArgbDbtbTypf;
+typfdff jint    IntArgbDbtbTypf;
+typfdff jint    IntArgbDbtbTypf;
+typfdff jint    IntArgbDbtbTypf;
+typfdff jint    IntArgbDbtbTypf;
+
+
+
+
 
 #dffinf IntArgbIsOpbquf 0
+#dffinf IntArgbIsOpbquf 0
+#dffinf IntArgbIsOpbquf 0
+#dffinf IntArgbIsOpbquf 0
+#dffinf IntArgbIsOpbquf 0
+
+
+
+
 
 #dffinf IntArgbPixflStridf      4
+#dffinf IntArgbPixflStridf      4
+#dffinf IntArgbPixflStridf      4
+#dffinf IntArgbPixflStridf      4
+#dffinf IntArgbPixflStridf      4
+
+
+
+
 
 #dffinf DfdlbrfIntArgbLobdVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbLobdVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbLobdVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbLobdVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbLobdVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbStorfVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbStorfVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbStorfVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbStorfVbrs(PREFIX)
 #dffinf DfdlbrfIntArgbStorfVbrs(PREFIX)
 #dffinf InitIntArgbLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitIntArgbLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitIntArgbLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitIntArgbLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitIntArgbLobdVbrs(PREFIX, pRbsInfo)
+#dffinf SftIntArgbStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftIntArgbStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftIntArgbStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftIntArgbStorfVbrsYPos(PREFIX, pRbsInfo, y)
 #dffinf SftIntArgbStorfVbrsYPos(PREFIX, pRbsInfo, y)
 #dffinf SftIntArgbStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf SftIntArgbStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf SftIntArgbStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf SftIntArgbStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf SftIntArgbStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitIntArgbStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitIntArgbStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitIntArgbStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitIntArgbStorfVbrsY(PREFIX, pRbsInfo)
 #dffinf InitIntArgbStorfVbrsY(PREFIX, pRbsInfo)
 #dffinf InitIntArgbStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf InitIntArgbStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf InitIntArgbStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf InitIntArgbStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf InitIntArgbStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtIntArgbStorfVbrsX(PREFIX)
+#dffinf NfxtIntArgbStorfVbrsX(PREFIX)
+#dffinf NfxtIntArgbStorfVbrsX(PREFIX)
+#dffinf NfxtIntArgbStorfVbrsX(PREFIX)
 #dffinf NfxtIntArgbStorfVbrsX(PREFIX)
 #dffinf NfxtIntArgbStorfVbrsY(PREFIX)
+#dffinf NfxtIntArgbStorfVbrsY(PREFIX)
+#dffinf NfxtIntArgbStorfVbrsY(PREFIX)
+#dffinf NfxtIntArgbStorfVbrsY(PREFIX)
+#dffinf NfxtIntArgbStorfVbrsY(PREFIX)
+#dffinf DfdlbrfIntArgbInitiblLobdVbrs(pRbsInfo, pRbs, PREFIX, x)
+#dffinf DfdlbrfIntArgbInitiblLobdVbrs(pRbsInfo, pRbs, PREFIX, x)
+#dffinf DfdlbrfIntArgbInitiblLobdVbrs(pRbsInfo, pRbs, PREFIX, x)
+#dffinf DfdlbrfIntArgbInitiblLobdVbrs(pRbsInfo, pRbs, PREFIX, x)
 #dffinf DfdlbrfIntArgbInitiblLobdVbrs(pRbsInfo, pRbs, PREFIX, x)
 #dffinf InitiblLobdIntArgb(pRbs, PREFIX)
-#dffinf ShiftBitsIntArgb(PREFIX)
+#dffinf InitiblLobdIntArgb(pRbs, PREFIX)
+#dffinf InitiblLobdIntArgb(pRbs, PREFIX)
+#dffinf InitiblLobdIntArgb(pRbs, PREFIX)
+#dffinf InitiblLobdIntArgb(pRbs, PREFIX)
+#dffinf SiiftBitsIntArgb(PREFIX)
+#dffinf SiiftBitsIntArgb(PREFIX)
+#dffinf SiiftBitsIntArgb(PREFIX)
+#dffinf SiiftBitsIntArgb(PREFIX)
+#dffinf SiiftBitsIntArgb(PREFIX)
+#dffinf FinblStorfIntArgb(pRbs, PREFIX)
+#dffinf FinblStorfIntArgb(pRbs, PREFIX)
+#dffinf FinblStorfIntArgb(pRbs, PREFIX)
+#dffinf FinblStorfIntArgb(pRbs, PREFIX)
 #dffinf FinblStorfIntArgb(pRbs, PREFIX)
 
+
+
+
+
+#dffinf IntArgbPixflFromArgb(pixfl, rgb, pRbsInfo) \
+#dffinf IntArgbPixflFromArgb(pixfl, rgb, pRbsInfo) \
+#dffinf IntArgbPixflFromArgb(pixfl, rgb, pRbsInfo) \
+#dffinf IntArgbPixflFromArgb(pixfl, rgb, pRbsInfo) \
 #dffinf IntArgbPixflFromArgb(pixfl, rgb, pRbsInfo) \
     (pixfl) = (rgb)
+    (pixfl) = (rgb)
+    (pixfl) = (rgb)
+    (pixfl) = (rgb)
+    (pixfl) = (rgb)
+
+
+
+
 
 #dffinf StorfIntArgbPixfl(pRbs, x, pixfl) \
+#dffinf StorfIntArgbPixfl(pRbs, x, pixfl) \
+#dffinf StorfIntArgbPixfl(pRbs, x, pixfl) \
+#dffinf StorfIntArgbPixfl(pRbs, x, pixfl) \
+#dffinf StorfIntArgbPixfl(pRbs, x, pixfl) \
+    (pRbs)[x] = (pixfl)
+    (pRbs)[x] = (pixfl)
+    (pRbs)[x] = (pixfl)
+    (pRbs)[x] = (pixfl)
     (pRbs)[x] = (pixfl)
 
+
+
+
+
+#dffinf DfdlbrfIntArgbPixflDbtb(PREFIX)
+#dffinf DfdlbrfIntArgbPixflDbtb(PREFIX)
+#dffinf DfdlbrfIntArgbPixflDbtb(PREFIX)
+#dffinf DfdlbrfIntArgbPixflDbtb(PREFIX)
 #dffinf DfdlbrfIntArgbPixflDbtb(PREFIX)
 
+
+
+
+
+#dffinf ExtrbdtIntArgbPixflDbtb(PIXEL, PREFIX)
+#dffinf ExtrbdtIntArgbPixflDbtb(PIXEL, PREFIX)
+#dffinf ExtrbdtIntArgbPixflDbtb(PIXEL, PREFIX)
+#dffinf ExtrbdtIntArgbPixflDbtb(PIXEL, PREFIX)
 #dffinf ExtrbdtIntArgbPixflDbtb(PIXEL, PREFIX)
 
+
+
+
+
 #dffinf StorfIntArgbPixflDbtb(pPix, x, pixfl, PREFIX) \
+#dffinf StorfIntArgbPixflDbtb(pPix, x, pixfl, PREFIX) \
+#dffinf StorfIntArgbPixflDbtb(pPix, x, pixfl, PREFIX) \
+#dffinf StorfIntArgbPixflDbtb(pPix, x, pixfl, PREFIX) \
+#dffinf StorfIntArgbPixflDbtb(pPix, x, pixfl, PREFIX) \
+    (pPix)[x] = (pixfl)
+    (pPix)[x] = (pixfl)
+    (pPix)[x] = (pixfl)
+    (pPix)[x] = (pixfl)
     (pPix)[x] = (pixfl)
 
 
+
+
+
+
+
+
+
+
+#dffinf LobdIntArgbTo1IntRgb(pRbs, PREFIX, x, rgb) \
+#dffinf LobdIntArgbTo1IntRgb(pRbs, PREFIX, x, rgb) \
+#dffinf LobdIntArgbTo1IntRgb(pRbs, PREFIX, x, rgb) \
+#dffinf LobdIntArgbTo1IntRgb(pRbs, PREFIX, x, rgb) \
 #dffinf LobdIntArgbTo1IntRgb(pRbs, PREFIX, x, rgb) \
     (rgb) = (pRbs)[x]
+    (rgb) = (pRbs)[x]
+    (rgb) = (pRbs)[x]
+    (rgb) = (pRbs)[x]
+    (rgb) = (pRbs)[x]
+
+
+
+
 
 #dffinf LobdIntArgbTo1IntArgb(pRbs, PREFIX, x, brgb) \
+#dffinf LobdIntArgbTo1IntArgb(pRbs, PREFIX, x, brgb) \
+#dffinf LobdIntArgbTo1IntArgb(pRbs, PREFIX, x, brgb) \
+#dffinf LobdIntArgbTo1IntArgb(pRbs, PREFIX, x, brgb) \
+#dffinf LobdIntArgbTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    (brgb) = (pRbs)[x]
+    (brgb) = (pRbs)[x]
+    (brgb) = (pRbs)[x]
+    (brgb) = (pRbs)[x]
     (brgb) = (pRbs)[x]
 
+
+
+
+
+#dffinf LobdIntArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+#dffinf LobdIntArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+#dffinf LobdIntArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+#dffinf LobdIntArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
 #dffinf LobdIntArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
+    do { \
+    do { \
+    do { \
+    do { \
+        jint pixfl = (pRbs)[x]; \
+        jint pixfl = (pRbs)[x]; \
+        jint pixfl = (pRbs)[x]; \
+        jint pixfl = (pRbs)[x]; \
         jint pixfl = (pRbs)[x]; \
         ExtrbdtIntDdmComponfntsX123(pixfl, r, g, b); \
-    } whilf (0)
+        ExtrbdtIntDdmComponfntsX123(pixfl, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(pixfl, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(pixfl, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(pixfl, r, g, b); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf LobdIntArgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+#dffinf LobdIntArgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+#dffinf LobdIntArgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+#dffinf LobdIntArgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+#dffinf LobdIntArgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         jint pixfl = (pRbs)[x]; \
+        jint pixfl = (pRbs)[x]; \
+        jint pixfl = (pRbs)[x]; \
+        jint pixfl = (pRbs)[x]; \
+        jint pixfl = (pRbs)[x]; \
         ExtrbdtIntDdmComponfnts1234(pixfl, b, r, g, b); \
-    } whilf (0)
+        ExtrbdtIntDdmComponfnts1234(pixfl, b, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, b, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, b, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, b, r, g, b); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf StorfIntArgbFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+#dffinf StorfIntArgbFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+#dffinf StorfIntArgbFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+#dffinf StorfIntArgbFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+#dffinf StorfIntArgbFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    (pRbs)[x] = 0xff000000 | (rgb)
+    (pRbs)[x] = 0xff000000 | (rgb)
+    (pRbs)[x] = 0xff000000 | (rgb)
+    (pRbs)[x] = 0xff000000 | (rgb)
     (pRbs)[x] = 0xff000000 | (rgb)
 
+
+
+
+
+#dffinf StorfIntArgbFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+#dffinf StorfIntArgbFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+#dffinf StorfIntArgbFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+#dffinf StorfIntArgbFrom1IntArgb(pRbs, PREFIX, x, brgb) \
 #dffinf StorfIntArgbFrom1IntArgb(pRbs, PREFIX, x, brgb) \
     (pRbs)[x] = (brgb)
+    (pRbs)[x] = (brgb)
+    (pRbs)[x] = (brgb)
+    (pRbs)[x] = (brgb)
+    (pRbs)[x] = (brgb)
+
+
+
+
 
 #dffinf StorfIntArgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+#dffinf StorfIntArgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+#dffinf StorfIntArgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+#dffinf StorfIntArgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+#dffinf StorfIntArgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, 0xff, r, g, b)
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, 0xff, r, g, b)
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, 0xff, r, g, b)
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, 0xff, r, g, b)
     StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, 0xff, r, g, b)
 
+
+
+
+
+#dffinf StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+#dffinf StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+#dffinf StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+#dffinf StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
 #dffinf StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
     (pRbs)[x] = ComposfIntDdmComponfnts1234(b, r, g, b)
+    (pRbs)[x] = ComposfIntDdmComponfnts1234(b, r, g, b)
+    (pRbs)[x] = ComposfIntDdmComponfnts1234(b, r, g, b)
+    (pRbs)[x] = ComposfIntDdmComponfnts1234(b, r, g, b)
+    (pRbs)[x] = ComposfIntDdmComponfnts1234(b, r, g, b)
+
+
+
+
 
 #dffinf CopyIntArgbToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+#dffinf CopyIntArgbToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+#dffinf CopyIntArgbToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+#dffinf CopyIntArgbToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+#dffinf CopyIntArgbToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         jint brgb = (pRow)[x]; \
-        jint b = URShift(brgb, 24); \
+        jint brgb = (pRow)[x]; \
+        jint brgb = (pRow)[x]; \
+        jint brgb = (pRow)[x]; \
+        jint brgb = (pRow)[x]; \
+        jint b = URSiift(brgb, 24); \
+        jint b = URSiift(brgb, 24); \
+        jint b = URSiift(brgb, 24); \
+        jint b = URSiift(brgb, 24); \
+        jint b = URSiift(brgb, 24); \
+        if (b == 0) { \
+        if (b == 0) { \
+        if (b == 0) { \
+        if (b == 0) { \
         if (b == 0) { \
             brgb = 0; \
+            brgb = 0; \
+            brgb = 0; \
+            brgb = 0; \
+            brgb = 0; \
+        } flsf if (b < 0xff) { \
+        } flsf if (b < 0xff) { \
+        } flsf if (b < 0xff) { \
+        } flsf if (b < 0xff) { \
         } flsf if (b < 0xff) { \
             jint r = (brgb >> 16) & 0xff; \
+            jint r = (brgb >> 16) & 0xff; \
+            jint r = (brgb >> 16) & 0xff; \
+            jint r = (brgb >> 16) & 0xff; \
+            jint r = (brgb >> 16) & 0xff; \
+            jint g = (brgb >>  8) & 0xff; \
+            jint g = (brgb >>  8) & 0xff; \
+            jint g = (brgb >>  8) & 0xff; \
+            jint g = (brgb >>  8) & 0xff; \
             jint g = (brgb >>  8) & 0xff; \
             jint b = (brgb      ) & 0xff; \
+            jint b = (brgb      ) & 0xff; \
+            jint b = (brgb      ) & 0xff; \
+            jint b = (brgb      ) & 0xff; \
+            jint b = (brgb      ) & 0xff; \
+            r = MUL8(b, r); \
+            r = MUL8(b, r); \
+            r = MUL8(b, r); \
+            r = MUL8(b, r); \
             r = MUL8(b, r); \
             g = MUL8(b, g); \
+            g = MUL8(b, g); \
+            g = MUL8(b, g); \
+            g = MUL8(b, g); \
+            g = MUL8(b, g); \
+            b = MUL8(b, b); \
+            b = MUL8(b, b); \
+            b = MUL8(b, b); \
+            b = MUL8(b, b); \
             b = MUL8(b, b); \
             brgb = ComposfIntDdmComponfnts1234(b, r, g, b); \
+            brgb = ComposfIntDdmComponfnts1234(b, r, g, b); \
+            brgb = ComposfIntDdmComponfnts1234(b, r, g, b); \
+            brgb = ComposfIntDdmComponfnts1234(b, r, g, b); \
+            brgb = ComposfIntDdmComponfnts1234(b, r, g, b); \
+        } \
+        } \
+        } \
+        } \
         } \
         (pRGB)[i] = brgb; \
-    } whilf (0)
+        (pRGB)[i] = brgb; \
+        (pRGB)[i] = brgb; \
+        (pRGB)[i] = brgb; \
+        (pRGB)[i] = brgb; \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
 
 
-#dffinf DfdlbrfIntArgbAlphbLobdDbtb(PREFIX) \
+
+
+
+
+
+
+
+
+#dffinf DfdlbrfIntArgbAlpibLobdDbtb(PREFIX) \
+#dffinf DfdlbrfIntArgbAlpibLobdDbtb(PREFIX) \
+#dffinf DfdlbrfIntArgbAlpibLobdDbtb(PREFIX) \
+#dffinf DfdlbrfIntArgbAlpibLobdDbtb(PREFIX) \
+#dffinf DfdlbrfIntArgbAlpibLobdDbtb(PREFIX) \
+    jint PREFIX;
+    jint PREFIX;
+    jint PREFIX;
+    jint PREFIX;
     jint PREFIX;
 
-#dffinf InitIntArgbAlphbLobdDbtb(PREFIX, pRbsInfo) \
+
+
+
+
+#dffinf InitIntArgbAlpibLobdDbtb(PREFIX, pRbsInfo) \
+#dffinf InitIntArgbAlpibLobdDbtb(PREFIX, pRbsInfo) \
+#dffinf InitIntArgbAlpibLobdDbtb(PREFIX, pRbsInfo) \
+#dffinf InitIntArgbAlpibLobdDbtb(PREFIX, pRbsInfo) \
+#dffinf InitIntArgbAlpibLobdDbtb(PREFIX, pRbsInfo) \
+    PREFIX = 0
+    PREFIX = 0
+    PREFIX = 0
+    PREFIX = 0
     PREFIX = 0
 
-#dffinf LobdAlphbFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+
+
+
+
+#dffinf LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         PREFIX = (pRbs)[0]; \
+        PREFIX = (pRbs)[0]; \
+        PREFIX = (pRbs)[0]; \
+        PREFIX = (pRbs)[0]; \
+        PREFIX = (pRbs)[0]; \
         COMP_PREFIX ## A = ((juint) PREFIX) >> 24; \
-    } whilf (0)
+        COMP_PREFIX ## A = ((juint) PREFIX) >> 24; \
+        COMP_PREFIX ## A = ((juint) PREFIX) >> 24; \
+        COMP_PREFIX ## A = ((juint) PREFIX) >> 24; \
+        COMP_PREFIX ## A = ((juint) PREFIX) >> 24; \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
 
-#dffinf LobdAlphbFromIntArgbFor1BytfGrby(pRbs, PREFIX, COMP_PREFIX) \
-    LobdAlphbFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX)
 
-#dffinf LobdAlphbFromIntArgbFor1ShortGrby(pRbs, PREFIX, COMP_PREFIX) \
+
+
+
+#dffinf LobdAlpibFromIntArgbFor1BytfGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1BytfGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1BytfGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1BytfGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1BytfGrby(pRbs, PREFIX, COMP_PREFIX) \
+    LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX)
+    LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX)
+    LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX)
+    LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX)
+    LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX)
+
+
+
+
+
+#dffinf LobdAlpibFromIntArgbFor1SiortGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1SiortGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1SiortGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1SiortGrby(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromIntArgbFor1SiortGrby(pRbs, PREFIX, COMP_PREFIX) \
     do { \
-        LobdAlphbFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX); \
+    do { \
+    do { \
+    do { \
+    do { \
+        LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX); \
+        LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX); \
+        LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX); \
+        LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX); \
+        LobdAlpibFromIntArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX); \
         COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
-    } whilf (0)
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf Postlobd4BytfArgbFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd4BytfArgbFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd4BytfArgbFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd4BytfArgbFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd4BytfArgbFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         COMP_PREFIX ## R = (PREFIX >> 16) & 0xff; \
+        COMP_PREFIX ## R = (PREFIX >> 16) & 0xff; \
+        COMP_PREFIX ## R = (PREFIX >> 16) & 0xff; \
+        COMP_PREFIX ## R = (PREFIX >> 16) & 0xff; \
+        COMP_PREFIX ## R = (PREFIX >> 16) & 0xff; \
+        COMP_PREFIX ## G = (PREFIX >>  8) & 0xff; \
+        COMP_PREFIX ## G = (PREFIX >>  8) & 0xff; \
+        COMP_PREFIX ## G = (PREFIX >>  8) & 0xff; \
+        COMP_PREFIX ## G = (PREFIX >>  8) & 0xff; \
         COMP_PREFIX ## G = (PREFIX >>  8) & 0xff; \
         COMP_PREFIX ## B = (PREFIX >>  0) & 0xff; \
-    } whilf (0)
+        COMP_PREFIX ## B = (PREFIX >>  0) & 0xff; \
+        COMP_PREFIX ## B = (PREFIX >>  0) & 0xff; \
+        COMP_PREFIX ## B = (PREFIX >>  0) & 0xff; \
+        COMP_PREFIX ## B = (PREFIX >>  0) & 0xff; \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf Postlobd1BytfGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1BytfGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1BytfGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1BytfGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1BytfGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
         ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
         COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
-    } whilf (0)
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
 
-#dffinf Postlobd1ShortGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+
+
+
+
+#dffinf Postlobd1SiortGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1SiortGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1SiortGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1SiortGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd1SiortGrbyFromIntArgb(pRbs, PREFIX, COMP_PREFIX) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
         ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
-        COMP_PREFIX ## G = ComposfUshortGrbyFrom3BytfRgb(r, g, b); \
-    } whilf (0)
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
+        ExtrbdtIntDdmComponfntsX123(PREFIX, r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
+
+
+
+
 
 
 #dffinf IntArgbIsPrfmultiplifd  0
+#dffinf IntArgbIsPrfmultiplifd  0
+#dffinf IntArgbIsPrfmultiplifd  0
+#dffinf IntArgbIsPrfmultiplifd  0
+#dffinf IntArgbIsPrfmultiplifd  0
+
+
+
+
 
 #dffinf DfdlbrfIntArgbBlfndFillVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbBlfndFillVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbBlfndFillVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbBlfndFillVbrs(PREFIX)
+#dffinf DfdlbrfIntArgbBlfndFillVbrs(PREFIX)
+
+
+
+
 
 #dffinf ClfbrIntArgbBlfndFillVbrs(PREFIX, brgb) \
+#dffinf ClfbrIntArgbBlfndFillVbrs(PREFIX, brgb) \
+#dffinf ClfbrIntArgbBlfndFillVbrs(PREFIX, brgb) \
+#dffinf ClfbrIntArgbBlfndFillVbrs(PREFIX, brgb) \
+#dffinf ClfbrIntArgbBlfndFillVbrs(PREFIX, brgb) \
+    brgb = 0
+    brgb = 0
+    brgb = 0
+    brgb = 0
     brgb = 0
 
+
+
+
+
+#dffinf InitIntArgbBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+#dffinf InitIntArgbBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+#dffinf InitIntArgbBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+#dffinf InitIntArgbBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
 #dffinf InitIntArgbBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
     brgb = (COMP_PREFIX ## A << 24) | (brgb & 0x00ffffff); \
+    brgb = (COMP_PREFIX ## A << 24) | (brgb & 0x00ffffff); \
+    brgb = (COMP_PREFIX ## A << 24) | (brgb & 0x00ffffff); \
+    brgb = (COMP_PREFIX ## A << 24) | (brgb & 0x00ffffff); \
+    brgb = (COMP_PREFIX ## A << 24) | (brgb & 0x00ffffff); \
+
+
+
+
 
 #dffinf InitIntArgbBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+#dffinf InitIntArgbBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+#dffinf InitIntArgbBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+#dffinf InitIntArgbBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+#dffinf InitIntArgbBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+
+
+
+
 
 #dffinf StorfIntArgbBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+#dffinf StorfIntArgbBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+#dffinf StorfIntArgbBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+#dffinf StorfIntArgbBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+#dffinf StorfIntArgbBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = (brgb)
+    (pRbs)[x] = (brgb)
+    (pRbs)[x] = (brgb)
+    (pRbs)[x] = (brgb)
     (pRbs)[x] = (brgb)
 
+
+
+
+
+#dffinf StorfIntArgbFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+#dffinf StorfIntArgbFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+#dffinf StorfIntArgbFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+#dffinf StorfIntArgbFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
 #dffinf StorfIntArgbFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
     StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, \
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, \
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, \
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, \
+    StorfIntArgbFrom4BytfArgb(pRbs, PREFIX, x, \
                               COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                              COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                              COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                              COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                              COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                              COMP_PREFIX ## G, COMP_PREFIX ## B)
+                              COMP_PREFIX ## G, COMP_PREFIX ## B)
+                              COMP_PREFIX ## G, COMP_PREFIX ## B)
+                              COMP_PREFIX ## G, COMP_PREFIX ## B)
                               COMP_PREFIX ## G, COMP_PREFIX ## B)
 
 
+
+
+
+
+
+
+
+
 /*
- * Extrbdt ## STRATEGY ## CompsAndAlphbFromArgb(pixfl, COMP_PREFIX)
+/*
+/*
+/*
+/*
+ * Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+ * Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+ * Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+ * Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+ * Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
  */
-#dffinf Extrbdt3BytfRgbCompsAndAlphbFromArgb(pixfl, COMP_PREFIX) \
+ */
+ */
+ */
+ */
+#dffinf Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+    ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, COMP_PREFIX ## R, \
+    ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, COMP_PREFIX ## R, \
+    ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, COMP_PREFIX ## R, \
+    ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, COMP_PREFIX ## R, \
     ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, COMP_PREFIX ## R, \
                                 COMP_PREFIX ## G, COMP_PREFIX ## B)
+                                COMP_PREFIX ## G, COMP_PREFIX ## B)
+                                COMP_PREFIX ## G, COMP_PREFIX ## B)
+                                COMP_PREFIX ## G, COMP_PREFIX ## B)
+                                COMP_PREFIX ## G, COMP_PREFIX ## B)
 
-#dffinf Extrbdt4BytfArgbCompsAndAlphbFromArgb(pixfl, COMP_PREFIX) \
-    Extrbdt3BytfRgbCompsAndAlphbFromArgb(pixfl, COMP_PREFIX)
 
-#dffinf Extrbdt1BytfGrbyCompsAndAlphbFromArgb(pixfl, COMP_PREFIX) \
+
+
+
+#dffinf Extrbdt4BytfArgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt4BytfArgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt4BytfArgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt4BytfArgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt4BytfArgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+    Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+    Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+    Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+    Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+    Extrbdt3BytfRgbCompsAndAlpibFromArgb(pixfl, COMP_PREFIX)
+
+
+
+
+
+#dffinf Extrbdt1BytfGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1BytfGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1BytfGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1BytfGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1BytfGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
         ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
         COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
-    } whilf (0)
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfBytfGrbyFrom3BytfRgb(r, g, b); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
 
-#dffinf Extrbdt1ShortGrbyCompsAndAlphbFromArgb(pixfl, COMP_PREFIX) \
+
+
+
+
+#dffinf Extrbdt1SiortGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1SiortGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1SiortGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1SiortGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+#dffinf Extrbdt1SiortGrbyCompsAndAlpibFromArgb(pixfl, COMP_PREFIX) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
+        int r, g, b; \
         ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
-        COMP_PREFIX ## G = ComposfUshortGrbyFrom3BytfRgb(r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
+        ExtrbdtIntDdmComponfnts1234(pixfl, COMP_PREFIX ## A, r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+        COMP_PREFIX ## G = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
         COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
-    } whilf (0)
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+        COMP_PREFIX ## A = (COMP_PREFIX ## A << 8) + COMP_PREFIX ## A; \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
 
-#fndif /* IntArgb_h_Indludfd */
+
+
+
+
+#fndif /* IntArgb_i_Indludfd */
+#fndif /* IntArgb_i_Indludfd */
+#fndif /* IntArgb_i_Indludfd */
+#fndif /* IntArgb_i_Indludfd */
+#fndif /* IntArgb_i_Indludfd */

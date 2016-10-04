@@ -1,0 +1,1234 @@
+/*
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr2;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.*;
+
+/**
+ * A <dodf>SpringLbyout</dodf> lbys out tif diildrfn of its bssodibtfd dontbinfr
+ * bddording to b sft of donstrbints.
+ * Sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/spring.itml">How to Usf SpringLbyout</b>
+ * in <fm>Tif Jbvb Tutoribl</fm> for fxbmplfs of using
+ * <dodf>SpringLbyout</dodf>.
+ *
+ * <p>
+ * Ebdi donstrbint,
+ * rfprfsfntfd by b <dodf>Spring</dodf> objfdt,
+ * dontrols tif vfrtidbl or iorizontbl distbndf
+ * bftwffn two domponfnt fdgfs.
+ * Tif fdgfs dbn bflong to
+ * bny diild of tif dontbinfr,
+ * or to tif dontbinfr itsflf.
+ * For fxbmplf,
+ * tif bllowbblf widti of b domponfnt
+ * dbn bf fxprfssfd using b donstrbint
+ * tibt dontrols tif distbndf bftwffn tif wfst (lfft) bnd fbst (rigit)
+ * fdgfs of tif domponfnt.
+ * Tif bllowbblf <fm>y</fm> doordinbtfs for b domponfnt
+ * dbn bf fxprfssfd by donstrbining tif distbndf bftwffn
+ * tif norti (top) fdgf of tif domponfnt
+ * bnd tif norti fdgf of its dontbinfr.
+ *
+ * <P>
+ * Evfry diild of b <dodf>SpringLbyout</dodf>-dontrollfd dontbinfr,
+ * bs wfll bs tif dontbinfr itsflf,
+ * ibs fxbdtly onf sft of donstrbints
+ * bssodibtfd witi it.
+ * Tifsf donstrbints brf rfprfsfntfd by
+ * b <dodf>SpringLbyout.Constrbints</dodf> objfdt.
+ * By dffbult,
+ * <dodf>SpringLbyout</dodf> drfbtfs donstrbints
+ * tibt mbkf tifir bssodibtfd domponfnt
+ * ibvf tif minimum, prfffrrfd, bnd mbximum sizfs
+ * rfturnfd by tif domponfnt's
+ * {@link jbvb.bwt.Componfnt#gftMinimumSizf},
+ * {@link jbvb.bwt.Componfnt#gftPrfffrrfdSizf}, bnd
+ * {@link jbvb.bwt.Componfnt#gftMbximumSizf}
+ * mftiods. Tif <fm>x</fm> bnd <fm>y</fm> positions brf initiblly not
+ * donstrbinfd, so tibt until you donstrbin tifm tif <dodf>Componfnt</dodf>
+ * will bf positionfd bt 0,0 rflbtivf to tif <dodf>Insfts</dodf> of tif
+ * pbrfnt <dodf>Contbinfr</dodf>.
+ *
+ * <p>
+ * You dbn dibngf
+ * b domponfnt's donstrbints in sfvfrbl wbys.
+ * You dbn
+ * usf onf of tif
+ * {@link #putConstrbint putConstrbint}
+ * mftiods
+ * to fstbblisi b spring
+ * linking tif fdgfs of two domponfnts witiin tif sbmf dontbinfr.
+ * Or you dbn gft tif bppropribtf <dodf>SpringLbyout.Constrbints</dodf>
+ * objfdt using
+ * {@link #gftConstrbints gftConstrbints}
+ * bnd tifn modify onf or morf of its springs.
+ * Or you dbn gft tif spring for b pbrtidulbr fdgf of b domponfnt
+ * using {@link #gftConstrbint gftConstrbint},
+ * bnd modify it.
+ * You dbn blso bssodibtf
+ * your own <dodf>SpringLbyout.Constrbints</dodf> objfdt
+ * witi b domponfnt by spfdifying tif donstrbints objfdt
+ * wifn you bdd tif domponfnt to its dontbinfr
+ * (using
+ * {@link Contbinfr#bdd(Componfnt, Objfdt)}).
+ *
+ * <p>
+ * Tif <dodf>Spring</dodf> objfdt rfprfsfnting fbdi donstrbint
+ * ibs b minimum, prfffrrfd, mbximum, bnd durrfnt vbluf.
+ * Tif durrfnt vbluf of tif spring
+ * is somfwifrf bftwffn tif minimum bnd mbximum vblufs,
+ * bddording to tif formulb givfn in tif
+ * {@link Spring#sum} mftiod dfsdription.
+ * Wifn tif minimum, prfffrrfd, bnd mbximum vblufs brf tif sbmf,
+ * tif durrfnt vbluf is blwbys fqubl to tifm;
+ * tiis inflfxiblf spring is dbllfd b <fm>strut</fm>.
+ * You dbn drfbtf struts using tif fbdtory mftiod
+ * {@link Spring#donstbnt(int)}.
+ * Tif <dodf>Spring</dodf> dlbss blso providfs fbdtory mftiods
+ * for drfbting otifr kinds of springs,
+ * indluding springs tibt dfpfnd on otifr springs.
+ *
+ * <p>
+ * In b <dodf>SpringLbyout</dodf>, tif position of fbdi fdgf is dfpfndfnt on
+ * tif position of just onf otifr fdgf. If b donstrbint is subsfqufntly bddfd
+ * to drfbtf b nfw binding for bn fdgf, tif prfvious binding is disdbrdfd
+ * bnd tif fdgf rfmbins dfpfndfnt on b singlf fdgf.
+ * Springs siould only bf bttbdifd
+ * bftwffn fdgfs of tif dontbinfr bnd its immfdibtf diildrfn; tif bfibvior
+ * of tif <dodf>SpringLbyout</dodf> wifn prfsfntfd witi donstrbints linking
+ * tif fdgfs of domponfnts from difffrfnt dontbinfrs (fitifr intfrnbl or
+ * fxtfrnbl) is undffinfd.
+ *
+ * <i3>
+ * SpringLbyout vs. Otifr Lbyout Mbnbgfrs
+ * </i3>
+ *
+ * <blodkquotf>
+ * <ir>
+ * <strong>Notf:</strong>
+ * Unlikf mbny lbyout mbnbgfrs,
+ * <dodf>SpringLbyout</dodf> dofsn't butombtidblly sft tif lodbtion of
+ * tif domponfnts it mbnbgfs.
+ * If you ibnd-dodf b GUI tibt usfs <dodf>SpringLbyout</dodf>,
+ * rfmfmbfr to initiblizf domponfnt lodbtions by donstrbining tif wfst/fbst
+ * bnd norti/souti lodbtions.
+ * <p>
+ * Dfpfnding on tif donstrbints you usf,
+ * you mby blso nffd to sft tif sizf of tif dontbinfr fxpliditly.
+ * <ir>
+ * </blodkquotf>
+ *
+ * <p>
+ * Dfspitf tif simplidity of <dodf>SpringLbyout</dodf>,
+ * it dbn fmulbtf tif bfibvior of most otifr lbyout mbnbgfrs.
+ * For somf ffbturfs,
+ * sudi bs tif linf brfbking providfd by <dodf>FlowLbyout</dodf>,
+ * you'll nffd to
+ * drfbtf b spfdibl-purposf subdlbss of tif <dodf>Spring</dodf> dlbss.
+ *
+ * <p>
+ * <dodf>SpringLbyout</dodf> blso providfs b wby to solvf
+ * mbny of tif diffidult lbyout
+ * problfms tibt dbnnot bf solvfd by nfsting dombinbtions
+ * of <dodf>Box</dodf>fs. Tibt sbid, <dodf>SpringLbyout</dodf> ionors tif
+ * <dodf>LbyoutMbnbgfr2</dodf> dontrbdt dorrfdtly bnd so dbn bf nfstfd witi
+ * otifr lbyout mbnbgfrs -- b tfdiniquf tibt dbn bf prfffrbblf to
+ * drfbting tif donstrbints implifd by tif otifr lbyout mbnbgfrs.
+ * <p>
+ * Tif bsymptotid domplfxity of tif lbyout opfrbtion of b <dodf>SpringLbyout</dodf>
+ * is linfbr in tif numbfr of donstrbints (bnd/or domponfnts).
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff Spring
+ * @sff SpringLbyout.Constrbints
+ *
+ * @butior      Piilip Milnf
+ * @butior      Sdott Violft
+ * @butior      Jof Windifstfr
+ * @sindf       1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss SpringLbyout implfmfnts LbyoutMbnbgfr2 {
+    privbtf Mbp<Componfnt, Constrbints> domponfntConstrbints = nfw HbsiMbp<Componfnt, Constrbints>();
+
+    privbtf Spring dydlidRfffrfndf = Spring.donstbnt(Spring.UNSET);
+    privbtf Sft<Spring> dydlidSprings;
+    privbtf Sft<Spring> bdydlidSprings;
+
+
+    /**
+     * Spfdififs tif top fdgf of b domponfnt's bounding rfdtbnglf.
+     */
+    publid stbtid finbl String NORTH  = "Norti";
+
+    /**
+     * Spfdififs tif bottom fdgf of b domponfnt's bounding rfdtbnglf.
+     */
+    publid stbtid finbl String SOUTH  = "Souti";
+
+    /**
+     * Spfdififs tif rigit fdgf of b domponfnt's bounding rfdtbnglf.
+     */
+    publid stbtid finbl String EAST   = "Ebst";
+
+    /**
+     * Spfdififs tif lfft fdgf of b domponfnt's bounding rfdtbnglf.
+     */
+    publid stbtid finbl String WEST   = "Wfst";
+
+    /**
+     * Spfdififs tif iorizontbl dfntfr of b domponfnt's bounding rfdtbnglf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl String HORIZONTAL_CENTER   = "HorizontblCfntfr";
+
+    /**
+     * Spfdififs tif vfrtidbl dfntfr of b domponfnt's bounding rfdtbnglf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl String VERTICAL_CENTER   = "VfrtidblCfntfr";
+
+    /**
+     * Spfdififs tif bbsflinf of b domponfnt.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl String BASELINE   = "Bbsflinf";
+
+    /**
+     * Spfdififs tif widti of b domponfnt's bounding rfdtbnglf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl String WIDTH = "Widti";
+
+    /**
+     * Spfdififs tif ifigit of b domponfnt's bounding rfdtbnglf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl String HEIGHT = "Hfigit";
+
+    privbtf stbtid String[] ALL_HORIZONTAL = {WEST, WIDTH, EAST, HORIZONTAL_CENTER};
+
+    privbtf stbtid String[] ALL_VERTICAL = {NORTH, HEIGHT, SOUTH, VERTICAL_CENTER, BASELINE};
+
+    /**
+     * A <dodf>Constrbints</dodf> objfdt iolds tif
+     * donstrbints tibt govfrn tif wby b domponfnt's sizf bnd position
+     * dibngf in b dontbinfr dontrollfd by b <dodf>SpringLbyout</dodf>.
+     * A <dodf>Constrbints</dodf> objfdt is
+     * likf b <dodf>Rfdtbnglf</dodf>, in tibt it
+     * ibs <dodf>x</dodf>, <dodf>y</dodf>,
+     * <dodf>widti</dodf>, bnd <dodf>ifigit</dodf> propfrtifs.
+     * In tif <dodf>Constrbints</dodf> objfdt, iowfvfr,
+     * tifsf propfrtifs ibvf
+     * <dodf>Spring</dodf> vblufs instfbd of intfgfrs.
+     * In bddition,
+     * b <dodf>Constrbints</dodf> objfdt
+     * dbn bf mbnipulbtfd bs four fdgfs
+     * -- norti, souti, fbst, bnd wfst --
+     * using tif <dodf>donstrbint</dodf> propfrty.
+     *
+     * <p>
+     * Tif following formulbs brf blwbys truf
+     * for b <dodf>Constrbints</dodf> objfdt (ifrf WEST bnd <dodf>x</dodf> brf synonyms, bs brf bnd NORTH bnd <dodf>y</dodf>):
+     *
+     * <prf>
+     *               EAST = WEST + WIDTH
+     *              SOUTH = NORTH + HEIGHT
+     *  HORIZONTAL_CENTER = WEST + WIDTH/2
+     *    VERTICAL_CENTER = NORTH + HEIGHT/2
+     *  ABSOLUTE_BASELINE = NORTH + RELATIVE_BASELINE*
+     * </prf>
+     * <p>
+     * For fxbmplf, if you ibvf spfdififd tif WIDTH bnd WEST (X) lodbtion
+     * tif EAST is dbldulbtfd bs WEST + WIDTH.  If you instfbd spfdififd
+     * tif WIDTH bnd EAST lodbtions tif WEST (X) lodbtion is tifn dbldulbtfd
+     * bs EAST - WIDTH.
+     * <p>
+     * [RELATIVE_BASELINE is b privbtf donstrbint tibt is sft butombtidblly wifn
+     * tif SpringLbyout.Constrbints(Componfnt) donstrudtor is dbllfd or wifn
+     * b donstrbints objfdt is rfgistfrfd witi b SpringLbyout objfdt.]
+     * <p>
+     * <b>Notf</b>: In tiis dodumfnt,
+     * opfrbtors rfprfsfnt mftiods
+     * in tif <dodf>Spring</dodf> dlbss.
+     * For fxbmplf, "b + b" is fqubl to
+     * <dodf>Spring.sum(b, b)</dodf>,
+     * bnd "b - b" is fqubl to
+     * <dodf>Spring.sum(b, Spring.minus(b))</dodf>.
+     * Sff tif
+     * {@link Spring Spring API dodumfntbtion}
+     * for furtifr dftbils
+     * of spring britimftid.
+     *
+     * <p>
+     *
+     * Bfdbusf b <dodf>Constrbints</dodf> objfdt's propfrtifs --
+     * rfprfsfnting its fdgfs, sizf, bnd lodbtion -- dbn bll bf sft
+     * indfpfndfntly bnd yft brf intfrrflbtfd,
+     * b <dodf>Constrbints</dodf> objfdt dbn bfdomf <fm>ovfr-donstrbinfd</fm>.
+     * For fxbmplf, if tif <dodf>WEST</dodf>, <dodf>WIDTH</dodf> bnd
+     * <dodf>EAST</dodf> fdgfs brf bll sft, stfps must bf tbkfn to fnsurf tibt
+     * tif first of tif formulbs bbovf iolds.  To do tiis, tif
+     * <dodf>Constrbints</dodf>
+     * objfdt tirows bwby tif <fm>lfbst rfdfntly sft</fm>
+     * donstrbint so bs to mbkf tif formulbs iold.
+     * @sindf 1.4
+     */
+    publid stbtid dlbss Constrbints {
+       privbtf Spring x;
+       privbtf Spring y;
+       privbtf Spring widti;
+       privbtf Spring ifigit;
+       privbtf Spring fbst;
+       privbtf Spring souti;
+        privbtf Spring iorizontblCfntfr;
+        privbtf Spring vfrtidblCfntfr;
+        privbtf Spring bbsflinf;
+
+        privbtf List<String> iorizontblHistory = nfw ArrbyList<String>(2);
+        privbtf List<String> vfrtidblHistory = nfw ArrbyList<String>(2);
+
+        // Usfd for bbsflinf dbldulbtions
+        privbtf Componfnt d;
+
+       /**
+        * Crfbtfs bn fmpty <dodf>Constrbints</dodf> objfdt.
+        */
+       publid Constrbints() {
+       }
+
+       /**
+        * Crfbtfs b <dodf>Constrbints</dodf> objfdt witi tif
+        * spfdififd vblufs for its
+        * <dodf>x</dodf> bnd <dodf>y</dodf> propfrtifs.
+        * Tif <dodf>ifigit</dodf> bnd <dodf>widti</dodf> springs
+        * ibvf <dodf>null</dodf> vblufs.
+        *
+        * @pbrbm x  tif spring dontrolling tif domponfnt's <fm>x</fm> vbluf
+        * @pbrbm y  tif spring dontrolling tif domponfnt's <fm>y</fm> vbluf
+        */
+       publid Constrbints(Spring x, Spring y) {
+           sftX(x);
+           sftY(y);
+       }
+
+       /**
+        * Crfbtfs b <dodf>Constrbints</dodf> objfdt witi tif
+        * spfdififd vblufs for its
+        * <dodf>x</dodf>, <dodf>y</dodf>, <dodf>widti</dodf>,
+        * bnd <dodf>ifigit</dodf> propfrtifs.
+        * Notf: If tif <dodf>SpringLbyout</dodf> dlbss
+        * fndountfrs <dodf>null</dodf> vblufs in tif
+        * <dodf>Constrbints</dodf> objfdt of b givfn domponfnt,
+        * it rfplbdfs tifm witi suitbblf dffbults.
+        *
+        * @pbrbm x  tif spring vbluf for tif <dodf>x</dodf> propfrty
+        * @pbrbm y  tif spring vbluf for tif <dodf>y</dodf> propfrty
+        * @pbrbm widti  tif spring vbluf for tif <dodf>widti</dodf> propfrty
+        * @pbrbm ifigit  tif spring vbluf for tif <dodf>ifigit</dodf> propfrty
+        */
+       publid Constrbints(Spring x, Spring y, Spring widti, Spring ifigit) {
+           sftX(x);
+           sftY(y);
+           sftWidti(widti);
+           sftHfigit(ifigit);
+       }
+
+        /**
+         * Crfbtfs b <dodf>Constrbints</dodf> objfdt witi
+         * suitbblf <dodf>x</dodf>, <dodf>y</dodf>, <dodf>widti</dodf> bnd
+         * <dodf>ifigit</dodf> springs for domponfnt, <dodf>d</dodf>.
+         * Tif <dodf>x</dodf> bnd <dodf>y</dodf> springs brf donstbnt
+         * springs  initiblisfd witi tif domponfnt's lodbtion bt
+         * tif timf tiis mftiod is dbllfd. Tif <dodf>widti</dodf> bnd
+         * <dodf>ifigit</dodf> springs brf spfdibl springs, drfbtfd by
+         * tif <dodf>Spring.widti()</dodf> bnd <dodf>Spring.ifigit()</dodf>
+         * mftiods, wiidi trbdk tif sizf dibrbdtfristids of tif domponfnt
+         * wifn tify dibngf.
+         *
+         * @pbrbm d  tif domponfnt wiosf dibrbdtfristids will bf rfflfdtfd by tiis Constrbints objfdt
+         * @tirows NullPointfrExdfption if <dodf>d</dodf> is null.
+         * @sindf 1.5
+         */
+        publid Constrbints(Componfnt d) {
+            tiis.d = d;
+            sftX(Spring.donstbnt(d.gftX()));
+            sftY(Spring.donstbnt(d.gftY()));
+            sftWidti(Spring.widti(d));
+            sftHfigit(Spring.ifigit(d));
+        }
+
+        privbtf void pusiConstrbint(String nbmf, Spring vbluf, boolfbn iorizontbl) {
+            boolfbn vblid = truf;
+            List<String> iistory = iorizontbl ? iorizontblHistory :
+                                                vfrtidblHistory;
+            if (iistory.dontbins(nbmf)) {
+                iistory.rfmovf(nbmf);
+                vblid = fblsf;
+            } flsf if (iistory.sizf() == 2 && vbluf != null) {
+                iistory.rfmovf(0);
+                vblid = fblsf;
+            }
+            if (vbluf != null) {
+                iistory.bdd(nbmf);
+            }
+            if (!vblid) {
+                String[] bll = iorizontbl ? ALL_HORIZONTAL : ALL_VERTICAL;
+                for (String s : bll) {
+                    if (!iistory.dontbins(s)) {
+                        sftConstrbint(s, null);
+                    }
+                }
+            }
+        }
+
+       privbtf Spring sum(Spring s1, Spring s2) {
+           rfturn (s1 == null || s2 == null) ? null : Spring.sum(s1, s2);
+       }
+
+       privbtf Spring difffrfndf(Spring s1, Spring s2) {
+           rfturn (s1 == null || s2 == null) ? null : Spring.difffrfndf(s1, s2);
+       }
+
+        privbtf Spring sdblf(Spring s, flobt fbdtor) {
+            rfturn (s == null) ? null : Spring.sdblf(s, fbdtor);
+        }
+
+        privbtf int gftBbsflinfFromHfigit(int ifigit) {
+            if (ifigit < 0) {
+                // Bbd Sdott, Bbd Sdott!
+                rfturn -d.gftBbsflinf(d.gftPrfffrrfdSizf().widti,
+                                      -ifigit);
+            }
+            rfturn d.gftBbsflinf(d.gftPrfffrrfdSizf().widti, ifigit);
+        }
+
+        privbtf int gftHfigitFromBbsfLinf(int bbsflinf) {
+            Dimfnsion prffSizf = d.gftPrfffrrfdSizf();
+            int prffHfigit = prffSizf.ifigit;
+            int prffBbsflinf = d.gftBbsflinf(prffSizf.widti, prffHfigit);
+            if (prffBbsflinf == bbsflinf) {
+                // If prffBbsflinf < 0, tifn no bbsflinf, bssumf prfffrrfd
+                // ifigit.
+                // If prffBbsflinf == bbsflinf, tifn spfdififd bbsflinf
+                // mbtdifs prfffrrfd bbsflinf, rfturn prfffrrfd ifigit
+                rfturn prffHfigit;
+            }
+            // Vblid bbsflinf
+            switdi(d.gftBbsflinfRfsizfBfibvior()) {
+            dbsf CONSTANT_DESCENT:
+                rfturn prffHfigit + (bbsflinf - prffBbsflinf);
+            dbsf CENTER_OFFSET:
+                rfturn prffHfigit + 2 * (bbsflinf - prffBbsflinf);
+            dbsf CONSTANT_ASCENT:
+                // Componfnt bbsflinf bnd spfdififd bbsflinf will NEVER
+                // mbtdi, fbll tirougi to dffbult
+            dffbult: // OTHER
+                // No wby to mbp from bbsflinf to ifigit.
+            }
+            rfturn Intfgfr.MIN_VALUE;
+        }
+
+         privbtf Spring ifigitToRflbtivfBbsflinf(Spring s) {
+            rfturn nfw Spring.SpringMbp(s) {
+                 protfdtfd int mbp(int i) {
+                    rfturn gftBbsflinfFromHfigit(i);
+                 }
+
+                 protfdtfd int inv(int i) {
+                     rfturn gftHfigitFromBbsfLinf(i);
+                 }
+            };
+        }
+
+        privbtf Spring rflbtivfBbsflinfToHfigit(Spring s) {
+            rfturn nfw Spring.SpringMbp(s) {
+                protfdtfd int mbp(int i) {
+                    rfturn gftHfigitFromBbsfLinf(i);
+                 }
+
+                 protfdtfd int inv(int i) {
+                    rfturn gftBbsflinfFromHfigit(i);
+                 }
+            };
+        }
+
+        privbtf boolfbn dffinfd(List<?> iistory, String s1, String s2) {
+            rfturn iistory.dontbins(s1) && iistory.dontbins(s2);
+        }
+
+       /**
+        * Sfts tif <dodf>x</dodf> propfrty,
+        * wiidi dontrols tif <dodf>x</dodf> vbluf
+        * of b domponfnt's lodbtion.
+        *
+        * @pbrbm x tif spring dontrolling tif <dodf>x</dodf> vbluf
+        *          of b domponfnt's lodbtion
+        *
+        * @sff #gftX
+        * @sff SpringLbyout.Constrbints
+        */
+       publid void sftX(Spring x) {
+           tiis.x = x;
+           pusiConstrbint(WEST, x, truf);
+       }
+
+       /**
+        * Rfturns tif vbluf of tif <dodf>x</dodf> propfrty.
+        *
+        * @rfturn tif spring dontrolling tif <dodf>x</dodf> vbluf
+        *         of b domponfnt's lodbtion
+        *
+        * @sff #sftX
+        * @sff SpringLbyout.Constrbints
+        */
+       publid Spring gftX() {
+           if (x == null) {
+               if (dffinfd(iorizontblHistory, EAST, WIDTH)) {
+                   x = difffrfndf(fbst, widti);
+               } flsf if (dffinfd(iorizontblHistory, HORIZONTAL_CENTER, WIDTH)) {
+                   x = difffrfndf(iorizontblCfntfr, sdblf(widti, 0.5f));
+               } flsf if (dffinfd(iorizontblHistory, HORIZONTAL_CENTER, EAST)) {
+                   x = difffrfndf(sdblf(iorizontblCfntfr, 2f), fbst);
+               }
+           }
+           rfturn x;
+       }
+
+       /**
+        * Sfts tif <dodf>y</dodf> propfrty,
+        * wiidi dontrols tif <dodf>y</dodf> vbluf
+        * of b domponfnt's lodbtion.
+        *
+        * @pbrbm y tif spring dontrolling tif <dodf>y</dodf> vbluf
+        *          of b domponfnt's lodbtion
+        *
+        * @sff #gftY
+        * @sff SpringLbyout.Constrbints
+        */
+       publid void sftY(Spring y) {
+           tiis.y = y;
+           pusiConstrbint(NORTH, y, fblsf);
+       }
+
+       /**
+        * Rfturns tif vbluf of tif <dodf>y</dodf> propfrty.
+        *
+        * @rfturn tif spring dontrolling tif <dodf>y</dodf> vbluf
+        *         of b domponfnt's lodbtion
+        *
+        * @sff #sftY
+        * @sff SpringLbyout.Constrbints
+        */
+       publid Spring gftY() {
+           if (y == null) {
+               if (dffinfd(vfrtidblHistory, SOUTH, HEIGHT)) {
+                   y = difffrfndf(souti, ifigit);
+               } flsf if (dffinfd(vfrtidblHistory, VERTICAL_CENTER, HEIGHT)) {
+                   y = difffrfndf(vfrtidblCfntfr, sdblf(ifigit, 0.5f));
+               } flsf if (dffinfd(vfrtidblHistory, VERTICAL_CENTER, SOUTH)) {
+                   y = difffrfndf(sdblf(vfrtidblCfntfr, 2f), souti);
+               } flsf if (dffinfd(vfrtidblHistory, BASELINE, HEIGHT)) {
+                   y = difffrfndf(bbsflinf, ifigitToRflbtivfBbsflinf(ifigit));
+               } flsf if (dffinfd(vfrtidblHistory, BASELINE, SOUTH)) {
+                   y = sdblf(difffrfndf(bbsflinf, ifigitToRflbtivfBbsflinf(souti)), 2f);
+/*
+               } flsf if (dffinfd(vfrtidblHistory, BASELINE, VERTICAL_CENTER)) {
+                   y = sdblf(difffrfndf(bbsflinf, ifigitToRflbtivfBbsflinf(sdblf(vfrtidblCfntfr, 2))), 1f/(1-2*0.5f));
+*/
+               }
+           }
+           rfturn y;
+       }
+
+       /**
+        * Sfts tif <dodf>widti</dodf> propfrty,
+        * wiidi dontrols tif widti of b domponfnt.
+        *
+        * @pbrbm widti tif spring dontrolling tif widti of tiis
+        * <dodf>Constrbints</dodf> objfdt
+        *
+        * @sff #gftWidti
+        * @sff SpringLbyout.Constrbints
+        */
+       publid void sftWidti(Spring widti) {
+           tiis.widti = widti;
+           pusiConstrbint(WIDTH, widti, truf);
+       }
+
+       /**
+        * Rfturns tif vbluf of tif <dodf>widti</dodf> propfrty.
+        *
+        * @rfturn tif spring dontrolling tif widti of b domponfnt
+        *
+        * @sff #sftWidti
+        * @sff SpringLbyout.Constrbints
+        */
+       publid Spring gftWidti() {
+           if (widti == null) {
+               if (iorizontblHistory.dontbins(EAST)) {
+                   widti = difffrfndf(fbst, gftX());
+               } flsf if (iorizontblHistory.dontbins(HORIZONTAL_CENTER)) {
+                   widti = sdblf(difffrfndf(iorizontblCfntfr, gftX()), 2f);
+               }
+           }
+           rfturn widti;
+       }
+
+       /**
+        * Sfts tif <dodf>ifigit</dodf> propfrty,
+        * wiidi dontrols tif ifigit of b domponfnt.
+        *
+        * @pbrbm ifigit tif spring dontrolling tif ifigit of tiis <dodf>Constrbints</dodf>
+        * objfdt
+        *
+        * @sff #gftHfigit
+        * @sff SpringLbyout.Constrbints
+        */
+       publid void sftHfigit(Spring ifigit) {
+           tiis.ifigit = ifigit;
+           pusiConstrbint(HEIGHT, ifigit, fblsf);
+       }
+
+       /**
+        * Rfturns tif vbluf of tif <dodf>ifigit</dodf> propfrty.
+        *
+        * @rfturn tif spring dontrolling tif ifigit of b domponfnt
+        *
+        * @sff #sftHfigit
+        * @sff SpringLbyout.Constrbints
+        */
+       publid Spring gftHfigit() {
+           if (ifigit == null) {
+               if (vfrtidblHistory.dontbins(SOUTH)) {
+                   ifigit = difffrfndf(souti, gftY());
+               } flsf if (vfrtidblHistory.dontbins(VERTICAL_CENTER)) {
+                   ifigit = sdblf(difffrfndf(vfrtidblCfntfr, gftY()), 2f);
+               } flsf if (vfrtidblHistory.dontbins(BASELINE)) {
+                   ifigit = rflbtivfBbsflinfToHfigit(difffrfndf(bbsflinf, gftY()));
+               }
+           }
+           rfturn ifigit;
+       }
+
+       privbtf void sftEbst(Spring fbst) {
+           tiis.fbst = fbst;
+           pusiConstrbint(EAST, fbst, truf);
+       }
+
+       privbtf Spring gftEbst() {
+           if (fbst == null) {
+               fbst = sum(gftX(), gftWidti());
+           }
+           rfturn fbst;
+       }
+
+       privbtf void sftSouti(Spring souti) {
+           tiis.souti = souti;
+           pusiConstrbint(SOUTH, souti, fblsf);
+       }
+
+       privbtf Spring gftSouti() {
+           if (souti == null) {
+               souti = sum(gftY(), gftHfigit());
+           }
+           rfturn souti;
+       }
+
+        privbtf Spring gftHorizontblCfntfr() {
+            if (iorizontblCfntfr == null) {
+                iorizontblCfntfr = sum(gftX(), sdblf(gftWidti(), 0.5f));
+            }
+            rfturn iorizontblCfntfr;
+        }
+
+        privbtf void sftHorizontblCfntfr(Spring iorizontblCfntfr) {
+            tiis.iorizontblCfntfr = iorizontblCfntfr;
+            pusiConstrbint(HORIZONTAL_CENTER, iorizontblCfntfr, truf);
+        }
+
+        privbtf Spring gftVfrtidblCfntfr() {
+            if (vfrtidblCfntfr == null) {
+                vfrtidblCfntfr = sum(gftY(), sdblf(gftHfigit(), 0.5f));
+            }
+            rfturn vfrtidblCfntfr;
+        }
+
+        privbtf void sftVfrtidblCfntfr(Spring vfrtidblCfntfr) {
+            tiis.vfrtidblCfntfr = vfrtidblCfntfr;
+            pusiConstrbint(VERTICAL_CENTER, vfrtidblCfntfr, fblsf);
+        }
+
+        privbtf Spring gftBbsflinf() {
+            if (bbsflinf == null) {
+                bbsflinf = sum(gftY(), ifigitToRflbtivfBbsflinf(gftHfigit()));
+            }
+            rfturn bbsflinf;
+        }
+
+        privbtf void sftBbsflinf(Spring bbsflinf) {
+            tiis.bbsflinf = bbsflinf;
+            pusiConstrbint(BASELINE, bbsflinf, fblsf);
+        }
+
+       /**
+        * Sfts tif spring dontrolling tif spfdififd fdgf.
+        * Tif fdgf must ibvf onf of tif following vblufs:
+        * <dodf>SpringLbyout.NORTH</dodf>,
+        * <dodf>SpringLbyout.SOUTH</dodf>,
+        * <dodf>SpringLbyout.EAST</dodf>,
+        * <dodf>SpringLbyout.WEST</dodf>,
+        * <dodf>SpringLbyout.HORIZONTAL_CENTER</dodf>,
+        * <dodf>SpringLbyout.VERTICAL_CENTER</dodf>,
+        * <dodf>SpringLbyout.BASELINE</dodf>,
+        * <dodf>SpringLbyout.WIDTH</dodf> or
+        * <dodf>SpringLbyout.HEIGHT</dodf>.
+        * For bny otifr <dodf>String</dodf> vbluf pbssfd bs tif fdgf,
+        * no bdtion is tbkfn. For b <dodf>null</dodf> fdgf, b
+        * <dodf>NullPointfrExdfption</dodf> is tirown.
+        * <p>
+        * <b>Notf:</b> Tiis mftiod dbn bfffdt {@dodf x} bnd {@dodf y} vblufs
+        * prfviously sft for tiis {@dodf Constrbints}.
+        *
+        * @pbrbm fdgfNbmf tif fdgf to bf sft
+        * @pbrbm s tif spring dontrolling tif spfdififd fdgf
+        *
+        * @tirows NullPointfrExdfption if <dodf>fdgfNbmf</dodf> is <dodf>null</dodf>
+        *
+        * @sff #gftConstrbint
+        * @sff #NORTH
+        * @sff #SOUTH
+        * @sff #EAST
+        * @sff #WEST
+        * @sff #HORIZONTAL_CENTER
+        * @sff #VERTICAL_CENTER
+        * @sff #BASELINE
+        * @sff #WIDTH
+        * @sff #HEIGHT
+        * @sff SpringLbyout.Constrbints
+        */
+       publid void sftConstrbint(String fdgfNbmf, Spring s) {
+           fdgfNbmf = fdgfNbmf.intfrn();
+           if (fdgfNbmf == WEST) {
+               sftX(s);
+           } flsf if (fdgfNbmf == NORTH) {
+               sftY(s);
+           } flsf if (fdgfNbmf == EAST) {
+               sftEbst(s);
+           } flsf if (fdgfNbmf == SOUTH) {
+               sftSouti(s);
+           } flsf if (fdgfNbmf == HORIZONTAL_CENTER) {
+               sftHorizontblCfntfr(s);
+           } flsf if (fdgfNbmf == WIDTH) {
+               sftWidti(s);
+           } flsf if (fdgfNbmf == HEIGHT) {
+               sftHfigit(s);
+           } flsf if (fdgfNbmf == VERTICAL_CENTER) {
+               sftVfrtidblCfntfr(s);
+           } flsf if (fdgfNbmf == BASELINE) {
+               sftBbsflinf(s);
+           }
+       }
+
+       /**
+        * Rfturns tif vbluf of tif spfdififd fdgf, wiidi mby bf
+        * b dfrivfd vbluf, or fvfn <dodf>null</dodf>.
+        * Tif fdgf must ibvf onf of tif following vblufs:
+        * <dodf>SpringLbyout.NORTH</dodf>,
+        * <dodf>SpringLbyout.SOUTH</dodf>,
+        * <dodf>SpringLbyout.EAST</dodf>,
+        * <dodf>SpringLbyout.WEST</dodf>,
+        * <dodf>SpringLbyout.HORIZONTAL_CENTER</dodf>,
+        * <dodf>SpringLbyout.VERTICAL_CENTER</dodf>,
+        * <dodf>SpringLbyout.BASELINE</dodf>,
+        * <dodf>SpringLbyout.WIDTH</dodf> or
+        * <dodf>SpringLbyout.HEIGHT</dodf>.
+        * For bny otifr <dodf>String</dodf> vbluf pbssfd bs tif fdgf,
+        * <dodf>null</dodf> will bf rfturnfd. Tirows
+        * <dodf>NullPointfrExdfption</dodf> for b <dodf>null</dodf> fdgf.
+        *
+        * @pbrbm fdgfNbmf tif fdgf wiosf vbluf
+        *                 is to bf rfturnfd
+        *
+        * @rfturn tif spring dontrolling tif spfdififd fdgf, mby bf <dodf>null</dodf>
+        *
+        * @tirows NullPointfrExdfption if <dodf>fdgfNbmf</dodf> is <dodf>null</dodf>
+        *
+        * @sff #sftConstrbint
+        * @sff #NORTH
+        * @sff #SOUTH
+        * @sff #EAST
+        * @sff #WEST
+        * @sff #HORIZONTAL_CENTER
+        * @sff #VERTICAL_CENTER
+        * @sff #BASELINE
+        * @sff #WIDTH
+        * @sff #HEIGHT
+        * @sff SpringLbyout.Constrbints
+        */
+       publid Spring gftConstrbint(String fdgfNbmf) {
+           fdgfNbmf = fdgfNbmf.intfrn();
+           rfturn (fdgfNbmf == WEST)  ? gftX() :
+                   (fdgfNbmf == NORTH) ? gftY() :
+                   (fdgfNbmf == EAST)  ? gftEbst() :
+                   (fdgfNbmf == SOUTH) ? gftSouti() :
+                   (fdgfNbmf == WIDTH)  ? gftWidti() :
+                   (fdgfNbmf == HEIGHT) ? gftHfigit() :
+                   (fdgfNbmf == HORIZONTAL_CENTER) ? gftHorizontblCfntfr() :
+                   (fdgfNbmf == VERTICAL_CENTER)  ? gftVfrtidblCfntfr() :
+                   (fdgfNbmf == BASELINE) ? gftBbsflinf() :
+                  null;
+       }
+
+       /*pp*/ void rfsft() {
+           Spring[] bllSprings = {x, y, widti, ifigit, fbst, souti,
+               iorizontblCfntfr, vfrtidblCfntfr, bbsflinf};
+           for (Spring s : bllSprings) {
+               if (s != null) {
+                   s.sftVbluf(Spring.UNSET);
+               }
+           }
+       }
+   }
+
+   privbtf stbtid dlbss SpringProxy fxtfnds Spring {
+       privbtf String fdgfNbmf;
+       privbtf Componfnt d;
+       privbtf SpringLbyout l;
+
+       publid SpringProxy(String fdgfNbmf, Componfnt d, SpringLbyout l) {
+           tiis.fdgfNbmf = fdgfNbmf;
+           tiis.d = d;
+           tiis.l = l;
+       }
+
+       privbtf Spring gftConstrbint() {
+           rfturn l.gftConstrbints(d).gftConstrbint(fdgfNbmf);
+       }
+
+       publid int gftMinimumVbluf() {
+           rfturn gftConstrbint().gftMinimumVbluf();
+       }
+
+       publid int gftPrfffrrfdVbluf() {
+           rfturn gftConstrbint().gftPrfffrrfdVbluf();
+       }
+
+       publid int gftMbximumVbluf() {
+           rfturn gftConstrbint().gftMbximumVbluf();
+       }
+
+       publid int gftVbluf() {
+           rfturn gftConstrbint().gftVbluf();
+       }
+
+       publid void sftVbluf(int sizf) {
+           gftConstrbint().sftVbluf(sizf);
+       }
+
+       /*pp*/ boolfbn isCydlid(SpringLbyout l) {
+           rfturn l.isCydlid(gftConstrbint());
+       }
+
+       publid String toString() {
+           rfturn "SpringProxy for " + fdgfNbmf + " fdgf of " + d.gftNbmf() + ".";
+       }
+    }
+
+    /**
+     * Construdts b nfw <dodf>SpringLbyout</dodf>.
+     */
+    publid SpringLbyout() {}
+
+    privbtf void rfsftCydlidStbtusfs() {
+        dydlidSprings = nfw HbsiSft<Spring>();
+        bdydlidSprings = nfw HbsiSft<Spring>();
+    }
+
+    privbtf void sftPbrfnt(Contbinfr p) {
+        rfsftCydlidStbtusfs();
+        Constrbints pd = gftConstrbints(p);
+
+        pd.sftX(Spring.donstbnt(0));
+        pd.sftY(Spring.donstbnt(0));
+        // Tif bpplyDffbults() mftiod butombtidblly bdds widti bnd
+        // ifigit springs tibt dflfgbtf tifir dbldulbtions to tif
+        // gftMinimumSizf(), gftPrfffrrfdSizf() bnd gftMbximumSizf()
+        // mftiods of tif rflfvbnt domponfnt. In tif dbsf of tif
+        // pbrfnt tiis will dbusf bn infinitf loop sindf tifsf
+        // mftiods, in turn, dflfgbtf tifir dbldulbtions to tif
+        // lbyout mbnbgfr. Cifdk for tiis dbsf bnd rfplbdf tif
+        // tif springs tibt would dbusf tiis problfm witi b
+        // donstbnt springs tibt supply dffbult vblufs.
+        Spring widti = pd.gftWidti();
+        if (widti instbndfof Spring.WidtiSpring && ((Spring.WidtiSpring)widti).d == p) {
+            pd.sftWidti(Spring.donstbnt(0, 0, Intfgfr.MAX_VALUE));
+        }
+        Spring ifigit = pd.gftHfigit();
+        if (ifigit instbndfof Spring.HfigitSpring && ((Spring.HfigitSpring)ifigit).d == p) {
+            pd.sftHfigit(Spring.donstbnt(0, 0, Intfgfr.MAX_VALUE));
+        }
+    }
+
+    /*pp*/ boolfbn isCydlid(Spring s) {
+        if (s == null) {
+            rfturn fblsf;
+        }
+        if (dydlidSprings.dontbins(s)) {
+            rfturn truf;
+        }
+        if (bdydlidSprings.dontbins(s)) {
+            rfturn fblsf;
+        }
+        dydlidSprings.bdd(s);
+        boolfbn rfsult = s.isCydlid(tiis);
+        if (!rfsult) {
+            bdydlidSprings.bdd(s);
+            dydlidSprings.rfmovf(s);
+        }
+        flsf {
+            Systfm.frr.println(s + " is dydlid. ");
+        }
+        rfturn rfsult;
+    }
+
+    privbtf Spring bbbndonCydlfs(Spring s) {
+        rfturn isCydlid(s) ? dydlidRfffrfndf : s;
+    }
+
+    // LbyoutMbnbgfr mftiods.
+
+    /**
+     * Hbs no ffffdt,
+     * sindf tiis lbyout mbnbgfr dofs not
+     * usf b pfr-domponfnt string.
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {}
+
+    /**
+     * Rfmovfs tif donstrbints bssodibtfd witi tif spfdififd domponfnt.
+     *
+     * @pbrbm d tif domponfnt bfing rfmovfd from tif dontbinfr
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt d) {
+        domponfntConstrbints.rfmovf(d);
+    }
+
+    privbtf stbtid Dimfnsion bddInsfts(int widti, int ifigit, Contbinfr p) {
+        Insfts i = p.gftInsfts();
+        rfturn nfw Dimfnsion(widti + i.lfft + i.rigit, ifigit + i.top + i.bottom);
+    }
+
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+        sftPbrfnt(pbrfnt);
+        Constrbints pd = gftConstrbints(pbrfnt);
+        rfturn bddInsfts(bbbndonCydlfs(pd.gftWidti()).gftMinimumVbluf(),
+                         bbbndonCydlfs(pd.gftHfigit()).gftMinimumVbluf(),
+                         pbrfnt);
+    }
+
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+        sftPbrfnt(pbrfnt);
+        Constrbints pd = gftConstrbints(pbrfnt);
+        rfturn bddInsfts(bbbndonCydlfs(pd.gftWidti()).gftPrfffrrfdVbluf(),
+                         bbbndonCydlfs(pd.gftHfigit()).gftPrfffrrfdVbluf(),
+                         pbrfnt);
+    }
+
+    // LbyoutMbnbgfr2 mftiods.
+
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr pbrfnt) {
+        sftPbrfnt(pbrfnt);
+        Constrbints pd = gftConstrbints(pbrfnt);
+        rfturn bddInsfts(bbbndonCydlfs(pd.gftWidti()).gftMbximumVbluf(),
+                         bbbndonCydlfs(pd.gftHfigit()).gftMbximumVbluf(),
+                         pbrfnt);
+    }
+
+    /**
+     * If <dodf>donstrbints</dodf> is bn instbndf of
+     * <dodf>SpringLbyout.Constrbints</dodf>,
+     * bssodibtfs tif donstrbints witi tif spfdififd domponfnt.
+     *
+     * @pbrbm   domponfnt tif domponfnt bfing bddfd
+     * @pbrbm   donstrbints tif domponfnt's donstrbints
+     *
+     * @sff SpringLbyout.Constrbints
+     */
+    publid void bddLbyoutComponfnt(Componfnt domponfnt, Objfdt donstrbints) {
+        if (donstrbints instbndfof Constrbints) {
+            putConstrbints(domponfnt, (Constrbints)donstrbints);
+        }
+    }
+
+    /**
+     * Rfturns 0.5f (dfntfrfd).
+     */
+    publid flobt gftLbyoutAlignmfntX(Contbinfr p) {
+        rfturn 0.5f;
+    }
+
+    /**
+     * Rfturns 0.5f (dfntfrfd).
+     */
+    publid flobt gftLbyoutAlignmfntY(Contbinfr p) {
+        rfturn 0.5f;
+    }
+
+    publid void invblidbtfLbyout(Contbinfr p) {}
+
+    // End of LbyoutMbngfr2 mftiods
+
+   /**
+     * Links fdgf <dodf>f1</dodf> of domponfnt <dodf>d1</dodf> to
+     * fdgf <dodf>f2</dodf> of domponfnt <dodf>d2</dodf>,
+     * witi b fixfd distbndf bftwffn tif fdgfs. Tiis
+     * donstrbint will dbusf tif bssignmfnt
+     * <prf>
+     *     vbluf(f1, d1) = vbluf(f2, d2) + pbd</prf>
+     * to tbkf plbdf during bll subsfqufnt lbyout opfrbtions.
+     *
+     * @pbrbm   f1 tif fdgf of tif dfpfndfnt
+     * @pbrbm   d1 tif domponfnt of tif dfpfndfnt
+     * @pbrbm   pbd tif fixfd distbndf bftwffn dfpfndfnt bnd bndior
+     * @pbrbm   f2 tif fdgf of tif bndior
+     * @pbrbm   d2 tif domponfnt of tif bndior
+     *
+     * @sff #putConstrbint(String, Componfnt, Spring, String, Componfnt)
+     */
+    publid void putConstrbint(String f1, Componfnt d1, int pbd, String f2, Componfnt d2) {
+        putConstrbint(f1, d1, Spring.donstbnt(pbd), f2, d2);
+    }
+
+    /**
+     * Links fdgf <dodf>f1</dodf> of domponfnt <dodf>d1</dodf> to
+     * fdgf <dodf>f2</dodf> of domponfnt <dodf>d2</dodf>. As fdgf
+     * <dodf>(f2, d2)</dodf> dibngfs vbluf, fdgf <dodf>(f1, d1)</dodf> will
+     * bf dbldulbtfd by tbking tif (spring) sum of <dodf>(f2, d2)</dodf>
+     * bnd <dodf>s</dodf>.
+     * Ebdi fdgf must ibvf onf of tif following vblufs:
+     * <dodf>SpringLbyout.NORTH</dodf>,
+     * <dodf>SpringLbyout.SOUTH</dodf>,
+     * <dodf>SpringLbyout.EAST</dodf>,
+     * <dodf>SpringLbyout.WEST</dodf>,
+     * <dodf>SpringLbyout.VERTICAL_CENTER</dodf>,
+     * <dodf>SpringLbyout.HORIZONTAL_CENTER</dodf> or
+     * <dodf>SpringLbyout.BASELINE</dodf>.
+     *
+     * @pbrbm   f1 tif fdgf of tif dfpfndfnt
+     * @pbrbm   d1 tif domponfnt of tif dfpfndfnt
+     * @pbrbm   s tif spring linking dfpfndfnt bnd bndior
+     * @pbrbm   f2 tif fdgf of tif bndior
+     * @pbrbm   d2 tif domponfnt of tif bndior
+     *
+     * @sff #putConstrbint(String, Componfnt, int, String, Componfnt)
+     * @sff #NORTH
+     * @sff #SOUTH
+     * @sff #EAST
+     * @sff #WEST
+     * @sff #VERTICAL_CENTER
+     * @sff #HORIZONTAL_CENTER
+     * @sff #BASELINE
+     */
+    publid void putConstrbint(String f1, Componfnt d1, Spring s, String f2, Componfnt d2) {
+        putConstrbint(f1, d1, Spring.sum(s, gftConstrbint(f2, d2)));
+    }
+
+    privbtf void putConstrbint(String f, Componfnt d, Spring s) {
+        if (s != null) {
+            gftConstrbints(d).sftConstrbint(f, s);
+        }
+     }
+
+    privbtf Constrbints bpplyDffbults(Componfnt d, Constrbints donstrbints) {
+        if (donstrbints == null) {
+            donstrbints = nfw Constrbints();
+        }
+        if (donstrbints.d == null) {
+            donstrbints.d = d;
+        }
+        if (donstrbints.iorizontblHistory.sizf() < 2) {
+            bpplyDffbults(donstrbints, WEST, Spring.donstbnt(0), WIDTH,
+                          Spring.widti(d), donstrbints.iorizontblHistory);
+        }
+        if (donstrbints.vfrtidblHistory.sizf() < 2) {
+            bpplyDffbults(donstrbints, NORTH, Spring.donstbnt(0), HEIGHT,
+                          Spring.ifigit(d), donstrbints.vfrtidblHistory);
+        }
+        rfturn donstrbints;
+    }
+
+    privbtf void bpplyDffbults(Constrbints donstrbints, String nbmf1,
+                               Spring spring1, String nbmf2, Spring spring2,
+                               List<String> iistory) {
+        if (iistory.sizf() == 0) {
+            donstrbints.sftConstrbint(nbmf1, spring1);
+            donstrbints.sftConstrbint(nbmf2, spring2);
+        } flsf {
+            // At tiis point tifrf must bf fxbdtly onf donstrbint dffinfd blrfbdy.
+            // Cifdk widti/ifigit first.
+            if (donstrbints.gftConstrbint(nbmf2) == null) {
+                donstrbints.sftConstrbint(nbmf2, spring2);
+            } flsf {
+                // If widti/ifigit is blrfbdy dffinfd, instbll b dffbult for x/y.
+                donstrbints.sftConstrbint(nbmf1, spring1);
+            }
+            // Eitifr wby, lfbvf tif usfr's donstrbint topmost on tif stbdk.
+            Collfdtions.rotbtf(iistory, 1);
+        }
+    }
+
+    privbtf void putConstrbints(Componfnt domponfnt, Constrbints donstrbints) {
+        domponfntConstrbints.put(domponfnt, bpplyDffbults(domponfnt, donstrbints));
+    }
+
+    /**
+     * Rfturns tif donstrbints for tif spfdififd domponfnt.
+     * Notf tibt,
+     * unlikf tif <dodf>GridBbgLbyout</dodf>
+     * <dodf>gftConstrbints</dodf> mftiod,
+     * tiis mftiod dofs not dlonf donstrbints.
+     * If no donstrbints
+     * ibvf bffn bssodibtfd witi tiis domponfnt,
+     * tiis mftiod
+     * rfturns b dffbult donstrbints objfdt positionfd bt
+     * 0,0 rflbtivf to tif pbrfnt's Insfts bnd its widti/ifigit
+     * donstrbinfd to tif minimum, mbximum, bnd prfffrrfd sizfs of tif
+     * domponfnt. Tif sizf dibrbdtfristids
+     * brf not frozfn bt tif timf tiis mftiod is dbllfd;
+     * instfbd tiis mftiod rfturns b donstrbints objfdt
+     * wiosf dibrbdtfristids trbdk tif dibrbdtfristids
+     * of tif domponfnt bs tify dibngf.
+     *
+     * @pbrbm       d tif domponfnt wiosf donstrbints will bf rfturnfd
+     *
+     * @rfturn      tif donstrbints for tif spfdififd domponfnt
+     */
+    publid Constrbints gftConstrbints(Componfnt d) {
+       Constrbints rfsult = domponfntConstrbints.gft(d);
+       if (rfsult == null) {
+           if (d instbndfof jbvbx.swing.JComponfnt) {
+                Objfdt dp = ((jbvbx.swing.JComponfnt)d).gftClifntPropfrty(SpringLbyout.dlbss);
+                if (dp instbndfof Constrbints) {
+                    rfturn bpplyDffbults(d, (Constrbints)dp);
+                }
+            }
+            rfsult = nfw Constrbints();
+            putConstrbints(d, rfsult);
+       }
+       rfturn rfsult;
+    }
+
+    /**
+     * Rfturns tif spring dontrolling tif distbndf bftwffn
+     * tif spfdififd fdgf of
+     * tif domponfnt bnd tif top or lfft fdgf of its pbrfnt. Tiis
+     * mftiod, instfbd of rfturning tif durrfnt binding for tif
+     * fdgf, rfturns b proxy tibt trbdks tif dibrbdtfristids
+     * of tif fdgf fvfn if tif fdgf is subsfqufntly rfbound.
+     * Proxifs brf intfndfd to bf usfd in buildfr fnvironmfnts
+     * wifrf it is usfful to bllow tif usfr to dffinf tif
+     * donstrbints for b lbyout in bny ordfr. Proxifs do, iowfvfr,
+     * providf tif mfbns to drfbtf dydlid dfpfndfndifs bmongst
+     * tif donstrbints of b lbyout. Sudi dydlfs brf dftfdtfd
+     * intfrnblly by <dodf>SpringLbyout</dodf> so tibt
+     * tif lbyout opfrbtion blwbys tfrminbtfs.
+     *
+     * @pbrbm fdgfNbmf must bf onf of
+     * <dodf>SpringLbyout.NORTH</dodf>,
+     * <dodf>SpringLbyout.SOUTH</dodf>,
+     * <dodf>SpringLbyout.EAST</dodf>,
+     * <dodf>SpringLbyout.WEST</dodf>,
+     * <dodf>SpringLbyout.VERTICAL_CENTER</dodf>,
+     * <dodf>SpringLbyout.HORIZONTAL_CENTER</dodf> or
+     * <dodf>SpringLbyout.BASELINE</dodf>
+     * @pbrbm d tif domponfnt wiosf fdgf spring is dfsirfd
+     *
+     * @rfturn b proxy for tif spring dontrolling tif distbndf bftwffn tif
+     *         spfdififd fdgf bnd tif top or lfft fdgf of its pbrfnt
+     *
+     * @sff #NORTH
+     * @sff #SOUTH
+     * @sff #EAST
+     * @sff #WEST
+     * @sff #VERTICAL_CENTER
+     * @sff #HORIZONTAL_CENTER
+     * @sff #BASELINE
+     */
+    publid Spring gftConstrbint(String fdgfNbmf, Componfnt d) {
+        // Tif intfrning ifrf is unnfdfssbry; it wbs bddfd for fffidifndy.
+        fdgfNbmf = fdgfNbmf.intfrn();
+        rfturn nfw SpringProxy(fdgfNbmf, d, tiis);
+    }
+
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+        sftPbrfnt(pbrfnt);
+
+        int n = pbrfnt.gftComponfntCount();
+        gftConstrbints(pbrfnt).rfsft();
+        for (int i = 0 ; i < n ; i++) {
+            gftConstrbints(pbrfnt.gftComponfnt(i)).rfsft();
+        }
+
+        Insfts insfts = pbrfnt.gftInsfts();
+        Constrbints pd = gftConstrbints(pbrfnt);
+        bbbndonCydlfs(pd.gftX()).sftVbluf(0);
+        bbbndonCydlfs(pd.gftY()).sftVbluf(0);
+        bbbndonCydlfs(pd.gftWidti()).sftVbluf(pbrfnt.gftWidti() -
+                                              insfts.lfft - insfts.rigit);
+        bbbndonCydlfs(pd.gftHfigit()).sftVbluf(pbrfnt.gftHfigit() -
+                                               insfts.top - insfts.bottom);
+
+        for (int i = 0 ; i < n ; i++) {
+            Componfnt d = pbrfnt.gftComponfnt(i);
+            Constrbints dd = gftConstrbints(d);
+            int x = bbbndonCydlfs(dd.gftX()).gftVbluf();
+            int y = bbbndonCydlfs(dd.gftY()).gftVbluf();
+            int widti = bbbndonCydlfs(dd.gftWidti()).gftVbluf();
+            int ifigit = bbbndonCydlfs(dd.gftHfigit()).gftVbluf();
+            d.sftBounds(insfts.lfft + x, insfts.top + y, widti, ifigit);
+        }
+    }
+}

@@ -1,489 +1,2445 @@
 '\" t
-.\"  Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
-.\"     Ardh: gfnfrid
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
 .\"     Softwbrf: JDK 8
 .\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
 .\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
 .\"     Titlf: tnbmfsfrv.1
+.\"     Titlf: tnbmfsfrv.1
+.\"     Titlf: tnbmfsfrv.1
+.\"     Titlf: tnbmfsfrv.1
+.\"     Titlf: tnbmfsfrv.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH tnbmfsfrv 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH tnbmfsfrv 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH tnbmfsfrv 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH tnbmfsfrv 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .TH tnbmfsfrv 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
 .SH NAME    
 tnbmfsfrv \- Intfrfbdf Dffinition Lbngubgf (IDL)\&.
+tnbmfsfrv \- Intfrfbdf Dffinition Lbngubgf (IDL)\&.
+tnbmfsfrv \- Intfrfbdf Dffinition Lbngubgf (IDL)\&.
+tnbmfsfrv \- Intfrfbdf Dffinition Lbngubgf (IDL)\&.
+tnbmfsfrv \- Intfrfbdf Dffinition Lbngubgf (IDL)\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
+
+
+
+
+\fBtnbmfsfrvf\fR \fB\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+\fBtnbmfsfrvf\fR \fB\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+\fBtnbmfsfrvf\fR \fB\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+\fBtnbmfsfrvf\fR \fB\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
 \fBtnbmfsfrvf\fR \fB\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP
+.TP
+.TP
+.TP
 .TP
 -ORBInitiblPort \fInbmfsfrvfrport\fR
+-ORBInitiblPort \fInbmfsfrvfrport\fR
+-ORBInitiblPort \fInbmfsfrvfrport\fR
+-ORBInitiblPort \fInbmfsfrvfrport\fR
+-ORBInitiblPort \fInbmfsfrvfrport\fR
 .br
-Thf initibl port whfrf thf nbming sfrvidf listfns for thf bootstrbp protodol usfd to implfmfnt thf ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mfthods\&.
+.br
+.br
+.br
+.br
+Tif initibl port wifrf tif nbming sfrvidf listfns for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mftiods\&.
+Tif initibl port wifrf tif nbming sfrvidf listfns for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mftiods\&.
+Tif initibl port wifrf tif nbming sfrvidf listfns for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mftiods\&.
+Tif initibl port wifrf tif nbming sfrvidf listfns for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mftiods\&.
+Tif initibl port wifrf tif nbming sfrvidf listfns for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mftiods\&.
 .SH DESCRIPTION    
-Jbvb IDL indludfs thf Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss thbt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Thf Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf thf \f3tnbmfsfrv\fR dommbnd for thf \f3orbd\fR dommbnd in bny of thf fxbmplfs thbt usf b Trbnsifnt Nbming Sfrvidf\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Jbvb IDL indludfs tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss tibt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Tif Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf tif \f3tnbmfsfrv\fR dommbnd for tif \f3orbd\fR dommbnd in bny of tif fxbmplfs tibt usf b Trbnsifnt Nbming Sfrvidf\&.
+Jbvb IDL indludfs tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss tibt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Tif Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf tif \f3tnbmfsfrv\fR dommbnd for tif \f3orbd\fR dommbnd in bny of tif fxbmplfs tibt usf b Trbnsifnt Nbming Sfrvidf\&.
+Jbvb IDL indludfs tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss tibt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Tif Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf tif \f3tnbmfsfrv\fR dommbnd for tif \f3orbd\fR dommbnd in bny of tif fxbmplfs tibt usf b Trbnsifnt Nbming Sfrvidf\&.
+Jbvb IDL indludfs tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss tibt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Tif Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf tif \f3tnbmfsfrv\fR dommbnd for tif \f3orbd\fR dommbnd in bny of tif fxbmplfs tibt usf b Trbnsifnt Nbming Sfrvidf\&.
+Jbvb IDL indludfs tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss tibt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Tif Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf tif \f3tnbmfsfrv\fR dommbnd for tif \f3orbd\fR dommbnd in bny of tif fxbmplfs tibt usf b Trbnsifnt Nbming Sfrvidf\&.
 .PP
-Sff orbd(1) or Nbming Sfrvidf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/jidlNbming\&.html
 .PP
-Thf CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm thbt providfs b dirfdtory strudturf for filfs\&. Thf Trbnsifnt Nbming Sfrvidf providfd with Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of thf COS Nbming Sfrvidf spfdifidbtion\&.
 .PP
-Objfdt rfffrfndfs brf storfd in thf nbmf spbdf by nbmf bnd fbdh objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf thf sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr thf initibl nbming dontfxt\&. Thf initibl nbming dontfxt is thf only pfrsistfnt binding in thf nbmf spbdf\&. Thf rfst of thf nbmf spbdf is lost whfn thf Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
 .PP
-For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know thf port of b host running b nbming sfrvidf or hbvf bddfss to bn initibl nbming dontfxt string for thbt nbming sfrvidf\&. Thf nbming sfrvidf dbn fithfr bf thf Jbvb IDL nbming sfrvidf or bnothfr COS-domplibnt nbming sfrvidf\&.
+.PP
+Sff orbd(1) or Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
+Sff orbd(1) or Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
+Sff orbd(1) or Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
+Sff orbd(1) or Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
+Sff orbd(1) or Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
+.PP
+.PP
+.PP
+.PP
+.PP
+Tif CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm tibt providfs b dirfdtory strudturf for filfs\&. Tif Trbnsifnt Nbming Sfrvidf providfd witi Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of tif COS Nbming Sfrvidf spfdifidbtion\&.
+Tif CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm tibt providfs b dirfdtory strudturf for filfs\&. Tif Trbnsifnt Nbming Sfrvidf providfd witi Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of tif COS Nbming Sfrvidf spfdifidbtion\&.
+Tif CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm tibt providfs b dirfdtory strudturf for filfs\&. Tif Trbnsifnt Nbming Sfrvidf providfd witi Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of tif COS Nbming Sfrvidf spfdifidbtion\&.
+Tif CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm tibt providfs b dirfdtory strudturf for filfs\&. Tif Trbnsifnt Nbming Sfrvidf providfd witi Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of tif COS Nbming Sfrvidf spfdifidbtion\&.
+Tif CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm tibt providfs b dirfdtory strudturf for filfs\&. Tif Trbnsifnt Nbming Sfrvidf providfd witi Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of tif COS Nbming Sfrvidf spfdifidbtion\&.
+.PP
+.PP
+.PP
+.PP
+.PP
+Objfdt rfffrfndfs brf storfd in tif nbmf spbdf by nbmf bnd fbdi objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf tif sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr tif initibl nbming dontfxt\&. Tif initibl nbming dontfxt is tif only pfrsistfnt binding in tif nbmf spbdf\&. Tif rfst of tif nbmf spbdf is lost wifn tif Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
+Objfdt rfffrfndfs brf storfd in tif nbmf spbdf by nbmf bnd fbdi objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf tif sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr tif initibl nbming dontfxt\&. Tif initibl nbming dontfxt is tif only pfrsistfnt binding in tif nbmf spbdf\&. Tif rfst of tif nbmf spbdf is lost wifn tif Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
+Objfdt rfffrfndfs brf storfd in tif nbmf spbdf by nbmf bnd fbdi objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf tif sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr tif initibl nbming dontfxt\&. Tif initibl nbming dontfxt is tif only pfrsistfnt binding in tif nbmf spbdf\&. Tif rfst of tif nbmf spbdf is lost wifn tif Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
+Objfdt rfffrfndfs brf storfd in tif nbmf spbdf by nbmf bnd fbdi objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf tif sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr tif initibl nbming dontfxt\&. Tif initibl nbming dontfxt is tif only pfrsistfnt binding in tif nbmf spbdf\&. Tif rfst of tif nbmf spbdf is lost wifn tif Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
+Objfdt rfffrfndfs brf storfd in tif nbmf spbdf by nbmf bnd fbdi objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf tif sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr tif initibl nbming dontfxt\&. Tif initibl nbming dontfxt is tif only pfrsistfnt binding in tif nbmf spbdf\&. Tif rfst of tif nbmf spbdf is lost wifn tif Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
+.PP
+.PP
+.PP
+.PP
+.PP
+For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know tif port of b iost running b nbming sfrvidf or ibvf bddfss to bn initibl nbming dontfxt string for tibt nbming sfrvidf\&. Tif nbming sfrvidf dbn fitifr bf tif Jbvb IDL nbming sfrvidf or bnotifr COS-domplibnt nbming sfrvidf\&.
+For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know tif port of b iost running b nbming sfrvidf or ibvf bddfss to bn initibl nbming dontfxt string for tibt nbming sfrvidf\&. Tif nbming sfrvidf dbn fitifr bf tif Jbvb IDL nbming sfrvidf or bnotifr COS-domplibnt nbming sfrvidf\&.
+For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know tif port of b iost running b nbming sfrvidf or ibvf bddfss to bn initibl nbming dontfxt string for tibt nbming sfrvidf\&. Tif nbming sfrvidf dbn fitifr bf tif Jbvb IDL nbming sfrvidf or bnotifr COS-domplibnt nbming sfrvidf\&.
+For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know tif port of b iost running b nbming sfrvidf or ibvf bddfss to bn initibl nbming dontfxt string for tibt nbming sfrvidf\&. Tif nbming sfrvidf dbn fitifr bf tif Jbvb IDL nbming sfrvidf or bnotifr COS-domplibnt nbming sfrvidf\&.
+For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know tif port of b iost running b nbming sfrvidf or ibvf bddfss to bn initibl nbming dontfxt string for tibt nbming sfrvidf\&. Tif nbming sfrvidf dbn fitifr bf tif Jbvb IDL nbming sfrvidf or bnotifr COS-domplibnt nbming sfrvidf\&.
 .SS START\ THE\ NAMING\ SERVICE    
-You must stbrt thf Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft thbt usfs its nbming sfrvidf\&. Instbllbtion of thf Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) thbt stbrts thf Jbvb IDL nbming sfrvidf\&. Stbrt thf nbming sfrvidf so it runs in thf bbdkground\&.
+.SS START\ THE\ NAMING\ SERVICE    
+.SS START\ THE\ NAMING\ SERVICE    
+.SS START\ THE\ NAMING\ SERVICE    
+.SS START\ THE\ NAMING\ SERVICE    
+You must stbrt tif Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft tibt usfs its nbming sfrvidf\&. Instbllbtion of tif Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) tibt stbrts tif Jbvb IDL nbming sfrvidf\&. Stbrt tif nbming sfrvidf so it runs in tif bbdkground\&.
+You must stbrt tif Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft tibt usfs its nbming sfrvidf\&. Instbllbtion of tif Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) tibt stbrts tif Jbvb IDL nbming sfrvidf\&. Stbrt tif nbming sfrvidf so it runs in tif bbdkground\&.
+You must stbrt tif Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft tibt usfs its nbming sfrvidf\&. Instbllbtion of tif Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) tibt stbrts tif Jbvb IDL nbming sfrvidf\&. Stbrt tif nbming sfrvidf so it runs in tif bbdkground\&.
+You must stbrt tif Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft tibt usfs its nbming sfrvidf\&. Instbllbtion of tif Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) tibt stbrts tif Jbvb IDL nbming sfrvidf\&. Stbrt tif nbming sfrvidf so it runs in tif bbdkground\&.
+You must stbrt tif Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft tibt usfs its nbming sfrvidf\&. Instbllbtion of tif Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) tibt stbrts tif Jbvb IDL nbming sfrvidf\&. Stbrt tif nbming sfrvidf so it runs in tif bbdkground\&.
 .PP
-If you do not spfdify othfrwisf, thfn thf Jbvb IDL nbming sfrvidf listfns on port 900 for thf bootstrbp protodol usfd to implfmfnt thf ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mfthods\fR, bs follows:
+.PP
+.PP
+.PP
+.PP
+If you do not spfdify otifrwisf, tifn tif Jbvb IDL nbming sfrvidf listfns on port 900 for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mftiods\fR, bs follows:
+If you do not spfdify otifrwisf, tifn tif Jbvb IDL nbming sfrvidf listfns on port 900 for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mftiods\fR, bs follows:
+If you do not spfdify otifrwisf, tifn tif Jbvb IDL nbming sfrvidf listfns on port 900 for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mftiods\fR, bs follows:
+If you do not spfdify otifrwisf, tifn tif Jbvb IDL nbming sfrvidf listfns on port 900 for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mftiods\fR, bs follows:
+If you do not spfdify otifrwisf, tifn tif Jbvb IDL nbming sfrvidf listfns on port 900 for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mftiods\fR, bs follows:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&\fP
+\f3tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&\fP
+\f3tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&\fP
+\f3tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&\fP
+\f3tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-If you do not spfdify thf nbmf sfrvfr port, thfn port 900 is usfd by dffbult\&. Whfn running Orbdlf Solbris softwbrf, you must bfdomf thf root usfr to stbrt b prodfss on b port bflow 1024\&. For this rfbson, it is rfdommfndfd thbt you usf b port numbfr grfbtfr thbn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run thf nbming sfrvidf in thf bbdkground, from b UNIX dommbnd shfll, fntfr:
 .sp     
+.sp     
+.sp     
+.sp     
+If you do not spfdify tif nbmf sfrvfr port, tifn port 900 is usfd by dffbult\&. Wifn running Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr grfbtfr tibn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run tif nbming sfrvidf in tif bbdkground, from b UNIX dommbnd sifll, fntfr:
+If you do not spfdify tif nbmf sfrvfr port, tifn port 900 is usfd by dffbult\&. Wifn running Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr grfbtfr tibn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run tif nbming sfrvidf in tif bbdkground, from b UNIX dommbnd sifll, fntfr:
+If you do not spfdify tif nbmf sfrvfr port, tifn port 900 is usfd by dffbult\&. Wifn running Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr grfbtfr tibn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run tif nbming sfrvidf in tif bbdkground, from b UNIX dommbnd sifll, fntfr:
+If you do not spfdify tif nbmf sfrvfr port, tifn port 900 is usfd by dffbult\&. Wifn running Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr grfbtfr tibn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run tif nbming sfrvidf in tif bbdkground, from b UNIX dommbnd sifll, fntfr:
+If you do not spfdify tif nbmf sfrvfr port, tifn port 900 is usfd by dffbult\&. Wifn running Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr grfbtfr tibn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run tif nbming sfrvidf in tif bbdkground, from b UNIX dommbnd sifll, fntfr:
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3tnbmfsfrv \-ORBInitiblPort 1050&\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050&\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050&\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050&\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050&\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 From bn MS-DOS systfm prompt (Windows), fntfr:
+From bn MS-DOS systfm prompt (Windows), fntfr:
+From bn MS-DOS systfm prompt (Windows), fntfr:
+From bn MS-DOS systfm prompt (Windows), fntfr:
+From bn MS-DOS systfm prompt (Windows), fntfr:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3stbrt tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3stbrt tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3stbrt tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3stbrt tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3stbrt tnbmfsfrv \-ORBInitiblPort 1050\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Clifnts of thf nbmf sfrvfr must bf mbdf bwbrf of thf nfw port numbfr\&. Do this by sftting thf \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to thf nfw port numbfr whfn you drfbtf thf ORB objfdt\&.
+.sp     
+.sp     
+.sp     
+.sp     
+Clifnts of tif nbmf sfrvfr must bf mbdf bwbrf of tif nfw port numbfr\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to tif nfw port numbfr wifn you drfbtf tif ORB objfdt\&.
+Clifnts of tif nbmf sfrvfr must bf mbdf bwbrf of tif nfw port numbfr\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to tif nfw port numbfr wifn you drfbtf tif ORB objfdt\&.
+Clifnts of tif nbmf sfrvfr must bf mbdf bwbrf of tif nfw port numbfr\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to tif nfw port numbfr wifn you drfbtf tif ORB objfdt\&.
+Clifnts of tif nbmf sfrvfr must bf mbdf bwbrf of tif nfw port numbfr\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to tif nfw port numbfr wifn you drfbtf tif ORB objfdt\&.
+Clifnts of tif nbmf sfrvfr must bf mbdf bwbrf of tif nfw port numbfr\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to tif nfw port numbfr wifn you drfbtf tif ORB objfdt\&.
 .SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
-In most of thf Jbvb IDL bnd RMI-IIOP tutoribls, thf nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on thf dfvflopmfnt mbdhinf\&. In rfbl-world dfploymfnt, thf dlifnt bnd sfrvfr probbbly run on difffrfnt host mbdhinfs from thf Nbming Sfrvidf\&.
+.SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
+.SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
+.SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
+.SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
+In most of tif Jbvb IDL bnd RMI-IIOP tutoribls, tif nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on tif dfvflopmfnt mbdiinf\&. In rfbl-world dfploymfnt, tif dlifnt bnd sfrvfr probbbly run on difffrfnt iost mbdiinfs from tif Nbming Sfrvidf\&.
+In most of tif Jbvb IDL bnd RMI-IIOP tutoribls, tif nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on tif dfvflopmfnt mbdiinf\&. In rfbl-world dfploymfnt, tif dlifnt bnd sfrvfr probbbly run on difffrfnt iost mbdiinfs from tif Nbming Sfrvidf\&.
+In most of tif Jbvb IDL bnd RMI-IIOP tutoribls, tif nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on tif dfvflopmfnt mbdiinf\&. In rfbl-world dfploymfnt, tif dlifnt bnd sfrvfr probbbly run on difffrfnt iost mbdiinfs from tif Nbming Sfrvidf\&.
+In most of tif Jbvb IDL bnd RMI-IIOP tutoribls, tif nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on tif dfvflopmfnt mbdiinf\&. In rfbl-world dfploymfnt, tif dlifnt bnd sfrvfr probbbly run on difffrfnt iost mbdiinfs from tif Nbming Sfrvidf\&.
+In most of tif Jbvb IDL bnd RMI-IIOP tutoribls, tif nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on tif dfvflopmfnt mbdiinf\&. In rfbl-world dfploymfnt, tif dlifnt bnd sfrvfr probbbly run on difffrfnt iost mbdiinfs from tif Nbming Sfrvidf\&.
 .PP
-For thf dlifnt bnd sfrvfr to find thf Nbming Sfrvidf, thfy must bf mbdf bwbrf of thf port numbfr bnd host on whidh thf nbming sfrvidf is running\&. Do this by sftting thf \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in thf dlifnt bnd sfrvfr filfs to thf mbdhinf nbmf bnd port numbfr on whidh thf Nbming Sfrvidf is running\&. An fxbmplf of this is shown in Gftting Stbrtfd Using RMI-IIOP bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.html
 .PP
-You dould blso usf thf dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfrhostnbmf\fR to tfll thf dlifnt bnd sfrvfr whfrf to find thf nbming sfrvidf\&. For onf fxbmplf of doing this using thf dommbnd-linf option, sff Jbvb IDL: Thf Hfllo World Exbmplf on Two Mbdhinfs bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/tutoribl/jidl2mbdhinfs\&.html
 .PP
-For fxbmplf, supposf thf Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on host \f3nbmfsfrvfrhost\fR\&. Thf dlifnt is running on host \f3dlifnthost,\fR bnd thf sfrvfr is running on host \f3sfrvfrhost\fR\&.
 .PP
-Stbrt \f3tnbmfsfrv\fR on thf host \f3nbmfsfrvfrhost\fR:
+.PP
+For tif dlifnt bnd sfrvfr to find tif Nbming Sfrvidf, tify must bf mbdf bwbrf of tif port numbfr bnd iost on wiidi tif nbming sfrvidf is running\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in tif dlifnt bnd sfrvfr filfs to tif mbdiinf nbmf bnd port numbfr on wiidi tif Nbming Sfrvidf is running\&. An fxbmplf of tiis is siown in Gftting Stbrtfd Using RMI-IIOP bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.itml
+For tif dlifnt bnd sfrvfr to find tif Nbming Sfrvidf, tify must bf mbdf bwbrf of tif port numbfr bnd iost on wiidi tif nbming sfrvidf is running\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in tif dlifnt bnd sfrvfr filfs to tif mbdiinf nbmf bnd port numbfr on wiidi tif Nbming Sfrvidf is running\&. An fxbmplf of tiis is siown in Gftting Stbrtfd Using RMI-IIOP bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.itml
+For tif dlifnt bnd sfrvfr to find tif Nbming Sfrvidf, tify must bf mbdf bwbrf of tif port numbfr bnd iost on wiidi tif nbming sfrvidf is running\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in tif dlifnt bnd sfrvfr filfs to tif mbdiinf nbmf bnd port numbfr on wiidi tif Nbming Sfrvidf is running\&. An fxbmplf of tiis is siown in Gftting Stbrtfd Using RMI-IIOP bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.itml
+For tif dlifnt bnd sfrvfr to find tif Nbming Sfrvidf, tify must bf mbdf bwbrf of tif port numbfr bnd iost on wiidi tif nbming sfrvidf is running\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in tif dlifnt bnd sfrvfr filfs to tif mbdiinf nbmf bnd port numbfr on wiidi tif Nbming Sfrvidf is running\&. An fxbmplf of tiis is siown in Gftting Stbrtfd Using RMI-IIOP bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.itml
+For tif dlifnt bnd sfrvfr to find tif Nbming Sfrvidf, tify must bf mbdf bwbrf of tif port numbfr bnd iost on wiidi tif nbming sfrvidf is running\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in tif dlifnt bnd sfrvfr filfs to tif mbdiinf nbmf bnd port numbfr on wiidi tif Nbming Sfrvidf is running\&. An fxbmplf of tiis is siown in Gftting Stbrtfd Using RMI-IIOP bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.itml
+.PP
+.PP
+.PP
+.PP
+.PP
+You dould blso usf tif dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfriostnbmf\fR to tfll tif dlifnt bnd sfrvfr wifrf to find tif nbming sfrvidf\&. For onf fxbmplf of doing tiis using tif dommbnd-linf option, sff Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itml
+You dould blso usf tif dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfriostnbmf\fR to tfll tif dlifnt bnd sfrvfr wifrf to find tif nbming sfrvidf\&. For onf fxbmplf of doing tiis using tif dommbnd-linf option, sff Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itml
+You dould blso usf tif dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfriostnbmf\fR to tfll tif dlifnt bnd sfrvfr wifrf to find tif nbming sfrvidf\&. For onf fxbmplf of doing tiis using tif dommbnd-linf option, sff Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itml
+You dould blso usf tif dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfriostnbmf\fR to tfll tif dlifnt bnd sfrvfr wifrf to find tif nbming sfrvidf\&. For onf fxbmplf of doing tiis using tif dommbnd-linf option, sff Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itml
+You dould blso usf tif dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfriostnbmf\fR to tfll tif dlifnt bnd sfrvfr wifrf to find tif nbming sfrvidf\&. For onf fxbmplf of doing tiis using tif dommbnd-linf option, sff Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itml
+.PP
+.PP
+.PP
+.PP
+.PP
+For fxbmplf, supposf tif Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on iost \f3nbmfsfrvfriost\fR\&. Tif dlifnt is running on iost \f3dlifntiost,\fR bnd tif sfrvfr is running on iost \f3sfrvfriost\fR\&.
+For fxbmplf, supposf tif Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on iost \f3nbmfsfrvfriost\fR\&. Tif dlifnt is running on iost \f3dlifntiost,\fR bnd tif sfrvfr is running on iost \f3sfrvfriost\fR\&.
+For fxbmplf, supposf tif Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on iost \f3nbmfsfrvfriost\fR\&. Tif dlifnt is running on iost \f3dlifntiost,\fR bnd tif sfrvfr is running on iost \f3sfrvfriost\fR\&.
+For fxbmplf, supposf tif Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on iost \f3nbmfsfrvfriost\fR\&. Tif dlifnt is running on iost \f3dlifntiost,\fR bnd tif sfrvfr is running on iost \f3sfrvfriost\fR\&.
+For fxbmplf, supposf tif Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on iost \f3nbmfsfrvfriost\fR\&. Tif dlifnt is running on iost \f3dlifntiost,\fR bnd tif sfrvfr is running on iost \f3sfrvfriost\fR\&.
+.PP
+.PP
+.PP
+.PP
+.PP
+Stbrt \f3tnbmfsfrv\fR on tif iost \f3nbmfsfrvfriost\fR:
+Stbrt \f3tnbmfsfrv\fR on tif iost \f3nbmfsfrvfriost\fR:
+Stbrt \f3tnbmfsfrv\fR on tif iost \f3nbmfsfrvfriost\fR:
+Stbrt \f3tnbmfsfrv\fR on tif iost \f3nbmfsfrvfriost\fR:
+Stbrt \f3tnbmfsfrv\fR on tif iost \f3nbmfsfrvfriost\fR:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
-.fi     
-.sp     
-Stbrt thf sfrvfr on thf \f3sfrvfrhost\fR:
-.sp     
-.nf     
-\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfrhost\fP
-.fi     
-.nf     
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Stbrt thf dlifnt on thf \f3dlifnthost\fR:
+.sp     
+.sp     
+.sp     
+.sp     
+Stbrt tif sfrvfr on tif \f3sfrvfriost\fR:
+Stbrt tif sfrvfr on tif \f3sfrvfriost\fR:
+Stbrt tif sfrvfr on tif \f3sfrvfriost\fR:
+Stbrt tif sfrvfr on tif \f3sfrvfriost\fR:
+Stbrt tif sfrvfr on tif \f3sfrvfriost\fR:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfrhost\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+Stbrt tif dlifnt on tif \f3dlifntiost\fR:
+Stbrt tif dlifnt on tif \f3dlifntiost\fR:
+Stbrt tif dlifnt on tif \f3dlifntiost\fR:
+Stbrt tif dlifnt on tif \f3dlifntiost\fR:
+Stbrt tif dlifnt on tif \f3dlifntiost\fR:
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SS STOP\ THE\ NAMING\ SERVICE    
-To stop thf Jbvb IDL nbming sfrvidf, usf thf rflfvbnt opfrbting systfm dommbnd, sudh bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Thf nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly shut down\&. Notf thbt nbmfs rfgistfrfd with thf Jbvb IDL nbming sfrvidf disbppfbr whfn thf sfrvidf is tfrminbtfd\&.
+.SS STOP\ THE\ NAMING\ SERVICE    
+.SS STOP\ THE\ NAMING\ SERVICE    
+.SS STOP\ THE\ NAMING\ SERVICE    
+.SS STOP\ THE\ NAMING\ SERVICE    
+To stop tif Jbvb IDL nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Tif nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly siut down\&. Notf tibt nbmfs rfgistfrfd witi tif Jbvb IDL nbming sfrvidf disbppfbr wifn tif sfrvidf is tfrminbtfd\&.
+To stop tif Jbvb IDL nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Tif nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly siut down\&. Notf tibt nbmfs rfgistfrfd witi tif Jbvb IDL nbming sfrvidf disbppfbr wifn tif sfrvidf is tfrminbtfd\&.
+To stop tif Jbvb IDL nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Tif nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly siut down\&. Notf tibt nbmfs rfgistfrfd witi tif Jbvb IDL nbming sfrvidf disbppfbr wifn tif sfrvidf is tfrminbtfd\&.
+To stop tif Jbvb IDL nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Tif nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly siut down\&. Notf tibt nbmfs rfgistfrfd witi tif Jbvb IDL nbming sfrvidf disbppfbr wifn tif sfrvidf is tfrminbtfd\&.
+To stop tif Jbvb IDL nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Tif nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly siut down\&. Notf tibt nbmfs rfgistfrfd witi tif Jbvb IDL nbming sfrvidf disbppfbr wifn tif sfrvidf is tfrminbtfd\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
+.TP
+.TP
+.TP
+.TP
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
+-J\fIoption\fR
 -J\fIoption\fR
 .br
-Pbssfs \f3option\fR to thf Jbvb Virtubl Mbdhinf, whfrf \f3option\fR is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.br
+.br
+.br
+.br
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH EXAMPLES    
+.SH EXAMPLES    
+.SH EXAMPLES    
+.SH EXAMPLES    
 .SH EXAMPLES    
 .SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
-Thf following fxbmplf shows how to bdd nbmfs to thf nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt thbt drfbtfs thf following simplf trff\&.
+.SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
+.SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
+.SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
+.SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
+Tif following fxbmplf siows iow to bdd nbmfs to tif nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt tibt drfbtfs tif following simplf trff\&.
+Tif following fxbmplf siows iow to bdd nbmfs to tif nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt tibt drfbtfs tif following simplf trff\&.
+Tif following fxbmplf siows iow to bdd nbmfs to tif nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt tibt drfbtfs tif following simplf trff\&.
+Tif following fxbmplf siows iow to bdd nbmfs to tif nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt tibt drfbtfs tif following simplf trff\&.
+Tif following fxbmplf siows iow to bdd nbmfs to tif nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt tibt drfbtfs tif following simplf trff\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3Initibl Nbming Contfxt\fP
+\f3Initibl Nbming Contfxt\fP
+\f3Initibl Nbming Contfxt\fP
+\f3Initibl Nbming Contfxt\fP
+\f3Initibl Nbming Contfxt\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3     plbns\fP
+\f3     plbns\fP
+\f3     plbns\fP
+\f3     plbns\fP
+\f3     plbns\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3     Pfrsonbl\fP
+\f3     Pfrsonbl\fP
+\f3     Pfrsonbl\fP
+\f3     Pfrsonbl\fP
+\f3     Pfrsonbl\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3          dblfndbr\fP
+\f3          dblfndbr\fP
+\f3          dblfndbr\fP
+\f3          dblfndbr\fP
+\f3          dblfndbr\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3          sdhfdulf\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3          sdifdulf\fP
+\f3          sdifdulf\fP
+\f3          sdifdulf\fP
+\f3          sdifdulf\fP
+\f3          sdifdulf\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
-In this fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt thbt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdhfdulf\fR\&.
 .sp     
+.sp     
+.sp     
+.sp     
+In tiis fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt tibt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdifdulf\fR\&.
+In tiis fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt tibt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdifdulf\fR\&.
+In tiis fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt tibt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdifdulf\fR\&.
+In tiis fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt tibt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdifdulf\fR\&.
+In tiis fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt tibt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdifdulf\fR\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3publid dlbss NbmfClifnt {\fP
+\f3publid dlbss NbmfClifnt {\fP
+\f3publid dlbss NbmfClifnt {\fP
+\f3publid dlbss NbmfClifnt {\fP
+\f3publid dlbss NbmfClifnt {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3        try {\fP
+\f3        try {\fP
+\f3        try {\fP
+\f3        try {\fP
+\f3        try {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-In Stbrt thf Nbming Sfrvidf, thf \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Thf following dodf fnsurfs thbt thf dlifnt progrbm is bwbrf of this port numbfr\&.
 .sp     
+.sp     
+.sp     
+.sp     
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-This dodf obtbins thf initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Thf sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR thbt is bttbdhfd to vbrious nbmfs bnd bddfd into thf nbmf spbdf\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Tiis dodf obtbins tif initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Tif sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR tibt is bttbdifd to vbrious nbmfs bnd bddfd into tif nbmf spbdf\&.
+Tiis dodf obtbins tif initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Tif sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR tibt is bttbdifd to vbrious nbmfs bnd bddfd into tif nbmf spbdf\&.
+Tiis dodf obtbins tif initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Tif sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR tibt is bttbdifd to vbrious nbmfs bnd bddfd into tif nbmf spbdf\&.
+Tiis dodf obtbins tif initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Tif sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR tibt is bttbdifd to vbrious nbmfs bnd bddfd into tif nbmf spbdf\&.
+Tiis dodf obtbins tif initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Tif sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR tibt is bttbdifd to vbrious nbmfs bnd bddfd into tif nbmf spbdf\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmingContfxt dtx =\fP
+\f3            NbmingContfxt dtx =\fP
+\f3            NbmingContfxt dtx =\fP
+\f3            NbmingContfxt dtx =\fP
+\f3            NbmingContfxt dtx =\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3                NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3                NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3                NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3                NbmingContfxtHflpfr\&.nbrrow(\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3             NbmingContfxt objrff = dtx;\fP
+\f3             NbmingContfxt objrff = dtx;\fP
+\f3             NbmingContfxt objrff = dtx;\fP
+\f3             NbmingContfxt objrff = dtx;\fP
+\f3             NbmingContfxt objrff = dtx;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-This dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to thf dummy objfdt rfffrfndf\&. \f3plbns\fR is thfn bddfd undfr thf initibl nbming dontfxt using thf \f3rfbind\fR mfthod\&. Thf \f3rfbind\fR mfthod fnbblfs you to run this progrbm ovfr bnd ovfr bgbin without gftting thf fxdfptions from using thf \f3bind\fR mfthod\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Tiis dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to tif dummy objfdt rfffrfndf\&. \f3plbns\fR is tifn bddfd undfr tif initibl nbming dontfxt using tif \f3rfbind\fR mftiod\&. Tif \f3rfbind\fR mftiod fnbblfs you to run tiis progrbm ovfr bnd ovfr bgbin witiout gftting tif fxdfptions from using tif \f3bind\fR mftiod\&.
+Tiis dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to tif dummy objfdt rfffrfndf\&. \f3plbns\fR is tifn bddfd undfr tif initibl nbming dontfxt using tif \f3rfbind\fR mftiod\&. Tif \f3rfbind\fR mftiod fnbblfs you to run tiis progrbm ovfr bnd ovfr bgbin witiout gftting tif fxdfptions from using tif \f3bind\fR mftiod\&.
+Tiis dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to tif dummy objfdt rfffrfndf\&. \f3plbns\fR is tifn bddfd undfr tif initibl nbming dontfxt using tif \f3rfbind\fR mftiod\&. Tif \f3rfbind\fR mftiod fnbblfs you to run tiis progrbm ovfr bnd ovfr bgbin witiout gftting tif fxdfptions from using tif \f3bind\fR mftiod\&.
+Tiis dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to tif dummy objfdt rfffrfndf\&. \f3plbns\fR is tifn bddfd undfr tif initibl nbming dontfxt using tif \f3rfbind\fR mftiod\&. Tif \f3rfbind\fR mftiod fnbblfs you to run tiis progrbm ovfr bnd ovfr bgbin witiout gftting tif fxdfptions from using tif \f3bind\fR mftiod\&.
+Tiis dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to tif dummy objfdt rfffrfndf\&. \f3plbns\fR is tifn bddfd undfr tif initibl nbming dontfxt using tif \f3rfbind\fR mftiod\&. Tif \f3rfbind\fR mftiod fnbblfs you to run tiis progrbm ovfr bnd ovfr bgbin witiout gftting tif fxdfptions from using tif \f3bind\fR mftiod\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");\fP
+\f3            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");\fP
+\f3            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");\fP
+\f3            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");\fP
+\f3            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmfComponfnt[] nbmf1 = {nd1};\fP
+\f3            NbmfComponfnt[] nbmf1 = {nd1};\fP
+\f3            NbmfComponfnt[] nbmf1 = {nd1};\fP
+\f3            NbmfComponfnt[] nbmf1 = {nd1};\fP
+\f3            NbmfComponfnt[] nbmf1 = {nd1};\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            dtx\&.rfbind(nbmf1, objrff);\fP
+\f3            dtx\&.rfbind(nbmf1, objrff);\fP
+\f3            dtx\&.rfbind(nbmf1, objrff);\fP
+\f3            dtx\&.rfbind(nbmf1, objrff);\fP
+\f3            dtx\&.rfbind(nbmf1, objrff);\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            Systfm\&.out\&.println("plbns rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("plbns rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("plbns rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("plbns rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("plbns rfbind suddfssful!");\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-This dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Thf rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to thf \f3nbmf\fR bnd bddfd undfr thf initibl nbming dontfxt\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Tiis dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Tif rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to tif \f3nbmf\fR bnd bddfd undfr tif initibl nbming dontfxt\&.
+Tiis dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Tif rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to tif \f3nbmf\fR bnd bddfd undfr tif initibl nbming dontfxt\&.
+Tiis dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Tif rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to tif \f3nbmf\fR bnd bddfd undfr tif initibl nbming dontfxt\&.
+Tiis dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Tif rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to tif \f3nbmf\fR bnd bddfd undfr tif initibl nbming dontfxt\&.
+Tiis dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Tif rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to tif \f3nbmf\fR bnd bddfd undfr tif initibl nbming dontfxt\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");\fP
+\f3            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");\fP
+\f3            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");\fP
+\f3            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");\fP
+\f3            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmfComponfnt[] nbmf2 = {nd2};\fP
+\f3            NbmfComponfnt[] nbmf2 = {nd2};\fP
+\f3            NbmfComponfnt[] nbmf2 = {nd2};\fP
+\f3            NbmfComponfnt[] nbmf2 = {nd2};\fP
+\f3            NbmfComponfnt[] nbmf2 = {nd2};\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);\fP
+\f3            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);\fP
+\f3            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);\fP
+\f3            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);\fP
+\f3            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");\fP
+\f3            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");\fP
+\f3            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");\fP
+\f3            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");\fP
+\f3            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
-Thf rfmbindfr of thf dodf binds thf dummy objfdt rfffrfndf using thf nbmfs \f3sdhfdulf\fR bnd \f3dblfndbr\fR undfr thf \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
+.sp     
+.sp     
+.sp     
+.sp     
+Tif rfmbindfr of tif dodf binds tif dummy objfdt rfffrfndf using tif nbmfs \f3sdifdulf\fR bnd \f3dblfndbr\fR undfr tif \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
+Tif rfmbindfr of tif dodf binds tif dummy objfdt rfffrfndf using tif nbmfs \f3sdifdulf\fR bnd \f3dblfndbr\fR undfr tif \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
+Tif rfmbindfr of tif dodf binds tif dummy objfdt rfffrfndf using tif nbmfs \f3sdifdulf\fR bnd \f3dblfndbr\fR undfr tif \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
+Tif rfmbindfr of tif dodf binds tif dummy objfdt rfffrfndf using tif nbmfs \f3sdifdulf\fR bnd \f3dblfndbr\fR undfr tif \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
+Tif rfmbindfr of tif dodf binds tif dummy objfdt rfffrfndf using tif nbmfs \f3sdifdulf\fR bnd \f3dblfndbr\fR undfr tif \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdhfdulf", "tfxt");\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");\fP
+\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");\fP
+\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");\fP
+\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");\fP
+\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmfComponfnt[] nbmf3 = {nd3};\fP
+\f3            NbmfComponfnt[] nbmf3 = {nd3};\fP
+\f3            NbmfComponfnt[] nbmf3 = {nd3};\fP
+\f3            NbmfComponfnt[] nbmf3 = {nd3};\fP
+\f3            NbmfComponfnt[] nbmf3 = {nd3};\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            dtx2\&.rfbind(nbmf3, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf3, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf3, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf3, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf3, objrff);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3            Systfm\&.out\&.println("sdhfdulf rfbind suddfssful!");\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");\fP
+\f3            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");\fP
+\f3            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");\fP
+\f3            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");\fP
+\f3            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmfComponfnt[] nbmf4 = {nd4};\fP
+\f3            NbmfComponfnt[] nbmf4 = {nd4};\fP
+\f3            NbmfComponfnt[] nbmf4 = {nd4};\fP
+\f3            NbmfComponfnt[] nbmf4 = {nd4};\fP
+\f3            NbmfComponfnt[] nbmf4 = {nd4};\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            dtx2\&.rfbind(nbmf4, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf4, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf4, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf4, objrff);\fP
+\f3            dtx2\&.rfbind(nbmf4, objrff);\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");\fP
+\f3            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3        } dbtdh (Exdfption f) {\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            f\&.printStbdkTrbdf(Systfm\&.frr);\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr);\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr);\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr);\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr);\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3        }\fP
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3    }\fP
+\f3    }\fP
+\f3    }\fP
+\f3    }\fP
+\f3    }\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SS BROWSING\ THE\ NAME\ SPACE    
-Thf following sbmplf progrbm shofs how to browsf thf nbmf spbdf\&.
+.SS BROWSING\ THE\ NAME\ SPACE    
+.SS BROWSING\ THE\ NAME\ SPACE    
+.SS BROWSING\ THE\ NAME\ SPACE    
+.SS BROWSING\ THE\ NAME\ SPACE    
+Tif following sbmplf progrbm siofs iow to browsf tif nbmf spbdf\&.
+Tif following sbmplf progrbm siofs iow to browsf tif nbmf spbdf\&.
+Tif following sbmplf progrbm siofs iow to browsf tif nbmf spbdf\&.
+Tif following sbmplf progrbm siofs iow to browsf tif nbmf spbdf\&.
+Tif following sbmplf progrbm siofs iow to browsf tif nbmf spbdf\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
+\f3import org\&.omg\&.CORBA\&.*;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3publid dlbss NbmfClifntList {\fP
+\f3publid dlbss NbmfClifntList {\fP
+\f3publid dlbss NbmfClifntList {\fP
+\f3publid dlbss NbmfClifntList {\fP
+\f3publid dlbss NbmfClifntList {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3        try {\fP
+\f3        try {\fP
+\f3        try {\fP
+\f3        try {\fP
+\f3        try {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-In Stbrt thf Nbming Sfrvidf, thf \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Thf following dodf fnsurfs thbt thf dlifnt progrbm is bwbrf of this port numbfr\&.
 .sp     
+.sp     
+.sp     
+.sp     
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Thf following dodf obtbins thf initibl nbming dontfxt\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Tif following dodf obtbins tif initibl nbming dontfxt\&.
+Tif following dodf obtbins tif initibl nbming dontfxt\&.
+Tif following dodf obtbins tif initibl nbming dontfxt\&.
+Tif following dodf obtbins tif initibl nbming dontfxt\&.
+Tif following dodf obtbins tif initibl nbming dontfxt\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmingContfxt nd =\fP
+\f3            NbmingContfxt nd =\fP
+\f3            NbmingContfxt nd =\fP
+\f3            NbmingContfxt nd =\fP
+\f3            NbmingContfxt nd =\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3            NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3            NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3            NbmingContfxtHflpfr\&.nbrrow(\fP
+\f3            NbmingContfxtHflpfr\&.nbrrow(\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+\f3                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Thf \f3list\fR mfthod lists thf bindings in thf nbming dontfxt\&. In this dbsf, up to 1000 bindings from thf initibl nbming dontfxt will bf rfturnfd in thf \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in thf \f3BindingItfrbtorHoldfr\fR\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Tif \f3list\fR mftiod lists tif bindings in tif nbming dontfxt\&. In tiis dbsf, up to 1000 bindings from tif initibl nbming dontfxt will bf rfturnfd in tif \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in tif \f3BindingItfrbtorHoldfr\fR\&.
+Tif \f3list\fR mftiod lists tif bindings in tif nbming dontfxt\&. In tiis dbsf, up to 1000 bindings from tif initibl nbming dontfxt will bf rfturnfd in tif \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in tif \f3BindingItfrbtorHoldfr\fR\&.
+Tif \f3list\fR mftiod lists tif bindings in tif nbming dontfxt\&. In tiis dbsf, up to 1000 bindings from tif initibl nbming dontfxt will bf rfturnfd in tif \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in tif \f3BindingItfrbtorHoldfr\fR\&.
+Tif \f3list\fR mftiod lists tif bindings in tif nbming dontfxt\&. In tiis dbsf, up to 1000 bindings from tif initibl nbming dontfxt will bf rfturnfd in tif \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in tif \f3BindingItfrbtorHoldfr\fR\&.
+Tif \f3list\fR mftiod lists tif bindings in tif nbming dontfxt\&. In tiis dbsf, up to 1000 bindings from tif initibl nbming dontfxt will bf rfturnfd in tif \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in tif \f3BindingItfrbtorHoldfr\fR\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            BindingListHoldfr bl = nfw BindingListHoldfr();\fP
+\f3            BindingListHoldfr bl = nfw BindingListHoldfr();\fP
+\f3            BindingListHoldfr bl = nfw BindingListHoldfr();\fP
+\f3            BindingListHoldfr bl = nfw BindingListHoldfr();\fP
+\f3            BindingListHoldfr bl = nfw BindingListHoldfr();\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();\fP
+\f3            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();\fP
+\f3            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();\fP
+\f3            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();\fP
+\f3            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            nd\&.list(1000, bl, blIt);\fP
+\f3            nd\&.list(1000, bl, blIt);\fP
+\f3            nd\&.list(1000, bl, blIt);\fP
+\f3            nd\&.list(1000, bl, blIt);\fP
+\f3            nd\&.list(1000, bl, blIt);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-This dodf gfts thf brrby of bindings out of thf rfturnfd \f3BindingListHoldfr\fR\&. If thfrf brf no bindings, thfn thf progrbm fnds\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Tiis dodf gfts tif brrby of bindings out of tif rfturnfd \f3BindingListHoldfr\fR\&. If tifrf brf no bindings, tifn tif progrbm fnds\&.
+Tiis dodf gfts tif brrby of bindings out of tif rfturnfd \f3BindingListHoldfr\fR\&. If tifrf brf no bindings, tifn tif progrbm fnds\&.
+Tiis dodf gfts tif brrby of bindings out of tif rfturnfd \f3BindingListHoldfr\fR\&. If tifrf brf no bindings, tifn tif progrbm fnds\&.
+Tiis dodf gfts tif brrby of bindings out of tif rfturnfd \f3BindingListHoldfr\fR\&. If tifrf brf no bindings, tifn tif progrbm fnds\&.
+Tiis dodf gfts tif brrby of bindings out of tif rfturnfd \f3BindingListHoldfr\fR\&. If tifrf brf no bindings, tifn tif progrbm fnds\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            Binding bindings[] = bl\&.vbluf;\fP
+\f3            Binding bindings[] = bl\&.vbluf;\fP
+\f3            Binding bindings[] = bl\&.vbluf;\fP
+\f3            Binding bindings[] = bl\&.vbluf;\fP
+\f3            Binding bindings[] = bl\&.vbluf;\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3            if (bindings\&.lfngth == 0) rfturn;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3            if (bindings\&.lfngti == 0) rfturn;\fP
+\f3            if (bindings\&.lfngti == 0) rfturn;\fP
+\f3            if (bindings\&.lfngti == 0) rfturn;\fP
+\f3            if (bindings\&.lfngti == 0) rfturn;\fP
+\f3            if (bindings\&.lfngti == 0) rfturn;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
-.fi     
-.sp     
-Thf rfmbindfr of thf dodf loops through thf bindings bnd prints outs thf nbmfs\&.
-.sp     
-.nf     
-\f3            for (int i=0; i < bindings\&.lfngth; i++) {\fP
-.fi     
-.nf     
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
-.nf     
-\f3                // gft thf objfdt rfffrfndf for fbdh binding\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+Tif rfmbindfr of tif dodf loops tirougi tif bindings bnd prints outs tif nbmfs\&.
+Tif rfmbindfr of tif dodf loops tirougi tif bindings bnd prints outs tif nbmfs\&.
+Tif rfmbindfr of tif dodf loops tirougi tif bindings bnd prints outs tif nbmfs\&.
+Tif rfmbindfr of tif dodf loops tirougi tif bindings bnd prints outs tif nbmfs\&.
+Tif rfmbindfr of tif dodf loops tirougi tif bindings bnd prints outs tif nbmfs\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3            for (int i=0; i < bindings\&.lfngti; i++) {\fP
+\f3            for (int i=0; i < bindings\&.lfngti; i++) {\fP
+\f3            for (int i=0; i < bindings\&.lfngti; i++) {\fP
+\f3            for (int i=0; i < bindings\&.lfngti; i++) {\fP
+\f3            for (int i=0; i < bindings\&.lfngti; i++) {\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                // gft tif objfdt rfffrfndf for fbdi binding\fP
+\f3                // gft tif objfdt rfffrfndf for fbdi binding\fP
+\f3                // gft tif objfdt rfffrfndf for fbdi binding\fP
+\f3                // gft tif objfdt rfffrfndf for fbdi binding\fP
+\f3                // gft tif objfdt rfffrfndf for fbdi binding\fP
+.fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);\fP
+\f3                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);\fP
+\f3                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);\fP
+\f3                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);\fP
+\f3                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                String objStr = orb\&.objfdt_to_string(obj);\fP
+\f3                String objStr = orb\&.objfdt_to_string(obj);\fP
+\f3                String objStr = orb\&.objfdt_to_string(obj);\fP
+\f3                String objStr = orb\&.objfdt_to_string(obj);\fP
+\f3                String objStr = orb\&.objfdt_to_string(obj);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngth\-1;\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;\fP
+\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;\fP
+\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;\fP
+\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;\fP
+\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3                // dhfdk to sff if this is b nbming dontfxt\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                // difdk to sff if tiis is b nbming dontfxt\fP
+\f3                // difdk to sff if tiis is b nbming dontfxt\fP
+\f3                // difdk to sff if tiis is b nbming dontfxt\fP
+\f3                // difdk to sff if tiis is b nbming dontfxt\fP
+\f3                // difdk to sff if tiis is b nbming dontfxt\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {\fP
+\f3                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {\fP
+\f3                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {\fP
+\f3                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {\fP
+\f3                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                    Systfm\&.out\&.println("Contfxt: " +\fP
+\f3                    Systfm\&.out\&.println("Contfxt: " +\fP
+\f3                    Systfm\&.out\&.println("Contfxt: " +\fP
+\f3                    Systfm\&.out\&.println("Contfxt: " +\fP
+\f3                    Systfm\&.out\&.println("Contfxt: " +\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
 \f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                } flsf {\fP
+\f3                } flsf {\fP
+\f3                } flsf {\fP
+\f3                } flsf {\fP
+\f3                } flsf {\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                    Systfm\&.out\&.println("Objfdt: " +\fP
+\f3                    Systfm\&.out\&.println("Objfdt: " +\fP
+\f3                    Systfm\&.out\&.println("Objfdt: " +\fP
+\f3                    Systfm\&.out\&.println("Objfdt: " +\fP
+\f3                    Systfm\&.out\&.println("Objfdt: " +\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3                }\fP
+\f3                }\fP
+\f3                }\fP
+\f3                }\fP
+\f3                }\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            }\fP
+\f3            }\fP
+\f3            }\fP
+\f3            }\fP
+\f3            }\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3        } dbtdh (Exdfption f) {\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3            f\&.printStbdkTrbdf(Systfm\&.frr)\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr)\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr)\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr)\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3        }\fP
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
+\f3        }\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3    }\fP
+\f3    }\fP
+\f3    }\fP
+\f3    }\fP
+\f3    }\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
+\(bu
+\(bu
+\(bu
+\(bu
+orbd(1)
+orbd(1)
+orbd(1)
+orbd(1)
 orbd(1)
 .RE
+.RE
+.RE
+.RE
+.RE
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

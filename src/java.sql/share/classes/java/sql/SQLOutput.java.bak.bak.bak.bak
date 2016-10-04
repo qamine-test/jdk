@@ -1,475 +1,2375 @@
 /*
- * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvb.sql;
-
-/**
- * Thf output strfbm for writing thf bttributfs of b usfr-dffinfd
- * typf bbdk to thf dbtbbbsf.  This intfrfbdf, usfd
- * only for dustom mbpping, is usfd by thf drivfr, bnd its
- * mfthods brf nfvfr dirfdtly invokfd by b progrbmmfr.
- * <p>Whfn bn objfdt of b dlbss implfmfnting thf intfrfbdf
- * <dodf>SQLDbtb</dodf> is pbssfd bs bn brgumfnt to bn SQL stbtfmfnt, thf
- * JDBC drivfr dblls thf mfthod <dodf>SQLDbtb.gftSQLTypf</dodf> to
- * dftfrminf thf  kind of SQL
- * dbtum bfing pbssfd to thf dbtbbbsf.
- * Thf drivfr thfn drfbtfs bn instbndf of <dodf>SQLOutput</dodf> bnd
- * pbssfs it to thf mfthod <dodf>SQLDbtb.writfSQL</dodf>.
- * Thf mfthod <dodf>writfSQL</dodf> in turn dblls thf
- * bppropribtf <dodf>SQLOutput</dodf> <i>writfr</i> mfthods
- * <dodf>writfBoolfbn</dodf>, <dodf>writfChbrbdtfrStrfbm</dodf>, bnd so on)
- * to writf dbtb from thf <dodf>SQLDbtb</dodf> objfdt to
- * thf <dodf>SQLOutput</dodf> output strfbm bs thf
- * rfprfsfntbtion of bn SQL usfr-dffinfd typf.
- * @sindf 1.2
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvb.sql;
+pbdkbgf jbvb.sql;
+pbdkbgf jbvb.sql;
+pbdkbgf jbvb.sql;
+pbdkbgf jbvb.sql;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Tif output strfbm for writing tif bttributfs of b usfr-dffinfd
+ * Tif output strfbm for writing tif bttributfs of b usfr-dffinfd
+ * Tif output strfbm for writing tif bttributfs of b usfr-dffinfd
+ * Tif output strfbm for writing tif bttributfs of b usfr-dffinfd
+ * Tif output strfbm for writing tif bttributfs of b usfr-dffinfd
+ * typf bbdk to tif dbtbbbsf.  Tiis intfrfbdf, usfd
+ * typf bbdk to tif dbtbbbsf.  Tiis intfrfbdf, usfd
+ * typf bbdk to tif dbtbbbsf.  Tiis intfrfbdf, usfd
+ * typf bbdk to tif dbtbbbsf.  Tiis intfrfbdf, usfd
+ * typf bbdk to tif dbtbbbsf.  Tiis intfrfbdf, usfd
+ * only for dustom mbpping, is usfd by tif drivfr, bnd its
+ * only for dustom mbpping, is usfd by tif drivfr, bnd its
+ * only for dustom mbpping, is usfd by tif drivfr, bnd its
+ * only for dustom mbpping, is usfd by tif drivfr, bnd its
+ * only for dustom mbpping, is usfd by tif drivfr, bnd its
+ * mftiods brf nfvfr dirfdtly invokfd by b progrbmmfr.
+ * mftiods brf nfvfr dirfdtly invokfd by b progrbmmfr.
+ * mftiods brf nfvfr dirfdtly invokfd by b progrbmmfr.
+ * mftiods brf nfvfr dirfdtly invokfd by b progrbmmfr.
+ * mftiods brf nfvfr dirfdtly invokfd by b progrbmmfr.
+ * <p>Wifn bn objfdt of b dlbss implfmfnting tif intfrfbdf
+ * <p>Wifn bn objfdt of b dlbss implfmfnting tif intfrfbdf
+ * <p>Wifn bn objfdt of b dlbss implfmfnting tif intfrfbdf
+ * <p>Wifn bn objfdt of b dlbss implfmfnting tif intfrfbdf
+ * <p>Wifn bn objfdt of b dlbss implfmfnting tif intfrfbdf
+ * <dodf>SQLDbtb</dodf> is pbssfd bs bn brgumfnt to bn SQL stbtfmfnt, tif
+ * <dodf>SQLDbtb</dodf> is pbssfd bs bn brgumfnt to bn SQL stbtfmfnt, tif
+ * <dodf>SQLDbtb</dodf> is pbssfd bs bn brgumfnt to bn SQL stbtfmfnt, tif
+ * <dodf>SQLDbtb</dodf> is pbssfd bs bn brgumfnt to bn SQL stbtfmfnt, tif
+ * <dodf>SQLDbtb</dodf> is pbssfd bs bn brgumfnt to bn SQL stbtfmfnt, tif
+ * JDBC drivfr dblls tif mftiod <dodf>SQLDbtb.gftSQLTypf</dodf> to
+ * JDBC drivfr dblls tif mftiod <dodf>SQLDbtb.gftSQLTypf</dodf> to
+ * JDBC drivfr dblls tif mftiod <dodf>SQLDbtb.gftSQLTypf</dodf> to
+ * JDBC drivfr dblls tif mftiod <dodf>SQLDbtb.gftSQLTypf</dodf> to
+ * JDBC drivfr dblls tif mftiod <dodf>SQLDbtb.gftSQLTypf</dodf> to
+ * dftfrminf tif  kind of SQL
+ * dftfrminf tif  kind of SQL
+ * dftfrminf tif  kind of SQL
+ * dftfrminf tif  kind of SQL
+ * dftfrminf tif  kind of SQL
+ * dbtum bfing pbssfd to tif dbtbbbsf.
+ * dbtum bfing pbssfd to tif dbtbbbsf.
+ * dbtum bfing pbssfd to tif dbtbbbsf.
+ * dbtum bfing pbssfd to tif dbtbbbsf.
+ * dbtum bfing pbssfd to tif dbtbbbsf.
+ * Tif drivfr tifn drfbtfs bn instbndf of <dodf>SQLOutput</dodf> bnd
+ * Tif drivfr tifn drfbtfs bn instbndf of <dodf>SQLOutput</dodf> bnd
+ * Tif drivfr tifn drfbtfs bn instbndf of <dodf>SQLOutput</dodf> bnd
+ * Tif drivfr tifn drfbtfs bn instbndf of <dodf>SQLOutput</dodf> bnd
+ * Tif drivfr tifn drfbtfs bn instbndf of <dodf>SQLOutput</dodf> bnd
+ * pbssfs it to tif mftiod <dodf>SQLDbtb.writfSQL</dodf>.
+ * pbssfs it to tif mftiod <dodf>SQLDbtb.writfSQL</dodf>.
+ * pbssfs it to tif mftiod <dodf>SQLDbtb.writfSQL</dodf>.
+ * pbssfs it to tif mftiod <dodf>SQLDbtb.writfSQL</dodf>.
+ * pbssfs it to tif mftiod <dodf>SQLDbtb.writfSQL</dodf>.
+ * Tif mftiod <dodf>writfSQL</dodf> in turn dblls tif
+ * Tif mftiod <dodf>writfSQL</dodf> in turn dblls tif
+ * Tif mftiod <dodf>writfSQL</dodf> in turn dblls tif
+ * Tif mftiod <dodf>writfSQL</dodf> in turn dblls tif
+ * Tif mftiod <dodf>writfSQL</dodf> in turn dblls tif
+ * bppropribtf <dodf>SQLOutput</dodf> <i>writfr</i> mftiods
+ * bppropribtf <dodf>SQLOutput</dodf> <i>writfr</i> mftiods
+ * bppropribtf <dodf>SQLOutput</dodf> <i>writfr</i> mftiods
+ * bppropribtf <dodf>SQLOutput</dodf> <i>writfr</i> mftiods
+ * bppropribtf <dodf>SQLOutput</dodf> <i>writfr</i> mftiods
+ * <dodf>writfBoolfbn</dodf>, <dodf>writfCibrbdtfrStrfbm</dodf>, bnd so on)
+ * <dodf>writfBoolfbn</dodf>, <dodf>writfCibrbdtfrStrfbm</dodf>, bnd so on)
+ * <dodf>writfBoolfbn</dodf>, <dodf>writfCibrbdtfrStrfbm</dodf>, bnd so on)
+ * <dodf>writfBoolfbn</dodf>, <dodf>writfCibrbdtfrStrfbm</dodf>, bnd so on)
+ * <dodf>writfBoolfbn</dodf>, <dodf>writfCibrbdtfrStrfbm</dodf>, bnd so on)
+ * to writf dbtb from tif <dodf>SQLDbtb</dodf> objfdt to
+ * to writf dbtb from tif <dodf>SQLDbtb</dodf> objfdt to
+ * to writf dbtb from tif <dodf>SQLDbtb</dodf> objfdt to
+ * to writf dbtb from tif <dodf>SQLDbtb</dodf> objfdt to
+ * to writf dbtb from tif <dodf>SQLDbtb</dodf> objfdt to
+ * tif <dodf>SQLOutput</dodf> output strfbm bs tif
+ * tif <dodf>SQLOutput</dodf> output strfbm bs tif
+ * tif <dodf>SQLOutput</dodf> output strfbm bs tif
+ * tif <dodf>SQLOutput</dodf> output strfbm bs tif
+ * tif <dodf>SQLOutput</dodf> output strfbm bs tif
+ * rfprfsfntbtion of bn SQL usfr-dffinfd typf.
+ * rfprfsfntbtion of bn SQL usfr-dffinfd typf.
+ * rfprfsfntbtion of bn SQL usfr-dffinfd typf.
+ * rfprfsfntbtion of bn SQL usfr-dffinfd typf.
+ * rfprfsfntbtion of bn SQL usfr-dffinfd typf.
+ * @sindf 1.2
+ * @sindf 1.2
+ * @sindf 1.2
+ * @sindf 1.2
+ * @sindf 1.2
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+ publid intfrfbdf SQLOutput {
+ publid intfrfbdf SQLOutput {
+ publid intfrfbdf SQLOutput {
+ publid intfrfbdf SQLOutput {
  publid intfrfbdf SQLOutput {
 
+
+
+
+
   //================================================================
-  // Mfthods for writing bttributfs to thf strfbm of SQL dbtb.
-  // Thfsf mfthods dorrfspond to thf dolumn-bddfssor mfthods of
+  //================================================================
+  //================================================================
+  //================================================================
+  //================================================================
+  // Mftiods for writing bttributfs to tif strfbm of SQL dbtb.
+  // Mftiods for writing bttributfs to tif strfbm of SQL dbtb.
+  // Mftiods for writing bttributfs to tif strfbm of SQL dbtb.
+  // Mftiods for writing bttributfs to tif strfbm of SQL dbtb.
+  // Mftiods for writing bttributfs to tif strfbm of SQL dbtb.
+  // Tifsf mftiods dorrfspond to tif dolumn-bddfssor mftiods of
+  // Tifsf mftiods dorrfspond to tif dolumn-bddfssor mftiods of
+  // Tifsf mftiods dorrfspond to tif dolumn-bddfssor mftiods of
+  // Tifsf mftiods dorrfspond to tif dolumn-bddfssor mftiods of
+  // Tifsf mftiods dorrfspond to tif dolumn-bddfssor mftiods of
+  // jbvb.sql.RfsultSft.
+  // jbvb.sql.RfsultSft.
+  // jbvb.sql.RfsultSft.
+  // jbvb.sql.RfsultSft.
   // jbvb.sql.RfsultSft.
   //================================================================
+  //================================================================
+  //================================================================
+  //================================================================
+  //================================================================
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfString(String x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfString(String x) tirows SQLExdfption;
+  void writfString(String x) tirows SQLExdfption;
+  void writfString(String x) tirows SQLExdfption;
+  void writfString(String x) tirows SQLExdfption;
+  void writfString(String x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b Jbvb boolfbn.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb boolfbn.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb boolfbn.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb boolfbn.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb boolfbn.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb boolfbn.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfBoolfbn(boolfbn x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfBoolfbn(boolfbn x) tirows SQLExdfption;
+  void writfBoolfbn(boolfbn x) tirows SQLExdfption;
+  void writfBoolfbn(boolfbn x) tirows SQLExdfption;
+  void writfBoolfbn(boolfbn x) tirows SQLExdfption;
+  void writfBoolfbn(boolfbn x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b Jbvb bytf.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb bytf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb bytf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb bytf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb bytf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb bytf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfBytf(bytf x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfBytf(bytf x) tirows SQLExdfption;
+  void writfBytf(bytf x) tirows SQLExdfption;
+  void writfBytf(bytf x) tirows SQLExdfption;
+  void writfBytf(bytf x) tirows SQLExdfption;
+  void writfBytf(bytf x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b Jbvb short.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb siort.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb siort.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb siort.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb siort.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb siort.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfShort(short x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfSiort(siort x) tirows SQLExdfption;
+  void writfSiort(siort x) tirows SQLExdfption;
+  void writfSiort(siort x) tirows SQLExdfption;
+  void writfSiort(siort x) tirows SQLExdfption;
+  void writfSiort(siort x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b Jbvb int.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb int.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb int.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb int.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb int.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb int.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfInt(int x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfInt(int x) tirows SQLExdfption;
+  void writfInt(int x) tirows SQLExdfption;
+  void writfInt(int x) tirows SQLExdfption;
+  void writfInt(int x) tirows SQLExdfption;
+  void writfInt(int x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b Jbvb long.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb long.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb long.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb long.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb long.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb long.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfLong(long x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfLong(long x) tirows SQLExdfption;
+  void writfLong(long x) tirows SQLExdfption;
+  void writfLong(long x) tirows SQLExdfption;
+  void writfLong(long x) tirows SQLExdfption;
+  void writfLong(long x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b Jbvb flobt.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb flobt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb flobt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb flobt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb flobt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb flobt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfFlobt(flobt x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfFlobt(flobt x) tirows SQLExdfption;
+  void writfFlobt(flobt x) tirows SQLExdfption;
+  void writfFlobt(flobt x) tirows SQLExdfption;
+  void writfFlobt(flobt x) tirows SQLExdfption;
+  void writfFlobt(flobt x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b Jbvb doublf.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb doublf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb doublf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb doublf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb doublf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b Jbvb doublf.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfDoublf(doublf x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfDoublf(doublf x) tirows SQLExdfption;
+  void writfDoublf(doublf x) tirows SQLExdfption;
+  void writfDoublf(doublf x) tirows SQLExdfption;
+  void writfDoublf(doublf x) tirows SQLExdfption;
+  void writfDoublf(doublf x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b jbvb.mbth.BigDfdimbl objfdt.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.mbti.BigDfdimbl objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.mbti.BigDfdimbl objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.mbti.BigDfdimbl objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.mbti.BigDfdimbl objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.mbti.BigDfdimbl objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfBigDfdimbl(jbvb.mbth.BigDfdimbl x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfBigDfdimbl(jbvb.mbti.BigDfdimbl x) tirows SQLExdfption;
+  void writfBigDfdimbl(jbvb.mbti.BigDfdimbl x) tirows SQLExdfption;
+  void writfBigDfdimbl(jbvb.mbti.BigDfdimbl x) tirows SQLExdfption;
+  void writfBigDfdimbl(jbvb.mbti.BigDfdimbl x) tirows SQLExdfption;
+  void writfBigDfdimbl(jbvb.mbti.BigDfdimbl x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs bn brrby of bytfs.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs bn brrby of bytfs.
+   * Writfs tif nfxt bttributf to tif strfbm bs bn brrby of bytfs.
+   * Writfs tif nfxt bttributf to tif strfbm bs bn brrby of bytfs.
+   * Writfs tif nfxt bttributf to tif strfbm bs bn brrby of bytfs.
+   * Writfs tif nfxt bttributf to tif strfbm bs bn brrby of bytfs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfBytfs(bytf[] x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfBytfs(bytf[] x) tirows SQLExdfption;
+  void writfBytfs(bytf[] x) tirows SQLExdfption;
+  void writfBytfs(bytf[] x) tirows SQLExdfption;
+  void writfBytfs(bytf[] x) tirows SQLExdfption;
+  void writfBytfs(bytf[] x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b jbvb.sql.Dbtf objfdt.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Dbtf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Dbtf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Dbtf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Dbtf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Dbtf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfDbtf(jbvb.sql.Dbtf x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfDbtf(jbvb.sql.Dbtf x) tirows SQLExdfption;
+  void writfDbtf(jbvb.sql.Dbtf x) tirows SQLExdfption;
+  void writfDbtf(jbvb.sql.Dbtf x) tirows SQLExdfption;
+  void writfDbtf(jbvb.sql.Dbtf x) tirows SQLExdfption;
+  void writfDbtf(jbvb.sql.Dbtf x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b jbvb.sql.Timf objfdt.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timf objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfTimf(jbvb.sql.Timf x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfTimf(jbvb.sql.Timf x) tirows SQLExdfption;
+  void writfTimf(jbvb.sql.Timf x) tirows SQLExdfption;
+  void writfTimf(jbvb.sql.Timf x) tirows SQLExdfption;
+  void writfTimf(jbvb.sql.Timf x) tirows SQLExdfption;
+  void writfTimf(jbvb.sql.Timf x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b jbvb.sql.Timfstbmp objfdt.
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
-   * in thf Jbvb progrbmming lbngubgf.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timfstbmp objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timfstbmp objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timfstbmp objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timfstbmp objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b jbvb.sql.Timfstbmp objfdt.
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>jbvb.sql.Dbtf</dodf> objfdt
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
+   * in tif Jbvb progrbmming lbngubgf.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfTimfstbmp(jbvb.sql.Timfstbmp x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfTimfstbmp(jbvb.sql.Timfstbmp x) tirows SQLExdfption;
+  void writfTimfstbmp(jbvb.sql.Timfstbmp x) tirows SQLExdfption;
+  void writfTimfstbmp(jbvb.sql.Timfstbmp x) tirows SQLExdfption;
+  void writfTimfstbmp(jbvb.sql.Timfstbmp x) tirows SQLExdfption;
+  void writfTimfstbmp(jbvb.sql.Timfstbmp x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b strfbm of Unidodf dhbrbdtfrs.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of Unidodf dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of Unidodf dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of Unidodf dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of Unidodf dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of Unidodf dibrbdtfrs.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfChbrbdtfrStrfbm(jbvb.io.Rfbdfr x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfCibrbdtfrStrfbm(jbvb.io.Rfbdfr x) tirows SQLExdfption;
+  void writfCibrbdtfrStrfbm(jbvb.io.Rfbdfr x) tirows SQLExdfption;
+  void writfCibrbdtfrStrfbm(jbvb.io.Rfbdfr x) tirows SQLExdfption;
+  void writfCibrbdtfrStrfbm(jbvb.io.Rfbdfr x) tirows SQLExdfption;
+  void writfCibrbdtfrStrfbm(jbvb.io.Rfbdfr x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b strfbm of ASCII dhbrbdtfrs.
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of ASCII dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of ASCII dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of ASCII dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of ASCII dibrbdtfrs.
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of ASCII dibrbdtfrs.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfAsdiiStrfbm(jbvb.io.InputStrfbm x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfAsdiiStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfAsdiiStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfAsdiiStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfAsdiiStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfAsdiiStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b strfbm of unintfrprftfd
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of unintfrprftfd
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of unintfrprftfd
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of unintfrprftfd
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of unintfrprftfd
+   * Writfs tif nfxt bttributf to tif strfbm bs b strfbm of unintfrprftfd
+   * bytfs.
+   * bytfs.
+   * bytfs.
+   * bytfs.
    * bytfs.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfBinbryStrfbm(jbvb.io.InputStrfbm x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfBinbryStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfBinbryStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfBinbryStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfBinbryStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+  void writfBinbryStrfbm(jbvb.io.InputStrfbm x) tirows SQLExdfption;
+
+
+
+
 
   //================================================================
-  // Mfthods for writing itfms of SQL usfr-dffinfd typfs to thf strfbm.
-  // Thfsf mfthods pbss objfdts to thf dbtbbbsf bs vblufs of SQL
-  // Strudturfd Typfs, Distindt Typfs, Construdtfd Typfs, bnd Lodbtor
-  // Typfs.  Thfy dfdomposf thf Jbvb objfdt(s) bnd writf lfbf dbtb
-  // itfms using thf mfthods bbovf.
   //================================================================
+  //================================================================
+  //================================================================
+  //================================================================
+  // Mftiods for writing itfms of SQL usfr-dffinfd typfs to tif strfbm.
+  // Mftiods for writing itfms of SQL usfr-dffinfd typfs to tif strfbm.
+  // Mftiods for writing itfms of SQL usfr-dffinfd typfs to tif strfbm.
+  // Mftiods for writing itfms of SQL usfr-dffinfd typfs to tif strfbm.
+  // Mftiods for writing itfms of SQL usfr-dffinfd typfs to tif strfbm.
+  // Tifsf mftiods pbss objfdts to tif dbtbbbsf bs vblufs of SQL
+  // Tifsf mftiods pbss objfdts to tif dbtbbbsf bs vblufs of SQL
+  // Tifsf mftiods pbss objfdts to tif dbtbbbsf bs vblufs of SQL
+  // Tifsf mftiods pbss objfdts to tif dbtbbbsf bs vblufs of SQL
+  // Tifsf mftiods pbss objfdts to tif dbtbbbsf bs vblufs of SQL
+  // Strudturfd Typfs, Distindt Typfs, Construdtfd Typfs, bnd Lodbtor
+  // Strudturfd Typfs, Distindt Typfs, Construdtfd Typfs, bnd Lodbtor
+  // Strudturfd Typfs, Distindt Typfs, Construdtfd Typfs, bnd Lodbtor
+  // Strudturfd Typfs, Distindt Typfs, Construdtfd Typfs, bnd Lodbtor
+  // Strudturfd Typfs, Distindt Typfs, Construdtfd Typfs, bnd Lodbtor
+  // Typfs.  Tify dfdomposf tif Jbvb objfdt(s) bnd writf lfbf dbtb
+  // Typfs.  Tify dfdomposf tif Jbvb objfdt(s) bnd writf lfbf dbtb
+  // Typfs.  Tify dfdomposf tif Jbvb objfdt(s) bnd writf lfbf dbtb
+  // Typfs.  Tify dfdomposf tif Jbvb objfdt(s) bnd writf lfbf dbtb
+  // Typfs.  Tify dfdomposf tif Jbvb objfdt(s) bnd writf lfbf dbtb
+  // itfms using tif mftiods bbovf.
+  // itfms using tif mftiods bbovf.
+  // itfms using tif mftiods bbovf.
+  // itfms using tif mftiods bbovf.
+  // itfms using tif mftiods bbovf.
+  //================================================================
+  //================================================================
+  //================================================================
+  //================================================================
+  //================================================================
+
+
+
+
 
   /**
-   * Writfs to thf strfbm thf dbtb dontbinfd in thf givfn
+  /**
+  /**
+  /**
+  /**
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn
    * <dodf>SQLDbtb</dodf> objfdt.
-   * Whfn thf <dodf>SQLDbtb</dodf> objfdt is <dodf>null</dodf>, this
-   * mfthod writfs bn SQL <dodf>NULL</dodf> to thf strfbm.
-   * Othfrwisf, it dblls thf <dodf>SQLDbtb.writfSQL</dodf>
-   * mfthod of thf givfn objfdt, whidh
-   * writfs thf objfdt's bttributfs to thf strfbm.
-   * Thf implfmfntbtion of thf mfthod <dodf>SQLDbtb.writfSQL</dodf>
-   * dblls thf bppropribtf <dodf>SQLOutput</dodf> writfr mfthod(s)
-   * for writing fbdh of thf objfdt's bttributfs in ordfr.
-   * Thf bttributfs must bf rfbd from bn <dodf>SQLInput</dodf>
+   * <dodf>SQLDbtb</dodf> objfdt.
+   * <dodf>SQLDbtb</dodf> objfdt.
+   * <dodf>SQLDbtb</dodf> objfdt.
+   * <dodf>SQLDbtb</dodf> objfdt.
+   * Wifn tif <dodf>SQLDbtb</dodf> objfdt is <dodf>null</dodf>, tiis
+   * Wifn tif <dodf>SQLDbtb</dodf> objfdt is <dodf>null</dodf>, tiis
+   * Wifn tif <dodf>SQLDbtb</dodf> objfdt is <dodf>null</dodf>, tiis
+   * Wifn tif <dodf>SQLDbtb</dodf> objfdt is <dodf>null</dodf>, tiis
+   * Wifn tif <dodf>SQLDbtb</dodf> objfdt is <dodf>null</dodf>, tiis
+   * mftiod writfs bn SQL <dodf>NULL</dodf> to tif strfbm.
+   * mftiod writfs bn SQL <dodf>NULL</dodf> to tif strfbm.
+   * mftiod writfs bn SQL <dodf>NULL</dodf> to tif strfbm.
+   * mftiod writfs bn SQL <dodf>NULL</dodf> to tif strfbm.
+   * mftiod writfs bn SQL <dodf>NULL</dodf> to tif strfbm.
+   * Otifrwisf, it dblls tif <dodf>SQLDbtb.writfSQL</dodf>
+   * Otifrwisf, it dblls tif <dodf>SQLDbtb.writfSQL</dodf>
+   * Otifrwisf, it dblls tif <dodf>SQLDbtb.writfSQL</dodf>
+   * Otifrwisf, it dblls tif <dodf>SQLDbtb.writfSQL</dodf>
+   * Otifrwisf, it dblls tif <dodf>SQLDbtb.writfSQL</dodf>
+   * mftiod of tif givfn objfdt, wiidi
+   * mftiod of tif givfn objfdt, wiidi
+   * mftiod of tif givfn objfdt, wiidi
+   * mftiod of tif givfn objfdt, wiidi
+   * mftiod of tif givfn objfdt, wiidi
+   * writfs tif objfdt's bttributfs to tif strfbm.
+   * writfs tif objfdt's bttributfs to tif strfbm.
+   * writfs tif objfdt's bttributfs to tif strfbm.
+   * writfs tif objfdt's bttributfs to tif strfbm.
+   * writfs tif objfdt's bttributfs to tif strfbm.
+   * Tif implfmfntbtion of tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+   * Tif implfmfntbtion of tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+   * Tif implfmfntbtion of tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+   * Tif implfmfntbtion of tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+   * Tif implfmfntbtion of tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+   * dblls tif bppropribtf <dodf>SQLOutput</dodf> writfr mftiod(s)
+   * dblls tif bppropribtf <dodf>SQLOutput</dodf> writfr mftiod(s)
+   * dblls tif bppropribtf <dodf>SQLOutput</dodf> writfr mftiod(s)
+   * dblls tif bppropribtf <dodf>SQLOutput</dodf> writfr mftiod(s)
+   * dblls tif bppropribtf <dodf>SQLOutput</dodf> writfr mftiod(s)
+   * for writing fbdi of tif objfdt's bttributfs in ordfr.
+   * for writing fbdi of tif objfdt's bttributfs in ordfr.
+   * for writing fbdi of tif objfdt's bttributfs in ordfr.
+   * for writing fbdi of tif objfdt's bttributfs in ordfr.
+   * for writing fbdi of tif objfdt's bttributfs in ordfr.
+   * Tif bttributfs must bf rfbd from bn <dodf>SQLInput</dodf>
+   * Tif bttributfs must bf rfbd from bn <dodf>SQLInput</dodf>
+   * Tif bttributfs must bf rfbd from bn <dodf>SQLInput</dodf>
+   * Tif bttributfs must bf rfbd from bn <dodf>SQLInput</dodf>
+   * Tif bttributfs must bf rfbd from bn <dodf>SQLInput</dodf>
    * input strfbm bnd writtfn to bn <dodf>SQLOutput</dodf>
-   * output strfbm in thf sbmf ordfr in whidh thfy wfrf
-   * listfd in thf SQL dffinition of thf usfr-dffinfd typf.
+   * input strfbm bnd writtfn to bn <dodf>SQLOutput</dodf>
+   * input strfbm bnd writtfn to bn <dodf>SQLOutput</dodf>
+   * input strfbm bnd writtfn to bn <dodf>SQLOutput</dodf>
+   * input strfbm bnd writtfn to bn <dodf>SQLOutput</dodf>
+   * output strfbm in tif sbmf ordfr in wiidi tify wfrf
+   * output strfbm in tif sbmf ordfr in wiidi tify wfrf
+   * output strfbm in tif sbmf ordfr in wiidi tify wfrf
+   * output strfbm in tif sbmf ordfr in wiidi tify wfrf
+   * output strfbm in tif sbmf ordfr in wiidi tify wfrf
+   * listfd in tif SQL dffinition of tif usfr-dffinfd typf.
+   * listfd in tif SQL dffinition of tif usfr-dffinfd typf.
+   * listfd in tif SQL dffinition of tif usfr-dffinfd typf.
+   * listfd in tif SQL dffinition of tif usfr-dffinfd typf.
+   * listfd in tif SQL dffinition of tif usfr-dffinfd typf.
    *
-   * @pbrbm x thf objfdt rfprfsfnting dbtb of bn SQL strudturfd or
+   *
+   *
+   *
+   *
+   * @pbrbm x tif objfdt rfprfsfnting dbtb of bn SQL strudturfd or
+   * @pbrbm x tif objfdt rfprfsfnting dbtb of bn SQL strudturfd or
+   * @pbrbm x tif objfdt rfprfsfnting dbtb of bn SQL strudturfd or
+   * @pbrbm x tif objfdt rfprfsfnting dbtb of bn SQL strudturfd or
+   * @pbrbm x tif objfdt rfprfsfnting dbtb of bn SQL strudturfd or
+   * distindt typf
+   * distindt typf
+   * distindt typf
+   * distindt typf
    * distindt typf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfObjfdt(SQLDbtb x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfObjfdt(SQLDbtb x) tirows SQLExdfption;
+  void writfObjfdt(SQLDbtb x) tirows SQLExdfption;
+  void writfObjfdt(SQLDbtb x) tirows SQLExdfption;
+  void writfObjfdt(SQLDbtb x) tirows SQLExdfption;
+  void writfObjfdt(SQLDbtb x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs bn SQL <dodf>REF</dodf> vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL <dodf>REF</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>REF</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>REF</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>REF</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>REF</dodf> vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x b <dodf>Rff</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Rff</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Rff</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Rff</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Rff</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>REF</dodf> vbluf
+   * <dodf>REF</dodf> vbluf
+   * <dodf>REF</dodf> vbluf
+   * <dodf>REF</dodf> vbluf
    * <dodf>REF</dodf> vbluf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfRff(Rff x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfRff(Rff x) tirows SQLExdfption;
+  void writfRff(Rff x) tirows SQLExdfption;
+  void writfRff(Rff x) tirows SQLExdfption;
+  void writfRff(Rff x) tirows SQLExdfption;
+  void writfRff(Rff x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs bn SQL <dodf>BLOB</dodf> vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL <dodf>BLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>BLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>BLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>BLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>BLOB</dodf> vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x b <dodf>Blob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Blob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Blob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Blob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Blob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>BLOB</dodf> vbluf
+   * <dodf>BLOB</dodf> vbluf
+   * <dodf>BLOB</dodf> vbluf
+   * <dodf>BLOB</dodf> vbluf
    * <dodf>BLOB</dodf> vbluf
    *
+   *
+   *
+   *
+   *
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfBlob(Blob x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfBlob(Blob x) tirows SQLExdfption;
+  void writfBlob(Blob x) tirows SQLExdfption;
+  void writfBlob(Blob x) tirows SQLExdfption;
+  void writfBlob(Blob x) tirows SQLExdfption;
+  void writfBlob(Blob x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs bn SQL <dodf>CLOB</dodf> vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL <dodf>CLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>CLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>CLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>CLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>CLOB</dodf> vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x b <dodf>Clob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Clob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Clob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Clob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Clob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>CLOB</dodf> vbluf
+   * <dodf>CLOB</dodf> vbluf
+   * <dodf>CLOB</dodf> vbluf
+   * <dodf>CLOB</dodf> vbluf
    * <dodf>CLOB</dodf> vbluf
    *
+   *
+   *
+   *
+   *
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfClob(Clob x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfClob(Clob x) tirows SQLExdfption;
+  void writfClob(Clob x) tirows SQLExdfption;
+  void writfClob(Clob x) tirows SQLExdfption;
+  void writfClob(Clob x) tirows SQLExdfption;
+  void writfClob(Clob x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs bn SQL strudturfd typf vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL strudturfd typf vbluf to tif strfbm.
+   * Writfs bn SQL strudturfd typf vbluf to tif strfbm.
+   * Writfs bn SQL strudturfd typf vbluf to tif strfbm.
+   * Writfs bn SQL strudturfd typf vbluf to tif strfbm.
+   * Writfs bn SQL strudturfd typf vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x b <dodf>Strudt</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Strudt</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Strudt</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Strudt</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>Strudt</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * strudturfd typf
+   * strudturfd typf
+   * strudturfd typf
+   * strudturfd typf
    * strudturfd typf
    *
+   *
+   *
+   *
+   *
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfStrudt(Strudt x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfStrudt(Strudt x) tirows SQLExdfption;
+  void writfStrudt(Strudt x) tirows SQLExdfption;
+  void writfStrudt(Strudt x) tirows SQLExdfption;
+  void writfStrudt(Strudt x) tirows SQLExdfption;
+  void writfStrudt(Strudt x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs bn SQL <dodf>ARRAY</dodf> vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL <dodf>ARRAY</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ARRAY</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ARRAY</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ARRAY</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ARRAY</dodf> vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x bn <dodf>Arrby</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x bn <dodf>Arrby</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x bn <dodf>Arrby</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x bn <dodf>Arrby</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x bn <dodf>Arrby</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>ARRAY</dodf> typf
+   * <dodf>ARRAY</dodf> typf
+   * <dodf>ARRAY</dodf> typf
+   * <dodf>ARRAY</dodf> typf
    * <dodf>ARRAY</dodf> typf
    *
+   *
+   *
+   *
+   *
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
+   * @sindf 1.2
    * @sindf 1.2
    */
-  void writfArrby(Arrby x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfArrby(Arrby x) tirows SQLExdfption;
+  void writfArrby(Arrby x) tirows SQLExdfption;
+  void writfArrby(Arrby x) tirows SQLExdfption;
+  void writfArrby(Arrby x) tirows SQLExdfption;
+  void writfArrby(Arrby x) tirows SQLExdfption;
+
+
+
+
 
      //--------------------------- JDBC 3.0 ------------------------
+     //--------------------------- JDBC 3.0 ------------------------
+     //--------------------------- JDBC 3.0 ------------------------
+     //--------------------------- JDBC 3.0 ------------------------
+     //--------------------------- JDBC 3.0 ------------------------
+
+
+
+
 
      /**
-      * Writfs b SQL <dodf>DATALINK</dodf> vbluf to thf strfbm.
+     /**
+     /**
+     /**
+     /**
+      * Writfs b SQL <dodf>DATALINK</dodf> vbluf to tif strfbm.
+      * Writfs b SQL <dodf>DATALINK</dodf> vbluf to tif strfbm.
+      * Writfs b SQL <dodf>DATALINK</dodf> vbluf to tif strfbm.
+      * Writfs b SQL <dodf>DATALINK</dodf> vbluf to tif strfbm.
+      * Writfs b SQL <dodf>DATALINK</dodf> vbluf to tif strfbm.
       *
-      * @pbrbm x b <dodf>jbvb.nft.URL</dodf> objfdt rfprfsfnting thf dbtb
+      *
+      *
+      *
+      *
+      * @pbrbm x b <dodf>jbvb.nft.URL</dodf> objfdt rfprfsfnting tif dbtb
+      * @pbrbm x b <dodf>jbvb.nft.URL</dodf> objfdt rfprfsfnting tif dbtb
+      * @pbrbm x b <dodf>jbvb.nft.URL</dodf> objfdt rfprfsfnting tif dbtb
+      * @pbrbm x b <dodf>jbvb.nft.URL</dodf> objfdt rfprfsfnting tif dbtb
+      * @pbrbm x b <dodf>jbvb.nft.URL</dodf> objfdt rfprfsfnting tif dbtb
+      * of SQL DATALINK typf
+      * of SQL DATALINK typf
+      * of SQL DATALINK typf
+      * of SQL DATALINK typf
       * of SQL DATALINK typf
       *
+      *
+      *
+      *
+      *
       * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-      * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-      * this mfthod
+      * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+      * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+      * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+      * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+      * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+      * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+      * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+      * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+      * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+      * tiis mftiod
+      * tiis mftiod
+      * tiis mftiod
+      * tiis mftiod
+      * tiis mftiod
+      * @sindf 1.4
+      * @sindf 1.4
+      * @sindf 1.4
+      * @sindf 1.4
       * @sindf 1.4
       */
-     void writfURL(jbvb.nft.URL x) throws SQLExdfption;
+      */
+      */
+      */
+      */
+     void writfURL(jbvb.nft.URL x) tirows SQLExdfption;
+     void writfURL(jbvb.nft.URL x) tirows SQLExdfption;
+     void writfURL(jbvb.nft.URL x) tirows SQLExdfption;
+     void writfURL(jbvb.nft.URL x) tirows SQLExdfption;
+     void writfURL(jbvb.nft.URL x) tirows SQLExdfption;
+
+
+
+
 
      //--------------------------- JDBC 4.0 ------------------------
+     //--------------------------- JDBC 4.0 ------------------------
+     //--------------------------- JDBC 4.0 ------------------------
+     //--------------------------- JDBC 4.0 ------------------------
+     //--------------------------- JDBC 4.0 ------------------------
+
+
+
+
 
   /**
-   * Writfs thf nfxt bttributf to thf strfbm bs b <dodf>String</dodf>
-   * in thf Jbvb progrbmming lbngubgf. Thf drivfr donvfrts this to b
+  /**
+  /**
+  /**
+  /**
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * Writfs tif nfxt bttributf to tif strfbm bs b <dodf>String</dodf>
+   * in tif Jbvb progrbmming lbngubgf. Tif drivfr donvfrts tiis to b
+   * in tif Jbvb progrbmming lbngubgf. Tif drivfr donvfrts tiis to b
+   * in tif Jbvb progrbmming lbngubgf. Tif drivfr donvfrts tiis to b
+   * in tif Jbvb progrbmming lbngubgf. Tif drivfr donvfrts tiis to b
+   * in tif Jbvb progrbmming lbngubgf. Tif drivfr donvfrts tiis to b
+   * SQL <dodf>NCHAR</dodf> or
+   * SQL <dodf>NCHAR</dodf> or
+   * SQL <dodf>NCHAR</dodf> or
+   * SQL <dodf>NCHAR</dodf> or
    * SQL <dodf>NCHAR</dodf> or
    * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
-   * (dfpfnding on thf brgumfnt's
-   * sizf rflbtivf to thf drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
-   * whfn it sfnds it to thf strfbm.
+   * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
+   * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
+   * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
+   * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
+   * (dfpfnding on tif brgumfnt's
+   * (dfpfnding on tif brgumfnt's
+   * (dfpfnding on tif brgumfnt's
+   * (dfpfnding on tif brgumfnt's
+   * (dfpfnding on tif brgumfnt's
+   * sizf rflbtivf to tif drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+   * sizf rflbtivf to tif drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+   * sizf rflbtivf to tif drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+   * sizf rflbtivf to tif drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+   * sizf rflbtivf to tif drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+   * wifn it sfnds it to tif strfbm.
+   * wifn it sfnds it to tif strfbm.
+   * wifn it sfnds it to tif strfbm.
+   * wifn it sfnds it to tif strfbm.
+   * wifn it sfnds it to tif strfbm.
    *
-   * @pbrbm x thf vbluf to pbss to thf dbtbbbsf
+   *
+   *
+   *
+   *
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
+   * @pbrbm x tif vbluf to pbss to tif dbtbbbsf
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
    * @sindf 1.6
    */
-  void writfNString(String x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfNString(String x) tirows SQLExdfption;
+  void writfNString(String x) tirows SQLExdfption;
+  void writfNString(String x) tirows SQLExdfption;
+  void writfNString(String x) tirows SQLExdfption;
+  void writfNString(String x) tirows SQLExdfption;
+
+
+
+
 
   /**
-   * Writfs bn SQL <dodf>NCLOB</dodf> vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL <dodf>NCLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>NCLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>NCLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>NCLOB</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>NCLOB</dodf> vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>NCLOB</dodf> vbluf
+   * <dodf>NCLOB</dodf> vbluf
+   * <dodf>NCLOB</dodf> vbluf
+   * <dodf>NCLOB</dodf> vbluf
    * <dodf>NCLOB</dodf> vbluf
    *
+   *
+   *
+   *
+   *
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
    * @sindf 1.6
    */
-  void writfNClob(NClob x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfNClob(NClob x) tirows SQLExdfption;
+  void writfNClob(NClob x) tirows SQLExdfption;
+  void writfNClob(NClob x) tirows SQLExdfption;
+  void writfNClob(NClob x) tirows SQLExdfption;
+  void writfNClob(NClob x) tirows SQLExdfption;
+
+
+
+
+
+
+
+
 
 
   /**
-   * Writfs bn SQL <dodf>ROWID</dodf> vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL <dodf>ROWID</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ROWID</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ROWID</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ROWID</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>ROWID</dodf> vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>ROWID</dodf> vbluf
+   * <dodf>ROWID</dodf> vbluf
+   * <dodf>ROWID</dodf> vbluf
+   * <dodf>ROWID</dodf> vbluf
    * <dodf>ROWID</dodf> vbluf
    *
+   *
+   *
+   *
+   *
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
    * @sindf 1.6
    */
-  void writfRowId(RowId x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfRowId(RowId x) tirows SQLExdfption;
+  void writfRowId(RowId x) tirows SQLExdfption;
+  void writfRowId(RowId x) tirows SQLExdfption;
+  void writfRowId(RowId x) tirows SQLExdfption;
+  void writfRowId(RowId x) tirows SQLExdfption;
+
+
+
+
+
+
+
+
 
 
   /**
-   * Writfs bn SQL <dodf>XML</dodf> vbluf to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs bn SQL <dodf>XML</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>XML</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>XML</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>XML</dodf> vbluf to tif strfbm.
+   * Writfs bn SQL <dodf>XML</dodf> vbluf to tif strfbm.
+   *
+   *
+   *
+   *
    *
    * @pbrbm x b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * @pbrbm x b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of bn SQL
+   * <dodf>XML</dodf> vbluf
+   * <dodf>XML</dodf> vbluf
+   * <dodf>XML</dodf> vbluf
+   * <dodf>XML</dodf> vbluf
    * <dodf>XML</dodf> vbluf
    *
-   * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs,
-   * thf <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
-   *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> hbs not bffn dlosfd for thf <dodf>SQLXML</dodf> objfdt or
-   *  if thfrf is bn frror prodfssing thf XML vbluf.  Thf <dodf>gftCbusf</dodf> mfthod
-   *  of thf fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if thf
+   *
+   *
+   *
+   *
+   * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+   * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+   * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+   * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+   * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+   * tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+   * tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+   * tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+   * tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+   * tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+   *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd for tif <dodf>SQLXML</dodf> objfdt or
+   *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd for tif <dodf>SQLXML</dodf> objfdt or
+   *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd for tif <dodf>SQLXML</dodf> objfdt or
+   *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd for tif <dodf>SQLXML</dodf> objfdt or
+   *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd for tif <dodf>SQLXML</dodf> objfdt or
+   *  if tifrf is bn frror prodfssing tif XML vbluf.  Tif <dodf>gftCbusf</dodf> mftiod
+   *  if tifrf is bn frror prodfssing tif XML vbluf.  Tif <dodf>gftCbusf</dodf> mftiod
+   *  if tifrf is bn frror prodfssing tif XML vbluf.  Tif <dodf>gftCbusf</dodf> mftiod
+   *  if tifrf is bn frror prodfssing tif XML vbluf.  Tif <dodf>gftCbusf</dodf> mftiod
+   *  if tifrf is bn frror prodfssing tif XML vbluf.  Tif <dodf>gftCbusf</dodf> mftiod
+   *  of tif fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if tif
+   *  of tif fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if tif
+   *  of tif fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if tif
+   *  of tif fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if tif
+   *  of tif fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if tif
    *  strfbm dofs not dontbin vblid XML.
-   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
-   * this mfthod
+   *  strfbm dofs not dontbin vblid XML.
+   *  strfbm dofs not dontbin vblid XML.
+   *  strfbm dofs not dontbin vblid XML.
+   *  strfbm dofs not dontbin vblid XML.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * tiis mftiod
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
+   * @sindf 1.6
    * @sindf 1.6
    */
-  void writfSQLXML(SQLXML x) throws SQLExdfption;
+   */
+   */
+   */
+   */
+  void writfSQLXML(SQLXML x) tirows SQLExdfption;
+  void writfSQLXML(SQLXML x) tirows SQLExdfption;
+  void writfSQLXML(SQLXML x) tirows SQLExdfption;
+  void writfSQLXML(SQLXML x) tirows SQLExdfption;
+  void writfSQLXML(SQLXML x) tirows SQLExdfption;
+
+
+
+
 
   //--------------------------JDBC 4.2 -----------------------------
+  //--------------------------JDBC 4.2 -----------------------------
+  //--------------------------JDBC 4.2 -----------------------------
+  //--------------------------JDBC 4.2 -----------------------------
+  //--------------------------JDBC 4.2 -----------------------------
+
+
+
+
 
   /**
-   * Writfs to thf strfbm thf dbtb dontbinfd in thf givfn objfdt. Thf
-   * objfdt will bf donvfrtfd to thf spfdififd tbrgftSqlTypf
-   * bfforf bfing sfnt to thf strfbm.
+  /**
+  /**
+  /**
+  /**
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn objfdt. Tif
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn objfdt. Tif
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn objfdt. Tif
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn objfdt. Tif
+   * Writfs to tif strfbm tif dbtb dontbinfd in tif givfn objfdt. Tif
+   * objfdt will bf donvfrtfd to tif spfdififd tbrgftSqlTypf
+   * objfdt will bf donvfrtfd to tif spfdififd tbrgftSqlTypf
+   * objfdt will bf donvfrtfd to tif spfdififd tbrgftSqlTypf
+   * objfdt will bf donvfrtfd to tif spfdififd tbrgftSqlTypf
+   * objfdt will bf donvfrtfd to tif spfdififd tbrgftSqlTypf
+   * bfforf bfing sfnt to tif strfbm.
+   * bfforf bfing sfnt to tif strfbm.
+   * bfforf bfing sfnt to tif strfbm.
+   * bfforf bfing sfnt to tif strfbm.
+   * bfforf bfing sfnt to tif strfbm.
    *<p>
-   * Whfn thf {@dodf objfdt} is {@dodf null}, this
-   * mfthod writfs bn SQL {@dodf NULL} to thf strfbm.
+   *<p>
+   *<p>
+   *<p>
+   *<p>
+   * Wifn tif {@dodf objfdt} is {@dodf null}, tiis
+   * Wifn tif {@dodf objfdt} is {@dodf null}, tiis
+   * Wifn tif {@dodf objfdt} is {@dodf null}, tiis
+   * Wifn tif {@dodf objfdt} is {@dodf null}, tiis
+   * Wifn tif {@dodf objfdt} is {@dodf null}, tiis
+   * mftiod writfs bn SQL {@dodf NULL} to tif strfbm.
+   * mftiod writfs bn SQL {@dodf NULL} to tif strfbm.
+   * mftiod writfs bn SQL {@dodf NULL} to tif strfbm.
+   * mftiod writfs bn SQL {@dodf NULL} to tif strfbm.
+   * mftiod writfs bn SQL {@dodf NULL} to tif strfbm.
    * <p>
-   * If thf objfdt hbs b dustom mbpping (is of b dlbss implfmfnting thf
+   * <p>
+   * <p>
+   * <p>
+   * <p>
+   * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
+   * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
+   * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
+   * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
+   * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
    * intfrfbdf {@dodf SQLDbtb}),
-   * thf JDBC drivfr should dbll thf mfthod {@dodf SQLDbtb.writfSQL} to
-   * writf it to thf SQL dbtb strfbm.
-   * If, on thf othfr hbnd, thf objfdt is of b dlbss implfmfnting
+   * intfrfbdf {@dodf SQLDbtb}),
+   * intfrfbdf {@dodf SQLDbtb}),
+   * intfrfbdf {@dodf SQLDbtb}),
+   * intfrfbdf {@dodf SQLDbtb}),
+   * tif JDBC drivfr siould dbll tif mftiod {@dodf SQLDbtb.writfSQL} to
+   * tif JDBC drivfr siould dbll tif mftiod {@dodf SQLDbtb.writfSQL} to
+   * tif JDBC drivfr siould dbll tif mftiod {@dodf SQLDbtb.writfSQL} to
+   * tif JDBC drivfr siould dbll tif mftiod {@dodf SQLDbtb.writfSQL} to
+   * tif JDBC drivfr siould dbll tif mftiod {@dodf SQLDbtb.writfSQL} to
+   * writf it to tif SQL dbtb strfbm.
+   * writf it to tif SQL dbtb strfbm.
+   * writf it to tif SQL dbtb strfbm.
+   * writf it to tif SQL dbtb strfbm.
+   * writf it to tif SQL dbtb strfbm.
+   * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+   * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+   * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+   * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+   * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+   * {@dodf Rff}, {@dodf Blob}, {@dodf Clob},  {@dodf NClob},
+   * {@dodf Rff}, {@dodf Blob}, {@dodf Clob},  {@dodf NClob},
+   * {@dodf Rff}, {@dodf Blob}, {@dodf Clob},  {@dodf NClob},
+   * {@dodf Rff}, {@dodf Blob}, {@dodf Clob},  {@dodf NClob},
    * {@dodf Rff}, {@dodf Blob}, {@dodf Clob},  {@dodf NClob},
    *  {@dodf Strudt}, {@dodf jbvb.nft.URL},
-   * or {@dodf Arrby}, thf drivfr should pbss it to thf dbtbbbsf bs b
-   * vbluf of thf dorrfsponding SQL typf.
+   *  {@dodf Strudt}, {@dodf jbvb.nft.URL},
+   *  {@dodf Strudt}, {@dodf jbvb.nft.URL},
+   *  {@dodf Strudt}, {@dodf jbvb.nft.URL},
+   *  {@dodf Strudt}, {@dodf jbvb.nft.URL},
+   * or {@dodf Arrby}, tif drivfr siould pbss it to tif dbtbbbsf bs b
+   * or {@dodf Arrby}, tif drivfr siould pbss it to tif dbtbbbsf bs b
+   * or {@dodf Arrby}, tif drivfr siould pbss it to tif dbtbbbsf bs b
+   * or {@dodf Arrby}, tif drivfr siould pbss it to tif dbtbbbsf bs b
+   * or {@dodf Arrby}, tif drivfr siould pbss it to tif dbtbbbsf bs b
+   * vbluf of tif dorrfsponding SQL typf.
+   * vbluf of tif dorrfsponding SQL typf.
+   * vbluf of tif dorrfsponding SQL typf.
+   * vbluf of tif dorrfsponding SQL typf.
+   * vbluf of tif dorrfsponding SQL typf.
    *<P>
-   * Thf dffbult implfmfntbtion will throw {@dodf SQLFfbturfNotSupportfdExdfption}
+   *<P>
+   *<P>
+   *<P>
+   *<P>
+   * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
+   * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
+   * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
+   * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
+   * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
    *
-   * @pbrbm x thf objfdt dontbining thf input pbrbmftfr vbluf
-   * @pbrbm tbrgftSqlTypf thf SQL typf to bf sfnt to thf dbtbbbsf.
+   *
+   *
+   *
+   *
+   * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @pbrbm tbrgftSqlTypf tif SQL typf to bf sfnt to tif dbtbbbsf.
+   * @pbrbm tbrgftSqlTypf tif SQL typf to bf sfnt to tif dbtbbbsf.
+   * @pbrbm tbrgftSqlTypf tif SQL typf to bf sfnt to tif dbtbbbsf.
+   * @pbrbm tbrgftSqlTypf tif SQL typf to bf sfnt to tif dbtbbbsf.
+   * @pbrbm tbrgftSqlTypf tif SQL typf to bf sfnt to tif dbtbbbsf.
    * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs  or
-   *            if thf Jbvb Objfdt spfdififd by x is bn InputStrfbm
-   *            or Rfbdfr objfdt bnd thf vbluf of thf sdblf pbrbmftfr is lfss
-   *            thbn zfro
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs  or
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs  or
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs  or
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs  or
+   *            if tif Jbvb Objfdt spfdififd by x is bn InputStrfbm
+   *            if tif Jbvb Objfdt spfdififd by x is bn InputStrfbm
+   *            if tif Jbvb Objfdt spfdififd by x is bn InputStrfbm
+   *            if tif Jbvb Objfdt spfdififd by x is bn InputStrfbm
+   *            if tif Jbvb Objfdt spfdififd by x is bn InputStrfbm
+   *            or Rfbdfr objfdt bnd tif vbluf of tif sdblf pbrbmftfr is lfss
+   *            or Rfbdfr objfdt bnd tif vbluf of tif sdblf pbrbmftfr is lfss
+   *            or Rfbdfr objfdt bnd tif vbluf of tif sdblf pbrbmftfr is lfss
+   *            or Rfbdfr objfdt bnd tif vbluf of tif sdblf pbrbmftfr is lfss
+   *            or Rfbdfr objfdt bnd tif vbluf of tif sdblf pbrbmftfr is lfss
+   *            tibn zfro
+   *            tibn zfro
+   *            tibn zfro
+   *            tibn zfro
+   *            tibn zfro
    * @fxdfption SQLFfbturfNotSupportfdExdfption if
-   * thf JDBC drivfr dofs not support this dbtb typf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if
+   * tif JDBC drivfr dofs not support tiis dbtb typf
+   * tif JDBC drivfr dofs not support tiis dbtb typf
+   * tif JDBC drivfr dofs not support tiis dbtb typf
+   * tif JDBC drivfr dofs not support tiis dbtb typf
+   * tif JDBC drivfr dofs not support tiis dbtb typf
+   * @sff JDBCTypf
+   * @sff JDBCTypf
+   * @sff JDBCTypf
+   * @sff JDBCTypf
    * @sff JDBCTypf
    * @sff SQLTypf
+   * @sff SQLTypf
+   * @sff SQLTypf
+   * @sff SQLTypf
+   * @sff SQLTypf
+   * @sindf 1.8
+   * @sindf 1.8
+   * @sindf 1.8
+   * @sindf 1.8
    * @sindf 1.8
    */
-  dffbult void writfObjfdt(Objfdt x, SQLTypf tbrgftSqlTypf) throws SQLExdfption {
-        throw nfw SQLFfbturfNotSupportfdExdfption();
+   */
+   */
+   */
+   */
+  dffbult void writfObjfdt(Objfdt x, SQLTypf tbrgftSqlTypf) tirows SQLExdfption {
+  dffbult void writfObjfdt(Objfdt x, SQLTypf tbrgftSqlTypf) tirows SQLExdfption {
+  dffbult void writfObjfdt(Objfdt x, SQLTypf tbrgftSqlTypf) tirows SQLExdfption {
+  dffbult void writfObjfdt(Objfdt x, SQLTypf tbrgftSqlTypf) tirows SQLExdfption {
+  dffbult void writfObjfdt(Objfdt x, SQLTypf tbrgftSqlTypf) tirows SQLExdfption {
+        tirow nfw SQLFfbturfNotSupportfdExdfption();
+        tirow nfw SQLFfbturfNotSupportfdExdfption();
+        tirow nfw SQLFfbturfNotSupportfdExdfption();
+        tirow nfw SQLFfbturfNotSupportfdExdfption();
+        tirow nfw SQLFfbturfNotSupportfdExdfption();
+  }
+  }
+  }
+  }
   }
 
+
+
+
+
 }
+}
+}
+}
+}
+
+
+
+
 

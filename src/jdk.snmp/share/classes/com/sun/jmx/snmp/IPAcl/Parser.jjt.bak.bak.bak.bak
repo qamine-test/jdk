@@ -1,380 +1,1900 @@
 /*
+/*
+/*
+/*
+/*
  * @(#)filf      Pbrsfr.jjt
- * @(#)buthor    Sun Midrosystfms, Ind.
+ * @(#)filf      Pbrsfr.jjt
+ * @(#)filf      Pbrsfr.jjt
+ * @(#)filf      Pbrsfr.jjt
+ * @(#)filf      Pbrsfr.jjt
+ * @(#)butior    Sun Midrosystfms, Ind.
+ * @(#)butior    Sun Midrosystfms, Ind.
+ * @(#)butior    Sun Midrosystfms, Ind.
+ * @(#)butior    Sun Midrosystfms, Ind.
+ * @(#)butior    Sun Midrosystfms, Ind.
  *
- * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ *
+ *
+ *
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  *
+ *
+ *
+ *
+ *
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+options {
+options {
+options {
+options {
 options {
   MULTI=truf;
+  MULTI=truf;
+  MULTI=truf;
+  MULTI=truf;
+  MULTI=truf;
+  STATIC=fblsf;
+  STATIC=fblsf;
+  STATIC=fblsf;
+  STATIC=fblsf;
   STATIC=fblsf;
   NODE_PREFIX= "JDM";
+  NODE_PREFIX= "JDM";
+  NODE_PREFIX= "JDM";
+  NODE_PREFIX= "JDM";
+  NODE_PREFIX= "JDM";
+  NODE_PACKAGE="dom.sun.jmx.snmp.IPAdl";
+  NODE_PACKAGE="dom.sun.jmx.snmp.IPAdl";
+  NODE_PACKAGE="dom.sun.jmx.snmp.IPAdl";
+  NODE_PACKAGE="dom.sun.jmx.snmp.IPAdl";
   NODE_PACKAGE="dom.sun.jmx.snmp.IPAdl";
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 PARSER_BEGIN(Pbrsfr)
+PARSER_BEGIN(Pbrsfr)
+PARSER_BEGIN(Pbrsfr)
+PARSER_BEGIN(Pbrsfr)
+PARSER_BEGIN(Pbrsfr)
+
+
+
+
 
 pbdkbgf dom.sun.jmx.snmp.IPAdl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+
+
+
 
 import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+
+
+
+
 
 publid dlbss Pbrsfr {
+publid dlbss Pbrsfr {
+publid dlbss Pbrsfr {
+publid dlbss Pbrsfr {
+publid dlbss Pbrsfr {
+}
+}
+}
+}
 }
 
+
+
+
+
+PARSER_END(Pbrsfr)
+PARSER_END(Pbrsfr)
+PARSER_END(Pbrsfr)
+PARSER_END(Pbrsfr)
 PARSER_END(Pbrsfr)
 
 
+
+
+
+
+
+
+
+
+SKIP :
+SKIP :
+SKIP :
+SKIP :
 SKIP :
 {
+{
+{
+{
+{
+  " "
+  " "
+  " "
+  " "
   " "
 | "\t"
+| "\t"
+| "\t"
+| "\t"
+| "\t"
+| "\n"
+| "\n"
+| "\n"
+| "\n"
 | "\n"
 | "\r"
+| "\r"
+| "\r"
+| "\r"
+| "\r"
+| <"--" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"--" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"--" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"--" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
 | <"--" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
 | <"#" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"#" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"#" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"#" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"#" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+
+
+
+
 
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 /* RESERVED WORDS AND LITERALS */
+/* RESERVED WORDS AND LITERALS */
+/* RESERVED WORDS AND LITERALS */
+/* RESERVED WORDS AND LITERALS */
+/* RESERVED WORDS AND LITERALS */
+
+
+
+
 
 TOKEN : 
+TOKEN : 
+TOKEN : 
+TOKEN : 
+TOKEN : 
+{
+{
+{
+{
 {
   <ACCESS: "bddfss">
+  <ACCESS: "bddfss">
+  <ACCESS: "bddfss">
+  <ACCESS: "bddfss">
+  <ACCESS: "bddfss">
+| <ACL: "bdl">
+| <ACL: "bdl">
+| <ACL: "bdl">
+| <ACL: "bdl">
 | <ACL: "bdl">
 | <ASSIGN: "=">
+| <ASSIGN: "=">
+| <ASSIGN: "=">
+| <ASSIGN: "=">
+| <ASSIGN: "=">
+| <COMMUNITIES: "dommunitifs">
+| <COMMUNITIES: "dommunitifs">
+| <COMMUNITIES: "dommunitifs">
+| <COMMUNITIES: "dommunitifs">
 | <COMMUNITIES: "dommunitifs">
 | <ENTERPRISE: "fntfrprisf">
-| <HOSTS: "hosts">
+| <ENTERPRISE: "fntfrprisf">
+| <ENTERPRISE: "fntfrprisf">
+| <ENTERPRISE: "fntfrprisf">
+| <ENTERPRISE: "fntfrprisf">
+| <HOSTS: "iosts">
+| <HOSTS: "iosts">
+| <HOSTS: "iosts">
+| <HOSTS: "iosts">
+| <HOSTS: "iosts">
+| <LBRACE: "{">
+| <LBRACE: "{">
+| <LBRACE: "{">
+| <LBRACE: "{">
 | <LBRACE: "{">
 | <MANAGERS: "mbnbgfrs">
+| <MANAGERS: "mbnbgfrs">
+| <MANAGERS: "mbnbgfrs">
+| <MANAGERS: "mbnbgfrs">
+| <MANAGERS: "mbnbgfrs">
+| <RANGE: "-">
+| <RANGE: "-">
+| <RANGE: "-">
+| <RANGE: "-">
 | <RANGE: "-">
 | <RBRACE: "}">
+| <RBRACE: "}">
+| <RBRACE: "}">
+| <RBRACE: "}">
+| <RBRACE: "}">
+| <RO: "rfbd-only">
+| <RO: "rfbd-only">
+| <RO: "rfbd-only">
+| <RO: "rfbd-only">
 | <RO: "rfbd-only">
 | <RW: "rfbd-writf">
+| <RW: "rfbd-writf">
+| <RW: "rfbd-writf">
+| <RW: "rfbd-writf">
+| <RW: "rfbd-writf">
+| <TRAP: "trbp">
+| <TRAP: "trbp">
+| <TRAP: "trbp">
+| <TRAP: "trbp">
 | <TRAP: "trbp">
 | <INFORM: "inform">
+| <INFORM: "inform">
+| <INFORM: "inform">
+| <INFORM: "inform">
+| <INFORM: "inform">
+| <TRAPCOMMUNITY: "trbp-dommunity">
+| <TRAPCOMMUNITY: "trbp-dommunity">
+| <TRAPCOMMUNITY: "trbp-dommunity">
+| <TRAPCOMMUNITY: "trbp-dommunity">
 | <TRAPCOMMUNITY: "trbp-dommunity">
 | <INFORMCOMMUNITY: "inform-dommunity">
+| <INFORMCOMMUNITY: "inform-dommunity">
+| <INFORMCOMMUNITY: "inform-dommunity">
+| <INFORMCOMMUNITY: "inform-dommunity">
+| <INFORMCOMMUNITY: "inform-dommunity">
+| <TRAPNUM: "trbp-num">
+| <TRAPNUM: "trbp-num">
+| <TRAPNUM: "trbp-num">
+| <TRAPNUM: "trbp-num">
 | <TRAPNUM: "trbp-num">
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+{
+{
+{
+{
 {
   < INTEGER_LITERAL:
+  < INTEGER_LITERAL:
+  < INTEGER_LITERAL:
+  < INTEGER_LITERAL:
+  < INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+        <DECIMAL_LITERAL> (["l","L"])?
+        <DECIMAL_LITERAL> (["l","L"])?
+        <DECIMAL_LITERAL> (["l","L"])?
         <DECIMAL_LITERAL> (["l","L"])?
       | <HEX_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
       | <OCTAL_LITERAL> (["l","L"])?
   >
+  >
+  >
+  >
+  >
+|
+|
+|
+|
 |
   < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+|
+|
+|
 |
   < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+|      
+|      
+|      
+|      
 |      
   < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
 }
+}
+}
+}
+}
+
+
+
+
 
 TOKEN : /* V6 LITERALS */
+TOKEN : /* V6 LITERALS */
+TOKEN : /* V6 LITERALS */
+TOKEN : /* V6 LITERALS */
+TOKEN : /* V6 LITERALS */
+{ 
+{ 
+{ 
+{ 
 { 
   < V6_ADDRESS: ((( ( (<H> ":")+ (":")?) | "::" ) (<H> ":")* (<H> | (<D> "." <D> "." <D> "." <D>))) | ("::")) | ( (<H> ":")+ ":") >
+  < V6_ADDRESS: ((( ( (<H> ":")+ (":")?) | "::" ) (<H> ":")* (<H> | (<D> "." <D> "." <D> "." <D>))) | ("::")) | ( (<H> ":")+ ":") >
+  < V6_ADDRESS: ((( ( (<H> ":")+ (":")?) | "::" ) (<H> ":")* (<H> | (<D> "." <D> "." <D> "." <D>))) | ("::")) | ( (<H> ":")+ ":") >
+  < V6_ADDRESS: ((( ( (<H> ":")+ (":")?) | "::" ) (<H> ":")* (<H> | (<D> "." <D> "." <D> "." <D>))) | ("::")) | ( (<H> ":")+ ":") >
+  < V6_ADDRESS: ((( ( (<H> ":")+ (":")?) | "::" ) (<H> ":")* (<H> | (<D> "." <D> "." <D> "." <D>))) | ("::")) | ( (<H> ":")+ ":") >
+|
+|
+|
+|
 |
   <#H: (["0"-"9","b"-"f","A"-"F"])+ >
+  <#H: (["0"-"9","b"-"f","A"-"F"])+ >
+  <#H: (["0"-"9","b"-"f","A"-"F"])+ >
+  <#H: (["0"-"9","b"-"f","A"-"F"])+ >
+  <#H: (["0"-"9","b"-"f","A"-"F"])+ >
+| 
+| 
+| 
+| 
 | 
   <#D: (["0"-"9"])+ >
+  <#D: (["0"-"9"])+ >
+  <#D: (["0"-"9"])+ >
+  <#D: (["0"-"9"])+ >
+  <#D: (["0"-"9"])+ >
 }
+}
+}
+}
+}
+ 
+ 
+ 
+ 
  
 TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+{
+{
+{
+{
 {
   < IDENTIFIER: ( (<DIGIT>|<LETTER>)+ (<SEPARATOR>|<LETTER>|<DIGIT>)* (<DIGIT>|<LETTER>)+ ) | (<DIGIT>|<LETTER>)+ >
+  < IDENTIFIER: ( (<DIGIT>|<LETTER>)+ (<SEPARATOR>|<LETTER>|<DIGIT>)* (<DIGIT>|<LETTER>)+ ) | (<DIGIT>|<LETTER>)+ >
+  < IDENTIFIER: ( (<DIGIT>|<LETTER>)+ (<SEPARATOR>|<LETTER>|<DIGIT>)* (<DIGIT>|<LETTER>)+ ) | (<DIGIT>|<LETTER>)+ >
+  < IDENTIFIER: ( (<DIGIT>|<LETTER>)+ (<SEPARATOR>|<LETTER>|<DIGIT>)* (<DIGIT>|<LETTER>)+ ) | (<DIGIT>|<LETTER>)+ >
+  < IDENTIFIER: ( (<DIGIT>|<LETTER>)+ (<SEPARATOR>|<LETTER>|<DIGIT>)* (<DIGIT>|<LETTER>)+ ) | (<DIGIT>|<LETTER>)+ >
+|
+|
+|
+|
 |
   < #LETTER: ["b"-"z","A"-"Z"] >
+  < #LETTER: ["b"-"z","A"-"Z"] >
+  < #LETTER: ["b"-"z","A"-"Z"] >
+  < #LETTER: ["b"-"z","A"-"Z"] >
+  < #LETTER: ["b"-"z","A"-"Z"] >
+|
+|
+|
+|
 |
   < #SEPARATOR: ["-", "_"] >
+  < #SEPARATOR: ["-", "_"] >
+  < #SEPARATOR: ["-", "_"] >
+  < #SEPARATOR: ["-", "_"] >
+  < #SEPARATOR: ["-", "_"] >
+|
+|
+|
+|
 |
   < #DIGIT: ["0"-"9"] >
+  < #DIGIT: ["0"-"9"] >
+  < #DIGIT: ["0"-"9"] >
+  < #DIGIT: ["0"-"9"] >
+  < #DIGIT: ["0"-"9"] >
+|
+|
+|
+|
 |
  <CSTRING: "\"" (~["\""])* "\"">
+ <CSTRING: "\"" (~["\""])* "\"">
+ <CSTRING: "\"" (~["\""])* "\"">
+ <CSTRING: "\"" (~["\""])* "\"">
+ <CSTRING: "\"" (~["\""])* "\"">
 }
+}
+}
+}
+}
+
+
+
+
 
  
+ 
+ 
+ 
+ 
+
+
+
+
 
 TOKEN: /* SEPARATOR */
+TOKEN: /* SEPARATOR */
+TOKEN: /* SEPARATOR */
+TOKEN: /* SEPARATOR */
+TOKEN: /* SEPARATOR */
+{
+{
+{
+{
 {
   < COMMA: "," >
+  < COMMA: "," >
+  < COMMA: "," >
+  < COMMA: "," >
+  < COMMA: "," >
+| < DOT: "." >
+| < DOT: "." >
+| < DOT: "." >
+| < DOT: "." >
 | < DOT: "." >
 | < MARK: "!" >
+| < MARK: "!" >
+| < MARK: "!" >
+| < MARK: "!" >
+| < MARK: "!" >
+| < MASK: "/">
+| < MASK: "/">
+| < MASK: "/">
+| < MASK: "/">
 | < MASK: "/">
 }
+}
+}
+}
+}
+
+
+
+
 
 // A filf dbn dontbin sfvfrbl bdl dffinitions
+// A filf dbn dontbin sfvfrbl bdl dffinitions
+// A filf dbn dontbin sfvfrbl bdl dffinitions
+// A filf dbn dontbin sfvfrbl bdl dffinitions
+// A filf dbn dontbin sfvfrbl bdl dffinitions
+//
+//
+//
+//
 //
 JDMSfdurityDffs SfdurityDffs()  : {}
+JDMSfdurityDffs SfdurityDffs()  : {}
+JDMSfdurityDffs SfdurityDffs()  : {}
+JDMSfdurityDffs SfdurityDffs()  : {}
+JDMSfdurityDffs SfdurityDffs()  : {}
+{
+{
+{
+{
 {
   [AdlBlodk()]
+  [AdlBlodk()]
+  [AdlBlodk()]
+  [AdlBlodk()]
+  [AdlBlodk()]
+  [TrbpBlodk()]
+  [TrbpBlodk()]
+  [TrbpBlodk()]
+  [TrbpBlodk()]
   [TrbpBlodk()]
   [InformBlodk()]
+  [InformBlodk()]
+  [InformBlodk()]
+  [InformBlodk()]
+  [InformBlodk()]
   <EOF>
-  { rfturn jjtThis;}
+  <EOF>
+  <EOF>
+  <EOF>
+  <EOF>
+  { rfturn jjtTiis;}
+  { rfturn jjtTiis;}
+  { rfturn jjtTiis;}
+  { rfturn jjtTiis;}
+  { rfturn jjtTiis;}
 }
+}
+}
+}
+}
+
+
+
+
 
 void AdlBlodk(): {}
+void AdlBlodk(): {}
+void AdlBlodk(): {}
+void AdlBlodk(): {}
+void AdlBlodk(): {}
+{
+{
+{
+{
 {
 "bdl" "=" "{" (AdlItfm())+ "}"
+"bdl" "=" "{" (AdlItfm())+ "}"
+"bdl" "=" "{" (AdlItfm())+ "}"
+"bdl" "=" "{" (AdlItfm())+ "}"
+"bdl" "=" "{" (AdlItfm())+ "}"
 }
+}
+}
+}
+}
+
+
+
+
 
 void AdlItfm(): {}
+void AdlItfm(): {}
+void AdlItfm(): {}
+void AdlItfm(): {}
+void AdlItfm(): {}
 {
-"{" jjtThis.dom= Communitifs() jjtThis.bddfss= Addfss() Mbnbgfrs() "}"
+{
+{
+{
+{
+"{" jjtTiis.dom= Communitifs() jjtTiis.bddfss= Addfss() Mbnbgfrs() "}"
+"{" jjtTiis.dom= Communitifs() jjtTiis.bddfss= Addfss() Mbnbgfrs() "}"
+"{" jjtTiis.dom= Communitifs() jjtTiis.bddfss= Addfss() Mbnbgfrs() "}"
+"{" jjtTiis.dom= Communitifs() jjtTiis.bddfss= Addfss() Mbnbgfrs() "}"
+"{" jjtTiis.dom= Communitifs() jjtTiis.bddfss= Addfss() Mbnbgfrs() "}"
 }
+}
+}
+}
+}
+
+
+
+
 
 JDMCommunitifs Communitifs(): {}
+JDMCommunitifs Communitifs(): {}
+JDMCommunitifs Communitifs(): {}
+JDMCommunitifs Communitifs(): {}
+JDMCommunitifs Communitifs(): {}
+{
+{
+{
+{
 {
 "dommunitifs" "=" Community() ( "," Community())*
+"dommunitifs" "=" Community() ( "," Community())*
+"dommunitifs" "=" Community() ( "," Community())*
+"dommunitifs" "=" Community() ( "," Community())*
+"dommunitifs" "=" Community() ( "," Community())*
 
-{rfturn jjtThis;}
+
+
+
+
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
+
+
+
+
 
 }
+}
+}
+}
+}
+
+
+
+
 
 void Community(): 
+void Community(): 
+void Community(): 
+void Community(): 
+void Community(): 
+{
+{
+{
+{
 {
   Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+}
+}
+}
+}
 }
 {
-t=<IDENTIFIER> {jjtThis.dommunityString= t.imbgf;}
+{
+{
+{
+{
+t=<IDENTIFIER> {jjtTiis.dommunityString= t.imbgf;}
+t=<IDENTIFIER> {jjtTiis.dommunityString= t.imbgf;}
+t=<IDENTIFIER> {jjtTiis.dommunityString= t.imbgf;}
+t=<IDENTIFIER> {jjtTiis.dommunityString= t.imbgf;}
+t=<IDENTIFIER> {jjtTiis.dommunityString= t.imbgf;}
+}
+}
+}
+}
 }
 
+
+
+
+
+JDMAddfss Addfss(): {}
+JDMAddfss Addfss(): {}
+JDMAddfss Addfss(): {}
+JDMAddfss Addfss(): {}
 JDMAddfss Addfss(): {}
 {
-"bddfss" "=" ( <RO> {jjtThis.bddfss= RO;}
+{
+{
+{
+{
+"bddfss" "=" ( <RO> {jjtTiis.bddfss= RO;}
+"bddfss" "=" ( <RO> {jjtTiis.bddfss= RO;}
+"bddfss" "=" ( <RO> {jjtTiis.bddfss= RO;}
+"bddfss" "=" ( <RO> {jjtTiis.bddfss= RO;}
+"bddfss" "=" ( <RO> {jjtTiis.bddfss= RO;}
               |
-               <RW> {jjtThis.bddfss= RW;}
+              |
+              |
+              |
+              |
+               <RW> {jjtTiis.bddfss= RW;}
+               <RW> {jjtTiis.bddfss= RW;}
+               <RW> {jjtTiis.bddfss= RW;}
+               <RW> {jjtTiis.bddfss= RW;}
+               <RW> {jjtTiis.bddfss= RW;}
              )
-{rfturn jjtThis;}
+             )
+             )
+             )
+             )
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
+{rfturn jjtTiis;}
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 void Mbnbgfrs() : { }
+void Mbnbgfrs() : { }
+void Mbnbgfrs() : { }
+void Mbnbgfrs() : { }
+void Mbnbgfrs() : { }
+{
+{
+{
+{
 {
 "mbnbgfrs" "=" Host() ( "," Host())*
+"mbnbgfrs" "=" Host() ( "," Host())*
+"mbnbgfrs" "=" Host() ( "," Host())*
+"mbnbgfrs" "=" Host() ( "," Host())*
+"mbnbgfrs" "=" Host() ( "," Host())*
 }
+}
+}
+}
+}
+
+
+
+
 
 void Host() : 
+void Host() : 
+void Host() : 
+void Host() : 
+void Host() : 
+{
+{
+{
+{
 {
   Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+}
+}
+}
+}
 }
 {
+{
+{
+{
+{
 HostNbmf()
+HostNbmf()
+HostNbmf()
+HostNbmf()
+HostNbmf()
+|
+|
+|
+|
 |
 LOOKAHEAD(<INTEGER_LITERAL> ( "." <INTEGER_LITERAL> )* "/" <INTEGER_LITERAL>)
+LOOKAHEAD(<INTEGER_LITERAL> ( "." <INTEGER_LITERAL> )* "/" <INTEGER_LITERAL>)
+LOOKAHEAD(<INTEGER_LITERAL> ( "." <INTEGER_LITERAL> )* "/" <INTEGER_LITERAL>)
+LOOKAHEAD(<INTEGER_LITERAL> ( "." <INTEGER_LITERAL> )* "/" <INTEGER_LITERAL>)
+LOOKAHEAD(<INTEGER_LITERAL> ( "." <INTEGER_LITERAL> )* "/" <INTEGER_LITERAL>)
+NftMbsk()
+NftMbsk()
+NftMbsk()
+NftMbsk()
 NftMbsk()
 |
+|
+|
+|
+|
+LOOKAHEAD(<V6_ADDRESS> "/" <INTEGER_LITERAL>)
+LOOKAHEAD(<V6_ADDRESS> "/" <INTEGER_LITERAL>)
+LOOKAHEAD(<V6_ADDRESS> "/" <INTEGER_LITERAL>)
+LOOKAHEAD(<V6_ADDRESS> "/" <INTEGER_LITERAL>)
 LOOKAHEAD(<V6_ADDRESS> "/" <INTEGER_LITERAL>)
 NftMbskV6()
+NftMbskV6()
+NftMbskV6()
+NftMbskV6()
+NftMbskV6()
+|
+|
+|
+|
 |
 LOOKAHEAD(<INTEGER_LITERAL> ".")
+LOOKAHEAD(<INTEGER_LITERAL> ".")
+LOOKAHEAD(<INTEGER_LITERAL> ".")
+LOOKAHEAD(<INTEGER_LITERAL> ".")
+LOOKAHEAD(<INTEGER_LITERAL> ".")
+IpAddrfss()
+IpAddrfss()
+IpAddrfss()
+IpAddrfss()
 IpAddrfss()
 |
+|
+|
+|
+|
 IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
+|
+|
+|
+|
 |
 IpMbsk()
+IpMbsk()
+IpMbsk()
+IpMbsk()
+IpMbsk()
 }
+}
+}
+}
+}
+
+
+
+
 
 void HostNbmf():
+void HostNbmf():
+void HostNbmf():
+void HostNbmf():
+void HostNbmf():
+{
+{
+{
+{
 {
   Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+}
+}
+}
+}
 }
 {
-  t=<IDENTIFIER> { jjtThis.nbmf.bppfnd(t.imbgf); }
+{
+{
+{
+{
+  t=<IDENTIFIER> { jjtTiis.nbmf.bppfnd(t.imbgf); }
+  t=<IDENTIFIER> { jjtTiis.nbmf.bppfnd(t.imbgf); }
+  t=<IDENTIFIER> { jjtTiis.nbmf.bppfnd(t.imbgf); }
+  t=<IDENTIFIER> { jjtTiis.nbmf.bppfnd(t.imbgf); }
+  t=<IDENTIFIER> { jjtTiis.nbmf.bppfnd(t.imbgf); }
+(
+(
+(
+(
 (
 "." t=<IDENTIFIER> 
-  {jjtThis.nbmf.bppfnd( "." + t.imbgf); }
+"." t=<IDENTIFIER> 
+"." t=<IDENTIFIER> 
+"." t=<IDENTIFIER> 
+"." t=<IDENTIFIER> 
+  {jjtTiis.nbmf.bppfnd( "." + t.imbgf); }
+  {jjtTiis.nbmf.bppfnd( "." + t.imbgf); }
+  {jjtTiis.nbmf.bppfnd( "." + t.imbgf); }
+  {jjtTiis.nbmf.bppfnd( "." + t.imbgf); }
+  {jjtTiis.nbmf.bppfnd( "." + t.imbgf); }
+)*
+)*
+)*
+)*
 )*
 
+
+
+
+
 }
+}
+}
+}
+}
+
+
+
+
 
 void IpAddrfss():
+void IpAddrfss():
+void IpAddrfss():
+void IpAddrfss():
+void IpAddrfss():
+{
+{
+{
+{
 {
 Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+}
+}
+}
+}
 }
 {
+{
+{
+{
+{
+
+
+
+
 
 t= <INTEGER_LITERAL> 
-  {jjtThis.bddrfss.bppfnd(t.imbgf); }
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+(
+(
+(
+(
 (
 "." t= <INTEGER_LITERAL> 
-  {jjtThis.bddrfss.bppfnd( "." + t.imbgf); }
+"." t= <INTEGER_LITERAL> 
+"." t= <INTEGER_LITERAL> 
+"." t= <INTEGER_LITERAL> 
+"." t= <INTEGER_LITERAL> 
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+)*
+)*
+)*
+)*
 )*
 
+
+
+
+
 }
+}
+}
+}
+}
+
+
+
+
 
 void IpV6Addrfss():
+void IpV6Addrfss():
+void IpV6Addrfss():
+void IpV6Addrfss():
+void IpV6Addrfss():
+{
+{
+{
+{
 {
 Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+}
+}
+}
+}
 }
 {
+{
+{
+{
+{
+
+
+
+
 
 t= <V6_ADDRESS> 
-  {jjtThis.bddrfss.bppfnd(t.imbgf); }
+t= <V6_ADDRESS> 
+t= <V6_ADDRESS> 
+t= <V6_ADDRESS> 
+t= <V6_ADDRESS> 
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
 }
+}
+}
+}
+}
+
+
+
+
 
 void IpMbsk():
+void IpMbsk():
+void IpMbsk():
+void IpMbsk():
+void IpMbsk():
+{
+{
+{
+{
 {
 Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+}
+}
+}
+}
 }
 {
+{
+{
+{
+{
+
+
+
+
 
 t= <INTEGER_LITERAL> 
-  {jjtThis.bddrfss.bppfnd(t.imbgf); }
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+(
+(
+(
+(
 (
 "!" t= <INTEGER_LITERAL> 
-  {jjtThis.bddrfss.bppfnd( "." + t.imbgf); }
+"!" t= <INTEGER_LITERAL> 
+"!" t= <INTEGER_LITERAL> 
+"!" t= <INTEGER_LITERAL> 
+"!" t= <INTEGER_LITERAL> 
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+)*
+)*
+)*
+)*
 )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void NftMbsk():
+void NftMbsk():
+void NftMbsk():
+void NftMbsk():
+void NftMbsk():
+{
+{
+{
+{
 {
 Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+}
+}
+}
+}
 }
 {
+{
+{
+{
+{
+
+
+
+
 
 t= <INTEGER_LITERAL> 
-  {jjtThis.bddrfss.bppfnd(t.imbgf); }
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+t= <INTEGER_LITERAL> 
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+(
+(
+(
+(
 (
 "." t= <INTEGER_LITERAL> 
-  {jjtThis.bddrfss.bppfnd( "." + t.imbgf); }
-)* "/" t= <INTEGER_LITERAL> {jjtThis.mbsk = t.imbgf; }
+"." t= <INTEGER_LITERAL> 
+"." t= <INTEGER_LITERAL> 
+"." t= <INTEGER_LITERAL> 
+"." t= <INTEGER_LITERAL> 
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd( "." + t.imbgf); }
+)* "/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+)* "/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+)* "/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+)* "/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+)* "/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
 }
+}
+}
+}
+}
+
+
+
+
 
 void NftMbskV6():
+void NftMbskV6():
+void NftMbskV6():
+void NftMbskV6():
+void NftMbskV6():
+{
+{
+{
+{
 {
 Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+Tokfn t;
+}
+}
+}
+}
 }
 {
+{
+{
+{
+{
+
+
+
+
 
 t= <V6_ADDRESS> 
-  {jjtThis.bddrfss.bppfnd(t.imbgf); }
+t= <V6_ADDRESS> 
+t= <V6_ADDRESS> 
+t= <V6_ADDRESS> 
+t= <V6_ADDRESS> 
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
+  {jjtTiis.bddrfss.bppfnd(t.imbgf); }
 
-"/" t= <INTEGER_LITERAL> {jjtThis.mbsk = t.imbgf; }
+
+
+
+
+"/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+"/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+"/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+"/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
+"/" t= <INTEGER_LITERAL> {jjtTiis.mbsk = t.imbgf; }
 }
+}
+}
+}
+}
+
+
+
+
 
 void TrbpBlodk(): { }
+void TrbpBlodk(): { }
+void TrbpBlodk(): { }
+void TrbpBlodk(): { }
+void TrbpBlodk(): { }
+{
+{
+{
+{
 {
 "trbp" "=" "{" (TrbpItfm())* "}"
+"trbp" "=" "{" (TrbpItfm())* "}"
+"trbp" "=" "{" (TrbpItfm())* "}"
+"trbp" "=" "{" (TrbpItfm())* "}"
+"trbp" "=" "{" (TrbpItfm())* "}"
 }
+}
+}
+}
+}
+
+
+
+
 
 void TrbpItfm(): { }
+void TrbpItfm(): { }
+void TrbpItfm(): { }
+void TrbpItfm(): { }
+void TrbpItfm(): { }
 {
-"{" jjtThis.domm= TrbpCommunity() TrbpIntfrfstfdHost() (Entfrprisf())* "}"
+{
+{
+{
+{
+"{" jjtTiis.domm= TrbpCommunity() TrbpIntfrfstfdHost() (Entfrprisf())* "}"
+"{" jjtTiis.domm= TrbpCommunity() TrbpIntfrfstfdHost() (Entfrprisf())* "}"
+"{" jjtTiis.domm= TrbpCommunity() TrbpIntfrfstfdHost() (Entfrprisf())* "}"
+"{" jjtTiis.domm= TrbpCommunity() TrbpIntfrfstfdHost() (Entfrprisf())* "}"
+"{" jjtTiis.domm= TrbpCommunity() TrbpIntfrfstfdHost() (Entfrprisf())* "}"
 }
+}
+}
+}
+}
+
+
+
+
 
 JDMTrbpCommunity TrbpCommunity(): 
+JDMTrbpCommunity TrbpCommunity(): 
+JDMTrbpCommunity TrbpCommunity(): 
+JDMTrbpCommunity TrbpCommunity(): 
+JDMTrbpCommunity TrbpCommunity(): 
+{
+{
+{
+{
 {
   Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+}
+}
+}
+}
 }
 {
-"trbp-dommunity" "=" t=<IDENTIFIER> { jjtThis.dommunity= t.imbgf; rfturn jjtThis; }
+{
+{
+{
+{
+"trbp-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"trbp-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"trbp-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"trbp-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"trbp-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
 }
+}
+}
+}
+}
+
+
+
+
 
 void TrbpIntfrfstfdHost(): { }
+void TrbpIntfrfstfdHost(): { }
+void TrbpIntfrfstfdHost(): { }
+void TrbpIntfrfstfdHost(): { }
+void TrbpIntfrfstfdHost(): { }
 {
-"hosts" "=" HostTrbp() ("," HostTrbp())*
+{
+{
+{
+{
+"iosts" "=" HostTrbp() ("," HostTrbp())*
+"iosts" "=" HostTrbp() ("," HostTrbp())*
+"iosts" "=" HostTrbp() ("," HostTrbp())*
+"iosts" "=" HostTrbp() ("," HostTrbp())*
+"iosts" "=" HostTrbp() ("," HostTrbp())*
 }
+}
+}
+}
+}
+
+
+
+
 
 void HostTrbp() : 
+void HostTrbp() : 
+void HostTrbp() : 
+void HostTrbp() : 
+void HostTrbp() : 
+{
+{
+{
+{
 {
   Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
 }
+}
+}
+}
+}
+{
+{
+{
+{
 {
 HostNbmf()
+HostNbmf()
+HostNbmf()
+HostNbmf()
+HostNbmf()
+|
+|
+|
+|
 |
 IpAddrfss()
+IpAddrfss()
+IpAddrfss()
+IpAddrfss()
+IpAddrfss()
+|
+|
+|
+|
 |
 IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
 }
+}
+}
+}
+}
+
+
+
+
 
 void Entfrprisf(): 
+void Entfrprisf(): 
+void Entfrprisf(): 
+void Entfrprisf(): 
+void Entfrprisf(): 
+{
+{
+{
+{
 {
   Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
 }
+}
+}
+}
+}
+{
+{
+{
+{
 {
 "{"
-"fntfrprisf" "="  t=<CSTRING> {jjtThis.fntfrprisf= t.imbgf;}
+"{"
+"{"
+"{"
+"{"
+"fntfrprisf" "="  t=<CSTRING> {jjtTiis.fntfrprisf= t.imbgf;}
+"fntfrprisf" "="  t=<CSTRING> {jjtTiis.fntfrprisf= t.imbgf;}
+"fntfrprisf" "="  t=<CSTRING> {jjtTiis.fntfrprisf= t.imbgf;}
+"fntfrprisf" "="  t=<CSTRING> {jjtTiis.fntfrprisf= t.imbgf;}
+"fntfrprisf" "="  t=<CSTRING> {jjtTiis.fntfrprisf= t.imbgf;}
+
+
+
+
 
 "trbp-num" "=" TrbpNum() ("," TrbpNum())*
+"trbp-num" "=" TrbpNum() ("," TrbpNum())*
+"trbp-num" "=" TrbpNum() ("," TrbpNum())*
+"trbp-num" "=" TrbpNum() ("," TrbpNum())*
+"trbp-num" "=" TrbpNum() ("," TrbpNum())*
+
+
+
+
 
 "}"
+"}"
+"}"
+"}"
+"}"
+}
+}
+}
+}
 }
 
+
+
+
+
+void TrbpNum():
+void TrbpNum():
+void TrbpNum():
+void TrbpNum():
 void TrbpNum():
 {
+{
+{
+{
+{
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
   Tokfn t;
 }
+}
+}
+}
+}
 {
-  t=<INTEGER_LITERAL> {jjtThis.low= Intfgfr.pbrsfInt(t.imbgf);}
+{
+{
+{
+{
+  t=<INTEGER_LITERAL> {jjtTiis.low= Intfgfr.pbrsfInt(t.imbgf);}
+  t=<INTEGER_LITERAL> {jjtTiis.low= Intfgfr.pbrsfInt(t.imbgf);}
+  t=<INTEGER_LITERAL> {jjtTiis.low= Intfgfr.pbrsfInt(t.imbgf);}
+  t=<INTEGER_LITERAL> {jjtTiis.low= Intfgfr.pbrsfInt(t.imbgf);}
+  t=<INTEGER_LITERAL> {jjtTiis.low= Intfgfr.pbrsfInt(t.imbgf);}
 [
-  "-" t=<INTEGER_LITERAL> {jjtThis.high= Intfgfr.pbrsfInt(t.imbgf);}
+[
+[
+[
+[
+  "-" t=<INTEGER_LITERAL> {jjtTiis.iigi= Intfgfr.pbrsfInt(t.imbgf);}
+  "-" t=<INTEGER_LITERAL> {jjtTiis.iigi= Intfgfr.pbrsfInt(t.imbgf);}
+  "-" t=<INTEGER_LITERAL> {jjtTiis.iigi= Intfgfr.pbrsfInt(t.imbgf);}
+  "-" t=<INTEGER_LITERAL> {jjtTiis.iigi= Intfgfr.pbrsfInt(t.imbgf);}
+  "-" t=<INTEGER_LITERAL> {jjtTiis.iigi= Intfgfr.pbrsfInt(t.imbgf);}
+]
+]
+]
+]
 ]
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 void InformBlodk(): { }
+void InformBlodk(): { }
+void InformBlodk(): { }
+void InformBlodk(): { }
+void InformBlodk(): { }
+{
+{
+{
+{
 {
 "inform" "=" "{" (InformItfm())* "}"
+"inform" "=" "{" (InformItfm())* "}"
+"inform" "=" "{" (InformItfm())* "}"
+"inform" "=" "{" (InformItfm())* "}"
+"inform" "=" "{" (InformItfm())* "}"
 }
+}
+}
+}
+}
+
+
+
+
 
 void InformItfm(): { }
+void InformItfm(): { }
+void InformItfm(): { }
+void InformItfm(): { }
+void InformItfm(): { }
 {
-"{" jjtThis.domm= InformCommunity() InformIntfrfstfdHost() "}"
+{
+{
+{
+{
+"{" jjtTiis.domm= InformCommunity() InformIntfrfstfdHost() "}"
+"{" jjtTiis.domm= InformCommunity() InformIntfrfstfdHost() "}"
+"{" jjtTiis.domm= InformCommunity() InformIntfrfstfdHost() "}"
+"{" jjtTiis.domm= InformCommunity() InformIntfrfstfdHost() "}"
+"{" jjtTiis.domm= InformCommunity() InformIntfrfstfdHost() "}"
 }
+}
+}
+}
+}
+
+
+
+
 
 JDMInformCommunity InformCommunity(): 
+JDMInformCommunity InformCommunity(): 
+JDMInformCommunity InformCommunity(): 
+JDMInformCommunity InformCommunity(): 
+JDMInformCommunity InformCommunity(): 
+{
+{
+{
+{
 {
   Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+}
+}
+}
+}
 }
 {
-"inform-dommunity" "=" t=<IDENTIFIER> { jjtThis.dommunity= t.imbgf; rfturn jjtThis; }
+{
+{
+{
+{
+"inform-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"inform-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"inform-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"inform-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
+"inform-dommunity" "=" t=<IDENTIFIER> { jjtTiis.dommunity= t.imbgf; rfturn jjtTiis; }
 }
+}
+}
+}
+}
+
+
+
+
 
 void InformIntfrfstfdHost(): { }
+void InformIntfrfstfdHost(): { }
+void InformIntfrfstfdHost(): { }
+void InformIntfrfstfdHost(): { }
+void InformIntfrfstfdHost(): { }
 {
-"hosts" "=" HostInform() ("," HostInform())*
+{
+{
+{
+{
+"iosts" "=" HostInform() ("," HostInform())*
+"iosts" "=" HostInform() ("," HostInform())*
+"iosts" "=" HostInform() ("," HostInform())*
+"iosts" "=" HostInform() ("," HostInform())*
+"iosts" "=" HostInform() ("," HostInform())*
+}
+}
+}
+}
 }
 
+
+
+
+
+void HostInform() : 
+void HostInform() : 
+void HostInform() : 
+void HostInform() : 
 void HostInform() : 
 {
+{
+{
+{
+{
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
+  Tokfn t;
   Tokfn t;
 }
+}
+}
+}
+}
+{
+{
+{
+{
 {
 HostNbmf()
+HostNbmf()
+HostNbmf()
+HostNbmf()
+HostNbmf()
+|
+|
+|
+|
 |
 IpAddrfss()
+IpAddrfss()
+IpAddrfss()
+IpAddrfss()
+IpAddrfss()
+|
+|
+|
+|
 |
 IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
+IpV6Addrfss()
 }
+}
+}
+}
+}
+
+
+
+
 

@@ -1,538 +1,2690 @@
 '\" t
-.\"  Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
-.\"     Ardh: gfnfrid
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
 .\"     Softwbrf: JDK 8
 .\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
+.\"     SfdtDfsd: Bbsid Tools
 .\"     SfdtDfsd: Bbsid Tools
 .\"     Titlf: jdfps.1
+.\"     Titlf: jdfps.1
+.\"     Titlf: jdfps.1
+.\"     Titlf: jdfps.1
+.\"     Titlf: jdfps.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH jdfps 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jdfps 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jdfps 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.TH jdfps 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .TH jdfps 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
 .SH NAME    
 jdfps \- Jbvb dlbss dfpfndfndy bnblyzfr\&.
+jdfps \- Jbvb dlbss dfpfndfndy bnblyzfr\&.
+jdfps \- Jbvb dlbss dfpfndfndy bnblyzfr\&.
+jdfps \- Jbvb dlbss dfpfndfndy bnblyzfr\&.
+jdfps \- Jbvb dlbss dfpfndfndy bnblyzfr\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+
+
+
+
 
 \fBjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fBjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fBjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fBjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fBjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Commbnd-linf options\&. Sff Options\&.
+Commbnd-linf options\&. Sff Options\&.
+Commbnd-linf options\&. Sff Options\&.
+Commbnd-linf options\&. Sff Options\&.
 Commbnd-linf options\&. Sff Options\&.
 .TP     
+.TP     
+.TP     
+.TP     
+.TP     
 \fIdlbssfs\fR
-Nbmf of thf dlbssfs to bnblyzf\&. You dbn spfdify b dlbss thbt dbn bf found in thf dlbss pbth, by its filf nbmf, b dirfdtory, or b JAR filf\&.
+\fIdlbssfs\fR
+\fIdlbssfs\fR
+\fIdlbssfs\fR
+\fIdlbssfs\fR
+Nbmf of tif dlbssfs to bnblyzf\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf, b dirfdtory, or b JAR filf\&.
+Nbmf of tif dlbssfs to bnblyzf\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf, b dirfdtory, or b JAR filf\&.
+Nbmf of tif dlbssfs to bnblyzf\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf, b dirfdtory, or b JAR filf\&.
+Nbmf of tif dlbssfs to bnblyzf\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf, b dirfdtory, or b JAR filf\&.
+Nbmf of tif dlbssfs to bnblyzf\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf, b dirfdtory, or b JAR filf\&.
 .SH DESCRIPTION    
-Thf \fI\fR\f3jdfps\fR dommbnd shows thf pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Thf input dlbss dbn bf b pbth nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Thf options dftfrminf thf output\&. By dffbult, \f3jdfps\fR outputs thf dfpfndfndifs to thf systfm output\&. It dbn gfnfrbtf thf dfpfndfndifs in DOT lbngubgf (sff thf \f3-dotoutput\fR option)\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif \fI\fR\f3jdfps\fR dommbnd siows tif pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Tif input dlbss dbn bf b pbti nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Tif options dftfrminf tif output\&. By dffbult, \f3jdfps\fR outputs tif dfpfndfndifs to tif systfm output\&. It dbn gfnfrbtf tif dfpfndfndifs in DOT lbngubgf (sff tif \f3-dotoutput\fR option)\&.
+Tif \fI\fR\f3jdfps\fR dommbnd siows tif pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Tif input dlbss dbn bf b pbti nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Tif options dftfrminf tif output\&. By dffbult, \f3jdfps\fR outputs tif dfpfndfndifs to tif systfm output\&. It dbn gfnfrbtf tif dfpfndfndifs in DOT lbngubgf (sff tif \f3-dotoutput\fR option)\&.
+Tif \fI\fR\f3jdfps\fR dommbnd siows tif pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Tif input dlbss dbn bf b pbti nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Tif options dftfrminf tif output\&. By dffbult, \f3jdfps\fR outputs tif dfpfndfndifs to tif systfm output\&. It dbn gfnfrbtf tif dfpfndfndifs in DOT lbngubgf (sff tif \f3-dotoutput\fR option)\&.
+Tif \fI\fR\f3jdfps\fR dommbnd siows tif pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Tif input dlbss dbn bf b pbti nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Tif options dftfrminf tif output\&. By dffbult, \f3jdfps\fR outputs tif dfpfndfndifs to tif systfm output\&. It dbn gfnfrbtf tif dfpfndfndifs in DOT lbngubgf (sff tif \f3-dotoutput\fR option)\&.
+Tif \fI\fR\f3jdfps\fR dommbnd siows tif pbdkbgf-lfvfl or dlbss-lfvfl dfpfndfndifs of Jbvb dlbss filfs\&. Tif input dlbss dbn bf b pbti nbmf to b \f3\&.dlbss\fR filf, b dirfdtory, b JAR filf, or it dbn bf b fully qublififd dlbss nbmf to bnblyzf bll dlbss filfs\&. Tif options dftfrminf tif output\&. By dffbult, \f3jdfps\fR outputs tif dfpfndfndifs to tif systfm output\&. It dbn gfnfrbtf tif dfpfndfndifs in DOT lbngubgf (sff tif \f3-dotoutput\fR option)\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
+.TP
+.TP
+.TP
+.TP
+-dotoutput <\fIdir\fR>
+-dotoutput <\fIdir\fR>
+-dotoutput <\fIdir\fR>
+-dotoutput <\fIdir\fR>
 -dotoutput <\fIdir\fR>
 .br
-Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdh bnblyzfd brdhivf nbmfd <\fIbrdhivf-filf-nbmf\fR>\&.dot listing thf dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing thf dfpfndfndifs bmong thf brdhivfs\&.
+.br
+.br
+.br
+.br
+Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdi bnblyzfd brdiivf nbmfd <\fIbrdiivf-filf-nbmf\fR>\&.dot listing tif dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing tif dfpfndfndifs bmong tif brdiivfs\&.
+Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdi bnblyzfd brdiivf nbmfd <\fIbrdiivf-filf-nbmf\fR>\&.dot listing tif dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing tif dfpfndfndifs bmong tif brdiivfs\&.
+Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdi bnblyzfd brdiivf nbmfd <\fIbrdiivf-filf-nbmf\fR>\&.dot listing tif dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing tif dfpfndfndifs bmong tif brdiivfs\&.
+Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdi bnblyzfd brdiivf nbmfd <\fIbrdiivf-filf-nbmf\fR>\&.dot listing tif dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing tif dfpfndfndifs bmong tif brdiivfs\&.
+Dfstinbtion dirfdtory for DOT filf output\&. If spfdififd, \f3jdfps\fR will gfnfrbtf onf dot filf pfr fbdi bnblyzfd brdiivf nbmfd <\fIbrdiivf-filf-nbmf\fR>\&.dot listing tif dfpfndfndifs, bnd blso b summbry filf nbmfd summbry\&.dot listing tif dfpfndfndifs bmong tif brdiivfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -s, -summbry
+-s, -summbry
+-s, -summbry
+-s, -summbry
+-s, -summbry
+.br
+.br
+.br
+.br
 .br
 Prints dfpfndfndy summbry only\&.
+Prints dfpfndfndy summbry only\&.
+Prints dfpfndfndy summbry only\&.
+Prints dfpfndfndy summbry only\&.
+Prints dfpfndfndy summbry only\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -v, -vfrbosf
+-v, -vfrbosf
+-v, -vfrbosf
+-v, -vfrbosf
+-v, -vfrbosf
+.br
+.br
+.br
+.br
 .br
 Prints bll dlbss-lfvfl dfpfndfndifs\&.
+Prints bll dlbss-lfvfl dfpfndfndifs\&.
+Prints bll dlbss-lfvfl dfpfndfndifs\&.
+Prints bll dlbss-lfvfl dfpfndfndifs\&.
+Prints bll dlbss-lfvfl dfpfndfndifs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -vfrbosf:pbdkbgf
+-vfrbosf:pbdkbgf
+-vfrbosf:pbdkbgf
+-vfrbosf:pbdkbgf
+-vfrbosf:pbdkbgf
 .br
-Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs within thf sbmf brdhivf\&.
+.br
+.br
+.br
+.br
+Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints pbdkbgf-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -vfrbosf:dlbss
+-vfrbosf:dlbss
+-vfrbosf:dlbss
+-vfrbosf:dlbss
+-vfrbosf:dlbss
 .br
-Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs within thf sbmf brdhivf\&.
+.br
+.br
+.br
+.br
+Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
+Prints dlbss-lfvfl dfpfndfndifs fxdluding dfpfndfndifs witiin tif sbmf brdiivf\&.
 .TP
--dp <\fIpbth\fR>, -dlbsspbth <\fIpbth\fR>
+.TP
+.TP
+.TP
+.TP
+-dp <\fIpbti\fR>, -dlbsspbti <\fIpbti\fR>
+-dp <\fIpbti\fR>, -dlbsspbti <\fIpbti\fR>
+-dp <\fIpbti\fR>, -dlbsspbti <\fIpbti\fR>
+-dp <\fIpbti\fR>, -dlbsspbti <\fIpbti\fR>
+-dp <\fIpbti\fR>, -dlbsspbti <\fIpbti\fR>
 .br
-Spfdififs whfrf to find dlbss filfs\&.
+.br
+.br
+.br
+.br
+Spfdififs wifrf to find dlbss filfs\&.
+Spfdififs wifrf to find dlbss filfs\&.
+Spfdififs wifrf to find dlbss filfs\&.
+Spfdififs wifrf to find dlbss filfs\&.
+Spfdififs wifrf to find dlbss filfs\&.
 
-Sff blso Sftting thf Clbss Pbth\&.
+
+
+
+
+Sff blso Sftting tif Clbss Pbti\&.
+Sff blso Sftting tif Clbss Pbti\&.
+Sff blso Sftting tif Clbss Pbti\&.
+Sff blso Sftting tif Clbss Pbti\&.
+Sff blso Sftting tif Clbss Pbti\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -p <\fIpkg nbmf\fR>, -pbdkbgf <\fIpkg nbmf\fR>
+-p <\fIpkg nbmf\fR>, -pbdkbgf <\fIpkg nbmf\fR>
+-p <\fIpkg nbmf\fR>, -pbdkbgf <\fIpkg nbmf\fR>
+-p <\fIpkg nbmf\fR>, -pbdkbgf <\fIpkg nbmf\fR>
+-p <\fIpkg nbmf\fR>, -pbdkbgf <\fIpkg nbmf\fR>
 .br
-Finds dfpfndfndifs in thf spfdififd pbdkbgf\&. You dbn spfdify this option multiplf timfs for difffrfnt pbdkbgfs\&. Thf \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+.br
+.br
+.br
+.br
+Finds dfpfndfndifs in tif spfdififd pbdkbgf\&. You dbn spfdify tiis option multiplf timfs for difffrfnt pbdkbgfs\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in tif spfdififd pbdkbgf\&. You dbn spfdify tiis option multiplf timfs for difffrfnt pbdkbgfs\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in tif spfdififd pbdkbgf\&. You dbn spfdify tiis option multiplf timfs for difffrfnt pbdkbgfs\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in tif spfdififd pbdkbgf\&. You dbn spfdify tiis option multiplf timfs for difffrfnt pbdkbgfs\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in tif spfdififd pbdkbgf\&. You dbn spfdify tiis option multiplf timfs for difffrfnt pbdkbgfs\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -f <\fIrfgfx\fR>, -rfgfx <\fIrfgfx\fR>
+-f <\fIrfgfx\fR>, -rfgfx <\fIrfgfx\fR>
+-f <\fIrfgfx\fR>, -rfgfx <\fIrfgfx\fR>
+-f <\fIrfgfx\fR>, -rfgfx <\fIrfgfx\fR>
+-f <\fIrfgfx\fR>, -rfgfx <\fIrfgfx\fR>
 .br
-Finds dfpfndfndifs in pbdkbgfs mbtdhing thf spfdififd rfgulbr fxprfssion pbttfrn\&. Thf \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+.br
+.br
+.br
+.br
+Finds dfpfndfndifs in pbdkbgfs mbtdiing tif spfdififd rfgulbr fxprfssion pbttfrn\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in pbdkbgfs mbtdiing tif spfdififd rfgulbr fxprfssion pbttfrn\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in pbdkbgfs mbtdiing tif spfdififd rfgulbr fxprfssion pbttfrn\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in pbdkbgfs mbtdiing tif spfdififd rfgulbr fxprfssion pbttfrn\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+Finds dfpfndfndifs in pbdkbgfs mbtdiing tif spfdififd rfgulbr fxprfssion pbttfrn\&. Tif \f3-p\fR bnd \f3-f\fR options brf mutublly fxdlusivf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -indludf <\fIrfgfx\fR>
+-indludf <\fIrfgfx\fR>
+-indludf <\fIrfgfx\fR>
+-indludf <\fIrfgfx\fR>
+-indludf <\fIrfgfx\fR>
 .br
-Rfstridts bnblysis to dlbssfs mbtdhing pbttfrn\&. This option filtfrs thf list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togfthfr with \f3-p\fR bnd \f3-f\fR whidh bpply pbttfrn to thf dfpfndfndifs\&.
+.br
+.br
+.br
+.br
+Rfstridts bnblysis to dlbssfs mbtdiing pbttfrn\&. Tiis option filtfrs tif list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togftifr witi \f3-p\fR bnd \f3-f\fR wiidi bpply pbttfrn to tif dfpfndfndifs\&.
+Rfstridts bnblysis to dlbssfs mbtdiing pbttfrn\&. Tiis option filtfrs tif list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togftifr witi \f3-p\fR bnd \f3-f\fR wiidi bpply pbttfrn to tif dfpfndfndifs\&.
+Rfstridts bnblysis to dlbssfs mbtdiing pbttfrn\&. Tiis option filtfrs tif list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togftifr witi \f3-p\fR bnd \f3-f\fR wiidi bpply pbttfrn to tif dfpfndfndifs\&.
+Rfstridts bnblysis to dlbssfs mbtdiing pbttfrn\&. Tiis option filtfrs tif list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togftifr witi \f3-p\fR bnd \f3-f\fR wiidi bpply pbttfrn to tif dfpfndfndifs\&.
+Rfstridts bnblysis to dlbssfs mbtdiing pbttfrn\&. Tiis option filtfrs tif list of dlbssfs to bf bnblyzfd\&. It dbn bf usfd togftifr witi \f3-p\fR bnd \f3-f\fR wiidi bpply pbttfrn to tif dfpfndfndifs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -jdkintfrnbls
+-jdkintfrnbls
+-jdkintfrnbls
+-jdkintfrnbls
+-jdkintfrnbls
 .br
-Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in thf \f3-dlbsspbth\fR option bnd in input filfs unlfss you spfdififd thf \f3-indludf\fR option\&. You dbnnot usf this option with thf \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
+.br
+.br
+.br
+.br
+Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in tif \f3-dlbsspbti\fR option bnd in input filfs unlfss you spfdififd tif \f3-indludf\fR option\&. You dbnnot usf tiis option witi tif \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
+Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in tif \f3-dlbsspbti\fR option bnd in input filfs unlfss you spfdififd tif \f3-indludf\fR option\&. You dbnnot usf tiis option witi tif \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
+Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in tif \f3-dlbsspbti\fR option bnd in input filfs unlfss you spfdififd tif \f3-indludf\fR option\&. You dbnnot usf tiis option witi tif \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
+Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in tif \f3-dlbsspbti\fR option bnd in input filfs unlfss you spfdififd tif \f3-indludf\fR option\&. You dbnnot usf tiis option witi tif \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
+Finds dlbss-lfvfl dfpfndfndfs in JDK intfrnbl APIs\&. By dffbult, it bnblyzfs bll dlbssfs spfdififd in tif \f3-dlbsspbti\fR option bnd in input filfs unlfss you spfdififd tif \f3-indludf\fR option\&. You dbnnot usf tiis option witi tif \f3-p\fR, \f3-f\fR, bnd \f3-s\fR options\&.
+
+
+
+
 
 \fIWbrning\fR: JDK intfrnbl APIs mby not bf bddfssiblf in updoming rflfbsfs\&.
+\fIWbrning\fR: JDK intfrnbl APIs mby not bf bddfssiblf in updoming rflfbsfs\&.
+\fIWbrning\fR: JDK intfrnbl APIs mby not bf bddfssiblf in updoming rflfbsfs\&.
+\fIWbrning\fR: JDK intfrnbl APIs mby not bf bddfssiblf in updoming rflfbsfs\&.
+\fIWbrning\fR: JDK intfrnbl APIs mby not bf bddfssiblf in updoming rflfbsfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -P, -profilf
+-P, -profilf
+-P, -profilf
+-P, -profilf
+-P, -profilf
 .br
-Shows profilf or thf filf dontbining b pbdkbgf\&.
+.br
+.br
+.br
+.br
+Siows profilf or tif filf dontbining b pbdkbgf\&.
+Siows profilf or tif filf dontbining b pbdkbgf\&.
+Siows profilf or tif filf dontbining b pbdkbgf\&.
+Siows profilf or tif filf dontbining b pbdkbgf\&.
+Siows profilf or tif filf dontbining b pbdkbgf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -bpionly
+-bpionly
+-bpionly
+-bpionly
+-bpionly
 .br
-Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from thf signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mfthod pbrbmftfr typfs, rfturnfd typf, bnd dhfdkfd fxdfption typfs\&.
+.br
+.br
+.br
+.br
+Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from tif signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mftiod pbrbmftfr typfs, rfturnfd typf, bnd difdkfd fxdfption typfs\&.
+Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from tif signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mftiod pbrbmftfr typfs, rfturnfd typf, bnd difdkfd fxdfption typfs\&.
+Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from tif signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mftiod pbrbmftfr typfs, rfturnfd typf, bnd difdkfd fxdfption typfs\&.
+Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from tif signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mftiod pbrbmftfr typfs, rfturnfd typf, bnd difdkfd fxdfption typfs\&.
+Rfstridts bnblysis to APIs, for fxbmplf, dfpfndfndfs from tif signbturf of \f3publid\fR bnd \f3protfdtfd\fR mfmbfrs of publid dlbssfs indluding fifld typf, mftiod pbrbmftfr typfs, rfturnfd typf, bnd difdkfd fxdfption typfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -R, -rfdursivf
+-R, -rfdursivf
+-R, -rfdursivf
+-R, -rfdursivf
+-R, -rfdursivf
+.br
+.br
+.br
+.br
 .br
 Rfdursivfly trbvfrsfs bll dfpfndfndifs\&.
+Rfdursivfly trbvfrsfs bll dfpfndfndifs\&.
+Rfdursivfly trbvfrsfs bll dfpfndfndifs\&.
+Rfdursivfly trbvfrsfs bll dfpfndfndifs\&.
+Rfdursivfly trbvfrsfs bll dfpfndfndifs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+.br
+.br
+.br
+.br
 .br
 Prints vfrsion informbtion\&.
+Prints vfrsion informbtion\&.
+Prints vfrsion informbtion\&.
+Prints vfrsion informbtion\&.
+Prints vfrsion informbtion\&.
 .TP
--h, -?, -hflp
+.TP
+.TP
+.TP
+.TP
+-i, -?, -iflp
+-i, -?, -iflp
+-i, -?, -iflp
+-i, -?, -iflp
+-i, -?, -iflp
 .br
-Prints hflp mfssbgf for \f3jdfps\fR\&.
+.br
+.br
+.br
+.br
+Prints iflp mfssbgf for \f3jdfps\fR\&.
+Prints iflp mfssbgf for \f3jdfps\fR\&.
+Prints iflp mfssbgf for \f3jdfps\fR\&.
+Prints iflp mfssbgf for \f3jdfps\fR\&.
+Prints iflp mfssbgf for \f3jdfps\fR\&.
 .SH EXAMPLES    
-Anblyzing thf dfpfndfndifs of Notfpbd\&.jbr\&.
+.SH EXAMPLES    
+.SH EXAMPLES    
+.SH EXAMPLES    
+.SH EXAMPLES    
+Anblyzing tif dfpfndfndifs of Notfpbd\&.jbr\&.
+Anblyzing tif dfpfndfndifs of Notfpbd\&.jbr\&.
+Anblyzing tif dfpfndfndifs of Notfpbd\&.jbr\&.
+Anblyzing tif dfpfndfndifs of Notfpbd\&.jbr\&.
+Anblyzing tif dfpfndfndifs of Notfpbd\&.jbr\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
 \f3   <unnbmfd> (Notfpbd\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.bwt                                           \fP
+\f3      \-> jbvb\&.bwt                                           \fP
+\f3      \-> jbvb\&.bwt                                           \fP
+\f3      \-> jbvb\&.bwt                                           \fP
+\f3      \-> jbvb\&.bwt                                           \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.bwt\&.fvfnt                                     \fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     \fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     \fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     \fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.bfbns                                         \fP
+\f3      \-> jbvb\&.bfbns                                         \fP
+\f3      \-> jbvb\&.bfbns                                         \fP
+\f3      \-> jbvb\&.bfbns                                         \fP
+\f3      \-> jbvb\&.bfbns                                         \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
 \f3      \-> jbvb\&.util                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.logging                                  \fP
+\f3      \-> jbvb\&.util\&.logging                                  \fP
+\f3      \-> jbvb\&.util\&.logging                                  \fP
+\f3      \-> jbvb\&.util\&.logging                                  \fP
+\f3      \-> jbvb\&.util\&.logging                                  \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing                                        \fP
+\f3      \-> jbvbx\&.swing                                        \fP
+\f3      \-> jbvbx\&.swing                                        \fP
+\f3      \-> jbvbx\&.swing                                        \fP
+\f3      \-> jbvbx\&.swing                                        \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.bordfr                                 \fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 \fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 \fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 \fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.fvfnt                                  \fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  \fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  \fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  \fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.tfxt                                   \fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   \fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   \fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   \fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.trff                                   \fP
+\f3      \-> jbvbx\&.swing\&.trff                                   \fP
+\f3      \-> jbvbx\&.swing\&.trff                                   \fP
+\f3      \-> jbvbx\&.swing\&.trff                                   \fP
+\f3      \-> jbvbx\&.swing\&.trff                                   \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.undo  \fP
+\f3      \-> jbvbx\&.swing\&.undo  \fP
+\f3      \-> jbvbx\&.swing\&.undo  \fP
+\f3      \-> jbvbx\&.swing\&.undo  \fP
+\f3      \-> jbvbx\&.swing\&.undo  \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Usf -P or -profilf option to show on whidh profilf thbt Notfpbd dfpfnds\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Usf -P or -profilf option to siow on wiidi profilf tibt Notfpbd dfpfnds\&.
+Usf -P or -profilf option to siow on wiidi profilf tibt Notfpbd dfpfnds\&.
+Usf -P or -profilf option to siow on wiidi profilf tibt Notfpbd dfpfnds\&.
+Usf -P or -profilf option to siow on wiidi profilf tibt Notfpbd dfpfnds\&.
+Usf -P or -profilf option to siow on wiidi profilf tibt Notfpbd dfpfnds\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr \fP
+\f3$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr \fP
+\f3$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr \fP
+\f3$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr \fP
+\f3$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)\fP
+\f3dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
+\f3   <unnbmfd> (Notfpbd\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.bwt                                           Full JRE\fP
+\f3      \-> jbvb\&.bwt                                           Full JRE\fP
+\f3      \-> jbvb\&.bwt                                           Full JRE\fP
+\f3      \-> jbvb\&.bwt                                           Full JRE\fP
+\f3      \-> jbvb\&.bwt                                           Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE\fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE\fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE\fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE\fP
+\f3      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.bfbns                                         Full JRE\fP
+\f3      \-> jbvb\&.bfbns                                         Full JRE\fP
+\f3      \-> jbvb\&.bfbns                                         Full JRE\fP
+\f3      \-> jbvb\&.bfbns                                         Full JRE\fP
+\f3      \-> jbvb\&.bfbns                                         Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.io                                            dompbdt1\fP
+\f3      \-> jbvb\&.io                                            dompbdt1\fP
+\f3      \-> jbvb\&.io                                            dompbdt1\fP
+\f3      \-> jbvb\&.io                                            dompbdt1\fP
+\f3      \-> jbvb\&.io                                            dompbdt1\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng                                          dompbdt1\fP
+\f3      \-> jbvb\&.lbng                                          dompbdt1\fP
+\f3      \-> jbvb\&.lbng                                          dompbdt1\fP
+\f3      \-> jbvb\&.lbng                                          dompbdt1\fP
+\f3      \-> jbvb\&.lbng                                          dompbdt1\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.nft                                           dompbdt1\fP
+\f3      \-> jbvb\&.nft                                           dompbdt1\fP
+\f3      \-> jbvb\&.nft                                           dompbdt1\fP
+\f3      \-> jbvb\&.nft                                           dompbdt1\fP
+\f3      \-> jbvb\&.nft                                           dompbdt1\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util                                          dompbdt1\fP
+\f3      \-> jbvb\&.util                                          dompbdt1\fP
+\f3      \-> jbvb\&.util                                          dompbdt1\fP
+\f3      \-> jbvb\&.util                                          dompbdt1\fP
+\f3      \-> jbvb\&.util                                          dompbdt1\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.logging                                  dompbdt1\fP
+\f3      \-> jbvb\&.util\&.logging                                  dompbdt1\fP
+\f3      \-> jbvb\&.util\&.logging                                  dompbdt1\fP
+\f3      \-> jbvb\&.util\&.logging                                  dompbdt1\fP
+\f3      \-> jbvb\&.util\&.logging                                  dompbdt1\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing                                        Full JRE\fP
+\f3      \-> jbvbx\&.swing                                        Full JRE\fP
+\f3      \-> jbvbx\&.swing                                        Full JRE\fP
+\f3      \-> jbvbx\&.swing                                        Full JRE\fP
+\f3      \-> jbvbx\&.swing                                        Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.bordfr                                 Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.bordfr                                 Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.tfxt                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.tfxt                                   Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.trff                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.trff                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.trff                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.trff                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.trff                                   Full JRE\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
+\f3      \-> jbvbx\&.swing\&.undo                                   Full JRE\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Anblyzing thf immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbth, for fxbmplf thf \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in thf tools\&.jbr filf\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Anblyzing tif immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbti, for fxbmplf tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in tif tools\&.jbr filf\&.
+Anblyzing tif immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbti, for fxbmplf tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in tif tools\&.jbr filf\&.
+Anblyzing tif immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbti, for fxbmplf tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in tif tools\&.jbr filf\&.
+Anblyzing tif immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbti, for fxbmplf tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in tif tools\&.jbr filf\&.
+Anblyzing tif immfdibtf dfpfndfndifs of b spfdifid dlbss in b givfn dlbsspbti, for fxbmplf tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss in tif tools\&.jbr filf\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
 \f3      \-> jbvb\&.io                                            \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng \fP
+\f3      \-> jbvb\&.lbng \fP
+\f3      \-> jbvb\&.lbng \fP
+\f3      \-> jbvb\&.lbng \fP
+\f3      \-> jbvb\&.lbng \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Usf thf \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf thf \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from thf sbmf JAR filf\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Usf tif \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf tif \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from tif sbmf JAR filf\&.
+Usf tif \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf tif \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from tif sbmf JAR filf\&.
+Usf tif \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf tif \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from tif sbmf JAR filf\&.
+Usf tif \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf tif \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from tif sbmf JAR filf\&.
+Usf tif \f3-vfrbosf:dlbss\fR option to find dlbss-lfvfl dfpfndfndifs or usf tif \f3-v\fR or \f3-vfrbosf\fR option to indludf dfpfndfndifs from tif sbmf JAR filf\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 \f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.io\&.PrintWritfr                                \fP
+\f3      \-> jbvb\&.io\&.PrintWritfr                                \fP
+\f3      \-> jbvb\&.io\&.PrintWritfr                                \fP
+\f3      \-> jbvb\&.io\&.PrintWritfr                                \fP
+\f3      \-> jbvb\&.io\&.PrintWritfr                                \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng\&.Exdfption                                \fP
+\f3      \-> jbvb\&.lbng\&.Exdfption                                \fP
+\f3      \-> jbvb\&.lbng\&.Exdfption                                \fP
+\f3      \-> jbvb\&.lbng\&.Exdfption                                \fP
+\f3      \-> jbvb\&.lbng\&.Exdfption                                \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng\&.Objfdt                                   \fP
+\f3      \-> jbvb\&.lbng\&.Objfdt                                   \fP
+\f3      \-> jbvb\&.lbng\&.Objfdt                                   \fP
+\f3      \-> jbvb\&.lbng\&.Objfdt                                   \fP
+\f3      \-> jbvb\&.lbng\&.Objfdt                                   \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng\&.String                                   \fP
+\f3      \-> jbvb\&.lbng\&.String                                   \fP
+\f3      \-> jbvb\&.lbng\&.String                                   \fP
+\f3      \-> jbvb\&.lbng\&.String                                   \fP
+\f3      \-> jbvb\&.lbng\&.String                                   \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng\&.Systfm \fP
+\f3      \-> jbvb\&.lbng\&.Systfm \fP
+\f3      \-> jbvb\&.lbng\&.Systfm \fP
+\f3      \-> jbvb\&.lbng\&.Systfm \fP
+\f3      \-> jbvb\&.lbng\&.Systfm \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Usf thf \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf thf trbnsitivf dfpfndfndifs of thf \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Usf tif \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf tif trbnsitivf dfpfndfndifs of tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
+Usf tif \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf tif trbnsitivf dfpfndfndifs of tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
+Usf tif \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf tif trbnsitivf dfpfndfndifs of tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
+Usf tif \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf tif trbnsitivf dfpfndfndifs of tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
+Usf tif \f3-R\fR or \f3-rfdursivf\fR option to bnblyzf tif trbnsitivf dfpfndfndifs of tif \f3dom\&.sun\&.tools\&.jdfps\&.Mbin\fR dlbss\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
+\f3$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      \-> jbvb\&.nio\&.dhbrsft                                   \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.nio\&.dibrsft                                   \fP
+\f3      \-> jbvb\&.nio\&.dibrsft                                   \fP
+\f3      \-> jbvb\&.nio\&.dibrsft                                   \fP
+\f3      \-> jbvb\&.nio\&.dibrsft                                   \fP
+\f3      \-> jbvb\&.nio\&.dibrsft                                   \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
 \f3      \-> jbvb\&.util\&.rfgfx                                    \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
+\f3   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
 \f3      \-> jbvb\&.lbng                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
+\f3      \-> jbvb\&.nio\&.filf                                      \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.nio\&.filf\&.bttributf                            \fP
+\f3      \-> jbvb\&.nio\&.filf\&.bttributf                            \fP
+\f3      \-> jbvb\&.nio\&.filf\&.bttributf                            \fP
+\f3      \-> jbvb\&.nio\&.filf\&.bttributf                            \fP
+\f3      \-> jbvb\&.nio\&.filf\&.bttributf                            \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.tfxt                                          \fP
+\f3      \-> jbvb\&.tfxt                                          \fP
+\f3      \-> jbvb\&.tfxt                                          \fP
+\f3      \-> jbvb\&.tfxt                                          \fP
+\f3      \-> jbvb\&.tfxt                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+\f3      \-> jbvb\&.util\&.zip                                      \fP
 \f3      \-> jbvb\&.util\&.zip                                      \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   jbvbx\&.drypto (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto (jdf\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+\f3      \-> jbvb\&.io                                            \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
 \f3      \-> jbvb\&.lbng                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
+\f3      \-> jbvb\&.lbng\&.rfflfdt                                  \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
+\f3      \-> jbvb\&.nft                                           \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.nio                                           \fP
+\f3      \-> jbvb\&.nio                                           \fP
+\f3      \-> jbvb\&.nio                                           \fP
+\f3      \-> jbvb\&.nio                                           \fP
+\f3      \-> jbvb\&.nio                                           \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.sfdurity                                      \fP
+\f3      \-> jbvb\&.sfdurity                                      \fP
+\f3      \-> jbvb\&.sfdurity                                      \fP
+\f3      \-> jbvb\&.sfdurity                                      \fP
+\f3      \-> jbvb\&.sfdurity                                      \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.sfdurity\&.dfrt                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.dfrt                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.dfrt                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.dfrt                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.dfrt                                 \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
 \f3      \-> jbvb\&.util                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.dondurrfnt                               \fP
+\f3      \-> jbvb\&.util\&.dondurrfnt                               \fP
+\f3      \-> jbvb\&.util\&.dondurrfnt                               \fP
+\f3      \-> jbvb\&.util\&.dondurrfnt                               \fP
+\f3      \-> jbvb\&.util\&.dondurrfnt                               \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
+\f3      \-> jbvb\&.util\&.jbr                                      \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
+\f3      \-> jbvb\&.util\&.rfgfx                                    \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util\&.zip                                      \fP
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+\f3      \-> jbvb\&.util\&.zip                                      \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3      \-> jbvbx\&.sfdurity\&.buth                                \fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3      \-> jbvbx\&.sfdurity\&.buti                                \fP
+\f3      \-> jbvbx\&.sfdurity\&.buti                                \fP
+\f3      \-> jbvbx\&.sfdurity\&.buti                                \fP
+\f3      \-> jbvbx\&.sfdurity\&.buti                                \fP
+\f3      \-> jbvbx\&.sfdurity\&.buti                                \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)\fP
+\f3      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   jbvbx\&.drypto\&.spfd (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto\&.spfd (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto\&.spfd (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto\&.spfd (jdf\&.jbr)\fP
+\f3   jbvbx\&.drypto\&.spfd (jdf\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
+\f3      \-> jbvb\&.lbng                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
+\f3      \-> jbvb\&.sfdurity\&.spfd                                 \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
+\f3      \-> jbvb\&.util                                          \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr\fP
+\f3/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   jbvb\&.sfdurity (rt\&.jbr)\fP
+\f3   jbvb\&.sfdurity (rt\&.jbr)\fP
+\f3   jbvb\&.sfdurity (rt\&.jbr)\fP
+\f3   jbvb\&.sfdurity (rt\&.jbr)\fP
+\f3   jbvb\&.sfdurity (rt\&.jbr)\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3      \-> jbvbx\&.drypto\fP
+\f3      \-> jbvbx\&.drypto\fP
+\f3      \-> jbvbx\&.drypto\fP
+\f3      \-> jbvbx\&.drypto\fP
+\f3      \-> jbvbx\&.drypto\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-Gfnfrbtf dot filfs of thf dfpfndfndifs of Notfpbd dfmo\&.
 .sp     
+.sp     
+.sp     
+.sp     
+Gfnfrbtf dot filfs of tif dfpfndfndifs of Notfpbd dfmo\&.
+Gfnfrbtf dot filfs of tif dfpfndfndifs of Notfpbd dfmo\&.
+Gfnfrbtf dot filfs of tif dfpfndfndifs of Notfpbd dfmo\&.
+Gfnfrbtf dot filfs of tif dfpfndfndifs of Notfpbd dfmo\&.
+Gfnfrbtf dot filfs of tif dfpfndfndifs of Notfpbd dfmo\&.
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
-\f3jdfps\fR will drfbtf onf dot filf for fbdh givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in thf dot dirfdtory spfdififd in thf \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot thbt will list thf dfpfndfndifs bmong thf JAR filfs
 .sp     
+.sp     
+.sp     
+.sp     
+\f3jdfps\fR will drfbtf onf dot filf for fbdi givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in tif dot dirfdtory spfdififd in tif \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot tibt will list tif dfpfndfndifs bmong tif JAR filfs
+\f3jdfps\fR will drfbtf onf dot filf for fbdi givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in tif dot dirfdtory spfdififd in tif \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot tibt will list tif dfpfndfndifs bmong tif JAR filfs
+\f3jdfps\fR will drfbtf onf dot filf for fbdi givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in tif dot dirfdtory spfdififd in tif \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot tibt will list tif dfpfndfndifs bmong tif JAR filfs
+\f3jdfps\fR will drfbtf onf dot filf for fbdi givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in tif dot dirfdtory spfdififd in tif \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot tibt will list tif dfpfndfndifs bmong tif JAR filfs
+\f3jdfps\fR will drfbtf onf dot filf for fbdi givfn JAR filf nbmfd <\fIfilfnbmf\fR>\&.dot in tif dot dirfdtory spfdififd in tif \f3-dotoutput\fR option, bnd blso b summbry filf nbmfd summbry\&.dot tibt will list tif dfpfndfndifs bmong tif JAR filfs
+.sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ dbt dot/Notfpbd\&.jbr\&.dot \fP
+\f3$ dbt dot/Notfpbd\&.jbr\&.dot \fP
+\f3$ dbt dot/Notfpbd\&.jbr\&.dot \fP
+\f3$ dbt dot/Notfpbd\&.jbr\&.dot \fP
+\f3$ dbt dot/Notfpbd\&.jbr\&.dot \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3digrbph "Notfpbd\&.jbr" {\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3digrbpi "Notfpbd\&.jbr" {\fP
+\f3digrbpi "Notfpbd\&.jbr" {\fP
+\f3digrbpi "Notfpbd\&.jbr" {\fP
+\f3digrbpi "Notfpbd\&.jbr" {\fP
+\f3digrbpi "Notfpbd\&.jbr" {\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3    // Pbth: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
+\f3    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.io";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.io";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.io";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.io";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.io";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.lbng";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.lbng";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.lbng";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.lbng";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.lbng";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.nft";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.nft";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.nft";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.nft";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.nft";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.util";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";\fP
+\f3   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3$ dbt dot/summbry\&.dot\fP
+\f3$ dbt dot/summbry\&.dot\fP
+\f3$ dbt dot/summbry\&.dot\fP
+\f3$ dbt dot/summbry\&.dot\fP
+\f3$ dbt dot/summbry\&.dot\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3digrbph "summbry" {\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3digrbpi "summbry" {\fP
+\f3digrbpi "summbry" {\fP
+\f3digrbpi "summbry" {\fP
+\f3digrbpi "summbry" {\fP
+\f3digrbpi "summbry" {\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";\fP
+\f3   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";\fP
+\f3   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";\fP
+\f3   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";\fP
+\f3   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+\f3}\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
+\(bu
+\(bu
+\(bu
+\(bu
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
 jbvbp(1)
 .RE
+.RE
+.RE
+.RE
+.RE
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

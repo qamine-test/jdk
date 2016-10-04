@@ -1,317 +1,1585 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.rmi;
+pbdkbgf jbvb.rmi;
+pbdkbgf jbvb.rmi;
+pbdkbgf jbvb.rmi;
+pbdkbgf jbvb.rmi;
+
+
+
+
 
 import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
 import jbvb.io.BytfArrbyOutputStrfbm;
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
 import jbvb.io.InputStrfbm;
 import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
 import jbvb.io.ObjfdtOutputStrfbm;
 import jbvb.io.ObjfdtStrfbmConstbnts;
+import jbvb.io.ObjfdtStrfbmConstbnts;
+import jbvb.io.ObjfdtStrfbmConstbnts;
+import jbvb.io.ObjfdtStrfbmConstbnts;
+import jbvb.io.ObjfdtStrfbmConstbnts;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
 import jbvb.io.OutputStrfbm;
 import jbvb.io.Sfriblizbblf;
-import sun.rmi.sfrvfr.MbrshblInputStrfbm;
-import sun.rmi.sfrvfr.MbrshblOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+
+
+
+
 
 /**
- * A <dodf>MbrshbllfdObjfdt</dodf> dontbins b bytf strfbm with thf sfriblizfd
- * rfprfsfntbtion of bn objfdt givfn to its donstrudtor.  Thf <dodf>gft</dodf>
- * mfthod rfturns b nfw dopy of thf originbl objfdt, bs dfsfriblizfd from
- * thf dontbinfd bytf strfbm.  Thf dontbinfd objfdt is sfriblizfd bnd
- * dfsfriblizfd with thf sbmf sfriblizbtion sfmbntids usfd for mbrshbling
- * bnd unmbrshbling pbrbmftfrs bnd rfturn vblufs of RMI dblls:  Whfn thf
+/**
+/**
+/**
+/**
+ * A <dodf>MbrsibllfdObjfdt</dodf> dontbins b bytf strfbm witi tif sfriblizfd
+ * A <dodf>MbrsibllfdObjfdt</dodf> dontbins b bytf strfbm witi tif sfriblizfd
+ * A <dodf>MbrsibllfdObjfdt</dodf> dontbins b bytf strfbm witi tif sfriblizfd
+ * A <dodf>MbrsibllfdObjfdt</dodf> dontbins b bytf strfbm witi tif sfriblizfd
+ * A <dodf>MbrsibllfdObjfdt</dodf> dontbins b bytf strfbm witi tif sfriblizfd
+ * rfprfsfntbtion of bn objfdt givfn to its donstrudtor.  Tif <dodf>gft</dodf>
+ * rfprfsfntbtion of bn objfdt givfn to its donstrudtor.  Tif <dodf>gft</dodf>
+ * rfprfsfntbtion of bn objfdt givfn to its donstrudtor.  Tif <dodf>gft</dodf>
+ * rfprfsfntbtion of bn objfdt givfn to its donstrudtor.  Tif <dodf>gft</dodf>
+ * rfprfsfntbtion of bn objfdt givfn to its donstrudtor.  Tif <dodf>gft</dodf>
+ * mftiod rfturns b nfw dopy of tif originbl objfdt, bs dfsfriblizfd from
+ * mftiod rfturns b nfw dopy of tif originbl objfdt, bs dfsfriblizfd from
+ * mftiod rfturns b nfw dopy of tif originbl objfdt, bs dfsfriblizfd from
+ * mftiod rfturns b nfw dopy of tif originbl objfdt, bs dfsfriblizfd from
+ * mftiod rfturns b nfw dopy of tif originbl objfdt, bs dfsfriblizfd from
+ * tif dontbinfd bytf strfbm.  Tif dontbinfd objfdt is sfriblizfd bnd
+ * tif dontbinfd bytf strfbm.  Tif dontbinfd objfdt is sfriblizfd bnd
+ * tif dontbinfd bytf strfbm.  Tif dontbinfd objfdt is sfriblizfd bnd
+ * tif dontbinfd bytf strfbm.  Tif dontbinfd objfdt is sfriblizfd bnd
+ * tif dontbinfd bytf strfbm.  Tif dontbinfd objfdt is sfriblizfd bnd
+ * dfsfriblizfd witi tif sbmf sfriblizbtion sfmbntids usfd for mbrsibling
+ * dfsfriblizfd witi tif sbmf sfriblizbtion sfmbntids usfd for mbrsibling
+ * dfsfriblizfd witi tif sbmf sfriblizbtion sfmbntids usfd for mbrsibling
+ * dfsfriblizfd witi tif sbmf sfriblizbtion sfmbntids usfd for mbrsibling
+ * dfsfriblizfd witi tif sbmf sfriblizbtion sfmbntids usfd for mbrsibling
+ * bnd unmbrsibling pbrbmftfrs bnd rfturn vblufs of RMI dblls:  Wifn tif
+ * bnd unmbrsibling pbrbmftfrs bnd rfturn vblufs of RMI dblls:  Wifn tif
+ * bnd unmbrsibling pbrbmftfrs bnd rfturn vblufs of RMI dblls:  Wifn tif
+ * bnd unmbrsibling pbrbmftfrs bnd rfturn vblufs of RMI dblls:  Wifn tif
+ * bnd unmbrsibling pbrbmftfrs bnd rfturn vblufs of RMI dblls:  Wifn tif
+ * sfriblizfd form is drfbtfd:
+ * sfriblizfd form is drfbtfd:
+ * sfriblizfd form is drfbtfd:
+ * sfriblizfd form is drfbtfd:
  * sfriblizfd form is drfbtfd:
  *
+ *
+ *
+ *
+ *
  * <ul>
- * <li> dlbssfs brf bnnotbtfd with b dodfbbsf URL from whfrf thf dlbss
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li> dlbssfs brf bnnotbtfd witi b dodfbbsf URL from wifrf tif dlbss
+ * <li> dlbssfs brf bnnotbtfd witi b dodfbbsf URL from wifrf tif dlbss
+ * <li> dlbssfs brf bnnotbtfd witi b dodfbbsf URL from wifrf tif dlbss
+ * <li> dlbssfs brf bnnotbtfd witi b dodfbbsf URL from wifrf tif dlbss
+ * <li> dlbssfs brf bnnotbtfd witi b dodfbbsf URL from wifrf tif dlbss
  *      dbn bf lobdfd (if bvbilbblf), bnd
- * <li> bny rfmotf objfdt in thf <dodf>MbrshbllfdObjfdt</dodf> is
+ *      dbn bf lobdfd (if bvbilbblf), bnd
+ *      dbn bf lobdfd (if bvbilbblf), bnd
+ *      dbn bf lobdfd (if bvbilbblf), bnd
+ *      dbn bf lobdfd (if bvbilbblf), bnd
+ * <li> bny rfmotf objfdt in tif <dodf>MbrsibllfdObjfdt</dodf> is
+ * <li> bny rfmotf objfdt in tif <dodf>MbrsibllfdObjfdt</dodf> is
+ * <li> bny rfmotf objfdt in tif <dodf>MbrsibllfdObjfdt</dodf> is
+ * <li> bny rfmotf objfdt in tif <dodf>MbrsibllfdObjfdt</dodf> is
+ * <li> bny rfmotf objfdt in tif <dodf>MbrsibllfdObjfdt</dodf> is
+ *      rfprfsfntfd by b sfriblizfd instbndf of its stub.
+ *      rfprfsfntfd by b sfriblizfd instbndf of its stub.
+ *      rfprfsfntfd by b sfriblizfd instbndf of its stub.
+ *      rfprfsfntfd by b sfriblizfd instbndf of its stub.
  *      rfprfsfntfd by b sfriblizfd instbndf of its stub.
  * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  *
- * <p>Whfn dopy of thf objfdt is rftrifvfd (vib thf <dodf>gft</dodf> mfthod),
- * if thf dlbss is not bvbilbblf lodblly, it will bf lobdfd from thf
- * bppropribtf lodbtion (spfdififd thf URL bnnotbtfd with thf dlbss dfsdriptor
- * whfn thf dlbss wbs sfriblizfd.
  *
- * <p><dodf>MbrshbllfdObjfdt</dodf> fbdilitbtfs pbssing objfdts in RMI dblls
- * thbt brf not butombtidblly dfsfriblizfd immfdibtfly by thf rfmotf pffr.
  *
- * @pbrbm <T> thf typf of thf objfdt dontbinfd in this
- * <dodf>MbrshbllfdObjfdt</dodf>
  *
- * @buthor  Ann Wollrbth
- * @buthor  Pftfr Jonfs
+ *
+ * <p>Wifn dopy of tif objfdt is rftrifvfd (vib tif <dodf>gft</dodf> mftiod),
+ * <p>Wifn dopy of tif objfdt is rftrifvfd (vib tif <dodf>gft</dodf> mftiod),
+ * <p>Wifn dopy of tif objfdt is rftrifvfd (vib tif <dodf>gft</dodf> mftiod),
+ * <p>Wifn dopy of tif objfdt is rftrifvfd (vib tif <dodf>gft</dodf> mftiod),
+ * <p>Wifn dopy of tif objfdt is rftrifvfd (vib tif <dodf>gft</dodf> mftiod),
+ * if tif dlbss is not bvbilbblf lodblly, it will bf lobdfd from tif
+ * if tif dlbss is not bvbilbblf lodblly, it will bf lobdfd from tif
+ * if tif dlbss is not bvbilbblf lodblly, it will bf lobdfd from tif
+ * if tif dlbss is not bvbilbblf lodblly, it will bf lobdfd from tif
+ * if tif dlbss is not bvbilbblf lodblly, it will bf lobdfd from tif
+ * bppropribtf lodbtion (spfdififd tif URL bnnotbtfd witi tif dlbss dfsdriptor
+ * bppropribtf lodbtion (spfdififd tif URL bnnotbtfd witi tif dlbss dfsdriptor
+ * bppropribtf lodbtion (spfdififd tif URL bnnotbtfd witi tif dlbss dfsdriptor
+ * bppropribtf lodbtion (spfdififd tif URL bnnotbtfd witi tif dlbss dfsdriptor
+ * bppropribtf lodbtion (spfdififd tif URL bnnotbtfd witi tif dlbss dfsdriptor
+ * wifn tif dlbss wbs sfriblizfd.
+ * wifn tif dlbss wbs sfriblizfd.
+ * wifn tif dlbss wbs sfriblizfd.
+ * wifn tif dlbss wbs sfriblizfd.
+ * wifn tif dlbss wbs sfriblizfd.
+ *
+ *
+ *
+ *
+ *
+ * <p><dodf>MbrsibllfdObjfdt</dodf> fbdilitbtfs pbssing objfdts in RMI dblls
+ * <p><dodf>MbrsibllfdObjfdt</dodf> fbdilitbtfs pbssing objfdts in RMI dblls
+ * <p><dodf>MbrsibllfdObjfdt</dodf> fbdilitbtfs pbssing objfdts in RMI dblls
+ * <p><dodf>MbrsibllfdObjfdt</dodf> fbdilitbtfs pbssing objfdts in RMI dblls
+ * <p><dodf>MbrsibllfdObjfdt</dodf> fbdilitbtfs pbssing objfdts in RMI dblls
+ * tibt brf not butombtidblly dfsfriblizfd immfdibtfly by tif rfmotf pffr.
+ * tibt brf not butombtidblly dfsfriblizfd immfdibtfly by tif rfmotf pffr.
+ * tibt brf not butombtidblly dfsfriblizfd immfdibtfly by tif rfmotf pffr.
+ * tibt brf not butombtidblly dfsfriblizfd immfdibtfly by tif rfmotf pffr.
+ * tibt brf not butombtidblly dfsfriblizfd immfdibtfly by tif rfmotf pffr.
+ *
+ *
+ *
+ *
+ *
+ * @pbrbm <T> tif typf of tif objfdt dontbinfd in tiis
+ * @pbrbm <T> tif typf of tif objfdt dontbinfd in tiis
+ * @pbrbm <T> tif typf of tif objfdt dontbinfd in tiis
+ * @pbrbm <T> tif typf of tif objfdt dontbinfd in tiis
+ * @pbrbm <T> tif typf of tif objfdt dontbinfd in tiis
+ * <dodf>MbrsibllfdObjfdt</dodf>
+ * <dodf>MbrsibllfdObjfdt</dodf>
+ * <dodf>MbrsibllfdObjfdt</dodf>
+ * <dodf>MbrsibllfdObjfdt</dodf>
+ * <dodf>MbrsibllfdObjfdt</dodf>
+ *
+ *
+ *
+ *
+ *
+ * @butior  Ann Wollrbti
+ * @butior  Ann Wollrbti
+ * @butior  Ann Wollrbti
+ * @butior  Ann Wollrbti
+ * @butior  Ann Wollrbti
+ * @butior  Pftfr Jonfs
+ * @butior  Pftfr Jonfs
+ * @butior  Pftfr Jonfs
+ * @butior  Pftfr Jonfs
+ * @butior  Pftfr Jonfs
+ * @sindf   1.2
+ * @sindf   1.2
+ * @sindf   1.2
+ * @sindf   1.2
  * @sindf   1.2
  */
-publid finbl dlbss MbrshbllfdObjfdt<T> implfmfnts Sfriblizbblf {
+ */
+ */
+ */
+ */
+publid finbl dlbss MbrsibllfdObjfdt<T> implfmfnts Sfriblizbblf {
+publid finbl dlbss MbrsibllfdObjfdt<T> implfmfnts Sfriblizbblf {
+publid finbl dlbss MbrsibllfdObjfdt<T> implfmfnts Sfriblizbblf {
+publid finbl dlbss MbrsibllfdObjfdt<T> implfmfnts Sfriblizbblf {
+publid finbl dlbss MbrsibllfdObjfdt<T> implfmfnts Sfriblizbblf {
+    /**
+    /**
+    /**
+    /**
     /**
      * @sfribl Bytfs of sfriblizfd rfprfsfntbtion.  If <dodf>objBytfs</dodf> is
-     * <dodf>null</dodf> thfn thf objfdt mbrshbllfd wbs b <dodf>null</dodf>
+     * @sfribl Bytfs of sfriblizfd rfprfsfntbtion.  If <dodf>objBytfs</dodf> is
+     * @sfribl Bytfs of sfriblizfd rfprfsfntbtion.  If <dodf>objBytfs</dodf> is
+     * @sfribl Bytfs of sfriblizfd rfprfsfntbtion.  If <dodf>objBytfs</dodf> is
+     * @sfribl Bytfs of sfriblizfd rfprfsfntbtion.  If <dodf>objBytfs</dodf> is
+     * <dodf>null</dodf> tifn tif objfdt mbrsibllfd wbs b <dodf>null</dodf>
+     * <dodf>null</dodf> tifn tif objfdt mbrsibllfd wbs b <dodf>null</dodf>
+     * <dodf>null</dodf> tifn tif objfdt mbrsibllfd wbs b <dodf>null</dodf>
+     * <dodf>null</dodf> tifn tif objfdt mbrsibllfd wbs b <dodf>null</dodf>
+     * <dodf>null</dodf> tifn tif objfdt mbrsibllfd wbs b <dodf>null</dodf>
+     * rfffrfndf.
+     * rfffrfndf.
+     * rfffrfndf.
+     * rfffrfndf.
      * rfffrfndf.
      */
+     */
+     */
+     */
+     */
+    privbtf bytf[] objBytfs = null;
+    privbtf bytf[] objBytfs = null;
+    privbtf bytf[] objBytfs = null;
+    privbtf bytf[] objBytfs = null;
     privbtf bytf[] objBytfs = null;
 
+
+
+
+
     /**
-     * @sfribl Bytfs of lodbtion bnnotbtions, whidh brf ignorfd by
-     * <dodf>fqubls</dodf>.  If <dodf>lodBytfs</dodf> is null, thfrf wfrf no
-     * non-<dodf>null</dodf> bnnotbtions during mbrshblling.
+    /**
+    /**
+    /**
+    /**
+     * @sfribl Bytfs of lodbtion bnnotbtions, wiidi brf ignorfd by
+     * @sfribl Bytfs of lodbtion bnnotbtions, wiidi brf ignorfd by
+     * @sfribl Bytfs of lodbtion bnnotbtions, wiidi brf ignorfd by
+     * @sfribl Bytfs of lodbtion bnnotbtions, wiidi brf ignorfd by
+     * @sfribl Bytfs of lodbtion bnnotbtions, wiidi brf ignorfd by
+     * <dodf>fqubls</dodf>.  If <dodf>lodBytfs</dodf> is null, tifrf wfrf no
+     * <dodf>fqubls</dodf>.  If <dodf>lodBytfs</dodf> is null, tifrf wfrf no
+     * <dodf>fqubls</dodf>.  If <dodf>lodBytfs</dodf> is null, tifrf wfrf no
+     * <dodf>fqubls</dodf>.  If <dodf>lodBytfs</dodf> is null, tifrf wfrf no
+     * <dodf>fqubls</dodf>.  If <dodf>lodBytfs</dodf> is null, tifrf wfrf no
+     * non-<dodf>null</dodf> bnnotbtions during mbrsiblling.
+     * non-<dodf>null</dodf> bnnotbtions during mbrsiblling.
+     * non-<dodf>null</dodf> bnnotbtions during mbrsiblling.
+     * non-<dodf>null</dodf> bnnotbtions during mbrsiblling.
+     * non-<dodf>null</dodf> bnnotbtions during mbrsiblling.
+     */
+     */
+     */
+     */
      */
     privbtf bytf[] lodBytfs = null;
+    privbtf bytf[] lodBytfs = null;
+    privbtf bytf[] lodBytfs = null;
+    privbtf bytf[] lodBytfs = null;
+    privbtf bytf[] lodBytfs = null;
+
+
+
+
 
     /**
-     * @sfribl Storfd hbsh dodf of dontbinfd objfdt.
+    /**
+    /**
+    /**
+    /**
+     * @sfribl Storfd ibsi dodf of dontbinfd objfdt.
+     * @sfribl Storfd ibsi dodf of dontbinfd objfdt.
+     * @sfribl Storfd ibsi dodf of dontbinfd objfdt.
+     * @sfribl Storfd ibsi dodf of dontbinfd objfdt.
+     * @sfribl Storfd ibsi dodf of dontbinfd objfdt.
      *
-     * @sff #hbshCodf
+     *
+     *
+     *
+     *
+     * @sff #ibsiCodf
+     * @sff #ibsiCodf
+     * @sff #ibsiCodf
+     * @sff #ibsiCodf
+     * @sff #ibsiCodf
      */
-    privbtf int hbsh;
+     */
+     */
+     */
+     */
+    privbtf int ibsi;
+    privbtf int ibsi;
+    privbtf int ibsi;
+    privbtf int ibsi;
+    privbtf int ibsi;
 
-    /** Indidbtf dompbtibility with 1.2 vfrsion of dlbss. */
+
+
+
+
+    /** Indidbtf dompbtibility witi 1.2 vfrsion of dlbss. */
+    /** Indidbtf dompbtibility witi 1.2 vfrsion of dlbss. */
+    /** Indidbtf dompbtibility witi 1.2 vfrsion of dlbss. */
+    /** Indidbtf dompbtibility witi 1.2 vfrsion of dlbss. */
+    /** Indidbtf dompbtibility witi 1.2 vfrsion of dlbss. */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8988374069173025854L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8988374069173025854L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8988374069173025854L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8988374069173025854L;
     privbtf stbtid finbl long sfriblVfrsionUID = 8988374069173025854L;
 
+
+
+
+
     /**
-     * Crfbtfs b nfw <dodf>MbrshbllfdObjfdt</dodf> thbt dontbins thf
-     * sfriblizfd rfprfsfntbtion of thf durrfnt stbtf of thf supplifd objfdt.
-     * Thf objfdt is sfriblizfd with thf sfmbntids usfd for mbrshbling
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins tif
+     * Crfbtfs b nfw <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins tif
+     * Crfbtfs b nfw <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins tif
+     * Crfbtfs b nfw <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins tif
+     * Crfbtfs b nfw <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins tif
+     * sfriblizfd rfprfsfntbtion of tif durrfnt stbtf of tif supplifd objfdt.
+     * sfriblizfd rfprfsfntbtion of tif durrfnt stbtf of tif supplifd objfdt.
+     * sfriblizfd rfprfsfntbtion of tif durrfnt stbtf of tif supplifd objfdt.
+     * sfriblizfd rfprfsfntbtion of tif durrfnt stbtf of tif supplifd objfdt.
+     * sfriblizfd rfprfsfntbtion of tif durrfnt stbtf of tif supplifd objfdt.
+     * Tif objfdt is sfriblizfd witi tif sfmbntids usfd for mbrsibling
+     * Tif objfdt is sfriblizfd witi tif sfmbntids usfd for mbrsibling
+     * Tif objfdt is sfriblizfd witi tif sfmbntids usfd for mbrsibling
+     * Tif objfdt is sfriblizfd witi tif sfmbntids usfd for mbrsibling
+     * Tif objfdt is sfriblizfd witi tif sfmbntids usfd for mbrsibling
+     * pbrbmftfrs for RMI dblls.
+     * pbrbmftfrs for RMI dblls.
+     * pbrbmftfrs for RMI dblls.
+     * pbrbmftfrs for RMI dblls.
      * pbrbmftfrs for RMI dblls.
      *
-     * @pbrbm obj thf objfdt to bf sfriblizfd (must bf sfriblizbblf)
+     *
+     *
+     *
+     *
+     * @pbrbm obj tif objfdt to bf sfriblizfd (must bf sfriblizbblf)
+     * @pbrbm obj tif objfdt to bf sfriblizfd (must bf sfriblizbblf)
+     * @pbrbm obj tif objfdt to bf sfriblizfd (must bf sfriblizbblf)
+     * @pbrbm obj tif objfdt to bf sfriblizfd (must bf sfriblizbblf)
+     * @pbrbm obj tif objfdt to bf sfriblizfd (must bf sfriblizbblf)
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs; bn
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs; bn
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs; bn
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs; bn
      * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs; bn
      * <dodf>IOExdfption</dodf> mby oddur if <dodf>obj</dodf> is not
+     * <dodf>IOExdfption</dodf> mby oddur if <dodf>obj</dodf> is not
+     * <dodf>IOExdfption</dodf> mby oddur if <dodf>obj</dodf> is not
+     * <dodf>IOExdfption</dodf> mby oddur if <dodf>obj</dodf> is not
+     * <dodf>IOExdfption</dodf> mby oddur if <dodf>obj</dodf> is not
+     * sfriblizbblf.
+     * sfriblizbblf.
+     * sfriblizbblf.
+     * sfriblizbblf.
      * sfriblizbblf.
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      */
-    publid MbrshbllfdObjfdt(T obj) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid MbrsibllfdObjfdt(T obj) tirows IOExdfption {
+    publid MbrsibllfdObjfdt(T obj) tirows IOExdfption {
+    publid MbrsibllfdObjfdt(T obj) tirows IOExdfption {
+    publid MbrsibllfdObjfdt(T obj) tirows IOExdfption {
+    publid MbrsibllfdObjfdt(T obj) tirows IOExdfption {
         if (obj == null) {
-            hbsh = 13;
+        if (obj == null) {
+        if (obj == null) {
+        if (obj == null) {
+        if (obj == null) {
+            ibsi = 13;
+            ibsi = 13;
+            ibsi = 13;
+            ibsi = 13;
+            ibsi = 13;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
         BytfArrbyOutputStrfbm lout = nfw BytfArrbyOutputStrfbm();
-        MbrshbllfdObjfdtOutputStrfbm out =
-            nfw MbrshbllfdObjfdtOutputStrfbm(bout, lout);
+        BytfArrbyOutputStrfbm lout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm lout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm lout = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm lout = nfw BytfArrbyOutputStrfbm();
+        MbrsibllfdObjfdtOutputStrfbm out =
+        MbrsibllfdObjfdtOutputStrfbm out =
+        MbrsibllfdObjfdtOutputStrfbm out =
+        MbrsibllfdObjfdtOutputStrfbm out =
+        MbrsibllfdObjfdtOutputStrfbm out =
+            nfw MbrsibllfdObjfdtOutputStrfbm(bout, lout);
+            nfw MbrsibllfdObjfdtOutputStrfbm(bout, lout);
+            nfw MbrsibllfdObjfdtOutputStrfbm(bout, lout);
+            nfw MbrsibllfdObjfdtOutputStrfbm(bout, lout);
+            nfw MbrsibllfdObjfdtOutputStrfbm(bout, lout);
         out.writfObjfdt(obj);
-        out.flush();
+        out.writfObjfdt(obj);
+        out.writfObjfdt(obj);
+        out.writfObjfdt(obj);
+        out.writfObjfdt(obj);
+        out.flusi();
+        out.flusi();
+        out.flusi();
+        out.flusi();
+        out.flusi();
+        objBytfs = bout.toBytfArrby();
+        objBytfs = bout.toBytfArrby();
+        objBytfs = bout.toBytfArrby();
+        objBytfs = bout.toBytfArrby();
         objBytfs = bout.toBytfArrby();
         // lodBytfs is null if no bnnotbtions
-        lodBytfs = (out.hbdAnnotbtions() ? lout.toBytfArrby() : null);
+        // lodBytfs is null if no bnnotbtions
+        // lodBytfs is null if no bnnotbtions
+        // lodBytfs is null if no bnnotbtions
+        // lodBytfs is null if no bnnotbtions
+        lodBytfs = (out.ibdAnnotbtions() ? lout.toBytfArrby() : null);
+        lodBytfs = (out.ibdAnnotbtions() ? lout.toBytfArrby() : null);
+        lodBytfs = (out.ibdAnnotbtions() ? lout.toBytfArrby() : null);
+        lodBytfs = (out.ibdAnnotbtions() ? lout.toBytfArrby() : null);
+        lodBytfs = (out.ibdAnnotbtions() ? lout.toBytfArrby() : null);
+
+
+
+
 
         /*
-         * Cbldulbtf hbsh from thf mbrshbllfd rfprfsfntbtion of objfdt
-         * so thf hbshdodf will bf dompbrbblf whfn sfnt bftwffn VMs.
+        /*
+        /*
+        /*
+        /*
+         * Cbldulbtf ibsi from tif mbrsibllfd rfprfsfntbtion of objfdt
+         * Cbldulbtf ibsi from tif mbrsibllfd rfprfsfntbtion of objfdt
+         * Cbldulbtf ibsi from tif mbrsibllfd rfprfsfntbtion of objfdt
+         * Cbldulbtf ibsi from tif mbrsibllfd rfprfsfntbtion of objfdt
+         * Cbldulbtf ibsi from tif mbrsibllfd rfprfsfntbtion of objfdt
+         * so tif ibsidodf will bf dompbrbblf wifn sfnt bftwffn VMs.
+         * so tif ibsidodf will bf dompbrbblf wifn sfnt bftwffn VMs.
+         * so tif ibsidodf will bf dompbrbblf wifn sfnt bftwffn VMs.
+         * so tif ibsidodf will bf dompbrbblf wifn sfnt bftwffn VMs.
+         * so tif ibsidodf will bf dompbrbblf wifn sfnt bftwffn VMs.
          */
-        int h = 0;
-        for (int i = 0; i < objBytfs.lfngth; i++) {
-            h = 31 * h + objBytfs[i];
+         */
+         */
+         */
+         */
+        int i = 0;
+        int i = 0;
+        int i = 0;
+        int i = 0;
+        int i = 0;
+        for (int i = 0; i < objBytfs.lfngti; i++) {
+        for (int i = 0; i < objBytfs.lfngti; i++) {
+        for (int i = 0; i < objBytfs.lfngti; i++) {
+        for (int i = 0; i < objBytfs.lfngti; i++) {
+        for (int i = 0; i < objBytfs.lfngti; i++) {
+            i = 31 * i + objBytfs[i];
+            i = 31 * i + objBytfs[i];
+            i = 31 * i + objBytfs[i];
+            i = 31 * i + objBytfs[i];
+            i = 31 * i + objBytfs[i];
         }
-        hbsh = h;
+        }
+        }
+        }
+        }
+        ibsi = i;
+        ibsi = i;
+        ibsi = i;
+        ibsi = i;
+        ibsi = i;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b nfw dopy of thf dontbinfd mbrshbllfdobjfdt.  Thf intfrnbl
-     * rfprfsfntbtion is dfsfriblizfd with thf sfmbntids usfd for
-     * unmbrshbling pbrbmftfrs for RMI dblls.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b nfw dopy of tif dontbinfd mbrsibllfdobjfdt.  Tif intfrnbl
+     * Rfturns b nfw dopy of tif dontbinfd mbrsibllfdobjfdt.  Tif intfrnbl
+     * Rfturns b nfw dopy of tif dontbinfd mbrsibllfdobjfdt.  Tif intfrnbl
+     * Rfturns b nfw dopy of tif dontbinfd mbrsibllfdobjfdt.  Tif intfrnbl
+     * Rfturns b nfw dopy of tif dontbinfd mbrsibllfdobjfdt.  Tif intfrnbl
+     * rfprfsfntbtion is dfsfriblizfd witi tif sfmbntids usfd for
+     * rfprfsfntbtion is dfsfriblizfd witi tif sfmbntids usfd for
+     * rfprfsfntbtion is dfsfriblizfd witi tif sfmbntids usfd for
+     * rfprfsfntbtion is dfsfriblizfd witi tif sfmbntids usfd for
+     * rfprfsfntbtion is dfsfriblizfd witi tif sfmbntids usfd for
+     * unmbrsibling pbrbmftfrs for RMI dblls.
+     * unmbrsibling pbrbmftfrs for RMI dblls.
+     * unmbrsibling pbrbmftfrs for RMI dblls.
+     * unmbrsibling pbrbmftfrs for RMI dblls.
+     * unmbrsibling pbrbmftfrs for RMI dblls.
      *
-     * @rfturn b dopy of thf dontbinfd objfdt
-     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs whilf
-     * dfsfriblizing thf objfdt from its intfrnbl rfprfsfntbtion.
+     *
+     *
+     *
+     *
+     * @rfturn b dopy of tif dontbinfd objfdt
+     * @rfturn b dopy of tif dontbinfd objfdt
+     * @rfturn b dopy of tif dontbinfd objfdt
+     * @rfturn b dopy of tif dontbinfd objfdt
+     * @rfturn b dopy of tif dontbinfd objfdt
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs wiilf
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs wiilf
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs wiilf
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs wiilf
+     * @fxdfption IOExdfption if bn <dodf>IOExdfption</dodf> oddurs wiilf
+     * dfsfriblizing tif objfdt from its intfrnbl rfprfsfntbtion.
+     * dfsfriblizing tif objfdt from its intfrnbl rfprfsfntbtion.
+     * dfsfriblizing tif objfdt from its intfrnbl rfprfsfntbtion.
+     * dfsfriblizing tif objfdt from its intfrnbl rfprfsfntbtion.
+     * dfsfriblizing tif objfdt from its intfrnbl rfprfsfntbtion.
      * @fxdfption ClbssNotFoundExdfption if b
-     * <dodf>ClbssNotFoundExdfption</dodf> oddurs whilf dfsfriblizing thf
+     * @fxdfption ClbssNotFoundExdfption if b
+     * @fxdfption ClbssNotFoundExdfption if b
+     * @fxdfption ClbssNotFoundExdfption if b
+     * @fxdfption ClbssNotFoundExdfption if b
+     * <dodf>ClbssNotFoundExdfption</dodf> oddurs wiilf dfsfriblizing tif
+     * <dodf>ClbssNotFoundExdfption</dodf> oddurs wiilf dfsfriblizing tif
+     * <dodf>ClbssNotFoundExdfption</dodf> oddurs wiilf dfsfriblizing tif
+     * <dodf>ClbssNotFoundExdfption</dodf> oddurs wiilf dfsfriblizing tif
+     * <dodf>ClbssNotFoundExdfption</dodf> oddurs wiilf dfsfriblizing tif
+     * objfdt from its intfrnbl rfprfsfntbtion.
+     * objfdt from its intfrnbl rfprfsfntbtion.
+     * objfdt from its intfrnbl rfprfsfntbtion.
+     * objfdt from its intfrnbl rfprfsfntbtion.
      * objfdt from its intfrnbl rfprfsfntbtion.
      * dould not bf found
+     * dould not bf found
+     * dould not bf found
+     * dould not bf found
+     * dould not bf found
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      * @sindf 1.2
      */
-    publid T gft() throws IOExdfption, ClbssNotFoundExdfption {
-        if (objBytfs == null)   // must hbvf bffn b null objfdt
+     */
+     */
+     */
+     */
+    publid T gft() tirows IOExdfption, ClbssNotFoundExdfption {
+    publid T gft() tirows IOExdfption, ClbssNotFoundExdfption {
+    publid T gft() tirows IOExdfption, ClbssNotFoundExdfption {
+    publid T gft() tirows IOExdfption, ClbssNotFoundExdfption {
+    publid T gft() tirows IOExdfption, ClbssNotFoundExdfption {
+        if (objBytfs == null)   // must ibvf bffn b null objfdt
+        if (objBytfs == null)   // must ibvf bffn b null objfdt
+        if (objBytfs == null)   // must ibvf bffn b null objfdt
+        if (objBytfs == null)   // must ibvf bffn b null objfdt
+        if (objBytfs == null)   // must ibvf bffn b null objfdt
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
 
+
+
+
+
+        BytfArrbyInputStrfbm bin = nfw BytfArrbyInputStrfbm(objBytfs);
+        BytfArrbyInputStrfbm bin = nfw BytfArrbyInputStrfbm(objBytfs);
+        BytfArrbyInputStrfbm bin = nfw BytfArrbyInputStrfbm(objBytfs);
+        BytfArrbyInputStrfbm bin = nfw BytfArrbyInputStrfbm(objBytfs);
         BytfArrbyInputStrfbm bin = nfw BytfArrbyInputStrfbm(objBytfs);
         // lodBytfs is null if no bnnotbtions
+        // lodBytfs is null if no bnnotbtions
+        // lodBytfs is null if no bnnotbtions
+        // lodBytfs is null if no bnnotbtions
+        // lodBytfs is null if no bnnotbtions
+        BytfArrbyInputStrfbm lin =
+        BytfArrbyInputStrfbm lin =
+        BytfArrbyInputStrfbm lin =
+        BytfArrbyInputStrfbm lin =
         BytfArrbyInputStrfbm lin =
             (lodBytfs == null ? null : nfw BytfArrbyInputStrfbm(lodBytfs));
-        MbrshbllfdObjfdtInputStrfbm in =
-            nfw MbrshbllfdObjfdtInputStrfbm(bin, lin);
-        @SupprfssWbrnings("undhfdkfd")
+            (lodBytfs == null ? null : nfw BytfArrbyInputStrfbm(lodBytfs));
+            (lodBytfs == null ? null : nfw BytfArrbyInputStrfbm(lodBytfs));
+            (lodBytfs == null ? null : nfw BytfArrbyInputStrfbm(lodBytfs));
+            (lodBytfs == null ? null : nfw BytfArrbyInputStrfbm(lodBytfs));
+        MbrsibllfdObjfdtInputStrfbm in =
+        MbrsibllfdObjfdtInputStrfbm in =
+        MbrsibllfdObjfdtInputStrfbm in =
+        MbrsibllfdObjfdtInputStrfbm in =
+        MbrsibllfdObjfdtInputStrfbm in =
+            nfw MbrsibllfdObjfdtInputStrfbm(bin, lin);
+            nfw MbrsibllfdObjfdtInputStrfbm(bin, lin);
+            nfw MbrsibllfdObjfdtInputStrfbm(bin, lin);
+            nfw MbrsibllfdObjfdtInputStrfbm(bin, lin);
+            nfw MbrsibllfdObjfdtInputStrfbm(bin, lin);
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        T obj = (T) in.rfbdObjfdt();
+        T obj = (T) in.rfbdObjfdt();
+        T obj = (T) in.rfbdObjfdt();
+        T obj = (T) in.rfbdObjfdt();
         T obj = (T) in.rfbdObjfdt();
         in.dlosf();
+        in.dlosf();
+        in.dlosf();
+        in.dlosf();
+        in.dlosf();
+        rfturn obj;
+        rfturn obj;
+        rfturn obj;
+        rfturn obj;
         rfturn obj;
     }
-
-    /**
-     * Rfturn b hbsh dodf for this <dodf>MbrshbllfdObjfdt</dodf>.
-     *
-     * @rfturn b hbsh dodf
-     */
-    publid int hbshCodf() {
-        rfturn hbsh;
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Compbrfs this <dodf>MbrshbllfdObjfdt</dodf> to bnothfr objfdt.
-     * Rfturns truf if bnd only if thf brgumfnt rfffrs to b
-     * <dodf>MbrshbllfdObjfdt</dodf> thbt dontbins fxbdtly thf sbmf
-     * sfriblizfd rfprfsfntbtion of bn objfdt bs this onf dofs. Thf
-     * dompbrison ignorfs bny dlbss dodfbbsf bnnotbtion, mfbning thbt
-     * two objfdts brf fquivblfnt if thfy hbvf thf sbmf sfriblizfd
-     * rfprfsfntbtion <i>fxdfpt</i> for thf dodfbbsf of fbdh dlbss
-     * in thf sfriblizfd rfprfsfntbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturn b ibsi dodf for tiis <dodf>MbrsibllfdObjfdt</dodf>.
+     * Rfturn b ibsi dodf for tiis <dodf>MbrsibllfdObjfdt</dodf>.
+     * Rfturn b ibsi dodf for tiis <dodf>MbrsibllfdObjfdt</dodf>.
+     * Rfturn b ibsi dodf for tiis <dodf>MbrsibllfdObjfdt</dodf>.
+     * Rfturn b ibsi dodf for tiis <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @pbrbm obj thf objfdt to dompbrf with this <dodf>MbrshbllfdObjfdt</dodf>
-     * @rfturn <dodf>truf</dodf> if thf brgumfnt dontbins bn fquivblfnt
-     * sfriblizfd objfdt; <dodf>fblsf</dodf> othfrwisf
+     *
+     *
+     *
+     *
+     * @rfturn b ibsi dodf
+     * @rfturn b ibsi dodf
+     * @rfturn b ibsi dodf
+     * @rfturn b ibsi dodf
+     * @rfturn b ibsi dodf
+     */
+     */
+     */
+     */
+     */
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+        rfturn ibsi;
+        rfturn ibsi;
+        rfturn ibsi;
+        rfturn ibsi;
+        rfturn ibsi;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Compbrfs tiis <dodf>MbrsibllfdObjfdt</dodf> to bnotifr objfdt.
+     * Compbrfs tiis <dodf>MbrsibllfdObjfdt</dodf> to bnotifr objfdt.
+     * Compbrfs tiis <dodf>MbrsibllfdObjfdt</dodf> to bnotifr objfdt.
+     * Compbrfs tiis <dodf>MbrsibllfdObjfdt</dodf> to bnotifr objfdt.
+     * Compbrfs tiis <dodf>MbrsibllfdObjfdt</dodf> to bnotifr objfdt.
+     * Rfturns truf if bnd only if tif brgumfnt rfffrs to b
+     * Rfturns truf if bnd only if tif brgumfnt rfffrs to b
+     * Rfturns truf if bnd only if tif brgumfnt rfffrs to b
+     * Rfturns truf if bnd only if tif brgumfnt rfffrs to b
+     * Rfturns truf if bnd only if tif brgumfnt rfffrs to b
+     * <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins fxbdtly tif sbmf
+     * <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins fxbdtly tif sbmf
+     * <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins fxbdtly tif sbmf
+     * <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins fxbdtly tif sbmf
+     * <dodf>MbrsibllfdObjfdt</dodf> tibt dontbins fxbdtly tif sbmf
+     * sfriblizfd rfprfsfntbtion of bn objfdt bs tiis onf dofs. Tif
+     * sfriblizfd rfprfsfntbtion of bn objfdt bs tiis onf dofs. Tif
+     * sfriblizfd rfprfsfntbtion of bn objfdt bs tiis onf dofs. Tif
+     * sfriblizfd rfprfsfntbtion of bn objfdt bs tiis onf dofs. Tif
+     * sfriblizfd rfprfsfntbtion of bn objfdt bs tiis onf dofs. Tif
+     * dompbrison ignorfs bny dlbss dodfbbsf bnnotbtion, mfbning tibt
+     * dompbrison ignorfs bny dlbss dodfbbsf bnnotbtion, mfbning tibt
+     * dompbrison ignorfs bny dlbss dodfbbsf bnnotbtion, mfbning tibt
+     * dompbrison ignorfs bny dlbss dodfbbsf bnnotbtion, mfbning tibt
+     * dompbrison ignorfs bny dlbss dodfbbsf bnnotbtion, mfbning tibt
+     * two objfdts brf fquivblfnt if tify ibvf tif sbmf sfriblizfd
+     * two objfdts brf fquivblfnt if tify ibvf tif sbmf sfriblizfd
+     * two objfdts brf fquivblfnt if tify ibvf tif sbmf sfriblizfd
+     * two objfdts brf fquivblfnt if tify ibvf tif sbmf sfriblizfd
+     * two objfdts brf fquivblfnt if tify ibvf tif sbmf sfriblizfd
+     * rfprfsfntbtion <i>fxdfpt</i> for tif dodfbbsf of fbdi dlbss
+     * rfprfsfntbtion <i>fxdfpt</i> for tif dodfbbsf of fbdi dlbss
+     * rfprfsfntbtion <i>fxdfpt</i> for tif dodfbbsf of fbdi dlbss
+     * rfprfsfntbtion <i>fxdfpt</i> for tif dodfbbsf of fbdi dlbss
+     * rfprfsfntbtion <i>fxdfpt</i> for tif dodfbbsf of fbdi dlbss
+     * in tif sfriblizfd rfprfsfntbtion.
+     * in tif sfriblizfd rfprfsfntbtion.
+     * in tif sfriblizfd rfprfsfntbtion.
+     * in tif sfriblizfd rfprfsfntbtion.
+     * in tif sfriblizfd rfprfsfntbtion.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm obj tif objfdt to dompbrf witi tiis <dodf>MbrsibllfdObjfdt</dodf>
+     * @pbrbm obj tif objfdt to dompbrf witi tiis <dodf>MbrsibllfdObjfdt</dodf>
+     * @pbrbm obj tif objfdt to dompbrf witi tiis <dodf>MbrsibllfdObjfdt</dodf>
+     * @pbrbm obj tif objfdt to dompbrf witi tiis <dodf>MbrsibllfdObjfdt</dodf>
+     * @pbrbm obj tif objfdt to dompbrf witi tiis <dodf>MbrsibllfdObjfdt</dodf>
+     * @rfturn <dodf>truf</dodf> if tif brgumfnt dontbins bn fquivblfnt
+     * @rfturn <dodf>truf</dodf> if tif brgumfnt dontbins bn fquivblfnt
+     * @rfturn <dodf>truf</dodf> if tif brgumfnt dontbins bn fquivblfnt
+     * @rfturn <dodf>truf</dodf> if tif brgumfnt dontbins bn fquivblfnt
+     * @rfturn <dodf>truf</dodf> if tif brgumfnt dontbins bn fquivblfnt
+     * sfriblizfd objfdt; <dodf>fblsf</dodf> otifrwisf
+     * sfriblizfd objfdt; <dodf>fblsf</dodf> otifrwisf
+     * sfriblizfd objfdt; <dodf>fblsf</dodf> otifrwisf
+     * sfriblizfd objfdt; <dodf>fblsf</dodf> otifrwisf
+     * sfriblizfd objfdt; <dodf>fblsf</dodf> otifrwisf
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      * @sindf 1.2
      */
+     */
+     */
+     */
+     */
     publid boolfbn fqubls(Objfdt obj) {
-        if (obj == this)
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+        if (obj == tiis)
+        if (obj == tiis)
+        if (obj == tiis)
+        if (obj == tiis)
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
 
-        if (obj != null && obj instbndfof MbrshbllfdObjfdt) {
-            MbrshbllfdObjfdt<?> othfr = (MbrshbllfdObjfdt<?>) obj;
 
-            // if fithfr is b rff to null, both must bf
-            if (objBytfs == null || othfr.objBytfs == null)
-                rfturn objBytfs == othfr.objBytfs;
+
+
+
+        if (obj != null && obj instbndfof MbrsibllfdObjfdt) {
+        if (obj != null && obj instbndfof MbrsibllfdObjfdt) {
+        if (obj != null && obj instbndfof MbrsibllfdObjfdt) {
+        if (obj != null && obj instbndfof MbrsibllfdObjfdt) {
+        if (obj != null && obj instbndfof MbrsibllfdObjfdt) {
+            MbrsibllfdObjfdt<?> otifr = (MbrsibllfdObjfdt<?>) obj;
+            MbrsibllfdObjfdt<?> otifr = (MbrsibllfdObjfdt<?>) obj;
+            MbrsibllfdObjfdt<?> otifr = (MbrsibllfdObjfdt<?>) obj;
+            MbrsibllfdObjfdt<?> otifr = (MbrsibllfdObjfdt<?>) obj;
+            MbrsibllfdObjfdt<?> otifr = (MbrsibllfdObjfdt<?>) obj;
+
+
+
+
+
+            // if fitifr is b rff to null, boti must bf
+            // if fitifr is b rff to null, boti must bf
+            // if fitifr is b rff to null, boti must bf
+            // if fitifr is b rff to null, boti must bf
+            // if fitifr is b rff to null, boti must bf
+            if (objBytfs == null || otifr.objBytfs == null)
+            if (objBytfs == null || otifr.objBytfs == null)
+            if (objBytfs == null || otifr.objBytfs == null)
+            if (objBytfs == null || otifr.objBytfs == null)
+            if (objBytfs == null || otifr.objBytfs == null)
+                rfturn objBytfs == otifr.objBytfs;
+                rfturn objBytfs == otifr.objBytfs;
+                rfturn objBytfs == otifr.objBytfs;
+                rfturn objBytfs == otifr.objBytfs;
+                rfturn objBytfs == otifr.objBytfs;
+
+
+
+
 
             // quidk, fbsy tfst
-            if (objBytfs.lfngth != othfr.objBytfs.lfngth)
+            // quidk, fbsy tfst
+            // quidk, fbsy tfst
+            // quidk, fbsy tfst
+            // quidk, fbsy tfst
+            if (objBytfs.lfngti != otifr.objBytfs.lfngti)
+            if (objBytfs.lfngti != otifr.objBytfs.lfngti)
+            if (objBytfs.lfngti != otifr.objBytfs.lfngti)
+            if (objBytfs.lfngti != otifr.objBytfs.lfngti)
+            if (objBytfs.lfngti != otifr.objBytfs.lfngti)
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
                 rfturn fblsf;
 
-            //!! Thfrf is tblk bbout bdding bn brrby dompbrision mfthod
-            //!! bt 1.2 -- if so, this should bf rfwrittfn.  -brnold
-            for (int i = 0; i < objBytfs.lfngth; ++i) {
-                if (objBytfs[i] != othfr.objBytfs[i])
+
+
+
+
+            //!! Tifrf is tblk bbout bdding bn brrby dompbrision mftiod
+            //!! Tifrf is tblk bbout bdding bn brrby dompbrision mftiod
+            //!! Tifrf is tblk bbout bdding bn brrby dompbrision mftiod
+            //!! Tifrf is tblk bbout bdding bn brrby dompbrision mftiod
+            //!! Tifrf is tblk bbout bdding bn brrby dompbrision mftiod
+            //!! bt 1.2 -- if so, tiis siould bf rfwrittfn.  -brnold
+            //!! bt 1.2 -- if so, tiis siould bf rfwrittfn.  -brnold
+            //!! bt 1.2 -- if so, tiis siould bf rfwrittfn.  -brnold
+            //!! bt 1.2 -- if so, tiis siould bf rfwrittfn.  -brnold
+            //!! bt 1.2 -- if so, tiis siould bf rfwrittfn.  -brnold
+            for (int i = 0; i < objBytfs.lfngti; ++i) {
+            for (int i = 0; i < objBytfs.lfngti; ++i) {
+            for (int i = 0; i < objBytfs.lfngti; ++i) {
+            for (int i = 0; i < objBytfs.lfngti; ++i) {
+            for (int i = 0; i < objBytfs.lfngti; ++i) {
+                if (objBytfs[i] != otifr.objBytfs[i])
+                if (objBytfs[i] != otifr.objBytfs[i])
+                if (objBytfs[i] != otifr.objBytfs[i])
+                if (objBytfs[i] != otifr.objBytfs[i])
+                if (objBytfs[i] != otifr.objBytfs[i])
+                    rfturn fblsf;
+                    rfturn fblsf;
+                    rfturn fblsf;
+                    rfturn fblsf;
                     rfturn fblsf;
             }
+            }
+            }
+            }
+            }
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * This dlbss is usfd to mbrshbl objfdts for
-     * <dodf>MbrshbllfdObjfdt</dodf>.  It plbdfs thf lodbtion bnnotbtions
-     * to onf sidf so thbt two <dodf>MbrshbllfdObjfdt</dodf>s dbn bf
-     * dompbrfd for fqublity if thfy difffr only in lodbtion
-     * bnnotbtions.  Objfdts writtfn using this strfbm should bf rfbd bbdk
-     * from b <dodf>MbrshbllfdObjfdtInputStrfbm</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Tiis dlbss is usfd to mbrsibl objfdts for
+     * Tiis dlbss is usfd to mbrsibl objfdts for
+     * Tiis dlbss is usfd to mbrsibl objfdts for
+     * Tiis dlbss is usfd to mbrsibl objfdts for
+     * Tiis dlbss is usfd to mbrsibl objfdts for
+     * <dodf>MbrsibllfdObjfdt</dodf>.  It plbdfs tif lodbtion bnnotbtions
+     * <dodf>MbrsibllfdObjfdt</dodf>.  It plbdfs tif lodbtion bnnotbtions
+     * <dodf>MbrsibllfdObjfdt</dodf>.  It plbdfs tif lodbtion bnnotbtions
+     * <dodf>MbrsibllfdObjfdt</dodf>.  It plbdfs tif lodbtion bnnotbtions
+     * <dodf>MbrsibllfdObjfdt</dodf>.  It plbdfs tif lodbtion bnnotbtions
+     * to onf sidf so tibt two <dodf>MbrsibllfdObjfdt</dodf>s dbn bf
+     * to onf sidf so tibt two <dodf>MbrsibllfdObjfdt</dodf>s dbn bf
+     * to onf sidf so tibt two <dodf>MbrsibllfdObjfdt</dodf>s dbn bf
+     * to onf sidf so tibt two <dodf>MbrsibllfdObjfdt</dodf>s dbn bf
+     * to onf sidf so tibt two <dodf>MbrsibllfdObjfdt</dodf>s dbn bf
+     * dompbrfd for fqublity if tify difffr only in lodbtion
+     * dompbrfd for fqublity if tify difffr only in lodbtion
+     * dompbrfd for fqublity if tify difffr only in lodbtion
+     * dompbrfd for fqublity if tify difffr only in lodbtion
+     * dompbrfd for fqublity if tify difffr only in lodbtion
+     * bnnotbtions.  Objfdts writtfn using tiis strfbm siould bf rfbd bbdk
+     * bnnotbtions.  Objfdts writtfn using tiis strfbm siould bf rfbd bbdk
+     * bnnotbtions.  Objfdts writtfn using tiis strfbm siould bf rfbd bbdk
+     * bnnotbtions.  Objfdts writtfn using tiis strfbm siould bf rfbd bbdk
+     * bnnotbtions.  Objfdts writtfn using tiis strfbm siould bf rfbd bbdk
+     * from b <dodf>MbrsibllfdObjfdtInputStrfbm</dodf>.
+     * from b <dodf>MbrsibllfdObjfdtInputStrfbm</dodf>.
+     * from b <dodf>MbrsibllfdObjfdtInputStrfbm</dodf>.
+     * from b <dodf>MbrsibllfdObjfdtInputStrfbm</dodf>.
+     * from b <dodf>MbrsibllfdObjfdtInputStrfbm</dodf>.
      *
-     * @sff jbvb.rmi.MbrshbllfdObjfdt
-     * @sff MbrshbllfdObjfdtInputStrfbm
+     *
+     *
+     *
+     *
+     * @sff jbvb.rmi.MbrsibllfdObjfdt
+     * @sff jbvb.rmi.MbrsibllfdObjfdt
+     * @sff jbvb.rmi.MbrsibllfdObjfdt
+     * @sff jbvb.rmi.MbrsibllfdObjfdt
+     * @sff jbvb.rmi.MbrsibllfdObjfdt
+     * @sff MbrsibllfdObjfdtInputStrfbm
+     * @sff MbrsibllfdObjfdtInputStrfbm
+     * @sff MbrsibllfdObjfdtInputStrfbm
+     * @sff MbrsibllfdObjfdtInputStrfbm
+     * @sff MbrsibllfdObjfdtInputStrfbm
      */
-    privbtf stbtid dlbss MbrshbllfdObjfdtOutputStrfbm
-        fxtfnds MbrshblOutputStrfbm
+     */
+     */
+     */
+     */
+    privbtf stbtid dlbss MbrsibllfdObjfdtOutputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtOutputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtOutputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtOutputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtOutputStrfbm
+        fxtfnds MbrsiblOutputStrfbm
+        fxtfnds MbrsiblOutputStrfbm
+        fxtfnds MbrsiblOutputStrfbm
+        fxtfnds MbrsiblOutputStrfbm
+        fxtfnds MbrsiblOutputStrfbm
     {
-        /** Thf strfbm on whidh lodbtion objfdts brf writtfn. */
+    {
+    {
+    {
+    {
+        /** Tif strfbm on wiidi lodbtion objfdts brf writtfn. */
+        /** Tif strfbm on wiidi lodbtion objfdts brf writtfn. */
+        /** Tif strfbm on wiidi lodbtion objfdts brf writtfn. */
+        /** Tif strfbm on wiidi lodbtion objfdts brf writtfn. */
+        /** Tif strfbm on wiidi lodbtion objfdts brf writtfn. */
+        privbtf ObjfdtOutputStrfbm lodOut;
+        privbtf ObjfdtOutputStrfbm lodOut;
+        privbtf ObjfdtOutputStrfbm lodOut;
+        privbtf ObjfdtOutputStrfbm lodOut;
         privbtf ObjfdtOutputStrfbm lodOut;
 
+
+
+
+
+        /** <dodf>truf</dodf> if non-<dodf>null</dodf> bnnotbtions brf
+        /** <dodf>truf</dodf> if non-<dodf>null</dodf> bnnotbtions brf
+        /** <dodf>truf</dodf> if non-<dodf>null</dodf> bnnotbtions brf
+        /** <dodf>truf</dodf> if non-<dodf>null</dodf> bnnotbtions brf
         /** <dodf>truf</dodf> if non-<dodf>null</dodf> bnnotbtions brf
          *  writtfn.
+         *  writtfn.
+         *  writtfn.
+         *  writtfn.
+         *  writtfn.
          */
-        privbtf boolfbn hbdAnnotbtions;
+         */
+         */
+         */
+         */
+        privbtf boolfbn ibdAnnotbtions;
+        privbtf boolfbn ibdAnnotbtions;
+        privbtf boolfbn ibdAnnotbtions;
+        privbtf boolfbn ibdAnnotbtions;
+        privbtf boolfbn ibdAnnotbtions;
+
+
+
+
 
         /**
-         * Crfbtfs b nfw <dodf>MbrshbllfdObjfdtOutputStrfbm</dodf> whosf
-         * non-lodbtion bytfs will bf writtfn to <dodf>objOut</dodf> bnd whosf
+        /**
+        /**
+        /**
+        /**
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf> wiosf
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf> wiosf
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf> wiosf
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf> wiosf
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf> wiosf
+         * non-lodbtion bytfs will bf writtfn to <dodf>objOut</dodf> bnd wiosf
+         * non-lodbtion bytfs will bf writtfn to <dodf>objOut</dodf> bnd wiosf
+         * non-lodbtion bytfs will bf writtfn to <dodf>objOut</dodf> bnd wiosf
+         * non-lodbtion bytfs will bf writtfn to <dodf>objOut</dodf> bnd wiosf
+         * non-lodbtion bytfs will bf writtfn to <dodf>objOut</dodf> bnd wiosf
+         * lodbtion bnnotbtions (if bny) will bf writtfn to
+         * lodbtion bnnotbtions (if bny) will bf writtfn to
+         * lodbtion bnnotbtions (if bny) will bf writtfn to
+         * lodbtion bnnotbtions (if bny) will bf writtfn to
          * lodbtion bnnotbtions (if bny) will bf writtfn to
          * <dodf>lodOut</dodf>.
+         * <dodf>lodOut</dodf>.
+         * <dodf>lodOut</dodf>.
+         * <dodf>lodOut</dodf>.
+         * <dodf>lodOut</dodf>.
          */
-        MbrshbllfdObjfdtOutputStrfbm(OutputStrfbm objOut, OutputStrfbm lodOut)
-            throws IOExdfption
+         */
+         */
+         */
+         */
+        MbrsibllfdObjfdtOutputStrfbm(OutputStrfbm objOut, OutputStrfbm lodOut)
+        MbrsibllfdObjfdtOutputStrfbm(OutputStrfbm objOut, OutputStrfbm lodOut)
+        MbrsibllfdObjfdtOutputStrfbm(OutputStrfbm objOut, OutputStrfbm lodOut)
+        MbrsibllfdObjfdtOutputStrfbm(OutputStrfbm objOut, OutputStrfbm lodOut)
+        MbrsibllfdObjfdtOutputStrfbm(OutputStrfbm objOut, OutputStrfbm lodOut)
+            tirows IOExdfption
+            tirows IOExdfption
+            tirows IOExdfption
+            tirows IOExdfption
+            tirows IOExdfption
+        {
+        {
+        {
+        {
         {
             supfr(objOut);
-            this.usfProtodolVfrsion(ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_2);
-            this.lodOut = nfw ObjfdtOutputStrfbm(lodOut);
-            hbdAnnotbtions = fblsf;
+            supfr(objOut);
+            supfr(objOut);
+            supfr(objOut);
+            supfr(objOut);
+            tiis.usfProtodolVfrsion(ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_2);
+            tiis.usfProtodolVfrsion(ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_2);
+            tiis.usfProtodolVfrsion(ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_2);
+            tiis.usfProtodolVfrsion(ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_2);
+            tiis.usfProtodolVfrsion(ObjfdtStrfbmConstbnts.PROTOCOL_VERSION_2);
+            tiis.lodOut = nfw ObjfdtOutputStrfbm(lodOut);
+            tiis.lodOut = nfw ObjfdtOutputStrfbm(lodOut);
+            tiis.lodOut = nfw ObjfdtOutputStrfbm(lodOut);
+            tiis.lodOut = nfw ObjfdtOutputStrfbm(lodOut);
+            tiis.lodOut = nfw ObjfdtOutputStrfbm(lodOut);
+            ibdAnnotbtions = fblsf;
+            ibdAnnotbtions = fblsf;
+            ibdAnnotbtions = fblsf;
+            ibdAnnotbtions = fblsf;
+            ibdAnnotbtions = fblsf;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Rfturns <dodf>truf</dodf> if bny non-<dodf>null</dodf> lodbtion
-         * bnnotbtions hbvf bffn writtfn to this strfbm.
+         * Rfturns <dodf>truf</dodf> if bny non-<dodf>null</dodf> lodbtion
+         * Rfturns <dodf>truf</dodf> if bny non-<dodf>null</dodf> lodbtion
+         * Rfturns <dodf>truf</dodf> if bny non-<dodf>null</dodf> lodbtion
+         * Rfturns <dodf>truf</dodf> if bny non-<dodf>null</dodf> lodbtion
+         * bnnotbtions ibvf bffn writtfn to tiis strfbm.
+         * bnnotbtions ibvf bffn writtfn to tiis strfbm.
+         * bnnotbtions ibvf bffn writtfn to tiis strfbm.
+         * bnnotbtions ibvf bffn writtfn to tiis strfbm.
+         * bnnotbtions ibvf bffn writtfn to tiis strfbm.
          */
-        boolfbn hbdAnnotbtions() {
-            rfturn hbdAnnotbtions;
+         */
+         */
+         */
+         */
+        boolfbn ibdAnnotbtions() {
+        boolfbn ibdAnnotbtions() {
+        boolfbn ibdAnnotbtions() {
+        boolfbn ibdAnnotbtions() {
+        boolfbn ibdAnnotbtions() {
+            rfturn ibdAnnotbtions;
+            rfturn ibdAnnotbtions;
+            rfturn ibdAnnotbtions;
+            rfturn ibdAnnotbtions;
+            rfturn ibdAnnotbtions;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
-         * Ovfrridfs MbrshblOutputStrfbm.writfLodbtion implfmfntbtion to writf
-         * bnnotbtions to thf lodbtion strfbm.
+        /**
+        /**
+        /**
+        /**
+         * Ovfrridfs MbrsiblOutputStrfbm.writfLodbtion implfmfntbtion to writf
+         * Ovfrridfs MbrsiblOutputStrfbm.writfLodbtion implfmfntbtion to writf
+         * Ovfrridfs MbrsiblOutputStrfbm.writfLodbtion implfmfntbtion to writf
+         * Ovfrridfs MbrsiblOutputStrfbm.writfLodbtion implfmfntbtion to writf
+         * Ovfrridfs MbrsiblOutputStrfbm.writfLodbtion implfmfntbtion to writf
+         * bnnotbtions to tif lodbtion strfbm.
+         * bnnotbtions to tif lodbtion strfbm.
+         * bnnotbtions to tif lodbtion strfbm.
+         * bnnotbtions to tif lodbtion strfbm.
+         * bnnotbtions to tif lodbtion strfbm.
          */
-        protfdtfd void writfLodbtion(String lod) throws IOExdfption {
-            hbdAnnotbtions |= (lod != null);
+         */
+         */
+         */
+         */
+        protfdtfd void writfLodbtion(String lod) tirows IOExdfption {
+        protfdtfd void writfLodbtion(String lod) tirows IOExdfption {
+        protfdtfd void writfLodbtion(String lod) tirows IOExdfption {
+        protfdtfd void writfLodbtion(String lod) tirows IOExdfption {
+        protfdtfd void writfLodbtion(String lod) tirows IOExdfption {
+            ibdAnnotbtions |= (lod != null);
+            ibdAnnotbtions |= (lod != null);
+            ibdAnnotbtions |= (lod != null);
+            ibdAnnotbtions |= (lod != null);
+            ibdAnnotbtions |= (lod != null);
+            lodOut.writfObjfdt(lod);
+            lodOut.writfObjfdt(lod);
+            lodOut.writfObjfdt(lod);
+            lodOut.writfObjfdt(lod);
             lodOut.writfObjfdt(lod);
         }
+        }
+        }
+        }
+        }
 
 
-        publid void flush() throws IOExdfption {
-            supfr.flush();
-            lodOut.flush();
+
+
+
+
+
+
+
+
+        publid void flusi() tirows IOExdfption {
+        publid void flusi() tirows IOExdfption {
+        publid void flusi() tirows IOExdfption {
+        publid void flusi() tirows IOExdfption {
+        publid void flusi() tirows IOExdfption {
+            supfr.flusi();
+            supfr.flusi();
+            supfr.flusi();
+            supfr.flusi();
+            supfr.flusi();
+            lodOut.flusi();
+            lodOut.flusi();
+            lodOut.flusi();
+            lodOut.flusi();
+            lodOut.flusi();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Thf dountfrpbrt to <dodf>MbrshbllfdObjfdtOutputStrfbm</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Tif dountfrpbrt to <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf>.
+     * Tif dountfrpbrt to <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf>.
+     * Tif dountfrpbrt to <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf>.
+     * Tif dountfrpbrt to <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf>.
+     * Tif dountfrpbrt to <dodf>MbrsibllfdObjfdtOutputStrfbm</dodf>.
      *
-     * @sff MbrshbllfdObjfdtOutputStrfbm
+     *
+     *
+     *
+     *
+     * @sff MbrsibllfdObjfdtOutputStrfbm
+     * @sff MbrsibllfdObjfdtOutputStrfbm
+     * @sff MbrsibllfdObjfdtOutputStrfbm
+     * @sff MbrsibllfdObjfdtOutputStrfbm
+     * @sff MbrsibllfdObjfdtOutputStrfbm
      */
-    privbtf stbtid dlbss MbrshbllfdObjfdtInputStrfbm
-        fxtfnds MbrshblInputStrfbm
+     */
+     */
+     */
+     */
+    privbtf stbtid dlbss MbrsibllfdObjfdtInputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtInputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtInputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtInputStrfbm
+    privbtf stbtid dlbss MbrsibllfdObjfdtInputStrfbm
+        fxtfnds MbrsiblInputStrfbm
+        fxtfnds MbrsiblInputStrfbm
+        fxtfnds MbrsiblInputStrfbm
+        fxtfnds MbrsiblInputStrfbm
+        fxtfnds MbrsiblInputStrfbm
+    {
+    {
+    {
+    {
     {
         /**
-         * Thf strfbm from whidh bnnotbtions will bf rfbd.  If this is
-         * <dodf>null</dodf>, thfn bll bnnotbtions wfrf <dodf>null</dodf>.
+        /**
+        /**
+        /**
+        /**
+         * Tif strfbm from wiidi bnnotbtions will bf rfbd.  If tiis is
+         * Tif strfbm from wiidi bnnotbtions will bf rfbd.  If tiis is
+         * Tif strfbm from wiidi bnnotbtions will bf rfbd.  If tiis is
+         * Tif strfbm from wiidi bnnotbtions will bf rfbd.  If tiis is
+         * Tif strfbm from wiidi bnnotbtions will bf rfbd.  If tiis is
+         * <dodf>null</dodf>, tifn bll bnnotbtions wfrf <dodf>null</dodf>.
+         * <dodf>null</dodf>, tifn bll bnnotbtions wfrf <dodf>null</dodf>.
+         * <dodf>null</dodf>, tifn bll bnnotbtions wfrf <dodf>null</dodf>.
+         * <dodf>null</dodf>, tifn bll bnnotbtions wfrf <dodf>null</dodf>.
+         * <dodf>null</dodf>, tifn bll bnnotbtions wfrf <dodf>null</dodf>.
+         */
+         */
+         */
+         */
          */
         privbtf ObjfdtInputStrfbm lodIn;
+        privbtf ObjfdtInputStrfbm lodIn;
+        privbtf ObjfdtInputStrfbm lodIn;
+        privbtf ObjfdtInputStrfbm lodIn;
+        privbtf ObjfdtInputStrfbm lodIn;
+
+
+
+
 
         /**
-         * Crfbtfs b nfw <dodf>MbrshbllfdObjfdtInputStrfbm</dodf> thbt
+        /**
+        /**
+        /**
+        /**
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtInputStrfbm</dodf> tibt
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtInputStrfbm</dodf> tibt
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtInputStrfbm</dodf> tibt
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtInputStrfbm</dodf> tibt
+         * Crfbtfs b nfw <dodf>MbrsibllfdObjfdtInputStrfbm</dodf> tibt
+         * rfbds its objfdts from <dodf>objIn</dodf> bnd bnnotbtions
+         * rfbds its objfdts from <dodf>objIn</dodf> bnd bnnotbtions
+         * rfbds its objfdts from <dodf>objIn</dodf> bnd bnnotbtions
+         * rfbds its objfdts from <dodf>objIn</dodf> bnd bnnotbtions
          * rfbds its objfdts from <dodf>objIn</dodf> bnd bnnotbtions
          * from <dodf>lodIn</dodf>.  If <dodf>lodIn</dodf> is
-         * <dodf>null</dodf>, thfn bll bnnotbtions will bf
+         * from <dodf>lodIn</dodf>.  If <dodf>lodIn</dodf> is
+         * from <dodf>lodIn</dodf>.  If <dodf>lodIn</dodf> is
+         * from <dodf>lodIn</dodf>.  If <dodf>lodIn</dodf> is
+         * from <dodf>lodIn</dodf>.  If <dodf>lodIn</dodf> is
+         * <dodf>null</dodf>, tifn bll bnnotbtions will bf
+         * <dodf>null</dodf>, tifn bll bnnotbtions will bf
+         * <dodf>null</dodf>, tifn bll bnnotbtions will bf
+         * <dodf>null</dodf>, tifn bll bnnotbtions will bf
+         * <dodf>null</dodf>, tifn bll bnnotbtions will bf
+         * <dodf>null</dodf>.
+         * <dodf>null</dodf>.
+         * <dodf>null</dodf>.
+         * <dodf>null</dodf>.
          * <dodf>null</dodf>.
          */
-        MbrshbllfdObjfdtInputStrfbm(InputStrfbm objIn, InputStrfbm lodIn)
-            throws IOExdfption
+         */
+         */
+         */
+         */
+        MbrsibllfdObjfdtInputStrfbm(InputStrfbm objIn, InputStrfbm lodIn)
+        MbrsibllfdObjfdtInputStrfbm(InputStrfbm objIn, InputStrfbm lodIn)
+        MbrsibllfdObjfdtInputStrfbm(InputStrfbm objIn, InputStrfbm lodIn)
+        MbrsibllfdObjfdtInputStrfbm(InputStrfbm objIn, InputStrfbm lodIn)
+        MbrsibllfdObjfdtInputStrfbm(InputStrfbm objIn, InputStrfbm lodIn)
+            tirows IOExdfption
+            tirows IOExdfption
+            tirows IOExdfption
+            tirows IOExdfption
+            tirows IOExdfption
+        {
+        {
+        {
+        {
         {
             supfr(objIn);
-            this.lodIn = (lodIn == null ? null : nfw ObjfdtInputStrfbm(lodIn));
+            supfr(objIn);
+            supfr(objIn);
+            supfr(objIn);
+            supfr(objIn);
+            tiis.lodIn = (lodIn == null ? null : nfw ObjfdtInputStrfbm(lodIn));
+            tiis.lodIn = (lodIn == null ? null : nfw ObjfdtInputStrfbm(lodIn));
+            tiis.lodIn = (lodIn == null ? null : nfw ObjfdtInputStrfbm(lodIn));
+            tiis.lodIn = (lodIn == null ? null : nfw ObjfdtInputStrfbm(lodIn));
+            tiis.lodIn = (lodIn == null ? null : nfw ObjfdtInputStrfbm(lodIn));
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Ovfrridfs MbrshblInputStrfbm.rfbdLodbtion to rfturn lodbtions from
-         * thf strfbm wf wfrf givfn, or <dodf>null</dodf> if wf wfrf givfn b
+        /**
+        /**
+        /**
+        /**
+         * Ovfrridfs MbrsiblInputStrfbm.rfbdLodbtion to rfturn lodbtions from
+         * Ovfrridfs MbrsiblInputStrfbm.rfbdLodbtion to rfturn lodbtions from
+         * Ovfrridfs MbrsiblInputStrfbm.rfbdLodbtion to rfturn lodbtions from
+         * Ovfrridfs MbrsiblInputStrfbm.rfbdLodbtion to rfturn lodbtions from
+         * Ovfrridfs MbrsiblInputStrfbm.rfbdLodbtion to rfturn lodbtions from
+         * tif strfbm wf wfrf givfn, or <dodf>null</dodf> if wf wfrf givfn b
+         * tif strfbm wf wfrf givfn, or <dodf>null</dodf> if wf wfrf givfn b
+         * tif strfbm wf wfrf givfn, or <dodf>null</dodf> if wf wfrf givfn b
+         * tif strfbm wf wfrf givfn, or <dodf>null</dodf> if wf wfrf givfn b
+         * tif strfbm wf wfrf givfn, or <dodf>null</dodf> if wf wfrf givfn b
+         * <dodf>null</dodf> lodbtion strfbm.
+         * <dodf>null</dodf> lodbtion strfbm.
+         * <dodf>null</dodf> lodbtion strfbm.
+         * <dodf>null</dodf> lodbtion strfbm.
          * <dodf>null</dodf> lodbtion strfbm.
          */
+         */
+         */
+         */
+         */
         protfdtfd Objfdt rfbdLodbtion()
-            throws IOExdfption, ClbssNotFoundExdfption
+        protfdtfd Objfdt rfbdLodbtion()
+        protfdtfd Objfdt rfbdLodbtion()
+        protfdtfd Objfdt rfbdLodbtion()
+        protfdtfd Objfdt rfbdLodbtion()
+            tirows IOExdfption, ClbssNotFoundExdfption
+            tirows IOExdfption, ClbssNotFoundExdfption
+            tirows IOExdfption, ClbssNotFoundExdfption
+            tirows IOExdfption, ClbssNotFoundExdfption
+            tirows IOExdfption, ClbssNotFoundExdfption
+        {
+        {
+        {
+        {
         {
             rfturn (lodIn == null ? null : lodIn.rfbdObjfdt());
+            rfturn (lodIn == null ? null : lodIn.rfbdObjfdt());
+            rfturn (lodIn == null ? null : lodIn.rfbdObjfdt());
+            rfturn (lodIn == null ? null : lodIn.rfbdObjfdt());
+            rfturn (lodIn == null ? null : lodIn.rfbdObjfdt());
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+}
+}
+}
+}
 }

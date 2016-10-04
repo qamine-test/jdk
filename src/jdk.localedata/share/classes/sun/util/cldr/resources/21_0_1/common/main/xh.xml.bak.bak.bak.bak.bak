@@ -1,0 +1,261 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="xi"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bf" drbft="provisionbl">isiBiulu</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">Isi-Amibrid</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Isi-Arbbid</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">isiAssbmfsf</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">Isi-Azfrbbijbni</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Isi-Bflbrusibn</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">Isi-Bulgbrib</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">Isi-Biibri</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">Isi-Bfngbli</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Brfton</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Isi-Bosnib</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Isi-Cblbtbn</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">Isi-Czfdi</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">Isi-Wflsi</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Isi-Dbnisi</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Isi-Gfrmbn</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">Isi-Grffk</lbngubgf>
+			<lbngubgf typf="fn" drbft="provisionbl">isiNgfsi</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Isi-Espfrbnto</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Isi-Spbnisi</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">Isi-Estonibn</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">Isi-Bbsquf</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">Isi-Pfrsib</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">Isi-Finnisi</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">Isi-Tbglog</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Isi-Fbrofsf</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Isi-Frfndi</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">Isi-Frisibn</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">Isi-Irisi</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">Sdots Gbflid</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">Isi-Gblidibn</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">Gubrbni</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">Isi-Gujbrbti</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">Isi-Hfbrfw</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Isi-Hindi</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">Isi-Crobtib</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">Isi-Hungbribn</lbngubgf>
+			<lbngubgf typf="iy" drbft="undonfirmfd">isiArmfnibn</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">Intfrlingub</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">Isi-Indonfsibn</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">isiIntfrlinguf</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">Isi-Idflbndid</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Isi-Itblibn</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Isi-Jbpbnfsf</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">Isi-Jbvbnfsf</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">Isi-Gforgib</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">isiCbmbodib</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">Isi-Kbnnbdb</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">Isi-Korfbn</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">Kurdisi</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">Kyrgyz</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Isi-Lbtin</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">Iilwimi</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">IsiLobtiibn</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">Isi-Litiubnibn</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">Isi-Lbtvibn</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">Isi-Mbdfdonibn</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">Isi-Mblbyblbm</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">IsiMongolibn</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">Isi-Mbrbtii</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">Isi-Mblby</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">Isi-Mbltfsf</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">Isi-Nfpbli</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">Isi-Dutdi</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">Isi-Norwfgib (Nynorsk)</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">Isi-Norwfgibn</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">Iso-Odditbn</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">Oriyb</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">Isi-Punjbbi</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">Isi-Polisi</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">Pbsito</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Isi-Portugufsf</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">portokugussfff</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">Isi-Portugufsf (Portugbl)</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">Isi-Rombnibn</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Isi-Russibn</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">iSbnskrit</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">isiSindii</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">Sfrbo-Crobtibn</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">Isi-Siniblfsf</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">Isi-Slovbk</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">Isi-Slovfnibn</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">IsiSombliyb</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">Isi-Albbnib</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">Isi-Sfrbib</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">Sfsotio</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">Isi-Sudbnfsf</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">Isi-Swfdisi</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">Isi-Swbiili</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">Isi-Tbmil</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">Isi-Tflfgu</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Isi-Tibi</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Isi-Tigrinyb</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">Turkmfn</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">Klingon</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">Isi-Turkisi</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">Twi</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">Isi Uigiur</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">Isi-Ukrbnibn</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">Urdu</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">Isi-Uzbfk</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">Isi-Viftnbmfsf</lbngubgf>
+			<lbngubgf typf="xi" drbft="provisionbl">isiXiosb</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">Yiddisi</lbngubgf>
+			<lbngubgf typf="zu" drbft="provisionbl">isiZulu</lbngubgf>
+		</lbngubgfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b b d d f f g i i j k l m n o p q r s t u v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="durrfndySymbol">[b b d d f f g i i j k l m n o p q r s t u v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>‘</quotbtionStbrt>
+		<quotbtionEnd>’</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>“</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>”</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">Jbn</monti>
+							<monti typf="2" drbft="undonfirmfd">Ffb</monti>
+							<monti typf="3" drbft="undonfirmfd">Mbt</monti>
+							<monti typf="4" drbft="undonfirmfd">Epr</monti>
+							<monti typf="5" drbft="undonfirmfd">Mfy</monti>
+							<monti typf="6" drbft="undonfirmfd">Jun</monti>
+							<monti typf="7" drbft="undonfirmfd">Jul</monti>
+							<monti typf="8" drbft="undonfirmfd">Agb</monti>
+							<monti typf="9" drbft="undonfirmfd">Sfp</monti>
+							<monti typf="10" drbft="undonfirmfd">Okt</monti>
+							<monti typf="11" drbft="undonfirmfd">Nov</monti>
+							<monti typf="12" drbft="undonfirmfd">Dis</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">Jbnyuwbri</monti>
+							<monti typf="2" drbft="undonfirmfd">Ffbruwbri</monti>
+							<monti typf="3" drbft="undonfirmfd">Mbtsii</monti>
+							<monti typf="4" drbft="undonfirmfd">Eprfli</monti>
+							<monti typf="5" drbft="undonfirmfd">Mfyi</monti>
+							<monti typf="6" drbft="undonfirmfd">Juni</monti>
+							<monti typf="7" drbft="undonfirmfd">Julbyi</monti>
+							<monti typf="8" drbft="undonfirmfd">Agbsti</monti>
+							<monti typf="9" drbft="undonfirmfd">Sfptfmbb</monti>
+							<monti typf="10" drbft="undonfirmfd">Oktiobb</monti>
+							<monti typf="11" drbft="undonfirmfd">Novfmbb</monti>
+							<monti typf="12" drbft="undonfirmfd">Disfmbb</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Cbw</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mvu</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Bin</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Tib</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Sin</dby>
+							<dby typf="fri" drbft="undonfirmfd">Hlb</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Mgq</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Cbwf</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mvulo</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Lwfsibini</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Lwfsitibtiu</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Lwfsinf</dby>
+							<dby typf="fri" drbft="undonfirmfd">Lwfsiilbnu</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Mgqibflo</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="undonfirmfd">Q1</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">Q2</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">Q3</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">Q4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="undonfirmfd">1 unybngbntbtiu</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2 unybngbntbtiu</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3 unybngbntbtiu</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4 unybngbntbtiu</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0" drbft="undonfirmfd">BC</frb>
+						<frb typf="1" drbft="undonfirmfd">umnybkb wokuzblwb kukbYfsu</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">BC</frb>
+						<frb typf="1" drbft="undonfirmfd">AD</frb>
+					</frbAbbr>
+				</frbs>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group> </group>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ZAR">
+				<symbol>R</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<posix>
+		<mfssbgfs>
+			<yfsstr drbft="undonfirmfd">fwf:f</yfsstr>
+			<nostr drbft="undonfirmfd">ibyi:i</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>

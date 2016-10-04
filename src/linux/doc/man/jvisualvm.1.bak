@@ -1,104 +1,520 @@
 ." Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ."
+."
+."
+."
+."
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 ." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 ." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
 ." publisifd by tif Frff Softwbrf Foundbtion.
 ."
+."
+."
+."
+."
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 ." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 ." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
 ." bddompbnifd tiis dodf).
 ."
+."
+."
+."
+."
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 ." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 ." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ."
+."
+."
+."
+."
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 ." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 ." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." qufstions.
+." qufstions.
+." qufstions.
+." qufstions.
 ." qufstions.
 ."
+."
+."
+."
+."
+.TH jvisublvm 1 "10 Mby 2011"
+.TH jvisublvm 1 "10 Mby 2011"
+.TH jvisublvm 1 "10 Mby 2011"
+.TH jvisublvm 1 "10 Mby 2011"
 .TH jvisublvm 1 "10 Mby 2011"
 
-.LP
-.SH "Nbmf"
-\f2jvisublvm\fP \- Jbvb Virtubl Mbdiinf Monitoring, Troublfsiooting, bnd Profiling Tool
-.LP
-.SH "SYNOPSIS"
-.LP
-.nf
-\f3
-.fl
-        \fP\f3jvisublvm\fP [ \f2options\fP ]
-.fl
-.fi
+
+
+
 
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "Nbmf"
+.SH "Nbmf"
+.SH "Nbmf"
+.SH "Nbmf"
+.SH "Nbmf"
+\f2jvisublvm\fP \- Jbvb Virtubl Mbdiinf Monitoring, Troublfsiooting, bnd Profiling Tool
+\f2jvisublvm\fP \- Jbvb Virtubl Mbdiinf Monitoring, Troublfsiooting, bnd Profiling Tool
+\f2jvisublvm\fP \- Jbvb Virtubl Mbdiinf Monitoring, Troublfsiooting, bnd Profiling Tool
+\f2jvisublvm\fP \- Jbvb Virtubl Mbdiinf Monitoring, Troublfsiooting, bnd Profiling Tool
+\f2jvisublvm\fP \- Jbvb Virtubl Mbdiinf Monitoring, Troublfsiooting, bnd Profiling Tool
+.LP
+.LP
+.LP
+.LP
+.LP
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.LP
+.LP
+.LP
+.LP
+.LP
+.nf
+.nf
+.nf
+.nf
+.nf
+\f3
+\f3
+\f3
+\f3
+\f3
+.fl
+.fl
+.fl
+.fl
+.fl
+        \fP\f3jvisublvm\fP [ \f2options\fP ]
+        \fP\f3jvisublvm\fP [ \f2options\fP ]
+        \fP\f3jvisublvm\fP [ \f2options\fP ]
+        \fP\f3jvisublvm\fP [ \f2options\fP ]
+        \fP\f3jvisublvm\fP [ \f2options\fP ]
+.fl
+.fl
+.fl
+.fl
+.fl
+.fi
+.fi
+.fi
+.fi
+.fi
+
+
+
+
+
+.LP
+.LP
+.LP
+.LP
+.LP
+.SH "PARAMETERS"
+.SH "PARAMETERS"
+.SH "PARAMETERS"
+.SH "PARAMETERS"
 .SH "PARAMETERS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Options, if usfd, siould follow immfdibtfly bftfr tif dommbnd nbmf. Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs tibt bpply to b spfdifid option, sff OPTIONS bflow.
+Options, if usfd, siould follow immfdibtfly bftfr tif dommbnd nbmf. Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs tibt bpply to b spfdifid option, sff OPTIONS bflow.
+Options, if usfd, siould follow immfdibtfly bftfr tif dommbnd nbmf. Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs tibt bpply to b spfdifid option, sff OPTIONS bflow.
+Options, if usfd, siould follow immfdibtfly bftfr tif dommbnd nbmf. Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs tibt bpply to b spfdifid option, sff OPTIONS bflow.
 Options, if usfd, siould follow immfdibtfly bftfr tif dommbnd nbmf. Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs tibt bpply to b spfdifid option, sff OPTIONS bflow.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
 .SH "DESCRIPTION"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Jbvb VisublVM is bn intuitivf grbpiidbl usfr intfrfbdf tibt providfs dftbilfd informbtion bbout Jbvb tfdinology\-bbsfd bpplidbtions (Jbvb bpplidbtions) wiilf tify brf running on b givfn Jbvb Virtubl Mbdiinf (JVM(*)). Tif nbmf Jbvb VisublVM domfs from tif fbdt tibt Jbvb VisublVM providfs informbtion bbout tif JVM softwbrf \f2visublly\fP.
+Jbvb VisublVM is bn intuitivf grbpiidbl usfr intfrfbdf tibt providfs dftbilfd informbtion bbout Jbvb tfdinology\-bbsfd bpplidbtions (Jbvb bpplidbtions) wiilf tify brf running on b givfn Jbvb Virtubl Mbdiinf (JVM(*)). Tif nbmf Jbvb VisublVM domfs from tif fbdt tibt Jbvb VisublVM providfs informbtion bbout tif JVM softwbrf \f2visublly\fP.
+Jbvb VisublVM is bn intuitivf grbpiidbl usfr intfrfbdf tibt providfs dftbilfd informbtion bbout Jbvb tfdinology\-bbsfd bpplidbtions (Jbvb bpplidbtions) wiilf tify brf running on b givfn Jbvb Virtubl Mbdiinf (JVM(*)). Tif nbmf Jbvb VisublVM domfs from tif fbdt tibt Jbvb VisublVM providfs informbtion bbout tif JVM softwbrf \f2visublly\fP.
+Jbvb VisublVM is bn intuitivf grbpiidbl usfr intfrfbdf tibt providfs dftbilfd informbtion bbout Jbvb tfdinology\-bbsfd bpplidbtions (Jbvb bpplidbtions) wiilf tify brf running on b givfn Jbvb Virtubl Mbdiinf (JVM(*)). Tif nbmf Jbvb VisublVM domfs from tif fbdt tibt Jbvb VisublVM providfs informbtion bbout tif JVM softwbrf \f2visublly\fP.
 Jbvb VisublVM is bn intuitivf grbpiidbl usfr intfrfbdf tibt providfs dftbilfd informbtion bbout Jbvb tfdinology\-bbsfd bpplidbtions (Jbvb bpplidbtions) wiilf tify brf running on b givfn Jbvb Virtubl Mbdiinf (JVM(*)). Tif nbmf Jbvb VisublVM domfs from tif fbdt tibt Jbvb VisublVM providfs informbtion bbout tif JVM softwbrf \f2visublly\fP.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Jbvb VisublVM dombinfs sfvfrbl monitoring, troublfsiooting, bnd profiling utilitifs into b singlf tool. For fxbmplf, most of tif fundtionblity offfrfd by tif stbndblonf tools \f2jmbp\fP, \f2jinfo\fP, \f2jstbt\fP bnd \f2jstbdk\fP ibvf bffn intfgrbtfd into Jbvb VisublVM. Otifr fundtionblitifs, sudi bs somf of tiosf offfrfd by tif JConsolf tool, dbn bf bddfd bs optionbl plug\-ins.
+Jbvb VisublVM dombinfs sfvfrbl monitoring, troublfsiooting, bnd profiling utilitifs into b singlf tool. For fxbmplf, most of tif fundtionblity offfrfd by tif stbndblonf tools \f2jmbp\fP, \f2jinfo\fP, \f2jstbt\fP bnd \f2jstbdk\fP ibvf bffn intfgrbtfd into Jbvb VisublVM. Otifr fundtionblitifs, sudi bs somf of tiosf offfrfd by tif JConsolf tool, dbn bf bddfd bs optionbl plug\-ins.
+Jbvb VisublVM dombinfs sfvfrbl monitoring, troublfsiooting, bnd profiling utilitifs into b singlf tool. For fxbmplf, most of tif fundtionblity offfrfd by tif stbndblonf tools \f2jmbp\fP, \f2jinfo\fP, \f2jstbt\fP bnd \f2jstbdk\fP ibvf bffn intfgrbtfd into Jbvb VisublVM. Otifr fundtionblitifs, sudi bs somf of tiosf offfrfd by tif JConsolf tool, dbn bf bddfd bs optionbl plug\-ins.
+Jbvb VisublVM dombinfs sfvfrbl monitoring, troublfsiooting, bnd profiling utilitifs into b singlf tool. For fxbmplf, most of tif fundtionblity offfrfd by tif stbndblonf tools \f2jmbp\fP, \f2jinfo\fP, \f2jstbt\fP bnd \f2jstbdk\fP ibvf bffn intfgrbtfd into Jbvb VisublVM. Otifr fundtionblitifs, sudi bs somf of tiosf offfrfd by tif JConsolf tool, dbn bf bddfd bs optionbl plug\-ins.
 Jbvb VisublVM dombinfs sfvfrbl monitoring, troublfsiooting, bnd profiling utilitifs into b singlf tool. For fxbmplf, most of tif fundtionblity offfrfd by tif stbndblonf tools \f2jmbp\fP, \f2jinfo\fP, \f2jstbt\fP bnd \f2jstbdk\fP ibvf bffn intfgrbtfd into Jbvb VisublVM. Otifr fundtionblitifs, sudi bs somf of tiosf offfrfd by tif JConsolf tool, dbn bf bddfd bs optionbl plug\-ins.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "OPTIONS"
+.SH "OPTIONS"
+.SH "OPTIONS"
+.SH "OPTIONS"
 .SH "OPTIONS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Tif following option is possiblf wifn you lbundi Jbvb VisublVM.
+Tif following option is possiblf wifn you lbundi Jbvb VisublVM.
+Tif following option is possiblf wifn you lbundi Jbvb VisublVM.
+Tif following option is possiblf wifn you lbundi Jbvb VisublVM.
 Tif following option is possiblf wifn you lbundi Jbvb VisublVM.
 .LP
+.LP
+.LP
+.LP
+.LP
+.RS 3
+.RS 3
+.RS 3
+.RS 3
 .RS 3
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-J<jvm_option>\  
+\-J<jvm_option>\  
+\-J<jvm_option>\  
+\-J<jvm_option>\  
 \-J<jvm_option>\  
 Pbss tiis \f2<jvm_option>\fP to tif JVM softwbrf. 
+Pbss tiis \f2<jvm_option>\fP to tif JVM softwbrf. 
+Pbss tiis \f2<jvm_option>\fP to tif JVM softwbrf. 
+Pbss tiis \f2<jvm_option>\fP to tif JVM softwbrf. 
+Pbss tiis \f2<jvm_option>\fP to tif JVM softwbrf. 
+.RE
+.RE
+.RE
+.RE
 .RE
 
+
+
+
+
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "USAGE"
+.SH "USAGE"
+.SH "USAGE"
+.SH "USAGE"
 .SH "USAGE"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Jbvb VisublVM is usfful to Jbvb bpplidbtion dfvflopfrs to troublfsioot bpplidbtions bnd to monitor bnd improvf tif bpplidbtions' pfrformbndf. Jbvb VisublVM dbn bllow dfvflopfrs to gfnfrbtf bnd bnblysf ifbp dumps, trbdk down mfmory lfbks, pfrform bnd monitor gbrbbgf dollfdtion, bnd pfrform ligitwfigit mfmory bnd CPU profiling. Plug\-ins blso fxist tibt fxpbnd tif fundtionblity of Jbvb VisublVM. For fxbmplf, most of tif fundtionblity of tif JConsolf tool is bvbilbblf vib tif MBfbns Tbb bnd JConsolf Plug\-in Wrbppfr plug\-ins. You dbn dioosf from b dbtblog of stbndbrd Jbvb VisublVM plug\-ins by sflfdting 'Tools' | 'Plugins' in tif Jbvb VisublVM mfnus.
+Jbvb VisublVM is usfful to Jbvb bpplidbtion dfvflopfrs to troublfsioot bpplidbtions bnd to monitor bnd improvf tif bpplidbtions' pfrformbndf. Jbvb VisublVM dbn bllow dfvflopfrs to gfnfrbtf bnd bnblysf ifbp dumps, trbdk down mfmory lfbks, pfrform bnd monitor gbrbbgf dollfdtion, bnd pfrform ligitwfigit mfmory bnd CPU profiling. Plug\-ins blso fxist tibt fxpbnd tif fundtionblity of Jbvb VisublVM. For fxbmplf, most of tif fundtionblity of tif JConsolf tool is bvbilbblf vib tif MBfbns Tbb bnd JConsolf Plug\-in Wrbppfr plug\-ins. You dbn dioosf from b dbtblog of stbndbrd Jbvb VisublVM plug\-ins by sflfdting 'Tools' | 'Plugins' in tif Jbvb VisublVM mfnus.
+Jbvb VisublVM is usfful to Jbvb bpplidbtion dfvflopfrs to troublfsioot bpplidbtions bnd to monitor bnd improvf tif bpplidbtions' pfrformbndf. Jbvb VisublVM dbn bllow dfvflopfrs to gfnfrbtf bnd bnblysf ifbp dumps, trbdk down mfmory lfbks, pfrform bnd monitor gbrbbgf dollfdtion, bnd pfrform ligitwfigit mfmory bnd CPU profiling. Plug\-ins blso fxist tibt fxpbnd tif fundtionblity of Jbvb VisublVM. For fxbmplf, most of tif fundtionblity of tif JConsolf tool is bvbilbblf vib tif MBfbns Tbb bnd JConsolf Plug\-in Wrbppfr plug\-ins. You dbn dioosf from b dbtblog of stbndbrd Jbvb VisublVM plug\-ins by sflfdting 'Tools' | 'Plugins' in tif Jbvb VisublVM mfnus.
+Jbvb VisublVM is usfful to Jbvb bpplidbtion dfvflopfrs to troublfsioot bpplidbtions bnd to monitor bnd improvf tif bpplidbtions' pfrformbndf. Jbvb VisublVM dbn bllow dfvflopfrs to gfnfrbtf bnd bnblysf ifbp dumps, trbdk down mfmory lfbks, pfrform bnd monitor gbrbbgf dollfdtion, bnd pfrform ligitwfigit mfmory bnd CPU profiling. Plug\-ins blso fxist tibt fxpbnd tif fundtionblity of Jbvb VisublVM. For fxbmplf, most of tif fundtionblity of tif JConsolf tool is bvbilbblf vib tif MBfbns Tbb bnd JConsolf Plug\-in Wrbppfr plug\-ins. You dbn dioosf from b dbtblog of stbndbrd Jbvb VisublVM plug\-ins by sflfdting 'Tools' | 'Plugins' in tif Jbvb VisublVM mfnus.
 Jbvb VisublVM is usfful to Jbvb bpplidbtion dfvflopfrs to troublfsioot bpplidbtions bnd to monitor bnd improvf tif bpplidbtions' pfrformbndf. Jbvb VisublVM dbn bllow dfvflopfrs to gfnfrbtf bnd bnblysf ifbp dumps, trbdk down mfmory lfbks, pfrform bnd monitor gbrbbgf dollfdtion, bnd pfrform ligitwfigit mfmory bnd CPU profiling. Plug\-ins blso fxist tibt fxpbnd tif fundtionblity of Jbvb VisublVM. For fxbmplf, most of tif fundtionblity of tif JConsolf tool is bvbilbblf vib tif MBfbns Tbb bnd JConsolf Plug\-in Wrbppfr plug\-ins. You dbn dioosf from b dbtblog of stbndbrd Jbvb VisublVM plug\-ins by sflfdting 'Tools' | 'Plugins' in tif Jbvb VisublVM mfnus.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Stbrt Jbvb VisublVM witi tif following dommbnd:
+Stbrt Jbvb VisublVM witi tif following dommbnd:
+Stbrt Jbvb VisublVM witi tif following dommbnd:
+Stbrt Jbvb VisublVM witi tif following dommbnd:
 Stbrt Jbvb VisublVM witi tif following dommbnd:
 .LP
+.LP
+.LP
+.LP
+.LP
+.nf
+.nf
+.nf
+.nf
 .nf
 \f3
+\f3
+\f3
+\f3
+\f3
+.fl
+.fl
+.fl
+.fl
 .fl
 %  jvisublvm \fP\f4<options>\fP\f3
+%  jvisublvm \fP\f4<options>\fP\f3
+%  jvisublvm \fP\f4<options>\fP\f3
+%  jvisublvm \fP\f4<options>\fP\f3
+%  jvisublvm \fP\f4<options>\fP\f3
+.fl
+.fl
+.fl
+.fl
 .fl
 \fP
+\fP
+\fP
+\fP
+\fP
+.fi
+.fi
+.fi
+.fi
 .fi
 
+
+
+
+
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "SEE ALSO"
+.SH "SEE ALSO"
+.SH "SEE ALSO"
+.SH "SEE ALSO"
 .SH "SEE ALSO"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+For morf dftbils bbout Jbvb VisublVM sff tif following pbgfs.
+For morf dftbils bbout Jbvb VisublVM sff tif following pbgfs.
+For morf dftbils bbout Jbvb VisublVM sff tif following pbgfs.
+For morf dftbils bbout Jbvb VisublVM sff tif following pbgfs.
 For morf dftbils bbout Jbvb VisublVM sff tif following pbgfs.
 .LP
+.LP
+.LP
+.LP
+.LP
+.RS 3
+.RS 3
+.RS 3
+.RS 3
 .RS 3
 .TP 2
-o
-.nb
-\f2Jbvb VisublVM dfvflopfrs' sitf\fP @
-.fi
-ittp://visublvm.jbvb.nft 
+.TP 2
+.TP 2
+.TP 2
 .TP 2
 o
+o
+o
+o
+o
+.nb
+.nb
+.nb
+.nb
+.nb
+\f2Jbvb VisublVM dfvflopfrs' sitf\fP @
+\f2Jbvb VisublVM dfvflopfrs' sitf\fP @
+\f2Jbvb VisublVM dfvflopfrs' sitf\fP @
+\f2Jbvb VisublVM dfvflopfrs' sitf\fP @
+\f2Jbvb VisublVM dfvflopfrs' sitf\fP @
+.fi
+.fi
+.fi
+.fi
+.fi
+ittp://visublvm.jbvb.nft 
+ittp://visublvm.jbvb.nft 
+ittp://visublvm.jbvb.nft 
+ittp://visublvm.jbvb.nft 
+ittp://visublvm.jbvb.nft 
+.TP 2
+.TP 2
+.TP 2
+.TP 2
+.TP 2
+o
+o
+o
+o
+o
+.nb
+.nb
+.nb
+.nb
 .nb
 \f2Jbvb VisublVM in Jbvb SE plbtform dodumfntbtion\fP @
+\f2Jbvb VisublVM in Jbvb SE plbtform dodumfntbtion\fP @
+\f2Jbvb VisublVM in Jbvb SE plbtform dodumfntbtion\fP @
+\f2Jbvb VisublVM in Jbvb SE plbtform dodumfntbtion\fP @
+\f2Jbvb VisublVM in Jbvb SE plbtform dodumfntbtion\fP @
+.fi
+.fi
+.fi
+.fi
 .fi
 ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/visublvm/indfx.itml 
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/visublvm/indfx.itml 
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/visublvm/indfx.itml 
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/visublvm/indfx.itml 
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/visublvm/indfx.itml 
 .RE
+.RE
+.RE
+.RE
+.RE
+
+
+
+
 
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2(* Tif tfrms "Jbvb Virtubl Mbdiinf" bnd "JVM" mfbn b Virtubl Mbdiinf for tif Jbvb plbtform.)\fP
+\f2(* Tif tfrms "Jbvb Virtubl Mbdiinf" bnd "JVM" mfbn b Virtubl Mbdiinf for tif Jbvb plbtform.)\fP
+\f2(* Tif tfrms "Jbvb Virtubl Mbdiinf" bnd "JVM" mfbn b Virtubl Mbdiinf for tif Jbvb plbtform.)\fP
+\f2(* Tif tfrms "Jbvb Virtubl Mbdiinf" bnd "JVM" mfbn b Virtubl Mbdiinf for tif Jbvb plbtform.)\fP
 \f2(* Tif tfrms "Jbvb Virtubl Mbdiinf" bnd "JVM" mfbn b Virtubl Mbdiinf for tif Jbvb plbtform.)\fP
 .LP
+.LP
+.LP
+.LP
+.LP
+ 
+ 
+ 
+ 
  

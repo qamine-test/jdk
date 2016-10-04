@@ -1,236 +1,1180 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 5912 $"/>
+		<vfrsion numbfr="$Rfvision: 5912 $"/>
+		<vfrsion numbfr="$Rfvision: 5912 $"/>
+		<vfrsion numbfr="$Rfvision: 5912 $"/>
+		<vfrsion numbfr="$Rfvision: 5912 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-06-20 01:53:49 +0900 (Mon, 20 Jun 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-06-20 01:53:49 +0900 (Mon, 20 Jun 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-06-20 01:53:49 +0900 (Mon, 20 Jun 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-06-20 01:53:49 +0900 (Mon, 20 Jun 2011) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2011-06-20 01:53:49 +0900 (Mon, 20 Jun 2011) $"/>
 		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="br" drbft="undonfirmfd">Арабча</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Арабча</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Арабча</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Арабча</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Арабча</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Олмонча</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Олмонча</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Олмонча</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">Олмонча</lbngubgf>
 			<lbngubgf typf="df" drbft="undonfirmfd">Олмонча</lbngubgf>
 			<lbngubgf typf="fn" drbft="undonfirmfd">Инглизча</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">Инглизча</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">Инглизча</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">Инглизча</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">Инглизча</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Испанча</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Испанча</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Испанча</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Испанча</lbngubgf>
 			<lbngubgf typf="fs" drbft="undonfirmfd">Испанча</lbngubgf>
 			<lbngubgf typf="fr" drbft="undonfirmfd">Французча</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Французча</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Французча</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Французча</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">Французча</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Ҳиндча</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Ҳиндча</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Ҳиндча</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Ҳиндча</lbngubgf>
 			<lbngubgf typf="ii" drbft="undonfirmfd">Ҳиндча</lbngubgf>
 			<lbngubgf typf="it" drbft="undonfirmfd">Италянча</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Италянча</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Италянча</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Италянча</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">Италянча</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Японча</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Японча</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Японча</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Японча</lbngubgf>
 			<lbngubgf typf="jb" drbft="undonfirmfd">Японча</lbngubgf>
 			<lbngubgf typf="pt" drbft="undonfirmfd">Португалча</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Португалча</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Португалча</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Португалча</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Португалча</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Русча</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Русча</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Русча</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Русча</lbngubgf>
 			<lbngubgf typf="ru" drbft="undonfirmfd">Русча</lbngubgf>
 			<lbngubgf typf="uz">Ўзбек</lbngubgf>
+			<lbngubgf typf="uz">Ўзбек</lbngubgf>
+			<lbngubgf typf="uz">Ўзбек</lbngubgf>
+			<lbngubgf typf="uz">Ўзбек</lbngubgf>
+			<lbngubgf typf="uz">Ўзбек</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">Хитойча</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">Хитойча</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">Хитойча</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">Хитойча</lbngubgf>
 			<lbngubgf typf="zi" drbft="undonfirmfd">Хитойча</lbngubgf>
 		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
 		<sdripts>
 			<sdript typf="Arbb" drbft="undonfirmfd">Араб</sdript>
+			<sdript typf="Arbb" drbft="undonfirmfd">Араб</sdript>
+			<sdript typf="Arbb" drbft="undonfirmfd">Араб</sdript>
+			<sdript typf="Arbb" drbft="undonfirmfd">Араб</sdript>
+			<sdript typf="Arbb" drbft="undonfirmfd">Араб</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">Кирил</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">Кирил</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">Кирил</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">Кирил</sdript>
 			<sdript typf="Cyrl" drbft="undonfirmfd">Кирил</sdript>
 			<sdript typf="Lbtn" drbft="undonfirmfd">Лотин</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">Лотин</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">Лотин</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">Лотин</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">Лотин</sdript>
+		</sdripts>
+		</sdripts>
+		</sdripts>
+		</sdripts>
 		</sdripts>
 		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+			<tfrritory typf="AF" drbft="undonfirmfd">Афғонистон</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">Афғонистон</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">Афғонистон</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">Афғонистон</tfrritory>
 			<tfrritory typf="AF" drbft="undonfirmfd">Афғонистон</tfrritory>
 			<tfrritory typf="BR" drbft="undonfirmfd">Бразилия</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">Бразилия</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">Бразилия</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">Бразилия</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">Бразилия</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">Хитой</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">Хитой</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">Хитой</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">Хитой</tfrritory>
 			<tfrritory typf="CN" drbft="undonfirmfd">Хитой</tfrritory>
 			<tfrritory typf="DE" drbft="undonfirmfd">Олмония</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">Олмония</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">Олмония</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">Олмония</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">Олмония</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">Франция</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">Франция</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">Франция</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">Франция</tfrritory>
 			<tfrritory typf="FR" drbft="undonfirmfd">Франция</tfrritory>
 			<tfrritory typf="GB" drbft="undonfirmfd">Бирлашган Қироллик</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">Бирлашган Қироллик</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">Бирлашган Қироллик</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">Бирлашган Қироллик</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">Бирлашган Қироллик</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">Ҳиндистон</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">Ҳиндистон</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">Ҳиндистон</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">Ҳиндистон</tfrritory>
 			<tfrritory typf="IN" drbft="undonfirmfd">Ҳиндистон</tfrritory>
 			<tfrritory typf="IT" drbft="undonfirmfd">Италия</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">Италия</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">Италия</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">Италия</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">Италия</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">Япония</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">Япония</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">Япония</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">Япония</tfrritory>
 			<tfrritory typf="JP" drbft="undonfirmfd">Япония</tfrritory>
 			<tfrritory typf="RU" drbft="undonfirmfd">Россия</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">Россия</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">Россия</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">Россия</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">Россия</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">Қўшма Штатлар</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">Қўшма Штатлар</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">Қўшма Штатлар</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">Қўшма Штатлар</tfrritory>
 			<tfrritory typf="US" drbft="undonfirmfd">Қўшма Штатлар</tfrritory>
 			<tfrritory typf="UZ">Ўзбекистон</tfrritory>
+			<tfrritory typf="UZ">Ўзбекистон</tfrritory>
+			<tfrritory typf="UZ">Ўзбекистон</tfrritory>
+			<tfrritory typf="UZ">Ўзбекистон</tfrritory>
+			<tfrritory typf="UZ">Ўзбекистон</tfrritory>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
 		</tfrritorifs>
 	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
 	<dibrbdtfrs>
 		<fxfmplbrCibrbdtfrs>[а б в г ғ д е ё ж з и й к қ л м н о п р с т у ў ф х ҳ ч ш ъ э ю я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[а б в г ғ д е ё ж з и й к қ л м н о п р с т у ў ф х ҳ ч ш ъ э ю я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[а б в г ғ д е ё ж з и й к қ л м н о п р с т у ў ф х ҳ ч ш ъ э ю я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[а б в г ғ д е ё ж з и й к қ л м н о п р с т у ў ф х ҳ ч ш ъ э ю я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[а б в г ғ д е ё ж з и й к қ л м н о п р с т у ў ф х ҳ ч ш ъ э ю я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ц щ ы ь]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ц щ ы ь]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ц щ ы ь]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ц щ ы ь]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs typf="buxilibry">[ц щ ы ь]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ў Ф Х Ҳ Ч Ш Ъ Э Ю Я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ў Ф Х Ҳ Ч Ш Ъ Э Ю Я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ў Ф Х Ҳ Ч Ш Ъ Э Ю Я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ў Ф Х Ҳ Ч Ш Ъ Э Ю Я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ў Ф Х Ҳ Ч Ш Ъ Э Ю Я]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
 	</dibrbdtfrs>
 	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 		<dblfndbrs>
 			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
 				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
 					<montiContfxt typf="formbt">
 						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Янв</monti>
+							<monti typf="1">Янв</monti>
+							<monti typf="1">Янв</monti>
+							<monti typf="1">Янв</monti>
 							<monti typf="1">Янв</monti>
 							<monti typf="2">Фев</monti>
+							<monti typf="2">Фев</monti>
+							<monti typf="2">Фев</monti>
+							<monti typf="2">Фев</monti>
+							<monti typf="2">Фев</monti>
+							<monti typf="3">Мар</monti>
+							<monti typf="3">Мар</monti>
+							<monti typf="3">Мар</monti>
+							<monti typf="3">Мар</monti>
 							<monti typf="3">Мар</monti>
 							<monti typf="4">Апр</monti>
+							<monti typf="4">Апр</monti>
+							<monti typf="4">Апр</monti>
+							<monti typf="4">Апр</monti>
+							<monti typf="4">Апр</monti>
+							<monti typf="5">Май</monti>
+							<monti typf="5">Май</monti>
+							<monti typf="5">Май</monti>
+							<monti typf="5">Май</monti>
 							<monti typf="5">Май</monti>
 							<monti typf="6">Июн</monti>
+							<monti typf="6">Июн</monti>
+							<monti typf="6">Июн</monti>
+							<monti typf="6">Июн</monti>
+							<monti typf="6">Июн</monti>
+							<monti typf="7">Июл</monti>
+							<monti typf="7">Июл</monti>
+							<monti typf="7">Июл</monti>
+							<monti typf="7">Июл</monti>
 							<monti typf="7">Июл</monti>
 							<monti typf="8">Авг</monti>
+							<monti typf="8">Авг</monti>
+							<monti typf="8">Авг</monti>
+							<monti typf="8">Авг</monti>
+							<monti typf="8">Авг</monti>
+							<monti typf="9">Сен</monti>
+							<monti typf="9">Сен</monti>
+							<monti typf="9">Сен</monti>
+							<monti typf="9">Сен</monti>
 							<monti typf="9">Сен</monti>
 							<monti typf="10">Окт</monti>
+							<monti typf="10">Окт</monti>
+							<monti typf="10">Окт</monti>
+							<monti typf="10">Окт</monti>
+							<monti typf="10">Окт</monti>
+							<monti typf="11">Ноя</monti>
+							<monti typf="11">Ноя</monti>
+							<monti typf="11">Ноя</monti>
+							<monti typf="11">Ноя</monti>
 							<monti typf="11">Ноя</monti>
 							<monti typf="12">Дек</monti>
+							<monti typf="12">Дек</monti>
+							<monti typf="12">Дек</monti>
+							<monti typf="12">Дек</monti>
+							<monti typf="12">Дек</monti>
 						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
 						<montiWidti typf="widf">
 							<monti typf="1">Январ</monti>
+							<monti typf="1">Январ</monti>
+							<monti typf="1">Январ</monti>
+							<monti typf="1">Январ</monti>
+							<monti typf="1">Январ</monti>
+							<monti typf="2">Феврал</monti>
+							<monti typf="2">Феврал</monti>
+							<monti typf="2">Феврал</monti>
+							<monti typf="2">Феврал</monti>
 							<monti typf="2">Феврал</monti>
 							<monti typf="3">Март</monti>
+							<monti typf="3">Март</monti>
+							<monti typf="3">Март</monti>
+							<monti typf="3">Март</monti>
+							<monti typf="3">Март</monti>
+							<monti typf="4">Апрел</monti>
+							<monti typf="4">Апрел</monti>
+							<monti typf="4">Апрел</monti>
+							<monti typf="4">Апрел</monti>
 							<monti typf="4">Апрел</monti>
 							<monti typf="5">Май</monti>
+							<monti typf="5">Май</monti>
+							<monti typf="5">Май</monti>
+							<monti typf="5">Май</monti>
+							<monti typf="5">Май</monti>
+							<monti typf="6">Июн</monti>
+							<monti typf="6">Июн</monti>
+							<monti typf="6">Июн</monti>
+							<monti typf="6">Июн</monti>
 							<monti typf="6">Июн</monti>
 							<monti typf="7">Июл</monti>
+							<monti typf="7">Июл</monti>
+							<monti typf="7">Июл</monti>
+							<monti typf="7">Июл</monti>
+							<monti typf="7">Июл</monti>
+							<monti typf="8">Август</monti>
+							<monti typf="8">Август</monti>
+							<monti typf="8">Август</monti>
+							<monti typf="8">Август</monti>
 							<monti typf="8">Август</monti>
 							<monti typf="9">Сентябр</monti>
+							<monti typf="9">Сентябр</monti>
+							<monti typf="9">Сентябр</monti>
+							<monti typf="9">Сентябр</monti>
+							<monti typf="9">Сентябр</monti>
+							<monti typf="10">Октябр</monti>
+							<monti typf="10">Октябр</monti>
+							<monti typf="10">Октябр</monti>
+							<monti typf="10">Октябр</monti>
 							<monti typf="10">Октябр</monti>
 							<monti typf="11">Ноябр</monti>
+							<monti typf="11">Ноябр</monti>
+							<monti typf="11">Ноябр</monti>
+							<monti typf="11">Ноябр</monti>
+							<monti typf="11">Ноябр</monti>
+							<monti typf="12">Декабр</monti>
+							<monti typf="12">Декабр</monti>
+							<monti typf="12">Декабр</monti>
+							<monti typf="12">Декабр</monti>
 							<monti typf="12">Декабр</monti>
 						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
 					</montiContfxt>
 					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
 						<montiWidti typf="nbrrow">
 							<monti typf="1">Я</monti>
+							<monti typf="1">Я</monti>
+							<monti typf="1">Я</monti>
+							<monti typf="1">Я</monti>
+							<monti typf="1">Я</monti>
+							<monti typf="2">Ф</monti>
+							<monti typf="2">Ф</monti>
+							<monti typf="2">Ф</monti>
+							<monti typf="2">Ф</monti>
 							<monti typf="2">Ф</monti>
 							<monti typf="3">М</monti>
+							<monti typf="3">М</monti>
+							<monti typf="3">М</monti>
+							<monti typf="3">М</monti>
+							<monti typf="3">М</monti>
+							<monti typf="4">А</monti>
+							<monti typf="4">А</monti>
+							<monti typf="4">А</monti>
+							<monti typf="4">А</monti>
 							<monti typf="4">А</monti>
 							<monti typf="5">М</monti>
+							<monti typf="5">М</monti>
+							<monti typf="5">М</monti>
+							<monti typf="5">М</monti>
+							<monti typf="5">М</monti>
+							<monti typf="6">И</monti>
+							<monti typf="6">И</monti>
+							<monti typf="6">И</monti>
+							<monti typf="6">И</monti>
 							<monti typf="6">И</monti>
 							<monti typf="7">И</monti>
+							<monti typf="7">И</monti>
+							<monti typf="7">И</monti>
+							<monti typf="7">И</monti>
+							<monti typf="7">И</monti>
+							<monti typf="8">А</monti>
+							<monti typf="8">А</monti>
+							<monti typf="8">А</monti>
+							<monti typf="8">А</monti>
 							<monti typf="8">А</monti>
 							<monti typf="9">С</monti>
+							<monti typf="9">С</monti>
+							<monti typf="9">С</monti>
+							<monti typf="9">С</monti>
+							<monti typf="9">С</monti>
+							<monti typf="10">О</monti>
+							<monti typf="10">О</monti>
+							<monti typf="10">О</monti>
+							<monti typf="10">О</monti>
 							<monti typf="10">О</monti>
 							<monti typf="11">Н</monti>
+							<monti typf="11">Н</monti>
+							<monti typf="11">Н</monti>
+							<monti typf="11">Н</monti>
+							<monti typf="11">Н</monti>
+							<monti typf="12">Д</monti>
+							<monti typf="12">Д</monti>
+							<monti typf="12">Д</monti>
+							<monti typf="12">Д</monti>
 							<monti typf="12">Д</monti>
 						</montiWidti>
-					</montiContfxt>
-				</montis>
-				<dbys>
-					<dbyContfxt typf="formbt">
-						<dbyWidti typf="bbbrfvibtfd">
-							<dby typf="sun">Якш</dby>
-							<dby typf="mon">Душ</dby>
-							<dby typf="tuf">Сеш</dby>
-							<dby typf="wfd">Чор</dby>
-							<dby typf="tiu">Пай</dby>
-							<dby typf="fri">Жум</dby>
-							<dby typf="sbt">Шан</dby>
-						</dbyWidti>
-						<dbyWidti typf="widf">
-							<dby typf="sun">якшанба</dby>
-							<dby typf="mon">душанба</dby>
-							<dby typf="tuf">сешанба</dby>
-							<dby typf="wfd">чоршанба</dby>
-							<dby typf="tiu">пайшанба</dby>
-							<dby typf="fri">жума</dby>
-							<dby typf="sbt">шанба</dby>
-						</dbyWidti>
-					</dbyContfxt>
-					<dbyContfxt typf="stbnd-blonf">
-						<dbyWidti typf="nbrrow">
-							<dby typf="sun">Я</dby>
-							<dby typf="mon">Д</dby>
-							<dby typf="tuf">С</dby>
-							<dby typf="wfd">Ч</dby>
-							<dby typf="tiu">П</dby>
-							<dby typf="fri">Ж</dby>
-							<dby typf="sbt">Ш</dby>
-						</dbyWidti>
-					</dbyContfxt>
-				</dbys>
-				<dbtfFormbts>
-					<dbtfFormbtLfngti typf="full">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-					<dbtfFormbtLfngti typf="long">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-					<dbtfFormbtLfngti typf="mfdium">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-					<dbtfFormbtLfngti typf="siort">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-				</dbtfFormbts>
-				<timfFormbts>
-					<timfFormbtLfngti typf="full">
-						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngti>
-					<timfFormbtLfngti typf="long">
-						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngti>
-					<timfFormbtLfngti typf="mfdium">
-						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngti>
-					<timfFormbtLfngti typf="siort">
-						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngti>
-				</timfFormbts>
-			</dblfndbr>
-			<dblfndbr typf="islbmid">
-				<montis>
-					<montiContfxt typf="formbt">
-						<montiWidti typf="widf">
-							<monti typf="1" drbft="undonfirmfd">Муҳаррам</monti>
-							<monti typf="2" drbft="undonfirmfd">Сафар</monti>
-							<monti typf="3" drbft="undonfirmfd">Рабиул-аввал</monti>
-							<monti typf="4" drbft="undonfirmfd">Рабиул-охир</monti>
-							<monti typf="5" drbft="undonfirmfd">Жумодиул-уло</monti>
-							<monti typf="6" drbft="undonfirmfd">Жумодиул-ухро</monti>
-							<monti typf="7" drbft="undonfirmfd">Ражаб</monti>
-							<monti typf="8" drbft="undonfirmfd">Шаъбон</monti>
-							<monti typf="9" drbft="undonfirmfd">Рамазон</monti>
-							<monti typf="10" drbft="undonfirmfd">Шаввол</monti>
-							<monti typf="11" drbft="undonfirmfd">Зил-қаъда</monti>
-							<monti typf="12" drbft="undonfirmfd">Зил-ҳижжа</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
 						</montiWidti>
 					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">Якш</dby>
+							<dby typf="sun">Якш</dby>
+							<dby typf="sun">Якш</dby>
+							<dby typf="sun">Якш</dby>
+							<dby typf="sun">Якш</dby>
+							<dby typf="mon">Душ</dby>
+							<dby typf="mon">Душ</dby>
+							<dby typf="mon">Душ</dby>
+							<dby typf="mon">Душ</dby>
+							<dby typf="mon">Душ</dby>
+							<dby typf="tuf">Сеш</dby>
+							<dby typf="tuf">Сеш</dby>
+							<dby typf="tuf">Сеш</dby>
+							<dby typf="tuf">Сеш</dby>
+							<dby typf="tuf">Сеш</dby>
+							<dby typf="wfd">Чор</dby>
+							<dby typf="wfd">Чор</dby>
+							<dby typf="wfd">Чор</dby>
+							<dby typf="wfd">Чор</dby>
+							<dby typf="wfd">Чор</dby>
+							<dby typf="tiu">Пай</dby>
+							<dby typf="tiu">Пай</dby>
+							<dby typf="tiu">Пай</dby>
+							<dby typf="tiu">Пай</dby>
+							<dby typf="tiu">Пай</dby>
+							<dby typf="fri">Жум</dby>
+							<dby typf="fri">Жум</dby>
+							<dby typf="fri">Жум</dby>
+							<dby typf="fri">Жум</dby>
+							<dby typf="fri">Жум</dby>
+							<dby typf="sbt">Шан</dby>
+							<dby typf="sbt">Шан</dby>
+							<dby typf="sbt">Шан</dby>
+							<dby typf="sbt">Шан</dby>
+							<dby typf="sbt">Шан</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun">якшанба</dby>
+							<dby typf="sun">якшанба</dby>
+							<dby typf="sun">якшанба</dby>
+							<dby typf="sun">якшанба</dby>
+							<dby typf="sun">якшанба</dby>
+							<dby typf="mon">душанба</dby>
+							<dby typf="mon">душанба</dby>
+							<dby typf="mon">душанба</dby>
+							<dby typf="mon">душанба</dby>
+							<dby typf="mon">душанба</dby>
+							<dby typf="tuf">сешанба</dby>
+							<dby typf="tuf">сешанба</dby>
+							<dby typf="tuf">сешанба</dby>
+							<dby typf="tuf">сешанба</dby>
+							<dby typf="tuf">сешанба</dby>
+							<dby typf="wfd">чоршанба</dby>
+							<dby typf="wfd">чоршанба</dby>
+							<dby typf="wfd">чоршанба</dby>
+							<dby typf="wfd">чоршанба</dby>
+							<dby typf="wfd">чоршанба</dby>
+							<dby typf="tiu">пайшанба</dby>
+							<dby typf="tiu">пайшанба</dby>
+							<dby typf="tiu">пайшанба</dby>
+							<dby typf="tiu">пайшанба</dby>
+							<dby typf="tiu">пайшанба</dby>
+							<dby typf="fri">жума</dby>
+							<dby typf="fri">жума</dby>
+							<dby typf="fri">жума</dby>
+							<dby typf="fri">жума</dby>
+							<dby typf="fri">жума</dby>
+							<dby typf="sbt">шанба</dby>
+							<dby typf="sbt">шанба</dby>
+							<dby typf="sbt">шанба</dby>
+							<dby typf="sbt">шанба</dby>
+							<dby typf="sbt">шанба</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">Я</dby>
+							<dby typf="sun">Я</dby>
+							<dby typf="sun">Я</dby>
+							<dby typf="sun">Я</dby>
+							<dby typf="sun">Я</dby>
+							<dby typf="mon">Д</dby>
+							<dby typf="mon">Д</dby>
+							<dby typf="mon">Д</dby>
+							<dby typf="mon">Д</dby>
+							<dby typf="mon">Д</dby>
+							<dby typf="tuf">С</dby>
+							<dby typf="tuf">С</dby>
+							<dby typf="tuf">С</dby>
+							<dby typf="tuf">С</dby>
+							<dby typf="tuf">С</dby>
+							<dby typf="wfd">Ч</dby>
+							<dby typf="wfd">Ч</dby>
+							<dby typf="wfd">Ч</dby>
+							<dby typf="wfd">Ч</dby>
+							<dby typf="wfd">Ч</dby>
+							<dby typf="tiu">П</dby>
+							<dby typf="tiu">П</dby>
+							<dby typf="tiu">П</dby>
+							<dby typf="tiu">П</dby>
+							<dby typf="tiu">П</dby>
+							<dby typf="fri">Ж</dby>
+							<dby typf="fri">Ж</dby>
+							<dby typf="fri">Ж</dby>
+							<dby typf="fri">Ж</dby>
+							<dby typf="fri">Ж</dby>
+							<dby typf="sbt">Ш</dby>
+							<dby typf="sbt">Ш</dby>
+							<dby typf="sbt">Ш</dby>
+							<dby typf="sbt">Ш</dby>
+							<dby typf="sbt">Ш</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			<dblfndbr typf="islbmid">
+			<dblfndbr typf="islbmid">
+			<dblfndbr typf="islbmid">
+			<dblfndbr typf="islbmid">
+			<dblfndbr typf="islbmid">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">Муҳаррам</monti>
+							<monti typf="1" drbft="undonfirmfd">Муҳаррам</monti>
+							<monti typf="1" drbft="undonfirmfd">Муҳаррам</monti>
+							<monti typf="1" drbft="undonfirmfd">Муҳаррам</monti>
+							<monti typf="1" drbft="undonfirmfd">Муҳаррам</monti>
+							<monti typf="2" drbft="undonfirmfd">Сафар</monti>
+							<monti typf="2" drbft="undonfirmfd">Сафар</monti>
+							<monti typf="2" drbft="undonfirmfd">Сафар</monti>
+							<monti typf="2" drbft="undonfirmfd">Сафар</monti>
+							<monti typf="2" drbft="undonfirmfd">Сафар</monti>
+							<monti typf="3" drbft="undonfirmfd">Рабиул-аввал</monti>
+							<monti typf="3" drbft="undonfirmfd">Рабиул-аввал</monti>
+							<monti typf="3" drbft="undonfirmfd">Рабиул-аввал</monti>
+							<monti typf="3" drbft="undonfirmfd">Рабиул-аввал</monti>
+							<monti typf="3" drbft="undonfirmfd">Рабиул-аввал</monti>
+							<monti typf="4" drbft="undonfirmfd">Рабиул-охир</monti>
+							<monti typf="4" drbft="undonfirmfd">Рабиул-охир</monti>
+							<monti typf="4" drbft="undonfirmfd">Рабиул-охир</monti>
+							<monti typf="4" drbft="undonfirmfd">Рабиул-охир</monti>
+							<monti typf="4" drbft="undonfirmfd">Рабиул-охир</monti>
+							<monti typf="5" drbft="undonfirmfd">Жумодиул-уло</monti>
+							<monti typf="5" drbft="undonfirmfd">Жумодиул-уло</monti>
+							<monti typf="5" drbft="undonfirmfd">Жумодиул-уло</monti>
+							<monti typf="5" drbft="undonfirmfd">Жумодиул-уло</monti>
+							<monti typf="5" drbft="undonfirmfd">Жумодиул-уло</monti>
+							<monti typf="6" drbft="undonfirmfd">Жумодиул-ухро</monti>
+							<monti typf="6" drbft="undonfirmfd">Жумодиул-ухро</monti>
+							<monti typf="6" drbft="undonfirmfd">Жумодиул-ухро</monti>
+							<monti typf="6" drbft="undonfirmfd">Жумодиул-ухро</monti>
+							<monti typf="6" drbft="undonfirmfd">Жумодиул-ухро</monti>
+							<monti typf="7" drbft="undonfirmfd">Ражаб</monti>
+							<monti typf="7" drbft="undonfirmfd">Ражаб</monti>
+							<monti typf="7" drbft="undonfirmfd">Ражаб</monti>
+							<monti typf="7" drbft="undonfirmfd">Ражаб</monti>
+							<monti typf="7" drbft="undonfirmfd">Ражаб</monti>
+							<monti typf="8" drbft="undonfirmfd">Шаъбон</monti>
+							<monti typf="8" drbft="undonfirmfd">Шаъбон</monti>
+							<monti typf="8" drbft="undonfirmfd">Шаъбон</monti>
+							<monti typf="8" drbft="undonfirmfd">Шаъбон</monti>
+							<monti typf="8" drbft="undonfirmfd">Шаъбон</monti>
+							<monti typf="9" drbft="undonfirmfd">Рамазон</monti>
+							<monti typf="9" drbft="undonfirmfd">Рамазон</monti>
+							<monti typf="9" drbft="undonfirmfd">Рамазон</monti>
+							<monti typf="9" drbft="undonfirmfd">Рамазон</monti>
+							<monti typf="9" drbft="undonfirmfd">Рамазон</monti>
+							<monti typf="10" drbft="undonfirmfd">Шаввол</monti>
+							<monti typf="10" drbft="undonfirmfd">Шаввол</monti>
+							<monti typf="10" drbft="undonfirmfd">Шаввол</monti>
+							<monti typf="10" drbft="undonfirmfd">Шаввол</monti>
+							<monti typf="10" drbft="undonfirmfd">Шаввол</monti>
+							<monti typf="11" drbft="undonfirmfd">Зил-қаъда</monti>
+							<monti typf="11" drbft="undonfirmfd">Зил-қаъда</monti>
+							<monti typf="11" drbft="undonfirmfd">Зил-қаъда</monti>
+							<monti typf="11" drbft="undonfirmfd">Зил-қаъда</monti>
+							<monti typf="11" drbft="undonfirmfd">Зил-қаъда</monti>
+							<monti typf="12" drbft="undonfirmfd">Зил-ҳижжа</monti>
+							<monti typf="12" drbft="undonfirmfd">Зил-ҳижжа</monti>
+							<monti typf="12" drbft="undonfirmfd">Зил-ҳижжа</monti>
+							<monti typf="12" drbft="undonfirmfd">Зил-ҳижжа</monti>
+							<monti typf="12" drbft="undonfirmfd">Зил-ҳижжа</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
 				</montis>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl drbft="undonfirmfd">,</dfdimbl>
+			<dfdimbl drbft="undonfirmfd">,</dfdimbl>
+			<dfdimbl drbft="undonfirmfd">,</dfdimbl>
+			<dfdimbl drbft="undonfirmfd">,</dfdimbl>
 			<dfdimbl drbft="undonfirmfd">,</dfdimbl>
 			<group drbft="undonfirmfd"> </group>
+			<group drbft="undonfirmfd"> </group>
+			<group drbft="undonfirmfd"> </group>
+			<group drbft="undonfirmfd"> </group>
+			<group drbft="undonfirmfd"> </group>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		</symbols>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="BRL">
+			<durrfndy typf="BRL">
+			<durrfndy typf="BRL">
+			<durrfndy typf="BRL">
 			<durrfndy typf="BRL">
 				<displbyNbmf drbft="undonfirmfd">Бразил реали</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Бразил реали</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Бразил реали</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Бразил реали</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Бразил реали</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+				<displbyNbmf drbft="undonfirmfd">Хитой юани</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Хитой юани</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Хитой юани</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Хитой юани</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">Хитой юани</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
 			<durrfndy typf="EUR">
 				<displbyNbmf drbft="undonfirmfd">Евро</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Евро</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Евро</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Евро</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Евро</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+				<displbyNbmf drbft="undonfirmfd">Инглиз фунт стерлинги</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Инглиз фунт стерлинги</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Инглиз фунт стерлинги</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Инглиз фунт стерлинги</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">Инглиз фунт стерлинги</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
 			<durrfndy typf="INR">
 				<displbyNbmf drbft="undonfirmfd">Ҳинд рупияси</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ҳинд рупияси</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ҳинд рупияси</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ҳинд рупияси</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ҳинд рупияси</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+				<displbyNbmf drbft="undonfirmfd">Япон йенаси</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Япон йенаси</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Япон йенаси</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Япон йенаси</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">Япон йенаси</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="RUB">
+			<durrfndy typf="RUB">
+			<durrfndy typf="RUB">
+			<durrfndy typf="RUB">
 			<durrfndy typf="RUB">
 				<displbyNbmf drbft="undonfirmfd">Рус рубли</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Рус рубли</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Рус рубли</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Рус рубли</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Рус рубли</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="undonfirmfd">АҚШ доллари</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">АҚШ доллари</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">АҚШ доллари</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">АҚШ доллари</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">АҚШ доллари</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="UZS">
+			<durrfndy typf="UZS">
+			<durrfndy typf="UZS">
+			<durrfndy typf="UZS">
 			<durrfndy typf="UZS">
 				<displbyNbmf drbft="undonfirmfd">Ўзбекистон сўм</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ўзбекистон сўм</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ўзбекистон сўм</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ўзбекистон сўм</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">Ўзбекистон сўм</displbyNbmf>
+				<symbol drbft="undonfirmfd">сўм</symbol>
+				<symbol drbft="undonfirmfd">сўм</symbol>
+				<symbol drbft="undonfirmfd">сўм</symbol>
+				<symbol drbft="undonfirmfd">сўм</symbol>
 				<symbol drbft="undonfirmfd">сўм</symbol>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

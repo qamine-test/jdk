@@ -1,73 +1,365 @@
 <?xml vfrsion='1.0' fndoding='UTF-8' ?>
+<?xml vfrsion='1.0' fndoding='UTF-8' ?>
+<?xml vfrsion='1.0' fndoding='UTF-8' ?>
+<?xml vfrsion='1.0' fndoding='UTF-8' ?>
+<?xml vfrsion='1.0' fndoding='UTF-8' ?>
+
+
+
+
 
 <!ELEMENT Configurbtion (CbnonidblizbtionMftiods , TrbnsformAlgoritims , JCEAlgoritimMbppings , Log4J , RfsourdfBundlfs , UnitTfsts , RfsourdfRfsolvfrs , KfyRfsolvfrs)>
+<!ELEMENT Configurbtion (CbnonidblizbtionMftiods , TrbnsformAlgoritims , JCEAlgoritimMbppings , Log4J , RfsourdfBundlfs , UnitTfsts , RfsourdfRfsolvfrs , KfyRfsolvfrs)>
+<!ELEMENT Configurbtion (CbnonidblizbtionMftiods , TrbnsformAlgoritims , JCEAlgoritimMbppings , Log4J , RfsourdfBundlfs , UnitTfsts , RfsourdfRfsolvfrs , KfyRfsolvfrs)>
+<!ELEMENT Configurbtion (CbnonidblizbtionMftiods , TrbnsformAlgoritims , JCEAlgoritimMbppings , Log4J , RfsourdfBundlfs , UnitTfsts , RfsourdfRfsolvfrs , KfyRfsolvfrs)>
+<!ELEMENT Configurbtion (CbnonidblizbtionMftiods , TrbnsformAlgoritims , JCEAlgoritimMbppings , Log4J , RfsourdfBundlfs , UnitTfsts , RfsourdfRfsolvfrs , KfyRfsolvfrs)>
+
+
+
+
 
 <!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'ittp://www.xmlsfdurity.org/NS/#donfigurbtion' 
+<!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'ittp://www.xmlsfdurity.org/NS/#donfigurbtion' 
+<!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'ittp://www.xmlsfdurity.org/NS/#donfigurbtion' 
+<!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'ittp://www.xmlsfdurity.org/NS/#donfigurbtion' 
+<!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'ittp://www.xmlsfdurity.org/NS/#donfigurbtion' 
+tbrgft        CDATA  #IMPLIED>
+tbrgft        CDATA  #IMPLIED>
+tbrgft        CDATA  #IMPLIED>
+tbrgft        CDATA  #IMPLIED>
 tbrgft        CDATA  #IMPLIED>
 <!ELEMENT CbnonidblizbtionMftiods (CbnonidblizbtionMftiod+)>
+<!ELEMENT CbnonidblizbtionMftiods (CbnonidblizbtionMftiod+)>
+<!ELEMENT CbnonidblizbtionMftiods (CbnonidblizbtionMftiod+)>
+<!ELEMENT CbnonidblizbtionMftiods (CbnonidblizbtionMftiod+)>
+<!ELEMENT CbnonidblizbtionMftiods (CbnonidblizbtionMftiod+)>
+
+
+
+
 
 <!ATTLIST CbnonidblizbtionMftiods  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr' >
+<!ATTLIST CbnonidblizbtionMftiods  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr' >
+<!ATTLIST CbnonidblizbtionMftiods  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr' >
+<!ATTLIST CbnonidblizbtionMftiods  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr' >
+<!ATTLIST CbnonidblizbtionMftiods  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr' >
+<!ELEMENT CbnonidblizbtionMftiod EMPTY>
+<!ELEMENT CbnonidblizbtionMftiod EMPTY>
+<!ELEMENT CbnonidblizbtionMftiod EMPTY>
+<!ELEMENT CbnonidblizbtionMftiod EMPTY>
 <!ELEMENT CbnonidblizbtionMftiod EMPTY>
 
+
+
+
+
+<!ATTLIST CbnonidblizbtionMftiod  URI       CDATA  #REQUIRED
+<!ATTLIST CbnonidblizbtionMftiod  URI       CDATA  #REQUIRED
+<!ATTLIST CbnonidblizbtionMftiod  URI       CDATA  #REQUIRED
+<!ATTLIST CbnonidblizbtionMftiod  URI       CDATA  #REQUIRED
 <!ATTLIST CbnonidblizbtionMftiod  URI       CDATA  #REQUIRED
                                     JAVACLASS CDATA  #REQUIRED >
+                                    JAVACLASS CDATA  #REQUIRED >
+                                    JAVACLASS CDATA  #REQUIRED >
+                                    JAVACLASS CDATA  #REQUIRED >
+                                    JAVACLASS CDATA  #REQUIRED >
+<!ELEMENT TrbnsformAlgoritims (TrbnsformAlgoritim+)>
+<!ELEMENT TrbnsformAlgoritims (TrbnsformAlgoritim+)>
+<!ELEMENT TrbnsformAlgoritims (TrbnsformAlgoritim+)>
+<!ELEMENT TrbnsformAlgoritims (TrbnsformAlgoritim+)>
 <!ELEMENT TrbnsformAlgoritims (TrbnsformAlgoritim+)>
 
+
+
+
+
+<!ATTLIST TrbnsformAlgoritims  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform' >
+<!ATTLIST TrbnsformAlgoritims  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform' >
+<!ATTLIST TrbnsformAlgoritims  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform' >
+<!ATTLIST TrbnsformAlgoritims  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform' >
 <!ATTLIST TrbnsformAlgoritims  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform' >
 <!ELEMENT TrbnsformAlgoritim EMPTY>
+<!ELEMENT TrbnsformAlgoritim EMPTY>
+<!ELEMENT TrbnsformAlgoritim EMPTY>
+<!ELEMENT TrbnsformAlgoritim EMPTY>
+<!ELEMENT TrbnsformAlgoritim EMPTY>
+
+
+
+
 
 <!ATTLIST TrbnsformAlgoritim  URI       CDATA  #REQUIRED
+<!ATTLIST TrbnsformAlgoritim  URI       CDATA  #REQUIRED
+<!ATTLIST TrbnsformAlgoritim  URI       CDATA  #REQUIRED
+<!ATTLIST TrbnsformAlgoritim  URI       CDATA  #REQUIRED
+<!ATTLIST TrbnsformAlgoritim  URI       CDATA  #REQUIRED
+                                JAVACLASS CDATA  #REQUIRED >
+                                JAVACLASS CDATA  #REQUIRED >
+                                JAVACLASS CDATA  #REQUIRED >
+                                JAVACLASS CDATA  #REQUIRED >
                                 JAVACLASS CDATA  #REQUIRED >
 <!ELEMENT JCEAlgoritimMbppings (Providfrs , Algoritims)>
+<!ELEMENT JCEAlgoritimMbppings (Providfrs , Algoritims)>
+<!ELEMENT JCEAlgoritimMbppings (Providfrs , Algoritims)>
+<!ELEMENT JCEAlgoritimMbppings (Providfrs , Algoritims)>
+<!ELEMENT JCEAlgoritimMbppings (Providfrs , Algoritims)>
+
+
+
+
 
 <!ELEMENT Providfrs (Providfr+)>
+<!ELEMENT Providfrs (Providfr+)>
+<!ELEMENT Providfrs (Providfr+)>
+<!ELEMENT Providfrs (Providfr+)>
+<!ELEMENT Providfrs (Providfr+)>
+
+
+
+
 
 <!ELEMENT Providfr EMPTY>
+<!ELEMENT Providfr EMPTY>
+<!ELEMENT Providfr EMPTY>
+<!ELEMENT Providfr EMPTY>
+<!ELEMENT Providfr EMPTY>
+
+
+
+
 
 <!ATTLIST Providfr  Id          ID     #REQUIRED
+<!ATTLIST Providfr  Id          ID     #REQUIRED
+<!ATTLIST Providfr  Id          ID     #REQUIRED
+<!ATTLIST Providfr  Id          ID     #REQUIRED
+<!ATTLIST Providfr  Id          ID     #REQUIRED
+                      Clbss       CDATA  #REQUIRED
+                      Clbss       CDATA  #REQUIRED
+                      Clbss       CDATA  #REQUIRED
+                      Clbss       CDATA  #REQUIRED
                       Clbss       CDATA  #REQUIRED
                       Info        CDATA  #IMPLIED
+                      Info        CDATA  #IMPLIED
+                      Info        CDATA  #IMPLIED
+                      Info        CDATA  #IMPLIED
+                      Info        CDATA  #IMPLIED
+                      ProvidfrURL CDATA  #IMPLIED >
+                      ProvidfrURL CDATA  #IMPLIED >
+                      ProvidfrURL CDATA  #IMPLIED >
+                      ProvidfrURL CDATA  #IMPLIED >
                       ProvidfrURL CDATA  #IMPLIED >
 <!ELEMENT Algoritims (Algoritim+)>
+<!ELEMENT Algoritims (Algoritim+)>
+<!ELEMENT Algoritims (Algoritim+)>
+<!ELEMENT Algoritims (Algoritim+)>
+<!ELEMENT Algoritims (Algoritim+)>
+
+
+
+
 
 <!ELEMENT Algoritim (ProvidfrAlgo+)>
+<!ELEMENT Algoritim (ProvidfrAlgo+)>
+<!ELEMENT Algoritim (ProvidfrAlgo+)>
+<!ELEMENT Algoritim (ProvidfrAlgo+)>
+<!ELEMENT Algoritim (ProvidfrAlgo+)>
+
+
+
+
 
 <!ATTLIST Algoritim  URI            CDATA  #REQUIRED
+<!ATTLIST Algoritim  URI            CDATA  #REQUIRED
+<!ATTLIST Algoritim  URI            CDATA  #REQUIRED
+<!ATTLIST Algoritim  URI            CDATA  #REQUIRED
+<!ATTLIST Algoritim  URI            CDATA  #REQUIRED
+                       Dfsdription    CDATA  #IMPLIED
+                       Dfsdription    CDATA  #IMPLIED
+                       Dfsdription    CDATA  #IMPLIED
+                       Dfsdription    CDATA  #IMPLIED
                        Dfsdription    CDATA  #IMPLIED
                        AlgoritimClbss CDATA  #IMPLIED >
+                       AlgoritimClbss CDATA  #IMPLIED >
+                       AlgoritimClbss CDATA  #IMPLIED >
+                       AlgoritimClbss CDATA  #IMPLIED >
+                       AlgoritimClbss CDATA  #IMPLIED >
+<!ELEMENT ProvidfrAlgo EMPTY>
+<!ELEMENT ProvidfrAlgo EMPTY>
+<!ELEMENT ProvidfrAlgo EMPTY>
+<!ELEMENT ProvidfrAlgo EMPTY>
 <!ELEMENT ProvidfrAlgo EMPTY>
 
+
+
+
+
+<!ATTLIST ProvidfrAlgo  ProvidfrId IDREF  #REQUIRED
+<!ATTLIST ProvidfrAlgo  ProvidfrId IDREF  #REQUIRED
+<!ATTLIST ProvidfrAlgo  ProvidfrId IDREF  #REQUIRED
+<!ATTLIST ProvidfrAlgo  ProvidfrId IDREF  #REQUIRED
 <!ATTLIST ProvidfrAlgo  ProvidfrId IDREF  #REQUIRED
                           JCENbmf    CDATA  #REQUIRED
+                          JCENbmf    CDATA  #REQUIRED
+                          JCENbmf    CDATA  #REQUIRED
+                          JCENbmf    CDATA  #REQUIRED
+                          JCENbmf    CDATA  #REQUIRED
+                          JCEAlibs   CDATA  #IMPLIED >
+                          JCEAlibs   CDATA  #IMPLIED >
+                          JCEAlibs   CDATA  #IMPLIED >
+                          JCEAlibs   CDATA  #IMPLIED >
                           JCEAlibs   CDATA  #IMPLIED >
 <!ELEMENT Log4J EMPTY>
+<!ELEMENT Log4J EMPTY>
+<!ELEMENT Log4J EMPTY>
+<!ELEMENT Log4J EMPTY>
+<!ELEMENT Log4J EMPTY>
+
+
+
+
 
 <!ATTLIST Log4J  donfigFilf CDATA  'dbtb/log4j.xml' >
+<!ATTLIST Log4J  donfigFilf CDATA  'dbtb/log4j.xml' >
+<!ATTLIST Log4J  donfigFilf CDATA  'dbtb/log4j.xml' >
+<!ATTLIST Log4J  donfigFilf CDATA  'dbtb/log4j.xml' >
+<!ATTLIST Log4J  donfigFilf CDATA  'dbtb/log4j.xml' >
+<!ELEMENT RfsourdfBundlfs (RfsourdfBundlf+)>
+<!ELEMENT RfsourdfBundlfs (RfsourdfBundlf+)>
+<!ELEMENT RfsourdfBundlfs (RfsourdfBundlf+)>
+<!ELEMENT RfsourdfBundlfs (RfsourdfBundlf+)>
 <!ELEMENT RfsourdfBundlfs (RfsourdfBundlf+)>
 
+
+
+
+
+<!ATTLIST RfsourdfBundlfs  dffbultLbngubgfCodf CDATA  'df'
+<!ATTLIST RfsourdfBundlfs  dffbultLbngubgfCodf CDATA  'df'
+<!ATTLIST RfsourdfBundlfs  dffbultLbngubgfCodf CDATA  'df'
+<!ATTLIST RfsourdfBundlfs  dffbultLbngubgfCodf CDATA  'df'
 <!ATTLIST RfsourdfBundlfs  dffbultLbngubgfCodf CDATA  'df'
                              dffbultCountryCodf  CDATA  'DE' >
+                             dffbultCountryCodf  CDATA  'DE' >
+                             dffbultCountryCodf  CDATA  'DE' >
+                             dffbultCountryCodf  CDATA  'DE' >
+                             dffbultCountryCodf  CDATA  'DE' >
+<!ELEMENT RfsourdfBundlf EMPTY>
+<!ELEMENT RfsourdfBundlf EMPTY>
+<!ELEMENT RfsourdfBundlf EMPTY>
+<!ELEMENT RfsourdfBundlf EMPTY>
 <!ELEMENT RfsourdfBundlf EMPTY>
 
+
+
+
+
+<!ATTLIST RfsourdfBundlf  LbngubgfCodf CDATA  #REQUIRED
+<!ATTLIST RfsourdfBundlf  LbngubgfCodf CDATA  #REQUIRED
+<!ATTLIST RfsourdfBundlf  LbngubgfCodf CDATA  #REQUIRED
+<!ATTLIST RfsourdfBundlf  LbngubgfCodf CDATA  #REQUIRED
 <!ATTLIST RfsourdfBundlf  LbngubgfCodf CDATA  #REQUIRED
                             CountryCodf  CDATA  #REQUIRED
+                            CountryCodf  CDATA  #REQUIRED
+                            CountryCodf  CDATA  #REQUIRED
+                            CountryCodf  CDATA  #REQUIRED
+                            CountryCodf  CDATA  #REQUIRED
+                            LOCATION     CDATA  #REQUIRED >
+                            LOCATION     CDATA  #REQUIRED >
+                            LOCATION     CDATA  #REQUIRED >
+                            LOCATION     CDATA  #REQUIRED >
                             LOCATION     CDATA  #REQUIRED >
 <!ELEMENT UnitTfsts (UnitTfst+)>
+<!ELEMENT UnitTfsts (UnitTfst+)>
+<!ELEMENT UnitTfsts (UnitTfst+)>
+<!ELEMENT UnitTfsts (UnitTfst+)>
+<!ELEMENT UnitTfsts (UnitTfst+)>
+
+
+
+
 
 <!ATTLIST UnitTfsts  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst.AllTfsts' >
+<!ATTLIST UnitTfsts  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst.AllTfsts' >
+<!ATTLIST UnitTfsts  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst.AllTfsts' >
+<!ATTLIST UnitTfsts  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst.AllTfsts' >
+<!ATTLIST UnitTfsts  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst.AllTfsts' >
+<!ELEMENT RfsourdfRfsolvfrs (Rfsolvfr+)>
+<!ELEMENT RfsourdfRfsolvfrs (Rfsolvfr+)>
+<!ELEMENT RfsourdfRfsolvfrs (Rfsolvfr+)>
+<!ELEMENT RfsourdfRfsolvfrs (Rfsolvfr+)>
 <!ELEMENT RfsourdfRfsolvfrs (Rfsolvfr+)>
 
+
+
+
+
+<!ELEMENT Rfsolvfr EMPTY>
+<!ELEMENT Rfsolvfr EMPTY>
+<!ELEMENT Rfsolvfr EMPTY>
+<!ELEMENT Rfsolvfr EMPTY>
 <!ELEMENT Rfsolvfr EMPTY>
 
+
+
+
+
+<!ATTLIST Rfsolvfr  JAVACLASS   CDATA  #REQUIRED
+<!ATTLIST Rfsolvfr  JAVACLASS   CDATA  #REQUIRED
+<!ATTLIST Rfsolvfr  JAVACLASS   CDATA  #REQUIRED
+<!ATTLIST Rfsolvfr  JAVACLASS   CDATA  #REQUIRED
 <!ATTLIST Rfsolvfr  JAVACLASS   CDATA  #REQUIRED
                       DESCRIPTION CDATA  #IMPLIED >
+                      DESCRIPTION CDATA  #IMPLIED >
+                      DESCRIPTION CDATA  #IMPLIED >
+                      DESCRIPTION CDATA  #IMPLIED >
+                      DESCRIPTION CDATA  #IMPLIED >
+<!ELEMENT KfyRfsolvfrs (KfyRfsolvfr+)>
+<!ELEMENT KfyRfsolvfrs (KfyRfsolvfr+)>
+<!ELEMENT KfyRfsolvfrs (KfyRfsolvfr+)>
+<!ELEMENT KfyRfsolvfrs (KfyRfsolvfr+)>
 <!ELEMENT KfyRfsolvfrs (KfyRfsolvfr+)>
 <!ATTLIST KfyRfsolvfrs  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyRfsolvfr' >
+<!ATTLIST KfyRfsolvfrs  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyRfsolvfr' >
+<!ATTLIST KfyRfsolvfrs  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyRfsolvfr' >
+<!ATTLIST KfyRfsolvfrs  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyRfsolvfr' >
+<!ATTLIST KfyRfsolvfrs  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyRfsolvfr' >
+
+
+
+
 
 <!ELEMENT KfyRfsolvfr EMPTY>
+<!ELEMENT KfyRfsolvfr EMPTY>
+<!ELEMENT KfyRfsolvfr EMPTY>
+<!ELEMENT KfyRfsolvfr EMPTY>
+<!ELEMENT KfyRfsolvfr EMPTY>
+
+
+
+
 
 <!ATTLIST KfyRfsolvfr  URI       CDATA  #REQUIRED
+<!ATTLIST KfyRfsolvfr  URI       CDATA  #REQUIRED
+<!ATTLIST KfyRfsolvfr  URI       CDATA  #REQUIRED
+<!ATTLIST KfyRfsolvfr  URI       CDATA  #REQUIRED
+<!ATTLIST KfyRfsolvfr  URI       CDATA  #REQUIRED
+                         JAVACLASS CDATA  #REQUIRED >
+                         JAVACLASS CDATA  #REQUIRED >
+                         JAVACLASS CDATA  #REQUIRED >
+                         JAVACLASS CDATA  #REQUIRED >
                          JAVACLASS CDATA  #REQUIRED >
 <!ELEMENT UnitTfst (#PCDATA)>
+<!ELEMENT UnitTfst (#PCDATA)>
+<!ELEMENT UnitTfst (#PCDATA)>
+<!ELEMENT UnitTfst (#PCDATA)>
+<!ELEMENT UnitTfst (#PCDATA)>
 
+
+
+
+
+<!ATTLIST UnitTfst  JAVACLASS CDATA  #REQUIRED >
+<!ATTLIST UnitTfst  JAVACLASS CDATA  #REQUIRED >
+<!ATTLIST UnitTfst  JAVACLASS CDATA  #REQUIRED >
+<!ATTLIST UnitTfst  JAVACLASS CDATA  #REQUIRED >
 <!ATTLIST UnitTfst  JAVACLASS CDATA  #REQUIRED >

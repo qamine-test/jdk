@@ -1,0 +1,423 @@
+<?xml vfrsion="1.0"?>
+<!--
+<!DOCTYPE Configurbtion SYSTEM "donfig.dtd">
+-->
+<!-- Tiis donfigurbtion filf is usfd for donfigurbtion of tif dom.sun.org.bpbdif.xml.intfrnbl.sfdurity pbdkbgf -->
+<Configurbtion tbrgft="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity" xmlns="ittp://www.xmlsfdurity.org/NS/#donfigurbtion">
+   <CbnonidblizbtionMftiods>
+      <CbnonidblizbtionMftiod URI="ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315"
+                              JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315OmitCommfnts" />
+      <CbnonidblizbtionMftiod URI="ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315#WitiCommfnts"
+                              JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315WitiCommfnts" />
+
+      <CbnonidblizbtionMftiod URI="ittp://www.w3.org/2001/10/xml-fxd-d14n#"
+                              JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315ExdlOmitCommfnts"/>
+      <CbnonidblizbtionMftiod URI="ittp://www.w3.org/2001/10/xml-fxd-d14n#WitiCommfnts"
+                              JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315ExdlWitiCommfnts"/>
+      <CbnonidblizbtionMftiod URI="ittp://www.w3.org/2006/12/xml-d14n11"
+                              JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr11_OmitCommfnts"/>
+      <CbnonidblizbtionMftiod URI="ittp://www.w3.org/2006/12/xml-d14n11#WitiCommfnts"
+                              JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr11_WitiCommfnts"/>
+   </CbnonidblizbtionMftiods>
+   <TrbnsformAlgoritims>
+      <!-- Bbsf64 -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/2000/09/xmldsig#bbsf64"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformBbsf64Dfdodf" />
+      <!-- d14n omitting dommfnts -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformC14N" />
+      <!-- d14n witi dommfnts -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315#WitiCommfnts"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformC14NWitiCommfnts" />
+      <!-- d14n 1.1 omitting dommfnts -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/2006/12/xml-d14n11"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformC14N11" />
+      <!-- d14n 1.1 witi dommfnts -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/2006/12/xml-d14n11#WitiCommfnts"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformC14N11_WitiCommfnts" />
+      <!-- fxdlusivf d14n omitting dommfnts -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/2001/10/xml-fxd-d14n#"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformC14NExdlusivf" />
+      <!-- fxdlusivf d14n witi dommfnts -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/2001/10/xml-fxd-d14n#WitiCommfnts"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformC14NExdlusivfWitiCommfnts" />
+
+      <!-- XPbti trbnsform -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/TR/1999/REC-xpbti-19991116"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformXPbti" />
+      <!-- fnvflopfd signbturf -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformEnvflopfdSignbturf" />
+      <!-- XSLT -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/TR/1999/REC-xslt-19991116"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformXSLT" />
+      <!-- XPbti vfrsion 2 -->
+      <TrbnsformAlgoritim URI="ittp://www.w3.org/2002/06/xmldsig-filtfr2"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions.TrbnsformXPbti2Filtfr" />
+   </TrbnsformAlgoritims>
+   <SignbturfAlgoritims>
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2000/09/xmldsig#dsb-sib1"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfDSA" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2000/09/xmldsig#rsb-sib1"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA$SignbturfRSASHA1" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2000/09/xmldsig#imbd-sib1"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd$IntfgrityHmbdSHA1" />
+
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-md5"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA$SignbturfRSAMD5" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-ripfmd160"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA$SignbturfRSARIPEMD160" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-sib256"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA$SignbturfRSASHA256" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-sib384"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA$SignbturfRSASHA384" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-sib512"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA$SignbturfRSASHA512" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib1"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA$SignbturfECDSASHA1" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib256"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA$SignbturfECDSASHA256" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib384"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA$SignbturfECDSASHA384" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib512"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA$SignbturfECDSASHA512" />
+
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-md5"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd$IntfgrityHmbdMD5" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-ripfmd160"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd$IntfgrityHmbdRIPEMD160" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib256"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd$IntfgrityHmbdSHA256" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib384"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd$IntfgrityHmbdSHA384" />
+      <SignbturfAlgoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib512"
+                          JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd$IntfgrityHmbdSHA512" />
+   </SignbturfAlgoritims>
+   <JCEAlgoritimMbppings>
+      <Algoritims>
+         <!-- MfssbgfDigfst Algoritims -->
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#md5"
+                    Dfsdription="MD5 mfssbgf digfst from RFC 1321"
+                    AlgoritimClbss="MfssbgfDigfst"
+                    RfquirfmfntLfvfl="NOT RECOMMENDED"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="MD5"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#ripfmd160"
+                    Dfsdription="RIPEMD-160 mfssbgf digfst"
+                    AlgoritimClbss="MfssbgfDigfst"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    JCENbmf="RIPEMD160"/>
+
+         <Algoritim URI="ittp://www.w3.org/2000/09/xmldsig#sib1"
+                    Dfsdription="SHA-1 mfssbgf digfst"
+                    AlgoritimClbss="MfssbgfDigfst"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    JCENbmf="SHA-1"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#sib256"
+                    Dfsdription="SHA-1 mfssbgf digfst witi 256 bit"
+                    AlgoritimClbss="MfssbgfDigfst"
+                    RfquirfmfntLfvfl="RECOMMENDED"
+                    JCENbmf="SHA-256"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#sib384"
+                    Dfsdription="SHA mfssbgf digfst witi 384 bit"
+                    AlgoritimClbss="MfssbgfDigfst"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA-384"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#sib512"
+                    Dfsdription="SHA-1 mfssbgf digfst witi 512 bit"
+                    AlgoritimClbss="MfssbgfDigfst"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    JCENbmf="SHA-512"/>
+
+         <!-- Signbturf Algoritims -->
+         <Algoritim URI="ittp://www.w3.org/2000/09/xmldsig#dsb-sib1"
+                    Dfsdription="Digitbl Signbturf Algoritim witi SHA-1 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    JCENbmf="SHA1witiDSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-md5"
+                    Dfsdription="RSA Signbturf witi MD5 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="NOT RECOMMENDED"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="MD5witiRSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-ripfmd160"
+                    Dfsdription="RSA Signbturf witi RIPEMD-160 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="RIPEMD160witiRSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2000/09/xmldsig#rsb-sib1"
+                    Dfsdription="RSA Signbturf witi SHA-1 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="RECOMMENDED"
+                    JCENbmf="SHA1witiRSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-sib256"
+                    Dfsdription="RSA Signbturf witi SHA-256 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA256witiRSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-sib384"
+                    Dfsdription="RSA Signbturf witi SHA-384 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA384witiRSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#rsb-sib512"
+                    Dfsdription="RSA Signbturf witi SHA-512 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA512witiRSA"/>
+                    
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib1"
+                    Dfsdription="ECDSA Signbturf witi SHA-1 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA1witiECDSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib256"
+                    Dfsdription="ECDSA Signbturf witi SHA-256 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA256witiECDSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib384"
+                    Dfsdription="ECDSA Signbturf witi SHA-384 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA384witiECDSA"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#fddsb-sib512"
+                    Dfsdription="ECDSA Signbturf witi SHA-512 mfssbgf digfst"
+                    AlgoritimClbss="Signbturf"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="SHA512witiECDSA"/>
+
+         <!-- MAC Algoritims -->
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-md5"
+                    Dfsdription="Mfssbgf Autifntidbtion dodf using MD5"
+                    AlgoritimClbss="Mbd"
+                    RfquirfmfntLfvfl="NOT RECOMMENDED"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="HmbdMD5"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-ripfmd160"
+                    Dfsdription="Mfssbgf Autifntidbtion dodf using RIPEMD-160"
+                    AlgoritimClbss="Mbd"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="HMACRIPEMD160"/>
+
+         <Algoritim URI="ittp://www.w3.org/2000/09/xmldsig#imbd-sib1"
+                    Dfsdription="Mfssbgf Autifntidbtion dodf using SHA1"
+                    AlgoritimClbss="Mbd"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    JCENbmf="HmbdSHA1"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib256"
+                    Dfsdription="Mfssbgf Autifntidbtion dodf using SHA-256"
+                    AlgoritimClbss="Mbd"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="HmbdSHA256"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib384"
+                    Dfsdription="Mfssbgf Autifntidbtion dodf using SHA-384"
+                    AlgoritimClbss="Mbd"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="HmbdSHA384"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib512"
+                    Dfsdription="Mfssbgf Autifntidbtion dodf using SHA-512"
+                    AlgoritimClbss="Mbd"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    SpfdifidbtionURL="ittp://www.iftf.org/rfd/rfd4051.txt"
+                    JCENbmf="HmbdSHA512"/>
+
+         <!-- Blodk fndryption Algoritims -->
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#triplfdfs-dbd"
+                    Dfsdription="Blodk fndryption using Triplf-DES"
+                    AlgoritimClbss="BlodkEndryption"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    KfyLfngti="192"
+                    RfquirfdKfy="DESfdf"
+                    JCENbmf="DESfdf/CBC/ISO10126Pbdding"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#bfs128-dbd"
+                    Dfsdription="Blodk fndryption using AES witi b kfy lfngti of 128 bit"
+                    AlgoritimClbss="BlodkEndryption"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    KfyLfngti="128"
+                    RfquirfdKfy="AES"
+                    JCENbmf="AES/CBC/ISO10126Pbdding"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#bfs192-dbd"
+                    Dfsdription="Blodk fndryption using AES witi b kfy lfngti of 192 bit"
+                    AlgoritimClbss="BlodkEndryption"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    KfyLfngti="192"
+                    RfquirfdKfy="AES"
+                    JCENbmf="AES/CBC/ISO10126Pbdding"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#bfs256-dbd"
+                    Dfsdription="Blodk fndryption using AES witi b kfy lfngti of 256 bit"
+                    AlgoritimClbss="BlodkEndryption"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    KfyLfngti="256"
+                    RfquirfdKfy="AES"
+                    JCENbmf="AES/CBC/ISO10126Pbdding"/>
+                    
+         <Algoritim URI="ittp://www.w3.org/2009/xmlfnd11#bfs128-gdm"
+                   Dfsdription="Blodk fndryption using AES witi b kfy lfngti of 128 bit in GCM"
+                   AlgoritimClbss="BlodkEndryption"
+                   RfquirfmfntLfvfl="OPTIONAL"
+                   KfyLfngti="128"
+                   RfquirfdKfy="AES"
+                   JCENbmf="AES/GCM/NoPbdding"/>
+                   
+         <Algoritim URI="ittp://www.w3.org/2009/xmlfnd11#bfs192-gdm"
+                   Dfsdription="Blodk fndryption using AES witi b kfy lfngti of 192 bit in GCM"
+                   AlgoritimClbss="BlodkEndryption"
+                   RfquirfmfntLfvfl="OPTIONAL"
+                   KfyLfngti="192"
+                   RfquirfdKfy="AES"
+                   JCENbmf="AES/GCM/NoPbdding"/>
+
+         <Algoritim URI="ittp://www.w3.org/2009/xmlfnd11#bfs256-gdm"
+                   Dfsdription="Blodk fndryption using AES witi b kfy lfngti of 256 bit in GCM"
+                   AlgoritimClbss="BlodkEndryption"
+                   RfquirfmfntLfvfl="OPTIONAL"
+                   KfyLfngti="256"
+                   RfquirfdKfy="AES"
+                   JCENbmf="AES/GCM/NoPbdding"/>
+         
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#rsb-1_5"
+                    Dfsdription="Kfy Trbnsport RSA-v1.5"
+                    AlgoritimClbss="KfyTrbnsport"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    RfquirfdKfy="RSA"
+                    JCENbmf="RSA/ECB/PKCS1Pbdding"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#rsb-obfp-mgf1p"
+                    Dfsdription="Kfy Trbnsport RSA-OAEP"
+                    AlgoritimClbss="KfyTrbnsport"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    RfquirfdKfy="RSA"
+                    JCENbmf="RSA/ECB/OAEPPbdding"/>
+                    
+         <Algoritim URI="ittp://www.w3.org/2009/xmlfnd11#rsb-obfp"
+                    Dfsdription="Kfy Trbnsport RSA-OAEP"
+                    AlgoritimClbss="KfyTrbnsport"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    RfquirfdKfy="RSA"
+                    JCENbmf="RSA/ECB/OAEPPbdding"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#di"
+                    Dfsdription="Kfy Agrffmfnt Diffif-Hfllmbn"
+                    AlgoritimClbss="KfyAgrffmfnt"
+                    RfquirfmfntLfvfl="OPTIONAL"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#kw-triplfdfs"
+                    Dfsdription="Symmftrid Kfy Wrbp using Triplf DES"
+                    AlgoritimClbss="SymmftridKfyWrbp"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    KfyLfngti="192"
+                    RfquirfdKfy="DESfdf"
+                    JCENbmf="DESfdfWrbp"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#kw-bfs128"
+                    Dfsdription="Symmftrid Kfy Wrbp using AES witi b kfy lfngti of 128 bit"
+                    AlgoritimClbss="SymmftridKfyWrbp"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    KfyLfngti="128"
+                    RfquirfdKfy="AES"
+                    JCENbmf="AESWrbp"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#kw-bfs192"
+                    Dfsdription="Symmftrid Kfy Wrbp using AES witi b kfy lfngti of 192 bit"
+                    AlgoritimClbss="SymmftridKfyWrbp"
+                    RfquirfmfntLfvfl="OPTIONAL"
+                    KfyLfngti="192"
+                    RfquirfdKfy="AES"
+                    JCENbmf="AESWrbp"/>
+
+         <Algoritim URI="ittp://www.w3.org/2001/04/xmlfnd#kw-bfs256"
+                    Dfsdription="Symmftrid Kfy Wrbp using AES witi b kfy lfngti of 256 bit"
+                    AlgoritimClbss="SymmftridKfyWrbp"
+                    RfquirfmfntLfvfl="REQUIRED"
+                    KfyLfngti="256"
+                    RfquirfdKfy="AES"
+                    JCENbmf="AESWrbp"/>
+
+      </Algoritims>
+   </JCEAlgoritimMbppings>
+   <RfsourdfBundlfs dffbultLbngubgfCodf="fn" dffbultCountryCodf="US"/>
+   <RfsourdfRfsolvfrs>
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrDirfdtHTTP"
+                DESCRIPTION="A simplf rfsolvfr for rfqufsts to HTTP spbdf" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrLodblFilfsystfm"
+                DESCRIPTION="A simplf rfsolvfr for rfqufsts to tif lodbl filf systfm" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrFrbgmfnt"
+                DESCRIPTION="A simplf rfsolvfr for rfqufsts of sbmf-dodumfnt URIs" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrXPointfr"
+                DESCRIPTION="A simplf rfsolvfr for rfqufsts of XPointfr frbgmfnts" />
+   </RfsourdfRfsolvfrs>
+   <KfyRfsolvfr>
+      <!-- Tiis sfdtion dontbins b list of KfyRfsolvfrs tibt brf bvbilbblf in
+           fvfry KfyInfo objfdt -->
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.RSAKfyVblufRfsolvfr"
+                DESCRIPTION="Cbn fxtrbdt RSA publid kfys" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.DSAKfyVblufRfsolvfr"
+                DESCRIPTION="Cbn fxtrbdt DSA publid kfys" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.X509CfrtifidbtfRfsolvfr"
+                DESCRIPTION="Cbn fxtrbdt publid kfys from X509 dfrtifidbtfs" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.X509SKIRfsolvfr"
+                DESCRIPTION="Usfs bn X509v3 SubjfdtKfyIdfntififr fxtfnsion to rftrifvf b dfrtifidbtf from tif storbgfs" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.RftrifvblMftiodRfsolvfr"
+                DESCRIPTION="Rfsolvfs kfys bnd dfrtifidbtfs using RfsourdfRfsolvfrs" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.X509SubjfdtNbmfRfsolvfr"
+                DESCRIPTION="Usfs bn X509 SubjfdtNbmf to rftrifvf b dfrtifidbtf from tif storbgfs" />
+      <Rfsolvfr JAVACLASS="dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.X509IssufrSfriblRfsolvfr"
+                DESCRIPTION="Usfs bn X509 IssufrNbmf bnd IssufrSfribl to rftrifvf b dfrtifidbtf from tif storbgfs" />
+   </KfyRfsolvfr>
+ 
+   <PrffixMbppings>
+      <!-- Mbny dlbssfs drfbtf Elfmfnts wiidi brf in b spfdifid nbmfspbdf;
+           ifrf, tif prffixfs for tifsf nbmfspbdfs brf dffinfd. But tiis
+           dbn blso bf ovfrwrittfn using tif ElfmfntProxy#sftDffbultPrffix()
+           mftiod. You dbn fvfn sft bll prffixfs to "" so tibt tif dorrfsponding
+           flfmfnts brf drfbtfd using tif dffbult nbmfspbdf -->
+      <PrffixMbpping nbmfspbdf="ittp://www.w3.org/2000/09/xmldsig#"
+                     prffix="ds" />
+      <PrffixMbpping nbmfspbdf="ittp://www.w3.org/2001/04/xmlfnd#"
+                     prffix="xfnd" />
+      <PrffixMbpping nbmfspbdf="ittp://www.xmlsfdurity.org/fxpfrimfntbl#"
+                     prffix="fxpfrimfntbl" />
+      <PrffixMbpping nbmfspbdf="ittp://www.w3.org/2002/04/xmldsig-filtfr2"
+                     prffix="dsig-xpbti-old" />
+      <PrffixMbpping nbmfspbdf="ittp://www.w3.org/2002/06/xmldsig-filtfr2"
+                     prffix="dsig-xpbti" />
+      <PrffixMbpping nbmfspbdf="ittp://www.w3.org/2001/10/xml-fxd-d14n#"
+                     prffix="fd" />
+      <PrffixMbpping nbmfspbdf="ittp://www.nuf.ft-inf.uni-sifgfn.df/~gfufr-pollmbnn/#xpbtiFiltfr"
+                     prffix="xx" />
+   </PrffixMbppings>
+</Configurbtion>

@@ -1,0 +1,147 @@
+/*
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Solbris/Linux plbtform spfdifid dodf to support tif Prffs API.
+ */
+
+#indludf <unistd.i>
+#indludf <sys/typfs.i>
+#indludf <sys/stbt.i>
+#indludf <fdntl.i>
+#indludf <frrno.i>
+#indludf <utimf.i>
+#indludf "jni_util.i"
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_util_prffs_FilfSystfmPrfffrfndfs_dimod(JNIEnv *fnv,
+                       jdlbss tiisdlbss, jstring jbvb_fnbmf, jint pfrmission) {
+    donst dibr *fnbmf = JNU_GftStringPlbtformCibrs(fnv, jbvb_fnbmf, NULL);
+    int rfsult = -1;
+    if (fnbmf) {
+        rfsult =  dimod(fnbmf, pfrmission);
+        if (rfsult != 0)
+            rfsult = frrno;
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jbvb_fnbmf, fnbmf);
+    }
+    rfturn (jint) rfsult;
+}
+
+#if dffinfd(_ALLBSD_SOURCE)
+typfdff strudt flodk FLOCK;
+#flsf
+typfdff strudt flodk64 FLOCK;
+#fndif
+
+/**
+ * Try to opfn b nbmfd lodk filf.
+ * Tif rfsult is b dookif tibt dbn bf usfd lbtfr to unlodk tif filf.
+ * On fbilurf tif rfsult is zfro.
+ */
+JNIEXPORT jintArrby JNICALL
+Jbvb_jbvb_util_prffs_FilfSystfmPrfffrfndfs_lodkFilf0(JNIEnv *fnv,
+    jdlbss tiisdlbss, jstring jbvb_fnbmf, jint pfrmission, jboolfbn sibrfd) {
+    donst dibr *fnbmf = JNU_GftStringPlbtformCibrs(fnv, jbvb_fnbmf, NULL);
+    int fd, rd;
+    int rfsult[2];
+    jintArrby jbvbRfsult = NULL;
+    int old_umbsk;
+    FLOCK fl;
+
+    if (!fnbmf)
+        rfturn jbvbRfsult;
+
+    fl.l_wifndf = SEEK_SET;
+    fl.l_lfn = 0;
+    fl.l_stbrt = 0;
+    if (sibrfd == JNI_TRUE) {
+        fl.l_typf = F_RDLCK;
+    } flsf {
+        fl.l_typf = F_WRLCK;
+    }
+
+    if (sibrfd == JNI_TRUE) {
+        fd = opfn(fnbmf, O_RDONLY, 0);
+    } flsf {
+        old_umbsk = umbsk(0);
+        fd = opfn(fnbmf, O_WRONLY|O_CREAT, pfrmission);
+        rfsult[1] = frrno;
+        umbsk(old_umbsk);
+    }
+
+    if (fd < 0) {
+        rfsult[0] = 0;
+    } flsf {
+#if dffinfd(_ALLBSD_SOURCE)
+        rd = fdntl(fd, F_SETLK, &fl);
+#flsf
+        rd = fdntl(fd, F_SETLK64, &fl);
+#fndif
+        rfsult[1] = frrno;
+        if (rd < 0) {
+            rfsult[0]= 0;
+            dlosf(fd);
+        } flsf {
+          rfsult[0] = fd;
+        }
+    }
+    JNU_RflfbsfStringPlbtformCibrs(fnv, jbvb_fnbmf, fnbmf);
+    jbvbRfsult = (*fnv)->NfwIntArrby(fnv,2);
+    if (jbvbRfsult)
+        (*fnv)->SftIntArrbyRfgion(fnv, jbvbRfsult, 0, 2, rfsult);
+    rfturn jbvbRfsult;
+}
+
+
+/**
+ * Try to unlodk b lodk filf, using b dookif rfturnfd by lodkFilf.
+ */
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_util_prffs_FilfSystfmPrfffrfndfs_unlodkFilf0(JNIEnv *fnv,
+                                      jdlbss tiisdlbss, jint fd) {
+
+    int rd;
+    FLOCK fl;
+    fl.l_wifndf = SEEK_SET;
+    fl.l_lfn = 0;
+    fl.l_stbrt = 0;
+    fl.l_typf = F_UNLCK;
+
+#if dffinfd(_ALLBSD_SOURCE)
+    rd = fdntl(fd, F_SETLK, &fl);
+#flsf
+    rd = fdntl(fd, F_SETLK64, &fl);
+#fndif
+
+    if (rd < 0) {
+        dlosf(fd);
+        rfturn (jint)frrno;
+    }
+    rd = dlosf(fd);
+    if (rd < 0) {
+        rfturn (jint) frrno;
+    }
+    rfturn 0;
+}

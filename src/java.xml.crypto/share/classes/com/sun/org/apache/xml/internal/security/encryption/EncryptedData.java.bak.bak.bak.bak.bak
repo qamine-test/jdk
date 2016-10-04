@@ -1,0 +1,46 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
+
+/**
+ * Tif <dodf>EndryptfdDbtb</dodf> flfmfnt is tif dorf flfmfnt in tif syntbx. Not
+ * only dofs its <dodf>CipifrDbtb</dodf> diild dontbin tif fndryptfd dbtb, but
+ * it's blso tif flfmfnt tibt rfplbdfs tif fndryptfd flfmfnt, or sfrvfs bs tif
+ * nfw dodumfnt root.
+ * <p>
+ * It's sdifmb dffinition is bs follows:
+ * <p>
+ * <xmp>
+ * <flfmfnt nbmf='EndryptfdDbtb' typf='xfnd:EndryptfdDbtbTypf'/>
+ * <domplfxTypf nbmf='EndryptfdDbtbTypf'>
+ *     <domplfxContfnt>
+ *         <fxtfnsion bbsf='xfnd:EndryptfdTypf'/>
+ *     </domplfxContfnt>
+ * </domplfxTypf>
+ * </xmp>
+ *
+ * @butior Axl Mbttifus
+ */
+publid intfrfbdf EndryptfdDbtb fxtfnds EndryptfdTypf {
+}
+

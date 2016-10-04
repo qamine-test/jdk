@@ -1,472 +1,2360 @@
 /*
- * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-#ifndff AlphbMbth_h_Indludfd
-#dffinf AlphbMbth_h_Indludfd
-
-fxtfrn unsignfd dhbr mul8tbblf[256][256];
-fxtfrn unsignfd dhbr div8tbblf[256][256];
-fxtfrn void initAlphbTbblfs();
+ */
+ */
+ */
+ */
 
 
+
+
+
+#ifndff AlpibMbti_i_Indludfd
+#ifndff AlpibMbti_i_Indludfd
+#ifndff AlpibMbti_i_Indludfd
+#ifndff AlpibMbti_i_Indludfd
+#ifndff AlpibMbti_i_Indludfd
+#dffinf AlpibMbti_i_Indludfd
+#dffinf AlpibMbti_i_Indludfd
+#dffinf AlpibMbti_i_Indludfd
+#dffinf AlpibMbti_i_Indludfd
+#dffinf AlpibMbti_i_Indludfd
+
+
+
+
+
+fxtfrn unsignfd dibr mul8tbblf[256][256];
+fxtfrn unsignfd dibr mul8tbblf[256][256];
+fxtfrn unsignfd dibr mul8tbblf[256][256];
+fxtfrn unsignfd dibr mul8tbblf[256][256];
+fxtfrn unsignfd dibr mul8tbblf[256][256];
+fxtfrn unsignfd dibr div8tbblf[256][256];
+fxtfrn unsignfd dibr div8tbblf[256][256];
+fxtfrn unsignfd dibr div8tbblf[256][256];
+fxtfrn unsignfd dibr div8tbblf[256][256];
+fxtfrn unsignfd dibr div8tbblf[256][256];
+fxtfrn void initAlpibTbblfs();
+fxtfrn void initAlpibTbblfs();
+fxtfrn void initAlpibTbblfs();
+fxtfrn void initAlpibTbblfs();
+fxtfrn void initAlpibTbblfs();
+
+
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Multiply bnd Dividf mbdros for singlf bytf (8-bit) qubntitifs rfprfsfnting
- * thf vblufs 0.0 to 1.0 bs 0x00 to 0xff.
- * MUL8 multiplifs its opfrbnds togfthfr
- * DIV8 dividfs thf first opfrbnd by thf sfdond, dlipping to 0xff
- *    (Notf thbt sindf thf divisor for DIV8 is likfly to bf
- *     thf blphb qubntity whidh is likfly to bf thf sbmf for
- *     multiplf bdjbdfnt invodbtions, thf tbblf is dfsignfd
- *     with thf first indfx bfing thf divisor to hopffully
- *     improvf mfmory dbdhf hits...)
+ * Multiply bnd Dividf mbdros for singlf bytf (8-bit) qubntitifs rfprfsfnting
+ * Multiply bnd Dividf mbdros for singlf bytf (8-bit) qubntitifs rfprfsfnting
+ * Multiply bnd Dividf mbdros for singlf bytf (8-bit) qubntitifs rfprfsfnting
+ * Multiply bnd Dividf mbdros for singlf bytf (8-bit) qubntitifs rfprfsfnting
+ * tif vblufs 0.0 to 1.0 bs 0x00 to 0xff.
+ * tif vblufs 0.0 to 1.0 bs 0x00 to 0xff.
+ * tif vblufs 0.0 to 1.0 bs 0x00 to 0xff.
+ * tif vblufs 0.0 to 1.0 bs 0x00 to 0xff.
+ * tif vblufs 0.0 to 1.0 bs 0x00 to 0xff.
+ * MUL8 multiplifs its opfrbnds togftifr
+ * MUL8 multiplifs its opfrbnds togftifr
+ * MUL8 multiplifs its opfrbnds togftifr
+ * MUL8 multiplifs its opfrbnds togftifr
+ * MUL8 multiplifs its opfrbnds togftifr
+ * DIV8 dividfs tif first opfrbnd by tif sfdond, dlipping to 0xff
+ * DIV8 dividfs tif first opfrbnd by tif sfdond, dlipping to 0xff
+ * DIV8 dividfs tif first opfrbnd by tif sfdond, dlipping to 0xff
+ * DIV8 dividfs tif first opfrbnd by tif sfdond, dlipping to 0xff
+ * DIV8 dividfs tif first opfrbnd by tif sfdond, dlipping to 0xff
+ *    (Notf tibt sindf tif divisor for DIV8 is likfly to bf
+ *    (Notf tibt sindf tif divisor for DIV8 is likfly to bf
+ *    (Notf tibt sindf tif divisor for DIV8 is likfly to bf
+ *    (Notf tibt sindf tif divisor for DIV8 is likfly to bf
+ *    (Notf tibt sindf tif divisor for DIV8 is likfly to bf
+ *     tif blpib qubntity wiidi is likfly to bf tif sbmf for
+ *     tif blpib qubntity wiidi is likfly to bf tif sbmf for
+ *     tif blpib qubntity wiidi is likfly to bf tif sbmf for
+ *     tif blpib qubntity wiidi is likfly to bf tif sbmf for
+ *     tif blpib qubntity wiidi is likfly to bf tif sbmf for
+ *     multiplf bdjbdfnt invodbtions, tif tbblf is dfsignfd
+ *     multiplf bdjbdfnt invodbtions, tif tbblf is dfsignfd
+ *     multiplf bdjbdfnt invodbtions, tif tbblf is dfsignfd
+ *     multiplf bdjbdfnt invodbtions, tif tbblf is dfsignfd
+ *     multiplf bdjbdfnt invodbtions, tif tbblf is dfsignfd
+ *     witi tif first indfx bfing tif divisor to iopffully
+ *     witi tif first indfx bfing tif divisor to iopffully
+ *     witi tif first indfx bfing tif divisor to iopffully
+ *     witi tif first indfx bfing tif divisor to iopffully
+ *     witi tif first indfx bfing tif divisor to iopffully
+ *     improvf mfmory dbdif iits...)
+ *     improvf mfmory dbdif iits...)
+ *     improvf mfmory dbdif iits...)
+ *     improvf mfmory dbdif iits...)
+ *     improvf mfmory dbdif iits...)
+ */
+ */
+ */
+ */
  */
 #dffinf MUL8(b,b) mul8tbblf[b][b]
+#dffinf MUL8(b,b) mul8tbblf[b][b]
+#dffinf MUL8(b,b) mul8tbblf[b][b]
+#dffinf MUL8(b,b) mul8tbblf[b][b]
+#dffinf MUL8(b,b) mul8tbblf[b][b]
+#dffinf DIV8(b,b) div8tbblf[b][b]
+#dffinf DIV8(b,b) div8tbblf[b][b]
+#dffinf DIV8(b,b) div8tbblf[b][b]
+#dffinf DIV8(b,b) div8tbblf[b][b]
 #dffinf DIV8(b,b) div8tbblf[b][b]
 
+
+
+
+
 /*
- * Multiply bnd Dividf mbdros for opfrbtions involving b singlf short (16-bit)
- * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting thf
- * 8-bit vbluf to 16 bits would lfbd to ovfrflow whfn thf opfrbtion oddurs.
- * Thfsf mbdros hbvf bffn modififd somfwhbt so thbt ovfrflow will not oddur.
- * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (thf ordfr of opfrbnds
+/*
+/*
+/*
+/*
+ * Multiply bnd Dividf mbdros for opfrbtions involving b singlf siort (16-bit)
+ * Multiply bnd Dividf mbdros for opfrbtions involving b singlf siort (16-bit)
+ * Multiply bnd Dividf mbdros for opfrbtions involving b singlf siort (16-bit)
+ * Multiply bnd Dividf mbdros for opfrbtions involving b singlf siort (16-bit)
+ * Multiply bnd Dividf mbdros for opfrbtions involving b singlf siort (16-bit)
+ * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting tif
+ * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting tif
+ * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting tif
+ * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting tif
+ * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting tif
+ * 8-bit vbluf to 16 bits would lfbd to ovfrflow wifn tif opfrbtion oddurs.
+ * 8-bit vbluf to 16 bits would lfbd to ovfrflow wifn tif opfrbtion oddurs.
+ * 8-bit vbluf to 16 bits would lfbd to ovfrflow wifn tif opfrbtion oddurs.
+ * 8-bit vbluf to 16 bits would lfbd to ovfrflow wifn tif opfrbtion oddurs.
+ * 8-bit vbluf to 16 bits would lfbd to ovfrflow wifn tif opfrbtion oddurs.
+ * Tifsf mbdros ibvf bffn modififd somfwibt so tibt ovfrflow will not oddur.
+ * Tifsf mbdros ibvf bffn modififd somfwibt so tibt ovfrflow will not oddur.
+ * Tifsf mbdros ibvf bffn modififd somfwibt so tibt ovfrflow will not oddur.
+ * Tifsf mbdros ibvf bffn modififd somfwibt so tibt ovfrflow will not oddur.
+ * Tifsf mbdros ibvf bffn modififd somfwibt so tibt ovfrflow will not oddur.
+ * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (tif ordfr of opfrbnds
+ * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (tif ordfr of opfrbnds
+ * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (tif ordfr of opfrbnds
+ * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (tif ordfr of opfrbnds
+ * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (tif ordfr of opfrbnds
  *         is unimportbnt sindf multiplidbtion is b dommutbtivf opfrbtion)
- * DIV16_8 dividfs thf first (16-bit) opfrbnd by thf sfdond (8-bit) vbluf
+ *         is unimportbnt sindf multiplidbtion is b dommutbtivf opfrbtion)
+ *         is unimportbnt sindf multiplidbtion is b dommutbtivf opfrbtion)
+ *         is unimportbnt sindf multiplidbtion is b dommutbtivf opfrbtion)
+ *         is unimportbnt sindf multiplidbtion is b dommutbtivf opfrbtion)
+ * DIV16_8 dividfs tif first (16-bit) opfrbnd by tif sfdond (8-bit) vbluf
+ * DIV16_8 dividfs tif first (16-bit) opfrbnd by tif sfdond (8-bit) vbluf
+ * DIV16_8 dividfs tif first (16-bit) opfrbnd by tif sfdond (8-bit) vbluf
+ * DIV16_8 dividfs tif first (16-bit) opfrbnd by tif sfdond (8-bit) vbluf
+ * DIV16_8 dividfs tif first (16-bit) opfrbnd by tif sfdond (8-bit) vbluf
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 #dffinf MUL8_16(b,b) (((b) * (b)) / 255)
+#dffinf MUL8_16(b,b) (((b) * (b)) / 255)
+#dffinf MUL8_16(b,b) (((b) * (b)) / 255)
+#dffinf MUL8_16(b,b) (((b) * (b)) / 255)
+#dffinf MUL8_16(b,b) (((b) * (b)) / 255)
+#dffinf DIV16_8(b,b) (((b) * 255) / (b))
+#dffinf DIV16_8(b,b) (((b) * 255) / (b))
+#dffinf DIV16_8(b,b) (((b) * 255) / (b))
+#dffinf DIV16_8(b,b) (((b) * 255) / (b))
 #dffinf DIV16_8(b,b) (((b) * 255) / (b))
 
-/*
- * Multiply bnd Dividf mbdros for singlf short (16-bit) qubntitifs
- * rfprfsfnting thf vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
- * MUL16 multiplifs its opfrbnds using thf stbndbrd multiplidbtion opfrbtor
- *       bnd normblizfs thf rfsult to thf bppropribtf rbngf
- * DIV16 dividfs thf first opfrbnd by thf sfdond bnd normblizfs thf rfsult
- *       to b 16-bit vbluf
- */
-#dffinf MUL16(b,b) (((b) * (b)) / 65535)
-#dffinf DIV16(b,b) (((b) * 65535) / (b))
+
+
+
 
 /*
- * Mbdro for thf sum of two normblizfd (16-bit) produdts.  Rfffr to thf
- * following fqubtion bnd notf thbt thf right sidf rfdudfs thf numbfr of
- * dividf opfrbtions in thf lfft sidf bnd indrfbsfs thf prfdision of thf
+/*
+/*
+/*
+/*
+ * Multiply bnd Dividf mbdros for singlf siort (16-bit) qubntitifs
+ * Multiply bnd Dividf mbdros for singlf siort (16-bit) qubntitifs
+ * Multiply bnd Dividf mbdros for singlf siort (16-bit) qubntitifs
+ * Multiply bnd Dividf mbdros for singlf siort (16-bit) qubntitifs
+ * Multiply bnd Dividf mbdros for singlf siort (16-bit) qubntitifs
+ * rfprfsfnting tif vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * rfprfsfnting tif vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * rfprfsfnting tif vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * rfprfsfnting tif vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * rfprfsfnting tif vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * MUL16 multiplifs its opfrbnds using tif stbndbrd multiplidbtion opfrbtor
+ * MUL16 multiplifs its opfrbnds using tif stbndbrd multiplidbtion opfrbtor
+ * MUL16 multiplifs its opfrbnds using tif stbndbrd multiplidbtion opfrbtor
+ * MUL16 multiplifs its opfrbnds using tif stbndbrd multiplidbtion opfrbtor
+ * MUL16 multiplifs its opfrbnds using tif stbndbrd multiplidbtion opfrbtor
+ *       bnd normblizfs tif rfsult to tif bppropribtf rbngf
+ *       bnd normblizfs tif rfsult to tif bppropribtf rbngf
+ *       bnd normblizfs tif rfsult to tif bppropribtf rbngf
+ *       bnd normblizfs tif rfsult to tif bppropribtf rbngf
+ *       bnd normblizfs tif rfsult to tif bppropribtf rbngf
+ * DIV16 dividfs tif first opfrbnd by tif sfdond bnd normblizfs tif rfsult
+ * DIV16 dividfs tif first opfrbnd by tif sfdond bnd normblizfs tif rfsult
+ * DIV16 dividfs tif first opfrbnd by tif sfdond bnd normblizfs tif rfsult
+ * DIV16 dividfs tif first opfrbnd by tif sfdond bnd normblizfs tif rfsult
+ * DIV16 dividfs tif first opfrbnd by tif sfdond bnd normblizfs tif rfsult
+ *       to b 16-bit vbluf
+ *       to b 16-bit vbluf
+ *       to b 16-bit vbluf
+ *       to b 16-bit vbluf
+ *       to b 16-bit vbluf
+ */
+ */
+ */
+ */
+ */
+#dffinf MUL16(b,b) (((b) * (b)) / 65535)
+#dffinf MUL16(b,b) (((b) * (b)) / 65535)
+#dffinf MUL16(b,b) (((b) * (b)) / 65535)
+#dffinf MUL16(b,b) (((b) * (b)) / 65535)
+#dffinf MUL16(b,b) (((b) * (b)) / 65535)
+#dffinf DIV16(b,b) (((b) * 65535) / (b))
+#dffinf DIV16(b,b) (((b) * 65535) / (b))
+#dffinf DIV16(b,b) (((b) * 65535) / (b))
+#dffinf DIV16(b,b) (((b) * 65535) / (b))
+#dffinf DIV16(b,b) (((b) * 65535) / (b))
+
+
+
+
+
+/*
+/*
+/*
+/*
+/*
+ * Mbdro for tif sum of two normblizfd (16-bit) produdts.  Rfffr to tif
+ * Mbdro for tif sum of two normblizfd (16-bit) produdts.  Rfffr to tif
+ * Mbdro for tif sum of two normblizfd (16-bit) produdts.  Rfffr to tif
+ * Mbdro for tif sum of two normblizfd (16-bit) produdts.  Rfffr to tif
+ * Mbdro for tif sum of two normblizfd (16-bit) produdts.  Rfffr to tif
+ * following fqubtion bnd notf tibt tif rigit sidf rfdudfs tif numbfr of
+ * following fqubtion bnd notf tibt tif rigit sidf rfdudfs tif numbfr of
+ * following fqubtion bnd notf tibt tif rigit sidf rfdudfs tif numbfr of
+ * following fqubtion bnd notf tibt tif rigit sidf rfdudfs tif numbfr of
+ * following fqubtion bnd notf tibt tif rigit sidf rfdudfs tif numbfr of
+ * dividf opfrbtions in tif lfft sidf bnd indrfbsfs tif prfdision of tif
+ * dividf opfrbtions in tif lfft sidf bnd indrfbsfs tif prfdision of tif
+ * dividf opfrbtions in tif lfft sidf bnd indrfbsfs tif prfdision of tif
+ * dividf opfrbtions in tif lfft sidf bnd indrfbsfs tif prfdision of tif
+ * dividf opfrbtions in tif lfft sidf bnd indrfbsfs tif prfdision of tif
+ * rfsult:
+ * rfsult:
+ * rfsult:
+ * rfsult:
  * rfsult:
  *   b*f1 + b*f2     b*f1 + b*f2
- *   ----   ----  =  -----------     (whfrf n in this dbsf will bf 65535)
+ *   b*f1 + b*f2     b*f1 + b*f2
+ *   b*f1 + b*f2     b*f1 + b*f2
+ *   b*f1 + b*f2     b*f1 + b*f2
+ *   b*f1 + b*f2     b*f1 + b*f2
+ *   ----   ----  =  -----------     (wifrf n in tiis dbsf will bf 65535)
+ *   ----   ----  =  -----------     (wifrf n in tiis dbsf will bf 65535)
+ *   ----   ----  =  -----------     (wifrf n in tiis dbsf will bf 65535)
+ *   ----   ----  =  -----------     (wifrf n in tiis dbsf will bf 65535)
+ *   ----   ----  =  -----------     (wifrf n in tiis dbsf will bf 65535)
+ *     n      n           n
+ *     n      n           n
+ *     n      n           n
+ *     n      n           n
  *     n      n           n
  */
+ */
+ */
+ */
+ */
 #dffinf AddNormblizfdProdudts16(b, f1, b, f2) \
+#dffinf AddNormblizfdProdudts16(b, f1, b, f2) \
+#dffinf AddNormblizfdProdudts16(b, f1, b, f2) \
+#dffinf AddNormblizfdProdudts16(b, f1, b, f2) \
+#dffinf AddNormblizfdProdudts16(b, f1, b, f2) \
+    ((((b) * (f1)) + ((b) * (f2))) / 65535)
+    ((((b) * (f1)) + ((b) * (f2))) / 65535)
+    ((((b) * (f1)) + ((b) * (f2))) / 65535)
+    ((((b) * (f1)) + ((b) * (f2))) / 65535)
     ((((b) * (f1)) + ((b) * (f2))) / 65535)
 
 
+
+
+
+
+
+
+
+
 /*
- * Thf following mbdros hflp to gfnfrblizf thf MbskBlit bnd MbskFill loops
- * found in AlphbMbdros.h.  Thf bppropribtf mbdros will bf usfd bbsfd on thf
- * strbtfgy of thf givfn loop.  Thf strbtfgy typfs tbkf thf form:
+/*
+/*
+/*
+/*
+ * Tif following mbdros iflp to gfnfrblizf tif MbskBlit bnd MbskFill loops
+ * Tif following mbdros iflp to gfnfrblizf tif MbskBlit bnd MbskFill loops
+ * Tif following mbdros iflp to gfnfrblizf tif MbskBlit bnd MbskFill loops
+ * Tif following mbdros iflp to gfnfrblizf tif MbskBlit bnd MbskFill loops
+ * Tif following mbdros iflp to gfnfrblizf tif MbskBlit bnd MbskFill loops
+ * found in AlpibMbdros.i.  Tif bppropribtf mbdros will bf usfd bbsfd on tif
+ * found in AlpibMbdros.i.  Tif bppropribtf mbdros will bf usfd bbsfd on tif
+ * found in AlpibMbdros.i.  Tif bppropribtf mbdros will bf usfd bbsfd on tif
+ * found in AlpibMbdros.i.  Tif bppropribtf mbdros will bf usfd bbsfd on tif
+ * found in AlpibMbdros.i.  Tif bppropribtf mbdros will bf usfd bbsfd on tif
+ * strbtfgy of tif givfn loop.  Tif strbtfgy typfs tbkf tif form:
+ * strbtfgy of tif givfn loop.  Tif strbtfgy typfs tbkf tif form:
+ * strbtfgy of tif givfn loop.  Tif strbtfgy typfs tbkf tif form:
+ * strbtfgy of tif givfn loop.  Tif strbtfgy typfs tbkf tif form:
+ * strbtfgy of tif givfn loop.  Tif strbtfgy typfs tbkf tif form:
  *   <numbfr of domponfnts pfr pixfl><domponfnt dbtb typf><dolorspbdf>
- * For fxbmplf, thfsf brf thf durrfnt strbtfgy typfs:
- *   3BytfRgb    (durrfntly only usfd bs b glyph list blfnding strbtfgy whfrf
- *                thf blphb vbluf itsflf is nfithfr blfndfd nor storfd)
- *   4BytfArgb   (fg. IntArgb, ThrffBytfBgr, Ushort555Rgb, BytfIndfxfd, ftd.)
- *   4ShortArgb  (not usfd durrfntly; dould bf usfd whfn surfbdf typfs using
+ *   <numbfr of domponfnts pfr pixfl><domponfnt dbtb typf><dolorspbdf>
+ *   <numbfr of domponfnts pfr pixfl><domponfnt dbtb typf><dolorspbdf>
+ *   <numbfr of domponfnts pfr pixfl><domponfnt dbtb typf><dolorspbdf>
+ *   <numbfr of domponfnts pfr pixfl><domponfnt dbtb typf><dolorspbdf>
+ * For fxbmplf, tifsf brf tif durrfnt strbtfgy typfs:
+ * For fxbmplf, tifsf brf tif durrfnt strbtfgy typfs:
+ * For fxbmplf, tifsf brf tif durrfnt strbtfgy typfs:
+ * For fxbmplf, tifsf brf tif durrfnt strbtfgy typfs:
+ * For fxbmplf, tifsf brf tif durrfnt strbtfgy typfs:
+ *   3BytfRgb    (durrfntly only usfd bs b glypi list blfnding strbtfgy wifrf
+ *   3BytfRgb    (durrfntly only usfd bs b glypi list blfnding strbtfgy wifrf
+ *   3BytfRgb    (durrfntly only usfd bs b glypi list blfnding strbtfgy wifrf
+ *   3BytfRgb    (durrfntly only usfd bs b glypi list blfnding strbtfgy wifrf
+ *   3BytfRgb    (durrfntly only usfd bs b glypi list blfnding strbtfgy wifrf
+ *                tif blpib vbluf itsflf is nfitifr blfndfd nor storfd)
+ *                tif blpib vbluf itsflf is nfitifr blfndfd nor storfd)
+ *                tif blpib vbluf itsflf is nfitifr blfndfd nor storfd)
+ *                tif blpib vbluf itsflf is nfitifr blfndfd nor storfd)
+ *                tif blpib vbluf itsflf is nfitifr blfndfd nor storfd)
+ *   4BytfArgb   (fg. IntArgb, TirffBytfBgr, Usiort555Rgb, BytfIndfxfd, ftd.)
+ *   4BytfArgb   (fg. IntArgb, TirffBytfBgr, Usiort555Rgb, BytfIndfxfd, ftd.)
+ *   4BytfArgb   (fg. IntArgb, TirffBytfBgr, Usiort555Rgb, BytfIndfxfd, ftd.)
+ *   4BytfArgb   (fg. IntArgb, TirffBytfBgr, Usiort555Rgb, BytfIndfxfd, ftd.)
+ *   4BytfArgb   (fg. IntArgb, TirffBytfBgr, Usiort555Rgb, BytfIndfxfd, ftd.)
+ *   4SiortArgb  (not usfd durrfntly; dould bf usfd wifn surfbdf typfs using
+ *   4SiortArgb  (not usfd durrfntly; dould bf usfd wifn surfbdf typfs using
+ *   4SiortArgb  (not usfd durrfntly; dould bf usfd wifn surfbdf typfs using
+ *   4SiortArgb  (not usfd durrfntly; dould bf usfd wifn surfbdf typfs using
+ *   4SiortArgb  (not usfd durrfntly; dould bf usfd wifn surfbdf typfs using
+ *                16 bits pfr domponfnt brf implfmfntfd)
+ *                16 bits pfr domponfnt brf implfmfntfd)
+ *                16 bits pfr domponfnt brf implfmfntfd)
+ *                16 bits pfr domponfnt brf implfmfntfd)
  *                16 bits pfr domponfnt brf implfmfntfd)
  *   1BytfGrby   (fg. BytfGrby)
- *   1ShortGrby  (fg. UshortGrby)
- * Notf thbt thf mbdros whidh opfrbtf on blphb vblufs hbvf thf word "Alphb"
- * somfwhfrf in thfir nbmf.  Thosf mbdros thbt only opfrbtf on thf dolor/grby
- * domponfnts of b givfn strbtfgy will hbvf thf word "Componfnts" or "Comps"
- * in thfir nbmf.
+ *   1BytfGrby   (fg. BytfGrby)
+ *   1BytfGrby   (fg. BytfGrby)
+ *   1BytfGrby   (fg. BytfGrby)
+ *   1BytfGrby   (fg. BytfGrby)
+ *   1SiortGrby  (fg. UsiortGrby)
+ *   1SiortGrby  (fg. UsiortGrby)
+ *   1SiortGrby  (fg. UsiortGrby)
+ *   1SiortGrby  (fg. UsiortGrby)
+ *   1SiortGrby  (fg. UsiortGrby)
+ * Notf tibt tif mbdros wiidi opfrbtf on blpib vblufs ibvf tif word "Alpib"
+ * Notf tibt tif mbdros wiidi opfrbtf on blpib vblufs ibvf tif word "Alpib"
+ * Notf tibt tif mbdros wiidi opfrbtf on blpib vblufs ibvf tif word "Alpib"
+ * Notf tibt tif mbdros wiidi opfrbtf on blpib vblufs ibvf tif word "Alpib"
+ * Notf tibt tif mbdros wiidi opfrbtf on blpib vblufs ibvf tif word "Alpib"
+ * somfwifrf in tifir nbmf.  Tiosf mbdros tibt only opfrbtf on tif dolor/grby
+ * somfwifrf in tifir nbmf.  Tiosf mbdros tibt only opfrbtf on tif dolor/grby
+ * somfwifrf in tifir nbmf.  Tiosf mbdros tibt only opfrbtf on tif dolor/grby
+ * somfwifrf in tifir nbmf.  Tiosf mbdros tibt only opfrbtf on tif dolor/grby
+ * somfwifrf in tifir nbmf.  Tiosf mbdros tibt only opfrbtf on tif dolor/grby
+ * domponfnts of b givfn strbtfgy will ibvf tif word "Componfnts" or "Comps"
+ * domponfnts of b givfn strbtfgy will ibvf tif word "Componfnts" or "Comps"
+ * domponfnts of b givfn strbtfgy will ibvf tif word "Componfnts" or "Comps"
+ * domponfnts of b givfn strbtfgy will ibvf tif word "Componfnts" or "Comps"
+ * domponfnts of b givfn strbtfgy will ibvf tif word "Componfnts" or "Comps"
+ * in tifir nbmf.
+ * in tifir nbmf.
+ * in tifir nbmf.
+ * in tifir nbmf.
+ * in tifir nbmf.
+ */
+ */
+ */
+ */
  */
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * MbxVblFor ## STRATEGY
+ * MbxVblFor ## STRATEGY
+ * MbxVblFor ## STRATEGY
+ * MbxVblFor ## STRATEGY
+ * MbxVblFor ## STRATEGY
+ */
+ */
+ */
+ */
  */
 #dffinf MbxVblFor4BytfArgb     0xff
+#dffinf MbxVblFor4BytfArgb     0xff
+#dffinf MbxVblFor4BytfArgb     0xff
+#dffinf MbxVblFor4BytfArgb     0xff
+#dffinf MbxVblFor4BytfArgb     0xff
 #dffinf MbxVblFor1BytfGrby     0xff
-#dffinf MbxVblFor1ShortGrby    0xffff
+#dffinf MbxVblFor1BytfGrby     0xff
+#dffinf MbxVblFor1BytfGrby     0xff
+#dffinf MbxVblFor1BytfGrby     0xff
+#dffinf MbxVblFor1BytfGrby     0xff
+#dffinf MbxVblFor1SiortGrby    0xffff
+#dffinf MbxVblFor1SiortGrby    0xffff
+#dffinf MbxVblFor1SiortGrby    0xffff
+#dffinf MbxVblFor1SiortGrby    0xffff
+#dffinf MbxVblFor1SiortGrby    0xffff
+
+
+
+
+
+
+
+
 
 
 /*
- * AlphbTypf ## STRATEGY
+/*
+/*
+/*
+/*
+ * AlpibTypf ## STRATEGY
+ * AlpibTypf ## STRATEGY
+ * AlpibTypf ## STRATEGY
+ * AlpibTypf ## STRATEGY
+ * AlpibTypf ## STRATEGY
  */
-#dffinf AlphbTypf3BytfRgb      jint
-#dffinf AlphbTypf4BytfArgb     jint
-#dffinf AlphbTypf1BytfGrby     jint
-#dffinf AlphbTypf1ShortGrby    juint
+ */
+ */
+ */
+ */
+#dffinf AlpibTypf3BytfRgb      jint
+#dffinf AlpibTypf3BytfRgb      jint
+#dffinf AlpibTypf3BytfRgb      jint
+#dffinf AlpibTypf3BytfRgb      jint
+#dffinf AlpibTypf3BytfRgb      jint
+#dffinf AlpibTypf4BytfArgb     jint
+#dffinf AlpibTypf4BytfArgb     jint
+#dffinf AlpibTypf4BytfArgb     jint
+#dffinf AlpibTypf4BytfArgb     jint
+#dffinf AlpibTypf4BytfArgb     jint
+#dffinf AlpibTypf1BytfGrby     jint
+#dffinf AlpibTypf1BytfGrby     jint
+#dffinf AlpibTypf1BytfGrby     jint
+#dffinf AlpibTypf1BytfGrby     jint
+#dffinf AlpibTypf1BytfGrby     jint
+#dffinf AlpibTypf1SiortGrby    juint
+#dffinf AlpibTypf1SiortGrby    juint
+#dffinf AlpibTypf1SiortGrby    juint
+#dffinf AlpibTypf1SiortGrby    juint
+#dffinf AlpibTypf1SiortGrby    juint
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * ComponfntTypf ## STRATEGY
+ * ComponfntTypf ## STRATEGY
+ * ComponfntTypf ## STRATEGY
+ * ComponfntTypf ## STRATEGY
+ * ComponfntTypf ## STRATEGY
+ */
+ */
+ */
+ */
  */
 #dffinf ComponfntTypf3BytfRgb      jint
+#dffinf ComponfntTypf3BytfRgb      jint
+#dffinf ComponfntTypf3BytfRgb      jint
+#dffinf ComponfntTypf3BytfRgb      jint
+#dffinf ComponfntTypf3BytfRgb      jint
+#dffinf ComponfntTypf4BytfArgb     jint
+#dffinf ComponfntTypf4BytfArgb     jint
+#dffinf ComponfntTypf4BytfArgb     jint
+#dffinf ComponfntTypf4BytfArgb     jint
 #dffinf ComponfntTypf4BytfArgb     jint
 #dffinf ComponfntTypf1BytfGrby     jint
-#dffinf ComponfntTypf1ShortGrby    juint
+#dffinf ComponfntTypf1BytfGrby     jint
+#dffinf ComponfntTypf1BytfGrby     jint
+#dffinf ComponfntTypf1BytfGrby     jint
+#dffinf ComponfntTypf1BytfGrby     jint
+#dffinf ComponfntTypf1SiortGrby    juint
+#dffinf ComponfntTypf1SiortGrby    juint
+#dffinf ComponfntTypf1SiortGrby    juint
+#dffinf ComponfntTypf1SiortGrby    juint
+#dffinf ComponfntTypf1SiortGrby    juint
+
+
+
+
+
+
+
+
 
 
 /*
- * DfdlbrfAlphbVbrFor ## STRATEGY(VAR)
+/*
+/*
+/*
+/*
+ * DfdlbrfAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAlpibVbrFor ## STRATEGY(VAR)
+ *
+ *
+ *
+ *
  *
  * jint b;
+ * jint b;
+ * jint b;
+ * jint b;
+ * jint b;
  */
-#dffinf DfdlbrfAlphbVbrFor3BytfRgb(VAR) \
-    AlphbTypf3BytfRgb VAR;
+ */
+ */
+ */
+ */
+#dffinf DfdlbrfAlpibVbrFor3BytfRgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor3BytfRgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor3BytfRgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor3BytfRgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor3BytfRgb(VAR) \
+    AlpibTypf3BytfRgb VAR;
+    AlpibTypf3BytfRgb VAR;
+    AlpibTypf3BytfRgb VAR;
+    AlpibTypf3BytfRgb VAR;
+    AlpibTypf3BytfRgb VAR;
 
-#dffinf DfdlbrfAlphbVbrFor4BytfArgb(VAR) \
-    AlphbTypf4BytfArgb VAR;
 
-#dffinf DfdlbrfAlphbVbrFor1BytfGrby(VAR) \
-    AlphbTypf1BytfGrby VAR;
 
-#dffinf DfdlbrfAlphbVbrFor1ShortGrby(VAR) \
-    AlphbTypf1ShortGrby VAR;
+
+
+#dffinf DfdlbrfAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAlpibVbrFor4BytfArgb(VAR) \
+    AlpibTypf4BytfArgb VAR;
+    AlpibTypf4BytfArgb VAR;
+    AlpibTypf4BytfArgb VAR;
+    AlpibTypf4BytfArgb VAR;
+    AlpibTypf4BytfArgb VAR;
+
+
+
+
+
+#dffinf DfdlbrfAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1BytfGrby(VAR) \
+    AlpibTypf1BytfGrby VAR;
+    AlpibTypf1BytfGrby VAR;
+    AlpibTypf1BytfGrby VAR;
+    AlpibTypf1BytfGrby VAR;
+    AlpibTypf1BytfGrby VAR;
+
+
+
+
+
+#dffinf DfdlbrfAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAlpibVbrFor1SiortGrby(VAR) \
+    AlpibTypf1SiortGrby VAR;
+    AlpibTypf1SiortGrby VAR;
+    AlpibTypf1SiortGrby VAR;
+    AlpibTypf1SiortGrby VAR;
+    AlpibTypf1SiortGrby VAR;
+
+
+
+
+
+
+
+
 
 
 /*
- * DfdlbrfAndInitAlphbVbrFor ## STRATEGY(VAR, initvbl)
+/*
+/*
+/*
+/*
+ * DfdlbrfAndInitAlpibVbrFor ## STRATEGY(VAR, initvbl)
+ * DfdlbrfAndInitAlpibVbrFor ## STRATEGY(VAR, initvbl)
+ * DfdlbrfAndInitAlpibVbrFor ## STRATEGY(VAR, initvbl)
+ * DfdlbrfAndInitAlpibVbrFor ## STRATEGY(VAR, initvbl)
+ * DfdlbrfAndInitAlpibVbrFor ## STRATEGY(VAR, initvbl)
+ *
+ *
+ *
+ *
  *
  * jint b = initvbl;
+ * jint b = initvbl;
+ * jint b = initvbl;
+ * jint b = initvbl;
+ * jint b = initvbl;
  */
-#dffinf DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, initvbl) \
-    AlphbTypf4BytfArgb VAR = initvbl;
+ */
+ */
+ */
+ */
+#dffinf DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, initvbl) \
+    AlpibTypf4BytfArgb VAR = initvbl;
+    AlpibTypf4BytfArgb VAR = initvbl;
+    AlpibTypf4BytfArgb VAR = initvbl;
+    AlpibTypf4BytfArgb VAR = initvbl;
+    AlpibTypf4BytfArgb VAR = initvbl;
 
-#dffinf DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, initvbl) \
-    AlphbTypf1BytfGrby VAR = initvbl;
 
-#dffinf DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, initvbl) \
-    AlphbTypf1ShortGrby VAR = initvbl;
+
+
+
+#dffinf DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, initvbl) \
+    AlpibTypf1BytfGrby VAR = initvbl;
+    AlpibTypf1BytfGrby VAR = initvbl;
+    AlpibTypf1BytfGrby VAR = initvbl;
+    AlpibTypf1BytfGrby VAR = initvbl;
+    AlpibTypf1BytfGrby VAR = initvbl;
+
+
+
+
+
+#dffinf DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, initvbl) \
+#dffinf DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, initvbl) \
+    AlpibTypf1SiortGrby VAR = initvbl;
+    AlpibTypf1SiortGrby VAR = initvbl;
+    AlpibTypf1SiortGrby VAR = initvbl;
+    AlpibTypf1SiortGrby VAR = initvbl;
+    AlpibTypf1SiortGrby VAR = initvbl;
+
+
+
+
+
+
+
+
 
 
 /*
- * DfdlbrfAndClfbrAlphbVbrFor ## STRATEGY(VAR)
+/*
+/*
+/*
+/*
+ * DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(VAR)
+ *
+ *
+ *
+ *
  *
  * jint b = 0;
+ * jint b = 0;
+ * jint b = 0;
+ * jint b = 0;
+ * jint b = 0;
  */
-#dffinf DfdlbrfAndClfbrAlphbVbrFor4BytfArgb(VAR) \
-    DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, 0)
+ */
+ */
+ */
+ */
+#dffinf DfdlbrfAndClfbrAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor4BytfArgb(VAR) \
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, 0)
 
-#dffinf DfdlbrfAndClfbrAlphbVbrFor1BytfGrby(VAR) \
-    DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, 0)
 
-#dffinf DfdlbrfAndClfbrAlphbVbrFor1ShortGrby(VAR) \
-    DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, 0)
+
+
+
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1BytfGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, 0)
+
+
+
+
+
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndClfbrAlpibVbrFor1SiortGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, 0)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, 0)
+
+
+
+
+
+
+
+
 
 
 /*
- * DfdlbrfAndSftOpbqufAlphbVbrFor ## STRATEGY(VAR)
+/*
+/*
+/*
+/*
+ * DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(VAR)
+ * DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(VAR)
+ *
+ *
+ *
+ *
  *
  * jint b = 0xff;
+ * jint b = 0xff;
+ * jint b = 0xff;
+ * jint b = 0xff;
+ * jint b = 0xff;
  */
-#dffinf DfdlbrfAndSftOpbqufAlphbVbrFor4BytfArgb(VAR) \
-    DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
+ */
+ */
+ */
+ */
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor4BytfArgb(VAR) \
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
 
-#dffinf DfdlbrfAndSftOpbqufAlphbVbrFor1BytfGrby(VAR) \
-    DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
 
-#dffinf DfdlbrfAndSftOpbqufAlphbVbrFor1ShortGrby(VAR) \
-    DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, MbxVblFor1ShortGrby)
+
+
+
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1BytfGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
+
+
+
+
+
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndSftOpbqufAlpibVbrFor1SiortGrby(VAR) \
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby)
+
+
+
+
+
+
+
+
 
 
 /*
- * DfdlbrfAndInvfrtAlphbVbrFor ## STRATEGY(VAR, invblphb)
+/*
+/*
+/*
+/*
+ * DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(VAR, invblpib)
+ * DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(VAR, invblpib)
+ * DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(VAR, invblpib)
+ * DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(VAR, invblpib)
+ * DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(VAR, invblpib)
+ *
+ *
+ *
+ *
  *
  * jint b = 0xff - rfsA;
+ * jint b = 0xff - rfsA;
+ * jint b = 0xff - rfsA;
+ * jint b = 0xff - rfsA;
+ * jint b = 0xff - rfsA;
  */
-#dffinf DfdlbrfAndInvfrtAlphbVbrFor4BytfArgb(VAR, invblphb) \
-    DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblphb)
+ */
+ */
+ */
+ */
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor4BytfArgb(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor4BytfArgb(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor4BytfArgb(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor4BytfArgb(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor4BytfArgb(VAR, invblpib) \
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblpib)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblpib)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblpib)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblpib)
+    DfdlbrfAndInitAlpibVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblpib)
 
-#dffinf DfdlbrfAndInvfrtAlphbVbrFor1BytfGrby(VAR, invblphb) \
-    DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblphb)
-
-#dffinf DfdlbrfAndInvfrtAlphbVbrFor1ShortGrby(VAR, invblphb) \
-    DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, MbxVblFor1ShortGrby - invblphb)
 
 
+
+
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1BytfGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1BytfGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1BytfGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1BytfGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1BytfGrby(VAR, invblpib) \
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblpib)
+
+
+
+
+
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1SiortGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1SiortGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1SiortGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1SiortGrby(VAR, invblpib) \
+#dffinf DfdlbrfAndInvfrtAlpibVbrFor1SiortGrby(VAR, invblpib) \
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby - invblpib)
+    DfdlbrfAndInitAlpibVbrFor1SiortGrby(VAR, MbxVblFor1SiortGrby - invblpib)
+
+
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * DfdlbrfCompVbrsFor ## STRATEGY(PREFIX)
+ * DfdlbrfCompVbrsFor ## STRATEGY(PREFIX)
+ * DfdlbrfCompVbrsFor ## STRATEGY(PREFIX)
+ * DfdlbrfCompVbrsFor ## STRATEGY(PREFIX)
+ * DfdlbrfCompVbrsFor ## STRATEGY(PREFIX)
+ *
+ *
+ *
+ *
  *
  * jint d;
+ * jint d;
+ * jint d;
+ * jint d;
+ * jint d;
+ */
+ */
+ */
+ */
  */
 #dffinf DfdlbrfCompVbrsFor3BytfRgb(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor3BytfRgb(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor3BytfRgb(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor3BytfRgb(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor3BytfRgb(PREFIX) \
+    ComponfntTypf3BytfRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+    ComponfntTypf3BytfRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+    ComponfntTypf3BytfRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+    ComponfntTypf3BytfRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
     ComponfntTypf3BytfRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
 
+
+
+
+
+#dffinf DfdlbrfCompVbrsFor4BytfArgb(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor4BytfArgb(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor4BytfArgb(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor4BytfArgb(PREFIX) \
 #dffinf DfdlbrfCompVbrsFor4BytfArgb(PREFIX) \
     ComponfntTypf4BytfArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+    ComponfntTypf4BytfArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+    ComponfntTypf4BytfArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+    ComponfntTypf4BytfArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+    ComponfntTypf4BytfArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+
+
+
+
 
 #dffinf DfdlbrfCompVbrsFor1BytfGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1BytfGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1BytfGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1BytfGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1BytfGrby(PREFIX) \
+    ComponfntTypf1BytfGrby PREFIX ## G;
+    ComponfntTypf1BytfGrby PREFIX ## G;
+    ComponfntTypf1BytfGrby PREFIX ## G;
+    ComponfntTypf1BytfGrby PREFIX ## G;
     ComponfntTypf1BytfGrby PREFIX ## G;
 
-#dffinf DfdlbrfCompVbrsFor1ShortGrby(PREFIX) \
-    ComponfntTypf1ShortGrby PREFIX ## G;
+
+
+
+
+#dffinf DfdlbrfCompVbrsFor1SiortGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1SiortGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1SiortGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1SiortGrby(PREFIX) \
+#dffinf DfdlbrfCompVbrsFor1SiortGrby(PREFIX) \
+    ComponfntTypf1SiortGrby PREFIX ## G;
+    ComponfntTypf1SiortGrby PREFIX ## G;
+    ComponfntTypf1SiortGrby PREFIX ## G;
+    ComponfntTypf1SiortGrby PREFIX ## G;
+    ComponfntTypf1SiortGrby PREFIX ## G;
+
+
+
+
+
+
+
+
 
 
 /*
- * DfdlbrfAndInitExtrbAlphbFor ## STRATEGY(VAR)
+/*
+/*
+/*
+/*
+ * DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(VAR)
  *
- * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+ *
+ *
+ *
+ *
+ * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+ * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+ * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+ * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+ * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
  */
-#dffinf DfdlbrfAndInitExtrbAlphbFor4BytfArgb(VAR) \
-    AlphbTypf4BytfArgb VAR = \
-        (AlphbTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+ */
+ */
+ */
+ */
+#dffinf DfdlbrfAndInitExtrbAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor4BytfArgb(VAR) \
+    AlpibTypf4BytfArgb VAR = \
+    AlpibTypf4BytfArgb VAR = \
+    AlpibTypf4BytfArgb VAR = \
+    AlpibTypf4BytfArgb VAR = \
+    AlpibTypf4BytfArgb VAR = \
+        (AlpibTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
 
-#dffinf DfdlbrfAndInitExtrbAlphbFor1BytfGrby(VAR) \
-    AlphbTypf1BytfGrby VAR = \
-        (AlphbTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
 
-#dffinf DfdlbrfAndInitExtrbAlphbFor1ShortGrby(VAR) \
-    AlphbTypf1ShortGrby VAR = \
-        (AlphbTypf1ShortGrby)(pCompInfo->dftbils.fxtrbAlphb * 65535.0 + 0.5);
+
+
+
+#dffinf DfdlbrfAndInitExtrbAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1BytfGrby(VAR) \
+    AlpibTypf1BytfGrby VAR = \
+    AlpibTypf1BytfGrby VAR = \
+    AlpibTypf1BytfGrby VAR = \
+    AlpibTypf1BytfGrby VAR = \
+    AlpibTypf1BytfGrby VAR = \
+        (AlpibTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+        (AlpibTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlpib * 255.0 + 0.5);
+
+
+
+
+
+#dffinf DfdlbrfAndInitExtrbAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitExtrbAlpibFor1SiortGrby(VAR) \
+    AlpibTypf1SiortGrby VAR = \
+    AlpibTypf1SiortGrby VAR = \
+    AlpibTypf1SiortGrby VAR = \
+    AlpibTypf1SiortGrby VAR = \
+    AlpibTypf1SiortGrby VAR = \
+        (AlpibTypf1SiortGrby)(pCompInfo->dftbils.fxtrbAlpib * 65535.0 + 0.5);
+        (AlpibTypf1SiortGrby)(pCompInfo->dftbils.fxtrbAlpib * 65535.0 + 0.5);
+        (AlpibTypf1SiortGrby)(pCompInfo->dftbils.fxtrbAlpib * 65535.0 + 0.5);
+        (AlpibTypf1SiortGrby)(pCompInfo->dftbils.fxtrbAlpib * 65535.0 + 0.5);
+        (AlpibTypf1SiortGrby)(pCompInfo->dftbils.fxtrbAlpib * 65535.0 + 0.5);
+
+
+
+
+
+
+
+
 
 
 /*
- * PromotfBytfAlphbFor ## STRATEGY(b)
+/*
+/*
+/*
+/*
+ * PromotfBytfAlpibFor ## STRATEGY(b)
+ * PromotfBytfAlpibFor ## STRATEGY(b)
+ * PromotfBytfAlpibFor ## STRATEGY(b)
+ * PromotfBytfAlpibFor ## STRATEGY(b)
+ * PromotfBytfAlpibFor ## STRATEGY(b)
  */
-#dffinf PromotfBytfAlphbFor4BytfArgb(b)
-#dffinf PromotfBytfAlphbFor1BytfGrby(b)
-#dffinf PromotfBytfAlphbFor1ShortGrby(b) \
+ */
+ */
+ */
+ */
+#dffinf PromotfBytfAlpibFor4BytfArgb(b)
+#dffinf PromotfBytfAlpibFor4BytfArgb(b)
+#dffinf PromotfBytfAlpibFor4BytfArgb(b)
+#dffinf PromotfBytfAlpibFor4BytfArgb(b)
+#dffinf PromotfBytfAlpibFor4BytfArgb(b)
+#dffinf PromotfBytfAlpibFor1BytfGrby(b)
+#dffinf PromotfBytfAlpibFor1BytfGrby(b)
+#dffinf PromotfBytfAlpibFor1BytfGrby(b)
+#dffinf PromotfBytfAlpibFor1BytfGrby(b)
+#dffinf PromotfBytfAlpibFor1BytfGrby(b)
+#dffinf PromotfBytfAlpibFor1SiortGrby(b) \
+#dffinf PromotfBytfAlpibFor1SiortGrby(b) \
+#dffinf PromotfBytfAlpibFor1SiortGrby(b) \
+#dffinf PromotfBytfAlpibFor1SiortGrby(b) \
+#dffinf PromotfBytfAlpibFor1SiortGrby(b) \
+    (b) = (((b) << 8) + (b))
+    (b) = (((b) << 8) + (b))
+    (b) = (((b) << 8) + (b))
+    (b) = (((b) << 8) + (b))
     (b) = (((b) << 8) + (b))
 
 
+
+
+
+
+
+
+
+
 /*
- * DfdlbrfAndInitPbthAlphbFor ## STRATEGY(VAR)
+/*
+/*
+/*
+/*
+ * DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(VAR)
+ * DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(VAR)
  *
- * jint pbthA = *pMbsk++;
+ *
+ *
+ *
+ *
+ * jint pbtiA = *pMbsk++;
+ * jint pbtiA = *pMbsk++;
+ * jint pbtiA = *pMbsk++;
+ * jint pbtiA = *pMbsk++;
+ * jint pbtiA = *pMbsk++;
  */
-#dffinf DfdlbrfAndInitPbthAlphbFor4BytfArgb(VAR) \
-    AlphbTypf4BytfArgb VAR = *pMbsk++;
+ */
+ */
+ */
+ */
+#dffinf DfdlbrfAndInitPbtiAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor4BytfArgb(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor4BytfArgb(VAR) \
+    AlpibTypf4BytfArgb VAR = *pMbsk++;
+    AlpibTypf4BytfArgb VAR = *pMbsk++;
+    AlpibTypf4BytfArgb VAR = *pMbsk++;
+    AlpibTypf4BytfArgb VAR = *pMbsk++;
+    AlpibTypf4BytfArgb VAR = *pMbsk++;
 
-#dffinf DfdlbrfAndInitPbthAlphbFor1BytfGrby(VAR) \
-    AlphbTypf1BytfGrby VAR = *pMbsk++;
 
-#dffinf DfdlbrfAndInitPbthAlphbFor1ShortGrby(VAR) \
-    AlphbTypf1ShortGrby VAR = *pMbsk++;
+
+
+
+#dffinf DfdlbrfAndInitPbtiAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1BytfGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1BytfGrby(VAR) \
+    AlpibTypf1BytfGrby VAR = *pMbsk++;
+    AlpibTypf1BytfGrby VAR = *pMbsk++;
+    AlpibTypf1BytfGrby VAR = *pMbsk++;
+    AlpibTypf1BytfGrby VAR = *pMbsk++;
+    AlpibTypf1BytfGrby VAR = *pMbsk++;
+
+
+
+
+
+#dffinf DfdlbrfAndInitPbtiAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1SiortGrby(VAR) \
+#dffinf DfdlbrfAndInitPbtiAlpibFor1SiortGrby(VAR) \
+    AlpibTypf1SiortGrby VAR = *pMbsk++;
+    AlpibTypf1SiortGrby VAR = *pMbsk++;
+    AlpibTypf1SiortGrby VAR = *pMbsk++;
+    AlpibTypf1SiortGrby VAR = *pMbsk++;
+    AlpibTypf1SiortGrby VAR = *pMbsk++;
+
+
+
+
+
+
+
+
 
 
 /*
- * MultiplyAlphbFor ## STRATEGY(b, b)
+/*
+/*
+/*
+/*
+ * MultiplyAlpibFor ## STRATEGY(b, b)
+ * MultiplyAlpibFor ## STRATEGY(b, b)
+ * MultiplyAlpibFor ## STRATEGY(b, b)
+ * MultiplyAlpibFor ## STRATEGY(b, b)
+ * MultiplyAlpibFor ## STRATEGY(b, b)
+ *
+ *
+ *
+ *
  *
  * b * b
+ * b * b
+ * b * b
+ * b * b
+ * b * b
  */
-#dffinf MultiplyAlphbFor4BytfArgb(b, b) \
+ */
+ */
+ */
+ */
+#dffinf MultiplyAlpibFor4BytfArgb(b, b) \
+#dffinf MultiplyAlpibFor4BytfArgb(b, b) \
+#dffinf MultiplyAlpibFor4BytfArgb(b, b) \
+#dffinf MultiplyAlpibFor4BytfArgb(b, b) \
+#dffinf MultiplyAlpibFor4BytfArgb(b, b) \
+    MUL8(b, b)
+    MUL8(b, b)
+    MUL8(b, b)
+    MUL8(b, b)
     MUL8(b, b)
 
-#dffinf MultiplyAlphbFor1BytfGrby(b, b) \
+
+
+
+
+#dffinf MultiplyAlpibFor1BytfGrby(b, b) \
+#dffinf MultiplyAlpibFor1BytfGrby(b, b) \
+#dffinf MultiplyAlpibFor1BytfGrby(b, b) \
+#dffinf MultiplyAlpibFor1BytfGrby(b, b) \
+#dffinf MultiplyAlpibFor1BytfGrby(b, b) \
+    MUL8(b, b)
+    MUL8(b, b)
+    MUL8(b, b)
+    MUL8(b, b)
     MUL8(b, b)
 
-#dffinf MultiplyAlphbFor1ShortGrby(b, b) \
+
+
+
+
+#dffinf MultiplyAlpibFor1SiortGrby(b, b) \
+#dffinf MultiplyAlpibFor1SiortGrby(b, b) \
+#dffinf MultiplyAlpibFor1SiortGrby(b, b) \
+#dffinf MultiplyAlpibFor1SiortGrby(b, b) \
+#dffinf MultiplyAlpibFor1SiortGrby(b, b) \
+    MUL16(b, b)
+    MUL16(b, b)
+    MUL16(b, b)
+    MUL16(b, b)
     MUL16(b, b)
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * MultiplyAndStorf ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
+ * MultiplyAndStorf ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
+ * MultiplyAndStorf ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
+ * MultiplyAndStorf ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
+ * MultiplyAndStorf ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
+ *
+ *
+ *
+ *
  *
  * d = m1 * m2;
+ * d = m1 * m2;
+ * d = m1 * m2;
+ * d = m1 * m2;
+ * d = m1 * m2;
+ */
+ */
+ */
+ */
  */
 #dffinf MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         PROD_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R); \
+        PROD_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R); \
+        PROD_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R); \
+        PROD_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R); \
+        PROD_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R); \
+        PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G); \
+        PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G); \
+        PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G); \
+        PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G); \
         PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G); \
         PROD_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B); \
-    } whilf (0)
+        PROD_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B); \
+        PROD_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B); \
+        PROD_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B); \
+        PROD_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+#dffinf MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+    PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G)
+    PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G)
+    PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G)
+    PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G)
     PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G)
 
+
+
+
+
+#dffinf MultiplyAndStorf4BytfArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf4BytfArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf4BytfArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf4BytfArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
 #dffinf MultiplyAndStorf4BytfArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
     MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, 8)
+    MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, 8)
+    MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, 8)
+    MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, 8)
+    MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, 8)
+
+
+
+
 
 #dffinf MultiplyAndStorf1BytfGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1BytfGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1BytfGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1BytfGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1BytfGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 8)
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 8)
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 8)
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 8)
     MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 8)
 
-#dffinf MultiplyAndStorf1ShortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+
+
+
+
+#dffinf MultiplyAndStorf1SiortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1SiortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1SiortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1SiortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+#dffinf MultiplyAndStorf1SiortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 16)
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 16)
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 16)
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 16)
     MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 16)
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * DividfAndStorf ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
+ * DividfAndStorf ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
+ * DividfAndStorf ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
+ * DividfAndStorf ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
+ * DividfAndStorf ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
+ *
+ *
+ *
+ *
  *
  * d = d1 / d2;
+ * d = d1 / d2;
+ * d = d1 / d2;
+ * d = d1 / d2;
+ * d = d1 / d2;
+ */
+ */
+ */
+ */
  */
 #dffinf DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         QUOT_PREFIX ## R = DIV ## PRECISION(D1_PREFIX ## R, D2); \
+        QUOT_PREFIX ## R = DIV ## PRECISION(D1_PREFIX ## R, D2); \
+        QUOT_PREFIX ## R = DIV ## PRECISION(D1_PREFIX ## R, D2); \
+        QUOT_PREFIX ## R = DIV ## PRECISION(D1_PREFIX ## R, D2); \
+        QUOT_PREFIX ## R = DIV ## PRECISION(D1_PREFIX ## R, D2); \
+        QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2); \
+        QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2); \
+        QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2); \
+        QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2); \
         QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2); \
         QUOT_PREFIX ## B = DIV ## PRECISION(D1_PREFIX ## B, D2); \
-    } whilf (0)
+        QUOT_PREFIX ## B = DIV ## PRECISION(D1_PREFIX ## B, D2); \
+        QUOT_PREFIX ## B = DIV ## PRECISION(D1_PREFIX ## B, D2); \
+        QUOT_PREFIX ## B = DIV ## PRECISION(D1_PREFIX ## B, D2); \
+        QUOT_PREFIX ## B = DIV ## PRECISION(D1_PREFIX ## B, D2); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+#dffinf DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+    QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2)
+    QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2)
+    QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2)
+    QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2)
     QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2)
 
+
+
+
+
+#dffinf DividfAndStorf4BytfArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf4BytfArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf4BytfArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf4BytfArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
 #dffinf DividfAndStorf4BytfArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
     DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, 8)
+    DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, 8)
+    DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, 8)
+    DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, 8)
+    DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, 8)
+
+
+
+
 
 #dffinf DividfAndStorf1BytfGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1BytfGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1BytfGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1BytfGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1BytfGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 8)
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 8)
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 8)
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 8)
     DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 8)
 
-#dffinf DividfAndStorf1ShortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+
+
+
+
+#dffinf DividfAndStorf1SiortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1SiortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1SiortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1SiortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+#dffinf DividfAndStorf1SiortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 16)
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 16)
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 16)
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 16)
     DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 16)
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * MultiplyAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, \
+ * MultiplyAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, \
+ * MultiplyAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, \
+ * MultiplyAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, \
+ * MultiplyAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, \
+ *                                          M2_PREFIX, A_PREFIX)
+ *                                          M2_PREFIX, A_PREFIX)
+ *                                          M2_PREFIX, A_PREFIX)
+ *                                          M2_PREFIX, A_PREFIX)
  *                                          M2_PREFIX, A_PREFIX)
  *
+ *
+ *
+ *
+ *
+ * d = (m1 * m2) + b;
+ * d = (m1 * m2) + b;
+ * d = (m1 * m2) + b;
+ * d = (m1 * m2) + b;
  * d = (m1 * m2) + b;
  */
+ */
+ */
+ */
+ */
+#dffinf MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
 #dffinf MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
                                        PRECISION) \
+                                       PRECISION) \
+                                       PRECISION) \
+                                       PRECISION) \
+                                       PRECISION) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+                                                          A_PREFIX ## R; \
+                                                          A_PREFIX ## R; \
+                                                          A_PREFIX ## R; \
+                                                          A_PREFIX ## R; \
                                                           A_PREFIX ## R; \
         RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+                                                          A_PREFIX ## G; \
+                                                          A_PREFIX ## G; \
+                                                          A_PREFIX ## G; \
+                                                          A_PREFIX ## G; \
                                                           A_PREFIX ## G; \
         RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
                                                           A_PREFIX ## B; \
-    } whilf (0)
+                                                          A_PREFIX ## B; \
+                                                          A_PREFIX ## B; \
+                                                          A_PREFIX ## B; \
+                                                          A_PREFIX ## B; \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+#dffinf MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+                                      PRECISION) \
+                                      PRECISION) \
+                                      PRECISION) \
+                                      PRECISION) \
                                       PRECISION) \
     RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + A_PREFIX ## G
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + A_PREFIX ## G
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + A_PREFIX ## G
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + A_PREFIX ## G
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + A_PREFIX ## G
+
+
+
+
 
 #dffinf MultiplyAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          A_PREFIX) \
+                                          A_PREFIX) \
+                                          A_PREFIX) \
+                                          A_PREFIX) \
                                           A_PREFIX) \
     MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+
+
+
+
 
 #dffinf MultiplyAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          A_PREFIX) \
+                                          A_PREFIX) \
+                                          A_PREFIX) \
+                                          A_PREFIX) \
                                           A_PREFIX) \
     MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
 
-#dffinf MultiplyAddAndStorf1ShortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+
+
+
+
+#dffinf MultiplyAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultiplyAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
                                            A_PREFIX) \
+                                           A_PREFIX) \
+                                           A_PREFIX) \
+                                           A_PREFIX) \
+                                           A_PREFIX) \
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
     MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * MultMultAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
+ * MultMultAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
+ * MultMultAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
+ * MultMultAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
+ * MultMultAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
+ *                                          M3, M4_PREFIX)
+ *                                          M3, M4_PREFIX)
+ *                                          M3, M4_PREFIX)
+ *                                          M3, M4_PREFIX)
  *                                          M3, M4_PREFIX)
  *
+ *
+ *
+ *
+ *
+ * d = (m1 * m2) + (m3 * m4);
+ * d = (m1 * m2) + (m3 * m4);
+ * d = (m1 * m2) + (m3 * m4);
+ * d = (m1 * m2) + (m3 * m4);
  * d = (m1 * m2) + (m3 * m4);
  */
+ */
+ */
+ */
+ */
+#dffinf MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
 #dffinf MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                        M3, M4_PREFIX, PRECISION) \
+                                       M3, M4_PREFIX, PRECISION) \
+                                       M3, M4_PREFIX, PRECISION) \
+                                       M3, M4_PREFIX, PRECISION) \
+                                       M3, M4_PREFIX, PRECISION) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+                          MUL ## PRECISION(M3, M4_PREFIX ## R); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## R); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## R); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## R); \
                           MUL ## PRECISION(M3, M4_PREFIX ## R); \
         RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+                          MUL ## PRECISION(M3, M4_PREFIX ## G); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## G); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## G); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## G); \
                           MUL ## PRECISION(M3, M4_PREFIX ## G); \
         RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
                           MUL ## PRECISION(M3, M4_PREFIX ## B); \
-    } whilf (0)
+                          MUL ## PRECISION(M3, M4_PREFIX ## B); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## B); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## B); \
+                          MUL ## PRECISION(M3, M4_PREFIX ## B); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
+
+
+
+
 
 
 #dffinf MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                       M3, M4_PREFIX, PRECISION) \
+                                       M3, M4_PREFIX, PRECISION) \
+                                       M3, M4_PREFIX, PRECISION) \
+                                       M3, M4_PREFIX, PRECISION) \
                                        M3, M4_PREFIX, PRECISION) \
     do { \
+    do { \
+    do { \
+    do { \
+    do { \
+        RES_PREFIX ## R = MUL ## PRECISION(M1 ## R, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1 ## R, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1 ## R, M2_PREFIX ## R) + \
+        RES_PREFIX ## R = MUL ## PRECISION(M1 ## R, M2_PREFIX ## R) + \
         RES_PREFIX ## R = MUL ## PRECISION(M1 ## R, M2_PREFIX ## R) + \
                           MUL ## PRECISION(M3 ## R, M4_PREFIX ## R); \
+                          MUL ## PRECISION(M3 ## R, M4_PREFIX ## R); \
+                          MUL ## PRECISION(M3 ## R, M4_PREFIX ## R); \
+                          MUL ## PRECISION(M3 ## R, M4_PREFIX ## R); \
+                          MUL ## PRECISION(M3 ## R, M4_PREFIX ## R); \
+        RES_PREFIX ## G = MUL ## PRECISION(M1 ## G, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1 ## G, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1 ## G, M2_PREFIX ## G) + \
+        RES_PREFIX ## G = MUL ## PRECISION(M1 ## G, M2_PREFIX ## G) + \
         RES_PREFIX ## G = MUL ## PRECISION(M1 ## G, M2_PREFIX ## G) + \
                           MUL ## PRECISION(M3 ## G, M4_PREFIX ## G); \
+                          MUL ## PRECISION(M3 ## G, M4_PREFIX ## G); \
+                          MUL ## PRECISION(M3 ## G, M4_PREFIX ## G); \
+                          MUL ## PRECISION(M3 ## G, M4_PREFIX ## G); \
+                          MUL ## PRECISION(M3 ## G, M4_PREFIX ## G); \
+        RES_PREFIX ## B = MUL ## PRECISION(M1 ## B, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1 ## B, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1 ## B, M2_PREFIX ## B) + \
+        RES_PREFIX ## B = MUL ## PRECISION(M1 ## B, M2_PREFIX ## B) + \
         RES_PREFIX ## B = MUL ## PRECISION(M1 ## B, M2_PREFIX ## B) + \
                           MUL ## PRECISION(M3 ## B, M4_PREFIX ## B); \
-    } whilf (0)
+                          MUL ## PRECISION(M3 ## B, M4_PREFIX ## B); \
+                          MUL ## PRECISION(M3 ## B, M4_PREFIX ## B); \
+                          MUL ## PRECISION(M3 ## B, M4_PREFIX ## B); \
+                          MUL ## PRECISION(M3 ## B, M4_PREFIX ## B); \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+                                      M3, M4_PREFIX, PRECISION) \
+                                      M3, M4_PREFIX, PRECISION) \
+                                      M3, M4_PREFIX, PRECISION) \
+                                      M3, M4_PREFIX, PRECISION) \
                                       M3, M4_PREFIX, PRECISION) \
     RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+                      MUL ## PRECISION(M3, M4_PREFIX ## G)
+                      MUL ## PRECISION(M3, M4_PREFIX ## G)
+                      MUL ## PRECISION(M3, M4_PREFIX ## G)
+                      MUL ## PRECISION(M3, M4_PREFIX ## G)
                       MUL ## PRECISION(M3, M4_PREFIX ## G)
 
+
+
+
+
+#dffinf MultMultAddAndStorf3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
 #dffinf MultMultAddAndStorf3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
                                          M3, M4_PREFIX) \
+                                         M3, M4_PREFIX) \
+                                         M3, M4_PREFIX) \
+                                         M3, M4_PREFIX) \
+                                         M3, M4_PREFIX) \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
     MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                    M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+
+
+
+
 
 #dffinf MultMultAddAndStorfLCD3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                         M3, M4_PREFIX) \
+                                         M3, M4_PREFIX) \
+                                         M3, M4_PREFIX) \
+                                         M3, M4_PREFIX) \
                                          M3, M4_PREFIX) \
     MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                    M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+
+
+
+
 
 #dffinf MultMultAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
                                           M3, M4_PREFIX) \
     MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
+                                   M3, M4_PREFIX, 8)
                                    M3, M4_PREFIX, 8)
 
+
+
+
+
+#dffinf MultMultAddAndStorfLCD4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorfLCD4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
 #dffinf MultMultAddAndStorfLCD4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
                                           M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
     MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
                                       M3, M4_PREFIX, 8)
+                                      M3, M4_PREFIX, 8)
+                                      M3, M4_PREFIX, 8)
+                                      M3, M4_PREFIX, 8)
+                                      M3, M4_PREFIX, 8)
+
+
+
+
 
 #dffinf MultMultAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
+                                          M3, M4_PREFIX) \
                                           M3, M4_PREFIX) \
     MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+    MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+                                  M3, M4_PREFIX, 8)
+                                  M3, M4_PREFIX, 8)
+                                  M3, M4_PREFIX, 8)
+                                  M3, M4_PREFIX, 8)
                                   M3, M4_PREFIX, 8)
 
-#dffinf MultMultAddAndStorf1ShortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+
+
+
+
+#dffinf MultMultAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+#dffinf MultMultAddAndStorf1SiortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+                                           M3, M4_PREFIX) \
+                                           M3, M4_PREFIX) \
+                                           M3, M4_PREFIX) \
+                                           M3, M4_PREFIX) \
                                            M3, M4_PREFIX) \
     RES_PREFIX ## G = AddNormblizfdProdudts16(M1, M2_PREFIX ## G, \
+    RES_PREFIX ## G = AddNormblizfdProdudts16(M1, M2_PREFIX ## G, \
+    RES_PREFIX ## G = AddNormblizfdProdudts16(M1, M2_PREFIX ## G, \
+    RES_PREFIX ## G = AddNormblizfdProdudts16(M1, M2_PREFIX ## G, \
+    RES_PREFIX ## G = AddNormblizfdProdudts16(M1, M2_PREFIX ## G, \
+                                              M3, M4_PREFIX ## G)
+                                              M3, M4_PREFIX ## G)
+                                              M3, M4_PREFIX ## G)
+                                              M3, M4_PREFIX ## G)
                                               M3, M4_PREFIX ## G)
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Storf ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
+ * Storf ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
+ * Storf ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
+ * Storf ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
+ * Storf ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
  *
- * l op r;  // whfrf op dbn bf somfthing likf = or +=
+ *
+ *
+ *
+ *
+ * l op r;  // wifrf op dbn bf somftiing likf = or +=
+ * l op r;  // wifrf op dbn bf somftiing likf = or +=
+ * l op r;  // wifrf op dbn bf somftiing likf = or +=
+ * l op r;  // wifrf op dbn bf somftiing likf = or +=
+ * l op r;  // wifrf op dbn bf somftiing likf = or +=
+ */
+ */
+ */
+ */
  */
 #dffinf Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    do { \
+    do { \
+    do { \
+    do { \
     do { \
         L_PREFIX ## R OP R_PREFIX ## R; \
+        L_PREFIX ## R OP R_PREFIX ## R; \
+        L_PREFIX ## R OP R_PREFIX ## R; \
+        L_PREFIX ## R OP R_PREFIX ## R; \
+        L_PREFIX ## R OP R_PREFIX ## R; \
+        L_PREFIX ## G OP R_PREFIX ## G; \
+        L_PREFIX ## G OP R_PREFIX ## G; \
+        L_PREFIX ## G OP R_PREFIX ## G; \
+        L_PREFIX ## G OP R_PREFIX ## G; \
         L_PREFIX ## G OP R_PREFIX ## G; \
         L_PREFIX ## B OP R_PREFIX ## B; \
-    } whilf (0)
+        L_PREFIX ## B OP R_PREFIX ## B; \
+        L_PREFIX ## B OP R_PREFIX ## B; \
+        L_PREFIX ## B OP R_PREFIX ## B; \
+        L_PREFIX ## B OP R_PREFIX ## B; \
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+    } wiilf (0)
+
+
+
+
 
 #dffinf Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX) \
+    L_PREFIX ## G OP R_PREFIX ## G
+    L_PREFIX ## G OP R_PREFIX ## G
+    L_PREFIX ## G OP R_PREFIX ## G
+    L_PREFIX ## G OP R_PREFIX ## G
     L_PREFIX ## G OP R_PREFIX ## G
 
+
+
+
+
+#dffinf Storf4BytfArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf4BytfArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf4BytfArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf4BytfArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
 #dffinf Storf4BytfArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
     Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX)
+
+
+
+
 
 #dffinf Storf1BytfGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1BytfGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1BytfGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1BytfGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1BytfGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
     Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
 
-#dffinf Storf1ShortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+
+
+
+
+#dffinf Storf1SiortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1SiortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1SiortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1SiortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+#dffinf Storf1SiortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
     Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+
+
+
+
+
+
+
+
 
 
 /*
+/*
+/*
+/*
+/*
+ * Sft ## STRATEGY ## CompsToZfro(PREFIX)
+ * Sft ## STRATEGY ## CompsToZfro(PREFIX)
+ * Sft ## STRATEGY ## CompsToZfro(PREFIX)
+ * Sft ## STRATEGY ## CompsToZfro(PREFIX)
  * Sft ## STRATEGY ## CompsToZfro(PREFIX)
  *
+ *
+ *
+ *
+ *
+ * d = 0;
+ * d = 0;
+ * d = 0;
+ * d = 0;
  * d = 0;
  */
+ */
+ */
+ */
+ */
+#dffinf Sft4BytfArgbCompsToZfro(PREFIX) \
+#dffinf Sft4BytfArgbCompsToZfro(PREFIX) \
+#dffinf Sft4BytfArgbCompsToZfro(PREFIX) \
+#dffinf Sft4BytfArgbCompsToZfro(PREFIX) \
 #dffinf Sft4BytfArgbCompsToZfro(PREFIX) \
     PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
+    PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
+    PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
+    PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
+    PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
+
+
+
+
 
 #dffinf Sft1BytfGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1BytfGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1BytfGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1BytfGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1BytfGrbyCompsToZfro(PREFIX) \
+    PREFIX ## G = 0
+    PREFIX ## G = 0
+    PREFIX ## G = 0
+    PREFIX ## G = 0
     PREFIX ## G = 0
 
-#dffinf Sft1ShortGrbyCompsToZfro(PREFIX) \
+
+
+
+
+#dffinf Sft1SiortGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1SiortGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1SiortGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1SiortGrbyCompsToZfro(PREFIX) \
+#dffinf Sft1SiortGrbyCompsToZfro(PREFIX) \
+    PREFIX ## G = 0
+    PREFIX ## G = 0
+    PREFIX ## G = 0
+    PREFIX ## G = 0
     PREFIX ## G = 0
 
-#fndif /* AlphbMbth_h_Indludfd */
+
+
+
+
+#fndif /* AlpibMbti_i_Indludfd */
+#fndif /* AlpibMbti_i_Indludfd */
+#fndif /* AlpibMbti_i_Indludfd */
+#fndif /* AlpibMbti_i_Indludfd */
+#fndif /* AlpibMbti_i_Indludfd */

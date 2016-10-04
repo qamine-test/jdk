@@ -1,0 +1,126 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss JobPriority is bn intfgfr vblufd printing bttributf dlbss tibt
+ * spfdififs b print job's priority.
+ * <P>
+ * If b JobPriority bttributf is spfdififd for b Print Job, it spfdififs b
+ * priority for sdifduling tif job. A iigifr vbluf spfdififs b iigifr priority.
+ * Tif vbluf 1 indidbtfs tif lowfst possiblf priority. Tif vbluf 100 indidbtfs
+ * tif iigifst possiblf priority. Among tiosf jobs tibt brf rfbdy to print, b
+ * printfr must print bll jobs witi b priority vbluf of <I>n</I> bfforf printing
+ * tiosf witi b priority vbluf of <I>n</I>-1 for bll <I>n.</I>
+ * <P>
+ * If tif dlifnt dofs not spfdify b JobPriority bttributf for b Print Job bnd
+ * tif printfr dofs support tif JobPriority bttributf, tif printfr must usf bn
+ * implfmfntbtion-dffinfd dffbult JobPriority vbluf.
+ * <P>
+ * Tif dlifnt dbn blwbys spfdify bny job priority vbluf from 1 to 100 for b job.
+ * Howfvfr, b Print Sfrvidf instbndf mby support ffwfr tibn 100 difffrfnt
+ * job priority lfvfls. If tiis is tif dbsf, tif Print Sfrvidf instbndf
+ * butombtidblly mbps tif dlifnt-spfdififd job priority vbluf to onf of tif
+ * supportfd job priority lfvfls, dividing tif 100 job priority vblufs fqublly
+ * bmong tif bvbilbblf job priority lfvfls.
+ * <P>
+ * <B>IPP Compbtibility:</B> Tif intfgfr vbluf givfs tif IPP intfgfr vbluf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
+ *
+ * @butior  Albn Kbminsky
+ */
+publid finbl dlbss JobPriority fxtfnds IntfgfrSyntbx
+    implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4599900369040602769L;
+
+    /**
+     * Construdt b nfw job priority bttributf witi tif givfn intfgfr vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is lfss tibn 1
+     *     or grfbtfr tibn 100.
+     */
+    publid JobPriority(int vbluf) {
+        supfr (vbluf, 1, 100);
+    }
+
+    /**
+     * Rfturns wiftifr tiis job priority bttributf is fquivblfnt to tif pbssfd
+     * in objfdt. To bf fquivblfnt, bll of tif following donditions must bf
+     * truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobPriority.
+     * <LI>
+     * Tiis job priority bttributf's vbluf bnd <CODE>objfdt</CODE>'s vbluf
+     * brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis job
+     *          priority bttributf, fblsf otifrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls (objfdt) && objfdt instbndfof JobPriority);
+    }
+
+    /**
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
+     * <P>
+     * For dlbss JobPriority, tif dbtfgory is dlbss JobPriority itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobPriority.dlbss;
+    }
+
+    /**
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss JobPriority, tif dbtfgory nbmf is <CODE>"job-priority"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "job-priority";
+    }
+
+}

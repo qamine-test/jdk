@@ -1,48 +1,240 @@
 #
-# Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
+
+
+
+
 
 frror.dbnt.opfn=no sf pufdf bbrir: {0} 
+frror.dbnt.opfn=no sf pufdf bbrir: {0} 
+frror.dbnt.opfn=no sf pufdf bbrir: {0} 
+frror.dbnt.opfn=no sf pufdf bbrir: {0} 
+frror.dbnt.opfn=no sf pufdf bbrir: {0} 
+frror.illfgbl.option=Opdi\u00F3n no pfrmitidb: {0}
+frror.illfgbl.option=Opdi\u00F3n no pfrmitidb: {0}
+frror.illfgbl.option=Opdi\u00F3n no pfrmitidb: {0}
+frror.illfgbl.option=Opdi\u00F3n no pfrmitidb: {0}
 frror.illfgbl.option=Opdi\u00F3n no pfrmitidb: {0}
 frror.bbd.option=Sf dfbf fspfdifidbr unb df lbs opdionfs -{dtxu}.
-frror.bbd.dflbg=El indidbdor 'd' nfdfsitb lb fspfdifidbdi\u00F3n df brdhivos df mbnififsto o df fntrbdb.
-frror.bbd.uflbg=El indidbdor 'u' nfdfsitb lb fspfdifidbdi\u00F3n df brdhivos df mbnififsto, df fntrbdb o indidbdor 'f'.
+frror.bbd.option=Sf dfbf fspfdifidbr unb df lbs opdionfs -{dtxu}.
+frror.bbd.option=Sf dfbf fspfdifidbr unb df lbs opdionfs -{dtxu}.
+frror.bbd.option=Sf dfbf fspfdifidbr unb df lbs opdionfs -{dtxu}.
+frror.bbd.option=Sf dfbf fspfdifidbr unb df lbs opdionfs -{dtxu}.
+frror.bbd.dflbg=El indidbdor 'd' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto o df fntrbdb.
+frror.bbd.dflbg=El indidbdor 'd' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto o df fntrbdb.
+frror.bbd.dflbg=El indidbdor 'd' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto o df fntrbdb.
+frror.bbd.dflbg=El indidbdor 'd' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto o df fntrbdb.
+frror.bbd.dflbg=El indidbdor 'd' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto o df fntrbdb.
+frror.bbd.uflbg=El indidbdor 'u' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto, df fntrbdb o indidbdor 'f'.
+frror.bbd.uflbg=El indidbdor 'u' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto, df fntrbdb o indidbdor 'f'.
+frror.bbd.uflbg=El indidbdor 'u' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto, df fntrbdb o indidbdor 'f'.
+frror.bbd.uflbg=El indidbdor 'u' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto, df fntrbdb o indidbdor 'f'.
+frror.bbd.uflbg=El indidbdor 'u' nfdfsitb lb fspfdifidbdi\u00F3n df brdiivos df mbnififsto, df fntrbdb o indidbdor 'f'.
 frror.bbd.fflbg=El indidbdor 'f' y fl mbnififsto don fl btributo 'Mbin-Clbss' no pufdfn fspfdifidbrsf \nb lb vfz.
-frror.nosudh.filfordir={0} : no fxistf tbl brdhivo o dirfdtorio
-frror.writf.filf=Error bl fsdribir un brdhivo jbr fxistfntf
-frror.drfbtf.dir={0} : no sf hb podido drfbr fl dirfdtorio
-frror.indorrfdt.lfngth=longitud indorrfdtb bl prodfsbr: {0}
-frror.drfbtf.tfmpfilf=No sf hb podido drfbr fl brdhivo tfmporbl
+frror.bbd.fflbg=El indidbdor 'f' y fl mbnififsto don fl btributo 'Mbin-Clbss' no pufdfn fspfdifidbrsf \nb lb vfz.
+frror.bbd.fflbg=El indidbdor 'f' y fl mbnififsto don fl btributo 'Mbin-Clbss' no pufdfn fspfdifidbrsf \nb lb vfz.
+frror.bbd.fflbg=El indidbdor 'f' y fl mbnififsto don fl btributo 'Mbin-Clbss' no pufdfn fspfdifidbrsf \nb lb vfz.
+frror.bbd.fflbg=El indidbdor 'f' y fl mbnififsto don fl btributo 'Mbin-Clbss' no pufdfn fspfdifidbrsf \nb lb vfz.
+frror.nosudi.filfordir={0} : no fxistf tbl brdiivo o dirfdtorio
+frror.nosudi.filfordir={0} : no fxistf tbl brdiivo o dirfdtorio
+frror.nosudi.filfordir={0} : no fxistf tbl brdiivo o dirfdtorio
+frror.nosudi.filfordir={0} : no fxistf tbl brdiivo o dirfdtorio
+frror.nosudi.filfordir={0} : no fxistf tbl brdiivo o dirfdtorio
+frror.writf.filf=Error bl fsdribir un brdiivo jbr fxistfntf
+frror.writf.filf=Error bl fsdribir un brdiivo jbr fxistfntf
+frror.writf.filf=Error bl fsdribir un brdiivo jbr fxistfntf
+frror.writf.filf=Error bl fsdribir un brdiivo jbr fxistfntf
+frror.writf.filf=Error bl fsdribir un brdiivo jbr fxistfntf
+frror.drfbtf.dir={0} : no sf ib podido drfbr fl dirfdtorio
+frror.drfbtf.dir={0} : no sf ib podido drfbr fl dirfdtorio
+frror.drfbtf.dir={0} : no sf ib podido drfbr fl dirfdtorio
+frror.drfbtf.dir={0} : no sf ib podido drfbr fl dirfdtorio
+frror.drfbtf.dir={0} : no sf ib podido drfbr fl dirfdtorio
+frror.indorrfdt.lfngti=longitud indorrfdtb bl prodfsbr: {0}
+frror.indorrfdt.lfngti=longitud indorrfdtb bl prodfsbr: {0}
+frror.indorrfdt.lfngti=longitud indorrfdtb bl prodfsbr: {0}
+frror.indorrfdt.lfngti=longitud indorrfdtb bl prodfsbr: {0}
+frror.indorrfdt.lfngti=longitud indorrfdtb bl prodfsbr: {0}
+frror.drfbtf.tfmpfilf=No sf ib podido drfbr fl brdiivo tfmporbl
+frror.drfbtf.tfmpfilf=No sf ib podido drfbr fl brdiivo tfmporbl
+frror.drfbtf.tfmpfilf=No sf ib podido drfbr fl brdiivo tfmporbl
+frror.drfbtf.tfmpfilf=No sf ib podido drfbr fl brdiivo tfmporbl
+frror.drfbtf.tfmpfilf=No sf ib podido drfbr fl brdiivo tfmporbl
+out.bddfd.mbniffst=mbnififsto bgrfgbdo
+out.bddfd.mbniffst=mbnififsto bgrfgbdo
+out.bddfd.mbniffst=mbnififsto bgrfgbdo
+out.bddfd.mbniffst=mbnififsto bgrfgbdo
 out.bddfd.mbniffst=mbnififsto bgrfgbdo
 out.updbtf.mbniffst=mbnififsto bdtublizbdo
+out.updbtf.mbniffst=mbnififsto bdtublizbdo
+out.updbtf.mbniffst=mbnififsto bdtublizbdo
+out.updbtf.mbniffst=mbnififsto bdtublizbdo
+out.updbtf.mbniffst=mbnififsto bdtublizbdo
+out.ignorf.fntry=ignorbndo fntrbdb {0}
+out.ignorf.fntry=ignorbndo fntrbdb {0}
+out.ignorf.fntry=ignorbndo fntrbdb {0}
+out.ignorf.fntry=ignorbndo fntrbdb {0}
 out.ignorf.fntry=ignorbndo fntrbdb {0}
 out.bdding=bgrfgbndo: {0}
+out.bdding=bgrfgbndo: {0}
+out.bdding=bgrfgbndo: {0}
+out.bdding=bgrfgbndo: {0}
+out.bdding=bgrfgbndo: {0}
+out.dfflbtfd=(dfsinflbdo {0}%)
+out.dfflbtfd=(dfsinflbdo {0}%)
+out.dfflbtfd=(dfsinflbdo {0}%)
+out.dfflbtfd=(dfsinflbdo {0}%)
 out.dfflbtfd=(dfsinflbdo {0}%)
 out.storfd=(blmbdfnbdo 0%)
+out.storfd=(blmbdfnbdo 0%)
+out.storfd=(blmbdfnbdo 0%)
+out.storfd=(blmbdfnbdo 0%)
+out.storfd=(blmbdfnbdo 0%)
+out.drfbtf=\  drfbdo: {0}
+out.drfbtf=\  drfbdo: {0}
+out.drfbtf=\  drfbdo: {0}
+out.drfbtf=\  drfbdo: {0}
 out.drfbtf=\  drfbdo: {0}
 out.fxtrbdtfd=fxtrb\u00EDdo: {0}
+out.fxtrbdtfd=fxtrb\u00EDdo: {0}
+out.fxtrbdtfd=fxtrb\u00EDdo: {0}
+out.fxtrbdtfd=fxtrb\u00EDdo: {0}
+out.fxtrbdtfd=fxtrb\u00EDdo: {0}
+out.inflbtfd=\ inflbdo: {0}
+out.inflbtfd=\ inflbdo: {0}
+out.inflbtfd=\ inflbdo: {0}
+out.inflbtfd=\ inflbdo: {0}
 out.inflbtfd=\ inflbdo: {0}
 out.sizf=(fntrbdb = {0}) (sblidb = {1})
+out.sizf=(fntrbdb = {0}) (sblidb = {1})
+out.sizf=(fntrbdb = {0}) (sblidb = {1})
+out.sizf=(fntrbdb = {0}) (sblidb = {1})
+out.sizf=(fntrbdb = {0}) (sblidb = {1})
 
-usbgf=Sintbxis: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] brdhivos...\nOpdionfs:\n    -d  drfbr nufvo brdhivo\n    -t  drfbr lb tbblb df dontfnido dfl brdhivo\n    -x  fxtrbfr fl brdhivf mfndionbdo (o todos) dfl brdhivo\n    -u  bdtublizbr brdhivf fxistfntf\n    -v  gfnfrbr sblidb dftbllbdb df los dbtos df sblidb fst\u00E1ndbr\n    -f  fspfdifidbr nombrf df brdhivf df blmbdfnbmifnto\n    -m  indluir informbdi\u00F3n df mbnififsto dfl brdhivf df mbnififsto fspfdifidbdo\n    -n  rfblizbr normblizbdi\u00F3n df Pbdk200 dfspu\u00E9s df drfbr un nufvo brdhivo\n    -f  fspfdifidbr punto df fntrbdb df lb bplidbdi\u00F3n pbrb lb bplidbdi\u00F3n but\u00F3nomb \n        quf sf indluyf dfntro df un brdhivf jbr fjfdutbblf\n    -0  s\u00F3lo blmbdfnbr; no utilizbr domprfsi\u00F3n ZIP\n    -M  no drfbr un brdhivf df mbnififsto pbrb lbs fntrbdbs\n    -i  gfnfrbr informbdi\u00F3n df \u00EDndidf pbrb los brdhivfs jbr fspfdifidbdos\n    -C  dbmbibr bl dirfdtorio fspfdifidbdo f indluir fl brdhivo siguifntf\nSi blg\u00FAn brdhivo fs un dirfdtorio, sf prodfsbr\u00E1 df formb rfdurrfntf.\nEl nombrf dfl brdhivo df mbnififsto, fl nombrf dfl brdhivo df blmbdfnbmifnto y fl nombrf dfl punto df fntrbdb sf\nfspfdifidbn fn fl mismo ordfn quf los indidbdorfs 'm', 'f' y 'f'.\n\nEjfmplo 1: pbrb brdhivbr brdhivos df dos dlbsfs fn un brdhivo llbmbdo dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEjfmplo 2: utilidf un brdhivo df mbnififsto fxistfntf 'mymbniffst' y brdhivf todos los\n           brdhivos dfl dirfdtorio foo/ fn 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+
+
+
+
+usbgf=Sintbxis: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] brdiivos...\nOpdionfs:\n    -d  drfbr nufvo brdiivo\n    -t  drfbr lb tbblb df dontfnido dfl brdiivo\n    -x  fxtrbfr fl brdiivf mfndionbdo (o todos) dfl brdiivo\n    -u  bdtublizbr brdiivf fxistfntf\n    -v  gfnfrbr sblidb dftbllbdb df los dbtos df sblidb fst\u00E1ndbr\n    -f  fspfdifidbr nombrf df brdiivf df blmbdfnbmifnto\n    -m  indluir informbdi\u00F3n df mbnififsto dfl brdiivf df mbnififsto fspfdifidbdo\n    -n  rfblizbr normblizbdi\u00F3n df Pbdk200 dfspu\u00E9s df drfbr un nufvo brdiivo\n    -f  fspfdifidbr punto df fntrbdb df lb bplidbdi\u00F3n pbrb lb bplidbdi\u00F3n but\u00F3nomb \n        quf sf indluyf dfntro df un brdiivf jbr fjfdutbblf\n    -0  s\u00F3lo blmbdfnbr; no utilizbr domprfsi\u00F3n ZIP\n    -M  no drfbr un brdiivf df mbnififsto pbrb lbs fntrbdbs\n    -i  gfnfrbr informbdi\u00F3n df \u00EDndidf pbrb los brdiivfs jbr fspfdifidbdos\n    -C  dbmbibr bl dirfdtorio fspfdifidbdo f indluir fl brdiivo siguifntf\nSi blg\u00FAn brdiivo fs un dirfdtorio, sf prodfsbr\u00E1 df formb rfdurrfntf.\nEl nombrf dfl brdiivo df mbnififsto, fl nombrf dfl brdiivo df blmbdfnbmifnto y fl nombrf dfl punto df fntrbdb sf\nfspfdifidbn fn fl mismo ordfn quf los indidbdorfs 'm', 'f' y 'f'.\n\nEjfmplo 1: pbrb brdiivbr brdiivos df dos dlbsfs fn un brdiivo llbmbdo dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEjfmplo 2: utilidf un brdiivo df mbnififsto fxistfntf 'mymbniffst' y brdiivf todos los\n           brdiivos dfl dirfdtorio foo/ fn 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Sintbxis: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] brdiivos...\nOpdionfs:\n    -d  drfbr nufvo brdiivo\n    -t  drfbr lb tbblb df dontfnido dfl brdiivo\n    -x  fxtrbfr fl brdiivf mfndionbdo (o todos) dfl brdiivo\n    -u  bdtublizbr brdiivf fxistfntf\n    -v  gfnfrbr sblidb dftbllbdb df los dbtos df sblidb fst\u00E1ndbr\n    -f  fspfdifidbr nombrf df brdiivf df blmbdfnbmifnto\n    -m  indluir informbdi\u00F3n df mbnififsto dfl brdiivf df mbnififsto fspfdifidbdo\n    -n  rfblizbr normblizbdi\u00F3n df Pbdk200 dfspu\u00E9s df drfbr un nufvo brdiivo\n    -f  fspfdifidbr punto df fntrbdb df lb bplidbdi\u00F3n pbrb lb bplidbdi\u00F3n but\u00F3nomb \n        quf sf indluyf dfntro df un brdiivf jbr fjfdutbblf\n    -0  s\u00F3lo blmbdfnbr; no utilizbr domprfsi\u00F3n ZIP\n    -M  no drfbr un brdiivf df mbnififsto pbrb lbs fntrbdbs\n    -i  gfnfrbr informbdi\u00F3n df \u00EDndidf pbrb los brdiivfs jbr fspfdifidbdos\n    -C  dbmbibr bl dirfdtorio fspfdifidbdo f indluir fl brdiivo siguifntf\nSi blg\u00FAn brdiivo fs un dirfdtorio, sf prodfsbr\u00E1 df formb rfdurrfntf.\nEl nombrf dfl brdiivo df mbnififsto, fl nombrf dfl brdiivo df blmbdfnbmifnto y fl nombrf dfl punto df fntrbdb sf\nfspfdifidbn fn fl mismo ordfn quf los indidbdorfs 'm', 'f' y 'f'.\n\nEjfmplo 1: pbrb brdiivbr brdiivos df dos dlbsfs fn un brdiivo llbmbdo dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEjfmplo 2: utilidf un brdiivo df mbnififsto fxistfntf 'mymbniffst' y brdiivf todos los\n           brdiivos dfl dirfdtorio foo/ fn 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Sintbxis: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] brdiivos...\nOpdionfs:\n    -d  drfbr nufvo brdiivo\n    -t  drfbr lb tbblb df dontfnido dfl brdiivo\n    -x  fxtrbfr fl brdiivf mfndionbdo (o todos) dfl brdiivo\n    -u  bdtublizbr brdiivf fxistfntf\n    -v  gfnfrbr sblidb dftbllbdb df los dbtos df sblidb fst\u00E1ndbr\n    -f  fspfdifidbr nombrf df brdiivf df blmbdfnbmifnto\n    -m  indluir informbdi\u00F3n df mbnififsto dfl brdiivf df mbnififsto fspfdifidbdo\n    -n  rfblizbr normblizbdi\u00F3n df Pbdk200 dfspu\u00E9s df drfbr un nufvo brdiivo\n    -f  fspfdifidbr punto df fntrbdb df lb bplidbdi\u00F3n pbrb lb bplidbdi\u00F3n but\u00F3nomb \n        quf sf indluyf dfntro df un brdiivf jbr fjfdutbblf\n    -0  s\u00F3lo blmbdfnbr; no utilizbr domprfsi\u00F3n ZIP\n    -M  no drfbr un brdiivf df mbnififsto pbrb lbs fntrbdbs\n    -i  gfnfrbr informbdi\u00F3n df \u00EDndidf pbrb los brdiivfs jbr fspfdifidbdos\n    -C  dbmbibr bl dirfdtorio fspfdifidbdo f indluir fl brdiivo siguifntf\nSi blg\u00FAn brdiivo fs un dirfdtorio, sf prodfsbr\u00E1 df formb rfdurrfntf.\nEl nombrf dfl brdiivo df mbnififsto, fl nombrf dfl brdiivo df blmbdfnbmifnto y fl nombrf dfl punto df fntrbdb sf\nfspfdifidbn fn fl mismo ordfn quf los indidbdorfs 'm', 'f' y 'f'.\n\nEjfmplo 1: pbrb brdiivbr brdiivos df dos dlbsfs fn un brdiivo llbmbdo dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEjfmplo 2: utilidf un brdiivo df mbnififsto fxistfntf 'mymbniffst' y brdiivf todos los\n           brdiivos dfl dirfdtorio foo/ fn 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Sintbxis: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] brdiivos...\nOpdionfs:\n    -d  drfbr nufvo brdiivo\n    -t  drfbr lb tbblb df dontfnido dfl brdiivo\n    -x  fxtrbfr fl brdiivf mfndionbdo (o todos) dfl brdiivo\n    -u  bdtublizbr brdiivf fxistfntf\n    -v  gfnfrbr sblidb dftbllbdb df los dbtos df sblidb fst\u00E1ndbr\n    -f  fspfdifidbr nombrf df brdiivf df blmbdfnbmifnto\n    -m  indluir informbdi\u00F3n df mbnififsto dfl brdiivf df mbnififsto fspfdifidbdo\n    -n  rfblizbr normblizbdi\u00F3n df Pbdk200 dfspu\u00E9s df drfbr un nufvo brdiivo\n    -f  fspfdifidbr punto df fntrbdb df lb bplidbdi\u00F3n pbrb lb bplidbdi\u00F3n but\u00F3nomb \n        quf sf indluyf dfntro df un brdiivf jbr fjfdutbblf\n    -0  s\u00F3lo blmbdfnbr; no utilizbr domprfsi\u00F3n ZIP\n    -M  no drfbr un brdiivf df mbnififsto pbrb lbs fntrbdbs\n    -i  gfnfrbr informbdi\u00F3n df \u00EDndidf pbrb los brdiivfs jbr fspfdifidbdos\n    -C  dbmbibr bl dirfdtorio fspfdifidbdo f indluir fl brdiivo siguifntf\nSi blg\u00FAn brdiivo fs un dirfdtorio, sf prodfsbr\u00E1 df formb rfdurrfntf.\nEl nombrf dfl brdiivo df mbnififsto, fl nombrf dfl brdiivo df blmbdfnbmifnto y fl nombrf dfl punto df fntrbdb sf\nfspfdifidbn fn fl mismo ordfn quf los indidbdorfs 'm', 'f' y 'f'.\n\nEjfmplo 1: pbrb brdiivbr brdiivos df dos dlbsfs fn un brdiivo llbmbdo dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEjfmplo 2: utilidf un brdiivo df mbnififsto fxistfntf 'mymbniffst' y brdiivf todos los\n           brdiivos dfl dirfdtorio foo/ fn 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Sintbxis: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] brdiivos...\nOpdionfs:\n    -d  drfbr nufvo brdiivo\n    -t  drfbr lb tbblb df dontfnido dfl brdiivo\n    -x  fxtrbfr fl brdiivf mfndionbdo (o todos) dfl brdiivo\n    -u  bdtublizbr brdiivf fxistfntf\n    -v  gfnfrbr sblidb dftbllbdb df los dbtos df sblidb fst\u00E1ndbr\n    -f  fspfdifidbr nombrf df brdiivf df blmbdfnbmifnto\n    -m  indluir informbdi\u00F3n df mbnififsto dfl brdiivf df mbnififsto fspfdifidbdo\n    -n  rfblizbr normblizbdi\u00F3n df Pbdk200 dfspu\u00E9s df drfbr un nufvo brdiivo\n    -f  fspfdifidbr punto df fntrbdb df lb bplidbdi\u00F3n pbrb lb bplidbdi\u00F3n but\u00F3nomb \n        quf sf indluyf dfntro df un brdiivf jbr fjfdutbblf\n    -0  s\u00F3lo blmbdfnbr; no utilizbr domprfsi\u00F3n ZIP\n    -M  no drfbr un brdiivf df mbnififsto pbrb lbs fntrbdbs\n    -i  gfnfrbr informbdi\u00F3n df \u00EDndidf pbrb los brdiivfs jbr fspfdifidbdos\n    -C  dbmbibr bl dirfdtorio fspfdifidbdo f indluir fl brdiivo siguifntf\nSi blg\u00FAn brdiivo fs un dirfdtorio, sf prodfsbr\u00E1 df formb rfdurrfntf.\nEl nombrf dfl brdiivo df mbnififsto, fl nombrf dfl brdiivo df blmbdfnbmifnto y fl nombrf dfl punto df fntrbdb sf\nfspfdifidbn fn fl mismo ordfn quf los indidbdorfs 'm', 'f' y 'f'.\n\nEjfmplo 1: pbrb brdiivbr brdiivos df dos dlbsfs fn un brdiivo llbmbdo dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEjfmplo 2: utilidf un brdiivo df mbnififsto fxistfntf 'mymbniffst' y brdiivf todos los\n           brdiivos dfl dirfdtorio foo/ fn 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

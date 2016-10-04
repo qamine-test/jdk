@@ -1,108 +1,540 @@
 /*
- * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvb.sfdurity;
-
-import jbvb.util.Sft;
-
-/**
- * This intfrfbdf spfdififs donstrbints for dryptogrbphid blgorithms,
- * kfys (kfy sizfs), bnd othfr blgorithm pbrbmftfrs.
- * <p>
- * {@dodf AlgorithmConstrbints} objfdts brf immutbblf.  An implfmfntbtion
- * of this intfrfbdf should not providf mfthods thbt dbn dhbngf thf stbtf
- * of bn instbndf ondf it hbs bffn drfbtfd.
- * <p>
- * Notf thbt {@dodf AlgorithmConstrbints} dbn bf usfd to rfprfsfnt thf
- * rfstridtions dfsdribfd by thf sfdurity propfrtifs
- * {@dodf jdk.dfrtpbth.disbblfdAlgorithms} bnd
- * {@dodf jdk.tls.disbblfdAlgorithms}, or dould bf usfd by b
- * dondrftf {@dodf PKIXCfrtPbthChfdkfr} to dhfdk whfthfr b spfdififd
- * dfrtifidbtf in thf dfrtifidbtion pbth dontbins thf rfquirfd blgorithm
- * donstrbints.
- *
- * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgorithmConstrbints
- * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgorithmConstrbints(AlgorithmConstrbints)
- *
- * @sindf 1.7
+ */
+ */
+ */
  */
 
-publid intfrfbdf AlgorithmConstrbints {
+
+
+
+
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+
+
+
+
+
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Tiis intfrfbdf spfdififs donstrbints for dryptogrbpiid blgoritims,
+ * Tiis intfrfbdf spfdififs donstrbints for dryptogrbpiid blgoritims,
+ * Tiis intfrfbdf spfdififs donstrbints for dryptogrbpiid blgoritims,
+ * Tiis intfrfbdf spfdififs donstrbints for dryptogrbpiid blgoritims,
+ * Tiis intfrfbdf spfdififs donstrbints for dryptogrbpiid blgoritims,
+ * kfys (kfy sizfs), bnd otifr blgoritim pbrbmftfrs.
+ * kfys (kfy sizfs), bnd otifr blgoritim pbrbmftfrs.
+ * kfys (kfy sizfs), bnd otifr blgoritim pbrbmftfrs.
+ * kfys (kfy sizfs), bnd otifr blgoritim pbrbmftfrs.
+ * kfys (kfy sizfs), bnd otifr blgoritim pbrbmftfrs.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * {@dodf AlgoritimConstrbints} objfdts brf immutbblf.  An implfmfntbtion
+ * {@dodf AlgoritimConstrbints} objfdts brf immutbblf.  An implfmfntbtion
+ * {@dodf AlgoritimConstrbints} objfdts brf immutbblf.  An implfmfntbtion
+ * {@dodf AlgoritimConstrbints} objfdts brf immutbblf.  An implfmfntbtion
+ * {@dodf AlgoritimConstrbints} objfdts brf immutbblf.  An implfmfntbtion
+ * of tiis intfrfbdf siould not providf mftiods tibt dbn dibngf tif stbtf
+ * of tiis intfrfbdf siould not providf mftiods tibt dbn dibngf tif stbtf
+ * of tiis intfrfbdf siould not providf mftiods tibt dbn dibngf tif stbtf
+ * of tiis intfrfbdf siould not providf mftiods tibt dbn dibngf tif stbtf
+ * of tiis intfrfbdf siould not providf mftiods tibt dbn dibngf tif stbtf
+ * of bn instbndf ondf it ibs bffn drfbtfd.
+ * of bn instbndf ondf it ibs bffn drfbtfd.
+ * of bn instbndf ondf it ibs bffn drfbtfd.
+ * of bn instbndf ondf it ibs bffn drfbtfd.
+ * of bn instbndf ondf it ibs bffn drfbtfd.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Notf tibt {@dodf AlgoritimConstrbints} dbn bf usfd to rfprfsfnt tif
+ * Notf tibt {@dodf AlgoritimConstrbints} dbn bf usfd to rfprfsfnt tif
+ * Notf tibt {@dodf AlgoritimConstrbints} dbn bf usfd to rfprfsfnt tif
+ * Notf tibt {@dodf AlgoritimConstrbints} dbn bf usfd to rfprfsfnt tif
+ * Notf tibt {@dodf AlgoritimConstrbints} dbn bf usfd to rfprfsfnt tif
+ * rfstridtions dfsdribfd by tif sfdurity propfrtifs
+ * rfstridtions dfsdribfd by tif sfdurity propfrtifs
+ * rfstridtions dfsdribfd by tif sfdurity propfrtifs
+ * rfstridtions dfsdribfd by tif sfdurity propfrtifs
+ * rfstridtions dfsdribfd by tif sfdurity propfrtifs
+ * {@dodf jdk.dfrtpbti.disbblfdAlgoritims} bnd
+ * {@dodf jdk.dfrtpbti.disbblfdAlgoritims} bnd
+ * {@dodf jdk.dfrtpbti.disbblfdAlgoritims} bnd
+ * {@dodf jdk.dfrtpbti.disbblfdAlgoritims} bnd
+ * {@dodf jdk.dfrtpbti.disbblfdAlgoritims} bnd
+ * {@dodf jdk.tls.disbblfdAlgoritims}, or dould bf usfd by b
+ * {@dodf jdk.tls.disbblfdAlgoritims}, or dould bf usfd by b
+ * {@dodf jdk.tls.disbblfdAlgoritims}, or dould bf usfd by b
+ * {@dodf jdk.tls.disbblfdAlgoritims}, or dould bf usfd by b
+ * {@dodf jdk.tls.disbblfdAlgoritims}, or dould bf usfd by b
+ * dondrftf {@dodf PKIXCfrtPbtiCifdkfr} to difdk wiftifr b spfdififd
+ * dondrftf {@dodf PKIXCfrtPbtiCifdkfr} to difdk wiftifr b spfdififd
+ * dondrftf {@dodf PKIXCfrtPbtiCifdkfr} to difdk wiftifr b spfdififd
+ * dondrftf {@dodf PKIXCfrtPbtiCifdkfr} to difdk wiftifr b spfdififd
+ * dondrftf {@dodf PKIXCfrtPbtiCifdkfr} to difdk wiftifr b spfdififd
+ * dfrtifidbtf in tif dfrtifidbtion pbti dontbins tif rfquirfd blgoritim
+ * dfrtifidbtf in tif dfrtifidbtion pbti dontbins tif rfquirfd blgoritim
+ * dfrtifidbtf in tif dfrtifidbtion pbti dontbins tif rfquirfd blgoritim
+ * dfrtifidbtf in tif dfrtifidbtion pbti dontbins tif rfquirfd blgoritim
+ * dfrtifidbtf in tif dfrtifidbtion pbti dontbins tif rfquirfd blgoritim
+ * donstrbints.
+ * donstrbints.
+ * donstrbints.
+ * donstrbints.
+ * donstrbints.
+ *
+ *
+ *
+ *
+ *
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgoritimConstrbints
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgoritimConstrbints
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgoritimConstrbints
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgoritimConstrbints
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgoritimConstrbints
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgoritimConstrbints(AlgoritimConstrbints)
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgoritimConstrbints(AlgoritimConstrbints)
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgoritimConstrbints(AlgoritimConstrbints)
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgoritimConstrbints(AlgoritimConstrbints)
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgoritimConstrbints(AlgoritimConstrbints)
+ *
+ *
+ *
+ *
+ *
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid intfrfbdf AlgoritimConstrbints {
+publid intfrfbdf AlgoritimConstrbints {
+publid intfrfbdf AlgoritimConstrbints {
+publid intfrfbdf AlgoritimConstrbints {
+publid intfrfbdf AlgoritimConstrbints {
+
+
+
+
 
     /**
-     * Dftfrminfs whfthfr bn blgorithm is grbntfd pfrmission for thf
-     * spfdififd dryptogrbphid primitivfs.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs wiftifr bn blgoritim is grbntfd pfrmission for tif
+     * Dftfrminfs wiftifr bn blgoritim is grbntfd pfrmission for tif
+     * Dftfrminfs wiftifr bn blgoritim is grbntfd pfrmission for tif
+     * Dftfrminfs wiftifr bn blgoritim is grbntfd pfrmission for tif
+     * Dftfrminfs wiftifr bn blgoritim is grbntfd pfrmission for tif
+     * spfdififd dryptogrbpiid primitivfs.
+     * spfdififd dryptogrbpiid primitivfs.
+     * spfdififd dryptogrbpiid primitivfs.
+     * spfdififd dryptogrbpiid primitivfs.
+     * spfdififd dryptogrbpiid primitivfs.
      *
-     * @pbrbm primitivfs b sft of dryptogrbphid primitivfs
-     * @pbrbm blgorithm thf blgorithm nbmf
-     * @pbrbm pbrbmftfrs thf blgorithm pbrbmftfrs, or null if no bdditionbl
+     *
+     *
+     *
+     *
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     *     pbrbmftfrs
+     *     pbrbmftfrs
+     *     pbrbmftfrs
+     *     pbrbmftfrs
      *     pbrbmftfrs
      *
-     * @rfturn truf if thf blgorithm is pfrmittfd bnd dbn bf usfd for bll
-     *     of thf spfdififd dryptogrbphid primitivfs
      *
-     * @throws IllfgblArgumfntExdfption if primitivfs or blgorithm is null
+     *
+     *
+     *
+     * @rfturn truf if tif blgoritim is pfrmittfd bnd dbn bf usfd for bll
+     * @rfturn truf if tif blgoritim is pfrmittfd bnd dbn bf usfd for bll
+     * @rfturn truf if tif blgoritim is pfrmittfd bnd dbn bf usfd for bll
+     * @rfturn truf if tif blgoritim is pfrmittfd bnd dbn bf usfd for bll
+     * @rfturn truf if tif blgoritim is pfrmittfd bnd dbn bf usfd for bll
+     *     of tif spfdififd dryptogrbpiid primitivfs
+     *     of tif spfdififd dryptogrbpiid primitivfs
+     *     of tif spfdififd dryptogrbpiid primitivfs
+     *     of tif spfdififd dryptogrbpiid primitivfs
+     *     of tif spfdififd dryptogrbpiid primitivfs
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     *     or fmpty
+     *     or fmpty
+     *     or fmpty
+     *     or fmpty
      *     or fmpty
      */
+     */
+     */
+     */
+     */
     publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
-            String blgorithm, AlgorithmPbrbmftfrs pbrbmftfrs);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs);
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs);
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs);
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs);
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs);
+
+
+
+
 
     /**
-     * Dftfrminfs whfthfr b kfy is grbntfd pfrmission for thf spfdififd
-     * dryptogrbphid primitivfs.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs wiftifr b kfy is grbntfd pfrmission for tif spfdififd
+     * Dftfrminfs wiftifr b kfy is grbntfd pfrmission for tif spfdififd
+     * Dftfrminfs wiftifr b kfy is grbntfd pfrmission for tif spfdififd
+     * Dftfrminfs wiftifr b kfy is grbntfd pfrmission for tif spfdififd
+     * Dftfrminfs wiftifr b kfy is grbntfd pfrmission for tif spfdififd
+     * dryptogrbpiid primitivfs.
+     * dryptogrbpiid primitivfs.
+     * dryptogrbpiid primitivfs.
+     * dryptogrbpiid primitivfs.
+     * dryptogrbpiid primitivfs.
      * <p>
-     * This mfthod is usublly usfd to dhfdk kfy sizf bnd kfy usbgf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod is usublly usfd to difdk kfy sizf bnd kfy usbgf.
+     * Tiis mftiod is usublly usfd to difdk kfy sizf bnd kfy usbgf.
+     * Tiis mftiod is usublly usfd to difdk kfy sizf bnd kfy usbgf.
+     * Tiis mftiod is usublly usfd to difdk kfy sizf bnd kfy usbgf.
+     * Tiis mftiod is usublly usfd to difdk kfy sizf bnd kfy usbgf.
      *
-     * @pbrbm primitivfs b sft of dryptogrbphid primitivfs
-     * @pbrbm kfy thf kfy
      *
-     * @rfturn truf if thf kfy dbn bf usfd for bll of thf spfdififd
-     *     dryptogrbphid primitivfs
      *
-     * @throws IllfgblArgumfntExdfption if primitivfs is null or fmpty,
-     *     or thf kfy is null
+     *
+     *
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     *
+     *
+     *
+     *
+     *
+     * @rfturn truf if tif kfy dbn bf usfd for bll of tif spfdififd
+     * @rfturn truf if tif kfy dbn bf usfd for bll of tif spfdififd
+     * @rfturn truf if tif kfy dbn bf usfd for bll of tif spfdififd
+     * @rfturn truf if tif kfy dbn bf usfd for bll of tif spfdififd
+     * @rfturn truf if tif kfy dbn bf usfd for bll of tif spfdififd
+     *     dryptogrbpiid primitivfs
+     *     dryptogrbpiid primitivfs
+     *     dryptogrbpiid primitivfs
+     *     dryptogrbpiid primitivfs
+     *     dryptogrbpiid primitivfs
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if primitivfs is null or fmpty,
+     * @tirows IllfgblArgumfntExdfption if primitivfs is null or fmpty,
+     * @tirows IllfgblArgumfntExdfption if primitivfs is null or fmpty,
+     * @tirows IllfgblArgumfntExdfption if primitivfs is null or fmpty,
+     * @tirows IllfgblArgumfntExdfption if primitivfs is null or fmpty,
+     *     or tif kfy is null
+     *     or tif kfy is null
+     *     or tif kfy is null
+     *     or tif kfy is null
+     *     or tif kfy is null
+     */
+     */
+     */
+     */
      */
     publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy);
+
+
+
+
 
     /**
-     * Dftfrminfs whfthfr bn blgorithm bnd thf dorrfsponding kfy brf grbntfd
-     * pfrmission for thf spfdififd dryptogrbphid primitivfs.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs wiftifr bn blgoritim bnd tif dorrfsponding kfy brf grbntfd
+     * Dftfrminfs wiftifr bn blgoritim bnd tif dorrfsponding kfy brf grbntfd
+     * Dftfrminfs wiftifr bn blgoritim bnd tif dorrfsponding kfy brf grbntfd
+     * Dftfrminfs wiftifr bn blgoritim bnd tif dorrfsponding kfy brf grbntfd
+     * Dftfrminfs wiftifr bn blgoritim bnd tif dorrfsponding kfy brf grbntfd
+     * pfrmission for tif spfdififd dryptogrbpiid primitivfs.
+     * pfrmission for tif spfdififd dryptogrbpiid primitivfs.
+     * pfrmission for tif spfdififd dryptogrbpiid primitivfs.
+     * pfrmission for tif spfdififd dryptogrbpiid primitivfs.
+     * pfrmission for tif spfdififd dryptogrbpiid primitivfs.
      *
-     * @pbrbm primitivfs b sft of dryptogrbphid primitivfs
-     * @pbrbm blgorithm thf blgorithm nbmf
-     * @pbrbm kfy thf kfy
-     * @pbrbm pbrbmftfrs thf blgorithm pbrbmftfrs, or null if no bdditionbl
+     *
+     *
+     *
+     *
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     * @pbrbm kfy tif kfy
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     *     pbrbmftfrs
+     *     pbrbmftfrs
+     *     pbrbmftfrs
+     *     pbrbmftfrs
      *     pbrbmftfrs
      *
-     * @rfturn truf if thf kfy bnd thf blgorithm dbn bf usfd for bll of thf
-     *     spfdififd dryptogrbphid primitivfs
      *
-     * @throws IllfgblArgumfntExdfption if primitivfs or blgorithm is null
-     *     or fmpty, or thf kfy is null
+     *
+     *
+     *
+     * @rfturn truf if tif kfy bnd tif blgoritim dbn bf usfd for bll of tif
+     * @rfturn truf if tif kfy bnd tif blgoritim dbn bf usfd for bll of tif
+     * @rfturn truf if tif kfy bnd tif blgoritim dbn bf usfd for bll of tif
+     * @rfturn truf if tif kfy bnd tif blgoritim dbn bf usfd for bll of tif
+     * @rfturn truf if tif kfy bnd tif blgoritim dbn bf usfd for bll of tif
+     *     spfdififd dryptogrbpiid primitivfs
+     *     spfdififd dryptogrbpiid primitivfs
+     *     spfdififd dryptogrbpiid primitivfs
+     *     spfdififd dryptogrbpiid primitivfs
+     *     spfdififd dryptogrbpiid primitivfs
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     *     or fmpty, or tif kfy is null
+     *     or fmpty, or tif kfy is null
+     *     or fmpty, or tif kfy is null
+     *     or fmpty, or tif kfy is null
+     *     or fmpty, or tif kfy is null
+     */
+     */
+     */
+     */
      */
     publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
-                String blgorithm, Kfy kfy, AlgorithmPbrbmftfrs pbrbmftfrs);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+                String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs);
+                String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs);
+                String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs);
+                String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs);
+                String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs);
 
+
+
+
+
+}
+}
+}
+}
 }

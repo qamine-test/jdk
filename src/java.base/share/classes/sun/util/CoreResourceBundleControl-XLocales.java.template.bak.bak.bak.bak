@@ -1,114 +1,570 @@
 /*
- * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-#wbrn This filf is prfprodfssfd bfforf bfing dompilfd
+
+
+
+
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+
+
+
+
 
 pbdkbgf sun.util;
+pbdkbgf sun.util;
+pbdkbgf sun.util;
+pbdkbgf sun.util;
+pbdkbgf sun.util;
+
+
+
+
 
 import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtion;
 import jbvb.util.Collfdtion;
 import jbvb.util.Collfdtions;
-import jbvb.util.HbshSft;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
 import jbvb.util.List;
 import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.RfsourdfBundlf;
 import jbvb.util.RfsourdfBundlf;
 import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.RfsourdfBundlf.Control;
+
+
+
+
 
 /**
- * This is b donvfnifnt dlbss for lobding somf of intfrnbl rfsourdfs fbstfr
- * if thfy brf built with Rfsourdfs.gmk dffinfd in J2SE workspbdf. Also,
- * thfy hbvf to bf in dlbss filf formbt.
+/**
+/**
+/**
+/**
+ * Tiis is b donvfnifnt dlbss for lobding somf of intfrnbl rfsourdfs fbstfr
+ * Tiis is b donvfnifnt dlbss for lobding somf of intfrnbl rfsourdfs fbstfr
+ * Tiis is b donvfnifnt dlbss for lobding somf of intfrnbl rfsourdfs fbstfr
+ * Tiis is b donvfnifnt dlbss for lobding somf of intfrnbl rfsourdfs fbstfr
+ * Tiis is b donvfnifnt dlbss for lobding somf of intfrnbl rfsourdfs fbstfr
+ * if tify brf built witi Rfsourdfs.gmk dffinfd in J2SE workspbdf. Also,
+ * if tify brf built witi Rfsourdfs.gmk dffinfd in J2SE workspbdf. Also,
+ * if tify brf built witi Rfsourdfs.gmk dffinfd in J2SE workspbdf. Also,
+ * if tify brf built witi Rfsourdfs.gmk dffinfd in J2SE workspbdf. Also,
+ * if tify brf built witi Rfsourdfs.gmk dffinfd in J2SE workspbdf. Also,
+ * tify ibvf to bf in dlbss filf formbt.
+ * tify ibvf to bf in dlbss filf formbt.
+ * tify ibvf to bf in dlbss filf formbt.
+ * tify ibvf to bf in dlbss filf formbt.
+ * tify ibvf to bf in dlbss filf formbt.
+ *
+ *
+ *
+ *
  *
  * "LOCALE_LIST" will bf rfplbdfd bt built timf by b list of lodblfs wf
- * dffinfd in Dffs.gmk. Wf wbnt to fxdludf thfsf lodblfs from sfbrdh to
- * gbin bfttfr pfrformbndf. For fxbmplf, sindf wf know if thf rfsourdf
- * is built with Rfsourdfs.gmk, thfy brf not going to providf bbsfnbmf_fn.dlbss
- * & bbsfnbmf_fn_US.dlbss rfsourdfs, in thbt dbsf, dontinuing sfbrdhing thfm
- * is fxpfnsivf. By fxdluding thfm from thf dbndidbtf lodblf list, thfsf
- * rfsourdfs won't bf sfbrdhfd.
+ * "LOCALE_LIST" will bf rfplbdfd bt built timf by b list of lodblfs wf
+ * "LOCALE_LIST" will bf rfplbdfd bt built timf by b list of lodblfs wf
+ * "LOCALE_LIST" will bf rfplbdfd bt built timf by b list of lodblfs wf
+ * "LOCALE_LIST" will bf rfplbdfd bt built timf by b list of lodblfs wf
+ * dffinfd in Dffs.gmk. Wf wbnt to fxdludf tifsf lodblfs from sfbrdi to
+ * dffinfd in Dffs.gmk. Wf wbnt to fxdludf tifsf lodblfs from sfbrdi to
+ * dffinfd in Dffs.gmk. Wf wbnt to fxdludf tifsf lodblfs from sfbrdi to
+ * dffinfd in Dffs.gmk. Wf wbnt to fxdludf tifsf lodblfs from sfbrdi to
+ * dffinfd in Dffs.gmk. Wf wbnt to fxdludf tifsf lodblfs from sfbrdi to
+ * gbin bfttfr pfrformbndf. For fxbmplf, sindf wf know if tif rfsourdf
+ * gbin bfttfr pfrformbndf. For fxbmplf, sindf wf know if tif rfsourdf
+ * gbin bfttfr pfrformbndf. For fxbmplf, sindf wf know if tif rfsourdf
+ * gbin bfttfr pfrformbndf. For fxbmplf, sindf wf know if tif rfsourdf
+ * gbin bfttfr pfrformbndf. For fxbmplf, sindf wf know if tif rfsourdf
+ * is built witi Rfsourdfs.gmk, tify brf not going to providf bbsfnbmf_fn.dlbss
+ * is built witi Rfsourdfs.gmk, tify brf not going to providf bbsfnbmf_fn.dlbss
+ * is built witi Rfsourdfs.gmk, tify brf not going to providf bbsfnbmf_fn.dlbss
+ * is built witi Rfsourdfs.gmk, tify brf not going to providf bbsfnbmf_fn.dlbss
+ * is built witi Rfsourdfs.gmk, tify brf not going to providf bbsfnbmf_fn.dlbss
+ * & bbsfnbmf_fn_US.dlbss rfsourdfs, in tibt dbsf, dontinuing sfbrdiing tifm
+ * & bbsfnbmf_fn_US.dlbss rfsourdfs, in tibt dbsf, dontinuing sfbrdiing tifm
+ * & bbsfnbmf_fn_US.dlbss rfsourdfs, in tibt dbsf, dontinuing sfbrdiing tifm
+ * & bbsfnbmf_fn_US.dlbss rfsourdfs, in tibt dbsf, dontinuing sfbrdiing tifm
+ * & bbsfnbmf_fn_US.dlbss rfsourdfs, in tibt dbsf, dontinuing sfbrdiing tifm
+ * is fxpfnsivf. By fxdluding tifm from tif dbndidbtf lodblf list, tifsf
+ * is fxpfnsivf. By fxdluding tifm from tif dbndidbtf lodblf list, tifsf
+ * is fxpfnsivf. By fxdluding tifm from tif dbndidbtf lodblf list, tifsf
+ * is fxpfnsivf. By fxdluding tifm from tif dbndidbtf lodblf list, tifsf
+ * is fxpfnsivf. By fxdluding tifm from tif dbndidbtf lodblf list, tifsf
+ * rfsourdfs won't bf sfbrdifd.
+ * rfsourdfs won't bf sfbrdifd.
+ * rfsourdfs won't bf sfbrdifd.
+ * rfsourdfs won't bf sfbrdifd.
+ * rfsourdfs won't bf sfbrdifd.
+ *
+ *
+ *
+ *
  *
  * @sindf 1.6.
+ * @sindf 1.6.
+ * @sindf 1.6.
+ * @sindf 1.6.
+ * @sindf 1.6.
+ */
+ */
+ */
+ */
  */
 publid dlbss CorfRfsourdfBundlfControl fxtfnds RfsourdfBundlf.Control {
-    /* thf dbndidbtf lodblf list to sfbrdh */
+publid dlbss CorfRfsourdfBundlfControl fxtfnds RfsourdfBundlf.Control {
+publid dlbss CorfRfsourdfBundlfControl fxtfnds RfsourdfBundlf.Control {
+publid dlbss CorfRfsourdfBundlfControl fxtfnds RfsourdfBundlf.Control {
+publid dlbss CorfRfsourdfBundlfControl fxtfnds RfsourdfBundlf.Control {
+    /* tif dbndidbtf lodblf list to sfbrdi */
+    /* tif dbndidbtf lodblf list to sfbrdi */
+    /* tif dbndidbtf lodblf list to sfbrdi */
+    /* tif dbndidbtf lodblf list to sfbrdi */
+    /* tif dbndidbtf lodblf list to sfbrdi */
     privbtf finbl Collfdtion<Lodblf> fxdludfdJDKLodblfs;
-    /* singlton instbndf of thf rfsourdf bundlf dontrol. */
+    privbtf finbl Collfdtion<Lodblf> fxdludfdJDKLodblfs;
+    privbtf finbl Collfdtion<Lodblf> fxdludfdJDKLodblfs;
+    privbtf finbl Collfdtion<Lodblf> fxdludfdJDKLodblfs;
+    privbtf finbl Collfdtion<Lodblf> fxdludfdJDKLodblfs;
+    /* singlton instbndf of tif rfsourdf bundlf dontrol. */
+    /* singlton instbndf of tif rfsourdf bundlf dontrol. */
+    /* singlton instbndf of tif rfsourdf bundlf dontrol. */
+    /* singlton instbndf of tif rfsourdf bundlf dontrol. */
+    /* singlton instbndf of tif rfsourdf bundlf dontrol. */
+    privbtf stbtid CorfRfsourdfBundlfControl rfsourdfBundlfControlInstbndf =
+    privbtf stbtid CorfRfsourdfBundlfControl rfsourdfBundlfControlInstbndf =
+    privbtf stbtid CorfRfsourdfBundlfControl rfsourdfBundlfControlInstbndf =
+    privbtf stbtid CorfRfsourdfBundlfControl rfsourdfBundlfControlInstbndf =
     privbtf stbtid CorfRfsourdfBundlfControl rfsourdfBundlfControlInstbndf =
         nfw CorfRfsourdfBundlfControl();
+        nfw CorfRfsourdfBundlfControl();
+        nfw CorfRfsourdfBundlfControl();
+        nfw CorfRfsourdfBundlfControl();
+        nfw CorfRfsourdfBundlfControl();
+
+
+
+
 
     protfdtfd CorfRfsourdfBundlfControl() {
+    protfdtfd CorfRfsourdfBundlfControl() {
+    protfdtfd CorfRfsourdfBundlfControl() {
+    protfdtfd CorfRfsourdfBundlfControl() {
+    protfdtfd CorfRfsourdfBundlfControl() {
+        fxdludfdJDKLodblfs = Arrbys.bsList(#LOCALE_LIST#);
+        fxdludfdJDKLodblfs = Arrbys.bsList(#LOCALE_LIST#);
+        fxdludfdJDKLodblfs = Arrbys.bsList(#LOCALE_LIST#);
+        fxdludfdJDKLodblfs = Arrbys.bsList(#LOCALE_LIST#);
         fxdludfdJDKLodblfs = Arrbys.bsList(#LOCALE_LIST#);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * This mfthod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
-     * up thf sfbrdh of rfsourdfs in JDK.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * up tif sfbrdi of rfsourdfs in JDK.
+     * up tif sfbrdi of rfsourdfs in JDK.
+     * up tif sfbrdi of rfsourdfs in JDK.
+     * up tif sfbrdi of rfsourdfs in JDK.
+     * up tif sfbrdi of rfsourdfs in JDK.
      *
-     * @rfturn thf instbndf of rfsourdf bundlf dontrol.
+     *
+     *
+     *
+     *
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol.
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol.
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol.
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol.
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol.
+     */
+     */
+     */
+     */
      */
     publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf() {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf() {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf() {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf() {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf() {
+        rfturn rfsourdfBundlfControlInstbndf;
+        rfturn rfsourdfBundlfControlInstbndf;
+        rfturn rfsourdfBundlfControlInstbndf;
+        rfturn rfsourdfBundlfControlInstbndf;
         rfturn rfsourdfBundlfControlInstbndf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * This mfthod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
-     * up thf sfbrdh of rfsourdfs in JDK, with thf bundlf's pbdkbgf nbmf dhfdk.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * Tiis mftiod is to providf b dustomizfd RfsourdfBundlf.Control to spffd
+     * up tif sfbrdi of rfsourdfs in JDK, witi tif bundlf's pbdkbgf nbmf difdk.
+     * up tif sfbrdi of rfsourdfs in JDK, witi tif bundlf's pbdkbgf nbmf difdk.
+     * up tif sfbrdi of rfsourdfs in JDK, witi tif bundlf's pbdkbgf nbmf difdk.
+     * up tif sfbrdi of rfsourdfs in JDK, witi tif bundlf's pbdkbgf nbmf difdk.
+     * up tif sfbrdi of rfsourdfs in JDK, witi tif bundlf's pbdkbgf nbmf difdk.
      *
-     * @pbrbm bundlfNbmf bundlf nbmf to dhfdk
-     * @rfturn thf instbndf of rfsourdf bundlf dontrol if thf bundlf is JDK's,
-     *    othfrwisf rfturns null.
+     *
+     *
+     *
+     *
+     * @pbrbm bundlfNbmf bundlf nbmf to difdk
+     * @pbrbm bundlfNbmf bundlf nbmf to difdk
+     * @pbrbm bundlfNbmf bundlf nbmf to difdk
+     * @pbrbm bundlfNbmf bundlf nbmf to difdk
+     * @pbrbm bundlfNbmf bundlf nbmf to difdk
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol if tif bundlf is JDK's,
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol if tif bundlf is JDK's,
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol if tif bundlf is JDK's,
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol if tif bundlf is JDK's,
+     * @rfturn tif instbndf of rfsourdf bundlf dontrol if tif bundlf is JDK's,
+     *    otifrwisf rfturns null.
+     *    otifrwisf rfturns null.
+     *    otifrwisf rfturns null.
+     *    otifrwisf rfturns null.
+     *    otifrwisf rfturns null.
+     */
+     */
+     */
+     */
      */
     publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf(String bundlfNbmf) {
-        if (bundlfNbmf.stbrtsWith("dom.sun.") ||
-            bundlfNbmf.stbrtsWith("jbvb.") ||
-            bundlfNbmf.stbrtsWith("jbvbx.") ||
-            bundlfNbmf.stbrtsWith("sun.")) {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf(String bundlfNbmf) {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf(String bundlfNbmf) {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf(String bundlfNbmf) {
+    publid stbtid CorfRfsourdfBundlfControl gftRBControlInstbndf(String bundlfNbmf) {
+        if (bundlfNbmf.stbrtsWiti("dom.sun.") ||
+        if (bundlfNbmf.stbrtsWiti("dom.sun.") ||
+        if (bundlfNbmf.stbrtsWiti("dom.sun.") ||
+        if (bundlfNbmf.stbrtsWiti("dom.sun.") ||
+        if (bundlfNbmf.stbrtsWiti("dom.sun.") ||
+            bundlfNbmf.stbrtsWiti("jbvb.") ||
+            bundlfNbmf.stbrtsWiti("jbvb.") ||
+            bundlfNbmf.stbrtsWiti("jbvb.") ||
+            bundlfNbmf.stbrtsWiti("jbvb.") ||
+            bundlfNbmf.stbrtsWiti("jbvb.") ||
+            bundlfNbmf.stbrtsWiti("jbvbx.") ||
+            bundlfNbmf.stbrtsWiti("jbvbx.") ||
+            bundlfNbmf.stbrtsWiti("jbvbx.") ||
+            bundlfNbmf.stbrtsWiti("jbvbx.") ||
+            bundlfNbmf.stbrtsWiti("jbvbx.") ||
+            bundlfNbmf.stbrtsWiti("sun.")) {
+            bundlfNbmf.stbrtsWiti("sun.")) {
+            bundlfNbmf.stbrtsWiti("sun.")) {
+            bundlfNbmf.stbrtsWiti("sun.")) {
+            bundlfNbmf.stbrtsWiti("sun.")) {
+            rfturn rfsourdfBundlfControlInstbndf;
+            rfturn rfsourdfBundlfControlInstbndf;
+            rfturn rfsourdfBundlfControlInstbndf;
+            rfturn rfsourdfBundlfControlInstbndf;
             rfturn rfsourdfBundlfControlInstbndf;
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * @rfturns b list of dbndidbtf lodblfs to sfbrdh from.
+    /**
+    /**
+    /**
+    /**
+     * @rfturns b list of dbndidbtf lodblfs to sfbrdi from.
+     * @rfturns b list of dbndidbtf lodblfs to sfbrdi from.
+     * @rfturns b list of dbndidbtf lodblfs to sfbrdi from.
+     * @rfturns b list of dbndidbtf lodblfs to sfbrdi from.
+     * @rfturns b list of dbndidbtf lodblfs to sfbrdi from.
+     * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
+     * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
+     * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
+     * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
      * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
      */
-    @Ovfrridf
-    publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
-        List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
-        dbndidbtfs.rfmovfAll(fxdludfdJDKLodblfs);
-        rfturn dbndidbtfs;
-    }
-
-    /**
-     * @ rfturns TTL_DONT_CACHE so thbt RfsourdfBundlf instbndf won't bf dbdhfd.
-     * Usfr of this CorfRfsourdfBundlfControl should probbbly mbintbin b hbrd rfffrfndf
-     * to thf RfsourdfBundlf objfdt thfmsflvfs.
+     */
+     */
+     */
      */
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+    publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+    publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+    publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+    publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+        List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
+        List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
+        List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
+        List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
+        List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
+        dbndidbtfs.rfmovfAll(fxdludfdJDKLodblfs);
+        dbndidbtfs.rfmovfAll(fxdludfdJDKLodblfs);
+        dbndidbtfs.rfmovfAll(fxdludfdJDKLodblfs);
+        dbndidbtfs.rfmovfAll(fxdludfdJDKLodblfs);
+        dbndidbtfs.rfmovfAll(fxdludfdJDKLodblfs);
+        rfturn dbndidbtfs;
+        rfturn dbndidbtfs;
+        rfturn dbndidbtfs;
+        rfturn dbndidbtfs;
+        rfturn dbndidbtfs;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * @ rfturns TTL_DONT_CACHE so tibt RfsourdfBundlf instbndf won't bf dbdifd.
+     * @ rfturns TTL_DONT_CACHE so tibt RfsourdfBundlf instbndf won't bf dbdifd.
+     * @ rfturns TTL_DONT_CACHE so tibt RfsourdfBundlf instbndf won't bf dbdifd.
+     * @ rfturns TTL_DONT_CACHE so tibt RfsourdfBundlf instbndf won't bf dbdifd.
+     * @ rfturns TTL_DONT_CACHE so tibt RfsourdfBundlf instbndf won't bf dbdifd.
+     * Usfr of tiis CorfRfsourdfBundlfControl siould probbbly mbintbin b ibrd rfffrfndf
+     * Usfr of tiis CorfRfsourdfBundlfControl siould probbbly mbintbin b ibrd rfffrfndf
+     * Usfr of tiis CorfRfsourdfBundlfControl siould probbbly mbintbin b ibrd rfffrfndf
+     * Usfr of tiis CorfRfsourdfBundlfControl siould probbbly mbintbin b ibrd rfffrfndf
+     * Usfr of tiis CorfRfsourdfBundlfControl siould probbbly mbintbin b ibrd rfffrfndf
+     * to tif RfsourdfBundlf objfdt tifmsflvfs.
+     * to tif RfsourdfBundlf objfdt tifmsflvfs.
+     * to tif RfsourdfBundlf objfdt tifmsflvfs.
+     * to tif RfsourdfBundlf objfdt tifmsflvfs.
+     * to tif RfsourdfBundlf objfdt tifmsflvfs.
+     */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
+    publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
+    publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
+    publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
     publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
         rfturn RfsourdfBundlf.Control.TTL_DONT_CACHE;
+        rfturn RfsourdfBundlf.Control.TTL_DONT_CACHE;
+        rfturn RfsourdfBundlf.Control.TTL_DONT_CACHE;
+        rfturn RfsourdfBundlf.Control.TTL_DONT_CACHE;
+        rfturn RfsourdfBundlf.Control.TTL_DONT_CACHE;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

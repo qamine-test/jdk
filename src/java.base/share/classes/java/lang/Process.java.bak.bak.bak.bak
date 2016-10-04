@@ -1,279 +1,1395 @@
 /*
- * Copyright (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+
+
+
+
 
 import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.TimfUnit;
 import jbvb.util.dondurrfnt.TimfUnit;
 
+
+
+
+
 /**
- * Thf {@link ProdfssBuildfr#stbrt()} bnd
+/**
+/**
+/**
+/**
+ * Tif {@link ProdfssBuildfr#stbrt()} bnd
+ * Tif {@link ProdfssBuildfr#stbrt()} bnd
+ * Tif {@link ProdfssBuildfr#stbrt()} bnd
+ * Tif {@link ProdfssBuildfr#stbrt()} bnd
+ * Tif {@link ProdfssBuildfr#stbrt()} bnd
  * {@link Runtimf#fxfd(String[],String[],Filf) Runtimf.fxfd}
- * mfthods drfbtf b nbtivf prodfss bnd rfturn bn instbndf of b
- * subdlbss of {@dodf Prodfss} thbt dbn bf usfd to dontrol thf prodfss
- * bnd obtbin informbtion bbout it.  Thf dlbss {@dodf Prodfss}
- * providfs mfthods for pfrforming input from thf prodfss, pfrforming
- * output to thf prodfss, wbiting for thf prodfss to domplftf,
- * dhfdking thf fxit stbtus of thf prodfss, bnd dfstroying (killing)
- * thf prodfss.
+ * {@link Runtimf#fxfd(String[],String[],Filf) Runtimf.fxfd}
+ * {@link Runtimf#fxfd(String[],String[],Filf) Runtimf.fxfd}
+ * {@link Runtimf#fxfd(String[],String[],Filf) Runtimf.fxfd}
+ * {@link Runtimf#fxfd(String[],String[],Filf) Runtimf.fxfd}
+ * mftiods drfbtf b nbtivf prodfss bnd rfturn bn instbndf of b
+ * mftiods drfbtf b nbtivf prodfss bnd rfturn bn instbndf of b
+ * mftiods drfbtf b nbtivf prodfss bnd rfturn bn instbndf of b
+ * mftiods drfbtf b nbtivf prodfss bnd rfturn bn instbndf of b
+ * mftiods drfbtf b nbtivf prodfss bnd rfturn bn instbndf of b
+ * subdlbss of {@dodf Prodfss} tibt dbn bf usfd to dontrol tif prodfss
+ * subdlbss of {@dodf Prodfss} tibt dbn bf usfd to dontrol tif prodfss
+ * subdlbss of {@dodf Prodfss} tibt dbn bf usfd to dontrol tif prodfss
+ * subdlbss of {@dodf Prodfss} tibt dbn bf usfd to dontrol tif prodfss
+ * subdlbss of {@dodf Prodfss} tibt dbn bf usfd to dontrol tif prodfss
+ * bnd obtbin informbtion bbout it.  Tif dlbss {@dodf Prodfss}
+ * bnd obtbin informbtion bbout it.  Tif dlbss {@dodf Prodfss}
+ * bnd obtbin informbtion bbout it.  Tif dlbss {@dodf Prodfss}
+ * bnd obtbin informbtion bbout it.  Tif dlbss {@dodf Prodfss}
+ * bnd obtbin informbtion bbout it.  Tif dlbss {@dodf Prodfss}
+ * providfs mftiods for pfrforming input from tif prodfss, pfrforming
+ * providfs mftiods for pfrforming input from tif prodfss, pfrforming
+ * providfs mftiods for pfrforming input from tif prodfss, pfrforming
+ * providfs mftiods for pfrforming input from tif prodfss, pfrforming
+ * providfs mftiods for pfrforming input from tif prodfss, pfrforming
+ * output to tif prodfss, wbiting for tif prodfss to domplftf,
+ * output to tif prodfss, wbiting for tif prodfss to domplftf,
+ * output to tif prodfss, wbiting for tif prodfss to domplftf,
+ * output to tif prodfss, wbiting for tif prodfss to domplftf,
+ * output to tif prodfss, wbiting for tif prodfss to domplftf,
+ * difdking tif fxit stbtus of tif prodfss, bnd dfstroying (killing)
+ * difdking tif fxit stbtus of tif prodfss, bnd dfstroying (killing)
+ * difdking tif fxit stbtus of tif prodfss, bnd dfstroying (killing)
+ * difdking tif fxit stbtus of tif prodfss, bnd dfstroying (killing)
+ * difdking tif fxit stbtus of tif prodfss, bnd dfstroying (killing)
+ * tif prodfss.
+ * tif prodfss.
+ * tif prodfss.
+ * tif prodfss.
+ * tif prodfss.
  *
- * <p>Thf mfthods thbt drfbtf prodfssfs mby not work wfll for spfdibl
- * prodfssfs on dfrtbin nbtivf plbtforms, sudh bs nbtivf windowing
+ *
+ *
+ *
+ *
+ * <p>Tif mftiods tibt drfbtf prodfssfs mby not work wfll for spfdibl
+ * <p>Tif mftiods tibt drfbtf prodfssfs mby not work wfll for spfdibl
+ * <p>Tif mftiods tibt drfbtf prodfssfs mby not work wfll for spfdibl
+ * <p>Tif mftiods tibt drfbtf prodfssfs mby not work wfll for spfdibl
+ * <p>Tif mftiods tibt drfbtf prodfssfs mby not work wfll for spfdibl
+ * prodfssfs on dfrtbin nbtivf plbtforms, sudi bs nbtivf windowing
+ * prodfssfs on dfrtbin nbtivf plbtforms, sudi bs nbtivf windowing
+ * prodfssfs on dfrtbin nbtivf plbtforms, sudi bs nbtivf windowing
+ * prodfssfs on dfrtbin nbtivf plbtforms, sudi bs nbtivf windowing
+ * prodfssfs on dfrtbin nbtivf plbtforms, sudi bs nbtivf windowing
  * prodfssfs, dbfmon prodfssfs, Win16/DOS prodfssfs on Midrosoft
- * Windows, or shfll sdripts.
+ * prodfssfs, dbfmon prodfssfs, Win16/DOS prodfssfs on Midrosoft
+ * prodfssfs, dbfmon prodfssfs, Win16/DOS prodfssfs on Midrosoft
+ * prodfssfs, dbfmon prodfssfs, Win16/DOS prodfssfs on Midrosoft
+ * prodfssfs, dbfmon prodfssfs, Win16/DOS prodfssfs on Midrosoft
+ * Windows, or sifll sdripts.
+ * Windows, or sifll sdripts.
+ * Windows, or sifll sdripts.
+ * Windows, or sifll sdripts.
+ * Windows, or sifll sdripts.
  *
- * <p>By dffbult, thf drfbtfd subprodfss dofs not hbvf its own tfrminbl
+ *
+ *
+ *
+ *
+ * <p>By dffbult, tif drfbtfd subprodfss dofs not ibvf its own tfrminbl
+ * <p>By dffbult, tif drfbtfd subprodfss dofs not ibvf its own tfrminbl
+ * <p>By dffbult, tif drfbtfd subprodfss dofs not ibvf its own tfrminbl
+ * <p>By dffbult, tif drfbtfd subprodfss dofs not ibvf its own tfrminbl
+ * <p>By dffbult, tif drfbtfd subprodfss dofs not ibvf its own tfrminbl
  * or donsolf.  All its stbndbrd I/O (i.f. stdin, stdout, stdfrr)
- * opfrbtions will bf rfdirfdtfd to thf pbrfnt prodfss, whfrf thfy dbn
- * bf bddfssfd vib thf strfbms obtbinfd using thf mfthods
+ * or donsolf.  All its stbndbrd I/O (i.f. stdin, stdout, stdfrr)
+ * or donsolf.  All its stbndbrd I/O (i.f. stdin, stdout, stdfrr)
+ * or donsolf.  All its stbndbrd I/O (i.f. stdin, stdout, stdfrr)
+ * or donsolf.  All its stbndbrd I/O (i.f. stdin, stdout, stdfrr)
+ * opfrbtions will bf rfdirfdtfd to tif pbrfnt prodfss, wifrf tify dbn
+ * opfrbtions will bf rfdirfdtfd to tif pbrfnt prodfss, wifrf tify dbn
+ * opfrbtions will bf rfdirfdtfd to tif pbrfnt prodfss, wifrf tify dbn
+ * opfrbtions will bf rfdirfdtfd to tif pbrfnt prodfss, wifrf tify dbn
+ * opfrbtions will bf rfdirfdtfd to tif pbrfnt prodfss, wifrf tify dbn
+ * bf bddfssfd vib tif strfbms obtbinfd using tif mftiods
+ * bf bddfssfd vib tif strfbms obtbinfd using tif mftiods
+ * bf bddfssfd vib tif strfbms obtbinfd using tif mftiods
+ * bf bddfssfd vib tif strfbms obtbinfd using tif mftiods
+ * bf bddfssfd vib tif strfbms obtbinfd using tif mftiods
+ * {@link #gftOutputStrfbm()},
+ * {@link #gftOutputStrfbm()},
+ * {@link #gftOutputStrfbm()},
+ * {@link #gftOutputStrfbm()},
  * {@link #gftOutputStrfbm()},
  * {@link #gftInputStrfbm()}, bnd
+ * {@link #gftInputStrfbm()}, bnd
+ * {@link #gftInputStrfbm()}, bnd
+ * {@link #gftInputStrfbm()}, bnd
+ * {@link #gftInputStrfbm()}, bnd
  * {@link #gftErrorStrfbm()}.
- * Thf pbrfnt prodfss usfs thfsf strfbms to fffd input to bnd gft output
- * from thf subprodfss.  Bfdbusf somf nbtivf plbtforms only providf
+ * {@link #gftErrorStrfbm()}.
+ * {@link #gftErrorStrfbm()}.
+ * {@link #gftErrorStrfbm()}.
+ * {@link #gftErrorStrfbm()}.
+ * Tif pbrfnt prodfss usfs tifsf strfbms to fffd input to bnd gft output
+ * Tif pbrfnt prodfss usfs tifsf strfbms to fffd input to bnd gft output
+ * Tif pbrfnt prodfss usfs tifsf strfbms to fffd input to bnd gft output
+ * Tif pbrfnt prodfss usfs tifsf strfbms to fffd input to bnd gft output
+ * Tif pbrfnt prodfss usfs tifsf strfbms to fffd input to bnd gft output
+ * from tif subprodfss.  Bfdbusf somf nbtivf plbtforms only providf
+ * from tif subprodfss.  Bfdbusf somf nbtivf plbtforms only providf
+ * from tif subprodfss.  Bfdbusf somf nbtivf plbtforms only providf
+ * from tif subprodfss.  Bfdbusf somf nbtivf plbtforms only providf
+ * from tif subprodfss.  Bfdbusf somf nbtivf plbtforms only providf
  * limitfd bufffr sizf for stbndbrd input bnd output strfbms, fbilurf
- * to promptly writf thf input strfbm or rfbd thf output strfbm of
- * thf subprodfss mby dbusf thf subprodfss to blodk, or fvfn dfbdlodk.
+ * limitfd bufffr sizf for stbndbrd input bnd output strfbms, fbilurf
+ * limitfd bufffr sizf for stbndbrd input bnd output strfbms, fbilurf
+ * limitfd bufffr sizf for stbndbrd input bnd output strfbms, fbilurf
+ * limitfd bufffr sizf for stbndbrd input bnd output strfbms, fbilurf
+ * to promptly writf tif input strfbm or rfbd tif output strfbm of
+ * to promptly writf tif input strfbm or rfbd tif output strfbm of
+ * to promptly writf tif input strfbm or rfbd tif output strfbm of
+ * to promptly writf tif input strfbm or rfbd tif output strfbm of
+ * to promptly writf tif input strfbm or rfbd tif output strfbm of
+ * tif subprodfss mby dbusf tif subprodfss to blodk, or fvfn dfbdlodk.
+ * tif subprodfss mby dbusf tif subprodfss to blodk, or fvfn dfbdlodk.
+ * tif subprodfss mby dbusf tif subprodfss to blodk, or fvfn dfbdlodk.
+ * tif subprodfss mby dbusf tif subprodfss to blodk, or fvfn dfbdlodk.
+ * tif subprodfss mby dbusf tif subprodfss to blodk, or fvfn dfbdlodk.
  *
- * <p>Whfrf dfsirfd, <b hrff="ProdfssBuildfr.html#rfdirfdt-input">
+ *
+ *
+ *
+ *
+ * <p>Wifrf dfsirfd, <b irff="ProdfssBuildfr.itml#rfdirfdt-input">
+ * <p>Wifrf dfsirfd, <b irff="ProdfssBuildfr.itml#rfdirfdt-input">
+ * <p>Wifrf dfsirfd, <b irff="ProdfssBuildfr.itml#rfdirfdt-input">
+ * <p>Wifrf dfsirfd, <b irff="ProdfssBuildfr.itml#rfdirfdt-input">
+ * <p>Wifrf dfsirfd, <b irff="ProdfssBuildfr.itml#rfdirfdt-input">
  * subprodfss I/O dbn blso bf rfdirfdtfd</b>
- * using mfthods of thf {@link ProdfssBuildfr} dlbss.
+ * subprodfss I/O dbn blso bf rfdirfdtfd</b>
+ * subprodfss I/O dbn blso bf rfdirfdtfd</b>
+ * subprodfss I/O dbn blso bf rfdirfdtfd</b>
+ * subprodfss I/O dbn blso bf rfdirfdtfd</b>
+ * using mftiods of tif {@link ProdfssBuildfr} dlbss.
+ * using mftiods of tif {@link ProdfssBuildfr} dlbss.
+ * using mftiods of tif {@link ProdfssBuildfr} dlbss.
+ * using mftiods of tif {@link ProdfssBuildfr} dlbss.
+ * using mftiods of tif {@link ProdfssBuildfr} dlbss.
  *
- * <p>Thf subprodfss is not killfd whfn thfrf brf no morf rfffrfndfs to
- * thf {@dodf Prodfss} objfdt, but rbthfr thf subprodfss
- * dontinufs fxfduting bsyndhronously.
  *
- * <p>Thfrf is no rfquirfmfnt thbt b prodfss rfprfsfntfd by b {@dodf
- * Prodfss} objfdt fxfdutf bsyndhronously or dondurrfntly with rfspfdt
- * to thf Jbvb prodfss thbt owns thf {@dodf Prodfss} objfdt.
  *
- * <p>As of 1.5, {@link ProdfssBuildfr#stbrt()} is thf prfffrrfd wby
+ *
+ *
+ * <p>Tif subprodfss is not killfd wifn tifrf brf no morf rfffrfndfs to
+ * <p>Tif subprodfss is not killfd wifn tifrf brf no morf rfffrfndfs to
+ * <p>Tif subprodfss is not killfd wifn tifrf brf no morf rfffrfndfs to
+ * <p>Tif subprodfss is not killfd wifn tifrf brf no morf rfffrfndfs to
+ * <p>Tif subprodfss is not killfd wifn tifrf brf no morf rfffrfndfs to
+ * tif {@dodf Prodfss} objfdt, but rbtifr tif subprodfss
+ * tif {@dodf Prodfss} objfdt, but rbtifr tif subprodfss
+ * tif {@dodf Prodfss} objfdt, but rbtifr tif subprodfss
+ * tif {@dodf Prodfss} objfdt, but rbtifr tif subprodfss
+ * tif {@dodf Prodfss} objfdt, but rbtifr tif subprodfss
+ * dontinufs fxfduting bsyndironously.
+ * dontinufs fxfduting bsyndironously.
+ * dontinufs fxfduting bsyndironously.
+ * dontinufs fxfduting bsyndironously.
+ * dontinufs fxfduting bsyndironously.
+ *
+ *
+ *
+ *
+ *
+ * <p>Tifrf is no rfquirfmfnt tibt b prodfss rfprfsfntfd by b {@dodf
+ * <p>Tifrf is no rfquirfmfnt tibt b prodfss rfprfsfntfd by b {@dodf
+ * <p>Tifrf is no rfquirfmfnt tibt b prodfss rfprfsfntfd by b {@dodf
+ * <p>Tifrf is no rfquirfmfnt tibt b prodfss rfprfsfntfd by b {@dodf
+ * <p>Tifrf is no rfquirfmfnt tibt b prodfss rfprfsfntfd by b {@dodf
+ * Prodfss} objfdt fxfdutf bsyndironously or dondurrfntly witi rfspfdt
+ * Prodfss} objfdt fxfdutf bsyndironously or dondurrfntly witi rfspfdt
+ * Prodfss} objfdt fxfdutf bsyndironously or dondurrfntly witi rfspfdt
+ * Prodfss} objfdt fxfdutf bsyndironously or dondurrfntly witi rfspfdt
+ * Prodfss} objfdt fxfdutf bsyndironously or dondurrfntly witi rfspfdt
+ * to tif Jbvb prodfss tibt owns tif {@dodf Prodfss} objfdt.
+ * to tif Jbvb prodfss tibt owns tif {@dodf Prodfss} objfdt.
+ * to tif Jbvb prodfss tibt owns tif {@dodf Prodfss} objfdt.
+ * to tif Jbvb prodfss tibt owns tif {@dodf Prodfss} objfdt.
+ * to tif Jbvb prodfss tibt owns tif {@dodf Prodfss} objfdt.
+ *
+ *
+ *
+ *
+ *
+ * <p>As of 1.5, {@link ProdfssBuildfr#stbrt()} is tif prfffrrfd wby
+ * <p>As of 1.5, {@link ProdfssBuildfr#stbrt()} is tif prfffrrfd wby
+ * <p>As of 1.5, {@link ProdfssBuildfr#stbrt()} is tif prfffrrfd wby
+ * <p>As of 1.5, {@link ProdfssBuildfr#stbrt()} is tif prfffrrfd wby
+ * <p>As of 1.5, {@link ProdfssBuildfr#stbrt()} is tif prfffrrfd wby
+ * to drfbtf b {@dodf Prodfss}.
+ * to drfbtf b {@dodf Prodfss}.
+ * to drfbtf b {@dodf Prodfss}.
+ * to drfbtf b {@dodf Prodfss}.
  * to drfbtf b {@dodf Prodfss}.
  *
+ *
+ *
+ *
+ *
+ * @sindf   1.0
+ * @sindf   1.0
+ * @sindf   1.0
+ * @sindf   1.0
  * @sindf   1.0
  */
+ */
+ */
+ */
+ */
+publid bbstrbdt dlbss Prodfss {
+publid bbstrbdt dlbss Prodfss {
+publid bbstrbdt dlbss Prodfss {
+publid bbstrbdt dlbss Prodfss {
 publid bbstrbdt dlbss Prodfss {
     /**
-     * Rfturns thf output strfbm donnfdtfd to thf normbl input of thf
-     * subprodfss.  Output to thf strfbm is pipfd into thf stbndbrd
-     * input of thf prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif output strfbm donnfdtfd to tif normbl input of tif
+     * Rfturns tif output strfbm donnfdtfd to tif normbl input of tif
+     * Rfturns tif output strfbm donnfdtfd to tif normbl input of tif
+     * Rfturns tif output strfbm donnfdtfd to tif normbl input of tif
+     * Rfturns tif output strfbm donnfdtfd to tif normbl input of tif
+     * subprodfss.  Output to tif strfbm is pipfd into tif stbndbrd
+     * subprodfss.  Output to tif strfbm is pipfd into tif stbndbrd
+     * subprodfss.  Output to tif strfbm is pipfd into tif stbndbrd
+     * subprodfss.  Output to tif strfbm is pipfd into tif stbndbrd
+     * subprodfss.  Output to tif strfbm is pipfd into tif stbndbrd
+     * input of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * input of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * input of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * input of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * input of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
      *
-     * <p>If thf stbndbrd input of thf subprodfss hbs bffn rfdirfdtfd using
+     *
+     *
+     *
+     *
+     * <p>If tif stbndbrd input of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd input of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd input of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd input of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd input of tif subprodfss ibs bffn rfdirfdtfd using
+     * {@link ProdfssBuildfr#rfdirfdtInput(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtInput(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtInput(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtInput(Rfdirfdt)
      * {@link ProdfssBuildfr#rfdirfdtInput(Rfdirfdt)
      * ProdfssBuildfr.rfdirfdtInput}
-     * thfn this mfthod will rfturn b
-     * <b hrff="ProdfssBuildfr.html#rfdirfdt-input">null output strfbm</b>.
+     * ProdfssBuildfr.rfdirfdtInput}
+     * ProdfssBuildfr.rfdirfdtInput}
+     * ProdfssBuildfr.rfdirfdtInput}
+     * ProdfssBuildfr.rfdirfdtInput}
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-input">null output strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-input">null output strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-input">null output strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-input">null output strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-input">null output strfbm</b>.
      *
-     * <p>Implfmfntbtion notf: It is b good idfb for thf rfturnfd
+     *
+     *
+     *
+     *
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * output strfbm to bf bufffrfd.
+     * output strfbm to bf bufffrfd.
+     * output strfbm to bf bufffrfd.
+     * output strfbm to bf bufffrfd.
      * output strfbm to bf bufffrfd.
      *
-     * @rfturn thf output strfbm donnfdtfd to thf normbl input of thf
+     *
+     *
+     *
+     *
+     * @rfturn tif output strfbm donnfdtfd to tif normbl input of tif
+     * @rfturn tif output strfbm donnfdtfd to tif normbl input of tif
+     * @rfturn tif output strfbm donnfdtfd to tif normbl input of tif
+     * @rfturn tif output strfbm donnfdtfd to tif normbl input of tif
+     * @rfturn tif output strfbm donnfdtfd to tif normbl input of tif
      *         subprodfss
+     *         subprodfss
+     *         subprodfss
+     *         subprodfss
+     *         subprodfss
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt OutputStrfbm gftOutputStrfbm();
+    publid bbstrbdt OutputStrfbm gftOutputStrfbm();
+    publid bbstrbdt OutputStrfbm gftOutputStrfbm();
+    publid bbstrbdt OutputStrfbm gftOutputStrfbm();
+    publid bbstrbdt OutputStrfbm gftOutputStrfbm();
+
+
+
+
 
     /**
-     * Rfturns thf input strfbm donnfdtfd to thf normbl output of thf
-     * subprodfss.  Thf strfbm obtbins dbtb pipfd from thf stbndbrd
-     * output of thf prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif input strfbm donnfdtfd to tif normbl output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif normbl output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif normbl output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif normbl output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif normbl output of tif
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif stbndbrd
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif stbndbrd
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif stbndbrd
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif stbndbrd
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif stbndbrd
+     * output of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * output of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * output of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * output of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * output of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
      *
-     * <p>If thf stbndbrd output of thf subprodfss hbs bffn rfdirfdtfd using
+     *
+     *
+     *
+     *
+     * <p>If tif stbndbrd output of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd output of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd output of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd output of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd output of tif subprodfss ibs bffn rfdirfdtfd using
+     * {@link ProdfssBuildfr#rfdirfdtOutput(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtOutput(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtOutput(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtOutput(Rfdirfdt)
      * {@link ProdfssBuildfr#rfdirfdtOutput(Rfdirfdt)
      * ProdfssBuildfr.rfdirfdtOutput}
-     * thfn this mfthod will rfturn b
-     * <b hrff="ProdfssBuildfr.html#rfdirfdt-output">null input strfbm</b>.
+     * ProdfssBuildfr.rfdirfdtOutput}
+     * ProdfssBuildfr.rfdirfdtOutput}
+     * ProdfssBuildfr.rfdirfdtOutput}
+     * ProdfssBuildfr.rfdirfdtOutput}
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
      *
-     * <p>Othfrwisf, if thf stbndbrd frror of thf subprodfss hbs bffn
+     *
+     *
+     *
+     *
+     * <p>Otifrwisf, if tif stbndbrd frror of tif subprodfss ibs bffn
+     * <p>Otifrwisf, if tif stbndbrd frror of tif subprodfss ibs bffn
+     * <p>Otifrwisf, if tif stbndbrd frror of tif subprodfss ibs bffn
+     * <p>Otifrwisf, if tif stbndbrd frror of tif subprodfss ibs bffn
+     * <p>Otifrwisf, if tif stbndbrd frror of tif subprodfss ibs bffn
+     * rfdirfdtfd using
+     * rfdirfdtfd using
+     * rfdirfdtfd using
+     * rfdirfdtfd using
      * rfdirfdtfd using
      * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
-     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
-     * thfn thf input strfbm rfturnfd by this mfthod will rfdfivf thf
-     * mfrgfd stbndbrd output bnd thf stbndbrd frror of thf subprodfss.
-     *
-     * <p>Implfmfntbtion notf: It is b good idfb for thf rfturnfd
-     * input strfbm to bf bufffrfd.
-     *
-     * @rfturn thf input strfbm donnfdtfd to thf normbl output of thf
-     *         subprodfss
-     */
-    publid bbstrbdt InputStrfbm gftInputStrfbm();
-
-    /**
-     * Rfturns thf input strfbm donnfdtfd to thf frror output of thf
-     * subprodfss.  Thf strfbm obtbins dbtb pipfd from thf frror output
-     * of thf prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt.
-     *
-     * <p>If thf stbndbrd frror of thf subprodfss hbs bffn rfdirfdtfd using
-     * {@link ProdfssBuildfr#rfdirfdtError(Rfdirfdt)
-     * ProdfssBuildfr.rfdirfdtError} or
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
      * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
      * ProdfssBuildfr.rfdirfdtErrorStrfbm}
-     * thfn this mfthod will rfturn b
-     * <b hrff="ProdfssBuildfr.html#rfdirfdt-output">null input strfbm</b>.
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * tifn tif input strfbm rfturnfd by tiis mftiod will rfdfivf tif
+     * tifn tif input strfbm rfturnfd by tiis mftiod will rfdfivf tif
+     * tifn tif input strfbm rfturnfd by tiis mftiod will rfdfivf tif
+     * tifn tif input strfbm rfturnfd by tiis mftiod will rfdfivf tif
+     * tifn tif input strfbm rfturnfd by tiis mftiod will rfdfivf tif
+     * mfrgfd stbndbrd output bnd tif stbndbrd frror of tif subprodfss.
+     * mfrgfd stbndbrd output bnd tif stbndbrd frror of tif subprodfss.
+     * mfrgfd stbndbrd output bnd tif stbndbrd frror of tif subprodfss.
+     * mfrgfd stbndbrd output bnd tif stbndbrd frror of tif subprodfss.
+     * mfrgfd stbndbrd output bnd tif stbndbrd frror of tif subprodfss.
      *
-     * <p>Implfmfntbtion notf: It is b good idfb for thf rfturnfd
+     *
+     *
+     *
+     *
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * input strfbm to bf bufffrfd.
+     * input strfbm to bf bufffrfd.
+     * input strfbm to bf bufffrfd.
+     * input strfbm to bf bufffrfd.
      * input strfbm to bf bufffrfd.
      *
-     * @rfturn thf input strfbm donnfdtfd to thf frror output of
-     *         thf subprodfss
+     *
+     *
+     *
+     *
+     * @rfturn tif input strfbm donnfdtfd to tif normbl output of tif
+     * @rfturn tif input strfbm donnfdtfd to tif normbl output of tif
+     * @rfturn tif input strfbm donnfdtfd to tif normbl output of tif
+     * @rfturn tif input strfbm donnfdtfd to tif normbl output of tif
+     * @rfturn tif input strfbm donnfdtfd to tif normbl output of tif
+     *         subprodfss
+     *         subprodfss
+     *         subprodfss
+     *         subprodfss
+     *         subprodfss
+     */
+     */
+     */
+     */
+     */
+    publid bbstrbdt InputStrfbm gftInputStrfbm();
+    publid bbstrbdt InputStrfbm gftInputStrfbm();
+    publid bbstrbdt InputStrfbm gftInputStrfbm();
+    publid bbstrbdt InputStrfbm gftInputStrfbm();
+    publid bbstrbdt InputStrfbm gftInputStrfbm();
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif input strfbm donnfdtfd to tif frror output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif frror output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif frror output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif frror output of tif
+     * Rfturns tif input strfbm donnfdtfd to tif frror output of tif
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif frror output
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif frror output
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif frror output
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif frror output
+     * subprodfss.  Tif strfbm obtbins dbtb pipfd from tif frror output
+     * of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     * of tif prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt.
+     *
+     *
+     *
+     *
+     *
+     * <p>If tif stbndbrd frror of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd frror of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd frror of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd frror of tif subprodfss ibs bffn rfdirfdtfd using
+     * <p>If tif stbndbrd frror of tif subprodfss ibs bffn rfdirfdtfd using
+     * {@link ProdfssBuildfr#rfdirfdtError(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtError(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtError(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtError(Rfdirfdt)
+     * {@link ProdfssBuildfr#rfdirfdtError(Rfdirfdt)
+     * ProdfssBuildfr.rfdirfdtError} or
+     * ProdfssBuildfr.rfdirfdtError} or
+     * ProdfssBuildfr.rfdirfdtError} or
+     * ProdfssBuildfr.rfdirfdtError} or
+     * ProdfssBuildfr.rfdirfdtError} or
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * tifn tiis mftiod will rfturn b
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     * <b irff="ProdfssBuildfr.itml#rfdirfdt-output">null input strfbm</b>.
+     *
+     *
+     *
+     *
+     *
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * <p>Implfmfntbtion notf: It is b good idfb for tif rfturnfd
+     * input strfbm to bf bufffrfd.
+     * input strfbm to bf bufffrfd.
+     * input strfbm to bf bufffrfd.
+     * input strfbm to bf bufffrfd.
+     * input strfbm to bf bufffrfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif input strfbm donnfdtfd to tif frror output of
+     * @rfturn tif input strfbm donnfdtfd to tif frror output of
+     * @rfturn tif input strfbm donnfdtfd to tif frror output of
+     * @rfturn tif input strfbm donnfdtfd to tif frror output of
+     * @rfturn tif input strfbm donnfdtfd to tif frror output of
+     *         tif subprodfss
+     *         tif subprodfss
+     *         tif subprodfss
+     *         tif subprodfss
+     *         tif subprodfss
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt InputStrfbm gftErrorStrfbm();
+    publid bbstrbdt InputStrfbm gftErrorStrfbm();
+    publid bbstrbdt InputStrfbm gftErrorStrfbm();
+    publid bbstrbdt InputStrfbm gftErrorStrfbm();
+    publid bbstrbdt InputStrfbm gftErrorStrfbm();
+
+
+
+
 
     /**
-     * Cbusfs thf durrfnt thrfbd to wbit, if nfdfssbry, until thf
-     * prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt hbs
-     * tfrminbtfd.  This mfthod rfturns immfdibtfly if thf subprodfss
-     * hbs blrfbdy tfrminbtfd.  If thf subprodfss hbs not yft
-     * tfrminbtfd, thf dblling thrfbd will bf blodkfd until thf
+    /**
+    /**
+    /**
+    /**
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * prodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * tfrminbtfd.  Tiis mftiod rfturns immfdibtfly if tif subprodfss
+     * tfrminbtfd.  Tiis mftiod rfturns immfdibtfly if tif subprodfss
+     * tfrminbtfd.  Tiis mftiod rfturns immfdibtfly if tif subprodfss
+     * tfrminbtfd.  Tiis mftiod rfturns immfdibtfly if tif subprodfss
+     * tfrminbtfd.  Tiis mftiod rfturns immfdibtfly if tif subprodfss
+     * ibs blrfbdy tfrminbtfd.  If tif subprodfss ibs not yft
+     * ibs blrfbdy tfrminbtfd.  If tif subprodfss ibs not yft
+     * ibs blrfbdy tfrminbtfd.  If tif subprodfss ibs not yft
+     * ibs blrfbdy tfrminbtfd.  If tif subprodfss ibs not yft
+     * ibs blrfbdy tfrminbtfd.  If tif subprodfss ibs not yft
+     * tfrminbtfd, tif dblling tirfbd will bf blodkfd until tif
+     * tfrminbtfd, tif dblling tirfbd will bf blodkfd until tif
+     * tfrminbtfd, tif dblling tirfbd will bf blodkfd until tif
+     * tfrminbtfd, tif dblling tirfbd will bf blodkfd until tif
+     * tfrminbtfd, tif dblling tirfbd will bf blodkfd until tif
+     * subprodfss fxits.
+     * subprodfss fxits.
+     * subprodfss fxits.
+     * subprodfss fxits.
      * subprodfss fxits.
      *
-     * @rfturn thf fxit vbluf of thf subprodfss rfprfsfntfd by this
-     *         {@dodf Prodfss} objfdt.  By donvfntion, thf vbluf
+     *
+     *
+     *
+     *
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
      *         {@dodf 0} indidbtfs normbl tfrminbtion.
-     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is
-     *         {@linkplbin Thrfbd#intfrrupt() intfrruptfd} by bnothfr
-     *         thrfbd whilf it is wbiting, thfn thf wbit is fndfd bnd
-     *         bn {@link IntfrruptfdExdfption} is thrown.
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is
+     *         {@linkplbin Tirfbd#intfrrupt() intfrruptfd} by bnotifr
+     *         {@linkplbin Tirfbd#intfrrupt() intfrruptfd} by bnotifr
+     *         {@linkplbin Tirfbd#intfrrupt() intfrruptfd} by bnotifr
+     *         {@linkplbin Tirfbd#intfrrupt() intfrruptfd} by bnotifr
+     *         {@linkplbin Tirfbd#intfrrupt() intfrruptfd} by bnotifr
+     *         tirfbd wiilf it is wbiting, tifn tif wbit is fndfd bnd
+     *         tirfbd wiilf it is wbiting, tifn tif wbit is fndfd bnd
+     *         tirfbd wiilf it is wbiting, tifn tif wbit is fndfd bnd
+     *         tirfbd wiilf it is wbiting, tifn tif wbit is fndfd bnd
+     *         tirfbd wiilf it is wbiting, tifn tif wbit is fndfd bnd
+     *         bn {@link IntfrruptfdExdfption} is tirown.
+     *         bn {@link IntfrruptfdExdfption} is tirown.
+     *         bn {@link IntfrruptfdExdfption} is tirown.
+     *         bn {@link IntfrruptfdExdfption} is tirown.
+     *         bn {@link IntfrruptfdExdfption} is tirown.
      */
-    publid bbstrbdt int wbitFor() throws IntfrruptfdExdfption;
+     */
+     */
+     */
+     */
+    publid bbstrbdt int wbitFor() tirows IntfrruptfdExdfption;
+    publid bbstrbdt int wbitFor() tirows IntfrruptfdExdfption;
+    publid bbstrbdt int wbitFor() tirows IntfrruptfdExdfption;
+    publid bbstrbdt int wbitFor() tirows IntfrruptfdExdfption;
+    publid bbstrbdt int wbitFor() tirows IntfrruptfdExdfption;
+
+
+
+
 
     /**
-     * Cbusfs thf durrfnt thrfbd to wbit, if nfdfssbry, until thf
-     * subprodfss rfprfsfntfd by this {@dodf Prodfss} objfdt hbs
-     * tfrminbtfd, or thf spfdififd wbiting timf flbpsfs.
+    /**
+    /**
+    /**
+    /**
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * Cbusfs tif durrfnt tirfbd to wbit, if nfdfssbry, until tif
+     * subprodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * subprodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * subprodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * subprodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * subprodfss rfprfsfntfd by tiis {@dodf Prodfss} objfdt ibs
+     * tfrminbtfd, or tif spfdififd wbiting timf flbpsfs.
+     * tfrminbtfd, or tif spfdififd wbiting timf flbpsfs.
+     * tfrminbtfd, or tif spfdififd wbiting timf flbpsfs.
+     * tfrminbtfd, or tif spfdififd wbiting timf flbpsfs.
+     * tfrminbtfd, or tif spfdififd wbiting timf flbpsfs.
      *
-     * <p>If thf subprodfss hbs blrfbdy tfrminbtfd thfn this mfthod rfturns
-     * immfdibtfly with thf vbluf {@dodf truf}.  If thf prodfss hbs not
-     * tfrminbtfd bnd thf timfout vbluf is lfss thbn, or fqubl to, zfro, thfn
-     * this mfthod rfturns immfdibtfly with thf vbluf {@dodf fblsf}.
      *
-     * <p>Thf dffbult implfmfntbtion of this mfthods polls thf {@dodf fxitVbluf}
-     * to dhfdk if thf prodfss hbs tfrminbtfd. Condrftf implfmfntbtions of this
-     * dlbss brf strongly fndourbgfd to ovfrridf this mfthod with b morf
+     *
+     *
+     *
+     * <p>If tif subprodfss ibs blrfbdy tfrminbtfd tifn tiis mftiod rfturns
+     * <p>If tif subprodfss ibs blrfbdy tfrminbtfd tifn tiis mftiod rfturns
+     * <p>If tif subprodfss ibs blrfbdy tfrminbtfd tifn tiis mftiod rfturns
+     * <p>If tif subprodfss ibs blrfbdy tfrminbtfd tifn tiis mftiod rfturns
+     * <p>If tif subprodfss ibs blrfbdy tfrminbtfd tifn tiis mftiod rfturns
+     * immfdibtfly witi tif vbluf {@dodf truf}.  If tif prodfss ibs not
+     * immfdibtfly witi tif vbluf {@dodf truf}.  If tif prodfss ibs not
+     * immfdibtfly witi tif vbluf {@dodf truf}.  If tif prodfss ibs not
+     * immfdibtfly witi tif vbluf {@dodf truf}.  If tif prodfss ibs not
+     * immfdibtfly witi tif vbluf {@dodf truf}.  If tif prodfss ibs not
+     * tfrminbtfd bnd tif timfout vbluf is lfss tibn, or fqubl to, zfro, tifn
+     * tfrminbtfd bnd tif timfout vbluf is lfss tibn, or fqubl to, zfro, tifn
+     * tfrminbtfd bnd tif timfout vbluf is lfss tibn, or fqubl to, zfro, tifn
+     * tfrminbtfd bnd tif timfout vbluf is lfss tibn, or fqubl to, zfro, tifn
+     * tfrminbtfd bnd tif timfout vbluf is lfss tibn, or fqubl to, zfro, tifn
+     * tiis mftiod rfturns immfdibtfly witi tif vbluf {@dodf fblsf}.
+     * tiis mftiod rfturns immfdibtfly witi tif vbluf {@dodf fblsf}.
+     * tiis mftiod rfturns immfdibtfly witi tif vbluf {@dodf fblsf}.
+     * tiis mftiod rfturns immfdibtfly witi tif vbluf {@dodf fblsf}.
+     * tiis mftiod rfturns immfdibtfly witi tif vbluf {@dodf fblsf}.
+     *
+     *
+     *
+     *
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiods polls tif {@dodf fxitVbluf}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiods polls tif {@dodf fxitVbluf}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiods polls tif {@dodf fxitVbluf}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiods polls tif {@dodf fxitVbluf}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiods polls tif {@dodf fxitVbluf}
+     * to difdk if tif prodfss ibs tfrminbtfd. Condrftf implfmfntbtions of tiis
+     * to difdk if tif prodfss ibs tfrminbtfd. Condrftf implfmfntbtions of tiis
+     * to difdk if tif prodfss ibs tfrminbtfd. Condrftf implfmfntbtions of tiis
+     * to difdk if tif prodfss ibs tfrminbtfd. Condrftf implfmfntbtions of tiis
+     * to difdk if tif prodfss ibs tfrminbtfd. Condrftf implfmfntbtions of tiis
+     * dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b morf
+     * dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b morf
+     * dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b morf
+     * dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b morf
+     * dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b morf
+     * fffidifnt implfmfntbtion.
+     * fffidifnt implfmfntbtion.
+     * fffidifnt implfmfntbtion.
+     * fffidifnt implfmfntbtion.
      * fffidifnt implfmfntbtion.
      *
-     * @pbrbm timfout thf mbximum timf to wbit
-     * @pbrbm unit thf timf unit of thf {@dodf timfout} brgumfnt
-     * @rfturn {@dodf truf} if thf subprodfss hbs fxitfd bnd {@dodf fblsf} if
-     *         thf wbiting timf flbpsfd bfforf thf subprodfss hbs fxitfd.
-     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
-     *         whilf wbiting.
-     * @throws NullPointfrExdfption if unit is null
+     *
+     *
+     *
+     *
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @rfturn {@dodf truf} if tif subprodfss ibs fxitfd bnd {@dodf fblsf} if
+     * @rfturn {@dodf truf} if tif subprodfss ibs fxitfd bnd {@dodf fblsf} if
+     * @rfturn {@dodf truf} if tif subprodfss ibs fxitfd bnd {@dodf fblsf} if
+     * @rfturn {@dodf truf} if tif subprodfss ibs fxitfd bnd {@dodf fblsf} if
+     * @rfturn {@dodf truf} if tif subprodfss ibs fxitfd bnd {@dodf fblsf} if
+     *         tif wbiting timf flbpsfd bfforf tif subprodfss ibs fxitfd.
+     *         tif wbiting timf flbpsfd bfforf tif subprodfss ibs fxitfd.
+     *         tif wbiting timf flbpsfd bfforf tif subprodfss ibs fxitfd.
+     *         tif wbiting timf flbpsfd bfforf tif subprodfss ibs fxitfd.
+     *         tif wbiting timf flbpsfd bfforf tif subprodfss ibs fxitfd.
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         wiilf wbiting.
+     *         wiilf wbiting.
+     *         wiilf wbiting.
+     *         wiilf wbiting.
+     *         wiilf wbiting.
+     * @tirows NullPointfrExdfption if unit is null
+     * @tirows NullPointfrExdfption if unit is null
+     * @tirows NullPointfrExdfption if unit is null
+     * @tirows NullPointfrExdfption if unit is null
+     * @tirows NullPointfrExdfption if unit is null
      * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     */
+     */
+     */
+     */
      */
     publid boolfbn wbitFor(long timfout, TimfUnit unit)
-        throws IntfrruptfdExdfption
+    publid boolfbn wbitFor(long timfout, TimfUnit unit)
+    publid boolfbn wbitFor(long timfout, TimfUnit unit)
+    publid boolfbn wbitFor(long timfout, TimfUnit unit)
+    publid boolfbn wbitFor(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption
+        tirows IntfrruptfdExdfption
+        tirows IntfrruptfdExdfption
+        tirows IntfrruptfdExdfption
+        tirows IntfrruptfdExdfption
+    {
+    {
+    {
+    {
     {
         long stbrtTimf = Systfm.nbnoTimf();
+        long stbrtTimf = Systfm.nbnoTimf();
+        long stbrtTimf = Systfm.nbnoTimf();
+        long stbrtTimf = Systfm.nbnoTimf();
+        long stbrtTimf = Systfm.nbnoTimf();
+        long rfm = unit.toNbnos(timfout);
+        long rfm = unit.toNbnos(timfout);
+        long rfm = unit.toNbnos(timfout);
+        long rfm = unit.toNbnos(timfout);
         long rfm = unit.toNbnos(timfout);
 
+
+
+
+
+        do {
+        do {
+        do {
+        do {
         do {
             try {
+            try {
+            try {
+            try {
+            try {
+                fxitVbluf();
+                fxitVbluf();
+                fxitVbluf();
+                fxitVbluf();
                 fxitVbluf();
                 rfturn truf;
-            } dbtdh(IllfgblThrfbdStbtfExdfption fx) {
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+            } dbtdi(IllfgblTirfbdStbtfExdfption fx) {
+            } dbtdi(IllfgblTirfbdStbtfExdfption fx) {
+            } dbtdi(IllfgblTirfbdStbtfExdfption fx) {
+            } dbtdi(IllfgblTirfbdStbtfExdfption fx) {
+            } dbtdi(IllfgblTirfbdStbtfExdfption fx) {
                 if (rfm > 0)
-                    Thrfbd.slffp(
-                        Mbth.min(TimfUnit.NANOSECONDS.toMillis(rfm) + 1, 100));
+                if (rfm > 0)
+                if (rfm > 0)
+                if (rfm > 0)
+                if (rfm > 0)
+                    Tirfbd.slffp(
+                    Tirfbd.slffp(
+                    Tirfbd.slffp(
+                    Tirfbd.slffp(
+                    Tirfbd.slffp(
+                        Mbti.min(TimfUnit.NANOSECONDS.toMillis(rfm) + 1, 100));
+                        Mbti.min(TimfUnit.NANOSECONDS.toMillis(rfm) + 1, 100));
+                        Mbti.min(TimfUnit.NANOSECONDS.toMillis(rfm) + 1, 100));
+                        Mbti.min(TimfUnit.NANOSECONDS.toMillis(rfm) + 1, 100));
+                        Mbti.min(TimfUnit.NANOSECONDS.toMillis(rfm) + 1, 100));
+            }
+            }
+            }
+            }
             }
             rfm = unit.toNbnos(timfout) - (Systfm.nbnoTimf() - stbrtTimf);
-        } whilf (rfm > 0);
+            rfm = unit.toNbnos(timfout) - (Systfm.nbnoTimf() - stbrtTimf);
+            rfm = unit.toNbnos(timfout) - (Systfm.nbnoTimf() - stbrtTimf);
+            rfm = unit.toNbnos(timfout) - (Systfm.nbnoTimf() - stbrtTimf);
+            rfm = unit.toNbnos(timfout) - (Systfm.nbnoTimf() - stbrtTimf);
+        } wiilf (rfm > 0);
+        } wiilf (rfm > 0);
+        } wiilf (rfm > 0);
+        } wiilf (rfm > 0);
+        } wiilf (rfm > 0);
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf fxit vbluf for thf subprodfss.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif fxit vbluf for tif subprodfss.
+     * Rfturns tif fxit vbluf for tif subprodfss.
+     * Rfturns tif fxit vbluf for tif subprodfss.
+     * Rfturns tif fxit vbluf for tif subprodfss.
+     * Rfturns tif fxit vbluf for tif subprodfss.
      *
-     * @rfturn thf fxit vbluf of thf subprodfss rfprfsfntfd by this
-     *         {@dodf Prodfss} objfdt.  By donvfntion, thf vbluf
+     *
+     *
+     *
+     *
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     * @rfturn tif fxit vbluf of tif subprodfss rfprfsfntfd by tiis
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
+     *         {@dodf Prodfss} objfdt.  By donvfntion, tif vbluf
      *         {@dodf 0} indidbtfs normbl tfrminbtion.
-     * @throws IllfgblThrfbdStbtfExdfption if thf subprodfss rfprfsfntfd
-     *         by this {@dodf Prodfss} objfdt hbs not yft tfrminbtfd
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     * @tirows IllfgblTirfbdStbtfExdfption if tif subprodfss rfprfsfntfd
+     * @tirows IllfgblTirfbdStbtfExdfption if tif subprodfss rfprfsfntfd
+     * @tirows IllfgblTirfbdStbtfExdfption if tif subprodfss rfprfsfntfd
+     * @tirows IllfgblTirfbdStbtfExdfption if tif subprodfss rfprfsfntfd
+     * @tirows IllfgblTirfbdStbtfExdfption if tif subprodfss rfprfsfntfd
+     *         by tiis {@dodf Prodfss} objfdt ibs not yft tfrminbtfd
+     *         by tiis {@dodf Prodfss} objfdt ibs not yft tfrminbtfd
+     *         by tiis {@dodf Prodfss} objfdt ibs not yft tfrminbtfd
+     *         by tiis {@dodf Prodfss} objfdt ibs not yft tfrminbtfd
+     *         by tiis {@dodf Prodfss} objfdt ibs not yft tfrminbtfd
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt int fxitVbluf();
+    publid bbstrbdt int fxitVbluf();
+    publid bbstrbdt int fxitVbluf();
+    publid bbstrbdt int fxitVbluf();
+    publid bbstrbdt int fxitVbluf();
+
+
+
+
 
     /**
-     * Kills thf subprodfss. Whfthfr thf subprodfss rfprfsfntfd by this
+    /**
+    /**
+    /**
+    /**
+     * Kills tif subprodfss. Wiftifr tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Wiftifr tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Wiftifr tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Wiftifr tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Wiftifr tif subprodfss rfprfsfntfd by tiis
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd or not is
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd or not is
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd or not is
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd or not is
      * {@dodf Prodfss} objfdt is fordibly tfrminbtfd or not is
      * implfmfntbtion dfpfndfnt.
+     * implfmfntbtion dfpfndfnt.
+     * implfmfntbtion dfpfndfnt.
+     * implfmfntbtion dfpfndfnt.
+     * implfmfntbtion dfpfndfnt.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt void dfstroy();
+    publid bbstrbdt void dfstroy();
+    publid bbstrbdt void dfstroy();
+    publid bbstrbdt void dfstroy();
+    publid bbstrbdt void dfstroy();
+
+
+
+
 
     /**
-     * Kills thf subprodfss. Thf subprodfss rfprfsfntfd by this
+    /**
+    /**
+    /**
+    /**
+     * Kills tif subprodfss. Tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Tif subprodfss rfprfsfntfd by tiis
+     * Kills tif subprodfss. Tif subprodfss rfprfsfntfd by tiis
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd.
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd.
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd.
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd.
      * {@dodf Prodfss} objfdt is fordibly tfrminbtfd.
      *
-     * <p>Thf dffbult implfmfntbtion of this mfthod invokfs {@link #dfstroy}
-     * bnd so mby not fordibly tfrminbtf thf prodfss. Condrftf implfmfntbtions
-     * of this dlbss brf strongly fndourbgfd to ovfrridf this mfthod with b
-     * domplibnt implfmfntbtion.  Invoking this mfthod on {@dodf Prodfss}
+     *
+     *
+     *
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod invokfs {@link #dfstroy}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod invokfs {@link #dfstroy}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod invokfs {@link #dfstroy}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod invokfs {@link #dfstroy}
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod invokfs {@link #dfstroy}
+     * bnd so mby not fordibly tfrminbtf tif prodfss. Condrftf implfmfntbtions
+     * bnd so mby not fordibly tfrminbtf tif prodfss. Condrftf implfmfntbtions
+     * bnd so mby not fordibly tfrminbtf tif prodfss. Condrftf implfmfntbtions
+     * bnd so mby not fordibly tfrminbtf tif prodfss. Condrftf implfmfntbtions
+     * bnd so mby not fordibly tfrminbtf tif prodfss. Condrftf implfmfntbtions
+     * of tiis dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b
+     * of tiis dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b
+     * of tiis dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b
+     * of tiis dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b
+     * of tiis dlbss brf strongly fndourbgfd to ovfrridf tiis mftiod witi b
+     * domplibnt implfmfntbtion.  Invoking tiis mftiod on {@dodf Prodfss}
+     * domplibnt implfmfntbtion.  Invoking tiis mftiod on {@dodf Prodfss}
+     * domplibnt implfmfntbtion.  Invoking tiis mftiod on {@dodf Prodfss}
+     * domplibnt implfmfntbtion.  Invoking tiis mftiod on {@dodf Prodfss}
+     * domplibnt implfmfntbtion.  Invoking tiis mftiod on {@dodf Prodfss}
      * objfdts rfturnfd by {@link ProdfssBuildfr#stbrt} bnd
-     * {@link Runtimf#fxfd} will fordibly tfrminbtf thf prodfss.
+     * objfdts rfturnfd by {@link ProdfssBuildfr#stbrt} bnd
+     * objfdts rfturnfd by {@link ProdfssBuildfr#stbrt} bnd
+     * objfdts rfturnfd by {@link ProdfssBuildfr#stbrt} bnd
+     * objfdts rfturnfd by {@link ProdfssBuildfr#stbrt} bnd
+     * {@link Runtimf#fxfd} will fordibly tfrminbtf tif prodfss.
+     * {@link Runtimf#fxfd} will fordibly tfrminbtf tif prodfss.
+     * {@link Runtimf#fxfd} will fordibly tfrminbtf tif prodfss.
+     * {@link Runtimf#fxfd} will fordibly tfrminbtf tif prodfss.
+     * {@link Runtimf#fxfd} will fordibly tfrminbtf tif prodfss.
      *
-     * <p>Notf: Thf subprodfss mby not tfrminbtf immfdibtfly.
+     *
+     *
+     *
+     *
+     * <p>Notf: Tif subprodfss mby not tfrminbtf immfdibtfly.
+     * <p>Notf: Tif subprodfss mby not tfrminbtf immfdibtfly.
+     * <p>Notf: Tif subprodfss mby not tfrminbtf immfdibtfly.
+     * <p>Notf: Tif subprodfss mby not tfrminbtf immfdibtfly.
+     * <p>Notf: Tif subprodfss mby not tfrminbtf immfdibtfly.
      * i.f. {@dodf isAlivf()} mby rfturn truf for b briff pfriod
-     * bftfr {@dodf dfstroyFordibly()} is dbllfd. This mfthod
-     * mby bf dhbinfd to {@dodf wbitFor()} if nffdfd.
+     * i.f. {@dodf isAlivf()} mby rfturn truf for b briff pfriod
+     * i.f. {@dodf isAlivf()} mby rfturn truf for b briff pfriod
+     * i.f. {@dodf isAlivf()} mby rfturn truf for b briff pfriod
+     * i.f. {@dodf isAlivf()} mby rfturn truf for b briff pfriod
+     * bftfr {@dodf dfstroyFordibly()} is dbllfd. Tiis mftiod
+     * bftfr {@dodf dfstroyFordibly()} is dbllfd. Tiis mftiod
+     * bftfr {@dodf dfstroyFordibly()} is dbllfd. Tiis mftiod
+     * bftfr {@dodf dfstroyFordibly()} is dbllfd. Tiis mftiod
+     * bftfr {@dodf dfstroyFordibly()} is dbllfd. Tiis mftiod
+     * mby bf dibinfd to {@dodf wbitFor()} if nffdfd.
+     * mby bf dibinfd to {@dodf wbitFor()} if nffdfd.
+     * mby bf dibinfd to {@dodf wbitFor()} if nffdfd.
+     * mby bf dibinfd to {@dodf wbitFor()} if nffdfd.
+     * mby bf dibinfd to {@dodf wbitFor()} if nffdfd.
      *
-     * @rfturn thf {@dodf Prodfss} objfdt rfprfsfnting thf
+     *
+     *
+     *
+     *
+     * @rfturn tif {@dodf Prodfss} objfdt rfprfsfnting tif
+     * @rfturn tif {@dodf Prodfss} objfdt rfprfsfnting tif
+     * @rfturn tif {@dodf Prodfss} objfdt rfprfsfnting tif
+     * @rfturn tif {@dodf Prodfss} objfdt rfprfsfnting tif
+     * @rfturn tif {@dodf Prodfss} objfdt rfprfsfnting tif
+     *         subprodfss to bf fordibly dfstroyfd.
+     *         subprodfss to bf fordibly dfstroyfd.
+     *         subprodfss to bf fordibly dfstroyfd.
+     *         subprodfss to bf fordibly dfstroyfd.
      *         subprodfss to bf fordibly dfstroyfd.
      * @sindf 1.8
-     */
-    publid Prodfss dfstroyFordibly() {
-        dfstroy();
-        rfturn this;
-    }
-
-    /**
-     * Tfsts whfthfr thf subprodfss rfprfsfntfd by this {@dodf Prodfss} is
-     * blivf.
-     *
-     * @rfturn {@dodf truf} if thf subprodfss rfprfsfntfd by this
-     *         {@dodf Prodfss} objfdt hbs not yft tfrminbtfd.
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
      * @sindf 1.8
      */
-    publid boolfbn isAlivf() {
-        try {
-            fxitVbluf();
-            rfturn fblsf;
-        } dbtdh(IllfgblThrfbdStbtfExdfption f) {
-            rfturn truf;
-        }
+     */
+     */
+     */
+     */
+    publid Prodfss dfstroyFordibly() {
+    publid Prodfss dfstroyFordibly() {
+    publid Prodfss dfstroyFordibly() {
+    publid Prodfss dfstroyFordibly() {
+    publid Prodfss dfstroyFordibly() {
+        dfstroy();
+        dfstroy();
+        dfstroy();
+        dfstroy();
+        dfstroy();
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf nbtivf prodfss id of thf subprodfss.
-     * Thf nbtivf prodfss id is bn idfntifidbtion numbfr thbt thf opfrbting
-     * systfm bssigns to thf prodfss.
+    /**
+    /**
+    /**
+    /**
+     * Tfsts wiftifr tif subprodfss rfprfsfntfd by tiis {@dodf Prodfss} is
+     * Tfsts wiftifr tif subprodfss rfprfsfntfd by tiis {@dodf Prodfss} is
+     * Tfsts wiftifr tif subprodfss rfprfsfntfd by tiis {@dodf Prodfss} is
+     * Tfsts wiftifr tif subprodfss rfprfsfntfd by tiis {@dodf Prodfss} is
+     * Tfsts wiftifr tif subprodfss rfprfsfntfd by tiis {@dodf Prodfss} is
+     * blivf.
+     * blivf.
+     * blivf.
+     * blivf.
+     * blivf.
      *
-     * @rfturn thf nbtivf prodfss id of thf subprodfss
-     * @throws UnsupportfdOpfrbtionExdfption if thf Prodfss implfmfntbtion
-     *     dofs not support this opfrbtion
+     *
+     *
+     *
+     *
+     * @rfturn {@dodf truf} if tif subprodfss rfprfsfntfd by tiis
+     * @rfturn {@dodf truf} if tif subprodfss rfprfsfntfd by tiis
+     * @rfturn {@dodf truf} if tif subprodfss rfprfsfntfd by tiis
+     * @rfturn {@dodf truf} if tif subprodfss rfprfsfntfd by tiis
+     * @rfturn {@dodf truf} if tif subprodfss rfprfsfntfd by tiis
+     *         {@dodf Prodfss} objfdt ibs not yft tfrminbtfd.
+     *         {@dodf Prodfss} objfdt ibs not yft tfrminbtfd.
+     *         {@dodf Prodfss} objfdt ibs not yft tfrminbtfd.
+     *         {@dodf Prodfss} objfdt ibs not yft tfrminbtfd.
+     *         {@dodf Prodfss} objfdt ibs not yft tfrminbtfd.
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn isAlivf() {
+    publid boolfbn isAlivf() {
+    publid boolfbn isAlivf() {
+    publid boolfbn isAlivf() {
+    publid boolfbn isAlivf() {
+        try {
+        try {
+        try {
+        try {
+        try {
+            fxitVbluf();
+            fxitVbluf();
+            fxitVbluf();
+            fxitVbluf();
+            fxitVbluf();
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        } dbtdi(IllfgblTirfbdStbtfExdfption f) {
+        } dbtdi(IllfgblTirfbdStbtfExdfption f) {
+        } dbtdi(IllfgblTirfbdStbtfExdfption f) {
+        } dbtdi(IllfgblTirfbdStbtfExdfption f) {
+        } dbtdi(IllfgblTirfbdStbtfExdfption f) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nbtivf prodfss id of tif subprodfss.
+     * Rfturns tif nbtivf prodfss id of tif subprodfss.
+     * Rfturns tif nbtivf prodfss id of tif subprodfss.
+     * Rfturns tif nbtivf prodfss id of tif subprodfss.
+     * Rfturns tif nbtivf prodfss id of tif subprodfss.
+     * Tif nbtivf prodfss id is bn idfntifidbtion numbfr tibt tif opfrbting
+     * Tif nbtivf prodfss id is bn idfntifidbtion numbfr tibt tif opfrbting
+     * Tif nbtivf prodfss id is bn idfntifidbtion numbfr tibt tif opfrbting
+     * Tif nbtivf prodfss id is bn idfntifidbtion numbfr tibt tif opfrbting
+     * Tif nbtivf prodfss id is bn idfntifidbtion numbfr tibt tif opfrbting
+     * systfm bssigns to tif prodfss.
+     * systfm bssigns to tif prodfss.
+     * systfm bssigns to tif prodfss.
+     * systfm bssigns to tif prodfss.
+     * systfm bssigns to tif prodfss.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nbtivf prodfss id of tif subprodfss
+     * @rfturn tif nbtivf prodfss id of tif subprodfss
+     * @rfturn tif nbtivf prodfss id of tif subprodfss
+     * @rfturn tif nbtivf prodfss id of tif subprodfss
+     * @rfturn tif nbtivf prodfss id of tif subprodfss
+     * @tirows UnsupportfdOpfrbtionExdfption if tif Prodfss implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif Prodfss implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif Prodfss implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif Prodfss implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif Prodfss implfmfntbtion
+     *     dofs not support tiis opfrbtion
+     *     dofs not support tiis opfrbtion
+     *     dofs not support tiis opfrbtion
+     *     dofs not support tiis opfrbtion
+     *     dofs not support tiis opfrbtion
+     * @sindf 1.9
+     * @sindf 1.9
+     * @sindf 1.9
+     * @sindf 1.9
      * @sindf 1.9
      */
+     */
+     */
+     */
+     */
     publid long gftPid() {
-        throw nfw UnsupportfdOpfrbtionExdfption();
+    publid long gftPid() {
+    publid long gftPid() {
+    publid long gftPid() {
+    publid long gftPid() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

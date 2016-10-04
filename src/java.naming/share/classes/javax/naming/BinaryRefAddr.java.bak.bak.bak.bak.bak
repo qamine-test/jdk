@@ -1,0 +1,183 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+/**
+  * Tiis dlbss rfprfsfnts tif binbry form of tif bddrfss of
+  * b dommunidbtions fnd-point.
+  *<p>
+  * A BinbryRffAddr donsists of b typf tibt dfsdribfs tif dommunidbtion mfdibnism
+  * bnd bn opbquf bufffr dontbining tif bddrfss dfsdription
+  * spfdifid to tibt dommunidbtion mfdibnism. Tif formbt bnd intfrprftbtion of
+  * tif bddrfss typf bnd tif dontfnts of tif opbquf bufffr brf bbsfd on
+  * tif bgrffmfnt of tirff pbrtifs: tif dlifnt tibt usfs tif bddrfss,
+  * tif objfdt/sfrvfr tibt dbn bf rfbdifd using tif bddrfss,
+  * bnd tif bdministrbtor or progrbm tibt drfbtfs tif bddrfss.
+  *<p>
+  * An fxbmplf of b binbry rfffrfndf bddrfss is bn BER X.500 prfsfntbtion bddrfss.
+  * Anotifr fxbmplf of b binbry rfffrfndf bddrfss is b sfriblizfd form of
+  * b sfrvidf's objfdt ibndlf.
+  *<p>
+  * A binbry rfffrfndf bddrfss is immutbblf in tif sfnsf tibt its fiflds
+  * ondf drfbtfd, dbnnot bf rfplbdfd. Howfvfr, it is possiblf to bddfss
+  * tif bytf brrby usfd to iold tif opbquf bufffr. Progrbms brf strongly
+  * rfdommfndfd bgbinst dibnging tiis bytf brrby. Cibngfs to tiis
+  * bytf brrby nffd to bf fxpliditly syndironizfd.
+  *
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  *
+  * @sff RffAddr
+  * @sff StringRffAddr
+  * @sindf 1.3
+  */
+
+  /*
+  * Tif sfriblizfd form of b BinbryRffAddr objfdt donsists of its typf
+  * nbmf String bnd b bytf brrby dontbining its "dontfnts".
+  */
+
+publid dlbss BinbryRffAddr fxtfnds RffAddr {
+    /**
+     * Contbins tif bytfs of tif bddrfss.
+     * Tiis fifld is initiblizfd by tif donstrudtor bnd rfturnfd
+     * using gftAddrfssBytfs() bnd gftAddrfssContfnts().
+     * @sfribl
+     */
+    privbtf bytf[] buf = null;
+
+    /**
+      * Construdts b nfw instbndf of BinbryRffAddr using its bddrfss typf bnd b bytf
+      * brrby for dontfnts.
+      *
+      * @pbrbm bddrTypf A non-null string dfsdribing tif typf of tif bddrfss.
+      * @pbrbm srd      Tif non-null dontfnts of tif bddrfss bs b bytf brrby.
+      *                 Tif dontfnts of srd is dopifd into tif nfw BinbryRffAddr.
+      */
+    publid BinbryRffAddr(String bddrTypf, bytf[] srd) {
+        tiis(bddrTypf, srd, 0, srd.lfngti);
+    }
+
+    /**
+      * Construdts b nfw instbndf of BinbryRffAddr using its bddrfss typf bnd
+      * b rfgion of b bytf brrby for dontfnts.
+      *
+      * @pbrbm bddrTypf A non-null string dfsdribing tif typf of tif bddrfss.
+      * @pbrbm srd      Tif non-null dontfnts of tif bddrfss bs b bytf brrby.
+      *                 Tif dontfnts of srd is dopifd into tif nfw BinbryRffAddr.
+      * @pbrbm offsft   Tif stbrting indfx in srd to gft tif bytfs.
+      *                 {@dodf 0 <= offsft <= srd.lfngti}.
+      * @pbrbm dount    Tif numbfr of bytfs to fxtrbdt from srd.
+      *                 {@dodf 0 <= dount <= srd.lfngti-offsft}.
+      */
+    publid BinbryRffAddr(String bddrTypf, bytf[] srd, int offsft, int dount) {
+        supfr(bddrTypf);
+        buf = nfw bytf[dount];
+        Systfm.brrbydopy(srd, offsft, buf, 0, dount);
+    }
+
+    /**
+      * Rftrifvfs tif dontfnts of tiis bddrfss bs bn Objfdt.
+      * Tif rfsult is b bytf brrby.
+      * Cibngfs to tiis brrby will bfffdt tiis BinbryRffAddr's dontfnts.
+      * Progrbms brf rfdommfndfd bgbinst dibnging tiis brrby's dontfnts
+      * bnd to lodk tif bufffr if tify nffd to dibngf it.
+      *
+      * @rfturn Tif non-null bufffr dontbining tiis bddrfss's dontfnts.
+      */
+    publid Objfdt gftContfnt() {
+        rfturn buf;
+    }
+
+
+    /**
+      * Dftfrminfs wiftifr obj is fqubl to tiis bddrfss.  It is fqubl if
+      * it dontbins tif sbmf bddrfss typf bnd tifir dontfnts brf bytf-wisf
+      * fquivblfnt.
+      * @pbrbm obj      Tif possibly null objfdt to difdk.
+      * @rfturn truf if tif objfdt is fqubl; fblsf otifrwisf.
+      */
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof BinbryRffAddr)) {
+            BinbryRffAddr tbrgft = (BinbryRffAddr)obj;
+            if (bddrTypf.dompbrfTo(tbrgft.bddrTypf) == 0) {
+                if (buf == null && tbrgft.buf == null)
+                    rfturn truf;
+                if (buf == null || tbrgft.buf == null ||
+                    buf.lfngti != tbrgft.buf.lfngti)
+                    rfturn fblsf;
+                for (int i = 0; i < buf.lfngti; i++)
+                    if (buf[i] != tbrgft.buf[i])
+                        rfturn fblsf;
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+      * Computfs tif ibsi dodf of tiis bddrfss using its bddrfss typf bnd dontfnts.
+      * Two BinbryRffAddrs ibvf tif sbmf ibsi dodf if tify ibvf
+      * tif sbmf bddrfss typf bnd tif sbmf dontfnts.
+      * It is blso possiblf for difffrfnt BinbryRffAddrs to ibvf
+      * tif sbmf ibsi dodf.
+      *
+      * @rfturn Tif ibsi dodf of tiis bddrfss bs bn int.
+      */
+    publid int ibsiCodf() {
+        int ibsi = bddrTypf.ibsiCodf();
+        for (int i = 0; i < buf.lfngti; i++) {
+            ibsi += buf[i];     // %%% improvf lbtfr
+        }
+        rfturn ibsi;
+    }
+
+    /**
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis bddrfss.
+      * Tif string donsists of tif bddrfss's typf bnd dontfnts witi lbbfls.
+      * Tif first 32 bytfs of dontfnts brf displbyfd (in ifxbdfdimbl).
+      * If tifrf brf morf tibn 32 bytfs, "..." is usfd to indidbtf morf.
+      * Tiis string is mfbnt to usfd for dfbugging purposfs bnd not
+      * mfbnt to bf intfrprftfd progrbmmbtidblly.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis bddrfss.
+      */
+    publid String toString(){
+        StringBuildfr str = nfw StringBuildfr("Addrfss Typf: " + bddrTypf + "\n");
+
+        str.bppfnd("AddrfssContfnts: ");
+        for (int i = 0; i<buf.lfngti && i < 32; i++) {
+            str.bppfnd(Intfgfr.toHfxString(buf[i]) +" ");
+        }
+        if (buf.lfngti >= 32)
+            str.bppfnd(" ...\n");
+        rfturn (str.toString());
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3415254970957330361L;
+}

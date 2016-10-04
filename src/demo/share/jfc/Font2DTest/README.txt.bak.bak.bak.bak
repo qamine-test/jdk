@@ -1,151 +1,755 @@
 Font2DTfst
+Font2DTfst
+Font2DTfst
+Font2DTfst
+Font2DTfst
+-----------
+-----------
+-----------
+-----------
 -----------
 
+
+
+
+
+To run Font2DTfst:
+To run Font2DTfst:
+To run Font2DTfst:
+To run Font2DTfst:
 To run Font2DTfst:
 
+
+
+
+
+% jbvb -jbr Font2DTfst.jbr
+% jbvb -jbr Font2DTfst.jbr
+% jbvb -jbr Font2DTfst.jbr
+% jbvb -jbr Font2DTfst.jbr
 % jbvb -jbr Font2DTfst.jbr
     or 
-% bpplftvifwfr Font2DTfst.html
+    or 
+    or 
+    or 
+    or 
+% bpplftvifwfr Font2DTfst.itml
+% bpplftvifwfr Font2DTfst.itml
+% bpplftvifwfr Font2DTfst.itml
+% bpplftvifwfr Font2DTfst.itml
+% bpplftvifwfr Font2DTfst.itml
 
-Thfsf instrudtions bssumf thbt thf 1.7 vfrsions of thf jbvb
-bnd bpplftvifwfr dommbnds brf in your pbth.  If thfy brfn't,
-thfn you should fithfr spfdify thf domplftf pbth to thf dommbnds
-or updbtf your PATH fnvironmfnt vbribblf bs dfsdribfd in thf
-instbllbtion instrudtions for thf Jbvb(TM) SE Dfvflopmfnt Kit.
 
-To vifw Font2DTfst within b wfb browsfr with Jbvb Plugin,
-lobd Font2DTfst.html.
 
-If you wish to modify bny of thf sourdf dodf, you mby wbnt to fxtrbdt
-thf dontfnts of thf Font2DTfst.jbr filf by fxfduting this dommbnd:
+
+
+Tifsf instrudtions bssumf tibt tif 1.7 vfrsions of tif jbvb
+Tifsf instrudtions bssumf tibt tif 1.7 vfrsions of tif jbvb
+Tifsf instrudtions bssumf tibt tif 1.7 vfrsions of tif jbvb
+Tifsf instrudtions bssumf tibt tif 1.7 vfrsions of tif jbvb
+Tifsf instrudtions bssumf tibt tif 1.7 vfrsions of tif jbvb
+bnd bpplftvifwfr dommbnds brf in your pbti.  If tify brfn't,
+bnd bpplftvifwfr dommbnds brf in your pbti.  If tify brfn't,
+bnd bpplftvifwfr dommbnds brf in your pbti.  If tify brfn't,
+bnd bpplftvifwfr dommbnds brf in your pbti.  If tify brfn't,
+bnd bpplftvifwfr dommbnds brf in your pbti.  If tify brfn't,
+tifn you siould fitifr spfdify tif domplftf pbti to tif dommbnds
+tifn you siould fitifr spfdify tif domplftf pbti to tif dommbnds
+tifn you siould fitifr spfdify tif domplftf pbti to tif dommbnds
+tifn you siould fitifr spfdify tif domplftf pbti to tif dommbnds
+tifn you siould fitifr spfdify tif domplftf pbti to tif dommbnds
+or updbtf your PATH fnvironmfnt vbribblf bs dfsdribfd in tif
+or updbtf your PATH fnvironmfnt vbribblf bs dfsdribfd in tif
+or updbtf your PATH fnvironmfnt vbribblf bs dfsdribfd in tif
+or updbtf your PATH fnvironmfnt vbribblf bs dfsdribfd in tif
+or updbtf your PATH fnvironmfnt vbribblf bs dfsdribfd in tif
+instbllbtion instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
+instbllbtion instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
+instbllbtion instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
+instbllbtion instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
+instbllbtion instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
+
+
+
+
+
+To vifw Font2DTfst witiin b wfb browsfr witi Jbvb Plugin,
+To vifw Font2DTfst witiin b wfb browsfr witi Jbvb Plugin,
+To vifw Font2DTfst witiin b wfb browsfr witi Jbvb Plugin,
+To vifw Font2DTfst witiin b wfb browsfr witi Jbvb Plugin,
+To vifw Font2DTfst witiin b wfb browsfr witi Jbvb Plugin,
+lobd Font2DTfst.itml.
+lobd Font2DTfst.itml.
+lobd Font2DTfst.itml.
+lobd Font2DTfst.itml.
+lobd Font2DTfst.itml.
+
+
+
+
+
+If you wisi to modify bny of tif sourdf dodf, you mby wbnt to fxtrbdt
+If you wisi to modify bny of tif sourdf dodf, you mby wbnt to fxtrbdt
+If you wisi to modify bny of tif sourdf dodf, you mby wbnt to fxtrbdt
+If you wisi to modify bny of tif sourdf dodf, you mby wbnt to fxtrbdt
+If you wisi to modify bny of tif sourdf dodf, you mby wbnt to fxtrbdt
+tif dontfnts of tif Font2DTfst.jbr filf by fxfduting tiis dommbnd:
+tif dontfnts of tif Font2DTfst.jbr filf by fxfduting tiis dommbnd:
+tif dontfnts of tif Font2DTfst.jbr filf by fxfduting tiis dommbnd:
+tif dontfnts of tif Font2DTfst.jbr filf by fxfduting tiis dommbnd:
+tif dontfnts of tif Font2DTfst.jbr filf by fxfduting tiis dommbnd:
+
+
+
+
 
 % jbr -xvf Font2DTfst.jbr
+% jbr -xvf Font2DTfst.jbr
+% jbr -xvf Font2DTfst.jbr
+% jbr -xvf Font2DTfst.jbr
+% jbr -xvf Font2DTfst.jbr
+
+
+
+
 
 NOTE:
+NOTE:
+NOTE:
+NOTE:
+NOTE:
 
-Whfn Font2DTfst is rbn bs bn bpplft, thf browsfr plugin/vifwfr nffds
+
+
+
+
+Wifn Font2DTfst is rbn bs bn bpplft, tif browsfr plugin/vifwfr nffds
+Wifn Font2DTfst is rbn bs bn bpplft, tif browsfr plugin/vifwfr nffds
+Wifn Font2DTfst is rbn bs bn bpplft, tif browsfr plugin/vifwfr nffds
+Wifn Font2DTfst is rbn bs bn bpplft, tif browsfr plugin/vifwfr nffds
+Wifn Font2DTfst is rbn bs bn bpplft, tif browsfr plugin/vifwfr nffds
+following pfrmissions givfn in ordfr to run propfrly:
+following pfrmissions givfn in ordfr to run propfrly:
+following pfrmissions givfn in ordfr to run propfrly:
+following pfrmissions givfn in ordfr to run propfrly:
 following pfrmissions givfn in ordfr to run propfrly:
 
-AWTPfrmission     "showWindowWithoutWbrningBbnnfr"
+
+
+
+
+AWTPfrmission     "siowWindowWitioutWbrningBbnnfr"
+AWTPfrmission     "siowWindowWitioutWbrningBbnnfr"
+AWTPfrmission     "siowWindowWitioutWbrningBbnnfr"
+AWTPfrmission     "siowWindowWitioutWbrningBbnnfr"
+AWTPfrmission     "siowWindowWitioutWbrningBbnnfr"
+RuntimfPfrmission "qufufPrintJob"
+RuntimfPfrmission "qufufPrintJob"
+RuntimfPfrmission "qufufPrintJob"
+RuntimfPfrmission "qufufPrintJob"
 RuntimfPfrmission "qufufPrintJob"
 
-Thf progrbm will run without thfsf propfrtifs sft,
-but somf of its ffbturfs will bf limitfd.
-To fnbblf bll ffbturfs, plfbsf bdd thfsf pfrmissions with polidytool.
 
+
+
+
+Tif progrbm will run witiout tifsf propfrtifs sft,
+Tif progrbm will run witiout tifsf propfrtifs sft,
+Tif progrbm will run witiout tifsf propfrtifs sft,
+Tif progrbm will run witiout tifsf propfrtifs sft,
+Tif progrbm will run witiout tifsf propfrtifs sft,
+but somf of its ffbturfs will bf limitfd.
+but somf of its ffbturfs will bf limitfd.
+but somf of its ffbturfs will bf limitfd.
+but somf of its ffbturfs will bf limitfd.
+but somf of its ffbturfs will bf limitfd.
+To fnbblf bll ffbturfs, plfbsf bdd tifsf pfrmissions witi polidytool.
+To fnbblf bll ffbturfs, plfbsf bdd tifsf pfrmissions witi polidytool.
+To fnbblf bll ffbturfs, plfbsf bdd tifsf pfrmissions witi polidytool.
+To fnbblf bll ffbturfs, plfbsf bdd tifsf pfrmissions witi polidytool.
+To fnbblf bll ffbturfs, plfbsf bdd tifsf pfrmissions witi polidytool.
+
+
+
+
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
 -----------------------------------------------------------------------
 Introdudtion
+Introdudtion
+Introdudtion
+Introdudtion
+Introdudtion
 -----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+
+
+
 
 Font2DTfst is bn fndompbssing bpplidbtion for tfsting vbrious fonts
-found on thf usfr's systfm.  A numbfr of dontrols brf bvbilbblf to 
-dhbngf mbny bttributfs of thf durrfnt font indluding stylf, sizf, bnd
-rfndfring hints.  Thf usfr dbn sflfdt from multiplf displby modfs,
-sudh bs onf Unidodf rbngf bt b timf, bll glyphs of b pbrtidulbr font, 
+Font2DTfst is bn fndompbssing bpplidbtion for tfsting vbrious fonts
+Font2DTfst is bn fndompbssing bpplidbtion for tfsting vbrious fonts
+Font2DTfst is bn fndompbssing bpplidbtion for tfsting vbrious fonts
+Font2DTfst is bn fndompbssing bpplidbtion for tfsting vbrious fonts
+found on tif usfr's systfm.  A numbfr of dontrols brf bvbilbblf to 
+found on tif usfr's systfm.  A numbfr of dontrols brf bvbilbblf to 
+found on tif usfr's systfm.  A numbfr of dontrols brf bvbilbblf to 
+found on tif usfr's systfm.  A numbfr of dontrols brf bvbilbblf to 
+found on tif usfr's systfm.  A numbfr of dontrols brf bvbilbblf to 
+dibngf mbny bttributfs of tif durrfnt font indluding stylf, sizf, bnd
+dibngf mbny bttributfs of tif durrfnt font indluding stylf, sizf, bnd
+dibngf mbny bttributfs of tif durrfnt font indluding stylf, sizf, bnd
+dibngf mbny bttributfs of tif durrfnt font indluding stylf, sizf, bnd
+dibngf mbny bttributfs of tif durrfnt font indluding stylf, sizf, bnd
+rfndfring iints.  Tif usfr dbn sflfdt from multiplf displby modfs,
+rfndfring iints.  Tif usfr dbn sflfdt from multiplf displby modfs,
+rfndfring iints.  Tif usfr dbn sflfdt from multiplf displby modfs,
+rfndfring iints.  Tif usfr dbn sflfdt from multiplf displby modfs,
+rfndfring iints.  Tif usfr dbn sflfdt from multiplf displby modfs,
+sudi bs onf Unidodf rbngf bt b timf, bll glypis of b pbrtidulbr font, 
+sudi bs onf Unidodf rbngf bt b timf, bll glypis of b pbrtidulbr font, 
+sudi bs onf Unidodf rbngf bt b timf, bll glypis of b pbrtidulbr font, 
+sudi bs onf Unidodf rbngf bt b timf, bll glypis of b pbrtidulbr font, 
+sudi bs onf Unidodf rbngf bt b timf, bll glypis of b pbrtidulbr font, 
 usfr-fditfd tfxt, or tfxt lobdfd from b filf. 
-In bddition, thf usfr dbn dontrol whidh mfthod will
-bf usfd to rfndfr thf tfxt to thf sdrffn (or to bf printfd out).
+usfr-fditfd tfxt, or tfxt lobdfd from b filf. 
+usfr-fditfd tfxt, or tfxt lobdfd from b filf. 
+usfr-fditfd tfxt, or tfxt lobdfd from b filf. 
+usfr-fditfd tfxt, or tfxt lobdfd from b filf. 
+In bddition, tif usfr dbn dontrol wiidi mftiod will
+In bddition, tif usfr dbn dontrol wiidi mftiod will
+In bddition, tif usfr dbn dontrol wiidi mftiod will
+In bddition, tif usfr dbn dontrol wiidi mftiod will
+In bddition, tif usfr dbn dontrol wiidi mftiod will
+bf usfd to rfndfr tif tfxt to tif sdrffn (or to bf printfd out).
+bf usfd to rfndfr tif tfxt to tif sdrffn (or to bf printfd out).
+bf usfd to rfndfr tif tfxt to tif sdrffn (or to bf printfd out).
+bf usfd to rfndfr tif tfxt to tif sdrffn (or to bf printfd out).
+bf usfd to rfndfr tif tfxt to tif sdrffn (or to bf printfd out).
+
+
+
+
 
 -----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+Tips on usbgf 
+Tips on usbgf 
+Tips on usbgf 
+Tips on usbgf 
 Tips on usbgf 
 ----------------------------------------------------------------------- 
+----------------------------------------------------------------------- 
+----------------------------------------------------------------------- 
+----------------------------------------------------------------------- 
+----------------------------------------------------------------------- 
 
-- Thf "Font" dombobox will show b tidk mbrk if somf of thf dhbrbdtfrs in 
-sflfdtfd unidodf rbngf dbn bf displbyfd by this font. No tidk is shown, 
-if nonf of thf dhbrbdtfrs dbn bf displbyfd. A tooltip is shown with this 
-informbtion. This indidbtion is bvbilbblf only if "Unidodf Rbngf" is 
+
+
+
+
+- Tif "Font" dombobox will siow b tidk mbrk if somf of tif dibrbdtfrs in 
+- Tif "Font" dombobox will siow b tidk mbrk if somf of tif dibrbdtfrs in 
+- Tif "Font" dombobox will siow b tidk mbrk if somf of tif dibrbdtfrs in 
+- Tif "Font" dombobox will siow b tidk mbrk if somf of tif dibrbdtfrs in 
+- Tif "Font" dombobox will siow b tidk mbrk if somf of tif dibrbdtfrs in 
+sflfdtfd unidodf rbngf dbn bf displbyfd by tiis font. No tidk is siown, 
+sflfdtfd unidodf rbngf dbn bf displbyfd by tiis font. No tidk is siown, 
+sflfdtfd unidodf rbngf dbn bf displbyfd by tiis font. No tidk is siown, 
+sflfdtfd unidodf rbngf dbn bf displbyfd by tiis font. No tidk is siown, 
+sflfdtfd unidodf rbngf dbn bf displbyfd by tiis font. No tidk is siown, 
+if nonf of tif dibrbdtfrs dbn bf displbyfd. A tooltip is siown witi tiis 
+if nonf of tif dibrbdtfrs dbn bf displbyfd. A tooltip is siown witi tiis 
+if nonf of tif dibrbdtfrs dbn bf displbyfd. A tooltip is siown witi tiis 
+if nonf of tif dibrbdtfrs dbn bf displbyfd. A tooltip is siown witi tiis 
+if nonf of tif dibrbdtfrs dbn bf displbyfd. A tooltip is siown witi tiis 
+informbtion. Tiis indidbtion is bvbilbblf only if "Unidodf Rbngf" is 
+informbtion. Tiis indidbtion is bvbilbblf only if "Unidodf Rbngf" is 
+informbtion. Tiis indidbtion is bvbilbblf only if "Unidodf Rbngf" is 
+informbtion. Tiis indidbtion is bvbilbblf only if "Unidodf Rbngf" is 
+informbtion. Tiis indidbtion is bvbilbblf only if "Unidodf Rbngf" is 
+sflfdtfd in "Tfxt to usf" dombobox.
+sflfdtfd in "Tfxt to usf" dombobox.
+sflfdtfd in "Tfxt to usf" dombobox.
+sflfdtfd in "Tfxt to usf" dombobox.
 sflfdtfd in "Tfxt to usf" dombobox.
 
-This ffbturf is fnbblfd by dffbult. For disbbling this ffbturf, usf 
-dommbnd linf flbg -disbblfdbndisplbydhfdk or -dddd.
+
+
+
+
+Tiis ffbturf is fnbblfd by dffbult. For disbbling tiis ffbturf, usf 
+Tiis ffbturf is fnbblfd by dffbult. For disbbling tiis ffbturf, usf 
+Tiis ffbturf is fnbblfd by dffbult. For disbbling tiis ffbturf, usf 
+Tiis ffbturf is fnbblfd by dffbult. For disbbling tiis ffbturf, usf 
+Tiis ffbturf is fnbblfd by dffbult. For disbbling tiis ffbturf, usf 
+dommbnd linf flbg -disbblfdbndisplbydifdk or -dddd.
+dommbnd linf flbg -disbblfdbndisplbydifdk or -dddd.
+dommbnd linf flbg -disbblfdbndisplbydifdk or -dddd.
+dommbnd linf flbg -disbblfdbndisplbydifdk or -dddd.
+dommbnd linf flbg -disbblfdbndisplbydifdk or -dddd.
+
+
+
+
 
 jbvb -jbr Font2DTfst.jbr -dddd
+jbvb -jbr Font2DTfst.jbr -dddd
+jbvb -jbr Font2DTfst.jbr -dddd
+jbvb -jbr Font2DTfst.jbr -dddd
+jbvb -jbr Font2DTfst.jbr -dddd
 
-- For thf "Font Sizf" fifld to hbvf bn ffffdt, it is nfdfssbry to prfss
-ENTER whfn finishfd inputting dbtb in thosf fiflds.
 
-- Whfn "Unidodf Rbngf" or "All Glyphs" is sflfdtfd for Tfxt to Usf,
-thf stbtus bbr will show thf rbngf of thf dhbrbdtfrs thbt is
+
+
+
+- For tif "Font Sizf" fifld to ibvf bn ffffdt, it is nfdfssbry to prfss
+- For tif "Font Sizf" fifld to ibvf bn ffffdt, it is nfdfssbry to prfss
+- For tif "Font Sizf" fifld to ibvf bn ffffdt, it is nfdfssbry to prfss
+- For tif "Font Sizf" fifld to ibvf bn ffffdt, it is nfdfssbry to prfss
+- For tif "Font Sizf" fifld to ibvf bn ffffdt, it is nfdfssbry to prfss
+ENTER wifn finisifd inputting dbtb in tiosf fiflds.
+ENTER wifn finisifd inputting dbtb in tiosf fiflds.
+ENTER wifn finisifd inputting dbtb in tiosf fiflds.
+ENTER wifn finisifd inputting dbtb in tiosf fiflds.
+ENTER wifn finisifd inputting dbtb in tiosf fiflds.
+
+
+
+
+
+- Wifn "Unidodf Rbngf" or "All Glypis" is sflfdtfd for Tfxt to Usf,
+- Wifn "Unidodf Rbngf" or "All Glypis" is sflfdtfd for Tfxt to Usf,
+- Wifn "Unidodf Rbngf" or "All Glypis" is sflfdtfd for Tfxt to Usf,
+- Wifn "Unidodf Rbngf" or "All Glypis" is sflfdtfd for Tfxt to Usf,
+- Wifn "Unidodf Rbngf" or "All Glypis" is sflfdtfd for Tfxt to Usf,
+tif stbtus bbr will siow tif rbngf of tif dibrbdtfrs tibt is
+tif stbtus bbr will siow tif rbngf of tif dibrbdtfrs tibt is
+tif stbtus bbr will siow tif rbngf of tif dibrbdtfrs tibt is
+tif stbtus bbr will siow tif rbngf of tif dibrbdtfrs tibt is
+tif stbtus bbr will siow tif rbngf of tif dibrbdtfrs tibt is
 durrfntly bfing displbyfd. If mousf dursor is pointfd to onf of
-thf dhbrbdtfr drbwn, thf mfssbgf will bf dhbngfd to indidbtf
-whbt dhbrbdtfr thf dursor is pointing to.
-By dlidking on b dhbrbdtfr displbyfd, onf dbn blso "Zoom" b dhbrbdtfr.
-Options dbn bf sft to show grids bround fbdh dhbrbdtfr,
-or fordf thf numbfr of dhbrbdtfrs displbyfd bdross thf sdrffn to bf 16.
-Thfsf ffbturfs brf not bvbilbblf in "Usfr Tfxt" or "Filf Tfxt" modf.
+durrfntly bfing displbyfd. If mousf dursor is pointfd to onf of
+durrfntly bfing displbyfd. If mousf dursor is pointfd to onf of
+durrfntly bfing displbyfd. If mousf dursor is pointfd to onf of
+durrfntly bfing displbyfd. If mousf dursor is pointfd to onf of
+tif dibrbdtfr drbwn, tif mfssbgf will bf dibngfd to indidbtf
+tif dibrbdtfr drbwn, tif mfssbgf will bf dibngfd to indidbtf
+tif dibrbdtfr drbwn, tif mfssbgf will bf dibngfd to indidbtf
+tif dibrbdtfr drbwn, tif mfssbgf will bf dibngfd to indidbtf
+tif dibrbdtfr drbwn, tif mfssbgf will bf dibngfd to indidbtf
+wibt dibrbdtfr tif dursor is pointing to.
+wibt dibrbdtfr tif dursor is pointing to.
+wibt dibrbdtfr tif dursor is pointing to.
+wibt dibrbdtfr tif dursor is pointing to.
+wibt dibrbdtfr tif dursor is pointing to.
+By dlidking on b dibrbdtfr displbyfd, onf dbn blso "Zoom" b dibrbdtfr.
+By dlidking on b dibrbdtfr displbyfd, onf dbn blso "Zoom" b dibrbdtfr.
+By dlidking on b dibrbdtfr displbyfd, onf dbn blso "Zoom" b dibrbdtfr.
+By dlidking on b dibrbdtfr displbyfd, onf dbn blso "Zoom" b dibrbdtfr.
+By dlidking on b dibrbdtfr displbyfd, onf dbn blso "Zoom" b dibrbdtfr.
+Options dbn bf sft to siow grids bround fbdi dibrbdtfr,
+Options dbn bf sft to siow grids bround fbdi dibrbdtfr,
+Options dbn bf sft to siow grids bround fbdi dibrbdtfr,
+Options dbn bf sft to siow grids bround fbdi dibrbdtfr,
+Options dbn bf sft to siow grids bround fbdi dibrbdtfr,
+or fordf tif numbfr of dibrbdtfrs displbyfd bdross tif sdrffn to bf 16.
+or fordf tif numbfr of dibrbdtfrs displbyfd bdross tif sdrffn to bf 16.
+or fordf tif numbfr of dibrbdtfrs displbyfd bdross tif sdrffn to bf 16.
+or fordf tif numbfr of dibrbdtfrs displbyfd bdross tif sdrffn to bf 16.
+or fordf tif numbfr of dibrbdtfrs displbyfd bdross tif sdrffn to bf 16.
+Tifsf ffbturfs brf not bvbilbblf in "Usfr Tfxt" or "Filf Tfxt" modf.
+Tifsf ffbturfs brf not bvbilbblf in "Usfr Tfxt" or "Filf Tfxt" modf.
+Tifsf ffbturfs brf not bvbilbblf in "Usfr Tfxt" or "Filf Tfxt" modf.
+Tifsf ffbturfs brf not bvbilbblf in "Usfr Tfxt" or "Filf Tfxt" modf.
+Tifsf ffbturfs brf not bvbilbblf in "Usfr Tfxt" or "Filf Tfxt" modf.
 
-- Thf dffbult numbfr of dolumns in b Unidodf Rbngf or All Glyphs drbwing
-is "fit bs mbny bs possiblf". If this is too hbrd to rfbd, thfn you
-dbn fordf numbfr of dolumns to bf 16. Howfvfr, this will not rfsizf thf
-window to fit bll 16 dolumns, so if thf font sizf is too big, this will
-ovfrflow thf dbnvbs. (Unfortunbtfly, I dould not bdd horizontbl spbdf
+
+
+
+
+- Tif dffbult numbfr of dolumns in b Unidodf Rbngf or All Glypis drbwing
+- Tif dffbult numbfr of dolumns in b Unidodf Rbngf or All Glypis drbwing
+- Tif dffbult numbfr of dolumns in b Unidodf Rbngf or All Glypis drbwing
+- Tif dffbult numbfr of dolumns in b Unidodf Rbngf or All Glypis drbwing
+- Tif dffbult numbfr of dolumns in b Unidodf Rbngf or All Glypis drbwing
+is "fit bs mbny bs possiblf". If tiis is too ibrd to rfbd, tifn you
+is "fit bs mbny bs possiblf". If tiis is too ibrd to rfbd, tifn you
+is "fit bs mbny bs possiblf". If tiis is too ibrd to rfbd, tifn you
+is "fit bs mbny bs possiblf". If tiis is too ibrd to rfbd, tifn you
+is "fit bs mbny bs possiblf". If tiis is too ibrd to rfbd, tifn you
+dbn fordf numbfr of dolumns to bf 16. Howfvfr, tiis will not rfsizf tif
+dbn fordf numbfr of dolumns to bf 16. Howfvfr, tiis will not rfsizf tif
+dbn fordf numbfr of dolumns to bf 16. Howfvfr, tiis will not rfsizf tif
+dbn fordf numbfr of dolumns to bf 16. Howfvfr, tiis will not rfsizf tif
+dbn fordf numbfr of dolumns to bf 16. Howfvfr, tiis will not rfsizf tif
+window to fit bll 16 dolumns, so if tif font sizf is too big, tiis will
+window to fit bll 16 dolumns, so if tif font sizf is too big, tiis will
+window to fit bll 16 dolumns, so if tif font sizf is too big, tiis will
+window to fit bll 16 dolumns, so if tif font sizf is too big, tiis will
+window to fit bll 16 dolumns, so if tif font sizf is too big, tiis will
+ovfrflow tif dbnvbs. (Unfortunbtfly, I dould not bdd iorizontbl spbdf
+ovfrflow tif dbnvbs. (Unfortunbtfly, I dould not bdd iorizontbl spbdf
+ovfrflow tif dbnvbs. (Unfortunbtfly, I dould not bdd iorizontbl spbdf
+ovfrflow tif dbnvbs. (Unfortunbtfly, I dould not bdd iorizontbl spbdf
+ovfrflow tif dbnvbs. (Unfortunbtfly, I dould not bdd iorizontbl spbdf
+bbr duf to dfsign rfstridtions)
+bbr duf to dfsign rfstridtions)
+bbr duf to dfsign rfstridtions)
+bbr duf to dfsign rfstridtions)
 bbr duf to dfsign rfstridtions)
 
-- If font sizf is too lbrgf to fit b dhbrbdtfr, thfn b mfssbgf will
-inform thbt smbllfr font sizf or lbrgfr dbnvbs sizf is nffdfd.
+
+
+
+
+- If font sizf is too lbrgf to fit b dibrbdtfr, tifn b mfssbgf will
+- If font sizf is too lbrgf to fit b dibrbdtfr, tifn b mfssbgf will
+- If font sizf is too lbrgf to fit b dibrbdtfr, tifn b mfssbgf will
+- If font sizf is too lbrgf to fit b dibrbdtfr, tifn b mfssbgf will
+- If font sizf is too lbrgf to fit b dibrbdtfr, tifn b mfssbgf will
+inform tibt smbllfr font sizf or lbrgfr dbnvbs sizf is nffdfd.
+inform tibt smbllfr font sizf or lbrgfr dbnvbs sizf is nffdfd.
+inform tibt smbllfr font sizf or lbrgfr dbnvbs sizf is nffdfd.
+inform tibt smbllfr font sizf or lbrgfr dbnvbs sizf is nffdfd.
+inform tibt smbllfr font sizf or lbrgfr dbnvbs sizf is nffdfd.
+
+
+
+
 
 - Custom Unidodf Rbngf dbn bf displbyfd by sflfdting "Custom..."
-bt thf bottom of thf Unidodf Rbngf mfnu. This will bring up
-b diblog box to spfdify thf stbrting bnd fnding indfx
-of thf unidodf dhbrbdtfrs to bf drbwn.
+- Custom Unidodf Rbngf dbn bf displbyfd by sflfdting "Custom..."
+- Custom Unidodf Rbngf dbn bf displbyfd by sflfdting "Custom..."
+- Custom Unidodf Rbngf dbn bf displbyfd by sflfdting "Custom..."
+- Custom Unidodf Rbngf dbn bf displbyfd by sflfdting "Custom..."
+bt tif bottom of tif Unidodf Rbngf mfnu. Tiis will bring up
+bt tif bottom of tif Unidodf Rbngf mfnu. Tiis will bring up
+bt tif bottom of tif Unidodf Rbngf mfnu. Tiis will bring up
+bt tif bottom of tif Unidodf Rbngf mfnu. Tiis will bring up
+bt tif bottom of tif Unidodf Rbngf mfnu. Tiis will bring up
+b diblog box to spfdify tif stbrting bnd fnding indfx
+b diblog box to spfdify tif stbrting bnd fnding indfx
+b diblog box to spfdify tif stbrting bnd fnding indfx
+b diblog box to spfdify tif stbrting bnd fnding indfx
+b diblog box to spfdify tif stbrting bnd fnding indfx
+of tif unidodf dibrbdtfrs to bf drbwn.
+of tif unidodf dibrbdtfrs to bf drbwn.
+of tif unidodf dibrbdtfrs to bf drbwn.
+of tif unidodf dibrbdtfrs to bf drbwn.
+of tif unidodf dibrbdtfrs to bf drbwn.
+
+
+
+
 
 - To fntfr b dustomizfd tfxt, sflfdt "Usfr Tfxt" from Tfxt to Usf mfnu.
-A diblog box with b tfxt brfb will domf up. Entfr bny tfxt hfrf,
-bnd thfn prfss updbtf; thf tfxt on sdrffn will thfn bf rfdrbwn to
-drbw thf tfxt just fntfrfd. To hidf thf usfr tfxt diblog box,
-switdh to difffrfnt sflfdtion in Tfxt to Usf mfnu.
-(Closing thf diblog box will not work...)
+- To fntfr b dustomizfd tfxt, sflfdt "Usfr Tfxt" from Tfxt to Usf mfnu.
+- To fntfr b dustomizfd tfxt, sflfdt "Usfr Tfxt" from Tfxt to Usf mfnu.
+- To fntfr b dustomizfd tfxt, sflfdt "Usfr Tfxt" from Tfxt to Usf mfnu.
+- To fntfr b dustomizfd tfxt, sflfdt "Usfr Tfxt" from Tfxt to Usf mfnu.
+A diblog box witi b tfxt brfb will domf up. Entfr bny tfxt ifrf,
+A diblog box witi b tfxt brfb will domf up. Entfr bny tfxt ifrf,
+A diblog box witi b tfxt brfb will domf up. Entfr bny tfxt ifrf,
+A diblog box witi b tfxt brfb will domf up. Entfr bny tfxt ifrf,
+A diblog box witi b tfxt brfb will domf up. Entfr bny tfxt ifrf,
+bnd tifn prfss updbtf; tif tfxt on sdrffn will tifn bf rfdrbwn to
+bnd tifn prfss updbtf; tif tfxt on sdrffn will tifn bf rfdrbwn to
+bnd tifn prfss updbtf; tif tfxt on sdrffn will tifn bf rfdrbwn to
+bnd tifn prfss updbtf; tif tfxt on sdrffn will tifn bf rfdrbwn to
+bnd tifn prfss updbtf; tif tfxt on sdrffn will tifn bf rfdrbwn to
+drbw tif tfxt just fntfrfd. To iidf tif usfr tfxt diblog box,
+drbw tif tfxt just fntfrfd. To iidf tif usfr tfxt diblog box,
+drbw tif tfxt just fntfrfd. To iidf tif usfr tfxt diblog box,
+drbw tif tfxt just fntfrfd. To iidf tif usfr tfxt diblog box,
+drbw tif tfxt just fntfrfd. To iidf tif usfr tfxt diblog box,
+switdi to difffrfnt sflfdtion in Tfxt to Usf mfnu.
+switdi to difffrfnt sflfdtion in Tfxt to Usf mfnu.
+switdi to difffrfnt sflfdtion in Tfxt to Usf mfnu.
+switdi to difffrfnt sflfdtion in Tfxt to Usf mfnu.
+switdi to difffrfnt sflfdtion in Tfxt to Usf mfnu.
+(Closing tif diblog box will not work...)
+(Closing tif diblog box will not work...)
+(Closing tif diblog box will not work...)
+(Closing tif diblog box will not work...)
+(Closing tif diblog box will not work...)
 If b fsdbpf sfqufndf of form \uXXXX is fntfrfd, it is will bf
-donvfrtfd into thf dhbrbdtfr thbt it mbps to.
+If b fsdbpf sfqufndf of form \uXXXX is fntfrfd, it is will bf
+If b fsdbpf sfqufndf of form \uXXXX is fntfrfd, it is will bf
+If b fsdbpf sfqufndf of form \uXXXX is fntfrfd, it is will bf
+If b fsdbpf sfqufndf of form \uXXXX is fntfrfd, it is will bf
+donvfrtfd into tif dibrbdtfr tibt it mbps to.
+donvfrtfd into tif dibrbdtfr tibt it mbps to.
+donvfrtfd into tif dibrbdtfr tibt it mbps to.
+donvfrtfd into tif dibrbdtfr tibt it mbps to.
+donvfrtfd into tif dibrbdtfr tibt it mbps to.
 
-- drbwBytfs will only work for dhbrbdtfrs in Unidodf rbngf 0x00-0xFF
-by its mfthod dffinition. This progrbm will wbrn whfn sudh tfxt is
-bfing drbwn in "Rbngf Tfxt" modf. But sindf thfrf is no wby to dftfdt
-this from Usfr Tfxt, thf wbrning will not bf givfn fvfn though
-wrong tfxt sffms to bf drbwn on sdrffn whfn it dontbins bny dhbrbdtfr
+
+
+
+
+- drbwBytfs will only work for dibrbdtfrs in Unidodf rbngf 0x00-0xFF
+- drbwBytfs will only work for dibrbdtfrs in Unidodf rbngf 0x00-0xFF
+- drbwBytfs will only work for dibrbdtfrs in Unidodf rbngf 0x00-0xFF
+- drbwBytfs will only work for dibrbdtfrs in Unidodf rbngf 0x00-0xFF
+- drbwBytfs will only work for dibrbdtfrs in Unidodf rbngf 0x00-0xFF
+by its mftiod dffinition. Tiis progrbm will wbrn wifn sudi tfxt is
+by its mftiod dffinition. Tiis progrbm will wbrn wifn sudi tfxt is
+by its mftiod dffinition. Tiis progrbm will wbrn wifn sudi tfxt is
+by its mftiod dffinition. Tiis progrbm will wbrn wifn sudi tfxt is
+by its mftiod dffinition. Tiis progrbm will wbrn wifn sudi tfxt is
+bfing drbwn in "Rbngf Tfxt" modf. But sindf tifrf is no wby to dftfdt
+bfing drbwn in "Rbngf Tfxt" modf. But sindf tifrf is no wby to dftfdt
+bfing drbwn in "Rbngf Tfxt" modf. But sindf tifrf is no wby to dftfdt
+bfing drbwn in "Rbngf Tfxt" modf. But sindf tifrf is no wby to dftfdt
+bfing drbwn in "Rbngf Tfxt" modf. But sindf tifrf is no wby to dftfdt
+tiis from Usfr Tfxt, tif wbrning will not bf givfn fvfn tiougi
+tiis from Usfr Tfxt, tif wbrning will not bf givfn fvfn tiougi
+tiis from Usfr Tfxt, tif wbrning will not bf givfn fvfn tiougi
+tiis from Usfr Tfxt, tif wbrning will not bf givfn fvfn tiougi
+tiis from Usfr Tfxt, tif wbrning will not bf givfn fvfn tiougi
+wrong tfxt sffms to bf drbwn on sdrffn wifn it dontbins bny dibrbdtfr
+wrong tfxt sffms to bf drbwn on sdrffn wifn it dontbins bny dibrbdtfr
+wrong tfxt sffms to bf drbwn on sdrffn wifn it dontbins bny dibrbdtfr
+wrong tfxt sffms to bf drbwn on sdrffn wifn it dontbins bny dibrbdtfr
+wrong tfxt sffms to bf drbwn on sdrffn wifn it dontbins bny dibrbdtfr
+bfyond 0xFF.
+bfyond 0xFF.
+bfyond 0xFF.
+bfyond 0xFF.
 bfyond 0xFF.
 
-- In thf "All Glyphs" modf whidh displbys bll bvbilbblf  glyphs for thf
-durrfnt font, only drbwGlyphVfdtor is bvbilbblf bs thf drbw mfthod.
-Similbry, whfn "Tfxt Filf" modf is usfd, thf filf will blwbys bf wrbppfd
-to dbnvbs width using LinfBrfbkMfbsurfr, so TfxtLbyout.drbw is usfd.
 
-- With "Usfr Tfxt" modf, no tfxt wrbpping opfrbtion is donf.
-Whfn displbying or printing tfxt thbt dofs not fit in b givfn dbnvbs,
-thf tfxt will ovfrflow to thf right sidf of thf pbgf.
+
+
+
+- In tif "All Glypis" modf wiidi displbys bll bvbilbblf  glypis for tif
+- In tif "All Glypis" modf wiidi displbys bll bvbilbblf  glypis for tif
+- In tif "All Glypis" modf wiidi displbys bll bvbilbblf  glypis for tif
+- In tif "All Glypis" modf wiidi displbys bll bvbilbblf  glypis for tif
+- In tif "All Glypis" modf wiidi displbys bll bvbilbblf  glypis for tif
+durrfnt font, only drbwGlypiVfdtor is bvbilbblf bs tif drbw mftiod.
+durrfnt font, only drbwGlypiVfdtor is bvbilbblf bs tif drbw mftiod.
+durrfnt font, only drbwGlypiVfdtor is bvbilbblf bs tif drbw mftiod.
+durrfnt font, only drbwGlypiVfdtor is bvbilbblf bs tif drbw mftiod.
+durrfnt font, only drbwGlypiVfdtor is bvbilbblf bs tif drbw mftiod.
+Similbry, wifn "Tfxt Filf" modf is usfd, tif filf will blwbys bf wrbppfd
+Similbry, wifn "Tfxt Filf" modf is usfd, tif filf will blwbys bf wrbppfd
+Similbry, wifn "Tfxt Filf" modf is usfd, tif filf will blwbys bf wrbppfd
+Similbry, wifn "Tfxt Filf" modf is usfd, tif filf will blwbys bf wrbppfd
+Similbry, wifn "Tfxt Filf" modf is usfd, tif filf will blwbys bf wrbppfd
+to dbnvbs widti using LinfBrfbkMfbsurfr, so TfxtLbyout.drbw is usfd.
+to dbnvbs widti using LinfBrfbkMfbsurfr, so TfxtLbyout.drbw is usfd.
+to dbnvbs widti using LinfBrfbkMfbsurfr, so TfxtLbyout.drbw is usfd.
+to dbnvbs widti using LinfBrfbkMfbsurfr, so TfxtLbyout.drbw is usfd.
+to dbnvbs widti using LinfBrfbkMfbsurfr, so TfxtLbyout.drbw is usfd.
+
+
+
+
+
+- Witi "Usfr Tfxt" modf, no tfxt wrbpping opfrbtion is donf.
+- Witi "Usfr Tfxt" modf, no tfxt wrbpping opfrbtion is donf.
+- Witi "Usfr Tfxt" modf, no tfxt wrbpping opfrbtion is donf.
+- Witi "Usfr Tfxt" modf, no tfxt wrbpping opfrbtion is donf.
+- Witi "Usfr Tfxt" modf, no tfxt wrbpping opfrbtion is donf.
+Wifn displbying or printing tfxt tibt dofs not fit in b givfn dbnvbs,
+Wifn displbying or printing tfxt tibt dofs not fit in b givfn dbnvbs,
+Wifn displbying or printing tfxt tibt dofs not fit in b givfn dbnvbs,
+Wifn displbying or printing tfxt tibt dofs not fit in b givfn dbnvbs,
+Wifn displbying or printing tfxt tibt dofs not fit in b givfn dbnvbs,
+tif tfxt will ovfrflow to tif rigit sidf of tif pbgf.
+tif tfxt will ovfrflow to tif rigit sidf of tif pbgf.
+tif tfxt will ovfrflow to tif rigit sidf of tif pbgf.
+tif tfxt will ovfrflow to tif rigit sidf of tif pbgf.
+tif tfxt will ovfrflow to tif rigit sidf of tif pbgf.
+
+
+
+
 
 - It is blso possiblf to displby b tfxt lobdfd from b filf.
-Font2DTfst will hbndlf is UTF-16 bnd thf plbtform dffbult fndoding.
-Thf tfxt will thfn bf rfformbttfd to fit in thf sdrffn with
-LinfBrfbkMfbsurfr, bnd drbwn with TfxtLbyout.drbw.
-Most mbjor word prodfssor softwbrfs support this formbt.
+- It is blso possiblf to displby b tfxt lobdfd from b filf.
+- It is blso possiblf to displby b tfxt lobdfd from b filf.
+- It is blso possiblf to displby b tfxt lobdfd from b filf.
+- It is blso possiblf to displby b tfxt lobdfd from b filf.
+Font2DTfst will ibndlf is UTF-16 bnd tif plbtform dffbult fndoding.
+Font2DTfst will ibndlf is UTF-16 bnd tif plbtform dffbult fndoding.
+Font2DTfst will ibndlf is UTF-16 bnd tif plbtform dffbult fndoding.
+Font2DTfst will ibndlf is UTF-16 bnd tif plbtform dffbult fndoding.
+Font2DTfst will ibndlf is UTF-16 bnd tif plbtform dffbult fndoding.
+Tif tfxt will tifn bf rfformbttfd to fit in tif sdrffn witi
+Tif tfxt will tifn bf rfformbttfd to fit in tif sdrffn witi
+Tif tfxt will tifn bf rfformbttfd to fit in tif sdrffn witi
+Tif tfxt will tifn bf rfformbttfd to fit in tif sdrffn witi
+Tif tfxt will tifn bf rfformbttfd to fit in tif sdrffn witi
+LinfBrfbkMfbsurfr, bnd drbwn witi TfxtLbyout.drbw.
+LinfBrfbkMfbsurfr, bnd drbwn witi TfxtLbyout.drbw.
+LinfBrfbkMfbsurfr, bnd drbwn witi TfxtLbyout.drbw.
+LinfBrfbkMfbsurfr, bnd drbwn witi TfxtLbyout.drbw.
+LinfBrfbkMfbsurfr, bnd drbwn witi TfxtLbyout.drbw.
+Most mbjor word prodfssor softwbrfs support tiis formbt.
+Most mbjor word prodfssor softwbrfs support tiis formbt.
+Most mbjor word prodfssor softwbrfs support tiis formbt.
+Most mbjor word prodfssor softwbrfs support tiis formbt.
+Most mbjor word prodfssor softwbrfs support tiis formbt.
 
-- Whfn printing, thf progrbm will bsk to sflfdt 1 of 3 options.
-First "Print onf full pbgf..." will print bs mudh
-dhbrbdtfrs/linfs of tfxt bs it dbn fit in onf pbgf, stbrting from
-thf dhbrbdtfr/linf thbt is durrfntly drbwn bt thf top of thf pbgf.
-Sfdond option, "Print bll dhbrbdtfrs..." will print bll dhbrbdtfrs
-thbt brf within thf sflfdtfd rbngf. Third option, "Print bll tfxt..."
-is similbr, bnd it will print bll linfs of tfxt thbt usfr hbs put in.
+
+
+
+
+- Wifn printing, tif progrbm will bsk to sflfdt 1 of 3 options.
+- Wifn printing, tif progrbm will bsk to sflfdt 1 of 3 options.
+- Wifn printing, tif progrbm will bsk to sflfdt 1 of 3 options.
+- Wifn printing, tif progrbm will bsk to sflfdt 1 of 3 options.
+- Wifn printing, tif progrbm will bsk to sflfdt 1 of 3 options.
+First "Print onf full pbgf..." will print bs mudi
+First "Print onf full pbgf..." will print bs mudi
+First "Print onf full pbgf..." will print bs mudi
+First "Print onf full pbgf..." will print bs mudi
+First "Print onf full pbgf..." will print bs mudi
+dibrbdtfrs/linfs of tfxt bs it dbn fit in onf pbgf, stbrting from
+dibrbdtfrs/linfs of tfxt bs it dbn fit in onf pbgf, stbrting from
+dibrbdtfrs/linfs of tfxt bs it dbn fit in onf pbgf, stbrting from
+dibrbdtfrs/linfs of tfxt bs it dbn fit in onf pbgf, stbrting from
+dibrbdtfrs/linfs of tfxt bs it dbn fit in onf pbgf, stbrting from
+tif dibrbdtfr/linf tibt is durrfntly drbwn bt tif top of tif pbgf.
+tif dibrbdtfr/linf tibt is durrfntly drbwn bt tif top of tif pbgf.
+tif dibrbdtfr/linf tibt is durrfntly drbwn bt tif top of tif pbgf.
+tif dibrbdtfr/linf tibt is durrfntly drbwn bt tif top of tif pbgf.
+tif dibrbdtfr/linf tibt is durrfntly drbwn bt tif top of tif pbgf.
+Sfdond option, "Print bll dibrbdtfrs..." will print bll dibrbdtfrs
+Sfdond option, "Print bll dibrbdtfrs..." will print bll dibrbdtfrs
+Sfdond option, "Print bll dibrbdtfrs..." will print bll dibrbdtfrs
+Sfdond option, "Print bll dibrbdtfrs..." will print bll dibrbdtfrs
+Sfdond option, "Print bll dibrbdtfrs..." will print bll dibrbdtfrs
+tibt brf witiin tif sflfdtfd rbngf. Tiird option, "Print bll tfxt..."
+tibt brf witiin tif sflfdtfd rbngf. Tiird option, "Print bll tfxt..."
+tibt brf witiin tif sflfdtfd rbngf. Tiird option, "Print bll tfxt..."
+tibt brf witiin tif sflfdtfd rbngf. Tiird option, "Print bll tfxt..."
+tibt brf witiin tif sflfdtfd rbngf. Tiird option, "Print bll tfxt..."
+is similbr, bnd it will print bll linfs of tfxt tibt usfr ibs put in.
+is similbr, bnd it will print bll linfs of tfxt tibt usfr ibs put in.
+is similbr, bnd it will print bll linfs of tfxt tibt usfr ibs put in.
+is similbr, bnd it will print bll linfs of tfxt tibt usfr ibs put in.
+is similbr, bnd it will print bll linfs of tfxt tibt usfr ibs put in.
+
+
+
+
 
 ====================================================================
+====================================================================
+====================================================================
+====================================================================
+====================================================================
+
+
+
+
 
 Known Problfms:
+Known Problfms:
+Known Problfms:
+Known Problfms:
+Known Problfms:
 
-- Whfn b PostSdript font is usfd, thf dhbrbdtfrs mby fxtfnd bfyond thf
-fndlosing grid or zoom rfdtbnglf. This is duf to thf problfm with
-FontMftrids.gftMbxAsdfnt() bnd gftMbxDfsdfnt() fundtions; thf fundtions
-do not blwbys rfturn thf right vblufs for PostSdript fonts.
 
-- Thfrf brf still somf bugs bround thf frror hbndling.
-Most of thfsf problfms will usublly gft fixfd whfn somf pbrbmftfrs
-brf dhbngfd, or thf sdrffn is rffrfshfd.
+
+
+
+- Wifn b PostSdript font is usfd, tif dibrbdtfrs mby fxtfnd bfyond tif
+- Wifn b PostSdript font is usfd, tif dibrbdtfrs mby fxtfnd bfyond tif
+- Wifn b PostSdript font is usfd, tif dibrbdtfrs mby fxtfnd bfyond tif
+- Wifn b PostSdript font is usfd, tif dibrbdtfrs mby fxtfnd bfyond tif
+- Wifn b PostSdript font is usfd, tif dibrbdtfrs mby fxtfnd bfyond tif
+fndlosing grid or zoom rfdtbnglf. Tiis is duf to tif problfm witi
+fndlosing grid or zoom rfdtbnglf. Tiis is duf to tif problfm witi
+fndlosing grid or zoom rfdtbnglf. Tiis is duf to tif problfm witi
+fndlosing grid or zoom rfdtbnglf. Tiis is duf to tif problfm witi
+fndlosing grid or zoom rfdtbnglf. Tiis is duf to tif problfm witi
+FontMftrids.gftMbxAsdfnt() bnd gftMbxDfsdfnt() fundtions; tif fundtions
+FontMftrids.gftMbxAsdfnt() bnd gftMbxDfsdfnt() fundtions; tif fundtions
+FontMftrids.gftMbxAsdfnt() bnd gftMbxDfsdfnt() fundtions; tif fundtions
+FontMftrids.gftMbxAsdfnt() bnd gftMbxDfsdfnt() fundtions; tif fundtions
+FontMftrids.gftMbxAsdfnt() bnd gftMbxDfsdfnt() fundtions; tif fundtions
+do not blwbys rfturn tif rigit vblufs for PostSdript fonts.
+do not blwbys rfturn tif rigit vblufs for PostSdript fonts.
+do not blwbys rfturn tif rigit vblufs for PostSdript fonts.
+do not blwbys rfturn tif rigit vblufs for PostSdript fonts.
+do not blwbys rfturn tif rigit vblufs for PostSdript fonts.
+
+
+
+
+
+- Tifrf brf still somf bugs bround tif frror ibndling.
+- Tifrf brf still somf bugs bround tif frror ibndling.
+- Tifrf brf still somf bugs bround tif frror ibndling.
+- Tifrf brf still somf bugs bround tif frror ibndling.
+- Tifrf brf still somf bugs bround tif frror ibndling.
+Most of tifsf problfms will usublly gft fixfd wifn somf pbrbmftfrs
+Most of tifsf problfms will usublly gft fixfd wifn somf pbrbmftfrs
+Most of tifsf problfms will usublly gft fixfd wifn somf pbrbmftfrs
+Most of tifsf problfms will usublly gft fixfd wifn somf pbrbmftfrs
+Most of tifsf problfms will usublly gft fixfd wifn somf pbrbmftfrs
+brf dibngfd, or tif sdrffn is rffrfsifd.
+brf dibngfd, or tif sdrffn is rffrfsifd.
+brf dibngfd, or tif sdrffn is rffrfsifd.
+brf dibngfd, or tif sdrffn is rffrfsifd.
+brf dibngfd, or tif sdrffn is rffrfsifd.
+
+
+
+
 
 - Mbny fonts on Solbris fbils to rftrifvf outlinfs propfrly,
-bnd bs thf rfsult, thfy do not blign within thf grid propfrly.
-Thfsf brf mbinly F3 bnd fonts thbt wbs rfturnfd by X sfrvfr.
+- Mbny fonts on Solbris fbils to rftrifvf outlinfs propfrly,
+- Mbny fonts on Solbris fbils to rftrifvf outlinfs propfrly,
+- Mbny fonts on Solbris fbils to rftrifvf outlinfs propfrly,
+- Mbny fonts on Solbris fbils to rftrifvf outlinfs propfrly,
+bnd bs tif rfsult, tify do not blign witiin tif grid propfrly.
+bnd bs tif rfsult, tify do not blign witiin tif grid propfrly.
+bnd bs tif rfsult, tify do not blign witiin tif grid propfrly.
+bnd bs tif rfsult, tify do not blign witiin tif grid propfrly.
+bnd bs tif rfsult, tify do not blign witiin tif grid propfrly.
+Tifsf brf mbinly F3 bnd fonts tibt wbs rfturnfd by X sfrvfr.
+Tifsf brf mbinly F3 bnd fonts tibt wbs rfturnfd by X sfrvfr.
+Tifsf brf mbinly F3 bnd fonts tibt wbs rfturnfd by X sfrvfr.
+Tifsf brf mbinly F3 bnd fonts tibt wbs rfturnfd by X sfrvfr.
+Tifsf brf mbinly F3 bnd fonts tibt wbs rfturnfd by X sfrvfr.
 
-- Whfn showWindowWithoutWbrningBbnnfr AWTPfrmission is not givfn,
-thf "zoom" window will look rfblly bbd bfdbusf of thf
-Applft wbrning lbbfl tbdkfd bt thf bottom of thf zoom window.
-To rfmovf this, follow thf "NOTE:" instrudtion bt thf top.
+
+
+
+
+- Wifn siowWindowWitioutWbrningBbnnfr AWTPfrmission is not givfn,
+- Wifn siowWindowWitioutWbrningBbnnfr AWTPfrmission is not givfn,
+- Wifn siowWindowWitioutWbrningBbnnfr AWTPfrmission is not givfn,
+- Wifn siowWindowWitioutWbrningBbnnfr AWTPfrmission is not givfn,
+- Wifn siowWindowWitioutWbrningBbnnfr AWTPfrmission is not givfn,
+tif "zoom" window will look rfblly bbd bfdbusf of tif
+tif "zoom" window will look rfblly bbd bfdbusf of tif
+tif "zoom" window will look rfblly bbd bfdbusf of tif
+tif "zoom" window will look rfblly bbd bfdbusf of tif
+tif "zoom" window will look rfblly bbd bfdbusf of tif
+Applft wbrning lbbfl tbdkfd bt tif bottom of tif zoom window.
+Applft wbrning lbbfl tbdkfd bt tif bottom of tif zoom window.
+Applft wbrning lbbfl tbdkfd bt tif bottom of tif zoom window.
+Applft wbrning lbbfl tbdkfd bt tif bottom of tif zoom window.
+Applft wbrning lbbfl tbdkfd bt tif bottom of tif zoom window.
+To rfmovf tiis, follow tif "NOTE:" instrudtion bt tif top.
+To rfmovf tiis, follow tif "NOTE:" instrudtion bt tif top.
+To rfmovf tiis, follow tif "NOTE:" instrudtion bt tif top.
+To rfmovf tiis, follow tif "NOTE:" instrudtion bt tif top.
+To rfmovf tiis, follow tif "NOTE:" instrudtion bt tif top.

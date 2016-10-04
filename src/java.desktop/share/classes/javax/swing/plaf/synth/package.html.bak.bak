@@ -1,178 +1,890 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
 <itml>
 <ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<!--
+<!--
+<!--
+<!--
 <!--
 Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
+
+
+
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
 bddompbnifd tiis dodf).
 
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 
 
+
+
+
+
+
+
+
+
+-->
+-->
+-->
+-->
 -->
 <titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
 </ifbd>
 <body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+    <p>
+    <p>
+    <p>
+    <p>
     <p>
       Synti is b skinnbblf look bnd fffl in wiidi bll pbinting is
+      Synti is b skinnbblf look bnd fffl in wiidi bll pbinting is
+      Synti is b skinnbblf look bnd fffl in wiidi bll pbinting is
+      Synti is b skinnbblf look bnd fffl in wiidi bll pbinting is
+      Synti is b skinnbblf look bnd fffl in wiidi bll pbinting is
+      dflfgbtfd. Synti dofs not providf b dffbult look. In
+      dflfgbtfd. Synti dofs not providf b dffbult look. In
+      dflfgbtfd. Synti dofs not providf b dffbult look. In
+      dflfgbtfd. Synti dofs not providf b dffbult look. In
       dflfgbtfd. Synti dofs not providf b dffbult look. In
       ordfr to usf Synti you nffd to spfdify b
+      ordfr to usf Synti you nffd to spfdify b
+      ordfr to usf Synti you nffd to spfdify b
+      ordfr to usf Synti you nffd to spfdify b
+      ordfr to usf Synti you nffd to spfdify b
+      <b irff="dod-filfs/syntiFilfFormbt.itml">filf</b>, or 
+      <b irff="dod-filfs/syntiFilfFormbt.itml">filf</b>, or 
+      <b irff="dod-filfs/syntiFilfFormbt.itml">filf</b>, or 
+      <b irff="dod-filfs/syntiFilfFormbt.itml">filf</b>, or 
       <b irff="dod-filfs/syntiFilfFormbt.itml">filf</b>, or 
       providf b {@link
+      providf b {@link
+      providf b {@link
+      providf b {@link
+      providf b {@link
+      jbvbx.swing.plbf.synti.SyntiStylfFbdtory}. Boti 
+      jbvbx.swing.plbf.synti.SyntiStylfFbdtory}. Boti 
+      jbvbx.swing.plbf.synti.SyntiStylfFbdtory}. Boti 
+      jbvbx.swing.plbf.synti.SyntiStylfFbdtory}. Boti 
       jbvbx.swing.plbf.synti.SyntiStylfFbdtory}. Boti 
       donfigurbtion options rfquirf bn 
+      donfigurbtion options rfquirf bn 
+      donfigurbtion options rfquirf bn 
+      donfigurbtion options rfquirf bn 
+      donfigurbtion options rfquirf bn 
+      undfrstbnding of tif synti brdiitfdturf, wiidi is dfsdribfd
+      undfrstbnding of tif synti brdiitfdturf, wiidi is dfsdribfd
+      undfrstbnding of tif synti brdiitfdturf, wiidi is dfsdribfd
+      undfrstbnding of tif synti brdiitfdturf, wiidi is dfsdribfd
       undfrstbnding of tif synti brdiitfdturf, wiidi is dfsdribfd
       bflow, bs wfll bs bn undfrstbnding of Swing's brdiitfdturf.
+      bflow, bs wfll bs bn undfrstbnding of Swing's brdiitfdturf.
+      bflow, bs wfll bs bn undfrstbnding of Swing's brdiitfdturf.
+      bflow, bs wfll bs bn undfrstbnding of Swing's brdiitfdturf.
+      bflow, bs wfll bs bn undfrstbnding of Swing's brdiitfdturf.
     </p>
+    </p>
+    </p>
+    </p>
+    </p>
+    <p>
+    <p>
+    <p>
+    <p>
     <p>
       Unlfss otifrwisf spfdififd null is not b lfgbl vbluf to bny of
+      Unlfss otifrwisf spfdififd null is not b lfgbl vbluf to bny of
+      Unlfss otifrwisf spfdififd null is not b lfgbl vbluf to bny of
+      Unlfss otifrwisf spfdififd null is not b lfgbl vbluf to bny of
+      Unlfss otifrwisf spfdififd null is not b lfgbl vbluf to bny of
+      tif mftiods dffinfd in tif synti pbdkbgf bnd if pbssfd in will
+      tif mftiods dffinfd in tif synti pbdkbgf bnd if pbssfd in will
+      tif mftiods dffinfd in tif synti pbdkbgf bnd if pbssfd in will
+      tif mftiods dffinfd in tif synti pbdkbgf bnd if pbssfd in will
       tif mftiods dffinfd in tif synti pbdkbgf bnd if pbssfd in will
       rfsult in b <dodf>NullPointfrExdfption</dodf>.
+      rfsult in b <dodf>NullPointfrExdfption</dodf>.
+      rfsult in b <dodf>NullPointfrExdfption</dodf>.
+      rfsult in b <dodf>NullPointfrExdfption</dodf>.
+      rfsult in b <dodf>NullPointfrExdfption</dodf>.
       
+      
+      
+      
+      
+
+
+
+
 
     <i2>Synti</i2>
+    <i2>Synti</i2>
+    <i2>Synti</i2>
+    <i2>Synti</i2>
+    <i2>Synti</i2>
+    <p>
+    <p>
+    <p>
+    <p>
     <p>
       Ebdi {@link jbvbx.swing.plbf.ComponfntUI} implfmfntbtion in Synti bssodibtfs
+      Ebdi {@link jbvbx.swing.plbf.ComponfntUI} implfmfntbtion in Synti bssodibtfs
+      Ebdi {@link jbvbx.swing.plbf.ComponfntUI} implfmfntbtion in Synti bssodibtfs
+      Ebdi {@link jbvbx.swing.plbf.ComponfntUI} implfmfntbtion in Synti bssodibtfs
+      Ebdi {@link jbvbx.swing.plbf.ComponfntUI} implfmfntbtion in Synti bssodibtfs
+      itsflf witi onf {@link
+      itsflf witi onf {@link
+      itsflf witi onf {@link
+      itsflf witi onf {@link
       itsflf witi onf {@link
       jbvbx.swing.plbf.synti.SyntiStylf} pfr {@link
+      jbvbx.swing.plbf.synti.SyntiStylf} pfr {@link
+      jbvbx.swing.plbf.synti.SyntiStylf} pfr {@link
+      jbvbx.swing.plbf.synti.SyntiStylf} pfr {@link
+      jbvbx.swing.plbf.synti.SyntiStylf} pfr {@link
+      jbvbx.swing.plbf.synti.Rfgion}, most
+      jbvbx.swing.plbf.synti.Rfgion}, most
+      jbvbx.swing.plbf.synti.Rfgion}, most
+      jbvbx.swing.plbf.synti.Rfgion}, most
       jbvbx.swing.plbf.synti.Rfgion}, most
       <dodf>Componfnts</dodf> only ibvf onf <dodf>Rfgion</dodf> bnd
+      <dodf>Componfnts</dodf> only ibvf onf <dodf>Rfgion</dodf> bnd
+      <dodf>Componfnts</dodf> only ibvf onf <dodf>Rfgion</dodf> bnd
+      <dodf>Componfnts</dodf> only ibvf onf <dodf>Rfgion</dodf> bnd
+      <dodf>Componfnts</dodf> only ibvf onf <dodf>Rfgion</dodf> bnd
+      tifrffor only onf <dodf>SyntiStylf</dodf>.
+      tifrffor only onf <dodf>SyntiStylf</dodf>.
+      tifrffor only onf <dodf>SyntiStylf</dodf>.
+      tifrffor only onf <dodf>SyntiStylf</dodf>.
       tifrffor only onf <dodf>SyntiStylf</dodf>.
       <dodf>SyntiStylf</dodf>
+      <dodf>SyntiStylf</dodf>
+      <dodf>SyntiStylf</dodf>
+      <dodf>SyntiStylf</dodf>
+      <dodf>SyntiStylf</dodf>
+      is usfd to bddfss bll stylf rflbtfd propfrtifs: fonts, dolors
+      is usfd to bddfss bll stylf rflbtfd propfrtifs: fonts, dolors
+      is usfd to bddfss bll stylf rflbtfd propfrtifs: fonts, dolors
+      is usfd to bddfss bll stylf rflbtfd propfrtifs: fonts, dolors
       is usfd to bddfss bll stylf rflbtfd propfrtifs: fonts, dolors
       bnd otifr <dodf>Componfnt</dodf> propfrtifs. In bddition
+      bnd otifr <dodf>Componfnt</dodf> propfrtifs. In bddition
+      bnd otifr <dodf>Componfnt</dodf> propfrtifs. In bddition
+      bnd otifr <dodf>Componfnt</dodf> propfrtifs. In bddition
+      bnd otifr <dodf>Componfnt</dodf> propfrtifs. In bddition
+      <dodf>SyntiStylf</dodf>s brf usfd to obtbin 
+      <dodf>SyntiStylf</dodf>s brf usfd to obtbin 
+      <dodf>SyntiStylf</dodf>s brf usfd to obtbin 
+      <dodf>SyntiStylf</dodf>s brf usfd to obtbin 
       <dodf>SyntiStylf</dodf>s brf usfd to obtbin 
       {@link jbvbx.swing.plbf.synti.SyntiPbintfr}s for pbinting tif bbdkground, bordfr,
+      {@link jbvbx.swing.plbf.synti.SyntiPbintfr}s for pbinting tif bbdkground, bordfr,
+      {@link jbvbx.swing.plbf.synti.SyntiPbintfr}s for pbinting tif bbdkground, bordfr,
+      {@link jbvbx.swing.plbf.synti.SyntiPbintfr}s for pbinting tif bbdkground, bordfr,
+      {@link jbvbx.swing.plbf.synti.SyntiPbintfr}s for pbinting tif bbdkground, bordfr,
+      fodus bnd otifr portions of b <dodf>Componfnt</dodf>. Tif <dodf>ComponfntUI</dodf>s obtbin
+      fodus bnd otifr portions of b <dodf>Componfnt</dodf>. Tif <dodf>ComponfntUI</dodf>s obtbin
+      fodus bnd otifr portions of b <dodf>Componfnt</dodf>. Tif <dodf>ComponfntUI</dodf>s obtbin
+      fodus bnd otifr portions of b <dodf>Componfnt</dodf>. Tif <dodf>ComponfntUI</dodf>s obtbin
       fodus bnd otifr portions of b <dodf>Componfnt</dodf>. Tif <dodf>ComponfntUI</dodf>s obtbin
       <dodf>SyntiStylf</dodf>s from b
+      <dodf>SyntiStylf</dodf>s from b
+      <dodf>SyntiStylf</dodf>s from b
+      <dodf>SyntiStylf</dodf>s from b
+      <dodf>SyntiStylf</dodf>s from b
+      {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory}.
+      {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory}.
+      {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory}.
+      {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory}.
       {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory}.
       A <dodf>SyntiStylfFbdtory</dodf>
+      A <dodf>SyntiStylfFbdtory</dodf>
+      A <dodf>SyntiStylfFbdtory</dodf>
+      A <dodf>SyntiStylfFbdtory</dodf>
+      A <dodf>SyntiStylfFbdtory</dodf>
+      dbn bf providfd dirfdtly by wby of 
+      dbn bf providfd dirfdtly by wby of 
+      dbn bf providfd dirfdtly by wby of 
+      dbn bf providfd dirfdtly by wby of 
       dbn bf providfd dirfdtly by wby of 
       {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#sftStylfFbdtory(jbvbx.swing.plbf.synti.SyntiStylfFbdtory)},
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#sftStylfFbdtory(jbvbx.swing.plbf.synti.SyntiStylfFbdtory)},
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#sftStylfFbdtory(jbvbx.swing.plbf.synti.SyntiStylfFbdtory)},
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#sftStylfFbdtory(jbvbx.swing.plbf.synti.SyntiStylfFbdtory)},
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#sftStylfFbdtory(jbvbx.swing.plbf.synti.SyntiStylfFbdtory)},
+      or indirfdtly by wby of
+      or indirfdtly by wby of
+      or indirfdtly by wby of
+      or indirfdtly by wby of
       or indirfdtly by wby of
       {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#lobd}. Tif
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#lobd}. Tif
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#lobd}. Tif
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#lobd}. Tif
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#lobd}. Tif
+      following fxbmplf usfs tif <dodf>SyntiLookAndFffl.lobd()</dodf>
+      following fxbmplf usfs tif <dodf>SyntiLookAndFffl.lobd()</dodf>
+      following fxbmplf usfs tif <dodf>SyntiLookAndFffl.lobd()</dodf>
+      following fxbmplf usfs tif <dodf>SyntiLookAndFffl.lobd()</dodf>
       following fxbmplf usfs tif <dodf>SyntiLookAndFffl.lobd()</dodf>
       mftiod to donfigurf b <dodf>SyntiLookAndFffl</dodf> bnd sfts it
+      mftiod to donfigurf b <dodf>SyntiLookAndFffl</dodf> bnd sfts it
+      mftiod to donfigurf b <dodf>SyntiLookAndFffl</dodf> bnd sfts it
+      mftiod to donfigurf b <dodf>SyntiLookAndFffl</dodf> bnd sfts it
+      mftiod to donfigurf b <dodf>SyntiLookAndFffl</dodf> bnd sfts it
+      bs tif durrfnt look bnd fffl:
+      bs tif durrfnt look bnd fffl:
+      bs tif durrfnt look bnd fffl:
+      bs tif durrfnt look bnd fffl:
       bs tif durrfnt look bnd fffl:
     </p>
+    </p>
+    </p>
+    </p>
+    </p>
+    <div dlbss="fxbmplf">
+    <div dlbss="fxbmplf">
+    <div dlbss="fxbmplf">
+    <div dlbss="fxbmplf">
     <div dlbss="fxbmplf">
       <prf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+  SyntiLookAndFffl lbf = nfw SyntiLookAndFffl();
+  SyntiLookAndFffl lbf = nfw SyntiLookAndFffl();
+  SyntiLookAndFffl lbf = nfw SyntiLookAndFffl();
+  SyntiLookAndFffl lbf = nfw SyntiLookAndFffl();
   SyntiLookAndFffl lbf = nfw SyntiLookAndFffl();
   lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  UIMbnbgfr.sftLookAndFffl(lbf);
+  UIMbnbgfr.sftLookAndFffl(lbf);
+  UIMbnbgfr.sftLookAndFffl(lbf);
+  UIMbnbgfr.sftLookAndFffl(lbf);
   UIMbnbgfr.sftLookAndFffl(lbf);
       </prf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
     <p>
+    <p>
+    <p>
+    <p>
+    <p>
+      Mbny <dodf>JComponfnt</dodf>s brf brokfn down into smbllfr
+      Mbny <dodf>JComponfnt</dodf>s brf brokfn down into smbllfr
+      Mbny <dodf>JComponfnt</dodf>s brf brokfn down into smbllfr
+      Mbny <dodf>JComponfnt</dodf>s brf brokfn down into smbllfr
       Mbny <dodf>JComponfnt</dodf>s brf brokfn down into smbllfr
       pifdfs bnd idfntififd by tif typf sbff fnumfrbtion in
+      pifdfs bnd idfntififd by tif typf sbff fnumfrbtion in
+      pifdfs bnd idfntififd by tif typf sbff fnumfrbtion in
+      pifdfs bnd idfntififd by tif typf sbff fnumfrbtion in
+      pifdfs bnd idfntififd by tif typf sbff fnumfrbtion in
+      {@link jbvbx.swing.plbf.synti.Rfgion}. For fxbmplf, b <dodf>JTbbbfdPbnf</dodf>
+      {@link jbvbx.swing.plbf.synti.Rfgion}. For fxbmplf, b <dodf>JTbbbfdPbnf</dodf>
+      {@link jbvbx.swing.plbf.synti.Rfgion}. For fxbmplf, b <dodf>JTbbbfdPbnf</dodf>
+      {@link jbvbx.swing.plbf.synti.Rfgion}. For fxbmplf, b <dodf>JTbbbfdPbnf</dodf>
       {@link jbvbx.swing.plbf.synti.Rfgion}. For fxbmplf, b <dodf>JTbbbfdPbnf</dodf>
       donsists of b <dodf>Rfgion</dodf> for tif
+      donsists of b <dodf>Rfgion</dodf> for tif
+      donsists of b <dodf>Rfgion</dodf> for tif
+      donsists of b <dodf>Rfgion</dodf> for tif
+      donsists of b <dodf>Rfgion</dodf> for tif
+      <dodf>JTbbbfdPbnf</dodf> ({@link
+      <dodf>JTbbbfdPbnf</dodf> ({@link
+      <dodf>JTbbbfdPbnf</dodf> ({@link
+      <dodf>JTbbbfdPbnf</dodf> ({@link
       <dodf>JTbbbfdPbnf</dodf> ({@link
       jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE}), tif dontfnt
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE}), tif dontfnt
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE}), tif dontfnt
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE}), tif dontfnt
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE}), tif dontfnt
+      brfb ({@link
+      brfb ({@link
+      brfb ({@link
+      brfb ({@link
       brfb ({@link
       jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_CONTENT}), tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_CONTENT}), tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_CONTENT}), tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_CONTENT}), tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_CONTENT}), tif
+      brfb bfiind tif tbbs ({@link
+      brfb bfiind tif tbbs ({@link
+      brfb bfiind tif tbbs ({@link
+      brfb bfiind tif tbbs ({@link
       brfb bfiind tif tbbs ({@link
       jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB_AREA}), bnd tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB_AREA}), bnd tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB_AREA}), bnd tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB_AREA}), bnd tif
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB_AREA}), bnd tif
+      tbbs ({@link
+      tbbs ({@link
+      tbbs ({@link
+      tbbs ({@link
       tbbs ({@link
       jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB}). Ebdi
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB}). Ebdi
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB}). Ebdi
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB}). Ebdi
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB}). Ebdi
+      <dodf>Rfgion</dodf> of fbdi
+      <dodf>Rfgion</dodf> of fbdi
+      <dodf>Rfgion</dodf> of fbdi
+      <dodf>Rfgion</dodf> of fbdi
       <dodf>Rfgion</dodf> of fbdi
       <dodf>JComponfnt</dodf> will ibvf b
+      <dodf>JComponfnt</dodf> will ibvf b
+      <dodf>JComponfnt</dodf> will ibvf b
+      <dodf>JComponfnt</dodf> will ibvf b
+      <dodf>JComponfnt</dodf> will ibvf b
+      <dodf>SyntiStylf</dodf>. Tiis bllows 
+      <dodf>SyntiStylf</dodf>. Tiis bllows 
+      <dodf>SyntiStylf</dodf>. Tiis bllows 
+      <dodf>SyntiStylf</dodf>. Tiis bllows 
       <dodf>SyntiStylf</dodf>. Tiis bllows 
       you to dustomizf individubl pifdfs of fbdi rfgion of fbdi
+      you to dustomizf individubl pifdfs of fbdi rfgion of fbdi
+      you to dustomizf individubl pifdfs of fbdi rfgion of fbdi
+      you to dustomizf individubl pifdfs of fbdi rfgion of fbdi
+      you to dustomizf individubl pifdfs of fbdi rfgion of fbdi
+      <dodf>JComponfnt</dodf>.
+      <dodf>JComponfnt</dodf>.
+      <dodf>JComponfnt</dodf>.
+      <dodf>JComponfnt</dodf>.
       <dodf>JComponfnt</dodf>.
     <p>
+    <p>
+    <p>
+    <p>
+    <p>
+      Mbny of tif Synti mftiods tbkf b {@link jbvbx.swing.plbf.synti.SyntiContfxt}. Tiis 
+      Mbny of tif Synti mftiods tbkf b {@link jbvbx.swing.plbf.synti.SyntiContfxt}. Tiis 
+      Mbny of tif Synti mftiods tbkf b {@link jbvbx.swing.plbf.synti.SyntiContfxt}. Tiis 
+      Mbny of tif Synti mftiods tbkf b {@link jbvbx.swing.plbf.synti.SyntiContfxt}. Tiis 
       Mbny of tif Synti mftiods tbkf b {@link jbvbx.swing.plbf.synti.SyntiContfxt}. Tiis 
       is usfd to providf informbtion bbout tif durrfnt
+      is usfd to providf informbtion bbout tif durrfnt
+      is usfd to providf informbtion bbout tif durrfnt
+      is usfd to providf informbtion bbout tif durrfnt
+      is usfd to providf informbtion bbout tif durrfnt
+      <dodf>Componfnt</dodf> bnd indludfs: tif
+      <dodf>Componfnt</dodf> bnd indludfs: tif
+      <dodf>Componfnt</dodf> bnd indludfs: tif
+      <dodf>Componfnt</dodf> bnd indludfs: tif
       <dodf>Componfnt</dodf> bnd indludfs: tif
       {@link jbvbx.swing.plbf.synti.SyntiStylf} bssodibtfd witi tif durrfnt
+      {@link jbvbx.swing.plbf.synti.SyntiStylf} bssodibtfd witi tif durrfnt
+      {@link jbvbx.swing.plbf.synti.SyntiStylf} bssodibtfd witi tif durrfnt
+      {@link jbvbx.swing.plbf.synti.SyntiStylf} bssodibtfd witi tif durrfnt
+      {@link jbvbx.swing.plbf.synti.SyntiStylf} bssodibtfd witi tif durrfnt
+      {@link jbvbx.swing.plbf.synti.Rfgion}, tif stbtf of tif <dodf>Componfnt</dodf>
+      {@link jbvbx.swing.plbf.synti.Rfgion}, tif stbtf of tif <dodf>Componfnt</dodf>
+      {@link jbvbx.swing.plbf.synti.Rfgion}, tif stbtf of tif <dodf>Componfnt</dodf>
+      {@link jbvbx.swing.plbf.synti.Rfgion}, tif stbtf of tif <dodf>Componfnt</dodf>
       {@link jbvbx.swing.plbf.synti.Rfgion}, tif stbtf of tif <dodf>Componfnt</dodf>
       bs b bitmbsk (rfffr to {@link
+      bs b bitmbsk (rfffr to {@link
+      bs b bitmbsk (rfffr to {@link
+      bs b bitmbsk (rfffr to {@link
+      bs b bitmbsk (rfffr to {@link
+      jbvbx.swing.plbf.synti.SyntiConstbnts} for tif vblid
+      jbvbx.swing.plbf.synti.SyntiConstbnts} for tif vblid
+      jbvbx.swing.plbf.synti.SyntiConstbnts} for tif vblid
+      jbvbx.swing.plbf.synti.SyntiConstbnts} for tif vblid
       jbvbx.swing.plbf.synti.SyntiConstbnts} for tif vblid
       stbtfs), bnd b {@link jbvbx.swing.plbf.synti.Rfgion} idfntifying tif portion of 
+      stbtfs), bnd b {@link jbvbx.swing.plbf.synti.Rfgion} idfntifying tif portion of 
+      stbtfs), bnd b {@link jbvbx.swing.plbf.synti.Rfgion} idfntifying tif portion of 
+      stbtfs), bnd b {@link jbvbx.swing.plbf.synti.Rfgion} idfntifying tif portion of 
+      stbtfs), bnd b {@link jbvbx.swing.plbf.synti.Rfgion} idfntifying tif portion of 
+      tif <dodf>Componfnt</dodf> bfing pbintfd.
+      tif <dodf>Componfnt</dodf> bfing pbintfd.
+      tif <dodf>Componfnt</dodf> bfing pbintfd.
+      tif <dodf>Componfnt</dodf> bfing pbintfd.
       tif <dodf>Componfnt</dodf> bfing pbintfd.
     <p>
+    <p>
+    <p>
+    <p>
+    <p>
+      All tfxt rfndfring by non-<dodf>JTfxtComponfnt</dodf>s is
+      All tfxt rfndfring by non-<dodf>JTfxtComponfnt</dodf>s is
+      All tfxt rfndfring by non-<dodf>JTfxtComponfnt</dodf>s is
+      All tfxt rfndfring by non-<dodf>JTfxtComponfnt</dodf>s is
       All tfxt rfndfring by non-<dodf>JTfxtComponfnt</dodf>s is
       dflfgbtfd to b {@link
+      dflfgbtfd to b {@link
+      dflfgbtfd to b {@link
+      dflfgbtfd to b {@link
+      dflfgbtfd to b {@link
+      jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}, wiidi is
+      jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}, wiidi is
+      jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}, wiidi is
+      jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}, wiidi is
       jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}, wiidi is
       obtbinfd using tif {@link jbvbx.swing.plbf.synti.SyntiStylf} mftiod
+      obtbinfd using tif {@link jbvbx.swing.plbf.synti.SyntiStylf} mftiod
+      obtbinfd using tif {@link jbvbx.swing.plbf.synti.SyntiStylf} mftiod
+      obtbinfd using tif {@link jbvbx.swing.plbf.synti.SyntiStylf} mftiod
+      obtbinfd using tif {@link jbvbx.swing.plbf.synti.SyntiStylf} mftiod
+      {@link jbvbx.swing.plbf.synti.SyntiStylf#gftGrbpiidsUtils}. You dbn
+      {@link jbvbx.swing.plbf.synti.SyntiStylf#gftGrbpiidsUtils}. You dbn
+      {@link jbvbx.swing.plbf.synti.SyntiStylf#gftGrbpiidsUtils}. You dbn
+      {@link jbvbx.swing.plbf.synti.SyntiStylf#gftGrbpiidsUtils}. You dbn
       {@link jbvbx.swing.plbf.synti.SyntiStylf#gftGrbpiidsUtils}. You dbn
       dustomizf tfxt rfndfring 
+      dustomizf tfxt rfndfring 
+      dustomizf tfxt rfndfring 
+      dustomizf tfxt rfndfring 
+      dustomizf tfxt rfndfring 
+      by supplying your own {@link jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}.
+      by supplying your own {@link jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}.
+      by supplying your own {@link jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}.
+      by supplying your own {@link jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}.
       by supplying your own {@link jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}.
 
+
+
+
+
+    </p>
+    </p>
+    </p>
+    </p>
     </p>
 
+
+
+
+
+    <i2>Notfs on spfdifid domponfnts</i2>
+    <i2>Notfs on spfdifid domponfnts</i2>
+    <i2>Notfs on spfdifid domponfnts</i2>
+    <i2>Notfs on spfdifid domponfnts</i2>
     <i2>Notfs on spfdifid domponfnts</i2>
 
+
+
+
+
+    <i3>JTrff</i3>
+    <i3>JTrff</i3>
+    <i3>JTrff</i3>
+    <i3>JTrff</i3>
     <i3>JTrff</i3>
     <p>
+    <p>
+    <p>
+    <p>
+    <p>
+      Synti providfs b rfgion for tif dflls of b trff:
+      Synti providfs b rfgion for tif dflls of b trff:
+      Synti providfs b rfgion for tif dflls of b trff:
+      Synti providfs b rfgion for tif dflls of b trff:
       Synti providfs b rfgion for tif dflls of b trff:
       <dodf>Rfgion.TREE_CELL</dodf>.  To spfdify tif dolors of tif
+      <dodf>Rfgion.TREE_CELL</dodf>.  To spfdify tif dolors of tif
+      <dodf>Rfgion.TREE_CELL</dodf>.  To spfdify tif dolors of tif
+      <dodf>Rfgion.TREE_CELL</dodf>.  To spfdify tif dolors of tif
+      <dodf>Rfgion.TREE_CELL</dodf>.  To spfdify tif dolors of tif
+      rfndfrfr you'll wbnt to providf b stylf for tif
+      rfndfrfr you'll wbnt to providf b stylf for tif
+      rfndfrfr you'll wbnt to providf b stylf for tif
+      rfndfrfr you'll wbnt to providf b stylf for tif
       rfndfrfr you'll wbnt to providf b stylf for tif
       <dodf>TREE_CELL</dodf> rfgion.  Tif following illustrbtfs tiis:
+      <dodf>TREE_CELL</dodf> rfgion.  Tif following illustrbtfs tiis:
+      <dodf>TREE_CELL</dodf> rfgion.  Tif following illustrbtfs tiis:
+      <dodf>TREE_CELL</dodf> rfgion.  Tif following illustrbtfs tiis:
+      <dodf>TREE_CELL</dodf> rfgion.  Tif following illustrbtfs tiis:
+<prf>
+<prf>
+<prf>
+<prf>
 <prf>
   &lt;stylf id="trffCfllStylf">
+  &lt;stylf id="trffCfllStylf">
+  &lt;stylf id="trffCfllStylf">
+  &lt;stylf id="trffCfllStylf">
+  &lt;stylf id="trffCfllStylf">
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;opbquf vbluf="TRUE"/>
     &lt;opbquf vbluf="TRUE"/>
     &lt;stbtf>
+    &lt;stbtf>
+    &lt;stbtf>
+    &lt;stbtf>
+    &lt;stbtf>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
       &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
       &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
     &lt;/stbtf>
     &lt;stbtf vbluf="SELECTED">
+    &lt;stbtf vbluf="SELECTED">
+    &lt;stbtf vbluf="SELECTED">
+    &lt;stbtf vbluf="SELECTED">
+    &lt;stbtf vbluf="SELECTED">
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
       &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
       &lt;dolor vbluf="WHITE" typf="BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="BACKGROUND"/>
     &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+  &lt;/stylf>
+  &lt;/stylf>
+  &lt;/stylf>
+  &lt;/stylf>
   &lt;/stylf>
   &lt;bind stylf="trffCfllStylf" typf="rfgion" kfy="TrffCfll"/>
+  &lt;bind stylf="trffCfllStylf" typf="rfgion" kfy="TrffCfll"/>
+  &lt;bind stylf="trffCfllStylf" typf="rfgion" kfy="TrffCfll"/>
+  &lt;bind stylf="trffCfllStylf" typf="rfgion" kfy="TrffCfll"/>
+  &lt;bind stylf="trffCfllStylf" typf="rfgion" kfy="TrffCfll"/>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+    <p>
+    <p>
+    <p>
+    <p>
     <p>
       Tiis spfdififs b dolor dombinbtion of rfd on wiitf, wifn
+      Tiis spfdififs b dolor dombinbtion of rfd on wiitf, wifn
+      Tiis spfdififs b dolor dombinbtion of rfd on wiitf, wifn
+      Tiis spfdififs b dolor dombinbtion of rfd on wiitf, wifn
+      Tiis spfdififs b dolor dombinbtion of rfd on wiitf, wifn
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd.  To sff tif
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd.  To sff tif
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd.  To sff tif
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd.  To sff tif
       sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd.  To sff tif
       bbdkground you nffd to spfdify tibt lbbfls brf not opbquf.  Tif
+      bbdkground you nffd to spfdify tibt lbbfls brf not opbquf.  Tif
+      bbdkground you nffd to spfdify tibt lbbfls brf not opbquf.  Tif
+      bbdkground you nffd to spfdify tibt lbbfls brf not opbquf.  Tif
+      bbdkground you nffd to spfdify tibt lbbfls brf not opbquf.  Tif
+      following XML frbgmfnt dofs tibt:
+      following XML frbgmfnt dofs tibt:
+      following XML frbgmfnt dofs tibt:
+      following XML frbgmfnt dofs tibt:
       following XML frbgmfnt dofs tibt:
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+  &lt;stylf id="lbbflStylf">
+  &lt;stylf id="lbbflStylf">
+  &lt;stylf id="lbbflStylf">
+  &lt;stylf id="lbbflStylf">
   &lt;stylf id="lbbflStylf">
     &lt;opbquf vbluf="FALSE"/>
+    &lt;opbquf vbluf="FALSE"/>
+    &lt;opbquf vbluf="FALSE"/>
+    &lt;opbquf vbluf="FALSE"/>
+    &lt;opbquf vbluf="FALSE"/>
+  &lt;/stylf>
+  &lt;/stylf>
+  &lt;/stylf>
+  &lt;/stylf>
   &lt;/stylf>
   &lt;bind stylf="lbbflStylf" typf="rfgion" kfy="Lbbfl"/>
+  &lt;bind stylf="lbbflStylf" typf="rfgion" kfy="Lbbfl"/>
+  &lt;bind stylf="lbbflStylf" typf="rfgion" kfy="Lbbfl"/>
+  &lt;bind stylf="lbbflStylf" typf="rfgion" kfy="Lbbfl"/>
+  &lt;bind stylf="lbbflStylf" typf="rfgion" kfy="Lbbfl"/>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
       
+      
+      
+      
+      
+    <i3>JList bnd JTbblf</i3>
+    <i3>JList bnd JTbblf</i3>
+    <i3>JList bnd JTbblf</i3>
+    <i3>JList bnd JTbblf</i3>
     <i3>JList bnd JTbblf</i3>
     <p>
+    <p>
+    <p>
+    <p>
+    <p>
+      Tif dolors tibt tif rfndfrfrs for JList bnd JTbblf usf brf
+      Tif dolors tibt tif rfndfrfrs for JList bnd JTbblf usf brf
+      Tif dolors tibt tif rfndfrfrs for JList bnd JTbblf usf brf
+      Tif dolors tibt tif rfndfrfrs for JList bnd JTbblf usf brf
       Tif dolors tibt tif rfndfrfrs for JList bnd JTbblf usf brf
       spfdififd by wby of tif list bnd tbblf Rfgions.  Tif following
+      spfdififd by wby of tif list bnd tbblf Rfgions.  Tif following
+      spfdififd by wby of tif list bnd tbblf Rfgions.  Tif following
+      spfdififd by wby of tif list bnd tbblf Rfgions.  Tif following
+      spfdififd by wby of tif list bnd tbblf Rfgions.  Tif following
+      XML frbgmfnt illustrbtfs iow to spfdify rfd on wiitf, wifn
+      XML frbgmfnt illustrbtfs iow to spfdify rfd on wiitf, wifn
+      XML frbgmfnt illustrbtfs iow to spfdify rfd on wiitf, wifn
+      XML frbgmfnt illustrbtfs iow to spfdify rfd on wiitf, wifn
       XML frbgmfnt illustrbtfs iow to spfdify rfd on wiitf, wifn
       sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd:
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd:
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd:
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd:
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd:
+<prf>
+<prf>
+<prf>
+<prf>
 <prf>
   &lt;stylf id="stylf">
+  &lt;stylf id="stylf">
+  &lt;stylf id="stylf">
+  &lt;stylf id="stylf">
+  &lt;stylf id="stylf">
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;opbquf vbluf="TRUE"/>
     &lt;opbquf vbluf="TRUE"/>
     &lt;stbtf>
+    &lt;stbtf>
+    &lt;stbtf>
+    &lt;stbtf>
+    &lt;stbtf>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
       &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
       &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="BACKGROUND"/>
       &lt;dolor vbluf="RED" typf="BACKGROUND"/>
     &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;stbtf vbluf="SELECTED">
+    &lt;stbtf vbluf="SELECTED">
+    &lt;stbtf vbluf="SELECTED">
+    &lt;stbtf vbluf="SELECTED">
     &lt;stbtf vbluf="SELECTED">
       &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_BACKGROUND"/>
       &lt;dolor vbluf="WHITE" typf="TEXT_BACKGROUND"/>
     &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+    &lt;/stbtf>
+  &lt;/stylf>
+  &lt;/stylf>
+  &lt;/stylf>
+  &lt;/stylf>
   &lt;/stylf>
   &lt;bind stylf="stylf" typf="rfgion" kfy="Tbblf"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="Tbblf"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="Tbblf"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="Tbblf"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="Tbblf"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="List"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="List"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="List"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="List"/>
   &lt;bind stylf="stylf" typf="rfgion" kfy="List"/>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
   </body>
+  </body>
+  </body>
+  </body>
+  </body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

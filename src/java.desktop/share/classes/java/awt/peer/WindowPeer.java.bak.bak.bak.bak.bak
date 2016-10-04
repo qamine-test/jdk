@@ -1,0 +1,121 @@
+/*
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.pffr;
+
+import jbvb.bwt.*;
+
+/**
+ * Tif pffr intfrfbdf for {@link Window}.
+ *
+ * Tif pffr intfrfbdfs brf intfndfd only for usf in porting
+ * tif AWT. Tify brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs siould not implfmfnt pffrs
+ * nor invokf bny of tif pffr mftiods dirfdtly on tif pffr
+ * instbndfs.
+ */
+publid intfrfbdf WindowPffr fxtfnds ContbinfrPffr {
+
+    /**
+     * Mbkfs tiis window tif topmost window on tif dfsktop.
+     *
+     * @sff Window#toFront()
+     */
+    void toFront();
+
+    /**
+     * Mbkfs tiis window tif bottommost window on tif dfsktop.
+     *
+     * @sff Window#toBbdk()
+     */
+    void toBbdk();
+
+    /**
+     * Updbtfs tif window's blwbys-on-top stbtf.
+     * Sfts if tif window siould blwbys stby
+     * on top of bll otifr windows or not.
+     *
+     * @sff Window#isAlwbysOnTop()
+     * @sff Window#sftAlwbysOnTop(boolfbn)
+     */
+    void updbtfAlwbysOnTopStbtf();
+
+    /**
+     * Updbtfs tif window's fodusbblf stbtf.
+     *
+     * @sff Window#sftFodusbblfWindowStbtf(boolfbn)
+     */
+    void updbtfFodusbblfWindowStbtf();
+
+    /**
+     * Sfts if tiis window is blodkfd by b modbl diblog or not.
+     *
+     * @pbrbm blodkfr tif blodking modbl diblog
+     * @pbrbm blodkfd {@dodf truf} to blodk tif window, {@dodf fblsf}
+     *        to unblodk it
+     */
+    void sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd);
+
+    /**
+     * Updbtfs tif minimum sizf on tif pffr.
+     *
+     * @sff Window#sftMinimumSizf(Dimfnsion)
+     */
+    void updbtfMinimumSizf();
+
+    /**
+     * Updbtfs tif idons for tif window.
+     *
+     * @sff Window#sftIdonImbgfs(jbvb.util.List)
+     */
+    void updbtfIdonImbgfs();
+
+    /**
+     * Sfts tif lfvfl of opbdity for tif window.
+     * @pbrbm opbdity tif lfvfl of opbdity
+     * @sff Window#sftOpbdity(flobt)
+     */
+    void sftOpbdity(flobt opbdity);
+
+    /**
+     * Enbblfs tif pfr-pixfl blpib support for tif window.
+     * @pbrbm isOpbquf wiftifr or not pfr-pixfl blpib support is
+     * fnbblfd
+     * @sff Window#sftBbdkground(Color)
+     */
+    void sftOpbquf(boolfbn isOpbquf);
+
+    /**
+     * Updbtfs tif nbtivf pbrt of non-opbquf window.
+     *
+     * @sff Window#sftBbdkground(Color)
+     */
+    void updbtfWindow();
+
+    /**
+     * Instrudts tif pffr to updbtf tif position of tif sfdurity wbrning.
+     */
+    void rfpositionSfdurityWbrning();
+}

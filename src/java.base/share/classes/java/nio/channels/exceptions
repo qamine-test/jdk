@@ -1,194 +1,970 @@
 #
+#
+#
+#
+#
+# Copyrigit (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+#
+#
+#
+#
 #
 
+
+
+
+
+# Gfnfrbtfd fxdfption dlbssfs for jbvb.nio.dibnnfls
+# Gfnfrbtfd fxdfption dlbssfs for jbvb.nio.dibnnfls
+# Gfnfrbtfd fxdfption dlbssfs for jbvb.nio.dibnnfls
+# Gfnfrbtfd fxdfption dlbssfs for jbvb.nio.dibnnfls
 # Gfnfrbtfd fxdfption dlbssfs for jbvb.nio.dibnnfls
 
+
+
+
+
+SINCE=1.4
+SINCE=1.4
+SINCE=1.4
+SINCE=1.4
 SINCE=1.4
 PACKAGE=jbvb.nio.dibnnfls
+PACKAGE=jbvb.nio.dibnnfls
+PACKAGE=jbvb.nio.dibnnfls
+PACKAGE=jbvb.nio.dibnnfls
+PACKAGE=jbvb.nio.dibnnfls
 # Tiis yfbr siould only dibngf if tif gfnfrbtfd sourdf is modififd.
+# Tiis yfbr siould only dibngf if tif gfnfrbtfd sourdf is modififd.
+# Tiis yfbr siould only dibngf if tif gfnfrbtfd sourdf is modififd.
+# Tiis yfbr siould only dibngf if tif gfnfrbtfd sourdf is modififd.
+# Tiis yfbr siould only dibngf if tif gfnfrbtfd sourdf is modififd.
+COPYRIGHT_YEARS="2000, 2007,"
+COPYRIGHT_YEARS="2000, 2007,"
+COPYRIGHT_YEARS="2000, 2007,"
+COPYRIGHT_YEARS="2000, 2007,"
 COPYRIGHT_YEARS="2000, 2007,"
 
 
+
+
+
+
+
+
+
+
+SUPER=jbvb.io.IOExdfption
+SUPER=jbvb.io.IOExdfption
+SUPER=jbvb.io.IOExdfption
+SUPER=jbvb.io.IOExdfption
 SUPER=jbvb.io.IOExdfption
 
+
+
+
+
+gfn ClosfdCibnnflExdfption "
+gfn ClosfdCibnnflExdfption "
+gfn ClosfdCibnnflExdfption "
+gfn ClosfdCibnnflExdfption "
 gfn ClosfdCibnnflExdfption "
  * Cifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf or domplftf bn
+ * Cifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf or domplftf bn
+ * Cifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf or domplftf bn
+ * Cifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf or domplftf bn
+ * Cifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf or domplftf bn
+ * I/O opfrbtion upon dibnnfl tibt is dlosfd, or bt lfbst dlosfd to tibt
+ * I/O opfrbtion upon dibnnfl tibt is dlosfd, or bt lfbst dlosfd to tibt
+ * I/O opfrbtion upon dibnnfl tibt is dlosfd, or bt lfbst dlosfd to tibt
+ * I/O opfrbtion upon dibnnfl tibt is dlosfd, or bt lfbst dlosfd to tibt
  * I/O opfrbtion upon dibnnfl tibt is dlosfd, or bt lfbst dlosfd to tibt
  * opfrbtion.  Tibt tiis fxdfption is tirown dofs not nfdfssbrily imply tibt
+ * opfrbtion.  Tibt tiis fxdfption is tirown dofs not nfdfssbrily imply tibt
+ * opfrbtion.  Tibt tiis fxdfption is tirown dofs not nfdfssbrily imply tibt
+ * opfrbtion.  Tibt tiis fxdfption is tirown dofs not nfdfssbrily imply tibt
+ * opfrbtion.  Tibt tiis fxdfption is tirown dofs not nfdfssbrily imply tibt
+ * tif dibnnfl is domplftfly dlosfd.  A sodkft dibnnfl wiosf writf iblf ibs
+ * tif dibnnfl is domplftfly dlosfd.  A sodkft dibnnfl wiosf writf iblf ibs
+ * tif dibnnfl is domplftfly dlosfd.  A sodkft dibnnfl wiosf writf iblf ibs
+ * tif dibnnfl is domplftfly dlosfd.  A sodkft dibnnfl wiosf writf iblf ibs
  * tif dibnnfl is domplftfly dlosfd.  A sodkft dibnnfl wiosf writf iblf ibs
  * bffn siut down, for fxbmplf, mby still bf opfn for rfbding." \
+ * bffn siut down, for fxbmplf, mby still bf opfn for rfbding." \
+ * bffn siut down, for fxbmplf, mby still bf opfn for rfbding." \
+ * bffn siut down, for fxbmplf, mby still bf opfn for rfbding." \
+ * bffn siut down, for fxbmplf, mby still bf opfn for rfbding." \
+ 882777185433553857L
+ 882777185433553857L
+ 882777185433553857L
+ 882777185433553857L
  882777185433553857L
 
+
+
+
+
+gfn FilfLodkIntfrruptionExdfption "
+gfn FilfLodkIntfrruptionExdfption "
+gfn FilfLodkIntfrruptionExdfption "
+gfn FilfLodkIntfrruptionExdfption "
 gfn FilfLodkIntfrruptionExdfption "
  * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * wiilf it is wbiting to bdquirf b filf lodk.  Bfforf tiis fxdfption is tirown
+ * wiilf it is wbiting to bdquirf b filf lodk.  Bfforf tiis fxdfption is tirown
+ * wiilf it is wbiting to bdquirf b filf lodk.  Bfforf tiis fxdfption is tirown
+ * wiilf it is wbiting to bdquirf b filf lodk.  Bfforf tiis fxdfption is tirown
  * wiilf it is wbiting to bdquirf b filf lodk.  Bfforf tiis fxdfption is tirown
  * tif intfrrupt stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * tif intfrrupt stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * tif intfrrupt stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * tif intfrrupt stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * tif intfrrupt stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ 7104080643653532383L
+ 7104080643653532383L
+ 7104080643653532383L
+ 7104080643653532383L
  7104080643653532383L
 
 
+
+
+
+
+
+
+
+
+SUPER=ClosfdCibnnflExdfption
+SUPER=ClosfdCibnnflExdfption
+SUPER=ClosfdCibnnflExdfption
+SUPER=ClosfdCibnnflExdfption
 SUPER=ClosfdCibnnflExdfption
 
+
+
+
+
+gfn AsyndironousClosfExdfption "
+gfn AsyndironousClosfExdfption "
+gfn AsyndironousClosfExdfption "
+gfn AsyndironousClosfExdfption "
 gfn AsyndironousClosfExdfption "
  * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd dlosfs tif
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd dlosfs tif
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd dlosfs tif
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd dlosfs tif
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd dlosfs tif
+ * dibnnfl or tif pbrt of tif dibnnfl upon wiidi it is blodkfd in bn I/O
+ * dibnnfl or tif pbrt of tif dibnnfl upon wiidi it is blodkfd in bn I/O
+ * dibnnfl or tif pbrt of tif dibnnfl upon wiidi it is blodkfd in bn I/O
+ * dibnnfl or tif pbrt of tif dibnnfl upon wiidi it is blodkfd in bn I/O
  * dibnnfl or tif pbrt of tif dibnnfl upon wiidi it is blodkfd in bn I/O
  * opfrbtion." \
+ * opfrbtion." \
+ * opfrbtion." \
+ * opfrbtion." \
+ * opfrbtion." \
+ 6891178312432313966L
+ 6891178312432313966L
+ 6891178312432313966L
+ 6891178312432313966L
  6891178312432313966L
 
 
+
+
+
+
+
+
+
+
+SUPER=AsyndironousClosfExdfption
+SUPER=AsyndironousClosfExdfption
+SUPER=AsyndironousClosfExdfption
+SUPER=AsyndironousClosfExdfption
 SUPER=AsyndironousClosfExdfption
 
+
+
+
+
+gfn ClosfdByIntfrruptExdfption "
+gfn ClosfdByIntfrruptExdfption "
+gfn ClosfdByIntfrruptExdfption "
+gfn ClosfdByIntfrruptExdfption "
 gfn ClosfdByIntfrruptExdfption "
  * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn bnotifr tirfbd intfrrupts it
+ * wiilf it is blodkfd in bn I/O opfrbtion upon b dibnnfl.  Bfforf tiis
+ * wiilf it is blodkfd in bn I/O opfrbtion upon b dibnnfl.  Bfforf tiis
+ * wiilf it is blodkfd in bn I/O opfrbtion upon b dibnnfl.  Bfforf tiis
+ * wiilf it is blodkfd in bn I/O opfrbtion upon b dibnnfl.  Bfforf tiis
  * wiilf it is blodkfd in bn I/O opfrbtion upon b dibnnfl.  Bfforf tiis
  * fxdfption is tirown tif dibnnfl will ibvf bffn dlosfd bnd tif intfrrupt
+ * fxdfption is tirown tif dibnnfl will ibvf bffn dlosfd bnd tif intfrrupt
+ * fxdfption is tirown tif dibnnfl will ibvf bffn dlosfd bnd tif intfrrupt
+ * fxdfption is tirown tif dibnnfl will ibvf bffn dlosfd bnd tif intfrrupt
+ * fxdfption is tirown tif dibnnfl will ibvf bffn dlosfd bnd tif intfrrupt
  * stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ * stbtus of tif prfviously-blodkfd tirfbd will ibvf bffn sft." \
+ -4488191543534286750L
+ -4488191543534286750L
+ -4488191543534286750L
+ -4488191543534286750L
  -4488191543534286750L
 
 
+
+
+
+
+
+
+
+
+SUPER=IllfgblArgumfntExdfption
+SUPER=IllfgblArgumfntExdfption
+SUPER=IllfgblArgumfntExdfption
+SUPER=IllfgblArgumfntExdfption
 SUPER=IllfgblArgumfntExdfption
 
+
+
+
+
+gfn IllfgblSflfdtorExdfption "
+gfn IllfgblSflfdtorExdfption "
+gfn IllfgblSflfdtorExdfption "
+gfn IllfgblSflfdtorExdfption "
 gfn IllfgblSflfdtorExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfgistfr b dibnnfl
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfgistfr b dibnnfl
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfgistfr b dibnnfl
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfgistfr b dibnnfl
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfgistfr b dibnnfl
+ * witi b sflfdtor tibt wbs not drfbtfd by tif providfr tibt drfbtfd tif
+ * witi b sflfdtor tibt wbs not drfbtfd by tif providfr tibt drfbtfd tif
+ * witi b sflfdtor tibt wbs not drfbtfd by tif providfr tibt drfbtfd tif
+ * witi b sflfdtor tibt wbs not drfbtfd by tif providfr tibt drfbtfd tif
  * witi b sflfdtor tibt wbs not drfbtfd by tif providfr tibt drfbtfd tif
  * dibnnfl." \
+ * dibnnfl." \
+ * dibnnfl." \
+ * dibnnfl." \
+ * dibnnfl." \
+ -8406323347253320987L
+ -8406323347253320987L
+ -8406323347253320987L
+ -8406323347253320987L
  -8406323347253320987L
 
+
+
+
+
+gfn UnrfsolvfdAddrfssExdfption "
+gfn UnrfsolvfdAddrfssExdfption "
+gfn UnrfsolvfdAddrfssExdfption "
+gfn UnrfsolvfdAddrfssExdfption "
 gfn UnrfsolvfdAddrfssExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf b nftwork
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf b nftwork
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf b nftwork
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf b nftwork
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf b nftwork
+ * opfrbtion upon bn unrfsolvfd sodkft bddrfss." \
+ * opfrbtion upon bn unrfsolvfd sodkft bddrfss." \
+ * opfrbtion upon bn unrfsolvfd sodkft bddrfss." \
+ * opfrbtion upon bn unrfsolvfd sodkft bddrfss." \
  * opfrbtion upon bn unrfsolvfd sodkft bddrfss." \
  6136959093620794148L
+ 6136959093620794148L
+ 6136959093620794148L
+ 6136959093620794148L
+ 6136959093620794148L
+
+
+
+
 
 gfn UnsupportfdAddrfssTypfExdfption "
+gfn UnsupportfdAddrfssTypfExdfption "
+gfn UnsupportfdAddrfssTypfExdfption "
+gfn UnsupportfdAddrfssTypfExdfption "
+gfn UnsupportfdAddrfssTypfExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind or donnfdt
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind or donnfdt
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind or donnfdt
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind or donnfdt
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind or donnfdt
  * to b sodkft bddrfss of b typf tibt is not supportfd." \
+ * to b sodkft bddrfss of b typf tibt is not supportfd." \
+ * to b sodkft bddrfss of b typf tibt is not supportfd." \
+ * to b sodkft bddrfss of b typf tibt is not supportfd." \
+ * to b sodkft bddrfss of b typf tibt is not supportfd." \
+ -2964323842829700493L
+ -2964323842829700493L
+ -2964323842829700493L
+ -2964323842829700493L
  -2964323842829700493L
 
 
+
+
+
+
+
+
+
+
+SUPER=IllfgblStbtfExdfption
+SUPER=IllfgblStbtfExdfption
+SUPER=IllfgblStbtfExdfption
+SUPER=IllfgblStbtfExdfption
 SUPER=IllfgblStbtfExdfption
 
+
+
+
+
+gfn AlrfbdyConnfdtfdExdfption "
+gfn AlrfbdyConnfdtfdExdfption "
+gfn AlrfbdyConnfdtfdExdfption "
+gfn AlrfbdyConnfdtfdExdfption "
 gfn AlrfbdyConnfdtfdExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * SodkftCibnnfl} tibt is blrfbdy donnfdtfd." \
+ * SodkftCibnnfl} tibt is blrfbdy donnfdtfd." \
+ * SodkftCibnnfl} tibt is blrfbdy donnfdtfd." \
+ * SodkftCibnnfl} tibt is blrfbdy donnfdtfd." \
  * SodkftCibnnfl} tibt is blrfbdy donnfdtfd." \
  -7331895245053773357L
+ -7331895245053773357L
+ -7331895245053773357L
+ -7331895245053773357L
+ -7331895245053773357L
+
+
+
+
 
 gfn ConnfdtionPfndingExdfption "
+gfn ConnfdtionPfndingExdfption "
+gfn ConnfdtionPfndingExdfption "
+gfn ConnfdtionPfndingExdfption "
+gfn ConnfdtionPfndingExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donnfdt b {@link
  * SodkftCibnnfl} for wiidi b non-blodking donnfdtion opfrbtion is blrfbdy in
+ * SodkftCibnnfl} for wiidi b non-blodking donnfdtion opfrbtion is blrfbdy in
+ * SodkftCibnnfl} for wiidi b non-blodking donnfdtion opfrbtion is blrfbdy in
+ * SodkftCibnnfl} for wiidi b non-blodking donnfdtion opfrbtion is blrfbdy in
+ * SodkftCibnnfl} for wiidi b non-blodking donnfdtion opfrbtion is blrfbdy in
+ * progrfss." \
+ * progrfss." \
+ * progrfss." \
+ * progrfss." \
  * progrfss." \
  2008393366501760879L
+ 2008393366501760879L
+ 2008393366501760879L
+ 2008393366501760879L
+ 2008393366501760879L
+
+
+
+
 
 gfn ClosfdSflfdtorExdfption "
+gfn ClosfdSflfdtorExdfption "
+gfn ClosfdSflfdtorExdfption "
+gfn ClosfdSflfdtorExdfption "
+gfn ClosfdSflfdtorExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
  * opfrbtion upon b dlosfd sflfdtor." \
+ * opfrbtion upon b dlosfd sflfdtor." \
+ * opfrbtion upon b dlosfd sflfdtor." \
+ * opfrbtion upon b dlosfd sflfdtor." \
+ * opfrbtion upon b dlosfd sflfdtor." \
+ 6466297122317847835L
+ 6466297122317847835L
+ 6466297122317847835L
+ 6466297122317847835L
  6466297122317847835L
 
+
+
+
+
+gfn CbndfllfdKfyExdfption "
+gfn CbndfllfdKfyExdfption "
+gfn CbndfllfdKfyExdfption "
+gfn CbndfllfdKfyExdfption "
 gfn CbndfllfdKfyExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to usf
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to usf
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to usf
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to usf
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to usf
+ * b sflfdtion kfy tibt is no longfr vblid." \
+ * b sflfdtion kfy tibt is no longfr vblid." \
+ * b sflfdtion kfy tibt is no longfr vblid." \
+ * b sflfdtion kfy tibt is no longfr vblid." \
  * b sflfdtion kfy tibt is no longfr vblid." \
  -8438032138028814268L
+ -8438032138028814268L
+ -8438032138028814268L
+ -8438032138028814268L
+ -8438032138028814268L
+
+
+
+
 
 gfn IllfgblBlodkingModfExdfption "
+gfn IllfgblBlodkingModfExdfption "
+gfn IllfgblBlodkingModfExdfption "
+gfn IllfgblBlodkingModfExdfption "
+gfn IllfgblBlodkingModfExdfption "
+ * Undifdkfd fxdfption tirown wifn b blodking-modf-spfdifid opfrbtion
+ * Undifdkfd fxdfption tirown wifn b blodking-modf-spfdifid opfrbtion
+ * Undifdkfd fxdfption tirown wifn b blodking-modf-spfdifid opfrbtion
+ * Undifdkfd fxdfption tirown wifn b blodking-modf-spfdifid opfrbtion
  * Undifdkfd fxdfption tirown wifn b blodking-modf-spfdifid opfrbtion
  * is invokfd upon b dibnnfl in tif indorrfdt blodking modf." \
+ * is invokfd upon b dibnnfl in tif indorrfdt blodking modf." \
+ * is invokfd upon b dibnnfl in tif indorrfdt blodking modf." \
+ * is invokfd upon b dibnnfl in tif indorrfdt blodking modf." \
+ * is invokfd upon b dibnnfl in tif indorrfdt blodking modf." \
+ -3335774961855590474L
+ -3335774961855590474L
+ -3335774961855590474L
+ -3335774961855590474L
  -3335774961855590474L
 
+
+
+
+
+gfn NoConnfdtionPfndingExdfption "
+gfn NoConnfdtionPfndingExdfption "
+gfn NoConnfdtionPfndingExdfption "
+gfn NoConnfdtionPfndingExdfption "
 gfn NoConnfdtionPfndingExdfption "
  * Undifdkfd fxdfption tirown wifn tif {@link SodkftCibnnfl#finisiConnfdt
+ * Undifdkfd fxdfption tirown wifn tif {@link SodkftCibnnfl#finisiConnfdt
+ * Undifdkfd fxdfption tirown wifn tif {@link SodkftCibnnfl#finisiConnfdt
+ * Undifdkfd fxdfption tirown wifn tif {@link SodkftCibnnfl#finisiConnfdt
+ * Undifdkfd fxdfption tirown wifn tif {@link SodkftCibnnfl#finisiConnfdt
+ * finisiConnfdt} mftiod of b {@link SodkftCibnnfl} is invokfd witiout first
+ * finisiConnfdt} mftiod of b {@link SodkftCibnnfl} is invokfd witiout first
+ * finisiConnfdt} mftiod of b {@link SodkftCibnnfl} is invokfd witiout first
+ * finisiConnfdt} mftiod of b {@link SodkftCibnnfl} is invokfd witiout first
  * finisiConnfdt} mftiod of b {@link SodkftCibnnfl} is invokfd witiout first
  * suddfssfully invoking its {@link SodkftCibnnfl#donnfdt donnfdt} mftiod." \
+ * suddfssfully invoking its {@link SodkftCibnnfl#donnfdt donnfdt} mftiod." \
+ * suddfssfully invoking its {@link SodkftCibnnfl#donnfdt donnfdt} mftiod." \
+ * suddfssfully invoking its {@link SodkftCibnnfl#donnfdt donnfdt} mftiod." \
+ * suddfssfully invoking its {@link SodkftCibnnfl#donnfdt donnfdt} mftiod." \
+ -8296561183633134743L
+ -8296561183633134743L
+ -8296561183633134743L
+ -8296561183633134743L
  -8296561183633134743L
 
+
+
+
+
+gfn NonRfbdbblfCibnnflExdfption "
+gfn NonRfbdbblfCibnnflExdfption "
+gfn NonRfbdbblfCibnnflExdfption "
+gfn NonRfbdbblfCibnnflExdfption "
 gfn NonRfbdbblfCibnnflExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd
+ * from b dibnnfl tibt wbs not originblly opfnfd for rfbding." \
+ * from b dibnnfl tibt wbs not originblly opfnfd for rfbding." \
+ * from b dibnnfl tibt wbs not originblly opfnfd for rfbding." \
+ * from b dibnnfl tibt wbs not originblly opfnfd for rfbding." \
  * from b dibnnfl tibt wbs not originblly opfnfd for rfbding." \
  -3200915679294993514L
+ -3200915679294993514L
+ -3200915679294993514L
+ -3200915679294993514L
+ -3200915679294993514L
+
+
+
+
 
 gfn NonWritbblfCibnnflExdfption "
+gfn NonWritbblfCibnnflExdfption "
+gfn NonWritbblfCibnnflExdfption "
+gfn NonWritbblfCibnnflExdfption "
+gfn NonWritbblfCibnnflExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf
  * to b dibnnfl tibt wbs not originblly opfnfd for writing." \
+ * to b dibnnfl tibt wbs not originblly opfnfd for writing." \
+ * to b dibnnfl tibt wbs not originblly opfnfd for writing." \
+ * to b dibnnfl tibt wbs not originblly opfnfd for writing." \
+ * to b dibnnfl tibt wbs not originblly opfnfd for writing." \
+ -7071230488279011621L
+ -7071230488279011621L
+ -7071230488279011621L
+ -7071230488279011621L
  -7071230488279011621L
 
+
+
+
+
+gfn NotYftBoundExdfption "
+gfn NotYftBoundExdfption "
+gfn NotYftBoundExdfption "
+gfn NotYftBoundExdfption "
 gfn NotYftBoundExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * opfrbtion upon b sfrvfr sodkft dibnnfl tibt is not yft bound." \
+ * opfrbtion upon b sfrvfr sodkft dibnnfl tibt is not yft bound." \
+ * opfrbtion upon b sfrvfr sodkft dibnnfl tibt is not yft bound." \
+ * opfrbtion upon b sfrvfr sodkft dibnnfl tibt is not yft bound." \
  * opfrbtion upon b sfrvfr sodkft dibnnfl tibt is not yft bound." \
  4640999303950202242L
+ 4640999303950202242L
+ 4640999303950202242L
+ 4640999303950202242L
+ 4640999303950202242L
+
+
+
+
 
 gfn NotYftConnfdtfdExdfption "
+gfn NotYftConnfdtfdExdfption "
+gfn NotYftConnfdtfdExdfption "
+gfn NotYftConnfdtfdExdfption "
+gfn NotYftConnfdtfdExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to invokf bn I/O
  * opfrbtion upon b sodkft dibnnfl tibt is not yft donnfdtfd." \
+ * opfrbtion upon b sodkft dibnnfl tibt is not yft donnfdtfd." \
+ * opfrbtion upon b sodkft dibnnfl tibt is not yft donnfdtfd." \
+ * opfrbtion upon b sodkft dibnnfl tibt is not yft donnfdtfd." \
+ * opfrbtion upon b sodkft dibnnfl tibt is not yft donnfdtfd." \
+ 4697316551909513464L
+ 4697316551909513464L
+ 4697316551909513464L
+ 4697316551909513464L
  4697316551909513464L
 
+
+
+
+
+gfn OvfrlbppingFilfLodkExdfption "
+gfn OvfrlbppingFilfLodkExdfption "
+gfn OvfrlbppingFilfLodkExdfption "
+gfn OvfrlbppingFilfLodkExdfption "
 gfn OvfrlbppingFilfLodkExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bdquirf b lodk on b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bdquirf b lodk on b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bdquirf b lodk on b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bdquirf b lodk on b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bdquirf b lodk on b
+ * rfgion of b filf tibt ovfrlbps b rfgion blrfbdy lodkfd by tif sbmf Jbvb
+ * rfgion of b filf tibt ovfrlbps b rfgion blrfbdy lodkfd by tif sbmf Jbvb
+ * rfgion of b filf tibt ovfrlbps b rfgion blrfbdy lodkfd by tif sbmf Jbvb
+ * rfgion of b filf tibt ovfrlbps b rfgion blrfbdy lodkfd by tif sbmf Jbvb
  * rfgion of b filf tibt ovfrlbps b rfgion blrfbdy lodkfd by tif sbmf Jbvb
  * virtubl mbdiinf, or wifn bnotifr tirfbd is blrfbdy wbiting to lodk bn
+ * virtubl mbdiinf, or wifn bnotifr tirfbd is blrfbdy wbiting to lodk bn
+ * virtubl mbdiinf, or wifn bnotifr tirfbd is blrfbdy wbiting to lodk bn
+ * virtubl mbdiinf, or wifn bnotifr tirfbd is blrfbdy wbiting to lodk bn
+ * virtubl mbdiinf, or wifn bnotifr tirfbd is blrfbdy wbiting to lodk bn
  * ovfrlbpping rfgion of tif sbmf filf." \
+ * ovfrlbpping rfgion of tif sbmf filf." \
+ * ovfrlbpping rfgion of tif sbmf filf." \
+ * ovfrlbpping rfgion of tif sbmf filf." \
+ * ovfrlbpping rfgion of tif sbmf filf." \
+ 2047812138163068433L
+ 2047812138163068433L
+ 2047812138163068433L
+ 2047812138163068433L
  2047812138163068433L
 
 
+
+
+
+
+
+
+
+
+SINCE=1.7
+SINCE=1.7
+SINCE=1.7
+SINCE=1.7
 SINCE=1.7
 
+
+
+
+
+SUPER=jbvb.io.IOExdfption
+SUPER=jbvb.io.IOExdfption
+SUPER=jbvb.io.IOExdfption
+SUPER=jbvb.io.IOExdfption
 SUPER=jbvb.io.IOExdfption
 
+
+
+
+
+gfn IntfrruptfdByTimfoutExdfption "
+gfn IntfrruptfdByTimfoutExdfption "
+gfn IntfrruptfdByTimfoutExdfption "
+gfn IntfrruptfdByTimfoutExdfption "
 gfn IntfrruptfdByTimfoutExdfption "
  * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn b timfout flbpsfs bfforf bn
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn b timfout flbpsfs bfforf bn
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn b timfout flbpsfs bfforf bn
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn b timfout flbpsfs bfforf bn
+ * Cifdkfd fxdfption rfdfivfd by b tirfbd wifn b timfout flbpsfs bfforf bn
+ * bsyndironous opfrbtion domplftfs." \
+ * bsyndironous opfrbtion domplftfs." \
+ * bsyndironous opfrbtion domplftfs." \
+ * bsyndironous opfrbtion domplftfs." \
  * bsyndironous opfrbtion domplftfs." \
  -4268008601014042947L
+ -4268008601014042947L
+ -4268008601014042947L
+ -4268008601014042947L
+ -4268008601014042947L
+
+
+
+
 
 SUPER=IllfgblArgumfntExdfption
+SUPER=IllfgblArgumfntExdfption
+SUPER=IllfgblArgumfntExdfption
+SUPER=IllfgblArgumfntExdfption
+SUPER=IllfgblArgumfntExdfption
+
+
+
+
 
 gfn IllfgblCibnnflGroupExdfption "
+gfn IllfgblCibnnflGroupExdfption "
+gfn IllfgblCibnnflGroupExdfption "
+gfn IllfgblCibnnflGroupExdfption "
+gfn IllfgblCibnnflGroupExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to opfn b dibnnfl
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to opfn b dibnnfl
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to opfn b dibnnfl
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to opfn b dibnnfl
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to opfn b dibnnfl
  * in b group tibt wbs not drfbtfd by tif sbmf providfr. " \
+ * in b group tibt wbs not drfbtfd by tif sbmf providfr. " \
+ * in b group tibt wbs not drfbtfd by tif sbmf providfr. " \
+ * in b group tibt wbs not drfbtfd by tif sbmf providfr. " \
+ * in b group tibt wbs not drfbtfd by tif sbmf providfr. " \
+ -2495041211157744253L
+ -2495041211157744253L
+ -2495041211157744253L
+ -2495041211157744253L
  -2495041211157744253L
 
 
+
+
+
+
+
+
+
+
+SUPER=IllfgblStbtfExdfption
+SUPER=IllfgblStbtfExdfption
+SUPER=IllfgblStbtfExdfption
+SUPER=IllfgblStbtfExdfption
 SUPER=IllfgblStbtfExdfption
 
+
+
+
+
+gfn AlrfbdyBoundExdfption "
+gfn AlrfbdyBoundExdfption "
+gfn AlrfbdyBoundExdfption "
+gfn AlrfbdyBoundExdfption "
 gfn AlrfbdyBoundExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind tif sodkft b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind tif sodkft b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind tif sodkft b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind tif sodkft b
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to bind tif sodkft b
+ * nftwork orifntfd dibnnfl tibt is blrfbdy bound." \
+ * nftwork orifntfd dibnnfl tibt is blrfbdy bound." \
+ * nftwork orifntfd dibnnfl tibt is blrfbdy bound." \
+ * nftwork orifntfd dibnnfl tibt is blrfbdy bound." \
  * nftwork orifntfd dibnnfl tibt is blrfbdy bound." \
  6796072983322737592L
+ 6796072983322737592L
+ 6796072983322737592L
+ 6796072983322737592L
+ 6796072983322737592L
+
+
+
+
 
 gfn AddfptPfndingExdfption "
+gfn AddfptPfndingExdfption "
+gfn AddfptPfndingExdfption "
+gfn AddfptPfndingExdfption "
+gfn AddfptPfndingExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to initibtf bn bddfpt
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to initibtf bn bddfpt
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to initibtf bn bddfpt
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to initibtf bn bddfpt
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to initibtf bn bddfpt
  * opfrbtion on b dibnnfl bnd b prfvious bddfpt opfrbtion ibs not domplftfd." \
+ * opfrbtion on b dibnnfl bnd b prfvious bddfpt opfrbtion ibs not domplftfd." \
+ * opfrbtion on b dibnnfl bnd b prfvious bddfpt opfrbtion ibs not domplftfd." \
+ * opfrbtion on b dibnnfl bnd b prfvious bddfpt opfrbtion ibs not domplftfd." \
+ * opfrbtion on b dibnnfl bnd b prfvious bddfpt opfrbtion ibs not domplftfd." \
+ 2721339977965416421L
+ 2721339977965416421L
+ 2721339977965416421L
+ 2721339977965416421L
  2721339977965416421L
 
+
+
+
+
+gfn RfbdPfndingExdfption "
+gfn RfbdPfndingExdfption "
+gfn RfbdPfndingExdfption "
+gfn RfbdPfndingExdfption "
 gfn RfbdPfndingExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd from bn
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd from bn
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd from bn
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd from bn
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to rfbd from bn
+ * bsyndironous sodkft dibnnfl bnd b prfvious rfbd ibs not domplftfd." \
+ * bsyndironous sodkft dibnnfl bnd b prfvious rfbd ibs not domplftfd." \
+ * bsyndironous sodkft dibnnfl bnd b prfvious rfbd ibs not domplftfd." \
+ * bsyndironous sodkft dibnnfl bnd b prfvious rfbd ibs not domplftfd." \
  * bsyndironous sodkft dibnnfl bnd b prfvious rfbd ibs not domplftfd." \
  1986315242191227217L
+ 1986315242191227217L
+ 1986315242191227217L
+ 1986315242191227217L
+ 1986315242191227217L
+
+
+
+
 
 gfn WritfPfndingExdfption "
+gfn WritfPfndingExdfption "
+gfn WritfPfndingExdfption "
+gfn WritfPfndingExdfption "
+gfn WritfPfndingExdfption "
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf to bn
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf to bn
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf to bn
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf to bn
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to writf to bn
  * bsyndironous sodkft dibnnfl bnd b prfvious writf ibs not domplftfd." \
+ * bsyndironous sodkft dibnnfl bnd b prfvious writf ibs not domplftfd." \
+ * bsyndironous sodkft dibnnfl bnd b prfvious writf ibs not domplftfd." \
+ * bsyndironous sodkft dibnnfl bnd b prfvious writf ibs not domplftfd." \
+ * bsyndironous sodkft dibnnfl bnd b prfvious writf ibs not domplftfd." \
+ 7031871839266032276L
+ 7031871839266032276L
+ 7031871839266032276L
+ 7031871839266032276L
  7031871839266032276L
 
+
+
+
+
+gfn SiutdownCibnnflGroupExdfption "
+gfn SiutdownCibnnflGroupExdfption "
+gfn SiutdownCibnnflGroupExdfption "
+gfn SiutdownCibnnflGroupExdfption "
 gfn SiutdownCibnnflGroupExdfption "
  * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donstrudt b dibnnfl in 
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donstrudt b dibnnfl in 
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donstrudt b dibnnfl in 
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donstrudt b dibnnfl in 
+ * Undifdkfd fxdfption tirown wifn bn bttfmpt is mbdf to donstrudt b dibnnfl in 
+ * b group tibt is siutdown or tif domplftion ibndlfr for bn I/O opfrbtion 
+ * b group tibt is siutdown or tif domplftion ibndlfr for bn I/O opfrbtion 
+ * b group tibt is siutdown or tif domplftion ibndlfr for bn I/O opfrbtion 
+ * b group tibt is siutdown or tif domplftion ibndlfr for bn I/O opfrbtion 
  * b group tibt is siutdown or tif domplftion ibndlfr for bn I/O opfrbtion 
  * dbnnot bf invokfd bfdbusf tif dibnnfl group ibs tfrminbtfd." \
+ * dbnnot bf invokfd bfdbusf tif dibnnfl group ibs tfrminbtfd." \
+ * dbnnot bf invokfd bfdbusf tif dibnnfl group ibs tfrminbtfd." \
+ * dbnnot bf invokfd bfdbusf tif dibnnfl group ibs tfrminbtfd." \
+ * dbnnot bf invokfd bfdbusf tif dibnnfl group ibs tfrminbtfd." \
+ -3903801676350154157L
+ -3903801676350154157L
+ -3903801676350154157L
+ -3903801676350154157L
  -3903801676350154157L

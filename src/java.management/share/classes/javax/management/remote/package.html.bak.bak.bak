@@ -1,206 +1,1030 @@
 <itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <ifbd>
     <titlf>JMX<sup><font sizf="-2">TM</font></sup> Rfmotf API.</titlf>
+    <titlf>JMX<sup><font sizf="-2">TM</font></sup> Rfmotf API.</titlf>
+    <titlf>JMX<sup><font sizf="-2">TM</font></sup> Rfmotf API.</titlf>
+    <titlf>JMX<sup><font sizf="-2">TM</font></sup> Rfmotf API.</titlf>
+    <titlf>JMX<sup><font sizf="-2">TM</font></sup> Rfmotf API.</titlf>
+<!--
+<!--
+<!--
+<!--
 <!--
 Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
+
+
+
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
 bddompbnifd tiis dodf).
 
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
 </ifbd>
 <body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+      <p>Intfrfbdfs for rfmotf bddfss to
+      <p>Intfrfbdfs for rfmotf bddfss to
+      <p>Intfrfbdfs for rfmotf bddfss to
+      <p>Intfrfbdfs for rfmotf bddfss to
       <p>Intfrfbdfs for rfmotf bddfss to
 	JMX MBfbn sfrvfrs.
+	JMX MBfbn sfrvfrs.
+	JMX MBfbn sfrvfrs.
+	JMX MBfbn sfrvfrs.
+	JMX MBfbn sfrvfrs.
+	Tiis pbdkbgf dffinfs tif fssfntibl intfrfbdfs for mbking b JMX
+	Tiis pbdkbgf dffinfs tif fssfntibl intfrfbdfs for mbking b JMX
+	Tiis pbdkbgf dffinfs tif fssfntibl intfrfbdfs for mbking b JMX
+	Tiis pbdkbgf dffinfs tif fssfntibl intfrfbdfs for mbking b JMX
 	Tiis pbdkbgf dffinfs tif fssfntibl intfrfbdfs for mbking b JMX
 	MBfbn sfrvfr mbnbgfbblf rfmotfly. Tif spfdifidbtion of tiis 
+	MBfbn sfrvfr mbnbgfbblf rfmotfly. Tif spfdifidbtion of tiis 
+	MBfbn sfrvfr mbnbgfbblf rfmotfly. Tif spfdifidbtion of tiis 
+	MBfbn sfrvfr mbnbgfbblf rfmotfly. Tif spfdifidbtion of tiis 
+	MBfbn sfrvfr mbnbgfbblf rfmotfly. Tif spfdifidbtion of tiis 
+        fundtionblity is domplftfd by Pbrt III of tif 
+        fundtionblity is domplftfd by Pbrt III of tif 
+        fundtionblity is domplftfd by Pbrt III of tif 
+        fundtionblity is domplftfd by Pbrt III of tif 
         fundtionblity is domplftfd by Pbrt III of tif 
        <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+       <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+       <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+       <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+       <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+	JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
+	JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
+	JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
+	JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
 	JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
 
+
+
+
+
+      <p>Tif JMX spfdifidbtion dffinfs tif notion of <b>donnfdtors</b>.
+      <p>Tif JMX spfdifidbtion dffinfs tif notion of <b>donnfdtors</b>.
+      <p>Tif JMX spfdifidbtion dffinfs tif notion of <b>donnfdtors</b>.
+      <p>Tif JMX spfdifidbtion dffinfs tif notion of <b>donnfdtors</b>.
       <p>Tif JMX spfdifidbtion dffinfs tif notion of <b>donnfdtors</b>.
 	A donnfdtor is bttbdifd to b JMX API MBfbn sfrvfr bnd mbkfs it
+	A donnfdtor is bttbdifd to b JMX API MBfbn sfrvfr bnd mbkfs it
+	A donnfdtor is bttbdifd to b JMX API MBfbn sfrvfr bnd mbkfs it
+	A donnfdtor is bttbdifd to b JMX API MBfbn sfrvfr bnd mbkfs it
+	A donnfdtor is bttbdifd to b JMX API MBfbn sfrvfr bnd mbkfs it
+	bddfssiblf to rfmotf Jbvb dlifnts. Tif dlifnt fnd of b
+	bddfssiblf to rfmotf Jbvb dlifnts. Tif dlifnt fnd of b
+	bddfssiblf to rfmotf Jbvb dlifnts. Tif dlifnt fnd of b
+	bddfssiblf to rfmotf Jbvb dlifnts. Tif dlifnt fnd of b
 	bddfssiblf to rfmotf Jbvb dlifnts. Tif dlifnt fnd of b
 	donnfdtor fxports fssfntiblly tif sbmf intfrfbdf bs tif MBfbn
+	donnfdtor fxports fssfntiblly tif sbmf intfrfbdf bs tif MBfbn
+	donnfdtor fxports fssfntiblly tif sbmf intfrfbdf bs tif MBfbn
+	donnfdtor fxports fssfntiblly tif sbmf intfrfbdf bs tif MBfbn
+	donnfdtor fxports fssfntiblly tif sbmf intfrfbdf bs tif MBfbn
+	sfrvfr, spfdifidblly tif {@link
+	sfrvfr, spfdifidblly tif {@link
+	sfrvfr, spfdifidblly tif {@link
+	sfrvfr, spfdifidblly tif {@link
 	sfrvfr, spfdifidblly tif {@link
 	jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion}
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion}
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion}
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion}
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion}
+	intfrfbdf.</p>
+	intfrfbdf.</p>
+	intfrfbdf.</p>
+	intfrfbdf.</p>
 	intfrfbdf.</p>
 
+
+
+
+
+      <p>A donnfdtor mbkfs bn MBfbn sfrvfr rfmotfly bddfssiblf tirougi
+      <p>A donnfdtor mbkfs bn MBfbn sfrvfr rfmotfly bddfssiblf tirougi
+      <p>A donnfdtor mbkfs bn MBfbn sfrvfr rfmotfly bddfssiblf tirougi
+      <p>A donnfdtor mbkfs bn MBfbn sfrvfr rfmotfly bddfssiblf tirougi
       <p>A donnfdtor mbkfs bn MBfbn sfrvfr rfmotfly bddfssiblf tirougi
 	b givfn protodol. Tif JMX Rfmotf API bllows tif usf of difffrfnt 
+	b givfn protodol. Tif JMX Rfmotf API bllows tif usf of difffrfnt 
+	b givfn protodol. Tif JMX Rfmotf API bllows tif usf of difffrfnt 
+	b givfn protodol. Tif JMX Rfmotf API bllows tif usf of difffrfnt 
+	b givfn protodol. Tif JMX Rfmotf API bllows tif usf of difffrfnt 
+        typf of donnfdtors:
+        typf of donnfdtors:
+        typf of donnfdtors:
+        typf of donnfdtors:
         typf of donnfdtors:
 
+
+
+
+
+      <ul>
+      <ul>
+      <ul>
+      <ul>
       <ul>
        <li>Tif JMX Rfmotf API dffinfs b stbndbrd donnfdtor,
+       <li>Tif JMX Rfmotf API dffinfs b stbndbrd donnfdtor,
+       <li>Tif JMX Rfmotf API dffinfs b stbndbrd donnfdtor,
+       <li>Tif JMX Rfmotf API dffinfs b stbndbrd donnfdtor,
+       <li>Tif JMX Rfmotf API dffinfs b stbndbrd donnfdtor,
+	tif <b>RMI Connfdtor</b>, wiidi providfs rfmotf bddfss to bn
+	tif <b>RMI Connfdtor</b>, wiidi providfs rfmotf bddfss to bn
+	tif <b>RMI Connfdtor</b>, wiidi providfs rfmotf bddfss to bn
+	tif <b>RMI Connfdtor</b>, wiidi providfs rfmotf bddfss to bn
 	tif <b>RMI Connfdtor</b>, wiidi providfs rfmotf bddfss to bn
         MBfbnSfrvfr tirougi RMI.
+        MBfbnSfrvfr tirougi RMI.
+        MBfbnSfrvfr tirougi RMI.
+        MBfbnSfrvfr tirougi RMI.
+        MBfbnSfrvfr tirougi RMI.
+
+
+
+
 
        <li>Tif JMX Rfmotf API blso dffinfs bn optionbl donnfdtor dbllfd 
+       <li>Tif JMX Rfmotf API blso dffinfs bn optionbl donnfdtor dbllfd 
+       <li>Tif JMX Rfmotf API blso dffinfs bn optionbl donnfdtor dbllfd 
+       <li>Tif JMX Rfmotf API blso dffinfs bn optionbl donnfdtor dbllfd 
+       <li>Tif JMX Rfmotf API blso dffinfs bn optionbl donnfdtor dbllfd 
+        <b>JMXMP Connfdtor</b> implfmfnting tif JMX Mfssbgf Protodol 
+        <b>JMXMP Connfdtor</b> implfmfnting tif JMX Mfssbgf Protodol 
+        <b>JMXMP Connfdtor</b> implfmfnting tif JMX Mfssbgf Protodol 
+        <b>JMXMP Connfdtor</b> implfmfnting tif JMX Mfssbgf Protodol 
         <b>JMXMP Connfdtor</b> implfmfnting tif JMX Mfssbgf Protodol 
 	(JMXMP). As it is optionbl, it is not pbrt of tiis bundlf (sff
+	(JMXMP). As it is optionbl, it is not pbrt of tiis bundlf (sff
+	(JMXMP). As it is optionbl, it is not pbrt of tiis bundlf (sff
+	(JMXMP). As it is optionbl, it is not pbrt of tiis bundlf (sff
+	(JMXMP). As it is optionbl, it is not pbrt of tiis bundlf (sff
+	notf bflow).
+	notf bflow).
+	notf bflow).
+	notf bflow).
 	notf bflow).
 
+
+
+
+
+       <li>Usfr-dffinfd donnfdtor protodols brf blso possiblf using tif 
+       <li>Usfr-dffinfd donnfdtor protodols brf blso possiblf using tif 
+       <li>Usfr-dffinfd donnfdtor protodols brf blso possiblf using tif 
+       <li>Usfr-dffinfd donnfdtor protodols brf blso possiblf using tif 
        <li>Usfr-dffinfd donnfdtor protodols brf blso possiblf using tif 
 	{@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	{@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	{@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	{@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	{@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	JMXConnfdtorFbdtory} bnd, optionblly, tif Gfnfrid Connfdtor
+	JMXConnfdtorFbdtory} bnd, optionblly, tif Gfnfrid Connfdtor
+	JMXConnfdtorFbdtory} bnd, optionblly, tif Gfnfrid Connfdtor
+	JMXConnfdtorFbdtory} bnd, optionblly, tif Gfnfrid Connfdtor
 	JMXConnfdtorFbdtory} bnd, optionblly, tif Gfnfrid Connfdtor
 	(not pbrt of tiis bundlf, sff notf bflow).
+	(not pbrt of tiis bundlf, sff notf bflow).
+	(not pbrt of tiis bundlf, sff notf bflow).
+	(not pbrt of tiis bundlf, sff notf bflow).
+	(not pbrt of tiis bundlf, sff notf bflow).
+      </ul>
+      </ul>
+      </ul>
+      </ul>
       </ul>
 
+
+
+
+
+      <p><u>Notf</u>: tif optionbl pbdkbgfs implfmfnting
+      <p><u>Notf</u>: tif optionbl pbdkbgfs implfmfnting
+      <p><u>Notf</u>: tif optionbl pbdkbgfs implfmfnting
+      <p><u>Notf</u>: tif optionbl pbdkbgfs implfmfnting
       <p><u>Notf</u>: tif optionbl pbdkbgfs implfmfnting
         tif optionbl pbrt of tif <fm>JMX Rfmotf API</fm>
+        tif optionbl pbrt of tif <fm>JMX Rfmotf API</fm>
+        tif optionbl pbrt of tif <fm>JMX Rfmotf API</fm>
+        tif optionbl pbrt of tif <fm>JMX Rfmotf API</fm>
+        tif optionbl pbrt of tif <fm>JMX Rfmotf API</fm>
+        brf not indludfd in tif <fm>Jbvb SE Plbtform</fm> 
+        brf not indludfd in tif <fm>Jbvb SE Plbtform</fm> 
+        brf not indludfd in tif <fm>Jbvb SE Plbtform</fm> 
+        brf not indludfd in tif <fm>Jbvb SE Plbtform</fm> 
         brf not indludfd in tif <fm>Jbvb SE Plbtform</fm> 
         but brf bvbilbblf from tif <fm>JMX Rfmotf API 
+        but brf bvbilbblf from tif <fm>JMX Rfmotf API 
+        but brf bvbilbblf from tif <fm>JMX Rfmotf API 
+        but brf bvbilbblf from tif <fm>JMX Rfmotf API 
+        but brf bvbilbblf from tif <fm>JMX Rfmotf API 
 	<b irff="ittp://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/downlobd.itml">
+	<b irff="ittp://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/downlobd.itml">
+	<b irff="ittp://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/downlobd.itml">
+	<b irff="ittp://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/downlobd.itml">
+	<b irff="ittp://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/downlobd.itml">
+	Rfffrfndf Implfmfntbtion</b></fm>.</p>
+	Rfffrfndf Implfmfntbtion</b></fm>.</p>
+	Rfffrfndf Implfmfntbtion</b></fm>.</p>
+	Rfffrfndf Implfmfntbtion</b></fm>.</p>
 	Rfffrfndf Implfmfntbtion</b></fm>.</p>
 
 
+
+
+
+
+
+
+
+
+      <i3>Connfdtor bddrfssfs</i3>
+      <i3>Connfdtor bddrfssfs</i3>
+      <i3>Connfdtor bddrfssfs</i3>
+      <i3>Connfdtor bddrfssfs</i3>
       <i3>Connfdtor bddrfssfs</i3>
 
+
+
+
+
+      <p>Typidblly, b donnfdtor sfrvfr ibs bn bddrfss, rfprfsfntfd by tif
+      <p>Typidblly, b donnfdtor sfrvfr ibs bn bddrfss, rfprfsfntfd by tif
+      <p>Typidblly, b donnfdtor sfrvfr ibs bn bddrfss, rfprfsfntfd by tif
+      <p>Typidblly, b donnfdtor sfrvfr ibs bn bddrfss, rfprfsfntfd by tif
       <p>Typidblly, b donnfdtor sfrvfr ibs bn bddrfss, rfprfsfntfd by tif
 	dlbss {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+	dlbss {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+	dlbss {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+	dlbss {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+	dlbss {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+	JMXSfrvidfURL}.  An bddrfss for tif RMI Connfdtor dbn look
+	JMXSfrvidfURL}.  An bddrfss for tif RMI Connfdtor dbn look
+	JMXSfrvidfURL}.  An bddrfss for tif RMI Connfdtor dbn look
+	JMXSfrvidfURL}.  An bddrfss for tif RMI Connfdtor dbn look
 	JMXSfrvidfURL}.  An bddrfss for tif RMI Connfdtor dbn look
 	likf tiis:</p>
+	likf tiis:</p>
+	likf tiis:</p>
+	likf tiis:</p>
+	likf tiis:</p>
 
+
+
+
+
+      <prf>
+      <prf>
+      <prf>
+      <prf>
       <prf>
       sfrvidf:jmx:rmi:///jndi/rmi://myiost:1099/mynbmf
+      sfrvidf:jmx:rmi:///jndi/rmi://myiost:1099/mynbmf
+      sfrvidf:jmx:rmi:///jndi/rmi://myiost:1099/mynbmf
+      sfrvidf:jmx:rmi:///jndi/rmi://myiost:1099/mynbmf
+      sfrvidf:jmx:rmi:///jndi/rmi://myiost:1099/mynbmf
       </prf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
+
+
+
+
 
       <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+      <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+      <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+      <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+      <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+        spfdififs tif RMI donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> 
+        spfdififs tif RMI donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> 
+        spfdififs tif RMI donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> 
+        spfdififs tif RMI donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> 
         spfdififs tif RMI donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> 
         spfdififs tif RMI rfgistry into wiidi tif RMI donnfdtor sfrvfr 
+        spfdififs tif RMI rfgistry into wiidi tif RMI donnfdtor sfrvfr 
+        spfdififs tif RMI rfgistry into wiidi tif RMI donnfdtor sfrvfr 
+        spfdififs tif RMI rfgistry into wiidi tif RMI donnfdtor sfrvfr 
+        spfdififs tif RMI rfgistry into wiidi tif RMI donnfdtor sfrvfr 
+        ibs storfd its stub.
+        ibs storfd its stub.
+        ibs storfd its stub.
+        ibs storfd its stub.
         ibs storfd its stub.
 
+
+
+
+
+      <p>Tif fxbmplf bbovf siows only onf form of bddrfss.
+      <p>Tif fxbmplf bbovf siows only onf form of bddrfss.
+      <p>Tif fxbmplf bbovf siows only onf form of bddrfss.
+      <p>Tif fxbmplf bbovf siows only onf form of bddrfss.
       <p>Tif fxbmplf bbovf siows only onf form of bddrfss.
         An bddrfss for tif RMI Connfdtor dbn tbkf sfvfrbl forms,
+        An bddrfss for tif RMI Connfdtor dbn tbkf sfvfrbl forms,
+        An bddrfss for tif RMI Connfdtor dbn tbkf sfvfrbl forms,
+        An bddrfss for tif RMI Connfdtor dbn tbkf sfvfrbl forms,
+        An bddrfss for tif RMI Connfdtor dbn tbkf sfvfrbl forms,
+	bs dftbilfd in tif dodumfntbtion for tif pbdkbgf
+	bs dftbilfd in tif dodumfntbtion for tif pbdkbgf
+	bs dftbilfd in tif dodumfntbtion for tif pbdkbgf
+	bs dftbilfd in tif dodumfntbtion for tif pbdkbgf
 	bs dftbilfd in tif dodumfntbtion for tif pbdkbgf
 	<dodf>{@link jbvbx.mbnbgfmfnt.rfmotf.rmi}</dodf>.</p>
+	<dodf>{@link jbvbx.mbnbgfmfnt.rfmotf.rmi}</dodf>.</p>
+	<dodf>{@link jbvbx.mbnbgfmfnt.rfmotf.rmi}</dodf>.</p>
+	<dodf>{@link jbvbx.mbnbgfmfnt.rfmotf.rmi}</dodf>.</p>
+	<dodf>{@link jbvbx.mbnbgfmfnt.rfmotf.rmi}</dodf>.</p>
+
+
+
+
 
       <i3>Crfbting b donnfdtor sfrvfr</i3>
+      <i3>Crfbting b donnfdtor sfrvfr</i3>
+      <i3>Crfbting b donnfdtor sfrvfr</i3>
+      <i3>Crfbting b donnfdtor sfrvfr</i3>
+      <i3>Crfbting b donnfdtor sfrvfr</i3>
+
+
+
+
 
       <p>A donnfdtor sfrvfr is drfbtfd by donstrudting bn instbndf of
+      <p>A donnfdtor sfrvfr is drfbtfd by donstrudting bn instbndf of
+      <p>A donnfdtor sfrvfr is drfbtfd by donstrudting bn instbndf of
+      <p>A donnfdtor sfrvfr is drfbtfd by donstrudting bn instbndf of
+      <p>A donnfdtor sfrvfr is drfbtfd by donstrudting bn instbndf of
+	b subdlbss of {@link
+	b subdlbss of {@link
+	b subdlbss of {@link
+	b subdlbss of {@link
 	b subdlbss of {@link
 	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr
+	JMXConnfdtorSfrvfr}.  Usublly, tiis instbndf is drfbtfd
+	JMXConnfdtorSfrvfr}.  Usublly, tiis instbndf is drfbtfd
+	JMXConnfdtorSfrvfr}.  Usublly, tiis instbndf is drfbtfd
+	JMXConnfdtorSfrvfr}.  Usublly, tiis instbndf is drfbtfd
 	JMXConnfdtorSfrvfr}.  Usublly, tiis instbndf is drfbtfd
         using tif mftiod {@link
+        using tif mftiod {@link
+        using tif mftiod {@link
+        using tif mftiod {@link
+        using tif mftiod {@link
+        jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
+        jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
+        jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
+        jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
         jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
         jbvb.util.Mbp, jbvbx.mbnbgfmfnt.MBfbnSfrvfr)
+        jbvb.util.Mbp, jbvbx.mbnbgfmfnt.MBfbnSfrvfr)
+        jbvb.util.Mbp, jbvbx.mbnbgfmfnt.MBfbnSfrvfr)
+        jbvb.util.Mbp, jbvbx.mbnbgfmfnt.MBfbnSfrvfr)
+        jbvb.util.Mbp, jbvbx.mbnbgfmfnt.MBfbnSfrvfr)
+	JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.</p>
+	JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.</p>
+	JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.</p>
+	JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.</p>
 	JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.</p>
 
+
+
+
+
+      <p>Typidblly, b donnfdtor sfrvfr is bssodibtfd witi bn MBfbn
+      <p>Typidblly, b donnfdtor sfrvfr is bssodibtfd witi bn MBfbn
+      <p>Typidblly, b donnfdtor sfrvfr is bssodibtfd witi bn MBfbn
+      <p>Typidblly, b donnfdtor sfrvfr is bssodibtfd witi bn MBfbn
       <p>Typidblly, b donnfdtor sfrvfr is bssodibtfd witi bn MBfbn
 	sfrvfr fitifr by rfgistfring it in tibt MBfbn sfrvfr, or by
+	sfrvfr fitifr by rfgistfring it in tibt MBfbn sfrvfr, or by
+	sfrvfr fitifr by rfgistfring it in tibt MBfbn sfrvfr, or by
+	sfrvfr fitifr by rfgistfring it in tibt MBfbn sfrvfr, or by
+	sfrvfr fitifr by rfgistfring it in tibt MBfbn sfrvfr, or by
+	supplying tif MBfbn sfrvfr bs b pbrbmftfr wifn drfbting tif
+	supplying tif MBfbn sfrvfr bs b pbrbmftfr wifn drfbting tif
+	supplying tif MBfbn sfrvfr bs b pbrbmftfr wifn drfbting tif
+	supplying tif MBfbn sfrvfr bs b pbrbmftfr wifn drfbting tif
 	supplying tif MBfbn sfrvfr bs b pbrbmftfr wifn drfbting tif
 	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+
+
+
+
 
       <i3>Crfbting b donnfdtor dlifnt</i3>
+      <i3>Crfbting b donnfdtor dlifnt</i3>
+      <i3>Crfbting b donnfdtor dlifnt</i3>
+      <i3>Crfbting b donnfdtor dlifnt</i3>
+      <i3>Crfbting b donnfdtor dlifnt</i3>
+
+
+
+
 
       <p>A donnfdtor dlifnt is usublly drfbtfd by supplying tif
+      <p>A donnfdtor dlifnt is usublly drfbtfd by supplying tif
+      <p>A donnfdtor dlifnt is usublly drfbtfd by supplying tif
+      <p>A donnfdtor dlifnt is usublly drfbtfd by supplying tif
+      <p>A donnfdtor dlifnt is usublly drfbtfd by supplying tif
+	<dodf>JMXSfrvidfURL</dodf> of tif donnfdtor sfrvfr to donnfdt to 
+	<dodf>JMXSfrvidfURL</dodf> of tif donnfdtor sfrvfr to donnfdt to 
+	<dodf>JMXSfrvidfURL</dodf> of tif donnfdtor sfrvfr to donnfdt to 
+	<dodf>JMXSfrvidfURL</dodf> of tif donnfdtor sfrvfr to donnfdt to 
 	<dodf>JMXSfrvidfURL</dodf> of tif donnfdtor sfrvfr to donnfdt to 
         to tif {@link
+        to tif {@link
+        to tif {@link
+        to tif {@link
+        to tif {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)
 	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)
 	JMXConnfdtorFbdtory.donnfdt} mftiod.</p>
+	JMXConnfdtorFbdtory.donnfdt} mftiod.</p>
+	JMXConnfdtorFbdtory.donnfdt} mftiod.</p>
+	JMXConnfdtorFbdtory.donnfdt} mftiod.</p>
+	JMXConnfdtorFbdtory.donnfdt} mftiod.</p>
+
+
+
+
 
       <p>For morf spfdiblizfd usfs, b donnfdtor dlifnt dbn bf drfbtfd
+      <p>For morf spfdiblizfd usfs, b donnfdtor dlifnt dbn bf drfbtfd
+      <p>For morf spfdiblizfd usfs, b donnfdtor dlifnt dbn bf drfbtfd
+      <p>For morf spfdiblizfd usfs, b donnfdtor dlifnt dbn bf drfbtfd
+      <p>For morf spfdiblizfd usfs, b donnfdtor dlifnt dbn bf drfbtfd
+	by dirfdtly instbntibting b dlbss tibt implfmfnts tif {@link
+	by dirfdtly instbntibting b dlbss tibt implfmfnts tif {@link
+	by dirfdtly instbntibting b dlbss tibt implfmfnts tif {@link
+	by dirfdtly instbntibting b dlbss tibt implfmfnts tif {@link
 	by dirfdtly instbntibting b dlbss tibt implfmfnts tif {@link
 	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor JMXConnfdtor} intfrfbdf,
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor JMXConnfdtor} intfrfbdf,
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor JMXConnfdtor} intfrfbdf,
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor JMXConnfdtor} intfrfbdf,
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor JMXConnfdtor} intfrfbdf,
+	for fxbmplf tif dlbss {@link
+	for fxbmplf tif dlbss {@link
+	for fxbmplf tif dlbss {@link
+	for fxbmplf tif dlbss {@link
 	for fxbmplf tif dlbss {@link
 	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+	RMIConnfdtor}.</p>
+	RMIConnfdtor}.</p>
+	RMIConnfdtor}.</p>
+	RMIConnfdtor}.</p>
 	RMIConnfdtor}.</p>
 
+
+
+
+
+      <i3>Additionbl dlifnt or sfrvfr pbrbmftfrs</i3>
+      <i3>Additionbl dlifnt or sfrvfr pbrbmftfrs</i3>
+      <i3>Additionbl dlifnt or sfrvfr pbrbmftfrs</i3>
+      <i3>Additionbl dlifnt or sfrvfr pbrbmftfrs</i3>
       <i3>Additionbl dlifnt or sfrvfr pbrbmftfrs</i3>
 
+
+
+
+
+      <p>Wifn drfbting b donnfdtor dlifnt or sfrvfr, it is possiblf to
+      <p>Wifn drfbting b donnfdtor dlifnt or sfrvfr, it is possiblf to
+      <p>Wifn drfbting b donnfdtor dlifnt or sfrvfr, it is possiblf to
+      <p>Wifn drfbting b donnfdtor dlifnt or sfrvfr, it is possiblf to
       <p>Wifn drfbting b donnfdtor dlifnt or sfrvfr, it is possiblf to
 	supply bn objfdt of typf {@link jbvb.util.Mbp Mbp} tibt dffinfs
+	supply bn objfdt of typf {@link jbvb.util.Mbp Mbp} tibt dffinfs
+	supply bn objfdt of typf {@link jbvb.util.Mbp Mbp} tibt dffinfs
+	supply bn objfdt of typf {@link jbvb.util.Mbp Mbp} tibt dffinfs
+	supply bn objfdt of typf {@link jbvb.util.Mbp Mbp} tibt dffinfs
+	bdditionbl pbrbmftfrs.  Ebdi fntry in tiis Mbp ibs b kfy tibt is
+	bdditionbl pbrbmftfrs.  Ebdi fntry in tiis Mbp ibs b kfy tibt is
+	bdditionbl pbrbmftfrs.  Ebdi fntry in tiis Mbp ibs b kfy tibt is
+	bdditionbl pbrbmftfrs.  Ebdi fntry in tiis Mbp ibs b kfy tibt is
 	bdditionbl pbrbmftfrs.  Ebdi fntry in tiis Mbp ibs b kfy tibt is
 	b string bnd bn bssodibtfd vbluf wiosf typf is bppropribtf for
+	b string bnd bn bssodibtfd vbluf wiosf typf is bppropribtf for
+	b string bnd bn bssodibtfd vbluf wiosf typf is bppropribtf for
+	b string bnd bn bssodibtfd vbluf wiosf typf is bppropribtf for
+	b string bnd bn bssodibtfd vbluf wiosf typf is bppropribtf for
+	tibt kfy.  Tif stbndbrd kfys dffinfd by tif JMX Rfmotf API bll
+	tibt kfy.  Tif stbndbrd kfys dffinfd by tif JMX Rfmotf API bll
+	tibt kfy.  Tif stbndbrd kfys dffinfd by tif JMX Rfmotf API bll
+	tibt kfy.  Tif stbndbrd kfys dffinfd by tif JMX Rfmotf API bll
 	tibt kfy.  Tif stbndbrd kfys dffinfd by tif JMX Rfmotf API bll
 	bfgin witi tif string "<dodf>jmx.rfmotf.</dodf>".  Tif dodumfnt
+	bfgin witi tif string "<dodf>jmx.rfmotf.</dodf>".  Tif dodumfnt
+	bfgin witi tif string "<dodf>jmx.rfmotf.</dodf>".  Tif dodumfnt
+	bfgin witi tif string "<dodf>jmx.rfmotf.</dodf>".  Tif dodumfnt
+	bfgin witi tif string "<dodf>jmx.rfmotf.</dodf>".  Tif dodumfnt
+	<fm>JMX Rfmotf API</fm> lists tifsf stbndbrd kfys.</p>
+	<fm>JMX Rfmotf API</fm> lists tifsf stbndbrd kfys.</p>
+	<fm>JMX Rfmotf API</fm> lists tifsf stbndbrd kfys.</p>
+	<fm>JMX Rfmotf API</fm> lists tifsf stbndbrd kfys.</p>
 	<fm>JMX Rfmotf API</fm> lists tifsf stbndbrd kfys.</p>
 
+
+
+
+
+      <i3>Connfdtion idfntififrs</i3>
+      <i3>Connfdtion idfntififrs</i3>
+      <i3>Connfdtion idfntififrs</i3>
+      <i3>Connfdtion idfntififrs</i3>
       <i3>Connfdtion idfntififrs</i3>
 
+
+
+
+
+      <p>Evfry donnfdtion opfnfd by b donnfdtor sfrvfr ibs b string
+      <p>Evfry donnfdtion opfnfd by b donnfdtor sfrvfr ibs b string
+      <p>Evfry donnfdtion opfnfd by b donnfdtor sfrvfr ibs b string
+      <p>Evfry donnfdtion opfnfd by b donnfdtor sfrvfr ibs b string
       <p>Evfry donnfdtion opfnfd by b donnfdtor sfrvfr ibs b string
 	idfntififr, dbllfd its <b>donnfdtion id</b>.  Tiis idfntififr
+	idfntififr, dbllfd its <b>donnfdtion id</b>.  Tiis idfntififr
+	idfntififr, dbllfd its <b>donnfdtion id</b>.  Tiis idfntififr
+	idfntififr, dbllfd its <b>donnfdtion id</b>.  Tiis idfntififr
+	idfntififr, dbllfd its <b>donnfdtion id</b>.  Tiis idfntififr
+	bppfbrs in tif {@link
+	bppfbrs in tif {@link
+	bppfbrs in tif {@link
+	bppfbrs in tif {@link
 	bppfbrs in tif {@link
 	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion
+	JMXConnfdtionNotifidbtion} fvfnts fmittfd by tif donnfdtor
+	JMXConnfdtionNotifidbtion} fvfnts fmittfd by tif donnfdtor
+	JMXConnfdtionNotifidbtion} fvfnts fmittfd by tif donnfdtor
+	JMXConnfdtionNotifidbtion} fvfnts fmittfd by tif donnfdtor
 	JMXConnfdtionNotifidbtion} fvfnts fmittfd by tif donnfdtor
 	sfrvfr, in tif list rfturnfd by {@link
+	sfrvfr, in tif list rfturnfd by {@link
+	sfrvfr, in tif list rfturnfd by {@link
+	sfrvfr, in tif list rfturnfd by {@link
+	sfrvfr, in tif list rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrMBfbn#gftConnfdtionIds()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrMBfbn#gftConnfdtionIds()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrMBfbn#gftConnfdtionIds()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrMBfbn#gftConnfdtionIds()
 	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrMBfbn#gftConnfdtionIds()
 	gftConnfdtionIds()}, bnd in tif vbluf
+	gftConnfdtionIds()}, bnd in tif vbluf
+	gftConnfdtionIds()}, bnd in tif vbluf
+	gftConnfdtionIds()}, bnd in tif vbluf
+	gftConnfdtionIds()}, bnd in tif vbluf
+	rfturnfd by tif dlifnt's {@link
+	rfturnfd by tif dlifnt's {@link
+	rfturnfd by tif dlifnt's {@link
+	rfturnfd by tif dlifnt's {@link
 	rfturnfd by tif dlifnt's {@link
 	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor#gftConnfdtionId()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor#gftConnfdtionId()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor#gftConnfdtionId()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor#gftConnfdtionId()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor#gftConnfdtionId()
+	gftConnfdtionId()} mftiod.</p>
+	gftConnfdtionId()} mftiod.</p>
+	gftConnfdtionId()} mftiod.</p>
+	gftConnfdtionId()} mftiod.</p>
 	gftConnfdtionId()} mftiod.</p>
 
+
+
+
+
+      <p>As bn fxbmplf, b donnfdtion ID dbn look somftiing likf tiis:</p>
+      <p>As bn fxbmplf, b donnfdtion ID dbn look somftiing likf tiis:</p>
+      <p>As bn fxbmplf, b donnfdtion ID dbn look somftiing likf tiis:</p>
+      <p>As bn fxbmplf, b donnfdtion ID dbn look somftiing likf tiis:</p>
       <p>As bn fxbmplf, b donnfdtion ID dbn look somftiing likf tiis:</p>
 
+
+
+
+
+      <prf>
+      <prf>
+      <prf>
+      <prf>
       <prf>
 rmi://192.18.1.9 usfrnbmf 1
+rmi://192.18.1.9 usfrnbmf 1
+rmi://192.18.1.9 usfrnbmf 1
+rmi://192.18.1.9 usfrnbmf 1
+rmi://192.18.1.9 usfrnbmf 1
       </prf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
+
+
+
+
 
       <p>Tif formbl grbmmbr for donnfdtion ids tibt follow tiis
+      <p>Tif formbl grbmmbr for donnfdtion ids tibt follow tiis
+      <p>Tif formbl grbmmbr for donnfdtion ids tibt follow tiis
+      <p>Tif formbl grbmmbr for donnfdtion ids tibt follow tiis
+      <p>Tif formbl grbmmbr for donnfdtion ids tibt follow tiis
+         donvfntion is bs follows (using tif grbmmbr notbtion from sfdtion 2.4 of 
+         donvfntion is bs follows (using tif grbmmbr notbtion from sfdtion 2.4 of 
+         donvfntion is bs follows (using tif grbmmbr notbtion from sfdtion 2.4 of 
+         donvfntion is bs follows (using tif grbmmbr notbtion from sfdtion 2.4 of 
          donvfntion is bs follows (using tif grbmmbr notbtion from sfdtion 2.4 of 
          <fm>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</fm>):</p>
+         <fm>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</fm>):</p>
+         <fm>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</fm>):</p>
+         <fm>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</fm>):</p>
+         <fm>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</fm>):</p>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
       <prf>
 <fm>ConnfdtionId:</fm>
+<fm>ConnfdtionId:</fm>
+<fm>ConnfdtionId:</fm>
+<fm>ConnfdtionId:</fm>
+<fm>ConnfdtionId:</fm>
+    <fm>Protodol</fm> : <fm>ClifntAddrfss<sub>opt</sub></fm> Spbdf <fm>ClifntId<sub>opt</sub></fm> Spbdf <fm>ArbitrbryTfxt</fm>
+    <fm>Protodol</fm> : <fm>ClifntAddrfss<sub>opt</sub></fm> Spbdf <fm>ClifntId<sub>opt</sub></fm> Spbdf <fm>ArbitrbryTfxt</fm>
+    <fm>Protodol</fm> : <fm>ClifntAddrfss<sub>opt</sub></fm> Spbdf <fm>ClifntId<sub>opt</sub></fm> Spbdf <fm>ArbitrbryTfxt</fm>
+    <fm>Protodol</fm> : <fm>ClifntAddrfss<sub>opt</sub></fm> Spbdf <fm>ClifntId<sub>opt</sub></fm> Spbdf <fm>ArbitrbryTfxt</fm>
     <fm>Protodol</fm> : <fm>ClifntAddrfss<sub>opt</sub></fm> Spbdf <fm>ClifntId<sub>opt</sub></fm> Spbdf <fm>ArbitrbryTfxt</fm>
 
+
+
+
+
+<fm>ClifntAddrfss:</fm>
+<fm>ClifntAddrfss:</fm>
+<fm>ClifntAddrfss:</fm>
+<fm>ClifntAddrfss:</fm>
 <fm>ClifntAddrfss:</fm>
     // <fm>HostAddrfss</fm> <fm>ClifntPort<sub>opt</sub></fm>
+    // <fm>HostAddrfss</fm> <fm>ClifntPort<sub>opt</sub></fm>
+    // <fm>HostAddrfss</fm> <fm>ClifntPort<sub>opt</sub></fm>
+    // <fm>HostAddrfss</fm> <fm>ClifntPort<sub>opt</sub></fm>
+    // <fm>HostAddrfss</fm> <fm>ClifntPort<sub>opt</sub></fm>
+
+
+
+
 
 <fm>ClifntPort</fm>
+<fm>ClifntPort</fm>
+<fm>ClifntPort</fm>
+<fm>ClifntPort</fm>
+<fm>ClifntPort</fm>
+    : <fm>HostPort</fm>
+    : <fm>HostPort</fm>
+    : <fm>HostPort</fm>
+    : <fm>HostPort</fm>
     : <fm>HostPort</fm>
       </prf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
+
+
+
+
 
       <p>Tif <dodf><fm>Protodol</fm></dodf> is b protodol tibt would
+      <p>Tif <dodf><fm>Protodol</fm></dodf> is b protodol tibt would
+      <p>Tif <dodf><fm>Protodol</fm></dodf> is b protodol tibt would
+      <p>Tif <dodf><fm>Protodol</fm></dodf> is b protodol tibt would
+      <p>Tif <dodf><fm>Protodol</fm></dodf> is b protodol tibt would
+	bf rfdognizfd by {@link
+	bf rfdognizfd by {@link
+	bf rfdognizfd by {@link
+	bf rfdognizfd by {@link
 	bf rfdognizfd by {@link
 	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	JMXConnfdtorFbdtory}.</p>
+	JMXConnfdtorFbdtory}.</p>
+	JMXConnfdtorFbdtory}.</p>
+	JMXConnfdtorFbdtory}.</p>
 	JMXConnfdtorFbdtory}.</p>
 
+
+
+
+
+      <p>Tif <dodf><fm>ClifntAddrfss</fm></dodf> is tif
+      <p>Tif <dodf><fm>ClifntAddrfss</fm></dodf> is tif
+      <p>Tif <dodf><fm>ClifntAddrfss</fm></dodf> is tif
+      <p>Tif <dodf><fm>ClifntAddrfss</fm></dodf> is tif
       <p>Tif <dodf><fm>ClifntAddrfss</fm></dodf> is tif
 	bddrfss bnd port of tif donnfdting dlifnt, if tifsf dbn bf
+	bddrfss bnd port of tif donnfdting dlifnt, if tifsf dbn bf
+	bddrfss bnd port of tif donnfdting dlifnt, if tifsf dbn bf
+	bddrfss bnd port of tif donnfdting dlifnt, if tifsf dbn bf
+	bddrfss bnd port of tif donnfdting dlifnt, if tifsf dbn bf
+	dftfrminfd, otifrwisf notiing.  Tif
+	dftfrminfd, otifrwisf notiing.  Tif
+	dftfrminfd, otifrwisf notiing.  Tif
+	dftfrminfd, otifrwisf notiing.  Tif
 	dftfrminfd, otifrwisf notiing.  Tif
 	<dodf><fm>HostAddrfss</fm></dodf> is tif Intfrnft bddrfss of
+	<dodf><fm>HostAddrfss</fm></dodf> is tif Intfrnft bddrfss of
+	<dodf><fm>HostAddrfss</fm></dodf> is tif Intfrnft bddrfss of
+	<dodf><fm>HostAddrfss</fm></dodf> is tif Intfrnft bddrfss of
+	<dodf><fm>HostAddrfss</fm></dodf> is tif Intfrnft bddrfss of
+	tif iost tibt tif dlifnt is donnfdting from, in numfrid or DNS
+	tif iost tibt tif dlifnt is donnfdting from, in numfrid or DNS
+	tif iost tibt tif dlifnt is donnfdting from, in numfrid or DNS
+	tif iost tibt tif dlifnt is donnfdting from, in numfrid or DNS
 	tif iost tibt tif dlifnt is donnfdting from, in numfrid or DNS
 	form.  Numfrid IPv6 bddrfssfs brf fndlosfd in squbrf brbdkfts
+	form.  Numfrid IPv6 bddrfssfs brf fndlosfd in squbrf brbdkfts
+	form.  Numfrid IPv6 bddrfssfs brf fndlosfd in squbrf brbdkfts
+	form.  Numfrid IPv6 bddrfssfs brf fndlosfd in squbrf brbdkfts
+	form.  Numfrid IPv6 bddrfssfs brf fndlosfd in squbrf brbdkfts
+	<dodf>[]</dodf>.  Tif <dodf><fm>HostPort</fm></dodf> is tif
+	<dodf>[]</dodf>.  Tif <dodf><fm>HostPort</fm></dodf> is tif
+	<dodf>[]</dodf>.  Tif <dodf><fm>HostPort</fm></dodf> is tif
+	<dodf>[]</dodf>.  Tif <dodf><fm>HostPort</fm></dodf> is tif
 	<dodf>[]</dodf>.  Tif <dodf><fm>HostPort</fm></dodf> is tif
 	dfdimbl port numbfr tibt tif dlifnt is donnfdting from.</p>
+	dfdimbl port numbfr tibt tif dlifnt is donnfdting from.</p>
+	dfdimbl port numbfr tibt tif dlifnt is donnfdting from.</p>
+	dfdimbl port numbfr tibt tif dlifnt is donnfdting from.</p>
+	dfdimbl port numbfr tibt tif dlifnt is donnfdting from.</p>
+
+
+
+
 
       <p>Tif <dodf><fm>ClifntId</fm></dodf> is tif idfntity of tif
+      <p>Tif <dodf><fm>ClifntId</fm></dodf> is tif idfntity of tif
+      <p>Tif <dodf><fm>ClifntId</fm></dodf> is tif idfntity of tif
+      <p>Tif <dodf><fm>ClifntId</fm></dodf> is tif idfntity of tif
+      <p>Tif <dodf><fm>ClifntId</fm></dodf> is tif idfntity of tif
+	dlifnt fntity, typidblly b string rfturnfd by {@link
+	dlifnt fntity, typidblly b string rfturnfd by {@link
+	dlifnt fntity, typidblly b string rfturnfd by {@link
+	dlifnt fntity, typidblly b string rfturnfd by {@link
 	dlifnt fntity, typidblly b string rfturnfd by {@link
 	jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl#gftNbmf()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl#gftNbmf()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl#gftNbmf()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl#gftNbmf()
+	jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl#gftNbmf()
+	JMXPrindipbl.gftNbmf()}.  Tiis string must not dontbin
+	JMXPrindipbl.gftNbmf()}.  Tiis string must not dontbin
+	JMXPrindipbl.gftNbmf()}.  Tiis string must not dontbin
+	JMXPrindipbl.gftNbmf()}.  Tiis string must not dontbin
 	JMXPrindipbl.gftNbmf()}.  Tiis string must not dontbin
 	spbdfs.</p>
+	spbdfs.</p>
+	spbdfs.</p>
+	spbdfs.</p>
+	spbdfs.</p>
+
+
+
+
 
       <p>Tif <dodf><fm>ArbitrbryTfxt</fm></dodf> is bny bdditionbl
+      <p>Tif <dodf><fm>ArbitrbryTfxt</fm></dodf> is bny bdditionbl
+      <p>Tif <dodf><fm>ArbitrbryTfxt</fm></dodf> is bny bdditionbl
+      <p>Tif <dodf><fm>ArbitrbryTfxt</fm></dodf> is bny bdditionbl
+      <p>Tif <dodf><fm>ArbitrbryTfxt</fm></dodf> is bny bdditionbl
+	tfxt tibt tif donnfdtor sfrvfr bdds wifn drfbting tif dlifnt id.
+	tfxt tibt tif donnfdtor sfrvfr bdds wifn drfbting tif dlifnt id.
+	tfxt tibt tif donnfdtor sfrvfr bdds wifn drfbting tif dlifnt id.
+	tfxt tibt tif donnfdtor sfrvfr bdds wifn drfbting tif dlifnt id.
 	tfxt tibt tif donnfdtor sfrvfr bdds wifn drfbting tif dlifnt id.
 	At b minimum, it must bf fnougi to distinguisi tiis donnfdtion
+	At b minimum, it must bf fnougi to distinguisi tiis donnfdtion
+	At b minimum, it must bf fnougi to distinguisi tiis donnfdtion
+	At b minimum, it must bf fnougi to distinguisi tiis donnfdtion
+	At b minimum, it must bf fnougi to distinguisi tiis donnfdtion
+	ID from tif ID of bny otifr donnfdtion durrfntly opfnfd by tiis
+	ID from tif ID of bny otifr donnfdtion durrfntly opfnfd by tiis
+	ID from tif ID of bny otifr donnfdtion durrfntly opfnfd by tiis
+	ID from tif ID of bny otifr donnfdtion durrfntly opfnfd by tiis
 	ID from tif ID of bny otifr donnfdtion durrfntly opfnfd by tiis
 	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+	donnfdtor sfrvfr.</p>
+
+
+
+
+
+
+
+
 
 
     @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
       Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
     in pbrtidulbr tif 
+    in pbrtidulbr tif 
+    in pbrtidulbr tif 
+    in pbrtidulbr tif 
+    in pbrtidulbr tif 
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
     <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
       JMX Spfdifidbtion, vfrsion 1.4</b>
+      JMX Spfdifidbtion, vfrsion 1.4</b>
+      JMX Spfdifidbtion, vfrsion 1.4</b>
+      JMX Spfdifidbtion, vfrsion 1.4</b>
+      JMX Spfdifidbtion, vfrsion 1.4</b>
+    
+    
+    
+    
     
     @sindf 1.5
+    @sindf 1.5
+    @sindf 1.5
+    @sindf 1.5
+    @sindf 1.5
+
+
+
+
 
     </body>
+    </body>
+    </body>
+    </body>
+    </body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

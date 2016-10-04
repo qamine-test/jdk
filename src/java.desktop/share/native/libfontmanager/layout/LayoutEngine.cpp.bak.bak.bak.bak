@@ -1,740 +1,3700 @@
 /*
+/*
+/*
+/*
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  *
+ *
+ *
+ *
+ *
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 /*
+/*
+/*
+/*
+/*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ *
+ *
+ *
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
+ *
+ *
+ *
+ *
  *
  */
+ */
+ */
+ */
+ */
 
-#indludf "LETypfs.h"
-#indludf "LESdripts.h"
-#indludf "LELbngubgfs.h"
-#indludf "LESwbps.h"
 
-#indludf "LbyoutEnginf.h"
-#indludf "ArbbidLbyoutEnginf.h"
-#indludf "CbnonShbping.h"
-#indludf "HbnLbyoutEnginf.h"
-#indludf "HbngulLbyoutEnginf.h"
-#indludf "IndidLbyoutEnginf.h"
-#indludf "KhmfrLbyoutEnginf.h"
-#indludf "ThbiLbyoutEnginf.h"
-#indludf "TibftbnLbyoutEnginf.h"
-#indludf "GXLbyoutEnginf.h"
-#indludf "GXLbyoutEnginf2.h"
 
-#indludf "SdriptAndLbngubgfTbgs.h"
-#indludf "ChbrSubstitutionFiltfr.h"
 
-#indludf "LEGlyphStorbgf.h"
 
-#indludf "OpfnTypfUtilitifs.h"
-#indludf "GlyphSubstitutionTbblfs.h"
-#indludf "GlyphDffinitionTbblfs.h"
-#indludf "MorphTbblfs.h"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LESdripts.i"
+#indludf "LESdripts.i"
+#indludf "LESdripts.i"
+#indludf "LESdripts.i"
+#indludf "LESdripts.i"
+#indludf "LELbngubgfs.i"
+#indludf "LELbngubgfs.i"
+#indludf "LELbngubgfs.i"
+#indludf "LELbngubgfs.i"
+#indludf "LELbngubgfs.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
 
-#indludf "DffbultChbrMbppfr.h"
 
-#indludf "KfrnTbblf.h"
+
+
+
+#indludf "LbyoutEnginf.i"
+#indludf "LbyoutEnginf.i"
+#indludf "LbyoutEnginf.i"
+#indludf "LbyoutEnginf.i"
+#indludf "LbyoutEnginf.i"
+#indludf "ArbbidLbyoutEnginf.i"
+#indludf "ArbbidLbyoutEnginf.i"
+#indludf "ArbbidLbyoutEnginf.i"
+#indludf "ArbbidLbyoutEnginf.i"
+#indludf "ArbbidLbyoutEnginf.i"
+#indludf "CbnonSibping.i"
+#indludf "CbnonSibping.i"
+#indludf "CbnonSibping.i"
+#indludf "CbnonSibping.i"
+#indludf "CbnonSibping.i"
+#indludf "HbnLbyoutEnginf.i"
+#indludf "HbnLbyoutEnginf.i"
+#indludf "HbnLbyoutEnginf.i"
+#indludf "HbnLbyoutEnginf.i"
+#indludf "HbnLbyoutEnginf.i"
+#indludf "HbngulLbyoutEnginf.i"
+#indludf "HbngulLbyoutEnginf.i"
+#indludf "HbngulLbyoutEnginf.i"
+#indludf "HbngulLbyoutEnginf.i"
+#indludf "HbngulLbyoutEnginf.i"
+#indludf "IndidLbyoutEnginf.i"
+#indludf "IndidLbyoutEnginf.i"
+#indludf "IndidLbyoutEnginf.i"
+#indludf "IndidLbyoutEnginf.i"
+#indludf "IndidLbyoutEnginf.i"
+#indludf "KimfrLbyoutEnginf.i"
+#indludf "KimfrLbyoutEnginf.i"
+#indludf "KimfrLbyoutEnginf.i"
+#indludf "KimfrLbyoutEnginf.i"
+#indludf "KimfrLbyoutEnginf.i"
+#indludf "TibiLbyoutEnginf.i"
+#indludf "TibiLbyoutEnginf.i"
+#indludf "TibiLbyoutEnginf.i"
+#indludf "TibiLbyoutEnginf.i"
+#indludf "TibiLbyoutEnginf.i"
+#indludf "TibftbnLbyoutEnginf.i"
+#indludf "TibftbnLbyoutEnginf.i"
+#indludf "TibftbnLbyoutEnginf.i"
+#indludf "TibftbnLbyoutEnginf.i"
+#indludf "TibftbnLbyoutEnginf.i"
+#indludf "GXLbyoutEnginf.i"
+#indludf "GXLbyoutEnginf.i"
+#indludf "GXLbyoutEnginf.i"
+#indludf "GXLbyoutEnginf.i"
+#indludf "GXLbyoutEnginf.i"
+#indludf "GXLbyoutEnginf2.i"
+#indludf "GXLbyoutEnginf2.i"
+#indludf "GXLbyoutEnginf2.i"
+#indludf "GXLbyoutEnginf2.i"
+#indludf "GXLbyoutEnginf2.i"
+
+
+
+
+
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "CibrSubstitutionFiltfr.i"
+#indludf "CibrSubstitutionFiltfr.i"
+#indludf "CibrSubstitutionFiltfr.i"
+#indludf "CibrSubstitutionFiltfr.i"
+#indludf "CibrSubstitutionFiltfr.i"
+
+
+
+
+
+#indludf "LEGlypiStorbgf.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LEGlypiStorbgf.i"
+
+
+
+
+
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+
+
+
+
+
+#indludf "DffbultCibrMbppfr.i"
+#indludf "DffbultCibrMbppfr.i"
+#indludf "DffbultCibrMbppfr.i"
+#indludf "DffbultCibrMbppfr.i"
+#indludf "DffbultCibrMbppfr.i"
+
+
+
+
+
+#indludf "KfrnTbblf.i"
+#indludf "KfrnTbblf.i"
+#indludf "KfrnTbblf.i"
+#indludf "KfrnTbblf.i"
+#indludf "KfrnTbblf.i"
+
+
+
+
 
 U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
 
-/* Lfbvf this dopyright notidf hfrf! It nffds to go somfwhfrf in this librbry. */
-stbtid donst dhbr dopyright[] = U_COPYRIGHT_STRING;
 
-/* TODO: rfmovf thfsf? */
+
+
+
+/* Lfbvf tiis dopyrigit notidf ifrf! It nffds to go somfwifrf in tiis librbry. */
+/* Lfbvf tiis dopyrigit notidf ifrf! It nffds to go somfwifrf in tiis librbry. */
+/* Lfbvf tiis dopyrigit notidf ifrf! It nffds to go somfwifrf in tiis librbry. */
+/* Lfbvf tiis dopyrigit notidf ifrf! It nffds to go somfwifrf in tiis librbry. */
+/* Lfbvf tiis dopyrigit notidf ifrf! It nffds to go somfwifrf in tiis librbry. */
+stbtid donst dibr dopyrigit[] = U_COPYRIGHT_STRING;
+stbtid donst dibr dopyrigit[] = U_COPYRIGHT_STRING;
+stbtid donst dibr dopyrigit[] = U_COPYRIGHT_STRING;
+stbtid donst dibr dopyrigit[] = U_COPYRIGHT_STRING;
+stbtid donst dibr dopyrigit[] = U_COPYRIGHT_STRING;
+
+
+
+
+
+/* TODO: rfmovf tifsf? */
+/* TODO: rfmovf tifsf? */
+/* TODO: rfmovf tifsf? */
+/* TODO: rfmovf tifsf? */
+/* TODO: rfmovf tifsf? */
+donst lf_int32 LbyoutEnginf::kTypoFlbgKfrn = LE_Kfrning_FEATURE_FLAG;
+donst lf_int32 LbyoutEnginf::kTypoFlbgKfrn = LE_Kfrning_FEATURE_FLAG;
+donst lf_int32 LbyoutEnginf::kTypoFlbgKfrn = LE_Kfrning_FEATURE_FLAG;
+donst lf_int32 LbyoutEnginf::kTypoFlbgKfrn = LE_Kfrning_FEATURE_FLAG;
 donst lf_int32 LbyoutEnginf::kTypoFlbgKfrn = LE_Kfrning_FEATURE_FLAG;
 donst lf_int32 LbyoutEnginf::kTypoFlbgLigb = LE_Ligbturfs_FEATURE_FLAG;
+donst lf_int32 LbyoutEnginf::kTypoFlbgLigb = LE_Ligbturfs_FEATURE_FLAG;
+donst lf_int32 LbyoutEnginf::kTypoFlbgLigb = LE_Ligbturfs_FEATURE_FLAG;
+donst lf_int32 LbyoutEnginf::kTypoFlbgLigb = LE_Ligbturfs_FEATURE_FLAG;
+donst lf_int32 LbyoutEnginf::kTypoFlbgLigb = LE_Ligbturfs_FEATURE_FLAG;
 
-donst LEUnidodf32 DffbultChbrMbppfr::dontrolChbrs[] = {
+
+
+
+
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrs[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrs[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrs[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrs[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrs[] = {
+    0x0009, 0x000A, 0x000D,
+    0x0009, 0x000A, 0x000D,
+    0x0009, 0x000A, 0x000D,
+    0x0009, 0x000A, 0x000D,
     0x0009, 0x000A, 0x000D,
     /*0x200C, 0x200D,*/ 0x200E, 0x200F,
+    /*0x200C, 0x200D,*/ 0x200E, 0x200F,
+    /*0x200C, 0x200D,*/ 0x200E, 0x200F,
+    /*0x200C, 0x200D,*/ 0x200E, 0x200F,
+    /*0x200C, 0x200D,*/ 0x200E, 0x200F,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
     0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
     0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+};
+};
+};
+};
 };
 
-donst lf_int32 DffbultChbrMbppfr::dontrolChbrsCount = LE_ARRAY_SIZE(dontrolChbrs);
 
-donst LEUnidodf32 DffbultChbrMbppfr::dontrolChbrsZWJ[] = {
+
+
+
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsCount = LE_ARRAY_SIZE(dontrolCibrs);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsCount = LE_ARRAY_SIZE(dontrolCibrs);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsCount = LE_ARRAY_SIZE(dontrolCibrs);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsCount = LE_ARRAY_SIZE(dontrolCibrs);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsCount = LE_ARRAY_SIZE(dontrolCibrs);
+
+
+
+
+
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrsZWJ[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrsZWJ[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrsZWJ[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrsZWJ[] = {
+donst LEUnidodf32 DffbultCibrMbppfr::dontrolCibrsZWJ[] = {
+    0x0009, 0x000A, 0x000D,
+    0x0009, 0x000A, 0x000D,
+    0x0009, 0x000A, 0x000D,
+    0x0009, 0x000A, 0x000D,
     0x0009, 0x000A, 0x000D,
     0x200C, 0x200D, 0x200E, 0x200F,
+    0x200C, 0x200D, 0x200E, 0x200F,
+    0x200C, 0x200D, 0x200E, 0x200F,
+    0x200C, 0x200D, 0x200E, 0x200F,
+    0x200C, 0x200D, 0x200E, 0x200F,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
+    0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
     0x2028, 0x2029, 0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
     0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+    0x206A, 0x206B, 0x206C, 0x206D, 0x206E, 0x206F
+};
+};
+};
+};
 };
 
-donst lf_int32 DffbultChbrMbppfr::dontrolChbrsZWJCount = LE_ARRAY_SIZE(dontrolChbrsZWJ);
 
-LEUnidodf32 DffbultChbrMbppfr::mbpChbr(LEUnidodf32 dh) donst
+
+
+
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsZWJCount = LE_ARRAY_SIZE(dontrolCibrsZWJ);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsZWJCount = LE_ARRAY_SIZE(dontrolCibrsZWJ);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsZWJCount = LE_ARRAY_SIZE(dontrolCibrsZWJ);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsZWJCount = LE_ARRAY_SIZE(dontrolCibrsZWJ);
+donst lf_int32 DffbultCibrMbppfr::dontrolCibrsZWJCount = LE_ARRAY_SIZE(dontrolCibrsZWJ);
+
+
+
+
+
+LEUnidodf32 DffbultCibrMbppfr::mbpCibr(LEUnidodf32 di) donst
+LEUnidodf32 DffbultCibrMbppfr::mbpCibr(LEUnidodf32 di) donst
+LEUnidodf32 DffbultCibrMbppfr::mbpCibr(LEUnidodf32 di) donst
+LEUnidodf32 DffbultCibrMbppfr::mbpCibr(LEUnidodf32 di) donst
+LEUnidodf32 DffbultCibrMbppfr::mbpCibr(LEUnidodf32 di) donst
+{
+{
+{
+{
 {
     if (fZWJ) {
-        if (dh < 0x20) {
-            if (dh == 0x0b || dh == 0x0d || dh == 0x09) {
+    if (fZWJ) {
+    if (fZWJ) {
+    if (fZWJ) {
+    if (fZWJ) {
+        if (di < 0x20) {
+        if (di < 0x20) {
+        if (di < 0x20) {
+        if (di < 0x20) {
+        if (di < 0x20) {
+            if (di == 0x0b || di == 0x0d || di == 0x09) {
+            if (di == 0x0b || di == 0x0d || di == 0x09) {
+            if (di == 0x0b || di == 0x0d || di == 0x09) {
+            if (di == 0x0b || di == 0x0d || di == 0x09) {
+            if (di == 0x0b || di == 0x0d || di == 0x09) {
+                rfturn 0xffff;
+                rfturn 0xffff;
+                rfturn 0xffff;
+                rfturn 0xffff;
                 rfturn 0xffff;
             }
-        } flsf if (dh >= 0x200d && dh <= 0x206f) {
-            lf_int32 indfx = OpfnTypfUtilitifs::sfbrdh((lf_uint32)dh,
-                                                       (lf_uint32 *)dontrolChbrsZWJ,
-                                                       dontrolChbrsZWJCount);
-            if (dontrolChbrsZWJ[indfx] == dh) {
+            }
+            }
+            }
+            }
+        } flsf if (di >= 0x200d && di <= 0x206f) {
+        } flsf if (di >= 0x200d && di <= 0x206f) {
+        } flsf if (di >= 0x200d && di <= 0x206f) {
+        } flsf if (di >= 0x200d && di <= 0x206f) {
+        } flsf if (di >= 0x200d && di <= 0x206f) {
+            lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di,
+            lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di,
+            lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di,
+            lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di,
+            lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di,
+                                                       (lf_uint32 *)dontrolCibrsZWJ,
+                                                       (lf_uint32 *)dontrolCibrsZWJ,
+                                                       (lf_uint32 *)dontrolCibrsZWJ,
+                                                       (lf_uint32 *)dontrolCibrsZWJ,
+                                                       (lf_uint32 *)dontrolCibrsZWJ,
+                                                       dontrolCibrsZWJCount);
+                                                       dontrolCibrsZWJCount);
+                                                       dontrolCibrsZWJCount);
+                                                       dontrolCibrsZWJCount);
+                                                       dontrolCibrsZWJCount);
+            if (dontrolCibrsZWJ[indfx] == di) {
+            if (dontrolCibrsZWJ[indfx] == di) {
+            if (dontrolCibrsZWJ[indfx] == di) {
+            if (dontrolCibrsZWJ[indfx] == di) {
+            if (dontrolCibrsZWJ[indfx] == di) {
                 rfturn 0xffff;
+                rfturn 0xffff;
+                rfturn 0xffff;
+                rfturn 0xffff;
+                rfturn 0xffff;
+            }
+            }
+            }
+            }
             }
         }
-        rfturn dh; // notf ZWJ bypbssfs fFiltfrControls bnd fMirror
+        }
+        }
+        }
+        }
+        rfturn di; // notf ZWJ bypbssfs fFiltfrControls bnd fMirror
+        rfturn di; // notf ZWJ bypbssfs fFiltfrControls bnd fMirror
+        rfturn di; // notf ZWJ bypbssfs fFiltfrControls bnd fMirror
+        rfturn di; // notf ZWJ bypbssfs fFiltfrControls bnd fMirror
+        rfturn di; // notf ZWJ bypbssfs fFiltfrControls bnd fMirror
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (fFiltfrControls) {
-        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdh((lf_uint32)dh, (lf_uint32 *)dontrolChbrs, dontrolChbrsCount);
+    if (fFiltfrControls) {
+    if (fFiltfrControls) {
+    if (fFiltfrControls) {
+    if (fFiltfrControls) {
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di, (lf_uint32 *)dontrolCibrs, dontrolCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di, (lf_uint32 *)dontrolCibrs, dontrolCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di, (lf_uint32 *)dontrolCibrs, dontrolCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di, (lf_uint32 *)dontrolCibrs, dontrolCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32)di, (lf_uint32 *)dontrolCibrs, dontrolCibrsCount);
 
-        if (dontrolChbrs[indfx] == dh) {
+
+
+
+
+        if (dontrolCibrs[indfx] == di) {
+        if (dontrolCibrs[indfx] == di) {
+        if (dontrolCibrs[indfx] == di) {
+        if (dontrolCibrs[indfx] == di) {
+        if (dontrolCibrs[indfx] == di) {
+            rfturn 0xFFFF;
+            rfturn 0xFFFF;
+            rfturn 0xFFFF;
+            rfturn 0xFFFF;
             rfturn 0xFFFF;
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (fMirror) {
-        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdh((lf_uint32) dh, (lf_uint32 *)DffbultChbrMbppfr::mirrorfdChbrs, DffbultChbrMbppfr::mirrorfdChbrsCount);
+    if (fMirror) {
+    if (fMirror) {
+    if (fMirror) {
+    if (fMirror) {
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32) di, (lf_uint32 *)DffbultCibrMbppfr::mirrorfdCibrs, DffbultCibrMbppfr::mirrorfdCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32) di, (lf_uint32 *)DffbultCibrMbppfr::mirrorfdCibrs, DffbultCibrMbppfr::mirrorfdCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32) di, (lf_uint32 *)DffbultCibrMbppfr::mirrorfdCibrs, DffbultCibrMbppfr::mirrorfdCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32) di, (lf_uint32 *)DffbultCibrMbppfr::mirrorfdCibrs, DffbultCibrMbppfr::mirrorfdCibrsCount);
+        lf_int32 indfx = OpfnTypfUtilitifs::sfbrdi((lf_uint32) di, (lf_uint32 *)DffbultCibrMbppfr::mirrorfdCibrs, DffbultCibrMbppfr::mirrorfdCibrsCount);
 
-        if (mirrorfdChbrs[indfx] == dh) {
-            rfturn DffbultChbrMbppfr::srbhCdfrorrim[indfx];
+
+
+
+
+        if (mirrorfdCibrs[indfx] == di) {
+        if (mirrorfdCibrs[indfx] == di) {
+        if (mirrorfdCibrs[indfx] == di) {
+        if (mirrorfdCibrs[indfx] == di) {
+        if (mirrorfdCibrs[indfx] == di) {
+            rfturn DffbultCibrMbppfr::srbiCdfrorrim[indfx];
+            rfturn DffbultCibrMbppfr::srbiCdfrorrim[indfx];
+            rfturn DffbultCibrMbppfr::srbiCdfrorrim[indfx];
+            rfturn DffbultCibrMbppfr::srbiCdfrorrim[indfx];
+            rfturn DffbultCibrMbppfr::srbiCdfrorrim[indfx];
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    rfturn dh;
+
+
+
+
+    rfturn di;
+    rfturn di;
+    rfturn di;
+    rfturn di;
+    rfturn di;
+}
+}
+}
+}
 }
 
-// This is hfrf to gft it out of LEGlyphFiltfr.h.
-// No pbrtidulbr rfbson to put it hfrf, othfr thbn
-// this is b good dfntrbl lodbtion...
-LEGlyphFiltfr::~LEGlyphFiltfr()
+
+
+
+
+// Tiis is ifrf to gft it out of LEGlypiFiltfr.i.
+// Tiis is ifrf to gft it out of LEGlypiFiltfr.i.
+// Tiis is ifrf to gft it out of LEGlypiFiltfr.i.
+// Tiis is ifrf to gft it out of LEGlypiFiltfr.i.
+// Tiis is ifrf to gft it out of LEGlypiFiltfr.i.
+// No pbrtidulbr rfbson to put it ifrf, otifr tibn
+// No pbrtidulbr rfbson to put it ifrf, otifr tibn
+// No pbrtidulbr rfbson to put it ifrf, otifr tibn
+// No pbrtidulbr rfbson to put it ifrf, otifr tibn
+// No pbrtidulbr rfbson to put it ifrf, otifr tibn
+// tiis is b good dfntrbl lodbtion...
+// tiis is b good dfntrbl lodbtion...
+// tiis is b good dfntrbl lodbtion...
+// tiis is b good dfntrbl lodbtion...
+// tiis is b good dfntrbl lodbtion...
+LEGlypiFiltfr::~LEGlypiFiltfr()
+LEGlypiFiltfr::~LEGlypiFiltfr()
+LEGlypiFiltfr::~LEGlypiFiltfr()
+LEGlypiFiltfr::~LEGlypiFiltfr()
+LEGlypiFiltfr::~LEGlypiFiltfr()
 {
-    // nothing to do
+{
+{
+{
+{
+    // notiing to do
+    // notiing to do
+    // notiing to do
+    // notiing to do
+    // notiing to do
+}
+}
+}
+}
 }
 
-ChbrSubstitutionFiltfr::ChbrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf)
+
+
+
+
+CibrSubstitutionFiltfr::CibrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf)
+CibrSubstitutionFiltfr::CibrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf)
+CibrSubstitutionFiltfr::CibrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf)
+CibrSubstitutionFiltfr::CibrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf)
+CibrSubstitutionFiltfr::CibrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf)
+  : fFontInstbndf(fontInstbndf)
+  : fFontInstbndf(fontInstbndf)
+  : fFontInstbndf(fontInstbndf)
+  : fFontInstbndf(fontInstbndf)
   : fFontInstbndf(fontInstbndf)
 {
-    // nothing to do
-}
-
-ChbrSubstitutionFiltfr::~ChbrSubstitutionFiltfr()
 {
-    // nothing to do
+{
+{
+{
+    // notiing to do
+    // notiing to do
+    // notiing to do
+    // notiing to do
+    // notiing to do
+}
+}
+}
+}
 }
 
-dlbss CbnonMbrkFiltfr : publid UMfmory, publid LEGlyphFiltfr
+
+
+
+
+CibrSubstitutionFiltfr::~CibrSubstitutionFiltfr()
+CibrSubstitutionFiltfr::~CibrSubstitutionFiltfr()
+CibrSubstitutionFiltfr::~CibrSubstitutionFiltfr()
+CibrSubstitutionFiltfr::~CibrSubstitutionFiltfr()
+CibrSubstitutionFiltfr::~CibrSubstitutionFiltfr()
+{
+{
+{
+{
+{
+    // notiing to do
+    // notiing to do
+    // notiing to do
+    // notiing to do
+    // notiing to do
+}
+}
+}
+}
+}
+
+
+
+
+
+dlbss CbnonMbrkFiltfr : publid UMfmory, publid LEGlypiFiltfr
+dlbss CbnonMbrkFiltfr : publid UMfmory, publid LEGlypiFiltfr
+dlbss CbnonMbrkFiltfr : publid UMfmory, publid LEGlypiFiltfr
+dlbss CbnonMbrkFiltfr : publid UMfmory, publid LEGlypiFiltfr
+dlbss CbnonMbrkFiltfr : publid UMfmory, publid LEGlypiFiltfr
+{
+{
+{
+{
 {
 privbtf:
-  donst LERfffrfndfTo<GlyphClbssDffinitionTbblf> dlbssDffTbblf;
+privbtf:
+privbtf:
+privbtf:
+privbtf:
+  donst LERfffrfndfTo<GlypiClbssDffinitionTbblf> dlbssDffTbblf;
+  donst LERfffrfndfTo<GlypiClbssDffinitionTbblf> dlbssDffTbblf;
+  donst LERfffrfndfTo<GlypiClbssDffinitionTbblf> dlbssDffTbblf;
+  donst LERfffrfndfTo<GlypiClbssDffinitionTbblf> dlbssDffTbblf;
+  donst LERfffrfndfTo<GlypiClbssDffinitionTbblf> dlbssDffTbblf;
 
-    CbnonMbrkFiltfr(donst CbnonMbrkFiltfr &othfr); // forbid dopying of this dlbss
-    CbnonMbrkFiltfr &opfrbtor=(donst CbnonMbrkFiltfr &othfr); // forbid dopying of this dlbss
+
+
+
+
+    CbnonMbrkFiltfr(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr &opfrbtor=(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr &opfrbtor=(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr &opfrbtor=(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr &opfrbtor=(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+    CbnonMbrkFiltfr &opfrbtor=(donst CbnonMbrkFiltfr &otifr); // forbid dopying of tiis dlbss
+
+
+
+
 
 publid:
-    CbnonMbrkFiltfr(donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss);
+publid:
+publid:
+publid:
+publid:
+    CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss);
+    CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss);
+    CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss);
+    CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss);
+    CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss);
+    virtubl ~CbnonMbrkFiltfr();
+    virtubl ~CbnonMbrkFiltfr();
+    virtubl ~CbnonMbrkFiltfr();
+    virtubl ~CbnonMbrkFiltfr();
     virtubl ~CbnonMbrkFiltfr();
 
-    virtubl lf_bool bddfpt(LEGlyphID glyph, LEErrorCodf &suddfss) donst;
+
+
+
+
+    virtubl lf_bool bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst;
+    virtubl lf_bool bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst;
+    virtubl lf_bool bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst;
+    virtubl lf_bool bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst;
+    virtubl lf_bool bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst;
+};
+};
+};
+};
 };
 
-CbnonMbrkFiltfr::CbnonMbrkFiltfr(donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss)
-  : dlbssDffTbblf(gdffTbblf->gftMbrkAttbdhClbssDffinitionTbblf(gdffTbblf, suddfss))
+
+
+
+
+CbnonMbrkFiltfr::CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss)
+CbnonMbrkFiltfr::CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss)
+CbnonMbrkFiltfr::CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss)
+CbnonMbrkFiltfr::CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss)
+CbnonMbrkFiltfr::CbnonMbrkFiltfr(donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> &gdffTbblf, LEErrorCodf &suddfss)
+  : dlbssDffTbblf(gdffTbblf->gftMbrkAttbdiClbssDffinitionTbblf(gdffTbblf, suddfss))
+  : dlbssDffTbblf(gdffTbblf->gftMbrkAttbdiClbssDffinitionTbblf(gdffTbblf, suddfss))
+  : dlbssDffTbblf(gdffTbblf->gftMbrkAttbdiClbssDffinitionTbblf(gdffTbblf, suddfss))
+  : dlbssDffTbblf(gdffTbblf->gftMbrkAttbdiClbssDffinitionTbblf(gdffTbblf, suddfss))
+  : dlbssDffTbblf(gdffTbblf->gftMbrkAttbdiClbssDffinitionTbblf(gdffTbblf, suddfss))
+{
+{
+{
+{
 {
 }
+}
+}
+}
+}
+
+
+
+
 
 CbnonMbrkFiltfr::~CbnonMbrkFiltfr()
+CbnonMbrkFiltfr::~CbnonMbrkFiltfr()
+CbnonMbrkFiltfr::~CbnonMbrkFiltfr()
+CbnonMbrkFiltfr::~CbnonMbrkFiltfr()
+CbnonMbrkFiltfr::~CbnonMbrkFiltfr()
 {
-    // nothing to do?
+{
+{
+{
+{
+    // notiing to do?
+    // notiing to do?
+    // notiing to do?
+    // notiing to do?
+    // notiing to do?
+}
+}
+}
+}
 }
 
-lf_bool CbnonMbrkFiltfr::bddfpt(LEGlyphID glyph, LEErrorCodf &suddfss) donst
+
+
+
+
+lf_bool CbnonMbrkFiltfr::bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst
+lf_bool CbnonMbrkFiltfr::bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst
+lf_bool CbnonMbrkFiltfr::bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst
+lf_bool CbnonMbrkFiltfr::bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst
+lf_bool CbnonMbrkFiltfr::bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst
 {
-  lf_int32 glyphClbss = dlbssDffTbblf->gftGlyphClbss(dlbssDffTbblf, glyph, suddfss);
+{
+{
+{
+{
+  lf_int32 glypiClbss = dlbssDffTbblf->gftGlypiClbss(dlbssDffTbblf, glypi, suddfss);
+  lf_int32 glypiClbss = dlbssDffTbblf->gftGlypiClbss(dlbssDffTbblf, glypi, suddfss);
+  lf_int32 glypiClbss = dlbssDffTbblf->gftGlypiClbss(dlbssDffTbblf, glypi, suddfss);
+  lf_int32 glypiClbss = dlbssDffTbblf->gftGlypiClbss(dlbssDffTbblf, glypi, suddfss);
+  lf_int32 glypiClbss = dlbssDffTbblf->gftGlypiClbss(dlbssDffTbblf, glypi, suddfss);
   if(LE_FAILURE(suddfss)) rfturn fblsf;
-  rfturn glyphClbss != 0;
+  if(LE_FAILURE(suddfss)) rfturn fblsf;
+  if(LE_FAILURE(suddfss)) rfturn fblsf;
+  if(LE_FAILURE(suddfss)) rfturn fblsf;
+  if(LE_FAILURE(suddfss)) rfturn fblsf;
+  rfturn glypiClbss != 0;
+  rfturn glypiClbss != 0;
+  rfturn glypiClbss != 0;
+  rfturn glypiClbss != 0;
+  rfturn glypiClbss != 0;
 }
+}
+}
+}
+}
+
+
+
+
 
 UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LbyoutEnginf)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LbyoutEnginf)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LbyoutEnginf)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LbyoutEnginf)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LbyoutEnginf)
+
+
+
+
 
 #dffinf ddmpFfbturfTbg  LE_CCMP_FEATURE_TAG
+#dffinf ddmpFfbturfTbg  LE_CCMP_FEATURE_TAG
+#dffinf ddmpFfbturfTbg  LE_CCMP_FEATURE_TAG
+#dffinf ddmpFfbturfTbg  LE_CCMP_FEATURE_TAG
+#dffinf ddmpFfbturfTbg  LE_CCMP_FEATURE_TAG
+
+
+
+
 
 #dffinf ddmpFfbturfMbsk 0x80000000UL
+#dffinf ddmpFfbturfMbsk 0x80000000UL
+#dffinf ddmpFfbturfMbsk 0x80000000UL
+#dffinf ddmpFfbturfMbsk 0x80000000UL
+#dffinf ddmpFfbturfMbsk 0x80000000UL
+
+
+
+
 
 #dffinf dbnonFfbturfs (ddmpFfbturfMbsk)
+#dffinf dbnonFfbturfs (ddmpFfbturfMbsk)
+#dffinf dbnonFfbturfs (ddmpFfbturfMbsk)
+#dffinf dbnonFfbturfs (ddmpFfbturfMbsk)
+#dffinf dbnonFfbturfs (ddmpFfbturfMbsk)
+
+
+
+
 
 stbtid donst FfbturfMbp dbnonFfbturfMbp[] =
+stbtid donst FfbturfMbp dbnonFfbturfMbp[] =
+stbtid donst FfbturfMbp dbnonFfbturfMbp[] =
+stbtid donst FfbturfMbp dbnonFfbturfMbp[] =
+stbtid donst FfbturfMbp dbnonFfbturfMbp[] =
+{
+{
+{
+{
 {
     {ddmpFfbturfTbg, ddmpFfbturfMbsk}
+    {ddmpFfbturfTbg, ddmpFfbturfMbsk}
+    {ddmpFfbturfTbg, ddmpFfbturfMbsk}
+    {ddmpFfbturfTbg, ddmpFfbturfMbsk}
+    {ddmpFfbturfTbg, ddmpFfbturfMbsk}
+};
+};
+};
+};
 };
 
+
+
+
+
+stbtid donst lf_int32 dbnonFfbturfMbpCount = LE_ARRAY_SIZE(dbnonFfbturfMbp);
+stbtid donst lf_int32 dbnonFfbturfMbpCount = LE_ARRAY_SIZE(dbnonFfbturfMbp);
+stbtid donst lf_int32 dbnonFfbturfMbpCount = LE_ARRAY_SIZE(dbnonFfbturfMbp);
+stbtid donst lf_int32 dbnonFfbturfMbpCount = LE_ARRAY_SIZE(dbnonFfbturfMbp);
 stbtid donst lf_int32 dbnonFfbturfMbpCount = LE_ARRAY_SIZE(dbnonFfbturfMbp);
 
+
+
+
+
+LbyoutEnginf::LbyoutEnginf(donst LEFontInstbndf *fontInstbndf,
+LbyoutEnginf::LbyoutEnginf(donst LEFontInstbndf *fontInstbndf,
+LbyoutEnginf::LbyoutEnginf(donst LEFontInstbndf *fontInstbndf,
+LbyoutEnginf::LbyoutEnginf(donst LEFontInstbndf *fontInstbndf,
 LbyoutEnginf::LbyoutEnginf(donst LEFontInstbndf *fontInstbndf,
                            lf_int32 sdriptCodf,
+                           lf_int32 sdriptCodf,
+                           lf_int32 sdriptCodf,
+                           lf_int32 sdriptCodf,
+                           lf_int32 sdriptCodf,
+                           lf_int32 lbngubgfCodf,
+                           lf_int32 lbngubgfCodf,
+                           lf_int32 lbngubgfCodf,
+                           lf_int32 lbngubgfCodf,
                            lf_int32 lbngubgfCodf,
                            lf_int32 typoFlbgs,
+                           lf_int32 typoFlbgs,
+                           lf_int32 typoFlbgs,
+                           lf_int32 typoFlbgs,
+                           lf_int32 typoFlbgs,
                            LEErrorCodf &suddfss)
-  : fGlyphStorbgf(NULL), fFontInstbndf(fontInstbndf), fSdriptCodf(sdriptCodf), fLbngubgfCodf(lbngubgfCodf),
-    fTypoFlbgs(typoFlbgs), fFiltfrZfroWidth(TRUE)
+                           LEErrorCodf &suddfss)
+                           LEErrorCodf &suddfss)
+                           LEErrorCodf &suddfss)
+                           LEErrorCodf &suddfss)
+  : fGlypiStorbgf(NULL), fFontInstbndf(fontInstbndf), fSdriptCodf(sdriptCodf), fLbngubgfCodf(lbngubgfCodf),
+  : fGlypiStorbgf(NULL), fFontInstbndf(fontInstbndf), fSdriptCodf(sdriptCodf), fLbngubgfCodf(lbngubgfCodf),
+  : fGlypiStorbgf(NULL), fFontInstbndf(fontInstbndf), fSdriptCodf(sdriptCodf), fLbngubgfCodf(lbngubgfCodf),
+  : fGlypiStorbgf(NULL), fFontInstbndf(fontInstbndf), fSdriptCodf(sdriptCodf), fLbngubgfCodf(lbngubgfCodf),
+  : fGlypiStorbgf(NULL), fFontInstbndf(fontInstbndf), fSdriptCodf(sdriptCodf), fLbngubgfCodf(lbngubgfCodf),
+    fTypoFlbgs(typoFlbgs), fFiltfrZfroWidti(TRUE)
+    fTypoFlbgs(typoFlbgs), fFiltfrZfroWidti(TRUE)
+    fTypoFlbgs(typoFlbgs), fFiltfrZfroWidti(TRUE)
+    fTypoFlbgs(typoFlbgs), fFiltfrZfroWidti(TRUE)
+    fTypoFlbgs(typoFlbgs), fFiltfrZfroWidti(TRUE)
+{
+{
+{
+{
 {
     if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
 
-    fGlyphStorbgf = nfw LEGlyphStorbgf();
-    if (fGlyphStorbgf == NULL) {
+
+
+
+
+    fGlypiStorbgf = nfw LEGlypiStorbgf();
+    fGlypiStorbgf = nfw LEGlypiStorbgf();
+    fGlypiStorbgf = nfw LEGlypiStorbgf();
+    fGlypiStorbgf = nfw LEGlypiStorbgf();
+    fGlypiStorbgf = nfw LEGlypiStorbgf();
+    if (fGlypiStorbgf == NULL) {
+    if (fGlypiStorbgf == NULL) {
+    if (fGlypiStorbgf == NULL) {
+    if (fGlypiStorbgf == NULL) {
+    if (fGlypiStorbgf == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
         suddfss = LE_MEMORY_ALLOCATION_ERROR;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }
 
-lf_int32 LbyoutEnginf::gftGlyphCount() donst
+
+
+
+
+lf_int32 LbyoutEnginf::gftGlypiCount() donst
+lf_int32 LbyoutEnginf::gftGlypiCount() donst
+lf_int32 LbyoutEnginf::gftGlypiCount() donst
+lf_int32 LbyoutEnginf::gftGlypiCount() donst
+lf_int32 LbyoutEnginf::gftGlypiCount() donst
 {
-    rfturn fGlyphStorbgf->gftGlyphCount();
-}
-
-void LbyoutEnginf::gftChbrIndidfs(lf_int32 dhbrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst
 {
-    fGlyphStorbgf->gftChbrIndidfs(dhbrIndidfs, indfxBbsf, suddfss);
-}
-
-void LbyoutEnginf::gftChbrIndidfs(lf_int32 dhbrIndidfs[], LEErrorCodf &suddfss) donst
 {
-    fGlyphStorbgf->gftChbrIndidfs(dhbrIndidfs, suddfss);
-}
-
-// Copy thf glyphs into dbllfr's (32-bit) glyph brrby, OR in fxtrbBits
-void LbyoutEnginf::gftGlyphs(lf_uint32 glyphs[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst
 {
-    fGlyphStorbgf->gftGlyphs(glyphs, fxtrbBits, suddfss);
-}
-
-void LbyoutEnginf::gftGlyphs(LEGlyphID glyphs[], LEErrorCodf &suddfss) donst
 {
-    fGlyphStorbgf->gftGlyphs(glyphs, suddfss);
+    rfturn fGlypiStorbgf->gftGlypiCount();
+    rfturn fGlypiStorbgf->gftGlypiCount();
+    rfturn fGlypiStorbgf->gftGlypiCount();
+    rfturn fGlypiStorbgf->gftGlypiCount();
+    rfturn fGlypiStorbgf->gftGlypiCount();
+}
+}
+}
+}
 }
 
 
-void LbyoutEnginf::gftGlyphPositions(flobt positions[], LEErrorCodf &suddfss) donst
+
+
+
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst
 {
-    fGlyphStorbgf->gftGlyphPositions(positions, suddfss);
-}
-
-void LbyoutEnginf::gftGlyphPosition(lf_int32 glyphIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst
 {
-    fGlyphStorbgf->gftGlyphPosition(glyphIndfx, x, y, suddfss);
+{
+{
+{
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, indfxBbsf, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, indfxBbsf, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, indfxBbsf, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, indfxBbsf, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, indfxBbsf, suddfss);
+}
+}
+}
+}
 }
 
-lf_int32 LbyoutEnginf::dhbrbdtfrProdfssing(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
-                LEUnidodf *&outChbrs, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+
+
+
+
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftCibrIndidfs(lf_int32 dibrIndidfs[], LEErrorCodf &suddfss) donst
+{
+{
+{
+{
+{
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, suddfss);
+    fGlypiStorbgf->gftCibrIndidfs(dibrIndidfs, suddfss);
+}
+}
+}
+}
+}
+
+
+
+
+
+// Copy tif glypis into dbllfr's (32-bit) glypi brrby, OR in fxtrbBits
+// Copy tif glypis into dbllfr's (32-bit) glypi brrby, OR in fxtrbBits
+// Copy tif glypis into dbllfr's (32-bit) glypi brrby, OR in fxtrbBits
+// Copy tif glypis into dbllfr's (32-bit) glypi brrby, OR in fxtrbBits
+// Copy tif glypis into dbllfr's (32-bit) glypi brrby, OR in fxtrbBits
+void LbyoutEnginf::gftGlypis(lf_uint32 glypis[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(lf_uint32 glypis[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(lf_uint32 glypis[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(lf_uint32 glypis[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(lf_uint32 glypis[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst
+{
+{
+{
+{
+{
+    fGlypiStorbgf->gftGlypis(glypis, fxtrbBits, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, fxtrbBits, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, fxtrbBits, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, fxtrbBits, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, fxtrbBits, suddfss);
+}
+}
+}
+}
+}
+
+
+
+
+
+void LbyoutEnginf::gftGlypis(LEGlypiID glypis[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(LEGlypiID glypis[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(LEGlypiID glypis[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(LEGlypiID glypis[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypis(LEGlypiID glypis[], LEErrorCodf &suddfss) donst
+{
+{
+{
+{
+{
+    fGlypiStorbgf->gftGlypis(glypis, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, suddfss);
+    fGlypiStorbgf->gftGlypis(glypis, suddfss);
+}
+}
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
+void LbyoutEnginf::gftGlypiPositions(flobt positions[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPositions(flobt positions[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPositions(flobt positions[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPositions(flobt positions[], LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPositions(flobt positions[], LEErrorCodf &suddfss) donst
+{
+{
+{
+{
+{
+    fGlypiStorbgf->gftGlypiPositions(positions, suddfss);
+    fGlypiStorbgf->gftGlypiPositions(positions, suddfss);
+    fGlypiStorbgf->gftGlypiPositions(positions, suddfss);
+    fGlypiStorbgf->gftGlypiPositions(positions, suddfss);
+    fGlypiStorbgf->gftGlypiPositions(positions, suddfss);
+}
+}
+}
+}
+}
+
+
+
+
+
+void LbyoutEnginf::gftGlypiPosition(lf_int32 glypiIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPosition(lf_int32 glypiIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPosition(lf_int32 glypiIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPosition(lf_int32 glypiIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst
+void LbyoutEnginf::gftGlypiPosition(lf_int32 glypiIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst
+{
+{
+{
+{
+{
+    fGlypiStorbgf->gftGlypiPosition(glypiIndfx, x, y, suddfss);
+    fGlypiStorbgf->gftGlypiPosition(glypiIndfx, x, y, suddfss);
+    fGlypiStorbgf->gftGlypiPosition(glypiIndfx, x, y, suddfss);
+    fGlypiStorbgf->gftGlypiPosition(glypiIndfx, x, y, suddfss);
+    fGlypiStorbgf->gftGlypiPosition(glypiIndfx, x, y, suddfss);
+}
+}
+}
+}
+}
+
+
+
+
+
+lf_int32 LbyoutEnginf::dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+                LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+{
+{
+{
+{
 {
     if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
         rfturn 0;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if ((fTypoFlbgs & LE_NoCbnon_FEATURE_FLAG) == 0) { // no dbnonidbl prodfssing
+    if ((fTypoFlbgs & LE_NoCbnon_FEATURE_FLAG) == 0) { // no dbnonidbl prodfssing
+    if ((fTypoFlbgs & LE_NoCbnon_FEATURE_FLAG) == 0) { // no dbnonidbl prodfssing
+    if ((fTypoFlbgs & LE_NoCbnon_FEATURE_FLAG) == 0) { // no dbnonidbl prodfssing
+    if ((fTypoFlbgs & LE_NoCbnon_FEATURE_FLAG) == 0) { // no dbnonidbl prodfssing
+      rfturn dount;
+      rfturn dount;
+      rfturn dount;
+      rfturn dount;
       rfturn dount;
     }
+    }
+    }
+    }
+    }
 
-    LERfffrfndfTo<GlyphSubstitutionTbblfHfbdfr> dbnonGSUBTbblf(LETbblfRfffrfndf::kStbtidDbtb,
-                                                               (GlyphSubstitutionTbblfHfbdfr *) CbnonShbping::glyphSubstitutionTbblf,
-                                                               CbnonShbping::glyphSubstitutionTbblfLfn);
+
+
+
+
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> dbnonGSUBTbblf(LETbblfRfffrfndf::kStbtidDbtb,
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> dbnonGSUBTbblf(LETbblfRfffrfndf::kStbtidDbtb,
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> dbnonGSUBTbblf(LETbblfRfffrfndf::kStbtidDbtb,
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> dbnonGSUBTbblf(LETbblfRfffrfndf::kStbtidDbtb,
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> dbnonGSUBTbblf(LETbblfRfffrfndf::kStbtidDbtb,
+                                                               (GlypiSubstitutionTbblfHfbdfr *) CbnonSibping::glypiSubstitutionTbblf,
+                                                               (GlypiSubstitutionTbblfHfbdfr *) CbnonSibping::glypiSubstitutionTbblf,
+                                                               (GlypiSubstitutionTbblfHfbdfr *) CbnonSibping::glypiSubstitutionTbblf,
+                                                               (GlypiSubstitutionTbblfHfbdfr *) CbnonSibping::glypiSubstitutionTbblf,
+                                                               (GlypiSubstitutionTbblfHfbdfr *) CbnonSibping::glypiSubstitutionTbblf,
+                                                               CbnonSibping::glypiSubstitutionTbblfLfn);
+                                                               CbnonSibping::glypiSubstitutionTbblfLfn);
+                                                               CbnonSibping::glypiSubstitutionTbblfLfn);
+                                                               CbnonSibping::glypiSubstitutionTbblfLfn);
+                                                               CbnonSibping::glypiSubstitutionTbblfLfn);
+    LETbg sdriptTbg  = OpfnTypfLbyoutEnginf::gftSdriptTbg(fSdriptCodf);
+    LETbg sdriptTbg  = OpfnTypfLbyoutEnginf::gftSdriptTbg(fSdriptCodf);
+    LETbg sdriptTbg  = OpfnTypfLbyoutEnginf::gftSdriptTbg(fSdriptCodf);
+    LETbg sdriptTbg  = OpfnTypfLbyoutEnginf::gftSdriptTbg(fSdriptCodf);
     LETbg sdriptTbg  = OpfnTypfLbyoutEnginf::gftSdriptTbg(fSdriptCodf);
     LETbg lbngSysTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(fLbngubgfCodf);
-    lf_int32 i, dir = 1, out = 0, outChbrCount = dount;
+    LETbg lbngSysTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(fLbngubgfCodf);
+    LETbg lbngSysTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(fLbngubgfCodf);
+    LETbg lbngSysTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(fLbngubgfCodf);
+    LETbg lbngSysTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(fLbngubgfCodf);
+    lf_int32 i, dir = 1, out = 0, outCibrCount = dount;
+    lf_int32 i, dir = 1, out = 0, outCibrCount = dount;
+    lf_int32 i, dir = 1, out = 0, outCibrCount = dount;
+    lf_int32 i, dir = 1, out = 0, outCibrCount = dount;
+    lf_int32 i, dir = 1, out = 0, outCibrCount = dount;
+
+
+
+
 
     if (dbnonGSUBTbblf->dovfrsSdript(dbnonGSUBTbblf,sdriptTbg, suddfss) || LE_SUCCESS(suddfss)) {
-        ChbrSubstitutionFiltfr *substitutionFiltfr = nfw ChbrSubstitutionFiltfr(fFontInstbndf);
+    if (dbnonGSUBTbblf->dovfrsSdript(dbnonGSUBTbblf,sdriptTbg, suddfss) || LE_SUCCESS(suddfss)) {
+    if (dbnonGSUBTbblf->dovfrsSdript(dbnonGSUBTbblf,sdriptTbg, suddfss) || LE_SUCCESS(suddfss)) {
+    if (dbnonGSUBTbblf->dovfrsSdript(dbnonGSUBTbblf,sdriptTbg, suddfss) || LE_SUCCESS(suddfss)) {
+    if (dbnonGSUBTbblf->dovfrsSdript(dbnonGSUBTbblf,sdriptTbg, suddfss) || LE_SUCCESS(suddfss)) {
+        CibrSubstitutionFiltfr *substitutionFiltfr = nfw CibrSubstitutionFiltfr(fFontInstbndf);
+        CibrSubstitutionFiltfr *substitutionFiltfr = nfw CibrSubstitutionFiltfr(fFontInstbndf);
+        CibrSubstitutionFiltfr *substitutionFiltfr = nfw CibrSubstitutionFiltfr(fFontInstbndf);
+        CibrSubstitutionFiltfr *substitutionFiltfr = nfw CibrSubstitutionFiltfr(fFontInstbndf);
+        CibrSubstitutionFiltfr *substitutionFiltfr = nfw CibrSubstitutionFiltfr(fFontInstbndf);
+        if (substitutionFiltfr == NULL) {
+        if (substitutionFiltfr == NULL) {
+        if (substitutionFiltfr == NULL) {
+        if (substitutionFiltfr == NULL) {
         if (substitutionFiltfr == NULL) {
             suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
             rfturn 0;
         }
+        }
+        }
+        }
+        }
 
-        donst LEUnidodf *inChbrs = &dhbrs[offsft];
+
+
+
+
+        donst LEUnidodf *inCibrs = &dibrs[offsft];
+        donst LEUnidodf *inCibrs = &dibrs[offsft];
+        donst LEUnidodf *inCibrs = &dibrs[offsft];
+        donst LEUnidodf *inCibrs = &dibrs[offsft];
+        donst LEUnidodf *inCibrs = &dibrs[offsft];
         LEUnidodf *rfordfrfd = NULL;
-        LEGlyphStorbgf fbkfGlyphStorbgf;
+        LEUnidodf *rfordfrfd = NULL;
+        LEUnidodf *rfordfrfd = NULL;
+        LEUnidodf *rfordfrfd = NULL;
+        LEUnidodf *rfordfrfd = NULL;
+        LEGlypiStorbgf fbkfGlypiStorbgf;
+        LEGlypiStorbgf fbkfGlypiStorbgf;
+        LEGlypiStorbgf fbkfGlypiStorbgf;
+        LEGlypiStorbgf fbkfGlypiStorbgf;
+        LEGlypiStorbgf fbkfGlypiStorbgf;
 
-        fbkfGlyphStorbgf.bllodbtfGlyphArrby(dount, rightToLfft, suddfss);
+
+
+
+
+        fbkfGlypiStorbgf.bllodbtfGlypiArrby(dount, rigitToLfft, suddfss);
+        fbkfGlypiStorbgf.bllodbtfGlypiArrby(dount, rigitToLfft, suddfss);
+        fbkfGlypiStorbgf.bllodbtfGlypiArrby(dount, rigitToLfft, suddfss);
+        fbkfGlypiStorbgf.bllodbtfGlypiArrby(dount, rigitToLfft, suddfss);
+        fbkfGlypiStorbgf.bllodbtfGlypiArrby(dount, rigitToLfft, suddfss);
+
+
+
+
 
         if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
             dflftf substitutionFiltfr;
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
 
-        // This is thf dhfbpfst wby to gft mbrk rfordfring only for Hfbrfw.
-        // Wf dould just do thf mbrk rfordfring for bll sdripts, but most
-        // of thfm probbbly don't nffd it...
-        if (fSdriptCodf == hfbrSdriptCodf) {
+
+
+
+
+        // Tiis is tif difbpfst wby to gft mbrk rfordfring only for Hfbrfw.
+        // Tiis is tif difbpfst wby to gft mbrk rfordfring only for Hfbrfw.
+        // Tiis is tif difbpfst wby to gft mbrk rfordfring only for Hfbrfw.
+        // Tiis is tif difbpfst wby to gft mbrk rfordfring only for Hfbrfw.
+        // Tiis is tif difbpfst wby to gft mbrk rfordfring only for Hfbrfw.
+        // Wf dould just do tif mbrk rfordfring for bll sdripts, but most
+        // Wf dould just do tif mbrk rfordfring for bll sdripts, but most
+        // Wf dould just do tif mbrk rfordfring for bll sdripts, but most
+        // Wf dould just do tif mbrk rfordfring for bll sdripts, but most
+        // Wf dould just do tif mbrk rfordfring for bll sdripts, but most
+        // of tifm probbbly don't nffd it...
+        // of tifm probbbly don't nffd it...
+        // of tifm probbbly don't nffd it...
+        // of tifm probbbly don't nffd it...
+        // of tifm probbbly don't nffd it...
+        if (fSdriptCodf == ifbrSdriptCodf) {
+        if (fSdriptCodf == ifbrSdriptCodf) {
+        if (fSdriptCodf == ifbrSdriptCodf) {
+        if (fSdriptCodf == ifbrSdriptCodf) {
+        if (fSdriptCodf == ifbrSdriptCodf) {
+          rfordfrfd = LE_NEW_ARRAY(LEUnidodf, dount);
+          rfordfrfd = LE_NEW_ARRAY(LEUnidodf, dount);
+          rfordfrfd = LE_NEW_ARRAY(LEUnidodf, dount);
+          rfordfrfd = LE_NEW_ARRAY(LEUnidodf, dount);
           rfordfrfd = LE_NEW_ARRAY(LEUnidodf, dount);
 
+
+
+
+
+          if (rfordfrfd == NULL) {
+          if (rfordfrfd == NULL) {
+          if (rfordfrfd == NULL) {
+          if (rfordfrfd == NULL) {
           if (rfordfrfd == NULL) {
             dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
             suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
             rfturn 0;
           }
+          }
+          }
+          }
+          }
 
-          CbnonShbping::rfordfrMbrks(&dhbrs[offsft], dount, rightToLfft, rfordfrfd, fbkfGlyphStorbgf);
-          inChbrs = rfordfrfd;
+
+
+
+
+          CbnonSibping::rfordfrMbrks(&dibrs[offsft], dount, rigitToLfft, rfordfrfd, fbkfGlypiStorbgf);
+          CbnonSibping::rfordfrMbrks(&dibrs[offsft], dount, rigitToLfft, rfordfrfd, fbkfGlypiStorbgf);
+          CbnonSibping::rfordfrMbrks(&dibrs[offsft], dount, rigitToLfft, rfordfrfd, fbkfGlypiStorbgf);
+          CbnonSibping::rfordfrMbrks(&dibrs[offsft], dount, rigitToLfft, rfordfrfd, fbkfGlypiStorbgf);
+          CbnonSibping::rfordfrMbrks(&dibrs[offsft], dount, rigitToLfft, rfordfrfd, fbkfGlypiStorbgf);
+          inCibrs = rfordfrfd;
+          inCibrs = rfordfrfd;
+          inCibrs = rfordfrfd;
+          inCibrs = rfordfrfd;
+          inCibrs = rfordfrfd;
+        }
+        }
+        }
+        }
         }
 
-        fbkfGlyphStorbgf.bllodbtfAuxDbtb(suddfss);
+
+
+
+
+        fbkfGlypiStorbgf.bllodbtfAuxDbtb(suddfss);
+        fbkfGlypiStorbgf.bllodbtfAuxDbtb(suddfss);
+        fbkfGlypiStorbgf.bllodbtfAuxDbtb(suddfss);
+        fbkfGlypiStorbgf.bllodbtfAuxDbtb(suddfss);
+        fbkfGlypiStorbgf.bllodbtfAuxDbtb(suddfss);
+
+
+
+
 
         if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
             dflftf substitutionFiltfr;
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
 
-        if (rightToLfft) {
+
+
+
+
+        if (rigitToLfft) {
+        if (rigitToLfft) {
+        if (rigitToLfft) {
+        if (rigitToLfft) {
+        if (rigitToLfft) {
+            out = dount - 1;
+            out = dount - 1;
+            out = dount - 1;
+            out = dount - 1;
             out = dount - 1;
             dir = -1;
+            dir = -1;
+            dir = -1;
+            dir = -1;
+            dir = -1;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         for (i = 0; i < dount; i += 1, out += dir) {
-            fbkfGlyphStorbgf[out] = (LEGlyphID) inChbrs[i];
-            fbkfGlyphStorbgf.sftAuxDbtb(out, dbnonFfbturfs, suddfss);
+        for (i = 0; i < dount; i += 1, out += dir) {
+        for (i = 0; i < dount; i += 1, out += dir) {
+        for (i = 0; i < dount; i += 1, out += dir) {
+        for (i = 0; i < dount; i += 1, out += dir) {
+            fbkfGlypiStorbgf[out] = (LEGlypiID) inCibrs[i];
+            fbkfGlypiStorbgf[out] = (LEGlypiID) inCibrs[i];
+            fbkfGlypiStorbgf[out] = (LEGlypiID) inCibrs[i];
+            fbkfGlypiStorbgf[out] = (LEGlypiID) inCibrs[i];
+            fbkfGlypiStorbgf[out] = (LEGlypiID) inCibrs[i];
+            fbkfGlypiStorbgf.sftAuxDbtb(out, dbnonFfbturfs, suddfss);
+            fbkfGlypiStorbgf.sftAuxDbtb(out, dbnonFfbturfs, suddfss);
+            fbkfGlypiStorbgf.sftAuxDbtb(out, dbnonFfbturfs, suddfss);
+            fbkfGlypiStorbgf.sftAuxDbtb(out, dbnonFfbturfs, suddfss);
+            fbkfGlypiStorbgf.sftAuxDbtb(out, dbnonFfbturfs, suddfss);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (rfordfrfd != NULL) {
+        if (rfordfrfd != NULL) {
+        if (rfordfrfd != NULL) {
+        if (rfordfrfd != NULL) {
+        if (rfordfrfd != NULL) {
+          LE_DELETE_ARRAY(rfordfrfd);
+          LE_DELETE_ARRAY(rfordfrfd);
+          LE_DELETE_ARRAY(rfordfrfd);
+          LE_DELETE_ARRAY(rfordfrfd);
           LE_DELETE_ARRAY(rfordfrfd);
         }
+        }
+        }
+        }
+        }
 
-        donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr>  noGDEF; // fmpty gdff hfbdfr
-        outChbrCount = dbnonGSUBTbblf->prodfss(dbnonGSUBTbblf, fbkfGlyphStorbgf, rightToLfft, sdriptTbg, lbngSysTbg, noGDEF, substitutionFiltfr, dbnonFfbturfMbp, dbnonFfbturfMbpCount, FALSE, suddfss);
+
+
+
+
+        donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>  noGDEF; // fmpty gdff ifbdfr
+        donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>  noGDEF; // fmpty gdff ifbdfr
+        donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>  noGDEF; // fmpty gdff ifbdfr
+        donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>  noGDEF; // fmpty gdff ifbdfr
+        donst LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr>  noGDEF; // fmpty gdff ifbdfr
+        outCibrCount = dbnonGSUBTbblf->prodfss(dbnonGSUBTbblf, fbkfGlypiStorbgf, rigitToLfft, sdriptTbg, lbngSysTbg, noGDEF, substitutionFiltfr, dbnonFfbturfMbp, dbnonFfbturfMbpCount, FALSE, suddfss);
+        outCibrCount = dbnonGSUBTbblf->prodfss(dbnonGSUBTbblf, fbkfGlypiStorbgf, rigitToLfft, sdriptTbg, lbngSysTbg, noGDEF, substitutionFiltfr, dbnonFfbturfMbp, dbnonFfbturfMbpCount, FALSE, suddfss);
+        outCibrCount = dbnonGSUBTbblf->prodfss(dbnonGSUBTbblf, fbkfGlypiStorbgf, rigitToLfft, sdriptTbg, lbngSysTbg, noGDEF, substitutionFiltfr, dbnonFfbturfMbp, dbnonFfbturfMbpCount, FALSE, suddfss);
+        outCibrCount = dbnonGSUBTbblf->prodfss(dbnonGSUBTbblf, fbkfGlypiStorbgf, rigitToLfft, sdriptTbg, lbngSysTbg, noGDEF, substitutionFiltfr, dbnonFfbturfMbp, dbnonFfbturfMbpCount, FALSE, suddfss);
+        outCibrCount = dbnonGSUBTbblf->prodfss(dbnonGSUBTbblf, fbkfGlypiStorbgf, rigitToLfft, sdriptTbg, lbngSysTbg, noGDEF, substitutionFiltfr, dbnonFfbturfMbp, dbnonFfbturfMbpCount, FALSE, suddfss);
+
+
+
+
 
         if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+        if (LE_FAILURE(suddfss)) {
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
             dflftf substitutionFiltfr;
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
 
-        out = (rightToLfft? outChbrCount - 1 : 0);
+
+
+
+
+        out = (rigitToLfft? outCibrCount - 1 : 0);
+        out = (rigitToLfft? outCibrCount - 1 : 0);
+        out = (rigitToLfft? outCibrCount - 1 : 0);
+        out = (rigitToLfft? outCibrCount - 1 : 0);
+        out = (rigitToLfft? outCibrCount - 1 : 0);
+
+
+
+
 
         /*
-         * Thf dhbr indidfs brrby in fbkfGlyphStorbgf hbs thf dorrfdt mbpping
-         * bbdk to thf originbl input dhbrbdtfrs. Sbvf it in glyphStorbgf. Thf
-         * subsfqufnt dbll to glyphStorbtgf.bllodbtfGlyphArrby will kffp this
-         * brrby rbthfr thbn bllodbting bnd initiblizing b nfw onf.
+        /*
+        /*
+        /*
+        /*
+         * Tif dibr indidfs brrby in fbkfGlypiStorbgf ibs tif dorrfdt mbpping
+         * Tif dibr indidfs brrby in fbkfGlypiStorbgf ibs tif dorrfdt mbpping
+         * Tif dibr indidfs brrby in fbkfGlypiStorbgf ibs tif dorrfdt mbpping
+         * Tif dibr indidfs brrby in fbkfGlypiStorbgf ibs tif dorrfdt mbpping
+         * Tif dibr indidfs brrby in fbkfGlypiStorbgf ibs tif dorrfdt mbpping
+         * bbdk to tif originbl input dibrbdtfrs. Sbvf it in glypiStorbgf. Tif
+         * bbdk to tif originbl input dibrbdtfrs. Sbvf it in glypiStorbgf. Tif
+         * bbdk to tif originbl input dibrbdtfrs. Sbvf it in glypiStorbgf. Tif
+         * bbdk to tif originbl input dibrbdtfrs. Sbvf it in glypiStorbgf. Tif
+         * bbdk to tif originbl input dibrbdtfrs. Sbvf it in glypiStorbgf. Tif
+         * subsfqufnt dbll to glypiStorbtgf.bllodbtfGlypiArrby will kffp tiis
+         * subsfqufnt dbll to glypiStorbtgf.bllodbtfGlypiArrby will kffp tiis
+         * subsfqufnt dbll to glypiStorbtgf.bllodbtfGlypiArrby will kffp tiis
+         * subsfqufnt dbll to glypiStorbtgf.bllodbtfGlypiArrby will kffp tiis
+         * subsfqufnt dbll to glypiStorbtgf.bllodbtfGlypiArrby will kffp tiis
+         * brrby rbtifr tibn bllodbting bnd initiblizing b nfw onf.
+         * brrby rbtifr tibn bllodbting bnd initiblizing b nfw onf.
+         * brrby rbtifr tibn bllodbting bnd initiblizing b nfw onf.
+         * brrby rbtifr tibn bllodbting bnd initiblizing b nfw onf.
+         * brrby rbtifr tibn bllodbting bnd initiblizing b nfw onf.
          */
-        glyphStorbgf.bdoptChbrIndidfsArrby(fbkfGlyphStorbgf);
+         */
+         */
+         */
+         */
+        glypiStorbgf.bdoptCibrIndidfsArrby(fbkfGlypiStorbgf);
+        glypiStorbgf.bdoptCibrIndidfsArrby(fbkfGlypiStorbgf);
+        glypiStorbgf.bdoptCibrIndidfsArrby(fbkfGlypiStorbgf);
+        glypiStorbgf.bdoptCibrIndidfsArrby(fbkfGlypiStorbgf);
+        glypiStorbgf.bdoptCibrIndidfsArrby(fbkfGlypiStorbgf);
 
-        outChbrs = LE_NEW_ARRAY(LEUnidodf, outChbrCount);
 
-        if (outChbrs == NULL) {
+
+
+
+        outCibrs = LE_NEW_ARRAY(LEUnidodf, outCibrCount);
+        outCibrs = LE_NEW_ARRAY(LEUnidodf, outCibrCount);
+        outCibrs = LE_NEW_ARRAY(LEUnidodf, outCibrCount);
+        outCibrs = LE_NEW_ARRAY(LEUnidodf, outCibrCount);
+        outCibrs = LE_NEW_ARRAY(LEUnidodf, outCibrCount);
+
+
+
+
+
+        if (outCibrs == NULL) {
+        if (outCibrs == NULL) {
+        if (outCibrs == NULL) {
+        if (outCibrs == NULL) {
+        if (outCibrs == NULL) {
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
+            dflftf substitutionFiltfr;
             dflftf substitutionFiltfr;
             suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
             rfturn 0;
         }
-
-        for (i = 0; i < outChbrCount; i += 1, out += dir) {
-            outChbrs[out] = (LEUnidodf) LE_GET_GLYPH(fbkfGlyphStorbgf[i]);
+        }
+        }
+        }
         }
 
+
+
+
+
+        for (i = 0; i < outCibrCount; i += 1, out += dir) {
+        for (i = 0; i < outCibrCount; i += 1, out += dir) {
+        for (i = 0; i < outCibrCount; i += 1, out += dir) {
+        for (i = 0; i < outCibrCount; i += 1, out += dir) {
+        for (i = 0; i < outCibrCount; i += 1, out += dir) {
+            outCibrs[out] = (LEUnidodf) LE_GET_GLYPH(fbkfGlypiStorbgf[i]);
+            outCibrs[out] = (LEUnidodf) LE_GET_GLYPH(fbkfGlypiStorbgf[i]);
+            outCibrs[out] = (LEUnidodf) LE_GET_GLYPH(fbkfGlypiStorbgf[i]);
+            outCibrs[out] = (LEUnidodf) LE_GET_GLYPH(fbkfGlypiStorbgf[i]);
+            outCibrs[out] = (LEUnidodf) LE_GET_GLYPH(fbkfGlypiStorbgf[i]);
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        dflftf substitutionFiltfr;
+        dflftf substitutionFiltfr;
+        dflftf substitutionFiltfr;
+        dflftf substitutionFiltfr;
         dflftf substitutionFiltfr;
     }
-
-    rfturn outChbrCount;
-}
-
-lf_int32 LbyoutEnginf::domputfGlyphs(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
-                                            LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
-{
-    if (LE_FAILURE(suddfss)) {
-        rfturn 0;
+    }
+    }
+    }
     }
 
-    if (dhbrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+
+
+
+
+    rfturn outCibrCount;
+    rfturn outCibrCount;
+    rfturn outCibrCount;
+    rfturn outCibrCount;
+    rfturn outCibrCount;
+}
+}
+}
+}
+}
+
+
+
+
+
+lf_int32 LbyoutEnginf::domputfGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::domputfGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::domputfGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::domputfGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::domputfGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+                                            LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                            LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                            LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                            LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                            LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+{
+{
+{
+{
+{
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+    }
+    }
+    }
+    }
     }
 
-    LEUnidodf *outChbrs = NULL;
-    lf_int32 outChbrCount = dhbrbdtfrProdfssing(dhbrs, offsft, dount, mbx, rightToLfft, outChbrs, glyphStorbgf, suddfss);
 
-    if (outChbrs != NULL) {
-        mbpChbrsToGlyphs(outChbrs, 0, outChbrCount, rightToLfft, rightToLfft, glyphStorbgf, suddfss);
-        LE_DELETE_ARRAY(outChbrs); // FIXME: b subdlbss mby hbvf bllodbtfd this, in whidh dbsf this dflftf might not work...
+
+
+
+    LEUnidodf *outCibrs = NULL;
+    LEUnidodf *outCibrs = NULL;
+    LEUnidodf *outCibrs = NULL;
+    LEUnidodf *outCibrs = NULL;
+    LEUnidodf *outCibrs = NULL;
+    lf_int32 outCibrCount = dibrbdtfrProdfssing(dibrs, offsft, dount, mbx, rigitToLfft, outCibrs, glypiStorbgf, suddfss);
+    lf_int32 outCibrCount = dibrbdtfrProdfssing(dibrs, offsft, dount, mbx, rigitToLfft, outCibrs, glypiStorbgf, suddfss);
+    lf_int32 outCibrCount = dibrbdtfrProdfssing(dibrs, offsft, dount, mbx, rigitToLfft, outCibrs, glypiStorbgf, suddfss);
+    lf_int32 outCibrCount = dibrbdtfrProdfssing(dibrs, offsft, dount, mbx, rigitToLfft, outCibrs, glypiStorbgf, suddfss);
+    lf_int32 outCibrCount = dibrbdtfrProdfssing(dibrs, offsft, dount, mbx, rigitToLfft, outCibrs, glypiStorbgf, suddfss);
+
+
+
+
+
+    if (outCibrs != NULL) {
+    if (outCibrs != NULL) {
+    if (outCibrs != NULL) {
+    if (outCibrs != NULL) {
+    if (outCibrs != NULL) {
+        mbpCibrsToGlypis(outCibrs, 0, outCibrCount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(outCibrs, 0, outCibrCount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(outCibrs, 0, outCibrCount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(outCibrs, 0, outCibrCount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(outCibrs, 0, outCibrCount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        LE_DELETE_ARRAY(outCibrs); // FIXME: b subdlbss mby ibvf bllodbtfd tiis, in wiidi dbsf tiis dflftf migit not work...
+        LE_DELETE_ARRAY(outCibrs); // FIXME: b subdlbss mby ibvf bllodbtfd tiis, in wiidi dbsf tiis dflftf migit not work...
+        LE_DELETE_ARRAY(outCibrs); // FIXME: b subdlbss mby ibvf bllodbtfd tiis, in wiidi dbsf tiis dflftf migit not work...
+        LE_DELETE_ARRAY(outCibrs); // FIXME: b subdlbss mby ibvf bllodbtfd tiis, in wiidi dbsf tiis dflftf migit not work...
+        LE_DELETE_ARRAY(outCibrs); // FIXME: b subdlbss mby ibvf bllodbtfd tiis, in wiidi dbsf tiis dflftf migit not work...
     } flsf {
-        mbpChbrsToGlyphs(dhbrs, offsft, dount, rightToLfft, rightToLfft, glyphStorbgf, suddfss);
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+        mbpCibrsToGlypis(dibrs, offsft, dount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(dibrs, offsft, dount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(dibrs, offsft, dount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(dibrs, offsft, dount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+        mbpCibrsToGlypis(dibrs, offsft, dount, rigitToLfft, rigitToLfft, glypiStorbgf, suddfss);
+    }
+    }
+    }
+    }
     }
 
-    rfturn glyphStorbgf.gftGlyphCount();
+
+
+
+
+    rfturn glypiStorbgf.gftGlypiCount();
+    rfturn glypiStorbgf.gftGlypiCount();
+    rfturn glypiStorbgf.gftGlypiCount();
+    rfturn glypiStorbgf.gftGlypiCount();
+    rfturn glypiStorbgf.gftGlypiCount();
+}
+}
+}
+}
 }
 
-// Input: glyphs
+
+
+
+
+// Input: glypis
+// Input: glypis
+// Input: glypis
+// Input: glypis
+// Input: glypis
 // Output: positions
-void LbyoutEnginf::positionGlyphs(LEGlyphStorbgf &glyphStorbgf, flobt x, flobt y, LEErrorCodf &suddfss)
+// Output: positions
+// Output: positions
+// Output: positions
+// Output: positions
+void LbyoutEnginf::positionGlypis(LEGlypiStorbgf &glypiStorbgf, flobt x, flobt y, LEErrorCodf &suddfss)
+void LbyoutEnginf::positionGlypis(LEGlypiStorbgf &glypiStorbgf, flobt x, flobt y, LEErrorCodf &suddfss)
+void LbyoutEnginf::positionGlypis(LEGlypiStorbgf &glypiStorbgf, flobt x, flobt y, LEErrorCodf &suddfss)
+void LbyoutEnginf::positionGlypis(LEGlypiStorbgf &glypiStorbgf, flobt x, flobt y, LEErrorCodf &suddfss)
+void LbyoutEnginf::positionGlypis(LEGlypiStorbgf &glypiStorbgf, flobt x, flobt y, LEErrorCodf &suddfss)
+{
+{
+{
+{
 {
     if (LE_FAILURE(suddfss)) {
-        rfturn;
-    }
-
-    glyphStorbgf.bllodbtfPositions(suddfss);
-
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
     if (LE_FAILURE(suddfss)) {
         rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
     }
 
-    lf_int32 i, glyphCount = glyphStorbgf.gftGlyphCount();
 
-    for (i = 0; i < glyphCount; i += 1) {
+
+
+
+    glypiStorbgf.bllodbtfPositions(suddfss);
+    glypiStorbgf.bllodbtfPositions(suddfss);
+    glypiStorbgf.bllodbtfPositions(suddfss);
+    glypiStorbgf.bllodbtfPositions(suddfss);
+    glypiStorbgf.bllodbtfPositions(suddfss);
+
+
+
+
+
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    lf_int32 i, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 i, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 i, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 i, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 i, glypiCount = glypiStorbgf.gftGlypiCount();
+
+
+
+
+
+    for (i = 0; i < glypiCount; i += 1) {
+    for (i = 0; i < glypiCount; i += 1) {
+    for (i = 0; i < glypiCount; i += 1) {
+    for (i = 0; i < glypiCount; i += 1) {
+    for (i = 0; i < glypiCount; i += 1) {
+        LEPoint bdvbndf;
+        LEPoint bdvbndf;
+        LEPoint bdvbndf;
+        LEPoint bdvbndf;
         LEPoint bdvbndf;
 
-        glyphStorbgf.sftPosition(i, x, y, suddfss);
+
+
+
+
+        glypiStorbgf.sftPosition(i, x, y, suddfss);
+        glypiStorbgf.sftPosition(i, x, y, suddfss);
+        glypiStorbgf.sftPosition(i, x, y, suddfss);
+        glypiStorbgf.sftPosition(i, x, y, suddfss);
+        glypiStorbgf.sftPosition(i, x, y, suddfss);
+        _LETRACE("g#%-4d (%.2f, %.2f)", i, x, y);
+        _LETRACE("g#%-4d (%.2f, %.2f)", i, x, y);
+        _LETRACE("g#%-4d (%.2f, %.2f)", i, x, y);
+        _LETRACE("g#%-4d (%.2f, %.2f)", i, x, y);
         _LETRACE("g#%-4d (%.2f, %.2f)", i, x, y);
 
-        fFontInstbndf->gftGlyphAdvbndf(glyphStorbgf[i], bdvbndf);
+
+
+
+
+        fFontInstbndf->gftGlypiAdvbndf(glypiStorbgf[i], bdvbndf);
+        fFontInstbndf->gftGlypiAdvbndf(glypiStorbgf[i], bdvbndf);
+        fFontInstbndf->gftGlypiAdvbndf(glypiStorbgf[i], bdvbndf);
+        fFontInstbndf->gftGlypiAdvbndf(glypiStorbgf[i], bdvbndf);
+        fFontInstbndf->gftGlypiAdvbndf(glypiStorbgf[i], bdvbndf);
         x += bdvbndf.fX;
+        x += bdvbndf.fX;
+        x += bdvbndf.fX;
+        x += bdvbndf.fX;
+        x += bdvbndf.fX;
+        y += bdvbndf.fY;
+        y += bdvbndf.fY;
+        y += bdvbndf.fY;
+        y += bdvbndf.fY;
         y += bdvbndf.fY;
 
 
+
+
+
+
+
+
+
+
+    }
+    }
+    }
+    }
     }
 
-    glyphStorbgf.sftPosition(glyphCount, x, y, suddfss);
+
+
+
+
+    glypiStorbgf.sftPosition(glypiCount, x, y, suddfss);
+    glypiStorbgf.sftPosition(glypiCount, x, y, suddfss);
+    glypiStorbgf.sftPosition(glypiCount, x, y, suddfss);
+    glypiStorbgf.sftPosition(glypiCount, x, y, suddfss);
+    glypiStorbgf.sftPosition(glypiCount, x, y, suddfss);
+}
+}
+}
+}
 }
 
-void LbyoutEnginf::bdjustGlyphPositions(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
-                                        LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+
+
+
+
+void LbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+void LbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+void LbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+void LbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+void LbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+                                        LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                        LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                        LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                        LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                        LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+{
+{
+{
+{
 {
     if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
 
-    if (dhbrs == NULL || offsft < 0 || dount < 0) {
+
+
+
+
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
     }
 
-    LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, (GlyphDffinitionTbblfHfbdfr *) CbnonShbping::glyphDffinitionTbblf,
-                                                        CbnonShbping::glyphDffinitionTbblfLfn);
+
+
+
+
+    LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, (GlypiDffinitionTbblfHfbdfr *) CbnonSibping::glypiDffinitionTbblf,
+    LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, (GlypiDffinitionTbblfHfbdfr *) CbnonSibping::glypiDffinitionTbblf,
+    LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, (GlypiDffinitionTbblfHfbdfr *) CbnonSibping::glypiDffinitionTbblf,
+    LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, (GlypiDffinitionTbblfHfbdfr *) CbnonSibping::glypiDffinitionTbblf,
+    LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, (GlypiDffinitionTbblfHfbdfr *) CbnonSibping::glypiDffinitionTbblf,
+                                                        CbnonSibping::glypiDffinitionTbblfLfn);
+                                                        CbnonSibping::glypiDffinitionTbblfLfn);
+                                                        CbnonSibping::glypiDffinitionTbblfLfn);
+                                                        CbnonSibping::glypiDffinitionTbblfLfn);
+                                                        CbnonSibping::glypiDffinitionTbblfLfn);
+    CbnonMbrkFiltfr filtfr(gdffTbblf, suddfss);
+    CbnonMbrkFiltfr filtfr(gdffTbblf, suddfss);
+    CbnonMbrkFiltfr filtfr(gdffTbblf, suddfss);
+    CbnonMbrkFiltfr filtfr(gdffTbblf, suddfss);
     CbnonMbrkFiltfr filtfr(gdffTbblf, suddfss);
 
-    bdjustMbrkGlyphs(&dhbrs[offsft], dount, rfvfrsf, glyphStorbgf, &filtfr, suddfss);
+
+
+
+
+    bdjustMbrkGlypis(&dibrs[offsft], dount, rfvfrsf, glypiStorbgf, &filtfr, suddfss);
+    bdjustMbrkGlypis(&dibrs[offsft], dount, rfvfrsf, glypiStorbgf, &filtfr, suddfss);
+    bdjustMbrkGlypis(&dibrs[offsft], dount, rfvfrsf, glypiStorbgf, &filtfr, suddfss);
+    bdjustMbrkGlypis(&dibrs[offsft], dount, rfvfrsf, glypiStorbgf, &filtfr, suddfss);
+    bdjustMbrkGlypis(&dibrs[offsft], dount, rfvfrsf, glypiStorbgf, &filtfr, suddfss);
+
+
+
+
 
     if (fTypoFlbgs & LE_Kfrning_FEATURE_FLAG) { /* kfrning fnbblfd */
+    if (fTypoFlbgs & LE_Kfrning_FEATURE_FLAG) { /* kfrning fnbblfd */
+    if (fTypoFlbgs & LE_Kfrning_FEATURE_FLAG) { /* kfrning fnbblfd */
+    if (fTypoFlbgs & LE_Kfrning_FEATURE_FLAG) { /* kfrning fnbblfd */
+    if (fTypoFlbgs & LE_Kfrning_FEATURE_FLAG) { /* kfrning fnbblfd */
+      LETbblfRfffrfndf kfrnTbblf(fFontInstbndf, LE_KERN_TABLE_TAG, suddfss);
+      LETbblfRfffrfndf kfrnTbblf(fFontInstbndf, LE_KERN_TABLE_TAG, suddfss);
+      LETbblfRfffrfndf kfrnTbblf(fFontInstbndf, LE_KERN_TABLE_TAG, suddfss);
+      LETbblfRfffrfndf kfrnTbblf(fFontInstbndf, LE_KERN_TABLE_TAG, suddfss);
       LETbblfRfffrfndf kfrnTbblf(fFontInstbndf, LE_KERN_TABLE_TAG, suddfss);
       KfrnTbblf kt(kfrnTbblf, suddfss);
-      kt.prodfss(glyphStorbgf, suddfss);
+      KfrnTbblf kt(kfrnTbblf, suddfss);
+      KfrnTbblf kt(kfrnTbblf, suddfss);
+      KfrnTbblf kt(kfrnTbblf, suddfss);
+      KfrnTbblf kt(kfrnTbblf, suddfss);
+      kt.prodfss(glypiStorbgf, suddfss);
+      kt.prodfss(glypiStorbgf, suddfss);
+      kt.prodfss(glypiStorbgf, suddfss);
+      kt.prodfss(glypiStorbgf, suddfss);
+      kt.prodfss(glypiStorbgf, suddfss);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     // dffbult is no bdjustmfnts
+    // dffbult is no bdjustmfnts
+    // dffbult is no bdjustmfnts
+    // dffbult is no bdjustmfnts
+    // dffbult is no bdjustmfnts
+    rfturn;
+    rfturn;
+    rfturn;
+    rfturn;
     rfturn;
 }
-
-void LbyoutEnginf::bdjustMbrkGlyphs(LEGlyphStorbgf &glyphStorbgf, LEGlyphFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
-{
-    flobt xAdjust = 0;
-    lf_int32 p, glyphCount = glyphStorbgf.gftGlyphCount();
-
-    if (LE_FAILURE(suddfss)) {
-        rfturn;
-    }
-
-    if (mbrkFiltfr == NULL) {
-        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
-        rfturn;
-    }
-
-    flobt ignorf, prfv;
-
-    glyphStorbgf.gftGlyphPosition(0, prfv, ignorf, suddfss);
-
-    for (p = 0; p < glyphCount; p += 1) {
-        flobt nfxt, xAdvbndf;
-
-        glyphStorbgf.gftGlyphPosition(p + 1, nfxt, ignorf, suddfss);
-
-        xAdvbndf = nfxt - prfv;
-        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
-        glyphStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
-
-        if (mbrkFiltfr->bddfpt(glyphStorbgf[p], suddfss)) {
-            xAdjust -= xAdvbndf;
-        }
-
-        prfv = nfxt;
-    }
-
-    glyphStorbgf.bdjustPosition(glyphCount, xAdjust, 0, suddfss);
+}
+}
+}
 }
 
-void LbyoutEnginf::bdjustMbrkGlyphs(donst LEUnidodf dhbrs[], lf_int32 dhbrCount, lf_bool rfvfrsf, LEGlyphStorbgf &glyphStorbgf, LEGlyphFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+
+
+
+
+void LbyoutEnginf::bdjustMbrkGlypis(LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
 {
+{
+{
+{
+{
+    flobt xAdjust = 0;
+    flobt xAdjust = 0;
+    flobt xAdjust = 0;
+    flobt xAdjust = 0;
+    flobt xAdjust = 0;
+    lf_int32 p, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 p, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 p, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 p, glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 p, glypiCount = glypiStorbgf.gftGlypiCount();
+
+
+
+
+
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    flobt ignorf, prfv;
+    flobt ignorf, prfv;
+    flobt ignorf, prfv;
+    flobt ignorf, prfv;
+    flobt ignorf, prfv;
+
+
+
+
+
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+
+
+
+
+
+    for (p = 0; p < glypiCount; p += 1) {
+    for (p = 0; p < glypiCount; p += 1) {
+    for (p = 0; p < glypiCount; p += 1) {
+    for (p = 0; p < glypiCount; p += 1) {
+    for (p = 0; p < glypiCount; p += 1) {
+        flobt nfxt, xAdvbndf;
+        flobt nfxt, xAdvbndf;
+        flobt nfxt, xAdvbndf;
+        flobt nfxt, xAdvbndf;
+        flobt nfxt, xAdvbndf;
+
+
+
+
+
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+
+
+
+
+
+        xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+
+
+
+
+
+        if (mbrkFiltfr->bddfpt(glypiStorbgf[p], suddfss)) {
+        if (mbrkFiltfr->bddfpt(glypiStorbgf[p], suddfss)) {
+        if (mbrkFiltfr->bddfpt(glypiStorbgf[p], suddfss)) {
+        if (mbrkFiltfr->bddfpt(glypiStorbgf[p], suddfss)) {
+        if (mbrkFiltfr->bddfpt(glypiStorbgf[p], suddfss)) {
+            xAdjust -= xAdvbndf;
+            xAdjust -= xAdvbndf;
+            xAdjust -= xAdvbndf;
+            xAdjust -= xAdvbndf;
+            xAdjust -= xAdvbndf;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        prfv = nfxt;
+        prfv = nfxt;
+        prfv = nfxt;
+        prfv = nfxt;
+        prfv = nfxt;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+}
+}
+}
+}
+}
+
+
+
+
+
+void LbyoutEnginf::bdjustMbrkGlypis(donst LEUnidodf dibrs[], lf_int32 dibrCount, lf_bool rfvfrsf, LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(donst LEUnidodf dibrs[], lf_int32 dibrCount, lf_bool rfvfrsf, LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(donst LEUnidodf dibrs[], lf_int32 dibrCount, lf_bool rfvfrsf, LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(donst LEUnidodf dibrs[], lf_int32 dibrCount, lf_bool rfvfrsf, LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+void LbyoutEnginf::bdjustMbrkGlypis(donst LEUnidodf dibrs[], lf_int32 dibrCount, lf_bool rfvfrsf, LEGlypiStorbgf &glypiStorbgf, LEGlypiFiltfr *mbrkFiltfr, LEErrorCodf &suddfss)
+{
+{
+{
+{
+{
+    flobt xAdjust = 0;
+    flobt xAdjust = 0;
+    flobt xAdjust = 0;
+    flobt xAdjust = 0;
     flobt xAdjust = 0;
     lf_int32 d = 0, dirfdtion = 1, p;
-    lf_int32 glyphCount = glyphStorbgf.gftGlyphCount();
+    lf_int32 d = 0, dirfdtion = 1, p;
+    lf_int32 d = 0, dirfdtion = 1, p;
+    lf_int32 d = 0, dirfdtion = 1, p;
+    lf_int32 d = 0, dirfdtion = 1, p;
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
+
+
+
+
 
     if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+    if (mbrkFiltfr == NULL) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (rfvfrsf) {
-        d = glyphCount - 1;
+    if (rfvfrsf) {
+    if (rfvfrsf) {
+    if (rfvfrsf) {
+    if (rfvfrsf) {
+        d = glypiCount - 1;
+        d = glypiCount - 1;
+        d = glypiCount - 1;
+        d = glypiCount - 1;
+        d = glypiCount - 1;
+        dirfdtion = -1;
+        dirfdtion = -1;
+        dirfdtion = -1;
+        dirfdtion = -1;
         dirfdtion = -1;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     flobt ignorf, prfv;
+    flobt ignorf, prfv;
+    flobt ignorf, prfv;
+    flobt ignorf, prfv;
+    flobt ignorf, prfv;
 
-    glyphStorbgf.gftGlyphPosition(0, prfv, ignorf, suddfss);
 
-    for (p = 0; p < dhbrCount; p += 1, d += dirfdtion) {
+
+
+
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+    glypiStorbgf.gftGlypiPosition(0, prfv, ignorf, suddfss);
+
+
+
+
+
+    for (p = 0; p < dibrCount; p += 1, d += dirfdtion) {
+    for (p = 0; p < dibrCount; p += 1, d += dirfdtion) {
+    for (p = 0; p < dibrCount; p += 1, d += dirfdtion) {
+    for (p = 0; p < dibrCount; p += 1, d += dirfdtion) {
+    for (p = 0; p < dibrCount; p += 1, d += dirfdtion) {
+        flobt nfxt, xAdvbndf;
+        flobt nfxt, xAdvbndf;
+        flobt nfxt, xAdvbndf;
+        flobt nfxt, xAdvbndf;
         flobt nfxt, xAdvbndf;
 
-        glyphStorbgf.gftGlyphPosition(p + 1, nfxt, ignorf, suddfss);
+
+
+
+
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+        glypiStorbgf.gftGlypiPosition(p + 1, nfxt, ignorf, suddfss);
+
+
+
+
 
         xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
+        xAdvbndf = nfxt - prfv;
 
+
+
+
+
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
+        _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
         _LETRACE("p#%d (%.2f,%.2f)", p, xAdvbndf, 0);
 
 
-        glyphStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
 
-        if (mbrkFiltfr->bddfpt(dhbrs[d], suddfss)) {
+
+
+
+
+
+
+
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+        glypiStorbgf.bdjustPosition(p, xAdjust, 0, suddfss);
+
+
+
+
+
+        if (mbrkFiltfr->bddfpt(dibrs[d], suddfss)) {
+        if (mbrkFiltfr->bddfpt(dibrs[d], suddfss)) {
+        if (mbrkFiltfr->bddfpt(dibrs[d], suddfss)) {
+        if (mbrkFiltfr->bddfpt(dibrs[d], suddfss)) {
+        if (mbrkFiltfr->bddfpt(dibrs[d], suddfss)) {
+            xAdjust -= xAdvbndf;
+            xAdjust -= xAdvbndf;
+            xAdjust -= xAdvbndf;
+            xAdjust -= xAdvbndf;
             xAdjust -= xAdvbndf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         prfv = nfxt;
+        prfv = nfxt;
+        prfv = nfxt;
+        prfv = nfxt;
+        prfv = nfxt;
+    }
+    }
+    }
+    }
     }
 
-    glyphStorbgf.bdjustPosition(glyphCount, xAdjust, 0, suddfss);
+
+
+
+
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+    glypiStorbgf.bdjustPosition(glypiCount, xAdjust, 0, suddfss);
+}
+}
+}
+}
 }
 
-donst void *LbyoutEnginf::gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngth) donst
+
+
+
+
+donst void *LbyoutEnginf::gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst
+donst void *LbyoutEnginf::gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst
+donst void *LbyoutEnginf::gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst
+donst void *LbyoutEnginf::gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst
+donst void *LbyoutEnginf::gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst
 {
-  rfturn fFontInstbndf->gftFontTbblf(tbblfTbg, lfngth);
+{
+{
+{
+{
+  rfturn fFontInstbndf->gftFontTbblf(tbblfTbg, lfngti);
+  rfturn fFontInstbndf->gftFontTbblf(tbblfTbg, lfngti);
+  rfturn fFontInstbndf->gftFontTbblf(tbblfTbg, lfngti);
+  rfturn fFontInstbndf->gftFontTbblf(tbblfTbg, lfngti);
+  rfturn fFontInstbndf->gftFontTbblf(tbblfTbg, lfngti);
+}
+}
+}
+}
 }
 
-void LbyoutEnginf::mbpChbrsToGlyphs(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool mirror,
-                                    LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+
+
+
+
+void LbyoutEnginf::mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool mirror,
+void LbyoutEnginf::mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool mirror,
+void LbyoutEnginf::mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool mirror,
+void LbyoutEnginf::mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool mirror,
+void LbyoutEnginf::mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool mirror,
+                                    LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                    LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                    LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                    LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
+                                    LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
+{
+{
+{
+{
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
     if (LE_FAILURE(suddfss)) {
         rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
     }
 
-    glyphStorbgf.bllodbtfGlyphArrby(dount, rfvfrsf, suddfss);
 
-    DffbultChbrMbppfr dhbrMbppfr(TRUE, mirror);
 
-    fFontInstbndf->mbpChbrsToGlyphs(dhbrs, offsft, dount, rfvfrsf, &dhbrMbppfr, fFiltfrZfroWidth, glyphStorbgf);
+
+
+    glypiStorbgf.bllodbtfGlypiArrby(dount, rfvfrsf, suddfss);
+    glypiStorbgf.bllodbtfGlypiArrby(dount, rfvfrsf, suddfss);
+    glypiStorbgf.bllodbtfGlypiArrby(dount, rfvfrsf, suddfss);
+    glypiStorbgf.bllodbtfGlypiArrby(dount, rfvfrsf, suddfss);
+    glypiStorbgf.bllodbtfGlypiArrby(dount, rfvfrsf, suddfss);
+
+
+
+
+
+    DffbultCibrMbppfr dibrMbppfr(TRUE, mirror);
+    DffbultCibrMbppfr dibrMbppfr(TRUE, mirror);
+    DffbultCibrMbppfr dibrMbppfr(TRUE, mirror);
+    DffbultCibrMbppfr dibrMbppfr(TRUE, mirror);
+    DffbultCibrMbppfr dibrMbppfr(TRUE, mirror);
+
+
+
+
+
+    fFontInstbndf->mbpCibrsToGlypis(dibrs, offsft, dount, rfvfrsf, &dibrMbppfr, fFiltfrZfroWidti, glypiStorbgf);
+    fFontInstbndf->mbpCibrsToGlypis(dibrs, offsft, dount, rfvfrsf, &dibrMbppfr, fFiltfrZfroWidti, glypiStorbgf);
+    fFontInstbndf->mbpCibrsToGlypis(dibrs, offsft, dount, rfvfrsf, &dibrMbppfr, fFiltfrZfroWidti, glypiStorbgf);
+    fFontInstbndf->mbpCibrsToGlypis(dibrs, offsft, dount, rfvfrsf, &dibrMbppfr, fFiltfrZfroWidti, glypiStorbgf);
+    fFontInstbndf->mbpCibrsToGlypis(dibrs, offsft, dount, rfvfrsf, &dibrMbppfr, fFiltfrZfroWidti, glypiStorbgf);
+}
+}
+}
+}
 }
 
-// Input: dhbrbdtfrs, font?
-// Output: glyphs, positions, dhbr indidfs
-// Rfturns: numbfr of glyphs
-lf_int32 LbyoutEnginf::lbyoutChbrs(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
+
+
+
+
+// Input: dibrbdtfrs, font?
+// Input: dibrbdtfrs, font?
+// Input: dibrbdtfrs, font?
+// Input: dibrbdtfrs, font?
+// Input: dibrbdtfrs, font?
+// Output: glypis, positions, dibr indidfs
+// Output: glypis, positions, dibr indidfs
+// Output: glypis, positions, dibr indidfs
+// Output: glypis, positions, dibr indidfs
+// Output: glypis, positions, dibr indidfs
+// Rfturns: numbfr of glypis
+// Rfturns: numbfr of glypis
+// Rfturns: numbfr of glypis
+// Rfturns: numbfr of glypis
+// Rfturns: numbfr of glypis
+lf_int32 LbyoutEnginf::lbyoutCibrs(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::lbyoutCibrs(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::lbyoutCibrs(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::lbyoutCibrs(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+lf_int32 LbyoutEnginf::lbyoutCibrs(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+                              flobt x, flobt y, LEErrorCodf &suddfss)
+                              flobt x, flobt y, LEErrorCodf &suddfss)
+                              flobt x, flobt y, LEErrorCodf &suddfss)
+                              flobt x, flobt y, LEErrorCodf &suddfss)
                               flobt x, flobt y, LEErrorCodf &suddfss)
 {
+{
+{
+{
+{
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
     if (LE_FAILURE(suddfss)) {
         rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+    }
+    }
+    }
+    }
     }
 
-    if (dhbrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+
+
+
+
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
         rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+    }
+    }
+    }
+    }
     }
 
-    lf_int32 glyphCount;
 
-    if (fGlyphStorbgf->gftGlyphCount() > 0) {
-        fGlyphStorbgf->rfsft();
+
+
+
+    lf_int32 glypiCount;
+    lf_int32 glypiCount;
+    lf_int32 glypiCount;
+    lf_int32 glypiCount;
+    lf_int32 glypiCount;
+
+
+
+
+
+    if (fGlypiStorbgf->gftGlypiCount() > 0) {
+    if (fGlypiStorbgf->gftGlypiCount() > 0) {
+    if (fGlypiStorbgf->gftGlypiCount() > 0) {
+    if (fGlypiStorbgf->gftGlypiCount() > 0) {
+    if (fGlypiStorbgf->gftGlypiCount() > 0) {
+        fGlypiStorbgf->rfsft();
+        fGlypiStorbgf->rfsft();
+        fGlypiStorbgf->rfsft();
+        fGlypiStorbgf->rfsft();
+        fGlypiStorbgf->rfsft();
+    }
+    }
+    }
+    }
     }
 
-    glyphCount = domputfGlyphs(dhbrs, offsft, dount, mbx, rightToLfft, *fGlyphStorbgf, suddfss);
-    positionGlyphs(*fGlyphStorbgf, x, y, suddfss);
-    bdjustGlyphPositions(dhbrs, offsft, dount, rightToLfft, *fGlyphStorbgf, suddfss);
 
-    rfturn glyphCount;
+
+
+
+    glypiCount = domputfGlypis(dibrs, offsft, dount, mbx, rigitToLfft, *fGlypiStorbgf, suddfss);
+    glypiCount = domputfGlypis(dibrs, offsft, dount, mbx, rigitToLfft, *fGlypiStorbgf, suddfss);
+    glypiCount = domputfGlypis(dibrs, offsft, dount, mbx, rigitToLfft, *fGlypiStorbgf, suddfss);
+    glypiCount = domputfGlypis(dibrs, offsft, dount, mbx, rigitToLfft, *fGlypiStorbgf, suddfss);
+    glypiCount = domputfGlypis(dibrs, offsft, dount, mbx, rigitToLfft, *fGlypiStorbgf, suddfss);
+    positionGlypis(*fGlypiStorbgf, x, y, suddfss);
+    positionGlypis(*fGlypiStorbgf, x, y, suddfss);
+    positionGlypis(*fGlypiStorbgf, x, y, suddfss);
+    positionGlypis(*fGlypiStorbgf, x, y, suddfss);
+    positionGlypis(*fGlypiStorbgf, x, y, suddfss);
+    bdjustGlypiPositions(dibrs, offsft, dount, rigitToLfft, *fGlypiStorbgf, suddfss);
+    bdjustGlypiPositions(dibrs, offsft, dount, rigitToLfft, *fGlypiStorbgf, suddfss);
+    bdjustGlypiPositions(dibrs, offsft, dount, rigitToLfft, *fGlypiStorbgf, suddfss);
+    bdjustGlypiPositions(dibrs, offsft, dount, rigitToLfft, *fGlypiStorbgf, suddfss);
+    bdjustGlypiPositions(dibrs, offsft, dount, rigitToLfft, *fGlypiStorbgf, suddfss);
+
+
+
+
+
+    rfturn glypiCount;
+    rfturn glypiCount;
+    rfturn glypiCount;
+    rfturn glypiCount;
+    rfturn glypiCount;
 }
+}
+}
+}
+}
+
+
+
+
 
 void LbyoutEnginf::rfsft()
+void LbyoutEnginf::rfsft()
+void LbyoutEnginf::rfsft()
+void LbyoutEnginf::rfsft()
+void LbyoutEnginf::rfsft()
 {
-  if(fGlyphStorbgf!=NULL) {
-    fGlyphStorbgf->rfsft();
+{
+{
+{
+{
+  if(fGlypiStorbgf!=NULL) {
+  if(fGlypiStorbgf!=NULL) {
+  if(fGlypiStorbgf!=NULL) {
+  if(fGlypiStorbgf!=NULL) {
+  if(fGlypiStorbgf!=NULL) {
+    fGlypiStorbgf->rfsft();
+    fGlypiStorbgf->rfsft();
+    fGlypiStorbgf->rfsft();
+    fGlypiStorbgf->rfsft();
+    fGlypiStorbgf->rfsft();
+  }
+  }
+  }
+  }
   }
 }
+}
+}
+}
+}
+
+
+
+
 
 LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, LEErrorCodf &suddfss)
+{
+{
+{
+{
 {
   //kfrning bnd ligbturfs - by dffbult
+  //kfrning bnd ligbturfs - by dffbult
+  //kfrning bnd ligbturfs - by dffbult
+  //kfrning bnd ligbturfs - by dffbult
+  //kfrning bnd ligbturfs - by dffbult
+  rfturn LbyoutEnginf::lbyoutEnginfFbdtory(fontInstbndf, sdriptCodf, lbngubgfCodf, LE_DEFAULT_FEATURE_FLAG, suddfss);
+  rfturn LbyoutEnginf::lbyoutEnginfFbdtory(fontInstbndf, sdriptCodf, lbngubgfCodf, LE_DEFAULT_FEATURE_FLAG, suddfss);
+  rfturn LbyoutEnginf::lbyoutEnginfFbdtory(fontInstbndf, sdriptCodf, lbngubgfCodf, LE_DEFAULT_FEATURE_FLAG, suddfss);
+  rfturn LbyoutEnginf::lbyoutEnginfFbdtory(fontInstbndf, sdriptCodf, lbngubgfCodf, LE_DEFAULT_FEATURE_FLAG, suddfss);
   rfturn LbyoutEnginf::lbyoutEnginfFbdtory(fontInstbndf, sdriptCodf, lbngubgfCodf, LE_DEFAULT_FEATURE_FLAG, suddfss);
 }
+}
+}
+}
+}
+
+
+
+
 
 LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+LbyoutEnginf *LbyoutEnginf::lbyoutEnginfFbdtory(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+{
+{
+{
+{
 {
     stbtid donst lf_uint32 gsubTbblfTbg = LE_GSUB_TABLE_TAG;
+    stbtid donst lf_uint32 gsubTbblfTbg = LE_GSUB_TABLE_TAG;
+    stbtid donst lf_uint32 gsubTbblfTbg = LE_GSUB_TABLE_TAG;
+    stbtid donst lf_uint32 gsubTbblfTbg = LE_GSUB_TABLE_TAG;
+    stbtid donst lf_uint32 gsubTbblfTbg = LE_GSUB_TABLE_TAG;
+    stbtid donst lf_uint32 mortTbblfTbg = LE_MORT_TABLE_TAG;
+    stbtid donst lf_uint32 mortTbblfTbg = LE_MORT_TABLE_TAG;
+    stbtid donst lf_uint32 mortTbblfTbg = LE_MORT_TABLE_TAG;
+    stbtid donst lf_uint32 mortTbblfTbg = LE_MORT_TABLE_TAG;
     stbtid donst lf_uint32 mortTbblfTbg = LE_MORT_TABLE_TAG;
     stbtid donst lf_uint32 morxTbblfTbg = LE_MORX_TABLE_TAG;
+    stbtid donst lf_uint32 morxTbblfTbg = LE_MORX_TABLE_TAG;
+    stbtid donst lf_uint32 morxTbblfTbg = LE_MORX_TABLE_TAG;
+    stbtid donst lf_uint32 morxTbblfTbg = LE_MORX_TABLE_TAG;
+    stbtid donst lf_uint32 morxTbblfTbg = LE_MORX_TABLE_TAG;
+
+
+
+
 
     if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+    if (LE_FAILURE(suddfss)) {
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
         rfturn NULL;
     }
+    }
+    }
+    }
+    }
 
-    LERfffrfndfTo<GlyphSubstitutionTbblfHfbdfr> gsubTbblf(fontInstbndf,gsubTbblfTbg,suddfss);
+
+
+
+
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> gsubTbblf(fontInstbndf,gsubTbblfTbg,suddfss);
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> gsubTbblf(fontInstbndf,gsubTbblfTbg,suddfss);
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> gsubTbblf(fontInstbndf,gsubTbblfTbg,suddfss);
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> gsubTbblf(fontInstbndf,gsubTbblfTbg,suddfss);
+    LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> gsubTbblf(fontInstbndf,gsubTbblfTbg,suddfss);
+    LbyoutEnginf *rfsult = NULL;
+    LbyoutEnginf *rfsult = NULL;
+    LbyoutEnginf *rfsult = NULL;
+    LbyoutEnginf *rfsult = NULL;
     LbyoutEnginf *rfsult = NULL;
     LETbg sdriptTbg   = 0x00000000;
+    LETbg sdriptTbg   = 0x00000000;
+    LETbg sdriptTbg   = 0x00000000;
+    LETbg sdriptTbg   = 0x00000000;
+    LETbg sdriptTbg   = 0x00000000;
+    LETbg lbngubgfTbg = 0x00000000;
+    LETbg lbngubgfTbg = 0x00000000;
+    LETbg lbngubgfTbg = 0x00000000;
+    LETbg lbngubgfTbg = 0x00000000;
     LETbg lbngubgfTbg = 0x00000000;
     LETbg v2SdriptTbg = OpfnTypfLbyoutEnginf::gftV2SdriptTbg(sdriptCodf);
+    LETbg v2SdriptTbg = OpfnTypfLbyoutEnginf::gftV2SdriptTbg(sdriptCodf);
+    LETbg v2SdriptTbg = OpfnTypfLbyoutEnginf::gftV2SdriptTbg(sdriptCodf);
+    LETbg v2SdriptTbg = OpfnTypfLbyoutEnginf::gftV2SdriptTbg(sdriptCodf);
+    LETbg v2SdriptTbg = OpfnTypfLbyoutEnginf::gftV2SdriptTbg(sdriptCodf);
 
-    // Right now, only invokf V2 prodfssing for Dfvbnbgbri.  TODO: Allow morf V2 sdripts bs thfy brf
+
+
+
+
+    // Rigit now, only invokf V2 prodfssing for Dfvbnbgbri.  TODO: Allow morf V2 sdripts bs tify brf
+    // Rigit now, only invokf V2 prodfssing for Dfvbnbgbri.  TODO: Allow morf V2 sdripts bs tify brf
+    // Rigit now, only invokf V2 prodfssing for Dfvbnbgbri.  TODO: Allow morf V2 sdripts bs tify brf
+    // Rigit now, only invokf V2 prodfssing for Dfvbnbgbri.  TODO: Allow morf V2 sdripts bs tify brf
+    // Rigit now, only invokf V2 prodfssing for Dfvbnbgbri.  TODO: Allow morf V2 sdripts bs tify brf
+    // propfrly tfstfd.
+    // propfrly tfstfd.
+    // propfrly tfstfd.
+    // propfrly tfstfd.
     // propfrly tfstfd.
 
+
+
+
+
+    if ( v2SdriptTbg == dfv2SdriptTbg && gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, v2SdriptTbg, suddfss )) {
+    if ( v2SdriptTbg == dfv2SdriptTbg && gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, v2SdriptTbg, suddfss )) {
+    if ( v2SdriptTbg == dfv2SdriptTbg && gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, v2SdriptTbg, suddfss )) {
+    if ( v2SdriptTbg == dfv2SdriptTbg && gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, v2SdriptTbg, suddfss )) {
     if ( v2SdriptTbg == dfv2SdriptTbg && gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, v2SdriptTbg, suddfss )) {
       rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, TRUE, gsubTbblf, suddfss);
+      rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, TRUE, gsubTbblf, suddfss);
+      rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, TRUE, gsubTbblf, suddfss);
+      rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, TRUE, gsubTbblf, suddfss);
+      rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, TRUE, gsubTbblf, suddfss);
+    }
+    }
+    }
+    }
     }
     flsf if (gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, sdriptTbg = OpfnTypfLbyoutEnginf::gftSdriptTbg(sdriptCodf), suddfss)) {
-        switdh (sdriptCodf) {
+    flsf if (gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, sdriptTbg = OpfnTypfLbyoutEnginf::gftSdriptTbg(sdriptCodf), suddfss)) {
+    flsf if (gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, sdriptTbg = OpfnTypfLbyoutEnginf::gftSdriptTbg(sdriptCodf), suddfss)) {
+    flsf if (gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, sdriptTbg = OpfnTypfLbyoutEnginf::gftSdriptTbg(sdriptCodf), suddfss)) {
+    flsf if (gsubTbblf.isVblid() && gsubTbblf->dovfrsSdript(gsubTbblf, sdriptTbg = OpfnTypfLbyoutEnginf::gftSdriptTbg(sdriptCodf), suddfss)) {
+        switdi (sdriptCodf) {
+        switdi (sdriptCodf) {
+        switdi (sdriptCodf) {
+        switdi (sdriptCodf) {
+        switdi (sdriptCodf) {
+        dbsf bfngSdriptCodf:
+        dbsf bfngSdriptCodf:
+        dbsf bfngSdriptCodf:
+        dbsf bfngSdriptCodf:
         dbsf bfngSdriptCodf:
         dbsf dfvbSdriptCodf:
+        dbsf dfvbSdriptCodf:
+        dbsf dfvbSdriptCodf:
+        dbsf dfvbSdriptCodf:
+        dbsf dfvbSdriptCodf:
+        dbsf gujrSdriptCodf:
+        dbsf gujrSdriptCodf:
+        dbsf gujrSdriptCodf:
+        dbsf gujrSdriptCodf:
         dbsf gujrSdriptCodf:
         dbsf kndbSdriptCodf:
+        dbsf kndbSdriptCodf:
+        dbsf kndbSdriptCodf:
+        dbsf kndbSdriptCodf:
+        dbsf kndbSdriptCodf:
+        dbsf mlymSdriptCodf:
+        dbsf mlymSdriptCodf:
+        dbsf mlymSdriptCodf:
+        dbsf mlymSdriptCodf:
         dbsf mlymSdriptCodf:
         dbsf orybSdriptCodf:
+        dbsf orybSdriptCodf:
+        dbsf orybSdriptCodf:
+        dbsf orybSdriptCodf:
+        dbsf orybSdriptCodf:
+        dbsf guruSdriptCodf:
+        dbsf guruSdriptCodf:
+        dbsf guruSdriptCodf:
+        dbsf guruSdriptCodf:
         dbsf guruSdriptCodf:
         dbsf tbmlSdriptCodf:
+        dbsf tbmlSdriptCodf:
+        dbsf tbmlSdriptCodf:
+        dbsf tbmlSdriptCodf:
+        dbsf tbmlSdriptCodf:
         dbsf tfluSdriptCodf:
-        dbsf sinhSdriptCodf:
+        dbsf tfluSdriptCodf:
+        dbsf tfluSdriptCodf:
+        dbsf tfluSdriptCodf:
+        dbsf tfluSdriptCodf:
+        dbsf siniSdriptCodf:
+        dbsf siniSdriptCodf:
+        dbsf siniSdriptCodf:
+        dbsf siniSdriptCodf:
+        dbsf siniSdriptCodf:
+            rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, FALSE, gsubTbblf, suddfss);
+            rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, FALSE, gsubTbblf, suddfss);
+            rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, FALSE, gsubTbblf, suddfss);
+            rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, FALSE, gsubTbblf, suddfss);
             rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, FALSE, gsubTbblf, suddfss);
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
 
         dbsf brbbSdriptCodf:
+        dbsf brbbSdriptCodf:
+        dbsf brbbSdriptCodf:
+        dbsf brbbSdriptCodf:
+        dbsf brbbSdriptCodf:
+            rfsult = nfw ArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw ArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw ArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw ArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             rfsult = nfw ArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
 
-        dbsf hfbrSdriptCodf:
-            // Disbblf hfbrfw ligbturfs sindf thfy hbvf only brdhbid usfs, sff tidkft #8318
+
+
+
+
+        dbsf ifbrSdriptCodf:
+        dbsf ifbrSdriptCodf:
+        dbsf ifbrSdriptCodf:
+        dbsf ifbrSdriptCodf:
+        dbsf ifbrSdriptCodf:
+            // Disbblf ifbrfw ligbturfs sindf tify ibvf only brdibid usfs, sff tidkft #8318
+            // Disbblf ifbrfw ligbturfs sindf tify ibvf only brdibid usfs, sff tidkft #8318
+            // Disbblf ifbrfw ligbturfs sindf tify ibvf only brdibid usfs, sff tidkft #8318
+            // Disbblf ifbrfw ligbturfs sindf tify ibvf only brdibid usfs, sff tidkft #8318
+            // Disbblf ifbrfw ligbturfs sindf tify ibvf only brdibid usfs, sff tidkft #8318
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs & ~kTypoFlbgLigb, gsubTbblf, suddfss);
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs & ~kTypoFlbgLigb, gsubTbblf, suddfss);
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs & ~kTypoFlbgLigb, gsubTbblf, suddfss);
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs & ~kTypoFlbgLigb, gsubTbblf, suddfss);
             rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs & ~kTypoFlbgLigb, gsubTbblf, suddfss);
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
 
-        dbsf hbngSdriptCodf:
+
+
+
+
+        dbsf ibngSdriptCodf:
+        dbsf ibngSdriptCodf:
+        dbsf ibngSdriptCodf:
+        dbsf ibngSdriptCodf:
+        dbsf ibngSdriptCodf:
+            rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
 
-        dbsf hbniSdriptCodf:
+
+
+
+
+        dbsf ibniSdriptCodf:
+        dbsf ibniSdriptCodf:
+        dbsf ibniSdriptCodf:
+        dbsf ibniSdriptCodf:
+        dbsf ibniSdriptCodf:
+            lbngubgfTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(lbngubgfCodf);
+            lbngubgfTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(lbngubgfCodf);
+            lbngubgfTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(lbngubgfCodf);
+            lbngubgfTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(lbngubgfCodf);
             lbngubgfTbg = OpfnTypfLbyoutEnginf::gftLbngSysTbg(lbngubgfCodf);
 
-            switdh (lbngubgfCodf) {
+
+
+
+
+            switdi (lbngubgfCodf) {
+            switdi (lbngubgfCodf) {
+            switdi (lbngubgfCodf) {
+            switdi (lbngubgfCodf) {
+            switdi (lbngubgfCodf) {
+            dbsf korLbngubgfCodf:
+            dbsf korLbngubgfCodf:
+            dbsf korLbngubgfCodf:
+            dbsf korLbngubgfCodf:
             dbsf korLbngubgfCodf:
             dbsf jbnLbngubgfCodf:
-            dbsf zhtLbngubgfCodf:
-            dbsf zhsLbngubgfCodf:
+            dbsf jbnLbngubgfCodf:
+            dbsf jbnLbngubgfCodf:
+            dbsf jbnLbngubgfCodf:
+            dbsf jbnLbngubgfCodf:
+            dbsf zitLbngubgfCodf:
+            dbsf zitLbngubgfCodf:
+            dbsf zitLbngubgfCodf:
+            dbsf zitLbngubgfCodf:
+            dbsf zitLbngubgfCodf:
+            dbsf zisLbngubgfCodf:
+            dbsf zisLbngubgfCodf:
+            dbsf zisLbngubgfCodf:
+            dbsf zisLbngubgfCodf:
+            dbsf zisLbngubgfCodf:
+              if (gsubTbblf->dovfrsSdriptAndLbngubgf(gsubTbblf, sdriptTbg, lbngubgfTbg, suddfss, TRUE)) {
+              if (gsubTbblf->dovfrsSdriptAndLbngubgf(gsubTbblf, sdriptTbg, lbngubgfTbg, suddfss, TRUE)) {
+              if (gsubTbblf->dovfrsSdriptAndLbngubgf(gsubTbblf, sdriptTbg, lbngubgfTbg, suddfss, TRUE)) {
+              if (gsubTbblf->dovfrsSdriptAndLbngubgf(gsubTbblf, sdriptTbg, lbngubgfTbg, suddfss, TRUE)) {
               if (gsubTbblf->dovfrsSdriptAndLbngubgf(gsubTbblf, sdriptTbg, lbngubgfTbg, suddfss, TRUE)) {
                     rfsult = nfw HbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                    rfsult = nfw HbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                    rfsult = nfw HbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                    rfsult = nfw HbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                    rfsult = nfw HbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
                     brfbk;
               }
+              }
+              }
+              }
+              }
 
-                // notf: fblling through to dffbult dbsf.
+
+
+
+
+                // notf: fblling tirougi to dffbult dbsf.
+                // notf: fblling tirougi to dffbult dbsf.
+                // notf: fblling tirougi to dffbult dbsf.
+                // notf: fblling tirougi to dffbult dbsf.
+                // notf: fblling tirougi to dffbult dbsf.
+            dffbult:
+            dffbult:
+            dffbult:
+            dffbult:
             dffbult:
                 rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
 
         dbsf tibtSdriptCodf:
+        dbsf tibtSdriptCodf:
+        dbsf tibtSdriptCodf:
+        dbsf tibtSdriptCodf:
+        dbsf tibtSdriptCodf:
+            rfsult = nfw TibftbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw TibftbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw TibftbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw TibftbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             rfsult = nfw TibftbnOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             brfbk;
-
-        dbsf khmrSdriptCodf:
-            rfsult = nfw KhmfrOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
+
+        dbsf kimrSdriptCodf:
+        dbsf kimrSdriptCodf:
+        dbsf kimrSdriptCodf:
+        dbsf kimrSdriptCodf:
+        dbsf kimrSdriptCodf:
+            rfsult = nfw KimfrOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw KimfrOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw KimfrOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw KimfrOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw KimfrOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
 
         dffbult:
+        dffbult:
+        dffbult:
+        dffbult:
+        dffbult:
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
+            rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             rfsult = nfw OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss);
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+        }
+        }
+        }
+        }
         }
     } flsf {
-        LERfffrfndfTo<MorphTbblfHfbdfr2> morxTbblf(fontInstbndf, morxTbblfTbg, suddfss);
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+        LERfffrfndfTo<MorpiTbblfHfbdfr2> morxTbblf(fontInstbndf, morxTbblfTbg, suddfss);
+        LERfffrfndfTo<MorpiTbblfHfbdfr2> morxTbblf(fontInstbndf, morxTbblfTbg, suddfss);
+        LERfffrfndfTo<MorpiTbblfHfbdfr2> morxTbblf(fontInstbndf, morxTbblfTbg, suddfss);
+        LERfffrfndfTo<MorpiTbblfHfbdfr2> morxTbblf(fontInstbndf, morxTbblfTbg, suddfss);
+        LERfffrfndfTo<MorpiTbblfHfbdfr2> morxTbblf(fontInstbndf, morxTbblfTbg, suddfss);
+        if (LE_SUCCESS(suddfss) &&
+        if (LE_SUCCESS(suddfss) &&
+        if (LE_SUCCESS(suddfss) &&
+        if (LE_SUCCESS(suddfss) &&
         if (LE_SUCCESS(suddfss) &&
             morxTbblf.isVblid() &&
+            morxTbblf.isVblid() &&
+            morxTbblf.isVblid() &&
+            morxTbblf.isVblid() &&
+            morxTbblf.isVblid() &&
+            SWAPL(morxTbblf->vfrsion)==0x00020000) {
+            SWAPL(morxTbblf->vfrsion)==0x00020000) {
+            SWAPL(morxTbblf->vfrsion)==0x00020000) {
+            SWAPL(morxTbblf->vfrsion)==0x00020000) {
             SWAPL(morxTbblf->vfrsion)==0x00020000) {
             rfsult = nfw GXLbyoutEnginf2(fontInstbndf, sdriptCodf, lbngubgfCodf, morxTbblf, typoFlbgs, suddfss);
+            rfsult = nfw GXLbyoutEnginf2(fontInstbndf, sdriptCodf, lbngubgfCodf, morxTbblf, typoFlbgs, suddfss);
+            rfsult = nfw GXLbyoutEnginf2(fontInstbndf, sdriptCodf, lbngubgfCodf, morxTbblf, typoFlbgs, suddfss);
+            rfsult = nfw GXLbyoutEnginf2(fontInstbndf, sdriptCodf, lbngubgfCodf, morxTbblf, typoFlbgs, suddfss);
+            rfsult = nfw GXLbyoutEnginf2(fontInstbndf, sdriptCodf, lbngubgfCodf, morxTbblf, typoFlbgs, suddfss);
         } flsf {
-          LERfffrfndfTo<MorphTbblfHfbdfr> mortTbblf(fontInstbndf, mortTbblfTbg, suddfss);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+          LERfffrfndfTo<MorpiTbblfHfbdfr> mortTbblf(fontInstbndf, mortTbblfTbg, suddfss);
+          LERfffrfndfTo<MorpiTbblfHfbdfr> mortTbblf(fontInstbndf, mortTbblfTbg, suddfss);
+          LERfffrfndfTo<MorpiTbblfHfbdfr> mortTbblf(fontInstbndf, mortTbblfTbg, suddfss);
+          LERfffrfndfTo<MorpiTbblfHfbdfr> mortTbblf(fontInstbndf, mortTbblfTbg, suddfss);
+          LERfffrfndfTo<MorpiTbblfHfbdfr> mortTbblf(fontInstbndf, mortTbblfTbg, suddfss);
+          if (LE_SUCCESS(suddfss) && mortTbblf.isVblid() && SWAPL(mortTbblf->vfrsion)==0x00010000) { // mort
+          if (LE_SUCCESS(suddfss) && mortTbblf.isVblid() && SWAPL(mortTbblf->vfrsion)==0x00010000) { // mort
+          if (LE_SUCCESS(suddfss) && mortTbblf.isVblid() && SWAPL(mortTbblf->vfrsion)==0x00010000) { // mort
+          if (LE_SUCCESS(suddfss) && mortTbblf.isVblid() && SWAPL(mortTbblf->vfrsion)==0x00010000) { // mort
           if (LE_SUCCESS(suddfss) && mortTbblf.isVblid() && SWAPL(mortTbblf->vfrsion)==0x00010000) { // mort
             rfsult = nfw GXLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, mortTbblf, suddfss);
+            rfsult = nfw GXLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, mortTbblf, suddfss);
+            rfsult = nfw GXLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, mortTbblf, suddfss);
+            rfsult = nfw GXLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, mortTbblf, suddfss);
+            rfsult = nfw GXLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, mortTbblf, suddfss);
             } flsf {
-                switdh (sdriptCodf) {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                switdi (sdriptCodf) {
+                switdi (sdriptCodf) {
+                switdi (sdriptCodf) {
+                switdi (sdriptCodf) {
+                switdi (sdriptCodf) {
+                    dbsf bfngSdriptCodf:
+                    dbsf bfngSdriptCodf:
+                    dbsf bfngSdriptCodf:
+                    dbsf bfngSdriptCodf:
                     dbsf bfngSdriptCodf:
                     dbsf dfvbSdriptCodf:
+                    dbsf dfvbSdriptCodf:
+                    dbsf dfvbSdriptCodf:
+                    dbsf dfvbSdriptCodf:
+                    dbsf dfvbSdriptCodf:
+                    dbsf gujrSdriptCodf:
+                    dbsf gujrSdriptCodf:
+                    dbsf gujrSdriptCodf:
+                    dbsf gujrSdriptCodf:
                     dbsf gujrSdriptCodf:
                     dbsf kndbSdriptCodf:
+                    dbsf kndbSdriptCodf:
+                    dbsf kndbSdriptCodf:
+                    dbsf kndbSdriptCodf:
+                    dbsf kndbSdriptCodf:
+                    dbsf mlymSdriptCodf:
+                    dbsf mlymSdriptCodf:
+                    dbsf mlymSdriptCodf:
+                    dbsf mlymSdriptCodf:
                     dbsf mlymSdriptCodf:
                     dbsf orybSdriptCodf:
+                    dbsf orybSdriptCodf:
+                    dbsf orybSdriptCodf:
+                    dbsf orybSdriptCodf:
+                    dbsf orybSdriptCodf:
+                    dbsf guruSdriptCodf:
+                    dbsf guruSdriptCodf:
+                    dbsf guruSdriptCodf:
+                    dbsf guruSdriptCodf:
                     dbsf guruSdriptCodf:
                     dbsf tbmlSdriptCodf:
+                    dbsf tbmlSdriptCodf:
+                    dbsf tbmlSdriptCodf:
+                    dbsf tbmlSdriptCodf:
+                    dbsf tbmlSdriptCodf:
                     dbsf tfluSdriptCodf:
-                    dbsf sinhSdriptCodf:
+                    dbsf tfluSdriptCodf:
+                    dbsf tfluSdriptCodf:
+                    dbsf tfluSdriptCodf:
+                    dbsf tfluSdriptCodf:
+                    dbsf siniSdriptCodf:
+                    dbsf siniSdriptCodf:
+                    dbsf siniSdriptCodf:
+                    dbsf siniSdriptCodf:
+                    dbsf siniSdriptCodf:
+                    {
+                    {
+                    {
+                    {
                     {
                         rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        rfsult = nfw IndidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
                         brfbk;
                     }
+                    }
+                    }
+                    }
+                    }
+
+
+
+
 
                 dbsf brbbSdriptCodf:
+                dbsf brbbSdriptCodf:
+                dbsf brbbSdriptCodf:
+                dbsf brbbSdriptCodf:
+                dbsf brbbSdriptCodf:
+                  rfsult = nfw UnidodfArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw UnidodfArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw UnidodfArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw UnidodfArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
                   rfsult = nfw UnidodfArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
                   brfbk;
+                  brfbk;
+                  brfbk;
+                  brfbk;
+                  brfbk;
 
-                  //dbsf hfbrSdriptCodf:
+
+
+
+
+                  //dbsf ifbrSdriptCodf:
+                  //dbsf ifbrSdriptCodf:
+                  //dbsf ifbrSdriptCodf:
+                  //dbsf ifbrSdriptCodf:
+                  //dbsf ifbrSdriptCodf:
+                  //    rfturn nfw HfbrfwOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs);
+                  //    rfturn nfw HfbrfwOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs);
+                  //    rfturn nfw HfbrfwOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs);
+                  //    rfturn nfw HfbrfwOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs);
                   //    rfturn nfw HfbrfwOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs);
 
-                dbsf thbiSdriptCodf:
-                  rfsult = nfw ThbiLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+
+
+
+
+                dbsf tibiSdriptCodf:
+                dbsf tibiSdriptCodf:
+                dbsf tibiSdriptCodf:
+                dbsf tibiSdriptCodf:
+                dbsf tibiSdriptCodf:
+                  rfsult = nfw TibiLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw TibiLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw TibiLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw TibiLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw TibiLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  brfbk;
+                  brfbk;
+                  brfbk;
+                  brfbk;
                   brfbk;
 
-                dbsf hbngSdriptCodf:
+
+
+
+
+                dbsf ibngSdriptCodf:
+                dbsf ibngSdriptCodf:
+                dbsf ibngSdriptCodf:
+                dbsf ibngSdriptCodf:
+                dbsf ibngSdriptCodf:
+                  rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                  rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
                   rfsult = nfw HbngulOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
                   brfbk;
+                  brfbk;
+                  brfbk;
+                  brfbk;
+                  brfbk;
+
+
+
+
 
                     dffbult:
+                    dffbult:
+                    dffbult:
+                    dffbult:
+                    dffbult:
+                        rfsult = nfw LbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        rfsult = nfw LbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        rfsult = nfw LbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
+                        rfsult = nfw LbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
                         rfsult = nfw LbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss);
                         brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (rfsult && LE_FAILURE(suddfss)) {
+    if (rfsult && LE_FAILURE(suddfss)) {
+    if (rfsult && LE_FAILURE(suddfss)) {
+    if (rfsult && LE_FAILURE(suddfss)) {
+    if (rfsult && LE_FAILURE(suddfss)) {
+      dflftf rfsult;
+      dflftf rfsult;
+      dflftf rfsult;
+      dflftf rfsult;
       dflftf rfsult;
       rfsult = NULL;
+      rfsult = NULL;
+      rfsult = NULL;
+      rfsult = NULL;
+      rfsult = NULL;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     if (rfsult == NULL) {
+    if (rfsult == NULL) {
+    if (rfsult == NULL) {
+    if (rfsult == NULL) {
+    if (rfsult == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
         suddfss = LE_MEMORY_ALLOCATION_ERROR;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     rfturn rfsult;
+    rfturn rfsult;
+    rfturn rfsult;
+    rfturn rfsult;
+    rfturn rfsult;
 }
+}
+}
+}
+}
+
+
+
+
 
 LbyoutEnginf::~LbyoutEnginf() {
-    dflftf fGlyphStorbgf;
+LbyoutEnginf::~LbyoutEnginf() {
+LbyoutEnginf::~LbyoutEnginf() {
+LbyoutEnginf::~LbyoutEnginf() {
+LbyoutEnginf::~LbyoutEnginf() {
+    dflftf fGlypiStorbgf;
+    dflftf fGlypiStorbgf;
+    dflftf fGlypiStorbgf;
+    dflftf fGlypiStorbgf;
+    dflftf fGlypiStorbgf;
+}
+}
+}
+}
 }
 
+
+
+
+
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
 U_NAMESPACE_END

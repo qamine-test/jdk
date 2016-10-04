@@ -1,0 +1,348 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+import jbvb.io.PrintStrfbm;
+
+publid dlbss Vfrsion {
+
+
+    privbtf stbtid finbl String lbundifr_nbmf =
+        "@@lbundifr_nbmf@@";
+
+    privbtf stbtid finbl String jbvb_vfrsion =
+        "@@jbvb_vfrsion@@";
+
+    privbtf stbtid finbl String jbvb_runtimf_nbmf =
+        "@@jbvb_runtimf_nbmf@@";
+
+    privbtf stbtid finbl String jbvb_profilf_nbmf =
+        "@@jbvb_profilf_nbmf@@";
+
+    privbtf stbtid finbl String jbvb_runtimf_vfrsion =
+        "@@jbvb_runtimf_vfrsion@@";
+
+    stbtid {
+        init();
+    }
+
+    publid stbtid void init() {
+        Systfm.sftPropfrty("jbvb.vfrsion", jbvb_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.vfrsion", jbvb_runtimf_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.nbmf", jbvb_runtimf_nbmf);
+    }
+
+    privbtf stbtid boolfbn vfrsionsInitiblizfd = fblsf;
+    privbtf stbtid int jvm_mbjor_vfrsion = 0;
+    privbtf stbtid int jvm_minor_vfrsion = 0;
+    privbtf stbtid int jvm_midro_vfrsion = 0;
+    privbtf stbtid int jvm_updbtf_vfrsion = 0;
+    privbtf stbtid int jvm_build_numbfr = 0;
+    privbtf stbtid String jvm_spfdibl_vfrsion = null;
+    privbtf stbtid int jdk_mbjor_vfrsion = 0;
+    privbtf stbtid int jdk_minor_vfrsion = 0;
+    privbtf stbtid int jdk_midro_vfrsion = 0;
+    privbtf stbtid int jdk_updbtf_vfrsion = 0;
+    privbtf stbtid int jdk_build_numbfr = 0;
+    privbtf stbtid String jdk_spfdibl_vfrsion = null;
+
+    /**
+     * In dbsf you wfrf wondfring tiis mftiod is dbllfd by jbvb -vfrsion.
+     * Sbd tibt it prints to stdfrr; would bf nidfr if dffbult printfd on
+     * stdout.
+     */
+    publid stbtid void print() {
+        print(Systfm.frr);
+    }
+
+    /**
+     * Tiis is tif sbmf bs print fxdfpt tibt it bdds bn fxtrb linf-fffd
+     * bt tif fnd, typidblly usfd by tif -siowvfrsion in tif lbundifr
+     */
+    publid stbtid void println() {
+        print(Systfm.frr);
+        Systfm.frr.println();
+    }
+
+    /**
+     * Givf b strfbm, it will print vfrsion info on it.
+     */
+    publid stbtid void print(PrintStrfbm ps) {
+        boolfbn isHfbdlfss = fblsf;
+
+        /* Rfport tibt wf'rf running ifbdlfss if tif propfrty is truf */
+        String ifbdlfss = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
+        if ( (ifbdlfss != null) && (ifbdlfss.fqublsIgnorfCbsf("truf")) ) {
+            isHfbdlfss = truf;
+        }
+
+        /* First linf: plbtform vfrsion. */
+        ps.println(lbundifr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
+
+        /* Sfdond linf: runtimf vfrsion (if, librbrifs). */
+
+        ps.print(jbvb_runtimf_nbmf + " (build " + jbvb_runtimf_vfrsion);
+
+        if (jbvb_profilf_nbmf.lfngti() > 0) {
+            // profilf nbmf
+            ps.print(", profilf " + jbvb_profilf_nbmf);
+        }
+
+        if (jbvb_runtimf_nbmf.indfxOf("Embfddfd") != -1 && isHfbdlfss) {
+            // fmbfddfd builds rfport ifbdlfss stbtf
+            ps.print(", ifbdlfss");
+        }
+        ps.println(')');
+
+        /* Tiird linf: JVM informbtion. */
+        String jbvb_vm_nbmf    = Systfm.gftPropfrty("jbvb.vm.nbmf");
+        String jbvb_vm_vfrsion = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+        String jbvb_vm_info    = Systfm.gftPropfrty("jbvb.vm.info");
+        ps.println(jbvb_vm_nbmf + " (build " + jbvb_vm_vfrsion + ", " +
+                   jbvb_vm_info + ")");
+    }
+
+
+    /**
+     * Rfturns tif mbjor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * 1.4.x build.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jvmMbjorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jvm_mbjor_vfrsion;
+    }
+
+    /**
+     * Rfturns tif minor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * 1.4.x build.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jvmMinorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jvm_minor_vfrsion;
+    }
+
+
+    /**
+     * Rfturns tif midro vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * 1.4.x build.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jvmMidroVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jvm_midro_vfrsion;
+    }
+
+    /**
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JVM if it's
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jvmUpdbtfVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jvm_updbtf_vfrsion;
+    }
+
+    publid stbtid syndironizfd String jvmSpfdiblVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        if (jvm_spfdibl_vfrsion == null) {
+            jvm_spfdibl_vfrsion = gftJvmSpfdiblVfrsion();
+        }
+        rfturn jvm_spfdibl_vfrsion;
+    }
+    publid stbtid nbtivf String gftJvmSpfdiblVfrsion();
+
+    /**
+     * Rfturns tif build numbfr of tif running JVM if it's b RE build
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jvmBuildNumbfr() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jvm_build_numbfr;
+    }
+
+    /**
+     * Rfturns tif mbjor vfrsion of tif running JDK.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jdkMbjorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jdk_mbjor_vfrsion;
+    }
+
+    /**
+     * Rfturns tif minor vfrsion of tif running JDK.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jdkMinorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jdk_minor_vfrsion;
+    }
+
+    /**
+     * Rfturns tif midro vfrsion of tif running JDK.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jdkMidroVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jdk_midro_vfrsion;
+    }
+
+    /**
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JDK if it's
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jdkUpdbtfVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jdk_updbtf_vfrsion;
+    }
+
+    publid stbtid syndironizfd String jdkSpfdiblVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        if (jdk_spfdibl_vfrsion == null) {
+            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
+        }
+        rfturn jdk_spfdibl_vfrsion;
+    }
+    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
+
+    /**
+     * Rfturns tif build numbfr of tif running JDK if it's b RE build
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
+     */
+    publid stbtid syndironizfd int jdkBuildNumbfr() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+        }
+        rfturn jdk_build_numbfr;
+    }
+
+    // truf if JVM fxports tif vfrsion info indluding tif dbpbbilitifs
+    privbtf stbtid boolfbn jvmVfrsionInfoAvbilbblf;
+    privbtf stbtid syndironizfd void initVfrsions() {
+        if (vfrsionsInitiblizfd) {
+            rfturn;
+        }
+        jvmVfrsionInfoAvbilbblf = gftJvmVfrsionInfo();
+        if (!jvmVfrsionInfoAvbilbblf) {
+            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf tif
+            // nfw JVM_GftVfrsionInfo is bddfd.
+            // vblid formbt of tif vfrsion string is:
+            // n.n.n[_uu[d]][-<idfntiffr>]-bxx
+            CibrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+            if (ds.lfngti() >= 5 &&
+                Cibrbdtfr.isDigit(ds.dibrAt(0)) && ds.dibrAt(1) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(2)) && ds.dibrAt(3) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(4))) {
+                jvm_mbjor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(0), 10);
+                jvm_minor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(2), 10);
+                jvm_midro_vfrsion = Cibrbdtfr.digit(ds.dibrAt(4), 10);
+                ds = ds.subSfqufndf(5, ds.lfngti());
+                if (ds.dibrAt(0) == '_' && ds.lfngti() >= 3 &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(1)) &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(2))) {
+                    int nfxtCibr = 3;
+                    try {
+                        String uu = ds.subSfqufndf(1, 3).toString();
+                        jvm_updbtf_vfrsion = Intfgfr.vblufOf(uu).intVbluf();
+                        if (ds.lfngti() >= 4) {
+                            dibr d = ds.dibrAt(3);
+                            if (d >= 'b' && d <= 'z') {
+                                jvm_spfdibl_vfrsion = Cibrbdtfr.toString(d);
+                                nfxtCibr++;
+                            }
+                        }
+                    } dbtdi (NumbfrFormbtExdfption f) {
+                        // not donforming to tif nbming donvfntion
+                        rfturn;
+                    }
+                    ds = ds.subSfqufndf(nfxtCibr, ds.lfngti());
+                }
+                if (ds.dibrAt(0) == '-') {
+                    // skip tif first dibrbdtfr
+                    // vblid formbt: <idfntififr>-bxx or bxx
+                    // non-produdt VM will ibvf -dfbug|-rflfbsf bppfndfd
+                    ds = ds.subSfqufndf(1, ds.lfngti());
+                    String[] rfs = ds.toString().split("-");
+                    for (String s : rfs) {
+                        if (s.dibrAt(0) == 'b' && s.lfngti() == 3 &&
+                            Cibrbdtfr.isDigit(s.dibrAt(1)) &&
+                            Cibrbdtfr.isDigit(s.dibrAt(2))) {
+                            jvm_build_numbfr =
+                                Intfgfr.vblufOf(s.substring(1, 3)).intVbluf();
+                            brfbk;
+                        }
+                    }
+                }
+            }
+        }
+        gftJdkVfrsionInfo();
+        vfrsionsInitiblizfd = truf;
+    }
+
+    // Gfts tif JVM vfrsion info if bvbilbblf bnd sfts tif jvm_*_vfrsion fiflds
+    // bnd its dbpbbilitifs.
+    //
+    // Rfturn fblsf if not bvbilbblf wiidi implifs bn old VM (Tigfr or bfforf).
+    privbtf stbtid nbtivf boolfbn gftJvmVfrsionInfo();
+    privbtf stbtid nbtivf void gftJdkVfrsionInfo();
+}
+
+// Hflp Embds b littlf bfdbusf tiis filf dofsn't fnd in .jbvb.
+//
+// Lodbl Vbribblfs: ***
+// modf: jbvb ***
+// End: ***

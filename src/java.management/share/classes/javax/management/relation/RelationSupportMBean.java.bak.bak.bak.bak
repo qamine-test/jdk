@@ -1,76 +1,380 @@
 /*
- * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+
+
+
 
 /**
- * A RflbtionSupport objfdt is usfd intfrnblly by thf Rflbtion Sfrvidf to
- * rfprfsfnt simplf rflbtions (only rolfs, no propfrtifs or mfthods), with bn
+/**
+/**
+/**
+/**
+ * A RflbtionSupport objfdt is usfd intfrnblly by tif Rflbtion Sfrvidf to
+ * A RflbtionSupport objfdt is usfd intfrnblly by tif Rflbtion Sfrvidf to
+ * A RflbtionSupport objfdt is usfd intfrnblly by tif Rflbtion Sfrvidf to
+ * A RflbtionSupport objfdt is usfd intfrnblly by tif Rflbtion Sfrvidf to
+ * A RflbtionSupport objfdt is usfd intfrnblly by tif Rflbtion Sfrvidf to
+ * rfprfsfnt simplf rflbtions (only rolfs, no propfrtifs or mftiods), witi bn
+ * rfprfsfnt simplf rflbtions (only rolfs, no propfrtifs or mftiods), witi bn
+ * rfprfsfnt simplf rflbtions (only rolfs, no propfrtifs or mftiods), witi bn
+ * rfprfsfnt simplf rflbtions (only rolfs, no propfrtifs or mftiods), witi bn
+ * rfprfsfnt simplf rflbtions (only rolfs, no propfrtifs or mftiods), witi bn
  * unlimitfd numbfr of rolfs, of bny rflbtion typf. As intfrnbl rfprfsfntbtion,
- * it is not fxposfd to thf usfr.
- * <P>RflbtionSupport dlbss donforms to thf dfsign pbttfrns of stbndbrd MBfbn. So
- * thf usfr dbn dfdidf to instbntibtf b RflbtionSupport objfdt himsflf bs
- * b MBfbn (bs it follows thf MBfbn dfsign pbttfrns), to rfgistfr it in thf
- * MBfbn Sfrvfr, bnd thfn to bdd it in thf Rflbtion Sfrvidf.
- * <P>Thf usfr dbn blso, whfn drfbting his own MBfbn rflbtion dlbss, hbvf it
- * fxtfnding RflbtionSupport, to rftrifvf thf implfmfntbtions of rfquirfd
+ * unlimitfd numbfr of rolfs, of bny rflbtion typf. As intfrnbl rfprfsfntbtion,
+ * unlimitfd numbfr of rolfs, of bny rflbtion typf. As intfrnbl rfprfsfntbtion,
+ * unlimitfd numbfr of rolfs, of bny rflbtion typf. As intfrnbl rfprfsfntbtion,
+ * unlimitfd numbfr of rolfs, of bny rflbtion typf. As intfrnbl rfprfsfntbtion,
+ * it is not fxposfd to tif usfr.
+ * it is not fxposfd to tif usfr.
+ * it is not fxposfd to tif usfr.
+ * it is not fxposfd to tif usfr.
+ * it is not fxposfd to tif usfr.
+ * <P>RflbtionSupport dlbss donforms to tif dfsign pbttfrns of stbndbrd MBfbn. So
+ * <P>RflbtionSupport dlbss donforms to tif dfsign pbttfrns of stbndbrd MBfbn. So
+ * <P>RflbtionSupport dlbss donforms to tif dfsign pbttfrns of stbndbrd MBfbn. So
+ * <P>RflbtionSupport dlbss donforms to tif dfsign pbttfrns of stbndbrd MBfbn. So
+ * <P>RflbtionSupport dlbss donforms to tif dfsign pbttfrns of stbndbrd MBfbn. So
+ * tif usfr dbn dfdidf to instbntibtf b RflbtionSupport objfdt iimsflf bs
+ * tif usfr dbn dfdidf to instbntibtf b RflbtionSupport objfdt iimsflf bs
+ * tif usfr dbn dfdidf to instbntibtf b RflbtionSupport objfdt iimsflf bs
+ * tif usfr dbn dfdidf to instbntibtf b RflbtionSupport objfdt iimsflf bs
+ * tif usfr dbn dfdidf to instbntibtf b RflbtionSupport objfdt iimsflf bs
+ * b MBfbn (bs it follows tif MBfbn dfsign pbttfrns), to rfgistfr it in tif
+ * b MBfbn (bs it follows tif MBfbn dfsign pbttfrns), to rfgistfr it in tif
+ * b MBfbn (bs it follows tif MBfbn dfsign pbttfrns), to rfgistfr it in tif
+ * b MBfbn (bs it follows tif MBfbn dfsign pbttfrns), to rfgistfr it in tif
+ * b MBfbn (bs it follows tif MBfbn dfsign pbttfrns), to rfgistfr it in tif
+ * MBfbn Sfrvfr, bnd tifn to bdd it in tif Rflbtion Sfrvidf.
+ * MBfbn Sfrvfr, bnd tifn to bdd it in tif Rflbtion Sfrvidf.
+ * MBfbn Sfrvfr, bnd tifn to bdd it in tif Rflbtion Sfrvidf.
+ * MBfbn Sfrvfr, bnd tifn to bdd it in tif Rflbtion Sfrvidf.
+ * MBfbn Sfrvfr, bnd tifn to bdd it in tif Rflbtion Sfrvidf.
+ * <P>Tif usfr dbn blso, wifn drfbting iis own MBfbn rflbtion dlbss, ibvf it
+ * <P>Tif usfr dbn blso, wifn drfbting iis own MBfbn rflbtion dlbss, ibvf it
+ * <P>Tif usfr dbn blso, wifn drfbting iis own MBfbn rflbtion dlbss, ibvf it
+ * <P>Tif usfr dbn blso, wifn drfbting iis own MBfbn rflbtion dlbss, ibvf it
+ * <P>Tif usfr dbn blso, wifn drfbting iis own MBfbn rflbtion dlbss, ibvf it
+ * fxtfnding RflbtionSupport, to rftrifvf tif implfmfntbtions of rfquirfd
+ * fxtfnding RflbtionSupport, to rftrifvf tif implfmfntbtions of rfquirfd
+ * fxtfnding RflbtionSupport, to rftrifvf tif implfmfntbtions of rfquirfd
+ * fxtfnding RflbtionSupport, to rftrifvf tif implfmfntbtions of rfquirfd
+ * fxtfnding RflbtionSupport, to rftrifvf tif implfmfntbtions of rfquirfd
  * intfrfbdfs (sff bflow).
- * <P>It is blso possiblf to hbvf in b usfr rflbtion MBfbn dlbss b mfmbfr
- * bfing b RflbtionSupport objfdt, bnd to implfmfnt thf rfquirfd intfrfbdfs by
- * dflfgbting bll to this mfmbfr.
- * <P> RflbtionSupport implfmfnts thf Rflbtion intfrfbdf (to bf hbndlfd by thf
+ * intfrfbdfs (sff bflow).
+ * intfrfbdfs (sff bflow).
+ * intfrfbdfs (sff bflow).
+ * intfrfbdfs (sff bflow).
+ * <P>It is blso possiblf to ibvf in b usfr rflbtion MBfbn dlbss b mfmbfr
+ * <P>It is blso possiblf to ibvf in b usfr rflbtion MBfbn dlbss b mfmbfr
+ * <P>It is blso possiblf to ibvf in b usfr rflbtion MBfbn dlbss b mfmbfr
+ * <P>It is blso possiblf to ibvf in b usfr rflbtion MBfbn dlbss b mfmbfr
+ * <P>It is blso possiblf to ibvf in b usfr rflbtion MBfbn dlbss b mfmbfr
+ * bfing b RflbtionSupport objfdt, bnd to implfmfnt tif rfquirfd intfrfbdfs by
+ * bfing b RflbtionSupport objfdt, bnd to implfmfnt tif rfquirfd intfrfbdfs by
+ * bfing b RflbtionSupport objfdt, bnd to implfmfnt tif rfquirfd intfrfbdfs by
+ * bfing b RflbtionSupport objfdt, bnd to implfmfnt tif rfquirfd intfrfbdfs by
+ * bfing b RflbtionSupport objfdt, bnd to implfmfnt tif rfquirfd intfrfbdfs by
+ * dflfgbting bll to tiis mfmbfr.
+ * dflfgbting bll to tiis mfmbfr.
+ * dflfgbting bll to tiis mfmbfr.
+ * dflfgbting bll to tiis mfmbfr.
+ * dflfgbting bll to tiis mfmbfr.
+ * <P> RflbtionSupport implfmfnts tif Rflbtion intfrfbdf (to bf ibndlfd by tif
+ * <P> RflbtionSupport implfmfnts tif Rflbtion intfrfbdf (to bf ibndlfd by tif
+ * <P> RflbtionSupport implfmfnts tif Rflbtion intfrfbdf (to bf ibndlfd by tif
+ * <P> RflbtionSupport implfmfnts tif Rflbtion intfrfbdf (to bf ibndlfd by tif
+ * <P> RflbtionSupport implfmfnts tif Rflbtion intfrfbdf (to bf ibndlfd by tif
+ * Rflbtion Sfrvidf).
+ * Rflbtion Sfrvidf).
+ * Rflbtion Sfrvidf).
+ * Rflbtion Sfrvidf).
  * Rflbtion Sfrvidf).
  *
+ *
+ *
+ *
+ *
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  */
+ */
+ */
+ */
+ */
+publid intfrfbdf RflbtionSupportMBfbn
+publid intfrfbdf RflbtionSupportMBfbn
+publid intfrfbdf RflbtionSupportMBfbn
+publid intfrfbdf RflbtionSupportMBfbn
 publid intfrfbdf RflbtionSupportMBfbn
     fxtfnds Rflbtion {
+    fxtfnds Rflbtion {
+    fxtfnds Rflbtion {
+    fxtfnds Rflbtion {
+    fxtfnds Rflbtion {
+
+
+
+
 
     /**
-     * Rfturns bn intfrnbl flbg spfdifying if thf objfdt is still hbndlfd by
-     * thf Rflbtion Sfrvidf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns bn intfrnbl flbg spfdifying if tif objfdt is still ibndlfd by
+     * Rfturns bn intfrnbl flbg spfdifying if tif objfdt is still ibndlfd by
+     * Rfturns bn intfrnbl flbg spfdifying if tif objfdt is still ibndlfd by
+     * Rfturns bn intfrnbl flbg spfdifying if tif objfdt is still ibndlfd by
+     * Rfturns bn intfrnbl flbg spfdifying if tif objfdt is still ibndlfd by
+     * tif Rflbtion Sfrvidf.
+     * tif Rflbtion Sfrvidf.
+     * tif Rflbtion Sfrvidf.
+     * tif Rflbtion Sfrvidf.
+     * tif Rflbtion Sfrvidf.
      *
-     * @rfturn b Boolfbn fqubl to {@link Boolfbn#TRUE} if thf objfdt
-     * is still hbndlfd by thf Rflbtion Sfrvidf bnd {@link
-     * Boolfbn#FALSE} othfrwisf.
+     *
+     *
+     *
+     *
+     * @rfturn b Boolfbn fqubl to {@link Boolfbn#TRUE} if tif objfdt
+     * @rfturn b Boolfbn fqubl to {@link Boolfbn#TRUE} if tif objfdt
+     * @rfturn b Boolfbn fqubl to {@link Boolfbn#TRUE} if tif objfdt
+     * @rfturn b Boolfbn fqubl to {@link Boolfbn#TRUE} if tif objfdt
+     * @rfturn b Boolfbn fqubl to {@link Boolfbn#TRUE} if tif objfdt
+     * is still ibndlfd by tif Rflbtion Sfrvidf bnd {@link
+     * is still ibndlfd by tif Rflbtion Sfrvidf bnd {@link
+     * is still ibndlfd by tif Rflbtion Sfrvidf bnd {@link
+     * is still ibndlfd by tif Rflbtion Sfrvidf bnd {@link
+     * is still ibndlfd by tif Rflbtion Sfrvidf bnd {@link
+     * Boolfbn#FALSE} otifrwisf.
+     * Boolfbn#FALSE} otifrwisf.
+     * Boolfbn#FALSE} otifrwisf.
+     * Boolfbn#FALSE} otifrwisf.
+     * Boolfbn#FALSE} otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid Boolfbn isInRflbtionSfrvidf();
+    publid Boolfbn isInRflbtionSfrvidf();
+    publid Boolfbn isInRflbtionSfrvidf();
+    publid Boolfbn isInRflbtionSfrvidf();
+    publid Boolfbn isInRflbtionSfrvidf();
+
+
+
+
 
     /**
-     * <p>Spfdififs whfthfr this rflbtion is hbndlfd by thf Rflbtion
+    /**
+    /**
+    /**
+    /**
+     * <p>Spfdififs wiftifr tiis rflbtion is ibndlfd by tif Rflbtion
+     * <p>Spfdififs wiftifr tiis rflbtion is ibndlfd by tif Rflbtion
+     * <p>Spfdififs wiftifr tiis rflbtion is ibndlfd by tif Rflbtion
+     * <p>Spfdififs wiftifr tiis rflbtion is ibndlfd by tif Rflbtion
+     * <p>Spfdififs wiftifr tiis rflbtion is ibndlfd by tif Rflbtion
      * Sfrvidf.</p>
-     * <P>BEWARE, this mfthod hbs to bf fxposfd bs thf Rflbtion Sfrvidf will
-     * bddfss thf rflbtion through its mbnbgfmfnt intfrfbdf. It is RECOMMENDED
-     * NOT to usf this mfthod. Using it dofs not bfffdt thf rfgistrbtion of thf
-     * rflbtion objfdt in thf Rflbtion Sfrvidf, but will providf wrong
+     * Sfrvidf.</p>
+     * Sfrvidf.</p>
+     * Sfrvidf.</p>
+     * Sfrvidf.</p>
+     * <P>BEWARE, tiis mftiod ibs to bf fxposfd bs tif Rflbtion Sfrvidf will
+     * <P>BEWARE, tiis mftiod ibs to bf fxposfd bs tif Rflbtion Sfrvidf will
+     * <P>BEWARE, tiis mftiod ibs to bf fxposfd bs tif Rflbtion Sfrvidf will
+     * <P>BEWARE, tiis mftiod ibs to bf fxposfd bs tif Rflbtion Sfrvidf will
+     * <P>BEWARE, tiis mftiod ibs to bf fxposfd bs tif Rflbtion Sfrvidf will
+     * bddfss tif rflbtion tirougi its mbnbgfmfnt intfrfbdf. It is RECOMMENDED
+     * bddfss tif rflbtion tirougi its mbnbgfmfnt intfrfbdf. It is RECOMMENDED
+     * bddfss tif rflbtion tirougi its mbnbgfmfnt intfrfbdf. It is RECOMMENDED
+     * bddfss tif rflbtion tirougi its mbnbgfmfnt intfrfbdf. It is RECOMMENDED
+     * bddfss tif rflbtion tirougi its mbnbgfmfnt intfrfbdf. It is RECOMMENDED
+     * NOT to usf tiis mftiod. Using it dofs not bfffdt tif rfgistrbtion of tif
+     * NOT to usf tiis mftiod. Using it dofs not bfffdt tif rfgistrbtion of tif
+     * NOT to usf tiis mftiod. Using it dofs not bfffdt tif rfgistrbtion of tif
+     * NOT to usf tiis mftiod. Using it dofs not bfffdt tif rfgistrbtion of tif
+     * NOT to usf tiis mftiod. Using it dofs not bfffdt tif rfgistrbtion of tif
+     * rflbtion objfdt in tif Rflbtion Sfrvidf, but will providf wrong
+     * rflbtion objfdt in tif Rflbtion Sfrvidf, but will providf wrong
+     * rflbtion objfdt in tif Rflbtion Sfrvidf, but will providf wrong
+     * rflbtion objfdt in tif Rflbtion Sfrvidf, but will providf wrong
+     * rflbtion objfdt in tif Rflbtion Sfrvidf, but will providf wrong
+     * informbtion bbout it!
+     * informbtion bbout it!
+     * informbtion bbout it!
+     * informbtion bbout it!
      * informbtion bbout it!
      *
-     * @pbrbm flbg whfthfr thf rflbtion is hbndlfd by thf Rflbtion Sfrvidf.
+     *
+     *
+     *
+     *
+     * @pbrbm flbg wiftifr tif rflbtion is ibndlfd by tif Rflbtion Sfrvidf.
+     * @pbrbm flbg wiftifr tif rflbtion is ibndlfd by tif Rflbtion Sfrvidf.
+     * @pbrbm flbg wiftifr tif rflbtion is ibndlfd by tif Rflbtion Sfrvidf.
+     * @pbrbm flbg wiftifr tif rflbtion is ibndlfd by tif Rflbtion Sfrvidf.
+     * @pbrbm flbg wiftifr tif rflbtion is ibndlfd by tif Rflbtion Sfrvidf.
+     *
+     *
+     *
+     *
      *
      * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     */
+     */
+     */
+     */
      */
     publid void sftRflbtionSfrvidfMbnbgfmfntFlbg(Boolfbn flbg)
-        throws IllfgblArgumfntExdfption;
+    publid void sftRflbtionSfrvidfMbnbgfmfntFlbg(Boolfbn flbg)
+    publid void sftRflbtionSfrvidfMbnbgfmfntFlbg(Boolfbn flbg)
+    publid void sftRflbtionSfrvidfMbnbgfmfntFlbg(Boolfbn flbg)
+    publid void sftRflbtionSfrvidfMbnbgfmfntFlbg(Boolfbn flbg)
+        tirows IllfgblArgumfntExdfption;
+        tirows IllfgblArgumfntExdfption;
+        tirows IllfgblArgumfntExdfption;
+        tirows IllfgblArgumfntExdfption;
+        tirows IllfgblArgumfntExdfption;
+}
+}
+}
+}
 }

@@ -1,476 +1,2380 @@
 /*
- * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.mbnbgfmfnt;
+pbdkbgf sun.mbnbgfmfnt;
+pbdkbgf sun.mbnbgfmfnt;
+pbdkbgf sun.mbnbgfmfnt;
+pbdkbgf sun.mbnbgfmfnt;
+
+
+
+
 
 import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
 
-import jbvb.lbng.mbnbgfmfnt.ThrfbdInfo;
+
+
+
+
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+
+
+
+
 
 import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+
+
+
 
 /**
- * Implfmfntbtion dlbss for thf thrfbd subsystfm.
- * Stbndbrd bnd dommittfd hotspot-spfdifid mftrids if bny.
+/**
+/**
+/**
+/**
+ * Implfmfntbtion dlbss for tif tirfbd subsystfm.
+ * Implfmfntbtion dlbss for tif tirfbd subsystfm.
+ * Implfmfntbtion dlbss for tif tirfbd subsystfm.
+ * Implfmfntbtion dlbss for tif tirfbd subsystfm.
+ * Implfmfntbtion dlbss for tif tirfbd subsystfm.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
  *
- * MbnbgfmfntFbdtory.gftThrfbdMXBfbn() rfturns bn instbndf
- * of this dlbss.
+ *
+ *
+ *
+ *
+ * MbnbgfmfntFbdtory.gftTirfbdMXBfbn() rfturns bn instbndf
+ * MbnbgfmfntFbdtory.gftTirfbdMXBfbn() rfturns bn instbndf
+ * MbnbgfmfntFbdtory.gftTirfbdMXBfbn() rfturns bn instbndf
+ * MbnbgfmfntFbdtory.gftTirfbdMXBfbn() rfturns bn instbndf
+ * MbnbgfmfntFbdtory.gftTirfbdMXBfbn() rfturns bn instbndf
+ * of tiis dlbss.
+ * of tiis dlbss.
+ * of tiis dlbss.
+ * of tiis dlbss.
+ * of tiis dlbss.
  */
-dlbss ThrfbdImpl implfmfnts dom.sun.mbnbgfmfnt.ThrfbdMXBfbn {
+ */
+ */
+ */
+ */
+dlbss TirfbdImpl implfmfnts dom.sun.mbnbgfmfnt.TirfbdMXBfbn {
+dlbss TirfbdImpl implfmfnts dom.sun.mbnbgfmfnt.TirfbdMXBfbn {
+dlbss TirfbdImpl implfmfnts dom.sun.mbnbgfmfnt.TirfbdMXBfbn {
+dlbss TirfbdImpl implfmfnts dom.sun.mbnbgfmfnt.TirfbdMXBfbn {
+dlbss TirfbdImpl implfmfnts dom.sun.mbnbgfmfnt.TirfbdMXBfbn {
+
+
+
+
 
     privbtf finbl VMMbnbgfmfnt jvm;
+    privbtf finbl VMMbnbgfmfnt jvm;
+    privbtf finbl VMMbnbgfmfnt jvm;
+    privbtf finbl VMMbnbgfmfnt jvm;
+    privbtf finbl VMMbnbgfmfnt jvm;
 
-    // dffbult for thrfbd dontfntion monitoring is disbblfd.
+
+
+
+
+    // dffbult for tirfbd dontfntion monitoring is disbblfd.
+    // dffbult for tirfbd dontfntion monitoring is disbblfd.
+    // dffbult for tirfbd dontfntion monitoring is disbblfd.
+    // dffbult for tirfbd dontfntion monitoring is disbblfd.
+    // dffbult for tirfbd dontfntion monitoring is disbblfd.
+    privbtf boolfbn dontfntionMonitoringEnbblfd = fblsf;
+    privbtf boolfbn dontfntionMonitoringEnbblfd = fblsf;
+    privbtf boolfbn dontfntionMonitoringEnbblfd = fblsf;
+    privbtf boolfbn dontfntionMonitoringEnbblfd = fblsf;
     privbtf boolfbn dontfntionMonitoringEnbblfd = fblsf;
     privbtf boolfbn dpuTimfEnbblfd;
+    privbtf boolfbn dpuTimfEnbblfd;
+    privbtf boolfbn dpuTimfEnbblfd;
+    privbtf boolfbn dpuTimfEnbblfd;
+    privbtf boolfbn dpuTimfEnbblfd;
+    privbtf boolfbn bllodbtfdMfmoryEnbblfd;
+    privbtf boolfbn bllodbtfdMfmoryEnbblfd;
+    privbtf boolfbn bllodbtfdMfmoryEnbblfd;
+    privbtf boolfbn bllodbtfdMfmoryEnbblfd;
     privbtf boolfbn bllodbtfdMfmoryEnbblfd;
 
+
+
+
+
     /**
-     * Construdtor of ThrfbdImpl dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Construdtor of TirfbdImpl dlbss.
+     * Construdtor of TirfbdImpl dlbss.
+     * Construdtor of TirfbdImpl dlbss.
+     * Construdtor of TirfbdImpl dlbss.
+     * Construdtor of TirfbdImpl dlbss.
      */
-    ThrfbdImpl(VMMbnbgfmfnt vm) {
-        this.jvm = vm;
-        this.dpuTimfEnbblfd = jvm.isThrfbdCpuTimfEnbblfd();
-        this.bllodbtfdMfmoryEnbblfd = jvm.isThrfbdAllodbtfdMfmoryEnbblfd();
+     */
+     */
+     */
+     */
+    TirfbdImpl(VMMbnbgfmfnt vm) {
+    TirfbdImpl(VMMbnbgfmfnt vm) {
+    TirfbdImpl(VMMbnbgfmfnt vm) {
+    TirfbdImpl(VMMbnbgfmfnt vm) {
+    TirfbdImpl(VMMbnbgfmfnt vm) {
+        tiis.jvm = vm;
+        tiis.jvm = vm;
+        tiis.jvm = vm;
+        tiis.jvm = vm;
+        tiis.jvm = vm;
+        tiis.dpuTimfEnbblfd = jvm.isTirfbdCpuTimfEnbblfd();
+        tiis.dpuTimfEnbblfd = jvm.isTirfbdCpuTimfEnbblfd();
+        tiis.dpuTimfEnbblfd = jvm.isTirfbdCpuTimfEnbblfd();
+        tiis.dpuTimfEnbblfd = jvm.isTirfbdCpuTimfEnbblfd();
+        tiis.dpuTimfEnbblfd = jvm.isTirfbdCpuTimfEnbblfd();
+        tiis.bllodbtfdMfmoryEnbblfd = jvm.isTirfbdAllodbtfdMfmoryEnbblfd();
+        tiis.bllodbtfdMfmoryEnbblfd = jvm.isTirfbdAllodbtfdMfmoryEnbblfd();
+        tiis.bllodbtfdMfmoryEnbblfd = jvm.isTirfbdAllodbtfdMfmoryEnbblfd();
+        tiis.bllodbtfdMfmoryEnbblfd = jvm.isTirfbdAllodbtfdMfmoryEnbblfd();
+        tiis.bllodbtfdMfmoryEnbblfd = jvm.isTirfbdAllodbtfdMfmoryEnbblfd();
+    }
+    }
+    }
+    }
     }
 
-    publid int gftThrfbdCount() {
-        rfturn jvm.gftLivfThrfbdCount();
+
+
+
+
+    publid int gftTirfbdCount() {
+    publid int gftTirfbdCount() {
+    publid int gftTirfbdCount() {
+    publid int gftTirfbdCount() {
+    publid int gftTirfbdCount() {
+        rfturn jvm.gftLivfTirfbdCount();
+        rfturn jvm.gftLivfTirfbdCount();
+        rfturn jvm.gftLivfTirfbdCount();
+        rfturn jvm.gftLivfTirfbdCount();
+        rfturn jvm.gftLivfTirfbdCount();
+    }
+    }
+    }
+    }
     }
 
-    publid int gftPfbkThrfbdCount() {
-        rfturn jvm.gftPfbkThrfbdCount();
+
+
+
+
+    publid int gftPfbkTirfbdCount() {
+    publid int gftPfbkTirfbdCount() {
+    publid int gftPfbkTirfbdCount() {
+    publid int gftPfbkTirfbdCount() {
+    publid int gftPfbkTirfbdCount() {
+        rfturn jvm.gftPfbkTirfbdCount();
+        rfturn jvm.gftPfbkTirfbdCount();
+        rfturn jvm.gftPfbkTirfbdCount();
+        rfturn jvm.gftPfbkTirfbdCount();
+        rfturn jvm.gftPfbkTirfbdCount();
+    }
+    }
+    }
+    }
     }
 
-    publid long gftTotblStbrtfdThrfbdCount() {
-        rfturn jvm.gftTotblThrfbdCount();
+
+
+
+
+    publid long gftTotblStbrtfdTirfbdCount() {
+    publid long gftTotblStbrtfdTirfbdCount() {
+    publid long gftTotblStbrtfdTirfbdCount() {
+    publid long gftTotblStbrtfdTirfbdCount() {
+    publid long gftTotblStbrtfdTirfbdCount() {
+        rfturn jvm.gftTotblTirfbdCount();
+        rfturn jvm.gftTotblTirfbdCount();
+        rfturn jvm.gftTotblTirfbdCount();
+        rfturn jvm.gftTotblTirfbdCount();
+        rfturn jvm.gftTotblTirfbdCount();
+    }
+    }
+    }
+    }
     }
 
-    publid int gftDbfmonThrfbdCount() {
-        rfturn jvm.gftDbfmonThrfbdCount();
+
+
+
+
+    publid int gftDbfmonTirfbdCount() {
+    publid int gftDbfmonTirfbdCount() {
+    publid int gftDbfmonTirfbdCount() {
+    publid int gftDbfmonTirfbdCount() {
+    publid int gftDbfmonTirfbdCount() {
+        rfturn jvm.gftDbfmonTirfbdCount();
+        rfturn jvm.gftDbfmonTirfbdCount();
+        rfturn jvm.gftDbfmonTirfbdCount();
+        rfturn jvm.gftDbfmonTirfbdCount();
+        rfturn jvm.gftDbfmonTirfbdCount();
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn isThrfbdContfntionMonitoringSupportfd() {
-        rfturn jvm.isThrfbdContfntionMonitoringSupportfd();
+
+
+
+
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd() {
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd() {
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd() {
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd() {
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd() {
+        rfturn jvm.isTirfbdContfntionMonitoringSupportfd();
+        rfturn jvm.isTirfbdContfntionMonitoringSupportfd();
+        rfturn jvm.isTirfbdContfntionMonitoringSupportfd();
+        rfturn jvm.isTirfbdContfntionMonitoringSupportfd();
+        rfturn jvm.isTirfbdContfntionMonitoringSupportfd();
+    }
+    }
+    }
+    }
     }
 
-    publid syndhronizfd boolfbn isThrfbdContfntionMonitoringEnbblfd() {
-       if (!isThrfbdContfntionMonitoringSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd dontfntion monitoring is not supportfd.");
+
+
+
+
+    publid syndironizfd boolfbn isTirfbdContfntionMonitoringEnbblfd() {
+    publid syndironizfd boolfbn isTirfbdContfntionMonitoringEnbblfd() {
+    publid syndironizfd boolfbn isTirfbdContfntionMonitoringEnbblfd() {
+    publid syndironizfd boolfbn isTirfbdContfntionMonitoringEnbblfd() {
+    publid syndironizfd boolfbn isTirfbdContfntionMonitoringEnbblfd() {
+       if (!isTirfbdContfntionMonitoringSupportfd()) {
+       if (!isTirfbdContfntionMonitoringSupportfd()) {
+       if (!isTirfbdContfntionMonitoringSupportfd()) {
+       if (!isTirfbdContfntionMonitoringSupportfd()) {
+       if (!isTirfbdContfntionMonitoringSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd dontfntion monitoring is not supportfd.");
+                "Tirfbd dontfntion monitoring is not supportfd.");
+                "Tirfbd dontfntion monitoring is not supportfd.");
+                "Tirfbd dontfntion monitoring is not supportfd.");
+                "Tirfbd dontfntion monitoring is not supportfd.");
+        }
+        }
+        }
+        }
         }
         rfturn dontfntionMonitoringEnbblfd;
+        rfturn dontfntionMonitoringEnbblfd;
+        rfturn dontfntionMonitoringEnbblfd;
+        rfturn dontfntionMonitoringEnbblfd;
+        rfturn dontfntionMonitoringEnbblfd;
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn isThrfbdCpuTimfSupportfd() {
-        rfturn jvm.isOthfrThrfbdCpuTimfSupportfd();
+
+
+
+
+    publid boolfbn isTirfbdCpuTimfSupportfd() {
+    publid boolfbn isTirfbdCpuTimfSupportfd() {
+    publid boolfbn isTirfbdCpuTimfSupportfd() {
+    publid boolfbn isTirfbdCpuTimfSupportfd() {
+    publid boolfbn isTirfbdCpuTimfSupportfd() {
+        rfturn jvm.isOtifrTirfbdCpuTimfSupportfd();
+        rfturn jvm.isOtifrTirfbdCpuTimfSupportfd();
+        rfturn jvm.isOtifrTirfbdCpuTimfSupportfd();
+        rfturn jvm.isOtifrTirfbdCpuTimfSupportfd();
+        rfturn jvm.isOtifrTirfbdCpuTimfSupportfd();
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn isCurrfntThrfbdCpuTimfSupportfd() {
-        rfturn jvm.isCurrfntThrfbdCpuTimfSupportfd();
+
+
+
+
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd() {
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd() {
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd() {
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd() {
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd() {
+        rfturn jvm.isCurrfntTirfbdCpuTimfSupportfd();
+        rfturn jvm.isCurrfntTirfbdCpuTimfSupportfd();
+        rfturn jvm.isCurrfntTirfbdCpuTimfSupportfd();
+        rfturn jvm.isCurrfntTirfbdCpuTimfSupportfd();
+        rfturn jvm.isCurrfntTirfbdCpuTimfSupportfd();
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn isThrfbdAllodbtfdMfmorySupportfd() {
-        rfturn jvm.isThrfbdAllodbtfdMfmorySupportfd();
+
+
+
+
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd() {
+        rfturn jvm.isTirfbdAllodbtfdMfmorySupportfd();
+        rfturn jvm.isTirfbdAllodbtfdMfmorySupportfd();
+        rfturn jvm.isTirfbdAllodbtfdMfmorySupportfd();
+        rfturn jvm.isTirfbdAllodbtfdMfmorySupportfd();
+        rfturn jvm.isTirfbdAllodbtfdMfmorySupportfd();
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn isThrfbdCpuTimfEnbblfd() {
-        if (!isThrfbdCpuTimfSupportfd() &&
-            !isCurrfntThrfbdCpuTimfSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd CPU timf mfbsurfmfnt is not supportfd");
+
+
+
+
+    publid boolfbn isTirfbdCpuTimfEnbblfd() {
+    publid boolfbn isTirfbdCpuTimfEnbblfd() {
+    publid boolfbn isTirfbdCpuTimfEnbblfd() {
+    publid boolfbn isTirfbdCpuTimfEnbblfd() {
+    publid boolfbn isTirfbdCpuTimfEnbblfd() {
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+        }
+        }
+        }
+        }
         }
         rfturn dpuTimfEnbblfd;
+        rfturn dpuTimfEnbblfd;
+        rfturn dpuTimfEnbblfd;
+        rfturn dpuTimfEnbblfd;
+        rfturn dpuTimfEnbblfd;
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn isThrfbdAllodbtfdMfmoryEnbblfd() {
-        if (!isThrfbdAllodbtfdMfmorySupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
+
+
+
+
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd() {
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd() {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
+        }
+        }
+        }
+        }
         }
         rfturn bllodbtfdMfmoryEnbblfd;
+        rfturn bllodbtfdMfmoryEnbblfd;
+        rfturn bllodbtfdMfmoryEnbblfd;
+        rfturn bllodbtfdMfmoryEnbblfd;
+        rfturn bllodbtfdMfmoryEnbblfd;
+    }
+    }
+    }
+    }
     }
 
-    publid long[] gftAllThrfbdIds() {
-        Util.dhfdkMonitorAddfss();
 
-        Thrfbd[] thrfbds = gftThrfbds();
-        int lfngth = thrfbds.lfngth;
-        long[] ids = nfw long[lfngth];
-        for (int i = 0; i < lfngth; i++) {
-            Thrfbd t = thrfbds[i];
+
+
+
+    publid long[] gftAllTirfbdIds() {
+    publid long[] gftAllTirfbdIds() {
+    publid long[] gftAllTirfbdIds() {
+    publid long[] gftAllTirfbdIds() {
+    publid long[] gftAllTirfbdIds() {
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+
+
+
+
+
+        Tirfbd[] tirfbds = gftTirfbds();
+        Tirfbd[] tirfbds = gftTirfbds();
+        Tirfbd[] tirfbds = gftTirfbds();
+        Tirfbd[] tirfbds = gftTirfbds();
+        Tirfbd[] tirfbds = gftTirfbds();
+        int lfngti = tirfbds.lfngti;
+        int lfngti = tirfbds.lfngti;
+        int lfngti = tirfbds.lfngti;
+        int lfngti = tirfbds.lfngti;
+        int lfngti = tirfbds.lfngti;
+        long[] ids = nfw long[lfngti];
+        long[] ids = nfw long[lfngti];
+        long[] ids = nfw long[lfngti];
+        long[] ids = nfw long[lfngti];
+        long[] ids = nfw long[lfngti];
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
             ids[i] = t.gftId();
         }
+        }
+        }
+        }
+        }
+        rfturn ids;
+        rfturn ids;
+        rfturn ids;
+        rfturn ids;
         rfturn ids;
     }
+    }
+    }
+    }
+    }
 
-    publid ThrfbdInfo gftThrfbdInfo(long id) {
+
+
+
+
+    publid TirfbdInfo gftTirfbdInfo(long id) {
+    publid TirfbdInfo gftTirfbdInfo(long id) {
+    publid TirfbdInfo gftTirfbdInfo(long id) {
+    publid TirfbdInfo gftTirfbdInfo(long id) {
+    publid TirfbdInfo gftTirfbdInfo(long id) {
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
         long[] ids = nfw long[1];
         ids[0] = id;
-        finbl ThrfbdInfo[] infos = gftThrfbdInfo(ids, 0);
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, 0);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, 0);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, 0);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, 0);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, 0);
+        rfturn infos[0];
+        rfturn infos[0];
+        rfturn infos[0];
+        rfturn infos[0];
         rfturn infos[0];
     }
+    }
+    }
+    }
+    }
 
-    publid ThrfbdInfo gftThrfbdInfo(long id, int mbxDfpth) {
+
+
+
+
+    publid TirfbdInfo gftTirfbdInfo(long id, int mbxDfpti) {
+    publid TirfbdInfo gftTirfbdInfo(long id, int mbxDfpti) {
+    publid TirfbdInfo gftTirfbdInfo(long id, int mbxDfpti) {
+    publid TirfbdInfo gftTirfbdInfo(long id, int mbxDfpti) {
+    publid TirfbdInfo gftTirfbdInfo(long id, int mbxDfpti) {
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
         long[] ids = nfw long[1];
         ids[0] = id;
-        finbl ThrfbdInfo[] infos = gftThrfbdInfo(ids, mbxDfpth);
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, mbxDfpti);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, mbxDfpti);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, mbxDfpti);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, mbxDfpti);
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, mbxDfpti);
+        rfturn infos[0];
+        rfturn infos[0];
+        rfturn infos[0];
+        rfturn infos[0];
         rfturn infos[0];
     }
-
-    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids) {
-        rfturn gftThrfbdInfo(ids, 0);
+    }
+    }
+    }
     }
 
-    privbtf void vfrifyThrfbdIds(long[] ids) {
+
+
+
+
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids) {
+        rfturn gftTirfbdInfo(ids, 0);
+        rfturn gftTirfbdInfo(ids, 0);
+        rfturn gftTirfbdInfo(ids, 0);
+        rfturn gftTirfbdInfo(ids, 0);
+        rfturn gftTirfbdInfo(ids, 0);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    privbtf void vfrifyTirfbdIds(long[] ids) {
+    privbtf void vfrifyTirfbdIds(long[] ids) {
+    privbtf void vfrifyTirfbdIds(long[] ids) {
+    privbtf void vfrifyTirfbdIds(long[] ids) {
+    privbtf void vfrifyTirfbdIds(long[] ids) {
         if (ids == null) {
-            throw nfw NullPointfrExdfption("Null ids pbrbmftfr.");
+        if (ids == null) {
+        if (ids == null) {
+        if (ids == null) {
+        if (ids == null) {
+            tirow nfw NullPointfrExdfption("Null ids pbrbmftfr.");
+            tirow nfw NullPointfrExdfption("Null ids pbrbmftfr.");
+            tirow nfw NullPointfrExdfption("Null ids pbrbmftfr.");
+            tirow nfw NullPointfrExdfption("Null ids pbrbmftfr.");
+            tirow nfw NullPointfrExdfption("Null ids pbrbmftfr.");
+        }
+        }
+        }
+        }
         }
 
-        for (int i = 0; i < ids.lfngth; i++) {
+
+
+
+
+        for (int i = 0; i < ids.lfngti; i++) {
+        for (int i = 0; i < ids.lfngti; i++) {
+        for (int i = 0; i < ids.lfngti; i++) {
+        for (int i = 0; i < ids.lfngti; i++) {
+        for (int i = 0; i < ids.lfngti; i++) {
             if (ids[i] <= 0) {
-                throw nfw IllfgblArgumfntExdfption(
-                    "Invblid thrfbd ID pbrbmftfr: " + ids[i]);
+            if (ids[i] <= 0) {
+            if (ids[i] <= 0) {
+            if (ids[i] <= 0) {
+            if (ids[i] <= 0) {
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid tirfbd ID pbrbmftfr: " + ids[i]);
+                    "Invblid tirfbd ID pbrbmftfr: " + ids[i]);
+                    "Invblid tirfbd ID pbrbmftfr: " + ids[i]);
+                    "Invblid tirfbd ID pbrbmftfr: " + ids[i]);
+                    "Invblid tirfbd ID pbrbmftfr: " + ids[i]);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids, int mbxDfpth) {
-        vfrifyThrfbdIds(ids);
 
-        if (mbxDfpth < 0) {
-            throw nfw IllfgblArgumfntExdfption(
-                "Invblid mbxDfpth pbrbmftfr: " + mbxDfpth);
+
+
+
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids, int mbxDfpti) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids, int mbxDfpti) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids, int mbxDfpti) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids, int mbxDfpti) {
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids, int mbxDfpti) {
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+
+
+
+
+
+        if (mbxDfpti < 0) {
+        if (mbxDfpti < 0) {
+        if (mbxDfpti < 0) {
+        if (mbxDfpti < 0) {
+        if (mbxDfpti < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid mbxDfpti pbrbmftfr: " + mbxDfpti);
+                "Invblid mbxDfpti pbrbmftfr: " + mbxDfpti);
+                "Invblid mbxDfpti pbrbmftfr: " + mbxDfpti);
+                "Invblid mbxDfpti pbrbmftfr: " + mbxDfpti);
+                "Invblid mbxDfpti pbrbmftfr: " + mbxDfpti);
+        }
+        }
+        }
+        }
         }
 
-        Util.dhfdkMonitorAddfss();
 
-        ThrfbdInfo[] infos = nfw ThrfbdInfo[ids.lfngth]; // nulls
-        if (mbxDfpth == Intfgfr.MAX_VALUE) {
-            gftThrfbdInfo1(ids, -1, infos);
+
+
+
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+
+
+
+
+
+        TirfbdInfo[] infos = nfw TirfbdInfo[ids.lfngti]; // nulls
+        TirfbdInfo[] infos = nfw TirfbdInfo[ids.lfngti]; // nulls
+        TirfbdInfo[] infos = nfw TirfbdInfo[ids.lfngti]; // nulls
+        TirfbdInfo[] infos = nfw TirfbdInfo[ids.lfngti]; // nulls
+        TirfbdInfo[] infos = nfw TirfbdInfo[ids.lfngti]; // nulls
+        if (mbxDfpti == Intfgfr.MAX_VALUE) {
+        if (mbxDfpti == Intfgfr.MAX_VALUE) {
+        if (mbxDfpti == Intfgfr.MAX_VALUE) {
+        if (mbxDfpti == Intfgfr.MAX_VALUE) {
+        if (mbxDfpti == Intfgfr.MAX_VALUE) {
+            gftTirfbdInfo1(ids, -1, infos);
+            gftTirfbdInfo1(ids, -1, infos);
+            gftTirfbdInfo1(ids, -1, infos);
+            gftTirfbdInfo1(ids, -1, infos);
+            gftTirfbdInfo1(ids, -1, infos);
         } flsf {
-            gftThrfbdInfo1(ids, mbxDfpth, infos);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            gftTirfbdInfo1(ids, mbxDfpti, infos);
+            gftTirfbdInfo1(ids, mbxDfpti, infos);
+            gftTirfbdInfo1(ids, mbxDfpti, infos);
+            gftTirfbdInfo1(ids, mbxDfpti, infos);
+            gftTirfbdInfo1(ids, mbxDfpti, infos);
+        }
+        }
+        }
+        }
         }
         rfturn infos;
+        rfturn infos;
+        rfturn infos;
+        rfturn infos;
+        rfturn infos;
+    }
+    }
+    }
+    }
     }
 
-    publid void sftThrfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
-        if (!isThrfbdContfntionMonitoringSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd dontfntion monitoring is not supportfd");
+
+
+
+
+    publid void sftTirfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
+        if (!isTirfbdContfntionMonitoringSupportfd()) {
+        if (!isTirfbdContfntionMonitoringSupportfd()) {
+        if (!isTirfbdContfntionMonitoringSupportfd()) {
+        if (!isTirfbdContfntionMonitoringSupportfd()) {
+        if (!isTirfbdContfntionMonitoringSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd dontfntion monitoring is not supportfd");
+                "Tirfbd dontfntion monitoring is not supportfd");
+                "Tirfbd dontfntion monitoring is not supportfd");
+                "Tirfbd dontfntion monitoring is not supportfd");
+                "Tirfbd dontfntion monitoring is not supportfd");
+        }
+        }
+        }
+        }
         }
 
-        Util.dhfdkControlAddfss();
 
-        syndhronizfd (this) {
+
+
+
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+
+
+
+
+
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+            if (dontfntionMonitoringEnbblfd != fnbblf) {
+            if (dontfntionMonitoringEnbblfd != fnbblf) {
+            if (dontfntionMonitoringEnbblfd != fnbblf) {
+            if (dontfntionMonitoringEnbblfd != fnbblf) {
             if (dontfntionMonitoringEnbblfd != fnbblf) {
                 if (fnbblf) {
+                if (fnbblf) {
+                if (fnbblf) {
+                if (fnbblf) {
+                if (fnbblf) {
                     // if rffbblfd, rfsft dontfntion timf stbtistids
-                    // for bll thrfbds
+                    // if rffbblfd, rfsft dontfntion timf stbtistids
+                    // if rffbblfd, rfsft dontfntion timf stbtistids
+                    // if rffbblfd, rfsft dontfntion timf stbtistids
+                    // if rffbblfd, rfsft dontfntion timf stbtistids
+                    // for bll tirfbds
+                    // for bll tirfbds
+                    // for bll tirfbds
+                    // for bll tirfbds
+                    // for bll tirfbds
+                    rfsftContfntionTimfs0(0);
+                    rfsftContfntionTimfs0(0);
+                    rfsftContfntionTimfs0(0);
+                    rfsftContfntionTimfs0(0);
                     rfsftContfntionTimfs0(0);
                 }
+                }
+                }
+                }
+                }
 
-                // updbtf thf VM of thf stbtf dhbngf
-                sftThrfbdContfntionMonitoringEnbblfd0(fnbblf);
+
+
+
+
+                // updbtf tif VM of tif stbtf dibngf
+                // updbtf tif VM of tif stbtf dibngf
+                // updbtf tif VM of tif stbtf dibngf
+                // updbtf tif VM of tif stbtf dibngf
+                // updbtf tif VM of tif stbtf dibngf
+                sftTirfbdContfntionMonitoringEnbblfd0(fnbblf);
+                sftTirfbdContfntionMonitoringEnbblfd0(fnbblf);
+                sftTirfbdContfntionMonitoringEnbblfd0(fnbblf);
+                sftTirfbdContfntionMonitoringEnbblfd0(fnbblf);
+                sftTirfbdContfntionMonitoringEnbblfd0(fnbblf);
+
+
+
+
 
                 dontfntionMonitoringEnbblfd = fnbblf;
+                dontfntionMonitoringEnbblfd = fnbblf;
+                dontfntionMonitoringEnbblfd = fnbblf;
+                dontfntionMonitoringEnbblfd = fnbblf;
+                dontfntionMonitoringEnbblfd = fnbblf;
+            }
+            }
+            }
+            }
             }
         }
-    }
-
-    privbtf boolfbn vfrifyCurrfntThrfbdCpuTimf() {
-        // dhfdk if Thrfbd CPU timf mfbsurfmfnt is supportfd.
-        if (!isCurrfntThrfbdCpuTimfSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Currfnt thrfbd CPU timf mfbsurfmfnt is not supportfd.");
         }
-        rfturn isThrfbdCpuTimfEnbblfd();
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid long gftCurrfntThrfbdCpuTimf() {
-        if (vfrifyCurrfntThrfbdCpuTimf()) {
-            rfturn gftThrfbdTotblCpuTimf0(0);
+
+
+
+
+    privbtf boolfbn vfrifyCurrfntTirfbdCpuTimf() {
+    privbtf boolfbn vfrifyCurrfntTirfbdCpuTimf() {
+    privbtf boolfbn vfrifyCurrfntTirfbdCpuTimf() {
+    privbtf boolfbn vfrifyCurrfntTirfbdCpuTimf() {
+    privbtf boolfbn vfrifyCurrfntTirfbdCpuTimf() {
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        if (!isCurrfntTirfbdCpuTimfSupportfd()) {
+        if (!isCurrfntTirfbdCpuTimfSupportfd()) {
+        if (!isCurrfntTirfbdCpuTimfSupportfd()) {
+        if (!isCurrfntTirfbdCpuTimfSupportfd()) {
+        if (!isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Currfnt tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Currfnt tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Currfnt tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Currfnt tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Currfnt tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+        }
+        }
+        }
+        }
+        }
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid long gftCurrfntTirfbdCpuTimf() {
+    publid long gftCurrfntTirfbdCpuTimf() {
+    publid long gftCurrfntTirfbdCpuTimf() {
+    publid long gftCurrfntTirfbdCpuTimf() {
+    publid long gftCurrfntTirfbdCpuTimf() {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+            rfturn gftTirfbdTotblCpuTimf0(0);
+            rfturn gftTirfbdTotblCpuTimf0(0);
+            rfturn gftTirfbdTotblCpuTimf0(0);
+            rfturn gftTirfbdTotblCpuTimf0(0);
+            rfturn gftTirfbdTotblCpuTimf0(0);
+        }
+        }
+        }
+        }
         }
         rfturn -1;
-    }
-
-    publid long gftThrfbdCpuTimf(long id) {
-        long[] ids = nfw long[1];
-        ids[0] = id;
-        finbl long[] timfs = gftThrfbdCpuTimf(ids);
-        rfturn timfs[0];
-    }
-
-    privbtf boolfbn vfrifyThrfbdCpuTimf(long[] ids) {
-        vfrifyThrfbdIds(ids);
-
-        // dhfdk if Thrfbd CPU timf mfbsurfmfnt is supportfd.
-        if (!isThrfbdCpuTimfSupportfd() &&
-            !isCurrfntThrfbdCpuTimfSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd CPU timf mfbsurfmfnt is not supportfd.");
-        }
-
-        if (!isThrfbdCpuTimfSupportfd()) {
-            // support durrfnt thrfbd only
-            for (int i = 0; i < ids.lfngth; i++) {
-                if (ids[i] != Thrfbd.durrfntThrfbd().gftId()) {
-                    throw nfw UnsupportfdOpfrbtionExdfption(
-                        "Thrfbd CPU timf mfbsurfmfnt is only supportfd" +
-                        " for thf durrfnt thrfbd.");
-                }
-            }
-        }
-
-        rfturn isThrfbdCpuTimfEnbblfd();
-    }
-
-    publid long[] gftThrfbdCpuTimf(long[] ids) {
-        boolfbn vfrififd = vfrifyThrfbdCpuTimf(ids);
-
-        int lfngth = ids.lfngth;
-        long[] timfs = nfw long[lfngth];
-        jbvb.util.Arrbys.fill(timfs, -1);
-
-        if (vfrififd) {
-            if (lfngth == 1) {
-                long id = ids[0];
-                if (id == Thrfbd.durrfntThrfbd().gftId()) {
-                    id = 0;
-                }
-                timfs[0] = gftThrfbdTotblCpuTimf0(id);
-            } flsf {
-                gftThrfbdTotblCpuTimf1(ids, timfs);
-            }
-        }
-        rfturn timfs;
-    }
-
-    publid long gftCurrfntThrfbdUsfrTimf() {
-        if (vfrifyCurrfntThrfbdCpuTimf()) {
-            rfturn gftThrfbdUsfrCpuTimf0(0);
-        }
+        rfturn -1;
+        rfturn -1;
+        rfturn -1;
         rfturn -1;
     }
+    }
+    }
+    }
+    }
 
-    publid long gftThrfbdUsfrTimf(long id) {
+
+
+
+
+    publid long gftTirfbdCpuTimf(long id) {
+    publid long gftTirfbdCpuTimf(long id) {
+    publid long gftTirfbdCpuTimf(long id) {
+    publid long gftTirfbdCpuTimf(long id) {
+    publid long gftTirfbdCpuTimf(long id) {
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
         long[] ids = nfw long[1];
         ids[0] = id;
-        finbl long[] timfs = gftThrfbdUsfrTimf(ids);
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        finbl long[] timfs = gftTirfbdCpuTimf(ids);
+        finbl long[] timfs = gftTirfbdCpuTimf(ids);
+        finbl long[] timfs = gftTirfbdCpuTimf(ids);
+        finbl long[] timfs = gftTirfbdCpuTimf(ids);
+        finbl long[] timfs = gftTirfbdCpuTimf(ids);
+        rfturn timfs[0];
+        rfturn timfs[0];
+        rfturn timfs[0];
+        rfturn timfs[0];
         rfturn timfs[0];
     }
-
-    publid long[] gftThrfbdUsfrTimf(long[] ids) {
-        boolfbn vfrififd = vfrifyThrfbdCpuTimf(ids);
-
-        int lfngth = ids.lfngth;
-        long[] timfs = nfw long[lfngth];
-        jbvb.util.Arrbys.fill(timfs, -1);
-
-        if (vfrififd) {
-            if (lfngth == 1) {
-                long id = ids[0];
-                if (id == Thrfbd.durrfntThrfbd().gftId()) {
-                    id = 0;
-                }
-                timfs[0] = gftThrfbdUsfrCpuTimf0(id);
-            } flsf {
-                gftThrfbdUsfrCpuTimf1(ids, timfs);
-            }
-        }
-        rfturn timfs;
+    }
+    }
+    }
     }
 
-    publid void sftThrfbdCpuTimfEnbblfd(boolfbn fnbblf) {
-        if (!isThrfbdCpuTimfSupportfd() &&
-            !isCurrfntThrfbdCpuTimfSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd CPU timf mfbsurfmfnt is not supportfd");
+
+
+
+
+    privbtf boolfbn vfrifyTirfbdCpuTimf(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdCpuTimf(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdCpuTimf(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdCpuTimf(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdCpuTimf(long[] ids) {
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+
+
+
+
+
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd.");
+        }
+        }
+        }
+        }
         }
 
-        Util.dhfdkControlAddfss();
-        syndhronizfd (this) {
+
+
+
+
+        if (!isTirfbdCpuTimfSupportfd()) {
+        if (!isTirfbdCpuTimfSupportfd()) {
+        if (!isTirfbdCpuTimfSupportfd()) {
+        if (!isTirfbdCpuTimfSupportfd()) {
+        if (!isTirfbdCpuTimfSupportfd()) {
+            // support durrfnt tirfbd only
+            // support durrfnt tirfbd only
+            // support durrfnt tirfbd only
+            // support durrfnt tirfbd only
+            // support durrfnt tirfbd only
+            for (int i = 0; i < ids.lfngti; i++) {
+            for (int i = 0; i < ids.lfngti; i++) {
+            for (int i = 0; i < ids.lfngti; i++) {
+            for (int i = 0; i < ids.lfngti; i++) {
+            for (int i = 0; i < ids.lfngti; i++) {
+                if (ids[i] != Tirfbd.durrfntTirfbd().gftId()) {
+                if (ids[i] != Tirfbd.durrfntTirfbd().gftId()) {
+                if (ids[i] != Tirfbd.durrfntTirfbd().gftId()) {
+                if (ids[i] != Tirfbd.durrfntTirfbd().gftId()) {
+                if (ids[i] != Tirfbd.durrfntTirfbd().gftId()) {
+                    tirow nfw UnsupportfdOpfrbtionExdfption(
+                    tirow nfw UnsupportfdOpfrbtionExdfption(
+                    tirow nfw UnsupportfdOpfrbtionExdfption(
+                    tirow nfw UnsupportfdOpfrbtionExdfption(
+                    tirow nfw UnsupportfdOpfrbtionExdfption(
+                        "Tirfbd CPU timf mfbsurfmfnt is only supportfd" +
+                        "Tirfbd CPU timf mfbsurfmfnt is only supportfd" +
+                        "Tirfbd CPU timf mfbsurfmfnt is only supportfd" +
+                        "Tirfbd CPU timf mfbsurfmfnt is only supportfd" +
+                        "Tirfbd CPU timf mfbsurfmfnt is only supportfd" +
+                        " for tif durrfnt tirfbd.");
+                        " for tif durrfnt tirfbd.");
+                        " for tif durrfnt tirfbd.");
+                        " for tif durrfnt tirfbd.");
+                        " for tif durrfnt tirfbd.");
+                }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+        rfturn isTirfbdCpuTimfEnbblfd();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid long[] gftTirfbdCpuTimf(long[] ids) {
+    publid long[] gftTirfbdCpuTimf(long[] ids) {
+    publid long[] gftTirfbdCpuTimf(long[] ids) {
+    publid long[] gftTirfbdCpuTimf(long[] ids) {
+    publid long[] gftTirfbdCpuTimf(long[] ids) {
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+
+
+
+
+
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+
+
+
+
+
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+                long id = ids[0];
+                long id = ids[0];
+                long id = ids[0];
+                long id = ids[0];
+                long id = ids[0];
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                    id = 0;
+                    id = 0;
+                    id = 0;
+                    id = 0;
+                    id = 0;
+                }
+                }
+                }
+                }
+                }
+                timfs[0] = gftTirfbdTotblCpuTimf0(id);
+                timfs[0] = gftTirfbdTotblCpuTimf0(id);
+                timfs[0] = gftTirfbdTotblCpuTimf0(id);
+                timfs[0] = gftTirfbdTotblCpuTimf0(id);
+                timfs[0] = gftTirfbdTotblCpuTimf0(id);
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                gftTirfbdTotblCpuTimf1(ids, timfs);
+                gftTirfbdTotblCpuTimf1(ids, timfs);
+                gftTirfbdTotblCpuTimf1(ids, timfs);
+                gftTirfbdTotblCpuTimf1(ids, timfs);
+                gftTirfbdTotblCpuTimf1(ids, timfs);
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+        rfturn timfs;
+        rfturn timfs;
+        rfturn timfs;
+        rfturn timfs;
+        rfturn timfs;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid long gftCurrfntTirfbdUsfrTimf() {
+    publid long gftCurrfntTirfbdUsfrTimf() {
+    publid long gftCurrfntTirfbdUsfrTimf() {
+    publid long gftCurrfntTirfbdUsfrTimf() {
+    publid long gftCurrfntTirfbdUsfrTimf() {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+            rfturn gftTirfbdUsfrCpuTimf0(0);
+            rfturn gftTirfbdUsfrCpuTimf0(0);
+            rfturn gftTirfbdUsfrCpuTimf0(0);
+            rfturn gftTirfbdUsfrCpuTimf0(0);
+            rfturn gftTirfbdUsfrCpuTimf0(0);
+        }
+        }
+        }
+        }
+        }
+        rfturn -1;
+        rfturn -1;
+        rfturn -1;
+        rfturn -1;
+        rfturn -1;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid long gftTirfbdUsfrTimf(long id) {
+    publid long gftTirfbdUsfrTimf(long id) {
+    publid long gftTirfbdUsfrTimf(long id) {
+    publid long gftTirfbdUsfrTimf(long id) {
+    publid long gftTirfbdUsfrTimf(long id) {
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        finbl long[] timfs = gftTirfbdUsfrTimf(ids);
+        finbl long[] timfs = gftTirfbdUsfrTimf(ids);
+        finbl long[] timfs = gftTirfbdUsfrTimf(ids);
+        finbl long[] timfs = gftTirfbdUsfrTimf(ids);
+        finbl long[] timfs = gftTirfbdUsfrTimf(ids);
+        rfturn timfs[0];
+        rfturn timfs[0];
+        rfturn timfs[0];
+        rfturn timfs[0];
+        rfturn timfs[0];
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid long[] gftTirfbdUsfrTimf(long[] ids) {
+    publid long[] gftTirfbdUsfrTimf(long[] ids) {
+    publid long[] gftTirfbdUsfrTimf(long[] ids) {
+    publid long[] gftTirfbdUsfrTimf(long[] ids) {
+    publid long[] gftTirfbdUsfrTimf(long[] ids) {
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
+
+
+
+
+
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        int lfngti = ids.lfngti;
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        long[] timfs = nfw long[lfngti];
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+        jbvb.util.Arrbys.fill(timfs, -1);
+
+
+
+
+
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+            if (lfngti == 1) {
+                long id = ids[0];
+                long id = ids[0];
+                long id = ids[0];
+                long id = ids[0];
+                long id = ids[0];
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
+                    id = 0;
+                    id = 0;
+                    id = 0;
+                    id = 0;
+                    id = 0;
+                }
+                }
+                }
+                }
+                }
+                timfs[0] = gftTirfbdUsfrCpuTimf0(id);
+                timfs[0] = gftTirfbdUsfrCpuTimf0(id);
+                timfs[0] = gftTirfbdUsfrCpuTimf0(id);
+                timfs[0] = gftTirfbdUsfrCpuTimf0(id);
+                timfs[0] = gftTirfbdUsfrCpuTimf0(id);
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                gftTirfbdUsfrCpuTimf1(ids, timfs);
+                gftTirfbdUsfrCpuTimf1(ids, timfs);
+                gftTirfbdUsfrCpuTimf1(ids, timfs);
+                gftTirfbdUsfrCpuTimf1(ids, timfs);
+                gftTirfbdUsfrCpuTimf1(ids, timfs);
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+        rfturn timfs;
+        rfturn timfs;
+        rfturn timfs;
+        rfturn timfs;
+        rfturn timfs;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid void sftTirfbdCpuTimfEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdCpuTimfEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdCpuTimfEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdCpuTimfEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdCpuTimfEnbblfd(boolfbn fnbblf) {
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+        if (!isTirfbdCpuTimfSupportfd() &&
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
             if (dpuTimfEnbblfd != fnbblf) {
-                // notify VM of thf stbtf dhbngf
-                sftThrfbdCpuTimfEnbblfd0(fnbblf);
+            if (dpuTimfEnbblfd != fnbblf) {
+            if (dpuTimfEnbblfd != fnbblf) {
+            if (dpuTimfEnbblfd != fnbblf) {
+            if (dpuTimfEnbblfd != fnbblf) {
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                sftTirfbdCpuTimfEnbblfd0(fnbblf);
+                sftTirfbdCpuTimfEnbblfd0(fnbblf);
+                sftTirfbdCpuTimfEnbblfd0(fnbblf);
+                sftTirfbdCpuTimfEnbblfd0(fnbblf);
+                sftTirfbdCpuTimfEnbblfd0(fnbblf);
+                dpuTimfEnbblfd = fnbblf;
+                dpuTimfEnbblfd = fnbblf;
+                dpuTimfEnbblfd = fnbblf;
+                dpuTimfEnbblfd = fnbblf;
                 dpuTimfEnbblfd = fnbblf;
             }
-        }
-    }
-
-    publid long gftThrfbdAllodbtfdBytfs(long id) {
-        long[] ids = nfw long[1];
-        ids[0] = id;
-        finbl long[] sizfs = gftThrfbdAllodbtfdBytfs(ids);
-        rfturn sizfs[0];
-    }
-
-    privbtf boolfbn vfrifyThrfbdAllodbtfdMfmory(long[] ids) {
-        vfrifyThrfbdIds(ids);
-
-        // dhfdk if Thrfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
-        if (!isThrfbdAllodbtfdMfmorySupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
-        }
-
-        rfturn isThrfbdAllodbtfdMfmoryEnbblfd();
-    }
-
-    publid long[] gftThrfbdAllodbtfdBytfs(long[] ids) {
-        boolfbn vfrififd = vfrifyThrfbdAllodbtfdMfmory(ids);
-
-        long[] sizfs = nfw long[ids.lfngth];
-        jbvb.util.Arrbys.fill(sizfs, -1);
-
-        if (vfrififd) {
-            gftThrfbdAllodbtfdMfmory1(ids, sizfs);
-        }
-        rfturn sizfs;
-    }
-
-    publid void sftThrfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
-        if (!isThrfbdAllodbtfdMfmorySupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Thrfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
-        }
-
-        Util.dhfdkControlAddfss();
-        syndhronizfd (this) {
-            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
-                // notify VM of thf stbtf dhbngf
-                sftThrfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
-                bllodbtfdMfmoryEnbblfd = fnbblf;
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid long[] findMonitorDfbdlodkfdThrfbds() {
-        Util.dhfdkMonitorAddfss();
 
-        Thrfbd[] thrfbds = findMonitorDfbdlodkfdThrfbds0();
-        if (thrfbds == null) {
+
+
+
+    publid long gftTirfbdAllodbtfdBytfs(long id) {
+    publid long gftTirfbdAllodbtfdBytfs(long id) {
+    publid long gftTirfbdAllodbtfdBytfs(long id) {
+    publid long gftTirfbdAllodbtfdBytfs(long id) {
+    publid long gftTirfbdAllodbtfdBytfs(long id) {
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        long[] ids = nfw long[1];
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        ids[0] = id;
+        finbl long[] sizfs = gftTirfbdAllodbtfdBytfs(ids);
+        finbl long[] sizfs = gftTirfbdAllodbtfdBytfs(ids);
+        finbl long[] sizfs = gftTirfbdAllodbtfdBytfs(ids);
+        finbl long[] sizfs = gftTirfbdAllodbtfdBytfs(ids);
+        finbl long[] sizfs = gftTirfbdAllodbtfdBytfs(ids);
+        rfturn sizfs[0];
+        rfturn sizfs[0];
+        rfturn sizfs[0];
+        rfturn sizfs[0];
+        rfturn sizfs[0];
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    privbtf boolfbn vfrifyTirfbdAllodbtfdMfmory(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdAllodbtfdMfmory(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdAllodbtfdMfmory(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdAllodbtfdMfmory(long[] ids) {
+    privbtf boolfbn vfrifyTirfbdAllodbtfdMfmory(long[] ids) {
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+
+
+
+
+
+        // difdk if Tirfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
+        // difdk if Tirfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        rfturn isTirfbdAllodbtfdMfmoryEnbblfd();
+        rfturn isTirfbdAllodbtfdMfmoryEnbblfd();
+        rfturn isTirfbdAllodbtfdMfmoryEnbblfd();
+        rfturn isTirfbdAllodbtfdMfmoryEnbblfd();
+        rfturn isTirfbdAllodbtfdMfmoryEnbblfd();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids) {
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids) {
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids) {
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids) {
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids) {
+        boolfbn vfrififd = vfrifyTirfbdAllodbtfdMfmory(ids);
+        boolfbn vfrififd = vfrifyTirfbdAllodbtfdMfmory(ids);
+        boolfbn vfrififd = vfrifyTirfbdAllodbtfdMfmory(ids);
+        boolfbn vfrififd = vfrifyTirfbdAllodbtfdMfmory(ids);
+        boolfbn vfrififd = vfrifyTirfbdAllodbtfdMfmory(ids);
+
+
+
+
+
+        long[] sizfs = nfw long[ids.lfngti];
+        long[] sizfs = nfw long[ids.lfngti];
+        long[] sizfs = nfw long[ids.lfngti];
+        long[] sizfs = nfw long[ids.lfngti];
+        long[] sizfs = nfw long[ids.lfngti];
+        jbvb.util.Arrbys.fill(sizfs, -1);
+        jbvb.util.Arrbys.fill(sizfs, -1);
+        jbvb.util.Arrbys.fill(sizfs, -1);
+        jbvb.util.Arrbys.fill(sizfs, -1);
+        jbvb.util.Arrbys.fill(sizfs, -1);
+
+
+
+
+
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+        if (vfrififd) {
+            gftTirfbdAllodbtfdMfmory1(ids, sizfs);
+            gftTirfbdAllodbtfdMfmory1(ids, sizfs);
+            gftTirfbdAllodbtfdMfmory1(ids, sizfs);
+            gftTirfbdAllodbtfdMfmory1(ids, sizfs);
+            gftTirfbdAllodbtfdMfmory1(ids, sizfs);
+        }
+        }
+        }
+        }
+        }
+        rfturn sizfs;
+        rfturn sizfs;
+        rfturn sizfs;
+        rfturn sizfs;
+        rfturn sizfs;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
+            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
+            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
+            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
+            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                // notify VM of tif stbtf dibngf
+                sftTirfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
+                sftTirfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
+                sftTirfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
+                sftTirfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
+                sftTirfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
+                bllodbtfdMfmoryEnbblfd = fnbblf;
+                bllodbtfdMfmoryEnbblfd = fnbblf;
+                bllodbtfdMfmoryEnbblfd = fnbblf;
+                bllodbtfdMfmoryEnbblfd = fnbblf;
+                bllodbtfdMfmoryEnbblfd = fnbblf;
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid long[] findMonitorDfbdlodkfdTirfbds() {
+    publid long[] findMonitorDfbdlodkfdTirfbds() {
+    publid long[] findMonitorDfbdlodkfdTirfbds() {
+    publid long[] findMonitorDfbdlodkfdTirfbds() {
+    publid long[] findMonitorDfbdlodkfdTirfbds() {
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+
+
+
+
+
+        Tirfbd[] tirfbds = findMonitorDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findMonitorDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findMonitorDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findMonitorDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findMonitorDfbdlodkfdTirfbds0();
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
+        }
+        }
+        }
+        }
 
-        long[] ids = nfw long[thrfbds.lfngth];
-        for (int i = 0; i < thrfbds.lfngth; i++) {
-            Thrfbd t = thrfbds[i];
+
+
+
+
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
             ids[i] = t.gftId();
         }
+        }
+        }
+        }
+        }
+        rfturn ids;
+        rfturn ids;
+        rfturn ids;
+        rfturn ids;
         rfturn ids;
     }
+    }
+    }
+    }
+    }
 
-    publid long[] findDfbdlodkfdThrfbds() {
-        if (!isSyndhronizfrUsbgfSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Monitoring of Syndhronizfr Usbgf is not supportfd.");
+
+
+
+
+    publid long[] findDfbdlodkfdTirfbds() {
+    publid long[] findDfbdlodkfdTirfbds() {
+    publid long[] findDfbdlodkfdTirfbds() {
+    publid long[] findDfbdlodkfdTirfbds() {
+    publid long[] findDfbdlodkfdTirfbds() {
+        if (!isSyndironizfrUsbgfSupportfd()) {
+        if (!isSyndironizfrUsbgfSupportfd()) {
+        if (!isSyndironizfrUsbgfSupportfd()) {
+        if (!isSyndironizfrUsbgfSupportfd()) {
+        if (!isSyndironizfrUsbgfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+        }
+        }
+        }
+        }
         }
 
-        Util.dhfdkMonitorAddfss();
 
-        Thrfbd[] thrfbds = findDfbdlodkfdThrfbds0();
-        if (thrfbds == null) {
+
+
+
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+
+
+
+
+
+        Tirfbd[] tirfbds = findDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findDfbdlodkfdTirfbds0();
+        Tirfbd[] tirfbds = findDfbdlodkfdTirfbds0();
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+        if (tirfbds == null) {
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
+        }
+        }
+        }
+        }
 
-        long[] ids = nfw long[thrfbds.lfngth];
-        for (int i = 0; i < thrfbds.lfngth; i++) {
-            Thrfbd t = thrfbds[i];
+
+
+
+
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        long[] ids = nfw long[tirfbds.lfngti];
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            Tirfbd t = tirfbds[i];
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
+            ids[i] = t.gftId();
             ids[i] = t.gftId();
         }
+        }
+        }
+        }
+        }
+        rfturn ids;
+        rfturn ids;
+        rfturn ids;
+        rfturn ids;
         rfturn ids;
     }
-
-    publid void rfsftPfbkThrfbdCount() {
-        Util.dhfdkControlAddfss();
-        rfsftPfbkThrfbdCount0();
     }
+    }
+    }
+    }
+
+
+
+
+
+    publid void rfsftPfbkTirfbdCount() {
+    publid void rfsftPfbkTirfbdCount() {
+    publid void rfsftPfbkTirfbdCount() {
+    publid void rfsftPfbkTirfbdCount() {
+    publid void rfsftPfbkTirfbdCount() {
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        Util.difdkControlAddfss();
+        rfsftPfbkTirfbdCount0();
+        rfsftPfbkTirfbdCount0();
+        rfsftPfbkTirfbdCount0();
+        rfsftPfbkTirfbdCount0();
+        rfsftPfbkTirfbdCount0();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+        rfturn jvm.isObjfdtMonitorUsbgfSupportfd();
+        rfturn jvm.isObjfdtMonitorUsbgfSupportfd();
+        rfturn jvm.isObjfdtMonitorUsbgfSupportfd();
+        rfturn jvm.isObjfdtMonitorUsbgfSupportfd();
         rfturn jvm.isObjfdtMonitorUsbgfSupportfd();
     }
-
-    publid boolfbn isSyndhronizfrUsbgfSupportfd() {
-        rfturn jvm.isSyndhronizfrUsbgfSupportfd();
+    }
+    }
+    }
     }
 
-    privbtf void vfrifyDumpThrfbds(boolfbn lodkfdMonitors,
-                                   boolfbn lodkfdSyndhronizfrs) {
+
+
+
+
+    publid boolfbn isSyndironizfrUsbgfSupportfd() {
+    publid boolfbn isSyndironizfrUsbgfSupportfd() {
+    publid boolfbn isSyndironizfrUsbgfSupportfd() {
+    publid boolfbn isSyndironizfrUsbgfSupportfd() {
+    publid boolfbn isSyndironizfrUsbgfSupportfd() {
+        rfturn jvm.isSyndironizfrUsbgfSupportfd();
+        rfturn jvm.isSyndironizfrUsbgfSupportfd();
+        rfturn jvm.isSyndironizfrUsbgfSupportfd();
+        rfturn jvm.isSyndironizfrUsbgfSupportfd();
+        rfturn jvm.isSyndironizfrUsbgfSupportfd();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    privbtf void vfrifyDumpTirfbds(boolfbn lodkfdMonitors,
+    privbtf void vfrifyDumpTirfbds(boolfbn lodkfdMonitors,
+    privbtf void vfrifyDumpTirfbds(boolfbn lodkfdMonitors,
+    privbtf void vfrifyDumpTirfbds(boolfbn lodkfdMonitors,
+    privbtf void vfrifyDumpTirfbds(boolfbn lodkfdMonitors,
+                                   boolfbn lodkfdSyndironizfrs) {
+                                   boolfbn lodkfdSyndironizfrs) {
+                                   boolfbn lodkfdSyndironizfrs) {
+                                   boolfbn lodkfdSyndironizfrs) {
+                                   boolfbn lodkfdSyndironizfrs) {
         if (lodkfdMonitors && !isObjfdtMonitorUsbgfSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
+        if (lodkfdMonitors && !isObjfdtMonitorUsbgfSupportfd()) {
+        if (lodkfdMonitors && !isObjfdtMonitorUsbgfSupportfd()) {
+        if (lodkfdMonitors && !isObjfdtMonitorUsbgfSupportfd()) {
+        if (lodkfdMonitors && !isObjfdtMonitorUsbgfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Objfdt Monitor Usbgf is not supportfd.");
+                "Monitoring of Objfdt Monitor Usbgf is not supportfd.");
+                "Monitoring of Objfdt Monitor Usbgf is not supportfd.");
+                "Monitoring of Objfdt Monitor Usbgf is not supportfd.");
                 "Monitoring of Objfdt Monitor Usbgf is not supportfd.");
         }
-
-        if (lodkfdSyndhronizfrs && !isSyndhronizfrUsbgfSupportfd()) {
-            throw nfw UnsupportfdOpfrbtionExdfption(
-                "Monitoring of Syndhronizfr Usbgf is not supportfd.");
+        }
+        }
+        }
         }
 
-        Util.dhfdkMonitorAddfss();
+
+
+
+
+        if (lodkfdSyndironizfrs && !isSyndironizfrUsbgfSupportfd()) {
+        if (lodkfdSyndironizfrs && !isSyndironizfrUsbgfSupportfd()) {
+        if (lodkfdSyndironizfrs && !isSyndironizfrUsbgfSupportfd()) {
+        if (lodkfdSyndironizfrs && !isSyndironizfrUsbgfSupportfd()) {
+        if (lodkfdSyndironizfrs && !isSyndironizfrUsbgfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+        Util.difdkMonitorAddfss();
+    }
+    }
+    }
+    }
     }
 
-    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids,
+
+
+
+
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids,
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids,
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids,
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids,
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids,
                                       boolfbn lodkfdMonitors,
-                                      boolfbn lodkfdSyndhronizfrs) {
-        vfrifyThrfbdIds(ids);
-        vfrifyDumpThrfbds(lodkfdMonitors, lodkfdSyndhronizfrs);
-        rfturn dumpThrfbds0(ids, lodkfdMonitors, lodkfdSyndhronizfrs);
+                                      boolfbn lodkfdMonitors,
+                                      boolfbn lodkfdMonitors,
+                                      boolfbn lodkfdMonitors,
+                                      boolfbn lodkfdMonitors,
+                                      boolfbn lodkfdSyndironizfrs) {
+                                      boolfbn lodkfdSyndironizfrs) {
+                                      boolfbn lodkfdSyndironizfrs) {
+                                      boolfbn lodkfdSyndironizfrs) {
+                                      boolfbn lodkfdSyndironizfrs) {
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyTirfbdIds(ids);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(ids, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(ids, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(ids, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(ids, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(ids, lodkfdMonitors, lodkfdSyndironizfrs);
+    }
+    }
+    }
+    }
     }
 
-    publid ThrfbdInfo[] dumpAllThrfbds(boolfbn lodkfdMonitors,
-                                       boolfbn lodkfdSyndhronizfrs) {
-        vfrifyDumpThrfbds(lodkfdMonitors, lodkfdSyndhronizfrs);
-        rfturn dumpThrfbds0(null, lodkfdMonitors, lodkfdSyndhronizfrs);
+
+
+
+
+    publid TirfbdInfo[] dumpAllTirfbds(boolfbn lodkfdMonitors,
+    publid TirfbdInfo[] dumpAllTirfbds(boolfbn lodkfdMonitors,
+    publid TirfbdInfo[] dumpAllTirfbds(boolfbn lodkfdMonitors,
+    publid TirfbdInfo[] dumpAllTirfbds(boolfbn lodkfdMonitors,
+    publid TirfbdInfo[] dumpAllTirfbds(boolfbn lodkfdMonitors,
+                                       boolfbn lodkfdSyndironizfrs) {
+                                       boolfbn lodkfdSyndironizfrs) {
+                                       boolfbn lodkfdSyndironizfrs) {
+                                       boolfbn lodkfdSyndironizfrs) {
+                                       boolfbn lodkfdSyndironizfrs) {
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(null, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(null, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(null, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(null, lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(null, lodkfdMonitors, lodkfdSyndironizfrs);
+    }
+    }
+    }
+    }
     }
 
-    // VM support whfrf mbxDfpth == -1 to rfqufst fntirf stbdk dump
-    privbtf stbtid nbtivf Thrfbd[] gftThrfbds();
-    privbtf stbtid nbtivf void gftThrfbdInfo1(long[] ids,
-                                              int mbxDfpth,
-                                              ThrfbdInfo[] rfsult);
-    privbtf stbtid nbtivf long gftThrfbdTotblCpuTimf0(long id);
-    privbtf stbtid nbtivf void gftThrfbdTotblCpuTimf1(long[] ids, long[] rfsult);
-    privbtf stbtid nbtivf long gftThrfbdUsfrCpuTimf0(long id);
-    privbtf stbtid nbtivf void gftThrfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
-    privbtf stbtid nbtivf void gftThrfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
-    privbtf stbtid nbtivf void sftThrfbdCpuTimfEnbblfd0(boolfbn fnbblf);
-    privbtf stbtid nbtivf void sftThrfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
-    privbtf stbtid nbtivf void sftThrfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
-    privbtf stbtid nbtivf Thrfbd[] findMonitorDfbdlodkfdThrfbds0();
-    privbtf stbtid nbtivf Thrfbd[] findDfbdlodkfdThrfbds0();
-    privbtf stbtid nbtivf void rfsftPfbkThrfbdCount0();
-    privbtf stbtid nbtivf ThrfbdInfo[] dumpThrfbds0(long[] ids,
+
+
+
+
+    // VM support wifrf mbxDfpti == -1 to rfqufst fntirf stbdk dump
+    // VM support wifrf mbxDfpti == -1 to rfqufst fntirf stbdk dump
+    // VM support wifrf mbxDfpti == -1 to rfqufst fntirf stbdk dump
+    // VM support wifrf mbxDfpti == -1 to rfqufst fntirf stbdk dump
+    // VM support wifrf mbxDfpti == -1 to rfqufst fntirf stbdk dump
+    privbtf stbtid nbtivf Tirfbd[] gftTirfbds();
+    privbtf stbtid nbtivf Tirfbd[] gftTirfbds();
+    privbtf stbtid nbtivf Tirfbd[] gftTirfbds();
+    privbtf stbtid nbtivf Tirfbd[] gftTirfbds();
+    privbtf stbtid nbtivf Tirfbd[] gftTirfbds();
+    privbtf stbtid nbtivf void gftTirfbdInfo1(long[] ids,
+    privbtf stbtid nbtivf void gftTirfbdInfo1(long[] ids,
+    privbtf stbtid nbtivf void gftTirfbdInfo1(long[] ids,
+    privbtf stbtid nbtivf void gftTirfbdInfo1(long[] ids,
+    privbtf stbtid nbtivf void gftTirfbdInfo1(long[] ids,
+                                              int mbxDfpti,
+                                              int mbxDfpti,
+                                              int mbxDfpti,
+                                              int mbxDfpti,
+                                              int mbxDfpti,
+                                              TirfbdInfo[] rfsult);
+                                              TirfbdInfo[] rfsult);
+                                              TirfbdInfo[] rfsult);
+                                              TirfbdInfo[] rfsult);
+                                              TirfbdInfo[] rfsult);
+    privbtf stbtid nbtivf long gftTirfbdTotblCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdTotblCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdTotblCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdTotblCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdTotblCpuTimf0(long id);
+    privbtf stbtid nbtivf void gftTirfbdTotblCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdTotblCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdTotblCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdTotblCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdTotblCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf long gftTirfbdUsfrCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdUsfrCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdUsfrCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdUsfrCpuTimf0(long id);
+    privbtf stbtid nbtivf long gftTirfbdUsfrCpuTimf0(long id);
+    privbtf stbtid nbtivf void gftTirfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void sftTirfbdCpuTimfEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdCpuTimfEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdCpuTimfEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdCpuTimfEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdCpuTimfEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf Tirfbd[] findMonitorDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findMonitorDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findMonitorDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findMonitorDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findMonitorDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf void rfsftPfbkTirfbdCount0();
+    privbtf stbtid nbtivf void rfsftPfbkTirfbdCount0();
+    privbtf stbtid nbtivf void rfsftPfbkTirfbdCount0();
+    privbtf stbtid nbtivf void rfsftPfbkTirfbdCount0();
+    privbtf stbtid nbtivf void rfsftPfbkTirfbdCount0();
+    privbtf stbtid nbtivf TirfbdInfo[] dumpTirfbds0(long[] ids,
+    privbtf stbtid nbtivf TirfbdInfo[] dumpTirfbds0(long[] ids,
+    privbtf stbtid nbtivf TirfbdInfo[] dumpTirfbds0(long[] ids,
+    privbtf stbtid nbtivf TirfbdInfo[] dumpTirfbds0(long[] ids,
+    privbtf stbtid nbtivf TirfbdInfo[] dumpTirfbds0(long[] ids,
                                                     boolfbn lodkfdMonitors,
-                                                    boolfbn lodkfdSyndhronizfrs);
+                                                    boolfbn lodkfdMonitors,
+                                                    boolfbn lodkfdMonitors,
+                                                    boolfbn lodkfdMonitors,
+                                                    boolfbn lodkfdMonitors,
+                                                    boolfbn lodkfdSyndironizfrs);
+                                                    boolfbn lodkfdSyndironizfrs);
+                                                    boolfbn lodkfdSyndironizfrs);
+                                                    boolfbn lodkfdSyndironizfrs);
+                                                    boolfbn lodkfdSyndironizfrs);
 
-    // tid == 0 to rfsft dontfntion timfs for bll thrfbds
+
+
+
+
+    // tid == 0 to rfsft dontfntion timfs for bll tirfbds
+    // tid == 0 to rfsft dontfntion timfs for bll tirfbds
+    // tid == 0 to rfsft dontfntion timfs for bll tirfbds
+    // tid == 0 to rfsft dontfntion timfs for bll tirfbds
+    // tid == 0 to rfsft dontfntion timfs for bll tirfbds
+    privbtf stbtid nbtivf void rfsftContfntionTimfs0(long tid);
+    privbtf stbtid nbtivf void rfsftContfntionTimfs0(long tid);
+    privbtf stbtid nbtivf void rfsftContfntionTimfs0(long tid);
+    privbtf stbtid nbtivf void rfsftContfntionTimfs0(long tid);
     privbtf stbtid nbtivf void rfsftContfntionTimfs0(long tid);
 
+
+
+
+
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+    publid ObjfdtNbmf gftObjfdtNbmf() {
     publid ObjfdtNbmf gftObjfdtNbmf() {
         rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.THREAD_MXBEAN_NAME);
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.THREAD_MXBEAN_NAME);
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.THREAD_MXBEAN_NAME);
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.THREAD_MXBEAN_NAME);
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.THREAD_MXBEAN_NAME);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

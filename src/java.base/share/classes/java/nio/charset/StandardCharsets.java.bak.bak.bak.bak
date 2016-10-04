@@ -1,66 +1,330 @@
 /*
- * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-pbdkbgf jbvb.nio.dhbrsft;
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+
+
+
+
 
 /**
- * Constbnt dffinitions for thf stbndbrd {@link Chbrsft Chbrsfts}. Thfsf
- * dhbrsfts brf gubrbntffd to bf bvbilbblf on fvfry implfmfntbtion of thf Jbvb
+/**
+/**
+/**
+/**
+ * Constbnt dffinitions for tif stbndbrd {@link Cibrsft Cibrsfts}. Tifsf
+ * Constbnt dffinitions for tif stbndbrd {@link Cibrsft Cibrsfts}. Tifsf
+ * Constbnt dffinitions for tif stbndbrd {@link Cibrsft Cibrsfts}. Tifsf
+ * Constbnt dffinitions for tif stbndbrd {@link Cibrsft Cibrsfts}. Tifsf
+ * Constbnt dffinitions for tif stbndbrd {@link Cibrsft Cibrsfts}. Tifsf
+ * dibrsfts brf gubrbntffd to bf bvbilbblf on fvfry implfmfntbtion of tif Jbvb
+ * dibrsfts brf gubrbntffd to bf bvbilbblf on fvfry implfmfntbtion of tif Jbvb
+ * dibrsfts brf gubrbntffd to bf bvbilbblf on fvfry implfmfntbtion of tif Jbvb
+ * dibrsfts brf gubrbntffd to bf bvbilbblf on fvfry implfmfntbtion of tif Jbvb
+ * dibrsfts brf gubrbntffd to bf bvbilbblf on fvfry implfmfntbtion of tif Jbvb
+ * plbtform.
+ * plbtform.
+ * plbtform.
+ * plbtform.
  * plbtform.
  *
- * @sff <b hrff="Chbrsft.html#stbndbrd">Stbndbrd Chbrsfts</b>
+ *
+ *
+ *
+ *
+ * @sff <b irff="Cibrsft.itml#stbndbrd">Stbndbrd Cibrsfts</b>
+ * @sff <b irff="Cibrsft.itml#stbndbrd">Stbndbrd Cibrsfts</b>
+ * @sff <b irff="Cibrsft.itml#stbndbrd">Stbndbrd Cibrsfts</b>
+ * @sff <b irff="Cibrsft.itml#stbndbrd">Stbndbrd Cibrsfts</b>
+ * @sff <b irff="Cibrsft.itml#stbndbrd">Stbndbrd Cibrsfts</b>
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
  * @sindf 1.7
  */
-publid finbl dlbss StbndbrdChbrsfts {
+ */
+ */
+ */
+ */
+publid finbl dlbss StbndbrdCibrsfts {
+publid finbl dlbss StbndbrdCibrsfts {
+publid finbl dlbss StbndbrdCibrsfts {
+publid finbl dlbss StbndbrdCibrsfts {
+publid finbl dlbss StbndbrdCibrsfts {
 
-    privbtf StbndbrdChbrsfts() {
-        throw nfw AssfrtionError("No jbvb.nio.dhbrsft.StbndbrdChbrsfts instbndfs for you!");
+
+
+
+
+    privbtf StbndbrdCibrsfts() {
+    privbtf StbndbrdCibrsfts() {
+    privbtf StbndbrdCibrsfts() {
+    privbtf StbndbrdCibrsfts() {
+    privbtf StbndbrdCibrsfts() {
+        tirow nfw AssfrtionError("No jbvb.nio.dibrsft.StbndbrdCibrsfts instbndfs for you!");
+        tirow nfw AssfrtionError("No jbvb.nio.dibrsft.StbndbrdCibrsfts instbndfs for you!");
+        tirow nfw AssfrtionError("No jbvb.nio.dibrsft.StbndbrdCibrsfts instbndfs for you!");
+        tirow nfw AssfrtionError("No jbvb.nio.dibrsft.StbndbrdCibrsfts instbndfs for you!");
+        tirow nfw AssfrtionError("No jbvb.nio.dibrsft.StbndbrdCibrsfts instbndfs for you!");
+    }
+    }
+    }
+    }
     }
     /**
-     * Sfvfn-bit ASCII, b.k.b. ISO646-US, b.k.b. thf Bbsid Lbtin blodk of thf
-     * Unidodf dhbrbdtfr sft
-     */
-    publid stbtid finbl Chbrsft US_ASCII = Chbrsft.forNbmf("US-ASCII");
     /**
-     * ISO Lbtin Alphbbft No. 1, b.k.b. ISO-LATIN-1
-     */
-    publid stbtid finbl Chbrsft ISO_8859_1 = Chbrsft.forNbmf("ISO-8859-1");
     /**
-     * Eight-bit UCS Trbnsformbtion Formbt
+    /**
+    /**
+     * Sfvfn-bit ASCII, b.k.b. ISO646-US, b.k.b. tif Bbsid Lbtin blodk of tif
+     * Sfvfn-bit ASCII, b.k.b. ISO646-US, b.k.b. tif Bbsid Lbtin blodk of tif
+     * Sfvfn-bit ASCII, b.k.b. ISO646-US, b.k.b. tif Bbsid Lbtin blodk of tif
+     * Sfvfn-bit ASCII, b.k.b. ISO646-US, b.k.b. tif Bbsid Lbtin blodk of tif
+     * Sfvfn-bit ASCII, b.k.b. ISO646-US, b.k.b. tif Bbsid Lbtin blodk of tif
+     * Unidodf dibrbdtfr sft
+     * Unidodf dibrbdtfr sft
+     * Unidodf dibrbdtfr sft
+     * Unidodf dibrbdtfr sft
+     * Unidodf dibrbdtfr sft
      */
-    publid stbtid finbl Chbrsft UTF_8 = Chbrsft.forNbmf("UTF-8");
+     */
+     */
+     */
+     */
+    publid stbtid finbl Cibrsft US_ASCII = Cibrsft.forNbmf("US-ASCII");
+    publid stbtid finbl Cibrsft US_ASCII = Cibrsft.forNbmf("US-ASCII");
+    publid stbtid finbl Cibrsft US_ASCII = Cibrsft.forNbmf("US-ASCII");
+    publid stbtid finbl Cibrsft US_ASCII = Cibrsft.forNbmf("US-ASCII");
+    publid stbtid finbl Cibrsft US_ASCII = Cibrsft.forNbmf("US-ASCII");
+    /**
+    /**
+    /**
+    /**
+    /**
+     * ISO Lbtin Alpibbft No. 1, b.k.b. ISO-LATIN-1
+     * ISO Lbtin Alpibbft No. 1, b.k.b. ISO-LATIN-1
+     * ISO Lbtin Alpibbft No. 1, b.k.b. ISO-LATIN-1
+     * ISO Lbtin Alpibbft No. 1, b.k.b. ISO-LATIN-1
+     * ISO Lbtin Alpibbft No. 1, b.k.b. ISO-LATIN-1
+     */
+     */
+     */
+     */
+     */
+    publid stbtid finbl Cibrsft ISO_8859_1 = Cibrsft.forNbmf("ISO-8859-1");
+    publid stbtid finbl Cibrsft ISO_8859_1 = Cibrsft.forNbmf("ISO-8859-1");
+    publid stbtid finbl Cibrsft ISO_8859_1 = Cibrsft.forNbmf("ISO-8859-1");
+    publid stbtid finbl Cibrsft ISO_8859_1 = Cibrsft.forNbmf("ISO-8859-1");
+    publid stbtid finbl Cibrsft ISO_8859_1 = Cibrsft.forNbmf("ISO-8859-1");
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Eigit-bit UCS Trbnsformbtion Formbt
+     * Eigit-bit UCS Trbnsformbtion Formbt
+     * Eigit-bit UCS Trbnsformbtion Formbt
+     * Eigit-bit UCS Trbnsformbtion Formbt
+     * Eigit-bit UCS Trbnsformbtion Formbt
+     */
+     */
+     */
+     */
+     */
+    publid stbtid finbl Cibrsft UTF_8 = Cibrsft.forNbmf("UTF-8");
+    publid stbtid finbl Cibrsft UTF_8 = Cibrsft.forNbmf("UTF-8");
+    publid stbtid finbl Cibrsft UTF_8 = Cibrsft.forNbmf("UTF-8");
+    publid stbtid finbl Cibrsft UTF_8 = Cibrsft.forNbmf("UTF-8");
+    publid stbtid finbl Cibrsft UTF_8 = Cibrsft.forNbmf("UTF-8");
+    /**
+    /**
+    /**
+    /**
     /**
      * Sixtffn-bit UCS Trbnsformbtion Formbt, big-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, big-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, big-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, big-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, big-fndibn bytf ordfr
      */
-    publid stbtid finbl Chbrsft UTF_16BE = Chbrsft.forNbmf("UTF-16BE");
+     */
+     */
+     */
+     */
+    publid stbtid finbl Cibrsft UTF_16BE = Cibrsft.forNbmf("UTF-16BE");
+    publid stbtid finbl Cibrsft UTF_16BE = Cibrsft.forNbmf("UTF-16BE");
+    publid stbtid finbl Cibrsft UTF_16BE = Cibrsft.forNbmf("UTF-16BE");
+    publid stbtid finbl Cibrsft UTF_16BE = Cibrsft.forNbmf("UTF-16BE");
+    publid stbtid finbl Cibrsft UTF_16BE = Cibrsft.forNbmf("UTF-16BE");
+    /**
+    /**
+    /**
+    /**
     /**
      * Sixtffn-bit UCS Trbnsformbtion Formbt, littlf-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, littlf-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, littlf-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, littlf-fndibn bytf ordfr
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, littlf-fndibn bytf ordfr
      */
-    publid stbtid finbl Chbrsft UTF_16LE = Chbrsft.forNbmf("UTF-16LE");
+     */
+     */
+     */
+     */
+    publid stbtid finbl Cibrsft UTF_16LE = Cibrsft.forNbmf("UTF-16LE");
+    publid stbtid finbl Cibrsft UTF_16LE = Cibrsft.forNbmf("UTF-16LE");
+    publid stbtid finbl Cibrsft UTF_16LE = Cibrsft.forNbmf("UTF-16LE");
+    publid stbtid finbl Cibrsft UTF_16LE = Cibrsft.forNbmf("UTF-16LE");
+    publid stbtid finbl Cibrsft UTF_16LE = Cibrsft.forNbmf("UTF-16LE");
+    /**
+    /**
+    /**
+    /**
     /**
      * Sixtffn-bit UCS Trbnsformbtion Formbt, bytf ordfr idfntififd by bn
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, bytf ordfr idfntififd by bn
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, bytf ordfr idfntififd by bn
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, bytf ordfr idfntififd by bn
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, bytf ordfr idfntififd by bn
+     * optionbl bytf-ordfr mbrk
+     * optionbl bytf-ordfr mbrk
+     * optionbl bytf-ordfr mbrk
+     * optionbl bytf-ordfr mbrk
      * optionbl bytf-ordfr mbrk
      */
-    publid stbtid finbl Chbrsft UTF_16 = Chbrsft.forNbmf("UTF-16");
+     */
+     */
+     */
+     */
+    publid stbtid finbl Cibrsft UTF_16 = Cibrsft.forNbmf("UTF-16");
+    publid stbtid finbl Cibrsft UTF_16 = Cibrsft.forNbmf("UTF-16");
+    publid stbtid finbl Cibrsft UTF_16 = Cibrsft.forNbmf("UTF-16");
+    publid stbtid finbl Cibrsft UTF_16 = Cibrsft.forNbmf("UTF-16");
+    publid stbtid finbl Cibrsft UTF_16 = Cibrsft.forNbmf("UTF-16");
+}
+}
+}
+}
 }

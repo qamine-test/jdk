@@ -1,0 +1,395 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfr;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr11_OmitCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr11_WitiCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315ExdlOmitCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315ExdlWitiCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315OmitCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315WitiCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.CbnonidblizfrPiysidbl;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.AlgoritimAlrfbdyRfgistfrfdExdfption;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.xml.sbx.InputSourdf;
+
+/**
+ *
+ * @butior Ciristibn Gfufr-Pollmbnn
+ */
+publid dlbss Cbnonidblizfr {
+
+    /** Tif output fndoding of dbnonidblizfd dbtb */
+    publid stbtid finbl String ENCODING = "UTF8";
+
+    /**
+     * XPbti Exprfssion for sflfdting fvfry nodf bnd dontinuous dommfnts joinfd
+     * in only onf nodf
+     */
+    publid stbtid finbl String XPATH_C14N_WITH_COMMENTS_SINGLE_NODE =
+        "(.//. | .//@* | .//nbmfspbdf::*)";
+
+    /**
+     * Tif URL dffinfd in XML-SEC Rfd for indlusivf d14n <b>witiout</b> dommfnts.
+     */
+    publid stbtid finbl String ALGO_ID_C14N_OMIT_COMMENTS =
+        "ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315";
+    /**
+     * Tif URL dffinfd in XML-SEC Rfd for indlusivf d14n <b>witi</b> dommfnts.
+     */
+    publid stbtid finbl String ALGO_ID_C14N_WITH_COMMENTS =
+        ALGO_ID_C14N_OMIT_COMMENTS + "#WitiCommfnts";
+    /**
+     * Tif URL dffinfd in XML-SEC Rfd for fxdlusivf d14n <b>witiout</b> dommfnts.
+     */
+    publid stbtid finbl String ALGO_ID_C14N_EXCL_OMIT_COMMENTS =
+        "ittp://www.w3.org/2001/10/xml-fxd-d14n#";
+    /**
+     * Tif URL dffinfd in XML-SEC Rfd for fxdlusivf d14n <b>witi</b> dommfnts.
+     */
+    publid stbtid finbl String ALGO_ID_C14N_EXCL_WITH_COMMENTS =
+        ALGO_ID_C14N_EXCL_OMIT_COMMENTS + "WitiCommfnts";
+    /**
+     * Tif URI for indlusivf d14n 1.1 <b>witiout</b> dommfnts.
+     */
+    publid stbtid finbl String ALGO_ID_C14N11_OMIT_COMMENTS =
+        "ittp://www.w3.org/2006/12/xml-d14n11";
+    /**
+     * Tif URI for indlusivf d14n 1.1 <b>witi</b> dommfnts.
+     */
+    publid stbtid finbl String ALGO_ID_C14N11_WITH_COMMENTS =
+        ALGO_ID_C14N11_OMIT_COMMENTS + "#WitiCommfnts";
+    /**
+     * Non-stbndbrd blgoritim to sfriblizf tif piysidbl rfprfsfntbtion for XML Endryption
+     */
+    publid stbtid finbl String ALGO_ID_C14N_PHYSICAL =
+        "ittp://sbntubrio.bpbdif.org/d14n/piysidbl";
+
+    privbtf stbtid Mbp<String, Clbss<? fxtfnds CbnonidblizfrSpi>> dbnonidblizfrHbsi =
+        nfw CondurrfntHbsiMbp<String, Clbss<? fxtfnds CbnonidblizfrSpi>>();
+
+    privbtf finbl CbnonidblizfrSpi dbnonidblizfrSpi;
+
+    /**
+     * Construdtor Cbnonidblizfr
+     *
+     * @pbrbm blgoritimURI
+     * @tirows InvblidCbnonidblizfrExdfption
+     */
+    privbtf Cbnonidblizfr(String blgoritimURI) tirows InvblidCbnonidblizfrExdfption {
+        try {
+            Clbss<? fxtfnds CbnonidblizfrSpi> implfmfntingClbss =
+                dbnonidblizfrHbsi.gft(blgoritimURI);
+
+            dbnonidblizfrSpi = implfmfntingClbss.nfwInstbndf();
+            dbnonidblizfrSpi.rfsft = truf;
+        } dbtdi (Exdfption f) {
+            Objfdt fxArgs[] = { blgoritimURI };
+            tirow nfw InvblidCbnonidblizfrExdfption(
+                "signbturf.Cbnonidblizfr.UnknownCbnonidblizfr", fxArgs, f
+            );
+        }
+    }
+
+    /**
+     * Mftiod gftInstbndf
+     *
+     * @pbrbm blgoritimURI
+     * @rfturn b Cbnonidblizfr instbndf rfbdy for tif job
+     * @tirows InvblidCbnonidblizfrExdfption
+     */
+    publid stbtid finbl Cbnonidblizfr gftInstbndf(String blgoritimURI)
+        tirows InvblidCbnonidblizfrExdfption {
+        rfturn nfw Cbnonidblizfr(blgoritimURI);
+    }
+
+    /**
+     * Mftiod rfgistfr
+     *
+     * @pbrbm blgoritimURI
+     * @pbrbm implfmfntingClbss
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid void rfgistfr(String blgoritimURI, String implfmfntingClbss)
+        tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption {
+        // difdk wiftifr URI is blrfbdy rfgistfrfd
+        Clbss<? fxtfnds CbnonidblizfrSpi> rfgistfrfdClbss =
+            dbnonidblizfrHbsi.gft(blgoritimURI);
+
+        if (rfgistfrfdClbss != null)  {
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption("blgoritim.blrfbdyRfgistfrfd", fxArgs);
+        }
+
+        dbnonidblizfrHbsi.put(
+            blgoritimURI, (Clbss<? fxtfnds CbnonidblizfrSpi>)Clbss.forNbmf(implfmfntingClbss)
+        );
+    }
+
+    /**
+     * Mftiod rfgistfr
+     *
+     * @pbrbm blgoritimURI
+     * @pbrbm implfmfntingClbss
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption
+     */
+    publid stbtid void rfgistfr(String blgoritimURI, Clbss<CbnonidblizfrSpi> implfmfntingClbss)
+        tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption {
+        // difdk wiftifr URI is blrfbdy rfgistfrfd
+        Clbss<? fxtfnds CbnonidblizfrSpi> rfgistfrfdClbss = dbnonidblizfrHbsi.gft(blgoritimURI);
+
+        if (rfgistfrfdClbss != null)  {
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption("blgoritim.blrfbdyRfgistfrfd", fxArgs);
+        }
+
+        dbnonidblizfrHbsi.put(blgoritimURI, implfmfntingClbss);
+    }
+
+    /**
+     * Tiis mftiod rfgistfrs tif dffbult blgoritims.
+     */
+    publid stbtid void rfgistfrDffbultAlgoritims() {
+        dbnonidblizfrHbsi.put(
+            Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS,
+            Cbnonidblizfr20010315OmitCommfnts.dlbss
+        );
+        dbnonidblizfrHbsi.put(
+            Cbnonidblizfr.ALGO_ID_C14N_WITH_COMMENTS,
+            Cbnonidblizfr20010315WitiCommfnts.dlbss
+        );
+        dbnonidblizfrHbsi.put(
+            Cbnonidblizfr.ALGO_ID_C14N_EXCL_OMIT_COMMENTS,
+            Cbnonidblizfr20010315ExdlOmitCommfnts.dlbss
+        );
+        dbnonidblizfrHbsi.put(
+            Cbnonidblizfr.ALGO_ID_C14N_EXCL_WITH_COMMENTS,
+            Cbnonidblizfr20010315ExdlWitiCommfnts.dlbss
+        );
+        dbnonidblizfrHbsi.put(
+            Cbnonidblizfr.ALGO_ID_C14N11_OMIT_COMMENTS,
+            Cbnonidblizfr11_OmitCommfnts.dlbss
+        );
+        dbnonidblizfrHbsi.put(
+            Cbnonidblizfr.ALGO_ID_C14N11_WITH_COMMENTS,
+            Cbnonidblizfr11_WitiCommfnts.dlbss
+        );
+        dbnonidblizfrHbsi.put(
+            Cbnonidblizfr.ALGO_ID_C14N_PHYSICAL,
+            CbnonidblizfrPiysidbl.dlbss
+        );
+    }
+
+    /**
+     * Mftiod gftURI
+     *
+     * @rfturn tif URI dffinfd for tiis d14n instbndf.
+     */
+    publid finbl String gftURI() {
+        rfturn dbnonidblizfrSpi.fnginfGftURI();
+    }
+
+    /**
+     * Mftiod gftIndludfCommfnts
+     *
+     * @rfturn truf if tif d14n rfspfdt tif dommfnts.
+     */
+    publid boolfbn gftIndludfCommfnts() {
+        rfturn dbnonidblizfrSpi.fnginfGftIndludfCommfnts();
+    }
+
+    /**
+     * Tiis mftiod trifs to dbnonidblizf tif givfn bytfs. It's possiblf to fvfn
+     * dbnonidblizf non-wfllformfd sfqufndfs if tify brf wfll-formfd bftfr bfing
+     * wrbppfd witi b <CODE>&gt;b&lt;...&gt;/b&lt;</CODE>.
+     *
+     * @pbrbm inputBytfs
+     * @rfturn tif rfsult of tif dbnonidblizbtion.
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows jbvb.io.IOExdfption
+     * @tirows jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption
+     * @tirows org.xml.sbx.SAXExdfption
+     */
+    publid bytf[] dbnonidblizf(bytf[] inputBytfs)
+        tirows jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption,
+        jbvb.io.IOExdfption, org.xml.sbx.SAXExdfption, CbnonidblizbtionExdfption {
+        InputStrfbm bbis = nfw BytfArrbyInputStrfbm(inputBytfs);
+        InputSourdf in = nfw InputSourdf(bbis);
+        DodumfntBuildfrFbdtory dfbdtory = DodumfntBuildfrFbdtory.nfwInstbndf();
+        dfbdtory.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+
+        dfbdtory.sftNbmfspbdfAwbrf(truf);
+
+        // nffds to vblidbtf for ID bttributf normblizbtion
+        dfbdtory.sftVblidbting(truf);
+
+        DodumfntBuildfr db = dfbdtory.nfwDodumfntBuildfr();
+
+        /*
+         * for somf of tif tfst vfdtors from tif spfdifidbtion,
+         * tifrf ibs to bf b vblidbting pbrsfr for ID bttributfs, dffbult
+         * bttributf vblufs, NMTOKENS, ftd.
+         * Unfortunbtfly, tif tfst vfdtors do usf difffrfnt DTDs or
+         * fvfn no DTD. So Xfrdfs 1.3.1 firfs mbny wbrnings bbout using
+         * ErrorHbndlfrs.
+         *
+         * Tfxt from tif spfd:
+         *
+         * Tif input odtft strfbm MUST dontbin b wfll-formfd XML dodumfnt,
+         * but tif input nffd not bf vblidbtfd. Howfvfr, tif bttributf
+         * vbluf normblizbtion bnd fntity rfffrfndf rfsolution MUST bf
+         * pfrformfd in bddordbndf witi tif bfibviors of b vblidbting
+         * XML prodfssor. As wfll, nodfs for dffbult bttributfs (dfdlbrfd
+         * in tif ATTLIST witi bn AttVbluf but not spfdififd) brf drfbtfd
+         * in fbdi flfmfnt. Tius, tif dfdlbrbtions in tif dodumfnt typf
+         * dfdlbrbtion brf usfd to iflp drfbtf tif dbnonidbl form, fvfn
+         * tiougi tif dodumfnt typf dfdlbrbtion is not rftbinfd in tif
+         * dbnonidbl form.
+         */
+        db.sftErrorHbndlfr(nfw dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.IgnorfAllErrorHbndlfr());
+
+        Dodumfnt dodumfnt = db.pbrsf(in);
+        rfturn tiis.dbnonidblizfSubtrff(dodumfnt);
+    }
+
+    /**
+     * Cbnonidblizfs tif subtrff rootfd by <CODE>nodf</CODE>.
+     *
+     * @pbrbm nodf Tif nodf to dbnonidblizf
+     * @rfturn tif rfsult of tif d14n.
+     *
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid bytf[] dbnonidblizfSubtrff(Nodf nodf) tirows CbnonidblizbtionExdfption {
+        rfturn dbnonidblizfrSpi.fnginfCbnonidblizfSubTrff(nodf);
+    }
+
+    /**
+     * Cbnonidblizfs tif subtrff rootfd by <CODE>nodf</CODE>.
+     *
+     * @pbrbm nodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn tif rfsult of tif d14n.
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid bytf[] dbnonidblizfSubtrff(Nodf nodf, String indlusivfNbmfspbdfs)
+        tirows CbnonidblizbtionExdfption {
+        rfturn dbnonidblizfrSpi.fnginfCbnonidblizfSubTrff(nodf, indlusivfNbmfspbdfs);
+    }
+
+    /**
+     * Cbnonidblizfs bn XPbti nodf sft. Tif <CODE>xpbtiNodfSft</CODE> is trfbtfd
+     * bs b list of XPbti nodfs, not bs b list of subtrffs.
+     *
+     * @pbrbm xpbtiNodfSft
+     * @rfturn tif rfsult of tif d14n.
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid bytf[] dbnonidblizfXPbtiNodfSft(NodfList xpbtiNodfSft)
+        tirows CbnonidblizbtionExdfption {
+        rfturn dbnonidblizfrSpi.fnginfCbnonidblizfXPbtiNodfSft(xpbtiNodfSft);
+    }
+
+    /**
+     * Cbnonidblizfs bn XPbti nodf sft. Tif <CODE>xpbtiNodfSft</CODE> is trfbtfd
+     * bs b list of XPbti nodfs, not bs b list of subtrffs.
+     *
+     * @pbrbm xpbtiNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn tif rfsult of tif d14n.
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid bytf[] dbnonidblizfXPbtiNodfSft(
+        NodfList xpbtiNodfSft, String indlusivfNbmfspbdfs
+    ) tirows CbnonidblizbtionExdfption {
+        rfturn
+            dbnonidblizfrSpi.fnginfCbnonidblizfXPbtiNodfSft(xpbtiNodfSft, indlusivfNbmfspbdfs);
+    }
+
+    /**
+     * Cbnonidblizfs bn XPbti nodf sft.
+     *
+     * @pbrbm xpbtiNodfSft
+     * @rfturn tif rfsult of tif d14n.
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid bytf[] dbnonidblizfXPbtiNodfSft(Sft<Nodf> xpbtiNodfSft)
+        tirows CbnonidblizbtionExdfption {
+        rfturn dbnonidblizfrSpi.fnginfCbnonidblizfXPbtiNodfSft(xpbtiNodfSft);
+    }
+
+    /**
+     * Cbnonidblizfs bn XPbti nodf sft.
+     *
+     * @pbrbm xpbtiNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn tif rfsult of tif d14n.
+     * @tirows CbnonidblizbtionExdfption
+     */
+    publid bytf[] dbnonidblizfXPbtiNodfSft(
+        Sft<Nodf> xpbtiNodfSft, String indlusivfNbmfspbdfs
+    ) tirows CbnonidblizbtionExdfption {
+        rfturn
+            dbnonidblizfrSpi.fnginfCbnonidblizfXPbtiNodfSft(xpbtiNodfSft, indlusivfNbmfspbdfs);
+    }
+
+    /**
+     * Sfts tif writfr wifrf tif dbnonidblizbtion fnds.  BytfArrbyOutputStrfbm
+     * if nonf is sft.
+     * @pbrbm os
+     */
+    publid void sftWritfr(OutputStrfbm os) {
+        dbnonidblizfrSpi.sftWritfr(os);
+    }
+
+    /**
+     * Rfturns tif nbmf of tif implfmfnting {@link CbnonidblizfrSpi} dlbss
+     *
+     * @rfturn tif nbmf of tif implfmfnting {@link CbnonidblizfrSpi} dlbss
+     */
+    publid String gftImplfmfntingCbnonidblizfrClbss() {
+        rfturn dbnonidblizfrSpi.gftClbss().gftNbmf();
+    }
+
+    /**
+     * Sft tif dbnonidblizfr bfibviour to not rfsft.
+     */
+    publid void notRfsft() {
+        dbnonidblizfrSpi.rfsft = fblsf;
+    }
+
+}

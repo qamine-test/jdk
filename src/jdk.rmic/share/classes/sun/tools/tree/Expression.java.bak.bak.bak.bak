@@ -1,775 +1,3875 @@
 /*
- * Copyright (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.tools.trff;
+pbdkbgf sun.tools.trff;
+pbdkbgf sun.tools.trff;
+pbdkbgf sun.tools.trff;
+pbdkbgf sun.tools.trff;
+
+
+
+
 
 import sun.tools.jbvb.*;
+import sun.tools.jbvb.*;
+import sun.tools.jbvb.*;
+import sun.tools.jbvb.*;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.Lbbfl;
 import sun.tools.bsm.Lbbfl;
 import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Assfmblfr;
 import jbvb.io.PrintStrfbm;
-import jbvb.util.Hbshtbblf;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+
+
+
+
 
 /**
- * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
- * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
- * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+/**
+/**
+/**
+/**
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ */
+ */
+ */
+ */
  */
 publid
+publid
+publid
+publid
+publid
+dlbss Exprfssion fxtfnds Nodf {
+dlbss Exprfssion fxtfnds Nodf {
+dlbss Exprfssion fxtfnds Nodf {
+dlbss Exprfssion fxtfnds Nodf {
 dlbss Exprfssion fxtfnds Nodf {
     Typf typf;
+    Typf typf;
+    Typf typf;
+    Typf typf;
+    Typf typf;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdtor
+     * Construdtor
+     * Construdtor
+     * Construdtor
+     * Construdtor
      */
-    Exprfssion(int op, long whfrf, Typf typf) {
-        supfr(op, whfrf);
-        this.typf = typf;
+     */
+     */
+     */
+     */
+    Exprfssion(int op, long wifrf, Typf typf) {
+    Exprfssion(int op, long wifrf, Typf typf) {
+    Exprfssion(int op, long wifrf, Typf typf) {
+    Exprfssion(int op, long wifrf, Typf typf) {
+    Exprfssion(int op, long wifrf, Typf typf) {
+        supfr(op, wifrf);
+        supfr(op, wifrf);
+        supfr(op, wifrf);
+        supfr(op, wifrf);
+        supfr(op, wifrf);
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Typf dhfdking mby bssign b morf domplfx implfmfntbtion
+    /**
+    /**
+    /**
+    /**
+     * Typf difdking mby bssign b morf domplfx implfmfntbtion
+     * Typf difdking mby bssign b morf domplfx implfmfntbtion
+     * Typf difdking mby bssign b morf domplfx implfmfntbtion
+     * Typf difdking mby bssign b morf domplfx implfmfntbtion
+     * Typf difdking mby bssign b morf domplfx implfmfntbtion
      * to bn innoduous-looking fxprfssion (likf bn idfntififr).
-     * Rfturn thbt implfmfntbtion, or thf originbl fxprfssion itsflf
-     * if thfrf is no spfdibl implfmfntbtion.
+     * to bn innoduous-looking fxprfssion (likf bn idfntififr).
+     * to bn innoduous-looking fxprfssion (likf bn idfntififr).
+     * to bn innoduous-looking fxprfssion (likf bn idfntififr).
+     * to bn innoduous-looking fxprfssion (likf bn idfntififr).
+     * Rfturn tibt implfmfntbtion, or tif originbl fxprfssion itsflf
+     * Rfturn tibt implfmfntbtion, or tif originbl fxprfssion itsflf
+     * Rfturn tibt implfmfntbtion, or tif originbl fxprfssion itsflf
+     * Rfturn tibt implfmfntbtion, or tif originbl fxprfssion itsflf
+     * Rfturn tibt implfmfntbtion, or tif originbl fxprfssion itsflf
+     * if tifrf is no spfdibl implfmfntbtion.
+     * if tifrf is no spfdibl implfmfntbtion.
+     * if tifrf is no spfdibl implfmfntbtion.
+     * if tifrf is no spfdibl implfmfntbtion.
+     * if tifrf is no spfdibl implfmfntbtion.
      * <p>
-     * This bppfbrs bt prfsfnt to bf dfbd dodf, bnd is not dbllfd
-     * from within jbvbd.  Addfss to thf implfmfntbtion gfnfrblly
-     * oddurs within thf sbmf dlbss, bnd thus usfs thf undfrlying
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis bppfbrs bt prfsfnt to bf dfbd dodf, bnd is not dbllfd
+     * Tiis bppfbrs bt prfsfnt to bf dfbd dodf, bnd is not dbllfd
+     * Tiis bppfbrs bt prfsfnt to bf dfbd dodf, bnd is not dbllfd
+     * Tiis bppfbrs bt prfsfnt to bf dfbd dodf, bnd is not dbllfd
+     * Tiis bppfbrs bt prfsfnt to bf dfbd dodf, bnd is not dbllfd
+     * from witiin jbvbd.  Addfss to tif implfmfntbtion gfnfrblly
+     * from witiin jbvbd.  Addfss to tif implfmfntbtion gfnfrblly
+     * from witiin jbvbd.  Addfss to tif implfmfntbtion gfnfrblly
+     * from witiin jbvbd.  Addfss to tif implfmfntbtion gfnfrblly
+     * from witiin jbvbd.  Addfss to tif implfmfntbtion gfnfrblly
+     * oddurs witiin tif sbmf dlbss, bnd tius usfs tif undfrlying
+     * oddurs witiin tif sbmf dlbss, bnd tius usfs tif undfrlying
+     * oddurs witiin tif sbmf dlbss, bnd tius usfs tif undfrlying
+     * oddurs witiin tif sbmf dlbss, bnd tius usfs tif undfrlying
+     * oddurs witiin tif sbmf dlbss, bnd tius usfs tif undfrlying
+     * fifld dirfdtly.
+     * fifld dirfdtly.
+     * fifld dirfdtly.
+     * fifld dirfdtly.
      * fifld dirfdtly.
      */
+     */
+     */
+     */
+     */
     publid Exprfssion gftImplfmfntbtion() {
-        rfturn this;
+    publid Exprfssion gftImplfmfntbtion() {
+    publid Exprfssion gftImplfmfntbtion() {
+    publid Exprfssion gftImplfmfntbtion() {
+    publid Exprfssion gftImplfmfntbtion() {
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid Typf gftTypf() {
+    publid Typf gftTypf() {
+    publid Typf gftTypf() {
+    publid Typf gftTypf() {
+    publid Typf gftTypf() {
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
         rfturn typf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturn thf prfdfdfndf of thf opfrbtor
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif prfdfdfndf of tif opfrbtor
+     * Rfturn tif prfdfdfndf of tif opfrbtor
+     * Rfturn tif prfdfdfndf of tif opfrbtor
+     * Rfturn tif prfdfdfndf of tif opfrbtor
+     * Rfturn tif prfdfdfndf of tif opfrbtor
+     */
+     */
+     */
+     */
      */
     int prfdfdfndf() {
-        rfturn (op < opPrfdfdfndf.lfngth) ? opPrfdfdfndf[op] : 100;
+    int prfdfdfndf() {
+    int prfdfdfndf() {
+    int prfdfdfndf() {
+    int prfdfdfndf() {
+        rfturn (op < opPrfdfdfndf.lfngti) ? opPrfdfdfndf[op] : 100;
+        rfturn (op < opPrfdfdfndf.lfngti) ? opPrfdfdfndf[op] : 100;
+        rfturn (op < opPrfdfdfndf.lfngti) ? opPrfdfdfndf[op] : 100;
+        rfturn (op < opPrfdfdfndf.lfngti) ? opPrfdfdfndf[op] : 100;
+        rfturn (op < opPrfdfdfndf.lfngti) ? opPrfdfdfndf[op] : 100;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Ordfr thf fxprfssion bbsfd on prfdfdfndf
+    /**
+    /**
+    /**
+    /**
+     * Ordfr tif fxprfssion bbsfd on prfdfdfndf
+     * Ordfr tif fxprfssion bbsfd on prfdfdfndf
+     * Ordfr tif fxprfssion bbsfd on prfdfdfndf
+     * Ordfr tif fxprfssion bbsfd on prfdfdfndf
+     * Ordfr tif fxprfssion bbsfd on prfdfdfndf
+     */
+     */
+     */
+     */
      */
     publid Exprfssion ordfr() {
-        rfturn this;
+    publid Exprfssion ordfr() {
+    publid Exprfssion ordfr() {
+    publid Exprfssion ordfr() {
+    publid Exprfssion ordfr() {
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfturn truf if donstbnt, bddording to JLS 15.27.
+     * Rfturn truf if donstbnt, bddording to JLS 15.27.
+     * Rfturn truf if donstbnt, bddording to JLS 15.27.
+     * Rfturn truf if donstbnt, bddording to JLS 15.27.
+     * Rfturn truf if donstbnt, bddording to JLS 15.27.
+     * A donstbnt fxprfssion must inlinf bwby to b litfrbl donstbnt.
+     * A donstbnt fxprfssion must inlinf bwby to b litfrbl donstbnt.
+     * A donstbnt fxprfssion must inlinf bwby to b litfrbl donstbnt.
+     * A donstbnt fxprfssion must inlinf bwby to b litfrbl donstbnt.
      * A donstbnt fxprfssion must inlinf bwby to b litfrbl donstbnt.
      */
+     */
+     */
+     */
+     */
+    publid boolfbn isConstbnt() {
+    publid boolfbn isConstbnt() {
+    publid boolfbn isConstbnt() {
+    publid boolfbn isConstbnt() {
     publid boolfbn isConstbnt() {
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturn thf donstbnt vbluf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif donstbnt vbluf.
+     * Rfturn tif donstbnt vbluf.
+     * Rfturn tif donstbnt vbluf.
+     * Rfturn tif donstbnt vbluf.
+     * Rfturn tif donstbnt vbluf.
+     */
+     */
+     */
+     */
      */
     publid Objfdt gftVbluf() {
+    publid Objfdt gftVbluf() {
+    publid Objfdt gftVbluf() {
+    publid Objfdt gftVbluf() {
+    publid Objfdt gftVbluf() {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Chfdk if thf fxprfssion is known to bf fqubl to b givfn vbluf.
-     * Rfturns fblsf for bny fxprfssion othfr thbn b litfrbl donstbnt,
-     * thus should bf dbllfd only bftfr simplifidbtion (inlining) hbs
+    /**
+    /**
+    /**
+    /**
+     * Cifdk if tif fxprfssion is known to bf fqubl to b givfn vbluf.
+     * Cifdk if tif fxprfssion is known to bf fqubl to b givfn vbluf.
+     * Cifdk if tif fxprfssion is known to bf fqubl to b givfn vbluf.
+     * Cifdk if tif fxprfssion is known to bf fqubl to b givfn vbluf.
+     * Cifdk if tif fxprfssion is known to bf fqubl to b givfn vbluf.
+     * Rfturns fblsf for bny fxprfssion otifr tibn b litfrbl donstbnt,
+     * Rfturns fblsf for bny fxprfssion otifr tibn b litfrbl donstbnt,
+     * Rfturns fblsf for bny fxprfssion otifr tibn b litfrbl donstbnt,
+     * Rfturns fblsf for bny fxprfssion otifr tibn b litfrbl donstbnt,
+     * Rfturns fblsf for bny fxprfssion otifr tibn b litfrbl donstbnt,
+     * tius siould bf dbllfd only bftfr simplifidbtion (inlining) ibs
+     * tius siould bf dbllfd only bftfr simplifidbtion (inlining) ibs
+     * tius siould bf dbllfd only bftfr simplifidbtion (inlining) ibs
+     * tius siould bf dbllfd only bftfr simplifidbtion (inlining) ibs
+     * tius siould bf dbllfd only bftfr simplifidbtion (inlining) ibs
+     * bffn pfrformfd.
+     * bffn pfrformfd.
+     * bffn pfrformfd.
+     * bffn pfrformfd.
      * bffn pfrformfd.
      */
+     */
+     */
+     */
+     */
+    publid boolfbn fqubls(int i) {
+    publid boolfbn fqubls(int i) {
+    publid boolfbn fqubls(int i) {
+    publid boolfbn fqubls(int i) {
     publid boolfbn fqubls(int i) {
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
     publid boolfbn fqubls(boolfbn b) {
+    publid boolfbn fqubls(boolfbn b) {
+    publid boolfbn fqubls(boolfbn b) {
+    publid boolfbn fqubls(boolfbn b) {
+    publid boolfbn fqubls(boolfbn b) {
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
     publid boolfbn fqubls(Idfntififr id) {
+    publid boolfbn fqubls(Idfntififr id) {
+    publid boolfbn fqubls(Idfntififr id) {
+    publid boolfbn fqubls(Idfntififr id) {
+    publid boolfbn fqubls(Idfntififr id) {
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
     publid boolfbn fqubls(String s) {
+    publid boolfbn fqubls(String s) {
+    publid boolfbn fqubls(String s) {
+    publid boolfbn fqubls(String s) {
+    publid boolfbn fqubls(String s) {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Chfdk if thf fxprfssion must bf b null rfffrfndf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdk if tif fxprfssion must bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion must bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion must bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion must bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion must bf b null rfffrfndf.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isNull() {
+    publid boolfbn isNull() {
+    publid boolfbn isNull() {
+    publid boolfbn isNull() {
+    publid boolfbn isNull() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Chfdk if thf fxprfssion dbnnot bf b null rfffrfndf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdk if tif fxprfssion dbnnot bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion dbnnot bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion dbnnot bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion dbnnot bf b null rfffrfndf.
+     * Cifdk if tif fxprfssion dbnnot bf b null rfffrfndf.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isNonNull() {
+    publid boolfbn isNonNull() {
+    publid boolfbn isNonNull() {
+    publid boolfbn isNonNull() {
+    publid boolfbn isNonNull() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Chfdk if thf fxprfssion is fqubl to its dffbult stbtid vbluf
+    /**
+    /**
+    /**
+    /**
+     * Cifdk if tif fxprfssion is fqubl to its dffbult stbtid vbluf
+     * Cifdk if tif fxprfssion is fqubl to its dffbult stbtid vbluf
+     * Cifdk if tif fxprfssion is fqubl to its dffbult stbtid vbluf
+     * Cifdk if tif fxprfssion is fqubl to its dffbult stbtid vbluf
+     * Cifdk if tif fxprfssion is fqubl to its dffbult stbtid vbluf
+     */
+     */
+     */
+     */
      */
     publid boolfbn fqublsDffbult() {
+    publid boolfbn fqublsDffbult() {
+    publid boolfbn fqublsDffbult() {
+    publid boolfbn fqublsDffbult() {
+    publid boolfbn fqublsDffbult() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
 
 
+
+
+
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Convfrt bn fxprfsion to b typf
+     * Convfrt bn fxprfsion to b typf
+     * Convfrt bn fxprfsion to b typf
+     * Convfrt bn fxprfsion to b typf
+     * Convfrt bn fxprfsion to b typf
+     */
+     */
+     */
+     */
      */
     Typf toTypf(Environmfnt fnv, Contfxt dtx) {
-        fnv.frror(whfrf, "invblid.typf.fxpr");
+    Typf toTypf(Environmfnt fnv, Contfxt dtx) {
+    Typf toTypf(Environmfnt fnv, Contfxt dtx) {
+    Typf toTypf(Environmfnt fnv, Contfxt dtx) {
+    Typf toTypf(Environmfnt fnv, Contfxt dtx) {
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        rfturn Typf.tError;
+        rfturn Typf.tError;
+        rfturn Typf.tError;
+        rfturn Typf.tError;
         rfturn Typf.tError;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Convfrt bn fxprfsion to b typf in b dontfxt whfrf b qublififd
-     * typf nbmf is fxpfdtfd, f.g., in thf prffix of b qublififd typf
+    /**
+    /**
+    /**
+    /**
+     * Convfrt bn fxprfsion to b typf in b dontfxt wifrf b qublififd
+     * Convfrt bn fxprfsion to b typf in b dontfxt wifrf b qublififd
+     * Convfrt bn fxprfsion to b typf in b dontfxt wifrf b qublififd
+     * Convfrt bn fxprfsion to b typf in b dontfxt wifrf b qublififd
+     * Convfrt bn fxprfsion to b typf in b dontfxt wifrf b qublififd
+     * typf nbmf is fxpfdtfd, f.g., in tif prffix of b qublififd typf
+     * typf nbmf is fxpfdtfd, f.g., in tif prffix of b qublififd typf
+     * typf nbmf is fxpfdtfd, f.g., in tif prffix of b qublififd typf
+     * typf nbmf is fxpfdtfd, f.g., in tif prffix of b qublififd typf
+     * typf nbmf is fxpfdtfd, f.g., in tif prffix of b qublififd typf
+     * nbmf.
+     * nbmf.
+     * nbmf.
+     * nbmf.
      * nbmf.
      */
+     */
+     */
+     */
+     */
+    /*-----------------------------------------------------*
+    /*-----------------------------------------------------*
+    /*-----------------------------------------------------*
+    /*-----------------------------------------------------*
     /*-----------------------------------------------------*
     Typf toQublififdTypf(Environmfnt fnv, Contfxt dtx) {
-        fnv.frror(whfrf, "invblid.typf.fxpr");
+    Typf toQublififdTypf(Environmfnt fnv, Contfxt dtx) {
+    Typf toQublififdTypf(Environmfnt fnv, Contfxt dtx) {
+    Typf toQublififdTypf(Environmfnt fnv, Contfxt dtx) {
+    Typf toQublififdTypf(Environmfnt fnv, Contfxt dtx) {
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        rfturn Typf.tError;
+        rfturn Typf.tError;
+        rfturn Typf.tError;
+        rfturn Typf.tError;
         rfturn Typf.tError;
     }
+    }
+    }
+    }
+    }
+    *-----------------------------------------------------*/
+    *-----------------------------------------------------*/
+    *-----------------------------------------------------*/
+    *-----------------------------------------------------*/
     *-----------------------------------------------------*/
 
+
+
+
+
     /**
-     * Sff if this fxprfssion fits in thf givfn typf.
-     * This is usfful bfdbusf somf lbrgfr numbfrs fit into
+    /**
+    /**
+    /**
+    /**
+     * Sff if tiis fxprfssion fits in tif givfn typf.
+     * Sff if tiis fxprfssion fits in tif givfn typf.
+     * Sff if tiis fxprfssion fits in tif givfn typf.
+     * Sff if tiis fxprfssion fits in tif givfn typf.
+     * Sff if tiis fxprfssion fits in tif givfn typf.
+     * Tiis is usfful bfdbusf somf lbrgfr numbfrs fit into
+     * Tiis is usfful bfdbusf somf lbrgfr numbfrs fit into
+     * Tiis is usfful bfdbusf somf lbrgfr numbfrs fit into
+     * Tiis is usfful bfdbusf somf lbrgfr numbfrs fit into
+     * Tiis is usfful bfdbusf somf lbrgfr numbfrs fit into
+     * smbllfr typfs.
+     * smbllfr typfs.
+     * smbllfr typfs.
+     * smbllfr typfs.
      * smbllfr typfs.
      * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If it is bn "int" donstbnt fxprfssion, inlinf it, if nfdfssbry,
+     * If it is bn "int" donstbnt fxprfssion, inlinf it, if nfdfssbry,
+     * If it is bn "int" donstbnt fxprfssion, inlinf it, if nfdfssbry,
+     * If it is bn "int" donstbnt fxprfssion, inlinf it, if nfdfssbry,
      * If it is bn "int" donstbnt fxprfssion, inlinf it, if nfdfssbry,
      * to fxbminf its numfridbl vbluf.  Sff JLS 5.2 bnd 15.24.
+     * to fxbminf its numfridbl vbluf.  Sff JLS 5.2 bnd 15.24.
+     * to fxbminf its numfridbl vbluf.  Sff JLS 5.2 bnd 15.24.
+     * to fxbminf its numfridbl vbluf.  Sff JLS 5.2 bnd 15.24.
+     * to fxbminf its numfridbl vbluf.  Sff JLS 5.2 bnd 15.24.
+     */
+     */
+     */
+     */
      */
     publid boolfbn fitsTypf(Environmfnt fnv, Contfxt dtx, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Contfxt dtx, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Contfxt dtx, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Contfxt dtx, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Contfxt dtx, Typf t) {
         try {
-            if (fnv.isMorfSpfdifid(this.typf, t)) {
+        try {
+        try {
+        try {
+        try {
+            if (fnv.isMorfSpfdifid(tiis.typf, t)) {
+            if (fnv.isMorfSpfdifid(tiis.typf, t)) {
+            if (fnv.isMorfSpfdifid(tiis.typf, t)) {
+            if (fnv.isMorfSpfdifid(tiis.typf, t)) {
+            if (fnv.isMorfSpfdifid(tiis.typf, t)) {
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
                 rfturn truf;
             }
-            if (this.typf.isTypf(TC_INT) && this.isConstbnt() && dtx != null) {
-                // Tfntbtivf inlining is hbrmlfss for donstbnt fxprfssions.
-                Exprfssion n = this.inlinfVbluf(fnv, dtx);
-                if (n != this && n instbndfof ConstbntExprfssion) {
+            }
+            }
+            }
+            }
+            if (tiis.typf.isTypf(TC_INT) && tiis.isConstbnt() && dtx != null) {
+            if (tiis.typf.isTypf(TC_INT) && tiis.isConstbnt() && dtx != null) {
+            if (tiis.typf.isTypf(TC_INT) && tiis.isConstbnt() && dtx != null) {
+            if (tiis.typf.isTypf(TC_INT) && tiis.isConstbnt() && dtx != null) {
+            if (tiis.typf.isTypf(TC_INT) && tiis.isConstbnt() && dtx != null) {
+                // Tfntbtivf inlining is ibrmlfss for donstbnt fxprfssions.
+                // Tfntbtivf inlining is ibrmlfss for donstbnt fxprfssions.
+                // Tfntbtivf inlining is ibrmlfss for donstbnt fxprfssions.
+                // Tfntbtivf inlining is ibrmlfss for donstbnt fxprfssions.
+                // Tfntbtivf inlining is ibrmlfss for donstbnt fxprfssions.
+                Exprfssion n = tiis.inlinfVbluf(fnv, dtx);
+                Exprfssion n = tiis.inlinfVbluf(fnv, dtx);
+                Exprfssion n = tiis.inlinfVbluf(fnv, dtx);
+                Exprfssion n = tiis.inlinfVbluf(fnv, dtx);
+                Exprfssion n = tiis.inlinfVbluf(fnv, dtx);
+                if (n != tiis && n instbndfof ConstbntExprfssion) {
+                if (n != tiis && n instbndfof ConstbntExprfssion) {
+                if (n != tiis && n instbndfof ConstbntExprfssion) {
+                if (n != tiis && n instbndfof ConstbntExprfssion) {
+                if (n != tiis && n instbndfof ConstbntExprfssion) {
+                    rfturn n.fitsTypf(fnv, dtx, t);
+                    rfturn n.fitsTypf(fnv, dtx, t);
+                    rfturn n.fitsTypf(fnv, dtx, t);
+                    rfturn n.fitsTypf(fnv, dtx, t);
                     rfturn n.fitsTypf(fnv, dtx, t);
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             rfturn fblsf;
-        } dbtdh (ClbssNotFound f) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        } dbtdi (ClbssNotFound f) {
+        } dbtdi (ClbssNotFound f) {
+        } dbtdi (ClbssNotFound f) {
+        } dbtdi (ClbssNotFound f) {
+        } dbtdi (ClbssNotFound f) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /** @dfprfdbtfd (for bbdkwbrd dompbtibility) */
+    /** @dfprfdbtfd (for bbdkwbrd dompbtibility) */
+    /** @dfprfdbtfd (for bbdkwbrd dompbtibility) */
+    /** @dfprfdbtfd (for bbdkwbrd dompbtibility) */
+    /** @dfprfdbtfd (for bbdkwbrd dompbtibility) */
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
     @Dfprfdbtfd
     publid boolfbn fitsTypf(Environmfnt fnv, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Typf t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Typf t) {
+        rfturn fitsTypf(fnv, (Contfxt) null, t);
+        rfturn fitsTypf(fnv, (Contfxt) null, t);
+        rfturn fitsTypf(fnv, (Contfxt) null, t);
+        rfturn fitsTypf(fnv, (Contfxt) null, t);
         rfturn fitsTypf(fnv, (Contfxt) null, t);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Chfdk bn fxprfssion
+    /**
+    /**
+    /**
+    /**
+     * Cifdk bn fxprfssion
+     * Cifdk bn fxprfssion
+     * Cifdk bn fxprfssion
+     * Cifdk bn fxprfssion
+     * Cifdk bn fxprfssion
      */
-    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+     */
+     */
+     */
+     */
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
         rfturn vsft;
     }
-    publid Vsft dhfdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbshtbblf<Objfdt, Objfdt> fxp) {
-        rfturn dhfdkVbluf(fnv, dtx, vsft, fxp);
     }
-    publid Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
-        throw nfw CompilfrError("dhfdk fbilfd");
+    }
+    }
+    }
+    publid Vsft difdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+    }
+    }
+    }
+    }
+    }
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        tirow nfw CompilfrError("difdk fbilfd");
+        tirow nfw CompilfrError("difdk fbilfd");
+        tirow nfw CompilfrError("difdk fbilfd");
+        tirow nfw CompilfrError("difdk fbilfd");
+        tirow nfw CompilfrError("difdk fbilfd");
+    }
+    }
+    }
+    }
     }
 
-    publid Vsft dhfdkLHS(Environmfnt fnv, Contfxt dtx,
-                            Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
-        fnv.frror(whfrf, "invblid.lhs.bssignmfnt");
+
+
+
+
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+                            Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                            Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                            Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                            Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                            Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        typf = Typf.tError;
+        typf = Typf.tError;
+        typf = Typf.tError;
+        typf = Typf.tError;
         typf = Typf.tError;
         rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting thf
-     * vbluf of thf lodbtion dfnotfd by <dodf>this</dodf>, whidh must bf bn
-     * fxprfssion suitbblf for thf lfft-hbnd sidf of bn bssignmfnt.
-     * This is usfd for implfmfnting bssignmfnts to privbtf fiflds for whidh
-     * bn bddfss mfthod is rfquirfd.  Rfturns null if no bddfss mfthod is
-     * nffdfd, in whidh dbsf thf bssignmfnt is hbndlfd in thf usubl wby, by
-     * dirfdt bddfss.  Only simplf bssignmfnt fxprfssions brf hbndlfd hfrf
+    /**
+    /**
+    /**
+    /**
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif
+     * vbluf of tif lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn
+     * vbluf of tif lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn
+     * vbluf of tif lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn
+     * vbluf of tif lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn
+     * vbluf of tif lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn
+     * fxprfssion suitbblf for tif lfft-ibnd sidf of bn bssignmfnt.
+     * fxprfssion suitbblf for tif lfft-ibnd sidf of bn bssignmfnt.
+     * fxprfssion suitbblf for tif lfft-ibnd sidf of bn bssignmfnt.
+     * fxprfssion suitbblf for tif lfft-ibnd sidf of bn bssignmfnt.
+     * fxprfssion suitbblf for tif lfft-ibnd sidf of bn bssignmfnt.
+     * Tiis is usfd for implfmfnting bssignmfnts to privbtf fiflds for wiidi
+     * Tiis is usfd for implfmfnting bssignmfnts to privbtf fiflds for wiidi
+     * Tiis is usfd for implfmfnting bssignmfnts to privbtf fiflds for wiidi
+     * Tiis is usfd for implfmfnting bssignmfnts to privbtf fiflds for wiidi
+     * Tiis is usfd for implfmfnting bssignmfnts to privbtf fiflds for wiidi
+     * bn bddfss mftiod is rfquirfd.  Rfturns null if no bddfss mftiod is
+     * bn bddfss mftiod is rfquirfd.  Rfturns null if no bddfss mftiod is
+     * bn bddfss mftiod is rfquirfd.  Rfturns null if no bddfss mftiod is
+     * bn bddfss mftiod is rfquirfd.  Rfturns null if no bddfss mftiod is
+     * bn bddfss mftiod is rfquirfd.  Rfturns null if no bddfss mftiod is
+     * nffdfd, in wiidi dbsf tif bssignmfnt is ibndlfd in tif usubl wby, by
+     * nffdfd, in wiidi dbsf tif bssignmfnt is ibndlfd in tif usubl wby, by
+     * nffdfd, in wiidi dbsf tif bssignmfnt is ibndlfd in tif usubl wby, by
+     * nffdfd, in wiidi dbsf tif bssignmfnt is ibndlfd in tif usubl wby, by
+     * nffdfd, in wiidi dbsf tif bssignmfnt is ibndlfd in tif usubl wby, by
+     * dirfdt bddfss.  Only simplf bssignmfnt fxprfssions brf ibndlfd ifrf
+     * dirfdt bddfss.  Only simplf bssignmfnt fxprfssions brf ibndlfd ifrf
+     * dirfdt bddfss.  Only simplf bssignmfnt fxprfssions brf ibndlfd ifrf
+     * dirfdt bddfss.  Only simplf bssignmfnt fxprfssions brf ibndlfd ifrf
+     * dirfdt bddfss.  Only simplf bssignmfnt fxprfssions brf ibndlfd ifrf
      * Assignmfnt opfrbtors bnd prf/post indrfmfnt/dfdrfmfnt opfrbtors brf
-     * brf hbndlfd by 'gftUpdbtfr' bflow.
+     * Assignmfnt opfrbtors bnd prf/post indrfmfnt/dfdrfmfnt opfrbtors brf
+     * Assignmfnt opfrbtors bnd prf/post indrfmfnt/dfdrfmfnt opfrbtors brf
+     * Assignmfnt opfrbtors bnd prf/post indrfmfnt/dfdrfmfnt opfrbtors brf
+     * Assignmfnt opfrbtors bnd prf/post indrfmfnt/dfdrfmfnt opfrbtors brf
+     * brf ibndlfd by 'gftUpdbtfr' bflow.
+     * brf ibndlfd by 'gftUpdbtfr' bflow.
+     * brf ibndlfd by 'gftUpdbtfr' bflow.
+     * brf ibndlfd by 'gftUpdbtfr' bflow.
+     * brf ibndlfd by 'gftUpdbtfr' bflow.
      * <p>
-     * Cbllfd during thf dhfdking phbsf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
-        throw nfw CompilfrError("gftAssignfr lhs");
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+        tirow nfw CompilfrError("gftAssignfr lis");
+        tirow nfw CompilfrError("gftAssignfr lis");
+        tirow nfw CompilfrError("gftAssignfr lis");
+        tirow nfw CompilfrError("gftAssignfr lis");
+        tirow nfw CompilfrError("gftAssignfr lis");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting thf vbluf of thf
-     * lodbtion dfnotfd by <dodf>this</dodf>, whidh must bf bn fxprfssion suitbblf for thf
-     * lfft-hbnd sidf of bn bssignmfnt.  This is usfd for implfmfnting thf bssignmfnt
-     * opfrbtors bnd thf indrfmfnt/dfdrfmfnt opfrbtors on privbtf fiflds thbt rfquirf bn
-     * bddfss mfthod, f.g., uplfvfl from bn innfr dlbss.  Rfturns null if no bddfss mfthod
+    /**
+    /**
+    /**
+    /**
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif vbluf of tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif vbluf of tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif vbluf of tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif vbluf of tif
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif vbluf of tif
+     * lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn fxprfssion suitbblf for tif
+     * lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn fxprfssion suitbblf for tif
+     * lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn fxprfssion suitbblf for tif
+     * lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn fxprfssion suitbblf for tif
+     * lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn fxprfssion suitbblf for tif
+     * lfft-ibnd sidf of bn bssignmfnt.  Tiis is usfd for implfmfnting tif bssignmfnt
+     * lfft-ibnd sidf of bn bssignmfnt.  Tiis is usfd for implfmfnting tif bssignmfnt
+     * lfft-ibnd sidf of bn bssignmfnt.  Tiis is usfd for implfmfnting tif bssignmfnt
+     * lfft-ibnd sidf of bn bssignmfnt.  Tiis is usfd for implfmfnting tif bssignmfnt
+     * lfft-ibnd sidf of bn bssignmfnt.  Tiis is usfd for implfmfnting tif bssignmfnt
+     * opfrbtors bnd tif indrfmfnt/dfdrfmfnt opfrbtors on privbtf fiflds tibt rfquirf bn
+     * opfrbtors bnd tif indrfmfnt/dfdrfmfnt opfrbtors on privbtf fiflds tibt rfquirf bn
+     * opfrbtors bnd tif indrfmfnt/dfdrfmfnt opfrbtors on privbtf fiflds tibt rfquirf bn
+     * opfrbtors bnd tif indrfmfnt/dfdrfmfnt opfrbtors on privbtf fiflds tibt rfquirf bn
+     * opfrbtors bnd tif indrfmfnt/dfdrfmfnt opfrbtors on privbtf fiflds tibt rfquirf bn
+     * bddfss mftiod, f.g., uplfvfl from bn innfr dlbss.  Rfturns null if no bddfss mftiod
+     * bddfss mftiod, f.g., uplfvfl from bn innfr dlbss.  Rfturns null if no bddfss mftiod
+     * bddfss mftiod, f.g., uplfvfl from bn innfr dlbss.  Rfturns null if no bddfss mftiod
+     * bddfss mftiod, f.g., uplfvfl from bn innfr dlbss.  Rfturns null if no bddfss mftiod
+     * bddfss mftiod, f.g., uplfvfl from bn innfr dlbss.  Rfturns null if no bddfss mftiod
+     * is nffdfd.
+     * is nffdfd.
+     * is nffdfd.
+     * is nffdfd.
      * is nffdfd.
      * <p>
-     * Cbllfd during thf dhfdking phbsf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
+     * Cbllfd during tif difdking pibsf.
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
-        throw nfw CompilfrError("gftUpdbtfr lhs");
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+        tirow nfw CompilfrError("gftUpdbtfr lis");
+        tirow nfw CompilfrError("gftUpdbtfr lis");
+        tirow nfw CompilfrError("gftUpdbtfr lis");
+        tirow nfw CompilfrError("gftUpdbtfr lis");
+        tirow nfw CompilfrError("gftUpdbtfr lis");
+    }
+    }
+    }
+    }
     }
 
-    publid Vsft dhfdkAssignOp(Environmfnt fnv, Contfxt dtx,
-                              Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+
+
+
+
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
         if (outsidf instbndfof IndDfdExprfssion)
-            fnv.frror(whfrf, "invblid.brg", opNbmfs[outsidf.op]);
+        if (outsidf instbndfof IndDfdExprfssion)
+        if (outsidf instbndfof IndDfdExprfssion)
+        if (outsidf instbndfof IndDfdExprfssion)
+        if (outsidf instbndfof IndDfdExprfssion)
+            fnv.frror(wifrf, "invblid.brg", opNbmfs[outsidf.op]);
+            fnv.frror(wifrf, "invblid.brg", opNbmfs[outsidf.op]);
+            fnv.frror(wifrf, "invblid.brg", opNbmfs[outsidf.op]);
+            fnv.frror(wifrf, "invblid.brg", opNbmfs[outsidf.op]);
+            fnv.frror(wifrf, "invblid.brg", opNbmfs[outsidf.op]);
         flsf
-            fnv.frror(whfrf, "invblid.lhs.bssignmfnt");
+        flsf
+        flsf
+        flsf
+        flsf
+            fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+            fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+            fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+            fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+            fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        typf = Typf.tError;
+        typf = Typf.tError;
+        typf = Typf.tError;
+        typf = Typf.tError;
         typf = Typf.tError;
         rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
+        rfturn vsft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Chfdk somfthing thbt might bf bn AmbiguousNbmf (rffmbn 6.5.2).
-     * A string of dot-sfpbrbtfd idfntififrs might bf, in ordfr of prfffrfndf:
+    /**
+    /**
+    /**
+    /**
+     * Cifdk somftiing tibt migit bf bn AmbiguousNbmf (rffmbn 6.5.2).
+     * Cifdk somftiing tibt migit bf bn AmbiguousNbmf (rffmbn 6.5.2).
+     * Cifdk somftiing tibt migit bf bn AmbiguousNbmf (rffmbn 6.5.2).
+     * Cifdk somftiing tibt migit bf bn AmbiguousNbmf (rffmbn 6.5.2).
+     * Cifdk somftiing tibt migit bf bn AmbiguousNbmf (rffmbn 6.5.2).
+     * A string of dot-sfpbrbtfd idfntififrs migit bf, in ordfr of prfffrfndf:
+     * A string of dot-sfpbrbtfd idfntififrs migit bf, in ordfr of prfffrfndf:
+     * A string of dot-sfpbrbtfd idfntififrs migit bf, in ordfr of prfffrfndf:
+     * A string of dot-sfpbrbtfd idfntififrs migit bf, in ordfr of prfffrfndf:
+     * A string of dot-sfpbrbtfd idfntififrs migit bf, in ordfr of prfffrfndf:
+     * <nl>
+     * <nl>
+     * <nl>
+     * <nl>
      * <nl>
      * <li> b vbribblf nbmf followfd by fiflds or typfs
+     * <li> b vbribblf nbmf followfd by fiflds or typfs
+     * <li> b vbribblf nbmf followfd by fiflds or typfs
+     * <li> b vbribblf nbmf followfd by fiflds or typfs
+     * <li> b vbribblf nbmf followfd by fiflds or typfs
      * <li> b typf nbmf followfd by fiflds or typfs
-     * <li> b pbdkbgf nbmf followfd b typf bnd thfn fiflds or typfs
+     * <li> b typf nbmf followfd by fiflds or typfs
+     * <li> b typf nbmf followfd by fiflds or typfs
+     * <li> b typf nbmf followfd by fiflds or typfs
+     * <li> b typf nbmf followfd by fiflds or typfs
+     * <li> b pbdkbgf nbmf followfd b typf bnd tifn fiflds or typfs
+     * <li> b pbdkbgf nbmf followfd b typf bnd tifn fiflds or typfs
+     * <li> b pbdkbgf nbmf followfd b typf bnd tifn fiflds or typfs
+     * <li> b pbdkbgf nbmf followfd b typf bnd tifn fiflds or typfs
+     * <li> b pbdkbgf nbmf followfd b typf bnd tifn fiflds or typfs
+     * </nl>
+     * </nl>
+     * </nl>
+     * </nl>
      * </nl>
      * If b typf nbmf is found, it rfwritfs itsflf bs b <tt>TypfExprfssion</tt>.
+     * If b typf nbmf is found, it rfwritfs itsflf bs b <tt>TypfExprfssion</tt>.
+     * If b typf nbmf is found, it rfwritfs itsflf bs b <tt>TypfExprfssion</tt>.
+     * If b typf nbmf is found, it rfwritfs itsflf bs b <tt>TypfExprfssion</tt>.
+     * If b typf nbmf is found, it rfwritfs itsflf bs b <tt>TypfExprfssion</tt>.
      * If b nodf dfdidfs it dbn only bf b pbdkbgf prffix, it sfts its
-     * typf to <tt>Typf.tPbdkbgf</tt>.  Thf dbllfr must dftfdt this
-     * bnd bdt bppropribtfly to vfrify thf full pbdkbgf nbmf.
-     * @brg lod thf fxprfssion dontbining thf bmbiguous fxprfssion
+     * If b nodf dfdidfs it dbn only bf b pbdkbgf prffix, it sfts its
+     * If b nodf dfdidfs it dbn only bf b pbdkbgf prffix, it sfts its
+     * If b nodf dfdidfs it dbn only bf b pbdkbgf prffix, it sfts its
+     * If b nodf dfdidfs it dbn only bf b pbdkbgf prffix, it sfts its
+     * typf to <tt>Typf.tPbdkbgf</tt>.  Tif dbllfr must dftfdt tiis
+     * typf to <tt>Typf.tPbdkbgf</tt>.  Tif dbllfr must dftfdt tiis
+     * typf to <tt>Typf.tPbdkbgf</tt>.  Tif dbllfr must dftfdt tiis
+     * typf to <tt>Typf.tPbdkbgf</tt>.  Tif dbllfr must dftfdt tiis
+     * typf to <tt>Typf.tPbdkbgf</tt>.  Tif dbllfr must dftfdt tiis
+     * bnd bdt bppropribtfly to vfrify tif full pbdkbgf nbmf.
+     * bnd bdt bppropribtfly to vfrify tif full pbdkbgf nbmf.
+     * bnd bdt bppropribtfly to vfrify tif full pbdkbgf nbmf.
+     * bnd bdt bppropribtfly to vfrify tif full pbdkbgf nbmf.
+     * bnd bdt bppropribtfly to vfrify tif full pbdkbgf nbmf.
+     * @brg lod tif fxprfssion dontbining tif bmbiguous fxprfssion
+     * @brg lod tif fxprfssion dontbining tif bmbiguous fxprfssion
+     * @brg lod tif fxprfssion dontbining tif bmbiguous fxprfssion
+     * @brg lod tif fxprfssion dontbining tif bmbiguous fxprfssion
+     * @brg lod tif fxprfssion dontbining tif bmbiguous fxprfssion
      */
-    publid Vsft dhfdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp,
+     */
+     */
+     */
+     */
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
                                UnbryExprfssion lod) {
-        rfturn dhfdkVbluf(fnv, dtx, vsft, fxp);
+                               UnbryExprfssion lod) {
+                               UnbryExprfssion lod) {
+                               UnbryExprfssion lod) {
+                               UnbryExprfssion lod) {
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Chfdk b dondition.  Rfturn b ConditionVbrs(), whidh indidbtfs whfn
-     * whidh vbribblfs brf sft if thf dondition is truf, bnd whidh brf sft if
-     * thf dondition is fblsf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdk b dondition.  Rfturn b ConditionVbrs(), wiidi indidbtfs wifn
+     * Cifdk b dondition.  Rfturn b ConditionVbrs(), wiidi indidbtfs wifn
+     * Cifdk b dondition.  Rfturn b ConditionVbrs(), wiidi indidbtfs wifn
+     * Cifdk b dondition.  Rfturn b ConditionVbrs(), wiidi indidbtfs wifn
+     * Cifdk b dondition.  Rfturn b ConditionVbrs(), wiidi indidbtfs wifn
+     * wiidi vbribblfs brf sft if tif dondition is truf, bnd wiidi brf sft if
+     * wiidi vbribblfs brf sft if tif dondition is truf, bnd wiidi brf sft if
+     * wiidi vbribblfs brf sft if tif dondition is truf, bnd wiidi brf sft if
+     * wiidi vbribblfs brf sft if tif dondition is truf, bnd wiidi brf sft if
+     * wiidi vbribblfs brf sft if tif dondition is truf, bnd wiidi brf sft if
+     * tif dondition is fblsf.
+     * tif dondition is fblsf.
+     * tif dondition is fblsf.
+     * tif dondition is fblsf.
+     * tif dondition is fblsf.
      */
-    publid ConditionVbrs dhfdkCondition(Environmfnt fnv, Contfxt dtx,
-                                        Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+     */
+     */
+     */
+     */
+    publid ConditionVbrs difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid ConditionVbrs difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid ConditionVbrs difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid ConditionVbrs difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid ConditionVbrs difdkCondition(Environmfnt fnv, Contfxt dtx,
+                                        Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                                        Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                                        Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                                        Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+                                        Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
         ConditionVbrs dvbrs = nfw ConditionVbrs();
-        dhfdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        ConditionVbrs dvbrs = nfw ConditionVbrs();
+        ConditionVbrs dvbrs = nfw ConditionVbrs();
+        ConditionVbrs dvbrs = nfw ConditionVbrs();
+        ConditionVbrs dvbrs = nfw ConditionVbrs();
+        difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        rfturn dvbrs;
+        rfturn dvbrs;
+        rfturn dvbrs;
+        rfturn dvbrs;
         rfturn dvbrs;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Chfdk b dondition.
+    /*
+    /*
+    /*
+    /*
+     * Cifdk b dondition.
+     * Cifdk b dondition.
+     * Cifdk b dondition.
+     * Cifdk b dondition.
+     * Cifdk b dondition.
      *
-     * dvbrs is modififd so thbt
-     *    dvbr.vsTruf indidbtfs vbribblfs with b known vbluf if rfsult = truf
-     *    dvbrs.vsFblsf indidbtfs vbribblfs with b known vbluf if !rfsult
      *
-     * Thf dffbult bdtion is to simply dbll dhfdkVbluf on thf fxprfssion, bnd
-     * to sff both vsTruf bnd vsFblsf to thf rfsult.
+     *
+     *
+     *
+     * dvbrs is modififd so tibt
+     * dvbrs is modififd so tibt
+     * dvbrs is modififd so tibt
+     * dvbrs is modififd so tibt
+     * dvbrs is modififd so tibt
+     *    dvbr.vsTruf indidbtfs vbribblfs witi b known vbluf if rfsult = truf
+     *    dvbr.vsTruf indidbtfs vbribblfs witi b known vbluf if rfsult = truf
+     *    dvbr.vsTruf indidbtfs vbribblfs witi b known vbluf if rfsult = truf
+     *    dvbr.vsTruf indidbtfs vbribblfs witi b known vbluf if rfsult = truf
+     *    dvbr.vsTruf indidbtfs vbribblfs witi b known vbluf if rfsult = truf
+     *    dvbrs.vsFblsf indidbtfs vbribblfs witi b known vbluf if !rfsult
+     *    dvbrs.vsFblsf indidbtfs vbribblfs witi b known vbluf if !rfsult
+     *    dvbrs.vsFblsf indidbtfs vbribblfs witi b known vbluf if !rfsult
+     *    dvbrs.vsFblsf indidbtfs vbribblfs witi b known vbluf if !rfsult
+     *    dvbrs.vsFblsf indidbtfs vbribblfs witi b known vbluf if !rfsult
+     *
+     *
+     *
+     *
+     *
+     * Tif dffbult bdtion is to simply dbll difdkVbluf on tif fxprfssion, bnd
+     * Tif dffbult bdtion is to simply dbll difdkVbluf on tif fxprfssion, bnd
+     * Tif dffbult bdtion is to simply dbll difdkVbluf on tif fxprfssion, bnd
+     * Tif dffbult bdtion is to simply dbll difdkVbluf on tif fxprfssion, bnd
+     * Tif dffbult bdtion is to simply dbll difdkVbluf on tif fxprfssion, bnd
+     * to sff boti vsTruf bnd vsFblsf to tif rfsult.
+     * to sff boti vsTruf bnd vsFblsf to tif rfsult.
+     * to sff boti vsTruf bnd vsFblsf to tif rfsult.
+     * to sff boti vsTruf bnd vsFblsf to tif rfsult.
+     * to sff boti vsTruf bnd vsFblsf to tif rfsult.
+     */
+     */
+     */
+     */
      */
 
-    publid void dhfdkCondition(Environmfnt fnv, Contfxt dtx,
-                               Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
-        dvbrs.vsTruf = dvbrs.vsFblsf = dhfdkVbluf(fnv, dtx, vsft, fxp);
-        // unshbrf sidf ffffdts:
+
+
+
+
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx,
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx,
+                               Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+                               Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+                               Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+                               Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+                               Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+        dvbrs.vsTruf = dvbrs.vsFblsf = difdkVbluf(fnv, dtx, vsft, fxp);
+        dvbrs.vsTruf = dvbrs.vsFblsf = difdkVbluf(fnv, dtx, vsft, fxp);
+        dvbrs.vsTruf = dvbrs.vsFblsf = difdkVbluf(fnv, dtx, vsft, fxp);
+        dvbrs.vsTruf = dvbrs.vsFblsf = difdkVbluf(fnv, dtx, vsft, fxp);
+        dvbrs.vsTruf = dvbrs.vsFblsf = difdkVbluf(fnv, dtx, vsft, fxp);
+        // unsibrf sidf ffffdts:
+        // unsibrf sidf ffffdts:
+        // unsibrf sidf ffffdts:
+        // unsibrf sidf ffffdts:
+        // unsibrf sidf ffffdts:
+        dvbrs.vsFblsf = dvbrs.vsFblsf.dopy();
+        dvbrs.vsFblsf = dvbrs.vsFblsf.dopy();
+        dvbrs.vsFblsf = dvbrs.vsFblsf.dopy();
+        dvbrs.vsFblsf = dvbrs.vsFblsf.dopy();
         dvbrs.vsFblsf = dvbrs.vsFblsf.dopy();
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Evblubtf.
+     * Evblubtf.
+     * Evblubtf.
+     * Evblubtf.
+     * Evblubtf.
      *
-     * Attfmpt to domputf thf vbluf of bn fxprfssion nodf.  If bll opfrbnds brf
-     * litfrbl donstbnts of thf sbmf kind (f.g., IntfgfrExprfssion nodfs), b
-     * nfw donstbnt nodf of thf propfr typf is rfturnfd rfprfsfnting thf vbluf
-     * bs domputfd bt dompilf-timf.  Othfrwisf, thf originbl nodf 'this' is
+     *
+     *
+     *
+     *
+     * Attfmpt to domputf tif vbluf of bn fxprfssion nodf.  If bll opfrbnds brf
+     * Attfmpt to domputf tif vbluf of bn fxprfssion nodf.  If bll opfrbnds brf
+     * Attfmpt to domputf tif vbluf of bn fxprfssion nodf.  If bll opfrbnds brf
+     * Attfmpt to domputf tif vbluf of bn fxprfssion nodf.  If bll opfrbnds brf
+     * Attfmpt to domputf tif vbluf of bn fxprfssion nodf.  If bll opfrbnds brf
+     * litfrbl donstbnts of tif sbmf kind (f.g., IntfgfrExprfssion nodfs), b
+     * litfrbl donstbnts of tif sbmf kind (f.g., IntfgfrExprfssion nodfs), b
+     * litfrbl donstbnts of tif sbmf kind (f.g., IntfgfrExprfssion nodfs), b
+     * litfrbl donstbnts of tif sbmf kind (f.g., IntfgfrExprfssion nodfs), b
+     * litfrbl donstbnts of tif sbmf kind (f.g., IntfgfrExprfssion nodfs), b
+     * nfw donstbnt nodf of tif propfr typf is rfturnfd rfprfsfnting tif vbluf
+     * nfw donstbnt nodf of tif propfr typf is rfturnfd rfprfsfnting tif vbluf
+     * nfw donstbnt nodf of tif propfr typf is rfturnfd rfprfsfnting tif vbluf
+     * nfw donstbnt nodf of tif propfr typf is rfturnfd rfprfsfnting tif vbluf
+     * nfw donstbnt nodf of tif propfr typf is rfturnfd rfprfsfnting tif vbluf
+     * bs domputfd bt dompilf-timf.  Otifrwisf, tif originbl nodf 'tiis' is
+     * bs domputfd bt dompilf-timf.  Otifrwisf, tif originbl nodf 'tiis' is
+     * bs domputfd bt dompilf-timf.  Otifrwisf, tif originbl nodf 'tiis' is
+     * bs domputfd bt dompilf-timf.  Otifrwisf, tif originbl nodf 'tiis' is
+     * bs domputfd bt dompilf-timf.  Otifrwisf, tif originbl nodf 'tiis' is
+     * rfturnfd.
+     * rfturnfd.
+     * rfturnfd.
+     * rfturnfd.
      * rfturnfd.
      */
+     */
+     */
+     */
+     */
     Exprfssion fvbl() {
-        rfturn this;
+    Exprfssion fvbl() {
+    Exprfssion fvbl() {
+    Exprfssion fvbl() {
+    Exprfssion fvbl() {
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Simplify.
+     * Simplify.
+     * Simplify.
+     * Simplify.
+     * Simplify.
+     *
+     *
+     *
+     *
      *
      * Attfmpt to simplify bn fxprfssion nodf by rfturning b sfmbntidblly-
-     * fquivblfnt fxprfssion thbt is prfsumbbly lfss dostly to fxfdutf.  Thfrf
-     * is somf ovfrlbp with thf intfnt of 'fvbl', bs dompilf-timf fvblubtion of
-     * donditionbl fxprfssions bnd thf short-dirduit boolfbn opfrbtors is
-     * pfrformfd hfrf.  Othfr simplifidbtions indludf logidbl idfntitifs
+     * Attfmpt to simplify bn fxprfssion nodf by rfturning b sfmbntidblly-
+     * Attfmpt to simplify bn fxprfssion nodf by rfturning b sfmbntidblly-
+     * Attfmpt to simplify bn fxprfssion nodf by rfturning b sfmbntidblly-
+     * Attfmpt to simplify bn fxprfssion nodf by rfturning b sfmbntidblly-
+     * fquivblfnt fxprfssion tibt is prfsumbbly lfss dostly to fxfdutf.  Tifrf
+     * fquivblfnt fxprfssion tibt is prfsumbbly lfss dostly to fxfdutf.  Tifrf
+     * fquivblfnt fxprfssion tibt is prfsumbbly lfss dostly to fxfdutf.  Tifrf
+     * fquivblfnt fxprfssion tibt is prfsumbbly lfss dostly to fxfdutf.  Tifrf
+     * fquivblfnt fxprfssion tibt is prfsumbbly lfss dostly to fxfdutf.  Tifrf
+     * is somf ovfrlbp witi tif intfnt of 'fvbl', bs dompilf-timf fvblubtion of
+     * is somf ovfrlbp witi tif intfnt of 'fvbl', bs dompilf-timf fvblubtion of
+     * is somf ovfrlbp witi tif intfnt of 'fvbl', bs dompilf-timf fvblubtion of
+     * is somf ovfrlbp witi tif intfnt of 'fvbl', bs dompilf-timf fvblubtion of
+     * is somf ovfrlbp witi tif intfnt of 'fvbl', bs dompilf-timf fvblubtion of
+     * donditionbl fxprfssions bnd tif siort-dirduit boolfbn opfrbtors is
+     * donditionbl fxprfssions bnd tif siort-dirduit boolfbn opfrbtors is
+     * donditionbl fxprfssions bnd tif siort-dirduit boolfbn opfrbtors is
+     * donditionbl fxprfssions bnd tif siort-dirduit boolfbn opfrbtors is
+     * donditionbl fxprfssions bnd tif siort-dirduit boolfbn opfrbtors is
+     * pfrformfd ifrf.  Otifr simplifidbtions indludf logidbl idfntitifs
+     * pfrformfd ifrf.  Otifr simplifidbtions indludf logidbl idfntitifs
+     * pfrformfd ifrf.  Otifr simplifidbtions indludf logidbl idfntitifs
+     * pfrformfd ifrf.  Otifr simplifidbtions indludf logidbl idfntitifs
+     * pfrformfd ifrf.  Otifr simplifidbtions indludf logidbl idfntitifs
      * involving logidbl nfgbtion bnd dompbrisons.  If no simplifidbtion is
-     * possiblf, thf originbl nodf 'this' is rfturnfd.  It is bssumfd thbt thf
-     * dhildrfn of thf nodf hbvf prfviously bffn rfdursivfly simplififd bnd
-     * fvblubtfd.  A rfsult of 'null' indidbtfs thbt thf fxprfssion mby bf
+     * involving logidbl nfgbtion bnd dompbrisons.  If no simplifidbtion is
+     * involving logidbl nfgbtion bnd dompbrisons.  If no simplifidbtion is
+     * involving logidbl nfgbtion bnd dompbrisons.  If no simplifidbtion is
+     * involving logidbl nfgbtion bnd dompbrisons.  If no simplifidbtion is
+     * possiblf, tif originbl nodf 'tiis' is rfturnfd.  It is bssumfd tibt tif
+     * possiblf, tif originbl nodf 'tiis' is rfturnfd.  It is bssumfd tibt tif
+     * possiblf, tif originbl nodf 'tiis' is rfturnfd.  It is bssumfd tibt tif
+     * possiblf, tif originbl nodf 'tiis' is rfturnfd.  It is bssumfd tibt tif
+     * possiblf, tif originbl nodf 'tiis' is rfturnfd.  It is bssumfd tibt tif
+     * diildrfn of tif nodf ibvf prfviously bffn rfdursivfly simplififd bnd
+     * diildrfn of tif nodf ibvf prfviously bffn rfdursivfly simplififd bnd
+     * diildrfn of tif nodf ibvf prfviously bffn rfdursivfly simplififd bnd
+     * diildrfn of tif nodf ibvf prfviously bffn rfdursivfly simplififd bnd
+     * diildrfn of tif nodf ibvf prfviously bffn rfdursivfly simplififd bnd
+     * fvblubtfd.  A rfsult of 'null' indidbtfs tibt tif fxprfssion mby bf
+     * fvblubtfd.  A rfsult of 'null' indidbtfs tibt tif fxprfssion mby bf
+     * fvblubtfd.  A rfsult of 'null' indidbtfs tibt tif fxprfssion mby bf
+     * fvblubtfd.  A rfsult of 'null' indidbtfs tibt tif fxprfssion mby bf
+     * fvblubtfd.  A rfsult of 'null' indidbtfs tibt tif fxprfssion mby bf
+     * flidfd fntirfly.
+     * flidfd fntirfly.
+     * flidfd fntirfly.
+     * flidfd fntirfly.
      * flidfd fntirfly.
      */
+     */
+     */
+     */
+     */
     Exprfssion simplify() {
-        rfturn this;
+    Exprfssion simplify() {
+    Exprfssion simplify() {
+    Exprfssion simplify() {
+    Exprfssion simplify() {
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Inlinf.
+     * Inlinf.
+     * Inlinf.
+     * Inlinf.
+     * Inlinf.
      *
-     * Rfdursivfly simplify fbdh dhild of bn fxprfssion nodf, dfstrudtivfly
-     * rfplbding thf dhild with thf simplififd rfsult.  Also bttfmpts to
-     * simplify thf durrfnt nodf 'this', bnd rfturns thf simplififd rfsult.
      *
-     * Thf nbmf 'inlinf' is somthing of b misnomfr, bs thfsf mfthods brf
+     *
+     *
+     *
+     * Rfdursivfly simplify fbdi diild of bn fxprfssion nodf, dfstrudtivfly
+     * Rfdursivfly simplify fbdi diild of bn fxprfssion nodf, dfstrudtivfly
+     * Rfdursivfly simplify fbdi diild of bn fxprfssion nodf, dfstrudtivfly
+     * Rfdursivfly simplify fbdi diild of bn fxprfssion nodf, dfstrudtivfly
+     * Rfdursivfly simplify fbdi diild of bn fxprfssion nodf, dfstrudtivfly
+     * rfplbding tif diild witi tif simplififd rfsult.  Also bttfmpts to
+     * rfplbding tif diild witi tif simplififd rfsult.  Also bttfmpts to
+     * rfplbding tif diild witi tif simplififd rfsult.  Also bttfmpts to
+     * rfplbding tif diild witi tif simplififd rfsult.  Also bttfmpts to
+     * rfplbding tif diild witi tif simplififd rfsult.  Also bttfmpts to
+     * simplify tif durrfnt nodf 'tiis', bnd rfturns tif simplififd rfsult.
+     * simplify tif durrfnt nodf 'tiis', bnd rfturns tif simplififd rfsult.
+     * simplify tif durrfnt nodf 'tiis', bnd rfturns tif simplififd rfsult.
+     * simplify tif durrfnt nodf 'tiis', bnd rfturns tif simplififd rfsult.
+     * simplify tif durrfnt nodf 'tiis', bnd rfturns tif simplififd rfsult.
+     *
+     *
+     *
+     *
+     *
+     * Tif nbmf 'inlinf' is somtiing of b misnomfr, bs tifsf mftiods brf
+     * Tif nbmf 'inlinf' is somtiing of b misnomfr, bs tifsf mftiods brf
+     * Tif nbmf 'inlinf' is somtiing of b misnomfr, bs tifsf mftiods brf
+     * Tif nbmf 'inlinf' is somtiing of b misnomfr, bs tifsf mftiods brf
+     * Tif nbmf 'inlinf' is somtiing of b misnomfr, bs tifsf mftiods brf
      * rfsponsiblf for dompilf-timf fxprfssion simplifidbtion in gfnfrbl.
-     * Thf 'fvbl' bnd 'simplify' mfthods bpply to b singlf fxprfssion nodf
-     * only -- it is 'inlinf' bnd 'inlinfVbluf' thbt drivf thf simplifidbtion
+     * rfsponsiblf for dompilf-timf fxprfssion simplifidbtion in gfnfrbl.
+     * rfsponsiblf for dompilf-timf fxprfssion simplifidbtion in gfnfrbl.
+     * rfsponsiblf for dompilf-timf fxprfssion simplifidbtion in gfnfrbl.
+     * rfsponsiblf for dompilf-timf fxprfssion simplifidbtion in gfnfrbl.
+     * Tif 'fvbl' bnd 'simplify' mftiods bpply to b singlf fxprfssion nodf
+     * Tif 'fvbl' bnd 'simplify' mftiods bpply to b singlf fxprfssion nodf
+     * Tif 'fvbl' bnd 'simplify' mftiods bpply to b singlf fxprfssion nodf
+     * Tif 'fvbl' bnd 'simplify' mftiods bpply to b singlf fxprfssion nodf
+     * Tif 'fvbl' bnd 'simplify' mftiods bpply to b singlf fxprfssion nodf
+     * only -- it is 'inlinf' bnd 'inlinfVbluf' tibt drivf tif simplifidbtion
+     * only -- it is 'inlinf' bnd 'inlinfVbluf' tibt drivf tif simplifidbtion
+     * only -- it is 'inlinf' bnd 'inlinfVbluf' tibt drivf tif simplifidbtion
+     * only -- it is 'inlinf' bnd 'inlinfVbluf' tibt drivf tif simplifidbtion
+     * only -- it is 'inlinf' bnd 'inlinfVbluf' tibt drivf tif simplifidbtion
+     * of fntirf fxprfssions.
+     * of fntirf fxprfssions.
+     * of fntirf fxprfssions.
+     * of fntirf fxprfssions.
      * of fntirf fxprfssions.
      */
+     */
+     */
+     */
+     */
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
     publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
         rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+    }
+    }
+    }
+    }
     }
     publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
-        rfturn this;
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Attfmpt to fvblubtf this fxprfssion.  If this fxprfssion
-     * yiflds b vbluf, bppfnd it to thf StringBufffr `bufffr'.
-     * If this fxprfssion dbnnot bf fvblubtfd bt this timf (for
+    /**
+    /**
+    /**
+    /**
+     * Attfmpt to fvblubtf tiis fxprfssion.  If tiis fxprfssion
+     * Attfmpt to fvblubtf tiis fxprfssion.  If tiis fxprfssion
+     * Attfmpt to fvblubtf tiis fxprfssion.  If tiis fxprfssion
+     * Attfmpt to fvblubtf tiis fxprfssion.  If tiis fxprfssion
+     * Attfmpt to fvblubtf tiis fxprfssion.  If tiis fxprfssion
+     * yiflds b vbluf, bppfnd it to tif StringBufffr `bufffr'.
+     * yiflds b vbluf, bppfnd it to tif StringBufffr `bufffr'.
+     * yiflds b vbluf, bppfnd it to tif StringBufffr `bufffr'.
+     * yiflds b vbluf, bppfnd it to tif StringBufffr `bufffr'.
+     * yiflds b vbluf, bppfnd it to tif StringBufffr `bufffr'.
+     * If tiis fxprfssion dbnnot bf fvblubtfd bt tiis timf (for
+     * If tiis fxprfssion dbnnot bf fvblubtfd bt tiis timf (for
+     * If tiis fxprfssion dbnnot bf fvblubtfd bt tiis timf (for
+     * If tiis fxprfssion dbnnot bf fvblubtfd bt tiis timf (for
+     * If tiis fxprfssion dbnnot bf fvblubtfd bt tiis timf (for
      * fxbmplf if it dontbins b division by zfro, b non-donstbnt
-     * subfxprfssion, or b subfxprfssion whidh "rffusfs" to fvblubtf)
-     * thfn rfturn `null' to indidbtf fbilurf.
+     * fxbmplf if it dontbins b division by zfro, b non-donstbnt
+     * fxbmplf if it dontbins b division by zfro, b non-donstbnt
+     * fxbmplf if it dontbins b division by zfro, b non-donstbnt
+     * fxbmplf if it dontbins b division by zfro, b non-donstbnt
+     * subfxprfssion, or b subfxprfssion wiidi "rffusfs" to fvblubtf)
+     * subfxprfssion, or b subfxprfssion wiidi "rffusfs" to fvblubtf)
+     * subfxprfssion, or b subfxprfssion wiidi "rffusfs" to fvblubtf)
+     * subfxprfssion, or b subfxprfssion wiidi "rffusfs" to fvblubtf)
+     * subfxprfssion, or b subfxprfssion wiidi "rffusfs" to fvblubtf)
+     * tifn rfturn `null' to indidbtf fbilurf.
+     * tifn rfturn `null' to indidbtf fbilurf.
+     * tifn rfturn `null' to indidbtf fbilurf.
+     * tifn rfturn `null' to indidbtf fbilurf.
+     * tifn rfturn `null' to indidbtf fbilurf.
      *
-     * It is bntidipbtfd thbt this mfthod will bf dbllfd to fvblubtf
-     * dondbtfnbtions of dompilf-timf donstbnt strings.  Thf dbll
+     *
+     *
+     *
+     *
+     * It is bntidipbtfd tibt tiis mftiod will bf dbllfd to fvblubtf
+     * It is bntidipbtfd tibt tiis mftiod will bf dbllfd to fvblubtf
+     * It is bntidipbtfd tibt tiis mftiod will bf dbllfd to fvblubtf
+     * It is bntidipbtfd tibt tiis mftiod will bf dbllfd to fvblubtf
+     * It is bntidipbtfd tibt tiis mftiod will bf dbllfd to fvblubtf
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Tif dbll
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Tif dbll
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Tif dbll
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Tif dbll
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Tif dbll
+     * originbtfs from AddExprfssion#inlinfVbluf().
+     * originbtfs from AddExprfssion#inlinfVbluf().
+     * originbtfs from AddExprfssion#inlinfVbluf().
+     * originbtfs from AddExprfssion#inlinfVbluf().
      * originbtfs from AddExprfssion#inlinfVbluf().
      *
+     *
+     *
+     *
+     *
+     * Sff AddExprfssion#inlinfVblufSB() for dftbilfd dommfnts.
+     * Sff AddExprfssion#inlinfVblufSB() for dftbilfd dommfnts.
+     * Sff AddExprfssion#inlinfVblufSB() for dftbilfd dommfnts.
+     * Sff AddExprfssion#inlinfVblufSB() for dftbilfd dommfnts.
      * Sff AddExprfssion#inlinfVblufSB() for dftbilfd dommfnts.
      */
+     */
+     */
+     */
+     */
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
     protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
                                          Contfxt dtx,
+                                         Contfxt dtx,
+                                         Contfxt dtx,
+                                         Contfxt dtx,
+                                         Contfxt dtx,
+                                         StringBufffr bufffr) {
+                                         StringBufffr bufffr) {
+                                         StringBufffr bufffr) {
+                                         StringBufffr bufffr) {
                                          StringBufffr bufffr) {
         Exprfssion inlinfd = inlinfVbluf(fnv, dtx);
+        Exprfssion inlinfd = inlinfVbluf(fnv, dtx);
+        Exprfssion inlinfd = inlinfVbluf(fnv, dtx);
+        Exprfssion inlinfd = inlinfVbluf(fnv, dtx);
+        Exprfssion inlinfd = inlinfVbluf(fnv, dtx);
+        Objfdt vbl = inlinfd.gftVbluf();
+        Objfdt vbl = inlinfd.gftVbluf();
+        Objfdt vbl = inlinfd.gftVbluf();
+        Objfdt vbl = inlinfd.gftVbluf();
         Objfdt vbl = inlinfd.gftVbluf();
 
+
+
+
+
         if (vbl == null && !inlinfd.isNull()){
-            // This (supposfdly donstbnt) fxprfssion rffusfs to yifld
-            // b vbluf.  This dbn hbppfn, in pbrtidulbr, whfn wf brf
+        if (vbl == null && !inlinfd.isNull()){
+        if (vbl == null && !inlinfd.isNull()){
+        if (vbl == null && !inlinfd.isNull()){
+        if (vbl == null && !inlinfd.isNull()){
+            // Tiis (supposfdly donstbnt) fxprfssion rffusfs to yifld
+            // Tiis (supposfdly donstbnt) fxprfssion rffusfs to yifld
+            // Tiis (supposfdly donstbnt) fxprfssion rffusfs to yifld
+            // Tiis (supposfdly donstbnt) fxprfssion rffusfs to yifld
+            // Tiis (supposfdly donstbnt) fxprfssion rffusfs to yifld
+            // b vbluf.  Tiis dbn ibppfn, in pbrtidulbr, wifn wf brf
+            // b vbluf.  Tiis dbn ibppfn, in pbrtidulbr, wifn wf brf
+            // b vbluf.  Tiis dbn ibppfn, in pbrtidulbr, wifn wf brf
+            // b vbluf.  Tiis dbn ibppfn, in pbrtidulbr, wifn wf brf
+            // b vbluf.  Tiis dbn ibppfn, in pbrtidulbr, wifn wf brf
             // trying to fvblubtf b division by zfro.  It dbn blso
-            // hbppfn in dbsfs whfrf isConstbnt() is bblf to dlbssify
-            // fxprfssions bs donstbnt thbt thf dompilfr's inlining
-            // mfdhbnisms brfn't bblf to fvblubtf; this is rbrf,
-            // bnd bll sudh dbsfs thbt wf hbvf found so fbr
-            // (f.g. 4082814, 4106244) hbvf bffn pluggfd up.
+            // trying to fvblubtf b division by zfro.  It dbn blso
+            // trying to fvblubtf b division by zfro.  It dbn blso
+            // trying to fvblubtf b division by zfro.  It dbn blso
+            // trying to fvblubtf b division by zfro.  It dbn blso
+            // ibppfn in dbsfs wifrf isConstbnt() is bblf to dlbssify
+            // ibppfn in dbsfs wifrf isConstbnt() is bblf to dlbssify
+            // ibppfn in dbsfs wifrf isConstbnt() is bblf to dlbssify
+            // ibppfn in dbsfs wifrf isConstbnt() is bblf to dlbssify
+            // ibppfn in dbsfs wifrf isConstbnt() is bblf to dlbssify
+            // fxprfssions bs donstbnt tibt tif dompilfr's inlining
+            // fxprfssions bs donstbnt tibt tif dompilfr's inlining
+            // fxprfssions bs donstbnt tibt tif dompilfr's inlining
+            // fxprfssions bs donstbnt tibt tif dompilfr's inlining
+            // fxprfssions bs donstbnt tibt tif dompilfr's inlining
+            // mfdibnisms brfn't bblf to fvblubtf; tiis is rbrf,
+            // mfdibnisms brfn't bblf to fvblubtf; tiis is rbrf,
+            // mfdibnisms brfn't bblf to fvblubtf; tiis is rbrf,
+            // mfdibnisms brfn't bblf to fvblubtf; tiis is rbrf,
+            // mfdibnisms brfn't bblf to fvblubtf; tiis is rbrf,
+            // bnd bll sudi dbsfs tibt wf ibvf found so fbr
+            // bnd bll sudi dbsfs tibt wf ibvf found so fbr
+            // bnd bll sudi dbsfs tibt wf ibvf found so fbr
+            // bnd bll sudi dbsfs tibt wf ibvf found so fbr
+            // bnd bll sudi dbsfs tibt wf ibvf found so fbr
+            // (f.g. 4082814, 4106244) ibvf bffn pluggfd up.
+            // (f.g. 4082814, 4106244) ibvf bffn pluggfd up.
+            // (f.g. 4082814, 4106244) ibvf bffn pluggfd up.
+            // (f.g. 4082814, 4106244) ibvf bffn pluggfd up.
+            // (f.g. 4082814, 4106244) ibvf bffn pluggfd up.
             //
-            // Wf rfturn b null to indidbtf thbt wf hbvf fbilfd to
-            // fvblubtf thf dondbtfnbtion.
+            //
+            //
+            //
+            //
+            // Wf rfturn b null to indidbtf tibt wf ibvf fbilfd to
+            // Wf rfturn b null to indidbtf tibt wf ibvf fbilfd to
+            // Wf rfturn b null to indidbtf tibt wf ibvf fbilfd to
+            // Wf rfturn b null to indidbtf tibt wf ibvf fbilfd to
+            // Wf rfturn b null to indidbtf tibt wf ibvf fbilfd to
+            // fvblubtf tif dondbtfnbtion.
+            // fvblubtf tif dondbtfnbtion.
+            // fvblubtf tif dondbtfnbtion.
+            // fvblubtf tif dondbtfnbtion.
+            // fvblubtf tif dondbtfnbtion.
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
+        }
+        }
+        }
+        }
 
-        // For boolfbn bnd dhbrbdtfr fxprfssions, gftVbluf() rfturns
-        // bn Intfgfr.  Wf nffd to tbkf dbrf, whfn bppfnding thf rfsult
-        // of gftVbluf(), thbt wf prfsfrvf thf typf.
+
+
+
+
+        // For boolfbn bnd dibrbdtfr fxprfssions, gftVbluf() rfturns
+        // For boolfbn bnd dibrbdtfr fxprfssions, gftVbluf() rfturns
+        // For boolfbn bnd dibrbdtfr fxprfssions, gftVbluf() rfturns
+        // For boolfbn bnd dibrbdtfr fxprfssions, gftVbluf() rfturns
+        // For boolfbn bnd dibrbdtfr fxprfssions, gftVbluf() rfturns
+        // bn Intfgfr.  Wf nffd to tbkf dbrf, wifn bppfnding tif rfsult
+        // bn Intfgfr.  Wf nffd to tbkf dbrf, wifn bppfnding tif rfsult
+        // bn Intfgfr.  Wf nffd to tbkf dbrf, wifn bppfnding tif rfsult
+        // bn Intfgfr.  Wf nffd to tbkf dbrf, wifn bppfnding tif rfsult
+        // bn Intfgfr.  Wf nffd to tbkf dbrf, wifn bppfnding tif rfsult
+        // of gftVbluf(), tibt wf prfsfrvf tif typf.
+        // of gftVbluf(), tibt wf prfsfrvf tif typf.
+        // of gftVbluf(), tibt wf prfsfrvf tif typf.
+        // of gftVbluf(), tibt wf prfsfrvf tif typf.
+        // of gftVbluf(), tibt wf prfsfrvf tif typf.
         // Fix for 4103959, 4102672.
-        if (typf == Typf.tChbr) {
-            bufffr.bppfnd((dhbr)((Intfgfr)vbl).intVbluf());
+        // Fix for 4103959, 4102672.
+        // Fix for 4103959, 4102672.
+        // Fix for 4103959, 4102672.
+        // Fix for 4103959, 4102672.
+        if (typf == Typf.tCibr) {
+        if (typf == Typf.tCibr) {
+        if (typf == Typf.tCibr) {
+        if (typf == Typf.tCibr) {
+        if (typf == Typf.tCibr) {
+            bufffr.bppfnd((dibr)((Intfgfr)vbl).intVbluf());
+            bufffr.bppfnd((dibr)((Intfgfr)vbl).intVbluf());
+            bufffr.bppfnd((dibr)((Intfgfr)vbl).intVbluf());
+            bufffr.bppfnd((dibr)((Intfgfr)vbl).intVbluf());
+            bufffr.bppfnd((dibr)((Intfgfr)vbl).intVbluf());
+        } flsf if (typf == Typf.tBoolfbn) {
+        } flsf if (typf == Typf.tBoolfbn) {
+        } flsf if (typf == Typf.tBoolfbn) {
+        } flsf if (typf == Typf.tBoolfbn) {
         } flsf if (typf == Typf.tBoolfbn) {
             bufffr.bppfnd(((Intfgfr)vbl).intVbluf() != 0);
+            bufffr.bppfnd(((Intfgfr)vbl).intVbluf() != 0);
+            bufffr.bppfnd(((Intfgfr)vbl).intVbluf() != 0);
+            bufffr.bppfnd(((Intfgfr)vbl).intVbluf() != 0);
+            bufffr.bppfnd(((Intfgfr)vbl).intVbluf() != 0);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             bufffr.bppfnd(vbl);
+            bufffr.bppfnd(vbl);
+            bufffr.bppfnd(vbl);
+            bufffr.bppfnd(vbl);
+            bufffr.bppfnd(vbl);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn bufffr;
+        rfturn bufffr;
+        rfturn bufffr;
+        rfturn bufffr;
+        rfturn bufffr;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+    publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Thf dost of inlining this fxprfssion.
-     * This dost dontrols thf inlining of mfthods, bnd dofs not dftfrminf
-     * thf dompilf-timf simplifidbtions pfrformfd by 'inlinf' bnd frifnds.
+    /**
+    /**
+    /**
+    /**
+     * Tif dost of inlining tiis fxprfssion.
+     * Tif dost of inlining tiis fxprfssion.
+     * Tif dost of inlining tiis fxprfssion.
+     * Tif dost of inlining tiis fxprfssion.
+     * Tif dost of inlining tiis fxprfssion.
+     * Tiis dost dontrols tif inlining of mftiods, bnd dofs not dftfrminf
+     * Tiis dost dontrols tif inlining of mftiods, bnd dofs not dftfrminf
+     * Tiis dost dontrols tif inlining of mftiods, bnd dofs not dftfrminf
+     * Tiis dost dontrols tif inlining of mftiods, bnd dofs not dftfrminf
+     * Tiis dost dontrols tif inlining of mftiods, bnd dofs not dftfrminf
+     * tif dompilf-timf simplifidbtions pfrformfd by 'inlinf' bnd frifnds.
+     * tif dompilf-timf simplifidbtions pfrformfd by 'inlinf' bnd frifnds.
+     * tif dompilf-timf simplifidbtions pfrformfd by 'inlinf' bnd frifnds.
+     * tif dompilf-timf simplifidbtions pfrformfd by 'inlinf' bnd frifnds.
+     * tif dompilf-timf simplifidbtions pfrformfd by 'inlinf' bnd frifnds.
      */
-    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+     */
+     */
+     */
+     */
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        rfturn 1;
+        rfturn 1;
+        rfturn 1;
+        rfturn 1;
         rfturn 1;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Codf
+     * Codf
+     * Codf
+     * Codf
      * Codf
      */
-    void dodfBrbndh(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn whfnTruf) {
+     */
+     */
+     */
+     */
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+        if (typf.isTypf(TC_BOOLEAN)) {
         if (typf.isTypf(TC_BOOLEAN)) {
             dodfVbluf(fnv, dtx, bsm);
-            bsm.bdd(whfrf, whfnTruf ? opd_ifnf : opd_iffq, lbl, whfnTruf);
+            dodfVbluf(fnv, dtx, bsm);
+            dodfVbluf(fnv, dtx, bsm);
+            dodfVbluf(fnv, dtx, bsm);
+            dodfVbluf(fnv, dtx, bsm);
+            bsm.bdd(wifrf, wifnTruf ? opd_ifnf : opd_iffq, lbl, wifnTruf);
+            bsm.bdd(wifrf, wifnTruf ? opd_ifnf : opd_iffq, lbl, wifnTruf);
+            bsm.bdd(wifrf, wifnTruf ? opd_ifnf : opd_iffq, lbl, wifnTruf);
+            bsm.bdd(wifrf, wifnTruf ? opd_ifnf : opd_iffq, lbl, wifnTruf);
+            bsm.bdd(wifrf, wifnTruf ? opd_ifnf : opd_iffq, lbl, wifnTruf);
         } flsf {
-            throw nfw CompilfrError("dodfBrbndh " + opNbmfs[op]);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw CompilfrError("dodfBrbndi " + opNbmfs[op]);
+            tirow nfw CompilfrError("dodfBrbndi " + opNbmfs[op]);
+            tirow nfw CompilfrError("dodfBrbndi " + opNbmfs[op]);
+            tirow nfw CompilfrError("dodfBrbndi " + opNbmfs[op]);
+            tirow nfw CompilfrError("dodfBrbndi " + opNbmfs[op]);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
     publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+        if (typf.isTypf(TC_BOOLEAN)) {
         if (typf.isTypf(TC_BOOLEAN)) {
             Lbbfl l1 = nfw Lbbfl();
+            Lbbfl l1 = nfw Lbbfl();
+            Lbbfl l1 = nfw Lbbfl();
+            Lbbfl l1 = nfw Lbbfl();
+            Lbbfl l1 = nfw Lbbfl();
+            Lbbfl l2 = nfw Lbbfl();
+            Lbbfl l2 = nfw Lbbfl();
+            Lbbfl l2 = nfw Lbbfl();
+            Lbbfl l2 = nfw Lbbfl();
             Lbbfl l2 = nfw Lbbfl();
 
-            dodfBrbndh(fnv, dtx, bsm, l1, truf);
-            bsm.bdd(truf, whfrf, opd_ldd, 0);
-            bsm.bdd(truf, whfrf, opd_goto, l2);
+
+
+
+
+            dodfBrbndi(fnv, dtx, bsm, l1, truf);
+            dodfBrbndi(fnv, dtx, bsm, l1, truf);
+            dodfBrbndi(fnv, dtx, bsm, l1, truf);
+            dodfBrbndi(fnv, dtx, bsm, l1, truf);
+            dodfBrbndi(fnv, dtx, bsm, l1, truf);
+            bsm.bdd(truf, wifrf, opd_ldd, 0);
+            bsm.bdd(truf, wifrf, opd_ldd, 0);
+            bsm.bdd(truf, wifrf, opd_ldd, 0);
+            bsm.bdd(truf, wifrf, opd_ldd, 0);
+            bsm.bdd(truf, wifrf, opd_ldd, 0);
+            bsm.bdd(truf, wifrf, opd_goto, l2);
+            bsm.bdd(truf, wifrf, opd_goto, l2);
+            bsm.bdd(truf, wifrf, opd_goto, l2);
+            bsm.bdd(truf, wifrf, opd_goto, l2);
+            bsm.bdd(truf, wifrf, opd_goto, l2);
             bsm.bdd(l1);
-            bsm.bdd(truf, whfrf, opd_ldd, 1);
+            bsm.bdd(l1);
+            bsm.bdd(l1);
+            bsm.bdd(l1);
+            bsm.bdd(l1);
+            bsm.bdd(truf, wifrf, opd_ldd, 1);
+            bsm.bdd(truf, wifrf, opd_ldd, 1);
+            bsm.bdd(truf, wifrf, opd_ldd, 1);
+            bsm.bdd(truf, wifrf, opd_ldd, 1);
+            bsm.bdd(truf, wifrf, opd_ldd, 1);
+            bsm.bdd(l2);
+            bsm.bdd(l2);
+            bsm.bdd(l2);
+            bsm.bdd(l2);
             bsm.bdd(l2);
         } flsf {
-            throw nfw CompilfrError("dodfVbluf");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw CompilfrError("dodfVbluf");
+            tirow nfw CompilfrError("dodfVbluf");
+            tirow nfw CompilfrError("dodfVbluf");
+            tirow nfw CompilfrError("dodfVbluf");
+            tirow nfw CompilfrError("dodfVbluf");
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
     publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dodfVbluf(fnv, dtx, bsm);
+        dodfVbluf(fnv, dtx, bsm);
+        dodfVbluf(fnv, dtx, bsm);
+        dodfVbluf(fnv, dtx, bsm);
         dodfVbluf(fnv, dtx, bsm);
 
-        switdh (typf.gftTypfCodf()) {
+
+
+
+
+        switdi (typf.gftTypfCodf()) {
+        switdi (typf.gftTypfCodf()) {
+        switdi (typf.gftTypfCodf()) {
+        switdi (typf.gftTypfCodf()) {
+        switdi (typf.gftTypfCodf()) {
+          dbsf TC_VOID:
+          dbsf TC_VOID:
+          dbsf TC_VOID:
+          dbsf TC_VOID:
           dbsf TC_VOID:
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
 
           dbsf TC_DOUBLE:
+          dbsf TC_DOUBLE:
+          dbsf TC_DOUBLE:
+          dbsf TC_DOUBLE:
+          dbsf TC_DOUBLE:
           dbsf TC_LONG:
-            bsm.bdd(whfrf, opd_pop2);
+          dbsf TC_LONG:
+          dbsf TC_LONG:
+          dbsf TC_LONG:
+          dbsf TC_LONG:
+            bsm.bdd(wifrf, opd_pop2);
+            bsm.bdd(wifrf, opd_pop2);
+            bsm.bdd(wifrf, opd_pop2);
+            bsm.bdd(wifrf, opd_pop2);
+            bsm.bdd(wifrf, opd_pop2);
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
 
           dffbult:
-            bsm.bdd(whfrf, opd_pop);
+          dffbult:
+          dffbult:
+          dffbult:
+          dffbult:
+            bsm.bdd(wifrf, opd_pop);
+            bsm.bdd(wifrf, opd_pop);
+            bsm.bdd(wifrf, opd_pop);
+            bsm.bdd(wifrf, opd_pop);
+            bsm.bdd(wifrf, opd_pop);
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
     int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
         print(Systfm.out);
-        throw nfw CompilfrError("invblid lhs");
+        print(Systfm.out);
+        print(Systfm.out);
+        print(Systfm.out);
+        print(Systfm.out);
+        tirow nfw CompilfrError("invblid lis");
+        tirow nfw CompilfrError("invblid lis");
+        tirow nfw CompilfrError("invblid lis");
+        tirow nfw CompilfrError("invblid lis");
+        tirow nfw CompilfrError("invblid lis");
+    }
+    }
+    }
+    }
     }
     void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
         print(Systfm.out);
-        throw nfw CompilfrError("invblid lobd");
+        print(Systfm.out);
+        print(Systfm.out);
+        print(Systfm.out);
+        print(Systfm.out);
+        tirow nfw CompilfrError("invblid lobd");
+        tirow nfw CompilfrError("invblid lobd");
+        tirow nfw CompilfrError("invblid lobd");
+        tirow nfw CompilfrError("invblid lobd");
+        tirow nfw CompilfrError("invblid lobd");
+    }
+    }
+    }
+    }
     }
     void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+    void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
         print(Systfm.out);
-        throw nfw CompilfrError("invblid storf");
+        print(Systfm.out);
+        print(Systfm.out);
+        print(Systfm.out);
+        print(Systfm.out);
+        tirow nfw CompilfrError("invblid storf");
+        tirow nfw CompilfrError("invblid storf");
+        tirow nfw CompilfrError("invblid storf");
+        tirow nfw CompilfrError("invblid storf");
+        tirow nfw CompilfrError("invblid storf");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Convfrt this fxprfssion to b string.
+    /**
+    /**
+    /**
+    /**
+     * Convfrt tiis fxprfssion to b string.
+     * Convfrt tiis fxprfssion to b string.
+     * Convfrt tiis fxprfssion to b string.
+     * Convfrt tiis fxprfssion to b string.
+     * Convfrt tiis fxprfssion to b string.
+     */
+     */
+     */
+     */
      */
     void fnsurfString(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm)
-            throws ClbssNotFound, AmbiguousMfmbfr
+    void fnsurfString(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm)
+    void fnsurfString(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm)
+    void fnsurfString(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm)
+    void fnsurfString(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm)
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+    {
+    {
+    {
+    {
     {
         if (typf == Typf.tString && isNonNull()) {
+        if (typf == Typf.tString && isNonNull()) {
+        if (typf == Typf.tString && isNonNull()) {
+        if (typf == Typf.tString && isNonNull()) {
+        if (typf == Typf.tString && isNonNull()) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
         }
         // Mbkf surf it's b non-null string.
+        // Mbkf surf it's b non-null string.
+        // Mbkf surf it's b non-null string.
+        // Mbkf surf it's b non-null string.
+        // Mbkf surf it's b non-null string.
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
         ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
         ClbssDfdlbrbtion stClbss = fnv.gftClbssDfdlbrbtion(Typf.tString);
+        ClbssDfdlbrbtion stClbss = fnv.gftClbssDfdlbrbtion(Typf.tString);
+        ClbssDfdlbrbtion stClbss = fnv.gftClbssDfdlbrbtion(Typf.tString);
+        ClbssDfdlbrbtion stClbss = fnv.gftClbssDfdlbrbtion(Typf.tString);
+        ClbssDfdlbrbtion stClbss = fnv.gftClbssDfdlbrbtion(Typf.tString);
+        ClbssDffinition stClsDff = stClbss.gftClbssDffinition(fnv);
+        ClbssDffinition stClsDff = stClbss.gftClbssDffinition(fnv);
+        ClbssDffinition stClsDff = stClbss.gftClbssDffinition(fnv);
+        ClbssDffinition stClsDff = stClbss.gftClbssDffinition(fnv);
         ClbssDffinition stClsDff = stClbss.gftClbssDffinition(fnv);
         // FIX FOR 4071548
-        // Wf usf 'String.vblufOf' to do thf donvfrsion, in ordfr to
-        // dorrfdtly hbndlf null rfffrfndfs bnd fffidifntly hbndlf
-        // primitivf typfs.  For rfffrfndf typfs, wf fordf thf brgumfnt
-        // to bf intfrprftfd bs of 'Objfdt' typf, thus bvoiding thf
-        // thf spfdibl-dbsf ovfrlobding of 'vblufOf' for dhbrbdtfr brrbys.
-        // This spfdibl trfbtmfnt would donflidt with JLS 15.17.1.1.
+        // FIX FOR 4071548
+        // FIX FOR 4071548
+        // FIX FOR 4071548
+        // FIX FOR 4071548
+        // Wf usf 'String.vblufOf' to do tif donvfrsion, in ordfr to
+        // Wf usf 'String.vblufOf' to do tif donvfrsion, in ordfr to
+        // Wf usf 'String.vblufOf' to do tif donvfrsion, in ordfr to
+        // Wf usf 'String.vblufOf' to do tif donvfrsion, in ordfr to
+        // Wf usf 'String.vblufOf' to do tif donvfrsion, in ordfr to
+        // dorrfdtly ibndlf null rfffrfndfs bnd fffidifntly ibndlf
+        // dorrfdtly ibndlf null rfffrfndfs bnd fffidifntly ibndlf
+        // dorrfdtly ibndlf null rfffrfndfs bnd fffidifntly ibndlf
+        // dorrfdtly ibndlf null rfffrfndfs bnd fffidifntly ibndlf
+        // dorrfdtly ibndlf null rfffrfndfs bnd fffidifntly ibndlf
+        // primitivf typfs.  For rfffrfndf typfs, wf fordf tif brgumfnt
+        // primitivf typfs.  For rfffrfndf typfs, wf fordf tif brgumfnt
+        // primitivf typfs.  For rfffrfndf typfs, wf fordf tif brgumfnt
+        // primitivf typfs.  For rfffrfndf typfs, wf fordf tif brgumfnt
+        // primitivf typfs.  For rfffrfndf typfs, wf fordf tif brgumfnt
+        // to bf intfrprftfd bs of 'Objfdt' typf, tius bvoiding tif
+        // to bf intfrprftfd bs of 'Objfdt' typf, tius bvoiding tif
+        // to bf intfrprftfd bs of 'Objfdt' typf, tius bvoiding tif
+        // to bf intfrprftfd bs of 'Objfdt' typf, tius bvoiding tif
+        // to bf intfrprftfd bs of 'Objfdt' typf, tius bvoiding tif
+        // tif spfdibl-dbsf ovfrlobding of 'vblufOf' for dibrbdtfr brrbys.
+        // tif spfdibl-dbsf ovfrlobding of 'vblufOf' for dibrbdtfr brrbys.
+        // tif spfdibl-dbsf ovfrlobding of 'vblufOf' for dibrbdtfr brrbys.
+        // tif spfdibl-dbsf ovfrlobding of 'vblufOf' for dibrbdtfr brrbys.
+        // tif spfdibl-dbsf ovfrlobding of 'vblufOf' for dibrbdtfr brrbys.
+        // Tiis spfdibl trfbtmfnt would donflidt witi JLS 15.17.1.1.
+        // Tiis spfdibl trfbtmfnt would donflidt witi JLS 15.17.1.1.
+        // Tiis spfdibl trfbtmfnt would donflidt witi JLS 15.17.1.1.
+        // Tiis spfdibl trfbtmfnt would donflidt witi JLS 15.17.1.1.
+        // Tiis spfdibl trfbtmfnt would donflidt witi JLS 15.17.1.1.
+        if (typf.inMbsk(TM_REFERENCE)) {
+        if (typf.inMbsk(TM_REFERENCE)) {
+        if (typf.inMbsk(TM_REFERENCE)) {
+        if (typf.inMbsk(TM_REFERENCE)) {
         if (typf.inMbsk(TM_REFERENCE)) {
             // Rfffrfndf typf
+            // Rfffrfndf typf
+            // Rfffrfndf typf
+            // Rfffrfndf typf
+            // Rfffrfndf typf
+            if (typf != Typf.tString) {
+            if (typf != Typf.tString) {
+            if (typf != Typf.tString) {
+            if (typf != Typf.tString) {
             if (typf != Typf.tString) {
                 // Convfrt non-string objfdt to string.  If objfdt is
-                // b string, wf don't nffd to donvfrt it, fxdfpt in thf
-                // dbsf thbt it is null, whidh is hbndlfd bflow.
+                // Convfrt non-string objfdt to string.  If objfdt is
+                // Convfrt non-string objfdt to string.  If objfdt is
+                // Convfrt non-string objfdt to string.  If objfdt is
+                // Convfrt non-string objfdt to string.  If objfdt is
+                // b string, wf don't nffd to donvfrt it, fxdfpt in tif
+                // b string, wf don't nffd to donvfrt it, fxdfpt in tif
+                // b string, wf don't nffd to donvfrt it, fxdfpt in tif
+                // b string, wf don't nffd to donvfrt it, fxdfpt in tif
+                // b string, wf don't nffd to donvfrt it, fxdfpt in tif
+                // dbsf tibt it is null, wiidi is ibndlfd bflow.
+                // dbsf tibt it is null, wiidi is ibndlfd bflow.
+                // dbsf tibt it is null, wiidi is ibndlfd bflow.
+                // dbsf tibt it is null, wiidi is ibndlfd bflow.
+                // dbsf tibt it is null, wiidi is ibndlfd bflow.
+                Typf brgTypf1[] = {Typf.tObjfdt};
+                Typf brgTypf1[] = {Typf.tObjfdt};
+                Typf brgTypf1[] = {Typf.tObjfdt};
+                Typf brgTypf1[] = {Typf.tObjfdt};
                 Typf brgTypf1[] = {Typf.tObjfdt};
                 MfmbfrDffinition f1 =
-                    stClsDff.mbtdhMfthod(fnv, sourdfClbss, idVblufOf, brgTypf1);
-                bsm.bdd(whfrf, opd_invokfstbtid, f1);
+                MfmbfrDffinition f1 =
+                MfmbfrDffinition f1 =
+                MfmbfrDffinition f1 =
+                MfmbfrDffinition f1 =
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf1);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf1);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf1);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf1);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf1);
+                bsm.bdd(wifrf, opd_invokfstbtid, f1);
+                bsm.bdd(wifrf, opd_invokfstbtid, f1);
+                bsm.bdd(wifrf, opd_invokfstbtid, f1);
+                bsm.bdd(wifrf, opd_invokfstbtid, f1);
+                bsm.bdd(wifrf, opd_invokfstbtid, f1);
+            }
+            }
+            }
+            }
             }
             // FIX FOR 4030173
-            // If thf brgumfnt wbs null, thfn vbluf is "null", but if thf
-            // brgumfnt wbs not null, 'toString' wbs dbllfd bnd dould hbvf
-            // rfturnfd null.  Wf dbll 'vblufOf' bgbin to mbkf surf thbt
-            // thf rfsult is b non-null string.  Sff JLS 15.17.1.1.  Thf
-            // bpprobdh tbkfn hfrf minimizfs dodf sizf -- opfn dodf would
-            // bf fbstfr.  Thf 'toString' mfthod for bn brrby dlbss dbnnot
-            // bf ovfrriddfn, thus wf know thbt it will nfvfr rfturn null.
+            // FIX FOR 4030173
+            // FIX FOR 4030173
+            // FIX FOR 4030173
+            // FIX FOR 4030173
+            // If tif brgumfnt wbs null, tifn vbluf is "null", but if tif
+            // If tif brgumfnt wbs null, tifn vbluf is "null", but if tif
+            // If tif brgumfnt wbs null, tifn vbluf is "null", but if tif
+            // If tif brgumfnt wbs null, tifn vbluf is "null", but if tif
+            // If tif brgumfnt wbs null, tifn vbluf is "null", but if tif
+            // brgumfnt wbs not null, 'toString' wbs dbllfd bnd dould ibvf
+            // brgumfnt wbs not null, 'toString' wbs dbllfd bnd dould ibvf
+            // brgumfnt wbs not null, 'toString' wbs dbllfd bnd dould ibvf
+            // brgumfnt wbs not null, 'toString' wbs dbllfd bnd dould ibvf
+            // brgumfnt wbs not null, 'toString' wbs dbllfd bnd dould ibvf
+            // rfturnfd null.  Wf dbll 'vblufOf' bgbin to mbkf surf tibt
+            // rfturnfd null.  Wf dbll 'vblufOf' bgbin to mbkf surf tibt
+            // rfturnfd null.  Wf dbll 'vblufOf' bgbin to mbkf surf tibt
+            // rfturnfd null.  Wf dbll 'vblufOf' bgbin to mbkf surf tibt
+            // rfturnfd null.  Wf dbll 'vblufOf' bgbin to mbkf surf tibt
+            // tif rfsult is b non-null string.  Sff JLS 15.17.1.1.  Tif
+            // tif rfsult is b non-null string.  Sff JLS 15.17.1.1.  Tif
+            // tif rfsult is b non-null string.  Sff JLS 15.17.1.1.  Tif
+            // tif rfsult is b non-null string.  Sff JLS 15.17.1.1.  Tif
+            // tif rfsult is b non-null string.  Sff JLS 15.17.1.1.  Tif
+            // bpprobdi tbkfn ifrf minimizfs dodf sizf -- opfn dodf would
+            // bpprobdi tbkfn ifrf minimizfs dodf sizf -- opfn dodf would
+            // bpprobdi tbkfn ifrf minimizfs dodf sizf -- opfn dodf would
+            // bpprobdi tbkfn ifrf minimizfs dodf sizf -- opfn dodf would
+            // bpprobdi tbkfn ifrf minimizfs dodf sizf -- opfn dodf would
+            // bf fbstfr.  Tif 'toString' mftiod for bn brrby dlbss dbnnot
+            // bf fbstfr.  Tif 'toString' mftiod for bn brrby dlbss dbnnot
+            // bf fbstfr.  Tif 'toString' mftiod for bn brrby dlbss dbnnot
+            // bf fbstfr.  Tif 'toString' mftiod for bn brrby dlbss dbnnot
+            // bf fbstfr.  Tif 'toString' mftiod for bn brrby dlbss dbnnot
+            // bf ovfrriddfn, tius wf know tibt it will nfvfr rfturn null.
+            // bf ovfrriddfn, tius wf know tibt it will nfvfr rfturn null.
+            // bf ovfrriddfn, tius wf know tibt it will nfvfr rfturn null.
+            // bf ovfrriddfn, tius wf know tibt it will nfvfr rfturn null.
+            // bf ovfrriddfn, tius wf know tibt it will nfvfr rfturn null.
+            if (!typf.inMbsk(TM_ARRAY|TM_NULL)) {
+            if (!typf.inMbsk(TM_ARRAY|TM_NULL)) {
+            if (!typf.inMbsk(TM_ARRAY|TM_NULL)) {
+            if (!typf.inMbsk(TM_ARRAY|TM_NULL)) {
             if (!typf.inMbsk(TM_ARRAY|TM_NULL)) {
                 Typf brgTypf2[] = {Typf.tString};
+                Typf brgTypf2[] = {Typf.tString};
+                Typf brgTypf2[] = {Typf.tString};
+                Typf brgTypf2[] = {Typf.tString};
+                Typf brgTypf2[] = {Typf.tString};
                 MfmbfrDffinition f2 =
-                    stClsDff.mbtdhMfthod(fnv, sourdfClbss, idVblufOf, brgTypf2);
-                bsm.bdd(whfrf, opd_invokfstbtid, f2);
+                MfmbfrDffinition f2 =
+                MfmbfrDffinition f2 =
+                MfmbfrDffinition f2 =
+                MfmbfrDffinition f2 =
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf2);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf2);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf2);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf2);
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf2);
+                bsm.bdd(wifrf, opd_invokfstbtid, f2);
+                bsm.bdd(wifrf, opd_invokfstbtid, f2);
+                bsm.bdd(wifrf, opd_invokfstbtid, f2);
+                bsm.bdd(wifrf, opd_invokfstbtid, f2);
+                bsm.bdd(wifrf, opd_invokfstbtid, f2);
             }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             // Primitivf typf
+            // Primitivf typf
+            // Primitivf typf
+            // Primitivf typf
+            // Primitivf typf
+            Typf brgTypf[] = {typf};
+            Typf brgTypf[] = {typf};
+            Typf brgTypf[] = {typf};
+            Typf brgTypf[] = {typf};
             Typf brgTypf[] = {typf};
             MfmbfrDffinition f =
-                stClsDff.mbtdhMfthod(fnv, sourdfClbss, idVblufOf, brgTypf);
-            bsm.bdd(whfrf, opd_invokfstbtid, f);
+            MfmbfrDffinition f =
+            MfmbfrDffinition f =
+            MfmbfrDffinition f =
+            MfmbfrDffinition f =
+                stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf);
+                stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf);
+                stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf);
+                stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf);
+                stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf);
+            bsm.bdd(wifrf, opd_invokfstbtid, f);
+            bsm.bdd(wifrf, opd_invokfstbtid, f);
+            bsm.bdd(wifrf, opd_invokfstbtid, f);
+            bsm.bdd(wifrf, opd_invokfstbtid, f);
+            bsm.bdd(wifrf, opd_invokfstbtid, f);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Convfrt this fxprfssion to b string bnd bppfnd it to thf string
-     * bufffr on thf top of thf stbdk.
-     * If thf nffdBufffr brgumfnt is truf, thf string bufffr nffds to bf
-     * drfbtfd, initiblizfd, bnd pushfd on thf stbdk, first.
+    /**
+    /**
+    /**
+    /**
+     * Convfrt tiis fxprfssion to b string bnd bppfnd it to tif string
+     * Convfrt tiis fxprfssion to b string bnd bppfnd it to tif string
+     * Convfrt tiis fxprfssion to b string bnd bppfnd it to tif string
+     * Convfrt tiis fxprfssion to b string bnd bppfnd it to tif string
+     * Convfrt tiis fxprfssion to b string bnd bppfnd it to tif string
+     * bufffr on tif top of tif stbdk.
+     * bufffr on tif top of tif stbdk.
+     * bufffr on tif top of tif stbdk.
+     * bufffr on tif top of tif stbdk.
+     * bufffr on tif top of tif stbdk.
+     * If tif nffdBufffr brgumfnt is truf, tif string bufffr nffds to bf
+     * If tif nffdBufffr brgumfnt is truf, tif string bufffr nffds to bf
+     * If tif nffdBufffr brgumfnt is truf, tif string bufffr nffds to bf
+     * If tif nffdBufffr brgumfnt is truf, tif string bufffr nffds to bf
+     * If tif nffdBufffr brgumfnt is truf, tif string bufffr nffds to bf
+     * drfbtfd, initiblizfd, bnd pusifd on tif stbdk, first.
+     * drfbtfd, initiblizfd, bnd pusifd on tif stbdk, first.
+     * drfbtfd, initiblizfd, bnd pusifd on tif stbdk, first.
+     * drfbtfd, initiblizfd, bnd pusifd on tif stbdk, first.
+     * drfbtfd, initiblizfd, bnd pusifd on tif stbdk, first.
+     */
+     */
+     */
+     */
      */
     void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+    void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+    void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+    void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+    void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
                     ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
-            throws ClbssNotFound, AmbiguousMfmbfr
+                    ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
+                    ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
+                    ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
+                    ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+            tirows ClbssNotFound, AmbiguousMfmbfr
+    {
+    {
+    {
+    {
     {
         ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sbClsDff = sbClbss.gftClbssDffinition(fnv);
+        ClbssDffinition sbClsDff = sbClbss.gftClbssDffinition(fnv);
+        ClbssDffinition sbClsDff = sbClbss.gftClbssDffinition(fnv);
+        ClbssDffinition sbClsDff = sbClbss.gftClbssDffinition(fnv);
         ClbssDffinition sbClsDff = sbClbss.gftClbssDffinition(fnv);
         MfmbfrDffinition f;
+        MfmbfrDffinition f;
+        MfmbfrDffinition f;
+        MfmbfrDffinition f;
+        MfmbfrDffinition f;
         if (nffdBufffr) {
-            // nffd to drfbtf thf string bufffr
-            bsm.bdd(whfrf, opd_nfw, sbClbss); // drfbtf thf dlbss
-            bsm.bdd(whfrf, opd_dup);
+        if (nffdBufffr) {
+        if (nffdBufffr) {
+        if (nffdBufffr) {
+        if (nffdBufffr) {
+            // nffd to drfbtf tif string bufffr
+            // nffd to drfbtf tif string bufffr
+            // nffd to drfbtf tif string bufffr
+            // nffd to drfbtf tif string bufffr
+            // nffd to drfbtf tif string bufffr
+            bsm.bdd(wifrf, opd_nfw, sbClbss); // drfbtf tif dlbss
+            bsm.bdd(wifrf, opd_nfw, sbClbss); // drfbtf tif dlbss
+            bsm.bdd(wifrf, opd_nfw, sbClbss); // drfbtf tif dlbss
+            bsm.bdd(wifrf, opd_nfw, sbClbss); // drfbtf tif dlbss
+            bsm.bdd(wifrf, opd_nfw, sbClbss); // drfbtf tif dlbss
+            bsm.bdd(wifrf, opd_dup);
+            bsm.bdd(wifrf, opd_dup);
+            bsm.bdd(wifrf, opd_dup);
+            bsm.bdd(wifrf, opd_dup);
+            bsm.bdd(wifrf, opd_dup);
+            if (fqubls("")) {
+            if (fqubls("")) {
+            if (fqubls("")) {
+            if (fqubls("")) {
             if (fqubls("")) {
                 // mbkf bn fmpty string bufffr
-                f = sbClsDff.mbtdhMfthod(fnv, sourdfClbss, idInit);
+                // mbkf bn fmpty string bufffr
+                // mbkf bn fmpty string bufffr
+                // mbkf bn fmpty string bufffr
+                // mbkf bn fmpty string bufffr
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit);
             } flsf {
-                // optimizf by initiblizing thf bufffr with thf string
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                // optimizf by initiblizing tif bufffr witi tif string
+                // optimizf by initiblizing tif bufffr witi tif string
+                // optimizf by initiblizing tif bufffr witi tif string
+                // optimizf by initiblizing tif bufffr witi tif string
+                // optimizf by initiblizing tif bufffr witi tif string
+                dodfVbluf(fnv, dtx, bsm);
+                dodfVbluf(fnv, dtx, bsm);
+                dodfVbluf(fnv, dtx, bsm);
+                dodfVbluf(fnv, dtx, bsm);
                 dodfVbluf(fnv, dtx, bsm);
                 fnsurfString(fnv, dtx, bsm);
+                fnsurfString(fnv, dtx, bsm);
+                fnsurfString(fnv, dtx, bsm);
+                fnsurfString(fnv, dtx, bsm);
+                fnsurfString(fnv, dtx, bsm);
                 Typf brgTypf[] = {Typf.tString};
-                f = sbClsDff.mbtdhMfthod(fnv, sourdfClbss, idInit, brgTypf);
+                Typf brgTypf[] = {Typf.tString};
+                Typf brgTypf[] = {Typf.tString};
+                Typf brgTypf[] = {Typf.tString};
+                Typf brgTypf[] = {Typf.tString};
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit, brgTypf);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit, brgTypf);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit, brgTypf);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit, brgTypf);
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit, brgTypf);
             }
-            bsm.bdd(whfrf, opd_invokfspfdibl, f);
+            }
+            }
+            }
+            }
+            bsm.bdd(wifrf, opd_invokfspfdibl, f);
+            bsm.bdd(wifrf, opd_invokfspfdibl, f);
+            bsm.bdd(wifrf, opd_invokfspfdibl, f);
+            bsm.bdd(wifrf, opd_invokfspfdibl, f);
+            bsm.bdd(wifrf, opd_invokfspfdibl, f);
         } flsf {
-            // bppfnd this itfm to thf string bufffr
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            // bppfnd tiis itfm to tif string bufffr
+            // bppfnd tiis itfm to tif string bufffr
+            // bppfnd tiis itfm to tif string bufffr
+            // bppfnd tiis itfm to tif string bufffr
+            // bppfnd tiis itfm to tif string bufffr
+            dodfVbluf(fnv, dtx, bsm);
+            dodfVbluf(fnv, dtx, bsm);
+            dodfVbluf(fnv, dtx, bsm);
+            dodfVbluf(fnv, dtx, bsm);
             dodfVbluf(fnv, dtx, bsm);
             // FIX FOR 4071548
+            // FIX FOR 4071548
+            // FIX FOR 4071548
+            // FIX FOR 4071548
+            // FIX FOR 4071548
             // 'StringBufffr.bppfnd' donvfrts its brgumfnt bs if by
-            // 'vblufOf', trfbting dhbrbdtfr brrbys spfdiblly.  This
-            // violbtfs JLS 15.17.1.1, whidh rfquirfs thbt dondbtfnbtion
+            // 'StringBufffr.bppfnd' donvfrts its brgumfnt bs if by
+            // 'StringBufffr.bppfnd' donvfrts its brgumfnt bs if by
+            // 'StringBufffr.bppfnd' donvfrts its brgumfnt bs if by
+            // 'StringBufffr.bppfnd' donvfrts its brgumfnt bs if by
+            // 'vblufOf', trfbting dibrbdtfr brrbys spfdiblly.  Tiis
+            // 'vblufOf', trfbting dibrbdtfr brrbys spfdiblly.  Tiis
+            // 'vblufOf', trfbting dibrbdtfr brrbys spfdiblly.  Tiis
+            // 'vblufOf', trfbting dibrbdtfr brrbys spfdiblly.  Tiis
+            // 'vblufOf', trfbting dibrbdtfr brrbys spfdiblly.  Tiis
+            // violbtfs JLS 15.17.1.1, wiidi rfquirfs tibt dondbtfnbtion
+            // violbtfs JLS 15.17.1.1, wiidi rfquirfs tibt dondbtfnbtion
+            // violbtfs JLS 15.17.1.1, wiidi rfquirfs tibt dondbtfnbtion
+            // violbtfs JLS 15.17.1.1, wiidi rfquirfs tibt dondbtfnbtion
+            // violbtfs JLS 15.17.1.1, wiidi rfquirfs tibt dondbtfnbtion
             // donvfrt non-primitivf brgumfnts using 'toString'.  Wf fordf
-            // thf trfbtmfnt of bll rfffrfndf typfs bs typf 'Objfdt', thus
-            // invoking bn ovfrlobding of 'bppfnd' thbt hbs thf rfquirfd
+            // donvfrt non-primitivf brgumfnts using 'toString'.  Wf fordf
+            // donvfrt non-primitivf brgumfnts using 'toString'.  Wf fordf
+            // donvfrt non-primitivf brgumfnts using 'toString'.  Wf fordf
+            // donvfrt non-primitivf brgumfnts using 'toString'.  Wf fordf
+            // tif trfbtmfnt of bll rfffrfndf typfs bs typf 'Objfdt', tius
+            // tif trfbtmfnt of bll rfffrfndf typfs bs typf 'Objfdt', tius
+            // tif trfbtmfnt of bll rfffrfndf typfs bs typf 'Objfdt', tius
+            // tif trfbtmfnt of bll rfffrfndf typfs bs typf 'Objfdt', tius
+            // tif trfbtmfnt of bll rfffrfndf typfs bs typf 'Objfdt', tius
+            // invoking bn ovfrlobding of 'bppfnd' tibt ibs tif rfquirfd
+            // invoking bn ovfrlobding of 'bppfnd' tibt ibs tif rfquirfd
+            // invoking bn ovfrlobding of 'bppfnd' tibt ibs tif rfquirfd
+            // invoking bn ovfrlobding of 'bppfnd' tibt ibs tif rfquirfd
+            // invoking bn ovfrlobding of 'bppfnd' tibt ibs tif rfquirfd
+            // sfmbntids.
+            // sfmbntids.
+            // sfmbntids.
+            // sfmbntids.
             // sfmbntids.
             Typf brgTypf[] =
+            Typf brgTypf[] =
+            Typf brgTypf[] =
+            Typf brgTypf[] =
+            Typf brgTypf[] =
+                { (typf.inMbsk(TM_REFERENCE) && typf != Typf.tString)
+                { (typf.inMbsk(TM_REFERENCE) && typf != Typf.tString)
+                { (typf.inMbsk(TM_REFERENCE) && typf != Typf.tString)
+                { (typf.inMbsk(TM_REFERENCE) && typf != Typf.tString)
                 { (typf.inMbsk(TM_REFERENCE) && typf != Typf.tString)
                   ? Typf.tObjfdt
+                  ? Typf.tObjfdt
+                  ? Typf.tObjfdt
+                  ? Typf.tObjfdt
+                  ? Typf.tObjfdt
                   : typf };
-            f = sbClsDff.mbtdhMfthod(fnv, sourdfClbss, idAppfnd, brgTypf);
-            bsm.bdd(whfrf, opd_invokfvirtubl, f);
+                  : typf };
+                  : typf };
+                  : typf };
+                  : typf };
+            f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idAppfnd, brgTypf);
+            f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idAppfnd, brgTypf);
+            f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idAppfnd, brgTypf);
+            f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idAppfnd, brgTypf);
+            f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idAppfnd, brgTypf);
+            bsm.bdd(wifrf, opd_invokfvirtubl, f);
+            bsm.bdd(wifrf, opd_invokfvirtubl, f);
+            bsm.bdd(wifrf, opd_invokfvirtubl, f);
+            bsm.bdd(wifrf, opd_invokfvirtubl, f);
+            bsm.bdd(wifrf, opd_invokfvirtubl, f);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Codf
+     * Codf
+     * Codf
+     * Codf
+     * Codf
      */
-    void dodfDup(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, int itfms, int dfpth) {
-        switdh (itfms) {
+     */
+     */
+     */
+     */
+    void dodfDup(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, int itfms, int dfpti) {
+    void dodfDup(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, int itfms, int dfpti) {
+    void dodfDup(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, int itfms, int dfpti) {
+    void dodfDup(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, int itfms, int dfpti) {
+    void dodfDup(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, int itfms, int dfpti) {
+        switdi (itfms) {
+        switdi (itfms) {
+        switdi (itfms) {
+        switdi (itfms) {
+        switdi (itfms) {
+          dbsf 0:
+          dbsf 0:
+          dbsf 0:
+          dbsf 0:
           dbsf 0:
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+
+
+
+
 
           dbsf 1:
-            switdh (dfpth) {
+          dbsf 1:
+          dbsf 1:
+          dbsf 1:
+          dbsf 1:
+            switdi (dfpti) {
+            switdi (dfpti) {
+            switdi (dfpti) {
+            switdi (dfpti) {
+            switdi (dfpti) {
               dbsf 0:
-                bsm.bdd(whfrf, opd_dup);
+              dbsf 0:
+              dbsf 0:
+              dbsf 0:
+              dbsf 0:
+                bsm.bdd(wifrf, opd_dup);
+                bsm.bdd(wifrf, opd_dup);
+                bsm.bdd(wifrf, opd_dup);
+                bsm.bdd(wifrf, opd_dup);
+                bsm.bdd(wifrf, opd_dup);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf 1:
-                bsm.bdd(whfrf, opd_dup_x1);
+              dbsf 1:
+              dbsf 1:
+              dbsf 1:
+              dbsf 1:
+                bsm.bdd(wifrf, opd_dup_x1);
+                bsm.bdd(wifrf, opd_dup_x1);
+                bsm.bdd(wifrf, opd_dup_x1);
+                bsm.bdd(wifrf, opd_dup_x1);
+                bsm.bdd(wifrf, opd_dup_x1);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf 2:
-                bsm.bdd(whfrf, opd_dup_x2);
+              dbsf 2:
+              dbsf 2:
+              dbsf 2:
+              dbsf 2:
+                bsm.bdd(wifrf, opd_dup_x2);
+                bsm.bdd(wifrf, opd_dup_x2);
+                bsm.bdd(wifrf, opd_dup_x2);
+                bsm.bdd(wifrf, opd_dup_x2);
+                bsm.bdd(wifrf, opd_dup_x2);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
 
+
+
+
+
             }
+            }
+            }
+            }
+            }
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
           dbsf 2:
-            switdh (dfpth) {
+          dbsf 2:
+          dbsf 2:
+          dbsf 2:
+          dbsf 2:
+            switdi (dfpti) {
+            switdi (dfpti) {
+            switdi (dfpti) {
+            switdi (dfpti) {
+            switdi (dfpti) {
               dbsf 0:
-                bsm.bdd(whfrf, opd_dup2);
+              dbsf 0:
+              dbsf 0:
+              dbsf 0:
+              dbsf 0:
+                bsm.bdd(wifrf, opd_dup2);
+                bsm.bdd(wifrf, opd_dup2);
+                bsm.bdd(wifrf, opd_dup2);
+                bsm.bdd(wifrf, opd_dup2);
+                bsm.bdd(wifrf, opd_dup2);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf 1:
-                bsm.bdd(whfrf, opd_dup2_x1);
+              dbsf 1:
+              dbsf 1:
+              dbsf 1:
+              dbsf 1:
+                bsm.bdd(wifrf, opd_dup2_x1);
+                bsm.bdd(wifrf, opd_dup2_x1);
+                bsm.bdd(wifrf, opd_dup2_x1);
+                bsm.bdd(wifrf, opd_dup2_x1);
+                bsm.bdd(wifrf, opd_dup2_x1);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf 2:
-                bsm.bdd(whfrf, opd_dup2_x2);
+              dbsf 2:
+              dbsf 2:
+              dbsf 2:
+              dbsf 2:
+                bsm.bdd(wifrf, opd_dup2_x2);
+                bsm.bdd(wifrf, opd_dup2_x2);
+                bsm.bdd(wifrf, opd_dup2_x2);
+                bsm.bdd(wifrf, opd_dup2_x2);
+                bsm.bdd(wifrf, opd_dup2_x2);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
 
+
+
+
+
+            }
+            }
+            }
+            }
             }
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
         }
-        throw nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpth);
+        }
+        }
+        }
+        }
+        tirow nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpti);
+        tirow nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpti);
+        tirow nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpti);
+        tirow nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpti);
+        tirow nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpti);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     void dodfConvfrsion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Typf f, Typf t) {
+    void dodfConvfrsion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Typf f, Typf t) {
+    void dodfConvfrsion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Typf f, Typf t) {
+    void dodfConvfrsion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Typf f, Typf t) {
+    void dodfConvfrsion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Typf f, Typf t) {
+        int from = f.gftTypfCodf();
+        int from = f.gftTypfCodf();
+        int from = f.gftTypfCodf();
+        int from = f.gftTypfCodf();
         int from = f.gftTypfCodf();
         int to = t.gftTypfCodf();
+        int to = t.gftTypfCodf();
+        int to = t.gftTypfCodf();
+        int to = t.gftTypfCodf();
+        int to = t.gftTypfCodf();
 
-        switdh (to) {
+
+
+
+
+        switdi (to) {
+        switdi (to) {
+        switdi (to) {
+        switdi (to) {
+        switdi (to) {
+          dbsf TC_BOOLEAN:
+          dbsf TC_BOOLEAN:
+          dbsf TC_BOOLEAN:
+          dbsf TC_BOOLEAN:
           dbsf TC_BOOLEAN:
             if (from != TC_BOOLEAN) {
+            if (from != TC_BOOLEAN) {
+            if (from != TC_BOOLEAN) {
+            if (from != TC_BOOLEAN) {
+            if (from != TC_BOOLEAN) {
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             }
+            }
+            }
+            }
+            }
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
           dbsf TC_BYTE:
+          dbsf TC_BYTE:
+          dbsf TC_BYTE:
+          dbsf TC_BYTE:
+          dbsf TC_BYTE:
+            if (from != TC_BYTE) {
+            if (from != TC_BYTE) {
+            if (from != TC_BYTE) {
+            if (from != TC_BYTE) {
             if (from != TC_BYTE) {
                 dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
-                bsm.bdd(whfrf, opd_i2b);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                bsm.bdd(wifrf, opd_i2b);
+                bsm.bdd(wifrf, opd_i2b);
+                bsm.bdd(wifrf, opd_i2b);
+                bsm.bdd(wifrf, opd_i2b);
+                bsm.bdd(wifrf, opd_i2b);
             }
+            }
+            }
+            }
+            }
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
           dbsf TC_CHAR:
+          dbsf TC_CHAR:
+          dbsf TC_CHAR:
+          dbsf TC_CHAR:
+          dbsf TC_CHAR:
+            if (from != TC_CHAR) {
+            if (from != TC_CHAR) {
+            if (from != TC_CHAR) {
+            if (from != TC_CHAR) {
             if (from != TC_CHAR) {
                 dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
-                bsm.bdd(whfrf, opd_i2d);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
             }
+            }
+            }
+            }
+            }
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
           dbsf TC_SHORT:
+          dbsf TC_SHORT:
+          dbsf TC_SHORT:
+          dbsf TC_SHORT:
+          dbsf TC_SHORT:
+            if (from != TC_SHORT) {
+            if (from != TC_SHORT) {
+            if (from != TC_SHORT) {
+            if (from != TC_SHORT) {
             if (from != TC_SHORT) {
                 dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
-                bsm.bdd(whfrf, opd_i2s);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                bsm.bdd(wifrf, opd_i2s);
+                bsm.bdd(wifrf, opd_i2s);
+                bsm.bdd(wifrf, opd_i2s);
+                bsm.bdd(wifrf, opd_i2s);
+                bsm.bdd(wifrf, opd_i2s);
+            }
+            }
+            }
+            }
             }
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
           dbsf TC_INT:
-            switdh (from) {
+          dbsf TC_INT:
+          dbsf TC_INT:
+          dbsf TC_INT:
+          dbsf TC_INT:
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
               dbsf TC_BYTE:
               dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
               dbsf TC_SHORT:
               dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_LONG:
-                bsm.bdd(whfrf, opd_l2i);
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+                bsm.bdd(wifrf, opd_l2i);
+                bsm.bdd(wifrf, opd_l2i);
+                bsm.bdd(wifrf, opd_l2i);
+                bsm.bdd(wifrf, opd_l2i);
+                bsm.bdd(wifrf, opd_l2i);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_FLOAT:
-                bsm.bdd(whfrf, opd_f2i);
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+                bsm.bdd(wifrf, opd_f2i);
+                bsm.bdd(wifrf, opd_f2i);
+                bsm.bdd(wifrf, opd_f2i);
+                bsm.bdd(wifrf, opd_f2i);
+                bsm.bdd(wifrf, opd_f2i);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_DOUBLE:
-                bsm.bdd(whfrf, opd_d2i);
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+                bsm.bdd(wifrf, opd_d2i);
+                bsm.bdd(wifrf, opd_d2i);
+                bsm.bdd(wifrf, opd_d2i);
+                bsm.bdd(wifrf, opd_d2i);
+                bsm.bdd(wifrf, opd_d2i);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
             }
+            }
+            }
+            }
+            }
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
           dbsf TC_LONG:
-            switdh (from) {
+          dbsf TC_LONG:
+          dbsf TC_LONG:
+          dbsf TC_LONG:
+          dbsf TC_LONG:
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
               dbsf TC_BYTE:
               dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
               dbsf TC_SHORT:
               dbsf TC_INT:
-                bsm.bdd(whfrf, opd_i2l);
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+                bsm.bdd(wifrf, opd_i2l);
+                bsm.bdd(wifrf, opd_i2l);
+                bsm.bdd(wifrf, opd_i2l);
+                bsm.bdd(wifrf, opd_i2l);
+                bsm.bdd(wifrf, opd_i2l);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_FLOAT:
-                bsm.bdd(whfrf, opd_f2l);
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+                bsm.bdd(wifrf, opd_f2l);
+                bsm.bdd(wifrf, opd_f2l);
+                bsm.bdd(wifrf, opd_f2l);
+                bsm.bdd(wifrf, opd_f2l);
+                bsm.bdd(wifrf, opd_f2l);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_DOUBLE:
-                bsm.bdd(whfrf, opd_d2l);
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+                bsm.bdd(wifrf, opd_d2l);
+                bsm.bdd(wifrf, opd_d2l);
+                bsm.bdd(wifrf, opd_d2l);
+                bsm.bdd(wifrf, opd_d2l);
+                bsm.bdd(wifrf, opd_d2l);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
             }
+            }
+            }
+            }
+            }
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
           dbsf TC_FLOAT:
-            switdh (from) {
+          dbsf TC_FLOAT:
+          dbsf TC_FLOAT:
+          dbsf TC_FLOAT:
+          dbsf TC_FLOAT:
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
               dbsf TC_BYTE:
               dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
               dbsf TC_SHORT:
               dbsf TC_INT:
-                bsm.bdd(whfrf, opd_i2f);
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+                bsm.bdd(wifrf, opd_i2f);
+                bsm.bdd(wifrf, opd_i2f);
+                bsm.bdd(wifrf, opd_i2f);
+                bsm.bdd(wifrf, opd_i2f);
+                bsm.bdd(wifrf, opd_i2f);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_LONG:
-                bsm.bdd(whfrf, opd_l2f);
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+                bsm.bdd(wifrf, opd_l2f);
+                bsm.bdd(wifrf, opd_l2f);
+                bsm.bdd(wifrf, opd_l2f);
+                bsm.bdd(wifrf, opd_l2f);
+                bsm.bdd(wifrf, opd_l2f);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_DOUBLE:
-                bsm.bdd(whfrf, opd_d2f);
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+                bsm.bdd(wifrf, opd_d2f);
+                bsm.bdd(wifrf, opd_d2f);
+                bsm.bdd(wifrf, opd_d2f);
+                bsm.bdd(wifrf, opd_d2f);
+                bsm.bdd(wifrf, opd_d2f);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
             }
+            }
+            }
+            }
+            }
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
           dbsf TC_DOUBLE:
-            switdh (from) {
+          dbsf TC_DOUBLE:
+          dbsf TC_DOUBLE:
+          dbsf TC_DOUBLE:
+          dbsf TC_DOUBLE:
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
+              dbsf TC_BYTE:
               dbsf TC_BYTE:
               dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
+              dbsf TC_SHORT:
               dbsf TC_SHORT:
               dbsf TC_INT:
-                bsm.bdd(whfrf, opd_i2d);
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+              dbsf TC_INT:
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
+                bsm.bdd(wifrf, opd_i2d);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_LONG:
-                bsm.bdd(whfrf, opd_l2d);
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+              dbsf TC_LONG:
+                bsm.bdd(wifrf, opd_l2d);
+                bsm.bdd(wifrf, opd_l2d);
+                bsm.bdd(wifrf, opd_l2d);
+                bsm.bdd(wifrf, opd_l2d);
+                bsm.bdd(wifrf, opd_l2d);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_FLOAT:
-                bsm.bdd(whfrf, opd_f2d);
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+              dbsf TC_FLOAT:
+                bsm.bdd(wifrf, opd_f2d);
+                bsm.bdd(wifrf, opd_f2d);
+                bsm.bdd(wifrf, opd_f2d);
+                bsm.bdd(wifrf, opd_f2d);
+                bsm.bdd(wifrf, opd_f2d);
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
               dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+              dbsf TC_DOUBLE:
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
             }
+            }
+            }
+            }
+            }
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
 
           dbsf TC_CLASS:
-            switdh (from) {
+          dbsf TC_CLASS:
+          dbsf TC_CLASS:
+          dbsf TC_CLASS:
+          dbsf TC_CLASS:
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+              dbsf TC_NULL:
+              dbsf TC_NULL:
+              dbsf TC_NULL:
+              dbsf TC_NULL:
               dbsf TC_NULL:
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+              dbsf TC_CLASS:
+              dbsf TC_CLASS:
+              dbsf TC_CLASS:
+              dbsf TC_CLASS:
               dbsf TC_CLASS:
               dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+                try {
+                try {
+                try {
+                try {
                 try {
                     if (!fnv.impliditCbst(f, t)) {
-                        bsm.bdd(whfrf, opd_dhfdkdbst, fnv.gftClbssDfdlbrbtion(t));
+                    if (!fnv.impliditCbst(f, t)) {
+                    if (!fnv.impliditCbst(f, t)) {
+                    if (!fnv.impliditCbst(f, t)) {
+                    if (!fnv.impliditCbst(f, t)) {
+                        bsm.bdd(wifrf, opd_difdkdbst, fnv.gftClbssDfdlbrbtion(t));
+                        bsm.bdd(wifrf, opd_difdkdbst, fnv.gftClbssDfdlbrbtion(t));
+                        bsm.bdd(wifrf, opd_difdkdbst, fnv.gftClbssDfdlbrbtion(t));
+                        bsm.bdd(wifrf, opd_difdkdbst, fnv.gftClbssDfdlbrbtion(t));
+                        bsm.bdd(wifrf, opd_difdkdbst, fnv.gftClbssDfdlbrbtion(t));
                     }
-                } dbtdh (ClbssNotFound f) {
-                    throw nfw CompilfrError(f);
+                    }
+                    }
+                    }
+                    }
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                }
+                }
+                }
+                }
                 }
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+            }
+            }
+            }
+            }
             }
 
+
+
+
+
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+
+
+
+
 
           dbsf TC_ARRAY:
-            switdh (from) {
+          dbsf TC_ARRAY:
+          dbsf TC_ARRAY:
+          dbsf TC_ARRAY:
+          dbsf TC_ARRAY:
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+            switdi (from) {
+              dbsf TC_NULL:
+              dbsf TC_NULL:
+              dbsf TC_NULL:
+              dbsf TC_NULL:
               dbsf TC_NULL:
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+              dbsf TC_CLASS:
+              dbsf TC_CLASS:
+              dbsf TC_CLASS:
+              dbsf TC_CLASS:
               dbsf TC_CLASS:
               dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+              dbsf TC_ARRAY:
+                try {
+                try {
+                try {
+                try {
                 try {
                     if (!fnv.impliditCbst(f, t)) {
-                        bsm.bdd(whfrf, opd_dhfdkdbst, t);
+                    if (!fnv.impliditCbst(f, t)) {
+                    if (!fnv.impliditCbst(f, t)) {
+                    if (!fnv.impliditCbst(f, t)) {
+                    if (!fnv.impliditCbst(f, t)) {
+                        bsm.bdd(wifrf, opd_difdkdbst, t);
+                        bsm.bdd(wifrf, opd_difdkdbst, t);
+                        bsm.bdd(wifrf, opd_difdkdbst, t);
+                        bsm.bdd(wifrf, opd_difdkdbst, t);
+                        bsm.bdd(wifrf, opd_difdkdbst, t);
+                    }
+                    }
+                    }
+                    }
                     }
                     rfturn;
-                } dbtdh (ClbssNotFound f) {
-                    throw nfw CompilfrError(f);
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                } dbtdi (ClbssNotFound f) {
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                    tirow nfw CompilfrError(f);
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
         }
-        throw nfw CompilfrError("dodfConvfrsion: " + from + ", " + to);
+        }
+        }
+        }
+        }
+        tirow nfw CompilfrError("dodfConvfrsion: " + from + ", " + to);
+        tirow nfw CompilfrError("dodfConvfrsion: " + from + ", " + to);
+        tirow nfw CompilfrError("dodfConvfrsion: " + from + ", " + to);
+        tirow nfw CompilfrError("dodfConvfrsion: " + from + ", " + to);
+        tirow nfw CompilfrError("dodfConvfrsion: " + from + ", " + to);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Chfdk if thf first thing is b donstrudtor invodbtion
+    /**
+    /**
+    /**
+    /**
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
+     */
+     */
+     */
+     */
      */
     publid Exprfssion firstConstrudtor() {
+    publid Exprfssion firstConstrudtor() {
+    publid Exprfssion firstConstrudtor() {
+    publid Exprfssion firstConstrudtor() {
+    publid Exprfssion firstConstrudtor() {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Crfbtf b dopy of thf fxprfssion for mfthod inlining
+    /**
+    /**
+    /**
+    /**
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
+     */
+     */
+     */
+     */
      */
     publid Exprfssion dopyInlinf(Contfxt dtx) {
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        rfturn (Exprfssion)dlonf();
+        rfturn (Exprfssion)dlonf();
+        rfturn (Exprfssion)dlonf();
+        rfturn (Exprfssion)dlonf();
         rfturn (Exprfssion)dlonf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Print
+     * Print
+     * Print
+     * Print
      * Print
      */
+     */
+     */
+     */
+     */
+    publid void print(PrintStrfbm out) {
+    publid void print(PrintStrfbm out) {
+    publid void print(PrintStrfbm out) {
+    publid void print(PrintStrfbm out) {
     publid void print(PrintStrfbm out) {
         out.print(opNbmfs[op]);
+        out.print(opNbmfs[op]);
+        out.print(opNbmfs[op]);
+        out.print(opNbmfs[op]);
+        out.print(opNbmfs[op]);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

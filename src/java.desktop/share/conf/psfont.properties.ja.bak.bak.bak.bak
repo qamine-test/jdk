@@ -1,119 +1,595 @@
 #
 #
-# Copyright (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+#
+#
+#
+#
+# Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
+
+
+
+
 
 #
+#
+#
+#
+#
+#	Jbpbnfsf PostSdript printfr propfrty filf
+#	Jbpbnfsf PostSdript printfr propfrty filf
+#	Jbpbnfsf PostSdript printfr propfrty filf
+#	Jbpbnfsf PostSdript printfr propfrty filf
 #	Jbpbnfsf PostSdript printfr propfrty filf
 #
+#
+#
+#
+#
+font.num=16
+font.num=16
+font.num=16
+font.num=16
 font.num=16
 #
+#
+#
+#
+#
+sfrif=sfrif
+sfrif=sfrif
+sfrif=sfrif
+sfrif=sfrif
 sfrif=sfrif
 timfsrombn=sfrif
+timfsrombn=sfrif
+timfsrombn=sfrif
+timfsrombn=sfrif
+timfsrombn=sfrif
 sbnssfrif=sbnssfrif
-hflvftidb=sbnssfrif
+sbnssfrif=sbnssfrif
+sbnssfrif=sbnssfrif
+sbnssfrif=sbnssfrif
+sbnssfrif=sbnssfrif
+iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+monospbdfd=monospbdfd
+monospbdfd=monospbdfd
+monospbdfd=monospbdfd
+monospbdfd=monospbdfd
 monospbdfd=monospbdfd
 dourifr=monospbdfd
+dourifr=monospbdfd
+dourifr=monospbdfd
+dourifr=monospbdfd
+dourifr=monospbdfd
+diblog=sbnssfrif
+diblog=sbnssfrif
+diblog=sbnssfrif
+diblog=sbnssfrif
 diblog=sbnssfrif
 dibloginput=monospbdfd
+dibloginput=monospbdfd
+dibloginput=monospbdfd
+dibloginput=monospbdfd
+dibloginput=monospbdfd
+#
+#
+#
+#
 #
 sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.itblid=Timfs-Itblid
 sfrif.lbtin1.itblid=Timfs-Itblid
 sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bold=Timfs-Bold
+sfrif.lbtin1.bold=Timfs-Bold
+sfrif.lbtin1.bold=Timfs-Bold
+sfrif.lbtin1.bold=Timfs-Bold
 sfrif.lbtin1.bold=Timfs-Bold
 #
+#
+#
+#
+#
+sbnssfrif.lbtin1.plbin=Hflvftidb
+sbnssfrif.lbtin1.plbin=Hflvftidb
+sbnssfrif.lbtin1.plbin=Hflvftidb
+sbnssfrif.lbtin1.plbin=Hflvftidb
 sbnssfrif.lbtin1.plbin=Hflvftidb
 sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
 sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
 sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+#
+#
+#
+#
 #
 monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
 monospbdfd.lbtin1.itblid=Courifr-Obliquf
 monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bold=Courifr-Bold
+monospbdfd.lbtin1.bold=Courifr-Bold
+monospbdfd.lbtin1.bold=Courifr-Bold
+monospbdfd.lbtin1.bold=Courifr-Bold
 monospbdfd.lbtin1.bold=Courifr-Bold
 #
-sfrif.x11jis0208.plbin=Ryumin-Light-H
-sfrif.x11jis0208.itblid=Ryumin-Light-H
-sfrif.x11jis0208.bolditblid=Ryumin-Light-H
-sfrif.x11jis0208.bold=Ryumin-Light-H
 #
-sbnssfrif.x11jis0208.plbin=GothidBBB-Mfdium-H
-sbnssfrif.x11jis0208.itblid=GothidBBB-Mfdium-H
-sbnssfrif.x11jis0208.bolditblid=GothidBBB-Mfdium-H
-sbnssfrif.x11jis0208.bold=GothidBBB-Mfdium-H
 #
-monospbdfd.x11jis0208.plbin=GothidBBB-Mfdium-H
-monospbdfd.x11jis0208.itblid=GothidBBB-Mfdium-H
-monospbdfd.x11jis0208.bolditblid=GothidBBB-Mfdium-H
-monospbdfd.x11jis0208.bold=GothidBBB-Mfdium-H
 #
-sfrif.x11jis0201.plbin=Ryumin-Light.Hbnkbku
-sfrif.x11jis0201.itblid=Ryumin-Light.Hbnkbku
-sfrif.x11jis0201.bolditblid=Ryumin-Light.Hbnkbku
-sfrif.x11jis0201.bold=Ryumin-Light.Hbnkbku
 #
-sbnssfrif.x11jis0201.plbin=GothidBBB-Mfdium.Hbnkbku
-sbnssfrif.x11jis0201.itblid=GothidBBB-Mfdium.Hbnkbku
-sbnssfrif.x11jis0201.bolditblid=GothidBBB-Mfdium.Hbnkbku
-sbnssfrif.x11jis0201.bold=GothidBBB-Mfdium.Hbnkbku
+sfrif.x11jis0208.plbin=Ryumin-Ligit-H
+sfrif.x11jis0208.plbin=Ryumin-Ligit-H
+sfrif.x11jis0208.plbin=Ryumin-Ligit-H
+sfrif.x11jis0208.plbin=Ryumin-Ligit-H
+sfrif.x11jis0208.plbin=Ryumin-Ligit-H
+sfrif.x11jis0208.itblid=Ryumin-Ligit-H
+sfrif.x11jis0208.itblid=Ryumin-Ligit-H
+sfrif.x11jis0208.itblid=Ryumin-Ligit-H
+sfrif.x11jis0208.itblid=Ryumin-Ligit-H
+sfrif.x11jis0208.itblid=Ryumin-Ligit-H
+sfrif.x11jis0208.bolditblid=Ryumin-Ligit-H
+sfrif.x11jis0208.bolditblid=Ryumin-Ligit-H
+sfrif.x11jis0208.bolditblid=Ryumin-Ligit-H
+sfrif.x11jis0208.bolditblid=Ryumin-Ligit-H
+sfrif.x11jis0208.bolditblid=Ryumin-Ligit-H
+sfrif.x11jis0208.bold=Ryumin-Ligit-H
+sfrif.x11jis0208.bold=Ryumin-Ligit-H
+sfrif.x11jis0208.bold=Ryumin-Ligit-H
+sfrif.x11jis0208.bold=Ryumin-Ligit-H
+sfrif.x11jis0208.bold=Ryumin-Ligit-H
 #
-monospbdfd.x11jis0201.plbin=GothidBBB-Mfdium.Hbnkbku
-monospbdfd.x11jis0201.itblid=GothidBBB-Mfdium.Hbnkbku
-monospbdfd.x11jis0201.bolditblid=GothidBBB-Mfdium.Hbnkbku
-monospbdfd.x11jis0201.bold=GothidBBB-Mfdium.Hbnkbku
+#
+#
+#
+#
+sbnssfrif.x11jis0208.plbin=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.plbin=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.plbin=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.plbin=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.plbin=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.itblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.itblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.itblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.itblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.itblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bold=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bold=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bold=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bold=GotiidBBB-Mfdium-H
+sbnssfrif.x11jis0208.bold=GotiidBBB-Mfdium-H
+#
+#
+#
+#
+#
+monospbdfd.x11jis0208.plbin=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.plbin=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.plbin=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.plbin=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.plbin=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.itblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.itblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.itblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.itblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.itblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bolditblid=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bold=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bold=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bold=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bold=GotiidBBB-Mfdium-H
+monospbdfd.x11jis0208.bold=GotiidBBB-Mfdium-H
+#
+#
+#
+#
+#
+sfrif.x11jis0201.plbin=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.plbin=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.plbin=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.plbin=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.plbin=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.itblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.itblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.itblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.itblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.itblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bolditblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bolditblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bolditblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bolditblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bolditblid=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bold=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bold=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bold=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bold=Ryumin-Ligit.Hbnkbku
+sfrif.x11jis0201.bold=Ryumin-Ligit.Hbnkbku
+#
+#
+#
+#
+#
+sbnssfrif.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+sbnssfrif.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+#
+#
+#
+#
+#
+monospbdfd.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.plbin=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.itblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bolditblid=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+monospbdfd.x11jis0201.bold=GotiidBBB-Mfdium.Hbnkbku
+#
+#
+#
+#
 #
 Hflvftidb=0
+Hflvftidb=0
+Hflvftidb=0
+Hflvftidb=0
+Hflvftidb=0
+Hflvftidb-Bold=1
+Hflvftidb-Bold=1
+Hflvftidb-Bold=1
+Hflvftidb-Bold=1
 Hflvftidb-Bold=1
 Hflvftidb-Obliquf=2
+Hflvftidb-Obliquf=2
+Hflvftidb-Obliquf=2
+Hflvftidb-Obliquf=2
+Hflvftidb-Obliquf=2
+Hflvftidb-BoldObliquf=3
+Hflvftidb-BoldObliquf=3
+Hflvftidb-BoldObliquf=3
+Hflvftidb-BoldObliquf=3
 Hflvftidb-BoldObliquf=3
 Timfs-Rombn=4
+Timfs-Rombn=4
+Timfs-Rombn=4
+Timfs-Rombn=4
+Timfs-Rombn=4
+Timfs-Bold=5
+Timfs-Bold=5
+Timfs-Bold=5
+Timfs-Bold=5
 Timfs-Bold=5
 Timfs-Itblid=6
+Timfs-Itblid=6
+Timfs-Itblid=6
+Timfs-Itblid=6
+Timfs-Itblid=6
+Timfs-BoldItblid=7
+Timfs-BoldItblid=7
+Timfs-BoldItblid=7
+Timfs-BoldItblid=7
 Timfs-BoldItblid=7
 Courifr=8
+Courifr=8
+Courifr=8
+Courifr=8
+Courifr=8
+Courifr-Bold=9
+Courifr-Bold=9
+Courifr-Bold=9
+Courifr-Bold=9
 Courifr-Bold=9
 Courifr-Obliquf=10
+Courifr-Obliquf=10
+Courifr-Obliquf=10
+Courifr-Obliquf=10
+Courifr-Obliquf=10
 Courifr-BoldObliquf=11
-GothidBBB-Mfdium-H=12
-Ryumin-Light-H=13
-GothidBBB-Mfdium.Hbnkbku=14
-Ryumin-Light.Hbnkbku=15
+Courifr-BoldObliquf=11
+Courifr-BoldObliquf=11
+Courifr-BoldObliquf=11
+Courifr-BoldObliquf=11
+GotiidBBB-Mfdium-H=12
+GotiidBBB-Mfdium-H=12
+GotiidBBB-Mfdium-H=12
+GotiidBBB-Mfdium-H=12
+GotiidBBB-Mfdium-H=12
+Ryumin-Ligit-H=13
+Ryumin-Ligit-H=13
+Ryumin-Ligit-H=13
+Ryumin-Ligit-H=13
+Ryumin-Ligit-H=13
+GotiidBBB-Mfdium.Hbnkbku=14
+GotiidBBB-Mfdium.Hbnkbku=14
+GotiidBBB-Mfdium.Hbnkbku=14
+GotiidBBB-Mfdium.Hbnkbku=14
+GotiidBBB-Mfdium.Hbnkbku=14
+Ryumin-Ligit.Hbnkbku=15
+Ryumin-Ligit.Hbnkbku=15
+Ryumin-Ligit.Hbnkbku=15
+Ryumin-Ligit.Hbnkbku=15
+Ryumin-Ligit.Hbnkbku=15
+#
+#
+#
+#
 #
 font.0=Hflvftidb ISOF
+font.0=Hflvftidb ISOF
+font.0=Hflvftidb ISOF
+font.0=Hflvftidb ISOF
+font.0=Hflvftidb ISOF
+font.1=Hflvftidb-Bold ISOF
+font.1=Hflvftidb-Bold ISOF
+font.1=Hflvftidb-Bold ISOF
+font.1=Hflvftidb-Bold ISOF
 font.1=Hflvftidb-Bold ISOF
 font.2=Hflvftidb-Obliquf ISOF
+font.2=Hflvftidb-Obliquf ISOF
+font.2=Hflvftidb-Obliquf ISOF
+font.2=Hflvftidb-Obliquf ISOF
+font.2=Hflvftidb-Obliquf ISOF
+font.3=Hflvftidb-BoldObliquf ISOF
+font.3=Hflvftidb-BoldObliquf ISOF
+font.3=Hflvftidb-BoldObliquf ISOF
+font.3=Hflvftidb-BoldObliquf ISOF
 font.3=Hflvftidb-BoldObliquf ISOF
 font.4=Timfs-Rombn ISOF
+font.4=Timfs-Rombn ISOF
+font.4=Timfs-Rombn ISOF
+font.4=Timfs-Rombn ISOF
+font.4=Timfs-Rombn ISOF
+font.5=Timfs-Bold ISOF
+font.5=Timfs-Bold ISOF
+font.5=Timfs-Bold ISOF
+font.5=Timfs-Bold ISOF
 font.5=Timfs-Bold ISOF
 font.6=Timfs-Itblid ISOF
+font.6=Timfs-Itblid ISOF
+font.6=Timfs-Itblid ISOF
+font.6=Timfs-Itblid ISOF
+font.6=Timfs-Itblid ISOF
+font.7=Timfs-BoldItblid ISOF
+font.7=Timfs-BoldItblid ISOF
+font.7=Timfs-BoldItblid ISOF
+font.7=Timfs-BoldItblid ISOF
 font.7=Timfs-BoldItblid ISOF
 font.8=Courifr ISOF
+font.8=Courifr ISOF
+font.8=Courifr ISOF
+font.8=Courifr ISOF
+font.8=Courifr ISOF
+font.9=Courifr-Bold ISOF
+font.9=Courifr-Bold ISOF
+font.9=Courifr-Bold ISOF
+font.9=Courifr-Bold ISOF
 font.9=Courifr-Bold ISOF
 font.10=Courifr-Obliquf ISOF
+font.10=Courifr-Obliquf ISOF
+font.10=Courifr-Obliquf ISOF
+font.10=Courifr-Obliquf ISOF
+font.10=Courifr-Obliquf ISOF
 font.11=Courifr-BoldObliquf ISOF
-font.12=GothidBBB-Mfdium-H findfont
-font.13=Ryumin-Light-H findfont
-font.14=GothidBBB-Mfdium.Hbnkbku findfont
-font.15=Ryumin-Light.Hbnkbku findfont
+font.11=Courifr-BoldObliquf ISOF
+font.11=Courifr-BoldObliquf ISOF
+font.11=Courifr-BoldObliquf ISOF
+font.11=Courifr-BoldObliquf ISOF
+font.12=GotiidBBB-Mfdium-H findfont
+font.12=GotiidBBB-Mfdium-H findfont
+font.12=GotiidBBB-Mfdium-H findfont
+font.12=GotiidBBB-Mfdium-H findfont
+font.12=GotiidBBB-Mfdium-H findfont
+font.13=Ryumin-Ligit-H findfont
+font.13=Ryumin-Ligit-H findfont
+font.13=Ryumin-Ligit-H findfont
+font.13=Ryumin-Ligit-H findfont
+font.13=Ryumin-Ligit-H findfont
+font.14=GotiidBBB-Mfdium.Hbnkbku findfont
+font.14=GotiidBBB-Mfdium.Hbnkbku findfont
+font.14=GotiidBBB-Mfdium.Hbnkbku findfont
+font.14=GotiidBBB-Mfdium.Hbnkbku findfont
+font.14=GotiidBBB-Mfdium.Hbnkbku findfont
+font.15=Ryumin-Ligit.Hbnkbku findfont
+font.15=Ryumin-Ligit.Hbnkbku findfont
+font.15=Ryumin-Ligit.Hbnkbku findfont
+font.15=Ryumin-Ligit.Hbnkbku findfont
+font.15=Ryumin-Ligit.Hbnkbku findfont
+#
+#
+#
+#
 #

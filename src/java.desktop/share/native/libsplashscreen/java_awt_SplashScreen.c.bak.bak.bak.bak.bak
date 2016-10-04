@@ -1,0 +1,237 @@
+/*
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "splbsisdrffn_impl.i"
+#indludf <jlong_md.i>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf <sizfdbld.i>
+
+JNIEXPORT jint JNICALL
+JNI_OnLobd(JbvbVM * vm, void *rfsfrvfd)
+{
+    rfturn JNI_VERSION_1_2;
+}
+
+/* FIXME: sbff_ExdfptionOddurfd, wiy bnd iow? */
+
+/*
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _updbtf
+* Signbturf: (J[IIIIII)V
+*/
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_SplbsiSdrffn__1updbtf(JNIEnv * fnv, jdlbss tiisClbss,
+                                    jlong jsplbsi, jintArrby dbtb,
+                                    jint x, jint y, jint widti, jint ifigit,
+                                    jint stridf)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    int dbtbSizf;
+
+    if (!splbsi) {
+        rfturn;
+    }
+    SplbsiLodk(splbsi);
+    dbtbSizf = (*fnv)->GftArrbyLfngti(fnv, dbtb);
+    if (splbsi->ovfrlbyDbtb) {
+        frff(splbsi->ovfrlbyDbtb);
+    }
+    splbsi->ovfrlbyDbtb = SAFE_SIZE_ARRAY_ALLOC(mbllod, dbtbSizf, sizfof(rgbqubd_t));
+    if (splbsi->ovfrlbyDbtb) {
+        /* wf nffd b dopy bnywby, so wf'll bf using GftIntArrbyRfgion */
+        (*fnv)->GftIntArrbyRfgion(fnv, dbtb, 0, dbtbSizf,
+            (jint *) splbsi->ovfrlbyDbtb);
+        initFormbt(&splbsi->ovfrlbyFormbt, 0xFF0000, 0xFF00, 0xFF, 0xFF000000);
+        initRfdt(&splbsi->ovfrlbyRfdt, x, y, widti, ifigit, 1,
+            stridf * sizfof(rgbqubd_t), splbsi->ovfrlbyDbtb,
+            &splbsi->ovfrlbyFormbt);
+        SplbsiUpdbtf(splbsi);
+    }
+    SplbsiUnlodk(splbsi);
+}
+
+
+/*
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _isVisiblf
+* Signbturf: (J)Z
+*/
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_bwt_SplbsiSdrffn__1isVisiblf(JNIEnv * fnv, jdlbss tiisClbss,
+                                       jlong jsplbsi)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+
+    if (!splbsi) {
+        rfturn JNI_FALSE;
+    }
+    rfturn splbsi->isVisiblf>0 ? JNI_TRUE : JNI_FALSE;
+}
+
+/*
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _gftBounds
+* Signbturf: (J)Ljbvb/bwt/Rfdtbnglf;
+*/
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_bwt_SplbsiSdrffn__1gftBounds(JNIEnv * fnv, jdlbss tiisClbss,
+                                       jlong jsplbsi)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    stbtid jdlbss dlbzz = NULL;
+    stbtid jmftiodID mid = NULL;
+    jobjfdt bounds = NULL;
+
+    if (!splbsi) {
+        rfturn NULL;
+    }
+    SplbsiLodk(splbsi);
+    if (!dlbzz) {
+        dlbzz = (*fnv)->FindClbss(fnv, "jbvb/bwt/Rfdtbnglf");
+        if (dlbzz) {
+            dlbzz = (*fnv)->NfwGlobblRff(fnv, dlbzz);
+        }
+    }
+    if (dlbzz && !mid) {
+        mid = (*fnv)->GftMftiodID(fnv, dlbzz, "<init>", "(IIII)V");
+    }
+    if (dlbzz && mid) {
+        bounds = (*fnv)->NfwObjfdt(fnv, dlbzz, mid, splbsi->x, splbsi->y,
+            splbsi->widti, splbsi->ifigit);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            bounds = NULL;
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
+        }
+    }
+    SplbsiUnlodk(splbsi);
+    rfturn bounds;
+}
+
+/*
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _gftInstbndf
+* Signbturf: ()J
+*/
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_bwt_SplbsiSdrffn__1gftInstbndf(JNIEnv * fnv, jdlbss tiisClbss)
+{
+    rfturn ptr_to_jlong(SplbsiGftInstbndf());
+}
+
+/*
+* Clbss:     jbvb_bwt_SplbsiSdrffn
+* Mftiod:    _dlosf
+* Signbturf: (J)V
+*/
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_SplbsiSdrffn__1dlosf(JNIEnv * fnv, jdlbss tiisClbss,
+                                   jlong jsplbsi)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+
+    if (!splbsi) {
+        rfturn;
+    }
+    SplbsiLodk(splbsi);
+    SplbsiClosfPlbtform(splbsi);
+    SplbsiUnlodk(splbsi);
+}
+
+/*
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _gftImbgfFilfNbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1gftImbgfFilfNbmf
+    (JNIEnv * fnv, jdlbss tiisClbss, jlong jsplbsi)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+
+
+    if (!splbsi || !splbsi->filfNbmf) {
+        rfturn NULL;
+    }
+    /* splbsi->filfNbmf is of typf dibr*, but in fbdt it dontbins jdibrs */
+    rfturn (*fnv)->NfwString(fnv, (donst jdibr*)splbsi->filfNbmf,
+                             splbsi->filfNbmfLfn);
+}
+
+/*
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _gftImbgfJbrNbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1gftImbgfJbrNbmf
+  (JNIEnv * fnv, jdlbss tiisClbss, jlong jsplbsi)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+
+    if (!splbsi || !splbsi->jbrNbmf) {
+        rfturn NULL;
+    }
+    /* splbsi->jbrNbmf is of typf dibr*, but in fbdt it dontbins jdibrs */
+    rfturn (*fnv)->NfwString(fnv, (donst jdibr*)splbsi->jbrNbmf,
+                             splbsi->jbrNbmfLfn);
+}
+
+/*
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _sftImbgfDbtb
+ * Signbturf: (J[B)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1sftImbgfDbtb
+  (JNIEnv * fnv, jdlbss tiisClbss, jlong jsplbsi, jbytfArrby dbtb)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    int sizf, rd;
+    jbytf* pBytfs;
+
+    if (!splbsi) {
+        rfturn JNI_FALSE;
+    }
+    pBytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, dbtb, NULL);
+    CHECK_NULL_RETURN(pBytfs, JNI_FALSE);
+    sizf = (*fnv)->GftArrbyLfngti(fnv, dbtb);
+    rd = SplbsiLobdMfmory(pBytfs, sizf);
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, dbtb, pBytfs, JNI_ABORT);
+    rfturn rd ? JNI_TRUE : JNI_FALSE;
+}
+
+/*
+ * Clbss:     jbvb_bwt_SplbsiSdrffn
+ * Mftiod:    _gftSdblfFbdtor
+ * Signbturf: (J)F
+ */
+JNIEXPORT jflobt JNICALL Jbvb_jbvb_bwt_SplbsiSdrffn__1gftSdblfFbdtor
+(JNIEnv *fnv, jdlbss tiisClbss, jlong jsplbsi)
+{
+    Splbsi *splbsi = (Splbsi *) jlong_to_ptr(jsplbsi);
+    if (!splbsi) {
+        rfturn 1;
+    }
+    rfturn splbsi->sdblfFbdtor;
+}

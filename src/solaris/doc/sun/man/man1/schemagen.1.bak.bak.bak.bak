@@ -1,122 +1,610 @@
 '\" t
-.\"  Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
-.\"     Ardh: gfnfrid
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
 .\"     Softwbrf: JDK 8
 .\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
 .\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
-.\"     Titlf: sdhfmbgfn.1
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     Titlf: sdifmbgfn.1
+.\"     Titlf: sdifmbgfn.1
+.\"     Titlf: sdifmbgfn.1
+.\"     Titlf: sdifmbgfn.1
+.\"     Titlf: sdifmbgfn.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
-.TH sdhfmbgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH sdifmbgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.TH sdifmbgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.TH sdifmbgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.TH sdifmbgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.TH sdifmbgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
 .SH NAME    
-sdhfmbgfn \- Gfnfrbtfs b sdhfmb for fvfry nbmf spbdf thbt is rfffrfndfd in your Jbvb dlbssfs\&.
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+sdifmbgfn \- Gfnfrbtfs b sdifmb for fvfry nbmf spbdf tibt is rfffrfndfd in your Jbvb dlbssfs\&.
+sdifmbgfn \- Gfnfrbtfs b sdifmb for fvfry nbmf spbdf tibt is rfffrfndfd in your Jbvb dlbssfs\&.
+sdifmbgfn \- Gfnfrbtfs b sdifmb for fvfry nbmf spbdf tibt is rfffrfndfd in your Jbvb dlbssfs\&.
+sdifmbgfn \- Gfnfrbtfs b sdifmb for fvfry nbmf spbdf tibt is rfffrfndfd in your Jbvb dlbssfs\&.
+sdifmbgfn \- Gfnfrbtfs b sdifmb for fvfry nbmf spbdf tibt is rfffrfndfd in your Jbvb dlbssfs\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
-\fBsdhfmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+
+
+
+
+\fBsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fBsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fBsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fBsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+\fBsdifmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
-Thf dommbnd-linf options\&. Sff Options\&.
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIjbvb-filfs\fR
-Thf Jbvb dlbss filfs to bf prodfssfd\&.
+\fIjbvb-filfs\fR
+\fIjbvb-filfs\fR
+\fIjbvb-filfs\fR
+\fIjbvb-filfs\fR
+Tif Jbvb dlbss filfs to bf prodfssfd\&.
+Tif Jbvb dlbss filfs to bf prodfssfd\&.
+Tif Jbvb dlbss filfs to bf prodfssfd\&.
+Tif Jbvb dlbss filfs to bf prodfssfd\&.
+Tif Jbvb dlbss filfs to bf prodfssfd\&.
 .SH DESCRIPTION    
-Thf sdhfmb gfnfrbtor drfbtfs b sdhfmb filf for fbdh nbmf spbdf rfffrfndfd in your Jbvb dlbssfs\&. Currfntly, you dbnnot dontrol thf nbmf of thf gfnfrbtfd sdhfmb filfs\&. To dontrol thf sdhfmb filf nbmfs, sff Using SdhfmbGfn with Ant bt http://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdhfmbgfnTbsk\&.html
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif sdifmb gfnfrbtor drfbtfs b sdifmb filf for fbdi nbmf spbdf rfffrfndfd in your Jbvb dlbssfs\&. Currfntly, you dbnnot dontrol tif nbmf of tif gfnfrbtfd sdifmb filfs\&. To dontrol tif sdifmb filf nbmfs, sff Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Tif sdifmb gfnfrbtor drfbtfs b sdifmb filf for fbdi nbmf spbdf rfffrfndfd in your Jbvb dlbssfs\&. Currfntly, you dbnnot dontrol tif nbmf of tif gfnfrbtfd sdifmb filfs\&. To dontrol tif sdifmb filf nbmfs, sff Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Tif sdifmb gfnfrbtor drfbtfs b sdifmb filf for fbdi nbmf spbdf rfffrfndfd in your Jbvb dlbssfs\&. Currfntly, you dbnnot dontrol tif nbmf of tif gfnfrbtfd sdifmb filfs\&. To dontrol tif sdifmb filf nbmfs, sff Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Tif sdifmb gfnfrbtor drfbtfs b sdifmb filf for fbdi nbmf spbdf rfffrfndfd in your Jbvb dlbssfs\&. Currfntly, you dbnnot dontrol tif nbmf of tif gfnfrbtfd sdifmb filfs\&. To dontrol tif sdifmb filf nbmfs, sff Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Tif sdifmb gfnfrbtor drfbtfs b sdifmb filf for fbdi nbmf spbdf rfffrfndfd in your Jbvb dlbssfs\&. Currfntly, you dbnnot dontrol tif nbmf of tif gfnfrbtfd sdifmb filfs\&. To dontrol tif sdifmb filf nbmfs, sff Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
 .PP
-Stbrt thf sdhfmb gfnfrbtor with thf bppropribtf \f3sdhfmbgfn\fR shfll sdript in thf bin dirfdtory for your plbtform\&. Thf durrfnt sdhfmb gfnfrbtor dbn prodfss fithfr Jbvb sourdf filfs or dlbss filfs\&.
+.PP
+.PP
+.PP
+.PP
+Stbrt tif sdifmb gfnfrbtor witi tif bppropribtf \f3sdifmbgfn\fR sifll sdript in tif bin dirfdtory for your plbtform\&. Tif durrfnt sdifmb gfnfrbtor dbn prodfss fitifr Jbvb sourdf filfs or dlbss filfs\&.
+Stbrt tif sdifmb gfnfrbtor witi tif bppropribtf \f3sdifmbgfn\fR sifll sdript in tif bin dirfdtory for your plbtform\&. Tif durrfnt sdifmb gfnfrbtor dbn prodfss fitifr Jbvb sourdf filfs or dlbss filfs\&.
+Stbrt tif sdifmb gfnfrbtor witi tif bppropribtf \f3sdifmbgfn\fR sifll sdript in tif bin dirfdtory for your plbtform\&. Tif durrfnt sdifmb gfnfrbtor dbn prodfss fitifr Jbvb sourdf filfs or dlbss filfs\&.
+Stbrt tif sdifmb gfnfrbtor witi tif bppropribtf \f3sdifmbgfn\fR sifll sdript in tif bin dirfdtory for your plbtform\&. Tif durrfnt sdifmb gfnfrbtor dbn prodfss fitifr Jbvb sourdf filfs or dlbss filfs\&.
+Stbrt tif sdifmb gfnfrbtor witi tif bppropribtf \f3sdifmbgfn\fR sifll sdript in tif bin dirfdtory for your plbtform\&. Tif durrfnt sdifmb gfnfrbtor dbn prodfss fitifr Jbvb sourdf filfs or dlbss filfs\&.
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3sdhfmbgfn\&.sh Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
+\f3sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
+\f3sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
+\f3sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
+\f3sdifmbgfn\&.si Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
-\f3Notf: Writing sdhfmb1\&.xsd\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3Notf: Writing sdifmb1\&.xsd\fP
+\f3Notf: Writing sdifmb1\&.xsd\fP
+\f3Notf: Writing sdifmb1\&.xsd\fP
+\f3Notf: Writing sdifmb1\&.xsd\fP
+\f3Notf: Writing sdifmb1\&.xsd\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
-If your jbvb filfs rfffrfndf othfr dlbssfs, thfn thosf dlbssfs must bf bddfssiblf on your systfm \f3CLASSPATH\fR fnvironmfnt vbribblf, or thfy nffd to bf spfdififd in thf \f3sdhfmbgfn\fR dommbnd linf with thf dlbss pbth options\&. Sff Options\&. If thf rfffrfndfd filfs brf not bddfssiblf or spfdififd, thfn you gft frrors whfn you gfnfrbtf thf sdhfmb\&.
+.sp     
+.sp     
+.sp     
+.sp     
+If your jbvb filfs rfffrfndf otifr dlbssfs, tifn tiosf dlbssfs must bf bddfssiblf on your systfm \f3CLASSPATH\fR fnvironmfnt vbribblf, or tify nffd to bf spfdififd in tif \f3sdifmbgfn\fR dommbnd linf witi tif dlbss pbti options\&. Sff Options\&. If tif rfffrfndfd filfs brf not bddfssiblf or spfdififd, tifn you gft frrors wifn you gfnfrbtf tif sdifmb\&.
+If your jbvb filfs rfffrfndf otifr dlbssfs, tifn tiosf dlbssfs must bf bddfssiblf on your systfm \f3CLASSPATH\fR fnvironmfnt vbribblf, or tify nffd to bf spfdififd in tif \f3sdifmbgfn\fR dommbnd linf witi tif dlbss pbti options\&. Sff Options\&. If tif rfffrfndfd filfs brf not bddfssiblf or spfdififd, tifn you gft frrors wifn you gfnfrbtf tif sdifmb\&.
+If your jbvb filfs rfffrfndf otifr dlbssfs, tifn tiosf dlbssfs must bf bddfssiblf on your systfm \f3CLASSPATH\fR fnvironmfnt vbribblf, or tify nffd to bf spfdififd in tif \f3sdifmbgfn\fR dommbnd linf witi tif dlbss pbti options\&. Sff Options\&. If tif rfffrfndfd filfs brf not bddfssiblf or spfdififd, tifn you gft frrors wifn you gfnfrbtf tif sdifmb\&.
+If your jbvb filfs rfffrfndf otifr dlbssfs, tifn tiosf dlbssfs must bf bddfssiblf on your systfm \f3CLASSPATH\fR fnvironmfnt vbribblf, or tify nffd to bf spfdififd in tif \f3sdifmbgfn\fR dommbnd linf witi tif dlbss pbti options\&. Sff Options\&. If tif rfffrfndfd filfs brf not bddfssiblf or spfdififd, tifn you gft frrors wifn you gfnfrbtf tif sdifmb\&.
+If your jbvb filfs rfffrfndf otifr dlbssfs, tifn tiosf dlbssfs must bf bddfssiblf on your systfm \f3CLASSPATH\fR fnvironmfnt vbribblf, or tify nffd to bf spfdififd in tif \f3sdifmbgfn\fR dommbnd linf witi tif dlbss pbti options\&. Sff Options\&. If tif rfffrfndfd filfs brf not bddfssiblf or spfdififd, tifn you gft frrors wifn you gfnfrbtf tif sdifmb\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
--d \fIpbth\fR
-.br
-Thf lodbtion whfrf thf \f3sdhfmbgfn\fR dommbnd plbdfs prodfssor-gfnfrbtfd bnd \f3jbvbd\fR-gfnfrbtfd dlbss filfs\&.
 .TP
--dp \fIpbth\fR
-.br
-Thf lodbtion whfrf thf \f3sdhfmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
 .TP
--dlbsspbth \fIpbth\fR
+.TP
+.TP
+-d \fIpbti\fR
+-d \fIpbti\fR
+-d \fIpbti\fR
+-d \fIpbti\fR
+-d \fIpbti\fR
 .br
-Thf lodbtion whfrf thf \f3sdhfmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+.br
+.br
+.br
+.br
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs prodfssor-gfnfrbtfd bnd \f3jbvbd\fR-gfnfrbtfd dlbss filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs prodfssor-gfnfrbtfd bnd \f3jbvbd\fR-gfnfrbtfd dlbss filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs prodfssor-gfnfrbtfd bnd \f3jbvbd\fR-gfnfrbtfd dlbss filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs prodfssor-gfnfrbtfd bnd \f3jbvbd\fR-gfnfrbtfd dlbss filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs prodfssor-gfnfrbtfd bnd \f3jbvbd\fR-gfnfrbtfd dlbss filfs\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-dp \fIpbti\fR
+-dp \fIpbti\fR
+-dp \fIpbti\fR
+-dp \fIpbti\fR
+-dp \fIpbti\fR
+.br
+.br
+.br
+.br
+.br
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+-dlbsspbti \fIpbti\fR
+.br
+.br
+.br
+.br
+.br
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+Tif lodbtion wifrf tif \f3sdifmbgfn\fR dommbnd plbdfs usfr-spfdififd filfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -fndoding \fIfndoding\fR
+-fndoding \fIfndoding\fR
+-fndoding \fIfndoding\fR
+-fndoding \fIfndoding\fR
+-fndoding \fIfndoding\fR
 .br
-Spfdififs thf fndoding to usf for \f3bpt\fR or \f3jbvbd\fR dommbnd invodbtions\&.
+.br
+.br
+.br
+.br
+Spfdififs tif fndoding to usf for \f3bpt\fR or \f3jbvbd\fR dommbnd invodbtions\&.
+Spfdififs tif fndoding to usf for \f3bpt\fR or \f3jbvbd\fR dommbnd invodbtions\&.
+Spfdififs tif fndoding to usf for \f3bpt\fR or \f3jbvbd\fR dommbnd invodbtions\&.
+Spfdififs tif fndoding to usf for \f3bpt\fR or \f3jbvbd\fR dommbnd invodbtions\&.
+Spfdififs tif fndoding to usf for \f3bpt\fR or \f3jbvbd\fR dommbnd invodbtions\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -fpisodf \fIfilf\fR
+-fpisodf \fIfilf\fR
+-fpisodf \fIfilf\fR
+-fpisodf \fIfilf\fR
+-fpisodf \fIfilf\fR
+.br
+.br
+.br
+.br
 .br
 Gfnfrbtfs bn fpisodf filf for sfpbrbtf dompilbtion\&.
+Gfnfrbtfs bn fpisodf filf for sfpbrbtf dompilbtion\&.
+Gfnfrbtfs bn fpisodf filf for sfpbrbtf dompilbtion\&.
+Gfnfrbtfs bn fpisodf filf for sfpbrbtf dompilbtion\&.
+Gfnfrbtfs bn fpisodf filf for sfpbrbtf dompilbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+.br
+.br
+.br
+.br
 .br
 Displbys rflfbsf informbtion\&.
+Displbys rflfbsf informbtion\&.
+Displbys rflfbsf informbtion\&.
+Displbys rflfbsf informbtion\&.
+Displbys rflfbsf informbtion\&.
 .TP
--hflp
+.TP
+.TP
+.TP
+.TP
+-iflp
+-iflp
+-iflp
+-iflp
+-iflp
 .br
-Displbys b hflp mfssbgf\&.
+.br
+.br
+.br
+.br
+Displbys b iflp mfssbgf\&.
+Displbys b iflp mfssbgf\&.
+Displbys b iflp mfssbgf\&.
+Displbys b iflp mfssbgf\&.
+Displbys b iflp mfssbgf\&.
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
 .SH SEE\ ALSO    
 .TP 0.2i    
-\(bu
-Using SdhfmbGfn with Ant bt http://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdhfmbgfnTbsk\&.html
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Jbvb Ardhitfdturf for XML Binding (JAXB) bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/xml/jbxb/indfx\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+Using SdifmbGfn witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdifmbgfnTbsk\&.itml
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
+\(bu
+Jbvb Ardiitfdturf for XML Binding (JAXB) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml
+Jbvb Ardiitfdturf for XML Binding (JAXB) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml
+Jbvb Ardiitfdturf for XML Binding (JAXB) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml
+Jbvb Ardiitfdturf for XML Binding (JAXB) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml
+Jbvb Ardiitfdturf for XML Binding (JAXB) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/xml/jbxb/indfx\&.itml
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

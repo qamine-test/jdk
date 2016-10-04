@@ -1,606 +1,3030 @@
 /*
- * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-#indludf <windows.h>
-#indludf <string.h>
+ */
+ */
+ */
+ */
+#indludf <windows.i>
+#indludf <windows.i>
+#indludf <windows.i>
+#indludf <windows.i>
+#indludf <windows.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
 
-#indludf "jni.h"
-#indludf "jni_util.h"
 
-#indludf "sun_tools_bttbdh_WindowsVirtublMbdhinf.h"
+
+
+
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+
+
+
+
+
+#indludf "sun_tools_bttbdi_WindowsVirtublMbdiinf.i"
+#indludf "sun_tools_bttbdi_WindowsVirtublMbdiinf.i"
+#indludf "sun_tools_bttbdi_WindowsVirtublMbdiinf.i"
+#indludf "sun_tools_bttbdi_WindowsVirtublMbdiinf.i"
+#indludf "sun_tools_bttbdi_WindowsVirtublMbdiinf.i"
+
+
+
+
+
+
+
+
 
 
 /* kfrnfl32 */
+/* kfrnfl32 */
+/* kfrnfl32 */
+/* kfrnfl32 */
+/* kfrnfl32 */
+typfdff HINSTANCE (WINAPI* GftModulfHbndlfFund) (LPCTSTR);
+typfdff HINSTANCE (WINAPI* GftModulfHbndlfFund) (LPCTSTR);
+typfdff HINSTANCE (WINAPI* GftModulfHbndlfFund) (LPCTSTR);
+typfdff HINSTANCE (WINAPI* GftModulfHbndlfFund) (LPCTSTR);
 typfdff HINSTANCE (WINAPI* GftModulfHbndlfFund) (LPCTSTR);
 typfdff FARPROC (WINAPI* GftProdAddrfssFund)(HMODULE, LPCSTR);
+typfdff FARPROC (WINAPI* GftProdAddrfssFund)(HMODULE, LPCSTR);
+typfdff FARPROC (WINAPI* GftProdAddrfssFund)(HMODULE, LPCSTR);
+typfdff FARPROC (WINAPI* GftProdAddrfssFund)(HMODULE, LPCSTR);
+typfdff FARPROC (WINAPI* GftProdAddrfssFund)(HMODULE, LPCSTR);
+
+
+
+
 
 /* only on Windows 64-bit or 32-bit bpplidbtion running undfr WOW64 */
+/* only on Windows 64-bit or 32-bit bpplidbtion running undfr WOW64 */
+/* only on Windows 64-bit or 32-bit bpplidbtion running undfr WOW64 */
+/* only on Windows 64-bit or 32-bit bpplidbtion running undfr WOW64 */
+/* only on Windows 64-bit or 32-bit bpplidbtion running undfr WOW64 */
+typfdff BOOL (WINAPI *IsWow64ProdfssFund) (HANDLE, PBOOL);
+typfdff BOOL (WINAPI *IsWow64ProdfssFund) (HANDLE, PBOOL);
+typfdff BOOL (WINAPI *IsWow64ProdfssFund) (HANDLE, PBOOL);
+typfdff BOOL (WINAPI *IsWow64ProdfssFund) (HANDLE, PBOOL);
 typfdff BOOL (WINAPI *IsWow64ProdfssFund) (HANDLE, PBOOL);
 
+
+
+
+
+stbtid GftModulfHbndlfFund _GftModulfHbndlf;
+stbtid GftModulfHbndlfFund _GftModulfHbndlf;
+stbtid GftModulfHbndlfFund _GftModulfHbndlf;
+stbtid GftModulfHbndlfFund _GftModulfHbndlf;
 stbtid GftModulfHbndlfFund _GftModulfHbndlf;
 stbtid GftProdAddrfssFund _GftProdAddrfss;
+stbtid GftProdAddrfssFund _GftProdAddrfss;
+stbtid GftProdAddrfssFund _GftProdAddrfss;
+stbtid GftProdAddrfssFund _GftProdAddrfss;
+stbtid GftProdAddrfssFund _GftProdAddrfss;
+stbtid IsWow64ProdfssFund _IsWow64Prodfss;
+stbtid IsWow64ProdfssFund _IsWow64Prodfss;
+stbtid IsWow64ProdfssFund _IsWow64Prodfss;
+stbtid IsWow64ProdfssFund _IsWow64Prodfss;
 stbtid IsWow64ProdfssFund _IsWow64Prodfss;
 
+
+
+
+
+/* psbpi */
+/* psbpi */
+/* psbpi */
+/* psbpi */
 /* psbpi */
 typfdff BOOL  (WINAPI *EnumProdfssModulfsFund)  (HANDLE, HMODULE *, DWORD, LPDWORD );
+typfdff BOOL  (WINAPI *EnumProdfssModulfsFund)  (HANDLE, HMODULE *, DWORD, LPDWORD );
+typfdff BOOL  (WINAPI *EnumProdfssModulfsFund)  (HANDLE, HMODULE *, DWORD, LPDWORD );
+typfdff BOOL  (WINAPI *EnumProdfssModulfsFund)  (HANDLE, HMODULE *, DWORD, LPDWORD );
+typfdff BOOL  (WINAPI *EnumProdfssModulfsFund)  (HANDLE, HMODULE *, DWORD, LPDWORD );
+typfdff DWORD (WINAPI *GftModulfFilfNbmfExFund) ( HANDLE, HMODULE, LPTSTR, DWORD );
+typfdff DWORD (WINAPI *GftModulfFilfNbmfExFund) ( HANDLE, HMODULE, LPTSTR, DWORD );
+typfdff DWORD (WINAPI *GftModulfFilfNbmfExFund) ( HANDLE, HMODULE, LPTSTR, DWORD );
+typfdff DWORD (WINAPI *GftModulfFilfNbmfExFund) ( HANDLE, HMODULE, LPTSTR, DWORD );
 typfdff DWORD (WINAPI *GftModulfFilfNbmfExFund) ( HANDLE, HMODULE, LPTSTR, DWORD );
 
+
+
+
+
+/* fxportfd fundtion in tbrgft VM */
+/* fxportfd fundtion in tbrgft VM */
+/* fxportfd fundtion in tbrgft VM */
+/* fxportfd fundtion in tbrgft VM */
 /* fxportfd fundtion in tbrgft VM */
 typfdff jint (WINAPI* EnqufufOpfrbtionFund)
-    (donst dhbr* dmd, donst dhbr* brg1, donst dhbr* brg2, donst dhbr* brg3, donst dhbr* pipfnbmf);
+typfdff jint (WINAPI* EnqufufOpfrbtionFund)
+typfdff jint (WINAPI* EnqufufOpfrbtionFund)
+typfdff jint (WINAPI* EnqufufOpfrbtionFund)
+typfdff jint (WINAPI* EnqufufOpfrbtionFund)
+    (donst dibr* dmd, donst dibr* brg1, donst dibr* brg2, donst dibr* brg3, donst dibr* pipfnbmf);
+    (donst dibr* dmd, donst dibr* brg1, donst dibr* brg2, donst dibr* brg3, donst dibr* pipfnbmf);
+    (donst dibr* dmd, donst dibr* brg1, donst dibr* brg2, donst dibr* brg3, donst dibr* pipfnbmf);
+    (donst dibr* dmd, donst dibr* brg1, donst dibr* brg2, donst dibr* brg3, donst dibr* pipfnbmf);
+    (donst dibr* dmd, donst dibr* brg1, donst dibr* brg2, donst dibr* brg3, donst dibr* pipfnbmf);
 
-/* OpfnProdfss with SE_DEBUG_NAME privilfgf */
+
+
+
+
+/* OpfnProdfss witi SE_DEBUG_NAME privilfgf */
+/* OpfnProdfss witi SE_DEBUG_NAME privilfgf */
+/* OpfnProdfss witi SE_DEBUG_NAME privilfgf */
+/* OpfnProdfss witi SE_DEBUG_NAME privilfgf */
+/* OpfnProdfss witi SE_DEBUG_NAME privilfgf */
 stbtid HANDLE
-doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInhfritHbndlf, DWORD dwProdfssId);
+stbtid HANDLE
+stbtid HANDLE
+stbtid HANDLE
+stbtid HANDLE
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId);
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId);
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId);
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId);
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId);
+
+
+
+
 
 /* donvfrt jstring to C string */
-stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dhbr* dstr, int lfn);
+/* donvfrt jstring to C string */
+/* donvfrt jstring to C string */
+/* donvfrt jstring to C string */
+/* donvfrt jstring to C string */
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn);
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn);
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn);
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn);
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn);
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Dbtb dopifd to tbrgft prodfss
+ * Dbtb dopifd to tbrgft prodfss
+ * Dbtb dopifd to tbrgft prodfss
+ * Dbtb dopifd to tbrgft prodfss
+ * Dbtb dopifd to tbrgft prodfss
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 #dffinf MAX_LIBNAME_LENGTH      16
+#dffinf MAX_LIBNAME_LENGTH      16
+#dffinf MAX_LIBNAME_LENGTH      16
+#dffinf MAX_LIBNAME_LENGTH      16
+#dffinf MAX_LIBNAME_LENGTH      16
+#dffinf MAX_FUNC_LENGTH         32
+#dffinf MAX_FUNC_LENGTH         32
+#dffinf MAX_FUNC_LENGTH         32
+#dffinf MAX_FUNC_LENGTH         32
 #dffinf MAX_FUNC_LENGTH         32
 #dffinf MAX_CMD_LENGTH          16
+#dffinf MAX_CMD_LENGTH          16
+#dffinf MAX_CMD_LENGTH          16
+#dffinf MAX_CMD_LENGTH          16
+#dffinf MAX_CMD_LENGTH          16
+#dffinf MAX_ARG_LENGTH          1024
+#dffinf MAX_ARG_LENGTH          1024
+#dffinf MAX_ARG_LENGTH          1024
+#dffinf MAX_ARG_LENGTH          1024
 #dffinf MAX_ARG_LENGTH          1024
 #dffinf MAX_ARGS                3
+#dffinf MAX_ARGS                3
+#dffinf MAX_ARGS                3
+#dffinf MAX_ARGS                3
+#dffinf MAX_ARGS                3
+#dffinf MAX_PIPE_NAME_LENGTH    256
+#dffinf MAX_PIPE_NAME_LENGTH    256
+#dffinf MAX_PIPE_NAME_LENGTH    256
+#dffinf MAX_PIPE_NAME_LENGTH    256
 #dffinf MAX_PIPE_NAME_LENGTH    256
 
+
+
+
+
+typfdff strudt {
+typfdff strudt {
+typfdff strudt {
+typfdff strudt {
 typfdff strudt {
    GftModulfHbndlfFund _GftModulfHbndlf;
+   GftModulfHbndlfFund _GftModulfHbndlf;
+   GftModulfHbndlfFund _GftModulfHbndlf;
+   GftModulfHbndlfFund _GftModulfHbndlf;
+   GftModulfHbndlfFund _GftModulfHbndlf;
    GftProdAddrfssFund _GftProdAddrfss;
-   dhbr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
-   dhbr fund1[MAX_FUNC_LENGTH];
-   dhbr fund2[MAX_FUNC_LENGTH];
-   dhbr dmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
-   dhbr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brgumfnts to dommbnd     */
-   dhbr pipfnbmf[MAX_PIPE_NAME_LENGTH];
+   GftProdAddrfssFund _GftProdAddrfss;
+   GftProdAddrfssFund _GftProdAddrfss;
+   GftProdAddrfssFund _GftProdAddrfss;
+   GftProdAddrfssFund _GftProdAddrfss;
+   dibr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
+   dibr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
+   dibr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
+   dibr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
+   dibr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
+   dibr fund1[MAX_FUNC_LENGTH];
+   dibr fund1[MAX_FUNC_LENGTH];
+   dibr fund1[MAX_FUNC_LENGTH];
+   dibr fund1[MAX_FUNC_LENGTH];
+   dibr fund1[MAX_FUNC_LENGTH];
+   dibr fund2[MAX_FUNC_LENGTH];
+   dibr fund2[MAX_FUNC_LENGTH];
+   dibr fund2[MAX_FUNC_LENGTH];
+   dibr fund2[MAX_FUNC_LENGTH];
+   dibr fund2[MAX_FUNC_LENGTH];
+   dibr dmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
+   dibr dmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
+   dibr dmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
+   dibr dmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
+   dibr dmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
+   dibr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brgumfnts to dommbnd     */
+   dibr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brgumfnts to dommbnd     */
+   dibr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brgumfnts to dommbnd     */
+   dibr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brgumfnts to dommbnd     */
+   dibr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brgumfnts to dommbnd     */
+   dibr pipfnbmf[MAX_PIPE_NAME_LENGTH];
+   dibr pipfnbmf[MAX_PIPE_NAME_LENGTH];
+   dibr pipfnbmf[MAX_PIPE_NAME_LENGTH];
+   dibr pipfnbmf[MAX_PIPE_NAME_LENGTH];
+   dibr pipfnbmf[MAX_PIPE_NAME_LENGTH];
+} DbtbBlodk;
+} DbtbBlodk;
+} DbtbBlodk;
+} DbtbBlodk;
 } DbtbBlodk;
 
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Rfturn dodfs from fnqufuf fundtion fxfdutfd in tbrgft VM
+ * Rfturn dodfs from fnqufuf fundtion fxfdutfd in tbrgft VM
+ * Rfturn dodfs from fnqufuf fundtion fxfdutfd in tbrgft VM
+ * Rfturn dodfs from fnqufuf fundtion fxfdutfd in tbrgft VM
+ * Rfturn dodfs from fnqufuf fundtion fxfdutfd in tbrgft VM
+ */
+ */
+ */
+ */
  */
 #dffinf ERR_OPEN_JVM_FAIL           200
+#dffinf ERR_OPEN_JVM_FAIL           200
+#dffinf ERR_OPEN_JVM_FAIL           200
+#dffinf ERR_OPEN_JVM_FAIL           200
+#dffinf ERR_OPEN_JVM_FAIL           200
+#dffinf ERR_GET_ENQUEUE_FUNC_FAIL   201
+#dffinf ERR_GET_ENQUEUE_FUNC_FAIL   201
+#dffinf ERR_GET_ENQUEUE_FUNC_FAIL   201
+#dffinf ERR_GET_ENQUEUE_FUNC_FAIL   201
 #dffinf ERR_GET_ENQUEUE_FUNC_FAIL   201
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Codf dopifd to tbrgft prodfss
+ * Codf dopifd to tbrgft prodfss
+ * Codf dopifd to tbrgft prodfss
+ * Codf dopifd to tbrgft prodfss
+ * Codf dopifd to tbrgft prodfss
  */
-#prbgmb dhfdk_stbdk (off)
-DWORD WINAPI jvm_bttbdh_thrfbd_fund(DbtbBlodk *pDbtb)
+ */
+ */
+ */
+ */
+#prbgmb difdk_stbdk (off)
+#prbgmb difdk_stbdk (off)
+#prbgmb difdk_stbdk (off)
+#prbgmb difdk_stbdk (off)
+#prbgmb difdk_stbdk (off)
+DWORD WINAPI jvm_bttbdi_tirfbd_fund(DbtbBlodk *pDbtb)
+DWORD WINAPI jvm_bttbdi_tirfbd_fund(DbtbBlodk *pDbtb)
+DWORD WINAPI jvm_bttbdi_tirfbd_fund(DbtbBlodk *pDbtb)
+DWORD WINAPI jvm_bttbdi_tirfbd_fund(DbtbBlodk *pDbtb)
+DWORD WINAPI jvm_bttbdi_tirfbd_fund(DbtbBlodk *pDbtb)
 {
-    HINSTANCE h;
+{
+{
+{
+{
+    HINSTANCE i;
+    HINSTANCE i;
+    HINSTANCE i;
+    HINSTANCE i;
+    HINSTANCE i;
+    EnqufufOpfrbtionFund bddr;
+    EnqufufOpfrbtionFund bddr;
+    EnqufufOpfrbtionFund bddr;
+    EnqufufOpfrbtionFund bddr;
     EnqufufOpfrbtionFund bddr;
 
-    h = pDbtb->_GftModulfHbndlf(pDbtb->jvmLib);
-    if (h == NULL) {
+
+
+
+
+    i = pDbtb->_GftModulfHbndlf(pDbtb->jvmLib);
+    i = pDbtb->_GftModulfHbndlf(pDbtb->jvmLib);
+    i = pDbtb->_GftModulfHbndlf(pDbtb->jvmLib);
+    i = pDbtb->_GftModulfHbndlf(pDbtb->jvmLib);
+    i = pDbtb->_GftModulfHbndlf(pDbtb->jvmLib);
+    if (i == NULL) {
+    if (i == NULL) {
+    if (i == NULL) {
+    if (i == NULL) {
+    if (i == NULL) {
+        rfturn ERR_OPEN_JVM_FAIL;
+        rfturn ERR_OPEN_JVM_FAIL;
+        rfturn ERR_OPEN_JVM_FAIL;
+        rfturn ERR_OPEN_JVM_FAIL;
         rfturn ERR_OPEN_JVM_FAIL;
     }
-
-    bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(h, pDbtb->fund1));
-    if (bddr == NULL) {
-        bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(h, pDbtb->fund2));
     }
+    }
+    }
+    }
+
+
+
+
+
+    bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund1));
+    bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund1));
+    bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund1));
+    bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund1));
+    bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund1));
+    if (bddr == NULL) {
+    if (bddr == NULL) {
+    if (bddr == NULL) {
+    if (bddr == NULL) {
+    if (bddr == NULL) {
+        bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund2));
+        bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund2));
+        bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund2));
+        bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund2));
+        bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(i, pDbtb->fund2));
+    }
+    }
+    }
+    }
+    }
+    if (bddr == NULL) {
+    if (bddr == NULL) {
+    if (bddr == NULL) {
+    if (bddr == NULL) {
     if (bddr == NULL) {
         rfturn ERR_GET_ENQUEUE_FUNC_FAIL;
+        rfturn ERR_GET_ENQUEUE_FUNC_FAIL;
+        rfturn ERR_GET_ENQUEUE_FUNC_FAIL;
+        rfturn ERR_GET_ENQUEUE_FUNC_FAIL;
+        rfturn ERR_GET_ENQUEUE_FUNC_FAIL;
+    }
+    }
+    }
+    }
     }
 
-    /* "null" dommbnd - dofs nothing in thf tbrgft VM */
+
+
+
+
+    /* "null" dommbnd - dofs notiing in tif tbrgft VM */
+    /* "null" dommbnd - dofs notiing in tif tbrgft VM */
+    /* "null" dommbnd - dofs notiing in tif tbrgft VM */
+    /* "null" dommbnd - dofs notiing in tif tbrgft VM */
+    /* "null" dommbnd - dofs notiing in tif tbrgft VM */
+    if (pDbtb->dmd[0] == '\0') {
+    if (pDbtb->dmd[0] == '\0') {
+    if (pDbtb->dmd[0] == '\0') {
+    if (pDbtb->dmd[0] == '\0') {
     if (pDbtb->dmd[0] == '\0') {
         rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         rfturn (*bddr)(pDbtb->dmd, pDbtb->brg[0], pDbtb->brg[1], pDbtb->brg[2], pDbtb->pipfnbmf);
+        rfturn (*bddr)(pDbtb->dmd, pDbtb->brg[0], pDbtb->brg[1], pDbtb->brg[2], pDbtb->pipfnbmf);
+        rfturn (*bddr)(pDbtb->dmd, pDbtb->brg[0], pDbtb->brg[1], pDbtb->brg[2], pDbtb->pipfnbmf);
+        rfturn (*bddr)(pDbtb->dmd, pDbtb->brg[0], pDbtb->brg[1], pDbtb->brg[2], pDbtb->pipfnbmf);
+        rfturn (*bddr)(pDbtb->dmd, pDbtb->brg[0], pDbtb->brg[1], pDbtb->brg[2], pDbtb->pipfnbmf);
+    }
+    }
+    }
+    }
     }
 }
-
-/* This fundtion mbrks thf fnd of jvm_bttbdh_thrfbd_fund. */
-void jvm_bttbdh_thrfbd_fund_fnd (void) {
 }
-#prbgmb dhfdk_stbdk
+}
+}
+}
+
+
+
+
+
+/* Tiis fundtion mbrks tif fnd of jvm_bttbdi_tirfbd_fund. */
+/* Tiis fundtion mbrks tif fnd of jvm_bttbdi_tirfbd_fund. */
+/* Tiis fundtion mbrks tif fnd of jvm_bttbdi_tirfbd_fund. */
+/* Tiis fundtion mbrks tif fnd of jvm_bttbdi_tirfbd_fund. */
+/* Tiis fundtion mbrks tif fnd of jvm_bttbdi_tirfbd_fund. */
+void jvm_bttbdi_tirfbd_fund_fnd (void) {
+void jvm_bttbdi_tirfbd_fund_fnd (void) {
+void jvm_bttbdi_tirfbd_fund_fnd (void) {
+void jvm_bttbdi_tirfbd_fund_fnd (void) {
+void jvm_bttbdi_tirfbd_fund_fnd (void) {
+}
+}
+}
+}
+}
+#prbgmb difdk_stbdk
+#prbgmb difdk_stbdk
+#prbgmb difdk_stbdk
+#prbgmb difdk_stbdk
+#prbgmb difdk_stbdk
+
+
+
+
+
+
+
+
 
 
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    init
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    init
+ * Mftiod:    init
+ * Mftiod:    init
+ * Mftiod:    init
+ * Mftiod:    init
+ * Signbturf: ()V
+ * Signbturf: ()V
+ * Signbturf: ()V
+ * Signbturf: ()V
  * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_init
+ */
+ */
+ */
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_init
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_init
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_init
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_init
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_init
+  (JNIEnv *fnv, jdlbss dls)
+  (JNIEnv *fnv, jdlbss dls)
+  (JNIEnv *fnv, jdlbss dls)
+  (JNIEnv *fnv, jdlbss dls)
   (JNIEnv *fnv, jdlbss dls)
 {
-    // All following APIs fxist on Windows XP with SP2/Windows Sfrvfr 2008
+{
+{
+{
+{
+    // All following APIs fxist on Windows XP witi SP2/Windows Sfrvfr 2008
+    // All following APIs fxist on Windows XP witi SP2/Windows Sfrvfr 2008
+    // All following APIs fxist on Windows XP witi SP2/Windows Sfrvfr 2008
+    // All following APIs fxist on Windows XP witi SP2/Windows Sfrvfr 2008
+    // All following APIs fxist on Windows XP witi SP2/Windows Sfrvfr 2008
+    _GftModulfHbndlf = (GftModulfHbndlfFund)GftModulfHbndlf;
+    _GftModulfHbndlf = (GftModulfHbndlfFund)GftModulfHbndlf;
+    _GftModulfHbndlf = (GftModulfHbndlfFund)GftModulfHbndlf;
+    _GftModulfHbndlf = (GftModulfHbndlfFund)GftModulfHbndlf;
     _GftModulfHbndlf = (GftModulfHbndlfFund)GftModulfHbndlf;
     _GftProdAddrfss = (GftProdAddrfssFund)GftProdAddrfss;
+    _GftProdAddrfss = (GftProdAddrfssFund)GftProdAddrfss;
+    _GftProdAddrfss = (GftProdAddrfssFund)GftProdAddrfss;
+    _GftProdAddrfss = (GftProdAddrfssFund)GftProdAddrfss;
+    _GftProdAddrfss = (GftProdAddrfssFund)GftProdAddrfss;
+    _IsWow64Prodfss = (IsWow64ProdfssFund)IsWow64Prodfss;
+    _IsWow64Prodfss = (IsWow64ProdfssFund)IsWow64Prodfss;
+    _IsWow64Prodfss = (IsWow64ProdfssFund)IsWow64Prodfss;
+    _IsWow64Prodfss = (IsWow64ProdfssFund)IsWow64Prodfss;
     _IsWow64Prodfss = (IsWow64ProdfssFund)IsWow64Prodfss;
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    gfnfrbtfStub
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    gfnfrbtfStub
+ * Mftiod:    gfnfrbtfStub
+ * Mftiod:    gfnfrbtfStub
+ * Mftiod:    gfnfrbtfStub
+ * Mftiod:    gfnfrbtfStub
+ * Signbturf: ()[B
+ * Signbturf: ()[B
+ * Signbturf: ()[B
+ * Signbturf: ()[B
  * Signbturf: ()[B
  */
-JNIEXPORT jbytfArrby JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_gfnfrbtfStub
+ */
+ */
+ */
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_gfnfrbtfStub
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_gfnfrbtfStub
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_gfnfrbtfStub
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_gfnfrbtfStub
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_gfnfrbtfStub
+  (JNIEnv *fnv, jdlbss dls)
+  (JNIEnv *fnv, jdlbss dls)
+  (JNIEnv *fnv, jdlbss dls)
+  (JNIEnv *fnv, jdlbss dls)
   (JNIEnv *fnv, jdlbss dls)
 {
+{
+{
+{
+{
     /*
-     * Wf should rfplbdf this with b rfbl stub gfnfrbtor bt somf point
+    /*
+    /*
+    /*
+    /*
+     * Wf siould rfplbdf tiis witi b rfbl stub gfnfrbtor bt somf point
+     * Wf siould rfplbdf tiis witi b rfbl stub gfnfrbtor bt somf point
+     * Wf siould rfplbdf tiis witi b rfbl stub gfnfrbtor bt somf point
+     * Wf siould rfplbdf tiis witi b rfbl stub gfnfrbtor bt somf point
+     * Wf siould rfplbdf tiis witi b rfbl stub gfnfrbtor bt somf point
+     */
+     */
+     */
+     */
      */
     DWORD lfn;
+    DWORD lfn;
+    DWORD lfn;
+    DWORD lfn;
+    DWORD lfn;
+    jbytfArrby brrby;
+    jbytfArrby brrby;
+    jbytfArrby brrby;
+    jbytfArrby brrby;
     jbytfArrby brrby;
 
-    lfn = (DWORD)((LPBYTE) jvm_bttbdh_thrfbd_fund_fnd - (LPBYTE) jvm_bttbdh_thrfbd_fund);
+
+
+
+
+    lfn = (DWORD)((LPBYTE) jvm_bttbdi_tirfbd_fund_fnd - (LPBYTE) jvm_bttbdi_tirfbd_fund);
+    lfn = (DWORD)((LPBYTE) jvm_bttbdi_tirfbd_fund_fnd - (LPBYTE) jvm_bttbdi_tirfbd_fund);
+    lfn = (DWORD)((LPBYTE) jvm_bttbdi_tirfbd_fund_fnd - (LPBYTE) jvm_bttbdi_tirfbd_fund);
+    lfn = (DWORD)((LPBYTE) jvm_bttbdi_tirfbd_fund_fnd - (LPBYTE) jvm_bttbdi_tirfbd_fund);
+    lfn = (DWORD)((LPBYTE) jvm_bttbdi_tirfbd_fund_fnd - (LPBYTE) jvm_bttbdi_tirfbd_fund);
+    brrby= (*fnv)->NfwBytfArrby(fnv, (jsizf)lfn);
+    brrby= (*fnv)->NfwBytfArrby(fnv, (jsizf)lfn);
+    brrby= (*fnv)->NfwBytfArrby(fnv, (jsizf)lfn);
+    brrby= (*fnv)->NfwBytfArrby(fnv, (jsizf)lfn);
     brrby= (*fnv)->NfwBytfArrby(fnv, (jsizf)lfn);
     if (brrby != NULL) {
-        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, (jint)lfn, (jbytf*)&jvm_bttbdh_thrfbd_fund);
+    if (brrby != NULL) {
+    if (brrby != NULL) {
+    if (brrby != NULL) {
+    if (brrby != NULL) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, (jint)lfn, (jbytf*)&jvm_bttbdi_tirfbd_fund);
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, (jint)lfn, (jbytf*)&jvm_bttbdi_tirfbd_fund);
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, (jint)lfn, (jbytf*)&jvm_bttbdi_tirfbd_fund);
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, (jint)lfn, (jbytf*)&jvm_bttbdi_tirfbd_fund);
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, (jint)lfn, (jbytf*)&jvm_bttbdi_tirfbd_fund);
+    }
+    }
+    }
+    }
     }
     rfturn brrby;
+    rfturn brrby;
+    rfturn brrby;
+    rfturn brrby;
+    rfturn brrby;
+}
+}
+}
+}
 }
 
+
+
+
+
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    opfnProdfss
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    opfnProdfss
+ * Mftiod:    opfnProdfss
+ * Mftiod:    opfnProdfss
+ * Mftiod:    opfnProdfss
+ * Mftiod:    opfnProdfss
+ * Signbturf: (I)J
+ * Signbturf: (I)J
+ * Signbturf: (I)J
+ * Signbturf: (I)J
  * Signbturf: (I)J
  */
-JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_opfnProdfss
+ */
+ */
+ */
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_opfnProdfss
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_opfnProdfss
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_opfnProdfss
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_opfnProdfss
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_opfnProdfss
+  (JNIEnv *fnv, jdlbss dls, jint pid)
+  (JNIEnv *fnv, jdlbss dls, jint pid)
+  (JNIEnv *fnv, jdlbss dls, jint pid)
+  (JNIEnv *fnv, jdlbss dls, jint pid)
   (JNIEnv *fnv, jdlbss dls, jint pid)
 {
-    HANDLE hProdfss = NULL;
+{
+{
+{
+{
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+
+
+
+
 
     if (pid == (jint) GftCurrfntProdfssId()) {
-        /* prodfss is bttbdhing to itsflf; gft b psfudo hbndlf instfbd */
-        hProdfss = GftCurrfntProdfss();
-        /* duplidbtf thf psfudo hbndlf so it dbn bf usfd in morf dontfxts */
-        if (DuplidbtfHbndlf(hProdfss, hProdfss, hProdfss, &hProdfss,
+    if (pid == (jint) GftCurrfntProdfssId()) {
+    if (pid == (jint) GftCurrfntProdfssId()) {
+    if (pid == (jint) GftCurrfntProdfssId()) {
+    if (pid == (jint) GftCurrfntProdfssId()) {
+        /* prodfss is bttbdiing to itsflf; gft b psfudo ibndlf instfbd */
+        /* prodfss is bttbdiing to itsflf; gft b psfudo ibndlf instfbd */
+        /* prodfss is bttbdiing to itsflf; gft b psfudo ibndlf instfbd */
+        /* prodfss is bttbdiing to itsflf; gft b psfudo ibndlf instfbd */
+        /* prodfss is bttbdiing to itsflf; gft b psfudo ibndlf instfbd */
+        iProdfss = GftCurrfntProdfss();
+        iProdfss = GftCurrfntProdfss();
+        iProdfss = GftCurrfntProdfss();
+        iProdfss = GftCurrfntProdfss();
+        iProdfss = GftCurrfntProdfss();
+        /* duplidbtf tif psfudo ibndlf so it dbn bf usfd in morf dontfxts */
+        /* duplidbtf tif psfudo ibndlf so it dbn bf usfd in morf dontfxts */
+        /* duplidbtf tif psfudo ibndlf so it dbn bf usfd in morf dontfxts */
+        /* duplidbtf tif psfudo ibndlf so it dbn bf usfd in morf dontfxts */
+        /* duplidbtf tif psfudo ibndlf so it dbn bf usfd in morf dontfxts */
+        if (DuplidbtfHbndlf(iProdfss, iProdfss, iProdfss, &iProdfss,
+        if (DuplidbtfHbndlf(iProdfss, iProdfss, iProdfss, &iProdfss,
+        if (DuplidbtfHbndlf(iProdfss, iProdfss, iProdfss, &iProdfss,
+        if (DuplidbtfHbndlf(iProdfss, iProdfss, iProdfss, &iProdfss,
+        if (DuplidbtfHbndlf(iProdfss, iProdfss, iProdfss, &iProdfss,
+                PROCESS_ALL_ACCESS, FALSE, 0) == 0) {
+                PROCESS_ALL_ACCESS, FALSE, 0) == 0) {
+                PROCESS_ALL_ACCESS, FALSE, 0) == 0) {
+                PROCESS_ALL_ACCESS, FALSE, 0) == 0) {
                 PROCESS_ALL_ACCESS, FALSE, 0) == 0) {
             /*
-             * Could not duplidbtf thf hbndlf whidh isn't b good sign,
-             * but wf'll try bgbin with OpfnProdfss() bflow.
+            /*
+            /*
+            /*
+            /*
+             * Could not duplidbtf tif ibndlf wiidi isn't b good sign,
+             * Could not duplidbtf tif ibndlf wiidi isn't b good sign,
+             * Could not duplidbtf tif ibndlf wiidi isn't b good sign,
+             * Could not duplidbtf tif ibndlf wiidi isn't b good sign,
+             * Could not duplidbtf tif ibndlf wiidi isn't b good sign,
+             * but wf'll try bgbin witi OpfnProdfss() bflow.
+             * but wf'll try bgbin witi OpfnProdfss() bflow.
+             * but wf'll try bgbin witi OpfnProdfss() bflow.
+             * but wf'll try bgbin witi OpfnProdfss() bflow.
+             * but wf'll try bgbin witi OpfnProdfss() bflow.
              */
-            hProdfss = NULL;
+             */
+             */
+             */
+             */
+            iProdfss = NULL;
+            iProdfss = NULL;
+            iProdfss = NULL;
+            iProdfss = NULL;
+            iProdfss = NULL;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    if (hProdfss == NULL) {
+
+
+
+
+    if (iProdfss == NULL) {
+    if (iProdfss == NULL) {
+    if (iProdfss == NULL) {
+    if (iProdfss == NULL) {
+    if (iProdfss == NULL) {
         /*
-         * Attfmpt to opfn prodfss. If it fbils thfn wf try to fnbblf thf
+        /*
+        /*
+        /*
+        /*
+         * Attfmpt to opfn prodfss. If it fbils tifn wf try to fnbblf tif
+         * Attfmpt to opfn prodfss. If it fbils tifn wf try to fnbblf tif
+         * Attfmpt to opfn prodfss. If it fbils tifn wf try to fnbblf tif
+         * Attfmpt to opfn prodfss. If it fbils tifn wf try to fnbblf tif
+         * Attfmpt to opfn prodfss. If it fbils tifn wf try to fnbblf tif
+         * SE_DEBUG_NAME privilfgf bnd rftry.
+         * SE_DEBUG_NAME privilfgf bnd rftry.
+         * SE_DEBUG_NAME privilfgf bnd rftry.
+         * SE_DEBUG_NAME privilfgf bnd rftry.
          * SE_DEBUG_NAME privilfgf bnd rftry.
          */
-        hProdfss = OpfnProdfss(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
-        if (hProdfss == NULL && GftLbstError() == ERROR_ACCESS_DENIED) {
-            hProdfss = doPrivilfgfdOpfnProdfss(PROCESS_ALL_ACCESS, FALSE,
+         */
+         */
+         */
+         */
+        iProdfss = OpfnProdfss(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
+        iProdfss = OpfnProdfss(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
+        iProdfss = OpfnProdfss(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
+        iProdfss = OpfnProdfss(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
+        iProdfss = OpfnProdfss(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
+        if (iProdfss == NULL && GftLbstError() == ERROR_ACCESS_DENIED) {
+        if (iProdfss == NULL && GftLbstError() == ERROR_ACCESS_DENIED) {
+        if (iProdfss == NULL && GftLbstError() == ERROR_ACCESS_DENIED) {
+        if (iProdfss == NULL && GftLbstError() == ERROR_ACCESS_DENIED) {
+        if (iProdfss == NULL && GftLbstError() == ERROR_ACCESS_DENIED) {
+            iProdfss = doPrivilfgfdOpfnProdfss(PROCESS_ALL_ACCESS, FALSE,
+            iProdfss = doPrivilfgfdOpfnProdfss(PROCESS_ALL_ACCESS, FALSE,
+            iProdfss = doPrivilfgfdOpfnProdfss(PROCESS_ALL_ACCESS, FALSE,
+            iProdfss = doPrivilfgfdOpfnProdfss(PROCESS_ALL_ACCESS, FALSE,
+            iProdfss = doPrivilfgfdOpfnProdfss(PROCESS_ALL_ACCESS, FALSE,
+                           (DWORD)pid);
+                           (DWORD)pid);
+                           (DWORD)pid);
+                           (DWORD)pid);
                            (DWORD)pid);
         }
+        }
+        }
+        }
+        }
 
-        if (hProdfss == NULL) {
+
+
+
+
+        if (iProdfss == NULL) {
+        if (iProdfss == NULL) {
+        if (iProdfss == NULL) {
+        if (iProdfss == NULL) {
+        if (iProdfss == NULL) {
             if (GftLbstError() == ERROR_INVALID_PARAMETER) {
-                JNU_ThrowIOExdfption(fnv, "no sudh prodfss");
+            if (GftLbstError() == ERROR_INVALID_PARAMETER) {
+            if (GftLbstError() == ERROR_INVALID_PARAMETER) {
+            if (GftLbstError() == ERROR_INVALID_PARAMETER) {
+            if (GftLbstError() == ERROR_INVALID_PARAMETER) {
+                JNU_TirowIOExdfption(fnv, "no sudi prodfss");
+                JNU_TirowIOExdfption(fnv, "no sudi prodfss");
+                JNU_TirowIOExdfption(fnv, "no sudi prodfss");
+                JNU_TirowIOExdfption(fnv, "no sudi prodfss");
+                JNU_TirowIOExdfption(fnv, "no sudi prodfss");
             } flsf {
-                dhbr frr_mfsg[255];
-                /* indludf thf lbst frror in thf dffbult dftbil mfssbgf */
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                dibr frr_mfsg[255];
+                dibr frr_mfsg[255];
+                dibr frr_mfsg[255];
+                dibr frr_mfsg[255];
+                dibr frr_mfsg[255];
+                /* indludf tif lbst frror in tif dffbult dftbil mfssbgf */
+                /* indludf tif lbst frror in tif dffbult dftbil mfssbgf */
+                /* indludf tif lbst frror in tif dffbult dftbil mfssbgf */
+                /* indludf tif lbst frror in tif dffbult dftbil mfssbgf */
+                /* indludf tif lbst frror in tif dffbult dftbil mfssbgf */
+                sprintf(frr_mfsg, "OpfnProdfss(pid=%d) fbilfd; LbstError=0x%x",
+                sprintf(frr_mfsg, "OpfnProdfss(pid=%d) fbilfd; LbstError=0x%x",
+                sprintf(frr_mfsg, "OpfnProdfss(pid=%d) fbilfd; LbstError=0x%x",
+                sprintf(frr_mfsg, "OpfnProdfss(pid=%d) fbilfd; LbstError=0x%x",
                 sprintf(frr_mfsg, "OpfnProdfss(pid=%d) fbilfd; LbstError=0x%x",
                     (int)pid, (int)GftLbstError());
-                JNU_ThrowIOExdfptionWithLbstError(fnv, frr_mfsg);
+                    (int)pid, (int)GftLbstError());
+                    (int)pid, (int)GftLbstError());
+                    (int)pid, (int)GftLbstError());
+                    (int)pid, (int)GftLbstError());
+                JNU_TirowIOExdfptionWitiLbstError(fnv, frr_mfsg);
+                JNU_TirowIOExdfptionWitiLbstError(fnv, frr_mfsg);
+                JNU_TirowIOExdfptionWitiLbstError(fnv, frr_mfsg);
+                JNU_TirowIOExdfptionWitiLbstError(fnv, frr_mfsg);
+                JNU_TirowIOExdfptionWitiLbstError(fnv, frr_mfsg);
+            }
+            }
+            }
+            }
             }
             rfturn (jlong)0;
+            rfturn (jlong)0;
+            rfturn (jlong)0;
+            rfturn (jlong)0;
+            rfturn (jlong)0;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * On Windows 64-bit wf nffd to hbndlf 32-bit tools trying to bttbdh to 64-bit
-     * prodfssfs (bnd visb vfrsb). X-brdhitfdturf bttbdhing is durrfntly not supportfd
-     * by this implfmfntbtion.
+    /*
+    /*
+    /*
+    /*
+     * On Windows 64-bit wf nffd to ibndlf 32-bit tools trying to bttbdi to 64-bit
+     * On Windows 64-bit wf nffd to ibndlf 32-bit tools trying to bttbdi to 64-bit
+     * On Windows 64-bit wf nffd to ibndlf 32-bit tools trying to bttbdi to 64-bit
+     * On Windows 64-bit wf nffd to ibndlf 32-bit tools trying to bttbdi to 64-bit
+     * On Windows 64-bit wf nffd to ibndlf 32-bit tools trying to bttbdi to 64-bit
+     * prodfssfs (bnd visb vfrsb). X-brdiitfdturf bttbdiing is durrfntly not supportfd
+     * prodfssfs (bnd visb vfrsb). X-brdiitfdturf bttbdiing is durrfntly not supportfd
+     * prodfssfs (bnd visb vfrsb). X-brdiitfdturf bttbdiing is durrfntly not supportfd
+     * prodfssfs (bnd visb vfrsb). X-brdiitfdturf bttbdiing is durrfntly not supportfd
+     * prodfssfs (bnd visb vfrsb). X-brdiitfdturf bttbdiing is durrfntly not supportfd
+     * by tiis implfmfntbtion.
+     * by tiis implfmfntbtion.
+     * by tiis implfmfntbtion.
+     * by tiis implfmfntbtion.
+     * by tiis implfmfntbtion.
+     */
+     */
+     */
+     */
      */
     if (_IsWow64Prodfss != NULL) {
+    if (_IsWow64Prodfss != NULL) {
+    if (_IsWow64Prodfss != NULL) {
+    if (_IsWow64Prodfss != NULL) {
+    if (_IsWow64Prodfss != NULL) {
+        BOOL isCurrfnt32bit, isTbrgft32bit;
+        BOOL isCurrfnt32bit, isTbrgft32bit;
+        BOOL isCurrfnt32bit, isTbrgft32bit;
+        BOOL isCurrfnt32bit, isTbrgft32bit;
         BOOL isCurrfnt32bit, isTbrgft32bit;
         (*_IsWow64Prodfss)(GftCurrfntProdfss(), &isCurrfnt32bit);
-        (*_IsWow64Prodfss)(hProdfss, &isTbrgft32bit);
+        (*_IsWow64Prodfss)(GftCurrfntProdfss(), &isCurrfnt32bit);
+        (*_IsWow64Prodfss)(GftCurrfntProdfss(), &isCurrfnt32bit);
+        (*_IsWow64Prodfss)(GftCurrfntProdfss(), &isCurrfnt32bit);
+        (*_IsWow64Prodfss)(GftCurrfntProdfss(), &isCurrfnt32bit);
+        (*_IsWow64Prodfss)(iProdfss, &isTbrgft32bit);
+        (*_IsWow64Prodfss)(iProdfss, &isTbrgft32bit);
+        (*_IsWow64Prodfss)(iProdfss, &isTbrgft32bit);
+        (*_IsWow64Prodfss)(iProdfss, &isTbrgft32bit);
+        (*_IsWow64Prodfss)(iProdfss, &isTbrgft32bit);
+
+
+
+
 
         if (isCurrfnt32bit != isTbrgft32bit) {
-            ClosfHbndlf(hProdfss);
+        if (isCurrfnt32bit != isTbrgft32bit) {
+        if (isCurrfnt32bit != isTbrgft32bit) {
+        if (isCurrfnt32bit != isTbrgft32bit) {
+        if (isCurrfnt32bit != isTbrgft32bit) {
+            ClosfHbndlf(iProdfss);
+            ClosfHbndlf(iProdfss);
+            ClosfHbndlf(iProdfss);
+            ClosfHbndlf(iProdfss);
+            ClosfHbndlf(iProdfss);
             #ifdff _WIN64
-              JNU_ThrowByNbmf(fnv, "dom/sun/tools/bttbdh/AttbdhNotSupportfdExdfption",
-                  "Unbblf to bttbdh to 32-bit prodfss running undfr WOW64");
+            #ifdff _WIN64
+            #ifdff _WIN64
+            #ifdff _WIN64
+            #ifdff _WIN64
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+                  "Unbblf to bttbdi to 32-bit prodfss running undfr WOW64");
+                  "Unbblf to bttbdi to 32-bit prodfss running undfr WOW64");
+                  "Unbblf to bttbdi to 32-bit prodfss running undfr WOW64");
+                  "Unbblf to bttbdi to 32-bit prodfss running undfr WOW64");
+                  "Unbblf to bttbdi to 32-bit prodfss running undfr WOW64");
             #flsf
-              JNU_ThrowByNbmf(fnv, "dom/sun/tools/bttbdh/AttbdhNotSupportfdExdfption",
-                  "Unbblf to bttbdh to 64-bit prodfss");
+            #flsf
+            #flsf
+            #flsf
+            #flsf
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+              JNU_TirowByNbmf(fnv, "dom/sun/tools/bttbdi/AttbdiNotSupportfdExdfption",
+                  "Unbblf to bttbdi to 64-bit prodfss");
+                  "Unbblf to bttbdi to 64-bit prodfss");
+                  "Unbblf to bttbdi to 64-bit prodfss");
+                  "Unbblf to bttbdi to 64-bit prodfss");
+                  "Unbblf to bttbdi to 64-bit prodfss");
+            #fndif
+            #fndif
+            #fndif
+            #fndif
             #fndif
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    rfturn (jlong)hProdfss;
+
+
+
+
+    rfturn (jlong)iProdfss;
+    rfturn (jlong)iProdfss;
+    rfturn (jlong)iProdfss;
+    rfturn (jlong)iProdfss;
+    rfturn (jlong)iProdfss;
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    dlosfProdfss
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    dlosfProdfss
+ * Mftiod:    dlosfProdfss
+ * Mftiod:    dlosfProdfss
+ * Mftiod:    dlosfProdfss
+ * Mftiod:    dlosfProdfss
+ * Signbturf: (J)V
+ * Signbturf: (J)V
+ * Signbturf: (J)V
+ * Signbturf: (J)V
  * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_dlosfProdfss
-  (JNIEnv *fnv, jdlbss dls, jlong hProdfss)
+ */
+ */
+ */
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfProdfss
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfProdfss
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfProdfss
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfProdfss
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfProdfss
+  (JNIEnv *fnv, jdlbss dls, jlong iProdfss)
+  (JNIEnv *fnv, jdlbss dls, jlong iProdfss)
+  (JNIEnv *fnv, jdlbss dls, jlong iProdfss)
+  (JNIEnv *fnv, jdlbss dls, jlong iProdfss)
+  (JNIEnv *fnv, jdlbss dls, jlong iProdfss)
 {
-    ClosfHbndlf((HANDLE)hProdfss);
+{
+{
+{
+{
+    ClosfHbndlf((HANDLE)iProdfss);
+    ClosfHbndlf((HANDLE)iProdfss);
+    ClosfHbndlf((HANDLE)iProdfss);
+    ClosfHbndlf((HANDLE)iProdfss);
+    ClosfHbndlf((HANDLE)iProdfss);
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    drfbtfPipf
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    drfbtfPipf
+ * Mftiod:    drfbtfPipf
+ * Mftiod:    drfbtfPipf
+ * Mftiod:    drfbtfPipf
+ * Mftiod:    drfbtfPipf
+ * Signbturf: (Ljbvb/lbng/String;)J
+ * Signbturf: (Ljbvb/lbng/String;)J
+ * Signbturf: (Ljbvb/lbng/String;)J
+ * Signbturf: (Ljbvb/lbng/String;)J
  * Signbturf: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_drfbtfPipf
+ */
+ */
+ */
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_drfbtfPipf
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_drfbtfPipf
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_drfbtfPipf
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_drfbtfPipf
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_drfbtfPipf
+  (JNIEnv *fnv, jdlbss dls, jstring pipfnbmf)
+  (JNIEnv *fnv, jdlbss dls, jstring pipfnbmf)
+  (JNIEnv *fnv, jdlbss dls, jstring pipfnbmf)
+  (JNIEnv *fnv, jdlbss dls, jstring pipfnbmf)
   (JNIEnv *fnv, jdlbss dls, jstring pipfnbmf)
 {
-    HANDLE hPipf;
-    dhbr nbmf[MAX_PIPE_NAME_LENGTH];
+{
+{
+{
+{
+    HANDLE iPipf;
+    HANDLE iPipf;
+    HANDLE iPipf;
+    HANDLE iPipf;
+    HANDLE iPipf;
+    dibr nbmf[MAX_PIPE_NAME_LENGTH];
+    dibr nbmf[MAX_PIPE_NAME_LENGTH];
+    dibr nbmf[MAX_PIPE_NAME_LENGTH];
+    dibr nbmf[MAX_PIPE_NAME_LENGTH];
+    dibr nbmf[MAX_PIPE_NAME_LENGTH];
+
+
+
+
 
     jstring_to_dstring(fnv, pipfnbmf, nbmf, MAX_PIPE_NAME_LENGTH);
+    jstring_to_dstring(fnv, pipfnbmf, nbmf, MAX_PIPE_NAME_LENGTH);
+    jstring_to_dstring(fnv, pipfnbmf, nbmf, MAX_PIPE_NAME_LENGTH);
+    jstring_to_dstring(fnv, pipfnbmf, nbmf, MAX_PIPE_NAME_LENGTH);
+    jstring_to_dstring(fnv, pipfnbmf, nbmf, MAX_PIPE_NAME_LENGTH);
 
-    hPipf = CrfbtfNbmfdPipf(
+
+
+
+
+    iPipf = CrfbtfNbmfdPipf(
+    iPipf = CrfbtfNbmfdPipf(
+    iPipf = CrfbtfNbmfdPipf(
+    iPipf = CrfbtfNbmfdPipf(
+    iPipf = CrfbtfNbmfdPipf(
+          nbmf,                         // pipf nbmf
+          nbmf,                         // pipf nbmf
+          nbmf,                         // pipf nbmf
+          nbmf,                         // pipf nbmf
           nbmf,                         // pipf nbmf
           PIPE_ACCESS_INBOUND,          // rfbd bddfss
+          PIPE_ACCESS_INBOUND,          // rfbd bddfss
+          PIPE_ACCESS_INBOUND,          // rfbd bddfss
+          PIPE_ACCESS_INBOUND,          // rfbd bddfss
+          PIPE_ACCESS_INBOUND,          // rfbd bddfss
+          PIPE_TYPE_BYTE |              // bytf modf
+          PIPE_TYPE_BYTE |              // bytf modf
+          PIPE_TYPE_BYTE |              // bytf modf
+          PIPE_TYPE_BYTE |              // bytf modf
           PIPE_TYPE_BYTE |              // bytf modf
             PIPE_READMODE_BYTE |
+            PIPE_READMODE_BYTE |
+            PIPE_READMODE_BYTE |
+            PIPE_READMODE_BYTE |
+            PIPE_READMODE_BYTE |
+            PIPE_WAIT,                  // blodking modf
+            PIPE_WAIT,                  // blodking modf
+            PIPE_WAIT,                  // blodking modf
+            PIPE_WAIT,                  // blodking modf
             PIPE_WAIT,                  // blodking modf
           1,                            // mbx. instbndfs
+          1,                            // mbx. instbndfs
+          1,                            // mbx. instbndfs
+          1,                            // mbx. instbndfs
+          1,                            // mbx. instbndfs
+          128,                          // output bufffr sizf
+          128,                          // output bufffr sizf
+          128,                          // output bufffr sizf
+          128,                          // output bufffr sizf
           128,                          // output bufffr sizf
           8192,                         // input bufffr sizf
+          8192,                         // input bufffr sizf
+          8192,                         // input bufffr sizf
+          8192,                         // input bufffr sizf
+          8192,                         // input bufffr sizf
+          NMPWAIT_USE_DEFAULT_WAIT,     // dlifnt timf-out
+          NMPWAIT_USE_DEFAULT_WAIT,     // dlifnt timf-out
+          NMPWAIT_USE_DEFAULT_WAIT,     // dlifnt timf-out
+          NMPWAIT_USE_DEFAULT_WAIT,     // dlifnt timf-out
           NMPWAIT_USE_DEFAULT_WAIT,     // dlifnt timf-out
           NULL);                        // dffbult sfdurity bttributf
+          NULL);                        // dffbult sfdurity bttributf
+          NULL);                        // dffbult sfdurity bttributf
+          NULL);                        // dffbult sfdurity bttributf
+          NULL);                        // dffbult sfdurity bttributf
 
-    if (hPipf == INVALID_HANDLE_VALUE) {
-        dhbr msg[256];
+
+
+
+
+    if (iPipf == INVALID_HANDLE_VALUE) {
+    if (iPipf == INVALID_HANDLE_VALUE) {
+    if (iPipf == INVALID_HANDLE_VALUE) {
+    if (iPipf == INVALID_HANDLE_VALUE) {
+    if (iPipf == INVALID_HANDLE_VALUE) {
+        dibr msg[256];
+        dibr msg[256];
+        dibr msg[256];
+        dibr msg[256];
+        dibr msg[256];
         _snprintf(msg, sizfof(msg), "CrfbtfNbmfdPipf fbilfd: %d", GftLbstError());
-        JNU_ThrowIOExdfptionWithLbstError(fnv, msg);
+        _snprintf(msg, sizfof(msg), "CrfbtfNbmfdPipf fbilfd: %d", GftLbstError());
+        _snprintf(msg, sizfof(msg), "CrfbtfNbmfdPipf fbilfd: %d", GftLbstError());
+        _snprintf(msg, sizfof(msg), "CrfbtfNbmfdPipf fbilfd: %d", GftLbstError());
+        _snprintf(msg, sizfof(msg), "CrfbtfNbmfdPipf fbilfd: %d", GftLbstError());
+        JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
+        JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
+        JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
+        JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
+        JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
     }
-    rfturn (jlong)hPipf;
+    }
+    }
+    }
+    }
+    rfturn (jlong)iPipf;
+    rfturn (jlong)iPipf;
+    rfturn (jlong)iPipf;
+    rfturn (jlong)iPipf;
+    rfturn (jlong)iPipf;
+}
+}
+}
+}
 }
 
+
+
+
+
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    dlosfPipf
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    dlosfPipf
+ * Mftiod:    dlosfPipf
+ * Mftiod:    dlosfPipf
+ * Mftiod:    dlosfPipf
+ * Mftiod:    dlosfPipf
+ * Signbturf: (J)V
+ * Signbturf: (J)V
+ * Signbturf: (J)V
+ * Signbturf: (J)V
  * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_dlosfPipf
-  (JNIEnv *fnv, jdlbss dls, jlong hPipf)
+ */
+ */
+ */
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_dlosfPipf
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
 {
-    ClosfHbndlf( (HANDLE)hPipf );
+{
+{
+{
+{
+    ClosfHbndlf( (HANDLE)iPipf );
+    ClosfHbndlf( (HANDLE)iPipf );
+    ClosfHbndlf( (HANDLE)iPipf );
+    ClosfHbndlf( (HANDLE)iPipf );
+    ClosfHbndlf( (HANDLE)iPipf );
+}
+}
+}
+}
 }
 
+
+
+
+
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    donnfdtPipf
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    donnfdtPipf
+ * Mftiod:    donnfdtPipf
+ * Mftiod:    donnfdtPipf
+ * Mftiod:    donnfdtPipf
+ * Mftiod:    donnfdtPipf
+ * Signbturf: (J)V
+ * Signbturf: (J)V
+ * Signbturf: (J)V
+ * Signbturf: (J)V
  * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_donnfdtPipf
-  (JNIEnv *fnv, jdlbss dls, jlong hPipf)
+ */
+ */
+ */
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_donnfdtPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_donnfdtPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_donnfdtPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_donnfdtPipf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_donnfdtPipf
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf)
+{
+{
+{
+{
 {
     BOOL fConnfdtfd;
+    BOOL fConnfdtfd;
+    BOOL fConnfdtfd;
+    BOOL fConnfdtfd;
+    BOOL fConnfdtfd;
 
-    fConnfdtfd = ConnfdtNbmfdPipf((HANDLE)hPipf, NULL) ?
+
+
+
+
+    fConnfdtfd = ConnfdtNbmfdPipf((HANDLE)iPipf, NULL) ?
+    fConnfdtfd = ConnfdtNbmfdPipf((HANDLE)iPipf, NULL) ?
+    fConnfdtfd = ConnfdtNbmfdPipf((HANDLE)iPipf, NULL) ?
+    fConnfdtfd = ConnfdtNbmfdPipf((HANDLE)iPipf, NULL) ?
+    fConnfdtfd = ConnfdtNbmfdPipf((HANDLE)iPipf, NULL) ?
+        TRUE : (GftLbstError() == ERROR_PIPE_CONNECTED);
+        TRUE : (GftLbstError() == ERROR_PIPE_CONNECTED);
+        TRUE : (GftLbstError() == ERROR_PIPE_CONNECTED);
+        TRUE : (GftLbstError() == ERROR_PIPE_CONNECTED);
         TRUE : (GftLbstError() == ERROR_PIPE_CONNECTED);
     if (!fConnfdtfd) {
-        JNU_ThrowIOExdfptionWithLbstError(fnv, "ConnfdtNbmfdPipf fbilfd");
+    if (!fConnfdtfd) {
+    if (!fConnfdtfd) {
+    if (!fConnfdtfd) {
+    if (!fConnfdtfd) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "ConnfdtNbmfdPipf fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "ConnfdtNbmfdPipf fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "ConnfdtNbmfdPipf fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "ConnfdtNbmfdPipf fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "ConnfdtNbmfdPipf fbilfd");
+    }
+    }
+    }
+    }
     }
 }
+}
+}
+}
+}
+
+
+
+
 
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    rfbdPipf
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    rfbdPipf
+ * Mftiod:    rfbdPipf
+ * Mftiod:    rfbdPipf
+ * Mftiod:    rfbdPipf
+ * Mftiod:    rfbdPipf
+ * Signbturf: (J[BII)I
+ * Signbturf: (J[BII)I
+ * Signbturf: (J[BII)I
+ * Signbturf: (J[BII)I
  * Signbturf: (J[BII)I
  */
-JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_rfbdPipf
-  (JNIEnv *fnv, jdlbss dls, jlong hPipf, jbytfArrby bb, jint off, jint bbLfn)
+ */
+ */
+ */
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_rfbdPipf
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_rfbdPipf
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_rfbdPipf
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_rfbdPipf
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_rfbdPipf
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf, jbytfArrby bb, jint off, jint bbLfn)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf, jbytfArrby bb, jint off, jint bbLfn)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf, jbytfArrby bb, jint off, jint bbLfn)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf, jbytfArrby bb, jint off, jint bbLfn)
+  (JNIEnv *fnv, jdlbss dls, jlong iPipf, jbytfArrby bb, jint off, jint bbLfn)
 {
-    unsignfd dhbr buf[128];
+{
+{
+{
+{
+    unsignfd dibr buf[128];
+    unsignfd dibr buf[128];
+    unsignfd dibr buf[128];
+    unsignfd dibr buf[128];
+    unsignfd dibr buf[128];
+    DWORD lfn, nrfbd, rfmbining;
+    DWORD lfn, nrfbd, rfmbining;
+    DWORD lfn, nrfbd, rfmbining;
+    DWORD lfn, nrfbd, rfmbining;
     DWORD lfn, nrfbd, rfmbining;
     BOOL fSuddfss;
+    BOOL fSuddfss;
+    BOOL fSuddfss;
+    BOOL fSuddfss;
+    BOOL fSuddfss;
+
+
+
+
 
     lfn = sizfof(buf);
+    lfn = sizfof(buf);
+    lfn = sizfof(buf);
+    lfn = sizfof(buf);
+    lfn = sizfof(buf);
+    rfmbining = (DWORD)(bbLfn - off);
+    rfmbining = (DWORD)(bbLfn - off);
+    rfmbining = (DWORD)(bbLfn - off);
+    rfmbining = (DWORD)(bbLfn - off);
     rfmbining = (DWORD)(bbLfn - off);
     if (lfn > rfmbining) {
+    if (lfn > rfmbining) {
+    if (lfn > rfmbining) {
+    if (lfn > rfmbining) {
+    if (lfn > rfmbining) {
+        lfn = rfmbining;
+        lfn = rfmbining;
+        lfn = rfmbining;
+        lfn = rfmbining;
         lfn = rfmbining;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     fSuddfss = RfbdFilf(
-         (HANDLE)hPipf,         // hbndlf to pipf
+    fSuddfss = RfbdFilf(
+    fSuddfss = RfbdFilf(
+    fSuddfss = RfbdFilf(
+    fSuddfss = RfbdFilf(
+         (HANDLE)iPipf,         // ibndlf to pipf
+         (HANDLE)iPipf,         // ibndlf to pipf
+         (HANDLE)iPipf,         // ibndlf to pipf
+         (HANDLE)iPipf,         // ibndlf to pipf
+         (HANDLE)iPipf,         // ibndlf to pipf
+         buf,                   // bufffr to rfdfivf dbtb
+         buf,                   // bufffr to rfdfivf dbtb
+         buf,                   // bufffr to rfdfivf dbtb
+         buf,                   // bufffr to rfdfivf dbtb
          buf,                   // bufffr to rfdfivf dbtb
          lfn,                   // sizf of bufffr
+         lfn,                   // sizf of bufffr
+         lfn,                   // sizf of bufffr
+         lfn,                   // sizf of bufffr
+         lfn,                   // sizf of bufffr
+         &nrfbd,                // numbfr of bytfs rfbd
+         &nrfbd,                // numbfr of bytfs rfbd
+         &nrfbd,                // numbfr of bytfs rfbd
+         &nrfbd,                // numbfr of bytfs rfbd
          &nrfbd,                // numbfr of bytfs rfbd
          NULL);                 // not ovfrlbppfd I/O
+         NULL);                 // not ovfrlbppfd I/O
+         NULL);                 // not ovfrlbppfd I/O
+         NULL);                 // not ovfrlbppfd I/O
+         NULL);                 // not ovfrlbppfd I/O
+
+
+
+
 
     if (!fSuddfss) {
+    if (!fSuddfss) {
+    if (!fSuddfss) {
+    if (!fSuddfss) {
+    if (!fSuddfss) {
+        if (GftLbstError() == ERROR_BROKEN_PIPE) {
+        if (GftLbstError() == ERROR_BROKEN_PIPE) {
+        if (GftLbstError() == ERROR_BROKEN_PIPE) {
+        if (GftLbstError() == ERROR_BROKEN_PIPE) {
         if (GftLbstError() == ERROR_BROKEN_PIPE) {
             rfturn (jint)-1;
+            rfturn (jint)-1;
+            rfturn (jint)-1;
+            rfturn (jint)-1;
+            rfturn (jint)-1;
         } flsf {
-            JNU_ThrowIOExdfptionWithLbstError(fnv, "RfbdFilf");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "RfbdFilf");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "RfbdFilf");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "RfbdFilf");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "RfbdFilf");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "RfbdFilf");
         }
+        }
+        }
+        }
+        }
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         if (nrfbd == 0) {
+        if (nrfbd == 0) {
+        if (nrfbd == 0) {
+        if (nrfbd == 0) {
+        if (nrfbd == 0) {
+            rfturn (jint)-1;        // EOF
+            rfturn (jint)-1;        // EOF
+            rfturn (jint)-1;        // EOF
+            rfturn (jint)-1;        // EOF
             rfturn (jint)-1;        // EOF
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)nrfbd, (jbytf *)(buf));
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)nrfbd, (jbytf *)(buf));
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)nrfbd, (jbytf *)(buf));
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)nrfbd, (jbytf *)(buf));
             (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)nrfbd, (jbytf *)(buf));
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     rfturn (jint)nrfbd;
+    rfturn (jint)nrfbd;
+    rfturn (jint)nrfbd;
+    rfturn (jint)nrfbd;
+    rfturn (jint)nrfbd;
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
 /*
- * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
- * Mfthod:    fnqufuf
+/*
+/*
+/*
+/*
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Clbss:     sun_tools_bttbdi_WindowsVirtublMbdiinf
+ * Mftiod:    fnqufuf
+ * Mftiod:    fnqufuf
+ * Mftiod:    fnqufuf
+ * Mftiod:    fnqufuf
+ * Mftiod:    fnqufuf
+ * Signbturf: (JZLjbvb/lbng/String;[Ljbvb/lbng/Objfdt;)V
+ * Signbturf: (JZLjbvb/lbng/String;[Ljbvb/lbng/Objfdt;)V
+ * Signbturf: (JZLjbvb/lbng/String;[Ljbvb/lbng/Objfdt;)V
+ * Signbturf: (JZLjbvb/lbng/String;[Ljbvb/lbng/Objfdt;)V
  * Signbturf: (JZLjbvb/lbng/String;[Ljbvb/lbng/Objfdt;)V
  */
-JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_fnqufuf
-  (JNIEnv *fnv, jdlbss dls, jlong hbndlf, jbytfArrby stub, jstring dmd,
+ */
+ */
+ */
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_fnqufuf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_fnqufuf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_fnqufuf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_fnqufuf
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_WindowsVirtublMbdiinf_fnqufuf
+  (JNIEnv *fnv, jdlbss dls, jlong ibndlf, jbytfArrby stub, jstring dmd,
+  (JNIEnv *fnv, jdlbss dls, jlong ibndlf, jbytfArrby stub, jstring dmd,
+  (JNIEnv *fnv, jdlbss dls, jlong ibndlf, jbytfArrby stub, jstring dmd,
+  (JNIEnv *fnv, jdlbss dls, jlong ibndlf, jbytfArrby stub, jstring dmd,
+  (JNIEnv *fnv, jdlbss dls, jlong ibndlf, jbytfArrby stub, jstring dmd,
+   jstring pipfnbmf, jobjfdtArrby brgs)
+   jstring pipfnbmf, jobjfdtArrby brgs)
+   jstring pipfnbmf, jobjfdtArrby brgs)
+   jstring pipfnbmf, jobjfdtArrby brgs)
    jstring pipfnbmf, jobjfdtArrby brgs)
 {
+{
+{
+{
+{
+    DbtbBlodk dbtb;
+    DbtbBlodk dbtb;
+    DbtbBlodk dbtb;
+    DbtbBlodk dbtb;
     DbtbBlodk dbtb;
     DbtbBlodk* pDbtb;
+    DbtbBlodk* pDbtb;
+    DbtbBlodk* pDbtb;
+    DbtbBlodk* pDbtb;
+    DbtbBlodk* pDbtb;
+    DWORD* pCodf;
+    DWORD* pCodf;
+    DWORD* pCodf;
+    DWORD* pCodf;
     DWORD* pCodf;
     DWORD stubLfn;
-    HANDLE hProdfss, hThrfbd;
+    DWORD stubLfn;
+    DWORD stubLfn;
+    DWORD stubLfn;
+    DWORD stubLfn;
+    HANDLE iProdfss, iTirfbd;
+    HANDLE iProdfss, iTirfbd;
+    HANDLE iProdfss, iTirfbd;
+    HANDLE iProdfss, iTirfbd;
+    HANDLE iProdfss, iTirfbd;
+    jint brgsLfn, i;
+    jint brgsLfn, i;
+    jint brgsLfn, i;
+    jint brgsLfn, i;
     jint brgsLfn, i;
     jbytf* stubCodf;
+    jbytf* stubCodf;
+    jbytf* stubCodf;
+    jbytf* stubCodf;
+    jbytf* stubCodf;
+    jboolfbn isCopy;
+    jboolfbn isCopy;
+    jboolfbn isCopy;
+    jboolfbn isCopy;
     jboolfbn isCopy;
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Sftup dbtb to dopy to tbrgft prodfss
+     * Sftup dbtb to dopy to tbrgft prodfss
+     * Sftup dbtb to dopy to tbrgft prodfss
+     * Sftup dbtb to dopy to tbrgft prodfss
+     * Sftup dbtb to dopy to tbrgft prodfss
+     */
+     */
+     */
+     */
      */
     dbtb._GftModulfHbndlf = _GftModulfHbndlf;
+    dbtb._GftModulfHbndlf = _GftModulfHbndlf;
+    dbtb._GftModulfHbndlf = _GftModulfHbndlf;
+    dbtb._GftModulfHbndlf = _GftModulfHbndlf;
+    dbtb._GftModulfHbndlf = _GftModulfHbndlf;
+    dbtb._GftProdAddrfss = _GftProdAddrfss;
+    dbtb._GftProdAddrfss = _GftProdAddrfss;
+    dbtb._GftProdAddrfss = _GftProdAddrfss;
+    dbtb._GftProdAddrfss = _GftProdAddrfss;
     dbtb._GftProdAddrfss = _GftProdAddrfss;
 
+
+
+
+
+    strdpy(dbtb.jvmLib, "jvm");
+    strdpy(dbtb.jvmLib, "jvm");
+    strdpy(dbtb.jvmLib, "jvm");
+    strdpy(dbtb.jvmLib, "jvm");
     strdpy(dbtb.jvmLib, "jvm");
     strdpy(dbtb.fund1, "JVM_EnqufufOpfrbtion");
+    strdpy(dbtb.fund1, "JVM_EnqufufOpfrbtion");
+    strdpy(dbtb.fund1, "JVM_EnqufufOpfrbtion");
+    strdpy(dbtb.fund1, "JVM_EnqufufOpfrbtion");
+    strdpy(dbtb.fund1, "JVM_EnqufufOpfrbtion");
+    strdpy(dbtb.fund2, "_JVM_EnqufufOpfrbtion@20");
+    strdpy(dbtb.fund2, "_JVM_EnqufufOpfrbtion@20");
+    strdpy(dbtb.fund2, "_JVM_EnqufufOpfrbtion@20");
+    strdpy(dbtb.fund2, "_JVM_EnqufufOpfrbtion@20");
     strdpy(dbtb.fund2, "_JVM_EnqufufOpfrbtion@20");
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Commbnd bnd brgumfnts
+     * Commbnd bnd brgumfnts
+     * Commbnd bnd brgumfnts
+     * Commbnd bnd brgumfnts
+     * Commbnd bnd brgumfnts
+     */
+     */
+     */
+     */
      */
     jstring_to_dstring(fnv, dmd, dbtb.dmd, MAX_CMD_LENGTH);
-    brgsLfn = (*fnv)->GftArrbyLfngth(fnv, brgs);
+    jstring_to_dstring(fnv, dmd, dbtb.dmd, MAX_CMD_LENGTH);
+    jstring_to_dstring(fnv, dmd, dbtb.dmd, MAX_CMD_LENGTH);
+    jstring_to_dstring(fnv, dmd, dbtb.dmd, MAX_CMD_LENGTH);
+    jstring_to_dstring(fnv, dmd, dbtb.dmd, MAX_CMD_LENGTH);
+    brgsLfn = (*fnv)->GftArrbyLfngti(fnv, brgs);
+    brgsLfn = (*fnv)->GftArrbyLfngti(fnv, brgs);
+    brgsLfn = (*fnv)->GftArrbyLfngti(fnv, brgs);
+    brgsLfn = (*fnv)->GftArrbyLfngti(fnv, brgs);
+    brgsLfn = (*fnv)->GftArrbyLfngti(fnv, brgs);
+
+
+
+
 
     if (brgsLfn > 0) {
+    if (brgsLfn > 0) {
+    if (brgsLfn > 0) {
+    if (brgsLfn > 0) {
+    if (brgsLfn > 0) {
         if (brgsLfn > MAX_ARGS) {
-            JNU_ThrowIntfrnblError(fnv, "Too mbny brgumfnts");
+        if (brgsLfn > MAX_ARGS) {
+        if (brgsLfn > MAX_ARGS) {
+        if (brgsLfn > MAX_ARGS) {
+        if (brgsLfn > MAX_ARGS) {
+            JNU_TirowIntfrnblError(fnv, "Too mbny brgumfnts");
+            JNU_TirowIntfrnblError(fnv, "Too mbny brgumfnts");
+            JNU_TirowIntfrnblError(fnv, "Too mbny brgumfnts");
+            JNU_TirowIntfrnblError(fnv, "Too mbny brgumfnts");
+            JNU_TirowIntfrnblError(fnv, "Too mbny brgumfnts");
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
         }
+        }
+        }
+        }
+        }
+        for (i=0; i<brgsLfn; i++) {
+        for (i=0; i<brgsLfn; i++) {
+        for (i=0; i<brgsLfn; i++) {
+        for (i=0; i<brgsLfn; i++) {
         for (i=0; i<brgsLfn; i++) {
             jobjfdt obj = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brgs, i);
+            jobjfdt obj = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brgs, i);
+            jobjfdt obj = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brgs, i);
+            jobjfdt obj = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brgs, i);
+            jobjfdt obj = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brgs, i);
+            if (obj == NULL) {
+            if (obj == NULL) {
+            if (obj == NULL) {
+            if (obj == NULL) {
             if (obj == NULL) {
                 dbtb.brg[i][0] = '\0';
+                dbtb.brg[i][0] = '\0';
+                dbtb.brg[i][0] = '\0';
+                dbtb.brg[i][0] = '\0';
+                dbtb.brg[i][0] = '\0';
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 jstring_to_dstring(fnv, obj, dbtb.brg[i], MAX_ARG_LENGTH);
+                jstring_to_dstring(fnv, obj, dbtb.brg[i], MAX_ARG_LENGTH);
+                jstring_to_dstring(fnv, obj, dbtb.brg[i], MAX_ARG_LENGTH);
+                jstring_to_dstring(fnv, obj, dbtb.brg[i], MAX_ARG_LENGTH);
+                jstring_to_dstring(fnv, obj, dbtb.brg[i], MAX_ARG_LENGTH);
+            }
+            }
+            }
+            }
             }
             if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
     for (i=brgsLfn; i<MAX_ARGS; i++) {
+    for (i=brgsLfn; i<MAX_ARGS; i++) {
+    for (i=brgsLfn; i<MAX_ARGS; i++) {
+    for (i=brgsLfn; i<MAX_ARGS; i++) {
+    for (i=brgsLfn; i<MAX_ARGS; i++) {
+        dbtb.brg[i][0] = '\0';
+        dbtb.brg[i][0] = '\0';
+        dbtb.brg[i][0] = '\0';
+        dbtb.brg[i][0] = '\0';
         dbtb.brg[i][0] = '\0';
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /* pipf nbmf */
+    /* pipf nbmf */
+    /* pipf nbmf */
+    /* pipf nbmf */
+    /* pipf nbmf */
+    jstring_to_dstring(fnv, pipfnbmf, dbtb.pipfnbmf, MAX_PIPE_NAME_LENGTH);
+    jstring_to_dstring(fnv, pipfnbmf, dbtb.pipfnbmf, MAX_PIPE_NAME_LENGTH);
+    jstring_to_dstring(fnv, pipfnbmf, dbtb.pipfnbmf, MAX_PIPE_NAME_LENGTH);
+    jstring_to_dstring(fnv, pipfnbmf, dbtb.pipfnbmf, MAX_PIPE_NAME_LENGTH);
     jstring_to_dstring(fnv, pipfnbmf, dbtb.pipfnbmf, MAX_PIPE_NAME_LENGTH);
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Allodbtf mfmory in tbrgft prodfss for dbtb bnd dodf stub
-     * (bssumfd blignfd bnd mbtdhfs brdhitfdturf of tbrgft prodfss)
+     * Allodbtf mfmory in tbrgft prodfss for dbtb bnd dodf stub
+     * Allodbtf mfmory in tbrgft prodfss for dbtb bnd dodf stub
+     * Allodbtf mfmory in tbrgft prodfss for dbtb bnd dodf stub
+     * Allodbtf mfmory in tbrgft prodfss for dbtb bnd dodf stub
+     * (bssumfd blignfd bnd mbtdifs brdiitfdturf of tbrgft prodfss)
+     * (bssumfd blignfd bnd mbtdifs brdiitfdturf of tbrgft prodfss)
+     * (bssumfd blignfd bnd mbtdifs brdiitfdturf of tbrgft prodfss)
+     * (bssumfd blignfd bnd mbtdifs brdiitfdturf of tbrgft prodfss)
+     * (bssumfd blignfd bnd mbtdifs brdiitfdturf of tbrgft prodfss)
      */
-    hProdfss = (HANDLE)hbndlf;
+     */
+     */
+     */
+     */
+    iProdfss = (HANDLE)ibndlf;
+    iProdfss = (HANDLE)ibndlf;
+    iProdfss = (HANDLE)ibndlf;
+    iProdfss = (HANDLE)ibndlf;
+    iProdfss = (HANDLE)ibndlf;
 
-    pDbtb = (DbtbBlodk*) VirtublAllodEx( hProdfss, 0, sizfof(DbtbBlodk), MEM_COMMIT, PAGE_READWRITE );
+
+
+
+
+    pDbtb = (DbtbBlodk*) VirtublAllodEx( iProdfss, 0, sizfof(DbtbBlodk), MEM_COMMIT, PAGE_READWRITE );
+    pDbtb = (DbtbBlodk*) VirtublAllodEx( iProdfss, 0, sizfof(DbtbBlodk), MEM_COMMIT, PAGE_READWRITE );
+    pDbtb = (DbtbBlodk*) VirtublAllodEx( iProdfss, 0, sizfof(DbtbBlodk), MEM_COMMIT, PAGE_READWRITE );
+    pDbtb = (DbtbBlodk*) VirtublAllodEx( iProdfss, 0, sizfof(DbtbBlodk), MEM_COMMIT, PAGE_READWRITE );
+    pDbtb = (DbtbBlodk*) VirtublAllodEx( iProdfss, 0, sizfof(DbtbBlodk), MEM_COMMIT, PAGE_READWRITE );
     if (pDbtb == NULL) {
-        JNU_ThrowIOExdfptionWithLbstError(fnv, "VirtublAllodEx fbilfd");
+    if (pDbtb == NULL) {
+    if (pDbtb == NULL) {
+    if (pDbtb == NULL) {
+    if (pDbtb == NULL) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
-    WritfProdfssMfmory( hProdfss, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizfof(DbtbBlodk), NULL );
+    }
+    }
+    }
+    }
+    WritfProdfssMfmory( iProdfss, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizfof(DbtbBlodk), NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizfof(DbtbBlodk), NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizfof(DbtbBlodk), NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizfof(DbtbBlodk), NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizfof(DbtbBlodk), NULL );
 
 
-    stubLfn = (DWORD)(*fnv)->GftArrbyLfngth(fnv, stub);
+
+
+
+
+
+
+
+
+    stubLfn = (DWORD)(*fnv)->GftArrbyLfngti(fnv, stub);
+    stubLfn = (DWORD)(*fnv)->GftArrbyLfngti(fnv, stub);
+    stubLfn = (DWORD)(*fnv)->GftArrbyLfngti(fnv, stub);
+    stubLfn = (DWORD)(*fnv)->GftArrbyLfngti(fnv, stub);
+    stubLfn = (DWORD)(*fnv)->GftArrbyLfngti(fnv, stub);
+    stubCodf = (*fnv)->GftBytfArrbyElfmfnts(fnv, stub, &isCopy);
+    stubCodf = (*fnv)->GftBytfArrbyElfmfnts(fnv, stub, &isCopy);
+    stubCodf = (*fnv)->GftBytfArrbyElfmfnts(fnv, stub, &isCopy);
+    stubCodf = (*fnv)->GftBytfArrbyElfmfnts(fnv, stub, &isCopy);
     stubCodf = (*fnv)->GftBytfArrbyElfmfnts(fnv, stub, &isCopy);
 
+
+
+
+
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
     if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
 
-    pCodf = (PDWORD) VirtublAllodEx( hProdfss, 0, stubLfn, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+
+
+
+
+    pCodf = (PDWORD) VirtublAllodEx( iProdfss, 0, stubLfn, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+    pCodf = (PDWORD) VirtublAllodEx( iProdfss, 0, stubLfn, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+    pCodf = (PDWORD) VirtublAllodEx( iProdfss, 0, stubLfn, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+    pCodf = (PDWORD) VirtublAllodEx( iProdfss, 0, stubLfn, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+    pCodf = (PDWORD) VirtublAllodEx( iProdfss, 0, stubLfn, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
     if (pCodf == NULL) {
-        JNU_ThrowIOExdfptionWithLbstError(fnv, "VirtublAllodEx fbilfd");
-        VirtublFrffEx(hProdfss, pDbtb, 0, MEM_RELEASE);
+    if (pCodf == NULL) {
+    if (pCodf == NULL) {
+    if (pCodf == NULL) {
+    if (pCodf == NULL) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "VirtublAllodEx fbilfd");
+        VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+        VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+        VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+        VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+        VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
-    WritfProdfssMfmory( hProdfss, (LPVOID)pCodf, (LPCVOID)stubCodf, (SIZE_T)stubLfn, NULL );
+    }
+    }
+    }
+    }
+    WritfProdfssMfmory( iProdfss, (LPVOID)pCodf, (LPCVOID)stubCodf, (SIZE_T)stubLfn, NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pCodf, (LPCVOID)stubCodf, (SIZE_T)stubLfn, NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pCodf, (LPCVOID)stubCodf, (SIZE_T)stubLfn, NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pCodf, (LPCVOID)stubCodf, (SIZE_T)stubLfn, NULL );
+    WritfProdfssMfmory( iProdfss, (LPVOID)pCodf, (LPCVOID)stubCodf, (SIZE_T)stubLfn, NULL );
+    if (isCopy) {
+    if (isCopy) {
+    if (isCopy) {
+    if (isCopy) {
     if (isCopy) {
         (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, stub, stubCodf, JNI_ABORT);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, stub, stubCodf, JNI_ABORT);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, stub, stubCodf, JNI_ABORT);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, stub, stubCodf, JNI_ABORT);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, stub, stubCodf, JNI_ABORT);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /*
-     * Crfbtf thrfbd in tbrgft prodfss to fxfdutf dodf
+    /*
+    /*
+    /*
+    /*
+     * Crfbtf tirfbd in tbrgft prodfss to fxfdutf dodf
+     * Crfbtf tirfbd in tbrgft prodfss to fxfdutf dodf
+     * Crfbtf tirfbd in tbrgft prodfss to fxfdutf dodf
+     * Crfbtf tirfbd in tbrgft prodfss to fxfdutf dodf
+     * Crfbtf tirfbd in tbrgft prodfss to fxfdutf dodf
      */
-    hThrfbd = CrfbtfRfmotfThrfbd( hProdfss,
+     */
+     */
+     */
+     */
+    iTirfbd = CrfbtfRfmotfTirfbd( iProdfss,
+    iTirfbd = CrfbtfRfmotfTirfbd( iProdfss,
+    iTirfbd = CrfbtfRfmotfTirfbd( iProdfss,
+    iTirfbd = CrfbtfRfmotfTirfbd( iProdfss,
+    iTirfbd = CrfbtfRfmotfTirfbd( iProdfss,
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  NULL,
                                   NULL,
                                   0,
+                                  0,
+                                  0,
+                                  0,
+                                  0,
+                                  (LPTHREAD_START_ROUTINE) pCodf,
+                                  (LPTHREAD_START_ROUTINE) pCodf,
+                                  (LPTHREAD_START_ROUTINE) pCodf,
+                                  (LPTHREAD_START_ROUTINE) pCodf,
                                   (LPTHREAD_START_ROUTINE) pCodf,
                                   pDbtb,
+                                  pDbtb,
+                                  pDbtb,
+                                  pDbtb,
+                                  pDbtb,
+                                  0,
+                                  0,
+                                  0,
+                                  0,
                                   0,
                                   NULL );
-    if (hThrfbd != NULL) {
-        if (WbitForSinglfObjfdt(hThrfbd, INFINITE) != WAIT_OBJECT_0) {
-            JNU_ThrowIOExdfptionWithLbstError(fnv, "WbitForSinglfObjfdt fbilfd");
+                                  NULL );
+                                  NULL );
+                                  NULL );
+                                  NULL );
+    if (iTirfbd != NULL) {
+    if (iTirfbd != NULL) {
+    if (iTirfbd != NULL) {
+    if (iTirfbd != NULL) {
+    if (iTirfbd != NULL) {
+        if (WbitForSinglfObjfdt(iTirfbd, INFINITE) != WAIT_OBJECT_0) {
+        if (WbitForSinglfObjfdt(iTirfbd, INFINITE) != WAIT_OBJECT_0) {
+        if (WbitForSinglfObjfdt(iTirfbd, INFINITE) != WAIT_OBJECT_0) {
+        if (WbitForSinglfObjfdt(iTirfbd, INFINITE) != WAIT_OBJECT_0) {
+        if (WbitForSinglfObjfdt(iTirfbd, INFINITE) != WAIT_OBJECT_0) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "WbitForSinglfObjfdt fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "WbitForSinglfObjfdt fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "WbitForSinglfObjfdt fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "WbitForSinglfObjfdt fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "WbitForSinglfObjfdt fbilfd");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             DWORD fxitCodf;
-            GftExitCodfThrfbd(hThrfbd, &fxitCodf);
+            DWORD fxitCodf;
+            DWORD fxitCodf;
+            DWORD fxitCodf;
+            DWORD fxitCodf;
+            GftExitCodfTirfbd(iTirfbd, &fxitCodf);
+            GftExitCodfTirfbd(iTirfbd, &fxitCodf);
+            GftExitCodfTirfbd(iTirfbd, &fxitCodf);
+            GftExitCodfTirfbd(iTirfbd, &fxitCodf);
+            GftExitCodfTirfbd(iTirfbd, &fxitCodf);
             if (fxitCodf) {
-                switdh (fxitCodf) {
+            if (fxitCodf) {
+            if (fxitCodf) {
+            if (fxitCodf) {
+            if (fxitCodf) {
+                switdi (fxitCodf) {
+                switdi (fxitCodf) {
+                switdi (fxitCodf) {
+                switdi (fxitCodf) {
+                switdi (fxitCodf) {
                     dbsf ERR_OPEN_JVM_FAIL :
-                        JNU_ThrowIOExdfption(fnv,
+                    dbsf ERR_OPEN_JVM_FAIL :
+                    dbsf ERR_OPEN_JVM_FAIL :
+                    dbsf ERR_OPEN_JVM_FAIL :
+                    dbsf ERR_OPEN_JVM_FAIL :
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                            "jvm.dll not lobdfd by tbrgft prodfss");
+                            "jvm.dll not lobdfd by tbrgft prodfss");
+                            "jvm.dll not lobdfd by tbrgft prodfss");
+                            "jvm.dll not lobdfd by tbrgft prodfss");
                             "jvm.dll not lobdfd by tbrgft prodfss");
                         brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
                     dbsf ERR_GET_ENQUEUE_FUNC_FAIL :
-                        JNU_ThrowIOExdfption(fnv,
-                            "Unbblf to fnqufuf opfrbtion: thf tbrgft VM dofs not support bttbdh mfdhbnism");
+                    dbsf ERR_GET_ENQUEUE_FUNC_FAIL :
+                    dbsf ERR_GET_ENQUEUE_FUNC_FAIL :
+                    dbsf ERR_GET_ENQUEUE_FUNC_FAIL :
+                    dbsf ERR_GET_ENQUEUE_FUNC_FAIL :
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                        JNU_TirowIOExdfption(fnv,
+                            "Unbblf to fnqufuf opfrbtion: tif tbrgft VM dofs not support bttbdi mfdibnism");
+                            "Unbblf to fnqufuf opfrbtion: tif tbrgft VM dofs not support bttbdi mfdibnism");
+                            "Unbblf to fnqufuf opfrbtion: tif tbrgft VM dofs not support bttbdi mfdibnism");
+                            "Unbblf to fnqufuf opfrbtion: tif tbrgft VM dofs not support bttbdi mfdibnism");
+                            "Unbblf to fnqufuf opfrbtion: tif tbrgft VM dofs not support bttbdi mfdibnism");
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
                         brfbk;
                     dffbult :
-                        JNU_ThrowIntfrnblError(fnv,
-                            "Rfmotf thrfbd fbilfd for unknown rfbson");
+                    dffbult :
+                    dffbult :
+                    dffbult :
+                    dffbult :
+                        JNU_TirowIntfrnblError(fnv,
+                        JNU_TirowIntfrnblError(fnv,
+                        JNU_TirowIntfrnblError(fnv,
+                        JNU_TirowIntfrnblError(fnv,
+                        JNU_TirowIntfrnblError(fnv,
+                            "Rfmotf tirfbd fbilfd for unknown rfbson");
+                            "Rfmotf tirfbd fbilfd for unknown rfbson");
+                            "Rfmotf tirfbd fbilfd for unknown rfbson");
+                            "Rfmotf tirfbd fbilfd for unknown rfbson");
+                            "Rfmotf tirfbd fbilfd for unknown rfbson");
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
         }
-        ClosfHbndlf(hThrfbd);
+        }
+        }
+        }
+        }
+        ClosfHbndlf(iTirfbd);
+        ClosfHbndlf(iTirfbd);
+        ClosfHbndlf(iTirfbd);
+        ClosfHbndlf(iTirfbd);
+        ClosfHbndlf(iTirfbd);
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         if (GftLbstError() == ERROR_NOT_ENOUGH_MEMORY) {
+        if (GftLbstError() == ERROR_NOT_ENOUGH_MEMORY) {
+        if (GftLbstError() == ERROR_NOT_ENOUGH_MEMORY) {
+        if (GftLbstError() == ERROR_NOT_ENOUGH_MEMORY) {
+        if (GftLbstError() == ERROR_NOT_ENOUGH_MEMORY) {
             //
-            // This frror will oddur whfn bttbdhing to b prodfss bflonging to
-            // bnothfr tfrminbl sfssion. Sff "Rfmbrks":
-            // http://msdn.midrosoft.dom/fn-us/librbry/ms682437%28VS.85%29.bspx
             //
-            JNU_ThrowIOExdfption(fnv,
-                "Insuffidifnt mfmory or insuffidifnt privilfgfs to bttbdh");
+            //
+            //
+            //
+            // Tiis frror will oddur wifn bttbdiing to b prodfss bflonging to
+            // Tiis frror will oddur wifn bttbdiing to b prodfss bflonging to
+            // Tiis frror will oddur wifn bttbdiing to b prodfss bflonging to
+            // Tiis frror will oddur wifn bttbdiing to b prodfss bflonging to
+            // Tiis frror will oddur wifn bttbdiing to b prodfss bflonging to
+            // bnotifr tfrminbl sfssion. Sff "Rfmbrks":
+            // bnotifr tfrminbl sfssion. Sff "Rfmbrks":
+            // bnotifr tfrminbl sfssion. Sff "Rfmbrks":
+            // bnotifr tfrminbl sfssion. Sff "Rfmbrks":
+            // bnotifr tfrminbl sfssion. Sff "Rfmbrks":
+            // ittp://msdn.midrosoft.dom/fn-us/librbry/ms682437%28VS.85%29.bspx
+            // ittp://msdn.midrosoft.dom/fn-us/librbry/ms682437%28VS.85%29.bspx
+            // ittp://msdn.midrosoft.dom/fn-us/librbry/ms682437%28VS.85%29.bspx
+            // ittp://msdn.midrosoft.dom/fn-us/librbry/ms682437%28VS.85%29.bspx
+            // ittp://msdn.midrosoft.dom/fn-us/librbry/ms682437%28VS.85%29.bspx
+            //
+            //
+            //
+            //
+            //
+            JNU_TirowIOExdfption(fnv,
+            JNU_TirowIOExdfption(fnv,
+            JNU_TirowIOExdfption(fnv,
+            JNU_TirowIOExdfption(fnv,
+            JNU_TirowIOExdfption(fnv,
+                "Insuffidifnt mfmory or insuffidifnt privilfgfs to bttbdi");
+                "Insuffidifnt mfmory or insuffidifnt privilfgfs to bttbdi");
+                "Insuffidifnt mfmory or insuffidifnt privilfgfs to bttbdi");
+                "Insuffidifnt mfmory or insuffidifnt privilfgfs to bttbdi");
+                "Insuffidifnt mfmory or insuffidifnt privilfgfs to bttbdi");
         } flsf {
-            JNU_ThrowIOExdfptionWithLbstError(fnv, "CrfbtfRfmotfThrfbd fbilfd");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "CrfbtfRfmotfTirfbd fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "CrfbtfRfmotfTirfbd fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "CrfbtfRfmotfTirfbd fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "CrfbtfRfmotfTirfbd fbilfd");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "CrfbtfRfmotfTirfbd fbilfd");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    VirtublFrffEx(hProdfss, pCodf, 0, MEM_RELEASE);
-    VirtublFrffEx(hProdfss, pDbtb, 0, MEM_RELEASE);
+
+
+
+
+    VirtublFrffEx(iProdfss, pCodf, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pCodf, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pCodf, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pCodf, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pCodf, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
+    VirtublFrffEx(iProdfss, pDbtb, 0, MEM_RELEASE);
 }
+}
+}
+}
+}
+
+
+
+
 
 /*
- * Attfmpts to fnbblf thf SE_DEBUG_NAME privilfgf bnd opfn thf givfn prodfss.
+/*
+/*
+/*
+/*
+ * Attfmpts to fnbblf tif SE_DEBUG_NAME privilfgf bnd opfn tif givfn prodfss.
+ * Attfmpts to fnbblf tif SE_DEBUG_NAME privilfgf bnd opfn tif givfn prodfss.
+ * Attfmpts to fnbblf tif SE_DEBUG_NAME privilfgf bnd opfn tif givfn prodfss.
+ * Attfmpts to fnbblf tif SE_DEBUG_NAME privilfgf bnd opfn tif givfn prodfss.
+ * Attfmpts to fnbblf tif SE_DEBUG_NAME privilfgf bnd opfn tif givfn prodfss.
+ */
+ */
+ */
+ */
  */
 stbtid HANDLE
-doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInhfritHbndlf, DWORD dwProdfssId) {
-    HANDLE hTokfn;
-    HANDLE hProdfss = NULL;
+stbtid HANDLE
+stbtid HANDLE
+stbtid HANDLE
+stbtid HANDLE
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId) {
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId) {
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId) {
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId) {
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInifritHbndlf, DWORD dwProdfssId) {
+    HANDLE iTokfn;
+    HANDLE iTokfn;
+    HANDLE iTokfn;
+    HANDLE iTokfn;
+    HANDLE iTokfn;
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+    HANDLE iProdfss = NULL;
+    LUID luid;
+    LUID luid;
+    LUID luid;
+    LUID luid;
     LUID luid;
     TOKEN_PRIVILEGES tp, tpPrfvious;
-    DWORD rftLfngth, frror;
+    TOKEN_PRIVILEGES tp, tpPrfvious;
+    TOKEN_PRIVILEGES tp, tpPrfvious;
+    TOKEN_PRIVILEGES tp, tpPrfvious;
+    TOKEN_PRIVILEGES tp, tpPrfvious;
+    DWORD rftLfngti, frror;
+    DWORD rftLfngti, frror;
+    DWORD rftLfngti, frror;
+    DWORD rftLfngti, frror;
+    DWORD rftLfngti, frror;
+
+
+
+
 
     /*
-     * Gft thf bddfss tokfn
+    /*
+    /*
+    /*
+    /*
+     * Gft tif bddfss tokfn
+     * Gft tif bddfss tokfn
+     * Gft tif bddfss tokfn
+     * Gft tif bddfss tokfn
+     * Gft tif bddfss tokfn
      */
-    if (!OpfnThrfbdTokfn(GftCurrfntThrfbd(),
+     */
+     */
+     */
+     */
+    if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+    if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+    if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+    if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+    if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+                         TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                         TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                         TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                         TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
                          TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
                          FALSE,
-                         &hTokfn)) {
+                         FALSE,
+                         FALSE,
+                         FALSE,
+                         FALSE,
+                         &iTokfn)) {
+                         &iTokfn)) {
+                         &iTokfn)) {
+                         &iTokfn)) {
+                         &iTokfn)) {
+        if (GftLbstError() != ERROR_NO_TOKEN) {
+        if (GftLbstError() != ERROR_NO_TOKEN) {
+        if (GftLbstError() != ERROR_NO_TOKEN) {
+        if (GftLbstError() != ERROR_NO_TOKEN) {
         if (GftLbstError() != ERROR_NO_TOKEN) {
             rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /*
-         * No bddfss tokfn for thf thrfbd so impfrsonbtf thf sfdurity dontfxt
-         * of thf prodfss.
+        /*
+        /*
+        /*
+        /*
+         * No bddfss tokfn for tif tirfbd so impfrsonbtf tif sfdurity dontfxt
+         * No bddfss tokfn for tif tirfbd so impfrsonbtf tif sfdurity dontfxt
+         * No bddfss tokfn for tif tirfbd so impfrsonbtf tif sfdurity dontfxt
+         * No bddfss tokfn for tif tirfbd so impfrsonbtf tif sfdurity dontfxt
+         * No bddfss tokfn for tif tirfbd so impfrsonbtf tif sfdurity dontfxt
+         * of tif prodfss.
+         * of tif prodfss.
+         * of tif prodfss.
+         * of tif prodfss.
+         * of tif prodfss.
+         */
+         */
+         */
+         */
          */
         if (!ImpfrsonbtfSflf(SfdurityImpfrsonbtion)) {
+        if (!ImpfrsonbtfSflf(SfdurityImpfrsonbtion)) {
+        if (!ImpfrsonbtfSflf(SfdurityImpfrsonbtion)) {
+        if (!ImpfrsonbtfSflf(SfdurityImpfrsonbtion)) {
+        if (!ImpfrsonbtfSflf(SfdurityImpfrsonbtion)) {
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
             rfturn (HANDLE)NULL;
         }
-        if (!OpfnThrfbdTokfn(GftCurrfntThrfbd(),
+        }
+        }
+        }
+        }
+        if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+        if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+        if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+        if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+        if (!OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+                             TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                             TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                             TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                             TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
                              TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
                              FALSE,
-                             &hTokfn)) {
+                             FALSE,
+                             FALSE,
+                             FALSE,
+                             FALSE,
+                             &iTokfn)) {
+                             &iTokfn)) {
+                             &iTokfn)) {
+                             &iTokfn)) {
+                             &iTokfn)) {
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
+            rfturn (HANDLE)NULL;
             rfturn (HANDLE)NULL;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /*
-     * Gft LUID for thf privilfgf
+    /*
+    /*
+    /*
+    /*
+     * Gft LUID for tif privilfgf
+     * Gft LUID for tif privilfgf
+     * Gft LUID for tif privilfgf
+     * Gft LUID for tif privilfgf
+     * Gft LUID for tif privilfgf
+     */
+     */
+     */
+     */
      */
     if(!LookupPrivilfgfVbluf(NULL, SE_DEBUG_NAME, &luid)) {
+    if(!LookupPrivilfgfVbluf(NULL, SE_DEBUG_NAME, &luid)) {
+    if(!LookupPrivilfgfVbluf(NULL, SE_DEBUG_NAME, &luid)) {
+    if(!LookupPrivilfgfVbluf(NULL, SE_DEBUG_NAME, &luid)) {
+    if(!LookupPrivilfgfVbluf(NULL, SE_DEBUG_NAME, &luid)) {
         frror = GftLbstError();
-        ClosfHbndlf(hTokfn);
+        frror = GftLbstError();
+        frror = GftLbstError();
+        frror = GftLbstError();
+        frror = GftLbstError();
+        ClosfHbndlf(iTokfn);
+        ClosfHbndlf(iTokfn);
+        ClosfHbndlf(iTokfn);
+        ClosfHbndlf(iTokfn);
+        ClosfHbndlf(iTokfn);
+        SftLbstError(frror);
+        SftLbstError(frror);
+        SftLbstError(frror);
+        SftLbstError(frror);
         SftLbstError(frror);
         rfturn (HANDLE)NULL;
+        rfturn (HANDLE)NULL;
+        rfturn (HANDLE)NULL;
+        rfturn (HANDLE)NULL;
+        rfturn (HANDLE)NULL;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /*
-     * Enbblf thf privilfgf
+    /*
+    /*
+    /*
+    /*
+     * Enbblf tif privilfgf
+     * Enbblf tif privilfgf
+     * Enbblf tif privilfgf
+     * Enbblf tif privilfgf
+     * Enbblf tif privilfgf
+     */
+     */
+     */
+     */
      */
     ZfroMfmory(&tp, sizfof(tp));
+    ZfroMfmory(&tp, sizfof(tp));
+    ZfroMfmory(&tp, sizfof(tp));
+    ZfroMfmory(&tp, sizfof(tp));
+    ZfroMfmory(&tp, sizfof(tp));
+    tp.PrivilfgfCount = 1;
+    tp.PrivilfgfCount = 1;
+    tp.PrivilfgfCount = 1;
+    tp.PrivilfgfCount = 1;
     tp.PrivilfgfCount = 1;
     tp.Privilfgfs[0].Attributfs = SE_PRIVILEGE_ENABLED;
+    tp.Privilfgfs[0].Attributfs = SE_PRIVILEGE_ENABLED;
+    tp.Privilfgfs[0].Attributfs = SE_PRIVILEGE_ENABLED;
+    tp.Privilfgfs[0].Attributfs = SE_PRIVILEGE_ENABLED;
+    tp.Privilfgfs[0].Attributfs = SE_PRIVILEGE_ENABLED;
+    tp.Privilfgfs[0].Luid = luid;
+    tp.Privilfgfs[0].Luid = luid;
+    tp.Privilfgfs[0].Luid = luid;
+    tp.Privilfgfs[0].Luid = luid;
     tp.Privilfgfs[0].Luid = luid;
 
+
+
+
+
     frror = 0;
-    if (AdjustTokfnPrivilfgfs(hTokfn,
+    frror = 0;
+    frror = 0;
+    frror = 0;
+    frror = 0;
+    if (AdjustTokfnPrivilfgfs(iTokfn,
+    if (AdjustTokfnPrivilfgfs(iTokfn,
+    if (AdjustTokfnPrivilfgfs(iTokfn,
+    if (AdjustTokfnPrivilfgfs(iTokfn,
+    if (AdjustTokfnPrivilfgfs(iTokfn,
+                              FALSE,
+                              FALSE,
+                              FALSE,
+                              FALSE,
                               FALSE,
                               &tp,
+                              &tp,
+                              &tp,
+                              &tp,
+                              &tp,
+                              sizfof(TOKEN_PRIVILEGES),
+                              sizfof(TOKEN_PRIVILEGES),
+                              sizfof(TOKEN_PRIVILEGES),
+                              sizfof(TOKEN_PRIVILEGES),
                               sizfof(TOKEN_PRIVILEGES),
                               &tpPrfvious,
-                              &rftLfngth)) {
+                              &tpPrfvious,
+                              &tpPrfvious,
+                              &tpPrfvious,
+                              &tpPrfvious,
+                              &rftLfngti)) {
+                              &rftLfngti)) {
+                              &rftLfngti)) {
+                              &rftLfngti)) {
+                              &rftLfngti)) {
         /*
-         * If wf fnbblfd thf privilfgf thfn bttfmpt to opfn thf
+        /*
+        /*
+        /*
+        /*
+         * If wf fnbblfd tif privilfgf tifn bttfmpt to opfn tif
+         * If wf fnbblfd tif privilfgf tifn bttfmpt to opfn tif
+         * If wf fnbblfd tif privilfgf tifn bttfmpt to opfn tif
+         * If wf fnbblfd tif privilfgf tifn bttfmpt to opfn tif
+         * If wf fnbblfd tif privilfgf tifn bttfmpt to opfn tif
+         * prodfss.
+         * prodfss.
+         * prodfss.
+         * prodfss.
          * prodfss.
          */
+         */
+         */
+         */
+         */
         if (GftLbstError() == ERROR_SUCCESS) {
-            hProdfss = OpfnProdfss(dwDfsirfdAddfss, bInhfritHbndlf, dwProdfssId);
-            if (hProdfss == NULL) {
+        if (GftLbstError() == ERROR_SUCCESS) {
+        if (GftLbstError() == ERROR_SUCCESS) {
+        if (GftLbstError() == ERROR_SUCCESS) {
+        if (GftLbstError() == ERROR_SUCCESS) {
+            iProdfss = OpfnProdfss(dwDfsirfdAddfss, bInifritHbndlf, dwProdfssId);
+            iProdfss = OpfnProdfss(dwDfsirfdAddfss, bInifritHbndlf, dwProdfssId);
+            iProdfss = OpfnProdfss(dwDfsirfdAddfss, bInifritHbndlf, dwProdfssId);
+            iProdfss = OpfnProdfss(dwDfsirfdAddfss, bInifritHbndlf, dwProdfssId);
+            iProdfss = OpfnProdfss(dwDfsirfdAddfss, bInifritHbndlf, dwProdfssId);
+            if (iProdfss == NULL) {
+            if (iProdfss == NULL) {
+            if (iProdfss == NULL) {
+            if (iProdfss == NULL) {
+            if (iProdfss == NULL) {
+                frror = GftLbstError();
+                frror = GftLbstError();
+                frror = GftLbstError();
+                frror = GftLbstError();
                 frror = GftLbstError();
             }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             frror = ERROR_ACCESS_DENIED;
+            frror = ERROR_ACCESS_DENIED;
+            frror = ERROR_ACCESS_DENIED;
+            frror = ERROR_ACCESS_DENIED;
+            frror = ERROR_ACCESS_DENIED;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /*
-         * Rfvfrt to thf prfvious privilfgfs
+        /*
+        /*
+        /*
+        /*
+         * Rfvfrt to tif prfvious privilfgfs
+         * Rfvfrt to tif prfvious privilfgfs
+         * Rfvfrt to tif prfvious privilfgfs
+         * Rfvfrt to tif prfvious privilfgfs
+         * Rfvfrt to tif prfvious privilfgfs
          */
-        AdjustTokfnPrivilfgfs(hTokfn,
+         */
+         */
+         */
+         */
+        AdjustTokfnPrivilfgfs(iTokfn,
+        AdjustTokfnPrivilfgfs(iTokfn,
+        AdjustTokfnPrivilfgfs(iTokfn,
+        AdjustTokfnPrivilfgfs(iTokfn,
+        AdjustTokfnPrivilfgfs(iTokfn,
+                              FALSE,
+                              FALSE,
+                              FALSE,
+                              FALSE,
                               FALSE,
                               &tpPrfvious,
-                              rftLfngth,
+                              &tpPrfvious,
+                              &tpPrfvious,
+                              &tpPrfvious,
+                              &tpPrfvious,
+                              rftLfngti,
+                              rftLfngti,
+                              rftLfngti,
+                              rftLfngti,
+                              rftLfngti,
+                              NULL,
+                              NULL,
+                              NULL,
+                              NULL,
                               NULL,
                               NULL);
+                              NULL);
+                              NULL);
+                              NULL);
+                              NULL);
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         frror = GftLbstError();
+        frror = GftLbstError();
+        frror = GftLbstError();
+        frror = GftLbstError();
+        frror = GftLbstError();
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /*
+    /*
+    /*
+    /*
+    /*
+     * Closf tokfn bnd rfstorf frror
+     * Closf tokfn bnd rfstorf frror
+     * Closf tokfn bnd rfstorf frror
+     * Closf tokfn bnd rfstorf frror
      * Closf tokfn bnd rfstorf frror
      */
-    ClosfHbndlf(hTokfn);
+     */
+     */
+     */
+     */
+    ClosfHbndlf(iTokfn);
+    ClosfHbndlf(iTokfn);
+    ClosfHbndlf(iTokfn);
+    ClosfHbndlf(iTokfn);
+    ClosfHbndlf(iTokfn);
+    SftLbstError(frror);
+    SftLbstError(frror);
+    SftLbstError(frror);
+    SftLbstError(frror);
     SftLbstError(frror);
 
-    rfturn hProdfss;
+
+
+
+
+    rfturn iProdfss;
+    rfturn iProdfss;
+    rfturn iProdfss;
+    rfturn iProdfss;
+    rfturn iProdfss;
+}
+}
+}
+}
 }
 
+
+
+
+
 /* donvfrt jstring to C string */
-stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dhbr* dstr, int lfn) {
+/* donvfrt jstring to C string */
+/* donvfrt jstring to C string */
+/* donvfrt jstring to C string */
+/* donvfrt jstring to C string */
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn) {
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn) {
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn) {
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn) {
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dibr* dstr, int lfn) {
     jboolfbn isCopy;
-    donst dhbr* str;
+    jboolfbn isCopy;
+    jboolfbn isCopy;
+    jboolfbn isCopy;
+    jboolfbn isCopy;
+    donst dibr* str;
+    donst dibr* str;
+    donst dibr* str;
+    donst dibr* str;
+    donst dibr* str;
+
+
+
+
 
     if (jstr == NULL) {
+    if (jstr == NULL) {
+    if (jstr == NULL) {
+    if (jstr == NULL) {
+    if (jstr == NULL) {
+        dstr[0] = '\0';
+        dstr[0] = '\0';
+        dstr[0] = '\0';
+        dstr[0] = '\0';
         dstr[0] = '\0';
     } flsf {
-        str = JNU_GftStringPlbtformChbrs(fnv, jstr, &isCopy);
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+        str = JNU_GftStringPlbtformCibrs(fnv, jstr, &isCopy);
+        str = JNU_GftStringPlbtformCibrs(fnv, jstr, &isCopy);
+        str = JNU_GftStringPlbtformCibrs(fnv, jstr, &isCopy);
+        str = JNU_GftStringPlbtformCibrs(fnv, jstr, &isCopy);
+        str = JNU_GftStringPlbtformCibrs(fnv, jstr, &isCopy);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
         if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
 
+
+
+
+
+        strndpy(dstr, str, lfn);
+        strndpy(dstr, str, lfn);
+        strndpy(dstr, str, lfn);
+        strndpy(dstr, str, lfn);
         strndpy(dstr, str, lfn);
         dstr[lfn-1] = '\0';
+        dstr[lfn-1] = '\0';
+        dstr[lfn-1] = '\0';
+        dstr[lfn-1] = '\0';
+        dstr[lfn-1] = '\0';
         if (isCopy) {
-            JNU_RflfbsfStringPlbtformChbrs(fnv, jstr, str);
+        if (isCopy) {
+        if (isCopy) {
+        if (isCopy) {
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, str);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, str);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, str);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, str);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, str);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,153 @@
+/*
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+pbdkbgf j2dbfndi.tfsts.dmm;
+
+import j2dbfndi.Group;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.Tfst;
+import j2dbfndi.TfstEnvironmfnt;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.dolor.ICC_ColorSpbdf;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+publid dlbss CMMTfsts fxtfnds Tfst {
+
+    protfdtfd stbtid Group dmmRoot;
+    protfdtfd stbtid Group dmmOptRoot;
+    protfdtfd stbtid Option dsList;
+    protfdtfd stbtid Option usfPlbtfromProfilfs;
+
+    publid stbtid void init() {
+        dmmRoot = nfw Group("dmm", "Color Mbnbgfmfnt Bfndimbrks");
+        dmmRoot.sftTbbbfd();
+
+        dmmOptRoot = nfw Group(dmmRoot, "opts", "Gfnfrbl Options");
+
+        /*
+        usfPlbtfromProfilfs =
+                nfw Option.Enbblf(dmmOptRoot, "dsPlbtfrom",
+                        "Usf Plbtfrom Profilfs", fblsf);
+        */
+        int[] dolorspbdfs = nfw int[] {
+            ColorSpbdf.CS_sRGB,
+            ColorSpbdf.CS_GRAY,
+            ColorSpbdf.CS_LINEAR_RGB,
+            ColorSpbdf.CS_CIEXYZ
+        };
+
+        String[] dsNbmfs = nfw String[]{
+            "CS_sRGB",
+            "CS_GRAY",
+            "CS_LINEAR_RGB",
+            "CS_CIEXYZ"
+        };
+
+        dsList = nfw Option.IntList(dmmOptRoot,
+                "profilfs", "Color Profilfs",
+                dolorspbdfs, dsNbmfs, dsNbmfs, 0x8);
+
+        ColorConvfrsionTfsts.init();
+        ProfilfTfsts.init();
+    }
+
+    protfdtfd stbtid ColorSpbdf gftColorSpbdf(TfstEnvironmfnt fnv) {
+        ColorSpbdf ds;
+        Boolfbn usfPlbtfrom = truf; //(Boolfbn)fnv.gftModififr(usfPlbtfromProfilfs);
+
+        int ds_dodf = fnv.gftIntVbluf(dsList);
+        if (usfPlbtfrom) {
+            ds = ColorSpbdf.gftInstbndf(ds_dodf);
+        } flsf {
+            String rfsourdf = "profilfs/";
+            switdi (ds_dodf) {
+                dbsf ColorSpbdf.CS_CIEXYZ:
+                    rfsourdf += "CIEXYZ.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_GRAY:
+                    rfsourdf += "GRAY.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_LINEAR_RGB:
+                    rfsourdf += "LINEAR_RGB.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_PYCC:
+                    rfsourdf += "PYCC.pf";
+                    brfbk;
+                dbsf ColorSpbdf.CS_sRGB:
+                    rfsourdf += "sRGB.pf";
+                    brfbk;
+                dffbult:
+                    tirow nfw RuntimfExdfption("Unknown dolor spbdf: " + ds_dodf);
+            }
+
+            try {
+                InputStrfbm is = CMMTfsts.dlbss.gftRfsourdfAsStrfbm(rfsourdf);
+                ICC_Profilf p = ICC_Profilf.gftInstbndf(is);
+
+                ds = nfw ICC_ColorSpbdf(p);
+            } dbtdi (IOExdfption f) {
+                tirow nfw RuntimfExdfption("Unbblf lobd profilf from rfsourdf " + rfsourdf, f);
+            }
+        }
+        rfturn ds;
+    }
+
+    protfdtfd CMMTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(dmmOptRoot, truf);
+    }
+
+    @Ovfrridf
+    publid Objfdt initTfst(TfstEnvironmfnt tf, Rfsult rfsult) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+    }
+
+    @Ovfrridf
+    publid void runTfst(Objfdt o, int i) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+    }
+
+    @Ovfrridf
+    publid void dlfbnupTfst(TfstEnvironmfnt tf, Objfdt o) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
+    }
+}

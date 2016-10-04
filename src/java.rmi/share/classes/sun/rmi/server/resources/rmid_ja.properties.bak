@@ -1,96 +1,480 @@
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+#
+#
+#
+#
 #
 
+
+
+
+
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
 # "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
 rmid.syntbx.fxfd.invblid=rmid\u304Cinftd\u304B\u3089\u7121\u52B9\u306A\u72B6\u614B\u3067\u8D77\u52D5\u3055\u308C\u307E\u3057\u305F(wbit\u3067\u3042\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059)
+rmid.syntbx.fxfd.invblid=rmid\u304Cinftd\u304B\u3089\u7121\u52B9\u306A\u72B6\u614B\u3067\u8D77\u52D5\u3055\u308C\u307E\u3057\u305F(wbit\u3067\u3042\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059)
+rmid.syntbx.fxfd.invblid=rmid\u304Cinftd\u304B\u3089\u7121\u52B9\u306A\u72B6\u614B\u3067\u8D77\u52D5\u3055\u308C\u307E\u3057\u305F(wbit\u3067\u3042\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059)
+rmid.syntbx.fxfd.invblid=rmid\u304Cinftd\u304B\u3089\u7121\u52B9\u306A\u72B6\u614B\u3067\u8D77\u52D5\u3055\u308C\u307E\u3057\u305F(wbit\u3067\u3042\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059)
+rmid.syntbx.fxfd.invblid=rmid\u304Cinftd\u304B\u3089\u7121\u52B9\u306A\u72B6\u614B\u3067\u8D77\u52D5\u3055\u308C\u307E\u3057\u305F(wbit\u3067\u3042\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059)
+
+
+
+
 
 # "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+rmid.syntbx.port.bbdbrg=rmid\u304Cinftd\u304B\u3089\u8D77\u52D5\u3055\u308C\u305F\u5834\u5408\u3001\u30DD\u30FC\u30C8\u306F\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093
+rmid.syntbx.port.bbdbrg=rmid\u304Cinftd\u304B\u3089\u8D77\u52D5\u3055\u308C\u305F\u5834\u5408\u3001\u30DD\u30FC\u30C8\u306F\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093
+rmid.syntbx.port.bbdbrg=rmid\u304Cinftd\u304B\u3089\u8D77\u52D5\u3055\u308C\u305F\u5834\u5408\u3001\u30DD\u30FC\u30C8\u306F\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093
+rmid.syntbx.port.bbdbrg=rmid\u304Cinftd\u304B\u3089\u8D77\u52D5\u3055\u308C\u305F\u5834\u5408\u3001\u30DD\u30FC\u30C8\u306F\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093
 rmid.syntbx.port.bbdbrg=rmid\u304Cinftd\u304B\u3089\u8D77\u52D5\u3055\u308C\u305F\u5834\u5408\u3001\u30DD\u30FC\u30C8\u306F\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093
 
+
+
+
+
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
 # "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
 rmid.syntbx.port.bbdnumbfr=port\u306F\u756A\u53F7\u3067\u306F\u3042\u308A\u307E\u305B\u3093
+rmid.syntbx.port.bbdnumbfr=port\u306F\u756A\u53F7\u3067\u306F\u3042\u308A\u307E\u305B\u3093
+rmid.syntbx.port.bbdnumbfr=port\u306F\u756A\u53F7\u3067\u306F\u3042\u308A\u307E\u305B\u3093
+rmid.syntbx.port.bbdnumbfr=port\u306F\u756A\u53F7\u3067\u306F\u3042\u308A\u307E\u305B\u3093
+rmid.syntbx.port.bbdnumbfr=port\u306F\u756A\u53F7\u3067\u306F\u3042\u308A\u307E\u305B\u3093
+
+
+
+
 
 # "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.port.missing=-port\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.port.missing=-port\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.port.missing=-port\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.port.missing=-port\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
 rmid.syntbx.port.missing=-port\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
 
+
+
+
+
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
 # "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
 rmid.syntbx.log.missing=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.log.missing=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.log.missing=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.log.missing=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.log.missing=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u306B\u306F\u5F15\u6570\u304C\u5FC5\u8981\u3067\u3059
+
+
+
+
 
 # "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.rfquirfd=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.log.rfquirfd=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.log.rfquirfd=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u5FC5\u8981\u3067\u3059
+rmid.syntbx.log.rfquirfd=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u5FC5\u8981\u3067\u3059
 rmid.syntbx.log.rfquirfd=-log\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u5FC5\u8981\u3067\u3059
 
+
+
+
+
+# {0} = tif (string) illfgbl brgumfnt in qufstion
+# {0} = tif (string) illfgbl brgumfnt in qufstion
+# {0} = tif (string) illfgbl brgumfnt in qufstion
+# {0} = tif (string) illfgbl brgumfnt in qufstion
 # {0} = tif (string) illfgbl brgumfnt in qufstion
 rmid.syntbx.illfgbl.option=\u4E0D\u6B63\u306A\u30AA\u30D7\u30B7\u30E7\u30F3: {0}
+rmid.syntbx.illfgbl.option=\u4E0D\u6B63\u306A\u30AA\u30D7\u30B7\u30E7\u30F3: {0}
+rmid.syntbx.illfgbl.option=\u4E0D\u6B63\u306A\u30AA\u30D7\u30B7\u30E7\u30F3: {0}
+rmid.syntbx.illfgbl.option=\u4E0D\u6B63\u306A\u30AA\u30D7\u30B7\u30E7\u30F3: {0}
+rmid.syntbx.illfgbl.option=\u4E0D\u6B63\u306A\u30AA\u30D7\u30B7\u30E7\u30F3: {0}
+
+
+
+
 
 # {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 # "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: \u4F8B\u5916\u304C\u767A\u751F\u3057\u307E\u3057\u305F: {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: \u4F8B\u5916\u304C\u767A\u751F\u3057\u307E\u3057\u305F: {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: \u4F8B\u5916\u304C\u767A\u751F\u3057\u307E\u3057\u305F: {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: \u4F8B\u5916\u304C\u767A\u751F\u3057\u307E\u3057\u305F: {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: \u4F8B\u5916\u304C\u767A\u751F\u3057\u307E\u3057\u305F: {0}
+
+
+
+
 
 # "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 # "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl: jbvb.iomf\u3092\u691C\u51FA\u3067\u304D\u307E\u305B\u3093
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl: jbvb.iomf\u3092\u691C\u51FA\u3067\u304D\u307E\u305B\u3093
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl: jbvb.iomf\u3092\u691C\u51FA\u3067\u304D\u307E\u305B\u3093
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl: jbvb.iomf\u3092\u691C\u51FA\u3067\u304D\u307E\u305B\u3093
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl: jbvb.iomf\u3092\u691C\u51FA\u3067\u304D\u307E\u305B\u3093
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.inifritfd.dibnnfl.info=rmid\u306F\u7D99\u627F\u3055\u308C\u305F\u30C1\u30E3\u30CD\u30EB\u3067\u8D77\u52D5\u3057\u307E\u3059
+rmid.inifritfd.dibnnfl.info=rmid\u306F\u7D99\u627F\u3055\u308C\u305F\u30C1\u30E3\u30CD\u30EB\u3067\u8D77\u52D5\u3057\u307E\u3059
+rmid.inifritfd.dibnnfl.info=rmid\u306F\u7D99\u627F\u3055\u308C\u305F\u30C1\u30E3\u30CD\u30EB\u3067\u8D77\u52D5\u3057\u307E\u3059
+rmid.inifritfd.dibnnfl.info=rmid\u306F\u7D99\u627F\u3055\u308C\u305F\u30C1\u30E3\u30CD\u30EB\u3067\u8D77\u52D5\u3057\u307E\u3059
+rmid.inifritfd.dibnnfl.info=rmid\u306F\u7D99\u627F\u3055\u308C\u305F\u30C1\u30E3\u30CD\u30EB\u3067\u8D77\u52D5\u3057\u307E\u3059
+
+
+
+
 
 # "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin: \u7121\u52B9\u306A\u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u30FB\u30AF\u30E9\u30B9\u3067\u3059
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin: \u7121\u52B9\u306A\u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u30FB\u30AF\u30E9\u30B9\u3067\u3059
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin: \u7121\u52B9\u306A\u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u30FB\u30AF\u30E9\u30B9\u3067\u3059
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin: \u7121\u52B9\u306A\u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u30FB\u30AF\u30E9\u30B9\u3067\u3059
 rmid.fxfd.polidy.invblid=Adtivbtion.mbin: \u7121\u52B9\u306A\u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u30FB\u30AF\u30E9\u30B9\u3067\u3059
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.fxfd.polidy.fxdfption=rmid: \u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u306E\u53D6\u5F97\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.fxfd.polidy.fxdfption=rmid: \u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u306E\u53D6\u5F97\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.fxfd.polidy.fxdfption=rmid: \u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u306E\u53D6\u5F97\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.fxfd.polidy.fxdfption=rmid: \u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u306E\u53D6\u5F97\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.fxfd.polidy.fxdfption=rmid: \u5B9F\u884C\u30DD\u30EA\u30B7\u30FC\u306E\u53D6\u5F97\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.fxfd.dommbnd=rmid: dfbugExfd: "{0}"\u3092\u5B9F\u884C\u4E2D
+rmid.fxfd.dommbnd=rmid: dfbugExfd: "{0}"\u3092\u5B9F\u884C\u4E2D
+rmid.fxfd.dommbnd=rmid: dfbugExfd: "{0}"\u3092\u5B9F\u884C\u4E2D
+rmid.fxfd.dommbnd=rmid: dfbugExfd: "{0}"\u3092\u5B9F\u884C\u4E2D
+rmid.fxfd.dommbnd=rmid: dfbugExfd: "{0}"\u3092\u5B9F\u884C\u4E2D
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.group.inbdtivf=rmid: \u8D77\u52D5\u30B0\u30EB\u30FC\u30D7\u304C\u505C\u6B62\u3057\u3066\u3044\u307E\u3059: {0}
+rmid.group.inbdtivf=rmid: \u8D77\u52D5\u30B0\u30EB\u30FC\u30D7\u304C\u505C\u6B62\u3057\u3066\u3044\u307E\u3059: {0}
+rmid.group.inbdtivf=rmid: \u8D77\u52D5\u30B0\u30EB\u30FC\u30D7\u304C\u505C\u6B62\u3057\u3066\u3044\u307E\u3059: {0}
+rmid.group.inbdtivf=rmid: \u8D77\u52D5\u30B0\u30EB\u30FC\u30D7\u304C\u505C\u6B62\u3057\u3066\u3044\u307E\u3059: {0}
+rmid.group.inbdtivf=rmid: \u8D77\u52D5\u30B0\u30EB\u30FC\u30D7\u304C\u505C\u6B62\u3057\u3066\u3044\u307E\u3059: {0}
+
+
+
+
 
 # "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
 # "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
 # dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: \u8B66\u544A:sun.rmi.bdtivbtion.fxfdPolidy\u30B7\u30B9\u30C6\u30E0\n\u30D7\u30ED\u30D1\u30C6\u30A3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u306A\u3044\u3001\u307E\u305F\u306F\nExfdPfrmissions/ExfdOptionPfrmissions\u304C\u8A31\u53EF\u3055\u308C\u307E\u305B\u3093\u3002\nExfdPfrmissions/ExfdOptionPfrmissions\u30A2\u30AF\u30BB\u30B9\u6A29\u691C\u67FB\u3067\u8A31\u53EF\u3055\u308C\n\u306A\u3044\u305F\u3081\u3001\u5F8C\u306B\u7D9A\u304F\u8D77\u52D5\u306F\u5931\u6557\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\nrmid\u30BB\u30AD\u30E5\u30EA\u30C6\u30A3\u306E\u69CB\u6210\u65B9\u6CD5\u306B\u3064\u3044\u3066\u306F\u3001\u6B21\u306E\u30DE\u30CB\u30E5\u30A2\u30EB\u3092\u53C2\u7167\u3057\u3066\n\u304F\u3060\u3055\u3044\u3002\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: \u8B66\u544A:sun.rmi.bdtivbtion.fxfdPolidy\u30B7\u30B9\u30C6\u30E0\n\u30D7\u30ED\u30D1\u30C6\u30A3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u306A\u3044\u3001\u307E\u305F\u306F\nExfdPfrmissions/ExfdOptionPfrmissions\u304C\u8A31\u53EF\u3055\u308C\u307E\u305B\u3093\u3002\nExfdPfrmissions/ExfdOptionPfrmissions\u30A2\u30AF\u30BB\u30B9\u6A29\u691C\u67FB\u3067\u8A31\u53EF\u3055\u308C\n\u306A\u3044\u305F\u3081\u3001\u5F8C\u306B\u7D9A\u304F\u8D77\u52D5\u306F\u5931\u6557\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\nrmid\u30BB\u30AD\u30E5\u30EA\u30C6\u30A3\u306E\u69CB\u6210\u65B9\u6CD5\u306B\u3064\u3044\u3066\u306F\u3001\u6B21\u306E\u30DE\u30CB\u30E5\u30A2\u30EB\u3092\u53C2\u7167\u3057\u3066\n\u304F\u3060\u3055\u3044\u3002\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: \u8B66\u544A:sun.rmi.bdtivbtion.fxfdPolidy\u30B7\u30B9\u30C6\u30E0\n\u30D7\u30ED\u30D1\u30C6\u30A3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u306A\u3044\u3001\u307E\u305F\u306F\nExfdPfrmissions/ExfdOptionPfrmissions\u304C\u8A31\u53EF\u3055\u308C\u307E\u305B\u3093\u3002\nExfdPfrmissions/ExfdOptionPfrmissions\u30A2\u30AF\u30BB\u30B9\u6A29\u691C\u67FB\u3067\u8A31\u53EF\u3055\u308C\n\u306A\u3044\u305F\u3081\u3001\u5F8C\u306B\u7D9A\u304F\u8D77\u52D5\u306F\u5931\u6557\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\nrmid\u30BB\u30AD\u30E5\u30EA\u30C6\u30A3\u306E\u69CB\u6210\u65B9\u6CD5\u306B\u3064\u3044\u3066\u306F\u3001\u6B21\u306E\u30DE\u30CB\u30E5\u30A2\u30EB\u3092\u53C2\u7167\u3057\u3066\n\u304F\u3060\u3055\u3044\u3002\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: \u8B66\u544A:sun.rmi.bdtivbtion.fxfdPolidy\u30B7\u30B9\u30C6\u30E0\n\u30D7\u30ED\u30D1\u30C6\u30A3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u306A\u3044\u3001\u307E\u305F\u306F\nExfdPfrmissions/ExfdOptionPfrmissions\u304C\u8A31\u53EF\u3055\u308C\u307E\u305B\u3093\u3002\nExfdPfrmissions/ExfdOptionPfrmissions\u30A2\u30AF\u30BB\u30B9\u6A29\u691C\u67FB\u3067\u8A31\u53EF\u3055\u308C\n\u306A\u3044\u305F\u3081\u3001\u5F8C\u306B\u7D9A\u304F\u8D77\u52D5\u306F\u5931\u6557\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\nrmid\u30BB\u30AD\u30E5\u30EA\u30C6\u30A3\u306E\u69CB\u6210\u65B9\u6CD5\u306B\u3064\u3044\u3066\u306F\u3001\u6B21\u306E\u30DE\u30CB\u30E5\u30A2\u30EB\u3092\u53C2\u7167\u3057\u3066\n\u304F\u3060\u3055\u3044\u3002\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
 rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: \u8B66\u544A:sun.rmi.bdtivbtion.fxfdPolidy\u30B7\u30B9\u30C6\u30E0\n\u30D7\u30ED\u30D1\u30C6\u30A3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u306A\u3044\u3001\u307E\u305F\u306F\nExfdPfrmissions/ExfdOptionPfrmissions\u304C\u8A31\u53EF\u3055\u308C\u307E\u305B\u3093\u3002\nExfdPfrmissions/ExfdOptionPfrmissions\u30A2\u30AF\u30BB\u30B9\u6A29\u691C\u67FB\u3067\u8A31\u53EF\u3055\u308C\n\u306A\u3044\u305F\u3081\u3001\u5F8C\u306B\u7D9A\u304F\u8D77\u52D5\u306F\u5931\u6557\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002\nrmid\u30BB\u30AD\u30E5\u30EA\u30C6\u30A3\u306E\u69CB\u6210\u65B9\u6CD5\u306B\u3064\u3044\u3066\u306F\u3001\u6B21\u306E\u30DE\u30CB\u30E5\u30A2\u30EB\u3092\u53C2\u7167\u3057\u3066\n\u304F\u3060\u3055\u3044\u3002\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
 
+
+
+
+
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
 # "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
 # bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+rmid.usbgf=\u4F7F\u7528\u65B9\u6CD5: {0} <options>\n\n<options>\u306B\u306F\u6B21\u306E\u3082\u306E\u304C\u3042\u308A\u307E\u3059\u3002\n -port<port>     rmid\u304C\u4F7F\u7528\u3059\u308B\u30DD\u30FC\u30C8\u3092\u6307\u5B9A\u3059\u308B\n -log <dirfdtory>  rmid\u304C\u30ED\u30B0\u3092\u66F8\u304D\u8FBC\u3080\u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u3092\u6307\u5B9A\u3059\u308B\n -stop         \u6307\u5B9A\u30DD\u30FC\u30C8\u306B\u5BFE\u3059\u308Brmid\u306E\u73FE\u5728\u306E\u547C\u51FA\u3057\u3092\u4E2D\u6B62\u3059\u308B\n -C<runtimf flbg>   \u5404\u5B50\u30D7\u30ED\u30BB\u30B9(\u8D77\u52D5\u30B0\u30EB\u30FC\u30D7)\u306B\u5F15\u6570\u3092\u6E21\u3059\n -J<runtimf flbg>  jbvb\u30A4\u30F3\u30BF\u30D7\u30EA\u30BF\u306B\u5F15\u6570\u3092\u6E21\u3059\n
+rmid.usbgf=\u4F7F\u7528\u65B9\u6CD5: {0} <options>\n\n<options>\u306B\u306F\u6B21\u306E\u3082\u306E\u304C\u3042\u308A\u307E\u3059\u3002\n -port<port>     rmid\u304C\u4F7F\u7528\u3059\u308B\u30DD\u30FC\u30C8\u3092\u6307\u5B9A\u3059\u308B\n -log <dirfdtory>  rmid\u304C\u30ED\u30B0\u3092\u66F8\u304D\u8FBC\u3080\u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u3092\u6307\u5B9A\u3059\u308B\n -stop         \u6307\u5B9A\u30DD\u30FC\u30C8\u306B\u5BFE\u3059\u308Brmid\u306E\u73FE\u5728\u306E\u547C\u51FA\u3057\u3092\u4E2D\u6B62\u3059\u308B\n -C<runtimf flbg>   \u5404\u5B50\u30D7\u30ED\u30BB\u30B9(\u8D77\u52D5\u30B0\u30EB\u30FC\u30D7)\u306B\u5F15\u6570\u3092\u6E21\u3059\n -J<runtimf flbg>  jbvb\u30A4\u30F3\u30BF\u30D7\u30EA\u30BF\u306B\u5F15\u6570\u3092\u6E21\u3059\n
+rmid.usbgf=\u4F7F\u7528\u65B9\u6CD5: {0} <options>\n\n<options>\u306B\u306F\u6B21\u306E\u3082\u306E\u304C\u3042\u308A\u307E\u3059\u3002\n -port<port>     rmid\u304C\u4F7F\u7528\u3059\u308B\u30DD\u30FC\u30C8\u3092\u6307\u5B9A\u3059\u308B\n -log <dirfdtory>  rmid\u304C\u30ED\u30B0\u3092\u66F8\u304D\u8FBC\u3080\u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u3092\u6307\u5B9A\u3059\u308B\n -stop         \u6307\u5B9A\u30DD\u30FC\u30C8\u306B\u5BFE\u3059\u308Brmid\u306E\u73FE\u5728\u306E\u547C\u51FA\u3057\u3092\u4E2D\u6B62\u3059\u308B\n -C<runtimf flbg>   \u5404\u5B50\u30D7\u30ED\u30BB\u30B9(\u8D77\u52D5\u30B0\u30EB\u30FC\u30D7)\u306B\u5F15\u6570\u3092\u6E21\u3059\n -J<runtimf flbg>  jbvb\u30A4\u30F3\u30BF\u30D7\u30EA\u30BF\u306B\u5F15\u6570\u3092\u6E21\u3059\n
+rmid.usbgf=\u4F7F\u7528\u65B9\u6CD5: {0} <options>\n\n<options>\u306B\u306F\u6B21\u306E\u3082\u306E\u304C\u3042\u308A\u307E\u3059\u3002\n -port<port>     rmid\u304C\u4F7F\u7528\u3059\u308B\u30DD\u30FC\u30C8\u3092\u6307\u5B9A\u3059\u308B\n -log <dirfdtory>  rmid\u304C\u30ED\u30B0\u3092\u66F8\u304D\u8FBC\u3080\u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u3092\u6307\u5B9A\u3059\u308B\n -stop         \u6307\u5B9A\u30DD\u30FC\u30C8\u306B\u5BFE\u3059\u308Brmid\u306E\u73FE\u5728\u306E\u547C\u51FA\u3057\u3092\u4E2D\u6B62\u3059\u308B\n -C<runtimf flbg>   \u5404\u5B50\u30D7\u30ED\u30BB\u30B9(\u8D77\u52D5\u30B0\u30EB\u30FC\u30D7)\u306B\u5F15\u6570\u3092\u6E21\u3059\n -J<runtimf flbg>  jbvb\u30A4\u30F3\u30BF\u30D7\u30EA\u30BF\u306B\u5F15\u6570\u3092\u6E21\u3059\n
 rmid.usbgf=\u4F7F\u7528\u65B9\u6CD5: {0} <options>\n\n<options>\u306B\u306F\u6B21\u306E\u3082\u306E\u304C\u3042\u308A\u307E\u3059\u3002\n -port<port>     rmid\u304C\u4F7F\u7528\u3059\u308B\u30DD\u30FC\u30C8\u3092\u6307\u5B9A\u3059\u308B\n -log <dirfdtory>  rmid\u304C\u30ED\u30B0\u3092\u66F8\u304D\u8FBC\u3080\u30C7\u30A3\u30EC\u30AF\u30C8\u30EA\u3092\u6307\u5B9A\u3059\u308B\n -stop         \u6307\u5B9A\u30DD\u30FC\u30C8\u306B\u5BFE\u3059\u308Brmid\u306E\u73FE\u5728\u306E\u547C\u51FA\u3057\u3092\u4E2D\u6B62\u3059\u308B\n -C<runtimf flbg>   \u5404\u5B50\u30D7\u30ED\u30BB\u30B9(\u8D77\u52D5\u30B0\u30EB\u30FC\u30D7)\u306B\u5F15\u6570\u3092\u6E21\u3059\n -J<runtimf flbg>  jbvb\u30A4\u30F3\u30BF\u30D7\u30EA\u30BF\u306B\u5F15\u6570\u3092\u6E21\u3059\n
 # Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# bnd is bbout to fxit".
+# bnd is bbout to fxit".
+# bnd is bbout to fxit".
+# bnd is bbout to fxit".
 # bnd is bbout to fxit".
 rmid.dbfmon.siutdown=\u8D77\u52D5\u30C7\u30FC\u30E2\u30F3\u304C\u505C\u6B62\u3057\u307E\u3057\u305F
+rmid.dbfmon.siutdown=\u8D77\u52D5\u30C7\u30FC\u30E2\u30F3\u304C\u505C\u6B62\u3057\u307E\u3057\u305F
+rmid.dbfmon.siutdown=\u8D77\u52D5\u30C7\u30FC\u30E2\u30F3\u304C\u505C\u6B62\u3057\u307E\u3057\u305F
+rmid.dbfmon.siutdown=\u8D77\u52D5\u30C7\u30FC\u30E2\u30F3\u304C\u505C\u6B62\u3057\u307E\u3057\u305F
+rmid.dbfmon.siutdown=\u8D77\u52D5\u30C7\u30FC\u30E2\u30F3\u304C\u505C\u6B62\u3057\u307E\u3057\u305F
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.rfstbrt.group.wbrning=\nrmid: (\u8B66\u544A)\u30B0\u30EB\u30FC\u30D7\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.group.wbrning=\nrmid: (\u8B66\u544A)\u30B0\u30EB\u30FC\u30D7\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.group.wbrning=\nrmid: (\u8B66\u544A)\u30B0\u30EB\u30FC\u30D7\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.group.wbrning=\nrmid: (\u8B66\u544A)\u30B0\u30EB\u30FC\u30D7\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.group.wbrning=\nrmid: (\u8B66\u544A)\u30B0\u30EB\u30FC\u30D7\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (\u8B66\u544A)\u30B5\u30FC\u30D3\u30B9\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (\u8B66\u544A)\u30B5\u30FC\u30D3\u30B9\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (\u8B66\u544A)\u30B5\u30FC\u30D3\u30B9\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (\u8B66\u544A)\u30B5\u30FC\u30D3\u30B9\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (\u8B66\u544A)\u30B5\u30FC\u30D3\u30B9\u306E\u518D\u8D77\u52D5\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.log.updbtf.wbrning=\nrmid: (\u8B66\u544A)\u30ED\u30B0\u66F4\u65B0\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.updbtf.wbrning=\nrmid: (\u8B66\u544A)\u30ED\u30B0\u66F4\u65B0\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.updbtf.wbrning=\nrmid: (\u8B66\u544A)\u30ED\u30B0\u66F4\u65B0\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.updbtf.wbrning=\nrmid: (\u8B66\u544A)\u30ED\u30B0\u66F4\u65B0\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.updbtf.wbrning=\nrmid: (\u8B66\u544A)\u30ED\u30B0\u66F4\u65B0\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.log.snbpsiot.wbrning=\nrmid: (\u91CD\u5927)\u30ED\u30B0\u30FB\u30B9\u30CA\u30C3\u30D7\u30B7\u30E7\u30C3\u30C8\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.snbpsiot.wbrning=\nrmid: (\u91CD\u5927)\u30ED\u30B0\u30FB\u30B9\u30CA\u30C3\u30D7\u30B7\u30E7\u30C3\u30C8\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.snbpsiot.wbrning=\nrmid: (\u91CD\u5927)\u30ED\u30B0\u30FB\u30B9\u30CA\u30C3\u30D7\u30B7\u30E7\u30C3\u30C8\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.snbpsiot.wbrning=\nrmid: (\u91CD\u5927)\u30ED\u30B0\u30FB\u30B9\u30CA\u30C3\u30D7\u30B7\u30E7\u30C3\u30C8\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+rmid.log.snbpsiot.wbrning=\nrmid: (\u91CD\u5927)\u30ED\u30B0\u30FB\u30B9\u30CA\u30C3\u30D7\u30B7\u30E7\u30C3\u30C8\u3067\u6B21\u304C\u30B9\u30ED\u30FC\u3055\u308C\u307E\u3057\u305F:
+
+
+
+
 
 # "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+rmid.log.rfdovfr.wbrning=\nrmid: (\u8B66\u544A){0}: \u56DE\u5FA9\u4E2D\u306E\u30ED\u30B0\u30FB\u30EC\u30B3\u30FC\u30C9\u306E\u30B9\u30AD\u30C3\u30D7:
+rmid.log.rfdovfr.wbrning=\nrmid: (\u8B66\u544A){0}: \u56DE\u5FA9\u4E2D\u306E\u30ED\u30B0\u30FB\u30EC\u30B3\u30FC\u30C9\u306E\u30B9\u30AD\u30C3\u30D7:
+rmid.log.rfdovfr.wbrning=\nrmid: (\u8B66\u544A){0}: \u56DE\u5FA9\u4E2D\u306E\u30ED\u30B0\u30FB\u30EC\u30B3\u30FC\u30C9\u306E\u30B9\u30AD\u30C3\u30D7:
+rmid.log.rfdovfr.wbrning=\nrmid: (\u8B66\u544A){0}: \u56DE\u5FA9\u4E2D\u306E\u30ED\u30B0\u30FB\u30EC\u30B3\u30FC\u30C9\u306E\u30B9\u30AD\u30C3\u30D7:
 rmid.log.rfdovfr.wbrning=\nrmid: (\u8B66\u544A){0}: \u56DE\u5FA9\u4E2D\u306E\u30ED\u30B0\u30FB\u30EC\u30B3\u30FC\u30C9\u306E\u30B9\u30AD\u30C3\u30D7:

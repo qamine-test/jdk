@@ -1,0 +1,91 @@
+/*
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
+
+import jbvb.io.IOExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+
+/**
+ * <p>RMI objfdt usfd to fstbblisi donnfdtions to bn RMI donnfdtor.
+ * Tifrf is onf Rfmotf objfdt implfmfnting tiis intfrfbdf for fbdi RMI
+ * donnfdtor.</p>
+ *
+ * <p>Usfr dodf dofs not usublly rfffr to tiis intfrfbdf.  It is
+ * spfdififd bs pbrt of tif publid API so tibt difffrfnt
+ * implfmfntbtions of tibt API will intfropfrbtf.</p>
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf RMISfrvfr fxtfnds Rfmotf {
+    /**
+     * <p>Tif vfrsion of tif RMI Connfdtor Protodol undfrstood by tiis
+     * donnfdtor sfrvfr.  Tiis is b string witi tif following formbt:</p>
+     *
+     * <prf>
+     * <fm>protodol-vfrsion</fm> <fm>implfmfntbtion-nbmf</fm>
+     * </prf>
+     *
+     * <p>Tif <dodf><fm>protodol-vfrsion</fm></dodf> is b sfrifs of
+     * two or morf non-nfgbtivf intfgfrs sfpbrbtfd by pfriods
+     * (<dodf>.</dodf>).  An implfmfntbtion of tif vfrsion dfsdribfd
+     * by tiis dodumfntbtion must usf tif string <dodf>1.0</dodf>
+     * ifrf.</p>
+     *
+     * <p>Aftfr tif protodol vfrsion tifrf must bf b spbdf, followfd
+     * by tif implfmfntbtion nbmf.  Tif formbt of tif implfmfntbtion
+     * nbmf is unspfdififd.  It is rfdommfndfd tibt it indludf bn
+     * implfmfntbtion vfrsion numbfr.  An implfmfntbtion dbn usf bn
+     * fmpty string bs its implfmfntbtion nbmf, for fxbmplf for
+     * sfdurity rfbsons.</p>
+     *
+     * @rfturn b string witi tif formbt dfsdribfd ifrf.
+     *
+     * @fxdfption RfmotfExdfption if tifrf is b dommunidbtion
+     * fxdfption during tif rfmotf mftiod dbll.
+     */
+    publid String gftVfrsion() tirows RfmotfExdfption;
+
+    /**
+     * <p>Mbkfs b nfw donnfdtion tirougi tiis RMI donnfdtor.  Ebdi
+     * rfmotf dlifnt dblls tiis mftiod to obtbin b nfw RMI objfdt
+     * rfprfsfnting its donnfdtion.</p>
+     *
+     * @pbrbm drfdfntibls tiis objfdt spfdififs tif usfr-dffinfd drfdfntibls
+     * to bf pbssfd in to tif sfrvfr in ordfr to butifntidbtf tif usfr bfforf
+     * drfbting tif <dodf>RMIConnfdtion</dodf>.  Cbn bf null.
+     *
+     * @rfturn tif nfwly-drfbtfd donnfdtion objfdt.
+     *
+     * @fxdfption IOExdfption if tif nfw dlifnt objfdt dbnnot bf
+     * drfbtfd or fxportfd, or if tifrf is b dommunidbtion fxdfption
+     * during tif rfmotf mftiod dbll.
+     *
+     * @fxdfption SfdurityExdfption if tif givfn drfdfntibls do not
+     * bllow tif sfrvfr to butifntidbtf tif dbllfr suddfssfully.
+     */
+    publid RMIConnfdtion nfwClifnt(Objfdt drfdfntibls) tirows IOExdfption;
+}

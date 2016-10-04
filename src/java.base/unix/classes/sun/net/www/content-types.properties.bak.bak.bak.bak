@@ -1,280 +1,1400 @@
 #sun.nft.www MIME dontfnt-typfs tbblf
+#sun.nft.www MIME dontfnt-typfs tbblf
+#sun.nft.www MIME dontfnt-typfs tbblf
+#sun.nft.www MIME dontfnt-typfs tbblf
+#sun.nft.www MIME dontfnt-typfs tbblf
+#
+#
+#
+#
 #
 # Propfrty fiflds:
+# Propfrty fiflds:
+# Propfrty fiflds:
+# Propfrty fiflds:
+# Propfrty fiflds:
+#
+#
+#
+#
 #
 #   <dfsdription> ::= 'dfsdription' '=' <dfsdriptivf string>
+#   <dfsdription> ::= 'dfsdription' '=' <dfsdriptivf string>
+#   <dfsdription> ::= 'dfsdription' '=' <dfsdriptivf string>
+#   <dfsdription> ::= 'dfsdription' '=' <dfsdriptivf string>
+#   <dfsdription> ::= 'dfsdription' '=' <dfsdriptivf string>
+#    <fxtfnsions> ::= 'filf_fxtfnsions' '=' <dommb-dflimitfd list, indludf '.'>
+#    <fxtfnsions> ::= 'filf_fxtfnsions' '=' <dommb-dflimitfd list, indludf '.'>
+#    <fxtfnsions> ::= 'filf_fxtfnsions' '=' <dommb-dflimitfd list, indludf '.'>
+#    <fxtfnsions> ::= 'filf_fxtfnsions' '=' <dommb-dflimitfd list, indludf '.'>
 #    <fxtfnsions> ::= 'filf_fxtfnsions' '=' <dommb-dflimitfd list, indludf '.'>
 #         <imbgf> ::= 'idon' '=' <filfnbmf of idon imbgf>
+#         <imbgf> ::= 'idon' '=' <filfnbmf of idon imbgf>
+#         <imbgf> ::= 'idon' '=' <filfnbmf of idon imbgf>
+#         <imbgf> ::= 'idon' '=' <filfnbmf of idon imbgf>
+#         <imbgf> ::= 'idon' '=' <filfnbmf of idon imbgf>
+#        <bdtion> ::= 'browsfr' | 'bpplidbtion' | 'sbvf' | 'unknown'
+#        <bdtion> ::= 'browsfr' | 'bpplidbtion' | 'sbvf' | 'unknown'
+#        <bdtion> ::= 'browsfr' | 'bpplidbtion' | 'sbvf' | 'unknown'
+#        <bdtion> ::= 'browsfr' | 'bpplidbtion' | 'sbvf' | 'unknown'
 #        <bdtion> ::= 'browsfr' | 'bpplidbtion' | 'sbvf' | 'unknown'
 #   <bpplidbtion> ::= 'bpplidbtion' '=' <dommbnd linf tfmplbtf>
+#   <bpplidbtion> ::= 'bpplidbtion' '=' <dommbnd linf tfmplbtf>
+#   <bpplidbtion> ::= 'bpplidbtion' '=' <dommbnd linf tfmplbtf>
+#   <bpplidbtion> ::= 'bpplidbtion' '=' <dommbnd linf tfmplbtf>
+#   <bpplidbtion> ::= 'bpplidbtion' '=' <dommbnd linf tfmplbtf>
+#
+#
+#
+#
 #
 
+
+
+
+
 #
-# Thf "wf don't know bnything bbout this dbtb" typf(s).
+#
+#
+#
+#
+# Tif "wf don't know bnytiing bbout tiis dbtb" typf(s).
+# Tif "wf don't know bnytiing bbout tiis dbtb" typf(s).
+# Tif "wf don't know bnytiing bbout tiis dbtb" typf(s).
+# Tif "wf don't know bnytiing bbout tiis dbtb" typf(s).
+# Tif "wf don't know bnytiing bbout tiis dbtb" typf(s).
+# Usfd intfrnblly to mbrk unrfdognizfd typfs.
+# Usfd intfrnblly to mbrk unrfdognizfd typfs.
+# Usfd intfrnblly to mbrk unrfdognizfd typfs.
+# Usfd intfrnblly to mbrk unrfdognizfd typfs.
 # Usfd intfrnblly to mbrk unrfdognizfd typfs.
 #
+#
+#
+#
+#
+dontfnt/unknown: dfsdription=Unknown Contfnt
+dontfnt/unknown: dfsdription=Unknown Contfnt
+dontfnt/unknown: dfsdription=Unknown Contfnt
+dontfnt/unknown: dfsdription=Unknown Contfnt
 dontfnt/unknown: dfsdription=Unknown Contfnt
 unknown/unknown: dfsdription=Unknown Dbtb Typf
+unknown/unknown: dfsdription=Unknown Dbtb Typf
+unknown/unknown: dfsdription=Unknown Dbtb Typf
+unknown/unknown: dfsdription=Unknown Dbtb Typf
+unknown/unknown: dfsdription=Unknown Dbtb Typf
+
+
+
+
 
 #
-# Thf tfmplbtf wf should usf for tfmporbry filfs whfn lbundhing bn bpplidbtion
+#
+#
+#
+#
+# Tif tfmplbtf wf siould usf for tfmporbry filfs wifn lbundiing bn bpplidbtion
+# Tif tfmplbtf wf siould usf for tfmporbry filfs wifn lbundiing bn bpplidbtion
+# Tif tfmplbtf wf siould usf for tfmporbry filfs wifn lbundiing bn bpplidbtion
+# Tif tfmplbtf wf siould usf for tfmporbry filfs wifn lbundiing bn bpplidbtion
+# Tif tfmplbtf wf siould usf for tfmporbry filfs wifn lbundiing bn bpplidbtion
+# to vifw b dodumfnt of givfn typf.
+# to vifw b dodumfnt of givfn typf.
+# to vifw b dodumfnt of givfn typf.
+# to vifw b dodumfnt of givfn typf.
 # to vifw b dodumfnt of givfn typf.
 #
+#
+#
+#
+#
+tfmp.filf.tfmplbtf: /tmp/%s
+tfmp.filf.tfmplbtf: /tmp/%s
+tfmp.filf.tfmplbtf: /tmp/%s
+tfmp.filf.tfmplbtf: /tmp/%s
 tfmp.filf.tfmplbtf: /tmp/%s
 
+
+
+
+
 #
-# Thf "rfbl" typfs.
+#
+#
+#
+#
+# Tif "rfbl" typfs.
+# Tif "rfbl" typfs.
+# Tif "rfbl" typfs.
+# Tif "rfbl" typfs.
+# Tif "rfbl" typfs.
+#
+#
+#
+#
 #
 bpplidbtion/odtft-strfbm: \
+bpplidbtion/odtft-strfbm: \
+bpplidbtion/odtft-strfbm: \
+bpplidbtion/odtft-strfbm: \
+bpplidbtion/odtft-strfbm: \
 	dfsdription=Gfnfrid Binbry Strfbm;\
-	filf_fxtfnsions=.sbvfmf,.dump,.hqx,.brd,.o,.b,.bin,.fxf,.z,.gz
+	dfsdription=Gfnfrid Binbry Strfbm;\
+	dfsdription=Gfnfrid Binbry Strfbm;\
+	dfsdription=Gfnfrid Binbry Strfbm;\
+	dfsdription=Gfnfrid Binbry Strfbm;\
+	filf_fxtfnsions=.sbvfmf,.dump,.iqx,.brd,.o,.b,.bin,.fxf,.z,.gz
+	filf_fxtfnsions=.sbvfmf,.dump,.iqx,.brd,.o,.b,.bin,.fxf,.z,.gz
+	filf_fxtfnsions=.sbvfmf,.dump,.iqx,.brd,.o,.b,.bin,.fxf,.z,.gz
+	filf_fxtfnsions=.sbvfmf,.dump,.iqx,.brd,.o,.b,.bin,.fxf,.z,.gz
+	filf_fxtfnsions=.sbvfmf,.dump,.iqx,.brd,.o,.b,.bin,.fxf,.z,.gz
+
+
+
+
 
 bpplidbtion/odb: \
+bpplidbtion/odb: \
+bpplidbtion/odb: \
+bpplidbtion/odb: \
+bpplidbtion/odb: \
+	dfsdription=ODA Dodumfnt;\
+	dfsdription=ODA Dodumfnt;\
+	dfsdription=ODA Dodumfnt;\
+	dfsdription=ODA Dodumfnt;\
 	dfsdription=ODA Dodumfnt;\
 	filf_fxtfnsions=.odb
+	filf_fxtfnsions=.odb
+	filf_fxtfnsions=.odb
+	filf_fxtfnsions=.odb
+	filf_fxtfnsions=.odb
+
+
+
+
 
 bpplidbtion/pdf: \
+bpplidbtion/pdf: \
+bpplidbtion/pdf: \
+bpplidbtion/pdf: \
+bpplidbtion/pdf: \
+	dfsdription=Adobf PDF Formbt;\
+	dfsdription=Adobf PDF Formbt;\
+	dfsdription=Adobf PDF Formbt;\
+	dfsdription=Adobf PDF Formbt;\
 	dfsdription=Adobf PDF Formbt;\
 	filf_fxtfnsions=.pdf
+	filf_fxtfnsions=.pdf
+	filf_fxtfnsions=.pdf
+	filf_fxtfnsions=.pdf
+	filf_fxtfnsions=.pdf
+
+
+
+
 
 bpplidbtion/postsdript: \
+bpplidbtion/postsdript: \
+bpplidbtion/postsdript: \
+bpplidbtion/postsdript: \
+bpplidbtion/postsdript: \
+	dfsdription=Postsdript Filf;\
+	dfsdription=Postsdript Filf;\
+	dfsdription=Postsdript Filf;\
+	dfsdription=Postsdript Filf;\
 	dfsdription=Postsdript Filf;\
 	filf_fxtfnsions=.fps,.bi,.ps;\
+	filf_fxtfnsions=.fps,.bi,.ps;\
+	filf_fxtfnsions=.fps,.bi,.ps;\
+	filf_fxtfnsions=.fps,.bi,.ps;\
+	filf_fxtfnsions=.fps,.bi,.ps;\
+	idon=ps;\
+	idon=ps;\
+	idon=ps;\
+	idon=ps;\
 	idon=ps;\
 	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
 	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+
+
+
+
 
 bpplidbtion/x-dvi: \
+bpplidbtion/x-dvi: \
+bpplidbtion/x-dvi: \
+bpplidbtion/x-dvi: \
+bpplidbtion/x-dvi: \
+	dfsdription=TfX DVI Filf;\
+	dfsdription=TfX DVI Filf;\
+	dfsdription=TfX DVI Filf;\
+	dfsdription=TfX DVI Filf;\
 	dfsdription=TfX DVI Filf;\
 	filf_fxtfnsions=.dvi;\
+	filf_fxtfnsions=.dvi;\
+	filf_fxtfnsions=.dvi;\
+	filf_fxtfnsions=.dvi;\
+	filf_fxtfnsions=.dvi;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
 	bdtion=bpplidbtion;\
 	bpplidbtion=xdvi %s
+	bpplidbtion=xdvi %s
+	bpplidbtion=xdvi %s
+	bpplidbtion=xdvi %s
+	bpplidbtion=xdvi %s
 
-bpplidbtion/x-hdf: \
-	dfsdription=Hifrbrdhidbl Dbtb Formbt;\
-	filf_fxtfnsions=.hdf;\
+
+
+
+
+bpplidbtion/x-idf: \
+bpplidbtion/x-idf: \
+bpplidbtion/x-idf: \
+bpplidbtion/x-idf: \
+bpplidbtion/x-idf: \
+	dfsdription=Hifrbrdiidbl Dbtb Formbt;\
+	dfsdription=Hifrbrdiidbl Dbtb Formbt;\
+	dfsdription=Hifrbrdiidbl Dbtb Formbt;\
+	dfsdription=Hifrbrdiidbl Dbtb Formbt;\
+	dfsdription=Hifrbrdiidbl Dbtb Formbt;\
+	filf_fxtfnsions=.idf;\
+	filf_fxtfnsions=.idf;\
+	filf_fxtfnsions=.idf;\
+	filf_fxtfnsions=.idf;\
+	filf_fxtfnsions=.idf;\
 	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+
+
+
+
 
 bpplidbtion/x-lbtfx: \
+bpplidbtion/x-lbtfx: \
+bpplidbtion/x-lbtfx: \
+bpplidbtion/x-lbtfx: \
+bpplidbtion/x-lbtfx: \
+	dfsdription=LbTfX Sourdf;\
+	dfsdription=LbTfX Sourdf;\
+	dfsdription=LbTfX Sourdf;\
+	dfsdription=LbTfX Sourdf;\
 	dfsdription=LbTfX Sourdf;\
 	filf_fxtfnsions=.lbtfx
+	filf_fxtfnsions=.lbtfx
+	filf_fxtfnsions=.lbtfx
+	filf_fxtfnsions=.lbtfx
+	filf_fxtfnsions=.lbtfx
+
+
+
+
 
 bpplidbtion/x-nftddf: \
+bpplidbtion/x-nftddf: \
+bpplidbtion/x-nftddf: \
+bpplidbtion/x-nftddf: \
+bpplidbtion/x-nftddf: \
+	dfsdription=Unidbtb nftCDF Dbtb Formbt;\
+	dfsdription=Unidbtb nftCDF Dbtb Formbt;\
+	dfsdription=Unidbtb nftCDF Dbtb Formbt;\
+	dfsdription=Unidbtb nftCDF Dbtb Formbt;\
 	dfsdription=Unidbtb nftCDF Dbtb Formbt;\
 	filf_fxtfnsions=.nd,.ddf;\
+	filf_fxtfnsions=.nd,.ddf;\
+	filf_fxtfnsions=.nd,.ddf;\
+	filf_fxtfnsions=.nd,.ddf;\
+	filf_fxtfnsions=.nd,.ddf;\
 	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+
+
+
+
 
 bpplidbtion/x-tfx: \
+bpplidbtion/x-tfx: \
+bpplidbtion/x-tfx: \
+bpplidbtion/x-tfx: \
+bpplidbtion/x-tfx: \
+	dfsdription=TfX Sourdf;\
+	dfsdription=TfX Sourdf;\
+	dfsdription=TfX Sourdf;\
+	dfsdription=TfX Sourdf;\
 	dfsdription=TfX Sourdf;\
 	filf_fxtfnsions=.tfx
+	filf_fxtfnsions=.tfx
+	filf_fxtfnsions=.tfx
+	filf_fxtfnsions=.tfx
+	filf_fxtfnsions=.tfx
+
+
+
+
 
 bpplidbtion/x-tfxinfo: \
+bpplidbtion/x-tfxinfo: \
+bpplidbtion/x-tfxinfo: \
+bpplidbtion/x-tfxinfo: \
+bpplidbtion/x-tfxinfo: \
+	dfsdription=Gnu Tfxinfo;\
+	dfsdription=Gnu Tfxinfo;\
+	dfsdription=Gnu Tfxinfo;\
+	dfsdription=Gnu Tfxinfo;\
 	dfsdription=Gnu Tfxinfo;\
 	filf_fxtfnsions=.tfxinfo,.tfxi
+	filf_fxtfnsions=.tfxinfo,.tfxi
+	filf_fxtfnsions=.tfxinfo,.tfxi
+	filf_fxtfnsions=.tfxinfo,.tfxi
+	filf_fxtfnsions=.tfxinfo,.tfxi
+
+
+
+
 
 bpplidbtion/x-troff: \
+bpplidbtion/x-troff: \
+bpplidbtion/x-troff: \
+bpplidbtion/x-troff: \
+bpplidbtion/x-troff: \
+	dfsdription=Troff Sourdf;\
+	dfsdription=Troff Sourdf;\
+	dfsdription=Troff Sourdf;\
+	dfsdription=Troff Sourdf;\
 	dfsdription=Troff Sourdf;\
 	filf_fxtfnsions=.t,.tr,.roff;\
+	filf_fxtfnsions=.t,.tr,.roff;\
+	filf_fxtfnsions=.t,.tr,.roff;\
+	filf_fxtfnsions=.t,.tr,.roff;\
+	filf_fxtfnsions=.t,.tr,.roff;\
 	bdtion=bpplidbtion;\
-	bpplidbtion=xtfrm -titlf troff -f sh -d \"nroff %s | dol | morf -w\"
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff %s | dol | morf -w\"
+
+
+
+
 
 bpplidbtion/x-troff-mbn: \
+bpplidbtion/x-troff-mbn: \
+bpplidbtion/x-troff-mbn: \
+bpplidbtion/x-troff-mbn: \
+bpplidbtion/x-troff-mbn: \
+	dfsdription=Troff Mbnpbgf Sourdf;\
+	dfsdription=Troff Mbnpbgf Sourdf;\
+	dfsdription=Troff Mbnpbgf Sourdf;\
+	dfsdription=Troff Mbnpbgf Sourdf;\
 	dfsdription=Troff Mbnpbgf Sourdf;\
 	filf_fxtfnsions=.mbn;\
+	filf_fxtfnsions=.mbn;\
+	filf_fxtfnsions=.mbn;\
+	filf_fxtfnsions=.mbn;\
+	filf_fxtfnsions=.mbn;\
 	bdtion=bpplidbtion;\
-	bpplidbtion=xtfrm -titlf troff -f sh -d \"nroff -mbn %s | dol | morf -w\"
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mbn %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mbn %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mbn %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mbn %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mbn %s | dol | morf -w\"
+
+
+
+
 
 bpplidbtion/x-troff-mf: \
+bpplidbtion/x-troff-mf: \
+bpplidbtion/x-troff-mf: \
+bpplidbtion/x-troff-mf: \
+bpplidbtion/x-troff-mf: \
+	dfsdription=Troff ME Mbdros;\
+	dfsdription=Troff ME Mbdros;\
+	dfsdription=Troff ME Mbdros;\
+	dfsdription=Troff ME Mbdros;\
 	dfsdription=Troff ME Mbdros;\
 	filf_fxtfnsions=.mf;\
+	filf_fxtfnsions=.mf;\
+	filf_fxtfnsions=.mf;\
+	filf_fxtfnsions=.mf;\
+	filf_fxtfnsions=.mf;\
 	bdtion=bpplidbtion;\
-	bpplidbtion=xtfrm -titlf troff -f sh -d \"nroff -mf %s | dol | morf -w\"
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mf %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mf %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mf %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mf %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -mf %s | dol | morf -w\"
+
+
+
+
 
 bpplidbtion/x-troff-ms: \
+bpplidbtion/x-troff-ms: \
+bpplidbtion/x-troff-ms: \
+bpplidbtion/x-troff-ms: \
+bpplidbtion/x-troff-ms: \
+	dfsdription=Troff MS Mbdros;\
+	dfsdription=Troff MS Mbdros;\
+	dfsdription=Troff MS Mbdros;\
+	dfsdription=Troff MS Mbdros;\
 	dfsdription=Troff MS Mbdros;\
 	filf_fxtfnsions=.ms;\
+	filf_fxtfnsions=.ms;\
+	filf_fxtfnsions=.ms;\
+	filf_fxtfnsions=.ms;\
+	filf_fxtfnsions=.ms;\
 	bdtion=bpplidbtion;\
-	bpplidbtion=xtfrm -titlf troff -f sh -d \"nroff -ms %s | dol | morf -w\"
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -ms %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -ms %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -ms %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -ms %s | dol | morf -w\"
+	bpplidbtion=xtfrm -titlf troff -f si -d \"nroff -ms %s | dol | morf -w\"
+
+
+
+
 
 bpplidbtion/x-wbis-sourdf: \
+bpplidbtion/x-wbis-sourdf: \
+bpplidbtion/x-wbis-sourdf: \
+bpplidbtion/x-wbis-sourdf: \
+bpplidbtion/x-wbis-sourdf: \
+	dfsdription=Wbis Sourdf;\
+	dfsdription=Wbis Sourdf;\
+	dfsdription=Wbis Sourdf;\
+	dfsdription=Wbis Sourdf;\
 	dfsdription=Wbis Sourdf;\
 	filf_fxtfnsions=.srd,.wsrd
+	filf_fxtfnsions=.srd,.wsrd
+	filf_fxtfnsions=.srd,.wsrd
+	filf_fxtfnsions=.srd,.wsrd
+	filf_fxtfnsions=.srd,.wsrd
+
+
+
+
 
 bpplidbtion/zip: \
+bpplidbtion/zip: \
+bpplidbtion/zip: \
+bpplidbtion/zip: \
+bpplidbtion/zip: \
+	dfsdription=Zip Filf;\
+	dfsdription=Zip Filf;\
+	dfsdription=Zip Filf;\
+	dfsdription=Zip Filf;\
 	dfsdription=Zip Filf;\
 	filf_fxtfnsions=.zip;\
+	filf_fxtfnsions=.zip;\
+	filf_fxtfnsions=.zip;\
+	filf_fxtfnsions=.zip;\
+	filf_fxtfnsions=.zip;\
+	idon=zip;\
+	idon=zip;\
+	idon=zip;\
+	idon=zip;\
 	idon=zip;\
 	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+
+
+
+
 
 bpplidbtion/x-bdpio: \
-	dfsdription=Old Binbry CPIO Ardhivf;\
+bpplidbtion/x-bdpio: \
+bpplidbtion/x-bdpio: \
+bpplidbtion/x-bdpio: \
+bpplidbtion/x-bdpio: \
+	dfsdription=Old Binbry CPIO Ardiivf;\
+	dfsdription=Old Binbry CPIO Ardiivf;\
+	dfsdription=Old Binbry CPIO Ardiivf;\
+	dfsdription=Old Binbry CPIO Ardiivf;\
+	dfsdription=Old Binbry CPIO Ardiivf;\
+	filf_fxtfnsions=.bdpio; bdtion=sbvf
+	filf_fxtfnsions=.bdpio; bdtion=sbvf
+	filf_fxtfnsions=.bdpio; bdtion=sbvf
+	filf_fxtfnsions=.bdpio; bdtion=sbvf
 	filf_fxtfnsions=.bdpio; bdtion=sbvf
 
+
+
+
+
 bpplidbtion/x-dpio: \
-	dfsdription=Unix CPIO Ardhivf;\
+bpplidbtion/x-dpio: \
+bpplidbtion/x-dpio: \
+bpplidbtion/x-dpio: \
+bpplidbtion/x-dpio: \
+	dfsdription=Unix CPIO Ardiivf;\
+	dfsdription=Unix CPIO Ardiivf;\
+	dfsdription=Unix CPIO Ardiivf;\
+	dfsdription=Unix CPIO Ardiivf;\
+	dfsdription=Unix CPIO Ardiivf;\
+	filf_fxtfnsions=.dpio; bdtion=sbvf
+	filf_fxtfnsions=.dpio; bdtion=sbvf
+	filf_fxtfnsions=.dpio; bdtion=sbvf
+	filf_fxtfnsions=.dpio; bdtion=sbvf
 	filf_fxtfnsions=.dpio; bdtion=sbvf
 
+
+
+
+
 bpplidbtion/x-gtbr: \
-	dfsdription=Gnu Tbr Ardhivf;\
+bpplidbtion/x-gtbr: \
+bpplidbtion/x-gtbr: \
+bpplidbtion/x-gtbr: \
+bpplidbtion/x-gtbr: \
+	dfsdription=Gnu Tbr Ardiivf;\
+	dfsdription=Gnu Tbr Ardiivf;\
+	dfsdription=Gnu Tbr Ardiivf;\
+	dfsdription=Gnu Tbr Ardiivf;\
+	dfsdription=Gnu Tbr Ardiivf;\
+	filf_fxtfnsions=.gtbr;\
+	filf_fxtfnsions=.gtbr;\
+	filf_fxtfnsions=.gtbr;\
+	filf_fxtfnsions=.gtbr;\
 	filf_fxtfnsions=.gtbr;\
 	idon=tbr;\
-	bdtion=sbvf
-
-bpplidbtion/x-shbr: \
-	dfsdription=Shfll Ardhivf;\
-	filf_fxtfnsions=.sh,.shbr;\
-	bdtion=sbvf
-
-bpplidbtion/x-sv4dpio: \
-	dfsdription=SVR4 CPIO Ardhivf;\
-	filf_fxtfnsions=.sv4dpio; bdtion=sbvf
-
-bpplidbtion/x-sv4drd: \
-	dfsdription=SVR4 CPIO with CRC;\
-	filf_fxtfnsions=.sv4drd; bdtion=sbvf
-
-bpplidbtion/x-tbr: \
-	dfsdription=Tbr Ardhivf;\
-	filf_fxtfnsions=.tbr;\
+	idon=tbr;\
+	idon=tbr;\
+	idon=tbr;\
 	idon=tbr;\
 	bdtion=sbvf
-
-bpplidbtion/x-ustbr: \
-	dfsdription=US Tbr Ardhivf;\
-	filf_fxtfnsions=.ustbr;\
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
 	bdtion=sbvf
 
+
+
+
+
+bpplidbtion/x-sibr: \
+bpplidbtion/x-sibr: \
+bpplidbtion/x-sibr: \
+bpplidbtion/x-sibr: \
+bpplidbtion/x-sibr: \
+	dfsdription=Sifll Ardiivf;\
+	dfsdription=Sifll Ardiivf;\
+	dfsdription=Sifll Ardiivf;\
+	dfsdription=Sifll Ardiivf;\
+	dfsdription=Sifll Ardiivf;\
+	filf_fxtfnsions=.si,.sibr;\
+	filf_fxtfnsions=.si,.sibr;\
+	filf_fxtfnsions=.si,.sibr;\
+	filf_fxtfnsions=.si,.sibr;\
+	filf_fxtfnsions=.si,.sibr;\
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+
+
+
+
+
+bpplidbtion/x-sv4dpio: \
+bpplidbtion/x-sv4dpio: \
+bpplidbtion/x-sv4dpio: \
+bpplidbtion/x-sv4dpio: \
+bpplidbtion/x-sv4dpio: \
+	dfsdription=SVR4 CPIO Ardiivf;\
+	dfsdription=SVR4 CPIO Ardiivf;\
+	dfsdription=SVR4 CPIO Ardiivf;\
+	dfsdription=SVR4 CPIO Ardiivf;\
+	dfsdription=SVR4 CPIO Ardiivf;\
+	filf_fxtfnsions=.sv4dpio; bdtion=sbvf
+	filf_fxtfnsions=.sv4dpio; bdtion=sbvf
+	filf_fxtfnsions=.sv4dpio; bdtion=sbvf
+	filf_fxtfnsions=.sv4dpio; bdtion=sbvf
+	filf_fxtfnsions=.sv4dpio; bdtion=sbvf
+
+
+
+
+
+bpplidbtion/x-sv4drd: \
+bpplidbtion/x-sv4drd: \
+bpplidbtion/x-sv4drd: \
+bpplidbtion/x-sv4drd: \
+bpplidbtion/x-sv4drd: \
+	dfsdription=SVR4 CPIO witi CRC;\
+	dfsdription=SVR4 CPIO witi CRC;\
+	dfsdription=SVR4 CPIO witi CRC;\
+	dfsdription=SVR4 CPIO witi CRC;\
+	dfsdription=SVR4 CPIO witi CRC;\
+	filf_fxtfnsions=.sv4drd; bdtion=sbvf
+	filf_fxtfnsions=.sv4drd; bdtion=sbvf
+	filf_fxtfnsions=.sv4drd; bdtion=sbvf
+	filf_fxtfnsions=.sv4drd; bdtion=sbvf
+	filf_fxtfnsions=.sv4drd; bdtion=sbvf
+
+
+
+
+
+bpplidbtion/x-tbr: \
+bpplidbtion/x-tbr: \
+bpplidbtion/x-tbr: \
+bpplidbtion/x-tbr: \
+bpplidbtion/x-tbr: \
+	dfsdription=Tbr Ardiivf;\
+	dfsdription=Tbr Ardiivf;\
+	dfsdription=Tbr Ardiivf;\
+	dfsdription=Tbr Ardiivf;\
+	dfsdription=Tbr Ardiivf;\
+	filf_fxtfnsions=.tbr;\
+	filf_fxtfnsions=.tbr;\
+	filf_fxtfnsions=.tbr;\
+	filf_fxtfnsions=.tbr;\
+	filf_fxtfnsions=.tbr;\
+	idon=tbr;\
+	idon=tbr;\
+	idon=tbr;\
+	idon=tbr;\
+	idon=tbr;\
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+
+
+
+
+
+bpplidbtion/x-ustbr: \
+bpplidbtion/x-ustbr: \
+bpplidbtion/x-ustbr: \
+bpplidbtion/x-ustbr: \
+bpplidbtion/x-ustbr: \
+	dfsdription=US Tbr Ardiivf;\
+	dfsdription=US Tbr Ardiivf;\
+	dfsdription=US Tbr Ardiivf;\
+	dfsdription=US Tbr Ardiivf;\
+	dfsdription=US Tbr Ardiivf;\
+	filf_fxtfnsions=.ustbr;\
+	filf_fxtfnsions=.ustbr;\
+	filf_fxtfnsions=.ustbr;\
+	filf_fxtfnsions=.ustbr;\
+	filf_fxtfnsions=.ustbr;\
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+	bdtion=sbvf
+
+
+
+
+
+budio/bbsid: \
+budio/bbsid: \
+budio/bbsid: \
+budio/bbsid: \
 budio/bbsid: \
 	dfsdription=Bbsid Audio;\
+	dfsdription=Bbsid Audio;\
+	dfsdription=Bbsid Audio;\
+	dfsdription=Bbsid Audio;\
+	dfsdription=Bbsid Audio;\
+	filf_fxtfnsions=.snd,.bu;\
+	filf_fxtfnsions=.snd,.bu;\
+	filf_fxtfnsions=.snd,.bu;\
+	filf_fxtfnsions=.snd,.bu;\
 	filf_fxtfnsions=.snd,.bu;\
 	idon=budio;\
+	idon=budio;\
+	idon=budio;\
+	idon=budio;\
+	idon=budio;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
 	bdtion=bpplidbtion;\
 	bpplidbtion=budiotool %s
+	bpplidbtion=budiotool %s
+	bpplidbtion=budiotool %s
+	bpplidbtion=budiotool %s
+	bpplidbtion=budiotool %s
+
+
+
+
 
 budio/x-biff: \
-	dfsdription=Audio Intfrdhbngf Formbt Filf;\
+budio/x-biff: \
+budio/x-biff: \
+budio/x-biff: \
+budio/x-biff: \
+	dfsdription=Audio Intfrdibngf Formbt Filf;\
+	dfsdription=Audio Intfrdibngf Formbt Filf;\
+	dfsdription=Audio Intfrdibngf Formbt Filf;\
+	dfsdription=Audio Intfrdibngf Formbt Filf;\
+	dfsdription=Audio Intfrdibngf Formbt Filf;\
+	filf_fxtfnsions=.bifd,.bif,.biff;\
+	filf_fxtfnsions=.bifd,.bif,.biff;\
+	filf_fxtfnsions=.bifd,.bif,.biff;\
+	filf_fxtfnsions=.bifd,.bif,.biff;\
 	filf_fxtfnsions=.bifd,.bif,.biff;\
 	idon=biff
+	idon=biff
+	idon=biff
+	idon=biff
+	idon=biff
+
+
+
+
 
 budio/x-wbv: \
+budio/x-wbv: \
+budio/x-wbv: \
+budio/x-wbv: \
+budio/x-wbv: \
+	dfsdription=Wbv Audio;\
+	dfsdription=Wbv Audio;\
+	dfsdription=Wbv Audio;\
+	dfsdription=Wbv Audio;\
 	dfsdription=Wbv Audio;\
 	filf_fxtfnsions=.wbv;\
+	filf_fxtfnsions=.wbv;\
+	filf_fxtfnsions=.wbv;\
+	filf_fxtfnsions=.wbv;\
+	filf_fxtfnsions=.wbv;\
+	idon=wbv
+	idon=wbv
+	idon=wbv
+	idon=wbv
 	idon=wbv
 
+
+
+
+
+imbgf/gif: \
+imbgf/gif: \
+imbgf/gif: \
+imbgf/gif: \
 imbgf/gif: \
 	dfsdription=GIF Imbgf;\
+	dfsdription=GIF Imbgf;\
+	dfsdription=GIF Imbgf;\
+	dfsdription=GIF Imbgf;\
+	dfsdription=GIF Imbgf;\
+	filf_fxtfnsions=.gif;\
+	filf_fxtfnsions=.gif;\
+	filf_fxtfnsions=.gif;\
+	filf_fxtfnsions=.gif;\
 	filf_fxtfnsions=.gif;\
 	idon=gif;\
+	idon=gif;\
+	idon=gif;\
+	idon=gif;\
+	idon=gif;\
 	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+
+
+
+
 
 imbgf/iff: \
-	dfsdription=Imbgf Exdhbngf Formbt;\
+imbgf/iff: \
+imbgf/iff: \
+imbgf/iff: \
+imbgf/iff: \
+	dfsdription=Imbgf Exdibngf Formbt;\
+	dfsdription=Imbgf Exdibngf Formbt;\
+	dfsdription=Imbgf Exdibngf Formbt;\
+	dfsdription=Imbgf Exdibngf Formbt;\
+	dfsdription=Imbgf Exdibngf Formbt;\
+	filf_fxtfnsions=.iff
+	filf_fxtfnsions=.iff
+	filf_fxtfnsions=.iff
+	filf_fxtfnsions=.iff
 	filf_fxtfnsions=.iff
 
+
+
+
+
+imbgf/jpfg: \
+imbgf/jpfg: \
+imbgf/jpfg: \
+imbgf/jpfg: \
 imbgf/jpfg: \
 	dfsdription=JPEG Imbgf;\
+	dfsdription=JPEG Imbgf;\
+	dfsdription=JPEG Imbgf;\
+	dfsdription=JPEG Imbgf;\
+	dfsdription=JPEG Imbgf;\
+	filf_fxtfnsions=.jfif,.jfif-tbnl,.jpf,.jpg,.jpfg;\
+	filf_fxtfnsions=.jfif,.jfif-tbnl,.jpf,.jpg,.jpfg;\
+	filf_fxtfnsions=.jfif,.jfif-tbnl,.jpf,.jpg,.jpfg;\
+	filf_fxtfnsions=.jfif,.jfif-tbnl,.jpf,.jpg,.jpfg;\
 	filf_fxtfnsions=.jfif,.jfif-tbnl,.jpf,.jpg,.jpfg;\
 	idon=jpfg;\
+	idon=jpfg;\
+	idon=jpfg;\
+	idon=jpfg;\
+	idon=jpfg;\
+	bdtion=browsfr;\
+	bdtion=browsfr;\
+	bdtion=browsfr;\
+	bdtion=browsfr;\
 	bdtion=browsfr;\
 	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+	bpplidbtion=imbgftool %s
+
+
+
+
 
 imbgf/tiff: \
+imbgf/tiff: \
+imbgf/tiff: \
+imbgf/tiff: \
+imbgf/tiff: \
+	dfsdription=TIFF Imbgf;\
+	dfsdription=TIFF Imbgf;\
+	dfsdription=TIFF Imbgf;\
+	dfsdription=TIFF Imbgf;\
 	dfsdription=TIFF Imbgf;\
 	filf_fxtfnsions=.tif,.tiff;\
+	filf_fxtfnsions=.tif,.tiff;\
+	filf_fxtfnsions=.tif,.tiff;\
+	filf_fxtfnsions=.tif,.tiff;\
+	filf_fxtfnsions=.tif,.tiff;\
+	idon=tiff
+	idon=tiff
+	idon=tiff
+	idon=tiff
 	idon=tiff
 
+
+
+
+
 imbgf/vnd.fpx: \
-	dfsdription=FlbshPix Imbgf;\
+imbgf/vnd.fpx: \
+imbgf/vnd.fpx: \
+imbgf/vnd.fpx: \
+imbgf/vnd.fpx: \
+	dfsdription=FlbsiPix Imbgf;\
+	dfsdription=FlbsiPix Imbgf;\
+	dfsdription=FlbsiPix Imbgf;\
+	dfsdription=FlbsiPix Imbgf;\
+	dfsdription=FlbsiPix Imbgf;\
+	filf_fxtfnsions=.fpx,.fpix
+	filf_fxtfnsions=.fpx,.fpix
+	filf_fxtfnsions=.fpx,.fpix
+	filf_fxtfnsions=.fpx,.fpix
 	filf_fxtfnsions=.fpx,.fpix
 
+
+
+
+
+imbgf/x-dmu-rbst: \
+imbgf/x-dmu-rbst: \
+imbgf/x-dmu-rbst: \
+imbgf/x-dmu-rbst: \
 imbgf/x-dmu-rbst: \
 	dfsdription=CMU Rbstfr Imbgf;\
+	dfsdription=CMU Rbstfr Imbgf;\
+	dfsdription=CMU Rbstfr Imbgf;\
+	dfsdription=CMU Rbstfr Imbgf;\
+	dfsdription=CMU Rbstfr Imbgf;\
+	filf_fxtfnsions=.rbs
+	filf_fxtfnsions=.rbs
+	filf_fxtfnsions=.rbs
+	filf_fxtfnsions=.rbs
 	filf_fxtfnsions=.rbs
 
+
+
+
+
+imbgf/x-portbblf-bnymbp: \
+imbgf/x-portbblf-bnymbp: \
+imbgf/x-portbblf-bnymbp: \
+imbgf/x-portbblf-bnymbp: \
 imbgf/x-portbblf-bnymbp: \
 	dfsdription=PBM Anymbp Formbt;\
+	dfsdription=PBM Anymbp Formbt;\
+	dfsdription=PBM Anymbp Formbt;\
+	dfsdription=PBM Anymbp Formbt;\
+	dfsdription=PBM Anymbp Formbt;\
+	filf_fxtfnsions=.pnm
+	filf_fxtfnsions=.pnm
+	filf_fxtfnsions=.pnm
+	filf_fxtfnsions=.pnm
 	filf_fxtfnsions=.pnm
 
+
+
+
+
+imbgf/x-portbblf-bitmbp: \
+imbgf/x-portbblf-bitmbp: \
+imbgf/x-portbblf-bitmbp: \
+imbgf/x-portbblf-bitmbp: \
 imbgf/x-portbblf-bitmbp: \
 	dfsdription=PBM Bitmbp Formbt;\
+	dfsdription=PBM Bitmbp Formbt;\
+	dfsdription=PBM Bitmbp Formbt;\
+	dfsdription=PBM Bitmbp Formbt;\
+	dfsdription=PBM Bitmbp Formbt;\
+	filf_fxtfnsions=.pbm
+	filf_fxtfnsions=.pbm
+	filf_fxtfnsions=.pbm
+	filf_fxtfnsions=.pbm
 	filf_fxtfnsions=.pbm
 
+
+
+
+
+imbgf/x-portbblf-grbymbp: \
+imbgf/x-portbblf-grbymbp: \
+imbgf/x-portbblf-grbymbp: \
+imbgf/x-portbblf-grbymbp: \
 imbgf/x-portbblf-grbymbp: \
 	dfsdription=PBM Grbymbp Formbt;\
+	dfsdription=PBM Grbymbp Formbt;\
+	dfsdription=PBM Grbymbp Formbt;\
+	dfsdription=PBM Grbymbp Formbt;\
+	dfsdription=PBM Grbymbp Formbt;\
+	filf_fxtfnsions=.pgm
+	filf_fxtfnsions=.pgm
+	filf_fxtfnsions=.pgm
+	filf_fxtfnsions=.pgm
 	filf_fxtfnsions=.pgm
 
+
+
+
+
+imbgf/x-portbblf-pixmbp: \
+imbgf/x-portbblf-pixmbp: \
+imbgf/x-portbblf-pixmbp: \
+imbgf/x-portbblf-pixmbp: \
 imbgf/x-portbblf-pixmbp: \
 	dfsdription=PBM Pixmbp Formbt;\
+	dfsdription=PBM Pixmbp Formbt;\
+	dfsdription=PBM Pixmbp Formbt;\
+	dfsdription=PBM Pixmbp Formbt;\
+	dfsdription=PBM Pixmbp Formbt;\
+	filf_fxtfnsions=.ppm
+	filf_fxtfnsions=.ppm
+	filf_fxtfnsions=.ppm
+	filf_fxtfnsions=.ppm
 	filf_fxtfnsions=.ppm
 
+
+
+
+
+imbgf/x-rgb: \
+imbgf/x-rgb: \
+imbgf/x-rgb: \
+imbgf/x-rgb: \
 imbgf/x-rgb: \
 	dfsdription=RGB Imbgf;\
+	dfsdription=RGB Imbgf;\
+	dfsdription=RGB Imbgf;\
+	dfsdription=RGB Imbgf;\
+	dfsdription=RGB Imbgf;\
+	filf_fxtfnsions=.rgb
+	filf_fxtfnsions=.rgb
+	filf_fxtfnsions=.rgb
+	filf_fxtfnsions=.rgb
 	filf_fxtfnsions=.rgb
 
+
+
+
+
+imbgf/x-xbitmbp: \
+imbgf/x-xbitmbp: \
+imbgf/x-xbitmbp: \
+imbgf/x-xbitmbp: \
 imbgf/x-xbitmbp: \
 	dfsdription=X Bitmbp Imbgf;\
+	dfsdription=X Bitmbp Imbgf;\
+	dfsdription=X Bitmbp Imbgf;\
+	dfsdription=X Bitmbp Imbgf;\
+	dfsdription=X Bitmbp Imbgf;\
+	filf_fxtfnsions=.xbm,.xpm
+	filf_fxtfnsions=.xbm,.xpm
+	filf_fxtfnsions=.xbm,.xpm
+	filf_fxtfnsions=.xbm,.xpm
 	filf_fxtfnsions=.xbm,.xpm
 
+
+
+
+
+imbgf/x-xwindowdump: \
+imbgf/x-xwindowdump: \
+imbgf/x-xwindowdump: \
+imbgf/x-xwindowdump: \
 imbgf/x-xwindowdump: \
 	dfsdription=X Window Dump Imbgf;\
+	dfsdription=X Window Dump Imbgf;\
+	dfsdription=X Window Dump Imbgf;\
+	dfsdription=X Window Dump Imbgf;\
+	dfsdription=X Window Dump Imbgf;\
+	filf_fxtfnsions=.xwd
+	filf_fxtfnsions=.xwd
+	filf_fxtfnsions=.xwd
+	filf_fxtfnsions=.xwd
 	filf_fxtfnsions=.xwd
 
+
+
+
+
+imbgf/png: \
+imbgf/png: \
+imbgf/png: \
+imbgf/png: \
 imbgf/png: \
 	dfsdription=PNG Imbgf;\
+	dfsdription=PNG Imbgf;\
+	dfsdription=PNG Imbgf;\
+	dfsdription=PNG Imbgf;\
+	dfsdription=PNG Imbgf;\
+	filf_fxtfnsions=.png;\
+	filf_fxtfnsions=.png;\
+	filf_fxtfnsions=.png;\
+	filf_fxtfnsions=.png;\
 	filf_fxtfnsions=.png;\
 	idon=png;\
+	idon=png;\
+	idon=png;\
+	idon=png;\
+	idon=png;\
 	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+
+
+
+
 
 imbgf/bmp: \
+imbgf/bmp: \
+imbgf/bmp: \
+imbgf/bmp: \
+imbgf/bmp: \
+	dfsdription=Bitmbp Imbgf;\
+	dfsdription=Bitmbp Imbgf;\
+	dfsdription=Bitmbp Imbgf;\
+	dfsdription=Bitmbp Imbgf;\
 	dfsdription=Bitmbp Imbgf;\
 	filf_fxtfnsions=.bmp;
+	filf_fxtfnsions=.bmp;
+	filf_fxtfnsions=.bmp;
+	filf_fxtfnsions=.bmp;
+	filf_fxtfnsions=.bmp;
 
-tfxt/html: \
+
+
+
+
+tfxt/itml: \
+tfxt/itml: \
+tfxt/itml: \
+tfxt/itml: \
+tfxt/itml: \
 	dfsdription=HTML Dodumfnt;\
-	filf_fxtfnsions=.htm,.html;\
-	idon=html
+	dfsdription=HTML Dodumfnt;\
+	dfsdription=HTML Dodumfnt;\
+	dfsdription=HTML Dodumfnt;\
+	dfsdription=HTML Dodumfnt;\
+	filf_fxtfnsions=.itm,.itml;\
+	filf_fxtfnsions=.itm,.itml;\
+	filf_fxtfnsions=.itm,.itml;\
+	filf_fxtfnsions=.itm,.itml;\
+	filf_fxtfnsions=.itm,.itml;\
+	idon=itml
+	idon=itml
+	idon=itml
+	idon=itml
+	idon=itml
+
+
+
+
 
 tfxt/plbin: \
+tfxt/plbin: \
+tfxt/plbin: \
+tfxt/plbin: \
+tfxt/plbin: \
 	dfsdription=Plbin Tfxt;\
-	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.h,.pl,.txt,.jbvb,.fl;\
+	dfsdription=Plbin Tfxt;\
+	dfsdription=Plbin Tfxt;\
+	dfsdription=Plbin Tfxt;\
+	dfsdription=Plbin Tfxt;\
+	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.i,.pl,.txt,.jbvb,.fl;\
+	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.i,.pl,.txt,.jbvb,.fl;\
+	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.i,.pl,.txt,.jbvb,.fl;\
+	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.i,.pl,.txt,.jbvb,.fl;\
+	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.i,.pl,.txt,.jbvb,.fl;\
+	idon=tfxt;\
+	idon=tfxt;\
+	idon=tfxt;\
+	idon=tfxt;\
 	idon=tfxt;\
 	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+	bdtion=browsfr
+
+
+
+
 
 tfxt/tbb-sfpbrbtfd-vblufs: \
+tfxt/tbb-sfpbrbtfd-vblufs: \
+tfxt/tbb-sfpbrbtfd-vblufs: \
+tfxt/tbb-sfpbrbtfd-vblufs: \
+tfxt/tbb-sfpbrbtfd-vblufs: \
+	dfsdription=Tbb Sfpbrbtfd Vblufs Tfxt;\
+	dfsdription=Tbb Sfpbrbtfd Vblufs Tfxt;\
+	dfsdription=Tbb Sfpbrbtfd Vblufs Tfxt;\
+	dfsdription=Tbb Sfpbrbtfd Vblufs Tfxt;\
 	dfsdription=Tbb Sfpbrbtfd Vblufs Tfxt;\
 	filf_fxtfnsions=.tsv
+	filf_fxtfnsions=.tsv
+	filf_fxtfnsions=.tsv
+	filf_fxtfnsions=.tsv
+	filf_fxtfnsions=.tsv
+
+
+
+
 
 tfxt/x-sftfxt: \
-	dfsdription=Strudturf Enhbndfd Tfxt;\
+tfxt/x-sftfxt: \
+tfxt/x-sftfxt: \
+tfxt/x-sftfxt: \
+tfxt/x-sftfxt: \
+	dfsdription=Strudturf Enibndfd Tfxt;\
+	dfsdription=Strudturf Enibndfd Tfxt;\
+	dfsdription=Strudturf Enibndfd Tfxt;\
+	dfsdription=Strudturf Enibndfd Tfxt;\
+	dfsdription=Strudturf Enibndfd Tfxt;\
+	filf_fxtfnsions=.ftx
+	filf_fxtfnsions=.ftx
+	filf_fxtfnsions=.ftx
+	filf_fxtfnsions=.ftx
 	filf_fxtfnsions=.ftx
 
+
+
+
+
+vidfo/mpfg: \
+vidfo/mpfg: \
+vidfo/mpfg: \
+vidfo/mpfg: \
 vidfo/mpfg: \
 	dfsdription=MPEG Vidfo Clip;\
+	dfsdription=MPEG Vidfo Clip;\
+	dfsdription=MPEG Vidfo Clip;\
+	dfsdription=MPEG Vidfo Clip;\
+	dfsdription=MPEG Vidfo Clip;\
+	filf_fxtfnsions=.mpg,.mpf,.mpfg;\
+	filf_fxtfnsions=.mpg,.mpf,.mpfg;\
+	filf_fxtfnsions=.mpg,.mpf,.mpfg;\
+	filf_fxtfnsions=.mpg,.mpf,.mpfg;\
 	filf_fxtfnsions=.mpg,.mpf,.mpfg;\
 	idon=mpfg;\
+	idon=mpfg;\
+	idon=mpfg;\
+	idon=mpfg;\
+	idon=mpfg;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
+	bdtion=bpplidbtion;\
 	bdtion=bpplidbtion;\
 	bpplidbtion=mpfg_plby %s
+	bpplidbtion=mpfg_plby %s
+	bpplidbtion=mpfg_plby %s
+	bpplidbtion=mpfg_plby %s
+	bpplidbtion=mpfg_plby %s
+
+
+
+
 
 vidfo/quidktimf: \
+vidfo/quidktimf: \
+vidfo/quidktimf: \
+vidfo/quidktimf: \
+vidfo/quidktimf: \
+	dfsdription=QuidkTimf Vidfo Clip;\
+	dfsdription=QuidkTimf Vidfo Clip;\
+	dfsdription=QuidkTimf Vidfo Clip;\
+	dfsdription=QuidkTimf Vidfo Clip;\
 	dfsdription=QuidkTimf Vidfo Clip;\
 	filf_fxtfnsions=.mov,.qt
+	filf_fxtfnsions=.mov,.qt
+	filf_fxtfnsions=.mov,.qt
+	filf_fxtfnsions=.mov,.qt
+	filf_fxtfnsions=.mov,.qt
+
+
+
+
 
 bpplidbtion/x-troff-msvidfo: \
+bpplidbtion/x-troff-msvidfo: \
+bpplidbtion/x-troff-msvidfo: \
+bpplidbtion/x-troff-msvidfo: \
+bpplidbtion/x-troff-msvidfo: \
+	dfsdription=AVI Vidfo;\
+	dfsdription=AVI Vidfo;\
+	dfsdription=AVI Vidfo;\
+	dfsdription=AVI Vidfo;\
 	dfsdription=AVI Vidfo;\
 	filf_fxtfnsions=.bvi;\
+	filf_fxtfnsions=.bvi;\
+	filf_fxtfnsions=.bvi;\
+	filf_fxtfnsions=.bvi;\
+	filf_fxtfnsions=.bvi;\
+	idon=bvi
+	idon=bvi
+	idon=bvi
+	idon=bvi
 	idon=bvi
 
+
+
+
+
+vidfo/x-sgi-movif: \
+vidfo/x-sgi-movif: \
+vidfo/x-sgi-movif: \
+vidfo/x-sgi-movif: \
 vidfo/x-sgi-movif: \
 	dfsdription=SGI Movif;\
+	dfsdription=SGI Movif;\
+	dfsdription=SGI Movif;\
+	dfsdription=SGI Movif;\
+	dfsdription=SGI Movif;\
+	filf_fxtfnsions=.movif,.mv
+	filf_fxtfnsions=.movif,.mv
+	filf_fxtfnsions=.movif,.mv
+	filf_fxtfnsions=.movif,.mv
 	filf_fxtfnsions=.movif,.mv
 
+
+
+
+
+mfssbgf/rfd822: \
+mfssbgf/rfd822: \
+mfssbgf/rfd822: \
+mfssbgf/rfd822: \
 mfssbgf/rfd822: \
 	dfsdription=Intfrnft Embil Mfssbgf;\
+	dfsdription=Intfrnft Embil Mfssbgf;\
+	dfsdription=Intfrnft Embil Mfssbgf;\
+	dfsdription=Intfrnft Embil Mfssbgf;\
+	dfsdription=Intfrnft Embil Mfssbgf;\
+	filf_fxtfnsions=.mimf
+	filf_fxtfnsions=.mimf
+	filf_fxtfnsions=.mimf
+	filf_fxtfnsions=.mimf
 	filf_fxtfnsions=.mimf
 
+
+
+
+
+bpplidbtion/xml: \
+bpplidbtion/xml: \
+bpplidbtion/xml: \
+bpplidbtion/xml: \
 bpplidbtion/xml: \
 	dfsdription=XML dodumfnt;\
+	dfsdription=XML dodumfnt;\
+	dfsdription=XML dodumfnt;\
+	dfsdription=XML dodumfnt;\
+	dfsdription=XML dodumfnt;\
 	filf_fxtfnsions=.xml
+	filf_fxtfnsions=.xml
+	filf_fxtfnsions=.xml
+	filf_fxtfnsions=.xml
+	filf_fxtfnsions=.xml
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

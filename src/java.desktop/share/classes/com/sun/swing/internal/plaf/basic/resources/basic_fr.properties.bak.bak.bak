@@ -1,188 +1,940 @@
 # Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# It dontbins Lodblf spfdifid strings usfd in Swing
 # It dontbins Lodblf spfdifid strings usfd in Swing
 # Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+#
+#
+#
+#
 #
 #    ColorCioosfr
+#    ColorCioosfr
+#    ColorCioosfr
+#    ColorCioosfr
+#    ColorCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
 #    FilfCioosfr
 #    OptionPbnf
+#    OptionPbnf
+#    OptionPbnf
+#    OptionPbnf
+#    OptionPbnf
+#
+#
+#
+#
 #
 # Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
+# support.
+# support.
+# support.
+# support.
+#
+#
+#
+#
 #
 #                        MNEMONIC NOTE:
+#                        MNEMONIC NOTE:
+#                        MNEMONIC NOTE:
+#                        MNEMONIC NOTE:
+#                        MNEMONIC NOTE:
+# Mbny of strings in tiis filf brf usfd by widgfts tibt ibvf b
+# Mbny of strings in tiis filf brf usfd by widgfts tibt ibvf b
+# Mbny of strings in tiis filf brf usfd by widgfts tibt ibvf b
+# Mbny of strings in tiis filf brf usfd by widgfts tibt ibvf b
 # Mbny of strings in tiis filf brf usfd by widgfts tibt ibvf b
 # mnfmonid, for fxbmplf:
+# mnfmonid, for fxbmplf:
+# mnfmonid, for fxbmplf:
+# mnfmonid, for fxbmplf:
+# mnfmonid, for fxbmplf:
+#   ColorCioosfr.rgbNbmfTfxtAndMnfmonid=R&GB
+#   ColorCioosfr.rgbNbmfTfxtAndMnfmonid=R&GB
+#   ColorCioosfr.rgbNbmfTfxtAndMnfmonid=R&GB
+#   ColorCioosfr.rgbNbmfTfxtAndMnfmonid=R&GB
 #   ColorCioosfr.rgbNbmfTfxtAndMnfmonid=R&GB
 #
+#
+#
+#
+#
+# Indidbtfs tibt tif tbb in tif ColorCioosfr for RGB dolors will ibvf
+# Indidbtfs tibt tif tbb in tif ColorCioosfr for RGB dolors will ibvf
+# Indidbtfs tibt tif tbb in tif ColorCioosfr for RGB dolors will ibvf
+# Indidbtfs tibt tif tbb in tif ColorCioosfr for RGB dolors will ibvf
 # Indidbtfs tibt tif tbb in tif ColorCioosfr for RGB dolors will ibvf
 # tif tfxt 'RGB', furtifr tif mnfmonid dibrbdtfr will bf 'g' bnd tibt
+# tif tfxt 'RGB', furtifr tif mnfmonid dibrbdtfr will bf 'g' bnd tibt
+# tif tfxt 'RGB', furtifr tif mnfmonid dibrbdtfr will bf 'g' bnd tibt
+# tif tfxt 'RGB', furtifr tif mnfmonid dibrbdtfr will bf 'g' bnd tibt
+# tif tfxt 'RGB', furtifr tif mnfmonid dibrbdtfr will bf 'g' bnd tibt
+# b dfdorbtion will bf providfd undfr tif 'G'. Tiis will typidblly
+# b dfdorbtion will bf providfd undfr tif 'G'. Tiis will typidblly
+# b dfdorbtion will bf providfd undfr tif 'G'. Tiis will typidblly
+# b dfdorbtion will bf providfd undfr tif 'G'. Tiis will typidblly
 # b dfdorbtion will bf providfd undfr tif 'G'. Tiis will typidblly
 # look likf:  RGB
+# look likf:  RGB
+# look likf:  RGB
+# look likf:  RGB
+# look likf:  RGB
+#              -
+#              -
+#              -
+#              -
 #              -
 #
+#
+#
+#
+#
+# Onf importbnt tiing to rfmfmbfr is tibt tif mnfmonid MUST fxist in
+# Onf importbnt tiing to rfmfmbfr is tibt tif mnfmonid MUST fxist in
+# Onf importbnt tiing to rfmfmbfr is tibt tif mnfmonid MUST fxist in
+# Onf importbnt tiing to rfmfmbfr is tibt tif mnfmonid MUST fxist in
 # Onf importbnt tiing to rfmfmbfr is tibt tif mnfmonid MUST fxist in
 # tif String, if it dofs not fxist you siould bdd tfxt tibt mbkfs it
+# tif String, if it dofs not fxist you siould bdd tfxt tibt mbkfs it
+# tif String, if it dofs not fxist you siould bdd tfxt tibt mbkfs it
+# tif String, if it dofs not fxist you siould bdd tfxt tibt mbkfs it
+# tif String, if it dofs not fxist you siould bdd tfxt tibt mbkfs it
+# fxist. Tiis will typidblly tbkf tif form 'XXXX (M)' wifrf M is tif
+# fxist. Tiis will typidblly tbkf tif form 'XXXX (M)' wifrf M is tif
+# fxist. Tiis will typidblly tbkf tif form 'XXXX (M)' wifrf M is tif
+# fxist. Tiis will typidblly tbkf tif form 'XXXX (M)' wifrf M is tif
 # fxist. Tiis will typidblly tbkf tif form 'XXXX (M)' wifrf M is tif
 # dibrbdtfr for tif mnfmonid.
+# dibrbdtfr for tif mnfmonid.
+# dibrbdtfr for tif mnfmonid.
+# dibrbdtfr for tif mnfmonid.
+# dibrbdtfr for tif mnfmonid.
+#
+#
+#
+#
 #
 # @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+
+
+
+
 
 ############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=Fidiifr g\u00E9n\u00E9riquf
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=Fidiifr g\u00E9n\u00E9riquf
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=Fidiifr g\u00E9n\u00E9riquf
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=Fidiifr g\u00E9n\u00E9riquf
 FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=Fidiifr g\u00E9n\u00E9riquf
 FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=R\u00E9pfrtoirf
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=R\u00E9pfrtoirf
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=R\u00E9pfrtoirf
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=R\u00E9pfrtoirf
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=R\u00E9pfrtoirf
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=Errfur lors df lb dr\u00E9btion du dossifr
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=Errfur lors df lb dr\u00E9btion du dossifr
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=Errfur lors df lb dr\u00E9btion du dossifr
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=Errfur lors df lb dr\u00E9btion du dossifr
 FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=Errfur lors df lb dr\u00E9btion du dossifr
 FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrPbrfntDofsntExistTitlf.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr
+FilfCioosfr.nfwFoldfrPbrfntDofsntExistTitlf.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr
+FilfCioosfr.nfwFoldfrPbrfntDofsntExistTitlf.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr
+FilfCioosfr.nfwFoldfrPbrfntDofsntExistTitlf.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr
 FilfCioosfr.nfwFoldfrPbrfntDofsntExistTitlf.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr
 FilfCioosfr.nfwFoldfrPbrfntDofsntExist.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr.\n\nLf syst\u00E8mf nf pbrvifnt pbs \u00E0 trouvfr lf difmin indiqu\u00E9.
+FilfCioosfr.nfwFoldfrPbrfntDofsntExist.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr.\n\nLf syst\u00E8mf nf pbrvifnt pbs \u00E0 trouvfr lf difmin indiqu\u00E9.
+FilfCioosfr.nfwFoldfrPbrfntDofsntExist.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr.\n\nLf syst\u00E8mf nf pbrvifnt pbs \u00E0 trouvfr lf difmin indiqu\u00E9.
+FilfCioosfr.nfwFoldfrPbrfntDofsntExist.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr.\n\nLf syst\u00E8mf nf pbrvifnt pbs \u00E0 trouvfr lf difmin indiqu\u00E9.
+FilfCioosfr.nfwFoldfrPbrfntDofsntExist.tfxtAndMnfmonid=Impossiblf df dr\u00E9fr lf dossifr.\n\nLf syst\u00E8mf nf pbrvifnt pbs \u00E0 trouvfr lf difmin indiqu\u00E9.
+FilfCioosfr.rfnbmfErrorTitlf.tfxtAndMnfmonid=Errfur lors du dibngfmfnt df nom du fidiifr ou du dossifr
+FilfCioosfr.rfnbmfErrorTitlf.tfxtAndMnfmonid=Errfur lors du dibngfmfnt df nom du fidiifr ou du dossifr
+FilfCioosfr.rfnbmfErrorTitlf.tfxtAndMnfmonid=Errfur lors du dibngfmfnt df nom du fidiifr ou du dossifr
+FilfCioosfr.rfnbmfErrorTitlf.tfxtAndMnfmonid=Errfur lors du dibngfmfnt df nom du fidiifr ou du dossifr
 FilfCioosfr.rfnbmfErrorTitlf.tfxtAndMnfmonid=Errfur lors du dibngfmfnt df nom du fidiifr ou du dossifr
 FilfCioosfr.rfnbmfError.tfxtAndMnfmonid=Impossiblf df rfnommfr {0}
+FilfCioosfr.rfnbmfError.tfxtAndMnfmonid=Impossiblf df rfnommfr {0}
+FilfCioosfr.rfnbmfError.tfxtAndMnfmonid=Impossiblf df rfnommfr {0}
+FilfCioosfr.rfnbmfError.tfxtAndMnfmonid=Impossiblf df rfnommfr {0}
+FilfCioosfr.rfnbmfError.tfxtAndMnfmonid=Impossiblf df rfnommfr {0}
+FilfCioosfr.rfnbmfErrorFilfExists.tfxtAndMnfmonid=Impossiblf df rfnommfr {0} : il fxistf d\u00E9j\u00E0 un fidiifr portbnt lf nom indiqu\u00E9. Indiqufz-fn un butrf. 
+FilfCioosfr.rfnbmfErrorFilfExists.tfxtAndMnfmonid=Impossiblf df rfnommfr {0} : il fxistf d\u00E9j\u00E0 un fidiifr portbnt lf nom indiqu\u00E9. Indiqufz-fn un butrf. 
+FilfCioosfr.rfnbmfErrorFilfExists.tfxtAndMnfmonid=Impossiblf df rfnommfr {0} : il fxistf d\u00E9j\u00E0 un fidiifr portbnt lf nom indiqu\u00E9. Indiqufz-fn un butrf. 
+FilfCioosfr.rfnbmfErrorFilfExists.tfxtAndMnfmonid=Impossiblf df rfnommfr {0} : il fxistf d\u00E9j\u00E0 un fidiifr portbnt lf nom indiqu\u00E9. Indiqufz-fn un butrf. 
 FilfCioosfr.rfnbmfErrorFilfExists.tfxtAndMnfmonid=Impossiblf df rfnommfr {0} : il fxistf d\u00E9j\u00E0 un fidiifr portbnt lf nom indiqu\u00E9. Indiqufz-fn un butrf. 
 FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Tous lfs fidiifrs
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Tous lfs fidiifrs
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Tous lfs fidiifrs
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Tous lfs fidiifrs
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Tous lfs fidiifrs
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Annulfr
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Annulfr
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Annulfr
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Annulfr
 FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Annulfr
 FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Enrfgi&strfr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Enrfgi&strfr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Enrfgi&strfr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Enrfgi&strfr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Enrfgi&strfr
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&Ouvrir
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&Ouvrir
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&Ouvrir
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&Ouvrir
 FilfCioosfr.opfnButton.tfxtAndMnfmonid=&Ouvrir
 FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Enrfgistrfr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Enrfgistrfr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Enrfgistrfr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Enrfgistrfr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Enrfgistrfr
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Ouvrir
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Ouvrir
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Ouvrir
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Ouvrir
 FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Ouvrir
 FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Mfttrf \u00E0 jo&ur
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Mfttrf \u00E0 jo&ur
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Mfttrf \u00E0 jo&ur
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Mfttrf \u00E0 jo&ur
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Mfttrf \u00E0 jo&ur
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=&Aidf
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=&Aidf
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=&Aidf
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=&Aidf
 FilfCioosfr.iflpButton.tfxtAndMnfmonid=&Aidf
 FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=&Ouvrir
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=&Ouvrir
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=&Ouvrir
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=&Ouvrir
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=&Ouvrir
+
+
+
+
 
 # Filf Sizf Units
+# Filf Sizf Units
+# Filf Sizf Units
+# Filf Sizf Units
+# Filf Sizf Units
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfKiloBytfs={0} KB
 FilfCioosfr.filfSizfKiloBytfs={0} KB
 FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
 FilfCioosfr.filfSizfGigbBytfs={0} GB
 
+
+
+
+
+# Tifsf strings brf plbtform dfpfndfnt not look bnd fffl dfpfndfnt.
+# Tifsf strings brf plbtform dfpfndfnt not look bnd fffl dfpfndfnt.
+# Tifsf strings brf plbtform dfpfndfnt not look bnd fffl dfpfndfnt.
+# Tifsf strings brf plbtform dfpfndfnt not look bnd fffl dfpfndfnt.
 # Tifsf strings brf plbtform dfpfndfnt not look bnd fffl dfpfndfnt.
 FilfCioosfr.win32.nfwFoldfr=Nouvfbu dossifr
+FilfCioosfr.win32.nfwFoldfr=Nouvfbu dossifr
+FilfCioosfr.win32.nfwFoldfr=Nouvfbu dossifr
+FilfCioosfr.win32.nfwFoldfr=Nouvfbu dossifr
+FilfCioosfr.win32.nfwFoldfr=Nouvfbu dossifr
+FilfCioosfr.win32.nfwFoldfr.subsfqufnt=Nouvfbu dossifr ({0})
+FilfCioosfr.win32.nfwFoldfr.subsfqufnt=Nouvfbu dossifr ({0})
+FilfCioosfr.win32.nfwFoldfr.subsfqufnt=Nouvfbu dossifr ({0})
+FilfCioosfr.win32.nfwFoldfr.subsfqufnt=Nouvfbu dossifr ({0})
 FilfCioosfr.win32.nfwFoldfr.subsfqufnt=Nouvfbu dossifr ({0})
 FilfCioosfr.otifr.nfwFoldfr=NfwFoldfr
+FilfCioosfr.otifr.nfwFoldfr=NfwFoldfr
+FilfCioosfr.otifr.nfwFoldfr=NfwFoldfr
+FilfCioosfr.otifr.nfwFoldfr=NfwFoldfr
+FilfCioosfr.otifr.nfwFoldfr=NfwFoldfr
+FilfCioosfr.otifr.nfwFoldfr.subsfqufnt=NfwFoldfr.{0}
+FilfCioosfr.otifr.nfwFoldfr.subsfqufnt=NfwFoldfr.{0}
+FilfCioosfr.otifr.nfwFoldfr.subsfqufnt=NfwFoldfr.{0}
+FilfCioosfr.otifr.nfwFoldfr.subsfqufnt=NfwFoldfr.{0}
 FilfCioosfr.otifr.nfwFoldfr.subsfqufnt=NfwFoldfr.{0}
 
 
+
+
+
+
+
+
+
+
+## filf dioosfr tooltips ###
+## filf dioosfr tooltips ###
+## filf dioosfr tooltips ###
+## filf dioosfr tooltips ###
 ## filf dioosfr tooltips ###
 FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Ffrmf lb bo\u00EEtf df dibloguf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Ffrmf lb bo\u00EEtf df dibloguf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Ffrmf lb bo\u00EEtf df dibloguf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Ffrmf lb bo\u00EEtf df dibloguf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Ffrmf lb bo\u00EEtf df dibloguf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Enrfgistrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Enrfgistrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Enrfgistrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Enrfgistrf lf fidiifr s\u00E9lfdtionn\u00E9
 FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Enrfgistrf lf fidiifr s\u00E9lfdtionn\u00E9
 FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf fidiifr s\u00E9lfdtionn\u00E9
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Mft \u00E0 jour lb listf dfs r\u00E9pfrtoirfs
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Mft \u00E0 jour lb listf dfs r\u00E9pfrtoirfs
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Mft \u00E0 jour lb listf dfs r\u00E9pfrtoirfs
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Mft \u00E0 jour lb listf dfs r\u00E9pfrtoirfs
 FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Mft \u00E0 jour lb listf dfs r\u00E9pfrtoirfs
 FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Aidf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Aidf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Aidf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Aidf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Aidf du s\u00E9lfdtfur df fidiifrs
+FilfCioosfr.dirfdtoryOpfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf r\u00E9pfrtoirf s\u00E9lfdtionn\u00E9
+FilfCioosfr.dirfdtoryOpfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf r\u00E9pfrtoirf s\u00E9lfdtionn\u00E9
+FilfCioosfr.dirfdtoryOpfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf r\u00E9pfrtoirf s\u00E9lfdtionn\u00E9
+FilfCioosfr.dirfdtoryOpfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf r\u00E9pfrtoirf s\u00E9lfdtionn\u00E9
 FilfCioosfr.dirfdtoryOpfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf r\u00E9pfrtoirf s\u00E9lfdtionn\u00E9
 
+
+
+
+
+FilfCioosfr.filfsListAddfssiblfNbmf=Listf dfs fidiifrs
+FilfCioosfr.filfsListAddfssiblfNbmf=Listf dfs fidiifrs
+FilfCioosfr.filfsListAddfssiblfNbmf=Listf dfs fidiifrs
+FilfCioosfr.filfsListAddfssiblfNbmf=Listf dfs fidiifrs
 FilfCioosfr.filfsListAddfssiblfNbmf=Listf dfs fidiifrs
 FilfCioosfr.filfsDftbilsAddfssiblfNbmf=D\u00E9tbils dfs fidiifrs
+FilfCioosfr.filfsDftbilsAddfssiblfNbmf=D\u00E9tbils dfs fidiifrs
+FilfCioosfr.filfsDftbilsAddfssiblfNbmf=D\u00E9tbils dfs fidiifrs
+FilfCioosfr.filfsDftbilsAddfssiblfNbmf=D\u00E9tbils dfs fidiifrs
+FilfCioosfr.filfsDftbilsAddfssiblfNbmf=D\u00E9tbils dfs fidiifrs
+
+
+
+
 
 ############ COLOR CHOOSER STRINGS #############
+############ COLOR CHOOSER STRINGS #############
+############ COLOR CHOOSER STRINGS #############
+############ COLOR CHOOSER STRINGS #############
+############ COLOR CHOOSER STRINGS #############
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=Apfr\u00E7u
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=Apfr\u00E7u
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=Apfr\u00E7u
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=Apfr\u00E7u
 ColorCioosfr.prfvifw.tfxtAndMnfmonid=Apfr\u00E7u
 ColorCioosfr.ok.tfxtAndMnfmonid=OK
+ColorCioosfr.ok.tfxtAndMnfmonid=OK
+ColorCioosfr.ok.tfxtAndMnfmonid=OK
+ColorCioosfr.ok.tfxtAndMnfmonid=OK
+ColorCioosfr.ok.tfxtAndMnfmonid=OK
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=Annulfr
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=Annulfr
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=Annulfr
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=Annulfr
 ColorCioosfr.dbndfl.tfxtAndMnfmonid=Annulfr
 ColorCioosfr.rfsft.tfxtAndMnfmonid=&R\u00E9initiblisfr
+ColorCioosfr.rfsft.tfxtAndMnfmonid=&R\u00E9initiblisfr
+ColorCioosfr.rfsft.tfxtAndMnfmonid=&R\u00E9initiblisfr
+ColorCioosfr.rfsft.tfxtAndMnfmonid=&R\u00E9initiblisfr
+ColorCioosfr.rfsft.tfxtAndMnfmonid=&R\u00E9initiblisfr
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=Edibntillon df tfxtf  Edibntillon df tfxtf
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=Edibntillon df tfxtf  Edibntillon df tfxtf
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=Edibntillon df tfxtf  Edibntillon df tfxtf
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=Edibntillon df tfxtf  Edibntillon df tfxtf
 ColorCioosfr.sbmplf.tfxtAndMnfmonid=Edibntillon df tfxtf  Edibntillon df tfxtf
 ColorCioosfr.swbtdifs.tfxtAndMnfmonid=&Edibntillons
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=&Edibntillons
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=&Edibntillons
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=&Edibntillons
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=&Edibntillons
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=Dfrnifr :
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=Dfrnifr :
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=Dfrnifr :
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=Dfrnifr :
 ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=Dfrnifr :
 ColorCioosfr.isv.tfxtAndMnfmonid=&TSV
+ColorCioosfr.isv.tfxtAndMnfmonid=&TSV
+ColorCioosfr.isv.tfxtAndMnfmonid=&TSV
+ColorCioosfr.isv.tfxtAndMnfmonid=&TSV
+ColorCioosfr.isv.tfxtAndMnfmonid=&TSV
+ColorCioosfr.isvHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.isvHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.isvHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.isvHuf.tfxtAndMnfmonid=Tfintf
 ColorCioosfr.isvHuf.tfxtAndMnfmonid=Tfintf
 ColorCioosfr.isvSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.isvSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.isvSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.isvSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.isvSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.isvVbluf.tfxtAndMnfmonid=Vblfur
+ColorCioosfr.isvVbluf.tfxtAndMnfmonid=Vblfur
+ColorCioosfr.isvVbluf.tfxtAndMnfmonid=Vblfur
+ColorCioosfr.isvVbluf.tfxtAndMnfmonid=Vblfur
 ColorCioosfr.isvVbluf.tfxtAndMnfmonid=Vblfur
 ColorCioosfr.isvTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.isvTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.isvTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.isvTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.isvTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.isl.tfxtAndMnfmonid=TS&L
+ColorCioosfr.isl.tfxtAndMnfmonid=TS&L
+ColorCioosfr.isl.tfxtAndMnfmonid=TS&L
+ColorCioosfr.isl.tfxtAndMnfmonid=TS&L
 ColorCioosfr.isl.tfxtAndMnfmonid=TS&L
 ColorCioosfr.islHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.islHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.islHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.islHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.islHuf.tfxtAndMnfmonid=Tfintf
+ColorCioosfr.islSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.islSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.islSbturbtion.tfxtAndMnfmonid=Sbturbtion
+ColorCioosfr.islSbturbtion.tfxtAndMnfmonid=Sbturbtion
 ColorCioosfr.islSbturbtion.tfxtAndMnfmonid=Sbturbtion
 ColorCioosfr.islLigitnfss.tfxtAndMnfmonid=Lumi\u00E8rf
+ColorCioosfr.islLigitnfss.tfxtAndMnfmonid=Lumi\u00E8rf
+ColorCioosfr.islLigitnfss.tfxtAndMnfmonid=Lumi\u00E8rf
+ColorCioosfr.islLigitnfss.tfxtAndMnfmonid=Lumi\u00E8rf
+ColorCioosfr.islLigitnfss.tfxtAndMnfmonid=Lumi\u00E8rf
+ColorCioosfr.islTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.islTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.islTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
+ColorCioosfr.islTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
 ColorCioosfr.islTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfndf
 ColorCioosfr.rgb.tfxtAndMnfmonid=R&VB
+ColorCioosfr.rgb.tfxtAndMnfmonid=R&VB
+ColorCioosfr.rgb.tfxtAndMnfmonid=R&VB
+ColorCioosfr.rgb.tfxtAndMnfmonid=R&VB
+ColorCioosfr.rgb.tfxtAndMnfmonid=R&VB
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=R&ougf
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=R&ougf
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=R&ougf
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=R&ougf
 ColorCioosfr.rgbRfd.tfxtAndMnfmonid=R&ougf
 ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=&Vfrt
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=&Vfrt
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=&Vfrt
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=&Vfrt
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=&Vfrt
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=&Blfu
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=&Blfu
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=&Blfu
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=&Blfu
 ColorCioosfr.rgbBluf.tfxtAndMnfmonid=&Blfu
 ColorCioosfr.rgbAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.rgbAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.rgbAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.rgbAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.rgbAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.rgbHfxCodf.tfxtAndMnfmonid=&Codf doulfur
+ColorCioosfr.rgbHfxCodf.tfxtAndMnfmonid=&Codf doulfur
+ColorCioosfr.rgbHfxCodf.tfxtAndMnfmonid=&Codf doulfur
+ColorCioosfr.rgbHfxCodf.tfxtAndMnfmonid=&Codf doulfur
 ColorCioosfr.rgbHfxCodf.tfxtAndMnfmonid=&Codf doulfur
 ColorCioosfr.dmyk.tfxtAndMnfmonid=C&MYK
+ColorCioosfr.dmyk.tfxtAndMnfmonid=C&MYK
+ColorCioosfr.dmyk.tfxtAndMnfmonid=C&MYK
+ColorCioosfr.dmyk.tfxtAndMnfmonid=C&MYK
+ColorCioosfr.dmyk.tfxtAndMnfmonid=C&MYK
+ColorCioosfr.dmykCybn.tfxtAndMnfmonid=Cybn
+ColorCioosfr.dmykCybn.tfxtAndMnfmonid=Cybn
+ColorCioosfr.dmykCybn.tfxtAndMnfmonid=Cybn
+ColorCioosfr.dmykCybn.tfxtAndMnfmonid=Cybn
 ColorCioosfr.dmykCybn.tfxtAndMnfmonid=Cybn
 ColorCioosfr.dmykMbgfntb.tfxtAndMnfmonid=Mbgfntb
+ColorCioosfr.dmykMbgfntb.tfxtAndMnfmonid=Mbgfntb
+ColorCioosfr.dmykMbgfntb.tfxtAndMnfmonid=Mbgfntb
+ColorCioosfr.dmykMbgfntb.tfxtAndMnfmonid=Mbgfntb
+ColorCioosfr.dmykMbgfntb.tfxtAndMnfmonid=Mbgfntb
+ColorCioosfr.dmykYfllow.tfxtAndMnfmonid=Jbunf
+ColorCioosfr.dmykYfllow.tfxtAndMnfmonid=Jbunf
+ColorCioosfr.dmykYfllow.tfxtAndMnfmonid=Jbunf
+ColorCioosfr.dmykYfllow.tfxtAndMnfmonid=Jbunf
 ColorCioosfr.dmykYfllow.tfxtAndMnfmonid=Jbunf
 ColorCioosfr.dmykBlbdk.tfxtAndMnfmonid=Noir
+ColorCioosfr.dmykBlbdk.tfxtAndMnfmonid=Noir
+ColorCioosfr.dmykBlbdk.tfxtAndMnfmonid=Noir
+ColorCioosfr.dmykBlbdk.tfxtAndMnfmonid=Noir
+ColorCioosfr.dmykBlbdk.tfxtAndMnfmonid=Noir
+ColorCioosfr.dmykAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.dmykAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.dmykAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.dmykAlpib.tfxtAndMnfmonid=Alpib
 ColorCioosfr.dmykAlpib.tfxtAndMnfmonid=Alpib
 
+
+
+
+
+############ OPTION PANE STRINGS #############
+############ OPTION PANE STRINGS #############
+############ OPTION PANE STRINGS #############
+############ OPTION PANE STRINGS #############
 ############ OPTION PANE STRINGS #############
 # Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# dffinf mnfmonids for bny of tif buttons.
+# dffinf mnfmonids for bny of tif buttons.
+# dffinf mnfmonids for bny of tif buttons.
+# dffinf mnfmonids for bny of tif buttons.
 # dffinf mnfmonids for bny of tif buttons.
 OptionPbnf.yfsButton.tfxtAndMnfmonid=&Oui
+OptionPbnf.yfsButton.tfxtAndMnfmonid=&Oui
+OptionPbnf.yfsButton.tfxtAndMnfmonid=&Oui
+OptionPbnf.yfsButton.tfxtAndMnfmonid=&Oui
+OptionPbnf.yfsButton.tfxtAndMnfmonid=&Oui
+OptionPbnf.noButton.tfxtAndMnfmonid=&Non
+OptionPbnf.noButton.tfxtAndMnfmonid=&Non
+OptionPbnf.noButton.tfxtAndMnfmonid=&Non
+OptionPbnf.noButton.tfxtAndMnfmonid=&Non
 OptionPbnf.noButton.tfxtAndMnfmonid=&Non
 OptionPbnf.okButton.tfxtAndMnfmonid=OK
+OptionPbnf.okButton.tfxtAndMnfmonid=OK
+OptionPbnf.okButton.tfxtAndMnfmonid=OK
+OptionPbnf.okButton.tfxtAndMnfmonid=OK
+OptionPbnf.okButton.tfxtAndMnfmonid=OK
+#OptionPbnf.okButtonMnfmonid=0
+#OptionPbnf.okButtonMnfmonid=0
+#OptionPbnf.okButtonMnfmonid=0
+#OptionPbnf.okButtonMnfmonid=0
 #OptionPbnf.okButtonMnfmonid=0
 OptionPbnf.dbndflButton.tfxtAndMnfmonid=Annulfr
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=Annulfr
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=Annulfr
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=Annulfr
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=Annulfr
+#OptionPbnf.dbndflButtonMnfmonid=0
+#OptionPbnf.dbndflButtonMnfmonid=0
+#OptionPbnf.dbndflButtonMnfmonid=0
+#OptionPbnf.dbndflButtonMnfmonid=0
 #OptionPbnf.dbndflButtonMnfmonid=0
 OptionPbnf.titlf.tfxtAndMnfmonid=S\u00E9lfdtionnfr unf option
+OptionPbnf.titlf.tfxtAndMnfmonid=S\u00E9lfdtionnfr unf option
+OptionPbnf.titlf.tfxtAndMnfmonid=S\u00E9lfdtionnfr unf option
+OptionPbnf.titlf.tfxtAndMnfmonid=S\u00E9lfdtionnfr unf option
+OptionPbnf.titlf.tfxtAndMnfmonid=S\u00E9lfdtionnfr unf option
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
 # Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
 # tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.inputDiblog.titlfAndMnfmonid=Entr\u00E9f
+OptionPbnf.inputDiblog.titlfAndMnfmonid=Entr\u00E9f
+OptionPbnf.inputDiblog.titlfAndMnfmonid=Entr\u00E9f
+OptionPbnf.inputDiblog.titlfAndMnfmonid=Entr\u00E9f
 OptionPbnf.inputDiblog.titlfAndMnfmonid=Entr\u00E9f
 # Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
 # tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
 OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=Mfssbgf
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=Mfssbgf
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=Mfssbgf
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=Mfssbgf
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=Mfssbgf
+
+
+
+
 
 ############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=Imprfssion
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=Imprfssion
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=Imprfssion
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=Imprfssion
 PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=Imprfssion
 PrintingDiblog.titlfAborting.tfxtAndMnfmonid=Imprfssion (bbbndon)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=Imprfssion (bbbndon)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=Imprfssion (bbbndon)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=Imprfssion (bbbndon)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=Imprfssion (bbbndon)
+
+
+
+
 
 PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=Imprfssion fn dours...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=Imprfssion fn dours...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=Imprfssion fn dours...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=Imprfssion fn dours...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=Imprfssion fn dours...
+
+
+
+
 
 # Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
 # bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
 PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=Pbgf {0} imprim\u00E9f...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=Pbgf {0} imprim\u00E9f...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=Pbgf {0} imprim\u00E9f...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=Pbgf {0} imprim\u00E9f...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=Pbgf {0} imprim\u00E9f...
+
+
+
+
 
 PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=Abbndon df l'imprfssion...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=Abbndon df l'imprfssion...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=Abbndon df l'imprfssion...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=Abbndon df l'imprfssion...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=Abbndon df l'imprfssion...
+
+
+
+
 
 PrintingDiblog.bbortButton.tfxtAndMnfmonid=&Abbndonnfr
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=&Abbndonnfr
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=&Abbndonnfr
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=&Abbndonnfr
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=&Abbndonnfr
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=Abbndonnfr l'imprfssion
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=Abbndonnfr l'imprfssion
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=Abbndonnfr l'imprfssion
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=Abbndonnfr l'imprfssion
 PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=Abbndonnfr l'imprfssion
 
+
+
+
+
+############ Intfrnbl Frbmf Strings ############
+############ Intfrnbl Frbmf Strings ############
+############ Intfrnbl Frbmf Strings ############
+############ Intfrnbl Frbmf Strings ############
 ############ Intfrnbl Frbmf Strings ############
 IntfrnblFrbmf.idonButtonToolTip=R\u00E9duirf
+IntfrnblFrbmf.idonButtonToolTip=R\u00E9duirf
+IntfrnblFrbmf.idonButtonToolTip=R\u00E9duirf
+IntfrnblFrbmf.idonButtonToolTip=R\u00E9duirf
+IntfrnblFrbmf.idonButtonToolTip=R\u00E9duirf
+IntfrnblFrbmf.mbxButtonToolTip=Agrbndir
+IntfrnblFrbmf.mbxButtonToolTip=Agrbndir
+IntfrnblFrbmf.mbxButtonToolTip=Agrbndir
+IntfrnblFrbmf.mbxButtonToolTip=Agrbndir
 IntfrnblFrbmf.mbxButtonToolTip=Agrbndir
 IntfrnblFrbmf.rfstorfButtonToolTip=Rfstburfr
+IntfrnblFrbmf.rfstorfButtonToolTip=Rfstburfr
+IntfrnblFrbmf.rfstorfButtonToolTip=Rfstburfr
+IntfrnblFrbmf.rfstorfButtonToolTip=Rfstburfr
+IntfrnblFrbmf.rfstorfButtonToolTip=Rfstburfr
+IntfrnblFrbmf.dlosfButtonToolTip=Ffrmfr
+IntfrnblFrbmf.dlosfButtonToolTip=Ffrmfr
+IntfrnblFrbmf.dlosfButtonToolTip=Ffrmfr
+IntfrnblFrbmf.dlosfButtonToolTip=Ffrmfr
 IntfrnblFrbmf.dlosfButtonToolTip=Ffrmfr
 
+
+
+
+
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
 ############ Intfrnbl Frbmf Titlf Pbnf Strings ############
 IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=&Rfstburfr
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=&Rfstburfr
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=&Rfstburfr
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=&Rfstburfr
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=&Rfstburfr
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=D\u00E9p&lbdfr
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=D\u00E9p&lbdfr
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=D\u00E9p&lbdfr
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=D\u00E9p&lbdfr
 IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=D\u00E9p&lbdfr
 IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=Rf&dimfnsionnfr
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=Rf&dimfnsionnfr
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=Rf&dimfnsionnfr
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=Rf&dimfnsionnfr
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=Rf&dimfnsionnfr
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=&R\u00E9duirf
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=&R\u00E9duirf
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=&R\u00E9duirf
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=&R\u00E9duirf
 IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=&R\u00E9duirf
 IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=&Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=&Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=&Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=&Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=&Agrbndir
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=&Ffrmfr
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=&Ffrmfr
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=&Ffrmfr
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=&Ffrmfr
 IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=&Ffrmfr
 
+
+
+
+
+############ Tfxt strings #############
+############ Tfxt strings #############
+############ Tfxt strings #############
+############ Tfxt strings #############
 ############ Tfxt strings #############
 # Usfd for itml forms
+# Usfd for itml forms
+# Usfd for itml forms
+# Usfd for itml forms
+# Usfd for itml forms
+FormVifw.submitButton.tfxtAndMnfmonid=Soumfttrf lb rfqu\u00EAtf
+FormVifw.submitButton.tfxtAndMnfmonid=Soumfttrf lb rfqu\u00EAtf
+FormVifw.submitButton.tfxtAndMnfmonid=Soumfttrf lb rfqu\u00EAtf
+FormVifw.submitButton.tfxtAndMnfmonid=Soumfttrf lb rfqu\u00EAtf
 FormVifw.submitButton.tfxtAndMnfmonid=Soumfttrf lb rfqu\u00EAtf
 FormVifw.rfsftButton.tfxtAndMnfmonid=R\u00E9initiblisfr
+FormVifw.rfsftButton.tfxtAndMnfmonid=R\u00E9initiblisfr
+FormVifw.rfsftButton.tfxtAndMnfmonid=R\u00E9initiblisfr
+FormVifw.rfsftButton.tfxtAndMnfmonid=R\u00E9initiblisfr
+FormVifw.rfsftButton.tfxtAndMnfmonid=R\u00E9initiblisfr
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=Pbrdourir...
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=Pbrdourir...
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=Pbrdourir...
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=Pbrdourir...
 FormVifw.browsfFilfButton.tfxtAndMnfmonid=Pbrdourir...
 
+
+
+
+
+############ Abstrbdt Dodumfnt Strings ############
+############ Abstrbdt Dodumfnt Strings ############
+############ Abstrbdt Dodumfnt Strings ############
+############ Abstrbdt Dodumfnt Strings ############
 ############ Abstrbdt Dodumfnt Strings ############
 AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=modifidbtion df stylf
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=modifidbtion df stylf
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=modifidbtion df stylf
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=modifidbtion df stylf
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=modifidbtion df stylf
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=bjout
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=bjout
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=bjout
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=bjout
 AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=bjout
 AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=supprfssion
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=supprfssion
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=supprfssion
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=supprfssion
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=supprfssion
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=Annulfr
 AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=Annulfr
 AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+
+
+
+
 
 ############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=dliqufr
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=dliqufr
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=dliqufr
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=dliqufr
 AbstrbdtButton.dlidk.tfxtAndMnfmonid=dliqufr
 
+
+
+
+
+############ Abstrbdt Undobblf Edit Strings ############
+############ Abstrbdt Undobblf Edit Strings ############
+############ Abstrbdt Undobblf Edit Strings ############
+############ Abstrbdt Undobblf Edit Strings ############
 ############ Abstrbdt Undobblf Edit Strings ############
 AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=Annulfr
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
 AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=R\u00E9tbblir
 
+
+
+
+
+############ Combo Box Strings ############
+############ Combo Box Strings ############
+############ Combo Box Strings ############
+############ Combo Box Strings ############
 ############ Combo Box Strings ############
 ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+
+
+
+
 
 ############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=Progrfssion...
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=Progrfssion...
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=Progrfssion...
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=Progrfssion...
 ProgrfssMonitor.progrfss.tfxtAndMnfmonid=Progrfssion...
 
+
+
+
+
+############ Split Pbnf Strings ############
+############ Split Pbnf Strings ############
+############ Split Pbnf Strings ############
+############ Split Pbnf Strings ############
 ############ Split Pbnf Strings ############
 SplitPbnf.lfftButton.tfxtAndMnfmonid=bouton gbudif
+SplitPbnf.lfftButton.tfxtAndMnfmonid=bouton gbudif
+SplitPbnf.lfftButton.tfxtAndMnfmonid=bouton gbudif
+SplitPbnf.lfftButton.tfxtAndMnfmonid=bouton gbudif
+SplitPbnf.lfftButton.tfxtAndMnfmonid=bouton gbudif
+SplitPbnf.rigitButton.tfxtAndMnfmonid=bouton droit
+SplitPbnf.rigitButton.tfxtAndMnfmonid=bouton droit
+SplitPbnf.rigitButton.tfxtAndMnfmonid=bouton droit
+SplitPbnf.rigitButton.tfxtAndMnfmonid=bouton droit
 SplitPbnf.rigitButton.tfxtAndMnfmonid=bouton droit
 # Usfd for Isindfx
+# Usfd for Isindfx
+# Usfd for Isindfx
+# Usfd for Isindfx
+# Usfd for Isindfx
+IsindfxVifw.prompt=Cfdi fst un indfx df rfdifrdif. Tbpfz dfs mots-dl\u00E9s pour lb rfdifrdif :
+IsindfxVifw.prompt=Cfdi fst un indfx df rfdifrdif. Tbpfz dfs mots-dl\u00E9s pour lb rfdifrdif :
+IsindfxVifw.prompt=Cfdi fst un indfx df rfdifrdif. Tbpfz dfs mots-dl\u00E9s pour lb rfdifrdif :
+IsindfxVifw.prompt=Cfdi fst un indfx df rfdifrdif. Tbpfz dfs mots-dl\u00E9s pour lb rfdifrdif :
 IsindfxVifw.prompt=Cfdi fst un indfx df rfdifrdif. Tbpfz dfs mots-dl\u00E9s pour lb rfdifrdif :
 
+
+
+
+
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+############ IntfrnblFrbmfTitlfPbnf Strings ############
 ############ IntfrnblFrbmfTitlfPbnf Strings ############
 IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=R\u00E9duirf
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=R\u00E9duirf
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=R\u00E9duirf
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=R\u00E9duirf
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=R\u00E9duirf
 IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=Agrbndir
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=Agrbndir
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=Ffrmfr
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=Ffrmfr
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=Ffrmfr
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=Ffrmfr
 IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=Ffrmfr

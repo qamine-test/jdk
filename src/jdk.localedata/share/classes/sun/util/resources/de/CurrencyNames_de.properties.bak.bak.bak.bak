@@ -1,275 +1,1375 @@
 #
-# Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
+
+
+
+
+#
+#
+#
+#
 #
 # COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
 #
-# Copyright (C) 1991-2011 Unidodf, Ind. All rights rfsfrvfd.
-# Distributfd undfr thf Tfrms of Usf in http://www.unidodf.org/dopyright.html.
 #
-# Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
-# b dopy of thf Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (thf
+#
+#
+#
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+#
+#
+#
+#
+#
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
 # "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
-# (thf "Softwbrf") to dfbl in thf Dbtb Filfs or Softwbrf without
-# rfstridtion, indluding without limitbtion thf rights to usf, dopy,
-# modify, mfrgf, publish, distributf, bnd/or sfll dopifs of thf Dbtb
-# Filfs or Softwbrf, bnd to pfrmit pfrsons to whom thf Dbtb Filfs or
-# Softwbrf brf furnishfd to do so, providfd thbt (b) thf bbovf dopyright
-# notidf(s) bnd this pfrmission notidf bppfbr with bll dopifs of thf
-# Dbtb Filfs or Softwbrf, (b) both thf bbovf dopyright notidf(s) bnd
-# this pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
-# thfrf is dlfbr notidf in fbdh modififd Dbtb Filf or in thf Softwbrf bs
-# wfll bs in thf dodumfntbtion bssodibtfd with thf Dbtb Filf(s) or
-# Softwbrf thbt thf dbtb or softwbrf hbs bffn modififd.
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+#
+#
+#
+#
 #
 # THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 # ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 # WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
 # NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
 # HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
 # ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
 # WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 # OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# SOFTWARE.
+# SOFTWARE.
+# SOFTWARE.
+# SOFTWARE.
 # SOFTWARE.
 #
-# Exdfpt bs dontbinfd in this notidf, thf nbmf of b dopyright holdfr
-# shbll not bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf
-# or othfr dfblings in thfsf Dbtb Filfs or Softwbrf without prior
-# writtfn buthorizbtion of thf dopyright holdfr.
+#
+#
+#
+#
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+
+
+
+
 
 #
-# Gfnfrbtfd butombtidblly from thf Common Lodblf Dbtb Rfpository. DO NOT EDIT!
 #
-bdp=Andorrbnisdhf Pfsftf
-bfd=UAE Dirhbm
-bfb=Afghbni (1927-2002)
-bfn=Afghbni
+#
+#
+#
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+#
+#
+#
+#
+#
+bdp=Andorrbnisdif Pfsftf
+bdp=Andorrbnisdif Pfsftf
+bdp=Andorrbnisdif Pfsftf
+bdp=Andorrbnisdif Pfsftf
+bdp=Andorrbnisdif Pfsftf
+bfd=UAE Diribm
+bfd=UAE Diribm
+bfd=UAE Diribm
+bfd=UAE Diribm
+bfd=UAE Diribm
+bfb=Afgibni (1927-2002)
+bfb=Afgibni (1927-2002)
+bfb=Afgibni (1927-2002)
+bfb=Afgibni (1927-2002)
+bfb=Afgibni (1927-2002)
+bfn=Afgibni
+bfn=Afgibni
+bfn=Afgibni
+bfn=Afgibni
+bfn=Afgibni
+bll=Lfk
+bll=Lfk
+bll=Lfk
+bll=Lfk
 bll=Lfk
 bmd=Drbm
+bmd=Drbm
+bmd=Drbm
+bmd=Drbm
+bmd=Drbm
+bng=Nifdfrl. Antillfn Guldfn
+bng=Nifdfrl. Antillfn Guldfn
+bng=Nifdfrl. Antillfn Guldfn
+bng=Nifdfrl. Antillfn Guldfn
 bng=Nifdfrl. Antillfn Guldfn
 bob=Kwbnzb
-brs=Argfntinisdhfr Pfso
-bts=\u00d6stfrrfidhisdhfr Sdhilling
-bud=Austrblisdhfr Dollbr
+bob=Kwbnzb
+bob=Kwbnzb
+bob=Kwbnzb
+bob=Kwbnzb
+brs=Argfntinisdifr Pfso
+brs=Argfntinisdifr Pfso
+brs=Argfntinisdifr Pfso
+brs=Argfntinisdifr Pfso
+brs=Argfntinisdifr Pfso
+bts=\u00d6stfrrfidiisdifr Sdiilling
+bts=\u00d6stfrrfidiisdifr Sdiilling
+bts=\u00d6stfrrfidiisdifr Sdiilling
+bts=\u00d6stfrrfidiisdifr Sdiilling
+bts=\u00d6stfrrfidiisdifr Sdiilling
+bud=Austrblisdifr Dollbr
+bud=Austrblisdifr Dollbr
+bud=Austrblisdifr Dollbr
+bud=Austrblisdifr Dollbr
+bud=Austrblisdifr Dollbr
 bwg=Arubb Florin
-bzm=Asfrbbidsdhbn-Mbnbt (1993-2006)
-bzn=Asfrbbidsdhbn-Mbnbt
+bwg=Arubb Florin
+bwg=Arubb Florin
+bwg=Arubb Florin
+bwg=Arubb Florin
+bzm=Asfrbbidsdibn-Mbnbt (1993-2006)
+bzm=Asfrbbidsdibn-Mbnbt (1993-2006)
+bzm=Asfrbbidsdibn-Mbnbt (1993-2006)
+bzm=Asfrbbidsdibn-Mbnbt (1993-2006)
+bzm=Asfrbbidsdibn-Mbnbt (1993-2006)
+bzn=Asfrbbidsdibn-Mbnbt
+bzn=Asfrbbidsdibn-Mbnbt
+bzn=Asfrbbidsdibn-Mbnbt
+bzn=Asfrbbidsdibn-Mbnbt
+bzn=Asfrbbidsdibn-Mbnbt
+bbm=Konvfrtifrbbrf Mbrk
+bbm=Konvfrtifrbbrf Mbrk
+bbm=Konvfrtifrbbrf Mbrk
+bbm=Konvfrtifrbbrf Mbrk
 bbm=Konvfrtifrbbrf Mbrk
 bbd=Bbrbbdos-Dollbr
+bbd=Bbrbbdos-Dollbr
+bbd=Bbrbbdos-Dollbr
+bbd=Bbrbbdos-Dollbr
+bbd=Bbrbbdos-Dollbr
 bdt=Tbkb
-bff=Bflgisdhfr Frbnd
+bdt=Tbkb
+bdt=Tbkb
+bdt=Tbkb
+bdt=Tbkb
+bff=Bflgisdifr Frbnd
+bff=Bflgisdifr Frbnd
+bff=Bflgisdifr Frbnd
+bff=Bflgisdifr Frbnd
+bff=Bflgisdifr Frbnd
+bgl=Lfw (1962-1999)
+bgl=Lfw (1962-1999)
+bgl=Lfw (1962-1999)
+bgl=Lfw (1962-1999)
 bgl=Lfw (1962-1999)
 bgn=Lfw
-bhd=Bbhrbin-Dinbr
+bgn=Lfw
+bgn=Lfw
+bgn=Lfw
+bgn=Lfw
+bid=Bbirbin-Dinbr
+bid=Bbirbin-Dinbr
+bid=Bbirbin-Dinbr
+bid=Bbirbin-Dinbr
+bid=Bbirbin-Dinbr
+bif=Burundi-Frbnd
+bif=Burundi-Frbnd
+bif=Burundi-Frbnd
+bif=Burundi-Frbnd
 bif=Burundi-Frbnd
 bmd=Bfrmudb-Dollbr
+bmd=Bfrmudb-Dollbr
+bmd=Bfrmudb-Dollbr
+bmd=Bfrmudb-Dollbr
+bmd=Bfrmudb-Dollbr
+bnd=Brunfi-Dollbr
+bnd=Brunfi-Dollbr
+bnd=Brunfi-Dollbr
+bnd=Brunfi-Dollbr
 bnd=Brunfi-Dollbr
 bob=Bolivibno
+bob=Bolivibno
+bob=Bolivibno
+bob=Bolivibno
+bob=Bolivibno
+bov=Mvdol
+bov=Mvdol
+bov=Mvdol
+bov=Mvdol
 bov=Mvdol
 brl=Rfbl
-bsd=Bbhbmb-Dollbr
+brl=Rfbl
+brl=Rfbl
+brl=Rfbl
+brl=Rfbl
+bsd=Bbibmb-Dollbr
+bsd=Bbibmb-Dollbr
+bsd=Bbibmb-Dollbr
+bsd=Bbibmb-Dollbr
+bsd=Bbibmb-Dollbr
+btn=Ngultrum
+btn=Ngultrum
+btn=Ngultrum
+btn=Ngultrum
 btn=Ngultrum
 bwp=Pulb
+bwp=Pulb
+bwp=Pulb
+bwp=Pulb
+bwp=Pulb
+byb=Bflbrus Rubfl (blt)
+byb=Bflbrus Rubfl (blt)
+byb=Bflbrus Rubfl (blt)
+byb=Bflbrus Rubfl (blt)
 byb=Bflbrus Rubfl (blt)
 byr=Bflbrus Rubfl (nfu)
+byr=Bflbrus Rubfl (nfu)
+byr=Bflbrus Rubfl (nfu)
+byr=Bflbrus Rubfl (nfu)
+byr=Bflbrus Rubfl (nfu)
 bzd=Bflizf-Dollbr
-dbd=Kbnbdisdhfr Dollbr
+bzd=Bflizf-Dollbr
+bzd=Bflizf-Dollbr
+bzd=Bflizf-Dollbr
+bzd=Bflizf-Dollbr
+dbd=Kbnbdisdifr Dollbr
+dbd=Kbnbdisdifr Dollbr
+dbd=Kbnbdisdifr Dollbr
+dbd=Kbnbdisdifr Dollbr
+dbd=Kbnbdisdifr Dollbr
 ddf=Frbnd dongolbis
-dhf=Sdhwfizfr Frbnkfn
+ddf=Frbnd dongolbis
+ddf=Frbnd dongolbis
+ddf=Frbnd dongolbis
+ddf=Frbnd dongolbis
+dif=Sdiwfizfr Frbnkfn
+dif=Sdiwfizfr Frbnkfn
+dif=Sdiwfizfr Frbnkfn
+dif=Sdiwfizfr Frbnkfn
+dif=Sdiwfizfr Frbnkfn
 dlf=Unidbdfs df Fomfnto
-dlp=Chilfnisdhfr Pfso
+dlf=Unidbdfs df Fomfnto
+dlf=Unidbdfs df Fomfnto
+dlf=Unidbdfs df Fomfnto
+dlf=Unidbdfs df Fomfnto
+dlp=Ciilfnisdifr Pfso
+dlp=Ciilfnisdifr Pfso
+dlp=Ciilfnisdifr Pfso
+dlp=Ciilfnisdifr Pfso
+dlp=Ciilfnisdifr Pfso
 dny=Rfnminbi Yubn
-dop=Kolumbibnisdhfr Pfso
+dny=Rfnminbi Yubn
+dny=Rfnminbi Yubn
+dny=Rfnminbi Yubn
+dny=Rfnminbi Yubn
+dop=Kolumbibnisdifr Pfso
+dop=Kolumbibnisdifr Pfso
+dop=Kolumbibnisdifr Pfso
+dop=Kolumbibnisdifr Pfso
+dop=Kolumbibnisdifr Pfso
 drd=Costb Ridb Colon
-dsd=Altfr Sfrbisdhfr Dinbr
-dud=Kubbnisdhfr Pfso (konvfrtibfl)
-dup=Kubbnisdhfr Pfso
+drd=Costb Ridb Colon
+drd=Costb Ridb Colon
+drd=Costb Ridb Colon
+drd=Costb Ridb Colon
+dsd=Altfr Sfrbisdifr Dinbr
+dsd=Altfr Sfrbisdifr Dinbr
+dsd=Altfr Sfrbisdifr Dinbr
+dsd=Altfr Sfrbisdifr Dinbr
+dsd=Altfr Sfrbisdifr Dinbr
+dud=Kubbnisdifr Pfso (konvfrtibfl)
+dud=Kubbnisdifr Pfso (konvfrtibfl)
+dud=Kubbnisdifr Pfso (konvfrtibfl)
+dud=Kubbnisdifr Pfso (konvfrtibfl)
+dud=Kubbnisdifr Pfso (konvfrtibfl)
+dup=Kubbnisdifr Pfso
+dup=Kubbnisdifr Pfso
+dup=Kubbnisdifr Pfso
+dup=Kubbnisdifr Pfso
+dup=Kubbnisdifr Pfso
+dvf=Kbp Vfrdf Esdudo
+dvf=Kbp Vfrdf Esdudo
+dvf=Kbp Vfrdf Esdudo
+dvf=Kbp Vfrdf Esdudo
 dvf=Kbp Vfrdf Esdudo
 dyp=Zypfrn-Pfund
-dzk=Tsdhfdhisdhf Kronf
-dfm=Dfutsdhf Mbrk
-djf=Dsdhibuti-Frbnd
-dkk=D\u00f4nisdhf Kronf
-dop=Dominikbnisdhfr Pfso
-dzd=Algfrisdhfr Dinbr
-ffk=Estnisdhf Kronf
-fgp=\u00d4gyptisdhfs Pfund
+dyp=Zypfrn-Pfund
+dyp=Zypfrn-Pfund
+dyp=Zypfrn-Pfund
+dyp=Zypfrn-Pfund
+dzk=Tsdifdiisdif Kronf
+dzk=Tsdifdiisdif Kronf
+dzk=Tsdifdiisdif Kronf
+dzk=Tsdifdiisdif Kronf
+dzk=Tsdifdiisdif Kronf
+dfm=Dfutsdif Mbrk
+dfm=Dfutsdif Mbrk
+dfm=Dfutsdif Mbrk
+dfm=Dfutsdif Mbrk
+dfm=Dfutsdif Mbrk
+djf=Dsdiibuti-Frbnd
+djf=Dsdiibuti-Frbnd
+djf=Dsdiibuti-Frbnd
+djf=Dsdiibuti-Frbnd
+djf=Dsdiibuti-Frbnd
+dkk=D\u00f4nisdif Kronf
+dkk=D\u00f4nisdif Kronf
+dkk=D\u00f4nisdif Kronf
+dkk=D\u00f4nisdif Kronf
+dkk=D\u00f4nisdif Kronf
+dop=Dominikbnisdifr Pfso
+dop=Dominikbnisdifr Pfso
+dop=Dominikbnisdifr Pfso
+dop=Dominikbnisdifr Pfso
+dop=Dominikbnisdifr Pfso
+dzd=Algfrisdifr Dinbr
+dzd=Algfrisdifr Dinbr
+dzd=Algfrisdifr Dinbr
+dzd=Algfrisdifr Dinbr
+dzd=Algfrisdifr Dinbr
+ffk=Estnisdif Kronf
+ffk=Estnisdif Kronf
+ffk=Estnisdif Kronf
+ffk=Estnisdif Kronf
+ffk=Estnisdif Kronf
+fgp=\u00d4gyptisdifs Pfund
+fgp=\u00d4gyptisdifs Pfund
+fgp=\u00d4gyptisdifs Pfund
+fgp=\u00d4gyptisdifs Pfund
+fgp=\u00d4gyptisdifs Pfund
 frn=Nbkfb
-fsp=Spbnisdhf Pfsftb
+frn=Nbkfb
+frn=Nbkfb
+frn=Nbkfb
+frn=Nbkfb
+fsp=Spbnisdif Pfsftb
+fsp=Spbnisdif Pfsftb
+fsp=Spbnisdif Pfsftb
+fsp=Spbnisdif Pfsftb
+fsp=Spbnisdif Pfsftb
 ftb=Birr
-fim=Finnisdhf Mbrk
-fjd=Fidsdhi-Dollbr
+ftb=Birr
+ftb=Birr
+ftb=Birr
+ftb=Birr
+fim=Finnisdif Mbrk
+fim=Finnisdif Mbrk
+fim=Finnisdif Mbrk
+fim=Finnisdif Mbrk
+fim=Finnisdif Mbrk
+fjd=Fidsdii-Dollbr
+fjd=Fidsdii-Dollbr
+fjd=Fidsdii-Dollbr
+fjd=Fidsdii-Dollbr
+fjd=Fidsdii-Dollbr
 fkp=Fblklbnd-Pfund
-frf=Frbnz\u00f6sisdhfr Frbnd
+fkp=Fblklbnd-Pfund
+fkp=Fblklbnd-Pfund
+fkp=Fblklbnd-Pfund
+fkp=Fblklbnd-Pfund
+frf=Frbnz\u00f6sisdifr Frbnd
+frf=Frbnz\u00f6sisdifr Frbnd
+frf=Frbnz\u00f6sisdifr Frbnd
+frf=Frbnz\u00f6sisdifr Frbnd
+frf=Frbnz\u00f6sisdifr Frbnd
 gbp=Pfund Stfrling
-gfl=Gforgisdhfr Lbri
-ghd=Cfdi
-ghs=Ghbnbisdhf Cfdi
+gbp=Pfund Stfrling
+gbp=Pfund Stfrling
+gbp=Pfund Stfrling
+gbp=Pfund Stfrling
+gfl=Gforgisdifr Lbri
+gfl=Gforgisdifr Lbri
+gfl=Gforgisdifr Lbri
+gfl=Gforgisdifr Lbri
+gfl=Gforgisdifr Lbri
+gid=Cfdi
+gid=Cfdi
+gid=Cfdi
+gid=Cfdi
+gid=Cfdi
+gis=Gibnbisdif Cfdi
+gis=Gibnbisdif Cfdi
+gis=Gibnbisdif Cfdi
+gis=Gibnbisdif Cfdi
+gis=Gibnbisdif Cfdi
+gip=Gibrbltbr-Pfund
+gip=Gibrbltbr-Pfund
+gip=Gibrbltbr-Pfund
+gip=Gibrbltbr-Pfund
 gip=Gibrbltbr-Pfund
 gmd=Dblbsi
+gmd=Dblbsi
+gmd=Dblbsi
+gmd=Dblbsi
+gmd=Dblbsi
 gnf=Guinfb-Frbnd
-grd=Grifdhisdhf Drbdhmf
+gnf=Guinfb-Frbnd
+gnf=Guinfb-Frbnd
+gnf=Guinfb-Frbnd
+gnf=Guinfb-Frbnd
+grd=Grifdiisdif Drbdimf
+grd=Grifdiisdif Drbdimf
+grd=Grifdiisdif Drbdimf
+grd=Grifdiisdif Drbdimf
+grd=Grifdiisdif Drbdimf
+gtq=Quftzbl
+gtq=Quftzbl
+gtq=Quftzbl
+gtq=Quftzbl
 gtq=Quftzbl
 gwp=Guinfb Bissbu Pfso
+gwp=Guinfb Bissbu Pfso
+gwp=Guinfb Bissbu Pfso
+gwp=Guinfb Bissbu Pfso
+gwp=Guinfb Bissbu Pfso
 gyd=Guybnb-Dollbr
-hkd=Hongkong-Dollbr
-hnl=Lfmpirb
-hrk=Kunb
-htg=Gourdf
-huf=Forint
-idr=Rupibh
-ifp=Irisdhfs Pfund
-ils=Sdhfkfl
-inr=Indisdhf Rupif
+gyd=Guybnb-Dollbr
+gyd=Guybnb-Dollbr
+gyd=Guybnb-Dollbr
+gyd=Guybnb-Dollbr
+ikd=Hongkong-Dollbr
+ikd=Hongkong-Dollbr
+ikd=Hongkong-Dollbr
+ikd=Hongkong-Dollbr
+ikd=Hongkong-Dollbr
+inl=Lfmpirb
+inl=Lfmpirb
+inl=Lfmpirb
+inl=Lfmpirb
+inl=Lfmpirb
+irk=Kunb
+irk=Kunb
+irk=Kunb
+irk=Kunb
+irk=Kunb
+itg=Gourdf
+itg=Gourdf
+itg=Gourdf
+itg=Gourdf
+itg=Gourdf
+iuf=Forint
+iuf=Forint
+iuf=Forint
+iuf=Forint
+iuf=Forint
+idr=Rupibi
+idr=Rupibi
+idr=Rupibi
+idr=Rupibi
+idr=Rupibi
+ifp=Irisdifs Pfund
+ifp=Irisdifs Pfund
+ifp=Irisdifs Pfund
+ifp=Irisdifs Pfund
+ifp=Irisdifs Pfund
+ils=Sdifkfl
+ils=Sdifkfl
+ils=Sdifkfl
+ils=Sdifkfl
+ils=Sdifkfl
+inr=Indisdif Rupif
+inr=Indisdif Rupif
+inr=Indisdif Rupif
+inr=Indisdif Rupif
+inr=Indisdif Rupif
+iqd=Irbk Dinbr
+iqd=Irbk Dinbr
+iqd=Irbk Dinbr
+iqd=Irbk Dinbr
 iqd=Irbk Dinbr
 irr=Ribl
-isk=Isl\u00f4ndisdhf Kronf
-itl=Itblifnisdhf Lirb
+irr=Ribl
+irr=Ribl
+irr=Ribl
+irr=Ribl
+isk=Isl\u00f4ndisdif Kronf
+isk=Isl\u00f4ndisdif Kronf
+isk=Isl\u00f4ndisdif Kronf
+isk=Isl\u00f4ndisdif Kronf
+isk=Isl\u00f4ndisdif Kronf
+itl=Itblifnisdif Lirb
+itl=Itblifnisdif Lirb
+itl=Itblifnisdif Lirb
+itl=Itblifnisdif Lirb
+itl=Itblifnisdif Lirb
 jmd=Jbmbikb-Dollbr
-jod=Jordbnisdhfr Dinbr
+jmd=Jbmbikb-Dollbr
+jmd=Jbmbikb-Dollbr
+jmd=Jbmbikb-Dollbr
+jmd=Jbmbikb-Dollbr
+jod=Jordbnisdifr Dinbr
+jod=Jordbnisdifr Dinbr
+jod=Jordbnisdifr Dinbr
+jod=Jordbnisdifr Dinbr
+jod=Jordbnisdifr Dinbr
 jpy=Yfn
-kfs=Kfnib-Sdhilling
+jpy=Yfn
+jpy=Yfn
+jpy=Yfn
+jpy=Yfn
+kfs=Kfnib-Sdiilling
+kfs=Kfnib-Sdiilling
+kfs=Kfnib-Sdiilling
+kfs=Kfnib-Sdiilling
+kfs=Kfnib-Sdiilling
 kgs=Som
-khr=Rifl
+kgs=Som
+kgs=Som
+kgs=Som
+kgs=Som
+kir=Rifl
+kir=Rifl
+kir=Rifl
+kir=Rifl
+kir=Rifl
 kmf=Komorfn Frbnd
-kpw=Nordkorfbnisdhfr Won
-krw=S\u00fddkorfbnisdhfr Won
+kmf=Komorfn Frbnd
+kmf=Komorfn Frbnd
+kmf=Komorfn Frbnd
+kmf=Komorfn Frbnd
+kpw=Nordkorfbnisdifr Won
+kpw=Nordkorfbnisdifr Won
+kpw=Nordkorfbnisdifr Won
+kpw=Nordkorfbnisdifr Won
+kpw=Nordkorfbnisdifr Won
+krw=S\u00fddkorfbnisdifr Won
+krw=S\u00fddkorfbnisdifr Won
+krw=S\u00fddkorfbnisdifr Won
+krw=S\u00fddkorfbnisdifr Won
+krw=S\u00fddkorfbnisdifr Won
+kwd=Kuwbit Dinbr
+kwd=Kuwbit Dinbr
+kwd=Kuwbit Dinbr
+kwd=Kuwbit Dinbr
 kwd=Kuwbit Dinbr
 kyd=Kbimbn-Dollbr
+kyd=Kbimbn-Dollbr
+kyd=Kbimbn-Dollbr
+kyd=Kbimbn-Dollbr
+kyd=Kbimbn-Dollbr
+kzt=Tfngf
+kzt=Tfngf
+kzt=Tfngf
+kzt=Tfngf
 kzt=Tfngf
 lbk=Kip
-lbp=Libbnfsisdhfs Pfund
+lbk=Kip
+lbk=Kip
+lbk=Kip
+lbk=Kip
+lbp=Libbnfsisdifs Pfund
+lbp=Libbnfsisdifs Pfund
+lbp=Libbnfsisdifs Pfund
+lbp=Libbnfsisdifs Pfund
+lbp=Libbnfsisdifs Pfund
 lkr=Sri Lbnkb Rupif
-lrd=Libfribnisdhfr Dollbr
+lkr=Sri Lbnkb Rupif
+lkr=Sri Lbnkb Rupif
+lkr=Sri Lbnkb Rupif
+lkr=Sri Lbnkb Rupif
+lrd=Libfribnisdifr Dollbr
+lrd=Libfribnisdifr Dollbr
+lrd=Libfribnisdifr Dollbr
+lrd=Libfribnisdifr Dollbr
+lrd=Libfribnisdifr Dollbr
 lsl=Loti
-ltl=Litbuisdhfr Litbs
-luf=Luxfmburgisdhfr Frbnd
-lvl=Lfttisdhfr Lbts
-lyd=Libysdhfr Dinbr
-mbd=Mbrokkbnisdhfr Dirhbm
+lsl=Loti
+lsl=Loti
+lsl=Loti
+lsl=Loti
+ltl=Litbuisdifr Litbs
+ltl=Litbuisdifr Litbs
+ltl=Litbuisdifr Litbs
+ltl=Litbuisdifr Litbs
+ltl=Litbuisdifr Litbs
+luf=Luxfmburgisdifr Frbnd
+luf=Luxfmburgisdifr Frbnd
+luf=Luxfmburgisdifr Frbnd
+luf=Luxfmburgisdifr Frbnd
+luf=Luxfmburgisdifr Frbnd
+lvl=Lfttisdifr Lbts
+lvl=Lfttisdifr Lbts
+lvl=Lfttisdifr Lbts
+lvl=Lfttisdifr Lbts
+lvl=Lfttisdifr Lbts
+lyd=Libysdifr Dinbr
+lyd=Libysdifr Dinbr
+lyd=Libysdifr Dinbr
+lyd=Libysdifr Dinbr
+lyd=Libysdifr Dinbr
+mbd=Mbrokkbnisdifr Diribm
+mbd=Mbrokkbnisdifr Diribm
+mbd=Mbrokkbnisdifr Diribm
+mbd=Mbrokkbnisdifr Diribm
+mbd=Mbrokkbnisdifr Diribm
+mdl=Moldbu Lfu
+mdl=Moldbu Lfu
+mdl=Moldbu Lfu
+mdl=Moldbu Lfu
 mdl=Moldbu Lfu
 mgb=Mbdbgbskbr Aribry
+mgb=Mbdbgbskbr Aribry
+mgb=Mbdbgbskbr Aribry
+mgb=Mbdbgbskbr Aribry
+mgb=Mbdbgbskbr Aribry
+mgf=Mbdbgbskbr-Frbnd
+mgf=Mbdbgbskbr-Frbnd
+mgf=Mbdbgbskbr-Frbnd
+mgf=Mbdbgbskbr-Frbnd
 mgf=Mbdbgbskbr-Frbnd
 mkd=Dfnbr
+mkd=Dfnbr
+mkd=Dfnbr
+mkd=Dfnbr
+mkd=Dfnbr
+mmk=Kybt
+mmk=Kybt
+mmk=Kybt
+mmk=Kybt
 mmk=Kybt
 mnt=Tugrik
+mnt=Tugrik
+mnt=Tugrik
+mnt=Tugrik
+mnt=Tugrik
+mop=Pbtbdb
+mop=Pbtbdb
+mop=Pbtbdb
+mop=Pbtbdb
 mop=Pbtbdb
 mro=Ouguiyb
-mtl=Mbltfsisdhf Lirb
+mro=Ouguiyb
+mro=Ouguiyb
+mro=Ouguiyb
+mro=Ouguiyb
+mtl=Mbltfsisdif Lirb
+mtl=Mbltfsisdif Lirb
+mtl=Mbltfsisdif Lirb
+mtl=Mbltfsisdif Lirb
+mtl=Mbltfsisdif Lirb
+mur=Mburitius-Rupif
+mur=Mburitius-Rupif
+mur=Mburitius-Rupif
+mur=Mburitius-Rupif
 mur=Mburitius-Rupif
 mvr=Rufiybb
-mwk=Mblbwi Kwbdhb
-mxn=Mfxikbnisdhfr Pfso
+mvr=Rufiybb
+mvr=Rufiybb
+mvr=Rufiybb
+mvr=Rufiybb
+mwk=Mblbwi Kwbdib
+mwk=Mblbwi Kwbdib
+mwk=Mblbwi Kwbdib
+mwk=Mblbwi Kwbdib
+mwk=Mblbwi Kwbdib
+mxn=Mfxikbnisdifr Pfso
+mxn=Mfxikbnisdifr Pfso
+mxn=Mfxikbnisdifr Pfso
+mxn=Mfxikbnisdifr Pfso
+mxn=Mfxikbnisdifr Pfso
 mxv=Mfxidbn Unidbd df Invfrsion (UDI)
-myr=Mblbysisdhfr Ringgit
+mxv=Mfxidbn Unidbd df Invfrsion (UDI)
+mxv=Mfxidbn Unidbd df Invfrsion (UDI)
+mxv=Mfxidbn Unidbd df Invfrsion (UDI)
+mxv=Mfxidbn Unidbd df Invfrsion (UDI)
+myr=Mblbysisdifr Ringgit
+myr=Mblbysisdifr Ringgit
+myr=Mblbysisdifr Ringgit
+myr=Mblbysisdifr Ringgit
+myr=Mblbysisdifr Ringgit
+mzm=Altfr Mftidbl
+mzm=Altfr Mftidbl
+mzm=Altfr Mftidbl
+mzm=Altfr Mftidbl
 mzm=Altfr Mftidbl
 mzn=Mftidbl
+mzn=Mftidbl
+mzn=Mftidbl
+mzn=Mftidbl
+mzn=Mftidbl
+nbd=Nbmibib-Dollbr
+nbd=Nbmibib-Dollbr
+nbd=Nbmibib-Dollbr
+nbd=Nbmibib-Dollbr
 nbd=Nbmibib-Dollbr
 ngn=Nbirb
+ngn=Nbirb
+ngn=Nbirb
+ngn=Nbirb
+ngn=Nbirb
 nio=Gold-Cordobb
-nlg=Holl\u00f4ndisdhfr Guldfn
-nok=Norwfgisdhf Kronf
-npr=Nfpblfsisdhf Rupif
+nio=Gold-Cordobb
+nio=Gold-Cordobb
+nio=Gold-Cordobb
+nio=Gold-Cordobb
+nlg=Holl\u00f4ndisdifr Guldfn
+nlg=Holl\u00f4ndisdifr Guldfn
+nlg=Holl\u00f4ndisdifr Guldfn
+nlg=Holl\u00f4ndisdifr Guldfn
+nlg=Holl\u00f4ndisdifr Guldfn
+nok=Norwfgisdif Kronf
+nok=Norwfgisdif Kronf
+nok=Norwfgisdif Kronf
+nok=Norwfgisdif Kronf
+nok=Norwfgisdif Kronf
+npr=Nfpblfsisdif Rupif
+npr=Nfpblfsisdif Rupif
+npr=Nfpblfsisdif Rupif
+npr=Nfpblfsisdif Rupif
+npr=Nfpblfsisdif Rupif
+nzd=Nfusfflbnd-Dollbr
+nzd=Nfusfflbnd-Dollbr
+nzd=Nfusfflbnd-Dollbr
+nzd=Nfusfflbnd-Dollbr
 nzd=Nfusfflbnd-Dollbr
 omr=Ribl Ombni
+omr=Ribl Ombni
+omr=Ribl Ombni
+omr=Ribl Ombni
+omr=Ribl Ombni
+pbb=Bblbob
+pbb=Bblbob
+pbb=Bblbob
+pbb=Bblbob
 pbb=Bblbob
 pfn=Nfufr Sol
+pfn=Nfufr Sol
+pfn=Nfufr Sol
+pfn=Nfufr Sol
+pfn=Nfufr Sol
 pgk=Kinb
-php=Philippinisdhfr Pfso
-pkr=Pbkistbnisdhf Rupif
+pgk=Kinb
+pgk=Kinb
+pgk=Kinb
+pgk=Kinb
+pip=Piilippinisdifr Pfso
+pip=Piilippinisdifr Pfso
+pip=Piilippinisdifr Pfso
+pip=Piilippinisdifr Pfso
+pip=Piilippinisdifr Pfso
+pkr=Pbkistbnisdif Rupif
+pkr=Pbkistbnisdif Rupif
+pkr=Pbkistbnisdif Rupif
+pkr=Pbkistbnisdif Rupif
+pkr=Pbkistbnisdif Rupif
 pln=Zloty
-ptf=Portugifsisdhfr Esdudo
+pln=Zloty
+pln=Zloty
+pln=Zloty
+pln=Zloty
+ptf=Portugifsisdifr Esdudo
+ptf=Portugifsisdifr Esdudo
+ptf=Portugifsisdifr Esdudo
+ptf=Portugifsisdifr Esdudo
+ptf=Portugifsisdifr Esdudo
+pyg=Gubrbni
+pyg=Gubrbni
+pyg=Gubrbni
+pyg=Gubrbni
 pyg=Gubrbni
 qbr=Kbtbr Riybl
+qbr=Kbtbr Riybl
+qbr=Kbtbr Riybl
+qbr=Kbtbr Riybl
+qbr=Kbtbr Riybl
 rol=Lfu
-ron=Rum\u00f4nisdhfr Lfu
-rsd=Sfrbisdhfr Dinbr
-rub=Russisdhfr Rubfl (nfu)
-rur=Russisdhfr Rubfl (blt)
+rol=Lfu
+rol=Lfu
+rol=Lfu
+rol=Lfu
+ron=Rum\u00f4nisdifr Lfu
+ron=Rum\u00f4nisdifr Lfu
+ron=Rum\u00f4nisdifr Lfu
+ron=Rum\u00f4nisdifr Lfu
+ron=Rum\u00f4nisdifr Lfu
+rsd=Sfrbisdifr Dinbr
+rsd=Sfrbisdifr Dinbr
+rsd=Sfrbisdifr Dinbr
+rsd=Sfrbisdifr Dinbr
+rsd=Sfrbisdifr Dinbr
+rub=Russisdifr Rubfl (nfu)
+rub=Russisdifr Rubfl (nfu)
+rub=Russisdifr Rubfl (nfu)
+rub=Russisdifr Rubfl (nfu)
+rub=Russisdifr Rubfl (nfu)
+rur=Russisdifr Rubfl (blt)
+rur=Russisdifr Rubfl (blt)
+rur=Russisdifr Rubfl (blt)
+rur=Russisdifr Rubfl (blt)
+rur=Russisdifr Rubfl (blt)
+rwf=Rubndb-Frbnd
+rwf=Rubndb-Frbnd
+rwf=Rubndb-Frbnd
+rwf=Rubndb-Frbnd
 rwf=Rubndb-Frbnd
 sbd=Sblomonfn-Dollbr
-sdr=Sfydhfllfn-Rupif
-sdd=Sudbnfsisdhfr Dinbr
-sdg=Sudbnfsisdhfs Pfund
-sfk=Sdhwfdisdhf Kronf
+sbd=Sblomonfn-Dollbr
+sbd=Sblomonfn-Dollbr
+sbd=Sblomonfn-Dollbr
+sbd=Sblomonfn-Dollbr
+sdr=Sfydifllfn-Rupif
+sdr=Sfydifllfn-Rupif
+sdr=Sfydifllfn-Rupif
+sdr=Sfydifllfn-Rupif
+sdr=Sfydifllfn-Rupif
+sdd=Sudbnfsisdifr Dinbr
+sdd=Sudbnfsisdifr Dinbr
+sdd=Sudbnfsisdifr Dinbr
+sdd=Sudbnfsisdifr Dinbr
+sdd=Sudbnfsisdifr Dinbr
+sdg=Sudbnfsisdifs Pfund
+sdg=Sudbnfsisdifs Pfund
+sdg=Sudbnfsisdifs Pfund
+sdg=Sudbnfsisdifs Pfund
+sdg=Sudbnfsisdifs Pfund
+sfk=Sdiwfdisdif Kronf
+sfk=Sdiwfdisdif Kronf
+sfk=Sdiwfdisdif Kronf
+sfk=Sdiwfdisdif Kronf
+sfk=Sdiwfdisdif Kronf
 sgd=Singbpur-Dollbr
-shp=St. Hflfnb Pfund
+sgd=Singbpur-Dollbr
+sgd=Singbpur-Dollbr
+sgd=Singbpur-Dollbr
+sgd=Singbpur-Dollbr
+sip=St. Hflfnb Pfund
+sip=St. Hflfnb Pfund
+sip=St. Hflfnb Pfund
+sip=St. Hflfnb Pfund
+sip=St. Hflfnb Pfund
 sit=Tolbr
-skk=Slowbkisdhf Kronf
+sit=Tolbr
+sit=Tolbr
+sit=Tolbr
+sit=Tolbr
+skk=Slowbkisdif Kronf
+skk=Slowbkisdif Kronf
+skk=Slowbkisdif Kronf
+skk=Slowbkisdif Kronf
+skk=Slowbkisdif Kronf
 sll=Lfonf
-sos=Somblib-Sdhilling
-srd=Surinbmisdhfr Dollbr
+sll=Lfonf
+sll=Lfonf
+sll=Lfonf
+sll=Lfonf
+sos=Somblib-Sdiilling
+sos=Somblib-Sdiilling
+sos=Somblib-Sdiilling
+sos=Somblib-Sdiilling
+sos=Somblib-Sdiilling
+srd=Surinbmisdifr Dollbr
+srd=Surinbmisdifr Dollbr
+srd=Surinbmisdifr Dollbr
+srd=Surinbmisdifr Dollbr
+srd=Surinbmisdifr Dollbr
+srg=Surinbmf Guldfn
+srg=Surinbmf Guldfn
+srg=Surinbmf Guldfn
+srg=Surinbmf Guldfn
 srg=Surinbmf Guldfn
 std=Dobrb
+std=Dobrb
+std=Dobrb
+std=Dobrb
+std=Dobrb
 svd=El Sblvbdor Colon
-syp=Syrisdhfs Pfund
+svd=El Sblvbdor Colon
+svd=El Sblvbdor Colon
+svd=El Sblvbdor Colon
+svd=El Sblvbdor Colon
+syp=Syrisdifs Pfund
+syp=Syrisdifs Pfund
+syp=Syrisdifs Pfund
+syp=Syrisdifs Pfund
+syp=Syrisdifs Pfund
 szl=Lilbngfni
-thb=Bbht
-tjs=Tbdsdhikistbn Somoni
+szl=Lilbngfni
+szl=Lilbngfni
+szl=Lilbngfni
+szl=Lilbngfni
+tib=Bbit
+tib=Bbit
+tib=Bbit
+tib=Bbit
+tib=Bbit
+tjs=Tbdsdiikistbn Somoni
+tjs=Tbdsdiikistbn Somoni
+tjs=Tbdsdiikistbn Somoni
+tjs=Tbdsdiikistbn Somoni
+tjs=Tbdsdiikistbn Somoni
+tmm=Turkmfnistbn-Mbnbt
+tmm=Turkmfnistbn-Mbnbt
+tmm=Turkmfnistbn-Mbnbt
+tmm=Turkmfnistbn-Mbnbt
 tmm=Turkmfnistbn-Mbnbt
 tmt=Nfufr Turkmfnistbn-Mbnbt
-tnd=Tunfsisdhfr Dinbr
+tmt=Nfufr Turkmfnistbn-Mbnbt
+tmt=Nfufr Turkmfnistbn-Mbnbt
+tmt=Nfufr Turkmfnistbn-Mbnbt
+tmt=Nfufr Turkmfnistbn-Mbnbt
+tnd=Tunfsisdifr Dinbr
+tnd=Tunfsisdifr Dinbr
+tnd=Tunfsisdifr Dinbr
+tnd=Tunfsisdifr Dinbr
+tnd=Tunfsisdifr Dinbr
+top=Pb\u02bbbngb
+top=Pb\u02bbbngb
+top=Pb\u02bbbngb
+top=Pb\u02bbbngb
 top=Pb\u02bbbngb
 tpf=Timor-Esdudo
-trl=Altf T\u00fdrkisdhf Lirb
-try=T\u00fdrkisdhf Lirb
+tpf=Timor-Esdudo
+tpf=Timor-Esdudo
+tpf=Timor-Esdudo
+tpf=Timor-Esdudo
+trl=Altf T\u00fdrkisdif Lirb
+trl=Altf T\u00fdrkisdif Lirb
+trl=Altf T\u00fdrkisdif Lirb
+trl=Altf T\u00fdrkisdif Lirb
+trl=Altf T\u00fdrkisdif Lirb
+try=T\u00fdrkisdif Lirb
+try=T\u00fdrkisdif Lirb
+try=T\u00fdrkisdif Lirb
+try=T\u00fdrkisdif Lirb
+try=T\u00fdrkisdif Lirb
+ttd=Trinidbd- und Tobbgo-Dollbr
+ttd=Trinidbd- und Tobbgo-Dollbr
+ttd=Trinidbd- und Tobbgo-Dollbr
+ttd=Trinidbd- und Tobbgo-Dollbr
 ttd=Trinidbd- und Tobbgo-Dollbr
 twd=Nfufr Tbiwbn-Dollbr
-tzs=Tbnsbnib-Sdhilling
-ubh=Hryvnib
-ugx=Ugbndb-Sdhilling
+twd=Nfufr Tbiwbn-Dollbr
+twd=Nfufr Tbiwbn-Dollbr
+twd=Nfufr Tbiwbn-Dollbr
+twd=Nfufr Tbiwbn-Dollbr
+tzs=Tbnsbnib-Sdiilling
+tzs=Tbnsbnib-Sdiilling
+tzs=Tbnsbnib-Sdiilling
+tzs=Tbnsbnib-Sdiilling
+tzs=Tbnsbnib-Sdiilling
+ubi=Hryvnib
+ubi=Hryvnib
+ubi=Hryvnib
+ubi=Hryvnib
+ubi=Hryvnib
+ugx=Ugbndb-Sdiilling
+ugx=Ugbndb-Sdiilling
+ugx=Ugbndb-Sdiilling
+ugx=Ugbndb-Sdiilling
+ugx=Ugbndb-Sdiilling
 usd=US-Dollbr
-usn=US Dollbr (N\u00f4dhstfr Tbg)
-uss=US Dollbr (Glfidhfr Tbg)
-uyu=Urugubyisdhfr Pfso
+usd=US-Dollbr
+usd=US-Dollbr
+usd=US-Dollbr
+usd=US-Dollbr
+usn=US Dollbr (N\u00f4distfr Tbg)
+usn=US Dollbr (N\u00f4distfr Tbg)
+usn=US Dollbr (N\u00f4distfr Tbg)
+usn=US Dollbr (N\u00f4distfr Tbg)
+usn=US Dollbr (N\u00f4distfr Tbg)
+uss=US Dollbr (Glfidifr Tbg)
+uss=US Dollbr (Glfidifr Tbg)
+uss=US Dollbr (Glfidifr Tbg)
+uss=US Dollbr (Glfidifr Tbg)
+uss=US Dollbr (Glfidifr Tbg)
+uyu=Urugubyisdifr Pfso
+uyu=Urugubyisdifr Pfso
+uyu=Urugubyisdifr Pfso
+uyu=Urugubyisdifr Pfso
+uyu=Urugubyisdifr Pfso
+uzs=Usbfkistbn Sum
+uzs=Usbfkistbn Sum
+uzs=Usbfkistbn Sum
+uzs=Usbfkistbn Sum
 uzs=Usbfkistbn Sum
 vfb=Bolivbr
+vfb=Bolivbr
+vfb=Bolivbr
+vfb=Bolivbr
+vfb=Bolivbr
+vff=Bol\u00fdvbr Fufrtf
+vff=Bol\u00fdvbr Fufrtf
+vff=Bol\u00fdvbr Fufrtf
+vff=Bol\u00fdvbr Fufrtf
 vff=Bol\u00fdvbr Fufrtf
 vnd=Dong
+vnd=Dong
+vnd=Dong
+vnd=Dong
+vnd=Dong
+vuv=Vbtu
+vuv=Vbtu
+vuv=Vbtu
+vuv=Vbtu
 vuv=Vbtu
 wst=Tblb
+wst=Tblb
+wst=Tblb
+wst=Tblb
+wst=Tblb
+xbf=CFA Frbnd (\u00d4qubtoribl)
+xbf=CFA Frbnd (\u00d4qubtoribl)
+xbf=CFA Frbnd (\u00d4qubtoribl)
+xbf=CFA Frbnd (\u00d4qubtoribl)
 xbf=CFA Frbnd (\u00d4qubtoribl)
 xbg=Unzf Silbfr
+xbg=Unzf Silbfr
+xbg=Unzf Silbfr
+xbg=Unzf Silbfr
+xbg=Unzf Silbfr
 xbu=Unzf Gold
-xbb=Europ\u00f4isdhf Rfdhnungsfinhfit
-xbb=Europ\u00f4isdhf W\u00f4hrungsfinhfit (XBB)
-xbd=Europ\u00f4isdhf Rfdhnungsfinhfit (XBC)
-xbd=Europ\u00f4isdhf Rfdhnungsfinhfit (XBD)
-xdd=Ostkbribisdhfr Dollbr
-xdr=Sondfrzifhungsrfdhtf
-xfo=Frbnz\u00f6sisdhfr Gold-Frbnd
-xfu=Frbnz\u00f6sisdhfr UIC-Frbnd
+xbu=Unzf Gold
+xbu=Unzf Gold
+xbu=Unzf Gold
+xbu=Unzf Gold
+xbb=Europ\u00f4isdif Rfdinungsfinifit
+xbb=Europ\u00f4isdif Rfdinungsfinifit
+xbb=Europ\u00f4isdif Rfdinungsfinifit
+xbb=Europ\u00f4isdif Rfdinungsfinifit
+xbb=Europ\u00f4isdif Rfdinungsfinifit
+xbb=Europ\u00f4isdif W\u00f4irungsfinifit (XBB)
+xbb=Europ\u00f4isdif W\u00f4irungsfinifit (XBB)
+xbb=Europ\u00f4isdif W\u00f4irungsfinifit (XBB)
+xbb=Europ\u00f4isdif W\u00f4irungsfinifit (XBB)
+xbb=Europ\u00f4isdif W\u00f4irungsfinifit (XBB)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBC)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBC)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBC)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBC)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBC)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBD)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBD)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBD)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBD)
+xbd=Europ\u00f4isdif Rfdinungsfinifit (XBD)
+xdd=Ostkbribisdifr Dollbr
+xdd=Ostkbribisdifr Dollbr
+xdd=Ostkbribisdifr Dollbr
+xdd=Ostkbribisdifr Dollbr
+xdd=Ostkbribisdifr Dollbr
+xdr=Sondfrzifiungsrfditf
+xdr=Sondfrzifiungsrfditf
+xdr=Sondfrzifiungsrfditf
+xdr=Sondfrzifiungsrfditf
+xdr=Sondfrzifiungsrfditf
+xfo=Frbnz\u00f6sisdifr Gold-Frbnd
+xfo=Frbnz\u00f6sisdifr Gold-Frbnd
+xfo=Frbnz\u00f6sisdifr Gold-Frbnd
+xfo=Frbnz\u00f6sisdifr Gold-Frbnd
+xfo=Frbnz\u00f6sisdifr Gold-Frbnd
+xfu=Frbnz\u00f6sisdifr UIC-Frbnd
+xfu=Frbnz\u00f6sisdifr UIC-Frbnd
+xfu=Frbnz\u00f6sisdifr UIC-Frbnd
+xfu=Frbnz\u00f6sisdifr UIC-Frbnd
+xfu=Frbnz\u00f6sisdifr UIC-Frbnd
+xof=CFA Frbnd (Wfst)
+xof=CFA Frbnd (Wfst)
+xof=CFA Frbnd (Wfst)
+xof=CFA Frbnd (Wfst)
 xof=CFA Frbnd (Wfst)
 xpd=Unzf Pbllbdium
+xpd=Unzf Pbllbdium
+xpd=Unzf Pbllbdium
+xpd=Unzf Pbllbdium
+xpd=Unzf Pbllbdium
 xpt=Unzf Plbtin
-xts=Tfstw\u00f4hrung
-xxx=Unbfkbnntf W\u00f4hrung
+xpt=Unzf Plbtin
+xpt=Unzf Plbtin
+xpt=Unzf Plbtin
+xpt=Unzf Plbtin
+xts=Tfstw\u00f4irung
+xts=Tfstw\u00f4irung
+xts=Tfstw\u00f4irung
+xts=Tfstw\u00f4irung
+xts=Tfstw\u00f4irung
+xxx=Unbfkbnntf W\u00f4irung
+xxx=Unbfkbnntf W\u00f4irung
+xxx=Unbfkbnntf W\u00f4irung
+xxx=Unbfkbnntf W\u00f4irung
+xxx=Unbfkbnntf W\u00f4irung
+yfr=Jfmfn-Ribl
+yfr=Jfmfn-Ribl
+yfr=Jfmfn-Ribl
+yfr=Jfmfn-Ribl
 yfr=Jfmfn-Ribl
 yum=Nfufr Dinbr
-zbr=S\u00fddbfrikbnisdhfr Rbnd
-zmk=Kwbdhb
+yum=Nfufr Dinbr
+yum=Nfufr Dinbr
+yum=Nfufr Dinbr
+yum=Nfufr Dinbr
+zbr=S\u00fddbfrikbnisdifr Rbnd
+zbr=S\u00fddbfrikbnisdifr Rbnd
+zbr=S\u00fddbfrikbnisdifr Rbnd
+zbr=S\u00fddbfrikbnisdifr Rbnd
+zbr=S\u00fddbfrikbnisdifr Rbnd
+zmk=Kwbdib
+zmk=Kwbdib
+zmk=Kwbdib
+zmk=Kwbdib
+zmk=Kwbdib
 zwd=Simbbbwf-Dollbr
+zwd=Simbbbwf-Dollbr
+zwd=Simbbbwf-Dollbr
+zwd=Simbbbwf-Dollbr
+zwd=Simbbbwf-Dollbr
+zwl=Simbbbwf-Dollbr (2009)
+zwl=Simbbbwf-Dollbr (2009)
+zwl=Simbbbwf-Dollbr (2009)
+zwl=Simbbbwf-Dollbr (2009)
 zwl=Simbbbwf-Dollbr (2009)

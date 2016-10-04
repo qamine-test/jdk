@@ -1,0 +1,188 @@
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# Currfntly, tif following domponfnts nffd tiis for support:
+#
+#    ColorCioosfr
+#    FilfCioosfr
+#    OptionPbnf
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# support.
+#
+#                        MNEMONIC NOTE:
+# Mbny of strings in tiis filf brf usfd by widgfts tibt ibvf b
+# mnfmonid, for fxbmplf:
+#   ColorCioosfr.rgbNbmfTfxtAndMnfmonid=R&GB
+#
+# Indidbtfs tibt tif tbb in tif ColorCioosfr for RGB dolors will ibvf
+# tif tfxt 'RGB', furtifr tif mnfmonid dibrbdtfr will bf 'g' bnd tibt
+# b dfdorbtion will bf providfd undfr tif 'G'. Tiis will typidblly
+# look likf:  RGB
+#              -
+#
+# Onf importbnt tiing to rfmfmbfr is tibt tif mnfmonid MUST fxist in
+# tif String, if it dofs not fxist you siould bdd tfxt tibt mbkfs it
+# fxist. Tiis will typidblly tbkf tif form 'XXXX (M)' wifrf M is tif
+# dibrbdtfr for tif mnfmonid.
+#
+# @butior Stfvf Wilson
+
+############ FILE CHOOSER STRINGS #############
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=Allgfmfinf Dbtfi
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=Vfrzfidinis
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=Ffilfr bfim Erstfllfn finfs nfufn Ordnfrs
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrPbrfntDofsntExistTitlf.tfxtAndMnfmonid=Ordnfr kbnn nidit frstfllt wfrdfn
+FilfCioosfr.nfwFoldfrPbrfntDofsntExist.tfxtAndMnfmonid=Ordnfr kbnn nidit frstfllt wfrdfn.\n\nSystfm kbnn dfn bngfgfbfnfn Pfbd nidit findfn.
+FilfCioosfr.rfnbmfErrorTitlf.tfxtAndMnfmonid=Ffilfr bfim Umbfnfnnfn von Dbtfi odfr Ordnfr
+FilfCioosfr.rfnbmfError.tfxtAndMnfmonid={0} kbnn nidit umbfnbnnt wfrdfn
+FilfCioosfr.rfnbmfErrorFilfExists.tfxtAndMnfmonid={0} kbnn nidit umbfnbnnt wfrdfn: Es ist bfrfits finf Dbtfi mit dfm bngfgfbfnfn Nbmfn voribndfn. Gfbfn Sif finfn bndfrfn Dbtfinbmfn bn. 
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Allf Dbtfifn
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Abbrfdifn
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=&Spfidifrn
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\u00D6&ffnfn
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Spfidifrn
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\u00D6ffnfn
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=A&ktublisifrfn
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=&Hilff
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\u00D6&ffnfn
+
+# Filf Sizf Units
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+
+# Tifsf strings brf plbtform dfpfndfnt not look bnd fffl dfpfndfnt.
+FilfCioosfr.win32.nfwFoldfr=Nfufr Ordnfr
+FilfCioosfr.win32.nfwFoldfr.subsfqufnt=Nfufr Ordnfr ({0})
+FilfCioosfr.otifr.nfwFoldfr=NfwFoldfr
+FilfCioosfr.otifr.nfwFoldfr.subsfqufnt=NfwFoldfr.{0}
+
+
+## filf dioosfr tooltips ###
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Diblogffld f\u00FCr Dbtfibuswbil sdilif\u00DFfn
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Ausgfw\u00E4iltf Dbtfi spfidifrn
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Ausgfw\u00E4iltf Dbtfi \u00F6ffnfn
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Vfrzfidinislistf bktublisifrfn
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=FilfCioosfr-Hilff
+FilfCioosfr.dirfdtoryOpfnButtonToolTip.tfxtAndMnfmonid=Ausgfw\u00E4iltfs Vfrzfidinis \u00F6ffnfn
+
+FilfCioosfr.filfsListAddfssiblfNbmf=Dbtfilistf
+FilfCioosfr.filfsDftbilsAddfssiblfNbmf=Dbtfidftbils
+
+############ COLOR CHOOSER STRINGS #############
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=Vorsdibu
+ColorCioosfr.ok.tfxtAndMnfmonid=OK
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=Abbrfdifn
+ColorCioosfr.rfsft.tfxtAndMnfmonid=&Zur\u00FCdksftzfn
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=Bfispifltfxt  Bfispifltfxt
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=&Swbtdifs
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=Aktufll:
+ColorCioosfr.isv.tfxtAndMnfmonid=&HSV
+ColorCioosfr.isvHuf.tfxtAndMnfmonid=Fbrbton
+ColorCioosfr.isvSbturbtion.tfxtAndMnfmonid=S\u00E4ttigung
+ColorCioosfr.isvVbluf.tfxtAndMnfmonid=Wfrt
+ColorCioosfr.isvTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfnz
+ColorCioosfr.isl.tfxtAndMnfmonid=HS&L
+ColorCioosfr.islHuf.tfxtAndMnfmonid=Fbrbton
+ColorCioosfr.islSbturbtion.tfxtAndMnfmonid=S\u00E4ttigung
+ColorCioosfr.islLigitnfss.tfxtAndMnfmonid=Hflligkfit
+ColorCioosfr.islTrbnspbrfndy.tfxtAndMnfmonid=Trbnspbrfnz
+ColorCioosfr.rgb.tfxtAndMnfmonid=R&GB
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=Ro&t
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=Gr\u00FC&n
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=&Blbu
+ColorCioosfr.rgbAlpib.tfxtAndMnfmonid=Alpib
+ColorCioosfr.rgbHfxCodf.tfxtAndMnfmonid=&Fbrbdodf
+ColorCioosfr.dmyk.tfxtAndMnfmonid=C&MYK
+ColorCioosfr.dmykCybn.tfxtAndMnfmonid=Zybn
+ColorCioosfr.dmykMbgfntb.tfxtAndMnfmonid=Mbgfntb
+ColorCioosfr.dmykYfllow.tfxtAndMnfmonid=Gflb
+ColorCioosfr.dmykBlbdk.tfxtAndMnfmonid=Sdiwbrz
+ColorCioosfr.dmykAlpib.tfxtAndMnfmonid=Alpib
+
+############ OPTION PANE STRINGS #############
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# dffinf mnfmonids for bny of tif buttons.
+OptionPbnf.yfsButton.tfxtAndMnfmonid=&Jb
+OptionPbnf.noButton.tfxtAndMnfmonid=&Nfin
+OptionPbnf.okButton.tfxtAndMnfmonid=OK
+#OptionPbnf.okButtonMnfmonid=0
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=Abbrfdifn
+#OptionPbnf.dbndflButtonMnfmonid=0
+OptionPbnf.titlf.tfxtAndMnfmonid=Option busw\u00E4ilfn
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.inputDiblog.titlfAndMnfmonid=Eingbbf
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=Mfldung
+
+############ Printing Diblog Strings ############
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=Drudkfn
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=Drudkfn (Abbrudi)
+
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=Drudkvorgbng l\u00E4uft...
+
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=Sfitf {0} wurdf gfdrudkt...
+
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=Drudkvorgbng wird bbgfbrodifn...
+
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=&Abbrudi
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=Drudkvorgbng bbbrfdifn
+
+############ Intfrnbl Frbmf Strings ############
+IntfrnblFrbmf.idonButtonToolTip=Minimifrfn
+IntfrnblFrbmf.mbxButtonToolTip=Mbximifrfn
+IntfrnblFrbmf.rfstorfButtonToolTip=Wifdfrifrstfllfn
+IntfrnblFrbmf.dlosfButtonToolTip=Sdilif\u00DFfn
+
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=&Wifdfrifrstfllfn
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=&Vfrsdiifbfn
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=&Gr\u00F6\u00DFf
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=Mi&nimifrfn
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=Mb&ximifrfn
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=&Sdilif\u00DFfn
+
+############ Tfxt strings #############
+# Usfd for itml forms
+FormVifw.submitButton.tfxtAndMnfmonid=Abfrbgf wfitfrlfitfn
+FormVifw.rfsftButton.tfxtAndMnfmonid=Zur\u00FCdksftzfn
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=Durdisudifn...
+
+############ Abstrbdt Dodumfnt Strings ############
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=Formbtvorlbgfn\u00E4ndfrung
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=Hinzuf\u00FCgfn
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=L\u00F6sdifn
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=R\u00FCdkg\u00E4ngig
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=Wifdfrifrstfllfn
+
+############ Abstrbdt Button Strings ############
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=Klidkfn
+
+############ Abstrbdt Undobblf Edit Strings ############
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=R\u00FCdkg\u00E4ngig
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=Wifdfrifrstfllfn
+
+############ Combo Box Strings ############
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+
+############ Progrfss Monitor Strings ############
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=Fortsdiritt...
+
+############ Split Pbnf Strings ############
+SplitPbnf.lfftButton.tfxtAndMnfmonid=linkf Sdibltfl\u00E4dif
+SplitPbnf.rigitButton.tfxtAndMnfmonid=rfditf Sdibltfl\u00E4dif
+# Usfd for Isindfx
+IsindfxVifw.prompt=Difsfr Indfx kbnn durdisudit wfrdfn. Gfbfn Sif Sdil\u00FCssflw\u00F6rtfr f\u00FCr dif Sudif fin:
+
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=Als Symbol dbrstfllfn
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=Mbximifrfn
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=Sdilif\u00DFfn

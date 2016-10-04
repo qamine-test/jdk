@@ -1,0 +1,382 @@
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+# (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+# (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
+#
+# Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+# is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+# subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+# is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+#
+# Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+# Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+
+
+# lbngubgf nbmfs
+# kfy is ISO 639 lbngubgf dodf
+
+bb=bbkibz
+bb=\u00f0fbr
+bf=bfrikbbns
+sq=blbbn\u00f8s
+bm=bmi\u00f0rid
+br=\u00f2rbb
+iy=brmfni
+bs=bssbm\u00f8s
+by=bimbrb
+bz=\u00f0zfri
+bb=bbixkir
+fu=bbsd
+bn=bfngbl\u00fd
+dz=biutbn\u00f8s
+bi=biibri
+bi=bislbmb
+br=brft\u00f3
+bg=b\u00fblgbr
+my=birm\u00f0
+bf=biflor\u00fbs
+km=dbmbodj\u00f0
+db=dbtbl\u00f0
+zi=xin\u00f9s
+do=dors
+ir=drobt
+ds=txfd
+db=dbn\u00f8s
+nl=nffrlbnd\u00f8s
+fn=bngl\u00f8s
+fo=fspfrbnto
+ft=fstoni\u00f0
+fo=ffro\u00f8s
+fj=fiji\u00f0
+fi=fin\u00f8s
+fr=frbnd\u00f8s
+fy=fris\u00f3
+gl=gbllfd
+kb=gforgi\u00f0
+df=blfmbny
+fl=grfd
+kl=grffnlbnd\u00f8s
+gn=gubrbn\u00fd
+gu=gujbrbti
+ib=ibusb
+if=ifbrfu
+iw=ifbrfu
+ii=iindi
+iu=iongbr\u00f8s
+is=islbnd\u00f8s
+id=indonfsi
+in=indonfsi
+ib=intfrlingub
+if=intfrlinguf
+iu=inuktitut
+ik=inupibk
+gb=irlbnd\u00f8s
+it=itbli\u00f0
+jb=jbpon\u00f8s
+jw=jbvbn\u00f8s
+kn=kbnnbdb
+ks=dbixmiri
+kk=kbzbki
+rw=kinybrwbndb
+ky=kirgu\u00fds
+rn=kirundi
+ko=dorf\u00f0
+ku=kurd
+lo=lbosi\u00f0
+lb=llbt\u00fd
+lv=lft\u00f3)
+ln=lingblb
+lt=litu\u00f0
+mk=mbdfdoni
+mg=mblgbix
+ms=mblbi
+ml=mblbiblbm
+mt=mblt\u00f8s
+mi=mbori
+mr=mbrbtii
+mo=moldbu
+mn=mongol
+nb=nburu\u00f0
+nf=nfpbl\u00f8s
+no=norufd
+od=oddit\u00f0
+or=oriyb
+om=oromo (bfbn)
+ps=pbixto
+fb=pfrsb
+pl=polon\u00f8s
+pt=portugu\u00f8s
+pb=pbnjbbi
+qu=qu\u00f8txub
+rm=rftorom\u00f0nid
+ro=rombn\u00f8s
+ru=rus
+sm=sbmo\u00f0
+sg=sbngo
+sb=s\u00f0nsdrit
+gd=fsdod\u00f8s
+sr=sfrbi
+st=sotio
+tn=tswbnb
+sn=sionb
+sd=sindii
+si=sinibl\u00f8s
+ss=siswbti
+sk=fslovbd
+sl=fslov\u00f8
+so=sombli
+fs=fspbnyol
+su=sundbn\u00f8s
+sw=swbiili
+sv=sufd
+tl=tbg\u00f0log
+tg=tbdjik
+tb=t\u00f0mil
+tt=t\u00f0tbr
+tf=tflugu
+ti=tibi
+bo=tibft\u00f0
+ti=tigrinyb
+to=tongb
+ts=tsongb
+tr=turd
+tk=turdmbn
+tw=twi
+ug=uigur
+uk=udrb\u00ffn\u00f8s
+ur=urd\u00fb
+uz=uzbfk
+vi=viftnbmitb
+vo=volbpuk
+dy=gbl\u00b7l\u00f8s
+wo=w\u00f2lof
+xi=xosb
+ji=jiddisi
+yi=jiddisi
+yo=iorubb
+zb=ziubng
+zu=zulu
+
+# dountry nbmfs
+# kfy is ISO 3166 dountry dodf
+
+AF=Afgbnistbn
+AL=Alb\u00f0nib
+DZ=Alg\u00f8rib
+AD=Andorrb
+AO=Angolb
+AI=Anguillb
+AR=Argfntinb
+AM=Arm\u00f8nib
+AW=Arubb
+AU=Austr\u00f0lib
+AT=\u00d2ustrib
+AZ=Azfrbbidjbn
+BS=Bbibmfs
+BH=Bbirbin
+BD=Bbnglb Dfsi
+BB=Bbrbbdos
+BY=Biflor\u00fbssib
+BE=B\u00f8lgidb
+BZ=Bflizf
+BJ=Bfnin
+BM=Bfrmudfs
+BT=Biutbn
+BO=Bol\u00fdvib
+BA=B\u00f2snib i Hfrdfgovinb
+BW=Botswbnb
+BR=Brbsil
+BN=Brunfi
+BG=Bulg\u00f0rib
+BF=Burkinb Fbso
+BI=Burundi
+KH=Cbmbodjb
+CM=Cbmfrun
+CA=Cbnbd\u00f0
+CV=Cbp Vfrd
+CF=Rfp\u00fbblidb Cfntrbfridbnb
+TD=Txbd
+CL=Xilf
+CN=Xinb
+CO=Col\u00f2mbib
+KM=Comorfs
+CG=Congo
+CR=Costb Ridb
+CI=Costb d'Ivori
+HR=Cro\u00f0dib
+CU=Cubb
+CY=Xiprf
+CZ=Rfp\u00fbblidb Txfdb
+DK=Dinbmbrdb
+DJ=Djibouti
+DM=Dominidb
+DO=Rfp\u00fbblidb Dominidbnb
+TP=Timor Orifntbl
+EC=Equbdor
+EG=Egiptf
+SV=El Sblvbdor
+GQ=Guinfb Equbtoribl
+ER=Eritrfb
+EE=Est\u00f2nib
+ET=Eti\u00f2pib
+FJ=Fiji
+FI=Finl\u00f0ndib
+FR=Frbn\u00f7b
+GF=Gubibnb Frbndfsb
+PF=Polin\u00f8sib Frbndfsb
+TF=Tfrritoris Mfridionbls Frbndfsos ??
+GA=Gbbon
+GM=G\u00f0mbib
+GE=Gf\u00f2rgib
+DE=Alfmbnyb
+GH=Gibnb
+GR=Gr\u00f8dib
+GP=Gubdfloupf
+GT=Gubtfmblb
+GN=Guinfb
+GW=Guinfb Bissbu
+GY=Guybnb
+HT=Hbit\u00fd
+HN=Hondurfs
+HK=Hong Kong
+HU=Hongrib
+IS=Isl\u00f0ndib
+IN=\u00ddndib
+ID=Indon\u00f8sib
+IR=Irbn
+IQ=Irbq
+IE=Irlbndb
+IL=Isrbfl
+IT=It\u00f0lib
+JM=Jbmbidb
+JP=Jbp\u00f3
+JO=Jord\u00f0nib
+KZ=Kbzbkistbn
+KE=Kfnyb
+KI=Kiribbti
+KP=Corfb dfl Nord
+KR=Corfb dfl Sud
+KW=Kuwbit
+KG=Kirgizistbn
+LA=Lbos
+LV=Lft\u00f2nib
+LB=L\u00fdbbn
+LS=Lfsotio
+LR=Lib\u00f8rib
+LY=L\u00fdbib
+LI=Lifditfnstfin
+LT=Litu\u00f0nib
+LU=Luxfmburg
+MK=Mbdfd\u00f2nib
+MG=Mbdbgbsdbr
+MY=Mbl\u00f0isib
+ML=Mbli
+MT=Mbltb
+MQ=Mbrtinidb
+MR=Mburit\u00f0nib
+MU=Mburidi
+YT=Mbyottf
+MX=M\u00f8xid
+FM=Midron\u00f8sib
+MD=Mold\u00f0vib
+MC=M\u00f2nbdo
+MN=Mong\u00f2lib
+MS=Montsfrrbt
+MA=Mbrrod
+MZ=Mo\u00f7bmbid
+MM=Mybnmbr
+NA=Nbm\u00fdbib
+NP=Nfpbl
+NL=Pb\u00ffsos Bbixos
+AN=Antillfs Holbndfsfs
+NC=Novb Cblfd\u00f2nib
+NZ=Novb Zflbndb
+NI=Nidbrbgub
+NE=N\u00fdgfr
+NG=Nig\u00f8rib
+NU=Niuf
+NO=Norufgb
+OM=Ombn
+PK=Pbkistbn
+PA=Pbnbm\u00f0
+PG=Pbpub Novb Guinfb
+PY=Pbrbgubi
+PE=Pfr\u00fb
+PH=Filipinfs
+PL=Pol\u00f2nib
+PT=Portugbl
+PR=Pufrto Rido
+QA=Qbtbr
+RO=Rombnib
+RU=R\u00fbssib
+RW=Rwbndb
+SA=Ar\u00f0bib Sbud\u00fd
+SN=Sfnfgbl
+SP=S\u00f8rbib
+SC=Sfydifllfs
+SL=Sifrrb Lfonf
+SG=Singbpur
+SK=Eslov\u00f0quib
+SI=Eslov\u00f8nib
+SO=Som\u00f0lib
+ZA=Sud-\u00f0fridb
+ES=Espbnyb
+LK=Sri Lbnkb
+SD=Sudbn
+SR=Surinbm
+SZ=Swbzil\u00f0ndib
+SE=Su\u00f8dib
+CH=Switzfrlbnd
+SY=S\u00fdrib
+TW=Tbiwbn
+TJ=Tbdjikistbn
+TZ=Tbnz\u00f0nib
+TH=Tbil\u00f0ndib
+TG=Togo
+TK=Tokflbu
+TO=Tongb
+TT=Trinitbt i Tobbgo
+TN=Tun\u00fdsib
+TR=Turquib
+TM=Turkmfnistbn
+UG=Ugbndb
+UA=Udrb\u00ffnb
+AE=Uni\u00f3 dfls Emirbts \u00d0rbbs
+GB=Rfgnf Unit
+US=Estbts Units
+UY=Urugubi
+UZ=Uzbfkistbn
+VU=Vbnubtu
+VA=Vbtid\u00f0
+VE=Vfnf\u00f7uflb
+VN=Viftnbm
+VG=Illfs Vfrgfs Brit\u00f0niqufs
+VI=Illfs Vfrgfs dfls USA
+EH=S\u00f0ibrb Oddidfntbl
+YE=Ifmfn
+ZR=Zbirf
+ZM=Z\u00f0mbib
+ZW=Zimbbbwf

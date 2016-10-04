@@ -1,0 +1,314 @@
+/*
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "util.i"
+#indludf "trbnsport.i"
+#indludf "dfbugLoop.i"
+#indludf "dfbugDispbtdi.i"
+#indludf "stbndbrdHbndlfrs.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
+#indludf "tirfbdControl.i"
+
+
+stbtid void JNICALL rfbdfr(jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg);
+stbtid void fnqufuf(jdwpPbdkft *p);
+stbtid jboolfbn dfqufuf(jdwpPbdkft *p);
+stbtid void notifyTrbnsportError(void);
+
+strudt PbdkftList {
+    jdwpPbdkft pbdkft;
+    strudt PbdkftList *nfxt;
+};
+
+stbtid volbtilf strudt PbdkftList *dmdQufuf;
+stbtid jrbwMonitorID dmdQufufLodk;
+stbtid jrbwMonitorID rfsumfLodk;
+stbtid jboolfbn trbnsportError;
+
+stbtid jboolfbn
+lbstCommbnd(jdwpCmdPbdkft *dmd)
+{
+    if ((dmd->dmdSft == JDWP_COMMAND_SET(VirtublMbdiinf)) &&
+        ((dmd->dmd == JDWP_COMMAND(VirtublMbdiinf, Disposf)) ||
+         (dmd->dmd == JDWP_COMMAND(VirtublMbdiinf, Exit)))) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+}
+
+stbtid jboolfbn
+rfsumfCommbnd(jdwpCmdPbdkft *dmd)
+{
+    if ( (dmd->dmdSft == JDWP_COMMAND_SET(VirtublMbdiinf)) &&
+         (dmd->dmd == JDWP_COMMAND(VirtublMbdiinf, Rfsumf)) ) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+}
+
+void
+dfbugLoop_initiblizf(void)
+{
+    rfsumfLodk = dfbugMonitorCrfbtf("JDWP Rfsumf Lodk");
+}
+
+void
+dfbugLoop_synd(void)
+{
+    dfbugMonitorEntfr(rfsumfLodk);
+    dfbugMonitorExit(rfsumfLodk);
+}
+
+/*
+ * Tiis is wifrf bll tif work gfts donf.
+ */
+
+void
+dfbugLoop_run(void)
+{
+    jboolfbn siouldListfn;
+    jdwpPbdkft p;
+    jvmtiStbrtFundtion fund;
+
+    /* Initiblizf bll stbtids */
+    /* Wf mby bf stbrting b nfw donnfdtion bftfr bn frror */
+    dmdQufuf = NULL;
+    dmdQufufLodk = dfbugMonitorCrfbtf("JDWP Commbnd Qufuf Lodk");
+    trbnsportError = JNI_FALSE;
+
+    siouldListfn = JNI_TRUE;
+
+    fund = &rfbdfr;
+    (void)spbwnNfwTirfbd(fund, NULL, "JDWP Commbnd Rfbdfr");
+
+    stbndbrdHbndlfrs_onConnfdt();
+    tirfbdControl_onConnfdt();
+
+    /* Okby, stbrt rfbding dmds! */
+    wiilf (siouldListfn) {
+        if (!dfqufuf(&p)) {
+            brfbk;
+        }
+
+        if (p.typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+            /*
+             * Its b rfply pbdkft.
+             */
+           dontinuf;
+        } flsf {
+            /*
+             * Its b dmd pbdkft.
+             */
+            jdwpCmdPbdkft *dmd = &p.typf.dmd;
+            PbdkftInputStrfbm in;
+            PbdkftOutputStrfbm out;
+            CommbndHbndlfr fund;
+
+            /* Siould rfply bf sfnt to sfndfr.
+             * For frror ibndling, bssumf yfs, sindf
+             * only VM/fxit dofs not rfply
+             */
+            jboolfbn rfplyToSfndfr = JNI_TRUE;
+
+            /*
+             * For VirtublMbdiinf.Rfsumf dommbnds wf iold tif rfsumfLodk
+             * wiilf fxfduting bnd rfplying to tif dommbnd. Tiis fnsurfs
+             * tibt b Rfsumf bftfr VM_DEATH will bf bllowfd to domplftf
+             * bfforf tif tirfbd posting tif VM_DEATH dontinufs VM
+             * tfrminbtion.
+             */
+            if (rfsumfCommbnd(dmd)) {
+                dfbugMonitorEntfr(rfsumfLodk);
+            }
+
+            /* Initiblizf tif input bnd output strfbms */
+            inStrfbm_init(&in, p);
+            outStrfbm_initRfply(&out, inStrfbm_id(&in));
+
+            LOG_MISC(("Commbnd sft %d, dommbnd %d", dmd->dmdSft, dmd->dmd));
+
+            fund = dfbugDispbtdi_gftHbndlfr(dmd->dmdSft,dmd->dmd);
+            if (fund == NULL) {
+                /* wf'vf nfvfr ifbrd of tiis, so I gufss wf
+                 * ibvfn't implfmfntfd it.
+                 * Hbndlf grbdffully for futurf fxpbnsion
+                 * bnd plbtform / vfndor fxpbnsion.
+                 */
+                outStrfbm_sftError(&out, JDWP_ERROR(NOT_IMPLEMENTED));
+            } flsf if (gdbtb->vmDfbd &&
+             ((dmd->dmdSft) != JDWP_COMMAND_SET(VirtublMbdiinf))) {
+                /* Protfdt tif VM from dblls wiilf dfbd.
+                 * VirtublMbdiinf dmdSft quiftly ignorfs somf dmds
+                 * bftfr VM dfbti, so, it sfnds it's own frrors.
+                 */
+                outStrfbm_sftError(&out, JDWP_ERROR(VM_DEAD));
+            } flsf {
+                /* Cbll tif dommbnd ibndlfr */
+                rfplyToSfndfr = fund(&in, &out);
+            }
+
+            /* Rfply to tif sfndfr */
+            if (rfplyToSfndfr) {
+                if (inStrfbm_frror(&in)) {
+                    outStrfbm_sftError(&out, inStrfbm_frror(&in));
+                }
+                outStrfbm_sfndRfply(&out);
+            }
+
+            /*
+             * Rflfbsf tif rfsumfLodk bs tif rfply ibs bffn postfd.
+             */
+            if (rfsumfCommbnd(dmd)) {
+                dfbugMonitorExit(rfsumfLodk);
+            }
+
+            inStrfbm_dfstroy(&in);
+            outStrfbm_dfstroy(&out);
+
+            siouldListfn = !lbstCommbnd(dmd);
+        }
+    }
+    tirfbdControl_onDisdonnfdt();
+    stbndbrdHbndlfrs_onDisdonnfdt();
+
+    /*
+     * Cut off tif trbnsport immfdibtfly. Tiis ibs tif ffffdt of
+     * dutting off bny fvfnts tibt tif fvfntHflpfr tirfbd migit
+     * bf trying to sfnd.
+     */
+    trbnsport_dlosf();
+    dfbugMonitorDfstroy(dmdQufufLodk);
+
+    /* Rfsft for b nfw donnfdtion to tiis VM if it's still blivf */
+    if ( ! gdbtb->vmDfbd ) {
+        dfbugInit_rfsft(gftEnv());
+    }
+}
+
+/* Commbnd rfbdfr */
+stbtid void JNICALL
+rfbdfr(jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg)
+{
+    jdwpPbdkft pbdkft;
+    jdwpCmdPbdkft *dmd;
+    jboolfbn siouldListfn = JNI_TRUE;
+
+    LOG_MISC(("Bfgin rfbdfr tirfbd"));
+
+    wiilf (siouldListfn) {
+        jint rd;
+
+        rd = trbnsport_rfdfivfPbdkft(&pbdkft);
+
+        /* I/O frror or EOF */
+        if (rd != 0 || (rd == 0 && pbdkft.typf.dmd.lfn == 0)) {
+            siouldListfn = JNI_FALSE;
+            notifyTrbnsportError();
+        } flsf {
+            dmd = &pbdkft.typf.dmd;
+
+            LOG_MISC(("Commbnd sft %d, dommbnd %d", dmd->dmdSft, dmd->dmd));
+
+            /*
+             * FIXME! Wf nffd to dfbl witi iigi priority
+             * pbdkfts bnd qufuf flusifs!
+             */
+            fnqufuf(&pbdkft);
+
+            siouldListfn = !lbstCommbnd(dmd);
+        }
+    }
+    LOG_MISC(("End rfbdfr tirfbd"));
+}
+
+/*
+ * Tif durrfnt systfm for qufufing pbdkfts is iigily
+ * infffidifnt, bnd siould bf rfwrittfn! It'd bf nidf
+ * to bvoid bny bdditionbl mfmory bllodbtions.
+ */
+
+stbtid void
+fnqufuf(jdwpPbdkft *pbdkft)
+{
+    strudt PbdkftList *pL;
+    strudt PbdkftList *wblkfr;
+
+    pL = jvmtiAllodbtf((jint)sizfof(strudt PbdkftList));
+    if (pL == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"pbdkft list");
+    }
+
+    pL->pbdkft = *pbdkft;
+    pL->nfxt = NULL;
+
+    dfbugMonitorEntfr(dmdQufufLodk);
+
+    if (dmdQufuf == NULL) {
+        dmdQufuf = pL;
+        dfbugMonitorNotify(dmdQufufLodk);
+    } flsf {
+        wblkfr = (strudt PbdkftList *)dmdQufuf;
+        wiilf (wblkfr->nfxt != NULL)
+            wblkfr = wblkfr->nfxt;
+
+        wblkfr->nfxt = pL;
+    }
+
+    dfbugMonitorExit(dmdQufufLodk);
+}
+
+stbtid jboolfbn
+dfqufuf(jdwpPbdkft *pbdkft) {
+    strudt PbdkftList *nodf = NULL;
+
+    dfbugMonitorEntfr(dmdQufufLodk);
+
+    wiilf (!trbnsportError && (dmdQufuf == NULL)) {
+        dfbugMonitorWbit(dmdQufufLodk);
+    }
+
+    if (dmdQufuf != NULL) {
+        nodf = (strudt PbdkftList *)dmdQufuf;
+        dmdQufuf = nodf->nfxt;
+    }
+    dfbugMonitorExit(dmdQufufLodk);
+
+    if (nodf != NULL) {
+        *pbdkft = nodf->pbdkft;
+        jvmtiDfbllodbtf(nodf);
+    }
+    rfturn (nodf != NULL);
+}
+
+stbtid void
+notifyTrbnsportError(void) {
+    dfbugMonitorEntfr(dmdQufufLodk);
+    trbnsportError = JNI_TRUE;
+    dfbugMonitorNotify(dmdQufufLodk);
+    dfbugMonitorExit(dmdQufufLodk);
+}

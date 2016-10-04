@@ -1,556 +1,2780 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="lo"/>
+		<lbngubgf typf="lo"/>
+		<lbngubgf typf="lo"/>
+		<lbngubgf typf="lo"/>
+		<lbngubgf typf="lo"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="bb" drbft="undonfirmfd">ອາຟາ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ອາຟາ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ອາຟາ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ອາຟາ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ອາຟາ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ແອບຄາເຊຍ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ແອບຄາເຊຍ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ແອບຄາເຊຍ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ແອບຄາເຊຍ</lbngubgf>
 			<lbngubgf typf="bb" drbft="undonfirmfd">ແອບຄາເຊຍ</lbngubgf>
 			<lbngubgf typf="bf" drbft="undonfirmfd">ອັຟຣິກາ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ອັຟຣິກາ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ອັຟຣິກາ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ອັຟຣິກາ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ອັຟຣິກາ</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">ອຳຫາຣິກ</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">ອຳຫາຣິກ</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">ອຳຫາຣິກ</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">ອຳຫາຣິກ</lbngubgf>
 			<lbngubgf typf="bm" drbft="undonfirmfd">ອຳຫາຣິກ</lbngubgf>
 			<lbngubgf typf="br" drbft="undonfirmfd">ອາຣັບ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ອາຣັບ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ອາຣັບ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ອາຣັບ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ອາຣັບ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ອັສສຳ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ອັສສຳ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ອັສສຳ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ອັສສຳ</lbngubgf>
 			<lbngubgf typf="bs" drbft="undonfirmfd">ອັສສຳ</lbngubgf>
 			<lbngubgf typf="by" drbft="undonfirmfd">ໄອມາລາ</lbngubgf>
+			<lbngubgf typf="by" drbft="undonfirmfd">ໄອມາລາ</lbngubgf>
+			<lbngubgf typf="by" drbft="undonfirmfd">ໄອມາລາ</lbngubgf>
+			<lbngubgf typf="by" drbft="undonfirmfd">ໄອມາລາ</lbngubgf>
+			<lbngubgf typf="by" drbft="undonfirmfd">ໄອມາລາ</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">ອາແຊກບາຍຊານ</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">ອາແຊກບາຍຊານ</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">ອາແຊກບາຍຊານ</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">ອາແຊກບາຍຊານ</lbngubgf>
 			<lbngubgf typf="bz" drbft="undonfirmfd">ອາແຊກບາຍຊານ</lbngubgf>
 			<lbngubgf typf="bb" drbft="undonfirmfd">ບາສສີ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ບາສສີ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ບາສສີ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ບາສສີ</lbngubgf>
+			<lbngubgf typf="bb" drbft="undonfirmfd">ບາສສີ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ເບລາລຸດຊີ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ເບລາລຸດຊີ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ເບລາລຸດຊີ</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">ເບລາລຸດຊີ</lbngubgf>
 			<lbngubgf typf="bf" drbft="undonfirmfd">ເບລາລຸດຊີ</lbngubgf>
 			<lbngubgf typf="bg" drbft="undonfirmfd">ບຸນກາຣີ</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">ບຸນກາຣີ</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">ບຸນກາຣີ</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">ບຸນກາຣີ</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">ບຸນກາຣີ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບີຮາຣີ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບີຮາຣີ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບີຮາຣີ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບີຮາຣີ</lbngubgf>
 			<lbngubgf typf="bi" drbft="undonfirmfd">ບີຮາຣີ</lbngubgf>
 			<lbngubgf typf="bi" drbft="undonfirmfd">ບິສລາມາ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບິສລາມາ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບິສລາມາ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບິສລາມາ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">ບິສລາມາ</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">ເບັງການ</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">ເບັງການ</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">ເບັງການ</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">ເບັງການ</lbngubgf>
 			<lbngubgf typf="bn" drbft="undonfirmfd">ເບັງການ</lbngubgf>
 			<lbngubgf typf="bo" drbft="undonfirmfd">ທິເບດ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">ທິເບດ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">ທິເບດ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">ທິເບດ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">ທິເບດ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ບເຣີຕົງ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ບເຣີຕົງ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ບເຣີຕົງ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ບເຣີຕົງ</lbngubgf>
 			<lbngubgf typf="br" drbft="undonfirmfd">ບເຣີຕົງ</lbngubgf>
 			<lbngubgf typf="bs" drbft="undonfirmfd">ບອສນີ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ບອສນີ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ບອສນີ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ບອສນີ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ບອສນີ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ກາຕາລັງ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ກາຕາລັງ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ກາຕາລັງ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ກາຕາລັງ</lbngubgf>
 			<lbngubgf typf="db" drbft="undonfirmfd">ກາຕາລັງ</lbngubgf>
 			<lbngubgf typf="do" drbft="undonfirmfd">ຄໍຊິກ້າ</lbngubgf>
+			<lbngubgf typf="do" drbft="undonfirmfd">ຄໍຊິກ້າ</lbngubgf>
+			<lbngubgf typf="do" drbft="undonfirmfd">ຄໍຊິກ້າ</lbngubgf>
+			<lbngubgf typf="do" drbft="undonfirmfd">ຄໍຊິກ້າ</lbngubgf>
+			<lbngubgf typf="do" drbft="undonfirmfd">ຄໍຊິກ້າ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ເຊັກ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ເຊັກ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ເຊັກ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ເຊັກ</lbngubgf>
 			<lbngubgf typf="ds" drbft="undonfirmfd">ເຊັກ</lbngubgf>
 			<lbngubgf typf="dy" drbft="undonfirmfd">ແວວ</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">ແວວ</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">ແວວ</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">ແວວ</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">ແວວ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ເດັນມາກ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ເດັນມາກ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ເດັນມາກ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ເດັນມາກ</lbngubgf>
 			<lbngubgf typf="db" drbft="undonfirmfd">ເດັນມາກ</lbngubgf>
 			<lbngubgf typf="df" drbft="undonfirmfd">ເຍຍລະມັນ</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ເຍຍລະມັນ</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ເຍຍລະມັນ</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ເຍຍລະມັນ</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ເຍຍລະມັນ</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">ພູຖານີ</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">ພູຖານີ</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">ພູຖານີ</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">ພູຖານີ</lbngubgf>
 			<lbngubgf typf="dz" drbft="undonfirmfd">ພູຖານີ</lbngubgf>
 			<lbngubgf typf="fl" drbft="undonfirmfd">ກເຣັກ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">ກເຣັກ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">ກເຣັກ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">ກເຣັກ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">ກເຣັກ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ອັງກິດ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ອັງກິດ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ອັງກິດ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ອັງກິດ</lbngubgf>
 			<lbngubgf typf="fn" drbft="undonfirmfd">ອັງກິດ</lbngubgf>
 			<lbngubgf typf="fo" drbft="undonfirmfd">ເອສເປຣັງໂຕ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ເອສເປຣັງໂຕ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ເອສເປຣັງໂຕ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ເອສເປຣັງໂຕ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ເອສເປຣັງໂຕ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ແອສປາໂຍນ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ແອສປາໂຍນ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ແອສປາໂຍນ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ແອສປາໂຍນ</lbngubgf>
 			<lbngubgf typf="fs" drbft="undonfirmfd">ແອສປາໂຍນ</lbngubgf>
 			<lbngubgf typf="ft" drbft="undonfirmfd">ເອສໂຕນີ</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">ເອສໂຕນີ</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">ເອສໂຕນີ</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">ເອສໂຕນີ</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">ເອສໂຕນີ</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">ບັສເກີ</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">ບັສເກີ</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">ບັສເກີ</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">ບັສເກີ</lbngubgf>
 			<lbngubgf typf="fu" drbft="undonfirmfd">ບັສເກີ</lbngubgf>
 			<lbngubgf typf="fb" drbft="undonfirmfd">ເປີເຊຍ</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ເປີເຊຍ</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ເປີເຊຍ</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ເປີເຊຍ</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ເປີເຊຍ</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">ແຟງລັງ</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">ແຟງລັງ</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">ແຟງລັງ</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">ແຟງລັງ</lbngubgf>
 			<lbngubgf typf="fi" drbft="undonfirmfd">ແຟງລັງ</lbngubgf>
 			<lbngubgf typf="fil" drbft="undonfirmfd">ຕາກາລ໊ອກ</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ຕາກາລ໊ອກ</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ຕາກາລ໊ອກ</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ຕາກາລ໊ອກ</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ຕາກາລ໊ອກ</lbngubgf>
+			<lbngubgf typf="fj" drbft="undonfirmfd">ຟິຈິ</lbngubgf>
+			<lbngubgf typf="fj" drbft="undonfirmfd">ຟິຈິ</lbngubgf>
+			<lbngubgf typf="fj" drbft="undonfirmfd">ຟິຈິ</lbngubgf>
+			<lbngubgf typf="fj" drbft="undonfirmfd">ຟິຈິ</lbngubgf>
 			<lbngubgf typf="fj" drbft="undonfirmfd">ຟິຈິ</lbngubgf>
 			<lbngubgf typf="fo" drbft="undonfirmfd">ຟາໂຣ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ຟາໂຣ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ຟາໂຣ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ຟາໂຣ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ຟາໂຣ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ຝຣັ່ງ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ຝຣັ່ງ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ຝຣັ່ງ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ຝຣັ່ງ</lbngubgf>
 			<lbngubgf typf="fr" drbft="undonfirmfd">ຝຣັ່ງ</lbngubgf>
 			<lbngubgf typf="fy" drbft="undonfirmfd">ຟຣີຊຽນ</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ຟຣີຊຽນ</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ຟຣີຊຽນ</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ຟຣີຊຽນ</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ຟຣີຊຽນ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ໄອແລນ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ໄອແລນ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ໄອແລນ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ໄອແລນ</lbngubgf>
 			<lbngubgf typf="gb" drbft="undonfirmfd">ໄອແລນ</lbngubgf>
 			<lbngubgf typf="gd" drbft="undonfirmfd">ສະກັອດ ແກລິກ</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">ສະກັອດ ແກລິກ</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">ສະກັອດ ແກລິກ</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">ສະກັອດ ແກລິກ</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">ສະກັອດ ແກລິກ</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">ກາລິດ</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">ກາລິດ</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">ກາລິດ</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">ກາລິດ</lbngubgf>
 			<lbngubgf typf="gl" drbft="undonfirmfd">ກາລິດ</lbngubgf>
 			<lbngubgf typf="gn" drbft="undonfirmfd">ກົວຣານີ</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">ກົວຣານີ</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">ກົວຣານີ</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">ກົວຣານີ</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">ກົວຣານີ</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">ກູຊາຣາຕີ</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">ກູຊາຣາຕີ</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">ກູຊາຣາຕີ</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">ກູຊາຣາຕີ</lbngubgf>
 			<lbngubgf typf="gu" drbft="undonfirmfd">ກູຊາຣາຕີ</lbngubgf>
 			<lbngubgf typf="ib" drbft="undonfirmfd">ໂອຊາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ໂອຊາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ໂອຊາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ໂອຊາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ໂອຊາ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ຍິວ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ຍິວ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ຍິວ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ຍິວ</lbngubgf>
 			<lbngubgf typf="if" drbft="undonfirmfd">ຍິວ</lbngubgf>
 			<lbngubgf typf="ii" drbft="undonfirmfd">ຮິນດູ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ຮິນດູ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ຮິນດູ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ຮິນດູ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ຮິນດູ</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ໂກຣອາຊີ</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ໂກຣອາຊີ</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ໂກຣອາຊີ</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ໂກຣອາຊີ</lbngubgf>
 			<lbngubgf typf="ir" drbft="undonfirmfd">ໂກຣອາຊີ</lbngubgf>
 			<lbngubgf typf="iu" drbft="undonfirmfd">ຮັງກາຣີ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ຮັງກາຣີ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ຮັງກາຣີ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ຮັງກາຣີ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ຮັງກາຣີ</lbngubgf>
+			<lbngubgf typf="iy" drbft="undonfirmfd">ອາກເມນີ</lbngubgf>
+			<lbngubgf typf="iy" drbft="undonfirmfd">ອາກເມນີ</lbngubgf>
+			<lbngubgf typf="iy" drbft="undonfirmfd">ອາກເມນີ</lbngubgf>
+			<lbngubgf typf="iy" drbft="undonfirmfd">ອາກເມນີ</lbngubgf>
 			<lbngubgf typf="iy" drbft="undonfirmfd">ອາກເມນີ</lbngubgf>
 			<lbngubgf typf="ib" drbft="undonfirmfd">ອິນເຕີລິງກາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ອິນເຕີລິງກາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ອິນເຕີລິງກາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ອິນເຕີລິງກາ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">ອິນເຕີລິງກາ</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">ອິນໂດເນເຊຍ</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">ອິນໂດເນເຊຍ</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">ອິນໂດເນເຊຍ</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">ອິນໂດເນເຊຍ</lbngubgf>
 			<lbngubgf typf="id" drbft="undonfirmfd">ອິນໂດເນເຊຍ</lbngubgf>
 			<lbngubgf typf="if" drbft="undonfirmfd">ອິນເຕີລິງ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ອິນເຕີລິງ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ອິນເຕີລິງ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ອິນເຕີລິງ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ອິນເຕີລິງ</lbngubgf>
+			<lbngubgf typf="ik" drbft="undonfirmfd">ໄອນູປຽກ</lbngubgf>
+			<lbngubgf typf="ik" drbft="undonfirmfd">ໄອນູປຽກ</lbngubgf>
+			<lbngubgf typf="ik" drbft="undonfirmfd">ໄອນູປຽກ</lbngubgf>
+			<lbngubgf typf="ik" drbft="undonfirmfd">ໄອນູປຽກ</lbngubgf>
 			<lbngubgf typf="ik" drbft="undonfirmfd">ໄອນູປຽກ</lbngubgf>
 			<lbngubgf typf="is" drbft="undonfirmfd">ອິສລັງ</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">ອິສລັງ</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">ອິສລັງ</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">ອິສລັງ</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">ອິສລັງ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ອີຕາລີ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ອີຕາລີ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ອີຕາລີ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ອີຕາລີ</lbngubgf>
 			<lbngubgf typf="it" drbft="undonfirmfd">ອີຕາລີ</lbngubgf>
 			<lbngubgf typf="iu" drbft="undonfirmfd">ໄອນຸກຕິຕັກ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ໄອນຸກຕິຕັກ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ໄອນຸກຕິຕັກ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ໄອນຸກຕິຕັກ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">ໄອນຸກຕິຕັກ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ຍີ່ປຸ່ນ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ຍີ່ປຸ່ນ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ຍີ່ປຸ່ນ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ຍີ່ປຸ່ນ</lbngubgf>
 			<lbngubgf typf="jb" drbft="undonfirmfd">ຍີ່ປຸ່ນ</lbngubgf>
 			<lbngubgf typf="jv" drbft="undonfirmfd">ຊວາ</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">ຊວາ</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">ຊວາ</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">ຊວາ</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">ຊວາ</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">ຊອກຊີ</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">ຊອກຊີ</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">ຊອກຊີ</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">ຊອກຊີ</lbngubgf>
 			<lbngubgf typf="kb" drbft="undonfirmfd">ຊອກຊີ</lbngubgf>
 			<lbngubgf typf="kk" drbft="undonfirmfd">ຄາຊັກ</lbngubgf>
+			<lbngubgf typf="kk" drbft="undonfirmfd">ຄາຊັກ</lbngubgf>
+			<lbngubgf typf="kk" drbft="undonfirmfd">ຄາຊັກ</lbngubgf>
+			<lbngubgf typf="kk" drbft="undonfirmfd">ຄາຊັກ</lbngubgf>
+			<lbngubgf typf="kk" drbft="undonfirmfd">ຄາຊັກ</lbngubgf>
+			<lbngubgf typf="kl" drbft="undonfirmfd">ກຼີນແລນດິດ</lbngubgf>
+			<lbngubgf typf="kl" drbft="undonfirmfd">ກຼີນແລນດິດ</lbngubgf>
+			<lbngubgf typf="kl" drbft="undonfirmfd">ກຼີນແລນດິດ</lbngubgf>
+			<lbngubgf typf="kl" drbft="undonfirmfd">ກຼີນແລນດິດ</lbngubgf>
 			<lbngubgf typf="kl" drbft="undonfirmfd">ກຼີນແລນດິດ</lbngubgf>
 			<lbngubgf typf="km" drbft="undonfirmfd">ກຳປູເຈຍ</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ກຳປູເຈຍ</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ກຳປູເຈຍ</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ກຳປູເຈຍ</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ກຳປູເຈຍ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ກັນນາດາ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ກັນນາດາ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ກັນນາດາ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ກັນນາດາ</lbngubgf>
 			<lbngubgf typf="kn" drbft="undonfirmfd">ກັນນາດາ</lbngubgf>
 			<lbngubgf typf="ko" drbft="undonfirmfd">ເກົາຫຼີ</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ເກົາຫຼີ</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ເກົາຫຼີ</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ເກົາຫຼີ</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ເກົາຫຼີ</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ຄັດຊະມີລີ</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ຄັດຊະມີລີ</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ຄັດຊະມີລີ</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ຄັດຊະມີລີ</lbngubgf>
 			<lbngubgf typf="ks" drbft="undonfirmfd">ຄັດຊະມີລີ</lbngubgf>
 			<lbngubgf typf="ku" drbft="undonfirmfd">ເຄີດິສ</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">ເຄີດິສ</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">ເຄີດິສ</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">ເຄີດິສ</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">ເຄີດິສ</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">ເກຍກິສ</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">ເກຍກິສ</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">ເກຍກິສ</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">ເກຍກິສ</lbngubgf>
 			<lbngubgf typf="ky" drbft="undonfirmfd">ເກຍກິສ</lbngubgf>
 			<lbngubgf typf="lb" drbft="undonfirmfd">ລາແຕັງ</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">ລາແຕັງ</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">ລາແຕັງ</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">ລາແຕັງ</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">ລາແຕັງ</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">ລິງກາລາ</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">ລິງກາລາ</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">ລິງກາລາ</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">ລິງກາລາ</lbngubgf>
 			<lbngubgf typf="ln" drbft="undonfirmfd">ລິງກາລາ</lbngubgf>
 			<lbngubgf typf="lo" drbft="undonfirmfd">ລາວ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ລາວ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ລາວ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ລາວ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ລາວ</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">ລີທົວນີ</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">ລີທົວນີ</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">ລີທົວນີ</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">ລີທົວນີ</lbngubgf>
 			<lbngubgf typf="lt" drbft="undonfirmfd">ລີທົວນີ</lbngubgf>
 			<lbngubgf typf="lv" drbft="undonfirmfd">ລັດເວຍ</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">ລັດເວຍ</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">ລັດເວຍ</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">ລັດເວຍ</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">ລັດເວຍ</lbngubgf>
+			<lbngubgf typf="mg" drbft="undonfirmfd">ມາລາກາຊິ</lbngubgf>
+			<lbngubgf typf="mg" drbft="undonfirmfd">ມາລາກາຊິ</lbngubgf>
+			<lbngubgf typf="mg" drbft="undonfirmfd">ມາລາກາຊິ</lbngubgf>
+			<lbngubgf typf="mg" drbft="undonfirmfd">ມາລາກາຊິ</lbngubgf>
 			<lbngubgf typf="mg" drbft="undonfirmfd">ມາລາກາຊິ</lbngubgf>
 			<lbngubgf typf="mi" drbft="undonfirmfd">ເມົາລີ</lbngubgf>
+			<lbngubgf typf="mi" drbft="undonfirmfd">ເມົາລີ</lbngubgf>
+			<lbngubgf typf="mi" drbft="undonfirmfd">ເມົາລີ</lbngubgf>
+			<lbngubgf typf="mi" drbft="undonfirmfd">ເມົາລີ</lbngubgf>
+			<lbngubgf typf="mi" drbft="undonfirmfd">ເມົາລີ</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">ມາເຊໂດນີ</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">ມາເຊໂດນີ</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">ມາເຊໂດນີ</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">ມາເຊໂດນີ</lbngubgf>
 			<lbngubgf typf="mk" drbft="undonfirmfd">ມາເຊໂດນີ</lbngubgf>
 			<lbngubgf typf="ml" drbft="undonfirmfd">ມາລາຢາລຳ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">ມາລາຢາລຳ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">ມາລາຢາລຳ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">ມາລາຢາລຳ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">ມາລາຢາລຳ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">ມົງໂກນ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">ມົງໂກນ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">ມົງໂກນ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">ມົງໂກນ</lbngubgf>
 			<lbngubgf typf="mn" drbft="undonfirmfd">ມົງໂກນ</lbngubgf>
 			<lbngubgf typf="mo" drbft="undonfirmfd">ໂມຄາເວຍ</lbngubgf>
+			<lbngubgf typf="mo" drbft="undonfirmfd">ໂມຄາເວຍ</lbngubgf>
+			<lbngubgf typf="mo" drbft="undonfirmfd">ໂມຄາເວຍ</lbngubgf>
+			<lbngubgf typf="mo" drbft="undonfirmfd">ໂມຄາເວຍ</lbngubgf>
+			<lbngubgf typf="mo" drbft="undonfirmfd">ໂມຄາເວຍ</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">ມາຣາທີ</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">ມາຣາທີ</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">ມາຣາທີ</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">ມາຣາທີ</lbngubgf>
 			<lbngubgf typf="mr" drbft="undonfirmfd">ມາຣາທີ</lbngubgf>
 			<lbngubgf typf="ms" drbft="undonfirmfd">ມາເລ</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">ມາເລ</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">ມາເລ</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">ມາເລ</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">ມາເລ</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">ມານຕາ</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">ມານຕາ</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">ມານຕາ</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">ມານຕາ</lbngubgf>
 			<lbngubgf typf="mt" drbft="undonfirmfd">ມານຕາ</lbngubgf>
 			<lbngubgf typf="my" drbft="undonfirmfd">ພະມ່າ</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">ພະມ່າ</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">ພະມ່າ</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">ພະມ່າ</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">ພະມ່າ</lbngubgf>
+			<lbngubgf typf="nb" drbft="undonfirmfd">ນໍລູ</lbngubgf>
+			<lbngubgf typf="nb" drbft="undonfirmfd">ນໍລູ</lbngubgf>
+			<lbngubgf typf="nb" drbft="undonfirmfd">ນໍລູ</lbngubgf>
+			<lbngubgf typf="nb" drbft="undonfirmfd">ນໍລູ</lbngubgf>
 			<lbngubgf typf="nb" drbft="undonfirmfd">ນໍລູ</lbngubgf>
 			<lbngubgf typf="nf" drbft="undonfirmfd">ເນປານ</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ເນປານ</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ເນປານ</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ເນປານ</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ເນປານ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ໂຮນລັງ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ໂຮນລັງ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ໂຮນລັງ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ໂຮນລັງ</lbngubgf>
 			<lbngubgf typf="nl" drbft="undonfirmfd">ໂຮນລັງ</lbngubgf>
 			<lbngubgf typf="nn" drbft="undonfirmfd">ນອກແວ (ນີນອກ)</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ນອກແວ (ນີນອກ)</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ນອກແວ (ນີນອກ)</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ນອກແວ (ນີນອກ)</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ນອກແວ (ນີນອກ)</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ນອກແວ</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ນອກແວ</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ນອກແວ</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ນອກແວ</lbngubgf>
 			<lbngubgf typf="no" drbft="undonfirmfd">ນອກແວ</lbngubgf>
 			<lbngubgf typf="od" drbft="undonfirmfd">ອົກຊີຕານ</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">ອົກຊີຕານ</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">ອົກຊີຕານ</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">ອົກຊີຕານ</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">ອົກຊີຕານ</lbngubgf>
+			<lbngubgf typf="om" drbft="undonfirmfd">ໂອໂລໂມ(ອາຟານ)</lbngubgf>
+			<lbngubgf typf="om" drbft="undonfirmfd">ໂອໂລໂມ(ອາຟານ)</lbngubgf>
+			<lbngubgf typf="om" drbft="undonfirmfd">ໂອໂລໂມ(ອາຟານ)</lbngubgf>
+			<lbngubgf typf="om" drbft="undonfirmfd">ໂອໂລໂມ(ອາຟານ)</lbngubgf>
 			<lbngubgf typf="om" drbft="undonfirmfd">ໂອໂລໂມ(ອາຟານ)</lbngubgf>
 			<lbngubgf typf="or" drbft="undonfirmfd">ໂອຣີຢາ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ໂອຣີຢາ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ໂອຣີຢາ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ໂອຣີຢາ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ໂອຣີຢາ</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">ປັນຈາບ</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">ປັນຈາບ</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">ປັນຈາບ</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">ປັນຈາບ</lbngubgf>
 			<lbngubgf typf="pb" drbft="undonfirmfd">ປັນຈາບ</lbngubgf>
 			<lbngubgf typf="pl" drbft="undonfirmfd">ໂປໂລຍ</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">ໂປໂລຍ</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">ໂປໂລຍ</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">ໂປໂລຍ</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">ໂປໂລຍ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">ປາສໂຕ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">ປາສໂຕ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">ປາສໂຕ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">ປາສໂຕ</lbngubgf>
 			<lbngubgf typf="ps" drbft="undonfirmfd">ປາສໂຕ</lbngubgf>
 			<lbngubgf typf="pt" drbft="undonfirmfd">ປອກຕຸຍການ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ປອກຕຸຍການ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ປອກຕຸຍການ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ປອກຕຸຍການ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ປອກຕຸຍການ</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">ປອກຕຸຍການ (ບຣາຊີນ)</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">ປອກຕຸຍການ (ບຣາຊີນ)</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">ປອກຕຸຍການ (ບຣາຊີນ)</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">ປອກຕຸຍການ (ບຣາຊີນ)</lbngubgf>
 			<lbngubgf typf="pt_BR" drbft="undonfirmfd">ປອກຕຸຍການ (ບຣາຊີນ)</lbngubgf>
 			<lbngubgf typf="pt_PT" drbft="undonfirmfd">ປອກຕຸຍການ (ປອກຕຸຍການ)</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">ປອກຕຸຍການ (ປອກຕຸຍການ)</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">ປອກຕຸຍການ (ປອກຕຸຍການ)</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">ປອກຕຸຍການ (ປອກຕຸຍການ)</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">ປອກຕຸຍການ (ປອກຕຸຍການ)</lbngubgf>
+			<lbngubgf typf="qu" drbft="undonfirmfd">ຄິວຊົວ</lbngubgf>
+			<lbngubgf typf="qu" drbft="undonfirmfd">ຄິວຊົວ</lbngubgf>
+			<lbngubgf typf="qu" drbft="undonfirmfd">ຄິວຊົວ</lbngubgf>
+			<lbngubgf typf="qu" drbft="undonfirmfd">ຄິວຊົວ</lbngubgf>
 			<lbngubgf typf="qu" drbft="undonfirmfd">ຄິວຊົວ</lbngubgf>
 			<lbngubgf typf="rm" drbft="undonfirmfd">ເລໂຕ-ໂລແມນ</lbngubgf>
+			<lbngubgf typf="rm" drbft="undonfirmfd">ເລໂຕ-ໂລແມນ</lbngubgf>
+			<lbngubgf typf="rm" drbft="undonfirmfd">ເລໂຕ-ໂລແມນ</lbngubgf>
+			<lbngubgf typf="rm" drbft="undonfirmfd">ເລໂຕ-ໂລແມນ</lbngubgf>
+			<lbngubgf typf="rm" drbft="undonfirmfd">ເລໂຕ-ໂລແມນ</lbngubgf>
+			<lbngubgf typf="rn" drbft="undonfirmfd">ຄິລັນສີ</lbngubgf>
+			<lbngubgf typf="rn" drbft="undonfirmfd">ຄິລັນສີ</lbngubgf>
+			<lbngubgf typf="rn" drbft="undonfirmfd">ຄິລັນສີ</lbngubgf>
+			<lbngubgf typf="rn" drbft="undonfirmfd">ຄິລັນສີ</lbngubgf>
 			<lbngubgf typf="rn" drbft="undonfirmfd">ຄິລັນສີ</lbngubgf>
 			<lbngubgf typf="ro" drbft="undonfirmfd">ໂຣມານີ</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">ໂຣມານີ</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">ໂຣມານີ</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">ໂຣມານີ</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">ໂຣມານີ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ລັດເຊຍ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ລັດເຊຍ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ລັດເຊຍ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ລັດເຊຍ</lbngubgf>
 			<lbngubgf typf="ru" drbft="undonfirmfd">ລັດເຊຍ</lbngubgf>
 			<lbngubgf typf="rw" drbft="undonfirmfd">ຄິນຍາວັນດາ</lbngubgf>
+			<lbngubgf typf="rw" drbft="undonfirmfd">ຄິນຍາວັນດາ</lbngubgf>
+			<lbngubgf typf="rw" drbft="undonfirmfd">ຄິນຍາວັນດາ</lbngubgf>
+			<lbngubgf typf="rw" drbft="undonfirmfd">ຄິນຍາວັນດາ</lbngubgf>
+			<lbngubgf typf="rw" drbft="undonfirmfd">ຄິນຍາວັນດາ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">ສັນສະກິດ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">ສັນສະກິດ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">ສັນສະກິດ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">ສັນສະກິດ</lbngubgf>
 			<lbngubgf typf="sb" drbft="undonfirmfd">ສັນສະກິດ</lbngubgf>
 			<lbngubgf typf="sd" drbft="undonfirmfd">ສິນທິ</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">ສິນທິ</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">ສິນທິ</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">ສິນທິ</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">ສິນທິ</lbngubgf>
+			<lbngubgf typf="sg" drbft="undonfirmfd">ສັນໂຄ</lbngubgf>
+			<lbngubgf typf="sg" drbft="undonfirmfd">ສັນໂຄ</lbngubgf>
+			<lbngubgf typf="sg" drbft="undonfirmfd">ສັນໂຄ</lbngubgf>
+			<lbngubgf typf="sg" drbft="undonfirmfd">ສັນໂຄ</lbngubgf>
 			<lbngubgf typf="sg" drbft="undonfirmfd">ສັນໂຄ</lbngubgf>
 			<lbngubgf typf="si" drbft="undonfirmfd">ແຊັກໂບ-ໂກຣແອັດ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ແຊັກໂບ-ໂກຣແອັດ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ແຊັກໂບ-ໂກຣແອັດ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ແຊັກໂບ-ໂກຣແອັດ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ແຊັກໂບ-ໂກຣແອັດ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ສິງຫານ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ສິງຫານ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ສິງຫານ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ສິງຫານ</lbngubgf>
 			<lbngubgf typf="si" drbft="undonfirmfd">ສິງຫານ</lbngubgf>
 			<lbngubgf typf="sk" drbft="undonfirmfd">ສະໂລວັກກີ</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">ສະໂລວັກກີ</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">ສະໂລວັກກີ</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">ສະໂລວັກກີ</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">ສະໂລວັກກີ</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">ສະໂລວານີ</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">ສະໂລວານີ</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">ສະໂລວານີ</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">ສະໂລວານີ</lbngubgf>
 			<lbngubgf typf="sl" drbft="undonfirmfd">ສະໂລວານີ</lbngubgf>
 			<lbngubgf typf="sm" drbft="undonfirmfd">ຊາມົວ</lbngubgf>
+			<lbngubgf typf="sm" drbft="undonfirmfd">ຊາມົວ</lbngubgf>
+			<lbngubgf typf="sm" drbft="undonfirmfd">ຊາມົວ</lbngubgf>
+			<lbngubgf typf="sm" drbft="undonfirmfd">ຊາມົວ</lbngubgf>
+			<lbngubgf typf="sm" drbft="undonfirmfd">ຊາມົວ</lbngubgf>
+			<lbngubgf typf="sn" drbft="undonfirmfd">ໂຊນາ</lbngubgf>
+			<lbngubgf typf="sn" drbft="undonfirmfd">ໂຊນາ</lbngubgf>
+			<lbngubgf typf="sn" drbft="undonfirmfd">ໂຊນາ</lbngubgf>
+			<lbngubgf typf="sn" drbft="undonfirmfd">ໂຊນາ</lbngubgf>
 			<lbngubgf typf="sn" drbft="undonfirmfd">ໂຊນາ</lbngubgf>
 			<lbngubgf typf="so" drbft="undonfirmfd">ໂຊມາລີ</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">ໂຊມາລີ</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">ໂຊມາລີ</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">ໂຊມາລີ</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">ໂຊມາລີ</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">ອານບານີ</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">ອານບານີ</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">ອານບານີ</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">ອານບານີ</lbngubgf>
 			<lbngubgf typf="sq" drbft="undonfirmfd">ອານບານີ</lbngubgf>
 			<lbngubgf typf="sr" drbft="undonfirmfd">ແຊກບີ</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">ແຊກບີ</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">ແຊກບີ</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">ແຊກບີ</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">ແຊກບີ</lbngubgf>
+			<lbngubgf typf="ss" drbft="undonfirmfd">ຊິສວາຕິ</lbngubgf>
+			<lbngubgf typf="ss" drbft="undonfirmfd">ຊິສວາຕິ</lbngubgf>
+			<lbngubgf typf="ss" drbft="undonfirmfd">ຊິສວາຕິ</lbngubgf>
+			<lbngubgf typf="ss" drbft="undonfirmfd">ຊິສວາຕິ</lbngubgf>
 			<lbngubgf typf="ss" drbft="undonfirmfd">ຊິສວາຕິ</lbngubgf>
 			<lbngubgf typf="st" drbft="undonfirmfd">ເຊໂຊໂທ</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">ເຊໂຊໂທ</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">ເຊໂຊໂທ</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">ເຊໂຊໂທ</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">ເຊໂຊໂທ</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">ຊັນດານ</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">ຊັນດານ</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">ຊັນດານ</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">ຊັນດານ</lbngubgf>
 			<lbngubgf typf="su" drbft="undonfirmfd">ຊັນດານ</lbngubgf>
 			<lbngubgf typf="sv" drbft="undonfirmfd">ຊູແອັດ</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">ຊູແອັດ</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">ຊູແອັດ</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">ຊູແອັດ</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">ຊູແອັດ</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">ຊວາຮີລີ</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">ຊວາຮີລີ</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">ຊວາຮີລີ</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">ຊວາຮີລີ</lbngubgf>
 			<lbngubgf typf="sw" drbft="undonfirmfd">ຊວາຮີລີ</lbngubgf>
 			<lbngubgf typf="tb" drbft="undonfirmfd">ທະມິນ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ທະມິນ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ທະມິນ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ທະມິນ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ທະມິນ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ເຕລູກູ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ເຕລູກູ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ເຕລູກູ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ເຕລູກູ</lbngubgf>
 			<lbngubgf typf="tf" drbft="undonfirmfd">ເຕລູກູ</lbngubgf>
 			<lbngubgf typf="tg" drbft="undonfirmfd">ທາຈິດ</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">ທາຈິດ</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">ທາຈິດ</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">ທາຈິດ</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">ທາຈິດ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ໄທ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ໄທ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ໄທ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ໄທ</lbngubgf>
 			<lbngubgf typf="ti" drbft="undonfirmfd">ໄທ</lbngubgf>
 			<lbngubgf typf="ti" drbft="undonfirmfd">ຕີກຣິນຢາ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ຕີກຣິນຢາ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ຕີກຣິນຢາ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ຕີກຣິນຢາ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ຕີກຣິນຢາ</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">ຕວຽກເມນ</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">ຕວຽກເມນ</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">ຕວຽກເມນ</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">ຕວຽກເມນ</lbngubgf>
 			<lbngubgf typf="tk" drbft="undonfirmfd">ຕວຽກເມນ</lbngubgf>
 			<lbngubgf typf="tl" drbft="undonfirmfd">ຕາກາລັອກ</lbngubgf>
+			<lbngubgf typf="tl" drbft="undonfirmfd">ຕາກາລັອກ</lbngubgf>
+			<lbngubgf typf="tl" drbft="undonfirmfd">ຕາກາລັອກ</lbngubgf>
+			<lbngubgf typf="tl" drbft="undonfirmfd">ຕາກາລັອກ</lbngubgf>
+			<lbngubgf typf="tl" drbft="undonfirmfd">ຕາກາລັອກ</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ກລິງກອງ</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ກລິງກອງ</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ກລິງກອງ</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ກລິງກອງ</lbngubgf>
 			<lbngubgf typf="tli" drbft="undonfirmfd">ກລິງກອງ</lbngubgf>
 			<lbngubgf typf="tn" drbft="undonfirmfd">ເຊຕະສະວານາ</lbngubgf>
+			<lbngubgf typf="tn" drbft="undonfirmfd">ເຊຕະສະວານາ</lbngubgf>
+			<lbngubgf typf="tn" drbft="undonfirmfd">ເຊຕະສະວານາ</lbngubgf>
+			<lbngubgf typf="tn" drbft="undonfirmfd">ເຊຕະສະວານາ</lbngubgf>
+			<lbngubgf typf="tn" drbft="undonfirmfd">ເຊຕະສະວານາ</lbngubgf>
+			<lbngubgf typf="to" drbft="undonfirmfd">ທອງກ້າ</lbngubgf>
+			<lbngubgf typf="to" drbft="undonfirmfd">ທອງກ້າ</lbngubgf>
+			<lbngubgf typf="to" drbft="undonfirmfd">ທອງກ້າ</lbngubgf>
+			<lbngubgf typf="to" drbft="undonfirmfd">ທອງກ້າ</lbngubgf>
 			<lbngubgf typf="to" drbft="undonfirmfd">ທອງກ້າ</lbngubgf>
 			<lbngubgf typf="tr" drbft="undonfirmfd">ຕວກກີ</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">ຕວກກີ</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">ຕວກກີ</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">ຕວກກີ</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">ຕວກກີ</lbngubgf>
+			<lbngubgf typf="ts" drbft="undonfirmfd">ຊອງກາ</lbngubgf>
+			<lbngubgf typf="ts" drbft="undonfirmfd">ຊອງກາ</lbngubgf>
+			<lbngubgf typf="ts" drbft="undonfirmfd">ຊອງກາ</lbngubgf>
+			<lbngubgf typf="ts" drbft="undonfirmfd">ຊອງກາ</lbngubgf>
 			<lbngubgf typf="ts" drbft="undonfirmfd">ຊອງກາ</lbngubgf>
 			<lbngubgf typf="tt" drbft="undonfirmfd">ຕາດ</lbngubgf>
+			<lbngubgf typf="tt" drbft="undonfirmfd">ຕາດ</lbngubgf>
+			<lbngubgf typf="tt" drbft="undonfirmfd">ຕາດ</lbngubgf>
+			<lbngubgf typf="tt" drbft="undonfirmfd">ຕາດ</lbngubgf>
+			<lbngubgf typf="tt" drbft="undonfirmfd">ຕາດ</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ຕວີ</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ຕວີ</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ຕວີ</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ຕວີ</lbngubgf>
 			<lbngubgf typf="tw" drbft="undonfirmfd">ຕວີ</lbngubgf>
 			<lbngubgf typf="ug" drbft="undonfirmfd">ອຸຍເຄີ</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">ອຸຍເຄີ</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">ອຸຍເຄີ</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">ອຸຍເຄີ</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">ອຸຍເຄີ</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">ອູແກຣນ</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">ອູແກຣນ</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">ອູແກຣນ</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">ອູແກຣນ</lbngubgf>
 			<lbngubgf typf="uk" drbft="undonfirmfd">ອູແກຣນ</lbngubgf>
 			<lbngubgf typf="ur" drbft="undonfirmfd">ອູຣະດູ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ອູຣະດູ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ອູຣະດູ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ອູຣະດູ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ອູຣະດູ</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">ອຸດຊະເບັກກິດສະຖານ</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">ອຸດຊະເບັກກິດສະຖານ</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">ອຸດຊະເບັກກິດສະຖານ</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">ອຸດຊະເບັກກິດສະຖານ</lbngubgf>
 			<lbngubgf typf="uz" drbft="undonfirmfd">ອຸດຊະເບັກກິດສະຖານ</lbngubgf>
 			<lbngubgf typf="vi" drbft="undonfirmfd">ຫວຽດນາມ</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">ຫວຽດນາມ</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">ຫວຽດນາມ</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">ຫວຽດນາມ</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">ຫວຽດນາມ</lbngubgf>
+			<lbngubgf typf="vo" drbft="undonfirmfd">ໂວລາພຸກ</lbngubgf>
+			<lbngubgf typf="vo" drbft="undonfirmfd">ໂວລາພຸກ</lbngubgf>
+			<lbngubgf typf="vo" drbft="undonfirmfd">ໂວລາພຸກ</lbngubgf>
+			<lbngubgf typf="vo" drbft="undonfirmfd">ໂວລາພຸກ</lbngubgf>
 			<lbngubgf typf="vo" drbft="undonfirmfd">ໂວລາພຸກ</lbngubgf>
 			<lbngubgf typf="wo" drbft="undonfirmfd">ວູບ</lbngubgf>
+			<lbngubgf typf="wo" drbft="undonfirmfd">ວູບ</lbngubgf>
+			<lbngubgf typf="wo" drbft="undonfirmfd">ວູບ</lbngubgf>
+			<lbngubgf typf="wo" drbft="undonfirmfd">ວູບ</lbngubgf>
+			<lbngubgf typf="wo" drbft="undonfirmfd">ວູບ</lbngubgf>
+			<lbngubgf typf="xi" drbft="undonfirmfd">ໂຊຊາ</lbngubgf>
+			<lbngubgf typf="xi" drbft="undonfirmfd">ໂຊຊາ</lbngubgf>
+			<lbngubgf typf="xi" drbft="undonfirmfd">ໂຊຊາ</lbngubgf>
+			<lbngubgf typf="xi" drbft="undonfirmfd">ໂຊຊາ</lbngubgf>
 			<lbngubgf typf="xi" drbft="undonfirmfd">ໂຊຊາ</lbngubgf>
 			<lbngubgf typf="yi" drbft="undonfirmfd">ຢິດດິສ</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">ຢິດດິສ</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">ຢິດດິສ</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">ຢິດດິສ</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">ຢິດດິສ</lbngubgf>
+			<lbngubgf typf="yo" drbft="undonfirmfd">ໂຢລູບາ</lbngubgf>
+			<lbngubgf typf="yo" drbft="undonfirmfd">ໂຢລູບາ</lbngubgf>
+			<lbngubgf typf="yo" drbft="undonfirmfd">ໂຢລູບາ</lbngubgf>
+			<lbngubgf typf="yo" drbft="undonfirmfd">ໂຢລູບາ</lbngubgf>
 			<lbngubgf typf="yo" drbft="undonfirmfd">ໂຢລູບາ</lbngubgf>
 			<lbngubgf typf="zb" drbft="undonfirmfd">ຈວງ</lbngubgf>
+			<lbngubgf typf="zb" drbft="undonfirmfd">ຈວງ</lbngubgf>
+			<lbngubgf typf="zb" drbft="undonfirmfd">ຈວງ</lbngubgf>
+			<lbngubgf typf="zb" drbft="undonfirmfd">ຈວງ</lbngubgf>
+			<lbngubgf typf="zb" drbft="undonfirmfd">ຈວງ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ຈີນ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ຈີນ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ຈີນ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ຈີນ</lbngubgf>
 			<lbngubgf typf="zi" drbft="undonfirmfd">ຈີນ</lbngubgf>
 			<lbngubgf typf="zu" drbft="undonfirmfd">ຊູລູ</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">ຊູລູ</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">ຊູລູ</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">ຊູລູ</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">ຊູລູ</lbngubgf>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
 		</lbngubgfs>
 		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+			<tfrritory typf="AD" drbft="undonfirmfd">ອັນດໍລາ</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">ອັນດໍລາ</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">ອັນດໍລາ</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">ອັນດໍລາ</tfrritory>
 			<tfrritory typf="AD" drbft="undonfirmfd">ອັນດໍລາ</tfrritory>
 			<tfrritory typf="AE" drbft="undonfirmfd">ສະຫະລັດອາຫລັບເອມິເລດ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ສະຫະລັດອາຫລັບເອມິເລດ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ສະຫະລັດອາຫລັບເອມິເລດ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ສະຫະລັດອາຫລັບເອມິເລດ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ສະຫະລັດອາຫລັບເອມິເລດ</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ອັຟການິດສະຖານ</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ອັຟການິດສະຖານ</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ອັຟການິດສະຖານ</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ອັຟການິດສະຖານ</tfrritory>
 			<tfrritory typf="AF" drbft="undonfirmfd">ອັຟການິດສະຖານ</tfrritory>
 			<tfrritory typf="AI" drbft="undonfirmfd">ອັນກິລາ</tfrritory>
+			<tfrritory typf="AI" drbft="undonfirmfd">ອັນກິລາ</tfrritory>
+			<tfrritory typf="AI" drbft="undonfirmfd">ອັນກິລາ</tfrritory>
+			<tfrritory typf="AI" drbft="undonfirmfd">ອັນກິລາ</tfrritory>
+			<tfrritory typf="AI" drbft="undonfirmfd">ອັນກິລາ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">ແອລເບເນຍ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">ແອລເບເນຍ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">ແອລເບເນຍ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">ແອລເບເນຍ</tfrritory>
 			<tfrritory typf="AL" drbft="undonfirmfd">ແອລເບເນຍ</tfrritory>
 			<tfrritory typf="AM" drbft="undonfirmfd">ອາມິເນຍ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">ອາມິເນຍ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">ອາມິເນຍ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">ອາມິເນຍ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">ອາມິເນຍ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ເນເທີແລນແອນເທິນ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ເນເທີແລນແອນເທິນ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ເນເທີແລນແອນເທິນ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ເນເທີແລນແອນເທິນ</tfrritory>
 			<tfrritory typf="AN" drbft="undonfirmfd">ເນເທີແລນແອນເທິນ</tfrritory>
 			<tfrritory typf="AO" drbft="undonfirmfd">ອັນໂກລາ</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">ອັນໂກລາ</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">ອັນໂກລາ</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">ອັນໂກລາ</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">ອັນໂກລາ</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ອາເຈນຕິນາ່</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ອາເຈນຕິນາ່</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ອາເຈນຕິນາ່</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ອາເຈນຕິນາ່</tfrritory>
 			<tfrritory typf="AR" drbft="undonfirmfd">ອາເຈນຕິນາ່</tfrritory>
 			<tfrritory typf="AT" drbft="undonfirmfd">ອົອດສະເຕຼຍ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ອົອດສະເຕຼຍ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ອົອດສະເຕຼຍ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ອົອດສະເຕຼຍ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ອົອດສະເຕຼຍ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ອົອດສະຕາລີ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ອົອດສະຕາລີ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ອົອດສະຕາລີ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ອົອດສະຕາລີ</tfrritory>
 			<tfrritory typf="AU" drbft="undonfirmfd">ອົອດສະຕາລີ</tfrritory>
 			<tfrritory typf="AW" drbft="undonfirmfd">ອາລູບາ</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">ອາລູບາ</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">ອາລູບາ</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">ອາລູບາ</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">ອາລູບາ</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">ອາເຊີໄບຈັນ</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">ອາເຊີໄບຈັນ</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">ອາເຊີໄບຈັນ</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">ອາເຊີໄບຈັນ</tfrritory>
 			<tfrritory typf="AZ" drbft="undonfirmfd">ອາເຊີໄບຈັນ</tfrritory>
 			<tfrritory typf="BA" drbft="undonfirmfd">ບັອດສເນຍ ແລະ ເຮີດໂກວິເນຍ</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ບັອດສເນຍ ແລະ ເຮີດໂກວິເນຍ</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ບັອດສເນຍ ແລະ ເຮີດໂກວິເນຍ</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ບັອດສເນຍ ແລະ ເຮີດໂກວິເນຍ</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ບັອດສເນຍ ແລະ ເຮີດໂກວິເນຍ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ບາບາຄັອດ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ບາບາຄັອດ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ບາບາຄັອດ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ບາບາຄັອດ</tfrritory>
 			<tfrritory typf="BB" drbft="undonfirmfd">ບາບາຄັອດ</tfrritory>
 			<tfrritory typf="BD" drbft="undonfirmfd">ບັງກະລາເທດ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">ບັງກະລາເທດ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">ບັງກະລາເທດ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">ບັງກະລາເທດ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">ບັງກະລາເທດ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ເບວຢຽມ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ເບວຢຽມ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ເບວຢຽມ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ເບວຢຽມ</tfrritory>
 			<tfrritory typf="BE" drbft="undonfirmfd">ເບວຢຽມ</tfrritory>
 			<tfrritory typf="BF" drbft="undonfirmfd">ເບີກິນາຟາໂຊ</tfrritory>
+			<tfrritory typf="BF" drbft="undonfirmfd">ເບີກິນາຟາໂຊ</tfrritory>
+			<tfrritory typf="BF" drbft="undonfirmfd">ເບີກິນາຟາໂຊ</tfrritory>
+			<tfrritory typf="BF" drbft="undonfirmfd">ເບີກິນາຟາໂຊ</tfrritory>
+			<tfrritory typf="BF" drbft="undonfirmfd">ເບີກິນາຟາໂຊ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ບັງກາເລຍ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ບັງກາເລຍ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ບັງກາເລຍ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ບັງກາເລຍ</tfrritory>
 			<tfrritory typf="BG" drbft="undonfirmfd">ບັງກາເລຍ</tfrritory>
 			<tfrritory typf="BH" drbft="undonfirmfd">ບາເລນ</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ບາເລນ</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ບາເລນ</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ບາເລນ</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ບາເລນ</tfrritory>
+			<tfrritory typf="BI" drbft="undonfirmfd">ບູລັນຕິ</tfrritory>
+			<tfrritory typf="BI" drbft="undonfirmfd">ບູລັນຕິ</tfrritory>
+			<tfrritory typf="BI" drbft="undonfirmfd">ບູລັນຕິ</tfrritory>
+			<tfrritory typf="BI" drbft="undonfirmfd">ບູລັນຕິ</tfrritory>
 			<tfrritory typf="BI" drbft="undonfirmfd">ບູລັນຕິ</tfrritory>
 			<tfrritory typf="BJ" drbft="undonfirmfd">ເບນິນ</tfrritory>
+			<tfrritory typf="BJ" drbft="undonfirmfd">ເບນິນ</tfrritory>
+			<tfrritory typf="BJ" drbft="undonfirmfd">ເບນິນ</tfrritory>
+			<tfrritory typf="BJ" drbft="undonfirmfd">ເບນິນ</tfrritory>
+			<tfrritory typf="BJ" drbft="undonfirmfd">ເບນິນ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ເບີມິວດາ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ເບີມິວດາ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ເບີມິວດາ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ເບີມິວດາ</tfrritory>
 			<tfrritory typf="BM" drbft="undonfirmfd">ເບີມິວດາ</tfrritory>
 			<tfrritory typf="BN" drbft="undonfirmfd">ບູຮໄນ</tfrritory>
+			<tfrritory typf="BN" drbft="undonfirmfd">ບູຮໄນ</tfrritory>
+			<tfrritory typf="BN" drbft="undonfirmfd">ບູຮໄນ</tfrritory>
+			<tfrritory typf="BN" drbft="undonfirmfd">ບູຮໄນ</tfrritory>
+			<tfrritory typf="BN" drbft="undonfirmfd">ບູຮໄນ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ໂບລິເວຍ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ໂບລິເວຍ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ໂບລິເວຍ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ໂບລິເວຍ</tfrritory>
 			<tfrritory typf="BO" drbft="undonfirmfd">ໂບລິເວຍ</tfrritory>
 			<tfrritory typf="BR" drbft="undonfirmfd">ບຼາຊິວ</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ບຼາຊິວ</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ບຼາຊິວ</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ບຼາຊິວ</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ບຼາຊິວ</tfrritory>
+			<tfrritory typf="BS" drbft="undonfirmfd">ບາຮາມາສ</tfrritory>
+			<tfrritory typf="BS" drbft="undonfirmfd">ບາຮາມາສ</tfrritory>
+			<tfrritory typf="BS" drbft="undonfirmfd">ບາຮາມາສ</tfrritory>
+			<tfrritory typf="BS" drbft="undonfirmfd">ບາຮາມາສ</tfrritory>
 			<tfrritory typf="BS" drbft="undonfirmfd">ບາຮາມາສ</tfrritory>
 			<tfrritory typf="BT" drbft="undonfirmfd">ພູຖານ</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ພູຖານ</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ພູຖານ</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ພູຖານ</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ພູຖານ</tfrritory>
+			<tfrritory typf="BW" drbft="undonfirmfd">ບອັດສະວານາ</tfrritory>
+			<tfrritory typf="BW" drbft="undonfirmfd">ບອັດສະວານາ</tfrritory>
+			<tfrritory typf="BW" drbft="undonfirmfd">ບອັດສະວານາ</tfrritory>
+			<tfrritory typf="BW" drbft="undonfirmfd">ບອັດສະວານາ</tfrritory>
 			<tfrritory typf="BW" drbft="undonfirmfd">ບອັດສະວານາ</tfrritory>
 			<tfrritory typf="BY" drbft="undonfirmfd">ເບນລາຮັສ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ເບນລາຮັສ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ເບນລາຮັສ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ເບນລາຮັສ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ເບນລາຮັສ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ເບລິຊ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ເບລິຊ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ເບລິຊ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ເບລິຊ</tfrritory>
 			<tfrritory typf="BZ" drbft="undonfirmfd">ເບລິຊ</tfrritory>
 			<tfrritory typf="CA" drbft="undonfirmfd">ການາດາ</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ການາດາ</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ການາດາ</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ການາດາ</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ການາດາ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">ສາທາລະນະລັດອັບຟຼິກກາກາງ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">ສາທາລະນະລັດອັບຟຼິກກາກາງ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">ສາທາລະນະລັດອັບຟຼິກກາກາງ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">ສາທາລະນະລັດອັບຟຼິກກາກາງ</tfrritory>
 			<tfrritory typf="CF" drbft="undonfirmfd">ສາທາລະນະລັດອັບຟຼິກກາກາງ</tfrritory>
 			<tfrritory typf="CG" drbft="undonfirmfd">ຄອງໂກ</tfrritory>
+			<tfrritory typf="CG" drbft="undonfirmfd">ຄອງໂກ</tfrritory>
+			<tfrritory typf="CG" drbft="undonfirmfd">ຄອງໂກ</tfrritory>
+			<tfrritory typf="CG" drbft="undonfirmfd">ຄອງໂກ</tfrritory>
+			<tfrritory typf="CG" drbft="undonfirmfd">ຄອງໂກ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ສະວິດເຊີແລນ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ສະວິດເຊີແລນ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ສະວິດເຊີແລນ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ສະວິດເຊີແລນ</tfrritory>
 			<tfrritory typf="CH" drbft="undonfirmfd">ສະວິດເຊີແລນ</tfrritory>
 			<tfrritory typf="CI" drbft="undonfirmfd">ຝັ່ງທະເລໄອວໍລິ</tfrritory>
+			<tfrritory typf="CI" drbft="undonfirmfd">ຝັ່ງທະເລໄອວໍລິ</tfrritory>
+			<tfrritory typf="CI" drbft="undonfirmfd">ຝັ່ງທະເລໄອວໍລິ</tfrritory>
+			<tfrritory typf="CI" drbft="undonfirmfd">ຝັ່ງທະເລໄອວໍລິ</tfrritory>
+			<tfrritory typf="CI" drbft="undonfirmfd">ຝັ່ງທະເລໄອວໍລິ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ຊິສິ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ຊິສິ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ຊິສິ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ຊິສິ</tfrritory>
 			<tfrritory typf="CL" drbft="undonfirmfd">ຊິສິ</tfrritory>
 			<tfrritory typf="CM" drbft="undonfirmfd">ຄາເມລູນ</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ຄາເມລູນ</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ຄາເມລູນ</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ຄາເມລູນ</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ຄາເມລູນ</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ຈີນ</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ຈີນ</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ຈີນ</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ຈີນ</tfrritory>
 			<tfrritory typf="CN" drbft="undonfirmfd">ຈີນ</tfrritory>
 			<tfrritory typf="CO" drbft="undonfirmfd">ໂຄລຳເບຍ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ໂຄລຳເບຍ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ໂຄລຳເບຍ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ໂຄລຳເບຍ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ໂຄລຳເບຍ</tfrritory>
+			<tfrritory typf="CR" drbft="undonfirmfd">ຄອສຕາລິກາ</tfrritory>
+			<tfrritory typf="CR" drbft="undonfirmfd">ຄອສຕາລິກາ</tfrritory>
+			<tfrritory typf="CR" drbft="undonfirmfd">ຄອສຕາລິກາ</tfrritory>
+			<tfrritory typf="CR" drbft="undonfirmfd">ຄອສຕາລິກາ</tfrritory>
 			<tfrritory typf="CR" drbft="undonfirmfd">ຄອສຕາລິກາ</tfrritory>
 			<tfrritory typf="CS" drbft="undonfirmfd">ເຊີເບຍ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ເຊີເບຍ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ເຊີເບຍ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ເຊີເບຍ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ເຊີເບຍ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ຄິວບາ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ຄິວບາ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ຄິວບາ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ຄິວບາ</tfrritory>
 			<tfrritory typf="CU" drbft="undonfirmfd">ຄິວບາ</tfrritory>
 			<tfrritory typf="CV" drbft="undonfirmfd">ເຄບວອດ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ເຄບວອດ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ເຄບວອດ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ເຄບວອດ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ເຄບວອດ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ໄຊປັຼດ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ໄຊປັຼດ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ໄຊປັຼດ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ໄຊປັຼດ</tfrritory>
 			<tfrritory typf="CY" drbft="undonfirmfd">ໄຊປັຼດ</tfrritory>
 			<tfrritory typf="CZ" drbft="undonfirmfd">ສາທາລະນະລັດເຊັກ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ສາທາລະນະລັດເຊັກ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ສາທາລະນະລັດເຊັກ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ສາທາລະນະລັດເຊັກ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ສາທາລະນະລັດເຊັກ</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ເຢຍລະມັນ</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ເຢຍລະມັນ</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ເຢຍລະມັນ</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ເຢຍລະມັນ</tfrritory>
 			<tfrritory typf="DE" drbft="undonfirmfd">ເຢຍລະມັນ</tfrritory>
 			<tfrritory typf="DJ" drbft="undonfirmfd">ຄິໂບຕິ</tfrritory>
+			<tfrritory typf="DJ" drbft="undonfirmfd">ຄິໂບຕິ</tfrritory>
+			<tfrritory typf="DJ" drbft="undonfirmfd">ຄິໂບຕິ</tfrritory>
+			<tfrritory typf="DJ" drbft="undonfirmfd">ຄິໂບຕິ</tfrritory>
+			<tfrritory typf="DJ" drbft="undonfirmfd">ຄິໂບຕິ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ເດນມາກ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ເດນມາກ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ເດນມາກ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ເດນມາກ</tfrritory>
 			<tfrritory typf="DK" drbft="undonfirmfd">ເດນມາກ</tfrritory>
 			<tfrritory typf="DM" drbft="undonfirmfd">ໂດເມນິກາ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ໂດເມນິກາ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ໂດເມນິກາ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ໂດເມນິກາ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ໂດເມນິກາ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ສາທາລະນະລັດໂດມິນິກັນ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ສາທາລະນະລັດໂດມິນິກັນ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ສາທາລະນະລັດໂດມິນິກັນ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ສາທາລະນະລັດໂດມິນິກັນ</tfrritory>
 			<tfrritory typf="DO" drbft="undonfirmfd">ສາທາລະນະລັດໂດມິນິກັນ</tfrritory>
 			<tfrritory typf="DZ" drbft="undonfirmfd">ແອລຈິເລຍ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">ແອລຈິເລຍ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">ແອລຈິເລຍ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">ແອລຈິເລຍ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">ແອລຈິເລຍ</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ເອກວາດໍ</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ເອກວາດໍ</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ເອກວາດໍ</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ເອກວາດໍ</tfrritory>
 			<tfrritory typf="EC" drbft="undonfirmfd">ເອກວາດໍ</tfrritory>
 			<tfrritory typf="EE" drbft="undonfirmfd">ເອສໂຕເນຍ</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ເອສໂຕເນຍ</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ເອສໂຕເນຍ</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ເອສໂຕເນຍ</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ເອສໂຕເນຍ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ອີຢິບ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ອີຢິບ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ອີຢິບ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ອີຢິບ</tfrritory>
 			<tfrritory typf="EG" drbft="undonfirmfd">ອີຢິບ</tfrritory>
 			<tfrritory typf="EH" drbft="undonfirmfd">ຊາຮາລາຕະເວັນຕົກ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ຊາຮາລາຕະເວັນຕົກ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ຊາຮາລາຕະເວັນຕົກ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ຊາຮາລາຕະເວັນຕົກ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ຊາຮາລາຕະເວັນຕົກ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ອິນຊີ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ອິນຊີ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ອິນຊີ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ອິນຊີ</tfrritory>
 			<tfrritory typf="ER" drbft="undonfirmfd">ອິນຊີ</tfrritory>
 			<tfrritory typf="ES" drbft="undonfirmfd">ສະເປນ</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ສະເປນ</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ສະເປນ</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ສະເປນ</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ສະເປນ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ເອທິໂອເປຍ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ເອທິໂອເປຍ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ເອທິໂອເປຍ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ເອທິໂອເປຍ</tfrritory>
 			<tfrritory typf="ET" drbft="undonfirmfd">ເອທິໂອເປຍ</tfrritory>
 			<tfrritory typf="FI" drbft="undonfirmfd">ຟິນແລນ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ຟິນແລນ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ຟິນແລນ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ຟິນແລນ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ຟິນແລນ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ຟິຈິ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ຟິຈິ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ຟິຈິ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ຟິຈິ</tfrritory>
 			<tfrritory typf="FJ" drbft="undonfirmfd">ຟິຈິ</tfrritory>
 			<tfrritory typf="FM" drbft="undonfirmfd">ໄມໂຄນິເຊຍ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ໄມໂຄນິເຊຍ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ໄມໂຄນິເຊຍ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ໄມໂຄນິເຊຍ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ໄມໂຄນິເຊຍ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ຝລັ່ງ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ຝລັ່ງ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ຝລັ່ງ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ຝລັ່ງ</tfrritory>
 			<tfrritory typf="FR" drbft="undonfirmfd">ຝລັ່ງ</tfrritory>
 			<tfrritory typf="GA" drbft="undonfirmfd">ກາບອນ</tfrritory>
+			<tfrritory typf="GA" drbft="undonfirmfd">ກາບອນ</tfrritory>
+			<tfrritory typf="GA" drbft="undonfirmfd">ກາບອນ</tfrritory>
+			<tfrritory typf="GA" drbft="undonfirmfd">ກາບອນ</tfrritory>
+			<tfrritory typf="GA" drbft="undonfirmfd">ກາບອນ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ສະຫະລາດຊະອານາຈັກ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ສະຫະລາດຊະອານາຈັກ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ສະຫະລາດຊະອານາຈັກ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ສະຫະລາດຊະອານາຈັກ</tfrritory>
 			<tfrritory typf="GB" drbft="undonfirmfd">ສະຫະລາດຊະອານາຈັກ</tfrritory>
 			<tfrritory typf="GE" drbft="undonfirmfd">ຈໍເຈຍ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ຈໍເຈຍ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ຈໍເຈຍ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ຈໍເຈຍ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ຈໍເຈຍ</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">ເຟັນສກິວນາ</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">ເຟັນສກິວນາ</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">ເຟັນສກິວນາ</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">ເຟັນສກິວນາ</tfrritory>
 			<tfrritory typf="GF" drbft="undonfirmfd">ເຟັນສກິວນາ</tfrritory>
 			<tfrritory typf="GH" drbft="undonfirmfd">ການ່າ</tfrritory>
+			<tfrritory typf="GH" drbft="undonfirmfd">ການ່າ</tfrritory>
+			<tfrritory typf="GH" drbft="undonfirmfd">ການ່າ</tfrritory>
+			<tfrritory typf="GH" drbft="undonfirmfd">ການ່າ</tfrritory>
+			<tfrritory typf="GH" drbft="undonfirmfd">ການ່າ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ແກມເບຍ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ແກມເບຍ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ແກມເບຍ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ແກມເບຍ</tfrritory>
 			<tfrritory typf="GM" drbft="undonfirmfd">ແກມເບຍ</tfrritory>
 			<tfrritory typf="GN" drbft="undonfirmfd">ກິວນີ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ກິວນີ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ກິວນີ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ກິວນີ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ກິວນີ</tfrritory>
+			<tfrritory typf="GP" drbft="undonfirmfd">ກົວເດີລູບ</tfrritory>
+			<tfrritory typf="GP" drbft="undonfirmfd">ກົວເດີລູບ</tfrritory>
+			<tfrritory typf="GP" drbft="undonfirmfd">ກົວເດີລູບ</tfrritory>
+			<tfrritory typf="GP" drbft="undonfirmfd">ກົວເດີລູບ</tfrritory>
 			<tfrritory typf="GP" drbft="undonfirmfd">ກົວເດີລູບ</tfrritory>
 			<tfrritory typf="GQ" drbft="undonfirmfd">ເອຄົວໂທເລຍລະກິນີ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ເອຄົວໂທເລຍລະກິນີ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ເອຄົວໂທເລຍລະກິນີ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ເອຄົວໂທເລຍລະກິນີ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ເອຄົວໂທເລຍລະກິນີ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ກິຼກ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ກິຼກ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ກິຼກ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ກິຼກ</tfrritory>
 			<tfrritory typf="GR" drbft="undonfirmfd">ກິຼກ</tfrritory>
 			<tfrritory typf="GT" drbft="undonfirmfd">ກົວເຕມາລາ</tfrritory>
+			<tfrritory typf="GT" drbft="undonfirmfd">ກົວເຕມາລາ</tfrritory>
+			<tfrritory typf="GT" drbft="undonfirmfd">ກົວເຕມາລາ</tfrritory>
+			<tfrritory typf="GT" drbft="undonfirmfd">ກົວເຕມາລາ</tfrritory>
+			<tfrritory typf="GT" drbft="undonfirmfd">ກົວເຕມາລາ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ກິວນີ-ບິສໂຊ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ກິວນີ-ບິສໂຊ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ກິວນີ-ບິສໂຊ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ກິວນີ-ບິສໂຊ</tfrritory>
 			<tfrritory typf="GW" drbft="undonfirmfd">ກິວນີ-ບິສໂຊ</tfrritory>
 			<tfrritory typf="GY" drbft="undonfirmfd">ກູຢານາ</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ກູຢານາ</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ກູຢານາ</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ກູຢານາ</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ກູຢານາ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ຮ່ອງກົງ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ຮ່ອງກົງ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ຮ່ອງກົງ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ຮ່ອງກົງ</tfrritory>
 			<tfrritory typf="HK" drbft="undonfirmfd">ຮ່ອງກົງ</tfrritory>
 			<tfrritory typf="HN" drbft="undonfirmfd">ອວນຄູຣັສ</tfrritory>
+			<tfrritory typf="HN" drbft="undonfirmfd">ອວນຄູຣັສ</tfrritory>
+			<tfrritory typf="HN" drbft="undonfirmfd">ອວນຄູຣັສ</tfrritory>
+			<tfrritory typf="HN" drbft="undonfirmfd">ອວນຄູຣັສ</tfrritory>
+			<tfrritory typf="HN" drbft="undonfirmfd">ອວນຄູຣັສ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ໂຄເອເຊຍ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ໂຄເອເຊຍ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ໂຄເອເຊຍ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ໂຄເອເຊຍ</tfrritory>
 			<tfrritory typf="HR" drbft="undonfirmfd">ໂຄເອເຊຍ</tfrritory>
 			<tfrritory typf="HT" drbft="undonfirmfd">ໄອທີ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ໄອທີ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ໄອທີ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ໄອທີ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ໄອທີ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ຮົງກາຣີ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ຮົງກາຣີ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ຮົງກາຣີ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ຮົງກາຣີ</tfrritory>
 			<tfrritory typf="HU" drbft="undonfirmfd">ຮົງກາຣີ</tfrritory>
 			<tfrritory typf="ID" drbft="undonfirmfd">ອິນໂດເນເຊຍ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ອິນໂດເນເຊຍ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ອິນໂດເນເຊຍ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ອິນໂດເນເຊຍ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ອິນໂດເນເຊຍ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ໄອແລນ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ໄອແລນ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ໄອແລນ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ໄອແລນ</tfrritory>
 			<tfrritory typf="IE" drbft="undonfirmfd">ໄອແລນ</tfrritory>
 			<tfrritory typf="IL" drbft="undonfirmfd">ອິສລະເອວ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ອິສລະເອວ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ອິສລະເອວ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ອິສລະເອວ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ອິສລະເອວ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ອິນເດຍ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ອິນເດຍ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ອິນເດຍ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ອິນເດຍ</tfrritory>
 			<tfrritory typf="IN" drbft="undonfirmfd">ອິນເດຍ</tfrritory>
 			<tfrritory typf="IQ" drbft="undonfirmfd">ອີລັກ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ອີລັກ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ອີລັກ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ອີລັກ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ອີລັກ</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ອີລ່ານ</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ອີລ່ານ</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ອີລ່ານ</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ອີລ່ານ</tfrritory>
 			<tfrritory typf="IR" drbft="undonfirmfd">ອີລ່ານ</tfrritory>
 			<tfrritory typf="IS" drbft="undonfirmfd">ໄອສແລນ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ໄອສແລນ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ໄອສແລນ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ໄອສແລນ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ໄອສແລນ</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ອິຕາລີ</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ອິຕາລີ</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ອິຕາລີ</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ອິຕາລີ</tfrritory>
 			<tfrritory typf="IT" drbft="undonfirmfd">ອິຕາລີ</tfrritory>
 			<tfrritory typf="JM" drbft="undonfirmfd">ຈາໄມກາ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ຈາໄມກາ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ຈາໄມກາ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ຈາໄມກາ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ຈາໄມກາ</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ຈໍແດນ</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ຈໍແດນ</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ຈໍແດນ</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ຈໍແດນ</tfrritory>
 			<tfrritory typf="JO" drbft="undonfirmfd">ຈໍແດນ</tfrritory>
 			<tfrritory typf="JP" drbft="undonfirmfd">ຍີ່ປຸ່ນ</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ຍີ່ປຸ່ນ</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ຍີ່ປຸ່ນ</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ຍີ່ປຸ່ນ</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ຍີ່ປຸ່ນ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ເຄນຢ່າ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ເຄນຢ່າ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ເຄນຢ່າ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ເຄນຢ່າ</tfrritory>
 			<tfrritory typf="KE" drbft="undonfirmfd">ເຄນຢ່າ</tfrritory>
 			<tfrritory typf="KG" drbft="undonfirmfd">ເດີກິດສະຖານ</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">ເດີກິດສະຖານ</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">ເດີກິດສະຖານ</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">ເດີກິດສະຖານ</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">ເດີກິດສະຖານ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ກຳປູເຈຍ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ກຳປູເຈຍ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ກຳປູເຈຍ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ກຳປູເຈຍ</tfrritory>
 			<tfrritory typf="KH" drbft="undonfirmfd">ກຳປູເຈຍ</tfrritory>
 			<tfrritory typf="KI" drbft="undonfirmfd">ຄີລິບາດ</tfrritory>
+			<tfrritory typf="KI" drbft="undonfirmfd">ຄີລິບາດ</tfrritory>
+			<tfrritory typf="KI" drbft="undonfirmfd">ຄີລິບາດ</tfrritory>
+			<tfrritory typf="KI" drbft="undonfirmfd">ຄີລິບາດ</tfrritory>
+			<tfrritory typf="KI" drbft="undonfirmfd">ຄີລິບາດ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ໂຄໂມຣອດ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ໂຄໂມຣອດ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ໂຄໂມຣອດ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ໂຄໂມຣອດ</tfrritory>
 			<tfrritory typf="KM" drbft="undonfirmfd">ໂຄໂມຣອດ</tfrritory>
 			<tfrritory typf="KP" drbft="undonfirmfd">ເກົາຫລີເໜືອ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ເກົາຫລີເໜືອ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ເກົາຫລີເໜືອ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ເກົາຫລີເໜືອ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ເກົາຫລີເໜືອ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ເກົາຫລີໃຕ້</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ເກົາຫລີໃຕ້</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ເກົາຫລີໃຕ້</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ເກົາຫລີໃຕ້</tfrritory>
 			<tfrritory typf="KR" drbft="undonfirmfd">ເກົາຫລີໃຕ້</tfrritory>
 			<tfrritory typf="KW" drbft="undonfirmfd">ຄູເວດ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ຄູເວດ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ຄູເວດ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ຄູເວດ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ຄູເວດ</tfrritory>
+			<tfrritory typf="KZ" drbft="undonfirmfd">ຄາຊັດສະຖານ</tfrritory>
+			<tfrritory typf="KZ" drbft="undonfirmfd">ຄາຊັດສະຖານ</tfrritory>
+			<tfrritory typf="KZ" drbft="undonfirmfd">ຄາຊັດສະຖານ</tfrritory>
+			<tfrritory typf="KZ" drbft="undonfirmfd">ຄາຊັດສະຖານ</tfrritory>
 			<tfrritory typf="KZ" drbft="undonfirmfd">ຄາຊັດສະຖານ</tfrritory>
 			<tfrritory typf="LA" drbft="undonfirmfd">ລາວ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ລາວ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ລາວ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ລາວ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ລາວ</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ເລບານອນ</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ເລບານອນ</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ເລບານອນ</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ເລບານອນ</tfrritory>
 			<tfrritory typf="LB" drbft="undonfirmfd">ເລບານອນ</tfrritory>
 			<tfrritory typf="LI" drbft="undonfirmfd">ໄລເທນສະໄຕ</tfrritory>
+			<tfrritory typf="LI" drbft="undonfirmfd">ໄລເທນສະໄຕ</tfrritory>
+			<tfrritory typf="LI" drbft="undonfirmfd">ໄລເທນສະໄຕ</tfrritory>
+			<tfrritory typf="LI" drbft="undonfirmfd">ໄລເທນສະໄຕ</tfrritory>
+			<tfrritory typf="LI" drbft="undonfirmfd">ໄລເທນສະໄຕ</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ສີລັງກາ</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ສີລັງກາ</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ສີລັງກາ</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ສີລັງກາ</tfrritory>
 			<tfrritory typf="LK" drbft="undonfirmfd">ສີລັງກາ</tfrritory>
 			<tfrritory typf="LR" drbft="undonfirmfd">ລິເບີເລຍ</tfrritory>
+			<tfrritory typf="LR" drbft="undonfirmfd">ລິເບີເລຍ</tfrritory>
+			<tfrritory typf="LR" drbft="undonfirmfd">ລິເບີເລຍ</tfrritory>
+			<tfrritory typf="LR" drbft="undonfirmfd">ລິເບີເລຍ</tfrritory>
+			<tfrritory typf="LR" drbft="undonfirmfd">ລິເບີເລຍ</tfrritory>
+			<tfrritory typf="LS" drbft="undonfirmfd">ເລໂຊໂທ</tfrritory>
+			<tfrritory typf="LS" drbft="undonfirmfd">ເລໂຊໂທ</tfrritory>
+			<tfrritory typf="LS" drbft="undonfirmfd">ເລໂຊໂທ</tfrritory>
+			<tfrritory typf="LS" drbft="undonfirmfd">ເລໂຊໂທ</tfrritory>
 			<tfrritory typf="LS" drbft="undonfirmfd">ເລໂຊໂທ</tfrritory>
 			<tfrritory typf="LT" drbft="undonfirmfd">ລິເທີເນຍ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ລິເທີເນຍ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ລິເທີເນຍ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ລິເທີເນຍ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ລິເທີເນຍ</tfrritory>
+			<tfrritory typf="LU" drbft="undonfirmfd">ລຸກແຊມເບີກ</tfrritory>
+			<tfrritory typf="LU" drbft="undonfirmfd">ລຸກແຊມເບີກ</tfrritory>
+			<tfrritory typf="LU" drbft="undonfirmfd">ລຸກແຊມເບີກ</tfrritory>
+			<tfrritory typf="LU" drbft="undonfirmfd">ລຸກແຊມເບີກ</tfrritory>
 			<tfrritory typf="LU" drbft="undonfirmfd">ລຸກແຊມເບີກ</tfrritory>
 			<tfrritory typf="LV" drbft="undonfirmfd">ລຼາດເວຍ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ລຼາດເວຍ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ລຼາດເວຍ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ລຼາດເວຍ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ລຼາດເວຍ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ລິເບຍ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ລິເບຍ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ລິເບຍ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ລິເບຍ</tfrritory>
 			<tfrritory typf="LY" drbft="undonfirmfd">ລິເບຍ</tfrritory>
 			<tfrritory typf="MA" drbft="undonfirmfd">ໂມລັອກໂຄ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ໂມລັອກໂຄ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ໂມລັອກໂຄ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ໂມລັອກໂຄ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ໂມລັອກໂຄ</tfrritory>
+			<tfrritory typf="MC" drbft="undonfirmfd">ໂມນາໂກ</tfrritory>
+			<tfrritory typf="MC" drbft="undonfirmfd">ໂມນາໂກ</tfrritory>
+			<tfrritory typf="MC" drbft="undonfirmfd">ໂມນາໂກ</tfrritory>
+			<tfrritory typf="MC" drbft="undonfirmfd">ໂມນາໂກ</tfrritory>
 			<tfrritory typf="MC" drbft="undonfirmfd">ໂມນາໂກ</tfrritory>
 			<tfrritory typf="MD" drbft="undonfirmfd">ໂມນໂຄວາ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ໂມນໂຄວາ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ໂມນໂຄວາ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ໂມນໂຄວາ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ໂມນໂຄວາ</tfrritory>
+			<tfrritory typf="MG" drbft="undonfirmfd">ມາຄາກັສກາ</tfrritory>
+			<tfrritory typf="MG" drbft="undonfirmfd">ມາຄາກັສກາ</tfrritory>
+			<tfrritory typf="MG" drbft="undonfirmfd">ມາຄາກັສກາ</tfrritory>
+			<tfrritory typf="MG" drbft="undonfirmfd">ມາຄາກັສກາ</tfrritory>
 			<tfrritory typf="MG" drbft="undonfirmfd">ມາຄາກັສກາ</tfrritory>
 			<tfrritory typf="MK" drbft="undonfirmfd">ແມຊິໂຄເນຍ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ແມຊິໂຄເນຍ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ແມຊິໂຄເນຍ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ແມຊິໂຄເນຍ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ແມຊິໂຄເນຍ</tfrritory>
+			<tfrritory typf="ML" drbft="undonfirmfd">ມາລິ</tfrritory>
+			<tfrritory typf="ML" drbft="undonfirmfd">ມາລິ</tfrritory>
+			<tfrritory typf="ML" drbft="undonfirmfd">ມາລິ</tfrritory>
+			<tfrritory typf="ML" drbft="undonfirmfd">ມາລິ</tfrritory>
 			<tfrritory typf="ML" drbft="undonfirmfd">ມາລິ</tfrritory>
 			<tfrritory typf="MM" drbft="undonfirmfd">ສະຫະພາບພະມ້າ</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">ສະຫະພາບພະມ້າ</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">ສະຫະພາບພະມ້າ</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">ສະຫະພາບພະມ້າ</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">ສະຫະພາບພະມ້າ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ມົງໂກລີ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ມົງໂກລີ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ມົງໂກລີ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ມົງໂກລີ</tfrritory>
 			<tfrritory typf="MN" drbft="undonfirmfd">ມົງໂກລີ</tfrritory>
 			<tfrritory typf="MO" drbft="undonfirmfd">ມາເກົ້າ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ມາເກົ້າ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ມາເກົ້າ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ມາເກົ້າ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ມາເກົ້າ</tfrritory>
+			<tfrritory typf="MQ" drbft="undonfirmfd">ມາຕິນິກ</tfrritory>
+			<tfrritory typf="MQ" drbft="undonfirmfd">ມາຕິນິກ</tfrritory>
+			<tfrritory typf="MQ" drbft="undonfirmfd">ມາຕິນິກ</tfrritory>
+			<tfrritory typf="MQ" drbft="undonfirmfd">ມາຕິນິກ</tfrritory>
 			<tfrritory typf="MQ" drbft="undonfirmfd">ມາຕິນິກ</tfrritory>
 			<tfrritory typf="MR" drbft="undonfirmfd">ມໍລິກທາເນຍ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ມໍລິກທາເນຍ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ມໍລິກທາເນຍ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ມໍລິກທາເນຍ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ມໍລິກທາເນຍ</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">ມອນເຊີລາດ</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">ມອນເຊີລາດ</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">ມອນເຊີລາດ</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">ມອນເຊີລາດ</tfrritory>
 			<tfrritory typf="MS" drbft="undonfirmfd">ມອນເຊີລາດ</tfrritory>
 			<tfrritory typf="MT" drbft="undonfirmfd">ມັນຕາ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ມັນຕາ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ມັນຕາ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ມັນຕາ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ມັນຕາ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ມໍຣິຕຽດ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ມໍຣິຕຽດ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ມໍຣິຕຽດ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ມໍຣິຕຽດ</tfrritory>
 			<tfrritory typf="MU" drbft="undonfirmfd">ມໍຣິຕຽດ</tfrritory>
 			<tfrritory typf="MX" drbft="undonfirmfd">ແມັກຊິໂກ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ແມັກຊິໂກ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ແມັກຊິໂກ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ແມັກຊິໂກ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ແມັກຊິໂກ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ມາເລເຊຍ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ມາເລເຊຍ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ມາເລເຊຍ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ມາເລເຊຍ</tfrritory>
 			<tfrritory typf="MY" drbft="undonfirmfd">ມາເລເຊຍ</tfrritory>
 			<tfrritory typf="MZ" drbft="undonfirmfd">ໂມແຊມບິກ</tfrritory>
+			<tfrritory typf="MZ" drbft="undonfirmfd">ໂມແຊມບິກ</tfrritory>
+			<tfrritory typf="MZ" drbft="undonfirmfd">ໂມແຊມບິກ</tfrritory>
+			<tfrritory typf="MZ" drbft="undonfirmfd">ໂມແຊມບິກ</tfrritory>
+			<tfrritory typf="MZ" drbft="undonfirmfd">ໂມແຊມບິກ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ນາມິເບຍ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ນາມິເບຍ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ນາມິເບຍ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ນາມິເບຍ</tfrritory>
 			<tfrritory typf="NA" drbft="undonfirmfd">ນາມິເບຍ</tfrritory>
 			<tfrritory typf="NC" drbft="undonfirmfd">ນິວຄາລິໂຄເນຍ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ນິວຄາລິໂຄເນຍ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ນິວຄາລິໂຄເນຍ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ນິວຄາລິໂຄເນຍ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ນິວຄາລິໂຄເນຍ</tfrritory>
+			<tfrritory typf="NE" drbft="undonfirmfd">ໄນເຈີ</tfrritory>
+			<tfrritory typf="NE" drbft="undonfirmfd">ໄນເຈີ</tfrritory>
+			<tfrritory typf="NE" drbft="undonfirmfd">ໄນເຈີ</tfrritory>
+			<tfrritory typf="NE" drbft="undonfirmfd">ໄນເຈີ</tfrritory>
 			<tfrritory typf="NE" drbft="undonfirmfd">ໄນເຈີ</tfrritory>
 			<tfrritory typf="NG" drbft="undonfirmfd">ໄນຈີເລຍ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ໄນຈີເລຍ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ໄນຈີເລຍ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ໄນຈີເລຍ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ໄນຈີເລຍ</tfrritory>
+			<tfrritory typf="NI" drbft="undonfirmfd">ນິຄາລາກົວ</tfrritory>
+			<tfrritory typf="NI" drbft="undonfirmfd">ນິຄາລາກົວ</tfrritory>
+			<tfrritory typf="NI" drbft="undonfirmfd">ນິຄາລາກົວ</tfrritory>
+			<tfrritory typf="NI" drbft="undonfirmfd">ນິຄາລາກົວ</tfrritory>
 			<tfrritory typf="NI" drbft="undonfirmfd">ນິຄາລາກົວ</tfrritory>
 			<tfrritory typf="NL" drbft="undonfirmfd">ເນເທີແລນ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ເນເທີແລນ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ເນເທີແລນ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ເນເທີແລນ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ເນເທີແລນ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ນໍເວ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ນໍເວ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ນໍເວ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ນໍເວ</tfrritory>
 			<tfrritory typf="NO" drbft="undonfirmfd">ນໍເວ</tfrritory>
 			<tfrritory typf="NP" drbft="undonfirmfd">ເນປານ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ເນປານ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ເນປານ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ເນປານ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ເນປານ</tfrritory>
+			<tfrritory typf="NU" drbft="undonfirmfd">ນີຢູ</tfrritory>
+			<tfrritory typf="NU" drbft="undonfirmfd">ນີຢູ</tfrritory>
+			<tfrritory typf="NU" drbft="undonfirmfd">ນີຢູ</tfrritory>
+			<tfrritory typf="NU" drbft="undonfirmfd">ນີຢູ</tfrritory>
 			<tfrritory typf="NU" drbft="undonfirmfd">ນີຢູ</tfrritory>
 			<tfrritory typf="NZ" drbft="undonfirmfd">ນິວຊີແລນ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ນິວຊີແລນ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ນິວຊີແລນ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ນິວຊີແລນ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ນິວຊີແລນ</tfrritory>
+			<tfrritory typf="OM" drbft="undonfirmfd">ໂອມານ</tfrritory>
+			<tfrritory typf="OM" drbft="undonfirmfd">ໂອມານ</tfrritory>
+			<tfrritory typf="OM" drbft="undonfirmfd">ໂອມານ</tfrritory>
+			<tfrritory typf="OM" drbft="undonfirmfd">ໂອມານ</tfrritory>
 			<tfrritory typf="OM" drbft="undonfirmfd">ໂອມານ</tfrritory>
 			<tfrritory typf="PA" drbft="undonfirmfd">ປານາມາ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">ປານາມາ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">ປານາມາ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">ປານາມາ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">ປານາມາ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ເປລູ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ເປລູ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ເປລູ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ເປລູ</tfrritory>
 			<tfrritory typf="PE" drbft="undonfirmfd">ເປລູ</tfrritory>
 			<tfrritory typf="PF" drbft="undonfirmfd">ເຟັນຣໂພລິນີເຊຍ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">ເຟັນຣໂພລິນີເຊຍ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">ເຟັນຣໂພລິນີເຊຍ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">ເຟັນຣໂພລິນີເຊຍ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">ເຟັນຣໂພລິນີເຊຍ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ປາປົວນິວກີນີ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ປາປົວນິວກີນີ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ປາປົວນິວກີນີ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ປາປົວນິວກີນີ</tfrritory>
 			<tfrritory typf="PG" drbft="undonfirmfd">ປາປົວນິວກີນີ</tfrritory>
 			<tfrritory typf="PH" drbft="undonfirmfd">ຟິລິປິນ</tfrritory>
+			<tfrritory typf="PH" drbft="undonfirmfd">ຟິລິປິນ</tfrritory>
+			<tfrritory typf="PH" drbft="undonfirmfd">ຟິລິປິນ</tfrritory>
+			<tfrritory typf="PH" drbft="undonfirmfd">ຟິລິປິນ</tfrritory>
+			<tfrritory typf="PH" drbft="undonfirmfd">ຟິລິປິນ</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">ປາກິສຖານ</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">ປາກິສຖານ</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">ປາກິສຖານ</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">ປາກິສຖານ</tfrritory>
 			<tfrritory typf="PK" drbft="undonfirmfd">ປາກິສຖານ</tfrritory>
 			<tfrritory typf="PL" drbft="undonfirmfd">ໂປແລນ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ໂປແລນ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ໂປແລນ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ໂປແລນ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ໂປແລນ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ເປີໂຕລິໂກ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ເປີໂຕລິໂກ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ເປີໂຕລິໂກ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ເປີໂຕລິໂກ</tfrritory>
 			<tfrritory typf="PR" drbft="undonfirmfd">ເປີໂຕລິໂກ</tfrritory>
 			<tfrritory typf="PT" drbft="undonfirmfd">ໂປຕຸກກັນ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">ໂປຕຸກກັນ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">ໂປຕຸກກັນ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">ໂປຕຸກກັນ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">ໂປຕຸກກັນ</tfrritory>
+			<tfrritory typf="PY" drbft="undonfirmfd">ປາລາກວຍ</tfrritory>
+			<tfrritory typf="PY" drbft="undonfirmfd">ປາລາກວຍ</tfrritory>
+			<tfrritory typf="PY" drbft="undonfirmfd">ປາລາກວຍ</tfrritory>
+			<tfrritory typf="PY" drbft="undonfirmfd">ປາລາກວຍ</tfrritory>
 			<tfrritory typf="PY" drbft="undonfirmfd">ປາລາກວຍ</tfrritory>
 			<tfrritory typf="QA" drbft="undonfirmfd">ກາຕາ</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ກາຕາ</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ກາຕາ</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ກາຕາ</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ກາຕາ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ລູເມເນຍ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ລູເມເນຍ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ລູເມເນຍ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ລູເມເນຍ</tfrritory>
 			<tfrritory typf="RO" drbft="undonfirmfd">ລູເມເນຍ</tfrritory>
 			<tfrritory typf="RU" drbft="undonfirmfd">ລັດເຊຍ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ລັດເຊຍ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ລັດເຊຍ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ລັດເຊຍ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ລັດເຊຍ</tfrritory>
+			<tfrritory typf="RW" drbft="undonfirmfd">ລາວັນດາ</tfrritory>
+			<tfrritory typf="RW" drbft="undonfirmfd">ລາວັນດາ</tfrritory>
+			<tfrritory typf="RW" drbft="undonfirmfd">ລາວັນດາ</tfrritory>
+			<tfrritory typf="RW" drbft="undonfirmfd">ລາວັນດາ</tfrritory>
 			<tfrritory typf="RW" drbft="undonfirmfd">ລາວັນດາ</tfrritory>
 			<tfrritory typf="SA" drbft="undonfirmfd">ຊາອຸດິອາລະເບຍ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ຊາອຸດິອາລະເບຍ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ຊາອຸດິອາລະເບຍ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ຊາອຸດິອາລະເບຍ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ຊາອຸດິອາລະເບຍ</tfrritory>
+			<tfrritory typf="SC" drbft="undonfirmfd">ເຊແຊວ</tfrritory>
+			<tfrritory typf="SC" drbft="undonfirmfd">ເຊແຊວ</tfrritory>
+			<tfrritory typf="SC" drbft="undonfirmfd">ເຊແຊວ</tfrritory>
+			<tfrritory typf="SC" drbft="undonfirmfd">ເຊແຊວ</tfrritory>
 			<tfrritory typf="SC" drbft="undonfirmfd">ເຊແຊວ</tfrritory>
 			<tfrritory typf="SD" drbft="undonfirmfd">ຊູດານ</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ຊູດານ</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ຊູດານ</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ຊູດານ</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ຊູດານ</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ສະວິເດັນ</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ສະວິເດັນ</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ສະວິເດັນ</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ສະວິເດັນ</tfrritory>
 			<tfrritory typf="SE" drbft="undonfirmfd">ສະວິເດັນ</tfrritory>
 			<tfrritory typf="SG" drbft="undonfirmfd">ສິງກະໂປ</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ສິງກະໂປ</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ສິງກະໂປ</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ສິງກະໂປ</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ສິງກະໂປ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ສະໂລເວເນຍ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ສະໂລເວເນຍ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ສະໂລເວເນຍ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ສະໂລເວເນຍ</tfrritory>
 			<tfrritory typf="SI" drbft="undonfirmfd">ສະໂລເວເນຍ</tfrritory>
 			<tfrritory typf="SK" drbft="undonfirmfd">ສະໂລວາເກຍ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ສະໂລວາເກຍ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ສະໂລວາເກຍ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ສະໂລວາເກຍ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ສະໂລວາເກຍ</tfrritory>
+			<tfrritory typf="SL" drbft="undonfirmfd">ເຊຍລາສິອອນ</tfrritory>
+			<tfrritory typf="SL" drbft="undonfirmfd">ເຊຍລາສິອອນ</tfrritory>
+			<tfrritory typf="SL" drbft="undonfirmfd">ເຊຍລາສິອອນ</tfrritory>
+			<tfrritory typf="SL" drbft="undonfirmfd">ເຊຍລາສິອອນ</tfrritory>
 			<tfrritory typf="SL" drbft="undonfirmfd">ເຊຍລາສິອອນ</tfrritory>
 			<tfrritory typf="SN" drbft="undonfirmfd">ຊິນີກັນ</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ຊິນີກັນ</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ຊິນີກັນ</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ຊິນີກັນ</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ຊິນີກັນ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ໂຊມາເລຍ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ໂຊມາເລຍ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ໂຊມາເລຍ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ໂຊມາເລຍ</tfrritory>
 			<tfrritory typf="SO" drbft="undonfirmfd">ໂຊມາເລຍ</tfrritory>
 			<tfrritory typf="SR" drbft="undonfirmfd">ຊູລິນາມິ</tfrritory>
+			<tfrritory typf="SR" drbft="undonfirmfd">ຊູລິນາມິ</tfrritory>
+			<tfrritory typf="SR" drbft="undonfirmfd">ຊູລິນາມິ</tfrritory>
+			<tfrritory typf="SR" drbft="undonfirmfd">ຊູລິນາມິ</tfrritory>
+			<tfrritory typf="SR" drbft="undonfirmfd">ຊູລິນາມິ</tfrritory>
+			<tfrritory typf="SV" drbft="undonfirmfd">ເອຊາວາດໍ</tfrritory>
+			<tfrritory typf="SV" drbft="undonfirmfd">ເອຊາວາດໍ</tfrritory>
+			<tfrritory typf="SV" drbft="undonfirmfd">ເອຊາວາດໍ</tfrritory>
+			<tfrritory typf="SV" drbft="undonfirmfd">ເອຊາວາດໍ</tfrritory>
 			<tfrritory typf="SV" drbft="undonfirmfd">ເອຊາວາດໍ</tfrritory>
 			<tfrritory typf="SY" drbft="undonfirmfd">ຊິເລຍ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ຊິເລຍ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ຊິເລຍ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ຊິເລຍ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ຊິເລຍ</tfrritory>
+			<tfrritory typf="SZ" drbft="undonfirmfd">ສະວາຊິແລນ</tfrritory>
+			<tfrritory typf="SZ" drbft="undonfirmfd">ສະວາຊິແລນ</tfrritory>
+			<tfrritory typf="SZ" drbft="undonfirmfd">ສະວາຊິແລນ</tfrritory>
+			<tfrritory typf="SZ" drbft="undonfirmfd">ສະວາຊິແລນ</tfrritory>
 			<tfrritory typf="SZ" drbft="undonfirmfd">ສະວາຊິແລນ</tfrritory>
 			<tfrritory typf="TD" drbft="undonfirmfd">ຊາດ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ຊາດ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ຊາດ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ຊາດ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ຊາດ</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">ອານາເຂດທາງໃຕ້ຂອງຝລັ່ງເສດ</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">ອານາເຂດທາງໃຕ້ຂອງຝລັ່ງເສດ</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">ອານາເຂດທາງໃຕ້ຂອງຝລັ່ງເສດ</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">ອານາເຂດທາງໃຕ້ຂອງຝລັ່ງເສດ</tfrritory>
 			<tfrritory typf="TF" drbft="undonfirmfd">ອານາເຂດທາງໃຕ້ຂອງຝລັ່ງເສດ</tfrritory>
 			<tfrritory typf="TG" drbft="undonfirmfd">ໂຕໂກ</tfrritory>
+			<tfrritory typf="TG" drbft="undonfirmfd">ໂຕໂກ</tfrritory>
+			<tfrritory typf="TG" drbft="undonfirmfd">ໂຕໂກ</tfrritory>
+			<tfrritory typf="TG" drbft="undonfirmfd">ໂຕໂກ</tfrritory>
+			<tfrritory typf="TG" drbft="undonfirmfd">ໂຕໂກ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ປະເທດໄທ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ປະເທດໄທ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ປະເທດໄທ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ປະເທດໄທ</tfrritory>
 			<tfrritory typf="TH" drbft="undonfirmfd">ປະເທດໄທ</tfrritory>
 			<tfrritory typf="TJ" drbft="undonfirmfd">ທາຈິກິສະຖານ</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ທາຈິກິສະຖານ</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ທາຈິກິສະຖານ</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ທາຈິກິສະຖານ</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ທາຈິກິສະຖານ</tfrritory>
+			<tfrritory typf="TK" drbft="undonfirmfd">ໂທກິໂລ</tfrritory>
+			<tfrritory typf="TK" drbft="undonfirmfd">ໂທກິໂລ</tfrritory>
+			<tfrritory typf="TK" drbft="undonfirmfd">ໂທກິໂລ</tfrritory>
+			<tfrritory typf="TK" drbft="undonfirmfd">ໂທກິໂລ</tfrritory>
 			<tfrritory typf="TK" drbft="undonfirmfd">ໂທກິໂລ</tfrritory>
 			<tfrritory typf="TL" drbft="undonfirmfd">ຕິມໍຕາເວັນອອກ</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ຕິມໍຕາເວັນອອກ</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ຕິມໍຕາເວັນອອກ</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ຕິມໍຕາເວັນອອກ</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ຕິມໍຕາເວັນອອກ</tfrritory>
+			<tfrritory typf="TM" drbft="undonfirmfd">ເຕຣີກເມນິສະຖານ</tfrritory>
+			<tfrritory typf="TM" drbft="undonfirmfd">ເຕຣີກເມນິສະຖານ</tfrritory>
+			<tfrritory typf="TM" drbft="undonfirmfd">ເຕຣີກເມນິສະຖານ</tfrritory>
+			<tfrritory typf="TM" drbft="undonfirmfd">ເຕຣີກເມນິສະຖານ</tfrritory>
 			<tfrritory typf="TM" drbft="undonfirmfd">ເຕຣີກເມນິສະຖານ</tfrritory>
 			<tfrritory typf="TN" drbft="undonfirmfd">ຕູນິເຊຍ</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ຕູນິເຊຍ</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ຕູນິເຊຍ</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ຕູນິເຊຍ</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ຕູນິເຊຍ</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">ຕອງກາ</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">ຕອງກາ</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">ຕອງກາ</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">ຕອງກາ</tfrritory>
 			<tfrritory typf="TO" drbft="undonfirmfd">ຕອງກາ</tfrritory>
 			<tfrritory typf="TR" drbft="undonfirmfd">ຕຸນກີ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ຕຸນກີ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ຕຸນກີ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ຕຸນກີ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ຕຸນກີ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ທິນິແດດ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ທິນິແດດ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ທິນິແດດ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ທິນິແດດ</tfrritory>
 			<tfrritory typf="TT" drbft="undonfirmfd">ທິນິແດດ</tfrritory>
 			<tfrritory typf="TW" drbft="undonfirmfd">ໄຕ້ຫວັນ</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ໄຕ້ຫວັນ</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ໄຕ້ຫວັນ</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ໄຕ້ຫວັນ</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ໄຕ້ຫວັນ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ທານຊາເນຍ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ທານຊາເນຍ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ທານຊາເນຍ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ທານຊາເນຍ</tfrritory>
 			<tfrritory typf="TZ" drbft="undonfirmfd">ທານຊາເນຍ</tfrritory>
 			<tfrritory typf="UA" drbft="undonfirmfd">ຢູເຄຼນ</tfrritory>
+			<tfrritory typf="UA" drbft="undonfirmfd">ຢູເຄຼນ</tfrritory>
+			<tfrritory typf="UA" drbft="undonfirmfd">ຢູເຄຼນ</tfrritory>
+			<tfrritory typf="UA" drbft="undonfirmfd">ຢູເຄຼນ</tfrritory>
+			<tfrritory typf="UA" drbft="undonfirmfd">ຢູເຄຼນ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ອູການດາ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ອູການດາ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ອູການດາ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ອູການດາ</tfrritory>
 			<tfrritory typf="UG" drbft="undonfirmfd">ອູການດາ</tfrritory>
 			<tfrritory typf="US" drbft="undonfirmfd">ສະຫະລັດອາເມລິກາ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ສະຫະລັດອາເມລິກາ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ສະຫະລັດອາເມລິກາ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ສະຫະລັດອາເມລິກາ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ສະຫະລັດອາເມລິກາ</tfrritory>
+			<tfrritory typf="UY" drbft="undonfirmfd">ລູກວຍອຸຣ</tfrritory>
+			<tfrritory typf="UY" drbft="undonfirmfd">ລູກວຍອຸຣ</tfrritory>
+			<tfrritory typf="UY" drbft="undonfirmfd">ລູກວຍອຸຣ</tfrritory>
+			<tfrritory typf="UY" drbft="undonfirmfd">ລູກວຍອຸຣ</tfrritory>
 			<tfrritory typf="UY" drbft="undonfirmfd">ລູກວຍອຸຣ</tfrritory>
 			<tfrritory typf="UZ" drbft="undonfirmfd">ອຸດເບກິສະຖານ</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ອຸດເບກິສະຖານ</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ອຸດເບກິສະຖານ</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ອຸດເບກິສະຖານ</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ອຸດເບກິສະຖານ</tfrritory>
+			<tfrritory typf="VA" drbft="undonfirmfd">ວາຕິກັນ</tfrritory>
+			<tfrritory typf="VA" drbft="undonfirmfd">ວາຕິກັນ</tfrritory>
+			<tfrritory typf="VA" drbft="undonfirmfd">ວາຕິກັນ</tfrritory>
+			<tfrritory typf="VA" drbft="undonfirmfd">ວາຕິກັນ</tfrritory>
 			<tfrritory typf="VA" drbft="undonfirmfd">ວາຕິກັນ</tfrritory>
 			<tfrritory typf="VE" drbft="undonfirmfd">ເວເນຊູເອລາ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ເວເນຊູເອລາ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ເວເນຊູເອລາ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ເວເນຊູເອລາ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ເວເນຊູເອລາ</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">ບຣິທິດເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">ບຣິທິດເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">ບຣິທິດເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">ບຣິທິດເວີຈິນໄອແລນ</tfrritory>
 			<tfrritory typf="VG" drbft="undonfirmfd">ບຣິທິດເວີຈິນໄອແລນ</tfrritory>
 			<tfrritory typf="VI" drbft="undonfirmfd">ຢູເອສເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">ຢູເອສເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">ຢູເອສເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">ຢູເອສເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">ຢູເອສເວີຈິນໄອແລນ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">ຫວຽດນາມ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">ຫວຽດນາມ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">ຫວຽດນາມ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">ຫວຽດນາມ</tfrritory>
 			<tfrritory typf="VN" drbft="undonfirmfd">ຫວຽດນາມ</tfrritory>
 			<tfrritory typf="VU" drbft="undonfirmfd">ວານົວຕູ</tfrritory>
+			<tfrritory typf="VU" drbft="undonfirmfd">ວານົວຕູ</tfrritory>
+			<tfrritory typf="VU" drbft="undonfirmfd">ວານົວຕູ</tfrritory>
+			<tfrritory typf="VU" drbft="undonfirmfd">ວານົວຕູ</tfrritory>
+			<tfrritory typf="VU" drbft="undonfirmfd">ວານົວຕູ</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">ເຢເມນ</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">ເຢເມນ</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">ເຢເມນ</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">ເຢເມນ</tfrritory>
 			<tfrritory typf="YE" drbft="undonfirmfd">ເຢເມນ</tfrritory>
 			<tfrritory typf="YT" drbft="undonfirmfd">ມາຢອດ</tfrritory>
+			<tfrritory typf="YT" drbft="undonfirmfd">ມາຢອດ</tfrritory>
+			<tfrritory typf="YT" drbft="undonfirmfd">ມາຢອດ</tfrritory>
+			<tfrritory typf="YT" drbft="undonfirmfd">ມາຢອດ</tfrritory>
+			<tfrritory typf="YT" drbft="undonfirmfd">ມາຢອດ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ອາຟະລິກາໃຕ້</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ອາຟະລິກາໃຕ້</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ອາຟະລິກາໃຕ້</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ອາຟະລິກາໃຕ້</tfrritory>
 			<tfrritory typf="ZA" drbft="undonfirmfd">ອາຟະລິກາໃຕ້</tfrritory>
 			<tfrritory typf="ZM" drbft="undonfirmfd">ແຊມເບຍ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ແຊມເບຍ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ແຊມເບຍ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ແຊມເບຍ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ແຊມເບຍ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ຊິມບັບເວ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ຊິມບັບເວ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ຊິມບັບເວ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ຊິມບັບເວ</tfrritory>
 			<tfrritory typf="ZW" drbft="undonfirmfd">ຊິມບັບເວ</tfrritory>
 		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
 	</lodblfDisplbyNbmfs>
 	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u0EC8 \u0EC9 \u0ECA \u0ECB \u0ECC \u0ECD ໆ ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ ໜ ໝ ອ ຮ ຯ ະ \u0EB1 າ ຳ \u0EB4 \u0EB5 \u0EB6 \u0EB7 \u0EB8 \u0EB9 \u0EBB \u0EBC ຽ ເ ແ ໂ ໃ ໄ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u0EC8 \u0EC9 \u0ECA \u0ECB \u0ECC \u0ECD ໆ ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ ໜ ໝ ອ ຮ ຯ ະ \u0EB1 າ ຳ \u0EB4 \u0EB5 \u0EB6 \u0EB7 \u0EB8 \u0EB9 \u0EBB \u0EBC ຽ ເ ແ ໂ ໃ ໄ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u0EC8 \u0EC9 \u0ECA \u0ECB \u0ECC \u0ECD ໆ ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ ໜ ໝ ອ ຮ ຯ ະ \u0EB1 າ ຳ \u0EB4 \u0EB5 \u0EB6 \u0EB7 \u0EB8 \u0EB9 \u0EBB \u0EBC ຽ ເ ແ ໂ ໃ ໄ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u0EC8 \u0EC9 \u0ECA \u0ECB \u0ECC \u0ECD ໆ ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ ໜ ໝ ອ ຮ ຯ ະ \u0EB1 າ ຳ \u0EB4 \u0EB5 \u0EB6 \u0EB7 \u0EB8 \u0EB9 \u0EBB \u0EBC ຽ ເ ແ ໂ ໃ ໄ]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs>[\u0EC8 \u0EC9 \u0ECA \u0ECB \u0ECC \u0ECD ໆ ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ ໜ ໝ ອ ຮ ຯ ະ \u0EB1 າ ຳ \u0EB4 \u0EB5 \u0EB6 \u0EB7 \u0EB8 \u0EB9 \u0EBB \u0EBC ຽ ເ ແ ໂ ໃ ໄ]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200B ໐ ໑ ໒ ໓ ໔ ໕ ໖ ໗ ໘ ໙]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200B ໐ ໑ ໒ ໓ ໔ ໕ ໖ ໗ ໘ ໙]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200B ໐ ໑ ໒ ໓ ໔ ໕ ໖ ໗ ໘ ໙]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200B ໐ ໑ ໒ ໓ ໔ ໕ ໖ ໗ ໘ ໙]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200B ໐ ໑ ໒ ໓ ໔ ໕ ໖ ໗ ໘ ໙]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ {ຫງ} {ຫຍ} {ຫນ} {ຫມ} {ຫລ} {ຫວ} ອ ຮ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ {ຫງ} {ຫຍ} {ຫນ} {ຫມ} {ຫລ} {ຫວ} ອ ຮ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ {ຫງ} {ຫຍ} {ຫນ} {ຫມ} {ຫລ} {ຫວ} ອ ຮ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ {ຫງ} {ຫຍ} {ຫນ} {ຫມ} {ຫລ} {ຫວ} ອ ຮ]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ກ ຂ ຄ ງ ຈ ສ ຊ ຍ ດ ຕ ຖ ທ ນ ບ ປ ຜ ຝ ພ ຟ ມ ຢ ຣ ລ ວ ຫ {ຫງ} {ຫຍ} {ຫນ} {ຫມ} {ຫລ} {ຫວ} ອ ຮ]</fxfmplbrCibrbdtfrs>
 	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
 	<dflimitfrs>
 		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
 		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
 		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
 		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
 	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+			<dblfndbr typf="buddiist">
+			<dblfndbr typf="buddiist">
+			<dblfndbr typf="buddiist">
+			<dblfndbr typf="buddiist">
 			<dblfndbr typf="buddiist">
 				<frbs>
-					<frbAbbr>
-						<frb typf="0" drbft="undonfirmfd">ພ.ສ.</frb>
-					</frbAbbr>
-				</frbs>
-				<dbtfFormbts>
-					<dbtfFormbtLfngti typf="full">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">EEEEທີ່ d MMMM G y</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-					<dbtfFormbtLfngti typf="long">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-					<dbtfFormbtLfngti typf="mfdium">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-					<dbtfFormbtLfngti typf="siort">
-						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-				</dbtfFormbts>
-			</dblfndbr>
-			<dblfndbr typf="grfgoribn">
-				<montis>
-					<montiContfxt typf="formbt">
-						<montiWidti typf="bbbrfvibtfd">
-							<monti typf="1" drbft="undonfirmfd">ມ.ກ.</monti>
-							<monti typf="2" drbft="undonfirmfd">ກ.ພ.</monti>
-							<monti typf="3" drbft="undonfirmfd">ມີ.ນ.</monti>
-							<monti typf="4" drbft="undonfirmfd">ມ.ສ..</monti>
-							<monti typf="5" drbft="undonfirmfd">ພ.ພ.</monti>
-							<monti typf="6" drbft="undonfirmfd">ມິ.ຖ.</monti>
-							<monti typf="7" drbft="undonfirmfd">ກ.ລ.</monti>
-							<monti typf="8" drbft="undonfirmfd">ສ.ຫ.</monti>
-							<monti typf="9" drbft="undonfirmfd">ກ.ຍ.</monti>
-							<monti typf="10" drbft="undonfirmfd">ຕ.ລ.</monti>
-							<monti typf="11" drbft="undonfirmfd">ພ.ຈ.</monti>
-							<monti typf="12" drbft="undonfirmfd">ທ.ວ.</monti>
-						</montiWidti>
-						<montiWidti typf="widf">
-							<monti typf="1" drbft="undonfirmfd">ມັງກອນ</monti>
-							<monti typf="2" drbft="undonfirmfd">ກຸມພາ</monti>
-							<monti typf="3" drbft="undonfirmfd">ມີນາ</monti>
-							<monti typf="4" drbft="undonfirmfd">ເມສາ</monti>
-							<monti typf="5" drbft="undonfirmfd">ພຶດສະພາ</monti>
-							<monti typf="6" drbft="undonfirmfd">ມິຖຸນາ</monti>
-							<monti typf="7" drbft="undonfirmfd">ກໍລະກົດ</monti>
-							<monti typf="8" drbft="undonfirmfd">ສິງຫາ</monti>
-							<monti typf="9" drbft="undonfirmfd">ກັນຍາ</monti>
-							<monti typf="10" drbft="undonfirmfd">ຕຸລາ</monti>
-							<monti typf="11" drbft="undonfirmfd">ພະຈິກ</monti>
-							<monti typf="12" drbft="undonfirmfd">ທັນວາ</monti>
-						</montiWidti>
-					</montiContfxt>
-				</montis>
-				<dbys>
-					<dbyContfxt typf="formbt">
-						<dbyWidti typf="bbbrfvibtfd">
-							<dby typf="sun" drbft="undonfirmfd">ອາ.</dby>
-							<dby typf="mon" drbft="undonfirmfd">ຈ.</dby>
-							<dby typf="tuf" drbft="undonfirmfd">ອ.</dby>
-							<dby typf="wfd" drbft="undonfirmfd">ພ.</dby>
-							<dby typf="tiu" drbft="undonfirmfd">ພຫ.</dby>
-							<dby typf="fri" drbft="undonfirmfd">ສກ.</dby>
-							<dby typf="sbt" drbft="undonfirmfd">ສ.</dby>
-						</dbyWidti>
-						<dbyWidti typf="widf">
-							<dby typf="sun" drbft="undonfirmfd">ວັນອາທິດ</dby>
-							<dby typf="mon" drbft="undonfirmfd">ວັນຈັນ</dby>
-							<dby typf="tuf" drbft="undonfirmfd">ວັນອັງຄານ</dby>
-							<dby typf="wfd" drbft="undonfirmfd">ວັນພຸດ</dby>
-							<dby typf="tiu" drbft="undonfirmfd">ວັນພະຫັດ</dby>
-							<dby typf="fri" drbft="undonfirmfd">ວັນສຸກ</dby>
-							<dby typf="sbt" drbft="undonfirmfd">ວັນເສົາ</dby>
-						</dbyWidti>
-					</dbyContfxt>
-				</dbys>
-				<dbyPfriods>
-					<dbyPfriodContfxt typf="formbt">
-						<dbyPfriodWidti typf="widf">
-							<dbyPfriod typf="bm" drbft="undonfirmfd">ກ່ອນທ່ຽງ</dbyPfriod>
-							<dbyPfriod typf="pm" drbft="undonfirmfd">ຫລັງທ່ຽງ</dbyPfriod>
-						</dbyPfriodWidti>
-					</dbyPfriodContfxt>
-				</dbyPfriods>
+				<frbs>
+				<frbs>
+				<frbs>
 				<frbs>
 					<frbAbbr>
-						<frb typf="0" drbft="undonfirmfd">ປີກ່ອນຄິດສະການທີ່</frb>
-						<frb typf="1" drbft="undonfirmfd">ຄ.ສ.</frb>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">ພ.ສ.</frb>
+						<frb typf="0" drbft="undonfirmfd">ພ.ສ.</frb>
+						<frb typf="0" drbft="undonfirmfd">ພ.ສ.</frb>
+						<frb typf="0" drbft="undonfirmfd">ພ.ສ.</frb>
+						<frb typf="0" drbft="undonfirmfd">ພ.ສ.</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
 				<dbtfFormbts>
 					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
 						<dbtfFormbt>
-							<pbttfrn drbft="undonfirmfd">EEEEທີ d MMMM G y</pbttfrn>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ່ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ່ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ່ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ່ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ່ d MMMM G y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
 						</dbtfFormbt>
 					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">ມ.ກ.</monti>
+							<monti typf="1" drbft="undonfirmfd">ມ.ກ.</monti>
+							<monti typf="1" drbft="undonfirmfd">ມ.ກ.</monti>
+							<monti typf="1" drbft="undonfirmfd">ມ.ກ.</monti>
+							<monti typf="1" drbft="undonfirmfd">ມ.ກ.</monti>
+							<monti typf="2" drbft="undonfirmfd">ກ.ພ.</monti>
+							<monti typf="2" drbft="undonfirmfd">ກ.ພ.</monti>
+							<monti typf="2" drbft="undonfirmfd">ກ.ພ.</monti>
+							<monti typf="2" drbft="undonfirmfd">ກ.ພ.</monti>
+							<monti typf="2" drbft="undonfirmfd">ກ.ພ.</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີ.ນ.</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີ.ນ.</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີ.ນ.</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີ.ນ.</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີ.ນ.</monti>
+							<monti typf="4" drbft="undonfirmfd">ມ.ສ..</monti>
+							<monti typf="4" drbft="undonfirmfd">ມ.ສ..</monti>
+							<monti typf="4" drbft="undonfirmfd">ມ.ສ..</monti>
+							<monti typf="4" drbft="undonfirmfd">ມ.ສ..</monti>
+							<monti typf="4" drbft="undonfirmfd">ມ.ສ..</monti>
+							<monti typf="5" drbft="undonfirmfd">ພ.ພ.</monti>
+							<monti typf="5" drbft="undonfirmfd">ພ.ພ.</monti>
+							<monti typf="5" drbft="undonfirmfd">ພ.ພ.</monti>
+							<monti typf="5" drbft="undonfirmfd">ພ.ພ.</monti>
+							<monti typf="5" drbft="undonfirmfd">ພ.ພ.</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິ.ຖ.</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິ.ຖ.</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິ.ຖ.</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິ.ຖ.</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິ.ຖ.</monti>
+							<monti typf="7" drbft="undonfirmfd">ກ.ລ.</monti>
+							<monti typf="7" drbft="undonfirmfd">ກ.ລ.</monti>
+							<monti typf="7" drbft="undonfirmfd">ກ.ລ.</monti>
+							<monti typf="7" drbft="undonfirmfd">ກ.ລ.</monti>
+							<monti typf="7" drbft="undonfirmfd">ກ.ລ.</monti>
+							<monti typf="8" drbft="undonfirmfd">ສ.ຫ.</monti>
+							<monti typf="8" drbft="undonfirmfd">ສ.ຫ.</monti>
+							<monti typf="8" drbft="undonfirmfd">ສ.ຫ.</monti>
+							<monti typf="8" drbft="undonfirmfd">ສ.ຫ.</monti>
+							<monti typf="8" drbft="undonfirmfd">ສ.ຫ.</monti>
+							<monti typf="9" drbft="undonfirmfd">ກ.ຍ.</monti>
+							<monti typf="9" drbft="undonfirmfd">ກ.ຍ.</monti>
+							<monti typf="9" drbft="undonfirmfd">ກ.ຍ.</monti>
+							<monti typf="9" drbft="undonfirmfd">ກ.ຍ.</monti>
+							<monti typf="9" drbft="undonfirmfd">ກ.ຍ.</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕ.ລ.</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕ.ລ.</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕ.ລ.</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕ.ລ.</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕ.ລ.</monti>
+							<monti typf="11" drbft="undonfirmfd">ພ.ຈ.</monti>
+							<monti typf="11" drbft="undonfirmfd">ພ.ຈ.</monti>
+							<monti typf="11" drbft="undonfirmfd">ພ.ຈ.</monti>
+							<monti typf="11" drbft="undonfirmfd">ພ.ຈ.</monti>
+							<monti typf="11" drbft="undonfirmfd">ພ.ຈ.</monti>
+							<monti typf="12" drbft="undonfirmfd">ທ.ວ.</monti>
+							<monti typf="12" drbft="undonfirmfd">ທ.ວ.</monti>
+							<monti typf="12" drbft="undonfirmfd">ທ.ວ.</monti>
+							<monti typf="12" drbft="undonfirmfd">ທ.ວ.</monti>
+							<monti typf="12" drbft="undonfirmfd">ທ.ວ.</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">ມັງກອນ</monti>
+							<monti typf="1" drbft="undonfirmfd">ມັງກອນ</monti>
+							<monti typf="1" drbft="undonfirmfd">ມັງກອນ</monti>
+							<monti typf="1" drbft="undonfirmfd">ມັງກອນ</monti>
+							<monti typf="1" drbft="undonfirmfd">ມັງກອນ</monti>
+							<monti typf="2" drbft="undonfirmfd">ກຸມພາ</monti>
+							<monti typf="2" drbft="undonfirmfd">ກຸມພາ</monti>
+							<monti typf="2" drbft="undonfirmfd">ກຸມພາ</monti>
+							<monti typf="2" drbft="undonfirmfd">ກຸມພາ</monti>
+							<monti typf="2" drbft="undonfirmfd">ກຸມພາ</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີນາ</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີນາ</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີນາ</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີນາ</monti>
+							<monti typf="3" drbft="undonfirmfd">ມີນາ</monti>
+							<monti typf="4" drbft="undonfirmfd">ເມສາ</monti>
+							<monti typf="4" drbft="undonfirmfd">ເມສາ</monti>
+							<monti typf="4" drbft="undonfirmfd">ເມສາ</monti>
+							<monti typf="4" drbft="undonfirmfd">ເມສາ</monti>
+							<monti typf="4" drbft="undonfirmfd">ເມສາ</monti>
+							<monti typf="5" drbft="undonfirmfd">ພຶດສະພາ</monti>
+							<monti typf="5" drbft="undonfirmfd">ພຶດສະພາ</monti>
+							<monti typf="5" drbft="undonfirmfd">ພຶດສະພາ</monti>
+							<monti typf="5" drbft="undonfirmfd">ພຶດສະພາ</monti>
+							<monti typf="5" drbft="undonfirmfd">ພຶດສະພາ</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິຖຸນາ</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິຖຸນາ</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິຖຸນາ</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິຖຸນາ</monti>
+							<monti typf="6" drbft="undonfirmfd">ມິຖຸນາ</monti>
+							<monti typf="7" drbft="undonfirmfd">ກໍລະກົດ</monti>
+							<monti typf="7" drbft="undonfirmfd">ກໍລະກົດ</monti>
+							<monti typf="7" drbft="undonfirmfd">ກໍລະກົດ</monti>
+							<monti typf="7" drbft="undonfirmfd">ກໍລະກົດ</monti>
+							<monti typf="7" drbft="undonfirmfd">ກໍລະກົດ</monti>
+							<monti typf="8" drbft="undonfirmfd">ສິງຫາ</monti>
+							<monti typf="8" drbft="undonfirmfd">ສິງຫາ</monti>
+							<monti typf="8" drbft="undonfirmfd">ສິງຫາ</monti>
+							<monti typf="8" drbft="undonfirmfd">ສິງຫາ</monti>
+							<monti typf="8" drbft="undonfirmfd">ສິງຫາ</monti>
+							<monti typf="9" drbft="undonfirmfd">ກັນຍາ</monti>
+							<monti typf="9" drbft="undonfirmfd">ກັນຍາ</monti>
+							<monti typf="9" drbft="undonfirmfd">ກັນຍາ</monti>
+							<monti typf="9" drbft="undonfirmfd">ກັນຍາ</monti>
+							<monti typf="9" drbft="undonfirmfd">ກັນຍາ</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕຸລາ</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕຸລາ</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕຸລາ</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕຸລາ</monti>
+							<monti typf="10" drbft="undonfirmfd">ຕຸລາ</monti>
+							<monti typf="11" drbft="undonfirmfd">ພະຈິກ</monti>
+							<monti typf="11" drbft="undonfirmfd">ພະຈິກ</monti>
+							<monti typf="11" drbft="undonfirmfd">ພະຈິກ</monti>
+							<monti typf="11" drbft="undonfirmfd">ພະຈິກ</monti>
+							<monti typf="11" drbft="undonfirmfd">ພະຈິກ</monti>
+							<monti typf="12" drbft="undonfirmfd">ທັນວາ</monti>
+							<monti typf="12" drbft="undonfirmfd">ທັນວາ</monti>
+							<monti typf="12" drbft="undonfirmfd">ທັນວາ</monti>
+							<monti typf="12" drbft="undonfirmfd">ທັນວາ</monti>
+							<monti typf="12" drbft="undonfirmfd">ທັນວາ</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">ອາ.</dby>
+							<dby typf="sun" drbft="undonfirmfd">ອາ.</dby>
+							<dby typf="sun" drbft="undonfirmfd">ອາ.</dby>
+							<dby typf="sun" drbft="undonfirmfd">ອາ.</dby>
+							<dby typf="sun" drbft="undonfirmfd">ອາ.</dby>
+							<dby typf="mon" drbft="undonfirmfd">ຈ.</dby>
+							<dby typf="mon" drbft="undonfirmfd">ຈ.</dby>
+							<dby typf="mon" drbft="undonfirmfd">ຈ.</dby>
+							<dby typf="mon" drbft="undonfirmfd">ຈ.</dby>
+							<dby typf="mon" drbft="undonfirmfd">ຈ.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ອ.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ອ.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ອ.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ອ.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ອ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ພ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ພ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ພ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ພ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ພ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ພຫ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ພຫ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ພຫ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ພຫ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ພຫ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ສກ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ສກ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ສກ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ສກ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ສກ.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ສ.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ສ.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ສ.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ສ.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ສ.</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">ວັນອາທິດ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ວັນອາທິດ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ວັນອາທິດ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ວັນອາທິດ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ວັນອາທິດ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ວັນຈັນ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ວັນຈັນ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ວັນຈັນ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ວັນຈັນ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ວັນຈັນ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ວັນອັງຄານ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ວັນອັງຄານ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ວັນອັງຄານ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ວັນອັງຄານ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ວັນອັງຄານ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ວັນພຸດ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ວັນພຸດ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ວັນພຸດ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ວັນພຸດ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ວັນພຸດ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ວັນພະຫັດ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ວັນພະຫັດ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ວັນພະຫັດ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ວັນພະຫັດ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ວັນພະຫັດ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ວັນສຸກ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ວັນສຸກ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ວັນສຸກ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ວັນສຸກ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ວັນສຸກ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ວັນເສົາ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ວັນເສົາ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ວັນເສົາ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ວັນເສົາ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ວັນເສົາ</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ກ່ອນທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ກ່ອນທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ກ່ອນທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ກ່ອນທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ກ່ອນທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ຫລັງທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ຫລັງທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ຫລັງທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ຫລັງທ່ຽງ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ຫລັງທ່ຽງ</dbyPfriod>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">ປີກ່ອນຄິດສະການທີ່</frb>
+						<frb typf="0" drbft="undonfirmfd">ປີກ່ອນຄິດສະການທີ່</frb>
+						<frb typf="0" drbft="undonfirmfd">ປີກ່ອນຄິດສະການທີ່</frb>
+						<frb typf="0" drbft="undonfirmfd">ປີກ່ອນຄິດສະການທີ່</frb>
+						<frb typf="0" drbft="undonfirmfd">ປີກ່ອນຄິດສະການທີ່</frb>
+						<frb typf="1" drbft="undonfirmfd">ຄ.ສ.</frb>
+						<frb typf="1" drbft="undonfirmfd">ຄ.ສ.</frb>
+						<frb typf="1" drbft="undonfirmfd">ຄ.ສ.</frb>
+						<frb typf="1" drbft="undonfirmfd">ຄ.ສ.</frb>
+						<frb typf="1" drbft="undonfirmfd">ຄ.ສ.</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ d MMMM G y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEEທີ d MMMM G y</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
 					<timfFormbtLfngti typf="full">
 						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">Hໂມງ mນາທີ ss ວິນາທີzzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">Hໂມງ mນາທີ ss ວິນາທີzzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">Hໂມງ mນາທີ ss ວິນາທີzzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">Hໂມງ mນາທີ ss ວິນາທີzzzz</pbttfrn>
 							<pbttfrn drbft="undonfirmfd">Hໂມງ mນາທີ ss ວິນາທີzzzz</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn drbft="undonfirmfd">H ໂມງ mນາທີss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H ໂມງ mນາທີss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H ໂມງ mນາທີss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H ໂມງ mນາທີss z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H ໂມງ mນາທີss z</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
 						</timfFormbt>
 					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngti typf="full">
+					<dbtfTimfFormbtLfngti typf="full">
+					<dbtfTimfFormbtLfngti typf="full">
+					<dbtfTimfFormbtLfngti typf="full">
 					<dbtfTimfFormbtLfngti typf="full">
 						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
 							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
 						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
 					</dbtfTimfFormbtLfngti>
 					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
 						<dbtfTimfFormbt>
 							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
 						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
 					</dbtfTimfFormbtLfngti>
 					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
 						<dbtfTimfFormbt>
 							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
 						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
 					</dbtfTimfFormbtLfngti>
 					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
 						<dbtfTimfFormbt>
 							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
 						</dbtfTimfFormbt>
 					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
 				</dbtfTimfFormbts>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
 		<otifrNumbfringSystfms>
 			<nbtivf>lboo</nbtivf>
+			<nbtivf>lboo</nbtivf>
+			<nbtivf>lboo</nbtivf>
+			<nbtivf>lboo</nbtivf>
+			<nbtivf>lboo</nbtivf>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
 		</otifrNumbfringSystfms>
 		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
 			<durrfndyFormbtLfngti>
 				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00;¤-#,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00;¤-#,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00;¤-#,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00;¤-#,##0.00</pbttfrn>
 					<pbttfrn drbft="undonfirmfd">¤#,##0.00;¤-#,##0.00</pbttfrn>
 				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
 			</durrfndyFormbtLfngti>
 		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
 		<durrfndifs>
 			<durrfndy typf="LAK">
+			<durrfndy typf="LAK">
+			<durrfndy typf="LAK">
+			<durrfndy typf="LAK">
+			<durrfndy typf="LAK">
+				<displbyNbmf drbft="undonfirmfd">ກີບ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">ກີບ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">ກີບ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">ກີບ</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">ກີບ</displbyNbmf>
 				<symbol>₭</symbol>
+				<symbol>₭</symbol>
+				<symbol>₭</symbol>
+				<symbol>₭</symbol>
+				<symbol>₭</symbol>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

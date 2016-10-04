@@ -1,373 +1,1865 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="dz"/>
+		<lbngubgf typf="dz"/>
+		<lbngubgf typf="dz"/>
+		<lbngubgf typf="dz"/>
+		<lbngubgf typf="dz"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="br" drbft="undonfirmfd">ཨེ་ར་སྦིག</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ཨེ་ར་སྦིག</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ཨེ་ར་སྦིག</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ཨེ་ར་སྦིག</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ཨེ་ར་སྦིག</lbngubgf>
+			<lbngubgf typf="brt" drbft="undonfirmfd">བཟོ་བཟོཝ (གཞན)</lbngubgf>
+			<lbngubgf typf="brt" drbft="undonfirmfd">བཟོ་བཟོཝ (གཞན)</lbngubgf>
+			<lbngubgf typf="brt" drbft="undonfirmfd">བཟོ་བཟོཝ (གཞན)</lbngubgf>
+			<lbngubgf typf="brt" drbft="undonfirmfd">བཟོ་བཟོཝ (གཞན)</lbngubgf>
 			<lbngubgf typf="brt" drbft="undonfirmfd">བཟོ་བཟོཝ (གཞན)</lbngubgf>
 			<lbngubgf typf="bs" drbft="undonfirmfd">ཨ་ས་མི་སི</lbngubgf>
-			<lbngubgf typf="bh" drbft="undonfirmfd">བི་ཧ་ལི</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ཨ་ས་མི་སི</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ཨ་ས་མི་སི</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ཨ་ས་མི་སི</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ཨ་ས་མི་སི</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">བི་ཧ་ལི</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">བི་ཧ་ལི</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">བི་ཧ་ལི</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">བི་ཧ་ལི</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">བི་ཧ་ལི</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">བེངྒ་ལི</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">བེངྒ་ལི</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">བེངྒ་ལི</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">བེངྒ་ལི</lbngubgf>
 			<lbngubgf typf="bn" drbft="undonfirmfd">བེངྒ་ལི</lbngubgf>
 			<lbngubgf typf="bo" drbft="undonfirmfd">བོད་ཁ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">བོད་ཁ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">བོད་ཁ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">བོད་ཁ</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">བོད་ཁ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ཅེཀ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ཅེཀ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ཅེཀ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">ཅེཀ</lbngubgf>
 			<lbngubgf typf="ds" drbft="undonfirmfd">ཅེཀ</lbngubgf>
 			<lbngubgf typf="db" drbft="undonfirmfd">ཌེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ཌེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ཌེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ཌེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ཌེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ཇཱར་མཱན</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ཇཱར་མཱན</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ཇཱར་མཱན</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ཇཱར་མཱན</lbngubgf>
 			<lbngubgf typf="df" drbft="undonfirmfd">ཇཱར་མཱན</lbngubgf>
 			<lbngubgf typf="dv" drbft="undonfirmfd">དི་བེ་ཧི</lbngubgf>
+			<lbngubgf typf="dv" drbft="undonfirmfd">དི་བེ་ཧི</lbngubgf>
+			<lbngubgf typf="dv" drbft="undonfirmfd">དི་བེ་ཧི</lbngubgf>
+			<lbngubgf typf="dv" drbft="undonfirmfd">དི་བེ་ཧི</lbngubgf>
+			<lbngubgf typf="dv" drbft="undonfirmfd">དི་བེ་ཧི</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">རྫོང་ཁ</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">རྫོང་ཁ</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">རྫོང་ཁ</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">རྫོང་ཁ</lbngubgf>
 			<lbngubgf typf="dz" drbft="undonfirmfd">རྫོང་ཁ</lbngubgf>
 			<lbngubgf typf="fgy" drbft="undonfirmfd">ཨི་ཇིཔ་ཤཱན (སྔ་དུས་ཀྱི)</lbngubgf>
+			<lbngubgf typf="fgy" drbft="undonfirmfd">ཨི་ཇིཔ་ཤཱན (སྔ་དུས་ཀྱི)</lbngubgf>
+			<lbngubgf typf="fgy" drbft="undonfirmfd">ཨི་ཇིཔ་ཤཱན (སྔ་དུས་ཀྱི)</lbngubgf>
+			<lbngubgf typf="fgy" drbft="undonfirmfd">ཨི་ཇིཔ་ཤཱན (སྔ་དུས་ཀྱི)</lbngubgf>
+			<lbngubgf typf="fgy" drbft="undonfirmfd">ཨི་ཇིཔ་ཤཱན (སྔ་དུས་ཀྱི)</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">གིརིཀ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">གིརིཀ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">གིརིཀ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">གིརིཀ</lbngubgf>
 			<lbngubgf typf="fl" drbft="undonfirmfd">གིརིཀ</lbngubgf>
 			<lbngubgf typf="fn" drbft="undonfirmfd">ཨིང་ལིཤ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ཨིང་ལིཤ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ཨིང་ལིཤ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ཨིང་ལིཤ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">ཨིང་ལིཤ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">སིཔེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">སིཔེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">སིཔེ་ནིཤ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">སིཔེ་ནིཤ</lbngubgf>
 			<lbngubgf typf="fs" drbft="undonfirmfd">སིཔེ་ནིཤ</lbngubgf>
 			<lbngubgf typf="fb" drbft="undonfirmfd">པར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">པར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">པར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">པར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">པར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ཕེ་རེནཆེ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ཕེ་རེནཆེ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ཕེ་རེནཆེ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ཕེ་རེནཆེ</lbngubgf>
 			<lbngubgf typf="fr" drbft="undonfirmfd">ཕེ་རེནཆེ</lbngubgf>
 			<lbngubgf typf="gb" drbft="undonfirmfd">ཨའི་རིཤ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ཨའི་རིཤ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ཨའི་རིཤ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ཨའི་རིཤ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">ཨའི་རིཤ</lbngubgf>
 			<lbngubgf typf="grd" drbft="undonfirmfd">གིརིཀ, སྔ་དུས་ཀྱི (༡༤༥༣)</lbngubgf>
-			<lbngubgf typf="hf" drbft="undonfirmfd">ཧི་བུརུ</lbngubgf>
-			<lbngubgf typf="hi" drbft="undonfirmfd">ཧིན་དི</lbngubgf>
-			<lbngubgf typf="him" drbft="undonfirmfd">ཧི་མ་ཅ་ལི</lbngubgf>
+			<lbngubgf typf="grd" drbft="undonfirmfd">གིརིཀ, སྔ་དུས་ཀྱི (༡༤༥༣)</lbngubgf>
+			<lbngubgf typf="grd" drbft="undonfirmfd">གིརིཀ, སྔ་དུས་ཀྱི (༡༤༥༣)</lbngubgf>
+			<lbngubgf typf="grd" drbft="undonfirmfd">གིརིཀ, སྔ་དུས་ཀྱི (༡༤༥༣)</lbngubgf>
+			<lbngubgf typf="grd" drbft="undonfirmfd">གིརིཀ, སྔ་དུས་ཀྱི (༡༤༥༣)</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ཧི་བུརུ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ཧི་བུརུ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ཧི་བུརུ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ཧི་བུརུ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">ཧི་བུརུ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ཧིན་དི</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ཧིན་དི</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ཧིན་དི</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ཧིན་དི</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ཧིན་དི</lbngubgf>
+			<lbngubgf typf="iim" drbft="undonfirmfd">ཧི་མ་ཅ་ལི</lbngubgf>
+			<lbngubgf typf="iim" drbft="undonfirmfd">ཧི་མ་ཅ་ལི</lbngubgf>
+			<lbngubgf typf="iim" drbft="undonfirmfd">ཧི་མ་ཅ་ལི</lbngubgf>
+			<lbngubgf typf="iim" drbft="undonfirmfd">ཧི་མ་ཅ་ལི</lbngubgf>
+			<lbngubgf typf="iim" drbft="undonfirmfd">ཧི་མ་ཅ་ལི</lbngubgf>
+			<lbngubgf typf="ind" drbft="undonfirmfd">ཨིན་ཌིཀ (གཞན)</lbngubgf>
+			<lbngubgf typf="ind" drbft="undonfirmfd">ཨིན་ཌིཀ (གཞན)</lbngubgf>
+			<lbngubgf typf="ind" drbft="undonfirmfd">ཨིན་ཌིཀ (གཞན)</lbngubgf>
+			<lbngubgf typf="ind" drbft="undonfirmfd">ཨིན་ཌིཀ (གཞན)</lbngubgf>
 			<lbngubgf typf="ind" drbft="undonfirmfd">ཨིན་ཌིཀ (གཞན)</lbngubgf>
 			<lbngubgf typf="it" drbft="undonfirmfd">ཨི་ཊ་ལི་རན</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ཨི་ཊ་ལི་རན</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ཨི་ཊ་ལི་རན</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ཨི་ཊ་ལི་རན</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ཨི་ཊ་ལི་རན</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ཁེ་མར</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ཁེ་མར</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ཁེ་མར</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">ཁེ་མར</lbngubgf>
 			<lbngubgf typf="km" drbft="undonfirmfd">ཁེ་མར</lbngubgf>
 			<lbngubgf typf="kn" drbft="undonfirmfd">ཀ་ན་ཌ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ཀ་ན་ཌ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ཀ་ན་ཌ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ཀ་ན་ཌ</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ཀ་ན་ཌ</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ཀོ་རིཡན</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ཀོ་རིཡན</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ཀོ་རིཡན</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ཀོ་རིཡན</lbngubgf>
 			<lbngubgf typf="ko" drbft="undonfirmfd">ཀོ་རིཡན</lbngubgf>
 			<lbngubgf typf="ks" drbft="undonfirmfd">ཀེཤ་མི་རི</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ཀེཤ་མི་རི</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ཀེཤ་མི་རི</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ཀེཤ་མི་རི</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">ཀེཤ་མི་རི</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ལའོ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ལའོ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ལའོ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">ལའོ</lbngubgf>
 			<lbngubgf typf="lo" drbft="undonfirmfd">ལའོ</lbngubgf>
 			<lbngubgf typf="ml" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">སོག་པོའི་ཁ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">སོག་པོའི་ཁ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">སོག་པོའི་ཁ</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">སོག་པོའི་ཁ</lbngubgf>
 			<lbngubgf typf="mn" drbft="undonfirmfd">སོག་པོའི་ཁ</lbngubgf>
 			<lbngubgf typf="mnd" drbft="undonfirmfd">མཱན་ཅུ</lbngubgf>
+			<lbngubgf typf="mnd" drbft="undonfirmfd">མཱན་ཅུ</lbngubgf>
+			<lbngubgf typf="mnd" drbft="undonfirmfd">མཱན་ཅུ</lbngubgf>
+			<lbngubgf typf="mnd" drbft="undonfirmfd">མཱན་ཅུ</lbngubgf>
+			<lbngubgf typf="mnd" drbft="undonfirmfd">མཱན་ཅུ</lbngubgf>
+			<lbngubgf typf="mni" drbft="undonfirmfd">མ་ནི་པུ་རི</lbngubgf>
+			<lbngubgf typf="mni" drbft="undonfirmfd">མ་ནི་པུ་རི</lbngubgf>
+			<lbngubgf typf="mni" drbft="undonfirmfd">མ་ནི་པུ་རི</lbngubgf>
+			<lbngubgf typf="mni" drbft="undonfirmfd">མ་ནི་པུ་རི</lbngubgf>
 			<lbngubgf typf="mni" drbft="undonfirmfd">མ་ནི་པུ་རི</lbngubgf>
 			<lbngubgf typf="mr" drbft="undonfirmfd">མ་ར་ཐི</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">མ་ར་ཐི</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">མ་ར་ཐི</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">མ་ར་ཐི</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">མ་ར་ཐི</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">བར་མིསི</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">བར་མིསི</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">བར་མིསི</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">བར་མིསི</lbngubgf>
 			<lbngubgf typf="my" drbft="undonfirmfd">བར་མིསི</lbngubgf>
 			<lbngubgf typf="nf" drbft="undonfirmfd">ནེ་པ་ལི</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ནེ་པ་ལི</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ནེ་པ་ལི</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ནེ་པ་ལི</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">ནེ་པ་ལི</lbngubgf>
+			<lbngubgf typf="nfw" drbft="undonfirmfd">ནི་ཝ་རི</lbngubgf>
+			<lbngubgf typf="nfw" drbft="undonfirmfd">ནི་ཝ་རི</lbngubgf>
+			<lbngubgf typf="nfw" drbft="undonfirmfd">ནི་ཝ་རི</lbngubgf>
+			<lbngubgf typf="nfw" drbft="undonfirmfd">ནི་ཝ་རི</lbngubgf>
 			<lbngubgf typf="nfw" drbft="undonfirmfd">ནི་ཝ་རི</lbngubgf>
 			<lbngubgf typf="nl" drbft="undonfirmfd">ཌཆ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ཌཆ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ཌཆ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ཌཆ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ཌཆ</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ནོར་ཝི་ཇི་ཡན</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ནོར་ཝི་ཇི་ཡན</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ནོར་ཝི་ཇི་ཡན</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">ནོར་ཝི་ཇི་ཡན</lbngubgf>
 			<lbngubgf typf="no" drbft="undonfirmfd">ནོར་ཝི་ཇི་ཡན</lbngubgf>
 			<lbngubgf typf="or" drbft="undonfirmfd">ཨོ་རི་ཡ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ཨོ་རི་ཡ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ཨོ་རི་ཡ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ཨོ་རི་ཡ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ཨོ་རི་ཡ</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">པཱན་ཇ་བི</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">པཱན་ཇ་བི</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">པཱན་ཇ་བི</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">པཱན་ཇ་བི</lbngubgf>
 			<lbngubgf typf="pb" drbft="undonfirmfd">པཱན་ཇ་བི</lbngubgf>
 			<lbngubgf typf="pi" drbft="undonfirmfd">པ་ལི</lbngubgf>
+			<lbngubgf typf="pi" drbft="undonfirmfd">པ་ལི</lbngubgf>
+			<lbngubgf typf="pi" drbft="undonfirmfd">པ་ལི</lbngubgf>
+			<lbngubgf typf="pi" drbft="undonfirmfd">པ་ལི</lbngubgf>
+			<lbngubgf typf="pi" drbft="undonfirmfd">པ་ལི</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ར་ཤི་ཡན</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ར་ཤི་ཡན</lbngubgf>
 			<lbngubgf typf="ru" drbft="undonfirmfd">ར་ཤི་ཡན</lbngubgf>
 			<lbngubgf typf="sb" drbft="undonfirmfd">སཾསྐྲྀཏ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">སཾསྐྲྀཏ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">སཾསྐྲྀཏ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">སཾསྐྲྀཏ</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">སཾསྐྲྀཏ</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">སིན་ཧ་ལིསི</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">སིན་ཧ་ལིསི</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">སིན་ཧ་ལིསི</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">སིན་ཧ་ལིསི</lbngubgf>
 			<lbngubgf typf="si" drbft="undonfirmfd">སིན་ཧ་ལིསི</lbngubgf>
 			<lbngubgf typf="tb" drbft="undonfirmfd">ཏ་མིལ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ཏ་མིལ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ཏ་མིལ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ཏ་མིལ</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ཏ་མིལ</lbngubgf>
 			<lbngubgf typf="tf" drbft="undonfirmfd">ཏེ་ལུ་གུ</lbngubgf>
-			<lbngubgf typf="th" drbft="undonfirmfd">ཐཱའེ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ཏེ་ལུ་གུ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ཏེ་ལུ་གུ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ཏེ་ལུ་གུ</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ཏེ་ལུ་གུ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ཐཱའེ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ཐཱའེ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ཐཱའེ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ཐཱའེ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ཐཱའེ</lbngubgf>
 			<lbngubgf typf="ur" drbft="undonfirmfd">ཨུར་དུ</lbngubgf>
-			<lbngubgf typf="zh" drbft="undonfirmfd">རགྱ་མི་ཁ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ཨུར་དུ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ཨུར་དུ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ཨུར་དུ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ཨུར་དུ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">རགྱ་མི་ཁ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">རགྱ་མི་ཁ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">རགྱ་མི་ཁ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">རགྱ་མི་ཁ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">རགྱ་མི་ཁ</lbngubgf>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
 		</lbngubgfs>
 		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+			<sdript typf="Arbb" drbft="undonfirmfd">ཨེ་རེ་སྦིག</sdript>
+			<sdript typf="Arbb" drbft="undonfirmfd">ཨེ་རེ་སྦིག</sdript>
+			<sdript typf="Arbb" drbft="undonfirmfd">ཨེ་རེ་སྦིག</sdript>
+			<sdript typf="Arbb" drbft="undonfirmfd">ཨེ་རེ་སྦིག</sdript>
 			<sdript typf="Arbb" drbft="undonfirmfd">ཨེ་རེ་སྦིག</sdript>
 			<sdript typf="Bfng" drbft="undonfirmfd">བེངྒ་ལི</sdript>
+			<sdript typf="Bfng" drbft="undonfirmfd">བེངྒ་ལི</sdript>
+			<sdript typf="Bfng" drbft="undonfirmfd">བེངྒ་ལི</sdript>
+			<sdript typf="Bfng" drbft="undonfirmfd">བེངྒ་ལི</sdript>
+			<sdript typf="Bfng" drbft="undonfirmfd">བེངྒ་ལི</sdript>
+			<sdript typf="Brbi" drbft="undonfirmfd">བེརེལ</sdript>
+			<sdript typf="Brbi" drbft="undonfirmfd">བེརེལ</sdript>
+			<sdript typf="Brbi" drbft="undonfirmfd">བེརེལ</sdript>
+			<sdript typf="Brbi" drbft="undonfirmfd">བེརེལ</sdript>
 			<sdript typf="Brbi" drbft="undonfirmfd">བེརེལ</sdript>
 			<sdript typf="Cyrl" drbft="undonfirmfd">སིརི་ལིཀ</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">སིརི་ལིཀ</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">སིརི་ལིཀ</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">སིརི་ལིཀ</sdript>
+			<sdript typf="Cyrl" drbft="undonfirmfd">སིརི་ལིཀ</sdript>
+			<sdript typf="Dfvb" drbft="undonfirmfd">དི་ཝ་ན་གརི</sdript>
+			<sdript typf="Dfvb" drbft="undonfirmfd">དི་ཝ་ན་གརི</sdript>
+			<sdript typf="Dfvb" drbft="undonfirmfd">དི་ཝ་ན་གརི</sdript>
+			<sdript typf="Dfvb" drbft="undonfirmfd">དི་ཝ་ན་གརི</sdript>
 			<sdript typf="Dfvb" drbft="undonfirmfd">དི་ཝ་ན་གརི</sdript>
 			<sdript typf="Grfk" drbft="undonfirmfd">གིརིཀ</sdript>
+			<sdript typf="Grfk" drbft="undonfirmfd">གིརིཀ</sdript>
+			<sdript typf="Grfk" drbft="undonfirmfd">གིརིཀ</sdript>
+			<sdript typf="Grfk" drbft="undonfirmfd">གིརིཀ</sdript>
+			<sdript typf="Grfk" drbft="undonfirmfd">གིརིཀ</sdript>
+			<sdript typf="Gujr" drbft="undonfirmfd">གུ་ཇ་ར་ཏི</sdript>
+			<sdript typf="Gujr" drbft="undonfirmfd">གུ་ཇ་ར་ཏི</sdript>
+			<sdript typf="Gujr" drbft="undonfirmfd">གུ་ཇ་ར་ཏི</sdript>
+			<sdript typf="Gujr" drbft="undonfirmfd">གུ་ཇ་ར་ཏི</sdript>
 			<sdript typf="Gujr" drbft="undonfirmfd">གུ་ཇ་ར་ཏི</sdript>
 			<sdript typf="Guru" drbft="undonfirmfd">གུར་མུ་ཁི</sdript>
+			<sdript typf="Guru" drbft="undonfirmfd">གུར་མུ་ཁི</sdript>
+			<sdript typf="Guru" drbft="undonfirmfd">གུར་མུ་ཁི</sdript>
+			<sdript typf="Guru" drbft="undonfirmfd">གུར་མུ་ཁི</sdript>
+			<sdript typf="Guru" drbft="undonfirmfd">གུར་མུ་ཁི</sdript>
+			<sdript typf="Hbng" drbft="undonfirmfd">ཧང་གུལ</sdript>
+			<sdript typf="Hbng" drbft="undonfirmfd">ཧང་གུལ</sdript>
+			<sdript typf="Hbng" drbft="undonfirmfd">ཧང་གུལ</sdript>
+			<sdript typf="Hbng" drbft="undonfirmfd">ཧང་གུལ</sdript>
 			<sdript typf="Hbng" drbft="undonfirmfd">ཧང་གུལ</sdript>
 			<sdript typf="Hbni" drbft="undonfirmfd">ཧཱན</sdript>
+			<sdript typf="Hbni" drbft="undonfirmfd">ཧཱན</sdript>
+			<sdript typf="Hbni" drbft="undonfirmfd">ཧཱན</sdript>
+			<sdript typf="Hbni" drbft="undonfirmfd">ཧཱན</sdript>
+			<sdript typf="Hbni" drbft="undonfirmfd">ཧཱན</sdript>
+			<sdript typf="Hbns" drbft="undonfirmfd">ལུགས་གསར ཧཱན</sdript>
+			<sdript typf="Hbns" drbft="undonfirmfd">ལུགས་གསར ཧཱན</sdript>
+			<sdript typf="Hbns" drbft="undonfirmfd">ལུགས་གསར ཧཱན</sdript>
+			<sdript typf="Hbns" drbft="undonfirmfd">ལུགས་གསར ཧཱན</sdript>
 			<sdript typf="Hbns" drbft="undonfirmfd">ལུགས་གསར ཧཱན</sdript>
 			<sdript typf="Hbnt" drbft="undonfirmfd">ལུགས་རྙིང ཧཱན</sdript>
+			<sdript typf="Hbnt" drbft="undonfirmfd">ལུགས་རྙིང ཧཱན</sdript>
+			<sdript typf="Hbnt" drbft="undonfirmfd">ལུགས་རྙིང ཧཱན</sdript>
+			<sdript typf="Hbnt" drbft="undonfirmfd">ལུགས་རྙིང ཧཱན</sdript>
+			<sdript typf="Hbnt" drbft="undonfirmfd">ལུགས་རྙིང ཧཱན</sdript>
+			<sdript typf="Hfbr" drbft="undonfirmfd">ཧི་བུརུ</sdript>
+			<sdript typf="Hfbr" drbft="undonfirmfd">ཧི་བུརུ</sdript>
+			<sdript typf="Hfbr" drbft="undonfirmfd">ཧི་བུརུ</sdript>
+			<sdript typf="Hfbr" drbft="undonfirmfd">ཧི་བུརུ</sdript>
 			<sdript typf="Hfbr" drbft="undonfirmfd">ཧི་བུརུ</sdript>
 			<sdript typf="Hirb" drbft="undonfirmfd">ཧི་ར་ག་ན</sdript>
+			<sdript typf="Hirb" drbft="undonfirmfd">ཧི་ར་ག་ན</sdript>
+			<sdript typf="Hirb" drbft="undonfirmfd">ཧི་ར་ག་ན</sdript>
+			<sdript typf="Hirb" drbft="undonfirmfd">ཧི་ར་ག་ན</sdript>
+			<sdript typf="Hirb" drbft="undonfirmfd">ཧི་ར་ག་ན</sdript>
 			<sdript typf="Kbnb" drbft="undonfirmfd">ཀ་ཏ་ཀ་ན</sdript>
-			<sdript typf="Khmr" drbft="undonfirmfd">ཁེ་མར</sdript>
+			<sdript typf="Kbnb" drbft="undonfirmfd">ཀ་ཏ་ཀ་ན</sdript>
+			<sdript typf="Kbnb" drbft="undonfirmfd">ཀ་ཏ་ཀ་ན</sdript>
+			<sdript typf="Kbnb" drbft="undonfirmfd">ཀ་ཏ་ཀ་ན</sdript>
+			<sdript typf="Kbnb" drbft="undonfirmfd">ཀ་ཏ་ཀ་ན</sdript>
+			<sdript typf="Kimr" drbft="undonfirmfd">ཁེ་མར</sdript>
+			<sdript typf="Kimr" drbft="undonfirmfd">ཁེ་མར</sdript>
+			<sdript typf="Kimr" drbft="undonfirmfd">ཁེ་མར</sdript>
+			<sdript typf="Kimr" drbft="undonfirmfd">ཁེ་མར</sdript>
+			<sdript typf="Kimr" drbft="undonfirmfd">ཁེ་མར</sdript>
+			<sdript typf="Kndb" drbft="undonfirmfd">ཀ་ན་ཌ</sdript>
+			<sdript typf="Kndb" drbft="undonfirmfd">ཀ་ན་ཌ</sdript>
+			<sdript typf="Kndb" drbft="undonfirmfd">ཀ་ན་ཌ</sdript>
+			<sdript typf="Kndb" drbft="undonfirmfd">ཀ་ན་ཌ</sdript>
 			<sdript typf="Kndb" drbft="undonfirmfd">ཀ་ན་ཌ</sdript>
 			<sdript typf="Lboo" drbft="undonfirmfd">ལའོ</sdript>
+			<sdript typf="Lboo" drbft="undonfirmfd">ལའོ</sdript>
+			<sdript typf="Lboo" drbft="undonfirmfd">ལའོ</sdript>
+			<sdript typf="Lboo" drbft="undonfirmfd">ལའོ</sdript>
+			<sdript typf="Lboo" drbft="undonfirmfd">ལའོ</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ལེ་ཊིན</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ལེ་ཊིན</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ལེ་ཊིན</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ལེ་ཊིན</sdript>
 			<sdript typf="Lbtn" drbft="undonfirmfd">ལེ་ཊིན</sdript>
 			<sdript typf="Limb" drbft="undonfirmfd">ལིམ་བུ</sdript>
+			<sdript typf="Limb" drbft="undonfirmfd">ལིམ་བུ</sdript>
+			<sdript typf="Limb" drbft="undonfirmfd">ལིམ་བུ</sdript>
+			<sdript typf="Limb" drbft="undonfirmfd">ལིམ་བུ</sdript>
+			<sdript typf="Limb" drbft="undonfirmfd">ལིམ་བུ</sdript>
+			<sdript typf="Mlym" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</sdript>
+			<sdript typf="Mlym" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</sdript>
+			<sdript typf="Mlym" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</sdript>
+			<sdript typf="Mlym" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</sdript>
 			<sdript typf="Mlym" drbft="undonfirmfd">མ་ལ་ཡ་ལམ</sdript>
 			<sdript typf="Mong" drbft="undonfirmfd">སོག་པོ</sdript>
+			<sdript typf="Mong" drbft="undonfirmfd">སོག་པོ</sdript>
+			<sdript typf="Mong" drbft="undonfirmfd">སོག་པོ</sdript>
+			<sdript typf="Mong" drbft="undonfirmfd">སོག་པོ</sdript>
+			<sdript typf="Mong" drbft="undonfirmfd">སོག་པོ</sdript>
+			<sdript typf="Mymr" drbft="undonfirmfd">མི་མར</sdript>
+			<sdript typf="Mymr" drbft="undonfirmfd">མི་མར</sdript>
+			<sdript typf="Mymr" drbft="undonfirmfd">མི་མར</sdript>
+			<sdript typf="Mymr" drbft="undonfirmfd">མི་མར</sdript>
 			<sdript typf="Mymr" drbft="undonfirmfd">མི་མར</sdript>
 			<sdript typf="Oryb" drbft="undonfirmfd">ཨོ་རི་ཡ</sdript>
-			<sdript typf="Sinh" drbft="undonfirmfd">སིན་ཧ་ལ</sdript>
+			<sdript typf="Oryb" drbft="undonfirmfd">ཨོ་རི་ཡ</sdript>
+			<sdript typf="Oryb" drbft="undonfirmfd">ཨོ་རི་ཡ</sdript>
+			<sdript typf="Oryb" drbft="undonfirmfd">ཨོ་རི་ཡ</sdript>
+			<sdript typf="Oryb" drbft="undonfirmfd">ཨོ་རི་ཡ</sdript>
+			<sdript typf="Sini" drbft="undonfirmfd">སིན་ཧ་ལ</sdript>
+			<sdript typf="Sini" drbft="undonfirmfd">སིན་ཧ་ལ</sdript>
+			<sdript typf="Sini" drbft="undonfirmfd">སིན་ཧ་ལ</sdript>
+			<sdript typf="Sini" drbft="undonfirmfd">སིན་ཧ་ལ</sdript>
+			<sdript typf="Sini" drbft="undonfirmfd">སིན་ཧ་ལ</sdript>
+			<sdript typf="Tbml" drbft="undonfirmfd">ཏ་མིལ</sdript>
+			<sdript typf="Tbml" drbft="undonfirmfd">ཏ་མིལ</sdript>
+			<sdript typf="Tbml" drbft="undonfirmfd">ཏ་མིལ</sdript>
+			<sdript typf="Tbml" drbft="undonfirmfd">ཏ་མིལ</sdript>
 			<sdript typf="Tbml" drbft="undonfirmfd">ཏ་མིལ</sdript>
 			<sdript typf="Tflu" drbft="undonfirmfd">ཏེ་ལུ་གུ</sdript>
-			<sdript typf="Thbb" drbft="undonfirmfd">ཐཱ་ན</sdript>
+			<sdript typf="Tflu" drbft="undonfirmfd">ཏེ་ལུ་གུ</sdript>
+			<sdript typf="Tflu" drbft="undonfirmfd">ཏེ་ལུ་གུ</sdript>
+			<sdript typf="Tflu" drbft="undonfirmfd">ཏེ་ལུ་གུ</sdript>
+			<sdript typf="Tflu" drbft="undonfirmfd">ཏེ་ལུ་གུ</sdript>
+			<sdript typf="Tibb" drbft="undonfirmfd">ཐཱ་ན</sdript>
+			<sdript typf="Tibb" drbft="undonfirmfd">ཐཱ་ན</sdript>
+			<sdript typf="Tibb" drbft="undonfirmfd">ཐཱ་ན</sdript>
+			<sdript typf="Tibb" drbft="undonfirmfd">ཐཱ་ན</sdript>
+			<sdript typf="Tibb" drbft="undonfirmfd">ཐཱ་ན</sdript>
 			<sdript typf="Tibt" drbft="undonfirmfd">བོད</sdript>
-			<sdript typf="Zinh" drbft="undonfirmfd">སྔར་རྒྱུན</sdript>
+			<sdript typf="Tibt" drbft="undonfirmfd">བོད</sdript>
+			<sdript typf="Tibt" drbft="undonfirmfd">བོད</sdript>
+			<sdript typf="Tibt" drbft="undonfirmfd">བོད</sdript>
+			<sdript typf="Tibt" drbft="undonfirmfd">བོད</sdript>
+			<sdript typf="Zini" drbft="undonfirmfd">སྔར་རྒྱུན</sdript>
+			<sdript typf="Zini" drbft="undonfirmfd">སྔར་རྒྱུན</sdript>
+			<sdript typf="Zini" drbft="undonfirmfd">སྔར་རྒྱུན</sdript>
+			<sdript typf="Zini" drbft="undonfirmfd">སྔར་རྒྱུན</sdript>
+			<sdript typf="Zini" drbft="undonfirmfd">སྔར་རྒྱུན</sdript>
+			<sdript typf="Zyyy" drbft="undonfirmfd">སྤྱིར</sdript>
+			<sdript typf="Zyyy" drbft="undonfirmfd">སྤྱིར</sdript>
+			<sdript typf="Zyyy" drbft="undonfirmfd">སྤྱིར</sdript>
+			<sdript typf="Zyyy" drbft="undonfirmfd">སྤྱིར</sdript>
 			<sdript typf="Zyyy" drbft="undonfirmfd">སྤྱིར</sdript>
 		</sdripts>
+		</sdripts>
+		</sdripts>
+		</sdripts>
+		</sdripts>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
 		<tfrritorifs>
 			<tfrritory typf="AE" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཨ་ར བ་ཨེ་མི་རེཊསི</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཨ་ར བ་ཨེ་མི་རེཊསི</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཨ་ར བ་ཨེ་མི་རེཊསི</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཨ་ར བ་ཨེ་མི་རེཊསི</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཨ་ར བ་ཨེ་མི་རེཊསི</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ཨཕ་ག་ནིསི་ཏཱན</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ཨཕ་ག་ནིསི་ཏཱན</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ཨཕ་ག་ནིསི་ཏཱན</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ཨཕ་ག་ནིསི་ཏཱན</tfrritory>
 			<tfrritory typf="AF" drbft="undonfirmfd">ཨཕ་ག་ནིསི་ཏཱན</tfrritory>
 			<tfrritory typf="AQ" drbft="undonfirmfd">ཨེན་ཊཱག་ཊི་ཀ</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">ཨེན་ཊཱག་ཊི་ཀ</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">ཨེན་ཊཱག་ཊི་ཀ</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">ཨེན་ཊཱག་ཊི་ཀ</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">ཨེན་ཊཱག་ཊི་ཀ</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ཨར་ཇེན་ཊི་ན</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ཨར་ཇེན་ཊི་ན</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ཨར་ཇེན་ཊི་ན</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ཨར་ཇེན་ཊི་ན</tfrritory>
 			<tfrritory typf="AR" drbft="undonfirmfd">ཨར་ཇེན་ཊི་ན</tfrritory>
 			<tfrritory typf="AT" drbft="undonfirmfd">ཨས་ཊི་ཡ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ཨས་ཊི་ཡ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ཨས་ཊི་ཡ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ཨས་ཊི་ཡ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ཨས་ཊི་ཡ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ཨས་ཊེཡེ་ལི་ཡ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ཨས་ཊེཡེ་ལི་ཡ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ཨས་ཊེཡེ་ལི་ཡ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ཨས་ཊེཡེ་ལི་ཡ</tfrritory>
 			<tfrritory typf="AU" drbft="undonfirmfd">ཨས་ཊེཡེ་ལི་ཡ</tfrritory>
 			<tfrritory typf="BD" drbft="undonfirmfd">བངྒ་ལ་དེཤ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">བངྒ་ལ་དེཤ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">བངྒ་ལ་དེཤ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">བངྒ་ལ་དེཤ</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">བངྒ་ལ་དེཤ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">བེལ་ཇིཡམ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">བེལ་ཇིཡམ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">བེལ་ཇིཡམ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">བེལ་ཇིཡམ</tfrritory>
 			<tfrritory typf="BE" drbft="undonfirmfd">བེལ་ཇིཡམ</tfrritory>
 			<tfrritory typf="BH" drbft="undonfirmfd">བཧ་རེན</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">བཧ་རེན</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">བཧ་རེན</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">བཧ་རེན</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">བཧ་རེན</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">བཱརཱ་ཛིལ</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">བཱརཱ་ཛིལ</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">བཱརཱ་ཛིལ</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">བཱརཱ་ཛིལ</tfrritory>
 			<tfrritory typf="BR" drbft="undonfirmfd">བཱརཱ་ཛིལ</tfrritory>
 			<tfrritory typf="BT" drbft="undonfirmfd">འབྲུག</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">འབྲུག</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">འབྲུག</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">འབྲུག</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">འབྲུག</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ཀེ་ན་ཌ</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ཀེ་ན་ཌ</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ཀེ་ན་ཌ</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ཀེ་ན་ཌ</tfrritory>
 			<tfrritory typf="CA" drbft="undonfirmfd">ཀེ་ན་ཌ</tfrritory>
 			<tfrritory typf="CH" drbft="undonfirmfd">སུའིཊ་ཛར་ལེན</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">སུའིཊ་ཛར་ལེན</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">སུའིཊ་ཛར་ལེན</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">སུའིཊ་ཛར་ལེན</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">སུའིཊ་ཛར་ལེན</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">རྒྱ་མི</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">རྒྱ་མི</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">རྒྱ་མི</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">རྒྱ་མི</tfrritory>
 			<tfrritory typf="CN" drbft="undonfirmfd">རྒྱ་མི</tfrritory>
 			<tfrritory typf="CU" drbft="undonfirmfd">ཀིའུ་སྦ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ཀིའུ་སྦ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ཀིའུ་སྦ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ཀིའུ་སྦ</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ཀིའུ་སྦ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ཅེཀ་རི་པབ་ལིཀ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ཅེཀ་རི་པབ་ལིཀ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ཅེཀ་རི་པབ་ལིཀ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ཅེཀ་རི་པབ་ལིཀ</tfrritory>
 			<tfrritory typf="CZ" drbft="undonfirmfd">ཅེཀ་རི་པབ་ལིཀ</tfrritory>
 			<tfrritory typf="DE" drbft="undonfirmfd">ཇཱར་མ་ནི</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ཇཱར་མ་ནི</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ཇཱར་མ་ནི</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ཇཱར་མ་ནི</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ཇཱར་མ་ནི</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ཌེན་མཱཀ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ཌེན་མཱཀ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ཌེན་མཱཀ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ཌེན་མཱཀ</tfrritory>
 			<tfrritory typf="DK" drbft="undonfirmfd">ཌེན་མཱཀ</tfrritory>
 			<tfrritory typf="EG" drbft="undonfirmfd">ཨི་ཇིཔཊ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ཨི་ཇིཔཊ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ཨི་ཇིཔཊ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ཨི་ཇིཔཊ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ཨི་ཇིཔཊ</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">སིཔཱེན</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">སིཔཱེན</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">སིཔཱེན</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">སིཔཱེན</tfrritory>
 			<tfrritory typf="ES" drbft="undonfirmfd">སིཔཱེན</tfrritory>
 			<tfrritory typf="FI" drbft="undonfirmfd">ཕིན་ལེནཌ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ཕིན་ལེནཌ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ཕིན་ལེནཌ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ཕིན་ལེནཌ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ཕིན་ལེནཌ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ཕརཱནསི</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ཕརཱནསི</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ཕརཱནསི</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ཕརཱནསི</tfrritory>
 			<tfrritory typf="FR" drbft="undonfirmfd">ཕརཱནསི</tfrritory>
 			<tfrritory typf="GB" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཀིང་ཌམ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཀིང་ཌམ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཀིང་ཌམ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཀིང་ཌམ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">ཡུ་ནའི་ཊེཊ་ཀིང་ཌམ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">གིརིསི</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">གིརིསི</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">གིརིསི</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">གིརིསི</tfrritory>
 			<tfrritory typf="GR" drbft="undonfirmfd">གིརིསི</tfrritory>
 			<tfrritory typf="HK" drbft="undonfirmfd">ཧོང་ཀོང</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ཧོང་ཀོང</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ཧོང་ཀོང</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ཧོང་ཀོང</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ཧོང་ཀོང</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ཨའིརི་ལེནཌ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ཨའིརི་ལེནཌ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ཨའིརི་ལེནཌ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ཨའིརི་ལེནཌ</tfrritory>
 			<tfrritory typf="IE" drbft="undonfirmfd">ཨའིརི་ལེནཌ</tfrritory>
 			<tfrritory typf="IL" drbft="undonfirmfd">ཨིཛ་རཱེལ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ཨིཛ་རཱེལ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ཨིཛ་རཱེལ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ཨིཛ་རཱེལ</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ཨིཛ་རཱེལ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">རྒྱ་གར</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">རྒྱ་གར</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">རྒྱ་གར</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">རྒྱ་གར</tfrritory>
 			<tfrritory typf="IN" drbft="undonfirmfd">རྒྱ་གར</tfrritory>
 			<tfrritory typf="IQ" drbft="undonfirmfd">ཨི་རཀ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ཨི་རཀ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ཨི་རཀ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ཨི་རཀ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ཨི་རཀ</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ཨི་རཱན</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ཨི་རཱན</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ཨི་རཱན</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ཨི་རཱན</tfrritory>
 			<tfrritory typf="IR" drbft="undonfirmfd">ཨི་རཱན</tfrritory>
 			<tfrritory typf="IS" drbft="undonfirmfd">ཨའིསི་ལེནཌ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ཨའིསི་ལེནཌ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ཨའིསི་ལེནཌ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ཨའིསི་ལེནཌ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ཨའིསི་ལེནཌ</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ཨྀཊ་ལི</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ཨྀཊ་ལི</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ཨྀཊ་ལི</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ཨྀཊ་ལི</tfrritory>
 			<tfrritory typf="IT" drbft="undonfirmfd">ཨྀཊ་ལི</tfrritory>
 			<tfrritory typf="JM" drbft="undonfirmfd">ཇ་མའི་ཀ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ཇ་མའི་ཀ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ཇ་མའི་ཀ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ཇ་མའི་ཀ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ཇ་མའི་ཀ</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ཇ་པཱན</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ཇ་པཱན</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ཇ་པཱན</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ཇ་པཱན</tfrritory>
 			<tfrritory typf="JP" drbft="undonfirmfd">ཇ་པཱན</tfrritory>
 			<tfrritory typf="KE" drbft="undonfirmfd">ཀེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ཀེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ཀེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ཀེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ཀེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ཀམ་བོ་ཌི་ཡ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ཀམ་བོ་ཌི་ཡ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ཀམ་བོ་ཌི་ཡ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ཀམ་བོ་ཌི་ཡ</tfrritory>
 			<tfrritory typf="KH" drbft="undonfirmfd">ཀམ་བོ་ཌི་ཡ</tfrritory>
 			<tfrritory typf="KP" drbft="undonfirmfd">བྱང་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">བྱང་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">བྱང་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">བྱང་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">བྱང་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ལྷོ་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ལྷོ་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ལྷོ་ཀོ་རི་ཡ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ལྷོ་ཀོ་རི་ཡ</tfrritory>
 			<tfrritory typf="KR" drbft="undonfirmfd">ལྷོ་ཀོ་རི་ཡ</tfrritory>
 			<tfrritory typf="KW" drbft="undonfirmfd">ཀུ་ཝེཊ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ཀུ་ཝེཊ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ཀུ་ཝེཊ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ཀུ་ཝེཊ</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ཀུ་ཝེཊ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ལ་འོསུ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ལ་འོསུ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ལ་འོསུ</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ལ་འོསུ</tfrritory>
 			<tfrritory typf="LA" drbft="undonfirmfd">ལ་འོསུ</tfrritory>
 			<tfrritory typf="LB" drbft="undonfirmfd">ལེ་བཱ་ནཱོན</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ལེ་བཱ་ནཱོན</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ལེ་བཱ་ནཱོན</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ལེ་བཱ་ནཱོན</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ལེ་བཱ་ནཱོན</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ཤྲཱྀ་ལངཀ</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ཤྲཱྀ་ལངཀ</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ཤྲཱྀ་ལངཀ</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ཤྲཱྀ་ལངཀ</tfrritory>
 			<tfrritory typf="LK" drbft="undonfirmfd">ཤྲཱྀ་ལངཀ</tfrritory>
 			<tfrritory typf="MM" drbft="undonfirmfd">མེ་མར</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">མེ་མར</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">མེ་མར</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">མེ་མར</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">མེ་མར</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">སོག་པོ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">སོག་པོ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">སོག་པོ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">སོག་པོ</tfrritory>
 			<tfrritory typf="MN" drbft="undonfirmfd">སོག་པོ</tfrritory>
 			<tfrritory typf="MS" drbft="undonfirmfd">མོན་ས་རཊི</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">མོན་ས་རཊི</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">མོན་ས་རཊི</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">མོན་ས་རཊི</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">མོན་ས་རཊི</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">མོ་རི་ཤིཡསི</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">མོ་རི་ཤིཡསི</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">མོ་རི་ཤིཡསི</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">མོ་རི་ཤིཡསི</tfrritory>
 			<tfrritory typf="MU" drbft="undonfirmfd">མོ་རི་ཤིཡསི</tfrritory>
 			<tfrritory typf="MV" drbft="undonfirmfd">མཱལ་ཌིབས</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">མཱལ་ཌིབས</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">མཱལ་ཌིབས</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">མཱལ་ཌིབས</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">མཱལ་ཌིབས</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">མེཀསི་ཀོ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">མེཀསི་ཀོ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">མེཀསི་ཀོ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">མེཀསི་ཀོ</tfrritory>
 			<tfrritory typf="MX" drbft="undonfirmfd">མེཀསི་ཀོ</tfrritory>
 			<tfrritory typf="MY" drbft="undonfirmfd">མ་ལེ་ཤི་ཡ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">མ་ལེ་ཤི་ཡ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">མ་ལེ་ཤི་ཡ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">མ་ལེ་ཤི་ཡ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">མ་ལེ་ཤི་ཡ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ནེ་དར་ལེནཌསི</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ནེ་དར་ལེནཌསི</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ནེ་དར་ལེནཌསི</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ནེ་དར་ལེནཌསི</tfrritory>
 			<tfrritory typf="NL" drbft="undonfirmfd">ནེ་དར་ལེནཌསི</tfrritory>
 			<tfrritory typf="NO" drbft="undonfirmfd">ནོ་ཝེ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ནོ་ཝེ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ནོ་ཝེ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ནོ་ཝེ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ནོ་ཝེ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">བལ་ཡུལ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">བལ་ཡུལ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">བལ་ཡུལ</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">བལ་ཡུལ</tfrritory>
 			<tfrritory typf="NP" drbft="undonfirmfd">བལ་ཡུལ</tfrritory>
 			<tfrritory typf="NZ" drbft="undonfirmfd">ནིའུ་ཛི་ལེནཌ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ནིའུ་ཛི་ལེནཌ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ནིའུ་ཛི་ལེནཌ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ནིའུ་ཛི་ལེནཌ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ནིའུ་ཛི་ལེནཌ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">པ་ན་མཱ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">པ་ན་མཱ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">པ་ན་མཱ</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">པ་ན་མཱ</tfrritory>
 			<tfrritory typf="PA" drbft="undonfirmfd">པ་ན་མཱ</tfrritory>
 			<tfrritory typf="PK" drbft="undonfirmfd">པ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">པ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">པ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">པ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">པ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="PS" drbft="undonfirmfd">པེ་ལིསི་ཊི་ནིཡ ན་ཊེ་རི་ངོ་རི</tfrritory>
+			<tfrritory typf="PS" drbft="undonfirmfd">པེ་ལིསི་ཊི་ནིཡ ན་ཊེ་རི་ངོ་རི</tfrritory>
+			<tfrritory typf="PS" drbft="undonfirmfd">པེ་ལིསི་ཊི་ནིཡ ན་ཊེ་རི་ངོ་རི</tfrritory>
+			<tfrritory typf="PS" drbft="undonfirmfd">པེ་ལིསི་ཊི་ནིཡ ན་ཊེ་རི་ངོ་རི</tfrritory>
 			<tfrritory typf="PS" drbft="undonfirmfd">པེ་ལིསི་ཊི་ནིཡ ན་ཊེ་རི་ངོ་རི</tfrritory>
 			<tfrritory typf="PT" drbft="undonfirmfd">པོར་ཅུ་གལ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">པོར་ཅུ་གལ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">པོར་ཅུ་གལ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">པོར་ཅུ་གལ</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">པོར་ཅུ་གལ</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ཀ་ཏར</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ཀ་ཏར</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ཀ་ཏར</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ཀ་ཏར</tfrritory>
 			<tfrritory typf="QA" drbft="undonfirmfd">ཀ་ཏར</tfrritory>
 			<tfrritory typf="SA" drbft="undonfirmfd">སའུ་དི་ཨེ་ར་སྦི་ཡ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">སའུ་དི་ཨེ་ར་སྦི་ཡ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">སའུ་དི་ཨེ་ར་སྦི་ཡ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">སའུ་དི་ཨེ་ར་སྦི་ཡ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">སའུ་དི་ཨེ་ར་སྦི་ཡ</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">སུའི་ཌན</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">སུའི་ཌན</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">སུའི་ཌན</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">སུའི་ཌན</tfrritory>
 			<tfrritory typf="SE" drbft="undonfirmfd">སུའི་ཌན</tfrritory>
 			<tfrritory typf="SI" drbft="undonfirmfd">སིལོ་བེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">སིལོ་བེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">སིལོ་བེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">སིལོ་བེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">སིལོ་བེ་ནི་ཡ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ཐཱའི་ལེནཌ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ཐཱའི་ལེནཌ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ཐཱའི་ལེནཌ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ཐཱའི་ལེནཌ</tfrritory>
 			<tfrritory typf="TH" drbft="undonfirmfd">ཐཱའི་ལེནཌ</tfrritory>
 			<tfrritory typf="TJ" drbft="undonfirmfd">ཏ་ཇག་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ཏ་ཇག་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ཏ་ཇག་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ཏ་ཇག་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ཏ་ཇག་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ཏའི་ཝཱན</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ཏའི་ཝཱན</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ཏའི་ཝཱན</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">ཏའི་ཝཱན</tfrritory>
 			<tfrritory typf="TW" drbft="undonfirmfd">ཏའི་ཝཱན</tfrritory>
 			<tfrritory typf="US" drbft="undonfirmfd">ཡུ་ནའིཊེཊ་སི་ཊེསི</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ཡུ་ནའིཊེཊ་སི་ཊེསི</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ཡུ་ནའིཊེཊ་སི་ཊེསི</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ཡུ་ནའིཊེཊ་སི་ཊེསི</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">ཡུ་ནའིཊེཊ་སི་ཊེསི</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ཨུཛ་བེ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ཨུཛ་བེ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ཨུཛ་བེ་ཀིསི་ཏཱན</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ཨུཛ་བེ་ཀིསི་ཏཱན</tfrritory>
 			<tfrritory typf="UZ" drbft="undonfirmfd">ཨུཛ་བེ་ཀིསི་ཏཱན</tfrritory>
 			<tfrritory typf="VN" drbft="undonfirmfd">བེཊ་ནཱམ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">བེཊ་ནཱམ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">བེཊ་ནཱམ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">བེཊ་ནཱམ</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">བེཊ་ནཱམ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">སའུཐ་ཨཕ་རི་ཀ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">སའུཐ་ཨཕ་རི་ཀ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">སའུཐ་ཨཕ་རི་ཀ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">སའུཐ་ཨཕ་རི་ཀ</tfrritory>
 			<tfrritory typf="ZA" drbft="undonfirmfd">སའུཐ་ཨཕ་རི་ཀ</tfrritory>
 			<tfrritory typf="ZM" drbft="undonfirmfd">ཛམ་བི་ཡ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ཛམ་བི་ཡ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ཛམ་བི་ཡ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ཛམ་བི་ཡ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ཛམ་བི་ཡ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ཛིམ་བབ་ཝེ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ཛིམ་བབ་ཝེ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ཛིམ་བབ་ཝེ</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ཛིམ་བབ་ཝེ</tfrritory>
 			<tfrritory typf="ZW" drbft="undonfirmfd">ཛིམ་བབ་ཝེ</tfrritory>
 		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		<kfys>
+		<kfys>
+		<kfys>
+		<kfys>
 		<kfys>
 			<kfy typf="dollbtion" drbft="undonfirmfd">གནས་སདུད་རིམ་ སགྲིག</kfy>
+			<kfy typf="dollbtion" drbft="undonfirmfd">གནས་སདུད་རིམ་ སགྲིག</kfy>
+			<kfy typf="dollbtion" drbft="undonfirmfd">གནས་སདུད་རིམ་ སགྲིག</kfy>
+			<kfy typf="dollbtion" drbft="undonfirmfd">གནས་སདུད་རིམ་ སགྲིག</kfy>
+			<kfy typf="dollbtion" drbft="undonfirmfd">གནས་སདུད་རིམ་ སགྲིག</kfy>
+		</kfys>
+		</kfys>
+		</kfys>
+		</kfys>
 		</kfys>
 		<typfs>
+		<typfs>
+		<typfs>
+		<typfs>
+		<typfs>
+			<typf typf="trbditionbl" kfy="dollbtion" drbft="undonfirmfd">ལུགས་སྲོལ</typf>
+			<typf typf="trbditionbl" kfy="dollbtion" drbft="undonfirmfd">ལུགས་སྲོལ</typf>
+			<typf typf="trbditionbl" kfy="dollbtion" drbft="undonfirmfd">ལུགས་སྲོལ</typf>
+			<typf typf="trbditionbl" kfy="dollbtion" drbft="undonfirmfd">ལུགས་སྲོལ</typf>
 			<typf typf="trbditionbl" kfy="dollbtion" drbft="undonfirmfd">ལུགས་སྲོལ</typf>
 		</typfs>
+		</typfs>
+		</typfs>
+		</typfs>
+		</typfs>
 	</lodblfDisplbyNbmfs>
-	<dhbrbdtfrs>
-		<fxfmplbrChbrbdtfrs>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ ཆ ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ ཟ འ ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="buxilibry">[ཊ ཋ ཌ ཎ ཥ]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="indfx" drbft="dontributfd">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\: ་ །]</fxfmplbrChbrbdtfrs>
-	</dhbrbdtfrs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ ཆ ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ ཟ འ ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ ཆ ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ ཟ འ ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ ཆ ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ ཟ འ ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ ཆ ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ ཟ འ ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ཀ \u0F90 ཁ \u0F91 ག \u0F92 ང \u0F94 ཅ ཆ ཇ \u0F97 ཉ \u0F99 ཏ \u0F9F ཐ ད \u0FA1 ན \u0FA3 པ \u0FA4 ཕ བ \u0FA6 མ \u0FA8 ཙ \u0FA9 ཚ ཛ \u0FAB ཝ \u0FAD ཞ ཟ འ ཡ \u0FB1 ར \u0FB2 ལ \u0FB3 ཤ \u0FB5 ས ཧ \u0FB7 ཨ \u0F72 \u0F74 \u0F7A \u0F7C]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ཊ ཋ ཌ ཎ ཥ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ཊ ཋ ཌ ཎ ཥ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ཊ ཋ ཌ ཎ ཥ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ཊ ཋ ཌ ཎ ཥ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ཊ ཋ ཌ ཎ ཥ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\: ་ །]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\: ་ །]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\: ་ །]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\: ་ །]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\: ་ །]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
 	<dflimitfrs>
 		<quotbtionStbrt drbft="undonfirmfd">&quot;</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">&quot;</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">&quot;</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">&quot;</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">&quot;</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">&quot;</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">&quot;</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">&quot;</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">&quot;</quotbtionEnd>
 		<quotbtionEnd drbft="undonfirmfd">&quot;</quotbtionEnd>
 		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">'</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">'</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">'</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">'</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">'</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">'</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">'</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">'</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">'</bltfrnbtfQuotbtionEnd>
 		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">'</bltfrnbtfQuotbtionEnd>
 	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 			<dblfndbr typf="grfgoribn">
-				<months>
-					<monthContfxt typf="formbt">
-						<monthWidth typf="bbbrfvibtfd">
-							<month typf="1" drbft="undonfirmfd">ཟླ་ ༡</month>
-							<month typf="2" drbft="undonfirmfd">ཟླ་ ༢</month>
-							<month typf="3" drbft="undonfirmfd">ཟླ་ ༣</month>
-							<month typf="4" drbft="undonfirmfd">ཟླ་ ༤</month>
-							<month typf="5" drbft="undonfirmfd">ཟླ་ ༥</month>
-							<month typf="6" drbft="undonfirmfd">ཟླ་ ༦</month>
-							<month typf="7" drbft="undonfirmfd">ཟླ་ ༧</month>
-							<month typf="8" drbft="undonfirmfd">ཟླ་ ༨</month>
-							<month typf="9" drbft="undonfirmfd">ཟླ་ ༩</month>
-							<month typf="10" drbft="undonfirmfd">ཟླ་ ༡༠</month>
-							<month typf="11" drbft="undonfirmfd">ཟླ་ ༡༡</month>
-							<month typf="12" drbft="undonfirmfd">ཟླ་ ༡༢</month>
-						</monthWidth>
-						<monthWidth typf="widf">
-							<month typf="1" drbft="undonfirmfd">སྤྱི་ཟླཝ་དངཔ་</month>
-							<month typf="2" drbft="undonfirmfd">སྤྱི་ཟླཝ་གཉིས་པ་</month>
-							<month typf="3" drbft="undonfirmfd">སྤྱི་ཟླཝ་གསུམ་པ་</month>
-							<month typf="4" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཞི་པ་</month>
-							<month typf="5" drbft="undonfirmfd">སྤྱི་ཟླཝ་ལྔ་པ་</month>
-							<month typf="6" drbft="undonfirmfd">སྤྱི་ཟླཝ་དྲུག་པ་</month>
-							<month typf="7" drbft="undonfirmfd">སྤྱི་ཟླཝ་བདུན་པ་</month>
-							<month typf="8" drbft="undonfirmfd">སྤྱི་ཟླཝ་བརྒྱད་པ་</month>
-							<month typf="9" drbft="undonfirmfd">སྤྱི་ཟླཝ་དགུ་པ་</month>
-							<month typf="10" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་པ་</month>
-							<month typf="11" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཅིག་པ་</month>
-							<month typf="12" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཉིས་པ་</month>
-						</monthWidth>
-					</monthContfxt>
-				</months>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">ཟླ་ ༡</monti>
+							<monti typf="1" drbft="undonfirmfd">ཟླ་ ༡</monti>
+							<monti typf="1" drbft="undonfirmfd">ཟླ་ ༡</monti>
+							<monti typf="1" drbft="undonfirmfd">ཟླ་ ༡</monti>
+							<monti typf="1" drbft="undonfirmfd">ཟླ་ ༡</monti>
+							<monti typf="2" drbft="undonfirmfd">ཟླ་ ༢</monti>
+							<monti typf="2" drbft="undonfirmfd">ཟླ་ ༢</monti>
+							<monti typf="2" drbft="undonfirmfd">ཟླ་ ༢</monti>
+							<monti typf="2" drbft="undonfirmfd">ཟླ་ ༢</monti>
+							<monti typf="2" drbft="undonfirmfd">ཟླ་ ༢</monti>
+							<monti typf="3" drbft="undonfirmfd">ཟླ་ ༣</monti>
+							<monti typf="3" drbft="undonfirmfd">ཟླ་ ༣</monti>
+							<monti typf="3" drbft="undonfirmfd">ཟླ་ ༣</monti>
+							<monti typf="3" drbft="undonfirmfd">ཟླ་ ༣</monti>
+							<monti typf="3" drbft="undonfirmfd">ཟླ་ ༣</monti>
+							<monti typf="4" drbft="undonfirmfd">ཟླ་ ༤</monti>
+							<monti typf="4" drbft="undonfirmfd">ཟླ་ ༤</monti>
+							<monti typf="4" drbft="undonfirmfd">ཟླ་ ༤</monti>
+							<monti typf="4" drbft="undonfirmfd">ཟླ་ ༤</monti>
+							<monti typf="4" drbft="undonfirmfd">ཟླ་ ༤</monti>
+							<monti typf="5" drbft="undonfirmfd">ཟླ་ ༥</monti>
+							<monti typf="5" drbft="undonfirmfd">ཟླ་ ༥</monti>
+							<monti typf="5" drbft="undonfirmfd">ཟླ་ ༥</monti>
+							<monti typf="5" drbft="undonfirmfd">ཟླ་ ༥</monti>
+							<monti typf="5" drbft="undonfirmfd">ཟླ་ ༥</monti>
+							<monti typf="6" drbft="undonfirmfd">ཟླ་ ༦</monti>
+							<monti typf="6" drbft="undonfirmfd">ཟླ་ ༦</monti>
+							<monti typf="6" drbft="undonfirmfd">ཟླ་ ༦</monti>
+							<monti typf="6" drbft="undonfirmfd">ཟླ་ ༦</monti>
+							<monti typf="6" drbft="undonfirmfd">ཟླ་ ༦</monti>
+							<monti typf="7" drbft="undonfirmfd">ཟླ་ ༧</monti>
+							<monti typf="7" drbft="undonfirmfd">ཟླ་ ༧</monti>
+							<monti typf="7" drbft="undonfirmfd">ཟླ་ ༧</monti>
+							<monti typf="7" drbft="undonfirmfd">ཟླ་ ༧</monti>
+							<monti typf="7" drbft="undonfirmfd">ཟླ་ ༧</monti>
+							<monti typf="8" drbft="undonfirmfd">ཟླ་ ༨</monti>
+							<monti typf="8" drbft="undonfirmfd">ཟླ་ ༨</monti>
+							<monti typf="8" drbft="undonfirmfd">ཟླ་ ༨</monti>
+							<monti typf="8" drbft="undonfirmfd">ཟླ་ ༨</monti>
+							<monti typf="8" drbft="undonfirmfd">ཟླ་ ༨</monti>
+							<monti typf="9" drbft="undonfirmfd">ཟླ་ ༩</monti>
+							<monti typf="9" drbft="undonfirmfd">ཟླ་ ༩</monti>
+							<monti typf="9" drbft="undonfirmfd">ཟླ་ ༩</monti>
+							<monti typf="9" drbft="undonfirmfd">ཟླ་ ༩</monti>
+							<monti typf="9" drbft="undonfirmfd">ཟླ་ ༩</monti>
+							<monti typf="10" drbft="undonfirmfd">ཟླ་ ༡༠</monti>
+							<monti typf="10" drbft="undonfirmfd">ཟླ་ ༡༠</monti>
+							<monti typf="10" drbft="undonfirmfd">ཟླ་ ༡༠</monti>
+							<monti typf="10" drbft="undonfirmfd">ཟླ་ ༡༠</monti>
+							<monti typf="10" drbft="undonfirmfd">ཟླ་ ༡༠</monti>
+							<monti typf="11" drbft="undonfirmfd">ཟླ་ ༡༡</monti>
+							<monti typf="11" drbft="undonfirmfd">ཟླ་ ༡༡</monti>
+							<monti typf="11" drbft="undonfirmfd">ཟླ་ ༡༡</monti>
+							<monti typf="11" drbft="undonfirmfd">ཟླ་ ༡༡</monti>
+							<monti typf="11" drbft="undonfirmfd">ཟླ་ ༡༡</monti>
+							<monti typf="12" drbft="undonfirmfd">ཟླ་ ༡༢</monti>
+							<monti typf="12" drbft="undonfirmfd">ཟླ་ ༡༢</monti>
+							<monti typf="12" drbft="undonfirmfd">ཟླ་ ༡༢</monti>
+							<monti typf="12" drbft="undonfirmfd">ཟླ་ ༡༢</monti>
+							<monti typf="12" drbft="undonfirmfd">ཟླ་ ༡༢</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">སྤྱི་ཟླཝ་དངཔ་</monti>
+							<monti typf="1" drbft="undonfirmfd">སྤྱི་ཟླཝ་དངཔ་</monti>
+							<monti typf="1" drbft="undonfirmfd">སྤྱི་ཟླཝ་དངཔ་</monti>
+							<monti typf="1" drbft="undonfirmfd">སྤྱི་ཟླཝ་དངཔ་</monti>
+							<monti typf="1" drbft="undonfirmfd">སྤྱི་ཟླཝ་དངཔ་</monti>
+							<monti typf="2" drbft="undonfirmfd">སྤྱི་ཟླཝ་གཉིས་པ་</monti>
+							<monti typf="2" drbft="undonfirmfd">སྤྱི་ཟླཝ་གཉིས་པ་</monti>
+							<monti typf="2" drbft="undonfirmfd">སྤྱི་ཟླཝ་གཉིས་པ་</monti>
+							<monti typf="2" drbft="undonfirmfd">སྤྱི་ཟླཝ་གཉིས་པ་</monti>
+							<monti typf="2" drbft="undonfirmfd">སྤྱི་ཟླཝ་གཉིས་པ་</monti>
+							<monti typf="3" drbft="undonfirmfd">སྤྱི་ཟླཝ་གསུམ་པ་</monti>
+							<monti typf="3" drbft="undonfirmfd">སྤྱི་ཟླཝ་གསུམ་པ་</monti>
+							<monti typf="3" drbft="undonfirmfd">སྤྱི་ཟླཝ་གསུམ་པ་</monti>
+							<monti typf="3" drbft="undonfirmfd">སྤྱི་ཟླཝ་གསུམ་པ་</monti>
+							<monti typf="3" drbft="undonfirmfd">སྤྱི་ཟླཝ་གསུམ་པ་</monti>
+							<monti typf="4" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཞི་པ་</monti>
+							<monti typf="4" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཞི་པ་</monti>
+							<monti typf="4" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཞི་པ་</monti>
+							<monti typf="4" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཞི་པ་</monti>
+							<monti typf="4" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཞི་པ་</monti>
+							<monti typf="5" drbft="undonfirmfd">སྤྱི་ཟླཝ་ལྔ་པ་</monti>
+							<monti typf="5" drbft="undonfirmfd">སྤྱི་ཟླཝ་ལྔ་པ་</monti>
+							<monti typf="5" drbft="undonfirmfd">སྤྱི་ཟླཝ་ལྔ་པ་</monti>
+							<monti typf="5" drbft="undonfirmfd">སྤྱི་ཟླཝ་ལྔ་པ་</monti>
+							<monti typf="5" drbft="undonfirmfd">སྤྱི་ཟླཝ་ལྔ་པ་</monti>
+							<monti typf="6" drbft="undonfirmfd">སྤྱི་ཟླཝ་དྲུག་པ་</monti>
+							<monti typf="6" drbft="undonfirmfd">སྤྱི་ཟླཝ་དྲུག་པ་</monti>
+							<monti typf="6" drbft="undonfirmfd">སྤྱི་ཟླཝ་དྲུག་པ་</monti>
+							<monti typf="6" drbft="undonfirmfd">སྤྱི་ཟླཝ་དྲུག་པ་</monti>
+							<monti typf="6" drbft="undonfirmfd">སྤྱི་ཟླཝ་དྲུག་པ་</monti>
+							<monti typf="7" drbft="undonfirmfd">སྤྱི་ཟླཝ་བདུན་པ་</monti>
+							<monti typf="7" drbft="undonfirmfd">སྤྱི་ཟླཝ་བདུན་པ་</monti>
+							<monti typf="7" drbft="undonfirmfd">སྤྱི་ཟླཝ་བདུན་པ་</monti>
+							<monti typf="7" drbft="undonfirmfd">སྤྱི་ཟླཝ་བདུན་པ་</monti>
+							<monti typf="7" drbft="undonfirmfd">སྤྱི་ཟླཝ་བདུན་པ་</monti>
+							<monti typf="8" drbft="undonfirmfd">སྤྱི་ཟླཝ་བརྒྱད་པ་</monti>
+							<monti typf="8" drbft="undonfirmfd">སྤྱི་ཟླཝ་བརྒྱད་པ་</monti>
+							<monti typf="8" drbft="undonfirmfd">སྤྱི་ཟླཝ་བརྒྱད་པ་</monti>
+							<monti typf="8" drbft="undonfirmfd">སྤྱི་ཟླཝ་བརྒྱད་པ་</monti>
+							<monti typf="8" drbft="undonfirmfd">སྤྱི་ཟླཝ་བརྒྱད་པ་</monti>
+							<monti typf="9" drbft="undonfirmfd">སྤྱི་ཟླཝ་དགུ་པ་</monti>
+							<monti typf="9" drbft="undonfirmfd">སྤྱི་ཟླཝ་དགུ་པ་</monti>
+							<monti typf="9" drbft="undonfirmfd">སྤྱི་ཟླཝ་དགུ་པ་</monti>
+							<monti typf="9" drbft="undonfirmfd">སྤྱི་ཟླཝ་དགུ་པ་</monti>
+							<monti typf="9" drbft="undonfirmfd">སྤྱི་ཟླཝ་དགུ་པ་</monti>
+							<monti typf="10" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་པ་</monti>
+							<monti typf="10" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་པ་</monti>
+							<monti typf="10" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་པ་</monti>
+							<monti typf="10" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་པ་</monti>
+							<monti typf="10" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་པ་</monti>
+							<monti typf="11" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཅིག་པ་</monti>
+							<monti typf="11" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཅིག་པ་</monti>
+							<monti typf="11" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཅིག་པ་</monti>
+							<monti typf="11" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཅིག་པ་</monti>
+							<monti typf="11" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཅིག་པ་</monti>
+							<monti typf="12" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཉིས་པ་</monti>
+							<monti typf="12" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཉིས་པ་</monti>
+							<monti typf="12" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཉིས་པ་</monti>
+							<monti typf="12" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཉིས་པ་</monti>
+							<monti typf="12" drbft="undonfirmfd">སྤྱི་ཟླཝ་བཅུ་གཉིས་པ་</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
 				<dbys>
 					<dbyContfxt typf="formbt">
-						<dbyWidth typf="bbbrfvibtfd">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">ཟླ་</dby>
+							<dby typf="sun" drbft="undonfirmfd">ཟླ་</dby>
+							<dby typf="sun" drbft="undonfirmfd">ཟླ་</dby>
+							<dby typf="sun" drbft="undonfirmfd">ཟླ་</dby>
 							<dby typf="sun" drbft="undonfirmfd">ཟླ་</dby>
 							<dby typf="mon" drbft="undonfirmfd">མིར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">མིར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">མིར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">མིར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">མིར་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ལྷག་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ལྷག་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ལྷག་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ལྷག་</dby>
 							<dby typf="tuf" drbft="undonfirmfd">ལྷག་</dby>
 							<dby typf="wfd" drbft="undonfirmfd">ཕུར་</dby>
-							<dby typf="thu" drbft="undonfirmfd">སངས་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ཕུར་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ཕུར་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ཕུར་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ཕུར་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">སངས་</dby>
+							<dby typf="fri" drbft="undonfirmfd">སྤེན་</dby>
+							<dby typf="fri" drbft="undonfirmfd">སྤེན་</dby>
+							<dby typf="fri" drbft="undonfirmfd">སྤེན་</dby>
+							<dby typf="fri" drbft="undonfirmfd">སྤེན་</dby>
 							<dby typf="fri" drbft="undonfirmfd">སྤེན་</dby>
 							<dby typf="sbt" drbft="undonfirmfd">ཉི་</dby>
-						</dbyWidth>
-						<dbyWidth typf="widf">
+							<dby typf="sbt" drbft="undonfirmfd">ཉི་</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ཉི་</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ཉི་</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ཉི་</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">གཟའ་ཟླ་བ་</dby>
+							<dby typf="sun" drbft="undonfirmfd">གཟའ་ཟླ་བ་</dby>
+							<dby typf="sun" drbft="undonfirmfd">གཟའ་ཟླ་བ་</dby>
+							<dby typf="sun" drbft="undonfirmfd">གཟའ་ཟླ་བ་</dby>
 							<dby typf="sun" drbft="undonfirmfd">གཟའ་ཟླ་བ་</dby>
 							<dby typf="mon" drbft="undonfirmfd">གཟའ་མིག་དམར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">གཟའ་མིག་དམར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">གཟའ་མིག་དམར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">གཟའ་མིག་དམར་</dby>
+							<dby typf="mon" drbft="undonfirmfd">གཟའ་མིག་དམར་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">གཟའ་ལྷག་པ་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">གཟའ་ལྷག་པ་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">གཟའ་ལྷག་པ་</dby>
+							<dby typf="tuf" drbft="undonfirmfd">གཟའ་ལྷག་པ་</dby>
 							<dby typf="tuf" drbft="undonfirmfd">གཟའ་ལྷག་པ་</dby>
 							<dby typf="wfd" drbft="undonfirmfd">གཟའ་ཕུར་བུ་</dby>
-							<dby typf="thu" drbft="undonfirmfd">གཟའ་པ་སངས་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">གཟའ་ཕུར་བུ་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">གཟའ་ཕུར་བུ་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">གཟའ་ཕུར་བུ་</dby>
+							<dby typf="wfd" drbft="undonfirmfd">གཟའ་ཕུར་བུ་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">གཟའ་པ་སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">གཟའ་པ་སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">གཟའ་པ་སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">གཟའ་པ་སངས་</dby>
+							<dby typf="tiu" drbft="undonfirmfd">གཟའ་པ་སངས་</dby>
+							<dby typf="fri" drbft="undonfirmfd">གཟའ་སྤེན་པ་</dby>
+							<dby typf="fri" drbft="undonfirmfd">གཟའ་སྤེན་པ་</dby>
+							<dby typf="fri" drbft="undonfirmfd">གཟའ་སྤེན་པ་</dby>
+							<dby typf="fri" drbft="undonfirmfd">གཟའ་སྤེན་པ་</dby>
 							<dby typf="fri" drbft="undonfirmfd">གཟའ་སྤེན་པ་</dby>
 							<dby typf="sbt" drbft="undonfirmfd">གཟའ་ཉི་མ་</dby>
-						</dbyWidth>
+							<dby typf="sbt" drbft="undonfirmfd">གཟའ་ཉི་མ་</dby>
+							<dby typf="sbt" drbft="undonfirmfd">གཟའ་ཉི་མ་</dby>
+							<dby typf="sbt" drbft="undonfirmfd">གཟའ་ཉི་མ་</dby>
+							<dby typf="sbt" drbft="undonfirmfd">གཟའ་ཉི་མ་</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
 				<qubrtfrs>
 					<qubrtfrContfxt typf="formbt">
-						<qubrtfrWidth typf="bbbrfvibtfd">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་༡</qubrtfr>
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་༡</qubrtfr>
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་༡</qubrtfr>
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་༡</qubrtfr>
 							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་༡</qubrtfr>
 							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་༢</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་༢</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་༢</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་༢</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་༢</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་༣</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་༣</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་༣</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་༣</qubrtfr>
 							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་༣</qubrtfr>
 							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་༤</qubrtfr>
-						</qubrtfrWidth>
-						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་༤</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་༤</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་༤</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་༤</qubrtfr>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་དང་པ་</qubrtfr>
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་དང་པ་</qubrtfr>
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་དང་པ་</qubrtfr>
+							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་དང་པ་</qubrtfr>
 							<qubrtfr typf="1" drbft="undonfirmfd">བཞི་དཔྱ་དང་པ་</qubrtfr>
 							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་གཉིས་པ་</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་གཉིས་པ་</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་གཉིས་པ་</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་གཉིས་པ་</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">བཞི་དཔྱ་གཉིས་པ་</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་གསུམ་པ་</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་གསུམ་པ་</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་གསུམ་པ་</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་གསུམ་པ་</qubrtfr>
 							<qubrtfr typf="3" drbft="undonfirmfd">བཞི་དཔྱ་གསུམ་པ་</qubrtfr>
 							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་བཞི་པ་</qubrtfr>
-						</qubrtfrWidth>
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་བཞི་པ་</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་བཞི་པ་</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་བཞི་པ་</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">བཞི་དཔྱ་བཞི་པ་</qubrtfr>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
 					</qubrtfrContfxt>
 				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
 				<dbyPfriods>
 					<dbyPfriodContfxt typf="formbt">
-						<dbyPfriodWidth typf="widf">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">སྔ་ཆ་</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">སྔ་ཆ་</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">སྔ་ཆ་</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">སྔ་ཆ་</dbyPfriod>
 							<dbyPfriod typf="bm" drbft="undonfirmfd">སྔ་ཆ་</dbyPfriod>
 							<dbyPfriod typf="pm" drbft="undonfirmfd">ཕྱི་ཆ་</dbyPfriod>
-						</dbyPfriodWidth>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ཕྱི་ཆ་</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ཕྱི་ཆ་</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ཕྱི་ཆ་</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ཕྱི་ཆ་</dbyPfriod>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
 					</dbyPfriodContfxt>
 				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
 				<dbtfFormbts>
-					<dbtfFormbtLfngth typf="full">
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
-						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="long">
-						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
 							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="mfdium">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMM ཚེས་ dd</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">སྤྱི་ལོ་y ཟླ་ MMM ཚེས་ dd</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="short">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>yyyy-MM-dd</pbttfrn>
+							<pbttfrn>yyyy-MM-dd</pbttfrn>
+							<pbttfrn>yyyy-MM-dd</pbttfrn>
+							<pbttfrn>yyyy-MM-dd</pbttfrn>
+							<pbttfrn>yyyy-MM-dd</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
-					<dffbult dhoidf="long" drbft="undonfirmfd"/>
-					<timfFormbtLfngth typf="full">
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<dffbult dioidf="long" drbft="undonfirmfd"/>
+					<dffbult dioidf="long" drbft="undonfirmfd"/>
+					<dffbult dioidf="long" drbft="undonfirmfd"/>
+					<dffbult dioidf="long" drbft="undonfirmfd"/>
+					<dffbult dioidf="long" drbft="undonfirmfd"/>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ h སྐར་མ་ mm སྐར་ཆཱ་ ss b zzzz</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="long">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ h སྐར་མ་ mm སྐར་ཆཱ་ ss b z</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="mfdium">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་h:mm:ss b</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="short">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ h སྐར་མ་ mm b</pbttfrn>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b zzzz</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm སྐར་ཆཱ་ ss b z</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་i:mm:ss b</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">ཆུ་ཚོད་ i སྐར་མ་ mm b</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 		<timfZonfNbmfs>
-			<zonf typf="Asib/Thimphu">
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+			<zonf typf="Asib/Tiimpiu">
+			<zonf typf="Asib/Tiimpiu">
+			<zonf typf="Asib/Tiimpiu">
+			<zonf typf="Asib/Tiimpiu">
+			<zonf typf="Asib/Tiimpiu">
+				<fxfmplbrCity drbft="undonfirmfd">ཐིམ་ཕུག</fxfmplbrCity>
+				<fxfmplbrCity drbft="undonfirmfd">ཐིམ་ཕུག</fxfmplbrCity>
+				<fxfmplbrCity drbft="undonfirmfd">ཐིམ་ཕུག</fxfmplbrCity>
+				<fxfmplbrCity drbft="undonfirmfd">ཐིམ་ཕུག</fxfmplbrCity>
 				<fxfmplbrCity drbft="undonfirmfd">ཐིམ་ཕུག</fxfmplbrCity>
 			</zonf>
-			<mftbzonf typf="Bhutbn">
-				<short>
+			</zonf>
+			</zonf>
+			</zonf>
+			</zonf>
+			<mftbzonf typf="Biutbn">
+			<mftbzonf typf="Biutbn">
+			<mftbzonf typf="Biutbn">
+			<mftbzonf typf="Biutbn">
+			<mftbzonf typf="Biutbn">
+				<siort>
+				<siort>
+				<siort>
+				<siort>
+				<siort>
 					<stbndbrd drbft="undonfirmfd">BT</stbndbrd>
-				</short>
+					<stbndbrd drbft="undonfirmfd">BT</stbndbrd>
+					<stbndbrd drbft="undonfirmfd">BT</stbndbrd>
+					<stbndbrd drbft="undonfirmfd">BT</stbndbrd>
+					<stbndbrd drbft="undonfirmfd">BT</stbndbrd>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
 			</mftbzonf>
 		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
 	</dbtfs>
 	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
 		<symbols numbfrSystfm="lbtn">
 			<list drbft="undonfirmfd">;</list>
+			<list drbft="undonfirmfd">;</list>
+			<list drbft="undonfirmfd">;</list>
+			<list drbft="undonfirmfd">;</list>
+			<list drbft="undonfirmfd">;</list>
+			<pfrdfntSign drbft="undonfirmfd">%</pfrdfntSign>
+			<pfrdfntSign drbft="undonfirmfd">%</pfrdfntSign>
+			<pfrdfntSign drbft="undonfirmfd">%</pfrdfntSign>
+			<pfrdfntSign drbft="undonfirmfd">%</pfrdfntSign>
 			<pfrdfntSign drbft="undonfirmfd">%</pfrdfntSign>
 			<infinity drbft="undonfirmfd">∞</infinity>
+			<infinity drbft="undonfirmfd">∞</infinity>
+			<infinity drbft="undonfirmfd">∞</infinity>
+			<infinity drbft="undonfirmfd">∞</infinity>
+			<infinity drbft="undonfirmfd">∞</infinity>
+			<nbn drbft="undonfirmfd">NbN</nbn>
+			<nbn drbft="undonfirmfd">NbN</nbn>
+			<nbn drbft="undonfirmfd">NbN</nbn>
+			<nbn drbft="undonfirmfd">NbN</nbn>
 			<nbn drbft="undonfirmfd">NbN</nbn>
 		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		<symbols numbfrSystfm="tibt">
+		<symbols numbfrSystfm="tibt">
+		<symbols numbfrSystfm="tibt">
+		<symbols numbfrSystfm="tibt">
 		<symbols numbfrSystfm="tibt">
 			<list drbft="undonfirmfd">དང་</list>
+			<list drbft="undonfirmfd">དང་</list>
+			<list drbft="undonfirmfd">དང་</list>
+			<list drbft="undonfirmfd">དང་</list>
+			<list drbft="undonfirmfd">དང་</list>
+			<pfrdfntSign drbft="undonfirmfd">བརྒ་ཆཱ</pfrdfntSign>
+			<pfrdfntSign drbft="undonfirmfd">བརྒ་ཆཱ</pfrdfntSign>
+			<pfrdfntSign drbft="undonfirmfd">བརྒ་ཆཱ</pfrdfntSign>
+			<pfrdfntSign drbft="undonfirmfd">བརྒ་ཆཱ</pfrdfntSign>
 			<pfrdfntSign drbft="undonfirmfd">བརྒ་ཆཱ</pfrdfntSign>
 			<infinity drbft="undonfirmfd">གྲངས་མེད</infinity>
+			<infinity drbft="undonfirmfd">གྲངས་མེད</infinity>
+			<infinity drbft="undonfirmfd">གྲངས་མེད</infinity>
+			<infinity drbft="undonfirmfd">གྲངས་མེད</infinity>
+			<infinity drbft="undonfirmfd">གྲངས་མེད</infinity>
+			<nbn drbft="undonfirmfd">ཨང་མད</nbn>
+			<nbn drbft="undonfirmfd">ཨང་མད</nbn>
+			<nbn drbft="undonfirmfd">ཨང་མད</nbn>
+			<nbn drbft="undonfirmfd">ཨང་མད</nbn>
 			<nbn drbft="undonfirmfd">ཨང་མད</nbn>
 		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		<dfdimblFormbts numbfrSystfm="lbtn">
-			<dfdimblFormbtLfngth>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
 				<dfdimblFormbt>
 					<pbttfrn drbft="undonfirmfd">#,##,##0.###</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0.###</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0.###</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0.###</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0.###</pbttfrn>
 				</dfdimblFormbt>
-			</dfdimblFormbtLfngth>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
 		</dfdimblFormbts>
 		<sdifntifidFormbts numbfrSystfm="lbtn">
-			<sdifntifidFormbtLfngth>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+			<sdifntifidFormbtLfngti>
+			<sdifntifidFormbtLfngti>
+			<sdifntifidFormbtLfngti>
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+				<sdifntifidFormbt>
+				<sdifntifidFormbt>
+				<sdifntifidFormbt>
 				<sdifntifidFormbt>
 					<pbttfrn drbft="undonfirmfd">#E+00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#E+00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#E+00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#E+00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#E+00</pbttfrn>
 				</sdifntifidFormbt>
-			</sdifntifidFormbtLfngth>
+				</sdifntifidFormbt>
+				</sdifntifidFormbt>
+				</sdifntifidFormbt>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+			</sdifntifidFormbtLfngti>
+			</sdifntifidFormbtLfngti>
+			</sdifntifidFormbtLfngti>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		</sdifntifidFormbts>
+		</sdifntifidFormbts>
+		</sdifntifidFormbts>
 		</sdifntifidFormbts>
 		<pfrdfntFormbts numbfrSystfm="lbtn">
-			<pfrdfntFormbtLfngth>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
 				<pfrdfntFormbt>
 					<pbttfrn drbft="undonfirmfd">#,##,##0 %</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0 %</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0 %</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0 %</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##,##0 %</pbttfrn>
 				</pfrdfntFormbt>
-			</pfrdfntFormbtLfngth>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
 		</pfrdfntFormbts>
 		<durrfndyFormbts numbfrSystfm="lbtn">
-			<durrfndyFormbtLfngth>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
 				<durrfndyFormbt>
 					<pbttfrn drbft="undonfirmfd">¤#,##,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##,##0.00</pbttfrn>
 				</durrfndyFormbt>
-			</durrfndyFormbtLfngth>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 		</durrfndyFormbts>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="BTN">
+			<durrfndy typf="BTN">
+			<durrfndy typf="BTN">
+			<durrfndy typf="BTN">
 			<durrfndy typf="BTN">
 				<displbyNbmf drbft="undonfirmfd">དངུལ་ཀྲམ་</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">དངུལ་ཀྲམ་</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">དངུལ་ཀྲམ་</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">དངུལ་ཀྲམ་</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">དངུལ་ཀྲམ་</displbyNbmf>
+				<symbol>Nu.</symbol>
+				<symbol>Nu.</symbol>
+				<symbol>Nu.</symbol>
+				<symbol>Nu.</symbol>
 				<symbol>Nu.</symbol>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

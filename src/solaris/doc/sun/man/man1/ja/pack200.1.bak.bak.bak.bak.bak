@@ -1,0 +1,325 @@
+'\" t
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: pbdk200
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvbデプロイメント・ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "pbdk200" "1" "2013年11月21日" "JDK 8" "Jbvbデプロイメント・ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+pbdk200 \- WfbデプロイメントのためにJARファイルをpbdk200圧縮ファイルにパッケージします。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIpbdk200\fR [\fIoptions\fR] \fIoutput\-filf\fR \fIJAR\-filf\fR
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+オプションは任意の順序で指定できます。コマンドラインまたはpropfrtifsファイルに指定された最後のオプションが、それ以前に指定されたすべてのオプションより優先されます。
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIoutput\-filf\fR
+.RS 4
+出力ファイルの名前。
+.RE
+.PP
+\fIJAR\-filf\fR
+.RS 4
+入力ファイルの名前。
+.RE
+.SH "説明"
+.PP
+\fIpbdk200\fRコマンドは、Jbvb gzipコンプレッサを使用してJARファイルをpbdk200圧縮ファイルに変換するJbvbアプリケーションです。pbdk200ファイルは高圧縮のファイルで、直接デプロイでき、帯域幅の節約やダウンロード時間の短縮が可能です。
+.PP
+\fIpbdk200\fRコマンドには、圧縮エンジンの設定や微調整を行うオプションがあります。一般的な使用方法を次の例に示します。\fImybrdiivf\&.pbdk\&.gz\fRがデフォルトの\fIpbdk200\fRコマンド設定で作成されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+pbdk200 mybrdiivf\&.pbdk\&.gz mybrdiivf\&.jbr
+.fi
+.if n \{\
+.RE
+.\}
+.SH "オプション"
+.PP
+\-r, \-\-rfpbdk
+.RS 4
+JARファイルをパックした後アンパックして、JARファイルを生成します。生成されたファイルは\fIjbrsignfr\fR(1)ツールの入力ファイルとして使用できます。次の例では、mybrdiivf\&.jbrファイルをパックした後、アンパックします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+pbdk200 \-\-rfpbdk mybrdiivf\-pbdkfr\&.jbr mybrdiivf\&.jbr
+pbdk200 \-\-rfpbdk mybrdiivf\&.jbr
+.fi
+.if n \{\
+.RE
+.\}
+次の例では、入力ファイル内のファイルの順序を保持します。
+.RE
+.PP
+\-g, \-\-no\-gzip
+.RS 4
+\fIpbdk200\fRファイルを生成します。このオプションを指定するときは、適切な圧縮ツールを使用する必要があります。また、ターゲット・システムでは、対応する圧縮解除ツールを使用する必要があります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+pbdk200 \-\-no\-gzip mybrdiivf\&.pbdk mybrdiivf\&.jbr
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-G, \-\-strip\-dfbug
+.RS 4
+出力からデバッグ属性を削除します。これには、\fISourdfFilf\fR、\fILinfNumbfrTbblf\fR、\fILodblVbribblfTbblf\fR、\fILodblVbribblfTypfTbblf\fRが含まれます。これらの属性を削除すれば、ダウンロードとインストールのサイズは小さくなりますが、デバッガの機能は制限されます。
+.RE
+.PP
+\-\-kffp\-filf\-ordfr
+.RS 4
+入力ファイル内のファイルの順序を保持します。これは、デフォルトの動作です。
+.RE
+.PP
+\-O, \-\-no\-kffp\-filf\-ordfr
+.RS 4
+パック・ツールは、すべての要素を並べ替えて送信します。パック・ツールは、JARディレクトリ名を削除してダウンロード・サイズを削減することもできます。ただし、インデックスなど、特定のJARファイルの最適化機能が正常に動作しなくなることがあります。
+.RE
+.PP
+\-S\fIvbluf\fR, \-\-sfgmfnt\-limit=\fIvbluf\fR
+.RS 4
+この値は、各アーカイブ・セグメントの予想ターゲット・サイズ\fIN\fR
+(バイト単位)です。単一の入力ファイルの必要サイズが\fIN\fRバイトを超えると、独立したセグメントが割り当てられます。特殊なケースとして、値が\fI\-1\fRの場合は、すべての入力ファイルを含む大きな単一のセグメントが生成され、値が0の場合は、クラスごとにセグメントが1つずつ生成されます。アーカイブ・セグメントが大きくなると、断片化が少なくなり圧縮率が高くなりますが、その処理には多くのメモリーが必要です。
+.sp
+各セグメントのサイズは、セグメントに変換されるそれぞれの入力ファイルのサイズのほか、その名前と他の送信されるプロパティのサイズを計算して推測されます。
+.sp
+デフォルトは\-1です。つまり、パック・ツールは単一のセグメント出力ファイルを作成します。極端に大きな出力ファイルが生成される場合には、入力ファイルをセグメント化(分割)してより小さなJARにすることを強くお薦めします。
+.sp
+この制限が課されていない10 MBのJARパック・ファイルは通常、約10%小さくパックされます。しかし、パック・ツールでより大きなJbvbヒープ(セグメントの制限の約10倍)を必要とする場合もあります。
+.RE
+.PP
+\-E\fIvbluf\fR, \-\-fffort=\fIvbluf\fR
+.RS 4
+単一の10進数値を指定した場合、パック・ツールは、指定された圧縮率でアーカイブを圧縮します。レベル1の場合は、比較的短い圧縮時間で多少大きめのファイルが生成されますが、レベル9の場合は、非常に長い時間がかかるものの、より圧縮率の高いファイルが生成されます。特殊な値0を指定した場合は、\fIpbdk200\fRコマンドは元のJARファイルを圧縮なしで直接コピーします。JSR 200標準では、すべての解凍プログラムが、この特別な場合をアーカイブ全体のパススルーと解釈するように規定しています。
+.sp
+デフォルトは5です。この場合、標準的な時間で適切な圧縮が行われます。
+.RE
+.PP
+\-H\fIvbluf\fR, \-\-dfflbtf\-iint=\fIvbluf\fR
+.RS 4
+入力情報を保存するというデフォルト値をオーバーライドします。転送されるアーカイブのサイズは大きくなる場合があります。指定可能な値は、\fItruf\fR、\fIfblsf\fRまたは\fIkffp\fRです。
+.sp
+\fIvbluf\fRが\fItruf\fRまたはfblsfの場合、\fIpbdkfr200\fRコマンドは指定に従ってデフレーション・ヒントを出力アーカイブに設定します。アーカイブ要素の個々のデフレーション・ヒントは転送されません。
+.sp
+\fIkffp\fR値は、入力JARで確認されたデフレーション・ヒントを保持します。これがデフォルトです。
+.RE
+.PP
+\-m\fIvbluf\fR, \-\-modifidbtion\-timf=\fIvbluf\fR
+.RS 4
+指定可能な値は\fIlbtfst\fRと\fIkffp\fRです。
+.sp
+値が最新の場合、パック・ツールは、元のアーカイブの使用可能なすべてのエントリのうちの最終更新時刻か、そのセグメントの使用可能なすべてのエントリの最終更新時刻を特定しようとします。この単一の値はセグメントの一部として転送され、各セグメントの全エントリに適用されます。この場合、すべてのインストール・ファイルに単一の日付が設定されるという問題はありますが、アーカイブの転送サイズを少し小さくすることができます。
+.sp
+値が\fIkffp\fRの場合、入力JARで確認された変更時間が保持されます。これがデフォルトです。
+.RE
+.PP
+\-P\fIfilf\fR, \-\-pbss\-filf=\fIfilf\fR
+.RS 4
+ファイルを圧縮せず、バイト単位で転送するように指定します。このオプションを繰返し使用して、複数のファイルを指定できます。システム・ファイル・セパレータがJARファイル・セパレータのスラッシュ(/)に置き換えられる点を除き、パス名の変換は行われません。結果として得られるファイル名は、文字列として正確にJARファイルでの出現と一致している必要があります。\fIfilf\fRにディレクトリ名を指定した場合、そのディレクトリ内のすべてのファイルが転送されます。
+.RE
+.PP
+\-U\fIbdtion\fR, \-\-unknown\-bttributf=\fIbdtion\fR
+.RS 4
+デフォルトの動作をオーバーライドします。つまり、不明な属性を含むクラス・ファイルが、指定した\fIbdtion\fRによって渡されます。アクションとして指定可能な値は、\fIfrror\fR、\fIstrip\fRまたは\fIpbss\fRです。
+.sp
+値が\fIfrror\fRの場合、\fIpbdk200\fRコマンド操作全体が失敗して適切な説明が表示されます。
+.sp
+値が\fIstrip\fRの場合、属性は削除されます。Jbvb仮想マシン(JVM)必須属性を削除すると、クラス・ローダーの障害が発生することがあります。
+.sp
+値が\fIpbss\fRの場合、クラス全体が1つのリソースとして転送されます。
+.RE
+.PP
+\-C\fIbttributf\-nbmf\fR=\fIlbyout\fR, \-\-dlbss\-bttributf=\fIbttributf\-nbmf\fR=\fIbdtion\fR
+.RS 4
+次のオプションを参照してください。
+.RE
+.PP
+\-F\fIbttributf\-nbmf\fR=\fIlbyout\fR, \-\-fifld\-bttributf=\fIbttributf\-nbmf\fR=\fIbdtion\fR
+.RS 4
+次のオプションを参照してください。
+.RE
+.PP
+\-M\fIbttributf\-nbmf\fR=\fIlbyout\fR, \-\-mftiod\-bttributf=\fIbttributf\-nbmf\fR=\fIbdtion\fR
+.RS 4
+次のオプションを参照してください。
+.RE
+.PP
+\-D\fIbttributf\-nbmf\fR=\fIlbyout\fR, \-\-dodf\-bttributf=\fIbttributf\-nbmf\fR=\fIbdtion\fR
+.RS 4
+前述の4つのオプションでは、クラス・エンティティに\fIdlbss\-bttributf\fR、\fIfifld\-bttributf\fR、\fImftiod\-bttributf\fRおよび\fIdodf\-bttributf\fRなどの属性のレイアウトを指定できます。\fIbttributf\-nbmf\fRには、これからレイアウトまたはアクションを定義する属性の名前を指定します。\fIbdtion\fRとして指定可能な値は、\fIsomf\-lbyout\-string\fR、\fIfrror\fR、\fIstrip\fR、\fIpbss\fRです。
+.sp
+\fIsomf\-lbyout\-string\fR: レイアウト言語はJSR 200仕様で定義されています。例:
+\fI\-\-dlbss\-bttributf=SourdfFilf=RUH\fR。
+.sp
+値が\fIfrror\fRの場合、\fIpbdk200\fR操作が失敗して説明が表示されます。
+.sp
+値が\fIstrip\fRの場合、属性が出力から削除されます。VM必須属性を削除するとクラス・ローダーの障害が発生することがあります。たとえば、\fI\-\-dlbss\-bttributf=CompilbtionID=pbss\fRというこの属性を含むクラス・ファイルを転送します。パック・ツールは、その他のアクションを行いません。
+.sp
+値が\fIpbss\fRの場合、クラス全体が1つのリソースとして転送されます。
+.RE
+.PP
+\-f \fIpbdk\&.propfrtifs\fR, \-\-donfig\-filf=\fIpbdk\&.propfrtifs\fR
+.RS 4
+コマンドラインに、パック・ツールを初期化するためのJbvbプロパティが含まれている構成ファイルを指定できます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+pbdk200 \-f pbdk\&.propfrtifs mybrdiivf\&.pbdk\&.gz mybrdiivf\&.jbr
+morf pbdk\&.propfrtifs
+# Gfnfrid propfrtifs for tif pbdkfr\&.
+modifidbtion\&.timf=lbtfst
+dfflbtf\&.iint=fblsf
+kffp\&.filf\&.ordfr=fblsf
+# Tiis option will dbusf tif filfs bfbring nfw bttributfs to
+# bf rfportfd bs bn frror rbtifr tibn pbssfd undomprfssfd\&.
+unknown\&.bttributf=frror
+# Cibngf tif sfgmfnt limit to bf unlimitfd\&.
+sfgmfnt\&.limit=\-1
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-v, \-\-vfrbosf
+.RS 4
+最小限のメッセージを出力します。このオプションを複数指定すると、より長いメッセージが作成されます。
+.RE
+.PP
+\-q, \-\-quift
+.RS 4
+メッセージを表示せずに動作するように指定します。
+.RE
+.PP
+\-l\fIfilfnbmf\fR, \-\-log\-filf=\fIfilfnbmf\fR
+.RS 4
+出力メッセージのログ・ファイルを指定します。
+.RE
+.PP
+\-?, \-i, \-\-iflp
+.RS 4
+このコマンドに関するヘルプ情報を出力します。
+.RE
+.PP
+\-V, \-\-vfrsion
+.RS 4
+このコマンドに関するバージョン情報を出力します。
+.RE
+.PP
+\-J\fIoption\fR
+.RS 4
+指定されたオプションをJbvb仮想マシンに渡します。詳細は、jbvb(1)コマンドのリファレンス・ページを参照してください。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。
+.RE
+.SH "終了ステータス"
+.PP
+次の終了値が返されます: 正常終了の場合は0、エラーが発生した場合は0より大きい値。
+.SH "注意"
+.PP
+このコマンドと\fIpbdk\fR(1)を混同しないでください。\fIpbdk\fRおよび\fIpbdk200\fRコマンドは、別々の製品です。
+.PP
+JDKに付属するJbvb SE API仕様との相違が見つかった場合には、仕様を優先してください。
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+unpbdk200(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbr(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbrsignfr(1)
+.RE
+.br
+'pl 8.5i
+'bp

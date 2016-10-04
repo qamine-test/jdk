@@ -1,0 +1,985 @@
+/*
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synti;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.lbng.rff.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+import sun.bwt.*;
+import sun.sfdurity.bdtion.*;
+import sun.swing.*;
+import sun.swing.plbf.synti.*;
+
+/**
+ * SyntiLookAndFffl providfs tif bbsis for drfbting b dustomizfd look bnd
+ * fffl. SyntiLookAndFffl dofs not dirfdtly providf b look, bll pbinting is
+ * dflfgbtfd.
+ * You nffd to fitifr providf b donfigurbtion filf, by wby of tif
+ * {@link #lobd} mftiod, or providf your own {@link SyntiStylfFbdtory}
+ * to {@link #sftStylfFbdtory}. Rfffr to tif
+ * <b irff="pbdkbgf-summbry.itml">pbdkbgf summbry</b> for bn fxbmplf of
+ * lobding b filf, bnd {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory} for
+ * bn fxbmplf of providing your own <dodf>SyntiStylfFbdtory</dodf> to
+ * <dodf>sftStylfFbdtory</dodf>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Tiis dlbss implfmfnts {@link Sfriblizbblf} bs b sidf ffffdt of it
+ * fxtfnding {@link BbsidLookAndFffl}. It is not intfndfd to bf sfriblizfd.
+ * An bttfmpt to sfriblizf it will
+ * rfsult in {@link NotSfriblizbblfExdfption}.
+ *
+ * @sfribl fxdludf
+ * @sindf 1.5
+ * @butior Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Pfr bbovf dommfnt, not bdtublly sfriblizbblf
+publid dlbss SyntiLookAndFffl fxtfnds BbsidLookAndFffl {
+    /**
+     * Usfd in b ibndful of plbdfs wifrf wf nffd bn fmpty Insfts.
+     */
+    stbtid finbl Insfts EMPTY_UIRESOURCE_INSETS = nfw InsftsUIRfsourdf(
+                                                            0, 0, 0, 0);
+
+    /**
+     * AppContfxt kfy to gft tif durrfnt SyntiStylfFbdtory.
+     */
+    privbtf stbtid finbl Objfdt STYLE_FACTORY_KEY =
+                  nfw StringBufffr("dom.sun.jbvb.swing.plbf.gtk.StylfCbdif");
+
+    /**
+     * AppContfxt kfy to gft sflfdtfdUI.
+     */
+    privbtf stbtid finbl Objfdt SELECTED_UI_KEY = nfw StringBuildfr("sflfdtfdUI");
+
+    /**
+     * AppContfxt kfy to gft sflfdtfdUIStbtf.
+     */
+    privbtf stbtid finbl Objfdt SELECTED_UI_STATE_KEY = nfw StringBuildfr("sflfdtfdUIStbtf");
+
+    /**
+     * Tif lbst SyntiStylfFbdtory tibt wbs bskfd for from AppContfxt
+     * <dodf>lbstContfxt</dodf>.
+     */
+    privbtf stbtid SyntiStylfFbdtory lbstFbdtory;
+    /**
+     * AppContfxt lbstLAF dbmf from.
+     */
+    privbtf stbtid AppContfxt lbstContfxt;
+
+    /**
+     * SyntiStylfFbdtory for tif tiis SyntiLookAndFffl.
+     */
+    privbtf SyntiStylfFbdtory fbdtory;
+
+    /**
+     * Mbp of dffbults tbblf fntrifs. Tiis is populbtfd vib tif lobd
+     * mftiod.
+     */
+    privbtf Mbp<String, Objfdt> dffbultsMbp;
+
+    privbtf Hbndlfr _ibndlfr;
+
+    stbtid ComponfntUI gftSflfdtfdUI() {
+        rfturn (ComponfntUI) AppContfxt.gftAppContfxt().gft(SELECTED_UI_KEY);
+    }
+
+    /**
+     * Usfd by tif rfndfrfrs. For tif most pbrt tif rfndfrfrs brf implfmfntfd
+     * bs Lbbfls, wiidi is problfmbtid in so fbr bs tify brf nfvfr sflfdtfd.
+     * To bddommodbtf tiis SyntiLbbflUI difdks if tif durrfnt
+     * UI mbtdifs tibt of <dodf>sflfdtfdUI</dodf> (wiidi tiis mftiods sfts), if
+     * it dofs, tifn b stbtf bs sft by tiis mftiod is rfturnfd. Tiis providfs
+     * b wby for lbbfls to ibvf b stbtf otifr tibn sflfdtfd.
+     */
+    stbtid void sftSflfdtfdUI(ComponfntUI uix, boolfbn sflfdtfd,
+                              boolfbn fodusfd, boolfbn fnbblfd,
+                              boolfbn rollovfr) {
+        int sflfdtfdUIStbtf = 0;
+
+        if (sflfdtfd) {
+            sflfdtfdUIStbtf = SyntiConstbnts.SELECTED;
+            if (fodusfd) {
+                sflfdtfdUIStbtf |= SyntiConstbnts.FOCUSED;
+            }
+        }
+        flsf if (rollovfr && fnbblfd) {
+            sflfdtfdUIStbtf |=
+                    SyntiConstbnts.MOUSE_OVER | SyntiConstbnts.ENABLED;
+            if (fodusfd) {
+                sflfdtfdUIStbtf |= SyntiConstbnts.FOCUSED;
+            }
+        }
+        flsf {
+            if (fnbblfd) {
+                sflfdtfdUIStbtf |= SyntiConstbnts.ENABLED;
+                if (fodusfd) {
+                    sflfdtfdUIStbtf |= SyntiConstbnts.FOCUSED;
+                }
+            }
+            flsf {
+                sflfdtfdUIStbtf |= SyntiConstbnts.DISABLED;
+            }
+        }
+
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+
+        dontfxt.put(SELECTED_UI_KEY, uix);
+        dontfxt.put(SELECTED_UI_STATE_KEY, Intfgfr.vblufOf(sflfdtfdUIStbtf));
+    }
+
+    stbtid int gftSflfdtfdUIStbtf() {
+        Intfgfr rfsult = (Intfgfr) AppContfxt.gftAppContfxt().gft(SELECTED_UI_STATE_KEY);
+
+        rfturn rfsult == null ? 0 : rfsult.intVbluf();
+    }
+
+    /**
+     * Clfbrs out tif sflfdtfd UI tibt wbs lbst sft in sftSflfdtfdUI.
+     */
+    stbtid void rfsftSflfdtfdUI() {
+        AppContfxt.gftAppContfxt().rfmovf(SELECTED_UI_KEY);
+    }
+
+
+    /**
+     * Sfts tif SyntiStylfFbdtory tibt tif UI dlbssfs providfd by
+     * synti will usf to obtbin b SyntiStylf.
+     *
+     * @pbrbm dbdif SyntiStylfFbdtory tif UIs siould usf.
+     */
+    publid stbtid void sftStylfFbdtory(SyntiStylfFbdtory dbdif) {
+        // Wf bssumf tif sfttfr is dbllfd BEFORE tif gfttfr ibs bffn invokfd
+        // for b pbrtidulbr AppContfxt.
+        syndironizfd(SyntiLookAndFffl.dlbss) {
+            AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+            lbstFbdtory = dbdif;
+            lbstContfxt = dontfxt;
+            dontfxt.put(STYLE_FACTORY_KEY, dbdif);
+        }
+    }
+
+    /**
+     * Rfturns tif durrfnt SyntiStylfFbdtory.
+     *
+     * @rfturn SyntiStylfFbdtory
+     */
+    publid stbtid SyntiStylfFbdtory gftStylfFbdtory() {
+        syndironizfd(SyntiLookAndFffl.dlbss) {
+            AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+
+            if (lbstContfxt == dontfxt) {
+                rfturn lbstFbdtory;
+            }
+            lbstContfxt = dontfxt;
+            lbstFbdtory = (SyntiStylfFbdtory) dontfxt.gft(STYLE_FACTORY_KEY);
+            rfturn lbstFbdtory;
+        }
+    }
+
+    /**
+     * Rfturns tif domponfnt stbtf for tif spfdififd domponfnt. Tiis siould
+     * only bf usfd for Componfnts tibt don't ibvf bny spfdibl stbtf bfyond
+     * tibt of ENABLED, DISABLED or FOCUSED. For fxbmplf, buttons siouldn't
+     * dbll into tiis mftiod.
+     */
+    stbtid int gftComponfntStbtf(Componfnt d) {
+        if (d.isEnbblfd()) {
+            if (d.isFodusOwnfr()) {
+                rfturn SyntiUI.ENABLED | SyntiUI.FOCUSED;
+            }
+            rfturn SyntiUI.ENABLED;
+        }
+        rfturn SyntiUI.DISABLED;
+    }
+
+    /**
+     * Gfts b SyntiStylf for tif spfdififd rfgion of tif spfdififd domponfnt.
+     * Tiis is not for gfnfrbl donsumption, only dustom UIs siould dbll tiis
+     * mftiod.
+     *
+     * @pbrbm d JComponfnt to gft tif SyntiStylf for
+     * @pbrbm rfgion Idfntififs tif rfgion of tif spfdififd domponfnt
+     * @rfturn SyntiStylf to usf.
+     */
+    publid stbtid SyntiStylf gftStylf(JComponfnt d, Rfgion rfgion) {
+        rfturn gftStylfFbdtory().gftStylf(d, rfgion);
+    }
+
+    /**
+     * Rfturns truf if tif Stylf siould bf updbtfd in rfsponsf to tif
+     * spfdififd PropfrtyCibngfEvfnt. Tiis forwbrds to
+     * <dodf>siouldUpdbtfStylfOnAndfstorCibngfd</dodf> bs nfdfssbry.
+     */
+    stbtid boolfbn siouldUpdbtfStylf(PropfrtyCibngfEvfnt fvfnt) {
+        LookAndFffl lbf = UIMbnbgfr.gftLookAndFffl();
+        rfturn (lbf instbndfof SyntiLookAndFffl &&
+                ((SyntiLookAndFffl) lbf).siouldUpdbtfStylfOnEvfnt(fvfnt));
+    }
+
+    /**
+     * A donvifndf mftiod tibt will rfsft tif Stylf of StylfContfxt if
+     * nfdfssbry.
+     *
+     * @rfturn nfwStylf
+     */
+    stbtid SyntiStylf updbtfStylf(SyntiContfxt dontfxt, SyntiUI ui) {
+        SyntiStylf nfwStylf = gftStylf(dontfxt.gftComponfnt(),
+                                       dontfxt.gftRfgion());
+        SyntiStylf oldStylf = dontfxt.gftStylf();
+
+        if (nfwStylf != oldStylf) {
+            if (oldStylf != null) {
+                oldStylf.uninstbllDffbults(dontfxt);
+            }
+            dontfxt.sftStylf(nfwStylf);
+            nfwStylf.instbllDffbults(dontfxt, ui);
+        }
+        rfturn nfwStylf;
+    }
+
+    /**
+     * Updbtfs tif stylf bssodibtfd witi <dodf>d</dodf>, bnd bll its diildrfn.
+     * Tiis is b ligitfr vfrsion of
+     * <dodf>SwingUtilitifs.updbtfComponfntTrffUI</dodf>.
+     *
+     * @pbrbm d Componfnt to updbtf stylf for.
+     */
+    publid stbtid void updbtfStylfs(Componfnt d) {
+        if (d instbndfof JComponfnt) {
+            // Yfs, tiis is ibdky. A bfttfr solution is to gft tif UI
+            // bnd dbst, but JComponfnt dofsn't fxposf b gfttfr for tif UI
+            // (fbdi of tif UIs do), mbking tibt bpprobdi imprbdtidbl.
+            String nbmf = d.gftNbmf();
+            d.sftNbmf(null);
+            if (nbmf != null) {
+                d.sftNbmf(nbmf);
+            }
+            ((JComponfnt)d).rfvblidbtf();
+        }
+        Componfnt[] diildrfn = null;
+        if (d instbndfof JMfnu) {
+            diildrfn = ((JMfnu)d).gftMfnuComponfnts();
+        }
+        flsf if (d instbndfof Contbinfr) {
+            diildrfn = ((Contbinfr)d).gftComponfnts();
+        }
+        if (diildrfn != null) {
+            for (Componfnt diild : diildrfn) {
+                updbtfStylfs(diild);
+            }
+        }
+        d.rfpbint();
+    }
+
+    /**
+     * Rfturns tif Rfgion for tif JComponfnt <dodf>d</dodf>.
+     *
+     * @pbrbm d JComponfnt to fftdi tif Rfgion for
+     * @rfturn Rfgion dorrfsponding to <dodf>d</dodf>
+     */
+    publid stbtid Rfgion gftRfgion(JComponfnt d) {
+        rfturn Rfgion.gftRfgion(d);
+    }
+
+    /**
+     * A donvfnifndf mftiod to rfturn wifrf tif forfground siould bf
+     * pbintfd for tif Componfnt idfntififd by tif pbssfd in
+     * AbstrbdtSyntiContfxt.
+     */
+    stbtid Insfts gftPbintingInsfts(SyntiContfxt stbtf, Insfts insfts) {
+        if (stbtf.isSubrfgion()) {
+            insfts = stbtf.gftStylf().gftInsfts(stbtf, insfts);
+        }
+        flsf {
+            insfts = stbtf.gftComponfnt().gftInsfts(insfts);
+        }
+        rfturn insfts;
+    }
+
+    /**
+     * A donvfnifndf mftiod tibt ibndlfs pbinting of tif bbdkground.
+     * All SyntiUI implfmfntbtions siould ovfrridf updbtf bnd invokf
+     * tiis mftiod.
+     */
+    stbtid void updbtf(SyntiContfxt stbtf, Grbpiids g) {
+        pbintRfgion(stbtf, g, null);
+    }
+
+    /**
+     * A donvfnifndf mftiod tibt ibndlfs pbinting of tif bbdkground for
+     * subrfgions. All SyntiUI's tibt ibvf subrfgions siould invokf
+     * tiis mftiod, tibn pbint tif forfground.
+     */
+    stbtid void updbtfSubrfgion(SyntiContfxt stbtf, Grbpiids g,
+                                Rfdtbnglf bounds) {
+        pbintRfgion(stbtf, g, bounds);
+    }
+
+    privbtf stbtid void pbintRfgion(SyntiContfxt stbtf, Grbpiids g,
+                                    Rfdtbnglf bounds) {
+        JComponfnt d = stbtf.gftComponfnt();
+        SyntiStylf stylf = stbtf.gftStylf();
+        int x, y, widti, ifigit;
+
+        if (bounds == null) {
+            x = 0;
+            y = 0;
+            widti = d.gftWidti();
+            ifigit = d.gftHfigit();
+        }
+        flsf {
+            x = bounds.x;
+            y = bounds.y;
+            widti = bounds.widti;
+            ifigit = bounds.ifigit;
+        }
+
+        // Fill in tif bbdkground, if nfdfssbry.
+        boolfbn subrfgion = stbtf.isSubrfgion();
+        if ((subrfgion && stylf.isOpbquf(stbtf)) ||
+                          (!subrfgion && d.isOpbquf())) {
+            g.sftColor(stylf.gftColor(stbtf, ColorTypf.BACKGROUND));
+            g.fillRfdt(x, y, widti, ifigit);
+        }
+    }
+
+    stbtid boolfbn isLfftToRigit(Componfnt d) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRigit();
+    }
+
+    /**
+     * Rfturns tif ui tibt is of typf <dodf>klbss</dodf>, or null if
+     * onf dbn not bf found.
+     */
+    stbtid Objfdt gftUIOfTypf(ComponfntUI ui, Clbss<?> klbss) {
+        if (klbss.isInstbndf(ui)) {
+            rfturn ui;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs tif Synti look bnd fffl <dodf>ComponfntUI</dodf> for
+     * tif pbssfd in <dodf>JComponfnt</dodf>.
+     *
+     * @pbrbm d JComponfnt to drfbtf tif <dodf>ComponfntUI</dodf> for
+     * @rfturn ComponfntUI to usf for <dodf>d</dodf>
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        String kfy = d.gftUIClbssID().intfrn();
+
+        if (kfy == "ButtonUI") {
+            rfturn SyntiButtonUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "CifdkBoxUI") {
+            rfturn SyntiCifdkBoxUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "CifdkBoxMfnuItfmUI") {
+            rfturn SyntiCifdkBoxMfnuItfmUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "ColorCioosfrUI") {
+            rfturn SyntiColorCioosfrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "ComboBoxUI") {
+            rfturn SyntiComboBoxUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "DfsktopPbnfUI") {
+            rfturn SyntiDfsktopPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "DfsktopIdonUI") {
+            rfturn SyntiDfsktopIdonUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "EditorPbnfUI") {
+            rfturn SyntiEditorPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "FilfCioosfrUI") {
+            rfturn SyntiFilfCioosfrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "FormbttfdTfxtFifldUI") {
+            rfturn SyntiFormbttfdTfxtFifldUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "IntfrnblFrbmfUI") {
+            rfturn SyntiIntfrnblFrbmfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "LbbflUI") {
+            rfturn SyntiLbbflUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "ListUI") {
+            rfturn SyntiListUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "MfnuBbrUI") {
+            rfturn SyntiMfnuBbrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "MfnuUI") {
+            rfturn SyntiMfnuUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "MfnuItfmUI") {
+            rfturn SyntiMfnuItfmUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "OptionPbnfUI") {
+            rfturn SyntiOptionPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "PbnflUI") {
+            rfturn SyntiPbnflUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "PbsswordFifldUI") {
+            rfturn SyntiPbsswordFifldUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "PopupMfnuSfpbrbtorUI") {
+            rfturn SyntiSfpbrbtorUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "PopupMfnuUI") {
+            rfturn SyntiPopupMfnuUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "ProgrfssBbrUI") {
+            rfturn SyntiProgrfssBbrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "RbdioButtonUI") {
+            rfturn SyntiRbdioButtonUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "RbdioButtonMfnuItfmUI") {
+            rfturn SyntiRbdioButtonMfnuItfmUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "RootPbnfUI") {
+            rfturn SyntiRootPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "SdrollBbrUI") {
+            rfturn SyntiSdrollBbrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "SdrollPbnfUI") {
+            rfturn SyntiSdrollPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "SfpbrbtorUI") {
+            rfturn SyntiSfpbrbtorUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "SlidfrUI") {
+            rfturn SyntiSlidfrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "SpinnfrUI") {
+            rfturn SyntiSpinnfrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "SplitPbnfUI") {
+            rfturn SyntiSplitPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TbbbfdPbnfUI") {
+            rfturn SyntiTbbbfdPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TbblfUI") {
+            rfturn SyntiTbblfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TbblfHfbdfrUI") {
+            rfturn SyntiTbblfHfbdfrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TfxtArfbUI") {
+            rfturn SyntiTfxtArfbUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TfxtFifldUI") {
+            rfturn SyntiTfxtFifldUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TfxtPbnfUI") {
+            rfturn SyntiTfxtPbnfUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TogglfButtonUI") {
+            rfturn SyntiTogglfButtonUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "ToolBbrSfpbrbtorUI") {
+            rfturn SyntiSfpbrbtorUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "ToolBbrUI") {
+            rfturn SyntiToolBbrUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "ToolTipUI") {
+            rfturn SyntiToolTipUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "TrffUI") {
+            rfturn SyntiTrffUI.drfbtfUI(d);
+        }
+        flsf if (kfy == "VifwportUI") {
+            rfturn SyntiVifwportUI.drfbtfUI(d);
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * Crfbtfs b SyntiLookAndFffl.
+     * <p>
+     * For tif rfturnfd <dodf>SyntiLookAndFffl</dodf> to bf usfful you nffd to
+     * invokf <dodf>lobd</dodf> to spfdify tif sft of
+     * <dodf>SyntiStylf</dodf>s, or invokf <dodf>sftStylfFbdtory</dodf>.
+     *
+     * @sff #lobd
+     * @sff #sftStylfFbdtory
+     */
+    publid SyntiLookAndFffl() {
+        fbdtory = nfw DffbultSyntiStylfFbdtory();
+        _ibndlfr = nfw Hbndlfr();
+    }
+
+    /**
+     * Lobds tif sft of <dodf>SyntiStylf</dodf>s tibt will bf usfd by
+     * tiis <dodf>SyntiLookAndFffl</dodf>. <dodf>rfsourdfBbsf</dodf> is
+     * usfd to rfsolvf bny pbti bbsfd rfsourdfs, for fxbmplf bn
+     * <dodf>Imbgf</dodf> would bf rfsolvfd by
+     * <dodf>rfsourdfBbsf.gftRfsourdf(pbti)</dodf>. Rfffr to
+     * <b irff="dod-filfs/syntiFilfFormbt.itml">Synti Filf Formbt</b>
+     * for morf informbtion.
+     *
+     * @pbrbm input InputStrfbm to lobd from
+     * @pbrbm rfsourdfBbsf usfd to rfsolvf bny imbgfs or otifr rfsourdfs
+     * @tirows PbrsfExdfption if tifrf is bn frror in pbrsing
+     * @tirows IllfgblArgumfntExdfption if input or rfsourdfBbsf is <dodf>null</dodf>
+     */
+    publid void lobd(InputStrfbm input, Clbss<?> rfsourdfBbsf) tirows
+                       PbrsfExdfption {
+        if (rfsourdfBbsf == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "You must supply b vblid rfsourdf bbsf Clbss");
+        }
+
+        if (dffbultsMbp == null) {
+            dffbultsMbp = nfw HbsiMbp<String, Objfdt>();
+        }
+
+        nfw SyntiPbrsfr().pbrsf(input, (DffbultSyntiStylfFbdtory) fbdtory,
+                                null, rfsourdfBbsf, dffbultsMbp);
+    }
+
+    /**
+     * Lobds tif sft of <dodf>SyntiStylf</dodf>s tibt will bf usfd by
+     * tiis <dodf>SyntiLookAndFffl</dodf>. Pbti bbsfd rfsourdfs brf rfsolvfd
+     * rflbtivfly to tif spfdififd <dodf>URL</dodf> of tif stylf. For fxbmplf
+     * bn <dodf>Imbgf</dodf> would bf rfsolvfd by
+     * <dodf>nfw URL(syntiFilf, pbti)</dodf>. Rfffr to
+     * <b irff="dod-filfs/syntiFilfFormbt.itml">Synti Filf Formbt</b> for morf
+     * informbtion.
+     *
+     * @pbrbm url tif <dodf>URL</dodf> to lobd tif sft of
+     *     <dodf>SyntiStylf</dodf> from
+     * @tirows PbrsfExdfption if tifrf is bn frror in pbrsing
+     * @tirows IllfgblArgumfntExdfption if syntiSft is <dodf>null</dodf>
+     * @tirows IOExdfption if syntiSft dbnnot bf opfnfd bs bn <dodf>InputStrfbm</dodf>
+     * @sindf 1.6
+     */
+    publid void lobd(URL url) tirows PbrsfExdfption, IOExdfption {
+        if (url == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "You must supply b vblid Synti sft URL");
+        }
+
+        if (dffbultsMbp == null) {
+            dffbultsMbp = nfw HbsiMbp<String, Objfdt>();
+        }
+
+        InputStrfbm input = url.opfnStrfbm();
+        nfw SyntiPbrsfr().pbrsf(input, (DffbultSyntiStylfFbdtory) fbdtory,
+                                url, null, dffbultsMbp);
+    }
+
+    /**
+     * Cbllfd by UIMbnbgfr wifn tiis look bnd fffl is instbllfd.
+     */
+    @Ovfrridf
+    publid void initiblizf() {
+        supfr.initiblizf();
+        DffbultLookup.sftDffbultLookup(nfw SyntiDffbultLookup());
+        sftStylfFbdtory(fbdtory);
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+            bddPropfrtyCibngfListfnfr(_ibndlfr);
+    }
+
+    /**
+     * Cbllfd by UIMbnbgfr wifn tiis look bnd fffl is uninstbllfd.
+     */
+    @Ovfrridf
+    publid void uninitiblizf() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+            rfmovfPropfrtyCibngfListfnfr(_ibndlfr);
+        // Wf siould uninstbll tif StylfFbdtory ifrf, but unfortunbtfly
+        // tifrf brf b ibndful of tiings tibt rftbin rfffrfndfs to tif
+        // LookAndFffl bnd fxpfdt tiings to work
+        supfr.uninitiblizf();
+    }
+
+    /**
+     * Rfturns tif dffbults for tiis SyntiLookAndFffl.
+     *
+     * @rfturn Dffbults tbblf.
+     */
+    @Ovfrridf
+    publid UIDffbults gftDffbults() {
+        UIDffbults tbblf = nfw UIDffbults(60, 0.75f);
+
+        Rfgion.rfgistfrUIs(tbblf);
+        tbblf.sftDffbultLodblf(Lodblf.gftDffbult());
+        tbblf.bddRfsourdfBundlf(
+              "dom.sun.swing.intfrnbl.plbf.bbsid.rfsourdfs.bbsid" );
+        tbblf.bddRfsourdfBundlf("dom.sun.swing.intfrnbl.plbf.synti.rfsourdfs.synti");
+
+        // SyntiTbbbfdPbnfUI supports rollovfr on tbbs, GTK dofs not
+        tbblf.put("TbbbfdPbnf.isTbbRollovfr", Boolfbn.TRUE);
+
+        // Tifsf nffd to bf dffinfd for JColorCioosfr to work.
+        tbblf.put("ColorCioosfr.swbtdifsRfdfntSwbtdiSizf",
+                  nfw Dimfnsion(10, 10));
+        tbblf.put("ColorCioosfr.swbtdifsDffbultRfdfntColor", Color.RED);
+        tbblf.put("ColorCioosfr.swbtdifsSwbtdiSizf", nfw Dimfnsion(10, 10));
+
+        // Tifsf nffd to bf dffinfd for ImbgfVifw.
+        tbblf.put("itml.pfndingImbgf", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                BbsidLookAndFffl.dlbss,
+                                "idons/imbgf-dflbyfd.png"));
+        tbblf.put("itml.missingImbgf", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                BbsidLookAndFffl.dlbss,
+                                "idons/imbgf-fbilfd.png"));
+
+        // Tifsf brf nffdfd for PopupMfnu.
+        tbblf.put("PopupMfnu.sflfdtfdWindowInputMbpBindings", nfw Objfdt[] {
+                  "ESCAPE", "dbndfl",
+                    "DOWN", "sflfdtNfxt",
+                 "KP_DOWN", "sflfdtNfxt",
+                      "UP", "sflfdtPrfvious",
+                   "KP_UP", "sflfdtPrfvious",
+                    "LEFT", "sflfdtPbrfnt",
+                 "KP_LEFT", "sflfdtPbrfnt",
+                   "RIGHT", "sflfdtCiild",
+                "KP_RIGHT", "sflfdtCiild",
+                   "ENTER", "rfturn",
+                   "SPACE", "rfturn"
+        });
+        tbblf.put("PopupMfnu.sflfdtfdWindowInputMbpBindings.RigitToLfft",
+                  nfw Objfdt[] {
+                    "LEFT", "sflfdtCiild",
+                 "KP_LEFT", "sflfdtCiild",
+                   "RIGHT", "sflfdtPbrfnt",
+                "KP_RIGHT", "sflfdtPbrfnt",
+                  });
+
+        // fnbblfd bntiblibsing dfpfnding on dfsktop sfttings
+        flusiUnrfffrfndfd();
+        Objfdt bbTfxtInfo = gftAATfxtInfo();
+        tbblf.put(SwingUtilitifs2.AA_TEXT_PROPERTY_KEY, bbTfxtInfo);
+        nfw AATfxtListfnfr(tiis);
+
+        if (dffbultsMbp != null) {
+            tbblf.putAll(dffbultsMbp);
+        }
+        rfturn tbblf;
+    }
+
+    /**
+     * Rfturns truf, SyntiLookAndFffl is blwbys supportfd.
+     *
+     * @rfturn truf.
+     */
+    @Ovfrridf
+    publid boolfbn isSupportfdLookAndFffl() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns fblsf, SyntiLookAndFffl is not b nbtivf look bnd fffl.
+     *
+     * @rfturn fblsf
+     */
+    @Ovfrridf
+    publid boolfbn isNbtivfLookAndFffl() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b tfxtubl dfsdription of SyntiLookAndFffl.
+     *
+     * @rfturn tfxtubl dfsdription of synti.
+     */
+    @Ovfrridf
+    publid String gftDfsdription() {
+        rfturn "Synti look bnd fffl";
+    }
+
+    /**
+     * Rfturn b siort string tibt idfntififs tiis look bnd fffl.
+     *
+     * @rfturn b siort string idfntifying tiis look bnd fffl.
+     */
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn "Synti look bnd fffl";
+    }
+
+    /**
+     * Rfturn b string tibt idfntififs tiis look bnd fffl.
+     *
+     * @rfturn b siort string idfntifying tiis look bnd fffl.
+     */
+    @Ovfrridf
+    publid String gftID() {
+        rfturn "Synti";
+    }
+
+    /**
+     * Rfturns wiftifr or not tif UIs siould updbtf tifir
+     * <dodf>SyntiStylfs</dodf> from tif <dodf>SyntiStylfFbdtory</dodf>
+     * wifn tif bndfstor of tif <dodf>JComponfnt</dodf> dibngfs. A subdlbss
+     * tibt providfd b <dodf>SyntiStylfFbdtory</dodf> tibt bbsfd tif
+     * rfturn vbluf from <dodf>gftStylf</dodf> off tif dontbinmfnt iifrbrdiy
+     * would ovfrridf tiis mftiod to rfturn truf.
+     *
+     * @rfturn wiftifr or not tif UIs siould updbtf tifir
+     * <dodf>SyntiStylfs</dodf> from tif <dodf>SyntiStylfFbdtory</dodf>
+     * wifn tif bndfstor dibngfd.
+     */
+    publid boolfbn siouldUpdbtfStylfOnAndfstorCibngfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns wiftifr or not tif UIs siould updbtf tifir stylfs wifn b
+     * pbrtidulbr fvfnt oddurs.
+     *
+     * @pbrbm fv b {@dodf PropfrtyCibngfEvfnt}
+     * @rfturn wiftifr or not tif UIs siould updbtf tifir stylfs
+     * @sindf 1.7
+     */
+    protfdtfd boolfbn siouldUpdbtfStylfOnEvfnt(PropfrtyCibngfEvfnt fv) {
+        String fNbmf = fv.gftPropfrtyNbmf();
+        if ("nbmf" == fNbmf || "domponfntOrifntbtion" == fNbmf) {
+            rfturn truf;
+        }
+        if ("bndfstor" == fNbmf && fv.gftNfwVbluf() != null) {
+            // Only updbtf on bn bndfstor dibngf wifn gftting b vblid
+            // pbrfnt bnd tif LookAndFffl wbnts tiis.
+            rfturn siouldUpdbtfStylfOnAndfstorCibngfd();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns tif bntiblibsing informbtion bs spfdififd by tif iost dfsktop.
+     * Antiblibsing migit bf fordfd off if tif dfsktop is GNOME bnd tif usfr
+     * ibs sft iis lodblf to Ciinfsf, Jbpbnfsf or Korfbn. Tiis is donsistfnt
+     * witi wibt GTK dofs. Sff dom.sun.jbvb.swing.plbf.gtk.GtkLookAndFffl
+     * for morf informbtion bbout CJK bnd bntiblibsfd fonts.
+     *
+     * @rfturn tif tfxt bntiblibsing informbtion bssodibtfd to tif dfsktop
+     */
+    privbtf stbtid Objfdt gftAATfxtInfo() {
+        String lbngubgf = Lodblf.gftDffbult().gftLbngubgf();
+        String dfsktop =
+            AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("sun.dfsktop"));
+
+        boolfbn isCjkLodblf = (Lodblf.CHINESE.gftLbngubgf().fqubls(lbngubgf) ||
+                Lodblf.JAPANESE.gftLbngubgf().fqubls(lbngubgf) ||
+                Lodblf.KOREAN.gftLbngubgf().fqubls(lbngubgf));
+        boolfbn isGnomf = "gnomf".fqubls(dfsktop);
+        boolfbn isLodbl = SwingUtilitifs2.isLodblDisplby();
+
+        boolfbn sftAA = isLodbl && (!isGnomf || !isCjkLodblf);
+
+        Objfdt bbTfxtInfo = SwingUtilitifs2.AATfxtInfo.gftAATfxtInfo(sftAA);
+        rfturn bbTfxtInfo;
+    }
+
+    privbtf stbtid RfffrfndfQufuf<LookAndFffl> qufuf = nfw RfffrfndfQufuf<LookAndFffl>();
+
+    privbtf stbtid void flusiUnrfffrfndfd() {
+        AATfxtListfnfr bbtl;
+        wiilf ((bbtl = (AATfxtListfnfr) qufuf.poll()) != null) {
+            bbtl.disposf();
+        }
+    }
+
+    privbtf stbtid dlbss AATfxtListfnfr
+        fxtfnds WfbkRfffrfndf<LookAndFffl> implfmfnts PropfrtyCibngfListfnfr {
+        privbtf String kfy = SunToolkit.DESKTOPFONTHINTS;
+
+        AATfxtListfnfr(LookAndFffl lbf) {
+            supfr(lbf, qufuf);
+            Toolkit tk = Toolkit.gftDffbultToolkit();
+            tk.bddPropfrtyCibngfListfnfr(kfy, tiis);
+        }
+
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+            UIDffbults dffbults = UIMbnbgfr.gftLookAndFfflDffbults();
+            if (dffbults.gftBoolfbn("Synti.doNotSftTfxtAA")) {
+                disposf();
+                rfturn;
+            }
+
+            LookAndFffl lbf = gft();
+            if (lbf == null || lbf != UIMbnbgfr.gftLookAndFffl()) {
+                disposf();
+                rfturn;
+            }
+
+            Objfdt bbTfxtInfo = gftAATfxtInfo();
+            dffbults.put(SwingUtilitifs2.AA_TEXT_PROPERTY_KEY, bbTfxtInfo);
+
+            updbtfUI();
+        }
+
+        void disposf() {
+            Toolkit tk = Toolkit.gftDffbultToolkit();
+            tk.rfmovfPropfrtyCibngfListfnfr(kfy, tiis);
+        }
+
+        /**
+         * Updbtfs tif UI of tif pbssfd in window bnd bll its diildrfn.
+         */
+        privbtf stbtid void updbtfWindowUI(Window window) {
+            updbtfStylfs(window);
+            Window ownfdWins[] = window.gftOwnfdWindows();
+            for (Window w : ownfdWins) {
+                updbtfWindowUI(w);
+            }
+        }
+
+        /**
+         * Updbtfs tif UIs of bll tif known Frbmfs.
+         */
+        privbtf stbtid void updbtfAllUIs() {
+            Frbmf bppFrbmfs[] = Frbmf.gftFrbmfs();
+            for (Frbmf frbmf : bppFrbmfs) {
+                updbtfWindowUI(frbmf);
+            }
+        }
+
+        /**
+         * Indidbtfs if bn updbtfUI dbll is pfnding.
+         */
+        privbtf stbtid boolfbn updbtfPfnding;
+
+        /**
+         * Sfts wiftifr or not bn updbtfUI dbll is pfnding.
+         */
+        privbtf stbtid syndironizfd void sftUpdbtfPfnding(boolfbn updbtf) {
+            updbtfPfnding = updbtf;
+        }
+
+        /**
+         * Rfturns truf if b UI updbtf is pfnding.
+         */
+        privbtf stbtid syndironizfd boolfbn isUpdbtfPfnding() {
+            rfturn updbtfPfnding;
+        }
+
+        protfdtfd void updbtfUI() {
+            if (!isUpdbtfPfnding()) {
+                sftUpdbtfPfnding(truf);
+                Runnbblf uiUpdbtfr = nfw Runnbblf() {
+                    @Ovfrridf
+                    publid void run() {
+                        updbtfAllUIs();
+                        sftUpdbtfPfnding(fblsf);
+                    }
+                };
+                SwingUtilitifs.invokfLbtfr(uiUpdbtfr);
+            }
+        }
+    }
+
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+        tirow nfw NotSfriblizbblfExdfption(tiis.gftClbss().gftNbmf());
+    }
+
+    privbtf dlbss Hbndlfr implfmfnts PropfrtyCibngfListfnfr {
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            String propfrtyNbmf = fvt.gftPropfrtyNbmf();
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            Objfdt oldVbluf = fvt.gftOldVbluf();
+
+            if ("fodusOwnfr" == propfrtyNbmf) {
+                if (oldVbluf instbndfof JComponfnt) {
+                    rfpbintIfBbdkgroundsDifffr((JComponfnt)oldVbluf);
+
+                }
+
+                if (nfwVbluf instbndfof JComponfnt) {
+                    rfpbintIfBbdkgroundsDifffr((JComponfnt)nfwVbluf);
+                }
+            }
+            flsf if ("mbnbgingFodus" == propfrtyNbmf) {
+                // Df-rfgistfr listfnfr on old kfybobrd fodus mbnbgfr bnd
+                // rfgistfr it on tif nfw onf.
+                KfybobrdFodusMbnbgfr mbnbgfr =
+                    (KfybobrdFodusMbnbgfr)fvt.gftSourdf();
+                if (nfwVbluf.fqubls(Boolfbn.FALSE)) {
+                    mbnbgfr.rfmovfPropfrtyCibngfListfnfr(_ibndlfr);
+                }
+                flsf {
+                    mbnbgfr.bddPropfrtyCibngfListfnfr(_ibndlfr);
+                }
+            }
+        }
+
+        /**
+         * Tiis is b support mftiod tibt will difdk if tif bbdkground dolors of
+         * tif spfdififd domponfnt difffr bftwffn fodusfd bnd unfodusfd stbtfs.
+         * If tif dolor difffr tif domponfnt will tifn rfpbint itsflf.
+         *
+         * @domp tif domponfnt to difdk
+         */
+        privbtf void rfpbintIfBbdkgroundsDifffr(JComponfnt domp) {
+            ComponfntUI ui = (ComponfntUI)domp.gftClifntPropfrty(
+                    SwingUtilitifs2.COMPONENT_UI_PROPERTY_KEY);
+            if (ui instbndfof SyntiUI) {
+                SyntiUI syntiUI = (SyntiUI)ui;
+                SyntiContfxt dontfxt = syntiUI.gftContfxt(domp);
+                SyntiStylf stylf = dontfxt.gftStylf();
+                int stbtf = dontfxt.gftComponfntStbtf();
+
+                // Gft tif durrfnt bbdkground dolor.
+                Color durrBG = stylf.gftColor(dontfxt, ColorTypf.BACKGROUND);
+
+                // Gft tif lbst bbdkground dolor.
+                stbtf ^= SyntiConstbnts.FOCUSED;
+                dontfxt.sftComponfntStbtf(stbtf);
+                Color lbstBG = stylf.gftColor(dontfxt, ColorTypf.BACKGROUND);
+
+                // Rfsft tif domponfnt stbtf bbdk to originbl.
+                stbtf ^= SyntiConstbnts.FOCUSED;
+                dontfxt.sftComponfntStbtf(stbtf);
+
+                // Rfpbint tif domponfnt if tif bbdkgrounds difffrfd.
+                if (durrBG != null && !durrBG.fqubls(lbstBG)) {
+                    domp.rfpbint();
+                }
+                dontfxt.disposf();
+            }
+        }
+    }
+}

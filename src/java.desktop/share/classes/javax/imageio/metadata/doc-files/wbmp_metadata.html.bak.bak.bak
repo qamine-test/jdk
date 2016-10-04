@@ -1,68 +1,340 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
 <itml>
 <ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<!--
+<!--
+<!--
+<!--
 <!--
 Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
+
+
+
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
 bddompbnifd tiis dodf).
 
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 <titlf>WBMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+<titlf>WBMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+<titlf>WBMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+<titlf>WBMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+<titlf>WBMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
 </ifbd>
 
+
+
+
+
+<body>
+<body>
+<body>
+<body>
 <body>
 <dfntfr><i1>
+<dfntfr><i1>
+<dfntfr><i1>
+<dfntfr><i1>
+<dfntfr><i1>
+WBMP Mftbdbtb Formbt Spfdifidbtion
+WBMP Mftbdbtb Formbt Spfdifidbtion
+WBMP Mftbdbtb Formbt Spfdifidbtion
+WBMP Mftbdbtb Formbt Spfdifidbtion
 WBMP Mftbdbtb Formbt Spfdifidbtion
 </i1></dfntfr>
+</i1></dfntfr>
+</i1></dfntfr>
+</i1></dfntfr>
+</i1></dfntfr>
+
+
+
+
 
 Tif XML sdifmb for tif nbtivf imbgf mftbdbtb formbt is bs follows:
+Tif XML sdifmb for tif nbtivf imbgf mftbdbtb formbt is bs follows:
+Tif XML sdifmb for tif nbtivf imbgf mftbdbtb formbt is bs follows:
+Tif XML sdifmb for tif nbtivf imbgf mftbdbtb formbt is bs follows:
+Tif XML sdifmb for tif nbtivf imbgf mftbdbtb formbt is bs follows:
+
+
+
+
 
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+&lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
+&lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
+&lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
+&lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
 &lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
 &lt;!-- Sdifmb for WBMP nbtivf imbgf mftbdbtb formbt. --&gt;
+&lt;!-- Sdifmb for WBMP nbtivf imbgf mftbdbtb formbt. --&gt;
+&lt;!-- Sdifmb for WBMP nbtivf imbgf mftbdbtb formbt. --&gt;
+&lt;!-- Sdifmb for WBMP nbtivf imbgf mftbdbtb formbt. --&gt;
+&lt;!-- Sdifmb for WBMP nbtivf imbgf mftbdbtb formbt. --&gt;
+
+
+
+
 
 &lt;xsd:sdifmb xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+&lt;xsd:sdifmb xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+&lt;xsd:sdifmb xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+&lt;xsd:sdifmb xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+&lt;xsd:sdifmb xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+            xmlns="ittp://jbvbx.imbgfio.plugins"
+            xmlns="ittp://jbvbx.imbgfio.plugins"
+            xmlns="ittp://jbvbx.imbgfio.plugins"
+            xmlns="ittp://jbvbx.imbgfio.plugins"
             xmlns="ittp://jbvbx.imbgfio.plugins"
             tbrgftNbmfspbdf="ittp://jbvbx.imbgfio.plugins"&gt;
+            tbrgftNbmfspbdf="ittp://jbvbx.imbgfio.plugins"&gt;
+            tbrgftNbmfspbdf="ittp://jbvbx.imbgfio.plugins"&gt;
+            tbrgftNbmfspbdf="ittp://jbvbx.imbgfio.plugins"&gt;
+            tbrgftNbmfspbdf="ittp://jbvbx.imbgfio.plugins"&gt;
+
+
+
+
 
   &lt;!-- WBMP Sdifmb 1.0 root flfmfnt. --&gt;
+  &lt;!-- WBMP Sdifmb 1.0 root flfmfnt. --&gt;
+  &lt;!-- WBMP Sdifmb 1.0 root flfmfnt. --&gt;
+  &lt;!-- WBMP Sdifmb 1.0 root flfmfnt. --&gt;
+  &lt;!-- WBMP Sdifmb 1.0 root flfmfnt. --&gt;
+  &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_wbmp_1.0"&gt;
+  &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_wbmp_1.0"&gt;
+  &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_wbmp_1.0"&gt;
+  &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_wbmp_1.0"&gt;
   &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_wbmp_1.0"&gt;
     &lt;xsd:sfqufndf&gt;
+    &lt;xsd:sfqufndf&gt;
+    &lt;xsd:sfqufndf&gt;
+    &lt;xsd:sfqufndf&gt;
+    &lt;xsd:sfqufndf&gt;
+
+
+
+
 
       &lt;!-- WBMP imbgf typf --&gt;
+      &lt;!-- WBMP imbgf typf --&gt;
+      &lt;!-- WBMP imbgf typf --&gt;
+      &lt;!-- WBMP imbgf typf --&gt;
+      &lt;!-- WBMP imbgf typf --&gt;
+      &lt;xsd:flfmfnt nbmf="WBMPTypf" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="WBMPTypf" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="WBMPTypf" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="WBMPTypf" typf="xsd:unsignfdInt"/&gt;
       &lt;xsd:flfmfnt nbmf="WBMPTypf" typf="xsd:unsignfdInt"/&gt;
 
+
+
+
+
+      &lt;!-- Bitmbp widti --&gt;
+      &lt;!-- Bitmbp widti --&gt;
+      &lt;!-- Bitmbp widti --&gt;
+      &lt;!-- Bitmbp widti --&gt;
       &lt;!-- Bitmbp widti --&gt;
       &lt;xsd:flfmfnt nbmf="Widti" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="Widti" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="Widti" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="Widti" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="Widti" typf="xsd:unsignfdInt"/&gt;
+
+
+
+
 
       &lt;!-- Bitmbp ifigit --&gt;
+      &lt;!-- Bitmbp ifigit --&gt;
+      &lt;!-- Bitmbp ifigit --&gt;
+      &lt;!-- Bitmbp ifigit --&gt;
+      &lt;!-- Bitmbp ifigit --&gt;
+      &lt;xsd:flfmfnt nbmf="Hfigit" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="Hfigit" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="Hfigit" typf="xsd:unsignfdInt"/&gt;
+      &lt;xsd:flfmfnt nbmf="Hfigit" typf="xsd:unsignfdInt"/&gt;
       &lt;xsd:flfmfnt nbmf="Hfigit" typf="xsd:unsignfdInt"/&gt;
 
+
+
+
+
+     &lt;/xsd:sfqufndf&gt;
+     &lt;/xsd:sfqufndf&gt;
+     &lt;/xsd:sfqufndf&gt;
+     &lt;/xsd:sfqufndf&gt;
      &lt;/xsd:sfqufndf&gt;
   &lt;/xsd:flfmfnt&gt; &lt;!-- wbmp_imbgf_1.0 --&gt;
+  &lt;/xsd:flfmfnt&gt; &lt;!-- wbmp_imbgf_1.0 --&gt;
+  &lt;/xsd:flfmfnt&gt; &lt;!-- wbmp_imbgf_1.0 --&gt;
+  &lt;/xsd:flfmfnt&gt; &lt;!-- wbmp_imbgf_1.0 --&gt;
+  &lt;/xsd:flfmfnt&gt; &lt;!-- wbmp_imbgf_1.0 --&gt;
+
+
+
+
 
 &lt;/xsd:sdifmb&gt;
+&lt;/xsd:sdifmb&gt;
+&lt;/xsd:sdifmb&gt;
+&lt;/xsd:sdifmb&gt;
+&lt;/xsd:sdifmb&gt;
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 
+
+
+
+
+@sindf 1.5
+@sindf 1.5
+@sindf 1.5
+@sindf 1.5
 @sindf 1.5
 
+
+
+
+
+</body>
+</body>
+</body>
+</body>
 </body>

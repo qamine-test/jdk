@@ -1,46 +1,230 @@
 #
+#
+#
+#
+#
+# Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+#
+#
+#
+#
 #
 
+
+
+
+
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
 # Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
 # tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+
+
+
+
 
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+ALL=Tout
+ALL=Tout
+ALL=Tout
+ALL=Tout
 ALL=Tout
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+SEVERE=Grbvf
+SEVERE=Grbvf
+SEVERE=Grbvf
+SEVERE=Grbvf
 SEVERE=Grbvf
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+WARNING=Avfrtissfmfnt
+WARNING=Avfrtissfmfnt
+WARNING=Avfrtissfmfnt
+WARNING=Avfrtissfmfnt
 WARNING=Avfrtissfmfnt
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+INFO=Infos
+INFO=Infos
+INFO=Infos
+INFO=Infos
 INFO=Infos
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+CONFIG= Config
+CONFIG= Config
+CONFIG= Config
+CONFIG= Config
 CONFIG= Config
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+FINE=Pr\u00E9dis
+FINE=Pr\u00E9dis
+FINE=Pr\u00E9dis
+FINE=Pr\u00E9dis
 FINE=Pr\u00E9dis
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+FINER=Plus pr\u00E9dis
+FINER=Plus pr\u00E9dis
+FINER=Plus pr\u00E9dis
+FINER=Plus pr\u00E9dis
 FINER=Plus pr\u00E9dis
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+FINEST=Lf plus pr\u00E9dis
+FINEST=Lf plus pr\u00E9dis
+FINEST=Lf plus pr\u00E9dis
+FINEST=Lf plus pr\u00E9dis
 FINEST=Lf plus pr\u00E9dis
 # Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+# Tif following ALL CAPS words siould bf trbnslbtfd.
+OFF=D\u00E9sbdtiv\u00E9
+OFF=D\u00E9sbdtiv\u00E9
+OFF=D\u00E9sbdtiv\u00E9
+OFF=D\u00E9sbdtiv\u00E9
 OFF=D\u00E9sbdtiv\u00E9

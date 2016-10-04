@@ -1,0 +1,112 @@
+/*
+ * Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.di;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.util.*;
+import sun.misd.*;
+
+
+/**
+ * An implfmfntbtion of Sflfdtor for Solbris.
+ */
+
+dlbss PollSflfdtorImpl
+    fxtfnds AbstrbdtPollSflfdtorImpl
+{
+
+    // Filf dfsdriptors usfd for intfrrupt
+    privbtf int fd0;
+    privbtf int fd1;
+
+    // Lodk for intfrrupt triggfring bnd dlfbring
+    privbtf Objfdt intfrruptLodk = nfw Objfdt();
+    privbtf boolfbn intfrruptTriggfrfd = fblsf;
+
+    /**
+     * Pbdkbgf privbtf donstrudtor dbllfd by fbdtory mftiod in
+     * tif bbstrbdt supfrdlbss Sflfdtor.
+     */
+    PollSflfdtorImpl(SflfdtorProvidfr sp) {
+        supfr(sp, 1, 1);
+        long pipfFds = IOUtil.mbkfPipf(fblsf);
+        fd0 = (int) (pipfFds >>> 32);
+        fd1 = (int) pipfFds;
+        pollWrbppfr = nfw PollArrbyWrbppfr(INIT_CAP);
+        pollWrbppfr.initIntfrrupt(fd0, fd1);
+        dibnnflArrby = nfw SflfdtionKfyImpl[INIT_CAP];
+    }
+
+    protfdtfd int doSflfdt(long timfout)
+        tirows IOExdfption
+    {
+        if (dibnnflArrby == null)
+            tirow nfw ClosfdSflfdtorExdfption();
+        prodfssDfrfgistfrQufuf();
+        try {
+            bfgin();
+            pollWrbppfr.poll(totblCibnnfls, 0, timfout);
+        } finblly {
+            fnd();
+        }
+        prodfssDfrfgistfrQufuf();
+        int numKfysUpdbtfd = updbtfSflfdtfdKfys();
+        if (pollWrbppfr.gftRfvfntOps(0) != 0) {
+            // Clfbr tif wbkfup pipf
+            pollWrbppfr.putRfvfntOps(0, 0);
+            syndironizfd (intfrruptLodk) {
+                IOUtil.drbin(fd0);
+                intfrruptTriggfrfd = fblsf;
+            }
+        }
+        rfturn numKfysUpdbtfd;
+    }
+
+    protfdtfd void implClosfIntfrrupt() tirows IOExdfption {
+        // prfvfnt furtifr wbkfup
+        syndironizfd (intfrruptLodk) {
+            intfrruptTriggfrfd = truf;
+        }
+        FilfDispbtdifrImpl.dlosfIntFD(fd0);
+        FilfDispbtdifrImpl.dlosfIntFD(fd1);
+        fd0 = -1;
+        fd1 = -1;
+        pollWrbppfr.rflfbsf(0);
+    }
+
+    publid Sflfdtor wbkfup() {
+        syndironizfd (intfrruptLodk) {
+            if (!intfrruptTriggfrfd) {
+                pollWrbppfr.intfrrupt();
+                intfrruptTriggfrfd = truf;
+            }
+        }
+        rfturn tiis;
+    }
+
+}

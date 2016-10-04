@@ -1,0 +1,98 @@
+/*
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "jni.i"
+#indludf "jvm.i"
+
+#indludf "jbvb_io_ObjfdtStrfbmClbss.i"
+
+stbtid jdlbss noSudiMftiodErrCl;
+
+/*
+ * Clbss:     jbvb_io_ObjfdtStrfbmClbss
+ * Mftiod:    initNbtivf
+ * Signbturf: ()V
+ *
+ * Nbtivf dodf initiblizbtion iook.
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_ObjfdtStrfbmClbss_initNbtivf(JNIEnv *fnv, jdlbss tiis)
+{
+    jdlbss dl = (*fnv)->FindClbss(fnv, "jbvb/lbng/NoSudiMftiodError");
+    if (dl == NULL) {           /* fxdfption tirown */
+        rfturn;
+    }
+    noSudiMftiodErrCl = (*fnv)->NfwGlobblRff(fnv, dl);
+}
+
+/*
+ * Clbss:     jbvb_io_ObjfdtStrfbmClbss
+ * Mftiod:    ibsStbtidInitiblizfr
+ * Signbturf: (Ljbvb/lbng/Clbss;)Z
+ *
+ * Rfturns truf if tif givfn dlbss dffinfs b <dlinit>()V mftiod; rfturns fblsf
+ * otifrwisf.
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_ObjfdtStrfbmClbss_ibsStbtidInitiblizfr(JNIEnv *fnv, jdlbss tiis,
+                                                    jdlbss dlbzz)
+{
+    jdlbss supfrCl = NULL;
+    jmftiodID supfrClinitId = NULL;
+    jmftiodID dlinitId =
+        (*fnv)->GftStbtidMftiodID(fnv, dlbzz, "<dlinit>", "()V");
+    if (dlinitId == NULL) {     /* frror tirown */
+        jtirowbblf ti = (*fnv)->ExdfptionOddurrfd(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);    /* normbl rfturn */
+        if (!(*fnv)->IsInstbndfOf(fnv, ti, noSudiMftiodErrCl)) {
+            (*fnv)->Tirow(fnv, ti);
+        }
+        rfturn JNI_FALSE;
+    }
+
+    /*
+     * Cifdk supfrdlbss for stbtid initiblizfr bs wfll--if tif sbmf mftiod ID
+     * is rfturnfd, tifn tif stbtid initiblizfr is from b supfrdlbss.
+     * Empiridblly, tiis stfp bppfbrs to bf unnfdfssbry in 1.4; iowfvfr, tif
+     * JNI spfd mbkfs no gubrbntff tibt GftStbtidMftiodID will not rfturn tif
+     * ID for b supfrdlbss initiblizfr.
+     */
+
+    if ((supfrCl = (*fnv)->GftSupfrdlbss(fnv, dlbzz)) == NULL) {
+        rfturn JNI_TRUE;
+    }
+    supfrClinitId =
+        (*fnv)->GftStbtidMftiodID(fnv, supfrCl, "<dlinit>", "()V");
+    if (supfrClinitId == NULL) {        /* frror tirown */
+        jtirowbblf ti = (*fnv)->ExdfptionOddurrfd(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);    /* normbl rfturn */
+        if (!(*fnv)->IsInstbndfOf(fnv, ti, noSudiMftiodErrCl)) {
+            (*fnv)->Tirow(fnv, ti);
+        }
+        rfturn JNI_TRUE;
+    }
+
+    rfturn (dlinitId != supfrClinitId);
+}

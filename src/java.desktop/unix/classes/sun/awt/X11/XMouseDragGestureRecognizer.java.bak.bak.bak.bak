@@ -1,233 +1,1165 @@
 /*
- * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf sun.bwt.X11;
-
-import jbvb.bwt.Toolkit;
-import jbvb.bwt.Componfnt;
-
-import jbvb.bwt.Point;
-import jbvb.bwt.dnd.DnDConstbnts;
-import jbvb.bwt.dnd.DrbgSourdf;
-import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
-import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
-
-import jbvb.bwt.fvfnt.InputEvfnt;
-import jbvb.bwt.fvfnt.MousfEvfnt;
-import jbvb.bwt.fvfnt.MousfListfnfr;
-import jbvb.bwt.fvfnt.MousfMotionListfnfr;
-
-import jbvb.lbng.rfflfdt.*;
-
-import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
-
-/**
- * <p>
- * This subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
- * for Mousf bbsfd gfsturfs on OSF/Motif.
- * </p>
- *
- * @buthor Lburfndf P. G. Cbblf
- *
- * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
- * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
- * @sff jbvb.bwt.dnd.DrbgSourdf
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf sun.bwt.X11;
+pbdkbgf sun.bwt.X11;
+pbdkbgf sun.bwt.X11;
+pbdkbgf sun.bwt.X11;
+pbdkbgf sun.bwt.X11;
+
+
+
+
+
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+
+
+
+
+
+import jbvb.bwt.Point;
+import jbvb.bwt.Point;
+import jbvb.bwt.Point;
+import jbvb.bwt.Point;
+import jbvb.bwt.Point;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+
+
+
+
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+
+
+
+
+
+import jbvb.lbng.rfflfdt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.lbng.rfflfdt.*;
+
+
+
+
+
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
+ * Tiis subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
+ * Tiis subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
+ * Tiis subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
+ * Tiis subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
+ * for Mousf bbsfd gfsturfs on OSF/Motif.
+ * for Mousf bbsfd gfsturfs on OSF/Motif.
+ * for Mousf bbsfd gfsturfs on OSF/Motif.
+ * for Mousf bbsfd gfsturfs on OSF/Motif.
+ * for Mousf bbsfd gfsturfs on OSF/Motif.
+ * </p>
+ * </p>
+ * </p>
+ * </p>
+ * </p>
+ *
+ *
+ *
+ *
+ *
+ * @butior Lburfndf P. G. Cbblf
+ * @butior Lburfndf P. G. Cbblf
+ * @butior Lburfndf P. G. Cbblf
+ * @butior Lburfndf P. G. Cbblf
+ * @butior Lburfndf P. G. Cbblf
+ *
+ *
+ *
+ *
+ *
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+dlbss XMousfDrbgGfsturfRfdognizfr fxtfnds MousfDrbgGfsturfRfdognizfr {
+dlbss XMousfDrbgGfsturfRfdognizfr fxtfnds MousfDrbgGfsturfRfdognizfr {
+dlbss XMousfDrbgGfsturfRfdognizfr fxtfnds MousfDrbgGfsturfRfdognizfr {
+dlbss XMousfDrbgGfsturfRfdognizfr fxtfnds MousfDrbgGfsturfRfdognizfr {
 dlbss XMousfDrbgGfsturfRfdognizfr fxtfnds MousfDrbgGfsturfRfdognizfr {
 
+
+
+
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -841711780352520383L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -841711780352520383L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -841711780352520383L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -841711780352520383L;
     privbtf stbtid finbl long sfriblVfrsionUID = -841711780352520383L;
 
+
+
+
+
     /*
-     * donstbnt for numbfr of pixfls hystfrisis bfforf drbg is dftfrminfd
-     * to hbvf stbrtfd
+    /*
+    /*
+    /*
+    /*
+     * donstbnt for numbfr of pixfls iystfrisis bfforf drbg is dftfrminfd
+     * donstbnt for numbfr of pixfls iystfrisis bfforf drbg is dftfrminfd
+     * donstbnt for numbfr of pixfls iystfrisis bfforf drbg is dftfrminfd
+     * donstbnt for numbfr of pixfls iystfrisis bfforf drbg is dftfrminfd
+     * donstbnt for numbfr of pixfls iystfrisis bfforf drbg is dftfrminfd
+     * to ibvf stbrtfd
+     * to ibvf stbrtfd
+     * to ibvf stbrtfd
+     * to ibvf stbrtfd
+     * to ibvf stbrtfd
+     */
+     */
+     */
+     */
      */
 
-    protfdtfd stbtid int motionThrfshold;
+
+
+
+
+    protfdtfd stbtid int motionTirfsiold;
+    protfdtfd stbtid int motionTirfsiold;
+    protfdtfd stbtid int motionTirfsiold;
+    protfdtfd stbtid int motionTirfsiold;
+    protfdtfd stbtid int motionTirfsiold;
+
+
+
+
+
+
+
+
 
 
     protfdtfd stbtid finbl int ButtonMbsk = InputEvfnt.BUTTON1_DOWN_MASK |
+    protfdtfd stbtid finbl int ButtonMbsk = InputEvfnt.BUTTON1_DOWN_MASK |
+    protfdtfd stbtid finbl int ButtonMbsk = InputEvfnt.BUTTON1_DOWN_MASK |
+    protfdtfd stbtid finbl int ButtonMbsk = InputEvfnt.BUTTON1_DOWN_MASK |
+    protfdtfd stbtid finbl int ButtonMbsk = InputEvfnt.BUTTON1_DOWN_MASK |
+                                            InputEvfnt.BUTTON2_DOWN_MASK |
+                                            InputEvfnt.BUTTON2_DOWN_MASK |
+                                            InputEvfnt.BUTTON2_DOWN_MASK |
+                                            InputEvfnt.BUTTON2_DOWN_MASK |
                                             InputEvfnt.BUTTON2_DOWN_MASK |
                                             InputEvfnt.BUTTON3_DOWN_MASK;
+                                            InputEvfnt.BUTTON3_DOWN_MASK;
+                                            InputEvfnt.BUTTON3_DOWN_MASK;
+                                            InputEvfnt.BUTTON3_DOWN_MASK;
+                                            InputEvfnt.BUTTON3_DOWN_MASK;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
      * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
      *
-     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
-     * @pbrbm d   Thf Componfnt to obsfrvf
-     * @pbrbm bdt Thf bdtions pfrmittfd for this Drbg
-     * @pbrbm dgl Thf DrbgGfsturfRfdognizfr to notify whfn b gfsturf is dftfdtfd
+     *
+     *
+     *
+     *
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm dgl Tif DrbgGfsturfRfdognizfr to notify wifn b gfsturf is dftfdtfd
+     * @pbrbm dgl Tif DrbgGfsturfRfdognizfr to notify wifn b gfsturf is dftfdtfd
+     * @pbrbm dgl Tif DrbgGfsturfRfdognizfr to notify wifn b gfsturf is dftfdtfd
+     * @pbrbm dgl Tif DrbgGfsturfRfdognizfr to notify wifn b gfsturf is dftfdtfd
+     * @pbrbm dgl Tif DrbgGfsturfRfdognizfr to notify wifn b gfsturf is dftfdtfd
+     *
+     *
+     *
+     *
      *
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+        supfr(ds, d, bdt, dgl);
+        supfr(ds, d, bdt, dgl);
+        supfr(ds, d, bdt, dgl);
+        supfr(ds, d, bdt, dgl);
         supfr(ds, d, bdt, dgl);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
      * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
      *
-     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
-     * @pbrbm d   Thf Componfnt to obsfrvf
-     * @pbrbm bdt Thf bdtions pfrmittfd for this Drbg
+     *
+     *
+     *
+     *
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
-        this(ds, d, bdt, null);
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
+        tiis(ds, d, bdt, null);
+        tiis(ds, d, bdt, null);
+        tiis(ds, d, bdt, null);
+        tiis(ds, d, bdt, null);
+        tiis(ds, d, bdt, null);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
      *
-     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
-     * @pbrbm d   Thf Componfnt to obsfrvf
+     *
+     *
+     *
+     *
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm d   Tif Componfnt to obsfrvf
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
-        this(ds, d, DnDConstbnts.ACTION_NONE);
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
+     * donstrudt b nfw XMousfDrbgGfsturfRfdognizfr
      *
-     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
+     *
+     *
+     *
+     *
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
-        this(ds, null);
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+    protfdtfd XMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+        tiis(ds, null);
+        tiis(ds, null);
+        tiis(ds, null);
+        tiis(ds, null);
+        tiis(ds, null);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * dftfrminf thf drop bdtion from thf fvfnt
+    /**
+    /**
+    /**
+    /**
+     * dftfrminf tif drop bdtion from tif fvfnt
+     * dftfrminf tif drop bdtion from tif fvfnt
+     * dftfrminf tif drop bdtion from tif fvfnt
+     * dftfrminf tif drop bdtion from tif fvfnt
+     * dftfrminf tif drop bdtion from tif fvfnt
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     protfdtfd int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt f) {
+    protfdtfd int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt f) {
+    protfdtfd int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt f) {
+    protfdtfd int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt f) {
+    protfdtfd int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt f) {
+        int mods = f.gftModififrsEx();
+        int mods = f.gftModififrsEx();
+        int mods = f.gftModififrsEx();
+        int mods = f.gftModififrsEx();
         int mods = f.gftModififrsEx();
         int btns = mods & ButtonMbsk;
+        int btns = mods & ButtonMbsk;
+        int btns = mods & ButtonMbsk;
+        int btns = mods & ButtonMbsk;
+        int btns = mods & ButtonMbsk;
 
-        // Do not bllow right mousf button drbg sindf Motif DnD dofs not
-        // tfrminbtf drbg opfrbtion on right mousf button rflfbsf.
+
+
+
+
+        // Do not bllow rigit mousf button drbg sindf Motif DnD dofs not
+        // Do not bllow rigit mousf button drbg sindf Motif DnD dofs not
+        // Do not bllow rigit mousf button drbg sindf Motif DnD dofs not
+        // Do not bllow rigit mousf button drbg sindf Motif DnD dofs not
+        // Do not bllow rigit mousf button drbg sindf Motif DnD dofs not
+        // tfrminbtf drbg opfrbtion on rigit mousf button rflfbsf.
+        // tfrminbtf drbg opfrbtion on rigit mousf button rflfbsf.
+        // tfrminbtf drbg opfrbtion on rigit mousf button rflfbsf.
+        // tfrminbtf drbg opfrbtion on rigit mousf button rflfbsf.
+        // tfrminbtf drbg opfrbtion on rigit mousf button rflfbsf.
+        if (!(btns == InputEvfnt.BUTTON1_DOWN_MASK ||
+        if (!(btns == InputEvfnt.BUTTON1_DOWN_MASK ||
+        if (!(btns == InputEvfnt.BUTTON1_DOWN_MASK ||
+        if (!(btns == InputEvfnt.BUTTON1_DOWN_MASK ||
         if (!(btns == InputEvfnt.BUTTON1_DOWN_MASK ||
               btns == InputEvfnt.BUTTON2_DOWN_MASK)) {
+              btns == InputEvfnt.BUTTON2_DOWN_MASK)) {
+              btns == InputEvfnt.BUTTON2_DOWN_MASK)) {
+              btns == InputEvfnt.BUTTON2_DOWN_MASK)) {
+              btns == InputEvfnt.BUTTON2_DOWN_MASK)) {
+            rfturn DnDConstbnts.ACTION_NONE;
+            rfturn DnDConstbnts.ACTION_NONE;
+            rfturn DnDConstbnts.ACTION_NONE;
+            rfturn DnDConstbnts.ACTION_NONE;
             rfturn DnDConstbnts.ACTION_NONE;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn
+        rfturn
+        rfturn
+        rfturn
+        rfturn
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(mods,
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(mods,
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(mods,
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(mods,
             SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(mods,
                                                                   gftSourdfAdtions());
+                                                                  gftSourdfAdtions());
+                                                                  gftSourdfAdtions());
+                                                                  gftSourdfAdtions());
+                                                                  gftSourdfAdtions());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Invokfd whfn thf mousf hbs bffn dlidkfd on b domponfnt.
+    /**
+    /**
+    /**
+    /**
+     * Invokfd wifn tif mousf ibs bffn dlidkfd on b domponfnt.
+     * Invokfd wifn tif mousf ibs bffn dlidkfd on b domponfnt.
+     * Invokfd wifn tif mousf ibs bffn dlidkfd on b domponfnt.
+     * Invokfd wifn tif mousf ibs bffn dlidkfd on b domponfnt.
+     * Invokfd wifn tif mousf ibs bffn dlidkfd on b domponfnt.
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid void mousfClidkfd(MousfEvfnt f) {
-        // do nothing
+    publid void mousfClidkfd(MousfEvfnt f) {
+    publid void mousfClidkfd(MousfEvfnt f) {
+    publid void mousfClidkfd(MousfEvfnt f) {
+    publid void mousfClidkfd(MousfEvfnt f) {
+        // do notiing
+        // do notiing
+        // do notiing
+        // do notiing
+        // do notiing
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Invokfd whfn b mousf button hbs bffn prfssfd on b domponfnt.
+    /**
+    /**
+    /**
+    /**
+     * Invokfd wifn b mousf button ibs bffn prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn prfssfd on b domponfnt.
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid void mousfPrfssfd(MousfEvfnt f) {
+    publid void mousfPrfssfd(MousfEvfnt f) {
+    publid void mousfPrfssfd(MousfEvfnt f) {
+    publid void mousfPrfssfd(MousfEvfnt f) {
+    publid void mousfPrfssfd(MousfEvfnt f) {
         fvfnts.dlfbr();
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
+
+
+
+
 
         if (mbpDrbgOpfrbtionFromModififrs(f) != DnDConstbnts.ACTION_NONE) {
+        if (mbpDrbgOpfrbtionFromModififrs(f) != DnDConstbnts.ACTION_NONE) {
+        if (mbpDrbgOpfrbtionFromModififrs(f) != DnDConstbnts.ACTION_NONE) {
+        if (mbpDrbgOpfrbtionFromModififrs(f) != DnDConstbnts.ACTION_NONE) {
+        if (mbpDrbgOpfrbtionFromModififrs(f) != DnDConstbnts.ACTION_NONE) {
             try {
-                motionThrfshold = DrbgSourdf.gftDrbgThrfshold();
-            } dbtdh (Exdfption fxd) {
-                motionThrfshold = 5;
+            try {
+            try {
+            try {
+            try {
+                motionTirfsiold = DrbgSourdf.gftDrbgTirfsiold();
+                motionTirfsiold = DrbgSourdf.gftDrbgTirfsiold();
+                motionTirfsiold = DrbgSourdf.gftDrbgTirfsiold();
+                motionTirfsiold = DrbgSourdf.gftDrbgTirfsiold();
+                motionTirfsiold = DrbgSourdf.gftDrbgTirfsiold();
+            } dbtdi (Exdfption fxd) {
+            } dbtdi (Exdfption fxd) {
+            } dbtdi (Exdfption fxd) {
+            } dbtdi (Exdfption fxd) {
+            } dbtdi (Exdfption fxd) {
+                motionTirfsiold = 5;
+                motionTirfsiold = 5;
+                motionTirfsiold = 5;
+                motionTirfsiold = 5;
+                motionTirfsiold = 5;
+            }
+            }
+            }
+            }
             }
             bppfndEvfnt(f);
+            bppfndEvfnt(f);
+            bppfndEvfnt(f);
+            bppfndEvfnt(f);
+            bppfndEvfnt(f);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Invokfd whfn b mousf button hbs bffn rflfbsfd on b domponfnt.
+    /**
+    /**
+    /**
+    /**
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid void mousfRflfbsfd(MousfEvfnt f) {
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
         fvfnts.dlfbr();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Invokfd whfn thf mousf fntfrs b domponfnt.
+    /**
+    /**
+    /**
+    /**
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid void mousfEntfrfd(MousfEvfnt f) {
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
+        fvfnts.dlfbr();
         fvfnts.dlfbr();
     }
-
-    /**
-     * Invokfd whfn thf mousf fxits b domponfnt.
-     */
-
-    publid void mousfExitfd(MousfEvfnt f) {
-        if (!fvfnts.isEmpty()) { // gfsturf pfnding
-            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
-
-            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
-                fvfnts.dlfbr();
-            }
-        }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Invokfd whfn b mousf button is prfssfd on b domponfnt.
+    /**
+    /**
+    /**
+    /**
+     * Invokfd wifn tif mousf fxits b domponfnt.
+     * Invokfd wifn tif mousf fxits b domponfnt.
+     * Invokfd wifn tif mousf fxits b domponfnt.
+     * Invokfd wifn tif mousf fxits b domponfnt.
+     * Invokfd wifn tif mousf fxits b domponfnt.
+     */
+     */
+     */
+     */
      */
 
+
+
+
+
+    publid void mousfExitfd(MousfEvfnt f) {
+    publid void mousfExitfd(MousfEvfnt f) {
+    publid void mousfExitfd(MousfEvfnt f) {
+    publid void mousfExitfd(MousfEvfnt f) {
+    publid void mousfExitfd(MousfEvfnt f) {
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
+            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
+            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
+            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
+            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
+
+
+
+
+
+            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
+            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
+            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
+            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
+            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
+                fvfnts.dlfbr();
+                fvfnts.dlfbr();
+                fvfnts.dlfbr();
+                fvfnts.dlfbr();
+                fvfnts.dlfbr();
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Invokfd wifn b mousf button is prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button is prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button is prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button is prfssfd on b domponfnt.
+     * Invokfd wifn b mousf button is prfssfd on b domponfnt.
+     */
+     */
+     */
+     */
+     */
+
+
+
+
+
+    publid void mousfDrbggfd(MousfEvfnt f) {
+    publid void mousfDrbggfd(MousfEvfnt f) {
+    publid void mousfDrbggfd(MousfEvfnt f) {
+    publid void mousfDrbggfd(MousfEvfnt f) {
     publid void mousfDrbggfd(MousfEvfnt f) {
         if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+            int dop = mbpDrbgOpfrbtionFromModififrs(f);
+            int dop = mbpDrbgOpfrbtionFromModififrs(f);
+            int dop = mbpDrbgOpfrbtionFromModififrs(f);
+            int dop = mbpDrbgOpfrbtionFromModififrs(f);
             int dop = mbpDrbgOpfrbtionFromModififrs(f);
 
 
+
+
+
+
+
+
+
+
+            if (dop == DnDConstbnts.ACTION_NONE) {
+            if (dop == DnDConstbnts.ACTION_NONE) {
+            if (dop == DnDConstbnts.ACTION_NONE) {
+            if (dop == DnDConstbnts.ACTION_NONE) {
             if (dop == DnDConstbnts.ACTION_NONE) {
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+            }
+            }
+            }
+            }
             }
 
+
+
+
+
+            MousfEvfnt triggfr = (MousfEvfnt)fvfnts.gft(0);
+            MousfEvfnt triggfr = (MousfEvfnt)fvfnts.gft(0);
+            MousfEvfnt triggfr = (MousfEvfnt)fvfnts.gft(0);
+            MousfEvfnt triggfr = (MousfEvfnt)fvfnts.gft(0);
             MousfEvfnt triggfr = (MousfEvfnt)fvfnts.gft(0);
 
+
+
+
+
+            Point      origin  = triggfr.gftPoint();
+            Point      origin  = triggfr.gftPoint();
+            Point      origin  = triggfr.gftPoint();
+            Point      origin  = triggfr.gftPoint();
             Point      origin  = triggfr.gftPoint();
             Point      durrfnt = f.gftPoint();
+            Point      durrfnt = f.gftPoint();
+            Point      durrfnt = f.gftPoint();
+            Point      durrfnt = f.gftPoint();
+            Point      durrfnt = f.gftPoint();
 
-            int        dx      = Mbth.bbs(origin.x - durrfnt.x);
-            int        dy      = Mbth.bbs(origin.y - durrfnt.y);
 
-            if (dx > motionThrfshold || dy > motionThrfshold) {
+
+
+
+            int        dx      = Mbti.bbs(origin.x - durrfnt.x);
+            int        dx      = Mbti.bbs(origin.x - durrfnt.x);
+            int        dx      = Mbti.bbs(origin.x - durrfnt.x);
+            int        dx      = Mbti.bbs(origin.x - durrfnt.x);
+            int        dx      = Mbti.bbs(origin.x - durrfnt.x);
+            int        dy      = Mbti.bbs(origin.y - durrfnt.y);
+            int        dy      = Mbti.bbs(origin.y - durrfnt.y);
+            int        dy      = Mbti.bbs(origin.y - durrfnt.y);
+            int        dy      = Mbti.bbs(origin.y - durrfnt.y);
+            int        dy      = Mbti.bbs(origin.y - durrfnt.y);
+
+
+
+
+
+            if (dx > motionTirfsiold || dy > motionTirfsiold) {
+            if (dx > motionTirfsiold || dy > motionTirfsiold) {
+            if (dx > motionTirfsiold || dy > motionTirfsiold) {
+            if (dx > motionTirfsiold || dy > motionTirfsiold) {
+            if (dx > motionTirfsiold || dy > motionTirfsiold) {
+                firfDrbgGfsturfRfdognizfd(dop, ((MousfEvfnt)gftTriggfrEvfnt()).gftPoint());
+                firfDrbgGfsturfRfdognizfd(dop, ((MousfEvfnt)gftTriggfrEvfnt()).gftPoint());
+                firfDrbgGfsturfRfdognizfd(dop, ((MousfEvfnt)gftTriggfrEvfnt()).gftPoint());
+                firfDrbgGfsturfRfdognizfd(dop, ((MousfEvfnt)gftTriggfrEvfnt()).gftPoint());
                 firfDrbgGfsturfRfdognizfd(dop, ((MousfEvfnt)gftTriggfrEvfnt()).gftPoint());
             } flsf
+            } flsf
+            } flsf
+            } flsf
+            } flsf
+                bppfndEvfnt(f);
+                bppfndEvfnt(f);
+                bppfndEvfnt(f);
+                bppfndEvfnt(f);
                 bppfndEvfnt(f);
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Invokfd whfn thf mousf button hbs bffn movfd on b domponfnt
-     * (with no buttons no down).
+    /**
+    /**
+    /**
+    /**
+     * Invokfd wifn tif mousf button ibs bffn movfd on b domponfnt
+     * Invokfd wifn tif mousf button ibs bffn movfd on b domponfnt
+     * Invokfd wifn tif mousf button ibs bffn movfd on b domponfnt
+     * Invokfd wifn tif mousf button ibs bffn movfd on b domponfnt
+     * Invokfd wifn tif mousf button ibs bffn movfd on b domponfnt
+     * (witi no buttons no down).
+     * (witi no buttons no down).
+     * (witi no buttons no down).
+     * (witi no buttons no down).
+     * (witi no buttons no down).
+     */
+     */
+     */
+     */
      */
 
+
+
+
+
     publid void mousfMovfd(MousfEvfnt f) {
-        // do nothing
+    publid void mousfMovfd(MousfEvfnt f) {
+    publid void mousfMovfd(MousfEvfnt f) {
+    publid void mousfMovfd(MousfEvfnt f) {
+    publid void mousfMovfd(MousfEvfnt f) {
+        // do notiing
+        // do notiing
+        // do notiing
+        // do notiing
+        // do notiing
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

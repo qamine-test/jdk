@@ -1,173 +1,865 @@
 /*
- * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-pbdkbgf jbvbx.sfdurity.buth.login;
+
+
+
+
+pbdkbgf jbvbx.sfdurity.buti.login;
+pbdkbgf jbvbx.sfdurity.buti.login;
+pbdkbgf jbvbx.sfdurity.buti.login;
+pbdkbgf jbvbx.sfdurity.buti.login;
+pbdkbgf jbvbx.sfdurity.buti.login;
+
+
+
+
 
 import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
 import jbvb.util.Collfdtions;
 
+
+
+
+
 /**
- * This dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
- * donfigurfd for thf bpplidbtion spfdififd in thf
+/**
+/**
+/**
+/**
+ * Tiis dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
+ * Tiis dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
+ * Tiis dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
+ * Tiis dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
+ * Tiis dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
+ * donfigurfd for tif bpplidbtion spfdififd in tif
+ * donfigurfd for tif bpplidbtion spfdififd in tif
+ * donfigurfd for tif bpplidbtion spfdififd in tif
+ * donfigurfd for tif bpplidbtion spfdififd in tif
+ * donfigurfd for tif bpplidbtion spfdififd in tif
  * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
- * mfthod in thf {@dodf Configurbtion} dlbss.  Ebdh rfspfdtivf
+ * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+ * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+ * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+ * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+ * mftiod in tif {@dodf Configurbtion} dlbss.  Ebdi rfspfdtivf
+ * mftiod in tif {@dodf Configurbtion} dlbss.  Ebdi rfspfdtivf
+ * mftiod in tif {@dodf Configurbtion} dlbss.  Ebdi rfspfdtivf
+ * mftiod in tif {@dodf Configurbtion} dlbss.  Ebdi rfspfdtivf
+ * mftiod in tif {@dodf Configurbtion} dlbss.  Ebdi rfspfdtivf
  * {@dodf AppConfigurbtionEntry} dontbins b {@dodf LoginModulf} nbmf,
- * b dontrol flbg (spfdifying whfthfr this {@dodf LoginModulf} is
+ * {@dodf AppConfigurbtionEntry} dontbins b {@dodf LoginModulf} nbmf,
+ * {@dodf AppConfigurbtionEntry} dontbins b {@dodf LoginModulf} nbmf,
+ * {@dodf AppConfigurbtionEntry} dontbins b {@dodf LoginModulf} nbmf,
+ * {@dodf AppConfigurbtionEntry} dontbins b {@dodf LoginModulf} nbmf,
+ * b dontrol flbg (spfdifying wiftifr tiis {@dodf LoginModulf} is
+ * b dontrol flbg (spfdifying wiftifr tiis {@dodf LoginModulf} is
+ * b dontrol flbg (spfdifying wiftifr tiis {@dodf LoginModulf} is
+ * b dontrol flbg (spfdifying wiftifr tiis {@dodf LoginModulf} is
+ * b dontrol flbg (spfdifying wiftifr tiis {@dodf LoginModulf} is
  * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModulf-spfdifid
- * options.  Plfbsf rfffr to thf {@dodf Configurbtion} dlbss for
- * morf informbtion on thf difffrfnt dontrol flbgs bnd thfir sfmbntids.
+ * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModulf-spfdifid
+ * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModulf-spfdifid
+ * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModulf-spfdifid
+ * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModulf-spfdifid
+ * options.  Plfbsf rfffr to tif {@dodf Configurbtion} dlbss for
+ * options.  Plfbsf rfffr to tif {@dodf Configurbtion} dlbss for
+ * options.  Plfbsf rfffr to tif {@dodf Configurbtion} dlbss for
+ * options.  Plfbsf rfffr to tif {@dodf Configurbtion} dlbss for
+ * options.  Plfbsf rfffr to tif {@dodf Configurbtion} dlbss for
+ * morf informbtion on tif difffrfnt dontrol flbgs bnd tifir sfmbntids.
+ * morf informbtion on tif difffrfnt dontrol flbgs bnd tifir sfmbntids.
+ * morf informbtion on tif difffrfnt dontrol flbgs bnd tifir sfmbntids.
+ * morf informbtion on tif difffrfnt dontrol flbgs bnd tifir sfmbntids.
+ * morf informbtion on tif difffrfnt dontrol flbgs bnd tifir sfmbntids.
  *
- * @sff jbvbx.sfdurity.buth.login.Configurbtion
+ *
+ *
+ *
+ *
+ * @sff jbvbx.sfdurity.buti.login.Configurbtion
+ * @sff jbvbx.sfdurity.buti.login.Configurbtion
+ * @sff jbvbx.sfdurity.buti.login.Configurbtion
+ * @sff jbvbx.sfdurity.buti.login.Configurbtion
+ * @sff jbvbx.sfdurity.buti.login.Configurbtion
+ */
+ */
+ */
+ */
  */
 publid dlbss AppConfigurbtionEntry {
+publid dlbss AppConfigurbtionEntry {
+publid dlbss AppConfigurbtionEntry {
+publid dlbss AppConfigurbtionEntry {
+publid dlbss AppConfigurbtionEntry {
+
+
+
+
 
     privbtf String loginModulfNbmf;
+    privbtf String loginModulfNbmf;
+    privbtf String loginModulfNbmf;
+    privbtf String loginModulfNbmf;
+    privbtf String loginModulfNbmf;
+    privbtf LoginModulfControlFlbg dontrolFlbg;
+    privbtf LoginModulfControlFlbg dontrolFlbg;
+    privbtf LoginModulfControlFlbg dontrolFlbg;
+    privbtf LoginModulfControlFlbg dontrolFlbg;
     privbtf LoginModulfControlFlbg dontrolFlbg;
     privbtf Mbp<String,?> options;
+    privbtf Mbp<String,?> options;
+    privbtf Mbp<String,?> options;
+    privbtf Mbp<String,?> options;
+    privbtf Mbp<String,?> options;
+
+
+
+
 
     /**
-     * Dffbult donstrudtor for this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Dffbult donstrudtor for tiis dlbss.
+     * Dffbult donstrudtor for tiis dlbss.
+     * Dffbult donstrudtor for tiis dlbss.
+     * Dffbult donstrudtor for tiis dlbss.
+     * Dffbult donstrudtor for tiis dlbss.
      *
-     * <p> This fntry rfprfsfnts b singlf {@dodf LoginModulf}
-     * fntry donfigurfd for thf bpplidbtion spfdififd in thf
+     *
+     *
+     *
+     *
+     * <p> Tiis fntry rfprfsfnts b singlf {@dodf LoginModulf}
+     * <p> Tiis fntry rfprfsfnts b singlf {@dodf LoginModulf}
+     * <p> Tiis fntry rfprfsfnts b singlf {@dodf LoginModulf}
+     * <p> Tiis fntry rfprfsfnts b singlf {@dodf LoginModulf}
+     * <p> Tiis fntry rfprfsfnts b singlf {@dodf LoginModulf}
+     * fntry donfigurfd for tif bpplidbtion spfdififd in tif
+     * fntry donfigurfd for tif bpplidbtion spfdififd in tif
+     * fntry donfigurfd for tif bpplidbtion spfdififd in tif
+     * fntry donfigurfd for tif bpplidbtion spfdififd in tif
+     * fntry donfigurfd for tif bpplidbtion spfdififd in tif
      * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
-     * mfthod from thf {@dodf Configurbtion} dlbss.
+     * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+     * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+     * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+     * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+     * mftiod from tif {@dodf Configurbtion} dlbss.
+     * mftiod from tif {@dodf Configurbtion} dlbss.
+     * mftiod from tif {@dodf Configurbtion} dlbss.
+     * mftiod from tif {@dodf Configurbtion} dlbss.
+     * mftiod from tif {@dodf Configurbtion} dlbss.
      *
-     * @pbrbm loginModulfNbmf String rfprfsfnting thf dlbss nbmf of thf
-     *                  {@dodf LoginModulf} donfigurfd for thf
+     *
+     *
+     *
+     *
+     * @pbrbm loginModulfNbmf String rfprfsfnting tif dlbss nbmf of tif
+     * @pbrbm loginModulfNbmf String rfprfsfnting tif dlbss nbmf of tif
+     * @pbrbm loginModulfNbmf String rfprfsfnting tif dlbss nbmf of tif
+     * @pbrbm loginModulfNbmf String rfprfsfnting tif dlbss nbmf of tif
+     * @pbrbm loginModulfNbmf String rfprfsfnting tif dlbss nbmf of tif
+     *                  {@dodf LoginModulf} donfigurfd for tif
+     *                  {@dodf LoginModulf} donfigurfd for tif
+     *                  {@dodf LoginModulf} donfigurfd for tif
+     *                  {@dodf LoginModulf} donfigurfd for tif
+     *                  {@dodf LoginModulf} donfigurfd for tif
+     *                  spfdififd bpplidbtion. <p>
+     *                  spfdififd bpplidbtion. <p>
+     *                  spfdififd bpplidbtion. <p>
+     *                  spfdififd bpplidbtion. <p>
      *                  spfdififd bpplidbtion. <p>
      *
-     * @pbrbm dontrolFlbg fithfr REQUIRED, REQUISITE, SUFFICIENT,
+     *
+     *
+     *
+     *
+     * @pbrbm dontrolFlbg fitifr REQUIRED, REQUISITE, SUFFICIENT,
+     * @pbrbm dontrolFlbg fitifr REQUIRED, REQUISITE, SUFFICIENT,
+     * @pbrbm dontrolFlbg fitifr REQUIRED, REQUISITE, SUFFICIENT,
+     * @pbrbm dontrolFlbg fitifr REQUIRED, REQUISITE, SUFFICIENT,
+     * @pbrbm dontrolFlbg fitifr REQUIRED, REQUISITE, SUFFICIENT,
+     *                  or OPTIONAL. <p>
+     *                  or OPTIONAL. <p>
+     *                  or OPTIONAL. <p>
+     *                  or OPTIONAL. <p>
      *                  or OPTIONAL. <p>
      *
-     * @pbrbm options thf options donfigurfd for this {@dodf LoginModulf}.
+     *
+     *
+     *
+     *
+     * @pbrbm options tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * @pbrbm options tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * @pbrbm options tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * @pbrbm options tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * @pbrbm options tif options donfigurfd for tiis {@dodf LoginModulf}.
+     *
+     *
+     *
+     *
      *
      * @fxdfption IllfgblArgumfntExdfption if {@dodf loginModulfNbmf}
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf loginModulfNbmf}
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf loginModulfNbmf}
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf loginModulfNbmf}
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf loginModulfNbmf}
      *                  is null, if {@dodf LoginModulfNbmf}
-     *                  hbs b lfngth of 0, if {@dodf dontrolFlbg}
-     *                  is not fithfr REQUIRED, REQUISITE, SUFFICIENT
+     *                  is null, if {@dodf LoginModulfNbmf}
+     *                  is null, if {@dodf LoginModulfNbmf}
+     *                  is null, if {@dodf LoginModulfNbmf}
+     *                  is null, if {@dodf LoginModulfNbmf}
+     *                  ibs b lfngti of 0, if {@dodf dontrolFlbg}
+     *                  ibs b lfngti of 0, if {@dodf dontrolFlbg}
+     *                  ibs b lfngti of 0, if {@dodf dontrolFlbg}
+     *                  ibs b lfngti of 0, if {@dodf dontrolFlbg}
+     *                  ibs b lfngti of 0, if {@dodf dontrolFlbg}
+     *                  is not fitifr REQUIRED, REQUISITE, SUFFICIENT
+     *                  is not fitifr REQUIRED, REQUISITE, SUFFICIENT
+     *                  is not fitifr REQUIRED, REQUISITE, SUFFICIENT
+     *                  is not fitifr REQUIRED, REQUISITE, SUFFICIENT
+     *                  is not fitifr REQUIRED, REQUISITE, SUFFICIENT
+     *                  or OPTIONAL, or if {@dodf options} is null.
+     *                  or OPTIONAL, or if {@dodf options} is null.
+     *                  or OPTIONAL, or if {@dodf options} is null.
+     *                  or OPTIONAL, or if {@dodf options} is null.
      *                  or OPTIONAL, or if {@dodf options} is null.
      */
+     */
+     */
+     */
+     */
+    publid AppConfigurbtionEntry(String loginModulfNbmf,
+    publid AppConfigurbtionEntry(String loginModulfNbmf,
+    publid AppConfigurbtionEntry(String loginModulfNbmf,
+    publid AppConfigurbtionEntry(String loginModulfNbmf,
     publid AppConfigurbtionEntry(String loginModulfNbmf,
                                 LoginModulfControlFlbg dontrolFlbg,
+                                LoginModulfControlFlbg dontrolFlbg,
+                                LoginModulfControlFlbg dontrolFlbg,
+                                LoginModulfControlFlbg dontrolFlbg,
+                                LoginModulfControlFlbg dontrolFlbg,
+                                Mbp<String,?> options)
+                                Mbp<String,?> options)
+                                Mbp<String,?> options)
+                                Mbp<String,?> options)
                                 Mbp<String,?> options)
     {
-        if (loginModulfNbmf == null || loginModulfNbmf.lfngth() == 0 ||
+    {
+    {
+    {
+    {
+        if (loginModulfNbmf == null || loginModulfNbmf.lfngti() == 0 ||
+        if (loginModulfNbmf == null || loginModulfNbmf.lfngti() == 0 ||
+        if (loginModulfNbmf == null || loginModulfNbmf.lfngti() == 0 ||
+        if (loginModulfNbmf == null || loginModulfNbmf.lfngti() == 0 ||
+        if (loginModulfNbmf == null || loginModulfNbmf.lfngti() == 0 ||
+            (dontrolFlbg != LoginModulfControlFlbg.REQUIRED &&
+            (dontrolFlbg != LoginModulfControlFlbg.REQUIRED &&
+            (dontrolFlbg != LoginModulfControlFlbg.REQUIRED &&
+            (dontrolFlbg != LoginModulfControlFlbg.REQUIRED &&
             (dontrolFlbg != LoginModulfControlFlbg.REQUIRED &&
                 dontrolFlbg != LoginModulfControlFlbg.REQUISITE &&
+                dontrolFlbg != LoginModulfControlFlbg.REQUISITE &&
+                dontrolFlbg != LoginModulfControlFlbg.REQUISITE &&
+                dontrolFlbg != LoginModulfControlFlbg.REQUISITE &&
+                dontrolFlbg != LoginModulfControlFlbg.REQUISITE &&
+                dontrolFlbg != LoginModulfControlFlbg.SUFFICIENT &&
+                dontrolFlbg != LoginModulfControlFlbg.SUFFICIENT &&
+                dontrolFlbg != LoginModulfControlFlbg.SUFFICIENT &&
+                dontrolFlbg != LoginModulfControlFlbg.SUFFICIENT &&
                 dontrolFlbg != LoginModulfControlFlbg.SUFFICIENT &&
                 dontrolFlbg != LoginModulfControlFlbg.OPTIONAL) ||
+                dontrolFlbg != LoginModulfControlFlbg.OPTIONAL) ||
+                dontrolFlbg != LoginModulfControlFlbg.OPTIONAL) ||
+                dontrolFlbg != LoginModulfControlFlbg.OPTIONAL) ||
+                dontrolFlbg != LoginModulfControlFlbg.OPTIONAL) ||
             options == null)
-            throw nfw IllfgblArgumfntExdfption();
+            options == null)
+            options == null)
+            options == null)
+            options == null)
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
 
-        this.loginModulfNbmf = loginModulfNbmf;
-        this.dontrolFlbg = dontrolFlbg;
-        this.options = Collfdtions.unmodifibblfMbp(options);
+
+
+
+
+        tiis.loginModulfNbmf = loginModulfNbmf;
+        tiis.loginModulfNbmf = loginModulfNbmf;
+        tiis.loginModulfNbmf = loginModulfNbmf;
+        tiis.loginModulfNbmf = loginModulfNbmf;
+        tiis.loginModulfNbmf = loginModulfNbmf;
+        tiis.dontrolFlbg = dontrolFlbg;
+        tiis.dontrolFlbg = dontrolFlbg;
+        tiis.dontrolFlbg = dontrolFlbg;
+        tiis.dontrolFlbg = dontrolFlbg;
+        tiis.dontrolFlbg = dontrolFlbg;
+        tiis.options = Collfdtions.unmodifibblfMbp(options);
+        tiis.options = Collfdtions.unmodifibblfMbp(options);
+        tiis.options = Collfdtions.unmodifibblfMbp(options);
+        tiis.options = Collfdtions.unmodifibblfMbp(options);
+        tiis.options = Collfdtions.unmodifibblfMbp(options);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Gft thf dlbss nbmf of thf donfigurfd {@dodf LoginModulf}.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf}.
+     * Gft tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf}.
+     * Gft tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf}.
+     * Gft tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf}.
+     * Gft tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf}.
      *
-     * @rfturn thf dlbss nbmf of thf donfigurfd {@dodf LoginModulf} bs
+     *
+     *
+     *
+     *
+     * @rfturn tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf} bs
+     * @rfturn tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf} bs
+     * @rfturn tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf} bs
+     * @rfturn tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf} bs
+     * @rfturn tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf} bs
+     *          b String.
+     *          b String.
+     *          b String.
+     *          b String.
      *          b String.
      */
+     */
+     */
+     */
+     */
+    publid String gftLoginModulfNbmf() {
+    publid String gftLoginModulfNbmf() {
+    publid String gftLoginModulfNbmf() {
+    publid String gftLoginModulfNbmf() {
     publid String gftLoginModulfNbmf() {
         rfturn loginModulfNbmf;
+        rfturn loginModulfNbmf;
+        rfturn loginModulfNbmf;
+        rfturn loginModulfNbmf;
+        rfturn loginModulfNbmf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturn thf dontrolFlbg
-     * (fithfr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
-     * for this {@dodf LoginModulf}.
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif dontrolFlbg
+     * Rfturn tif dontrolFlbg
+     * Rfturn tif dontrolFlbg
+     * Rfturn tif dontrolFlbg
+     * Rfturn tif dontrolFlbg
+     * (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     * (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     * (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     * (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     * (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     * for tiis {@dodf LoginModulf}.
+     * for tiis {@dodf LoginModulf}.
+     * for tiis {@dodf LoginModulf}.
+     * for tiis {@dodf LoginModulf}.
+     * for tiis {@dodf LoginModulf}.
      *
-     * @rfturn thf dontrolFlbg
-     *          (fithfr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
-     *          for this {@dodf LoginModulf}.
+     *
+     *
+     *
+     *
+     * @rfturn tif dontrolFlbg
+     * @rfturn tif dontrolFlbg
+     * @rfturn tif dontrolFlbg
+     * @rfturn tif dontrolFlbg
+     * @rfturn tif dontrolFlbg
+     *          (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     *          (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     *          (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     *          (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     *          (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     *          for tiis {@dodf LoginModulf}.
+     *          for tiis {@dodf LoginModulf}.
+     *          for tiis {@dodf LoginModulf}.
+     *          for tiis {@dodf LoginModulf}.
+     *          for tiis {@dodf LoginModulf}.
+     */
+     */
+     */
+     */
      */
     publid LoginModulfControlFlbg gftControlFlbg() {
+    publid LoginModulfControlFlbg gftControlFlbg() {
+    publid LoginModulfControlFlbg gftControlFlbg() {
+    publid LoginModulfControlFlbg gftControlFlbg() {
+    publid LoginModulfControlFlbg gftControlFlbg() {
+        rfturn dontrolFlbg;
+        rfturn dontrolFlbg;
+        rfturn dontrolFlbg;
+        rfturn dontrolFlbg;
         rfturn dontrolFlbg;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gft thf options donfigurfd for this {@dodf LoginModulf}.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * Gft tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * Gft tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * Gft tif options donfigurfd for tiis {@dodf LoginModulf}.
+     * Gft tif options donfigurfd for tiis {@dodf LoginModulf}.
      *
-     * @rfturn thf options donfigurfd for this {@dodf LoginModulf}
+     *
+     *
+     *
+     *
+     * @rfturn tif options donfigurfd for tiis {@dodf LoginModulf}
+     * @rfturn tif options donfigurfd for tiis {@dodf LoginModulf}
+     * @rfturn tif options donfigurfd for tiis {@dodf LoginModulf}
+     * @rfturn tif options donfigurfd for tiis {@dodf LoginModulf}
+     * @rfturn tif options donfigurfd for tiis {@dodf LoginModulf}
+     *          bs bn unmodifibblf {@dodf Mbp}.
+     *          bs bn unmodifibblf {@dodf Mbp}.
+     *          bs bn unmodifibblf {@dodf Mbp}.
+     *          bs bn unmodifibblf {@dodf Mbp}.
      *          bs bn unmodifibblf {@dodf Mbp}.
      */
+     */
+     */
+     */
+     */
+    publid Mbp<String,?> gftOptions() {
+    publid Mbp<String,?> gftOptions() {
+    publid Mbp<String,?> gftOptions() {
+    publid Mbp<String,?> gftOptions() {
     publid Mbp<String,?> gftOptions() {
         rfturn options;
+        rfturn options;
+        rfturn options;
+        rfturn options;
+        rfturn options;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * This dlbss rfprfsfnts whfthfr or not b {@dodf LoginModulf}
+    /**
+    /**
+    /**
+    /**
+     * Tiis dlbss rfprfsfnts wiftifr or not b {@dodf LoginModulf}
+     * Tiis dlbss rfprfsfnts wiftifr or not b {@dodf LoginModulf}
+     * Tiis dlbss rfprfsfnts wiftifr or not b {@dodf LoginModulf}
+     * Tiis dlbss rfprfsfnts wiftifr or not b {@dodf LoginModulf}
+     * Tiis dlbss rfprfsfnts wiftifr or not b {@dodf LoginModulf}
+     * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
+     * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
+     * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
+     * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
      * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
      */
+     */
+     */
+     */
+     */
+    publid stbtid dlbss LoginModulfControlFlbg {
+    publid stbtid dlbss LoginModulfControlFlbg {
+    publid stbtid dlbss LoginModulfControlFlbg {
+    publid stbtid dlbss LoginModulfControlFlbg {
     publid stbtid dlbss LoginModulfControlFlbg {
 
+
+
+
+
+        privbtf String dontrolFlbg;
+        privbtf String dontrolFlbg;
+        privbtf String dontrolFlbg;
+        privbtf String dontrolFlbg;
         privbtf String dontrolFlbg;
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Rfquirfd {@dodf LoginModulf}.
+         * Rfquirfd {@dodf LoginModulf}.
+         * Rfquirfd {@dodf LoginModulf}.
+         * Rfquirfd {@dodf LoginModulf}.
+         * Rfquirfd {@dodf LoginModulf}.
+         */
+         */
+         */
+         */
          */
         publid stbtid finbl LoginModulfControlFlbg REQUIRED =
+        publid stbtid finbl LoginModulfControlFlbg REQUIRED =
+        publid stbtid finbl LoginModulfControlFlbg REQUIRED =
+        publid stbtid finbl LoginModulfControlFlbg REQUIRED =
+        publid stbtid finbl LoginModulfControlFlbg REQUIRED =
+                                nfw LoginModulfControlFlbg("rfquirfd");
+                                nfw LoginModulfControlFlbg("rfquirfd");
+                                nfw LoginModulfControlFlbg("rfquirfd");
+                                nfw LoginModulfControlFlbg("rfquirfd");
                                 nfw LoginModulfControlFlbg("rfquirfd");
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Rfquisitf {@dodf LoginModulf}.
+         * Rfquisitf {@dodf LoginModulf}.
+         * Rfquisitf {@dodf LoginModulf}.
+         * Rfquisitf {@dodf LoginModulf}.
+         * Rfquisitf {@dodf LoginModulf}.
+         */
+         */
+         */
+         */
          */
         publid stbtid finbl LoginModulfControlFlbg REQUISITE =
+        publid stbtid finbl LoginModulfControlFlbg REQUISITE =
+        publid stbtid finbl LoginModulfControlFlbg REQUISITE =
+        publid stbtid finbl LoginModulfControlFlbg REQUISITE =
+        publid stbtid finbl LoginModulfControlFlbg REQUISITE =
+                                nfw LoginModulfControlFlbg("rfquisitf");
+                                nfw LoginModulfControlFlbg("rfquisitf");
+                                nfw LoginModulfControlFlbg("rfquisitf");
+                                nfw LoginModulfControlFlbg("rfquisitf");
                                 nfw LoginModulfControlFlbg("rfquisitf");
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Suffidifnt {@dodf LoginModulf}.
+         * Suffidifnt {@dodf LoginModulf}.
+         * Suffidifnt {@dodf LoginModulf}.
+         * Suffidifnt {@dodf LoginModulf}.
+         * Suffidifnt {@dodf LoginModulf}.
+         */
+         */
+         */
+         */
          */
         publid stbtid finbl LoginModulfControlFlbg SUFFICIENT =
+        publid stbtid finbl LoginModulfControlFlbg SUFFICIENT =
+        publid stbtid finbl LoginModulfControlFlbg SUFFICIENT =
+        publid stbtid finbl LoginModulfControlFlbg SUFFICIENT =
+        publid stbtid finbl LoginModulfControlFlbg SUFFICIENT =
+                                nfw LoginModulfControlFlbg("suffidifnt");
+                                nfw LoginModulfControlFlbg("suffidifnt");
+                                nfw LoginModulfControlFlbg("suffidifnt");
+                                nfw LoginModulfControlFlbg("suffidifnt");
                                 nfw LoginModulfControlFlbg("suffidifnt");
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Optionbl {@dodf LoginModulf}.
+         * Optionbl {@dodf LoginModulf}.
+         * Optionbl {@dodf LoginModulf}.
+         * Optionbl {@dodf LoginModulf}.
+         * Optionbl {@dodf LoginModulf}.
+         */
+         */
+         */
+         */
          */
         publid stbtid finbl LoginModulfControlFlbg OPTIONAL =
+        publid stbtid finbl LoginModulfControlFlbg OPTIONAL =
+        publid stbtid finbl LoginModulfControlFlbg OPTIONAL =
+        publid stbtid finbl LoginModulfControlFlbg OPTIONAL =
+        publid stbtid finbl LoginModulfControlFlbg OPTIONAL =
+                                nfw LoginModulfControlFlbg("optionbl");
+                                nfw LoginModulfControlFlbg("optionbl");
+                                nfw LoginModulfControlFlbg("optionbl");
+                                nfw LoginModulfControlFlbg("optionbl");
                                 nfw LoginModulfControlFlbg("optionbl");
 
+
+
+
+
         privbtf LoginModulfControlFlbg(String dontrolFlbg) {
-            this.dontrolFlbg = dontrolFlbg;
+        privbtf LoginModulfControlFlbg(String dontrolFlbg) {
+        privbtf LoginModulfControlFlbg(String dontrolFlbg) {
+        privbtf LoginModulfControlFlbg(String dontrolFlbg) {
+        privbtf LoginModulfControlFlbg(String dontrolFlbg) {
+            tiis.dontrolFlbg = dontrolFlbg;
+            tiis.dontrolFlbg = dontrolFlbg;
+            tiis.dontrolFlbg = dontrolFlbg;
+            tiis.dontrolFlbg = dontrolFlbg;
+            tiis.dontrolFlbg = dontrolFlbg;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
-         * Rfturn b String rfprfsfntbtion of this dontrolFlbg.
+        /**
+        /**
+        /**
+        /**
+         * Rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * Rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * Rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * Rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * Rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
          *
-         * <p> Thf String hbs thf formbt, "LoginModulfControlFlbg: <i>flbg</i>",
-         * whfrf <i>flbg</i> is fithfr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         *
+         *
+         *
+         *
+         * <p> Tif String ibs tif formbt, "LoginModulfControlFlbg: <i>flbg</i>",
+         * <p> Tif String ibs tif formbt, "LoginModulfControlFlbg: <i>flbg</i>",
+         * <p> Tif String ibs tif formbt, "LoginModulfControlFlbg: <i>flbg</i>",
+         * <p> Tif String ibs tif formbt, "LoginModulfControlFlbg: <i>flbg</i>",
+         * <p> Tif String ibs tif formbt, "LoginModulfControlFlbg: <i>flbg</i>",
+         * wifrf <i>flbg</i> is fitifr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         * wifrf <i>flbg</i> is fitifr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         * wifrf <i>flbg</i> is fitifr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         * wifrf <i>flbg</i> is fitifr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         * wifrf <i>flbg</i> is fitifr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         * <i>suffidifnt</i>, or <i>optionbl</i>.
+         * <i>suffidifnt</i>, or <i>optionbl</i>.
+         * <i>suffidifnt</i>, or <i>optionbl</i>.
+         * <i>suffidifnt</i>, or <i>optionbl</i>.
          * <i>suffidifnt</i>, or <i>optionbl</i>.
          *
-         * @rfturn b String rfprfsfntbtion of this dontrolFlbg.
+         *
+         *
+         *
+         *
+         * @rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * @rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * @rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * @rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         * @rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
+         */
+         */
+         */
+         */
          */
         publid String toString() {
+        publid String toString() {
+        publid String toString() {
+        publid String toString() {
+        publid String toString() {
+            rfturn (sun.sfdurity.util.RfsourdfsMgr.gftString
+            rfturn (sun.sfdurity.util.RfsourdfsMgr.gftString
+            rfturn (sun.sfdurity.util.RfsourdfsMgr.gftString
+            rfturn (sun.sfdurity.util.RfsourdfsMgr.gftString
             rfturn (sun.sfdurity.util.RfsourdfsMgr.gftString
                 ("LoginModulfControlFlbg.") + dontrolFlbg);
+                ("LoginModulfControlFlbg.") + dontrolFlbg);
+                ("LoginModulfControlFlbg.") + dontrolFlbg);
+                ("LoginModulfControlFlbg.") + dontrolFlbg);
+                ("LoginModulfControlFlbg.") + dontrolFlbg);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

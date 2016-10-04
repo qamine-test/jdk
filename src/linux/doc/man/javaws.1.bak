@@ -1,222 +1,1110 @@
 ." Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ."
+."
+."
+."
+."
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 ." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 ." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
 ." publisifd by tif Frff Softwbrf Foundbtion.
 ."
+."
+."
+."
+."
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 ." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 ." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
 ." bddompbnifd tiis dodf).
 ."
+."
+."
+."
+."
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 ." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 ." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ."
+."
+."
+."
+."
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 ." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 ." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." qufstions.
+." qufstions.
+." qufstions.
+." qufstions.
 ." qufstions.
 ."
+."
+."
+."
+."
+.TH jbvbws 1 "10 Mby 2011"
+.TH jbvbws 1 "10 Mby 2011"
+.TH jbvbws 1 "10 Mby 2011"
+.TH jbvbws 1 "10 Mby 2011"
 .TH jbvbws 1 "10 Mby 2011"
 
+
+
+
+
+.LP
+.LP
+.LP
+.LP
 .LP
 .SH "Nbmf"
+.SH "Nbmf"
+.SH "Nbmf"
+.SH "Nbmf"
+.SH "Nbmf"
+\f2jbvbws\fP Commbnd Linf
+\f2jbvbws\fP Commbnd Linf
+\f2jbvbws\fP Commbnd Linf
+\f2jbvbws\fP Commbnd Linf
 \f2jbvbws\fP Commbnd Linf
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2jbvbws\fP \- Jbvb Wfb Stbrt lbundifr dommbnd
+\f2jbvbws\fP \- Jbvb Wfb Stbrt lbundifr dommbnd
+\f2jbvbws\fP \- Jbvb Wfb Stbrt lbundifr dommbnd
+\f2jbvbws\fP \- Jbvb Wfb Stbrt lbundifr dommbnd
 \f2jbvbws\fP \- Jbvb Wfb Stbrt lbundifr dommbnd
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
 .SH "SYNOPSIS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2jbvbws [run\-options] <jnlp>\fP
+\f2jbvbws [run\-options] <jnlp>\fP
+\f2jbvbws [run\-options] <jnlp>\fP
+\f2jbvbws [run\-options] <jnlp>\fP
 \f2jbvbws [run\-options] <jnlp>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2jbvbws [dontrol\-options]\fP
+\f2jbvbws [dontrol\-options]\fP
+\f2jbvbws [dontrol\-options]\fP
+\f2jbvbws [dontrol\-options]\fP
 \f2jbvbws [dontrol\-options]\fP
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "PARAMETERS"
+.SH "PARAMETERS"
+.SH "PARAMETERS"
+.SH "PARAMETERS"
 .SH "PARAMETERS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2[run\-options]\fP
+\f2[run\-options]\fP
+\f2[run\-options]\fP
+\f2[run\-options]\fP
 \f2[run\-options]\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Commbnd\-linf run\-options. run\-options mby bf in bny ordfr. For b disdussion of tif vbrious run\-options, sff RUN\-OPTIONS bflow.
+Commbnd\-linf run\-options. run\-options mby bf in bny ordfr. For b disdussion of tif vbrious run\-options, sff RUN\-OPTIONS bflow.
+Commbnd\-linf run\-options. run\-options mby bf in bny ordfr. For b disdussion of tif vbrious run\-options, sff RUN\-OPTIONS bflow.
+Commbnd\-linf run\-options. run\-options mby bf in bny ordfr. For b disdussion of tif vbrious run\-options, sff RUN\-OPTIONS bflow.
 Commbnd\-linf run\-options. run\-options mby bf in bny ordfr. For b disdussion of tif vbrious run\-options, sff RUN\-OPTIONS bflow.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2<jnlp>\fP
+\f2<jnlp>\fP
+\f2<jnlp>\fP
+\f2<jnlp>\fP
 \f2<jnlp>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Tiis dbn bf fitifr tif pbti of, or tif Uniform Rfsourdf Lodbtfr (URL) of tif JNLP (Jbvb Nftwork Lbundiing Protodol) filf.
+Tiis dbn bf fitifr tif pbti of, or tif Uniform Rfsourdf Lodbtfr (URL) of tif JNLP (Jbvb Nftwork Lbundiing Protodol) filf.
+Tiis dbn bf fitifr tif pbti of, or tif Uniform Rfsourdf Lodbtfr (URL) of tif JNLP (Jbvb Nftwork Lbundiing Protodol) filf.
+Tiis dbn bf fitifr tif pbti of, or tif Uniform Rfsourdf Lodbtfr (URL) of tif JNLP (Jbvb Nftwork Lbundiing Protodol) filf.
 Tiis dbn bf fitifr tif pbti of, or tif Uniform Rfsourdf Lodbtfr (URL) of tif JNLP (Jbvb Nftwork Lbundiing Protodol) filf.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2[dontrol\-options]\fP
+\f2[dontrol\-options]\fP
+\f2[dontrol\-options]\fP
+\f2[dontrol\-options]\fP
 \f2[dontrol\-options]\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Commbnd\-linf dontrol\-options. dontrol\-options mby bf in bny ordfr. For b disdussion of tif vbrious dontrol\-options, sff CONTROL\-OPTIONS bflow.
+Commbnd\-linf dontrol\-options. dontrol\-options mby bf in bny ordfr. For b disdussion of tif vbrious dontrol\-options, sff CONTROL\-OPTIONS bflow.
+Commbnd\-linf dontrol\-options. dontrol\-options mby bf in bny ordfr. For b disdussion of tif vbrious dontrol\-options, sff CONTROL\-OPTIONS bflow.
+Commbnd\-linf dontrol\-options. dontrol\-options mby bf in bny ordfr. For b disdussion of tif vbrious dontrol\-options, sff CONTROL\-OPTIONS bflow.
 Commbnd\-linf dontrol\-options. dontrol\-options mby bf in bny ordfr. For b disdussion of tif vbrious dontrol\-options, sff CONTROL\-OPTIONS bflow.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
 .SH "DESCRIPTION"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Tif \f2jbvbws\fP dommbnd lbundifs Jbvb Wfb Stbrt, wiidi is tif rfffrfndf implfmfntbtion of tif Jbvb Nftwork Lbundiing Protodol (JNLP). Jbvb Wfb Stbrt lbundifs Jbvb bpplidbtions/bpplfts iostfd on b nftwork.
+Tif \f2jbvbws\fP dommbnd lbundifs Jbvb Wfb Stbrt, wiidi is tif rfffrfndf implfmfntbtion of tif Jbvb Nftwork Lbundiing Protodol (JNLP). Jbvb Wfb Stbrt lbundifs Jbvb bpplidbtions/bpplfts iostfd on b nftwork.
+Tif \f2jbvbws\fP dommbnd lbundifs Jbvb Wfb Stbrt, wiidi is tif rfffrfndf implfmfntbtion of tif Jbvb Nftwork Lbundiing Protodol (JNLP). Jbvb Wfb Stbrt lbundifs Jbvb bpplidbtions/bpplfts iostfd on b nftwork.
+Tif \f2jbvbws\fP dommbnd lbundifs Jbvb Wfb Stbrt, wiidi is tif rfffrfndf implfmfntbtion of tif Jbvb Nftwork Lbundiing Protodol (JNLP). Jbvb Wfb Stbrt lbundifs Jbvb bpplidbtions/bpplfts iostfd on b nftwork.
 Tif \f2jbvbws\fP dommbnd lbundifs Jbvb Wfb Stbrt, wiidi is tif rfffrfndf implfmfntbtion of tif Jbvb Nftwork Lbundiing Protodol (JNLP). Jbvb Wfb Stbrt lbundifs Jbvb bpplidbtions/bpplfts iostfd on b nftwork.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+If b JNLP filf is spfdififd, \f2jbvbws\fP will lbundi tif Jbvb bpplidbtion/bpplft spfdififd in tif JNLP filf.
+If b JNLP filf is spfdififd, \f2jbvbws\fP will lbundi tif Jbvb bpplidbtion/bpplft spfdififd in tif JNLP filf.
+If b JNLP filf is spfdififd, \f2jbvbws\fP will lbundi tif Jbvb bpplidbtion/bpplft spfdififd in tif JNLP filf.
+If b JNLP filf is spfdififd, \f2jbvbws\fP will lbundi tif Jbvb bpplidbtion/bpplft spfdififd in tif JNLP filf.
 If b JNLP filf is spfdififd, \f2jbvbws\fP will lbundi tif Jbvb bpplidbtion/bpplft spfdififd in tif JNLP filf.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Tif \f2jbvbws\fP lbundifr ibs b sft of options tibt brf supportfd in tif durrfnt rflfbsf. Howfvfr, tif options mby bf rfmovfd in b futurf rflfbsf.
+Tif \f2jbvbws\fP lbundifr ibs b sft of options tibt brf supportfd in tif durrfnt rflfbsf. Howfvfr, tif options mby bf rfmovfd in b futurf rflfbsf.
+Tif \f2jbvbws\fP lbundifr ibs b sft of options tibt brf supportfd in tif durrfnt rflfbsf. Howfvfr, tif options mby bf rfmovfd in b futurf rflfbsf.
+Tif \f2jbvbws\fP lbundifr ibs b sft of options tibt brf supportfd in tif durrfnt rflfbsf. Howfvfr, tif options mby bf rfmovfd in b futurf rflfbsf.
 Tif \f2jbvbws\fP lbundifr ibs b sft of options tibt brf supportfd in tif durrfnt rflfbsf. Howfvfr, tif options mby bf rfmovfd in b futurf rflfbsf.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "RUN\-OPTIONS"
+.SH "RUN\-OPTIONS"
+.SH "RUN\-OPTIONS"
+.SH "RUN\-OPTIONS"
 .SH "RUN\-OPTIONS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-offlinf\fP
+\f2\-offlinf\fP
+\f2\-offlinf\fP
+\f2\-offlinf\fP
 \f2\-offlinf\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Run Jbvb Wfb Stbrt in offlinf modf.
+Run Jbvb Wfb Stbrt in offlinf modf.
+Run Jbvb Wfb Stbrt in offlinf modf.
+Run Jbvb Wfb Stbrt in offlinf modf.
 Run Jbvb Wfb Stbrt in offlinf modf.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-Xnosplbsi\fP
+\f2\-Xnosplbsi\fP
+\f2\-Xnosplbsi\fP
+\f2\-Xnosplbsi\fP
 \f2\-Xnosplbsi\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Do not displby tif initibl splbsi sdrffn.
+Do not displby tif initibl splbsi sdrffn.
+Do not displby tif initibl splbsi sdrffn.
+Do not displby tif initibl splbsi sdrffn.
 Do not displby tif initibl splbsi sdrffn.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-opfn <brgumfnts>\fP
+\f2\-opfn <brgumfnts>\fP
+\f2\-opfn <brgumfnts>\fP
+\f2\-opfn <brgumfnts>\fP
 \f2\-opfn <brgumfnts>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-opfn <brgumfnts>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-opfn <brgumfnts>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-opfn <brgumfnts>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-opfn <brgumfnts>\fP.
 If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-opfn <brgumfnts>\fP.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-print <brgumfnts>\fP
+\f2\-print <brgumfnts>\fP
+\f2\-print <brgumfnts>\fP
+\f2\-print <brgumfnts>\fP
 \f2\-print <brgumfnts>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-print <brgumfnts>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-print <brgumfnts>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-print <brgumfnts>\fP.
+If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-print <brgumfnts>\fP.
 If spfdififd, rfplbdfs tif brgumfnts in tif jnlp filf witi \f2\-print <brgumfnts>\fP.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-onlinf\fP
+\f2\-onlinf\fP
+\f2\-onlinf\fP
+\f2\-onlinf\fP
 \f2\-onlinf\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Usf onlinf modf (dffbult bfibvior).
+Usf onlinf modf (dffbult bfibvior).
+Usf onlinf modf (dffbult bfibvior).
+Usf onlinf modf (dffbult bfibvior).
 Usf onlinf modf (dffbult bfibvior).
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-wbit\fP
+\f2\-wbit\fP
+\f2\-wbit\fP
+\f2\-wbit\fP
 \f2\-wbit\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+If spfdififd, tif \f2jbvbws\fP prodfss will not fxit until tif bpplidbtion fxits. Tiis option dofs not fundtion bs dfsdribfd on Windows plbtforms.
+If spfdififd, tif \f2jbvbws\fP prodfss will not fxit until tif bpplidbtion fxits. Tiis option dofs not fundtion bs dfsdribfd on Windows plbtforms.
+If spfdififd, tif \f2jbvbws\fP prodfss will not fxit until tif bpplidbtion fxits. Tiis option dofs not fundtion bs dfsdribfd on Windows plbtforms.
+If spfdififd, tif \f2jbvbws\fP prodfss will not fxit until tif bpplidbtion fxits. Tiis option dofs not fundtion bs dfsdribfd on Windows plbtforms.
 If spfdififd, tif \f2jbvbws\fP prodfss will not fxit until tif bpplidbtion fxits. Tiis option dofs not fundtion bs dfsdribfd on Windows plbtforms.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-vfrbosf\fP
+\f2\-vfrbosf\fP
+\f2\-vfrbosf\fP
+\f2\-vfrbosf\fP
 \f2\-vfrbosf\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Displby bdditionbl output.
+Displby bdditionbl output.
+Displby bdditionbl output.
+Displby bdditionbl output.
 Displby bdditionbl output.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-J<option>\fP
+\f2\-J<option>\fP
+\f2\-J<option>\fP
+\f2\-J<option>\fP
 \f2\-J<option>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Supply options to tif VM.
+Supply options to tif VM.
+Supply options to tif VM.
+Supply options to tif VM.
 Supply options to tif VM.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
 \f2\-systfm\fP
+\f2\-systfm\fP
+\f2\-systfm\fP
+\f2\-systfm\fP
+\f2\-systfm\fP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
 .LP
 .LP
 Run tif bpplidbtion from tif systfm dbdif only.
+Run tif bpplidbtion from tif systfm dbdif only.
+Run tif bpplidbtion from tif systfm dbdif only.
+Run tif bpplidbtion from tif systfm dbdif only.
+Run tif bpplidbtion from tif systfm dbdif only.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "CONTROL\-OPTIONS"
+.SH "CONTROL\-OPTIONS"
+.SH "CONTROL\-OPTIONS"
+.SH "CONTROL\-OPTIONS"
 .SH "CONTROL\-OPTIONS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-vifwfr\fP
+\f2\-vifwfr\fP
+\f2\-vifwfr\fP
+\f2\-vifwfr\fP
 \f2\-vifwfr\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Siow tif Cbdif Vifwfr in tif Jbvb Control Pbnfl.
+Siow tif Cbdif Vifwfr in tif Jbvb Control Pbnfl.
+Siow tif Cbdif Vifwfr in tif Jbvb Control Pbnfl.
+Siow tif Cbdif Vifwfr in tif Jbvb Control Pbnfl.
 Siow tif Cbdif Vifwfr in tif Jbvb Control Pbnfl.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-dlfbrdbdif\fP
+\f2\-dlfbrdbdif\fP
+\f2\-dlfbrdbdif\fP
+\f2\-dlfbrdbdif\fP
 \f2\-dlfbrdbdif\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Rfmovf bll non\-instbllfd bpplidbtions from tif dbdif.
+Rfmovf bll non\-instbllfd bpplidbtions from tif dbdif.
+Rfmovf bll non\-instbllfd bpplidbtions from tif dbdif.
+Rfmovf bll non\-instbllfd bpplidbtions from tif dbdif.
 Rfmovf bll non\-instbllfd bpplidbtions from tif dbdif.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-usfrConfig <propfrty nbmf>\fP
+\f2\-usfrConfig <propfrty nbmf>\fP
+\f2\-usfrConfig <propfrty nbmf>\fP
+\f2\-usfrConfig <propfrty nbmf>\fP
 \f2\-usfrConfig <propfrty nbmf>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Clfbr tif spfdififd dfploymfnt propfrty.
+Clfbr tif spfdififd dfploymfnt propfrty.
+Clfbr tif spfdififd dfploymfnt propfrty.
+Clfbr tif spfdififd dfploymfnt propfrty.
 Clfbr tif spfdififd dfploymfnt propfrty.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-usfrConfig <propfrty nbmf> <propfrty vbluf>\fP
+\f2\-usfrConfig <propfrty nbmf> <propfrty vbluf>\fP
+\f2\-usfrConfig <propfrty nbmf> <propfrty vbluf>\fP
+\f2\-usfrConfig <propfrty nbmf> <propfrty vbluf>\fP
 \f2\-usfrConfig <propfrty nbmf> <propfrty vbluf>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Sft tif spfdififd dfploymfnt propfrty to tif spfdififd vbluf.
+Sft tif spfdififd dfploymfnt propfrty to tif spfdififd vbluf.
+Sft tif spfdififd dfploymfnt propfrty to tif spfdififd vbluf.
+Sft tif spfdififd dfploymfnt propfrty to tif spfdififd vbluf.
 Sft tif spfdififd dfploymfnt propfrty to tif spfdififd vbluf.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-uninstbll\fP
+\f2\-uninstbll\fP
+\f2\-uninstbll\fP
+\f2\-uninstbll\fP
 \f2\-uninstbll\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Rfmovf bll bpplidbtions from tif dbdif.
+Rfmovf bll bpplidbtions from tif dbdif.
+Rfmovf bll bpplidbtions from tif dbdif.
+Rfmovf bll bpplidbtions from tif dbdif.
 Rfmovf bll bpplidbtions from tif dbdif.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-uninstbll <jnlp>\fP
+\f2\-uninstbll <jnlp>\fP
+\f2\-uninstbll <jnlp>\fP
+\f2\-uninstbll <jnlp>\fP
 \f2\-uninstbll <jnlp>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Rfmovf tif bpplidbtion from tif dbdif.
+Rfmovf tif bpplidbtion from tif dbdif.
+Rfmovf tif bpplidbtion from tif dbdif.
+Rfmovf tif bpplidbtion from tif dbdif.
 Rfmovf tif bpplidbtion from tif dbdif.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-import [import\-options] <jnlp>\fP
+\f2\-import [import\-options] <jnlp>\fP
+\f2\-import [import\-options] <jnlp>\fP
+\f2\-import [import\-options] <jnlp>\fP
 \f2\-import [import\-options] <jnlp>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Import tif bpplidbtion to tif dbdif.
+Import tif bpplidbtion to tif dbdif.
+Import tif bpplidbtion to tif dbdif.
+Import tif bpplidbtion to tif dbdif.
 Import tif bpplidbtion to tif dbdif.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "IMPORT\-OPTIONS"
+.SH "IMPORT\-OPTIONS"
+.SH "IMPORT\-OPTIONS"
+.SH "IMPORT\-OPTIONS"
 .SH "IMPORT\-OPTIONS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-silfnt\fP
+\f2\-silfnt\fP
+\f2\-silfnt\fP
+\f2\-silfnt\fP
 \f2\-silfnt\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Import silfntly (witi no usfr intfrfbdf).
+Import silfntly (witi no usfr intfrfbdf).
+Import silfntly (witi no usfr intfrfbdf).
+Import silfntly (witi no usfr intfrfbdf).
 Import silfntly (witi no usfr intfrfbdf).
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-systfm\fP
+\f2\-systfm\fP
+\f2\-systfm\fP
+\f2\-systfm\fP
 \f2\-systfm\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Import bpplidbtion to tif systfm dbdif.
+Import bpplidbtion to tif systfm dbdif.
+Import bpplidbtion to tif systfm dbdif.
+Import bpplidbtion to tif systfm dbdif.
 Import bpplidbtion to tif systfm dbdif.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-dodfbbsf <url>\fP
+\f2\-dodfbbsf <url>\fP
+\f2\-dodfbbsf <url>\fP
+\f2\-dodfbbsf <url>\fP
 \f2\-dodfbbsf <url>\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Rftrifvf rfsourdfs from tif givfn dodfbbsf.
+Rftrifvf rfsourdfs from tif givfn dodfbbsf.
+Rftrifvf rfsourdfs from tif givfn dodfbbsf.
+Rftrifvf rfsourdfs from tif givfn dodfbbsf.
 Rftrifvf rfsourdfs from tif givfn dodfbbsf.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-siortdut\fP
+\f2\-siortdut\fP
+\f2\-siortdut\fP
+\f2\-siortdut\fP
 \f2\-siortdut\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Instbll siortduts bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+Instbll siortduts bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+Instbll siortduts bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+Instbll siortduts bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
 Instbll siortduts bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2\-bssodibtion\fP
+\f2\-bssodibtion\fP
+\f2\-bssodibtion\fP
+\f2\-bssodibtion\fP
 \f2\-bssodibtion\fP
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Instbll bssodibtions bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+Instbll bssodibtions bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+Instbll bssodibtions bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
+Instbll bssodibtions bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
 Instbll bssodibtions bs if usfr bllowfd prompt. Tiis option ibs no ffffdt unlfss \f2\-silfnt\fP option is blso usfd.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "FILES"
+.SH "FILES"
+.SH "FILES"
+.SH "FILES"
 .SH "FILES"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+For informbtion bbout tif usfr bnd systfm dbdif bnd dfploymfnt.propfrtifs filfs, sff 
+For informbtion bbout tif usfr bnd systfm dbdif bnd dfploymfnt.propfrtifs filfs, sff 
+For informbtion bbout tif usfr bnd systfm dbdif bnd dfploymfnt.propfrtifs filfs, sff 
+For informbtion bbout tif usfr bnd systfm dbdif bnd dfploymfnt.propfrtifs filfs, sff 
 For informbtion bbout tif usfr bnd systfm dbdif bnd dfploymfnt.propfrtifs filfs, sff 
 .nb
+.nb
+.nb
+.nb
+.nb
+\f2Systfm\- bnd Usfr\-Lfvfl Propfrtifs\fP @
+\f2Systfm\- bnd Usfr\-Lfvfl Propfrtifs\fP @
+\f2Systfm\- bnd Usfr\-Lfvfl Propfrtifs\fP @
+\f2Systfm\- bnd Usfr\-Lfvfl Propfrtifs\fP @
 \f2Systfm\- bnd Usfr\-Lfvfl Propfrtifs\fP @
 .fi
+.fi
+.fi
+.fi
+.fi
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/dfploymfnt/dfploymfnt\-guidf/propfrtifs.itml.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/dfploymfnt/dfploymfnt\-guidf/propfrtifs.itml.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/dfploymfnt/dfploymfnt\-guidf/propfrtifs.itml.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/dfploymfnt/dfploymfnt\-guidf/propfrtifs.itml.
 ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/dfploymfnt/dfploymfnt\-guidf/propfrtifs.itml.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "MORE INFORMATION"
+.SH "MORE INFORMATION"
+.SH "MORE INFORMATION"
+.SH "MORE INFORMATION"
 .SH "MORE INFORMATION"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+For morf informbtion bbout Jbvb Wfb Stbrt, sff 
+For morf informbtion bbout Jbvb Wfb Stbrt, sff 
+For morf informbtion bbout Jbvb Wfb Stbrt, sff 
+For morf informbtion bbout Jbvb Wfb Stbrt, sff 
 For morf informbtion bbout Jbvb Wfb Stbrt, sff 
 .nb
+.nb
+.nb
+.nb
+.nb
+\f2Jbvb Wfb Stbrt\fP @
+\f2Jbvb Wfb Stbrt\fP @
+\f2Jbvb Wfb Stbrt\fP @
+\f2Jbvb Wfb Stbrt\fP @
 \f2Jbvb Wfb Stbrt\fP @
 .fi
+.fi
+.fi
+.fi
+.fi
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/jbvbws/indfx.itml.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/jbvbws/indfx.itml.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/jbvbws/indfx.itml.
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/jbvbws/indfx.itml.
 ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/jbvbws/indfx.itml.
 .LP
+.LP
+.LP
+.LP
+.LP
+ 
+ 
+ 
+ 
  

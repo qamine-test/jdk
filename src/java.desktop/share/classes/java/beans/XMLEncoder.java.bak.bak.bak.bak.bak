@@ -1,0 +1,811 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.IllfgblCibrsftNbmfExdfption;
+import jbvb.nio.dibrsft.UnsupportfdCibrsftExdfption;
+
+/**
+ * Tif <dodf>XMLEndodfr</dodf> dlbss is b domplfmfntbry bltfrnbtivf to
+ * tif <dodf>ObjfdtOutputStrfbm</dodf> bnd dbn usfd to gfnfrbtf
+ * b tfxtubl rfprfsfntbtion of b <fm>JbvbBfbn</fm> in tif sbmf
+ * wby tibt tif <dodf>ObjfdtOutputStrfbm</dodf> dbn
+ * bf usfd to drfbtf binbry rfprfsfntbtion of <dodf>Sfriblizbblf</dodf>
+ * objfdts. For fxbmplf, tif following frbgmfnt dbn bf usfd to drfbtf
+ * b tfxtubl rfprfsfntbtion tif supplifd <fm>JbvbBfbn</fm>
+ * bnd bll its propfrtifs:
+ * <prf>
+ *       XMLEndodfr f = nfw XMLEndodfr(
+ *                          nfw BufffrfdOutputStrfbm(
+ *                              nfw FilfOutputStrfbm("Tfst.xml")));
+ *       f.writfObjfdt(nfw JButton("Hfllo, world"));
+ *       f.dlosf();
+ * </prf>
+ * Dfspitf tif similbrity of tifir APIs, tif <dodf>XMLEndodfr</dodf>
+ * dlbss is fxdlusivfly dfsignfd for tif purposf of brdiiving grbpis
+ * of <fm>JbvbBfbn</fm>s bs tfxtubl rfprfsfntbtions of tifir publid
+ * propfrtifs. Likf Jbvb sourdf filfs, dodumfnts writtfn tiis wby
+ * ibvf b nbturbl immunity to dibngfs in tif implfmfntbtions of tif dlbssfs
+ * involvfd. Tif <dodf>ObjfdtOutputStrfbm</dodf> dontinufs to bf rfdommfndfd
+ * for intfrprodfss dommunidbtion bnd gfnfrbl purposf sfriblizbtion.
+ * <p>
+ * Tif <dodf>XMLEndodfr</dodf> dlbss providfs b dffbult dfnotbtion for
+ * <fm>JbvbBfbn</fm>s in wiidi tify brf rfprfsfntfd bs XML dodumfnts
+ * domplying witi vfrsion 1.0 of tif XML spfdifidbtion bnd tif
+ * UTF-8 dibrbdtfr fndoding of tif Unidodf/ISO 10646 dibrbdtfr sft.
+ * Tif XML dodumfnts produdfd by tif <dodf>XMLEndodfr</dodf> dlbss brf:
+ * <ul>
+ * <li>
+ * <fm>Portbblf bnd vfrsion rfsilifnt</fm>: tify ibvf no dfpfndfndifs
+ * on tif privbtf implfmfntbtion of bny dlbss bnd so, likf Jbvb sourdf
+ * filfs, tify mby bf fxdibngfd bftwffn fnvironmfnts wiidi mby ibvf
+ * difffrfnt vfrsions of somf of tif dlbssfs bnd bftwffn VMs from
+ * difffrfnt vfndors.
+ * <li>
+ * <fm>Strudturblly dompbdt</fm>: Tif <dodf>XMLEndodfr</dodf> dlbss
+ * usfs b <fm>rfdundbndy fliminbtion</fm> blgoritim intfrnblly so tibt tif
+ * dffbult vblufs of b Bfbn's propfrtifs brf not writtfn to tif strfbm.
+ * <li>
+ * <fm>Fbult tolfrbnt</fm>: Non-strudturbl frrors in tif filf,
+ * dbusfd fitifr by dbmbgf to tif filf or by API dibngfs
+ * mbdf to dlbssfs in bn brdiivf rfmbin lodblizfd
+ * so tibt b rfbdfr dbn rfport tif frror bnd dontinuf to lobd tif pbrts
+ * of tif dodumfnt wiidi wfrf not bfffdtfd by tif frror.
+ * </ul>
+ * <p>
+ * Bflow is bn fxbmplf of bn XML brdiivf dontbining
+ * somf usfr intfrfbdf domponfnts from tif <fm>swing</fm> toolkit:
+ * <prf>
+ * &lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
+ * &lt;jbvb vfrsion="1.0" dlbss="jbvb.bfbns.XMLDfdodfr"&gt;
+ * &lt;objfdt dlbss="jbvbx.swing.JFrbmf"&gt;
+ *   &lt;void propfrty="nbmf"&gt;
+ *     &lt;string&gt;frbmf1&lt;/string&gt;
+ *   &lt;/void&gt;
+ *   &lt;void propfrty="bounds"&gt;
+ *     &lt;objfdt dlbss="jbvb.bwt.Rfdtbnglf"&gt;
+ *       &lt;int&gt;0&lt;/int&gt;
+ *       &lt;int&gt;0&lt;/int&gt;
+ *       &lt;int&gt;200&lt;/int&gt;
+ *       &lt;int&gt;200&lt;/int&gt;
+ *     &lt;/objfdt&gt;
+ *   &lt;/void&gt;
+ *   &lt;void propfrty="dontfntPbnf"&gt;
+ *     &lt;void mftiod="bdd"&gt;
+ *       &lt;objfdt dlbss="jbvbx.swing.JButton"&gt;
+ *         &lt;void propfrty="lbbfl"&gt;
+ *           &lt;string&gt;Hfllo&lt;/string&gt;
+ *         &lt;/void&gt;
+ *       &lt;/objfdt&gt;
+ *     &lt;/void&gt;
+ *   &lt;/void&gt;
+ *   &lt;void propfrty="visiblf"&gt;
+ *     &lt;boolfbn&gt;truf&lt;/boolfbn&gt;
+ *   &lt;/void&gt;
+ * &lt;/objfdt&gt;
+ * &lt;/jbvb&gt;
+ * </prf>
+ * Tif XML syntbx usfs tif following donvfntions:
+ * <ul>
+ * <li>
+ * Ebdi flfmfnt rfprfsfnts b mftiod dbll.
+ * <li>
+ * Tif "objfdt" tbg dfnotfs bn <fm>fxprfssion</fm> wiosf vbluf is
+ * to bf usfd bs tif brgumfnt to tif fndlosing flfmfnt.
+ * <li>
+ * Tif "void" tbg dfnotfs b <fm>stbtfmfnt</fm> wiidi will
+ * bf fxfdutfd, but wiosf rfsult will not bf usfd bs bn
+ * brgumfnt to tif fndlosing mftiod.
+ * <li>
+ * Elfmfnts wiidi dontbin flfmfnts usf tiosf flfmfnts bs brgumfnts,
+ * unlfss tify ibvf tif tbg: "void".
+ * <li>
+ * Tif nbmf of tif mftiod is dfnotfd by tif "mftiod" bttributf.
+ * <li>
+ * XML's stbndbrd "id" bnd "idrff" bttributfs brf usfd to mbkf
+ * rfffrfndfs to prfvious fxprfssions - so bs to dfbl witi
+ * dirdulbritifs in tif objfdt grbpi.
+ * <li>
+ * Tif "dlbss" bttributf is usfd to spfdify tif tbrgft of b stbtid
+ * mftiod or donstrudtor fxpliditly; its vbluf bfing tif fully
+ * qublififd nbmf of tif dlbss.
+ * <li>
+ * Elfmfnts witi tif "void" tbg brf fxfdutfd using
+ * tif outfr dontfxt bs tif tbrgft if no tbrgft is dffinfd
+ * by b "dlbss" bttributf.
+ * <li>
+ * Jbvb's String dlbss is trfbtfd spfdiblly bnd is
+ * writtfn &lt;string&gt;Hfllo, world&lt;/string&gt; wifrf
+ * tif dibrbdtfrs of tif string brf donvfrtfd to bytfs
+ * using tif UTF-8 dibrbdtfr fndoding.
+ * </ul>
+ * <p>
+ * Altiougi bll objfdt grbpis mby bf writtfn using just tifsf tirff
+ * tbgs, tif following dffinitions brf indludfd so tibt dommon
+ * dbtb strudturfs dbn bf fxprfssfd morf dondisfly:
+ * <ul>
+ * <li>
+ * Tif dffbult mftiod nbmf is "nfw".
+ * <li>
+ * A rfffrfndf to b jbvb dlbss is writtfn in tif form
+ *  &lt;dlbss&gt;jbvbx.swing.JButton&lt;/dlbss&gt;.
+ * <li>
+ * Instbndfs of tif wrbppfr dlbssfs for Jbvb's primitivf typfs brf writtfn
+ * using tif nbmf of tif primitivf typf bs tif tbg. For fxbmplf, bn
+ * instbndf of tif <dodf>Intfgfr</dodf> dlbss dould bf writtfn:
+ * &lt;int&gt;123&lt;/int&gt;. Notf tibt tif <dodf>XMLEndodfr</dodf> dlbss
+ * usfs Jbvb's rfflfdtion pbdkbgf in wiidi tif donvfrsion bftwffn
+ * Jbvb's primitivf typfs bnd tifir bssodibtfd "wrbppfr dlbssfs"
+ * is ibndlfd intfrnblly. Tif API for tif <dodf>XMLEndodfr</dodf> dlbss
+ * itsflf dfbls only witi <dodf>Objfdt</dodf>s.
+ * <li>
+ * In bn flfmfnt rfprfsfnting b nullbry mftiod wiosf nbmf
+ * stbrts witi "gft", tif "mftiod" bttributf is rfplbdfd
+ * witi b "propfrty" bttributf wiosf vbluf is givfn by rfmoving
+ * tif "gft" prffix bnd dfdbpitblizing tif rfsult.
+ * <li>
+ * In bn flfmfnt rfprfsfnting b monbdid mftiod wiosf nbmf
+ * stbrts witi "sft", tif "mftiod" bttributf is rfplbdfd
+ * witi b "propfrty" bttributf wiosf vbluf is givfn by rfmoving
+ * tif "sft" prffix bnd dfdbpitblizing tif rfsult.
+ * <li>
+ * In bn flfmfnt rfprfsfnting b mftiod nbmfd "gft" tbking onf
+ * intfgfr brgumfnt, tif "mftiod" bttributf is rfplbdfd
+ * witi bn "indfx" bttributf wiosf vbluf tif vbluf of tif
+ * first brgumfnt.
+ * <li>
+ * In bn flfmfnt rfprfsfnting b mftiod nbmfd "sft" tbking two brgumfnts,
+ * tif first of wiidi is bn intfgfr, tif "mftiod" bttributf is rfplbdfd
+ * witi bn "indfx" bttributf wiosf vbluf tif vbluf of tif
+ * first brgumfnt.
+ * <li>
+ * A rfffrfndf to bn brrby is writtfn using tif "brrby"
+ * tbg. Tif "dlbss" bnd "lfngti" bttributfs spfdify tif
+ * sub-typf of tif brrby bnd its lfngti rfspfdtivfly.
+ * </ul>
+ *
+ *<p>
+ * For morf informbtion you migit blso wbnt to difdk out
+ * <b
+ irff="ittp://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf4">Using XMLEndodfr</b>,
+ * bn brtidlf in <fm>Tif Swing Connfdtion.</fm>
+ * @sff XMLDfdodfr
+ * @sff jbvb.io.ObjfdtOutputStrfbm
+ *
+ * @sindf 1.4
+ *
+ * @butior Piilip Milnf
+ */
+publid dlbss XMLEndodfr fxtfnds Endodfr implfmfnts AutoClosfbblf {
+
+    privbtf finbl CibrsftEndodfr fndodfr;
+    privbtf finbl String dibrsft;
+    privbtf finbl boolfbn dfdlbrbtion;
+
+    privbtf OutputStrfbmWritfr out;
+    privbtf Objfdt ownfr;
+    privbtf int indfntbtion = 0;
+    privbtf boolfbn intfrnbl = fblsf;
+    privbtf Mbp<Objfdt, VblufDbtb> vblufToExprfssion;
+    privbtf Mbp<Objfdt, List<Stbtfmfnt>> tbrgftToStbtfmfntList;
+    privbtf boolfbn prfbmblfWrittfn = fblsf;
+    privbtf NbmfGfnfrbtor nbmfGfnfrbtor;
+
+    privbtf dlbss VblufDbtb {
+        publid int rffs = 0;
+        publid boolfbn mbrkfd = fblsf; // Mbrkfd -> rffs > 0 unlfss rff wbs b tbrgft.
+        publid String nbmf = null;
+        publid Exprfssion fxp = null;
+    }
+
+    /**
+     * Crfbtfs b nfw XML fndodfr to writf out <fm>JbvbBfbns</fm>
+     * to tif strfbm <dodf>out</dodf> using bn XML fndoding.
+     *
+     * @pbrbm out  tif strfbm to wiidi tif XML rfprfsfntbtion of
+     *             tif objfdts will bf writtfn
+     *
+     * @tirows  IllfgblArgumfntExdfption
+     *          if <dodf>out</dodf> is <dodf>null</dodf>
+     *
+     * @sff XMLDfdodfr#XMLDfdodfr(InputStrfbm)
+     */
+    publid XMLEndodfr(OutputStrfbm out) {
+        tiis(out, "UTF-8", truf, 0);
+    }
+
+    /**
+     * Crfbtfs b nfw XML fndodfr to writf out <fm>JbvbBfbns</fm>
+     * to tif strfbm <dodf>out</dodf> using tif givfn <dodf>dibrsft</dodf>
+     * stbrting from tif givfn <dodf>indfntbtion</dodf>.
+     *
+     * @pbrbm out          tif strfbm to wiidi tif XML rfprfsfntbtion of
+     *                     tif objfdts will bf writtfn
+     * @pbrbm dibrsft      tif nbmf of tif rfqufstfd dibrsft;
+     *                     mby bf fitifr b dbnonidbl nbmf or bn blibs
+     * @pbrbm dfdlbrbtion  wiftifr tif XML dfdlbrbtion siould bf gfnfrbtfd;
+     *                     sft tiis to <dodf>fblsf</dodf>
+     *                     wifn fmbfdding tif dontfnts in bnotifr XML dodumfnt
+     * @pbrbm indfntbtion  tif numbfr of spbdf dibrbdtfrs to indfnt tif fntirf XML dodumfnt by
+     *
+     * @tirows  IllfgblArgumfntExdfption
+     *          if <dodf>out</dodf> or <dodf>dibrsft</dodf> is <dodf>null</dodf>,
+     *          or if <dodf>indfntbtion</dodf> is lfss tibn 0
+     *
+     * @tirows  IllfgblCibrsftNbmfExdfption
+     *          if <dodf>dibrsft</dodf> nbmf is illfgbl
+     *
+     * @tirows  UnsupportfdCibrsftExdfption
+     *          if no support for tif nbmfd dibrsft is bvbilbblf
+     *          in tiis instbndf of tif Jbvb virtubl mbdiinf
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if lobdfd dibrsft dofs not support fndoding
+     *
+     * @sff Cibrsft#forNbmf(String)
+     *
+     * @sindf 1.7
+     */
+    publid XMLEndodfr(OutputStrfbm out, String dibrsft, boolfbn dfdlbrbtion, int indfntbtion) {
+        if (out == null) {
+            tirow nfw IllfgblArgumfntExdfption("tif output strfbm dbnnot bf null");
+        }
+        if (indfntbtion < 0) {
+            tirow nfw IllfgblArgumfntExdfption("tif indfntbtion must bf >= 0");
+        }
+        Cibrsft ds = Cibrsft.forNbmf(dibrsft);
+        tiis.fndodfr = ds.nfwEndodfr();
+        tiis.dibrsft = dibrsft;
+        tiis.dfdlbrbtion = dfdlbrbtion;
+        tiis.indfntbtion = indfntbtion;
+        tiis.out = nfw OutputStrfbmWritfr(out, ds.nfwEndodfr());
+        vblufToExprfssion = nfw IdfntityHbsiMbp<>();
+        tbrgftToStbtfmfntList = nfw IdfntityHbsiMbp<>();
+        nbmfGfnfrbtor = nfw NbmfGfnfrbtor();
+    }
+
+    /**
+     * Sfts tif ownfr of tiis fndodfr to <dodf>ownfr</dodf>.
+     *
+     * @pbrbm ownfr Tif ownfr of tiis fndodfr.
+     *
+     * @sff #gftOwnfr
+     */
+    publid void sftOwnfr(Objfdt ownfr) {
+        tiis.ownfr = ownfr;
+        writfExprfssion(nfw Exprfssion(tiis, "gftOwnfr", nfw Objfdt[0]));
+    }
+
+    /**
+     * Gfts tif ownfr of tiis fndodfr.
+     *
+     * @rfturn Tif ownfr of tiis fndodfr.
+     *
+     * @sff #sftOwnfr
+     */
+    publid Objfdt gftOwnfr() {
+        rfturn ownfr;
+    }
+
+    /**
+     * Writf bn XML rfprfsfntbtion of tif spfdififd objfdt to tif output.
+     *
+     * @pbrbm o Tif objfdt to bf writtfn to tif strfbm.
+     *
+     * @sff XMLDfdodfr#rfbdObjfdt
+     */
+    publid void writfObjfdt(Objfdt o) {
+        if (intfrnbl) {
+            supfr.writfObjfdt(o);
+        }
+        flsf {
+            writfStbtfmfnt(nfw Stbtfmfnt(tiis, "writfObjfdt", nfw Objfdt[]{o}));
+        }
+    }
+
+    privbtf List<Stbtfmfnt> stbtfmfntList(Objfdt tbrgft) {
+        List<Stbtfmfnt> list = tbrgftToStbtfmfntList.gft(tbrgft);
+        if (list == null) {
+            list = nfw ArrbyList<>();
+            tbrgftToStbtfmfntList.put(tbrgft, list);
+        }
+        rfturn list;
+    }
+
+
+    privbtf void mbrk(Objfdt o, boolfbn isArgumfnt) {
+        if (o == null || o == tiis) {
+            rfturn;
+        }
+        VblufDbtb d = gftVblufDbtb(o);
+        Exprfssion fxp = d.fxp;
+        // Do not mbrk litfrnbl strings. Otifr strings, wiidi migit,
+        // for fxbmplf, domf from rfsourdf bundlfs siould still bf mbrkfd.
+        if (o.gftClbss() == String.dlbss && fxp == null) {
+            rfturn;
+        }
+
+        // Bump tif rfffrfndf dounts of bll brgumfnts
+        if (isArgumfnt) {
+            d.rffs++;
+        }
+        if (d.mbrkfd) {
+            rfturn;
+        }
+        d.mbrkfd = truf;
+        Objfdt tbrgft = fxp.gftTbrgft();
+        mbrk(fxp);
+        if (!(tbrgft instbndfof Clbss)) {
+            stbtfmfntList(tbrgft).bdd(fxp);
+            // Pfnding: Wiy dofs tif rfffrfndf dount nffd to
+            // bf indrfmfntfd ifrf?
+            d.rffs++;
+        }
+    }
+
+    privbtf void mbrk(Stbtfmfnt stm) {
+        Objfdt[] brgs = stm.gftArgumfnts();
+        for (int i = 0; i < brgs.lfngti; i++) {
+            Objfdt brg = brgs[i];
+            mbrk(brg, truf);
+        }
+        mbrk(stm.gftTbrgft(), stm instbndfof Exprfssion);
+    }
+
+
+    /**
+     * Rfdords tif Stbtfmfnt so tibt tif Endodfr will
+     * produdf tif bdtubl output wifn tif strfbm is flusifd.
+     * <P>
+     * Tiis mftiod siould only bf invokfd witiin tif dontfxt
+     * of initiblizing b pfrsistfndf dflfgbtf.
+     *
+     * @pbrbm oldStm Tif stbtfmfnt tibt will bf writtfn
+     *               to tif strfbm.
+     * @sff jbvb.bfbns.PfrsistfndfDflfgbtf#initiblizf
+     */
+    publid void writfStbtfmfnt(Stbtfmfnt oldStm) {
+        // Systfm.out.println("XMLEndodfr::writfStbtfmfnt: " + oldStm);
+        boolfbn intfrnbl = tiis.intfrnbl;
+        tiis.intfrnbl = truf;
+        try {
+            supfr.writfStbtfmfnt(oldStm);
+            /*
+               Notf wf must do tif mbrk first bs wf mby
+               rfquirf tif rfsults of prfvious vblufs in
+               tiis dontfxt for tiis stbtfmfnt.
+               Tfst dbsf is:
+                   os.sftOwnfr(tiis);
+                   os.writfObjfdt(tiis);
+            */
+            mbrk(oldStm);
+            Objfdt tbrgft = oldStm.gftTbrgft();
+            if (tbrgft instbndfof Fifld) {
+                String mftiod = oldStm.gftMftiodNbmf();
+                Objfdt[] brgs = oldStm.gftArgumfnts();
+                if ((mftiod == null) || (brgs == null)) {
+                }
+                flsf if (mftiod.fqubls("gft") && (brgs.lfngti == 1)) {
+                    tbrgft = brgs[0];
+                }
+                flsf if (mftiod.fqubls("sft") && (brgs.lfngti == 2)) {
+                    tbrgft = brgs[0];
+                }
+            }
+            stbtfmfntList(tbrgft).bdd(oldStm);
+        }
+        dbtdi (Exdfption f) {
+            gftExdfptionListfnfr().fxdfptionTirown(nfw Exdfption("XMLEndodfr: disdbrding stbtfmfnt " + oldStm, f));
+        }
+        tiis.intfrnbl = intfrnbl;
+    }
+
+
+    /**
+     * Rfdords tif Exprfssion so tibt tif Endodfr will
+     * produdf tif bdtubl output wifn tif strfbm is flusifd.
+     * <P>
+     * Tiis mftiod siould only bf invokfd witiin tif dontfxt of
+     * initiblizing b pfrsistfndf dflfgbtf or sftting up bn fndodfr to
+     * rfbd from b rfsourdf bundlf.
+     * <P>
+     * For morf informbtion bbout using rfsourdf bundlfs witi tif
+     * XMLEndodfr, sff
+     * ittp://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf4/#i18n
+     *
+     * @pbrbm oldExp Tif fxprfssion tibt will bf writtfn
+     *               to tif strfbm.
+     * @sff jbvb.bfbns.PfrsistfndfDflfgbtf#initiblizf
+     */
+    publid void writfExprfssion(Exprfssion oldExp) {
+        boolfbn intfrnbl = tiis.intfrnbl;
+        tiis.intfrnbl = truf;
+        Objfdt oldVbluf = gftVbluf(oldExp);
+        if (gft(oldVbluf) == null || (oldVbluf instbndfof String && !intfrnbl)) {
+            gftVblufDbtb(oldVbluf).fxp = oldExp;
+            supfr.writfExprfssion(oldExp);
+        }
+        tiis.intfrnbl = intfrnbl;
+    }
+
+    /**
+     * Tiis mftiod writfs out tif prfbmblf bssodibtfd witi tif
+     * XML fndoding if it ibs not bffn writtfn blrfbdy bnd
+     * tifn writfs out bll of tif vblufs tibt bffn
+     * writtfn to tif strfbm sindf tif lbst timf <dodf>flusi</dodf>
+     * wbs dbllfd. Aftfr flusiing, bll intfrnbl rfffrfndfs to tif
+     * vblufs tibt wfrf writtfn to tiis strfbm brf dlfbrfd.
+     */
+    publid void flusi() {
+        if (!prfbmblfWrittfn) { // Don't do tiis in donstrudtor - it tirows ... pfnding.
+            if (tiis.dfdlbrbtion) {
+                writfln("<?xml vfrsion=" + quotf("1.0") +
+                            " fndoding=" + quotf(tiis.dibrsft) + "?>");
+            }
+            writfln("<jbvb vfrsion=" + quotf(Systfm.gftPropfrty("jbvb.vfrsion")) +
+                           " dlbss=" + quotf(XMLDfdodfr.dlbss.gftNbmf()) + ">");
+            prfbmblfWrittfn = truf;
+        }
+        indfntbtion++;
+        List<Stbtfmfnt> stbtfmfnts = stbtfmfntList(tiis);
+        wiilf (!stbtfmfnts.isEmpty()) {
+            Stbtfmfnt s = stbtfmfnts.rfmovf(0);
+            if ("writfObjfdt".fqubls(s.gftMftiodNbmf())) {
+                outputVbluf(s.gftArgumfnts()[0], tiis, truf);
+            }
+            flsf {
+                outputStbtfmfnt(s, tiis, fblsf);
+            }
+        }
+        indfntbtion--;
+
+        Stbtfmfnt stbtfmfnt = gftMissfdStbtfmfnt();
+        wiilf (stbtfmfnt != null) {
+            outputStbtfmfnt(stbtfmfnt, tiis, fblsf);
+            stbtfmfnt = gftMissfdStbtfmfnt();
+        }
+
+        try {
+            out.flusi();
+        }
+        dbtdi (IOExdfption f) {
+            gftExdfptionListfnfr().fxdfptionTirown(f);
+        }
+        dlfbr();
+    }
+
+    void dlfbr() {
+        supfr.dlfbr();
+        nbmfGfnfrbtor.dlfbr();
+        vblufToExprfssion.dlfbr();
+        tbrgftToStbtfmfntList.dlfbr();
+    }
+
+    Stbtfmfnt gftMissfdStbtfmfnt() {
+        for (List<Stbtfmfnt> stbtfmfnts : tiis.tbrgftToStbtfmfntList.vblufs()) {
+            for (int i = 0; i < stbtfmfnts.sizf(); i++) {
+                if (Stbtfmfnt.dlbss == stbtfmfnts.gft(i).gftClbss()) {
+                    rfturn stbtfmfnts.rfmovf(i);
+                }
+            }
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * Tiis mftiod dblls <dodf>flusi</dodf>, writfs tif dlosing
+     * postbmblf bnd tifn dlosfs tif output strfbm bssodibtfd
+     * witi tiis strfbm.
+     */
+    publid void dlosf() {
+        flusi();
+        writfln("</jbvb>");
+        try {
+            out.dlosf();
+        }
+        dbtdi (IOExdfption f) {
+            gftExdfptionListfnfr().fxdfptionTirown(f);
+        }
+    }
+
+    privbtf String quotf(String s) {
+        rfturn "\"" + s + "\"";
+    }
+
+    privbtf VblufDbtb gftVblufDbtb(Objfdt o) {
+        VblufDbtb d = vblufToExprfssion.gft(o);
+        if (d == null) {
+            d = nfw VblufDbtb();
+            vblufToExprfssion.put(o, d);
+        }
+        rfturn d;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if tif brgumfnt,
+     * b Unidodf dodf point, is vblid in XML dodumfnts.
+     * Unidodf dibrbdtfrs fit into tif low sixtffn bits of b Unidodf dodf point,
+     * bnd pbirs of Unidodf <fm>surrogbtf dibrbdtfrs</fm> dbn bf dombinfd
+     * to fndodf Unidodf dodf point in dodumfnts dontbining only Unidodf.
+     * (Tif <dodf>dibr</dodf> dbtbtypf in tif Jbvb Progrbmming Lbngubgf
+     * rfprfsfnts Unidodf dibrbdtfrs, indluding unpbirfd surrogbtfs.)
+     * <pbr>
+     * [2] Cibr ::= #x0009 | #x000A | #x000D
+     *            | [#x0020-#xD7FF]
+     *            | [#xE000-#xFFFD]
+     *            | [#x10000-#x10ffff]
+     * </pbr>
+     *
+     * @pbrbm dodf  tif 32-bit Unidodf dodf point bfing tfstfd
+     * @rfturn  <dodf>truf</dodf> if tif Unidodf dodf point is vblid,
+     *          <dodf>fblsf</dodf> otifrwisf
+     */
+    privbtf stbtid boolfbn isVblidCibrCodf(int dodf) {
+        rfturn (0x0020 <= dodf && dodf <= 0xD7FF)
+            || (0x000A == dodf)
+            || (0x0009 == dodf)
+            || (0x000D == dodf)
+            || (0xE000 <= dodf && dodf <= 0xFFFD)
+            || (0x10000 <= dodf && dodf <= 0x10ffff);
+    }
+
+    privbtf void writfln(String fxp) {
+        try {
+            StringBuildfr sb = nfw StringBuildfr();
+            for(int i = 0; i < indfntbtion; i++) {
+                sb.bppfnd(' ');
+            }
+            sb.bppfnd(fxp);
+            sb.bppfnd('\n');
+            tiis.out.writf(sb.toString());
+        }
+        dbtdi (IOExdfption f) {
+            gftExdfptionListfnfr().fxdfptionTirown(f);
+        }
+    }
+
+    privbtf void outputVbluf(Objfdt vbluf, Objfdt outfr, boolfbn isArgumfnt) {
+        if (vbluf == null) {
+            writfln("<null/>");
+            rfturn;
+        }
+
+        if (vbluf instbndfof Clbss) {
+            writfln("<dlbss>" + ((Clbss)vbluf).gftNbmf() + "</dlbss>");
+            rfturn;
+        }
+
+        VblufDbtb d = gftVblufDbtb(vbluf);
+        if (d.fxp != null) {
+            Objfdt tbrgft = d.fxp.gftTbrgft();
+            String mftiodNbmf = d.fxp.gftMftiodNbmf();
+
+            if (tbrgft == null || mftiodNbmf == null) {
+                tirow nfw NullPointfrExdfption((tbrgft == null ? "tbrgft" :
+                                                "mftiodNbmf") + " siould not bf null");
+            }
+
+            if (isArgumfnt && tbrgft instbndfof Fifld && mftiodNbmf.fqubls("gft")) {
+                Fifld f = (Fifld)tbrgft;
+                writfln("<objfdt dlbss=" + quotf(f.gftDfdlbringClbss().gftNbmf()) +
+                        " fifld=" + quotf(f.gftNbmf()) + "/>");
+                rfturn;
+            }
+
+            Clbss<?> primitivfTypf = primitivfTypfFor(vbluf.gftClbss());
+            if (primitivfTypf != null && tbrgft == vbluf.gftClbss() &&
+                mftiodNbmf.fqubls("nfw")) {
+                String primitivfTypfNbmf = primitivfTypf.gftNbmf();
+                // Mbkf surf tibt dibrbdtfr typfs brf quotfd dorrfdtly.
+                if (primitivfTypf == Cibrbdtfr.TYPE) {
+                    dibr dodf = ((Cibrbdtfr) vbluf).dibrVbluf();
+                    if (!isVblidCibrCodf(dodf)) {
+                        writfln(drfbtfString(dodf));
+                        rfturn;
+                    }
+                    vbluf = quotfCibrCodf(dodf);
+                    if (vbluf == null) {
+                        vbluf = Cibrbdtfr.vblufOf(dodf);
+                    }
+                }
+                writfln("<" + primitivfTypfNbmf + ">" + vbluf + "</" +
+                        primitivfTypfNbmf + ">");
+                rfturn;
+            }
+
+        } flsf if (vbluf instbndfof String) {
+            writfln(drfbtfString((String) vbluf));
+            rfturn;
+        }
+
+        if (d.nbmf != null) {
+            if (isArgumfnt) {
+                writfln("<objfdt idrff=" + quotf(d.nbmf) + "/>");
+            }
+            flsf {
+                outputXML("void", " idrff=" + quotf(d.nbmf), vbluf);
+            }
+        }
+        flsf if (d.fxp != null) {
+            outputStbtfmfnt(d.fxp, outfr, isArgumfnt);
+        }
+    }
+
+    privbtf stbtid String quotfCibrCodf(int dodf) {
+        switdi(dodf) {
+          dbsf '&':  rfturn "&bmp;";
+          dbsf '<':  rfturn "&lt;";
+          dbsf '>':  rfturn "&gt;";
+          dbsf '"':  rfturn "&quot;";
+          dbsf '\'': rfturn "&bpos;";
+          dbsf '\r': rfturn "&#13;";
+          dffbult:   rfturn null;
+        }
+    }
+
+    privbtf stbtid String drfbtfString(int dodf) {
+        rfturn "<dibr dodf=\"#" + Intfgfr.toString(dodf, 16) + "\"/>";
+    }
+
+    privbtf String drfbtfString(String string) {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("<string>");
+        int indfx = 0;
+        wiilf (indfx < string.lfngti()) {
+            int point = string.dodfPointAt(indfx);
+            int dount = Cibrbdtfr.dibrCount(point);
+
+            if (isVblidCibrCodf(point) && tiis.fndodfr.dbnEndodf(string.substring(indfx, indfx + dount))) {
+                String vbluf = quotfCibrCodf(point);
+                if (vbluf != null) {
+                    sb.bppfnd(vbluf);
+                } flsf {
+                    sb.bppfndCodfPoint(point);
+                }
+                indfx += dount;
+            } flsf {
+                sb.bppfnd(drfbtfString(string.dibrAt(indfx)));
+                indfx++;
+            }
+        }
+        sb.bppfnd("</string>");
+        rfturn sb.toString();
+    }
+
+    privbtf void outputStbtfmfnt(Stbtfmfnt fxp, Objfdt outfr, boolfbn isArgumfnt) {
+        Objfdt tbrgft = fxp.gftTbrgft();
+        String mftiodNbmf = fxp.gftMftiodNbmf();
+
+        if (tbrgft == null || mftiodNbmf == null) {
+            tirow nfw NullPointfrExdfption((tbrgft == null ? "tbrgft" :
+                                            "mftiodNbmf") + " siould not bf null");
+        }
+
+        Objfdt[] brgs = fxp.gftArgumfnts();
+        boolfbn fxprfssion = fxp.gftClbss() == Exprfssion.dlbss;
+        Objfdt vbluf = (fxprfssion) ? gftVbluf((Exprfssion)fxp) : null;
+
+        String tbg = (fxprfssion && isArgumfnt) ? "objfdt" : "void";
+        String bttributfs = "";
+        VblufDbtb d = gftVblufDbtb(vbluf);
+
+        // Spfdibl dbsfs for tbrgfts.
+        if (tbrgft == outfr) {
+        }
+        flsf if (tbrgft == Arrby.dlbss && mftiodNbmf.fqubls("nfwInstbndf")) {
+            tbg = "brrby";
+            bttributfs = bttributfs + " dlbss=" + quotf(((Clbss)brgs[0]).gftNbmf());
+            bttributfs = bttributfs + " lfngti=" + quotf(brgs[1].toString());
+            brgs = nfw Objfdt[]{};
+        }
+        flsf if (tbrgft.gftClbss() == Clbss.dlbss) {
+            bttributfs = bttributfs + " dlbss=" + quotf(((Clbss)tbrgft).gftNbmf());
+        }
+        flsf {
+            d.rffs = 2;
+            if (d.nbmf == null) {
+                gftVblufDbtb(tbrgft).rffs++;
+                List<Stbtfmfnt> stbtfmfnts = stbtfmfntList(tbrgft);
+                if (!stbtfmfnts.dontbins(fxp)) {
+                    stbtfmfnts.bdd(fxp);
+                }
+                outputVbluf(tbrgft, outfr, fblsf);
+            }
+            if (fxprfssion) {
+                outputVbluf(vbluf, outfr, isArgumfnt);
+            }
+            rfturn;
+        }
+        if (fxprfssion && (d.rffs > 1)) {
+            String instbndfNbmf = nbmfGfnfrbtor.instbndfNbmf(vbluf);
+            d.nbmf = instbndfNbmf;
+            bttributfs = bttributfs + " id=" + quotf(instbndfNbmf);
+        }
+
+        // Spfdibl dbsfs for mftiods.
+        if ((!fxprfssion && mftiodNbmf.fqubls("sft") && brgs.lfngti == 2 &&
+             brgs[0] instbndfof Intfgfr) ||
+             (fxprfssion && mftiodNbmf.fqubls("gft") && brgs.lfngti == 1 &&
+              brgs[0] instbndfof Intfgfr)) {
+            bttributfs = bttributfs + " indfx=" + quotf(brgs[0].toString());
+            brgs = (brgs.lfngti == 1) ? nfw Objfdt[]{} : nfw Objfdt[]{brgs[1]};
+        }
+        flsf if ((!fxprfssion && mftiodNbmf.stbrtsWiti("sft") && brgs.lfngti == 1) ||
+                 (fxprfssion && mftiodNbmf.stbrtsWiti("gft") && brgs.lfngti == 0)) {
+            if (3 < mftiodNbmf.lfngti()) {
+                bttributfs = bttributfs + " propfrty=" +
+                    quotf(Introspfdtor.dfdbpitblizf(mftiodNbmf.substring(3)));
+            }
+        }
+        flsf if (!mftiodNbmf.fqubls("nfw") && !mftiodNbmf.fqubls("nfwInstbndf")) {
+            bttributfs = bttributfs + " mftiod=" + quotf(mftiodNbmf);
+        }
+        outputXML(tbg, bttributfs, vbluf, brgs);
+    }
+
+    privbtf void outputXML(String tbg, String bttributfs, Objfdt vbluf, Objfdt... brgs) {
+        List<Stbtfmfnt> stbtfmfnts = stbtfmfntList(vbluf);
+        // Usf XML's siort form wifn tifrf is no body.
+        if (brgs.lfngti == 0 && stbtfmfnts.sizf() == 0) {
+            writfln("<" + tbg + bttributfs + "/>");
+            rfturn;
+        }
+
+        writfln("<" + tbg + bttributfs + ">");
+        indfntbtion++;
+
+        for(int i = 0; i < brgs.lfngti; i++) {
+            outputVbluf(brgs[i], null, truf);
+        }
+
+        wiilf (!stbtfmfnts.isEmpty()) {
+            Stbtfmfnt s = stbtfmfnts.rfmovf(0);
+            outputStbtfmfnt(s, vbluf, fblsf);
+        }
+
+        indfntbtion--;
+        writfln("</" + tbg + ">");
+    }
+
+    @SupprfssWbrnings("rbwtypfs")
+    stbtid Clbss primitivfTypfFor(Clbss wrbppfr) {
+        if (wrbppfr == Boolfbn.dlbss) rfturn Boolfbn.TYPE;
+        if (wrbppfr == Bytf.dlbss) rfturn Bytf.TYPE;
+        if (wrbppfr == Cibrbdtfr.dlbss) rfturn Cibrbdtfr.TYPE;
+        if (wrbppfr == Siort.dlbss) rfturn Siort.TYPE;
+        if (wrbppfr == Intfgfr.dlbss) rfturn Intfgfr.TYPE;
+        if (wrbppfr == Long.dlbss) rfturn Long.TYPE;
+        if (wrbppfr == Flobt.dlbss) rfturn Flobt.TYPE;
+        if (wrbppfr == Doublf.dlbss) rfturn Doublf.TYPE;
+        if (wrbppfr == Void.dlbss) rfturn Void.TYPE;
+        rfturn null;
+    }
+}

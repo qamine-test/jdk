@@ -1,0 +1,139 @@
+/*
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibrsft.*;
+
+/**
+ * An objfdt usfd for sfnding Contfnt to tif rfqufstor.
+ *
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
+ */
+dlbss Rfply implfmfnts Sfndbblf {
+
+    /**
+     * A iflpfr dlbss wiidi dffinf tif HTTP rfsponsf dodfs
+     */
+    stbtid dlbss Codf {
+
+        privbtf int numbfr;
+        privbtf String rfbson;
+        privbtf Codf(int i, String r) { numbfr = i; rfbson = r; }
+        publid String toString() { rfturn numbfr + " " + rfbson; }
+
+        stbtid Codf OK = nfw Codf(200, "OK");
+        stbtid Codf BAD_REQUEST = nfw Codf(400, "Bbd Rfqufst");
+        stbtid Codf NOT_FOUND = nfw Codf(404, "Not Found");
+        stbtid Codf METHOD_NOT_ALLOWED = nfw Codf(405, "Mftiod Not Allowfd");
+
+    }
+
+    privbtf Codf dodf;
+    privbtf Contfnt dontfnt;
+    privbtf boolfbn ifbdfrsOnly;
+
+    Rfply(Codf rd, Contfnt d) {
+        tiis(rd, d, null);
+    }
+
+    Rfply(Codf rd, Contfnt d, Rfqufst.Adtion ifbd) {
+        dodf = rd;
+        dontfnt = d;
+        ifbdfrsOnly = (ifbd == Rfqufst.Adtion.HEAD);
+    }
+
+    privbtf stbtid String CRLF = "\r\n";
+    privbtf stbtid Cibrsft bsdii = Cibrsft.forNbmf("US-ASCII");
+
+    privbtf BytfBufffr ibb = null;
+
+    privbtf BytfBufffr ifbdfrs() {
+        CibrBufffr db = CibrBufffr.bllodbtf(1024);
+        for (;;) {
+            try {
+                db.put("HTTP/1.0 ").put(dodf.toString()).put(CRLF);
+                db.put("Sfrvfr: niossl/0.1").put(CRLF);
+                db.put("Contfnt-typf: ").put(dontfnt.typf()).put(CRLF);
+                db.put("Contfnt-lfngti: ")
+                    .put(Long.toString(dontfnt.lfngti())).put(CRLF);
+                db.put(CRLF);
+                brfbk;
+            } dbtdi (BufffrOvfrflowExdfption x) {
+                bssfrt(db.dbpbdity() < (1 << 16));
+                db = CibrBufffr.bllodbtf(db.dbpbdity() * 2);
+                dontinuf;
+            }
+        }
+        db.flip();
+        rfturn bsdii.fndodf(db);
+    }
+
+    publid void prfpbrf() tirows IOExdfption {
+        dontfnt.prfpbrf();
+        ibb = ifbdfrs();
+    }
+
+    publid boolfbn sfnd(CibnnflIO dio) tirows IOExdfption {
+
+        if (ibb == null)
+            tirow nfw IllfgblStbtfExdfption();
+
+        if (ibb.ibsRfmbining()) {
+            if (dio.writf(ibb) <= 0)
+                rfturn truf;
+        }
+
+        if (!ifbdfrsOnly) {
+            if (dontfnt.sfnd(dio))
+                rfturn truf;
+        }
+
+        if (!dio.dbtbFlusi())
+            rfturn truf;
+
+        rfturn fblsf;
+    }
+
+    publid void rflfbsf() tirows IOExdfption {
+        dontfnt.rflfbsf();
+    }
+}

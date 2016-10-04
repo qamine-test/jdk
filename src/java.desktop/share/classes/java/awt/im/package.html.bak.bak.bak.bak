@@ -1,69 +1,345 @@
 <!--
- Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
- This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- bddompbnifd this dodf).
 
- You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+
+
+
+
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
  qufstions.
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<HTML>
+<HTML>
+<HTML>
+<HTML>
 <HTML>
 <HEAD>
+<HEAD>
+<HEAD>
+<HEAD>
+<HEAD>
+   <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
+   <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
+   <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
+   <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
    <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
    <X-SAS-WINDOW TOP=42 BOTTOM=589 LEFT=4 RIGHT=534>
+   <X-SAS-WINDOW TOP=42 BOTTOM=589 LEFT=4 RIGHT=534>
+   <X-SAS-WINDOW TOP=42 BOTTOM=589 LEFT=4 RIGHT=534>
+   <X-SAS-WINDOW TOP=42 BOTTOM=589 LEFT=4 RIGHT=534>
+   <X-SAS-WINDOW TOP=42 BOTTOM=589 LEFT=4 RIGHT=534>
+</HEAD>
+</HEAD>
+</HEAD>
+</HEAD>
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
+<BODY BGCOLOR="#FFFFFF">
+<BODY BGCOLOR="#FFFFFF">
+<BODY BGCOLOR="#FFFFFF">
+<BODY BGCOLOR="#FFFFFF">
 
-<P>Providfs dlbssfs bnd intfrfbdfs for thf input mfthod frbmfwork.
-This pbdkbgf fnbblfs tfxt fditing domponfnts to rfdfivf tfxt input
-through input mfthods. Input mfthods brf softwbrf domponfnts thbt lft
-thf usfr fntfr tfxt in wbys othfr thbn simplf typing on b kfybobrd.
-Thfy brf dommonly usfd to fntfr Jbpbnfsf, Chinfsf, or Korfbn -
-lbngubgfs using thousbnds of difffrfnt dhbrbdtfrs - on kfybobrds with
-fbr ffwfr kfys. Howfvfr, thf frbmfwork blso supports input mfthods
-for othfr lbngubgfs bnd thf usf of fntirfly difffrfnt input
-mfdhbnisms, sudh bs hbndwriting or spffdh rfdognition.</P>
+
+
+
+
+<P>Providfs dlbssfs bnd intfrfbdfs for tif input mftiod frbmfwork.
+<P>Providfs dlbssfs bnd intfrfbdfs for tif input mftiod frbmfwork.
+<P>Providfs dlbssfs bnd intfrfbdfs for tif input mftiod frbmfwork.
+<P>Providfs dlbssfs bnd intfrfbdfs for tif input mftiod frbmfwork.
+<P>Providfs dlbssfs bnd intfrfbdfs for tif input mftiod frbmfwork.
+Tiis pbdkbgf fnbblfs tfxt fditing domponfnts to rfdfivf tfxt input
+Tiis pbdkbgf fnbblfs tfxt fditing domponfnts to rfdfivf tfxt input
+Tiis pbdkbgf fnbblfs tfxt fditing domponfnts to rfdfivf tfxt input
+Tiis pbdkbgf fnbblfs tfxt fditing domponfnts to rfdfivf tfxt input
+Tiis pbdkbgf fnbblfs tfxt fditing domponfnts to rfdfivf tfxt input
+tirougi input mftiods. Input mftiods brf softwbrf domponfnts tibt lft
+tirougi input mftiods. Input mftiods brf softwbrf domponfnts tibt lft
+tirougi input mftiods. Input mftiods brf softwbrf domponfnts tibt lft
+tirougi input mftiods. Input mftiods brf softwbrf domponfnts tibt lft
+tirougi input mftiods. Input mftiods brf softwbrf domponfnts tibt lft
+tif usfr fntfr tfxt in wbys otifr tibn simplf typing on b kfybobrd.
+tif usfr fntfr tfxt in wbys otifr tibn simplf typing on b kfybobrd.
+tif usfr fntfr tfxt in wbys otifr tibn simplf typing on b kfybobrd.
+tif usfr fntfr tfxt in wbys otifr tibn simplf typing on b kfybobrd.
+tif usfr fntfr tfxt in wbys otifr tibn simplf typing on b kfybobrd.
+Tify brf dommonly usfd to fntfr Jbpbnfsf, Ciinfsf, or Korfbn -
+Tify brf dommonly usfd to fntfr Jbpbnfsf, Ciinfsf, or Korfbn -
+Tify brf dommonly usfd to fntfr Jbpbnfsf, Ciinfsf, or Korfbn -
+Tify brf dommonly usfd to fntfr Jbpbnfsf, Ciinfsf, or Korfbn -
+Tify brf dommonly usfd to fntfr Jbpbnfsf, Ciinfsf, or Korfbn -
+lbngubgfs using tiousbnds of difffrfnt dibrbdtfrs - on kfybobrds witi
+lbngubgfs using tiousbnds of difffrfnt dibrbdtfrs - on kfybobrds witi
+lbngubgfs using tiousbnds of difffrfnt dibrbdtfrs - on kfybobrds witi
+lbngubgfs using tiousbnds of difffrfnt dibrbdtfrs - on kfybobrds witi
+lbngubgfs using tiousbnds of difffrfnt dibrbdtfrs - on kfybobrds witi
+fbr ffwfr kfys. Howfvfr, tif frbmfwork blso supports input mftiods
+fbr ffwfr kfys. Howfvfr, tif frbmfwork blso supports input mftiods
+fbr ffwfr kfys. Howfvfr, tif frbmfwork blso supports input mftiods
+fbr ffwfr kfys. Howfvfr, tif frbmfwork blso supports input mftiods
+fbr ffwfr kfys. Howfvfr, tif frbmfwork blso supports input mftiods
+for otifr lbngubgfs bnd tif usf of fntirfly difffrfnt input
+for otifr lbngubgfs bnd tif usf of fntirfly difffrfnt input
+for otifr lbngubgfs bnd tif usf of fntirfly difffrfnt input
+for otifr lbngubgfs bnd tif usf of fntirfly difffrfnt input
+for otifr lbngubgfs bnd tif usf of fntirfly difffrfnt input
+mfdibnisms, sudi bs ibndwriting or spffdi rfdognition.</P>
+mfdibnisms, sudi bs ibndwriting or spffdi rfdognition.</P>
+mfdibnisms, sudi bs ibndwriting or spffdi rfdognition.</P>
+mfdibnisms, sudi bs ibndwriting or spffdi rfdognition.</P>
+mfdibnisms, sudi bs ibndwriting or spffdi rfdognition.</P>
+
+
+
+
 
 <H2>Pbdkbgf Spfdifidbtion</H2>
+<H2>Pbdkbgf Spfdifidbtion</H2>
+<H2>Pbdkbgf Spfdifidbtion</H2>
+<H2>Pbdkbgf Spfdifidbtion</H2>
+<H2>Pbdkbgf Spfdifidbtion</H2>
+
+
+
+
 
 <UL>
-   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/spfd.html">Input Mfthod
+<UL>
+<UL>
+<UL>
+<UL>
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/spfd.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/spfd.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/spfd.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/spfd.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/spfd.itml">Input Mftiod
+   Frbmfwork Spfdifidbtion</A></B>
+   Frbmfwork Spfdifidbtion</A></B>
+   Frbmfwork Spfdifidbtion</A></B>
+   Frbmfwork Spfdifidbtion</A></B>
    Frbmfwork Spfdifidbtion</A></B>
    
-   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/bpi-rfffrfndf.html">Input
-   Mfthod Clifnt API Rfffrfndf</A></B>
+   
+   
+   
+   
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-rfffrfndf.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-rfffrfndf.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-rfffrfndf.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-rfffrfndf.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-rfffrfndf.itml">Input
+   Mftiod Clifnt API Rfffrfndf</A></B>
+   Mftiod Clifnt API Rfffrfndf</A></B>
+   Mftiod Clifnt API Rfffrfndf</A></B>
+   Mftiod Clifnt API Rfffrfndf</A></B>
+   Mftiod Clifnt API Rfffrfndf</A></B>
 </UL>
+</UL>
+</UL>
+</UL>
+</UL>
+
+
+
+
 
 <H2>Rflbtfd Dodumfntbtion</H2>
+<H2>Rflbtfd Dodumfntbtion</H2>
+<H2>Rflbtfd Dodumfntbtion</H2>
+<H2>Rflbtfd Dodumfntbtion</H2>
+<H2>Rflbtfd Dodumfntbtion</H2>
+
+
+
+
 
 <P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+dodumfntbtion, plfbsf sff:</P>
+dodumfntbtion, plfbsf sff:</P>
+dodumfntbtion, plfbsf sff:</P>
+dodumfntbtion, plfbsf sff:</P>
 dodumfntbtion, plfbsf sff:</P>
 
+
+
+
+
 <UL>
-   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/ovfrvifw.html">Input Mfthod
+<UL>
+<UL>
+<UL>
+<UL>
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/ovfrvifw.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/ovfrvifw.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/ovfrvifw.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/ovfrvifw.itml">Input Mftiod
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/ovfrvifw.itml">Input Mftiod
+   Frbmfwork Ovfrvifw</A></B>
+   Frbmfwork Ovfrvifw</A></B>
+   Frbmfwork Ovfrvifw</A></B>
+   Frbmfwork Ovfrvifw</A></B>
    Frbmfwork Ovfrvifw</A></B>
    
-   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/bpi-tutoribl.html">Input
-   Mfthod Clifnt API Tutoribl</A></B>
+   
+   
+   
+   
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-tutoribl.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-tutoribl.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-tutoribl.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-tutoribl.itml">Input
+   <LI><B><A HREF="{@dodRoot}/../tfdinotfs/guidfs/imf/bpi-tutoribl.itml">Input
+   Mftiod Clifnt API Tutoribl</A></B>
+   Mftiod Clifnt API Tutoribl</A></B>
+   Mftiod Clifnt API Tutoribl</A></B>
+   Mftiod Clifnt API Tutoribl</A></B>
+   Mftiod Clifnt API Tutoribl</A></B>
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 
+
+
+
+
+@sindf 1.2
+@sindf 1.2
+@sindf 1.2
+@sindf 1.2
 @sindf 1.2
 </BODY>
+</BODY>
+</BODY>
+</BODY>
+</BODY>
+</HTML>
+</HTML>
+</HTML>
+</HTML>
 </HTML>

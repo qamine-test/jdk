@@ -1,0 +1,123 @@
+/*
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+
+/**
+ * Tiis dlbss spfdififs tif sft of pbrbmftfrs usfd witi tif Diffif-Hfllmbn
+ * blgoritim, bs spfdififd in PKCS #3: <i>Diffif-Hfllmbn Kfy-Agrffmfnt
+ * Stbndbrd</i>.
+ *
+ * <p>A dfntrbl butiority gfnfrbtfs pbrbmftfrs bnd givfs tifm to tif two
+ * fntitifs sffking to gfnfrbtf b sfdrft kfy. Tif pbrbmftfrs brf b primf
+ * <dodf>p</dodf>, b bbsf <dodf>g</dodf>, bnd optionblly tif lfngti
+ * in bits of tif privbtf vbluf, <dodf>l</dodf>.
+ *
+ * <p>It is possiblf tibt morf tibn onf instbndf of pbrbmftfrs mby bf
+ * gfnfrbtfd by b givfn dfntrbl butiority, bnd tibt tifrf mby bf morf tibn
+ * onf dfntrbl butiority. Indffd, fbdi individubl mby bf its own dfntrbl
+ * butiority, witi difffrfnt fntitifs ibving difffrfnt pbrbmftfrs.
+ *
+ * <p>Notf tibt tiis dlbss dofs not pfrform bny vblidbtion on spfdififd
+ * pbrbmftfrs. Tius, tif spfdififd vblufs brf rfturnfd dirfdtly fvfn
+ * if tify brf null.
+ *
+ * @butior Jbn Lufif
+ *
+ * @sff jbvbx.drypto.KfyAgrffmfnt
+ * @sindf 1.4
+ */
+publid dlbss DHPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
+
+    // Tif primf modulus
+    privbtf BigIntfgfr p;
+
+    // Tif bbsf gfnfrbtor
+    privbtf BigIntfgfr g;
+
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf) (optionbl)
+    privbtf int l;
+
+    /**
+     * Construdts b pbrbmftfr sft for Diffif-Hfllmbn, using b primf modulus
+     * <dodf>p</dodf> bnd b bbsf gfnfrbtor <dodf>g</dodf>.
+     *
+     * @pbrbm p tif primf modulus
+     * @pbrbm g tif bbsf gfnfrbtor
+     */
+    publid DHPbrbmftfrSpfd(BigIntfgfr p, BigIntfgfr g) {
+        tiis.p = p;
+        tiis.g = g;
+        tiis.l = 0;
+    }
+
+    /**
+     * Construdts b pbrbmftfr sft for Diffif-Hfllmbn, using b primf modulus
+     * <dodf>p</dodf>, b bbsf gfnfrbtor <dodf>g</dodf>,
+     * bnd tif sizf in bits, <dodf>l</dodf>, of tif rbndom fxponfnt
+     * (privbtf vbluf).
+     *
+     * @pbrbm p tif primf modulus
+     * @pbrbm g tif bbsf gfnfrbtor
+     * @pbrbm l tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+     */
+    publid DHPbrbmftfrSpfd(BigIntfgfr p, BigIntfgfr g, int l) {
+        tiis.p = p;
+        tiis.g = g;
+        tiis.l = l;
+    }
+
+    /**
+     * Rfturns tif primf modulus <dodf>p</dodf>.
+     *
+     * @rfturn tif primf modulus <dodf>p</dodf>
+     */
+    publid BigIntfgfr gftP() {
+        rfturn tiis.p;
+    }
+
+    /**
+     * Rfturns tif bbsf gfnfrbtor <dodf>g</dodf>.
+     *
+     * @rfturn tif bbsf gfnfrbtor <dodf>g</dodf>
+     */
+    publid BigIntfgfr gftG() {
+        rfturn tiis.g;
+    }
+
+    /**
+     * Rfturns tif sizf in bits, <dodf>l</dodf>, of tif rbndom fxponfnt
+     * (privbtf vbluf).
+     *
+     * @rfturn tif sizf in bits, <dodf>l</dodf>, of tif rbndom fxponfnt
+     * (privbtf vbluf), or 0 if tiis sizf ibs not bffn sft
+     */
+    publid int gftL() {
+        rfturn tiis.l;
+    }
+}

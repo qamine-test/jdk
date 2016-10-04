@@ -1,0 +1,111 @@
+/*
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.smbrtdbrdio;
+
+import jbvb.util.*;
+
+/**
+ * Tif TfrminblFbdtorySpi dlbss dffinfs tif sfrvidf providfr intfrfbdf.
+ * Applidbtions do not bddfss tiis dlbss dirfdtly, instfbd sff
+ * {@linkplbin TfrminblFbdtory}.
+ *
+ * <P>Sfrvidf providfrs tibt wbnt to writf b nfw implfmfntbtion siould dffinf
+ * b dondrftf subdlbss of TfrminblFbdtorySpi witi b donstrudtor tibt tbkfs
+ * bn <dodf>Objfdt</dodf> bs pbrbmftfr. Tibt dlbss nffds to bf rfgistfrfd
+ * in b {@linkplbin jbvb.sfdurity.Providfr}. Tif fnginf
+ * {@linkplbin jbvb.sfdurity.Providfr.Sfrvidf#gftTypf typf} is
+ * <dodf>TfrminblFbdtory</dodf>.
+ * Sfrvidf providfrs blso nffd to implfmfnt subdlbssfs of tif bbstrbdt dlbssfs
+ * {@linkplbin CbrdTfrminbls}, {@linkplbin CbrdTfrminbl}, {@linkplbin Cbrd},
+ * bnd {@linkplbin CbrdCibnnfl}.
+ *
+ * <p>For fxbmplf:
+ * <prf><fm>filf MyProvidfr.jbvb:</fm>
+ *
+ * pbdkbgf dom.somfdombin.dbrd;
+ *
+ * import jbvb.sfdurity.Providfr;
+ *
+ * publid dlbss MyProvidfr fxtfnds Providfr {
+ *     publid MyProvidfr() {
+ *         supfr("MyProvidfr", 1.0d, "Smbrt Cbrd Exbmplf");
+ *         put("TfrminblFbdtory.MyTypf", "dom.somfdombin.dbrd.MySpi");
+ *     }
+ * }
+ *
+ *<fm>filf MySpi.jbvb</fm>
+ *
+ * pbdkbgf dom.somfdombin.dbrd;
+ *
+ * import jbvbx.smbrtdbrdio.*;
+ *
+ * publid dlbss MySpi fxtfnds TfrminblFbdtoySpi {
+ *      publid MySpi(Objfdt pbrbmftfr) {
+ *          // initiblizf bs bppropribtf
+ *      }
+ *      protfdtfd CbrdTfrminbls fnginfTfrminbls() {
+ *          // bdd implfmfntbtion dodf ifrf
+ *      }
+ * }
+ * </prf>
+ *
+ * @sff TfrminblFbdtory
+ * @sff jbvb.sfdurity.Providfr
+ *
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  JSR 268 Expfrt Group
+ */
+publid bbstrbdt dlbss TfrminblFbdtorySpi {
+
+    /**
+     * Construdts b nfw TfrminblFbdtorySpi objfdt.
+     *
+     * <p>Tiis dlbss is pbrt of tif sfrvidf providfr intfrfbdf bnd not bddfssfd
+     * dirfdtly by bpplidbtions. Applidbtions
+     * siould usf TfrminblFbdtory objfdts, wiidi dbn bf obtbinfd by dblling
+     * onf of tif
+     * {@linkplbin TfrminblFbdtory#gftInstbndf TfrminblFbdtory.gftInstbndf()}
+     * mftiods.
+     *
+     * <p>Condrftf subdlbssfs siould dffinf b donstrudtor tibt tbkfs bn
+     * <dodf>Objfdt</dodf> bs pbrbmftfr. It will bf invokfd wifn bn
+     * bpplidbtion dblls onf of tif {@linkplbin TfrminblFbdtory#gftInstbndf
+     * TfrminblFbdtory.gftInstbndf()} mftiods bnd rfdfivfs tif <dodf>pbrbms</dodf>
+     * objfdt spfdififd by tif bpplidbtion.
+     */
+    protfdtfd TfrminblFbdtorySpi() {
+        // fmpty
+    }
+
+    /**
+     * Rfturns tif CbrdTfrminbls drfbtfd by tiis fbdtory.
+     *
+     * @rfturn tif CbrdTfrminbls drfbtfd by tiis fbdtory.
+     */
+    protfdtfd bbstrbdt CbrdTfrminbls fnginfTfrminbls();
+
+}

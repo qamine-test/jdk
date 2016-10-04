@@ -1,458 +1,2290 @@
 /*
- * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.font;
+pbdkbgf sun.font;
+pbdkbgf sun.font;
+pbdkbgf sun.font;
+pbdkbgf sun.font;
+
+
+
+
 
 import jbvb.bwt.Font;
+import jbvb.bwt.Font;
+import jbvb.bwt.Font;
+import jbvb.bwt.Font;
+import jbvb.bwt.Font;
 
-/* Rfmind: nffd to fnhbndf to fxtfnd domponfnt list with b fbllbbdk
- * list, whidh is not usfd in mftrids or qufrifs on thf dompositf, but
- * is usfd in drbwing primitivfs bnd qufrifs whidh supply bn bdtubl string.
- * if for b dodfpoint thbt is only in b fbllbbdk, font-widf qufrifs sudh
- * bs FontMftrids.gftHfight() will not tbkf it into bddount.
+
+
+
+
+/* Rfmind: nffd to fnibndf to fxtfnd domponfnt list witi b fbllbbdk
+/* Rfmind: nffd to fnibndf to fxtfnd domponfnt list witi b fbllbbdk
+/* Rfmind: nffd to fnibndf to fxtfnd domponfnt list witi b fbllbbdk
+/* Rfmind: nffd to fnibndf to fxtfnd domponfnt list witi b fbllbbdk
+/* Rfmind: nffd to fnibndf to fxtfnd domponfnt list witi b fbllbbdk
+ * list, wiidi is not usfd in mftrids or qufrifs on tif dompositf, but
+ * list, wiidi is not usfd in mftrids or qufrifs on tif dompositf, but
+ * list, wiidi is not usfd in mftrids or qufrifs on tif dompositf, but
+ * list, wiidi is not usfd in mftrids or qufrifs on tif dompositf, but
+ * list, wiidi is not usfd in mftrids or qufrifs on tif dompositf, but
+ * is usfd in drbwing primitivfs bnd qufrifs wiidi supply bn bdtubl string.
+ * is usfd in drbwing primitivfs bnd qufrifs wiidi supply bn bdtubl string.
+ * is usfd in drbwing primitivfs bnd qufrifs wiidi supply bn bdtubl string.
+ * is usfd in drbwing primitivfs bnd qufrifs wiidi supply bn bdtubl string.
+ * is usfd in drbwing primitivfs bnd qufrifs wiidi supply bn bdtubl string.
+ * if for b dodfpoint tibt is only in b fbllbbdk, font-widf qufrifs sudi
+ * if for b dodfpoint tibt is only in b fbllbbdk, font-widf qufrifs sudi
+ * if for b dodfpoint tibt is only in b fbllbbdk, font-widf qufrifs sudi
+ * if for b dodfpoint tibt is only in b fbllbbdk, font-widf qufrifs sudi
+ * if for b dodfpoint tibt is only in b fbllbbdk, font-widf qufrifs sudi
+ * bs FontMftrids.gftHfigit() will not tbkf it into bddount.
+ * bs FontMftrids.gftHfigit() will not tbkf it into bddount.
+ * bs FontMftrids.gftHfigit() will not tbkf it into bddount.
+ * bs FontMftrids.gftHfigit() will not tbkf it into bddount.
+ * bs FontMftrids.gftHfigit() will not tbkf it into bddount.
  * But gftStringBounds(..) would tbkf it into bddount.
- * Its fuzzifr for qufrifs sudh bs "dbnDisplby". If this dofs not indludf
- * thf fbllbbdk, thfn wf probbbly wbnt to bdd "dbnDisplbyFbllbbdk()"
+ * But gftStringBounds(..) would tbkf it into bddount.
+ * But gftStringBounds(..) would tbkf it into bddount.
+ * But gftStringBounds(..) would tbkf it into bddount.
+ * But gftStringBounds(..) would tbkf it into bddount.
+ * Its fuzzifr for qufrifs sudi bs "dbnDisplby". If tiis dofs not indludf
+ * Its fuzzifr for qufrifs sudi bs "dbnDisplby". If tiis dofs not indludf
+ * Its fuzzifr for qufrifs sudi bs "dbnDisplby". If tiis dofs not indludf
+ * Its fuzzifr for qufrifs sudi bs "dbnDisplby". If tiis dofs not indludf
+ * Its fuzzifr for qufrifs sudi bs "dbnDisplby". If tiis dofs not indludf
+ * tif fbllbbdk, tifn wf probbbly wbnt to bdd "dbnDisplbyFbllbbdk()"
+ * tif fbllbbdk, tifn wf probbbly wbnt to bdd "dbnDisplbyFbllbbdk()"
+ * tif fbllbbdk, tifn wf probbbly wbnt to bdd "dbnDisplbyFbllbbdk()"
+ * tif fbllbbdk, tifn wf probbbly wbnt to bdd "dbnDisplbyFbllbbdk()"
+ * tif fbllbbdk, tifn wf probbbly wbnt to bdd "dbnDisplbyFbllbbdk()"
  * But its probbbly OK to indludf it so long bs only dompositfs indludf
- * fbllbbdks. If physidbls do thfn it would bf rfblly donfusing ..
+ * But its probbbly OK to indludf it so long bs only dompositfs indludf
+ * But its probbbly OK to indludf it so long bs only dompositfs indludf
+ * But its probbbly OK to indludf it so long bs only dompositfs indludf
+ * But its probbbly OK to indludf it so long bs only dompositfs indludf
+ * fbllbbdks. If piysidbls do tifn it would bf rfblly donfusing ..
+ * fbllbbdks. If piysidbls do tifn it would bf rfblly donfusing ..
+ * fbllbbdks. If piysidbls do tifn it would bf rfblly donfusing ..
+ * fbllbbdks. If piysidbls do tifn it would bf rfblly donfusing ..
+ * fbllbbdks. If piysidbls do tifn it would bf rfblly donfusing ..
+ */
+ */
+ */
+ */
  */
 publid finbl dlbss CompositfFont fxtfnds Font2D {
+publid finbl dlbss CompositfFont fxtfnds Font2D {
+publid finbl dlbss CompositfFont fxtfnds Font2D {
+publid finbl dlbss CompositfFont fxtfnds Font2D {
+publid finbl dlbss CompositfFont fxtfnds Font2D {
+
+
+
+
 
     privbtf boolfbn[] dfffrrfdInitiblisbtion;
+    privbtf boolfbn[] dfffrrfdInitiblisbtion;
+    privbtf boolfbn[] dfffrrfdInitiblisbtion;
+    privbtf boolfbn[] dfffrrfdInitiblisbtion;
+    privbtf boolfbn[] dfffrrfdInitiblisbtion;
+    String[] domponfntFilfNbmfs;
+    String[] domponfntFilfNbmfs;
+    String[] domponfntFilfNbmfs;
+    String[] domponfntFilfNbmfs;
     String[] domponfntFilfNbmfs;
     String[] domponfntNbmfs;
-    /* bfdbusf domponfnts dbn bf lbzily initiblisfd thf domponfnts fifld is
+    String[] domponfntNbmfs;
+    String[] domponfntNbmfs;
+    String[] domponfntNbmfs;
+    String[] domponfntNbmfs;
+    /* bfdbusf domponfnts dbn bf lbzily initiblisfd tif domponfnts fifld is
+    /* bfdbusf domponfnts dbn bf lbzily initiblisfd tif domponfnts fifld is
+    /* bfdbusf domponfnts dbn bf lbzily initiblisfd tif domponfnts fifld is
+    /* bfdbusf domponfnts dbn bf lbzily initiblisfd tif domponfnts fifld is
+    /* bfdbusf domponfnts dbn bf lbzily initiblisfd tif domponfnts fifld is
+     * privbtf, to fnsurf bll dlifnts dbll gftSlotFont()
+     * privbtf, to fnsurf bll dlifnts dbll gftSlotFont()
+     * privbtf, to fnsurf bll dlifnts dbll gftSlotFont()
+     * privbtf, to fnsurf bll dlifnts dbll gftSlotFont()
      * privbtf, to fnsurf bll dlifnts dbll gftSlotFont()
      */
-    privbtf PhysidblFont[] domponfnts;
+     */
+     */
+     */
+     */
+    privbtf PiysidblFont[] domponfnts;
+    privbtf PiysidblFont[] domponfnts;
+    privbtf PiysidblFont[] domponfnts;
+    privbtf PiysidblFont[] domponfnts;
+    privbtf PiysidblFont[] domponfnts;
+    int numSlots;
+    int numSlots;
+    int numSlots;
+    int numSlots;
     int numSlots;
     int numMftridsSlots;
+    int numMftridsSlots;
+    int numMftridsSlots;
+    int numMftridsSlots;
+    int numMftridsSlots;
+    int[] fxdlusionRbngfs;
+    int[] fxdlusionRbngfs;
+    int[] fxdlusionRbngfs;
+    int[] fxdlusionRbngfs;
     int[] fxdlusionRbngfs;
     int[] mbxIndidfs;
-    int numGlyphs = 0;
-    int lodblfSlot = -1; // primbry slot for this lodblf.
+    int[] mbxIndidfs;
+    int[] mbxIndidfs;
+    int[] mbxIndidfs;
+    int[] mbxIndidfs;
+    int numGlypis = 0;
+    int numGlypis = 0;
+    int numGlypis = 0;
+    int numGlypis = 0;
+    int numGlypis = 0;
+    int lodblfSlot = -1; // primbry slot for tiis lodblf.
+    int lodblfSlot = -1; // primbry slot for tiis lodblf.
+    int lodblfSlot = -1; // primbry slot for tiis lodblf.
+    int lodblfSlot = -1; // primbry slot for tiis lodblf.
+    int lodblfSlot = -1; // primbry slot for tiis lodblf.
 
-    /* Sff isStdCompositf() for whfn/how this is usfd */
+
+
+
+
+    /* Sff isStdCompositf() for wifn/iow tiis is usfd */
+    /* Sff isStdCompositf() for wifn/iow tiis is usfd */
+    /* Sff isStdCompositf() for wifn/iow tiis is usfd */
+    /* Sff isStdCompositf() for wifn/iow tiis is usfd */
+    /* Sff isStdCompositf() for wifn/iow tiis is usfd */
+    boolfbn isStdCompositf = truf;
+    boolfbn isStdCompositf = truf;
+    boolfbn isStdCompositf = truf;
+    boolfbn isStdCompositf = truf;
     boolfbn isStdCompositf = truf;
 
+
+
+
+
+    publid CompositfFont(String nbmf, String[] dompFilfNbmfs,
+    publid CompositfFont(String nbmf, String[] dompFilfNbmfs,
+    publid CompositfFont(String nbmf, String[] dompFilfNbmfs,
+    publid CompositfFont(String nbmf, String[] dompFilfNbmfs,
     publid CompositfFont(String nbmf, String[] dompFilfNbmfs,
                          String[] dompNbmfs, int mftridsSlotCnt,
+                         String[] dompNbmfs, int mftridsSlotCnt,
+                         String[] dompNbmfs, int mftridsSlotCnt,
+                         String[] dompNbmfs, int mftridsSlotCnt,
+                         String[] dompNbmfs, int mftridsSlotCnt,
+                         int[] fxdlRbngfs, int[] mbxIndfxfs,
+                         int[] fxdlRbngfs, int[] mbxIndfxfs,
+                         int[] fxdlRbngfs, int[] mbxIndfxfs,
+                         int[] fxdlRbngfs, int[] mbxIndfxfs,
                          int[] fxdlRbngfs, int[] mbxIndfxfs,
                          boolfbn dfffr, SunFontMbnbgfr fm) {
+                         boolfbn dfffr, SunFontMbnbgfr fm) {
+                         boolfbn dfffr, SunFontMbnbgfr fm) {
+                         boolfbn dfffr, SunFontMbnbgfr fm) {
+                         boolfbn dfffr, SunFontMbnbgfr fm) {
 
-        hbndlf = nfw Font2DHbndlf(this);
+
+
+
+
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        fullNbmf = nbmf;
+        fullNbmf = nbmf;
+        fullNbmf = nbmf;
+        fullNbmf = nbmf;
         fullNbmf = nbmf;
         domponfntFilfNbmfs = dompFilfNbmfs;
+        domponfntFilfNbmfs = dompFilfNbmfs;
+        domponfntFilfNbmfs = dompFilfNbmfs;
+        domponfntFilfNbmfs = dompFilfNbmfs;
+        domponfntFilfNbmfs = dompFilfNbmfs;
+        domponfntNbmfs = dompNbmfs;
+        domponfntNbmfs = dompNbmfs;
+        domponfntNbmfs = dompNbmfs;
+        domponfntNbmfs = dompNbmfs;
         domponfntNbmfs = dompNbmfs;
         if (dompNbmfs == null) {
-            numSlots = domponfntFilfNbmfs.lfngth;
+        if (dompNbmfs == null) {
+        if (dompNbmfs == null) {
+        if (dompNbmfs == null) {
+        if (dompNbmfs == null) {
+            numSlots = domponfntFilfNbmfs.lfngti;
+            numSlots = domponfntFilfNbmfs.lfngti;
+            numSlots = domponfntFilfNbmfs.lfngti;
+            numSlots = domponfntFilfNbmfs.lfngti;
+            numSlots = domponfntFilfNbmfs.lfngti;
         } flsf {
-            numSlots = domponfntNbmfs.lfngth;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            numSlots = domponfntNbmfs.lfngti;
+            numSlots = domponfntNbmfs.lfngti;
+            numSlots = domponfntNbmfs.lfngti;
+            numSlots = domponfntNbmfs.lfngti;
+            numSlots = domponfntNbmfs.lfngti;
+        }
+        }
+        }
+        }
         }
 
-        /* Only thf first "numMftridsSlots" slots brf usfd for font mftrids.
-         * thf rfst brf donsidfrfd "fbllbbdk" slots".
+
+
+
+
+        /* Only tif first "numMftridsSlots" slots brf usfd for font mftrids.
+        /* Only tif first "numMftridsSlots" slots brf usfd for font mftrids.
+        /* Only tif first "numMftridsSlots" slots brf usfd for font mftrids.
+        /* Only tif first "numMftridsSlots" slots brf usfd for font mftrids.
+        /* Only tif first "numMftridsSlots" slots brf usfd for font mftrids.
+         * tif rfst brf donsidfrfd "fbllbbdk" slots".
+         * tif rfst brf donsidfrfd "fbllbbdk" slots".
+         * tif rfst brf donsidfrfd "fbllbbdk" slots".
+         * tif rfst brf donsidfrfd "fbllbbdk" slots".
+         * tif rfst brf donsidfrfd "fbllbbdk" slots".
+         */
+         */
+         */
+         */
          */
         numMftridsSlots = mftridsSlotCnt;
+        numMftridsSlots = mftridsSlotCnt;
+        numMftridsSlots = mftridsSlotCnt;
+        numMftridsSlots = mftridsSlotCnt;
+        numMftridsSlots = mftridsSlotCnt;
+        fxdlusionRbngfs = fxdlRbngfs;
+        fxdlusionRbngfs = fxdlRbngfs;
+        fxdlusionRbngfs = fxdlRbngfs;
+        fxdlusionRbngfs = fxdlRbngfs;
         fxdlusionRbngfs = fxdlRbngfs;
         mbxIndidfs = mbxIndfxfs;
+        mbxIndidfs = mbxIndfxfs;
+        mbxIndidfs = mbxIndfxfs;
+        mbxIndidfs = mbxIndfxfs;
+        mbxIndidfs = mbxIndfxfs;
+
+
+
+
 
         /*
-         * Sff if this is b windows lodblf whidh hbs b systfm EUDC font.
-         * If so bdd it bs thf finbl fbllbbdk domponfnt of thf dompositf.
-         * Thf dbllfr dould bf rfsponsiblf for this, but for now it sffms
-         * bfttfr thbt it is hbndlfd intfrnblly to thf CompositfFont dlbss.
+        /*
+        /*
+        /*
+        /*
+         * Sff if tiis is b windows lodblf wiidi ibs b systfm EUDC font.
+         * Sff if tiis is b windows lodblf wiidi ibs b systfm EUDC font.
+         * Sff if tiis is b windows lodblf wiidi ibs b systfm EUDC font.
+         * Sff if tiis is b windows lodblf wiidi ibs b systfm EUDC font.
+         * Sff if tiis is b windows lodblf wiidi ibs b systfm EUDC font.
+         * If so bdd it bs tif finbl fbllbbdk domponfnt of tif dompositf.
+         * If so bdd it bs tif finbl fbllbbdk domponfnt of tif dompositf.
+         * If so bdd it bs tif finbl fbllbbdk domponfnt of tif dompositf.
+         * If so bdd it bs tif finbl fbllbbdk domponfnt of tif dompositf.
+         * If so bdd it bs tif finbl fbllbbdk domponfnt of tif dompositf.
+         * Tif dbllfr dould bf rfsponsiblf for tiis, but for now it sffms
+         * Tif dbllfr dould bf rfsponsiblf for tiis, but for now it sffms
+         * Tif dbllfr dould bf rfsponsiblf for tiis, but for now it sffms
+         * Tif dbllfr dould bf rfsponsiblf for tiis, but for now it sffms
+         * Tif dbllfr dould bf rfsponsiblf for tiis, but for now it sffms
+         * bfttfr tibt it is ibndlfd intfrnblly to tif CompositfFont dlbss.
+         * bfttfr tibt it is ibndlfd intfrnblly to tif CompositfFont dlbss.
+         * bfttfr tibt it is ibndlfd intfrnblly to tif CompositfFont dlbss.
+         * bfttfr tibt it is ibndlfd intfrnblly to tif CompositfFont dlbss.
+         * bfttfr tibt it is ibndlfd intfrnblly to tif CompositfFont dlbss.
+         */
+         */
+         */
+         */
          */
         if (fm.gftEUDCFont() != null) {
+        if (fm.gftEUDCFont() != null) {
+        if (fm.gftEUDCFont() != null) {
+        if (fm.gftEUDCFont() != null) {
+        if (fm.gftEUDCFont() != null) {
+            numSlots++;
+            numSlots++;
+            numSlots++;
+            numSlots++;
             numSlots++;
             if (domponfntNbmfs != null) {
+            if (domponfntNbmfs != null) {
+            if (domponfntNbmfs != null) {
+            if (domponfntNbmfs != null) {
+            if (domponfntNbmfs != null) {
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
                 domponfntNbmfs = nfw String[numSlots];
                 Systfm.brrbydopy(dompNbmfs, 0, domponfntNbmfs, 0, numSlots-1);
+                Systfm.brrbydopy(dompNbmfs, 0, domponfntNbmfs, 0, numSlots-1);
+                Systfm.brrbydopy(dompNbmfs, 0, domponfntNbmfs, 0, numSlots-1);
+                Systfm.brrbydopy(dompNbmfs, 0, domponfntNbmfs, 0, numSlots-1);
+                Systfm.brrbydopy(dompNbmfs, 0, domponfntNbmfs, 0, numSlots-1);
+                domponfntNbmfs[numSlots-1] =
+                domponfntNbmfs[numSlots-1] =
+                domponfntNbmfs[numSlots-1] =
+                domponfntNbmfs[numSlots-1] =
                 domponfntNbmfs[numSlots-1] =
                     fm.gftEUDCFont().gftFontNbmf(null);
+                    fm.gftEUDCFont().gftFontNbmf(null);
+                    fm.gftEUDCFont().gftFontNbmf(null);
+                    fm.gftEUDCFont().gftFontNbmf(null);
+                    fm.gftEUDCFont().gftFontNbmf(null);
+            }
+            }
+            }
+            }
             }
             if (domponfntFilfNbmfs != null) {
+            if (domponfntFilfNbmfs != null) {
+            if (domponfntFilfNbmfs != null) {
+            if (domponfntFilfNbmfs != null) {
+            if (domponfntFilfNbmfs != null) {
+                domponfntFilfNbmfs = nfw String[numSlots];
+                domponfntFilfNbmfs = nfw String[numSlots];
+                domponfntFilfNbmfs = nfw String[numSlots];
+                domponfntFilfNbmfs = nfw String[numSlots];
                 domponfntFilfNbmfs = nfw String[numSlots];
                 Systfm.brrbydopy(dompFilfNbmfs, 0,
+                Systfm.brrbydopy(dompFilfNbmfs, 0,
+                Systfm.brrbydopy(dompFilfNbmfs, 0,
+                Systfm.brrbydopy(dompFilfNbmfs, 0,
+                Systfm.brrbydopy(dompFilfNbmfs, 0,
+                                  domponfntFilfNbmfs, 0, numSlots-1);
+                                  domponfntFilfNbmfs, 0, numSlots-1);
+                                  domponfntFilfNbmfs, 0, numSlots-1);
+                                  domponfntFilfNbmfs, 0, numSlots-1);
                                   domponfntFilfNbmfs, 0, numSlots-1);
             }
-            domponfnts = nfw PhysidblFont[numSlots];
+            }
+            }
+            }
+            }
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts[numSlots-1] = fm.gftEUDCFont();
+            domponfnts[numSlots-1] = fm.gftEUDCFont();
+            domponfnts[numSlots-1] = fm.gftEUDCFont();
+            domponfnts[numSlots-1] = fm.gftEUDCFont();
             domponfnts[numSlots-1] = fm.gftEUDCFont();
             dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            if (dfffr) {
+            if (dfffr) {
+            if (dfffr) {
+            if (dfffr) {
             if (dfffr) {
                 for (int i=0; i<numSlots-1; i++) {
+                for (int i=0; i<numSlots-1; i++) {
+                for (int i=0; i<numSlots-1; i++) {
+                for (int i=0; i<numSlots-1; i++) {
+                for (int i=0; i<numSlots-1; i++) {
+                    dfffrrfdInitiblisbtion[i] = truf;
+                    dfffrrfdInitiblisbtion[i] = truf;
+                    dfffrrfdInitiblisbtion[i] = truf;
+                    dfffrrfdInitiblisbtion[i] = truf;
                     dfffrrfdInitiblisbtion[i] = truf;
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
         } flsf {
-            domponfnts = nfw PhysidblFont[numSlots];
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
             dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
             if (dfffr) {
+            if (dfffr) {
+            if (dfffr) {
+            if (dfffr) {
+            if (dfffr) {
+                for (int i=0; i<numSlots; i++) {
+                for (int i=0; i<numSlots; i++) {
+                for (int i=0; i<numSlots; i++) {
+                for (int i=0; i<numSlots; i++) {
                 for (int i=0; i<numSlots; i++) {
                     dfffrrfdInitiblisbtion[i] = truf;
+                    dfffrrfdInitiblisbtion[i] = truf;
+                    dfffrrfdInitiblisbtion[i] = truf;
+                    dfffrrfdInitiblisbtion[i] = truf;
+                    dfffrrfdInitiblisbtion[i] = truf;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         fontRbnk = Font2D.FONT_CONFIG_RANK;
+        fontRbnk = Font2D.FONT_CONFIG_RANK;
+        fontRbnk = Font2D.FONT_CONFIG_RANK;
+        fontRbnk = Font2D.FONT_CONFIG_RANK;
+        fontRbnk = Font2D.FONT_CONFIG_RANK;
+
+
+
+
 
         int indfx = fullNbmf.indfxOf('.');
+        int indfx = fullNbmf.indfxOf('.');
+        int indfx = fullNbmf.indfxOf('.');
+        int indfx = fullNbmf.indfxOf('.');
+        int indfx = fullNbmf.indfxOf('.');
+        if (indfx>0) {
+        if (indfx>0) {
+        if (indfx>0) {
+        if (indfx>0) {
         if (indfx>0) {
             fbmilyNbmf = fullNbmf.substring(0, indfx);
-            /* dompositfs don't dbll sftStylf() bs pbrsing thf stylf
-             * tbkfs plbdf bt thf sbmf timf bs pbrsing thf fbmily nbmf.
-             * Do I rfblly hbvf to pbrsf thf stylf from thf nbmf?
-             * Nffd to look into hbving thf dbllfr providf this. */
-            if (indfx+1 < fullNbmf.lfngth()) {
+            fbmilyNbmf = fullNbmf.substring(0, indfx);
+            fbmilyNbmf = fullNbmf.substring(0, indfx);
+            fbmilyNbmf = fullNbmf.substring(0, indfx);
+            fbmilyNbmf = fullNbmf.substring(0, indfx);
+            /* dompositfs don't dbll sftStylf() bs pbrsing tif stylf
+            /* dompositfs don't dbll sftStylf() bs pbrsing tif stylf
+            /* dompositfs don't dbll sftStylf() bs pbrsing tif stylf
+            /* dompositfs don't dbll sftStylf() bs pbrsing tif stylf
+            /* dompositfs don't dbll sftStylf() bs pbrsing tif stylf
+             * tbkfs plbdf bt tif sbmf timf bs pbrsing tif fbmily nbmf.
+             * tbkfs plbdf bt tif sbmf timf bs pbrsing tif fbmily nbmf.
+             * tbkfs plbdf bt tif sbmf timf bs pbrsing tif fbmily nbmf.
+             * tbkfs plbdf bt tif sbmf timf bs pbrsing tif fbmily nbmf.
+             * tbkfs plbdf bt tif sbmf timf bs pbrsing tif fbmily nbmf.
+             * Do I rfblly ibvf to pbrsf tif stylf from tif nbmf?
+             * Do I rfblly ibvf to pbrsf tif stylf from tif nbmf?
+             * Do I rfblly ibvf to pbrsf tif stylf from tif nbmf?
+             * Do I rfblly ibvf to pbrsf tif stylf from tif nbmf?
+             * Do I rfblly ibvf to pbrsf tif stylf from tif nbmf?
+             * Nffd to look into ibving tif dbllfr providf tiis. */
+             * Nffd to look into ibving tif dbllfr providf tiis. */
+             * Nffd to look into ibving tif dbllfr providf tiis. */
+             * Nffd to look into ibving tif dbllfr providf tiis. */
+             * Nffd to look into ibving tif dbllfr providf tiis. */
+            if (indfx+1 < fullNbmf.lfngti()) {
+            if (indfx+1 < fullNbmf.lfngti()) {
+            if (indfx+1 < fullNbmf.lfngti()) {
+            if (indfx+1 < fullNbmf.lfngti()) {
+            if (indfx+1 < fullNbmf.lfngti()) {
+                String stylfStr = fullNbmf.substring(indfx+1);
+                String stylfStr = fullNbmf.substring(indfx+1);
+                String stylfStr = fullNbmf.substring(indfx+1);
+                String stylfStr = fullNbmf.substring(indfx+1);
                 String stylfStr = fullNbmf.substring(indfx+1);
                 if ("plbin".fqubls(stylfStr)) {
+                if ("plbin".fqubls(stylfStr)) {
+                if ("plbin".fqubls(stylfStr)) {
+                if ("plbin".fqubls(stylfStr)) {
+                if ("plbin".fqubls(stylfStr)) {
+                    stylf = Font.PLAIN;
+                    stylf = Font.PLAIN;
+                    stylf = Font.PLAIN;
+                    stylf = Font.PLAIN;
                     stylf = Font.PLAIN;
                 } flsf if ("bold".fqubls(stylfStr)) {
+                } flsf if ("bold".fqubls(stylfStr)) {
+                } flsf if ("bold".fqubls(stylfStr)) {
+                } flsf if ("bold".fqubls(stylfStr)) {
+                } flsf if ("bold".fqubls(stylfStr)) {
+                    stylf = Font.BOLD;
+                    stylf = Font.BOLD;
+                    stylf = Font.BOLD;
+                    stylf = Font.BOLD;
                     stylf = Font.BOLD;
                 } flsf if ("itblid".fqubls(stylfStr)) {
+                } flsf if ("itblid".fqubls(stylfStr)) {
+                } flsf if ("itblid".fqubls(stylfStr)) {
+                } flsf if ("itblid".fqubls(stylfStr)) {
+                } flsf if ("itblid".fqubls(stylfStr)) {
+                    stylf = Font.ITALIC;
+                    stylf = Font.ITALIC;
+                    stylf = Font.ITALIC;
+                    stylf = Font.ITALIC;
                     stylf = Font.ITALIC;
                 } flsf if ("bolditblid".fqubls(stylfStr)) {
+                } flsf if ("bolditblid".fqubls(stylfStr)) {
+                } flsf if ("bolditblid".fqubls(stylfStr)) {
+                } flsf if ("bolditblid".fqubls(stylfStr)) {
+                } flsf if ("bolditblid".fqubls(stylfStr)) {
+                    stylf = Font.BOLD | Font.ITALIC;
+                    stylf = Font.BOLD | Font.ITALIC;
+                    stylf = Font.BOLD | Font.ITALIC;
+                    stylf = Font.BOLD | Font.ITALIC;
                     stylf = Font.BOLD | Font.ITALIC;
                 }
+                }
+                }
+                }
+                }
             }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             fbmilyNbmf = fullNbmf;
+            fbmilyNbmf = fullNbmf;
+            fbmilyNbmf = fullNbmf;
+            fbmilyNbmf = fullNbmf;
+            fbmilyNbmf = fullNbmf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    /* This mfthod is durrfntly intfndfd to bf dbllfd only from
+
+
+
+
+    /* Tiis mftiod is durrfntly intfndfd to bf dbllfd only from
+    /* Tiis mftiod is durrfntly intfndfd to bf dbllfd only from
+    /* Tiis mftiod is durrfntly intfndfd to bf dbllfd only from
+    /* Tiis mftiod is durrfntly intfndfd to bf dbllfd only from
+    /* Tiis mftiod is durrfntly intfndfd to bf dbllfd only from
      * FontMbnbgfr.gftCompositfFontUIRfsourdf(Font)
-     * It drfbtfs b nfw CompositfFont with thf dontfnts of thf Physidbl
+     * FontMbnbgfr.gftCompositfFontUIRfsourdf(Font)
+     * FontMbnbgfr.gftCompositfFontUIRfsourdf(Font)
+     * FontMbnbgfr.gftCompositfFontUIRfsourdf(Font)
+     * FontMbnbgfr.gftCompositfFontUIRfsourdf(Font)
+     * It drfbtfs b nfw CompositfFont witi tif dontfnts of tif Piysidbl
+     * It drfbtfs b nfw CompositfFont witi tif dontfnts of tif Piysidbl
+     * It drfbtfs b nfw CompositfFont witi tif dontfnts of tif Piysidbl
+     * It drfbtfs b nfw CompositfFont witi tif dontfnts of tif Piysidbl
+     * It drfbtfs b nfw CompositfFont witi tif dontfnts of tif Piysidbl
+     * onf prf-pfndfd bs slot 0.
+     * onf prf-pfndfd bs slot 0.
+     * onf prf-pfndfd bs slot 0.
+     * onf prf-pfndfd bs slot 0.
      * onf prf-pfndfd bs slot 0.
      */
-    CompositfFont(PhysidblFont physFont, CompositfFont dompFont) {
+     */
+     */
+     */
+     */
+    CompositfFont(PiysidblFont piysFont, CompositfFont dompFont) {
+    CompositfFont(PiysidblFont piysFont, CompositfFont dompFont) {
+    CompositfFont(PiysidblFont piysFont, CompositfFont dompFont) {
+    CompositfFont(PiysidblFont piysFont, CompositfFont dompFont) {
+    CompositfFont(PiysidblFont piysFont, CompositfFont dompFont) {
+
+
+
+
 
         isStdCompositf = fblsf;
-        hbndlf = nfw Font2DHbndlf(this);
-        fullNbmf = physFont.fullNbmf;
-        fbmilyNbmf = physFont.fbmilyNbmf;
-        stylf = physFont.stylf;
+        isStdCompositf = fblsf;
+        isStdCompositf = fblsf;
+        isStdCompositf = fblsf;
+        isStdCompositf = fblsf;
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        ibndlf = nfw Font2DHbndlf(tiis);
+        fullNbmf = piysFont.fullNbmf;
+        fullNbmf = piysFont.fullNbmf;
+        fullNbmf = piysFont.fullNbmf;
+        fullNbmf = piysFont.fullNbmf;
+        fullNbmf = piysFont.fullNbmf;
+        fbmilyNbmf = piysFont.fbmilyNbmf;
+        fbmilyNbmf = piysFont.fbmilyNbmf;
+        fbmilyNbmf = piysFont.fbmilyNbmf;
+        fbmilyNbmf = piysFont.fbmilyNbmf;
+        fbmilyNbmf = piysFont.fbmilyNbmf;
+        stylf = piysFont.stylf;
+        stylf = piysFont.stylf;
+        stylf = piysFont.stylf;
+        stylf = piysFont.stylf;
+        stylf = piysFont.stylf;
 
-        numMftridsSlots = 1; /* Only thf physidbl Font */
+
+
+
+
+        numMftridsSlots = 1; /* Only tif piysidbl Font */
+        numMftridsSlots = 1; /* Only tif piysidbl Font */
+        numMftridsSlots = 1; /* Only tif piysidbl Font */
+        numMftridsSlots = 1; /* Only tif piysidbl Font */
+        numMftridsSlots = 1; /* Only tif piysidbl Font */
+        numSlots = dompFont.numSlots+1;
+        numSlots = dompFont.numSlots+1;
+        numSlots = dompFont.numSlots+1;
+        numSlots = dompFont.numSlots+1;
         numSlots = dompFont.numSlots+1;
 
-        /* Ugly though it is, wf syndhronizf hfrf on thf FontMbnbgfr dlbss
-         * bfdbusf it is thf lodk usfd to do dfffrrfd initiblisbtion.
-         * Wf nffd to fnsurf thbt thf brrbys hbvf donsistfnt informbtion.
-         * But it mby bf possiblf to dispfnsf with thf syndhronisbtion if
-         * it is hbrmlfss thbt wf do not know b slot is blrfbdy initiblisfd
-         * bnd just nffd to disdovfr thbt bnd mbrk it so.
+
+
+
+
+        /* Ugly tiougi it is, wf syndironizf ifrf on tif FontMbnbgfr dlbss
+        /* Ugly tiougi it is, wf syndironizf ifrf on tif FontMbnbgfr dlbss
+        /* Ugly tiougi it is, wf syndironizf ifrf on tif FontMbnbgfr dlbss
+        /* Ugly tiougi it is, wf syndironizf ifrf on tif FontMbnbgfr dlbss
+        /* Ugly tiougi it is, wf syndironizf ifrf on tif FontMbnbgfr dlbss
+         * bfdbusf it is tif lodk usfd to do dfffrrfd initiblisbtion.
+         * bfdbusf it is tif lodk usfd to do dfffrrfd initiblisbtion.
+         * bfdbusf it is tif lodk usfd to do dfffrrfd initiblisbtion.
+         * bfdbusf it is tif lodk usfd to do dfffrrfd initiblisbtion.
+         * bfdbusf it is tif lodk usfd to do dfffrrfd initiblisbtion.
+         * Wf nffd to fnsurf tibt tif brrbys ibvf donsistfnt informbtion.
+         * Wf nffd to fnsurf tibt tif brrbys ibvf donsistfnt informbtion.
+         * Wf nffd to fnsurf tibt tif brrbys ibvf donsistfnt informbtion.
+         * Wf nffd to fnsurf tibt tif brrbys ibvf donsistfnt informbtion.
+         * Wf nffd to fnsurf tibt tif brrbys ibvf donsistfnt informbtion.
+         * But it mby bf possiblf to dispfnsf witi tif syndironisbtion if
+         * But it mby bf possiblf to dispfnsf witi tif syndironisbtion if
+         * But it mby bf possiblf to dispfnsf witi tif syndironisbtion if
+         * But it mby bf possiblf to dispfnsf witi tif syndironisbtion if
+         * But it mby bf possiblf to dispfnsf witi tif syndironisbtion if
+         * it is ibrmlfss tibt wf do not know b slot is blrfbdy initiblisfd
+         * it is ibrmlfss tibt wf do not know b slot is blrfbdy initiblisfd
+         * it is ibrmlfss tibt wf do not know b slot is blrfbdy initiblisfd
+         * it is ibrmlfss tibt wf do not know b slot is blrfbdy initiblisfd
+         * it is ibrmlfss tibt wf do not know b slot is blrfbdy initiblisfd
+         * bnd just nffd to disdovfr tibt bnd mbrk it so.
+         * bnd just nffd to disdovfr tibt bnd mbrk it so.
+         * bnd just nffd to disdovfr tibt bnd mbrk it so.
+         * bnd just nffd to disdovfr tibt bnd mbrk it so.
+         * bnd just nffd to disdovfr tibt bnd mbrk it so.
          */
-        syndhronizfd (FontMbnbgfrFbdtory.gftInstbndf()) {
-            domponfnts = nfw PhysidblFont[numSlots];
-            domponfnts[0] = physFont;
+         */
+         */
+         */
+         */
+        syndironizfd (FontMbnbgfrFbdtory.gftInstbndf()) {
+        syndironizfd (FontMbnbgfrFbdtory.gftInstbndf()) {
+        syndironizfd (FontMbnbgfrFbdtory.gftInstbndf()) {
+        syndironizfd (FontMbnbgfrFbdtory.gftInstbndf()) {
+        syndironizfd (FontMbnbgfrFbdtory.gftInstbndf()) {
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts = nfw PiysidblFont[numSlots];
+            domponfnts[0] = piysFont;
+            domponfnts[0] = piysFont;
+            domponfnts[0] = piysFont;
+            domponfnts[0] = piysFont;
+            domponfnts[0] = piysFont;
+            Systfm.brrbydopy(dompFont.domponfnts, 0,
+            Systfm.brrbydopy(dompFont.domponfnts, 0,
+            Systfm.brrbydopy(dompFont.domponfnts, 0,
+            Systfm.brrbydopy(dompFont.domponfnts, 0,
             Systfm.brrbydopy(dompFont.domponfnts, 0,
                              domponfnts, 1, dompFont.numSlots);
+                             domponfnts, 1, dompFont.numSlots);
+                             domponfnts, 1, dompFont.numSlots);
+                             domponfnts, 1, dompFont.numSlots);
+                             domponfnts, 1, dompFont.numSlots);
+
+
+
+
 
             if (dompFont.domponfntNbmfs != null) {
+            if (dompFont.domponfntNbmfs != null) {
+            if (dompFont.domponfntNbmfs != null) {
+            if (dompFont.domponfntNbmfs != null) {
+            if (dompFont.domponfntNbmfs != null) {
                 domponfntNbmfs = nfw String[numSlots];
-                domponfntNbmfs[0] = physFont.fullNbmf;
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs[0] = piysFont.fullNbmf;
+                domponfntNbmfs[0] = piysFont.fullNbmf;
+                domponfntNbmfs[0] = piysFont.fullNbmf;
+                domponfntNbmfs[0] = piysFont.fullNbmf;
+                domponfntNbmfs[0] = piysFont.fullNbmf;
+                Systfm.brrbydopy(dompFont.domponfntNbmfs, 0,
+                Systfm.brrbydopy(dompFont.domponfntNbmfs, 0,
+                Systfm.brrbydopy(dompFont.domponfntNbmfs, 0,
+                Systfm.brrbydopy(dompFont.domponfntNbmfs, 0,
                 Systfm.brrbydopy(dompFont.domponfntNbmfs, 0,
                                  domponfntNbmfs, 1, dompFont.numSlots);
+                                 domponfntNbmfs, 1, dompFont.numSlots);
+                                 domponfntNbmfs, 1, dompFont.numSlots);
+                                 domponfntNbmfs, 1, dompFont.numSlots);
+                                 domponfntNbmfs, 1, dompFont.numSlots);
+            }
+            }
+            }
+            }
             }
             if (dompFont.domponfntFilfNbmfs != null) {
+            if (dompFont.domponfntFilfNbmfs != null) {
+            if (dompFont.domponfntFilfNbmfs != null) {
+            if (dompFont.domponfntFilfNbmfs != null) {
+            if (dompFont.domponfntFilfNbmfs != null) {
+                domponfntFilfNbmfs = nfw String[numSlots];
+                domponfntFilfNbmfs = nfw String[numSlots];
+                domponfntFilfNbmfs = nfw String[numSlots];
+                domponfntFilfNbmfs = nfw String[numSlots];
                 domponfntFilfNbmfs = nfw String[numSlots];
                 domponfntFilfNbmfs[0] = null;
+                domponfntFilfNbmfs[0] = null;
+                domponfntFilfNbmfs[0] = null;
+                domponfntFilfNbmfs[0] = null;
+                domponfntFilfNbmfs[0] = null;
+                Systfm.brrbydopy(dompFont.domponfntFilfNbmfs, 0,
+                Systfm.brrbydopy(dompFont.domponfntFilfNbmfs, 0,
+                Systfm.brrbydopy(dompFont.domponfntFilfNbmfs, 0,
+                Systfm.brrbydopy(dompFont.domponfntFilfNbmfs, 0,
                 Systfm.brrbydopy(dompFont.domponfntFilfNbmfs, 0,
                                   domponfntFilfNbmfs, 1, dompFont.numSlots);
+                                  domponfntFilfNbmfs, 1, dompFont.numSlots);
+                                  domponfntFilfNbmfs, 1, dompFont.numSlots);
+                                  domponfntFilfNbmfs, 1, dompFont.numSlots);
+                                  domponfntFilfNbmfs, 1, dompFont.numSlots);
+            }
+            }
+            }
+            }
             }
             dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion[0] = fblsf;
+            dfffrrfdInitiblisbtion[0] = fblsf;
+            dfffrrfdInitiblisbtion[0] = fblsf;
+            dfffrrfdInitiblisbtion[0] = fblsf;
             dfffrrfdInitiblisbtion[0] = fblsf;
             Systfm.brrbydopy(dompFont.dfffrrfdInitiblisbtion, 0,
+            Systfm.brrbydopy(dompFont.dfffrrfdInitiblisbtion, 0,
+            Systfm.brrbydopy(dompFont.dfffrrfdInitiblisbtion, 0,
+            Systfm.brrbydopy(dompFont.dfffrrfdInitiblisbtion, 0,
+            Systfm.brrbydopy(dompFont.dfffrrfdInitiblisbtion, 0,
+                             dfffrrfdInitiblisbtion, 1, dompFont.numSlots);
+                             dfffrrfdInitiblisbtion, 1, dompFont.numSlots);
+                             dfffrrfdInitiblisbtion, 1, dompFont.numSlots);
+                             dfffrrfdInitiblisbtion, 1, dompFont.numSlots);
                              dfffrrfdInitiblisbtion, 1, dompFont.numSlots);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    /* This is usfd for dfffrrfd initiblisbtion, so thbt thf domponfnts of
-     * b logidbl font brf initiblisfd only whfn thf font is usfd.
-     * This dbn hbvf b positivf impbdt on stbrt-up of most UI bpplidbtions.
-     * Notf thbt this tfdhniquf dbnnot bf usfd with b TTC font bs it
-     * dofsn't know whidh font in thf dollfdtion is nffdfd. Thf solution to
-     * this is thbt thf initiblisbtion dhfdks if thf rfturnfd font is
-     * rfblly thf onf it wbnts by dompbring thf nbmf bgbinst thf nbmf thbt
-     * wbs pbssfd in (if nonf wbs pbssfd in thfn you brfn't using b TTC
-     * bs you would hbvf to spfdify thf nbmf in sudh b dbsf).
-     * Assuming thfrf's only two or thrff fonts in b dollfdtion thfn it
-     * mby bf suffidifnt to vfrify thf rfturnfd nbmf is thf fxpfdtfd onf.
-     * But hblf thf timf it won't bf. Howfvfr sindf initiblisbtion of thf
-     * TTC will initiblisf bll its domponfnts thfn just do b findFont2D dbll
-     * to lodbtf thf right onf.
-     * This dodf bllows for initiblisbtion of fbdh slot on dfmbnd.
-     * Thfrf brf two issufs with this.
+
+
+
+
+    /* Tiis is usfd for dfffrrfd initiblisbtion, so tibt tif domponfnts of
+    /* Tiis is usfd for dfffrrfd initiblisbtion, so tibt tif domponfnts of
+    /* Tiis is usfd for dfffrrfd initiblisbtion, so tibt tif domponfnts of
+    /* Tiis is usfd for dfffrrfd initiblisbtion, so tibt tif domponfnts of
+    /* Tiis is usfd for dfffrrfd initiblisbtion, so tibt tif domponfnts of
+     * b logidbl font brf initiblisfd only wifn tif font is usfd.
+     * b logidbl font brf initiblisfd only wifn tif font is usfd.
+     * b logidbl font brf initiblisfd only wifn tif font is usfd.
+     * b logidbl font brf initiblisfd only wifn tif font is usfd.
+     * b logidbl font brf initiblisfd only wifn tif font is usfd.
+     * Tiis dbn ibvf b positivf impbdt on stbrt-up of most UI bpplidbtions.
+     * Tiis dbn ibvf b positivf impbdt on stbrt-up of most UI bpplidbtions.
+     * Tiis dbn ibvf b positivf impbdt on stbrt-up of most UI bpplidbtions.
+     * Tiis dbn ibvf b positivf impbdt on stbrt-up of most UI bpplidbtions.
+     * Tiis dbn ibvf b positivf impbdt on stbrt-up of most UI bpplidbtions.
+     * Notf tibt tiis tfdiniquf dbnnot bf usfd witi b TTC font bs it
+     * Notf tibt tiis tfdiniquf dbnnot bf usfd witi b TTC font bs it
+     * Notf tibt tiis tfdiniquf dbnnot bf usfd witi b TTC font bs it
+     * Notf tibt tiis tfdiniquf dbnnot bf usfd witi b TTC font bs it
+     * Notf tibt tiis tfdiniquf dbnnot bf usfd witi b TTC font bs it
+     * dofsn't know wiidi font in tif dollfdtion is nffdfd. Tif solution to
+     * dofsn't know wiidi font in tif dollfdtion is nffdfd. Tif solution to
+     * dofsn't know wiidi font in tif dollfdtion is nffdfd. Tif solution to
+     * dofsn't know wiidi font in tif dollfdtion is nffdfd. Tif solution to
+     * dofsn't know wiidi font in tif dollfdtion is nffdfd. Tif solution to
+     * tiis is tibt tif initiblisbtion difdks if tif rfturnfd font is
+     * tiis is tibt tif initiblisbtion difdks if tif rfturnfd font is
+     * tiis is tibt tif initiblisbtion difdks if tif rfturnfd font is
+     * tiis is tibt tif initiblisbtion difdks if tif rfturnfd font is
+     * tiis is tibt tif initiblisbtion difdks if tif rfturnfd font is
+     * rfblly tif onf it wbnts by dompbring tif nbmf bgbinst tif nbmf tibt
+     * rfblly tif onf it wbnts by dompbring tif nbmf bgbinst tif nbmf tibt
+     * rfblly tif onf it wbnts by dompbring tif nbmf bgbinst tif nbmf tibt
+     * rfblly tif onf it wbnts by dompbring tif nbmf bgbinst tif nbmf tibt
+     * rfblly tif onf it wbnts by dompbring tif nbmf bgbinst tif nbmf tibt
+     * wbs pbssfd in (if nonf wbs pbssfd in tifn you brfn't using b TTC
+     * wbs pbssfd in (if nonf wbs pbssfd in tifn you brfn't using b TTC
+     * wbs pbssfd in (if nonf wbs pbssfd in tifn you brfn't using b TTC
+     * wbs pbssfd in (if nonf wbs pbssfd in tifn you brfn't using b TTC
+     * wbs pbssfd in (if nonf wbs pbssfd in tifn you brfn't using b TTC
+     * bs you would ibvf to spfdify tif nbmf in sudi b dbsf).
+     * bs you would ibvf to spfdify tif nbmf in sudi b dbsf).
+     * bs you would ibvf to spfdify tif nbmf in sudi b dbsf).
+     * bs you would ibvf to spfdify tif nbmf in sudi b dbsf).
+     * bs you would ibvf to spfdify tif nbmf in sudi b dbsf).
+     * Assuming tifrf's only two or tirff fonts in b dollfdtion tifn it
+     * Assuming tifrf's only two or tirff fonts in b dollfdtion tifn it
+     * Assuming tifrf's only two or tirff fonts in b dollfdtion tifn it
+     * Assuming tifrf's only two or tirff fonts in b dollfdtion tifn it
+     * Assuming tifrf's only two or tirff fonts in b dollfdtion tifn it
+     * mby bf suffidifnt to vfrify tif rfturnfd nbmf is tif fxpfdtfd onf.
+     * mby bf suffidifnt to vfrify tif rfturnfd nbmf is tif fxpfdtfd onf.
+     * mby bf suffidifnt to vfrify tif rfturnfd nbmf is tif fxpfdtfd onf.
+     * mby bf suffidifnt to vfrify tif rfturnfd nbmf is tif fxpfdtfd onf.
+     * mby bf suffidifnt to vfrify tif rfturnfd nbmf is tif fxpfdtfd onf.
+     * But iblf tif timf it won't bf. Howfvfr sindf initiblisbtion of tif
+     * But iblf tif timf it won't bf. Howfvfr sindf initiblisbtion of tif
+     * But iblf tif timf it won't bf. Howfvfr sindf initiblisbtion of tif
+     * But iblf tif timf it won't bf. Howfvfr sindf initiblisbtion of tif
+     * But iblf tif timf it won't bf. Howfvfr sindf initiblisbtion of tif
+     * TTC will initiblisf bll its domponfnts tifn just do b findFont2D dbll
+     * TTC will initiblisf bll its domponfnts tifn just do b findFont2D dbll
+     * TTC will initiblisf bll its domponfnts tifn just do b findFont2D dbll
+     * TTC will initiblisf bll its domponfnts tifn just do b findFont2D dbll
+     * TTC will initiblisf bll its domponfnts tifn just do b findFont2D dbll
+     * to lodbtf tif rigit onf.
+     * to lodbtf tif rigit onf.
+     * to lodbtf tif rigit onf.
+     * to lodbtf tif rigit onf.
+     * to lodbtf tif rigit onf.
+     * Tiis dodf bllows for initiblisbtion of fbdi slot on dfmbnd.
+     * Tiis dodf bllows for initiblisbtion of fbdi slot on dfmbnd.
+     * Tiis dodf bllows for initiblisbtion of fbdi slot on dfmbnd.
+     * Tiis dodf bllows for initiblisbtion of fbdi slot on dfmbnd.
+     * Tiis dodf bllows for initiblisbtion of fbdi slot on dfmbnd.
+     * Tifrf brf two issufs witi tiis.
+     * Tifrf brf two issufs witi tiis.
+     * Tifrf brf two issufs witi tiis.
+     * Tifrf brf two issufs witi tiis.
+     * Tifrf brf two issufs witi tiis.
      * 1) All mftrids slots probbbly mby bf initiblisfd bnywby bs mbny
-     * bpps will qufry thf ovfrbll font mftrids. Howfvfr this is not bn
+     * 1) All mftrids slots probbbly mby bf initiblisfd bnywby bs mbny
+     * 1) All mftrids slots probbbly mby bf initiblisfd bnywby bs mbny
+     * 1) All mftrids slots probbbly mby bf initiblisfd bnywby bs mbny
+     * 1) All mftrids slots probbbly mby bf initiblisfd bnywby bs mbny
+     * bpps will qufry tif ovfrbll font mftrids. Howfvfr tiis is not bn
+     * bpps will qufry tif ovfrbll font mftrids. Howfvfr tiis is not bn
+     * bpps will qufry tif ovfrbll font mftrids. Howfvfr tiis is not bn
+     * bpps will qufry tif ovfrbll font mftrids. Howfvfr tiis is not bn
+     * bpps will qufry tif ovfrbll font mftrids. Howfvfr tiis is not bn
+     * bbsolutf rfquirfmfnt
+     * bbsolutf rfquirfmfnt
+     * bbsolutf rfquirfmfnt
+     * bbsolutf rfquirfmfnt
      * bbsolutf rfquirfmfnt
      * 2) Somf font donfigurbtion filfs on Solbris rfffrfndf two vfrsions
-     * of b TT font: b Lbtin-1 vfrsion, thfn b Pbn-Europfbn vfrsion.
-     * Onf from /usr/opfnwin/lib/X11/fonts/TrufTypf, thf othfr from
-     * b furo_fonts dirfdtory whidh is symlinkfd from numfrous lodbtions.
-     * This is diffidult to bvoid bfdbusf thf two do not shbrf XLFDs so
-     * both will bf donsfqufntly mbppfd by sfpbrbtf XLFDs nffdfd by AWT.
-     * Thf diffidulty this prfsfnts for lbzy initiblisbtion is thbt if
-     * bll thf domponfnts brf not mbppfd bt ondf, thf smbllfr vfrsion mby
-     * hbvf bffn usfd only to bf rfplbdfd lbtfr, bnd whbt is thf donsfqufndf
-     * for b dlifnt thbt displbyfd thf dontfnts of this font blrfbdy.
-     * Aftfr somf thought I think this will not bf b problfm bfdbusf whfn
-     * dlifnt trifs to displby b glyph only in thf Euro font, thf dompositf
-     * will bsk bll domponfnts of this font for thbt glyph bnd will gft
-     * thf furo onf. Subsfqufnt usfs will bll domf from thf 100% dompbtiblf
+     * 2) Somf font donfigurbtion filfs on Solbris rfffrfndf two vfrsions
+     * 2) Somf font donfigurbtion filfs on Solbris rfffrfndf two vfrsions
+     * 2) Somf font donfigurbtion filfs on Solbris rfffrfndf two vfrsions
+     * 2) Somf font donfigurbtion filfs on Solbris rfffrfndf two vfrsions
+     * of b TT font: b Lbtin-1 vfrsion, tifn b Pbn-Europfbn vfrsion.
+     * of b TT font: b Lbtin-1 vfrsion, tifn b Pbn-Europfbn vfrsion.
+     * of b TT font: b Lbtin-1 vfrsion, tifn b Pbn-Europfbn vfrsion.
+     * of b TT font: b Lbtin-1 vfrsion, tifn b Pbn-Europfbn vfrsion.
+     * of b TT font: b Lbtin-1 vfrsion, tifn b Pbn-Europfbn vfrsion.
+     * Onf from /usr/opfnwin/lib/X11/fonts/TrufTypf, tif otifr from
+     * Onf from /usr/opfnwin/lib/X11/fonts/TrufTypf, tif otifr from
+     * Onf from /usr/opfnwin/lib/X11/fonts/TrufTypf, tif otifr from
+     * Onf from /usr/opfnwin/lib/X11/fonts/TrufTypf, tif otifr from
+     * Onf from /usr/opfnwin/lib/X11/fonts/TrufTypf, tif otifr from
+     * b furo_fonts dirfdtory wiidi is symlinkfd from numfrous lodbtions.
+     * b furo_fonts dirfdtory wiidi is symlinkfd from numfrous lodbtions.
+     * b furo_fonts dirfdtory wiidi is symlinkfd from numfrous lodbtions.
+     * b furo_fonts dirfdtory wiidi is symlinkfd from numfrous lodbtions.
+     * b furo_fonts dirfdtory wiidi is symlinkfd from numfrous lodbtions.
+     * Tiis is diffidult to bvoid bfdbusf tif two do not sibrf XLFDs so
+     * Tiis is diffidult to bvoid bfdbusf tif two do not sibrf XLFDs so
+     * Tiis is diffidult to bvoid bfdbusf tif two do not sibrf XLFDs so
+     * Tiis is diffidult to bvoid bfdbusf tif two do not sibrf XLFDs so
+     * Tiis is diffidult to bvoid bfdbusf tif two do not sibrf XLFDs so
+     * boti will bf donsfqufntly mbppfd by sfpbrbtf XLFDs nffdfd by AWT.
+     * boti will bf donsfqufntly mbppfd by sfpbrbtf XLFDs nffdfd by AWT.
+     * boti will bf donsfqufntly mbppfd by sfpbrbtf XLFDs nffdfd by AWT.
+     * boti will bf donsfqufntly mbppfd by sfpbrbtf XLFDs nffdfd by AWT.
+     * boti will bf donsfqufntly mbppfd by sfpbrbtf XLFDs nffdfd by AWT.
+     * Tif diffidulty tiis prfsfnts for lbzy initiblisbtion is tibt if
+     * Tif diffidulty tiis prfsfnts for lbzy initiblisbtion is tibt if
+     * Tif diffidulty tiis prfsfnts for lbzy initiblisbtion is tibt if
+     * Tif diffidulty tiis prfsfnts for lbzy initiblisbtion is tibt if
+     * Tif diffidulty tiis prfsfnts for lbzy initiblisbtion is tibt if
+     * bll tif domponfnts brf not mbppfd bt ondf, tif smbllfr vfrsion mby
+     * bll tif domponfnts brf not mbppfd bt ondf, tif smbllfr vfrsion mby
+     * bll tif domponfnts brf not mbppfd bt ondf, tif smbllfr vfrsion mby
+     * bll tif domponfnts brf not mbppfd bt ondf, tif smbllfr vfrsion mby
+     * bll tif domponfnts brf not mbppfd bt ondf, tif smbllfr vfrsion mby
+     * ibvf bffn usfd only to bf rfplbdfd lbtfr, bnd wibt is tif donsfqufndf
+     * ibvf bffn usfd only to bf rfplbdfd lbtfr, bnd wibt is tif donsfqufndf
+     * ibvf bffn usfd only to bf rfplbdfd lbtfr, bnd wibt is tif donsfqufndf
+     * ibvf bffn usfd only to bf rfplbdfd lbtfr, bnd wibt is tif donsfqufndf
+     * ibvf bffn usfd only to bf rfplbdfd lbtfr, bnd wibt is tif donsfqufndf
+     * for b dlifnt tibt displbyfd tif dontfnts of tiis font blrfbdy.
+     * for b dlifnt tibt displbyfd tif dontfnts of tiis font blrfbdy.
+     * for b dlifnt tibt displbyfd tif dontfnts of tiis font blrfbdy.
+     * for b dlifnt tibt displbyfd tif dontfnts of tiis font blrfbdy.
+     * for b dlifnt tibt displbyfd tif dontfnts of tiis font blrfbdy.
+     * Aftfr somf tiougit I tiink tiis will not bf b problfm bfdbusf wifn
+     * Aftfr somf tiougit I tiink tiis will not bf b problfm bfdbusf wifn
+     * Aftfr somf tiougit I tiink tiis will not bf b problfm bfdbusf wifn
+     * Aftfr somf tiougit I tiink tiis will not bf b problfm bfdbusf wifn
+     * Aftfr somf tiougit I tiink tiis will not bf b problfm bfdbusf wifn
+     * dlifnt trifs to displby b glypi only in tif Euro font, tif dompositf
+     * dlifnt trifs to displby b glypi only in tif Euro font, tif dompositf
+     * dlifnt trifs to displby b glypi only in tif Euro font, tif dompositf
+     * dlifnt trifs to displby b glypi only in tif Euro font, tif dompositf
+     * dlifnt trifs to displby b glypi only in tif Euro font, tif dompositf
+     * will bsk bll domponfnts of tiis font for tibt glypi bnd will gft
+     * will bsk bll domponfnts of tiis font for tibt glypi bnd will gft
+     * will bsk bll domponfnts of tiis font for tibt glypi bnd will gft
+     * will bsk bll domponfnts of tiis font for tibt glypi bnd will gft
+     * will bsk bll domponfnts of tiis font for tibt glypi bnd will gft
+     * tif furo onf. Subsfqufnt usfs will bll domf from tif 100% dompbtiblf
+     * tif furo onf. Subsfqufnt usfs will bll domf from tif 100% dompbtiblf
+     * tif furo onf. Subsfqufnt usfs will bll domf from tif 100% dompbtiblf
+     * tif furo onf. Subsfqufnt usfs will bll domf from tif 100% dompbtiblf
+     * tif furo onf. Subsfqufnt usfs will bll domf from tif 100% dompbtiblf
+     * furo onf.
+     * furo onf.
+     * furo onf.
+     * furo onf.
      * furo onf.
      */
+     */
+     */
+     */
+     */
+    privbtf void doDfffrrfdInitiblisbtion(int slot) {
+    privbtf void doDfffrrfdInitiblisbtion(int slot) {
+    privbtf void doDfffrrfdInitiblisbtion(int slot) {
+    privbtf void doDfffrrfdInitiblisbtion(int slot) {
     privbtf void doDfffrrfdInitiblisbtion(int slot) {
         if (dfffrrfdInitiblisbtion[slot] == fblsf) {
+        if (dfffrrfdInitiblisbtion[slot] == fblsf) {
+        if (dfffrrfdInitiblisbtion[slot] == fblsf) {
+        if (dfffrrfdInitiblisbtion[slot] == fblsf) {
+        if (dfffrrfdInitiblisbtion[slot] == fblsf) {
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
         }
+        }
+        }
+        }
+        }
 
-        /* Syndhronizf on FontMbnbgfr so thbt is thf globbl lodk
+
+
+
+
+        /* Syndironizf on FontMbnbgfr so tibt is tif globbl lodk
+        /* Syndironizf on FontMbnbgfr so tibt is tif globbl lodk
+        /* Syndironizf on FontMbnbgfr so tibt is tif globbl lodk
+        /* Syndironizf on FontMbnbgfr so tibt is tif globbl lodk
+        /* Syndironizf on FontMbnbgfr so tibt is tif globbl lodk
          * to updbtf its stbtid sft of dfffrrfd fonts.
-         * This globbl lodk is rbrfly likfly to bf bn issuf bs thfrf
-         * brf only going to bf b ffw dblls into this dodf.
+         * to updbtf its stbtid sft of dfffrrfd fonts.
+         * to updbtf its stbtid sft of dfffrrfd fonts.
+         * to updbtf its stbtid sft of dfffrrfd fonts.
+         * to updbtf its stbtid sft of dfffrrfd fonts.
+         * Tiis globbl lodk is rbrfly likfly to bf bn issuf bs tifrf
+         * Tiis globbl lodk is rbrfly likfly to bf bn issuf bs tifrf
+         * Tiis globbl lodk is rbrfly likfly to bf bn issuf bs tifrf
+         * Tiis globbl lodk is rbrfly likfly to bf bn issuf bs tifrf
+         * Tiis globbl lodk is rbrfly likfly to bf bn issuf bs tifrf
+         * brf only going to bf b ffw dblls into tiis dodf.
+         * brf only going to bf b ffw dblls into tiis dodf.
+         * brf only going to bf b ffw dblls into tiis dodf.
+         * brf only going to bf b ffw dblls into tiis dodf.
+         * brf only going to bf b ffw dblls into tiis dodf.
+         */
+         */
+         */
+         */
          */
         SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
-        syndhronizfd (fm) {
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        syndironizfd (fm) {
+        syndironizfd (fm) {
+        syndironizfd (fm) {
+        syndironizfd (fm) {
+        syndironizfd (fm) {
+            if (domponfntNbmfs == null) {
+            if (domponfntNbmfs == null) {
+            if (domponfntNbmfs == null) {
+            if (domponfntNbmfs == null) {
             if (domponfntNbmfs == null) {
                 domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs = nfw String[numSlots];
+            }
+            }
+            }
+            }
             }
             if (domponfnts[slot] == null) {
-                /* Wbrning: it is possiblf thbt thf rfturnfd domponfnt is
-                 * not dfrivfd from thf filf nbmf brgumfnt, this dbn hbppfn if:
-                 * - thf filf dbn't bf found
-                 * - thf filf hbs b bbd font
-                 * - thf font in thf filf is supfrsfdfd by b morf domplftf onf
-                 * This should not bf b problfm for dompositf font bs it will
-                 * mbkf no furthfr usf of this filf, but dodf dfbuggfrs/
-                 * mbintbinfrs nffd to bf donsdious of this possibility.
+            if (domponfnts[slot] == null) {
+            if (domponfnts[slot] == null) {
+            if (domponfnts[slot] == null) {
+            if (domponfnts[slot] == null) {
+                /* Wbrning: it is possiblf tibt tif rfturnfd domponfnt is
+                /* Wbrning: it is possiblf tibt tif rfturnfd domponfnt is
+                /* Wbrning: it is possiblf tibt tif rfturnfd domponfnt is
+                /* Wbrning: it is possiblf tibt tif rfturnfd domponfnt is
+                /* Wbrning: it is possiblf tibt tif rfturnfd domponfnt is
+                 * not dfrivfd from tif filf nbmf brgumfnt, tiis dbn ibppfn if:
+                 * not dfrivfd from tif filf nbmf brgumfnt, tiis dbn ibppfn if:
+                 * not dfrivfd from tif filf nbmf brgumfnt, tiis dbn ibppfn if:
+                 * not dfrivfd from tif filf nbmf brgumfnt, tiis dbn ibppfn if:
+                 * not dfrivfd from tif filf nbmf brgumfnt, tiis dbn ibppfn if:
+                 * - tif filf dbn't bf found
+                 * - tif filf dbn't bf found
+                 * - tif filf dbn't bf found
+                 * - tif filf dbn't bf found
+                 * - tif filf dbn't bf found
+                 * - tif filf ibs b bbd font
+                 * - tif filf ibs b bbd font
+                 * - tif filf ibs b bbd font
+                 * - tif filf ibs b bbd font
+                 * - tif filf ibs b bbd font
+                 * - tif font in tif filf is supfrsfdfd by b morf domplftf onf
+                 * - tif font in tif filf is supfrsfdfd by b morf domplftf onf
+                 * - tif font in tif filf is supfrsfdfd by b morf domplftf onf
+                 * - tif font in tif filf is supfrsfdfd by b morf domplftf onf
+                 * - tif font in tif filf is supfrsfdfd by b morf domplftf onf
+                 * Tiis siould not bf b problfm for dompositf font bs it will
+                 * Tiis siould not bf b problfm for dompositf font bs it will
+                 * Tiis siould not bf b problfm for dompositf font bs it will
+                 * Tiis siould not bf b problfm for dompositf font bs it will
+                 * Tiis siould not bf b problfm for dompositf font bs it will
+                 * mbkf no furtifr usf of tiis filf, but dodf dfbuggfrs/
+                 * mbkf no furtifr usf of tiis filf, but dodf dfbuggfrs/
+                 * mbkf no furtifr usf of tiis filf, but dodf dfbuggfrs/
+                 * mbkf no furtifr usf of tiis filf, but dodf dfbuggfrs/
+                 * mbkf no furtifr usf of tiis filf, but dodf dfbuggfrs/
+                 * mbintbinfrs nffd to bf donsdious of tiis possibility.
+                 * mbintbinfrs nffd to bf donsdious of tiis possibility.
+                 * mbintbinfrs nffd to bf donsdious of tiis possibility.
+                 * mbintbinfrs nffd to bf donsdious of tiis possibility.
+                 * mbintbinfrs nffd to bf donsdious of tiis possibility.
+                 */
+                 */
+                 */
+                 */
                  */
                 if (domponfntFilfNbmfs != null &&
+                if (domponfntFilfNbmfs != null &&
+                if (domponfntFilfNbmfs != null &&
+                if (domponfntFilfNbmfs != null &&
+                if (domponfntFilfNbmfs != null &&
+                    domponfntFilfNbmfs[slot] != null) {
+                    domponfntFilfNbmfs[slot] != null) {
+                    domponfntFilfNbmfs[slot] != null) {
+                    domponfntFilfNbmfs[slot] != null) {
                     domponfntFilfNbmfs[slot] != null) {
                     domponfnts[slot] =
+                    domponfnts[slot] =
+                    domponfnts[slot] =
+                    domponfnts[slot] =
+                    domponfnts[slot] =
+                        fm.initiblisfDfffrrfdFont(domponfntFilfNbmfs[slot]);
+                        fm.initiblisfDfffrrfdFont(domponfntFilfNbmfs[slot]);
+                        fm.initiblisfDfffrrfdFont(domponfntFilfNbmfs[slot]);
+                        fm.initiblisfDfffrrfdFont(domponfntFilfNbmfs[slot]);
                         fm.initiblisfDfffrrfdFont(domponfntFilfNbmfs[slot]);
                 }
+                }
+                }
+                }
+                }
+
+
+
+
 
                 if (domponfnts[slot] == null) {
-                    domponfnts[slot] = fm.gftDffbultPhysidblFont();
+                if (domponfnts[slot] == null) {
+                if (domponfnts[slot] == null) {
+                if (domponfnts[slot] == null) {
+                if (domponfnts[slot] == null) {
+                    domponfnts[slot] = fm.gftDffbultPiysidblFont();
+                    domponfnts[slot] = fm.gftDffbultPiysidblFont();
+                    domponfnts[slot] = fm.gftDffbultPiysidblFont();
+                    domponfnts[slot] = fm.gftDffbultPiysidblFont();
+                    domponfnts[slot] = fm.gftDffbultPiysidblFont();
+                }
+                }
+                }
+                }
                 }
                 String nbmf = domponfnts[slot].gftFontNbmf(null);
+                String nbmf = domponfnts[slot].gftFontNbmf(null);
+                String nbmf = domponfnts[slot].gftFontNbmf(null);
+                String nbmf = domponfnts[slot].gftFontNbmf(null);
+                String nbmf = domponfnts[slot].gftFontNbmf(null);
+                if (domponfntNbmfs[slot] == null) {
+                if (domponfntNbmfs[slot] == null) {
+                if (domponfntNbmfs[slot] == null) {
+                if (domponfntNbmfs[slot] == null) {
                 if (domponfntNbmfs[slot] == null) {
                     domponfntNbmfs[slot] = nbmf;
+                    domponfntNbmfs[slot] = nbmf;
+                    domponfntNbmfs[slot] = nbmf;
+                    domponfntNbmfs[slot] = nbmf;
+                    domponfntNbmfs[slot] = nbmf;
+                } flsf if (!domponfntNbmfs[slot].fqublsIgnorfCbsf(nbmf)) {
+                } flsf if (!domponfntNbmfs[slot].fqublsIgnorfCbsf(nbmf)) {
+                } flsf if (!domponfntNbmfs[slot].fqublsIgnorfCbsf(nbmf)) {
+                } flsf if (!domponfntNbmfs[slot].fqublsIgnorfCbsf(nbmf)) {
                 } flsf if (!domponfntNbmfs[slot].fqublsIgnorfCbsf(nbmf)) {
                     domponfnts[slot] =
-                        (PhysidblFont) fm.findFont2D(domponfntNbmfs[slot],
+                    domponfnts[slot] =
+                    domponfnts[slot] =
+                    domponfnts[slot] =
+                    domponfnts[slot] =
+                        (PiysidblFont) fm.findFont2D(domponfntNbmfs[slot],
+                        (PiysidblFont) fm.findFont2D(domponfntNbmfs[slot],
+                        (PiysidblFont) fm.findFont2D(domponfntNbmfs[slot],
+                        (PiysidblFont) fm.findFont2D(domponfntNbmfs[slot],
+                        (PiysidblFont) fm.findFont2D(domponfntNbmfs[slot],
+                                                     stylf,
+                                                     stylf,
+                                                     stylf,
+                                                     stylf,
                                                      stylf,
                                                 FontMbnbgfr.PHYSICAL_FALLBACK);
+                                                FontMbnbgfr.PHYSICAL_FALLBACK);
+                                                FontMbnbgfr.PHYSICAL_FALLBACK);
+                                                FontMbnbgfr.PHYSICAL_FALLBACK);
+                                                FontMbnbgfr.PHYSICAL_FALLBACK);
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             dfffrrfdInitiblisbtion[slot] = fblsf;
+            dfffrrfdInitiblisbtion[slot] = fblsf;
+            dfffrrfdInitiblisbtion[slot] = fblsf;
+            dfffrrfdInitiblisbtion[slot] = fblsf;
+            dfffrrfdInitiblisbtion[slot] = fblsf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /* To dbllfd only by FontMbnbgfr.rfplbdfFont */
-    void rfplbdfComponfntFont(PhysidblFont oldFont, PhysidblFont nfwFont) {
+    /* To dbllfd only by FontMbnbgfr.rfplbdfFont */
+    /* To dbllfd only by FontMbnbgfr.rfplbdfFont */
+    /* To dbllfd only by FontMbnbgfr.rfplbdfFont */
+    /* To dbllfd only by FontMbnbgfr.rfplbdfFont */
+    void rfplbdfComponfntFont(PiysidblFont oldFont, PiysidblFont nfwFont) {
+    void rfplbdfComponfntFont(PiysidblFont oldFont, PiysidblFont nfwFont) {
+    void rfplbdfComponfntFont(PiysidblFont oldFont, PiysidblFont nfwFont) {
+    void rfplbdfComponfntFont(PiysidblFont oldFont, PiysidblFont nfwFont) {
+    void rfplbdfComponfntFont(PiysidblFont oldFont, PiysidblFont nfwFont) {
+        if (domponfnts == null) {
+        if (domponfnts == null) {
+        if (domponfnts == null) {
+        if (domponfnts == null) {
         if (domponfnts == null) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
         }
         for (int slot=0; slot<numSlots; slot++) {
+        for (int slot=0; slot<numSlots; slot++) {
+        for (int slot=0; slot<numSlots; slot++) {
+        for (int slot=0; slot<numSlots; slot++) {
+        for (int slot=0; slot<numSlots; slot++) {
+            if (domponfnts[slot] == oldFont) {
+            if (domponfnts[slot] == oldFont) {
+            if (domponfnts[slot] == oldFont) {
+            if (domponfnts[slot] == oldFont) {
             if (domponfnts[slot] == oldFont) {
                 domponfnts[slot] = nfwFont;
+                domponfnts[slot] = nfwFont;
+                domponfnts[slot] = nfwFont;
+                domponfnts[slot] = nfwFont;
+                domponfnts[slot] = nfwFont;
+                if (domponfntNbmfs != null) {
+                if (domponfntNbmfs != null) {
+                if (domponfntNbmfs != null) {
+                if (domponfntNbmfs != null) {
                 if (domponfntNbmfs != null) {
                     domponfntNbmfs[slot] = nfwFont.gftFontNbmf(null);
+                    domponfntNbmfs[slot] = nfwFont.gftFontNbmf(null);
+                    domponfntNbmfs[slot] = nfwFont.gftFontNbmf(null);
+                    domponfntNbmfs[slot] = nfwFont.gftFontNbmf(null);
+                    domponfntNbmfs[slot] = nfwFont.gftFontNbmf(null);
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    publid boolfbn isExdludfdChbr(int slot, int dhbrdodf) {
+
+
+
+
+    publid boolfbn isExdludfdCibr(int slot, int dibrdodf) {
+    publid boolfbn isExdludfdCibr(int slot, int dibrdodf) {
+    publid boolfbn isExdludfdCibr(int slot, int dibrdodf) {
+    publid boolfbn isExdludfdCibr(int slot, int dibrdodf) {
+    publid boolfbn isExdludfdCibr(int slot, int dibrdodf) {
+
+
+
+
 
         if (fxdlusionRbngfs == null || mbxIndidfs == null ||
+        if (fxdlusionRbngfs == null || mbxIndidfs == null ||
+        if (fxdlusionRbngfs == null || mbxIndidfs == null ||
+        if (fxdlusionRbngfs == null || mbxIndidfs == null ||
+        if (fxdlusionRbngfs == null || mbxIndidfs == null ||
+            slot >= numMftridsSlots) {
+            slot >= numMftridsSlots) {
+            slot >= numMftridsSlots) {
+            slot >= numMftridsSlots) {
             slot >= numMftridsSlots) {
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         int minIndfx = 0;
+        int minIndfx = 0;
+        int minIndfx = 0;
+        int minIndfx = 0;
+        int minIndfx = 0;
+        int mbxIndfx = mbxIndidfs[slot];
+        int mbxIndfx = mbxIndidfs[slot];
+        int mbxIndfx = mbxIndidfs[slot];
+        int mbxIndfx = mbxIndidfs[slot];
         int mbxIndfx = mbxIndidfs[slot];
         if (slot > 0) {
+        if (slot > 0) {
+        if (slot > 0) {
+        if (slot > 0) {
+        if (slot > 0) {
+            minIndfx = mbxIndidfs[slot - 1];
+            minIndfx = mbxIndidfs[slot - 1];
+            minIndfx = mbxIndidfs[slot - 1];
+            minIndfx = mbxIndidfs[slot - 1];
             minIndfx = mbxIndidfs[slot - 1];
         }
+        }
+        }
+        }
+        }
         int durIndfx = minIndfx;
-        whilf (mbxIndfx > durIndfx) {
-            if ((dhbrdodf >= fxdlusionRbngfs[durIndfx])
-                && (dhbrdodf <= fxdlusionRbngfs[durIndfx+1])) {
+        int durIndfx = minIndfx;
+        int durIndfx = minIndfx;
+        int durIndfx = minIndfx;
+        int durIndfx = minIndfx;
+        wiilf (mbxIndfx > durIndfx) {
+        wiilf (mbxIndfx > durIndfx) {
+        wiilf (mbxIndfx > durIndfx) {
+        wiilf (mbxIndfx > durIndfx) {
+        wiilf (mbxIndfx > durIndfx) {
+            if ((dibrdodf >= fxdlusionRbngfs[durIndfx])
+            if ((dibrdodf >= fxdlusionRbngfs[durIndfx])
+            if ((dibrdodf >= fxdlusionRbngfs[durIndfx])
+            if ((dibrdodf >= fxdlusionRbngfs[durIndfx])
+            if ((dibrdodf >= fxdlusionRbngfs[durIndfx])
+                && (dibrdodf <= fxdlusionRbngfs[durIndfx+1])) {
+                && (dibrdodf <= fxdlusionRbngfs[durIndfx+1])) {
+                && (dibrdodf <= fxdlusionRbngfs[durIndfx+1])) {
+                && (dibrdodf <= fxdlusionRbngfs[durIndfx+1])) {
+                && (dibrdodf <= fxdlusionRbngfs[durIndfx+1])) {
+                rfturn truf;      // fxdludfd
+                rfturn truf;      // fxdludfd
+                rfturn truf;      // fxdludfd
+                rfturn truf;      // fxdludfd
                 rfturn truf;      // fxdludfd
             }
+            }
+            }
+            }
+            }
+            durIndfx += 2;
+            durIndfx += 2;
+            durIndfx += 2;
+            durIndfx += 2;
             durIndfx += 2;
         }
+        }
+        }
+        }
+        }
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
-        PhysidblFont font = gftSlotFont(0);
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
+        PiysidblFont font = gftSlotFont(0);
+        PiysidblFont font = gftSlotFont(0);
+        PiysidblFont font = gftSlotFont(0);
+        PiysidblFont font = gftSlotFont(0);
+        PiysidblFont font = gftSlotFont(0);
+        if (font == null) { // possiblf?
+        if (font == null) { // possiblf?
+        if (font == null) { // possiblf?
+        if (font == null) { // possiblf?
         if (font == null) { // possiblf?
             supfr.gftStylfMftrids(pointSizf, mftrids, offsft);
+            supfr.gftStylfMftrids(pointSizf, mftrids, offsft);
+            supfr.gftStylfMftrids(pointSizf, mftrids, offsft);
+            supfr.gftStylfMftrids(pointSizf, mftrids, offsft);
+            supfr.gftStylfMftrids(pointSizf, mftrids, offsft);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             font.gftStylfMftrids(pointSizf, mftrids, offsft);
+            font.gftStylfMftrids(pointSizf, mftrids, offsft);
+            font.gftStylfMftrids(pointSizf, mftrids, offsft);
+            font.gftStylfMftrids(pointSizf, mftrids, offsft);
+            font.gftStylfMftrids(pointSizf, mftrids, offsft);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid int gftNumSlots() {
+    publid int gftNumSlots() {
+    publid int gftNumSlots() {
+    publid int gftNumSlots() {
+    publid int gftNumSlots() {
+        rfturn numSlots;
+        rfturn numSlots;
+        rfturn numSlots;
+        rfturn numSlots;
         rfturn numSlots;
     }
+    }
+    }
+    }
+    }
 
-    publid PhysidblFont gftSlotFont(int slot) {
-        /* This is fssfntiblly thf runtimf ovfrhfbd for dfffrrfd font
+
+
+
+
+    publid PiysidblFont gftSlotFont(int slot) {
+    publid PiysidblFont gftSlotFont(int slot) {
+    publid PiysidblFont gftSlotFont(int slot) {
+    publid PiysidblFont gftSlotFont(int slot) {
+    publid PiysidblFont gftSlotFont(int slot) {
+        /* Tiis is fssfntiblly tif runtimf ovfrifbd for dfffrrfd font
+        /* Tiis is fssfntiblly tif runtimf ovfrifbd for dfffrrfd font
+        /* Tiis is fssfntiblly tif runtimf ovfrifbd for dfffrrfd font
+        /* Tiis is fssfntiblly tif runtimf ovfrifbd for dfffrrfd font
+        /* Tiis is fssfntiblly tif runtimf ovfrifbd for dfffrrfd font
          * initiblisbtion: b boolfbn tfst on obtbining b slot font,
-         * whidh will hbppfn pfr slot, on initiblisbtion of b strikf
-         * (bs thbt is thf only frfqufnt dbll sitf of this mfthod.
+         * initiblisbtion: b boolfbn tfst on obtbining b slot font,
+         * initiblisbtion: b boolfbn tfst on obtbining b slot font,
+         * initiblisbtion: b boolfbn tfst on obtbining b slot font,
+         * initiblisbtion: b boolfbn tfst on obtbining b slot font,
+         * wiidi will ibppfn pfr slot, on initiblisbtion of b strikf
+         * wiidi will ibppfn pfr slot, on initiblisbtion of b strikf
+         * wiidi will ibppfn pfr slot, on initiblisbtion of b strikf
+         * wiidi will ibppfn pfr slot, on initiblisbtion of b strikf
+         * wiidi will ibppfn pfr slot, on initiblisbtion of b strikf
+         * (bs tibt is tif only frfqufnt dbll sitf of tiis mftiod.
+         * (bs tibt is tif only frfqufnt dbll sitf of tiis mftiod.
+         * (bs tibt is tif only frfqufnt dbll sitf of tiis mftiod.
+         * (bs tibt is tif only frfqufnt dbll sitf of tiis mftiod.
+         * (bs tibt is tif only frfqufnt dbll sitf of tiis mftiod.
+         */
+         */
+         */
+         */
          */
         if (dfffrrfdInitiblisbtion[slot]) {
+        if (dfffrrfdInitiblisbtion[slot]) {
+        if (dfffrrfdInitiblisbtion[slot]) {
+        if (dfffrrfdInitiblisbtion[slot]) {
+        if (dfffrrfdInitiblisbtion[slot]) {
+            doDfffrrfdInitiblisbtion(slot);
+            doDfffrrfdInitiblisbtion(slot);
+            doDfffrrfdInitiblisbtion(slot);
+            doDfffrrfdInitiblisbtion(slot);
             doDfffrrfdInitiblisbtion(slot);
         }
+        }
+        }
+        }
+        }
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
         SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
         try {
-            PhysidblFont font = domponfnts[slot];
+        try {
+        try {
+        try {
+        try {
+            PiysidblFont font = domponfnts[slot];
+            PiysidblFont font = domponfnts[slot];
+            PiysidblFont font = domponfnts[slot];
+            PiysidblFont font = domponfnts[slot];
+            PiysidblFont font = domponfnts[slot];
+            if (font == null) {
+            if (font == null) {
+            if (font == null) {
+            if (font == null) {
             if (font == null) {
                 try {
-                    font = (PhysidblFont) fm.
+                try {
+                try {
+                try {
+                try {
+                    font = (PiysidblFont) fm.
+                    font = (PiysidblFont) fm.
+                    font = (PiysidblFont) fm.
+                    font = (PiysidblFont) fm.
+                    font = (PiysidblFont) fm.
+                        findFont2D(domponfntNbmfs[slot], stylf,
+                        findFont2D(domponfntNbmfs[slot], stylf,
+                        findFont2D(domponfntNbmfs[slot], stylf,
+                        findFont2D(domponfntNbmfs[slot], stylf,
                         findFont2D(domponfntNbmfs[slot], stylf,
                                    FontMbnbgfr.PHYSICAL_FALLBACK);
+                                   FontMbnbgfr.PHYSICAL_FALLBACK);
+                                   FontMbnbgfr.PHYSICAL_FALLBACK);
+                                   FontMbnbgfr.PHYSICAL_FALLBACK);
+                                   FontMbnbgfr.PHYSICAL_FALLBACK);
                     domponfnts[slot] = font;
-                } dbtdh (ClbssCbstExdfption ddf) {
-                    font = fm.gftDffbultPhysidblFont();
+                    domponfnts[slot] = font;
+                    domponfnts[slot] = font;
+                    domponfnts[slot] = font;
+                    domponfnts[slot] = font;
+                } dbtdi (ClbssCbstExdfption ddf) {
+                } dbtdi (ClbssCbstExdfption ddf) {
+                } dbtdi (ClbssCbstExdfption ddf) {
+                } dbtdi (ClbssCbstExdfption ddf) {
+                } dbtdi (ClbssCbstExdfption ddf) {
+                    font = fm.gftDffbultPiysidblFont();
+                    font = fm.gftDffbultPiysidblFont();
+                    font = fm.gftDffbultPiysidblFont();
+                    font = fm.gftDffbultPiysidblFont();
+                    font = fm.gftDffbultPiysidblFont();
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
             rfturn font;
-        } dbtdh (Exdfption f) {
-            rfturn fm.gftDffbultPhysidblFont();
+            rfturn font;
+            rfturn font;
+            rfturn font;
+            rfturn font;
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+            rfturn fm.gftDffbultPiysidblFont();
+            rfturn fm.gftDffbultPiysidblFont();
+            rfturn fm.gftDffbultPiysidblFont();
+            rfturn fm.gftDffbultPiysidblFont();
+            rfturn fm.gftDffbultPiysidblFont();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
-        rfturn nfw CompositfStrikf(this, dfsd);
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        rfturn nfw CompositfStrikf(tiis, dfsd);
+        rfturn nfw CompositfStrikf(tiis, dfsd);
+        rfturn nfw CompositfStrikf(tiis, dfsd);
+        rfturn nfw CompositfStrikf(tiis, dfsd);
+        rfturn nfw CompositfStrikf(tiis, dfsd);
+    }
+    }
+    }
+    }
     }
 
-    /* This is sft fblsf whfn thf dompositf is drfbtfd using b spfdififd
-     * physidbl font bs thf first slot bnd dbllfd by dodf whidh
-     * sflfdts dompositfs by lodblf prfffrfndfs to know thbt this
-     * isn't b font whidh should bf bdjustfd.
+
+
+
+
+    /* Tiis is sft fblsf wifn tif dompositf is drfbtfd using b spfdififd
+    /* Tiis is sft fblsf wifn tif dompositf is drfbtfd using b spfdififd
+    /* Tiis is sft fblsf wifn tif dompositf is drfbtfd using b spfdififd
+    /* Tiis is sft fblsf wifn tif dompositf is drfbtfd using b spfdififd
+    /* Tiis is sft fblsf wifn tif dompositf is drfbtfd using b spfdififd
+     * piysidbl font bs tif first slot bnd dbllfd by dodf wiidi
+     * piysidbl font bs tif first slot bnd dbllfd by dodf wiidi
+     * piysidbl font bs tif first slot bnd dbllfd by dodf wiidi
+     * piysidbl font bs tif first slot bnd dbllfd by dodf wiidi
+     * piysidbl font bs tif first slot bnd dbllfd by dodf wiidi
+     * sflfdts dompositfs by lodblf prfffrfndfs to know tibt tiis
+     * sflfdts dompositfs by lodblf prfffrfndfs to know tibt tiis
+     * sflfdts dompositfs by lodblf prfffrfndfs to know tibt tiis
+     * sflfdts dompositfs by lodblf prfffrfndfs to know tibt tiis
+     * sflfdts dompositfs by lodblf prfffrfndfs to know tibt tiis
+     * isn't b font wiidi siould bf bdjustfd.
+     * isn't b font wiidi siould bf bdjustfd.
+     * isn't b font wiidi siould bf bdjustfd.
+     * isn't b font wiidi siould bf bdjustfd.
+     * isn't b font wiidi siould bf bdjustfd.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isStdCompositf() {
+    publid boolfbn isStdCompositf() {
+    publid boolfbn isStdCompositf() {
+    publid boolfbn isStdCompositf() {
+    publid boolfbn isStdCompositf() {
+        rfturn isStdCompositf;
+        rfturn isStdCompositf;
+        rfturn isStdCompositf;
+        rfturn isStdCompositf;
         rfturn isStdCompositf;
     }
-
-    /* This isn't vfry fffidifnt but its infrfqufntly usfd.
-     * StbndbrdGlyphVfdtor usfs it whfn thf dlifnt bssigns thf glyph dodfs.
-     * Thfsf mby not bf vblid. This vblidbtfs thfm substituting thf missing
-     * glyph flsfwhfrf.
-     */
-    protfdtfd int gftVblidbtfdGlyphCodf(int glyphCodf) {
-        int slot = glyphCodf >>> 24;
-        if (slot >= numSlots) {
-            rfturn gftMbppfr().gftMissingGlyphCodf();
-        }
-
-        int slotglyphCodf = glyphCodf & CompositfStrikf.SLOTMASK;
-        PhysidblFont slotFont = gftSlotFont(slot);
-        if (slotFont.gftVblidbtfdGlyphCodf(slotglyphCodf) ==
-            slotFont.gftMissingGlyphCodf()) {
-            rfturn gftMbppfr().gftMissingGlyphCodf();
-        } flsf {
-            rfturn glyphCodf;
-        }
+    }
+    }
+    }
     }
 
-    publid ChbrToGlyphMbppfr gftMbppfr() {
+
+
+
+
+    /* Tiis isn't vfry fffidifnt but its infrfqufntly usfd.
+    /* Tiis isn't vfry fffidifnt but its infrfqufntly usfd.
+    /* Tiis isn't vfry fffidifnt but its infrfqufntly usfd.
+    /* Tiis isn't vfry fffidifnt but its infrfqufntly usfd.
+    /* Tiis isn't vfry fffidifnt but its infrfqufntly usfd.
+     * StbndbrdGlypiVfdtor usfs it wifn tif dlifnt bssigns tif glypi dodfs.
+     * StbndbrdGlypiVfdtor usfs it wifn tif dlifnt bssigns tif glypi dodfs.
+     * StbndbrdGlypiVfdtor usfs it wifn tif dlifnt bssigns tif glypi dodfs.
+     * StbndbrdGlypiVfdtor usfs it wifn tif dlifnt bssigns tif glypi dodfs.
+     * StbndbrdGlypiVfdtor usfs it wifn tif dlifnt bssigns tif glypi dodfs.
+     * Tifsf mby not bf vblid. Tiis vblidbtfs tifm substituting tif missing
+     * Tifsf mby not bf vblid. Tiis vblidbtfs tifm substituting tif missing
+     * Tifsf mby not bf vblid. Tiis vblidbtfs tifm substituting tif missing
+     * Tifsf mby not bf vblid. Tiis vblidbtfs tifm substituting tif missing
+     * Tifsf mby not bf vblid. Tiis vblidbtfs tifm substituting tif missing
+     * glypi flsfwifrf.
+     * glypi flsfwifrf.
+     * glypi flsfwifrf.
+     * glypi flsfwifrf.
+     * glypi flsfwifrf.
+     */
+     */
+     */
+     */
+     */
+    protfdtfd int gftVblidbtfdGlypiCodf(int glypiCodf) {
+    protfdtfd int gftVblidbtfdGlypiCodf(int glypiCodf) {
+    protfdtfd int gftVblidbtfdGlypiCodf(int glypiCodf) {
+    protfdtfd int gftVblidbtfdGlypiCodf(int glypiCodf) {
+    protfdtfd int gftVblidbtfdGlypiCodf(int glypiCodf) {
+        int slot = glypiCodf >>> 24;
+        int slot = glypiCodf >>> 24;
+        int slot = glypiCodf >>> 24;
+        int slot = glypiCodf >>> 24;
+        int slot = glypiCodf >>> 24;
+        if (slot >= numSlots) {
+        if (slot >= numSlots) {
+        if (slot >= numSlots) {
+        if (slot >= numSlots) {
+        if (slot >= numSlots) {
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        int slotglypiCodf = glypiCodf & CompositfStrikf.SLOTMASK;
+        int slotglypiCodf = glypiCodf & CompositfStrikf.SLOTMASK;
+        int slotglypiCodf = glypiCodf & CompositfStrikf.SLOTMASK;
+        int slotglypiCodf = glypiCodf & CompositfStrikf.SLOTMASK;
+        int slotglypiCodf = glypiCodf & CompositfStrikf.SLOTMASK;
+        PiysidblFont slotFont = gftSlotFont(slot);
+        PiysidblFont slotFont = gftSlotFont(slot);
+        PiysidblFont slotFont = gftSlotFont(slot);
+        PiysidblFont slotFont = gftSlotFont(slot);
+        PiysidblFont slotFont = gftSlotFont(slot);
+        if (slotFont.gftVblidbtfdGlypiCodf(slotglypiCodf) ==
+        if (slotFont.gftVblidbtfdGlypiCodf(slotglypiCodf) ==
+        if (slotFont.gftVblidbtfdGlypiCodf(slotglypiCodf) ==
+        if (slotFont.gftVblidbtfdGlypiCodf(slotglypiCodf) ==
+        if (slotFont.gftVblidbtfdGlypiCodf(slotglypiCodf) ==
+            slotFont.gftMissingGlypiCodf()) {
+            slotFont.gftMissingGlypiCodf()) {
+            slotFont.gftMissingGlypiCodf()) {
+            slotFont.gftMissingGlypiCodf()) {
+            slotFont.gftMissingGlypiCodf()) {
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+            rfturn gftMbppfr().gftMissingGlypiCodf();
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn glypiCodf;
+            rfturn glypiCodf;
+            rfturn glypiCodf;
+            rfturn glypiCodf;
+            rfturn glypiCodf;
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid CibrToGlypiMbppfr gftMbppfr() {
+    publid CibrToGlypiMbppfr gftMbppfr() {
+    publid CibrToGlypiMbppfr gftMbppfr() {
+    publid CibrToGlypiMbppfr gftMbppfr() {
+    publid CibrToGlypiMbppfr gftMbppfr() {
         if (mbppfr == null) {
-            mbppfr = nfw CompositfGlyphMbppfr(this);
+        if (mbppfr == null) {
+        if (mbppfr == null) {
+        if (mbppfr == null) {
+        if (mbppfr == null) {
+            mbppfr = nfw CompositfGlypiMbppfr(tiis);
+            mbppfr = nfw CompositfGlypiMbppfr(tiis);
+            mbppfr = nfw CompositfGlypiMbppfr(tiis);
+            mbppfr = nfw CompositfGlypiMbppfr(tiis);
+            mbppfr = nfw CompositfGlypiMbppfr(tiis);
+        }
+        }
+        }
+        }
         }
         rfturn mbppfr;
+        rfturn mbppfr;
+        rfturn mbppfr;
+        rfturn mbppfr;
+        rfturn mbppfr;
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn hbsSupplfmfntbryChbrs() {
+
+
+
+
+    publid boolfbn ibsSupplfmfntbryCibrs() {
+    publid boolfbn ibsSupplfmfntbryCibrs() {
+    publid boolfbn ibsSupplfmfntbryCibrs() {
+    publid boolfbn ibsSupplfmfntbryCibrs() {
+    publid boolfbn ibsSupplfmfntbryCibrs() {
         for (int i=0; i<numSlots; i++) {
-            if (gftSlotFont(i).hbsSupplfmfntbryChbrs()) {
+        for (int i=0; i<numSlots; i++) {
+        for (int i=0; i<numSlots; i++) {
+        for (int i=0; i<numSlots; i++) {
+        for (int i=0; i<numSlots; i++) {
+            if (gftSlotFont(i).ibsSupplfmfntbryCibrs()) {
+            if (gftSlotFont(i).ibsSupplfmfntbryCibrs()) {
+            if (gftSlotFont(i).ibsSupplfmfntbryCibrs()) {
+            if (gftSlotFont(i).ibsSupplfmfntbryCibrs()) {
+            if (gftSlotFont(i).ibsSupplfmfntbryCibrs()) {
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
                 rfturn truf;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
 
-    publid int gftNumGlyphs() {
-        if (numGlyphs == 0) {
-            numGlyphs = gftMbppfr().gftNumGlyphs();
+
+
+
+
+    publid int gftNumGlypis() {
+    publid int gftNumGlypis() {
+    publid int gftNumGlypis() {
+    publid int gftNumGlypis() {
+    publid int gftNumGlypis() {
+        if (numGlypis == 0) {
+        if (numGlypis == 0) {
+        if (numGlypis == 0) {
+        if (numGlypis == 0) {
+        if (numGlypis == 0) {
+            numGlypis = gftMbppfr().gftNumGlypis();
+            numGlypis = gftMbppfr().gftNumGlypis();
+            numGlypis = gftMbppfr().gftNumGlypis();
+            numGlypis = gftMbppfr().gftNumGlypis();
+            numGlypis = gftMbppfr().gftNumGlypis();
         }
-        rfturn numGlyphs;
+        }
+        }
+        }
+        }
+        rfturn numGlypis;
+        rfturn numGlypis;
+        rfturn numGlypis;
+        rfturn numGlypis;
+        rfturn numGlypis;
+    }
+    }
+    }
+    }
     }
 
-    publid int gftMissingGlyphCodf() {
-        rfturn gftMbppfr().gftMissingGlyphCodf();
+
+
+
+
+    publid int gftMissingGlypiCodf() {
+    publid int gftMissingGlypiCodf() {
+    publid int gftMissingGlypiCodf() {
+    publid int gftMissingGlypiCodf() {
+    publid int gftMissingGlypiCodf() {
+        rfturn gftMbppfr().gftMissingGlypiCodf();
+        rfturn gftMbppfr().gftMissingGlypiCodf();
+        rfturn gftMbppfr().gftMissingGlypiCodf();
+        rfturn gftMbppfr().gftMissingGlypiCodf();
+        rfturn gftMbppfr().gftMissingGlypiCodf();
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn dbnDisplby(dhbr d) {
+
+
+
+
+    publid boolfbn dbnDisplby(dibr d) {
+    publid boolfbn dbnDisplby(dibr d) {
+    publid boolfbn dbnDisplby(dibr d) {
+    publid boolfbn dbnDisplby(dibr d) {
+    publid boolfbn dbnDisplby(dibr d) {
+        rfturn gftMbppfr().dbnDisplby(d);
+        rfturn gftMbppfr().dbnDisplby(d);
+        rfturn gftMbppfr().dbnDisplby(d);
+        rfturn gftMbppfr().dbnDisplby(d);
         rfturn gftMbppfr().dbnDisplby(d);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid boolfbn usfAAForPtSizf(int ptsizf) {
-        /* Find thf first slot thbt supports thf dffbult fndoding bnd usf
-         * thbt to dfdidf thf "gbsp" bfhbviour of thf dompositf font.
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
+        /* Find tif first slot tibt supports tif dffbult fndoding bnd usf
+        /* Find tif first slot tibt supports tif dffbult fndoding bnd usf
+        /* Find tif first slot tibt supports tif dffbult fndoding bnd usf
+        /* Find tif first slot tibt supports tif dffbult fndoding bnd usf
+        /* Find tif first slot tibt supports tif dffbult fndoding bnd usf
+         * tibt to dfdidf tif "gbsp" bfibviour of tif dompositf font.
+         * tibt to dfdidf tif "gbsp" bfibviour of tif dompositf font.
+         * tibt to dfdidf tif "gbsp" bfibviour of tif dompositf font.
+         * tibt to dfdidf tif "gbsp" bfibviour of tif dompositf font.
+         * tibt to dfdidf tif "gbsp" bfibviour of tif dompositf font.
          * REMIND "dffbult fndoding" isn't bpplidbblf to b Unidodf lodblf
-         * bnd wf nffd to rfplbdf this with b bfttfr mfdhbnism for dfdiding
-         * if b font "supports" thf usfr's lbngubgf. Sff TrufTypfFont.jbvb
+         * REMIND "dffbult fndoding" isn't bpplidbblf to b Unidodf lodblf
+         * REMIND "dffbult fndoding" isn't bpplidbblf to b Unidodf lodblf
+         * REMIND "dffbult fndoding" isn't bpplidbblf to b Unidodf lodblf
+         * REMIND "dffbult fndoding" isn't bpplidbblf to b Unidodf lodblf
+         * bnd wf nffd to rfplbdf tiis witi b bfttfr mfdibnism for dfdiding
+         * bnd wf nffd to rfplbdf tiis witi b bfttfr mfdibnism for dfdiding
+         * bnd wf nffd to rfplbdf tiis witi b bfttfr mfdibnism for dfdiding
+         * bnd wf nffd to rfplbdf tiis witi b bfttfr mfdibnism for dfdiding
+         * bnd wf nffd to rfplbdf tiis witi b bfttfr mfdibnism for dfdiding
+         * if b font "supports" tif usfr's lbngubgf. Sff TrufTypfFont.jbvb
+         * if b font "supports" tif usfr's lbngubgf. Sff TrufTypfFont.jbvb
+         * if b font "supports" tif usfr's lbngubgf. Sff TrufTypfFont.jbvb
+         * if b font "supports" tif usfr's lbngubgf. Sff TrufTypfFont.jbvb
+         * if b font "supports" tif usfr's lbngubgf. Sff TrufTypfFont.jbvb
+         */
+         */
+         */
+         */
          */
         if (lodblfSlot == -1) {
-            /* Ordinbrily dhfdk numMftridsSlots, but non-stbndbrd dompositfs
-             * sft thbt to "1" whilst not nfdfssbrily supporting thf dffbult
-             * fndoding with thbt first slot. In sudh b dbsf dhfdk bll slots.
+        if (lodblfSlot == -1) {
+        if (lodblfSlot == -1) {
+        if (lodblfSlot == -1) {
+        if (lodblfSlot == -1) {
+            /* Ordinbrily difdk numMftridsSlots, but non-stbndbrd dompositfs
+            /* Ordinbrily difdk numMftridsSlots, but non-stbndbrd dompositfs
+            /* Ordinbrily difdk numMftridsSlots, but non-stbndbrd dompositfs
+            /* Ordinbrily difdk numMftridsSlots, but non-stbndbrd dompositfs
+            /* Ordinbrily difdk numMftridsSlots, but non-stbndbrd dompositfs
+             * sft tibt to "1" wiilst not nfdfssbrily supporting tif dffbult
+             * sft tibt to "1" wiilst not nfdfssbrily supporting tif dffbult
+             * sft tibt to "1" wiilst not nfdfssbrily supporting tif dffbult
+             * sft tibt to "1" wiilst not nfdfssbrily supporting tif dffbult
+             * sft tibt to "1" wiilst not nfdfssbrily supporting tif dffbult
+             * fndoding witi tibt first slot. In sudi b dbsf difdk bll slots.
+             * fndoding witi tibt first slot. In sudi b dbsf difdk bll slots.
+             * fndoding witi tibt first slot. In sudi b dbsf difdk bll slots.
+             * fndoding witi tibt first slot. In sudi b dbsf difdk bll slots.
+             * fndoding witi tibt first slot. In sudi b dbsf difdk bll slots.
+             */
+             */
+             */
+             */
              */
             int numCorfSlots = numMftridsSlots;
+            int numCorfSlots = numMftridsSlots;
+            int numCorfSlots = numMftridsSlots;
+            int numCorfSlots = numMftridsSlots;
+            int numCorfSlots = numMftridsSlots;
+            if (numCorfSlots == 1 && !isStdCompositf()) {
+            if (numCorfSlots == 1 && !isStdCompositf()) {
+            if (numCorfSlots == 1 && !isStdCompositf()) {
+            if (numCorfSlots == 1 && !isStdCompositf()) {
             if (numCorfSlots == 1 && !isStdCompositf()) {
                 numCorfSlots = numSlots;
+                numCorfSlots = numSlots;
+                numCorfSlots = numSlots;
+                numCorfSlots = numSlots;
+                numCorfSlots = numSlots;
+            }
+            }
+            }
+            }
             }
             for (int slot=0; slot<numCorfSlots; slot++) {
+            for (int slot=0; slot<numCorfSlots; slot++) {
+            for (int slot=0; slot<numCorfSlots; slot++) {
+            for (int slot=0; slot<numCorfSlots; slot++) {
+            for (int slot=0; slot<numCorfSlots; slot++) {
+                 if (gftSlotFont(slot).supportsEndoding(null)) {
+                 if (gftSlotFont(slot).supportsEndoding(null)) {
+                 if (gftSlotFont(slot).supportsEndoding(null)) {
+                 if (gftSlotFont(slot).supportsEndoding(null)) {
                  if (gftSlotFont(slot).supportsEndoding(null)) {
                      lodblfSlot = slot;
+                     lodblfSlot = slot;
+                     lodblfSlot = slot;
+                     lodblfSlot = slot;
+                     lodblfSlot = slot;
+                     brfbk;
+                     brfbk;
+                     brfbk;
+                     brfbk;
                      brfbk;
                  }
+                 }
+                 }
+                 }
+                 }
+            }
+            }
+            }
+            }
             }
             if (lodblfSlot == -1) {
+            if (lodblfSlot == -1) {
+            if (lodblfSlot == -1) {
+            if (lodblfSlot == -1) {
+            if (lodblfSlot == -1) {
+                lodblfSlot = 0;
+                lodblfSlot = 0;
+                lodblfSlot = 0;
+                lodblfSlot = 0;
                 lodblfSlot = 0;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn gftSlotFont(lodblfSlot).usfAAForPtSizf(ptsizf);
+        rfturn gftSlotFont(lodblfSlot).usfAAForPtSizf(ptsizf);
+        rfturn gftSlotFont(lodblfSlot).usfAAForPtSizf(ptsizf);
+        rfturn gftSlotFont(lodblfSlot).usfAAForPtSizf(ptsizf);
+        rfturn gftSlotFont(lodblfSlot).usfAAForPtSizf(ptsizf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
     publid String toString() {
         String ls = Systfm.linfSfpbrbtor();
+        String ls = Systfm.linfSfpbrbtor();
+        String ls = Systfm.linfSfpbrbtor();
+        String ls = Systfm.linfSfpbrbtor();
+        String ls = Systfm.linfSfpbrbtor();
+        String domponfntsStr = "";
+        String domponfntsStr = "";
+        String domponfntsStr = "";
+        String domponfntsStr = "";
         String domponfntsStr = "";
         for (int i=0; i<numSlots; i++) {
+        for (int i=0; i<numSlots; i++) {
+        for (int i=0; i<numSlots; i++) {
+        for (int i=0; i<numSlots; i++) {
+        for (int i=0; i<numSlots; i++) {
+            domponfntsStr += "    Slot["+i+"]="+gftSlotFont(i)+ls;
+            domponfntsStr += "    Slot["+i+"]="+gftSlotFont(i)+ls;
+            domponfntsStr += "    Slot["+i+"]="+gftSlotFont(i)+ls;
+            domponfntsStr += "    Slot["+i+"]="+gftSlotFont(i)+ls;
             domponfntsStr += "    Slot["+i+"]="+gftSlotFont(i)+ls;
         }
+        }
+        }
+        }
+        }
+        rfturn "** Compositf Font: Fbmily=" + fbmilyNbmf +
+        rfturn "** Compositf Font: Fbmily=" + fbmilyNbmf +
+        rfturn "** Compositf Font: Fbmily=" + fbmilyNbmf +
+        rfturn "** Compositf Font: Fbmily=" + fbmilyNbmf +
         rfturn "** Compositf Font: Fbmily=" + fbmilyNbmf +
             " Nbmf=" + fullNbmf + " stylf=" + stylf + ls + domponfntsStr;
+            " Nbmf=" + fullNbmf + " stylf=" + stylf + ls + domponfntsStr;
+            " Nbmf=" + fullNbmf + " stylf=" + stylf + ls + domponfntsStr;
+            " Nbmf=" + fullNbmf + " stylf=" + stylf + ls + domponfntsStr;
+            " Nbmf=" + fullNbmf + " stylf=" + stylf + ls + domponfntsStr;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,119 @@
+/*
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.ECPublidKfy;
+import jbvb.sfdurity.spfd.*;
+
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.KfyAgrffmfnt;
+import jbvbx.nft.ssl.SSLHbndsibkfExdfption;
+
+/**
+ * Hflpfr dlbss for tif ECDH kfy fxdibngf. It gfnfrbtfs tif bppropribtf
+ * fpifmfrbl kfys bs nfdfssbry bnd pfrforms tif bdtubl sibrfd sfdrft dfrivbtion.
+ *
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ */
+finbl dlbss ECDHCrypt {
+
+    // our privbtf kfy
+    privbtf PrivbtfKfy privbtfKfy;
+
+    // our publid kfy
+    privbtf ECPublidKfy publidKfy;
+
+    // Cbllfd by SfrvfrHbndsibkfr for stbtid ECDH
+    ECDHCrypt(PrivbtfKfy privbtfKfy, PublidKfy publidKfy) {
+        tiis.privbtfKfy = privbtfKfy;
+        tiis.publidKfy = (ECPublidKfy)publidKfy;
+    }
+
+    // Cbllfd by SfrvfrHbndsibkfr for fpifmfrbl ECDH
+    ECDHCrypt(String durvfNbmf, SfdurfRbndom rbndom) {
+        try {
+            KfyPbirGfnfrbtor kpg = JssfJdf.gftKfyPbirGfnfrbtor("EC");
+            ECGfnPbrbmftfrSpfd pbrbms = nfw ECGfnPbrbmftfrSpfd(durvfNbmf);
+            kpg.initiblizf(pbrbms, rbndom);
+            KfyPbir kp = kpg.gfnfrbtfKfyPbir();
+            privbtfKfy = kp.gftPrivbtf();
+            publidKfy = (ECPublidKfy)kp.gftPublid();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir", f);
+        }
+    }
+
+    // Cbllfd by ClifntHbndsibkfr witi pbrbms it rfdfivfd from tif sfrvfr
+    ECDHCrypt(ECPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom) {
+        try {
+            KfyPbirGfnfrbtor kpg = JssfJdf.gftKfyPbirGfnfrbtor("EC");
+            kpg.initiblizf(pbrbms, rbndom);
+            KfyPbir kp = kpg.gfnfrbtfKfyPbir();
+            privbtfKfy = kp.gftPrivbtf();
+            publidKfy = (ECPublidKfy)kp.gftPublid();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir", f);
+        }
+    }
+
+    /**
+     * Gfts tif publid kfy of tiis fnd of tif kfy fxdibngf.
+     */
+    PublidKfy gftPublidKfy() {
+        rfturn publidKfy;
+    }
+
+    // dbllfd by ClifntHbndsibkfr witi fitifr tif sfrvfr's stbtid or fpifmfrbl publid kfy
+    SfdrftKfy gftAgrffdSfdrft(PublidKfy pffrPublidKfy) tirows SSLHbndsibkfExdfption {
+        try {
+            KfyAgrffmfnt kb = JssfJdf.gftKfyAgrffmfnt("ECDH");
+            kb.init(privbtfKfy);
+            kb.doPibsf(pffrPublidKfy, truf);
+            rfturn kb.gfnfrbtfSfdrft("TlsPrfmbstfrSfdrft");
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow (SSLHbndsibkfExdfption) nfw SSLHbndsibkfExdfption(
+                "Could not gfnfrbtf sfdrft").initCbusf(f);
+        }
+    }
+
+    // dbllfd by SfrvfrHbndsibkfr
+    SfdrftKfy gftAgrffdSfdrft(bytf[] fndodfdPoint) tirows SSLHbndsibkfExdfption {
+        try {
+            ECPbrbmftfrSpfd pbrbms = publidKfy.gftPbrbms();
+            ECPoint point = JssfJdf.dfdodfPoint(fndodfdPoint, pbrbms.gftCurvf());
+            KfyFbdtory kf = JssfJdf.gftKfyFbdtory("EC");
+            ECPublidKfySpfd spfd = nfw ECPublidKfySpfd(point, pbrbms);
+            PublidKfy pffrPublidKfy = kf.gfnfrbtfPublid(spfd);
+            rfturn gftAgrffdSfdrft(pffrPublidKfy);
+        } dbtdi (GfnfrblSfdurityExdfption | jbvb.io.IOExdfption f) {
+            tirow (SSLHbndsibkfExdfption) nfw SSLHbndsibkfExdfption(
+                "Could not gfnfrbtf sfdrft").initCbusf(f);
+        }
+    }
+
+}

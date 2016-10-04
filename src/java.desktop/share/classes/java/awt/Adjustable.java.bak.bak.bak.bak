@@ -1,160 +1,800 @@
 /*
- * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+
+
+
+
 
 import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.fvfnt.*;
+
+
+
+
 
 import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+
+
+
 
 /**
- * Thf intfrfbdf for objfdts whidh hbvf bn bdjustbblf numfrid vbluf
- * dontbinfd within b boundfd rbngf of vblufs.
+/**
+/**
+/**
+/**
+ * Tif intfrfbdf for objfdts wiidi ibvf bn bdjustbblf numfrid vbluf
+ * Tif intfrfbdf for objfdts wiidi ibvf bn bdjustbblf numfrid vbluf
+ * Tif intfrfbdf for objfdts wiidi ibvf bn bdjustbblf numfrid vbluf
+ * Tif intfrfbdf for objfdts wiidi ibvf bn bdjustbblf numfrid vbluf
+ * Tif intfrfbdf for objfdts wiidi ibvf bn bdjustbblf numfrid vbluf
+ * dontbinfd witiin b boundfd rbngf of vblufs.
+ * dontbinfd witiin b boundfd rbngf of vblufs.
+ * dontbinfd witiin b boundfd rbngf of vblufs.
+ * dontbinfd witiin b boundfd rbngf of vblufs.
+ * dontbinfd witiin b boundfd rbngf of vblufs.
  *
- * @buthor Amy Fowlfr
- * @buthor Tim Prinzing
+ *
+ *
+ *
+ *
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @butior Tim Prinzing
+ * @butior Tim Prinzing
+ * @butior Tim Prinzing
+ * @butior Tim Prinzing
+ * @butior Tim Prinzing
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf Adjustbblf {
+publid intfrfbdf Adjustbblf {
+publid intfrfbdf Adjustbblf {
+publid intfrfbdf Adjustbblf {
+publid intfrfbdf Adjustbblf {
+
+
+
+
 
     /**
-     * Indidbtfs thbt thf <dodf>Adjustbblf</dodf> hbs horizontbl orifntbtion.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs iorizontbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs iorizontbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs iorizontbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs iorizontbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs iorizontbl orifntbtion.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int HORIZONTAL = 0;
+    @Nbtivf publid stbtid finbl int HORIZONTAL = 0;
+    @Nbtivf publid stbtid finbl int HORIZONTAL = 0;
+    @Nbtivf publid stbtid finbl int HORIZONTAL = 0;
+    @Nbtivf publid stbtid finbl int HORIZONTAL = 0;
+
+
+
+
 
     /**
-     * Indidbtfs thbt thf <dodf>Adjustbblf</dodf> hbs vfrtidbl orifntbtion.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs vfrtidbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs vfrtidbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs vfrtidbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs vfrtidbl orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs vfrtidbl orifntbtion.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int VERTICAL = 1;
+    @Nbtivf publid stbtid finbl int VERTICAL = 1;
+    @Nbtivf publid stbtid finbl int VERTICAL = 1;
+    @Nbtivf publid stbtid finbl int VERTICAL = 1;
+    @Nbtivf publid stbtid finbl int VERTICAL = 1;
+
+
+
+
 
     /**
-     * Indidbtfs thbt thf <dodf>Adjustbblf</dodf> hbs no orifntbtion.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs no orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs no orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs no orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs no orifntbtion.
+     * Indidbtfs tibt tif <dodf>Adjustbblf</dodf> ibs no orifntbtion.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int NO_ORIENTATION = 2;
+    @Nbtivf publid stbtid finbl int NO_ORIENTATION = 2;
+    @Nbtivf publid stbtid finbl int NO_ORIENTATION = 2;
+    @Nbtivf publid stbtid finbl int NO_ORIENTATION = 2;
+    @Nbtivf publid stbtid finbl int NO_ORIENTATION = 2;
+
+
+
+
 
     /**
-     * Gfts thf orifntbtion of thf bdjustbblf objfdt.
-     * @rfturn thf orifntbtion of thf bdjustbblf objfdt;
-     *   fithfr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif orifntbtion of tif bdjustbblf objfdt.
+     * Gfts tif orifntbtion of tif bdjustbblf objfdt.
+     * Gfts tif orifntbtion of tif bdjustbblf objfdt.
+     * Gfts tif orifntbtion of tif bdjustbblf objfdt.
+     * Gfts tif orifntbtion of tif bdjustbblf objfdt.
+     * @rfturn tif orifntbtion of tif bdjustbblf objfdt;
+     * @rfturn tif orifntbtion of tif bdjustbblf objfdt;
+     * @rfturn tif orifntbtion of tif bdjustbblf objfdt;
+     * @rfturn tif orifntbtion of tif bdjustbblf objfdt;
+     * @rfturn tif orifntbtion of tif bdjustbblf objfdt;
+     *   fitifr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+     *   fitifr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+     *   fitifr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+     *   fitifr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+     *   fitifr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+     *   or <dodf>NO_ORIENTATION</dodf>
+     *   or <dodf>NO_ORIENTATION</dodf>
+     *   or <dodf>NO_ORIENTATION</dodf>
+     *   or <dodf>NO_ORIENTATION</dodf>
      *   or <dodf>NO_ORIENTATION</dodf>
      */
+     */
+     */
+     */
+     */
+    int gftOrifntbtion();
+    int gftOrifntbtion();
+    int gftOrifntbtion();
+    int gftOrifntbtion();
     int gftOrifntbtion();
 
+
+
+
+
     /**
-     * Sfts thf minimum vbluf of thf bdjustbblf objfdt.
-     * @pbrbm min thf minimum vbluf
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * @pbrbm min tif minimum vbluf
+     * @pbrbm min tif minimum vbluf
+     * @pbrbm min tif minimum vbluf
+     * @pbrbm min tif minimum vbluf
+     * @pbrbm min tif minimum vbluf
+     */
+     */
+     */
+     */
      */
     void sftMinimum(int min);
+    void sftMinimum(int min);
+    void sftMinimum(int min);
+    void sftMinimum(int min);
+    void sftMinimum(int min);
+
+
+
+
 
     /**
-     * Gfts thf minimum vbluf of thf bdjustbblf objfdt.
-     * @rfturn thf minimum vbluf of thf bdjustbblf objfdt
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif minimum vbluf of tif bdjustbblf objfdt.
+     * @rfturn tif minimum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif minimum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif minimum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif minimum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif minimum vbluf of tif bdjustbblf objfdt
+     */
+     */
+     */
+     */
      */
     int gftMinimum();
+    int gftMinimum();
+    int gftMinimum();
+    int gftMinimum();
+    int gftMinimum();
+
+
+
+
 
     /**
-     * Sfts thf mbximum vbluf of thf bdjustbblf objfdt.
-     * @pbrbm mbx thf mbximum vbluf
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Sfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * @pbrbm mbx tif mbximum vbluf
+     * @pbrbm mbx tif mbximum vbluf
+     * @pbrbm mbx tif mbximum vbluf
+     * @pbrbm mbx tif mbximum vbluf
+     * @pbrbm mbx tif mbximum vbluf
+     */
+     */
+     */
+     */
      */
     void sftMbximum(int mbx);
+    void sftMbximum(int mbx);
+    void sftMbximum(int mbx);
+    void sftMbximum(int mbx);
+    void sftMbximum(int mbx);
+
+
+
+
 
     /**
-     * Gfts thf mbximum vbluf of thf bdjustbblf objfdt.
-     * @rfturn thf mbximum vbluf of thf bdjustbblf objfdt
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * Gfts tif mbximum vbluf of tif bdjustbblf objfdt.
+     * @rfturn tif mbximum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif mbximum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif mbximum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif mbximum vbluf of tif bdjustbblf objfdt
+     * @rfturn tif mbximum vbluf of tif bdjustbblf objfdt
+     */
+     */
+     */
+     */
      */
     int gftMbximum();
+    int gftMbximum();
+    int gftMbximum();
+    int gftMbximum();
+    int gftMbximum();
+
+
+
+
 
     /**
-     * Sfts thf unit vbluf indrfmfnt for thf bdjustbblf objfdt.
-     * @pbrbm u thf unit indrfmfnt
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @pbrbm u tif unit indrfmfnt
+     * @pbrbm u tif unit indrfmfnt
+     * @pbrbm u tif unit indrfmfnt
+     * @pbrbm u tif unit indrfmfnt
+     * @pbrbm u tif unit indrfmfnt
+     */
+     */
+     */
+     */
      */
     void sftUnitIndrfmfnt(int u);
+    void sftUnitIndrfmfnt(int u);
+    void sftUnitIndrfmfnt(int u);
+    void sftUnitIndrfmfnt(int u);
+    void sftUnitIndrfmfnt(int u);
+
+
+
+
 
     /**
-     * Gfts thf unit vbluf indrfmfnt for thf bdjustbblf objfdt.
-     * @rfturn thf unit vbluf indrfmfnt for thf bdjustbblf objfdt
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif unit vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @rfturn tif unit vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif unit vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif unit vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif unit vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif unit vbluf indrfmfnt for tif bdjustbblf objfdt
+     */
+     */
+     */
+     */
      */
     int gftUnitIndrfmfnt();
+    int gftUnitIndrfmfnt();
+    int gftUnitIndrfmfnt();
+    int gftUnitIndrfmfnt();
+    int gftUnitIndrfmfnt();
+
+
+
+
 
     /**
-     * Sfts thf blodk vbluf indrfmfnt for thf bdjustbblf objfdt.
-     * @pbrbm b thf blodk indrfmfnt
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Sfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @pbrbm b tif blodk indrfmfnt
+     * @pbrbm b tif blodk indrfmfnt
+     * @pbrbm b tif blodk indrfmfnt
+     * @pbrbm b tif blodk indrfmfnt
+     * @pbrbm b tif blodk indrfmfnt
+     */
+     */
+     */
+     */
      */
     void sftBlodkIndrfmfnt(int b);
+    void sftBlodkIndrfmfnt(int b);
+    void sftBlodkIndrfmfnt(int b);
+    void sftBlodkIndrfmfnt(int b);
+    void sftBlodkIndrfmfnt(int b);
+
+
+
+
 
     /**
-     * Gfts thf blodk vbluf indrfmfnt for thf bdjustbblf objfdt.
-     * @rfturn thf blodk vbluf indrfmfnt for thf bdjustbblf objfdt
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * Gfts tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt.
+     * @rfturn tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt
+     * @rfturn tif blodk vbluf indrfmfnt for tif bdjustbblf objfdt
+     */
+     */
+     */
+     */
      */
     int gftBlodkIndrfmfnt();
+    int gftBlodkIndrfmfnt();
+    int gftBlodkIndrfmfnt();
+    int gftBlodkIndrfmfnt();
+    int gftBlodkIndrfmfnt();
+
+
+
+
 
     /**
-     * Sfts thf lfngth of thf proportionbl indidbtor of thf
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif lfngti of tif proportionbl indidbtor of tif
+     * Sfts tif lfngti of tif proportionbl indidbtor of tif
+     * Sfts tif lfngti of tif proportionbl indidbtor of tif
+     * Sfts tif lfngti of tif proportionbl indidbtor of tif
+     * Sfts tif lfngti of tif proportionbl indidbtor of tif
      * bdjustbblf objfdt.
-     * @pbrbm v thf lfngth of thf indidbtor
+     * bdjustbblf objfdt.
+     * bdjustbblf objfdt.
+     * bdjustbblf objfdt.
+     * bdjustbblf objfdt.
+     * @pbrbm v tif lfngti of tif indidbtor
+     * @pbrbm v tif lfngti of tif indidbtor
+     * @pbrbm v tif lfngti of tif indidbtor
+     * @pbrbm v tif lfngti of tif indidbtor
+     * @pbrbm v tif lfngti of tif indidbtor
+     */
+     */
+     */
+     */
      */
     void sftVisiblfAmount(int v);
+    void sftVisiblfAmount(int v);
+    void sftVisiblfAmount(int v);
+    void sftVisiblfAmount(int v);
+    void sftVisiblfAmount(int v);
+
+
+
+
 
     /**
-     * Gfts thf lfngth of thf proportionbl indidbtor.
-     * @rfturn thf lfngth of thf proportionbl indidbtor
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif lfngti of tif proportionbl indidbtor.
+     * Gfts tif lfngti of tif proportionbl indidbtor.
+     * Gfts tif lfngti of tif proportionbl indidbtor.
+     * Gfts tif lfngti of tif proportionbl indidbtor.
+     * Gfts tif lfngti of tif proportionbl indidbtor.
+     * @rfturn tif lfngti of tif proportionbl indidbtor
+     * @rfturn tif lfngti of tif proportionbl indidbtor
+     * @rfturn tif lfngti of tif proportionbl indidbtor
+     * @rfturn tif lfngti of tif proportionbl indidbtor
+     * @rfturn tif lfngti of tif proportionbl indidbtor
+     */
+     */
+     */
+     */
      */
     int gftVisiblfAmount();
+    int gftVisiblfAmount();
+    int gftVisiblfAmount();
+    int gftVisiblfAmount();
+    int gftVisiblfAmount();
+
+
+
+
 
     /**
-     * Sfts thf durrfnt vbluf of thf bdjustbblf objfdt. If
-     * thf vbluf supplifd is lfss thbn <dodf>minimum</dodf>
-     * or grfbtfr thbn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
-     * thfn onf of thosf vblufs is substitutfd, bs bppropribtf.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif durrfnt vbluf of tif bdjustbblf objfdt. If
+     * Sfts tif durrfnt vbluf of tif bdjustbblf objfdt. If
+     * Sfts tif durrfnt vbluf of tif bdjustbblf objfdt. If
+     * Sfts tif durrfnt vbluf of tif bdjustbblf objfdt. If
+     * Sfts tif durrfnt vbluf of tif bdjustbblf objfdt. If
+     * tif vbluf supplifd is lfss tibn <dodf>minimum</dodf>
+     * tif vbluf supplifd is lfss tibn <dodf>minimum</dodf>
+     * tif vbluf supplifd is lfss tibn <dodf>minimum</dodf>
+     * tif vbluf supplifd is lfss tibn <dodf>minimum</dodf>
+     * tif vbluf supplifd is lfss tibn <dodf>minimum</dodf>
+     * or grfbtfr tibn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
+     * or grfbtfr tibn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
+     * or grfbtfr tibn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
+     * or grfbtfr tibn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
+     * or grfbtfr tibn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
+     * tifn onf of tiosf vblufs is substitutfd, bs bppropribtf.
+     * tifn onf of tiosf vblufs is substitutfd, bs bppropribtf.
+     * tifn onf of tiosf vblufs is substitutfd, bs bppropribtf.
+     * tifn onf of tiosf vblufs is substitutfd, bs bppropribtf.
+     * tifn onf of tiosf vblufs is substitutfd, bs bppropribtf.
      * <p>
-     * Cblling this mfthod dofs not firf bn
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Cblling tiis mftiod dofs not firf bn
+     * Cblling tiis mftiod dofs not firf bn
+     * Cblling tiis mftiod dofs not firf bn
+     * Cblling tiis mftiod dofs not firf bn
+     * Cblling tiis mftiod dofs not firf bn
+     * <dodf>AdjustmfntEvfnt</dodf>.
+     * <dodf>AdjustmfntEvfnt</dodf>.
+     * <dodf>AdjustmfntEvfnt</dodf>.
+     * <dodf>AdjustmfntEvfnt</dodf>.
      * <dodf>AdjustmfntEvfnt</dodf>.
      *
-     * @pbrbm v thf durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     *
+     *
+     *
+     *
+     * @pbrbm v tif durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     * @pbrbm v tif durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     * @pbrbm v tif durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     * @pbrbm v tif durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     * @pbrbm v tif durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     *    bnd <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>
+     *    bnd <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>
+     *    bnd <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>
+     *    bnd <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>
      *    bnd <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>
      */
+     */
+     */
+     */
+     */
+    void sftVbluf(int v);
+    void sftVbluf(int v);
+    void sftVbluf(int v);
+    void sftVbluf(int v);
     void sftVbluf(int v);
 
+
+
+
+
     /**
-     * Gfts thf durrfnt vbluf of thf bdjustbblf objfdt.
-     * @rfturn thf durrfnt vbluf of thf bdjustbblf objfdt
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif durrfnt vbluf of tif bdjustbblf objfdt.
+     * Gfts tif durrfnt vbluf of tif bdjustbblf objfdt.
+     * Gfts tif durrfnt vbluf of tif bdjustbblf objfdt.
+     * Gfts tif durrfnt vbluf of tif bdjustbblf objfdt.
+     * Gfts tif durrfnt vbluf of tif bdjustbblf objfdt.
+     * @rfturn tif durrfnt vbluf of tif bdjustbblf objfdt
+     * @rfturn tif durrfnt vbluf of tif bdjustbblf objfdt
+     * @rfturn tif durrfnt vbluf of tif bdjustbblf objfdt
+     * @rfturn tif durrfnt vbluf of tif bdjustbblf objfdt
+     * @rfturn tif durrfnt vbluf of tif bdjustbblf objfdt
+     */
+     */
+     */
+     */
      */
     int gftVbluf();
+    int gftVbluf();
+    int gftVbluf();
+    int gftVbluf();
+    int gftVbluf();
+
+
+
+
 
     /**
-     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts whfn thf vbluf of
-     * thf bdjustbblf objfdt dhbngfs.
-     * @pbrbm l thf listfnfr to rfdfivf fvfnts
+    /**
+    /**
+    /**
+    /**
+     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts wifn tif vbluf of
+     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts wifn tif vbluf of
+     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts wifn tif vbluf of
+     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts wifn tif vbluf of
+     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts wifn tif vbluf of
+     * tif bdjustbblf objfdt dibngfs.
+     * tif bdjustbblf objfdt dibngfs.
+     * tif bdjustbblf objfdt dibngfs.
+     * tif bdjustbblf objfdt dibngfs.
+     * tif bdjustbblf objfdt dibngfs.
+     * @pbrbm l tif listfnfr to rfdfivf fvfnts
+     * @pbrbm l tif listfnfr to rfdfivf fvfnts
+     * @pbrbm l tif listfnfr to rfdfivf fvfnts
+     * @pbrbm l tif listfnfr to rfdfivf fvfnts
+     * @pbrbm l tif listfnfr to rfdfivf fvfnts
      * @sff AdjustmfntEvfnt
+     * @sff AdjustmfntEvfnt
+     * @sff AdjustmfntEvfnt
+     * @sff AdjustmfntEvfnt
+     * @sff AdjustmfntEvfnt
+     */
+     */
+     */
+     */
      */
     void bddAdjustmfntListfnfr(AdjustmfntListfnfr l);
+    void bddAdjustmfntListfnfr(AdjustmfntListfnfr l);
+    void bddAdjustmfntListfnfr(AdjustmfntListfnfr l);
+    void bddAdjustmfntListfnfr(AdjustmfntListfnfr l);
+    void bddAdjustmfntListfnfr(AdjustmfntListfnfr l);
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Rfmovfs bn bdjustmfnt listfnfr.
-     * @pbrbm l thf listfnfr bfing rfmovfd
+     * Rfmovfs bn bdjustmfnt listfnfr.
+     * Rfmovfs bn bdjustmfnt listfnfr.
+     * Rfmovfs bn bdjustmfnt listfnfr.
+     * Rfmovfs bn bdjustmfnt listfnfr.
+     * @pbrbm l tif listfnfr bfing rfmovfd
+     * @pbrbm l tif listfnfr bfing rfmovfd
+     * @pbrbm l tif listfnfr bfing rfmovfd
+     * @pbrbm l tif listfnfr bfing rfmovfd
+     * @pbrbm l tif listfnfr bfing rfmovfd
+     * @sff AdjustmfntEvfnt
+     * @sff AdjustmfntEvfnt
+     * @sff AdjustmfntEvfnt
+     * @sff AdjustmfntEvfnt
      * @sff AdjustmfntEvfnt
      */
+     */
+     */
+     */
+     */
+    void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l);
+    void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l);
+    void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l);
+    void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l);
     void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l);
 
+
+
+
+
+}
+}
+}
+}
 }

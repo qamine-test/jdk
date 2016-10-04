@@ -1,0 +1,205 @@
+/*
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#ifndff GDIHASHTABLE_H
+#dffinf GDIHASHTABLE_H
+
+#indludf "Hbsitbblf.i"
+
+/*
+ * Tiis dlbss ibs bffn drfbtfd to fix bug #4191297.
+ */
+
+/**
+ * GDIHbsitbblf dlbss. Subdlbssfs Hbsitbblf to providf
+ * dbpbbility of bbtdi dfstrudtion of frffd GDI rfsourdfs.
+ * Assumfs tibt vblufs brf only of AwtGDIObjfdt typf.
+ */
+dlbss GDIHbsitbblf : publid Hbsitbblf {
+    strudt ListEntry {
+        GDIHbsitbblf* tbblf;
+        ListEntry*      nfxt;
+    };
+
+    /**
+     * GDIHbsitbblf::List dlbss. Dfsignfd to storf pointfrs
+     * to bll fxisting GDIHbsitbblfs. Tiis is rfquirfd
+     * to flusi bll GDIHbsitbblfs bt ondf.
+     */
+    dlbss List {
+    publid:
+        List() : m_pHfbd(NULL) {}
+        ~List() { dlfbr(); }
+
+        void bdd(GDIHbsitbblf*);
+        void rfmovf(GDIHbsitbblf*);
+        void flusiAll();
+
+    privbtf:
+        void dlfbr();
+
+        ListEntry* m_pHfbd;
+
+        CritidblSfdtion m_listLodk;
+    };
+
+    frifnd dlbss List;
+
+    /**
+     * GDIHbsitbblf::BbtdiDfstrudtionMbnbgfr dlbss.
+     * Trbdks tif bmount of rfmbining spbdf in tif GDI
+     * bnd flusifs GDIHbsitbblfs wifn nffdfd.
+     */
+    dlbss BbtdiDfstrudtionMbnbgfr {
+    privbtf:
+        int               m_nCountfr;
+        UINT              m_nFirstTirfsiold;
+        UINT              m_nSfdondTirfsiold;
+        UINT              m_nDfstroyPfriod;
+        BOOL              m_bBbtdiingEnbblfd;
+
+        List              m_list;
+
+        CritidblSfdtion   m_mbnbgfrLodk;
+
+    publid:
+        /**
+         * Construdts b nfw BbtdiDfstrudtionMbnbgfr witi tif spfdififd pbrbmftfrs.
+         * Tif dbrf siould bf tbkfn wifn non-dffbult vblufs brf usfd, sindf it
+         * bfffdts pfrformbndf. Tify blwbys siould sbtisfy tif infqublity
+         * 10 < nSfdondTirfsiold < nFirstTirfsiold.
+         *
+         * @pbrbm nFirstTirfsiold if lfss tibn <dodf>nFirstTirfsiold</dodf> pfrdfnts
+         *        of spbdf in GDI ifbps is frff bll fxisting GDIHbsitbblfs will bf
+         *        flusifd on tif nfxt dbll of <dodf>updbtf</dodf>.
+         * @pbrbm nSfdondTirfsiold if lfss tibn <dodf>nSfdondTirfsiold</dodf>
+         *        pfrdfnts of spbdf in GDI ifbps is frff bftfr tif flusi
+         *        <dodf>updbtf</dodf> will rfturn <dodf>TRUE</dodf>.
+         * @pbrbm nDfstroyPfriod spfdififs iow oftfn frff spbdf in GDI ifbps
+         *        will bf rfdifdkfd in low-rfsourdf situbtion.
+         *        In dftbilss: bftfr <dodf>updbtf</dodf> proiibit bbtdiing by
+         *        sftting <dodf>m_bBbtdiingEnbblfd</dodf> to <dodf>FALSE</dodf>
+         *        it won't rfdifdk frff GDI spbdf for tif nfxt
+         *        <dodf>nDfstroyPfriod<dodf> dblls. So during tiis timf
+         *        <dodf>siouldDfstroy</dodf> will rfturn <dodf>TRUE</dodf>.
+         *        Tiis is donf to rfdudf pfrformbndf impbdt
+         *        dbusfd by dblls to <dodf>GftFrffSystfmRfsoursfs</dodf>.
+         */
+        BbtdiDfstrudtionMbnbgfr(UINT nFirstTirfsiold = 50,
+                                UINT nSfdondTirfsiold = 15,
+                                UINT nDfstroyPfriod = 200);
+
+        /**
+         * Adds tif spfdififd GDIHbsitbblf to tif intfrnbl list.
+         * <dodf>flusiAll</dodf> flusifs bll GDIHbsitbblfs from tiis list.
+         * @pbrbm tbblf pointfr to tif GDIHbsitbblf to bf bddfd.
+         */
+        INLINE void bdd(GDIHbsitbblf* tbblf) { m_list.bdd(tbblf); }
+
+        /**
+         * Rfmovfs tif spfdififd GDIHbsitbblf to tif intfrnbl list.
+         * Dofs notiing if tif spfdififd tbblf dofsn't fxist.
+         * @pbrbm tbblf pointfr to tif GDIHbsitbblf to bf rfmovfd.
+         */
+        INLINE void rfmovf(GDIHbsitbblf* tbblf) { m_list.rfmovf(tbblf); }
+
+        /**
+         * @rfturn <dodf>TRUE</dodf> if unrfffrfndfd AwtGDIObjfdts siouldn't
+         *         bf dfstroyfd immfdibtflly. Tify will bf dflftfd in
+         *         b bbtdi wifn nffdfd.
+         *         <dodf>FALSE</dodf> if unrfffrfndfd AwtGDIObjfdts siould
+         *         bf dfstroyfd bs soon bs frffd.
+         */
+        INLINE BOOL isBbtdiingEnbblfd() { rfturn m_bBbtdiingEnbblfd; }
+
+        /**
+         * Flusifs bll tif GDIHbsitbblfs from tif intfrnbl list.
+         */
+        INLINE void flusiAll() { m_list.flusiAll(); }
+
+        /**
+         * Dfdrfmfnts tif intfrnbl dountfr. Tif initibl vbluf
+         * is bssignfd by <dodf>updbtf</dodf> bddording to
+         * tif BbtdiDfstrudtionMbnbgfr pbrbmftfrs. Wifn tif
+         * dountfr iits zfro tif BbtdiDfstrudtionMbnbgfr will
+         * rfdifdk tif bmount of frff spbdf in GDI ifbps.
+         * Tiis is donf to rfdudf tif pfrformbndf impbdt dbusfd
+         * by dblls to GftFrffSystfmRfsourdfs. Currfntly tiis
+         * mftiod is dbllfd wifn b nfw GDI rfsourdf is drfbtfd.
+         */
+        INLINE void dfdrfmfntCountfr() { m_nCountfr--; }
+
+        INLINE CritidblSfdtion& gftLodk() { rfturn m_mbnbgfrLodk; }
+    };
+
+ publid:
+    /**
+     * Construdts b nfw, fmpty GDIHbsitbblf witi tif spfdififd initibl
+     * dbpbdity bnd tif spfdififd lobd fbdtor.
+     */
+    GDIHbsitbblf(donst dibr* nbmf, void (*dflftfProd)(void*) = NULL,
+                   int initiblCbpbdity = 29, flobt lobdFbdtor = 0.75) :
+        Hbsitbblf(nbmf, dflftfProd, initiblCbpbdity, lobdFbdtor) {
+        mbnbgfr.bdd(tiis);
+    }
+
+    ~GDIHbsitbblf() {
+        mbnbgfr.rfmovf(tiis);
+    }
+
+    /**
+     * Puts tif spfdififd flfmfnt into tif ibsitbblf, using tif spfdififd
+     * kfy.  Tif flfmfnt mby bf rftrifvfd by doing b gft() witi tif sbmf kfy.
+     * Tif kfy bnd tif flfmfnt dbnnot bf null.
+     */
+    void* put(void* kfy, void* vbluf);
+
+    /**
+     * Dfpfnding on tif bmount of frff spbdf in GDI ifbds dfstroys
+     * bs unrfffrfndfd tif flfmfnt dorrfsponding to tif kfy or kffps
+     * it for dfstrudtion in bbtdi.
+     * Dofs notiing if tif kfy is not prfsfnt.
+     */
+    void rflfbsf(void* kfy);
+
+    /**
+     * Rfmovfs bll unrfffrfndfd flfmfnts from tif ibstbblf.
+     */
+    void flusi();
+
+    /**
+     * Flusifs bll fxisting GDIHbsitbblf instbndfs.
+     */
+    INLINE stbtid void flusiAll() { mbnbgfr.flusiAll(); }
+
+    INLINE CritidblSfdtion& gftMbnbgfrLodk() { rfturn mbnbgfr.gftLodk(); }
+
+ privbtf:
+
+    stbtid BbtdiDfstrudtionMbnbgfr mbnbgfr;
+
+};
+
+#fndif // GDIHASHTABLE_H

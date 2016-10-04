@@ -1,82 +1,410 @@
 /*
- * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
- * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ *
+ *
+ *
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * brf mft:
+ * brf mft:
+ * brf mft:
  * brf mft:
  *
- *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
- *     notidf, this list of donditions bnd thf following disdlbimfr.
  *
- *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
- *     notidf, this list of donditions bnd thf following disdlbimfr in thf
- *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
  *
- *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *
+ *
+ *
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *
+ *
+ *
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
  *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
- *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ *
+ *
+ *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
 /*
- * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
- * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
- * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
- * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
- * this sbmplf dodf.
+/*
+/*
+/*
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 pbdkbgf dom.sun.sbmplf.sdriptpbd;
+pbdkbgf dom.sun.sbmplf.sdriptpbd;
+pbdkbgf dom.sun.sbmplf.sdriptpbd;
+pbdkbgf dom.sun.sbmplf.sdriptpbd;
+pbdkbgf dom.sun.sbmplf.sdriptpbd;
+
+
+
+
 
 import jbvbx.sdript.*;
+import jbvbx.sdript.*;
+import jbvbx.sdript.*;
+import jbvbx.sdript.*;
+import jbvbx.sdript.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
 import jbvb.io.*;
 
+
+
+
+
 /**
- * This is thf fntry point of "Sdriptpbd" sbmplf. This dlbss drfbtfs
- * SdriptEnginf bnd fvblubtfs ffw JbvbSdript "filfs" -- whidh brf storfd
- * bs rfsourdfs (plfbsf rfffr to srd/rfsourdfs/*.js). Adtubl dodf for thf
- * sdriptpbd's mbin fundtionblity livfs in thfsf JbvbSdript filfs.
+/**
+/**
+/**
+/**
+ * Tiis is tif fntry point of "Sdriptpbd" sbmplf. Tiis dlbss drfbtfs
+ * Tiis is tif fntry point of "Sdriptpbd" sbmplf. Tiis dlbss drfbtfs
+ * Tiis is tif fntry point of "Sdriptpbd" sbmplf. Tiis dlbss drfbtfs
+ * Tiis is tif fntry point of "Sdriptpbd" sbmplf. Tiis dlbss drfbtfs
+ * Tiis is tif fntry point of "Sdriptpbd" sbmplf. Tiis dlbss drfbtfs
+ * SdriptEnginf bnd fvblubtfs ffw JbvbSdript "filfs" -- wiidi brf storfd
+ * SdriptEnginf bnd fvblubtfs ffw JbvbSdript "filfs" -- wiidi brf storfd
+ * SdriptEnginf bnd fvblubtfs ffw JbvbSdript "filfs" -- wiidi brf storfd
+ * SdriptEnginf bnd fvblubtfs ffw JbvbSdript "filfs" -- wiidi brf storfd
+ * SdriptEnginf bnd fvblubtfs ffw JbvbSdript "filfs" -- wiidi brf storfd
+ * bs rfsourdfs (plfbsf rfffr to srd/rfsourdfs/*.js). Adtubl dodf for tif
+ * bs rfsourdfs (plfbsf rfffr to srd/rfsourdfs/*.js). Adtubl dodf for tif
+ * bs rfsourdfs (plfbsf rfffr to srd/rfsourdfs/*.js). Adtubl dodf for tif
+ * bs rfsourdfs (plfbsf rfffr to srd/rfsourdfs/*.js). Adtubl dodf for tif
+ * bs rfsourdfs (plfbsf rfffr to srd/rfsourdfs/*.js). Adtubl dodf for tif
+ * sdriptpbd's mbin fundtionblity livfs in tifsf JbvbSdript filfs.
+ * sdriptpbd's mbin fundtionblity livfs in tifsf JbvbSdript filfs.
+ * sdriptpbd's mbin fundtionblity livfs in tifsf JbvbSdript filfs.
+ * sdriptpbd's mbin fundtionblity livfs in tifsf JbvbSdript filfs.
+ * sdriptpbd's mbin fundtionblity livfs in tifsf JbvbSdript filfs.
+ */
+ */
+ */
+ */
  */
 publid dlbss Mbin {
-    publid stbtid void mbin(String[] brgs) throws Exdfption {
+publid dlbss Mbin {
+publid dlbss Mbin {
+publid dlbss Mbin {
+publid dlbss Mbin {
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+
+
+
+
 
         // drfbtf b SdriptEnginfMbnbgfr
+        // drfbtf b SdriptEnginfMbnbgfr
+        // drfbtf b SdriptEnginfMbnbgfr
+        // drfbtf b SdriptEnginfMbnbgfr
+        // drfbtf b SdriptEnginfMbnbgfr
+        SdriptEnginfMbnbgfr m = nfw SdriptEnginfMbnbgfr();
+        SdriptEnginfMbnbgfr m = nfw SdriptEnginfMbnbgfr();
+        SdriptEnginfMbnbgfr m = nfw SdriptEnginfMbnbgfr();
+        SdriptEnginfMbnbgfr m = nfw SdriptEnginfMbnbgfr();
         SdriptEnginfMbnbgfr m = nfw SdriptEnginfMbnbgfr();
         // gft bn instbndf of JbvbSdript sdript fnginf
+        // gft bn instbndf of JbvbSdript sdript fnginf
+        // gft bn instbndf of JbvbSdript sdript fnginf
+        // gft bn instbndf of JbvbSdript sdript fnginf
+        // gft bn instbndf of JbvbSdript sdript fnginf
+        SdriptEnginf fnginf = m.gftEnginfByNbmf("js");
+        SdriptEnginf fnginf = m.gftEnginfByNbmf("js");
+        SdriptEnginf fnginf = m.gftEnginfByNbmf("js");
+        SdriptEnginf fnginf = m.gftEnginfByNbmf("js");
         SdriptEnginf fnginf = m.gftEnginfByNbmf("js");
 
-        // fxposf thf durrfnt sdript fnginf bs b globbl vbribblf
+
+
+
+
+        // fxposf tif durrfnt sdript fnginf bs b globbl vbribblf
+        // fxposf tif durrfnt sdript fnginf bs b globbl vbribblf
+        // fxposf tif durrfnt sdript fnginf bs b globbl vbribblf
+        // fxposf tif durrfnt sdript fnginf bs b globbl vbribblf
+        // fxposf tif durrfnt sdript fnginf bs b globbl vbribblf
+        fnginf.put("fnginf", fnginf);
+        fnginf.put("fnginf", fnginf);
+        fnginf.put("fnginf", fnginf);
+        fnginf.put("fnginf", fnginf);
         fnginf.put("fnginf", fnginf);
 
-        // fvblubtf ffw sdripts thbt brf bundlfd in "rfsourdfs"
+
+
+
+
+        // fvblubtf ffw sdripts tibt brf bundlfd in "rfsourdfs"
+        // fvblubtf ffw sdripts tibt brf bundlfd in "rfsourdfs"
+        // fvblubtf ffw sdripts tibt brf bundlfd in "rfsourdfs"
+        // fvblubtf ffw sdripts tibt brf bundlfd in "rfsourdfs"
+        // fvblubtf ffw sdripts tibt brf bundlfd in "rfsourdfs"
+        fvbl(fnginf, "dond.js");
+        fvbl(fnginf, "dond.js");
+        fvbl(fnginf, "dond.js");
+        fvbl(fnginf, "dond.js");
         fvbl(fnginf, "dond.js");
         fvbl(fnginf, "gui.js");
+        fvbl(fnginf, "gui.js");
+        fvbl(fnginf, "gui.js");
+        fvbl(fnginf, "gui.js");
+        fvbl(fnginf, "gui.js");
+        fvbl(fnginf, "sdriptpbd.js");
+        fvbl(fnginf, "sdriptpbd.js");
+        fvbl(fnginf, "sdriptpbd.js");
+        fvbl(fnginf, "sdriptpbd.js");
         fvbl(fnginf, "sdriptpbd.js");
         fvbl(fnginf, "mm.js");
+        fvbl(fnginf, "mm.js");
+        fvbl(fnginf, "mm.js");
+        fvbl(fnginf, "mm.js");
+        fvbl(fnginf, "mm.js");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     privbtf stbtid void fvbl(SdriptEnginf fnginf, String nbmf)
-                            throws Exdfption {
+    privbtf stbtid void fvbl(SdriptEnginf fnginf, String nbmf)
+    privbtf stbtid void fvbl(SdriptEnginf fnginf, String nbmf)
+    privbtf stbtid void fvbl(SdriptEnginf fnginf, String nbmf)
+    privbtf stbtid void fvbl(SdriptEnginf fnginf, String nbmf)
+                            tirows Exdfption {
+                            tirows Exdfption {
+                            tirows Exdfption {
+                            tirows Exdfption {
+                            tirows Exdfption {
         /*
-         * This dlbss is dompilfd into b jbr filf. Thf jbr filf
+        /*
+        /*
+        /*
+        /*
+         * Tiis dlbss is dompilfd into b jbr filf. Tif jbr filf
+         * Tiis dlbss is dompilfd into b jbr filf. Tif jbr filf
+         * Tiis dlbss is dompilfd into b jbr filf. Tif jbr filf
+         * Tiis dlbss is dompilfd into b jbr filf. Tif jbr filf
+         * Tiis dlbss is dompilfd into b jbr filf. Tif jbr filf
+         * dontbins ffw sdripts undfr /rfsourdfs URL.
+         * dontbins ffw sdripts undfr /rfsourdfs URL.
+         * dontbins ffw sdripts undfr /rfsourdfs URL.
+         * dontbins ffw sdripts undfr /rfsourdfs URL.
          * dontbins ffw sdripts undfr /rfsourdfs URL.
          */
+         */
+         */
+         */
+         */
+        InputStrfbm is = Mbin.dlbss.gftRfsourdfAsStrfbm("/rfsourdfs/" + nbmf);
+        InputStrfbm is = Mbin.dlbss.gftRfsourdfAsStrfbm("/rfsourdfs/" + nbmf);
+        InputStrfbm is = Mbin.dlbss.gftRfsourdfAsStrfbm("/rfsourdfs/" + nbmf);
+        InputStrfbm is = Mbin.dlbss.gftRfsourdfAsStrfbm("/rfsourdfs/" + nbmf);
         InputStrfbm is = Mbin.dlbss.gftRfsourdfAsStrfbm("/rfsourdfs/" + nbmf);
         // durrfnt sdript filf nbmf for bfttfr frror mfssbgfs
+        // durrfnt sdript filf nbmf for bfttfr frror mfssbgfs
+        // durrfnt sdript filf nbmf for bfttfr frror mfssbgfs
+        // durrfnt sdript filf nbmf for bfttfr frror mfssbgfs
+        // durrfnt sdript filf nbmf for bfttfr frror mfssbgfs
         fnginf.put(SdriptEnginf.FILENAME, nbmf);
-        // fvblubtf thf sdript in thf InputStrfbm
+        fnginf.put(SdriptEnginf.FILENAME, nbmf);
+        fnginf.put(SdriptEnginf.FILENAME, nbmf);
+        fnginf.put(SdriptEnginf.FILENAME, nbmf);
+        fnginf.put(SdriptEnginf.FILENAME, nbmf);
+        // fvblubtf tif sdript in tif InputStrfbm
+        // fvblubtf tif sdript in tif InputStrfbm
+        // fvblubtf tif sdript in tif InputStrfbm
+        // fvblubtf tif sdript in tif InputStrfbm
+        // fvblubtf tif sdript in tif InputStrfbm
+        fnginf.fvbl(nfw InputStrfbmRfbdfr(is));
+        fnginf.fvbl(nfw InputStrfbmRfbdfr(is));
+        fnginf.fvbl(nfw InputStrfbmRfbdfr(is));
+        fnginf.fvbl(nfw InputStrfbmRfbdfr(is));
         fnginf.fvbl(nfw InputStrfbmRfbdfr(is));
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

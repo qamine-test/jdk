@@ -1,326 +1,1630 @@
 /*
- * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * Portions Copyright IBM Corporbtion, 1997, 2001. All Rights Rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Portions Copyrigit IBM Corporbtion, 1997, 2001. All Rigits Rfsfrvfd.
+ * Portions Copyrigit IBM Corporbtion, 1997, 2001. All Rigits Rfsfrvfd.
+ * Portions Copyrigit IBM Corporbtion, 1997, 2001. All Rigits Rfsfrvfd.
+ * Portions Copyrigit IBM Corporbtion, 1997, 2001. All Rigits Rfsfrvfd.
+ * Portions Copyrigit IBM Corporbtion, 1997, 2001. All Rigits Rfsfrvfd.
+ */
+ */
+ */
+ */
  */
 
-pbdkbgf jbvb.mbth;
+
+
+
+
+pbdkbgf jbvb.mbti;
+pbdkbgf jbvb.mbti;
+pbdkbgf jbvb.mbti;
+pbdkbgf jbvb.mbti;
+pbdkbgf jbvb.mbti;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
 import jbvb.io.*;
 
+
+
+
+
 /**
- * Immutbblf objfdts whidh fndbpsulbtf thf dontfxt sfttings whidh
- * dfsdribf dfrtbin rulfs for numfridbl opfrbtors, sudh bs thosf
- * implfmfntfd by thf {@link BigDfdimbl} dlbss.
+/**
+/**
+/**
+/**
+ * Immutbblf objfdts wiidi fndbpsulbtf tif dontfxt sfttings wiidi
+ * Immutbblf objfdts wiidi fndbpsulbtf tif dontfxt sfttings wiidi
+ * Immutbblf objfdts wiidi fndbpsulbtf tif dontfxt sfttings wiidi
+ * Immutbblf objfdts wiidi fndbpsulbtf tif dontfxt sfttings wiidi
+ * Immutbblf objfdts wiidi fndbpsulbtf tif dontfxt sfttings wiidi
+ * dfsdribf dfrtbin rulfs for numfridbl opfrbtors, sudi bs tiosf
+ * dfsdribf dfrtbin rulfs for numfridbl opfrbtors, sudi bs tiosf
+ * dfsdribf dfrtbin rulfs for numfridbl opfrbtors, sudi bs tiosf
+ * dfsdribf dfrtbin rulfs for numfridbl opfrbtors, sudi bs tiosf
+ * dfsdribf dfrtbin rulfs for numfridbl opfrbtors, sudi bs tiosf
+ * implfmfntfd by tif {@link BigDfdimbl} dlbss.
+ * implfmfntfd by tif {@link BigDfdimbl} dlbss.
+ * implfmfntfd by tif {@link BigDfdimbl} dlbss.
+ * implfmfntfd by tif {@link BigDfdimbl} dlbss.
+ * implfmfntfd by tif {@link BigDfdimbl} dlbss.
  *
- * <p>Thf bbsf-indfpfndfnt sfttings brf:
+ *
+ *
+ *
+ *
+ * <p>Tif bbsf-indfpfndfnt sfttings brf:
+ * <p>Tif bbsf-indfpfndfnt sfttings brf:
+ * <p>Tif bbsf-indfpfndfnt sfttings brf:
+ * <p>Tif bbsf-indfpfndfnt sfttings brf:
+ * <p>Tif bbsf-indfpfndfnt sfttings brf:
+ * <ol>
+ * <ol>
+ * <ol>
+ * <ol>
  * <ol>
  * <li>{@dodf prfdision}:
- * thf numbfr of digits to bf usfd for bn opfrbtion; rfsults brf
- * roundfd to this prfdision
+ * <li>{@dodf prfdision}:
+ * <li>{@dodf prfdision}:
+ * <li>{@dodf prfdision}:
+ * <li>{@dodf prfdision}:
+ * tif numbfr of digits to bf usfd for bn opfrbtion; rfsults brf
+ * tif numbfr of digits to bf usfd for bn opfrbtion; rfsults brf
+ * tif numbfr of digits to bf usfd for bn opfrbtion; rfsults brf
+ * tif numbfr of digits to bf usfd for bn opfrbtion; rfsults brf
+ * tif numbfr of digits to bf usfd for bn opfrbtion; rfsults brf
+ * roundfd to tiis prfdision
+ * roundfd to tiis prfdision
+ * roundfd to tiis prfdision
+ * roundfd to tiis prfdision
+ * roundfd to tiis prfdision
+ *
+ *
+ *
+ *
  *
  * <li>{@dodf roundingModf}:
- * b {@link RoundingModf} objfdt whidh spfdififs thf blgorithm to bf
+ * <li>{@dodf roundingModf}:
+ * <li>{@dodf roundingModf}:
+ * <li>{@dodf roundingModf}:
+ * <li>{@dodf roundingModf}:
+ * b {@link RoundingModf} objfdt wiidi spfdififs tif blgoritim to bf
+ * b {@link RoundingModf} objfdt wiidi spfdififs tif blgoritim to bf
+ * b {@link RoundingModf} objfdt wiidi spfdififs tif blgoritim to bf
+ * b {@link RoundingModf} objfdt wiidi spfdififs tif blgoritim to bf
+ * b {@link RoundingModf} objfdt wiidi spfdififs tif blgoritim to bf
+ * usfd for rounding.
+ * usfd for rounding.
+ * usfd for rounding.
+ * usfd for rounding.
  * usfd for rounding.
  * </ol>
+ * </ol>
+ * </ol>
+ * </ol>
+ * </ol>
+ *
+ *
+ *
+ *
  *
  * @sff     BigDfdimbl
+ * @sff     BigDfdimbl
+ * @sff     BigDfdimbl
+ * @sff     BigDfdimbl
+ * @sff     BigDfdimbl
  * @sff     RoundingModf
- * @buthor  Mikf Cowlishbw
- * @buthor  Josfph D. Dbrdy
+ * @sff     RoundingModf
+ * @sff     RoundingModf
+ * @sff     RoundingModf
+ * @sff     RoundingModf
+ * @butior  Mikf Cowlisibw
+ * @butior  Mikf Cowlisibw
+ * @butior  Mikf Cowlisibw
+ * @butior  Mikf Cowlisibw
+ * @butior  Mikf Cowlisibw
+ * @butior  Josfpi D. Dbrdy
+ * @butior  Josfpi D. Dbrdy
+ * @butior  Josfpi D. Dbrdy
+ * @butior  Josfpi D. Dbrdy
+ * @butior  Josfpi D. Dbrdy
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  */
+ */
+ */
+ */
+ */
 
-publid finbl dlbss MbthContfxt implfmfnts Sfriblizbblf {
+
+
+
+
+publid finbl dlbss MbtiContfxt implfmfnts Sfriblizbblf {
+publid finbl dlbss MbtiContfxt implfmfnts Sfriblizbblf {
+publid finbl dlbss MbtiContfxt implfmfnts Sfriblizbblf {
+publid finbl dlbss MbtiContfxt implfmfnts Sfriblizbblf {
+publid finbl dlbss MbtiContfxt implfmfnts Sfriblizbblf {
+
+
+
+
 
     /* ----- Constbnts ----- */
+    /* ----- Constbnts ----- */
+    /* ----- Constbnts ----- */
+    /* ----- Constbnts ----- */
+    /* ----- Constbnts ----- */
+
+
+
+
 
     // dffbults for donstrudtors
+    // dffbults for donstrudtors
+    // dffbults for donstrudtors
+    // dffbults for donstrudtors
+    // dffbults for donstrudtors
+    privbtf stbtid finbl int DEFAULT_DIGITS = 9;
+    privbtf stbtid finbl int DEFAULT_DIGITS = 9;
+    privbtf stbtid finbl int DEFAULT_DIGITS = 9;
+    privbtf stbtid finbl int DEFAULT_DIGITS = 9;
     privbtf stbtid finbl int DEFAULT_DIGITS = 9;
     privbtf stbtid finbl RoundingModf DEFAULT_ROUNDINGMODE = RoundingModf.HALF_UP;
+    privbtf stbtid finbl RoundingModf DEFAULT_ROUNDINGMODE = RoundingModf.HALF_UP;
+    privbtf stbtid finbl RoundingModf DEFAULT_ROUNDINGMODE = RoundingModf.HALF_UP;
+    privbtf stbtid finbl RoundingModf DEFAULT_ROUNDINGMODE = RoundingModf.HALF_UP;
+    privbtf stbtid finbl RoundingModf DEFAULT_ROUNDINGMODE = RoundingModf.HALF_UP;
+    // Smbllfst vblufs for digits (Mbximum is Intfgfr.MAX_VALUE)
+    // Smbllfst vblufs for digits (Mbximum is Intfgfr.MAX_VALUE)
+    // Smbllfst vblufs for digits (Mbximum is Intfgfr.MAX_VALUE)
+    // Smbllfst vblufs for digits (Mbximum is Intfgfr.MAX_VALUE)
     // Smbllfst vblufs for digits (Mbximum is Intfgfr.MAX_VALUE)
     privbtf stbtid finbl int MIN_DIGITS = 0;
+    privbtf stbtid finbl int MIN_DIGITS = 0;
+    privbtf stbtid finbl int MIN_DIGITS = 0;
+    privbtf stbtid finbl int MIN_DIGITS = 0;
+    privbtf stbtid finbl int MIN_DIGITS = 0;
+
+
+
+
 
     // Sfriblizbtion vfrsion
+    // Sfriblizbtion vfrsion
+    // Sfriblizbtion vfrsion
+    // Sfriblizbtion vfrsion
+    // Sfriblizbtion vfrsion
+    privbtf stbtid finbl long sfriblVfrsionUID = 5579720004786848255L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5579720004786848255L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5579720004786848255L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5579720004786848255L;
     privbtf stbtid finbl long sfriblVfrsionUID = 5579720004786848255L;
 
+
+
+
+
+    /* ----- Publid Propfrtifs ----- */
+    /* ----- Publid Propfrtifs ----- */
+    /* ----- Publid Propfrtifs ----- */
+    /* ----- Publid Propfrtifs ----- */
     /* ----- Publid Propfrtifs ----- */
     /**
-     *  A {@dodf MbthContfxt} objfdt whosf sfttings hbvf thf vblufs
-     *  rfquirfd for unlimitfd prfdision brithmftid.
-     *  Thf vblufs of thf sfttings brf:
+    /**
+    /**
+    /**
+    /**
+     *  A {@dodf MbtiContfxt} objfdt wiosf sfttings ibvf tif vblufs
+     *  A {@dodf MbtiContfxt} objfdt wiosf sfttings ibvf tif vblufs
+     *  A {@dodf MbtiContfxt} objfdt wiosf sfttings ibvf tif vblufs
+     *  A {@dodf MbtiContfxt} objfdt wiosf sfttings ibvf tif vblufs
+     *  A {@dodf MbtiContfxt} objfdt wiosf sfttings ibvf tif vblufs
+     *  rfquirfd for unlimitfd prfdision britimftid.
+     *  rfquirfd for unlimitfd prfdision britimftid.
+     *  rfquirfd for unlimitfd prfdision britimftid.
+     *  rfquirfd for unlimitfd prfdision britimftid.
+     *  rfquirfd for unlimitfd prfdision britimftid.
+     *  Tif vblufs of tif sfttings brf:
+     *  Tif vblufs of tif sfttings brf:
+     *  Tif vblufs of tif sfttings brf:
+     *  Tif vblufs of tif sfttings brf:
+     *  Tif vblufs of tif sfttings brf:
+     *  <dodf>
+     *  <dodf>
+     *  <dodf>
+     *  <dodf>
      *  <dodf>
      *  prfdision=0 roundingModf=HALF_UP
+     *  prfdision=0 roundingModf=HALF_UP
+     *  prfdision=0 roundingModf=HALF_UP
+     *  prfdision=0 roundingModf=HALF_UP
+     *  prfdision=0 roundingModf=HALF_UP
+     *  </dodf>
+     *  </dodf>
+     *  </dodf>
+     *  </dodf>
      *  </dodf>
      */
-    publid stbtid finbl MbthContfxt UNLIMITED =
-        nfw MbthContfxt(0, RoundingModf.HALF_UP);
+     */
+     */
+     */
+     */
+    publid stbtid finbl MbtiContfxt UNLIMITED =
+    publid stbtid finbl MbtiContfxt UNLIMITED =
+    publid stbtid finbl MbtiContfxt UNLIMITED =
+    publid stbtid finbl MbtiContfxt UNLIMITED =
+    publid stbtid finbl MbtiContfxt UNLIMITED =
+        nfw MbtiContfxt(0, RoundingModf.HALF_UP);
+        nfw MbtiContfxt(0, RoundingModf.HALF_UP);
+        nfw MbtiContfxt(0, RoundingModf.HALF_UP);
+        nfw MbtiContfxt(0, RoundingModf.HALF_UP);
+        nfw MbtiContfxt(0, RoundingModf.HALF_UP);
+
+
+
+
 
     /**
-     *  A {@dodf MbthContfxt} objfdt with b prfdision sftting
-     *  mbtdhing thf IEEE 754R Dfdimbl32 formbt, 7 digits, bnd b
-     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, thf
+    /**
+    /**
+    /**
+    /**
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  mbtdiing tif IEEE 754R Dfdimbl32 formbt, 7 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl32 formbt, 7 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl32 formbt, 7 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl32 formbt, 7 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl32 formbt, 7 digits, bnd b
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
      *  IEEE 754R dffbult.
      */
-    publid stbtid finbl MbthContfxt DECIMAL32 =
-        nfw MbthContfxt(7, RoundingModf.HALF_EVEN);
+     */
+     */
+     */
+     */
+    publid stbtid finbl MbtiContfxt DECIMAL32 =
+    publid stbtid finbl MbtiContfxt DECIMAL32 =
+    publid stbtid finbl MbtiContfxt DECIMAL32 =
+    publid stbtid finbl MbtiContfxt DECIMAL32 =
+    publid stbtid finbl MbtiContfxt DECIMAL32 =
+        nfw MbtiContfxt(7, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(7, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(7, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(7, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(7, RoundingModf.HALF_EVEN);
+
+
+
+
 
     /**
-     *  A {@dodf MbthContfxt} objfdt with b prfdision sftting
-     *  mbtdhing thf IEEE 754R Dfdimbl64 formbt, 16 digits, bnd b
-     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, thf
+    /**
+    /**
+    /**
+    /**
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  mbtdiing tif IEEE 754R Dfdimbl64 formbt, 16 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl64 formbt, 16 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl64 formbt, 16 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl64 formbt, 16 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl64 formbt, 16 digits, bnd b
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
      *  IEEE 754R dffbult.
      */
-    publid stbtid finbl MbthContfxt DECIMAL64 =
-        nfw MbthContfxt(16, RoundingModf.HALF_EVEN);
+     */
+     */
+     */
+     */
+    publid stbtid finbl MbtiContfxt DECIMAL64 =
+    publid stbtid finbl MbtiContfxt DECIMAL64 =
+    publid stbtid finbl MbtiContfxt DECIMAL64 =
+    publid stbtid finbl MbtiContfxt DECIMAL64 =
+    publid stbtid finbl MbtiContfxt DECIMAL64 =
+        nfw MbtiContfxt(16, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(16, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(16, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(16, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(16, RoundingModf.HALF_EVEN);
+
+
+
+
 
     /**
-     *  A {@dodf MbthContfxt} objfdt with b prfdision sftting
-     *  mbtdhing thf IEEE 754R Dfdimbl128 formbt, 34 digits, bnd b
-     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, thf
+    /**
+    /**
+    /**
+    /**
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  A {@dodf MbtiContfxt} objfdt witi b prfdision sftting
+     *  mbtdiing tif IEEE 754R Dfdimbl128 formbt, 34 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl128 formbt, 34 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl128 formbt, 34 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl128 formbt, 34 digits, bnd b
+     *  mbtdiing tif IEEE 754R Dfdimbl128 formbt, 34 digits, bnd b
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, tif
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
+     *  IEEE 754R dffbult.
      *  IEEE 754R dffbult.
      */
-    publid stbtid finbl MbthContfxt DECIMAL128 =
-        nfw MbthContfxt(34, RoundingModf.HALF_EVEN);
+     */
+     */
+     */
+     */
+    publid stbtid finbl MbtiContfxt DECIMAL128 =
+    publid stbtid finbl MbtiContfxt DECIMAL128 =
+    publid stbtid finbl MbtiContfxt DECIMAL128 =
+    publid stbtid finbl MbtiContfxt DECIMAL128 =
+    publid stbtid finbl MbtiContfxt DECIMAL128 =
+        nfw MbtiContfxt(34, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(34, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(34, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(34, RoundingModf.HALF_EVEN);
+        nfw MbtiContfxt(34, RoundingModf.HALF_EVEN);
 
-    /* ----- Shbrfd Propfrtifs ----- */
+
+
+
+
+    /* ----- Sibrfd Propfrtifs ----- */
+    /* ----- Sibrfd Propfrtifs ----- */
+    /* ----- Sibrfd Propfrtifs ----- */
+    /* ----- Sibrfd Propfrtifs ----- */
+    /* ----- Sibrfd Propfrtifs ----- */
     /**
-     * Thf numbfr of digits to bf usfd for bn opfrbtion.  A vbluf of 0
-     * indidbtfs thbt unlimitfd prfdision (bs mbny digits bs brf
-     * rfquirfd) will bf usfd.  Notf thbt lfbding zfros (in thf
+    /**
+    /**
+    /**
+    /**
+     * Tif numbfr of digits to bf usfd for bn opfrbtion.  A vbluf of 0
+     * Tif numbfr of digits to bf usfd for bn opfrbtion.  A vbluf of 0
+     * Tif numbfr of digits to bf usfd for bn opfrbtion.  A vbluf of 0
+     * Tif numbfr of digits to bf usfd for bn opfrbtion.  A vbluf of 0
+     * Tif numbfr of digits to bf usfd for bn opfrbtion.  A vbluf of 0
+     * indidbtfs tibt unlimitfd prfdision (bs mbny digits bs brf
+     * indidbtfs tibt unlimitfd prfdision (bs mbny digits bs brf
+     * indidbtfs tibt unlimitfd prfdision (bs mbny digits bs brf
+     * indidbtfs tibt unlimitfd prfdision (bs mbny digits bs brf
+     * indidbtfs tibt unlimitfd prfdision (bs mbny digits bs brf
+     * rfquirfd) will bf usfd.  Notf tibt lfbding zfros (in tif
+     * rfquirfd) will bf usfd.  Notf tibt lfbding zfros (in tif
+     * rfquirfd) will bf usfd.  Notf tibt lfbding zfros (in tif
+     * rfquirfd) will bf usfd.  Notf tibt lfbding zfros (in tif
+     * rfquirfd) will bf usfd.  Notf tibt lfbding zfros (in tif
+     * dofffidifnt of b numbfr) brf nfvfr signifidbnt.
+     * dofffidifnt of b numbfr) brf nfvfr signifidbnt.
+     * dofffidifnt of b numbfr) brf nfvfr signifidbnt.
+     * dofffidifnt of b numbfr) brf nfvfr signifidbnt.
      * dofffidifnt of b numbfr) brf nfvfr signifidbnt.
      *
+     *
+     *
+     *
+     *
+     * <p>{@dodf prfdision} will blwbys bf non-nfgbtivf.
+     * <p>{@dodf prfdision} will blwbys bf non-nfgbtivf.
+     * <p>{@dodf prfdision} will blwbys bf non-nfgbtivf.
+     * <p>{@dodf prfdision} will blwbys bf non-nfgbtivf.
      * <p>{@dodf prfdision} will blwbys bf non-nfgbtivf.
      *
+     *
+     *
+     *
+     *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     finbl int prfdision;
+    finbl int prfdision;
+    finbl int prfdision;
+    finbl int prfdision;
+    finbl int prfdision;
+
+
+
+
 
     /**
-     * Thf rounding blgorithm to bf usfd for bn opfrbtion.
+    /**
+    /**
+    /**
+    /**
+     * Tif rounding blgoritim to bf usfd for bn opfrbtion.
+     * Tif rounding blgoritim to bf usfd for bn opfrbtion.
+     * Tif rounding blgoritim to bf usfd for bn opfrbtion.
+     * Tif rounding blgoritim to bf usfd for bn opfrbtion.
+     * Tif rounding blgoritim to bf usfd for bn opfrbtion.
+     *
+     *
+     *
+     *
      *
      * @sff RoundingModf
+     * @sff RoundingModf
+     * @sff RoundingModf
+     * @sff RoundingModf
+     * @sff RoundingModf
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      */
+     */
+     */
+     */
+     */
+    finbl RoundingModf roundingModf;
+    finbl RoundingModf roundingModf;
+    finbl RoundingModf roundingModf;
+    finbl RoundingModf roundingModf;
     finbl RoundingModf roundingModf;
 
+
+
+
+
+    /* ----- Construdtors ----- */
+    /* ----- Construdtors ----- */
+    /* ----- Construdtors ----- */
+    /* ----- Construdtors ----- */
     /* ----- Construdtors ----- */
 
+
+
+
+
     /**
-     * Construdts b nfw {@dodf MbthContfxt} with thf spfdififd
-     * prfdision bnd thf {@link RoundingModf#HALF_UP HALF_UP} rounding
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nfw {@dodf MbtiContfxt} witi tif spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi tif spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi tif spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi tif spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi tif spfdififd
+     * prfdision bnd tif {@link RoundingModf#HALF_UP HALF_UP} rounding
+     * prfdision bnd tif {@link RoundingModf#HALF_UP HALF_UP} rounding
+     * prfdision bnd tif {@link RoundingModf#HALF_UP HALF_UP} rounding
+     * prfdision bnd tif {@link RoundingModf#HALF_UP HALF_UP} rounding
+     * prfdision bnd tif {@link RoundingModf#HALF_UP HALF_UP} rounding
+     * modf.
+     * modf.
+     * modf.
+     * modf.
      * modf.
      *
-     * @pbrbm sftPrfdision Thf non-nfgbtivf {@dodf int} prfdision sftting.
-     * @throws IllfgblArgumfntExdfption if thf {@dodf sftPrfdision} pbrbmftfr is lfss
-     *         thbn zfro.
+     *
+     *
+     *
+     *
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     *         tibn zfro.
+     *         tibn zfro.
+     *         tibn zfro.
+     *         tibn zfro.
+     *         tibn zfro.
      */
-    publid MbthContfxt(int sftPrfdision) {
-        this(sftPrfdision, DEFAULT_ROUNDINGMODE);
+     */
+     */
+     */
+     */
+    publid MbtiContfxt(int sftPrfdision) {
+    publid MbtiContfxt(int sftPrfdision) {
+    publid MbtiContfxt(int sftPrfdision) {
+    publid MbtiContfxt(int sftPrfdision) {
+    publid MbtiContfxt(int sftPrfdision) {
+        tiis(sftPrfdision, DEFAULT_ROUNDINGMODE);
+        tiis(sftPrfdision, DEFAULT_ROUNDINGMODE);
+        tiis(sftPrfdision, DEFAULT_ROUNDINGMODE);
+        tiis(sftPrfdision, DEFAULT_ROUNDINGMODE);
+        tiis(sftPrfdision, DEFAULT_ROUNDINGMODE);
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Construdts b nfw {@dodf MbthContfxt} with b spfdififd
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nfw {@dodf MbtiContfxt} witi b spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi b spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi b spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi b spfdififd
+     * Construdts b nfw {@dodf MbtiContfxt} witi b spfdififd
+     * prfdision bnd rounding modf.
+     * prfdision bnd rounding modf.
+     * prfdision bnd rounding modf.
+     * prfdision bnd rounding modf.
      * prfdision bnd rounding modf.
      *
-     * @pbrbm sftPrfdision Thf non-nfgbtivf {@dodf int} prfdision sftting.
-     * @pbrbm sftRoundingModf Thf rounding modf to usf.
-     * @throws IllfgblArgumfntExdfption if thf {@dodf sftPrfdision} pbrbmftfr is lfss
-     *         thbn zfro.
-     * @throws NullPointfrExdfption if thf rounding modf brgumfnt is {@dodf null}
+     *
+     *
+     *
+     *
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftPrfdision Tif non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftRoundingModf Tif rounding modf to usf.
+     * @pbrbm sftRoundingModf Tif rounding modf to usf.
+     * @pbrbm sftRoundingModf Tif rounding modf to usf.
+     * @pbrbm sftRoundingModf Tif rounding modf to usf.
+     * @pbrbm sftRoundingModf Tif rounding modf to usf.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sftPrfdision} pbrbmftfr is lfss
+     *         tibn zfro.
+     *         tibn zfro.
+     *         tibn zfro.
+     *         tibn zfro.
+     *         tibn zfro.
+     * @tirows NullPointfrExdfption if tif rounding modf brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif rounding modf brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif rounding modf brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif rounding modf brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif rounding modf brgumfnt is {@dodf null}
      */
-    publid MbthContfxt(int sftPrfdision,
+     */
+     */
+     */
+     */
+    publid MbtiContfxt(int sftPrfdision,
+    publid MbtiContfxt(int sftPrfdision,
+    publid MbtiContfxt(int sftPrfdision,
+    publid MbtiContfxt(int sftPrfdision,
+    publid MbtiContfxt(int sftPrfdision,
+                       RoundingModf sftRoundingModf) {
+                       RoundingModf sftRoundingModf) {
+                       RoundingModf sftRoundingModf) {
+                       RoundingModf sftRoundingModf) {
                        RoundingModf sftRoundingModf) {
         if (sftPrfdision < MIN_DIGITS)
-            throw nfw IllfgblArgumfntExdfption("Digits < 0");
+        if (sftPrfdision < MIN_DIGITS)
+        if (sftPrfdision < MIN_DIGITS)
+        if (sftPrfdision < MIN_DIGITS)
+        if (sftPrfdision < MIN_DIGITS)
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
         if (sftRoundingModf == null)
-            throw nfw NullPointfrExdfption("null RoundingModf");
+        if (sftRoundingModf == null)
+        if (sftRoundingModf == null)
+        if (sftRoundingModf == null)
+        if (sftRoundingModf == null)
+            tirow nfw NullPointfrExdfption("null RoundingModf");
+            tirow nfw NullPointfrExdfption("null RoundingModf");
+            tirow nfw NullPointfrExdfption("null RoundingModf");
+            tirow nfw NullPointfrExdfption("null RoundingModf");
+            tirow nfw NullPointfrExdfption("null RoundingModf");
 
+
+
+
+
+        prfdision = sftPrfdision;
+        prfdision = sftPrfdision;
+        prfdision = sftPrfdision;
+        prfdision = sftPrfdision;
         prfdision = sftPrfdision;
         roundingModf = sftRoundingModf;
+        roundingModf = sftRoundingModf;
+        roundingModf = sftRoundingModf;
+        roundingModf = sftRoundingModf;
+        roundingModf = sftRoundingModf;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Construdts b nfw {@dodf MbthContfxt} from b string.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nfw {@dodf MbtiContfxt} from b string.
+     * Construdts b nfw {@dodf MbtiContfxt} from b string.
+     * Construdts b nfw {@dodf MbtiContfxt} from b string.
+     * Construdts b nfw {@dodf MbtiContfxt} from b string.
+     * Construdts b nfw {@dodf MbtiContfxt} from b string.
      *
-     * Thf string must bf in thf sbmf formbt bs thbt produdfd by thf
-     * {@link #toString} mfthod.
      *
-     * <p>An {@dodf IllfgblArgumfntExdfption} is thrown if thf prfdision
-     * sfdtion of thf string is out of rbngf ({@dodf < 0}) or thf string is
-     * not in thf formbt drfbtfd by thf {@link #toString} mfthod.
      *
-     * @pbrbm vbl Thf string to bf pbrsfd
-     * @throws IllfgblArgumfntExdfption if thf prfdision sfdtion is out of rbngf
+     *
+     *
+     * Tif string must bf in tif sbmf formbt bs tibt produdfd by tif
+     * Tif string must bf in tif sbmf formbt bs tibt produdfd by tif
+     * Tif string must bf in tif sbmf formbt bs tibt produdfd by tif
+     * Tif string must bf in tif sbmf formbt bs tibt produdfd by tif
+     * Tif string must bf in tif sbmf formbt bs tibt produdfd by tif
+     * {@link #toString} mftiod.
+     * {@link #toString} mftiod.
+     * {@link #toString} mftiod.
+     * {@link #toString} mftiod.
+     * {@link #toString} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * <p>An {@dodf IllfgblArgumfntExdfption} is tirown if tif prfdision
+     * <p>An {@dodf IllfgblArgumfntExdfption} is tirown if tif prfdision
+     * <p>An {@dodf IllfgblArgumfntExdfption} is tirown if tif prfdision
+     * <p>An {@dodf IllfgblArgumfntExdfption} is tirown if tif prfdision
+     * <p>An {@dodf IllfgblArgumfntExdfption} is tirown if tif prfdision
+     * sfdtion of tif string is out of rbngf ({@dodf < 0}) or tif string is
+     * sfdtion of tif string is out of rbngf ({@dodf < 0}) or tif string is
+     * sfdtion of tif string is out of rbngf ({@dodf < 0}) or tif string is
+     * sfdtion of tif string is out of rbngf ({@dodf < 0}) or tif string is
+     * sfdtion of tif string is out of rbngf ({@dodf < 0}) or tif string is
+     * not in tif formbt drfbtfd by tif {@link #toString} mftiod.
+     * not in tif formbt drfbtfd by tif {@link #toString} mftiod.
+     * not in tif formbt drfbtfd by tif {@link #toString} mftiod.
+     * not in tif formbt drfbtfd by tif {@link #toString} mftiod.
+     * not in tif formbt drfbtfd by tif {@link #toString} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm vbl Tif string to bf pbrsfd
+     * @pbrbm vbl Tif string to bf pbrsfd
+     * @pbrbm vbl Tif string to bf pbrsfd
+     * @pbrbm vbl Tif string to bf pbrsfd
+     * @pbrbm vbl Tif string to bf pbrsfd
+     * @tirows IllfgblArgumfntExdfption if tif prfdision sfdtion is out of rbngf
+     * @tirows IllfgblArgumfntExdfption if tif prfdision sfdtion is out of rbngf
+     * @tirows IllfgblArgumfntExdfption if tif prfdision sfdtion is out of rbngf
+     * @tirows IllfgblArgumfntExdfption if tif prfdision sfdtion is out of rbngf
+     * @tirows IllfgblArgumfntExdfption if tif prfdision sfdtion is out of rbngf
      * or of indorrfdt formbt
-     * @throws NullPointfrExdfption if thf brgumfnt is {@dodf null}
+     * or of indorrfdt formbt
+     * or of indorrfdt formbt
+     * or of indorrfdt formbt
+     * or of indorrfdt formbt
+     * @tirows NullPointfrExdfption if tif brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif brgumfnt is {@dodf null}
+     * @tirows NullPointfrExdfption if tif brgumfnt is {@dodf null}
      */
-    publid MbthContfxt(String vbl) {
+     */
+     */
+     */
+     */
+    publid MbtiContfxt(String vbl) {
+    publid MbtiContfxt(String vbl) {
+    publid MbtiContfxt(String vbl) {
+    publid MbtiContfxt(String vbl) {
+    publid MbtiContfxt(String vbl) {
+        boolfbn bbd = fblsf;
+        boolfbn bbd = fblsf;
+        boolfbn bbd = fblsf;
+        boolfbn bbd = fblsf;
         boolfbn bbd = fblsf;
         int sftPrfdision;
+        int sftPrfdision;
+        int sftPrfdision;
+        int sftPrfdision;
+        int sftPrfdision;
         if (vbl == null)
-            throw nfw NullPointfrExdfption("null String");
-        try { // bny frror hfrf is b string formbt problfm
-            if (!vbl.stbrtsWith("prfdision=")) throw nfw RuntimfExdfption();
+        if (vbl == null)
+        if (vbl == null)
+        if (vbl == null)
+        if (vbl == null)
+            tirow nfw NullPointfrExdfption("null String");
+            tirow nfw NullPointfrExdfption("null String");
+            tirow nfw NullPointfrExdfption("null String");
+            tirow nfw NullPointfrExdfption("null String");
+            tirow nfw NullPointfrExdfption("null String");
+        try { // bny frror ifrf is b string formbt problfm
+        try { // bny frror ifrf is b string formbt problfm
+        try { // bny frror ifrf is b string formbt problfm
+        try { // bny frror ifrf is b string formbt problfm
+        try { // bny frror ifrf is b string formbt problfm
+            if (!vbl.stbrtsWiti("prfdision=")) tirow nfw RuntimfExdfption();
+            if (!vbl.stbrtsWiti("prfdision=")) tirow nfw RuntimfExdfption();
+            if (!vbl.stbrtsWiti("prfdision=")) tirow nfw RuntimfExdfption();
+            if (!vbl.stbrtsWiti("prfdision=")) tirow nfw RuntimfExdfption();
+            if (!vbl.stbrtsWiti("prfdision=")) tirow nfw RuntimfExdfption();
             int ffndf = vbl.indfxOf(' ');    // dould bf -1
-            int off = 10;                     // whfrf vbluf stbrts
+            int ffndf = vbl.indfxOf(' ');    // dould bf -1
+            int ffndf = vbl.indfxOf(' ');    // dould bf -1
+            int ffndf = vbl.indfxOf(' ');    // dould bf -1
+            int ffndf = vbl.indfxOf(' ');    // dould bf -1
+            int off = 10;                     // wifrf vbluf stbrts
+            int off = 10;                     // wifrf vbluf stbrts
+            int off = 10;                     // wifrf vbluf stbrts
+            int off = 10;                     // wifrf vbluf stbrts
+            int off = 10;                     // wifrf vbluf stbrts
+            sftPrfdision = Intfgfr.pbrsfInt(vbl.substring(10, ffndf));
+            sftPrfdision = Intfgfr.pbrsfInt(vbl.substring(10, ffndf));
+            sftPrfdision = Intfgfr.pbrsfInt(vbl.substring(10, ffndf));
+            sftPrfdision = Intfgfr.pbrsfInt(vbl.substring(10, ffndf));
             sftPrfdision = Intfgfr.pbrsfInt(vbl.substring(10, ffndf));
 
-            if (!vbl.stbrtsWith("roundingModf=", ffndf+1))
-                throw nfw RuntimfExdfption();
+
+
+
+
+            if (!vbl.stbrtsWiti("roundingModf=", ffndf+1))
+            if (!vbl.stbrtsWiti("roundingModf=", ffndf+1))
+            if (!vbl.stbrtsWiti("roundingModf=", ffndf+1))
+            if (!vbl.stbrtsWiti("roundingModf=", ffndf+1))
+            if (!vbl.stbrtsWiti("roundingModf=", ffndf+1))
+                tirow nfw RuntimfExdfption();
+                tirow nfw RuntimfExdfption();
+                tirow nfw RuntimfExdfption();
+                tirow nfw RuntimfExdfption();
+                tirow nfw RuntimfExdfption();
             off = ffndf + 1 + 13;
-            String str = vbl.substring(off, vbl.lfngth());
+            off = ffndf + 1 + 13;
+            off = ffndf + 1 + 13;
+            off = ffndf + 1 + 13;
+            off = ffndf + 1 + 13;
+            String str = vbl.substring(off, vbl.lfngti());
+            String str = vbl.substring(off, vbl.lfngti());
+            String str = vbl.substring(off, vbl.lfngti());
+            String str = vbl.substring(off, vbl.lfngti());
+            String str = vbl.substring(off, vbl.lfngti());
             roundingModf = RoundingModf.vblufOf(str);
-        } dbtdh (RuntimfExdfption rf) {
-            throw nfw IllfgblArgumfntExdfption("bbd string formbt");
+            roundingModf = RoundingModf.vblufOf(str);
+            roundingModf = RoundingModf.vblufOf(str);
+            roundingModf = RoundingModf.vblufOf(str);
+            roundingModf = RoundingModf.vblufOf(str);
+        } dbtdi (RuntimfExdfption rf) {
+        } dbtdi (RuntimfExdfption rf) {
+        } dbtdi (RuntimfExdfption rf) {
+        } dbtdi (RuntimfExdfption rf) {
+        } dbtdi (RuntimfExdfption rf) {
+            tirow nfw IllfgblArgumfntExdfption("bbd string formbt");
+            tirow nfw IllfgblArgumfntExdfption("bbd string formbt");
+            tirow nfw IllfgblArgumfntExdfption("bbd string formbt");
+            tirow nfw IllfgblArgumfntExdfption("bbd string formbt");
+            tirow nfw IllfgblArgumfntExdfption("bbd string formbt");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (sftPrfdision < MIN_DIGITS)
-            throw nfw IllfgblArgumfntExdfption("Digits < 0");
-        // thf othfr pbrbmftfrs dbnnot bf invblid if wf got hfrf
+        if (sftPrfdision < MIN_DIGITS)
+        if (sftPrfdision < MIN_DIGITS)
+        if (sftPrfdision < MIN_DIGITS)
+        if (sftPrfdision < MIN_DIGITS)
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+            tirow nfw IllfgblArgumfntExdfption("Digits < 0");
+        // tif otifr pbrbmftfrs dbnnot bf invblid if wf got ifrf
+        // tif otifr pbrbmftfrs dbnnot bf invblid if wf got ifrf
+        // tif otifr pbrbmftfrs dbnnot bf invblid if wf got ifrf
+        // tif otifr pbrbmftfrs dbnnot bf invblid if wf got ifrf
+        // tif otifr pbrbmftfrs dbnnot bf invblid if wf got ifrf
+        prfdision = sftPrfdision;
+        prfdision = sftPrfdision;
+        prfdision = sftPrfdision;
+        prfdision = sftPrfdision;
         prfdision = sftPrfdision;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf {@dodf prfdision} sftting.
-     * This vbluf is blwbys non-nfgbtivf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif {@dodf prfdision} sftting.
+     * Rfturns tif {@dodf prfdision} sftting.
+     * Rfturns tif {@dodf prfdision} sftting.
+     * Rfturns tif {@dodf prfdision} sftting.
+     * Rfturns tif {@dodf prfdision} sftting.
+     * Tiis vbluf is blwbys non-nfgbtivf.
+     * Tiis vbluf is blwbys non-nfgbtivf.
+     * Tiis vbluf is blwbys non-nfgbtivf.
+     * Tiis vbluf is blwbys non-nfgbtivf.
+     * Tiis vbluf is blwbys non-nfgbtivf.
      *
-     * @rfturn bn {@dodf int} whidh is thf vbluf of thf {@dodf prfdision}
+     *
+     *
+     *
+     *
+     * @rfturn bn {@dodf int} wiidi is tif vbluf of tif {@dodf prfdision}
+     * @rfturn bn {@dodf int} wiidi is tif vbluf of tif {@dodf prfdision}
+     * @rfturn bn {@dodf int} wiidi is tif vbluf of tif {@dodf prfdision}
+     * @rfturn bn {@dodf int} wiidi is tif vbluf of tif {@dodf prfdision}
+     * @rfturn bn {@dodf int} wiidi is tif vbluf of tif {@dodf prfdision}
+     *         sftting
+     *         sftting
+     *         sftting
+     *         sftting
      *         sftting
      */
+     */
+     */
+     */
+     */
+    publid int gftPrfdision() {
+    publid int gftPrfdision() {
+    publid int gftPrfdision() {
+    publid int gftPrfdision() {
     publid int gftPrfdision() {
         rfturn prfdision;
+        rfturn prfdision;
+        rfturn prfdision;
+        rfturn prfdision;
+        rfturn prfdision;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf roundingModf sftting.
-     * This will bf onf of
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif roundingModf sftting.
+     * Rfturns tif roundingModf sftting.
+     * Rfturns tif roundingModf sftting.
+     * Rfturns tif roundingModf sftting.
+     * Rfturns tif roundingModf sftting.
+     * Tiis will bf onf of
+     * Tiis will bf onf of
+     * Tiis will bf onf of
+     * Tiis will bf onf of
+     * Tiis will bf onf of
+     * {@link  RoundingModf#CEILING},
+     * {@link  RoundingModf#CEILING},
+     * {@link  RoundingModf#CEILING},
+     * {@link  RoundingModf#CEILING},
      * {@link  RoundingModf#CEILING},
      * {@link  RoundingModf#DOWN},
+     * {@link  RoundingModf#DOWN},
+     * {@link  RoundingModf#DOWN},
+     * {@link  RoundingModf#DOWN},
+     * {@link  RoundingModf#DOWN},
+     * {@link  RoundingModf#FLOOR},
+     * {@link  RoundingModf#FLOOR},
+     * {@link  RoundingModf#FLOOR},
+     * {@link  RoundingModf#FLOOR},
      * {@link  RoundingModf#FLOOR},
      * {@link  RoundingModf#HALF_DOWN},
+     * {@link  RoundingModf#HALF_DOWN},
+     * {@link  RoundingModf#HALF_DOWN},
+     * {@link  RoundingModf#HALF_DOWN},
+     * {@link  RoundingModf#HALF_DOWN},
+     * {@link  RoundingModf#HALF_EVEN},
+     * {@link  RoundingModf#HALF_EVEN},
+     * {@link  RoundingModf#HALF_EVEN},
+     * {@link  RoundingModf#HALF_EVEN},
      * {@link  RoundingModf#HALF_EVEN},
      * {@link  RoundingModf#HALF_UP},
+     * {@link  RoundingModf#HALF_UP},
+     * {@link  RoundingModf#HALF_UP},
+     * {@link  RoundingModf#HALF_UP},
+     * {@link  RoundingModf#HALF_UP},
+     * {@link  RoundingModf#UNNECESSARY}, or
+     * {@link  RoundingModf#UNNECESSARY}, or
+     * {@link  RoundingModf#UNNECESSARY}, or
+     * {@link  RoundingModf#UNNECESSARY}, or
      * {@link  RoundingModf#UNNECESSARY}, or
      * {@link  RoundingModf#UP}.
+     * {@link  RoundingModf#UP}.
+     * {@link  RoundingModf#UP}.
+     * {@link  RoundingModf#UP}.
+     * {@link  RoundingModf#UP}.
      *
-     * @rfturn b {@dodf RoundingModf} objfdt whidh is thf vbluf of thf
+     *
+     *
+     *
+     *
+     * @rfturn b {@dodf RoundingModf} objfdt wiidi is tif vbluf of tif
+     * @rfturn b {@dodf RoundingModf} objfdt wiidi is tif vbluf of tif
+     * @rfturn b {@dodf RoundingModf} objfdt wiidi is tif vbluf of tif
+     * @rfturn b {@dodf RoundingModf} objfdt wiidi is tif vbluf of tif
+     * @rfturn b {@dodf RoundingModf} objfdt wiidi is tif vbluf of tif
+     *         {@dodf roundingModf} sftting
+     *         {@dodf roundingModf} sftting
+     *         {@dodf roundingModf} sftting
+     *         {@dodf roundingModf} sftting
      *         {@dodf roundingModf} sftting
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid RoundingModf gftRoundingModf() {
+    publid RoundingModf gftRoundingModf() {
+    publid RoundingModf gftRoundingModf() {
+    publid RoundingModf gftRoundingModf() {
+    publid RoundingModf gftRoundingModf() {
+        rfturn roundingModf;
+        rfturn roundingModf;
+        rfturn roundingModf;
+        rfturn roundingModf;
         rfturn roundingModf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Compbrfs this {@dodf MbthContfxt} with thf spfdififd
+    /**
+    /**
+    /**
+    /**
+     * Compbrfs tiis {@dodf MbtiContfxt} witi tif spfdififd
+     * Compbrfs tiis {@dodf MbtiContfxt} witi tif spfdififd
+     * Compbrfs tiis {@dodf MbtiContfxt} witi tif spfdififd
+     * Compbrfs tiis {@dodf MbtiContfxt} witi tif spfdififd
+     * Compbrfs tiis {@dodf MbtiContfxt} witi tif spfdififd
+     * {@dodf Objfdt} for fqublity.
+     * {@dodf Objfdt} for fqublity.
+     * {@dodf Objfdt} for fqublity.
+     * {@dodf Objfdt} for fqublity.
      * {@dodf Objfdt} for fqublity.
      *
-     * @pbrbm  x {@dodf Objfdt} to whidh this {@dodf MbthContfxt} is to
+     *
+     *
+     *
+     *
+     * @pbrbm  x {@dodf Objfdt} to wiidi tiis {@dodf MbtiContfxt} is to
+     * @pbrbm  x {@dodf Objfdt} to wiidi tiis {@dodf MbtiContfxt} is to
+     * @pbrbm  x {@dodf Objfdt} to wiidi tiis {@dodf MbtiContfxt} is to
+     * @pbrbm  x {@dodf Objfdt} to wiidi tiis {@dodf MbtiContfxt} is to
+     * @pbrbm  x {@dodf Objfdt} to wiidi tiis {@dodf MbtiContfxt} is to
      *         bf dompbrfd.
-     * @rfturn {@dodf truf} if bnd only if thf spfdififd {@dodf Objfdt} is
-     *         b {@dodf MbthContfxt} objfdt whidh hbs fxbdtly thf sbmf
-     *         sfttings bs this objfdt
+     *         bf dompbrfd.
+     *         bf dompbrfd.
+     *         bf dompbrfd.
+     *         bf dompbrfd.
+     * @rfturn {@dodf truf} if bnd only if tif spfdififd {@dodf Objfdt} is
+     * @rfturn {@dodf truf} if bnd only if tif spfdififd {@dodf Objfdt} is
+     * @rfturn {@dodf truf} if bnd only if tif spfdififd {@dodf Objfdt} is
+     * @rfturn {@dodf truf} if bnd only if tif spfdififd {@dodf Objfdt} is
+     * @rfturn {@dodf truf} if bnd only if tif spfdififd {@dodf Objfdt} is
+     *         b {@dodf MbtiContfxt} objfdt wiidi ibs fxbdtly tif sbmf
+     *         b {@dodf MbtiContfxt} objfdt wiidi ibs fxbdtly tif sbmf
+     *         b {@dodf MbtiContfxt} objfdt wiidi ibs fxbdtly tif sbmf
+     *         b {@dodf MbtiContfxt} objfdt wiidi ibs fxbdtly tif sbmf
+     *         b {@dodf MbtiContfxt} objfdt wiidi ibs fxbdtly tif sbmf
+     *         sfttings bs tiis objfdt
+     *         sfttings bs tiis objfdt
+     *         sfttings bs tiis objfdt
+     *         sfttings bs tiis objfdt
+     *         sfttings bs tiis objfdt
+     */
+     */
+     */
+     */
      */
     publid boolfbn fqubls(Objfdt x){
-        MbthContfxt md;
-        if (!(x instbndfof MbthContfxt))
+    publid boolfbn fqubls(Objfdt x){
+    publid boolfbn fqubls(Objfdt x){
+    publid boolfbn fqubls(Objfdt x){
+    publid boolfbn fqubls(Objfdt x){
+        MbtiContfxt md;
+        MbtiContfxt md;
+        MbtiContfxt md;
+        MbtiContfxt md;
+        MbtiContfxt md;
+        if (!(x instbndfof MbtiContfxt))
+        if (!(x instbndfof MbtiContfxt))
+        if (!(x instbndfof MbtiContfxt))
+        if (!(x instbndfof MbtiContfxt))
+        if (!(x instbndfof MbtiContfxt))
             rfturn fblsf;
-        md = (MbthContfxt) x;
-        rfturn md.prfdision == this.prfdision
-            && md.roundingModf == this.roundingModf; // no nffd for .fqubls()
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        md = (MbtiContfxt) x;
+        md = (MbtiContfxt) x;
+        md = (MbtiContfxt) x;
+        md = (MbtiContfxt) x;
+        md = (MbtiContfxt) x;
+        rfturn md.prfdision == tiis.prfdision
+        rfturn md.prfdision == tiis.prfdision
+        rfturn md.prfdision == tiis.prfdision
+        rfturn md.prfdision == tiis.prfdision
+        rfturn md.prfdision == tiis.prfdision
+            && md.roundingModf == tiis.roundingModf; // no nffd for .fqubls()
+            && md.roundingModf == tiis.roundingModf; // no nffd for .fqubls()
+            && md.roundingModf == tiis.roundingModf; // no nffd for .fqubls()
+            && md.roundingModf == tiis.roundingModf; // no nffd for .fqubls()
+            && md.roundingModf == tiis.roundingModf; // no nffd for .fqubls()
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf hbsh dodf for this {@dodf MbthContfxt}.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif ibsi dodf for tiis {@dodf MbtiContfxt}.
+     * Rfturns tif ibsi dodf for tiis {@dodf MbtiContfxt}.
+     * Rfturns tif ibsi dodf for tiis {@dodf MbtiContfxt}.
+     * Rfturns tif ibsi dodf for tiis {@dodf MbtiContfxt}.
+     * Rfturns tif ibsi dodf for tiis {@dodf MbtiContfxt}.
      *
-     * @rfturn hbsh dodf for this {@dodf MbthContfxt}
+     *
+     *
+     *
+     *
+     * @rfturn ibsi dodf for tiis {@dodf MbtiContfxt}
+     * @rfturn ibsi dodf for tiis {@dodf MbtiContfxt}
+     * @rfturn ibsi dodf for tiis {@dodf MbtiContfxt}
+     * @rfturn ibsi dodf for tiis {@dodf MbtiContfxt}
+     * @rfturn ibsi dodf for tiis {@dodf MbtiContfxt}
      */
-    publid int hbshCodf() {
-        rfturn this.prfdision + roundingModf.hbshCodf() * 59;
+     */
+     */
+     */
+     */
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+        rfturn tiis.prfdision + roundingModf.ibsiCodf() * 59;
+        rfturn tiis.prfdision + roundingModf.ibsiCodf() * 59;
+        rfturn tiis.prfdision + roundingModf.ibsiCodf() * 59;
+        rfturn tiis.prfdision + roundingModf.ibsiCodf() * 59;
+        rfturn tiis.prfdision + roundingModf.ibsiCodf() * 59;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf string rfprfsfntbtion of this {@dodf MbthContfxt}.
-     * Thf {@dodf String} rfturnfd rfprfsfnts thf sfttings of thf
-     * {@dodf MbthContfxt} objfdt bs two spbdf-dflimitfd words
-     * (sfpbrbtfd by b singlf spbdf dhbrbdtfr, <tt>'&#92;u0020'</tt>,
-     * bnd with no lfbding or trbiling whitf spbdf), bs follows:
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif string rfprfsfntbtion of tiis {@dodf MbtiContfxt}.
+     * Rfturns tif string rfprfsfntbtion of tiis {@dodf MbtiContfxt}.
+     * Rfturns tif string rfprfsfntbtion of tiis {@dodf MbtiContfxt}.
+     * Rfturns tif string rfprfsfntbtion of tiis {@dodf MbtiContfxt}.
+     * Rfturns tif string rfprfsfntbtion of tiis {@dodf MbtiContfxt}.
+     * Tif {@dodf String} rfturnfd rfprfsfnts tif sfttings of tif
+     * Tif {@dodf String} rfturnfd rfprfsfnts tif sfttings of tif
+     * Tif {@dodf String} rfturnfd rfprfsfnts tif sfttings of tif
+     * Tif {@dodf String} rfturnfd rfprfsfnts tif sfttings of tif
+     * Tif {@dodf String} rfturnfd rfprfsfnts tif sfttings of tif
+     * {@dodf MbtiContfxt} objfdt bs two spbdf-dflimitfd words
+     * {@dodf MbtiContfxt} objfdt bs two spbdf-dflimitfd words
+     * {@dodf MbtiContfxt} objfdt bs two spbdf-dflimitfd words
+     * {@dodf MbtiContfxt} objfdt bs two spbdf-dflimitfd words
+     * {@dodf MbtiContfxt} objfdt bs two spbdf-dflimitfd words
+     * (sfpbrbtfd by b singlf spbdf dibrbdtfr, <tt>'&#92;u0020'</tt>,
+     * (sfpbrbtfd by b singlf spbdf dibrbdtfr, <tt>'&#92;u0020'</tt>,
+     * (sfpbrbtfd by b singlf spbdf dibrbdtfr, <tt>'&#92;u0020'</tt>,
+     * (sfpbrbtfd by b singlf spbdf dibrbdtfr, <tt>'&#92;u0020'</tt>,
+     * (sfpbrbtfd by b singlf spbdf dibrbdtfr, <tt>'&#92;u0020'</tt>,
+     * bnd witi no lfbding or trbiling wiitf spbdf), bs follows:
+     * bnd witi no lfbding or trbiling wiitf spbdf), bs follows:
+     * bnd witi no lfbding or trbiling wiitf spbdf), bs follows:
+     * bnd witi no lfbding or trbiling wiitf spbdf), bs follows:
+     * bnd witi no lfbding or trbiling wiitf spbdf), bs follows:
+     * <ol>
+     * <ol>
+     * <ol>
+     * <ol>
      * <ol>
      * <li>
-     * Thf string {@dodf "prfdision="}, immfdibtfly followfd
-     * by thf vbluf of thf prfdision sftting bs b numfrid string bs if
-     * gfnfrbtfd by thf {@link Intfgfr#toString(int) Intfgfr.toString}
-     * mfthod.
+     * <li>
+     * <li>
+     * <li>
+     * <li>
+     * Tif string {@dodf "prfdision="}, immfdibtfly followfd
+     * Tif string {@dodf "prfdision="}, immfdibtfly followfd
+     * Tif string {@dodf "prfdision="}, immfdibtfly followfd
+     * Tif string {@dodf "prfdision="}, immfdibtfly followfd
+     * Tif string {@dodf "prfdision="}, immfdibtfly followfd
+     * by tif vbluf of tif prfdision sftting bs b numfrid string bs if
+     * by tif vbluf of tif prfdision sftting bs b numfrid string bs if
+     * by tif vbluf of tif prfdision sftting bs b numfrid string bs if
+     * by tif vbluf of tif prfdision sftting bs b numfrid string bs if
+     * by tif vbluf of tif prfdision sftting bs b numfrid string bs if
+     * gfnfrbtfd by tif {@link Intfgfr#toString(int) Intfgfr.toString}
+     * gfnfrbtfd by tif {@link Intfgfr#toString(int) Intfgfr.toString}
+     * gfnfrbtfd by tif {@link Intfgfr#toString(int) Intfgfr.toString}
+     * gfnfrbtfd by tif {@link Intfgfr#toString(int) Intfgfr.toString}
+     * gfnfrbtfd by tif {@link Intfgfr#toString(int) Intfgfr.toString}
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     *
+     *
+     *
+     *
      *
      * <li>
-     * Thf string {@dodf "roundingModf="}, immfdibtfly
-     * followfd by thf vbluf of thf {@dodf roundingModf} sftting bs b
-     * word.  This word will bf thf sbmf bs thf nbmf of thf
-     * dorrfsponding publid donstbnt in thf {@link RoundingModf}
+     * <li>
+     * <li>
+     * <li>
+     * <li>
+     * Tif string {@dodf "roundingModf="}, immfdibtfly
+     * Tif string {@dodf "roundingModf="}, immfdibtfly
+     * Tif string {@dodf "roundingModf="}, immfdibtfly
+     * Tif string {@dodf "roundingModf="}, immfdibtfly
+     * Tif string {@dodf "roundingModf="}, immfdibtfly
+     * followfd by tif vbluf of tif {@dodf roundingModf} sftting bs b
+     * followfd by tif vbluf of tif {@dodf roundingModf} sftting bs b
+     * followfd by tif vbluf of tif {@dodf roundingModf} sftting bs b
+     * followfd by tif vbluf of tif {@dodf roundingModf} sftting bs b
+     * followfd by tif vbluf of tif {@dodf roundingModf} sftting bs b
+     * word.  Tiis word will bf tif sbmf bs tif nbmf of tif
+     * word.  Tiis word will bf tif sbmf bs tif nbmf of tif
+     * word.  Tiis word will bf tif sbmf bs tif nbmf of tif
+     * word.  Tiis word will bf tif sbmf bs tif nbmf of tif
+     * word.  Tiis word will bf tif sbmf bs tif nbmf of tif
+     * dorrfsponding publid donstbnt in tif {@link RoundingModf}
+     * dorrfsponding publid donstbnt in tif {@link RoundingModf}
+     * dorrfsponding publid donstbnt in tif {@link RoundingModf}
+     * dorrfsponding publid donstbnt in tif {@link RoundingModf}
+     * dorrfsponding publid donstbnt in tif {@link RoundingModf}
+     * fnum.
+     * fnum.
+     * fnum.
+     * fnum.
      * fnum.
      * </ol>
+     * </ol>
+     * </ol>
+     * </ol>
+     * </ol>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * For fxbmplf:
+     * For fxbmplf:
+     * For fxbmplf:
+     * For fxbmplf:
+     * For fxbmplf:
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
      * <prf>
      * prfdision=9 roundingModf=HALF_UP
+     * prfdision=9 roundingModf=HALF_UP
+     * prfdision=9 roundingModf=HALF_UP
+     * prfdision=9 roundingModf=HALF_UP
+     * prfdision=9 roundingModf=HALF_UP
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      * </prf>
      *
-     * Additionbl words mby bf bppfndfd to thf rfsult of
-     * {@dodf toString} in thf futurf if morf propfrtifs brf bddfd to
-     * this dlbss.
      *
-     * @rfturn b {@dodf String} rfprfsfnting thf dontfxt sfttings
+     *
+     *
+     *
+     * Additionbl words mby bf bppfndfd to tif rfsult of
+     * Additionbl words mby bf bppfndfd to tif rfsult of
+     * Additionbl words mby bf bppfndfd to tif rfsult of
+     * Additionbl words mby bf bppfndfd to tif rfsult of
+     * Additionbl words mby bf bppfndfd to tif rfsult of
+     * {@dodf toString} in tif futurf if morf propfrtifs brf bddfd to
+     * {@dodf toString} in tif futurf if morf propfrtifs brf bddfd to
+     * {@dodf toString} in tif futurf if morf propfrtifs brf bddfd to
+     * {@dodf toString} in tif futurf if morf propfrtifs brf bddfd to
+     * {@dodf toString} in tif futurf if morf propfrtifs brf bddfd to
+     * tiis dlbss.
+     * tiis dlbss.
+     * tiis dlbss.
+     * tiis dlbss.
+     * tiis dlbss.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b {@dodf String} rfprfsfnting tif dontfxt sfttings
+     * @rfturn b {@dodf String} rfprfsfnting tif dontfxt sfttings
+     * @rfturn b {@dodf String} rfprfsfnting tif dontfxt sfttings
+     * @rfturn b {@dodf String} rfprfsfnting tif dontfxt sfttings
+     * @rfturn b {@dodf String} rfprfsfnting tif dontfxt sfttings
+     */
+     */
+     */
+     */
      */
     publid jbvb.lbng.String toString() {
+    publid jbvb.lbng.String toString() {
+    publid jbvb.lbng.String toString() {
+    publid jbvb.lbng.String toString() {
+    publid jbvb.lbng.String toString() {
+        rfturn "prfdision=" +           prfdision + " " +
+        rfturn "prfdision=" +           prfdision + " " +
+        rfturn "prfdision=" +           prfdision + " " +
+        rfturn "prfdision=" +           prfdision + " " +
         rfturn "prfdision=" +           prfdision + " " +
                "roundingModf=" +        roundingModf.toString();
+               "roundingModf=" +        roundingModf.toString();
+               "roundingModf=" +        roundingModf.toString();
+               "roundingModf=" +        roundingModf.toString();
+               "roundingModf=" +        roundingModf.toString();
+    }
+    }
+    }
+    }
     }
 
-    // Privbtf mfthods
+
+
+
+
+    // Privbtf mftiods
+    // Privbtf mftiods
+    // Privbtf mftiods
+    // Privbtf mftiods
+    // Privbtf mftiods
+
+
+
+
 
     /**
-     * Rfdonstitutf thf {@dodf MbthContfxt} instbndf from b strfbm (thbt is,
+    /**
+    /**
+    /**
+    /**
+     * Rfdonstitutf tif {@dodf MbtiContfxt} instbndf from b strfbm (tibt is,
+     * Rfdonstitutf tif {@dodf MbtiContfxt} instbndf from b strfbm (tibt is,
+     * Rfdonstitutf tif {@dodf MbtiContfxt} instbndf from b strfbm (tibt is,
+     * Rfdonstitutf tif {@dodf MbtiContfxt} instbndf from b strfbm (tibt is,
+     * Rfdonstitutf tif {@dodf MbtiContfxt} instbndf from b strfbm (tibt is,
+     * dfsfriblizf it).
+     * dfsfriblizf it).
+     * dfsfriblizf it).
+     * dfsfriblizf it).
      * dfsfriblizf it).
      *
-     * @pbrbm s thf strfbm bfing rfbd.
+     *
+     *
+     *
+     *
+     * @pbrbm s tif strfbm bfing rfbd.
+     * @pbrbm s tif strfbm bfing rfbd.
+     * @pbrbm s tif strfbm bfing rfbd.
+     * @pbrbm s tif strfbm bfing rfbd.
+     * @pbrbm s tif strfbm bfing rfbd.
+     */
+     */
+     */
+     */
      */
     privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
-        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();     // rfbd in bll fiflds
+        s.dffbultRfbdObjfdt();     // rfbd in bll fiflds
+        s.dffbultRfbdObjfdt();     // rfbd in bll fiflds
+        s.dffbultRfbdObjfdt();     // rfbd in bll fiflds
         s.dffbultRfbdObjfdt();     // rfbd in bll fiflds
         // vblidbtf possibly bbd fiflds
+        // vblidbtf possibly bbd fiflds
+        // vblidbtf possibly bbd fiflds
+        // vblidbtf possibly bbd fiflds
+        // vblidbtf possibly bbd fiflds
         if (prfdision < MIN_DIGITS) {
-            String mfssbgf = "MbthContfxt: invblid digits in strfbm";
-            throw nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+        if (prfdision < MIN_DIGITS) {
+        if (prfdision < MIN_DIGITS) {
+        if (prfdision < MIN_DIGITS) {
+        if (prfdision < MIN_DIGITS) {
+            String mfssbgf = "MbtiContfxt: invblid digits in strfbm";
+            String mfssbgf = "MbtiContfxt: invblid digits in strfbm";
+            String mfssbgf = "MbtiContfxt: invblid digits in strfbm";
+            String mfssbgf = "MbtiContfxt: invblid digits in strfbm";
+            String mfssbgf = "MbtiContfxt: invblid digits in strfbm";
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+        }
+        }
+        }
+        }
         }
         if (roundingModf == null) {
-            String mfssbgf = "MbthContfxt: null roundingModf in strfbm";
-            throw nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+        if (roundingModf == null) {
+        if (roundingModf == null) {
+        if (roundingModf == null) {
+        if (roundingModf == null) {
+            String mfssbgf = "MbtiContfxt: null roundingModf in strfbm";
+            String mfssbgf = "MbtiContfxt: null roundingModf in strfbm";
+            String mfssbgf = "MbtiContfxt: null roundingModf in strfbm";
+            String mfssbgf = "MbtiContfxt: null roundingModf in strfbm";
+            String mfssbgf = "MbtiContfxt: null roundingModf in strfbm";
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+}
+}
+}
+}
 }

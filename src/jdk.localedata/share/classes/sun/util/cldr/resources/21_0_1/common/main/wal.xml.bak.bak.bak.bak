@@ -1,348 +1,1740 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="wbl"/>
+		<lbngubgf typf="wbl"/>
+		<lbngubgf typf="wbl"/>
+		<lbngubgf typf="wbl"/>
+		<lbngubgf typf="wbl"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="br" drbft="undonfirmfd">ዐርቢኛ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ዐርቢኛ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ዐርቢኛ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ዐርቢኛ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ዐርቢኛ</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ጀርመን</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ጀርመን</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ጀርመን</lbngubgf>
+			<lbngubgf typf="df" drbft="undonfirmfd">ጀርመን</lbngubgf>
 			<lbngubgf typf="df" drbft="undonfirmfd">ጀርመን</lbngubgf>
 			<lbngubgf typf="fn" drbft="undonfirmfd">እንግሊዝኛ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">እንግሊዝኛ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">እንግሊዝኛ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">እንግሊዝኛ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">እንግሊዝኛ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ስፓኒሽ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ስፓኒሽ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ስፓኒሽ</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">ስፓኒሽ</lbngubgf>
 			<lbngubgf typf="fs" drbft="undonfirmfd">ስፓኒሽ</lbngubgf>
 			<lbngubgf typf="fr" drbft="undonfirmfd">ፈረንሳይኛ</lbngubgf>
-			<lbngubgf typf="hi" drbft="undonfirmfd">ሐንድኛ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ፈረንሳይኛ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ፈረንሳይኛ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ፈረንሳይኛ</lbngubgf>
+			<lbngubgf typf="fr" drbft="undonfirmfd">ፈረንሳይኛ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ሐንድኛ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ሐንድኛ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ሐንድኛ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ሐንድኛ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">ሐንድኛ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ጣሊያንኛ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ጣሊያንኛ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ጣሊያንኛ</lbngubgf>
+			<lbngubgf typf="it" drbft="undonfirmfd">ጣሊያንኛ</lbngubgf>
 			<lbngubgf typf="it" drbft="undonfirmfd">ጣሊያንኛ</lbngubgf>
 			<lbngubgf typf="jb" drbft="undonfirmfd">ጃፓንኛ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ጃፓንኛ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ጃፓንኛ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ጃፓንኛ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ጃፓንኛ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ፖርቱጋሊኛ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ፖርቱጋሊኛ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ፖርቱጋሊኛ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">ፖርቱጋሊኛ</lbngubgf>
 			<lbngubgf typf="pt" drbft="undonfirmfd">ፖርቱጋሊኛ</lbngubgf>
 			<lbngubgf typf="ru" drbft="undonfirmfd">ራሽኛ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ራሽኛ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ራሽኛ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ራሽኛ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">ራሽኛ</lbngubgf>
 			<lbngubgf typf="wbl" drbft="undonfirmfd">ወላይታቱ</lbngubgf>
-			<lbngubgf typf="zh" drbft="undonfirmfd">ቻይንኛ</lbngubgf>
+			<lbngubgf typf="wbl" drbft="undonfirmfd">ወላይታቱ</lbngubgf>
+			<lbngubgf typf="wbl" drbft="undonfirmfd">ወላይታቱ</lbngubgf>
+			<lbngubgf typf="wbl" drbft="undonfirmfd">ወላይታቱ</lbngubgf>
+			<lbngubgf typf="wbl" drbft="undonfirmfd">ወላይታቱ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ቻይንኛ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ቻይንኛ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ቻይንኛ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ቻይንኛ</lbngubgf>
+			<lbngubgf typf="zi" drbft="undonfirmfd">ቻይንኛ</lbngubgf>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
 		</lbngubgfs>
 		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ላቲን</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ላቲን</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ላቲን</sdript>
+			<sdript typf="Lbtn" drbft="undonfirmfd">ላቲን</sdript>
 			<sdript typf="Lbtn" drbft="undonfirmfd">ላቲን</sdript>
 		</sdripts>
+		</sdripts>
+		</sdripts>
+		</sdripts>
+		</sdripts>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
 		<tfrritorifs>
 			<tfrritory typf="AD" drbft="undonfirmfd">አንዶራ</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">አንዶራ</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">አንዶራ</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">አንዶራ</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">አንዶራ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">የተባበሩት አረብ ኤምሬትስ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">የተባበሩት አረብ ኤምሬትስ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">የተባበሩት አረብ ኤምሬትስ</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">የተባበሩት አረብ ኤምሬትስ</tfrritory>
 			<tfrritory typf="AE" drbft="undonfirmfd">የተባበሩት አረብ ኤምሬትስ</tfrritory>
 			<tfrritory typf="AL" drbft="undonfirmfd">አልባኒያ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">አልባኒያ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">አልባኒያ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">አልባኒያ</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">አልባኒያ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">አርሜኒያ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">አርሜኒያ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">አርሜኒያ</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">አርሜኒያ</tfrritory>
 			<tfrritory typf="AM" drbft="undonfirmfd">አርሜኒያ</tfrritory>
 			<tfrritory typf="AN" drbft="undonfirmfd">ኔዘርላንድስ አንቲልስ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ኔዘርላንድስ አንቲልስ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ኔዘርላንድስ አንቲልስ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ኔዘርላንድስ አንቲልስ</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">ኔዘርላንድስ አንቲልስ</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">አርጀንቲና</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">አርጀንቲና</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">አርጀንቲና</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">አርጀንቲና</tfrritory>
 			<tfrritory typf="AR" drbft="undonfirmfd">አርጀንቲና</tfrritory>
 			<tfrritory typf="AT" drbft="undonfirmfd">ኦስትሪያ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ኦስትሪያ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ኦስትሪያ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ኦስትሪያ</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ኦስትሪያ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">አውስትሬሊያ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">አውስትሬሊያ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">አውስትሬሊያ</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">አውስትሬሊያ</tfrritory>
 			<tfrritory typf="AU" drbft="undonfirmfd">አውስትሬሊያ</tfrritory>
 			<tfrritory typf="AZ" drbft="undonfirmfd">አዘርባጃን</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">አዘርባጃን</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">አዘርባጃን</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">አዘርባጃን</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">አዘርባጃን</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ቦስኒያ እና ሄርዞጎቪኒያ</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ቦስኒያ እና ሄርዞጎቪኒያ</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ቦስኒያ እና ሄርዞጎቪኒያ</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">ቦስኒያ እና ሄርዞጎቪኒያ</tfrritory>
 			<tfrritory typf="BA" drbft="undonfirmfd">ቦስኒያ እና ሄርዞጎቪኒያ</tfrritory>
 			<tfrritory typf="BB" drbft="undonfirmfd">ባርቤዶስ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ባርቤዶስ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ባርቤዶስ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ባርቤዶስ</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">ባርቤዶስ</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ቤልጄም</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ቤልጄም</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ቤልጄም</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">ቤልጄም</tfrritory>
 			<tfrritory typf="BE" drbft="undonfirmfd">ቤልጄም</tfrritory>
 			<tfrritory typf="BG" drbft="undonfirmfd">ቡልጌሪያ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ቡልጌሪያ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ቡልጌሪያ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ቡልጌሪያ</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">ቡልጌሪያ</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ባህሬን</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ባህሬን</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ባህሬን</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">ባህሬን</tfrritory>
 			<tfrritory typf="BH" drbft="undonfirmfd">ባህሬን</tfrritory>
 			<tfrritory typf="BM" drbft="undonfirmfd">ቤርሙዳ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ቤርሙዳ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ቤርሙዳ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ቤርሙዳ</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">ቤርሙዳ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ቦሊቪያ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ቦሊቪያ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ቦሊቪያ</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">ቦሊቪያ</tfrritory>
 			<tfrritory typf="BO" drbft="undonfirmfd">ቦሊቪያ</tfrritory>
 			<tfrritory typf="BR" drbft="undonfirmfd">ብራዚል</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ብራዚል</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ብራዚል</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ብራዚል</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">ብራዚል</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ቡህታን</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ቡህታን</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ቡህታን</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">ቡህታን</tfrritory>
 			<tfrritory typf="BT" drbft="undonfirmfd">ቡህታን</tfrritory>
 			<tfrritory typf="BY" drbft="undonfirmfd">ቤላሩስ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ቤላሩስ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ቤላሩስ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ቤላሩስ</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">ቤላሩስ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ቤሊዘ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ቤሊዘ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ቤሊዘ</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">ቤሊዘ</tfrritory>
 			<tfrritory typf="BZ" drbft="undonfirmfd">ቤሊዘ</tfrritory>
 			<tfrritory typf="CD" drbft="undonfirmfd">ኮንጎ</tfrritory>
+			<tfrritory typf="CD" drbft="undonfirmfd">ኮንጎ</tfrritory>
+			<tfrritory typf="CD" drbft="undonfirmfd">ኮንጎ</tfrritory>
+			<tfrritory typf="CD" drbft="undonfirmfd">ኮንጎ</tfrritory>
+			<tfrritory typf="CD" drbft="undonfirmfd">ኮንጎ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">የመካከለኛው አፍሪካ ሪፐብሊክ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">የመካከለኛው አፍሪካ ሪፐብሊክ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">የመካከለኛው አፍሪካ ሪፐብሊክ</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">የመካከለኛው አፍሪካ ሪፐብሊክ</tfrritory>
 			<tfrritory typf="CF" drbft="undonfirmfd">የመካከለኛው አፍሪካ ሪፐብሊክ</tfrritory>
 			<tfrritory typf="CH" drbft="undonfirmfd">ስዊዘርላንድ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ስዊዘርላንድ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ስዊዘርላንድ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ስዊዘርላንድ</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ስዊዘርላንድ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ቺሊ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ቺሊ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ቺሊ</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ቺሊ</tfrritory>
 			<tfrritory typf="CL" drbft="undonfirmfd">ቺሊ</tfrritory>
 			<tfrritory typf="CM" drbft="undonfirmfd">ካሜሩን</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ካሜሩን</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ካሜሩን</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ካሜሩን</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ካሜሩን</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ቻይና</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ቻይና</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ቻይና</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">ቻይና</tfrritory>
 			<tfrritory typf="CN" drbft="undonfirmfd">ቻይና</tfrritory>
 			<tfrritory typf="CO" drbft="undonfirmfd">ኮሎምቢያ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ኮሎምቢያ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ኮሎምቢያ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ኮሎምቢያ</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ኮሎምቢያ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ሰርቢያ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ሰርቢያ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ሰርቢያ</tfrritory>
+			<tfrritory typf="CS" drbft="undonfirmfd">ሰርቢያ</tfrritory>
 			<tfrritory typf="CS" drbft="undonfirmfd">ሰርቢያ</tfrritory>
 			<tfrritory typf="CV" drbft="undonfirmfd">ኬፕ ቬርዴ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ኬፕ ቬርዴ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ኬፕ ቬርዴ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ኬፕ ቬርዴ</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">ኬፕ ቬርዴ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ሳይፕረስ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ሳይፕረስ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ሳይፕረስ</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">ሳይፕረስ</tfrritory>
 			<tfrritory typf="CY" drbft="undonfirmfd">ሳይፕረስ</tfrritory>
 			<tfrritory typf="CZ" drbft="undonfirmfd">ቼክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ቼክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ቼክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ቼክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ቼክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ጀርመን</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ጀርመን</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ጀርመን</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">ጀርመን</tfrritory>
 			<tfrritory typf="DE" drbft="undonfirmfd">ጀርመን</tfrritory>
 			<tfrritory typf="DK" drbft="undonfirmfd">ዴንማርክ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ዴንማርክ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ዴንማርክ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ዴንማርክ</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ዴንማርክ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ዶሚኒካ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ዶሚኒካ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ዶሚኒካ</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ዶሚኒካ</tfrritory>
 			<tfrritory typf="DM" drbft="undonfirmfd">ዶሚኒካ</tfrritory>
 			<tfrritory typf="DO" drbft="undonfirmfd">ዶሚኒክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ዶሚኒክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ዶሚኒክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ዶሚኒክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ዶሚኒክ ሪፑብሊክ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">አልጄሪያ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">አልጄሪያ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">አልጄሪያ</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">አልጄሪያ</tfrritory>
 			<tfrritory typf="DZ" drbft="undonfirmfd">አልጄሪያ</tfrritory>
 			<tfrritory typf="EC" drbft="undonfirmfd">ኢኳዶር</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ኢኳዶር</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ኢኳዶር</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ኢኳዶር</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ኢኳዶር</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ኤስቶኒያ</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ኤስቶኒያ</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ኤስቶኒያ</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ኤስቶኒያ</tfrritory>
 			<tfrritory typf="EE" drbft="undonfirmfd">ኤስቶኒያ</tfrritory>
 			<tfrritory typf="EG" drbft="undonfirmfd">ግብጽ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ግብጽ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ግብጽ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ግብጽ</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ግብጽ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ምዕራባዊ ሳህራ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ምዕራባዊ ሳህራ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ምዕራባዊ ሳህራ</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">ምዕራባዊ ሳህራ</tfrritory>
 			<tfrritory typf="EH" drbft="undonfirmfd">ምዕራባዊ ሳህራ</tfrritory>
 			<tfrritory typf="ER" drbft="undonfirmfd">ኤርትራ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ኤርትራ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ኤርትራ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ኤርትራ</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ኤርትራ</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ስፔን</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ስፔን</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ስፔን</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">ስፔን</tfrritory>
 			<tfrritory typf="ES" drbft="undonfirmfd">ስፔን</tfrritory>
 			<tfrritory typf="ET" drbft="undonfirmfd">ኢትዮጵያ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ኢትዮጵያ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ኢትዮጵያ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ኢትዮጵያ</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ኢትዮጵያ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ፊንላንድ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ፊንላንድ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ፊንላንድ</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ፊንላንድ</tfrritory>
 			<tfrritory typf="FI" drbft="undonfirmfd">ፊንላንድ</tfrritory>
 			<tfrritory typf="FJ" drbft="undonfirmfd">ፊጂ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ፊጂ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ፊጂ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ፊጂ</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ፊጂ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ሚክሮኔዢያ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ሚክሮኔዢያ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ሚክሮኔዢያ</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">ሚክሮኔዢያ</tfrritory>
 			<tfrritory typf="FM" drbft="undonfirmfd">ሚክሮኔዢያ</tfrritory>
 			<tfrritory typf="FR" drbft="undonfirmfd">ፈረንሳይ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ፈረንሳይ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ፈረንሳይ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ፈረንሳይ</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ፈረንሳይ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">እንግሊዝ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">እንግሊዝ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">እንግሊዝ</tfrritory>
+			<tfrritory typf="GB" drbft="undonfirmfd">እንግሊዝ</tfrritory>
 			<tfrritory typf="GB" drbft="undonfirmfd">እንግሊዝ</tfrritory>
 			<tfrritory typf="GE" drbft="undonfirmfd">ጆርጂያ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ጆርጂያ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ጆርጂያ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ጆርጂያ</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ጆርጂያ</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">የፈረንሳይ ጉዊአና</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">የፈረንሳይ ጉዊአና</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">የፈረንሳይ ጉዊአና</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">የፈረንሳይ ጉዊአና</tfrritory>
 			<tfrritory typf="GF" drbft="undonfirmfd">የፈረንሳይ ጉዊአና</tfrritory>
 			<tfrritory typf="GM" drbft="undonfirmfd">ጋምቢያ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ጋምቢያ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ጋምቢያ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ጋምቢያ</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">ጋምቢያ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ጊኒ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ጊኒ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ጊኒ</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">ጊኒ</tfrritory>
 			<tfrritory typf="GN" drbft="undonfirmfd">ጊኒ</tfrritory>
 			<tfrritory typf="GQ" drbft="undonfirmfd">ኢኳቶሪያል ጊኒ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ኢኳቶሪያል ጊኒ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ኢኳቶሪያል ጊኒ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ኢኳቶሪያል ጊኒ</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">ኢኳቶሪያል ጊኒ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ግሪክ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ግሪክ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ግሪክ</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">ግሪክ</tfrritory>
 			<tfrritory typf="GR" drbft="undonfirmfd">ግሪክ</tfrritory>
 			<tfrritory typf="GW" drbft="undonfirmfd">ቢሳዎ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ቢሳዎ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ቢሳዎ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ቢሳዎ</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">ቢሳዎ</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ጉያና</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ጉያና</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ጉያና</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">ጉያና</tfrritory>
 			<tfrritory typf="GY" drbft="undonfirmfd">ጉያና</tfrritory>
 			<tfrritory typf="HK" drbft="undonfirmfd">ሆንግ ኮንግ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ሆንግ ኮንግ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ሆንግ ኮንግ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ሆንግ ኮንግ</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">ሆንግ ኮንግ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ክሮኤሽያ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ክሮኤሽያ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ክሮኤሽያ</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ክሮኤሽያ</tfrritory>
 			<tfrritory typf="HR" drbft="undonfirmfd">ክሮኤሽያ</tfrritory>
 			<tfrritory typf="HT" drbft="undonfirmfd">ሀይቲ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ሀይቲ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ሀይቲ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ሀይቲ</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ሀይቲ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ሀንጋሪ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ሀንጋሪ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ሀንጋሪ</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ሀንጋሪ</tfrritory>
 			<tfrritory typf="HU" drbft="undonfirmfd">ሀንጋሪ</tfrritory>
 			<tfrritory typf="ID" drbft="undonfirmfd">ኢንዶኔዢያ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ኢንዶኔዢያ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ኢንዶኔዢያ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ኢንዶኔዢያ</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ኢንዶኔዢያ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">አየርላንድ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">አየርላንድ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">አየርላንድ</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">አየርላንድ</tfrritory>
 			<tfrritory typf="IE" drbft="undonfirmfd">አየርላንድ</tfrritory>
 			<tfrritory typf="IL" drbft="undonfirmfd">እስራኤል</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">እስራኤል</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">እስራኤል</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">እስራኤል</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">እስራኤል</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ህንድ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ህንድ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ህንድ</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">ህንድ</tfrritory>
 			<tfrritory typf="IN" drbft="undonfirmfd">ህንድ</tfrritory>
 			<tfrritory typf="IQ" drbft="undonfirmfd">ኢራቅ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ኢራቅ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ኢራቅ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ኢራቅ</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ኢራቅ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">አይስላንድ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">አይስላንድ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">አይስላንድ</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">አይስላንድ</tfrritory>
 			<tfrritory typf="IS" drbft="undonfirmfd">አይስላንድ</tfrritory>
 			<tfrritory typf="IT" drbft="undonfirmfd">ጣሊያን</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ጣሊያን</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ጣሊያን</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ጣሊያን</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">ጣሊያን</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ጃማይካ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ጃማይካ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ጃማይካ</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ጃማይካ</tfrritory>
 			<tfrritory typf="JM" drbft="undonfirmfd">ጃማይካ</tfrritory>
 			<tfrritory typf="JO" drbft="undonfirmfd">ጆርዳን</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ጆርዳን</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ጆርዳን</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ጆርዳን</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ጆርዳን</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ጃፓን</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ጃፓን</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ጃፓን</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">ጃፓን</tfrritory>
 			<tfrritory typf="JP" drbft="undonfirmfd">ጃፓን</tfrritory>
 			<tfrritory typf="KH" drbft="undonfirmfd">ካምቦዲያ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ካምቦዲያ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ካምቦዲያ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ካምቦዲያ</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ካምቦዲያ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ኮሞሮስ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ኮሞሮስ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ኮሞሮስ</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">ኮሞሮስ</tfrritory>
 			<tfrritory typf="KM" drbft="undonfirmfd">ኮሞሮስ</tfrritory>
 			<tfrritory typf="KP" drbft="undonfirmfd">ደቡብ ኮሪያ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ደቡብ ኮሪያ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ደቡብ ኮሪያ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ደቡብ ኮሪያ</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">ደቡብ ኮሪያ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ሰሜን ኮሪያ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ሰሜን ኮሪያ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ሰሜን ኮሪያ</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ሰሜን ኮሪያ</tfrritory>
 			<tfrritory typf="KR" drbft="undonfirmfd">ሰሜን ኮሪያ</tfrritory>
 			<tfrritory typf="KW" drbft="undonfirmfd">ክዌት</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ክዌት</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ክዌት</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ክዌት</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ክዌት</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ሊባኖስ</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ሊባኖስ</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ሊባኖስ</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ሊባኖስ</tfrritory>
 			<tfrritory typf="LB" drbft="undonfirmfd">ሊባኖስ</tfrritory>
 			<tfrritory typf="LT" drbft="undonfirmfd">ሊቱዌኒያ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ሊቱዌኒያ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ሊቱዌኒያ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ሊቱዌኒያ</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ሊቱዌኒያ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ላትቪያ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ላትቪያ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ላትቪያ</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ላትቪያ</tfrritory>
 			<tfrritory typf="LV" drbft="undonfirmfd">ላትቪያ</tfrritory>
 			<tfrritory typf="LY" drbft="undonfirmfd">ሊቢያ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ሊቢያ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ሊቢያ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ሊቢያ</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ሊቢያ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ሞሮኮ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ሞሮኮ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ሞሮኮ</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">ሞሮኮ</tfrritory>
 			<tfrritory typf="MA" drbft="undonfirmfd">ሞሮኮ</tfrritory>
 			<tfrritory typf="MD" drbft="undonfirmfd">ሞልዶቫ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ሞልዶቫ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ሞልዶቫ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ሞልዶቫ</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">ሞልዶቫ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ማከዶኒያ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ማከዶኒያ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ማከዶኒያ</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">ማከዶኒያ</tfrritory>
 			<tfrritory typf="MK" drbft="undonfirmfd">ማከዶኒያ</tfrritory>
 			<tfrritory typf="MN" drbft="undonfirmfd">ሞንጎሊያ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ሞንጎሊያ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ሞንጎሊያ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ሞንጎሊያ</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">ሞንጎሊያ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ማካዎ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ማካዎ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ማካዎ</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">ማካዎ</tfrritory>
 			<tfrritory typf="MO" drbft="undonfirmfd">ማካዎ</tfrritory>
 			<tfrritory typf="MR" drbft="undonfirmfd">ሞሪቴኒያ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ሞሪቴኒያ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ሞሪቴኒያ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ሞሪቴኒያ</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">ሞሪቴኒያ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ማልታ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ማልታ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ማልታ</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">ማልታ</tfrritory>
 			<tfrritory typf="MT" drbft="undonfirmfd">ማልታ</tfrritory>
 			<tfrritory typf="MU" drbft="undonfirmfd">ማሩሸስ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ማሩሸስ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ማሩሸስ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ማሩሸስ</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">ማሩሸስ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ሜክሲኮ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ሜክሲኮ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ሜክሲኮ</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">ሜክሲኮ</tfrritory>
 			<tfrritory typf="MX" drbft="undonfirmfd">ሜክሲኮ</tfrritory>
 			<tfrritory typf="MY" drbft="undonfirmfd">ማሌዢያ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ማሌዢያ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ማሌዢያ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ማሌዢያ</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">ማሌዢያ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ናሚቢያ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ናሚቢያ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ናሚቢያ</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ናሚቢያ</tfrritory>
 			<tfrritory typf="NA" drbft="undonfirmfd">ናሚቢያ</tfrritory>
 			<tfrritory typf="NC" drbft="undonfirmfd">ኒው ካሌዶኒያ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ኒው ካሌዶኒያ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ኒው ካሌዶኒያ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ኒው ካሌዶኒያ</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">ኒው ካሌዶኒያ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ናይጄሪያ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ናይጄሪያ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ናይጄሪያ</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ናይጄሪያ</tfrritory>
 			<tfrritory typf="NG" drbft="undonfirmfd">ናይጄሪያ</tfrritory>
 			<tfrritory typf="NL" drbft="undonfirmfd">ኔዘርላንድ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ኔዘርላንድ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ኔዘርላንድ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ኔዘርላንድ</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ኔዘርላንድ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ኖርዌ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ኖርዌ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ኖርዌ</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ኖርዌ</tfrritory>
 			<tfrritory typf="NO" drbft="undonfirmfd">ኖርዌ</tfrritory>
 			<tfrritory typf="NP" drbft="undonfirmfd">ኔፓል</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ኔፓል</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ኔፓል</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ኔፓል</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">ኔፓል</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ኒው ዚላንድ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ኒው ዚላንድ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ኒው ዚላንድ</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ኒው ዚላንድ</tfrritory>
 			<tfrritory typf="NZ" drbft="undonfirmfd">ኒው ዚላንድ</tfrritory>
 			<tfrritory typf="PE" drbft="undonfirmfd">ፔሩ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ፔሩ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ፔሩ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ፔሩ</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">ፔሩ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">የፈረንሳይ ፖሊኔዢያ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">የፈረንሳይ ፖሊኔዢያ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">የፈረንሳይ ፖሊኔዢያ</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">የፈረንሳይ ፖሊኔዢያ</tfrritory>
 			<tfrritory typf="PF" drbft="undonfirmfd">የፈረንሳይ ፖሊኔዢያ</tfrritory>
 			<tfrritory typf="PG" drbft="undonfirmfd">ፓፑዋ ኒው ጊኒ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ፓፑዋ ኒው ጊኒ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ፓፑዋ ኒው ጊኒ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ፓፑዋ ኒው ጊኒ</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">ፓፑዋ ኒው ጊኒ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ፖላንድ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ፖላንድ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ፖላንድ</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">ፖላንድ</tfrritory>
 			<tfrritory typf="PL" drbft="undonfirmfd">ፖላንድ</tfrritory>
 			<tfrritory typf="PR" drbft="undonfirmfd">ፖርታ ሪኮ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ፖርታ ሪኮ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ፖርታ ሪኮ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ፖርታ ሪኮ</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">ፖርታ ሪኮ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ሮሜኒያ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ሮሜኒያ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ሮሜኒያ</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">ሮሜኒያ</tfrritory>
 			<tfrritory typf="RO" drbft="undonfirmfd">ሮሜኒያ</tfrritory>
 			<tfrritory typf="RU" drbft="undonfirmfd">ራሺያ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ራሺያ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ራሺያ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ራሺያ</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">ራሺያ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ሳውድአረቢያ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ሳውድአረቢያ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ሳውድአረቢያ</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">ሳውድአረቢያ</tfrritory>
 			<tfrritory typf="SA" drbft="undonfirmfd">ሳውድአረቢያ</tfrritory>
 			<tfrritory typf="SD" drbft="undonfirmfd">ሱዳን</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ሱዳን</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ሱዳን</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ሱዳን</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">ሱዳን</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ስዊድን</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ስዊድን</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ስዊድን</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ስዊድን</tfrritory>
 			<tfrritory typf="SE" drbft="undonfirmfd">ስዊድን</tfrritory>
 			<tfrritory typf="SG" drbft="undonfirmfd">ሲንጋፖር</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ሲንጋፖር</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ሲንጋፖር</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ሲንጋፖር</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">ሲንጋፖር</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ስሎቬኒያ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ስሎቬኒያ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ስሎቬኒያ</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ስሎቬኒያ</tfrritory>
 			<tfrritory typf="SI" drbft="undonfirmfd">ስሎቬኒያ</tfrritory>
 			<tfrritory typf="SK" drbft="undonfirmfd">ስሎቫኪያ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ስሎቫኪያ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ስሎቫኪያ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ስሎቫኪያ</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ስሎቫኪያ</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ሴኔጋል</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ሴኔጋል</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ሴኔጋል</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">ሴኔጋል</tfrritory>
 			<tfrritory typf="SN" drbft="undonfirmfd">ሴኔጋል</tfrritory>
 			<tfrritory typf="SO" drbft="undonfirmfd">ሱማሌ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ሱማሌ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ሱማሌ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ሱማሌ</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">ሱማሌ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ሲሪያ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ሲሪያ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ሲሪያ</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">ሲሪያ</tfrritory>
 			<tfrritory typf="SY" drbft="undonfirmfd">ሲሪያ</tfrritory>
 			<tfrritory typf="TD" drbft="undonfirmfd">ቻድ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ቻድ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ቻድ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ቻድ</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ቻድ</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">የፈረንሳይ ደቡባዊ ግዛቶች</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">የፈረንሳይ ደቡባዊ ግዛቶች</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">የፈረንሳይ ደቡባዊ ግዛቶች</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">የፈረንሳይ ደቡባዊ ግዛቶች</tfrritory>
 			<tfrritory typf="TF" drbft="undonfirmfd">የፈረንሳይ ደቡባዊ ግዛቶች</tfrritory>
 			<tfrritory typf="TH" drbft="undonfirmfd">ታይላንድ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ታይላንድ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ታይላንድ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ታይላንድ</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">ታይላንድ</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ታጃኪስታን</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ታጃኪስታን</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ታጃኪስታን</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">ታጃኪስታን</tfrritory>
 			<tfrritory typf="TJ" drbft="undonfirmfd">ታጃኪስታን</tfrritory>
 			<tfrritory typf="TL" drbft="undonfirmfd">ምስራቅ ቲሞር</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ምስራቅ ቲሞር</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ምስራቅ ቲሞር</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ምስራቅ ቲሞር</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">ምስራቅ ቲሞር</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ቱኒዚያ</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ቱኒዚያ</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ቱኒዚያ</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">ቱኒዚያ</tfrritory>
 			<tfrritory typf="TN" drbft="undonfirmfd">ቱኒዚያ</tfrritory>
 			<tfrritory typf="TR" drbft="undonfirmfd">ቱርክ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ቱርክ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ቱርክ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ቱርክ</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ቱርክ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ትሪኒዳድ እና ቶባጎ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ትሪኒዳድ እና ቶባጎ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ትሪኒዳድ እና ቶባጎ</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">ትሪኒዳድ እና ቶባጎ</tfrritory>
 			<tfrritory typf="TT" drbft="undonfirmfd">ትሪኒዳድ እና ቶባጎ</tfrritory>
 			<tfrritory typf="TZ" drbft="undonfirmfd">ታንዛኒያ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ታንዛኒያ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ታንዛኒያ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ታንዛኒያ</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">ታንዛኒያ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ዩጋንዳ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ዩጋንዳ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ዩጋንዳ</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ዩጋንዳ</tfrritory>
 			<tfrritory typf="UG" drbft="undonfirmfd">ዩጋንዳ</tfrritory>
 			<tfrritory typf="US" drbft="undonfirmfd">አሜሪካ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">አሜሪካ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">አሜሪካ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">አሜሪካ</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">አሜሪካ</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ዩዝበኪስታን</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ዩዝበኪስታን</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ዩዝበኪስታን</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ዩዝበኪስታን</tfrritory>
 			<tfrritory typf="UZ" drbft="undonfirmfd">ዩዝበኪስታን</tfrritory>
 			<tfrritory typf="VE" drbft="undonfirmfd">ቬንዙዌላ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ቬንዙዌላ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ቬንዙዌላ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ቬንዙዌላ</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ቬንዙዌላ</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">የእንግሊዝ ድንግል ደሴቶች</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">የእንግሊዝ ድንግል ደሴቶች</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">የእንግሊዝ ድንግል ደሴቶች</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">የእንግሊዝ ድንግል ደሴቶች</tfrritory>
 			<tfrritory typf="VG" drbft="undonfirmfd">የእንግሊዝ ድንግል ደሴቶች</tfrritory>
 			<tfrritory typf="VI" drbft="undonfirmfd">የአሜሪካ ቨርጂን ደሴቶች</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">የአሜሪካ ቨርጂን ደሴቶች</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">የአሜሪካ ቨርጂን ደሴቶች</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">የአሜሪካ ቨርጂን ደሴቶች</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">የአሜሪካ ቨርጂን ደሴቶች</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">የመን</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">የመን</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">የመን</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">የመን</tfrritory>
 			<tfrritory typf="YE" drbft="undonfirmfd">የመን</tfrritory>
 			<tfrritory typf="ZA" drbft="undonfirmfd">ደቡብ አፍሪካ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ደቡብ አፍሪካ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ደቡብ አፍሪካ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ደቡብ አፍሪካ</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ደቡብ አፍሪካ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ዛምቢያ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ዛምቢያ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ዛምቢያ</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ዛምቢያ</tfrritory>
 			<tfrritory typf="ZM" drbft="undonfirmfd">ዛምቢያ</tfrritory>
 		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
 	</lodblfDisplbyNbmfs>
-	<dhbrbdtfrs>
-		<fxfmplbrChbrbdtfrs>[\u135F ᎐-᎙ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[ሀ ለ ⶀ መ ᎀ ᎁ ᎃ ⶁ ረ ⶂ ሰ ሸ ⶄ ቈ ቐ ቘ ᎄ ᎅ ᎇ ⶅ ቨ ⶆ ቸ ኀ ኈ ነ ኘ ⶉ ⶊ ከ ኰ ዀ ወ ዐ ⶋ ዠ ደ ⶌ ዸ ጀ ⶎ ጐ ጘ ⶓ ⶕ ⶖ ⶏ ጨ ⶐ ⶑ ጸ ፈ ᎈ ᎉ ᎋ ፐ ᎍ ᎎ ᎏ ፘ ⶠ ⶢ ⶣ ⶤ ⶦ ⶨ ⶩ ⶫ ⶬ ⶮ ⶰ ⶱ ⶳ ⶴ ⶶ ⶸ ⶹ ⶻ ⶼ ⶾ ⷀ ⷁ ⷃ ⷄ ⷆ ⷈ ⷉ ⷋ ⷌ ⷎ ⷐ ⷑ ⷓ ⷔ ⷖ ⷘ ⷙ ⷛ ⷜ ⷝ]</fxfmplbrChbrbdtfrs>
-	</dhbrbdtfrs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u135F ᎐-᎙ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u135F ᎐-᎙ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u135F ᎐-᎙ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u135F ᎐-᎙ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u135F ᎐-᎙ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ሀ ለ ⶀ መ ᎀ ᎁ ᎃ ⶁ ረ ⶂ ሰ ሸ ⶄ ቈ ቐ ቘ ᎄ ᎅ ᎇ ⶅ ቨ ⶆ ቸ ኀ ኈ ነ ኘ ⶉ ⶊ ከ ኰ ዀ ወ ዐ ⶋ ዠ ደ ⶌ ዸ ጀ ⶎ ጐ ጘ ⶓ ⶕ ⶖ ⶏ ጨ ⶐ ⶑ ጸ ፈ ᎈ ᎉ ᎋ ፐ ᎍ ᎎ ᎏ ፘ ⶠ ⶢ ⶣ ⶤ ⶦ ⶨ ⶩ ⶫ ⶬ ⶮ ⶰ ⶱ ⶳ ⶴ ⶶ ⶸ ⶹ ⶻ ⶼ ⶾ ⷀ ⷁ ⷃ ⷄ ⷆ ⷈ ⷉ ⷋ ⷌ ⷎ ⷐ ⷑ ⷓ ⷔ ⷖ ⷘ ⷙ ⷛ ⷜ ⷝ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ሀ ለ ⶀ መ ᎀ ᎁ ᎃ ⶁ ረ ⶂ ሰ ሸ ⶄ ቈ ቐ ቘ ᎄ ᎅ ᎇ ⶅ ቨ ⶆ ቸ ኀ ኈ ነ ኘ ⶉ ⶊ ከ ኰ ዀ ወ ዐ ⶋ ዠ ደ ⶌ ዸ ጀ ⶎ ጐ ጘ ⶓ ⶕ ⶖ ⶏ ጨ ⶐ ⶑ ጸ ፈ ᎈ ᎉ ᎋ ፐ ᎍ ᎎ ᎏ ፘ ⶠ ⶢ ⶣ ⶤ ⶦ ⶨ ⶩ ⶫ ⶬ ⶮ ⶰ ⶱ ⶳ ⶴ ⶶ ⶸ ⶹ ⶻ ⶼ ⶾ ⷀ ⷁ ⷃ ⷄ ⷆ ⷈ ⷉ ⷋ ⷌ ⷎ ⷐ ⷑ ⷓ ⷔ ⷖ ⷘ ⷙ ⷛ ⷜ ⷝ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ሀ ለ ⶀ መ ᎀ ᎁ ᎃ ⶁ ረ ⶂ ሰ ሸ ⶄ ቈ ቐ ቘ ᎄ ᎅ ᎇ ⶅ ቨ ⶆ ቸ ኀ ኈ ነ ኘ ⶉ ⶊ ከ ኰ ዀ ወ ዐ ⶋ ዠ ደ ⶌ ዸ ጀ ⶎ ጐ ጘ ⶓ ⶕ ⶖ ⶏ ጨ ⶐ ⶑ ጸ ፈ ᎈ ᎉ ᎋ ፐ ᎍ ᎎ ᎏ ፘ ⶠ ⶢ ⶣ ⶤ ⶦ ⶨ ⶩ ⶫ ⶬ ⶮ ⶰ ⶱ ⶳ ⶴ ⶶ ⶸ ⶹ ⶻ ⶼ ⶾ ⷀ ⷁ ⷃ ⷄ ⷆ ⷈ ⷉ ⷋ ⷌ ⷎ ⷐ ⷑ ⷓ ⷔ ⷖ ⷘ ⷙ ⷛ ⷜ ⷝ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ሀ ለ ⶀ መ ᎀ ᎁ ᎃ ⶁ ረ ⶂ ሰ ሸ ⶄ ቈ ቐ ቘ ᎄ ᎅ ᎇ ⶅ ቨ ⶆ ቸ ኀ ኈ ነ ኘ ⶉ ⶊ ከ ኰ ዀ ወ ዐ ⶋ ዠ ደ ⶌ ዸ ጀ ⶎ ጐ ጘ ⶓ ⶕ ⶖ ⶏ ጨ ⶐ ⶑ ጸ ፈ ᎈ ᎉ ᎋ ፐ ᎍ ᎎ ᎏ ፘ ⶠ ⶢ ⶣ ⶤ ⶦ ⶨ ⶩ ⶫ ⶬ ⶮ ⶰ ⶱ ⶳ ⶴ ⶶ ⶸ ⶹ ⶻ ⶼ ⶾ ⷀ ⷁ ⷃ ⷄ ⷆ ⷈ ⷉ ⷋ ⷌ ⷎ ⷐ ⷑ ⷓ ⷔ ⷖ ⷘ ⷙ ⷛ ⷜ ⷝ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ሀ ለ ⶀ መ ᎀ ᎁ ᎃ ⶁ ረ ⶂ ሰ ሸ ⶄ ቈ ቐ ቘ ᎄ ᎅ ᎇ ⶅ ቨ ⶆ ቸ ኀ ኈ ነ ኘ ⶉ ⶊ ከ ኰ ዀ ወ ዐ ⶋ ዠ ደ ⶌ ዸ ጀ ⶎ ጐ ጘ ⶓ ⶕ ⶖ ⶏ ጨ ⶐ ⶑ ጸ ፈ ᎈ ᎉ ᎋ ፐ ᎍ ᎎ ᎏ ፘ ⶠ ⶢ ⶣ ⶤ ⶦ ⶨ ⶩ ⶫ ⶬ ⶮ ⶰ ⶱ ⶳ ⶴ ⶶ ⶸ ⶹ ⶻ ⶼ ⶾ ⷀ ⷁ ⷃ ⷄ ⷆ ⷈ ⷉ ⷋ ⷌ ⷎ ⷐ ⷑ ⷓ ⷔ ⷖ ⷘ ⷙ ⷛ ⷜ ⷝ]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 			<dblfndbr typf="grfgoribn">
-				<months>
-					<monthContfxt typf="formbt">
-						<monthWidth typf="bbbrfvibtfd">
-							<month typf="1" drbft="undonfirmfd">ጃንዩ</month>
-							<month typf="2" drbft="undonfirmfd">ፌብሩ</month>
-							<month typf="3" drbft="undonfirmfd">ማርች</month>
-							<month typf="4" drbft="undonfirmfd">ኤፕረ</month>
-							<month typf="5" drbft="undonfirmfd">ሜይ</month>
-							<month typf="6" drbft="undonfirmfd">ጁን</month>
-							<month typf="7" drbft="undonfirmfd">ጁላይ</month>
-							<month typf="8" drbft="undonfirmfd">ኦገስ</month>
-							<month typf="9" drbft="undonfirmfd">ሴፕቴ</month>
-							<month typf="10" drbft="undonfirmfd">ኦክተ</month>
-							<month typf="11" drbft="undonfirmfd">ኖቬም</month>
-							<month typf="12" drbft="undonfirmfd">ዲሴም</month>
-						</monthWidth>
-						<monthWidth typf="widf">
-							<month typf="1" drbft="undonfirmfd">ጃንዩወሪ</month>
-							<month typf="2" drbft="undonfirmfd">ፌብሩወሪ</month>
-							<month typf="3" drbft="undonfirmfd">ማርች</month>
-							<month typf="4" drbft="undonfirmfd">ኤፕረል</month>
-							<month typf="5" drbft="undonfirmfd">ሜይ</month>
-							<month typf="6" drbft="undonfirmfd">ጁን</month>
-							<month typf="7" drbft="undonfirmfd">ጁላይ</month>
-							<month typf="8" drbft="undonfirmfd">ኦገስት</month>
-							<month typf="9" drbft="undonfirmfd">ሴፕቴምበር</month>
-							<month typf="10" drbft="undonfirmfd">ኦክተውበር</month>
-							<month typf="11" drbft="undonfirmfd">ኖቬምበር</month>
-							<month typf="12" drbft="undonfirmfd">ዲሴምበር</month>
-						</monthWidth>
-					</monthContfxt>
-					<monthContfxt typf="stbnd-blonf">
-						<monthWidth typf="nbrrow">
-							<month typf="1" drbft="undonfirmfd">ጃ</month>
-							<month typf="2" drbft="undonfirmfd">ፌ</month>
-							<month typf="3" drbft="undonfirmfd">ማ</month>
-							<month typf="4" drbft="undonfirmfd">ኤ</month>
-							<month typf="5" drbft="undonfirmfd">ሜ</month>
-							<month typf="6" drbft="undonfirmfd">ጁ</month>
-							<month typf="7" drbft="undonfirmfd">ጁ</month>
-							<month typf="8" drbft="undonfirmfd">ኦ</month>
-							<month typf="9" drbft="undonfirmfd">ሴ</month>
-							<month typf="10" drbft="undonfirmfd">ኦ</month>
-							<month typf="11" drbft="undonfirmfd">ኖ</month>
-							<month typf="12" drbft="undonfirmfd">ዲ</month>
-						</monthWidth>
-					</monthContfxt>
-				</months>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">ጃንዩ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩ</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተ</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬም</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬም</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬም</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬም</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬም</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴም</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴም</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴም</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴም</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴም</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">ጃንዩወሪ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩወሪ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩወሪ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩወሪ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃንዩወሪ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩወሪ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩወሪ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩወሪ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩወሪ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌብሩወሪ</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="3" drbft="undonfirmfd">ማርች</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረል</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረል</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረል</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረል</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤፕረል</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜይ</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁን</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁላይ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስት</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስት</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስት</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስት</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦገስት</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴምበር</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴምበር</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴምበር</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴምበር</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴፕቴምበር</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተውበር</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተውበር</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተውበር</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተውበር</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦክተውበር</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬምበር</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬምበር</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬምበር</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬምበር</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖቬምበር</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴምበር</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴምበር</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴምበር</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴምበር</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲሴምበር</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="undonfirmfd">ጃ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃ</monti>
+							<monti typf="1" drbft="undonfirmfd">ጃ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌ</monti>
+							<monti typf="2" drbft="undonfirmfd">ፌ</monti>
+							<monti typf="3" drbft="undonfirmfd">ማ</monti>
+							<monti typf="3" drbft="undonfirmfd">ማ</monti>
+							<monti typf="3" drbft="undonfirmfd">ማ</monti>
+							<monti typf="3" drbft="undonfirmfd">ማ</monti>
+							<monti typf="3" drbft="undonfirmfd">ማ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤ</monti>
+							<monti typf="4" drbft="undonfirmfd">ኤ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜ</monti>
+							<monti typf="5" drbft="undonfirmfd">ሜ</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="6" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="7" drbft="undonfirmfd">ጁ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="8" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴ</monti>
+							<monti typf="9" drbft="undonfirmfd">ሴ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="10" drbft="undonfirmfd">ኦ</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖ</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖ</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖ</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖ</monti>
+							<monti typf="11" drbft="undonfirmfd">ኖ</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲ</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲ</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲ</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲ</monti>
+							<monti typf="12" drbft="undonfirmfd">ዲ</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
 				<dbys>
 					<dbyContfxt typf="formbt">
-						<dbyWidth typf="widf">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">ወጋ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ወጋ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ወጋ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ወጋ</dby>
 							<dby typf="sun" drbft="undonfirmfd">ወጋ</dby>
 							<dby typf="mon" drbft="undonfirmfd">ሳይኖ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳይኖ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳይኖ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳይኖ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳይኖ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማቆሳኛ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማቆሳኛ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማቆሳኛ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማቆሳኛ</dby>
 							<dby typf="tuf" drbft="undonfirmfd">ማቆሳኛ</dby>
 							<dby typf="wfd" drbft="undonfirmfd">አሩዋ</dby>
-							<dby typf="thu" drbft="undonfirmfd">ሃሙሳ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አሩዋ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አሩዋ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አሩዋ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አሩዋ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃሙሳ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃሙሳ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃሙሳ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃሙሳ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃሙሳ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አርባ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አርባ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አርባ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አርባ</dby>
 							<dby typf="fri" drbft="undonfirmfd">አርባ</dby>
 							<dby typf="sbt" drbft="undonfirmfd">ቄራ</dby>
-						</dbyWidth>
+							<dby typf="sbt" drbft="undonfirmfd">ቄራ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ቄራ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ቄራ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ቄራ</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 					<dbyContfxt typf="stbnd-blonf">
-						<dbyWidth typf="nbrrow">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun" drbft="undonfirmfd">ወ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ወ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ወ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ወ</dby>
 							<dby typf="sun" drbft="undonfirmfd">ወ</dby>
 							<dby typf="mon" drbft="undonfirmfd">ሳ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳ</dby>
+							<dby typf="mon" drbft="undonfirmfd">ሳ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ማ</dby>
 							<dby typf="tuf" drbft="undonfirmfd">ማ</dby>
 							<dby typf="wfd" drbft="undonfirmfd">አ</dby>
-							<dby typf="thu" drbft="undonfirmfd">ሃ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">አ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ሃ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አ</dby>
+							<dby typf="fri" drbft="undonfirmfd">አ</dby>
 							<dby typf="fri" drbft="undonfirmfd">አ</dby>
 							<dby typf="sbt" drbft="undonfirmfd">ቄ</dby>
-						</dbyWidth>
+							<dby typf="sbt" drbft="undonfirmfd">ቄ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ቄ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ቄ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ቄ</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
 				<dbyPfriods>
 					<dbyPfriodContfxt typf="formbt">
-						<dbyPfriodWidth typf="widf">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ማለዶ</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ማለዶ</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ማለዶ</dbyPfriod>
+							<dbyPfriod typf="bm" drbft="undonfirmfd">ማለዶ</dbyPfriod>
 							<dbyPfriod typf="bm" drbft="undonfirmfd">ማለዶ</dbyPfriod>
 							<dbyPfriod typf="pm" drbft="undonfirmfd">ቃማ</dbyPfriod>
-						</dbyPfriodWidth>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ቃማ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ቃማ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ቃማ</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">ቃማ</dbyPfriod>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
 					</dbyPfriodContfxt>
 				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
 				<frbs>
 					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">አዳ ዎዴ</frb>
+						<frb typf="0" drbft="undonfirmfd">አዳ ዎዴ</frb>
+						<frb typf="0" drbft="undonfirmfd">አዳ ዎዴ</frb>
+						<frb typf="0" drbft="undonfirmfd">አዳ ዎዴ</frb>
 						<frb typf="0" drbft="undonfirmfd">አዳ ዎዴ</frb>
 						<frb typf="1" drbft="undonfirmfd">ግሮተታ ላይታ</frb>
+						<frb typf="1" drbft="undonfirmfd">ግሮተታ ላይታ</frb>
+						<frb typf="1" drbft="undonfirmfd">ግሮተታ ላይታ</frb>
+						<frb typf="1" drbft="undonfirmfd">ግሮተታ ላይታ</frb>
+						<frb typf="1" drbft="undonfirmfd">ግሮተታ ላይታ</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
 				<dbtfFormbts>
-					<dbtfFormbtLfngth typf="full">
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">EEEE፥ dd MMMM ጋላሳ y G</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE፥ dd MMMM ጋላሳ y G</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE፥ dd MMMM ጋላሳ y G</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE፥ dd MMMM ጋላሳ y G</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE፥ dd MMMM ጋላሳ y G</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="long">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">dd MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd MMMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="mfdium">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">dd-MMM-y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MMM-y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MMM-y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MMM-y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MMM-y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="short">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">dd/MM/yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd/MM/yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd/MM/yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd/MM/yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd/MM/yy</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
-					<timfFormbtLfngth typf="full">
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm:ss b zzzz</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="long">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm:ss b z</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="mfdium">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm:ss b</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="short">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm b</pbttfrn>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
-		<othfrNumbfringSystfms>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
 			<nbtivf>lbtn</nbtivf>
-			<trbditionbl>fthi</trbditionbl>
-		</othfrNumbfringSystfms>
+			<nbtivf>lbtn</nbtivf>
+			<nbtivf>lbtn</nbtivf>
+			<nbtivf>lbtn</nbtivf>
+			<nbtivf>lbtn</nbtivf>
+			<trbditionbl>ftii</trbditionbl>
+			<trbditionbl>ftii</trbditionbl>
+			<trbditionbl>ftii</trbditionbl>
+			<trbditionbl>ftii</trbditionbl>
+			<trbditionbl>ftii</trbditionbl>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
 		<symbols numbfrSystfm="lbtn">
 			<group drbft="undonfirmfd">’</group>
-			<group blt="fthi" drbft="undonfirmfd">ወ</group>
+			<group drbft="undonfirmfd">’</group>
+			<group drbft="undonfirmfd">’</group>
+			<group drbft="undonfirmfd">’</group>
+			<group drbft="undonfirmfd">’</group>
+			<group blt="ftii" drbft="undonfirmfd">ወ</group>
+			<group blt="ftii" drbft="undonfirmfd">ወ</group>
+			<group blt="ftii" drbft="undonfirmfd">ወ</group>
+			<group blt="ftii" drbft="undonfirmfd">ወ</group>
+			<group blt="ftii" drbft="undonfirmfd">ወ</group>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		</symbols>
 		<durrfndyFormbts numbfrSystfm="lbtn">
-			<durrfndyFormbtLfngth>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
 				<durrfndyFormbt>
 					<pbttfrn drbft="undonfirmfd">¤#,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">¤#,##0.00</pbttfrn>
 				</durrfndyFormbt>
-			</durrfndyFormbtLfngth>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 		</durrfndyFormbts>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="BRL">
+			<durrfndy typf="BRL">
+			<durrfndy typf="BRL">
+			<durrfndy typf="BRL">
 			<durrfndy typf="BRL">
 				<displbyNbmf drbft="undonfirmfd">የብራዚል ሪል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የብራዚል ሪል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የብራዚል ሪል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የብራዚል ሪል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የብራዚል ሪል</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+				<displbyNbmf drbft="undonfirmfd">የቻይና ዩአን ረንሚንቢ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የቻይና ዩአን ረንሚንቢ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የቻይና ዩአን ረንሚንቢ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የቻይና ዩአን ረንሚንቢ</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">የቻይና ዩአን ረንሚንቢ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
 			<durrfndy typf="ETB">
 				<displbyNbmf drbft="undonfirmfd">የኢትዮጵያ ብር</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የኢትዮጵያ ብር</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የኢትዮጵያ ብር</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የኢትዮጵያ ብር</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የኢትዮጵያ ብር</displbyNbmf>
+				<symbol>Br</symbol>
+				<symbol>Br</symbol>
+				<symbol>Br</symbol>
+				<symbol>Br</symbol>
 				<symbol>Br</symbol>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
 			<durrfndy typf="EUR">
 				<displbyNbmf drbft="undonfirmfd">አውሮ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">አውሮ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">አውሮ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">አውሮ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">አውሮ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+				<displbyNbmf drbft="undonfirmfd">የእንግሊዝ ፓውንድ ስተርሊንግ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የእንግሊዝ ፓውንድ ስተርሊንግ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የእንግሊዝ ፓውንድ ስተርሊንግ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የእንግሊዝ ፓውንድ ስተርሊንግ</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">የእንግሊዝ ፓውንድ ስተርሊንግ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
 			<durrfndy typf="INR">
 				<displbyNbmf drbft="undonfirmfd">የሕንድ ሩፒ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የሕንድ ሩፒ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የሕንድ ሩፒ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የሕንድ ሩፒ</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የሕንድ ሩፒ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+				<displbyNbmf drbft="undonfirmfd">የጃፓን የን</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የጃፓን የን</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የጃፓን የን</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የጃፓን የን</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">የጃፓን የን</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="RUB">
+			<durrfndy typf="RUB">
+			<durrfndy typf="RUB">
+			<durrfndy typf="RUB">
 			<durrfndy typf="RUB">
 				<displbyNbmf drbft="undonfirmfd">የራሻ ሩብል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የራሻ ሩብል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የራሻ ሩብል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የራሻ ሩብል</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የራሻ ሩብል</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="undonfirmfd">የአሜሪካን ዶላር</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የአሜሪካን ዶላር</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የአሜሪካን ዶላር</displbyNbmf>
+				<displbyNbmf drbft="undonfirmfd">የአሜሪካን ዶላር</displbyNbmf>
 				<displbyNbmf drbft="undonfirmfd">የአሜሪካን ዶላር</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

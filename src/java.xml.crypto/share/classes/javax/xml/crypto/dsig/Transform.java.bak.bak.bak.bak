@@ -1,148 +1,740 @@
 /*
- * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+/*
+/*
+/*
+/*
 /*
  * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
+ */
+ */
+ */
+ */
  */
 pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+
+
+
 
 import jbvb.io.OutputStrfbm;
-import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
-import jbvbx.xml.drypto.AlgorithmMfthod;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvbx.xml.drypto.AlgoritimMftiod;
+import jbvbx.xml.drypto.AlgoritimMftiod;
+import jbvbx.xml.drypto.AlgoritimMftiod;
+import jbvbx.xml.drypto.AlgoritimMftiod;
+import jbvbx.xml.drypto.AlgoritimMftiod;
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.Dbtb;
 import jbvbx.xml.drypto.Dbtb;
 import jbvbx.xml.drypto.OdtftStrfbmDbtb;
+import jbvbx.xml.drypto.OdtftStrfbmDbtb;
+import jbvbx.xml.drypto.OdtftStrfbmDbtb;
+import jbvbx.xml.drypto.OdtftStrfbmDbtb;
+import jbvbx.xml.drypto.OdtftStrfbmDbtb;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
 import jbvbx.xml.drypto.XMLCryptoContfxt;
 import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
 import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
 
+
+
+
+
 /**
- * A rfprfsfntbtion of thf XML <dodf>Trbnsform</dodf> flfmfnt bs
- * dffinfd in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+/**
+/**
+/**
+/**
+ * A rfprfsfntbtion of tif XML <dodf>Trbnsform</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Trbnsform</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Trbnsform</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Trbnsform</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Trbnsform</dodf> flfmfnt bs
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
  * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
- * Thf XML Sdhfmb Dffinition is dffinfd bs:
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
+ *
+ *
+ *
+ *
  *
  * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ * &lt;flfmfnt nbmf="Trbnsform" typf="ds:TrbnsformTypf"/&gt;
+ * &lt;flfmfnt nbmf="Trbnsform" typf="ds:TrbnsformTypf"/&gt;
+ * &lt;flfmfnt nbmf="Trbnsform" typf="ds:TrbnsformTypf"/&gt;
+ * &lt;flfmfnt nbmf="Trbnsform" typf="ds:TrbnsformTypf"/&gt;
  * &lt;flfmfnt nbmf="Trbnsform" typf="ds:TrbnsformTypf"/&gt;
  *   &lt;domplfxTypf nbmf="TrbnsformTypf" mixfd="truf"&gt;
- *     &lt;dhoidf minOddurs="0" mbxOddurs="unboundfd"&gt;
- *       &lt;bny nbmfspbdf="##othfr" prodfssContfnts="lbx"/&gt;
+ *   &lt;domplfxTypf nbmf="TrbnsformTypf" mixfd="truf"&gt;
+ *   &lt;domplfxTypf nbmf="TrbnsformTypf" mixfd="truf"&gt;
+ *   &lt;domplfxTypf nbmf="TrbnsformTypf" mixfd="truf"&gt;
+ *   &lt;domplfxTypf nbmf="TrbnsformTypf" mixfd="truf"&gt;
+ *     &lt;dioidf minOddurs="0" mbxOddurs="unboundfd"&gt;
+ *     &lt;dioidf minOddurs="0" mbxOddurs="unboundfd"&gt;
+ *     &lt;dioidf minOddurs="0" mbxOddurs="unboundfd"&gt;
+ *     &lt;dioidf minOddurs="0" mbxOddurs="unboundfd"&gt;
+ *     &lt;dioidf minOddurs="0" mbxOddurs="unboundfd"&gt;
+ *       &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
+ *       &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
+ *       &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
+ *       &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
+ *       &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
  *       &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
- *       &lt;flfmfnt nbmf="XPbth" typf="string"/&gt;
- *     &lt;/dhoidf&gt;
- *     &lt;bttributf nbmf="Algorithm" typf="bnyURI" usf="rfquirfd"/&gt;
+ *       &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
+ *       &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
+ *       &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
+ *       &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
+ *       &lt;flfmfnt nbmf="XPbti" typf="string"/&gt;
+ *       &lt;flfmfnt nbmf="XPbti" typf="string"/&gt;
+ *       &lt;flfmfnt nbmf="XPbti" typf="string"/&gt;
+ *       &lt;flfmfnt nbmf="XPbti" typf="string"/&gt;
+ *       &lt;flfmfnt nbmf="XPbti" typf="string"/&gt;
+ *     &lt;/dioidf&gt;
+ *     &lt;/dioidf&gt;
+ *     &lt;/dioidf&gt;
+ *     &lt;/dioidf&gt;
+ *     &lt;/dioidf&gt;
+ *     &lt;bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/&gt;
+ *   &lt;/domplfxTypf&gt;
+ *   &lt;/domplfxTypf&gt;
+ *   &lt;/domplfxTypf&gt;
+ *   &lt;/domplfxTypf&gt;
  *   &lt;/domplfxTypf&gt;
  * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
  *
- * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking thf
- * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mfthod
- * of thf {@link XMLSignbturfFbdtory} dlbss.
  *
- * @buthor Sfbn Mullbn
- * @buthor JSR 105 Expfrt Group
+ *
+ *
+ *
+ * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking tif
+ * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking tif
+ * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking tif
+ * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking tif
+ * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking tif
+ * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mftiod
+ * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mftiod
+ * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mftiod
+ * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mftiod
+ * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mftiod
+ * of tif {@link XMLSignbturfFbdtory} dlbss.
+ * of tif {@link XMLSignbturfFbdtory} dlbss.
+ * of tif {@link XMLSignbturfFbdtory} dlbss.
+ * of tif {@link XMLSignbturfFbdtory} dlbss.
+ * of tif {@link XMLSignbturfFbdtory} dlbss.
+ *
+ *
+ *
+ *
+ *
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
  * @sindf 1.6
  * @sff XMLSignbturfFbdtory#nfwTrbnsform(String, TrbnsformPbrbmftfrSpfd)
+ * @sff XMLSignbturfFbdtory#nfwTrbnsform(String, TrbnsformPbrbmftfrSpfd)
+ * @sff XMLSignbturfFbdtory#nfwTrbnsform(String, TrbnsformPbrbmftfrSpfd)
+ * @sff XMLSignbturfFbdtory#nfwTrbnsform(String, TrbnsformPbrbmftfrSpfd)
+ * @sff XMLSignbturfFbdtory#nfwTrbnsform(String, TrbnsformPbrbmftfrSpfd)
  */
-publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgorithmMfthod {
+ */
+ */
+ */
+ */
+publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgoritimMftiod {
+publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgoritimMftiod {
+publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgoritimMftiod {
+publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgoritimMftiod {
+publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgoritimMftiod {
+
+
+
+
 
     /**
-     * Thf <b hrff="http://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
-     * trbnsform blgorithm URI.
+    /**
+    /**
+    /**
+    /**
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
      */
-    finbl stbtid String BASE64 = "http://www.w3.org/2000/09/xmldsig#bbsf64";
+     */
+     */
+     */
+     */
+    finbl stbtid String BASE64 = "ittp://www.w3.org/2000/09/xmldsig#bbsf64";
+    finbl stbtid String BASE64 = "ittp://www.w3.org/2000/09/xmldsig#bbsf64";
+    finbl stbtid String BASE64 = "ittp://www.w3.org/2000/09/xmldsig#bbsf64";
+    finbl stbtid String BASE64 = "ittp://www.w3.org/2000/09/xmldsig#bbsf64";
+    finbl stbtid String BASE64 = "ittp://www.w3.org/2000/09/xmldsig#bbsf64";
+
+
+
+
 
     /**
-     * Thf <b hrff="http://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
-     * Envflopfd Signbturf</b> trbnsform blgorithm URI.
+    /**
+    /**
+    /**
+    /**
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
+     * Tif <b irff="ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
+     * Envflopfd Signbturf</b> trbnsform blgoritim URI.
+     * Envflopfd Signbturf</b> trbnsform blgoritim URI.
+     * Envflopfd Signbturf</b> trbnsform blgoritim URI.
+     * Envflopfd Signbturf</b> trbnsform blgoritim URI.
+     * Envflopfd Signbturf</b> trbnsform blgoritim URI.
+     */
+     */
+     */
+     */
      */
     finbl stbtid String ENVELOPED =
-        "http://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
+    finbl stbtid String ENVELOPED =
+    finbl stbtid String ENVELOPED =
+    finbl stbtid String ENVELOPED =
+    finbl stbtid String ENVELOPED =
+        "ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
+        "ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
+        "ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
+        "ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
+        "ittp://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
+
+
+
+
 
     /**
-     * Thf <b hrff="http://www.w3.org/TR/1999/REC-xpbth-19991116">XPbth</b>
-     * trbnsform blgorithm URI.
+    /**
+    /**
+    /**
+    /**
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xpbti-19991116">XPbti</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xpbti-19991116">XPbti</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xpbti-19991116">XPbti</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xpbti-19991116">XPbti</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xpbti-19991116">XPbti</b>
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
      */
-    finbl stbtid String XPATH = "http://www.w3.org/TR/1999/REC-xpbth-19991116";
-
-    /**
-     * Thf <b hrff="http://www.w3.org/2002/06/xmldsig-filtfr2">
-     * XPbth Filtfr 2</b> trbnsform blgorithm URI.
      */
-    finbl stbtid String XPATH2 = "http://www.w3.org/2002/06/xmldsig-filtfr2";
-
-    /**
-     * Thf <b hrff="http://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
-     * trbnsform blgorithm URI.
      */
-    finbl stbtid String XSLT = "http://www.w3.org/TR/1999/REC-xslt-19991116";
+     */
+     */
+    finbl stbtid String XPATH = "ittp://www.w3.org/TR/1999/REC-xpbti-19991116";
+    finbl stbtid String XPATH = "ittp://www.w3.org/TR/1999/REC-xpbti-19991116";
+    finbl stbtid String XPATH = "ittp://www.w3.org/TR/1999/REC-xpbti-19991116";
+    finbl stbtid String XPATH = "ittp://www.w3.org/TR/1999/REC-xpbti-19991116";
+    finbl stbtid String XPATH = "ittp://www.w3.org/TR/1999/REC-xpbti-19991116";
+
+
+
+
 
     /**
-     * Rfturns thf blgorithm-spfdifid input pbrbmftfrs bssodibtfd with this
+    /**
+    /**
+    /**
+    /**
+     * Tif <b irff="ittp://www.w3.org/2002/06/xmldsig-filtfr2">
+     * Tif <b irff="ittp://www.w3.org/2002/06/xmldsig-filtfr2">
+     * Tif <b irff="ittp://www.w3.org/2002/06/xmldsig-filtfr2">
+     * Tif <b irff="ittp://www.w3.org/2002/06/xmldsig-filtfr2">
+     * Tif <b irff="ittp://www.w3.org/2002/06/xmldsig-filtfr2">
+     * XPbti Filtfr 2</b> trbnsform blgoritim URI.
+     * XPbti Filtfr 2</b> trbnsform blgoritim URI.
+     * XPbti Filtfr 2</b> trbnsform blgoritim URI.
+     * XPbti Filtfr 2</b> trbnsform blgoritim URI.
+     * XPbti Filtfr 2</b> trbnsform blgoritim URI.
+     */
+     */
+     */
+     */
+     */
+    finbl stbtid String XPATH2 = "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+    finbl stbtid String XPATH2 = "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+    finbl stbtid String XPATH2 = "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+    finbl stbtid String XPATH2 = "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+    finbl stbtid String XPATH2 = "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * Tif <b irff="ittp://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     * trbnsform blgoritim URI.
+     */
+     */
+     */
+     */
+     */
+    finbl stbtid String XSLT = "ittp://www.w3.org/TR/1999/REC-xslt-19991116";
+    finbl stbtid String XSLT = "ittp://www.w3.org/TR/1999/REC-xslt-19991116";
+    finbl stbtid String XSLT = "ittp://www.w3.org/TR/1999/REC-xslt-19991116";
+    finbl stbtid String XSLT = "ittp://www.w3.org/TR/1999/REC-xslt-19991116";
+    finbl stbtid String XSLT = "ittp://www.w3.org/TR/1999/REC-xslt-19991116";
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif blgoritim-spfdifid input pbrbmftfrs bssodibtfd witi tiis
+     * Rfturns tif blgoritim-spfdifid input pbrbmftfrs bssodibtfd witi tiis
+     * Rfturns tif blgoritim-spfdifid input pbrbmftfrs bssodibtfd witi tiis
+     * Rfturns tif blgoritim-spfdifid input pbrbmftfrs bssodibtfd witi tiis
+     * Rfturns tif blgoritim-spfdifid input pbrbmftfrs bssodibtfd witi tiis
+     * <dodf>Trbnsform</dodf>.
+     * <dodf>Trbnsform</dodf>.
+     * <dodf>Trbnsform</dodf>.
+     * <dodf>Trbnsform</dodf>.
      * <dodf>Trbnsform</dodf>.
      * <p>
-     * Thf rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * Tif rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * Tif rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * Tif rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * Tif rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * {@link TrbnsformPbrbmftfrSpfd} objfdt.
+     * {@link TrbnsformPbrbmftfrSpfd} objfdt.
+     * {@link TrbnsformPbrbmftfrSpfd} objfdt.
+     * {@link TrbnsformPbrbmftfrSpfd} objfdt.
      * {@link TrbnsformPbrbmftfrSpfd} objfdt.
      *
-     * @rfturn thf blgorithm-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     *
+     *
+     *
+     *
+     * @rfturn tif blgoritim-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     * @rfturn tif blgoritim-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     * @rfturn tif blgoritim-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     * @rfturn tif blgoritim-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     * @rfturn tif blgoritim-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     *    if not spfdififd)
+     *    if not spfdififd)
+     *    if not spfdififd)
+     *    if not spfdififd)
      *    if not spfdififd)
      */
-    AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd();
+     */
+     */
+     */
+     */
+    AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd();
+    AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd();
+    AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd();
+    AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd();
+    AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd();
+
+
+
+
 
     /**
-     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
      *
-     * @pbrbm dbtb thf dbtb to bf trbnsformfd
-     * @pbrbm dontfxt thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *
+     *
+     *
+     *
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
      *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
-     * @rfturn thf trbnsformfd dbtb
-     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
-     * @throws TrbnsformExdfption if bn frror oddurs whilf fxfduting thf
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
      *    trbnsform
+     *    trbnsform
+     *    trbnsform
+     *    trbnsform
+     *    trbnsform
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt dontfxt)
-        throws TrbnsformExdfption;
+    publid bbstrbdt Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt dontfxt)
+    publid bbstrbdt Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt dontfxt)
+    publid bbstrbdt Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt dontfxt)
+    publid bbstrbdt Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt dontfxt)
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+
+
+
+
 
     /**
-     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
-     * If thf output of this trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, thfn
-     * this mfthod rfturns <dodf>null</dodf> bnd thf bytfs brf writtfn to thf
-     * spfdififd <dodf>OutputStrfbm</dodf>. Othfrwisf, thf
-     * <dodf>OutputStrfbm</dodf> is ignorfd bnd thf mfthod bfhbvfs bs if
+    /**
+    /**
+    /**
+    /**
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * If tif output of tiis trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, tifn
+     * If tif output of tiis trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, tifn
+     * If tif output of tiis trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, tifn
+     * If tif output of tiis trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, tifn
+     * If tif output of tiis trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, tifn
+     * tiis mftiod rfturns <dodf>null</dodf> bnd tif bytfs brf writtfn to tif
+     * tiis mftiod rfturns <dodf>null</dodf> bnd tif bytfs brf writtfn to tif
+     * tiis mftiod rfturns <dodf>null</dodf> bnd tif bytfs brf writtfn to tif
+     * tiis mftiod rfturns <dodf>null</dodf> bnd tif bytfs brf writtfn to tif
+     * tiis mftiod rfturns <dodf>null</dodf> bnd tif bytfs brf writtfn to tif
+     * spfdififd <dodf>OutputStrfbm</dodf>. Otifrwisf, tif
+     * spfdififd <dodf>OutputStrfbm</dodf>. Otifrwisf, tif
+     * spfdififd <dodf>OutputStrfbm</dodf>. Otifrwisf, tif
+     * spfdififd <dodf>OutputStrfbm</dodf>. Otifrwisf, tif
+     * spfdififd <dodf>OutputStrfbm</dodf>. Otifrwisf, tif
+     * <dodf>OutputStrfbm</dodf> is ignorfd bnd tif mftiod bfibvfs bs if
+     * <dodf>OutputStrfbm</dodf> is ignorfd bnd tif mftiod bfibvfs bs if
+     * <dodf>OutputStrfbm</dodf> is ignorfd bnd tif mftiod bfibvfs bs if
+     * <dodf>OutputStrfbm</dodf> is ignorfd bnd tif mftiod bfibvfs bs if
+     * <dodf>OutputStrfbm</dodf> is ignorfd bnd tif mftiod bfibvfs bs if
+     * {@link #trbnsform(Dbtb, XMLCryptoContfxt)} wfrf invokfd.
+     * {@link #trbnsform(Dbtb, XMLCryptoContfxt)} wfrf invokfd.
+     * {@link #trbnsform(Dbtb, XMLCryptoContfxt)} wfrf invokfd.
+     * {@link #trbnsform(Dbtb, XMLCryptoContfxt)} wfrf invokfd.
      * {@link #trbnsform(Dbtb, XMLCryptoContfxt)} wfrf invokfd.
      *
-     * @pbrbm dbtb thf dbtb to bf trbnsformfd
-     * @pbrbm dontfxt thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *
+     *
+     *
+     *
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm dontfxt tif <dodf>XMLCryptoContfxt</dodf> dontbining
      *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
-     * @pbrbm os thf <dodf>OutputStrfbm</dodf> thbt should bf usfd to writf
-     *    thf trbnsformfd dbtb to
-     * @rfturn thf trbnsformfd dbtb (or <dodf>null</dodf> if thf dbtb wbs
-     *    writtfn to thf <dodf>OutputStrfbm</dodf> pbrbmftfr)
-     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     * @rfturn tif trbnsformfd dbtb (or <dodf>null</dodf> if tif dbtb wbs
+     * @rfturn tif trbnsformfd dbtb (or <dodf>null</dodf> if tif dbtb wbs
+     * @rfturn tif trbnsformfd dbtb (or <dodf>null</dodf> if tif dbtb wbs
+     * @rfturn tif trbnsformfd dbtb (or <dodf>null</dodf> if tif dbtb wbs
+     * @rfturn tif trbnsformfd dbtb (or <dodf>null</dodf> if tif dbtb wbs
+     *    writtfn to tif <dodf>OutputStrfbm</dodf> pbrbmftfr)
+     *    writtfn to tif <dodf>OutputStrfbm</dodf> pbrbmftfr)
+     *    writtfn to tif <dodf>OutputStrfbm</dodf> pbrbmftfr)
+     *    writtfn to tif <dodf>OutputStrfbm</dodf> pbrbmftfr)
+     *    writtfn to tif <dodf>OutputStrfbm</dodf> pbrbmftfr)
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
      *    is <dodf>null</dodf>
-     * @throws TrbnsformExdfption if bn frror oddurs whilf fxfduting thf
+     *    is <dodf>null</dodf>
+     *    is <dodf>null</dodf>
+     *    is <dodf>null</dodf>
+     *    is <dodf>null</dodf>
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     * @tirows TrbnsformExdfption if bn frror oddurs wiilf fxfduting tif
+     *    trbnsform
+     *    trbnsform
+     *    trbnsform
+     *    trbnsform
      *    trbnsform
      */
+     */
+     */
+     */
+     */
+    publid bbstrbdt Dbtb trbnsform
+    publid bbstrbdt Dbtb trbnsform
+    publid bbstrbdt Dbtb trbnsform
+    publid bbstrbdt Dbtb trbnsform
     publid bbstrbdt Dbtb trbnsform
         (Dbtb dbtb, XMLCryptoContfxt dontfxt, OutputStrfbm os)
-        throws TrbnsformExdfption;
+        (Dbtb dbtb, XMLCryptoContfxt dontfxt, OutputStrfbm os)
+        (Dbtb dbtb, XMLCryptoContfxt dontfxt, OutputStrfbm os)
+        (Dbtb dbtb, XMLCryptoContfxt dontfxt, OutputStrfbm os)
+        (Dbtb dbtb, XMLCryptoContfxt dontfxt, OutputStrfbm os)
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+        tirows TrbnsformExdfption;
+}
+}
+}
+}
 }

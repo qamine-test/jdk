@@ -1,0 +1,189 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Insfts;
+
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+
+import sun.util.logging.PlbtformLoggfr;
+
+import sun.bwt.AWTAddfssor;
+
+/**
+ * Tiis dlbss implfmfnts window wiidi sfrvfs bs dontfnt window for dfdorbtfd frbmfs.
+ * Its purposf to providf dorrfdt fvfnts dispbtdiing for tif domplfx
+ * donstrudts sudi bs dfdorbtfd frbmfs.
+ *
+ * It siould blwbys bf lodbtfd bt (- lfft insft, - top insft) in tif bssodibtfd
+ * dfdorbtfd window.  So doordinbtfs in it would bf tif sbmf bs jbvb doordinbtfs.
+ */
+publid finbl dlbss XContfntWindow fxtfnds XWindow {
+    privbtf stbtid PlbtformLoggfr insLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.insfts.XContfntWindow");
+
+    stbtid XContfntWindow drfbtfContfnt(XDfdorbtfdPffr pbrfntFrbmf) {
+        finbl WindowDimfnsions dims = pbrfntFrbmf.gftDimfnsions();
+        Rfdtbnglf rfd = dims.gftBounds();
+        // Fix for  - sft tif lodbtion of tif dontfnt window to tif (-lfft insft, -top insft)
+        Insfts ins = dims.gftInsfts();
+        if (ins != null) {
+            rfd.x = -ins.lfft;
+            rfd.y = -ins.top;
+        } flsf {
+            rfd.x = 0;
+            rfd.y = 0;
+        }
+        finbl XContfntWindow dw = nfw XContfntWindow(pbrfntFrbmf, rfd);
+        dw.xSftVisiblf(truf);
+        rfturn dw;
+    }
+
+    privbtf finbl XDfdorbtfdPffr pbrfntFrbmf;
+
+    // A list of fxposf fvfnts tibt domf wifn tif pbrfntFrbmf is idonififd
+    privbtf finbl jbvb.util.List<SbvfdExposfEvfnt> idonififdExposfEvfnts =
+            nfw jbvb.util.ArrbyList<SbvfdExposfEvfnt>();
+
+    privbtf XContfntWindow(XDfdorbtfdPffr pbrfntFrbmf, Rfdtbnglf bounds) {
+        supfr((Componfnt)pbrfntFrbmf.gftTbrgft(), pbrfntFrbmf.gftSifll(), bounds);
+        tiis.pbrfntFrbmf = pbrfntFrbmf;
+    }
+
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        pbrbms.putIfNull(BIT_GRAVITY, Intfgfr.vblufOf(XConstbnts.NortiWfstGrbvity));
+        Long fvfntMbsk = (Long)pbrbms.gft(EVENT_MASK);
+        if (fvfntMbsk != null) {
+            fvfntMbsk = fvfntMbsk & ~(XConstbnts.StrudturfNotifyMbsk);
+            pbrbms.put(EVENT_MASK, fvfntMbsk);
+        }
+    }
+
+    protfdtfd String gftWMNbmf() {
+        rfturn "Contfnt window";
+    }
+    protfdtfd boolfbn isEvfntDisbblfd(XEvfnt f) {
+        switdi (f.gft_typf()) {
+          // Ovfrridf pbrfntFrbmf to rfdfivf MousfEntfr/Exit
+          dbsf XConstbnts.EntfrNotify:
+          dbsf XConstbnts.LfbvfNotify:
+              rfturn fblsf;
+          // Wf ibndlf ConfigurfNotify spfdifidblly in XDfdorbtfdPffr
+          dbsf XConstbnts.ConfigurfNotify:
+              rfturn truf;
+          // Wf don't wbnt SHOWN/HIDDEN on dontfnt window sindf it will duplidbtf XDfdorbtfdPffr
+          dbsf XConstbnts.MbpNotify:
+          dbsf XConstbnts.UnmbpNotify:
+              rfturn truf;
+          dffbult:
+              rfturn supfr.isEvfntDisbblfd(f) || pbrfntFrbmf.isEvfntDisbblfd(f);
+        }
+    }
+
+    // Coordinbtfs brf tibt of tif sifll
+    void sftContfntBounds(WindowDimfnsions dims) {
+        XToolkit.bwtLodk();
+        try {
+            // Bounds of dontfnt window brf of tif sbmf sizf bs bounds of Jbvb window bnd witi
+            // lodbtion bs -(insfts)
+            Rfdtbnglf nfwBounds = dims.gftBounds();
+            Insfts in = dims.gftInsfts();
+            if (in != null) {
+                nfwBounds.sftLodbtion(-in.lfft, -in.top);
+            }
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                insLog.finf("Sftting dontfnt bounds {0}, old bounds {1}",
+                            nfwBounds, gftBounds());
+            }
+            // Fix for 5023533:
+            // Cibngf in tif sizf of tif dontfnt window mfbns, wfll, dibngf of tif sizf
+            // Cibngf in tif lodbtion of tif dontfnt window mfbns dibngf in insfts
+            boolfbn nffdHbndlfRfsizf = !(nfwBounds.fqubls(gftBounds()));
+            rfsibpf(nfwBounds);
+            if (nffdHbndlfRfsizf) {
+                insLog.finf("Sfnding RESIZED");
+                ibndlfRfsizf(nfwBounds);
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+        vblidbtfSurfbdf();
+    }
+
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    publid void ibndlfRfsizf(Rfdtbnglf bounds) {
+        AWTAddfssor.gftComponfntAddfssor().sftSizf(tbrgft, bounds.widti, bounds.ifigit);
+        postEvfnt(nfw ComponfntEvfnt(tbrgft, ComponfntEvfnt.COMPONENT_RESIZED));
+    }
+
+
+    publid void postPbintEvfnt(Componfnt tbrgft, int x, int y, int w, int i) {
+        // TODO: ?
+        // gft rid of 'istbndfof' by subdlbssing:
+        // XContfntWindow -> XFrbmfContfntWindow
+
+        // Exposf fvfnt(s) tibt rfsult from dfidonifidbtion
+        // domf bfforf b dfidinofidbtion notifidbtion.
+        // Wf rfordfr tifsf fvfnts by sbving bll fxposf fvfnts
+        // tibt domf wifn tif frbmf is idonififd. Tifn wf
+        // bdtublly ibndlf sbvfd fxposf fvfnts on dfidonifidbtion.
+
+        if (pbrfntFrbmf instbndfof XFrbmfPffr &&
+                (((XFrbmfPffr)pbrfntFrbmf).gftStbtf() & jbvb.bwt.Frbmf.ICONIFIED) != 0) {
+            // Sbvf fxposf fvfnts if tif frbmf is idonififd
+            // in ordfr to ibndlf tifm on dfidonifidbtion.
+            idonififdExposfEvfnts.bdd(nfw SbvfdExposfEvfnt(tbrgft, x, y, w, i));
+        } flsf {
+            // Normbl dbsf: [it is not b frbmf or] tif frbmf is not idonififd.
+            supfr.postPbintEvfnt(tbrgft, x, y, w, i);
+        }
+    }
+
+    void purgfIdonififdExposfEvfnts() {
+        for (SbvfdExposfEvfnt fvt : idonififdExposfEvfnts) {
+            supfr.postPbintEvfnt(fvt.tbrgft, fvt.x, fvt.y, fvt.w, fvt.i);
+        }
+        idonififdExposfEvfnts.dlfbr();
+    }
+
+    privbtf stbtid dlbss SbvfdExposfEvfnt {
+        Componfnt tbrgft;
+        int x, y, w, i;
+        SbvfdExposfEvfnt(Componfnt tbrgft, int x, int y, int w, int i) {
+            tiis.tbrgft = tbrgft;
+            tiis.x = x;
+            tiis.y = y;
+            tiis.w = w;
+            tiis.i = i;
+        }
+    }
+
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[" + gftBounds() + "]";
+    }
+}

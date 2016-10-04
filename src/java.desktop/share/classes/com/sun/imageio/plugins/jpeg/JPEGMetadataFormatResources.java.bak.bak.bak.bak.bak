@@ -1,0 +1,61 @@
+/*
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+bbstrbdt dlbss JPEGMftbdbtbFormbtRfsourdfs
+        fxtfnds ListRfsourdfBundlf {
+
+    stbtid finbl Objfdt[][] dommonContfnts = {
+        // Nodf nbmf, followfd by dfsdription
+        { "dqt", "A Dffinf Qubntizbtion Tbblf(s) mbrkfr sfgmfnt" },
+        { "dqtbblf", "A singlf qubntizbtion tbblf" },
+        { "dit", "A Dffinf Huffmbn Tbblf(s) mbrkfr sfgmfnt" },
+        { "ditbblf", "A singlf Huffmbn tbblf" },
+        { "dri", "A Dffinf Rfstbrt Intfrvbl mbrkfr sfgmfnt" },
+        { "dom", "A Commfnt mbrkfr sfgmfnt.  Tif usfr objfdt dontbins "
+          + "tif bdtubl bytfs."},
+        { "unknown", "An unrfdognizfd mbrkfr sfgmfnt.  Tif usfr objfdt "
+          + "dontbins tif dbtb not indluding lfngti." },
+
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "dqtbblf/flfmfntPrfdision",
+          "Tif numbfr of bits in fbdi tbblf flfmfnt (0 = 8, 1 = 16)" },
+        { "dgtbblf/qtbblfId",
+          "Tif tbblf id" },
+        { "ditbblf/dlbss",
+          "Indidbtfs wiftifr tiis is b DC (0) or bn AC (1) tbblf" },
+        { "ditbblf/itbblfId",
+          "Tif tbblf id" },
+        { "dri/intfrvbl",
+          "Tif rfstbrt intfrvbl in MCUs" },
+        { "dom/dommfnt",
+          "Tif dommfnt bs b string (usfd only if usfr objfdt is null)" },
+        { "unknown/MbrkfrTbg",
+          "Tif tbg idfntifying tiis mbrkfr sfgmfnt" }
+    };
+}

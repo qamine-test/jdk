@@ -1,62 +1,310 @@
 /*
- * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.imbgfio.plugins.dommon;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+
+
+
+
 
 import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.util.PropfrtyRfsourdfBundlf;
+import jbvb.util.PropfrtyRfsourdfBundlf;
+import jbvb.util.PropfrtyRfsourdfBundlf;
+import jbvb.util.PropfrtyRfsourdfBundlf;
 import jbvb.util.PropfrtyRfsourdfBundlf;
 import jbvb.nft.URL;
+import jbvb.nft.URL;
+import jbvb.nft.URL;
+import jbvb.nft.URL;
+import jbvb.nft.URL;
+
+
+
+
 
 /**
+/**
+/**
+/**
+/**
  * Clbss to simplify usf of intfrnbtionblizbtion mfssbgf strings.
- * Propfrty filfs brf donstrudtfd in tfrms of dontfnt bs for JAI with
- * onf "kfy=vbluf" pbir pfr linf. All sudh filfs howfvfr hbvf thf sbmf
- * nbmf "propfrtifs". Thf rfsourdf fxtrbdtor rfsolvfs thf fxtrbdtion of
- * thf filf from thf jbr bs thf pbdkbgf nbmf is indludfd butombtidblly.
+ * Clbss to simplify usf of intfrnbtionblizbtion mfssbgf strings.
+ * Clbss to simplify usf of intfrnbtionblizbtion mfssbgf strings.
+ * Clbss to simplify usf of intfrnbtionblizbtion mfssbgf strings.
+ * Clbss to simplify usf of intfrnbtionblizbtion mfssbgf strings.
+ * Propfrty filfs brf donstrudtfd in tfrms of dontfnt bs for JAI witi
+ * Propfrty filfs brf donstrudtfd in tfrms of dontfnt bs for JAI witi
+ * Propfrty filfs brf donstrudtfd in tfrms of dontfnt bs for JAI witi
+ * Propfrty filfs brf donstrudtfd in tfrms of dontfnt bs for JAI witi
+ * Propfrty filfs brf donstrudtfd in tfrms of dontfnt bs for JAI witi
+ * onf "kfy=vbluf" pbir pfr linf. All sudi filfs iowfvfr ibvf tif sbmf
+ * onf "kfy=vbluf" pbir pfr linf. All sudi filfs iowfvfr ibvf tif sbmf
+ * onf "kfy=vbluf" pbir pfr linf. All sudi filfs iowfvfr ibvf tif sbmf
+ * onf "kfy=vbluf" pbir pfr linf. All sudi filfs iowfvfr ibvf tif sbmf
+ * onf "kfy=vbluf" pbir pfr linf. All sudi filfs iowfvfr ibvf tif sbmf
+ * nbmf "propfrtifs". Tif rfsourdf fxtrbdtor rfsolvfs tif fxtrbdtion of
+ * nbmf "propfrtifs". Tif rfsourdf fxtrbdtor rfsolvfs tif fxtrbdtion of
+ * nbmf "propfrtifs". Tif rfsourdf fxtrbdtor rfsolvfs tif fxtrbdtion of
+ * nbmf "propfrtifs". Tif rfsourdf fxtrbdtor rfsolvfs tif fxtrbdtion of
+ * nbmf "propfrtifs". Tif rfsourdf fxtrbdtor rfsolvfs tif fxtrbdtion of
+ * tif filf from tif jbr bs tif pbdkbgf nbmf is indludfd butombtidblly.
+ * tif filf from tif jbr bs tif pbdkbgf nbmf is indludfd butombtidblly.
+ * tif filf from tif jbr bs tif pbdkbgf nbmf is indludfd butombtidblly.
+ * tif filf from tif jbr bs tif pbdkbgf nbmf is indludfd butombtidblly.
+ * tif filf from tif jbr bs tif pbdkbgf nbmf is indludfd butombtidblly.
  *
- * <p>Extfndfrs nffd only providf b stbtid mfthod
- * <dodf>gftString(String)</dodf> whidh dblls thf stbtid mfthod in this
- * dlbss with thf nbmf of thf invoking dlbss bnd rfturns b
+ *
+ *
+ *
+ *
+ * <p>Extfndfrs nffd only providf b stbtid mftiod
+ * <p>Extfndfrs nffd only providf b stbtid mftiod
+ * <p>Extfndfrs nffd only providf b stbtid mftiod
+ * <p>Extfndfrs nffd only providf b stbtid mftiod
+ * <p>Extfndfrs nffd only providf b stbtid mftiod
+ * <dodf>gftString(String)</dodf> wiidi dblls tif stbtid mftiod in tiis
+ * <dodf>gftString(String)</dodf> wiidi dblls tif stbtid mftiod in tiis
+ * <dodf>gftString(String)</dodf> wiidi dblls tif stbtid mftiod in tiis
+ * <dodf>gftString(String)</dodf> wiidi dblls tif stbtid mftiod in tiis
+ * <dodf>gftString(String)</dodf> wiidi dblls tif stbtid mftiod in tiis
+ * dlbss witi tif nbmf of tif invoking dlbss bnd rfturns b
+ * dlbss witi tif nbmf of tif invoking dlbss bnd rfturns b
+ * dlbss witi tif nbmf of tif invoking dlbss bnd rfturns b
+ * dlbss witi tif nbmf of tif invoking dlbss bnd rfturns b
+ * dlbss witi tif nbmf of tif invoking dlbss bnd rfturns b
+ * <dodf>String</dodf>.
+ * <dodf>String</dodf>.
+ * <dodf>String</dodf>.
+ * <dodf>String</dodf>.
  * <dodf>String</dodf>.
  */
+ */
+ */
+ */
+ */
+publid dlbss I18NImpl {
+publid dlbss I18NImpl {
+publid dlbss I18NImpl {
+publid dlbss I18NImpl {
 publid dlbss I18NImpl {
     /**
-     * Rfturns thf mfssbgf string with thf spfdififd kfy from thf
-     * "propfrtifs" filf in thf pbdkbgf dontbining thf dlbss with
-     * thf spfdififd nbmf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif mfssbgf string witi tif spfdififd kfy from tif
+     * Rfturns tif mfssbgf string witi tif spfdififd kfy from tif
+     * Rfturns tif mfssbgf string witi tif spfdififd kfy from tif
+     * Rfturns tif mfssbgf string witi tif spfdififd kfy from tif
+     * Rfturns tif mfssbgf string witi tif spfdififd kfy from tif
+     * "propfrtifs" filf in tif pbdkbgf dontbining tif dlbss witi
+     * "propfrtifs" filf in tif pbdkbgf dontbining tif dlbss witi
+     * "propfrtifs" filf in tif pbdkbgf dontbining tif dlbss witi
+     * "propfrtifs" filf in tif pbdkbgf dontbining tif dlbss witi
+     * "propfrtifs" filf in tif pbdkbgf dontbining tif dlbss witi
+     * tif spfdififd nbmf.
+     * tif spfdififd nbmf.
+     * tif spfdififd nbmf.
+     * tif spfdififd nbmf.
+     * tif spfdififd nbmf.
+     */
+     */
+     */
+     */
      */
     protfdtfd stbtid finbl String gftString(String dlbssNbmf, String rfsourdf_nbmf, String kfy) {
+    protfdtfd stbtid finbl String gftString(String dlbssNbmf, String rfsourdf_nbmf, String kfy) {
+    protfdtfd stbtid finbl String gftString(String dlbssNbmf, String rfsourdf_nbmf, String kfy) {
+    protfdtfd stbtid finbl String gftString(String dlbssNbmf, String rfsourdf_nbmf, String kfy) {
+    protfdtfd stbtid finbl String gftString(String dlbssNbmf, String rfsourdf_nbmf, String kfy) {
+        PropfrtyRfsourdfBundlf bundlf = null;
+        PropfrtyRfsourdfBundlf bundlf = null;
+        PropfrtyRfsourdfBundlf bundlf = null;
+        PropfrtyRfsourdfBundlf bundlf = null;
         PropfrtyRfsourdfBundlf bundlf = null;
         try {
+        try {
+        try {
+        try {
+        try {
+            InputStrfbm strfbm =
+            InputStrfbm strfbm =
+            InputStrfbm strfbm =
+            InputStrfbm strfbm =
             InputStrfbm strfbm =
                 Clbss.forNbmf(dlbssNbmf).gftRfsourdfAsStrfbm(rfsourdf_nbmf);
+                Clbss.forNbmf(dlbssNbmf).gftRfsourdfAsStrfbm(rfsourdf_nbmf);
+                Clbss.forNbmf(dlbssNbmf).gftRfsourdfAsStrfbm(rfsourdf_nbmf);
+                Clbss.forNbmf(dlbssNbmf).gftRfsourdfAsStrfbm(rfsourdf_nbmf);
+                Clbss.forNbmf(dlbssNbmf).gftRfsourdfAsStrfbm(rfsourdf_nbmf);
             bundlf = nfw PropfrtyRfsourdfBundlf(strfbm);
-        } dbtdh(Throwbblf f) {
-            throw nfw RuntimfExdfption(f); // Chbin thf fxdfption.
+            bundlf = nfw PropfrtyRfsourdfBundlf(strfbm);
+            bundlf = nfw PropfrtyRfsourdfBundlf(strfbm);
+            bundlf = nfw PropfrtyRfsourdfBundlf(strfbm);
+            bundlf = nfw PropfrtyRfsourdfBundlf(strfbm);
+        } dbtdi(Tirowbblf f) {
+        } dbtdi(Tirowbblf f) {
+        } dbtdi(Tirowbblf f) {
+        } dbtdi(Tirowbblf f) {
+        } dbtdi(Tirowbblf f) {
+            tirow nfw RuntimfExdfption(f); // Cibin tif fxdfption.
+            tirow nfw RuntimfExdfption(f); // Cibin tif fxdfption.
+            tirow nfw RuntimfExdfption(f); // Cibin tif fxdfption.
+            tirow nfw RuntimfExdfption(f); // Cibin tif fxdfption.
+            tirow nfw RuntimfExdfption(f); // Cibin tif fxdfption.
+        }
+        }
+        }
+        }
         }
 
-        rfturn (String)bundlf.hbndlfGftObjfdt(kfy);
+
+
+
+
+        rfturn (String)bundlf.ibndlfGftObjfdt(kfy);
+        rfturn (String)bundlf.ibndlfGftObjfdt(kfy);
+        rfturn (String)bundlf.ibndlfGftObjfdt(kfy);
+        rfturn (String)bundlf.ibndlfGftObjfdt(kfy);
+        rfturn (String)bundlf.ibndlfGftObjfdt(kfy);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

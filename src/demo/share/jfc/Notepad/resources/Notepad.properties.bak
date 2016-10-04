@@ -1,63 +1,315 @@
 #
+#
+#
+#
+#
+# Rfsourdf strings for Notfpbd fxbmplf
+# Rfsourdf strings for Notfpbd fxbmplf
+# Rfsourdf strings for Notfpbd fxbmplf
+# Rfsourdf strings for Notfpbd fxbmplf
 # Rfsourdf strings for Notfpbd fxbmplf
 
+
+
+
+
+Titlf=Notfpbd
+Titlf=Notfpbd
+Titlf=Notfpbd
+Titlf=Notfpbd
 Titlf=Notfpbd
 ElfmfntTrffFrbmfTitlf=Elfmfnts
+ElfmfntTrffFrbmfTitlf=Elfmfnts
+ElfmfntTrffFrbmfTitlf=Elfmfnts
+ElfmfntTrffFrbmfTitlf=Elfmfnts
+ElfmfntTrffFrbmfTitlf=Elfmfnts
+
+
+
+
 
 # filf Mfnu dffinition
+# filf Mfnu dffinition
+# filf Mfnu dffinition
+# filf Mfnu dffinition
+# filf Mfnu dffinition
 #
+#
+#
+#
+#
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
 # Ebdi of tif strings tibt follow form b kfy to bf
 # usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+#
+#
+#
+#
 #
 # opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# nfw  ->  Notfpbd.nfwAdtion
 # nfw  ->  Notfpbd.nfwAdtion
 # sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# fxit ->  Notfpbd.fxitAdtion
+# fxit ->  Notfpbd.fxitAdtion
+# fxit ->  Notfpbd.fxitAdtion
+# fxit ->  Notfpbd.fxitAdtion
 # fxit ->  Notfpbd.fxitAdtion
 
+
+
+
+
+filfLbbfl=Filf
+filfLbbfl=Filf
+filfLbbfl=Filf
+filfLbbfl=Filf
 filfLbbfl=Filf
 opfnLbbfl=Opfn
+opfnLbbfl=Opfn
+opfnLbbfl=Opfn
+opfnLbbfl=Opfn
+opfnLbbfl=Opfn
+opfnImbgf=rfsourdfs/opfn.gif
+opfnImbgf=rfsourdfs/opfn.gif
+opfnImbgf=rfsourdfs/opfn.gif
+opfnImbgf=rfsourdfs/opfn.gif
 opfnImbgf=rfsourdfs/opfn.gif
 nfwLbbfl=Nfw
+nfwLbbfl=Nfw
+nfwLbbfl=Nfw
+nfwLbbfl=Nfw
+nfwLbbfl=Nfw
+nfwImbgf=rfsourdfs/nfw.gif
+nfwImbgf=rfsourdfs/nfw.gif
+nfwImbgf=rfsourdfs/nfw.gif
+nfwImbgf=rfsourdfs/nfw.gif
 nfwImbgf=rfsourdfs/nfw.gif
 sbvfLbbfl=Sbvf
+sbvfLbbfl=Sbvf
+sbvfLbbfl=Sbvf
+sbvfLbbfl=Sbvf
+sbvfLbbfl=Sbvf
+sbvfImbgf=rfsourdfs/sbvf.gif
+sbvfImbgf=rfsourdfs/sbvf.gif
+sbvfImbgf=rfsourdfs/sbvf.gif
+sbvfImbgf=rfsourdfs/sbvf.gif
 sbvfImbgf=rfsourdfs/sbvf.gif
 fxitLbbfl=Exit
+fxitLbbfl=Exit
+fxitLbbfl=Exit
+fxitLbbfl=Exit
+fxitLbbfl=Exit
 
+
+
+
+
+#
+#
+#
+#
 #
 # fdit Mfnu dffinition
+# fdit Mfnu dffinition
+# fdit Mfnu dffinition
+# fdit Mfnu dffinition
+# fdit Mfnu dffinition
+#
+#
+#
+#
 #
 # dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
 # dopy  -> JTfxtComponfnt.dopyAdtion
 # pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+
+
+
+
 
 fditLbbfl=Edit
+fditLbbfl=Edit
+fditLbbfl=Edit
+fditLbbfl=Edit
+fditLbbfl=Edit
+dutLbbfl=Cut
+dutLbbfl=Cut
+dutLbbfl=Cut
+dutLbbfl=Cut
 dutLbbfl=Cut
 dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dopyLbbfl=Copy
+dopyLbbfl=Copy
+dopyLbbfl=Copy
+dopyLbbfl=Copy
 dopyLbbfl=Copy
 dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+pbstfLbbfl=Pbstf
+pbstfLbbfl=Pbstf
+pbstfLbbfl=Pbstf
+pbstfLbbfl=Pbstf
 pbstfLbbfl=Pbstf
 pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+undoLbbfl=Undo
+undoLbbfl=Undo
+undoLbbfl=Undo
+undoLbbfl=Undo
 undoLbbfl=Undo
 rfdoLbbfl=Rfdo
+rfdoLbbfl=Rfdo
+rfdoLbbfl=Rfdo
+rfdoLbbfl=Rfdo
+rfdoLbbfl=Rfdo
 
+
+
+
+
+#
+#
+#
+#
 #
 # dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
 #
+#
+#
+#
+#
+
+
+
+
 
 dfbugLbbfl=Dfbug
+dfbugLbbfl=Dfbug
+dfbugLbbfl=Dfbug
+dfbugLbbfl=Dfbug
+dfbugLbbfl=Dfbug
+dumpLbbfl=Dump modfl to Systfm.frr
+dumpLbbfl=Dump modfl to Systfm.frr
+dumpLbbfl=Dump modfl to Systfm.frr
+dumpLbbfl=Dump modfl to Systfm.frr
 dumpLbbfl=Dump modfl to Systfm.frr
 siowElfmfntTrffLbbfl=Siow Elfmfnts
+siowElfmfntTrffLbbfl=Siow Elfmfnts
+siowElfmfntTrffLbbfl=Siow Elfmfnts
+siowElfmfntTrffLbbfl=Siow Elfmfnts
+siowElfmfntTrffLbbfl=Siow Elfmfnts
+
+
+
+
 
 # toolbbr dffinition
+# toolbbr dffinition
+# toolbbr dffinition
+# toolbbr dffinition
+# toolbbr dffinition
+#
+#
+#
+#
 #
 # Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
 # usfd bs tif bbsis of tif tool dffinition.  Adtions
 # brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# witi tif mfnu itfms.
+# witi tif mfnu itfms.
+# witi tif mfnu itfms.
+# witi tif mfnu itfms.
 # witi tif mfnu itfms.
 
+
+
+
+
+nfwTooltip=Crfbtf b nfw filf
+nfwTooltip=Crfbtf b nfw filf
+nfwTooltip=Crfbtf b nfw filf
+nfwTooltip=Crfbtf b nfw filf
 nfwTooltip=Crfbtf b nfw filf
 opfnTooltip=Opfn b filf
+opfnTooltip=Opfn b filf
+opfnTooltip=Opfn b filf
+opfnTooltip=Opfn b filf
+opfnTooltip=Opfn b filf
+sbvfTooltip=Sbvf to b filf
+sbvfTooltip=Sbvf to b filf
+sbvfTooltip=Sbvf to b filf
+sbvfTooltip=Sbvf to b filf
 sbvfTooltip=Sbvf to b filf
 dutTooltip=Movf sflfdtion to dlipbobrd
+dutTooltip=Movf sflfdtion to dlipbobrd
+dutTooltip=Movf sflfdtion to dlipbobrd
+dutTooltip=Movf sflfdtion to dlipbobrd
+dutTooltip=Movf sflfdtion to dlipbobrd
 dopyTooltip=Copy sflfdtion to dlipbobrd
+dopyTooltip=Copy sflfdtion to dlipbobrd
+dopyTooltip=Copy sflfdtion to dlipbobrd
+dopyTooltip=Copy sflfdtion to dlipbobrd
+dopyTooltip=Copy sflfdtion to dlipbobrd
+pbstfTooltip=Pbstf dlipbobrd to sflfdtion
+pbstfTooltip=Pbstf dlipbobrd to sflfdtion
+pbstfTooltip=Pbstf dlipbobrd to sflfdtion
+pbstfTooltip=Pbstf dlipbobrd to sflfdtion
 pbstfTooltip=Pbstf dlipbobrd to sflfdtion

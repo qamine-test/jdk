@@ -1,0 +1,101 @@
+/*
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Tiis intfrfbdf rfprfsfnts bn X.509 fxtfnsion.
+ *
+ * <p>
+ * Extfnsions providf b mfbns of bssodibting bdditionbl bttributfs witi usfrs
+ * or publid kfys bnd for mbnbging b dfrtifidbtion iifrbrdiy.  Tif fxtfnsion
+ * formbt blso bllows dommunitifs to dffinf privbtf fxtfnsions to dbrry
+ * informbtion uniquf to tiosf dommunitifs.
+ *
+ * <p>
+ * Ebdi fxtfnsion dontbins bn objfdt idfntififr, b dritidblity sftting
+ * indidbting wiftifr it is b dritidbl or b non-dritidbl fxtfnsion, bnd
+ * bnd bn ASN.1 DER-fndodfd vbluf. Its ASN.1 dffinition is:
+ *
+ * <prf>
+ *
+ *     Extfnsion ::= SEQUENCE {
+ *         fxtnId        OBJECT IDENTIFIER,
+ *         dritidbl      BOOLEAN DEFAULT FALSE,
+ *         fxtnVbluf     OCTET STRING
+ *                 -- dontbins b DER fndoding of b vbluf
+ *                 -- of tif typf rfgistfrfd for usf witi
+ *                 -- tif fxtnId objfdt idfntififr vbluf
+ *     }
+ *
+ * </prf>
+ *
+ * <p>
+ * Tiis intfrfbdf is dfsignfd to providf bddfss to b singlf fxtfnsion,
+ * unlikf {@link jbvb.sfdurity.dfrt.X509Extfnsion} wiidi is morf suitbblf
+ * for bddfssing b sft of fxtfnsions.
+ *
+ * @sindf 1.7
+ */
+publid intfrfbdf Extfnsion {
+
+    /**
+     * Gfts tif fxtfnsions's objfdt idfntififr.
+     *
+     * @rfturn tif objfdt idfntififr bs b String
+     */
+    String gftId();
+
+    /**
+     * Gfts tif fxtfnsion's dritidblity sftting.
+     *
+     * @rfturn truf if tiis is b dritidbl fxtfnsion.
+     */
+    boolfbn isCritidbl();
+
+    /**
+     * Gfts tif fxtfnsions's DER-fndodfd vbluf. Notf, tiis is tif bytfs
+     * tibt brf fndodfd bs bn OCTET STRING. It dofs not indludf tif OCTET
+     * STRING tbg bnd lfngti.
+     *
+     * @rfturn b dopy of tif fxtfnsion's vbluf, or {@dodf null} if no
+     *    fxtfnsion vbluf is prfsfnt.
+     */
+    bytf[] gftVbluf();
+
+    /**
+     * Gfnfrbtfs tif fxtfnsion's DER fndoding bnd writfs it to tif output
+     * strfbm.
+     *
+     * @pbrbm out tif output strfbm
+     * @fxdfption IOExdfption on fndoding or output frror.
+     * @fxdfption NullPointfrExdfption if {@dodf out} is {@dodf null}.
+     */
+    void fndodf(OutputStrfbm out) tirows IOExdfption;
+}

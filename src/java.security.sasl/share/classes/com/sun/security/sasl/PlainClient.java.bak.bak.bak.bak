@@ -1,205 +1,1025 @@
 /*
- * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.sfdurity.sbsl;
+pbdkbgf dom.sun.sfdurity.sbsl;
+pbdkbgf dom.sun.sfdurity.sbsl;
+pbdkbgf dom.sun.sfdurity.sbsl;
+pbdkbgf dom.sun.sfdurity.sbsl;
+
+
+
+
 
 import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.sbsl.*;
+
+
+
+
 
 /**
-  * Implfmfnts thf PLAIN SASL dlifnt mfdhbnism.
+/**
+/**
+/**
+/**
+  * Implfmfnts tif PLAIN SASL dlifnt mfdibnism.
+  * Implfmfnts tif PLAIN SASL dlifnt mfdibnism.
+  * Implfmfnts tif PLAIN SASL dlifnt mfdibnism.
+  * Implfmfnts tif PLAIN SASL dlifnt mfdibnism.
+  * Implfmfnts tif PLAIN SASL dlifnt mfdibnism.
   * (<A
-  * HREF="http://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
+  * (<A
+  * (<A
+  * (<A
+  * (<A
+  * HREF="ittp://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
+  * HREF="ittp://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
+  * HREF="ittp://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
+  * HREF="ittp://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
+  * HREF="ittp://ftp.isi.fdu/in-notfs/rfd2595.txt">RFC 2595</A>)
   *
-  * @buthor Rosbnnb Lff
+  *
+  *
+  *
+  *
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  */
+  */
+  */
+  */
   */
 finbl dlbss PlbinClifnt implfmfnts SbslClifnt {
+finbl dlbss PlbinClifnt implfmfnts SbslClifnt {
+finbl dlbss PlbinClifnt implfmfnts SbslClifnt {
+finbl dlbss PlbinClifnt implfmfnts SbslClifnt {
+finbl dlbss PlbinClifnt implfmfnts SbslClifnt {
+    privbtf boolfbn domplftfd = fblsf;
+    privbtf boolfbn domplftfd = fblsf;
+    privbtf boolfbn domplftfd = fblsf;
+    privbtf boolfbn domplftfd = fblsf;
     privbtf boolfbn domplftfd = fblsf;
     privbtf bytf[] pw;
-    privbtf String buthorizbtionID;
-    privbtf String buthfntidbtionID;
+    privbtf bytf[] pw;
+    privbtf bytf[] pw;
+    privbtf bytf[] pw;
+    privbtf bytf[] pw;
+    privbtf String butiorizbtionID;
+    privbtf String butiorizbtionID;
+    privbtf String butiorizbtionID;
+    privbtf String butiorizbtionID;
+    privbtf String butiorizbtionID;
+    privbtf String butifntidbtionID;
+    privbtf String butifntidbtionID;
+    privbtf String butifntidbtionID;
+    privbtf String butifntidbtionID;
+    privbtf String butifntidbtionID;
+    privbtf stbtid bytf SEP = 0; // US-ASCII <NUL>
+    privbtf stbtid bytf SEP = 0; // US-ASCII <NUL>
+    privbtf stbtid bytf SEP = 0; // US-ASCII <NUL>
+    privbtf stbtid bytf SEP = 0; // US-ASCII <NUL>
     privbtf stbtid bytf SEP = 0; // US-ASCII <NUL>
 
+
+
+
+
     /**
-     * Crfbtfs b SASL mfdhbnism with dlifnt drfdfntibls thbt it nffds
-     * to pbrtidipbtf in Plbin buthfntidbtion fxdhbngf with thf sfrvfr.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b SASL mfdibnism witi dlifnt drfdfntibls tibt it nffds
+     * Crfbtfs b SASL mfdibnism witi dlifnt drfdfntibls tibt it nffds
+     * Crfbtfs b SASL mfdibnism witi dlifnt drfdfntibls tibt it nffds
+     * Crfbtfs b SASL mfdibnism witi dlifnt drfdfntibls tibt it nffds
+     * Crfbtfs b SASL mfdibnism witi dlifnt drfdfntibls tibt it nffds
+     * to pbrtidipbtf in Plbin butifntidbtion fxdibngf witi tif sfrvfr.
+     * to pbrtidipbtf in Plbin butifntidbtion fxdibngf witi tif sfrvfr.
+     * to pbrtidipbtf in Plbin butifntidbtion fxdibngf witi tif sfrvfr.
+     * to pbrtidipbtf in Plbin butifntidbtion fxdibngf witi tif sfrvfr.
+     * to pbrtidipbtf in Plbin butifntidbtion fxdibngf witi tif sfrvfr.
      *
-     * @pbrbm buthorizbtionID A possibly null string rfprfsfnting thf prindipbl
-     *  for whidh buthorizbtion is bfing grbntfd; if null, sbmf bs
-     *  buthfntidbtionID
-     * @pbrbm buthfntidbtionID A non-null string rfprfsfnting thf prindipbl
-     * bfing buthfntidbtfd. pw is bssodibtfd with with this prindipbl.
-     * @pbrbm pw A non-null bytf[] dontbining thf pbssword.
+     *
+     *
+     *
+     *
+     * @pbrbm butiorizbtionID A possibly null string rfprfsfnting tif prindipbl
+     * @pbrbm butiorizbtionID A possibly null string rfprfsfnting tif prindipbl
+     * @pbrbm butiorizbtionID A possibly null string rfprfsfnting tif prindipbl
+     * @pbrbm butiorizbtionID A possibly null string rfprfsfnting tif prindipbl
+     * @pbrbm butiorizbtionID A possibly null string rfprfsfnting tif prindipbl
+     *  for wiidi butiorizbtion is bfing grbntfd; if null, sbmf bs
+     *  for wiidi butiorizbtion is bfing grbntfd; if null, sbmf bs
+     *  for wiidi butiorizbtion is bfing grbntfd; if null, sbmf bs
+     *  for wiidi butiorizbtion is bfing grbntfd; if null, sbmf bs
+     *  for wiidi butiorizbtion is bfing grbntfd; if null, sbmf bs
+     *  butifntidbtionID
+     *  butifntidbtionID
+     *  butifntidbtionID
+     *  butifntidbtionID
+     *  butifntidbtionID
+     * @pbrbm butifntidbtionID A non-null string rfprfsfnting tif prindipbl
+     * @pbrbm butifntidbtionID A non-null string rfprfsfnting tif prindipbl
+     * @pbrbm butifntidbtionID A non-null string rfprfsfnting tif prindipbl
+     * @pbrbm butifntidbtionID A non-null string rfprfsfnting tif prindipbl
+     * @pbrbm butifntidbtionID A non-null string rfprfsfnting tif prindipbl
+     * bfing butifntidbtfd. pw is bssodibtfd witi witi tiis prindipbl.
+     * bfing butifntidbtfd. pw is bssodibtfd witi witi tiis prindipbl.
+     * bfing butifntidbtfd. pw is bssodibtfd witi witi tiis prindipbl.
+     * bfing butifntidbtfd. pw is bssodibtfd witi witi tiis prindipbl.
+     * bfing butifntidbtfd. pw is bssodibtfd witi witi tiis prindipbl.
+     * @pbrbm pw A non-null bytf[] dontbining tif pbssword.
+     * @pbrbm pw A non-null bytf[] dontbining tif pbssword.
+     * @pbrbm pw A non-null bytf[] dontbining tif pbssword.
+     * @pbrbm pw A non-null bytf[] dontbining tif pbssword.
+     * @pbrbm pw A non-null bytf[] dontbining tif pbssword.
      */
-    PlbinClifnt(String buthorizbtionID, String buthfntidbtionID, bytf[] pw)
-    throws SbslExdfption {
-        if (buthfntidbtionID == null || pw == null) {
-            throw nfw SbslExdfption(
-                "PLAIN: buthorizbtion ID bnd pbssword must bf spfdififd");
+     */
+     */
+     */
+     */
+    PlbinClifnt(String butiorizbtionID, String butifntidbtionID, bytf[] pw)
+    PlbinClifnt(String butiorizbtionID, String butifntidbtionID, bytf[] pw)
+    PlbinClifnt(String butiorizbtionID, String butifntidbtionID, bytf[] pw)
+    PlbinClifnt(String butiorizbtionID, String butifntidbtionID, bytf[] pw)
+    PlbinClifnt(String butiorizbtionID, String butifntidbtionID, bytf[] pw)
+    tirows SbslExdfption {
+    tirows SbslExdfption {
+    tirows SbslExdfption {
+    tirows SbslExdfption {
+    tirows SbslExdfption {
+        if (butifntidbtionID == null || pw == null) {
+        if (butifntidbtionID == null || pw == null) {
+        if (butifntidbtionID == null || pw == null) {
+        if (butifntidbtionID == null || pw == null) {
+        if (butifntidbtionID == null || pw == null) {
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+                "PLAIN: butiorizbtion ID bnd pbssword must bf spfdififd");
+                "PLAIN: butiorizbtion ID bnd pbssword must bf spfdififd");
+                "PLAIN: butiorizbtion ID bnd pbssword must bf spfdififd");
+                "PLAIN: butiorizbtion ID bnd pbssword must bf spfdififd");
+                "PLAIN: butiorizbtion ID bnd pbssword must bf spfdififd");
+        }
+        }
+        }
+        }
         }
 
-        this.buthorizbtionID = buthorizbtionID;
-        this.buthfntidbtionID = buthfntidbtionID;
-        this.pw = pw;  // dbllfr should hbvf blrfbdy dlonfd
+
+
+
+
+        tiis.butiorizbtionID = butiorizbtionID;
+        tiis.butiorizbtionID = butiorizbtionID;
+        tiis.butiorizbtionID = butiorizbtionID;
+        tiis.butiorizbtionID = butiorizbtionID;
+        tiis.butiorizbtionID = butiorizbtionID;
+        tiis.butifntidbtionID = butifntidbtionID;
+        tiis.butifntidbtionID = butifntidbtionID;
+        tiis.butifntidbtionID = butifntidbtionID;
+        tiis.butifntidbtionID = butifntidbtionID;
+        tiis.butifntidbtionID = butifntidbtionID;
+        tiis.pw = pw;  // dbllfr siould ibvf blrfbdy dlonfd
+        tiis.pw = pw;  // dbllfr siould ibvf blrfbdy dlonfd
+        tiis.pw = pw;  // dbllfr siould ibvf blrfbdy dlonfd
+        tiis.pw = pw;  // dbllfr siould ibvf blrfbdy dlonfd
+        tiis.pw = pw;  // dbllfr siould ibvf blrfbdy dlonfd
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs this mfdhbnism's nbmf for to initibtf thf PLAIN protodol
-     * fxdhbngf.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tiis mfdibnism's nbmf for to initibtf tif PLAIN protodol
+     * Rftrifvfs tiis mfdibnism's nbmf for to initibtf tif PLAIN protodol
+     * Rftrifvfs tiis mfdibnism's nbmf for to initibtf tif PLAIN protodol
+     * Rftrifvfs tiis mfdibnism's nbmf for to initibtf tif PLAIN protodol
+     * Rftrifvfs tiis mfdibnism's nbmf for to initibtf tif PLAIN protodol
+     * fxdibngf.
+     * fxdibngf.
+     * fxdibngf.
+     * fxdibngf.
+     * fxdibngf.
      *
-     * @rfturn  Thf string "PLAIN".
+     *
+     *
+     *
+     *
+     * @rfturn  Tif string "PLAIN".
+     * @rfturn  Tif string "PLAIN".
+     * @rfturn  Tif string "PLAIN".
+     * @rfturn  Tif string "PLAIN".
+     * @rfturn  Tif string "PLAIN".
      */
-    publid String gftMfdhbnismNbmf() {
+     */
+     */
+     */
+     */
+    publid String gftMfdibnismNbmf() {
+    publid String gftMfdibnismNbmf() {
+    publid String gftMfdibnismNbmf() {
+    publid String gftMfdibnismNbmf() {
+    publid String gftMfdibnismNbmf() {
+        rfturn "PLAIN";
+        rfturn "PLAIN";
+        rfturn "PLAIN";
+        rfturn "PLAIN";
         rfturn "PLAIN";
     }
+    }
+    }
+    }
+    }
 
-    publid boolfbn hbsInitiblRfsponsf() {
+
+
+
+
+    publid boolfbn ibsInitiblRfsponsf() {
+    publid boolfbn ibsInitiblRfsponsf() {
+    publid boolfbn ibsInitiblRfsponsf() {
+    publid boolfbn ibsInitiblRfsponsf() {
+    publid boolfbn ibsInitiblRfsponsf() {
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
         rfturn truf;
     }
-
-    publid void disposf() throws SbslExdfption {
-        dlfbrPbssword();
+    }
+    }
+    }
     }
 
+
+
+
+
+    publid void disposf() tirows SbslExdfption {
+    publid void disposf() tirows SbslExdfption {
+    publid void disposf() tirows SbslExdfption {
+    publid void disposf() tirows SbslExdfption {
+    publid void disposf() tirows SbslExdfption {
+        dlfbrPbssword();
+        dlfbrPbssword();
+        dlfbrPbssword();
+        dlfbrPbssword();
+        dlfbrPbssword();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
     /**
-     * Rftrifvfs thf initibl rfsponsf for thf SASL dommbnd, whidh for
-     * PLAIN is thf dondbtfnbtion of buthorizbtion ID, buthfntidbtion ID
-     * bnd pbssword, with fbdh domponfnt sfpbrbtfd by thf US-ASCII <NUL> bytf.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif initibl rfsponsf for tif SASL dommbnd, wiidi for
+     * Rftrifvfs tif initibl rfsponsf for tif SASL dommbnd, wiidi for
+     * Rftrifvfs tif initibl rfsponsf for tif SASL dommbnd, wiidi for
+     * Rftrifvfs tif initibl rfsponsf for tif SASL dommbnd, wiidi for
+     * Rftrifvfs tif initibl rfsponsf for tif SASL dommbnd, wiidi for
+     * PLAIN is tif dondbtfnbtion of butiorizbtion ID, butifntidbtion ID
+     * PLAIN is tif dondbtfnbtion of butiorizbtion ID, butifntidbtion ID
+     * PLAIN is tif dondbtfnbtion of butiorizbtion ID, butifntidbtion ID
+     * PLAIN is tif dondbtfnbtion of butiorizbtion ID, butifntidbtion ID
+     * PLAIN is tif dondbtfnbtion of butiorizbtion ID, butifntidbtion ID
+     * bnd pbssword, witi fbdi domponfnt sfpbrbtfd by tif US-ASCII <NUL> bytf.
+     * bnd pbssword, witi fbdi domponfnt sfpbrbtfd by tif US-ASCII <NUL> bytf.
+     * bnd pbssword, witi fbdi domponfnt sfpbrbtfd by tif US-ASCII <NUL> bytf.
+     * bnd pbssword, witi fbdi domponfnt sfpbrbtfd by tif US-ASCII <NUL> bytf.
+     * bnd pbssword, witi fbdi domponfnt sfpbrbtfd by tif US-ASCII <NUL> bytf.
      *
-     * @pbrbm dhbllfngfDbtb Ignorfd
-     * @rfturn A non-null bytf brrby dontbining thf rfsponsf to bf sfnt to thf sfrvfr.
-     * @throws SbslExdfption If dbnnot fndodf ids in UTF-8
-     * @throw IllfgblStbtfExdfption if buthfntidbtion blrfbdy domplftfd
+     *
+     *
+     *
+     *
+     * @pbrbm dibllfngfDbtb Ignorfd
+     * @pbrbm dibllfngfDbtb Ignorfd
+     * @pbrbm dibllfngfDbtb Ignorfd
+     * @pbrbm dibllfngfDbtb Ignorfd
+     * @pbrbm dibllfngfDbtb Ignorfd
+     * @rfturn A non-null bytf brrby dontbining tif rfsponsf to bf sfnt to tif sfrvfr.
+     * @rfturn A non-null bytf brrby dontbining tif rfsponsf to bf sfnt to tif sfrvfr.
+     * @rfturn A non-null bytf brrby dontbining tif rfsponsf to bf sfnt to tif sfrvfr.
+     * @rfturn A non-null bytf brrby dontbining tif rfsponsf to bf sfnt to tif sfrvfr.
+     * @rfturn A non-null bytf brrby dontbining tif rfsponsf to bf sfnt to tif sfrvfr.
+     * @tirows SbslExdfption If dbnnot fndodf ids in UTF-8
+     * @tirows SbslExdfption If dbnnot fndodf ids in UTF-8
+     * @tirows SbslExdfption If dbnnot fndodf ids in UTF-8
+     * @tirows SbslExdfption If dbnnot fndodf ids in UTF-8
+     * @tirows SbslExdfption If dbnnot fndodf ids in UTF-8
+     * @tirow IllfgblStbtfExdfption if butifntidbtion blrfbdy domplftfd
+     * @tirow IllfgblStbtfExdfption if butifntidbtion blrfbdy domplftfd
+     * @tirow IllfgblStbtfExdfption if butifntidbtion blrfbdy domplftfd
+     * @tirow IllfgblStbtfExdfption if butifntidbtion blrfbdy domplftfd
+     * @tirow IllfgblStbtfExdfption if butifntidbtion blrfbdy domplftfd
      */
-    publid bytf[] fvblubtfChbllfngf(bytf[] dhbllfngfDbtb) throws SbslExdfption {
+     */
+     */
+     */
+     */
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb) tirows SbslExdfption {
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb) tirows SbslExdfption {
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb) tirows SbslExdfption {
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb) tirows SbslExdfption {
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb) tirows SbslExdfption {
         if (domplftfd) {
-            throw nfw IllfgblStbtfExdfption(
-                "PLAIN buthfntidbtion blrfbdy domplftfd");
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+            tirow nfw IllfgblStbtfExdfption(
+            tirow nfw IllfgblStbtfExdfption(
+            tirow nfw IllfgblStbtfExdfption(
+            tirow nfw IllfgblStbtfExdfption(
+                "PLAIN butifntidbtion blrfbdy domplftfd");
+                "PLAIN butifntidbtion blrfbdy domplftfd");
+                "PLAIN butifntidbtion blrfbdy domplftfd");
+                "PLAIN butifntidbtion blrfbdy domplftfd");
+                "PLAIN butifntidbtion blrfbdy domplftfd");
+        }
+        }
+        }
+        }
         }
         domplftfd = truf;
+        domplftfd = truf;
+        domplftfd = truf;
+        domplftfd = truf;
+        domplftfd = truf;
+
+
+
+
 
         try {
-            bytf[] buthz = (buthorizbtionID != null)?
-                buthorizbtionID.gftBytfs("UTF8") :
+        try {
+        try {
+        try {
+        try {
+            bytf[] butiz = (butiorizbtionID != null)?
+            bytf[] butiz = (butiorizbtionID != null)?
+            bytf[] butiz = (butiorizbtionID != null)?
+            bytf[] butiz = (butiorizbtionID != null)?
+            bytf[] butiz = (butiorizbtionID != null)?
+                butiorizbtionID.gftBytfs("UTF8") :
+                butiorizbtionID.gftBytfs("UTF8") :
+                butiorizbtionID.gftBytfs("UTF8") :
+                butiorizbtionID.gftBytfs("UTF8") :
+                butiorizbtionID.gftBytfs("UTF8") :
                 null;
-            bytf[] buth = buthfntidbtionID.gftBytfs("UTF8");
+                null;
+                null;
+                null;
+                null;
+            bytf[] buti = butifntidbtionID.gftBytfs("UTF8");
+            bytf[] buti = butifntidbtionID.gftBytfs("UTF8");
+            bytf[] buti = butifntidbtionID.gftBytfs("UTF8");
+            bytf[] buti = butifntidbtionID.gftBytfs("UTF8");
+            bytf[] buti = butifntidbtionID.gftBytfs("UTF8");
 
-            bytf[] bnswfr = nfw bytf[pw.lfngth + buth.lfngth + 2 +
-                (buthz == null ? 0 : buthz.lfngth)];
+
+
+
+
+            bytf[] bnswfr = nfw bytf[pw.lfngti + buti.lfngti + 2 +
+            bytf[] bnswfr = nfw bytf[pw.lfngti + buti.lfngti + 2 +
+            bytf[] bnswfr = nfw bytf[pw.lfngti + buti.lfngti + 2 +
+            bytf[] bnswfr = nfw bytf[pw.lfngti + buti.lfngti + 2 +
+            bytf[] bnswfr = nfw bytf[pw.lfngti + buti.lfngti + 2 +
+                (butiz == null ? 0 : butiz.lfngti)];
+                (butiz == null ? 0 : butiz.lfngti)];
+                (butiz == null ? 0 : butiz.lfngti)];
+                (butiz == null ? 0 : butiz.lfngti)];
+                (butiz == null ? 0 : butiz.lfngti)];
+
+
+
+
 
             int pos = 0;
-            if (buthz != null) {
-                Systfm.brrbydopy(buthz, 0, bnswfr, 0, buthz.lfngth);
-                pos = buthz.lfngth;
+            int pos = 0;
+            int pos = 0;
+            int pos = 0;
+            int pos = 0;
+            if (butiz != null) {
+            if (butiz != null) {
+            if (butiz != null) {
+            if (butiz != null) {
+            if (butiz != null) {
+                Systfm.brrbydopy(butiz, 0, bnswfr, 0, butiz.lfngti);
+                Systfm.brrbydopy(butiz, 0, bnswfr, 0, butiz.lfngti);
+                Systfm.brrbydopy(butiz, 0, bnswfr, 0, butiz.lfngti);
+                Systfm.brrbydopy(butiz, 0, bnswfr, 0, butiz.lfngti);
+                Systfm.brrbydopy(butiz, 0, bnswfr, 0, butiz.lfngti);
+                pos = butiz.lfngti;
+                pos = butiz.lfngti;
+                pos = butiz.lfngti;
+                pos = butiz.lfngti;
+                pos = butiz.lfngti;
+            }
+            }
+            }
+            }
             }
             bnswfr[pos++] = SEP;
-            Systfm.brrbydopy(buth, 0, bnswfr, pos, buth.lfngth);
+            bnswfr[pos++] = SEP;
+            bnswfr[pos++] = SEP;
+            bnswfr[pos++] = SEP;
+            bnswfr[pos++] = SEP;
+            Systfm.brrbydopy(buti, 0, bnswfr, pos, buti.lfngti);
+            Systfm.brrbydopy(buti, 0, bnswfr, pos, buti.lfngti);
+            Systfm.brrbydopy(buti, 0, bnswfr, pos, buti.lfngti);
+            Systfm.brrbydopy(buti, 0, bnswfr, pos, buti.lfngti);
+            Systfm.brrbydopy(buti, 0, bnswfr, pos, buti.lfngti);
 
-            pos += buth.lfngth;
+
+
+
+
+            pos += buti.lfngti;
+            pos += buti.lfngti;
+            pos += buti.lfngti;
+            pos += buti.lfngti;
+            pos += buti.lfngti;
+            bnswfr[pos++] = SEP;
+            bnswfr[pos++] = SEP;
+            bnswfr[pos++] = SEP;
+            bnswfr[pos++] = SEP;
             bnswfr[pos++] = SEP;
 
-            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngth);
+
+
+
+
+            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngti);
+            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngti);
+            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngti);
+            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngti);
+            Systfm.brrbydopy(pw, 0, bnswfr, pos, pw.lfngti);
+
+
+
+
 
             dlfbrPbssword();
+            dlfbrPbssword();
+            dlfbrPbssword();
+            dlfbrPbssword();
+            dlfbrPbssword();
             rfturn bnswfr;
-        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
-            throw nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
+            rfturn bnswfr;
+            rfturn bnswfr;
+            rfturn bnswfr;
+            rfturn bnswfr;
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
+            tirow nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
+            tirow nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
+            tirow nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
+            tirow nfw SbslExdfption("Cbnnot gft UTF-8 fndoding of ids", f);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dftfrminfs whfthfr this mfdhbnism hbs domplftfd.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
+     * Plbin domplftfs bftfr rfturning onf rfsponsf.
+     * Plbin domplftfs bftfr rfturning onf rfsponsf.
+     * Plbin domplftfs bftfr rfturning onf rfsponsf.
+     * Plbin domplftfs bftfr rfturning onf rfsponsf.
      * Plbin domplftfs bftfr rfturning onf rfsponsf.
      *
-     * @rfturn truf if hbs domplftfd; fblsf othfrwisf;
+     *
+     *
+     *
+     *
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
+     */
+     */
+     */
+     */
      */
     publid boolfbn isComplftf() {
+    publid boolfbn isComplftf() {
+    publid boolfbn isComplftf() {
+    publid boolfbn isComplftf() {
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
+        rfturn domplftfd;
+        rfturn domplftfd;
+        rfturn domplftfd;
         rfturn domplftfd;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-      * Unwrbps thf indoming bufffr.
+    /**
+    /**
+    /**
+    /**
+      * Unwrbps tif indoming bufffr.
+      * Unwrbps tif indoming bufffr.
+      * Unwrbps tif indoming bufffr.
+      * Unwrbps tif indoming bufffr.
+      * Unwrbps tif indoming bufffr.
       *
-      * @throws SbslExdfption Not bpplidbblf to this mfdhbnism.
+      *
+      *
+      *
+      *
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      */
+      */
+      */
+      */
       */
     publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
-        throws SbslExdfption {
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        tirows SbslExdfption {
+        tirows SbslExdfption {
+        tirows SbslExdfption {
+        tirows SbslExdfption {
+        tirows SbslExdfption {
         if (domplftfd) {
-            throw nfw SbslExdfption(
-                "PLAIN supports nfithfr intfgrity nor privbdy");
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
         } flsf {
-            throw nfw IllfgblStbtfExdfption("PLAIN buthfntidbtion not domplftfd");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-      * Wrbps thf outgoing bufffr.
+    /**
+    /**
+    /**
+    /**
+      * Wrbps tif outgoing bufffr.
+      * Wrbps tif outgoing bufffr.
+      * Wrbps tif outgoing bufffr.
+      * Wrbps tif outgoing bufffr.
+      * Wrbps tif outgoing bufffr.
       *
-      * @throws SbslExdfption Not bpplidbblf to this mfdhbnism.
+      *
+      *
+      *
+      *
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
       */
-    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) throws SbslExdfption {
+      */
+      */
+      */
+      */
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) tirows SbslExdfption {
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) tirows SbslExdfption {
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) tirows SbslExdfption {
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) tirows SbslExdfption {
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn) tirows SbslExdfption {
         if (domplftfd) {
-            throw nfw SbslExdfption(
-                "PLAIN supports nfithfr intfgrity nor privbdy");
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+            tirow nfw SbslExdfption(
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
+                "PLAIN supports nfitifr intfgrity nor privbdy");
         } flsf {
-            throw nfw IllfgblStbtfExdfption("PLAIN buthfntidbtion not domplftfd");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rftrifvfs thf nfgotibtfd propfrty.
-     * This mfthod dbn bf dbllfd only bftfr thf buthfntidbtion fxdhbngf hbs
-     * domplftfd (i.f., whfn <tt>isComplftf()</tt> rfturns truf); othfrwisf, b
-     * <tt>SbslExdfption</tt> is thrown.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * <tt>SbslExdfption</tt> is tirown.
+     * <tt>SbslExdfption</tt> is tirown.
+     * <tt>SbslExdfption</tt> is tirown.
+     * <tt>SbslExdfption</tt> is tirown.
+     * <tt>SbslExdfption</tt> is tirown.
+     *
+     *
+     *
+     *
      *
      * @rfturn vbluf of propfrty; only QOP is bpplidbblf to PLAIN.
-     * @fxdfption IllfgblStbtfExdfption if this buthfntidbtion fxdhbngf
-     *     hbs not domplftfd
+     * @rfturn vbluf of propfrty; only QOP is bpplidbblf to PLAIN.
+     * @rfturn vbluf of propfrty; only QOP is bpplidbblf to PLAIN.
+     * @rfturn vbluf of propfrty; only QOP is bpplidbblf to PLAIN.
+     * @rfturn vbluf of propfrty; only QOP is bpplidbblf to PLAIN.
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     *     ibs not domplftfd
+     *     ibs not domplftfd
+     *     ibs not domplftfd
+     *     ibs not domplftfd
+     *     ibs not domplftfd
+     */
+     */
+     */
+     */
      */
     publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
+        if (domplftfd) {
         if (domplftfd) {
             if (propNbmf.fqubls(Sbsl.QOP)) {
-                rfturn "buth";
+            if (propNbmf.fqubls(Sbsl.QOP)) {
+            if (propNbmf.fqubls(Sbsl.QOP)) {
+            if (propNbmf.fqubls(Sbsl.QOP)) {
+            if (propNbmf.fqubls(Sbsl.QOP)) {
+                rfturn "buti";
+                rfturn "buti";
+                rfturn "buti";
+                rfturn "buti";
+                rfturn "buti";
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 rfturn null;
+                rfturn null;
+                rfturn null;
+                rfturn null;
+                rfturn null;
+            }
+            }
+            }
+            }
             }
         } flsf {
-            throw nfw IllfgblStbtfExdfption("PLAIN buthfntidbtion not domplftfd");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+            tirow nfw IllfgblStbtfExdfption("PLAIN butifntidbtion not domplftfd");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void dlfbrPbssword() {
+    privbtf void dlfbrPbssword() {
+    privbtf void dlfbrPbssword() {
+    privbtf void dlfbrPbssword() {
+    privbtf void dlfbrPbssword() {
+        if (pw != null) {
+        if (pw != null) {
+        if (pw != null) {
+        if (pw != null) {
         if (pw != null) {
             // zfro out pbssword
-            for (int i = 0; i < pw.lfngth; i++) {
+            // zfro out pbssword
+            // zfro out pbssword
+            // zfro out pbssword
+            // zfro out pbssword
+            for (int i = 0; i < pw.lfngti; i++) {
+            for (int i = 0; i < pw.lfngti; i++) {
+            for (int i = 0; i < pw.lfngti; i++) {
+            for (int i = 0; i < pw.lfngti; i++) {
+            for (int i = 0; i < pw.lfngti; i++) {
+                pw[i] = (bytf)0;
+                pw[i] = (bytf)0;
+                pw[i] = (bytf)0;
+                pw[i] = (bytf)0;
                 pw[i] = (bytf)0;
             }
+            }
+            }
+            }
+            }
+            pw = null;
+            pw = null;
+            pw = null;
+            pw = null;
             pw = null;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    protfdtfd void finblizf() {
+    protfdtfd void finblizf() {
+    protfdtfd void finblizf() {
+    protfdtfd void finblizf() {
     protfdtfd void finblizf() {
         dlfbrPbssword();
+        dlfbrPbssword();
+        dlfbrPbssword();
+        dlfbrPbssword();
+        dlfbrPbssword();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

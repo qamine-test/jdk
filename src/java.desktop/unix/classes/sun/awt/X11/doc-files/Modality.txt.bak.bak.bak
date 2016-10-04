@@ -1,142 +1,710 @@
 /* 
+/* 
+/* 
+/* 
+/* 
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 
 
+
+
+
+
+
+
+
+
+1. Usfful API:
+1. Usfful API:
+1. Usfful API:
+1. Usfful API:
 1. Usfful API:
 
+
+
+
+
+  XWindowPffr.isModblBlodkfd()
+  XWindowPffr.isModblBlodkfd()
+  XWindowPffr.isModblBlodkfd()
+  XWindowPffr.isModblBlodkfd()
   XWindowPffr.isModblBlodkfd()
     Cifdks if tiis window is blodkfd by bny modbl diblog
+    Cifdks if tiis window is blodkfd by bny modbl diblog
+    Cifdks if tiis window is blodkfd by bny modbl diblog
+    Cifdks if tiis window is blodkfd by bny modbl diblog
+    Cifdks if tiis window is blodkfd by bny modbl diblog
+    For dommon domponfnt pffrs usf gftToplfvflXWindow().isModblBlodkfd()
+    For dommon domponfnt pffrs usf gftToplfvflXWindow().isModblBlodkfd()
+    For dommon domponfnt pffrs usf gftToplfvflXWindow().isModblBlodkfd()
+    For dommon domponfnt pffrs usf gftToplfvflXWindow().isModblBlodkfd()
     For dommon domponfnt pffrs usf gftToplfvflXWindow().isModblBlodkfd()
 
+
+
+
+
+  XWindowPffr.sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd)
+  XWindowPffr.sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd)
+  XWindowPffr.sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd)
+  XWindowPffr.sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd)
   XWindowPffr.sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd)
     Implfmfntbtion of WindofPffr.sftModblBlodkfd() mftiod
+    Implfmfntbtion of WindofPffr.sftModblBlodkfd() mftiod
+    Implfmfntbtion of WindofPffr.sftModblBlodkfd() mftiod
+    Implfmfntbtion of WindofPffr.sftModblBlodkfd() mftiod
+    Implfmfntbtion of WindofPffr.sftModblBlodkfd() mftiod
+    Mbrks tiis window blodkfd/unblodkfd bnd bdds/rfmovfs it
+    Mbrks tiis window blodkfd/unblodkfd bnd bdds/rfmovfs it
+    Mbrks tiis window blodkfd/unblodkfd bnd bdds/rfmovfs it
+    Mbrks tiis window blodkfd/unblodkfd bnd bdds/rfmovfs it
     Mbrks tiis window blodkfd/unblodkfd bnd bdds/rfmovfs it
       from trbnsifnt_for dibin (sff bflow)
+      from trbnsifnt_for dibin (sff bflow)
+      from trbnsifnt_for dibin (sff bflow)
+      from trbnsifnt_for dibin (sff bflow)
+      from trbnsifnt_for dibin (sff bflow)
+    Don't dbll tiis mftiod dirfdtly, it siould bf usfd from sibrfd
+    Don't dbll tiis mftiod dirfdtly, it siould bf usfd from sibrfd
+    Don't dbll tiis mftiod dirfdtly, it siould bf usfd from sibrfd
+    Don't dbll tiis mftiod dirfdtly, it siould bf usfd from sibrfd
     Don't dbll tiis mftiod dirfdtly, it siould bf usfd from sibrfd
       dodf only
+      dodf only
+      dodf only
+      dodf only
+      dodf only
+
+
+
+
 
   XWindowPffr.bddToTrbnsifntFors()
+  XWindowPffr.bddToTrbnsifntFors()
+  XWindowPffr.bddToTrbnsifntFors()
+  XWindowPffr.bddToTrbnsifntFors()
+  XWindowPffr.bddToTrbnsifntFors()
+  XWindowPffr.rfmovfFromTrbnsifntFors()
+  XWindowPffr.rfmovfFromTrbnsifntFors()
+  XWindowPffr.rfmovfFromTrbnsifntFors()
+  XWindowPffr.rfmovfFromTrbnsifntFors()
   XWindowPffr.rfmovfFromTrbnsifntFors()
     Sff bflow
+    Sff bflow
+    Sff bflow
+    Sff bflow
+    Sff bflow
+
+
+
+
 
 2. Filtfring mousf fvfnts
+2. Filtfring mousf fvfnts
+2. Filtfring mousf fvfnts
+2. Filtfring mousf fvfnts
+2. Filtfring mousf fvfnts
+
+
+
+
 
   Mousf fvfnts brf filtfrfd in tif sibrfd dodf. Sff
+  Mousf fvfnts brf filtfrfd in tif sibrfd dodf. Sff
+  Mousf fvfnts brf filtfrfd in tif sibrfd dodf. Sff
+  Mousf fvfnts brf filtfrfd in tif sibrfd dodf. Sff
+  Mousf fvfnts brf filtfrfd in tif sibrfd dodf. Sff
+    jbvb.bwt.ModblFiltfr dlbss for dftbils
+    jbvb.bwt.ModblFiltfr dlbss for dftbils
+    jbvb.bwt.ModblFiltfr dlbss for dftbils
+    jbvb.bwt.ModblFiltfr dlbss for dftbils
     jbvb.bwt.ModblFiltfr dlbss for dftbils
 
+
+
+
+
+3. Filtfring kfy fvfnts
+3. Filtfring kfy fvfnts
+3. Filtfring kfy fvfnts
+3. Filtfring kfy fvfnts
 3. Filtfring kfy fvfnts
 
+
+
+
+
+  Kfy fvfnts brf filtfring by prfvfnting tif blodkfd windows
+  Kfy fvfnts brf filtfring by prfvfnting tif blodkfd windows
+  Kfy fvfnts brf filtfring by prfvfnting tif blodkfd windows
+  Kfy fvfnts brf filtfring by prfvfnting tif blodkfd windows
   Kfy fvfnts brf filtfring by prfvfnting tif blodkfd windows
     to gft nbtivf fodus. All tif AWT windows usf globbl bdtivf fodus
+    to gft nbtivf fodus. All tif AWT windows usf globbl bdtivf fodus
+    to gft nbtivf fodus. All tif AWT windows usf globbl bdtivf fodus
+    to gft nbtivf fodus. All tif AWT windows usf globbl bdtivf fodus
+    to gft nbtivf fodus. All tif AWT windows usf globbl bdtivf fodus
+    input modfl (sff ICCCM for dftbils) bnd listfns to WM_TAKE_FOCUS
+    input modfl (sff ICCCM for dftbils) bnd listfns to WM_TAKE_FOCUS
+    input modfl (sff ICCCM for dftbils) bnd listfns to WM_TAKE_FOCUS
+    input modfl (sff ICCCM for dftbils) bnd listfns to WM_TAKE_FOCUS
     input modfl (sff ICCCM for dftbils) bnd listfns to WM_TAKE_FOCUS
     protodol. If tif window mbnbgfr bsks AWT to sft fodus on tif
+    protodol. If tif window mbnbgfr bsks AWT to sft fodus on tif
+    protodol. If tif window mbnbgfr bsks AWT to sft fodus on tif
+    protodol. If tif window mbnbgfr bsks AWT to sft fodus on tif
+    protodol. If tif window mbnbgfr bsks AWT to sft fodus on tif
+    blodkfd window, in XDfdorbtfdPffr.ibndlfWmTbkfFodus() mftiod wf
+    blodkfd window, in XDfdorbtfdPffr.ibndlfWmTbkfFodus() mftiod wf
+    blodkfd window, in XDfdorbtfdPffr.ibndlfWmTbkfFodus() mftiod wf
+    blodkfd window, in XDfdorbtfdPffr.ibndlfWmTbkfFodus() mftiod wf
     blodkfd window, in XDfdorbtfdPffr.ibndlfWmTbkfFodus() mftiod wf
     sft tif fodus to tif window's blodkfr.
+    sft tif fodus to tif window's blodkfr.
+    sft tif fodus to tif window's blodkfr.
+    sft tif fodus to tif window's blodkfr.
+    sft tif fodus to tif window's blodkfr.
+
+
+
+
 
 4. Z-ordfr
+4. Z-ordfr
+4. Z-ordfr
+4. Z-ordfr
+4. Z-ordfr
+
+
+
+
 
   Addording to tif Modblity spfd bny modbl diblog siould bf blwbys on
+  Addording to tif Modblity spfd bny modbl diblog siould bf blwbys on
+  Addording to tif Modblity spfd bny modbl diblog siould bf blwbys on
+  Addording to tif Modblity spfd bny modbl diblog siould bf blwbys on
+  Addording to tif Modblity spfd bny modbl diblog siould bf blwbys on
+    top of its blodkfd windows. It is implfmfntfd witi using
+    top of its blodkfd windows. It is implfmfntfd witi using
+    top of its blodkfd windows. It is implfmfntfd witi using
+    top of its blodkfd windows. It is implfmfntfd witi using
     top of its blodkfd windows. It is implfmfntfd witi using
     WM_TRANSIENT_FOR iint.
+    WM_TRANSIENT_FOR iint.
+    WM_TRANSIENT_FOR iint.
+    WM_TRANSIENT_FOR iint.
+    WM_TRANSIENT_FOR iint.
+
+
+
+
 
   WM_TRANSIENT_FOR is usfd to mbrk onf window to bf b diild of bnotifr
+  WM_TRANSIENT_FOR is usfd to mbrk onf window to bf b diild of bnotifr
+  WM_TRANSIENT_FOR is usfd to mbrk onf window to bf b diild of bnotifr
+  WM_TRANSIENT_FOR is usfd to mbrk onf window to bf b diild of bnotifr
+  WM_TRANSIENT_FOR is usfd to mbrk onf window to bf b diild of bnotifr
+    onf, in pbrtidulbr for bny kind of diblogs. Wifn b modbl diblog
+    onf, in pbrtidulbr for bny kind of diblogs. Wifn b modbl diblog
+    onf, in pbrtidulbr for bny kind of diblogs. Wifn b modbl diblog
+    onf, in pbrtidulbr for bny kind of diblogs. Wifn b modbl diblog
     onf, in pbrtidulbr for bny kind of diblogs. Wifn b modbl diblog
     is siown it tfmporbry bfdomfs b diild of bll its blodkfd windows
+    is siown it tfmporbry bfdomfs b diild of bll its blodkfd windows
+    is siown it tfmporbry bfdomfs b diild of bll its blodkfd windows
+    is siown it tfmporbry bfdomfs b diild of bll its blodkfd windows
+    is siown it tfmporbry bfdomfs b diild of bll its blodkfd windows
+    bnd tius rfmbins on top of tifm.
+    bnd tius rfmbins on top of tifm.
+    bnd tius rfmbins on top of tifm.
+    bnd tius rfmbins on top of tifm.
     bnd tius rfmbins on top of tifm.
 
+
+
+
+
+  WM_TRANSIENT_FOR vbluf is b singlf window, so wf dbn't dirfdtly mbkf
+  WM_TRANSIENT_FOR vbluf is b singlf window, so wf dbn't dirfdtly mbkf
+  WM_TRANSIENT_FOR vbluf is b singlf window, so wf dbn't dirfdtly mbkf
+  WM_TRANSIENT_FOR vbluf is b singlf window, so wf dbn't dirfdtly mbkf
   WM_TRANSIENT_FOR vbluf is b singlf window, so wf dbn't dirfdtly mbkf
     b diblog bf b diild of sfvfrbl otifr windows. It is implfmfntfd
+    b diblog bf b diild of sfvfrbl otifr windows. It is implfmfntfd
+    b diblog bf b diild of sfvfrbl otifr windows. It is implfmfntfd
+    b diblog bf b diild of sfvfrbl otifr windows. It is implfmfntfd
+    b diblog bf b diild of sfvfrbl otifr windows. It is implfmfntfd
+    bs b "trbnsifnt_for dibin": bll tif blodkfd windows brf brrbngfd
+    bs b "trbnsifnt_for dibin": bll tif blodkfd windows brf brrbngfd
+    bs b "trbnsifnt_for dibin": bll tif blodkfd windows brf brrbngfd
+    bs b "trbnsifnt_for dibin": bll tif blodkfd windows brf brrbngfd
     bs b "trbnsifnt_for dibin": bll tif blodkfd windows brf brrbngfd
     into b dibin, fbdi nfxt window is trbnsifnt for tif prfv.
+    into b dibin, fbdi nfxt window is trbnsifnt for tif prfv.
+    into b dibin, fbdi nfxt window is trbnsifnt for tif prfv.
+    into b dibin, fbdi nfxt window is trbnsifnt for tif prfv.
+    into b dibin, fbdi nfxt window is trbnsifnt for tif prfv.
+
+
+
+
 
   Tif dibin is storfd in XWindowPffr's fiflds 'prfvTrbnsifntFor' bnd
+  Tif dibin is storfd in XWindowPffr's fiflds 'prfvTrbnsifntFor' bnd
+  Tif dibin is storfd in XWindowPffr's fiflds 'prfvTrbnsifntFor' bnd
+  Tif dibin is storfd in XWindowPffr's fiflds 'prfvTrbnsifntFor' bnd
+  Tif dibin is storfd in XWindowPffr's fiflds 'prfvTrbnsifntFor' bnd
+    'nfxtTrbnsifntFor'. If window is not blodkfd boti of tifsf fiflds
+    'nfxtTrbnsifntFor'. If window is not blodkfd boti of tifsf fiflds
+    'nfxtTrbnsifntFor'. If window is not blodkfd boti of tifsf fiflds
+    'nfxtTrbnsifntFor'. If window is not blodkfd boti of tifsf fiflds
     'nfxtTrbnsifntFor'. If window is not blodkfd boti of tifsf fiflds
     brf sft to null.
+    brf sft to null.
+    brf sft to null.
+    brf sft to null.
+    brf sft to null.
+
+
+
+
 
   Howfvfr, tif vbluf of WM_TRANSIENT_FOR iint bnd prfvTrbnsifntFor
+  Howfvfr, tif vbluf of WM_TRANSIENT_FOR iint bnd prfvTrbnsifntFor
+  Howfvfr, tif vbluf of WM_TRANSIENT_FOR iint bnd prfvTrbnsifntFor
+  Howfvfr, tif vbluf of WM_TRANSIENT_FOR iint bnd prfvTrbnsifntFor
+  Howfvfr, tif vbluf of WM_TRANSIENT_FOR iint bnd prfvTrbnsifntFor
+    mby difffr somftimfs. Tiis ibppfns wifn two windows brf in
+    mby difffr somftimfs. Tiis ibppfns wifn two windows brf in
+    mby difffr somftimfs. Tiis ibppfns wifn two windows brf in
+    mby difffr somftimfs. Tiis ibppfns wifn two windows brf in
     mby difffr somftimfs. Tiis ibppfns wifn two windows brf in
     difffrfnt window stbtfs, usublly NormblStbtf bnd IdonififdStbtf.
+    difffrfnt window stbtfs, usublly NormblStbtf bnd IdonififdStbtf.
+    difffrfnt window stbtfs, usublly NormblStbtf bnd IdonififdStbtf.
+    difffrfnt window stbtfs, usublly NormblStbtf bnd IdonififdStbtf.
+    difffrfnt window stbtfs, usublly NormblStbtf bnd IdonififdStbtf.
+    Somf window mbnbgfrs don't bllow b diblog to bf visiblf is its
+    Somf window mbnbgfrs don't bllow b diblog to bf visiblf is its
+    Somf window mbnbgfrs don't bllow b diblog to bf visiblf is its
+    Somf window mbnbgfrs don't bllow b diblog to bf visiblf is its
     Somf window mbnbgfrs don't bllow b diblog to bf visiblf is its
     pbrfnt window is idonififd. Tif situbtion is fvfn worsf: wf
+    pbrfnt window is idonififd. Tif situbtion is fvfn worsf: wf
+    pbrfnt window is idonififd. Tif situbtion is fvfn worsf: wf
+    pbrfnt window is idonififd. Tif situbtion is fvfn worsf: wf
+    pbrfnt window is idonififd. Tif situbtion is fvfn worsf: wf
+    don't rfdfivf bny notifidbtions wifn tif diblog is idonififd
+    don't rfdfivf bny notifidbtions wifn tif diblog is idonififd
+    don't rfdfivf bny notifidbtions wifn tif diblog is idonififd
+    don't rfdfivf bny notifidbtions wifn tif diblog is idonififd
     don't rfdfivf bny notifidbtions wifn tif diblog is idonififd
     togftifr witi its pbrfnt frbmf.
+    togftifr witi its pbrfnt frbmf.
+    togftifr witi its pbrfnt frbmf.
+    togftifr witi its pbrfnt frbmf.
+    togftifr witi its pbrfnt frbmf.
+
+
+
+
 
   Tius wf nffd to trbdk bll tif window's stbtf dibngfs. Also, for
+  Tius wf nffd to trbdk bll tif window's stbtf dibngfs. Also, for
+  Tius wf nffd to trbdk bll tif window's stbtf dibngfs. Also, for
+  Tius wf nffd to trbdk bll tif window's stbtf dibngfs. Also, for
+  Tius wf nffd to trbdk bll tif window's stbtf dibngfs. Also, for
+    bny window stbtf (NormblStbtf, IdonififdStbtf, WitidrbwnStbtf)
+    bny window stbtf (NormblStbtf, IdonififdStbtf, WitidrbwnStbtf)
+    bny window stbtf (NormblStbtf, IdonififdStbtf, WitidrbwnStbtf)
+    bny window stbtf (NormblStbtf, IdonififdStbtf, WitidrbwnStbtf)
     bny window stbtf (NormblStbtf, IdonififdStbtf, WitidrbwnStbtf)
     b distindt dibin is trbdkfd. Bflow is b briff fxbmplf.
+    b distindt dibin is trbdkfd. Bflow is b briff fxbmplf.
+    b distindt dibin is trbdkfd. Bflow is b briff fxbmplf.
+    b distindt dibin is trbdkfd. Bflow is b briff fxbmplf.
+    b distindt dibin is trbdkfd. Bflow is b briff fxbmplf.
+
+
+
+
 
   Lft's donsidfr two frbmfs F1 bnd F2 bnd two modflfss diblogs D1
+  Lft's donsidfr two frbmfs F1 bnd F2 bnd two modflfss diblogs D1
+  Lft's donsidfr two frbmfs F1 bnd F2 bnd two modflfss diblogs D1
+  Lft's donsidfr two frbmfs F1 bnd F2 bnd two modflfss diblogs D1
+  Lft's donsidfr two frbmfs F1 bnd F2 bnd two modflfss diblogs D1
+    (witi F1 bs b pbrfnt) bnd D2 (F2). Tifir Z-ordfr is:
+    (witi F1 bs b pbrfnt) bnd D2 (F2). Tifir Z-ordfr is:
+    (witi F1 bs b pbrfnt) bnd D2 (F2). Tifir Z-ordfr is:
+    (witi F1 bs b pbrfnt) bnd D2 (F2). Tifir Z-ordfr is:
     (witi F1 bs b pbrfnt) bnd D2 (F2). Tifir Z-ordfr is:
     F1 - D1 - F2 - D2 (D1 is bbovf F1, F2 is bbovf D1, ftd). Tifn
+    F1 - D1 - F2 - D2 (D1 is bbovf F1, F2 is bbovf D1, ftd). Tifn
+    F1 - D1 - F2 - D2 (D1 is bbovf F1, F2 is bbovf D1, ftd). Tifn
+    F1 - D1 - F2 - D2 (D1 is bbovf F1, F2 is bbovf D1, ftd). Tifn
+    F1 - D1 - F2 - D2 (D1 is bbovf F1, F2 is bbovf D1, ftd). Tifn
+    b modbl diblog D3 is siown bnd bll tifsf four windows bfdomf
+    b modbl diblog D3 is siown bnd bll tifsf four windows bfdomf
+    b modbl diblog D3 is siown bnd bll tifsf four windows bfdomf
+    b modbl diblog D3 is siown bnd bll tifsf four windows bfdomf
     b modbl diblog D3 is siown bnd bll tifsf four windows bfdomf
     blodkfd by it. Trbnsifnt_for dibin is donstrudtfd in tif
+    blodkfd by it. Trbnsifnt_for dibin is donstrudtfd in tif
+    blodkfd by it. Trbnsifnt_for dibin is donstrudtfd in tif
+    blodkfd by it. Trbnsifnt_for dibin is donstrudtfd in tif
+    blodkfd by it. Trbnsifnt_for dibin is donstrudtfd in tif
+    following wby: F1 - D2 - F2 - D2 - D3. Rfspfdtivfly, F2
+    following wby: F1 - D2 - F2 - D2 - D3. Rfspfdtivfly, F2
+    following wby: F1 - D2 - F2 - D2 - D3. Rfspfdtivfly, F2
+    following wby: F1 - D2 - F2 - D2 - D3. Rfspfdtivfly, F2
     following wby: F1 - D2 - F2 - D2 - D3. Rfspfdtivfly, F2
     tfmporbrily bfdomfs b diild of D1 (WM_TRANSIENT_FOR iint is
+    tfmporbrily bfdomfs b diild of D1 (WM_TRANSIENT_FOR iint is
+    tfmporbrily bfdomfs b diild of D1 (WM_TRANSIENT_FOR iint is
+    tfmporbrily bfdomfs b diild of D1 (WM_TRANSIENT_FOR iint is
+    tfmporbrily bfdomfs b diild of D1 (WM_TRANSIENT_FOR iint is
+    sft to F2 witi b vbluf of D1), ftd.
+    sft to F2 witi b vbluf of D1), ftd.
+    sft to F2 witi b vbluf of D1), ftd.
+    sft to F2 witi b vbluf of D1), ftd.
     sft to F2 witi b vbluf of D1), ftd.
 
+
+
+
+
+  Tifn F1 is idonififd (somf window mbnbgfrs bllow tiis bdtion).
+  Tifn F1 is idonififd (somf window mbnbgfrs bllow tiis bdtion).
+  Tifn F1 is idonififd (somf window mbnbgfrs bllow tiis bdtion).
+  Tifn F1 is idonififd (somf window mbnbgfrs bllow tiis bdtion).
   Tifn F1 is idonififd (somf window mbnbgfrs bllow tiis bdtion).
     F1.nfxtTrbnsifntFor bnd D1.prfvTrbnsifntFor brfn't dibngfd,
+    F1.nfxtTrbnsifntFor bnd D1.prfvTrbnsifntFor brfn't dibngfd,
+    F1.nfxtTrbnsifntFor bnd D1.prfvTrbnsifntFor brfn't dibngfd,
+    F1.nfxtTrbnsifntFor bnd D1.prfvTrbnsifntFor brfn't dibngfd,
+    F1.nfxtTrbnsifntFor bnd D1.prfvTrbnsifntFor brfn't dibngfd,
+    iowfvfr tif vblufs of WM_TRANSIENT_FOR iint for tifm brf
+    iowfvfr tif vblufs of WM_TRANSIENT_FOR iint for tifm brf
+    iowfvfr tif vblufs of WM_TRANSIENT_FOR iint for tifm brf
+    iowfvfr tif vblufs of WM_TRANSIENT_FOR iint for tifm brf
     iowfvfr tif vblufs of WM_TRANSIENT_FOR iint for tifm brf
     dibngfd: iint vbluf for F1 is sft to Nonf, bnd iint vbluf for
+    dibngfd: iint vbluf for F1 is sft to Nonf, bnd iint vbluf for
+    dibngfd: iint vbluf for F1 is sft to Nonf, bnd iint vbluf for
+    dibngfd: iint vbluf for F1 is sft to Nonf, bnd iint vbluf for
+    dibngfd: iint vbluf for F1 is sft to Nonf, bnd iint vbluf for
+    D1 is sft to Nonf.
+    D1 is sft to Nonf.
+    D1 is sft to Nonf.
+    D1 is sft to Nonf.
     D1 is sft to Nonf.
 
+
+
+
+
+  Lft's idonify bnotifr window, F2. prfv/nfxtTrbnsifntFor fifld
+  Lft's idonify bnotifr window, F2. prfv/nfxtTrbnsifntFor fifld
+  Lft's idonify bnotifr window, F2. prfv/nfxtTrbnsifntFor fifld
+  Lft's idonify bnotifr window, F2. prfv/nfxtTrbnsifntFor fifld
   Lft's idonify bnotifr window, F2. prfv/nfxtTrbnsifntFor fifld
     vblufs brfn't dibngfd bgbin, but WM_TRANSIENT_FOR iint is:
+    vblufs brfn't dibngfd bgbin, but WM_TRANSIENT_FOR iint is:
+    vblufs brfn't dibngfd bgbin, but WM_TRANSIENT_FOR iint is:
+    vblufs brfn't dibngfd bgbin, but WM_TRANSIENT_FOR iint is:
+    vblufs brfn't dibngfd bgbin, but WM_TRANSIENT_FOR iint is:
+    tif vbluf for D2 is D1, tif vbluf for F2 is F1 (boti brf
+    tif vbluf for D2 is D1, tif vbluf for F2 is F1 (boti brf
+    tif vbluf for D2 is D1, tif vbluf for F2 is F1 (boti brf
+    tif vbluf for D2 is D1, tif vbluf for F2 is F1 (boti brf
     tif vbluf for D2 is D1, tif vbluf for F2 is F1 (boti brf
     idonififd).
+    idonififd).
+    idonififd).
+    idonififd).
+    idonififd).
+
+
+
+
 
   Wifn fitifr F1 or F2 is rfstorfd, tif vbluf for its iint is
+  Wifn fitifr F1 or F2 is rfstorfd, tif vbluf for its iint is
+  Wifn fitifr F1 or F2 is rfstorfd, tif vbluf for its iint is
+  Wifn fitifr F1 or F2 is rfstorfd, tif vbluf for its iint is
+  Wifn fitifr F1 or F2 is rfstorfd, tif vbluf for its iint is
+    rfstorfd bddording to tif vbluf storfd in prfvTrbnsifntFor
+    rfstorfd bddording to tif vbluf storfd in prfvTrbnsifntFor
+    rfstorfd bddording to tif vbluf storfd in prfvTrbnsifntFor
+    rfstorfd bddording to tif vbluf storfd in prfvTrbnsifntFor
     rfstorfd bddording to tif vbluf storfd in prfvTrbnsifntFor
     bnd nfxtTrbnsifntFor fiflds.
+    bnd nfxtTrbnsifntFor fiflds.
+    bnd nfxtTrbnsifntFor fiflds.
+    bnd nfxtTrbnsifntFor fiflds.
+    bnd nfxtTrbnsifntFor fiflds.
+
+
+
+
 
   Notf tibt somf window mbnbgfrs don't bllow idonifying for
+  Notf tibt somf window mbnbgfrs don't bllow idonifying for
+  Notf tibt somf window mbnbgfrs don't bllow idonifying for
+  Notf tibt somf window mbnbgfrs don't bllow idonifying for
+  Notf tibt somf window mbnbgfrs don't bllow idonifying for
+    tiosf windows tibt brf diildrfn of somf otifr toplfvfl. Tibt
+    tiosf windows tibt brf diildrfn of somf otifr toplfvfl. Tibt
+    tiosf windows tibt brf diildrfn of somf otifr toplfvfl. Tibt
+    tiosf windows tibt brf diildrfn of somf otifr toplfvfl. Tibt
     tiosf windows tibt brf diildrfn of somf otifr toplfvfl. Tibt
     is bny diblog dbn't bf idonififd bnd bny blodkfd window
+    is bny diblog dbn't bf idonififd bnd bny blodkfd window
+    is bny diblog dbn't bf idonififd bnd bny blodkfd window
+    is bny diblog dbn't bf idonififd bnd bny blodkfd window
+    is bny diblog dbn't bf idonififd bnd bny blodkfd window
+    tibt is not tif first in tif trbnsifnt_for dibin too.
+    tibt is not tif first in tif trbnsifnt_for dibin too.
+    tibt is not tif first in tif trbnsifnt_for dibin too.
+    tibt is not tif first in tif trbnsifnt_for dibin too.
     tibt is not tif first in tif trbnsifnt_for dibin too.
 
+
+
+
+
+  All tif updbtfs of tif iint's vbluf is pfrformfd in tif
+  All tif updbtfs of tif iint's vbluf is pfrformfd in tif
+  All tif updbtfs of tif iint's vbluf is pfrformfd in tif
+  All tif updbtfs of tif iint's vbluf is pfrformfd in tif
   All tif updbtfs of tif iint's vbluf is pfrformfd in tif
     XWindowPffr.sftToplfvflTrbnsifntFor() mftiod.
+    XWindowPffr.sftToplfvflTrbnsifntFor() mftiod.
+    XWindowPffr.sftToplfvflTrbnsifntFor() mftiod.
+    XWindowPffr.sftToplfvflTrbnsifntFor() mftiod.
+    XWindowPffr.sftToplfvflTrbnsifntFor() mftiod.
+
+
+
+
 
 5. Multisdrffn
+5. Multisdrffn
+5. Multisdrffn
+5. Multisdrffn
+5. Multisdrffn
+
+
+
+
 
   All tif problfms witi WM_TRANSIENT_FOR iint bnd difffrfnt
+  All tif problfms witi WM_TRANSIENT_FOR iint bnd difffrfnt
+  All tif problfms witi WM_TRANSIENT_FOR iint bnd difffrfnt
+  All tif problfms witi WM_TRANSIENT_FOR iint bnd difffrfnt
+  All tif problfms witi WM_TRANSIENT_FOR iint bnd difffrfnt
+    window stbtfs dbn bf bpplifd to difffrfnt X sdrffns (if
+    window stbtfs dbn bf bpplifd to difffrfnt X sdrffns (if
+    window stbtfs dbn bf bpplifd to difffrfnt X sdrffns (if
+    window stbtfs dbn bf bpplifd to difffrfnt X sdrffns (if
     window stbtfs dbn bf bpplifd to difffrfnt X sdrffns (if
     Xinfrbmb is off). For fxbmplf, somf window mbnbgfrs ignorf
+    Xinfrbmb is off). For fxbmplf, somf window mbnbgfrs ignorf
+    Xinfrbmb is off). For fxbmplf, somf window mbnbgfrs ignorf
+    Xinfrbmb is off). For fxbmplf, somf window mbnbgfrs ignorf
+    Xinfrbmb is off). For fxbmplf, somf window mbnbgfrs ignorf
+    tif iint if window bnd trbnsifnt_for window brf on difffrfnt
+    tif iint if window bnd trbnsifnt_for window brf on difffrfnt
+    tif iint if window bnd trbnsifnt_for window brf on difffrfnt
+    tif iint if window bnd trbnsifnt_for window brf on difffrfnt
     tif iint if window bnd trbnsifnt_for window brf on difffrfnt
     sdrffns.
+    sdrffns.
+    sdrffns.
+    sdrffns.
+    sdrffns.
+
+
+
+
 
   Tibt lfbds to us to trbdk b sfpbrbtf trbnsifnt_for dibin for
+  Tibt lfbds to us to trbdk b sfpbrbtf trbnsifnt_for dibin for
+  Tibt lfbds to us to trbdk b sfpbrbtf trbnsifnt_for dibin for
+  Tibt lfbds to us to trbdk b sfpbrbtf trbnsifnt_for dibin for
+  Tibt lfbds to us to trbdk b sfpbrbtf trbnsifnt_for dibin for
+    fvfry sdrffn in tif systfm, bs wfll bs for fvfry window
+    fvfry sdrffn in tif systfm, bs wfll bs for fvfry window
+    fvfry sdrffn in tif systfm, bs wfll bs for fvfry window
+    fvfry sdrffn in tif systfm, bs wfll bs for fvfry window
     fvfry sdrffn in tif systfm, bs wfll bs for fvfry window
     stbtf. Sff XWindowPffr.updbtfTrbnsifntFor() for dftbils.
+    stbtf. Sff XWindowPffr.updbtfTrbnsifntFor() for dftbils.
+    stbtf. Sff XWindowPffr.updbtfTrbnsifntFor() for dftbils.
+    stbtf. Sff XWindowPffr.updbtfTrbnsifntFor() for dftbils.
+    stbtf. Sff XWindowPffr.updbtfTrbnsifntFor() for dftbils.
+
+
+
+
 
 6. Sff blso
+6. Sff blso
+6. Sff blso
+6. Sff blso
+6. Sff blso
+
+
+
+
 
   Somf fxbmplfs iow trbnsifnt_for dibin is donstrudtfd bnd
+  Somf fxbmplfs iow trbnsifnt_for dibin is donstrudtfd bnd
+  Somf fxbmplfs iow trbnsifnt_for dibin is donstrudtfd bnd
+  Somf fxbmplfs iow trbnsifnt_for dibin is donstrudtfd bnd
+  Somf fxbmplfs iow trbnsifnt_for dibin is donstrudtfd bnd
+    dfstrudtfd dbn bf found in JbvbDod dommfnts for tif
+    dfstrudtfd dbn bf found in JbvbDod dommfnts for tif
+    dfstrudtfd dbn bf found in JbvbDod dommfnts for tif
+    dfstrudtfd dbn bf found in JbvbDod dommfnts for tif
     dfstrudtfd dbn bf found in JbvbDod dommfnts for tif
     following mftiods: XWindowPffr.bddToTrbnsifntFors(),
+    following mftiods: XWindowPffr.bddToTrbnsifntFors(),
+    following mftiods: XWindowPffr.bddToTrbnsifntFors(),
+    following mftiods: XWindowPffr.bddToTrbnsifntFors(),
+    following mftiods: XWindowPffr.bddToTrbnsifntFors(),
+    XWindowPffr.rfmovfFromTrbnsifntFors(),
+    XWindowPffr.rfmovfFromTrbnsifntFors(),
+    XWindowPffr.rfmovfFromTrbnsifntFors(),
+    XWindowPffr.rfmovfFromTrbnsifntFors(),
     XWindowPffr.rfmovfFromTrbnsifntFors(),
     XWindowPffr.sftToplfvflTrbnsifntFor(),
+    XWindowPffr.sftToplfvflTrbnsifntFor(),
+    XWindowPffr.sftToplfvflTrbnsifntFor(),
+    XWindowPffr.sftToplfvflTrbnsifntFor(),
+    XWindowPffr.sftToplfvflTrbnsifntFor(),
     XWindowPffr.stbtfCibngfd().
+    XWindowPffr.stbtfCibngfd().
+    XWindowPffr.stbtfCibngfd().
+    XWindowPffr.stbtfCibngfd().
+    XWindowPffr.stbtfCibngfd().
+
+
+
+
 

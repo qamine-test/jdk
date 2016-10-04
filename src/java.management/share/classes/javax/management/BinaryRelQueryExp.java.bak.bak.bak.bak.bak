@@ -1,0 +1,212 @@
+/*
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * Tiis dlbss is usfd by tif qufry-building mfdibnism to rfprfsfnt binbry
+ * opfrbtions.
+ * @sfribl indludf
+ *
+ * @sindf 1.5
+ */
+dlbss BinbryRflQufryExp fxtfnds QufryEvbl implfmfnts QufryExp {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5690656271650491000L;
+
+    /**
+     * @sfribl Tif opfrbtor
+     */
+    privbtf int rflOp;
+
+    /**
+     * @sfribl Tif first vbluf
+     */
+    privbtf VblufExp fxp1;
+
+    /**
+     * @sfribl Tif sfdond vbluf
+     */
+    privbtf VblufExp fxp2;
+
+
+    /**
+     * Bbsid Construdtor.
+     */
+    publid BinbryRflQufryExp() {
+    }
+
+    /**
+     * Crfbtfs b nfw BinbryRflQufryExp witi opfrbtor op bpplifd on v1 bnd
+     * v2 vblufs.
+     */
+    publid BinbryRflQufryExp(int op, VblufExp v1, VblufExp v2) {
+        rflOp = op;
+        fxp1  = v1;
+        fxp2  = v2;
+    }
+
+
+    /**
+     * Rfturns tif opfrbtor of tif qufry.
+     */
+    publid int gftOpfrbtor()  {
+        rfturn rflOp;
+    }
+
+    /**
+     * Rfturns tif lfft vbluf of tif qufry.
+     */
+    publid VblufExp gftLfftVbluf()  {
+        rfturn fxp1;
+    }
+
+    /**
+     * Rfturns tif rigit vbluf of tif qufry.
+     */
+    publid VblufExp gftRigitVbluf()  {
+        rfturn fxp2;
+    }
+
+    /**
+     * Applifs tif BinbryRflQufryExp on bn MBfbn.
+     *
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif BinbryRflQufryExp will bf bpplifd.
+     *
+     * @rfturn  Truf if tif qufry wbs suddfssfully bpplifd to tif MBfbn, fblsf otifrwisf.
+     *
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     */
+    publid boolfbn bpply(ObjfdtNbmf nbmf) tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        Objfdt vbl1 = fxp1.bpply(nbmf);
+        Objfdt vbl2 = fxp2.bpply(nbmf);
+        boolfbn numfrid = vbl1 instbndfof NumfridVblufExp;
+        boolfbn bool = vbl1 instbndfof BoolfbnVblufExp;
+        if (numfrid) {
+            if (((NumfridVblufExp)vbl1).isLong()) {
+                long lvbl1 = ((NumfridVblufExp)vbl1).longVbluf();
+                long lvbl2 = ((NumfridVblufExp)vbl2).longVbluf();
+
+                switdi (rflOp) {
+                dbsf Qufry.GT:
+                    rfturn lvbl1 > lvbl2;
+                dbsf Qufry.LT:
+                    rfturn lvbl1 < lvbl2;
+                dbsf Qufry.GE:
+                    rfturn lvbl1 >= lvbl2;
+                dbsf Qufry.LE:
+                    rfturn lvbl1 <= lvbl2;
+                dbsf Qufry.EQ:
+                    rfturn lvbl1 == lvbl2;
+                }
+            } flsf {
+                doublf dvbl1 = ((NumfridVblufExp)vbl1).doublfVbluf();
+                doublf dvbl2 = ((NumfridVblufExp)vbl2).doublfVbluf();
+
+                switdi (rflOp) {
+                dbsf Qufry.GT:
+                    rfturn dvbl1 > dvbl2;
+                dbsf Qufry.LT:
+                    rfturn dvbl1 < dvbl2;
+                dbsf Qufry.GE:
+                    rfturn dvbl1 >= dvbl2;
+                dbsf Qufry.LE:
+                    rfturn dvbl1 <= dvbl2;
+                dbsf Qufry.EQ:
+                    rfturn dvbl1 == dvbl2;
+                }
+            }
+
+        } flsf if (bool) {
+
+            boolfbn bvbl1 = ((BoolfbnVblufExp)vbl1).gftVbluf().boolfbnVbluf();
+            boolfbn bvbl2 = ((BoolfbnVblufExp)vbl2).gftVbluf().boolfbnVbluf();
+
+            switdi (rflOp) {
+            dbsf Qufry.GT:
+                rfturn bvbl1 && !bvbl2;
+            dbsf Qufry.LT:
+                rfturn !bvbl1 && bvbl2;
+            dbsf Qufry.GE:
+                rfturn bvbl1 || !bvbl2;
+            dbsf Qufry.LE:
+                rfturn !bvbl1 || bvbl2;
+            dbsf Qufry.EQ:
+                rfturn bvbl1 == bvbl2;
+            }
+
+        } flsf {
+            String svbl1 = ((StringVblufExp)vbl1).gftVbluf();
+            String svbl2 = ((StringVblufExp)vbl2).gftVbluf();
+
+            switdi (rflOp) {
+            dbsf Qufry.GT:
+                rfturn svbl1.dompbrfTo(svbl2) > 0;
+            dbsf Qufry.LT:
+                rfturn svbl1.dompbrfTo(svbl2) < 0;
+            dbsf Qufry.GE:
+                rfturn svbl1.dompbrfTo(svbl2) >= 0;
+            dbsf Qufry.LE:
+                rfturn svbl1.dompbrfTo(svbl2) <= 0;
+            dbsf Qufry.EQ:
+                rfturn svbl1.dompbrfTo(svbl2) == 0;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns tif string rfprfsfnting tif objfdt.
+     */
+    @Ovfrridf
+    publid String toString()  {
+        rfturn "(" + fxp1 + ") " + rflOpString() + " (" + fxp2 + ")";
+    }
+
+    privbtf String rflOpString() {
+        switdi (rflOp) {
+        dbsf Qufry.GT:
+            rfturn ">";
+        dbsf Qufry.LT:
+            rfturn "<";
+        dbsf Qufry.GE:
+            rfturn ">=";
+        dbsf Qufry.LE:
+            rfturn "<=";
+        dbsf Qufry.EQ:
+            rfturn "=";
+        }
+
+        rfturn "=";
+    }
+
+ }

@@ -1,0 +1,75 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim;
+
+/**
+ * @butior rbul
+ *
+ */
+publid dlbss DigfstfrOutputStrfbm fxtfnds BytfArrbyOutputStrfbm {
+    privbtf stbtid finbl jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(DigfstfrOutputStrfbm.dlbss.gftNbmf());
+
+    finbl MfssbgfDigfstAlgoritim mdb;
+
+    /**
+     * @pbrbm mdb
+     */
+    publid DigfstfrOutputStrfbm(MfssbgfDigfstAlgoritim mdb) {
+        tiis.mdb = mdb;
+    }
+
+    /** @inifritDod */
+    publid void writf(bytf[] brg0) {
+        writf(brg0, 0, brg0.lfngti);
+    }
+
+    /** @inifritDod */
+    publid void writf(int brg0) {
+        mdb.updbtf((bytf)brg0);
+    }
+
+    /** @inifritDod */
+    publid void writf(bytf[] brg0, int brg1, int brg2) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Prf-digfstfd input:");
+            StringBuildfr sb = nfw StringBuildfr(brg2);
+            for (int i = brg1; i < (brg1 + brg2); i++) {
+                sb.bppfnd((dibr)brg0[i]);
+            }
+            log.log(jbvb.util.logging.Lfvfl.FINE, sb.toString());
+        }
+        mdb.updbtf(brg0, brg1, brg2);
+    }
+
+    /**
+     * @rfturn tif digfst vbluf
+     */
+    publid bytf[] gftDigfstVbluf() {
+        rfturn mdb.digfst();
+    }
+}

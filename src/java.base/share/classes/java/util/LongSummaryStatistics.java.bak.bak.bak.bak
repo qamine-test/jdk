@@ -1,183 +1,915 @@
 /*
- * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.util;
+pbdkbgf jbvb.util;
+pbdkbgf jbvb.util;
+pbdkbgf jbvb.util;
 pbdkbgf jbvb.util;
 
+
+
+
+
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
 import jbvb.util.fundtion.IntConsumfr;
 import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.strfbm.Collfdtor;
+import jbvb.util.strfbm.Collfdtor;
+import jbvb.util.strfbm.Collfdtor;
+import jbvb.util.strfbm.Collfdtor;
 import jbvb.util.strfbm.Collfdtor;
 
+
+
+
+
 /**
- * A stbtf objfdt for dollfdting stbtistids sudh bs dount, min, mbx, sum, bnd
+/**
+/**
+/**
+/**
+ * A stbtf objfdt for dollfdting stbtistids sudi bs dount, min, mbx, sum, bnd
+ * A stbtf objfdt for dollfdting stbtistids sudi bs dount, min, mbx, sum, bnd
+ * A stbtf objfdt for dollfdting stbtistids sudi bs dount, min, mbx, sum, bnd
+ * A stbtf objfdt for dollfdting stbtistids sudi bs dount, min, mbx, sum, bnd
+ * A stbtf objfdt for dollfdting stbtistids sudi bs dount, min, mbx, sum, bnd
+ * bvfrbgf.
+ * bvfrbgf.
+ * bvfrbgf.
+ * bvfrbgf.
  * bvfrbgf.
  *
- * <p>This dlbss is dfsignfd to work with (though dofs not rfquirf)
+ *
+ *
+ *
+ *
+ * <p>Tiis dlbss is dfsignfd to work witi (tiougi dofs not rfquirf)
+ * <p>Tiis dlbss is dfsignfd to work witi (tiougi dofs not rfquirf)
+ * <p>Tiis dlbss is dfsignfd to work witi (tiougi dofs not rfquirf)
+ * <p>Tiis dlbss is dfsignfd to work witi (tiougi dofs not rfquirf)
+ * <p>Tiis dlbss is dfsignfd to work witi (tiougi dofs not rfquirf)
  * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
- * summbry stbtistids on b strfbm of longs with:
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * summbry stbtistids on b strfbm of longs witi:
+ * summbry stbtistids on b strfbm of longs witi:
+ * summbry stbtistids on b strfbm of longs witi:
+ * summbry stbtistids on b strfbm of longs witi:
+ * summbry stbtistids on b strfbm of longs witi:
+ * <prf> {@dodf
+ * <prf> {@dodf
+ * <prf> {@dodf
+ * <prf> {@dodf
  * <prf> {@dodf
  * LongSummbryStbtistids stbts = longStrfbm.dollfdt(LongSummbryStbtistids::nfw,
+ * LongSummbryStbtistids stbts = longStrfbm.dollfdt(LongSummbryStbtistids::nfw,
+ * LongSummbryStbtistids stbts = longStrfbm.dollfdt(LongSummbryStbtistids::nfw,
+ * LongSummbryStbtistids stbts = longStrfbm.dollfdt(LongSummbryStbtistids::nfw,
+ * LongSummbryStbtistids stbts = longStrfbm.dollfdt(LongSummbryStbtistids::nfw,
+ *                                                  LongSummbryStbtistids::bddfpt,
+ *                                                  LongSummbryStbtistids::bddfpt,
+ *                                                  LongSummbryStbtistids::bddfpt,
+ *                                                  LongSummbryStbtistids::bddfpt,
  *                                                  LongSummbryStbtistids::bddfpt,
  *                                                  LongSummbryStbtistids::dombinf);
+ *                                                  LongSummbryStbtistids::dombinf);
+ *                                                  LongSummbryStbtistids::dombinf);
+ *                                                  LongSummbryStbtistids::dombinf);
+ *                                                  LongSummbryStbtistids::dombinf);
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ * }</prf>
  * }</prf>
  *
+ *
+ *
+ *
+ *
+ * <p>{@dodf LongSummbryStbtistids} dbn bf usfd bs b
+ * <p>{@dodf LongSummbryStbtistids} dbn bf usfd bs b
+ * <p>{@dodf LongSummbryStbtistids} dbn bf usfd bs b
+ * <p>{@dodf LongSummbryStbtistids} dbn bf usfd bs b
  * <p>{@dodf LongSummbryStbtistids} dbn bf usfd bs b
  * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
  * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
  *
+ *
+ *
+ *
+ *
+ * <prf> {@dodf
+ * <prf> {@dodf
+ * <prf> {@dodf
+ * <prf> {@dodf
  * <prf> {@dodf
  * LongSummbryStbtistids stbts = pfoplf.strfbm()
+ * LongSummbryStbtistids stbts = pfoplf.strfbm()
+ * LongSummbryStbtistids stbts = pfoplf.strfbm()
+ * LongSummbryStbtistids stbts = pfoplf.strfbm()
+ * LongSummbryStbtistids stbts = pfoplf.strfbm()
+ *                                     .dollfdt(Collfdtors.summbrizingLong(Pfrson::gftAgf));
+ *                                     .dollfdt(Collfdtors.summbrizingLong(Pfrson::gftAgf));
+ *                                     .dollfdt(Collfdtors.summbrizingLong(Pfrson::gftAgf));
+ *                                     .dollfdt(Collfdtors.summbrizingLong(Pfrson::gftAgf));
  *                                     .dollfdt(Collfdtors.summbrizingLong(Pfrson::gftAgf));
  *}</prf>
+ *}</prf>
+ *}</prf>
+ *}</prf>
+ *}</prf>
  *
- * This domputfs, in b singlf pbss, thf dount of pfoplf, bs wfll bs thf minimum,
- * mbximum, sum, bnd bvfrbgf of thfir bgfs.
  *
- * @implNotf This implfmfntbtion is not thrfbd sbff. Howfvfr, it is sbff to usf
+ *
+ *
+ *
+ * Tiis domputfs, in b singlf pbss, tif dount of pfoplf, bs wfll bs tif minimum,
+ * Tiis domputfs, in b singlf pbss, tif dount of pfoplf, bs wfll bs tif minimum,
+ * Tiis domputfs, in b singlf pbss, tif dount of pfoplf, bs wfll bs tif minimum,
+ * Tiis domputfs, in b singlf pbss, tif dount of pfoplf, bs wfll bs tif minimum,
+ * Tiis domputfs, in b singlf pbss, tif dount of pfoplf, bs wfll bs tif minimum,
+ * mbximum, sum, bnd bvfrbgf of tifir bgfs.
+ * mbximum, sum, bnd bvfrbgf of tifir bgfs.
+ * mbximum, sum, bnd bvfrbgf of tifir bgfs.
+ * mbximum, sum, bnd bvfrbgf of tifir bgfs.
+ * mbximum, sum, bnd bvfrbgf of tifir bgfs.
+ *
+ *
+ *
+ *
+ *
+ * @implNotf Tiis implfmfntbtion is not tirfbd sbff. Howfvfr, it is sbff to usf
+ * @implNotf Tiis implfmfntbtion is not tirfbd sbff. Howfvfr, it is sbff to usf
+ * @implNotf Tiis implfmfntbtion is not tirfbd sbff. Howfvfr, it is sbff to usf
+ * @implNotf Tiis implfmfntbtion is not tirfbd sbff. Howfvfr, it is sbff to usf
+ * @implNotf Tiis implfmfntbtion is not tirfbd sbff. Howfvfr, it is sbff to usf
  * {@link jbvb.util.strfbm.Collfdtors#summbrizingLong(jbvb.util.fundtion.ToLongFundtion)
- * Collfdtors.summbrizingLong()} on b pbrbllfl strfbm, bfdbusf thf pbrbllfl
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingLong(jbvb.util.fundtion.ToLongFundtion)
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingLong(jbvb.util.fundtion.ToLongFundtion)
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingLong(jbvb.util.fundtion.ToLongFundtion)
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingLong(jbvb.util.fundtion.ToLongFundtion)
+ * Collfdtors.summbrizingLong()} on b pbrbllfl strfbm, bfdbusf tif pbrbllfl
+ * Collfdtors.summbrizingLong()} on b pbrbllfl strfbm, bfdbusf tif pbrbllfl
+ * Collfdtors.summbrizingLong()} on b pbrbllfl strfbm, bfdbusf tif pbrbllfl
+ * Collfdtors.summbrizingLong()} on b pbrbllfl strfbm, bfdbusf tif pbrbllfl
+ * Collfdtors.summbrizingLong()} on b pbrbllfl strfbm, bfdbusf tif pbrbllfl
  * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
- * providfs thf nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * providfs tif nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * providfs tif nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * providfs tif nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * providfs tif nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * providfs tif nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
  * sbff bnd fffidifnt pbrbllfl fxfdution.
  *
- * <p>This implfmfntbtion dofs not dhfdk for ovfrflow of thf sum.
+ *
+ *
+ *
+ *
+ * <p>Tiis implfmfntbtion dofs not difdk for ovfrflow of tif sum.
+ * <p>Tiis implfmfntbtion dofs not difdk for ovfrflow of tif sum.
+ * <p>Tiis implfmfntbtion dofs not difdk for ovfrflow of tif sum.
+ * <p>Tiis implfmfntbtion dofs not difdk for ovfrflow of tif sum.
+ * <p>Tiis implfmfntbtion dofs not difdk for ovfrflow of tif sum.
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
  * @sindf 1.8
  */
+ */
+ */
+ */
+ */
+publid dlbss LongSummbryStbtistids implfmfnts LongConsumfr, IntConsumfr {
+publid dlbss LongSummbryStbtistids implfmfnts LongConsumfr, IntConsumfr {
+publid dlbss LongSummbryStbtistids implfmfnts LongConsumfr, IntConsumfr {
+publid dlbss LongSummbryStbtistids implfmfnts LongConsumfr, IntConsumfr {
 publid dlbss LongSummbryStbtistids implfmfnts LongConsumfr, IntConsumfr {
     privbtf long dount;
+    privbtf long dount;
+    privbtf long dount;
+    privbtf long dount;
+    privbtf long dount;
+    privbtf long sum;
+    privbtf long sum;
+    privbtf long sum;
+    privbtf long sum;
     privbtf long sum;
     privbtf long min = Long.MAX_VALUE;
+    privbtf long min = Long.MAX_VALUE;
+    privbtf long min = Long.MAX_VALUE;
+    privbtf long min = Long.MAX_VALUE;
+    privbtf long min = Long.MAX_VALUE;
+    privbtf long mbx = Long.MIN_VALUE;
+    privbtf long mbx = Long.MIN_VALUE;
+    privbtf long mbx = Long.MIN_VALUE;
+    privbtf long mbx = Long.MIN_VALUE;
     privbtf long mbx = Long.MIN_VALUE;
 
+
+
+
+
     /**
-     * Construdt bn fmpty instbndf with zfro dount, zfro sum,
+    /**
+    /**
+    /**
+    /**
+     * Construdt bn fmpty instbndf witi zfro dount, zfro sum,
+     * Construdt bn fmpty instbndf witi zfro dount, zfro sum,
+     * Construdt bn fmpty instbndf witi zfro dount, zfro sum,
+     * Construdt bn fmpty instbndf witi zfro dount, zfro sum,
+     * Construdt bn fmpty instbndf witi zfro dount, zfro sum,
+     * {@dodf Long.MAX_VALUE} min, {@dodf Long.MIN_VALUE} mbx bnd zfro
+     * {@dodf Long.MAX_VALUE} min, {@dodf Long.MIN_VALUE} mbx bnd zfro
+     * {@dodf Long.MAX_VALUE} min, {@dodf Long.MIN_VALUE} mbx bnd zfro
+     * {@dodf Long.MAX_VALUE} min, {@dodf Long.MIN_VALUE} mbx bnd zfro
      * {@dodf Long.MAX_VALUE} min, {@dodf Long.MIN_VALUE} mbx bnd zfro
      * bvfrbgf.
+     * bvfrbgf.
+     * bvfrbgf.
+     * bvfrbgf.
+     * bvfrbgf.
+     */
+     */
+     */
+     */
      */
     publid LongSummbryStbtistids() { }
+    publid LongSummbryStbtistids() { }
+    publid LongSummbryStbtistids() { }
+    publid LongSummbryStbtistids() { }
+    publid LongSummbryStbtistids() { }
+
+
+
+
 
     /**
-     * Rfdords b nfw {@dodf int} vbluf into thf summbry informbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfdords b nfw {@dodf int} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf int} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf int} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf int} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf int} vbluf into tif summbry informbtion.
      *
-     * @pbrbm vbluf thf input vbluf
+     *
+     *
+     *
+     *
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid void bddfpt(int vbluf) {
+    publid void bddfpt(int vbluf) {
+    publid void bddfpt(int vbluf) {
+    publid void bddfpt(int vbluf) {
+    publid void bddfpt(int vbluf) {
+        bddfpt((long) vbluf);
+        bddfpt((long) vbluf);
+        bddfpt((long) vbluf);
+        bddfpt((long) vbluf);
         bddfpt((long) vbluf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfdords b nfw {@dodf long} vbluf into thf summbry informbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfdords b nfw {@dodf long} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf long} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf long} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf long} vbluf into tif summbry informbtion.
+     * Rfdords b nfw {@dodf long} vbluf into tif summbry informbtion.
      *
-     * @pbrbm vbluf thf input vbluf
+     *
+     *
+     *
+     *
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
+     * @pbrbm vbluf tif input vbluf
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid void bddfpt(long vbluf) {
+    publid void bddfpt(long vbluf) {
+    publid void bddfpt(long vbluf) {
+    publid void bddfpt(long vbluf) {
+    publid void bddfpt(long vbluf) {
+        ++dount;
+        ++dount;
+        ++dount;
+        ++dount;
         ++dount;
         sum += vbluf;
-        min = Mbth.min(min, vbluf);
-        mbx = Mbth.mbx(mbx, vbluf);
+        sum += vbluf;
+        sum += vbluf;
+        sum += vbluf;
+        sum += vbluf;
+        min = Mbti.min(min, vbluf);
+        min = Mbti.min(min, vbluf);
+        min = Mbti.min(min, vbluf);
+        min = Mbti.min(min, vbluf);
+        min = Mbti.min(min, vbluf);
+        mbx = Mbti.mbx(mbx, vbluf);
+        mbx = Mbti.mbx(mbx, vbluf);
+        mbx = Mbti.mbx(mbx, vbluf);
+        mbx = Mbti.mbx(mbx, vbluf);
+        mbx = Mbti.mbx(mbx, vbluf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Combinfs thf stbtf of bnothfr {@dodf LongSummbryStbtistids} into this
+    /**
+    /**
+    /**
+    /**
+     * Combinfs tif stbtf of bnotifr {@dodf LongSummbryStbtistids} into tiis
+     * Combinfs tif stbtf of bnotifr {@dodf LongSummbryStbtistids} into tiis
+     * Combinfs tif stbtf of bnotifr {@dodf LongSummbryStbtistids} into tiis
+     * Combinfs tif stbtf of bnotifr {@dodf LongSummbryStbtistids} into tiis
+     * Combinfs tif stbtf of bnotifr {@dodf LongSummbryStbtistids} into tiis
+     * onf.
+     * onf.
+     * onf.
+     * onf.
      * onf.
      *
-     * @pbrbm othfr bnothfr {@dodf LongSummbryStbtistids}
-     * @throws NullPointfrExdfption if {@dodf othfr} is null
+     *
+     *
+     *
+     *
+     * @pbrbm otifr bnotifr {@dodf LongSummbryStbtistids}
+     * @pbrbm otifr bnotifr {@dodf LongSummbryStbtistids}
+     * @pbrbm otifr bnotifr {@dodf LongSummbryStbtistids}
+     * @pbrbm otifr bnotifr {@dodf LongSummbryStbtistids}
+     * @pbrbm otifr bnotifr {@dodf LongSummbryStbtistids}
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
      */
-    publid void dombinf(LongSummbryStbtistids othfr) {
-        dount += othfr.dount;
-        sum += othfr.sum;
-        min = Mbth.min(min, othfr.min);
-        mbx = Mbth.mbx(mbx, othfr.mbx);
+     */
+     */
+     */
+     */
+    publid void dombinf(LongSummbryStbtistids otifr) {
+    publid void dombinf(LongSummbryStbtistids otifr) {
+    publid void dombinf(LongSummbryStbtistids otifr) {
+    publid void dombinf(LongSummbryStbtistids otifr) {
+    publid void dombinf(LongSummbryStbtistids otifr) {
+        dount += otifr.dount;
+        dount += otifr.dount;
+        dount += otifr.dount;
+        dount += otifr.dount;
+        dount += otifr.dount;
+        sum += otifr.sum;
+        sum += otifr.sum;
+        sum += otifr.sum;
+        sum += otifr.sum;
+        sum += otifr.sum;
+        min = Mbti.min(min, otifr.min);
+        min = Mbti.min(min, otifr.min);
+        min = Mbti.min(min, otifr.min);
+        min = Mbti.min(min, otifr.min);
+        min = Mbti.min(min, otifr.min);
+        mbx = Mbti.mbx(mbx, otifr.mbx);
+        mbx = Mbti.mbx(mbx, otifr.mbx);
+        mbx = Mbti.mbx(mbx, otifr.mbx);
+        mbx = Mbti.mbx(mbx, otifr.mbx);
+        mbx = Mbti.mbx(mbx, otifr.mbx);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf dount of vblufs rfdordfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dount of vblufs rfdordfd.
+     * Rfturns tif dount of vblufs rfdordfd.
+     * Rfturns tif dount of vblufs rfdordfd.
+     * Rfturns tif dount of vblufs rfdordfd.
+     * Rfturns tif dount of vblufs rfdordfd.
      *
-     * @rfturn thf dount of vblufs
+     *
+     *
+     *
+     *
+     * @rfturn tif dount of vblufs
+     * @rfturn tif dount of vblufs
+     * @rfturn tif dount of vblufs
+     * @rfturn tif dount of vblufs
+     * @rfturn tif dount of vblufs
+     */
+     */
+     */
+     */
      */
     publid finbl long gftCount() {
+    publid finbl long gftCount() {
+    publid finbl long gftCount() {
+    publid finbl long gftCount() {
+    publid finbl long gftCount() {
+        rfturn dount;
+        rfturn dount;
+        rfturn dount;
+        rfturn dount;
         rfturn dount;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf sum of vblufs rfdordfd, or zfro if no vblufs hbvf bffn
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif sum of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif sum of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif sum of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif sum of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif sum of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
      * rfdordfd.
      *
-     * @rfturn thf sum of vblufs, or zfro if nonf
+     *
+     *
+     *
+     *
+     * @rfturn tif sum of vblufs, or zfro if nonf
+     * @rfturn tif sum of vblufs, or zfro if nonf
+     * @rfturn tif sum of vblufs, or zfro if nonf
+     * @rfturn tif sum of vblufs, or zfro if nonf
+     * @rfturn tif sum of vblufs, or zfro if nonf
+     */
+     */
+     */
+     */
      */
     publid finbl long gftSum() {
+    publid finbl long gftSum() {
+    publid finbl long gftSum() {
+    publid finbl long gftSum() {
+    publid finbl long gftSum() {
+        rfturn sum;
+        rfturn sum;
+        rfturn sum;
+        rfturn sum;
         rfturn sum;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf minimum vbluf rfdordfd, or {@dodf Long.MAX_VALUE} if no
-     * vblufs hbvf bffn rfdordfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif minimum vbluf rfdordfd, or {@dodf Long.MAX_VALUE} if no
+     * Rfturns tif minimum vbluf rfdordfd, or {@dodf Long.MAX_VALUE} if no
+     * Rfturns tif minimum vbluf rfdordfd, or {@dodf Long.MAX_VALUE} if no
+     * Rfturns tif minimum vbluf rfdordfd, or {@dodf Long.MAX_VALUE} if no
+     * Rfturns tif minimum vbluf rfdordfd, or {@dodf Long.MAX_VALUE} if no
+     * vblufs ibvf bffn rfdordfd.
+     * vblufs ibvf bffn rfdordfd.
+     * vblufs ibvf bffn rfdordfd.
+     * vblufs ibvf bffn rfdordfd.
+     * vblufs ibvf bffn rfdordfd.
      *
-     * @rfturn thf minimum vbluf, or {@dodf Long.MAX_VALUE} if nonf
+     *
+     *
+     *
+     *
+     * @rfturn tif minimum vbluf, or {@dodf Long.MAX_VALUE} if nonf
+     * @rfturn tif minimum vbluf, or {@dodf Long.MAX_VALUE} if nonf
+     * @rfturn tif minimum vbluf, or {@dodf Long.MAX_VALUE} if nonf
+     * @rfturn tif minimum vbluf, or {@dodf Long.MAX_VALUE} if nonf
+     * @rfturn tif minimum vbluf, or {@dodf Long.MAX_VALUE} if nonf
+     */
+     */
+     */
+     */
      */
     publid finbl long gftMin() {
+    publid finbl long gftMin() {
+    publid finbl long gftMin() {
+    publid finbl long gftMin() {
+    publid finbl long gftMin() {
+        rfturn min;
+        rfturn min;
+        rfturn min;
+        rfturn min;
         rfturn min;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf mbximum vbluf rfdordfd, or {@dodf Long.MIN_VALUE} if no
-     * vblufs hbvf bffn rfdordfd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif mbximum vbluf rfdordfd, or {@dodf Long.MIN_VALUE} if no
+     * Rfturns tif mbximum vbluf rfdordfd, or {@dodf Long.MIN_VALUE} if no
+     * Rfturns tif mbximum vbluf rfdordfd, or {@dodf Long.MIN_VALUE} if no
+     * Rfturns tif mbximum vbluf rfdordfd, or {@dodf Long.MIN_VALUE} if no
+     * Rfturns tif mbximum vbluf rfdordfd, or {@dodf Long.MIN_VALUE} if no
+     * vblufs ibvf bffn rfdordfd
+     * vblufs ibvf bffn rfdordfd
+     * vblufs ibvf bffn rfdordfd
+     * vblufs ibvf bffn rfdordfd
+     * vblufs ibvf bffn rfdordfd
      *
-     * @rfturn thf mbximum vbluf, or {@dodf Long.MIN_VALUE} if nonf
+     *
+     *
+     *
+     *
+     * @rfturn tif mbximum vbluf, or {@dodf Long.MIN_VALUE} if nonf
+     * @rfturn tif mbximum vbluf, or {@dodf Long.MIN_VALUE} if nonf
+     * @rfturn tif mbximum vbluf, or {@dodf Long.MIN_VALUE} if nonf
+     * @rfturn tif mbximum vbluf, or {@dodf Long.MIN_VALUE} if nonf
+     * @rfturn tif mbximum vbluf, or {@dodf Long.MIN_VALUE} if nonf
+     */
+     */
+     */
+     */
      */
     publid finbl long gftMbx() {
+    publid finbl long gftMbx() {
+    publid finbl long gftMbx() {
+    publid finbl long gftMbx() {
+    publid finbl long gftMbx() {
+        rfturn mbx;
+        rfturn mbx;
+        rfturn mbx;
+        rfturn mbx;
         rfturn mbx;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf brithmftid mfbn of vblufs rfdordfd, or zfro if no vblufs hbvf bffn
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif britimftid mfbn of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif britimftid mfbn of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif britimftid mfbn of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif britimftid mfbn of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * Rfturns tif britimftid mfbn of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
      * rfdordfd.
      *
-     * @rfturn Thf brithmftid mfbn of vblufs, or zfro if nonf
+     *
+     *
+     *
+     *
+     * @rfturn Tif britimftid mfbn of vblufs, or zfro if nonf
+     * @rfturn Tif britimftid mfbn of vblufs, or zfro if nonf
+     * @rfturn Tif britimftid mfbn of vblufs, or zfro if nonf
+     * @rfturn Tif britimftid mfbn of vblufs, or zfro if nonf
+     * @rfturn Tif britimftid mfbn of vblufs, or zfro if nonf
+     */
+     */
+     */
+     */
      */
     publid finbl doublf gftAvfrbgf() {
+    publid finbl doublf gftAvfrbgf() {
+    publid finbl doublf gftAvfrbgf() {
+    publid finbl doublf gftAvfrbgf() {
+    publid finbl doublf gftAvfrbgf() {
+        rfturn gftCount() > 0 ? (doublf) gftSum() / gftCount() : 0.0d;
+        rfturn gftCount() > 0 ? (doublf) gftSum() / gftCount() : 0.0d;
+        rfturn gftCount() > 0 ? (doublf) gftSum() / gftCount() : 0.0d;
+        rfturn gftCount() > 0 ? (doublf) gftSum() / gftCount() : 0.0d;
         rfturn gftCount() > 0 ? (doublf) gftSum() / gftCount() : 0.0d;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     /**
-     * {@inhfritDod}
+    /**
+    /**
+    /**
+    /**
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
      *
-     * Rfturns b non-fmpty string rfprfsfntbtion of this objfdt suitbblf for
-     * dfbugging. Thf fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     *
+     *
+     *
+     *
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * bftwffn implfmfntbtions bnd vfrsions.
+     * bftwffn implfmfntbtions bnd vfrsions.
+     * bftwffn implfmfntbtions bnd vfrsions.
+     * bftwffn implfmfntbtions bnd vfrsions.
      * bftwffn implfmfntbtions bnd vfrsions.
      */
+     */
+     */
+     */
+     */
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
     publid String toString() {
         rfturn String.formbt(
+        rfturn String.formbt(
+        rfturn String.formbt(
+        rfturn String.formbt(
+        rfturn String.formbt(
             "%s{dount=%d, sum=%d, min=%d, bvfrbgf=%f, mbx=%d}",
-            this.gftClbss().gftSimplfNbmf(),
+            "%s{dount=%d, sum=%d, min=%d, bvfrbgf=%f, mbx=%d}",
+            "%s{dount=%d, sum=%d, min=%d, bvfrbgf=%f, mbx=%d}",
+            "%s{dount=%d, sum=%d, min=%d, bvfrbgf=%f, mbx=%d}",
+            "%s{dount=%d, sum=%d, min=%d, bvfrbgf=%f, mbx=%d}",
+            tiis.gftClbss().gftSimplfNbmf(),
+            tiis.gftClbss().gftSimplfNbmf(),
+            tiis.gftClbss().gftSimplfNbmf(),
+            tiis.gftClbss().gftSimplfNbmf(),
+            tiis.gftClbss().gftSimplfNbmf(),
+            gftCount(),
+            gftCount(),
+            gftCount(),
+            gftCount(),
             gftCount(),
             gftSum(),
+            gftSum(),
+            gftSum(),
+            gftSum(),
+            gftSum(),
+            gftMin(),
+            gftMin(),
+            gftMin(),
+            gftMin(),
             gftMin(),
             gftAvfrbgf(),
+            gftAvfrbgf(),
+            gftAvfrbgf(),
+            gftAvfrbgf(),
+            gftAvfrbgf(),
+            gftMbx());
+            gftMbx());
+            gftMbx());
+            gftMbx());
             gftMbx());
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

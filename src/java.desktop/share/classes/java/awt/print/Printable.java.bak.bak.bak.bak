@@ -1,143 +1,715 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.print;
+pbdkbgf jbvb.bwt.print;
+pbdkbgf jbvb.bwt.print;
+pbdkbgf jbvb.bwt.print;
+pbdkbgf jbvb.bwt.print;
 
-import jbvb.bwt.Grbphids;
+
+
+
+
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+
+
+
+
+
+
+
+
 
 
 /**
- * Thf <dodf>Printbblf</dodf> intfrfbdf is implfmfntfd
- * by thf <dodf>print</dodf> mfthods of thf durrfnt
- * pbgf pbintfr, whidh is dbllfd by thf printing
- * systfm to rfndfr b pbgf.  Whfn building b
+/**
+/**
+/**
+/**
+ * Tif <dodf>Printbblf</dodf> intfrfbdf is implfmfntfd
+ * Tif <dodf>Printbblf</dodf> intfrfbdf is implfmfntfd
+ * Tif <dodf>Printbblf</dodf> intfrfbdf is implfmfntfd
+ * Tif <dodf>Printbblf</dodf> intfrfbdf is implfmfntfd
+ * Tif <dodf>Printbblf</dodf> intfrfbdf is implfmfntfd
+ * by tif <dodf>print</dodf> mftiods of tif durrfnt
+ * by tif <dodf>print</dodf> mftiods of tif durrfnt
+ * by tif <dodf>print</dodf> mftiods of tif durrfnt
+ * by tif <dodf>print</dodf> mftiods of tif durrfnt
+ * by tif <dodf>print</dodf> mftiods of tif durrfnt
+ * pbgf pbintfr, wiidi is dbllfd by tif printing
+ * pbgf pbintfr, wiidi is dbllfd by tif printing
+ * pbgf pbintfr, wiidi is dbllfd by tif printing
+ * pbgf pbintfr, wiidi is dbllfd by tif printing
+ * pbgf pbintfr, wiidi is dbllfd by tif printing
+ * systfm to rfndfr b pbgf.  Wifn building b
+ * systfm to rfndfr b pbgf.  Wifn building b
+ * systfm to rfndfr b pbgf.  Wifn building b
+ * systfm to rfndfr b pbgf.  Wifn building b
+ * systfm to rfndfr b pbgf.  Wifn building b
  * {@link Pbgfbblf}, pbirs of {@link PbgfFormbt}
- * instbndfs bnd instbndfs thbt implfmfnt
- * this intfrfbdf brf usfd to dfsdribf fbdh pbgf. Thf
+ * {@link Pbgfbblf}, pbirs of {@link PbgfFormbt}
+ * {@link Pbgfbblf}, pbirs of {@link PbgfFormbt}
+ * {@link Pbgfbblf}, pbirs of {@link PbgfFormbt}
+ * {@link Pbgfbblf}, pbirs of {@link PbgfFormbt}
+ * instbndfs bnd instbndfs tibt implfmfnt
+ * instbndfs bnd instbndfs tibt implfmfnt
+ * instbndfs bnd instbndfs tibt implfmfnt
+ * instbndfs bnd instbndfs tibt implfmfnt
+ * instbndfs bnd instbndfs tibt implfmfnt
+ * tiis intfrfbdf brf usfd to dfsdribf fbdi pbgf. Tif
+ * tiis intfrfbdf brf usfd to dfsdribf fbdi pbgf. Tif
+ * tiis intfrfbdf brf usfd to dfsdribf fbdi pbgf. Tif
+ * tiis intfrfbdf brf usfd to dfsdribf fbdi pbgf. Tif
+ * tiis intfrfbdf brf usfd to dfsdribf fbdi pbgf. Tif
  * instbndf implfmfnting <dodf>Printbblf</dodf> is dbllfd to
- * print thf pbgf's grbphids.
+ * instbndf implfmfnting <dodf>Printbblf</dodf> is dbllfd to
+ * instbndf implfmfnting <dodf>Printbblf</dodf> is dbllfd to
+ * instbndf implfmfnting <dodf>Printbblf</dodf> is dbllfd to
+ * instbndf implfmfnting <dodf>Printbblf</dodf> is dbllfd to
+ * print tif pbgf's grbpiids.
+ * print tif pbgf's grbpiids.
+ * print tif pbgf's grbpiids.
+ * print tif pbgf's grbpiids.
+ * print tif pbgf's grbpiids.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  * A <dodf>Printbblf(..)</dodf> mby bf sft on b <dodf>PrintfrJob</dodf>.
- * Whfn thf dlifnt subsfqufntly initibtfs printing by dblling
+ * A <dodf>Printbblf(..)</dodf> mby bf sft on b <dodf>PrintfrJob</dodf>.
+ * A <dodf>Printbblf(..)</dodf> mby bf sft on b <dodf>PrintfrJob</dodf>.
+ * A <dodf>Printbblf(..)</dodf> mby bf sft on b <dodf>PrintfrJob</dodf>.
+ * A <dodf>Printbblf(..)</dodf> mby bf sft on b <dodf>PrintfrJob</dodf>.
+ * Wifn tif dlifnt subsfqufntly initibtfs printing by dblling
+ * Wifn tif dlifnt subsfqufntly initibtfs printing by dblling
+ * Wifn tif dlifnt subsfqufntly initibtfs printing by dblling
+ * Wifn tif dlifnt subsfqufntly initibtfs printing by dblling
+ * Wifn tif dlifnt subsfqufntly initibtfs printing by dblling
+ * <dodf>PrintfrJob.print(..)</dodf> dontrol
+ * <dodf>PrintfrJob.print(..)</dodf> dontrol
+ * <dodf>PrintfrJob.print(..)</dodf> dontrol
+ * <dodf>PrintfrJob.print(..)</dodf> dontrol
  * <dodf>PrintfrJob.print(..)</dodf> dontrol
  * <p>
- * is hbndfd to thf printing systfm until bll pbgfs hbvf bffn printfd.
- * It dofs this by dblling <dodf>Printbblf.print(..)</dodf> until
- * bll pbgfs in thf dodumfnt hbvf bffn printfd.
- * In using thf <dodf>Printbblf</dodf> intfrfbdf thf printing
- * dommits to imbgf thf dontfnts of b pbgf whfnfvfr
- * rfqufstfd by thf printing systfm.
  * <p>
- * Thf pbrbmftfrs to <dodf>Printbblf.print(..)</dodf> indludf b
- * <dodf>PbgfFormbt</dodf> whidh dfsdribfs thf printbblf brfb of
- * thf pbgf, nffdfd for dbldulbting thf dontfnts thbt will fit thf
- * pbgf, bnd thf pbgf indfx, whidh spfdififs thf zfro-bbsfd print
- * strfbm indfx of thf rfqufstfd pbgf.
  * <p>
- * For dorrfdt printing bfhbviour, thf following points should bf
+ * <p>
+ * <p>
+ * is ibndfd to tif printing systfm until bll pbgfs ibvf bffn printfd.
+ * is ibndfd to tif printing systfm until bll pbgfs ibvf bffn printfd.
+ * is ibndfd to tif printing systfm until bll pbgfs ibvf bffn printfd.
+ * is ibndfd to tif printing systfm until bll pbgfs ibvf bffn printfd.
+ * is ibndfd to tif printing systfm until bll pbgfs ibvf bffn printfd.
+ * It dofs tiis by dblling <dodf>Printbblf.print(..)</dodf> until
+ * It dofs tiis by dblling <dodf>Printbblf.print(..)</dodf> until
+ * It dofs tiis by dblling <dodf>Printbblf.print(..)</dodf> until
+ * It dofs tiis by dblling <dodf>Printbblf.print(..)</dodf> until
+ * It dofs tiis by dblling <dodf>Printbblf.print(..)</dodf> until
+ * bll pbgfs in tif dodumfnt ibvf bffn printfd.
+ * bll pbgfs in tif dodumfnt ibvf bffn printfd.
+ * bll pbgfs in tif dodumfnt ibvf bffn printfd.
+ * bll pbgfs in tif dodumfnt ibvf bffn printfd.
+ * bll pbgfs in tif dodumfnt ibvf bffn printfd.
+ * In using tif <dodf>Printbblf</dodf> intfrfbdf tif printing
+ * In using tif <dodf>Printbblf</dodf> intfrfbdf tif printing
+ * In using tif <dodf>Printbblf</dodf> intfrfbdf tif printing
+ * In using tif <dodf>Printbblf</dodf> intfrfbdf tif printing
+ * In using tif <dodf>Printbblf</dodf> intfrfbdf tif printing
+ * dommits to imbgf tif dontfnts of b pbgf wifnfvfr
+ * dommits to imbgf tif dontfnts of b pbgf wifnfvfr
+ * dommits to imbgf tif dontfnts of b pbgf wifnfvfr
+ * dommits to imbgf tif dontfnts of b pbgf wifnfvfr
+ * dommits to imbgf tif dontfnts of b pbgf wifnfvfr
+ * rfqufstfd by tif printing systfm.
+ * rfqufstfd by tif printing systfm.
+ * rfqufstfd by tif printing systfm.
+ * rfqufstfd by tif printing systfm.
+ * rfqufstfd by tif printing systfm.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif pbrbmftfrs to <dodf>Printbblf.print(..)</dodf> indludf b
+ * Tif pbrbmftfrs to <dodf>Printbblf.print(..)</dodf> indludf b
+ * Tif pbrbmftfrs to <dodf>Printbblf.print(..)</dodf> indludf b
+ * Tif pbrbmftfrs to <dodf>Printbblf.print(..)</dodf> indludf b
+ * Tif pbrbmftfrs to <dodf>Printbblf.print(..)</dodf> indludf b
+ * <dodf>PbgfFormbt</dodf> wiidi dfsdribfs tif printbblf brfb of
+ * <dodf>PbgfFormbt</dodf> wiidi dfsdribfs tif printbblf brfb of
+ * <dodf>PbgfFormbt</dodf> wiidi dfsdribfs tif printbblf brfb of
+ * <dodf>PbgfFormbt</dodf> wiidi dfsdribfs tif printbblf brfb of
+ * <dodf>PbgfFormbt</dodf> wiidi dfsdribfs tif printbblf brfb of
+ * tif pbgf, nffdfd for dbldulbting tif dontfnts tibt will fit tif
+ * tif pbgf, nffdfd for dbldulbting tif dontfnts tibt will fit tif
+ * tif pbgf, nffdfd for dbldulbting tif dontfnts tibt will fit tif
+ * tif pbgf, nffdfd for dbldulbting tif dontfnts tibt will fit tif
+ * tif pbgf, nffdfd for dbldulbting tif dontfnts tibt will fit tif
+ * pbgf, bnd tif pbgf indfx, wiidi spfdififs tif zfro-bbsfd print
+ * pbgf, bnd tif pbgf indfx, wiidi spfdififs tif zfro-bbsfd print
+ * pbgf, bnd tif pbgf indfx, wiidi spfdififs tif zfro-bbsfd print
+ * pbgf, bnd tif pbgf indfx, wiidi spfdififs tif zfro-bbsfd print
+ * pbgf, bnd tif pbgf indfx, wiidi spfdififs tif zfro-bbsfd print
+ * strfbm indfx of tif rfqufstfd pbgf.
+ * strfbm indfx of tif rfqufstfd pbgf.
+ * strfbm indfx of tif rfqufstfd pbgf.
+ * strfbm indfx of tif rfqufstfd pbgf.
+ * strfbm indfx of tif rfqufstfd pbgf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * For dorrfdt printing bfibviour, tif following points siould bf
+ * For dorrfdt printing bfibviour, tif following points siould bf
+ * For dorrfdt printing bfibviour, tif following points siould bf
+ * For dorrfdt printing bfibviour, tif following points siould bf
+ * For dorrfdt printing bfibviour, tif following points siould bf
+ * obsfrvfd:
+ * obsfrvfd:
+ * obsfrvfd:
+ * obsfrvfd:
  * obsfrvfd:
  * <ul>
- * <li> Thf printing systfm mby rfqufst b pbgf indfx morf thbn ondf.
- * On fbdh oddbsion fqubl PbgfFormbt pbrbmftfrs will bf supplifd.
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li> Tif printing systfm mby rfqufst b pbgf indfx morf tibn ondf.
+ * <li> Tif printing systfm mby rfqufst b pbgf indfx morf tibn ondf.
+ * <li> Tif printing systfm mby rfqufst b pbgf indfx morf tibn ondf.
+ * <li> Tif printing systfm mby rfqufst b pbgf indfx morf tibn ondf.
+ * <li> Tif printing systfm mby rfqufst b pbgf indfx morf tibn ondf.
+ * On fbdi oddbsion fqubl PbgfFormbt pbrbmftfrs will bf supplifd.
+ * On fbdi oddbsion fqubl PbgfFormbt pbrbmftfrs will bf supplifd.
+ * On fbdi oddbsion fqubl PbgfFormbt pbrbmftfrs will bf supplifd.
+ * On fbdi oddbsion fqubl PbgfFormbt pbrbmftfrs will bf supplifd.
+ * On fbdi oddbsion fqubl PbgfFormbt pbrbmftfrs will bf supplifd.
  *
- * <li>Thf printing systfm will dbll <dodf>Printbblf.print(..)</dodf>
- * with pbgf indfxfs whidh indrfbsf monotonidblly, blthough bs notfd bbovf,
- * thf <dodf>Printbblf</dodf> should fxpfdt multiplf dblls for b pbgf indfx
- * bnd thbt pbgf indfxfs mby bf skippfd, whfn pbgf rbngfs brf spfdififd
- * by thf dlifnt, or by b usfr through b print diblog.
  *
- * <li>If multiplf dollbtfd dopifs of b dodumfnt brf rfqufstfd, bnd thf
- * printfr dbnnot nbtivfly support this, thfn thf dodumfnt mby bf imbgfd
- * multiplf timfs. Printing will stbrt fbdh dopy from thf lowfst print
+ *
+ *
+ *
+ * <li>Tif printing systfm will dbll <dodf>Printbblf.print(..)</dodf>
+ * <li>Tif printing systfm will dbll <dodf>Printbblf.print(..)</dodf>
+ * <li>Tif printing systfm will dbll <dodf>Printbblf.print(..)</dodf>
+ * <li>Tif printing systfm will dbll <dodf>Printbblf.print(..)</dodf>
+ * <li>Tif printing systfm will dbll <dodf>Printbblf.print(..)</dodf>
+ * witi pbgf indfxfs wiidi indrfbsf monotonidblly, bltiougi bs notfd bbovf,
+ * witi pbgf indfxfs wiidi indrfbsf monotonidblly, bltiougi bs notfd bbovf,
+ * witi pbgf indfxfs wiidi indrfbsf monotonidblly, bltiougi bs notfd bbovf,
+ * witi pbgf indfxfs wiidi indrfbsf monotonidblly, bltiougi bs notfd bbovf,
+ * witi pbgf indfxfs wiidi indrfbsf monotonidblly, bltiougi bs notfd bbovf,
+ * tif <dodf>Printbblf</dodf> siould fxpfdt multiplf dblls for b pbgf indfx
+ * tif <dodf>Printbblf</dodf> siould fxpfdt multiplf dblls for b pbgf indfx
+ * tif <dodf>Printbblf</dodf> siould fxpfdt multiplf dblls for b pbgf indfx
+ * tif <dodf>Printbblf</dodf> siould fxpfdt multiplf dblls for b pbgf indfx
+ * tif <dodf>Printbblf</dodf> siould fxpfdt multiplf dblls for b pbgf indfx
+ * bnd tibt pbgf indfxfs mby bf skippfd, wifn pbgf rbngfs brf spfdififd
+ * bnd tibt pbgf indfxfs mby bf skippfd, wifn pbgf rbngfs brf spfdififd
+ * bnd tibt pbgf indfxfs mby bf skippfd, wifn pbgf rbngfs brf spfdififd
+ * bnd tibt pbgf indfxfs mby bf skippfd, wifn pbgf rbngfs brf spfdififd
+ * bnd tibt pbgf indfxfs mby bf skippfd, wifn pbgf rbngfs brf spfdififd
+ * by tif dlifnt, or by b usfr tirougi b print diblog.
+ * by tif dlifnt, or by b usfr tirougi b print diblog.
+ * by tif dlifnt, or by b usfr tirougi b print diblog.
+ * by tif dlifnt, or by b usfr tirougi b print diblog.
+ * by tif dlifnt, or by b usfr tirougi b print diblog.
+ *
+ *
+ *
+ *
+ *
+ * <li>If multiplf dollbtfd dopifs of b dodumfnt brf rfqufstfd, bnd tif
+ * <li>If multiplf dollbtfd dopifs of b dodumfnt brf rfqufstfd, bnd tif
+ * <li>If multiplf dollbtfd dopifs of b dodumfnt brf rfqufstfd, bnd tif
+ * <li>If multiplf dollbtfd dopifs of b dodumfnt brf rfqufstfd, bnd tif
+ * <li>If multiplf dollbtfd dopifs of b dodumfnt brf rfqufstfd, bnd tif
+ * printfr dbnnot nbtivfly support tiis, tifn tif dodumfnt mby bf imbgfd
+ * printfr dbnnot nbtivfly support tiis, tifn tif dodumfnt mby bf imbgfd
+ * printfr dbnnot nbtivfly support tiis, tifn tif dodumfnt mby bf imbgfd
+ * printfr dbnnot nbtivfly support tiis, tifn tif dodumfnt mby bf imbgfd
+ * printfr dbnnot nbtivfly support tiis, tifn tif dodumfnt mby bf imbgfd
+ * multiplf timfs. Printing will stbrt fbdi dopy from tif lowfst print
+ * multiplf timfs. Printing will stbrt fbdi dopy from tif lowfst print
+ * multiplf timfs. Printing will stbrt fbdi dopy from tif lowfst print
+ * multiplf timfs. Printing will stbrt fbdi dopy from tif lowfst print
+ * multiplf timfs. Printing will stbrt fbdi dopy from tif lowfst print
+ * strfbm pbgf indfx pbgf.
+ * strfbm pbgf indfx pbgf.
+ * strfbm pbgf indfx pbgf.
+ * strfbm pbgf indfx pbgf.
  * strfbm pbgf indfx pbgf.
  *
- * <li>With thf fxdfption of rf-imbging bn fntirf dodumfnt for multiplf
- * dollbtfd dopifs, thf indrfbsing pbgf indfx ordfr mfbns thbt whfn
+ *
+ *
+ *
+ *
+ * <li>Witi tif fxdfption of rf-imbging bn fntirf dodumfnt for multiplf
+ * <li>Witi tif fxdfption of rf-imbging bn fntirf dodumfnt for multiplf
+ * <li>Witi tif fxdfption of rf-imbging bn fntirf dodumfnt for multiplf
+ * <li>Witi tif fxdfption of rf-imbging bn fntirf dodumfnt for multiplf
+ * <li>Witi tif fxdfption of rf-imbging bn fntirf dodumfnt for multiplf
+ * dollbtfd dopifs, tif indrfbsing pbgf indfx ordfr mfbns tibt wifn
+ * dollbtfd dopifs, tif indrfbsing pbgf indfx ordfr mfbns tibt wifn
+ * dollbtfd dopifs, tif indrfbsing pbgf indfx ordfr mfbns tibt wifn
+ * dollbtfd dopifs, tif indrfbsing pbgf indfx ordfr mfbns tibt wifn
+ * dollbtfd dopifs, tif indrfbsing pbgf indfx ordfr mfbns tibt wifn
+ * pbgf N is rfqufstfd if b dlifnt nffds to dbldulbtf pbgf brfbk position,
+ * pbgf N is rfqufstfd if b dlifnt nffds to dbldulbtf pbgf brfbk position,
+ * pbgf N is rfqufstfd if b dlifnt nffds to dbldulbtf pbgf brfbk position,
+ * pbgf N is rfqufstfd if b dlifnt nffds to dbldulbtf pbgf brfbk position,
  * pbgf N is rfqufstfd if b dlifnt nffds to dbldulbtf pbgf brfbk position,
  * it mby sbffly disdbrd bny stbtf rflbtfd to pbgfs &lt; N, bnd mbkf durrfnt
- * thbt for pbgf N. "Stbtf" usublly is just thf dbldulbtfd position in thf
- * dodumfnt thbt dorrfsponds to thf stbrt of thf pbgf.
+ * it mby sbffly disdbrd bny stbtf rflbtfd to pbgfs &lt; N, bnd mbkf durrfnt
+ * it mby sbffly disdbrd bny stbtf rflbtfd to pbgfs &lt; N, bnd mbkf durrfnt
+ * it mby sbffly disdbrd bny stbtf rflbtfd to pbgfs &lt; N, bnd mbkf durrfnt
+ * it mby sbffly disdbrd bny stbtf rflbtfd to pbgfs &lt; N, bnd mbkf durrfnt
+ * tibt for pbgf N. "Stbtf" usublly is just tif dbldulbtfd position in tif
+ * tibt for pbgf N. "Stbtf" usublly is just tif dbldulbtfd position in tif
+ * tibt for pbgf N. "Stbtf" usublly is just tif dbldulbtfd position in tif
+ * tibt for pbgf N. "Stbtf" usublly is just tif dbldulbtfd position in tif
+ * tibt for pbgf N. "Stbtf" usublly is just tif dbldulbtfd position in tif
+ * dodumfnt tibt dorrfsponds to tif stbrt of tif pbgf.
+ * dodumfnt tibt dorrfsponds to tif stbrt of tif pbgf.
+ * dodumfnt tibt dorrfsponds to tif stbrt of tif pbgf.
+ * dodumfnt tibt dorrfsponds to tif stbrt of tif pbgf.
+ * dodumfnt tibt dorrfsponds to tif stbrt of tif pbgf.
  *
- * <li>Whfn dbllfd by thf printing systfm thf <dodf>Printbblf</dodf> must
- * inspfdt bnd honour thf supplifd PbgfFormbt pbrbmftfr bs wfll bs thf
- * pbgf indfx.  Thf formbt of thf pbgf to bf drbwn is spfdififd by thf
- * supplifd PbgfFormbt. Thf sizf, orifntbtion bnd imbgfbblf brfb of thf pbgf
- * is thfrfforf blrfbdy dftfrminfd bnd rfndfring must bf within this
+ *
+ *
+ *
+ *
+ * <li>Wifn dbllfd by tif printing systfm tif <dodf>Printbblf</dodf> must
+ * <li>Wifn dbllfd by tif printing systfm tif <dodf>Printbblf</dodf> must
+ * <li>Wifn dbllfd by tif printing systfm tif <dodf>Printbblf</dodf> must
+ * <li>Wifn dbllfd by tif printing systfm tif <dodf>Printbblf</dodf> must
+ * <li>Wifn dbllfd by tif printing systfm tif <dodf>Printbblf</dodf> must
+ * inspfdt bnd ionour tif supplifd PbgfFormbt pbrbmftfr bs wfll bs tif
+ * inspfdt bnd ionour tif supplifd PbgfFormbt pbrbmftfr bs wfll bs tif
+ * inspfdt bnd ionour tif supplifd PbgfFormbt pbrbmftfr bs wfll bs tif
+ * inspfdt bnd ionour tif supplifd PbgfFormbt pbrbmftfr bs wfll bs tif
+ * inspfdt bnd ionour tif supplifd PbgfFormbt pbrbmftfr bs wfll bs tif
+ * pbgf indfx.  Tif formbt of tif pbgf to bf drbwn is spfdififd by tif
+ * pbgf indfx.  Tif formbt of tif pbgf to bf drbwn is spfdififd by tif
+ * pbgf indfx.  Tif formbt of tif pbgf to bf drbwn is spfdififd by tif
+ * pbgf indfx.  Tif formbt of tif pbgf to bf drbwn is spfdififd by tif
+ * pbgf indfx.  Tif formbt of tif pbgf to bf drbwn is spfdififd by tif
+ * supplifd PbgfFormbt. Tif sizf, orifntbtion bnd imbgfbblf brfb of tif pbgf
+ * supplifd PbgfFormbt. Tif sizf, orifntbtion bnd imbgfbblf brfb of tif pbgf
+ * supplifd PbgfFormbt. Tif sizf, orifntbtion bnd imbgfbblf brfb of tif pbgf
+ * supplifd PbgfFormbt. Tif sizf, orifntbtion bnd imbgfbblf brfb of tif pbgf
+ * supplifd PbgfFormbt. Tif sizf, orifntbtion bnd imbgfbblf brfb of tif pbgf
+ * is tifrfforf blrfbdy dftfrminfd bnd rfndfring must bf witiin tiis
+ * is tifrfforf blrfbdy dftfrminfd bnd rfndfring must bf witiin tiis
+ * is tifrfforf blrfbdy dftfrminfd bnd rfndfring must bf witiin tiis
+ * is tifrfforf blrfbdy dftfrminfd bnd rfndfring must bf witiin tiis
+ * is tifrfforf blrfbdy dftfrminfd bnd rfndfring must bf witiin tiis
  * imbgfbblf brfb.
- * This is kfy to dorrfdt printing bfhbviour, bnd it hbs thf
- * implidbtion thbt thf dlifnt hbs thf rfsponsibility of trbdking
- * whbt dontfnt bflongs on thf spfdififd pbgf.
+ * imbgfbblf brfb.
+ * imbgfbblf brfb.
+ * imbgfbblf brfb.
+ * imbgfbblf brfb.
+ * Tiis is kfy to dorrfdt printing bfibviour, bnd it ibs tif
+ * Tiis is kfy to dorrfdt printing bfibviour, bnd it ibs tif
+ * Tiis is kfy to dorrfdt printing bfibviour, bnd it ibs tif
+ * Tiis is kfy to dorrfdt printing bfibviour, bnd it ibs tif
+ * Tiis is kfy to dorrfdt printing bfibviour, bnd it ibs tif
+ * implidbtion tibt tif dlifnt ibs tif rfsponsibility of trbdking
+ * implidbtion tibt tif dlifnt ibs tif rfsponsibility of trbdking
+ * implidbtion tibt tif dlifnt ibs tif rfsponsibility of trbdking
+ * implidbtion tibt tif dlifnt ibs tif rfsponsibility of trbdking
+ * implidbtion tibt tif dlifnt ibs tif rfsponsibility of trbdking
+ * wibt dontfnt bflongs on tif spfdififd pbgf.
+ * wibt dontfnt bflongs on tif spfdififd pbgf.
+ * wibt dontfnt bflongs on tif spfdififd pbgf.
+ * wibt dontfnt bflongs on tif spfdififd pbgf.
+ * wibt dontfnt bflongs on tif spfdififd pbgf.
  *
- * <li>Whfn thf <dodf>Printbblf</dodf> is obtbinfd from b dlifnt-supplifd
- * <dodf>Pbgfbblf</dodf> thfn thf dlifnt mby providf difffrfnt PbgfFormbts
- * for fbdh pbgf indfx. Cbldulbtions of pbgf brfbks must bddount for this.
+ *
+ *
+ *
+ *
+ * <li>Wifn tif <dodf>Printbblf</dodf> is obtbinfd from b dlifnt-supplifd
+ * <li>Wifn tif <dodf>Printbblf</dodf> is obtbinfd from b dlifnt-supplifd
+ * <li>Wifn tif <dodf>Printbblf</dodf> is obtbinfd from b dlifnt-supplifd
+ * <li>Wifn tif <dodf>Printbblf</dodf> is obtbinfd from b dlifnt-supplifd
+ * <li>Wifn tif <dodf>Printbblf</dodf> is obtbinfd from b dlifnt-supplifd
+ * <dodf>Pbgfbblf</dodf> tifn tif dlifnt mby providf difffrfnt PbgfFormbts
+ * <dodf>Pbgfbblf</dodf> tifn tif dlifnt mby providf difffrfnt PbgfFormbts
+ * <dodf>Pbgfbblf</dodf> tifn tif dlifnt mby providf difffrfnt PbgfFormbts
+ * <dodf>Pbgfbblf</dodf> tifn tif dlifnt mby providf difffrfnt PbgfFormbts
+ * <dodf>Pbgfbblf</dodf> tifn tif dlifnt mby providf difffrfnt PbgfFormbts
+ * for fbdi pbgf indfx. Cbldulbtions of pbgf brfbks must bddount for tiis.
+ * for fbdi pbgf indfx. Cbldulbtions of pbgf brfbks must bddount for tiis.
+ * for fbdi pbgf indfx. Cbldulbtions of pbgf brfbks must bddount for tiis.
+ * for fbdi pbgf indfx. Cbldulbtions of pbgf brfbks must bddount for tiis.
+ * for fbdi pbgf indfx. Cbldulbtions of pbgf brfbks must bddount for tiis.
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  * </ul>
  * @sff jbvb.bwt.print.Pbgfbblf
+ * @sff jbvb.bwt.print.Pbgfbblf
+ * @sff jbvb.bwt.print.Pbgfbblf
+ * @sff jbvb.bwt.print.Pbgfbblf
+ * @sff jbvb.bwt.print.Pbgfbblf
+ * @sff jbvb.bwt.print.PbgfFormbt
+ * @sff jbvb.bwt.print.PbgfFormbt
+ * @sff jbvb.bwt.print.PbgfFormbt
+ * @sff jbvb.bwt.print.PbgfFormbt
  * @sff jbvb.bwt.print.PbgfFormbt
  * @sff jbvb.bwt.print.PrintfrJob
+ * @sff jbvb.bwt.print.PrintfrJob
+ * @sff jbvb.bwt.print.PrintfrJob
+ * @sff jbvb.bwt.print.PrintfrJob
+ * @sff jbvb.bwt.print.PrintfrJob
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf Printbblf {
+publid intfrfbdf Printbblf {
+publid intfrfbdf Printbblf {
+publid intfrfbdf Printbblf {
+publid intfrfbdf Printbblf {
+
+
+
+
 
     /**
-     * Rfturnfd from {@link #print(Grbphids, PbgfFormbt, int)}
-     * to signify thbt thf rfqufstfd pbgf wbs rfndfrfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturnfd from {@link #print(Grbpiids, PbgfFormbt, int)}
+     * Rfturnfd from {@link #print(Grbpiids, PbgfFormbt, int)}
+     * Rfturnfd from {@link #print(Grbpiids, PbgfFormbt, int)}
+     * Rfturnfd from {@link #print(Grbpiids, PbgfFormbt, int)}
+     * Rfturnfd from {@link #print(Grbpiids, PbgfFormbt, int)}
+     * to signify tibt tif rfqufstfd pbgf wbs rfndfrfd.
+     * to signify tibt tif rfqufstfd pbgf wbs rfndfrfd.
+     * to signify tibt tif rfqufstfd pbgf wbs rfndfrfd.
+     * to signify tibt tif rfqufstfd pbgf wbs rfndfrfd.
+     * to signify tibt tif rfqufstfd pbgf wbs rfndfrfd.
+     */
+     */
+     */
+     */
      */
     int PAGE_EXISTS = 0;
+    int PAGE_EXISTS = 0;
+    int PAGE_EXISTS = 0;
+    int PAGE_EXISTS = 0;
+    int PAGE_EXISTS = 0;
+
+
+
+
 
     /**
-     * Rfturnfd from <dodf>print</dodf> to signify thbt thf
-     * <dodf>pbgfIndfx</dodf> is too lbrgf bnd thbt thf rfqufstfd pbgf
+    /**
+    /**
+    /**
+    /**
+     * Rfturnfd from <dodf>print</dodf> to signify tibt tif
+     * Rfturnfd from <dodf>print</dodf> to signify tibt tif
+     * Rfturnfd from <dodf>print</dodf> to signify tibt tif
+     * Rfturnfd from <dodf>print</dodf> to signify tibt tif
+     * Rfturnfd from <dodf>print</dodf> to signify tibt tif
+     * <dodf>pbgfIndfx</dodf> is too lbrgf bnd tibt tif rfqufstfd pbgf
+     * <dodf>pbgfIndfx</dodf> is too lbrgf bnd tibt tif rfqufstfd pbgf
+     * <dodf>pbgfIndfx</dodf> is too lbrgf bnd tibt tif rfqufstfd pbgf
+     * <dodf>pbgfIndfx</dodf> is too lbrgf bnd tibt tif rfqufstfd pbgf
+     * <dodf>pbgfIndfx</dodf> is too lbrgf bnd tibt tif rfqufstfd pbgf
+     * dofs not fxist.
+     * dofs not fxist.
+     * dofs not fxist.
+     * dofs not fxist.
      * dofs not fxist.
      */
+     */
+     */
+     */
+     */
+    int NO_SUCH_PAGE = 1;
+    int NO_SUCH_PAGE = 1;
+    int NO_SUCH_PAGE = 1;
+    int NO_SUCH_PAGE = 1;
     int NO_SUCH_PAGE = 1;
 
+
+
+
+
     /**
-     * Prints thf pbgf bt thf spfdififd indfx into thf spfdififd
-     * {@link Grbphids} dontfxt in thf spfdififd
-     * formbt.  A <dodf>PrintfrJob</dodf> dblls thf
-     * <dodf>Printbblf</dodf> intfrfbdf to rfqufst thbt b pbgf bf
-     * rfndfrfd into thf dontfxt spfdififd by
-     * <dodf>grbphids</dodf>.  Thf formbt of thf pbgf to bf drbwn is
-     * spfdififd by <dodf>pbgfFormbt</dodf>.  Thf zfro bbsfd indfx
-     * of thf rfqufstfd pbgf is spfdififd by <dodf>pbgfIndfx</dodf>.
-     * If thf rfqufstfd pbgf dofs not fxist thfn this mfthod rfturns
-     * NO_SUCH_PAGE; othfrwisf PAGE_EXISTS is rfturnfd.
-     * Thf <dodf>Grbphids</dodf> dlbss or subdlbss implfmfnts thf
-     * {@link PrintfrGrbphids} intfrfbdf to providf bdditionbl
-     * informbtion.  If thf <dodf>Printbblf</dodf> objfdt
-     * bborts thf print job thfn it throws b {@link PrintfrExdfption}.
-     * @pbrbm grbphids thf dontfxt into whidh thf pbgf is drbwn
-     * @pbrbm pbgfFormbt thf sizf bnd orifntbtion of thf pbgf bfing drbwn
-     * @pbrbm pbgfIndfx thf zfro bbsfd indfx of thf pbgf to bf drbwn
-     * @rfturn PAGE_EXISTS if thf pbgf is rfndfrfd suddfssfully
+    /**
+    /**
+    /**
+    /**
+     * Prints tif pbgf bt tif spfdififd indfx into tif spfdififd
+     * Prints tif pbgf bt tif spfdififd indfx into tif spfdififd
+     * Prints tif pbgf bt tif spfdififd indfx into tif spfdififd
+     * Prints tif pbgf bt tif spfdififd indfx into tif spfdififd
+     * Prints tif pbgf bt tif spfdififd indfx into tif spfdififd
+     * {@link Grbpiids} dontfxt in tif spfdififd
+     * {@link Grbpiids} dontfxt in tif spfdififd
+     * {@link Grbpiids} dontfxt in tif spfdififd
+     * {@link Grbpiids} dontfxt in tif spfdififd
+     * {@link Grbpiids} dontfxt in tif spfdififd
+     * formbt.  A <dodf>PrintfrJob</dodf> dblls tif
+     * formbt.  A <dodf>PrintfrJob</dodf> dblls tif
+     * formbt.  A <dodf>PrintfrJob</dodf> dblls tif
+     * formbt.  A <dodf>PrintfrJob</dodf> dblls tif
+     * formbt.  A <dodf>PrintfrJob</dodf> dblls tif
+     * <dodf>Printbblf</dodf> intfrfbdf to rfqufst tibt b pbgf bf
+     * <dodf>Printbblf</dodf> intfrfbdf to rfqufst tibt b pbgf bf
+     * <dodf>Printbblf</dodf> intfrfbdf to rfqufst tibt b pbgf bf
+     * <dodf>Printbblf</dodf> intfrfbdf to rfqufst tibt b pbgf bf
+     * <dodf>Printbblf</dodf> intfrfbdf to rfqufst tibt b pbgf bf
+     * rfndfrfd into tif dontfxt spfdififd by
+     * rfndfrfd into tif dontfxt spfdififd by
+     * rfndfrfd into tif dontfxt spfdififd by
+     * rfndfrfd into tif dontfxt spfdififd by
+     * rfndfrfd into tif dontfxt spfdififd by
+     * <dodf>grbpiids</dodf>.  Tif formbt of tif pbgf to bf drbwn is
+     * <dodf>grbpiids</dodf>.  Tif formbt of tif pbgf to bf drbwn is
+     * <dodf>grbpiids</dodf>.  Tif formbt of tif pbgf to bf drbwn is
+     * <dodf>grbpiids</dodf>.  Tif formbt of tif pbgf to bf drbwn is
+     * <dodf>grbpiids</dodf>.  Tif formbt of tif pbgf to bf drbwn is
+     * spfdififd by <dodf>pbgfFormbt</dodf>.  Tif zfro bbsfd indfx
+     * spfdififd by <dodf>pbgfFormbt</dodf>.  Tif zfro bbsfd indfx
+     * spfdififd by <dodf>pbgfFormbt</dodf>.  Tif zfro bbsfd indfx
+     * spfdififd by <dodf>pbgfFormbt</dodf>.  Tif zfro bbsfd indfx
+     * spfdififd by <dodf>pbgfFormbt</dodf>.  Tif zfro bbsfd indfx
+     * of tif rfqufstfd pbgf is spfdififd by <dodf>pbgfIndfx</dodf>.
+     * of tif rfqufstfd pbgf is spfdififd by <dodf>pbgfIndfx</dodf>.
+     * of tif rfqufstfd pbgf is spfdififd by <dodf>pbgfIndfx</dodf>.
+     * of tif rfqufstfd pbgf is spfdififd by <dodf>pbgfIndfx</dodf>.
+     * of tif rfqufstfd pbgf is spfdififd by <dodf>pbgfIndfx</dodf>.
+     * If tif rfqufstfd pbgf dofs not fxist tifn tiis mftiod rfturns
+     * If tif rfqufstfd pbgf dofs not fxist tifn tiis mftiod rfturns
+     * If tif rfqufstfd pbgf dofs not fxist tifn tiis mftiod rfturns
+     * If tif rfqufstfd pbgf dofs not fxist tifn tiis mftiod rfturns
+     * If tif rfqufstfd pbgf dofs not fxist tifn tiis mftiod rfturns
+     * NO_SUCH_PAGE; otifrwisf PAGE_EXISTS is rfturnfd.
+     * NO_SUCH_PAGE; otifrwisf PAGE_EXISTS is rfturnfd.
+     * NO_SUCH_PAGE; otifrwisf PAGE_EXISTS is rfturnfd.
+     * NO_SUCH_PAGE; otifrwisf PAGE_EXISTS is rfturnfd.
+     * NO_SUCH_PAGE; otifrwisf PAGE_EXISTS is rfturnfd.
+     * Tif <dodf>Grbpiids</dodf> dlbss or subdlbss implfmfnts tif
+     * Tif <dodf>Grbpiids</dodf> dlbss or subdlbss implfmfnts tif
+     * Tif <dodf>Grbpiids</dodf> dlbss or subdlbss implfmfnts tif
+     * Tif <dodf>Grbpiids</dodf> dlbss or subdlbss implfmfnts tif
+     * Tif <dodf>Grbpiids</dodf> dlbss or subdlbss implfmfnts tif
+     * {@link PrintfrGrbpiids} intfrfbdf to providf bdditionbl
+     * {@link PrintfrGrbpiids} intfrfbdf to providf bdditionbl
+     * {@link PrintfrGrbpiids} intfrfbdf to providf bdditionbl
+     * {@link PrintfrGrbpiids} intfrfbdf to providf bdditionbl
+     * {@link PrintfrGrbpiids} intfrfbdf to providf bdditionbl
+     * informbtion.  If tif <dodf>Printbblf</dodf> objfdt
+     * informbtion.  If tif <dodf>Printbblf</dodf> objfdt
+     * informbtion.  If tif <dodf>Printbblf</dodf> objfdt
+     * informbtion.  If tif <dodf>Printbblf</dodf> objfdt
+     * informbtion.  If tif <dodf>Printbblf</dodf> objfdt
+     * bborts tif print job tifn it tirows b {@link PrintfrExdfption}.
+     * bborts tif print job tifn it tirows b {@link PrintfrExdfption}.
+     * bborts tif print job tifn it tirows b {@link PrintfrExdfption}.
+     * bborts tif print job tifn it tirows b {@link PrintfrExdfption}.
+     * bborts tif print job tifn it tirows b {@link PrintfrExdfption}.
+     * @pbrbm grbpiids tif dontfxt into wiidi tif pbgf is drbwn
+     * @pbrbm grbpiids tif dontfxt into wiidi tif pbgf is drbwn
+     * @pbrbm grbpiids tif dontfxt into wiidi tif pbgf is drbwn
+     * @pbrbm grbpiids tif dontfxt into wiidi tif pbgf is drbwn
+     * @pbrbm grbpiids tif dontfxt into wiidi tif pbgf is drbwn
+     * @pbrbm pbgfFormbt tif sizf bnd orifntbtion of tif pbgf bfing drbwn
+     * @pbrbm pbgfFormbt tif sizf bnd orifntbtion of tif pbgf bfing drbwn
+     * @pbrbm pbgfFormbt tif sizf bnd orifntbtion of tif pbgf bfing drbwn
+     * @pbrbm pbgfFormbt tif sizf bnd orifntbtion of tif pbgf bfing drbwn
+     * @pbrbm pbgfFormbt tif sizf bnd orifntbtion of tif pbgf bfing drbwn
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf to bf drbwn
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf to bf drbwn
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf to bf drbwn
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf to bf drbwn
+     * @pbrbm pbgfIndfx tif zfro bbsfd indfx of tif pbgf to bf drbwn
+     * @rfturn PAGE_EXISTS if tif pbgf is rfndfrfd suddfssfully
+     * @rfturn PAGE_EXISTS if tif pbgf is rfndfrfd suddfssfully
+     * @rfturn PAGE_EXISTS if tif pbgf is rfndfrfd suddfssfully
+     * @rfturn PAGE_EXISTS if tif pbgf is rfndfrfd suddfssfully
+     * @rfturn PAGE_EXISTS if tif pbgf is rfndfrfd suddfssfully
+     *         or NO_SUCH_PAGE if <dodf>pbgfIndfx</dodf> spfdififs b
+     *         or NO_SUCH_PAGE if <dodf>pbgfIndfx</dodf> spfdififs b
+     *         or NO_SUCH_PAGE if <dodf>pbgfIndfx</dodf> spfdififs b
+     *         or NO_SUCH_PAGE if <dodf>pbgfIndfx</dodf> spfdififs b
      *         or NO_SUCH_PAGE if <dodf>pbgfIndfx</dodf> spfdififs b
      *         non-fxistfnt pbgf.
+     *         non-fxistfnt pbgf.
+     *         non-fxistfnt pbgf.
+     *         non-fxistfnt pbgf.
+     *         non-fxistfnt pbgf.
      * @fxdfption jbvb.bwt.print.PrintfrExdfption
-     *         thrown whfn thf print job is tfrminbtfd.
+     * @fxdfption jbvb.bwt.print.PrintfrExdfption
+     * @fxdfption jbvb.bwt.print.PrintfrExdfption
+     * @fxdfption jbvb.bwt.print.PrintfrExdfption
+     * @fxdfption jbvb.bwt.print.PrintfrExdfption
+     *         tirown wifn tif print job is tfrminbtfd.
+     *         tirown wifn tif print job is tfrminbtfd.
+     *         tirown wifn tif print job is tfrminbtfd.
+     *         tirown wifn tif print job is tfrminbtfd.
+     *         tirown wifn tif print job is tfrminbtfd.
      */
-    int print(Grbphids grbphids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
-                 throws PrintfrExdfption;
+     */
+     */
+     */
+     */
+    int print(Grbpiids grbpiids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+    int print(Grbpiids grbpiids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+    int print(Grbpiids grbpiids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+    int print(Grbpiids grbpiids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+    int print(Grbpiids grbpiids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+                 tirows PrintfrExdfption;
+                 tirows PrintfrExdfption;
+                 tirows PrintfrExdfption;
+                 tirows PrintfrExdfption;
+                 tirows PrintfrExdfption;
 
+
+
+
+
+}
+}
+}
+}
 }

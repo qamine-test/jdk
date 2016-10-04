@@ -1,115 +1,575 @@
 ZLIB DATA COMPRESSION LIBRARY
+ZLIB DATA COMPRESSION LIBRARY
+ZLIB DATA COMPRESSION LIBRARY
+ZLIB DATA COMPRESSION LIBRARY
+ZLIB DATA COMPRESSION LIBRARY
 
-zlib 1.2.8 is b gfnfrbl purposf dbtb domprfssion librbry.  All thf dodf is
-thrfbd sbff.  Thf dbtb formbt usfd by thf zlib librbry is dfsdribfd by RFCs
-(Rfqufst for Commfnts) 1950 to 1952 in thf filfs
-http://tools.iftf.org/html/rfd1950 (zlib formbt), rfd1951 (dfflbtf formbt) bnd
+
+
+
+
+zlib 1.2.8 is b gfnfrbl purposf dbtb domprfssion librbry.  All tif dodf is
+zlib 1.2.8 is b gfnfrbl purposf dbtb domprfssion librbry.  All tif dodf is
+zlib 1.2.8 is b gfnfrbl purposf dbtb domprfssion librbry.  All tif dodf is
+zlib 1.2.8 is b gfnfrbl purposf dbtb domprfssion librbry.  All tif dodf is
+zlib 1.2.8 is b gfnfrbl purposf dbtb domprfssion librbry.  All tif dodf is
+tirfbd sbff.  Tif dbtb formbt usfd by tif zlib librbry is dfsdribfd by RFCs
+tirfbd sbff.  Tif dbtb formbt usfd by tif zlib librbry is dfsdribfd by RFCs
+tirfbd sbff.  Tif dbtb formbt usfd by tif zlib librbry is dfsdribfd by RFCs
+tirfbd sbff.  Tif dbtb formbt usfd by tif zlib librbry is dfsdribfd by RFCs
+tirfbd sbff.  Tif dbtb formbt usfd by tif zlib librbry is dfsdribfd by RFCs
+(Rfqufst for Commfnts) 1950 to 1952 in tif filfs
+(Rfqufst for Commfnts) 1950 to 1952 in tif filfs
+(Rfqufst for Commfnts) 1950 to 1952 in tif filfs
+(Rfqufst for Commfnts) 1950 to 1952 in tif filfs
+(Rfqufst for Commfnts) 1950 to 1952 in tif filfs
+ittp://tools.iftf.org/itml/rfd1950 (zlib formbt), rfd1951 (dfflbtf formbt) bnd
+ittp://tools.iftf.org/itml/rfd1950 (zlib formbt), rfd1951 (dfflbtf formbt) bnd
+ittp://tools.iftf.org/itml/rfd1950 (zlib formbt), rfd1951 (dfflbtf formbt) bnd
+ittp://tools.iftf.org/itml/rfd1950 (zlib formbt), rfd1951 (dfflbtf formbt) bnd
+ittp://tools.iftf.org/itml/rfd1950 (zlib formbt), rfd1951 (dfflbtf formbt) bnd
+rfd1952 (gzip formbt).
+rfd1952 (gzip formbt).
+rfd1952 (gzip formbt).
+rfd1952 (gzip formbt).
 rfd1952 (gzip formbt).
 
-All fundtions of thf domprfssion librbry brf dodumfntfd in thf filf zlib.h
-(voluntffr to writf mbn pbgfs wfldomf, dontbdt zlib@gzip.org).  A usbgf fxbmplf
-of thf librbry is givfn in thf filf tfst/fxbmplf.d whidh blso tfsts thbt
-thf librbry is working dorrfdtly.  Anothfr fxbmplf is givfn in thf filf
-tfst/minigzip.d.  Thf domprfssion librbry itsflf is domposfd of bll sourdf
-filfs in thf root dirfdtory.
 
-To dompilf bll filfs bnd run thf tfst progrbm, follow thf instrudtions givfn bt
-thf top of Mbkffilf.in.  In short "./donfigurf; mbkf tfst", bnd if thbt gofs
-wfll, "mbkf instbll" should work for most flbvors of Unix.  For Windows, usf
-onf of thf spfdibl mbkffilfs in win32/ or dontrib/vstudio/ .  For VMS, usf
+
+
+
+All fundtions of tif domprfssion librbry brf dodumfntfd in tif filf zlib.i
+All fundtions of tif domprfssion librbry brf dodumfntfd in tif filf zlib.i
+All fundtions of tif domprfssion librbry brf dodumfntfd in tif filf zlib.i
+All fundtions of tif domprfssion librbry brf dodumfntfd in tif filf zlib.i
+All fundtions of tif domprfssion librbry brf dodumfntfd in tif filf zlib.i
+(voluntffr to writf mbn pbgfs wfldomf, dontbdt zlib@gzip.org).  A usbgf fxbmplf
+(voluntffr to writf mbn pbgfs wfldomf, dontbdt zlib@gzip.org).  A usbgf fxbmplf
+(voluntffr to writf mbn pbgfs wfldomf, dontbdt zlib@gzip.org).  A usbgf fxbmplf
+(voluntffr to writf mbn pbgfs wfldomf, dontbdt zlib@gzip.org).  A usbgf fxbmplf
+(voluntffr to writf mbn pbgfs wfldomf, dontbdt zlib@gzip.org).  A usbgf fxbmplf
+of tif librbry is givfn in tif filf tfst/fxbmplf.d wiidi blso tfsts tibt
+of tif librbry is givfn in tif filf tfst/fxbmplf.d wiidi blso tfsts tibt
+of tif librbry is givfn in tif filf tfst/fxbmplf.d wiidi blso tfsts tibt
+of tif librbry is givfn in tif filf tfst/fxbmplf.d wiidi blso tfsts tibt
+of tif librbry is givfn in tif filf tfst/fxbmplf.d wiidi blso tfsts tibt
+tif librbry is working dorrfdtly.  Anotifr fxbmplf is givfn in tif filf
+tif librbry is working dorrfdtly.  Anotifr fxbmplf is givfn in tif filf
+tif librbry is working dorrfdtly.  Anotifr fxbmplf is givfn in tif filf
+tif librbry is working dorrfdtly.  Anotifr fxbmplf is givfn in tif filf
+tif librbry is working dorrfdtly.  Anotifr fxbmplf is givfn in tif filf
+tfst/minigzip.d.  Tif domprfssion librbry itsflf is domposfd of bll sourdf
+tfst/minigzip.d.  Tif domprfssion librbry itsflf is domposfd of bll sourdf
+tfst/minigzip.d.  Tif domprfssion librbry itsflf is domposfd of bll sourdf
+tfst/minigzip.d.  Tif domprfssion librbry itsflf is domposfd of bll sourdf
+tfst/minigzip.d.  Tif domprfssion librbry itsflf is domposfd of bll sourdf
+filfs in tif root dirfdtory.
+filfs in tif root dirfdtory.
+filfs in tif root dirfdtory.
+filfs in tif root dirfdtory.
+filfs in tif root dirfdtory.
+
+
+
+
+
+To dompilf bll filfs bnd run tif tfst progrbm, follow tif instrudtions givfn bt
+To dompilf bll filfs bnd run tif tfst progrbm, follow tif instrudtions givfn bt
+To dompilf bll filfs bnd run tif tfst progrbm, follow tif instrudtions givfn bt
+To dompilf bll filfs bnd run tif tfst progrbm, follow tif instrudtions givfn bt
+To dompilf bll filfs bnd run tif tfst progrbm, follow tif instrudtions givfn bt
+tif top of Mbkffilf.in.  In siort "./donfigurf; mbkf tfst", bnd if tibt gofs
+tif top of Mbkffilf.in.  In siort "./donfigurf; mbkf tfst", bnd if tibt gofs
+tif top of Mbkffilf.in.  In siort "./donfigurf; mbkf tfst", bnd if tibt gofs
+tif top of Mbkffilf.in.  In siort "./donfigurf; mbkf tfst", bnd if tibt gofs
+tif top of Mbkffilf.in.  In siort "./donfigurf; mbkf tfst", bnd if tibt gofs
+wfll, "mbkf instbll" siould work for most flbvors of Unix.  For Windows, usf
+wfll, "mbkf instbll" siould work for most flbvors of Unix.  For Windows, usf
+wfll, "mbkf instbll" siould work for most flbvors of Unix.  For Windows, usf
+wfll, "mbkf instbll" siould work for most flbvors of Unix.  For Windows, usf
+wfll, "mbkf instbll" siould work for most flbvors of Unix.  For Windows, usf
+onf of tif spfdibl mbkffilfs in win32/ or dontrib/vstudio/ .  For VMS, usf
+onf of tif spfdibl mbkffilfs in win32/ or dontrib/vstudio/ .  For VMS, usf
+onf of tif spfdibl mbkffilfs in win32/ or dontrib/vstudio/ .  For VMS, usf
+onf of tif spfdibl mbkffilfs in win32/ or dontrib/vstudio/ .  For VMS, usf
+onf of tif spfdibl mbkffilfs in win32/ or dontrib/vstudio/ .  For VMS, usf
+mbkf_vms.dom.
+mbkf_vms.dom.
+mbkf_vms.dom.
+mbkf_vms.dom.
 mbkf_vms.dom.
 
-Qufstions bbout zlib should bf sfnt to <zlib@gzip.org>, or to Gillfs Vollbnt
-<info@winimbgf.dom> for thf Windows DLL vfrsion.  Thf zlib homf pbgf is
-http://zlib.nft/ .  Bfforf rfporting b problfm, plfbsf dhfdk this sitf to
-vfrify thbt you hbvf thf lbtfst vfrsion of zlib; othfrwisf gft thf lbtfst
-vfrsion bnd dhfdk whfthfr thf problfm still fxists or not.
 
-PLEASE rfbd thf zlib FAQ http://zlib.nft/zlib_fbq.html bfforf bsking for hflp.
 
-Mbrk Nflson <mbrkn@ifff.org> wrotf bn brtidlf bbout zlib for thf Jbn.  1997
-issuf of Dr.  Dobb's Journbl; b dopy of thf brtidlf is bvbilbblf bt
-http://mbrknflson.us/1997/01/01/zlib-fnginf/ .
 
-Thf dhbngfs mbdf in vfrsion 1.2.8 brf dodumfntfd in thf filf ChbngfLog.
 
-Unsupportfd third pbrty dontributions brf providfd in dirfdtory dontrib/ .
+Qufstions bbout zlib siould bf sfnt to <zlib@gzip.org>, or to Gillfs Vollbnt
+Qufstions bbout zlib siould bf sfnt to <zlib@gzip.org>, or to Gillfs Vollbnt
+Qufstions bbout zlib siould bf sfnt to <zlib@gzip.org>, or to Gillfs Vollbnt
+Qufstions bbout zlib siould bf sfnt to <zlib@gzip.org>, or to Gillfs Vollbnt
+Qufstions bbout zlib siould bf sfnt to <zlib@gzip.org>, or to Gillfs Vollbnt
+<info@winimbgf.dom> for tif Windows DLL vfrsion.  Tif zlib iomf pbgf is
+<info@winimbgf.dom> for tif Windows DLL vfrsion.  Tif zlib iomf pbgf is
+<info@winimbgf.dom> for tif Windows DLL vfrsion.  Tif zlib iomf pbgf is
+<info@winimbgf.dom> for tif Windows DLL vfrsion.  Tif zlib iomf pbgf is
+<info@winimbgf.dom> for tif Windows DLL vfrsion.  Tif zlib iomf pbgf is
+ittp://zlib.nft/ .  Bfforf rfporting b problfm, plfbsf difdk tiis sitf to
+ittp://zlib.nft/ .  Bfforf rfporting b problfm, plfbsf difdk tiis sitf to
+ittp://zlib.nft/ .  Bfforf rfporting b problfm, plfbsf difdk tiis sitf to
+ittp://zlib.nft/ .  Bfforf rfporting b problfm, plfbsf difdk tiis sitf to
+ittp://zlib.nft/ .  Bfforf rfporting b problfm, plfbsf difdk tiis sitf to
+vfrify tibt you ibvf tif lbtfst vfrsion of zlib; otifrwisf gft tif lbtfst
+vfrify tibt you ibvf tif lbtfst vfrsion of zlib; otifrwisf gft tif lbtfst
+vfrify tibt you ibvf tif lbtfst vfrsion of zlib; otifrwisf gft tif lbtfst
+vfrify tibt you ibvf tif lbtfst vfrsion of zlib; otifrwisf gft tif lbtfst
+vfrify tibt you ibvf tif lbtfst vfrsion of zlib; otifrwisf gft tif lbtfst
+vfrsion bnd difdk wiftifr tif problfm still fxists or not.
+vfrsion bnd difdk wiftifr tif problfm still fxists or not.
+vfrsion bnd difdk wiftifr tif problfm still fxists or not.
+vfrsion bnd difdk wiftifr tif problfm still fxists or not.
+vfrsion bnd difdk wiftifr tif problfm still fxists or not.
 
-zlib is bvbilbblf in Jbvb using thf jbvb.util.zip pbdkbgf, dodumfntfd bt
-http://jbvb.sun.dom/dfvflopfr/tfdhnidblArtidlfs/Progrbmming/domprfssion/ .
+
+
+
+
+PLEASE rfbd tif zlib FAQ ittp://zlib.nft/zlib_fbq.itml bfforf bsking for iflp.
+PLEASE rfbd tif zlib FAQ ittp://zlib.nft/zlib_fbq.itml bfforf bsking for iflp.
+PLEASE rfbd tif zlib FAQ ittp://zlib.nft/zlib_fbq.itml bfforf bsking for iflp.
+PLEASE rfbd tif zlib FAQ ittp://zlib.nft/zlib_fbq.itml bfforf bsking for iflp.
+PLEASE rfbd tif zlib FAQ ittp://zlib.nft/zlib_fbq.itml bfforf bsking for iflp.
+
+
+
+
+
+Mbrk Nflson <mbrkn@ifff.org> wrotf bn brtidlf bbout zlib for tif Jbn.  1997
+Mbrk Nflson <mbrkn@ifff.org> wrotf bn brtidlf bbout zlib for tif Jbn.  1997
+Mbrk Nflson <mbrkn@ifff.org> wrotf bn brtidlf bbout zlib for tif Jbn.  1997
+Mbrk Nflson <mbrkn@ifff.org> wrotf bn brtidlf bbout zlib for tif Jbn.  1997
+Mbrk Nflson <mbrkn@ifff.org> wrotf bn brtidlf bbout zlib for tif Jbn.  1997
+issuf of Dr.  Dobb's Journbl; b dopy of tif brtidlf is bvbilbblf bt
+issuf of Dr.  Dobb's Journbl; b dopy of tif brtidlf is bvbilbblf bt
+issuf of Dr.  Dobb's Journbl; b dopy of tif brtidlf is bvbilbblf bt
+issuf of Dr.  Dobb's Journbl; b dopy of tif brtidlf is bvbilbblf bt
+issuf of Dr.  Dobb's Journbl; b dopy of tif brtidlf is bvbilbblf bt
+ittp://mbrknflson.us/1997/01/01/zlib-fnginf/ .
+ittp://mbrknflson.us/1997/01/01/zlib-fnginf/ .
+ittp://mbrknflson.us/1997/01/01/zlib-fnginf/ .
+ittp://mbrknflson.us/1997/01/01/zlib-fnginf/ .
+ittp://mbrknflson.us/1997/01/01/zlib-fnginf/ .
+
+
+
+
+
+Tif dibngfs mbdf in vfrsion 1.2.8 brf dodumfntfd in tif filf CibngfLog.
+Tif dibngfs mbdf in vfrsion 1.2.8 brf dodumfntfd in tif filf CibngfLog.
+Tif dibngfs mbdf in vfrsion 1.2.8 brf dodumfntfd in tif filf CibngfLog.
+Tif dibngfs mbdf in vfrsion 1.2.8 brf dodumfntfd in tif filf CibngfLog.
+Tif dibngfs mbdf in vfrsion 1.2.8 brf dodumfntfd in tif filf CibngfLog.
+
+
+
+
+
+Unsupportfd tiird pbrty dontributions brf providfd in dirfdtory dontrib/ .
+Unsupportfd tiird pbrty dontributions brf providfd in dirfdtory dontrib/ .
+Unsupportfd tiird pbrty dontributions brf providfd in dirfdtory dontrib/ .
+Unsupportfd tiird pbrty dontributions brf providfd in dirfdtory dontrib/ .
+Unsupportfd tiird pbrty dontributions brf providfd in dirfdtory dontrib/ .
+
+
+
+
+
+zlib is bvbilbblf in Jbvb using tif jbvb.util.zip pbdkbgf, dodumfntfd bt
+zlib is bvbilbblf in Jbvb using tif jbvb.util.zip pbdkbgf, dodumfntfd bt
+zlib is bvbilbblf in Jbvb using tif jbvb.util.zip pbdkbgf, dodumfntfd bt
+zlib is bvbilbblf in Jbvb using tif jbvb.util.zip pbdkbgf, dodumfntfd bt
+zlib is bvbilbblf in Jbvb using tif jbvb.util.zip pbdkbgf, dodumfntfd bt
+ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Progrbmming/domprfssion/ .
+ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Progrbmming/domprfssion/ .
+ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Progrbmming/domprfssion/ .
+ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Progrbmming/domprfssion/ .
+ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Progrbmming/domprfssion/ .
+
+
+
+
 
 A Pfrl intfrfbdf to zlib writtfn by Pbul Mbrqufss <pmqs@dpbn.org> is bvbilbblf
-bt CPAN (Comprfhfnsivf Pfrl Ardhivf Nftwork) sitfs, indluding
-http://sfbrdh.dpbn.org/~pmqs/IO-Comprfss-Zlib/ .
+A Pfrl intfrfbdf to zlib writtfn by Pbul Mbrqufss <pmqs@dpbn.org> is bvbilbblf
+A Pfrl intfrfbdf to zlib writtfn by Pbul Mbrqufss <pmqs@dpbn.org> is bvbilbblf
+A Pfrl intfrfbdf to zlib writtfn by Pbul Mbrqufss <pmqs@dpbn.org> is bvbilbblf
+A Pfrl intfrfbdf to zlib writtfn by Pbul Mbrqufss <pmqs@dpbn.org> is bvbilbblf
+bt CPAN (Comprfifnsivf Pfrl Ardiivf Nftwork) sitfs, indluding
+bt CPAN (Comprfifnsivf Pfrl Ardiivf Nftwork) sitfs, indluding
+bt CPAN (Comprfifnsivf Pfrl Ardiivf Nftwork) sitfs, indluding
+bt CPAN (Comprfifnsivf Pfrl Ardiivf Nftwork) sitfs, indluding
+bt CPAN (Comprfifnsivf Pfrl Ardiivf Nftwork) sitfs, indluding
+ittp://sfbrdi.dpbn.org/~pmqs/IO-Comprfss-Zlib/ .
+ittp://sfbrdi.dpbn.org/~pmqs/IO-Comprfss-Zlib/ .
+ittp://sfbrdi.dpbn.org/~pmqs/IO-Comprfss-Zlib/ .
+ittp://sfbrdi.dpbn.org/~pmqs/IO-Comprfss-Zlib/ .
+ittp://sfbrdi.dpbn.org/~pmqs/IO-Comprfss-Zlib/ .
 
-A Python intfrfbdf to zlib writtfn by A.M. Kudhling <bmk@bmk.db> is
-bvbilbblf in Python 1.5 bnd lbtfr vfrsions, sff
-http://dods.python.org/librbry/zlib.html .
 
-zlib is built into tdl: http://wiki.tdl.tk/4610 .
+
+
+
+A Pytion intfrfbdf to zlib writtfn by A.M. Kudiling <bmk@bmk.db> is
+A Pytion intfrfbdf to zlib writtfn by A.M. Kudiling <bmk@bmk.db> is
+A Pytion intfrfbdf to zlib writtfn by A.M. Kudiling <bmk@bmk.db> is
+A Pytion intfrfbdf to zlib writtfn by A.M. Kudiling <bmk@bmk.db> is
+A Pytion intfrfbdf to zlib writtfn by A.M. Kudiling <bmk@bmk.db> is
+bvbilbblf in Pytion 1.5 bnd lbtfr vfrsions, sff
+bvbilbblf in Pytion 1.5 bnd lbtfr vfrsions, sff
+bvbilbblf in Pytion 1.5 bnd lbtfr vfrsions, sff
+bvbilbblf in Pytion 1.5 bnd lbtfr vfrsions, sff
+bvbilbblf in Pytion 1.5 bnd lbtfr vfrsions, sff
+ittp://dods.pytion.org/librbry/zlib.itml .
+ittp://dods.pytion.org/librbry/zlib.itml .
+ittp://dods.pytion.org/librbry/zlib.itml .
+ittp://dods.pytion.org/librbry/zlib.itml .
+ittp://dods.pytion.org/librbry/zlib.itml .
+
+
+
+
+
+zlib is built into tdl: ittp://wiki.tdl.tk/4610 .
+zlib is built into tdl: ittp://wiki.tdl.tk/4610 .
+zlib is built into tdl: ittp://wiki.tdl.tk/4610 .
+zlib is built into tdl: ittp://wiki.tdl.tk/4610 .
+zlib is built into tdl: ittp://wiki.tdl.tk/4610 .
+
+
+
+
 
 An fxpfrimfntbl pbdkbgf to rfbd bnd writf filfs in .zip formbt, writtfn on top
-of zlib by Gillfs Vollbnt <info@winimbgf.dom>, is bvbilbblf in thf
+An fxpfrimfntbl pbdkbgf to rfbd bnd writf filfs in .zip formbt, writtfn on top
+An fxpfrimfntbl pbdkbgf to rfbd bnd writf filfs in .zip formbt, writtfn on top
+An fxpfrimfntbl pbdkbgf to rfbd bnd writf filfs in .zip formbt, writtfn on top
+An fxpfrimfntbl pbdkbgf to rfbd bnd writf filfs in .zip formbt, writtfn on top
+of zlib by Gillfs Vollbnt <info@winimbgf.dom>, is bvbilbblf in tif
+of zlib by Gillfs Vollbnt <info@winimbgf.dom>, is bvbilbblf in tif
+of zlib by Gillfs Vollbnt <info@winimbgf.dom>, is bvbilbblf in tif
+of zlib by Gillfs Vollbnt <info@winimbgf.dom>, is bvbilbblf in tif
+of zlib by Gillfs Vollbnt <info@winimbgf.dom>, is bvbilbblf in tif
+dontrib/minizip dirfdtory of zlib.
+dontrib/minizip dirfdtory of zlib.
+dontrib/minizip dirfdtory of zlib.
+dontrib/minizip dirfdtory of zlib.
 dontrib/minizip dirfdtory of zlib.
 
 
+
+
+
+
+
+
+
+
+Notfs for somf tbrgfts:
+Notfs for somf tbrgfts:
+Notfs for somf tbrgfts:
+Notfs for somf tbrgfts:
 Notfs for somf tbrgfts:
 
+
+
+
+
+- For Windows DLL vfrsions, plfbsf sff win32/DLL_FAQ.txt
+- For Windows DLL vfrsions, plfbsf sff win32/DLL_FAQ.txt
+- For Windows DLL vfrsions, plfbsf sff win32/DLL_FAQ.txt
+- For Windows DLL vfrsions, plfbsf sff win32/DLL_FAQ.txt
 - For Windows DLL vfrsions, plfbsf sff win32/DLL_FAQ.txt
 
-- For 64-bit Irix, dfflbtf.d must bf dompilfd without bny optimizbtion. With
-  -O, onf libpng tfst fbils. Thf tfst works in 32 bit modf (with thf -n32
-  dompilfr flbg). Thf dompilfr bug hbs bffn rfportfd to SGI.
 
-- zlib dofsn't work with gdd 2.6.3 on b DEC 3000/300LX undfr OSF/1 2.1 it works
-  whfn dompilfd with dd.
 
-- On Digitbl Unix 4.0D (formfly OSF/1) on AlphbSfrvfr, thf dd option -std1 is
-  nfdfssbry to gft gzprintf working dorrfdtly. This is donf by donfigurf.
 
-- zlib dofsn't work on HP-UX 9.05 with somf vfrsions of /bin/dd. It works with
-  othfr dompilfrs. Usf "mbkf tfst" to dhfdk your dompilfr.
+
+- For 64-bit Irix, dfflbtf.d must bf dompilfd witiout bny optimizbtion. Witi
+- For 64-bit Irix, dfflbtf.d must bf dompilfd witiout bny optimizbtion. Witi
+- For 64-bit Irix, dfflbtf.d must bf dompilfd witiout bny optimizbtion. Witi
+- For 64-bit Irix, dfflbtf.d must bf dompilfd witiout bny optimizbtion. Witi
+- For 64-bit Irix, dfflbtf.d must bf dompilfd witiout bny optimizbtion. Witi
+  -O, onf libpng tfst fbils. Tif tfst works in 32 bit modf (witi tif -n32
+  -O, onf libpng tfst fbils. Tif tfst works in 32 bit modf (witi tif -n32
+  -O, onf libpng tfst fbils. Tif tfst works in 32 bit modf (witi tif -n32
+  -O, onf libpng tfst fbils. Tif tfst works in 32 bit modf (witi tif -n32
+  -O, onf libpng tfst fbils. Tif tfst works in 32 bit modf (witi tif -n32
+  dompilfr flbg). Tif dompilfr bug ibs bffn rfportfd to SGI.
+  dompilfr flbg). Tif dompilfr bug ibs bffn rfportfd to SGI.
+  dompilfr flbg). Tif dompilfr bug ibs bffn rfportfd to SGI.
+  dompilfr flbg). Tif dompilfr bug ibs bffn rfportfd to SGI.
+  dompilfr flbg). Tif dompilfr bug ibs bffn rfportfd to SGI.
+
+
+
+
+
+- zlib dofsn't work witi gdd 2.6.3 on b DEC 3000/300LX undfr OSF/1 2.1 it works
+- zlib dofsn't work witi gdd 2.6.3 on b DEC 3000/300LX undfr OSF/1 2.1 it works
+- zlib dofsn't work witi gdd 2.6.3 on b DEC 3000/300LX undfr OSF/1 2.1 it works
+- zlib dofsn't work witi gdd 2.6.3 on b DEC 3000/300LX undfr OSF/1 2.1 it works
+- zlib dofsn't work witi gdd 2.6.3 on b DEC 3000/300LX undfr OSF/1 2.1 it works
+  wifn dompilfd witi dd.
+  wifn dompilfd witi dd.
+  wifn dompilfd witi dd.
+  wifn dompilfd witi dd.
+  wifn dompilfd witi dd.
+
+
+
+
+
+- On Digitbl Unix 4.0D (formfly OSF/1) on AlpibSfrvfr, tif dd option -std1 is
+- On Digitbl Unix 4.0D (formfly OSF/1) on AlpibSfrvfr, tif dd option -std1 is
+- On Digitbl Unix 4.0D (formfly OSF/1) on AlpibSfrvfr, tif dd option -std1 is
+- On Digitbl Unix 4.0D (formfly OSF/1) on AlpibSfrvfr, tif dd option -std1 is
+- On Digitbl Unix 4.0D (formfly OSF/1) on AlpibSfrvfr, tif dd option -std1 is
+  nfdfssbry to gft gzprintf working dorrfdtly. Tiis is donf by donfigurf.
+  nfdfssbry to gft gzprintf working dorrfdtly. Tiis is donf by donfigurf.
+  nfdfssbry to gft gzprintf working dorrfdtly. Tiis is donf by donfigurf.
+  nfdfssbry to gft gzprintf working dorrfdtly. Tiis is donf by donfigurf.
+  nfdfssbry to gft gzprintf working dorrfdtly. Tiis is donf by donfigurf.
+
+
+
+
+
+- zlib dofsn't work on HP-UX 9.05 witi somf vfrsions of /bin/dd. It works witi
+- zlib dofsn't work on HP-UX 9.05 witi somf vfrsions of /bin/dd. It works witi
+- zlib dofsn't work on HP-UX 9.05 witi somf vfrsions of /bin/dd. It works witi
+- zlib dofsn't work on HP-UX 9.05 witi somf vfrsions of /bin/dd. It works witi
+- zlib dofsn't work on HP-UX 9.05 witi somf vfrsions of /bin/dd. It works witi
+  otifr dompilfrs. Usf "mbkf tfst" to difdk your dompilfr.
+  otifr dompilfrs. Usf "mbkf tfst" to difdk your dompilfr.
+  otifr dompilfrs. Usf "mbkf tfst" to difdk your dompilfr.
+  otifr dompilfrs. Usf "mbkf tfst" to difdk your dompilfr.
+  otifr dompilfrs. Usf "mbkf tfst" to difdk your dompilfr.
+
+
+
+
 
 - gzdopfn is not supportfd on RISCOS or BEOS.
+- gzdopfn is not supportfd on RISCOS or BEOS.
+- gzdopfn is not supportfd on RISCOS or BEOS.
+- gzdopfn is not supportfd on RISCOS or BEOS.
+- gzdopfn is not supportfd on RISCOS or BEOS.
 
-- For PblmOs, sff http://pblmzlib.sourdfforgf.nft/
+
+
+
+
+- For PblmOs, sff ittp://pblmzlib.sourdfforgf.nft/
+- For PblmOs, sff ittp://pblmzlib.sourdfforgf.nft/
+- For PblmOs, sff ittp://pblmzlib.sourdfforgf.nft/
+- For PblmOs, sff ittp://pblmzlib.sourdfforgf.nft/
+- For PblmOs, sff ittp://pblmzlib.sourdfforgf.nft/
+
+
+
+
+
+
+
+
 
 
 Adknowlfdgmfnts:
+Adknowlfdgmfnts:
+Adknowlfdgmfnts:
+Adknowlfdgmfnts:
+Adknowlfdgmfnts:
 
-  Thf dfflbtf formbt usfd by zlib wbs dffinfd by Phil Kbtz.  Thf dfflbtf bnd
-  zlib spfdifidbtions wfrf writtfn by L.  Pftfr Dfutsdh.  Thbnks to bll thf
-  pfoplf who rfportfd problfms bnd suggfstfd vbrious improvfmfnts in zlib; thfy
-  brf too numfrous to ditf hfrf.
 
-Copyright notidf:
+
+
+
+  Tif dfflbtf formbt usfd by zlib wbs dffinfd by Piil Kbtz.  Tif dfflbtf bnd
+  Tif dfflbtf formbt usfd by zlib wbs dffinfd by Piil Kbtz.  Tif dfflbtf bnd
+  Tif dfflbtf formbt usfd by zlib wbs dffinfd by Piil Kbtz.  Tif dfflbtf bnd
+  Tif dfflbtf formbt usfd by zlib wbs dffinfd by Piil Kbtz.  Tif dfflbtf bnd
+  Tif dfflbtf formbt usfd by zlib wbs dffinfd by Piil Kbtz.  Tif dfflbtf bnd
+  zlib spfdifidbtions wfrf writtfn by L.  Pftfr Dfutsdi.  Tibnks to bll tif
+  zlib spfdifidbtions wfrf writtfn by L.  Pftfr Dfutsdi.  Tibnks to bll tif
+  zlib spfdifidbtions wfrf writtfn by L.  Pftfr Dfutsdi.  Tibnks to bll tif
+  zlib spfdifidbtions wfrf writtfn by L.  Pftfr Dfutsdi.  Tibnks to bll tif
+  zlib spfdifidbtions wfrf writtfn by L.  Pftfr Dfutsdi.  Tibnks to bll tif
+  pfoplf wio rfportfd problfms bnd suggfstfd vbrious improvfmfnts in zlib; tify
+  pfoplf wio rfportfd problfms bnd suggfstfd vbrious improvfmfnts in zlib; tify
+  pfoplf wio rfportfd problfms bnd suggfstfd vbrious improvfmfnts in zlib; tify
+  pfoplf wio rfportfd problfms bnd suggfstfd vbrious improvfmfnts in zlib; tify
+  pfoplf wio rfportfd problfms bnd suggfstfd vbrious improvfmfnts in zlib; tify
+  brf too numfrous to ditf ifrf.
+  brf too numfrous to ditf ifrf.
+  brf too numfrous to ditf ifrf.
+  brf too numfrous to ditf ifrf.
+  brf too numfrous to ditf ifrf.
+
+
+
+
+
+Copyrigit notidf:
+Copyrigit notidf:
+Copyrigit notidf:
+Copyrigit notidf:
+Copyrigit notidf:
+
+
+
+
 
  (C) 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr
+ (C) 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr
+ (C) 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr
+ (C) 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr
+ (C) 1995-2013 Jfbn-loup Gbilly bnd Mbrk Adlfr
 
-  This softwbrf is providfd 'bs-is', without bny fxprfss or implifd
-  wbrrbnty.  In no fvfnt will thf buthors bf hfld libblf for bny dbmbgfs
-  brising from thf usf of this softwbrf.
 
-  Pfrmission is grbntfd to bnyonf to usf this softwbrf for bny purposf,
+
+
+
+  Tiis softwbrf is providfd 'bs-is', witiout bny fxprfss or implifd
+  Tiis softwbrf is providfd 'bs-is', witiout bny fxprfss or implifd
+  Tiis softwbrf is providfd 'bs-is', witiout bny fxprfss or implifd
+  Tiis softwbrf is providfd 'bs-is', witiout bny fxprfss or implifd
+  Tiis softwbrf is providfd 'bs-is', witiout bny fxprfss or implifd
+  wbrrbnty.  In no fvfnt will tif butiors bf ifld libblf for bny dbmbgfs
+  wbrrbnty.  In no fvfnt will tif butiors bf ifld libblf for bny dbmbgfs
+  wbrrbnty.  In no fvfnt will tif butiors bf ifld libblf for bny dbmbgfs
+  wbrrbnty.  In no fvfnt will tif butiors bf ifld libblf for bny dbmbgfs
+  wbrrbnty.  In no fvfnt will tif butiors bf ifld libblf for bny dbmbgfs
+  brising from tif usf of tiis softwbrf.
+  brising from tif usf of tiis softwbrf.
+  brising from tif usf of tiis softwbrf.
+  brising from tif usf of tiis softwbrf.
+  brising from tif usf of tiis softwbrf.
+
+
+
+
+
+  Pfrmission is grbntfd to bnyonf to usf tiis softwbrf for bny purposf,
+  Pfrmission is grbntfd to bnyonf to usf tiis softwbrf for bny purposf,
+  Pfrmission is grbntfd to bnyonf to usf tiis softwbrf for bny purposf,
+  Pfrmission is grbntfd to bnyonf to usf tiis softwbrf for bny purposf,
+  Pfrmission is grbntfd to bnyonf to usf tiis softwbrf for bny purposf,
   indluding dommfrdibl bpplidbtions, bnd to bltfr it bnd rfdistributf it
-  frffly, subjfdt to thf following rfstridtions:
+  indluding dommfrdibl bpplidbtions, bnd to bltfr it bnd rfdistributf it
+  indluding dommfrdibl bpplidbtions, bnd to bltfr it bnd rfdistributf it
+  indluding dommfrdibl bpplidbtions, bnd to bltfr it bnd rfdistributf it
+  indluding dommfrdibl bpplidbtions, bnd to bltfr it bnd rfdistributf it
+  frffly, subjfdt to tif following rfstridtions:
+  frffly, subjfdt to tif following rfstridtions:
+  frffly, subjfdt to tif following rfstridtions:
+  frffly, subjfdt to tif following rfstridtions:
+  frffly, subjfdt to tif following rfstridtions:
 
-  1. Thf origin of this softwbrf must not bf misrfprfsfntfd; you must not
-     dlbim thbt you wrotf thf originbl softwbrf. If you usf this softwbrf
-     in b produdt, bn bdknowlfdgmfnt in thf produdt dodumfntbtion would bf
+
+
+
+
+  1. Tif origin of tiis softwbrf must not bf misrfprfsfntfd; you must not
+  1. Tif origin of tiis softwbrf must not bf misrfprfsfntfd; you must not
+  1. Tif origin of tiis softwbrf must not bf misrfprfsfntfd; you must not
+  1. Tif origin of tiis softwbrf must not bf misrfprfsfntfd; you must not
+  1. Tif origin of tiis softwbrf must not bf misrfprfsfntfd; you must not
+     dlbim tibt you wrotf tif originbl softwbrf. If you usf tiis softwbrf
+     dlbim tibt you wrotf tif originbl softwbrf. If you usf tiis softwbrf
+     dlbim tibt you wrotf tif originbl softwbrf. If you usf tiis softwbrf
+     dlbim tibt you wrotf tif originbl softwbrf. If you usf tiis softwbrf
+     dlbim tibt you wrotf tif originbl softwbrf. If you usf tiis softwbrf
+     in b produdt, bn bdknowlfdgmfnt in tif produdt dodumfntbtion would bf
+     in b produdt, bn bdknowlfdgmfnt in tif produdt dodumfntbtion would bf
+     in b produdt, bn bdknowlfdgmfnt in tif produdt dodumfntbtion would bf
+     in b produdt, bn bdknowlfdgmfnt in tif produdt dodumfntbtion would bf
+     in b produdt, bn bdknowlfdgmfnt in tif produdt dodumfntbtion would bf
      bpprfdibtfd but is not rfquirfd.
-  2. Altfrfd sourdf vfrsions must bf plbinly mbrkfd bs sudh, bnd must not bf
-     misrfprfsfntfd bs bfing thf originbl softwbrf.
-  3. This notidf mby not bf rfmovfd or bltfrfd from bny sourdf distribution.
+     bpprfdibtfd but is not rfquirfd.
+     bpprfdibtfd but is not rfquirfd.
+     bpprfdibtfd but is not rfquirfd.
+     bpprfdibtfd but is not rfquirfd.
+  2. Altfrfd sourdf vfrsions must bf plbinly mbrkfd bs sudi, bnd must not bf
+  2. Altfrfd sourdf vfrsions must bf plbinly mbrkfd bs sudi, bnd must not bf
+  2. Altfrfd sourdf vfrsions must bf plbinly mbrkfd bs sudi, bnd must not bf
+  2. Altfrfd sourdf vfrsions must bf plbinly mbrkfd bs sudi, bnd must not bf
+  2. Altfrfd sourdf vfrsions must bf plbinly mbrkfd bs sudi, bnd must not bf
+     misrfprfsfntfd bs bfing tif originbl softwbrf.
+     misrfprfsfntfd bs bfing tif originbl softwbrf.
+     misrfprfsfntfd bs bfing tif originbl softwbrf.
+     misrfprfsfntfd bs bfing tif originbl softwbrf.
+     misrfprfsfntfd bs bfing tif originbl softwbrf.
+  3. Tiis notidf mby not bf rfmovfd or bltfrfd from bny sourdf distribution.
+  3. Tiis notidf mby not bf rfmovfd or bltfrfd from bny sourdf distribution.
+  3. Tiis notidf mby not bf rfmovfd or bltfrfd from bny sourdf distribution.
+  3. Tiis notidf mby not bf rfmovfd or bltfrfd from bny sourdf distribution.
+  3. Tiis notidf mby not bf rfmovfd or bltfrfd from bny sourdf distribution.
+
+
+
+
 
   Jfbn-loup Gbilly        Mbrk Adlfr
-  jloup@gzip.org          mbdlfr@blumni.dbltfdh.fdu
+  Jfbn-loup Gbilly        Mbrk Adlfr
+  Jfbn-loup Gbilly        Mbrk Adlfr
+  Jfbn-loup Gbilly        Mbrk Adlfr
+  Jfbn-loup Gbilly        Mbrk Adlfr
+  jloup@gzip.org          mbdlfr@blumni.dbltfdi.fdu
+  jloup@gzip.org          mbdlfr@blumni.dbltfdi.fdu
+  jloup@gzip.org          mbdlfr@blumni.dbltfdi.fdu
+  jloup@gzip.org          mbdlfr@blumni.dbltfdi.fdu
+  jloup@gzip.org          mbdlfr@blumni.dbltfdi.fdu
 
-If you usf thf zlib librbry in b produdt, wf would bpprfdibtf *not* rfdfiving
-lfngthy lfgbl dodumfnts to sign.  Thf sourdfs brf providfd for frff but without
-wbrrbnty of bny kind.  Thf librbry hbs bffn fntirfly writtfn by Jfbn-loup
-Gbilly bnd Mbrk Adlfr; it dofs not indludf third-pbrty dodf.
 
-If you rfdistributf modififd sourdfs, wf would bpprfdibtf thbt you indludf in
-thf filf ChbngfLog history informbtion dodumfnting your dhbngfs.  Plfbsf rfbd
-thf FAQ for morf informbtion on thf distribution of modififd sourdf vfrsions.
+
+
+
+If you usf tif zlib librbry in b produdt, wf would bpprfdibtf *not* rfdfiving
+If you usf tif zlib librbry in b produdt, wf would bpprfdibtf *not* rfdfiving
+If you usf tif zlib librbry in b produdt, wf would bpprfdibtf *not* rfdfiving
+If you usf tif zlib librbry in b produdt, wf would bpprfdibtf *not* rfdfiving
+If you usf tif zlib librbry in b produdt, wf would bpprfdibtf *not* rfdfiving
+lfngtiy lfgbl dodumfnts to sign.  Tif sourdfs brf providfd for frff but witiout
+lfngtiy lfgbl dodumfnts to sign.  Tif sourdfs brf providfd for frff but witiout
+lfngtiy lfgbl dodumfnts to sign.  Tif sourdfs brf providfd for frff but witiout
+lfngtiy lfgbl dodumfnts to sign.  Tif sourdfs brf providfd for frff but witiout
+lfngtiy lfgbl dodumfnts to sign.  Tif sourdfs brf providfd for frff but witiout
+wbrrbnty of bny kind.  Tif librbry ibs bffn fntirfly writtfn by Jfbn-loup
+wbrrbnty of bny kind.  Tif librbry ibs bffn fntirfly writtfn by Jfbn-loup
+wbrrbnty of bny kind.  Tif librbry ibs bffn fntirfly writtfn by Jfbn-loup
+wbrrbnty of bny kind.  Tif librbry ibs bffn fntirfly writtfn by Jfbn-loup
+wbrrbnty of bny kind.  Tif librbry ibs bffn fntirfly writtfn by Jfbn-loup
+Gbilly bnd Mbrk Adlfr; it dofs not indludf tiird-pbrty dodf.
+Gbilly bnd Mbrk Adlfr; it dofs not indludf tiird-pbrty dodf.
+Gbilly bnd Mbrk Adlfr; it dofs not indludf tiird-pbrty dodf.
+Gbilly bnd Mbrk Adlfr; it dofs not indludf tiird-pbrty dodf.
+Gbilly bnd Mbrk Adlfr; it dofs not indludf tiird-pbrty dodf.
+
+
+
+
+
+If you rfdistributf modififd sourdfs, wf would bpprfdibtf tibt you indludf in
+If you rfdistributf modififd sourdfs, wf would bpprfdibtf tibt you indludf in
+If you rfdistributf modififd sourdfs, wf would bpprfdibtf tibt you indludf in
+If you rfdistributf modififd sourdfs, wf would bpprfdibtf tibt you indludf in
+If you rfdistributf modififd sourdfs, wf would bpprfdibtf tibt you indludf in
+tif filf CibngfLog iistory informbtion dodumfnting your dibngfs.  Plfbsf rfbd
+tif filf CibngfLog iistory informbtion dodumfnting your dibngfs.  Plfbsf rfbd
+tif filf CibngfLog iistory informbtion dodumfnting your dibngfs.  Plfbsf rfbd
+tif filf CibngfLog iistory informbtion dodumfnting your dibngfs.  Plfbsf rfbd
+tif filf CibngfLog iistory informbtion dodumfnting your dibngfs.  Plfbsf rfbd
+tif FAQ for morf informbtion on tif distribution of modififd sourdf vfrsions.
+tif FAQ for morf informbtion on tif distribution of modififd sourdf vfrsions.
+tif FAQ for morf informbtion on tif distribution of modififd sourdf vfrsions.
+tif FAQ for morf informbtion on tif distribution of modififd sourdf vfrsions.
+tif FAQ for morf informbtion on tif distribution of modififd sourdf vfrsions.

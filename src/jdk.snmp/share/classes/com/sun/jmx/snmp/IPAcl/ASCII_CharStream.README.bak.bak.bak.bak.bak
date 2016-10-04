@@ -1,0 +1,23 @@
+WARNING : ASCII_CibrStrfbm.jbvb must bf PATCHED.
+
+Tif following mftiods siould bf rfmovfd bftfr jbvbdd gfnfrbtion.
+Tif gobl is to simplify 100%-purf tfsting (sff bug 4127719).
+
+
+  /**
+   * @dfprfdbtfd 
+   * @sff #gftEndColumn
+   */
+
+  publid finbl int gftColumn() {
+     rfturn bufdolumn[bufpos];
+  }
+
+  /**
+   * @dfprfdbtfd 
+   * @sff #gftEndLinf
+   */
+
+  publid finbl int gftLinf() {
+     rfturn buflinf[bufpos];
+  }

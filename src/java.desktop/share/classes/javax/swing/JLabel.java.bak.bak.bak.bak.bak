@@ -1,0 +1,1648 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.*;
+import jbvb.tfxt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bfbns.Trbnsifnt;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvbx.swing.plbf.LbbflUI;
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.itml.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.util.*;
+
+
+/**
+ * A displby brfb for b siort tfxt string or bn imbgf,
+ * or boti.
+ * A lbbfl dofs not rfbdt to input fvfnts.
+ * As b rfsult, it dbnnot gft tif kfybobrd fodus.
+ * A lbbfl dbn, iowfvfr, displby b kfybobrd bltfrnbtivf
+ * bs b donvfnifndf for b nfbrby domponfnt
+ * tibt ibs b kfybobrd bltfrnbtivf but dbn't displby it.
+ * <p>
+ * A <dodf>JLbbfl</dodf> objfdt dbn displby
+ * fitifr tfxt, bn imbgf, or boti.
+ * You dbn spfdify wifrf in tif lbbfl's displby brfb
+ * tif lbbfl's dontfnts brf blignfd
+ * by sftting tif vfrtidbl bnd iorizontbl blignmfnt.
+ * By dffbult, lbbfls brf vfrtidblly dfntfrfd
+ * in tifir displby brfb.
+ * Tfxt-only lbbfls brf lfbding fdgf blignfd, by dffbult;
+ * imbgf-only lbbfls brf iorizontblly dfntfrfd, by dffbult.
+ * <p>
+ * You dbn blso spfdify tif position of tif tfxt
+ * rflbtivf to tif imbgf.
+ * By dffbult, tfxt is on tif trbiling fdgf of tif imbgf,
+ * witi tif tfxt bnd imbgf vfrtidblly blignfd.
+ * <p>
+ * A lbbfl's lfbding bnd trbiling fdgf brf dftfrminfd from tif vbluf of its
+ * {@link jbvb.bwt.ComponfntOrifntbtion} propfrty.  At prfsfnt, tif dffbult
+ * ComponfntOrifntbtion sftting mbps tif lfbding fdgf to lfft bnd tif trbiling
+ * fdgf to rigit.
+ *
+ * <p>
+ * Finblly, you dbn usf tif <dodf>sftIdonTfxtGbp</dodf> mftiod
+ * to spfdify iow mbny pixfls
+ * siould bppfbr bftwffn tif tfxt bnd tif imbgf.
+ * Tif dffbult is 4 pixfls.
+ * <p>
+ * Sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/lbbfl.itml">How to Usf Lbbfls</b>
+ * in <fm>Tif Jbvb Tutoribl</fm>
+ * for furtifr dodumfntbtion.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A domponfnt tibt displbys b siort string bnd bn idon.
+ *
+ * @butior Hbns Mullfr
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss JLbbfl fxtfnds JComponfnt implfmfnts SwingConstbnts, Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "LbbflUI";
+
+    privbtf int mnfmonid = '\0';
+    privbtf int mnfmonidIndfx = -1;
+
+    privbtf String tfxt = "";         // "" rbtifr tibn null, for BfbnBox
+    privbtf Idon dffbultIdon = null;
+    privbtf Idon disbblfdIdon = null;
+    privbtf boolfbn disbblfdIdonSft = fblsf;
+
+    privbtf int vfrtidblAlignmfnt = CENTER;
+    privbtf int iorizontblAlignmfnt = LEADING;
+    privbtf int vfrtidblTfxtPosition = CENTER;
+    privbtf int iorizontblTfxtPosition = TRAILING;
+    privbtf int idonTfxtGbp = 4;
+
+    /**
+     * Tif Componfnt tiis lbbfl is for; null if tif lbbfl
+     * is not tif lbbfl for b domponfnt
+     */
+    protfdtfd Componfnt lbbflFor = null;
+
+    /**
+     * Clifnt propfrty kfy usfd to dftfrminf wibt lbbfl is lbbfling tif
+     * domponfnt.  Tiis is gfnfrblly not usfd by lbbfls, but is instfbd
+     * usfd by domponfnts sudi bs tfxt brfbs tibt brf bfing lbbflfd by
+     * lbbfls.  Wifn tif lbbflFor propfrty of b lbbfl is sft, it will
+     * butombtidblly sft tif LABELED_BY_PROPERTY of tif domponfnt bfing
+     * lbbfllfd.
+     *
+     * @sff #sftLbbflFor
+     */
+    stbtid finbl String LABELED_BY_PROPERTY = "lbbflfdBy";
+
+    /**
+     * Crfbtfs b <dodf>JLbbfl</dodf> instbndf witi tif spfdififd
+     * tfxt, imbgf, bnd iorizontbl blignmfnt.
+     * Tif lbbfl is dfntfrfd vfrtidblly in its displby brfb.
+     * Tif tfxt is on tif trbiling fdgf of tif imbgf.
+     *
+     * @pbrbm tfxt  Tif tfxt to bf displbyfd by tif lbbfl.
+     * @pbrbm idon  Tif imbgf to bf displbyfd by tif lbbfl.
+     * @pbrbm iorizontblAlignmfnt  Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>LEFT</dodf>,
+     *           <dodf>CENTER</dodf>,
+     *           <dodf>RIGHT</dodf>,
+     *           <dodf>LEADING</dodf> or
+     *           <dodf>TRAILING</dodf>.
+     */
+    publid JLbbfl(String tfxt, Idon idon, int iorizontblAlignmfnt) {
+        sftTfxt(tfxt);
+        sftIdon(idon);
+        sftHorizontblAlignmfnt(iorizontblAlignmfnt);
+        updbtfUI();
+        sftAlignmfntX(LEFT_ALIGNMENT);
+    }
+
+    /**
+     * Crfbtfs b <dodf>JLbbfl</dodf> instbndf witi tif spfdififd
+     * tfxt bnd iorizontbl blignmfnt.
+     * Tif lbbfl is dfntfrfd vfrtidblly in its displby brfb.
+     *
+     * @pbrbm tfxt  Tif tfxt to bf displbyfd by tif lbbfl.
+     * @pbrbm iorizontblAlignmfnt  Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>LEFT</dodf>,
+     *           <dodf>CENTER</dodf>,
+     *           <dodf>RIGHT</dodf>,
+     *           <dodf>LEADING</dodf> or
+     *           <dodf>TRAILING</dodf>.
+     */
+    publid JLbbfl(String tfxt, int iorizontblAlignmfnt) {
+        tiis(tfxt, null, iorizontblAlignmfnt);
+    }
+
+    /**
+     * Crfbtfs b <dodf>JLbbfl</dodf> instbndf witi tif spfdififd tfxt.
+     * Tif lbbfl is blignfd bgbinst tif lfbding fdgf of its displby brfb,
+     * bnd dfntfrfd vfrtidblly.
+     *
+     * @pbrbm tfxt  Tif tfxt to bf displbyfd by tif lbbfl.
+     */
+    publid JLbbfl(String tfxt) {
+        tiis(tfxt, null, LEADING);
+    }
+
+    /**
+     * Crfbtfs b <dodf>JLbbfl</dodf> instbndf witi tif spfdififd
+     * imbgf bnd iorizontbl blignmfnt.
+     * Tif lbbfl is dfntfrfd vfrtidblly in its displby brfb.
+     *
+     * @pbrbm imbgf  Tif imbgf to bf displbyfd by tif lbbfl.
+     * @pbrbm iorizontblAlignmfnt  Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>LEFT</dodf>,
+     *           <dodf>CENTER</dodf>,
+     *           <dodf>RIGHT</dodf>,
+     *           <dodf>LEADING</dodf> or
+     *           <dodf>TRAILING</dodf>.
+     */
+    publid JLbbfl(Idon imbgf, int iorizontblAlignmfnt) {
+        tiis(null, imbgf, iorizontblAlignmfnt);
+    }
+
+    /**
+     * Crfbtfs b <dodf>JLbbfl</dodf> instbndf witi tif spfdififd imbgf.
+     * Tif lbbfl is dfntfrfd vfrtidblly bnd iorizontblly
+     * in its displby brfb.
+     *
+     * @pbrbm imbgf  Tif imbgf to bf displbyfd by tif lbbfl.
+     */
+    publid JLbbfl(Idon imbgf) {
+        tiis(null, imbgf, CENTER);
+    }
+
+    /**
+     * Crfbtfs b <dodf>JLbbfl</dodf> instbndf witi
+     * no imbgf bnd witi bn fmpty string for tif titlf.
+     * Tif lbbfl is dfntfrfd vfrtidblly
+     * in its displby brfb.
+     * Tif lbbfl's dontfnts, ondf sft, will bf displbyfd on tif lfbding fdgf
+     * of tif lbbfl's displby brfb.
+     */
+    publid JLbbfl() {
+        tiis("", null, LEADING);
+    }
+
+
+    /**
+     * Rfturns tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
+     *
+     * @rfturn LbbflUI objfdt
+     */
+    publid LbbflUI gftUI() {
+        rfturn (LbbflUI)ui;
+    }
+
+
+    /**
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
+     *
+     * @pbrbm ui  tif LbbflUI L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
+     */
+    publid void sftUI(LbbflUI ui) {
+        supfr.sftUI(ui);
+        // disbblfd idon is gfnfrbtfd by LF so it siould bf unsft ifrf
+        if (!disbblfdIdonSft && disbblfdIdon != null) {
+            sftDisbblfdIdon(null);
+        }
+    }
+
+
+    /**
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((LbbflUI)UIMbnbgfr.gftUI(tiis));
+    }
+
+
+    /**
+     * Rfturns b string tibt spfdififs tif nbmf of tif l&bmp;f dlbss
+     * tibt rfndfrs tiis domponfnt.
+     *
+     * @rfturn String "LbbflUI"
+     *
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Rfturns tif tfxt string tibt tif lbbfl displbys.
+     *
+     * @rfturn b String
+     * @sff #sftTfxt
+     */
+    publid String gftTfxt() {
+        rfturn tfxt;
+    }
+
+
+    /**
+     * Dffinfs tif singlf linf of tfxt tiis domponfnt will displby.  If
+     * tif vbluf of tfxt is null or fmpty string, notiing is displbyfd.
+     * <p>
+     * Tif dffbult vbluf of tiis propfrty is null.
+     * <p>
+     * Tiis is b JbvbBfbns bound propfrty.
+     *
+     * @pbrbm tfxt  tif singlf linf of tfxt tiis domponfnt will displby
+     * @sff #sftVfrtidblTfxtPosition
+     * @sff #sftHorizontblTfxtPosition
+     * @sff #sftIdon
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Dffinfs tif singlf linf of tfxt tiis domponfnt will displby.
+     */
+    publid void sftTfxt(String tfxt) {
+
+        String oldAddfssiblfNbmf = null;
+        if (bddfssiblfContfxt != null) {
+            oldAddfssiblfNbmf = bddfssiblfContfxt.gftAddfssiblfNbmf();
+        }
+
+        String oldVbluf = tiis.tfxt;
+        tiis.tfxt = tfxt;
+        firfPropfrtyCibngf("tfxt", oldVbluf, tfxt);
+
+        sftDisplbyfdMnfmonidIndfx(
+                      SwingUtilitifs.findDisplbyfdMnfmonidIndfx(
+                                          tfxt, gftDisplbyfdMnfmonid()));
+
+        if ((bddfssiblfContfxt != null)
+            && (bddfssiblfContfxt.gftAddfssiblfNbmf() != oldAddfssiblfNbmf)) {
+                bddfssiblfContfxt.firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                        oldAddfssiblfNbmf,
+                        bddfssiblfContfxt.gftAddfssiblfNbmf());
+        }
+        if (tfxt == null || oldVbluf == null || !tfxt.fqubls(oldVbluf)) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+
+    /**
+     * Rfturns tif grbpiid imbgf (glypi, idon) tibt tif lbbfl displbys.
+     *
+     * @rfturn bn Idon
+     * @sff #sftIdon
+     */
+    publid Idon gftIdon() {
+        rfturn dffbultIdon;
+    }
+
+    /**
+     * Dffinfs tif idon tiis domponfnt will displby.  If
+     * tif vbluf of idon is null, notiing is displbyfd.
+     * <p>
+     * Tif dffbult vbluf of tiis propfrty is null.
+     * <p>
+     * Tiis is b JbvbBfbns bound propfrty.
+     *
+     * @pbrbm idon  tif dffbult idon tiis domponfnt will displby
+     * @sff #sftVfrtidblTfxtPosition
+     * @sff #sftHorizontblTfxtPosition
+     * @sff #gftIdon
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif idon tiis domponfnt will displby.
+     */
+    publid void sftIdon(Idon idon) {
+        Idon oldVbluf = dffbultIdon;
+        dffbultIdon = idon;
+
+        /* If tif dffbult idon ibs rfblly dibngfd bnd wf ibd
+         * gfnfrbtfd tif disbblfd idon for tiis domponfnt
+         * (in otifr words, sftDisbblfdIdon() wbs nfvfr dbllfd), tifn
+         * dlfbr tif disbblfdIdon fifld.
+         */
+        if ((dffbultIdon != oldVbluf) && !disbblfdIdonSft) {
+            disbblfdIdon = null;
+        }
+
+        firfPropfrtyCibngf("idon", oldVbluf, dffbultIdon);
+
+        if ((bddfssiblfContfxt != null) && (oldVbluf != dffbultIdon)) {
+                bddfssiblfContfxt.firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                        oldVbluf, dffbultIdon);
+        }
+
+        /* If tif dffbult idon ibs dibngfd bnd tif nfw onf is
+         * b difffrfnt sizf, tifn rfvblidbtf.   Rfpbint if tif
+         * dffbult idon ibs dibngfd.
+         */
+        if (dffbultIdon != oldVbluf) {
+            if ((dffbultIdon == null) ||
+                (oldVbluf == null) ||
+                (dffbultIdon.gftIdonWidti() != oldVbluf.gftIdonWidti()) ||
+                (dffbultIdon.gftIdonHfigit() != oldVbluf.gftIdonHfigit())) {
+                rfvblidbtf();
+            }
+            rfpbint();
+        }
+    }
+
+
+    /**
+     * Rfturns tif idon usfd by tif lbbfl wifn it's disbblfd.
+     * If no disbblfd idon ibs bffn sft tiis will forwbrd tif dbll to
+     * tif look bnd fffl to donstrudt bn bppropribtf disbblfd Idon.
+     * <p>
+     * Somf look bnd fffls migit not rfndfr tif disbblfd Idon, in wiidi
+     * dbsf tify will ignorf tiis.
+     *
+     * @rfturn tif <dodf>disbblfdIdon</dodf> propfrty
+     * @sff #sftDisbblfdIdon
+     * @sff jbvbx.swing.LookAndFffl#gftDisbblfdIdon
+     * @sff ImbgfIdon
+     */
+    @Trbnsifnt
+    publid Idon gftDisbblfdIdon() {
+        if (!disbblfdIdonSft && disbblfdIdon == null && dffbultIdon != null) {
+            disbblfdIdon = UIMbnbgfr.gftLookAndFffl().gftDisbblfdIdon(tiis, dffbultIdon);
+            if (disbblfdIdon != null) {
+                firfPropfrtyCibngf("disbblfdIdon", null, disbblfdIdon);
+            }
+        }
+        rfturn disbblfdIdon;
+    }
+
+
+    /**
+     * Sft tif idon to bf displbyfd if tiis JLbbfl is "disbblfd"
+     * (JLbbfl.sftEnbblfd(fblsf)).
+     * <p>
+     * Tif dffbult vbluf of tiis propfrty is null.
+     *
+     * @pbrbm disbblfdIdon tif Idon to displby wifn tif domponfnt is disbblfd
+     * @sff #gftDisbblfdIdon
+     * @sff #sftEnbblfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif idon to displby if tif lbbfl is disbblfd.
+     */
+    publid void sftDisbblfdIdon(Idon disbblfdIdon) {
+        Idon oldVbluf = tiis.disbblfdIdon;
+        tiis.disbblfdIdon = disbblfdIdon;
+        disbblfdIdonSft = (disbblfdIdon != null);
+        firfPropfrtyCibngf("disbblfdIdon", oldVbluf, disbblfdIdon);
+        if (disbblfdIdon != oldVbluf) {
+            if (disbblfdIdon == null || oldVbluf == null ||
+                disbblfdIdon.gftIdonWidti() != oldVbluf.gftIdonWidti() ||
+                disbblfdIdon.gftIdonHfigit() != oldVbluf.gftIdonHfigit()) {
+                rfvblidbtf();
+            }
+            if (!isEnbblfd()) {
+                rfpbint();
+            }
+        }
+    }
+
+
+    /**
+     * Spfdify b kfydodf tibt indidbtfs b mnfmonid kfy.
+     * Tiis propfrty is usfd wifn tif lbbfl is pbrt of b lbrgfr domponfnt.
+     * If tif lbbflFor propfrty of tif lbbfl is not null, tif lbbfl will
+     * dbll tif rfqufstFodus mftiod of tif domponfnt spfdififd by tif
+     * lbbflFor propfrty wifn tif mnfmonid is bdtivbtfd.
+     *
+     * @pbrbm kfy  b kfydodf tibt indidbtfs b mnfmonid kfy
+     * @sff #gftLbbflFor
+     * @sff #sftLbbflFor
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif mnfmonid kfydodf.
+     */
+    publid void sftDisplbyfdMnfmonid(int kfy) {
+        int oldKfy = mnfmonid;
+        mnfmonid = kfy;
+        firfPropfrtyCibngf("displbyfdMnfmonid", oldKfy, mnfmonid);
+
+        sftDisplbyfdMnfmonidIndfx(
+            SwingUtilitifs.findDisplbyfdMnfmonidIndfx(gftTfxt(), mnfmonid));
+
+        if (kfy != oldKfy) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+
+    /**
+     * Spfdififs tif displbyfdMnfmonid bs b dibr vbluf.
+     *
+     * @pbrbm bCibr  b dibr spfdifying tif mnfmonid to displby
+     * @sff #sftDisplbyfdMnfmonid(int)
+     */
+    publid void sftDisplbyfdMnfmonid(dibr bCibr) {
+        int vk = jbvb.bwt.fvfnt.KfyEvfnt.gftExtfndfdKfyCodfForCibr(bCibr);
+        if (vk != jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED) {
+            sftDisplbyfdMnfmonid(vk);
+        }
+    }
+
+
+    /**
+     * Rfturn tif kfydodf tibt indidbtfs b mnfmonid kfy.
+     * Tiis propfrty is usfd wifn tif lbbfl is pbrt of b lbrgfr domponfnt.
+     * If tif lbbflFor propfrty of tif lbbfl is not null, tif lbbfl will
+     * dbll tif rfqufstFodus mftiod of tif domponfnt spfdififd by tif
+     * lbbflFor propfrty wifn tif mnfmonid is bdtivbtfd.
+     *
+     * @rfturn int vbluf for tif mnfmonid kfy
+     *
+     * @sff #gftLbbflFor
+     * @sff #sftLbbflFor
+     */
+    publid int gftDisplbyfdMnfmonid() {
+        rfturn mnfmonid;
+    }
+
+    /**
+     * Providfs b iint to tif look bnd fffl bs to wiidi dibrbdtfr in tif
+     * tfxt siould bf dfdorbtfd to rfprfsfnt tif mnfmonid. Not bll look bnd
+     * fffls mby support tiis. A vbluf of -1 indidbtfs fitifr tifrf is no
+     * mnfmonid, tif mnfmonid dibrbdtfr is not dontbinfd in tif string, or
+     * tif dfvflopfr dofs not wisi tif mnfmonid to bf displbyfd.
+     * <p>
+     * Tif vbluf of tiis is updbtfd bs tif propfrtifs rflbting to tif
+     * mnfmonid dibngf (sudi bs tif mnfmonid itsflf, tif tfxt...).
+     * You siould only fvfr ibvf to dbll tiis if
+     * you do not wisi tif dffbult dibrbdtfr to bf undfrlinfd. For fxbmplf, if
+     * tif tfxt wbs 'Sbvf As', witi b mnfmonid of 'b', bnd you wbntfd tif 'A'
+     * to bf dfdorbtfd, bs 'Sbvf <u>A</u>s', you would ibvf to invokf
+     * <dodf>sftDisplbyfdMnfmonidIndfx(5)</dodf> bftfr invoking
+     * <dodf>sftDisplbyfdMnfmonid(KfyEvfnt.VK_A)</dodf>.
+     *
+     * @sindf 1.4
+     * @pbrbm indfx Indfx into tif String to undfrlinf
+     * @fxdfption IllfgblArgumfntExdfption will bf tirown if <dodf>indfx</dodf>
+     *            is &gt;= lfngti of tif tfxt, or &lt; -1
+     *
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: tif indfx into tif String to drbw tif kfybobrd dibrbdtfr
+     *               mnfmonid bt
+     */
+    publid void sftDisplbyfdMnfmonidIndfx(int indfx)
+                                             tirows IllfgblArgumfntExdfption {
+        int oldVbluf = mnfmonidIndfx;
+        if (indfx == -1) {
+            mnfmonidIndfx = -1;
+        } flsf {
+            String tfxt = gftTfxt();
+            int tfxtLfngti = (tfxt == null) ? 0 : tfxt.lfngti();
+            if (indfx < -1 || indfx >= tfxtLfngti) {  // indfx out of rbngf
+                tirow nfw IllfgblArgumfntExdfption("indfx == " + indfx);
+            }
+        }
+        mnfmonidIndfx = indfx;
+        firfPropfrtyCibngf("displbyfdMnfmonidIndfx", oldVbluf, indfx);
+        if (indfx != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Rfturns tif dibrbdtfr, bs bn indfx, tibt tif look bnd fffl siould
+     * providf dfdorbtion for bs rfprfsfnting tif mnfmonid dibrbdtfr.
+     *
+     * @sindf 1.4
+     * @rfturn indfx rfprfsfnting mnfmonid dibrbdtfr
+     * @sff #sftDisplbyfdMnfmonidIndfx
+     */
+    publid int gftDisplbyfdMnfmonidIndfx() {
+        rfturn mnfmonidIndfx;
+    }
+
+    /**
+     * Vfrify tibt kfy is b lfgbl vbluf for tif iorizontblAlignmfnt propfrtifs.
+     *
+     * @pbrbm kfy tif propfrty vbluf to difdk
+     * @pbrbm mfssbgf tif IllfgblArgumfntExdfption dftbil mfssbgf
+     * @rfturn tif kfy vbluf if {@dodf kfy} is b b lfgbl vbluf for tif
+     *         iorizontblAlignmfnt propfrtifs
+     * @fxdfption IllfgblArgumfntExdfption if kfy isn't LEFT, CENTER, RIGHT,
+     * LEADING or TRAILING.
+     * @sff #sftHorizontblTfxtPosition
+     * @sff #sftHorizontblAlignmfnt
+     */
+    protfdtfd int difdkHorizontblKfy(int kfy, String mfssbgf) {
+        if ((kfy == LEFT) ||
+            (kfy == CENTER) ||
+            (kfy == RIGHT) ||
+            (kfy == LEADING) ||
+            (kfy == TRAILING)) {
+            rfturn kfy;
+        }
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption(mfssbgf);
+        }
+    }
+
+
+    /**
+     * Vfrify tibt kfy is b lfgbl vbluf for tif
+     * vfrtidblAlignmfnt or vfrtidblTfxtPosition propfrtifs.
+     *
+     * @pbrbm kfy tif propfrty vbluf to difdk
+     * @pbrbm mfssbgf tif IllfgblArgumfntExdfption dftbil mfssbgf
+     * @rfturn tif kfy vbluf if {@dodf kfy} is b lfgbl vbluf for tif
+     *         vfrtidblAlignmfnt or vfrtidblTfxtPosition propfrtifs
+     * @fxdfption IllfgblArgumfntExdfption if kfy isn't TOP, CENTER, or BOTTOM.
+     * @sff #sftVfrtidblAlignmfnt
+     * @sff #sftVfrtidblTfxtPosition
+     */
+    protfdtfd int difdkVfrtidblKfy(int kfy, String mfssbgf) {
+        if ((kfy == TOP) || (kfy == CENTER) || (kfy == BOTTOM)) {
+            rfturn kfy;
+        }
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption(mfssbgf);
+        }
+    }
+
+
+    /**
+     * Rfturns tif bmount of spbdf bftwffn tif tfxt bnd tif idon
+     * displbyfd in tiis lbbfl.
+     *
+     * @rfturn bn int fqubl to tif numbfr of pixfls bftwffn tif tfxt
+     *         bnd tif idon.
+     * @sff #sftIdonTfxtGbp
+     */
+    publid int gftIdonTfxtGbp() {
+        rfturn idonTfxtGbp;
+    }
+
+
+    /**
+     * If boti tif idon bnd tfxt propfrtifs brf sft, tiis propfrty
+     * dffinfs tif spbdf bftwffn tifm.
+     * <p>
+     * Tif dffbult vbluf of tiis propfrty is 4 pixfls.
+     * <p>
+     * Tiis is b JbvbBfbns bound propfrty.
+     *
+     * @pbrbm idonTfxtGbp  tif spbdf bftwffn tif idon bnd tfxt propfrtifs
+     * @sff #gftIdonTfxtGbp
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: If boti tif idon bnd tfxt propfrtifs brf sft, tiis
+     *               propfrty dffinfs tif spbdf bftwffn tifm.
+     */
+    publid void sftIdonTfxtGbp(int idonTfxtGbp) {
+        int oldVbluf = tiis.idonTfxtGbp;
+        tiis.idonTfxtGbp = idonTfxtGbp;
+        firfPropfrtyCibngf("idonTfxtGbp", oldVbluf, idonTfxtGbp);
+        if (idonTfxtGbp != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+
+
+    /**
+     * Rfturns tif blignmfnt of tif lbbfl's dontfnts blong tif Y bxis.
+     *
+     * @rfturn   Tif vbluf of tif vfrtidblAlignmfnt propfrty, onf of tif
+     *           following donstbnts dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>TOP</dodf>,
+     *           <dodf>CENTER</dodf>, or
+     *           <dodf>BOTTOM</dodf>.
+     *
+     * @sff SwingConstbnts
+     * @sff #sftVfrtidblAlignmfnt
+     */
+    publid int gftVfrtidblAlignmfnt() {
+        rfturn vfrtidblAlignmfnt;
+    }
+
+
+    /**
+     * Sfts tif blignmfnt of tif lbbfl's dontfnts blong tif Y bxis.
+     * <p>
+     * Tif dffbult vbluf of tiis propfrty is CENTER.
+     *
+     * @pbrbm blignmfnt Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>TOP</dodf>,
+     *           <dodf>CENTER</dodf> (tif dffbult), or
+     *           <dodf>BOTTOM</dodf>.
+     *
+     * @sff SwingConstbnts
+     * @sff #gftVfrtidblAlignmfnt
+     * @bfbninfo
+     *        bound: truf
+     *         fnum: TOP    SwingConstbnts.TOP
+     *               CENTER SwingConstbnts.CENTER
+     *               BOTTOM SwingConstbnts.BOTTOM
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif blignmfnt of tif lbbfl's dontfnts blong tif Y bxis.
+     */
+    publid void sftVfrtidblAlignmfnt(int blignmfnt) {
+        if (blignmfnt == vfrtidblAlignmfnt) rfturn;
+        int oldVbluf = vfrtidblAlignmfnt;
+        vfrtidblAlignmfnt = difdkVfrtidblKfy(blignmfnt, "vfrtidblAlignmfnt");
+        firfPropfrtyCibngf("vfrtidblAlignmfnt", oldVbluf, vfrtidblAlignmfnt);
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns tif blignmfnt of tif lbbfl's dontfnts blong tif X bxis.
+     *
+     * @rfturn   Tif vbluf of tif iorizontblAlignmfnt propfrty, onf of tif
+     *           following donstbnts dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>LEFT</dodf>,
+     *           <dodf>CENTER</dodf>,
+     *           <dodf>RIGHT</dodf>,
+     *           <dodf>LEADING</dodf> or
+     *           <dodf>TRAILING</dodf>.
+     *
+     * @sff #sftHorizontblAlignmfnt
+     * @sff SwingConstbnts
+     */
+    publid int gftHorizontblAlignmfnt() {
+        rfturn iorizontblAlignmfnt;
+    }
+
+    /**
+     * Sfts tif blignmfnt of tif lbbfl's dontfnts blong tif X bxis.
+     * <p>
+     * Tiis is b JbvbBfbns bound propfrty.
+     *
+     * @pbrbm blignmfnt  Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>LEFT</dodf>,
+     *           <dodf>CENTER</dodf> (tif dffbult for imbgf-only lbbfls),
+     *           <dodf>RIGHT</dodf>,
+     *           <dodf>LEADING</dodf> (tif dffbult for tfxt-only lbbfls) or
+     *           <dodf>TRAILING</dodf>.
+     *
+     * @sff SwingConstbnts
+     * @sff #gftHorizontblAlignmfnt
+     * @bfbninfo
+     *        bound: truf
+     *         fnum: LEFT     SwingConstbnts.LEFT
+     *               CENTER   SwingConstbnts.CENTER
+     *               RIGHT    SwingConstbnts.RIGHT
+     *               LEADING  SwingConstbnts.LEADING
+     *               TRAILING SwingConstbnts.TRAILING
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif blignmfnt of tif lbbfl's dontfnt blong tif X bxis.
+     */
+    publid void sftHorizontblAlignmfnt(int blignmfnt) {
+        if (blignmfnt == iorizontblAlignmfnt) rfturn;
+        int oldVbluf = iorizontblAlignmfnt;
+        iorizontblAlignmfnt = difdkHorizontblKfy(blignmfnt,
+                                                 "iorizontblAlignmfnt");
+        firfPropfrtyCibngf("iorizontblAlignmfnt",
+                           oldVbluf, iorizontblAlignmfnt);
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns tif vfrtidbl position of tif lbbfl's tfxt,
+     * rflbtivf to its imbgf.
+     *
+     * @rfturn   Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>TOP</dodf>,
+     *           <dodf>CENTER</dodf>, or
+     *           <dodf>BOTTOM</dodf>.
+     *
+     * @sff #sftVfrtidblTfxtPosition
+     * @sff SwingConstbnts
+     */
+    publid int gftVfrtidblTfxtPosition() {
+        rfturn vfrtidblTfxtPosition;
+    }
+
+
+    /**
+     * Sfts tif vfrtidbl position of tif lbbfl's tfxt,
+     * rflbtivf to its imbgf.
+     * <p>
+     * Tif dffbult vbluf of tiis propfrty is CENTER.
+     * <p>
+     * Tiis is b JbvbBfbns bound propfrty.
+     *
+     * @pbrbm tfxtPosition  Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>TOP</dodf>,
+     *           <dodf>CENTER</dodf> (tif dffbult), or
+     *           <dodf>BOTTOM</dodf>.
+     *
+     * @sff SwingConstbnts
+     * @sff #gftVfrtidblTfxtPosition
+     * @bfbninfo
+     *        bound: truf
+     *         fnum: TOP    SwingConstbnts.TOP
+     *               CENTER SwingConstbnts.CENTER
+     *               BOTTOM SwingConstbnts.BOTTOM
+     *       fxpfrt: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif vfrtidbl position of tif tfxt rflbtivf to it's imbgf.
+     */
+    publid void sftVfrtidblTfxtPosition(int tfxtPosition) {
+        if (tfxtPosition == vfrtidblTfxtPosition) rfturn;
+        int old = vfrtidblTfxtPosition;
+        vfrtidblTfxtPosition = difdkVfrtidblKfy(tfxtPosition,
+                                                "vfrtidblTfxtPosition");
+        firfPropfrtyCibngf("vfrtidblTfxtPosition", old, vfrtidblTfxtPosition);
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns tif iorizontbl position of tif lbbfl's tfxt,
+     * rflbtivf to its imbgf.
+     *
+     * @rfturn   Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>LEFT</dodf>,
+     *           <dodf>CENTER</dodf>,
+     *           <dodf>RIGHT</dodf>,
+     *           <dodf>LEADING</dodf> or
+     *           <dodf>TRAILING</dodf>.
+     *
+     * @sff SwingConstbnts
+     */
+    publid int gftHorizontblTfxtPosition() {
+        rfturn iorizontblTfxtPosition;
+    }
+
+
+    /**
+     * Sfts tif iorizontbl position of tif lbbfl's tfxt,
+     * rflbtivf to its imbgf.
+     *
+     * @pbrbm tfxtPosition  Onf of tif following donstbnts
+     *           dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>LEFT</dodf>,
+     *           <dodf>CENTER</dodf>,
+     *           <dodf>RIGHT</dodf>,
+     *           <dodf>LEADING</dodf>, or
+     *           <dodf>TRAILING</dodf> (tif dffbult).
+     *
+     * @sff SwingConstbnts
+     * @bfbninfo
+     *       fxpfrt: truf
+     *        bound: truf
+     *         fnum: LEFT     SwingConstbnts.LEFT
+     *               CENTER   SwingConstbnts.CENTER
+     *               RIGHT    SwingConstbnts.RIGHT
+     *               LEADING  SwingConstbnts.LEADING
+     *               TRAILING SwingConstbnts.TRAILING
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif iorizontbl position of tif lbbfl's tfxt,
+     *               rflbtivf to its imbgf.
+     */
+    publid void sftHorizontblTfxtPosition(int tfxtPosition) {
+        int old = iorizontblTfxtPosition;
+        tiis.iorizontblTfxtPosition = difdkHorizontblKfy(tfxtPosition,
+                                                "iorizontblTfxtPosition");
+        firfPropfrtyCibngf("iorizontblTfxtPosition",
+                           old, iorizontblTfxtPosition);
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Tiis is ovfrriddfn to rfturn fblsf if tif durrfnt Idon's Imbgf is
+     * not fqubl to tif pbssfd in Imbgf <dodf>img</dodf>.
+     *
+     * @sff     jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff     jbvb.bwt.Componfnt#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     */
+    publid boolfbn imbgfUpdbtf(Imbgf img, int infoflbgs,
+                               int x, int y, int w, int i) {
+        // Don't usf gftDisbblfdIdon, will triggfr drfbtion of idon if idon
+        // not sft.
+        if (!isSiowing() ||
+            !SwingUtilitifs.dofsIdonRfffrfndfImbgf(gftIdon(), img) &&
+            !SwingUtilitifs.dofsIdonRfffrfndfImbgf(disbblfdIdon, img)) {
+
+            rfturn fblsf;
+        }
+        rfturn supfr.imbgfUpdbtf(img, infoflbgs, x, y, w, i);
+    }
+
+
+    /**
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis JLbbfl. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of tiis JLbbfl.
+     */
+    protfdtfd String pbrbmString() {
+        String tfxtString = (tfxt != null ?
+                             tfxt : "");
+        String dffbultIdonString = ((dffbultIdon != null)
+                                    && (dffbultIdon != tiis)  ?
+                                    dffbultIdon.toString() : "");
+        String disbblfdIdonString = ((disbblfdIdon != null)
+                                     && (disbblfdIdon != tiis) ?
+                                     disbblfdIdon.toString() : "");
+        String lbbflForString = (lbbflFor  != null ?
+                                 lbbflFor.toString() : "");
+        String vfrtidblAlignmfntString;
+        if (vfrtidblAlignmfnt == TOP) {
+            vfrtidblAlignmfntString = "TOP";
+        } flsf if (vfrtidblAlignmfnt == CENTER) {
+            vfrtidblAlignmfntString = "CENTER";
+        } flsf if (vfrtidblAlignmfnt == BOTTOM) {
+            vfrtidblAlignmfntString = "BOTTOM";
+        } flsf vfrtidblAlignmfntString = "";
+        String iorizontblAlignmfntString;
+        if (iorizontblAlignmfnt == LEFT) {
+            iorizontblAlignmfntString = "LEFT";
+        } flsf if (iorizontblAlignmfnt == CENTER) {
+            iorizontblAlignmfntString = "CENTER";
+        } flsf if (iorizontblAlignmfnt == RIGHT) {
+            iorizontblAlignmfntString = "RIGHT";
+        } flsf if (iorizontblAlignmfnt == LEADING) {
+            iorizontblAlignmfntString = "LEADING";
+        } flsf if (iorizontblAlignmfnt == TRAILING) {
+            iorizontblAlignmfntString = "TRAILING";
+        } flsf iorizontblAlignmfntString = "";
+        String vfrtidblTfxtPositionString;
+        if (vfrtidblTfxtPosition == TOP) {
+            vfrtidblTfxtPositionString = "TOP";
+        } flsf if (vfrtidblTfxtPosition == CENTER) {
+            vfrtidblTfxtPositionString = "CENTER";
+        } flsf if (vfrtidblTfxtPosition == BOTTOM) {
+            vfrtidblTfxtPositionString = "BOTTOM";
+        } flsf vfrtidblTfxtPositionString = "";
+        String iorizontblTfxtPositionString;
+        if (iorizontblTfxtPosition == LEFT) {
+            iorizontblTfxtPositionString = "LEFT";
+        } flsf if (iorizontblTfxtPosition == CENTER) {
+            iorizontblTfxtPositionString = "CENTER";
+        } flsf if (iorizontblTfxtPosition == RIGHT) {
+            iorizontblTfxtPositionString = "RIGHT";
+        } flsf if (iorizontblTfxtPosition == LEADING) {
+            iorizontblTfxtPositionString = "LEADING";
+        } flsf if (iorizontblTfxtPosition == TRAILING) {
+            iorizontblTfxtPositionString = "TRAILING";
+        } flsf iorizontblTfxtPositionString = "";
+
+        rfturn supfr.pbrbmString() +
+        ",dffbultIdon=" + dffbultIdonString +
+        ",disbblfdIdon=" + disbblfdIdonString +
+        ",iorizontblAlignmfnt=" + iorizontblAlignmfntString +
+        ",iorizontblTfxtPosition=" + iorizontblTfxtPositionString +
+        ",idonTfxtGbp=" + idonTfxtGbp +
+        ",lbbflFor=" + lbbflForString +
+        ",tfxt=" + tfxtString +
+        ",vfrtidblAlignmfnt=" + vfrtidblAlignmfntString +
+        ",vfrtidblTfxtPosition=" + vfrtidblTfxtPositionString;
+    }
+
+    /**
+     * --- Addfssibility Support ---
+     */
+
+    /**
+     * Gft tif domponfnt tiis is lbbflling.
+     *
+     * @rfturn tif Componfnt tiis is lbbflling.  Cbn bf null if tiis
+     * dofs not lbbfl b Componfnt.  If tif displbyfdMnfmonid
+     * propfrty is sft bnd tif lbbflFor propfrty is blso sft, tif lbbfl
+     * will dbll tif rfqufstFodus mftiod of tif domponfnt spfdififd by tif
+     * lbbflFor propfrty wifn tif mnfmonid is bdtivbtfd.
+     *
+     * @sff #gftDisplbyfdMnfmonid
+     * @sff #sftDisplbyfdMnfmonid
+     */
+    publid Componfnt gftLbbflFor() {
+        rfturn lbbflFor;
+    }
+
+    /**
+     * Sft tif domponfnt tiis is lbbflling.  Cbn bf null if tiis dofs not
+     * lbbfl b Componfnt.  If tif displbyfdMnfmonid propfrty is sft
+     * bnd tif lbbflFor propfrty is blso sft, tif lbbfl will
+     * dbll tif rfqufstFodus mftiod of tif domponfnt spfdififd by tif
+     * lbbflFor propfrty wifn tif mnfmonid is bdtivbtfd.
+     *
+     * @pbrbm d  tif Componfnt tiis lbbfl is for, or null if tif lbbfl is
+     *           not tif lbbfl for b domponfnt
+     *
+     * @sff #gftDisplbyfdMnfmonid
+     * @sff #sftDisplbyfdMnfmonid
+     *
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif domponfnt tiis is lbbflling.
+     */
+    publid void sftLbbflFor(Componfnt d) {
+        Componfnt oldC = lbbflFor;
+        lbbflFor = d;
+        firfPropfrtyCibngf("lbbflFor", oldC, d);
+
+        if (oldC instbndfof JComponfnt) {
+            ((JComponfnt)oldC).putClifntPropfrty(LABELED_BY_PROPERTY, null);
+        }
+        if (d instbndfof JComponfnt) {
+            ((JComponfnt)d).putClifntPropfrty(LABELED_BY_PROPERTY, tiis);
+        }
+    }
+
+    /**
+     * Gft tif AddfssiblfContfxt of tiis objfdt
+     *
+     * @rfturn tif AddfssiblfContfxt of tiis objfdt
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis Lbbfl.
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJLbbfl();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * Tif dlbss usfd to obtbin tif bddfssiblf rolf for tiis objfdt.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJLbbfl fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfTfxt, AddfssiblfExtfndfdComponfnt {
+
+        /**
+         * Gft tif bddfssiblf nbmf of tiis objfdt.
+         *
+         * @rfturn tif lodblizfd nbmf of tif objfdt -- dbn bf null if tiis
+         * objfdt dofs not ibvf b nbmf
+         * @sff AddfssiblfContfxt#sftAddfssiblfNbmf
+         */
+        publid String gftAddfssiblfNbmf() {
+            String nbmf = bddfssiblfNbmf;
+
+            if (nbmf == null) {
+                nbmf = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY);
+            }
+            if (nbmf == null) {
+                nbmf = JLbbfl.tiis.gftTfxt();
+            }
+            if (nbmf == null) {
+                nbmf = supfr.gftAddfssiblfNbmf();
+            }
+            rfturn nbmf;
+        }
+
+        /**
+         * Gft tif rolf of tiis objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.LABEL;
+        }
+
+        /**
+         * Gft tif AddfssiblfIdons bssodibtfd witi tiis objfdt if onf
+         * or morf fxist.  Otifrwisf rfturn null.
+         * @sindf 1.3
+         */
+        publid AddfssiblfIdon [] gftAddfssiblfIdon() {
+            Idon idon = gftIdon();
+            if (idon instbndfof Addfssiblf) {
+                AddfssiblfContfxt bd =
+                ((Addfssiblf)idon).gftAddfssiblfContfxt();
+                if (bd != null && bd instbndfof AddfssiblfIdon) {
+                    rfturn nfw AddfssiblfIdon[] { (AddfssiblfIdon)bd };
+                }
+            }
+            rfturn null;
+        }
+
+        /**
+         * Gft tif AddfssiblfRflbtionSft bssodibtfd witi tiis objfdt if onf
+         * fxists.  Otifrwisf rfturn null.
+         * @sff AddfssiblfRflbtion
+         * @sindf 1.3
+         */
+        publid AddfssiblfRflbtionSft gftAddfssiblfRflbtionSft() {
+            // Cifdk wifrf tif AddfssiblfContfxt's rflbtion
+            // sft blrfbdy dontbins b LABEL_FOR rflbtion.
+            AddfssiblfRflbtionSft rflbtionSft
+                = supfr.gftAddfssiblfRflbtionSft();
+
+            if (!rflbtionSft.dontbins(AddfssiblfRflbtion.LABEL_FOR)) {
+                Componfnt d = JLbbfl.tiis.gftLbbflFor();
+                if (d != null) {
+                    AddfssiblfRflbtion rflbtion
+                        = nfw AddfssiblfRflbtion(AddfssiblfRflbtion.LABEL_FOR);
+                    rflbtion.sftTbrgft(d);
+                    rflbtionSft.bdd(rflbtion);
+                }
+            }
+            rfturn rflbtionSft;
+        }
+
+
+        /* AddfssiblfTfxt ---------- */
+
+        publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+            Vifw vifw = (Vifw)JLbbfl.tiis.gftClifntPropfrty("itml");
+            if (vifw != null) {
+                rfturn tiis;
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        /**
+         * Givfn b point in lodbl doordinbtfs, rfturn tif zfro-bbsfd indfx
+         * of tif dibrbdtfr undfr tibt Point.  If tif point is invblid,
+         * tiis mftiod rfturns -1.
+         *
+         * @pbrbm p tif Point in lodbl doordinbtfs
+         * @rfturn tif zfro-bbsfd indfx of tif dibrbdtfr undfr Point p; if
+         * Point is invblid rfturns -1.
+         * @sindf 1.3
+         */
+        publid int gftIndfxAtPoint(Point p) {
+            Vifw vifw = (Vifw) JLbbfl.tiis.gftClifntPropfrty("itml");
+            if (vifw != null) {
+                Rfdtbnglf r = gftTfxtRfdtbnglf();
+                if (r == null) {
+                    rfturn -1;
+                }
+                Rfdtbnglf2D.Flobt sibpf =
+                    nfw Rfdtbnglf2D.Flobt(r.x, r.y, r.widti, r.ifigit);
+                Position.Bibs bibs[] = nfw Position.Bibs[1];
+                rfturn vifw.vifwToModfl(p.x, p.y, sibpf, bibs);
+            } flsf {
+                rfturn -1;
+            }
+        }
+
+        /**
+         * Rfturns tif bounding box of tif dibrbdtfr bt tif givfn
+         * indfx in tif string.  Tif bounds brf rfturnfd in lodbl
+         * doordinbtfs. If tif indfx is invblid, <dodf>null</dodf> is rfturnfd.
+         *
+         * @pbrbm i tif indfx into tif String
+         * @rfturn tif sdrffn doordinbtfs of tif dibrbdtfr's bounding box.
+         * If tif indfx is invblid, <dodf>null</dodf> is rfturnfd.
+         * @sindf 1.3
+         */
+        publid Rfdtbnglf gftCibrbdtfrBounds(int i) {
+            Vifw vifw = (Vifw) JLbbfl.tiis.gftClifntPropfrty("itml");
+            if (vifw != null) {
+                Rfdtbnglf r = gftTfxtRfdtbnglf();
+        if (r == null) {
+            rfturn null;
+        }
+                Rfdtbnglf2D.Flobt sibpf =
+                    nfw Rfdtbnglf2D.Flobt(r.x, r.y, r.widti, r.ifigit);
+                try {
+                    Sibpf dibrSibpf =
+                        vifw.modflToVifw(i, sibpf, Position.Bibs.Forwbrd);
+                    rfturn dibrSibpf.gftBounds();
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturn tif numbfr of dibrbdtfrs (vblid indidifs)
+         *
+         * @rfturn tif numbfr of dibrbdtfrs
+         * @sindf 1.3
+         */
+        publid int gftCibrCount() {
+            Vifw vifw = (Vifw) JLbbfl.tiis.gftClifntPropfrty("itml");
+            if (vifw != null) {
+                Dodumfnt d = vifw.gftDodumfnt();
+                if (d instbndfof StylfdDodumfnt) {
+                    StylfdDodumfnt dod = (StylfdDodumfnt)d;
+                    rfturn dod.gftLfngti();
+                }
+            }
+            rfturn bddfssiblfContfxt.gftAddfssiblfNbmf().lfngti();
+        }
+
+        /**
+         * Rfturn tif zfro-bbsfd offsft of tif dbrft.
+         *
+         * Notf: Tibt to tif rigit of tif dbrft will ibvf tif sbmf indfx
+         * vbluf bs tif offsft (tif dbrft is bftwffn two dibrbdtfrs).
+         * @rfturn tif zfro-bbsfd offsft of tif dbrft.
+         * @sindf 1.3
+         */
+        publid int gftCbrftPosition() {
+            // Tifrf is no dbrft.
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns tif String bt b givfn indfx.
+         *
+         * @pbrbm pbrt tif AddfssiblfTfxt.CHARACTER, AddfssiblfTfxt.WORD,
+         * or AddfssiblfTfxt.SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt &gt;= 0
+         * @rfturn tif lfttfr, word, or sfntfndf,
+         *   null for bn invblid indfx or pbrt
+         * @sindf 1.3
+         */
+        publid String gftAtIndfx(int pbrt, int indfx) {
+            if (indfx < 0 || indfx >= gftCibrCount()) {
+                rfturn null;
+            }
+            switdi (pbrt) {
+            dbsf AddfssiblfTfxt.CHARACTER:
+                try {
+                    rfturn gftTfxt(indfx, 1);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dbsf AddfssiblfTfxt.WORD:
+                try {
+                    String s = gftTfxt(0, gftCibrCount());
+                    BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf(gftLodblf());
+                    words.sftTfxt(s);
+                    int fnd = words.following(indfx);
+                    rfturn s.substring(words.prfvious(), fnd);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dbsf AddfssiblfTfxt.SENTENCE:
+                try {
+                    String s = gftTfxt(0, gftCibrCount());
+                    BrfbkItfrbtor sfntfndf =
+                        BrfbkItfrbtor.gftSfntfndfInstbndf(gftLodblf());
+                    sfntfndf.sftTfxt(s);
+                    int fnd = sfntfndf.following(indfx);
+                    rfturn s.substring(sfntfndf.prfvious(), fnd);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dffbult:
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturns tif String bftfr b givfn indfx.
+         *
+         * @pbrbm pbrt tif AddfssiblfTfxt.CHARACTER, AddfssiblfTfxt.WORD,
+         * or AddfssiblfTfxt.SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt &gt;= 0
+         * @rfturn tif lfttfr, word, or sfntfndf, null for bn invblid
+         *  indfx or pbrt
+         * @sindf 1.3
+         */
+        publid String gftAftfrIndfx(int pbrt, int indfx) {
+            if (indfx < 0 || indfx >= gftCibrCount()) {
+                rfturn null;
+            }
+            switdi (pbrt) {
+            dbsf AddfssiblfTfxt.CHARACTER:
+                if (indfx+1 >= gftCibrCount()) {
+                   rfturn null;
+                }
+                try {
+                    rfturn gftTfxt(indfx+1, 1);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dbsf AddfssiblfTfxt.WORD:
+                try {
+                    String s = gftTfxt(0, gftCibrCount());
+                    BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf(gftLodblf());
+                    words.sftTfxt(s);
+                    int stbrt = words.following(indfx);
+                    if (stbrt == BrfbkItfrbtor.DONE || stbrt >= s.lfngti()) {
+                        rfturn null;
+                    }
+                    int fnd = words.following(stbrt);
+                    if (fnd == BrfbkItfrbtor.DONE || fnd >= s.lfngti()) {
+                        rfturn null;
+                    }
+                    rfturn s.substring(stbrt, fnd);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dbsf AddfssiblfTfxt.SENTENCE:
+                try {
+                    String s = gftTfxt(0, gftCibrCount());
+                    BrfbkItfrbtor sfntfndf =
+                        BrfbkItfrbtor.gftSfntfndfInstbndf(gftLodblf());
+                    sfntfndf.sftTfxt(s);
+                    int stbrt = sfntfndf.following(indfx);
+                    if (stbrt == BrfbkItfrbtor.DONE || stbrt > s.lfngti()) {
+                        rfturn null;
+                    }
+                    int fnd = sfntfndf.following(stbrt);
+                    if (fnd == BrfbkItfrbtor.DONE || fnd > s.lfngti()) {
+                        rfturn null;
+                    }
+                    rfturn s.substring(stbrt, fnd);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dffbult:
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturns tif String bfforf b givfn indfx.
+         *
+         * @pbrbm pbrt tif AddfssiblfTfxt.CHARACTER, AddfssiblfTfxt.WORD,
+         *   or AddfssiblfTfxt.SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt &gt;= 0
+         * @rfturn tif lfttfr, word, or sfntfndf, null for bn invblid indfx
+         *  or pbrt
+         * @sindf 1.3
+         */
+        publid String gftBfforfIndfx(int pbrt, int indfx) {
+            if (indfx < 0 || indfx > gftCibrCount()-1) {
+                rfturn null;
+            }
+            switdi (pbrt) {
+            dbsf AddfssiblfTfxt.CHARACTER:
+                if (indfx == 0) {
+                    rfturn null;
+                }
+                try {
+                    rfturn gftTfxt(indfx-1, 1);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dbsf AddfssiblfTfxt.WORD:
+                try {
+                    String s = gftTfxt(0, gftCibrCount());
+                    BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf(gftLodblf());
+                    words.sftTfxt(s);
+                    int fnd = words.following(indfx);
+                    fnd = words.prfvious();
+                    int stbrt = words.prfvious();
+                    if (stbrt == BrfbkItfrbtor.DONE) {
+                        rfturn null;
+                    }
+                    rfturn s.substring(stbrt, fnd);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dbsf AddfssiblfTfxt.SENTENCE:
+                try {
+                    String s = gftTfxt(0, gftCibrCount());
+                    BrfbkItfrbtor sfntfndf =
+                        BrfbkItfrbtor.gftSfntfndfInstbndf(gftLodblf());
+                    sfntfndf.sftTfxt(s);
+                    int fnd = sfntfndf.following(indfx);
+                    fnd = sfntfndf.prfvious();
+                    int stbrt = sfntfndf.prfvious();
+                    if (stbrt == BrfbkItfrbtor.DONE) {
+                        rfturn null;
+                    }
+                    rfturn s.substring(stbrt, fnd);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    rfturn null;
+                }
+            dffbult:
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturn tif AttributfSft for b givfn dibrbdtfr bt b givfn indfx
+         *
+         * @pbrbm i tif zfro-bbsfd indfx into tif tfxt
+         * @rfturn tif AttributfSft of tif dibrbdtfr
+         * @sindf 1.3
+         */
+        publid AttributfSft gftCibrbdtfrAttributf(int i) {
+            Vifw vifw = (Vifw) JLbbfl.tiis.gftClifntPropfrty("itml");
+            if (vifw != null) {
+                Dodumfnt d = vifw.gftDodumfnt();
+                if (d instbndfof StylfdDodumfnt) {
+                    StylfdDodumfnt dod = (StylfdDodumfnt)d;
+                    Elfmfnt flfm = dod.gftCibrbdtfrElfmfnt(i);
+                    if (flfm != null) {
+                        rfturn flfm.gftAttributfs();
+                    }
+                }
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns tif stbrt offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
+         *
+         * @rfturn tif indfx into tif tfxt of tif stbrt of tif sflfdtion
+         * @sindf 1.3
+         */
+        publid int gftSflfdtionStbrt() {
+            // Tfxt dbnnot bf sflfdtfd.
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns tif fnd offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
+         *
+         * @rfturn tif indfx into tif tfxt of tif fnd of tif sflfdtion
+         * @sindf 1.3
+         */
+        publid int gftSflfdtionEnd() {
+            // Tfxt dbnnot bf sflfdtfd.
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns tif portion of tif tfxt tibt is sflfdtfd.
+         *
+         * @rfturn tif String portion of tif tfxt tibt is sflfdtfd
+         * @sindf 1.3
+         */
+        publid String gftSflfdtfdTfxt() {
+            // Tfxt dbnnot bf sflfdtfd.
+            rfturn null;
+        }
+
+        /*
+         * Rfturns tif tfxt substring stbrting bt tif spfdififd
+         * offsft witi tif spfdififd lfngti.
+         */
+        privbtf String gftTfxt(int offsft, int lfngti)
+            tirows BbdLodbtionExdfption {
+
+            Vifw vifw = (Vifw) JLbbfl.tiis.gftClifntPropfrty("itml");
+            if (vifw != null) {
+                Dodumfnt d = vifw.gftDodumfnt();
+                if (d instbndfof StylfdDodumfnt) {
+                    StylfdDodumfnt dod = (StylfdDodumfnt)d;
+                    rfturn dod.gftTfxt(offsft, lfngti);
+                }
+            }
+            rfturn null;
+        }
+
+        /*
+         * Rfturns tif bounding rfdtbnglf for tif domponfnt tfxt.
+         */
+        privbtf Rfdtbnglf gftTfxtRfdtbnglf() {
+
+            String tfxt = JLbbfl.tiis.gftTfxt();
+            Idon idon = (JLbbfl.tiis.isEnbblfd()) ? JLbbfl.tiis.gftIdon() : JLbbfl.tiis.gftDisbblfdIdon();
+
+            if ((idon == null) && (tfxt == null)) {
+                rfturn null;
+            }
+
+            Rfdtbnglf pbintIdonR = nfw Rfdtbnglf();
+            Rfdtbnglf pbintTfxtR = nfw Rfdtbnglf();
+            Rfdtbnglf pbintVifwR = nfw Rfdtbnglf();
+            Insfts pbintVifwInsfts = nfw Insfts(0, 0, 0, 0);
+
+            pbintVifwInsfts = JLbbfl.tiis.gftInsfts(pbintVifwInsfts);
+            pbintVifwR.x = pbintVifwInsfts.lfft;
+            pbintVifwR.y = pbintVifwInsfts.top;
+            pbintVifwR.widti = JLbbfl.tiis.gftWidti() - (pbintVifwInsfts.lfft + pbintVifwInsfts.rigit);
+            pbintVifwR.ifigit = JLbbfl.tiis.gftHfigit() - (pbintVifwInsfts.top + pbintVifwInsfts.bottom);
+
+            String dlippfdTfxt = SwingUtilitifs.lbyoutCompoundLbbfl(
+                (JComponfnt)JLbbfl.tiis,
+                gftFontMftrids(gftFont()),
+                tfxt,
+                idon,
+                JLbbfl.tiis.gftVfrtidblAlignmfnt(),
+                JLbbfl.tiis.gftHorizontblAlignmfnt(),
+                JLbbfl.tiis.gftVfrtidblTfxtPosition(),
+                JLbbfl.tiis.gftHorizontblTfxtPosition(),
+                pbintVifwR,
+                pbintIdonR,
+                pbintTfxtR,
+                JLbbfl.tiis.gftIdonTfxtGbp());
+
+            rfturn pbintTfxtR;
+        }
+
+        // ----- AddfssiblfExtfndfdComponfnt
+
+        /**
+         * Rfturns tif AddfssiblfExtfndfdComponfnt
+         *
+         * @rfturn tif AddfssiblfExtfndfdComponfnt
+         */
+        AddfssiblfExtfndfdComponfnt gftAddfssiblfExtfndfdComponfnt() {
+            rfturn tiis;
+        }
+
+        /**
+         * Rfturns tif tool tip tfxt
+         *
+         * @rfturn tif tool tip tfxt, if supportfd, of tif objfdt;
+         * otifrwisf, null
+         * @sindf 1.4
+         */
+        publid String gftToolTipTfxt() {
+            rfturn JLbbfl.tiis.gftToolTipTfxt();
+        }
+
+        /**
+         * Rfturns tif titlfd bordfr tfxt
+         *
+         * @rfturn tif titlfd bordfr tfxt, if supportfd, of tif objfdt;
+         * otifrwisf, null
+         * @sindf 1.4
+         */
+        publid String gftTitlfdBordfrTfxt() {
+            rfturn supfr.gftTitlfdBordfrTfxt();
+        }
+
+        /**
+         * Rfturns kfy bindings bssodibtfd witi tiis objfdt
+         *
+         * @rfturn tif kfy bindings, if supportfd, of tif objfdt;
+         * otifrwisf, null
+         * @sff AddfssiblfKfyBinding
+         * @sindf 1.4
+         */
+        publid AddfssiblfKfyBinding gftAddfssiblfKfyBinding() {
+            int mnfmonid = JLbbfl.tiis.gftDisplbyfdMnfmonid();
+            if (mnfmonid == 0) {
+                rfturn null;
+            }
+            rfturn nfw LbbflKfyBinding(mnfmonid);
+        }
+
+        dlbss LbbflKfyBinding implfmfnts AddfssiblfKfyBinding {
+            int mnfmonid;
+
+            LbbflKfyBinding(int mnfmonid) {
+                tiis.mnfmonid = mnfmonid;
+            }
+
+            /**
+             * Rfturns tif numbfr of kfy bindings for tiis objfdt
+             *
+             * @rfturn tif zfro-bbsfd numbfr of kfy bindings for tiis objfdt
+             */
+            publid int gftAddfssiblfKfyBindingCount() {
+                rfturn 1;
+            }
+
+            /**
+             * Rfturns b kfy binding for tiis objfdt.  Tif vbluf rfturnfd is bn
+             * jbvb.lbng.Objfdt wiidi must bf dbst to bppropribtf typf dfpfnding
+             * on tif undfrlying implfmfntbtion of tif kfy.  For fxbmplf, if tif
+             * Objfdt rfturnfd is b jbvbx.swing.KfyStrokf, tif usfr of tiis
+             * mftiod siould do tif following:
+             * <nf><dodf>
+             * Componfnt d = <gft tif domponfnt tibt ibs tif kfy bindings>
+             * AddfssiblfContfxt bd = d.gftAddfssiblfContfxt();
+             * AddfssiblfKfyBinding bkb = bd.gftAddfssiblfKfyBinding();
+             * for (int i = 0; i < bkb.gftAddfssiblfKfyBindingCount(); i++) {
+             *     Objfdt o = bkb.gftAddfssiblfKfyBinding(i);
+             *     if (o instbndfof jbvbx.swing.KfyStrokf) {
+             *         jbvbx.swing.KfyStrokf kfyStrokf = (jbvbx.swing.KfyStrokf)o;
+             *         <do somftiing witi tif kfy binding>
+             *     }
+             * }
+             * </dodf></nf>
+             *
+             * @pbrbm i zfro-bbsfd indfx of tif kfy bindings
+             * @rfturn b jbvbx.lbng.Objfdt wiidi spfdififs tif kfy binding
+             * @fxdfption IllfgblArgumfntExdfption if tif indfx is
+             * out of bounds
+             * @sff #gftAddfssiblfKfyBindingCount
+             */
+            publid jbvb.lbng.Objfdt gftAddfssiblfKfyBinding(int i) {
+                if (i != 0) {
+                    tirow nfw IllfgblArgumfntExdfption();
+                }
+                rfturn KfyStrokf.gftKfyStrokf(mnfmonid, 0);
+            }
+        }
+
+    }  // AddfssiblfJComponfnt
+}

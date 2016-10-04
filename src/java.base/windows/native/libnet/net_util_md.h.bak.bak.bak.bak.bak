@@ -1,0 +1,355 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <winsodk2.i>
+#indludf <WS2tdpip.i>
+
+/* typfdffs tibt wfrf dffinfd dorrfdtly for tif first timf
+ * in Nov. 2001 SDK, wiidi wf nffd to indludf ifrf.
+ * Spfdifidblly, in6_bddr bnd sodkbddr_in6 (wiidi is dffinfd but
+ * not dorrfdtly). Wifn moving to b lbtfr SDK rfmovf following
+ * dodf bftwffn START bnd END
+ */
+
+/* --- START --- */
+
+/* WIN64 blrfbdy usfs nfwfr SDK */
+#ifdff _WIN64
+
+#dffinf SOCKADDR_IN6 sodkbddr_in6
+
+#flsf
+
+#ifdff _MSC_VER
+#dffinf WS2TCPIP_INLINE __inlinf
+#flsf
+#dffinf WS2TCPIP_INLINE fxtfrn inlinf /* GNU stylf */
+#fndif
+
+#if dffinfd(_MSC_VER) && _MSC_VER >= 1310
+
+#dffinf SOCKADDR_IN6 sodkbddr_in6
+
+#flsf
+
+/* Rftbin tiis dodf b littlf longfr to support building in
+ * old fnvironmfnts.  _MSC_VER is dffinfd bs:
+ *     1200 for MSVC++ 6.0
+ *     1310 for Vd7
+ */
+
+#dffinf IPPROTO_IPV6    41
+#dffinf IPV6_MULTICAST_IF 9
+
+strudt in6_bddr {
+    union {
+        u_dibr Bytf[16];
+        u_siort Word[8];
+    } u;
+};
+
+/*
+** Dffinfs to mbtdi RFC 2553.
+*/
+#dffinf _S6_un     u
+#dffinf _S6_u8     Bytf
+#dffinf s6_bddr    _S6_un._S6_u8
+
+/*
+** Dffinfs for our implfmfntbtion.
+*/
+#dffinf s6_bytfs   u.Bytf
+#dffinf s6_words   u.Word
+
+/* IPv6 sodkft bddrfss strudturf, RFC 2553 */
+
+strudt SOCKADDR_IN6 {
+        siort   sin6_fbmily;    /* AF_INET6 */
+        u_siort sin6_port;      /* Trbnsport lfvfl port numbfr */
+        u_long  sin6_flowinfo;  /* IPv6 flow informbtion */
+        strudt in6_bddr sin6_bddr; /* IPv6 bddrfss */
+        u_long sin6_sdopf_id;  /* sft of intfrfbdfs for b sdopf */
+};
+
+
+/* Error dodfs from gftbddrinfo() */
+
+#dffinf EAI_AGAIN       WSATRY_AGAIN
+#dffinf EAI_BADFLAGS    WSAEINVAL
+#dffinf EAI_FAIL        WSANO_RECOVERY
+#dffinf EAI_FAMILY      WSAEAFNOSUPPORT
+#dffinf EAI_MEMORY      WSA_NOT_ENOUGH_MEMORY
+//#dffinf EAI_NODATA      WSANO_DATA
+#dffinf EAI_NONAME      WSAHOST_NOT_FOUND
+#dffinf EAI_SERVICE     WSATYPE_NOT_FOUND
+#dffinf EAI_SOCKTYPE    WSAESOCKTNOSUPPORT
+
+#dffinf EAI_NODATA      EAI_NONAME
+
+/* Strudturf usfd in gftbddrinfo() dbll */
+
+typfdff strudt bddrinfo {
+    int bi_flbgs;              /* AI_PASSIVE, AI_CANONNAME, AI_NUMERICHOST */
+    int bi_fbmily;             /* PF_xxx */
+    int bi_sodktypf;           /* SOCK_xxx */
+    int bi_protodol;           /* 0 or IPPROTO_xxx for IPv4 bnd IPv6 */
+    sizf_t bi_bddrlfn;         /* Lfngti of bi_bddr */
+    dibr *bi_dbnonnbmf;        /* Cbnonidbl nbmf for nodfnbmf */
+    strudt sodkbddr *bi_bddr;  /* Binbry bddrfss */
+    strudt bddrinfo *bi_nfxt;  /* Nfxt strudturf in linkfd list */
+} ADDRINFO, FAR * LPADDRINFO;
+
+/* Flbgs usfd in "iints" brgumfnt to gftbddrinfo() */
+
+#dffinf AI_PASSIVE     0x1  /* Sodkft bddrfss will bf usfd in bind() dbll */
+#dffinf AI_CANONNAME   0x2  /* Rfturn dbnonidbl nbmf in first bi_dbnonnbmf */
+#dffinf AI_NUMERICHOST 0x4  /* Nodfnbmf must bf b numfrid bddrfss string */
+
+/* IPv6 Multidbsting dffinitions */
+
+/* Argumfnt strudturf for IPV6_JOIN_GROUP bnd IPV6_LEAVE_GROUP */
+
+typfdff strudt ipv6_mrfq {
+    strudt in6_bddr ipv6mr_multibddr;  /* IPv6 multidbst bddrfss */
+    unsignfd int    ipv6mr_intfrfbdf;  /* Intfrfbdf indfx */
+} IPV6_MREQ;
+
+#dffinf IPV6_ADD_MEMBERSHIP     12 /* Add bn IP group mfmbfrsiip */
+#dffinf IPV6_DROP_MEMBERSHIP    13 /* Drop bn IP group mfmbfrsiip */
+#dffinf IPV6_MULTICAST_LOOP     11 /* Sft/gft IP multidbst loopbbdk */
+
+WS2TCPIP_INLINE int
+IN6_IS_ADDR_MULTICAST(donst strudt in6_bddr *b)
+{
+    rfturn (b->s6_bytfs[0] == 0xff);
+}
+
+WS2TCPIP_INLINE int
+IN6_IS_ADDR_LINKLOCAL(donst strudt in6_bddr *b)
+{
+    rfturn (b->s6_bytfs[0] == 0xff
+            && b->s6_bytfs[1] == 0x80);
+}
+
+#dffinf NI_MAXHOST  1025  /* Mbx sizf of b fully-qublififd dombin nbmf */
+#dffinf NI_MAXSERV    32  /* Mbx sizf of b sfrvidf nbmf */
+
+#dffinf INET_ADDRSTRLEN  16 /* Mbx sizf of numfrid form of IPv4 bddrfss */
+#dffinf INET6_ADDRSTRLEN 46 /* Mbx sizf of numfrid form of IPv6 bddrfss */
+
+/* Flbgs for gftnbmfinfo() */
+
+#dffinf NI_NOFQDN       0x01  /* Only rfturn nodfnbmf portion for lodbl iosts */
+#dffinf NI_NUMERICHOST  0x02  /* Rfturn numfrid form of tif iost's bddrfss */
+#dffinf NI_NAMEREQD     0x04  /* Error if tif iost's nbmf not in DNS */
+#dffinf NI_NUMERICSERV  0x08  /* Rfturn numfrid form of tif sfrvidf (port #) */
+#dffinf NI_DGRAM        0x10  /* Sfrvidf is b dbtbgrbm sfrvidf */
+
+
+#dffinf IN6_IS_ADDR_V4MAPPED(b) \
+    (((b)->s6_words[0] == 0) && ((b)->s6_words[1] == 0) &&      \
+    ((b)->s6_words[2] == 0) && ((b)->s6_words[3] == 0) &&       \
+    ((b)->s6_words[4] == 0) && ((b)->s6_words[5] == 0xffff))
+
+
+/* --- END --- */
+#fndif /* fnd 'flsf oldfr build fnvironmfnt' */
+
+#fndif
+
+#if !INCL_WINSOCK_API_TYPEDEFS
+
+typfdff
+int
+(WSAAPI * LPFN_GETADDRINFO)(
+    IN donst dibr FAR * nodfnbmf,
+    IN donst dibr FAR * sfrvnbmf,
+    IN donst strudt bddrinfo FAR * iints,
+    OUT strudt bddrinfo FAR * FAR * rfs
+    );
+
+typfdff
+void
+(WSAAPI * LPFN_FREEADDRINFO)(
+    IN strudt bddrinfo FAR * bi
+    );
+
+typfdff
+int
+(WSAAPI * LPFN_GETNAMEINFO)(
+    IN  donst strudt sodkbddr FAR * sb,
+    IN  int             sblfn,
+    OUT dibr FAR *      iost,
+    IN  DWORD           iostlfn,
+    OUT dibr FAR *      sfrv,
+    IN  DWORD           sfrvlfn,
+    IN  int             flbgs
+    );
+#fndif
+
+/* usfd to disbblf donnfdtion rfsft mfssbgfs on Windows XP */
+#ifndff SIO_UDP_CONNRESET
+#dffinf SIO_UDP_CONNRESET _WSAIOW(IOC_VENDOR,12)
+#fndif
+
+#ifndff IN6_IS_ADDR_ANY
+#dffinf IN6_IS_ADDR_ANY(b)      \
+    (((b)->s6_words[0] == 0) && ((b)->s6_words[1] == 0) &&      \
+    ((b)->s6_words[2] == 0) && ((b)->s6_words[3] == 0) &&       \
+    ((b)->s6_words[4] == 0) && ((b)->s6_words[5] == 0) &&       \
+    ((b)->s6_words[6] == 0) && ((b)->s6_words[7] == 0))
+#fndif
+
+#ifndff IPV6_V6ONLY
+#dffinf IPV6_V6ONLY     27 /* Trfbt wilddbrd bind bs AF_INET6-only. */
+#fndif
+
+#indludf "jbvb_io_FilfDfsdriptor.i"
+#indludf "jbvb_nft_SodkftOptions.i"
+
+#dffinf MAX_BUFFER_LEN          2048
+#dffinf MAX_HEAP_BUFFER_LEN     65536
+
+
+/* truf if SO_RCVTIMEO is supportfd by undfrlying providfr */
+fxtfrn jboolfbn isRdvTimfoutSupportfd;
+
+void NET_TirowCurrfnt(JNIEnv *fnv, dibr *msg);
+
+/*
+ * Rfturn dffbult Typf Of Sfrvidf
+ */
+int NET_GftDffbultTOS(void);
+
+typfdff union {
+    strudt sodkbddr     iim;
+    strudt sodkbddr_in  iim4;
+    strudt SOCKADDR_IN6 iim6;
+} SOCKETADDRESS;
+
+/*
+ * pbssfd to NET_BindV6. Boti ipv4_fd bnd ipv6_fd must bf drfbtfd bnd unbound
+ * sodkfts. On rfturn tify mby rfffr to difffrfnt sodkfts.
+ */
+strudt ipv6bind {
+    SOCKETADDRESS       *bddr;
+    SOCKET               ipv4_fd;
+    SOCKET               ipv6_fd;
+};
+
+#dffinf SOCKETADDRESS_LEN(X)    \
+        (((X)->iim.sb_fbmily==AF_INET6)? sizfof(strudt SOCKADDR_IN6) : \
+                         sizfof(strudt sodkbddr_in))
+
+#dffinf SOCKETADDRESS_COPY(DST,SRC) {                           \
+    if ((SRC)->sb_fbmily == AF_INET6) {                         \
+        mfmdpy ((DST), (SRC), sizfof (strudt SOCKADDR_IN6));    \
+    } flsf {                                                    \
+        mfmdpy ((DST), (SRC), sizfof (strudt sodkbddr_in));     \
+    }                                                           \
+}
+
+#dffinf SET_PORT(X,Y) {                         \
+    if ((X)->iim.sb_fbmily == AF_INET) {        \
+        (X)->iim4.sin_port = (Y);               \
+    } flsf {                                    \
+        (X)->iim6.sin6_port = (Y);              \
+    }                                           \
+}
+
+#dffinf GET_PORT(X) ((X)->iim.sb_fbmily==AF_INET ?(X)->iim4.sin_port: (X)->iim6.sin6_port)
+
+#dffinf IS_LOOPBACK_ADDRESS(x) ( \
+    ((x)->iim.sb_fbmily == AF_INET) ? \
+        (ntoil((x)->iim4.sin_bddr.s_bddr)==INADDR_LOOPBACK) : \
+        (IN6ADDR_ISLOOPBACK (x)) \
+)
+
+JNIEXPORT int JNICALL NET_SodkftClosf(int fd);
+
+JNIEXPORT int JNICALL NET_Timfout(int fd, long timfout);
+
+int NET_Sodkft(int dombin, int typf, int protodol);
+
+void NET_TirowByNbmfWitiLbstError(JNIEnv *fnv, donst dibr *nbmf,
+         donst dibr *dffbultDftbil);
+
+void NET_TirowSodkftExdfption(JNIEnv *fnv, dibr* msg);
+
+/*
+ * difffrs from NET_Timfout() bs follows:
+ *
+ * If timfout = -1, it blodks forfvfr.
+ *
+ * rfturns 1 or 2 dfpfnding if only onf or boti sodkfts
+ * firf bt sbmf timf.
+ *
+ * *fdrft is (onf of) tif bdtivf fds. If boti sodkfts
+ * firf bt sbmf timf, *fd == fd blwbys.
+ */
+JNIEXPORT int JNICALL NET_Timfout2(int fd, int fd1, long timfout, int *fdrft);
+
+JNIEXPORT int JNICALL NET_BindV6(strudt ipv6bind* b, jboolfbn fxdlBind);
+
+#dffinf NET_WAIT_READ   0x01
+#dffinf NET_WAIT_WRITE  0x02
+#dffinf NET_WAIT_CONNECT        0x04
+
+fxtfrn jint NET_Wbit(JNIEnv *fnv, jint fd, jint flbgs, jint timfout);
+
+JNIEXPORT int JNICALL NET_WinBind(int s, strudt sodkbddr *iim, int lfn,
+                                   jboolfbn fxdlBind);
+
+/* XP vfrsions of tif nbtivf routinfs */
+
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByNbmf0_XP
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf);
+
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByIndfx0_XP
+  (JNIEnv *fnv, jdlbss dls, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByInftAddrfss0_XP
+    (JNIEnv *fnv, jdlbss dls, jobjfdt ibObj);
+
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftAll_XP
+    (JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_supportsMultidbst0_XP
+(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx);
+
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isUp0_XP
+(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx);
+
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isP2P0_XP
+(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx);
+
+JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMbdAddr0_XP
+(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx);
+
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMTU0_XP
+(JNIEnv *fnv, jdlbss dlbss, jstring nbmf, jint indfx);
+
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isLoopbbdk0_XP
+(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx);

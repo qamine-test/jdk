@@ -1,49 +1,245 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<tfrritory typf="CH"/>
+		<tfrritory typf="CH"/>
+		<tfrritory typf="CH"/>
+		<tfrritory typf="CH"/>
 		<tfrritory typf="CH"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
 	<lodblfDisplbyNbmfs>
 		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+			<lbngubgf typf="bf">Wfissrussisdi</lbngubgf>
+			<lbngubgf typf="bf">Wfissrussisdi</lbngubgf>
+			<lbngubgf typf="bf">Wfissrussisdi</lbngubgf>
+			<lbngubgf typf="bf">Wfissrussisdi</lbngubgf>
 			<lbngubgf typf="bf">Wfissrussisdi</lbngubgf>
 		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
 		<tfrritorifs>
 			<tfrritory typf="BD">Bbnglbdfsi</tfrritory>
+			<tfrritory typf="BD">Bbnglbdfsi</tfrritory>
+			<tfrritory typf="BD">Bbnglbdfsi</tfrritory>
+			<tfrritory typf="BD">Bbnglbdfsi</tfrritory>
+			<tfrritory typf="BD">Bbnglbdfsi</tfrritory>
+			<tfrritory typf="BN">Brunfi</tfrritory>
+			<tfrritory typf="BN">Brunfi</tfrritory>
+			<tfrritory typf="BN">Brunfi</tfrritory>
+			<tfrritory typf="BN">Brunfi</tfrritory>
 			<tfrritory typf="BN">Brunfi</tfrritory>
 			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BY">Wfissrusslbnd</tfrritory>
+			<tfrritory typf="BY">Wfissrusslbnd</tfrritory>
+			<tfrritory typf="BY">Wfissrusslbnd</tfrritory>
+			<tfrritory typf="BY">Wfissrusslbnd</tfrritory>
 			<tfrritory typf="BY">Wfissrusslbnd</tfrritory>
 			<tfrritory typf="CV">Kbpvfrdfn</tfrritory>
+			<tfrritory typf="CV">Kbpvfrdfn</tfrritory>
+			<tfrritory typf="CV">Kbpvfrdfn</tfrritory>
+			<tfrritory typf="CV">Kbpvfrdfn</tfrritory>
+			<tfrritory typf="CV">Kbpvfrdfn</tfrritory>
+			<tfrritory typf="DJ">Djibouti</tfrritory>
+			<tfrritory typf="DJ">Djibouti</tfrritory>
+			<tfrritory typf="DJ">Djibouti</tfrritory>
+			<tfrritory typf="DJ">Djibouti</tfrritory>
 			<tfrritory typf="DJ">Djibouti</tfrritory>
 			<tfrritory typf="GB">Grossbritbnnifn</tfrritory>
+			<tfrritory typf="GB">Grossbritbnnifn</tfrritory>
+			<tfrritory typf="GB">Grossbritbnnifn</tfrritory>
+			<tfrritory typf="GB">Grossbritbnnifn</tfrritory>
+			<tfrritory typf="GB">Grossbritbnnifn</tfrritory>
+			<tfrritory typf="MH">Mbrsibll-Insfln</tfrritory>
+			<tfrritory typf="MH">Mbrsibll-Insfln</tfrritory>
+			<tfrritory typf="MH">Mbrsibll-Insfln</tfrritory>
+			<tfrritory typf="MH">Mbrsibll-Insfln</tfrritory>
 			<tfrritory typf="MH">Mbrsibll-Insfln</tfrritory>
 			<tfrritory typf="QO">Äussfrfs Ozfbnifn</tfrritory>
+			<tfrritory typf="QO">Äussfrfs Ozfbnifn</tfrritory>
+			<tfrritory typf="QO">Äussfrfs Ozfbnifn</tfrritory>
+			<tfrritory typf="QO">Äussfrfs Ozfbnifn</tfrritory>
+			<tfrritory typf="QO">Äussfrfs Ozfbnifn</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
 			<tfrritory typf="RW">Rwbndb</tfrritory>
 			<tfrritory typf="SB">Sblomon-Insfln</tfrritory>
+			<tfrritory typf="SB">Sblomon-Insfln</tfrritory>
+			<tfrritory typf="SB">Sblomon-Insfln</tfrritory>
+			<tfrritory typf="SB">Sblomon-Insfln</tfrritory>
+			<tfrritory typf="SB">Sblomon-Insfln</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé und Prindipf</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé und Prindipf</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé und Prindipf</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé und Prindipf</tfrritory>
 			<tfrritory typf="ST">Sbo Tomé und Prindipf</tfrritory>
 			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
 		</tfrritorifs>
 	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
 	<dflimitfrs>
 		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<quotbtionEnd>»</quotbtionEnd>
+		<quotbtionEnd>»</quotbtionEnd>
+		<quotbtionEnd>»</quotbtionEnd>
 		<quotbtionEnd>»</quotbtionEnd>
 		<bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
 		<bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
 	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
 			<dfdimbl>.</dfdimbl>
 			<group>'</group>
+			<group>'</group>
+			<group>'</group>
+			<group>'</group>
+			<group>'</group>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		</symbols>
 		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
 			<durrfndyFormbtLfngti>
 				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #,##0.00;¤-#,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##0.00;¤-#,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##0.00;¤-#,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##0.00;¤-#,##0.00</pbttfrn>
 					<pbttfrn>¤ #,##0.00;¤-#,##0.00</pbttfrn>
 				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
 			</durrfndyFormbtLfngti>
 		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

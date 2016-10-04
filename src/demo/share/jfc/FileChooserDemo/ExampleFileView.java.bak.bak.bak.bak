@@ -1,193 +1,965 @@
 /*
- * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
- * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ *
+ *
+ *
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * brf mft:
+ * brf mft:
+ * brf mft:
  * brf mft:
  *
- *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
- *     notidf, this list of donditions bnd thf following disdlbimfr.
  *
- *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
- *     notidf, this list of donditions bnd thf following disdlbimfr in thf
- *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
  *
- *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *
+ *
+ *
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *
+ *
+ *
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
  *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
- *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ *
+ *
+ *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
 /*
- * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
- * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
- * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
- * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
- * this sbmplf dodf.
+/*
+/*
+/*
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 import jbvbx.swing.*;
-import jbvbx.swing.filfdhoosfr.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.filfdioosfr.*;
 import jbvb.io.Filf;
-import jbvb.util.HbshMbp;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
 import jbvb.util.Mbp;
 
 
+
+
+
+
+
+
+
+
 /**
- * A donvfnifndf implfmfntbtion of thf FilfVifw intfrfbdf thbt
+/**
+/**
+/**
+/**
+ * A donvfnifndf implfmfntbtion of tif FilfVifw intfrfbdf tibt
+ * A donvfnifndf implfmfntbtion of tif FilfVifw intfrfbdf tibt
+ * A donvfnifndf implfmfntbtion of tif FilfVifw intfrfbdf tibt
+ * A donvfnifndf implfmfntbtion of tif FilfVifw intfrfbdf tibt
+ * A donvfnifndf implfmfntbtion of tif FilfVifw intfrfbdf tibt
+ * mbnbgfs nbmf, idon, trbvfrsbblf, bnd filf typf informbtion.
+ * mbnbgfs nbmf, idon, trbvfrsbblf, bnd filf typf informbtion.
+ * mbnbgfs nbmf, idon, trbvfrsbblf, bnd filf typf informbtion.
+ * mbnbgfs nbmf, idon, trbvfrsbblf, bnd filf typf informbtion.
  * mbnbgfs nbmf, idon, trbvfrsbblf, bnd filf typf informbtion.
  *
- * This implfmfntbtion will work wfll with filf systfms thbt usf
+ *
+ *
+ *
+ *
+ * Tiis implfmfntbtion will work wfll witi filf systfms tibt usf
+ * Tiis implfmfntbtion will work wfll witi filf systfms tibt usf
+ * Tiis implfmfntbtion will work wfll witi filf systfms tibt usf
+ * Tiis implfmfntbtion will work wfll witi filf systfms tibt usf
+ * Tiis implfmfntbtion will work wfll witi filf systfms tibt usf
+ * "dot" fxtfnsions to indidbtf filf typf. For fxbmplf: "pidturf.gif"
+ * "dot" fxtfnsions to indidbtf filf typf. For fxbmplf: "pidturf.gif"
+ * "dot" fxtfnsions to indidbtf filf typf. For fxbmplf: "pidturf.gif"
+ * "dot" fxtfnsions to indidbtf filf typf. For fxbmplf: "pidturf.gif"
  * "dot" fxtfnsions to indidbtf filf typf. For fxbmplf: "pidturf.gif"
  * bs b gif imbgf.
+ * bs b gif imbgf.
+ * bs b gif imbgf.
+ * bs b gif imbgf.
+ * bs b gif imbgf.
  *
- * If thf jbvb.io.Filf fvfr dontbins somf of this informbtion, sudh bs
- * filf typf, idon, bnd hiddfn filf inforbtion, this implfmfntbtion mby
- * bfdomf obsolftf. At minimum, it should bf rfwrittfn bt thbt timf to
+ *
+ *
+ *
+ *
+ * If tif jbvb.io.Filf fvfr dontbins somf of tiis informbtion, sudi bs
+ * If tif jbvb.io.Filf fvfr dontbins somf of tiis informbtion, sudi bs
+ * If tif jbvb.io.Filf fvfr dontbins somf of tiis informbtion, sudi bs
+ * If tif jbvb.io.Filf fvfr dontbins somf of tiis informbtion, sudi bs
+ * If tif jbvb.io.Filf fvfr dontbins somf of tiis informbtion, sudi bs
+ * filf typf, idon, bnd iiddfn filf inforbtion, tiis implfmfntbtion mby
+ * filf typf, idon, bnd iiddfn filf inforbtion, tiis implfmfntbtion mby
+ * filf typf, idon, bnd iiddfn filf inforbtion, tiis implfmfntbtion mby
+ * filf typf, idon, bnd iiddfn filf inforbtion, tiis implfmfntbtion mby
+ * filf typf, idon, bnd iiddfn filf inforbtion, tiis implfmfntbtion mby
+ * bfdomf obsolftf. At minimum, it siould bf rfwrittfn bt tibt timf to
+ * bfdomf obsolftf. At minimum, it siould bf rfwrittfn bt tibt timf to
+ * bfdomf obsolftf. At minimum, it siould bf rfwrittfn bt tibt timf to
+ * bfdomf obsolftf. At minimum, it siould bf rfwrittfn bt tibt timf to
+ * bfdomf obsolftf. At minimum, it siould bf rfwrittfn bt tibt timf to
+ * usf bny nfw typf informbtion providfd by jbvb.io.Filf
+ * usf bny nfw typf informbtion providfd by jbvb.io.Filf
+ * usf bny nfw typf informbtion providfd by jbvb.io.Filf
+ * usf bny nfw typf informbtion providfd by jbvb.io.Filf
  * usf bny nfw typf informbtion providfd by jbvb.io.Filf
  *
+ *
+ *
+ *
+ *
  * Exbmplf:
- *    JFilfChoosfr dhoosfr = nfw JFilfChoosfr();
+ * Exbmplf:
+ * Exbmplf:
+ * Exbmplf:
+ * Exbmplf:
+ *    JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *    JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *    JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *    JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *    JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *    filfVifw = nfw ExbmplfFilfVifw();
+ *    filfVifw = nfw ExbmplfFilfVifw();
+ *    filfVifw = nfw ExbmplfFilfVifw();
+ *    filfVifw = nfw ExbmplfFilfVifw();
  *    filfVifw = nfw ExbmplfFilfVifw();
  *    filfVifw.putIdon("jpg", nfw ImbgfIdon("imbgfs/jpgIdon.jpg"));
+ *    filfVifw.putIdon("jpg", nfw ImbgfIdon("imbgfs/jpgIdon.jpg"));
+ *    filfVifw.putIdon("jpg", nfw ImbgfIdon("imbgfs/jpgIdon.jpg"));
+ *    filfVifw.putIdon("jpg", nfw ImbgfIdon("imbgfs/jpgIdon.jpg"));
+ *    filfVifw.putIdon("jpg", nfw ImbgfIdon("imbgfs/jpgIdon.jpg"));
  *    filfVifw.putIdon("gif", nfw ImbgfIdon("imbgfs/gifIdon.gif"));
- *    dhoosfr.sftFilfVifw(filfVifw);
+ *    filfVifw.putIdon("gif", nfw ImbgfIdon("imbgfs/gifIdon.gif"));
+ *    filfVifw.putIdon("gif", nfw ImbgfIdon("imbgfs/gifIdon.gif"));
+ *    filfVifw.putIdon("gif", nfw ImbgfIdon("imbgfs/gifIdon.gif"));
+ *    filfVifw.putIdon("gif", nfw ImbgfIdon("imbgfs/gifIdon.gif"));
+ *    dioosfr.sftFilfVifw(filfVifw);
+ *    dioosfr.sftFilfVifw(filfVifw);
+ *    dioosfr.sftFilfVifw(filfVifw);
+ *    dioosfr.sftFilfVifw(filfVifw);
+ *    dioosfr.sftFilfVifw(filfVifw);
  *
- * @buthor Jfff Dinkins
+ *
+ *
+ *
+ *
+ * @butior Jfff Dinkins
+ * @butior Jfff Dinkins
+ * @butior Jfff Dinkins
+ * @butior Jfff Dinkins
+ * @butior Jfff Dinkins
+ */
+ */
+ */
+ */
  */
 publid dlbss ExbmplfFilfVifw fxtfnds FilfVifw {
+publid dlbss ExbmplfFilfVifw fxtfnds FilfVifw {
+publid dlbss ExbmplfFilfVifw fxtfnds FilfVifw {
+publid dlbss ExbmplfFilfVifw fxtfnds FilfVifw {
+publid dlbss ExbmplfFilfVifw fxtfnds FilfVifw {
 
-    privbtf finbl Mbp<String, Idon> idons = nfw HbshMbp<String, Idon>();
+
+
+
+
+    privbtf finbl Mbp<String, Idon> idons = nfw HbsiMbp<String, Idon>();
+    privbtf finbl Mbp<String, Idon> idons = nfw HbsiMbp<String, Idon>();
+    privbtf finbl Mbp<String, Idon> idons = nfw HbsiMbp<String, Idon>();
+    privbtf finbl Mbp<String, Idon> idons = nfw HbsiMbp<String, Idon>();
+    privbtf finbl Mbp<String, Idon> idons = nfw HbsiMbp<String, Idon>();
     privbtf finbl Mbp<Filf, String> filfDfsdriptions =
-            nfw HbshMbp<Filf, String>();
+    privbtf finbl Mbp<Filf, String> filfDfsdriptions =
+    privbtf finbl Mbp<Filf, String> filfDfsdriptions =
+    privbtf finbl Mbp<Filf, String> filfDfsdriptions =
+    privbtf finbl Mbp<Filf, String> filfDfsdriptions =
+            nfw HbsiMbp<Filf, String>();
+            nfw HbsiMbp<Filf, String>();
+            nfw HbsiMbp<Filf, String>();
+            nfw HbsiMbp<Filf, String>();
+            nfw HbsiMbp<Filf, String>();
     privbtf finbl Mbp<String, String> typfDfsdriptions =
-            nfw HbshMbp<String, String>();
+    privbtf finbl Mbp<String, String> typfDfsdriptions =
+    privbtf finbl Mbp<String, String> typfDfsdriptions =
+    privbtf finbl Mbp<String, String> typfDfsdriptions =
+    privbtf finbl Mbp<String, String> typfDfsdriptions =
+            nfw HbsiMbp<String, String>();
+            nfw HbsiMbp<String, String>();
+            nfw HbsiMbp<String, String>();
+            nfw HbsiMbp<String, String>();
+            nfw HbsiMbp<String, String>();
+
+
+
+
 
     /**
-     * Thf nbmf of thf filf.  Do nothing spfdibl hfrf. Lft
-     * thf systfm filf vifw hbndlf this.
+    /**
+    /**
+    /**
+    /**
+     * Tif nbmf of tif filf.  Do notiing spfdibl ifrf. Lft
+     * Tif nbmf of tif filf.  Do notiing spfdibl ifrf. Lft
+     * Tif nbmf of tif filf.  Do notiing spfdibl ifrf. Lft
+     * Tif nbmf of tif filf.  Do notiing spfdibl ifrf. Lft
+     * Tif nbmf of tif filf.  Do notiing spfdibl ifrf. Lft
+     * tif systfm filf vifw ibndlf tiis.
+     * tif systfm filf vifw ibndlf tiis.
+     * tif systfm filf vifw ibndlf tiis.
+     * tif systfm filf vifw ibndlf tiis.
+     * tif systfm filf vifw ibndlf tiis.
+     * @sff FilfVifw#gftNbmf
+     * @sff FilfVifw#gftNbmf
+     * @sff FilfVifw#gftNbmf
+     * @sff FilfVifw#gftNbmf
      * @sff FilfVifw#gftNbmf
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid String gftNbmf(Filf f) {
+    publid String gftNbmf(Filf f) {
+    publid String gftNbmf(Filf f) {
+    publid String gftNbmf(Filf f) {
+    publid String gftNbmf(Filf f) {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Adds b humbn rfbdbblf dfsdription of thf filf.
+    /**
+    /**
+    /**
+    /**
+     * Adds b iumbn rfbdbblf dfsdription of tif filf.
+     * Adds b iumbn rfbdbblf dfsdription of tif filf.
+     * Adds b iumbn rfbdbblf dfsdription of tif filf.
+     * Adds b iumbn rfbdbblf dfsdription of tif filf.
+     * Adds b iumbn rfbdbblf dfsdription of tif filf.
+     */
+     */
+     */
+     */
      */
     publid void putDfsdription(Filf f, String filfDfsdription) {
+    publid void putDfsdription(Filf f, String filfDfsdription) {
+    publid void putDfsdription(Filf f, String filfDfsdription) {
+    publid void putDfsdription(Filf f, String filfDfsdription) {
+    publid void putDfsdription(Filf f, String filfDfsdription) {
+        filfDfsdriptions.put(f, filfDfsdription);
+        filfDfsdriptions.put(f, filfDfsdription);
+        filfDfsdriptions.put(f, filfDfsdription);
+        filfDfsdriptions.put(f, filfDfsdription);
         filfDfsdriptions.put(f, filfDfsdription);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * A humbn rfbdbblf dfsdription of thf filf.
+    /**
+    /**
+    /**
+    /**
+     * A iumbn rfbdbblf dfsdription of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif filf.
+     *
+     *
+     *
+     *
      *
      * @sff FilfVifw#gftDfsdription
+     * @sff FilfVifw#gftDfsdription
+     * @sff FilfVifw#gftDfsdription
+     * @sff FilfVifw#gftDfsdription
+     * @sff FilfVifw#gftDfsdription
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid String gftDfsdription(Filf f) {
+    publid String gftDfsdription(Filf f) {
+    publid String gftDfsdription(Filf f) {
+    publid String gftDfsdription(Filf f) {
+    publid String gftDfsdription(Filf f) {
+        rfturn filfDfsdriptions.gft(f);
+        rfturn filfDfsdriptions.gft(f);
+        rfturn filfDfsdriptions.gft(f);
+        rfturn filfDfsdriptions.gft(f);
         rfturn filfDfsdriptions.gft(f);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Adds b humbn rfbdbblf typf dfsdription for filfs. Bbsfd on "dot"
+    /**
+    /**
+    /**
+    /**
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs. Bbsfd on "dot"
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs. Bbsfd on "dot"
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs. Bbsfd on "dot"
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs. Bbsfd on "dot"
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs. Bbsfd on "dot"
+     * fxtfnsion strings, f.g: ".gif". Cbsf is ignorfd.
+     * fxtfnsion strings, f.g: ".gif". Cbsf is ignorfd.
+     * fxtfnsion strings, f.g: ".gif". Cbsf is ignorfd.
+     * fxtfnsion strings, f.g: ".gif". Cbsf is ignorfd.
      * fxtfnsion strings, f.g: ".gif". Cbsf is ignorfd.
      */
+     */
+     */
+     */
+     */
+    publid void putTypfDfsdription(String fxtfnsion, String typfDfsdription) {
+    publid void putTypfDfsdription(String fxtfnsion, String typfDfsdription) {
+    publid void putTypfDfsdription(String fxtfnsion, String typfDfsdription) {
+    publid void putTypfDfsdription(String fxtfnsion, String typfDfsdription) {
     publid void putTypfDfsdription(String fxtfnsion, String typfDfsdription) {
         typfDfsdriptions.put(fxtfnsion, typfDfsdription);
+        typfDfsdriptions.put(fxtfnsion, typfDfsdription);
+        typfDfsdriptions.put(fxtfnsion, typfDfsdription);
+        typfDfsdriptions.put(fxtfnsion, typfDfsdription);
+        typfDfsdriptions.put(fxtfnsion, typfDfsdription);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Adds b humbn rfbdbblf typf dfsdription for filfs of thf typf of
-     * thf pbssfd in filf. Bbsfd on "dot" fxtfnsion strings, f.g: ".gif".
+    /**
+    /**
+    /**
+    /**
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs of tif typf of
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs of tif typf of
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs of tif typf of
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs of tif typf of
+     * Adds b iumbn rfbdbblf typf dfsdription for filfs of tif typf of
+     * tif pbssfd in filf. Bbsfd on "dot" fxtfnsion strings, f.g: ".gif".
+     * tif pbssfd in filf. Bbsfd on "dot" fxtfnsion strings, f.g: ".gif".
+     * tif pbssfd in filf. Bbsfd on "dot" fxtfnsion strings, f.g: ".gif".
+     * tif pbssfd in filf. Bbsfd on "dot" fxtfnsion strings, f.g: ".gif".
+     * tif pbssfd in filf. Bbsfd on "dot" fxtfnsion strings, f.g: ".gif".
+     * Cbsf is ignorfd.
+     * Cbsf is ignorfd.
+     * Cbsf is ignorfd.
+     * Cbsf is ignorfd.
      * Cbsf is ignorfd.
      */
+     */
+     */
+     */
+     */
+    publid void putTypfDfsdription(Filf f, String typfDfsdription) {
+    publid void putTypfDfsdription(Filf f, String typfDfsdription) {
+    publid void putTypfDfsdription(Filf f, String typfDfsdription) {
+    publid void putTypfDfsdription(Filf f, String typfDfsdription) {
     publid void putTypfDfsdription(Filf f, String typfDfsdription) {
         putTypfDfsdription(gftExtfnsion(f), typfDfsdription);
+        putTypfDfsdription(gftExtfnsion(f), typfDfsdription);
+        putTypfDfsdription(gftExtfnsion(f), typfDfsdription);
+        putTypfDfsdription(gftExtfnsion(f), typfDfsdription);
+        putTypfDfsdription(gftExtfnsion(f), typfDfsdription);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * A humbn rfbdbblf dfsdription of thf typf of thf filf.
+    /**
+    /**
+    /**
+    /**
+     * A iumbn rfbdbblf dfsdription of tif typf of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif typf of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif typf of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif typf of tif filf.
+     * A iumbn rfbdbblf dfsdription of tif typf of tif filf.
+     *
+     *
+     *
+     *
      *
      * @sff FilfVifw#gftTypfDfsdription
+     * @sff FilfVifw#gftTypfDfsdription
+     * @sff FilfVifw#gftTypfDfsdription
+     * @sff FilfVifw#gftTypfDfsdription
+     * @sff FilfVifw#gftTypfDfsdription
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid String gftTypfDfsdription(Filf f) {
+    publid String gftTypfDfsdription(Filf f) {
+    publid String gftTypfDfsdription(Filf f) {
+    publid String gftTypfDfsdription(Filf f) {
+    publid String gftTypfDfsdription(Filf f) {
+        rfturn typfDfsdriptions.gft(gftExtfnsion(f));
+        rfturn typfDfsdriptions.gft(gftExtfnsion(f));
+        rfturn typfDfsdriptions.gft(gftExtfnsion(f));
+        rfturn typfDfsdriptions.gft(gftExtfnsion(f));
         rfturn typfDfsdriptions.gft(gftExtfnsion(f));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Convfnifndf mfthod thbt rfturns thf "dot" fxtfnsion for thf
+    /**
+    /**
+    /**
+    /**
+     * Convfnifndf mftiod tibt rfturns tif "dot" fxtfnsion for tif
+     * Convfnifndf mftiod tibt rfturns tif "dot" fxtfnsion for tif
+     * Convfnifndf mftiod tibt rfturns tif "dot" fxtfnsion for tif
+     * Convfnifndf mftiod tibt rfturns tif "dot" fxtfnsion for tif
+     * Convfnifndf mftiod tibt rfturns tif "dot" fxtfnsion for tif
+     * givfn filf.
+     * givfn filf.
+     * givfn filf.
+     * givfn filf.
      * givfn filf.
      */
+     */
+     */
+     */
+     */
+    privbtf String gftExtfnsion(Filf f) {
+    privbtf String gftExtfnsion(Filf f) {
+    privbtf String gftExtfnsion(Filf f) {
+    privbtf String gftExtfnsion(Filf f) {
     privbtf String gftExtfnsion(Filf f) {
         String nbmf = f.gftNbmf();
+        String nbmf = f.gftNbmf();
+        String nbmf = f.gftNbmf();
+        String nbmf = f.gftNbmf();
+        String nbmf = f.gftNbmf();
+        if (nbmf != null) {
+        if (nbmf != null) {
+        if (nbmf != null) {
+        if (nbmf != null) {
         if (nbmf != null) {
             int fxtfnsionIndfx = nbmf.lbstIndfxOf('.');
+            int fxtfnsionIndfx = nbmf.lbstIndfxOf('.');
+            int fxtfnsionIndfx = nbmf.lbstIndfxOf('.');
+            int fxtfnsionIndfx = nbmf.lbstIndfxOf('.');
+            int fxtfnsionIndfx = nbmf.lbstIndfxOf('.');
+            if (fxtfnsionIndfx < 0) {
+            if (fxtfnsionIndfx < 0) {
+            if (fxtfnsionIndfx < 0) {
+            if (fxtfnsionIndfx < 0) {
             if (fxtfnsionIndfx < 0) {
                 rfturn null;
+                rfturn null;
+                rfturn null;
+                rfturn null;
+                rfturn null;
+            }
+            }
+            }
+            }
             }
             rfturn nbmf.substring(fxtfnsionIndfx + 1).toLowfrCbsf();
+            rfturn nbmf.substring(fxtfnsionIndfx + 1).toLowfrCbsf();
+            rfturn nbmf.substring(fxtfnsionIndfx + 1).toLowfrCbsf();
+            rfturn nbmf.substring(fxtfnsionIndfx + 1).toLowfrCbsf();
+            rfturn nbmf.substring(fxtfnsionIndfx + 1).toLowfrCbsf();
+        }
+        }
+        }
+        }
         }
         rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Adds bn idon bbsfd on thf filf typf "dot" fxtfnsion
+    /**
+    /**
+    /**
+    /**
+     * Adds bn idon bbsfd on tif filf typf "dot" fxtfnsion
+     * Adds bn idon bbsfd on tif filf typf "dot" fxtfnsion
+     * Adds bn idon bbsfd on tif filf typf "dot" fxtfnsion
+     * Adds bn idon bbsfd on tif filf typf "dot" fxtfnsion
+     * Adds bn idon bbsfd on tif filf typf "dot" fxtfnsion
+     * string, f.g: ".gif". Cbsf is ignorfd.
+     * string, f.g: ".gif". Cbsf is ignorfd.
+     * string, f.g: ".gif". Cbsf is ignorfd.
+     * string, f.g: ".gif". Cbsf is ignorfd.
      * string, f.g: ".gif". Cbsf is ignorfd.
      */
+     */
+     */
+     */
+     */
+    publid void putIdon(String fxtfnsion, Idon idon) {
+    publid void putIdon(String fxtfnsion, Idon idon) {
+    publid void putIdon(String fxtfnsion, Idon idon) {
+    publid void putIdon(String fxtfnsion, Idon idon) {
     publid void putIdon(String fxtfnsion, Idon idon) {
         idons.put(fxtfnsion, idon);
+        idons.put(fxtfnsion, idon);
+        idons.put(fxtfnsion, idon);
+        idons.put(fxtfnsion, idon);
+        idons.put(fxtfnsion, idon);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Idon thbt rfpfrfsfnts this filf. Dffbult implfmfntbtion rfturns
-     * null. You might wbnt to ovfrridf this to rfturn somfthing morf
+    /**
+    /**
+    /**
+    /**
+     * Idon tibt rfpfrfsfnts tiis filf. Dffbult implfmfntbtion rfturns
+     * Idon tibt rfpfrfsfnts tiis filf. Dffbult implfmfntbtion rfturns
+     * Idon tibt rfpfrfsfnts tiis filf. Dffbult implfmfntbtion rfturns
+     * Idon tibt rfpfrfsfnts tiis filf. Dffbult implfmfntbtion rfturns
+     * Idon tibt rfpfrfsfnts tiis filf. Dffbult implfmfntbtion rfturns
+     * null. You migit wbnt to ovfrridf tiis to rfturn somftiing morf
+     * null. You migit wbnt to ovfrridf tiis to rfturn somftiing morf
+     * null. You migit wbnt to ovfrridf tiis to rfturn somftiing morf
+     * null. You migit wbnt to ovfrridf tiis to rfturn somftiing morf
+     * null. You migit wbnt to ovfrridf tiis to rfturn somftiing morf
+     * intfrfsting.
+     * intfrfsting.
+     * intfrfsting.
+     * intfrfsting.
      * intfrfsting.
      *
+     *
+     *
+     *
+     *
+     * @sff FilfVifw#gftIdon
+     * @sff FilfVifw#gftIdon
+     * @sff FilfVifw#gftIdon
+     * @sff FilfVifw#gftIdon
      * @sff FilfVifw#gftIdon
      */
-    @Ovfrridf
-    publid Idon gftIdon(Filf f) {
-        Idon idon = null;
-        String fxtfnsion = gftExtfnsion(f);
-        if (fxtfnsion != null) {
-            idon = idons.gft(fxtfnsion);
-        }
-        rfturn idon;
-    }
-
-    /**
-     * Whfthfr thf dirfdtory is trbvfrsbblf or not. Gfnfrid implfmfntbtion
-     * rfturns truf for bll dirfdtorifs bnd spfdibl foldfrs.
-     *
-     * You might wbnt to subtypf ExbmplfFilfVifw to do somfthimg morf intfrfsting,
-     * sudh bs rfdognizf dompound dodumfnts dirfdtorifs; in sudh b dbsf you might
-     * rfturn b spfdibl idon for thf dirfdtory thbt mbkfs it look likf b rfgulbr
-     * dodumfnt, bnd rfturn fblsf for isTrbvfrsbblf to not bllow usfrs to
-     * dfsdfnd into thf dirfdtory.
-     *
-     * @sff FilfVifw#isTrbvfrsbblf
+     */
+     */
+     */
      */
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid Idon gftIdon(Filf f) {
+    publid Idon gftIdon(Filf f) {
+    publid Idon gftIdon(Filf f) {
+    publid Idon gftIdon(Filf f) {
+    publid Idon gftIdon(Filf f) {
+        Idon idon = null;
+        Idon idon = null;
+        Idon idon = null;
+        Idon idon = null;
+        Idon idon = null;
+        String fxtfnsion = gftExtfnsion(f);
+        String fxtfnsion = gftExtfnsion(f);
+        String fxtfnsion = gftExtfnsion(f);
+        String fxtfnsion = gftExtfnsion(f);
+        String fxtfnsion = gftExtfnsion(f);
+        if (fxtfnsion != null) {
+        if (fxtfnsion != null) {
+        if (fxtfnsion != null) {
+        if (fxtfnsion != null) {
+        if (fxtfnsion != null) {
+            idon = idons.gft(fxtfnsion);
+            idon = idons.gft(fxtfnsion);
+            idon = idons.gft(fxtfnsion);
+            idon = idons.gft(fxtfnsion);
+            idon = idons.gft(fxtfnsion);
+        }
+        }
+        }
+        }
+        }
+        rfturn idon;
+        rfturn idon;
+        rfturn idon;
+        rfturn idon;
+        rfturn idon;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Wiftifr tif dirfdtory is trbvfrsbblf or not. Gfnfrid implfmfntbtion
+     * Wiftifr tif dirfdtory is trbvfrsbblf or not. Gfnfrid implfmfntbtion
+     * Wiftifr tif dirfdtory is trbvfrsbblf or not. Gfnfrid implfmfntbtion
+     * Wiftifr tif dirfdtory is trbvfrsbblf or not. Gfnfrid implfmfntbtion
+     * Wiftifr tif dirfdtory is trbvfrsbblf or not. Gfnfrid implfmfntbtion
+     * rfturns truf for bll dirfdtorifs bnd spfdibl foldfrs.
+     * rfturns truf for bll dirfdtorifs bnd spfdibl foldfrs.
+     * rfturns truf for bll dirfdtorifs bnd spfdibl foldfrs.
+     * rfturns truf for bll dirfdtorifs bnd spfdibl foldfrs.
+     * rfturns truf for bll dirfdtorifs bnd spfdibl foldfrs.
+     *
+     *
+     *
+     *
+     *
+     * You migit wbnt to subtypf ExbmplfFilfVifw to do somftiimg morf intfrfsting,
+     * You migit wbnt to subtypf ExbmplfFilfVifw to do somftiimg morf intfrfsting,
+     * You migit wbnt to subtypf ExbmplfFilfVifw to do somftiimg morf intfrfsting,
+     * You migit wbnt to subtypf ExbmplfFilfVifw to do somftiimg morf intfrfsting,
+     * You migit wbnt to subtypf ExbmplfFilfVifw to do somftiimg morf intfrfsting,
+     * sudi bs rfdognizf dompound dodumfnts dirfdtorifs; in sudi b dbsf you migit
+     * sudi bs rfdognizf dompound dodumfnts dirfdtorifs; in sudi b dbsf you migit
+     * sudi bs rfdognizf dompound dodumfnts dirfdtorifs; in sudi b dbsf you migit
+     * sudi bs rfdognizf dompound dodumfnts dirfdtorifs; in sudi b dbsf you migit
+     * sudi bs rfdognizf dompound dodumfnts dirfdtorifs; in sudi b dbsf you migit
+     * rfturn b spfdibl idon for tif dirfdtory tibt mbkfs it look likf b rfgulbr
+     * rfturn b spfdibl idon for tif dirfdtory tibt mbkfs it look likf b rfgulbr
+     * rfturn b spfdibl idon for tif dirfdtory tibt mbkfs it look likf b rfgulbr
+     * rfturn b spfdibl idon for tif dirfdtory tibt mbkfs it look likf b rfgulbr
+     * rfturn b spfdibl idon for tif dirfdtory tibt mbkfs it look likf b rfgulbr
+     * dodumfnt, bnd rfturn fblsf for isTrbvfrsbblf to not bllow usfrs to
+     * dodumfnt, bnd rfturn fblsf for isTrbvfrsbblf to not bllow usfrs to
+     * dodumfnt, bnd rfturn fblsf for isTrbvfrsbblf to not bllow usfrs to
+     * dodumfnt, bnd rfturn fblsf for isTrbvfrsbblf to not bllow usfrs to
+     * dodumfnt, bnd rfturn fblsf for isTrbvfrsbblf to not bllow usfrs to
+     * dfsdfnd into tif dirfdtory.
+     * dfsdfnd into tif dirfdtory.
+     * dfsdfnd into tif dirfdtory.
+     * dfsdfnd into tif dirfdtory.
+     * dfsdfnd into tif dirfdtory.
+     *
+     *
+     *
+     *
+     *
+     * @sff FilfVifw#isTrbvfrsbblf
+     * @sff FilfVifw#isTrbvfrsbblf
+     * @sff FilfVifw#isTrbvfrsbblf
+     * @sff FilfVifw#isTrbvfrsbblf
+     * @sff FilfVifw#isTrbvfrsbblf
+     */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
     publid Boolfbn isTrbvfrsbblf(Filf f) {
         // if (somf_rfbson) {
+        // if (somf_rfbson) {
+        // if (somf_rfbson) {
+        // if (somf_rfbson) {
+        // if (somf_rfbson) {
+        //    rfturn Boolfbn.FALSE;
+        //    rfturn Boolfbn.FALSE;
+        //    rfturn Boolfbn.FALSE;
+        //    rfturn Boolfbn.FALSE;
         //    rfturn Boolfbn.FALSE;
         // }
+        // }
+        // }
+        // }
+        // }
+        rfturn null;    // Usf dffbult from FilfSystfmVifw
+        rfturn null;    // Usf dffbult from FilfSystfmVifw
+        rfturn null;    // Usf dffbult from FilfSystfmVifw
+        rfturn null;    // Usf dffbult from FilfSystfmVifw
         rfturn null;    // Usf dffbult from FilfSystfmVifw
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

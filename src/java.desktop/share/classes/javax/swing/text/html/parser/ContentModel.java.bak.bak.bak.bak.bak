@@ -1,0 +1,282 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.*;
+
+
+/**
+ * A rfprfsfntbtion of b dontfnt modfl. A dontfnt modfl is
+ * bbsidblly b rfstridtfd BNF fxprfssion. It is rfstridtfd in
+ * tif sfnsf tibt it must bf dftfrministid. Tiis mfbns tibt you
+ * don't ibvf to rfprfsfnt it bs b finitf stbtf butombton.<p>
+ * Sff Annfx H on pbgf 556 of tif SGML ibndbook for morf informbtion.
+ *
+ * @butior   Artiur vbn Hoff
+ *
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl dlbss ContfntModfl implfmfnts Sfriblizbblf {
+    /**
+     * Typf. Eitifr '*', '?', '+', ',', '|', '&bmp;'.
+     */
+    publid int typf;
+
+    /**
+     * Tif dontfnt. Eitifr bn Elfmfnt or b ContfntModfl.
+     */
+    publid Objfdt dontfnt;
+
+    /**
+     * Tif nfxt dontfnt modfl (in b ',', '|' or '&bmp;' fxprfssion).
+     */
+    publid ContfntModfl nfxt;
+
+    /**
+     * Crfbtfs {@dodf ContfntModfl}
+     */
+    publid ContfntModfl() {
+    }
+
+    /**
+     * Crfbtf b dontfnt modfl for bn flfmfnt.
+     *
+     * @pbrbm dontfnt  tif flfmfnt
+     */
+    publid ContfntModfl(Elfmfnt dontfnt) {
+        tiis(0, dontfnt, null);
+    }
+
+    /**
+     * Crfbtf b dontfnt modfl of b pbrtidulbr typf.
+     *
+     * @pbrbm typf     tif typf
+     * @pbrbm dontfnt  tif dontfnt
+     */
+    publid ContfntModfl(int typf, ContfntModfl dontfnt) {
+        tiis(typf, dontfnt, null);
+    }
+
+    /**
+     * Crfbtf b dontfnt modfl of b pbrtidulbr typf.
+     *
+     * @pbrbm typf     tif typf
+     * @pbrbm dontfnt  tif dontfnt
+     * @pbrbm nfxt     tif nfxt dontfnt modfl
+     */
+    publid ContfntModfl(int typf, Objfdt dontfnt, ContfntModfl nfxt) {
+        tiis.typf = typf;
+        tiis.dontfnt = dontfnt;
+        tiis.nfxt = nfxt;
+    }
+
+    /**
+     * Rfturn truf if tif dontfnt modfl dould
+     * mbtdi bn fmpty input strfbm.
+     *
+     * @rfturn {@dodf truf} if tif dontfnt modfl dould
+     *         mbtdi bn fmpty input strfbm
+     */
+    publid boolfbn fmpty() {
+        switdi (typf) {
+          dbsf '*':
+          dbsf '?':
+            rfturn truf;
+
+          dbsf '+':
+          dbsf '|':
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (m.fmpty()) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+
+          dbsf ',':
+          dbsf '&':
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (!m.fmpty()) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+
+          dffbult:
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Updbtf flfmVfd witi tif list of flfmfnts tibt brf
+     * pbrt of tif tiis dontfntModfl.
+     *
+     * @pbrbm flfmVfd  tif list of flfmfnts
+     */
+     publid void gftElfmfnts(Vfdtor<Elfmfnt> flfmVfd) {
+         switdi (typf) {
+         dbsf '*':
+         dbsf '?':
+         dbsf '+':
+             ((ContfntModfl)dontfnt).gftElfmfnts(flfmVfd);
+             brfbk;
+         dbsf ',':
+         dbsf '|':
+         dbsf '&':
+             for (ContfntModfl m=(ContfntModfl)dontfnt; m != null; m=m.nfxt){
+                 m.gftElfmfnts(flfmVfd);
+             }
+             brfbk;
+         dffbult:
+             flfmVfd.bddElfmfnt((Elfmfnt)dontfnt);
+         }
+     }
+
+     privbtf boolfbn vblSft[];
+     privbtf boolfbn vbl[];
+     // A dbdif usfd by first().  Tiis dbdif wbs found to spffd pbrsing
+     // by bbout 10% (bbsfd on mfbsurfmfnts of tif 4-12 dodf bbsf bftfr
+     // bufffring wbs fixfd).
+
+    /**
+     * Rfturn truf if tif tokfn dould potfntiblly bf tif
+     * first tokfn in tif input strfbm.
+     *
+     * @pbrbm tokfn  tif tokfn
+     *
+     * @rfturn {@dodf truf} if tif tokfn dould potfntiblly bf tif first tokfn
+     *         in tif input strfbm
+     */
+    publid boolfbn first(Objfdt tokfn) {
+        switdi (typf) {
+          dbsf '*':
+          dbsf '?':
+          dbsf '+':
+            rfturn ((ContfntModfl)dontfnt).first(tokfn);
+
+          dbsf ',':
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (m.first(tokfn)) {
+                    rfturn truf;
+                }
+                if (!m.fmpty()) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn fblsf;
+
+          dbsf '|':
+          dbsf '&': {
+            Elfmfnt f = (Elfmfnt) tokfn;
+            if (vblSft == null) {
+                vblSft = nfw boolfbn[Elfmfnt.gftMbxIndfx() + 1];
+                vbl = nfw boolfbn[vblSft.lfngti];
+                // All Elfmfnt instbndfs brf drfbtfd bfforf tiis fvfr fxfdutfs
+            }
+            if (vblSft[f.indfx]) {
+                rfturn vbl[f.indfx];
+            }
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                if (m.first(tokfn)) {
+                    vbl[f.indfx] = truf;
+                    brfbk;
+                }
+            }
+            vblSft[f.indfx] = truf;
+            rfturn vbl[f.indfx];
+          }
+
+          dffbult:
+            rfturn (dontfnt == tokfn);
+            // PENDING: rfffr to dommfnt in ContfntModflStbtf
+/*
+              if (dontfnt == tokfn) {
+                  rfturn truf;
+              }
+              Elfmfnt f = (Elfmfnt)dontfnt;
+              if (f.omitStbrt() && f.dontfnt != null) {
+                  rfturn f.dontfnt.first(tokfn);
+              }
+              rfturn fblsf;
+*/
+        }
+    }
+
+    /**
+     * Rfturn tif flfmfnt tibt must bf nfxt.
+     *
+     * @rfturn tif flfmfnt tibt must bf nfxt
+     */
+    publid Elfmfnt first() {
+        switdi (typf) {
+          dbsf '&':
+          dbsf '|':
+          dbsf '*':
+          dbsf '?':
+            rfturn null;
+
+          dbsf '+':
+          dbsf ',':
+            rfturn ((ContfntModfl)dontfnt).first();
+
+          dffbult:
+            rfturn (Elfmfnt)dontfnt;
+        }
+    }
+
+    /**
+     * Convfrt to b string.
+     *
+     * @rfturn tif string rfprfsfntbtion of tiis {@dodf ContfntModfl}
+     */
+    publid String toString() {
+        switdi (typf) {
+          dbsf '*':
+            rfturn dontfnt + "*";
+          dbsf '?':
+            rfturn dontfnt + "?";
+          dbsf '+':
+            rfturn dontfnt + "+";
+
+          dbsf ',':
+          dbsf '|':
+          dbsf '&':
+            dibr dbtb[] = {' ', (dibr)typf, ' '};
+            String str = "";
+            for (ContfntModfl m = (ContfntModfl)dontfnt ; m != null ; m = m.nfxt) {
+                str = str + m;
+                if (m.nfxt != null) {
+                    str += nfw String(dbtb);
+                }
+            }
+            rfturn "(" + str + ")";
+
+          dffbult:
+            rfturn dontfnt.toString();
+        }
+    }
+}

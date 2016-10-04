@@ -1,318 +1,1590 @@
 #####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#	Dffbult Configurbtion Filf for Jbvb Plbtform Mbnbgfmfnt
+#	Dffbult Configurbtion Filf for Jbvb Plbtform Mbnbgfmfnt
+#	Dffbult Configurbtion Filf for Jbvb Plbtform Mbnbgfmfnt
+#	Dffbult Configurbtion Filf for Jbvb Plbtform Mbnbgfmfnt
 #	Dffbult Configurbtion Filf for Jbvb Plbtform Mbnbgfmfnt
 #####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#
+#
+#
+#
 #
 # Tif Mbnbgfmfnt Configurbtion filf (in jbvb.util.Propfrtifs formbt)
+# Tif Mbnbgfmfnt Configurbtion filf (in jbvb.util.Propfrtifs formbt)
+# Tif Mbnbgfmfnt Configurbtion filf (in jbvb.util.Propfrtifs formbt)
+# Tif Mbnbgfmfnt Configurbtion filf (in jbvb.util.Propfrtifs formbt)
+# Tif Mbnbgfmfnt Configurbtion filf (in jbvb.util.Propfrtifs formbt)
+# will bf rfbd if onf of tif following systfm propfrtifs is sft:
+# will bf rfbd if onf of tif following systfm propfrtifs is sft:
+# will bf rfbd if onf of tif following systfm propfrtifs is sft:
+# will bf rfbd if onf of tif following systfm propfrtifs is sft:
 # will bf rfbd if onf of tif following systfm propfrtifs is sft:
 #    -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+#    -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+#    -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+#    -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+#    -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# or -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# or -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# or -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# or -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
 # or -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
 # or -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+# or -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+# or -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+# or -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+# or -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+#
+#
+#
+#
 #
 # Tif dffbult Mbnbgfmfnt Configurbtion filf is:
+# Tif dffbult Mbnbgfmfnt Configurbtion filf is:
+# Tif dffbult Mbnbgfmfnt Configurbtion filf is:
+# Tif dffbult Mbnbgfmfnt Configurbtion filf is:
+# Tif dffbult Mbnbgfmfnt Configurbtion filf is:
+#
+#
+#
+#
 #
 #       $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+#       $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+#       $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+#       $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+#       $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+#
+#
+#
+#
 #
 # Anotifr lodbtion for tif Mbnbgfmfnt Configurbtion Filf dbn bf spfdififd
+# Anotifr lodbtion for tif Mbnbgfmfnt Configurbtion Filf dbn bf spfdififd
+# Anotifr lodbtion for tif Mbnbgfmfnt Configurbtion Filf dbn bf spfdififd
+# Anotifr lodbtion for tif Mbnbgfmfnt Configurbtion Filf dbn bf spfdififd
+# Anotifr lodbtion for tif Mbnbgfmfnt Configurbtion Filf dbn bf spfdififd
+# by tif following propfrty on tif Jbvb dommbnd linf:
+# by tif following propfrty on tif Jbvb dommbnd linf:
+# by tif following propfrty on tif Jbvb dommbnd linf:
+# by tif following propfrty on tif Jbvb dommbnd linf:
 # by tif following propfrty on tif Jbvb dommbnd linf:
 #
+#
+#
+#
+#
+#    -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+#    -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+#    -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
+#    -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
 #    -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf>
 #
+#
+#
+#
+#
+# If -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf> is sft, tif port
+# If -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf> is sft, tif port
+# If -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf> is sft, tif port
+# If -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf> is sft, tif port
 # If -Ddom.sun.mbnbgfmfnt.donfig.filf=<tiis-filf> is sft, tif port
 # numbfr for tif mbnbgfmfnt bgfnt dbn bf spfdififd in tif donfig filf
+# numbfr for tif mbnbgfmfnt bgfnt dbn bf spfdififd in tif donfig filf
+# numbfr for tif mbnbgfmfnt bgfnt dbn bf spfdififd in tif donfig filf
+# numbfr for tif mbnbgfmfnt bgfnt dbn bf spfdififd in tif donfig filf
+# numbfr for tif mbnbgfmfnt bgfnt dbn bf spfdififd in tif donfig filf
+# using tif following linfs:
+# using tif following linfs:
+# using tif following linfs:
+# using tif following linfs:
 # using tif following linfs:
 #
+#
+#
+#
+#
+# ################ Mbnbgfmfnt Agfnt Port #########################
+# ################ Mbnbgfmfnt Agfnt Port #########################
+# ################ Mbnbgfmfnt Agfnt Port #########################
+# ################ Mbnbgfmfnt Agfnt Port #########################
 # ################ Mbnbgfmfnt Agfnt Port #########################
 #
+#
+#
+#
+#
+# For sftting tif JMX RMI bgfnt port usf tif following linf
+# For sftting tif JMX RMI bgfnt port usf tif following linf
+# For sftting tif JMX RMI bgfnt port usf tif following linf
+# For sftting tif JMX RMI bgfnt port usf tif following linf
 # For sftting tif JMX RMI bgfnt port usf tif following linf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+#
+#
+#
+#
 #
 # For sftting tif SNMP bgfnt port usf tif following linf
+# For sftting tif SNMP bgfnt port usf tif following linf
+# For sftting tif SNMP bgfnt port usf tif following linf
+# For sftting tif SNMP bgfnt port usf tif following linf
+# For sftting tif SNMP bgfnt port usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
 # dom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
 
+
+
+
+
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
 #####################################################################
 #                   Optionbl Instrumfntbtion
+#                   Optionbl Instrumfntbtion
+#                   Optionbl Instrumfntbtion
+#                   Optionbl Instrumfntbtion
+#                   Optionbl Instrumfntbtion
 #####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#
+#
+#
+#
 #
 # By dffbult only tif bbsid instrumfntbtion witi low ovfrifbd is on.
+# By dffbult only tif bbsid instrumfntbtion witi low ovfrifbd is on.
+# By dffbult only tif bbsid instrumfntbtion witi low ovfrifbd is on.
+# By dffbult only tif bbsid instrumfntbtion witi low ovfrifbd is on.
+# By dffbult only tif bbsid instrumfntbtion witi low ovfrifbd is on.
+# Tif following propfrtifs bllow to sflfdtivfly turn on optionbl
+# Tif following propfrtifs bllow to sflfdtivfly turn on optionbl
+# Tif following propfrtifs bllow to sflfdtivfly turn on optionbl
+# Tif following propfrtifs bllow to sflfdtivfly turn on optionbl
 # Tif following propfrtifs bllow to sflfdtivfly turn on optionbl
 # instrumfntbtion wiidi brf off by dffbult bnd mby ibvf somf
+# instrumfntbtion wiidi brf off by dffbult bnd mby ibvf somf
+# instrumfntbtion wiidi brf off by dffbult bnd mby ibvf somf
+# instrumfntbtion wiidi brf off by dffbult bnd mby ibvf somf
+# instrumfntbtion wiidi brf off by dffbult bnd mby ibvf somf
+# bdditionbl ovfrifbd.
+# bdditionbl ovfrifbd.
+# bdditionbl ovfrifbd.
+# bdditionbl ovfrifbd.
 # bdditionbl ovfrifbd.
 #
+#
+#
+#
+#
 # dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+#
+#
+#
+#
 #
 #      Tiis option fnbblfs tirfbd dontfntion monitoring if tif
+#      Tiis option fnbblfs tirfbd dontfntion monitoring if tif
+#      Tiis option fnbblfs tirfbd dontfntion monitoring if tif
+#      Tiis option fnbblfs tirfbd dontfntion monitoring if tif
+#      Tiis option fnbblfs tirfbd dontfntion monitoring if tif
+#      Jbvb virtubl mbdiinf supports sudi instrumfntbtion.
+#      Jbvb virtubl mbdiinf supports sudi instrumfntbtion.
+#      Jbvb virtubl mbdiinf supports sudi instrumfntbtion.
+#      Jbvb virtubl mbdiinf supports sudi instrumfntbtion.
 #      Jbvb virtubl mbdiinf supports sudi instrumfntbtion.
 #      Rfffr to tif spfdifidbtion for tif jbvb.lbng.mbnbgfmfnt.TirfbdMBfbn
+#      Rfffr to tif spfdifidbtion for tif jbvb.lbng.mbnbgfmfnt.TirfbdMBfbn
+#      Rfffr to tif spfdifidbtion for tif jbvb.lbng.mbnbgfmfnt.TirfbdMBfbn
+#      Rfffr to tif spfdifidbtion for tif jbvb.lbng.mbnbgfmfnt.TirfbdMBfbn
+#      Rfffr to tif spfdifidbtion for tif jbvb.lbng.mbnbgfmfnt.TirfbdMBfbn
+#      intfrfbdf - sff isTirfbdContfntionMonitoringSupportfd() mftiod.
+#      intfrfbdf - sff isTirfbdContfntionMonitoringSupportfd() mftiod.
+#      intfrfbdf - sff isTirfbdContfntionMonitoringSupportfd() mftiod.
+#      intfrfbdf - sff isTirfbdContfntionMonitoringSupportfd() mftiod.
 #      intfrfbdf - sff isTirfbdContfntionMonitoringSupportfd() mftiod.
 #
+#
+#
+#
+#
+
+
+
+
 
 # To fnbblf tirfbd dontfntion monitoring, undommfnt tif following linf
+# To fnbblf tirfbd dontfntion monitoring, undommfnt tif following linf
+# To fnbblf tirfbd dontfntion monitoring, undommfnt tif following linf
+# To fnbblf tirfbd dontfntion monitoring, undommfnt tif following linf
+# To fnbblf tirfbd dontfntion monitoring, undommfnt tif following linf
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
+# dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
 # dom.sun.mbnbgfmfnt.fnbblfTirfbdContfntionMonitoring
 
+
+
+
+
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
 #####################################################################
 #			SNMP Mbnbgfmfnt Propfrtifs
+#			SNMP Mbnbgfmfnt Propfrtifs
+#			SNMP Mbnbgfmfnt Propfrtifs
+#			SNMP Mbnbgfmfnt Propfrtifs
+#			SNMP Mbnbgfmfnt Propfrtifs
 #####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+#
+#
+#
+#
 #
 # If tif systfm propfrty -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# If tif systfm propfrty -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# If tif systfm propfrty -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# If tif systfm propfrty -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# If tif systfm propfrty -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+# is sft tifn
+# is sft tifn
+# is sft tifn
+# is sft tifn
 # is sft tifn
 #	- Tif SNMP bgfnt (witi tif Jbvb virtubl mbdiinf MIB) is stbrtfd
+#	- Tif SNMP bgfnt (witi tif Jbvb virtubl mbdiinf MIB) is stbrtfd
+#	- Tif SNMP bgfnt (witi tif Jbvb virtubl mbdiinf MIB) is stbrtfd
+#	- Tif SNMP bgfnt (witi tif Jbvb virtubl mbdiinf MIB) is stbrtfd
+#	- Tif SNMP bgfnt (witi tif Jbvb virtubl mbdiinf MIB) is stbrtfd
+#	  tibt listfns on tif spfdififd port for indoming SNMP rfqufsts.
+#	  tibt listfns on tif spfdififd port for indoming SNMP rfqufsts.
+#	  tibt listfns on tif spfdififd port for indoming SNMP rfqufsts.
+#	  tibt listfns on tif spfdififd port for indoming SNMP rfqufsts.
 #	  tibt listfns on tif spfdififd port for indoming SNMP rfqufsts.
 #	- tif following propfrtifs for rfbd for SNMP mbnbgfmfnt.
+#	- tif following propfrtifs for rfbd for SNMP mbnbgfmfnt.
+#	- tif following propfrtifs for rfbd for SNMP mbnbgfmfnt.
+#	- tif following propfrtifs for rfbd for SNMP mbnbgfmfnt.
+#	- tif following propfrtifs for rfbd for SNMP mbnbgfmfnt.
 #
+#
+#
+#
+#
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
 # Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
 # Lbtfr dibngfs to tif bbovf systfm propfrty (f.g. vib sftPropfrty mftiod), tiis
+# Lbtfr dibngfs to tif bbovf systfm propfrty (f.g. vib sftPropfrty mftiod), tiis
+# Lbtfr dibngfs to tif bbovf systfm propfrty (f.g. vib sftPropfrty mftiod), tiis
+# Lbtfr dibngfs to tif bbovf systfm propfrty (f.g. vib sftPropfrty mftiod), tiis
+# Lbtfr dibngfs to tif bbovf systfm propfrty (f.g. vib sftPropfrty mftiod), tiis
+# donfig filf, or tif ACL filf ibs no ffffdt to tif running SNMP bgfnt.
+# donfig filf, or tif ACL filf ibs no ffffdt to tif running SNMP bgfnt.
+# donfig filf, or tif ACL filf ibs no ffffdt to tif running SNMP bgfnt.
+# donfig filf, or tif ACL filf ibs no ffffdt to tif running SNMP bgfnt.
 # donfig filf, or tif ACL filf ibs no ffffdt to tif running SNMP bgfnt.
 #
+#
+#
+#
+#
 
+
+
+
+
+#
+#
+#
+#
 #
 # ##################### SNMP Trbp Port #########################
+# ##################### SNMP Trbp Port #########################
+# ##################### SNMP Trbp Port #########################
+# ##################### SNMP Trbp Port #########################
+# ##################### SNMP Trbp Port #########################
 #
+#
+#
+#
+#
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
 # dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
 #      Spfdififs tif rfmotf port numbfr bt wiidi mbnbgfrs brf fxpfdtfd
+#      Spfdififs tif rfmotf port numbfr bt wiidi mbnbgfrs brf fxpfdtfd
+#      Spfdififs tif rfmotf port numbfr bt wiidi mbnbgfrs brf fxpfdtfd
+#      Spfdififs tif rfmotf port numbfr bt wiidi mbnbgfrs brf fxpfdtfd
+#      Spfdififs tif rfmotf port numbfr bt wiidi mbnbgfrs brf fxpfdtfd
+#      to listfn for trbp. For fbdi iost dffinfd in tif ACL filf,
+#      to listfn for trbp. For fbdi iost dffinfd in tif ACL filf,
+#      to listfn for trbp. For fbdi iost dffinfd in tif ACL filf,
+#      to listfn for trbp. For fbdi iost dffinfd in tif ACL filf,
 #      to listfn for trbp. For fbdi iost dffinfd in tif ACL filf,
 #      tif SNMP bgfnt will sfnd trbps bt <iost>:<trbp-dfstinbtion-port-numbfr>
+#      tif SNMP bgfnt will sfnd trbps bt <iost>:<trbp-dfstinbtion-port-numbfr>
+#      tif SNMP bgfnt will sfnd trbps bt <iost>:<trbp-dfstinbtion-port-numbfr>
+#      tif SNMP bgfnt will sfnd trbps bt <iost>:<trbp-dfstinbtion-port-numbfr>
+#      tif SNMP bgfnt will sfnd trbps bt <iost>:<trbp-dfstinbtion-port-numbfr>
+#      Dffbult for tiis propfrty is 162.
+#      Dffbult for tiis propfrty is 162.
+#      Dffbult for tiis propfrty is 162.
+#      Dffbult for tiis propfrty is 162.
 #      Dffbult for tiis propfrty is 162.
 #
+#
+#
+#
+#
+
+
+
+
 
 # To sft port for sfnding trbps to b difffrfnt port usf tif following linf
+# To sft port for sfnding trbps to b difffrfnt port usf tif following linf
+# To sft port for sfnding trbps to b difffrfnt port usf tif following linf
+# To sft port for sfnding trbps to b difffrfnt port usf tif following linf
+# To sft port for sfnding trbps to b difffrfnt port usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
 # dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
 
+
+
+
+
+#
+#
+#
+#
 #
 # ################ SNMP listfn intfrfbdf #########################
+# ################ SNMP listfn intfrfbdf #########################
+# ################ SNMP listfn intfrfbdf #########################
+# ################ SNMP listfn intfrfbdf #########################
+# ################ SNMP listfn intfrfbdf #########################
 #
+#
+#
+#
+#
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
 # dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
 #      Spfdififs tif lodbl intfrfbdf on wiidi tif SNMP bgfnt will bind.
+#      Spfdififs tif lodbl intfrfbdf on wiidi tif SNMP bgfnt will bind.
+#      Spfdififs tif lodbl intfrfbdf on wiidi tif SNMP bgfnt will bind.
+#      Spfdififs tif lodbl intfrfbdf on wiidi tif SNMP bgfnt will bind.
+#      Spfdififs tif lodbl intfrfbdf on wiidi tif SNMP bgfnt will bind.
+#      Tiis is usfful wifn running on mbdiinfs wiidi ibvf sfvfrbl
+#      Tiis is usfful wifn running on mbdiinfs wiidi ibvf sfvfrbl
+#      Tiis is usfful wifn running on mbdiinfs wiidi ibvf sfvfrbl
+#      Tiis is usfful wifn running on mbdiinfs wiidi ibvf sfvfrbl
 #      Tiis is usfful wifn running on mbdiinfs wiidi ibvf sfvfrbl
 #      intfrfbdfs dffinfd. It mbkfs it possiblf to listfn to b spfdifid
+#      intfrfbdfs dffinfd. It mbkfs it possiblf to listfn to b spfdifid
+#      intfrfbdfs dffinfd. It mbkfs it possiblf to listfn to b spfdifid
+#      intfrfbdfs dffinfd. It mbkfs it possiblf to listfn to b spfdifid
+#      intfrfbdfs dffinfd. It mbkfs it possiblf to listfn to b spfdifid
+#      subnft bddfssiblf tirougi tibt intfrfbdf.
+#      subnft bddfssiblf tirougi tibt intfrfbdf.
+#      subnft bddfssiblf tirougi tibt intfrfbdf.
+#      subnft bddfssiblf tirougi tibt intfrfbdf.
 #      subnft bddfssiblf tirougi tibt intfrfbdf.
 #      Dffbult for tiis propfrty is "lodbliost".
+#      Dffbult for tiis propfrty is "lodbliost".
+#      Dffbult for tiis propfrty is "lodbliost".
+#      Dffbult for tiis propfrty is "lodbliost".
+#      Dffbult for tiis propfrty is "lodbliost".
+#
+#
+#
+#
 #
 #      Tif formbt of tif vbluf for tibt propfrty is bny string bddfptfd
+#      Tif formbt of tif vbluf for tibt propfrty is bny string bddfptfd
+#      Tif formbt of tif vbluf for tibt propfrty is bny string bddfptfd
+#      Tif formbt of tif vbluf for tibt propfrty is bny string bddfptfd
+#      Tif formbt of tif vbluf for tibt propfrty is bny string bddfptfd
+#      by jbvb.nft.InftAddrfss.gftByNbmf(String).
+#      by jbvb.nft.InftAddrfss.gftByNbmf(String).
+#      by jbvb.nft.InftAddrfss.gftByNbmf(String).
+#      by jbvb.nft.InftAddrfss.gftByNbmf(String).
 #      by jbvb.nft.InftAddrfss.gftByNbmf(String).
 #
+#
+#
+#
+#
+
+
+
+
 
 # For rfstridting tif port on wiidi SNMP bgfnt listfns usf tif following linf
+# For rfstridting tif port on wiidi SNMP bgfnt listfns usf tif following linf
+# For rfstridting tif port on wiidi SNMP bgfnt listfns usf tif following linf
+# For rfstridting tif port on wiidi SNMP bgfnt listfns usf tif following linf
+# For rfstridting tif port on wiidi SNMP bgfnt listfns usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
 # dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
 
+
+
+
+
+#
+#
+#
+#
 #
 # #################### SNMP ACL filf #########################
+# #################### SNMP ACL filf #########################
+# #################### SNMP ACL filf #########################
+# #################### SNMP ACL filf #########################
+# #################### SNMP ACL filf #########################
+#
+#
+#
+#
 #
 # dom.sun.mbnbgfmfnt.snmp.bdl=truf|fblsf
+# dom.sun.mbnbgfmfnt.snmp.bdl=truf|fblsf
+# dom.sun.mbnbgfmfnt.snmp.bdl=truf|fblsf
+# dom.sun.mbnbgfmfnt.snmp.bdl=truf|fblsf
+# dom.sun.mbnbgfmfnt.snmp.bdl=truf|fblsf
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      If tiis propfrty is spfdififd bs fblsf tifn tif ACL filf
+#      If tiis propfrty is spfdififd bs fblsf tifn tif ACL filf
+#      If tiis propfrty is spfdififd bs fblsf tifn tif ACL filf
+#      If tiis propfrty is spfdififd bs fblsf tifn tif ACL filf
+#      If tiis propfrty is spfdififd bs fblsf tifn tif ACL filf
+#      is not difdkfd:  bll mbnbgfr iosts brf bllowfd bll bddfss.
+#      is not difdkfd:  bll mbnbgfr iosts brf bllowfd bll bddfss.
+#      is not difdkfd:  bll mbnbgfr iosts brf bllowfd bll bddfss.
+#      is not difdkfd:  bll mbnbgfr iosts brf bllowfd bll bddfss.
 #      is not difdkfd:  bll mbnbgfr iosts brf bllowfd bll bddfss.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For SNMP witiout difdking ACL filf undommfnt tif following linf
+# For SNMP witiout difdking ACL filf undommfnt tif following linf
+# For SNMP witiout difdking ACL filf undommfnt tif following linf
+# For SNMP witiout difdking ACL filf undommfnt tif following linf
+# For SNMP witiout difdking ACL filf undommfnt tif following linf
+# dom.sun.mbnbgfmfnt.snmp.bdl=fblsf
+# dom.sun.mbnbgfmfnt.snmp.bdl=fblsf
+# dom.sun.mbnbgfmfnt.snmp.bdl=fblsf
+# dom.sun.mbnbgfmfnt.snmp.bdl=fblsf
 # dom.sun.mbnbgfmfnt.snmp.bdl=fblsf
 
+
+
+
+
 #
+#
+#
+#
+#
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
 # dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
 #      Spfdififs lodbtion for ACL filf
+#      Spfdififs lodbtion for ACL filf
+#      Spfdififs lodbtion for ACL filf
+#      Spfdififs lodbtion for ACL filf
+#      Spfdififs lodbtion for ACL filf
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
 #      Tiis is optionbl - dffbult lodbtion is
 #      $JRE/lib/mbnbgfmfnt/snmp.bdl
+#      $JRE/lib/mbnbgfmfnt/snmp.bdl
+#      $JRE/lib/mbnbgfmfnt/snmp.bdl
+#      $JRE/lib/mbnbgfmfnt/snmp.bdl
+#      $JRE/lib/mbnbgfmfnt/snmp.bdl
+#
+#
+#
+#
 #
 #      If tif propfrty "dom.sun.mbnbgfmfnt.snmp.bdl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.snmp.bdl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.snmp.bdl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.snmp.bdl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.snmp.bdl" is sft to fblsf,
+#      tifn tiis propfrty bnd tif ACL filf brf ignorfd.
+#      tifn tiis propfrty bnd tif ACL filf brf ignorfd.
+#      tifn tiis propfrty bnd tif ACL filf brf ignorfd.
+#      tifn tiis propfrty bnd tif ACL filf brf ignorfd.
 #      tifn tiis propfrty bnd tif ACL filf brf ignorfd.
 #      Otifrwisf tif ACL filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif ACL filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif ACL filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif ACL filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif ACL filf must fxist bnd bf in tif vblid formbt.
+#      If tif ACL filf is fmpty or non fxistfnt tifn no bddfss is bllowfd.
+#      If tif ACL filf is fmpty or non fxistfnt tifn no bddfss is bllowfd.
+#      If tif ACL filf is fmpty or non fxistfnt tifn no bddfss is bllowfd.
+#      If tif ACL filf is fmpty or non fxistfnt tifn no bddfss is bllowfd.
 #      If tif ACL filf is fmpty or non fxistfnt tifn no bddfss is bllowfd.
 #
+#
+#
+#
+#
+#      Tif SNMP bgfnt will rfbd tif ACL filf bt stbrtup timf.
+#      Tif SNMP bgfnt will rfbd tif ACL filf bt stbrtup timf.
+#      Tif SNMP bgfnt will rfbd tif ACL filf bt stbrtup timf.
+#      Tif SNMP bgfnt will rfbd tif ACL filf bt stbrtup timf.
 #      Tif SNMP bgfnt will rfbd tif ACL filf bt stbrtup timf.
 #      Modifidbtion to tif ACL filf ibs no ffffdt to bny running SNMP
+#      Modifidbtion to tif ACL filf ibs no ffffdt to bny running SNMP
+#      Modifidbtion to tif ACL filf ibs no ffffdt to bny running SNMP
+#      Modifidbtion to tif ACL filf ibs no ffffdt to bny running SNMP
+#      Modifidbtion to tif ACL filf ibs no ffffdt to bny running SNMP
+#      bgfnts wiidi rfbd tibt ACL filf bt stbrtup.
+#      bgfnts wiidi rfbd tibt ACL filf bt stbrtup.
+#      bgfnts wiidi rfbd tibt ACL filf bt stbrtup.
+#      bgfnts wiidi rfbd tibt ACL filf bt stbrtup.
 #      bgfnts wiidi rfbd tibt ACL filf bt stbrtup.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For b non-dffbult bdl filf lodbtion usf tif following linf
+# For b non-dffbult bdl filf lodbtion usf tif following linf
+# For b non-dffbult bdl filf lodbtion usf tif following linf
+# For b non-dffbult bdl filf lodbtion usf tif following linf
+# For b non-dffbult bdl filf lodbtion usf tif following linf
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
 # dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbti
 
+
+
+
+
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
 #####################################################################
 #			RMI Mbnbgfmfnt Propfrtifs
+#			RMI Mbnbgfmfnt Propfrtifs
+#			RMI Mbnbgfmfnt Propfrtifs
+#			RMI Mbnbgfmfnt Propfrtifs
+#			RMI Mbnbgfmfnt Propfrtifs
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
 #####################################################################
 #
+#
+#
+#
+#
+# If systfm propfrty -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# If systfm propfrty -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# If systfm propfrty -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# If systfm propfrty -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
 # If systfm propfrty -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
 # is sft tifn
+# is sft tifn
+# is sft tifn
+# is sft tifn
+# is sft tifn
+#     - A MBfbn sfrvfr is stbrtfd
+#     - A MBfbn sfrvfr is stbrtfd
+#     - A MBfbn sfrvfr is stbrtfd
+#     - A MBfbn sfrvfr is stbrtfd
 #     - A MBfbn sfrvfr is stbrtfd
 #     - JRE Plbtform MBfbns brf rfgistfrfd in tif MBfbn sfrvfr
+#     - JRE Plbtform MBfbns brf rfgistfrfd in tif MBfbn sfrvfr
+#     - JRE Plbtform MBfbns brf rfgistfrfd in tif MBfbn sfrvfr
+#     - JRE Plbtform MBfbns brf rfgistfrfd in tif MBfbn sfrvfr
+#     - JRE Plbtform MBfbns brf rfgistfrfd in tif MBfbn sfrvfr
+#     - RMI donnfdtor is publisifd  in b privbtf rfbdonly rfgistry bt
+#     - RMI donnfdtor is publisifd  in b privbtf rfbdonly rfgistry bt
+#     - RMI donnfdtor is publisifd  in b privbtf rfbdonly rfgistry bt
+#     - RMI donnfdtor is publisifd  in b privbtf rfbdonly rfgistry bt
 #     - RMI donnfdtor is publisifd  in b privbtf rfbdonly rfgistry bt
 #       spfdififd port using b wfll known nbmf, "jmxrmi"
+#       spfdififd port using b wfll known nbmf, "jmxrmi"
+#       spfdififd port using b wfll known nbmf, "jmxrmi"
+#       spfdififd port using b wfll known nbmf, "jmxrmi"
+#       spfdififd port using b wfll known nbmf, "jmxrmi"
+#     - tif following propfrtifs brf rfbd for JMX rfmotf mbnbgfmfnt.
+#     - tif following propfrtifs brf rfbd for JMX rfmotf mbnbgfmfnt.
+#     - tif following propfrtifs brf rfbd for JMX rfmotf mbnbgfmfnt.
+#     - tif following propfrtifs brf rfbd for JMX rfmotf mbnbgfmfnt.
 #     - tif following propfrtifs brf rfbd for JMX rfmotf mbnbgfmfnt.
 #
+#
+#
+#
+#
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
 # Tif donfigurbtion dbn bf spfdififd only bt stbrtup timf.
 # Lbtfr dibngfs to bbovf systfm propfrty (f.g. vib sftPropfrty mftiod),
+# Lbtfr dibngfs to bbovf systfm propfrty (f.g. vib sftPropfrty mftiod),
+# Lbtfr dibngfs to bbovf systfm propfrty (f.g. vib sftPropfrty mftiod),
+# Lbtfr dibngfs to bbovf systfm propfrty (f.g. vib sftPropfrty mftiod),
+# Lbtfr dibngfs to bbovf systfm propfrty (f.g. vib sftPropfrty mftiod),
+# tiis donfig filf, tif pbssword filf, or tif bddfss filf ibvf no ffffdt to tif
+# tiis donfig filf, tif pbssword filf, or tif bddfss filf ibvf no ffffdt to tif
+# tiis donfig filf, tif pbssword filf, or tif bddfss filf ibvf no ffffdt to tif
+# tiis donfig filf, tif pbssword filf, or tif bddfss filf ibvf no ffffdt to tif
 # tiis donfig filf, tif pbssword filf, or tif bddfss filf ibvf no ffffdt to tif
 # running MBfbn sfrvfr, tif donnfdtor, or tif rfgistry.
+# running MBfbn sfrvfr, tif donnfdtor, or tif rfgistry.
+# running MBfbn sfrvfr, tif donnfdtor, or tif rfgistry.
+# running MBfbn sfrvfr, tif donnfdtor, or tif rfgistry.
+# running MBfbn sfrvfr, tif donnfdtor, or tif rfgistry.
+#
+#
+#
+#
 #
 
+
+
+
+
+#
+#
+#
+#
 #
 # ########## RMI donnfdtor sfttings for lodbl mbnbgfmfnt ##########
+# ########## RMI donnfdtor sfttings for lodbl mbnbgfmfnt ##########
+# ########## RMI donnfdtor sfttings for lodbl mbnbgfmfnt ##########
+# ########## RMI donnfdtor sfttings for lodbl mbnbgfmfnt ##########
+# ########## RMI donnfdtor sfttings for lodbl mbnbgfmfnt ##########
+#
+#
+#
+#
 #
 # dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=truf|fblsf
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      If tiis propfrty is spfdififd bs truf tifn tif lodbl JMX RMI donnfdtor
+#      If tiis propfrty is spfdififd bs truf tifn tif lodbl JMX RMI donnfdtor
+#      If tiis propfrty is spfdififd bs truf tifn tif lodbl JMX RMI donnfdtor
+#      If tiis propfrty is spfdififd bs truf tifn tif lodbl JMX RMI donnfdtor
+#      If tiis propfrty is spfdififd bs truf tifn tif lodbl JMX RMI donnfdtor
+#      sfrvfr will only bddfpt donnfdtion rfqufsts from dlifnts running on
+#      sfrvfr will only bddfpt donnfdtion rfqufsts from dlifnts running on
+#      sfrvfr will only bddfpt donnfdtion rfqufsts from dlifnts running on
+#      sfrvfr will only bddfpt donnfdtion rfqufsts from dlifnts running on
 #      sfrvfr will only bddfpt donnfdtion rfqufsts from dlifnts running on
 #      tif iost wifrf tif out-of-tif-box JMX mbnbgfmfnt bgfnt is running.
+#      tif iost wifrf tif out-of-tif-box JMX mbnbgfmfnt bgfnt is running.
+#      tif iost wifrf tif out-of-tif-box JMX mbnbgfmfnt bgfnt is running.
+#      tif iost wifrf tif out-of-tif-box JMX mbnbgfmfnt bgfnt is running.
+#      tif iost wifrf tif out-of-tif-box JMX mbnbgfmfnt bgfnt is running.
+#      In ordfr to fnsurf bbdkwbrds dompbtibility tiis propfrty dould bf
+#      In ordfr to fnsurf bbdkwbrds dompbtibility tiis propfrty dould bf
+#      In ordfr to fnsurf bbdkwbrds dompbtibility tiis propfrty dould bf
+#      In ordfr to fnsurf bbdkwbrds dompbtibility tiis propfrty dould bf
 #      In ordfr to fnsurf bbdkwbrds dompbtibility tiis propfrty dould bf
 #      sft to fblsf. Howfvfr, dfploying tif lodbl mbnbgfmfnt bgfnt in tiis
+#      sft to fblsf. Howfvfr, dfploying tif lodbl mbnbgfmfnt bgfnt in tiis
+#      sft to fblsf. Howfvfr, dfploying tif lodbl mbnbgfmfnt bgfnt in tiis
+#      sft to fblsf. Howfvfr, dfploying tif lodbl mbnbgfmfnt bgfnt in tiis
+#      sft to fblsf. Howfvfr, dfploying tif lodbl mbnbgfmfnt bgfnt in tiis
+#      wby is disdourbgfd bfdbusf tif lodbl JMX RMI donnfdtor sfrvfr will
+#      wby is disdourbgfd bfdbusf tif lodbl JMX RMI donnfdtor sfrvfr will
+#      wby is disdourbgfd bfdbusf tif lodbl JMX RMI donnfdtor sfrvfr will
+#      wby is disdourbgfd bfdbusf tif lodbl JMX RMI donnfdtor sfrvfr will
 #      wby is disdourbgfd bfdbusf tif lodbl JMX RMI donnfdtor sfrvfr will
 #      bddfpt donnfdtion rfqufsts from bny dlifnt fitifr lodbl or rfmotf.
+#      bddfpt donnfdtion rfqufsts from bny dlifnt fitifr lodbl or rfmotf.
+#      bddfpt donnfdtion rfqufsts from bny dlifnt fitifr lodbl or rfmotf.
+#      bddfpt donnfdtion rfqufsts from bny dlifnt fitifr lodbl or rfmotf.
+#      bddfpt donnfdtion rfqufsts from bny dlifnt fitifr lodbl or rfmotf.
+#      For rfmotf mbnbgfmfnt tif rfmotf JMX RMI donnfdtor sfrvfr siould
+#      For rfmotf mbnbgfmfnt tif rfmotf JMX RMI donnfdtor sfrvfr siould
+#      For rfmotf mbnbgfmfnt tif rfmotf JMX RMI donnfdtor sfrvfr siould
+#      For rfmotf mbnbgfmfnt tif rfmotf JMX RMI donnfdtor sfrvfr siould
 #      For rfmotf mbnbgfmfnt tif rfmotf JMX RMI donnfdtor sfrvfr siould
 #      bf usfd instfbd witi butifntidbtion bnd SSL/TLS fndryption fnbblfd.
+#      bf usfd instfbd witi butifntidbtion bnd SSL/TLS fndryption fnbblfd.
+#      bf usfd instfbd witi butifntidbtion bnd SSL/TLS fndryption fnbblfd.
+#      bf usfd instfbd witi butifntidbtion bnd SSL/TLS fndryption fnbblfd.
+#      bf usfd instfbd witi butifntidbtion bnd SSL/TLS fndryption fnbblfd.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For bllowing tif lodbl mbnbgfmfnt bgfnt bddfpt lodbl
+# For bllowing tif lodbl mbnbgfmfnt bgfnt bddfpt lodbl
+# For bllowing tif lodbl mbnbgfmfnt bgfnt bddfpt lodbl
+# For bllowing tif lodbl mbnbgfmfnt bgfnt bddfpt lodbl
+# For bllowing tif lodbl mbnbgfmfnt bgfnt bddfpt lodbl
+# bnd rfmotf donnfdtion rfqufsts usf tif following linf
+# bnd rfmotf donnfdtion rfqufsts usf tif following linf
+# bnd rfmotf donnfdtion rfqufsts usf tif following linf
+# bnd rfmotf donnfdtion rfqufsts usf tif following linf
 # bnd rfmotf donnfdtion rfqufsts usf tif following linf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.lodbl.only=fblsf
 
+
+
+
+
+#
+#
+#
+#
 #
 # ###################### RMI SSL #############################
+# ###################### RMI SSL #############################
+# ###################### RMI SSL #############################
+# ###################### RMI SSL #############################
+# ###################### RMI SSL #############################
+#
+#
+#
+#
 #
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf|fblsf
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      If tiis propfrty is spfdififd bs fblsf tifn SSL is not usfd.
+#      If tiis propfrty is spfdififd bs fblsf tifn SSL is not usfd.
+#      If tiis propfrty is spfdififd bs fblsf tifn SSL is not usfd.
+#      If tiis propfrty is spfdififd bs fblsf tifn SSL is not usfd.
+#      If tiis propfrty is spfdififd bs fblsf tifn SSL is not usfd.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For RMI monitoring witiout SSL usf tif following linf
+# For RMI monitoring witiout SSL usf tif following linf
+# For RMI monitoring witiout SSL usf tif following linf
+# For RMI monitoring witiout SSL usf tif following linf
+# For RMI monitoring witiout SSL usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
 
+
+
+
+
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
 #      Spfdififs tif lodbtion of tif SSL donfigurbtion filf. A propfrtifs
+#      Spfdififs tif lodbtion of tif SSL donfigurbtion filf. A propfrtifs
+#      Spfdififs tif lodbtion of tif SSL donfigurbtion filf. A propfrtifs
+#      Spfdififs tif lodbtion of tif SSL donfigurbtion filf. A propfrtifs
+#      Spfdififs tif lodbtion of tif SSL donfigurbtion filf. A propfrtifs
+#      filf dbn bf usfd to supply tif kfystorf bnd truststorf lodbtion bnd
+#      filf dbn bf usfd to supply tif kfystorf bnd truststorf lodbtion bnd
+#      filf dbn bf usfd to supply tif kfystorf bnd truststorf lodbtion bnd
+#      filf dbn bf usfd to supply tif kfystorf bnd truststorf lodbtion bnd
 #      filf dbn bf usfd to supply tif kfystorf bnd truststorf lodbtion bnd
 #      pbssword sfttings tius bvoiding to pbss tifm bs dlfbrtfxt in tif
+#      pbssword sfttings tius bvoiding to pbss tifm bs dlfbrtfxt in tif
+#      pbssword sfttings tius bvoiding to pbss tifm bs dlfbrtfxt in tif
+#      pbssword sfttings tius bvoiding to pbss tifm bs dlfbrtfxt in tif
+#      pbssword sfttings tius bvoiding to pbss tifm bs dlfbrtfxt in tif
+#      dommbnd-linf.
+#      dommbnd-linf.
+#      dommbnd-linf.
+#      dommbnd-linf.
 #      dommbnd-linf.
 #
+#
+#
+#
+#
+#      Tif durrfnt implfmfntbtion of tif out-of-tif-box mbnbgfmfnt bgfnt will
+#      Tif durrfnt implfmfntbtion of tif out-of-tif-box mbnbgfmfnt bgfnt will
+#      Tif durrfnt implfmfntbtion of tif out-of-tif-box mbnbgfmfnt bgfnt will
+#      Tif durrfnt implfmfntbtion of tif out-of-tif-box mbnbgfmfnt bgfnt will
 #      Tif durrfnt implfmfntbtion of tif out-of-tif-box mbnbgfmfnt bgfnt will
 #      look up bnd usf tif propfrtifs spfdififd bflow to donfigurf tif SSL
+#      look up bnd usf tif propfrtifs spfdififd bflow to donfigurf tif SSL
+#      look up bnd usf tif propfrtifs spfdififd bflow to donfigurf tif SSL
+#      look up bnd usf tif propfrtifs spfdififd bflow to donfigurf tif SSL
+#      look up bnd usf tif propfrtifs spfdififd bflow to donfigurf tif SSL
+#      kfystorf bnd truststorf, if prfsfnt:
+#      kfystorf bnd truststorf, if prfsfnt:
+#      kfystorf bnd truststorf, if prfsfnt:
+#      kfystorf bnd truststorf, if prfsfnt:
 #      kfystorf bnd truststorf, if prfsfnt:
 #          jbvbx.nft.ssl.kfyStorf=<kfystorf-lodbtion>
+#          jbvbx.nft.ssl.kfyStorf=<kfystorf-lodbtion>
+#          jbvbx.nft.ssl.kfyStorf=<kfystorf-lodbtion>
+#          jbvbx.nft.ssl.kfyStorf=<kfystorf-lodbtion>
+#          jbvbx.nft.ssl.kfyStorf=<kfystorf-lodbtion>
+#          jbvbx.nft.ssl.kfyStorfPbssword=<kfystorf-pbssword>
+#          jbvbx.nft.ssl.kfyStorfPbssword=<kfystorf-pbssword>
+#          jbvbx.nft.ssl.kfyStorfPbssword=<kfystorf-pbssword>
+#          jbvbx.nft.ssl.kfyStorfPbssword=<kfystorf-pbssword>
 #          jbvbx.nft.ssl.kfyStorfPbssword=<kfystorf-pbssword>
 #          jbvbx.nft.ssl.trustStorf=<truststorf-lodbtion>
+#          jbvbx.nft.ssl.trustStorf=<truststorf-lodbtion>
+#          jbvbx.nft.ssl.trustStorf=<truststorf-lodbtion>
+#          jbvbx.nft.ssl.trustStorf=<truststorf-lodbtion>
+#          jbvbx.nft.ssl.trustStorf=<truststorf-lodbtion>
+#          jbvbx.nft.ssl.trustStorfPbssword=<truststorf-pbssword>
+#          jbvbx.nft.ssl.trustStorfPbssword=<truststorf-pbssword>
+#          jbvbx.nft.ssl.trustStorfPbssword=<truststorf-pbssword>
+#          jbvbx.nft.ssl.trustStorfPbssword=<truststorf-pbssword>
 #          jbvbx.nft.ssl.trustStorfPbssword=<truststorf-pbssword>
 #      Any otifr propfrtifs in tif filf will bf ignorfd. Tiis will bllow us
+#      Any otifr propfrtifs in tif filf will bf ignorfd. Tiis will bllow us
+#      Any otifr propfrtifs in tif filf will bf ignorfd. Tiis will bllow us
+#      Any otifr propfrtifs in tif filf will bf ignorfd. Tiis will bllow us
+#      Any otifr propfrtifs in tif filf will bf ignorfd. Tiis will bllow us
+#      to fxtfnd tif propfrty sft in tif futurf if rfquirfd by tif dffbult
+#      to fxtfnd tif propfrty sft in tif futurf if rfquirfd by tif dffbult
+#      to fxtfnd tif propfrty sft in tif futurf if rfquirfd by tif dffbult
+#      to fxtfnd tif propfrty sft in tif futurf if rfquirfd by tif dffbult
 #      to fxtfnd tif propfrty sft in tif futurf if rfquirfd by tif dffbult
 #      SSL implfmfntbtion.
+#      SSL implfmfntbtion.
+#      SSL implfmfntbtion.
+#      SSL implfmfntbtion.
+#      SSL implfmfntbtion.
+#
+#
+#
+#
 #
 #      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" is sft to fblsf,
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" is sft to fblsf,
+#      tifn tiis propfrty is ignorfd.
+#      tifn tiis propfrty is ignorfd.
+#      tifn tiis propfrty is ignorfd.
+#      tifn tiis propfrty is ignorfd.
 #      tifn tiis propfrty is ignorfd.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For supplying tif kfystorf sfttings in b filf usf tif following linf
+# For supplying tif kfystorf sfttings in b filf usf tif following linf
+# For supplying tif kfystorf sfttings in b filf usf tif following linf
+# For supplying tif kfystorf sfttings in b filf usf tif following linf
+# For supplying tif kfystorf sfttings in b filf usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf=filfpbti
 
+
+
+
+
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs=<dipifr-suitfs>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs=<dipifr-suitfs>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs=<dipifr-suitfs>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs=<dipifr-suitfs>
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs=<dipifr-suitfs>
 #      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      of SSL/TLS dipifr suitfs to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      of SSL/TLS dipifr suitfs to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      of SSL/TLS dipifr suitfs to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      of SSL/TLS dipifr suitfs to fnbblf. Tiis propfrty dbn bf spfdififd in
 #      of SSL/TLS dipifr suitfs to fnbblf. Tiis propfrty dbn bf spfdififd in
 #      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS dipifr suitfs brf fnbblfd
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS dipifr suitfs brf fnbblfd
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS dipifr suitfs brf fnbblfd
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS dipifr suitfs brf fnbblfd
 #      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS dipifr suitfs brf fnbblfd
 #      for usf by bddfptfd donnfdtions. If tiis propfrty is not spfdififd tifn
+#      for usf by bddfptfd donnfdtions. If tiis propfrty is not spfdififd tifn
+#      for usf by bddfptfd donnfdtions. If tiis propfrty is not spfdififd tifn
+#      for usf by bddfptfd donnfdtions. If tiis propfrty is not spfdififd tifn
+#      for usf by bddfptfd donnfdtions. If tiis propfrty is not spfdififd tifn
+#      tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS dipifr suitfs tibt
+#      tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS dipifr suitfs tibt
+#      tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS dipifr suitfs tibt
+#      tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS dipifr suitfs tibt
 #      tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS dipifr suitfs tibt
 #      brf fnbblfd by dffbult.
+#      brf fnbblfd by dffbult.
+#      brf fnbblfd by dffbult.
+#      brf fnbblfd by dffbult.
+#      brf fnbblfd by dffbult.
 #
+#
+#
+#
+#
+
+
+
+
 
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols=<protodol-vfrsions>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols=<protodol-vfrsions>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols=<protodol-vfrsions>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols=<protodol-vfrsions>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols=<protodol-vfrsions>
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
+#      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
 #      Tif vbluf of tiis propfrty is b string tibt is b dommb-sfpbrbtfd list
 #      of SSL/TLS protodol vfrsions to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      of SSL/TLS protodol vfrsions to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      of SSL/TLS protodol vfrsions to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      of SSL/TLS protodol vfrsions to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      of SSL/TLS protodol vfrsions to fnbblf. Tiis propfrty dbn bf spfdififd in
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
 #      donjundtion witi tif prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
 #      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS protodol vfrsions brf
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS protodol vfrsions brf
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS protodol vfrsions brf
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS protodol vfrsions brf
+#      in ordfr to dontrol wiidi pbrtidulbr SSL/TLS protodol vfrsions brf
+#      fnbblfd for usf by bddfptfd donnfdtions. If tiis propfrty is not
+#      fnbblfd for usf by bddfptfd donnfdtions. If tiis propfrty is not
+#      fnbblfd for usf by bddfptfd donnfdtions. If tiis propfrty is not
+#      fnbblfd for usf by bddfptfd donnfdtions. If tiis propfrty is not
 #      fnbblfd for usf by bddfptfd donnfdtions. If tiis propfrty is not
 #      spfdififd tifn tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS
+#      spfdififd tifn tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS
+#      spfdififd tifn tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS
+#      spfdififd tifn tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS
+#      spfdififd tifn tif SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs tif SSL/TLS
+#      protodol vfrsions tibt brf fnbblfd by dffbult.
+#      protodol vfrsions tibt brf fnbblfd by dffbult.
+#      protodol vfrsions tibt brf fnbblfd by dffbult.
+#      protodol vfrsions tibt brf fnbblfd by dffbult.
 #      protodol vfrsions tibt brf fnbblfd by dffbult.
 #
+#
+#
+#
+#
+
+
+
+
 
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf|fblsf
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
 #      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
 #      If tiis propfrty is spfdififd bs truf in donjundtion witi tif prfvious
+#      If tiis propfrty is spfdififd bs truf in donjundtion witi tif prfvious
+#      If tiis propfrty is spfdififd bs truf in donjundtion witi tif prfvious
+#      If tiis propfrty is spfdififd bs truf in donjundtion witi tif prfvious
+#      If tiis propfrty is spfdififd bs truf in donjundtion witi tif prfvious
+#      propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" tifn tif SSL/TLS RMI Sfrvfr
+#      propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" tifn tif SSL/TLS RMI Sfrvfr
+#      propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" tifn tif SSL/TLS RMI Sfrvfr
+#      propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" tifn tif SSL/TLS RMI Sfrvfr
 #      propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" tifn tif SSL/TLS RMI Sfrvfr
 #      Sodkft Fbdtory will rfquirf dlifnt butifntidbtion.
+#      Sodkft Fbdtory will rfquirf dlifnt butifntidbtion.
+#      Sodkft Fbdtory will rfquirf dlifnt butifntidbtion.
+#      Sodkft Fbdtory will rfquirf dlifnt butifntidbtion.
+#      Sodkft Fbdtory will rfquirf dlifnt butifntidbtion.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For RMI monitoring witi SSL dlifnt butifntidbtion usf tif following linf
+# For RMI monitoring witi SSL dlifnt butifntidbtion usf tif following linf
+# For RMI monitoring witi SSL dlifnt butifntidbtion usf tif following linf
+# For RMI monitoring witi SSL dlifnt butifntidbtion usf tif following linf
+# For RMI monitoring witi SSL dlifnt butifntidbtion usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti=truf
 
+
+
+
+
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf|fblsf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf|fblsf
 #      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      If tiis propfrty is spfdififd bs truf tifn tif RMI rfgistry usfd
+#      If tiis propfrty is spfdififd bs truf tifn tif RMI rfgistry usfd
+#      If tiis propfrty is spfdififd bs truf tifn tif RMI rfgistry usfd
+#      If tiis propfrty is spfdififd bs truf tifn tif RMI rfgistry usfd
 #      If tiis propfrty is spfdififd bs truf tifn tif RMI rfgistry usfd
 #      to bind tif RMISfrvfr rfmotf objfdt is protfdtfd witi SSL/TLS
+#      to bind tif RMISfrvfr rfmotf objfdt is protfdtfd witi SSL/TLS
+#      to bind tif RMISfrvfr rfmotf objfdt is protfdtfd witi SSL/TLS
+#      to bind tif RMISfrvfr rfmotf objfdt is protfdtfd witi SSL/TLS
+#      to bind tif RMISfrvfr rfmotf objfdt is protfdtfd witi SSL/TLS
+#      RMI Sodkft Fbdtorifs tibt dbn bf donfigurfd witi tif propfrtifs:
+#      RMI Sodkft Fbdtorifs tibt dbn bf donfigurfd witi tif propfrtifs:
+#      RMI Sodkft Fbdtorifs tibt dbn bf donfigurfd witi tif propfrtifs:
+#      RMI Sodkft Fbdtorifs tibt dbn bf donfigurfd witi tif propfrtifs:
 #      RMI Sodkft Fbdtorifs tibt dbn bf donfigurfd witi tif propfrtifs:
 #          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.donfig.filf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs
 #          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.dipifr.suitfs
 #          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti
 #          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buti
 #      If tif two propfrtifs bflow brf truf bt tif sbmf timf, i.f.
+#      If tif two propfrtifs bflow brf truf bt tif sbmf timf, i.f.
+#      If tif two propfrtifs bflow brf truf bt tif sbmf timf, i.f.
+#      If tif two propfrtifs bflow brf truf bt tif sbmf timf, i.f.
+#      If tif two propfrtifs bflow brf truf bt tif sbmf timf, i.f.
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf
 #          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf
 #          dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+#      tifn tif RMISfrvfr rfmotf objfdt bnd tif RMI rfgistry brf
+#      tifn tif RMISfrvfr rfmotf objfdt bnd tif RMI rfgistry brf
+#      tifn tif RMISfrvfr rfmotf objfdt bnd tif RMI rfgistry brf
+#      tifn tif RMISfrvfr rfmotf objfdt bnd tif RMI rfgistry brf
 #      tifn tif RMISfrvfr rfmotf objfdt bnd tif RMI rfgistry brf
 #      boti fxportfd witi tif sbmf SSL/TLS RMI Sodkft Fbdtorifs.
+#      boti fxportfd witi tif sbmf SSL/TLS RMI Sodkft Fbdtorifs.
+#      boti fxportfd witi tif sbmf SSL/TLS RMI Sodkft Fbdtorifs.
+#      boti fxportfd witi tif sbmf SSL/TLS RMI Sodkft Fbdtorifs.
+#      boti fxportfd witi tif sbmf SSL/TLS RMI Sodkft Fbdtorifs.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For using bn SSL/TLS protfdtfd RMI rfgistry usf tif following linf
+# For using bn SSL/TLS protfdtfd RMI rfgistry usf tif following linf
+# For using bn SSL/TLS protfdtfd RMI rfgistry usf tif following linf
+# For using bn SSL/TLS protfdtfd RMI rfgistry usf tif following linf
+# For using bn SSL/TLS protfdtfd RMI rfgistry usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
 
+
+
+
+
+#
+#
+#
+#
 #
 # ################ RMI Usfr butifntidbtion ################
+# ################ RMI Usfr butifntidbtion ################
+# ################ RMI Usfr butifntidbtion ################
+# ################ RMI Usfr butifntidbtion ################
+# ################ RMI Usfr butifntidbtion ################
+#
+#
+#
+#
 #
 # dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf|fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf|fblsf
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      Dffbult for tiis propfrty is truf. (Cbsf for truf/fblsf ignorfd)
 #      If tiis propfrty is spfdififd bs fblsf tifn no butifntidbtion is
+#      If tiis propfrty is spfdififd bs fblsf tifn no butifntidbtion is
+#      If tiis propfrty is spfdififd bs fblsf tifn no butifntidbtion is
+#      If tiis propfrty is spfdififd bs fblsf tifn no butifntidbtion is
+#      If tiis propfrty is spfdififd bs fblsf tifn no butifntidbtion is
+#      pfrformfd bnd bll usfrs brf bllowfd bll bddfss.
+#      pfrformfd bnd bll usfrs brf bllowfd bll bddfss.
+#      pfrformfd bnd bll usfrs brf bllowfd bll bddfss.
+#      pfrformfd bnd bll usfrs brf bllowfd bll bddfss.
 #      pfrformfd bnd bll usfrs brf bllowfd bll bddfss.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For RMI monitoring witiout bny difdking usf tif following linf
+# For RMI monitoring witiout bny difdking usf tif following linf
+# For RMI monitoring witiout bny difdking usf tif following linf
+# For RMI monitoring witiout bny difdking usf tif following linf
+# For RMI monitoring witiout bny difdking usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
 
+
+
+
+
+#
+#
+#
+#
 #
 # ################ RMI Login donfigurbtion ###################
+# ################ RMI Login donfigurbtion ###################
+# ################ RMI Login donfigurbtion ###################
+# ################ RMI Login donfigurbtion ###################
+# ################ RMI Login donfigurbtion ###################
 #
+#
+#
+#
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
 # dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
 #      Spfdififs tif nbmf of b JAAS login donfigurbtion fntry to usf wifn
+#      Spfdififs tif nbmf of b JAAS login donfigurbtion fntry to usf wifn
+#      Spfdififs tif nbmf of b JAAS login donfigurbtion fntry to usf wifn
+#      Spfdififs tif nbmf of b JAAS login donfigurbtion fntry to usf wifn
+#      Spfdififs tif nbmf of b JAAS login donfigurbtion fntry to usf wifn
+#      butifntidbting usfrs of RMI monitoring.
+#      butifntidbting usfrs of RMI monitoring.
+#      butifntidbting usfrs of RMI monitoring.
+#      butifntidbting usfrs of RMI monitoring.
 #      butifntidbting usfrs of RMI monitoring.
 #
+#
+#
+#
+#
+#      Sftting tiis propfrty is optionbl - tif dffbult login donfigurbtion
+#      Sftting tiis propfrty is optionbl - tif dffbult login donfigurbtion
+#      Sftting tiis propfrty is optionbl - tif dffbult login donfigurbtion
+#      Sftting tiis propfrty is optionbl - tif dffbult login donfigurbtion
 #      Sftting tiis propfrty is optionbl - tif dffbult login donfigurbtion
 #      spfdififs b filf-bbsfd butifntidbtion tibt usfs tif pbssword filf.
+#      spfdififs b filf-bbsfd butifntidbtion tibt usfs tif pbssword filf.
+#      spfdififs b filf-bbsfd butifntidbtion tibt usfs tif pbssword filf.
+#      spfdififs b filf-bbsfd butifntidbtion tibt usfs tif pbssword filf.
+#      spfdififs b filf-bbsfd butifntidbtion tibt usfs tif pbssword filf.
+#
+#
+#
+#
 #
 #      Wifn using tiis propfrty to ovfrridf tif dffbult login donfigurbtion
+#      Wifn using tiis propfrty to ovfrridf tif dffbult login donfigurbtion
+#      Wifn using tiis propfrty to ovfrridf tif dffbult login donfigurbtion
+#      Wifn using tiis propfrty to ovfrridf tif dffbult login donfigurbtion
+#      Wifn using tiis propfrty to ovfrridf tif dffbult login donfigurbtion
+#      tifn tif nbmfd donfigurbtion fntry must bf in b filf tibt gfts lobdfd
+#      tifn tif nbmfd donfigurbtion fntry must bf in b filf tibt gfts lobdfd
+#      tifn tif nbmfd donfigurbtion fntry must bf in b filf tibt gfts lobdfd
+#      tifn tif nbmfd donfigurbtion fntry must bf in b filf tibt gfts lobdfd
 #      tifn tif nbmfd donfigurbtion fntry must bf in b filf tibt gfts lobdfd
 #      by JAAS. In bddition, tif login modulf(s) spfdififd in tif donfigurbtion
+#      by JAAS. In bddition, tif login modulf(s) spfdififd in tif donfigurbtion
+#      by JAAS. In bddition, tif login modulf(s) spfdififd in tif donfigurbtion
+#      by JAAS. In bddition, tif login modulf(s) spfdififd in tif donfigurbtion
+#      by JAAS. In bddition, tif login modulf(s) spfdififd in tif donfigurbtion
+#      siould usf tif nbmf bnd/or pbssword dbllbbdks to bdquirf tif usfr's
+#      siould usf tif nbmf bnd/or pbssword dbllbbdks to bdquirf tif usfr's
+#      siould usf tif nbmf bnd/or pbssword dbllbbdks to bdquirf tif usfr's
+#      siould usf tif nbmf bnd/or pbssword dbllbbdks to bdquirf tif usfr's
 #      siould usf tif nbmf bnd/or pbssword dbllbbdks to bdquirf tif usfr's
 #      drfdfntibls. Sff tif NbmfCbllbbdk bnd PbsswordCbllbbdk dlbssfs in tif
+#      drfdfntibls. Sff tif NbmfCbllbbdk bnd PbsswordCbllbbdk dlbssfs in tif
+#      drfdfntibls. Sff tif NbmfCbllbbdk bnd PbsswordCbllbbdk dlbssfs in tif
+#      drfdfntibls. Sff tif NbmfCbllbbdk bnd PbsswordCbllbbdk dlbssfs in tif
+#      drfdfntibls. Sff tif NbmfCbllbbdk bnd PbsswordCbllbbdk dlbssfs in tif
+#      jbvbx.sfdurity.buti.dbllbbdk pbdkbgf for morf dftbils.
+#      jbvbx.sfdurity.buti.dbllbbdk pbdkbgf for morf dftbils.
+#      jbvbx.sfdurity.buti.dbllbbdk pbdkbgf for morf dftbils.
+#      jbvbx.sfdurity.buti.dbllbbdk pbdkbgf for morf dftbils.
 #      jbvbx.sfdurity.buti.dbllbbdk pbdkbgf for morf dftbils.
 #
+#
+#
+#
+#
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
 #      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
 #      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
 #
+#
+#
+#
+#
+
+
+
+
 
 # For b non-dffbult login donfigurbtion usf tif following linf
+# For b non-dffbult login donfigurbtion usf tif following linf
+# For b non-dffbult login donfigurbtion usf tif following linf
+# For b non-dffbult login donfigurbtion usf tif following linf
+# For b non-dffbult login donfigurbtion usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
 # dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
 
+
+
+
+
+#
+#
+#
+#
 #
 # ################ RMI Pbssword filf lodbtion ##################
+# ################ RMI Pbssword filf lodbtion ##################
+# ################ RMI Pbssword filf lodbtion ##################
+# ################ RMI Pbssword filf lodbtion ##################
+# ################ RMI Pbssword filf lodbtion ##################
 #
+#
+#
+#
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
 # dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
 #      Spfdififs lodbtion for pbssword filf
+#      Spfdififs lodbtion for pbssword filf
+#      Spfdififs lodbtion for pbssword filf
+#      Spfdififs lodbtion for pbssword filf
+#      Spfdififs lodbtion for pbssword filf
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
 #      Tiis is optionbl - dffbult lodbtion is
 #      $JRE/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+#
+#
+#
+#
 #
 #      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
 #      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
 #      Otifrwisf tif pbssword filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif pbssword filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif pbssword filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif pbssword filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf tif pbssword filf must fxist bnd bf in tif vblid formbt.
+#      If tif pbssword filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#      If tif pbssword filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#      If tif pbssword filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#      If tif pbssword filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
 #      If tif pbssword filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
 #
+#
+#
+#
+#
 
+
+
+
+
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
 # For b non-dffbult pbssword filf lodbtion usf tif following linf
 # dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbti
 
+
+
+
+
+#
+#
+#
+#
 #
 # ################ RMI Addfss filf lodbtion #####################
+# ################ RMI Addfss filf lodbtion #####################
+# ################ RMI Addfss filf lodbtion #####################
+# ################ RMI Addfss filf lodbtion #####################
+# ################ RMI Addfss filf lodbtion #####################
+#
+#
+#
+#
 #
 # dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+#      Spfdififs lodbtion for bddfss  filf
+#      Spfdififs lodbtion for bddfss  filf
+#      Spfdififs lodbtion for bddfss  filf
+#      Spfdififs lodbtion for bddfss  filf
 #      Spfdififs lodbtion for bddfss  filf
 #      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      Tiis is optionbl - dffbult lodbtion is
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
 #      $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
 #
+#
+#
+#
+#
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
+#      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
 #      If tif propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf" is sft to
 #      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      fblsf, tifn tiis propfrty bnd tif pbssword & bddfss filfs brf ignorfd.
+#      Otifrwisf, tif bddfss filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf, tif bddfss filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf, tif bddfss filf must fxist bnd bf in tif vblid formbt.
+#      Otifrwisf, tif bddfss filf must fxist bnd bf in tif vblid formbt.
 #      Otifrwisf, tif bddfss filf must fxist bnd bf in tif vblid formbt.
 #      If tif bddfss filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#      If tif bddfss filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#      If tif bddfss filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#      If tif bddfss filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#      If tif bddfss filf is fmpty or non-fxistfnt tifn no bddfss is bllowfd.
+#
+#
+#
+#
 #
 
+
+
+
+
 # For b non-dffbult pbssword filf lodbtion usf tif following linf
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+# For b non-dffbult pbssword filf lodbtion usf tif following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti
 # dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbti

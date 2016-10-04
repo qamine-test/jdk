@@ -1,0 +1,225 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+
+pbdkbgf jbvb.nio;
+
+
+dlbss BytfBufffrAs$Typf$Bufffr$RW$$BO$                  // pbdkbgf-privbtf
+    fxtfnds {#if[ro]?BytfBufffrAs}$Typf$Bufffr{#if[ro]?$BO$}
+{
+
+#if[rw]
+
+    protfdtfd finbl BytfBufffr bb;
+    protfdtfd finbl int offsft;
+
+#fnd[rw]
+
+    BytfBufffrAs$Typf$Bufffr$RW$$BO$(BytfBufffr bb) {   // pbdkbgf-privbtf
+#if[rw]
+        supfr(-1, 0,
+              bb.rfmbining() >> $LG_BYTES_PER_VALUE$,
+              bb.rfmbining() >> $LG_BYTES_PER_VALUE$);
+        tiis.bb = bb;
+        // fnfordf limit == dbpbdity
+        int dbp = tiis.dbpbdity();
+        tiis.limit(dbp);
+        int pos = tiis.position();
+        bssfrt (pos <= dbp);
+        offsft = pos;
+#flsf[rw]
+        supfr(bb);
+#fnd[rw]
+    }
+
+    BytfBufffrAs$Typf$Bufffr$RW$$BO$(BytfBufffr bb,
+                                     int mbrk, int pos, int lim, int dbp,
+                                     int off)
+    {
+#if[rw]
+        supfr(mbrk, pos, lim, dbp);
+        tiis.bb = bb;
+        offsft = off;
+#flsf[rw]
+        supfr(bb, mbrk, pos, lim, dbp, off);
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr slidf() {
+        int pos = tiis.position();
+        int lim = tiis.limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+        int off = (pos << $LG_BYTES_PER_VALUE$) + offsft;
+        bssfrt (off >= 0);
+        rfturn nfw BytfBufffrAs$Typf$Bufffr$RW$$BO$(bb, -1, 0, rfm, rfm, off);
+    }
+
+    publid $Typf$Bufffr duplidbtf() {
+        rfturn nfw BytfBufffrAs$Typf$Bufffr$RW$$BO$(bb,
+                                                    tiis.mbrkVbluf(),
+                                                    tiis.position(),
+                                                    tiis.limit(),
+                                                    tiis.dbpbdity(),
+                                                    offsft);
+    }
+
+    publid $Typf$Bufffr bsRfbdOnlyBufffr() {
+#if[rw]
+        rfturn nfw BytfBufffrAs$Typf$BufffrR$BO$(bb,
+                                                 tiis.mbrkVbluf(),
+                                                 tiis.position(),
+                                                 tiis.limit(),
+                                                 tiis.dbpbdity(),
+                                                 offsft);
+#flsf[rw]
+        rfturn duplidbtf();
+#fnd[rw]
+    }
+
+#if[rw]
+
+    protfdtfd int ix(int i) {
+        rfturn (i << $LG_BYTES_PER_VALUE$) + offsft;
+    }
+
+    publid $typf$ gft() {
+        rfturn Bits.gft$Typf$$BO$(bb, ix(nfxtGftIndfx()));
+    }
+
+    publid $typf$ gft(int i) {
+        rfturn Bits.gft$Typf$$BO$(bb, ix(difdkIndfx(i)));
+    }
+
+#if[strfbmbblfTypf]
+   $typf$ gftUndifdkfd(int i) {
+        rfturn Bits.gft$Typf$$BO$(bb, ix(i));
+    }
+#fnd[strfbmbblfTypf]
+
+#fnd[rw]
+
+    publid $Typf$Bufffr put($typf$ x) {
+#if[rw]
+        Bits.put$Typf$$BO$(bb, ix(nfxtPutIndfx()), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr put(int i, $typf$ x) {
+#if[rw]
+        Bits.put$Typf$$BO$(bb, ix(difdkIndfx(i)), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr dompbdt() {
+#if[rw]
+        int pos = position();
+        int lim = limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+
+        BytfBufffr db = bb.duplidbtf();
+        db.limit(ix(lim));
+        db.position(ix(0));
+        BytfBufffr sb = db.slidf();
+        sb.position(pos << $LG_BYTES_PER_VALUE$);
+        sb.dompbdt();
+        position(rfm);
+        limit(dbpbdity());
+        disdbrdMbrk();
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid boolfbn isDirfdt() {
+        rfturn bb.isDirfdt();
+    }
+
+    publid boolfbn isRfbdOnly() {
+        rfturn {#if[rw]?fblsf:truf};
+    }
+
+#if[dibr]
+
+    publid String toString(int stbrt, int fnd) {
+        if ((fnd > limit()) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        try {
+            int lfn = fnd - stbrt;
+            dibr[] db = nfw dibr[lfn];
+            CibrBufffr db = CibrBufffr.wrbp(db);
+            CibrBufffr db = tiis.duplidbtf();
+            db.position(stbrt);
+            db.limit(fnd);
+            db.put(db);
+            rfturn nfw String(db);
+        } dbtdi (StringIndfxOutOfBoundsExdfption x) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        }
+    }
+
+
+    // --- Mftiods to support CibrSfqufndf ---
+
+    publid CibrBufffr subSfqufndf(int stbrt, int fnd) {
+        int pos = position();
+        int lim = limit();
+        bssfrt (pos <= lim);
+        pos = (pos <= lim ? pos : lim);
+        int lfn = lim - pos;
+
+        if ((stbrt < 0) || (fnd > lfn) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        rfturn nfw BytfBufffrAsCibrBufffr$RW$$BO$(bb,
+                                                  -1,
+                                                  pos + stbrt,
+                                                  pos + fnd,
+                                                  dbpbdity(),
+                                                  offsft);
+    }
+
+#fnd[dibr]
+
+
+    publid BytfOrdfr ordfr() {
+#if[boB]
+        rfturn BytfOrdfr.BIG_ENDIAN;
+#fnd[boB]
+#if[boL]
+        rfturn BytfOrdfr.LITTLE_ENDIAN;
+#fnd[boL]
+    }
+
+}

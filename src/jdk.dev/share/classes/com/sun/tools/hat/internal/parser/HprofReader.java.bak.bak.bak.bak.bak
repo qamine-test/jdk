@@ -1,0 +1,892 @@
+/*
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.ibt.intfrnbl.pbrsfr;
+
+import jbvb.io.*;
+import jbvb.util.Dbtf;
+import jbvb.util.Hbsitbblf;
+import dom.sun.tools.ibt.intfrnbl.modfl.ArrbyTypfCodfs;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+
+/**
+ * Objfdt tibt's usfd to rfbd b iprof filf.
+ *
+ * @butior      Bill Footf
+ */
+
+publid dlbss HprofRfbdfr fxtfnds Rfbdfr /* imports */ implfmfnts ArrbyTypfCodfs {
+
+    finbl stbtid int MAGIC_NUMBER = 0x4b415641;
+    // Tibt's "JAVA", tif first pbrt of "JAVA PROFILE ..."
+    privbtf finbl stbtid String[] VERSIONS = {
+            " PROFILE 1.0\0",
+            " PROFILE 1.0.1\0",
+            " PROFILE 1.0.2\0",
+    };
+
+    privbtf finbl stbtid int VERSION_JDK12BETA3 = 0;
+    privbtf finbl stbtid int VERSION_JDK12BETA4 = 1;
+    privbtf finbl stbtid int VERSION_JDK6       = 2;
+    // Tifsf vfrsion numbfrs brf indidfs into VERSIONS.  Tif instbndf dbtb
+    // mfmbfr vfrsion is sft to onf of tifsf, bnd it drivfs dfdisions wifn
+    // rfbding tif filf.
+    //
+    // Vfrsion 1.0.1 bddfd HPROF_GC_PRIM_ARRAY_DUMP, wiidi rfquirfs no
+    // vfrsion-sfnsitivf pbrsing.
+    //
+    // Vfrsion 1.0.1 dibngfd tif typf of b donstbnt pool fntry from b signbturf
+    // to b typfdodf.
+    //
+    // Vfrsion 1.0.2 bddfd HPROF_HEAP_DUMP_SEGMENT bnd HPROF_HEAP_DUMP_END
+    // to bllow b lbrgf ifbp to bf dumpfd bs b sfqufndf of ifbp dump sfgmfnts.
+    //
+    // Tif HPROF bgfnt in J2SE 1.2 tirougi to 5.0 gfnfrbtf b vfrsion 1.0.1
+    // filf. In Jbvb SE 6.0 tif vfrsion is fitifr 1.0.1 or 1.0.2 dfpfnding on
+    // tif sizf of tif ifbp (normblly it will bf 1.0.1 but for multi-GB
+    // ifbps tif ifbp dump will not fit in b HPROF_HEAP_DUMP rfdord so tif
+    // dump is gfnfrbtfd bs vfrsion 1.0.2).
+
+    //
+    // Rfdord typfs:
+    //
+    stbtid finbl int HPROF_UTF8          = 0x01;
+    stbtid finbl int HPROF_LOAD_CLASS    = 0x02;
+    stbtid finbl int HPROF_UNLOAD_CLASS  = 0x03;
+    stbtid finbl int HPROF_FRAME         = 0x04;
+    stbtid finbl int HPROF_TRACE         = 0x05;
+    stbtid finbl int HPROF_ALLOC_SITES   = 0x06;
+    stbtid finbl int HPROF_HEAP_SUMMARY  = 0x07;
+
+    stbtid finbl int HPROF_START_THREAD  = 0x0b;
+    stbtid finbl int HPROF_END_THREAD    = 0x0b;
+
+    stbtid finbl int HPROF_HEAP_DUMP     = 0x0d;
+
+    stbtid finbl int HPROF_CPU_SAMPLES   = 0x0d;
+    stbtid finbl int HPROF_CONTROL_SETTINGS = 0x0f;
+    stbtid finbl int HPROF_LOCKSTATS_WAIT_TIME = 0x10;
+    stbtid finbl int HPROF_LOCKSTATS_HOLD_TIME = 0x11;
+
+    stbtid finbl int HPROF_GC_ROOT_UNKNOWN       = 0xff;
+    stbtid finbl int HPROF_GC_ROOT_JNI_GLOBAL    = 0x01;
+    stbtid finbl int HPROF_GC_ROOT_JNI_LOCAL     = 0x02;
+    stbtid finbl int HPROF_GC_ROOT_JAVA_FRAME    = 0x03;
+    stbtid finbl int HPROF_GC_ROOT_NATIVE_STACK  = 0x04;
+    stbtid finbl int HPROF_GC_ROOT_STICKY_CLASS  = 0x05;
+    stbtid finbl int HPROF_GC_ROOT_THREAD_BLOCK  = 0x06;
+    stbtid finbl int HPROF_GC_ROOT_MONITOR_USED  = 0x07;
+    stbtid finbl int HPROF_GC_ROOT_THREAD_OBJ    = 0x08;
+
+    stbtid finbl int HPROF_GC_CLASS_DUMP         = 0x20;
+    stbtid finbl int HPROF_GC_INSTANCE_DUMP      = 0x21;
+    stbtid finbl int HPROF_GC_OBJ_ARRAY_DUMP         = 0x22;
+    stbtid finbl int HPROF_GC_PRIM_ARRAY_DUMP         = 0x23;
+
+    stbtid finbl int HPROF_HEAP_DUMP_SEGMENT     = 0x1d;
+    stbtid finbl int HPROF_HEAP_DUMP_END         = 0x2d;
+
+    privbtf finbl stbtid int T_CLASS = 2;
+
+    privbtf int vfrsion;        // Tif vfrsion of .iprof bfing rfbd
+
+    privbtf int dfbugLfvfl;
+    privbtf long durrPos;        // Currfnt position in tif filf
+
+    privbtf int dumpsToSkip;
+    privbtf boolfbn dbllStbdk;  // If truf, rfbd tif dbll stbdk of objfdts
+
+    privbtf int idfntififrSizf;         // Sizf, in bytfs, of idfntififrs.
+    privbtf Hbsitbblf<Long, String> nbmfs;
+
+    // Hbsitbblf<Intfgfr, TirfbdObjfdt>, usfd to mbp tif tirfbd sfqufndf numbfr
+    // (bkb "sfribl numbfr") to tif tirfbd objfdt ID for
+    // HPROF_GC_ROOT_THREAD_OBJ.  TirfbdObjfdt is b trivibl innfr dlbss,
+    // bt tif fnd of tiis filf.
+    privbtf Hbsitbblf<Intfgfr, TirfbdObjfdt> tirfbdObjfdts;
+
+    // Hbsitbblf<Long, String>, mbps dlbss objfdt ID to dlbss nbmf
+    // (witi / donvfrtfd to .)
+    privbtf Hbsitbblf<Long, String> dlbssNbmfFromObjfdtID;
+
+    // Hbsitbblf<Intfgfr, Intfgfr>, mbps dlbss sfribl # to dlbss objfdt ID
+    privbtf Hbsitbblf<Intfgfr, String> dlbssNbmfFromSfriblNo;
+
+    // Hbsitbblf<Long, StbdkFrbmf> mbps stbdk frbmf ID to StbdkFrbmf.
+    // Null if wf'rf not trbdking tifm.
+    privbtf Hbsitbblf<Long, StbdkFrbmf> stbdkFrbmfs;
+
+    // Hbsitbblf<Intfgfr, StbdkTrbdf> mbps stbdk frbmf ID to StbdkTrbdf
+    // Null if wf'rf not trbdking tifm.
+    privbtf Hbsitbblf<Intfgfr, StbdkTrbdf> stbdkTrbdfs;
+
+    privbtf Snbpsiot snbpsiot;
+
+    publid HprofRfbdfr(String filfNbmf, PositionDbtbInputStrfbm in,
+                       int dumpNumbfr, boolfbn dbllStbdk, int dfbugLfvfl)
+                       tirows IOExdfption {
+        supfr(in);
+        RbndomAddfssFilf filf = nfw RbndomAddfssFilf(filfNbmf, "r");
+        tiis.snbpsiot = nfw Snbpsiot(MbppfdRfbdBufffr.drfbtf(filf));
+        tiis.dumpsToSkip = dumpNumbfr - 1;
+        tiis.dbllStbdk = dbllStbdk;
+        tiis.dfbugLfvfl = dfbugLfvfl;
+        nbmfs = nfw Hbsitbblf<Long, String>();
+        tirfbdObjfdts = nfw Hbsitbblf<Intfgfr, TirfbdObjfdt>(43);
+        dlbssNbmfFromObjfdtID = nfw Hbsitbblf<Long, String>();
+        if (dbllStbdk) {
+            stbdkFrbmfs = nfw Hbsitbblf<Long, StbdkFrbmf>(43);
+            stbdkTrbdfs = nfw Hbsitbblf<Intfgfr, StbdkTrbdf>(43);
+            dlbssNbmfFromSfriblNo = nfw Hbsitbblf<Intfgfr, String>();
+        }
+    }
+
+    publid Snbpsiot rfbd() tirows IOExdfption {
+        durrPos = 4;    // 4 bfdbusf of tif mbgid numbfr
+        vfrsion = rfbdVfrsionHfbdfr();
+        idfntififrSizf = in.rfbdInt();
+        snbpsiot.sftIdfntififrSizf(idfntififrSizf);
+        if (vfrsion >= VERSION_JDK12BETA4) {
+            snbpsiot.sftNfwStylfArrbyClbss(truf);
+        } flsf {
+            snbpsiot.sftNfwStylfArrbyClbss(fblsf);
+        }
+
+        durrPos += 4;
+        if (idfntififrSizf != 4 && idfntififrSizf != 8) {
+            tirow nfw IOExdfption("I'm sorry, but I dbn't dfbl witi bn idfntififr sizf of " + idfntififrSizf + ".  I dbn only dfbl witi 4 or 8.");
+        }
+        Systfm.out.println("Dump filf drfbtfd " + (nfw Dbtf(in.rfbdLong())));
+        durrPos += 8;
+
+        for (;;) {
+            int typf;
+            try {
+                typf = in.rfbdUnsignfdBytf();
+            } dbtdi (EOFExdfption ignorfd) {
+                brfbk;
+            }
+            in.rfbdInt();       // Timfstbmp of tiis rfdord
+            // Lfngti of rfdord: rfbdInt() will rfturn nfgbtivf vbluf for rfdord
+            // lfngti >2GB.  so storf 32bit vbluf in long to kffp it unsignfd.
+            long lfngti = in.rfbdInt() & 0xffffffffL;
+            if (dfbugLfvfl > 0) {
+                Systfm.out.println("Rfbd rfdord typf " + typf
+                                   + ", lfngti " + lfngti
+                                   + " bt position " + toHfx(durrPos));
+            }
+            if (lfngti < 0) {
+                tirow nfw IOExdfption("Bbd rfdord lfngti of " + lfngti
+                                      + " bt bytf " + toHfx(durrPos+5)
+                                      + " of filf.");
+            }
+            durrPos += 9 + lfngti;
+            switdi (typf) {
+                dbsf HPROF_UTF8: {
+                    long id = rfbdID();
+                    bytf[] dibrs = nfw bytf[(int)lfngti - idfntififrSizf];
+                    in.rfbdFully(dibrs);
+                    nbmfs.put(id, nfw String(dibrs));
+                    brfbk;
+                }
+                dbsf HPROF_LOAD_CLASS: {
+                    int sfriblNo = in.rfbdInt();        // Not usfd
+                    long dlbssID = rfbdID();
+                    int stbdkTrbdfSfriblNo = in.rfbdInt();
+                    long dlbssNbmfID = rfbdID();
+                    Long dlbssIdI = dlbssID;
+                    String nm = gftNbmfFromID(dlbssNbmfID).rfplbdf('/', '.');
+                    dlbssNbmfFromObjfdtID.put(dlbssIdI, nm);
+                    if (dlbssNbmfFromSfriblNo != null) {
+                        dlbssNbmfFromSfriblNo.put(sfriblNo, nm);
+                    }
+                    brfbk;
+                }
+
+                dbsf HPROF_HEAP_DUMP: {
+                    if (dumpsToSkip <= 0) {
+                        try {
+                            rfbdHfbpDump(lfngti, durrPos);
+                        } dbtdi (EOFExdfption fxp) {
+                            ibndlfEOF(fxp, snbpsiot);
+                        }
+                        if (dfbugLfvfl > 0) {
+                            Systfm.out.println("    Finisifd prodfssing instbndfs in ifbp dump.");
+                        }
+                        rfturn snbpsiot;
+                    } flsf {
+                        dumpsToSkip--;
+                        skipBytfs(lfngti);
+                    }
+                    brfbk;
+                }
+
+                dbsf HPROF_HEAP_DUMP_END: {
+                    if (vfrsion >= VERSION_JDK6) {
+                        if (dumpsToSkip <= 0) {
+                            skipBytfs(lfngti);  // siould bf no-op
+                            rfturn snbpsiot;
+                        } flsf {
+                            // skip tiis dump (of tif fnd rfdord for b sfqufndf of dump sfgmfnts)
+                            dumpsToSkip--;
+                        }
+                    } flsf {
+                        // HPROF_HEAP_DUMP_END only rfdognizfd in >= 1.0.2
+                        wbrn("Ignoring unrfdognizfd rfdord typf " + typf);
+                    }
+                    skipBytfs(lfngti);  // siould bf no-op
+                    brfbk;
+                }
+
+                dbsf HPROF_HEAP_DUMP_SEGMENT: {
+                    if (vfrsion >= VERSION_JDK6) {
+                        if (dumpsToSkip <= 0) {
+                            try {
+                                // rfbd tif dump sfgmfnt
+                                rfbdHfbpDump(lfngti, durrPos);
+                            } dbtdi (EOFExdfption fxp) {
+                                ibndlfEOF(fxp, snbpsiot);
+                            }
+                        } flsf {
+                            // bll sfgmfnts domprising tif ifbp dump will bf skippfd
+                            skipBytfs(lfngti);
+                        }
+                    } flsf {
+                        // HPROF_HEAP_DUMP_SEGMENT only rfdognizfd in >= 1.0.2
+                        wbrn("Ignoring unrfdognizfd rfdord typf " + typf);
+                        skipBytfs(lfngti);
+                    }
+                    brfbk;
+                }
+
+                dbsf HPROF_FRAME: {
+                    if (stbdkFrbmfs == null) {
+                        skipBytfs(lfngti);
+                    } flsf {
+                        long id = rfbdID();
+                        String mftiodNbmf = gftNbmfFromID(rfbdID());
+                        String mftiodSig = gftNbmfFromID(rfbdID());
+                        String sourdfFilf = gftNbmfFromID(rfbdID());
+                        int dlbssSfr = in.rfbdInt();
+                        String dlbssNbmf = dlbssNbmfFromSfriblNo.gft(dlbssSfr);
+                        int linfNumbfr = in.rfbdInt();
+                        if (linfNumbfr < StbdkFrbmf.LINE_NUMBER_NATIVE) {
+                            wbrn("Wfird stbdk frbmf linf numbfr:  " + linfNumbfr);
+                            linfNumbfr = StbdkFrbmf.LINE_NUMBER_UNKNOWN;
+                        }
+                        stbdkFrbmfs.put(id,
+                                        nfw StbdkFrbmf(mftiodNbmf, mftiodSig,
+                                                       dlbssNbmf, sourdfFilf,
+                                                       linfNumbfr));
+                    }
+                    brfbk;
+                }
+                dbsf HPROF_TRACE: {
+                    if (stbdkTrbdfs == null) {
+                        skipBytfs(lfngti);
+                    } flsf {
+                        int sfriblNo = in.rfbdInt();
+                        int tirfbdSfq = in.rfbdInt();   // Not usfd
+                        StbdkFrbmf[] frbmfs = nfw StbdkFrbmf[in.rfbdInt()];
+                        for (int i = 0; i < frbmfs.lfngti; i++) {
+                            long fid = rfbdID();
+                            frbmfs[i] = stbdkFrbmfs.gft(fid);
+                            if (frbmfs[i] == null) {
+                                tirow nfw IOExdfption("Stbdk frbmf " + toHfx(fid) + " not found");
+                            }
+                        }
+                        stbdkTrbdfs.put(sfriblNo,
+                                        nfw StbdkTrbdf(frbmfs));
+                    }
+                    brfbk;
+                }
+                dbsf HPROF_UNLOAD_CLASS:
+                dbsf HPROF_ALLOC_SITES:
+                dbsf HPROF_START_THREAD:
+                dbsf HPROF_END_THREAD:
+                dbsf HPROF_HEAP_SUMMARY:
+                dbsf HPROF_CPU_SAMPLES:
+                dbsf HPROF_CONTROL_SETTINGS:
+                dbsf HPROF_LOCKSTATS_WAIT_TIME:
+                dbsf HPROF_LOCKSTATS_HOLD_TIME:
+                {
+                    // Ignorf tifsf rfdord typfs
+                    skipBytfs(lfngti);
+                    brfbk;
+                }
+                dffbult: {
+                    skipBytfs(lfngti);
+                    wbrn("Ignoring unrfdognizfd rfdord typf " + typf);
+                }
+            }
+        }
+
+        rfturn snbpsiot;
+    }
+
+    privbtf void skipBytfs(long lfngti) tirows IOExdfption {
+        in.skipBytfs((int)lfngti);
+    }
+
+    privbtf int rfbdVfrsionHfbdfr() tirows IOExdfption {
+        int dbndidbtfsLfft = VERSIONS.lfngti;
+        boolfbn[] mbtdifd = nfw boolfbn[VERSIONS.lfngti];
+        for (int i = 0; i < dbndidbtfsLfft; i++) {
+            mbtdifd[i] = truf;
+        }
+
+        int pos = 0;
+        wiilf (dbndidbtfsLfft > 0) {
+            dibr d = (dibr) in.rfbdBytf();
+            durrPos++;
+            for (int i = 0; i < VERSIONS.lfngti; i++) {
+                if (mbtdifd[i]) {
+                    if (d != VERSIONS[i].dibrAt(pos)) {   // Not mbtdifd
+                        mbtdifd[i] = fblsf;
+                        --dbndidbtfsLfft;
+                    } flsf if (pos == VERSIONS[i].lfngti() - 1) {  // Full mbtdi
+                        rfturn i;
+                    }
+                }
+            }
+            ++pos;
+        }
+        tirow nfw IOExdfption("Vfrsion string not rfdognizfd bt bytf " + (pos+3));
+    }
+
+    privbtf void rfbdHfbpDump(long bytfsLfft, long posAtEnd) tirows IOExdfption {
+        wiilf (bytfsLfft > 0) {
+            int typf = in.rfbdUnsignfdBytf();
+            if (dfbugLfvfl > 0) {
+                Systfm.out.println("    Rfbd ifbp sub-rfdord typf " + typf
+                                   + " bt position "
+                                   + toHfx(posAtEnd - bytfsLfft));
+            }
+            bytfsLfft--;
+            switdi(typf) {
+                dbsf HPROF_GC_ROOT_UNKNOWN: {
+                    long id = rfbdID();
+                    bytfsLfft -= idfntififrSizf;
+                    snbpsiot.bddRoot(nfw Root(id, 0, Root.UNKNOWN, ""));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_THREAD_OBJ: {
+                    long id = rfbdID();
+                    int tirfbdSfq = in.rfbdInt();
+                    int stbdkSfq = in.rfbdInt();
+                    bytfsLfft -= idfntififrSizf + 8;
+                    tirfbdObjfdts.put(tirfbdSfq,
+                                      nfw TirfbdObjfdt(id, stbdkSfq));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_JNI_GLOBAL: {
+                    long id = rfbdID();
+                    long globblRffId = rfbdID();        // Ignorfd, for now
+                    bytfsLfft -= 2*idfntififrSizf;
+                    snbpsiot.bddRoot(nfw Root(id, 0, Root.NATIVE_STATIC, ""));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_JNI_LOCAL: {
+                    long id = rfbdID();
+                    int tirfbdSfq = in.rfbdInt();
+                    int dfpti = in.rfbdInt();
+                    bytfsLfft -= idfntififrSizf + 8;
+                    TirfbdObjfdt to = gftTirfbdObjfdtFromSfqufndf(tirfbdSfq);
+                    StbdkTrbdf st = gftStbdkTrbdfFromSfribl(to.stbdkSfq);
+                    if (st != null) {
+                        st = st.trbdfForDfpti(dfpti+1);
+                    }
+                    snbpsiot.bddRoot(nfw Root(id, to.tirfbdId,
+                                              Root.NATIVE_LOCAL, "", st));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_JAVA_FRAME: {
+                    long id = rfbdID();
+                    int tirfbdSfq = in.rfbdInt();
+                    int dfpti = in.rfbdInt();
+                    bytfsLfft -= idfntififrSizf + 8;
+                    TirfbdObjfdt to = gftTirfbdObjfdtFromSfqufndf(tirfbdSfq);
+                    StbdkTrbdf st = gftStbdkTrbdfFromSfribl(to.stbdkSfq);
+                    if (st != null) {
+                        st = st.trbdfForDfpti(dfpti+1);
+                    }
+                    snbpsiot.bddRoot(nfw Root(id, to.tirfbdId,
+                                              Root.JAVA_LOCAL, "", st));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_NATIVE_STACK: {
+                    long id = rfbdID();
+                    int tirfbdSfq = in.rfbdInt();
+                    bytfsLfft -= idfntififrSizf + 4;
+                    TirfbdObjfdt to = gftTirfbdObjfdtFromSfqufndf(tirfbdSfq);
+                    StbdkTrbdf st = gftStbdkTrbdfFromSfribl(to.stbdkSfq);
+                    snbpsiot.bddRoot(nfw Root(id, to.tirfbdId,
+                                              Root.NATIVE_STACK, "", st));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_STICKY_CLASS: {
+                    long id = rfbdID();
+                    bytfsLfft -= idfntififrSizf;
+                    snbpsiot.bddRoot(nfw Root(id, 0, Root.SYSTEM_CLASS, ""));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_THREAD_BLOCK: {
+                    long id = rfbdID();
+                    int tirfbdSfq = in.rfbdInt();
+                    bytfsLfft -= idfntififrSizf + 4;
+                    TirfbdObjfdt to = gftTirfbdObjfdtFromSfqufndf(tirfbdSfq);
+                    StbdkTrbdf st = gftStbdkTrbdfFromSfribl(to.stbdkSfq);
+                    snbpsiot.bddRoot(nfw Root(id, to.tirfbdId,
+                                     Root.THREAD_BLOCK, "", st));
+                    brfbk;
+                }
+                dbsf HPROF_GC_ROOT_MONITOR_USED: {
+                    long id = rfbdID();
+                    bytfsLfft -= idfntififrSizf;
+                    snbpsiot.bddRoot(nfw Root(id, 0, Root.BUSY_MONITOR, ""));
+                    brfbk;
+                }
+                dbsf HPROF_GC_CLASS_DUMP: {
+                    int bytfsRfbd = rfbdClbss();
+                    bytfsLfft -= bytfsRfbd;
+                    brfbk;
+                }
+                dbsf HPROF_GC_INSTANCE_DUMP: {
+                    int bytfsRfbd = rfbdInstbndf();
+                    bytfsLfft -= bytfsRfbd;
+                    brfbk;
+                }
+                dbsf HPROF_GC_OBJ_ARRAY_DUMP: {
+                    int bytfsRfbd = rfbdArrby(fblsf);
+                    bytfsLfft -= bytfsRfbd;
+                    brfbk;
+                }
+                dbsf HPROF_GC_PRIM_ARRAY_DUMP: {
+                    int bytfsRfbd = rfbdArrby(truf);
+                    bytfsLfft -= bytfsRfbd;
+                    brfbk;
+                }
+                dffbult: {
+                    tirow nfw IOExdfption("Unrfdognizfd ifbp dump sub-rfdord typf:  " + typf);
+                }
+            }
+        }
+        if (bytfsLfft != 0) {
+            wbrn("Error rfbding ifbp dump or ifbp dump sfgmfnt:  Bytf dount is " + bytfsLfft + " instfbd of 0");
+            skipBytfs(bytfsLfft);
+        }
+        if (dfbugLfvfl > 0) {
+            Systfm.out.println("    Finisifd ifbp sub-rfdords.");
+        }
+    }
+
+    privbtf long rfbdID() tirows IOExdfption {
+        rfturn (idfntififrSizf == 4)?
+            (Snbpsiot.SMALL_ID_MASK & (long)in.rfbdInt()) : in.rfbdLong();
+    }
+
+    //
+    // Rfbd b jbvb vbluf.  If rfsult is non-null, it's fxpfdtfd to bf bn
+    // brrby of onf flfmfnt.  Wf usf it to fbkf multiplf rfturn vblufs.
+    // @rfturns tif numbfr of bytfs rfbd
+    //
+    privbtf int rfbdVbluf(JbvbTiing[] rfsultArr) tirows IOExdfption {
+        bytf typf = in.rfbdBytf();
+        rfturn 1 + rfbdVblufForTypf(typf, rfsultArr);
+    }
+
+    privbtf int rfbdVblufForTypf(bytf typf, JbvbTiing[] rfsultArr)
+            tirows IOExdfption {
+        if (vfrsion >= VERSION_JDK12BETA4) {
+            typf = signbturfFromTypfId(typf);
+        }
+        rfturn rfbdVblufForTypfSignbturf(typf, rfsultArr);
+    }
+
+    privbtf int rfbdVblufForTypfSignbturf(bytf typf, JbvbTiing[] rfsultArr)
+            tirows IOExdfption {
+        switdi (typf) {
+            dbsf '[':
+            dbsf 'L': {
+                long id = rfbdID();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbObjfdtRff(id);
+                }
+                rfturn idfntififrSizf;
+            }
+            dbsf 'Z': {
+                int b = in.rfbdBytf();
+                if (b != 0 && b != 1) {
+                    wbrn("Illfgbl boolfbn vbluf rfbd");
+                }
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbBoolfbn(b != 0);
+                }
+                rfturn 1;
+            }
+            dbsf 'B': {
+                bytf b = in.rfbdBytf();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbBytf(b);
+                }
+                rfturn 1;
+            }
+            dbsf 'S': {
+                siort s = in.rfbdSiort();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbSiort(s);
+                }
+                rfturn 2;
+            }
+            dbsf 'C': {
+                dibr di = in.rfbdCibr();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbCibr(di);
+                }
+                rfturn 2;
+            }
+            dbsf 'I': {
+                int vbl = in.rfbdInt();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbInt(vbl);
+                }
+                rfturn 4;
+            }
+            dbsf 'J': {
+                long vbl = in.rfbdLong();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbLong(vbl);
+                }
+                rfturn 8;
+            }
+            dbsf 'F': {
+                flobt vbl = in.rfbdFlobt();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbFlobt(vbl);
+                }
+                rfturn 4;
+            }
+            dbsf 'D': {
+                doublf vbl = in.rfbdDoublf();
+                if (rfsultArr != null) {
+                    rfsultArr[0] = nfw JbvbDoublf(vbl);
+                }
+                rfturn 8;
+            }
+            dffbult: {
+                tirow nfw IOExdfption("Bbd vbluf signbturf:  " + typf);
+            }
+        }
+    }
+
+    privbtf TirfbdObjfdt gftTirfbdObjfdtFromSfqufndf(int tirfbdSfq)
+            tirows IOExdfption {
+        TirfbdObjfdt to = tirfbdObjfdts.gft(tirfbdSfq);
+        if (to == null) {
+            tirow nfw IOExdfption("Tirfbd " + tirfbdSfq +
+                                  " not found for JNI lodbl rff");
+        }
+        rfturn to;
+    }
+
+    privbtf String gftNbmfFromID(long id) tirows IOExdfption {
+        rfturn gftNbmfFromID(Long.vblufOf(id));
+    }
+
+    privbtf String gftNbmfFromID(Long id) tirows IOExdfption {
+        if (id.longVbluf() == 0L) {
+            rfturn "";
+        }
+        String rfsult = nbmfs.gft(id);
+        if (rfsult == null) {
+            wbrn("Nbmf not found bt " + toHfx(id.longVbluf()));
+            rfturn "unrfsolvfd nbmf " + toHfx(id.longVbluf());
+        }
+        rfturn rfsult;
+    }
+
+    privbtf StbdkTrbdf gftStbdkTrbdfFromSfribl(int sfr) tirows IOExdfption {
+        if (stbdkTrbdfs == null) {
+            rfturn null;
+        }
+        StbdkTrbdf rfsult = stbdkTrbdfs.gft(sfr);
+        if (rfsult == null) {
+            wbrn("Stbdk trbdf not found for sfribl # " + sfr);
+        }
+        rfturn rfsult;
+    }
+
+    //
+    // Hbndlf b HPROF_GC_CLASS_DUMP
+    // Rfturn numbfr of bytfs rfbd
+    //
+    privbtf int rfbdClbss() tirows IOExdfption {
+        long id = rfbdID();
+        StbdkTrbdf stbdkTrbdf = gftStbdkTrbdfFromSfribl(in.rfbdInt());
+        long supfrId = rfbdID();
+        long dlbssLobdfrId = rfbdID();
+        long signfrsId = rfbdID();
+        long protDombinId = rfbdID();
+        long rfsfrvfd1 = rfbdID();
+        long rfsfrvfd2 = rfbdID();
+        int instbndfSizf = in.rfbdInt();
+        int bytfsRfbd = 7 * idfntififrSizf + 8;
+
+        int numConstPoolEntrifs = in.rfbdUnsignfdSiort();
+        bytfsRfbd += 2;
+        for (int i = 0; i < numConstPoolEntrifs; i++) {
+            int indfx = in.rfbdUnsignfdSiort(); // unusfd
+            bytfsRfbd += 2;
+            bytfsRfbd += rfbdVbluf(null);       // Wf ignorf tif vblufs
+        }
+
+        int numStbtids = in.rfbdUnsignfdSiort();
+        bytfsRfbd += 2;
+        JbvbTiing[] vblufBin = nfw JbvbTiing[1];
+        JbvbStbtid[] stbtids = nfw JbvbStbtid[numStbtids];
+        for (int i = 0; i < numStbtids; i++) {
+            long nbmfId = rfbdID();
+            bytfsRfbd += idfntififrSizf;
+            bytf typf = in.rfbdBytf();
+            bytfsRfbd++;
+            bytfsRfbd += rfbdVblufForTypf(typf, vblufBin);
+            String fifldNbmf = gftNbmfFromID(nbmfId);
+            if (vfrsion >= VERSION_JDK12BETA4) {
+                typf = signbturfFromTypfId(typf);
+            }
+            String signbturf = "" + ((dibr) typf);
+            JbvbFifld f = nfw JbvbFifld(fifldNbmf, signbturf);
+            stbtids[i] = nfw JbvbStbtid(f, vblufBin[0]);
+        }
+
+        int numFiflds = in.rfbdUnsignfdSiort();
+        bytfsRfbd += 2;
+        JbvbFifld[] fiflds = nfw JbvbFifld[numFiflds];
+        for (int i = 0; i < numFiflds; i++) {
+            long nbmfId = rfbdID();
+            bytfsRfbd += idfntififrSizf;
+            bytf typf = in.rfbdBytf();
+            bytfsRfbd++;
+            String fifldNbmf = gftNbmfFromID(nbmfId);
+            if (vfrsion >= VERSION_JDK12BETA4) {
+                typf = signbturfFromTypfId(typf);
+            }
+            String signbturf = "" + ((dibr) typf);
+            fiflds[i] = nfw JbvbFifld(fifldNbmf, signbturf);
+        }
+        String nbmf = dlbssNbmfFromObjfdtID.gft(id);
+        if (nbmf == null) {
+            wbrn("Clbss nbmf not found for " + toHfx(id));
+            nbmf = "unknown-nbmf@" + toHfx(id);
+        }
+        JbvbClbss d = nfw JbvbClbss(id, nbmf, supfrId, dlbssLobdfrId, signfrsId,
+                                    protDombinId, fiflds, stbtids,
+                                    instbndfSizf);
+        snbpsiot.bddClbss(id, d);
+        snbpsiot.sftSitfTrbdf(d, stbdkTrbdf);
+
+        rfturn bytfsRfbd;
+    }
+
+    privbtf String toHfx(long bddr) {
+        rfturn dom.sun.tools.ibt.intfrnbl.util.Misd.toHfx(bddr);
+    }
+
+    //
+    // Hbndlf b HPROF_GC_INSTANCE_DUMP
+    // Rfturn numbfr of bytfs rfbd
+    //
+    privbtf int rfbdInstbndf() tirows IOExdfption {
+        long stbrt = in.position();
+        long id = rfbdID();
+        StbdkTrbdf stbdkTrbdf = gftStbdkTrbdfFromSfribl(in.rfbdInt());
+        long dlbssID = rfbdID();
+        int bytfsFollowing = in.rfbdInt();
+        int bytfsRfbd = (2 * idfntififrSizf) + 8 + bytfsFollowing;
+        JbvbObjfdt jobj = nfw JbvbObjfdt(dlbssID, stbrt);
+        skipBytfs(bytfsFollowing);
+        snbpsiot.bddHfbpObjfdt(id, jobj);
+        snbpsiot.sftSitfTrbdf(jobj, stbdkTrbdf);
+        rfturn bytfsRfbd;
+    }
+
+    //
+    // Hbndlf b HPROF_GC_OBJ_ARRAY_DUMP or HPROF_GC_PRIM_ARRAY_DUMP
+    // Rfturn numbfr of bytfs rfbd
+    //
+    privbtf int rfbdArrby(boolfbn isPrimitivf) tirows IOExdfption {
+        long stbrt = in.position();
+        long id = rfbdID();
+        StbdkTrbdf stbdkTrbdf = gftStbdkTrbdfFromSfribl(in.rfbdInt());
+        int num = in.rfbdInt();
+        int bytfsRfbd = idfntififrSizf + 8;
+        long flfmfntClbssID;
+        if (isPrimitivf) {
+            flfmfntClbssID = in.rfbdBytf();
+            bytfsRfbd++;
+        } flsf {
+            flfmfntClbssID = rfbdID();
+            bytfsRfbd += idfntififrSizf;
+        }
+
+        // Cifdk for primitivf brrbys:
+        bytf primitivfSignbturf = 0x00;
+        int flSizf = 0;
+        if (isPrimitivf || vfrsion < VERSION_JDK12BETA4) {
+            switdi ((int)flfmfntClbssID) {
+                dbsf T_BOOLEAN: {
+                    primitivfSignbturf = (bytf) 'Z';
+                    flSizf = 1;
+                    brfbk;
+                }
+                dbsf T_CHAR: {
+                    primitivfSignbturf = (bytf) 'C';
+                    flSizf = 2;
+                    brfbk;
+                }
+                dbsf T_FLOAT: {
+                    primitivfSignbturf = (bytf) 'F';
+                    flSizf = 4;
+                    brfbk;
+                }
+                dbsf T_DOUBLE: {
+                    primitivfSignbturf = (bytf) 'D';
+                    flSizf = 8;
+                    brfbk;
+                }
+                dbsf T_BYTE: {
+                    primitivfSignbturf = (bytf) 'B';
+                    flSizf = 1;
+                    brfbk;
+                }
+                dbsf T_SHORT: {
+                    primitivfSignbturf = (bytf) 'S';
+                    flSizf = 2;
+                    brfbk;
+                }
+                dbsf T_INT: {
+                    primitivfSignbturf = (bytf) 'I';
+                    flSizf = 4;
+                    brfbk;
+                }
+                dbsf T_LONG: {
+                    primitivfSignbturf = (bytf) 'J';
+                    flSizf = 8;
+                    brfbk;
+                }
+            }
+            if (vfrsion >= VERSION_JDK12BETA4 && primitivfSignbturf == 0x00) {
+                tirow nfw IOExdfption("Unrfdognizfd typfdodf:  "
+                                        + flfmfntClbssID);
+            }
+        }
+        if (primitivfSignbturf != 0x00) {
+            int sizf = flSizf * num;
+            bytfsRfbd += sizf;
+            JbvbVblufArrby vb = nfw JbvbVblufArrby(primitivfSignbturf, stbrt);
+            skipBytfs(sizf);
+            snbpsiot.bddHfbpObjfdt(id, vb);
+            snbpsiot.sftSitfTrbdf(vb, stbdkTrbdf);
+        } flsf {
+            int sz = num * idfntififrSizf;
+            bytfsRfbd += sz;
+            JbvbObjfdtArrby brr = nfw JbvbObjfdtArrby(flfmfntClbssID, stbrt);
+            skipBytfs(sz);
+            snbpsiot.bddHfbpObjfdt(id, brr);
+            snbpsiot.sftSitfTrbdf(brr, stbdkTrbdf);
+        }
+        rfturn bytfsRfbd;
+    }
+
+    privbtf bytf signbturfFromTypfId(bytf typfId) tirows IOExdfption {
+        switdi (typfId) {
+            dbsf T_CLASS: {
+                rfturn (bytf) 'L';
+            }
+            dbsf T_BOOLEAN: {
+                rfturn (bytf) 'Z';
+            }
+            dbsf T_CHAR: {
+                rfturn (bytf) 'C';
+            }
+            dbsf T_FLOAT: {
+                rfturn (bytf) 'F';
+            }
+            dbsf T_DOUBLE: {
+                rfturn (bytf) 'D';
+            }
+            dbsf T_BYTE: {
+                rfturn (bytf) 'B';
+            }
+            dbsf T_SHORT: {
+                rfturn (bytf) 'S';
+            }
+            dbsf T_INT: {
+                rfturn (bytf) 'I';
+            }
+            dbsf T_LONG: {
+                rfturn (bytf) 'J';
+            }
+            dffbult: {
+                tirow nfw IOExdfption("Invblid typf id of " + typfId);
+            }
+        }
+    }
+
+    privbtf void ibndlfEOF(EOFExdfption fxp, Snbpsiot snbpsiot) {
+        if (dfbugLfvfl > 0) {
+            fxp.printStbdkTrbdf();
+        }
+        wbrn("Unfxpfdtfd EOF. Will miss informbtion...");
+        // wf ibvf EOF, wf ibvf to tolfrbtf missing rfffrfndfs
+        snbpsiot.sftUnrfsolvfdObjfdtsOK(truf);
+    }
+
+    privbtf void wbrn(String msg) {
+        Systfm.out.println("WARNING: " + msg);
+    }
+
+    //
+    // A trivibl dbtb-ioldfr dlbss for HPROF_GC_ROOT_THREAD_OBJ.
+    //
+    privbtf dlbss TirfbdObjfdt {
+
+        long tirfbdId;
+        int stbdkSfq;
+
+        TirfbdObjfdt(long tirfbdId, int stbdkSfq) {
+            tiis.tirfbdId = tirfbdId;
+            tiis.stbdkSfq = stbdkSfq;
+        }
+    }
+
+}

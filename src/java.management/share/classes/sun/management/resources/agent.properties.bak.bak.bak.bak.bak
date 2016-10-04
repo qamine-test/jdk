@@ -1,0 +1,93 @@
+#
+#
+# Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+
+bgfnt.frr.frror			   = Error
+bgfnt.frr.fxdfption                = Exdfption tirown by tif bgfnt 
+bgfnt.frr.wbrning		   = Wbrning
+
+bgfnt.frr.donfigfilf.notfound      = Config filf not found
+bgfnt.frr.donfigfilf.fbilfd        = Fbilfd in rfbding tif donfig filf
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbilfd in dlosing tif donfig filf
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfss to tif donfig filf is dfnifd
+
+bgfnt.frr.fxportbddrfss.fbilfd	   = Export of JMX donnfdtor bddrfss to instrumfntbtion bufffr fbilfd
+
+bgfnt.frr.bgfntdlbss.notfound      = Mbnbgfmfnt bgfnt dlbss not found
+bgfnt.frr.bgfntdlbss.fbilfd        = Mbnbgfmfnt bgfnt dlbss fbilfd 
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) dofs not fxist in bgfnt dlbss
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Addfss to prfmbin(String) is dfnifd
+bgfnt.frr.invblid.bgfntdlbss       = Invblid dom.sun.mbnbgfmfnt.bgfnt.dlbss propfrty vbluf
+bgfnt.frr.invblid.stbtf            = Invblid bgfnt stbtf: {0}
+bgfnt.frr.invblid.jmxrfmotf.port   = Invblid dom.sun.mbnbgfmfnt.jmxrfmotf.port numbfr
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = Invblid dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port numbfr
+
+bgfnt.frr.filf.not.sft               = Filf not spfdififd
+bgfnt.frr.filf.not.rfbdbblf          = Filf not rfbdbblf
+bgfnt.frr.filf.rfbd.fbilfd           = Fbilfd in rfbding tif filf
+bgfnt.frr.filf.not.found             = Filf not found
+bgfnt.frr.filf.bddfss.not.rfstridtfd = Filf rfbd bddfss must bf rfstridtfd
+
+bgfnt.frr.pbssword.filf.notsft     = Pbssword filf is not spfdififd but dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.not.rfbdbblf = Pbssword filf not rfbdbblf
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbilfd in rfbding tif pbssword filf
+bgfnt.frr.pbssword.filf.notfound   = Pbssword filf not found
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Pbssword filf rfbd bddfss must bf rfstridtfd
+
+bgfnt.frr.bddfss.filf.notsft       = Addfss filf is not spfdififd but dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.not.rfbdbblf = Addfss filf not rfbdbblf
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbilfd in rfbding tif bddfss filf
+bgfnt.frr.bddfss.filf.notfound     = Addfss filf not found
+
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX donnfdtor sfrvfr dommunidbtion frror
+
+bgfnt.frr.invblid.option	   = Invblid option spfdififd
+bgfnt.frr.invblid.snmp.port        = Invblid dom.sun.mbnbgfmfnt.snmp.port numbfr
+bgfnt.frr.invblid.snmp.trbp.port   = Invblid dom.sun.mbnbgfmfnt.snmp.trbp numbfr
+bgfnt.frr.unknown.snmp.intfrfbdf   = Unknown SNMP intfrfbdf
+bgfnt.frr.bdl.filf.notsft          = No SNMP ACL filf is spfdififd but dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL filf not found
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL filf not rfbdbblf
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbilfd in rfbding SNMP ACL filf
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Pbssword filf rfbd bddfss must bf rfstridtfd
+
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Fbilfd to stbrt SNMP bdbptor witi bddrfss
+bgfnt.frr.snmp.mib.init.fbilfd     = Fbilfd to initiblizf SNMP MIB witi frror
+
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = Stbrting JMX Connfdtor Sfrvfr:
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = No Autifntidbtion
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX Connfdtor rfbdy bt: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Pbssword filf rfbd bddfss must bf rfstridtfd: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = Filf rfbd bddfss must bf rfstridtfd: {0}
+
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = Prodfssing ACL
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Adding tbrgft: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Stbrting Adbptor Sfrvfr:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptor rfbdy.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP Adbptor rfbdy on: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = tfrminbtf {0}

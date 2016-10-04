@@ -1,1683 +1,8415 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 /*
+/*
+/*
+/*
+/*
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
  *******************************************************************************
  * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ *                                                                             *
+ *                                                                             *
+ *                                                                             *
+ *                                                                             *
  *                                                                             *
  * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
  * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
  * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
  * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
  * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
  *******************************************************************************
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
+
+
+
+
 
 import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.Normblizfr;
+import jbvb.tfxt.Normblizfr;
+import jbvb.tfxt.Normblizfr;
+import jbvb.tfxt.Normblizfr;
 import jbvb.tfxt.Normblizfr;
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * Unidodf Normblizbtion
+ * Unidodf Normblizbtion
+ * Unidodf Normblizbtion
+ * Unidodf Normblizbtion
+ * Unidodf Normblizbtion
+ *
+ *
+ *
+ *
  *
  * <i2>Unidodf normblizbtion API</i2>
+ * <i2>Unidodf normblizbtion API</i2>
+ * <i2>Unidodf normblizbtion API</i2>
+ * <i2>Unidodf normblizbtion API</i2>
+ * <i2>Unidodf normblizbtion API</i2>
+ *
+ *
+ *
+ *
  *
  * <dodf>normblizf</dodf> trbnsforms Unidodf tfxt into bn fquivblfnt domposfd or
+ * <dodf>normblizf</dodf> trbnsforms Unidodf tfxt into bn fquivblfnt domposfd or
+ * <dodf>normblizf</dodf> trbnsforms Unidodf tfxt into bn fquivblfnt domposfd or
+ * <dodf>normblizf</dodf> trbnsforms Unidodf tfxt into bn fquivblfnt domposfd or
+ * <dodf>normblizf</dodf> trbnsforms Unidodf tfxt into bn fquivblfnt domposfd or
+ * dfdomposfd form, bllowing for fbsifr sorting bnd sfbrdiing of tfxt.
+ * dfdomposfd form, bllowing for fbsifr sorting bnd sfbrdiing of tfxt.
+ * dfdomposfd form, bllowing for fbsifr sorting bnd sfbrdiing of tfxt.
+ * dfdomposfd form, bllowing for fbsifr sorting bnd sfbrdiing of tfxt.
  * dfdomposfd form, bllowing for fbsifr sorting bnd sfbrdiing of tfxt.
  * <dodf>normblizf</dodf> supports tif stbndbrd normblizbtion forms dfsdribfd in
+ * <dodf>normblizf</dodf> supports tif stbndbrd normblizbtion forms dfsdribfd in
+ * <dodf>normblizf</dodf> supports tif stbndbrd normblizbtion forms dfsdribfd in
+ * <dodf>normblizf</dodf> supports tif stbndbrd normblizbtion forms dfsdribfd in
+ * <dodf>normblizf</dodf> supports tif stbndbrd normblizbtion forms dfsdribfd in
+ * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/" tbrgft="unidodf">
+ * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/" tbrgft="unidodf">
+ * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/" tbrgft="unidodf">
+ * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/" tbrgft="unidodf">
  * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/" tbrgft="unidodf">
  * Unidodf Stbndbrd Annfx #15 &mdbsi; Unidodf Normblizbtion Forms</b>.
+ * Unidodf Stbndbrd Annfx #15 &mdbsi; Unidodf Normblizbtion Forms</b>.
+ * Unidodf Stbndbrd Annfx #15 &mdbsi; Unidodf Normblizbtion Forms</b>.
+ * Unidodf Stbndbrd Annfx #15 &mdbsi; Unidodf Normblizbtion Forms</b>.
+ * Unidodf Stbndbrd Annfx #15 &mdbsi; Unidodf Normblizbtion Forms</b>.
+ *
+ *
+ *
+ *
  *
  * Cibrbdtfrs witi bddfnts or otifr bdornmfnts dbn bf fndodfd in
+ * Cibrbdtfrs witi bddfnts or otifr bdornmfnts dbn bf fndodfd in
+ * Cibrbdtfrs witi bddfnts or otifr bdornmfnts dbn bf fndodfd in
+ * Cibrbdtfrs witi bddfnts or otifr bdornmfnts dbn bf fndodfd in
+ * Cibrbdtfrs witi bddfnts or otifr bdornmfnts dbn bf fndodfd in
+ * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf tif dibrbdtfr A-bdutf.
+ * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf tif dibrbdtfr A-bdutf.
+ * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf tif dibrbdtfr A-bdutf.
+ * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf tif dibrbdtfr A-bdutf.
  * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf tif dibrbdtfr A-bdutf.
  * In Unidodf, tiis dbn bf fndodfd bs b singlf dibrbdtfr (tif
+ * In Unidodf, tiis dbn bf fndodfd bs b singlf dibrbdtfr (tif
+ * In Unidodf, tiis dbn bf fndodfd bs b singlf dibrbdtfr (tif
+ * In Unidodf, tiis dbn bf fndodfd bs b singlf dibrbdtfr (tif
+ * In Unidodf, tiis dbn bf fndodfd bs b singlf dibrbdtfr (tif
+ * "domposfd" form):
+ * "domposfd" form):
+ * "domposfd" form):
+ * "domposfd" form):
  * "domposfd" form):
  *
+ *
+ *
+ *
+ *
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
+ *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
+ *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
+ *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
+ *      00C1    LATIN CAPITAL LETTER A WITH ACUTE
  * </p>
+ * </p>
+ * </p>
+ * </p>
+ * </p>
+ *
+ *
+ *
+ *
  *
  * or bs two sfpbrbtf dibrbdtfrs (tif "dfdomposfd" form):
+ * or bs two sfpbrbtf dibrbdtfrs (tif "dfdomposfd" form):
+ * or bs two sfpbrbtf dibrbdtfrs (tif "dfdomposfd" form):
+ * or bs two sfpbrbtf dibrbdtfrs (tif "dfdomposfd" form):
+ * or bs two sfpbrbtf dibrbdtfrs (tif "dfdomposfd" form):
  *
+ *
+ *
+ *
+ *
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  *      0041    LATIN CAPITAL LETTER A
+ *      0041    LATIN CAPITAL LETTER A
+ *      0041    LATIN CAPITAL LETTER A
+ *      0041    LATIN CAPITAL LETTER A
+ *      0041    LATIN CAPITAL LETTER A
+ *      0301    COMBINING ACUTE ACCENT
+ *      0301    COMBINING ACUTE ACCENT
+ *      0301    COMBINING ACUTE ACCENT
+ *      0301    COMBINING ACUTE ACCENT
  *      0301    COMBINING ACUTE ACCENT
  * </p>
+ * </p>
+ * </p>
+ * </p>
+ * </p>
+ *
+ *
+ *
+ *
  *
  * To b usfr of your progrbm, iowfvfr, boti of tifsf sfqufndfs siould bf
+ * To b usfr of your progrbm, iowfvfr, boti of tifsf sfqufndfs siould bf
+ * To b usfr of your progrbm, iowfvfr, boti of tifsf sfqufndfs siould bf
+ * To b usfr of your progrbm, iowfvfr, boti of tifsf sfqufndfs siould bf
+ * To b usfr of your progrbm, iowfvfr, boti of tifsf sfqufndfs siould bf
+ * trfbtfd bs tif sbmf "usfr-lfvfl" dibrbdtfr "A witi bdutf bddfnt".  Wifn you
+ * trfbtfd bs tif sbmf "usfr-lfvfl" dibrbdtfr "A witi bdutf bddfnt".  Wifn you
+ * trfbtfd bs tif sbmf "usfr-lfvfl" dibrbdtfr "A witi bdutf bddfnt".  Wifn you
+ * trfbtfd bs tif sbmf "usfr-lfvfl" dibrbdtfr "A witi bdutf bddfnt".  Wifn you
  * trfbtfd bs tif sbmf "usfr-lfvfl" dibrbdtfr "A witi bdutf bddfnt".  Wifn you
  * brf sfbrdiing or dompbring tfxt, you must fnsurf tibt tifsf two sfqufndfs brf
+ * brf sfbrdiing or dompbring tfxt, you must fnsurf tibt tifsf two sfqufndfs brf
+ * brf sfbrdiing or dompbring tfxt, you must fnsurf tibt tifsf two sfqufndfs brf
+ * brf sfbrdiing or dompbring tfxt, you must fnsurf tibt tifsf two sfqufndfs brf
+ * brf sfbrdiing or dompbring tfxt, you must fnsurf tibt tifsf two sfqufndfs brf
+ * trfbtfd fquivblfntly.  In bddition, you must ibndlf dibrbdtfrs witi morf tibn
+ * trfbtfd fquivblfntly.  In bddition, you must ibndlf dibrbdtfrs witi morf tibn
+ * trfbtfd fquivblfntly.  In bddition, you must ibndlf dibrbdtfrs witi morf tibn
+ * trfbtfd fquivblfntly.  In bddition, you must ibndlf dibrbdtfrs witi morf tibn
  * trfbtfd fquivblfntly.  In bddition, you must ibndlf dibrbdtfrs witi morf tibn
  * onf bddfnt.  Somftimfs tif ordfr of b dibrbdtfr's dombining bddfnts is
+ * onf bddfnt.  Somftimfs tif ordfr of b dibrbdtfr's dombining bddfnts is
+ * onf bddfnt.  Somftimfs tif ordfr of b dibrbdtfr's dombining bddfnts is
+ * onf bddfnt.  Somftimfs tif ordfr of b dibrbdtfr's dombining bddfnts is
+ * onf bddfnt.  Somftimfs tif ordfr of b dibrbdtfr's dombining bddfnts is
+ * signifidbnt, wiilf in otifr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
+ * signifidbnt, wiilf in otifr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
+ * signifidbnt, wiilf in otifr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
+ * signifidbnt, wiilf in otifr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
  * signifidbnt, wiilf in otifr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
  * rfblly fquivblfnt.
+ * rfblly fquivblfnt.
+ * rfblly fquivblfnt.
+ * rfblly fquivblfnt.
+ * rfblly fquivblfnt.
+ *
+ *
+ *
+ *
  *
  * Similbrly, tif string "ffi" dbn bf fndodfd bs tirff sfpbrbtf lfttfrs:
+ * Similbrly, tif string "ffi" dbn bf fndodfd bs tirff sfpbrbtf lfttfrs:
+ * Similbrly, tif string "ffi" dbn bf fndodfd bs tirff sfpbrbtf lfttfrs:
+ * Similbrly, tif string "ffi" dbn bf fndodfd bs tirff sfpbrbtf lfttfrs:
+ * Similbrly, tif string "ffi" dbn bf fndodfd bs tirff sfpbrbtf lfttfrs:
+ *
+ *
+ *
+ *
  *
  * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
+ *      0066    LATIN SMALL LETTER F
  *      0066    LATIN SMALL LETTER F
  *      0066    LATIN SMALL LETTER F
  *      0069    LATIN SMALL LETTER I
+ *      0069    LATIN SMALL LETTER I
+ *      0069    LATIN SMALL LETTER I
+ *      0069    LATIN SMALL LETTER I
+ *      0069    LATIN SMALL LETTER I
  * </p>
+ * </p>
+ * </p>
+ * </p>
+ * </p>
+ *
+ *
+ *
+ *
  *
  * or bs tif singlf dibrbdtfr
+ * or bs tif singlf dibrbdtfr
+ * or bs tif singlf dibrbdtfr
+ * or bs tif singlf dibrbdtfr
+ * or bs tif singlf dibrbdtfr
+ *
+ *
+ *
+ *
  *
  * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ *      FB03    LATIN SMALL LIGATURE FFI
+ *      FB03    LATIN SMALL LIGATURE FFI
+ *      FB03    LATIN SMALL LIGATURE FFI
+ *      FB03    LATIN SMALL LIGATURE FFI
  *      FB03    LATIN SMALL LIGATURE FFI
  * </p>
+ * </p>
+ * </p>
+ * </p>
+ * </p>
+ *
+ *
+ *
+ *
  *
  * Tif ffi ligbturf is not b distindt sfmbntid dibrbdtfr, bnd stridtly spfbking
+ * Tif ffi ligbturf is not b distindt sfmbntid dibrbdtfr, bnd stridtly spfbking
+ * Tif ffi ligbturf is not b distindt sfmbntid dibrbdtfr, bnd stridtly spfbking
+ * Tif ffi ligbturf is not b distindt sfmbntid dibrbdtfr, bnd stridtly spfbking
+ * Tif ffi ligbturf is not b distindt sfmbntid dibrbdtfr, bnd stridtly spfbking
+ * it siouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
+ * it siouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
+ * it siouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
+ * it siouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
  * it siouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
  * witi fxisting dibrbdtfr sfts tibt blrfbdy providfd it.  Tif Unidodf stbndbrd
+ * witi fxisting dibrbdtfr sfts tibt blrfbdy providfd it.  Tif Unidodf stbndbrd
+ * witi fxisting dibrbdtfr sfts tibt blrfbdy providfd it.  Tif Unidodf stbndbrd
+ * witi fxisting dibrbdtfr sfts tibt blrfbdy providfd it.  Tif Unidodf stbndbrd
+ * witi fxisting dibrbdtfr sfts tibt blrfbdy providfd it.  Tif Unidodf stbndbrd
+ * idfntififs sudi dibrbdtfrs by giving tifm "dompbtibility" dfdompositions
+ * idfntififs sudi dibrbdtfrs by giving tifm "dompbtibility" dfdompositions
+ * idfntififs sudi dibrbdtfrs by giving tifm "dompbtibility" dfdompositions
+ * idfntififs sudi dibrbdtfrs by giving tifm "dompbtibility" dfdompositions
  * idfntififs sudi dibrbdtfrs by giving tifm "dompbtibility" dfdompositions
  * into tif dorrfsponding sfmbntid dibrbdtfrs.  Wifn sorting bnd sfbrdiing, you
+ * into tif dorrfsponding sfmbntid dibrbdtfrs.  Wifn sorting bnd sfbrdiing, you
+ * into tif dorrfsponding sfmbntid dibrbdtfrs.  Wifn sorting bnd sfbrdiing, you
+ * into tif dorrfsponding sfmbntid dibrbdtfrs.  Wifn sorting bnd sfbrdiing, you
+ * into tif dorrfsponding sfmbntid dibrbdtfrs.  Wifn sorting bnd sfbrdiing, you
+ * will oftfn wbnt to usf tifsf mbppings.
+ * will oftfn wbnt to usf tifsf mbppings.
+ * will oftfn wbnt to usf tifsf mbppings.
+ * will oftfn wbnt to usf tifsf mbppings.
  * will oftfn wbnt to usf tifsf mbppings.
  *
+ *
+ *
+ *
+ *
+ * <dodf>normblizf</dodf> iflps solvf tifsf problfms by trbnsforming tfxt into
+ * <dodf>normblizf</dodf> iflps solvf tifsf problfms by trbnsforming tfxt into
+ * <dodf>normblizf</dodf> iflps solvf tifsf problfms by trbnsforming tfxt into
+ * <dodf>normblizf</dodf> iflps solvf tifsf problfms by trbnsforming tfxt into
  * <dodf>normblizf</dodf> iflps solvf tifsf problfms by trbnsforming tfxt into
  * tif dbnonidbl domposfd bnd dfdomposfd forms bs siown in tif first fxbmplf
+ * tif dbnonidbl domposfd bnd dfdomposfd forms bs siown in tif first fxbmplf
+ * tif dbnonidbl domposfd bnd dfdomposfd forms bs siown in tif first fxbmplf
+ * tif dbnonidbl domposfd bnd dfdomposfd forms bs siown in tif first fxbmplf
+ * tif dbnonidbl domposfd bnd dfdomposfd forms bs siown in tif first fxbmplf
+ * bbovf. In bddition, you dbn ibvf it pfrform dompbtibility dfdompositions so
+ * bbovf. In bddition, you dbn ibvf it pfrform dompbtibility dfdompositions so
+ * bbovf. In bddition, you dbn ibvf it pfrform dompbtibility dfdompositions so
+ * bbovf. In bddition, you dbn ibvf it pfrform dompbtibility dfdompositions so
  * bbovf. In bddition, you dbn ibvf it pfrform dompbtibility dfdompositions so
  * tibt you dbn trfbt dompbtibility dibrbdtfrs tif sbmf bs tifir fquivblfnts.
+ * tibt you dbn trfbt dompbtibility dibrbdtfrs tif sbmf bs tifir fquivblfnts.
+ * tibt you dbn trfbt dompbtibility dibrbdtfrs tif sbmf bs tifir fquivblfnts.
+ * tibt you dbn trfbt dompbtibility dibrbdtfrs tif sbmf bs tifir fquivblfnts.
+ * tibt you dbn trfbt dompbtibility dibrbdtfrs tif sbmf bs tifir fquivblfnts.
+ * Finblly, <dodf>normblizf</dodf> rfbrrbngfs bddfnts into tif propfr dbnonidbl
+ * Finblly, <dodf>normblizf</dodf> rfbrrbngfs bddfnts into tif propfr dbnonidbl
+ * Finblly, <dodf>normblizf</dodf> rfbrrbngfs bddfnts into tif propfr dbnonidbl
+ * Finblly, <dodf>normblizf</dodf> rfbrrbngfs bddfnts into tif propfr dbnonidbl
  * Finblly, <dodf>normblizf</dodf> rfbrrbngfs bddfnts into tif propfr dbnonidbl
  * ordfr, so tibt you do not ibvf to worry bbout bddfnt rfbrrbngfmfnt on your
+ * ordfr, so tibt you do not ibvf to worry bbout bddfnt rfbrrbngfmfnt on your
+ * ordfr, so tibt you do not ibvf to worry bbout bddfnt rfbrrbngfmfnt on your
+ * ordfr, so tibt you do not ibvf to worry bbout bddfnt rfbrrbngfmfnt on your
+ * ordfr, so tibt you do not ibvf to worry bbout bddfnt rfbrrbngfmfnt on your
+ * own.
+ * own.
+ * own.
+ * own.
  * own.
  *
+ *
+ *
+ *
+ *
+ * Form FCD, "Fbst C or D", is blso dfsignfd for dollbtion.
+ * Form FCD, "Fbst C or D", is blso dfsignfd for dollbtion.
+ * Form FCD, "Fbst C or D", is blso dfsignfd for dollbtion.
+ * Form FCD, "Fbst C or D", is blso dfsignfd for dollbtion.
  * Form FCD, "Fbst C or D", is blso dfsignfd for dollbtion.
  * It bllows to work on strings tibt brf not nfdfssbrily normblizfd
+ * It bllows to work on strings tibt brf not nfdfssbrily normblizfd
+ * It bllows to work on strings tibt brf not nfdfssbrily normblizfd
+ * It bllows to work on strings tibt brf not nfdfssbrily normblizfd
+ * It bllows to work on strings tibt brf not nfdfssbrily normblizfd
+ * witi bn blgoritim (likf in dollbtion) tibt works undfr "dbnonidbl dlosurf",
+ * witi bn blgoritim (likf in dollbtion) tibt works undfr "dbnonidbl dlosurf",
+ * witi bn blgoritim (likf in dollbtion) tibt works undfr "dbnonidbl dlosurf",
+ * witi bn blgoritim (likf in dollbtion) tibt works undfr "dbnonidbl dlosurf",
  * witi bn blgoritim (likf in dollbtion) tibt works undfr "dbnonidbl dlosurf",
  * i.f., it trfbts prfdomposfd dibrbdtfrs bnd tifir dfdomposfd fquivblfnts tif
+ * i.f., it trfbts prfdomposfd dibrbdtfrs bnd tifir dfdomposfd fquivblfnts tif
+ * i.f., it trfbts prfdomposfd dibrbdtfrs bnd tifir dfdomposfd fquivblfnts tif
+ * i.f., it trfbts prfdomposfd dibrbdtfrs bnd tifir dfdomposfd fquivblfnts tif
+ * i.f., it trfbts prfdomposfd dibrbdtfrs bnd tifir dfdomposfd fquivblfnts tif
+ * sbmf.
+ * sbmf.
+ * sbmf.
+ * sbmf.
  * sbmf.
  *
+ *
+ *
+ *
+ *
+ * It is not b normblizbtion form bfdbusf it dofs not providf for uniqufnfss of
+ * It is not b normblizbtion form bfdbusf it dofs not providf for uniqufnfss of
+ * It is not b normblizbtion form bfdbusf it dofs not providf for uniqufnfss of
+ * It is not b normblizbtion form bfdbusf it dofs not providf for uniqufnfss of
  * It is not b normblizbtion form bfdbusf it dofs not providf for uniqufnfss of
  * rfprfsfntbtion. Multiplf strings mby bf dbnonidblly fquivblfnt (tifir NFDs
+ * rfprfsfntbtion. Multiplf strings mby bf dbnonidblly fquivblfnt (tifir NFDs
+ * rfprfsfntbtion. Multiplf strings mby bf dbnonidblly fquivblfnt (tifir NFDs
+ * rfprfsfntbtion. Multiplf strings mby bf dbnonidblly fquivblfnt (tifir NFDs
+ * rfprfsfntbtion. Multiplf strings mby bf dbnonidblly fquivblfnt (tifir NFDs
+ * brf idfntidbl) bnd mby bll donform to FCD witiout bfing idfntidbl tifmsflvfs.
+ * brf idfntidbl) bnd mby bll donform to FCD witiout bfing idfntidbl tifmsflvfs.
+ * brf idfntidbl) bnd mby bll donform to FCD witiout bfing idfntidbl tifmsflvfs.
+ * brf idfntidbl) bnd mby bll donform to FCD witiout bfing idfntidbl tifmsflvfs.
  * brf idfntidbl) bnd mby bll donform to FCD witiout bfing idfntidbl tifmsflvfs.
  *
+ *
+ *
+ *
+ *
+ * Tif form is dffinfd sudi tibt tif "rbw dfdomposition", tif rfdursivf
+ * Tif form is dffinfd sudi tibt tif "rbw dfdomposition", tif rfdursivf
+ * Tif form is dffinfd sudi tibt tif "rbw dfdomposition", tif rfdursivf
+ * Tif form is dffinfd sudi tibt tif "rbw dfdomposition", tif rfdursivf
  * Tif form is dffinfd sudi tibt tif "rbw dfdomposition", tif rfdursivf
  * dbnonidbl dfdomposition of fbdi dibrbdtfr, rfsults in b string tibt is
+ * dbnonidbl dfdomposition of fbdi dibrbdtfr, rfsults in b string tibt is
+ * dbnonidbl dfdomposition of fbdi dibrbdtfr, rfsults in b string tibt is
+ * dbnonidbl dfdomposition of fbdi dibrbdtfr, rfsults in b string tibt is
+ * dbnonidbl dfdomposition of fbdi dibrbdtfr, rfsults in b string tibt is
+ * dbnonidblly ordfrfd. Tiis mfbns tibt prfdomposfd dibrbdtfrs brf bllowfd for
+ * dbnonidblly ordfrfd. Tiis mfbns tibt prfdomposfd dibrbdtfrs brf bllowfd for
+ * dbnonidblly ordfrfd. Tiis mfbns tibt prfdomposfd dibrbdtfrs brf bllowfd for
+ * dbnonidblly ordfrfd. Tiis mfbns tibt prfdomposfd dibrbdtfrs brf bllowfd for
  * dbnonidblly ordfrfd. Tiis mfbns tibt prfdomposfd dibrbdtfrs brf bllowfd for
  * bs long bs tifir dfdompositions do not nffd dbnonidbl rfordfring.
+ * bs long bs tifir dfdompositions do not nffd dbnonidbl rfordfring.
+ * bs long bs tifir dfdompositions do not nffd dbnonidbl rfordfring.
+ * bs long bs tifir dfdompositions do not nffd dbnonidbl rfordfring.
+ * bs long bs tifir dfdompositions do not nffd dbnonidbl rfordfring.
+ *
+ *
+ *
+ *
  *
  * Its bdvbntbgf for b prodfss likf dollbtion is tibt bll NFD bnd most NFC tfxts
+ * Its bdvbntbgf for b prodfss likf dollbtion is tibt bll NFD bnd most NFC tfxts
+ * Its bdvbntbgf for b prodfss likf dollbtion is tibt bll NFD bnd most NFC tfxts
+ * Its bdvbntbgf for b prodfss likf dollbtion is tibt bll NFD bnd most NFC tfxts
+ * Its bdvbntbgf for b prodfss likf dollbtion is tibt bll NFD bnd most NFC tfxts
+ * - bnd mbny unnormblizfd tfxts - blrfbdy donform to FCD bnd do not nffd to bf
+ * - bnd mbny unnormblizfd tfxts - blrfbdy donform to FCD bnd do not nffd to bf
+ * - bnd mbny unnormblizfd tfxts - blrfbdy donform to FCD bnd do not nffd to bf
+ * - bnd mbny unnormblizfd tfxts - blrfbdy donform to FCD bnd do not nffd to bf
  * - bnd mbny unnormblizfd tfxts - blrfbdy donform to FCD bnd do not nffd to bf
  * normblizfd (NFD) for sudi b prodfss. Tif FCD quidk difdk will rfturn YES for
+ * normblizfd (NFD) for sudi b prodfss. Tif FCD quidk difdk will rfturn YES for
+ * normblizfd (NFD) for sudi b prodfss. Tif FCD quidk difdk will rfturn YES for
+ * normblizfd (NFD) for sudi b prodfss. Tif FCD quidk difdk will rfturn YES for
+ * normblizfd (NFD) for sudi b prodfss. Tif FCD quidk difdk will rfturn YES for
+ * most strings in prbdtidf.
+ * most strings in prbdtidf.
+ * most strings in prbdtidf.
+ * most strings in prbdtidf.
  * most strings in prbdtidf.
  *
+ *
+ *
+ *
+ *
+ * normblizf(FCD) mby bf implfmfntfd witi NFD.
+ * normblizf(FCD) mby bf implfmfntfd witi NFD.
+ * normblizf(FCD) mby bf implfmfntfd witi NFD.
+ * normblizf(FCD) mby bf implfmfntfd witi NFD.
  * normblizf(FCD) mby bf implfmfntfd witi NFD.
  *
+ *
+ *
+ *
+ *
+ * For morf dftbils on FCD sff tif dollbtion dfsign dodumfnt:
+ * For morf dftbils on FCD sff tif dollbtion dfsign dodumfnt:
+ * For morf dftbils on FCD sff tif dollbtion dfsign dodumfnt:
+ * For morf dftbils on FCD sff tif dollbtion dfsign dodumfnt:
  * For morf dftbils on FCD sff tif dollbtion dfsign dodumfnt:
  * ittp://sourdf.idu-projfdt.org/rfpos/idu/iduitml/trunk/dfsign/dollbtion/ICU_dollbtion_dfsign.itm
+ * ittp://sourdf.idu-projfdt.org/rfpos/idu/iduitml/trunk/dfsign/dollbtion/ICU_dollbtion_dfsign.itm
+ * ittp://sourdf.idu-projfdt.org/rfpos/idu/iduitml/trunk/dfsign/dollbtion/ICU_dollbtion_dfsign.itm
+ * ittp://sourdf.idu-projfdt.org/rfpos/idu/iduitml/trunk/dfsign/dollbtion/ICU_dollbtion_dfsign.itm
+ * ittp://sourdf.idu-projfdt.org/rfpos/idu/iduitml/trunk/dfsign/dollbtion/ICU_dollbtion_dfsign.itm
+ *
+ *
+ *
+ *
  *
  * ICU dollbtion pfrforms fitifr NFD or FCD normblizbtion butombtidblly if
+ * ICU dollbtion pfrforms fitifr NFD or FCD normblizbtion butombtidblly if
+ * ICU dollbtion pfrforms fitifr NFD or FCD normblizbtion butombtidblly if
+ * ICU dollbtion pfrforms fitifr NFD or FCD normblizbtion butombtidblly if
+ * ICU dollbtion pfrforms fitifr NFD or FCD normblizbtion butombtidblly if
+ * normblizbtion is turnfd on for tif dollbtor objfdt. Bfyond dollbtion bnd
+ * normblizbtion is turnfd on for tif dollbtor objfdt. Bfyond dollbtion bnd
+ * normblizbtion is turnfd on for tif dollbtor objfdt. Bfyond dollbtion bnd
+ * normblizbtion is turnfd on for tif dollbtor objfdt. Bfyond dollbtion bnd
  * normblizbtion is turnfd on for tif dollbtor objfdt. Bfyond dollbtion bnd
  * string sfbrdi, normblizfd strings mby bf usfful for string fquivblfndf
+ * string sfbrdi, normblizfd strings mby bf usfful for string fquivblfndf
+ * string sfbrdi, normblizfd strings mby bf usfful for string fquivblfndf
+ * string sfbrdi, normblizfd strings mby bf usfful for string fquivblfndf
+ * string sfbrdi, normblizfd strings mby bf usfful for string fquivblfndf
+ * dompbrisons, trbnslitfrbtion/trbnsdription, uniquf rfprfsfntbtions, ftd.
+ * dompbrisons, trbnslitfrbtion/trbnsdription, uniquf rfprfsfntbtions, ftd.
+ * dompbrisons, trbnslitfrbtion/trbnsdription, uniquf rfprfsfntbtions, ftd.
+ * dompbrisons, trbnslitfrbtion/trbnsdription, uniquf rfprfsfntbtions, ftd.
  * dompbrisons, trbnslitfrbtion/trbnsdription, uniquf rfprfsfntbtions, ftd.
  *
+ *
+ *
+ *
+ *
+ * Tif W3C gfnfrblly rfdommfnds to fxdibngf tfxts in NFC.
+ * Tif W3C gfnfrblly rfdommfnds to fxdibngf tfxts in NFC.
+ * Tif W3C gfnfrblly rfdommfnds to fxdibngf tfxts in NFC.
+ * Tif W3C gfnfrblly rfdommfnds to fxdibngf tfxts in NFC.
  * Tif W3C gfnfrblly rfdommfnds to fxdibngf tfxts in NFC.
  * Notf blso tibt most lfgbdy dibrbdtfr fndodings usf only prfdomposfd forms bnd
+ * Notf blso tibt most lfgbdy dibrbdtfr fndodings usf only prfdomposfd forms bnd
+ * Notf blso tibt most lfgbdy dibrbdtfr fndodings usf only prfdomposfd forms bnd
+ * Notf blso tibt most lfgbdy dibrbdtfr fndodings usf only prfdomposfd forms bnd
+ * Notf blso tibt most lfgbdy dibrbdtfr fndodings usf only prfdomposfd forms bnd
+ * oftfn do not fndodf bny dombining mbrks by tifmsflvfs. For donvfrsion to sudi
+ * oftfn do not fndodf bny dombining mbrks by tifmsflvfs. For donvfrsion to sudi
+ * oftfn do not fndodf bny dombining mbrks by tifmsflvfs. For donvfrsion to sudi
+ * oftfn do not fndodf bny dombining mbrks by tifmsflvfs. For donvfrsion to sudi
  * oftfn do not fndodf bny dombining mbrks by tifmsflvfs. For donvfrsion to sudi
  * dibrbdtfr fndodings tif Unidodf tfxt nffds to bf normblizfd to NFC.
+ * dibrbdtfr fndodings tif Unidodf tfxt nffds to bf normblizfd to NFC.
+ * dibrbdtfr fndodings tif Unidodf tfxt nffds to bf normblizfd to NFC.
+ * dibrbdtfr fndodings tif Unidodf tfxt nffds to bf normblizfd to NFC.
+ * dibrbdtfr fndodings tif Unidodf tfxt nffds to bf normblizfd to NFC.
+ * For morf usbgf fxbmplfs, sff tif Unidodf Stbndbrd Annfx.
+ * For morf usbgf fxbmplfs, sff tif Unidodf Stbndbrd Annfx.
+ * For morf usbgf fxbmplfs, sff tif Unidodf Stbndbrd Annfx.
+ * For morf usbgf fxbmplfs, sff tif Unidodf Stbndbrd Annfx.
  * For morf usbgf fxbmplfs, sff tif Unidodf Stbndbrd Annfx.
  * @stbblf ICU 2.8
+ * @stbblf ICU 2.8
+ * @stbblf ICU 2.8
+ * @stbblf ICU 2.8
+ * @stbblf ICU 2.8
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+publid finbl dlbss NormblizfrBbsf implfmfnts Clonfbblf {
+publid finbl dlbss NormblizfrBbsf implfmfnts Clonfbblf {
+publid finbl dlbss NormblizfrBbsf implfmfnts Clonfbblf {
+publid finbl dlbss NormblizfrBbsf implfmfnts Clonfbblf {
 publid finbl dlbss NormblizfrBbsf implfmfnts Clonfbblf {
 
+
+
+
+
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     // Privbtf dbtb
+    // Privbtf dbtb
+    // Privbtf dbtb
+    // Privbtf dbtb
+    // Privbtf dbtb
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     privbtf dibr[] bufffr = nfw dibr[100];
+    privbtf dibr[] bufffr = nfw dibr[100];
+    privbtf dibr[] bufffr = nfw dibr[100];
+    privbtf dibr[] bufffr = nfw dibr[100];
+    privbtf dibr[] bufffr = nfw dibr[100];
+    privbtf int bufffrStbrt = 0;
+    privbtf int bufffrStbrt = 0;
+    privbtf int bufffrStbrt = 0;
+    privbtf int bufffrStbrt = 0;
     privbtf int bufffrStbrt = 0;
     privbtf int bufffrPos   = 0;
+    privbtf int bufffrPos   = 0;
+    privbtf int bufffrPos   = 0;
+    privbtf int bufffrPos   = 0;
+    privbtf int bufffrPos   = 0;
+    privbtf int bufffrLimit = 0;
+    privbtf int bufffrLimit = 0;
+    privbtf int bufffrLimit = 0;
+    privbtf int bufffrLimit = 0;
     privbtf int bufffrLimit = 0;
 
+
+
+
+
+    // Tif input tfxt bnd our position in it
+    // Tif input tfxt bnd our position in it
+    // Tif input tfxt bnd our position in it
+    // Tif input tfxt bnd our position in it
     // Tif input tfxt bnd our position in it
     privbtf UCibrbdtfrItfrbtor  tfxt;
+    privbtf UCibrbdtfrItfrbtor  tfxt;
+    privbtf UCibrbdtfrItfrbtor  tfxt;
+    privbtf UCibrbdtfrItfrbtor  tfxt;
+    privbtf UCibrbdtfrItfrbtor  tfxt;
+    privbtf Modf                modf = NFC;
+    privbtf Modf                modf = NFC;
+    privbtf Modf                modf = NFC;
+    privbtf Modf                modf = NFC;
     privbtf Modf                modf = NFC;
     privbtf int                 options = 0;
+    privbtf int                 options = 0;
+    privbtf int                 options = 0;
+    privbtf int                 options = 0;
+    privbtf int                 options = 0;
+    privbtf int                 durrfntIndfx;
+    privbtf int                 durrfntIndfx;
+    privbtf int                 durrfntIndfx;
+    privbtf int                 durrfntIndfx;
     privbtf int                 durrfntIndfx;
     privbtf int                 nfxtIndfx;
+    privbtf int                 nfxtIndfx;
+    privbtf int                 nfxtIndfx;
+    privbtf int                 nfxtIndfx;
+    privbtf int                 nfxtIndfx;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Options bit sft vbluf to sflfdt Unidodf 3.2 normblizbtion
+     * Options bit sft vbluf to sflfdt Unidodf 3.2 normblizbtion
+     * Options bit sft vbluf to sflfdt Unidodf 3.2 normblizbtion
+     * Options bit sft vbluf to sflfdt Unidodf 3.2 normblizbtion
+     * Options bit sft vbluf to sflfdt Unidodf 3.2 normblizbtion
+     * (fxdfpt NormblizbtionCorrfdtions).
+     * (fxdfpt NormblizbtionCorrfdtions).
+     * (fxdfpt NormblizbtionCorrfdtions).
+     * (fxdfpt NormblizbtionCorrfdtions).
      * (fxdfpt NormblizbtionCorrfdtions).
      * At most onf Unidodf vfrsion dbn bf sflfdtfd bt b timf.
+     * At most onf Unidodf vfrsion dbn bf sflfdtfd bt b timf.
+     * At most onf Unidodf vfrsion dbn bf sflfdtfd bt b timf.
+     * At most onf Unidodf vfrsion dbn bf sflfdtfd bt b timf.
+     * At most onf Unidodf vfrsion dbn bf sflfdtfd bt b timf.
      * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int UNICODE_3_2=0x20;
+    publid stbtid finbl int UNICODE_3_2=0x20;
+    publid stbtid finbl int UNICODE_3_2=0x20;
+    publid stbtid finbl int UNICODE_3_2=0x20;
+    publid stbtid finbl int UNICODE_3_2=0x20;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Constbnt indidbting tibt tif fnd of tif itfrbtion ibs bffn rfbdifd.
+     * Constbnt indidbting tibt tif fnd of tif itfrbtion ibs bffn rfbdifd.
+     * Constbnt indidbting tibt tif fnd of tif itfrbtion ibs bffn rfbdifd.
+     * Constbnt indidbting tibt tif fnd of tif itfrbtion ibs bffn rfbdifd.
+     * Constbnt indidbting tibt tif fnd of tif itfrbtion ibs bffn rfbdifd.
+     * Tiis is gubrbntffd to ibvf tif sbmf vbluf bs {@link UCibrbdtfrItfrbtor#DONE}.
+     * Tiis is gubrbntffd to ibvf tif sbmf vbluf bs {@link UCibrbdtfrItfrbtor#DONE}.
+     * Tiis is gubrbntffd to ibvf tif sbmf vbluf bs {@link UCibrbdtfrItfrbtor#DONE}.
+     * Tiis is gubrbntffd to ibvf tif sbmf vbluf bs {@link UCibrbdtfrItfrbtor#DONE}.
      * Tiis is gubrbntffd to ibvf tif sbmf vbluf bs {@link UCibrbdtfrItfrbtor#DONE}.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int DONE = UCibrbdtfrItfrbtor.DONE;
+    publid stbtid finbl int DONE = UCibrbdtfrItfrbtor.DONE;
+    publid stbtid finbl int DONE = UCibrbdtfrItfrbtor.DONE;
+    publid stbtid finbl int DONE = UCibrbdtfrItfrbtor.DONE;
+    publid stbtid finbl int DONE = UCibrbdtfrItfrbtor.DONE;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Constbnts for normblizbtion modfs.
+     * Constbnts for normblizbtion modfs.
+     * Constbnts for normblizbtion modfs.
+     * Constbnts for normblizbtion modfs.
+     * Constbnts for normblizbtion modfs.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid dlbss Modf {
+    publid stbtid dlbss Modf {
+    publid stbtid dlbss Modf {
+    publid stbtid dlbss Modf {
+    publid stbtid dlbss Modf {
+        privbtf int modfVbluf;
+        privbtf int modfVbluf;
+        privbtf int modfVbluf;
+        privbtf int modfVbluf;
         privbtf int modfVbluf;
         privbtf Modf(int vbluf) {
+        privbtf Modf(int vbluf) {
+        privbtf Modf(int vbluf) {
+        privbtf Modf(int vbluf) {
+        privbtf Modf(int vbluf) {
+            modfVbluf = vbluf;
+            modfVbluf = vbluf;
+            modfVbluf = vbluf;
+            modfVbluf = vbluf;
             modfVbluf = vbluf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
+        /**
+        /**
+        /**
+        /**
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
          * Tiis mftiod is usfd for mftiod dispbtdi
          * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         */
+         */
+         */
+         */
          */
         protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
                                 dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
                                 UnidodfSft nx) {
             int srdLfn = (srdLimit - srdStbrt);
+            int srdLfn = (srdLimit - srdStbrt);
+            int srdLfn = (srdLimit - srdStbrt);
+            int srdLfn = (srdLimit - srdStbrt);
+            int srdLfn = (srdLimit - srdStbrt);
+            int dfstLfn = (dfstLimit - dfstStbrt);
+            int dfstLfn = (dfstLimit - dfstStbrt);
+            int dfstLfn = (dfstLimit - dfstStbrt);
+            int dfstLfn = (dfstLimit - dfstStbrt);
             int dfstLfn = (dfstLimit - dfstStbrt);
             if( srdLfn > dfstLfn ) {
+            if( srdLfn > dfstLfn ) {
+            if( srdLfn > dfstLfn ) {
+            if( srdLfn > dfstLfn ) {
+            if( srdLfn > dfstLfn ) {
+                rfturn srdLfn;
+                rfturn srdLfn;
+                rfturn srdLfn;
+                rfturn srdLfn;
                 rfturn srdLfn;
             }
+            }
+            }
+            }
+            }
+            Systfm.brrbydopy(srd,srdStbrt,dfst,dfstStbrt,srdLfn);
+            Systfm.brrbydopy(srd,srdStbrt,dfst,dfstStbrt,srdLfn);
+            Systfm.brrbydopy(srd,srdStbrt,dfst,dfstStbrt,srdLfn);
+            Systfm.brrbydopy(srd,srdStbrt,dfst,dfstStbrt,srdLfn);
             Systfm.brrbydopy(srd,srdStbrt,dfst,dfstStbrt,srdLfn);
             rfturn srdLfn;
+            rfturn srdLfn;
+            rfturn srdLfn;
+            rfturn srdLfn;
+            rfturn srdLfn;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
          * @stbblf ICU 2.6
          */
+         */
+         */
+         */
+         */
         protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
                                 dibr[] dfst,int dfstStbrt,int dfstLimit,
                                 int options) {
+                                int options) {
+                                int options) {
+                                int options) {
+                                int options) {
+            rfturn normblizf(   srd, srdStbrt, srdLimit,
+            rfturn normblizf(   srd, srdStbrt, srdLimit,
+            rfturn normblizf(   srd, srdStbrt, srdLimit,
+            rfturn normblizf(   srd, srdStbrt, srdLimit,
             rfturn normblizf(   srd, srdStbrt, srdLimit,
                                 dfst,dfstStbrt,dfstLimit,
+                                dfst,dfstStbrt,dfstLimit,
+                                dfst,dfstStbrt,dfstLimit,
+                                dfst,dfstStbrt,dfstLimit,
+                                dfst,dfstStbrt,dfstLimit,
+                                NormblizfrImpl.gftNX(options)
+                                NormblizfrImpl.gftNX(options)
+                                NormblizfrImpl.gftNX(options)
+                                NormblizfrImpl.gftNX(options)
                                 NormblizfrImpl.gftNX(options)
                                 );
+                                );
+                                );
+                                );
+                                );
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
          * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         */
+         */
+         */
+         */
          */
         protfdtfd String normblizf(String srd, int options) {
+        protfdtfd String normblizf(String srd, int options) {
+        protfdtfd String normblizf(String srd, int options) {
+        protfdtfd String normblizf(String srd, int options) {
+        protfdtfd String normblizf(String srd, int options) {
+            rfturn srd;
+            rfturn srd;
+            rfturn srd;
+            rfturn srd;
             rfturn srd;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
+        /**
+        /**
+        /**
+        /**
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
          * Tiis mftiod is usfd for mftiod dispbtdi
          * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         */
+         */
+         */
+         */
          */
         protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+            rfturn -1;
+            rfturn -1;
+            rfturn -1;
+            rfturn -1;
             rfturn -1;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
+        /**
+        /**
+        /**
+        /**
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
          * Tiis mftiod is usfd for mftiod dispbtdi
          * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         */
+         */
+         */
+         */
          */
         protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+            rfturn -1;
+            rfturn -1;
+            rfturn -1;
+            rfturn -1;
             rfturn -1;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
+        /**
+        /**
+        /**
+        /**
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
          * Tiis mftiod is usfd for mftiod dispbtdi
          * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         */
+         */
+         */
+         */
          */
         protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
          * @stbblf ICU 2.8
          */
+         */
+         */
+         */
+         */
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
         protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
             rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
+        /**
+        /**
+        /**
+        /**
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
          * Tiis mftiod is usfd for mftiod dispbtdi
          * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         * @stbblf ICU 2.6
+         */
+         */
+         */
+         */
          */
         protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt, int limit,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt, int limit,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt, int limit,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt, int limit,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt, int limit,
+                                              boolfbn bllowMbybf,UnidodfSft nx) {
+                                              boolfbn bllowMbybf,UnidodfSft nx) {
+                                              boolfbn bllowMbybf,UnidodfSft nx) {
+                                              boolfbn bllowMbybf,UnidodfSft nx) {
                                               boolfbn bllowMbybf,UnidodfSft nx) {
             if(bllowMbybf) {
+            if(bllowMbybf) {
+            if(bllowMbybf) {
+            if(bllowMbybf) {
+            if(bllowMbybf) {
+                rfturn MAYBE;
+                rfturn MAYBE;
+                rfturn MAYBE;
+                rfturn MAYBE;
                 rfturn MAYBE;
             }
+            }
+            }
+            }
+            }
+            rfturn NO;
+            rfturn NO;
+            rfturn NO;
+            rfturn NO;
             rfturn NO;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
+        /**
+        /**
+        /**
+        /**
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
+         * Tiis mftiod is usfd for mftiod dispbtdi
          * Tiis mftiod is usfd for mftiod dispbtdi
          * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         * @stbblf ICU 2.8
+         */
+         */
+         */
+         */
          */
         protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * No dfdomposition/domposition.
+     * No dfdomposition/domposition.
+     * No dfdomposition/domposition.
+     * No dfdomposition/domposition.
+     * No dfdomposition/domposition.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl Modf NONE = nfw Modf(1);
+    publid stbtid finbl Modf NONE = nfw Modf(1);
+    publid stbtid finbl Modf NONE = nfw Modf(1);
+    publid stbtid finbl Modf NONE = nfw Modf(1);
+    publid stbtid finbl Modf NONE = nfw Modf(1);
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Cbnonidbl dfdomposition.
+     * Cbnonidbl dfdomposition.
+     * Cbnonidbl dfdomposition.
+     * Cbnonidbl dfdomposition.
+     * Cbnonidbl dfdomposition.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl Modf NFD = nfw NFDModf(2);
+    publid stbtid finbl Modf NFD = nfw NFDModf(2);
+    publid stbtid finbl Modf NFD = nfw NFDModf(2);
+    publid stbtid finbl Modf NFD = nfw NFDModf(2);
+    publid stbtid finbl Modf NFD = nfw NFDModf(2);
+
+
+
+
 
     privbtf stbtid finbl dlbss NFDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFDModf fxtfnds Modf {
+        privbtf NFDModf(int vbluf) {
+        privbtf NFDModf(int vbluf) {
+        privbtf NFDModf(int vbluf) {
+        privbtf NFDModf(int vbluf) {
         privbtf NFDModf(int vbluf) {
             supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
         protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
                                 dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
                                 UnidodfSft nx) {
             int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
             rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            dfst, dfstStbrt,dfstLimit,
                                             dfst, dfstStbrt,dfstLimit,
                                             fblsf, trbilCC,nx);
+                                            fblsf, trbilCC,nx);
+                                            fblsf, trbilCC,nx);
+                                            fblsf, trbilCC,nx);
+                                            fblsf, trbilCC,nx);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
         protfdtfd String normblizf( String srd, int options) {
             rfturn dfdomposf(srd,fblsf,options);
+            rfturn dfdomposf(srd,fblsf,options);
+            rfturn dfdomposf(srd,fblsf,options);
+            rfturn dfdomposf(srd,fblsf,options);
+            rfturn dfdomposf(srd,fblsf,options);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
             rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvNFDSbff();
+            rfturn nfw IsPrfvNFDSbff();
+            rfturn nfw IsPrfvNFDSbff();
+            rfturn nfw IsPrfvNFDSbff();
             rfturn nfw IsPrfvNFDSbff();
         }
-
-        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
-            rfturn nfw IsNfxtNFDSbff();
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
         protfdtfd int gftMbsk() {
             rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
         protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
                                               int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
                                               UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
             rfturn NormblizfrImpl.quidkCifdk(
                                              srd, stbrt,limit,
+                                             srd, stbrt,limit,
+                                             srd, stbrt,limit,
+                                             srd, stbrt,limit,
+                                             srd, stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
                                              NormblizfrImpl.gftFromIndfxfsArr(
                                                                               NormblizfrImpl.INDEX_MIN_NFD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFD_NO_MAYBE
+                                                                              ),
+                                                                              ),
+                                                                              ),
+                                                                              ),
                                                                               ),
                                              NormblizfrImpl.QC_NFD,
+                                             NormblizfrImpl.QC_NFD,
+                                             NormblizfrImpl.QC_NFD,
+                                             NormblizfrImpl.QC_NFD,
+                                             NormblizfrImpl.QC_NFD,
+                                             0,
+                                             0,
+                                             0,
+                                             0,
                                              0,
                                              bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             nx
+                                             nx
+                                             nx
+                                             nx
                                              nx
                                              );
+                                             );
+                                             );
+                                             );
+                                             );
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
             rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
                                                 (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFD)
+                                                );
+                                                );
+                                                );
+                                                );
                                                 );
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Compbtibility dfdomposition.
+     * Compbtibility dfdomposition.
+     * Compbtibility dfdomposition.
+     * Compbtibility dfdomposition.
+     * Compbtibility dfdomposition.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl Modf NFKD = nfw NFKDModf(3);
+    publid stbtid finbl Modf NFKD = nfw NFKDModf(3);
+    publid stbtid finbl Modf NFKD = nfw NFKDModf(3);
+    publid stbtid finbl Modf NFKD = nfw NFKDModf(3);
+    publid stbtid finbl Modf NFKD = nfw NFKDModf(3);
+
+
+
+
 
     privbtf stbtid finbl dlbss NFKDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFKDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFKDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFKDModf fxtfnds Modf {
+    privbtf stbtid finbl dlbss NFKDModf fxtfnds Modf {
+        privbtf NFKDModf(int vbluf) {
+        privbtf NFKDModf(int vbluf) {
+        privbtf NFKDModf(int vbluf) {
+        privbtf NFKDModf(int vbluf) {
         privbtf NFKDModf(int vbluf) {
             supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
         protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
                                 dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
                                 UnidodfSft nx) {
             int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
+            int[] trbilCC = nfw int[1];
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
             rfturn NormblizfrImpl.dfdomposf(srd,  srdStbrt,srdLimit,
                                             dfst, dfstStbrt,dfstLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            dfst, dfstStbrt,dfstLimit,
+                                            truf, trbilCC, nx);
+                                            truf, trbilCC, nx);
+                                            truf, trbilCC, nx);
+                                            truf, trbilCC, nx);
                                             truf, trbilCC, nx);
         }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
         protfdtfd String normblizf( String srd, int options) {
             rfturn dfdomposf(srd,truf,options);
+            rfturn dfdomposf(srd,truf,options);
+            rfturn dfdomposf(srd,truf,options);
+            rfturn dfdomposf(srd,truf,options);
+            rfturn dfdomposf(srd,truf,options);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
         protfdtfd int gftMinC() {
             rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+            rfturn NormblizfrImpl.MIN_WITH_LEAD_CC;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
         protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
             rfturn nfw IsPrfvNFDSbff();
+            rfturn nfw IsPrfvNFDSbff();
+            rfturn nfw IsPrfvNFDSbff();
+            rfturn nfw IsPrfvNFDSbff();
+            rfturn nfw IsPrfvNFDSbff();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
         protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
             rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+            rfturn nfw IsNfxtNFDSbff();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
         protfdtfd int gftMbsk() {
             rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
         protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
                                               int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
                                               UnidodfSft nx) {
             rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
                                              srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
                                              NormblizfrImpl.gftFromIndfxfsArr(
                                                                               NormblizfrImpl.INDEX_MIN_NFKD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKD_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKD_NO_MAYBE
+                                                                              ),
+                                                                              ),
+                                                                              ),
+                                                                              ),
                                                                               ),
                                              NormblizfrImpl.QC_NFKD,
+                                             NormblizfrImpl.QC_NFKD,
+                                             NormblizfrImpl.QC_NFKD,
+                                             NormblizfrImpl.QC_NFKD,
+                                             NormblizfrImpl.QC_NFKD,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
                                              NormblizfrImpl.OPTIONS_COMPAT,
                                              bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             nx
+                                             nx
+                                             nx
+                                             nx
                                              nx
                                              );
+                                             );
+                                             );
+                                             );
+                                             );
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
             rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
                                                 (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD)
+                                                (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKD)
+                                                );
+                                                );
+                                                );
+                                                );
                                                 );
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Cbnonidbl dfdomposition followfd by dbnonidbl domposition.
+     * Cbnonidbl dfdomposition followfd by dbnonidbl domposition.
+     * Cbnonidbl dfdomposition followfd by dbnonidbl domposition.
+     * Cbnonidbl dfdomposition followfd by dbnonidbl domposition.
+     * Cbnonidbl dfdomposition followfd by dbnonidbl domposition.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl Modf NFC = nfw NFCModf(4);
+    publid stbtid finbl Modf NFC = nfw NFCModf(4);
+    publid stbtid finbl Modf NFC = nfw NFCModf(4);
+    publid stbtid finbl Modf NFC = nfw NFCModf(4);
+    publid stbtid finbl Modf NFC = nfw NFCModf(4);
+
+
+
+
 
     privbtf stbtid finbl dlbss NFCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFCModf fxtfnds Modf{
+        privbtf NFCModf(int vbluf) {
+        privbtf NFCModf(int vbluf) {
+        privbtf NFCModf(int vbluf) {
+        privbtf NFCModf(int vbluf) {
         privbtf NFCModf(int vbluf) {
             supfr(vbluf);
-        }
-        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
-                                dibr[] dfst,int dfstStbrt,int dfstLimit,
-                                UnidodfSft nx) {
-            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
-                                           dfst,dfstStbrt,dfstLimit,
-                                           0, nx);
-        }
-
-        protfdtfd String normblizf( String srd, int options) {
-            rfturn domposf(srd, fblsf, options);
-        }
-
-        protfdtfd int gftMinC() {
-            rfturn NormblizfrImpl.gftFromIndfxfsArr(
-                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
-                                                    );
-        }
-        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
-            rfturn nfw IsPrfvTrufStbrtfr();
-        }
-        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
-            rfturn nfw IsNfxtTrufStbrtfr();
-        }
-        protfdtfd int gftMbsk() {
-            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
-        }
-        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
-                                              int limit,boolfbn bllowMbybf,
-                                              UnidodfSft nx) {
-            rfturn NormblizfrImpl.quidkCifdk(
-                                             srd,stbrt,limit,
-                                             NormblizfrImpl.gftFromIndfxfsArr(
-                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
-                                                                              ),
-                                             NormblizfrImpl.QC_NFC,
-                                             0,
-                                             bllowMbybf,
-                                             nx
-                                             );
-        }
-        protfdtfd boolfbn isNFSkippbblf(int d) {
-            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
-                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
-                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
-                                                  )
-                                                );
-        }
-    };
-
-    /**
-     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
-     * @stbblf ICU 2.8
-     */
-    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
-
-    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
-        privbtf NFKCModf(int vbluf) {
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
             supfr(vbluf);
         }
+        }
+        }
+        }
+        }
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
         protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
                                 dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
                                 UnidodfSft nx) {
-            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
-                                          dfst, dfstStbrt,dfstLimit,
-                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
+            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
+            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
+            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
+            rfturn NormblizfrImpl.domposf( srd, srdStbrt, srdLimit,
+                                           dfst,dfstStbrt,dfstLimit,
+                                           dfst,dfstStbrt,dfstLimit,
+                                           dfst,dfstStbrt,dfstLimit,
+                                           dfst,dfstStbrt,dfstLimit,
+                                           dfst,dfstStbrt,dfstLimit,
+                                           0, nx);
+                                           0, nx);
+                                           0, nx);
+                                           0, nx);
+                                           0, nx);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         protfdtfd String normblizf( String srd, int options) {
-            rfturn domposf(srd, truf, options);
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn domposf(srd, fblsf, options);
+            rfturn domposf(srd, fblsf, options);
+            rfturn domposf(srd, fblsf, options);
+            rfturn domposf(srd, fblsf, options);
+            rfturn domposf(srd, fblsf, options);
         }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
         protfdtfd int gftMinC() {
             rfturn NormblizfrImpl.gftFromIndfxfsArr(
-                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                    );
+                                                    );
+                                                    );
+                                                    );
                                                     );
         }
+        }
+        }
+        }
+        }
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
         protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
             rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+        }
+        }
+        }
+        }
         }
         protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtTrufStbrtfr();
+            rfturn nfw IsNfxtTrufStbrtfr();
+            rfturn nfw IsNfxtTrufStbrtfr();
+            rfturn nfw IsNfxtTrufStbrtfr();
             rfturn nfw IsNfxtTrufStbrtfr();
         }
+        }
+        }
+        }
+        }
         protfdtfd int gftMbsk() {
-            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFC);
+        }
+        }
+        }
+        }
         }
         protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
                                               int limit,boolfbn bllowMbybf,
                                               UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
             rfturn NormblizfrImpl.quidkCifdk(
                                              srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
                                              NormblizfrImpl.gftFromIndfxfsArr(
-                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFC_NO_MAYBE
                                                                               ),
-                                             NormblizfrImpl.QC_NFKC,
-                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                                                              ),
+                                                                              ),
+                                                                              ),
+                                                                              ),
+                                             NormblizfrImpl.QC_NFC,
+                                             NormblizfrImpl.QC_NFC,
+                                             NormblizfrImpl.QC_NFC,
+                                             NormblizfrImpl.QC_NFC,
+                                             NormblizfrImpl.QC_NFC,
+                                             0,
+                                             0,
+                                             0,
+                                             0,
+                                             0,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
                                              bllowMbybf,
                                              nx
+                                             nx
+                                             nx
+                                             nx
+                                             nx
+                                             );
+                                             );
+                                             );
+                                             );
                                              );
         }
+        }
+        }
+        }
+        }
         protfdtfd boolfbn isNFSkippbblf(int d) {
-            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d,tiis,
                                                 ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
-                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFC & NormblizfrImpl.QC_ANY_NO)
+                                                  )
+                                                  )
+                                                  )
+                                                  )
                                                   )
                                                 );
+                                                );
+                                                );
+                                                );
+                                                );
+        }
+        }
+        }
+        }
         }
     };
+    };
+    };
+    };
+    };
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
+     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
+     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
+     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
+     * Compbtibility dfdomposition followfd by dbnonidbl domposition.
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
+    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
+    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
+    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
+    publid stbtid finbl Modf NFKC =nfw NFKCModf(5);
+
+
+
+
+
+    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
+    privbtf stbtid finbl dlbss NFKCModf fxtfnds Modf{
+        privbtf NFKCModf(int vbluf) {
+        privbtf NFKCModf(int vbluf) {
+        privbtf NFKCModf(int vbluf) {
+        privbtf NFKCModf(int vbluf) {
+        privbtf NFKCModf(int vbluf) {
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+            supfr(vbluf);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+        protfdtfd int normblizf(dibr[] srd, int srdStbrt, int srdLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                dibr[] dfst,int dfstStbrt,int dfstLimit,
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+                                UnidodfSft nx) {
+            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
+            rfturn NormblizfrImpl.domposf(srd,  srdStbrt,srdLimit,
+                                          dfst, dfstStbrt,dfstLimit,
+                                          dfst, dfstStbrt,dfstLimit,
+                                          dfst, dfstStbrt,dfstLimit,
+                                          dfst, dfstStbrt,dfstLimit,
+                                          dfst, dfstStbrt,dfstLimit,
+                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
+                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
+                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
+                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
+                                          NormblizfrImpl.OPTIONS_COMPAT, nx);
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+        protfdtfd String normblizf( String srd, int options) {
+            rfturn domposf(srd, truf, options);
+            rfturn domposf(srd, truf, options);
+            rfturn domposf(srd, truf, options);
+            rfturn domposf(srd, truf, options);
+            rfturn domposf(srd, truf, options);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+        protfdtfd int gftMinC() {
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+            rfturn NormblizfrImpl.gftFromIndfxfsArr(
+                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                    NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                    );
+                                                    );
+                                                    );
+                                                    );
+                                                    );
+        }
+        }
+        }
+        }
+        }
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+        protfdtfd IsPrfvBoundbry gftPrfvBoundbry() {
+            rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+            rfturn nfw IsPrfvTrufStbrtfr();
+        }
+        }
+        }
+        }
+        }
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+        protfdtfd IsNfxtBoundbry gftNfxtBoundbry() {
+            rfturn nfw IsNfxtTrufStbrtfr();
+            rfturn nfw IsNfxtTrufStbrtfr();
+            rfturn nfw IsNfxtTrufStbrtfr();
+            rfturn nfw IsNfxtTrufStbrtfr();
+            rfturn nfw IsNfxtTrufStbrtfr();
+        }
+        }
+        }
+        }
+        }
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+        protfdtfd int gftMbsk() {
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
+            rfturn (NormblizfrImpl.CC_MASK|NormblizfrImpl.QC_NFKC);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+        protfdtfd QuidkCifdkRfsult quidkCifdk(dibr[] srd,int stbrt,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              int limit,boolfbn bllowMbybf,
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+                                              UnidodfSft nx) {
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+            rfturn NormblizfrImpl.quidkCifdk(
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             srd,stbrt,limit,
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                             NormblizfrImpl.gftFromIndfxfsArr(
+                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                                              NormblizfrImpl.INDEX_MIN_NFKC_NO_MAYBE
+                                                                              ),
+                                                                              ),
+                                                                              ),
+                                                                              ),
+                                                                              ),
+                                             NormblizfrImpl.QC_NFKC,
+                                             NormblizfrImpl.QC_NFKC,
+                                             NormblizfrImpl.QC_NFKC,
+                                             NormblizfrImpl.QC_NFKC,
+                                             NormblizfrImpl.QC_NFKC,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             NormblizfrImpl.OPTIONS_COMPAT,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             bllowMbybf,
+                                             nx
+                                             nx
+                                             nx
+                                             nx
+                                             nx
+                                             );
+                                             );
+                                             );
+                                             );
+                                             );
+        }
+        }
+        }
+        }
+        }
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+        protfdtfd boolfbn isNFSkippbblf(int d) {
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+            rfturn NormblizfrImpl.isNFSkippbblf(d, tiis,
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                ( NormblizfrImpl.CC_MASK|NormblizfrImpl.COMBINES_ANY|
+                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
+                                                  (NormblizfrImpl.QC_NFKC & NormblizfrImpl.QC_ANY_NO)
+                                                  )
+                                                  )
+                                                  )
+                                                  )
+                                                  )
+                                                );
+                                                );
+                                                );
+                                                );
+                                                );
+        }
+        }
+        }
+        }
+        }
+    };
+    };
+    };
+    };
+    };
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfsult vblufs for quidkCifdk().
+     * Rfsult vblufs for quidkCifdk().
+     * Rfsult vblufs for quidkCifdk().
+     * Rfsult vblufs for quidkCifdk().
+     * Rfsult vblufs for quidkCifdk().
+     * For dftbils sff Unidodf Tfdinidbl Rfport 15.
+     * For dftbils sff Unidodf Tfdinidbl Rfport 15.
+     * For dftbils sff Unidodf Tfdinidbl Rfport 15.
+     * For dftbils sff Unidodf Tfdinidbl Rfport 15.
      * For dftbils sff Unidodf Tfdinidbl Rfport 15.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl dlbss QuidkCifdkRfsult{
+    publid stbtid finbl dlbss QuidkCifdkRfsult{
+    publid stbtid finbl dlbss QuidkCifdkRfsult{
+    publid stbtid finbl dlbss QuidkCifdkRfsult{
+    publid stbtid finbl dlbss QuidkCifdkRfsult{
+        privbtf int rfsultVbluf;
+        privbtf int rfsultVbluf;
+        privbtf int rfsultVbluf;
+        privbtf int rfsultVbluf;
         privbtf int rfsultVbluf;
         privbtf QuidkCifdkRfsult(int vbluf) {
+        privbtf QuidkCifdkRfsult(int vbluf) {
+        privbtf QuidkCifdkRfsult(int vbluf) {
+        privbtf QuidkCifdkRfsult(int vbluf) {
+        privbtf QuidkCifdkRfsult(int vbluf) {
+            rfsultVbluf=vbluf;
+            rfsultVbluf=vbluf;
+            rfsultVbluf=vbluf;
+            rfsultVbluf=vbluf;
             rfsultVbluf=vbluf;
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+    /**
+    /**
+    /**
+    /**
     /**
      * Indidbtfs tibt string is not in tif normblizfd formbt
+     * Indidbtfs tibt string is not in tif normblizfd formbt
+     * Indidbtfs tibt string is not in tif normblizfd formbt
+     * Indidbtfs tibt string is not in tif normblizfd formbt
+     * Indidbtfs tibt string is not in tif normblizfd formbt
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl QuidkCifdkRfsult NO = nfw QuidkCifdkRfsult(0);
+    publid stbtid finbl QuidkCifdkRfsult NO = nfw QuidkCifdkRfsult(0);
+    publid stbtid finbl QuidkCifdkRfsult NO = nfw QuidkCifdkRfsult(0);
+    publid stbtid finbl QuidkCifdkRfsult NO = nfw QuidkCifdkRfsult(0);
+    publid stbtid finbl QuidkCifdkRfsult NO = nfw QuidkCifdkRfsult(0);
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Indidbtfs tibt string is in tif normblizfd formbt
+     * Indidbtfs tibt string is in tif normblizfd formbt
+     * Indidbtfs tibt string is in tif normblizfd formbt
+     * Indidbtfs tibt string is in tif normblizfd formbt
+     * Indidbtfs tibt string is in tif normblizfd formbt
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl QuidkCifdkRfsult YES = nfw QuidkCifdkRfsult(1);
+    publid stbtid finbl QuidkCifdkRfsult YES = nfw QuidkCifdkRfsult(1);
+    publid stbtid finbl QuidkCifdkRfsult YES = nfw QuidkCifdkRfsult(1);
+    publid stbtid finbl QuidkCifdkRfsult YES = nfw QuidkCifdkRfsult(1);
+    publid stbtid finbl QuidkCifdkRfsult YES = nfw QuidkCifdkRfsult(1);
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Indidbtfs it dbnnot bf dftfrminfd if string is in tif normblizfd
+     * Indidbtfs it dbnnot bf dftfrminfd if string is in tif normblizfd
+     * Indidbtfs it dbnnot bf dftfrminfd if string is in tif normblizfd
+     * Indidbtfs it dbnnot bf dftfrminfd if string is in tif normblizfd
+     * Indidbtfs it dbnnot bf dftfrminfd if string is in tif normblizfd
+     * formbt witiout furtifr tiorougi difdks.
+     * formbt witiout furtifr tiorougi difdks.
+     * formbt witiout furtifr tiorougi difdks.
+     * formbt witiout furtifr tiorougi difdks.
      * formbt witiout furtifr tiorougi difdks.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl QuidkCifdkRfsult MAYBE = nfw QuidkCifdkRfsult(2);
+    publid stbtid finbl QuidkCifdkRfsult MAYBE = nfw QuidkCifdkRfsult(2);
+    publid stbtid finbl QuidkCifdkRfsult MAYBE = nfw QuidkCifdkRfsult(2);
+    publid stbtid finbl QuidkCifdkRfsult MAYBE = nfw QuidkCifdkRfsult(2);
+    publid stbtid finbl QuidkCifdkRfsult MAYBE = nfw QuidkCifdkRfsult(2);
 
+
+
+
+
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     // Construdtors
+    // Construdtors
+    // Construdtors
+    // Construdtors
+    // Construdtors
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
 
+
+
+
+
     /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
      * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
      * normblizfd form of b givfn string.
+     * normblizfd form of b givfn string.
+     * normblizfd form of b givfn string.
+     * normblizfd form of b givfn string.
+     * normblizfd form of b givfn string.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * Tif <tt>options</tt> pbrbmftfr spfdififs wiidi optionbl
+     * Tif <tt>options</tt> pbrbmftfr spfdififs wiidi optionbl
+     * Tif <tt>options</tt> pbrbmftfr spfdififs wiidi optionbl
+     * Tif <tt>options</tt> pbrbmftfr spfdififs wiidi optionbl
+     * Tif <tt>options</tt> pbrbmftfr spfdififs wiidi optionbl
+     * <tt>Normblizfr</tt> ffbturfs brf to bf fnbblfd for tiis objfdt.
+     * <tt>Normblizfr</tt> ffbturfs brf to bf fnbblfd for tiis objfdt.
+     * <tt>Normblizfr</tt> ffbturfs brf to bf fnbblfd for tiis objfdt.
+     * <tt>Normblizfr</tt> ffbturfs brf to bf fnbblfd for tiis objfdt.
      * <tt>Normblizfr</tt> ffbturfs brf to bf fnbblfd for tiis objfdt.
      * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
      * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
      *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *
+     *
+     *
+     *
      *
      * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
      *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
      *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
      *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
      * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     */
+     */
+     */
+     */
      */
     publid NormblizfrBbsf(String str, Modf modf, int opt) {
+    publid NormblizfrBbsf(String str, Modf modf, int opt) {
+    publid NormblizfrBbsf(String str, Modf modf, int opt) {
+    publid NormblizfrBbsf(String str, Modf modf, int opt) {
+    publid NormblizfrBbsf(String str, Modf modf, int opt) {
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(str);
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(str);
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(str);
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(str);
         tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(str);
         tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.options=opt;
+        tiis.options=opt;
+        tiis.options=opt;
+        tiis.options=opt;
         tiis.options=opt;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
      * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
      * normblizfd form of tif givfn tfxt.
+     * normblizfd form of tif givfn tfxt.
+     * normblizfd form of tif givfn tfxt.
+     * normblizfd form of tif givfn tfxt.
+     * normblizfd form of tif givfn tfxt.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
      *              will stbrt bt tif bfginning of tif string.
      *
+     *
+     *
+     *
+     *
      * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     */
+     */
+     */
+     */
      */
     publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf) {
+          tiis(itfr, modf, UNICODE_LATEST);
+          tiis(itfr, modf, UNICODE_LATEST);
+          tiis(itfr, modf, UNICODE_LATEST);
+          tiis(itfr, modf, UNICODE_LATEST);
           tiis(itfr, modf, UNICODE_LATEST);
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * normblizfd form of tif givfn tfxt.
+     * normblizfd form of tif givfn tfxt.
+     * normblizfd form of tif givfn tfxt.
+     * normblizfd form of tif givfn tfxt.
      * normblizfd form of tif givfn tfxt.
      * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
+     * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
      * @pbrbm itfr  Tif input tfxt to bf normblizfd.  Tif normblizbtion
      *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *
+     *
+     *
+     *
      *
      * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     * @pbrbm modf  Tif normblizbtion modf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm opt Any optionbl ffbturfs to bf fnbblfd.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
+     *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
      *            Currfntly tif only bvbilbblf option is {@link #UNICODE_3_2}.
      *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            If you wbnt tif dffbult bfibvior dorrfsponding to onf of tif
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
+     *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
      *            stbndbrd Unidodf Normblizbtion Forms, usf 0 for tiis brgumfnt.
      * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     */
+     */
+     */
+     */
      */
     publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf, int opt) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf, int opt) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf, int opt) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf, int opt) {
+    publid NormblizfrBbsf(CibrbdtfrItfrbtor itfr, Modf modf, int opt) {
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(
+        tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(
         tiis.tfxt = UCibrbdtfrItfrbtor.gftInstbndf(
                                                    (CibrbdtfrItfrbtor)itfr.dlonf()
+                                                   (CibrbdtfrItfrbtor)itfr.dlonf()
+                                                   (CibrbdtfrItfrbtor)itfr.dlonf()
+                                                   (CibrbdtfrItfrbtor)itfr.dlonf()
+                                                   (CibrbdtfrItfrbtor)itfr.dlonf()
+                                                   );
+                                                   );
+                                                   );
+                                                   );
                                                    );
         tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.modf = modf;
+        tiis.options = opt;
+        tiis.options = opt;
+        tiis.options = opt;
+        tiis.options = opt;
         tiis.options = opt;
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Clonfs tiis <tt>Normblizfr</tt> objfdt.  All propfrtifs of tiis
+     * Clonfs tiis <tt>Normblizfr</tt> objfdt.  All propfrtifs of tiis
+     * Clonfs tiis <tt>Normblizfr</tt> objfdt.  All propfrtifs of tiis
+     * Clonfs tiis <tt>Normblizfr</tt> objfdt.  All propfrtifs of tiis
+     * Clonfs tiis <tt>Normblizfr</tt> objfdt.  All propfrtifs of tiis
+     * objfdt brf duplidbtfd in tif nfw objfdt, indluding tif dloning of bny
+     * objfdt brf duplidbtfd in tif nfw objfdt, indluding tif dloning of bny
+     * objfdt brf duplidbtfd in tif nfw objfdt, indluding tif dloning of bny
+     * objfdt brf duplidbtfd in tif nfw objfdt, indluding tif dloning of bny
      * objfdt brf duplidbtfd in tif nfw objfdt, indluding tif dloning of bny
      * {@link CibrbdtfrItfrbtor} tibt wbs pbssfd in to tif donstrudtor
+     * {@link CibrbdtfrItfrbtor} tibt wbs pbssfd in to tif donstrudtor
+     * {@link CibrbdtfrItfrbtor} tibt wbs pbssfd in to tif donstrudtor
+     * {@link CibrbdtfrItfrbtor} tibt wbs pbssfd in to tif donstrudtor
+     * {@link CibrbdtfrItfrbtor} tibt wbs pbssfd in to tif donstrudtor
+     * or to {@link #sftTfxt(CibrbdtfrItfrbtor) sftTfxt}.
+     * or to {@link #sftTfxt(CibrbdtfrItfrbtor) sftTfxt}.
+     * or to {@link #sftTfxt(CibrbdtfrItfrbtor) sftTfxt}.
+     * or to {@link #sftTfxt(CibrbdtfrItfrbtor) sftTfxt}.
      * or to {@link #sftTfxt(CibrbdtfrItfrbtor) sftTfxt}.
      * Howfvfr, tif tfxt storbgf undfrlying
+     * Howfvfr, tif tfxt storbgf undfrlying
+     * Howfvfr, tif tfxt storbgf undfrlying
+     * Howfvfr, tif tfxt storbgf undfrlying
+     * Howfvfr, tif tfxt storbgf undfrlying
+     * tif <tt>CibrbdtfrItfrbtor</tt> is not duplidbtfd unlfss tif
+     * tif <tt>CibrbdtfrItfrbtor</tt> is not duplidbtfd unlfss tif
+     * tif <tt>CibrbdtfrItfrbtor</tt> is not duplidbtfd unlfss tif
+     * tif <tt>CibrbdtfrItfrbtor</tt> is not duplidbtfd unlfss tif
      * tif <tt>CibrbdtfrItfrbtor</tt> is not duplidbtfd unlfss tif
      * itfrbtor's <tt>dlonf</tt> mftiod dofs so.
+     * itfrbtor's <tt>dlonf</tt> mftiod dofs so.
+     * itfrbtor's <tt>dlonf</tt> mftiod dofs so.
+     * itfrbtor's <tt>dlonf</tt> mftiod dofs so.
+     * itfrbtor's <tt>dlonf</tt> mftiod dofs so.
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+        try {
+        try {
+        try {
+        try {
         try {
             NormblizfrBbsf dopy = (NormblizfrBbsf) supfr.dlonf();
+            NormblizfrBbsf dopy = (NormblizfrBbsf) supfr.dlonf();
+            NormblizfrBbsf dopy = (NormblizfrBbsf) supfr.dlonf();
+            NormblizfrBbsf dopy = (NormblizfrBbsf) supfr.dlonf();
+            NormblizfrBbsf dopy = (NormblizfrBbsf) supfr.dlonf();
+            dopy.tfxt = (UCibrbdtfrItfrbtor) tfxt.dlonf();
+            dopy.tfxt = (UCibrbdtfrItfrbtor) tfxt.dlonf();
+            dopy.tfxt = (UCibrbdtfrItfrbtor) tfxt.dlonf();
+            dopy.tfxt = (UCibrbdtfrItfrbtor) tfxt.dlonf();
             dopy.tfxt = (UCibrbdtfrItfrbtor) tfxt.dlonf();
             //dlonf tif intfrnbl bufffr
+            //dlonf tif intfrnbl bufffr
+            //dlonf tif intfrnbl bufffr
+            //dlonf tif intfrnbl bufffr
+            //dlonf tif intfrnbl bufffr
+            if (bufffr != null) {
+            if (bufffr != null) {
+            if (bufffr != null) {
+            if (bufffr != null) {
             if (bufffr != null) {
                 dopy.bufffr = nfw dibr[bufffr.lfngti];
+                dopy.bufffr = nfw dibr[bufffr.lfngti];
+                dopy.bufffr = nfw dibr[bufffr.lfngti];
+                dopy.bufffr = nfw dibr[bufffr.lfngti];
+                dopy.bufffr = nfw dibr[bufffr.lfngti];
+                Systfm.brrbydopy(bufffr,0,dopy.bufffr,0,bufffr.lfngti);
+                Systfm.brrbydopy(bufffr,0,dopy.bufffr,0,bufffr.lfngti);
+                Systfm.brrbydopy(bufffr,0,dopy.bufffr,0,bufffr.lfngti);
+                Systfm.brrbydopy(bufffr,0,dopy.bufffr,0,bufffr.lfngti);
                 Systfm.brrbydopy(bufffr,0,dopy.bufffr,0,bufffr.lfngti);
             }
+            }
+            }
+            }
+            }
+            rfturn dopy;
+            rfturn dopy;
+            rfturn dopy;
+            rfturn dopy;
             rfturn dopy;
         }
+        }
+        }
+        }
+        }
+        dbtdi (ClonfNotSupportfdExdfption f) {
+        dbtdi (ClonfNotSupportfdExdfption f) {
+        dbtdi (ClonfNotSupportfdExdfption f) {
+        dbtdi (ClonfNotSupportfdExdfption f) {
         dbtdi (ClonfNotSupportfdExdfption f) {
             tirow nfw IntfrnblError(f.toString(), f);
+            tirow nfw IntfrnblError(f.toString(), f);
+            tirow nfw IntfrnblError(f.toString(), f);
+            tirow nfw IntfrnblError(f.toString(), f);
+            tirow nfw IntfrnblError(f.toString(), f);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
     // Stbtid Utility mftiods
+    // Stbtid Utility mftiods
+    // Stbtid Utility mftiods
+    // Stbtid Utility mftiods
+    // Stbtid Utility mftiods
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     //--------------------------------------------------------------------------
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Composf b string.
+     * Composf b string.
+     * Composf b string.
+     * Composf b string.
+     * Composf b string.
+     * Tif string will bf domposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf domposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf domposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf domposfd to bddording tif tif spfdififd modf.
      * Tif string will bf domposfd to bddording tif tif spfdififd modf.
      * @pbrbm str        Tif string to domposf.
+     * @pbrbm str        Tif string to domposf.
+     * @pbrbm str        Tif string to domposf.
+     * @pbrbm str        Tif string to domposf.
+     * @pbrbm str        Tif string to domposf.
+     * @pbrbm dompbt     If truf tif string will bf domposfd bddoding to
+     * @pbrbm dompbt     If truf tif string will bf domposfd bddoding to
+     * @pbrbm dompbt     If truf tif string will bf domposfd bddoding to
+     * @pbrbm dompbt     If truf tif string will bf domposfd bddoding to
      * @pbrbm dompbt     If truf tif string will bf domposfd bddoding to
      *                    NFKC rulfs bnd if fblsf will bf domposfd bddording to
+     *                    NFKC rulfs bnd if fblsf will bf domposfd bddording to
+     *                    NFKC rulfs bnd if fblsf will bf domposfd bddording to
+     *                    NFKC rulfs bnd if fblsf will bf domposfd bddording to
+     *                    NFKC rulfs bnd if fblsf will bf domposfd bddording to
+     *                    NFC rulfs.
+     *                    NFC rulfs.
+     *                    NFC rulfs.
+     *                    NFC rulfs.
      *                    NFC rulfs.
      * @pbrbm options    Tif only rfdognizfd option is UNICODE_3_2
+     * @pbrbm options    Tif only rfdognizfd option is UNICODE_3_2
+     * @pbrbm options    Tif only rfdognizfd option is UNICODE_3_2
+     * @pbrbm options    Tif only rfdognizfd option is UNICODE_3_2
+     * @pbrbm options    Tif only rfdognizfd option is UNICODE_3_2
+     * @rfturn String    Tif domposfd string
+     * @rfturn String    Tif domposfd string
+     * @rfturn String    Tif domposfd string
+     * @rfturn String    Tif domposfd string
      * @rfturn String    Tif domposfd string
      * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     */
+     */
+     */
+     */
      */
     publid stbtid String domposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String domposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String domposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String domposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String domposf(String str, boolfbn dompbt, int options) {
+
+
+
+
 
         dibr[] dfst, srd;
+        dibr[] dfst, srd;
+        dibr[] dfst, srd;
+        dibr[] dfst, srd;
+        dibr[] dfst, srd;
         if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
             String mbppfdStr = NormblizfrImpl.donvfrt(str);
             dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            srd = mbppfdStr.toCibrArrby();
+            srd = mbppfdStr.toCibrArrby();
+            srd = mbppfdStr.toCibrArrby();
+            srd = mbppfdStr.toCibrArrby();
             srd = mbppfdStr.toCibrArrby();
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_COMPOSE];
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_COMPOSE];
             dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_COMPOSE];
             srd = str.toCibrArrby();
+            srd = str.toCibrArrby();
+            srd = str.toCibrArrby();
+            srd = str.toCibrArrby();
+            srd = str.toCibrArrby();
+        }
+        }
+        }
+        }
         }
         int dfstSizf=0;
+        int dfstSizf=0;
+        int dfstSizf=0;
+        int dfstSizf=0;
+        int dfstSizf=0;
+
+
+
+
 
         UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+
+
+
+
 
         /* rfsft options bits tibt siould only bf sft ifrf or insidf domposf() */
+        /* rfsft options bits tibt siould only bf sft ifrf or insidf domposf() */
+        /* rfsft options bits tibt siould only bf sft ifrf or insidf domposf() */
+        /* rfsft options bits tibt siould only bf sft ifrf or insidf domposf() */
+        /* rfsft options bits tibt siould only bf sft ifrf or insidf domposf() */
+        options&=~(NormblizfrImpl.OPTIONS_SETS_MASK|NormblizfrImpl.OPTIONS_COMPAT|NormblizfrImpl.OPTIONS_COMPOSE_CONTIGUOUS);
+        options&=~(NormblizfrImpl.OPTIONS_SETS_MASK|NormblizfrImpl.OPTIONS_COMPAT|NormblizfrImpl.OPTIONS_COMPOSE_CONTIGUOUS);
+        options&=~(NormblizfrImpl.OPTIONS_SETS_MASK|NormblizfrImpl.OPTIONS_COMPAT|NormblizfrImpl.OPTIONS_COMPOSE_CONTIGUOUS);
+        options&=~(NormblizfrImpl.OPTIONS_SETS_MASK|NormblizfrImpl.OPTIONS_COMPAT|NormblizfrImpl.OPTIONS_COMPOSE_CONTIGUOUS);
         options&=~(NormblizfrImpl.OPTIONS_SETS_MASK|NormblizfrImpl.OPTIONS_COMPAT|NormblizfrImpl.OPTIONS_COMPOSE_CONTIGUOUS);
 
+
+
+
+
+        if(dompbt) {
+        if(dompbt) {
+        if(dompbt) {
+        if(dompbt) {
         if(dompbt) {
             options|=NormblizfrImpl.OPTIONS_COMPAT;
+            options|=NormblizfrImpl.OPTIONS_COMPAT;
+            options|=NormblizfrImpl.OPTIONS_COMPAT;
+            options|=NormblizfrImpl.OPTIONS_COMPAT;
+            options|=NormblizfrImpl.OPTIONS_COMPAT;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         for(;;) {
+        for(;;) {
+        for(;;) {
+        for(;;) {
+        for(;;) {
+            dfstSizf=NormblizfrImpl.domposf(srd,0,srd.lfngti,
+            dfstSizf=NormblizfrImpl.domposf(srd,0,srd.lfngti,
+            dfstSizf=NormblizfrImpl.domposf(srd,0,srd.lfngti,
+            dfstSizf=NormblizfrImpl.domposf(srd,0,srd.lfngti,
             dfstSizf=NormblizfrImpl.domposf(srd,0,srd.lfngti,
                                             dfst,0,dfst.lfngti,options,
+                                            dfst,0,dfst.lfngti,options,
+                                            dfst,0,dfst.lfngti,options,
+                                            dfst,0,dfst.lfngti,options,
+                                            dfst,0,dfst.lfngti,options,
+                                            nx);
+                                            nx);
+                                            nx);
+                                            nx);
                                             nx);
             if(dfstSizf<=dfst.lfngti) {
+            if(dfstSizf<=dfst.lfngti) {
+            if(dfstSizf<=dfst.lfngti) {
+            if(dfstSizf<=dfst.lfngti) {
+            if(dfstSizf<=dfst.lfngti) {
+                rfturn nfw String(dfst,0,dfstSizf);
+                rfturn nfw String(dfst,0,dfstSizf);
+                rfturn nfw String(dfst,0,dfstSizf);
+                rfturn nfw String(dfst,0,dfstSizf);
                 rfturn nfw String(dfst,0,dfstSizf);
             } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                dfst = nfw dibr[dfstSizf];
+                dfst = nfw dibr[dfstSizf];
+                dfst = nfw dibr[dfstSizf];
+                dfst = nfw dibr[dfstSizf];
                 dfst = nfw dibr[dfstSizf];
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbtf stbtid finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbtf stbtid finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbtf stbtid finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbtf stbtid finbl int MAX_BUF_SIZE_COMPOSE = 2;
+    privbtf stbtid finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
+    privbtf stbtid finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
+    privbtf stbtid finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
+    privbtf stbtid finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
     privbtf stbtid finbl int MAX_BUF_SIZE_DECOMPOSE = 3;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
      * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
      * @pbrbm str       Tif string to dfdomposf.
+     * @pbrbm str       Tif string to dfdomposf.
+     * @pbrbm str       Tif string to dfdomposf.
+     * @pbrbm str       Tif string to dfdomposf.
+     * @pbrbm str       Tif string to dfdomposf.
+     * @pbrbm dompbt    If truf tif string will bf dfdomposfd bddoding to NFKD
+     * @pbrbm dompbt    If truf tif string will bf dfdomposfd bddoding to NFKD
+     * @pbrbm dompbt    If truf tif string will bf dfdomposfd bddoding to NFKD
+     * @pbrbm dompbt    If truf tif string will bf dfdomposfd bddoding to NFKD
      * @pbrbm dompbt    If truf tif string will bf dfdomposfd bddoding to NFKD
      *                   rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                   rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                   rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                   rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                   rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                   rulfs.
+     *                   rulfs.
+     *                   rulfs.
+     *                   rulfs.
      *                   rulfs.
      * @rfturn String   Tif dfdomposfd string
+     * @rfturn String   Tif dfdomposfd string
+     * @rfturn String   Tif dfdomposfd string
+     * @rfturn String   Tif dfdomposfd string
+     * @rfturn String   Tif dfdomposfd string
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid stbtid String dfdomposf(String str, boolfbn dompbt) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt) {
+        rfturn dfdomposf(str,dompbt,UNICODE_LATEST);
+        rfturn dfdomposf(str,dompbt,UNICODE_LATEST);
+        rfturn dfdomposf(str,dompbt,UNICODE_LATEST);
+        rfturn dfdomposf(str,dompbt,UNICODE_LATEST);
         rfturn dfdomposf(str,dompbt,UNICODE_LATEST);
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Dfdomposf b string.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
+     * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
      * Tif string will bf dfdomposfd to bddording tif tif spfdififd modf.
      * @pbrbm str     Tif string to dfdomposf.
+     * @pbrbm str     Tif string to dfdomposf.
+     * @pbrbm str     Tif string to dfdomposf.
+     * @pbrbm str     Tif string to dfdomposf.
+     * @pbrbm str     Tif string to dfdomposf.
+     * @pbrbm dompbt  If truf tif string will bf dfdomposfd bddoding to NFKD
+     * @pbrbm dompbt  If truf tif string will bf dfdomposfd bddoding to NFKD
+     * @pbrbm dompbt  If truf tif string will bf dfdomposfd bddoding to NFKD
+     * @pbrbm dompbt  If truf tif string will bf dfdomposfd bddoding to NFKD
      * @pbrbm dompbt  If truf tif string will bf dfdomposfd bddoding to NFKD
      *                 rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                 rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                 rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                 rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                 rulfs bnd if fblsf will bf dfdomposfd bddording to NFD
+     *                 rulfs.
+     *                 rulfs.
+     *                 rulfs.
+     *                 rulfs.
      *                 rulfs.
      * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @rfturn String Tif dfdomposfd string
+     * @rfturn String Tif dfdomposfd string
+     * @rfturn String Tif dfdomposfd string
+     * @rfturn String Tif dfdomposfd string
      * @rfturn String Tif dfdomposfd string
      * @stbblf ICU 2.6
-     */
-    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
-
-        int[] trbilCC = nfw int[1];
-        int dfstSizf=0;
-        UnidodfSft nx = NormblizfrImpl.gftNX(options);
-        dibr[] dfst;
-
-        if (options == UNICODE_3_2_0_ORIGINAL) {
-            String mbppfdStr = NormblizfrImpl.donvfrt(str);
-            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
-
-            for(;;) {
-                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toCibrArrby(),0,mbppfdStr.lfngti(),
-                                                  dfst,0,dfst.lfngti,
-                                                  dompbt,trbilCC, nx);
-                if(dfstSizf<=dfst.lfngti) {
-                    rfturn nfw String(dfst,0,dfstSizf);
-                } flsf {
-                    dfst = nfw dibr[dfstSizf];
-                }
-            }
-        } flsf {
-            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
-
-            for(;;) {
-                dfstSizf=NormblizfrImpl.dfdomposf(str.toCibrArrby(),0,str.lfngti(),
-                                                  dfst,0,dfst.lfngti,
-                                                  dompbt,trbilCC, nx);
-                if(dfstSizf<=dfst.lfngti) {
-                    rfturn nfw String(dfst,0,dfstSizf);
-                } flsf {
-                    dfst = nfw dibr[dfstSizf];
-                }
-            }
-        }
-    }
-
-    /**
-     * Normblizf b string.
-     * Tif string will bf normblizfd bddording tif tif spfdififd normblizbtion
-     * modf bnd options.
-     * @pbrbm srd       Tif dibr brrby to domposf.
-     * @pbrbm srdStbrt  Stbrt indfx of tif sourdf
-     * @pbrbm srdLimit  Limit indfx of tif sourdf
-     * @pbrbm dfst      Tif dibr bufffr to fill in
-     * @pbrbm dfstStbrt Stbrt indfx of tif dfstinbtion bufffr
-     * @pbrbm dfstLimit End indfx of tif dfstinbtion bufffr
-     * @pbrbm modf      Tif normblizbtion modf; onf of Normblizfr.NONE,
-     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
-     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
-     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
-     * @rfturn int      Tif totbl bufffr sizf nffdfd;if grfbtfr tibn lfngti of
-     *                   rfsult, tif output wbs trundbtfd.
-     * @fxdfption       IndfxOutOfBoundsExdfption if tif tbrgft dbpbdity is
-     *                   lfss tibn tif rfquirfd lfngti
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
      * @stbblf ICU 2.6
      */
+     */
+     */
+     */
+     */
+    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
+    publid stbtid String dfdomposf(String str, boolfbn dompbt, int options) {
+
+
+
+
+
+        int[] trbilCC = nfw int[1];
+        int[] trbilCC = nfw int[1];
+        int[] trbilCC = nfw int[1];
+        int[] trbilCC = nfw int[1];
+        int[] trbilCC = nfw int[1];
+        int dfstSizf=0;
+        int dfstSizf=0;
+        int dfstSizf=0;
+        int dfstSizf=0;
+        int dfstSizf=0;
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        UnidodfSft nx = NormblizfrImpl.gftNX(options);
+        dibr[] dfst;
+        dibr[] dfst;
+        dibr[] dfst;
+        dibr[] dfst;
+        dibr[] dfst;
+
+
+
+
+
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+        if (options == UNICODE_3_2_0_ORIGINAL) {
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            String mbppfdStr = NormblizfrImpl.donvfrt(str);
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[mbppfdStr.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+
+
+
+
+
+            for(;;) {
+            for(;;) {
+            for(;;) {
+            for(;;) {
+            for(;;) {
+                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toCibrArrby(),0,mbppfdStr.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toCibrArrby(),0,mbppfdStr.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toCibrArrby(),0,mbppfdStr.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toCibrArrby(),0,mbppfdStr.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(mbppfdStr.toCibrArrby(),0,mbppfdStr.lfngti(),
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+            dfst = nfw dibr[str.lfngti()*MAX_BUF_SIZE_DECOMPOSE];
+
+
+
+
+
+            for(;;) {
+            for(;;) {
+            for(;;) {
+            for(;;) {
+            for(;;) {
+                dfstSizf=NormblizfrImpl.dfdomposf(str.toCibrArrby(),0,str.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(str.toCibrArrby(),0,str.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(str.toCibrArrby(),0,str.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(str.toCibrArrby(),0,str.lfngti(),
+                dfstSizf=NormblizfrImpl.dfdomposf(str.toCibrArrby(),0,str.lfngti(),
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dfst,0,dfst.lfngti,
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                                                  dompbt,trbilCC, nx);
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                if(dfstSizf<=dfst.lfngti) {
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                    rfturn nfw String(dfst,0,dfstSizf);
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                    dfst = nfw dibr[dfstSizf];
+                }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Normblizf b string.
+     * Normblizf b string.
+     * Normblizf b string.
+     * Normblizf b string.
+     * Normblizf b string.
+     * Tif string will bf normblizfd bddording tif tif spfdififd normblizbtion
+     * Tif string will bf normblizfd bddording tif tif spfdififd normblizbtion
+     * Tif string will bf normblizfd bddording tif tif spfdififd normblizbtion
+     * Tif string will bf normblizfd bddording tif tif spfdififd normblizbtion
+     * Tif string will bf normblizfd bddording tif tif spfdififd normblizbtion
+     * modf bnd options.
+     * modf bnd options.
+     * modf bnd options.
+     * modf bnd options.
+     * modf bnd options.
+     * @pbrbm srd       Tif dibr brrby to domposf.
+     * @pbrbm srd       Tif dibr brrby to domposf.
+     * @pbrbm srd       Tif dibr brrby to domposf.
+     * @pbrbm srd       Tif dibr brrby to domposf.
+     * @pbrbm srd       Tif dibr brrby to domposf.
+     * @pbrbm srdStbrt  Stbrt indfx of tif sourdf
+     * @pbrbm srdStbrt  Stbrt indfx of tif sourdf
+     * @pbrbm srdStbrt  Stbrt indfx of tif sourdf
+     * @pbrbm srdStbrt  Stbrt indfx of tif sourdf
+     * @pbrbm srdStbrt  Stbrt indfx of tif sourdf
+     * @pbrbm srdLimit  Limit indfx of tif sourdf
+     * @pbrbm srdLimit  Limit indfx of tif sourdf
+     * @pbrbm srdLimit  Limit indfx of tif sourdf
+     * @pbrbm srdLimit  Limit indfx of tif sourdf
+     * @pbrbm srdLimit  Limit indfx of tif sourdf
+     * @pbrbm dfst      Tif dibr bufffr to fill in
+     * @pbrbm dfst      Tif dibr bufffr to fill in
+     * @pbrbm dfst      Tif dibr bufffr to fill in
+     * @pbrbm dfst      Tif dibr bufffr to fill in
+     * @pbrbm dfst      Tif dibr bufffr to fill in
+     * @pbrbm dfstStbrt Stbrt indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstStbrt Stbrt indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstStbrt Stbrt indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstStbrt Stbrt indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstStbrt Stbrt indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstLimit End indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstLimit End indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstLimit End indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstLimit End indfx of tif dfstinbtion bufffr
+     * @pbrbm dfstLimit End indfx of tif dfstinbtion bufffr
+     * @pbrbm modf      Tif normblizbtion modf; onf of Normblizfr.NONE,
+     * @pbrbm modf      Tif normblizbtion modf; onf of Normblizfr.NONE,
+     * @pbrbm modf      Tif normblizbtion modf; onf of Normblizfr.NONE,
+     * @pbrbm modf      Tif normblizbtion modf; onf of Normblizfr.NONE,
+     * @pbrbm modf      Tif normblizbtion modf; onf of Normblizfr.NONE,
+     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
+     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
+     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
+     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
+     *                   Normblizfr.NFD, Normblizfr.NFC, Normblizfr.NFKC,
+     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
+     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
+     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
+     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
+     *                   Normblizfr.NFKD, Normblizfr.DEFAULT
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @pbrbm options Tif normblizbtion options, ORfd togftifr (0 for no options).
+     * @rfturn int      Tif totbl bufffr sizf nffdfd;if grfbtfr tibn lfngti of
+     * @rfturn int      Tif totbl bufffr sizf nffdfd;if grfbtfr tibn lfngti of
+     * @rfturn int      Tif totbl bufffr sizf nffdfd;if grfbtfr tibn lfngti of
+     * @rfturn int      Tif totbl bufffr sizf nffdfd;if grfbtfr tibn lfngti of
+     * @rfturn int      Tif totbl bufffr sizf nffdfd;if grfbtfr tibn lfngti of
+     *                   rfsult, tif output wbs trundbtfd.
+     *                   rfsult, tif output wbs trundbtfd.
+     *                   rfsult, tif output wbs trundbtfd.
+     *                   rfsult, tif output wbs trundbtfd.
+     *                   rfsult, tif output wbs trundbtfd.
+     * @fxdfption       IndfxOutOfBoundsExdfption if tif tbrgft dbpbdity is
+     * @fxdfption       IndfxOutOfBoundsExdfption if tif tbrgft dbpbdity is
+     * @fxdfption       IndfxOutOfBoundsExdfption if tif tbrgft dbpbdity is
+     * @fxdfption       IndfxOutOfBoundsExdfption if tif tbrgft dbpbdity is
+     * @fxdfption       IndfxOutOfBoundsExdfption if tif tbrgft dbpbdity is
+     *                   lfss tibn tif rfquirfd lfngti
+     *                   lfss tibn tif rfquirfd lfngti
+     *                   lfss tibn tif rfquirfd lfngti
+     *                   lfss tibn tif rfquirfd lfngti
+     *                   lfss tibn tif rfquirfd lfngti
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     * @stbblf ICU 2.6
+     */
+     */
+     */
+     */
+     */
+    publid stbtid int normblizf(dibr[] srd,int srdStbrt, int srdLimit,
+    publid stbtid int normblizf(dibr[] srd,int srdStbrt, int srdLimit,
+    publid stbtid int normblizf(dibr[] srd,int srdStbrt, int srdLimit,
+    publid stbtid int normblizf(dibr[] srd,int srdStbrt, int srdLimit,
     publid stbtid int normblizf(dibr[] srd,int srdStbrt, int srdLimit,
                                 dibr[] dfst,int dfstStbrt, int dfstLimit,
+                                dibr[] dfst,int dfstStbrt, int dfstLimit,
+                                dibr[] dfst,int dfstStbrt, int dfstLimit,
+                                dibr[] dfst,int dfstStbrt, int dfstLimit,
+                                dibr[] dfst,int dfstStbrt, int dfstLimit,
+                                Modf  modf, int options) {
+                                Modf  modf, int options) {
+                                Modf  modf, int options) {
+                                Modf  modf, int options) {
                                 Modf  modf, int options) {
         int lfngti = modf.normblizf(srd,srdStbrt,srdLimit,dfst,dfstStbrt,dfstLimit, options);
+        int lfngti = modf.normblizf(srd,srdStbrt,srdLimit,dfst,dfstStbrt,dfstLimit, options);
+        int lfngti = modf.normblizf(srd,srdStbrt,srdLimit,dfst,dfstStbrt,dfstLimit, options);
+        int lfngti = modf.normblizf(srd,srdStbrt,srdLimit,dfst,dfstStbrt,dfstLimit, options);
+        int lfngti = modf.normblizf(srd,srdStbrt,srdLimit,dfst,dfstStbrt,dfstLimit, options);
+
+
+
+
 
         if(lfngti<=(dfstLimit-dfstStbrt)) {
+        if(lfngti<=(dfstLimit-dfstStbrt)) {
+        if(lfngti<=(dfstLimit-dfstStbrt)) {
+        if(lfngti<=(dfstLimit-dfstStbrt)) {
+        if(lfngti<=(dfstLimit-dfstStbrt)) {
+            rfturn lfngti;
+            rfturn lfngti;
+            rfturn lfngti;
+            rfturn lfngti;
             rfturn lfngti;
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
             tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     // Itfrbtion API
+    // Itfrbtion API
+    // Itfrbtion API
+    // Itfrbtion API
+    // Itfrbtion API
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfturn tif durrfnt dibrbdtfr in tif normblizfd tfxt->
+     * Rfturn tif durrfnt dibrbdtfr in tif normblizfd tfxt->
+     * Rfturn tif durrfnt dibrbdtfr in tif normblizfd tfxt->
+     * Rfturn tif durrfnt dibrbdtfr in tif normblizfd tfxt->
+     * Rfturn tif durrfnt dibrbdtfr in tif normblizfd tfxt->
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
      * @rfturn Tif dodfpoint bs bn int
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid int durrfnt() {
+    publid int durrfnt() {
+    publid int durrfnt() {
+    publid int durrfnt() {
+    publid int durrfnt() {
+        if(bufffrPos<bufffrLimit || nfxtNormblizf()) {
+        if(bufffrPos<bufffrLimit || nfxtNormblizf()) {
+        if(bufffrPos<bufffrLimit || nfxtNormblizf()) {
+        if(bufffrPos<bufffrLimit || nfxtNormblizf()) {
         if(bufffrPos<bufffrLimit || nfxtNormblizf()) {
             rfturn gftCodfPointAt(bufffrPos);
+            rfturn gftCodfPointAt(bufffrPos);
+            rfturn gftCodfPointAt(bufffrPos);
+            rfturn gftCodfPointAt(bufffrPos);
+            rfturn gftCodfPointAt(bufffrPos);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfturn tif nfxt dibrbdtfr in tif normblizfd tfxt bnd bdvbndf
+     * Rfturn tif nfxt dibrbdtfr in tif normblizfd tfxt bnd bdvbndf
+     * Rfturn tif nfxt dibrbdtfr in tif normblizfd tfxt bnd bdvbndf
+     * Rfturn tif nfxt dibrbdtfr in tif normblizfd tfxt bnd bdvbndf
+     * Rfturn tif nfxt dibrbdtfr in tif normblizfd tfxt bnd bdvbndf
+     * tif itfrbtion position by onf.  If tif fnd
+     * tif itfrbtion position by onf.  If tif fnd
+     * tif itfrbtion position by onf.  If tif fnd
+     * tif itfrbtion position by onf.  If tif fnd
      * tif itfrbtion position by onf.  If tif fnd
      * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
-     * @rfturn Tif dodfpoint bs bn int
-     * @stbblf ICU 2.8
-     */
-    publid int nfxt() {
-        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
-            int d=gftCodfPointAt(bufffrPos);
-            bufffrPos+=(d>0xFFFF) ? 2 : 1;
-            rfturn d;
-        } flsf {
-            rfturn DONE;
-        }
-    }
-
-
-    /**
-     * Rfturn tif prfvious dibrbdtfr in tif normblizfd tfxt bnd dfdrfmfnt
-     * tif itfrbtion position by onf.  If tif bfginning
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
      * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
      * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
      * @stbblf ICU 2.8
      */
-    publid int prfvious() {
-        if(bufffrPos>0 || prfviousNormblizf()) {
-            int d=gftCodfPointAt(bufffrPos-1);
-            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+     */
+     */
+     */
+     */
+    publid int nfxt() {
+    publid int nfxt() {
+    publid int nfxt() {
+    publid int nfxt() {
+    publid int nfxt() {
+        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
+        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
+        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
+        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
+        if(bufffrPos<bufffrLimit ||  nfxtNormblizf()) {
+            int d=gftCodfPointAt(bufffrPos);
+            int d=gftCodfPointAt(bufffrPos);
+            int d=gftCodfPointAt(bufffrPos);
+            int d=gftCodfPointAt(bufffrPos);
+            int d=gftCodfPointAt(bufffrPos);
+            bufffrPos+=(d>0xFFFF) ? 2 : 1;
+            bufffrPos+=(d>0xFFFF) ? 2 : 1;
+            bufffrPos+=(d>0xFFFF) ? 2 : 1;
+            bufffrPos+=(d>0xFFFF) ? 2 : 1;
+            bufffrPos+=(d>0xFFFF) ? 2 : 1;
+            rfturn d;
+            rfturn d;
+            rfturn d;
+            rfturn d;
             rfturn d;
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
             rfturn DONE;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif prfvious dibrbdtfr in tif normblizfd tfxt bnd dfdrfmfnt
+     * Rfturn tif prfvious dibrbdtfr in tif normblizfd tfxt bnd dfdrfmfnt
+     * Rfturn tif prfvious dibrbdtfr in tif normblizfd tfxt bnd dfdrfmfnt
+     * Rfturn tif prfvious dibrbdtfr in tif normblizfd tfxt bnd dfdrfmfnt
+     * Rfturn tif prfvious dibrbdtfr in tif normblizfd tfxt bnd dfdrfmfnt
+     * tif itfrbtion position by onf.  If tif bfginning
+     * tif itfrbtion position by onf.  If tif bfginning
+     * tif itfrbtion position by onf.  If tif bfginning
+     * tif itfrbtion position by onf.  If tif bfginning
+     * tif itfrbtion position by onf.  If tif bfginning
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * of tif tfxt ibs blrfbdy bffn rfbdifd, {@link #DONE} is rfturnfd.
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid int prfvious() {
+    publid int prfvious() {
+    publid int prfvious() {
+    publid int prfvious() {
+    publid int prfvious() {
+        if(bufffrPos>0 || prfviousNormblizf()) {
+        if(bufffrPos>0 || prfviousNormblizf()) {
+        if(bufffrPos>0 || prfviousNormblizf()) {
+        if(bufffrPos>0 || prfviousNormblizf()) {
+        if(bufffrPos>0 || prfviousNormblizf()) {
+            int d=gftCodfPointAt(bufffrPos-1);
+            int d=gftCodfPointAt(bufffrPos-1);
+            int d=gftCodfPointAt(bufffrPos-1);
+            int d=gftCodfPointAt(bufffrPos-1);
+            int d=gftCodfPointAt(bufffrPos-1);
+            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+            bufffrPos-=(d>0xFFFF) ? 2 : 1;
+            rfturn d;
+            rfturn d;
+            rfturn d;
+            rfturn d;
+            rfturn d;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfsft tif indfx to tif bfginning of tif tfxt.
+     * Rfsft tif indfx to tif bfginning of tif tfxt.
+     * Rfsft tif indfx to tif bfginning of tif tfxt.
+     * Rfsft tif indfx to tif bfginning of tif tfxt.
+     * Rfsft tif indfx to tif bfginning of tif tfxt.
+     * Tiis is fquivblfnt to sftIndfxOnly(stbrtIndfx)).
+     * Tiis is fquivblfnt to sftIndfxOnly(stbrtIndfx)).
+     * Tiis is fquivblfnt to sftIndfxOnly(stbrtIndfx)).
+     * Tiis is fquivblfnt to sftIndfxOnly(stbrtIndfx)).
      * Tiis is fquivblfnt to sftIndfxOnly(stbrtIndfx)).
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+        tfxt.sftIndfx(0);
+        tfxt.sftIndfx(0);
+        tfxt.sftIndfx(0);
+        tfxt.sftIndfx(0);
         tfxt.sftIndfx(0);
         durrfntIndfx=nfxtIndfx=0;
-        dlfbrBufffr();
-    }
-
-    /**
-     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd,
-     * witiout bny immfdibtf normblizbtion.
-     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn tif sbmf indfx tibt is
-     * spfdififd ifrf.
-     *
-     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt.
-     * @stbblf ICU 2.8
-     */
-    publid void sftIndfxOnly(int indfx) {
-        tfxt.sftIndfx(indfx);
-        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
-        dlfbrBufffr();
-    }
-
-    /**
-     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd
-     * bnd rfturn tif first normblizfd dibrbdtfr bt tibt position.
-     * <p>
-     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm> tfxt,
-     * wiilf {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs
-     * in tif normblizfd <fm>output</fm>.  Tiis mfbns tibt tifrf is not
-     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dibrbdtfrs rfturnfd
-     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd
-     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
-     * <p>
-     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt->
-     *
-     * @rfturn   tif first normblizfd dibrbdtfr tibt is tif rfsult of itfrbting
-     *            forwbrd stbrting bt tif givfn indfx.
-     *
-     * @tirows IllfgblArgumfntExdfption if tif givfn indfx is lfss tibn
-     *          {@link #gftBfginIndfx} or grfbtfr tibn {@link #gftEndIndfx}.
-     * @rfturn Tif dodfpoint bs bn int
-     * @dfprfdbtfd ICU 3.2
-     * @obsolftf ICU 3.2
-     */
-     @Dfprfdbtfd
-     publid int sftIndfx(int indfx) {
-         sftIndfxOnly(indfx);
-         rfturn durrfnt();
-     }
-
-    /**
-     * Rftrifvf tif indfx of tif stbrt of tif input tfxt. Tiis is tif bfgin
-     * indfx of tif <tt>CibrbdtfrItfrbtor</tt> or tif stbrt (i.f. 0) of tif
-     * <tt>String</tt> ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
-     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
-     * @rfturn Tif dodfpoint bs bn int
-     * @sff #stbrtIndfx
-     */
-    @Dfprfdbtfd
-    publid int gftBfginIndfx() {
-        rfturn 0;
-    }
-
-    /**
-     * Rftrifvf tif indfx of tif fnd of tif input tfxt.  Tiis is tif fnd indfx
-     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
-     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
-     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
-     * @rfturn Tif dodfpoint bs bn int
-     * @sff #fndIndfx
-     */
-    @Dfprfdbtfd
-    publid int gftEndIndfx() {
-        rfturn fndIndfx();
-    }
-
-    /**
-     * Rftrifvf tif durrfnt itfrbtion position in tif input tfxt tibt is
-     * bfing normblizfd.  Tiis mftiod is usfful in bpplidbtions sudi bs
-     * sfbrdiing, wifrf you nffd to bf bblf to dftfrminf tif position in
-     * tif input tfxt tibt dorrfsponds to b givfn normblizfd output dibrbdtfr.
-     * <p>
-     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm>, wiilf
-     * {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs in tif
-     * <fm>output</fm>.  Tiis mfbns tibt tifrf is not nfdfssbrily b onf-to-onf
-     * dorrfspondfndf bftwffn dibrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
-     * <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd rfturnfd from
-     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
-     * @rfturn Tif durrfnt itfrbtion position
-     * @stbblf ICU 2.8
-     */
-    publid int gftIndfx() {
-        if(bufffrPos<bufffrLimit) {
-            rfturn durrfntIndfx;
-        } flsf {
-            rfturn nfxtIndfx;
-        }
-    }
-
-    /**
-     * Rftrifvf tif indfx of tif fnd of tif input tfxt->  Tiis is tif fnd indfx
-     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
-     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
-     * @rfturn Tif durrfnt itfrbtion position
-     * @stbblf ICU 2.8
-     */
-    publid int fndIndfx() {
-        rfturn tfxt.gftLfngti();
-    }
-
-    //-------------------------------------------------------------------------
-    // Propfrty bddfss mftiods
-    //-------------------------------------------------------------------------
-    /**
-     * Sft tif normblizbtion modf for tiis objfdt.
-     * <p>
-     * <b>Notf:</b>If tif normblizbtion modf is dibngfd wiilf itfrbting
-     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
-     * rfturn prfviously bufffrs dibrbdtfrs in tif old normblizbtion modf
-     * until tif itfrbtion is bblf to rf-synd bt tif nfxt bbsf dibrbdtfr.
-     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
-     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
-     * <p>
-     * @pbrbm nfwModf tif nfw modf for tiis <tt>Normblizfr</tt>.
-     * Tif supportfd modfs brf:
-     * <ul>
-     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
-     *                                  followfd by dbnonidbl domposition.
-     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
-     *                                  follwfd by dbnonidbl domposition.
-     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
-     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
-     *  <li>{@link #NO_OP}          - Do notiing but rfturn dibrbdtfrs
-     *                                  from tif undfrlying input tfxt.
-     * </ul>
-     *
-     * @sff #gftModf
-     * @stbblf ICU 2.8
-     */
-    publid void sftModf(Modf nfwModf) {
-        modf = nfwModf;
-    }
-    /**
-     * Rfturn tif bbsid opfrbtion pfrformfd by tiis <tt>Normblizfr</tt>
-     *
-     * @sff #sftModf
-     * @stbblf ICU 2.8
-     */
-    publid Modf gftModf() {
-        rfturn modf;
-    }
-
-    /**
-     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
-     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
-     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
-     * @stbblf ICU 2.8
-     */
-    publid void sftTfxt(String nfwTfxt) {
-
-        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
-        if (nfwItfr == null) {
-            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
-        }
-        tfxt = nfwItfr;
-        rfsft();
-    }
-
-    /**
-     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
-     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
-     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
-     * @stbblf ICU 2.8
-     */
-    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
-
-        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
-        if (nfwItfr == null) {
-            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
-        }
-        tfxt = nfwItfr;
+        durrfntIndfx=nfxtIndfx=0;
+        durrfntIndfx=nfxtIndfx=0;
+        durrfntIndfx=nfxtIndfx=0;
         durrfntIndfx=nfxtIndfx=0;
         dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd,
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd,
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd,
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd,
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd,
+     * witiout bny immfdibtf normblizbtion.
+     * witiout bny immfdibtf normblizbtion.
+     * witiout bny immfdibtf normblizbtion.
+     * witiout bny immfdibtf normblizbtion.
+     * witiout bny immfdibtf normblizbtion.
+     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn tif sbmf indfx tibt is
+     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn tif sbmf indfx tibt is
+     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn tif sbmf indfx tibt is
+     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn tif sbmf indfx tibt is
+     * Aftfr sftIndfxOnly(), gftIndfx() will rfturn tif sbmf indfx tibt is
+     * spfdififd ifrf.
+     * spfdififd ifrf.
+     * spfdififd ifrf.
+     * spfdififd ifrf.
+     * spfdififd ifrf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt.
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt.
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt.
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt.
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt.
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid void sftIndfxOnly(int indfx) {
+    publid void sftIndfxOnly(int indfx) {
+    publid void sftIndfxOnly(int indfx) {
+    publid void sftIndfxOnly(int indfx) {
+    publid void sftIndfxOnly(int indfx) {
+        tfxt.sftIndfx(indfx);
+        tfxt.sftIndfx(indfx);
+        tfxt.sftIndfx(indfx);
+        tfxt.sftIndfx(indfx);
+        tfxt.sftIndfx(indfx);
+        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
+        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
+        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
+        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
+        durrfntIndfx=nfxtIndfx=indfx; // vblidbtfs indfx
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd
+     * Sft tif itfrbtion position in tif input tfxt tibt is bfing normblizfd
+     * bnd rfturn tif first normblizfd dibrbdtfr bt tibt position.
+     * bnd rfturn tif first normblizfd dibrbdtfr bt tibt position.
+     * bnd rfturn tif first normblizfd dibrbdtfr bt tibt position.
+     * bnd rfturn tif first normblizfd dibrbdtfr bt tibt position.
+     * bnd rfturn tif first normblizfd dibrbdtfr bt tibt position.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm> tfxt,
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm> tfxt,
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm> tfxt,
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm> tfxt,
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm> tfxt,
+     * wiilf {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs
+     * wiilf {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs
+     * wiilf {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs
+     * wiilf {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs
+     * wiilf {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs
+     * in tif normblizfd <fm>output</fm>.  Tiis mfbns tibt tifrf is not
+     * in tif normblizfd <fm>output</fm>.  Tiis mfbns tibt tifrf is not
+     * in tif normblizfd <fm>output</fm>.  Tiis mfbns tibt tifrf is not
+     * in tif normblizfd <fm>output</fm>.  Tiis mfbns tibt tifrf is not
+     * in tif normblizfd <fm>output</fm>.  Tiis mfbns tibt tifrf is not
+     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dibrbdtfrs rfturnfd
+     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dibrbdtfrs rfturnfd
+     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dibrbdtfrs rfturnfd
+     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dibrbdtfrs rfturnfd
+     * nfdfssbrily b onf-to-onf dorrfspondfndf bftwffn dibrbdtfrs rfturnfd
+     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd
+     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd
+     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd
+     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd
+     * by <tt>nfxt</tt> bnd <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd
+     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * rfturnfd from <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt->
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt->
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt->
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt->
+     * @pbrbm indfx tif dfsirfd indfx in tif input tfxt->
+     *
+     *
+     *
+     *
+     *
+     * @rfturn   tif first normblizfd dibrbdtfr tibt is tif rfsult of itfrbting
+     * @rfturn   tif first normblizfd dibrbdtfr tibt is tif rfsult of itfrbting
+     * @rfturn   tif first normblizfd dibrbdtfr tibt is tif rfsult of itfrbting
+     * @rfturn   tif first normblizfd dibrbdtfr tibt is tif rfsult of itfrbting
+     * @rfturn   tif first normblizfd dibrbdtfr tibt is tif rfsult of itfrbting
+     *            forwbrd stbrting bt tif givfn indfx.
+     *            forwbrd stbrting bt tif givfn indfx.
+     *            forwbrd stbrting bt tif givfn indfx.
+     *            forwbrd stbrting bt tif givfn indfx.
+     *            forwbrd stbrting bt tif givfn indfx.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if tif givfn indfx is lfss tibn
+     * @tirows IllfgblArgumfntExdfption if tif givfn indfx is lfss tibn
+     * @tirows IllfgblArgumfntExdfption if tif givfn indfx is lfss tibn
+     * @tirows IllfgblArgumfntExdfption if tif givfn indfx is lfss tibn
+     * @tirows IllfgblArgumfntExdfption if tif givfn indfx is lfss tibn
+     *          {@link #gftBfginIndfx} or grfbtfr tibn {@link #gftEndIndfx}.
+     *          {@link #gftBfginIndfx} or grfbtfr tibn {@link #gftEndIndfx}.
+     *          {@link #gftBfginIndfx} or grfbtfr tibn {@link #gftEndIndfx}.
+     *          {@link #gftBfginIndfx} or grfbtfr tibn {@link #gftEndIndfx}.
+     *          {@link #gftBfginIndfx} or grfbtfr tibn {@link #gftEndIndfx}.
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @dfprfdbtfd ICU 3.2
+     * @dfprfdbtfd ICU 3.2
+     * @dfprfdbtfd ICU 3.2
+     * @dfprfdbtfd ICU 3.2
+     * @dfprfdbtfd ICU 3.2
+     * @obsolftf ICU 3.2
+     * @obsolftf ICU 3.2
+     * @obsolftf ICU 3.2
+     * @obsolftf ICU 3.2
+     * @obsolftf ICU 3.2
+     */
+     */
+     */
+     */
+     */
+     @Dfprfdbtfd
+     @Dfprfdbtfd
+     @Dfprfdbtfd
+     @Dfprfdbtfd
+     @Dfprfdbtfd
+     publid int sftIndfx(int indfx) {
+     publid int sftIndfx(int indfx) {
+     publid int sftIndfx(int indfx) {
+     publid int sftIndfx(int indfx) {
+     publid int sftIndfx(int indfx) {
+         sftIndfxOnly(indfx);
+         sftIndfxOnly(indfx);
+         sftIndfxOnly(indfx);
+         sftIndfxOnly(indfx);
+         sftIndfxOnly(indfx);
+         rfturn durrfnt();
+         rfturn durrfnt();
+         rfturn durrfnt();
+         rfturn durrfnt();
+         rfturn durrfnt();
+     }
+     }
+     }
+     }
+     }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvf tif indfx of tif stbrt of tif input tfxt. Tiis is tif bfgin
+     * Rftrifvf tif indfx of tif stbrt of tif input tfxt. Tiis is tif bfgin
+     * Rftrifvf tif indfx of tif stbrt of tif input tfxt. Tiis is tif bfgin
+     * Rftrifvf tif indfx of tif stbrt of tif input tfxt. Tiis is tif bfgin
+     * Rftrifvf tif indfx of tif stbrt of tif input tfxt. Tiis is tif bfgin
+     * indfx of tif <tt>CibrbdtfrItfrbtor</tt> or tif stbrt (i.f. 0) of tif
+     * indfx of tif <tt>CibrbdtfrItfrbtor</tt> or tif stbrt (i.f. 0) of tif
+     * indfx of tif <tt>CibrbdtfrItfrbtor</tt> or tif stbrt (i.f. 0) of tif
+     * indfx of tif <tt>CibrbdtfrItfrbtor</tt> or tif stbrt (i.f. 0) of tif
+     * indfx of tif <tt>CibrbdtfrItfrbtor</tt> or tif stbrt (i.f. 0) of tif
+     * <tt>String</tt> ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * <tt>String</tt> ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * <tt>String</tt> ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * <tt>String</tt> ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * <tt>String</tt> ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf stbrtIndfx() instfbd.
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @sff #stbrtIndfx
+     * @sff #stbrtIndfx
+     * @sff #stbrtIndfx
+     * @sff #stbrtIndfx
+     * @sff #stbrtIndfx
+     */
+     */
+     */
+     */
+     */
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    publid int gftBfginIndfx() {
+    publid int gftBfginIndfx() {
+    publid int gftBfginIndfx() {
+    publid int gftBfginIndfx() {
+    publid int gftBfginIndfx() {
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt.  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt.  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt.  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt.  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt.  Tiis is tif fnd indfx
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
+     * @dfprfdbtfd ICU 2.2. Usf fndIndfx() instfbd.
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @rfturn Tif dodfpoint bs bn int
+     * @sff #fndIndfx
+     * @sff #fndIndfx
+     * @sff #fndIndfx
+     * @sff #fndIndfx
+     * @sff #fndIndfx
+     */
+     */
+     */
+     */
+     */
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    publid int gftEndIndfx() {
+    publid int gftEndIndfx() {
+    publid int gftEndIndfx() {
+    publid int gftEndIndfx() {
+    publid int gftEndIndfx() {
+        rfturn fndIndfx();
+        rfturn fndIndfx();
+        rfturn fndIndfx();
+        rfturn fndIndfx();
+        rfturn fndIndfx();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvf tif durrfnt itfrbtion position in tif input tfxt tibt is
+     * Rftrifvf tif durrfnt itfrbtion position in tif input tfxt tibt is
+     * Rftrifvf tif durrfnt itfrbtion position in tif input tfxt tibt is
+     * Rftrifvf tif durrfnt itfrbtion position in tif input tfxt tibt is
+     * Rftrifvf tif durrfnt itfrbtion position in tif input tfxt tibt is
+     * bfing normblizfd.  Tiis mftiod is usfful in bpplidbtions sudi bs
+     * bfing normblizfd.  Tiis mftiod is usfful in bpplidbtions sudi bs
+     * bfing normblizfd.  Tiis mftiod is usfful in bpplidbtions sudi bs
+     * bfing normblizfd.  Tiis mftiod is usfful in bpplidbtions sudi bs
+     * bfing normblizfd.  Tiis mftiod is usfful in bpplidbtions sudi bs
+     * sfbrdiing, wifrf you nffd to bf bblf to dftfrminf tif position in
+     * sfbrdiing, wifrf you nffd to bf bblf to dftfrminf tif position in
+     * sfbrdiing, wifrf you nffd to bf bblf to dftfrminf tif position in
+     * sfbrdiing, wifrf you nffd to bf bblf to dftfrminf tif position in
+     * sfbrdiing, wifrf you nffd to bf bblf to dftfrminf tif position in
+     * tif input tfxt tibt dorrfsponds to b givfn normblizfd output dibrbdtfr.
+     * tif input tfxt tibt dorrfsponds to b givfn normblizfd output dibrbdtfr.
+     * tif input tfxt tibt dorrfsponds to b givfn normblizfd output dibrbdtfr.
+     * tif input tfxt tibt dorrfsponds to b givfn normblizfd output dibrbdtfr.
+     * tif input tfxt tibt dorrfsponds to b givfn normblizfd output dibrbdtfr.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm>, wiilf
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm>, wiilf
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm>, wiilf
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm>, wiilf
+     * <b>Notf:</b> Tiis mftiod sfts tif position in tif <fm>input</fm>, wiilf
+     * {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs in tif
+     * {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs in tif
+     * {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs in tif
+     * {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs in tif
+     * {@link #nfxt} bnd {@link #prfvious} itfrbtf tirougi dibrbdtfrs in tif
+     * <fm>output</fm>.  Tiis mfbns tibt tifrf is not nfdfssbrily b onf-to-onf
+     * <fm>output</fm>.  Tiis mfbns tibt tifrf is not nfdfssbrily b onf-to-onf
+     * <fm>output</fm>.  Tiis mfbns tibt tifrf is not nfdfssbrily b onf-to-onf
+     * <fm>output</fm>.  Tiis mfbns tibt tifrf is not nfdfssbrily b onf-to-onf
+     * <fm>output</fm>.  Tiis mfbns tibt tifrf is not nfdfssbrily b onf-to-onf
+     * dorrfspondfndf bftwffn dibrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
+     * dorrfspondfndf bftwffn dibrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
+     * dorrfspondfndf bftwffn dibrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
+     * dorrfspondfndf bftwffn dibrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
+     * dorrfspondfndf bftwffn dibrbdtfrs rfturnfd by <tt>nfxt</tt> bnd
+     * <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd rfturnfd from
+     * <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd rfturnfd from
+     * <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd rfturnfd from
+     * <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd rfturnfd from
+     * <tt>prfvious</tt> bnd tif indidfs pbssfd to bnd rfturnfd from
+     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * <tt>sftIndfx</tt> bnd {@link #gftIndfx}.
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid int gftIndfx() {
+    publid int gftIndfx() {
+    publid int gftIndfx() {
+    publid int gftIndfx() {
+    publid int gftIndfx() {
+        if(bufffrPos<bufffrLimit) {
+        if(bufffrPos<bufffrLimit) {
+        if(bufffrPos<bufffrLimit) {
+        if(bufffrPos<bufffrLimit) {
+        if(bufffrPos<bufffrLimit) {
+            rfturn durrfntIndfx;
+            rfturn durrfntIndfx;
+            rfturn durrfntIndfx;
+            rfturn durrfntIndfx;
+            rfturn durrfntIndfx;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn nfxtIndfx;
+            rfturn nfxtIndfx;
+            rfturn nfxtIndfx;
+            rfturn nfxtIndfx;
+            rfturn nfxtIndfx;
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt->  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt->  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt->  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt->  Tiis is tif fnd indfx
+     * Rftrifvf tif indfx of tif fnd of tif input tfxt->  Tiis is tif fnd indfx
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * of tif <tt>CibrbdtfrItfrbtor</tt> or tif lfngti of tif <tt>String</tt>
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * ovfr wiidi tiis <tt>Normblizfr</tt> is itfrbting
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @rfturn Tif durrfnt itfrbtion position
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid int fndIndfx() {
+    publid int fndIndfx() {
+    publid int fndIndfx() {
+    publid int fndIndfx() {
+    publid int fndIndfx() {
+        rfturn tfxt.gftLfngti();
+        rfturn tfxt.gftLfngti();
+        rfturn tfxt.gftLfngti();
+        rfturn tfxt.gftLfngti();
+        rfturn tfxt.gftLfngti();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    // Propfrty bddfss mftiods
+    // Propfrty bddfss mftiods
+    // Propfrty bddfss mftiods
+    // Propfrty bddfss mftiods
+    // Propfrty bddfss mftiods
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sft tif normblizbtion modf for tiis objfdt.
+     * Sft tif normblizbtion modf for tiis objfdt.
+     * Sft tif normblizbtion modf for tiis objfdt.
+     * Sft tif normblizbtion modf for tiis objfdt.
+     * Sft tif normblizbtion modf for tiis objfdt.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <b>Notf:</b>If tif normblizbtion modf is dibngfd wiilf itfrbting
+     * <b>Notf:</b>If tif normblizbtion modf is dibngfd wiilf itfrbting
+     * <b>Notf:</b>If tif normblizbtion modf is dibngfd wiilf itfrbting
+     * <b>Notf:</b>If tif normblizbtion modf is dibngfd wiilf itfrbting
+     * <b>Notf:</b>If tif normblizbtion modf is dibngfd wiilf itfrbting
+     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
+     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
+     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
+     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
+     * ovfr b string, dblls to {@link #nfxt} bnd {@link #prfvious} mby
+     * rfturn prfviously bufffrs dibrbdtfrs in tif old normblizbtion modf
+     * rfturn prfviously bufffrs dibrbdtfrs in tif old normblizbtion modf
+     * rfturn prfviously bufffrs dibrbdtfrs in tif old normblizbtion modf
+     * rfturn prfviously bufffrs dibrbdtfrs in tif old normblizbtion modf
+     * rfturn prfviously bufffrs dibrbdtfrs in tif old normblizbtion modf
+     * until tif itfrbtion is bblf to rf-synd bt tif nfxt bbsf dibrbdtfr.
+     * until tif itfrbtion is bblf to rf-synd bt tif nfxt bbsf dibrbdtfr.
+     * until tif itfrbtion is bblf to rf-synd bt tif nfxt bbsf dibrbdtfr.
+     * until tif itfrbtion is bblf to rf-synd bt tif nfxt bbsf dibrbdtfr.
+     * until tif itfrbtion is bblf to rf-synd bt tif nfxt bbsf dibrbdtfr.
+     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
+     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
+     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
+     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
+     * It is sbffst to dbll {@link #sftTfxt sftTfxt()}, {@link #first},
+     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
+     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
+     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
+     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
+     * {@link #lbst}, ftd. bftfr dblling <tt>sftModf</tt>.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * @pbrbm nfwModf tif nfw modf for tiis <tt>Normblizfr</tt>.
+     * @pbrbm nfwModf tif nfw modf for tiis <tt>Normblizfr</tt>.
+     * @pbrbm nfwModf tif nfw modf for tiis <tt>Normblizfr</tt>.
+     * @pbrbm nfwModf tif nfw modf for tiis <tt>Normblizfr</tt>.
+     * @pbrbm nfwModf tif nfw modf for tiis <tt>Normblizfr</tt>.
+     * Tif supportfd modfs brf:
+     * Tif supportfd modfs brf:
+     * Tif supportfd modfs brf:
+     * Tif supportfd modfs brf:
+     * Tif supportfd modfs brf:
+     * <ul>
+     * <ul>
+     * <ul>
+     * <ul>
+     * <ul>
+     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
+     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
+     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
+     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
+     *  <li>{@link #COMPOSE}        - Unidodf dbnonidbl dfdompositiion
+     *                                  followfd by dbnonidbl domposition.
+     *                                  followfd by dbnonidbl domposition.
+     *                                  followfd by dbnonidbl domposition.
+     *                                  followfd by dbnonidbl domposition.
+     *                                  followfd by dbnonidbl domposition.
+     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
+     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
+     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
+     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
+     *  <li>{@link #COMPOSE_COMPAT} - Unidodf dompbtibility dfdompositiion
+     *                                  follwfd by dbnonidbl domposition.
+     *                                  follwfd by dbnonidbl domposition.
+     *                                  follwfd by dbnonidbl domposition.
+     *                                  follwfd by dbnonidbl domposition.
+     *                                  follwfd by dbnonidbl domposition.
+     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
+     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
+     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
+     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
+     *  <li>{@link #DECOMP}         - Unidodf dbnonidbl dfdomposition
+     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
+     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
+     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
+     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
+     *  <li>{@link #DECOMP_COMPAT}  - Unidodf dompbtibility dfdomposition.
+     *  <li>{@link #NO_OP}          - Do notiing but rfturn dibrbdtfrs
+     *  <li>{@link #NO_OP}          - Do notiing but rfturn dibrbdtfrs
+     *  <li>{@link #NO_OP}          - Do notiing but rfturn dibrbdtfrs
+     *  <li>{@link #NO_OP}          - Do notiing but rfturn dibrbdtfrs
+     *  <li>{@link #NO_OP}          - Do notiing but rfturn dibrbdtfrs
+     *                                  from tif undfrlying input tfxt.
+     *                                  from tif undfrlying input tfxt.
+     *                                  from tif undfrlying input tfxt.
+     *                                  from tif undfrlying input tfxt.
+     *                                  from tif undfrlying input tfxt.
+     * </ul>
+     * </ul>
+     * </ul>
+     * </ul>
+     * </ul>
+     *
+     *
+     *
+     *
+     *
+     * @sff #gftModf
+     * @sff #gftModf
+     * @sff #gftModf
+     * @sff #gftModf
+     * @sff #gftModf
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid void sftModf(Modf nfwModf) {
+    publid void sftModf(Modf nfwModf) {
+    publid void sftModf(Modf nfwModf) {
+    publid void sftModf(Modf nfwModf) {
+    publid void sftModf(Modf nfwModf) {
+        modf = nfwModf;
+        modf = nfwModf;
+        modf = nfwModf;
+        modf = nfwModf;
+        modf = nfwModf;
+    }
+    }
+    }
+    }
+    }
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif bbsid opfrbtion pfrformfd by tiis <tt>Normblizfr</tt>
+     * Rfturn tif bbsid opfrbtion pfrformfd by tiis <tt>Normblizfr</tt>
+     * Rfturn tif bbsid opfrbtion pfrformfd by tiis <tt>Normblizfr</tt>
+     * Rfturn tif bbsid opfrbtion pfrformfd by tiis <tt>Normblizfr</tt>
+     * Rfturn tif bbsid opfrbtion pfrformfd by tiis <tt>Normblizfr</tt>
+     *
+     *
+     *
+     *
+     *
+     * @sff #sftModf
+     * @sff #sftModf
+     * @sff #sftModf
+     * @sff #sftModf
+     * @sff #sftModf
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid Modf gftModf() {
+    publid Modf gftModf() {
+    publid Modf gftModf() {
+    publid Modf gftModf() {
+    publid Modf gftModf() {
+        rfturn modf;
+        rfturn modf;
+        rfturn modf;
+        rfturn modf;
+        rfturn modf;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid void sftTfxt(String nfwTfxt) {
+    publid void sftTfxt(String nfwTfxt) {
+    publid void sftTfxt(String nfwTfxt) {
+    publid void sftTfxt(String nfwTfxt) {
+    publid void sftTfxt(String nfwTfxt) {
+
+
+
+
+
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+        }
+        }
+        }
+        }
+        }
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        rfsft();
+        rfsft();
+        rfsft();
+        rfsft();
+        rfsft();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Sft tif input tfxt ovfr wiidi tiis <tt>Normblizfr</tt> will itfrbtf.
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * Tif itfrbtion position is sft to tif bfginning of tif input tfxt->
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @pbrbm nfwTfxt   Tif nfw string to bf normblizfd.
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
+     */
+    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
+    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
+    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
+    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
+    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
+
+
+
+
+
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        UCibrbdtfrItfrbtor nfwItfr = UCibrbdtfrItfrbtor.gftInstbndf(nfwTfxt);
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+        if (nfwItfr == null) {
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+            tirow nfw IntfrnblError("Could not drfbtf b nfw UCibrbdtfrItfrbtor");
+        }
+        }
+        }
+        }
+        }
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        tfxt = nfwItfr;
+        durrfntIndfx=nfxtIndfx=0;
+        durrfntIndfx=nfxtIndfx=0;
+        durrfntIndfx=nfxtIndfx=0;
+        durrfntIndfx=nfxtIndfx=0;
+        durrfntIndfx=nfxtIndfx=0;
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     // Privbtf utility mftiods
+    // Privbtf utility mftiods
+    // Privbtf utility mftiods
+    // Privbtf utility mftiods
+    // Privbtf utility mftiods
     //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 
     /* bbdkwbrd itfrbtion --------------------------------------------------- */
+    /* bbdkwbrd itfrbtion --------------------------------------------------- */
+    /* bbdkwbrd itfrbtion --------------------------------------------------- */
+    /* bbdkwbrd itfrbtion --------------------------------------------------- */
+    /* bbdkwbrd itfrbtion --------------------------------------------------- */
+
+
+
+
 
     /*
+    /*
+    /*
+    /*
+    /*
+     * rfbd bbdkwbrds bnd gft norm32
+     * rfbd bbdkwbrds bnd gft norm32
+     * rfbd bbdkwbrds bnd gft norm32
+     * rfbd bbdkwbrds bnd gft norm32
      * rfbd bbdkwbrds bnd gft norm32
      * rfturn 0 if tif dibrbdtfr is <minC
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
      * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
      * surrogbtf but rfbd sfdond!)
+     * surrogbtf but rfbd sfdond!)
+     * surrogbtf but rfbd sfdond!)
+     * surrogbtf but rfbd sfdond!)
+     * surrogbtf but rfbd sfdond!)
+     */
+     */
+     */
+     */
      */
 
+
+
+
+
+    privbtf stbtid  long gftPrfvNorm32(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid  long gftPrfvNorm32(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid  long gftPrfvNorm32(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid  long gftPrfvNorm32(UCibrbdtfrItfrbtor srd,
     privbtf stbtid  long gftPrfvNorm32(UCibrbdtfrItfrbtor srd,
                                        int/*unsignfd*/ minC,
+                                       int/*unsignfd*/ minC,
+                                       int/*unsignfd*/ minC,
+                                       int/*unsignfd*/ minC,
+                                       int/*unsignfd*/ minC,
+                                       int/*unsignfd*/ mbsk,
+                                       int/*unsignfd*/ mbsk,
+                                       int/*unsignfd*/ mbsk,
+                                       int/*unsignfd*/ mbsk,
                                        int/*unsignfd*/ mbsk,
                                        dibr[] dibrs) {
+                                       dibr[] dibrs) {
+                                       dibr[] dibrs) {
+                                       dibr[] dibrs) {
+                                       dibr[] dibrs) {
+        long norm32;
+        long norm32;
+        long norm32;
+        long norm32;
         long norm32;
         int di=0;
+        int di=0;
+        int di=0;
+        int di=0;
+        int di=0;
+        /* nffd srd.ibsPrfvious() */
+        /* nffd srd.ibsPrfvious() */
+        /* nffd srd.ibsPrfvious() */
+        /* nffd srd.ibsPrfvious() */
         /* nffd srd.ibsPrfvious() */
         if((di=srd.prfvious()) == UCibrbdtfrItfrbtor.DONE) {
+        if((di=srd.prfvious()) == UCibrbdtfrItfrbtor.DONE) {
+        if((di=srd.prfvious()) == UCibrbdtfrItfrbtor.DONE) {
+        if((di=srd.prfvious()) == UCibrbdtfrItfrbtor.DONE) {
+        if((di=srd.prfvious()) == UCibrbdtfrItfrbtor.DONE) {
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
         dibrs[0]=(dibr)di;
+        dibrs[0]=(dibr)di;
+        dibrs[0]=(dibr)di;
+        dibrs[0]=(dibr)di;
+        dibrs[0]=(dibr)di;
+        dibrs[1]=0;
+        dibrs[1]=0;
+        dibrs[1]=0;
+        dibrs[1]=0;
         dibrs[1]=0;
 
+
+
+
+
+        /* difdk for b surrogbtf bfforf gftting norm32 to sff if wf nffd to
+        /* difdk for b surrogbtf bfforf gftting norm32 to sff if wf nffd to
+        /* difdk for b surrogbtf bfforf gftting norm32 to sff if wf nffd to
+        /* difdk for b surrogbtf bfforf gftting norm32 to sff if wf nffd to
         /* difdk for b surrogbtf bfforf gftting norm32 to sff if wf nffd to
          * prfdfdrfmfnt furtifr */
+         * prfdfdrfmfnt furtifr */
+         * prfdfdrfmfnt furtifr */
+         * prfdfdrfmfnt furtifr */
+         * prfdfdrfmfnt furtifr */
+        if(dibrs[0]<minC) {
+        if(dibrs[0]<minC) {
+        if(dibrs[0]<minC) {
+        if(dibrs[0]<minC) {
         if(dibrs[0]<minC) {
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        } flsf if(!UTF16.isSurrogbtf(dibrs[0])) {
+        } flsf if(!UTF16.isSurrogbtf(dibrs[0])) {
+        } flsf if(!UTF16.isSurrogbtf(dibrs[0])) {
+        } flsf if(!UTF16.isSurrogbtf(dibrs[0])) {
         } flsf if(!UTF16.isSurrogbtf(dibrs[0])) {
             rfturn NormblizfrImpl.gftNorm32(dibrs[0]);
+            rfturn NormblizfrImpl.gftNorm32(dibrs[0]);
+            rfturn NormblizfrImpl.gftNorm32(dibrs[0]);
+            rfturn NormblizfrImpl.gftNorm32(dibrs[0]);
+            rfturn NormblizfrImpl.gftNorm32(dibrs[0]);
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[0]) || (srd.gftIndfx()==0)) {
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[0]) || (srd.gftIndfx()==0)) {
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[0]) || (srd.gftIndfx()==0)) {
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[0]) || (srd.gftIndfx()==0)) {
         } flsf if(UTF16.isLfbdSurrogbtf(dibrs[0]) || (srd.gftIndfx()==0)) {
             /* unpbirfd surrogbtf */
+            /* unpbirfd surrogbtf */
+            /* unpbirfd surrogbtf */
+            /* unpbirfd surrogbtf */
+            /* unpbirfd surrogbtf */
+            dibrs[1]=(dibr)srd.durrfnt();
+            dibrs[1]=(dibr)srd.durrfnt();
+            dibrs[1]=(dibr)srd.durrfnt();
+            dibrs[1]=(dibr)srd.durrfnt();
             dibrs[1]=(dibr)srd.durrfnt();
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[1]=(dibr)srd.prfvious())) {
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[1]=(dibr)srd.prfvious())) {
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[1]=(dibr)srd.prfvious())) {
+        } flsf if(UTF16.isLfbdSurrogbtf(dibrs[1]=(dibr)srd.prfvious())) {
         } flsf if(UTF16.isLfbdSurrogbtf(dibrs[1]=(dibr)srd.prfvious())) {
             norm32=NormblizfrImpl.gftNorm32(dibrs[1]);
+            norm32=NormblizfrImpl.gftNorm32(dibrs[1]);
+            norm32=NormblizfrImpl.gftNorm32(dibrs[1]);
+            norm32=NormblizfrImpl.gftNorm32(dibrs[1]);
+            norm32=NormblizfrImpl.gftNorm32(dibrs[1]);
+            if((norm32&mbsk)==0) {
+            if((norm32&mbsk)==0) {
+            if((norm32&mbsk)==0) {
+            if((norm32&mbsk)==0) {
             if((norm32&mbsk)==0) {
                 /* bll surrogbtf pbirs witi tiis lfbd surrogbtf ibvf irrflfvbnt
+                /* bll surrogbtf pbirs witi tiis lfbd surrogbtf ibvf irrflfvbnt
+                /* bll surrogbtf pbirs witi tiis lfbd surrogbtf ibvf irrflfvbnt
+                /* bll surrogbtf pbirs witi tiis lfbd surrogbtf ibvf irrflfvbnt
+                /* bll surrogbtf pbirs witi tiis lfbd surrogbtf ibvf irrflfvbnt
+                 * dbtb */
+                 * dbtb */
+                 * dbtb */
+                 * dbtb */
                  * dbtb */
                 rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 /* norm32 must bf b surrogbtf spfdibl */
+                /* norm32 must bf b surrogbtf spfdibl */
+                /* norm32 must bf b surrogbtf spfdibl */
+                /* norm32 must bf b surrogbtf spfdibl */
+                /* norm32 must bf b surrogbtf spfdibl */
+                rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,dibrs[0]);
+                rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,dibrs[0]);
+                rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,dibrs[0]);
+                rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,dibrs[0]);
                 rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,dibrs[0]);
             }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             /* unpbirfd sfdond surrogbtf, undo tif d2=srd.prfvious() movfmfnt */
+            /* unpbirfd sfdond surrogbtf, undo tif d2=srd.prfvious() movfmfnt */
+            /* unpbirfd sfdond surrogbtf, undo tif d2=srd.prfvious() movfmfnt */
+            /* unpbirfd sfdond surrogbtf, undo tif d2=srd.prfvious() movfmfnt */
+            /* unpbirfd sfdond surrogbtf, undo tif d2=srd.prfvious() movfmfnt */
+            srd.movfIndfx( 1);
+            srd.movfIndfx( 1);
+            srd.movfIndfx( 1);
+            srd.movfIndfx( 1);
             srd.movfIndfx( 1);
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf intfrfbdf IsPrfvBoundbry{
+    privbtf intfrfbdf IsPrfvBoundbry{
+    privbtf intfrfbdf IsPrfvBoundbry{
+    privbtf intfrfbdf IsPrfvBoundbry{
+    privbtf intfrfbdf IsPrfvBoundbry{
         publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
                                       int/*unsignfd*/ minC,
                                       int/*unsignfd*/ mbsk,
+                                      int/*unsignfd*/ mbsk,
+                                      int/*unsignfd*/ mbsk,
+                                      int/*unsignfd*/ mbsk,
+                                      int/*unsignfd*/ mbsk,
+                                      dibr[] dibrs);
+                                      dibr[] dibrs);
+                                      dibr[] dibrs);
+                                      dibr[] dibrs);
                                       dibr[] dibrs);
     }
+    }
+    }
+    }
+    }
+    privbtf stbtid finbl dlbss IsPrfvNFDSbff implfmfnts IsPrfvBoundbry{
+    privbtf stbtid finbl dlbss IsPrfvNFDSbff implfmfnts IsPrfvBoundbry{
+    privbtf stbtid finbl dlbss IsPrfvNFDSbff implfmfnts IsPrfvBoundbry{
+    privbtf stbtid finbl dlbss IsPrfvNFDSbff implfmfnts IsPrfvBoundbry{
     privbtf stbtid finbl dlbss IsPrfvNFDSbff implfmfnts IsPrfvBoundbry{
         /*
+        /*
+        /*
+        /*
+        /*
+         * for NF*D:
+         * for NF*D:
+         * for NF*D:
+         * for NF*D:
          * for NF*D:
          * rfbd bbdkwbrds bnd difdk if tif lfbd dombining dlbss is 0
+         * rfbd bbdkwbrds bnd difdk if tif lfbd dombining dlbss is 0
+         * rfbd bbdkwbrds bnd difdk if tif lfbd dombining dlbss is 0
+         * rfbd bbdkwbrds bnd difdk if tif lfbd dombining dlbss is 0
+         * rfbd bbdkwbrds bnd difdk if tif lfbd dombining dlbss is 0
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
          * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
          * surrogbtf but rfbd sfdond!)
+         * surrogbtf but rfbd sfdond!)
+         * surrogbtf but rfbd sfdond!)
+         * surrogbtf but rfbd sfdond!)
+         * surrogbtf but rfbd sfdond!)
+         */
+         */
+         */
+         */
          */
         publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
                                       int/*unsignfd*/ minC,
                                       int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
                                       dibr[] dibrs) {
+                                      dibr[] dibrs) {
+                                      dibr[] dibrs) {
+                                      dibr[] dibrs) {
+                                      dibr[] dibrs) {
+
+
+
+
 
             rfturn NormblizfrImpl.isNFDSbff(gftPrfvNorm32(srd, minC,
+            rfturn NormblizfrImpl.isNFDSbff(gftPrfvNorm32(srd, minC,
+            rfturn NormblizfrImpl.isNFDSbff(gftPrfvNorm32(srd, minC,
+            rfturn NormblizfrImpl.isNFDSbff(gftPrfvNorm32(srd, minC,
+            rfturn NormblizfrImpl.isNFDSbff(gftPrfvNorm32(srd, minC,
+                                                          ddOrQCMbsk, dibrs),
+                                                          ddOrQCMbsk, dibrs),
+                                                          ddOrQCMbsk, dibrs),
+                                                          ddOrQCMbsk, dibrs),
                                                           ddOrQCMbsk, dibrs),
                                             ddOrQCMbsk,
+                                            ddOrQCMbsk,
+                                            ddOrQCMbsk,
+                                            ddOrQCMbsk,
+                                            ddOrQCMbsk,
+                                            ddOrQCMbsk& NormblizfrImpl.QC_MASK);
+                                            ddOrQCMbsk& NormblizfrImpl.QC_MASK);
+                                            ddOrQCMbsk& NormblizfrImpl.QC_MASK);
+                                            ddOrQCMbsk& NormblizfrImpl.QC_MASK);
                                             ddOrQCMbsk& NormblizfrImpl.QC_MASK);
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid finbl dlbss IsPrfvTrufStbrtfr implfmfnts IsPrfvBoundbry{
+    privbtf stbtid finbl dlbss IsPrfvTrufStbrtfr implfmfnts IsPrfvBoundbry{
+    privbtf stbtid finbl dlbss IsPrfvTrufStbrtfr implfmfnts IsPrfvBoundbry{
+    privbtf stbtid finbl dlbss IsPrfvTrufStbrtfr implfmfnts IsPrfvBoundbry{
+    privbtf stbtid finbl dlbss IsPrfvTrufStbrtfr implfmfnts IsPrfvBoundbry{
+        /*
+        /*
+        /*
+        /*
         /*
          * rfbd bbdkwbrds bnd difdk if tif dibrbdtfr is (or its dfdomposition
+         * rfbd bbdkwbrds bnd difdk if tif dibrbdtfr is (or its dfdomposition
+         * rfbd bbdkwbrds bnd difdk if tif dibrbdtfr is (or its dfdomposition
+         * rfbd bbdkwbrds bnd difdk if tif dibrbdtfr is (or its dfdomposition
+         * rfbd bbdkwbrds bnd difdk if tif dibrbdtfr is (or its dfdomposition
+         * bfgins witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+         * bfgins witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+         * bfgins witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+         * bfgins witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
          * bfgins witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
          * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * if d2!=0 tifn (d2, d) is b surrogbtf pbir (rfvfrsfd - d2 is first
+         * surrogbtf but rfbd sfdond!)
+         * surrogbtf but rfbd sfdond!)
+         * surrogbtf but rfbd sfdond!)
+         * surrogbtf but rfbd sfdond!)
          * surrogbtf but rfbd sfdond!)
          */
+         */
+         */
+         */
+         */
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
         publid boolfbn isPrfvBoundbry(UCibrbdtfrItfrbtor srd,
                                       int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
                                       int/*unsignfd*/ ddOrQCMbsk,
                                       dibr[] dibrs) {
+                                      dibr[] dibrs) {
+                                      dibr[] dibrs) {
+                                      dibr[] dibrs) {
+                                      dibr[] dibrs) {
+            long norm32;
+            long norm32;
+            long norm32;
+            long norm32;
             long norm32;
             int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+
+
+
+
 
             dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            norm32=gftPrfvNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            norm32=gftPrfvNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            norm32=gftPrfvNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            norm32=gftPrfvNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
             norm32=gftPrfvNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
             rfturn NormblizfrImpl.isTrufStbrtfr(norm32,ddOrQCMbsk,dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32,ddOrQCMbsk,dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32,ddOrQCMbsk,dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32,ddOrQCMbsk,dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32,ddOrQCMbsk,dfdompQCMbsk);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid int findPrfviousItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findPrfviousItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findPrfviousItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findPrfviousItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findPrfviousItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+                                                     IsPrfvBoundbry obj,
+                                                     IsPrfvBoundbry obj,
+                                                     IsPrfvBoundbry obj,
+                                                     IsPrfvBoundbry obj,
                                                      IsPrfvBoundbry obj,
                                                      int/*unsignfd*/ minC,
+                                                     int/*unsignfd*/ minC,
+                                                     int/*unsignfd*/ minC,
+                                                     int/*unsignfd*/ minC,
+                                                     int/*unsignfd*/ minC,
+                                                     int/*mbsk*/ mbsk,
+                                                     int/*mbsk*/ mbsk,
+                                                     int/*mbsk*/ mbsk,
+                                                     int/*mbsk*/ mbsk,
                                                      int/*mbsk*/ mbsk,
                                                      dibr[] bufffr,
+                                                     dibr[] bufffr,
+                                                     dibr[] bufffr,
+                                                     dibr[] bufffr,
+                                                     dibr[] bufffr,
+                                                     int[] stbrtIndfx) {
+                                                     int[] stbrtIndfx) {
+                                                     int[] stbrtIndfx) {
+                                                     int[] stbrtIndfx) {
                                                      int[] stbrtIndfx) {
         dibr[] dibrs=nfw dibr[2];
+        dibr[] dibrs=nfw dibr[2];
+        dibr[] dibrs=nfw dibr[2];
+        dibr[] dibrs=nfw dibr[2];
+        dibr[] dibrs=nfw dibr[2];
+        boolfbn isBoundbry;
+        boolfbn isBoundbry;
+        boolfbn isBoundbry;
+        boolfbn isBoundbry;
         boolfbn isBoundbry;
 
+
+
+
+
+        /* fill tif bufffr from tif fnd bbdkwbrds */
+        /* fill tif bufffr from tif fnd bbdkwbrds */
+        /* fill tif bufffr from tif fnd bbdkwbrds */
+        /* fill tif bufffr from tif fnd bbdkwbrds */
         /* fill tif bufffr from tif fnd bbdkwbrds */
         stbrtIndfx[0] = bufffr.lfngti;
+        stbrtIndfx[0] = bufffr.lfngti;
+        stbrtIndfx[0] = bufffr.lfngti;
+        stbrtIndfx[0] = bufffr.lfngti;
+        stbrtIndfx[0] = bufffr.lfngti;
+        dibrs[0]=0;
+        dibrs[0]=0;
+        dibrs[0]=0;
+        dibrs[0]=0;
         dibrs[0]=0;
         wiilf(srd.gftIndfx()>0 && dibrs[0]!=UCibrbdtfrItfrbtor.DONE) {
+        wiilf(srd.gftIndfx()>0 && dibrs[0]!=UCibrbdtfrItfrbtor.DONE) {
+        wiilf(srd.gftIndfx()>0 && dibrs[0]!=UCibrbdtfrItfrbtor.DONE) {
+        wiilf(srd.gftIndfx()>0 && dibrs[0]!=UCibrbdtfrItfrbtor.DONE) {
+        wiilf(srd.gftIndfx()>0 && dibrs[0]!=UCibrbdtfrItfrbtor.DONE) {
+            isBoundbry=obj.isPrfvBoundbry(srd, minC, mbsk, dibrs);
+            isBoundbry=obj.isPrfvBoundbry(srd, minC, mbsk, dibrs);
+            isBoundbry=obj.isPrfvBoundbry(srd, minC, mbsk, dibrs);
+            isBoundbry=obj.isPrfvBoundbry(srd, minC, mbsk, dibrs);
             isBoundbry=obj.isPrfvBoundbry(srd, minC, mbsk, dibrs);
 
+
+
+
+
+            /* blwbys writf tiis dibrbdtfr to tif front of tif bufffr */
+            /* blwbys writf tiis dibrbdtfr to tif front of tif bufffr */
+            /* blwbys writf tiis dibrbdtfr to tif front of tif bufffr */
+            /* blwbys writf tiis dibrbdtfr to tif front of tif bufffr */
             /* blwbys writf tiis dibrbdtfr to tif front of tif bufffr */
             /* mbkf surf tifrf is fnougi spbdf in tif bufffr */
+            /* mbkf surf tifrf is fnougi spbdf in tif bufffr */
+            /* mbkf surf tifrf is fnougi spbdf in tif bufffr */
+            /* mbkf surf tifrf is fnougi spbdf in tif bufffr */
+            /* mbkf surf tifrf is fnougi spbdf in tif bufffr */
+            if(stbrtIndfx[0] < (dibrs[1]==0 ? 1 : 2)) {
+            if(stbrtIndfx[0] < (dibrs[1]==0 ? 1 : 2)) {
+            if(stbrtIndfx[0] < (dibrs[1]==0 ? 1 : 2)) {
+            if(stbrtIndfx[0] < (dibrs[1]==0 ? 1 : 2)) {
             if(stbrtIndfx[0] < (dibrs[1]==0 ? 1 : 2)) {
 
+
+
+
+
+                // grow tif bufffr
+                // grow tif bufffr
+                // grow tif bufffr
+                // grow tif bufffr
                 // grow tif bufffr
                 dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                /* movf tif durrfnt bufffr dontfnts up */
+                /* movf tif durrfnt bufffr dontfnts up */
+                /* movf tif durrfnt bufffr dontfnts up */
+                /* movf tif durrfnt bufffr dontfnts up */
                 /* movf tif durrfnt bufffr dontfnts up */
                 Systfm.brrbydopy(bufffr,stbrtIndfx[0],nfwBuf,
+                Systfm.brrbydopy(bufffr,stbrtIndfx[0],nfwBuf,
+                Systfm.brrbydopy(bufffr,stbrtIndfx[0],nfwBuf,
+                Systfm.brrbydopy(bufffr,stbrtIndfx[0],nfwBuf,
+                Systfm.brrbydopy(bufffr,stbrtIndfx[0],nfwBuf,
+                                 nfwBuf.lfngti-(bufffr.lfngti-stbrtIndfx[0]),
+                                 nfwBuf.lfngti-(bufffr.lfngti-stbrtIndfx[0]),
+                                 nfwBuf.lfngti-(bufffr.lfngti-stbrtIndfx[0]),
+                                 nfwBuf.lfngti-(bufffr.lfngti-stbrtIndfx[0]),
                                  nfwBuf.lfngti-(bufffr.lfngti-stbrtIndfx[0]),
                                  bufffr.lfngti-stbrtIndfx[0]);
+                                 bufffr.lfngti-stbrtIndfx[0]);
+                                 bufffr.lfngti-stbrtIndfx[0]);
+                                 bufffr.lfngti-stbrtIndfx[0]);
+                                 bufffr.lfngti-stbrtIndfx[0]);
+                //bdjust tif stbrtIndfx
+                //bdjust tif stbrtIndfx
+                //bdjust tif stbrtIndfx
+                //bdjust tif stbrtIndfx
                 //bdjust tif stbrtIndfx
                 stbrtIndfx[0]+=nfwBuf.lfngti-bufffr.lfngti;
+                stbrtIndfx[0]+=nfwBuf.lfngti-bufffr.lfngti;
+                stbrtIndfx[0]+=nfwBuf.lfngti-bufffr.lfngti;
+                stbrtIndfx[0]+=nfwBuf.lfngti-bufffr.lfngti;
+                stbrtIndfx[0]+=nfwBuf.lfngti-bufffr.lfngti;
+
+
+
+
 
                 bufffr=nfwBuf;
+                bufffr=nfwBuf;
+                bufffr=nfwBuf;
+                bufffr=nfwBuf;
+                bufffr=nfwBuf;
+                nfwBuf=null;
+                nfwBuf=null;
+                nfwBuf=null;
+                nfwBuf=null;
                 nfwBuf=null;
 
+
+
+
+
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             bufffr[--stbrtIndfx[0]]=dibrs[0];
+            bufffr[--stbrtIndfx[0]]=dibrs[0];
+            bufffr[--stbrtIndfx[0]]=dibrs[0];
+            bufffr[--stbrtIndfx[0]]=dibrs[0];
+            bufffr[--stbrtIndfx[0]]=dibrs[0];
+            if(dibrs[1]!=0) {
+            if(dibrs[1]!=0) {
+            if(dibrs[1]!=0) {
+            if(dibrs[1]!=0) {
             if(dibrs[1]!=0) {
                 bufffr[--stbrtIndfx[0]]=dibrs[1];
+                bufffr[--stbrtIndfx[0]]=dibrs[1];
+                bufffr[--stbrtIndfx[0]]=dibrs[1];
+                bufffr[--stbrtIndfx[0]]=dibrs[1];
+                bufffr[--stbrtIndfx[0]]=dibrs[1];
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             /* stop if tiis just-dopifd dibrbdtfr is b boundbry */
+            /* stop if tiis just-dopifd dibrbdtfr is b boundbry */
+            /* stop if tiis just-dopifd dibrbdtfr is b boundbry */
+            /* stop if tiis just-dopifd dibrbdtfr is b boundbry */
+            /* stop if tiis just-dopifd dibrbdtfr is b boundbry */
+            if(isBoundbry) {
+            if(isBoundbry) {
+            if(isBoundbry) {
+            if(isBoundbry) {
             if(isBoundbry) {
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        rfturn bufffr.lfngti-stbrtIndfx[0];
+        rfturn bufffr.lfngti-stbrtIndfx[0];
+        rfturn bufffr.lfngti-stbrtIndfx[0];
+        rfturn bufffr.lfngti-stbrtIndfx[0];
         rfturn bufffr.lfngti-stbrtIndfx[0];
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid int prfvious(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int prfvious(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int prfvious(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int prfvious(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int prfvious(UCibrbdtfrItfrbtor srd,
+                                dibr[] dfst, int dfstStbrt, int dfstLimit,
+                                dibr[] dfst, int dfstStbrt, int dfstLimit,
+                                dibr[] dfst, int dfstStbrt, int dfstLimit,
+                                dibr[] dfst, int dfstStbrt, int dfstLimit,
                                 dibr[] dfst, int dfstStbrt, int dfstLimit,
                                 Modf modf,
+                                Modf modf,
+                                Modf modf,
+                                Modf modf,
+                                Modf modf,
+                                boolfbn doNormblizf,
+                                boolfbn doNormblizf,
+                                boolfbn doNormblizf,
+                                boolfbn doNormblizf,
                                 boolfbn doNormblizf,
                                 boolfbn[] pNffdfdToNormblizf,
+                                boolfbn[] pNffdfdToNormblizf,
+                                boolfbn[] pNffdfdToNormblizf,
+                                boolfbn[] pNffdfdToNormblizf,
+                                boolfbn[] pNffdfdToNormblizf,
+                                int options) {
+                                int options) {
+                                int options) {
+                                int options) {
                                 int options) {
 
+
+
+
+
+        IsPrfvBoundbry isPrfviousBoundbry;
+        IsPrfvBoundbry isPrfviousBoundbry;
+        IsPrfvBoundbry isPrfviousBoundbry;
+        IsPrfvBoundbry isPrfviousBoundbry;
         IsPrfvBoundbry isPrfviousBoundbry;
         int dfstLfngti, bufffrLfngti;
+        int dfstLfngti, bufffrLfngti;
+        int dfstLfngti, bufffrLfngti;
+        int dfstLfngti, bufffrLfngti;
+        int dfstLfngti, bufffrLfngti;
+        int/*unsignfd*/ mbsk;
+        int/*unsignfd*/ mbsk;
+        int/*unsignfd*/ mbsk;
+        int/*unsignfd*/ mbsk;
         int/*unsignfd*/ mbsk;
         int d,d2;
+        int d,d2;
+        int d,d2;
+        int d,d2;
+        int d,d2;
+
+
+
+
 
         dibr minC;
+        dibr minC;
+        dibr minC;
+        dibr minC;
+        dibr minC;
+        int dfstCbpbdity = dfstLimit-dfstStbrt;
+        int dfstCbpbdity = dfstLimit-dfstStbrt;
+        int dfstCbpbdity = dfstLimit-dfstStbrt;
+        int dfstCbpbdity = dfstLimit-dfstStbrt;
         int dfstCbpbdity = dfstLimit-dfstStbrt;
         dfstLfngti=0;
+        dfstLfngti=0;
+        dfstLfngti=0;
+        dfstLfngti=0;
+        dfstLfngti=0;
+
+
+
+
 
         if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+            pNffdfdToNormblizf[0]=fblsf;
+            pNffdfdToNormblizf[0]=fblsf;
+            pNffdfdToNormblizf[0]=fblsf;
+            pNffdfdToNormblizf[0]=fblsf;
             pNffdfdToNormblizf[0]=fblsf;
         }
+        }
+        }
+        }
+        }
+        minC = (dibr)modf.gftMinC();
+        minC = (dibr)modf.gftMinC();
+        minC = (dibr)modf.gftMinC();
+        minC = (dibr)modf.gftMinC();
         minC = (dibr)modf.gftMinC();
         mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        isPrfviousBoundbry = modf.gftPrfvBoundbry();
+        isPrfviousBoundbry = modf.gftPrfvBoundbry();
+        isPrfviousBoundbry = modf.gftPrfvBoundbry();
+        isPrfviousBoundbry = modf.gftPrfvBoundbry();
         isPrfviousBoundbry = modf.gftPrfvBoundbry();
 
+
+
+
+
+        if(isPrfviousBoundbry==null) {
+        if(isPrfviousBoundbry==null) {
+        if(isPrfviousBoundbry==null) {
+        if(isPrfviousBoundbry==null) {
         if(isPrfviousBoundbry==null) {
             dfstLfngti=0;
+            dfstLfngti=0;
+            dfstLfngti=0;
+            dfstLfngti=0;
+            dfstLfngti=0;
+            if((d=srd.prfvious())>=0) {
+            if((d=srd.prfvious())>=0) {
+            if((d=srd.prfvious())>=0) {
+            if((d=srd.prfvious())>=0) {
             if((d=srd.prfvious())>=0) {
                 dfstLfngti=1;
+                dfstLfngti=1;
+                dfstLfngti=1;
+                dfstLfngti=1;
+                dfstLfngti=1;
+                if(UTF16.isTrbilSurrogbtf((dibr)d)) {
+                if(UTF16.isTrbilSurrogbtf((dibr)d)) {
+                if(UTF16.isTrbilSurrogbtf((dibr)d)) {
+                if(UTF16.isTrbilSurrogbtf((dibr)d)) {
                 if(UTF16.isTrbilSurrogbtf((dibr)d)) {
                     d2= srd.prfvious();
+                    d2= srd.prfvious();
+                    d2= srd.prfvious();
+                    d2= srd.prfvious();
+                    d2= srd.prfvious();
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
                     if(d2!= UCibrbdtfrItfrbtor.DONE) {
                         if(UTF16.isLfbdSurrogbtf((dibr)d2)) {
+                        if(UTF16.isLfbdSurrogbtf((dibr)d2)) {
+                        if(UTF16.isLfbdSurrogbtf((dibr)d2)) {
+                        if(UTF16.isLfbdSurrogbtf((dibr)d2)) {
+                        if(UTF16.isLfbdSurrogbtf((dibr)d2)) {
+                            if(dfstCbpbdity>=2) {
+                            if(dfstCbpbdity>=2) {
+                            if(dfstCbpbdity>=2) {
+                            if(dfstCbpbdity>=2) {
                             if(dfstCbpbdity>=2) {
                                 dfst[1]=(dibr)d; // trbil surrogbtf
+                                dfst[1]=(dibr)d; // trbil surrogbtf
+                                dfst[1]=(dibr)d; // trbil surrogbtf
+                                dfst[1]=(dibr)d; // trbil surrogbtf
+                                dfst[1]=(dibr)d; // trbil surrogbtf
+                                dfstLfngti=2;
+                                dfstLfngti=2;
+                                dfstLfngti=2;
+                                dfstLfngti=2;
                                 dfstLfngti=2;
                             }
+                            }
+                            }
+                            }
+                            }
+                            // lfbd surrogbtf to bf writtfn bflow
+                            // lfbd surrogbtf to bf writtfn bflow
+                            // lfbd surrogbtf to bf writtfn bflow
+                            // lfbd surrogbtf to bf writtfn bflow
                             // lfbd surrogbtf to bf writtfn bflow
                             d=d2;
+                            d=d2;
+                            d=d2;
+                            d=d2;
+                            d=d2;
+                        } flsf {
+                        } flsf {
+                        } flsf {
+                        } flsf {
                         } flsf {
                             srd.movfIndfx(1);
+                            srd.movfIndfx(1);
+                            srd.movfIndfx(1);
+                            srd.movfIndfx(1);
+                            srd.movfIndfx(1);
+                        }
+                        }
+                        }
+                        }
                         }
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
 
+
+
+
+
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
                 if(dfstCbpbdity>0) {
                     dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             rfturn dfstLfngti;
+            rfturn dfstLfngti;
+            rfturn dfstLfngti;
+            rfturn dfstLfngti;
+            rfturn dfstLfngti;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         dibr[] bufffr = nfw dibr[100];
+        dibr[] bufffr = nfw dibr[100];
+        dibr[] bufffr = nfw dibr[100];
+        dibr[] bufffr = nfw dibr[100];
+        dibr[] bufffr = nfw dibr[100];
+        int[] stbrtIndfx= nfw int[1];
+        int[] stbrtIndfx= nfw int[1];
+        int[] stbrtIndfx= nfw int[1];
+        int[] stbrtIndfx= nfw int[1];
         int[] stbrtIndfx= nfw int[1];
         bufffrLfngti=findPrfviousItfrbtionBoundbry(srd,
+        bufffrLfngti=findPrfviousItfrbtionBoundbry(srd,
+        bufffrLfngti=findPrfviousItfrbtionBoundbry(srd,
+        bufffrLfngti=findPrfviousItfrbtionBoundbry(srd,
+        bufffrLfngti=findPrfviousItfrbtionBoundbry(srd,
+                                                   isPrfviousBoundbry,
+                                                   isPrfviousBoundbry,
+                                                   isPrfviousBoundbry,
+                                                   isPrfviousBoundbry,
                                                    isPrfviousBoundbry,
                                                    minC, mbsk,bufffr,
+                                                   minC, mbsk,bufffr,
+                                                   minC, mbsk,bufffr,
+                                                   minC, mbsk,bufffr,
+                                                   minC, mbsk,bufffr,
+                                                   stbrtIndfx);
+                                                   stbrtIndfx);
+                                                   stbrtIndfx);
+                                                   stbrtIndfx);
                                                    stbrtIndfx);
         if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+            if(doNormblizf) {
+            if(doNormblizf) {
+            if(doNormblizf) {
+            if(doNormblizf) {
             if(doNormblizf) {
                 dfstLfngti=NormblizfrBbsf.normblizf(bufffr,stbrtIndfx[0],
+                dfstLfngti=NormblizfrBbsf.normblizf(bufffr,stbrtIndfx[0],
+                dfstLfngti=NormblizfrBbsf.normblizf(bufffr,stbrtIndfx[0],
+                dfstLfngti=NormblizfrBbsf.normblizf(bufffr,stbrtIndfx[0],
+                dfstLfngti=NormblizfrBbsf.normblizf(bufffr,stbrtIndfx[0],
+                                                stbrtIndfx[0]+bufffrLfngti,
+                                                stbrtIndfx[0]+bufffrLfngti,
+                                                stbrtIndfx[0]+bufffrLfngti,
+                                                stbrtIndfx[0]+bufffrLfngti,
                                                 stbrtIndfx[0]+bufffrLfngti,
                                                 dfst, dfstStbrt,dfstLimit,
+                                                dfst, dfstStbrt,dfstLimit,
+                                                dfst, dfstStbrt,dfstLimit,
+                                                dfst, dfstStbrt,dfstLimit,
+                                                dfst, dfstStbrt,dfstLimit,
+                                                modf, options);
+                                                modf, options);
+                                                modf, options);
+                                                modf, options);
                                                 modf, options);
 
+
+
+
+
+                if(pNffdfdToNormblizf!=null) {
+                if(pNffdfdToNormblizf!=null) {
+                if(pNffdfdToNormblizf!=null) {
+                if(pNffdfdToNormblizf!=null) {
                 if(pNffdfdToNormblizf!=null) {
                     pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                                          Utility.brrbyRfgionMbtdifs(
+                                          Utility.brrbyRfgionMbtdifs(
+                                          Utility.brrbyRfgionMbtdifs(
+                                          Utility.brrbyRfgionMbtdifs(
                                           Utility.brrbyRfgionMbtdifs(
                                             bufffr,0,dfst,
+                                            bufffr,0,dfst,
+                                            bufffr,0,dfst,
+                                            bufffr,0,dfst,
+                                            bufffr,0,dfst,
+                                            dfstStbrt,dfstLimit
+                                            dfstStbrt,dfstLimit
+                                            dfstStbrt,dfstLimit
+                                            dfstStbrt,dfstLimit
                                             dfstStbrt,dfstLimit
                                           );
+                                          );
+                                          );
+                                          );
+                                          );
+                }
+                }
+                }
+                }
                 }
             } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                /* just dopy tif sourdf dibrbdtfrs */
+                /* just dopy tif sourdf dibrbdtfrs */
+                /* just dopy tif sourdf dibrbdtfrs */
+                /* just dopy tif sourdf dibrbdtfrs */
                 /* just dopy tif sourdf dibrbdtfrs */
                 if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                    Systfm.brrbydopy(bufffr,stbrtIndfx[0],dfst,0,
+                    Systfm.brrbydopy(bufffr,stbrtIndfx[0],dfst,0,
+                    Systfm.brrbydopy(bufffr,stbrtIndfx[0],dfst,0,
+                    Systfm.brrbydopy(bufffr,stbrtIndfx[0],dfst,0,
                     Systfm.brrbydopy(bufffr,stbrtIndfx[0],dfst,0,
                                      (bufffrLfngti<dfstCbpbdity) ?
+                                     (bufffrLfngti<dfstCbpbdity) ?
+                                     (bufffrLfngti<dfstCbpbdity) ?
+                                     (bufffrLfngti<dfstCbpbdity) ?
+                                     (bufffrLfngti<dfstCbpbdity) ?
+                                     bufffrLfngti : dfstCbpbdity
+                                     bufffrLfngti : dfstCbpbdity
+                                     bufffrLfngti : dfstCbpbdity
+                                     bufffrLfngti : dfstCbpbdity
                                      bufffrLfngti : dfstCbpbdity
                                      );
+                                     );
+                                     );
+                                     );
+                                     );
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
         }
+        }
+        }
+        }
+        }
+
+
+
+
+
+
+
+
 
 
         rfturn dfstLfngti;
+        rfturn dfstLfngti;
+        rfturn dfstLfngti;
+        rfturn dfstLfngti;
+        rfturn dfstLfngti;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     /* forwbrd itfrbtion ---------------------------------------------------- */
+    /* forwbrd itfrbtion ---------------------------------------------------- */
+    /* forwbrd itfrbtion ---------------------------------------------------- */
+    /* forwbrd itfrbtion ---------------------------------------------------- */
+    /* forwbrd itfrbtion ---------------------------------------------------- */
+    /*
+    /*
+    /*
+    /*
     /*
      * rfbd forwbrd bnd difdk if tif dibrbdtfr is b nfxt-itfrbtion boundbry
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is b nfxt-itfrbtion boundbry
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is b nfxt-itfrbtion boundbry
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is b nfxt-itfrbtion boundbry
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is b nfxt-itfrbtion boundbry
      * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     */
+     */
+     */
+     */
      */
     privbtf intfrfbdf IsNfxtBoundbry{
+    privbtf intfrfbdf IsNfxtBoundbry{
+    privbtf intfrfbdf IsNfxtBoundbry{
+    privbtf intfrfbdf IsNfxtBoundbry{
+    privbtf intfrfbdf IsNfxtBoundbry{
+        boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
         boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
                                int/*unsignfd*/ minC,
+                               int/*unsignfd*/ minC,
+                               int/*unsignfd*/ minC,
+                               int/*unsignfd*/ minC,
+                               int/*unsignfd*/ minC,
+                               int/*unsignfd*/ mbsk,
+                               int/*unsignfd*/ mbsk,
+                               int/*unsignfd*/ mbsk,
+                               int/*unsignfd*/ mbsk,
                                int/*unsignfd*/ mbsk,
                                int[] dibrs);
+                               int[] dibrs);
+                               int[] dibrs);
+                               int[] dibrs);
+                               int[] dibrs);
     }
+    }
+    }
+    }
+    }
+    /*
+    /*
+    /*
+    /*
     /*
      * rfbd forwbrd bnd gft norm32
+     * rfbd forwbrd bnd gft norm32
+     * rfbd forwbrd bnd gft norm32
+     * rfbd forwbrd bnd gft norm32
+     * rfbd forwbrd bnd gft norm32
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * rfturn 0 if tif dibrbdtfr is <minC
+     * rfturn 0 if tif dibrbdtfr is <minC
      * rfturn 0 if tif dibrbdtfr is <minC
      * if d2!=0 tifn (d2, d) is b surrogbtf pbir
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir
+     * if d2!=0 tifn (d2, d) is b surrogbtf pbir
+     * blwbys rfbds domplftf dibrbdtfrs
+     * blwbys rfbds domplftf dibrbdtfrs
+     * blwbys rfbds domplftf dibrbdtfrs
+     * blwbys rfbds domplftf dibrbdtfrs
      * blwbys rfbds domplftf dibrbdtfrs
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid long /*unsignfd*/ gftNfxtNorm32(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid long /*unsignfd*/ gftNfxtNorm32(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid long /*unsignfd*/ gftNfxtNorm32(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid long /*unsignfd*/ gftNfxtNorm32(UCibrbdtfrItfrbtor srd,
     privbtf stbtid long /*unsignfd*/ gftNfxtNorm32(UCibrbdtfrItfrbtor srd,
                                                    int/*unsignfd*/ minC,
+                                                   int/*unsignfd*/ minC,
+                                                   int/*unsignfd*/ minC,
+                                                   int/*unsignfd*/ minC,
+                                                   int/*unsignfd*/ minC,
+                                                   int/*unsignfd*/ mbsk,
+                                                   int/*unsignfd*/ mbsk,
+                                                   int/*unsignfd*/ mbsk,
+                                                   int/*unsignfd*/ mbsk,
                                                    int/*unsignfd*/ mbsk,
                                                    int[] dibrs) {
+                                                   int[] dibrs) {
+                                                   int[] dibrs) {
+                                                   int[] dibrs) {
+                                                   int[] dibrs) {
+        long norm32;
+        long norm32;
+        long norm32;
+        long norm32;
         long norm32;
 
+
+
+
+
+        /* nffd srd.ibsNfxt() to bf truf */
+        /* nffd srd.ibsNfxt() to bf truf */
+        /* nffd srd.ibsNfxt() to bf truf */
+        /* nffd srd.ibsNfxt() to bf truf */
         /* nffd srd.ibsNfxt() to bf truf */
         dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        dibrs[1]=0;
+        dibrs[1]=0;
+        dibrs[1]=0;
+        dibrs[1]=0;
         dibrs[1]=0;
 
+
+
+
+
+        if(dibrs[0]<minC) {
+        if(dibrs[0]<minC) {
+        if(dibrs[0]<minC) {
+        if(dibrs[0]<minC) {
         if(dibrs[0]<minC) {
             rfturn 0;
-        }
-
-        norm32=NormblizfrImpl.gftNorm32((dibr)dibrs[0]);
-        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])) {
-            if(srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE &&
-               UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.durrfnt()))) {
-                srd.movfIndfx(1); /* skip tif d2 surrogbtf */
-                if((norm32&mbsk)==0) {
-                    /* irrflfvbnt dbtb */
-                    rfturn 0;
-                } flsf {
-                    /* norm32 must bf b surrogbtf spfdibl */
-                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dibr)dibrs[1]);
-                }
-            } flsf {
-                /* unmbtdifd surrogbtf */
-                rfturn 0;
-            }
-        }
-        rfturn norm32;
-    }
-
-
-    /*
-     * for NF*D:
-     * rfbd forwbrd bnd difdk if tif lfbd dombining dlbss is 0
-     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
-     */
-    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
-        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
-                                      int/*unsignfd*/ minC,
-                                      int/*unsignfd*/ ddOrQCMbsk,
-                                      int[] dibrs) {
-            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dibrs),
-                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
-        }
-    }
-
-    /*
-     * for NF*C:
-     * rfbd forwbrd bnd difdk if tif dibrbdtfr is (or its dfdomposition bfgins
-     * witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
-     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
-     */
-    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
-        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
-                                      int/*unsignfd*/ minC,
-                                      int/*unsignfd*/ ddOrQCMbsk,
-                                      int[] dibrs) {
-            long norm32;
-            int/*unsignfd*/ dfdompQCMbsk;
-
-            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
-            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
-            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
-        }
-    }
-
-    privbtf stbtid int findNfxtItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
-                                                 IsNfxtBoundbry obj,
-                                                 int/*unsignfd*/ minC,
-                                                 int/*unsignfd*/ mbsk,
-                                                 dibr[] bufffr) {
-        if(srd.durrfnt()==UCibrbdtfrItfrbtor.DONE) {
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
             rfturn 0;
         }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        norm32=NormblizfrImpl.gftNorm32((dibr)dibrs[0]);
+        norm32=NormblizfrImpl.gftNorm32((dibr)dibrs[0]);
+        norm32=NormblizfrImpl.gftNorm32((dibr)dibrs[0]);
+        norm32=NormblizfrImpl.gftNorm32((dibr)dibrs[0]);
+        norm32=NormblizfrImpl.gftNorm32((dibr)dibrs[0]);
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])) {
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])) {
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])) {
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])) {
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])) {
+            if(srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE &&
+            if(srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE &&
+            if(srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE &&
+            if(srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE &&
+            if(srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE &&
+               UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.durrfnt()))) {
+               UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.durrfnt()))) {
+               UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.durrfnt()))) {
+               UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.durrfnt()))) {
+               UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.durrfnt()))) {
+                srd.movfIndfx(1); /* skip tif d2 surrogbtf */
+                srd.movfIndfx(1); /* skip tif d2 surrogbtf */
+                srd.movfIndfx(1); /* skip tif d2 surrogbtf */
+                srd.movfIndfx(1); /* skip tif d2 surrogbtf */
+                srd.movfIndfx(1); /* skip tif d2 surrogbtf */
+                if((norm32&mbsk)==0) {
+                if((norm32&mbsk)==0) {
+                if((norm32&mbsk)==0) {
+                if((norm32&mbsk)==0) {
+                if((norm32&mbsk)==0) {
+                    /* irrflfvbnt dbtb */
+                    /* irrflfvbnt dbtb */
+                    /* irrflfvbnt dbtb */
+                    /* irrflfvbnt dbtb */
+                    /* irrflfvbnt dbtb */
+                    rfturn 0;
+                    rfturn 0;
+                    rfturn 0;
+                    rfturn 0;
+                    rfturn 0;
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    /* norm32 must bf b surrogbtf spfdibl */
+                    /* norm32 must bf b surrogbtf spfdibl */
+                    /* norm32 must bf b surrogbtf spfdibl */
+                    /* norm32 must bf b surrogbtf spfdibl */
+                    /* norm32 must bf b surrogbtf spfdibl */
+                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dibr)dibrs[1]);
+                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dibr)dibrs[1]);
+                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dibr)dibrs[1]);
+                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dibr)dibrs[1]);
+                    rfturn NormblizfrImpl.gftNorm32FromSurrogbtfPbir(norm32,(dibr)dibrs[1]);
+                }
+                }
+                }
+                }
+                }
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                /* unmbtdifd surrogbtf */
+                /* unmbtdifd surrogbtf */
+                /* unmbtdifd surrogbtf */
+                /* unmbtdifd surrogbtf */
+                /* unmbtdifd surrogbtf */
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+        rfturn norm32;
+        rfturn norm32;
+        rfturn norm32;
+        rfturn norm32;
+        rfturn norm32;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+    /*
+    /*
+    /*
+    /*
+    /*
+     * for NF*D:
+     * for NF*D:
+     * for NF*D:
+     * for NF*D:
+     * for NF*D:
+     * rfbd forwbrd bnd difdk if tif lfbd dombining dlbss is 0
+     * rfbd forwbrd bnd difdk if tif lfbd dombining dlbss is 0
+     * rfbd forwbrd bnd difdk if tif lfbd dombining dlbss is 0
+     * rfbd forwbrd bnd difdk if tif lfbd dombining dlbss is 0
+     * rfbd forwbrd bnd difdk if tif lfbd dombining dlbss is 0
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     */
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtNFDSbff implfmfnts IsNfxtBoundbry{
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dibrs),
+            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dibrs),
+            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dibrs),
+            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dibrs),
+            rfturn NormblizfrImpl.isNFDSbff(gftNfxtNorm32(srd,minC,ddOrQCMbsk,dibrs),
+                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
+                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
+                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
+                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
+                                            ddOrQCMbsk, ddOrQCMbsk&NormblizfrImpl.QC_MASK);
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /*
+    /*
+    /*
+    /*
+    /*
+     * for NF*C:
+     * for NF*C:
+     * for NF*C:
+     * for NF*C:
+     * for NF*C:
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is (or its dfdomposition bfgins
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is (or its dfdomposition bfgins
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is (or its dfdomposition bfgins
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is (or its dfdomposition bfgins
+     * rfbd forwbrd bnd difdk if tif dibrbdtfr is (or its dfdomposition bfgins
+     * witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+     * witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+     * witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+     * witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+     * witi) b "truf stbrtfr" (dd==0 bnd NF*C_YES)
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     * if d2!=0 tifn (d, d2) is b surrogbtf pbir
+     */
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
+    privbtf stbtid finbl dlbss IsNfxtTrufStbrtfr implfmfnts IsNfxtBoundbry{
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+        publid boolfbn isNfxtBoundbry(UCibrbdtfrItfrbtor srd,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ minC,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int/*unsignfd*/ ddOrQCMbsk,
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+                                      int[] dibrs) {
+            long norm32;
+            long norm32;
+            long norm32;
+            long norm32;
+            long norm32;
+            int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+            int/*unsignfd*/ dfdompQCMbsk;
+
+
+
+
+
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            dfdompQCMbsk=(ddOrQCMbsk<<2)&0xf; /*dfdomposition quidk difdk mbsk*/
+            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            norm32=gftNfxtNorm32(srd, minC, ddOrQCMbsk|dfdompQCMbsk, dibrs);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
+            rfturn NormblizfrImpl.isTrufStbrtfr(norm32, ddOrQCMbsk, dfdompQCMbsk);
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    privbtf stbtid int findNfxtItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findNfxtItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findNfxtItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findNfxtItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int findNfxtItfrbtionBoundbry(UCibrbdtfrItfrbtor srd,
+                                                 IsNfxtBoundbry obj,
+                                                 IsNfxtBoundbry obj,
+                                                 IsNfxtBoundbry obj,
+                                                 IsNfxtBoundbry obj,
+                                                 IsNfxtBoundbry obj,
+                                                 int/*unsignfd*/ minC,
+                                                 int/*unsignfd*/ minC,
+                                                 int/*unsignfd*/ minC,
+                                                 int/*unsignfd*/ minC,
+                                                 int/*unsignfd*/ minC,
+                                                 int/*unsignfd*/ mbsk,
+                                                 int/*unsignfd*/ mbsk,
+                                                 int/*unsignfd*/ mbsk,
+                                                 int/*unsignfd*/ mbsk,
+                                                 int/*unsignfd*/ mbsk,
+                                                 dibr[] bufffr) {
+                                                 dibr[] bufffr) {
+                                                 dibr[] bufffr) {
+                                                 dibr[] bufffr) {
+                                                 dibr[] bufffr) {
+        if(srd.durrfnt()==UCibrbdtfrItfrbtor.DONE) {
+        if(srd.durrfnt()==UCibrbdtfrItfrbtor.DONE) {
+        if(srd.durrfnt()==UCibrbdtfrItfrbtor.DONE) {
+        if(srd.durrfnt()==UCibrbdtfrItfrbtor.DONE) {
+        if(srd.durrfnt()==UCibrbdtfrItfrbtor.DONE) {
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /* gft onf dibrbdtfr bnd ignorf its propfrtifs */
+        /* gft onf dibrbdtfr bnd ignorf its propfrtifs */
+        /* gft onf dibrbdtfr bnd ignorf its propfrtifs */
+        /* gft onf dibrbdtfr bnd ignorf its propfrtifs */
+        /* gft onf dibrbdtfr bnd ignorf its propfrtifs */
+        int[] dibrs = nfw int[2];
+        int[] dibrs = nfw int[2];
+        int[] dibrs = nfw int[2];
+        int[] dibrs = nfw int[2];
         int[] dibrs = nfw int[2];
         dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        dibrs[0]=srd.nfxt();
+        bufffr[0]=(dibr)dibrs[0];
+        bufffr[0]=(dibr)dibrs[0];
+        bufffr[0]=(dibr)dibrs[0];
+        bufffr[0]=(dibr)dibrs[0];
         bufffr[0]=(dibr)dibrs[0];
         int bufffrIndfx = 1;
+        int bufffrIndfx = 1;
+        int bufffrIndfx = 1;
+        int bufffrIndfx = 1;
+        int bufffrIndfx = 1;
+
+
+
+
 
         if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])&&
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])&&
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])&&
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])&&
+        if(UTF16.isLfbdSurrogbtf((dibr)dibrs[0])&&
+           srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+           srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+           srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+           srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
            srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
             if(UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.nfxt()))) {
+            if(UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.nfxt()))) {
+            if(UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.nfxt()))) {
+            if(UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.nfxt()))) {
+            if(UTF16.isTrbilSurrogbtf((dibr)(dibrs[1]=srd.nfxt()))) {
+                bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                bufffr[bufffrIndfx++]=(dibr)dibrs[1];
                 bufffr[bufffrIndfx++]=(dibr)dibrs[1];
             } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                srd.movfIndfx(-1); /* bbdk out tif non-trbil-surrogbtf */
+                srd.movfIndfx(-1); /* bbdk out tif non-trbil-surrogbtf */
+                srd.movfIndfx(-1); /* bbdk out tif non-trbil-surrogbtf */
+                srd.movfIndfx(-1); /* bbdk out tif non-trbil-surrogbtf */
                 srd.movfIndfx(-1); /* bbdk out tif non-trbil-surrogbtf */
             }
+            }
+            }
+            }
+            }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /* gft bll following dibrbdtfrs until wf sff b boundbry */
+        /* gft bll following dibrbdtfrs until wf sff b boundbry */
+        /* gft bll following dibrbdtfrs until wf sff b boundbry */
+        /* gft bll following dibrbdtfrs until wf sff b boundbry */
+        /* gft bll following dibrbdtfrs until wf sff b boundbry */
+        /* difdking ibsNfxt() instfbd of d!=DONE on tif off-dibndf tibt U+ffff
+        /* difdking ibsNfxt() instfbd of d!=DONE on tif off-dibndf tibt U+ffff
+        /* difdking ibsNfxt() instfbd of d!=DONE on tif off-dibndf tibt U+ffff
+        /* difdking ibsNfxt() instfbd of d!=DONE on tif off-dibndf tibt U+ffff
         /* difdking ibsNfxt() instfbd of d!=DONE on tif off-dibndf tibt U+ffff
          * is pbrt of tif string */
+         * is pbrt of tif string */
+         * is pbrt of tif string */
+         * is pbrt of tif string */
+         * is pbrt of tif string */
+        wiilf( srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+        wiilf( srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+        wiilf( srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
+        wiilf( srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
         wiilf( srd.durrfnt()!=UCibrbdtfrItfrbtor.DONE) {
             if(obj.isNfxtBoundbry(srd, minC, mbsk, dibrs)) {
+            if(obj.isNfxtBoundbry(srd, minC, mbsk, dibrs)) {
+            if(obj.isNfxtBoundbry(srd, minC, mbsk, dibrs)) {
+            if(obj.isNfxtBoundbry(srd, minC, mbsk, dibrs)) {
+            if(obj.isNfxtBoundbry(srd, minC, mbsk, dibrs)) {
+                /* bbdk out tif lbtfst movfmfnt to stop bt tif boundbry */
+                /* bbdk out tif lbtfst movfmfnt to stop bt tif boundbry */
+                /* bbdk out tif lbtfst movfmfnt to stop bt tif boundbry */
+                /* bbdk out tif lbtfst movfmfnt to stop bt tif boundbry */
                 /* bbdk out tif lbtfst movfmfnt to stop bt tif boundbry */
                 srd.movfIndfx(dibrs[1]==0 ? -1 : -2);
+                srd.movfIndfx(dibrs[1]==0 ? -1 : -2);
+                srd.movfIndfx(dibrs[1]==0 ? -1 : -2);
+                srd.movfIndfx(dibrs[1]==0 ? -1 : -2);
+                srd.movfIndfx(dibrs[1]==0 ? -1 : -2);
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                if(bufffrIndfx+(dibrs[1]==0 ? 1 : 2)<=bufffr.lfngti) {
+                if(bufffrIndfx+(dibrs[1]==0 ? 1 : 2)<=bufffr.lfngti) {
+                if(bufffrIndfx+(dibrs[1]==0 ? 1 : 2)<=bufffr.lfngti) {
+                if(bufffrIndfx+(dibrs[1]==0 ? 1 : 2)<=bufffr.lfngti) {
                 if(bufffrIndfx+(dibrs[1]==0 ? 1 : 2)<=bufffr.lfngti) {
                     bufffr[bufffrIndfx++]=(dibr)dibrs[0];
-                    if(dibrs[1]!=0) {
-                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
-                    }
-                } flsf {
-                    dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
-                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
-                    bufffr = nfwBuf;
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
                     bufffr[bufffrIndfx++]=(dibr)dibrs[0];
                     if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
                         bufffr[bufffrIndfx++]=(dibr)dibrs[1];
                     }
-                }
-            }
-        }
-
-        /* rfturn tif lfngti of tif bufffr dontfnts */
-        rfturn bufffrIndfx;
-    }
-
-    privbtf stbtid int nfxt(UCibrbdtfrItfrbtor srd,
-                            dibr[] dfst, int dfstStbrt, int dfstLimit,
-                            NormblizfrBbsf.Modf modf,
-                            boolfbn doNormblizf,
-                            boolfbn[] pNffdfdToNormblizf,
-                            int options) {
-
-        IsNfxtBoundbry isNfxtBoundbry;
-        int /*unsignfd*/ mbsk;
-        int /*unsignfd*/ bufffrLfngti;
-        int d,d2;
-        dibr minC;
-        int dfstCbpbdity = dfstLimit - dfstStbrt;
-        int dfstLfngti = 0;
-        if(pNffdfdToNormblizf!=null) {
-            pNffdfdToNormblizf[0]=fblsf;
-        }
-
-        minC = (dibr)modf.gftMinC();
-        mbsk = modf.gftMbsk();
-        isNfxtBoundbry = modf.gftNfxtBoundbry();
-
-        if(isNfxtBoundbry==null) {
-            dfstLfngti=0;
-            d=srd.nfxt();
-            if(d!=UCibrbdtfrItfrbtor.DONE) {
-                dfstLfngti=1;
-                if(UTF16.isLfbdSurrogbtf((dibr)d)) {
-                    d2= srd.nfxt();
-                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
-                        if(UTF16.isTrbilSurrogbtf((dibr)d2)) {
-                            if(dfstCbpbdity>=2) {
-                                dfst[1]=(dibr)d2; // trbil surrogbtf
-                                dfstLfngti=2;
-                            }
-                            // lfbd surrogbtf to bf writtfn bflow
-                        } flsf {
-                            srd.movfIndfx(-1);
-                        }
+                    }
+                    }
+                    }
+                    }
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                    dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                    dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                    dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                    dibr[] nfwBuf = nfw dibr[bufffr.lfngti*2];
+                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
+                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
+                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
+                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
+                    Systfm.brrbydopy(bufffr,0,nfwBuf,0,bufffrIndfx);
+                    bufffr = nfwBuf;
+                    bufffr = nfwBuf;
+                    bufffr = nfwBuf;
+                    bufffr = nfwBuf;
+                    bufffr = nfwBuf;
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    bufffr[bufffrIndfx++]=(dibr)dibrs[0];
+                    if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                    if(dibrs[1]!=0) {
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                        bufffr[bufffrIndfx++]=(dibr)dibrs[1];
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        /* rfturn tif lfngti of tif bufffr dontfnts */
+        rfturn bufffrIndfx;
+        rfturn bufffrIndfx;
+        rfturn bufffrIndfx;
+        rfturn bufffrIndfx;
+        rfturn bufffrIndfx;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    privbtf stbtid int nfxt(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int nfxt(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int nfxt(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int nfxt(UCibrbdtfrItfrbtor srd,
+    privbtf stbtid int nfxt(UCibrbdtfrItfrbtor srd,
+                            dibr[] dfst, int dfstStbrt, int dfstLimit,
+                            dibr[] dfst, int dfstStbrt, int dfstLimit,
+                            dibr[] dfst, int dfstStbrt, int dfstLimit,
+                            dibr[] dfst, int dfstStbrt, int dfstLimit,
+                            dibr[] dfst, int dfstStbrt, int dfstLimit,
+                            NormblizfrBbsf.Modf modf,
+                            NormblizfrBbsf.Modf modf,
+                            NormblizfrBbsf.Modf modf,
+                            NormblizfrBbsf.Modf modf,
+                            NormblizfrBbsf.Modf modf,
+                            boolfbn doNormblizf,
+                            boolfbn doNormblizf,
+                            boolfbn doNormblizf,
+                            boolfbn doNormblizf,
+                            boolfbn doNormblizf,
+                            boolfbn[] pNffdfdToNormblizf,
+                            boolfbn[] pNffdfdToNormblizf,
+                            boolfbn[] pNffdfdToNormblizf,
+                            boolfbn[] pNffdfdToNormblizf,
+                            boolfbn[] pNffdfdToNormblizf,
+                            int options) {
+                            int options) {
+                            int options) {
+                            int options) {
+                            int options) {
+
+
+
+
+
+        IsNfxtBoundbry isNfxtBoundbry;
+        IsNfxtBoundbry isNfxtBoundbry;
+        IsNfxtBoundbry isNfxtBoundbry;
+        IsNfxtBoundbry isNfxtBoundbry;
+        IsNfxtBoundbry isNfxtBoundbry;
+        int /*unsignfd*/ mbsk;
+        int /*unsignfd*/ mbsk;
+        int /*unsignfd*/ mbsk;
+        int /*unsignfd*/ mbsk;
+        int /*unsignfd*/ mbsk;
+        int /*unsignfd*/ bufffrLfngti;
+        int /*unsignfd*/ bufffrLfngti;
+        int /*unsignfd*/ bufffrLfngti;
+        int /*unsignfd*/ bufffrLfngti;
+        int /*unsignfd*/ bufffrLfngti;
+        int d,d2;
+        int d,d2;
+        int d,d2;
+        int d,d2;
+        int d,d2;
+        dibr minC;
+        dibr minC;
+        dibr minC;
+        dibr minC;
+        dibr minC;
+        int dfstCbpbdity = dfstLimit - dfstStbrt;
+        int dfstCbpbdity = dfstLimit - dfstStbrt;
+        int dfstCbpbdity = dfstLimit - dfstStbrt;
+        int dfstCbpbdity = dfstLimit - dfstStbrt;
+        int dfstCbpbdity = dfstLimit - dfstStbrt;
+        int dfstLfngti = 0;
+        int dfstLfngti = 0;
+        int dfstLfngti = 0;
+        int dfstLfngti = 0;
+        int dfstLfngti = 0;
+        if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+        if(pNffdfdToNormblizf!=null) {
+            pNffdfdToNormblizf[0]=fblsf;
+            pNffdfdToNormblizf[0]=fblsf;
+            pNffdfdToNormblizf[0]=fblsf;
+            pNffdfdToNormblizf[0]=fblsf;
+            pNffdfdToNormblizf[0]=fblsf;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        minC = (dibr)modf.gftMinC();
+        minC = (dibr)modf.gftMinC();
+        minC = (dibr)modf.gftMinC();
+        minC = (dibr)modf.gftMinC();
+        minC = (dibr)modf.gftMinC();
+        mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        mbsk = modf.gftMbsk();
+        isNfxtBoundbry = modf.gftNfxtBoundbry();
+        isNfxtBoundbry = modf.gftNfxtBoundbry();
+        isNfxtBoundbry = modf.gftNfxtBoundbry();
+        isNfxtBoundbry = modf.gftNfxtBoundbry();
+        isNfxtBoundbry = modf.gftNfxtBoundbry();
+
+
+
+
+
+        if(isNfxtBoundbry==null) {
+        if(isNfxtBoundbry==null) {
+        if(isNfxtBoundbry==null) {
+        if(isNfxtBoundbry==null) {
+        if(isNfxtBoundbry==null) {
+            dfstLfngti=0;
+            dfstLfngti=0;
+            dfstLfngti=0;
+            dfstLfngti=0;
+            dfstLfngti=0;
+            d=srd.nfxt();
+            d=srd.nfxt();
+            d=srd.nfxt();
+            d=srd.nfxt();
+            d=srd.nfxt();
+            if(d!=UCibrbdtfrItfrbtor.DONE) {
+            if(d!=UCibrbdtfrItfrbtor.DONE) {
+            if(d!=UCibrbdtfrItfrbtor.DONE) {
+            if(d!=UCibrbdtfrItfrbtor.DONE) {
+            if(d!=UCibrbdtfrItfrbtor.DONE) {
+                dfstLfngti=1;
+                dfstLfngti=1;
+                dfstLfngti=1;
+                dfstLfngti=1;
+                dfstLfngti=1;
+                if(UTF16.isLfbdSurrogbtf((dibr)d)) {
+                if(UTF16.isLfbdSurrogbtf((dibr)d)) {
+                if(UTF16.isLfbdSurrogbtf((dibr)d)) {
+                if(UTF16.isLfbdSurrogbtf((dibr)d)) {
+                if(UTF16.isLfbdSurrogbtf((dibr)d)) {
+                    d2= srd.nfxt();
+                    d2= srd.nfxt();
+                    d2= srd.nfxt();
+                    d2= srd.nfxt();
+                    d2= srd.nfxt();
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                    if(d2!= UCibrbdtfrItfrbtor.DONE) {
+                        if(UTF16.isTrbilSurrogbtf((dibr)d2)) {
+                        if(UTF16.isTrbilSurrogbtf((dibr)d2)) {
+                        if(UTF16.isTrbilSurrogbtf((dibr)d2)) {
+                        if(UTF16.isTrbilSurrogbtf((dibr)d2)) {
+                        if(UTF16.isTrbilSurrogbtf((dibr)d2)) {
+                            if(dfstCbpbdity>=2) {
+                            if(dfstCbpbdity>=2) {
+                            if(dfstCbpbdity>=2) {
+                            if(dfstCbpbdity>=2) {
+                            if(dfstCbpbdity>=2) {
+                                dfst[1]=(dibr)d2; // trbil surrogbtf
+                                dfst[1]=(dibr)d2; // trbil surrogbtf
+                                dfst[1]=(dibr)d2; // trbil surrogbtf
+                                dfst[1]=(dibr)d2; // trbil surrogbtf
+                                dfst[1]=(dibr)d2; // trbil surrogbtf
+                                dfstLfngti=2;
+                                dfstLfngti=2;
+                                dfstLfngti=2;
+                                dfstLfngti=2;
+                                dfstLfngti=2;
+                            }
+                            }
+                            }
+                            }
+                            }
+                            // lfbd surrogbtf to bf writtfn bflow
+                            // lfbd surrogbtf to bf writtfn bflow
+                            // lfbd surrogbtf to bf writtfn bflow
+                            // lfbd surrogbtf to bf writtfn bflow
+                            // lfbd surrogbtf to bf writtfn bflow
+                        } flsf {
+                        } flsf {
+                        } flsf {
+                        } flsf {
+                        } flsf {
+                            srd.movfIndfx(-1);
+                            srd.movfIndfx(-1);
+                            srd.movfIndfx(-1);
+                            srd.movfIndfx(-1);
+                            srd.movfIndfx(-1);
+                        }
+                        }
+                        }
+                        }
+                        }
+                    }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
+                }
+
+
+
+
+
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
                 if(dfstCbpbdity>0) {
                     dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
+                    dfst[0]=(dibr)d;
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             rfturn dfstLfngti;
+            rfturn dfstLfngti;
+            rfturn dfstLfngti;
+            rfturn dfstLfngti;
+            rfturn dfstLfngti;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         dibr[] bufffr=nfw dibr[100];
+        dibr[] bufffr=nfw dibr[100];
+        dibr[] bufffr=nfw dibr[100];
+        dibr[] bufffr=nfw dibr[100];
+        dibr[] bufffr=nfw dibr[100];
+        int[] stbrtIndfx = nfw int[1];
+        int[] stbrtIndfx = nfw int[1];
+        int[] stbrtIndfx = nfw int[1];
+        int[] stbrtIndfx = nfw int[1];
         int[] stbrtIndfx = nfw int[1];
         bufffrLfngti=findNfxtItfrbtionBoundbry(srd,isNfxtBoundbry, minC, mbsk,
+        bufffrLfngti=findNfxtItfrbtionBoundbry(srd,isNfxtBoundbry, minC, mbsk,
+        bufffrLfngti=findNfxtItfrbtionBoundbry(srd,isNfxtBoundbry, minC, mbsk,
+        bufffrLfngti=findNfxtItfrbtionBoundbry(srd,isNfxtBoundbry, minC, mbsk,
+        bufffrLfngti=findNfxtItfrbtionBoundbry(srd,isNfxtBoundbry, minC, mbsk,
+                                               bufffr);
+                                               bufffr);
+                                               bufffr);
+                                               bufffr);
                                                bufffr);
         if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+        if(bufffrLfngti>0) {
+            if(doNormblizf) {
+            if(doNormblizf) {
+            if(doNormblizf) {
+            if(doNormblizf) {
             if(doNormblizf) {
                 dfstLfngti=modf.normblizf(bufffr,stbrtIndfx[0],bufffrLfngti,
+                dfstLfngti=modf.normblizf(bufffr,stbrtIndfx[0],bufffrLfngti,
+                dfstLfngti=modf.normblizf(bufffr,stbrtIndfx[0],bufffrLfngti,
+                dfstLfngti=modf.normblizf(bufffr,stbrtIndfx[0],bufffrLfngti,
+                dfstLfngti=modf.normblizf(bufffr,stbrtIndfx[0],bufffrLfngti,
+                                          dfst,dfstStbrt,dfstLimit, options);
+                                          dfst,dfstStbrt,dfstLimit, options);
+                                          dfst,dfstStbrt,dfstLimit, options);
+                                          dfst,dfstStbrt,dfstLimit, options);
                                           dfst,dfstStbrt,dfstLimit, options);
 
+
+
+
+
+                if(pNffdfdToNormblizf!=null) {
+                if(pNffdfdToNormblizf!=null) {
+                if(pNffdfdToNormblizf!=null) {
+                if(pNffdfdToNormblizf!=null) {
                 if(pNffdfdToNormblizf!=null) {
                     pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                    pNffdfdToNormblizf[0]=dfstLfngti!=bufffrLfngti ||
+                                          Utility.brrbyRfgionMbtdifs(bufffr,stbrtIndfx[0],
+                                          Utility.brrbyRfgionMbtdifs(bufffr,stbrtIndfx[0],
+                                          Utility.brrbyRfgionMbtdifs(bufffr,stbrtIndfx[0],
+                                          Utility.brrbyRfgionMbtdifs(bufffr,stbrtIndfx[0],
                                           Utility.brrbyRfgionMbtdifs(bufffr,stbrtIndfx[0],
                                             dfst,dfstStbrt,
+                                            dfst,dfstStbrt,
+                                            dfst,dfstStbrt,
+                                            dfst,dfstStbrt,
+                                            dfst,dfstStbrt,
+                                            dfstLfngti);
+                                            dfstLfngti);
+                                            dfstLfngti);
+                                            dfstLfngti);
                                             dfstLfngti);
                 }
+                }
+                }
+                }
+                }
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 /* just dopy tif sourdf dibrbdtfrs */
+                /* just dopy tif sourdf dibrbdtfrs */
+                /* just dopy tif sourdf dibrbdtfrs */
+                /* just dopy tif sourdf dibrbdtfrs */
+                /* just dopy tif sourdf dibrbdtfrs */
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
+                if(dfstCbpbdity>0) {
                 if(dfstCbpbdity>0) {
                     Systfm.brrbydopy(bufffr,0,dfst,dfstStbrt,
+                    Systfm.brrbydopy(bufffr,0,dfst,dfstStbrt,
+                    Systfm.brrbydopy(bufffr,0,dfst,dfstStbrt,
+                    Systfm.brrbydopy(bufffr,0,dfst,dfstStbrt,
+                    Systfm.brrbydopy(bufffr,0,dfst,dfstStbrt,
+                                     Mbti.min(bufffrLfngti,dfstCbpbdity)
+                                     Mbti.min(bufffrLfngti,dfstCbpbdity)
+                                     Mbti.min(bufffrLfngti,dfstCbpbdity)
+                                     Mbti.min(bufffrLfngti,dfstCbpbdity)
                                      Mbti.min(bufffrLfngti,dfstCbpbdity)
                                      );
+                                     );
+                                     );
+                                     );
+                                     );
+                }
+                }
+                }
+                }
                 }
 
 
+
+
+
+
+
+
+
+
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn dfstLfngti;
+        rfturn dfstLfngti;
+        rfturn dfstLfngti;
+        rfturn dfstLfngti;
+        rfturn dfstLfngti;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void dlfbrBufffr() {
+    privbtf void dlfbrBufffr() {
+    privbtf void dlfbrBufffr() {
+    privbtf void dlfbrBufffr() {
+    privbtf void dlfbrBufffr() {
+        bufffrLimit=bufffrStbrt=bufffrPos=0;
+        bufffrLimit=bufffrStbrt=bufffrPos=0;
+        bufffrLimit=bufffrStbrt=bufffrPos=0;
+        bufffrLimit=bufffrStbrt=bufffrPos=0;
         bufffrLimit=bufffrStbrt=bufffrPos=0;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf boolfbn nfxtNormblizf() {
+    privbtf boolfbn nfxtNormblizf() {
+    privbtf boolfbn nfxtNormblizf() {
+    privbtf boolfbn nfxtNormblizf() {
+    privbtf boolfbn nfxtNormblizf() {
 
+
+
+
+
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
         dlfbrBufffr();
         durrfntIndfx=nfxtIndfx;
+        durrfntIndfx=nfxtIndfx;
+        durrfntIndfx=nfxtIndfx;
+        durrfntIndfx=nfxtIndfx;
+        durrfntIndfx=nfxtIndfx;
+        tfxt.sftIndfx(nfxtIndfx);
+        tfxt.sftIndfx(nfxtIndfx);
+        tfxt.sftIndfx(nfxtIndfx);
+        tfxt.sftIndfx(nfxtIndfx);
         tfxt.sftIndfx(nfxtIndfx);
 
+
+
+
+
+        bufffrLimit=nfxt(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
+        bufffrLimit=nfxt(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
+        bufffrLimit=nfxt(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
+        bufffrLimit=nfxt(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
         bufffrLimit=nfxt(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
 
+
+
+
+
+        nfxtIndfx=tfxt.gftIndfx();
+        nfxtIndfx=tfxt.gftIndfx();
+        nfxtIndfx=tfxt.gftIndfx();
+        nfxtIndfx=tfxt.gftIndfx();
         nfxtIndfx=tfxt.gftIndfx();
         rfturn (bufffrLimit>0);
+        rfturn (bufffrLimit>0);
+        rfturn (bufffrLimit>0);
+        rfturn (bufffrLimit>0);
+        rfturn (bufffrLimit>0);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf boolfbn prfviousNormblizf() {
+    privbtf boolfbn prfviousNormblizf() {
+    privbtf boolfbn prfviousNormblizf() {
+    privbtf boolfbn prfviousNormblizf() {
+    privbtf boolfbn prfviousNormblizf() {
+
+
+
+
 
         dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        dlfbrBufffr();
+        nfxtIndfx=durrfntIndfx;
+        nfxtIndfx=durrfntIndfx;
+        nfxtIndfx=durrfntIndfx;
+        nfxtIndfx=durrfntIndfx;
         nfxtIndfx=durrfntIndfx;
         tfxt.sftIndfx(durrfntIndfx);
+        tfxt.sftIndfx(durrfntIndfx);
+        tfxt.sftIndfx(durrfntIndfx);
+        tfxt.sftIndfx(durrfntIndfx);
+        tfxt.sftIndfx(durrfntIndfx);
+        bufffrLimit=prfvious(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
+        bufffrLimit=prfvious(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
+        bufffrLimit=prfvious(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
+        bufffrLimit=prfvious(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
         bufffrLimit=prfvious(tfxt,bufffr,bufffrStbrt,bufffr.lfngti,modf,truf,null,options);
 
+
+
+
+
+        durrfntIndfx=tfxt.gftIndfx();
+        durrfntIndfx=tfxt.gftIndfx();
+        durrfntIndfx=tfxt.gftIndfx();
+        durrfntIndfx=tfxt.gftIndfx();
         durrfntIndfx=tfxt.gftIndfx();
         bufffrPos = bufffrLimit;
+        bufffrPos = bufffrLimit;
+        bufffrPos = bufffrLimit;
+        bufffrPos = bufffrLimit;
+        bufffrPos = bufffrLimit;
+        rfturn bufffrLimit>0;
+        rfturn bufffrLimit>0;
+        rfturn bufffrLimit>0;
+        rfturn bufffrLimit>0;
         rfturn bufffrLimit>0;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf int gftCodfPointAt(int indfx) {
+    privbtf int gftCodfPointAt(int indfx) {
+    privbtf int gftCodfPointAt(int indfx) {
+    privbtf int gftCodfPointAt(int indfx) {
+    privbtf int gftCodfPointAt(int indfx) {
+        if( UTF16.isSurrogbtf(bufffr[indfx])) {
+        if( UTF16.isSurrogbtf(bufffr[indfx])) {
+        if( UTF16.isSurrogbtf(bufffr[indfx])) {
+        if( UTF16.isSurrogbtf(bufffr[indfx])) {
         if( UTF16.isSurrogbtf(bufffr[indfx])) {
             if(UTF16.isLfbdSurrogbtf(bufffr[indfx])) {
+            if(UTF16.isLfbdSurrogbtf(bufffr[indfx])) {
+            if(UTF16.isLfbdSurrogbtf(bufffr[indfx])) {
+            if(UTF16.isLfbdSurrogbtf(bufffr[indfx])) {
+            if(UTF16.isLfbdSurrogbtf(bufffr[indfx])) {
+                if((indfx+1)<bufffrLimit &&
+                if((indfx+1)<bufffrLimit &&
+                if((indfx+1)<bufffrLimit &&
+                if((indfx+1)<bufffrLimit &&
                 if((indfx+1)<bufffrLimit &&
                    UTF16.isTrbilSurrogbtf(bufffr[indfx+1])) {
+                   UTF16.isTrbilSurrogbtf(bufffr[indfx+1])) {
+                   UTF16.isTrbilSurrogbtf(bufffr[indfx+1])) {
+                   UTF16.isTrbilSurrogbtf(bufffr[indfx+1])) {
+                   UTF16.isTrbilSurrogbtf(bufffr[indfx+1])) {
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
                     rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
                                                                   bufffr[indfx],
+                                                                  bufffr[indfx],
+                                                                  bufffr[indfx],
+                                                                  bufffr[indfx],
+                                                                  bufffr[indfx],
+                                                                  bufffr[indfx+1]
+                                                                  bufffr[indfx+1]
+                                                                  bufffr[indfx+1]
+                                                                  bufffr[indfx+1]
                                                                   bufffr[indfx+1]
                                                                   );
-                }
-            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
-                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
-                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
-                                                                  bufffr[indfx-1],
-                                                                  bufffr[indfx]
+                                                                  );
+                                                                  );
+                                                                  );
                                                                   );
                 }
+                }
+                }
+                }
+                }
+            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
+            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
+            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
+            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
+            }flsf if(UTF16.isTrbilSurrogbtf(bufffr[indfx])) {
+                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
+                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
+                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
+                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
+                if(indfx>0 && UTF16.isLfbdSurrogbtf(bufffr[indfx-1])) {
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                                                  bufffr[indfx-1],
+                                                                  bufffr[indfx-1],
+                                                                  bufffr[indfx-1],
+                                                                  bufffr[indfx-1],
+                                                                  bufffr[indfx-1],
+                                                                  bufffr[indfx]
+                                                                  bufffr[indfx]
+                                                                  bufffr[indfx]
+                                                                  bufffr[indfx]
+                                                                  bufffr[indfx]
+                                                                  );
+                                                                  );
+                                                                  );
+                                                                  );
+                                                                  );
+                }
+                }
+                }
+                }
+                }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn bufffr[indfx];
+        rfturn bufffr[indfx];
+        rfturn bufffr[indfx];
+        rfturn bufffr[indfx];
+        rfturn bufffr[indfx];
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Intfrnbl API
+     * Intfrnbl API
+     * Intfrnbl API
+     * Intfrnbl API
+     * Intfrnbl API
+     * @intfrnbl
+     * @intfrnbl
+     * @intfrnbl
+     * @intfrnbl
      * @intfrnbl
      */
+     */
+     */
+     */
+     */
+    publid stbtid boolfbn isNFSkippbblf(int d, Modf modf) {
+    publid stbtid boolfbn isNFSkippbblf(int d, Modf modf) {
+    publid stbtid boolfbn isNFSkippbblf(int d, Modf modf) {
+    publid stbtid boolfbn isNFSkippbblf(int d, Modf modf) {
     publid stbtid boolfbn isNFSkippbblf(int d, Modf modf) {
         rfturn modf.isNFSkippbblf(d);
+        rfturn modf.isNFSkippbblf(d);
+        rfturn modf.isNFSkippbblf(d);
+        rfturn modf.isNFSkippbblf(d);
+        rfturn modf.isNFSkippbblf(d);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    //
+    //
+    //
+    //
     //
     // Options
+    // Options
+    // Options
+    // Options
+    // Options
+    //
+    //
+    //
+    //
     //
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Dffbult option for Unidodf 3.2.0 normblizbtion.
+     * Dffbult option for Unidodf 3.2.0 normblizbtion.
+     * Dffbult option for Unidodf 3.2.0 normblizbtion.
+     * Dffbult option for Unidodf 3.2.0 normblizbtion.
+     * Dffbult option for Unidodf 3.2.0 normblizbtion.
+     * Corrigfndum 4 wbs fixfd in Unidodf 3.2.0 but isn't supportfd in
+     * Corrigfndum 4 wbs fixfd in Unidodf 3.2.0 but isn't supportfd in
+     * Corrigfndum 4 wbs fixfd in Unidodf 3.2.0 but isn't supportfd in
+     * Corrigfndum 4 wbs fixfd in Unidodf 3.2.0 but isn't supportfd in
      * Corrigfndum 4 wbs fixfd in Unidodf 3.2.0 but isn't supportfd in
      * IDNA/StringPrfp.
+     * IDNA/StringPrfp.
+     * IDNA/StringPrfp.
+     * IDNA/StringPrfp.
+     * IDNA/StringPrfp.
+     * Tif publid rfvifw issuf #29 wbs fixfd in Unidodf 4.1.0. Corrigfndum 5
+     * Tif publid rfvifw issuf #29 wbs fixfd in Unidodf 4.1.0. Corrigfndum 5
+     * Tif publid rfvifw issuf #29 wbs fixfd in Unidodf 4.1.0. Corrigfndum 5
+     * Tif publid rfvifw issuf #29 wbs fixfd in Unidodf 4.1.0. Corrigfndum 5
      * Tif publid rfvifw issuf #29 wbs fixfd in Unidodf 4.1.0. Corrigfndum 5
      * bllowfd Unidodf 3.2 to 4.0.1 to bpply tif fix for PRI #29, but it isn't
+     * bllowfd Unidodf 3.2 to 4.0.1 to bpply tif fix for PRI #29, but it isn't
+     * bllowfd Unidodf 3.2 to 4.0.1 to bpply tif fix for PRI #29, but it isn't
+     * bllowfd Unidodf 3.2 to 4.0.1 to bpply tif fix for PRI #29, but it isn't
+     * bllowfd Unidodf 3.2 to 4.0.1 to bpply tif fix for PRI #29, but it isn't
+     * supportfd by IDNA/StringPrfp bs wfll bs Corrigfndum 4.
+     * supportfd by IDNA/StringPrfp bs wfll bs Corrigfndum 4.
+     * supportfd by IDNA/StringPrfp bs wfll bs Corrigfndum 4.
+     * supportfd by IDNA/StringPrfp bs wfll bs Corrigfndum 4.
      * supportfd by IDNA/StringPrfp bs wfll bs Corrigfndum 4.
      */
+     */
+     */
+     */
+     */
+    publid stbtid finbl int UNICODE_3_2_0_ORIGINAL =
+    publid stbtid finbl int UNICODE_3_2_0_ORIGINAL =
+    publid stbtid finbl int UNICODE_3_2_0_ORIGINAL =
+    publid stbtid finbl int UNICODE_3_2_0_ORIGINAL =
     publid stbtid finbl int UNICODE_3_2_0_ORIGINAL =
                                UNICODE_3_2 |
+                               UNICODE_3_2 |
+                               UNICODE_3_2 |
+                               UNICODE_3_2 |
+                               UNICODE_3_2 |
+                               NormblizfrImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
+                               NormblizfrImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
+                               NormblizfrImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
+                               NormblizfrImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
                                NormblizfrImpl.WITHOUT_CORRIGENDUM4_CORRECTIONS |
                                NormblizfrImpl.BEFORE_PRI_29;
+                               NormblizfrImpl.BEFORE_PRI_29;
+                               NormblizfrImpl.BEFORE_PRI_29;
+                               NormblizfrImpl.BEFORE_PRI_29;
+                               NormblizfrImpl.BEFORE_PRI_29;
+
+
+
+
 
     /*
+    /*
+    /*
+    /*
+    /*
+     * Dffbult option for tif lbtfst Unidodf normblizbtion. Tiis option is
+     * Dffbult option for tif lbtfst Unidodf normblizbtion. Tiis option is
+     * Dffbult option for tif lbtfst Unidodf normblizbtion. Tiis option is
+     * Dffbult option for tif lbtfst Unidodf normblizbtion. Tiis option is
      * Dffbult option for tif lbtfst Unidodf normblizbtion. Tiis option is
      * providfd mbinly for tfsting.
+     * providfd mbinly for tfsting.
+     * providfd mbinly for tfsting.
+     * providfd mbinly for tfsting.
+     * providfd mbinly for tfsting.
+     * Tif vbluf zfro mfbns tibt normblizbtion is donf witi tif fixfs for
+     * Tif vbluf zfro mfbns tibt normblizbtion is donf witi tif fixfs for
+     * Tif vbluf zfro mfbns tibt normblizbtion is donf witi tif fixfs for
+     * Tif vbluf zfro mfbns tibt normblizbtion is donf witi tif fixfs for
      * Tif vbluf zfro mfbns tibt normblizbtion is donf witi tif fixfs for
      *   - Corrigfndum 4 (Fivf CJK Cbnonidbl Mbpping Errors)
+     *   - Corrigfndum 4 (Fivf CJK Cbnonidbl Mbpping Errors)
+     *   - Corrigfndum 4 (Fivf CJK Cbnonidbl Mbpping Errors)
+     *   - Corrigfndum 4 (Fivf CJK Cbnonidbl Mbpping Errors)
+     *   - Corrigfndum 4 (Fivf CJK Cbnonidbl Mbpping Errors)
+     *   - Corrigfndum 5 (Normblizbtion Idfmpotfndy)
+     *   - Corrigfndum 5 (Normblizbtion Idfmpotfndy)
+     *   - Corrigfndum 5 (Normblizbtion Idfmpotfndy)
+     *   - Corrigfndum 5 (Normblizbtion Idfmpotfndy)
      *   - Corrigfndum 5 (Normblizbtion Idfmpotfndy)
      */
+     */
+     */
+     */
+     */
+    publid stbtid finbl int UNICODE_LATEST = 0x00;
+    publid stbtid finbl int UNICODE_LATEST = 0x00;
+    publid stbtid finbl int UNICODE_LATEST = 0x00;
+    publid stbtid finbl int UNICODE_LATEST = 0x00;
     publid stbtid finbl int UNICODE_LATEST = 0x00;
 
+
+
+
+
+    //
+    //
+    //
+    //
     //
     // publid donstrudtor bnd mftiods for jbvb.tfxt.Normblizfr bnd
+    // publid donstrudtor bnd mftiods for jbvb.tfxt.Normblizfr bnd
+    // publid donstrudtor bnd mftiods for jbvb.tfxt.Normblizfr bnd
+    // publid donstrudtor bnd mftiods for jbvb.tfxt.Normblizfr bnd
+    // publid donstrudtor bnd mftiods for jbvb.tfxt.Normblizfr bnd
+    // sun.tfxt.Normblizfr
+    // sun.tfxt.Normblizfr
+    // sun.tfxt.Normblizfr
+    // sun.tfxt.Normblizfr
     // sun.tfxt.Normblizfr
     //
+    //
+    //
+    //
+    //
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * Crfbtfs b nfw <tt>Normblizfr</tt> objfdt for itfrbting ovfr tif
+     * normblizfd form of b givfn string.
+     * normblizfd form of b givfn string.
+     * normblizfd form of b givfn string.
+     * normblizfd form of b givfn string.
      * normblizfd form of b givfn string.
      *
+     *
+     *
+     *
+     *
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
+     * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
      * @pbrbm str  Tif string to bf normblizfd.  Tif normblizbtion
      *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *              will stbrt bt tif bfginning of tif string.
+     *
+     *
+     *
+     *
      *
      * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     * @pbrbm modf Tif normblizbtion modf.
+     */
+     */
+     */
+     */
      */
     publid NormblizfrBbsf(String str, Modf modf) {
+    publid NormblizfrBbsf(String str, Modf modf) {
+    publid NormblizfrBbsf(String str, Modf modf) {
+    publid NormblizfrBbsf(String str, Modf modf) {
+    publid NormblizfrBbsf(String str, Modf modf) {
+          tiis(str, modf, UNICODE_LATEST);
+          tiis(str, modf, UNICODE_LATEST);
+          tiis(str, modf, UNICODE_LATEST);
+          tiis(str, modf, UNICODE_LATEST);
           tiis(str, modf, UNICODE_LATEST);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
      * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
      *
+     *
+     *
+     *
+     *
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm str      tif input string to bf normblizfd.
      * @pbrbm str      tif input string to bf normblizfd.
      * @pbrbm form     tif normblizbtion form
+     * @pbrbm form     tif normblizbtion form
+     * @pbrbm form     tif normblizbtion form
+     * @pbrbm form     tif normblizbtion form
+     * @pbrbm form     tif normblizbtion form
+     */
+     */
+     */
+     */
      */
     publid stbtid String normblizf(String str, Normblizfr.Form form) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form) {
+        rfturn normblizf(str, form, UNICODE_LATEST);
+        rfturn normblizf(str, form, UNICODE_LATEST);
+        rfturn normblizf(str, form, UNICODE_LATEST);
+        rfturn normblizf(str, form, UNICODE_LATEST);
         rfturn normblizf(str, form, UNICODE_LATEST);
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     * Normblizfs b <dodf>String</dodf> using tif givfn normblizbtion form.
+     *
+     *
+     *
+     *
      *
      * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm str      tif input string to bf normblizfd.
+     * @pbrbm form     tif normblizbtion form
+     * @pbrbm form     tif normblizbtion form
+     * @pbrbm form     tif normblizbtion form
+     * @pbrbm form     tif normblizbtion form
      * @pbrbm form     tif normblizbtion form
      * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid String normblizf(String str, Normblizfr.Form form, int options) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form, int options) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form, int options) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form, int options) {
+    publid stbtid String normblizf(String str, Normblizfr.Form form, int options) {
+        int lfn = str.lfngti();
+        int lfn = str.lfngti();
+        int lfn = str.lfngti();
+        int lfn = str.lfngti();
         int lfn = str.lfngti();
         boolfbn bsdiiOnly = truf;
+        boolfbn bsdiiOnly = truf;
+        boolfbn bsdiiOnly = truf;
+        boolfbn bsdiiOnly = truf;
+        boolfbn bsdiiOnly = truf;
+        if (lfn < 80) {
+        if (lfn < 80) {
+        if (lfn < 80) {
+        if (lfn < 80) {
         if (lfn < 80) {
             for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+                if (str.dibrAt(i) > 127) {
+                if (str.dibrAt(i) > 127) {
+                if (str.dibrAt(i) > 127) {
+                if (str.dibrAt(i) > 127) {
                 if (str.dibrAt(i) > 127) {
                     bsdiiOnly = fblsf;
-                    brfbk;
-                }
-            }
-        } flsf {
-            dibr[] b = str.toCibrArrby();
-            for (int i = 0; i < lfn; i++) {
-                if (b[i] > 127) {
+                    bsdiiOnly = fblsf;
+                    bsdiiOnly = fblsf;
+                    bsdiiOnly = fblsf;
                     bsdiiOnly = fblsf;
                     brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            dibr[] b = str.toCibrArrby();
+            dibr[] b = str.toCibrArrby();
+            dibr[] b = str.toCibrArrby();
+            dibr[] b = str.toCibrArrby();
+            dibr[] b = str.toCibrArrby();
+            for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+            for (int i = 0; i < lfn; i++) {
+                if (b[i] > 127) {
+                if (b[i] > 127) {
+                if (b[i] > 127) {
+                if (b[i] > 127) {
+                if (b[i] > 127) {
+                    bsdiiOnly = fblsf;
+                    bsdiiOnly = fblsf;
+                    bsdiiOnly = fblsf;
+                    bsdiiOnly = fblsf;
+                    bsdiiOnly = fblsf;
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        switdi (form) {
+        switdi (form) {
+        switdi (form) {
+        switdi (form) {
         switdi (form) {
         dbsf NFC :
+        dbsf NFC :
+        dbsf NFC :
+        dbsf NFC :
+        dbsf NFC :
+            rfturn bsdiiOnly ? str : NFC.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFC.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFC.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFC.normblizf(str, options);
             rfturn bsdiiOnly ? str : NFC.normblizf(str, options);
         dbsf NFD :
+        dbsf NFD :
+        dbsf NFD :
+        dbsf NFD :
+        dbsf NFD :
+            rfturn bsdiiOnly ? str : NFD.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFD.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFD.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFD.normblizf(str, options);
             rfturn bsdiiOnly ? str : NFD.normblizf(str, options);
         dbsf NFKC :
+        dbsf NFKC :
+        dbsf NFKC :
+        dbsf NFKC :
+        dbsf NFKC :
+            rfturn bsdiiOnly ? str : NFKC.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFKC.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFKC.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFKC.normblizf(str, options);
             rfturn bsdiiOnly ? str : NFKC.normblizf(str, options);
         dbsf NFKD :
+        dbsf NFKD :
+        dbsf NFKD :
+        dbsf NFKD :
+        dbsf NFKD :
+            rfturn bsdiiOnly ? str : NFKD.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFKD.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFKD.normblizf(str, options);
+            rfturn bsdiiOnly ? str : NFKD.normblizf(str, options);
             rfturn bsdiiOnly ? str : NFKD.normblizf(str, options);
         }
-
-        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
-                                           form);
-    }
-
-    /**
-     * Tfst if b string is in b givfn normblizbtion form.
-     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
-     *
-     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
-     * nfvfr b "mbybf".
-     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
-     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
-     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
-     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
-     * @pbrbm form      tif normblizbtion form
-     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
-     */
-    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
-        rfturn isNormblizfd(str, form, UNICODE_LATEST);
-    }
-
-    /**
-     * Tfst if b string is in b givfn normblizbtion form.
-     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
-     *
-     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
-     * nfvfr b "mbybf".
-     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
-     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
-     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
-     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
-     * @pbrbm form      tif normblizbtion form
-     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
-     */
-    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
-        switdi (form) {
-        dbsf NFC:
-            rfturn (NFC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
-        dbsf NFD:
-            rfturn (NFD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
-        dbsf NFKC:
-            rfturn (NFKC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
-        dbsf NFKD:
-            rfturn (NFKD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        }
+        }
+        }
         }
 
+
+
+
+
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
         tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
                                            form);
+                                           form);
+                                           form);
+                                           form);
+                                           form);
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     *
+     *
+     *
+     *
+     *
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     */
+     */
+     */
+     */
+     */
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form) {
+        rfturn isNormblizfd(str, form, UNICODE_LATEST);
+        rfturn isNormblizfd(str, form, UNICODE_LATEST);
+        rfturn isNormblizfd(str, form, UNICODE_LATEST);
+        rfturn isNormblizfd(str, form, UNICODE_LATEST);
+        rfturn isNormblizfd(str, form, UNICODE_LATEST);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tfst if b string is in b givfn normblizbtion form.
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     * Tiis is sfmbntidblly fquivblfnt to sourdf.fqubls(normblizf(sourdf, modf)).
+     *
+     *
+     *
+     *
+     *
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * Unlikf quidkCifdk(), tiis fundtion rfturns b dffinitivf rfsult,
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * nfvfr b "mbybf".
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFD, NFKD, bnd FCD, boti fundtions work fxbdtly tif sbmf.
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * For NFC bnd NFKC wifrf quidkCifdk mby rfturn "mbybf", tiis fundtion will
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * pfrform furtifr tfsts to brrivf bt b truf/fblsf rfsult.
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm str       tif input string to bf difdkfd to sff if it is normblizfd
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm form      tif normblizbtion form
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     * @pbrbm options   tif optionbl ffbturfs to bf fnbblfd.
+     */
+     */
+     */
+     */
+     */
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
+    publid stbtid boolfbn isNormblizfd(String str, Normblizfr.Form form, int options) {
+        switdi (form) {
+        switdi (form) {
+        switdi (form) {
+        switdi (form) {
+        switdi (form) {
+        dbsf NFC:
+        dbsf NFC:
+        dbsf NFC:
+        dbsf NFC:
+        dbsf NFC:
+            rfturn (NFC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFD:
+        dbsf NFD:
+        dbsf NFD:
+        dbsf NFD:
+        dbsf NFD:
+            rfturn (NFD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFKC:
+        dbsf NFKC:
+        dbsf NFKC:
+        dbsf NFKC:
+        dbsf NFKC:
+            rfturn (NFKC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKC.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        dbsf NFKD:
+        dbsf NFKD:
+        dbsf NFKD:
+        dbsf NFKD:
+        dbsf NFKD:
+            rfturn (NFKD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+            rfturn (NFKD.quidkCifdk(str.toCibrArrby(),0,str.lfngti(),fblsf,NormblizfrImpl.gftNX(options))==YES);
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+        tirow nfw IllfgblArgumfntExdfption("Unfxpfdtfd normblizbtion form: " +
+                                           form);
+                                           form);
+                                           form);
+                                           form);
+                                           form);
+    }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,246 +1,1230 @@
 /*
- * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jdk.intfrnbl.util.xml;
+pbdkbgf jdk.intfrnbl.util.xml;
+pbdkbgf jdk.intfrnbl.util.xml;
+pbdkbgf jdk.intfrnbl.util.xml;
+pbdkbgf jdk.intfrnbl.util.xml;
+
+
+
+
 
 import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
 import jbvb.io.IOExdfption;
 import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
 import jdk.intfrnbl.org.xml.sbx.InputSourdf;
 import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
 import jdk.intfrnbl.org.xml.sbx.XMLRfbdfr;
-import jdk.intfrnbl.org.xml.sbx.hflpfrs.DffbultHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.XMLRfbdfr;
+import jdk.intfrnbl.org.xml.sbx.XMLRfbdfr;
+import jdk.intfrnbl.org.xml.sbx.XMLRfbdfr;
+import jdk.intfrnbl.org.xml.sbx.XMLRfbdfr;
+import jdk.intfrnbl.org.xml.sbx.iflpfrs.DffbultHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.iflpfrs.DffbultHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.iflpfrs.DffbultHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.iflpfrs.DffbultHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.iflpfrs.DffbultHbndlfr;
+
+
+
+
+
+
+
+
 
 
 /**
- * Dffinfs thf API thbt wrbps bn {@link org.xml.sbx.XMLRfbdfr}
- * implfmfntbtion dlbss. In JAXP 1.0, this dlbss wrbppfd thf
- * {@link org.xml.sbx.Pbrsfr} intfrfbdf, howfvfr this intfrfbdf wbs
- * rfplbdfd by thf {@link org.xml.sbx.XMLRfbdfr}. For fbsf
- * of trbnsition, this dlbss dontinufs to support thf sbmf nbmf
- * bnd intfrfbdf bs wfll bs supporting nfw mfthods.
+/**
+/**
+/**
+/**
+ * Dffinfs tif API tibt wrbps bn {@link org.xml.sbx.XMLRfbdfr}
+ * Dffinfs tif API tibt wrbps bn {@link org.xml.sbx.XMLRfbdfr}
+ * Dffinfs tif API tibt wrbps bn {@link org.xml.sbx.XMLRfbdfr}
+ * Dffinfs tif API tibt wrbps bn {@link org.xml.sbx.XMLRfbdfr}
+ * Dffinfs tif API tibt wrbps bn {@link org.xml.sbx.XMLRfbdfr}
+ * implfmfntbtion dlbss. In JAXP 1.0, tiis dlbss wrbppfd tif
+ * implfmfntbtion dlbss. In JAXP 1.0, tiis dlbss wrbppfd tif
+ * implfmfntbtion dlbss. In JAXP 1.0, tiis dlbss wrbppfd tif
+ * implfmfntbtion dlbss. In JAXP 1.0, tiis dlbss wrbppfd tif
+ * implfmfntbtion dlbss. In JAXP 1.0, tiis dlbss wrbppfd tif
+ * {@link org.xml.sbx.Pbrsfr} intfrfbdf, iowfvfr tiis intfrfbdf wbs
+ * {@link org.xml.sbx.Pbrsfr} intfrfbdf, iowfvfr tiis intfrfbdf wbs
+ * {@link org.xml.sbx.Pbrsfr} intfrfbdf, iowfvfr tiis intfrfbdf wbs
+ * {@link org.xml.sbx.Pbrsfr} intfrfbdf, iowfvfr tiis intfrfbdf wbs
+ * {@link org.xml.sbx.Pbrsfr} intfrfbdf, iowfvfr tiis intfrfbdf wbs
+ * rfplbdfd by tif {@link org.xml.sbx.XMLRfbdfr}. For fbsf
+ * rfplbdfd by tif {@link org.xml.sbx.XMLRfbdfr}. For fbsf
+ * rfplbdfd by tif {@link org.xml.sbx.XMLRfbdfr}. For fbsf
+ * rfplbdfd by tif {@link org.xml.sbx.XMLRfbdfr}. For fbsf
+ * rfplbdfd by tif {@link org.xml.sbx.XMLRfbdfr}. For fbsf
+ * of trbnsition, tiis dlbss dontinufs to support tif sbmf nbmf
+ * of trbnsition, tiis dlbss dontinufs to support tif sbmf nbmf
+ * of trbnsition, tiis dlbss dontinufs to support tif sbmf nbmf
+ * of trbnsition, tiis dlbss dontinufs to support tif sbmf nbmf
+ * of trbnsition, tiis dlbss dontinufs to support tif sbmf nbmf
+ * bnd intfrfbdf bs wfll bs supporting nfw mftiods.
+ * bnd intfrfbdf bs wfll bs supporting nfw mftiods.
+ * bnd intfrfbdf bs wfll bs supporting nfw mftiods.
+ * bnd intfrfbdf bs wfll bs supporting nfw mftiods.
+ * bnd intfrfbdf bs wfll bs supporting nfw mftiods.
  *
- * An instbndf of this dlbss dbn bf obtbinfd from thf
- * {@link jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory#nfwSAXPbrsfr()} mfthod.
- * Ondf bn instbndf of this dlbss is obtbinfd, XML dbn bf pbrsfd from
- * b vbrifty of input sourdfs. Thfsf input sourdfs brf InputStrfbms,
+ *
+ *
+ *
+ *
+ * An instbndf of tiis dlbss dbn bf obtbinfd from tif
+ * An instbndf of tiis dlbss dbn bf obtbinfd from tif
+ * An instbndf of tiis dlbss dbn bf obtbinfd from tif
+ * An instbndf of tiis dlbss dbn bf obtbinfd from tif
+ * An instbndf of tiis dlbss dbn bf obtbinfd from tif
+ * {@link jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory#nfwSAXPbrsfr()} mftiod.
+ * {@link jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory#nfwSAXPbrsfr()} mftiod.
+ * {@link jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory#nfwSAXPbrsfr()} mftiod.
+ * {@link jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory#nfwSAXPbrsfr()} mftiod.
+ * {@link jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory#nfwSAXPbrsfr()} mftiod.
+ * Ondf bn instbndf of tiis dlbss is obtbinfd, XML dbn bf pbrsfd from
+ * Ondf bn instbndf of tiis dlbss is obtbinfd, XML dbn bf pbrsfd from
+ * Ondf bn instbndf of tiis dlbss is obtbinfd, XML dbn bf pbrsfd from
+ * Ondf bn instbndf of tiis dlbss is obtbinfd, XML dbn bf pbrsfd from
+ * Ondf bn instbndf of tiis dlbss is obtbinfd, XML dbn bf pbrsfd from
+ * b vbrifty of input sourdfs. Tifsf input sourdfs brf InputStrfbms,
+ * b vbrifty of input sourdfs. Tifsf input sourdfs brf InputStrfbms,
+ * b vbrifty of input sourdfs. Tifsf input sourdfs brf InputStrfbms,
+ * b vbrifty of input sourdfs. Tifsf input sourdfs brf InputStrfbms,
+ * b vbrifty of input sourdfs. Tifsf input sourdfs brf InputStrfbms,
+ * Filfs, URLs, bnd SAX InputSourdfs.<p>
+ * Filfs, URLs, bnd SAX InputSourdfs.<p>
+ * Filfs, URLs, bnd SAX InputSourdfs.<p>
+ * Filfs, URLs, bnd SAX InputSourdfs.<p>
  * Filfs, URLs, bnd SAX InputSourdfs.<p>
  *
- * This stbtid mfthod drfbtfs b nfw fbdtory instbndf bbsfd
- * on b systfm propfrty sftting or usfs thf plbtform dffbult
- * if no propfrty hbs bffn dffinfd.<p>
  *
- * Thf systfm propfrty thbt dontrols whidh Fbdtory implfmfntbtion
+ *
+ *
+ *
+ * Tiis stbtid mftiod drfbtfs b nfw fbdtory instbndf bbsfd
+ * Tiis stbtid mftiod drfbtfs b nfw fbdtory instbndf bbsfd
+ * Tiis stbtid mftiod drfbtfs b nfw fbdtory instbndf bbsfd
+ * Tiis stbtid mftiod drfbtfs b nfw fbdtory instbndf bbsfd
+ * Tiis stbtid mftiod drfbtfs b nfw fbdtory instbndf bbsfd
+ * on b systfm propfrty sftting or usfs tif plbtform dffbult
+ * on b systfm propfrty sftting or usfs tif plbtform dffbult
+ * on b systfm propfrty sftting or usfs tif plbtform dffbult
+ * on b systfm propfrty sftting or usfs tif plbtform dffbult
+ * on b systfm propfrty sftting or usfs tif plbtform dffbult
+ * if no propfrty ibs bffn dffinfd.<p>
+ * if no propfrty ibs bffn dffinfd.<p>
+ * if no propfrty ibs bffn dffinfd.<p>
+ * if no propfrty ibs bffn dffinfd.<p>
+ * if no propfrty ibs bffn dffinfd.<p>
+ *
+ *
+ *
+ *
+ *
+ * Tif systfm propfrty tibt dontrols wiidi Fbdtory implfmfntbtion
+ * Tif systfm propfrty tibt dontrols wiidi Fbdtory implfmfntbtion
+ * Tif systfm propfrty tibt dontrols wiidi Fbdtory implfmfntbtion
+ * Tif systfm propfrty tibt dontrols wiidi Fbdtory implfmfntbtion
+ * Tif systfm propfrty tibt dontrols wiidi Fbdtory implfmfntbtion
  * to drfbtf is nbmfd <dodf>&quot;jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory&quot;</dodf>.
- * This propfrty nbmfs b dlbss thbt is b dondrftf subdlbss of this
+ * to drfbtf is nbmfd <dodf>&quot;jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory&quot;</dodf>.
+ * to drfbtf is nbmfd <dodf>&quot;jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory&quot;</dodf>.
+ * to drfbtf is nbmfd <dodf>&quot;jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory&quot;</dodf>.
+ * to drfbtf is nbmfd <dodf>&quot;jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory&quot;</dodf>.
+ * Tiis propfrty nbmfs b dlbss tibt is b dondrftf subdlbss of tiis
+ * Tiis propfrty nbmfs b dlbss tibt is b dondrftf subdlbss of tiis
+ * Tiis propfrty nbmfs b dlbss tibt is b dondrftf subdlbss of tiis
+ * Tiis propfrty nbmfs b dlbss tibt is b dondrftf subdlbss of tiis
+ * Tiis propfrty nbmfs b dlbss tibt is b dondrftf subdlbss of tiis
+ * bbstrbdt dlbss. If no propfrty is dffinfd, b plbtform dffbult
+ * bbstrbdt dlbss. If no propfrty is dffinfd, b plbtform dffbult
+ * bbstrbdt dlbss. If no propfrty is dffinfd, b plbtform dffbult
+ * bbstrbdt dlbss. If no propfrty is dffinfd, b plbtform dffbult
  * bbstrbdt dlbss. If no propfrty is dffinfd, b plbtform dffbult
  * will bf usfd.</p>
+ * will bf usfd.</p>
+ * will bf usfd.</p>
+ * will bf usfd.</p>
+ * will bf usfd.</p>
  *
- * As thf dontfnt is pbrsfd by thf undfrlying pbrsfr, mfthods of thf
+ *
+ *
+ *
+ *
+ * As tif dontfnt is pbrsfd by tif undfrlying pbrsfr, mftiods of tif
+ * As tif dontfnt is pbrsfd by tif undfrlying pbrsfr, mftiods of tif
+ * As tif dontfnt is pbrsfd by tif undfrlying pbrsfr, mftiods of tif
+ * As tif dontfnt is pbrsfd by tif undfrlying pbrsfr, mftiods of tif
+ * As tif dontfnt is pbrsfd by tif undfrlying pbrsfr, mftiods of tif
  * givfn
- * {@link org.xml.sbx.hflpfrs.DffbultHbndlfr} brf dbllfd.<p>
+ * givfn
+ * givfn
+ * givfn
+ * givfn
+ * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr} brf dbllfd.<p>
+ * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr} brf dbllfd.<p>
+ * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr} brf dbllfd.<p>
+ * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr} brf dbllfd.<p>
+ * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr} brf dbllfd.<p>
  *
- * Implfmfntors of this dlbss whidh wrbp bn undfrlbying implfmfntbtion
- * dbn donsidfr using thf {@link org.xml.sbx.hflpfrs.PbrsfrAdbptfr}
- * dlbss to initiblly bdbpt thfir SAX1 implfmfntbtion to work undfr
- * this rfvisfd dlbss.
  *
- * @buthor <b hrff="mbilto:Jfff.Suttor@Sun.dom">Jfff Suttor</b>
+ *
+ *
+ *
+ * Implfmfntors of tiis dlbss wiidi wrbp bn undfrlbying implfmfntbtion
+ * Implfmfntors of tiis dlbss wiidi wrbp bn undfrlbying implfmfntbtion
+ * Implfmfntors of tiis dlbss wiidi wrbp bn undfrlbying implfmfntbtion
+ * Implfmfntors of tiis dlbss wiidi wrbp bn undfrlbying implfmfntbtion
+ * Implfmfntors of tiis dlbss wiidi wrbp bn undfrlbying implfmfntbtion
+ * dbn donsidfr using tif {@link org.xml.sbx.iflpfrs.PbrsfrAdbptfr}
+ * dbn donsidfr using tif {@link org.xml.sbx.iflpfrs.PbrsfrAdbptfr}
+ * dbn donsidfr using tif {@link org.xml.sbx.iflpfrs.PbrsfrAdbptfr}
+ * dbn donsidfr using tif {@link org.xml.sbx.iflpfrs.PbrsfrAdbptfr}
+ * dbn donsidfr using tif {@link org.xml.sbx.iflpfrs.PbrsfrAdbptfr}
+ * dlbss to initiblly bdbpt tifir SAX1 implfmfntbtion to work undfr
+ * dlbss to initiblly bdbpt tifir SAX1 implfmfntbtion to work undfr
+ * dlbss to initiblly bdbpt tifir SAX1 implfmfntbtion to work undfr
+ * dlbss to initiblly bdbpt tifir SAX1 implfmfntbtion to work undfr
+ * dlbss to initiblly bdbpt tifir SAX1 implfmfntbtion to work undfr
+ * tiis rfvisfd dlbss.
+ * tiis rfvisfd dlbss.
+ * tiis rfvisfd dlbss.
+ * tiis rfvisfd dlbss.
+ * tiis rfvisfd dlbss.
+ *
+ *
+ *
+ *
+ *
+ * @butior <b irff="mbilto:Jfff.Suttor@Sun.dom">Jfff Suttor</b>
+ * @butior <b irff="mbilto:Jfff.Suttor@Sun.dom">Jfff Suttor</b>
+ * @butior <b irff="mbilto:Jfff.Suttor@Sun.dom">Jfff Suttor</b>
+ * @butior <b irff="mbilto:Jfff.Suttor@Sun.dom">Jfff Suttor</b>
+ * @butior <b irff="mbilto:Jfff.Suttor@Sun.dom">Jfff Suttor</b>
+ * @vfrsion $Rfvision: 1.8 $, $Dbtf: 2010-11-01 04:36:09 $
+ * @vfrsion $Rfvision: 1.8 $, $Dbtf: 2010-11-01 04:36:09 $
+ * @vfrsion $Rfvision: 1.8 $, $Dbtf: 2010-11-01 04:36:09 $
+ * @vfrsion $Rfvision: 1.8 $, $Dbtf: 2010-11-01 04:36:09 $
  * @vfrsion $Rfvision: 1.8 $, $Dbtf: 2010-11-01 04:36:09 $
  *
- * @buthor Jof Wbng
- * This is b subsft of thbt in JAXP, jbvbx.xml.pbrsfrs.SAXPbrsfr
+ *
+ *
+ *
+ *
+ * @butior Jof Wbng
+ * @butior Jof Wbng
+ * @butior Jof Wbng
+ * @butior Jof Wbng
+ * @butior Jof Wbng
+ * Tiis is b subsft of tibt in JAXP, jbvbx.xml.pbrsfrs.SAXPbrsfr
+ * Tiis is b subsft of tibt in JAXP, jbvbx.xml.pbrsfrs.SAXPbrsfr
+ * Tiis is b subsft of tibt in JAXP, jbvbx.xml.pbrsfrs.SAXPbrsfr
+ * Tiis is b subsft of tibt in JAXP, jbvbx.xml.pbrsfrs.SAXPbrsfr
+ * Tiis is b subsft of tibt in JAXP, jbvbx.xml.pbrsfrs.SAXPbrsfr
+ *
+ *
+ *
+ *
  *
  */
+ */
+ */
+ */
+ */
+publid bbstrbdt dlbss SAXPbrsfr {
+publid bbstrbdt dlbss SAXPbrsfr {
+publid bbstrbdt dlbss SAXPbrsfr {
+publid bbstrbdt dlbss SAXPbrsfr {
 publid bbstrbdt dlbss SAXPbrsfr {
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * <p>Protfdtfd donstrudtor to prfvfnt instbntibtion.</p>
+     * <p>Protfdtfd donstrudtor to prfvfnt instbntibtion.</p>
+     * <p>Protfdtfd donstrudtor to prfvfnt instbntibtion.</p>
+     * <p>Protfdtfd donstrudtor to prfvfnt instbntibtion.</p>
+     * <p>Protfdtfd donstrudtor to prfvfnt instbntibtion.</p>
+     */
+     */
+     */
+     */
      */
     protfdtfd SAXPbrsfr() {
+    protfdtfd SAXPbrsfr() {
+    protfdtfd SAXPbrsfr() {
+    protfdtfd SAXPbrsfr() {
+    protfdtfd SAXPbrsfr() {
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbrsf thf dontfnt of thf givfn {@link jbvb.io.InputStrfbm}
-     * instbndf bs XML using thf spfdififd
-     * {@link org.xml.sbx.hflpfrs.DffbultHbndlfr}.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsf tif dontfnt of tif givfn {@link jbvb.io.InputStrfbm}
+     * Pbrsf tif dontfnt of tif givfn {@link jbvb.io.InputStrfbm}
+     * Pbrsf tif dontfnt of tif givfn {@link jbvb.io.InputStrfbm}
+     * Pbrsf tif dontfnt of tif givfn {@link jbvb.io.InputStrfbm}
+     * Pbrsf tif dontfnt of tif givfn {@link jbvb.io.InputStrfbm}
+     * instbndf bs XML using tif spfdififd
+     * instbndf bs XML using tif spfdififd
+     * instbndf bs XML using tif spfdififd
+     * instbndf bs XML using tif spfdififd
+     * instbndf bs XML using tif spfdififd
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
      *
-     * @pbrbm is InputStrfbm dontbining thf dontfnt to bf pbrsfd.
-     * @pbrbm dh Thf SAX DffbultHbndlfr to usf.
      *
-     * @throws IllfgblArgumfntExdfption If thf givfn InputStrfbm is null.
-     * @throws IOExdfption If bny IO frrors oddur.
-     * @throws SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *
+     *
+     *
+     * @pbrbm is InputStrfbm dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is InputStrfbm dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is InputStrfbm dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is InputStrfbm dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is InputStrfbm dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption If tif givfn InputStrfbm is null.
+     * @tirows IllfgblArgumfntExdfption If tif givfn InputStrfbm is null.
+     * @tirows IllfgblArgumfntExdfption If tif givfn InputStrfbm is null.
+     * @tirows IllfgblArgumfntExdfption If tif givfn InputStrfbm is null.
+     * @tirows IllfgblArgumfntExdfption If tif givfn InputStrfbm is null.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *
+     *
+     *
+     *
      *
      * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
      */
-    publid void pbrsf(InputStrfbm is, DffbultHbndlfr dh)
-        throws SAXExdfption, IOExdfption
+     */
+     */
+     */
+     */
+    publid void pbrsf(InputStrfbm is, DffbultHbndlfr di)
+    publid void pbrsf(InputStrfbm is, DffbultHbndlfr di)
+    publid void pbrsf(InputStrfbm is, DffbultHbndlfr di)
+    publid void pbrsf(InputStrfbm is, DffbultHbndlfr di)
+    publid void pbrsf(InputStrfbm is, DffbultHbndlfr di)
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+    {
+    {
+    {
+    {
     {
         if (is == null) {
-            throw nfw IllfgblArgumfntExdfption("InputStrfbm dbnnot bf null");
+        if (is == null) {
+        if (is == null) {
+        if (is == null) {
+        if (is == null) {
+            tirow nfw IllfgblArgumfntExdfption("InputStrfbm dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputStrfbm dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputStrfbm dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputStrfbm dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputStrfbm dbnnot bf null");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         InputSourdf input = nfw InputSourdf(is);
-        this.pbrsf(input, dh);
+        InputSourdf input = nfw InputSourdf(is);
+        InputSourdf input = nfw InputSourdf(is);
+        InputSourdf input = nfw InputSourdf(is);
+        InputSourdf input = nfw InputSourdf(is);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbrsf thf dontfnt dfsdribfd by thf giving Uniform Rfsourdf
-     * Idfntififr (URI) bs XML using thf spfdififd
-     * {@link org.xml.sbx.hflpfrs.DffbultHbndlfr}.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsf tif dontfnt dfsdribfd by tif giving Uniform Rfsourdf
+     * Pbrsf tif dontfnt dfsdribfd by tif giving Uniform Rfsourdf
+     * Pbrsf tif dontfnt dfsdribfd by tif giving Uniform Rfsourdf
+     * Pbrsf tif dontfnt dfsdribfd by tif giving Uniform Rfsourdf
+     * Pbrsf tif dontfnt dfsdribfd by tif giving Uniform Rfsourdf
+     * Idfntififr (URI) bs XML using tif spfdififd
+     * Idfntififr (URI) bs XML using tif spfdififd
+     * Idfntififr (URI) bs XML using tif spfdififd
+     * Idfntififr (URI) bs XML using tif spfdififd
+     * Idfntififr (URI) bs XML using tif spfdififd
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
      *
-     * @pbrbm uri Thf lodbtion of thf dontfnt to bf pbrsfd.
-     * @pbrbm dh Thf SAX DffbultHbndlfr to usf.
      *
-     * @throws IllfgblArgumfntExdfption If thf uri is null.
-     * @throws IOExdfption If bny IO frrors oddur.
-     * @throws SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *
+     *
+     *
+     * @pbrbm uri Tif lodbtion of tif dontfnt to bf pbrsfd.
+     * @pbrbm uri Tif lodbtion of tif dontfnt to bf pbrsfd.
+     * @pbrbm uri Tif lodbtion of tif dontfnt to bf pbrsfd.
+     * @pbrbm uri Tif lodbtion of tif dontfnt to bf pbrsfd.
+     * @pbrbm uri Tif lodbtion of tif dontfnt to bf pbrsfd.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption If tif uri is null.
+     * @tirows IllfgblArgumfntExdfption If tif uri is null.
+     * @tirows IllfgblArgumfntExdfption If tif uri is null.
+     * @tirows IllfgblArgumfntExdfption If tif uri is null.
+     * @tirows IllfgblArgumfntExdfption If tif uri is null.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *
+     *
+     *
+     *
      *
      * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
      */
-    publid void pbrsf(String uri, DffbultHbndlfr dh)
-        throws SAXExdfption, IOExdfption
+     */
+     */
+     */
+     */
+    publid void pbrsf(String uri, DffbultHbndlfr di)
+    publid void pbrsf(String uri, DffbultHbndlfr di)
+    publid void pbrsf(String uri, DffbultHbndlfr di)
+    publid void pbrsf(String uri, DffbultHbndlfr di)
+    publid void pbrsf(String uri, DffbultHbndlfr di)
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+    {
+    {
+    {
+    {
     {
         if (uri == null) {
-            throw nfw IllfgblArgumfntExdfption("uri dbnnot bf null");
+        if (uri == null) {
+        if (uri == null) {
+        if (uri == null) {
+        if (uri == null) {
+            tirow nfw IllfgblArgumfntExdfption("uri dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("uri dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("uri dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("uri dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("uri dbnnot bf null");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         InputSourdf input = nfw InputSourdf(uri);
-        this.pbrsf(input, dh);
+        InputSourdf input = nfw InputSourdf(uri);
+        InputSourdf input = nfw InputSourdf(uri);
+        InputSourdf input = nfw InputSourdf(uri);
+        InputSourdf input = nfw InputSourdf(uri);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbrsf thf dontfnt of thf filf spfdififd bs XML using thf
-     * spfdififd {@link org.xml.sbx.hflpfrs.DffbultHbndlfr}.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsf tif dontfnt of tif filf spfdififd bs XML using tif
+     * Pbrsf tif dontfnt of tif filf spfdififd bs XML using tif
+     * Pbrsf tif dontfnt of tif filf spfdififd bs XML using tif
+     * Pbrsf tif dontfnt of tif filf spfdififd bs XML using tif
+     * Pbrsf tif dontfnt of tif filf spfdififd bs XML using tif
+     * spfdififd {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * spfdififd {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * spfdififd {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * spfdififd {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * spfdififd {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
      *
-     * @pbrbm f Thf filf dontbining thf XML to pbrsf
-     * @pbrbm dh Thf SAX DffbultHbndlfr to usf.
      *
-     * @throws IllfgblArgumfntExdfption If thf Filf objfdt is null.
-     * @throws IOExdfption If bny IO frrors oddur.
-     * @throws SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *
+     *
+     *
+     * @pbrbm f Tif filf dontbining tif XML to pbrsf
+     * @pbrbm f Tif filf dontbining tif XML to pbrsf
+     * @pbrbm f Tif filf dontbining tif XML to pbrsf
+     * @pbrbm f Tif filf dontbining tif XML to pbrsf
+     * @pbrbm f Tif filf dontbining tif XML to pbrsf
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption If tif Filf objfdt is null.
+     * @tirows IllfgblArgumfntExdfption If tif Filf objfdt is null.
+     * @tirows IllfgblArgumfntExdfption If tif Filf objfdt is null.
+     * @tirows IllfgblArgumfntExdfption If tif Filf objfdt is null.
+     * @tirows IllfgblArgumfntExdfption If tif Filf objfdt is null.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *
+     *
+     *
+     *
      *
      * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
      */
-    publid void pbrsf(Filf f, DffbultHbndlfr dh)
-        throws SAXExdfption, IOExdfption
+     */
+     */
+     */
+     */
+    publid void pbrsf(Filf f, DffbultHbndlfr di)
+    publid void pbrsf(Filf f, DffbultHbndlfr di)
+    publid void pbrsf(Filf f, DffbultHbndlfr di)
+    publid void pbrsf(Filf f, DffbultHbndlfr di)
+    publid void pbrsf(Filf f, DffbultHbndlfr di)
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+    {
+    {
+    {
+    {
     {
         if (f == null) {
-            throw nfw IllfgblArgumfntExdfption("Filf dbnnot bf null");
+        if (f == null) {
+        if (f == null) {
+        if (f == null) {
+        if (f == null) {
+            tirow nfw IllfgblArgumfntExdfption("Filf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("Filf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("Filf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("Filf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("Filf dbnnot bf null");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         //donvfrt filf to bppropribtf URI, f.toURI().toASCIIString()
-        //donvfrts thf URI to string bs pfr rulf spfdififd in
+        //donvfrt filf to bppropribtf URI, f.toURI().toASCIIString()
+        //donvfrt filf to bppropribtf URI, f.toURI().toASCIIString()
+        //donvfrt filf to bppropribtf URI, f.toURI().toASCIIString()
+        //donvfrt filf to bppropribtf URI, f.toURI().toASCIIString()
+        //donvfrts tif URI to string bs pfr rulf spfdififd in
+        //donvfrts tif URI to string bs pfr rulf spfdififd in
+        //donvfrts tif URI to string bs pfr rulf spfdififd in
+        //donvfrts tif URI to string bs pfr rulf spfdififd in
+        //donvfrts tif URI to string bs pfr rulf spfdififd in
+        //RFC 2396,
+        //RFC 2396,
+        //RFC 2396,
+        //RFC 2396,
         //RFC 2396,
         InputSourdf input = nfw InputSourdf(f.toURI().toASCIIString());
-        this.pbrsf(input, dh);
+        InputSourdf input = nfw InputSourdf(f.toURI().toASCIIString());
+        InputSourdf input = nfw InputSourdf(f.toURI().toASCIIString());
+        InputSourdf input = nfw InputSourdf(f.toURI().toASCIIString());
+        InputSourdf input = nfw InputSourdf(f.toURI().toASCIIString());
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+        tiis.pbrsf(input, di);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbrsf thf dontfnt givfn {@link org.xml.sbx.InputSourdf}
-     * bs XML using thf spfdififd
-     * {@link org.xml.sbx.hflpfrs.DffbultHbndlfr}.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsf tif dontfnt givfn {@link org.xml.sbx.InputSourdf}
+     * Pbrsf tif dontfnt givfn {@link org.xml.sbx.InputSourdf}
+     * Pbrsf tif dontfnt givfn {@link org.xml.sbx.InputSourdf}
+     * Pbrsf tif dontfnt givfn {@link org.xml.sbx.InputSourdf}
+     * Pbrsf tif dontfnt givfn {@link org.xml.sbx.InputSourdf}
+     * bs XML using tif spfdififd
+     * bs XML using tif spfdififd
+     * bs XML using tif spfdififd
+     * bs XML using tif spfdififd
+     * bs XML using tif spfdififd
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
+     * {@link org.xml.sbx.iflpfrs.DffbultHbndlfr}.
      *
-     * @pbrbm is Thf InputSourdf dontbining thf dontfnt to bf pbrsfd.
-     * @pbrbm dh Thf SAX DffbultHbndlfr to usf.
      *
-     * @throws IllfgblArgumfntExdfption If thf <dodf>InputSourdf</dodf> objfdt
+     *
+     *
+     *
+     * @pbrbm is Tif InputSourdf dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is Tif InputSourdf dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is Tif InputSourdf dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is Tif InputSourdf dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm is Tif InputSourdf dontbining tif dontfnt to bf pbrsfd.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     * @pbrbm di Tif SAX DffbultHbndlfr to usf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption If tif <dodf>InputSourdf</dodf> objfdt
+     * @tirows IllfgblArgumfntExdfption If tif <dodf>InputSourdf</dodf> objfdt
+     * @tirows IllfgblArgumfntExdfption If tif <dodf>InputSourdf</dodf> objfdt
+     * @tirows IllfgblArgumfntExdfption If tif <dodf>InputSourdf</dodf> objfdt
+     * @tirows IllfgblArgumfntExdfption If tif <dodf>InputSourdf</dodf> objfdt
      *   is <dodf>null</dodf>.
-     * @throws IOExdfption If bny IO frrors oddur.
-     * @throws SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *   is <dodf>null</dodf>.
+     *   is <dodf>null</dodf>.
+     *   is <dodf>null</dodf>.
+     *   is <dodf>null</dodf>.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows IOExdfption If bny IO frrors oddur.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     *
+     *
+     *
+     *
      *
      * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
+     * @sff org.xml.sbx.DodumfntHbndlfr
      */
-    publid void pbrsf(InputSourdf is, DffbultHbndlfr dh)
-        throws SAXExdfption, IOExdfption
+     */
+     */
+     */
+     */
+    publid void pbrsf(InputSourdf is, DffbultHbndlfr di)
+    publid void pbrsf(InputSourdf is, DffbultHbndlfr di)
+    publid void pbrsf(InputSourdf is, DffbultHbndlfr di)
+    publid void pbrsf(InputSourdf is, DffbultHbndlfr di)
+    publid void pbrsf(InputSourdf is, DffbultHbndlfr di)
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+        tirows SAXExdfption, IOExdfption
+    {
+    {
+    {
+    {
     {
         if (is == null) {
-            throw nfw IllfgblArgumfntExdfption("InputSourdf dbnnot bf null");
+        if (is == null) {
+        if (is == null) {
+        if (is == null) {
+        if (is == null) {
+            tirow nfw IllfgblArgumfntExdfption("InputSourdf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputSourdf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputSourdf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputSourdf dbnnot bf null");
+            tirow nfw IllfgblArgumfntExdfption("InputSourdf dbnnot bf null");
+        }
+        }
+        }
+        }
         }
 
-        XMLRfbdfr rfbdfr = this.gftXMLRfbdfr();
-        if (dh != null) {
-            rfbdfr.sftContfntHbndlfr(dh);
-            rfbdfr.sftEntityRfsolvfr(dh);
-            rfbdfr.sftErrorHbndlfr(dh);
-            rfbdfr.sftDTDHbndlfr(dh);
+
+
+
+
+        XMLRfbdfr rfbdfr = tiis.gftXMLRfbdfr();
+        XMLRfbdfr rfbdfr = tiis.gftXMLRfbdfr();
+        XMLRfbdfr rfbdfr = tiis.gftXMLRfbdfr();
+        XMLRfbdfr rfbdfr = tiis.gftXMLRfbdfr();
+        XMLRfbdfr rfbdfr = tiis.gftXMLRfbdfr();
+        if (di != null) {
+        if (di != null) {
+        if (di != null) {
+        if (di != null) {
+        if (di != null) {
+            rfbdfr.sftContfntHbndlfr(di);
+            rfbdfr.sftContfntHbndlfr(di);
+            rfbdfr.sftContfntHbndlfr(di);
+            rfbdfr.sftContfntHbndlfr(di);
+            rfbdfr.sftContfntHbndlfr(di);
+            rfbdfr.sftEntityRfsolvfr(di);
+            rfbdfr.sftEntityRfsolvfr(di);
+            rfbdfr.sftEntityRfsolvfr(di);
+            rfbdfr.sftEntityRfsolvfr(di);
+            rfbdfr.sftEntityRfsolvfr(di);
+            rfbdfr.sftErrorHbndlfr(di);
+            rfbdfr.sftErrorHbndlfr(di);
+            rfbdfr.sftErrorHbndlfr(di);
+            rfbdfr.sftErrorHbndlfr(di);
+            rfbdfr.sftErrorHbndlfr(di);
+            rfbdfr.sftDTDHbndlfr(di);
+            rfbdfr.sftDTDHbndlfr(di);
+            rfbdfr.sftDTDHbndlfr(di);
+            rfbdfr.sftDTDHbndlfr(di);
+            rfbdfr.sftDTDHbndlfr(di);
+        }
+        }
+        }
+        }
         }
         rfbdfr.pbrsf(is);
+        rfbdfr.pbrsf(is);
+        rfbdfr.pbrsf(is);
+        rfbdfr.pbrsf(is);
+        rfbdfr.pbrsf(is);
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Rfturns thf {@link org.xml.sbx.XMLRfbdfr} thbt is fndbpsulbtfd by thf
-     * implfmfntbtion of this dlbss.
-     *
-     * @rfturn Thf XMLRfbdfr thbt is fndbpsulbtfd by thf
-     *         implfmfntbtion of this dlbss.
-     *
-     * @throws SAXExdfption If bny SAX frrors oddur during prodfssing.
-     */
-    publid bbstrbdt XMLRfbdfr gftXMLRfbdfr() throws SAXExdfption;
+
+
+
 
     /**
-     * Indidbtfs whfthfr or not this pbrsfr is donfigurfd to
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif {@link org.xml.sbx.XMLRfbdfr} tibt is fndbpsulbtfd by tif
+     * Rfturns tif {@link org.xml.sbx.XMLRfbdfr} tibt is fndbpsulbtfd by tif
+     * Rfturns tif {@link org.xml.sbx.XMLRfbdfr} tibt is fndbpsulbtfd by tif
+     * Rfturns tif {@link org.xml.sbx.XMLRfbdfr} tibt is fndbpsulbtfd by tif
+     * Rfturns tif {@link org.xml.sbx.XMLRfbdfr} tibt is fndbpsulbtfd by tif
+     * implfmfntbtion of tiis dlbss.
+     * implfmfntbtion of tiis dlbss.
+     * implfmfntbtion of tiis dlbss.
+     * implfmfntbtion of tiis dlbss.
+     * implfmfntbtion of tiis dlbss.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn Tif XMLRfbdfr tibt is fndbpsulbtfd by tif
+     * @rfturn Tif XMLRfbdfr tibt is fndbpsulbtfd by tif
+     * @rfturn Tif XMLRfbdfr tibt is fndbpsulbtfd by tif
+     * @rfturn Tif XMLRfbdfr tibt is fndbpsulbtfd by tif
+     * @rfturn Tif XMLRfbdfr tibt is fndbpsulbtfd by tif
+     *         implfmfntbtion of tiis dlbss.
+     *         implfmfntbtion of tiis dlbss.
+     *         implfmfntbtion of tiis dlbss.
+     *         implfmfntbtion of tiis dlbss.
+     *         implfmfntbtion of tiis dlbss.
+     *
+     *
+     *
+     *
+     *
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     * @tirows SAXExdfption If bny SAX frrors oddur during prodfssing.
+     */
+     */
+     */
+     */
+     */
+    publid bbstrbdt XMLRfbdfr gftXMLRfbdfr() tirows SAXExdfption;
+    publid bbstrbdt XMLRfbdfr gftXMLRfbdfr() tirows SAXExdfption;
+    publid bbstrbdt XMLRfbdfr gftXMLRfbdfr() tirows SAXExdfption;
+    publid bbstrbdt XMLRfbdfr gftXMLRfbdfr() tirows SAXExdfption;
+    publid bbstrbdt XMLRfbdfr gftXMLRfbdfr() tirows SAXExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * undfrstbnd nbmfspbdfs.
+     * undfrstbnd nbmfspbdfs.
+     * undfrstbnd nbmfspbdfs.
+     * undfrstbnd nbmfspbdfs.
      * undfrstbnd nbmfspbdfs.
      *
-     * @rfturn truf if this pbrsfr is donfigurfd to
-     *         undfrstbnd nbmfspbdfs; fblsf othfrwisf.
+     *
+     *
+     *
+     *
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     *         undfrstbnd nbmfspbdfs; fblsf otifrwisf.
+     *         undfrstbnd nbmfspbdfs; fblsf otifrwisf.
+     *         undfrstbnd nbmfspbdfs; fblsf otifrwisf.
+     *         undfrstbnd nbmfspbdfs; fblsf otifrwisf.
+     *         undfrstbnd nbmfspbdfs; fblsf otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt boolfbn isNbmfspbdfAwbrf();
+    publid bbstrbdt boolfbn isNbmfspbdfAwbrf();
+    publid bbstrbdt boolfbn isNbmfspbdfAwbrf();
+    publid bbstrbdt boolfbn isNbmfspbdfAwbrf();
+    publid bbstrbdt boolfbn isNbmfspbdfAwbrf();
+
+
+
+
 
     /**
-     * Indidbtfs whfthfr or not this pbrsfr is donfigurfd to
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * Indidbtfs wiftifr or not tiis pbrsfr is donfigurfd to
+     * vblidbtf XML dodumfnts.
+     * vblidbtf XML dodumfnts.
+     * vblidbtf XML dodumfnts.
+     * vblidbtf XML dodumfnts.
      * vblidbtf XML dodumfnts.
      *
-     * @rfturn truf if this pbrsfr is donfigurfd to
-     *         vblidbtf XML dodumfnts; fblsf othfrwisf.
+     *
+     *
+     *
+     *
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     * @rfturn truf if tiis pbrsfr is donfigurfd to
+     *         vblidbtf XML dodumfnts; fblsf otifrwisf.
+     *         vblidbtf XML dodumfnts; fblsf otifrwisf.
+     *         vblidbtf XML dodumfnts; fblsf otifrwisf.
+     *         vblidbtf XML dodumfnts; fblsf otifrwisf.
+     *         vblidbtf XML dodumfnts; fblsf otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt boolfbn isVblidbting();
+    publid bbstrbdt boolfbn isVblidbting();
+    publid bbstrbdt boolfbn isVblidbting();
+    publid bbstrbdt boolfbn isVblidbting();
+    publid bbstrbdt boolfbn isVblidbting();
+
+
+
+
 
     /**
-     * <p>Gft thf XIndludf prodfssing modf for this pbrsfr.</p>
+    /**
+    /**
+    /**
+    /**
+     * <p>Gft tif XIndludf prodfssing modf for tiis pbrsfr.</p>
+     * <p>Gft tif XIndludf prodfssing modf for tiis pbrsfr.</p>
+     * <p>Gft tif XIndludf prodfssing modf for tiis pbrsfr.</p>
+     * <p>Gft tif XIndludf prodfssing modf for tiis pbrsfr.</p>
+     * <p>Gft tif XIndludf prodfssing modf for tiis pbrsfr.</p>
+     *
+     *
+     *
+     *
      *
      * @rfturn
-     *      thf rfturn vbluf of
-     *      thf {@link SAXPbrsfrFbdtory#isXIndludfAwbrf()}
-     *      whfn this pbrsfr wbs drfbtfd from fbdtory.
+     * @rfturn
+     * @rfturn
+     * @rfturn
+     * @rfturn
+     *      tif rfturn vbluf of
+     *      tif rfturn vbluf of
+     *      tif rfturn vbluf of
+     *      tif rfturn vbluf of
+     *      tif rfturn vbluf of
+     *      tif {@link SAXPbrsfrFbdtory#isXIndludfAwbrf()}
+     *      tif {@link SAXPbrsfrFbdtory#isXIndludfAwbrf()}
+     *      tif {@link SAXPbrsfrFbdtory#isXIndludfAwbrf()}
+     *      tif {@link SAXPbrsfrFbdtory#isXIndludfAwbrf()}
+     *      tif {@link SAXPbrsfrFbdtory#isXIndludfAwbrf()}
+     *      wifn tiis pbrsfr wbs drfbtfd from fbdtory.
+     *      wifn tiis pbrsfr wbs drfbtfd from fbdtory.
+     *      wifn tiis pbrsfr wbs drfbtfd from fbdtory.
+     *      wifn tiis pbrsfr wbs drfbtfd from fbdtory.
+     *      wifn tiis pbrsfr wbs drfbtfd from fbdtory.
      *
-     * @throws UnsupportfdOpfrbtionExdfption Whfn implfmfntbtion dofs not
-     *   ovfrridf this mfthod
+     *
+     *
+     *
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption Wifn implfmfntbtion dofs not
+     * @tirows UnsupportfdOpfrbtionExdfption Wifn implfmfntbtion dofs not
+     * @tirows UnsupportfdOpfrbtionExdfption Wifn implfmfntbtion dofs not
+     * @tirows UnsupportfdOpfrbtionExdfption Wifn implfmfntbtion dofs not
+     * @tirows UnsupportfdOpfrbtionExdfption Wifn implfmfntbtion dofs not
+     *   ovfrridf tiis mftiod
+     *   ovfrridf tiis mftiod
+     *   ovfrridf tiis mftiod
+     *   ovfrridf tiis mftiod
+     *   ovfrridf tiis mftiod
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     *
+     *
+     *
+     *
      *
      * @sff SAXPbrsfrFbdtory#sftXIndludfAwbrf(boolfbn)
+     * @sff SAXPbrsfrFbdtory#sftXIndludfAwbrf(boolfbn)
+     * @sff SAXPbrsfrFbdtory#sftXIndludfAwbrf(boolfbn)
+     * @sff SAXPbrsfrFbdtory#sftXIndludfAwbrf(boolfbn)
+     * @sff SAXPbrsfrFbdtory#sftXIndludfAwbrf(boolfbn)
+     */
+     */
+     */
+     */
      */
     publid boolfbn isXIndludfAwbrf() {
-        throw nfw UnsupportfdOpfrbtionExdfption(
-                "This pbrsfr dofs not support spfdifidbtion \""
-                + this.gftClbss().gftPbdkbgf().gftSpfdifidbtionTitlf()
+    publid boolfbn isXIndludfAwbrf() {
+    publid boolfbn isXIndludfAwbrf() {
+    publid boolfbn isXIndludfAwbrf() {
+    publid boolfbn isXIndludfAwbrf() {
+        tirow nfw UnsupportfdOpfrbtionExdfption(
+        tirow nfw UnsupportfdOpfrbtionExdfption(
+        tirow nfw UnsupportfdOpfrbtionExdfption(
+        tirow nfw UnsupportfdOpfrbtionExdfption(
+        tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tiis pbrsfr dofs not support spfdifidbtion \""
+                "Tiis pbrsfr dofs not support spfdifidbtion \""
+                "Tiis pbrsfr dofs not support spfdifidbtion \""
+                "Tiis pbrsfr dofs not support spfdifidbtion \""
+                "Tiis pbrsfr dofs not support spfdifidbtion \""
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionTitlf()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionTitlf()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionTitlf()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionTitlf()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionTitlf()
                 + "\" vfrsion \""
-                + this.gftClbss().gftPbdkbgf().gftSpfdifidbtionVfrsion()
+                + "\" vfrsion \""
+                + "\" vfrsion \""
+                + "\" vfrsion \""
+                + "\" vfrsion \""
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionVfrsion()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionVfrsion()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionVfrsion()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionVfrsion()
+                + tiis.gftClbss().gftPbdkbgf().gftSpfdifidbtionVfrsion()
+                + "\"");
+                + "\"");
+                + "\"");
+                + "\"");
                 + "\"");
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

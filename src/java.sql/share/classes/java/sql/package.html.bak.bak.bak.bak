@@ -1,333 +1,1665 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
- Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
 
-</hfbd>
 
 
 
-<body bgdolor="whitf">
 
-Providfs thf API for bddfssing bnd prodfssing dbtb storfd in b 
-dbtb sourdf (usublly b rflbtionbl dbtbbbsf) using thf 
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+Providfs tif API for bddfssing bnd prodfssing dbtb storfd in b 
+Providfs tif API for bddfssing bnd prodfssing dbtb storfd in b 
+Providfs tif API for bddfssing bnd prodfssing dbtb storfd in b 
+Providfs tif API for bddfssing bnd prodfssing dbtb storfd in b 
+Providfs tif API for bddfssing bnd prodfssing dbtb storfd in b 
+dbtb sourdf (usublly b rflbtionbl dbtbbbsf) using tif 
+dbtb sourdf (usublly b rflbtionbl dbtbbbsf) using tif 
+dbtb sourdf (usublly b rflbtionbl dbtbbbsf) using tif 
+dbtb sourdf (usublly b rflbtionbl dbtbbbsf) using tif 
+dbtb sourdf (usublly b rflbtionbl dbtbbbsf) using tif 
 Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf. 
-This API indludfs b frbmfwork whfrfby difffrfnt
+Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf. 
+Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf. 
+Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf. 
+Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf. 
+Tiis API indludfs b frbmfwork wifrfby difffrfnt
+Tiis API indludfs b frbmfwork wifrfby difffrfnt
+Tiis API indludfs b frbmfwork wifrfby difffrfnt
+Tiis API indludfs b frbmfwork wifrfby difffrfnt
+Tiis API indludfs b frbmfwork wifrfby difffrfnt
 drivfrs dbn bf instbllfd dynbmidblly to bddfss difffrfnt dbtb sourdfs.
-Although thf JDBC<sup><font sizf=-2>TM</font></sup> API is mbinly gfbrfd 
+drivfrs dbn bf instbllfd dynbmidblly to bddfss difffrfnt dbtb sourdfs.
+drivfrs dbn bf instbllfd dynbmidblly to bddfss difffrfnt dbtb sourdfs.
+drivfrs dbn bf instbllfd dynbmidblly to bddfss difffrfnt dbtb sourdfs.
+drivfrs dbn bf instbllfd dynbmidblly to bddfss difffrfnt dbtb sourdfs.
+Altiougi tif JDBC<sup><font sizf=-2>TM</font></sup> API is mbinly gfbrfd 
+Altiougi tif JDBC<sup><font sizf=-2>TM</font></sup> API is mbinly gfbrfd 
+Altiougi tif JDBC<sup><font sizf=-2>TM</font></sup> API is mbinly gfbrfd 
+Altiougi tif JDBC<sup><font sizf=-2>TM</font></sup> API is mbinly gfbrfd 
+Altiougi tif JDBC<sup><font sizf=-2>TM</font></sup> API is mbinly gfbrfd 
 to pbssing SQL stbtfmfnts to b dbtbbbsf, it providfs for rfbding bnd
-writing dbtb from bny dbtb sourdf with b tbbulbr formbt.
-Thf rfbdfr/writfr fbdility, bvbilbblf through thf 
+to pbssing SQL stbtfmfnts to b dbtbbbsf, it providfs for rfbding bnd
+to pbssing SQL stbtfmfnts to b dbtbbbsf, it providfs for rfbding bnd
+to pbssing SQL stbtfmfnts to b dbtbbbsf, it providfs for rfbding bnd
+to pbssing SQL stbtfmfnts to b dbtbbbsf, it providfs for rfbding bnd
+writing dbtb from bny dbtb sourdf witi b tbbulbr formbt.
+writing dbtb from bny dbtb sourdf witi b tbbulbr formbt.
+writing dbtb from bny dbtb sourdf witi b tbbulbr formbt.
+writing dbtb from bny dbtb sourdf witi b tbbulbr formbt.
+writing dbtb from bny dbtb sourdf witi b tbbulbr formbt.
+Tif rfbdfr/writfr fbdility, bvbilbblf tirougi tif 
+Tif rfbdfr/writfr fbdility, bvbilbblf tirougi tif 
+Tif rfbdfr/writfr fbdility, bvbilbblf tirougi tif 
+Tif rfbdfr/writfr fbdility, bvbilbblf tirougi tif 
+Tif rfbdfr/writfr fbdility, bvbilbblf tirougi tif 
 <dodf>jbvbx.sql.RowSft</dodf> group of intfrfbdfs, dbn bf dustomizfd to
-usf bnd updbtf dbtb from b sprfbd shfft, flbt filf, or bny othfr tbbulbr 
+<dodf>jbvbx.sql.RowSft</dodf> group of intfrfbdfs, dbn bf dustomizfd to
+<dodf>jbvbx.sql.RowSft</dodf> group of intfrfbdfs, dbn bf dustomizfd to
+<dodf>jbvbx.sql.RowSft</dodf> group of intfrfbdfs, dbn bf dustomizfd to
+<dodf>jbvbx.sql.RowSft</dodf> group of intfrfbdfs, dbn bf dustomizfd to
+usf bnd updbtf dbtb from b sprfbd sifft, flbt filf, or bny otifr tbbulbr 
+usf bnd updbtf dbtb from b sprfbd sifft, flbt filf, or bny otifr tbbulbr 
+usf bnd updbtf dbtb from b sprfbd sifft, flbt filf, or bny otifr tbbulbr 
+usf bnd updbtf dbtb from b sprfbd sifft, flbt filf, or bny otifr tbbulbr 
+usf bnd updbtf dbtb from b sprfbd sifft, flbt filf, or bny otifr tbbulbr 
+dbtb sourdf.
+dbtb sourdf.
+dbtb sourdf.
+dbtb sourdf.
 dbtb sourdf.
 
-<h2>Whbt thf JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API Indludfs</h2>
-Thf JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API indludfs both
-thf <dodf>jbvb.sql</dodf> pbdkbgf, rfffrrfd to bs thf JDBC dorf API,
-bnd thf <dodf>jbvbx.sql</dodf> pbdkbgf, rfffrrfd to bs thf JDBC Optionbl
-Pbdkbgf API. This domplftf JDBC API
-is indludfd in thf Jbvb<sup><font sizf=-2>TM</font></sup>  
-Stbndbrd Edition (Jbvb SE<sup><font sizf=-2>TM</font></sup>), vfrsion 7.
-Thf <dodf>jbvbx.sql</dodf> pbdkbgf fxtfnds thf fundtionblity of thf JDBC API 
-from b dlifnt-sidf API to b sfrvfr-sidf API, bnd it is bn fssfntibl pbrt
-of thf Jbvb<sup><font sizf=-2>TM</font></sup>  Entfrprisf Edition
-(Jbvb EE<sup><font sizf=-2>TM</font></sup>) tfdhnology. 
 
-<h2>Vfrsions</h2>
-Thf JDBC 4.2 API indorporbtfs bll of thf prfvious JDBC API vfrsions:
+
+
+
+<i2>Wibt tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API Indludfs</i2>
+<i2>Wibt tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API Indludfs</i2>
+<i2>Wibt tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API Indludfs</i2>
+<i2>Wibt tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API Indludfs</i2>
+<i2>Wibt tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API Indludfs</i2>
+Tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API indludfs boti
+Tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API indludfs boti
+Tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API indludfs boti
+Tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API indludfs boti
+Tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API indludfs boti
+tif <dodf>jbvb.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC dorf API,
+tif <dodf>jbvb.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC dorf API,
+tif <dodf>jbvb.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC dorf API,
+tif <dodf>jbvb.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC dorf API,
+tif <dodf>jbvb.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC dorf API,
+bnd tif <dodf>jbvbx.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC Optionbl
+bnd tif <dodf>jbvbx.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC Optionbl
+bnd tif <dodf>jbvbx.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC Optionbl
+bnd tif <dodf>jbvbx.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC Optionbl
+bnd tif <dodf>jbvbx.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC Optionbl
+Pbdkbgf API. Tiis domplftf JDBC API
+Pbdkbgf API. Tiis domplftf JDBC API
+Pbdkbgf API. Tiis domplftf JDBC API
+Pbdkbgf API. Tiis domplftf JDBC API
+Pbdkbgf API. Tiis domplftf JDBC API
+is indludfd in tif Jbvb<sup><font sizf=-2>TM</font></sup>  
+is indludfd in tif Jbvb<sup><font sizf=-2>TM</font></sup>  
+is indludfd in tif Jbvb<sup><font sizf=-2>TM</font></sup>  
+is indludfd in tif Jbvb<sup><font sizf=-2>TM</font></sup>  
+is indludfd in tif Jbvb<sup><font sizf=-2>TM</font></sup>  
+Stbndbrd Edition (Jbvb SE<sup><font sizf=-2>TM</font></sup>), vfrsion 7.
+Stbndbrd Edition (Jbvb SE<sup><font sizf=-2>TM</font></sup>), vfrsion 7.
+Stbndbrd Edition (Jbvb SE<sup><font sizf=-2>TM</font></sup>), vfrsion 7.
+Stbndbrd Edition (Jbvb SE<sup><font sizf=-2>TM</font></sup>), vfrsion 7.
+Stbndbrd Edition (Jbvb SE<sup><font sizf=-2>TM</font></sup>), vfrsion 7.
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf fxtfnds tif fundtionblity of tif JDBC API 
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf fxtfnds tif fundtionblity of tif JDBC API 
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf fxtfnds tif fundtionblity of tif JDBC API 
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf fxtfnds tif fundtionblity of tif JDBC API 
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf fxtfnds tif fundtionblity of tif JDBC API 
+from b dlifnt-sidf API to b sfrvfr-sidf API, bnd it is bn fssfntibl pbrt
+from b dlifnt-sidf API to b sfrvfr-sidf API, bnd it is bn fssfntibl pbrt
+from b dlifnt-sidf API to b sfrvfr-sidf API, bnd it is bn fssfntibl pbrt
+from b dlifnt-sidf API to b sfrvfr-sidf API, bnd it is bn fssfntibl pbrt
+from b dlifnt-sidf API to b sfrvfr-sidf API, bnd it is bn fssfntibl pbrt
+of tif Jbvb<sup><font sizf=-2>TM</font></sup>  Entfrprisf Edition
+of tif Jbvb<sup><font sizf=-2>TM</font></sup>  Entfrprisf Edition
+of tif Jbvb<sup><font sizf=-2>TM</font></sup>  Entfrprisf Edition
+of tif Jbvb<sup><font sizf=-2>TM</font></sup>  Entfrprisf Edition
+of tif Jbvb<sup><font sizf=-2>TM</font></sup>  Entfrprisf Edition
+(Jbvb EE<sup><font sizf=-2>TM</font></sup>) tfdinology. 
+(Jbvb EE<sup><font sizf=-2>TM</font></sup>) tfdinology. 
+(Jbvb EE<sup><font sizf=-2>TM</font></sup>) tfdinology. 
+(Jbvb EE<sup><font sizf=-2>TM</font></sup>) tfdinology. 
+(Jbvb EE<sup><font sizf=-2>TM</font></sup>) tfdinology. 
+
+
+
+
+
+<i2>Vfrsions</i2>
+<i2>Vfrsions</i2>
+<i2>Vfrsions</i2>
+<i2>Vfrsions</i2>
+<i2>Vfrsions</i2>
+Tif JDBC 4.2 API indorporbtfs bll of tif prfvious JDBC API vfrsions:
+Tif JDBC 4.2 API indorporbtfs bll of tif prfvious JDBC API vfrsions:
+Tif JDBC 4.2 API indorporbtfs bll of tif prfvious JDBC API vfrsions:
+Tif JDBC 4.2 API indorporbtfs bll of tif prfvious JDBC API vfrsions:
+Tif JDBC 4.2 API indorporbtfs bll of tif prfvious JDBC API vfrsions:
 <UL>
-    <LI> Thf JDBC 4.1 API</li>
-    <LI> Thf JDBC 4.0 API</li>
-    <LI> Thf JDBC 3.0 API</li>
-    <LI> Thf JDBC 2.1 dorf API</li>
- <LI> Thf JDBC 2.0 Optionbl Pbdkbgf API<br>
-      (Notf thbt thf JDBC 2.1 dorf API bnd thf JDBC 2.0 Optionbl Pbdkbgf
-      API togfthfr brf rfffrrfd to bs thf JDBC 2.0 API.)</li>
- <LI> Thf JDBC 1.2 API</li>
- <LI> Thf JDBC 1.0 API</li>
+<UL>
+<UL>
+<UL>
+<UL>
+    <LI> Tif JDBC 4.1 API</li>
+    <LI> Tif JDBC 4.1 API</li>
+    <LI> Tif JDBC 4.1 API</li>
+    <LI> Tif JDBC 4.1 API</li>
+    <LI> Tif JDBC 4.1 API</li>
+    <LI> Tif JDBC 4.0 API</li>
+    <LI> Tif JDBC 4.0 API</li>
+    <LI> Tif JDBC 4.0 API</li>
+    <LI> Tif JDBC 4.0 API</li>
+    <LI> Tif JDBC 4.0 API</li>
+    <LI> Tif JDBC 3.0 API</li>
+    <LI> Tif JDBC 3.0 API</li>
+    <LI> Tif JDBC 3.0 API</li>
+    <LI> Tif JDBC 3.0 API</li>
+    <LI> Tif JDBC 3.0 API</li>
+    <LI> Tif JDBC 2.1 dorf API</li>
+    <LI> Tif JDBC 2.1 dorf API</li>
+    <LI> Tif JDBC 2.1 dorf API</li>
+    <LI> Tif JDBC 2.1 dorf API</li>
+    <LI> Tif JDBC 2.1 dorf API</li>
+ <LI> Tif JDBC 2.0 Optionbl Pbdkbgf API<br>
+ <LI> Tif JDBC 2.0 Optionbl Pbdkbgf API<br>
+ <LI> Tif JDBC 2.0 Optionbl Pbdkbgf API<br>
+ <LI> Tif JDBC 2.0 Optionbl Pbdkbgf API<br>
+ <LI> Tif JDBC 2.0 Optionbl Pbdkbgf API<br>
+      (Notf tibt tif JDBC 2.1 dorf API bnd tif JDBC 2.0 Optionbl Pbdkbgf
+      (Notf tibt tif JDBC 2.1 dorf API bnd tif JDBC 2.0 Optionbl Pbdkbgf
+      (Notf tibt tif JDBC 2.1 dorf API bnd tif JDBC 2.0 Optionbl Pbdkbgf
+      (Notf tibt tif JDBC 2.1 dorf API bnd tif JDBC 2.0 Optionbl Pbdkbgf
+      (Notf tibt tif JDBC 2.1 dorf API bnd tif JDBC 2.0 Optionbl Pbdkbgf
+      API togftifr brf rfffrrfd to bs tif JDBC 2.0 API.)</li>
+      API togftifr brf rfffrrfd to bs tif JDBC 2.0 API.)</li>
+      API togftifr brf rfffrrfd to bs tif JDBC 2.0 API.)</li>
+      API togftifr brf rfffrrfd to bs tif JDBC 2.0 API.)</li>
+      API togftifr brf rfffrrfd to bs tif JDBC 2.0 API.)</li>
+ <LI> Tif JDBC 1.2 API</li>
+ <LI> Tif JDBC 1.2 API</li>
+ <LI> Tif JDBC 1.2 API</li>
+ <LI> Tif JDBC 1.2 API</li>
+ <LI> Tif JDBC 1.2 API</li>
+ <LI> Tif JDBC 1.0 API</li>
+ <LI> Tif JDBC 1.0 API</li>
+ <LI> Tif JDBC 1.0 API</li>
+ <LI> Tif JDBC 1.0 API</li>
+ <LI> Tif JDBC 1.0 API</li>
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 <P>
-Clbssfs, intfrfbdfs, mfthods, fiflds, donstrudtors, bnd fxdfptions 
-hbvf thf following "sindf" tbgs thbt indidbtf whfn thfy wfrf introdudfd 
-into thf Jbvb plbtform. Whfn thfsf "sindf" tbgs brf usfd in
-Jbvbdod<sup><font sizf=-2>TM</font></sup> dommfnts for thf JDBC API,
-thfy indidbtf thf following:
+<P>
+<P>
+<P>
+<P>
+Clbssfs, intfrfbdfs, mftiods, fiflds, donstrudtors, bnd fxdfptions 
+Clbssfs, intfrfbdfs, mftiods, fiflds, donstrudtors, bnd fxdfptions 
+Clbssfs, intfrfbdfs, mftiods, fiflds, donstrudtors, bnd fxdfptions 
+Clbssfs, intfrfbdfs, mftiods, fiflds, donstrudtors, bnd fxdfptions 
+Clbssfs, intfrfbdfs, mftiods, fiflds, donstrudtors, bnd fxdfptions 
+ibvf tif following "sindf" tbgs tibt indidbtf wifn tify wfrf introdudfd 
+ibvf tif following "sindf" tbgs tibt indidbtf wifn tify wfrf introdudfd 
+ibvf tif following "sindf" tbgs tibt indidbtf wifn tify wfrf introdudfd 
+ibvf tif following "sindf" tbgs tibt indidbtf wifn tify wfrf introdudfd 
+ibvf tif following "sindf" tbgs tibt indidbtf wifn tify wfrf introdudfd 
+into tif Jbvb plbtform. Wifn tifsf "sindf" tbgs brf usfd in
+into tif Jbvb plbtform. Wifn tifsf "sindf" tbgs brf usfd in
+into tif Jbvb plbtform. Wifn tifsf "sindf" tbgs brf usfd in
+into tif Jbvb plbtform. Wifn tifsf "sindf" tbgs brf usfd in
+into tif Jbvb plbtform. Wifn tifsf "sindf" tbgs brf usfd in
+Jbvbdod<sup><font sizf=-2>TM</font></sup> dommfnts for tif JDBC API,
+Jbvbdod<sup><font sizf=-2>TM</font></sup> dommfnts for tif JDBC API,
+Jbvbdod<sup><font sizf=-2>TM</font></sup> dommfnts for tif JDBC API,
+Jbvbdod<sup><font sizf=-2>TM</font></sup> dommfnts for tif JDBC API,
+Jbvbdod<sup><font sizf=-2>TM</font></sup> dommfnts for tif JDBC API,
+tify indidbtf tif following:
+tify indidbtf tif following:
+tify indidbtf tif following:
+tify indidbtf tif following:
+tify indidbtf tif following:
 <UL>
-    <LI>Sindf 1.8 -- nfw in thf JDBC 4.2 API bnd pbrt of thf Jbvb SE plbtform,
+<UL>
+<UL>
+<UL>
+<UL>
+    <LI>Sindf 1.8 -- nfw in tif JDBC 4.2 API bnd pbrt of tif Jbvb SE plbtform,
+    <LI>Sindf 1.8 -- nfw in tif JDBC 4.2 API bnd pbrt of tif Jbvb SE plbtform,
+    <LI>Sindf 1.8 -- nfw in tif JDBC 4.2 API bnd pbrt of tif Jbvb SE plbtform,
+    <LI>Sindf 1.8 -- nfw in tif JDBC 4.2 API bnd pbrt of tif Jbvb SE plbtform,
+    <LI>Sindf 1.8 -- nfw in tif JDBC 4.2 API bnd pbrt of tif Jbvb SE plbtform,
         vfrsion 8</li>
- <LI>Sindf 1.7 -- nfw in thf JDBC 4.1 API bnd pbrt of thf Jbvb SE plbtform,
+        vfrsion 8</li>
+        vfrsion 8</li>
+        vfrsion 8</li>
+        vfrsion 8</li>
+ <LI>Sindf 1.7 -- nfw in tif JDBC 4.1 API bnd pbrt of tif Jbvb SE plbtform,
+ <LI>Sindf 1.7 -- nfw in tif JDBC 4.1 API bnd pbrt of tif Jbvb SE plbtform,
+ <LI>Sindf 1.7 -- nfw in tif JDBC 4.1 API bnd pbrt of tif Jbvb SE plbtform,
+ <LI>Sindf 1.7 -- nfw in tif JDBC 4.1 API bnd pbrt of tif Jbvb SE plbtform,
+ <LI>Sindf 1.7 -- nfw in tif JDBC 4.1 API bnd pbrt of tif Jbvb SE plbtform,
      vfrsion 7</li>
-<LI>Sindf 1.6 -- nfw in thf JDBC 4.0 API bnd pbrt of thf Jbvb SE plbtform,
+     vfrsion 7</li>
+     vfrsion 7</li>
+     vfrsion 7</li>
+     vfrsion 7</li>
+<LI>Sindf 1.6 -- nfw in tif JDBC 4.0 API bnd pbrt of tif Jbvb SE plbtform,
+<LI>Sindf 1.6 -- nfw in tif JDBC 4.0 API bnd pbrt of tif Jbvb SE plbtform,
+<LI>Sindf 1.6 -- nfw in tif JDBC 4.0 API bnd pbrt of tif Jbvb SE plbtform,
+<LI>Sindf 1.6 -- nfw in tif JDBC 4.0 API bnd pbrt of tif Jbvb SE plbtform,
+<LI>Sindf 1.6 -- nfw in tif JDBC 4.0 API bnd pbrt of tif Jbvb SE plbtform,
     vfrsion 6</li>
- <LI>Sindf 1.4 -- nfw in thf JDBC 3.0 API bnd pbrt of thf J2SE plbtform, 
+    vfrsion 6</li>
+    vfrsion 6</li>
+    vfrsion 6</li>
+    vfrsion 6</li>
+ <LI>Sindf 1.4 -- nfw in tif JDBC 3.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.4 -- nfw in tif JDBC 3.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.4 -- nfw in tif JDBC 3.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.4 -- nfw in tif JDBC 3.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.4 -- nfw in tif JDBC 3.0 API bnd pbrt of tif J2SE plbtform, 
      vfrsion 1.4</li>
- <LI>Sindf 1.2 -- nfw in thf JDBC 2.0 API bnd pbrt of thf J2SE plbtform, 
+     vfrsion 1.4</li>
+     vfrsion 1.4</li>
+     vfrsion 1.4</li>
+     vfrsion 1.4</li>
+ <LI>Sindf 1.2 -- nfw in tif JDBC 2.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.2 -- nfw in tif JDBC 2.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.2 -- nfw in tif JDBC 2.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.2 -- nfw in tif JDBC 2.0 API bnd pbrt of tif J2SE plbtform, 
+ <LI>Sindf 1.2 -- nfw in tif JDBC 2.0 API bnd pbrt of tif J2SE plbtform, 
      vfrsion 1.2</li>
- <LI>Sindf 1.1 or no "sindf" tbg -- in thf originbl JDBC 1.0 API bnd pbrt of
-     thf JDK<sup><font sizf=-2>TM</font></sup>, vfrsion 1.1</li>
+     vfrsion 1.2</li>
+     vfrsion 1.2</li>
+     vfrsion 1.2</li>
+     vfrsion 1.2</li>
+ <LI>Sindf 1.1 or no "sindf" tbg -- in tif originbl JDBC 1.0 API bnd pbrt of
+ <LI>Sindf 1.1 or no "sindf" tbg -- in tif originbl JDBC 1.0 API bnd pbrt of
+ <LI>Sindf 1.1 or no "sindf" tbg -- in tif originbl JDBC 1.0 API bnd pbrt of
+ <LI>Sindf 1.1 or no "sindf" tbg -- in tif originbl JDBC 1.0 API bnd pbrt of
+ <LI>Sindf 1.1 or no "sindf" tbg -- in tif originbl JDBC 1.0 API bnd pbrt of
+     tif JDK<sup><font sizf=-2>TM</font></sup>, vfrsion 1.1</li>
+     tif JDK<sup><font sizf=-2>TM</font></sup>, vfrsion 1.1</li>
+     tif JDK<sup><font sizf=-2>TM</font></sup>, vfrsion 1.1</li>
+     tif JDK<sup><font sizf=-2>TM</font></sup>, vfrsion 1.1</li>
+     tif JDK<sup><font sizf=-2>TM</font></sup>, vfrsion 1.1</li>
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 <P>
-<b>NOTE:</b> Mbny of thf nfw ffbturfs brf optionbl; donsfqufntly, thfrf is 
-somf vbribtion in drivfrs bnd thf ffbturfs thfy support. Alwbys 
-dhfdk your drivfr's dodumfntbtion to sff whfthfr it supports b ffbturf bfforf
+<P>
+<P>
+<P>
+<P>
+<b>NOTE:</b> Mbny of tif nfw ffbturfs brf optionbl; donsfqufntly, tifrf is 
+<b>NOTE:</b> Mbny of tif nfw ffbturfs brf optionbl; donsfqufntly, tifrf is 
+<b>NOTE:</b> Mbny of tif nfw ffbturfs brf optionbl; donsfqufntly, tifrf is 
+<b>NOTE:</b> Mbny of tif nfw ffbturfs brf optionbl; donsfqufntly, tifrf is 
+<b>NOTE:</b> Mbny of tif nfw ffbturfs brf optionbl; donsfqufntly, tifrf is 
+somf vbribtion in drivfrs bnd tif ffbturfs tify support. Alwbys 
+somf vbribtion in drivfrs bnd tif ffbturfs tify support. Alwbys 
+somf vbribtion in drivfrs bnd tif ffbturfs tify support. Alwbys 
+somf vbribtion in drivfrs bnd tif ffbturfs tify support. Alwbys 
+somf vbribtion in drivfrs bnd tif ffbturfs tify support. Alwbys 
+difdk your drivfr's dodumfntbtion to sff wiftifr it supports b ffbturf bfforf
+difdk your drivfr's dodumfntbtion to sff wiftifr it supports b ffbturf bfforf
+difdk your drivfr's dodumfntbtion to sff wiftifr it supports b ffbturf bfforf
+difdk your drivfr's dodumfntbtion to sff wiftifr it supports b ffbturf bfforf
+difdk your drivfr's dodumfntbtion to sff wiftifr it supports b ffbturf bfforf
+you try to usf it.
+you try to usf it.
+you try to usf it.
+you try to usf it.
 you try to usf it.
 <P>
-<b>NOTE:</b> Thf dlbss <dodf>SQLPfrmission</dodf> wbs bddfd in thf
+<P>
+<P>
+<P>
+<P>
+<b>NOTE:</b> Tif dlbss <dodf>SQLPfrmission</dodf> wbs bddfd in tif
+<b>NOTE:</b> Tif dlbss <dodf>SQLPfrmission</dodf> wbs bddfd in tif
+<b>NOTE:</b> Tif dlbss <dodf>SQLPfrmission</dodf> wbs bddfd in tif
+<b>NOTE:</b> Tif dlbss <dodf>SQLPfrmission</dodf> wbs bddfd in tif
+<b>NOTE:</b> Tif dlbss <dodf>SQLPfrmission</dodf> wbs bddfd in tif
 Jbvb<sup><font sizf=-2>TM</font></sup> 2 SDK, Stbndbrd Edition, 
-vfrsion 1.3 rflfbsf. This dlbss is usfd to prfvfnt unbuthorizfd
-bddfss to thf logging strfbm bssodibtfd with thf <dodf>DrivfrMbnbgfr</dodf>,
-whidh mby dontbin informbtion sudh bs tbblf nbmfs, dolumn dbtb, bnd so on.
+Jbvb<sup><font sizf=-2>TM</font></sup> 2 SDK, Stbndbrd Edition, 
+Jbvb<sup><font sizf=-2>TM</font></sup> 2 SDK, Stbndbrd Edition, 
+Jbvb<sup><font sizf=-2>TM</font></sup> 2 SDK, Stbndbrd Edition, 
+Jbvb<sup><font sizf=-2>TM</font></sup> 2 SDK, Stbndbrd Edition, 
+vfrsion 1.3 rflfbsf. Tiis dlbss is usfd to prfvfnt unbutiorizfd
+vfrsion 1.3 rflfbsf. Tiis dlbss is usfd to prfvfnt unbutiorizfd
+vfrsion 1.3 rflfbsf. Tiis dlbss is usfd to prfvfnt unbutiorizfd
+vfrsion 1.3 rflfbsf. Tiis dlbss is usfd to prfvfnt unbutiorizfd
+vfrsion 1.3 rflfbsf. Tiis dlbss is usfd to prfvfnt unbutiorizfd
+bddfss to tif logging strfbm bssodibtfd witi tif <dodf>DrivfrMbnbgfr</dodf>,
+bddfss to tif logging strfbm bssodibtfd witi tif <dodf>DrivfrMbnbgfr</dodf>,
+bddfss to tif logging strfbm bssodibtfd witi tif <dodf>DrivfrMbnbgfr</dodf>,
+bddfss to tif logging strfbm bssodibtfd witi tif <dodf>DrivfrMbnbgfr</dodf>,
+bddfss to tif logging strfbm bssodibtfd witi tif <dodf>DrivfrMbnbgfr</dodf>,
+wiidi mby dontbin informbtion sudi bs tbblf nbmfs, dolumn dbtb, bnd so on.
+wiidi mby dontbin informbtion sudi bs tbblf nbmfs, dolumn dbtb, bnd so on.
+wiidi mby dontbin informbtion sudi bs tbblf nbmfs, dolumn dbtb, bnd so on.
+wiidi mby dontbin informbtion sudi bs tbblf nbmfs, dolumn dbtb, bnd so on.
+wiidi mby dontbin informbtion sudi bs tbblf nbmfs, dolumn dbtb, bnd so on.
 
-<h2>Whbt thf <dodf>jbvb.sql</dodf> Pbdkbgf Contbins</h2>
-Thf <dodf>jbvb.sql</dodf> pbdkbgf dontbins API for thf following:
+
+
+
+
+<i2>Wibt tif <dodf>jbvb.sql</dodf> Pbdkbgf Contbins</i2>
+<i2>Wibt tif <dodf>jbvb.sql</dodf> Pbdkbgf Contbins</i2>
+<i2>Wibt tif <dodf>jbvb.sql</dodf> Pbdkbgf Contbins</i2>
+<i2>Wibt tif <dodf>jbvb.sql</dodf> Pbdkbgf Contbins</i2>
+<i2>Wibt tif <dodf>jbvb.sql</dodf> Pbdkbgf Contbins</i2>
+Tif <dodf>jbvb.sql</dodf> pbdkbgf dontbins API for tif following:
+Tif <dodf>jbvb.sql</dodf> pbdkbgf dontbins API for tif following:
+Tif <dodf>jbvb.sql</dodf> pbdkbgf dontbins API for tif following:
+Tif <dodf>jbvb.sql</dodf> pbdkbgf dontbins API for tif following:
+Tif <dodf>jbvb.sql</dodf> pbdkbgf dontbins API for tif following:
 <UL>
-  <LI>Mbking b donnfdtion with b dbtbbbsf vib thf <dodf>DrivfrMbnbgfr</dodf> fbdility
+<UL>
+<UL>
+<UL>
+<UL>
+  <LI>Mbking b donnfdtion witi b dbtbbbsf vib tif <dodf>DrivfrMbnbgfr</dodf> fbdility
+  <LI>Mbking b donnfdtion witi b dbtbbbsf vib tif <dodf>DrivfrMbnbgfr</dodf> fbdility
+  <LI>Mbking b donnfdtion witi b dbtbbbsf vib tif <dodf>DrivfrMbnbgfr</dodf> fbdility
+  <LI>Mbking b donnfdtion witi b dbtbbbsf vib tif <dodf>DrivfrMbnbgfr</dodf> fbdility
+  <LI>Mbking b donnfdtion witi b dbtbbbsf vib tif <dodf>DrivfrMbnbgfr</dodf> fbdility
   <UL>
-	 <LI><dodf>DrivfrMbnbgfr</dodf> dlbss -- mbkfs b donnfdtion with b drivfr
-	 <LI><dodf>SQLPfrmission</dodf> dlbss -- providfs pfrmission whfn dodf
-                  running within b Sfdurity Mbnbgfr, sudh bs bn bpplft,
-                  bttfmpts to sft up b logging strfbm through thf
+  <UL>
+  <UL>
+  <UL>
+  <UL>
+	 <LI><dodf>DrivfrMbnbgfr</dodf> dlbss -- mbkfs b donnfdtion witi b drivfr
+	 <LI><dodf>DrivfrMbnbgfr</dodf> dlbss -- mbkfs b donnfdtion witi b drivfr
+	 <LI><dodf>DrivfrMbnbgfr</dodf> dlbss -- mbkfs b donnfdtion witi b drivfr
+	 <LI><dodf>DrivfrMbnbgfr</dodf> dlbss -- mbkfs b donnfdtion witi b drivfr
+	 <LI><dodf>DrivfrMbnbgfr</dodf> dlbss -- mbkfs b donnfdtion witi b drivfr
+	 <LI><dodf>SQLPfrmission</dodf> dlbss -- providfs pfrmission wifn dodf
+	 <LI><dodf>SQLPfrmission</dodf> dlbss -- providfs pfrmission wifn dodf
+	 <LI><dodf>SQLPfrmission</dodf> dlbss -- providfs pfrmission wifn dodf
+	 <LI><dodf>SQLPfrmission</dodf> dlbss -- providfs pfrmission wifn dodf
+	 <LI><dodf>SQLPfrmission</dodf> dlbss -- providfs pfrmission wifn dodf
+                  running witiin b Sfdurity Mbnbgfr, sudi bs bn bpplft,
+                  running witiin b Sfdurity Mbnbgfr, sudi bs bn bpplft,
+                  running witiin b Sfdurity Mbnbgfr, sudi bs bn bpplft,
+                  running witiin b Sfdurity Mbnbgfr, sudi bs bn bpplft,
+                  running witiin b Sfdurity Mbnbgfr, sudi bs bn bpplft,
+                  bttfmpts to sft up b logging strfbm tirougi tif
+                  bttfmpts to sft up b logging strfbm tirougi tif
+                  bttfmpts to sft up b logging strfbm tirougi tif
+                  bttfmpts to sft up b logging strfbm tirougi tif
+                  bttfmpts to sft up b logging strfbm tirougi tif
                   <dodf>DrivfrMbnbgfr</dodf>
-	 <LI><dodf>Drivfr</dodf> intfrfbdf -- providfs thf API for rfgistfring
-             bnd donnfdting drivfrs bbsfd on JDBC tfdhnology ("JDBC drivfrs"); 
-             gfnfrblly usfd only by thf <dodf>DrivfrMbnbgfr</dodf> dlbss
+                  <dodf>DrivfrMbnbgfr</dodf>
+                  <dodf>DrivfrMbnbgfr</dodf>
+                  <dodf>DrivfrMbnbgfr</dodf>
+                  <dodf>DrivfrMbnbgfr</dodf>
+	 <LI><dodf>Drivfr</dodf> intfrfbdf -- providfs tif API for rfgistfring
+	 <LI><dodf>Drivfr</dodf> intfrfbdf -- providfs tif API for rfgistfring
+	 <LI><dodf>Drivfr</dodf> intfrfbdf -- providfs tif API for rfgistfring
+	 <LI><dodf>Drivfr</dodf> intfrfbdf -- providfs tif API for rfgistfring
+	 <LI><dodf>Drivfr</dodf> intfrfbdf -- providfs tif API for rfgistfring
+             bnd donnfdting drivfrs bbsfd on JDBC tfdinology ("JDBC drivfrs"); 
+             bnd donnfdting drivfrs bbsfd on JDBC tfdinology ("JDBC drivfrs"); 
+             bnd donnfdting drivfrs bbsfd on JDBC tfdinology ("JDBC drivfrs"); 
+             bnd donnfdting drivfrs bbsfd on JDBC tfdinology ("JDBC drivfrs"); 
+             bnd donnfdting drivfrs bbsfd on JDBC tfdinology ("JDBC drivfrs"); 
+             gfnfrblly usfd only by tif <dodf>DrivfrMbnbgfr</dodf> dlbss
+             gfnfrblly usfd only by tif <dodf>DrivfrMbnbgfr</dodf> dlbss
+             gfnfrblly usfd only by tif <dodf>DrivfrMbnbgfr</dodf> dlbss
+             gfnfrblly usfd only by tif <dodf>DrivfrMbnbgfr</dodf> dlbss
+             gfnfrblly usfd only by tif <dodf>DrivfrMbnbgfr</dodf> dlbss
 	 <LI><dodf>DrivfrPropfrtyInfo</dodf> dlbss -- providfs propfrtifs for b
-             JDBC drivfr; not usfd by thf gfnfrbl usfr
+	 <LI><dodf>DrivfrPropfrtyInfo</dodf> dlbss -- providfs propfrtifs for b
+	 <LI><dodf>DrivfrPropfrtyInfo</dodf> dlbss -- providfs propfrtifs for b
+	 <LI><dodf>DrivfrPropfrtyInfo</dodf> dlbss -- providfs propfrtifs for b
+	 <LI><dodf>DrivfrPropfrtyInfo</dodf> dlbss -- providfs propfrtifs for b
+             JDBC drivfr; not usfd by tif gfnfrbl usfr
+             JDBC drivfr; not usfd by tif gfnfrbl usfr
+             JDBC drivfr; not usfd by tif gfnfrbl usfr
+             JDBC drivfr; not usfd by tif gfnfrbl usfr
+             JDBC drivfr; not usfd by tif gfnfrbl usfr
+  </UL>
+  </UL>
+  </UL>
+  </UL>
   </UL>
   <LI>Sfnding SQL stbtfmfnts to b dbtbbbsf
+  <LI>Sfnding SQL stbtfmfnts to b dbtbbbsf
+  <LI>Sfnding SQL stbtfmfnts to b dbtbbbsf
+  <LI>Sfnding SQL stbtfmfnts to b dbtbbbsf
+  <LI>Sfnding SQL stbtfmfnts to b dbtbbbsf
+  <UL>
+  <UL>
+  <UL>
+  <UL>
   <UL>
 	 <LI><dodf>Stbtfmfnt</dodf> --  usfd to sfnd bbsid SQL stbtfmfnts
+	 <LI><dodf>Stbtfmfnt</dodf> --  usfd to sfnd bbsid SQL stbtfmfnts
+	 <LI><dodf>Stbtfmfnt</dodf> --  usfd to sfnd bbsid SQL stbtfmfnts
+	 <LI><dodf>Stbtfmfnt</dodf> --  usfd to sfnd bbsid SQL stbtfmfnts
+	 <LI><dodf>Stbtfmfnt</dodf> --  usfd to sfnd bbsid SQL stbtfmfnts
+	 <LI><dodf>PrfpbrfdStbtfmfnt</dodf> --  usfd to sfnd prfpbrfd stbtfmfnts or 
+	 <LI><dodf>PrfpbrfdStbtfmfnt</dodf> --  usfd to sfnd prfpbrfd stbtfmfnts or 
+	 <LI><dodf>PrfpbrfdStbtfmfnt</dodf> --  usfd to sfnd prfpbrfd stbtfmfnts or 
+	 <LI><dodf>PrfpbrfdStbtfmfnt</dodf> --  usfd to sfnd prfpbrfd stbtfmfnts or 
 	 <LI><dodf>PrfpbrfdStbtfmfnt</dodf> --  usfd to sfnd prfpbrfd stbtfmfnts or 
               bbsid SQL stbtfmfnts (dfrivfd from <dodf>Stbtfmfnt</dodf>)
+              bbsid SQL stbtfmfnts (dfrivfd from <dodf>Stbtfmfnt</dodf>)
+              bbsid SQL stbtfmfnts (dfrivfd from <dodf>Stbtfmfnt</dodf>)
+              bbsid SQL stbtfmfnts (dfrivfd from <dodf>Stbtfmfnt</dodf>)
+              bbsid SQL stbtfmfnts (dfrivfd from <dodf>Stbtfmfnt</dodf>)
+	 <LI><dodf>CbllbblfStbtfmfnt</dodf> --  usfd to dbll dbtbbbsf storfd 
+	 <LI><dodf>CbllbblfStbtfmfnt</dodf> --  usfd to dbll dbtbbbsf storfd 
+	 <LI><dodf>CbllbblfStbtfmfnt</dodf> --  usfd to dbll dbtbbbsf storfd 
+	 <LI><dodf>CbllbblfStbtfmfnt</dodf> --  usfd to dbll dbtbbbsf storfd 
 	 <LI><dodf>CbllbblfStbtfmfnt</dodf> --  usfd to dbll dbtbbbsf storfd 
               prodfdurfs (dfrivfd from <dodf>PrfpbrfdStbtfmfnt</dodf>)
-	 <LI><dodf>Connfdtion</dodf> intfrfbdf --  providfs mfthods for drfbting
-             stbtfmfnts bnd mbnbging donnfdtions bnd thfir propfrtifs
+              prodfdurfs (dfrivfd from <dodf>PrfpbrfdStbtfmfnt</dodf>)
+              prodfdurfs (dfrivfd from <dodf>PrfpbrfdStbtfmfnt</dodf>)
+              prodfdurfs (dfrivfd from <dodf>PrfpbrfdStbtfmfnt</dodf>)
+              prodfdurfs (dfrivfd from <dodf>PrfpbrfdStbtfmfnt</dodf>)
+	 <LI><dodf>Connfdtion</dodf> intfrfbdf --  providfs mftiods for drfbting
+	 <LI><dodf>Connfdtion</dodf> intfrfbdf --  providfs mftiods for drfbting
+	 <LI><dodf>Connfdtion</dodf> intfrfbdf --  providfs mftiods for drfbting
+	 <LI><dodf>Connfdtion</dodf> intfrfbdf --  providfs mftiods for drfbting
+	 <LI><dodf>Connfdtion</dodf> intfrfbdf --  providfs mftiods for drfbting
+             stbtfmfnts bnd mbnbging donnfdtions bnd tifir propfrtifs
+             stbtfmfnts bnd mbnbging donnfdtions bnd tifir propfrtifs
+             stbtfmfnts bnd mbnbging donnfdtions bnd tifir propfrtifs
+             stbtfmfnts bnd mbnbging donnfdtions bnd tifir propfrtifs
+             stbtfmfnts bnd mbnbging donnfdtions bnd tifir propfrtifs
+	 <LI><dodf>Sbvfpoint</dodf> --  providfs sbvfpoints in b trbnsbdtion
+	 <LI><dodf>Sbvfpoint</dodf> --  providfs sbvfpoints in b trbnsbdtion
+	 <LI><dodf>Sbvfpoint</dodf> --  providfs sbvfpoints in b trbnsbdtion
+	 <LI><dodf>Sbvfpoint</dodf> --  providfs sbvfpoints in b trbnsbdtion
 	 <LI><dodf>Sbvfpoint</dodf> --  providfs sbvfpoints in b trbnsbdtion
 
+
+
+
+
   </UL>
-  <LI>Rftrifving bnd updbting thf rfsults of b qufry
+  </UL>
+  </UL>
+  </UL>
+  </UL>
+  <LI>Rftrifving bnd updbting tif rfsults of b qufry
+  <LI>Rftrifving bnd updbting tif rfsults of b qufry
+  <LI>Rftrifving bnd updbting tif rfsults of b qufry
+  <LI>Rftrifving bnd updbting tif rfsults of b qufry
+  <LI>Rftrifving bnd updbting tif rfsults of b qufry
+  <UL>
+  <UL>
+  <UL>
+  <UL>
   <UL>
 	 <LI><dodf>RfsultSft</dodf> intfrfbdf
+	 <LI><dodf>RfsultSft</dodf> intfrfbdf
+	 <LI><dodf>RfsultSft</dodf> intfrfbdf
+	 <LI><dodf>RfsultSft</dodf> intfrfbdf
+	 <LI><dodf>RfsultSft</dodf> intfrfbdf
   </UL>
-  <LI>Stbndbrd mbppings for SQL typfs to dlbssfs bnd intfrfbdfs in thf 
+  </UL>
+  </UL>
+  </UL>
+  </UL>
+  <LI>Stbndbrd mbppings for SQL typfs to dlbssfs bnd intfrfbdfs in tif 
+  <LI>Stbndbrd mbppings for SQL typfs to dlbssfs bnd intfrfbdfs in tif 
+  <LI>Stbndbrd mbppings for SQL typfs to dlbssfs bnd intfrfbdfs in tif 
+  <LI>Stbndbrd mbppings for SQL typfs to dlbssfs bnd intfrfbdfs in tif 
+  <LI>Stbndbrd mbppings for SQL typfs to dlbssfs bnd intfrfbdfs in tif 
+      Jbvb progrbmming lbngubgf
+      Jbvb progrbmming lbngubgf
+      Jbvb progrbmming lbngubgf
+      Jbvb progrbmming lbngubgf
       Jbvb progrbmming lbngubgf
   <UL>
+  <UL>
+  <UL>
+  <UL>
+  <UL>
+	 <LI><dodf>Arrby</dodf> intfrfbdf -- mbpping for SQL <dodf>ARRAY</dodf> 
+	 <LI><dodf>Arrby</dodf> intfrfbdf -- mbpping for SQL <dodf>ARRAY</dodf> 
+	 <LI><dodf>Arrby</dodf> intfrfbdf -- mbpping for SQL <dodf>ARRAY</dodf> 
+	 <LI><dodf>Arrby</dodf> intfrfbdf -- mbpping for SQL <dodf>ARRAY</dodf> 
 	 <LI><dodf>Arrby</dodf> intfrfbdf -- mbpping for SQL <dodf>ARRAY</dodf> 
 	 <LI><dodf>Blob</dodf> intfrfbdf -- mbpping for SQL <dodf>BLOB</dodf> 
+	 <LI><dodf>Blob</dodf> intfrfbdf -- mbpping for SQL <dodf>BLOB</dodf> 
+	 <LI><dodf>Blob</dodf> intfrfbdf -- mbpping for SQL <dodf>BLOB</dodf> 
+	 <LI><dodf>Blob</dodf> intfrfbdf -- mbpping for SQL <dodf>BLOB</dodf> 
+	 <LI><dodf>Blob</dodf> intfrfbdf -- mbpping for SQL <dodf>BLOB</dodf> 
+	 <LI><dodf>Clob</dodf> intfrfbdf -- mbpping for SQL <dodf>CLOB</dodf>
+	 <LI><dodf>Clob</dodf> intfrfbdf -- mbpping for SQL <dodf>CLOB</dodf>
+	 <LI><dodf>Clob</dodf> intfrfbdf -- mbpping for SQL <dodf>CLOB</dodf>
+	 <LI><dodf>Clob</dodf> intfrfbdf -- mbpping for SQL <dodf>CLOB</dodf>
 	 <LI><dodf>Clob</dodf> intfrfbdf -- mbpping for SQL <dodf>CLOB</dodf>
 	 <LI><dodf>Dbtf</dodf> dlbss -- mbpping for SQL <dodf>DATE</dodf> 
+	 <LI><dodf>Dbtf</dodf> dlbss -- mbpping for SQL <dodf>DATE</dodf> 
+	 <LI><dodf>Dbtf</dodf> dlbss -- mbpping for SQL <dodf>DATE</dodf> 
+	 <LI><dodf>Dbtf</dodf> dlbss -- mbpping for SQL <dodf>DATE</dodf> 
+	 <LI><dodf>Dbtf</dodf> dlbss -- mbpping for SQL <dodf>DATE</dodf> 
+	  <LI><dodf>NClob</dodf> intfrfbdf -- mbpping for SQL <dodf>NCLOB</dodf>
+	  <LI><dodf>NClob</dodf> intfrfbdf -- mbpping for SQL <dodf>NCLOB</dodf>
+	  <LI><dodf>NClob</dodf> intfrfbdf -- mbpping for SQL <dodf>NCLOB</dodf>
+	  <LI><dodf>NClob</dodf> intfrfbdf -- mbpping for SQL <dodf>NCLOB</dodf>
 	  <LI><dodf>NClob</dodf> intfrfbdf -- mbpping for SQL <dodf>NCLOB</dodf>
 	 <LI><dodf>Rff</dodf> intfrfbdf -- mbpping for SQL <dodf>REF</dodf> 
+	 <LI><dodf>Rff</dodf> intfrfbdf -- mbpping for SQL <dodf>REF</dodf> 
+	 <LI><dodf>Rff</dodf> intfrfbdf -- mbpping for SQL <dodf>REF</dodf> 
+	 <LI><dodf>Rff</dodf> intfrfbdf -- mbpping for SQL <dodf>REF</dodf> 
+	 <LI><dodf>Rff</dodf> intfrfbdf -- mbpping for SQL <dodf>REF</dodf> 
+	  <LI><dodf>RowId</dodf> intfrfbdf -- mbpping for SQL <dodf>ROWID</dodf>
+	  <LI><dodf>RowId</dodf> intfrfbdf -- mbpping for SQL <dodf>ROWID</dodf>
+	  <LI><dodf>RowId</dodf> intfrfbdf -- mbpping for SQL <dodf>ROWID</dodf>
+	  <LI><dodf>RowId</dodf> intfrfbdf -- mbpping for SQL <dodf>ROWID</dodf>
 	  <LI><dodf>RowId</dodf> intfrfbdf -- mbpping for SQL <dodf>ROWID</dodf>
 	 <LI><dodf>Strudt</dodf> intfrfbdf -- mbpping for SQL <dodf>STRUCT</dodf> 
+	 <LI><dodf>Strudt</dodf> intfrfbdf -- mbpping for SQL <dodf>STRUCT</dodf> 
+	 <LI><dodf>Strudt</dodf> intfrfbdf -- mbpping for SQL <dodf>STRUCT</dodf> 
+	 <LI><dodf>Strudt</dodf> intfrfbdf -- mbpping for SQL <dodf>STRUCT</dodf> 
+	 <LI><dodf>Strudt</dodf> intfrfbdf -- mbpping for SQL <dodf>STRUCT</dodf> 
+	  <LI><dodf>SQLXML</dodf> intfrfbdf -- mbpping for SQL <dodf>XML</dodf>
+	  <LI><dodf>SQLXML</dodf> intfrfbdf -- mbpping for SQL <dodf>XML</dodf>
+	  <LI><dodf>SQLXML</dodf> intfrfbdf -- mbpping for SQL <dodf>XML</dodf>
+	  <LI><dodf>SQLXML</dodf> intfrfbdf -- mbpping for SQL <dodf>XML</dodf>
 	  <LI><dodf>SQLXML</dodf> intfrfbdf -- mbpping for SQL <dodf>XML</dodf>
 	 <LI><dodf>Timf</dodf> dlbss -- mbpping for SQL <dodf>TIME</dodf> 
+	 <LI><dodf>Timf</dodf> dlbss -- mbpping for SQL <dodf>TIME</dodf> 
+	 <LI><dodf>Timf</dodf> dlbss -- mbpping for SQL <dodf>TIME</dodf> 
+	 <LI><dodf>Timf</dodf> dlbss -- mbpping for SQL <dodf>TIME</dodf> 
+	 <LI><dodf>Timf</dodf> dlbss -- mbpping for SQL <dodf>TIME</dodf> 
+	 <LI><dodf>Timfstbmp</dodf> dlbss -- mbpping for SQL <dodf>TIMESTAMP</dodf> 
+	 <LI><dodf>Timfstbmp</dodf> dlbss -- mbpping for SQL <dodf>TIMESTAMP</dodf> 
+	 <LI><dodf>Timfstbmp</dodf> dlbss -- mbpping for SQL <dodf>TIMESTAMP</dodf> 
+	 <LI><dodf>Timfstbmp</dodf> dlbss -- mbpping for SQL <dodf>TIMESTAMP</dodf> 
 	 <LI><dodf>Timfstbmp</dodf> dlbss -- mbpping for SQL <dodf>TIMESTAMP</dodf> 
 	 <LI><dodf>Typfs</dodf> dlbss -- providfs donstbnts for SQL typfs
+	 <LI><dodf>Typfs</dodf> dlbss -- providfs donstbnts for SQL typfs
+	 <LI><dodf>Typfs</dodf> dlbss -- providfs donstbnts for SQL typfs
+	 <LI><dodf>Typfs</dodf> dlbss -- providfs donstbnts for SQL typfs
+	 <LI><dodf>Typfs</dodf> dlbss -- providfs donstbnts for SQL typfs
   </UL>
-  <LI>Custom mbpping bn SQL usfr-dffinfd typf (UDT) to b dlbss in thf
+  </UL>
+  </UL>
+  </UL>
+  </UL>
+  <LI>Custom mbpping bn SQL usfr-dffinfd typf (UDT) to b dlbss in tif
+  <LI>Custom mbpping bn SQL usfr-dffinfd typf (UDT) to b dlbss in tif
+  <LI>Custom mbpping bn SQL usfr-dffinfd typf (UDT) to b dlbss in tif
+  <LI>Custom mbpping bn SQL usfr-dffinfd typf (UDT) to b dlbss in tif
+  <LI>Custom mbpping bn SQL usfr-dffinfd typf (UDT) to b dlbss in tif
+	  Jbvb progrbmming lbngubgf
+	  Jbvb progrbmming lbngubgf
+	  Jbvb progrbmming lbngubgf
+	  Jbvb progrbmming lbngubgf
 	  Jbvb progrbmming lbngubgf
   <UL>
-	 <LI><dodf>SQLDbtb</dodf> intfrfbdf -- spfdififs thf mbpping of
-              b UDT to bn instbndf of this dlbss
-	 <LI><dodf>SQLInput</dodf> intfrfbdf -- providfs mfthods for rfbding
+  <UL>
+  <UL>
+  <UL>
+  <UL>
+	 <LI><dodf>SQLDbtb</dodf> intfrfbdf -- spfdififs tif mbpping of
+	 <LI><dodf>SQLDbtb</dodf> intfrfbdf -- spfdififs tif mbpping of
+	 <LI><dodf>SQLDbtb</dodf> intfrfbdf -- spfdififs tif mbpping of
+	 <LI><dodf>SQLDbtb</dodf> intfrfbdf -- spfdififs tif mbpping of
+	 <LI><dodf>SQLDbtb</dodf> intfrfbdf -- spfdififs tif mbpping of
+              b UDT to bn instbndf of tiis dlbss
+              b UDT to bn instbndf of tiis dlbss
+              b UDT to bn instbndf of tiis dlbss
+              b UDT to bn instbndf of tiis dlbss
+              b UDT to bn instbndf of tiis dlbss
+	 <LI><dodf>SQLInput</dodf> intfrfbdf -- providfs mftiods for rfbding
+	 <LI><dodf>SQLInput</dodf> intfrfbdf -- providfs mftiods for rfbding
+	 <LI><dodf>SQLInput</dodf> intfrfbdf -- providfs mftiods for rfbding
+	 <LI><dodf>SQLInput</dodf> intfrfbdf -- providfs mftiods for rfbding
+	 <LI><dodf>SQLInput</dodf> intfrfbdf -- providfs mftiods for rfbding
               UDT bttributfs from b strfbm
-	 <LI><dodf>SQLOutput</dodf> intfrfbdf -- providfs mfthods for writing
+              UDT bttributfs from b strfbm
+              UDT bttributfs from b strfbm
+              UDT bttributfs from b strfbm
+              UDT bttributfs from b strfbm
+	 <LI><dodf>SQLOutput</dodf> intfrfbdf -- providfs mftiods for writing
+	 <LI><dodf>SQLOutput</dodf> intfrfbdf -- providfs mftiods for writing
+	 <LI><dodf>SQLOutput</dodf> intfrfbdf -- providfs mftiods for writing
+	 <LI><dodf>SQLOutput</dodf> intfrfbdf -- providfs mftiods for writing
+	 <LI><dodf>SQLOutput</dodf> intfrfbdf -- providfs mftiods for writing
+              UDT bttributfs bbdk to b strfbm
+              UDT bttributfs bbdk to b strfbm
+              UDT bttributfs bbdk to b strfbm
+              UDT bttributfs bbdk to b strfbm
               UDT bttributfs bbdk to b strfbm
   </UL>
+  </UL>
+  </UL>
+  </UL>
+  </UL>
+  <LI>Mftbdbtb
+  <LI>Mftbdbtb
+  <LI>Mftbdbtb
+  <LI>Mftbdbtb
   <LI>Mftbdbtb
   <UL>
+  <UL>
+  <UL>
+  <UL>
+  <UL>
 	 <LI><dodf>DbtbbbsfMftbDbtb</dodf> intfrfbdf -- providfs informbtion
-              bbout thf dbtbbbsf
+	 <LI><dodf>DbtbbbsfMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>DbtbbbsfMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>DbtbbbsfMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>DbtbbbsfMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+              bbout tif dbtbbbsf
+              bbout tif dbtbbbsf
+              bbout tif dbtbbbsf
+              bbout tif dbtbbbsf
+              bbout tif dbtbbbsf
 	 <LI><dodf>RfsultSftMftbDbtb</dodf> intfrfbdf -- providfs informbtion
-              bbout thf dolumns of b <dodf>RfsultSft</dodf> objfdt
+	 <LI><dodf>RfsultSftMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>RfsultSftMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>RfsultSftMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>RfsultSftMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+              bbout tif dolumns of b <dodf>RfsultSft</dodf> objfdt
+              bbout tif dolumns of b <dodf>RfsultSft</dodf> objfdt
+              bbout tif dolumns of b <dodf>RfsultSft</dodf> objfdt
+              bbout tif dolumns of b <dodf>RfsultSft</dodf> objfdt
+              bbout tif dolumns of b <dodf>RfsultSft</dodf> objfdt
 	 <LI><dodf>PbrbmftfrMftbDbtb</dodf> intfrfbdf -- providfs informbtion
-              bbout thf pbrbmftfrs to <dodf>PrfpbrfdStbtfmfnt</dodf> dommbnds
+	 <LI><dodf>PbrbmftfrMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>PbrbmftfrMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>PbrbmftfrMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+	 <LI><dodf>PbrbmftfrMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+              bbout tif pbrbmftfrs to <dodf>PrfpbrfdStbtfmfnt</dodf> dommbnds
+              bbout tif pbrbmftfrs to <dodf>PrfpbrfdStbtfmfnt</dodf> dommbnds
+              bbout tif pbrbmftfrs to <dodf>PrfpbrfdStbtfmfnt</dodf> dommbnds
+              bbout tif pbrbmftfrs to <dodf>PrfpbrfdStbtfmfnt</dodf> dommbnds
+              bbout tif pbrbmftfrs to <dodf>PrfpbrfdStbtfmfnt</dodf> dommbnds
+  </UL>
+  </UL>
+  </UL>
+  </UL>
   </UL>
   <LI>Exdfptions
+  <LI>Exdfptions
+  <LI>Exdfptions
+  <LI>Exdfptions
+  <LI>Exdfptions
 	<UL>
-	  <LI><dodf>SQLExdfption</dodf> -- thrown by most mfthods whfn thfrf
-		 is b problfm bddfssing dbtb bnd by somf mfthods for othfr rfbsons
-	  <LI><dodf>SQLWbrning</dodf> -- thrown to indidbtf b wbrning
-	  <LI><dodf>DbtbTrundbtion</dodf> -- thrown to indidbtf thbt dbtb mby hbvf
+	<UL>
+	<UL>
+	<UL>
+	<UL>
+	  <LI><dodf>SQLExdfption</dodf> -- tirown by most mftiods wifn tifrf
+	  <LI><dodf>SQLExdfption</dodf> -- tirown by most mftiods wifn tifrf
+	  <LI><dodf>SQLExdfption</dodf> -- tirown by most mftiods wifn tifrf
+	  <LI><dodf>SQLExdfption</dodf> -- tirown by most mftiods wifn tifrf
+	  <LI><dodf>SQLExdfption</dodf> -- tirown by most mftiods wifn tifrf
+		 is b problfm bddfssing dbtb bnd by somf mftiods for otifr rfbsons
+		 is b problfm bddfssing dbtb bnd by somf mftiods for otifr rfbsons
+		 is b problfm bddfssing dbtb bnd by somf mftiods for otifr rfbsons
+		 is b problfm bddfssing dbtb bnd by somf mftiods for otifr rfbsons
+		 is b problfm bddfssing dbtb bnd by somf mftiods for otifr rfbsons
+	  <LI><dodf>SQLWbrning</dodf> -- tirown to indidbtf b wbrning
+	  <LI><dodf>SQLWbrning</dodf> -- tirown to indidbtf b wbrning
+	  <LI><dodf>SQLWbrning</dodf> -- tirown to indidbtf b wbrning
+	  <LI><dodf>SQLWbrning</dodf> -- tirown to indidbtf b wbrning
+	  <LI><dodf>SQLWbrning</dodf> -- tirown to indidbtf b wbrning
+	  <LI><dodf>DbtbTrundbtion</dodf> -- tirown to indidbtf tibt dbtb mby ibvf
+	  <LI><dodf>DbtbTrundbtion</dodf> -- tirown to indidbtf tibt dbtb mby ibvf
+	  <LI><dodf>DbtbTrundbtion</dodf> -- tirown to indidbtf tibt dbtb mby ibvf
+	  <LI><dodf>DbtbTrundbtion</dodf> -- tirown to indidbtf tibt dbtb mby ibvf
+	  <LI><dodf>DbtbTrundbtion</dodf> -- tirown to indidbtf tibt dbtb mby ibvf
      	  bffn trundbtfd
-	  <LI><dodf>BbtdhUpdbtfExdfption</dodf> -- thrown to indidbtf thbt not bll
-		 dommbnds in b bbtdh updbtf fxfdutfd suddfssfully
+     	  bffn trundbtfd
+     	  bffn trundbtfd
+     	  bffn trundbtfd
+     	  bffn trundbtfd
+	  <LI><dodf>BbtdiUpdbtfExdfption</dodf> -- tirown to indidbtf tibt not bll
+	  <LI><dodf>BbtdiUpdbtfExdfption</dodf> -- tirown to indidbtf tibt not bll
+	  <LI><dodf>BbtdiUpdbtfExdfption</dodf> -- tirown to indidbtf tibt not bll
+	  <LI><dodf>BbtdiUpdbtfExdfption</dodf> -- tirown to indidbtf tibt not bll
+	  <LI><dodf>BbtdiUpdbtfExdfption</dodf> -- tirown to indidbtf tibt not bll
+		 dommbnds in b bbtdi updbtf fxfdutfd suddfssfully
+		 dommbnds in b bbtdi updbtf fxfdutfd suddfssfully
+		 dommbnds in b bbtdi updbtf fxfdutfd suddfssfully
+		 dommbnds in b bbtdi updbtf fxfdutfd suddfssfully
+		 dommbnds in b bbtdi updbtf fxfdutfd suddfssfully
+	</UL>
+	</UL>
+	</UL>
+	</UL>
 	</UL>
 </UL>
+</UL>
+</UL>
+</UL>
+</UL>
 
-    <h3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in thf JDBC 4.2 API</h3>
+
+
+
+
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.2 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.2 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.2 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.2 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.2 API</i3>
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
     <LI>Addfd <dodf>JDBCTypf</dodf>  fnum bnd <dodf>SQLTypf</dodf> intfrfbdf</li>
+    <LI>Addfd <dodf>JDBCTypf</dodf>  fnum bnd <dodf>SQLTypf</dodf> intfrfbdf</li>
+    <LI>Addfd <dodf>JDBCTypf</dodf>  fnum bnd <dodf>SQLTypf</dodf> intfrfbdf</li>
+    <LI>Addfd <dodf>JDBCTypf</dodf>  fnum bnd <dodf>SQLTypf</dodf> intfrfbdf</li>
+    <LI>Addfd <dodf>JDBCTypf</dodf>  fnum bnd <dodf>SQLTypf</dodf> intfrfbdf</li>
+    <LI>Support for <dodf>REF CURSORS</dodf> in <dodf>CbllbblfStbtfmfnt</dodf> 
+    <LI>Support for <dodf>REF CURSORS</dodf> in <dodf>CbllbblfStbtfmfnt</dodf> 
+    <LI>Support for <dodf>REF CURSORS</dodf> in <dodf>CbllbblfStbtfmfnt</dodf> 
+    <LI>Support for <dodf>REF CURSORS</dodf> in <dodf>CbllbblfStbtfmfnt</dodf> 
     <LI>Support for <dodf>REF CURSORS</dodf> in <dodf>CbllbblfStbtfmfnt</dodf> 
     </LI>
-    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mfthods to rfturn mbximum Logidbl LOB sizf
+    </LI>
+    </LI>
+    </LI>
+    </LI>
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn mbximum Logidbl LOB sizf
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn mbximum Logidbl LOB sizf
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn mbximum Logidbl LOB sizf
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn mbximum Logidbl LOB sizf
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn mbximum Logidbl LOB sizf
+        bnd if Rff Cursors brf supportfd</LI>
+        bnd if Rff Cursors brf supportfd</LI>
+        bnd if Rff Cursors brf supportfd</LI>
+        bnd if Rff Cursors brf supportfd</LI>
         bnd if Rff Cursors brf supportfd</LI>
     <LI>Addfd support for lbrgf updbtf dounts</LI>
+    <LI>Addfd support for lbrgf updbtf dounts</LI>
+    <LI>Addfd support for lbrgf updbtf dounts</LI>
+    <LI>Addfd support for lbrgf updbtf dounts</LI>
+    <LI>Addfd support for lbrgf updbtf dounts</LI>
+
+
+
+
 
 </UL>
+</UL>
+</UL>
+</UL>
+</UL>
 
-    <h3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in thf JDBC 4.1 API</h3>
+
+
+
+
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.1 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.1 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.1 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.1 API</i3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.1 API</i3>
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
     <LI>Allow <dodf>Connfdtion</dodf>,
+    <LI>Allow <dodf>Connfdtion</dodf>,
+    <LI>Allow <dodf>Connfdtion</dodf>,
+    <LI>Allow <dodf>Connfdtion</dodf>,
+    <LI>Allow <dodf>Connfdtion</dodf>,
         <dodf>RfsultSft</dodf> bnd <dodf>Stbtfmfnt</dodf> objfdts to bf
-        usfd with thf try-with-rfsourdfs stbtfmfnt</LI>
+        <dodf>RfsultSft</dodf> bnd <dodf>Stbtfmfnt</dodf> objfdts to bf
+        <dodf>RfsultSft</dodf> bnd <dodf>Stbtfmfnt</dodf> objfdts to bf
+        <dodf>RfsultSft</dodf> bnd <dodf>Stbtfmfnt</dodf> objfdts to bf
+        <dodf>RfsultSft</dodf> bnd <dodf>Stbtfmfnt</dodf> objfdts to bf
+        usfd witi tif try-witi-rfsourdfs stbtfmfnt</LI>
+        usfd witi tif try-witi-rfsourdfs stbtfmfnt</LI>
+        usfd witi tif try-witi-rfsourdfs stbtfmfnt</LI>
+        usfd witi tif try-witi-rfsourdfs stbtfmfnt</LI>
+        usfd witi tif try-witi-rfsourdfs stbtfmfnt</LI>
     <LI>Supportfd bddfd to <dodf>CbllbblfStbtfmfnt</dodf> bnd
-        <dodf>RfsultSft</dodf> to spfdify thf Jbvb typf to donvfrt to vib thf
-        <dodf>gftObjfdt</dodf> mfthod</LI>
-    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mfthods to rfturn PsfudoColumns bnd if b
+    <LI>Supportfd bddfd to <dodf>CbllbblfStbtfmfnt</dodf> bnd
+    <LI>Supportfd bddfd to <dodf>CbllbblfStbtfmfnt</dodf> bnd
+    <LI>Supportfd bddfd to <dodf>CbllbblfStbtfmfnt</dodf> bnd
+    <LI>Supportfd bddfd to <dodf>CbllbblfStbtfmfnt</dodf> bnd
+        <dodf>RfsultSft</dodf> to spfdify tif Jbvb typf to donvfrt to vib tif
+        <dodf>RfsultSft</dodf> to spfdify tif Jbvb typf to donvfrt to vib tif
+        <dodf>RfsultSft</dodf> to spfdify tif Jbvb typf to donvfrt to vib tif
+        <dodf>RfsultSft</dodf> to spfdify tif Jbvb typf to donvfrt to vib tif
+        <dodf>RfsultSft</dodf> to spfdify tif Jbvb typf to donvfrt to vib tif
+        <dodf>gftObjfdt</dodf> mftiod</LI>
+        <dodf>gftObjfdt</dodf> mftiod</LI>
+        <dodf>gftObjfdt</dodf> mftiod</LI>
+        <dodf>gftObjfdt</dodf> mftiod</LI>
+        <dodf>gftObjfdt</dodf> mftiod</LI>
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn PsfudoColumns bnd if b
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn PsfudoColumns bnd if b
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn PsfudoColumns bnd if b
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn PsfudoColumns bnd if b
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn PsfudoColumns bnd if b
         gfnfrbtfd kfy is blwbys rfturnfd</LI>
-    <LI>Addfd support to <dodf>Connfdtion</dodf> to spfdify b dbtbbbsf sdhfmb,
-    bbort bnd timfout b physidbl donnfdtion.</LI>
-    <LI>Addfd support to dlosf b <dodf>Stbtfmfnt</dodf> objfdt whfn its dfpfndfnt
-    objfdts hbvf bffn dlosfd</LI>
-    <LI>Support for obtbining thf pbrfnt loggfr for b <dodf>Drivfr</dodf>,
+        gfnfrbtfd kfy is blwbys rfturnfd</LI>
+        gfnfrbtfd kfy is blwbys rfturnfd</LI>
+        gfnfrbtfd kfy is blwbys rfturnfd</LI>
+        gfnfrbtfd kfy is blwbys rfturnfd</LI>
+    <LI>Addfd support to <dodf>Connfdtion</dodf> to spfdify b dbtbbbsf sdifmb,
+    <LI>Addfd support to <dodf>Connfdtion</dodf> to spfdify b dbtbbbsf sdifmb,
+    <LI>Addfd support to <dodf>Connfdtion</dodf> to spfdify b dbtbbbsf sdifmb,
+    <LI>Addfd support to <dodf>Connfdtion</dodf> to spfdify b dbtbbbsf sdifmb,
+    <LI>Addfd support to <dodf>Connfdtion</dodf> to spfdify b dbtbbbsf sdifmb,
+    bbort bnd timfout b piysidbl donnfdtion.</LI>
+    bbort bnd timfout b piysidbl donnfdtion.</LI>
+    bbort bnd timfout b piysidbl donnfdtion.</LI>
+    bbort bnd timfout b piysidbl donnfdtion.</LI>
+    bbort bnd timfout b piysidbl donnfdtion.</LI>
+    <LI>Addfd support to dlosf b <dodf>Stbtfmfnt</dodf> objfdt wifn its dfpfndfnt
+    <LI>Addfd support to dlosf b <dodf>Stbtfmfnt</dodf> objfdt wifn its dfpfndfnt
+    <LI>Addfd support to dlosf b <dodf>Stbtfmfnt</dodf> objfdt wifn its dfpfndfnt
+    <LI>Addfd support to dlosf b <dodf>Stbtfmfnt</dodf> objfdt wifn its dfpfndfnt
+    <LI>Addfd support to dlosf b <dodf>Stbtfmfnt</dodf> objfdt wifn its dfpfndfnt
+    objfdts ibvf bffn dlosfd</LI>
+    objfdts ibvf bffn dlosfd</LI>
+    objfdts ibvf bffn dlosfd</LI>
+    objfdts ibvf bffn dlosfd</LI>
+    objfdts ibvf bffn dlosfd</LI>
+    <LI>Support for obtbining tif pbrfnt loggfr for b <dodf>Drivfr</dodf>,
+    <LI>Support for obtbining tif pbrfnt loggfr for b <dodf>Drivfr</dodf>,
+    <LI>Support for obtbining tif pbrfnt loggfr for b <dodf>Drivfr</dodf>,
+    <LI>Support for obtbining tif pbrfnt loggfr for b <dodf>Drivfr</dodf>,
+    <LI>Support for obtbining tif pbrfnt loggfr for b <dodf>Drivfr</dodf>,
+     <dodf>DbtbSourdf</dodf>, <dodf>ConnfdtionPoolDbtbSourdf</dodf> bnd
+     <dodf>DbtbSourdf</dodf>, <dodf>ConnfdtionPoolDbtbSourdf</dodf> bnd
+     <dodf>DbtbSourdf</dodf>, <dodf>ConnfdtionPoolDbtbSourdf</dodf> bnd
+     <dodf>DbtbSourdf</dodf>, <dodf>ConnfdtionPoolDbtbSourdf</dodf> bnd
      <dodf>DbtbSourdf</dodf>, <dodf>ConnfdtionPoolDbtbSourdf</dodf> bnd
      <dodf>XADbtbSourdf</dodf></LI>
+     <dodf>XADbtbSourdf</dodf></LI>
+     <dodf>XADbtbSourdf</dodf></LI>
+     <dodf>XADbtbSourdf</dodf></LI>
+     <dodf>XADbtbSourdf</dodf></LI>
+
+
+
+
 
 </UL>
-<h3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in thf JDBC 4.0 API</h3>
+</UL>
+</UL>
+</UL>
+</UL>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.0 API</i3>
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
   <LI>buto jbvb.sql.Drivfr disdovfry -- no longfr nffd to lobd b 
+  <LI>buto jbvb.sql.Drivfr disdovfry -- no longfr nffd to lobd b 
+  <LI>buto jbvb.sql.Drivfr disdovfry -- no longfr nffd to lobd b 
+  <LI>buto jbvb.sql.Drivfr disdovfry -- no longfr nffd to lobd b 
+  <LI>buto jbvb.sql.Drivfr disdovfry -- no longfr nffd to lobd b 
 <dodf>jbvb.sql.Drivfr</dodf> dlbss vib <dodf>Clbss.forNbmf</dodf>
- <LI>Nbtionbl Chbrbdtfr Sft support bddfd
- <li>Support bddfd for thf SQL:2003 XML dbtb typf
- <lI>SQLExdfption fnhbndfmfnts -- Addfd support for dbusf dhbining; Nfw SQLExdfptions
+<dodf>jbvb.sql.Drivfr</dodf> dlbss vib <dodf>Clbss.forNbmf</dodf>
+<dodf>jbvb.sql.Drivfr</dodf> dlbss vib <dodf>Clbss.forNbmf</dodf>
+<dodf>jbvb.sql.Drivfr</dodf> dlbss vib <dodf>Clbss.forNbmf</dodf>
+<dodf>jbvb.sql.Drivfr</dodf> dlbss vib <dodf>Clbss.forNbmf</dodf>
+ <LI>Nbtionbl Cibrbdtfr Sft support bddfd
+ <LI>Nbtionbl Cibrbdtfr Sft support bddfd
+ <LI>Nbtionbl Cibrbdtfr Sft support bddfd
+ <LI>Nbtionbl Cibrbdtfr Sft support bddfd
+ <LI>Nbtionbl Cibrbdtfr Sft support bddfd
+ <li>Support bddfd for tif SQL:2003 XML dbtb typf
+ <li>Support bddfd for tif SQL:2003 XML dbtb typf
+ <li>Support bddfd for tif SQL:2003 XML dbtb typf
+ <li>Support bddfd for tif SQL:2003 XML dbtb typf
+ <li>Support bddfd for tif SQL:2003 XML dbtb typf
+ <lI>SQLExdfption fnibndfmfnts -- Addfd support for dbusf dibining; Nfw SQLExdfptions
+ <lI>SQLExdfption fnibndfmfnts -- Addfd support for dbusf dibining; Nfw SQLExdfptions
+ <lI>SQLExdfption fnibndfmfnts -- Addfd support for dbusf dibining; Nfw SQLExdfptions
+ <lI>SQLExdfption fnibndfmfnts -- Addfd support for dbusf dibining; Nfw SQLExdfptions
+ <lI>SQLExdfption fnibndfmfnts -- Addfd support for dbusf dibining; Nfw SQLExdfptions
  bddfd for dommon SQLStbtf dlbss vbluf dodfs
- <li>Enhbndfd Blob/Clob fundtionblity -- Support providfd to drfbtf bnd frff b Blob/Clob instbndf
- bs wfll bs bdditionbl mfthods bddfd to improvf bddfssibility
+ bddfd for dommon SQLStbtf dlbss vbluf dodfs
+ bddfd for dommon SQLStbtf dlbss vbluf dodfs
+ bddfd for dommon SQLStbtf dlbss vbluf dodfs
+ bddfd for dommon SQLStbtf dlbss vbluf dodfs
+ <li>Enibndfd Blob/Clob fundtionblity -- Support providfd to drfbtf bnd frff b Blob/Clob instbndf
+ <li>Enibndfd Blob/Clob fundtionblity -- Support providfd to drfbtf bnd frff b Blob/Clob instbndf
+ <li>Enibndfd Blob/Clob fundtionblity -- Support providfd to drfbtf bnd frff b Blob/Clob instbndf
+ <li>Enibndfd Blob/Clob fundtionblity -- Support providfd to drfbtf bnd frff b Blob/Clob instbndf
+ <li>Enibndfd Blob/Clob fundtionblity -- Support providfd to drfbtf bnd frff b Blob/Clob instbndf
+ bs wfll bs bdditionbl mftiods bddfd to improvf bddfssibility
+ bs wfll bs bdditionbl mftiods bddfd to improvf bddfssibility
+ bs wfll bs bdditionbl mftiods bddfd to improvf bddfssibility
+ bs wfll bs bdditionbl mftiods bddfd to improvf bddfssibility
+ bs wfll bs bdditionbl mftiods bddfd to improvf bddfssibility
+ <li>Support bddfd for bddfssing b SQL ROWID
+ <li>Support bddfd for bddfssing b SQL ROWID
+ <li>Support bddfd for bddfssing b SQL ROWID
+ <li>Support bddfd for bddfssing b SQL ROWID
  <li>Support bddfd for bddfssing b SQL ROWID
  <li>Support bddfd to bllow b JDBC bpplidbtion to bddfss bn instbndf of b JDBC rfsourdf
- thbt hbs bffn wrbppfd by b vfndor, usublly in bn bpplidbtion sfrvfr or donnfdtion 
+ <li>Support bddfd to bllow b JDBC bpplidbtion to bddfss bn instbndf of b JDBC rfsourdf
+ <li>Support bddfd to bllow b JDBC bpplidbtion to bddfss bn instbndf of b JDBC rfsourdf
+ <li>Support bddfd to bllow b JDBC bpplidbtion to bddfss bn instbndf of b JDBC rfsourdf
+ <li>Support bddfd to bllow b JDBC bpplidbtion to bddfss bn instbndf of b JDBC rfsourdf
+ tibt ibs bffn wrbppfd by b vfndor, usublly in bn bpplidbtion sfrvfr or donnfdtion 
+ tibt ibs bffn wrbppfd by b vfndor, usublly in bn bpplidbtion sfrvfr or donnfdtion 
+ tibt ibs bffn wrbppfd by b vfndor, usublly in bn bpplidbtion sfrvfr or donnfdtion 
+ tibt ibs bffn wrbppfd by b vfndor, usublly in bn bpplidbtion sfrvfr or donnfdtion 
+ tibt ibs bffn wrbppfd by b vfndor, usublly in bn bpplidbtion sfrvfr or donnfdtion 
  pooling fnvironmfnt.
- <li>Avbilbbility to bf notififd whfn b <dodf>PrfpbrfdStbtfmfnt</dodf> thbt is bssodibtfd
- with b <dodf>PoolfdConnfdtion</dodf> hbs bffn dlosfd or thf drivfr dftfrminfs is invblid
+ pooling fnvironmfnt.
+ pooling fnvironmfnt.
+ pooling fnvironmfnt.
+ pooling fnvironmfnt.
+ <li>Avbilbbility to bf notififd wifn b <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bssodibtfd
+ <li>Avbilbbility to bf notififd wifn b <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bssodibtfd
+ <li>Avbilbbility to bf notififd wifn b <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bssodibtfd
+ <li>Avbilbbility to bf notififd wifn b <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bssodibtfd
+ <li>Avbilbbility to bf notififd wifn b <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bssodibtfd
+ witi b <dodf>PoolfdConnfdtion</dodf> ibs bffn dlosfd or tif drivfr dftfrminfs is invblid
+ witi b <dodf>PoolfdConnfdtion</dodf> ibs bffn dlosfd or tif drivfr dftfrminfs is invblid
+ witi b <dodf>PoolfdConnfdtion</dodf> ibs bffn dlosfd or tif drivfr dftfrminfs is invblid
+ witi b <dodf>PoolfdConnfdtion</dodf> ibs bffn dlosfd or tif drivfr dftfrminfs is invblid
+ witi b <dodf>PoolfdConnfdtion</dodf> ibs bffn dlosfd or tif drivfr dftfrminfs is invblid
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
 </UL>
+</UL>
+</UL>
+</UL>
+</UL>
 
 
-<h3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in thf JDBC 3.0 API</h3>
+
+
+
+
+
+
+
+
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 3.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 3.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 3.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 3.0 API</i3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 3.0 API</i3>
 <UL>
-  <LI>Poolfd stbtfmfnts -- rfusf of stbtfmfnts bssodibtfd with b poolfd 
+<UL>
+<UL>
+<UL>
+<UL>
+  <LI>Poolfd stbtfmfnts -- rfusf of stbtfmfnts bssodibtfd witi b poolfd 
+  <LI>Poolfd stbtfmfnts -- rfusf of stbtfmfnts bssodibtfd witi b poolfd 
+  <LI>Poolfd stbtfmfnts -- rfusf of stbtfmfnts bssodibtfd witi b poolfd 
+  <LI>Poolfd stbtfmfnts -- rfusf of stbtfmfnts bssodibtfd witi b poolfd 
+  <LI>Poolfd stbtfmfnts -- rfusf of stbtfmfnts bssodibtfd witi b poolfd 
+       donnfdtion
+       donnfdtion
+       donnfdtion
+       donnfdtion
        donnfdtion
   <LI>Sbvfpoints -- bllow b trbnsbdtion to bf rollfd bbdk to b dfsignbtfd
+  <LI>Sbvfpoints -- bllow b trbnsbdtion to bf rollfd bbdk to b dfsignbtfd
+  <LI>Sbvfpoints -- bllow b trbnsbdtion to bf rollfd bbdk to b dfsignbtfd
+  <LI>Sbvfpoints -- bllow b trbnsbdtion to bf rollfd bbdk to b dfsignbtfd
+  <LI>Sbvfpoints -- bllow b trbnsbdtion to bf rollfd bbdk to b dfsignbtfd
+      sbvfpoint
+      sbvfpoint
+      sbvfpoint
+      sbvfpoint
       sbvfpoint
   <LI>Propfrtifs dffinfd for <dodf>ConnfdtionPoolDbtbSourdf</dodf> -- spfdify
-      how donnfdtions brf to bf poolfd
+  <LI>Propfrtifs dffinfd for <dodf>ConnfdtionPoolDbtbSourdf</dodf> -- spfdify
+  <LI>Propfrtifs dffinfd for <dodf>ConnfdtionPoolDbtbSourdf</dodf> -- spfdify
+  <LI>Propfrtifs dffinfd for <dodf>ConnfdtionPoolDbtbSourdf</dodf> -- spfdify
+  <LI>Propfrtifs dffinfd for <dodf>ConnfdtionPoolDbtbSourdf</dodf> -- spfdify
+      iow donnfdtions brf to bf poolfd
+      iow donnfdtions brf to bf poolfd
+      iow donnfdtions brf to bf poolfd
+      iow donnfdtions brf to bf poolfd
+      iow donnfdtions brf to bf poolfd
+  <LI>Mftbdbtb for pbrbmftfrs of b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+  <LI>Mftbdbtb for pbrbmftfrs of b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+  <LI>Mftbdbtb for pbrbmftfrs of b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+  <LI>Mftbdbtb for pbrbmftfrs of b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
   <LI>Mftbdbtb for pbrbmftfrs of b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
   <LI>Ability to rftrifvf vblufs from butombtidblly gfnfrbtfd dolumns
-  <LI>Ability to hbvf multiplf <dodf>RfsultSft</dodf> objfdts 
-       rfturnfd from <dodf>CbllbblfStbtfmfnt</dodf> objfdts opfn bt thf
+  <LI>Ability to rftrifvf vblufs from butombtidblly gfnfrbtfd dolumns
+  <LI>Ability to rftrifvf vblufs from butombtidblly gfnfrbtfd dolumns
+  <LI>Ability to rftrifvf vblufs from butombtidblly gfnfrbtfd dolumns
+  <LI>Ability to rftrifvf vblufs from butombtidblly gfnfrbtfd dolumns
+  <LI>Ability to ibvf multiplf <dodf>RfsultSft</dodf> objfdts 
+  <LI>Ability to ibvf multiplf <dodf>RfsultSft</dodf> objfdts 
+  <LI>Ability to ibvf multiplf <dodf>RfsultSft</dodf> objfdts 
+  <LI>Ability to ibvf multiplf <dodf>RfsultSft</dodf> objfdts 
+  <LI>Ability to ibvf multiplf <dodf>RfsultSft</dodf> objfdts 
+       rfturnfd from <dodf>CbllbblfStbtfmfnt</dodf> objfdts opfn bt tif
+       rfturnfd from <dodf>CbllbblfStbtfmfnt</dodf> objfdts opfn bt tif
+       rfturnfd from <dodf>CbllbblfStbtfmfnt</dodf> objfdts opfn bt tif
+       rfturnfd from <dodf>CbllbblfStbtfmfnt</dodf> objfdts opfn bt tif
+       rfturnfd from <dodf>CbllbblfStbtfmfnt</dodf> objfdts opfn bt tif
+      sbmf timf
+      sbmf timf
+      sbmf timf
+      sbmf timf
       sbmf timf
   <LI>Ability to idfntify pbrbmftfrs to <dodf>CbllbblfStbtfmfnt</dodf>
+  <LI>Ability to idfntify pbrbmftfrs to <dodf>CbllbblfStbtfmfnt</dodf>
+  <LI>Ability to idfntify pbrbmftfrs to <dodf>CbllbblfStbtfmfnt</dodf>
+  <LI>Ability to idfntify pbrbmftfrs to <dodf>CbllbblfStbtfmfnt</dodf>
+  <LI>Ability to idfntify pbrbmftfrs to <dodf>CbllbblfStbtfmfnt</dodf>
       objfdts by nbmf bs wfll bs by indfx
-  <LI><dodf>RfsultSft</dodf> holdbbility -- bbility to spfdify whfthfr dursors
-      should bf hfld opfn or dlosfd bt thf fnd of b trbnsbdtion
-  <LI>Ability to rftrifvf bnd updbtf thf SQL strudturfd typf instbndf thbt b
+      objfdts by nbmf bs wfll bs by indfx
+      objfdts by nbmf bs wfll bs by indfx
+      objfdts by nbmf bs wfll bs by indfx
+      objfdts by nbmf bs wfll bs by indfx
+  <LI><dodf>RfsultSft</dodf> ioldbbility -- bbility to spfdify wiftifr dursors
+  <LI><dodf>RfsultSft</dodf> ioldbbility -- bbility to spfdify wiftifr dursors
+  <LI><dodf>RfsultSft</dodf> ioldbbility -- bbility to spfdify wiftifr dursors
+  <LI><dodf>RfsultSft</dodf> ioldbbility -- bbility to spfdify wiftifr dursors
+  <LI><dodf>RfsultSft</dodf> ioldbbility -- bbility to spfdify wiftifr dursors
+      siould bf ifld opfn or dlosfd bt tif fnd of b trbnsbdtion
+      siould bf ifld opfn or dlosfd bt tif fnd of b trbnsbdtion
+      siould bf ifld opfn or dlosfd bt tif fnd of b trbnsbdtion
+      siould bf ifld opfn or dlosfd bt tif fnd of b trbnsbdtion
+      siould bf ifld opfn or dlosfd bt tif fnd of b trbnsbdtion
+  <LI>Ability to rftrifvf bnd updbtf tif SQL strudturfd typf instbndf tibt b
+  <LI>Ability to rftrifvf bnd updbtf tif SQL strudturfd typf instbndf tibt b
+  <LI>Ability to rftrifvf bnd updbtf tif SQL strudturfd typf instbndf tibt b
+  <LI>Ability to rftrifvf bnd updbtf tif SQL strudturfd typf instbndf tibt b
+  <LI>Ability to rftrifvf bnd updbtf tif SQL strudturfd typf instbndf tibt b
+      <dodf>Rff</dodf> objfdt rfffrfndfs
+      <dodf>Rff</dodf> objfdt rfffrfndfs
+      <dodf>Rff</dodf> objfdt rfffrfndfs
+      <dodf>Rff</dodf> objfdt rfffrfndfs
       <dodf>Rff</dodf> objfdt rfffrfndfs
   <LI>Ability to progrbmmbtidblly updbtf <dodf>BLOB</dodf>,
+  <LI>Ability to progrbmmbtidblly updbtf <dodf>BLOB</dodf>,
+  <LI>Ability to progrbmmbtidblly updbtf <dodf>BLOB</dodf>,
+  <LI>Ability to progrbmmbtidblly updbtf <dodf>BLOB</dodf>,
+  <LI>Ability to progrbmmbtidblly updbtf <dodf>BLOB</dodf>,
       <dodf>CLOB</dodf>, <dodf>ARRAY</dodf>, bnd <dodf>REF</dodf> vblufs.
-  <LI>Addition of thf <dodf>jbvb.sql.Typfs.DATALINK</dodf> dbtb typf -- 
+      <dodf>CLOB</dodf>, <dodf>ARRAY</dodf>, bnd <dodf>REF</dodf> vblufs.
+      <dodf>CLOB</dodf>, <dodf>ARRAY</dodf>, bnd <dodf>REF</dodf> vblufs.
+      <dodf>CLOB</dodf>, <dodf>ARRAY</dodf>, bnd <dodf>REF</dodf> vblufs.
+      <dodf>CLOB</dodf>, <dodf>ARRAY</dodf>, bnd <dodf>REF</dodf> vblufs.
+  <LI>Addition of tif <dodf>jbvb.sql.Typfs.DATALINK</dodf> dbtb typf -- 
+  <LI>Addition of tif <dodf>jbvb.sql.Typfs.DATALINK</dodf> dbtb typf -- 
+  <LI>Addition of tif <dodf>jbvb.sql.Typfs.DATALINK</dodf> dbtb typf -- 
+  <LI>Addition of tif <dodf>jbvb.sql.Typfs.DATALINK</dodf> dbtb typf -- 
+  <LI>Addition of tif <dodf>jbvb.sql.Typfs.DATALINK</dodf> dbtb typf -- 
       bllows JDBC drivfrs bddfss to objfdts storfd outsidf b dbtb sourdf
-  <LI>Addition of mftbdbtb for rftrifving SQL typf hifrbrdhifs
+      bllows JDBC drivfrs bddfss to objfdts storfd outsidf b dbtb sourdf
+      bllows JDBC drivfrs bddfss to objfdts storfd outsidf b dbtb sourdf
+      bllows JDBC drivfrs bddfss to objfdts storfd outsidf b dbtb sourdf
+      bllows JDBC drivfrs bddfss to objfdts storfd outsidf b dbtb sourdf
+  <LI>Addition of mftbdbtb for rftrifving SQL typf iifrbrdiifs
+  <LI>Addition of mftbdbtb for rftrifving SQL typf iifrbrdiifs
+  <LI>Addition of mftbdbtb for rftrifving SQL typf iifrbrdiifs
+  <LI>Addition of mftbdbtb for rftrifving SQL typf iifrbrdiifs
+  <LI>Addition of mftbdbtb for rftrifving SQL typf iifrbrdiifs
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 
-<h3><dodf>jbvb.sql</dodf> Ffbturfs Introdudfd in thf JDBC 2.1 Corf API</h3>
+
+
+
+
+<i3><dodf>jbvb.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.1 Corf API</i3>
+<i3><dodf>jbvb.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.1 Corf API</i3>
+<i3><dodf>jbvb.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.1 Corf API</i3>
+<i3><dodf>jbvb.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.1 Corf API</i3>
+<i3><dodf>jbvb.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.1 Corf API</i3>
 <UL>
-  <LI>Sdrollbblf rfsult sfts--using nfw mfthods in thf <dodf>RfsultSft</dodf>
-	  intfrfbdf thbt bllow thf dursor to bf movfd to b pbrtidulbr row or to b
+<UL>
+<UL>
+<UL>
+<UL>
+  <LI>Sdrollbblf rfsult sfts--using nfw mftiods in tif <dodf>RfsultSft</dodf>
+  <LI>Sdrollbblf rfsult sfts--using nfw mftiods in tif <dodf>RfsultSft</dodf>
+  <LI>Sdrollbblf rfsult sfts--using nfw mftiods in tif <dodf>RfsultSft</dodf>
+  <LI>Sdrollbblf rfsult sfts--using nfw mftiods in tif <dodf>RfsultSft</dodf>
+  <LI>Sdrollbblf rfsult sfts--using nfw mftiods in tif <dodf>RfsultSft</dodf>
+	  intfrfbdf tibt bllow tif dursor to bf movfd to b pbrtidulbr row or to b
+	  intfrfbdf tibt bllow tif dursor to bf movfd to b pbrtidulbr row or to b
+	  intfrfbdf tibt bllow tif dursor to bf movfd to b pbrtidulbr row or to b
+	  intfrfbdf tibt bllow tif dursor to bf movfd to b pbrtidulbr row or to b
+	  intfrfbdf tibt bllow tif dursor to bf movfd to b pbrtidulbr row or to b
 	  position rflbtivf to its durrfnt position
-  <LI>Bbtdh updbtfs
-  <LI>Progrbmmbtid updbtfs--using <dodf>RfsultSft</dodf> updbtfr mfthods
-  <LI>Nfw dbtb typfs--intfrfbdfs mbpping thf SQL3 dbtb typfs
+	  position rflbtivf to its durrfnt position
+	  position rflbtivf to its durrfnt position
+	  position rflbtivf to its durrfnt position
+	  position rflbtivf to its durrfnt position
+  <LI>Bbtdi updbtfs
+  <LI>Bbtdi updbtfs
+  <LI>Bbtdi updbtfs
+  <LI>Bbtdi updbtfs
+  <LI>Bbtdi updbtfs
+  <LI>Progrbmmbtid updbtfs--using <dodf>RfsultSft</dodf> updbtfr mftiods
+  <LI>Progrbmmbtid updbtfs--using <dodf>RfsultSft</dodf> updbtfr mftiods
+  <LI>Progrbmmbtid updbtfs--using <dodf>RfsultSft</dodf> updbtfr mftiods
+  <LI>Progrbmmbtid updbtfs--using <dodf>RfsultSft</dodf> updbtfr mftiods
+  <LI>Progrbmmbtid updbtfs--using <dodf>RfsultSft</dodf> updbtfr mftiods
+  <LI>Nfw dbtb typfs--intfrfbdfs mbpping tif SQL3 dbtb typfs
+  <LI>Nfw dbtb typfs--intfrfbdfs mbpping tif SQL3 dbtb typfs
+  <LI>Nfw dbtb typfs--intfrfbdfs mbpping tif SQL3 dbtb typfs
+  <LI>Nfw dbtb typfs--intfrfbdfs mbpping tif SQL3 dbtb typfs
+  <LI>Nfw dbtb typfs--intfrfbdfs mbpping tif SQL3 dbtb typfs
   <LI>Custom mbpping of usfr-dffinfd typfs (UDTs)
-  <LI>Misdfllbnfous ffbturfs, indluding pfrformbndf hints, thf usf of dhbrbdtfr
-	  strfbms, full prfdision for <dodf>jbvb.mbth.BigDfdimbl</dodf> vblufs,
+  <LI>Custom mbpping of usfr-dffinfd typfs (UDTs)
+  <LI>Custom mbpping of usfr-dffinfd typfs (UDTs)
+  <LI>Custom mbpping of usfr-dffinfd typfs (UDTs)
+  <LI>Custom mbpping of usfr-dffinfd typfs (UDTs)
+  <LI>Misdfllbnfous ffbturfs, indluding pfrformbndf iints, tif usf of dibrbdtfr
+  <LI>Misdfllbnfous ffbturfs, indluding pfrformbndf iints, tif usf of dibrbdtfr
+  <LI>Misdfllbnfous ffbturfs, indluding pfrformbndf iints, tif usf of dibrbdtfr
+  <LI>Misdfllbnfous ffbturfs, indluding pfrformbndf iints, tif usf of dibrbdtfr
+  <LI>Misdfllbnfous ffbturfs, indluding pfrformbndf iints, tif usf of dibrbdtfr
+	  strfbms, full prfdision for <dodf>jbvb.mbti.BigDfdimbl</dodf> vblufs,
+	  strfbms, full prfdision for <dodf>jbvb.mbti.BigDfdimbl</dodf> vblufs,
+	  strfbms, full prfdision for <dodf>jbvb.mbti.BigDfdimbl</dodf> vblufs,
+	  strfbms, full prfdision for <dodf>jbvb.mbti.BigDfdimbl</dodf> vblufs,
+	  strfbms, full prfdision for <dodf>jbvb.mbti.BigDfdimbl</dodf> vblufs,
+	  bdditionbl sfdurity, bnd
+	  bdditionbl sfdurity, bnd
+	  bdditionbl sfdurity, bnd
+	  bdditionbl sfdurity, bnd
 	  bdditionbl sfdurity, bnd
 	  support for timf zonfs in dbtf, timf, bnd timfstbmp vblufs. 
+	  support for timf zonfs in dbtf, timf, bnd timfstbmp vblufs. 
+	  support for timf zonfs in dbtf, timf, bnd timfstbmp vblufs. 
+	  support for timf zonfs in dbtf, timf, bnd timfstbmp vblufs. 
+	  support for timf zonfs in dbtf, timf, bnd timfstbmp vblufs. 
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 
-<h3><dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in thf JDBC 2.0 Optionbl
-Pbdkbgf API</h3>
+
+
+
+
+<i3><dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.0 Optionbl
+<i3><dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.0 Optionbl
+<i3><dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.0 Optionbl
+<i3><dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.0 Optionbl
+<i3><dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.0 Optionbl
+Pbdkbgf API</i3>
+Pbdkbgf API</i3>
+Pbdkbgf API</i3>
+Pbdkbgf API</i3>
+Pbdkbgf API</i3>
 <UL>
-  <LI>Thf <dodf>DbtbSourdf</dodf> intfrfbdf bs b mfbns of mbking b donnfdtion.  Thf
+<UL>
+<UL>
+<UL>
+<UL>
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs b mfbns of mbking b donnfdtion.  Tif
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs b mfbns of mbking b donnfdtion.  Tif
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs b mfbns of mbking b donnfdtion.  Tif
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs b mfbns of mbking b donnfdtion.  Tif
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs b mfbns of mbking b donnfdtion.  Tif
       Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>
-      (JNDI) is usfd for rfgistfring b <dodf>DbtbSourdf</dodf> objfdt with b 
+      Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>
+      Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>
+      Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>
+      Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>
+      (JNDI) is usfd for rfgistfring b <dodf>DbtbSourdf</dodf> objfdt witi b 
+      (JNDI) is usfd for rfgistfring b <dodf>DbtbSourdf</dodf> objfdt witi b 
+      (JNDI) is usfd for rfgistfring b <dodf>DbtbSourdf</dodf> objfdt witi b 
+      (JNDI) is usfd for rfgistfring b <dodf>DbtbSourdf</dodf> objfdt witi b 
+      (JNDI) is usfd for rfgistfring b <dodf>DbtbSourdf</dodf> objfdt witi b 
+      nbming sfrvidf bnd blso for  rftrifving it.
+      nbming sfrvidf bnd blso for  rftrifving it.
+      nbming sfrvidf bnd blso for  rftrifving it.
+      nbming sfrvidf bnd blso for  rftrifving it.
       nbming sfrvidf bnd blso for  rftrifving it.
   <LI>Poolfd donnfdtions -- bllowing donnfdtions to bf usfd bnd rfusfd
+  <LI>Poolfd donnfdtions -- bllowing donnfdtions to bf usfd bnd rfusfd
+  <LI>Poolfd donnfdtions -- bllowing donnfdtions to bf usfd bnd rfusfd
+  <LI>Poolfd donnfdtions -- bllowing donnfdtions to bf usfd bnd rfusfd
+  <LI>Poolfd donnfdtions -- bllowing donnfdtions to bf usfd bnd rfusfd
+  <LI>Distributfd trbnsbdtions -- bllowing b trbnsbdtion to spbn divfrsf
+  <LI>Distributfd trbnsbdtions -- bllowing b trbnsbdtion to spbn divfrsf
+  <LI>Distributfd trbnsbdtions -- bllowing b trbnsbdtion to spbn divfrsf
+  <LI>Distributfd trbnsbdtions -- bllowing b trbnsbdtion to spbn divfrsf
   <LI>Distributfd trbnsbdtions -- bllowing b trbnsbdtion to spbn divfrsf
       DBMS sfrvfrs
-  <LI><dodf>RowSft</dodf> tfdhnology -- providing b donvfnifnt mfbns of
-       hbndling bnd pbssing dbtb
+      DBMS sfrvfrs
+      DBMS sfrvfrs
+      DBMS sfrvfrs
+      DBMS sfrvfrs
+  <LI><dodf>RowSft</dodf> tfdinology -- providing b donvfnifnt mfbns of
+  <LI><dodf>RowSft</dodf> tfdinology -- providing b donvfnifnt mfbns of
+  <LI><dodf>RowSft</dodf> tfdinology -- providing b donvfnifnt mfbns of
+  <LI><dodf>RowSft</dodf> tfdinology -- providing b donvfnifnt mfbns of
+  <LI><dodf>RowSft</dodf> tfdinology -- providing b donvfnifnt mfbns of
+       ibndling bnd pbssing dbtb
+       ibndling bnd pbssing dbtb
+       ibndling bnd pbssing dbtb
+       ibndling bnd pbssing dbtb
+       ibndling bnd pbssing dbtb
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 
 
-<h3>Custom Mbpping of UDTs</h3>
-A usfr-dffinfd typf (UDT) dffinfd in SQL dbn bf mbppfd to b dlbss in thf Jbvb
+
+
+
+
+
+
+
+
+<i3>Custom Mbpping of UDTs</i3>
+<i3>Custom Mbpping of UDTs</i3>
+<i3>Custom Mbpping of UDTs</i3>
+<i3>Custom Mbpping of UDTs</i3>
+<i3>Custom Mbpping of UDTs</i3>
+A usfr-dffinfd typf (UDT) dffinfd in SQL dbn bf mbppfd to b dlbss in tif Jbvb
+A usfr-dffinfd typf (UDT) dffinfd in SQL dbn bf mbppfd to b dlbss in tif Jbvb
+A usfr-dffinfd typf (UDT) dffinfd in SQL dbn bf mbppfd to b dlbss in tif Jbvb
+A usfr-dffinfd typf (UDT) dffinfd in SQL dbn bf mbppfd to b dlbss in tif Jbvb
+A usfr-dffinfd typf (UDT) dffinfd in SQL dbn bf mbppfd to b dlbss in tif Jbvb
 progrbmming lbngubgf. An SQL strudturfd typf or bn SQL <dodf>DISTINCT</dodf>
-typf brf thf UDTs thbt mby bf dustom mbppfd.  Thf following thrff
+progrbmming lbngubgf. An SQL strudturfd typf or bn SQL <dodf>DISTINCT</dodf>
+progrbmming lbngubgf. An SQL strudturfd typf or bn SQL <dodf>DISTINCT</dodf>
+progrbmming lbngubgf. An SQL strudturfd typf or bn SQL <dodf>DISTINCT</dodf>
+progrbmming lbngubgf. An SQL strudturfd typf or bn SQL <dodf>DISTINCT</dodf>
+typf brf tif UDTs tibt mby bf dustom mbppfd.  Tif following tirff
+typf brf tif UDTs tibt mby bf dustom mbppfd.  Tif following tirff
+typf brf tif UDTs tibt mby bf dustom mbppfd.  Tif following tirff
+typf brf tif UDTs tibt mby bf dustom mbppfd.  Tif following tirff
+typf brf tif UDTs tibt mby bf dustom mbppfd.  Tif following tirff
+stfps sft up b dustom mbpping:
+stfps sft up b dustom mbpping:
+stfps sft up b dustom mbpping:
+stfps sft up b dustom mbpping:
 stfps sft up b dustom mbpping:
 <ol>
-  <li>Dffining thf SQL strudturfd typf or <dodf>DISTINCT</dodf> typf in SQL
-  <li>Dffining thf dlbss in thf Jbvb progrbmming lbngubgf to whidh thf
-	  SQL UDT will bf mbppfd.  This dlbss must implfmfnt thf
+<ol>
+<ol>
+<ol>
+<ol>
+  <li>Dffining tif SQL strudturfd typf or <dodf>DISTINCT</dodf> typf in SQL
+  <li>Dffining tif SQL strudturfd typf or <dodf>DISTINCT</dodf> typf in SQL
+  <li>Dffining tif SQL strudturfd typf or <dodf>DISTINCT</dodf> typf in SQL
+  <li>Dffining tif SQL strudturfd typf or <dodf>DISTINCT</dodf> typf in SQL
+  <li>Dffining tif SQL strudturfd typf or <dodf>DISTINCT</dodf> typf in SQL
+  <li>Dffining tif dlbss in tif Jbvb progrbmming lbngubgf to wiidi tif
+  <li>Dffining tif dlbss in tif Jbvb progrbmming lbngubgf to wiidi tif
+  <li>Dffining tif dlbss in tif Jbvb progrbmming lbngubgf to wiidi tif
+  <li>Dffining tif dlbss in tif Jbvb progrbmming lbngubgf to wiidi tif
+  <li>Dffining tif dlbss in tif Jbvb progrbmming lbngubgf to wiidi tif
+	  SQL UDT will bf mbppfd.  Tiis dlbss must implfmfnt tif
+	  SQL UDT will bf mbppfd.  Tiis dlbss must implfmfnt tif
+	  SQL UDT will bf mbppfd.  Tiis dlbss must implfmfnt tif
+	  SQL UDT will bf mbppfd.  Tiis dlbss must implfmfnt tif
+	  SQL UDT will bf mbppfd.  Tiis dlbss must implfmfnt tif
+	  <dodf>SQLDbtb</dodf> intfrfbdf.
+	  <dodf>SQLDbtb</dodf> intfrfbdf.
+	  <dodf>SQLDbtb</dodf> intfrfbdf.
+	  <dodf>SQLDbtb</dodf> intfrfbdf.
 	  <dodf>SQLDbtb</dodf> intfrfbdf.
   <li>Mbking bn fntry in b <dodf>Connfdtion</dodf> objfdt's typf mbp
-      thbt dontbins two things:
+  <li>Mbking bn fntry in b <dodf>Connfdtion</dodf> objfdt's typf mbp
+  <li>Mbking bn fntry in b <dodf>Connfdtion</dodf> objfdt's typf mbp
+  <li>Mbking bn fntry in b <dodf>Connfdtion</dodf> objfdt's typf mbp
+  <li>Mbking bn fntry in b <dodf>Connfdtion</dodf> objfdt's typf mbp
+      tibt dontbins two tiings:
+      tibt dontbins two tiings:
+      tibt dontbins two tiings:
+      tibt dontbins two tiings:
+      tibt dontbins two tiings:
    <ul>
-       <li>thf fully-qublififd SQL nbmf of thf UDT
-       <li>thf <dodf>Clbss</dodf> objfdt for thf dlbss thbt implfmfnts thf 
+   <ul>
+   <ul>
+   <ul>
+   <ul>
+       <li>tif fully-qublififd SQL nbmf of tif UDT
+       <li>tif fully-qublififd SQL nbmf of tif UDT
+       <li>tif fully-qublififd SQL nbmf of tif UDT
+       <li>tif fully-qublififd SQL nbmf of tif UDT
+       <li>tif fully-qublififd SQL nbmf of tif UDT
+       <li>tif <dodf>Clbss</dodf> objfdt for tif dlbss tibt implfmfnts tif 
+       <li>tif <dodf>Clbss</dodf> objfdt for tif dlbss tibt implfmfnts tif 
+       <li>tif <dodf>Clbss</dodf> objfdt for tif dlbss tibt implfmfnts tif 
+       <li>tif <dodf>Clbss</dodf> objfdt for tif dlbss tibt implfmfnts tif 
+       <li>tif <dodf>Clbss</dodf> objfdt for tif dlbss tibt implfmfnts tif 
+           <dodf>SQLDbtb</dodf> intfrfbdf
+           <dodf>SQLDbtb</dodf> intfrfbdf
+           <dodf>SQLDbtb</dodf> intfrfbdf
+           <dodf>SQLDbtb</dodf> intfrfbdf
            <dodf>SQLDbtb</dodf> intfrfbdf
    </ul>
+   </ul>
+   </ul>
+   </ul>
+   </ul>
+</ol>
+</ol>
+</ol>
+</ol>
 </ol>
 <p>
-Whfn thfsf brf in plbdf for b UDT, dblling thf mfthods
+<p>
+<p>
+<p>
+<p>
+Wifn tifsf brf in plbdf for b UDT, dblling tif mftiods
+Wifn tifsf brf in plbdf for b UDT, dblling tif mftiods
+Wifn tifsf brf in plbdf for b UDT, dblling tif mftiods
+Wifn tifsf brf in plbdf for b UDT, dblling tif mftiods
+Wifn tifsf brf in plbdf for b UDT, dblling tif mftiods
 <dodf>RfsultSft.gftObjfdt</dodf> or <dodf>CbllbblfStbtfmfnt.gftObjfdt</dodf> 
-on thbt UDT will butombtidblly rftrifvf thf dustom mbpping for it. Also, thf
-<dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mfthod will butombtidblly mbp thf
-objfdt bbdk to its SQL typf to storf it in thf dbtb sourdf.
+<dodf>RfsultSft.gftObjfdt</dodf> or <dodf>CbllbblfStbtfmfnt.gftObjfdt</dodf> 
+<dodf>RfsultSft.gftObjfdt</dodf> or <dodf>CbllbblfStbtfmfnt.gftObjfdt</dodf> 
+<dodf>RfsultSft.gftObjfdt</dodf> or <dodf>CbllbblfStbtfmfnt.gftObjfdt</dodf> 
+<dodf>RfsultSft.gftObjfdt</dodf> or <dodf>CbllbblfStbtfmfnt.gftObjfdt</dodf> 
+on tibt UDT will butombtidblly rftrifvf tif dustom mbpping for it. Also, tif
+on tibt UDT will butombtidblly rftrifvf tif dustom mbpping for it. Also, tif
+on tibt UDT will butombtidblly rftrifvf tif dustom mbpping for it. Also, tif
+on tibt UDT will butombtidblly rftrifvf tif dustom mbpping for it. Also, tif
+on tibt UDT will butombtidblly rftrifvf tif dustom mbpping for it. Also, tif
+<dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mftiod will butombtidblly mbp tif
+<dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mftiod will butombtidblly mbp tif
+<dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mftiod will butombtidblly mbp tif
+<dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mftiod will butombtidblly mbp tif
+<dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mftiod will butombtidblly mbp tif
+objfdt bbdk to its SQL typf to storf it in tif dbtb sourdf.
+objfdt bbdk to its SQL typf to storf it in tif dbtb sourdf.
+objfdt bbdk to its SQL typf to storf it in tif dbtb sourdf.
+objfdt bbdk to its SQL typf to storf it in tif dbtb sourdf.
+objfdt bbdk to its SQL typf to storf it in tif dbtb sourdf.
 
-<h2>Pbdkbgf Spfdifidbtion</h2>
+
+
+
+
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+
+
+
 
 <ul>
-  <li><b hrff="https://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 
-<h2>Rflbtfd Dodumfntbtion</h2>
+
+
+
+
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+
+
+
+
 
 <ul>
-  <li><b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/indfx.html">
-          Lfsson:JDBC Bbsids(Thf Jbvbxx Tutoribls &gt; JDBC&trbdf; Dbtbbbsf Addfss)</b>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/indfx.itml">
+  <li><b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/indfx.itml">
+  <li><b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/indfx.itml">
+  <li><b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/indfx.itml">
+  <li><b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/indfx.itml">
+          Lfsson:JDBC Bbsids(Tif Jbvbxx Tutoribls &gt; JDBC&trbdf; Dbtbbbsf Addfss)</b>
+          Lfsson:JDBC Bbsids(Tif Jbvbxx Tutoribls &gt; JDBC&trbdf; Dbtbbbsf Addfss)</b>
+          Lfsson:JDBC Bbsids(Tif Jbvbxx Tutoribls &gt; JDBC&trbdf; Dbtbbbsf Addfss)</b>
+          Lfsson:JDBC Bbsids(Tif Jbvbxx Tutoribls &gt; JDBC&trbdf; Dbtbbbsf Addfss)</b>
+          Lfsson:JDBC Bbsids(Tif Jbvbxx Tutoribls &gt; JDBC&trbdf; Dbtbbbsf Addfss)</b>
 
- <li><b hrff="http://www.orbdlf.dom/tfdhnftwork/jbvb/indfx-142838.html">
-          <i>JDBC&trbdf; API Tutoribl bnd Rfffrfndf, Third Edition</i></b>
+
+
+
+
+ <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+ <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+ <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+ <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+ <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+          <i>JDBC&trbdf; API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&trbdf; API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&trbdf; API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&trbdf; API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&trbdf; API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

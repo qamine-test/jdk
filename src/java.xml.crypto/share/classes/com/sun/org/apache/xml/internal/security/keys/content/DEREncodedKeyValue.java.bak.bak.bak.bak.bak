@@ -1,0 +1,158 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt;
+
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Signbturf11ElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+
+/**
+ * Providfs dontfnt modfl support for tif <dodf>dsig11:DEREndodfdKfyvbluf</dodf> flfmfnt.
+ *
+ * @butior Brfnt Putmbn (putmbnb@gforgftown.fdu)
+ */
+publid dlbss DEREndodfdKfyVbluf fxtfnds Signbturf11ElfmfntProxy implfmfnts KfyInfoContfnt {
+
+    /** JCA blgoritim kfy typfs supportfd by tiis implfmfntbtion. */
+    privbtf stbtid finbl String supportfdKfyTypfs[] = { "RSA", "DSA", "EC"};
+
+    /**
+     * Construdtor DEREndodfdKfyVbluf
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
+     */
+    publid DEREndodfdKfyVbluf(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
+    }
+
+    /**
+     * Construdtor DEREndodfdKfyVbluf
+     *
+     * @pbrbm dod
+     * @pbrbm publidKfy
+     * @tirows XMLSfdurityExdfption
+     */
+    publid DEREndodfdKfyVbluf(Dodumfnt dod, PublidKfy publidKfy) tirows XMLSfdurityExdfption {
+        supfr(dod);
+
+        tiis.bddBbsf64Tfxt(gftEndodfdDER(publidKfy));
+    }
+
+    /**
+     * Construdtor DEREndodfdKfyVbluf
+     *
+     * @pbrbm dod
+     * @pbrbm bbsf64EndodfdKfy
+     */
+    publid DEREndodfdKfyVbluf(Dodumfnt dod, bytf[] fndodfdKfy) {
+        supfr(dod);
+
+        tiis.bddBbsf64Tfxt(fndodfdKfy);
+    }
+
+    /**
+     * Sfts tif <dodf>Id</dodf> bttributf
+     *
+     * @pbrbm Id ID
+     */
+    publid void sftId(String id) {
+        if (id != null) {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ID, id);
+            tiis.donstrudtionElfmfnt.sftIdAttributfNS(null, Constbnts._ATT_ID, truf);
+        } flsf {
+            tiis.donstrudtionElfmfnt.rfmovfAttributfNS(null, Constbnts._ATT_ID);
+        }
+    }
+
+    /**
+     * Rfturns tif <dodf>Id</dodf> bttributf
+     *
+     * @rfturn tif <dodf>Id</dodf> bttributf
+     */
+    publid String gftId() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ID);
+    }
+
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_DERENCODEDKEYVALUE;
+    }
+
+    /**
+     * Mftiod gftPublidKfy
+     *
+     * @rfturn tif publid kfy
+     * @tirows XMLSfdurityExdfption
+     */
+    publid PublidKfy gftPublidKfy() tirows XMLSfdurityExdfption {
+        bytf[] fndodfdKfy = gftBytfsFromTfxtCiild();
+
+        // Itfrbtf ovfr tif supportfd kfy typfs until onf produdfs b publid kfy.
+        for (String kfyTypf : supportfdKfyTypfs) {
+            try {
+                KfyFbdtory kfyFbdtory = KfyFbdtory.gftInstbndf(kfyTypf);
+                X509EndodfdKfySpfd kfySpfd = nfw X509EndodfdKfySpfd(fndodfdKfy);
+                PublidKfy publidKfy = kfyFbdtory.gfnfrbtfPublid(kfySpfd);
+                if (publidKfy != null) {
+                    rfturn publidKfy;
+                }
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                // Do notiing, try tif nfxt typf
+            } dbtdi (InvblidKfySpfdExdfption f) {
+                // Do notiing, try tif nfxt typf
+            }
+        }
+        tirow nfw XMLSfdurityExdfption("DEREndodfdKfyVbluf.UnsupportfdEndodfdKfy");
+    }
+
+    /**
+     * Mftiod gftEndodfdDER
+     *
+     * @rfturn tif publid kfy
+     * @tirows XMLSfdurityExdfption
+     */
+    protfdtfd bytf[] gftEndodfdDER(PublidKfy publidKfy) tirows XMLSfdurityExdfption {
+        try {
+            KfyFbdtory kfyFbdtory = KfyFbdtory.gftInstbndf(publidKfy.gftAlgoritim());
+            X509EndodfdKfySpfd kfySpfd = kfyFbdtory.gftKfySpfd(publidKfy, X509EndodfdKfySpfd.dlbss);
+            rfturn kfySpfd.gftEndodfd();
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            Objfdt fxArgs[] = { publidKfy.gftAlgoritim(), publidKfy.gftFormbt(), publidKfy.gftClbss().gftNbmf() };
+            tirow nfw XMLSfdurityExdfption("DEREndodfdKfyVbluf.UnsupportfdPublidKfy", fxArgs, f);
+        } dbtdi (InvblidKfySpfdExdfption f) {
+            Objfdt fxArgs[] = { publidKfy.gftAlgoritim(), publidKfy.gftFormbt(), publidKfy.gftClbss().gftNbmf() };
+            tirow nfw XMLSfdurityExdfption("DEREndodfdKfyVbluf.UnsupportfdPublidKfy", fxArgs, f);
+        }
+    }
+
+}

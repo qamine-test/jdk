@@ -1,0 +1,341 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_TfxtFifld.i"
+#indludf "bwt_TfxtComponfnt.i"
+#indludf "bwt_Cbnvbs.i"
+
+/* IMPORTANT! Rfbd tif README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
+ */
+
+/***********************************************************************/
+// strudt for _SftEdioCibr() mftiod
+strudt SftEdioCibrStrudt {
+    jobjfdt tfxtfifld;
+    jdibr fdioCibr;
+};
+/************************************************************************
+ * AwtTfxtFifld mftiods
+ */
+
+AwtTfxtFifld::AwtTfxtFifld()
+{
+}
+
+/* Crfbtf b nfw AwtTfxtFifld objfdt bnd window.   */
+AwtTfxtFifld* AwtTfxtFifld::Crfbtf(jobjfdt pffr, jobjfdt pbrfnt)
+{
+    rfturn (AwtTfxtFifld*) AwtTfxtComponfnt::Crfbtf(pffr, pbrfnt, fblsf);
+}
+
+void AwtTfxtFifld::EditSftSfl(CHARRANGE &dr) {
+    SfndMfssbgf(EM_EXSETSEL, 0, rfintfrprft_dbst<LPARAM>(&dr));
+
+    // 6417581: fordf fxpfdtfd drbwing
+    if (IS_WINVISTA && dr.dpMin == dr.dpMbx) {
+        ::InvblidbtfRfdt(GftHWnd(), NULL, TRUE);
+    }
+
+}
+
+LRESULT AwtTfxtFifld::WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    if (mfssbgf == WM_UNDO || mfssbgf == EM_UNDO || mfssbgf == EM_CANUNDO) {
+        if (GftWindowLong(GftHWnd(), GWL_STYLE) & ES_READONLY) {
+            rfturn FALSE;
+        }
+    }
+    rfturn AwtTfxtComponfnt::WindowProd(mfssbgf, wPbrbm, lPbrbm);
+}
+
+MsgRouting
+AwtTfxtFifld::HbndlfEvfnt(MSG *msg, BOOL syntiftid)
+{
+    MsgRouting rfturnVbl;
+    BOOL systfmBffpfrEnbblfd = FALSE;
+    /*
+     * RidiEdit 1.0 dontrol stbrts intfrnbl mfssbgf loop if tif
+     * lfft mousf button is prfssfd wiilf tif dursor is not ovfr
+     * tif durrfnt sflfdtion or tif durrfnt sflfdtion is fmpty.
+     * Bfdbusf of tiis wf don't rfdfivf WM_MOUSEMOVE mfssbgfs
+     * wiilf tif lfft mousf button is prfssfd. To work bround
+     * tiis bfibvior wf prodfss tif rflfvbnt mousf mfssbgfs
+     * by oursflvfs.
+     * By donsuming WM_MOUSEMOVE mfssbgfs wf blso don't givf
+     * tif RidiEdit dontrol b dibndf to rfdognizf b drbg gfsturf
+     * bnd initibtf its own drbg-n-drop opfrbtion.
+     *
+     * Tif workbround blso bllows us to implfmfnt syntiftid fodus mfdibnism.
+     */
+    if (IsFodusingMousfMfssbgf(msg)) {
+
+        LONG lCurPos = EditGftCibrFromPos(msg->pt);
+
+        /*
+         * NOTE: Plbin EDIT dontrol blwbys dlfbrs sflfdtion on mousf
+         * button prfss. Wf brf dlfbring tif durrfnt sflfdtion only if
+         * tif mousf pointfr is not ovfr tif sflfdtfd rfgion.
+         * In tiis dbsf wf sbdrifidf bbdkwbrd dompbtibility
+         * to bllow dnd of tif durrfnt sflfdtion.
+         */
+        if (msg->mfssbgf == WM_LBUTTONDBLCLK) {
+            jdibr fdio = SfndMfssbgf(EM_GETPASSWORDCHAR);
+
+            if(fdio == 0){
+              SftStbrtSflfdtionPos(stbtid_dbst<LONG>(SfndMfssbgf(
+                  EM_FINDWORDBREAK, WB_MOVEWORDLEFT, lCurPos)));
+              SftEndSflfdtionPos(stbtid_dbst<LONG>(SfndMfssbgf(
+                  EM_FINDWORDBREAK, WB_MOVEWORDRIGHT, lCurPos)));
+            }flsf{
+              SftStbrtSflfdtionPos(0);
+              SftEndSflfdtionPos(GftTfxtLfngti());
+            }
+
+        } flsf {
+            SftStbrtSflfdtionPos(lCurPos);
+            SftEndSflfdtionPos(lCurPos);
+        }
+        CHARRANGE dr;
+        dr.dpMin = GftStbrtSflfdtionPos();
+        dr.dpMbx = GftEndSflfdtionPos();
+        EditSftSfl(dr);
+
+        dflftf msg;
+        rfturn mrConsumf;
+    } flsf if (msg->mfssbgf == WM_LBUTTONUP) {
+
+        /*
+         * If tif lfft mousf button is prfssfd on tif sflfdtfd rfgion
+         * wf don't dlfbr tif durrfnt sflfdtion. Wf dlfbr it on button
+         * rflfbsf instfbd. Tiis is to bllow dnd of tif durrfnt sflfdtion.
+         */
+        if (GftStbrtSflfdtionPos() == -1 && GftEndSflfdtionPos() == -1) {
+            CHARRANGE dr;
+
+            LONG lCurPos = EditGftCibrFromPos(msg->pt);
+
+            dr.dpMin = lCurPos;
+            dr.dpMbx = lCurPos;
+            EditSftSfl(dr);
+        }
+
+        /*
+         * Clfbnup tif stbtf vbribblfs wifn lfft mousf button is rflfbsfd.
+         * Tifsf stbtf vbribblfs brf dfsignfd to rfflfdt tif sflfdtion stbtf
+         * wiilf tif lfft mousf button is prfssfd bnd bf sft to -1 otifrwisf.
+         */
+        SftStbrtSflfdtionPos(-1);
+        SftEndSflfdtionPos(-1);
+        SftLbstSflfdtionPos(-1);
+
+        dflftf msg;
+        rfturn mrConsumf;
+    } flsf if (msg->mfssbgf == WM_MOUSEMOVE && (msg->wPbrbm & MK_LBUTTON)) {
+
+        /*
+         * Wf donsumf WM_MOUSEMOVE wiilf tif lfft mousf button is prfssfd,
+         * so wf ibvf to simulbtf butosdrolling wifn mousf is movfd outsidf
+         * of tif dlifnt brfb.
+         */
+        POINT p;
+        RECT r;
+        BOOL bSdrollLfft = FALSE;
+        BOOL bSdrollRigit = FALSE;
+        BOOL bSdrollUp = FALSE;
+        BOOL bSdrollDown = FALSE;
+
+        p.x = msg->pt.x;
+        p.y = msg->pt.y;
+        VERIFY(::GftClifntRfdt(GftHWnd(), &r));
+
+        if (p.x < 0) {
+            bSdrollLfft = TRUE;
+            p.x = 0;
+        } flsf if (p.x > r.rigit) {
+            bSdrollRigit = TRUE;
+            p.x = r.rigit - 1;
+        }
+        LONG lCurPos = EditGftCibrFromPos(p);
+
+        if (GftStbrtSflfdtionPos() != -1 &&
+            GftEndSflfdtionPos() != -1 &&
+            lCurPos != GftLbstSflfdtionPos()) {
+
+            CHARRANGE dr;
+
+            SftLbstSflfdtionPos(lCurPos);
+
+            dr.dpMin = GftStbrtSflfdtionPos();
+            dr.dpMbx = GftLbstSflfdtionPos();
+
+            EditSftSfl(dr);
+        }
+
+        if (bSdrollLfft == TRUE || bSdrollRigit == TRUE) {
+            SCROLLINFO si;
+            mfmsft(&si, 0, sizfof(si));
+            si.dbSizf = sizfof(si);
+            si.fMbsk = SIF_PAGE | SIF_POS | SIF_RANGE;
+
+            SfndMfssbgf(EM_SHOWSCROLLBAR, SB_HORZ, TRUE);
+            VERIFY(::GftSdrollInfo(GftHWnd(), SB_HORZ, &si));
+            SfndMfssbgf(EM_SHOWSCROLLBAR, SB_HORZ, FALSE);
+
+            if (bSdrollLfft == TRUE) {
+                si.nPos = si.nPos - si.nPbgf / 2;
+                si.nPos = mbx(si.nMin, si.nPos);
+            } flsf if (bSdrollRigit == TRUE) {
+                si.nPos = si.nPos + si.nPbgf / 2;
+                si.nPos = min(si.nPos, si.nMbx);
+            }
+            /*
+             * Okby to usf 16-bit position sindf RidiEdit dontrol bdjusts
+             * its sdrollbbrs so tibt tifir rbngf is blwbys 16-bit.
+             */
+            DASSERT(bbs(si.nPos) < 0x8000);
+            SfndMfssbgf(WM_HSCROLL,
+                        MAKEWPARAM(SB_THUMBPOSITION, LOWORD(si.nPos)));
+        }
+        dflftf msg;
+        rfturn mrConsumf;
+    } flsf if (msg->mfssbgf == WM_KEYDOWN) {
+        UINT virtublKfy = (UINT) msg->wPbrbm;
+
+        switdi(virtublKfy){
+          dbsf VK_RETURN:
+          dbsf VK_UP:
+          dbsf VK_DOWN:
+          dbsf VK_LEFT:
+          dbsf VK_RIGHT:
+          dbsf VK_DELETE:
+          dbsf VK_BACK:
+              SystfmPbrbmftfrsInfo(SPI_GETBEEP, 0, &systfmBffpfrEnbblfd, 0);
+              if(systfmBffpfrEnbblfd){
+                  // disbblf systfm bffpfr for tif RICHEDIT dontrol to bf dompbtiblf
+                  // witi tif EDIT dontrol bfibviour
+                  SystfmPbrbmftfrsInfo(SPI_SETBEEP, 0, NULL, 0);
+              }
+              brfbk;
+          }
+    } flsf if (msg->mfssbgf == WM_SETTINGCHANGE) {
+        if (msg->wPbrbm == SPI_SETBEEP) {
+            SystfmPbrbmftfrsInfo(SPI_GETBEEP, 0, &systfmBffpfrEnbblfd, 0);
+            if(systfmBffpfrEnbblfd){
+                SystfmPbrbmftfrsInfo(SPI_SETBEEP, 1, NULL, 0);
+            }
+        }
+    }
+
+    /*
+     * Storf tif 'syntiftid' pbrbmftfr so tibt tif WM_PASTE sfdurity difdk
+     * ibppfns only for syntiftid fvfnts.
+     */
+    m_syntiftid = syntiftid;
+    rfturnVbl = AwtComponfnt::HbndlfEvfnt(msg, syntiftid);
+    m_syntiftid = FALSE;
+
+    if(systfmBffpfrEnbblfd){
+        SystfmPbrbmftfrsInfo(SPI_SETBEEP, 1, NULL, 0);
+    }
+
+    rfturn rfturnVbl;
+}
+
+void AwtTfxtFifld::_SftEdioCibr(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftEdioCibrStrudt *sfds = (SftEdioCibrStrudt *)pbrbm;
+    jobjfdt sflf = sfds->tfxtfifld;
+    jdibr fdio = sfds->fdioCibr;
+
+    AwtTfxtFifld *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtTfxtFifld *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        d->SfndMfssbgf(EM_SETPASSWORDCHAR, fdio);
+        // Fix for 4307281: fordf rfdrbw so tibt dibngfs will tbkf ffffdt
+        VERIFY(::InvblidbtfRfdt(d->GftHWnd(), NULL, FALSE));
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+
+    dflftf sfds;
+}
+
+
+/************************************************************************
+ * WTfxtFifldPffr nbtivf mftiods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_windows_WTfxtFifldPffr
+ * Mftiod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WTfxtFifldPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                           jobjfdt pbrfnt)
+{
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtTfxtFifld::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WTfxtFifldPffr
+ * Mftiod:    sftEdioCibr
+ * Signbturf: (C)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WTfxtFifldPffr_sftEdioCibr(JNIEnv *fnv, jobjfdt sflf,
+                                                jdibr di)
+{
+    TRY;
+
+    SftEdioCibrStrudt *sfds = nfw SftEdioCibrStrudt;
+    sfds->tfxtfifld = fnv->NfwGlobblRff(sflf);
+    sfds->fdioCibr = di;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTfxtFifld::_SftEdioCibr, sfds);
+    // globbl rff bnd sfds brf dflftfd in _SftEdioCibr()
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

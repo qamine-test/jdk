@@ -1,144 +1,720 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: sfriblvfr
+.\" Titlf: sfriblvfr
+.\" Titlf: sfriblvfr
+.\" Titlf: sfriblvfr
+.\" Titlf: sfriblvfr
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
 .\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "sfriblvfr" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "sfriblvfr" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "sfriblvfr" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "sfriblvfr" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "sfriblvfr" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 sfriblvfr \- 指定したクラスのシリアル・バージョンUIDを戻します。
+sfriblvfr \- 指定したクラスのシリアル・バージョンUIDを戻します。
+sfriblvfr \- 指定したクラスのシリアル・バージョンUIDを戻します。
+sfriblvfr \- 指定したクラスのシリアル・バージョンUIDを戻します。
+sfriblvfr \- 指定したクラスのシリアル・バージョンUIDを戻します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIsfriblvfr\fR [ \fIoptions\fR ] [ \fIdlbssnbmfs\fR ]
+\fIsfriblvfr\fR [ \fIoptions\fR ] [ \fIdlbssnbmfs\fR ]
+\fIsfriblvfr\fR [ \fIoptions\fR ] [ \fIdlbssnbmfs\fR ]
+\fIsfriblvfr\fR [ \fIoptions\fR ] [ \fIdlbssnbmfs\fR ]
+\fIsfriblvfr\fR [ \fIoptions\fR ] [ \fIdlbssnbmfs\fR ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIdlbssnbmfs\fR
+\fIdlbssnbmfs\fR
+\fIdlbssnbmfs\fR
+\fIdlbssnbmfs\fR
+\fIdlbssnbmfs\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIsfriblVfrsionUID\fRを戻すクラスです。
+\fIsfriblVfrsionUID\fRを戻すクラスです。
+\fIsfriblVfrsionUID\fRを戻すクラスです。
+\fIsfriblVfrsionUID\fRを戻すクラスです。
+\fIsfriblVfrsionUID\fRを戻すクラスです。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIsfriblvfr\fRコマンドは、1つ以上のクラスの\fIsfriblVfrsionUID\fRを、展開しているクラスへコピーするのに適した形式で返します。引数なしで呼び出された場合、\fIsfriblvfr\fRコマンドは使用率行を出力します。
+\fIsfriblvfr\fRコマンドは、1つ以上のクラスの\fIsfriblVfrsionUID\fRを、展開しているクラスへコピーするのに適した形式で返します。引数なしで呼び出された場合、\fIsfriblvfr\fRコマンドは使用率行を出力します。
+\fIsfriblvfr\fRコマンドは、1つ以上のクラスの\fIsfriblVfrsionUID\fRを、展開しているクラスへコピーするのに適した形式で返します。引数なしで呼び出された場合、\fIsfriblvfr\fRコマンドは使用率行を出力します。
+\fIsfriblvfr\fRコマンドは、1つ以上のクラスの\fIsfriblVfrsionUID\fRを、展開しているクラスへコピーするのに適した形式で返します。引数なしで呼び出された場合、\fIsfriblvfr\fRコマンドは使用率行を出力します。
+\fIsfriblvfr\fRコマンドは、1つ以上のクラスの\fIsfriblVfrsionUID\fRを、展開しているクラスへコピーするのに適した形式で返します。引数なしで呼び出された場合、\fIsfriblvfr\fRコマンドは使用率行を出力します。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-dlbsspbti \fIpbti\-filfs\fR
+\-dlbsspbti \fIpbti\-filfs\fR
+\-dlbsspbti \fIpbti\-filfs\fR
+\-dlbsspbti \fIpbti\-filfs\fR
 \-dlbsspbti \fIpbti\-filfs\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+アプリケーションのクラスおよびリソースの検索パスを設定します。クラスとリソースをコロン(:)で区切ります。
+アプリケーションのクラスおよびリソースの検索パスを設定します。クラスとリソースをコロン(:)で区切ります。
+アプリケーションのクラスおよびリソースの検索パスを設定します。クラスとリソースをコロン(:)で区切ります。
+アプリケーションのクラスおよびリソースの検索パスを設定します。クラスとリソースをコロン(:)で区切ります。
 アプリケーションのクラスおよびリソースの検索パスを設定します。クラスとリソースをコロン(:)で区切ります。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-siow
+\-siow
+\-siow
+\-siow
+\-siow
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 簡単なユーザー・インタフェースを表示します。完全指定のクラス名を入力して、Entfrキーか「表示」ボタンを押し、\fIsfriblVfrsionUID\fRを表示します。
+簡単なユーザー・インタフェースを表示します。完全指定のクラス名を入力して、Entfrキーか「表示」ボタンを押し、\fIsfriblVfrsionUID\fRを表示します。
+簡単なユーザー・インタフェースを表示します。完全指定のクラス名を入力して、Entfrキーか「表示」ボタンを押し、\fIsfriblVfrsionUID\fRを表示します。
+簡単なユーザー・インタフェースを表示します。完全指定のクラス名を入力して、Entfrキーか「表示」ボタンを押し、\fIsfriblVfrsionUID\fRを表示します。
+簡単なユーザー・インタフェースを表示します。完全指定のクラス名を入力して、Entfrキーか「表示」ボタンを押し、\fIsfriblVfrsionUID\fRを表示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Jbvb仮想マシンに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "注意"
+.SH "注意"
+.SH "注意"
+.SH "注意"
+.SH "注意"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIsfriblvfr\fRコマンドは、指定されたクラスをその仮想マシン内に読み込んで初期化しますが、デフォルトではセキュリティ・マネージャの設定は行いません。信頼できないクラスとともに\fIsfriblvfr\fRコマンドを実行する場合には、次のオプションを使用してセキュリティ・マネージャを設定できます。
+\fIsfriblvfr\fRコマンドは、指定されたクラスをその仮想マシン内に読み込んで初期化しますが、デフォルトではセキュリティ・マネージャの設定は行いません。信頼できないクラスとともに\fIsfriblvfr\fRコマンドを実行する場合には、次のオプションを使用してセキュリティ・マネージャを設定できます。
+\fIsfriblvfr\fRコマンドは、指定されたクラスをその仮想マシン内に読み込んで初期化しますが、デフォルトではセキュリティ・マネージャの設定は行いません。信頼できないクラスとともに\fIsfriblvfr\fRコマンドを実行する場合には、次のオプションを使用してセキュリティ・マネージャを設定できます。
+\fIsfriblvfr\fRコマンドは、指定されたクラスをその仮想マシン内に読み込んで初期化しますが、デフォルトではセキュリティ・マネージャの設定は行いません。信頼できないクラスとともに\fIsfriblvfr\fRコマンドを実行する場合には、次のオプションを使用してセキュリティ・マネージャを設定できます。
+\fIsfriblvfr\fRコマンドは、指定されたクラスをその仮想マシン内に読み込んで初期化しますが、デフォルトではセキュリティ・マネージャの設定は行いません。信頼できないクラスとともに\fIsfriblvfr\fRコマンドを実行する場合には、次のオプションを使用してセキュリティ・マネージャを設定できます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \-J\-Djbvb\&.sfdurity\&.mbnbgfr
+\-J\-Djbvb\&.sfdurity\&.mbnbgfr
+\-J\-Djbvb\&.sfdurity\&.mbnbgfr
+\-J\-Djbvb\&.sfdurity\&.mbnbgfr
+\-J\-Djbvb\&.sfdurity\&.mbnbgfr
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
+.PP
+.PP
+.PP
+.PP
+必要であれば、次のオプションを使用してセキュリティ・ポリシーを指定できます。
+必要であれば、次のオプションを使用してセキュリティ・ポリシーを指定できます。
+必要であれば、次のオプションを使用してセキュリティ・ポリシーを指定できます。
+必要であれば、次のオプションを使用してセキュリティ・ポリシーを指定できます。
 必要であれば、次のオプションを使用してセキュリティ・ポリシーを指定できます。
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+\-J\-Djbvb\&.sfdurity\&.polidy=<polidy filf>
+\-J\-Djbvb\&.sfdurity\&.polidy=<polidy filf>
+\-J\-Djbvb\&.sfdurity\&.polidy=<polidy filf>
+\-J\-Djbvb\&.sfdurity\&.polidy=<polidy filf>
 \-J\-Djbvb\&.sfdurity\&.polidy=<polidy filf>
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 \i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 polidytool(1)
+polidytool(1)
+polidytool(1)
+polidytool(1)
+polidytool(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .IP \(bu 2.3
 .\}
+.\}
+.\}
+.\}
+.\}
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/io/ObjfdtStrfbmClbss\&.itmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/io/ObjfdtStrfbmClbss\&.itmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/io/ObjfdtStrfbmClbss\&.itmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/io/ObjfdtStrfbmClbss\&.itmlにある
 ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/io/ObjfdtStrfbmClbss\&.itmlにある
 \fIjbvb\&.io\&.ObjfdtStrfbm\fRクラス記述
+\fIjbvb\&.io\&.ObjfdtStrfbm\fRクラス記述
+\fIjbvb\&.io\&.ObjfdtStrfbm\fRクラス記述
+\fIjbvb\&.io\&.ObjfdtStrfbm\fRクラス記述
+\fIjbvb\&.io\&.ObjfdtStrfbm\fRクラス記述
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

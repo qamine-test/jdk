@@ -1,0 +1,2124 @@
+/*
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+
+/**
+ * Stbtid dlbssfs bnd mftiods for opfrbting on or drfbting instbndfs of
+ * {@link Splitfrbtor} bnd its primitivf spfdiblizbtions
+ * {@link Splitfrbtor.OfInt}, {@link Splitfrbtor.OfLong}, bnd
+ * {@link Splitfrbtor.OfDoublf}.
+ *
+ * @sff Splitfrbtor
+ * @sindf 1.8
+ */
+publid finbl dlbss Splitfrbtors {
+
+    // Supprfssfs dffbult donstrudtor, fnsuring non-instbntibbility.
+    privbtf Splitfrbtors() {}
+
+    // Empty splitfrbtors
+
+    /**
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor}
+     *
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
+     *
+     * @pbrbm <T> Typf of flfmfnts
+     * @rfturn An fmpty splitfrbtor
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T> Splitfrbtor<T> fmptySplitfrbtor() {
+        rfturn (Splitfrbtor<T>) EMPTY_SPLITERATOR;
+    }
+
+    privbtf stbtid finbl Splitfrbtor<Objfdt> EMPTY_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfRff<>();
+
+    /**
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor.OfInt}
+     *
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
+     *
+     * @rfturn An fmpty splitfrbtor
+     */
+    publid stbtid Splitfrbtor.OfInt fmptyIntSplitfrbtor() {
+        rfturn EMPTY_INT_SPLITERATOR;
+    }
+
+    privbtf stbtid finbl Splitfrbtor.OfInt EMPTY_INT_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfInt();
+
+    /**
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor.OfLong}
+     *
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
+     *
+     * @rfturn An fmpty splitfrbtor
+     */
+    publid stbtid Splitfrbtor.OfLong fmptyLongSplitfrbtor() {
+        rfturn EMPTY_LONG_SPLITERATOR;
+    }
+
+    privbtf stbtid finbl Splitfrbtor.OfLong EMPTY_LONG_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfLong();
+
+    /**
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor.OfDoublf}
+     *
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
+     *
+     * @rfturn An fmpty splitfrbtor
+     */
+    publid stbtid Splitfrbtor.OfDoublf fmptyDoublfSplitfrbtor() {
+        rfturn EMPTY_DOUBLE_SPLITERATOR;
+    }
+
+    privbtf stbtid finbl Splitfrbtor.OfDoublf EMPTY_DOUBLE_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfDoublf();
+
+    // Arrby-bbsfd splitfrbtors
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(Objfdt[])}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
+     *
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(Objfdt[])
+     */
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Objfdt[] brrby,
+                                                 int bdditionblCibrbdtfristids) {
+        rfturn nfw ArrbySplitfrbtor<>(Objfdts.rfquirfNonNull(brrby),
+                                      bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor} dovfring b rbngf of flfmfnts of b givfn
+     * brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(Objfdt[])}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
+     *
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(Objfdt[], int, int)
+     */
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Objfdt[] brrby, int fromIndfx, int toIndfx,
+                                                 int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw ArrbySplitfrbtor<>(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(int[])}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
+     *
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(int[])
+     */
+    publid stbtid Splitfrbtor.OfInt splitfrbtor(int[] brrby,
+                                                int bdditionblCibrbdtfristids) {
+        rfturn nfw IntArrbySplitfrbtor(Objfdts.rfquirfNonNull(brrby), bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} dovfring b rbngf of flfmfnts of b
+     * givfn brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(int[], int, int)}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
+     *
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(int[], int, int)
+     */
+    publid stbtid Splitfrbtor.OfInt splitfrbtor(int[] brrby, int fromIndfx, int toIndfx,
+                                                int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw IntArrbySplitfrbtor(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(long[])}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
+     *
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(long[])
+     */
+    publid stbtid Splitfrbtor.OfLong splitfrbtor(long[] brrby,
+                                                 int bdditionblCibrbdtfristids) {
+        rfturn nfw LongArrbySplitfrbtor(Objfdts.rfquirfNonNull(brrby), bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} dovfring b rbngf of flfmfnts of b
+     * givfn brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(long[], int, int)}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport.  (For fxbmplf, if it is
+     * known tif brrby will not bf furtifr modififd, spfdify {@dodf IMMUTABLE};
+     * if tif brrby dbtb is donsidfrfd to ibvf bn bn fndountfr ordfr, spfdify
+     * {@dodf ORDERED}).  Tif mftiod {@link Arrbys#splitfrbtor(long[], int, int)} dbn
+     * oftfn bf usfd instfbd, wiidi rfturns b splitfrbtor tibt rfports
+     * {@dodf SIZED}, {@dodf SUBSIZED}, {@dodf IMMUTABLE}, bnd {@dodf ORDERED}.
+     *
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(long[], int, int)
+     */
+    publid stbtid Splitfrbtor.OfLong splitfrbtor(long[] brrby, int fromIndfx, int toIndfx,
+                                                 int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw LongArrbySplitfrbtor(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(doublf[])}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
+     *
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(doublf[])
+     */
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtor(doublf[] brrby,
+                                                   int bdditionblCibrbdtfristids) {
+        rfturn nfw DoublfArrbySplitfrbtor(Objfdts.rfquirfNonNull(brrby), bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} dovfring b rbngf of flfmfnts of b
+     * givfn brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(doublf[], int, int)}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport.  (For fxbmplf, if it is
+     * known tif brrby will not bf furtifr modififd, spfdify {@dodf IMMUTABLE};
+     * if tif brrby dbtb is donsidfrfd to ibvf bn bn fndountfr ordfr, spfdify
+     * {@dodf ORDERED}).  Tif mftiod {@link Arrbys#splitfrbtor(long[], int, int)} dbn
+     * oftfn bf usfd instfbd, wiidi rfturns b splitfrbtor tibt rfports
+     * {@dodf SIZED}, {@dodf SUBSIZED}, {@dodf IMMUTABLE}, bnd {@dodf ORDERED}.
+     *
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(doublf[], int, int)
+     */
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtor(doublf[] brrby, int fromIndfx, int toIndfx,
+                                                   int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw DoublfArrbySplitfrbtor(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Vblidbtf indlusivf stbrt indfx bnd fxdlusivf fnd indfx bgbinst tif lfngti
+     * of bn brrby.
+     * @pbrbm brrbyLfngti Tif lfngti of tif brrby
+     * @pbrbm origin Tif indlusivf stbrt indfx
+     * @pbrbm ffndf Tif fxdlusivf fnd indfx
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif stbrt indfx is grfbtfr tibn
+     * tif fnd indfx, if tif stbrt indfx is nfgbtivf, or tif fnd indfx is
+     * grfbtfr tibn tif brrby lfngti
+     */
+    privbtf stbtid void difdkFromToBounds(int brrbyLfngti, int origin, int ffndf) {
+        if (origin > ffndf) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(
+                    "origin(" + origin + ") > ffndf(" + ffndf + ")");
+        }
+        if (origin < 0) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(origin);
+        }
+        if (ffndf > brrbyLfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(ffndf);
+        }
+    }
+
+    // Itfrbtor-bbsfd splitfrbtors
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor} using tif givfn dollfdtion's
+     * {@link jbvb.util.Collfdtion#itfrbtor()} bs tif sourdf of flfmfnts, bnd
+     * rfporting its {@link jbvb.util.Collfdtion#sizf()} bs its initibl sizf.
+     *
+     * <p>Tif splitfrbtor is
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif dollfdtion's itfrbtor, bnd
+     * implfmfnts {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm d Tif dollfdtion
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn dollfdtion is {@dodf null}
+     */
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Collfdtion<? fxtfnds T> d,
+                                                 int dibrbdtfristids) {
+        rfturn nfw ItfrbtorSplitfrbtor<>(Objfdts.rfquirfNonNull(d),
+                                         dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor} using b givfn {@dodf Itfrbtor}
+     * bs tif sourdf of flfmfnts, bnd witi b givfn initiblly rfportfd sizf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
+     *
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Itfrbtor<? fxtfnds T> itfrbtor,
+                                                 long sizf,
+                                                 int dibrbdtfristids) {
+        rfturn nfw ItfrbtorSplitfrbtor<>(Objfdts.rfquirfNonNull(itfrbtor), sizf,
+                                         dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor} using b givfn {@dodf Itfrbtor}
+     * bs tif sourdf of flfmfnts, witi no initibl sizf fstimbtf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
+     *
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid <T> Splitfrbtor<T> splitfrbtorUnknownSizf(Itfrbtor<? fxtfnds T> itfrbtor,
+                                                            int dibrbdtfristids) {
+        rfturn nfw ItfrbtorSplitfrbtor<>(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} using b givfn
+     * {@dodf IntStrfbm.IntItfrbtor} bs tif sourdf of flfmfnts, bnd witi b givfn
+     * initiblly rfportfd sizf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
+     *
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}.
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid Splitfrbtor.OfInt splitfrbtor(PrimitivfItfrbtor.OfInt itfrbtor,
+                                                long sizf,
+                                                int dibrbdtfristids) {
+        rfturn nfw IntItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor),
+                                          sizf, dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} using b givfn
+     * {@dodf IntStrfbm.IntItfrbtor} bs tif sourdf of flfmfnts, witi no initibl
+     * sizf fstimbtf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
+     *
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid Splitfrbtor.OfInt splitfrbtorUnknownSizf(PrimitivfItfrbtor.OfInt itfrbtor,
+                                                           int dibrbdtfristids) {
+        rfturn nfw IntItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} using b givfn
+     * {@dodf LongStrfbm.LongItfrbtor} bs tif sourdf of flfmfnts, bnd witi b
+     * givfn initiblly rfportfd sizf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
+     *
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}.
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid Splitfrbtor.OfLong splitfrbtor(PrimitivfItfrbtor.OfLong itfrbtor,
+                                                 long sizf,
+                                                 int dibrbdtfristids) {
+        rfturn nfw LongItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor),
+                                           sizf, dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} using b givfn
+     * {@dodf LongStrfbm.LongItfrbtor} bs tif sourdf of flfmfnts, witi no
+     * initibl sizf fstimbtf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
+     *
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid Splitfrbtor.OfLong splitfrbtorUnknownSizf(PrimitivfItfrbtor.OfLong itfrbtor,
+                                                            int dibrbdtfristids) {
+        rfturn nfw LongItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} using b givfn
+     * {@dodf DoublfStrfbm.DoublfItfrbtor} bs tif sourdf of flfmfnts, bnd witi b
+     * givfn initiblly rfportfd sizf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
+     *
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtor(PrimitivfItfrbtor.OfDoublf itfrbtor,
+                                                   long sizf,
+                                                   int dibrbdtfristids) {
+        rfturn nfw DoublfItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor),
+                                             sizf, dibrbdtfristids);
+    }
+
+    /**
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} using b givfn
+     * {@dodf DoublfStrfbm.DoublfItfrbtor} bs tif sourdf of flfmfnts, witi no
+     * initibl sizf fstimbtf.
+     *
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
+     *
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
+     */
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtorUnknownSizf(PrimitivfItfrbtor.OfDoublf itfrbtor,
+                                                              int dibrbdtfristids) {
+        rfturn nfw DoublfItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
+    }
+
+    // Itfrbtors from Splitfrbtors
+
+    /**
+     * Crfbtfs bn {@dodf Itfrbtor} from b {@dodf Splitfrbtor}.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
+     *
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
+     */
+    publid stbtid<T> Itfrbtor<T> itfrbtor(Splitfrbtor<? fxtfnds T> splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts Itfrbtor<T>, Consumfr<T> {
+            boolfbn vblufRfbdy = fblsf;
+            T nfxtElfmfnt;
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
+            }
+
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
+            }
+
+            @Ovfrridf
+            publid T nfxt() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
+                }
+            }
+        }
+
+        rfturn nfw Adbptfr();
+    }
+
+    /**
+     * Crfbtfs bn {@dodf PrimitivfItfrbtor.OfInt} from b
+     * {@dodf Splitfrbtor.OfInt}.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
+     *
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
+     */
+    publid stbtid PrimitivfItfrbtor.OfInt itfrbtor(Splitfrbtor.OfInt splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts PrimitivfItfrbtor.OfInt, IntConsumfr {
+            boolfbn vblufRfbdy = fblsf;
+            int nfxtElfmfnt;
+
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
+            }
+
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
+            }
+
+            @Ovfrridf
+            publid int nfxtInt() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
+                }
+            }
+        }
+
+        rfturn nfw Adbptfr();
+    }
+
+    /**
+     * Crfbtfs bn {@dodf PrimitivfItfrbtor.OfLong} from b
+     * {@dodf Splitfrbtor.OfLong}.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
+     *
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
+     */
+    publid stbtid PrimitivfItfrbtor.OfLong itfrbtor(Splitfrbtor.OfLong splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts PrimitivfItfrbtor.OfLong, LongConsumfr {
+            boolfbn vblufRfbdy = fblsf;
+            long nfxtElfmfnt;
+
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
+            }
+
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
+            }
+
+            @Ovfrridf
+            publid long nfxtLong() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
+                }
+            }
+        }
+
+        rfturn nfw Adbptfr();
+    }
+
+    /**
+     * Crfbtfs bn {@dodf PrimitivfItfrbtor.OfDoublf} from b
+     * {@dodf Splitfrbtor.OfDoublf}.
+     *
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
+     *
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
+     */
+    publid stbtid PrimitivfItfrbtor.OfDoublf itfrbtor(Splitfrbtor.OfDoublf splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts PrimitivfItfrbtor.OfDoublf, DoublfConsumfr {
+            boolfbn vblufRfbdy = fblsf;
+            doublf nfxtElfmfnt;
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
+            }
+
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
+            }
+
+            @Ovfrridf
+            publid doublf nfxtDoublf() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
+                }
+            }
+        }
+
+        rfturn nfw Adbptfr();
+    }
+
+    // Implfmfntbtions
+
+    privbtf stbtid bbstrbdt dlbss EmptySplitfrbtor<T, S fxtfnds Splitfrbtor<T>, C> {
+
+        EmptySplitfrbtor() { }
+
+        publid S trySplit() {
+            rfturn null;
+        }
+
+        publid boolfbn tryAdvbndf(C donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            rfturn fblsf;
+        }
+
+        publid void forEbdiRfmbining(C donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+        }
+
+        publid long fstimbtfSizf() {
+            rfturn 0;
+        }
+
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
+        }
+
+        privbtf stbtid finbl dlbss OfRff<T>
+                fxtfnds EmptySplitfrbtor<T, Splitfrbtor<T>, Consumfr<? supfr T>>
+                implfmfnts Splitfrbtor<T> {
+            OfRff() { }
+        }
+
+        privbtf stbtid finbl dlbss OfInt
+                fxtfnds EmptySplitfrbtor<Intfgfr, Splitfrbtor.OfInt, IntConsumfr>
+                implfmfnts Splitfrbtor.OfInt {
+            OfInt() { }
+        }
+
+        privbtf stbtid finbl dlbss OfLong
+                fxtfnds EmptySplitfrbtor<Long, Splitfrbtor.OfLong, LongConsumfr>
+                implfmfnts Splitfrbtor.OfLong {
+            OfLong() { }
+        }
+
+        privbtf stbtid finbl dlbss OfDoublf
+                fxtfnds EmptySplitfrbtor<Doublf, Splitfrbtor.OfDoublf, DoublfConsumfr>
+                implfmfnts Splitfrbtor.OfDoublf {
+            OfDoublf() { }
+        }
+    }
+
+    // Arrby-bbsfd splitfrbtors
+
+    /**
+     * A Splitfrbtor dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf Objfdt[]} brrby.
+     */
+    stbtid finbl dlbss ArrbySplitfrbtor<T> implfmfnts Splitfrbtor<T> {
+        /**
+         * Tif brrby, fxpliditly typfd bs Objfdt[]. Unlikf in somf otifr
+         * dlbssfs (sff for fxbmplf CR 6260652), wf do not nffd to
+         * sdrffn brgumfnts to fnsurf tify brf fxbdtly of typf Objfdt[]
+         * so long bs no mftiods writf into tif brrby or sfriblizf it,
+         * wiidi wf fnsurf ifrf by dffining tiis dlbss bs finbl.
+         */
+        privbtf finbl Objfdt[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         * of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         * {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid ArrbySplitfrbtor(Objfdt[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         * of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         * {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid ArrbySplitfrbtor(Objfdt[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
+                   ? null
+                   : nfw ArrbySplitfrbtor<>(brrby, lo, indfx = mid, dibrbdtfristids);
+        }
+
+        @SupprfssWbrnings("undifdkfd")
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+            Objfdt[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt((T)b[i]); } wiilf (++i < ii);
+            }
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                @SupprfssWbrnings("undifdkfd") T f = (T) brrby[indfx++];
+                bdtion.bddfpt(f);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * A Splitfrbtor.OfInt dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf int[]} brrby.
+     */
+    stbtid finbl dlbss IntArrbySplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        privbtf finbl int[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid IntArrbySplitfrbtor(int[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid IntArrbySplitfrbtor(int[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
+        }
+
+        @Ovfrridf
+        publid OfInt trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
+                   ? null
+                   : nfw IntArrbySplitfrbtor(brrby, lo, indfx = mid, dibrbdtfristids);
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(IntConsumfr bdtion) {
+            int[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt(b[i]); } wiilf (++i < ii);
+            }
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                bdtion.bddfpt(brrby[indfx++]);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Intfgfr> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * A Splitfrbtor.OfLong dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf int[]} brrby.
+     */
+    stbtid finbl dlbss LongArrbySplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        privbtf finbl long[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid LongArrbySplitfrbtor(long[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid LongArrbySplitfrbtor(long[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
+        }
+
+        @Ovfrridf
+        publid OfLong trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
+                   ? null
+                   : nfw LongArrbySplitfrbtor(brrby, lo, indfx = mid, dibrbdtfristids);
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(LongConsumfr bdtion) {
+            long[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt(b[i]); } wiilf (++i < ii);
+            }
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                bdtion.bddfpt(brrby[indfx++]);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Long> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * A Splitfrbtor.OfDoublf dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf int[]} brrby.
+     */
+    stbtid finbl dlbss DoublfArrbySplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        privbtf finbl doublf[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid DoublfArrbySplitfrbtor(doublf[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid DoublfArrbySplitfrbtor(doublf[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
+        }
+
+        @Ovfrridf
+        publid OfDoublf trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
+                   ? null
+                   : nfw DoublfArrbySplitfrbtor(brrby, lo, indfx = mid, dibrbdtfristids);
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(DoublfConsumfr bdtion) {
+            doublf[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt(b[i]); } wiilf (++i < ii);
+            }
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                bdtion.bddfpt(brrby[indfx++]);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Doublf> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    //
+
+    /**
+     * An bbstrbdt {@dodf Splitfrbtor} tibt implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
+     *
+     * <p>An fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.Consumfr) tryAdvbndf}.
+     * Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.Consumfr) forEbdi} if it dbn
+     * providf b morf pfrformbnt implfmfntbtion.
+     *
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
+     *
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(Itfrbtor, long, int)}.  Dfpfnding on tif
+     * dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf donvfnifnt tibn
+     * fxtfnding tiis dlbss, sudi bs wifn tifrf is blrfbdy bn itfrbtor
+     * bvbilbblf to usf.
+     *
+     * @sff #splitfrbtor(Itfrbtor, long, int)
+     * @sindf 1.8
+     */
+    publid stbtid bbstrbdt dlbss AbstrbdtSplitfrbtor<T> implfmfnts Splitfrbtor<T> {
+        stbtid finbl int BATCH_UNIT = 1 << 10;  // bbtdi brrby sizf indrfmfnt
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdi brrby sizf;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * bdditionblCibrbdtfristids.
+         *
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
+         */
+        protfdtfd AbstrbdtSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
+        }
+
+        stbtid finbl dlbss HoldingConsumfr<T> implfmfnts Consumfr<T> {
+            Objfdt vbluf;
+
+            @Ovfrridf
+            publid void bddfpt(T vbluf) {
+                tiis.vbluf = vbluf;
+            }
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
+         */
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
+            /*
+             * Split into brrbys of britimftidblly indrfbsing bbtdi
+             * sizfs.  Tiis will only improvf pbrbllfl pfrformbndf if
+             * pfr-flfmfnt Consumfr bdtions brf morf dostly tibn
+             * trbnsffrring tifm into bn brrby.  Tif usf of bn
+             * britimftid progrfssion in split sizfs providfs ovfrifbd
+             * vs pbrbllflism bounds tibt do not pbrtidulbrly fbvor or
+             * pfnblizf dbsfs of ligitwfigit vs ifbvywfigit flfmfnt
+             * opfrbtions, bdross dombinbtions of #flfmfnts vs #dorfs,
+             * wiftifr or not fitifr brf known.  Wf gfnfrbtf
+             * O(sqrt(#flfmfnts)) splits, bllowing O(sqrt(#dorfs))
+             * potfntibl spffdup.
+             */
+            HoldingConsumfr<T> ioldfr = nfw HoldingConsumfr<>();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                Objfdt[] b = nfw Objfdt[n];
+                int j = 0;
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw ArrbySplitfrbtor<>(b, 0, j, dibrbdtfristids());
+            }
+            rfturn null;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
+         * split.
+         */
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
+         */
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+    }
+
+    /**
+     * An bbstrbdt {@dodf Splitfrbtor.OfInt} tibt implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
+     *
+     * <p>To implfmfnt b splitfrbtor bn fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.IntConsumfr)}
+     * tryAdvbndf}.  Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.IntConsumfr)} forEbdi} if it
+     * dbn providf b morf pfrformbnt implfmfntbtion.
+     *
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
+     *
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfInt, long, int)}.
+     * Dfpfnding on tif dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf
+     * donvfnifnt tibn fxtfnding tiis dlbss. For fxbmplf, if tifrf is blrfbdy bn
+     * itfrbtor bvbilbblf to usf tifn tifrf is no nffd to fxtfnd tiis dlbss.
+     *
+     * @sff #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfInt, long, int)
+     * @sindf 1.8
+     */
+    publid stbtid bbstrbdt dlbss AbstrbdtIntSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        stbtid finbl int MAX_BATCH = AbstrbdtSplitfrbtor.MAX_BATCH;
+        stbtid finbl int BATCH_UNIT = AbstrbdtSplitfrbtor.BATCH_UNIT;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * dibrbdtfristids.
+         *
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
+         */
+        protfdtfd AbstrbdtIntSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
+        }
+
+        stbtid finbl dlbss HoldingIntConsumfr implfmfnts IntConsumfr {
+            int vbluf;
+
+            @Ovfrridf
+            publid void bddfpt(int vbluf) {
+                tiis.vbluf = vbluf;
+            }
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
+         */
+        @Ovfrridf
+        publid Splitfrbtor.OfInt trySplit() {
+            HoldingIntConsumfr ioldfr = nfw HoldingIntConsumfr();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                int[] b = nfw int[n];
+                int j = 0;
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw IntArrbySplitfrbtor(b, 0, j, dibrbdtfristids());
+            }
+            rfturn null;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
+         * split.
+         */
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
+         */
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+    }
+
+    /**
+     * An bbstrbdt {@dodf Splitfrbtor.OfLong} tibt implfmfnts {@dodf trySplit}
+     * to pfrmit limitfd pbrbllflism.
+     *
+     * <p>To implfmfnt b splitfrbtor bn fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.LongConsumfr)}
+     * tryAdvbndf}.  Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.LongConsumfr)} forEbdi} if it
+     * dbn providf b morf pfrformbnt implfmfntbtion.
+     *
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
+     *
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfLong, long, int)}.
+     * Dfpfnding on tif dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf
+     * donvfnifnt tibn fxtfnding tiis dlbss. For fxbmplf, if tifrf is blrfbdy bn
+     * itfrbtor bvbilbblf to usf tifn tifrf is no nffd to fxtfnd tiis dlbss.
+     *
+     * @sff #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfLong, long, int)
+     * @sindf 1.8
+     */
+    publid stbtid bbstrbdt dlbss AbstrbdtLongSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        stbtid finbl int MAX_BATCH = AbstrbdtSplitfrbtor.MAX_BATCH;
+        stbtid finbl int BATCH_UNIT = AbstrbdtSplitfrbtor.BATCH_UNIT;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * dibrbdtfristids.
+         *
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
+         */
+        protfdtfd AbstrbdtLongSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
+        }
+
+        stbtid finbl dlbss HoldingLongConsumfr implfmfnts LongConsumfr {
+            long vbluf;
+
+            @Ovfrridf
+            publid void bddfpt(long vbluf) {
+                tiis.vbluf = vbluf;
+            }
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
+         */
+        @Ovfrridf
+        publid Splitfrbtor.OfLong trySplit() {
+            HoldingLongConsumfr ioldfr = nfw HoldingLongConsumfr();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                long[] b = nfw long[n];
+                int j = 0;
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw LongArrbySplitfrbtor(b, 0, j, dibrbdtfristids());
+            }
+            rfturn null;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
+         * split.
+         */
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
+         */
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+    }
+
+    /**
+     * An bbstrbdt {@dodf Splitfrbtor.OfDoublf} tibt implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
+     *
+     * <p>To implfmfnt b splitfrbtor bn fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.DoublfConsumfr)}
+     * tryAdvbndf}.  Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.DoublfConsumfr)} forEbdi} if
+     * it dbn providf b morf pfrformbnt implfmfntbtion.
+     *
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
+     *
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfDoublf, long, int)}.
+     * Dfpfnding on tif dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf
+     * donvfnifnt tibn fxtfnding tiis dlbss. For fxbmplf, if tifrf is blrfbdy bn
+     * itfrbtor bvbilbblf to usf tifn tifrf is no nffd to fxtfnd tiis dlbss.
+     *
+     * @sff #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfDoublf, long, int)
+     * @sindf 1.8
+     */
+    publid stbtid bbstrbdt dlbss AbstrbdtDoublfSplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        stbtid finbl int MAX_BATCH = AbstrbdtSplitfrbtor.MAX_BATCH;
+        stbtid finbl int BATCH_UNIT = AbstrbdtSplitfrbtor.BATCH_UNIT;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * dibrbdtfristids.
+         *
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
+         */
+        protfdtfd AbstrbdtDoublfSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
+        }
+
+        stbtid finbl dlbss HoldingDoublfConsumfr implfmfnts DoublfConsumfr {
+            doublf vbluf;
+
+            @Ovfrridf
+            publid void bddfpt(doublf vbluf) {
+                tiis.vbluf = vbluf;
+            }
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
+         */
+        @Ovfrridf
+        publid Splitfrbtor.OfDoublf trySplit() {
+            HoldingDoublfConsumfr ioldfr = nfw HoldingDoublfConsumfr();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                doublf[] b = nfw doublf[n];
+                int j = 0;
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw DoublfArrbySplitfrbtor(b, 0, j, dibrbdtfristids());
+            }
+            rfturn null;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
+         * split.
+         */
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
+        }
+
+        /**
+         * {@inifritDod}
+         *
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
+         */
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+    }
+
+    // Itfrbtor-bbsfd Splitfrbtors
+
+    /**
+     * A Splitfrbtor using b givfn Itfrbtor for flfmfnt
+     * opfrbtions. Tif splitfrbtor implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
+     */
+    stbtid dlbss ItfrbtorSplitfrbtor<T> implfmfnts Splitfrbtor<T> {
+        stbtid finbl int BATCH_UNIT = 1 << 10;  // bbtdi brrby sizf indrfmfnt
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdi brrby sizf;
+        privbtf finbl Collfdtion<? fxtfnds T> dollfdtion; // null OK
+        privbtf Itfrbtor<? fxtfnds T> it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn givfn
+         * dollfdtion's {@link jbvb.util.Collfdtion#itfrbtor()) for trbvfrsbl,
+         * bnd rfporting its {@link jbvb.util.Collfdtion#sizf()) bs its initibl
+         * sizf.
+         *
+         * @pbrbm d tif dollfdtion
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.
+         */
+        publid ItfrbtorSplitfrbtor(Collfdtion<? fxtfnds T> dollfdtion, int dibrbdtfristids) {
+            tiis.dollfdtion = dollfdtion;
+            tiis.it = null;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid ItfrbtorSplitfrbtor(Itfrbtor<? fxtfnds T> itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.dollfdtion = null;
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid ItfrbtorSplitfrbtor(Itfrbtor<? fxtfnds T> itfrbtor, int dibrbdtfristids) {
+            tiis.dollfdtion = null;
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
+            /*
+             * Split into brrbys of britimftidblly indrfbsing bbtdi
+             * sizfs.  Tiis will only improvf pbrbllfl pfrformbndf if
+             * pfr-flfmfnt Consumfr bdtions brf morf dostly tibn
+             * trbnsffrring tifm into bn brrby.  Tif usf of bn
+             * britimftid progrfssion in split sizfs providfs ovfrifbd
+             * vs pbrbllflism bounds tibt do not pbrtidulbrly fbvor or
+             * pfnblizf dbsfs of ligitwfigit vs ifbvywfigit flfmfnt
+             * opfrbtions, bdross dombinbtions of #flfmfnts vs #dorfs,
+             * wiftifr or not fitifr brf known.  Wf gfnfrbtf
+             * O(sqrt(#flfmfnts)) splits, bllowing O(sqrt(#dorfs))
+             * potfntibl spffdup.
+             */
+            Itfrbtor<? fxtfnds T> i;
+            long s;
+            if ((i = it) == null) {
+                i = it = dollfdtion.itfrbtor();
+                s = fst = (long) dollfdtion.sizf();
+            }
+            flsf
+                s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                Objfdt[] b = nfw Objfdt[n];
+                int j = 0;
+                do { b[j] = i.nfxt(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw ArrbySplitfrbtor<>(b, 0, j, dibrbdtfristids);
+            }
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            Itfrbtor<? fxtfnds T> i;
+            if ((i = it) == null) {
+                i = it = dollfdtion.itfrbtor();
+                fst = (long)dollfdtion.sizf();
+            }
+            i.forEbdiRfmbining(bdtion);
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (it == null) {
+                it = dollfdtion.itfrbtor();
+                fst = (long) dollfdtion.sizf();
+            }
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxt());
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            if (it == null) {
+                it = dollfdtion.itfrbtor();
+                rfturn fst = (long)dollfdtion.sizf();
+            }
+            rfturn fst;
+        }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * A Splitfrbtor.OfInt using b givfn IntStrfbm.IntItfrbtor for flfmfnt
+     * opfrbtions. Tif splitfrbtor implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
+     */
+    stbtid finbl dlbss IntItfrbtorSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        stbtid finbl int BATCH_UNIT = ItfrbtorSplitfrbtor.BATCH_UNIT;
+        stbtid finbl int MAX_BATCH = ItfrbtorSplitfrbtor.MAX_BATCH;
+        privbtf PrimitivfItfrbtor.OfInt it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid IntItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfInt itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor for b
+         * sourdf of unknown sizf, rfporting tif givfn
+         * dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid IntItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfInt itfrbtor, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
+        }
+
+        @Ovfrridf
+        publid OfInt trySplit() {
+            PrimitivfItfrbtor.OfInt i = it;
+            long s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                int[] b = nfw int[n];
+                int j = 0;
+                do { b[j] = i.nfxtInt(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw IntArrbySplitfrbtor(b, 0, j, dibrbdtfristids);
+            }
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(IntConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            it.forEbdiRfmbining(bdtion);
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxtInt());
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
+        }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Intfgfr> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    stbtid finbl dlbss LongItfrbtorSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        stbtid finbl int BATCH_UNIT = ItfrbtorSplitfrbtor.BATCH_UNIT;
+        stbtid finbl int MAX_BATCH = ItfrbtorSplitfrbtor.MAX_BATCH;
+        privbtf PrimitivfItfrbtor.OfLong it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid LongItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfLong itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor for b
+         * sourdf of unknown sizf, rfporting tif givfn
+         * dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid LongItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfLong itfrbtor, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
+        }
+
+        @Ovfrridf
+        publid OfLong trySplit() {
+            PrimitivfItfrbtor.OfLong i = it;
+            long s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                long[] b = nfw long[n];
+                int j = 0;
+                do { b[j] = i.nfxtLong(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw LongArrbySplitfrbtor(b, 0, j, dibrbdtfristids);
+            }
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(LongConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            it.forEbdiRfmbining(bdtion);
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxtLong());
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
+        }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Long> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    stbtid finbl dlbss DoublfItfrbtorSplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        stbtid finbl int BATCH_UNIT = ItfrbtorSplitfrbtor.BATCH_UNIT;
+        stbtid finbl int MAX_BATCH = ItfrbtorSplitfrbtor.MAX_BATCH;
+        privbtf PrimitivfItfrbtor.OfDoublf it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid DoublfItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfDoublf itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor for b
+         * sourdf of unknown sizf, rfporting tif givfn
+         * dibrbdtfristids.
+         *
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
+         */
+        publid DoublfItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfDoublf itfrbtor, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
+        }
+
+        @Ovfrridf
+        publid OfDoublf trySplit() {
+            PrimitivfItfrbtor.OfDoublf i = it;
+            long s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
+                if (n > s)
+                    n = (int) s;
+                if (n > MAX_BATCH)
+                    n = MAX_BATCH;
+                doublf[] b = nfw doublf[n];
+                int j = 0;
+                do { b[j] = i.nfxtDoublf(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw DoublfArrbySplitfrbtor(b, 0, j, dibrbdtfristids);
+            }
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(DoublfConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            it.forEbdiRfmbining(bdtion);
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxtDoublf());
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
+        }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Doublf> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+}

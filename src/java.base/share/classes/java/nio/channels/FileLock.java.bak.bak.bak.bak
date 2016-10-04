@@ -1,331 +1,1655 @@
 /*
- * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvb.nio.dhbnnfls;
-
-import jbvb.io.IOExdfption;
-
-/**
- * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
- *
- * <p> A filf-lodk objfdt is drfbtfd fbdh timf b lodk is bdquirfd on b filf vib
- * onf of thf {@link FilfChbnnfl#lodk(long,long,boolfbn) lodk} or {@link
- * FilfChbnnfl#tryLodk(long,long,boolfbn) tryLodk} mfthods of thf
- * {@link FilfChbnnfl} dlbss, or thf {@link
- * AsyndhronousFilfChbnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
- * or {@link AsyndhronousFilfChbnnfl#tryLodk(long,long,boolfbn) tryLodk}
- * mfthods of thf {@link AsyndhronousFilfChbnnfl} dlbss.
- *
- * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until thf lodk
- * is rflfbsfd by invoking thf {@link #rflfbsf rflfbsf} mfthod, by dlosing thf
- * dhbnnfl thbt wbs usfd to bdquirf it, or by thf tfrminbtion of thf Jbvb
- * virtubl mbdhinf, whidhfvfr domfs first.  Thf vblidity of b lodk mby bf
- * tfstfd by invoking its {@link #isVblid isVblid} mfthod.
- *
- * <p> A filf lodk is fithfr <i>fxdlusivf</i> or <i>shbrfd</i>.  A shbrfd lodk
- * prfvfnts othfr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
- * fxdlusivf lodk, but dofs bllow thfm to bdquirf ovfrlbpping shbrfd lodks.  An
- * fxdlusivf lodk prfvfnts othfr progrbms from bdquiring bn ovfrlbpping lodk of
- * fithfr typf.  Ondf it is rflfbsfd, b lodk hbs no furthfr ffffdt on thf lodks
- * thbt mby bf bdquirfd by othfr progrbms.
- *
- * <p> Whfthfr b lodk is fxdlusivf or shbrfd mby bf dftfrminfd by invoking its
- * {@link #isShbrfd isShbrfd} mfthod.  Somf plbtforms do not support shbrfd
- * lodks, in whidh dbsf b rfqufst for b shbrfd lodk is butombtidblly donvfrtfd
- * into b rfqufst for bn fxdlusivf lodk.
- *
- * <p> Thf lodks hfld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdhinf do
- * not ovfrlbp.  Thf {@link #ovfrlbps ovfrlbps} mfthod mby bf usfd to tfst
- * whfthfr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
- *
- * <p> A filf-lodk objfdt rfdords thf filf dhbnnfl upon whosf filf thf lodk is
- * hfld, thf typf bnd vblidity of thf lodk, bnd thf position bnd sizf of thf
- * lodkfd rfgion.  Only thf vblidity of b lodk is subjfdt to dhbngf ovfr timf;
- * bll othfr bspfdts of b lodk's stbtf brf immutbblf.
- *
- * <p> Filf lodks brf hfld on bfhblf of thf fntirf Jbvb virtubl mbdhinf.
- * Thfy brf not suitbblf for dontrolling bddfss to b filf by multiplf
- * thrfbds within thf sbmf virtubl mbdhinf.
- *
- * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt thrfbds.
- *
- *
- * <b nbmf="pdfp"></b><h2> Plbtform dfpfndfndifs </h2>
- *
- * <p> This filf-lodking API is intfndfd to mbp dirfdtly to thf nbtivf lodking
- * fbdility of thf undfrlying opfrbting systfm.  Thus thf lodks hfld on b filf
- * should bf visiblf to bll progrbms thbt hbvf bddfss to thf filf, rfgbrdlfss
- * of thf lbngubgf in whidh thosf progrbms brf writtfn.
- *
- * <p> Whfthfr or not b lodk bdtublly prfvfnts bnothfr progrbm from bddfssing
- * thf dontfnt of thf lodkfd rfgion is systfm-dfpfndfnt bnd thfrfforf
- * unspfdififd.  Thf nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
- * <i>bdvisory</i>, mfbning thbt progrbms must doopfrbtivfly obsfrvf b known
- * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On othfr systfms
- * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning thbt if onf progrbm lodks b
- * rfgion of b filf thfn othfr progrbms brf bdtublly prfvfntfd from bddfssing
- * thbt rfgion in b wby thbt would violbtf thf lodk.  On yft othfr systfms,
- * whfthfr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
- * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfhbvior bdross plbtforms,
- * it is strongly rfdommfndfd thbt thf lodks providfd by this API bf usfd bs if
- * thfy wfrf bdvisory lodks.
- *
- * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
- * prfvfnts thbt rfgion from bfing {@link jbvb.nio.dhbnnfls.FilfChbnnfl#mbp
- * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms thbt dombinf
- * lodking bnd mbpping should bf prfpbrfd for this dombinbtion to fbil.
- *
- * <p> On somf systfms, dlosing b dhbnnfl rflfbsfs bll lodks hfld by thf Jbvb
- * virtubl mbdhinf on thf undfrlying filf rfgbrdlfss of whfthfr thf lodks wfrf
- * bdquirfd vib thbt dhbnnfl or vib bnothfr dhbnnfl opfn on thf sbmf filf.  It
- * is strongly rfdommfndfd thbt, within b progrbm, b uniquf dhbnnfl bf usfd to
- * bdquirf bll lodks on bny givfn filf.
- *
- * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd with
- * mfmory-mbppfd filfs only whfn thf lodkfd rfgions brf pbgf-blignfd bnd b
- * wholf multiplf of thf undfrlying hbrdwbrf's pbgf sizf.  Somf nftwork
- * filfsystfms do not implfmfnt filf lodks on rfgions thbt fxtfnd pbst b
- * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
- * dbrf should bf tbkfn whfn lodking filfs thbt rfsidf on nftwork filfsystfms.
- *
- *
- * @buthor Mbrk Rfinhold
- * @buthor JSR-51 Expfrt Group
- * @sindf 1.4
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvb.nio.dibnnfls;
+pbdkbgf jbvb.nio.dibnnfls;
+pbdkbgf jbvb.nio.dibnnfls;
+pbdkbgf jbvb.nio.dibnnfls;
+pbdkbgf jbvb.nio.dibnnfls;
+
+
+
+
+
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
+ * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
+ * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
+ * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
+ * A tokfn rfprfsfnting b lodk on b rfgion of b filf.
+ *
+ *
+ *
+ *
+ *
+ * <p> A filf-lodk objfdt is drfbtfd fbdi timf b lodk is bdquirfd on b filf vib
+ * <p> A filf-lodk objfdt is drfbtfd fbdi timf b lodk is bdquirfd on b filf vib
+ * <p> A filf-lodk objfdt is drfbtfd fbdi timf b lodk is bdquirfd on b filf vib
+ * <p> A filf-lodk objfdt is drfbtfd fbdi timf b lodk is bdquirfd on b filf vib
+ * <p> A filf-lodk objfdt is drfbtfd fbdi timf b lodk is bdquirfd on b filf vib
+ * onf of tif {@link FilfCibnnfl#lodk(long,long,boolfbn) lodk} or {@link
+ * onf of tif {@link FilfCibnnfl#lodk(long,long,boolfbn) lodk} or {@link
+ * onf of tif {@link FilfCibnnfl#lodk(long,long,boolfbn) lodk} or {@link
+ * onf of tif {@link FilfCibnnfl#lodk(long,long,boolfbn) lodk} or {@link
+ * onf of tif {@link FilfCibnnfl#lodk(long,long,boolfbn) lodk} or {@link
+ * FilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk} mftiods of tif
+ * FilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk} mftiods of tif
+ * FilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk} mftiods of tif
+ * FilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk} mftiods of tif
+ * FilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk} mftiods of tif
+ * {@link FilfCibnnfl} dlbss, or tif {@link
+ * {@link FilfCibnnfl} dlbss, or tif {@link
+ * {@link FilfCibnnfl} dlbss, or tif {@link
+ * {@link FilfCibnnfl} dlbss, or tif {@link
+ * {@link FilfCibnnfl} dlbss, or tif {@link
+ * AsyndironousFilfCibnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
+ * AsyndironousFilfCibnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
+ * AsyndironousFilfCibnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
+ * AsyndironousFilfCibnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
+ * AsyndironousFilfCibnnfl#lodk(long,long,boolfbn,Objfdt,ComplftionHbndlfr) lodk}
+ * or {@link AsyndironousFilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk}
+ * or {@link AsyndironousFilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk}
+ * or {@link AsyndironousFilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk}
+ * or {@link AsyndironousFilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk}
+ * or {@link AsyndironousFilfCibnnfl#tryLodk(long,long,boolfbn) tryLodk}
+ * mftiods of tif {@link AsyndironousFilfCibnnfl} dlbss.
+ * mftiods of tif {@link AsyndironousFilfCibnnfl} dlbss.
+ * mftiods of tif {@link AsyndironousFilfCibnnfl} dlbss.
+ * mftiods of tif {@link AsyndironousFilfCibnnfl} dlbss.
+ * mftiods of tif {@link AsyndironousFilfCibnnfl} dlbss.
+ *
+ *
+ *
+ *
+ *
+ * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until tif lodk
+ * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until tif lodk
+ * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until tif lodk
+ * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until tif lodk
+ * <p> A filf-lodk objfdt is initiblly vblid.  It rfmbins vblid until tif lodk
+ * is rflfbsfd by invoking tif {@link #rflfbsf rflfbsf} mftiod, by dlosing tif
+ * is rflfbsfd by invoking tif {@link #rflfbsf rflfbsf} mftiod, by dlosing tif
+ * is rflfbsfd by invoking tif {@link #rflfbsf rflfbsf} mftiod, by dlosing tif
+ * is rflfbsfd by invoking tif {@link #rflfbsf rflfbsf} mftiod, by dlosing tif
+ * is rflfbsfd by invoking tif {@link #rflfbsf rflfbsf} mftiod, by dlosing tif
+ * dibnnfl tibt wbs usfd to bdquirf it, or by tif tfrminbtion of tif Jbvb
+ * dibnnfl tibt wbs usfd to bdquirf it, or by tif tfrminbtion of tif Jbvb
+ * dibnnfl tibt wbs usfd to bdquirf it, or by tif tfrminbtion of tif Jbvb
+ * dibnnfl tibt wbs usfd to bdquirf it, or by tif tfrminbtion of tif Jbvb
+ * dibnnfl tibt wbs usfd to bdquirf it, or by tif tfrminbtion of tif Jbvb
+ * virtubl mbdiinf, wiidifvfr domfs first.  Tif vblidity of b lodk mby bf
+ * virtubl mbdiinf, wiidifvfr domfs first.  Tif vblidity of b lodk mby bf
+ * virtubl mbdiinf, wiidifvfr domfs first.  Tif vblidity of b lodk mby bf
+ * virtubl mbdiinf, wiidifvfr domfs first.  Tif vblidity of b lodk mby bf
+ * virtubl mbdiinf, wiidifvfr domfs first.  Tif vblidity of b lodk mby bf
+ * tfstfd by invoking its {@link #isVblid isVblid} mftiod.
+ * tfstfd by invoking its {@link #isVblid isVblid} mftiod.
+ * tfstfd by invoking its {@link #isVblid isVblid} mftiod.
+ * tfstfd by invoking its {@link #isVblid isVblid} mftiod.
+ * tfstfd by invoking its {@link #isVblid isVblid} mftiod.
+ *
+ *
+ *
+ *
+ *
+ * <p> A filf lodk is fitifr <i>fxdlusivf</i> or <i>sibrfd</i>.  A sibrfd lodk
+ * <p> A filf lodk is fitifr <i>fxdlusivf</i> or <i>sibrfd</i>.  A sibrfd lodk
+ * <p> A filf lodk is fitifr <i>fxdlusivf</i> or <i>sibrfd</i>.  A sibrfd lodk
+ * <p> A filf lodk is fitifr <i>fxdlusivf</i> or <i>sibrfd</i>.  A sibrfd lodk
+ * <p> A filf lodk is fitifr <i>fxdlusivf</i> or <i>sibrfd</i>.  A sibrfd lodk
+ * prfvfnts otifr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
+ * prfvfnts otifr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
+ * prfvfnts otifr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
+ * prfvfnts otifr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
+ * prfvfnts otifr dondurrfntly-running progrbms from bdquiring bn ovfrlbpping
+ * fxdlusivf lodk, but dofs bllow tifm to bdquirf ovfrlbpping sibrfd lodks.  An
+ * fxdlusivf lodk, but dofs bllow tifm to bdquirf ovfrlbpping sibrfd lodks.  An
+ * fxdlusivf lodk, but dofs bllow tifm to bdquirf ovfrlbpping sibrfd lodks.  An
+ * fxdlusivf lodk, but dofs bllow tifm to bdquirf ovfrlbpping sibrfd lodks.  An
+ * fxdlusivf lodk, but dofs bllow tifm to bdquirf ovfrlbpping sibrfd lodks.  An
+ * fxdlusivf lodk prfvfnts otifr progrbms from bdquiring bn ovfrlbpping lodk of
+ * fxdlusivf lodk prfvfnts otifr progrbms from bdquiring bn ovfrlbpping lodk of
+ * fxdlusivf lodk prfvfnts otifr progrbms from bdquiring bn ovfrlbpping lodk of
+ * fxdlusivf lodk prfvfnts otifr progrbms from bdquiring bn ovfrlbpping lodk of
+ * fxdlusivf lodk prfvfnts otifr progrbms from bdquiring bn ovfrlbpping lodk of
+ * fitifr typf.  Ondf it is rflfbsfd, b lodk ibs no furtifr ffffdt on tif lodks
+ * fitifr typf.  Ondf it is rflfbsfd, b lodk ibs no furtifr ffffdt on tif lodks
+ * fitifr typf.  Ondf it is rflfbsfd, b lodk ibs no furtifr ffffdt on tif lodks
+ * fitifr typf.  Ondf it is rflfbsfd, b lodk ibs no furtifr ffffdt on tif lodks
+ * fitifr typf.  Ondf it is rflfbsfd, b lodk ibs no furtifr ffffdt on tif lodks
+ * tibt mby bf bdquirfd by otifr progrbms.
+ * tibt mby bf bdquirfd by otifr progrbms.
+ * tibt mby bf bdquirfd by otifr progrbms.
+ * tibt mby bf bdquirfd by otifr progrbms.
+ * tibt mby bf bdquirfd by otifr progrbms.
+ *
+ *
+ *
+ *
+ *
+ * <p> Wiftifr b lodk is fxdlusivf or sibrfd mby bf dftfrminfd by invoking its
+ * <p> Wiftifr b lodk is fxdlusivf or sibrfd mby bf dftfrminfd by invoking its
+ * <p> Wiftifr b lodk is fxdlusivf or sibrfd mby bf dftfrminfd by invoking its
+ * <p> Wiftifr b lodk is fxdlusivf or sibrfd mby bf dftfrminfd by invoking its
+ * <p> Wiftifr b lodk is fxdlusivf or sibrfd mby bf dftfrminfd by invoking its
+ * {@link #isSibrfd isSibrfd} mftiod.  Somf plbtforms do not support sibrfd
+ * {@link #isSibrfd isSibrfd} mftiod.  Somf plbtforms do not support sibrfd
+ * {@link #isSibrfd isSibrfd} mftiod.  Somf plbtforms do not support sibrfd
+ * {@link #isSibrfd isSibrfd} mftiod.  Somf plbtforms do not support sibrfd
+ * {@link #isSibrfd isSibrfd} mftiod.  Somf plbtforms do not support sibrfd
+ * lodks, in wiidi dbsf b rfqufst for b sibrfd lodk is butombtidblly donvfrtfd
+ * lodks, in wiidi dbsf b rfqufst for b sibrfd lodk is butombtidblly donvfrtfd
+ * lodks, in wiidi dbsf b rfqufst for b sibrfd lodk is butombtidblly donvfrtfd
+ * lodks, in wiidi dbsf b rfqufst for b sibrfd lodk is butombtidblly donvfrtfd
+ * lodks, in wiidi dbsf b rfqufst for b sibrfd lodk is butombtidblly donvfrtfd
+ * into b rfqufst for bn fxdlusivf lodk.
+ * into b rfqufst for bn fxdlusivf lodk.
+ * into b rfqufst for bn fxdlusivf lodk.
+ * into b rfqufst for bn fxdlusivf lodk.
+ * into b rfqufst for bn fxdlusivf lodk.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tif lodks ifld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdiinf do
+ * <p> Tif lodks ifld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdiinf do
+ * <p> Tif lodks ifld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdiinf do
+ * <p> Tif lodks ifld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdiinf do
+ * <p> Tif lodks ifld on b pbrtidulbr filf by b singlf Jbvb virtubl mbdiinf do
+ * not ovfrlbp.  Tif {@link #ovfrlbps ovfrlbps} mftiod mby bf usfd to tfst
+ * not ovfrlbp.  Tif {@link #ovfrlbps ovfrlbps} mftiod mby bf usfd to tfst
+ * not ovfrlbp.  Tif {@link #ovfrlbps ovfrlbps} mftiod mby bf usfd to tfst
+ * not ovfrlbp.  Tif {@link #ovfrlbps ovfrlbps} mftiod mby bf usfd to tfst
+ * not ovfrlbp.  Tif {@link #ovfrlbps ovfrlbps} mftiod mby bf usfd to tfst
+ * wiftifr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
+ * wiftifr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
+ * wiftifr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
+ * wiftifr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
+ * wiftifr b dbndidbtf lodk rbngf ovfrlbps bn fxisting lodk.
+ *
+ *
+ *
+ *
+ *
+ * <p> A filf-lodk objfdt rfdords tif filf dibnnfl upon wiosf filf tif lodk is
+ * <p> A filf-lodk objfdt rfdords tif filf dibnnfl upon wiosf filf tif lodk is
+ * <p> A filf-lodk objfdt rfdords tif filf dibnnfl upon wiosf filf tif lodk is
+ * <p> A filf-lodk objfdt rfdords tif filf dibnnfl upon wiosf filf tif lodk is
+ * <p> A filf-lodk objfdt rfdords tif filf dibnnfl upon wiosf filf tif lodk is
+ * ifld, tif typf bnd vblidity of tif lodk, bnd tif position bnd sizf of tif
+ * ifld, tif typf bnd vblidity of tif lodk, bnd tif position bnd sizf of tif
+ * ifld, tif typf bnd vblidity of tif lodk, bnd tif position bnd sizf of tif
+ * ifld, tif typf bnd vblidity of tif lodk, bnd tif position bnd sizf of tif
+ * ifld, tif typf bnd vblidity of tif lodk, bnd tif position bnd sizf of tif
+ * lodkfd rfgion.  Only tif vblidity of b lodk is subjfdt to dibngf ovfr timf;
+ * lodkfd rfgion.  Only tif vblidity of b lodk is subjfdt to dibngf ovfr timf;
+ * lodkfd rfgion.  Only tif vblidity of b lodk is subjfdt to dibngf ovfr timf;
+ * lodkfd rfgion.  Only tif vblidity of b lodk is subjfdt to dibngf ovfr timf;
+ * lodkfd rfgion.  Only tif vblidity of b lodk is subjfdt to dibngf ovfr timf;
+ * bll otifr bspfdts of b lodk's stbtf brf immutbblf.
+ * bll otifr bspfdts of b lodk's stbtf brf immutbblf.
+ * bll otifr bspfdts of b lodk's stbtf brf immutbblf.
+ * bll otifr bspfdts of b lodk's stbtf brf immutbblf.
+ * bll otifr bspfdts of b lodk's stbtf brf immutbblf.
+ *
+ *
+ *
+ *
+ *
+ * <p> Filf lodks brf ifld on bfiblf of tif fntirf Jbvb virtubl mbdiinf.
+ * <p> Filf lodks brf ifld on bfiblf of tif fntirf Jbvb virtubl mbdiinf.
+ * <p> Filf lodks brf ifld on bfiblf of tif fntirf Jbvb virtubl mbdiinf.
+ * <p> Filf lodks brf ifld on bfiblf of tif fntirf Jbvb virtubl mbdiinf.
+ * <p> Filf lodks brf ifld on bfiblf of tif fntirf Jbvb virtubl mbdiinf.
+ * Tify brf not suitbblf for dontrolling bddfss to b filf by multiplf
+ * Tify brf not suitbblf for dontrolling bddfss to b filf by multiplf
+ * Tify brf not suitbblf for dontrolling bddfss to b filf by multiplf
+ * Tify brf not suitbblf for dontrolling bddfss to b filf by multiplf
+ * Tify brf not suitbblf for dontrolling bddfss to b filf by multiplf
+ * tirfbds witiin tif sbmf virtubl mbdiinf.
+ * tirfbds witiin tif sbmf virtubl mbdiinf.
+ * tirfbds witiin tif sbmf virtubl mbdiinf.
+ * tirfbds witiin tif sbmf virtubl mbdiinf.
+ * tirfbds witiin tif sbmf virtubl mbdiinf.
+ *
+ *
+ *
+ *
+ *
+ * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt tirfbds.
+ * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt tirfbds.
+ * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt tirfbds.
+ * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt tirfbds.
+ * <p> Filf-lodk objfdts brf sbff for usf by multiplf dondurrfnt tirfbds.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * <b nbmf="pdfp"></b><i2> Plbtform dfpfndfndifs </i2>
+ * <b nbmf="pdfp"></b><i2> Plbtform dfpfndfndifs </i2>
+ * <b nbmf="pdfp"></b><i2> Plbtform dfpfndfndifs </i2>
+ * <b nbmf="pdfp"></b><i2> Plbtform dfpfndfndifs </i2>
+ * <b nbmf="pdfp"></b><i2> Plbtform dfpfndfndifs </i2>
+ *
+ *
+ *
+ *
+ *
+ * <p> Tiis filf-lodking API is intfndfd to mbp dirfdtly to tif nbtivf lodking
+ * <p> Tiis filf-lodking API is intfndfd to mbp dirfdtly to tif nbtivf lodking
+ * <p> Tiis filf-lodking API is intfndfd to mbp dirfdtly to tif nbtivf lodking
+ * <p> Tiis filf-lodking API is intfndfd to mbp dirfdtly to tif nbtivf lodking
+ * <p> Tiis filf-lodking API is intfndfd to mbp dirfdtly to tif nbtivf lodking
+ * fbdility of tif undfrlying opfrbting systfm.  Tius tif lodks ifld on b filf
+ * fbdility of tif undfrlying opfrbting systfm.  Tius tif lodks ifld on b filf
+ * fbdility of tif undfrlying opfrbting systfm.  Tius tif lodks ifld on b filf
+ * fbdility of tif undfrlying opfrbting systfm.  Tius tif lodks ifld on b filf
+ * fbdility of tif undfrlying opfrbting systfm.  Tius tif lodks ifld on b filf
+ * siould bf visiblf to bll progrbms tibt ibvf bddfss to tif filf, rfgbrdlfss
+ * siould bf visiblf to bll progrbms tibt ibvf bddfss to tif filf, rfgbrdlfss
+ * siould bf visiblf to bll progrbms tibt ibvf bddfss to tif filf, rfgbrdlfss
+ * siould bf visiblf to bll progrbms tibt ibvf bddfss to tif filf, rfgbrdlfss
+ * siould bf visiblf to bll progrbms tibt ibvf bddfss to tif filf, rfgbrdlfss
+ * of tif lbngubgf in wiidi tiosf progrbms brf writtfn.
+ * of tif lbngubgf in wiidi tiosf progrbms brf writtfn.
+ * of tif lbngubgf in wiidi tiosf progrbms brf writtfn.
+ * of tif lbngubgf in wiidi tiosf progrbms brf writtfn.
+ * of tif lbngubgf in wiidi tiosf progrbms brf writtfn.
+ *
+ *
+ *
+ *
+ *
+ * <p> Wiftifr or not b lodk bdtublly prfvfnts bnotifr progrbm from bddfssing
+ * <p> Wiftifr or not b lodk bdtublly prfvfnts bnotifr progrbm from bddfssing
+ * <p> Wiftifr or not b lodk bdtublly prfvfnts bnotifr progrbm from bddfssing
+ * <p> Wiftifr or not b lodk bdtublly prfvfnts bnotifr progrbm from bddfssing
+ * <p> Wiftifr or not b lodk bdtublly prfvfnts bnotifr progrbm from bddfssing
+ * tif dontfnt of tif lodkfd rfgion is systfm-dfpfndfnt bnd tifrfforf
+ * tif dontfnt of tif lodkfd rfgion is systfm-dfpfndfnt bnd tifrfforf
+ * tif dontfnt of tif lodkfd rfgion is systfm-dfpfndfnt bnd tifrfforf
+ * tif dontfnt of tif lodkfd rfgion is systfm-dfpfndfnt bnd tifrfforf
+ * tif dontfnt of tif lodkfd rfgion is systfm-dfpfndfnt bnd tifrfforf
+ * unspfdififd.  Tif nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
+ * unspfdififd.  Tif nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
+ * unspfdififd.  Tif nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
+ * unspfdififd.  Tif nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
+ * unspfdififd.  Tif nbtivf filf-lodking fbdilitifs of somf systfms brf mfrfly
+ * <i>bdvisory</i>, mfbning tibt progrbms must doopfrbtivfly obsfrvf b known
+ * <i>bdvisory</i>, mfbning tibt progrbms must doopfrbtivfly obsfrvf b known
+ * <i>bdvisory</i>, mfbning tibt progrbms must doopfrbtivfly obsfrvf b known
+ * <i>bdvisory</i>, mfbning tibt progrbms must doopfrbtivfly obsfrvf b known
+ * <i>bdvisory</i>, mfbning tibt progrbms must doopfrbtivfly obsfrvf b known
+ * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On otifr systfms
+ * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On otifr systfms
+ * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On otifr systfms
+ * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On otifr systfms
+ * lodking protodol in ordfr to gubrbntff dbtb intfgrity.  On otifr systfms
+ * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning tibt if onf progrbm lodks b
+ * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning tibt if onf progrbm lodks b
+ * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning tibt if onf progrbm lodks b
+ * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning tibt if onf progrbm lodks b
+ * nbtivf filf lodks brf <i>mbndbtory</i>, mfbning tibt if onf progrbm lodks b
+ * rfgion of b filf tifn otifr progrbms brf bdtublly prfvfntfd from bddfssing
+ * rfgion of b filf tifn otifr progrbms brf bdtublly prfvfntfd from bddfssing
+ * rfgion of b filf tifn otifr progrbms brf bdtublly prfvfntfd from bddfssing
+ * rfgion of b filf tifn otifr progrbms brf bdtublly prfvfntfd from bddfssing
+ * rfgion of b filf tifn otifr progrbms brf bdtublly prfvfntfd from bddfssing
+ * tibt rfgion in b wby tibt would violbtf tif lodk.  On yft otifr systfms,
+ * tibt rfgion in b wby tibt would violbtf tif lodk.  On yft otifr systfms,
+ * tibt rfgion in b wby tibt would violbtf tif lodk.  On yft otifr systfms,
+ * tibt rfgion in b wby tibt would violbtf tif lodk.  On yft otifr systfms,
+ * tibt rfgion in b wby tibt would violbtf tif lodk.  On yft otifr systfms,
+ * wiftifr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
+ * wiftifr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
+ * wiftifr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
+ * wiftifr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
+ * wiftifr nbtivf filf lodks brf bdvisory or mbndbtory is donfigurbblf on b
+ * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfibvior bdross plbtforms,
+ * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfibvior bdross plbtforms,
+ * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfibvior bdross plbtforms,
+ * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfibvior bdross plbtforms,
+ * pfr-filf bbsis.  To fnsurf donsistfnt bnd dorrfdt bfibvior bdross plbtforms,
+ * it is strongly rfdommfndfd tibt tif lodks providfd by tiis API bf usfd bs if
+ * it is strongly rfdommfndfd tibt tif lodks providfd by tiis API bf usfd bs if
+ * it is strongly rfdommfndfd tibt tif lodks providfd by tiis API bf usfd bs if
+ * it is strongly rfdommfndfd tibt tif lodks providfd by tiis API bf usfd bs if
+ * it is strongly rfdommfndfd tibt tif lodks providfd by tiis API bf usfd bs if
+ * tify wfrf bdvisory lodks.
+ * tify wfrf bdvisory lodks.
+ * tify wfrf bdvisory lodks.
+ * tify wfrf bdvisory lodks.
+ * tify wfrf bdvisory lodks.
+ *
+ *
+ *
+ *
+ *
+ * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
+ * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
+ * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
+ * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
+ * <p> On somf systfms, bdquiring b mbndbtory lodk on b rfgion of b filf
+ * prfvfnts tibt rfgion from bfing {@link jbvb.nio.dibnnfls.FilfCibnnfl#mbp
+ * prfvfnts tibt rfgion from bfing {@link jbvb.nio.dibnnfls.FilfCibnnfl#mbp
+ * prfvfnts tibt rfgion from bfing {@link jbvb.nio.dibnnfls.FilfCibnnfl#mbp
+ * prfvfnts tibt rfgion from bfing {@link jbvb.nio.dibnnfls.FilfCibnnfl#mbp
+ * prfvfnts tibt rfgion from bfing {@link jbvb.nio.dibnnfls.FilfCibnnfl#mbp
+ * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms tibt dombinf
+ * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms tibt dombinf
+ * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms tibt dombinf
+ * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms tibt dombinf
+ * <i>mbppfd into mfmory</i>}, bnd vidf vfrsb.  Progrbms tibt dombinf
+ * lodking bnd mbpping siould bf prfpbrfd for tiis dombinbtion to fbil.
+ * lodking bnd mbpping siould bf prfpbrfd for tiis dombinbtion to fbil.
+ * lodking bnd mbpping siould bf prfpbrfd for tiis dombinbtion to fbil.
+ * lodking bnd mbpping siould bf prfpbrfd for tiis dombinbtion to fbil.
+ * lodking bnd mbpping siould bf prfpbrfd for tiis dombinbtion to fbil.
+ *
+ *
+ *
+ *
+ *
+ * <p> On somf systfms, dlosing b dibnnfl rflfbsfs bll lodks ifld by tif Jbvb
+ * <p> On somf systfms, dlosing b dibnnfl rflfbsfs bll lodks ifld by tif Jbvb
+ * <p> On somf systfms, dlosing b dibnnfl rflfbsfs bll lodks ifld by tif Jbvb
+ * <p> On somf systfms, dlosing b dibnnfl rflfbsfs bll lodks ifld by tif Jbvb
+ * <p> On somf systfms, dlosing b dibnnfl rflfbsfs bll lodks ifld by tif Jbvb
+ * virtubl mbdiinf on tif undfrlying filf rfgbrdlfss of wiftifr tif lodks wfrf
+ * virtubl mbdiinf on tif undfrlying filf rfgbrdlfss of wiftifr tif lodks wfrf
+ * virtubl mbdiinf on tif undfrlying filf rfgbrdlfss of wiftifr tif lodks wfrf
+ * virtubl mbdiinf on tif undfrlying filf rfgbrdlfss of wiftifr tif lodks wfrf
+ * virtubl mbdiinf on tif undfrlying filf rfgbrdlfss of wiftifr tif lodks wfrf
+ * bdquirfd vib tibt dibnnfl or vib bnotifr dibnnfl opfn on tif sbmf filf.  It
+ * bdquirfd vib tibt dibnnfl or vib bnotifr dibnnfl opfn on tif sbmf filf.  It
+ * bdquirfd vib tibt dibnnfl or vib bnotifr dibnnfl opfn on tif sbmf filf.  It
+ * bdquirfd vib tibt dibnnfl or vib bnotifr dibnnfl opfn on tif sbmf filf.  It
+ * bdquirfd vib tibt dibnnfl or vib bnotifr dibnnfl opfn on tif sbmf filf.  It
+ * is strongly rfdommfndfd tibt, witiin b progrbm, b uniquf dibnnfl bf usfd to
+ * is strongly rfdommfndfd tibt, witiin b progrbm, b uniquf dibnnfl bf usfd to
+ * is strongly rfdommfndfd tibt, witiin b progrbm, b uniquf dibnnfl bf usfd to
+ * is strongly rfdommfndfd tibt, witiin b progrbm, b uniquf dibnnfl bf usfd to
+ * is strongly rfdommfndfd tibt, witiin b progrbm, b uniquf dibnnfl bf usfd to
+ * bdquirf bll lodks on bny givfn filf.
+ * bdquirf bll lodks on bny givfn filf.
+ * bdquirf bll lodks on bny givfn filf.
+ * bdquirf bll lodks on bny givfn filf.
+ * bdquirf bll lodks on bny givfn filf.
+ *
+ *
+ *
+ *
+ *
+ * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd witi
+ * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd witi
+ * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd witi
+ * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd witi
+ * <p> Somf nftwork filfsystfms pfrmit filf lodking to bf usfd witi
+ * mfmory-mbppfd filfs only wifn tif lodkfd rfgions brf pbgf-blignfd bnd b
+ * mfmory-mbppfd filfs only wifn tif lodkfd rfgions brf pbgf-blignfd bnd b
+ * mfmory-mbppfd filfs only wifn tif lodkfd rfgions brf pbgf-blignfd bnd b
+ * mfmory-mbppfd filfs only wifn tif lodkfd rfgions brf pbgf-blignfd bnd b
+ * mfmory-mbppfd filfs only wifn tif lodkfd rfgions brf pbgf-blignfd bnd b
+ * wiolf multiplf of tif undfrlying ibrdwbrf's pbgf sizf.  Somf nftwork
+ * wiolf multiplf of tif undfrlying ibrdwbrf's pbgf sizf.  Somf nftwork
+ * wiolf multiplf of tif undfrlying ibrdwbrf's pbgf sizf.  Somf nftwork
+ * wiolf multiplf of tif undfrlying ibrdwbrf's pbgf sizf.  Somf nftwork
+ * wiolf multiplf of tif undfrlying ibrdwbrf's pbgf sizf.  Somf nftwork
+ * filfsystfms do not implfmfnt filf lodks on rfgions tibt fxtfnd pbst b
+ * filfsystfms do not implfmfnt filf lodks on rfgions tibt fxtfnd pbst b
+ * filfsystfms do not implfmfnt filf lodks on rfgions tibt fxtfnd pbst b
+ * filfsystfms do not implfmfnt filf lodks on rfgions tibt fxtfnd pbst b
+ * filfsystfms do not implfmfnt filf lodks on rfgions tibt fxtfnd pbst b
+ * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
+ * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
+ * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
+ * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
+ * dfrtbin position, oftfn 2<sup>30</sup> or 2<sup>31</sup>.  In gfnfrbl, grfbt
+ * dbrf siould bf tbkfn wifn lodking filfs tibt rfsidf on nftwork filfsystfms.
+ * dbrf siould bf tbkfn wifn lodking filfs tibt rfsidf on nftwork filfsystfms.
+ * dbrf siould bf tbkfn wifn lodking filfs tibt rfsidf on nftwork filfsystfms.
+ * dbrf siould bf tbkfn wifn lodking filfs tibt rfsidf on nftwork filfsystfms.
+ * dbrf siould bf tbkfn wifn lodking filfs tibt rfsidf on nftwork filfsystfms.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid bbstrbdt dlbss FilfLodk implfmfnts AutoClosfbblf {
+publid bbstrbdt dlbss FilfLodk implfmfnts AutoClosfbblf {
+publid bbstrbdt dlbss FilfLodk implfmfnts AutoClosfbblf {
+publid bbstrbdt dlbss FilfLodk implfmfnts AutoClosfbblf {
 publid bbstrbdt dlbss FilfLodk implfmfnts AutoClosfbblf {
 
-    privbtf finbl Chbnnfl dhbnnfl;
+
+
+
+
+    privbtf finbl Cibnnfl dibnnfl;
+    privbtf finbl Cibnnfl dibnnfl;
+    privbtf finbl Cibnnfl dibnnfl;
+    privbtf finbl Cibnnfl dibnnfl;
+    privbtf finbl Cibnnfl dibnnfl;
+    privbtf finbl long position;
+    privbtf finbl long position;
+    privbtf finbl long position;
+    privbtf finbl long position;
     privbtf finbl long position;
     privbtf finbl long sizf;
-    privbtf finbl boolfbn shbrfd;
+    privbtf finbl long sizf;
+    privbtf finbl long sizf;
+    privbtf finbl long sizf;
+    privbtf finbl long sizf;
+    privbtf finbl boolfbn sibrfd;
+    privbtf finbl boolfbn sibrfd;
+    privbtf finbl boolfbn sibrfd;
+    privbtf finbl boolfbn sibrfd;
+    privbtf finbl boolfbn sibrfd;
+
+
+
+
 
     /**
-     * Initiblizfs b nfw instbndf of this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @pbrbm  dhbnnfl
-     *         Thf filf dhbnnfl upon whosf filf this lodk is hfld
+     *
+     *
+     *
+     *
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     *         Tif filf dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif filf dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif filf dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif filf dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif filf dibnnfl upon wiosf filf tiis lodk is ifld
+     *
+     *
+     *
+     *
      *
      * @pbrbm  position
-     *         Thf position within thf filf bt whidh thf lodkfd rfgion stbrts;
+     * @pbrbm  position
+     * @pbrbm  position
+     * @pbrbm  position
+     * @pbrbm  position
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         must bf non-nfgbtivf
+     *         must bf non-nfgbtivf
+     *         must bf non-nfgbtivf
+     *         must bf non-nfgbtivf
      *         must bf non-nfgbtivf
      *
+     *
+     *
+     *
+     *
      * @pbrbm  sizf
-     *         Thf sizf of thf lodkfd rfgion; must bf non-nfgbtivf, bnd thf sum
+     * @pbrbm  sizf
+     * @pbrbm  sizf
+     * @pbrbm  sizf
+     * @pbrbm  sizf
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
      *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
      *
-     * @pbrbm  shbrfd
-     *         <tt>truf</tt> if this lodk is shbrfd,
+     *
+     *
+     *
+     *
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
      *         <tt>fblsf</tt> if it is fxdlusivf
      *
-     * @throws IllfgblArgumfntExdfption
-     *         If thf prfdonditions on thf pbrbmftfrs do not hold
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
      */
-    protfdtfd FilfLodk(FilfChbnnfl dhbnnfl,
-                       long position, long sizf, boolfbn shbrfd)
+     */
+     */
+     */
+     */
+    protfdtfd FilfLodk(FilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(FilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(FilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(FilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(FilfCibnnfl dibnnfl,
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+    {
+    {
+    {
+    {
     {
         if (position < 0)
-            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (position < 0)
+        if (position < 0)
+        if (position < 0)
+        if (position < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
         if (sizf < 0)
-            throw nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+        if (sizf < 0)
+        if (sizf < 0)
+        if (sizf < 0)
+        if (sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
         if (position + sizf < 0)
-            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
-        this.dhbnnfl = dhbnnfl;
-        this.position = position;
-        this.sizf = sizf;
-        this.shbrfd = shbrfd;
+        if (position + sizf < 0)
+        if (position + sizf < 0)
+        if (position + sizf < 0)
+        if (position + sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Initiblizfs b nfw instbndf of this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @pbrbm  dhbnnfl
-     *         Thf dhbnnfl upon whosf filf this lodk is hfld
+     *
+     *
+     *
+     *
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     * @pbrbm  dibnnfl
+     *         Tif dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif dibnnfl upon wiosf filf tiis lodk is ifld
+     *         Tif dibnnfl upon wiosf filf tiis lodk is ifld
+     *
+     *
+     *
+     *
      *
      * @pbrbm  position
-     *         Thf position within thf filf bt whidh thf lodkfd rfgion stbrts;
+     * @pbrbm  position
+     * @pbrbm  position
+     * @pbrbm  position
+     * @pbrbm  position
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         Tif position witiin tif filf bt wiidi tif lodkfd rfgion stbrts;
+     *         must bf non-nfgbtivf
+     *         must bf non-nfgbtivf
+     *         must bf non-nfgbtivf
+     *         must bf non-nfgbtivf
      *         must bf non-nfgbtivf
      *
+     *
+     *
+     *
+     *
      * @pbrbm  sizf
-     *         Thf sizf of thf lodkfd rfgion; must bf non-nfgbtivf, bnd thf sum
+     * @pbrbm  sizf
+     * @pbrbm  sizf
+     * @pbrbm  sizf
+     * @pbrbm  sizf
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         Tif sizf of tif lodkfd rfgion; must bf non-nfgbtivf, bnd tif sum
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
+     *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
      *         <tt>position</tt>&nbsp;+&nbsp;<tt>sizf</tt> must bf non-nfgbtivf
      *
-     * @pbrbm  shbrfd
-     *         <tt>truf</tt> if this lodk is shbrfd,
+     *
+     *
+     *
+     *
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     * @pbrbm  sibrfd
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>truf</tt> if tiis lodk is sibrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
      *         <tt>fblsf</tt> if it is fxdlusivf
      *
-     * @throws IllfgblArgumfntExdfption
-     *         If thf prfdonditions on thf pbrbmftfrs do not hold
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *         If tif prfdonditions on tif pbrbmftfrs do not iold
+     *
+     *
+     *
+     *
      *
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
      */
-    protfdtfd FilfLodk(AsyndhronousFilfChbnnfl dhbnnfl,
-                       long position, long sizf, boolfbn shbrfd)
+     */
+     */
+     */
+     */
+    protfdtfd FilfLodk(AsyndironousFilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(AsyndironousFilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(AsyndironousFilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(AsyndironousFilfCibnnfl dibnnfl,
+    protfdtfd FilfLodk(AsyndironousFilfCibnnfl dibnnfl,
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+                       long position, long sizf, boolfbn sibrfd)
+    {
+    {
+    {
+    {
     {
         if (position < 0)
-            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (position < 0)
+        if (position < 0)
+        if (position < 0)
+        if (position < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position");
         if (sizf < 0)
-            throw nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+        if (sizf < 0)
+        if (sizf < 0)
+        if (sizf < 0)
+        if (sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
         if (position + sizf < 0)
-            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
-        this.dhbnnfl = dhbnnfl;
-        this.position = position;
-        this.sizf = sizf;
-        this.shbrfd = shbrfd;
+        if (position + sizf < 0)
+        if (position + sizf < 0)
+        if (position + sizf < 0)
+        if (position + sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf position + sizf");
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.dibnnfl = dibnnfl;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.position = position;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sizf = sizf;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+        tiis.sibrfd = sibrfd;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf filf dhbnnfl upon whosf filf this lodk wbs bdquirfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif filf dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif filf dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif filf dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif filf dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif filf dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
      *
-     * <p> This mfthod hbs bffn supfrsfdfd by thf {@link #bdquirfdBy bdquirfdBy}
-     * mfthod.
      *
-     * @rfturn  Thf filf dhbnnfl, or {@dodf null} if thf filf lodk wbs not
-     *          bdquirfd by b filf dhbnnfl.
+     *
+     *
+     *
+     * <p> Tiis mftiod ibs bffn supfrsfdfd by tif {@link #bdquirfdBy bdquirfdBy}
+     * <p> Tiis mftiod ibs bffn supfrsfdfd by tif {@link #bdquirfdBy bdquirfdBy}
+     * <p> Tiis mftiod ibs bffn supfrsfdfd by tif {@link #bdquirfdBy bdquirfdBy}
+     * <p> Tiis mftiod ibs bffn supfrsfdfd by tif {@link #bdquirfdBy bdquirfdBy}
+     * <p> Tiis mftiod ibs bffn supfrsfdfd by tif {@link #bdquirfdBy bdquirfdBy}
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  Tif filf dibnnfl, or {@dodf null} if tif filf lodk wbs not
+     * @rfturn  Tif filf dibnnfl, or {@dodf null} if tif filf lodk wbs not
+     * @rfturn  Tif filf dibnnfl, or {@dodf null} if tif filf lodk wbs not
+     * @rfturn  Tif filf dibnnfl, or {@dodf null} if tif filf lodk wbs not
+     * @rfturn  Tif filf dibnnfl, or {@dodf null} if tif filf lodk wbs not
+     *          bdquirfd by b filf dibnnfl.
+     *          bdquirfd by b filf dibnnfl.
+     *          bdquirfd by b filf dibnnfl.
+     *          bdquirfd by b filf dibnnfl.
+     *          bdquirfd by b filf dibnnfl.
      */
-    publid finbl FilfChbnnfl dhbnnfl() {
-        rfturn (dhbnnfl instbndfof FilfChbnnfl) ? (FilfChbnnfl)dhbnnfl : null;
+     */
+     */
+     */
+     */
+    publid finbl FilfCibnnfl dibnnfl() {
+    publid finbl FilfCibnnfl dibnnfl() {
+    publid finbl FilfCibnnfl dibnnfl() {
+    publid finbl FilfCibnnfl dibnnfl() {
+    publid finbl FilfCibnnfl dibnnfl() {
+        rfturn (dibnnfl instbndfof FilfCibnnfl) ? (FilfCibnnfl)dibnnfl : null;
+        rfturn (dibnnfl instbndfof FilfCibnnfl) ? (FilfCibnnfl)dibnnfl : null;
+        rfturn (dibnnfl instbndfof FilfCibnnfl) ? (FilfCibnnfl)dibnnfl : null;
+        rfturn (dibnnfl instbndfof FilfCibnnfl) ? (FilfCibnnfl)dibnnfl : null;
+        rfturn (dibnnfl instbndfof FilfCibnnfl) ? (FilfCibnnfl)dibnnfl : null;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf dhbnnfl upon whosf filf this lodk wbs bdquirfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * Rfturns tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
      *
-     * @rfturn  Thf dhbnnfl upon whosf filf this lodk wbs bdquirfd.
+     *
+     *
+     *
+     *
+     * @rfturn  Tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * @rfturn  Tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * @rfturn  Tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * @rfturn  Tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     * @rfturn  Tif dibnnfl upon wiosf filf tiis lodk wbs bdquirfd.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
      */
-    publid Chbnnfl bdquirfdBy() {
-        rfturn dhbnnfl;
+     */
+     */
+     */
+     */
+    publid Cibnnfl bdquirfdBy() {
+    publid Cibnnfl bdquirfdBy() {
+    publid Cibnnfl bdquirfdBy() {
+    publid Cibnnfl bdquirfdBy() {
+    publid Cibnnfl bdquirfdBy() {
+        rfturn dibnnfl;
+        rfturn dibnnfl;
+        rfturn dibnnfl;
+        rfturn dibnnfl;
+        rfturn dibnnfl;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf position within thf filf of thf first bytf of thf lodkfd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif position witiin tif filf of tif first bytf of tif lodkfd
+     * Rfturns tif position witiin tif filf of tif first bytf of tif lodkfd
+     * Rfturns tif position witiin tif filf of tif first bytf of tif lodkfd
+     * Rfturns tif position witiin tif filf of tif first bytf of tif lodkfd
+     * Rfturns tif position witiin tif filf of tif first bytf of tif lodkfd
+     * rfgion.
+     * rfgion.
+     * rfgion.
+     * rfgion.
      * rfgion.
      *
-     * <p> A lodkfd rfgion nffd not bf dontbinfd within, or fvfn ovfrlbp, thf
-     * bdtubl undfrlying filf, so thf vbluf rfturnfd by this mfthod mby fxdffd
-     * thf filf's durrfnt sizf.  </p>
      *
-     * @rfturn  Thf position
+     *
+     *
+     *
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  Tif position
+     * @rfturn  Tif position
+     * @rfturn  Tif position
+     * @rfturn  Tif position
+     * @rfturn  Tif position
+     */
+     */
+     */
+     */
      */
     publid finbl long position() {
+    publid finbl long position() {
+    publid finbl long position() {
+    publid finbl long position() {
+    publid finbl long position() {
+        rfturn position;
+        rfturn position;
+        rfturn position;
+        rfturn position;
         rfturn position;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf sizf of thf lodkfd rfgion in bytfs.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif sizf of tif lodkfd rfgion in bytfs.
+     * Rfturns tif sizf of tif lodkfd rfgion in bytfs.
+     * Rfturns tif sizf of tif lodkfd rfgion in bytfs.
+     * Rfturns tif sizf of tif lodkfd rfgion in bytfs.
+     * Rfturns tif sizf of tif lodkfd rfgion in bytfs.
      *
-     * <p> A lodkfd rfgion nffd not bf dontbinfd within, or fvfn ovfrlbp, thf
-     * bdtubl undfrlying filf, so thf vbluf rfturnfd by this mfthod mby fxdffd
-     * thf filf's durrfnt sizf.  </p>
      *
-     * @rfturn  Thf sizf of thf lodkfd rfgion
+     *
+     *
+     *
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * <p> A lodkfd rfgion nffd not bf dontbinfd witiin, or fvfn ovfrlbp, tif
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * bdtubl undfrlying filf, so tif vbluf rfturnfd by tiis mftiod mby fxdffd
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     * tif filf's durrfnt sizf.  </p>
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  Tif sizf of tif lodkfd rfgion
+     * @rfturn  Tif sizf of tif lodkfd rfgion
+     * @rfturn  Tif sizf of tif lodkfd rfgion
+     * @rfturn  Tif sizf of tif lodkfd rfgion
+     * @rfturn  Tif sizf of tif lodkfd rfgion
+     */
+     */
+     */
+     */
      */
     publid finbl long sizf() {
+    publid finbl long sizf() {
+    publid finbl long sizf() {
+    publid finbl long sizf() {
+    publid finbl long sizf() {
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
         rfturn sizf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tflls whfthfr this lodk is shbrfd.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr tiis lodk is sibrfd.
+     * Tflls wiftifr tiis lodk is sibrfd.
+     * Tflls wiftifr tiis lodk is sibrfd.
+     * Tflls wiftifr tiis lodk is sibrfd.
+     * Tflls wiftifr tiis lodk is sibrfd.
      *
-     * @rfturn <tt>truf</tt> if lodk is shbrfd,
+     *
+     *
+     *
+     *
+     * @rfturn <tt>truf</tt> if lodk is sibrfd,
+     * @rfturn <tt>truf</tt> if lodk is sibrfd,
+     * @rfturn <tt>truf</tt> if lodk is sibrfd,
+     * @rfturn <tt>truf</tt> if lodk is sibrfd,
+     * @rfturn <tt>truf</tt> if lodk is sibrfd,
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
+     *         <tt>fblsf</tt> if it is fxdlusivf
      *         <tt>fblsf</tt> if it is fxdlusivf
      */
-    publid finbl boolfbn isShbrfd() {
-        rfturn shbrfd;
+     */
+     */
+     */
+     */
+    publid finbl boolfbn isSibrfd() {
+    publid finbl boolfbn isSibrfd() {
+    publid finbl boolfbn isSibrfd() {
+    publid finbl boolfbn isSibrfd() {
+    publid finbl boolfbn isSibrfd() {
+        rfturn sibrfd;
+        rfturn sibrfd;
+        rfturn sibrfd;
+        rfturn sibrfd;
+        rfturn sibrfd;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Tflls whfthfr or not this lodk ovfrlbps thf givfn lodk rbngf.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr or not tiis lodk ovfrlbps tif givfn lodk rbngf.
+     * Tflls wiftifr or not tiis lodk ovfrlbps tif givfn lodk rbngf.
+     * Tflls wiftifr or not tiis lodk ovfrlbps tif givfn lodk rbngf.
+     * Tflls wiftifr or not tiis lodk ovfrlbps tif givfn lodk rbngf.
+     * Tflls wiftifr or not tiis lodk ovfrlbps tif givfn lodk rbngf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm   position
-     *          Thf stbrting position of thf lodk rbngf
+     * @pbrbm   position
+     * @pbrbm   position
+     * @pbrbm   position
+     * @pbrbm   position
+     *          Tif stbrting position of tif lodk rbngf
+     *          Tif stbrting position of tif lodk rbngf
+     *          Tif stbrting position of tif lodk rbngf
+     *          Tif stbrting position of tif lodk rbngf
+     *          Tif stbrting position of tif lodk rbngf
      * @pbrbm   sizf
-     *          Thf sizf of thf lodk rbngf
+     * @pbrbm   sizf
+     * @pbrbm   sizf
+     * @pbrbm   sizf
+     * @pbrbm   sizf
+     *          Tif sizf of tif lodk rbngf
+     *          Tif sizf of tif lodk rbngf
+     *          Tif sizf of tif lodk rbngf
+     *          Tif sizf of tif lodk rbngf
+     *          Tif sizf of tif lodk rbngf
      *
-     * @rfturn  <tt>truf</tt> if, bnd only if, this lodk bnd thf givfn lodk
+     *
+     *
+     *
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk bnd tif givfn lodk
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk bnd tif givfn lodk
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk bnd tif givfn lodk
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk bnd tif givfn lodk
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk bnd tif givfn lodk
+     *          rbngf ovfrlbp by bt lfbst onf bytf
+     *          rbngf ovfrlbp by bt lfbst onf bytf
+     *          rbngf ovfrlbp by bt lfbst onf bytf
+     *          rbngf ovfrlbp by bt lfbst onf bytf
      *          rbngf ovfrlbp by bt lfbst onf bytf
      */
+     */
+     */
+     */
+     */
     publid finbl boolfbn ovfrlbps(long position, long sizf) {
-        if (position + sizf <= this.position)
-            rfturn fblsf;               // Thbt is bflow this
-        if (this.position + this.sizf <= position)
-            rfturn fblsf;               // This is bflow thbt
+    publid finbl boolfbn ovfrlbps(long position, long sizf) {
+    publid finbl boolfbn ovfrlbps(long position, long sizf) {
+    publid finbl boolfbn ovfrlbps(long position, long sizf) {
+    publid finbl boolfbn ovfrlbps(long position, long sizf) {
+        if (position + sizf <= tiis.position)
+        if (position + sizf <= tiis.position)
+        if (position + sizf <= tiis.position)
+        if (position + sizf <= tiis.position)
+        if (position + sizf <= tiis.position)
+            rfturn fblsf;               // Tibt is bflow tiis
+            rfturn fblsf;               // Tibt is bflow tiis
+            rfturn fblsf;               // Tibt is bflow tiis
+            rfturn fblsf;               // Tibt is bflow tiis
+            rfturn fblsf;               // Tibt is bflow tiis
+        if (tiis.position + tiis.sizf <= position)
+        if (tiis.position + tiis.sizf <= position)
+        if (tiis.position + tiis.sizf <= position)
+        if (tiis.position + tiis.sizf <= position)
+        if (tiis.position + tiis.sizf <= position)
+            rfturn fblsf;               // Tiis is bflow tibt
+            rfturn fblsf;               // Tiis is bflow tibt
+            rfturn fblsf;               // Tiis is bflow tibt
+            rfturn fblsf;               // Tiis is bflow tibt
+            rfturn fblsf;               // Tiis is bflow tibt
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
         rfturn truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tflls whfthfr or not this lodk is vblid.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr or not tiis lodk is vblid.
+     * Tflls wiftifr or not tiis lodk is vblid.
+     * Tflls wiftifr or not tiis lodk is vblid.
+     * Tflls wiftifr or not tiis lodk is vblid.
+     * Tflls wiftifr or not tiis lodk is vblid.
      *
-     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or thf bssodibtfd
-     * filf dhbnnfl is dlosfd, whidhfvfr domfs first.  </p>
      *
-     * @rfturn  <tt>truf</tt> if, bnd only if, this lodk is vblid
+     *
+     *
+     *
+     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or tif bssodibtfd
+     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or tif bssodibtfd
+     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or tif bssodibtfd
+     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or tif bssodibtfd
+     * <p> A lodk objfdt rfmbins vblid until it is rflfbsfd or tif bssodibtfd
+     * filf dibnnfl is dlosfd, wiidifvfr domfs first.  </p>
+     * filf dibnnfl is dlosfd, wiidifvfr domfs first.  </p>
+     * filf dibnnfl is dlosfd, wiidifvfr domfs first.  </p>
+     * filf dibnnfl is dlosfd, wiidifvfr domfs first.  </p>
+     * filf dibnnfl is dlosfd, wiidifvfr domfs first.  </p>
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk is vblid
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk is vblid
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk is vblid
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk is vblid
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis lodk is vblid
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt boolfbn isVblid();
+    publid bbstrbdt boolfbn isVblid();
+    publid bbstrbdt boolfbn isVblid();
+    publid bbstrbdt boolfbn isVblid();
+    publid bbstrbdt boolfbn isVblid();
+
+
+
+
 
     /**
-     * Rflfbsfs this lodk.
+    /**
+    /**
+    /**
+    /**
+     * Rflfbsfs tiis lodk.
+     * Rflfbsfs tiis lodk.
+     * Rflfbsfs tiis lodk.
+     * Rflfbsfs tiis lodk.
+     * Rflfbsfs tiis lodk.
      *
-     * <p> If this lodk objfdt is vblid thfn invoking this mfthod rflfbsfs thf
-     * lodk bnd rfndfrs thf objfdt invblid.  If this lodk objfdt is invblid
-     * thfn invoking this mfthod hbs no ffffdt.  </p>
      *
-     * @throws  ClosfdChbnnflExdfption
-     *          If thf dhbnnfl thbt wbs usfd to bdquirf this lodk
+     *
+     *
+     *
+     * <p> If tiis lodk objfdt is vblid tifn invoking tiis mftiod rflfbsfs tif
+     * <p> If tiis lodk objfdt is vblid tifn invoking tiis mftiod rflfbsfs tif
+     * <p> If tiis lodk objfdt is vblid tifn invoking tiis mftiod rflfbsfs tif
+     * <p> If tiis lodk objfdt is vblid tifn invoking tiis mftiod rflfbsfs tif
+     * <p> If tiis lodk objfdt is vblid tifn invoking tiis mftiod rflfbsfs tif
+     * lodk bnd rfndfrs tif objfdt invblid.  If tiis lodk objfdt is invblid
+     * lodk bnd rfndfrs tif objfdt invblid.  If tiis lodk objfdt is invblid
+     * lodk bnd rfndfrs tif objfdt invblid.  If tiis lodk objfdt is invblid
+     * lodk bnd rfndfrs tif objfdt invblid.  If tiis lodk objfdt is invblid
+     * lodk bnd rfndfrs tif objfdt invblid.  If tiis lodk objfdt is invblid
+     * tifn invoking tiis mftiod ibs no ffffdt.  </p>
+     * tifn invoking tiis mftiod ibs no ffffdt.  </p>
+     * tifn invoking tiis mftiod ibs no ffffdt.  </p>
+     * tifn invoking tiis mftiod ibs no ffffdt.  </p>
+     * tifn invoking tiis mftiod ibs no ffffdt.  </p>
+     *
+     *
+     *
+     *
+     *
+     * @tirows  ClosfdCibnnflExdfption
+     * @tirows  ClosfdCibnnflExdfption
+     * @tirows  ClosfdCibnnflExdfption
+     * @tirows  ClosfdCibnnflExdfption
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tif dibnnfl tibt wbs usfd to bdquirf tiis lodk
+     *          If tif dibnnfl tibt wbs usfd to bdquirf tiis lodk
+     *          If tif dibnnfl tibt wbs usfd to bdquirf tiis lodk
+     *          If tif dibnnfl tibt wbs usfd to bdquirf tiis lodk
+     *          If tif dibnnfl tibt wbs usfd to bdquirf tiis lodk
+     *          is no longfr opfn
+     *          is no longfr opfn
+     *          is no longfr opfn
+     *          is no longfr opfn
      *          is no longfr opfn
      *
-     * @throws  IOExdfption
+     *
+     *
+     *
+     *
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
+     *          If bn I/O frror oddurs
+     *          If bn I/O frror oddurs
+     *          If bn I/O frror oddurs
      *          If bn I/O frror oddurs
      */
-    publid bbstrbdt void rflfbsf() throws IOExdfption;
+     */
+     */
+     */
+     */
+    publid bbstrbdt void rflfbsf() tirows IOExdfption;
+    publid bbstrbdt void rflfbsf() tirows IOExdfption;
+    publid bbstrbdt void rflfbsf() tirows IOExdfption;
+    publid bbstrbdt void rflfbsf() tirows IOExdfption;
+    publid bbstrbdt void rflfbsf() tirows IOExdfption;
+
+
+
+
 
     /**
-     * This mfthod invokfs thf {@link #rflfbsf} mfthod. It wbs bddfd
-     * to thf dlbss so thbt it dould bf usfd in donjundtion with thf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod invokfs tif {@link #rflfbsf} mftiod. It wbs bddfd
+     * Tiis mftiod invokfs tif {@link #rflfbsf} mftiod. It wbs bddfd
+     * Tiis mftiod invokfs tif {@link #rflfbsf} mftiod. It wbs bddfd
+     * Tiis mftiod invokfs tif {@link #rflfbsf} mftiod. It wbs bddfd
+     * Tiis mftiod invokfs tif {@link #rflfbsf} mftiod. It wbs bddfd
+     * to tif dlbss so tibt it dould bf usfd in donjundtion witi tif
+     * to tif dlbss so tibt it dould bf usfd in donjundtion witi tif
+     * to tif dlbss so tibt it dould bf usfd in donjundtion witi tif
+     * to tif dlbss so tibt it dould bf usfd in donjundtion witi tif
+     * to tif dlbss so tibt it dould bf usfd in donjundtion witi tif
+     * butombtid rfsourdf mbnbgfmfnt blodk donstrudt.
+     * butombtid rfsourdf mbnbgfmfnt blodk donstrudt.
+     * butombtid rfsourdf mbnbgfmfnt blodk donstrudt.
+     * butombtid rfsourdf mbnbgfmfnt blodk donstrudt.
      * butombtid rfsourdf mbnbgfmfnt blodk donstrudt.
      *
+     *
+     *
+     *
+     *
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
      * @sindf 1.7
      */
-    publid finbl void dlosf() throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid finbl void dlosf() tirows IOExdfption {
+    publid finbl void dlosf() tirows IOExdfption {
+    publid finbl void dlosf() tirows IOExdfption {
+    publid finbl void dlosf() tirows IOExdfption {
+    publid finbl void dlosf() tirows IOExdfption {
+        rflfbsf();
+        rflfbsf();
+        rflfbsf();
+        rflfbsf();
         rflfbsf();
     }
-
-    /**
-     * Rfturns b string dfsdribing thf rbngf, typf, bnd vblidity of this lodk.
-     *
-     * @rfturn  A dfsdriptivf string
-     */
-    publid finbl String toString() {
-        rfturn (this.gftClbss().gftNbmf()
-                + "[" + position
-                + ":" + sizf
-                + " " + (shbrfd ? "shbrfd" : "fxdlusivf")
-                + " " + (isVblid() ? "vblid" : "invblid")
-                + "]");
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b string dfsdribing tif rbngf, typf, bnd vblidity of tiis lodk.
+     * Rfturns b string dfsdribing tif rbngf, typf, bnd vblidity of tiis lodk.
+     * Rfturns b string dfsdribing tif rbngf, typf, bnd vblidity of tiis lodk.
+     * Rfturns b string dfsdribing tif rbngf, typf, bnd vblidity of tiis lodk.
+     * Rfturns b string dfsdribing tif rbngf, typf, bnd vblidity of tiis lodk.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     */
+     */
+     */
+     */
+     */
+    publid finbl String toString() {
+    publid finbl String toString() {
+    publid finbl String toString() {
+    publid finbl String toString() {
+    publid finbl String toString() {
+        rfturn (tiis.gftClbss().gftNbmf()
+        rfturn (tiis.gftClbss().gftNbmf()
+        rfturn (tiis.gftClbss().gftNbmf()
+        rfturn (tiis.gftClbss().gftNbmf()
+        rfturn (tiis.gftClbss().gftNbmf()
+                + "[" + position
+                + "[" + position
+                + "[" + position
+                + "[" + position
+                + "[" + position
+                + ":" + sizf
+                + ":" + sizf
+                + ":" + sizf
+                + ":" + sizf
+                + ":" + sizf
+                + " " + (sibrfd ? "sibrfd" : "fxdlusivf")
+                + " " + (sibrfd ? "sibrfd" : "fxdlusivf")
+                + " " + (sibrfd ? "sibrfd" : "fxdlusivf")
+                + " " + (sibrfd ? "sibrfd" : "fxdlusivf")
+                + " " + (sibrfd ? "sibrfd" : "fxdlusivf")
+                + " " + (isVblid() ? "vblid" : "invblid")
+                + " " + (isVblid() ? "vblid" : "invblid")
+                + " " + (isVblid() ? "vblid" : "invblid")
+                + " " + (isVblid() ? "vblid" : "invblid")
+                + " " + (isVblid() ? "vblid" : "invblid")
+                + "]");
+                + "]");
+                + "]");
+                + "]");
+                + "]");
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+}
+}
+}
+}
 }

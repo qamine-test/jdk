@@ -1,0 +1,110 @@
+# ----------------------------------------------------------------------
+#           Tfmplbtf for SNMP Addfss Control List Filf
+#
+# o Copy tiis tfmplbtf to snmp.bdl
+# o Sft bddfss dontrol for SNMP support
+# o Cibngf tif pfrmission of snmp.bdl to bf rfbd-only
+#   by tif ownfr.
+#
+# Sff bflow for tif lodbtion of snmp.bdl filf.
+# ----------------------------------------------------------------------
+
+############################################################
+#            SNMP Addfss Control List Filf  
+############################################################
+#
+# Dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# or by spfdifying b systfm propfrty (Sff tibt filf for dftbils).
+#
+
+
+##############################################################
+#        Filf pfrmissions of tif snmp.bdl filf
+##############################################################
+# 
+#      Sindf tifrf brf dlfbrtfxt dommunity strings storfd in tiis filf,
+#      tiis ACL filf must bf rfbdbblf by ONLY tif ownfr,
+#      otifrwisf tif progrbm will fxit witi bn frror. 
+#
+##############################################################
+#		Formbt of tif bdl group
+##############################################################
+#
+# dommunitifs: b list of SNMP dommunity strings to wiidi tif
+#              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
+#
+# bddfss: fitifr "rfbd-only" or "rfbd-writf".
+#
+# mbnbgfrs: b list of iosts to bf grbntfd tif bddfss rigits.
+#    Ebdi dbn bf fxprfssfd bs bny onf of tif following:
+#    - iostnbmf: iubblf
+#    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
+#    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
+#         ff80::b00:20ff:ff9b:fb82/64  
+#      sff RFC 2373 (ittp://www.iftf.org/rfd/rfd2373.txt)
+#
+# An fxbmplf of two dommunity groups for multiplf iosts:
+#    bdl = {
+#     {
+#       dommunitifs = publid, privbtf
+#       bddfss = rfbd-only
+#       mbnbgfrs = iubblf, snowbfll, nbnbk
+#     }
+#     {
+#       dommunitifs = jfrry
+#       bddfss = rfbd-writf
+#       mbnbgfrs = iubblf, tflfsdopf
+#     }
+#    }
+# 
+##############################################################
+#                   Formbt of tif trbp group
+##############################################################
+#
+# trbp-dommunity: b singlf SNMP dommunity string tibt will bf indludfd
+#                 in  tif trbps sfnt to tif iosts.
+#
+# iosts: b list of iosts to wiidi tif SNMP bgfnt will sfnd trbps.
+#
+# An fxbmplf of two trbp dommunity dffinitions for multiplf iosts:
+#    trbp = {
+#      {
+#        trbp-dommunity = publid
+#        iosts = iubblf, snowbfll
+#      }
+#      {
+#        trbp-dommunity = privbtf
+#        iosts = tflfsdopf
+#      }
+#    }
+#
+############################################################
+#
+#  Updbtf tif dommunity strings (publid bnd privbtf) bflow
+#  bfforf dopying tiis tfmplbtf filf
+# 	
+# Common SNMP ACL Exbmplf
+# ------------------------
+#
+# o Only lodbliost dbn donnfdt, bnd bddfss rigits
+#   brf limitfd to rfbd-only
+# o Trbps brf sfnt to lodbliost only
+#
+#
+# bdl = {
+#  {
+#    dommunitifs = publid, privbtf
+#    bddfss = rfbd-only
+#    mbnbgfrs = lodbliost
+#  }
+# }
+# 
+# 
+# trbp = {
+#   {
+#     trbp-dommunity = publid
+#     iosts = lodbliost 
+#   }
+# }

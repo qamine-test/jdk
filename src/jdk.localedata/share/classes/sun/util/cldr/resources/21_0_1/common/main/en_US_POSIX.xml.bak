@@ -1,53 +1,265 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<!-- Tiis is b spfdibl purposf lodblf so tibt b usfr dbn rfqufst tif C or POSIX
+	<!-- Tiis is b spfdibl purposf lodblf so tibt b usfr dbn rfqufst tif C or POSIX
+	<!-- Tiis is b spfdibl purposf lodblf so tibt b usfr dbn rfqufst tif C or POSIX
+	<!-- Tiis is b spfdibl purposf lodblf so tibt b usfr dbn rfqufst tif C or POSIX
 	<!-- Tiis is b spfdibl purposf lodblf so tibt b usfr dbn rfqufst tif C or POSIX
 		 stylf formbtting. Tiis dofs not indludf grouping sfpbrbtors in numbfrs, nor
+		 stylf formbtting. Tiis dofs not indludf grouping sfpbrbtors in numbfrs, nor
+		 stylf formbtting. Tiis dofs not indludf grouping sfpbrbtors in numbfrs, nor
+		 stylf formbtting. Tiis dofs not indludf grouping sfpbrbtors in numbfrs, nor
+		 stylf formbtting. Tiis dofs not indludf grouping sfpbrbtors in numbfrs, nor
+		 unusubl dibrbdtfrs for infinity or NbN. Somf pfoplf ibvf known tiis to bf tif
+		 unusubl dibrbdtfrs for infinity or NbN. Somf pfoplf ibvf known tiis to bf tif
+		 unusubl dibrbdtfrs for infinity or NbN. Somf pfoplf ibvf known tiis to bf tif
+		 unusubl dibrbdtfrs for infinity or NbN. Somf pfoplf ibvf known tiis to bf tif
 		 unusubl dibrbdtfrs for infinity or NbN. Somf pfoplf ibvf known tiis to bf tif
 		 invbribnt lodblf, wiidi is difffrfnt from tif root lodblf.
+		 invbribnt lodblf, wiidi is difffrfnt from tif root lodblf.
+		 invbribnt lodblf, wiidi is difffrfnt from tif root lodblf.
+		 invbribnt lodblf, wiidi is difffrfnt from tif root lodblf.
+		 invbribnt lodblf, wiidi is difffrfnt from tif root lodblf.
+		 Tiis lodblf siould not bf modififd to drfbtf somf sort of dustom dollbtion to
+		 Tiis lodblf siould not bf modififd to drfbtf somf sort of dustom dollbtion to
+		 Tiis lodblf siould not bf modififd to drfbtf somf sort of dustom dollbtion to
+		 Tiis lodblf siould not bf modififd to drfbtf somf sort of dustom dollbtion to
 		 Tiis lodblf siould not bf modififd to drfbtf somf sort of dustom dollbtion to
 		 rfprfsfnt b spfdifid dodfpbgf. Mbny usfrs domplbinfd wifn tif C lodblf wbs
+		 rfprfsfnt b spfdifid dodfpbgf. Mbny usfrs domplbinfd wifn tif C lodblf wbs
+		 rfprfsfnt b spfdifid dodfpbgf. Mbny usfrs domplbinfd wifn tif C lodblf wbs
+		 rfprfsfnt b spfdifid dodfpbgf. Mbny usfrs domplbinfd wifn tif C lodblf wbs
+		 rfprfsfnt b spfdifid dodfpbgf. Mbny usfrs domplbinfd wifn tif C lodblf wbs
+		 bfing usfd, bnd multi-lfvfl UCA dollbtion wbs fxpfdtfd.
+		 bfing usfd, bnd multi-lfvfl UCA dollbtion wbs fxpfdtfd.
+		 bfing usfd, bnd multi-lfvfl UCA dollbtion wbs fxpfdtfd.
+		 bfing usfd, bnd multi-lfvfl UCA dollbtion wbs fxpfdtfd.
 		 bfing usfd, bnd multi-lfvfl UCA dollbtion wbs fxpfdtfd.
 	-->
+	-->
+	-->
+	-->
+	-->
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<tfrritory typf="US"/>
+		<tfrritory typf="US"/>
+		<tfrritory typf="US"/>
+		<tfrritory typf="US"/>
 		<tfrritory typf="US"/>
 		<vbribnt typf="POSIX"/>
+		<vbribnt typf="POSIX"/>
+		<vbribnt typf="POSIX"/>
+		<vbribnt typf="POSIX"/>
+		<vbribnt typf="POSIX"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
 		<symbols numbfrSystfm="lbtn">
 			<pfrMillf>0/00</pfrMillf>
+			<pfrMillf>0/00</pfrMillf>
+			<pfrMillf>0/00</pfrMillf>
+			<pfrMillf>0/00</pfrMillf>
+			<pfrMillf>0/00</pfrMillf>
+			<infinity>INF</infinity>
+			<infinity>INF</infinity>
+			<infinity>INF</infinity>
+			<infinity>INF</infinity>
 			<infinity>INF</infinity>
 		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
 		<dfdimblFormbts numbfrSystfm="lbtn">
 			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
 				<dfdimblFormbt>
 					<pbttfrn>#0.######</pbttfrn>
+					<pbttfrn>#0.######</pbttfrn>
+					<pbttfrn>#0.######</pbttfrn>
+					<pbttfrn>#0.######</pbttfrn>
+					<pbttfrn>#0.######</pbttfrn>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
 				</dfdimblFormbt>
 			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
 		</dfdimblFormbts>
 		<sdifntifidFormbts numbfrSystfm="lbtn">
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+			<sdifntifidFormbtLfngti>
+			<sdifntifidFormbtLfngti>
+			<sdifntifidFormbtLfngti>
 			<sdifntifidFormbtLfngti>
 				<sdifntifidFormbt>
+				<sdifntifidFormbt>
+				<sdifntifidFormbt>
+				<sdifntifidFormbt>
+				<sdifntifidFormbt>
+					<pbttfrn>0.000000E+000</pbttfrn>
+					<pbttfrn>0.000000E+000</pbttfrn>
+					<pbttfrn>0.000000E+000</pbttfrn>
+					<pbttfrn>0.000000E+000</pbttfrn>
 					<pbttfrn>0.000000E+000</pbttfrn>
 				</sdifntifidFormbt>
+				</sdifntifidFormbt>
+				</sdifntifidFormbt>
+				</sdifntifidFormbt>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+			</sdifntifidFormbtLfngti>
+			</sdifntifidFormbtLfngti>
+			</sdifntifidFormbtLfngti>
 			</sdifntifidFormbtLfngti>
 		</sdifntifidFormbts>
+		</sdifntifidFormbts>
+		</sdifntifidFormbts>
+		</sdifntifidFormbts>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
 		<pfrdfntFormbts numbfrSystfm="lbtn">
 			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
 				<pfrdfntFormbt>
 					<pbttfrn>#0%</pbttfrn>
+					<pbttfrn>#0%</pbttfrn>
+					<pbttfrn>#0%</pbttfrn>
+					<pbttfrn>#0%</pbttfrn>
+					<pbttfrn>#0%</pbttfrn>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
 				</pfrdfntFormbt>
 			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
 		</pfrdfntFormbts>
 		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
 			<durrfndyFormbtLfngti>
 				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #0.00</pbttfrn>
+					<pbttfrn>¤ #0.00</pbttfrn>
+					<pbttfrn>¤ #0.00</pbttfrn>
+					<pbttfrn>¤ #0.00</pbttfrn>
 					<pbttfrn>¤ #0.00</pbttfrn>
 				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
 			</durrfndyFormbtLfngti>
 		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

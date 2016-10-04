@@ -1,400 +1,2000 @@
 /*
- * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights rfsfrvfd.
  *
- * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
- * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
  *
- *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
- *    this list of donditions bnd thf following disdlbimfr.
  *
- *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
- *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
- *    bnd/or othfr mbtfribls providfd with thf distribution.
  *
- *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
- *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
- *    without spfdifid prior writtfn pfrmission.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ *
+ *
+ *
+ *
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *
+ *
+ *
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *
+ *
+ *
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *
+ *
+ *
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ *
+ *
+ *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-pbdkbgf jbvb.timf.dhrono;
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
+
+
+
+
 
 import jbvb.io.InvblidObjfdtExdfption;
-import stbtid jbvb.timf.tfmporbl.ChronoFifld.PROLEPTIC_MONTH;
-import stbtid jbvb.timf.tfmporbl.ChronoFifld.YEAR;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+
+
+
+
 
 import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
 import jbvb.io.Sfriblizbblf;
 import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
 import jbvb.timf.DbtfTimfExdfption;
 import jbvb.timf.Instbnt;
+import jbvb.timf.Instbnt;
+import jbvb.timf.Instbnt;
+import jbvb.timf.Instbnt;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtf;
 import jbvb.timf.LodblDbtf;
 import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfId;
 import jbvb.timf.formbt.RfsolvfrStylf;
-import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
 import jbvb.timf.tfmporbl.TfmporblAddfssor;
 import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.VblufRbngf;
 import jbvb.timf.tfmporbl.VblufRbngf;
 import jbvb.util.Arrbys;
-import jbvb.util.HbshMbp;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
 import jbvb.util.List;
 import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
 import jbvb.util.Mbp;
 
+
+
+
+
 /**
- * Thf Thbi Buddhist dblfndbr systfm.
+/**
+/**
+/**
+/**
+ * Tif Tibi Buddiist dblfndbr systfm.
+ * Tif Tibi Buddiist dblfndbr systfm.
+ * Tif Tibi Buddiist dblfndbr systfm.
+ * Tif Tibi Buddiist dblfndbr systfm.
+ * Tif Tibi Buddiist dblfndbr systfm.
  * <p>
- * This dhronology dffinfs thf rulfs of thf Thbi Buddhist dblfndbr systfm.
- * This dblfndbr systfm is primbrily usfd in Thbilbnd.
- * Dbtfs brf blignfd sudh thbt {@dodf 2484-01-01 (Buddhist)} is {@dodf 1941-01-01 (ISO)}.
  * <p>
- * Thf fiflds brf dffinfd bs follows:
+ * <p>
+ * <p>
+ * <p>
+ * Tiis dironology dffinfs tif rulfs of tif Tibi Buddiist dblfndbr systfm.
+ * Tiis dironology dffinfs tif rulfs of tif Tibi Buddiist dblfndbr systfm.
+ * Tiis dironology dffinfs tif rulfs of tif Tibi Buddiist dblfndbr systfm.
+ * Tiis dironology dffinfs tif rulfs of tif Tibi Buddiist dblfndbr systfm.
+ * Tiis dironology dffinfs tif rulfs of tif Tibi Buddiist dblfndbr systfm.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif fiflds brf dffinfd bs follows:
+ * Tif fiflds brf dffinfd bs follows:
+ * Tif fiflds brf dffinfd bs follows:
+ * Tif fiflds brf dffinfd bs follows:
+ * Tif fiflds brf dffinfd bs follows:
  * <ul>
- * <li>frb - Thfrf brf two frbs, thf durrfnt 'Buddhist' (ERA_BE) bnd thf prfvious frb (ERA_BEFORE_BE).
- * <li>yfbr-of-frb - Thf yfbr-of-frb for thf durrfnt frb indrfbsfs uniformly from thf fpodh bt yfbr onf.
- *  For thf prfvious frb thf yfbr indrfbsfs from onf bs timf gofs bbdkwbrds.
- *  Thf vbluf for thf durrfnt frb is fqubl to thf ISO prolfptid-yfbr plus 543.
- * <li>prolfptid-yfbr - Thf prolfptid yfbr is thf sbmf bs thf yfbr-of-frb for thf
- *  durrfnt frb. For thf prfvious frb, yfbrs hbvf zfro, thfn nfgbtivf vblufs.
- *  Thf vbluf is fqubl to thf ISO prolfptid-yfbr plus 543.
- * <li>month-of-yfbr - Thf ThbiBuddhist month-of-yfbr fxbdtly mbtdhfs ISO.
- * <li>dby-of-month - Thf ThbiBuddhist dby-of-month fxbdtly mbtdhfs ISO.
- * <li>dby-of-yfbr - Thf ThbiBuddhist dby-of-yfbr fxbdtly mbtdhfs ISO.
- * <li>lfbp-yfbr - Thf ThbiBuddhist lfbp-yfbr pbttfrn fxbdtly mbtdhfs ISO, sudh thbt thf two dblfndbrs
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li>frb - Tifrf brf two frbs, tif durrfnt 'Buddiist' (ERA_BE) bnd tif prfvious frb (ERA_BEFORE_BE).
+ * <li>frb - Tifrf brf two frbs, tif durrfnt 'Buddiist' (ERA_BE) bnd tif prfvious frb (ERA_BEFORE_BE).
+ * <li>frb - Tifrf brf two frbs, tif durrfnt 'Buddiist' (ERA_BE) bnd tif prfvious frb (ERA_BEFORE_BE).
+ * <li>frb - Tifrf brf two frbs, tif durrfnt 'Buddiist' (ERA_BE) bnd tif prfvious frb (ERA_BEFORE_BE).
+ * <li>frb - Tifrf brf two frbs, tif durrfnt 'Buddiist' (ERA_BE) bnd tif prfvious frb (ERA_BEFORE_BE).
+ * <li>yfbr-of-frb - Tif yfbr-of-frb for tif durrfnt frb indrfbsfs uniformly from tif fpodi bt yfbr onf.
+ * <li>yfbr-of-frb - Tif yfbr-of-frb for tif durrfnt frb indrfbsfs uniformly from tif fpodi bt yfbr onf.
+ * <li>yfbr-of-frb - Tif yfbr-of-frb for tif durrfnt frb indrfbsfs uniformly from tif fpodi bt yfbr onf.
+ * <li>yfbr-of-frb - Tif yfbr-of-frb for tif durrfnt frb indrfbsfs uniformly from tif fpodi bt yfbr onf.
+ * <li>yfbr-of-frb - Tif yfbr-of-frb for tif durrfnt frb indrfbsfs uniformly from tif fpodi bt yfbr onf.
+ *  For tif prfvious frb tif yfbr indrfbsfs from onf bs timf gofs bbdkwbrds.
+ *  For tif prfvious frb tif yfbr indrfbsfs from onf bs timf gofs bbdkwbrds.
+ *  For tif prfvious frb tif yfbr indrfbsfs from onf bs timf gofs bbdkwbrds.
+ *  For tif prfvious frb tif yfbr indrfbsfs from onf bs timf gofs bbdkwbrds.
+ *  For tif prfvious frb tif yfbr indrfbsfs from onf bs timf gofs bbdkwbrds.
+ *  Tif vbluf for tif durrfnt frb is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf for tif durrfnt frb is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf for tif durrfnt frb is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf for tif durrfnt frb is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf for tif durrfnt frb is fqubl to tif ISO prolfptid-yfbr plus 543.
+ * <li>prolfptid-yfbr - Tif prolfptid yfbr is tif sbmf bs tif yfbr-of-frb for tif
+ * <li>prolfptid-yfbr - Tif prolfptid yfbr is tif sbmf bs tif yfbr-of-frb for tif
+ * <li>prolfptid-yfbr - Tif prolfptid yfbr is tif sbmf bs tif yfbr-of-frb for tif
+ * <li>prolfptid-yfbr - Tif prolfptid yfbr is tif sbmf bs tif yfbr-of-frb for tif
+ * <li>prolfptid-yfbr - Tif prolfptid yfbr is tif sbmf bs tif yfbr-of-frb for tif
+ *  durrfnt frb. For tif prfvious frb, yfbrs ibvf zfro, tifn nfgbtivf vblufs.
+ *  durrfnt frb. For tif prfvious frb, yfbrs ibvf zfro, tifn nfgbtivf vblufs.
+ *  durrfnt frb. For tif prfvious frb, yfbrs ibvf zfro, tifn nfgbtivf vblufs.
+ *  durrfnt frb. For tif prfvious frb, yfbrs ibvf zfro, tifn nfgbtivf vblufs.
+ *  durrfnt frb. For tif prfvious frb, yfbrs ibvf zfro, tifn nfgbtivf vblufs.
+ *  Tif vbluf is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf is fqubl to tif ISO prolfptid-yfbr plus 543.
+ *  Tif vbluf is fqubl to tif ISO prolfptid-yfbr plus 543.
+ * <li>monti-of-yfbr - Tif TibiBuddiist monti-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>monti-of-yfbr - Tif TibiBuddiist monti-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>monti-of-yfbr - Tif TibiBuddiist monti-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>monti-of-yfbr - Tif TibiBuddiist monti-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>monti-of-yfbr - Tif TibiBuddiist monti-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>dby-of-monti - Tif TibiBuddiist dby-of-monti fxbdtly mbtdifs ISO.
+ * <li>dby-of-monti - Tif TibiBuddiist dby-of-monti fxbdtly mbtdifs ISO.
+ * <li>dby-of-monti - Tif TibiBuddiist dby-of-monti fxbdtly mbtdifs ISO.
+ * <li>dby-of-monti - Tif TibiBuddiist dby-of-monti fxbdtly mbtdifs ISO.
+ * <li>dby-of-monti - Tif TibiBuddiist dby-of-monti fxbdtly mbtdifs ISO.
+ * <li>dby-of-yfbr - Tif TibiBuddiist dby-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>dby-of-yfbr - Tif TibiBuddiist dby-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>dby-of-yfbr - Tif TibiBuddiist dby-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>dby-of-yfbr - Tif TibiBuddiist dby-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>dby-of-yfbr - Tif TibiBuddiist dby-of-yfbr fxbdtly mbtdifs ISO.
+ * <li>lfbp-yfbr - Tif TibiBuddiist lfbp-yfbr pbttfrn fxbdtly mbtdifs ISO, sudi tibt tif two dblfndbrs
+ * <li>lfbp-yfbr - Tif TibiBuddiist lfbp-yfbr pbttfrn fxbdtly mbtdifs ISO, sudi tibt tif two dblfndbrs
+ * <li>lfbp-yfbr - Tif TibiBuddiist lfbp-yfbr pbttfrn fxbdtly mbtdifs ISO, sudi tibt tif two dblfndbrs
+ * <li>lfbp-yfbr - Tif TibiBuddiist lfbp-yfbr pbttfrn fxbdtly mbtdifs ISO, sudi tibt tif two dblfndbrs
+ * <li>lfbp-yfbr - Tif TibiBuddiist lfbp-yfbr pbttfrn fxbdtly mbtdifs ISO, sudi tibt tif two dblfndbrs
+ *  brf nfvfr out of stfp.
+ *  brf nfvfr out of stfp.
+ *  brf nfvfr out of stfp.
+ *  brf nfvfr out of stfp.
  *  brf nfvfr out of stfp.
  * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ *
+ *
+ *
+ *
  *
  * @implSpfd
- * This dlbss is immutbblf bnd thrfbd-sbff.
+ * @implSpfd
+ * @implSpfd
+ * @implSpfd
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ *
+ *
+ *
+ *
  *
  * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
  */
-publid finbl dlbss ThbiBuddhistChronology fxtfnds AbstrbdtChronology implfmfnts Sfriblizbblf {
+ */
+ */
+ */
+ */
+publid finbl dlbss TibiBuddiistCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+publid finbl dlbss TibiBuddiistCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+publid finbl dlbss TibiBuddiistCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+publid finbl dlbss TibiBuddiistCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+publid finbl dlbss TibiBuddiistCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+
+
+
+
 
     /**
-     * Singlfton instbndf of thf Buddhist dhronology.
+    /**
+    /**
+    /**
+    /**
+     * Singlfton instbndf of tif Buddiist dironology.
+     * Singlfton instbndf of tif Buddiist dironology.
+     * Singlfton instbndf of tif Buddiist dironology.
+     * Singlfton instbndf of tif Buddiist dironology.
+     * Singlfton instbndf of tif Buddiist dironology.
      */
-    publid stbtid finbl ThbiBuddhistChronology INSTANCE = nfw ThbiBuddhistChronology();
+     */
+     */
+     */
+     */
+    publid stbtid finbl TibiBuddiistCironology INSTANCE = nfw TibiBuddiistCironology();
+    publid stbtid finbl TibiBuddiistCironology INSTANCE = nfw TibiBuddiistCironology();
+    publid stbtid finbl TibiBuddiistCironology INSTANCE = nfw TibiBuddiistCironology();
+    publid stbtid finbl TibiBuddiistCironology INSTANCE = nfw TibiBuddiistCironology();
+    publid stbtid finbl TibiBuddiistCironology INSTANCE = nfw TibiBuddiistCironology();
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     */
+     */
+     */
+     */
      */
     privbtf stbtid finbl long sfriblVfrsionUID = 2775954514031616474L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2775954514031616474L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2775954514031616474L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2775954514031616474L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2775954514031616474L;
     /**
-     * Contbining thf offsft to bdd to thf ISO yfbr.
+    /**
+    /**
+    /**
+    /**
+     * Contbining tif offsft to bdd to tif ISO yfbr.
+     * Contbining tif offsft to bdd to tif ISO yfbr.
+     * Contbining tif offsft to bdd to tif ISO yfbr.
+     * Contbining tif offsft to bdd to tif ISO yfbr.
+     * Contbining tif offsft to bdd to tif ISO yfbr.
+     */
+     */
+     */
+     */
      */
     stbtid finbl int YEARS_DIFFERENCE = 543;
+    stbtid finbl int YEARS_DIFFERENCE = 543;
+    stbtid finbl int YEARS_DIFFERENCE = 543;
+    stbtid finbl int YEARS_DIFFERENCE = 543;
+    stbtid finbl int YEARS_DIFFERENCE = 543;
+    /**
+    /**
+    /**
+    /**
     /**
      * Nbrrow nbmfs for frbs.
+     * Nbrrow nbmfs for frbs.
+     * Nbrrow nbmfs for frbs.
+     * Nbrrow nbmfs for frbs.
+     * Nbrrow nbmfs for frbs.
      */
-    privbtf stbtid finbl HbshMbp<String, String[]> ERA_NARROW_NAMES = nfw HbshMbp<>();
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_NARROW_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_NARROW_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_NARROW_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_NARROW_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_NARROW_NAMES = nfw HbsiMbp<>();
     /**
-     * Short nbmfs for frbs.
+    /**
+    /**
+    /**
+    /**
+     * Siort nbmfs for frbs.
+     * Siort nbmfs for frbs.
+     * Siort nbmfs for frbs.
+     * Siort nbmfs for frbs.
+     * Siort nbmfs for frbs.
      */
-    privbtf stbtid finbl HbshMbp<String, String[]> ERA_SHORT_NAMES = nfw HbshMbp<>();
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_SHORT_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_SHORT_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_SHORT_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_SHORT_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_SHORT_NAMES = nfw HbsiMbp<>();
+    /**
+    /**
+    /**
+    /**
     /**
      * Full nbmfs for frbs.
+     * Full nbmfs for frbs.
+     * Full nbmfs for frbs.
+     * Full nbmfs for frbs.
+     * Full nbmfs for frbs.
      */
-    privbtf stbtid finbl HbshMbp<String, String[]> ERA_FULL_NAMES = nfw HbshMbp<>();
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_FULL_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_FULL_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_FULL_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_FULL_NAMES = nfw HbsiMbp<>();
+    privbtf stbtid finbl HbsiMbp<String, String[]> ERA_FULL_NAMES = nfw HbsiMbp<>();
     /**
-     * Fbllbbdk lbngubgf for thf frb nbmfs.
+    /**
+    /**
+    /**
+    /**
+     * Fbllbbdk lbngubgf for tif frb nbmfs.
+     * Fbllbbdk lbngubgf for tif frb nbmfs.
+     * Fbllbbdk lbngubgf for tif frb nbmfs.
+     * Fbllbbdk lbngubgf for tif frb nbmfs.
+     * Fbllbbdk lbngubgf for tif frb nbmfs.
+     */
+     */
+     */
+     */
      */
     privbtf stbtid finbl String FALLBACK_LANGUAGE = "fn";
+    privbtf stbtid finbl String FALLBACK_LANGUAGE = "fn";
+    privbtf stbtid finbl String FALLBACK_LANGUAGE = "fn";
+    privbtf stbtid finbl String FALLBACK_LANGUAGE = "fn";
+    privbtf stbtid finbl String FALLBACK_LANGUAGE = "fn";
     /**
-     * Lbngubgf thbt hbs thf frb nbmfs.
+    /**
+    /**
+    /**
+    /**
+     * Lbngubgf tibt ibs tif frb nbmfs.
+     * Lbngubgf tibt ibs tif frb nbmfs.
+     * Lbngubgf tibt ibs tif frb nbmfs.
+     * Lbngubgf tibt ibs tif frb nbmfs.
+     * Lbngubgf tibt ibs tif frb nbmfs.
      */
-    privbtf stbtid finbl String TARGET_LANGUAGE = "th";
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl String TARGET_LANGUAGE = "ti";
+    privbtf stbtid finbl String TARGET_LANGUAGE = "ti";
+    privbtf stbtid finbl String TARGET_LANGUAGE = "ti";
+    privbtf stbtid finbl String TARGET_LANGUAGE = "ti";
+    privbtf stbtid finbl String TARGET_LANGUAGE = "ti";
+    /**
+    /**
+    /**
+    /**
     /**
      * Nbmf dbtb.
+     * Nbmf dbtb.
+     * Nbmf dbtb.
+     * Nbmf dbtb.
+     * Nbmf dbtb.
+     */
+     */
+     */
+     */
      */
     stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+        ERA_NARROW_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_NARROW_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_NARROW_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_NARROW_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"BB", "BE"});
         ERA_NARROW_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"BB", "BE"});
         ERA_NARROW_NAMES.put(TARGET_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_NARROW_NAMES.put(TARGET_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_NARROW_NAMES.put(TARGET_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_NARROW_NAMES.put(TARGET_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_NARROW_NAMES.put(TARGET_LANGUAGE, nfw String[]{"BB", "BE"});
+        ERA_SHORT_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"B.B.", "B.E."});
+        ERA_SHORT_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"B.B.", "B.E."});
+        ERA_SHORT_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"B.B.", "B.E."});
+        ERA_SHORT_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"B.B.", "B.E."});
         ERA_SHORT_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"B.B.", "B.E."});
         ERA_SHORT_NAMES.put(TARGET_LANGUAGE,
+        ERA_SHORT_NAMES.put(TARGET_LANGUAGE,
+        ERA_SHORT_NAMES.put(TARGET_LANGUAGE,
+        ERA_SHORT_NAMES.put(TARGET_LANGUAGE,
+        ERA_SHORT_NAMES.put(TARGET_LANGUAGE,
+                nfw String[]{"\u0f1f.\u0f28.",
+                nfw String[]{"\u0f1f.\u0f28.",
+                nfw String[]{"\u0f1f.\u0f28.",
+                nfw String[]{"\u0f1f.\u0f28.",
                 nfw String[]{"\u0f1f.\u0f28.",
                 "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
-        ERA_FULL_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"Bfforf Buddhist", "Budhhist Erb"});
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
+        ERA_FULL_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"Bfforf Buddiist", "Budiiist Erb"});
+        ERA_FULL_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"Bfforf Buddiist", "Budiiist Erb"});
+        ERA_FULL_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"Bfforf Buddiist", "Budiiist Erb"});
+        ERA_FULL_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"Bfforf Buddiist", "Budiiist Erb"});
+        ERA_FULL_NAMES.put(FALLBACK_LANGUAGE, nfw String[]{"Bfforf Buddiist", "Budiiist Erb"});
+        ERA_FULL_NAMES.put(TARGET_LANGUAGE,
+        ERA_FULL_NAMES.put(TARGET_LANGUAGE,
+        ERA_FULL_NAMES.put(TARGET_LANGUAGE,
+        ERA_FULL_NAMES.put(TARGET_LANGUAGE,
         ERA_FULL_NAMES.put(TARGET_LANGUAGE,
                 nfw String[]{"\u0f1f\u0f38\u0f17\u0f18\u0f28\u0f31\u0f01\u0f23\u0f32\u0f0b",
+                nfw String[]{"\u0f1f\u0f38\u0f17\u0f18\u0f28\u0f31\u0f01\u0f23\u0f32\u0f0b",
+                nfw String[]{"\u0f1f\u0f38\u0f17\u0f18\u0f28\u0f31\u0f01\u0f23\u0f32\u0f0b",
+                nfw String[]{"\u0f1f\u0f38\u0f17\u0f18\u0f28\u0f31\u0f01\u0f23\u0f32\u0f0b",
+                nfw String[]{"\u0f1f\u0f38\u0f17\u0f18\u0f28\u0f31\u0f01\u0f23\u0f32\u0f0b",
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
+                "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
                 "\u0f1b\u0f35\u0f01\u0f48\u0f2d\u0f19\u0f04\u0f23\u0f34\u0f2b\u0f15\u0f4d\u0f01\u0f32\u0f25\u0f17\u0f35\u0f48"});
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfstridtfd donstrudtor.
+     * Rfstridtfd donstrudtor.
+     * Rfstridtfd donstrudtor.
+     * Rfstridtfd donstrudtor.
+     * Rfstridtfd donstrudtor.
      */
-    privbtf ThbiBuddhistChronology() {
+     */
+     */
+     */
+     */
+    privbtf TibiBuddiistCironology() {
+    privbtf TibiBuddiistCironology() {
+    privbtf TibiBuddiistCironology() {
+    privbtf TibiBuddiistCironology() {
+    privbtf TibiBuddiistCironology() {
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     /**
-     * Gfts thf ID of thf dhronology - 'ThbiBuddhist'.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif ID of tif dironology - 'TibiBuddiist'.
+     * Gfts tif ID of tif dironology - 'TibiBuddiist'.
+     * Gfts tif ID of tif dironology - 'TibiBuddiist'.
+     * Gfts tif ID of tif dironology - 'TibiBuddiist'.
+     * Gfts tif ID of tif dironology - 'TibiBuddiist'.
      * <p>
-     * Thf ID uniqufly idfntififs thf {@dodf Chronology}.
-     * It dbn bf usfd to lookup thf {@dodf Chronology} using {@link Chronology#of(String)}.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
      *
-     * @rfturn thf dhronology ID - 'ThbiBuddhist'
+     *
+     *
+     *
+     *
+     * @rfturn tif dironology ID - 'TibiBuddiist'
+     * @rfturn tif dironology ID - 'TibiBuddiist'
+     * @rfturn tif dironology ID - 'TibiBuddiist'
+     * @rfturn tif dironology ID - 'TibiBuddiist'
+     * @rfturn tif dironology ID - 'TibiBuddiist'
+     * @sff #gftCblfndbrTypf()
+     * @sff #gftCblfndbrTypf()
+     * @sff #gftCblfndbrTypf()
+     * @sff #gftCblfndbrTypf()
      * @sff #gftCblfndbrTypf()
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid String gftId() {
-        rfturn "ThbiBuddhist";
+    publid String gftId() {
+    publid String gftId() {
+    publid String gftId() {
+    publid String gftId() {
+        rfturn "TibiBuddiist";
+        rfturn "TibiBuddiist";
+        rfturn "TibiBuddiist";
+        rfturn "TibiBuddiist";
+        rfturn "TibiBuddiist";
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Gfts thf dblfndbr typf of thf undfrlying dblfndbr systfm - 'buddhist'.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif dblfndbr typf of tif undfrlying dblfndbr systfm - 'buddiist'.
+     * Gfts tif dblfndbr typf of tif undfrlying dblfndbr systfm - 'buddiist'.
+     * Gfts tif dblfndbr typf of tif undfrlying dblfndbr systfm - 'buddiist'.
+     * Gfts tif dblfndbr typf of tif undfrlying dblfndbr systfm - 'buddiist'.
+     * Gfts tif dblfndbr typf of tif undfrlying dblfndbr systfm - 'buddiist'.
      * <p>
-     * Thf dblfndbr typf is bn idfntififr dffinfd by thf
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
      * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
-     * It dbn bf usfd to lookup thf {@dodf Chronology} using {@link Chronology#of(String)}.
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
      * It dbn blso bf usfd bs pbrt of b lodblf, bddfssiblf vib
-     * {@link Lodblf#gftUnidodfLodblfTypf(String)} with thf kfy 'db'.
+     * It dbn blso bf usfd bs pbrt of b lodblf, bddfssiblf vib
+     * It dbn blso bf usfd bs pbrt of b lodblf, bddfssiblf vib
+     * It dbn blso bf usfd bs pbrt of b lodblf, bddfssiblf vib
+     * It dbn blso bf usfd bs pbrt of b lodblf, bddfssiblf vib
+     * {@link Lodblf#gftUnidodfLodblfTypf(String)} witi tif kfy 'db'.
+     * {@link Lodblf#gftUnidodfLodblfTypf(String)} witi tif kfy 'db'.
+     * {@link Lodblf#gftUnidodfLodblfTypf(String)} witi tif kfy 'db'.
+     * {@link Lodblf#gftUnidodfLodblfTypf(String)} witi tif kfy 'db'.
+     * {@link Lodblf#gftUnidodfLodblfTypf(String)} witi tif kfy 'db'.
      *
-     * @rfturn thf dblfndbr systfm typf - 'buddhist'
+     *
+     *
+     *
+     *
+     * @rfturn tif dblfndbr systfm typf - 'buddiist'
+     * @rfturn tif dblfndbr systfm typf - 'buddiist'
+     * @rfturn tif dblfndbr systfm typf - 'buddiist'
+     * @rfturn tif dblfndbr systfm typf - 'buddiist'
+     * @rfturn tif dblfndbr systfm typf - 'buddiist'
+     * @sff #gftId()
+     * @sff #gftId()
+     * @sff #gftId()
+     * @sff #gftId()
      * @sff #gftId()
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid String gftCblfndbrTypf() {
-        rfturn "buddhist";
+    publid String gftCblfndbrTypf() {
+    publid String gftCblfndbrTypf() {
+    publid String gftCblfndbrTypf() {
+    publid String gftCblfndbrTypf() {
+        rfturn "buddiist";
+        rfturn "buddiist";
+        rfturn "buddiist";
+        rfturn "buddiist";
+        rfturn "buddiist";
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Obtbins b lodbl dbtf in Thbi Buddhist dblfndbr systfm from thf
-     * frb, yfbr-of-frb, month-of-yfbr bnd dby-of-month fiflds.
+    /**
+    /**
+    /**
+    /**
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
      *
-     * @pbrbm frb  thf Thbi Buddhist frb, not null
-     * @pbrbm yfbrOfErb  thf yfbr-of-frb
-     * @pbrbm month  thf month-of-yfbr
-     * @pbrbm dbyOfMonth  thf dby-of-month
-     * @rfturn thf Thbi Buddhist lodbl dbtf, not null
-     * @throws DbtfTimfExdfption if unbblf to drfbtf thf dbtf
-     * @throws ClbssCbstExdfption if thf {@dodf frb} is not b {@dodf ThbiBuddhistErb}
+     *
+     *
+     *
+     *
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtf(Erb frb, int yfbrOfErb, int month, int dbyOfMonth) {
-        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), month, dbyOfMonth);
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Obtbins b lodbl dbtf in Thbi Buddhist dblfndbr systfm from thf
-     * prolfptid-yfbr, month-of-yfbr bnd dby-of-month fiflds.
+    /**
+    /**
+    /**
+    /**
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
      *
-     * @pbrbm prolfptidYfbr  thf prolfptid-yfbr
-     * @pbrbm month  thf month-of-yfbr
-     * @pbrbm dbyOfMonth  thf dby-of-month
-     * @rfturn thf Thbi Buddhist lodbl dbtf, not null
-     * @throws DbtfTimfExdfption if unbblf to drfbtf thf dbtf
+     *
+     *
+     *
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtf(int prolfptidYfbr, int month, int dbyOfMonth) {
-        rfturn nfw ThbiBuddhistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, month, dbyOfMonth));
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid TibiBuddiistDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Obtbins b lodbl dbtf in Thbi Buddhist dblfndbr systfm from thf
+    /**
+    /**
+    /**
+    /**
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
      * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
      *
-     * @pbrbm frb  thf Thbi Buddhist frb, not null
-     * @pbrbm yfbrOfErb  thf yfbr-of-frb
-     * @pbrbm dbyOfYfbr  thf dby-of-yfbr
-     * @rfturn thf Thbi Buddhist lodbl dbtf, not null
-     * @throws DbtfTimfExdfption if unbblf to drfbtf thf dbtf
-     * @throws ClbssCbstExdfption if thf {@dodf frb} is not b {@dodf ThbiBuddhistErb}
+     *
+     *
+     *
+     *
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm frb  tif Tibi Buddiist frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf TibiBuddiistErb}
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+        rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
+        rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
+        rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
+        rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
         rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Obtbins b lodbl dbtf in Thbi Buddhist dblfndbr systfm from thf
+    /**
+    /**
+    /**
+    /**
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * Obtbins b lodbl dbtf in Tibi Buddiist dblfndbr systfm from tif
+     * prolfptid-yfbr bnd dby-of-yfbr fiflds.
+     * prolfptid-yfbr bnd dby-of-yfbr fiflds.
+     * prolfptid-yfbr bnd dby-of-yfbr fiflds.
+     * prolfptid-yfbr bnd dby-of-yfbr fiflds.
      * prolfptid-yfbr bnd dby-of-yfbr fiflds.
      *
-     * @pbrbm prolfptidYfbr  thf prolfptid-yfbr
-     * @pbrbm dbyOfYfbr  thf dby-of-yfbr
-     * @rfturn thf Thbi Buddhist lodbl dbtf, not null
-     * @throws DbtfTimfExdfption if unbblf to drfbtf thf dbtf
+     *
+     *
+     *
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
-        rfturn nfw ThbiBuddhistDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr - YEARS_DIFFERENCE, dbyOfYfbr));
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+    publid TibiBuddiistDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr - YEARS_DIFFERENCE, dbyOfYfbr));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr - YEARS_DIFFERENCE, dbyOfYfbr));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr - YEARS_DIFFERENCE, dbyOfYfbr));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr - YEARS_DIFFERENCE, dbyOfYfbr));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr - YEARS_DIFFERENCE, dbyOfYfbr));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Obtbins b lodbl dbtf in thf Thbi Buddhist dblfndbr systfm from thf fpodh-dby.
+    /**
+    /**
+    /**
+    /**
+     * Obtbins b lodbl dbtf in tif Tibi Buddiist dblfndbr systfm from tif fpodi-dby.
+     * Obtbins b lodbl dbtf in tif Tibi Buddiist dblfndbr systfm from tif fpodi-dby.
+     * Obtbins b lodbl dbtf in tif Tibi Buddiist dblfndbr systfm from tif fpodi-dby.
+     * Obtbins b lodbl dbtf in tif Tibi Buddiist dblfndbr systfm from tif fpodi-dby.
+     * Obtbins b lodbl dbtf in tif Tibi Buddiist dblfndbr systfm from tif fpodi-dby.
      *
-     * @pbrbm fpodhDby  thf fpodh dby
-     * @rfturn thf Thbi Buddhist lodbl dbtf, not null
-     * @throws DbtfTimfExdfption if unbblf to drfbtf thf dbtf
+     *
+     *
+     *
+     *
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @rfturn tif Tibi Buddiist lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
      */
-    @Ovfrridf  // ovfrridf with dovbribnt rfturn typf
-    publid ThbiBuddhistDbtf dbtfEpodhDby(long fpodhDby) {
-        rfturn nfw ThbiBuddhistDbtf(LodblDbtf.ofEpodhDby(fpodhDby));
+     */
+     */
+     */
+     */
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    publid TibiBuddiistDbtf dbtfEpodiDby(long fpodiDby) {
+    publid TibiBuddiistDbtf dbtfEpodiDby(long fpodiDby) {
+    publid TibiBuddiistDbtf dbtfEpodiDby(long fpodiDby) {
+    publid TibiBuddiistDbtf dbtfEpodiDby(long fpodiDby) {
+    publid TibiBuddiistDbtf dbtfEpodiDby(long fpodiDby) {
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofEpodiDby(fpodiDby));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofEpodiDby(fpodiDby));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofEpodiDby(fpodiDby));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofEpodiDby(fpodiDby));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.ofEpodiDby(fpodiDby));
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtfNow() {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtfNow() {
+    publid TibiBuddiistDbtf dbtfNow() {
+    publid TibiBuddiistDbtf dbtfNow() {
+    publid TibiBuddiistDbtf dbtfNow() {
+    publid TibiBuddiistDbtf dbtfNow() {
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
         rfturn dbtfNow(Clodk.systfmDffbultZonf());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtfNow(ZonfId zonf) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtfNow(ZonfId zonf) {
+    publid TibiBuddiistDbtf dbtfNow(ZonfId zonf) {
+    publid TibiBuddiistDbtf dbtfNow(ZonfId zonf) {
+    publid TibiBuddiistDbtf dbtfNow(ZonfId zonf) {
+    publid TibiBuddiistDbtf dbtfNow(ZonfId zonf) {
+        rfturn dbtfNow(Clodk.systfm(zonf));
+        rfturn dbtfNow(Clodk.systfm(zonf));
+        rfturn dbtfNow(Clodk.systfm(zonf));
+        rfturn dbtfNow(Clodk.systfm(zonf));
         rfturn dbtfNow(Clodk.systfm(zonf));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtfNow(Clodk dlodk) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtfNow(Clodk dlodk) {
+    publid TibiBuddiistDbtf dbtfNow(Clodk dlodk) {
+    publid TibiBuddiistDbtf dbtfNow(Clodk dlodk) {
+    publid TibiBuddiistDbtf dbtfNow(Clodk dlodk) {
+    publid TibiBuddiistDbtf dbtfNow(Clodk dlodk) {
+        rfturn dbtf(LodblDbtf.now(dlodk));
+        rfturn dbtf(LodblDbtf.now(dlodk));
+        rfturn dbtf(LodblDbtf.now(dlodk));
+        rfturn dbtf(LodblDbtf.now(dlodk));
         rfturn dbtf(LodblDbtf.now(dlodk));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid ThbiBuddhistDbtf dbtf(TfmporblAddfssor tfmporbl) {
-        if (tfmporbl instbndfof ThbiBuddhistDbtf) {
-            rfturn (ThbiBuddhistDbtf) tfmporbl;
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf dbtf(TfmporblAddfssor tfmporbl) {
+    publid TibiBuddiistDbtf dbtf(TfmporblAddfssor tfmporbl) {
+    publid TibiBuddiistDbtf dbtf(TfmporblAddfssor tfmporbl) {
+    publid TibiBuddiistDbtf dbtf(TfmporblAddfssor tfmporbl) {
+    publid TibiBuddiistDbtf dbtf(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof TibiBuddiistDbtf) {
+        if (tfmporbl instbndfof TibiBuddiistDbtf) {
+        if (tfmporbl instbndfof TibiBuddiistDbtf) {
+        if (tfmporbl instbndfof TibiBuddiistDbtf) {
+        if (tfmporbl instbndfof TibiBuddiistDbtf) {
+            rfturn (TibiBuddiistDbtf) tfmporbl;
+            rfturn (TibiBuddiistDbtf) tfmporbl;
+            rfturn (TibiBuddiistDbtf) tfmporbl;
+            rfturn (TibiBuddiistDbtf) tfmporbl;
+            rfturn (TibiBuddiistDbtf) tfmporbl;
         }
-        rfturn nfw ThbiBuddhistDbtf(LodblDbtf.from(tfmporbl));
+        }
+        }
+        }
+        }
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.from(tfmporbl));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.from(tfmporbl));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.from(tfmporbl));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.from(tfmporbl));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.from(tfmporbl));
+    }
+    }
+    }
+    }
     }
 
-    @Ovfrridf
-    @SupprfssWbrnings("undhfdkfd")
-    publid ChronoLodblDbtfTimf<ThbiBuddhistDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
-        rfturn (ChronoLodblDbtfTimf<ThbiBuddhistDbtf>)supfr.lodblDbtfTimf(tfmporbl);
-    }
+
+
+
 
     @Ovfrridf
-    @SupprfssWbrnings("undhfdkfd")
-    publid ChronoZonfdDbtfTimf<ThbiBuddhistDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
-        rfturn (ChronoZonfdDbtfTimf<ThbiBuddhistDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoLodblDbtfTimf<TibiBuddiistDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoLodblDbtfTimf<TibiBuddiistDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoLodblDbtfTimf<TibiBuddiistDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoLodblDbtfTimf<TibiBuddiistDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoLodblDbtfTimf<TibiBuddiistDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>)supfr.lodblDbtfTimf(tfmporbl);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>)supfr.lodblDbtfTimf(tfmporbl);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>)supfr.lodblDbtfTimf(tfmporbl);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>)supfr.lodblDbtfTimf(tfmporbl);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>)supfr.lodblDbtfTimf(tfmporbl);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     @Ovfrridf
-    @SupprfssWbrnings("undhfdkfd")
-    publid ChronoZonfdDbtfTimf<ThbiBuddhistDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
-        rfturn (ChronoZonfdDbtfTimf<ThbiBuddhistDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+    publid CironoZonfdDbtfTimf<TibiBuddiistDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+        rfturn (CironoZonfdDbtfTimf<TibiBuddiistDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Chfdks if thf spfdififd yfbr is b lfbp yfbr.
+    /**
+    /**
+    /**
+    /**
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
      * <p>
-     * Thbi Buddhist lfbp yfbrs oddur fxbdtly in linf with ISO lfbp yfbrs.
-     * This mfthod dofs not vblidbtf thf yfbr pbssfd in, bnd only hbs b
-     * wfll-dffinfd rfsult for yfbrs in thf supportfd rbngf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tibi Buddiist lfbp yfbrs oddur fxbdtly in linf witi ISO lfbp yfbrs.
+     * Tibi Buddiist lfbp yfbrs oddur fxbdtly in linf witi ISO lfbp yfbrs.
+     * Tibi Buddiist lfbp yfbrs oddur fxbdtly in linf witi ISO lfbp yfbrs.
+     * Tibi Buddiist lfbp yfbrs oddur fxbdtly in linf witi ISO lfbp yfbrs.
+     * Tibi Buddiist lfbp yfbrs oddur fxbdtly in linf witi ISO lfbp yfbrs.
+     * Tiis mftiod dofs not vblidbtf tif yfbr pbssfd in, bnd only ibs b
+     * Tiis mftiod dofs not vblidbtf tif yfbr pbssfd in, bnd only ibs b
+     * Tiis mftiod dofs not vblidbtf tif yfbr pbssfd in, bnd only ibs b
+     * Tiis mftiod dofs not vblidbtf tif yfbr pbssfd in, bnd only ibs b
+     * Tiis mftiod dofs not vblidbtf tif yfbr pbssfd in, bnd only ibs b
+     * wfll-dffinfd rfsult for yfbrs in tif supportfd rbngf.
+     * wfll-dffinfd rfsult for yfbrs in tif supportfd rbngf.
+     * wfll-dffinfd rfsult for yfbrs in tif supportfd rbngf.
+     * wfll-dffinfd rfsult for yfbrs in tif supportfd rbngf.
+     * wfll-dffinfd rfsult for yfbrs in tif supportfd rbngf.
      *
-     * @pbrbm prolfptidYfbr  thf prolfptid-yfbr to dhfdk, not vblidbtfd for rbngf
-     * @rfturn truf if thf yfbr is b lfbp yfbr
+     *
+     *
+     *
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @rfturn truf if tif yfbr is b lfbp yfbr
+     * @rfturn truf if tif yfbr is b lfbp yfbr
+     * @rfturn truf if tif yfbr is b lfbp yfbr
+     * @rfturn truf if tif yfbr is b lfbp yfbr
+     * @rfturn truf if tif yfbr is b lfbp yfbr
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
-        rfturn IsoChronology.INSTANCE.isLfbpYfbr(prolfptidYfbr - YEARS_DIFFERENCE);
+    publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
+    publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
+    publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
+    publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
+        rfturn IsoCironology.INSTANCE.isLfbpYfbr(prolfptidYfbr - YEARS_DIFFERENCE);
+        rfturn IsoCironology.INSTANCE.isLfbpYfbr(prolfptidYfbr - YEARS_DIFFERENCE);
+        rfturn IsoCironology.INSTANCE.isLfbpYfbr(prolfptidYfbr - YEARS_DIFFERENCE);
+        rfturn IsoCironology.INSTANCE.isLfbpYfbr(prolfptidYfbr - YEARS_DIFFERENCE);
+        rfturn IsoCironology.INSTANCE.isLfbpYfbr(prolfptidYfbr - YEARS_DIFFERENCE);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
-        if (frb instbndfof ThbiBuddhistErb == fblsf) {
-            throw nfw ClbssCbstExdfption("Erb must bf BuddhistErb");
+    publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
+    publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
+    publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
+    publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
+        if (frb instbndfof TibiBuddiistErb == fblsf) {
+        if (frb instbndfof TibiBuddiistErb == fblsf) {
+        if (frb instbndfof TibiBuddiistErb == fblsf) {
+        if (frb instbndfof TibiBuddiistErb == fblsf) {
+        if (frb instbndfof TibiBuddiistErb == fblsf) {
+            tirow nfw ClbssCbstExdfption("Erb must bf BuddiistErb");
+            tirow nfw ClbssCbstExdfption("Erb must bf BuddiistErb");
+            tirow nfw ClbssCbstExdfption("Erb must bf BuddiistErb");
+            tirow nfw ClbssCbstExdfption("Erb must bf BuddiistErb");
+            tirow nfw ClbssCbstExdfption("Erb must bf BuddiistErb");
         }
-        rfturn (frb == ThbiBuddhistErb.BE ? yfbrOfErb : 1 - yfbrOfErb);
+        }
+        }
+        }
+        }
+        rfturn (frb == TibiBuddiistErb.BE ? yfbrOfErb : 1 - yfbrOfErb);
+        rfturn (frb == TibiBuddiistErb.BE ? yfbrOfErb : 1 - yfbrOfErb);
+        rfturn (frb == TibiBuddiistErb.BE ? yfbrOfErb : 1 - yfbrOfErb);
+        rfturn (frb == TibiBuddiistErb.BE ? yfbrOfErb : 1 - yfbrOfErb);
+        rfturn (frb == TibiBuddiistErb.BE ? yfbrOfErb : 1 - yfbrOfErb);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid ThbiBuddhistErb frbOf(int frbVbluf) {
-        rfturn ThbiBuddhistErb.of(frbVbluf);
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistErb frbOf(int frbVbluf) {
+    publid TibiBuddiistErb frbOf(int frbVbluf) {
+    publid TibiBuddiistErb frbOf(int frbVbluf) {
+    publid TibiBuddiistErb frbOf(int frbVbluf) {
+    publid TibiBuddiistErb frbOf(int frbVbluf) {
+        rfturn TibiBuddiistErb.of(frbVbluf);
+        rfturn TibiBuddiistErb.of(frbVbluf);
+        rfturn TibiBuddiistErb.of(frbVbluf);
+        rfturn TibiBuddiistErb.of(frbVbluf);
+        rfturn TibiBuddiistErb.of(frbVbluf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid List<Erb> frbs() {
-        rfturn Arrbys.<Erb>bsList(ThbiBuddhistErb.vblufs());
+    publid List<Erb> frbs() {
+    publid List<Erb> frbs() {
+    publid List<Erb> frbs() {
+    publid List<Erb> frbs() {
+        rfturn Arrbys.<Erb>bsList(TibiBuddiistErb.vblufs());
+        rfturn Arrbys.<Erb>bsList(TibiBuddiistErb.vblufs());
+        rfturn Arrbys.<Erb>bsList(TibiBuddiistErb.vblufs());
+        rfturn Arrbys.<Erb>bsList(TibiBuddiistErb.vblufs());
+        rfturn Arrbys.<Erb>bsList(TibiBuddiistErb.vblufs());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     @Ovfrridf
-    publid VblufRbngf rbngf(ChronoFifld fifld) {
-        switdh (fifld) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+        switdi (fifld) {
+        switdi (fifld) {
+        switdi (fifld) {
+        switdi (fifld) {
+        switdi (fifld) {
+            dbsf PROLEPTIC_MONTH: {
+            dbsf PROLEPTIC_MONTH: {
+            dbsf PROLEPTIC_MONTH: {
+            dbsf PROLEPTIC_MONTH: {
             dbsf PROLEPTIC_MONTH: {
                 VblufRbngf rbngf = PROLEPTIC_MONTH.rbngf();
+                VblufRbngf rbngf = PROLEPTIC_MONTH.rbngf();
+                VblufRbngf rbngf = PROLEPTIC_MONTH.rbngf();
+                VblufRbngf rbngf = PROLEPTIC_MONTH.rbngf();
+                VblufRbngf rbngf = PROLEPTIC_MONTH.rbngf();
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE * 12L, rbngf.gftMbximum() + YEARS_DIFFERENCE * 12L);
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE * 12L, rbngf.gftMbximum() + YEARS_DIFFERENCE * 12L);
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE * 12L, rbngf.gftMbximum() + YEARS_DIFFERENCE * 12L);
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE * 12L, rbngf.gftMbximum() + YEARS_DIFFERENCE * 12L);
                 rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE * 12L, rbngf.gftMbximum() + YEARS_DIFFERENCE * 12L);
             }
+            }
+            }
+            }
+            }
+            dbsf YEAR_OF_ERA: {
+            dbsf YEAR_OF_ERA: {
+            dbsf YEAR_OF_ERA: {
+            dbsf YEAR_OF_ERA: {
             dbsf YEAR_OF_ERA: {
                 VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                rfturn VblufRbngf.of(1, -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1, rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                rfturn VblufRbngf.of(1, -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1, rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                rfturn VblufRbngf.of(1, -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1, rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                rfturn VblufRbngf.of(1, -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1, rbngf.gftMbximum() + YEARS_DIFFERENCE);
                 rfturn VblufRbngf.of(1, -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1, rbngf.gftMbximum() + YEARS_DIFFERENCE);
             }
+            }
+            }
+            }
+            }
+            dbsf YEAR: {
+            dbsf YEAR: {
+            dbsf YEAR: {
+            dbsf YEAR: {
             dbsf YEAR: {
                 VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                VblufRbngf rbngf = YEAR.rbngf();
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE, rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE, rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE, rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE, rbngf.gftMbximum() + YEARS_DIFFERENCE);
                 rfturn VblufRbngf.of(rbngf.gftMinimum() + YEARS_DIFFERENCE, rbngf.gftMbximum() + YEARS_DIFFERENCE);
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn fifld.rbngf();
+        rfturn fifld.rbngf();
+        rfturn fifld.rbngf();
+        rfturn fifld.rbngf();
+        rfturn fifld.rbngf();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     @Ovfrridf  // ovfrridf for rfturn typf
-    publid ThbiBuddhistDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
-        rfturn (ThbiBuddhistDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+    @Ovfrridf  // ovfrridf for rfturn typf
+    @Ovfrridf  // ovfrridf for rfturn typf
+    @Ovfrridf  // ovfrridf for rfturn typf
+    @Ovfrridf  // ovfrridf for rfturn typf
+    publid TibiBuddiistDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+    publid TibiBuddiistDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+    publid TibiBuddiistDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+    publid TibiBuddiistDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+    publid TibiBuddiistDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        rfturn (TibiBuddiistDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+        rfturn (TibiBuddiistDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+        rfturn (TibiBuddiistDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+        rfturn (TibiBuddiistDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+        rfturn (TibiBuddiistDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Writfs thf Chronology using b
-     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.Sfr">dfdidbtfd sfriblizfd form</b>.
+    /**
+    /**
+    /**
+    /**
+     * Writfs tif Cironology using b
+     * Writfs tif Cironology using b
+     * Writfs tif Cironology using b
+     * Writfs tif Cironology using b
+     * Writfs tif Cironology using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * @sfriblDbtb
+     * @sfriblDbtb
+     * @sfriblDbtb
      * @sfriblDbtb
      * <prf>
-     *  out.writfBytf(1);     // idfntififs b Chronology
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfUTF(gftId());
+     *  out.writfUTF(gftId());
+     *  out.writfUTF(gftId());
+     *  out.writfUTF(gftId());
      *  out.writfUTF(gftId());
      * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      *
-     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     *
+     *
+     *
+     *
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    Objfdt writfRfplbdf() {
+    Objfdt writfRfplbdf() {
+    Objfdt writfRfplbdf() {
+    Objfdt writfRfplbdf() {
     Objfdt writfRfplbdf() {
         rfturn supfr.writfRfplbdf();
+        rfturn supfr.writfRfplbdf();
+        rfturn supfr.writfRfplbdf();
+        rfturn supfr.writfRfplbdf();
+        rfturn supfr.writfRfplbdf();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @pbrbm s thf strfbm to rfbd
-     * @throws InvblidObjfdtExdfption blwbys
+     *
+     *
+     *
+     *
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
-        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+     */
+     */
+     */
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

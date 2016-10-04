@@ -1,167 +1,835 @@
 /*
- * Copyright (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+
+
+
+
 
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvbx.nbming.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.*;
 import jbvbx.nbming.*;
 import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.dirfdtory.*;
+
+
+
+
 
 /**
- * This dlbss implfmfnts thf LDAPv3 Rfsponsf Control for fntry-dhbngf
+/**
+/**
+/**
+/**
+ * Tiis dlbss implfmfnts tif LDAPv3 Rfsponsf Control for fntry-dibngf
+ * Tiis dlbss implfmfnts tif LDAPv3 Rfsponsf Control for fntry-dibngf
+ * Tiis dlbss implfmfnts tif LDAPv3 Rfsponsf Control for fntry-dibngf
+ * Tiis dlbss implfmfnts tif LDAPv3 Rfsponsf Control for fntry-dibngf
+ * Tiis dlbss implfmfnts tif LDAPv3 Rfsponsf Control for fntry-dibngf
  * notifidbtion bs dffinfd in
- * <b hrff="http://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdh-02.txt">drbft-iftf-ldbpfxt-psfbrdh-02.txt</b>.
+ * notifidbtion bs dffinfd in
+ * notifidbtion bs dffinfd in
+ * notifidbtion bs dffinfd in
+ * notifidbtion bs dffinfd in
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdi-02.txt">drbft-iftf-ldbpfxt-psfbrdi-02.txt</b>.
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdi-02.txt">drbft-iftf-ldbpfxt-psfbrdi-02.txt</b>.
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdi-02.txt">drbft-iftf-ldbpfxt-psfbrdi-02.txt</b>.
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdi-02.txt">drbft-iftf-ldbpfxt-psfbrdi-02.txt</b>.
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdi-02.txt">drbft-iftf-ldbpfxt-psfbrdi-02.txt</b>.
  *
- * Thf dontrol's vbluf hbs thf following ASN.1 dffinition:
+ *
+ *
+ *
+ *
+ * Tif dontrol's vbluf ibs tif following ASN.1 dffinition:
+ * Tif dontrol's vbluf ibs tif following ASN.1 dffinition:
+ * Tif dontrol's vbluf ibs tif following ASN.1 dffinition:
+ * Tif dontrol's vbluf ibs tif following ASN.1 dffinition:
+ * Tif dontrol's vbluf ibs tif following ASN.1 dffinition:
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  *
- *     EntryChbngfNotifidbtion ::= SEQUENCE {
- *         dhbngfTypf ENUMERATED {
+ *
+ *
+ *
+ *
+ *     EntryCibngfNotifidbtion ::= SEQUENCE {
+ *     EntryCibngfNotifidbtion ::= SEQUENCE {
+ *     EntryCibngfNotifidbtion ::= SEQUENCE {
+ *     EntryCibngfNotifidbtion ::= SEQUENCE {
+ *     EntryCibngfNotifidbtion ::= SEQUENCE {
+ *         dibngfTypf ENUMERATED {
+ *         dibngfTypf ENUMERATED {
+ *         dibngfTypf ENUMERATED {
+ *         dibngfTypf ENUMERATED {
+ *         dibngfTypf ENUMERATED {
+ *             bdd              (1),
+ *             bdd              (1),
+ *             bdd              (1),
+ *             bdd              (1),
  *             bdd              (1),
  *             dflftf           (2),
+ *             dflftf           (2),
+ *             dflftf           (2),
+ *             dflftf           (2),
+ *             dflftf           (2),
+ *             modify           (4),
+ *             modify           (4),
+ *             modify           (4),
+ *             modify           (4),
  *             modify           (4),
  *             modDN            (8)
+ *             modDN            (8)
+ *             modDN            (8)
+ *             modDN            (8)
+ *             modDN            (8)
+ *         },
+ *         },
+ *         },
+ *         },
  *         },
  *         prfviousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
- *         dhbngfNumbfr INTEGER OPTIONAL,       -- if supportfd
+ *         prfviousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
+ *         prfviousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
+ *         prfviousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
+ *         prfviousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
+ *         dibngfNumbfr INTEGER OPTIONAL,       -- if supportfd
+ *         dibngfNumbfr INTEGER OPTIONAL,       -- if supportfd
+ *         dibngfNumbfr INTEGER OPTIONAL,       -- if supportfd
+ *         dibngfNumbfr INTEGER OPTIONAL,       -- if supportfd
+ *         dibngfNumbfr INTEGER OPTIONAL,       -- if supportfd
+ *    }
+ *    }
+ *    }
+ *    }
  *    }
  *
+ *
+ *
+ *
+ *
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
  * </prf>
  *
- * @sff PfrsistfntSfbrdhControl
+ *
+ *
+ *
+ *
+ * @sff PfrsistfntSfbrdiControl
+ * @sff PfrsistfntSfbrdiControl
+ * @sff PfrsistfntSfbrdiControl
+ * @sff PfrsistfntSfbrdiControl
+ * @sff PfrsistfntSfbrdiControl
  * @sff dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory RfsponsfControlFbdtory
- * @buthor Vindfnt Rybn
+ * @sff dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory RfsponsfControlFbdtory
+ * @sff dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory RfsponsfControlFbdtory
+ * @sff dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory RfsponsfControlFbdtory
+ * @sff dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory RfsponsfControlFbdtory
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
  */
-finbl publid dlbss EntryChbngfRfsponsfControl fxtfnds BbsidControl {
+ */
+ */
+ */
+ */
+finbl publid dlbss EntryCibngfRfsponsfControl fxtfnds BbsidControl {
+finbl publid dlbss EntryCibngfRfsponsfControl fxtfnds BbsidControl {
+finbl publid dlbss EntryCibngfRfsponsfControl fxtfnds BbsidControl {
+finbl publid dlbss EntryCibngfRfsponsfControl fxtfnds BbsidControl {
+finbl publid dlbss EntryCibngfRfsponsfControl fxtfnds BbsidControl {
+
+
+
+
 
     /**
-     * Thf fntry-dhbngf rfsponsf dontrol's bssignfd objfdt idfntififr
+    /**
+    /**
+    /**
+    /**
+     * Tif fntry-dibngf rfsponsf dontrol's bssignfd objfdt idfntififr
+     * Tif fntry-dibngf rfsponsf dontrol's bssignfd objfdt idfntififr
+     * Tif fntry-dibngf rfsponsf dontrol's bssignfd objfdt idfntififr
+     * Tif fntry-dibngf rfsponsf dontrol's bssignfd objfdt idfntififr
+     * Tif fntry-dibngf rfsponsf dontrol's bssignfd objfdt idfntififr
+     * is 2.16.840.1.113730.3.4.7.
+     * is 2.16.840.1.113730.3.4.7.
+     * is 2.16.840.1.113730.3.4.7.
+     * is 2.16.840.1.113730.3.4.7.
      * is 2.16.840.1.113730.3.4.7.
      */
+     */
+     */
+     */
+     */
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.7";
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.7";
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.7";
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.7";
     publid stbtid finbl String OID = "2.16.840.1.113730.3.4.7";
 
+
+
+
+
     /**
-     * Indidbtfs bn fntry whidh hbs bffn bddfd.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs bn fntry wiidi ibs bffn bddfd.
+     * Indidbtfs bn fntry wiidi ibs bffn bddfd.
+     * Indidbtfs bn fntry wiidi ibs bffn bddfd.
+     * Indidbtfs bn fntry wiidi ibs bffn bddfd.
+     * Indidbtfs bn fntry wiidi ibs bffn bddfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int ADD = 1;
+    publid stbtid finbl int ADD = 1;
+    publid stbtid finbl int ADD = 1;
+    publid stbtid finbl int ADD = 1;
+    publid stbtid finbl int ADD = 1;
+
+
+
+
 
     /**
-     * Indidbtfs bn fntry whidh hbs bffn dflftfd.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs bn fntry wiidi ibs bffn dflftfd.
+     * Indidbtfs bn fntry wiidi ibs bffn dflftfd.
+     * Indidbtfs bn fntry wiidi ibs bffn dflftfd.
+     * Indidbtfs bn fntry wiidi ibs bffn dflftfd.
+     * Indidbtfs bn fntry wiidi ibs bffn dflftfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int DELETE = 2;
+    publid stbtid finbl int DELETE = 2;
+    publid stbtid finbl int DELETE = 2;
+    publid stbtid finbl int DELETE = 2;
+    publid stbtid finbl int DELETE = 2;
+
+
+
+
 
     /**
-     * Indidbtfs bn fntry whidh hbs bffn modififd.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs bn fntry wiidi ibs bffn modififd.
+     * Indidbtfs bn fntry wiidi ibs bffn modififd.
+     * Indidbtfs bn fntry wiidi ibs bffn modififd.
+     * Indidbtfs bn fntry wiidi ibs bffn modififd.
+     * Indidbtfs bn fntry wiidi ibs bffn modififd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int MODIFY = 4;
+    publid stbtid finbl int MODIFY = 4;
+    publid stbtid finbl int MODIFY = 4;
+    publid stbtid finbl int MODIFY = 4;
+    publid stbtid finbl int MODIFY = 4;
+
+
+
+
 
     /**
-     * Indidbtfs bn fntry whidh hbs bffn rfnbmfd.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs bn fntry wiidi ibs bffn rfnbmfd.
+     * Indidbtfs bn fntry wiidi ibs bffn rfnbmfd.
+     * Indidbtfs bn fntry wiidi ibs bffn rfnbmfd.
+     * Indidbtfs bn fntry wiidi ibs bffn rfnbmfd.
+     * Indidbtfs bn fntry wiidi ibs bffn rfnbmfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int RENAME = 8;
+    publid stbtid finbl int RENAME = 8;
+    publid stbtid finbl int RENAME = 8;
+    publid stbtid finbl int RENAME = 8;
+    publid stbtid finbl int RENAME = 8;
+
+
+
+
 
     /**
-     * Thf typf of dhbngf thbt oddurrfd.
+    /**
+    /**
+    /**
+    /**
+     * Tif typf of dibngf tibt oddurrfd.
+     * Tif typf of dibngf tibt oddurrfd.
+     * Tif typf of dibngf tibt oddurrfd.
+     * Tif typf of dibngf tibt oddurrfd.
+     * Tif typf of dibngf tibt oddurrfd.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      */
-    privbtf int dhbngfTypf;
+     */
+     */
+     */
+     */
+    privbtf int dibngfTypf;
+    privbtf int dibngfTypf;
+    privbtf int dibngfTypf;
+    privbtf int dibngfTypf;
+    privbtf int dibngfTypf;
+
+
+
+
 
     /**
-     * Thf prfvious distinguishfd nbmf (only bpplifs to RENAME dhbngfs).
+    /**
+    /**
+    /**
+    /**
+     * Tif prfvious distinguisifd nbmf (only bpplifs to RENAME dibngfs).
+     * Tif prfvious distinguisifd nbmf (only bpplifs to RENAME dibngfs).
+     * Tif prfvious distinguisifd nbmf (only bpplifs to RENAME dibngfs).
+     * Tif prfvious distinguisifd nbmf (only bpplifs to RENAME dibngfs).
+     * Tif prfvious distinguisifd nbmf (only bpplifs to RENAME dibngfs).
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf String prfviousDN = null;
+    privbtf String prfviousDN = null;
+    privbtf String prfviousDN = null;
+    privbtf String prfviousDN = null;
+    privbtf String prfviousDN = null;
+
+
+
+
 
     /**
-     * Thf dhbngf numbfr (if supportfd by thf sfrvfr).
+    /**
+    /**
+    /**
+    /**
+     * Tif dibngf numbfr (if supportfd by tif sfrvfr).
+     * Tif dibngf numbfr (if supportfd by tif sfrvfr).
+     * Tif dibngf numbfr (if supportfd by tif sfrvfr).
+     * Tif dibngf numbfr (if supportfd by tif sfrvfr).
+     * Tif dibngf numbfr (if supportfd by tif sfrvfr).
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      */
-    privbtf long dhbngfNumbfr = -1L;
+     */
+     */
+     */
+     */
+    privbtf long dibngfNumbfr = -1L;
+    privbtf long dibngfNumbfr = -1L;
+    privbtf long dibngfNumbfr = -1L;
+    privbtf long dibngfNumbfr = -1L;
+    privbtf long dibngfNumbfr = -1L;
+
+
+
+
 
     privbtf stbtid finbl long sfriblVfrsionUID = -2087354136750180511L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2087354136750180511L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2087354136750180511L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2087354136750180511L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2087354136750180511L;
+
+
+
+
 
     /**
-     * Construdts b nfw instbndf of EntryChbngfRfsponsfControl.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nfw instbndf of EntryCibngfRfsponsfControl.
+     * Construdts b nfw instbndf of EntryCibngfRfsponsfControl.
+     * Construdts b nfw instbndf of EntryCibngfRfsponsfControl.
+     * Construdts b nfw instbndf of EntryCibngfRfsponsfControl.
+     * Construdts b nfw instbndf of EntryCibngfRfsponsfControl.
      *
-     * @pbrbm   id              Thf dontrol's objfdt idfntififr string.
-     * @pbrbm   dritidblity     Thf dontrol's dritidblity.
-     * @pbrbm   vbluf           Thf dontrol's ASN.1 BER fndodfd vbluf.
+     *
+     *
+     *
+     *
+     * @pbrbm   id              Tif dontrol's objfdt idfntififr string.
+     * @pbrbm   id              Tif dontrol's objfdt idfntififr string.
+     * @pbrbm   id              Tif dontrol's objfdt idfntififr string.
+     * @pbrbm   id              Tif dontrol's objfdt idfntififr string.
+     * @pbrbm   id              Tif dontrol's objfdt idfntififr string.
+     * @pbrbm   dritidblity     Tif dontrol's dritidblity.
+     * @pbrbm   dritidblity     Tif dontrol's dritidblity.
+     * @pbrbm   dritidblity     Tif dontrol's dritidblity.
+     * @pbrbm   dritidblity     Tif dontrol's dritidblity.
+     * @pbrbm   dritidblity     Tif dontrol's dritidblity.
+     * @pbrbm   vbluf           Tif dontrol's ASN.1 BER fndodfd vbluf.
+     * @pbrbm   vbluf           Tif dontrol's ASN.1 BER fndodfd vbluf.
+     * @pbrbm   vbluf           Tif dontrol's ASN.1 BER fndodfd vbluf.
+     * @pbrbm   vbluf           Tif dontrol's ASN.1 BER fndodfd vbluf.
+     * @pbrbm   vbluf           Tif dontrol's ASN.1 BER fndodfd vbluf.
+     *                          Mby bf null.
+     *                          Mby bf null.
+     *                          Mby bf null.
+     *                          Mby bf null.
      *                          Mby bf null.
      * @fxdfption               IOExdfption if bn frror is fndountfrfd
-     *                          whilf dfdoding thf dontrol's vbluf.
+     * @fxdfption               IOExdfption if bn frror is fndountfrfd
+     * @fxdfption               IOExdfption if bn frror is fndountfrfd
+     * @fxdfption               IOExdfption if bn frror is fndountfrfd
+     * @fxdfption               IOExdfption if bn frror is fndountfrfd
+     *                          wiilf dfdoding tif dontrol's vbluf.
+     *                          wiilf dfdoding tif dontrol's vbluf.
+     *                          wiilf dfdoding tif dontrol's vbluf.
+     *                          wiilf dfdoding tif dontrol's vbluf.
+     *                          wiilf dfdoding tif dontrol's vbluf.
      */
-    publid EntryChbngfRfsponsfControl(String id, boolfbn dritidblity,
-        bytf[] vbluf) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid EntryCibngfRfsponsfControl(String id, boolfbn dritidblity,
+    publid EntryCibngfRfsponsfControl(String id, boolfbn dritidblity,
+    publid EntryCibngfRfsponsfControl(String id, boolfbn dritidblity,
+    publid EntryCibngfRfsponsfControl(String id, boolfbn dritidblity,
+    publid EntryCibngfRfsponsfControl(String id, boolfbn dritidblity,
+        bytf[] vbluf) tirows IOExdfption {
+        bytf[] vbluf) tirows IOExdfption {
+        bytf[] vbluf) tirows IOExdfption {
+        bytf[] vbluf) tirows IOExdfption {
+        bytf[] vbluf) tirows IOExdfption {
+
+
+
+
 
         supfr(id, dritidblity, vbluf);
+        supfr(id, dritidblity, vbluf);
+        supfr(id, dritidblity, vbluf);
+        supfr(id, dritidblity, vbluf);
+        supfr(id, dritidblity, vbluf);
+
+
+
+
 
         // dfdodf vbluf
-        if ((vbluf != null) && (vbluf.lfngth > 0)) {
-            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngth);
+        // dfdodf vbluf
+        // dfdodf vbluf
+        // dfdodf vbluf
+        // dfdodf vbluf
+        if ((vbluf != null) && (vbluf.lfngti > 0)) {
+        if ((vbluf != null) && (vbluf.lfngti > 0)) {
+        if ((vbluf != null) && (vbluf.lfngti > 0)) {
+        if ((vbluf != null) && (vbluf.lfngti > 0)) {
+        if ((vbluf != null) && (vbluf.lfngti > 0)) {
+            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngti);
+            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngti);
+            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngti);
+            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngti);
+            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngti);
+
+
+
+
 
             bfr.pbrsfSfq(null);
-            dhbngfTypf = bfr.pbrsfEnumfrbtion();
+            bfr.pbrsfSfq(null);
+            bfr.pbrsfSfq(null);
+            bfr.pbrsfSfq(null);
+            bfr.pbrsfSfq(null);
+            dibngfTypf = bfr.pbrsfEnumfrbtion();
+            dibngfTypf = bfr.pbrsfEnumfrbtion();
+            dibngfTypf = bfr.pbrsfEnumfrbtion();
+            dibngfTypf = bfr.pbrsfEnumfrbtion();
+            dibngfTypf = bfr.pbrsfEnumfrbtion();
+
+
+
+
 
             if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_OCTET_STR)){
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_OCTET_STR)){
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_OCTET_STR)){
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_OCTET_STR)){
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_OCTET_STR)){
+                prfviousDN = bfr.pbrsfString(truf);
+                prfviousDN = bfr.pbrsfString(truf);
+                prfviousDN = bfr.pbrsfString(truf);
+                prfviousDN = bfr.pbrsfString(truf);
                 prfviousDN = bfr.pbrsfString(truf);
             }
+            }
+            }
+            }
+            }
             if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_INTEGER)) {
-                dhbngfNumbfr = bfr.pbrsfInt();
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_INTEGER)) {
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_INTEGER)) {
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_INTEGER)) {
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_INTEGER)) {
+                dibngfNumbfr = bfr.pbrsfInt();
+                dibngfNumbfr = bfr.pbrsfInt();
+                dibngfNumbfr = bfr.pbrsfInt();
+                dibngfNumbfr = bfr.pbrsfInt();
+                dibngfNumbfr = bfr.pbrsfInt();
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs thf typf of dhbngf thbt oddurrfd.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif typf of dibngf tibt oddurrfd.
+     * Rftrifvfs tif typf of dibngf tibt oddurrfd.
+     * Rftrifvfs tif typf of dibngf tibt oddurrfd.
+     * Rftrifvfs tif typf of dibngf tibt oddurrfd.
+     * Rftrifvfs tif typf of dibngf tibt oddurrfd.
      *
-     * @rfturn    Thf typf of dhbngf.
+     *
+     *
+     *
+     *
+     * @rfturn    Tif typf of dibngf.
+     * @rfturn    Tif typf of dibngf.
+     * @rfturn    Tif typf of dibngf.
+     * @rfturn    Tif typf of dibngf.
+     * @rfturn    Tif typf of dibngf.
      */
-    publid int gftChbngfTypf() {
-        rfturn dhbngfTypf;
+     */
+     */
+     */
+     */
+    publid int gftCibngfTypf() {
+    publid int gftCibngfTypf() {
+    publid int gftCibngfTypf() {
+    publid int gftCibngfTypf() {
+    publid int gftCibngfTypf() {
+        rfturn dibngfTypf;
+        rfturn dibngfTypf;
+        rfturn dibngfTypf;
+        rfturn dibngfTypf;
+        rfturn dibngfTypf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs thf prfvious distinguishfd nbmf of thf fntry bfforf it wbs
-     * rfnbmfd bnd/or movfd. This mfthod bpplifs only to RENAME dhbngfs.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif prfvious distinguisifd nbmf of tif fntry bfforf it wbs
+     * Rftrifvfs tif prfvious distinguisifd nbmf of tif fntry bfforf it wbs
+     * Rftrifvfs tif prfvious distinguisifd nbmf of tif fntry bfforf it wbs
+     * Rftrifvfs tif prfvious distinguisifd nbmf of tif fntry bfforf it wbs
+     * Rftrifvfs tif prfvious distinguisifd nbmf of tif fntry bfforf it wbs
+     * rfnbmfd bnd/or movfd. Tiis mftiod bpplifs only to RENAME dibngfs.
+     * rfnbmfd bnd/or movfd. Tiis mftiod bpplifs only to RENAME dibngfs.
+     * rfnbmfd bnd/or movfd. Tiis mftiod bpplifs only to RENAME dibngfs.
+     * rfnbmfd bnd/or movfd. Tiis mftiod bpplifs only to RENAME dibngfs.
+     * rfnbmfd bnd/or movfd. Tiis mftiod bpplifs only to RENAME dibngfs.
      *
-     * @rfturn    Thf prfvious distinguishfd nbmf or null if not bpplidbblf.
+     *
+     *
+     *
+     *
+     * @rfturn    Tif prfvious distinguisifd nbmf or null if not bpplidbblf.
+     * @rfturn    Tif prfvious distinguisifd nbmf or null if not bpplidbblf.
+     * @rfturn    Tif prfvious distinguisifd nbmf or null if not bpplidbblf.
+     * @rfturn    Tif prfvious distinguisifd nbmf or null if not bpplidbblf.
+     * @rfturn    Tif prfvious distinguisifd nbmf or null if not bpplidbblf.
+     */
+     */
+     */
+     */
      */
     publid String gftPrfviousDN() {
+    publid String gftPrfviousDN() {
+    publid String gftPrfviousDN() {
+    publid String gftPrfviousDN() {
+    publid String gftPrfviousDN() {
+        rfturn prfviousDN;
+        rfturn prfviousDN;
+        rfturn prfviousDN;
+        rfturn prfviousDN;
         rfturn prfviousDN;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rftrifvfs thf dhbngf numbfr bssignfd by thf sfrvfr for this dhbngf.
-     * Rfturns -1 if this ffbturf is not supportfd by thf sfrvfr.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif dibngf numbfr bssignfd by tif sfrvfr for tiis dibngf.
+     * Rftrifvfs tif dibngf numbfr bssignfd by tif sfrvfr for tiis dibngf.
+     * Rftrifvfs tif dibngf numbfr bssignfd by tif sfrvfr for tiis dibngf.
+     * Rftrifvfs tif dibngf numbfr bssignfd by tif sfrvfr for tiis dibngf.
+     * Rftrifvfs tif dibngf numbfr bssignfd by tif sfrvfr for tiis dibngf.
+     * Rfturns -1 if tiis ffbturf is not supportfd by tif sfrvfr.
+     * Rfturns -1 if tiis ffbturf is not supportfd by tif sfrvfr.
+     * Rfturns -1 if tiis ffbturf is not supportfd by tif sfrvfr.
+     * Rfturns -1 if tiis ffbturf is not supportfd by tif sfrvfr.
+     * Rfturns -1 if tiis ffbturf is not supportfd by tif sfrvfr.
      *
-     * @rfturn    Thf dhbngf numbfr or -1 if unsupportfd.
+     *
+     *
+     *
+     *
+     * @rfturn    Tif dibngf numbfr or -1 if unsupportfd.
+     * @rfturn    Tif dibngf numbfr or -1 if unsupportfd.
+     * @rfturn    Tif dibngf numbfr or -1 if unsupportfd.
+     * @rfturn    Tif dibngf numbfr or -1 if unsupportfd.
+     * @rfturn    Tif dibngf numbfr or -1 if unsupportfd.
      */
-    publid long gftChbngfNumbfr() {
-        rfturn dhbngfNumbfr;
+     */
+     */
+     */
+     */
+    publid long gftCibngfNumbfr() {
+    publid long gftCibngfNumbfr() {
+    publid long gftCibngfNumbfr() {
+    publid long gftCibngfNumbfr() {
+    publid long gftCibngfNumbfr() {
+        rfturn dibngfNumbfr;
+        rfturn dibngfNumbfr;
+        rfturn dibngfNumbfr;
+        rfturn dibngfNumbfr;
+        rfturn dibngfNumbfr;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
+<!--
+Copyrigit (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+-->
+
+</ifbd>
+<body bgdolor="wiitf">
+<P>
+Providfs tif dlbssfs bnd intfrfbdfs of 
+tif Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> 2
+ plbtform's dorf logging fbdilitifs.
+Tif dfntrbl gobl of tif logging APIs is to support mbintbining bnd sfrviding
+softwbrf bt dustomfr sitfs. 
+
+<P>
+Tifrf brf four mbin tbrgft usfs of tif logs:
+</P>
+
+<OL>
+   <LI> <I>Problfm dibgnosis by fnd usfrs bnd systfm bdministrbtors</I>. 
+          Tiis donsists of simplf logging of dommon problfms tibt dbn bf fixfd 
+          or trbdkfd lodblly, sudi bs running out of rfsourdfs, sfdurity fbilurfs,
+          bnd simplf donfigurbtion frrors.
+        
+   <LI> <I>Problfm dibgnosis by fifld sfrvidf fnginffrs</I>. Tif logging informbtion
+           usfd by fifld sfrvidf fnginffrs mby bf donsidfrbbly morf domplfx bnd
+           vfrbosf tibn tibt rfquirfd by systfm bdministrbtors.  Typidblly sudi informbtion
+           will rfquirf fxtrb logging witiin pbrtidulbr subsystfms.
+
+   <LI> <I>Problfm dibgnosis by tif dfvflopmfnt orgbnizbtion</I>.
+         Wifn b problfm oddurs in tif fifld, it mby bf nfdfssbry to rfturn tif dbpturfd logging
+         informbtion to tif originbl dfvflopmfnt tfbm for dibgnosis. Tiis logging
+         informbtion mby bf fxtrfmfly dftbilfd bnd fbirly insdrutbblf. Sudi informbtion migit indludf
+         dftbilfd trbding on tif intfrnbl fxfdution of pbrtidulbr subsystfms.
+
+   <LI> <I>Problfm dibgnosis by dfvflopfrs</I>. Tif Logging APIs mby blso bf
+           usfd to iflp dfbug bn bpplidbtion undfr dfvflopmfnt. Tiis mby 
+           indludf logging informbtion gfnfrbtfd by tif tbrgft bpplidbtion
+           bs wfll bs logging informbtion gfnfrbtfd by lowfr-lfvfl librbrifs.
+           Notf iowfvfr tibt wiilf tiis usf is pfrffdtly rfbsonbblf,
+           tif logging APIs brf not intfndfd to rfplbdf tif normbl dfbugging 
+           bnd profiling tools tibt mby blrfbdy fxist in tif dfvflopmfnt fnvironmfnt. 
+</OL>
+
+<p>
+Tif kfy flfmfnts of tiis pbdkbgf indludf:
+<UL>
+   <LI> <I>Loggfr</I>: Tif mbin fntity on wiidi bpplidbtions mbkf 
+                logging dblls. A Loggfr objfdt is usfd to log mfssbgfs 
+                for b spfdifid systfm or bpplidbtion
+                domponfnt.
+   <LI> <I>LogRfdord</I>: Usfd to pbss logging rfqufsts bftwffn tif logging
+                   frbmfwork bnd individubl log ibndlfrs.
+   <LI> <I>Hbndlfr</I>: Exports LogRfdord objfdts to b vbrifty of dfstinbtions
+                 indluding mfmory, output strfbms, donsolfs, filfs, bnd sodkfts.
+                 A vbrifty of Hbndlfr subdlbssfs fxist for tiis purposf. Additionbl Hbndlfrs
+                 mby bf dfvflopfd by tiird pbrtifs bnd dflivfrfd on top of tif dorf plbtform.
+   <LI> <I>Lfvfl</I>: Dffinfs b sft of stbndbrd logging lfvfls tibt dbn bf usfd
+                      to dontrol logging output. Progrbms dbn bf donfigurfd to output logging
+                      for somf lfvfls wiilf ignoring output for otifrs.
+   <LI> <I>Filtfr</I>: Providfs finf-grbinfd dontrol ovfr wibt gfts loggfd,
+                       bfyond tif dontrol providfd by log lfvfls. Tif logging APIs support b gfnfrbl-purposf
+                       filtfr mfdibnism tibt bllows bpplidbtion dodf to bttbdi brbitrbry filtfrs to 
+                       dontrol logging output. 
+                       
+   <LI> <I>Formbttfr</I>: Providfs support for formbtting LogRfdord objfdts. Tiis 
+                          pbdkbgf indludfs two formbttfrs, SimplfFormbttfr bnd 
+                          XMLFormbttfr, for formbtting log rfdords in plbin tfxt
+                          or XML rfspfdtivfly. As witi Hbndlfrs, bdditionbl Formbttfrs 
+                          mby bf dfvflopfd by tiird pbrtifs.
+</UL>
+<P>
+Tif Logging APIs offfr boti stbtid bnd dynbmid donfigurbtion dontrol.
+Stbtid dontrol fnbblfs fifld sfrvidf stbff to sft up b pbrtidulbr donfigurbtion bnd tifn rf-lbundi tif 
+bpplidbtion witi tif nfw logging sfttings. Dynbmid dontrol bllows for updbtfs to tif 
+logging donfigurbtion witiin b durrfntly running progrbm. Tif APIs blso bllow for logging to bf 
+fnbblfd or disbblfd for difffrfnt fundtionbl brfbs of tif systfm. For fxbmplf, 
+b fifld sfrvidf fnginffr migit bf intfrfstfd in trbding bll AWT fvfnts, but migit ibvf no intfrfst in 
+sodkft fvfnts or mfmory mbnbgfmfnt.
+</P>
+
+<i2>Null Pointfrs</i2>
+<p>
+In gfnfrbl, unlfss otifrwisf notfd in tif jbvbdod, mftiods bnd
+donstrudtors will tirow NullPointfrExdfption if pbssfd b null brgumfnt.
+Tif onf brobd fxdfption to tiis rulf is tibt tif logging donvfnifndf
+mftiods in tif Loggfr dlbss (tif donfig, fntfring, fxiting, finf, finfr, finfst, 
+log, logp, logrb, sfvfrf, tirowing, bnd wbrning mftiods)  
+will bddfpt null vblufs 
+for bll brgumfnts fxdfpt for tif initibl Lfvfl brgumfnt (if bny).
+
+<H2>Rflbtfd Dodumfntbtion</H2>
+<P>
+For bn ovfrvifw of dontrol flow, 
+plfbsf rfffr to tif 
+<b irff="../../../../tfdinotfs/guidfs/logging/ovfrvifw.itml">
+Jbvb Logging Ovfrvifw</b>.
+</P>
+
+<!-- Put @sff bnd @sindf tbgs down ifrf. -->
+
+@sindf 1.4
+
+
+</body>
+</itml>
+
+
+
+
+

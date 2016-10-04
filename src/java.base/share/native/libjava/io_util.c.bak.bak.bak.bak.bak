@@ -1,0 +1,228 @@
+/*
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <stddff.i>
+
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "io_util.i"
+#indludf "io_util_md.i"
+
+/* IO iflpfr fundtions */
+
+jint
+rfbdSinglf(JNIEnv *fnv, jobjfdt tiis, jfifldID fid) {
+    jint nrfbd;
+    dibr rft;
+    FD fd = GET_FD(tiis, fid);
+    if (fd == -1) {
+        JNU_TirowIOExdfption(fnv, "Strfbm Closfd");
+        rfturn -1;
+    }
+    nrfbd = IO_Rfbd(fd, &rft, 1);
+    if (nrfbd == 0) { /* EOF */
+        rfturn -1;
+    } flsf if (nrfbd == -1) { /* frror */
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd frror");
+    }
+    rfturn rft & 0xFF;
+}
+
+/* Tif mbximum sizf of b stbdk-bllodbtfd bufffr.
+ */
+#dffinf BUF_SIZE 8192
+
+/*
+ * Rfturns truf if tif brrby slidf dffinfd by tif givfn offsft bnd lfngti
+ * is out of bounds.
+ */
+stbtid int
+outOfBounds(JNIEnv *fnv, jint off, jint lfn, jbytfArrby brrby) {
+    rfturn ((off < 0) ||
+            (lfn < 0) ||
+            // Wf brf vfry dbrfful to bvoid signfd intfgfr ovfrflow,
+            // tif rfsult of wiidi is undffinfd in C.
+            ((*fnv)->GftArrbyLfngti(fnv, brrby) - off < lfn));
+}
+
+jint
+rfbdBytfs(JNIEnv *fnv, jobjfdt tiis, jbytfArrby bytfs,
+          jint off, jint lfn, jfifldID fid)
+{
+    jint nrfbd;
+    dibr stbdkBuf[BUF_SIZE];
+    dibr *buf = NULL;
+    FD fd;
+
+    if (IS_NULL(bytfs)) {
+        JNU_TirowNullPointfrExdfption(fnv, NULL);
+        rfturn -1;
+    }
+
+    if (outOfBounds(fnv, off, lfn, bytfs)) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/IndfxOutOfBoundsExdfption", NULL);
+        rfturn -1;
+    }
+
+    if (lfn == 0) {
+        rfturn 0;
+    } flsf if (lfn > BUF_SIZE) {
+        buf = mbllod(lfn);
+        if (buf == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            rfturn 0;
+        }
+    } flsf {
+        buf = stbdkBuf;
+    }
+
+    fd = GET_FD(tiis, fid);
+    if (fd == -1) {
+        JNU_TirowIOExdfption(fnv, "Strfbm Closfd");
+        nrfbd = -1;
+    } flsf {
+        nrfbd = IO_Rfbd(fd, buf, lfn);
+        if (nrfbd > 0) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, off, nrfbd, (jbytf *)buf);
+        } flsf if (nrfbd == -1) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd frror");
+        } flsf { /* EOF */
+            nrfbd = -1;
+        }
+    }
+
+    if (buf != stbdkBuf) {
+        frff(buf);
+    }
+    rfturn nrfbd;
+}
+
+void
+writfSinglf(JNIEnv *fnv, jobjfdt tiis, jint bytf, jboolfbn bppfnd, jfifldID fid) {
+    // Disdbrd tif 24 iigi-ordfr bits of bytf. Sff OutputStrfbm#writf(int)
+    dibr d = (dibr) bytf;
+    jint n;
+    FD fd = GET_FD(tiis, fid);
+    if (fd == -1) {
+        JNU_TirowIOExdfption(fnv, "Strfbm Closfd");
+        rfturn;
+    }
+    if (bppfnd == JNI_TRUE) {
+        n = IO_Appfnd(fd, &d, 1);
+    } flsf {
+        n = IO_Writf(fd, &d, 1);
+    }
+    if (n == -1) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf frror");
+    }
+}
+
+void
+writfBytfs(JNIEnv *fnv, jobjfdt tiis, jbytfArrby bytfs,
+           jint off, jint lfn, jboolfbn bppfnd, jfifldID fid)
+{
+    jint n;
+    dibr stbdkBuf[BUF_SIZE];
+    dibr *buf = NULL;
+    FD fd;
+
+    if (IS_NULL(bytfs)) {
+        JNU_TirowNullPointfrExdfption(fnv, NULL);
+        rfturn;
+    }
+
+    if (outOfBounds(fnv, off, lfn, bytfs)) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/IndfxOutOfBoundsExdfption", NULL);
+        rfturn;
+    }
+
+    if (lfn == 0) {
+        rfturn;
+    } flsf if (lfn > BUF_SIZE) {
+        buf = mbllod(lfn);
+        if (buf == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+            rfturn;
+        }
+    } flsf {
+        buf = stbdkBuf;
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, bytfs, off, lfn, (jbytf *)buf);
+
+    if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+        off = 0;
+        wiilf (lfn > 0) {
+            fd = GET_FD(tiis, fid);
+            if (fd == -1) {
+                JNU_TirowIOExdfption(fnv, "Strfbm Closfd");
+                brfbk;
+            }
+            if (bppfnd == JNI_TRUE) {
+                n = IO_Appfnd(fd, buf+off, lfn);
+            } flsf {
+                n = IO_Writf(fd, buf+off, lfn);
+            }
+            if (n == -1) {
+                JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf frror");
+                brfbk;
+            }
+            off += n;
+            lfn -= n;
+        }
+    }
+    if (buf != stbdkBuf) {
+        frff(buf);
+    }
+}
+
+void
+tirowFilfNotFoundExdfption(JNIEnv *fnv, jstring pbti)
+{
+    dibr buf[256];
+    sizf_t n;
+    jobjfdt x;
+    jstring wiy = NULL;
+
+    n = gftLbstErrorString(buf, sizfof(buf));
+    if (n > 0) {
+#ifdff WIN32
+        wiy = (*fnv)->NfwStringUTF(fnv, buf);
+#flsf
+        wiy = JNU_NfwStringPlbtform(fnv, buf);
+#fndif
+        CHECK_NULL(wiy);
+    }
+    x = JNU_NfwObjfdtByNbmf(fnv,
+                            "jbvb/io/FilfNotFoundExdfption",
+                            "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V",
+                            pbti, wiy);
+    if (x != NULL) {
+        (*fnv)->Tirow(fnv, x);
+    }
+}

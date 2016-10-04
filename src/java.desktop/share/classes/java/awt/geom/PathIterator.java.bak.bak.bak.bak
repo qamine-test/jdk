@@ -1,217 +1,1085 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+
+
+
+
 
 import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+
+
+
 
 /**
- * Thf <dodf>PbthItfrbtor</dodf> intfrfbdf providfs thf mfdhbnism
- * for objfdts thbt implfmfnt thf {@link jbvb.bwt.Shbpf Shbpf}
- * intfrfbdf to rfturn thf gfomftry of thfir boundbry by bllowing
- * b dbllfr to rftrifvf thf pbth of thbt boundbry b sfgmfnt bt b
- * timf.  This intfrfbdf bllows thfsf objfdts to rftrifvf thf pbth of
- * thfir boundbry b sfgmfnt bt b timf by using 1st through 3rd ordfr
- * B&fbdutf;zifr durvfs, whidh brf linfs bnd qubdrbtid or dubid
+/**
+/**
+/**
+/**
+ * Tif <dodf>PbtiItfrbtor</dodf> intfrfbdf providfs tif mfdibnism
+ * Tif <dodf>PbtiItfrbtor</dodf> intfrfbdf providfs tif mfdibnism
+ * Tif <dodf>PbtiItfrbtor</dodf> intfrfbdf providfs tif mfdibnism
+ * Tif <dodf>PbtiItfrbtor</dodf> intfrfbdf providfs tif mfdibnism
+ * Tif <dodf>PbtiItfrbtor</dodf> intfrfbdf providfs tif mfdibnism
+ * for objfdts tibt implfmfnt tif {@link jbvb.bwt.Sibpf Sibpf}
+ * for objfdts tibt implfmfnt tif {@link jbvb.bwt.Sibpf Sibpf}
+ * for objfdts tibt implfmfnt tif {@link jbvb.bwt.Sibpf Sibpf}
+ * for objfdts tibt implfmfnt tif {@link jbvb.bwt.Sibpf Sibpf}
+ * for objfdts tibt implfmfnt tif {@link jbvb.bwt.Sibpf Sibpf}
+ * intfrfbdf to rfturn tif gfomftry of tifir boundbry by bllowing
+ * intfrfbdf to rfturn tif gfomftry of tifir boundbry by bllowing
+ * intfrfbdf to rfturn tif gfomftry of tifir boundbry by bllowing
+ * intfrfbdf to rfturn tif gfomftry of tifir boundbry by bllowing
+ * intfrfbdf to rfturn tif gfomftry of tifir boundbry by bllowing
+ * b dbllfr to rftrifvf tif pbti of tibt boundbry b sfgmfnt bt b
+ * b dbllfr to rftrifvf tif pbti of tibt boundbry b sfgmfnt bt b
+ * b dbllfr to rftrifvf tif pbti of tibt boundbry b sfgmfnt bt b
+ * b dbllfr to rftrifvf tif pbti of tibt boundbry b sfgmfnt bt b
+ * b dbllfr to rftrifvf tif pbti of tibt boundbry b sfgmfnt bt b
+ * timf.  Tiis intfrfbdf bllows tifsf objfdts to rftrifvf tif pbti of
+ * timf.  Tiis intfrfbdf bllows tifsf objfdts to rftrifvf tif pbti of
+ * timf.  Tiis intfrfbdf bllows tifsf objfdts to rftrifvf tif pbti of
+ * timf.  Tiis intfrfbdf bllows tifsf objfdts to rftrifvf tif pbti of
+ * timf.  Tiis intfrfbdf bllows tifsf objfdts to rftrifvf tif pbti of
+ * tifir boundbry b sfgmfnt bt b timf by using 1st tirougi 3rd ordfr
+ * tifir boundbry b sfgmfnt bt b timf by using 1st tirougi 3rd ordfr
+ * tifir boundbry b sfgmfnt bt b timf by using 1st tirougi 3rd ordfr
+ * tifir boundbry b sfgmfnt bt b timf by using 1st tirougi 3rd ordfr
+ * tifir boundbry b sfgmfnt bt b timf by using 1st tirougi 3rd ordfr
+ * B&fbdutf;zifr durvfs, wiidi brf linfs bnd qubdrbtid or dubid
+ * B&fbdutf;zifr durvfs, wiidi brf linfs bnd qubdrbtid or dubid
+ * B&fbdutf;zifr durvfs, wiidi brf linfs bnd qubdrbtid or dubid
+ * B&fbdutf;zifr durvfs, wiidi brf linfs bnd qubdrbtid or dubid
+ * B&fbdutf;zifr durvfs, wiidi brf linfs bnd qubdrbtid or dubid
+ * B&fbdutf;zifr splinfs.
+ * B&fbdutf;zifr splinfs.
+ * B&fbdutf;zifr splinfs.
+ * B&fbdutf;zifr splinfs.
  * B&fbdutf;zifr splinfs.
  * <p>
- * Multiplf subpbths dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
- * drfbtf b disdontinuity in thf gfomftry to movf from thf fnd of
- * onf subpbth to thf bfginning of thf nfxt.
  * <p>
- * Ebdh subpbth dbn bf dlosfd mbnublly by fnding thf lbst sfgmfnt in
- * thf subpbth on thf sbmf doordinbtf bs thf bfginning "MOVETO" sfgmfnt
- * for thbt subpbth or by using b "CLOSE" sfgmfnt to bppfnd b linf
- * sfgmfnt from thf lbst point bbdk to thf first.
- * Bf bwbrf thbt mbnublly dlosing bn outlinf bs opposfd to using b
- * "CLOSE" sfgmfnt to dlosf thf pbth might rfsult in difffrfnt linf
- * stylf dfdorbtions bfing usfd bt thf fnd points of thf subpbth.
- * For fxbmplf, thf {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
- * usfs b linf "JOIN" dfdorbtion to donnfdt thf first bnd lbst points
- * if b "CLOSE" sfgmfnt is fndountfrfd, whfrfbs simply fnding thf pbth
- * on thf sbmf doordinbtf bs thf bfginning doordinbtf rfsults in linf
- * "CAP" dfdorbtions bfing usfd bt thf fnds.
+ * <p>
+ * <p>
+ * <p>
+ * Multiplf subpbtis dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
+ * Multiplf subpbtis dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
+ * Multiplf subpbtis dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
+ * Multiplf subpbtis dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
+ * Multiplf subpbtis dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
+ * drfbtf b disdontinuity in tif gfomftry to movf from tif fnd of
+ * drfbtf b disdontinuity in tif gfomftry to movf from tif fnd of
+ * drfbtf b disdontinuity in tif gfomftry to movf from tif fnd of
+ * drfbtf b disdontinuity in tif gfomftry to movf from tif fnd of
+ * drfbtf b disdontinuity in tif gfomftry to movf from tif fnd of
+ * onf subpbti to tif bfginning of tif nfxt.
+ * onf subpbti to tif bfginning of tif nfxt.
+ * onf subpbti to tif bfginning of tif nfxt.
+ * onf subpbti to tif bfginning of tif nfxt.
+ * onf subpbti to tif bfginning of tif nfxt.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Ebdi subpbti dbn bf dlosfd mbnublly by fnding tif lbst sfgmfnt in
+ * Ebdi subpbti dbn bf dlosfd mbnublly by fnding tif lbst sfgmfnt in
+ * Ebdi subpbti dbn bf dlosfd mbnublly by fnding tif lbst sfgmfnt in
+ * Ebdi subpbti dbn bf dlosfd mbnublly by fnding tif lbst sfgmfnt in
+ * Ebdi subpbti dbn bf dlosfd mbnublly by fnding tif lbst sfgmfnt in
+ * tif subpbti on tif sbmf doordinbtf bs tif bfginning "MOVETO" sfgmfnt
+ * tif subpbti on tif sbmf doordinbtf bs tif bfginning "MOVETO" sfgmfnt
+ * tif subpbti on tif sbmf doordinbtf bs tif bfginning "MOVETO" sfgmfnt
+ * tif subpbti on tif sbmf doordinbtf bs tif bfginning "MOVETO" sfgmfnt
+ * tif subpbti on tif sbmf doordinbtf bs tif bfginning "MOVETO" sfgmfnt
+ * for tibt subpbti or by using b "CLOSE" sfgmfnt to bppfnd b linf
+ * for tibt subpbti or by using b "CLOSE" sfgmfnt to bppfnd b linf
+ * for tibt subpbti or by using b "CLOSE" sfgmfnt to bppfnd b linf
+ * for tibt subpbti or by using b "CLOSE" sfgmfnt to bppfnd b linf
+ * for tibt subpbti or by using b "CLOSE" sfgmfnt to bppfnd b linf
+ * sfgmfnt from tif lbst point bbdk to tif first.
+ * sfgmfnt from tif lbst point bbdk to tif first.
+ * sfgmfnt from tif lbst point bbdk to tif first.
+ * sfgmfnt from tif lbst point bbdk to tif first.
+ * sfgmfnt from tif lbst point bbdk to tif first.
+ * Bf bwbrf tibt mbnublly dlosing bn outlinf bs opposfd to using b
+ * Bf bwbrf tibt mbnublly dlosing bn outlinf bs opposfd to using b
+ * Bf bwbrf tibt mbnublly dlosing bn outlinf bs opposfd to using b
+ * Bf bwbrf tibt mbnublly dlosing bn outlinf bs opposfd to using b
+ * Bf bwbrf tibt mbnublly dlosing bn outlinf bs opposfd to using b
+ * "CLOSE" sfgmfnt to dlosf tif pbti migit rfsult in difffrfnt linf
+ * "CLOSE" sfgmfnt to dlosf tif pbti migit rfsult in difffrfnt linf
+ * "CLOSE" sfgmfnt to dlosf tif pbti migit rfsult in difffrfnt linf
+ * "CLOSE" sfgmfnt to dlosf tif pbti migit rfsult in difffrfnt linf
+ * "CLOSE" sfgmfnt to dlosf tif pbti migit rfsult in difffrfnt linf
+ * stylf dfdorbtions bfing usfd bt tif fnd points of tif subpbti.
+ * stylf dfdorbtions bfing usfd bt tif fnd points of tif subpbti.
+ * stylf dfdorbtions bfing usfd bt tif fnd points of tif subpbti.
+ * stylf dfdorbtions bfing usfd bt tif fnd points of tif subpbti.
+ * stylf dfdorbtions bfing usfd bt tif fnd points of tif subpbti.
+ * For fxbmplf, tif {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
+ * For fxbmplf, tif {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
+ * For fxbmplf, tif {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
+ * For fxbmplf, tif {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
+ * For fxbmplf, tif {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
+ * usfs b linf "JOIN" dfdorbtion to donnfdt tif first bnd lbst points
+ * usfs b linf "JOIN" dfdorbtion to donnfdt tif first bnd lbst points
+ * usfs b linf "JOIN" dfdorbtion to donnfdt tif first bnd lbst points
+ * usfs b linf "JOIN" dfdorbtion to donnfdt tif first bnd lbst points
+ * usfs b linf "JOIN" dfdorbtion to donnfdt tif first bnd lbst points
+ * if b "CLOSE" sfgmfnt is fndountfrfd, wifrfbs simply fnding tif pbti
+ * if b "CLOSE" sfgmfnt is fndountfrfd, wifrfbs simply fnding tif pbti
+ * if b "CLOSE" sfgmfnt is fndountfrfd, wifrfbs simply fnding tif pbti
+ * if b "CLOSE" sfgmfnt is fndountfrfd, wifrfbs simply fnding tif pbti
+ * if b "CLOSE" sfgmfnt is fndountfrfd, wifrfbs simply fnding tif pbti
+ * on tif sbmf doordinbtf bs tif bfginning doordinbtf rfsults in linf
+ * on tif sbmf doordinbtf bs tif bfginning doordinbtf rfsults in linf
+ * on tif sbmf doordinbtf bs tif bfginning doordinbtf rfsults in linf
+ * on tif sbmf doordinbtf bs tif bfginning doordinbtf rfsults in linf
+ * on tif sbmf doordinbtf bs tif bfginning doordinbtf rfsults in linf
+ * "CAP" dfdorbtions bfing usfd bt tif fnds.
+ * "CAP" dfdorbtions bfing usfd bt tif fnds.
+ * "CAP" dfdorbtions bfing usfd bt tif fnds.
+ * "CAP" dfdorbtions bfing usfd bt tif fnds.
+ * "CAP" dfdorbtions bfing usfd bt tif fnds.
  *
- * @sff jbvb.bwt.Shbpf
+ *
+ *
+ *
+ *
+ * @sff jbvb.bwt.Sibpf
+ * @sff jbvb.bwt.Sibpf
+ * @sff jbvb.bwt.Sibpf
+ * @sff jbvb.bwt.Sibpf
+ * @sff jbvb.bwt.Sibpf
+ * @sff jbvb.bwt.BbsidStrokf
+ * @sff jbvb.bwt.BbsidStrokf
+ * @sff jbvb.bwt.BbsidStrokf
+ * @sff jbvb.bwt.BbsidStrokf
  * @sff jbvb.bwt.BbsidStrokf
  *
- * @buthor Jim Grbhbm
+ *
+ *
+ *
+ *
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
  */
-publid intfrfbdf PbthItfrbtor {
+ */
+ */
+ */
+ */
+publid intfrfbdf PbtiItfrbtor {
+publid intfrfbdf PbtiItfrbtor {
+publid intfrfbdf PbtiItfrbtor {
+publid intfrfbdf PbtiItfrbtor {
+publid intfrfbdf PbtiItfrbtor {
     /**
-     * Thf winding rulf donstbnt for spfdifying bn fvfn-odd rulf
-     * for dftfrmining thf intfrior of b pbth.
-     * Thf fvfn-odd rulf spfdififs thbt b point lifs insidf thf
-     * pbth if b rby drbwn in bny dirfdtion from thbt point to
-     * infinity is drossfd by pbth sfgmfnts bn odd numbfr of timfs.
+    /**
+    /**
+    /**
+    /**
+     * Tif winding rulf donstbnt for spfdifying bn fvfn-odd rulf
+     * Tif winding rulf donstbnt for spfdifying bn fvfn-odd rulf
+     * Tif winding rulf donstbnt for spfdifying bn fvfn-odd rulf
+     * Tif winding rulf donstbnt for spfdifying bn fvfn-odd rulf
+     * Tif winding rulf donstbnt for spfdifying bn fvfn-odd rulf
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * Tif fvfn-odd rulf spfdififs tibt b point lifs insidf tif
+     * Tif fvfn-odd rulf spfdififs tibt b point lifs insidf tif
+     * Tif fvfn-odd rulf spfdififs tibt b point lifs insidf tif
+     * Tif fvfn-odd rulf spfdififs tibt b point lifs insidf tif
+     * Tif fvfn-odd rulf spfdififs tibt b point lifs insidf tif
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * infinity is drossfd by pbti sfgmfnts bn odd numbfr of timfs.
+     * infinity is drossfd by pbti sfgmfnts bn odd numbfr of timfs.
+     * infinity is drossfd by pbti sfgmfnts bn odd numbfr of timfs.
+     * infinity is drossfd by pbti sfgmfnts bn odd numbfr of timfs.
+     * infinity is drossfd by pbti sfgmfnts bn odd numbfr of timfs.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int WIND_EVEN_ODD       = 0;
+    @Nbtivf publid stbtid finbl int WIND_EVEN_ODD       = 0;
+    @Nbtivf publid stbtid finbl int WIND_EVEN_ODD       = 0;
+    @Nbtivf publid stbtid finbl int WIND_EVEN_ODD       = 0;
+    @Nbtivf publid stbtid finbl int WIND_EVEN_ODD       = 0;
+
+
+
+
 
     /**
-     * Thf winding rulf donstbnt for spfdifying b non-zfro rulf
-     * for dftfrmining thf intfrior of b pbth.
-     * Thf non-zfro rulf spfdififs thbt b point lifs insidf thf
-     * pbth if b rby drbwn in bny dirfdtion from thbt point to
-     * infinity is drossfd by pbth sfgmfnts b difffrfnt numbfr
-     * of timfs in thf dountfr-dlodkwisf dirfdtion thbn thf
+    /**
+    /**
+    /**
+    /**
+     * Tif winding rulf donstbnt for spfdifying b non-zfro rulf
+     * Tif winding rulf donstbnt for spfdifying b non-zfro rulf
+     * Tif winding rulf donstbnt for spfdifying b non-zfro rulf
+     * Tif winding rulf donstbnt for spfdifying b non-zfro rulf
+     * Tif winding rulf donstbnt for spfdifying b non-zfro rulf
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * for dftfrmining tif intfrior of b pbti.
+     * Tif non-zfro rulf spfdififs tibt b point lifs insidf tif
+     * Tif non-zfro rulf spfdififs tibt b point lifs insidf tif
+     * Tif non-zfro rulf spfdififs tibt b point lifs insidf tif
+     * Tif non-zfro rulf spfdififs tibt b point lifs insidf tif
+     * Tif non-zfro rulf spfdififs tibt b point lifs insidf tif
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * pbti if b rby drbwn in bny dirfdtion from tibt point to
+     * infinity is drossfd by pbti sfgmfnts b difffrfnt numbfr
+     * infinity is drossfd by pbti sfgmfnts b difffrfnt numbfr
+     * infinity is drossfd by pbti sfgmfnts b difffrfnt numbfr
+     * infinity is drossfd by pbti sfgmfnts b difffrfnt numbfr
+     * infinity is drossfd by pbti sfgmfnts b difffrfnt numbfr
+     * of timfs in tif dountfr-dlodkwisf dirfdtion tibn tif
+     * of timfs in tif dountfr-dlodkwisf dirfdtion tibn tif
+     * of timfs in tif dountfr-dlodkwisf dirfdtion tibn tif
+     * of timfs in tif dountfr-dlodkwisf dirfdtion tibn tif
+     * of timfs in tif dountfr-dlodkwisf dirfdtion tibn tif
+     * dlodkwisf dirfdtion.
+     * dlodkwisf dirfdtion.
+     * dlodkwisf dirfdtion.
+     * dlodkwisf dirfdtion.
      * dlodkwisf dirfdtion.
      */
+     */
+     */
+     */
+     */
+    @Nbtivf publid stbtid finbl int WIND_NON_ZERO       = 1;
+    @Nbtivf publid stbtid finbl int WIND_NON_ZERO       = 1;
+    @Nbtivf publid stbtid finbl int WIND_NON_ZERO       = 1;
+    @Nbtivf publid stbtid finbl int WIND_NON_ZERO       = 1;
     @Nbtivf publid stbtid finbl int WIND_NON_ZERO       = 1;
 
+
+
+
+
     /**
-     * Thf sfgmfnt typf donstbnt for b point thbt spfdififs thf
-     * stbrting lodbtion for b nfw subpbth.
+    /**
+    /**
+    /**
+    /**
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * stbrting lodbtion for b nfw subpbti.
+     * stbrting lodbtion for b nfw subpbti.
+     * stbrting lodbtion for b nfw subpbti.
+     * stbrting lodbtion for b nfw subpbti.
+     * stbrting lodbtion for b nfw subpbti.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int SEG_MOVETO          = 0;
+    @Nbtivf publid stbtid finbl int SEG_MOVETO          = 0;
+    @Nbtivf publid stbtid finbl int SEG_MOVETO          = 0;
+    @Nbtivf publid stbtid finbl int SEG_MOVETO          = 0;
+    @Nbtivf publid stbtid finbl int SEG_MOVETO          = 0;
+
+
+
+
 
     /**
-     * Thf sfgmfnt typf donstbnt for b point thbt spfdififs thf
-     * fnd point of b linf to bf drbwn from thf most rfdfntly
+    /**
+    /**
+    /**
+    /**
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * Tif sfgmfnt typf donstbnt for b point tibt spfdififs tif
+     * fnd point of b linf to bf drbwn from tif most rfdfntly
+     * fnd point of b linf to bf drbwn from tif most rfdfntly
+     * fnd point of b linf to bf drbwn from tif most rfdfntly
+     * fnd point of b linf to bf drbwn from tif most rfdfntly
+     * fnd point of b linf to bf drbwn from tif most rfdfntly
      * spfdififd point.
+     * spfdififd point.
+     * spfdififd point.
+     * spfdififd point.
+     * spfdififd point.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int SEG_LINETO          = 1;
+    @Nbtivf publid stbtid finbl int SEG_LINETO          = 1;
+    @Nbtivf publid stbtid finbl int SEG_LINETO          = 1;
+    @Nbtivf publid stbtid finbl int SEG_LINETO          = 1;
+    @Nbtivf publid stbtid finbl int SEG_LINETO          = 1;
+
+
+
+
 
     /**
-     * Thf sfgmfnt typf donstbnt for thf pbir of points thbt spfdify
-     * b qubdrbtid pbrbmftrid durvf to bf drbwn from thf most rfdfntly
+    /**
+    /**
+    /**
+    /**
+     * Tif sfgmfnt typf donstbnt for tif pbir of points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif pbir of points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif pbir of points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif pbir of points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif pbir of points tibt spfdify
+     * b qubdrbtid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b qubdrbtid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b qubdrbtid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b qubdrbtid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b qubdrbtid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
      * spfdififd point.
-     * Thf durvf is intfrpolbtfd by solving thf pbrbmftrid dontrol
-     * fqubtion in thf rbngf <dodf>(t=[0..1])</dodf> using
-     * thf most rfdfntly spfdififd (durrfnt) point (CP),
-     * thf first dontrol point (P1),
-     * bnd thf finbl intfrpolbtfd dontrol point (P2).
-     * Thf pbrbmftrid dontrol fqubtion for this durvf is:
+     * spfdififd point.
+     * spfdififd point.
+     * spfdififd point.
+     * spfdififd point.
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * bnd tif finbl intfrpolbtfd dontrol point (P2).
+     * bnd tif finbl intfrpolbtfd dontrol point (P2).
+     * bnd tif finbl intfrpolbtfd dontrol point (P2).
+     * bnd tif finbl intfrpolbtfd dontrol point (P2).
+     * bnd tif finbl intfrpolbtfd dontrol point (P2).
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
      * <prf>
      *          P(t) = B(2,0)*CP + B(2,1)*P1 + B(2,2)*P2
+     *          P(t) = B(2,0)*CP + B(2,1)*P1 + B(2,2)*P2
+     *          P(t) = B(2,0)*CP + B(2,1)*P1 + B(2,2)*P2
+     *          P(t) = B(2,0)*CP + B(2,1)*P1 + B(2,2)*P2
+     *          P(t) = B(2,0)*CP + B(2,1)*P1 + B(2,2)*P2
+     *          0 &lt;= t &lt;= 1
+     *          0 &lt;= t &lt;= 1
+     *          0 &lt;= t &lt;= 1
+     *          0 &lt;= t &lt;= 1
      *          0 &lt;= t &lt;= 1
      *
-     *        B(n,m) = mth dofffidifnt of nth dfgrff Bfrnstfin polynomibl
+     *
+     *
+     *
+     *
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
      *               = C(n,m) * t^(m) * (1 - t)^(n-m)
-     *        C(n,m) = Combinbtions of n things, tbkfn m bt b timf
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *               = n! / (m! * (n-m)!)
+     *               = n! / (m! * (n-m)!)
+     *               = n! / (m! * (n-m)!)
+     *               = n! / (m! * (n-m)!)
      *               = n! / (m! * (n-m)!)
      * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int SEG_QUADTO          = 2;
+    @Nbtivf publid stbtid finbl int SEG_QUADTO          = 2;
+    @Nbtivf publid stbtid finbl int SEG_QUADTO          = 2;
+    @Nbtivf publid stbtid finbl int SEG_QUADTO          = 2;
+    @Nbtivf publid stbtid finbl int SEG_QUADTO          = 2;
+
+
+
+
 
     /**
-     * Thf sfgmfnt typf donstbnt for thf sft of 3 points thbt spfdify
-     * b dubid pbrbmftrid durvf to bf drbwn from thf most rfdfntly
+    /**
+    /**
+    /**
+    /**
+     * Tif sfgmfnt typf donstbnt for tif sft of 3 points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif sft of 3 points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif sft of 3 points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif sft of 3 points tibt spfdify
+     * Tif sfgmfnt typf donstbnt for tif sft of 3 points tibt spfdify
+     * b dubid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b dubid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b dubid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b dubid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
+     * b dubid pbrbmftrid durvf to bf drbwn from tif most rfdfntly
      * spfdififd point.
-     * Thf durvf is intfrpolbtfd by solving thf pbrbmftrid dontrol
-     * fqubtion in thf rbngf <dodf>(t=[0..1])</dodf> using
-     * thf most rfdfntly spfdififd (durrfnt) point (CP),
-     * thf first dontrol point (P1),
-     * thf sfdond dontrol point (P2),
-     * bnd thf finbl intfrpolbtfd dontrol point (P3).
-     * Thf pbrbmftrid dontrol fqubtion for this durvf is:
+     * spfdififd point.
+     * spfdififd point.
+     * spfdififd point.
+     * spfdififd point.
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * Tif durvf is intfrpolbtfd by solving tif pbrbmftrid dontrol
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * fqubtion in tif rbngf <dodf>(t=[0..1])</dodf> using
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif most rfdfntly spfdififd (durrfnt) point (CP),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * tif first dontrol point (P1),
+     * tif sfdond dontrol point (P2),
+     * tif sfdond dontrol point (P2),
+     * tif sfdond dontrol point (P2),
+     * tif sfdond dontrol point (P2),
+     * tif sfdond dontrol point (P2),
+     * bnd tif finbl intfrpolbtfd dontrol point (P3).
+     * bnd tif finbl intfrpolbtfd dontrol point (P3).
+     * bnd tif finbl intfrpolbtfd dontrol point (P3).
+     * bnd tif finbl intfrpolbtfd dontrol point (P3).
+     * bnd tif finbl intfrpolbtfd dontrol point (P3).
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * Tif pbrbmftrid dontrol fqubtion for tiis durvf is:
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
      * <prf>
      *          P(t) = B(3,0)*CP + B(3,1)*P1 + B(3,2)*P2 + B(3,3)*P3
+     *          P(t) = B(3,0)*CP + B(3,1)*P1 + B(3,2)*P2 + B(3,3)*P3
+     *          P(t) = B(3,0)*CP + B(3,1)*P1 + B(3,2)*P2 + B(3,3)*P3
+     *          P(t) = B(3,0)*CP + B(3,1)*P1 + B(3,2)*P2 + B(3,3)*P3
+     *          P(t) = B(3,0)*CP + B(3,1)*P1 + B(3,2)*P2 + B(3,3)*P3
+     *          0 &lt;= t &lt;= 1
+     *          0 &lt;= t &lt;= 1
+     *          0 &lt;= t &lt;= 1
+     *          0 &lt;= t &lt;= 1
      *          0 &lt;= t &lt;= 1
      *
-     *        B(n,m) = mth dofffidifnt of nth dfgrff Bfrnstfin polynomibl
+     *
+     *
+     *
+     *
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
+     *        B(n,m) = mti dofffidifnt of nti dfgrff Bfrnstfin polynomibl
      *               = C(n,m) * t^(m) * (1 - t)^(n-m)
-     *        C(n,m) = Combinbtions of n things, tbkfn m bt b timf
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *        C(n,m) = Combinbtions of n tiings, tbkfn m bt b timf
+     *               = n! / (m! * (n-m)!)
+     *               = n! / (m! * (n-m)!)
+     *               = n! / (m! * (n-m)!)
+     *               = n! / (m! * (n-m)!)
      *               = n! / (m! * (n-m)!)
      * </prf>
-     * This form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * Tiis form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
+     * Tiis form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
+     * Tiis form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
+     * Tiis form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
+     * Tiis form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int SEG_CUBICTO         = 3;
+    @Nbtivf publid stbtid finbl int SEG_CUBICTO         = 3;
+    @Nbtivf publid stbtid finbl int SEG_CUBICTO         = 3;
+    @Nbtivf publid stbtid finbl int SEG_CUBICTO         = 3;
+    @Nbtivf publid stbtid finbl int SEG_CUBICTO         = 3;
+
+
+
+
 
     /**
-     * Thf sfgmfnt typf donstbnt thbt spfdififs thbt
-     * thf prfdfding subpbth should bf dlosfd by bppfnding b linf sfgmfnt
-     * bbdk to thf point dorrfsponding to thf most rfdfnt SEG_MOVETO.
+    /**
+    /**
+    /**
+    /**
+     * Tif sfgmfnt typf donstbnt tibt spfdififs tibt
+     * Tif sfgmfnt typf donstbnt tibt spfdififs tibt
+     * Tif sfgmfnt typf donstbnt tibt spfdififs tibt
+     * Tif sfgmfnt typf donstbnt tibt spfdififs tibt
+     * Tif sfgmfnt typf donstbnt tibt spfdififs tibt
+     * tif prfdfding subpbti siould bf dlosfd by bppfnding b linf sfgmfnt
+     * tif prfdfding subpbti siould bf dlosfd by bppfnding b linf sfgmfnt
+     * tif prfdfding subpbti siould bf dlosfd by bppfnding b linf sfgmfnt
+     * tif prfdfding subpbti siould bf dlosfd by bppfnding b linf sfgmfnt
+     * tif prfdfding subpbti siould bf dlosfd by bppfnding b linf sfgmfnt
+     * bbdk to tif point dorrfsponding to tif most rfdfnt SEG_MOVETO.
+     * bbdk to tif point dorrfsponding to tif most rfdfnt SEG_MOVETO.
+     * bbdk to tif point dorrfsponding to tif most rfdfnt SEG_MOVETO.
+     * bbdk to tif point dorrfsponding to tif most rfdfnt SEG_MOVETO.
+     * bbdk to tif point dorrfsponding to tif most rfdfnt SEG_MOVETO.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int SEG_CLOSE           = 4;
+    @Nbtivf publid stbtid finbl int SEG_CLOSE           = 4;
+    @Nbtivf publid stbtid finbl int SEG_CLOSE           = 4;
+    @Nbtivf publid stbtid finbl int SEG_CLOSE           = 4;
+    @Nbtivf publid stbtid finbl int SEG_CLOSE           = 4;
+
+
+
+
 
     /**
-     * Rfturns thf winding rulf for dftfrmining thf intfrior of thf
-     * pbth.
-     * @rfturn thf winding rulf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * pbti.
+     * pbti.
+     * pbti.
+     * pbti.
+     * pbti.
+     * @rfturn tif winding rulf.
+     * @rfturn tif winding rulf.
+     * @rfturn tif winding rulf.
+     * @rfturn tif winding rulf.
+     * @rfturn tif winding rulf.
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_EVEN_ODD
      * @sff #WIND_EVEN_ODD
      * @sff #WIND_NON_ZERO
+     * @sff #WIND_NON_ZERO
+     * @sff #WIND_NON_ZERO
+     * @sff #WIND_NON_ZERO
+     * @sff #WIND_NON_ZERO
+     */
+     */
+     */
+     */
      */
     publid int gftWindingRulf();
+    publid int gftWindingRulf();
+    publid int gftWindingRulf();
+    publid int gftWindingRulf();
+    publid int gftWindingRulf();
+
+
+
+
 
     /**
-     * Tfsts if thf itfrbtion is domplftf.
-     * @rfturn <dodf>truf</dodf> if bll thf sfgmfnts hbvf
-     * bffn rfbd; <dodf>fblsf</dodf> othfrwisf.
+    /**
+    /**
+    /**
+    /**
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isDonf();
+    publid boolfbn isDonf();
+    publid boolfbn isDonf();
+    publid boolfbn isDonf();
+    publid boolfbn isDonf();
+
+
+
+
 
     /**
-     * Movfs thf itfrbtor to thf nfxt sfgmfnt of thf pbth forwbrds
-     * blong thf primbry dirfdtion of trbvfrsbl bs long bs thfrf brf
-     * morf points in thbt dirfdtion.
+    /**
+    /**
+    /**
+    /**
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     */
+     */
+     */
+     */
      */
     publid void nfxt();
+    publid void nfxt();
+    publid void nfxt();
+    publid void nfxt();
+    publid void nfxt();
+
+
+
+
 
     /**
-     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
-     * thf itfrbtion.
-     * Thf rfturn vbluf is thf pbth-sfgmfnt typf:
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A flobt brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
-     * storf thf doordinbtfs of thf point(s).
-     * Ebdh point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
      * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
      * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_CUBICTO rfturns 3 points
+     * SEG_CUBICTO rfturns 3 points
+     * SEG_CUBICTO rfturns 3 points
+     * SEG_CUBICTO rfturns 3 points
      * SEG_CUBICTO rfturns 3 points
      * bnd SEG_CLOSE dofs not rfturn bny points.
-     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
-     * this mfthod
-     * @rfturn thf pbth-sfgmfnt typf of thf durrfnt pbth sfgmfnt.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_MOVETO
+     * @sff #SEG_MOVETO
+     * @sff #SEG_MOVETO
      * @sff #SEG_MOVETO
      * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_QUADTO
      * @sff #SEG_QUADTO
      * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
      * @sff #SEG_CLOSE
+     * @sff #SEG_CLOSE
+     * @sff #SEG_CLOSE
+     * @sff #SEG_CLOSE
+     * @sff #SEG_CLOSE
+     */
+     */
+     */
+     */
      */
     publid int durrfntSfgmfnt(flobt[] doords);
+    publid int durrfntSfgmfnt(flobt[] doords);
+    publid int durrfntSfgmfnt(flobt[] doords);
+    publid int durrfntSfgmfnt(flobt[] doords);
+    publid int durrfntSfgmfnt(flobt[] doords);
+
+
+
+
 
     /**
-     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
-     * thf itfrbtion.
-     * Thf rfturn vbluf is thf pbth-sfgmfnt typf:
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti-sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A doublf brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
-     * storf thf doordinbtfs of thf point(s).
-     * Ebdh point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
      * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
      * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_QUADTO rfturns two points,
+     * SEG_CUBICTO rfturns 3 points
+     * SEG_CUBICTO rfturns 3 points
+     * SEG_CUBICTO rfturns 3 points
+     * SEG_CUBICTO rfturns 3 points
      * SEG_CUBICTO rfturns 3 points
      * bnd SEG_CLOSE dofs not rfturn bny points.
-     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
-     * this mfthod
-     * @rfturn thf pbth-sfgmfnt typf of thf durrfnt pbth sfgmfnt.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti-sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_MOVETO
+     * @sff #SEG_MOVETO
+     * @sff #SEG_MOVETO
      * @sff #SEG_MOVETO
      * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_QUADTO
      * @sff #SEG_QUADTO
      * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
+     * @sff #SEG_CLOSE
+     * @sff #SEG_CLOSE
+     * @sff #SEG_CLOSE
      * @sff #SEG_CLOSE
      */
+     */
+     */
+     */
+     */
     publid int durrfntSfgmfnt(doublf[] doords);
+    publid int durrfntSfgmfnt(doublf[] doords);
+    publid int durrfntSfgmfnt(doublf[] doords);
+    publid int durrfntSfgmfnt(doublf[] doords);
+    publid int durrfntSfgmfnt(doublf[] doords);
+}
+}
+}
+}
 }

@@ -1,808 +1,4040 @@
 <!--
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+
+
+
 
 Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
 
 Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
 
 You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
 
 Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 qufstions.
+qufstions.
+qufstions.
+qufstions.
+qufstions.
+-->
+-->
+-->
+-->
 -->
 
+
+
+
+
+<itml>
+<itml>
+<itml>
+<itml>
 <itml>
 <ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<stylf>
+<stylf>
+<stylf>
+<stylf>
 <stylf>
 .kfy  { dolor: rfd; font-wfigit: bold }
+.kfy  { dolor: rfd; font-wfigit: bold }
+.kfy  { dolor: rfd; font-wfigit: bold }
+.kfy  { dolor: rfd; font-wfigit: bold }
+.kfy  { dolor: rfd; font-wfigit: bold }
+</stylf>
+</stylf>
+</stylf>
+</stylf>
 </stylf>
 <titlf>
+<titlf>
+<titlf>
+<titlf>
+<titlf>
+Objfdt Qufry Lbngubgf (OQL)
+Objfdt Qufry Lbngubgf (OQL)
+Objfdt Qufry Lbngubgf (OQL)
+Objfdt Qufry Lbngubgf (OQL)
 Objfdt Qufry Lbngubgf (OQL)
 </titlf>
+</titlf>
+</titlf>
+</titlf>
+</titlf>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
 </ifbd>
 <body>
+<body>
+<body>
+<body>
+<body>
+<i1>Objfdt Qufry Lbngubgf (OQL)</i1>
+<i1>Objfdt Qufry Lbngubgf (OQL)</i1>
+<i1>Objfdt Qufry Lbngubgf (OQL)</i1>
+<i1>Objfdt Qufry Lbngubgf (OQL)</i1>
 <i1>Objfdt Qufry Lbngubgf (OQL)</i1>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 OQL is SQL-likf qufry lbngubgf to qufry Jbvb ifbp. OQL bllows to filtfr/sflfdt informbtion
+OQL is SQL-likf qufry lbngubgf to qufry Jbvb ifbp. OQL bllows to filtfr/sflfdt informbtion
+OQL is SQL-likf qufry lbngubgf to qufry Jbvb ifbp. OQL bllows to filtfr/sflfdt informbtion
+OQL is SQL-likf qufry lbngubgf to qufry Jbvb ifbp. OQL bllows to filtfr/sflfdt informbtion
+OQL is SQL-likf qufry lbngubgf to qufry Jbvb ifbp. OQL bllows to filtfr/sflfdt informbtion
+wbntfd from Jbvb ifbp. Wiilf prf-dffinfd qufrifs sudi bs "siow bll instbndfs of dlbss X"
+wbntfd from Jbvb ifbp. Wiilf prf-dffinfd qufrifs sudi bs "siow bll instbndfs of dlbss X"
+wbntfd from Jbvb ifbp. Wiilf prf-dffinfd qufrifs sudi bs "siow bll instbndfs of dlbss X"
+wbntfd from Jbvb ifbp. Wiilf prf-dffinfd qufrifs sudi bs "siow bll instbndfs of dlbss X"
 wbntfd from Jbvb ifbp. Wiilf prf-dffinfd qufrifs sudi bs "siow bll instbndfs of dlbss X"
 brf blrfbdy supportfd by HAT, OQL bdds morf flfxibility. OQL is bbsfd on JbvbSdript fxprfssion
+brf blrfbdy supportfd by HAT, OQL bdds morf flfxibility. OQL is bbsfd on JbvbSdript fxprfssion
+brf blrfbdy supportfd by HAT, OQL bdds morf flfxibility. OQL is bbsfd on JbvbSdript fxprfssion
+brf blrfbdy supportfd by HAT, OQL bdds morf flfxibility. OQL is bbsfd on JbvbSdript fxprfssion
+brf blrfbdy supportfd by HAT, OQL bdds morf flfxibility. OQL is bbsfd on JbvbSdript fxprfssion
+lbngubgf.
+lbngubgf.
+lbngubgf.
+lbngubgf.
 lbngubgf.
 </p>
+</p>
+</p>
+</p>
+</p>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 OQL qufry is of tif form
+OQL qufry is of tif form
+OQL qufry is of tif form
+OQL qufry is of tif form
+OQL qufry is of tif form
+
+
+
+
 
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
          <spbn dlbss="kfy">sflfdt</spbn> &lt;JbvbSdript fxprfssion to sflfdt&gt;
+         <spbn dlbss="kfy">sflfdt</spbn> &lt;JbvbSdript fxprfssion to sflfdt&gt;
+         <spbn dlbss="kfy">sflfdt</spbn> &lt;JbvbSdript fxprfssion to sflfdt&gt;
+         <spbn dlbss="kfy">sflfdt</spbn> &lt;JbvbSdript fxprfssion to sflfdt&gt;
+         <spbn dlbss="kfy">sflfdt</spbn> &lt;JbvbSdript fxprfssion to sflfdt&gt;
+         [ <spbn dlbss="kfy">from</spbn> [<spbn dlbss="kfy">instbndfof</spbn>] &lt;dlbss nbmf&gt; &lt;idfntififr&gt;
+         [ <spbn dlbss="kfy">from</spbn> [<spbn dlbss="kfy">instbndfof</spbn>] &lt;dlbss nbmf&gt; &lt;idfntififr&gt;
+         [ <spbn dlbss="kfy">from</spbn> [<spbn dlbss="kfy">instbndfof</spbn>] &lt;dlbss nbmf&gt; &lt;idfntififr&gt;
+         [ <spbn dlbss="kfy">from</spbn> [<spbn dlbss="kfy">instbndfof</spbn>] &lt;dlbss nbmf&gt; &lt;idfntififr&gt;
          [ <spbn dlbss="kfy">from</spbn> [<spbn dlbss="kfy">instbndfof</spbn>] &lt;dlbss nbmf&gt; &lt;idfntififr&gt;
          [ <spbn dlbss="kfy">wifrf</spbn> &lt;JbvbSdript boolfbn fxprfssion to filtfr&gt; ] ]
+         [ <spbn dlbss="kfy">wifrf</spbn> &lt;JbvbSdript boolfbn fxprfssion to filtfr&gt; ] ]
+         [ <spbn dlbss="kfy">wifrf</spbn> &lt;JbvbSdript boolfbn fxprfssion to filtfr&gt; ] ]
+         [ <spbn dlbss="kfy">wifrf</spbn> &lt;JbvbSdript boolfbn fxprfssion to filtfr&gt; ] ]
+         [ <spbn dlbss="kfy">wifrf</spbn> &lt;JbvbSdript boolfbn fxprfssion to filtfr&gt; ] ]
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+wifrf dlbss nbmf is fully qublififd Jbvb dlbss nbmf (fxbmplf: jbvb.nft.URL) or brrby dlbss nbmf.
+wifrf dlbss nbmf is fully qublififd Jbvb dlbss nbmf (fxbmplf: jbvb.nft.URL) or brrby dlbss nbmf.
+wifrf dlbss nbmf is fully qublififd Jbvb dlbss nbmf (fxbmplf: jbvb.nft.URL) or brrby dlbss nbmf.
+wifrf dlbss nbmf is fully qublififd Jbvb dlbss nbmf (fxbmplf: jbvb.nft.URL) or brrby dlbss nbmf.
 wifrf dlbss nbmf is fully qublififd Jbvb dlbss nbmf (fxbmplf: jbvb.nft.URL) or brrby dlbss nbmf.
 [C is dibr brrby nbmf, [Ljbvb.io.Filf; is nbmf of jbvb.io.Filf[] bnd so on. 
+[C is dibr brrby nbmf, [Ljbvb.io.Filf; is nbmf of jbvb.io.Filf[] bnd so on. 
+[C is dibr brrby nbmf, [Ljbvb.io.Filf; is nbmf of jbvb.io.Filf[] bnd so on. 
+[C is dibr brrby nbmf, [Ljbvb.io.Filf; is nbmf of jbvb.io.Filf[] bnd so on. 
+[C is dibr brrby nbmf, [Ljbvb.io.Filf; is nbmf of jbvb.io.Filf[] bnd so on. 
+Notf tibt fully qublififd dlbss nbmf dofs not blwbys uniqufly idfntify b 
+Notf tibt fully qublififd dlbss nbmf dofs not blwbys uniqufly idfntify b 
+Notf tibt fully qublififd dlbss nbmf dofs not blwbys uniqufly idfntify b 
+Notf tibt fully qublififd dlbss nbmf dofs not blwbys uniqufly idfntify b 
 Notf tibt fully qublififd dlbss nbmf dofs not blwbys uniqufly idfntify b 
 Jbvb dlbss bt runtimf. Tifrf mby bf morf tibn onf Jbvb dlbss witi tif sbmf 
+Jbvb dlbss bt runtimf. Tifrf mby bf morf tibn onf Jbvb dlbss witi tif sbmf 
+Jbvb dlbss bt runtimf. Tifrf mby bf morf tibn onf Jbvb dlbss witi tif sbmf 
+Jbvb dlbss bt runtimf. Tifrf mby bf morf tibn onf Jbvb dlbss witi tif sbmf 
+Jbvb dlbss bt runtimf. Tifrf mby bf morf tibn onf Jbvb dlbss witi tif sbmf 
+nbmf but lobdfd by difffrfnt lobdfrs. So, dlbss nbmf is pfrmittfd to bf
+nbmf but lobdfd by difffrfnt lobdfrs. So, dlbss nbmf is pfrmittfd to bf
+nbmf but lobdfd by difffrfnt lobdfrs. So, dlbss nbmf is pfrmittfd to bf
+nbmf but lobdfd by difffrfnt lobdfrs. So, dlbss nbmf is pfrmittfd to bf
 nbmf but lobdfd by difffrfnt lobdfrs. So, dlbss nbmf is pfrmittfd to bf
 id string of tif dlbss objfdt.
+id string of tif dlbss objfdt.
+id string of tif dlbss objfdt.
+id string of tif dlbss objfdt.
+id string of tif dlbss objfdt.
+
+
+
+
 
 If <spbn dlbss="kfy">instbndfof</spbn> kfyword is usfd, subtypf objfdts brf sflfdtfd. If tiis 
+If <spbn dlbss="kfy">instbndfof</spbn> kfyword is usfd, subtypf objfdts brf sflfdtfd. If tiis 
+If <spbn dlbss="kfy">instbndfof</spbn> kfyword is usfd, subtypf objfdts brf sflfdtfd. If tiis 
+If <spbn dlbss="kfy">instbndfof</spbn> kfyword is usfd, subtypf objfdts brf sflfdtfd. If tiis 
+If <spbn dlbss="kfy">instbndfof</spbn> kfyword is usfd, subtypf objfdts brf sflfdtfd. If tiis 
+kfyword is not spfdififd, only tif instbndfs of fxbdt dlbss spfdififd brf sflfdtfd. Boti
+kfyword is not spfdififd, only tif instbndfs of fxbdt dlbss spfdififd brf sflfdtfd. Boti
+kfyword is not spfdififd, only tif instbndfs of fxbdt dlbss spfdififd brf sflfdtfd. Boti
+kfyword is not spfdififd, only tif instbndfs of fxbdt dlbss spfdififd brf sflfdtfd. Boti
 kfyword is not spfdififd, only tif instbndfs of fxbdt dlbss spfdififd brf sflfdtfd. Boti
 <spbn dlbss="kfy">from</spbn> bnd <spbn dlbss="kfy">wifrf</spbn> dlbusfs brf optionbl.
+<spbn dlbss="kfy">from</spbn> bnd <spbn dlbss="kfy">wifrf</spbn> dlbusfs brf optionbl.
+<spbn dlbss="kfy">from</spbn> bnd <spbn dlbss="kfy">wifrf</spbn> dlbusfs brf optionbl.
+<spbn dlbss="kfy">from</spbn> bnd <spbn dlbss="kfy">wifrf</spbn> dlbusfs brf optionbl.
+<spbn dlbss="kfy">from</spbn> bnd <spbn dlbss="kfy">wifrf</spbn> dlbusfs brf optionbl.
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
+
+
+
+
 
 
 <p>
+<p>
+<p>
+<p>
+<p>
+In <spbn dlbss="kfy">sflfdt</spbn> bnd (optionbl) <spbn dlbss="kfy">wifrf</spbn> dlbusfs, tif fxprfssion 
+In <spbn dlbss="kfy">sflfdt</spbn> bnd (optionbl) <spbn dlbss="kfy">wifrf</spbn> dlbusfs, tif fxprfssion 
+In <spbn dlbss="kfy">sflfdt</spbn> bnd (optionbl) <spbn dlbss="kfy">wifrf</spbn> dlbusfs, tif fxprfssion 
+In <spbn dlbss="kfy">sflfdt</spbn> bnd (optionbl) <spbn dlbss="kfy">wifrf</spbn> dlbusfs, tif fxprfssion 
 In <spbn dlbss="kfy">sflfdt</spbn> bnd (optionbl) <spbn dlbss="kfy">wifrf</spbn> dlbusfs, tif fxprfssion 
 usfd in JbvbSdript fxprfssion. Jbvb ifbp objfdts brf wrbppfd bs donvfnifnt sdript objfdts so tibt 
+usfd in JbvbSdript fxprfssion. Jbvb ifbp objfdts brf wrbppfd bs donvfnifnt sdript objfdts so tibt 
+usfd in JbvbSdript fxprfssion. Jbvb ifbp objfdts brf wrbppfd bs donvfnifnt sdript objfdts so tibt 
+usfd in JbvbSdript fxprfssion. Jbvb ifbp objfdts brf wrbppfd bs donvfnifnt sdript objfdts so tibt 
+usfd in JbvbSdript fxprfssion. Jbvb ifbp objfdts brf wrbppfd bs donvfnifnt sdript objfdts so tibt 
+fiflds mby bf bddfssfd in nbturbl syntbx. For fxbmplf, Jbvb fiflds dbn bf bddfssfd witi obj.fifld_nbmf 
+fiflds mby bf bddfssfd in nbturbl syntbx. For fxbmplf, Jbvb fiflds dbn bf bddfssfd witi obj.fifld_nbmf 
+fiflds mby bf bddfssfd in nbturbl syntbx. For fxbmplf, Jbvb fiflds dbn bf bddfssfd witi obj.fifld_nbmf 
+fiflds mby bf bddfssfd in nbturbl syntbx. For fxbmplf, Jbvb fiflds dbn bf bddfssfd witi obj.fifld_nbmf 
 fiflds mby bf bddfssfd in nbturbl syntbx. For fxbmplf, Jbvb fiflds dbn bf bddfssfd witi obj.fifld_nbmf 
 syntbx bnd brrby flfmfnts dbn bf bddfssfd witi brrby[indfx] syntbx. Ebdi Jbvb objfdt sflfdtfd is 
+syntbx bnd brrby flfmfnts dbn bf bddfssfd witi brrby[indfx] syntbx. Ebdi Jbvb objfdt sflfdtfd is 
+syntbx bnd brrby flfmfnts dbn bf bddfssfd witi brrby[indfx] syntbx. Ebdi Jbvb objfdt sflfdtfd is 
+syntbx bnd brrby flfmfnts dbn bf bddfssfd witi brrby[indfx] syntbx. Ebdi Jbvb objfdt sflfdtfd is 
+syntbx bnd brrby flfmfnts dbn bf bddfssfd witi brrby[indfx] syntbx. Ebdi Jbvb objfdt sflfdtfd is 
+bound to b JbvbSdript vbribblf of tif idfntififr nbmf spfdififd in <spbn dlbss="kfy">from</spbn> dlbusf.
+bound to b JbvbSdript vbribblf of tif idfntififr nbmf spfdififd in <spbn dlbss="kfy">from</spbn> dlbusf.
+bound to b JbvbSdript vbribblf of tif idfntififr nbmf spfdififd in <spbn dlbss="kfy">from</spbn> dlbusf.
+bound to b JbvbSdript vbribblf of tif idfntififr nbmf spfdififd in <spbn dlbss="kfy">from</spbn> dlbusf.
 bound to b JbvbSdript vbribblf of tif idfntififr nbmf spfdififd in <spbn dlbss="kfy">from</spbn> dlbusf.
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 <i2>OQL Exbmplfs</i2>
+<i2>OQL Exbmplfs</i2>
+<i2>OQL Exbmplfs</i2>
+<i2>OQL Exbmplfs</i2>
+<i2>OQL Exbmplfs</i2>
 
+
+
+
+
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>sflfdt bll Strings of lfngti 100 or morf
+<li>sflfdt bll Strings of lfngti 100 or morf
+<li>sflfdt bll Strings of lfngti 100 or morf
+<li>sflfdt bll Strings of lfngti 100 or morf
+<li>sflfdt bll Strings of lfngti 100 or morf
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt s from jbvb.lbng.String s wifrf s.vbluf.lfngti >= 100
+    sflfdt s from jbvb.lbng.String s wifrf s.vbluf.lfngti >= 100
+    sflfdt s from jbvb.lbng.String s wifrf s.vbluf.lfngti >= 100
+    sflfdt s from jbvb.lbng.String s wifrf s.vbluf.lfngti >= 100
+    sflfdt s from jbvb.lbng.String s wifrf s.vbluf.lfngti >= 100
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>sflfdt bll int brrbys of lfngti 256 or morf
+<li>sflfdt bll int brrbys of lfngti 256 or morf
+<li>sflfdt bll int brrbys of lfngti 256 or morf
+<li>sflfdt bll int brrbys of lfngti 256 or morf
+<li>sflfdt bll int brrbys of lfngti 256 or morf
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt b from [I b wifrf b.lfngti >= 256
+    sflfdt b from [I b wifrf b.lfngti >= 256
+    sflfdt b from [I b wifrf b.lfngti >= 256
+    sflfdt b from [I b wifrf b.lfngti >= 256
+    sflfdt b from [I b wifrf b.lfngti >= 256
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>siow dontfnt of Strings tibt mbtdi b rfgulbr fxprfssion
+<li>siow dontfnt of Strings tibt mbtdi b rfgulbr fxprfssion
+<li>siow dontfnt of Strings tibt mbtdi b rfgulbr fxprfssion
+<li>siow dontfnt of Strings tibt mbtdi b rfgulbr fxprfssion
+<li>siow dontfnt of Strings tibt mbtdi b rfgulbr fxprfssion
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt s.vbluf.toString() from jbvb.lbng.String s 
+    sflfdt s.vbluf.toString() from jbvb.lbng.String s 
+    sflfdt s.vbluf.toString() from jbvb.lbng.String s 
+    sflfdt s.vbluf.toString() from jbvb.lbng.String s 
+    sflfdt s.vbluf.toString() from jbvb.lbng.String s 
+    wifrf /jbvb/.tfst(s.vbluf.toString())
+    wifrf /jbvb/.tfst(s.vbluf.toString())
+    wifrf /jbvb/.tfst(s.vbluf.toString())
+    wifrf /jbvb/.tfst(s.vbluf.toString())
     wifrf /jbvb/.tfst(s.vbluf.toString())
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>siow pbti vbluf of bll Filf objfdts
+<li>siow pbti vbluf of bll Filf objfdts
+<li>siow pbti vbluf of bll Filf objfdts
+<li>siow pbti vbluf of bll Filf objfdts
+<li>siow pbti vbluf of bll Filf objfdts
+<prf>
+<prf>
+<prf>
+<prf>
 <prf>
 <dodf</b>
+<dodf</b>
+<dodf</b>
+<dodf</b>
+<dodf</b>
+    sflfdt filf.pbti.vbluf.toString() from jbvb.io.Filf filf
+    sflfdt filf.pbti.vbluf.toString() from jbvb.io.Filf filf
+    sflfdt filf.pbti.vbluf.toString() from jbvb.io.Filf filf
+    sflfdt filf.pbti.vbluf.toString() from jbvb.io.Filf filf
     sflfdt filf.pbti.vbluf.toString() from jbvb.io.Filf filf
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>siow nbmfs of bll ClbssLobdfr dlbssfs
+<li>siow nbmfs of bll ClbssLobdfr dlbssfs
+<li>siow nbmfs of bll ClbssLobdfr dlbssfs
+<li>siow nbmfs of bll ClbssLobdfr dlbssfs
+<li>siow nbmfs of bll ClbssLobdfr dlbssfs
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt <b irff="#dlbssof">dlbssof</b>(dl).nbmf 
+    sflfdt <b irff="#dlbssof">dlbssof</b>(dl).nbmf 
+    sflfdt <b irff="#dlbssof">dlbssof</b>(dl).nbmf 
+    sflfdt <b irff="#dlbssof">dlbssof</b>(dl).nbmf 
+    sflfdt <b irff="#dlbssof">dlbssof</b>(dl).nbmf 
+    from instbndfof jbvb.lbng.ClbssLobdfr dl
+    from instbndfof jbvb.lbng.ClbssLobdfr dl
+    from instbndfof jbvb.lbng.ClbssLobdfr dl
+    from instbndfof jbvb.lbng.ClbssLobdfr dl
     from instbndfof jbvb.lbng.ClbssLobdfr dl
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>siow instbndfs of tif Clbss idfntififd by givfn id string
+<li>siow instbndfs of tif Clbss idfntififd by givfn id string
+<li>siow instbndfs of tif Clbss idfntififd by givfn id string
+<li>siow instbndfs of tif Clbss idfntififd by givfn id string
+<li>siow instbndfs of tif Clbss idfntififd by givfn id string
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt o from instbndfof 0xd404b198 o
+    sflfdt o from instbndfof 0xd404b198 o
+    sflfdt o from instbndfof 0xd404b198 o
+    sflfdt o from instbndfof 0xd404b198 o
+    sflfdt o from instbndfof 0xd404b198 o
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 Notf tibt 0xd404b198 is id of b Clbss (in b sfssion). Tiis is found by
+Notf tibt 0xd404b198 is id of b Clbss (in b sfssion). Tiis is found by
+Notf tibt 0xd404b198 is id of b Clbss (in b sfssion). Tiis is found by
+Notf tibt 0xd404b198 is id of b Clbss (in b sfssion). Tiis is found by
+Notf tibt 0xd404b198 is id of b Clbss (in b sfssion). Tiis is found by
+looking bt tif id siown in tibt dlbss's pbgf.
+looking bt tif id siown in tibt dlbss's pbgf.
+looking bt tif id siown in tibt dlbss's pbgf.
+looking bt tif id siown in tibt dlbss's pbgf.
 looking bt tif id siown in tibt dlbss's pbgf.
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <i2>OQL built-in objfdts, fundtions</i2>
+<i2>OQL built-in objfdts, fundtions</i2>
+<i2>OQL built-in objfdts, fundtions</i2>
+<i2>OQL built-in objfdts, fundtions</i2>
+<i2>OQL built-in objfdts, fundtions</i2>
+
+
+
+
 
 <i3>ifbp objfdt</i3>
+<i3>ifbp objfdt</i3>
+<i3>ifbp objfdt</i3>
+<i3>ifbp objfdt</i3>
+<i3>ifbp objfdt</i3>
+
+
+
+
 
 Tif <b>ifbp</b> built-in objfdt supports tif following mftiods:
+Tif <b>ifbp</b> built-in objfdt supports tif following mftiods:
+Tif <b>ifbp</b> built-in objfdt supports tif following mftiods:
+Tif <b>ifbp</b> built-in objfdt supports tif following mftiods:
+Tif <b>ifbp</b> built-in objfdt supports tif following mftiods:
+
+
+
+
 
 <ul> 
+<ul> 
+<ul> 
+<ul> 
+<ul> 
+<li><b>ifbp.forEbdiClbss</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb Clbss
+<li><b>ifbp.forEbdiClbss</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb Clbss
+<li><b>ifbp.forEbdiClbss</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb Clbss
+<li><b>ifbp.forEbdiClbss</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb Clbss
 <li><b>ifbp.forEbdiClbss</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb Clbss
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     ifbp.forEbdiClbss(dbllbbdk);
+    ifbp.forEbdiClbss(dbllbbdk);
+    ifbp.forEbdiClbss(dbllbbdk);
+    ifbp.forEbdiClbss(dbllbbdk);
+    ifbp.forEbdiClbss(dbllbbdk);
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li><b>ifbp.forEbdiObjfdt</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb objfdt
+<li><b>ifbp.forEbdiObjfdt</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb objfdt
+<li><b>ifbp.forEbdiObjfdt</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb objfdt
+<li><b>ifbp.forEbdiObjfdt</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb objfdt
+<li><b>ifbp.forEbdiObjfdt</b> -- dblls b dbllbbdk fundtion for fbdi Jbvb objfdt
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     ifbp.forEbdiObjfdt(dbllbbdk, dlbzz, indludfSubtypfs);
+    ifbp.forEbdiObjfdt(dbllbbdk, dlbzz, indludfSubtypfs);
+    ifbp.forEbdiObjfdt(dbllbbdk, dlbzz, indludfSubtypfs);
+    ifbp.forEbdiObjfdt(dbllbbdk, dlbzz, indludfSubtypfs);
+    ifbp.forEbdiObjfdt(dbllbbdk, dlbzz, indludfSubtypfs);
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 <dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
 tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
 tiis flbg is truf.
+tiis flbg is truf.
+tiis flbg is truf.
+tiis flbg is truf.
+tiis flbg is truf.
+<b nbmf="findClbss"></b>
+<b nbmf="findClbss"></b>
+<b nbmf="findClbss"></b>
+<b nbmf="findClbss"></b>
 <b nbmf="findClbss"></b>
 <li><b>ifbp.findClbss</b> -- finds Jbvb Clbss of givfn nbmf
+<li><b>ifbp.findClbss</b> -- finds Jbvb Clbss of givfn nbmf
+<li><b>ifbp.findClbss</b> -- finds Jbvb Clbss of givfn nbmf
+<li><b>ifbp.findClbss</b> -- finds Jbvb Clbss of givfn nbmf
+<li><b>ifbp.findClbss</b> -- finds Jbvb Clbss of givfn nbmf
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     ifbp.findClbss(dlbssNbmf);
+    ifbp.findClbss(dlbssNbmf);
+    ifbp.findClbss(dlbssNbmf);
+    ifbp.findClbss(dlbssNbmf);
+    ifbp.findClbss(dlbssNbmf);
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 wifrf <dodf>dlbssNbmf</dodf> is nbmf of tif dlbss to find. Tif rfsulting Clbss 
+wifrf <dodf>dlbssNbmf</dodf> is nbmf of tif dlbss to find. Tif rfsulting Clbss 
+wifrf <dodf>dlbssNbmf</dodf> is nbmf of tif dlbss to find. Tif rfsulting Clbss 
+wifrf <dodf>dlbssNbmf</dodf> is nbmf of tif dlbss to find. Tif rfsulting Clbss 
+wifrf <dodf>dlbssNbmf</dodf> is nbmf of tif dlbss to find. Tif rfsulting Clbss 
+objfdt ibs following propfrtifs:
+objfdt ibs following propfrtifs:
+objfdt ibs following propfrtifs:
+objfdt ibs following propfrtifs:
 objfdt ibs following propfrtifs:
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>nbmf - nbmf of tif dlbss.
+<li>nbmf - nbmf of tif dlbss.
+<li>nbmf - nbmf of tif dlbss.
+<li>nbmf - nbmf of tif dlbss.
 <li>nbmf - nbmf of tif dlbss.
 <li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
 <li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
 <li>fiflds - brrby of fifld objfdts. fifld objfdt ibs nbmf, signbturf
+<li>fiflds - brrby of fifld objfdts. fifld objfdt ibs nbmf, signbturf
+<li>fiflds - brrby of fifld objfdts. fifld objfdt ibs nbmf, signbturf
+<li>fiflds - brrby of fifld objfdts. fifld objfdt ibs nbmf, signbturf
+<li>fiflds - brrby of fifld objfdts. fifld objfdt ibs nbmf, signbturf
+propfrtifs.
+propfrtifs.
+propfrtifs.
+propfrtifs.
 propfrtifs.
 <li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
 <li>signfrs - signfrs tibt signfd tiis dlbss.
 <li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 Clbss objfdts ibvf tif following mftiods:
+Clbss objfdts ibvf tif following mftiods:
+Clbss objfdts ibvf tif following mftiods:
+Clbss objfdts ibvf tif following mftiods:
+Clbss objfdts ibvf tif following mftiods:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+subdlbss of tiis dlbss or not.
+subdlbss of tiis dlbss or not.
+subdlbss of tiis dlbss or not.
+subdlbss of tiis dlbss or not.
 subdlbss of tiis dlbss or not.
 <li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+supfrdlbss of tiis dlbss or not.
+supfrdlbss of tiis dlbss or not.
+supfrdlbss of tiis dlbss or not.
+supfrdlbss of tiis dlbss or not.
 supfrdlbss of tiis dlbss or not.
 <li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
 <li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<b nbmf="findObjfdt"></b>
+<b nbmf="findObjfdt"></b>
+<b nbmf="findObjfdt"></b>
+<b nbmf="findObjfdt"></b>
 <b nbmf="findObjfdt"></b>
 <li><b>ifbp.findObjfdt</b> -- finds objfdt from givfn objfdt id
+<li><b>ifbp.findObjfdt</b> -- finds objfdt from givfn objfdt id
+<li><b>ifbp.findObjfdt</b> -- finds objfdt from givfn objfdt id
+<li><b>ifbp.findObjfdt</b> -- finds objfdt from givfn objfdt id
+<li><b>ifbp.findObjfdt</b> -- finds objfdt from givfn objfdt id
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     ifbp.findObjfdt(stringIdOfObjfdt);
+    ifbp.findObjfdt(stringIdOfObjfdt);
+    ifbp.findObjfdt(stringIdOfObjfdt);
+    ifbp.findObjfdt(stringIdOfObjfdt);
+    ifbp.findObjfdt(stringIdOfObjfdt);
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <b nbmf="dlbssfs"></b>
+<b nbmf="dlbssfs"></b>
+<b nbmf="dlbssfs"></b>
+<b nbmf="dlbssfs"></b>
+<b nbmf="dlbssfs"></b>
+<li><b>ifbp.dlbssfs</b> -- rfturns bn fnumfrbtion of bll Jbvb dlbssfs
+<li><b>ifbp.dlbssfs</b> -- rfturns bn fnumfrbtion of bll Jbvb dlbssfs
+<li><b>ifbp.dlbssfs</b> -- rfturns bn fnumfrbtion of bll Jbvb dlbssfs
+<li><b>ifbp.dlbssfs</b> -- rfturns bn fnumfrbtion of bll Jbvb dlbssfs
 <li><b>ifbp.dlbssfs</b> -- rfturns bn fnumfrbtion of bll Jbvb dlbssfs
 <b nbmf="objfdts"></b>
+<b nbmf="objfdts"></b>
+<b nbmf="objfdts"></b>
+<b nbmf="objfdts"></b>
+<b nbmf="objfdts"></b>
+<li><b>ifbp.objfdts</b> -- rfturns bn fnumfrbtion of Jbvb objfdts 
+<li><b>ifbp.objfdts</b> -- rfturns bn fnumfrbtion of Jbvb objfdts 
+<li><b>ifbp.objfdts</b> -- rfturns bn fnumfrbtion of Jbvb objfdts 
+<li><b>ifbp.objfdts</b> -- rfturns bn fnumfrbtion of Jbvb objfdts 
 <li><b>ifbp.objfdts</b> -- rfturns bn fnumfrbtion of Jbvb objfdts 
 <prf>
-<dodf>
-    ifbp.objfdts(dlbzz, [indludfSubtypfs], [filtfr])
-</dodf>
-</prf>
-<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
-tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
-tiis flbg is truf. Tiis mftiod bddfpts bn optionbl filtfr fxprfssion to filtfr
-tif rfsult sft of objfdts.
-<b nbmf="finblizbblfs"></b>
-<li><b>ifbp.finblizbblfs</b> -- rfturns bn fnumfrbtion of Jbvb objfdts tibt brf
-pfnding to bf finblizfd.
-<li><b>ifbp.livfpbtis</b> -- rfturn bn brrby of pbtis by wiidi b givfn objfdt 
-is blivf. Tiis mftiod bddfpts optionbl sfdond pbrbmftfr tibt is b boolfbn
-flbg. Tiis flbg tflls wiftifr to indludf pbtis witi wfbk rfffrfndf(s) or not.
-By dffbult, pbtis witi wfbk rfffrfndf(s) brf not indludfd.
+<prf>
+<prf>
+<prf>
 <prf>
 <dodf>
-    sflfdt ifbp.livfpbtis(s) from jbvb.lbng.String s
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+    ifbp.objfdts(dlbzz, [indludfSubtypfs], [filtfr])
+    ifbp.objfdts(dlbzz, [indludfSubtypfs], [filtfr])
+    ifbp.objfdts(dlbzz, [indludfSubtypfs], [filtfr])
+    ifbp.objfdts(dlbzz, [indludfSubtypfs], [filtfr])
+    ifbp.objfdts(dlbzz, [indludfSubtypfs], [filtfr])
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+<dodf>dlbzz</dodf> is tif dlbss wiosf instbndfs brf sflfdtfd. If not spfdififd, dffbults to jbvb.lbng.Objfdt. <dodf>indludfSubtypfs</dodf> is b boolfbn flbg 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tibt spfdififs wiftifr to indludf subtypf instbndfs or not. Dffbult vbluf of 
+tiis flbg is truf. Tiis mftiod bddfpts bn optionbl filtfr fxprfssion to filtfr
+tiis flbg is truf. Tiis mftiod bddfpts bn optionbl filtfr fxprfssion to filtfr
+tiis flbg is truf. Tiis mftiod bddfpts bn optionbl filtfr fxprfssion to filtfr
+tiis flbg is truf. Tiis mftiod bddfpts bn optionbl filtfr fxprfssion to filtfr
+tiis flbg is truf. Tiis mftiod bddfpts bn optionbl filtfr fxprfssion to filtfr
+tif rfsult sft of objfdts.
+tif rfsult sft of objfdts.
+tif rfsult sft of objfdts.
+tif rfsult sft of objfdts.
+tif rfsult sft of objfdts.
+<b nbmf="finblizbblfs"></b>
+<b nbmf="finblizbblfs"></b>
+<b nbmf="finblizbblfs"></b>
+<b nbmf="finblizbblfs"></b>
+<b nbmf="finblizbblfs"></b>
+<li><b>ifbp.finblizbblfs</b> -- rfturns bn fnumfrbtion of Jbvb objfdts tibt brf
+<li><b>ifbp.finblizbblfs</b> -- rfturns bn fnumfrbtion of Jbvb objfdts tibt brf
+<li><b>ifbp.finblizbblfs</b> -- rfturns bn fnumfrbtion of Jbvb objfdts tibt brf
+<li><b>ifbp.finblizbblfs</b> -- rfturns bn fnumfrbtion of Jbvb objfdts tibt brf
+<li><b>ifbp.finblizbblfs</b> -- rfturns bn fnumfrbtion of Jbvb objfdts tibt brf
+pfnding to bf finblizfd.
+pfnding to bf finblizfd.
+pfnding to bf finblizfd.
+pfnding to bf finblizfd.
+pfnding to bf finblizfd.
+<li><b>ifbp.livfpbtis</b> -- rfturn bn brrby of pbtis by wiidi b givfn objfdt 
+<li><b>ifbp.livfpbtis</b> -- rfturn bn brrby of pbtis by wiidi b givfn objfdt 
+<li><b>ifbp.livfpbtis</b> -- rfturn bn brrby of pbtis by wiidi b givfn objfdt 
+<li><b>ifbp.livfpbtis</b> -- rfturn bn brrby of pbtis by wiidi b givfn objfdt 
+<li><b>ifbp.livfpbtis</b> -- rfturn bn brrby of pbtis by wiidi b givfn objfdt 
+is blivf. Tiis mftiod bddfpts optionbl sfdond pbrbmftfr tibt is b boolfbn
+is blivf. Tiis mftiod bddfpts optionbl sfdond pbrbmftfr tibt is b boolfbn
+is blivf. Tiis mftiod bddfpts optionbl sfdond pbrbmftfr tibt is b boolfbn
+is blivf. Tiis mftiod bddfpts optionbl sfdond pbrbmftfr tibt is b boolfbn
+is blivf. Tiis mftiod bddfpts optionbl sfdond pbrbmftfr tibt is b boolfbn
+flbg. Tiis flbg tflls wiftifr to indludf pbtis witi wfbk rfffrfndf(s) or not.
+flbg. Tiis flbg tflls wiftifr to indludf pbtis witi wfbk rfffrfndf(s) or not.
+flbg. Tiis flbg tflls wiftifr to indludf pbtis witi wfbk rfffrfndf(s) or not.
+flbg. Tiis flbg tflls wiftifr to indludf pbtis witi wfbk rfffrfndf(s) or not.
+flbg. Tiis flbg tflls wiftifr to indludf pbtis witi wfbk rfffrfndf(s) or not.
+By dffbult, pbtis witi wfbk rfffrfndf(s) brf not indludfd.
+By dffbult, pbtis witi wfbk rfffrfndf(s) brf not indludfd.
+By dffbult, pbtis witi wfbk rfffrfndf(s) brf not indludfd.
+By dffbult, pbtis witi wfbk rfffrfndf(s) brf not indludfd.
+By dffbult, pbtis witi wfbk rfffrfndf(s) brf not indludfd.
+<prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+    sflfdt ifbp.livfpbtis(s) from jbvb.lbng.String s
+    sflfdt ifbp.livfpbtis(s) from jbvb.lbng.String s
+    sflfdt ifbp.livfpbtis(s) from jbvb.lbng.String s
+    sflfdt ifbp.livfpbtis(s) from jbvb.lbng.String s
+    sflfdt ifbp.livfpbtis(s) from jbvb.lbng.String s
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
+</prf>
+Ebdi flfmfnt of tiis brrby itsflf is bnotifr brrby. Tif lbtfr brrby is 
+Ebdi flfmfnt of tiis brrby itsflf is bnotifr brrby. Tif lbtfr brrby is 
+Ebdi flfmfnt of tiis brrby itsflf is bnotifr brrby. Tif lbtfr brrby is 
+Ebdi flfmfnt of tiis brrby itsflf is bnotifr brrby. Tif lbtfr brrby is 
 Ebdi flfmfnt of tiis brrby itsflf is bnotifr brrby. Tif lbtfr brrby is 
 dontbins bn objfdts tibt brf in tif 'rfffrfndf dibin' of tif pbti.
+dontbins bn objfdts tibt brf in tif 'rfffrfndf dibin' of tif pbti.
+dontbins bn objfdts tibt brf in tif 'rfffrfndf dibin' of tif pbti.
+dontbins bn objfdts tibt brf in tif 'rfffrfndf dibin' of tif pbti.
+dontbins bn objfdts tibt brf in tif 'rfffrfndf dibin' of tif pbti.
+<li><b>ifbp.roots</b> -- rfturns bn Enumfrbtion of Roots of tif ifbp. 
+<li><b>ifbp.roots</b> -- rfturns bn Enumfrbtion of Roots of tif ifbp. 
+<li><b>ifbp.roots</b> -- rfturns bn Enumfrbtion of Roots of tif ifbp. 
+<li><b>ifbp.roots</b> -- rfturns bn Enumfrbtion of Roots of tif ifbp. 
 <li><b>ifbp.roots</b> -- rfturns bn Enumfrbtion of Roots of tif ifbp. 
 <b nbmf="rootobj"></b>
+<b nbmf="rootobj"></b>
+<b nbmf="rootobj"></b>
+<b nbmf="rootobj"></b>
+<b nbmf="rootobj"></b>
+Ebdi Root objfdt ibs tif following propfrtifs:
+Ebdi Root objfdt ibs tif following propfrtifs:
+Ebdi Root objfdt ibs tif following propfrtifs:
+Ebdi Root objfdt ibs tif following propfrtifs:
 Ebdi Root objfdt ibs tif following propfrtifs:
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>id - String id of tif objfdt tibt is rfffrrfd by tiis root
+<li>id - String id of tif objfdt tibt is rfffrrfd by tiis root
+<li>id - String id of tif objfdt tibt is rfffrrfd by tiis root
+<li>id - String id of tif objfdt tibt is rfffrrfd by tiis root
 <li>id - String id of tif objfdt tibt is rfffrrfd by tiis root
 <li>typf - dfsdriptivf typf of Root (JNI Globbl, JNI Lodbl, Jbvb Stbtid ftd)
+<li>typf - dfsdriptivf typf of Root (JNI Globbl, JNI Lodbl, Jbvb Stbtid ftd)
+<li>typf - dfsdriptivf typf of Root (JNI Globbl, JNI Lodbl, Jbvb Stbtid ftd)
+<li>typf - dfsdriptivf typf of Root (JNI Globbl, JNI Lodbl, Jbvb Stbtid ftd)
+<li>typf - dfsdriptivf typf of Root (JNI Globbl, JNI Lodbl, Jbvb Stbtid ftd)
 <li>dfsdription - String dfsdription of tif Root
+<li>dfsdription - String dfsdription of tif Root
+<li>dfsdription - String dfsdription of tif Root
+<li>dfsdription - String dfsdription of tif Root
+<li>dfsdription - String dfsdription of tif Root
+<li>rfffrrfr - Tirfbd Objfdt or Clbss objfdt tibt is rfsponsiblf for tiis root or null
+<li>rfffrrfr - Tirfbd Objfdt or Clbss objfdt tibt is rfsponsiblf for tiis root or null
+<li>rfffrrfr - Tirfbd Objfdt or Clbss objfdt tibt is rfsponsiblf for tiis root or null
+<li>rfffrrfr - Tirfbd Objfdt or Clbss objfdt tibt is rfsponsiblf for tiis root or null
 <li>rfffrrfr - Tirfbd Objfdt or Clbss objfdt tibt is rfsponsiblf for tiis root or null
 </ul>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>bddfss stbtid fifld 'props' of dlbss jbvb.lbng.Systfm
+<li>bddfss stbtid fifld 'props' of dlbss jbvb.lbng.Systfm
+<li>bddfss stbtid fifld 'props' of dlbss jbvb.lbng.Systfm
+<li>bddfss stbtid fifld 'props' of dlbss jbvb.lbng.Systfm
+<li>bddfss stbtid fifld 'props' of dlbss jbvb.lbng.Systfm
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt ifbp.findClbss("jbvb.lbng.Systfm").stbtids.props
+    sflfdt ifbp.findClbss("jbvb.lbng.Systfm").stbtids.props
+    sflfdt ifbp.findClbss("jbvb.lbng.Systfm").stbtids.props
+    sflfdt ifbp.findClbss("jbvb.lbng.Systfm").stbtids.props
+    sflfdt ifbp.findClbss("jbvb.lbng.Systfm").stbtids.props
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>gft numbfr of fiflds of jbvb.lbng.String dlbss 
+<li>gft numbfr of fiflds of jbvb.lbng.String dlbss 
+<li>gft numbfr of fiflds of jbvb.lbng.String dlbss 
+<li>gft numbfr of fiflds of jbvb.lbng.String dlbss 
+<li>gft numbfr of fiflds of jbvb.lbng.String dlbss 
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt ifbp.findClbss("jbvb.lbng.String").fiflds.lfngti
+    sflfdt ifbp.findClbss("jbvb.lbng.String").fiflds.lfngti
+    sflfdt ifbp.findClbss("jbvb.lbng.String").fiflds.lfngti
+    sflfdt ifbp.findClbss("jbvb.lbng.String").fiflds.lfngti
+    sflfdt ifbp.findClbss("jbvb.lbng.String").fiflds.lfngti
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li> find tif objfdt wiosf objfdt id is givfn
+<li> find tif objfdt wiosf objfdt id is givfn
+<li> find tif objfdt wiosf objfdt id is givfn
+<li> find tif objfdt wiosf objfdt id is givfn
+<li> find tif objfdt wiosf objfdt id is givfn
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt ifbp.findObjfdt("0xf3800b58")
+    sflfdt ifbp.findObjfdt("0xf3800b58")
+    sflfdt ifbp.findObjfdt("0xf3800b58")
+    sflfdt ifbp.findObjfdt("0xf3800b58")
+    sflfdt ifbp.findObjfdt("0xf3800b58")
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>sflfdt bll dlbssfs tibt ibvf nbmf pbttfrn jbvb.nft.*
+<li>sflfdt bll dlbssfs tibt ibvf nbmf pbttfrn jbvb.nft.*
+<li>sflfdt bll dlbssfs tibt ibvf nbmf pbttfrn jbvb.nft.*
+<li>sflfdt bll dlbssfs tibt ibvf nbmf pbttfrn jbvb.nft.*
+<li>sflfdt bll dlbssfs tibt ibvf nbmf pbttfrn jbvb.nft.*
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt <b irff="#filtfr">filtfr</b>(ifbp.dlbssfs(), "/jbvb.nft./.tfst(it.nbmf)")
+    sflfdt <b irff="#filtfr">filtfr</b>(ifbp.dlbssfs(), "/jbvb.nft./.tfst(it.nbmf)")
+    sflfdt <b irff="#filtfr">filtfr</b>(ifbp.dlbssfs(), "/jbvb.nft./.tfst(it.nbmf)")
+    sflfdt <b irff="#filtfr">filtfr</b>(ifbp.dlbssfs(), "/jbvb.nft./.tfst(it.nbmf)")
+    sflfdt <b irff="#filtfr">filtfr</b>(ifbp.dlbssfs(), "/jbvb.nft./.tfst(it.nbmf)")
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <i3>fundtions on individubl objfdts</i3>
+<i3>fundtions on individubl objfdts</i3>
+<i3>fundtions on individubl objfdts</i3>
+<i3>fundtions on individubl objfdts</i3>
+<i3>fundtions on individubl objfdts</i3>
 
+
+
+
+
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li><b irff="#bllodTrbdf">bllodTrbdf(jobjfdt)</b>
+<li><b irff="#bllodTrbdf">bllodTrbdf(jobjfdt)</b>
+<li><b irff="#bllodTrbdf">bllodTrbdf(jobjfdt)</b>
+<li><b irff="#bllodTrbdf">bllodTrbdf(jobjfdt)</b>
+<li><b irff="#bllodTrbdf">bllodTrbdf(jobjfdt)</b>
+<li><b irff="#dlbssof">dlbssof(jobjfdt)</b>
+<li><b irff="#dlbssof">dlbssof(jobjfdt)</b>
+<li><b irff="#dlbssof">dlbssof(jobjfdt)</b>
+<li><b irff="#dlbssof">dlbssof(jobjfdt)</b>
 <li><b irff="#dlbssof">dlbssof(jobjfdt)</b>
 <li><b irff="#forEbdiRfffrrfr">forEbdiRfffrrfr(dbllbbdk, jobjfdt)</b>
+<li><b irff="#forEbdiRfffrrfr">forEbdiRfffrrfr(dbllbbdk, jobjfdt)</b>
+<li><b irff="#forEbdiRfffrrfr">forEbdiRfffrrfr(dbllbbdk, jobjfdt)</b>
+<li><b irff="#forEbdiRfffrrfr">forEbdiRfffrrfr(dbllbbdk, jobjfdt)</b>
+<li><b irff="#forEbdiRfffrrfr">forEbdiRfffrrfr(dbllbbdk, jobjfdt)</b>
+<li><b irff="#idfntidbl">idfntidbl(o1, o2)</b>
+<li><b irff="#idfntidbl">idfntidbl(o1, o2)</b>
+<li><b irff="#idfntidbl">idfntidbl(o1, o2)</b>
+<li><b irff="#idfntidbl">idfntidbl(o1, o2)</b>
 <li><b irff="#idfntidbl">idfntidbl(o1, o2)</b>
 <li><b irff="#objfdtid">objfdtid(jobjfdt)</b>
+<li><b irff="#objfdtid">objfdtid(jobjfdt)</b>
+<li><b irff="#objfdtid">objfdtid(jobjfdt)</b>
+<li><b irff="#objfdtid">objfdtid(jobjfdt)</b>
+<li><b irff="#objfdtid">objfdtid(jobjfdt)</b>
+<li><b irff="#rfbdibblfs">rfbdibblfs(jobjfdt, fxdludfdFiflds)</b>
+<li><b irff="#rfbdibblfs">rfbdibblfs(jobjfdt, fxdludfdFiflds)</b>
+<li><b irff="#rfbdibblfs">rfbdibblfs(jobjfdt, fxdludfdFiflds)</b>
+<li><b irff="#rfbdibblfs">rfbdibblfs(jobjfdt, fxdludfdFiflds)</b>
 <li><b irff="#rfbdibblfs">rfbdibblfs(jobjfdt, fxdludfdFiflds)</b>
 <li><b irff="#rfffrrfrs">rfffrrfrs(jobjfdt)</b>
+<li><b irff="#rfffrrfrs">rfffrrfrs(jobjfdt)</b>
+<li><b irff="#rfffrrfrs">rfffrrfrs(jobjfdt)</b>
+<li><b irff="#rfffrrfrs">rfffrrfrs(jobjfdt)</b>
+<li><b irff="#rfffrrfrs">rfffrrfrs(jobjfdt)</b>
+<li><b irff="#rfffrffs">rfffrffs(jobjfdt)</b>
+<li><b irff="#rfffrffs">rfffrffs(jobjfdt)</b>
+<li><b irff="#rfffrffs">rfffrffs(jobjfdt)</b>
+<li><b irff="#rfffrffs">rfffrffs(jobjfdt)</b>
 <li><b irff="#rfffrffs">rfffrffs(jobjfdt)</b>
 <li><b irff="#rfffrs">rfffrs(jobjfdt)</b>
+<li><b irff="#rfffrs">rfffrs(jobjfdt)</b>
+<li><b irff="#rfffrs">rfffrs(jobjfdt)</b>
+<li><b irff="#rfffrs">rfffrs(jobjfdt)</b>
+<li><b irff="#rfffrs">rfffrs(jobjfdt)</b>
+<li><b irff="#root">root(jobjfdt)</b>
+<li><b irff="#root">root(jobjfdt)</b>
+<li><b irff="#root">root(jobjfdt)</b>
+<li><b irff="#root">root(jobjfdt)</b>
 <li><b irff="#root">root(jobjfdt)</b>
 <li><b irff="#sizfof">sizfof(jobjfdt)</b>
+<li><b irff="#sizfof">sizfof(jobjfdt)</b>
+<li><b irff="#sizfof">sizfof(jobjfdt)</b>
+<li><b irff="#sizfof">sizfof(jobjfdt)</b>
+<li><b irff="#sizfof">sizfof(jobjfdt)</b>
+<li><b irff="#toHtml">toHtml(obj)</b>
+<li><b irff="#toHtml">toHtml(obj)</b>
+<li><b irff="#toHtml">toHtml(obj)</b>
+<li><b irff="#toHtml">toHtml(obj)</b>
 <li><b irff="#toHtml">toHtml(obj)</b>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="bllodTrbdf"></b>
+<b nbmf="bllodTrbdf"></b>
+<b nbmf="bllodTrbdf"></b>
+<b nbmf="bllodTrbdf"></b>
+<b nbmf="bllodTrbdf"></b>
+<i4>bllodTrbdf fundtion</i4>
+<i4>bllodTrbdf fundtion</i4>
+<i4>bllodTrbdf fundtion</i4>
+<i4>bllodTrbdf fundtion</i4>
 <i4>bllodTrbdf fundtion</i4>
 
+
+
+
+
+Tiis rfturns bllodbtion sitf trbdf of b givfn Jbvb objfdt if bvbilbblf.
+Tiis rfturns bllodbtion sitf trbdf of b givfn Jbvb objfdt if bvbilbblf.
+Tiis rfturns bllodbtion sitf trbdf of b givfn Jbvb objfdt if bvbilbblf.
+Tiis rfturns bllodbtion sitf trbdf of b givfn Jbvb objfdt if bvbilbblf.
 Tiis rfturns bllodbtion sitf trbdf of b givfn Jbvb objfdt if bvbilbblf.
 bllodTrbdf rfturns brrby of frbmf objfdts. Ebdi frbmf objfdt ibs tif following
+bllodTrbdf rfturns brrby of frbmf objfdts. Ebdi frbmf objfdt ibs tif following
+bllodTrbdf rfturns brrby of frbmf objfdts. Ebdi frbmf objfdt ibs tif following
+bllodTrbdf rfturns brrby of frbmf objfdts. Ebdi frbmf objfdt ibs tif following
+bllodTrbdf rfturns brrby of frbmf objfdts. Ebdi frbmf objfdt ibs tif following
+propfrtifs:
+propfrtifs:
+propfrtifs:
+propfrtifs:
 propfrtifs:
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>dlbssNbmf - nbmf of tif Jbvb dlbss wiosf mftiod is running in tif frbmf.
+<li>dlbssNbmf - nbmf of tif Jbvb dlbss wiosf mftiod is running in tif frbmf.
+<li>dlbssNbmf - nbmf of tif Jbvb dlbss wiosf mftiod is running in tif frbmf.
+<li>dlbssNbmf - nbmf of tif Jbvb dlbss wiosf mftiod is running in tif frbmf.
 <li>dlbssNbmf - nbmf of tif Jbvb dlbss wiosf mftiod is running in tif frbmf.
 <li>mftiodNbmf - nbmf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodNbmf - nbmf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodNbmf - nbmf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodNbmf - nbmf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodNbmf - nbmf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodSignbturf - signbturf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodSignbturf - signbturf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodSignbturf - signbturf of tif Jbvb mftiod running in tif frbmf.
+<li>mftiodSignbturf - signbturf of tif Jbvb mftiod running in tif frbmf.
 <li>mftiodSignbturf - signbturf of tif Jbvb mftiod running in tif frbmf.
 <li>sourdfFilfNbmf - nbmf of sourdf filf of tif Jbvb dlbss running in tif frbmf.
+<li>sourdfFilfNbmf - nbmf of sourdf filf of tif Jbvb dlbss running in tif frbmf.
+<li>sourdfFilfNbmf - nbmf of sourdf filf of tif Jbvb dlbss running in tif frbmf.
+<li>sourdfFilfNbmf - nbmf of sourdf filf of tif Jbvb dlbss running in tif frbmf.
+<li>sourdfFilfNbmf - nbmf of sourdf filf of tif Jbvb dlbss running in tif frbmf.
+<li>linfNumbfr - sourdf linf numbfr witiin tif mftiod.
+<li>linfNumbfr - sourdf linf numbfr witiin tif mftiod.
+<li>linfNumbfr - sourdf linf numbfr witiin tif mftiod.
+<li>linfNumbfr - sourdf linf numbfr witiin tif mftiod.
 <li>linfNumbfr - sourdf linf numbfr witiin tif mftiod.
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="dlbssof"></b>
+<b nbmf="dlbssof"></b>
+<b nbmf="dlbssof"></b>
+<b nbmf="dlbssof"></b>
+<b nbmf="dlbssof"></b>
+<i4>dlbssof fundtion</i4>
+<i4>dlbssof fundtion</i4>
+<i4>dlbssof fundtion</i4>
+<i4>dlbssof fundtion</i4>
 <i4>dlbssof fundtion</i4>
 
+
+
+
+
+Rfturns Clbss objfdt of b givfn Jbvb Objfdt. Tif rfsult objfdt supports tif
+Rfturns Clbss objfdt of b givfn Jbvb Objfdt. Tif rfsult objfdt supports tif
+Rfturns Clbss objfdt of b givfn Jbvb Objfdt. Tif rfsult objfdt supports tif
+Rfturns Clbss objfdt of b givfn Jbvb Objfdt. Tif rfsult objfdt supports tif
 Rfturns Clbss objfdt of b givfn Jbvb Objfdt. Tif rfsult objfdt supports tif
 following propfrtifs:
+following propfrtifs:
+following propfrtifs:
+following propfrtifs:
+following propfrtifs:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>nbmf - nbmf of tif dlbss.
+<li>nbmf - nbmf of tif dlbss.
+<li>nbmf - nbmf of tif dlbss.
+<li>nbmf - nbmf of tif dlbss.
+<li>nbmf - nbmf of tif dlbss.
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
+<li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
 <li>supfrdlbss - Clbss objfdt for supfr dlbss (or null if jbvb.lbng.Objfdt).
 <li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>stbtids - nbmf, vbluf pbirs for stbtid fiflds of tif Clbss.
+<li>fiflds - brrby of fifld objfdts. Fifld objfdts ibvf nbmf, signbturf
+<li>fiflds - brrby of fifld objfdts. Fifld objfdts ibvf nbmf, signbturf
+<li>fiflds - brrby of fifld objfdts. Fifld objfdts ibvf nbmf, signbturf
+<li>fiflds - brrby of fifld objfdts. Fifld objfdts ibvf nbmf, signbturf
 <li>fiflds - brrby of fifld objfdts. Fifld objfdts ibvf nbmf, signbturf
 propfrtifs.
+propfrtifs.
+propfrtifs.
+propfrtifs.
+propfrtifs.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
+<li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
 <li>lobdfr - ClbssLobdfr objfdt tibt lobdfd tiis dlbss.
 <li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>signfrs - signfrs tibt signfd tiis dlbss.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
+<li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
 <li>protfdtionDombin - protfdtion dombin to wiidi tiis dlbss bflongs.
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+Clbss objfdts ibvf tif following mftiods:
+Clbss objfdts ibvf tif following mftiods:
+Clbss objfdts ibvf tif following mftiods:
+Clbss objfdts ibvf tif following mftiods:
 Clbss objfdts ibvf tif following mftiods:
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
+<li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
 <li>isSubdlbssOf - tfsts wiftifr givfn dlbss is dirfdt or indirfdt 
 subdlbss of tiis dlbss or not.
+subdlbss of tiis dlbss or not.
+subdlbss of tiis dlbss or not.
+subdlbss of tiis dlbss or not.
+subdlbss of tiis dlbss or not.
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
+<li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
 <li>isSupfrdlbssOf - tfsts wiftifr givfn Clbss is dirfdt or indirfdt
 supfrdlbss of tiis dlbss or not.
+supfrdlbss of tiis dlbss or not.
+supfrdlbss of tiis dlbss or not.
+supfrdlbss of tiis dlbss or not.
+supfrdlbss of tiis dlbss or not.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
+<li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
 <li>subdlbssfs - rfturns brrby of dirfdt bnd indirfdt subdlbssfs.
 <li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+<li>supfrdlbssfs - rfturns brrby of dirfdt bnd indirfdt supfrdlbssfs.
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 
+
+
+
+
 Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>siow dlbss nbmf of fbdi Rfffrfndf typf objfdt
+<li>siow dlbss nbmf of fbdi Rfffrfndf typf objfdt
+<li>siow dlbss nbmf of fbdi Rfffrfndf typf objfdt
+<li>siow dlbss nbmf of fbdi Rfffrfndf typf objfdt
+<li>siow dlbss nbmf of fbdi Rfffrfndf typf objfdt
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt dlbssof(o).nbmf from instbndfof jbvb.lbng.rff.Rfffrfndf o
+    sflfdt dlbssof(o).nbmf from instbndfof jbvb.lbng.rff.Rfffrfndf o
+    sflfdt dlbssof(o).nbmf from instbndfof jbvb.lbng.rff.Rfffrfndf o
+    sflfdt dlbssof(o).nbmf from instbndfof jbvb.lbng.rff.Rfffrfndf o
+    sflfdt dlbssof(o).nbmf from instbndfof jbvb.lbng.rff.Rfffrfndf o
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 <li>siow bll subdlbssfs of jbvb.io.InputStrfbm
+<li>siow bll subdlbssfs of jbvb.io.InputStrfbm
+<li>siow bll subdlbssfs of jbvb.io.InputStrfbm
+<li>siow bll subdlbssfs of jbvb.io.InputStrfbm
+<li>siow bll subdlbssfs of jbvb.io.InputStrfbm
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt ifbp.findClbss("jbvb.io.InputStrfbm").subdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.InputStrfbm").subdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.InputStrfbm").subdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.InputStrfbm").subdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.InputStrfbm").subdlbssfs()
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 <li>siow bll supfrdlbssfs of jbvb.io.BufffrfdInputStrfbm
+<li>siow bll supfrdlbssfs of jbvb.io.BufffrfdInputStrfbm
+<li>siow bll supfrdlbssfs of jbvb.io.BufffrfdInputStrfbm
+<li>siow bll supfrdlbssfs of jbvb.io.BufffrfdInputStrfbm
+<li>siow bll supfrdlbssfs of jbvb.io.BufffrfdInputStrfbm
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt ifbp.findClbss("jbvb.io.BufffrfdInputStrfbm").supfrdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.BufffrfdInputStrfbm").supfrdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.BufffrfdInputStrfbm").supfrdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.BufffrfdInputStrfbm").supfrdlbssfs()
+    sflfdt ifbp.findClbss("jbvb.io.BufffrfdInputStrfbm").supfrdlbssfs()
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="forEbdiRfffrrfr"></b>
+<b nbmf="forEbdiRfffrrfr"></b>
+<b nbmf="forEbdiRfffrrfr"></b>
+<b nbmf="forEbdiRfffrrfr"></b>
+<b nbmf="forEbdiRfffrrfr"></b>
+<i4>forEbdiRfffrrfr fundtion</i4>
+<i4>forEbdiRfffrrfr fundtion</i4>
+<i4>forEbdiRfffrrfr fundtion</i4>
+<i4>forEbdiRfffrrfr fundtion</i4>
 <i4>forEbdiRfffrrfr fundtion</i4>
 
+
+
+
+
+dblls b dbllbbdk fundtion for fbdi rfffrrfr of b givfn Jbvb objfdt.
+dblls b dbllbbdk fundtion for fbdi rfffrrfr of b givfn Jbvb objfdt.
+dblls b dbllbbdk fundtion for fbdi rfffrrfr of b givfn Jbvb objfdt.
+dblls b dbllbbdk fundtion for fbdi rfffrrfr of b givfn Jbvb objfdt.
 dblls b dbllbbdk fundtion for fbdi rfffrrfr of b givfn Jbvb objfdt.
 
+
+
+
+
+<b nbmf="idfntidbl"></b>
+<b nbmf="idfntidbl"></b>
+<b nbmf="idfntidbl"></b>
+<b nbmf="idfntidbl"></b>
 <b nbmf="idfntidbl"></b>
 <i4>idfntidbl fundtion</i4>
+<i4>idfntidbl fundtion</i4>
+<i4>idfntidbl fundtion</i4>
+<i4>idfntidbl fundtion</i4>
+<i4>idfntidbl fundtion</i4>
+<p>
+<p>
+<p>
+<p>
 <p>
 Rfturns wiftifr two givfn Jbvb objfdts brf idfntidbl or not.
+Rfturns wiftifr two givfn Jbvb objfdts brf idfntidbl or not.
+Rfturns wiftifr two givfn Jbvb objfdts brf idfntidbl or not.
+Rfturns wiftifr two givfn Jbvb objfdts brf idfntidbl or not.
+Rfturns wiftifr two givfn Jbvb objfdts brf idfntidbl or not.
+</p>
+</p>
+</p>
+</p>
 </p>
 Exbmplf:
+Exbmplf:
+Exbmplf:
+Exbmplf:
+Exbmplf:
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt idfntidbl(ifbp.findClbss("Foo").stbtids.bbr, ifbp.findClbss("AnotifrClbss").stbtids.bbr)
+    sflfdt idfntidbl(ifbp.findClbss("Foo").stbtids.bbr, ifbp.findClbss("AnotifrClbss").stbtids.bbr)
+    sflfdt idfntidbl(ifbp.findClbss("Foo").stbtids.bbr, ifbp.findClbss("AnotifrClbss").stbtids.bbr)
+    sflfdt idfntidbl(ifbp.findClbss("Foo").stbtids.bbr, ifbp.findClbss("AnotifrClbss").stbtids.bbr)
+    sflfdt idfntidbl(ifbp.findClbss("Foo").stbtids.bbr, ifbp.findClbss("AnotifrClbss").stbtids.bbr)
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="objfdtid"></b>
+<b nbmf="objfdtid"></b>
+<b nbmf="objfdtid"></b>
+<b nbmf="objfdtid"></b>
+<b nbmf="objfdtid"></b>
+<i4>objfdtid fundtion</i4>
+<i4>objfdtid fundtion</i4>
+<i4>objfdtid fundtion</i4>
+<i4>objfdtid fundtion</i4>
 <i4>objfdtid fundtion</i4>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 Rfturns String id of b givfn Jbvb objfdt. Tiis id dbn bf pbssfd to
+Rfturns String id of b givfn Jbvb objfdt. Tiis id dbn bf pbssfd to
+Rfturns String id of b givfn Jbvb objfdt. Tiis id dbn bf pbssfd to
+Rfturns String id of b givfn Jbvb objfdt. Tiis id dbn bf pbssfd to
+Rfturns String id of b givfn Jbvb objfdt. Tiis id dbn bf pbssfd to
+<b irff="#findObjfdt">ifbp.findObjfdt</b> bnd mby blso bf usfd to dompbrf
+<b irff="#findObjfdt">ifbp.findObjfdt</b> bnd mby blso bf usfd to dompbrf
+<b irff="#findObjfdt">ifbp.findObjfdt</b> bnd mby blso bf usfd to dompbrf
+<b irff="#findObjfdt">ifbp.findObjfdt</b> bnd mby blso bf usfd to dompbrf
 <b irff="#findObjfdt">ifbp.findObjfdt</b> bnd mby blso bf usfd to dompbrf
 objfdts for idfntity.
+objfdts for idfntity.
+objfdts for idfntity.
+objfdts for idfntity.
+objfdts for idfntity.
+</p>
+</p>
+</p>
+</p>
 </p>
 Exbmplf:
+Exbmplf:
+Exbmplf:
+Exbmplf:
+Exbmplf:
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt objfdtid(o) from jbvb.lbng.Objfdt o
+    sflfdt objfdtid(o) from jbvb.lbng.Objfdt o
+    sflfdt objfdtid(o) from jbvb.lbng.Objfdt o
+    sflfdt objfdtid(o) from jbvb.lbng.Objfdt o
+    sflfdt objfdtid(o) from jbvb.lbng.Objfdt o
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="rfbdibblfs"></b>
+<b nbmf="rfbdibblfs"></b>
+<b nbmf="rfbdibblfs"></b>
+<b nbmf="rfbdibblfs"></b>
+<b nbmf="rfbdibblfs"></b>
+<i4>rfbdibblfs fundtion</i4>
+<i4>rfbdibblfs fundtion</i4>
+<i4>rfbdibblfs fundtion</i4>
+<i4>rfbdibblfs fundtion</i4>
 <i4>rfbdibblfs fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Rfturns bn brrby of Jbvb objfdts tibt brf trbnsitivfly rfffrrfd from tif
+Rfturns bn brrby of Jbvb objfdts tibt brf trbnsitivfly rfffrrfd from tif
+Rfturns bn brrby of Jbvb objfdts tibt brf trbnsitivfly rfffrrfd from tif
+Rfturns bn brrby of Jbvb objfdts tibt brf trbnsitivfly rfffrrfd from tif
 Rfturns bn brrby of Jbvb objfdts tibt brf trbnsitivfly rfffrrfd from tif
 givfn Jbvb objfdt. Optionblly bddfpts b sfdond pbrbmftfr tibt is dommb
+givfn Jbvb objfdt. Optionblly bddfpts b sfdond pbrbmftfr tibt is dommb
+givfn Jbvb objfdt. Optionblly bddfpts b sfdond pbrbmftfr tibt is dommb
+givfn Jbvb objfdt. Optionblly bddfpts b sfdond pbrbmftfr tibt is dommb
+givfn Jbvb objfdt. Optionblly bddfpts b sfdond pbrbmftfr tibt is dommb
+sfpbrbtfd fifld nbmfs to bf fxdludfd from rfbdibbility domputbtion.
+sfpbrbtfd fifld nbmfs to bf fxdludfd from rfbdibbility domputbtion.
+sfpbrbtfd fifld nbmfs to bf fxdludfd from rfbdibbility domputbtion.
+sfpbrbtfd fifld nbmfs to bf fxdludfd from rfbdibbility domputbtion.
 sfpbrbtfd fifld nbmfs to bf fxdludfd from rfbdibbility domputbtion.
 Fiflds brf writtfn in dlbss_nbmf.fifld_nbmf pbttfrn.
+Fiflds brf writtfn in dlbss_nbmf.fifld_nbmf pbttfrn.
+Fiflds brf writtfn in dlbss_nbmf.fifld_nbmf pbttfrn.
+Fiflds brf writtfn in dlbss_nbmf.fifld_nbmf pbttfrn.
+Fiflds brf writtfn in dlbss_nbmf.fifld_nbmf pbttfrn.
+</p>
+</p>
+</p>
+</p>
 </p>
 Exbmplfs: 
+Exbmplfs: 
+Exbmplfs: 
+Exbmplfs: 
+Exbmplfs: 
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>print bll rfbdibblf objfdts from fbdi Propfrtifs instbndf.
+<li>print bll rfbdibblf objfdts from fbdi Propfrtifs instbndf.
+<li>print bll rfbdibblf objfdts from fbdi Propfrtifs instbndf.
+<li>print bll rfbdibblf objfdts from fbdi Propfrtifs instbndf.
+<li>print bll rfbdibblf objfdts from fbdi Propfrtifs instbndf.
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt rfbdibblfs(p) from jbvb.util.Propfrtifs p
+    sflfdt rfbdibblfs(p) from jbvb.util.Propfrtifs p
+    sflfdt rfbdibblfs(p) from jbvb.util.Propfrtifs p
+    sflfdt rfbdibblfs(p) from jbvb.util.Propfrtifs p
+    sflfdt rfbdibblfs(p) from jbvb.util.Propfrtifs p
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>print bll rfbdibblfs from fbdi jbvb.nft.URL but omit tif objfdts rfbdibblf
+<li>print bll rfbdibblfs from fbdi jbvb.nft.URL but omit tif objfdts rfbdibblf
+<li>print bll rfbdibblfs from fbdi jbvb.nft.URL but omit tif objfdts rfbdibblf
+<li>print bll rfbdibblfs from fbdi jbvb.nft.URL but omit tif objfdts rfbdibblf
+<li>print bll rfbdibblfs from fbdi jbvb.nft.URL but omit tif objfdts rfbdibblf
+vib tif fiflds spfdififd.
+vib tif fiflds spfdififd.
+vib tif fiflds spfdififd.
+vib tif fiflds spfdififd.
 vib tif fiflds spfdififd.
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt rfbdibblfs(u, 'jbvb.nft.URL.ibndlfr') from jbvb.nft.URL u
+    sflfdt rfbdibblfs(u, 'jbvb.nft.URL.ibndlfr') from jbvb.nft.URL u
+    sflfdt rfbdibblfs(u, 'jbvb.nft.URL.ibndlfr') from jbvb.nft.URL u
+    sflfdt rfbdibblfs(u, 'jbvb.nft.URL.ibndlfr') from jbvb.nft.URL u
+    sflfdt rfbdibblfs(u, 'jbvb.nft.URL.ibndlfr') from jbvb.nft.URL u
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="rfffrrfrs"></b>
+<b nbmf="rfffrrfrs"></b>
+<b nbmf="rfffrrfrs"></b>
+<b nbmf="rfffrrfrs"></b>
+<b nbmf="rfffrrfrs"></b>
+<i4>rfffrrfrs fundtion</i4>
+<i4>rfffrrfrs fundtion</i4>
+<i4>rfffrrfrs fundtion</i4>
+<i4>rfffrrfrs fundtion</i4>
 <i4>rfffrrfrs fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Rfturns bn fnumfrbtion of Jbvb objfdts tibt iold rfffrfndf to b givfn Jbvb
+Rfturns bn fnumfrbtion of Jbvb objfdts tibt iold rfffrfndf to b givfn Jbvb
+Rfturns bn fnumfrbtion of Jbvb objfdts tibt iold rfffrfndf to b givfn Jbvb
+Rfturns bn fnumfrbtion of Jbvb objfdts tibt iold rfffrfndf to b givfn Jbvb
 Rfturns bn fnumfrbtion of Jbvb objfdts tibt iold rfffrfndf to b givfn Jbvb
 objfdt.
+objfdt.
+objfdt.
+objfdt.
+objfdt.
+</p>
+</p>
+</p>
+</p>
 </p>
 Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li> print numbfr of rfffrrfrs for fbdi jbvb.lbng.Objfdt instbndf
+<li> print numbfr of rfffrrfrs for fbdi jbvb.lbng.Objfdt instbndf
+<li> print numbfr of rfffrrfrs for fbdi jbvb.lbng.Objfdt instbndf
+<li> print numbfr of rfffrrfrs for fbdi jbvb.lbng.Objfdt instbndf
+<li> print numbfr of rfffrrfrs for fbdi jbvb.lbng.Objfdt instbndf
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt dount(rfffrrfrs(o)) from jbvb.lbng.Objfdt o
+    sflfdt dount(rfffrrfrs(o)) from jbvb.lbng.Objfdt o
+    sflfdt dount(rfffrrfrs(o)) from jbvb.lbng.Objfdt o
+    sflfdt dount(rfffrrfrs(o)) from jbvb.lbng.Objfdt o
+    sflfdt dount(rfffrrfrs(o)) from jbvb.lbng.Objfdt o
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>print rfffrrfrs for fbdi jbvb.io.Filf objfdt
+<li>print rfffrrfrs for fbdi jbvb.io.Filf objfdt
+<li>print rfffrrfrs for fbdi jbvb.io.Filf objfdt
+<li>print rfffrrfrs for fbdi jbvb.io.Filf objfdt
+<li>print rfffrrfrs for fbdi jbvb.io.Filf objfdt
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt rfffrrfrs(f) from jbvb.io.Filf f
+    sflfdt rfffrrfrs(f) from jbvb.io.Filf f
+    sflfdt rfffrrfrs(f) from jbvb.io.Filf f
+    sflfdt rfffrrfrs(f) from jbvb.io.Filf f
+    sflfdt rfffrrfrs(f) from jbvb.io.Filf f
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>print URL objfdts only if rfffrrfd by 2 or morf 
+<li>print URL objfdts only if rfffrrfd by 2 or morf 
+<li>print URL objfdts only if rfffrrfd by 2 or morf 
+<li>print URL objfdts only if rfffrrfd by 2 or morf 
+<li>print URL objfdts only if rfffrrfd by 2 or morf 
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt u from jbvb.nft.URL u wifrf dount(rfffrrfrs(u)) > 2
+    sflfdt u from jbvb.nft.URL u wifrf dount(rfffrrfrs(u)) > 2
+    sflfdt u from jbvb.nft.URL u wifrf dount(rfffrrfrs(u)) > 2
+    sflfdt u from jbvb.nft.URL u wifrf dount(rfffrrfrs(u)) > 2
+    sflfdt u from jbvb.nft.URL u wifrf dount(rfffrrfrs(u)) > 2
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="rfffrffs"></b>
+<b nbmf="rfffrffs"></b>
+<b nbmf="rfffrffs"></b>
+<b nbmf="rfffrffs"></b>
+<b nbmf="rfffrffs"></b>
+<i4>rfffrffs fundtion</i4>
+<i4>rfffrffs fundtion</i4>
+<i4>rfffrffs fundtion</i4>
+<i4>rfffrffs fundtion</i4>
 <i4>rfffrffs fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Rfturns bn brrby of Jbvb objfdts to wiidi tif givfn Jbvb
+Rfturns bn brrby of Jbvb objfdts to wiidi tif givfn Jbvb
+Rfturns bn brrby of Jbvb objfdts to wiidi tif givfn Jbvb
+Rfturns bn brrby of Jbvb objfdts to wiidi tif givfn Jbvb
 Rfturns bn brrby of Jbvb objfdts to wiidi tif givfn Jbvb
 objfdt dirfdtly rfffrs to.
+objfdt dirfdtly rfffrs to.
+objfdt dirfdtly rfffrs to.
+objfdt dirfdtly rfffrs to.
+objfdt dirfdtly rfffrs to.
+</p>
+</p>
+</p>
+</p>
 </p>
 Exbmplf: to print bll stbtid rfffrfndf fiflds of jbvb.io.Filf dlbss
+Exbmplf: to print bll stbtid rfffrfndf fiflds of jbvb.io.Filf dlbss
+Exbmplf: to print bll stbtid rfffrfndf fiflds of jbvb.io.Filf dlbss
+Exbmplf: to print bll stbtid rfffrfndf fiflds of jbvb.io.Filf dlbss
+Exbmplf: to print bll stbtid rfffrfndf fiflds of jbvb.io.Filf dlbss
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt rfffrffs(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf"))
+    sflfdt rfffrffs(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf"))
+    sflfdt rfffrffs(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf"))
+    sflfdt rfffrffs(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf"))
+    sflfdt rfffrffs(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf"))
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="rfffrs"></b>
+<b nbmf="rfffrs"></b>
+<b nbmf="rfffrs"></b>
+<b nbmf="rfffrs"></b>
+<b nbmf="rfffrs"></b>
+<i4>rfffrs fundtion</i4>
+<i4>rfffrs fundtion</i4>
+<i4>rfffrs fundtion</i4>
+<i4>rfffrs fundtion</i4>
 <i4>rfffrs fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Rfturns wiftifr first Jbvb objfdt rfffrs to sfdond Jbvb objfdt or not.
+Rfturns wiftifr first Jbvb objfdt rfffrs to sfdond Jbvb objfdt or not.
+Rfturns wiftifr first Jbvb objfdt rfffrs to sfdond Jbvb objfdt or not.
+Rfturns wiftifr first Jbvb objfdt rfffrs to sfdond Jbvb objfdt or not.
 Rfturns wiftifr first Jbvb objfdt rfffrs to sfdond Jbvb objfdt or not.
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 <b nbmf="root"></b>
+<b nbmf="root"></b>
+<b nbmf="root"></b>
+<b nbmf="root"></b>
+<b nbmf="root"></b>
+<i4>root fundtion</i4>
+<i4>root fundtion</i4>
+<i4>root fundtion</i4>
+<i4>root fundtion</i4>
 <i4>root fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+If givfn objfdt is b mfmbfr of root sft of objfdts, tiis fundtion rfturns
+If givfn objfdt is b mfmbfr of root sft of objfdts, tiis fundtion rfturns
+If givfn objfdt is b mfmbfr of root sft of objfdts, tiis fundtion rfturns
+If givfn objfdt is b mfmbfr of root sft of objfdts, tiis fundtion rfturns
 If givfn objfdt is b mfmbfr of root sft of objfdts, tiis fundtion rfturns
 b dfsdriptivf <b irff="#rootobj">Root objfdt</b> dfsdribing wiy it is so.
+b dfsdriptivf <b irff="#rootobj">Root objfdt</b> dfsdribing wiy it is so.
+b dfsdriptivf <b irff="#rootobj">Root objfdt</b> dfsdribing wiy it is so.
+b dfsdriptivf <b irff="#rootobj">Root objfdt</b> dfsdribing wiy it is so.
+b dfsdriptivf <b irff="#rootobj">Root objfdt</b> dfsdribing wiy it is so.
+If givfn objfdt is not b root, tifn tiis fundtion rfturns null.
+If givfn objfdt is not b root, tifn tiis fundtion rfturns null.
+If givfn objfdt is not b root, tifn tiis fundtion rfturns null.
+If givfn objfdt is not b root, tifn tiis fundtion rfturns null.
 If givfn objfdt is not b root, tifn tiis fundtion rfturns null.
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 <b nbmf="sizfof"></b>
+<b nbmf="sizfof"></b>
+<b nbmf="sizfof"></b>
+<b nbmf="sizfof"></b>
+<b nbmf="sizfof"></b>
+<i4>sizfof fundtion</i4>
+<i4>sizfof fundtion</i4>
+<i4>sizfof fundtion</i4>
+<i4>sizfof fundtion</i4>
 <i4>sizfof fundtion</i4>
 
+
+
+
+
+Rfturns sizf of tif givfn Jbvb objfdt in bytfs
+Rfturns sizf of tif givfn Jbvb objfdt in bytfs
+Rfturns sizf of tif givfn Jbvb objfdt in bytfs
+Rfturns sizf of tif givfn Jbvb objfdt in bytfs
 Rfturns sizf of tif givfn Jbvb objfdt in bytfs
 Exbmplf: 
+Exbmplf: 
+Exbmplf: 
+Exbmplf: 
+Exbmplf: 
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt sizfof(o) from [I o
+    sflfdt sizfof(o) from [I o
+    sflfdt sizfof(o) from [I o
+    sflfdt sizfof(o) from [I o
+    sflfdt sizfof(o) from [I o
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="toHtml"></b>
+<b nbmf="toHtml"></b>
+<b nbmf="toHtml"></b>
+<b nbmf="toHtml"></b>
+<b nbmf="toHtml"></b>
+<i4>toHtml fundtion</i4>
+<i4>toHtml fundtion</i4>
+<i4>toHtml fundtion</i4>
+<i4>toHtml fundtion</i4>
 <i4>toHtml fundtion</i4>
 
+
+
+
+
+Rfturns HTML string for tif givfn Jbvb objfdt. Notf tibt tiis is dbllfd
+Rfturns HTML string for tif givfn Jbvb objfdt. Notf tibt tiis is dbllfd
+Rfturns HTML string for tif givfn Jbvb objfdt. Notf tibt tiis is dbllfd
+Rfturns HTML string for tif givfn Jbvb objfdt. Notf tibt tiis is dbllfd
 Rfturns HTML string for tif givfn Jbvb objfdt. Notf tibt tiis is dbllfd
 butombtidblly for objfdts sflfdtfd by sflfdt fxprfssion. But, it mby bf usfful
+butombtidblly for objfdts sflfdtfd by sflfdt fxprfssion. But, it mby bf usfful
+butombtidblly for objfdts sflfdtfd by sflfdt fxprfssion. But, it mby bf usfful
+butombtidblly for objfdts sflfdtfd by sflfdt fxprfssion. But, it mby bf usfful
+butombtidblly for objfdts sflfdtfd by sflfdt fxprfssion. But, it mby bf usfful
+to print morf domplfx output.
+to print morf domplfx output.
+to print morf domplfx output.
+to print morf domplfx output.
 to print morf domplfx output.
 
+
+
+
+
+Exbmplf: print iypfrlink in bold font wfigit
+Exbmplf: print iypfrlink in bold font wfigit
+Exbmplf: print iypfrlink in bold font wfigit
+Exbmplf: print iypfrlink in bold font wfigit
 Exbmplf: print iypfrlink in bold font wfigit
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt "&lt;b&gt;" + toHtml(o) + "&lt;/b&gt;" from jbvb.lbng.Objfdt o
+    sflfdt "&lt;b&gt;" + toHtml(o) + "&lt;/b&gt;" from jbvb.lbng.Objfdt o
+    sflfdt "&lt;b&gt;" + toHtml(o) + "&lt;/b&gt;" from jbvb.lbng.Objfdt o
+    sflfdt "&lt;b&gt;" + toHtml(o) + "&lt;/b&gt;" from jbvb.lbng.Objfdt o
+    sflfdt "&lt;b&gt;" + toHtml(o) + "&lt;/b&gt;" from jbvb.lbng.Objfdt o
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <i3>Sflfdting multiplf vblufs</i3>
+<i3>Sflfdting multiplf vblufs</i3>
+<i3>Sflfdting multiplf vblufs</i3>
+<i3>Sflfdting multiplf vblufs</i3>
+<i3>Sflfdting multiplf vblufs</i3>
+<p>
+<p>
+<p>
+<p>
 <p>
 Multiplf vblufs dbn bf sflfdtfd using JbvbSdript objfdt litfrbls or brrbys.
+Multiplf vblufs dbn bf sflfdtfd using JbvbSdript objfdt litfrbls or brrbys.
+Multiplf vblufs dbn bf sflfdtfd using JbvbSdript objfdt litfrbls or brrbys.
+Multiplf vblufs dbn bf sflfdtfd using JbvbSdript objfdt litfrbls or brrbys.
+Multiplf vblufs dbn bf sflfdtfd using JbvbSdript objfdt litfrbls or brrbys.
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 Exbmplf: siow nbmf bnd tirfbd for fbdi tirfbd objfdt
+Exbmplf: siow nbmf bnd tirfbd for fbdi tirfbd objfdt
+Exbmplf: siow nbmf bnd tirfbd for fbdi tirfbd objfdt
+Exbmplf: siow nbmf bnd tirfbd for fbdi tirfbd objfdt
+Exbmplf: siow nbmf bnd tirfbd for fbdi tirfbd objfdt
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt { nbmf: t.nbmf? t.nbmf.toString() : "null", tirfbd: t } 
+    sflfdt { nbmf: t.nbmf? t.nbmf.toString() : "null", tirfbd: t } 
+    sflfdt { nbmf: t.nbmf? t.nbmf.toString() : "null", tirfbd: t } 
+    sflfdt { nbmf: t.nbmf? t.nbmf.toString() : "null", tirfbd: t } 
+    sflfdt { nbmf: t.nbmf? t.nbmf.toString() : "null", tirfbd: t } 
+    from instbndfof jbvb.lbng.Tirfbd t
+    from instbndfof jbvb.lbng.Tirfbd t
+    from instbndfof jbvb.lbng.Tirfbd t
+    from instbndfof jbvb.lbng.Tirfbd t
     from instbndfof jbvb.lbng.Tirfbd t
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <i3>brrby/itfrbtor/fnumfrbtion mbnipulbtion fundtions</i3>
+<i3>brrby/itfrbtor/fnumfrbtion mbnipulbtion fundtions</i3>
+<i3>brrby/itfrbtor/fnumfrbtion mbnipulbtion fundtions</i3>
+<i3>brrby/itfrbtor/fnumfrbtion mbnipulbtion fundtions</i3>
+<i3>brrby/itfrbtor/fnumfrbtion mbnipulbtion fundtions</i3>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 Tifsf fundtions bddfpt bn brrby/itfrbtor/fnumfrbtion bnd bn 
+Tifsf fundtions bddfpt bn brrby/itfrbtor/fnumfrbtion bnd bn 
+Tifsf fundtions bddfpt bn brrby/itfrbtor/fnumfrbtion bnd bn 
+Tifsf fundtions bddfpt bn brrby/itfrbtor/fnumfrbtion bnd bn 
+Tifsf fundtions bddfpt bn brrby/itfrbtor/fnumfrbtion bnd bn 
+fxprfssion string [or b dbllbbdk fundtion] bs input. Tifsf fundtions itfrbtf 
+fxprfssion string [or b dbllbbdk fundtion] bs input. Tifsf fundtions itfrbtf 
+fxprfssion string [or b dbllbbdk fundtion] bs input. Tifsf fundtions itfrbtf 
+fxprfssion string [or b dbllbbdk fundtion] bs input. Tifsf fundtions itfrbtf 
 fxprfssion string [or b dbllbbdk fundtion] bs input. Tifsf fundtions itfrbtf 
 tif brrby/itfrbtor/fnumfrbtion bnd bpply tif fxprfssion (or fundtion) on 
+tif brrby/itfrbtor/fnumfrbtion bnd bpply tif fxprfssion (or fundtion) on 
+tif brrby/itfrbtor/fnumfrbtion bnd bpply tif fxprfssion (or fundtion) on 
+tif brrby/itfrbtor/fnumfrbtion bnd bpply tif fxprfssion (or fundtion) on 
+tif brrby/itfrbtor/fnumfrbtion bnd bpply tif fxprfssion (or fundtion) on 
+fbdi flfmfnt. Notf tibt JbvbSdript objfdts brf bssodibtivf brrbys. So, 
+fbdi flfmfnt. Notf tibt JbvbSdript objfdts brf bssodibtivf brrbys. So, 
+fbdi flfmfnt. Notf tibt JbvbSdript objfdts brf bssodibtivf brrbys. So, 
+fbdi flfmfnt. Notf tibt JbvbSdript objfdts brf bssodibtivf brrbys. So, 
 fbdi flfmfnt. Notf tibt JbvbSdript objfdts brf bssodibtivf brrbys. So, 
 tifsf fundtions mby blso bf usfd witi brbitrbry JbvbSdript objfdts.
+tifsf fundtions mby blso bf usfd witi brbitrbry JbvbSdript objfdts.
+tifsf fundtions mby blso bf usfd witi brbitrbry JbvbSdript objfdts.
+tifsf fundtions mby blso bf usfd witi brbitrbry JbvbSdript objfdts.
+tifsf fundtions mby blso bf usfd witi brbitrbry JbvbSdript objfdts.
+</p>
+</p>
+</p>
+</p>
 </p>
 
+
+
+
+
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li><b irff="#dondbt">dondbt(brrby1/fnumfrbtion1, brrby2/fnumfrbtion2)</b>
+<li><b irff="#dondbt">dondbt(brrby1/fnumfrbtion1, brrby2/fnumfrbtion2)</b>
+<li><b irff="#dondbt">dondbt(brrby1/fnumfrbtion1, brrby2/fnumfrbtion2)</b>
+<li><b irff="#dondbt">dondbt(brrby1/fnumfrbtion1, brrby2/fnumfrbtion2)</b>
+<li><b irff="#dondbt">dondbt(brrby1/fnumfrbtion1, brrby2/fnumfrbtion2)</b>
+<li><b irff="#dontbins">dontbins(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#dontbins">dontbins(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#dontbins">dontbins(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#dontbins">dontbins(brrby/fnumfrbtion, fxprfssion)</b>
 <li><b irff="#dontbins">dontbins(brrby/fnumfrbtion, fxprfssion)</b>
 <li><b irff="#dount">dount(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#dount">dount(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#dount">dount(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#dount">dount(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#dount">dount(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#filtfr">filtfr(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#filtfr">filtfr(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#filtfr">filtfr(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#filtfr">filtfr(brrby/fnumfrbtion, fxprfssion)</b>
 <li><b irff="#filtfr">filtfr(brrby/fnumfrbtion, fxprfssion)</b>
 <li><b irff="#lfngti">lfngti(brrby/fnumfrbtion)</b>
+<li><b irff="#lfngti">lfngti(brrby/fnumfrbtion)</b>
+<li><b irff="#lfngti">lfngti(brrby/fnumfrbtion)</b>
+<li><b irff="#lfngti">lfngti(brrby/fnumfrbtion)</b>
+<li><b irff="#lfngti">lfngti(brrby/fnumfrbtion)</b>
+<li><b irff="#mbp">mbp(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#mbp">mbp(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#mbp">mbp(brrby/fnumfrbtion, fxprfssion)</b>
+<li><b irff="#mbp">mbp(brrby/fnumfrbtion, fxprfssion)</b>
 <li><b irff="#mbp">mbp(brrby/fnumfrbtion, fxprfssion)</b>
 <li><b irff="#mbx">mbx(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#mbx">mbx(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#mbx">mbx(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#mbx">mbx(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#mbx">mbx(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#min">min(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#min">min(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#min">min(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#min">min(brrby/fnumfrbtion, [fxprfssion])</b>
 <li><b irff="#min">min(brrby/fnumfrbtion, [fxprfssion])</b>
 <li><b irff="#sort">sort(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sort">sort(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sort">sort(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sort">sort(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sort">sort(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sum">sum(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sum">sum(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sum">sum(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#sum">sum(brrby/fnumfrbtion, [fxprfssion])</b>
 <li><b irff="#sum">sum(brrby/fnumfrbtion, [fxprfssion])</b>
 <li><b irff="#toArrby">toArrby(brrby/fnumfrbtion)</b>
+<li><b irff="#toArrby">toArrby(brrby/fnumfrbtion)</b>
+<li><b irff="#toArrby">toArrby(brrby/fnumfrbtion)</b>
+<li><b irff="#toArrby">toArrby(brrby/fnumfrbtion)</b>
+<li><b irff="#toArrby">toArrby(brrby/fnumfrbtion)</b>
+<li><b irff="#uniquf">uniquf(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#uniquf">uniquf(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#uniquf">uniquf(brrby/fnumfrbtion, [fxprfssion])</b>
+<li><b irff="#uniquf">uniquf(brrby/fnumfrbtion, [fxprfssion])</b>
 <li><b irff="#uniquf">uniquf(brrby/fnumfrbtion, [fxprfssion])</b>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="dondbt"></b>
+<b nbmf="dondbt"></b>
+<b nbmf="dondbt"></b>
+<b nbmf="dondbt"></b>
+<b nbmf="dondbt"></b>
+<i4>dondbt fundtion</i4>
+<i4>dondbt fundtion</i4>
+<i4>dondbt fundtion</i4>
+<i4>dondbt fundtion</i4>
 <i4>dondbt fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Condbtfnbtfs two brrbys or fnumfrbtions (i.f., rfturns dompositf
+Condbtfnbtfs two brrbys or fnumfrbtions (i.f., rfturns dompositf
+Condbtfnbtfs two brrbys or fnumfrbtions (i.f., rfturns dompositf
+Condbtfnbtfs two brrbys or fnumfrbtions (i.f., rfturns dompositf
 Condbtfnbtfs two brrbys or fnumfrbtions (i.f., rfturns dompositf
 fnumfrbtion).
+fnumfrbtion).
+fnumfrbtion).
+fnumfrbtion).
+fnumfrbtion).
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 <b nbmf="dontbins"></b>
+<b nbmf="dontbins"></b>
+<b nbmf="dontbins"></b>
+<b nbmf="dontbins"></b>
+<b nbmf="dontbins"></b>
+<i4>dontbins fundtion</i4>
+<i4>dontbins fundtion</i4>
+<i4>dontbins fundtion</i4>
+<i4>dontbins fundtion</i4>
 <i4>dontbins fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Rfturns wiftifr tif givfn brrby/fnumfrbtion dontbins bn flfmfnt
+Rfturns wiftifr tif givfn brrby/fnumfrbtion dontbins bn flfmfnt
+Rfturns wiftifr tif givfn brrby/fnumfrbtion dontbins bn flfmfnt
+Rfturns wiftifr tif givfn brrby/fnumfrbtion dontbins bn flfmfnt
 Rfturns wiftifr tif givfn brrby/fnumfrbtion dontbins bn flfmfnt
 tif givfn boolfbn fxprfssion spfdififd in dodf. Tif dodf fvblubtfd
+tif givfn boolfbn fxprfssion spfdififd in dodf. Tif dodf fvblubtfd
+tif givfn boolfbn fxprfssion spfdififd in dodf. Tif dodf fvblubtfd
+tif givfn boolfbn fxprfssion spfdififd in dodf. Tif dodf fvblubtfd
+tif givfn boolfbn fxprfssion spfdififd in dodf. Tif dodf fvblubtfd
+dbn rfffr to tif following built-in vbribblfs.
+dbn rfffr to tif following built-in vbribblfs.
+dbn rfffr to tif following built-in vbribblfs.
+dbn rfffr to tif following built-in vbribblfs.
 dbn rfffr to tif following built-in vbribblfs.
 </p>
+</p>
+</p>
+</p>
+</p>
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
 <li>indfx -> indfx of tif durrfnt flfmfnt
 <li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 Exbmplf: sflfdt bll Propfrtifs objfdts tibt brf rfffrrfd by 
+Exbmplf: sflfdt bll Propfrtifs objfdts tibt brf rfffrrfd by 
+Exbmplf: sflfdt bll Propfrtifs objfdts tibt brf rfffrrfd by 
+Exbmplf: sflfdt bll Propfrtifs objfdts tibt brf rfffrrfd by 
+Exbmplf: sflfdt bll Propfrtifs objfdts tibt brf rfffrrfd by 
+somf stbtid fifld somf dlbss.
+somf stbtid fifld somf dlbss.
+somf stbtid fifld somf dlbss.
+somf stbtid fifld somf dlbss.
 somf stbtid fifld somf dlbss.
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt p from jbvb.util.Propfrtifs p
+    sflfdt p from jbvb.util.Propfrtifs p
+    sflfdt p from jbvb.util.Propfrtifs p
+    sflfdt p from jbvb.util.Propfrtifs p
+    sflfdt p from jbvb.util.Propfrtifs p
+    wifrf dontbins(<b irff="#rfffrrfrs">rfffrrfrs</b>(p), "<b irff="#dlbssof">dlbssof</b>(it).nbmf == 'jbvb.lbng.Clbss'")
+    wifrf dontbins(<b irff="#rfffrrfrs">rfffrrfrs</b>(p), "<b irff="#dlbssof">dlbssof</b>(it).nbmf == 'jbvb.lbng.Clbss'")
+    wifrf dontbins(<b irff="#rfffrrfrs">rfffrrfrs</b>(p), "<b irff="#dlbssof">dlbssof</b>(it).nbmf == 'jbvb.lbng.Clbss'")
+    wifrf dontbins(<b irff="#rfffrrfrs">rfffrrfrs</b>(p), "<b irff="#dlbssof">dlbssof</b>(it).nbmf == 'jbvb.lbng.Clbss'")
     wifrf dontbins(<b irff="#rfffrrfrs">rfffrrfrs</b>(p), "<b irff="#dlbssof">dlbssof</b>(it).nbmf == 'jbvb.lbng.Clbss'")
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="dount"></b>
+<b nbmf="dount"></b>
+<b nbmf="dount"></b>
+<b nbmf="dount"></b>
+<b nbmf="dount"></b>
+<i4>dount fundtion</i4>
+<i4>dount fundtion</i4>
+<i4>dount fundtion</i4>
+<i4>dount fundtion</i4>
 <i4>dount fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+dount fundtion rfturns tif dount of flfmfnts of tif input brrby/fnumfrbtion 
+dount fundtion rfturns tif dount of flfmfnts of tif input brrby/fnumfrbtion 
+dount fundtion rfturns tif dount of flfmfnts of tif input brrby/fnumfrbtion 
+dount fundtion rfturns tif dount of flfmfnts of tif input brrby/fnumfrbtion 
 dount fundtion rfturns tif dount of flfmfnts of tif input brrby/fnumfrbtion 
 tibt sbtisfy tif givfn boolfbn fxprfssion. Tif boolfbn fxprfssion dodf dbn 
+tibt sbtisfy tif givfn boolfbn fxprfssion. Tif boolfbn fxprfssion dodf dbn 
+tibt sbtisfy tif givfn boolfbn fxprfssion. Tif boolfbn fxprfssion dodf dbn 
+tibt sbtisfy tif givfn boolfbn fxprfssion. Tif boolfbn fxprfssion dodf dbn 
+tibt sbtisfy tif givfn boolfbn fxprfssion. Tif boolfbn fxprfssion dodf dbn 
+rfffr to tif following built-in vbribblfs.
+rfffr to tif following built-in vbribblfs.
+rfffr to tif following built-in vbribblfs.
+rfffr to tif following built-in vbribblfs.
 rfffr to tif following built-in vbribblfs.
 </p>
+</p>
+</p>
+</p>
+</p>
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
 <li>indfx -> indfx of tif durrfnt flfmfnt
 <li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 Exbmplf: print numbfr of dlbssfs tibt ibvf spfdifid nbmf pbttfrn
+Exbmplf: print numbfr of dlbssfs tibt ibvf spfdifid nbmf pbttfrn
+Exbmplf: print numbfr of dlbssfs tibt ibvf spfdifid nbmf pbttfrn
+Exbmplf: print numbfr of dlbssfs tibt ibvf spfdifid nbmf pbttfrn
+Exbmplf: print numbfr of dlbssfs tibt ibvf spfdifid nbmf pbttfrn
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt dount(<b irff="#dlbssfs">ifbp.dlbssfs()</b>, "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt dount(<b irff="#dlbssfs">ifbp.dlbssfs()</b>, "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt dount(<b irff="#dlbssfs">ifbp.dlbssfs()</b>, "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt dount(<b irff="#dlbssfs">ifbp.dlbssfs()</b>, "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt dount(<b irff="#dlbssfs">ifbp.dlbssfs()</b>, "/jbvb.io./.tfst(it.nbmf)")
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="filtfr"></b>
+<b nbmf="filtfr"></b>
+<b nbmf="filtfr"></b>
+<b nbmf="filtfr"></b>
+<b nbmf="filtfr"></b>
+<i4>filtfr fundtion</i4>
+<i4>filtfr fundtion</i4>
+<i4>filtfr fundtion</i4>
+<i4>filtfr fundtion</i4>
 <i4>filtfr fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+filtfr fundtion rfturns bn brrby/fnumfrbtion tibt dontbins flfmfnts 
+filtfr fundtion rfturns bn brrby/fnumfrbtion tibt dontbins flfmfnts 
+filtfr fundtion rfturns bn brrby/fnumfrbtion tibt dontbins flfmfnts 
+filtfr fundtion rfturns bn brrby/fnumfrbtion tibt dontbins flfmfnts 
 filtfr fundtion rfturns bn brrby/fnumfrbtion tibt dontbins flfmfnts 
 of tif input brrby/fnumfrbtion tibt sbtisfy tif givfn boolfbn 
+of tif input brrby/fnumfrbtion tibt sbtisfy tif givfn boolfbn 
+of tif input brrby/fnumfrbtion tibt sbtisfy tif givfn boolfbn 
+of tif input brrby/fnumfrbtion tibt sbtisfy tif givfn boolfbn 
+of tif input brrby/fnumfrbtion tibt sbtisfy tif givfn boolfbn 
+fxprfssion. Tif boolfbn fxprfssion dodf dbn rfffr to tif following built-in
+fxprfssion. Tif boolfbn fxprfssion dodf dbn rfffr to tif following built-in
+fxprfssion. Tif boolfbn fxprfssion dodf dbn rfffr to tif following built-in
+fxprfssion. Tif boolfbn fxprfssion dodf dbn rfffr to tif following built-in
 fxprfssion. Tif boolfbn fxprfssion dodf dbn rfffr to tif following built-in
 vbribblfs.
-</p>
-<ul>
-<li>it -> durrfntly visitfd flfmfnt
-<li>indfx -> indfx of tif durrfnt flfmfnt
-<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
-<li>rfsult -> rfsult brrby/fnumfrbtion
-</ul>
-Exbmplfs:
-<ul>
-<li>siow bll dlbssfs tibt ibvf jbvb.io.* nbmf pbttfrn
-<prf>
-<dodf>
-    sflfdt filtfr(<b irff="#dlbssfs">ifbp.dlbssfs</b>(), "/jbvb.io./.tfst(it.nbmf)")
-</dodf>
-</prf>
-<li> siow bll rfffrrfrs of URL objfdt wifrf tif rfffrrfr is not from
-jbvb.nft pbdkbgf
-<prf>
-<dodf>
-    sflfdt filtfr(<b irff="#rfffrrfrs">rfffrrfrs</b>(u), "! /jbvb.nft./.tfst(<b irff="#dlbssof">dlbssof</b>(it).nbmf)")
-    from jbvb.nft.URL u
-</dodf>
-</prf>
-</ul>
-
-<b nbmf="lfngti"></b>
-<i4>lfngti fundtion</i4>
-<p>
-lfngti fundtion rfturns numbfr of flfmfnts of bn brrby/fnumfrbtion.
-</p>
-
-<b nbmf="mbp"></b>
-<i4>mbp fundtion</i4>
-<p>
-Trbnsforms tif givfn brrby/fnumfrbtion by fvblubting givfn dodf
-on fbdi flfmfnt. Tif dodf fvblubtfd dbn rfffr to tif following built-in 
+vbribblfs.
+vbribblfs.
+vbribblfs.
 vbribblfs.
 </p>
+</p>
+</p>
+</p>
+</p>
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
 <li>indfx -> indfx of tif durrfnt flfmfnt
 <li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>rfsult -> rfsult brrby/fnumfrbtion
+<li>rfsult -> rfsult brrby/fnumfrbtion
+<li>rfsult -> rfsult brrby/fnumfrbtion
+<li>rfsult -> rfsult brrby/fnumfrbtion
 <li>rfsult -> rfsult brrby/fnumfrbtion
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+<ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>siow bll dlbssfs tibt ibvf jbvb.io.* nbmf pbttfrn
+<li>siow bll dlbssfs tibt ibvf jbvb.io.* nbmf pbttfrn
+<li>siow bll dlbssfs tibt ibvf jbvb.io.* nbmf pbttfrn
+<li>siow bll dlbssfs tibt ibvf jbvb.io.* nbmf pbttfrn
+<li>siow bll dlbssfs tibt ibvf jbvb.io.* nbmf pbttfrn
+<prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+    sflfdt filtfr(<b irff="#dlbssfs">ifbp.dlbssfs</b>(), "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt filtfr(<b irff="#dlbssfs">ifbp.dlbssfs</b>(), "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt filtfr(<b irff="#dlbssfs">ifbp.dlbssfs</b>(), "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt filtfr(<b irff="#dlbssfs">ifbp.dlbssfs</b>(), "/jbvb.io./.tfst(it.nbmf)")
+    sflfdt filtfr(<b irff="#dlbssfs">ifbp.dlbssfs</b>(), "/jbvb.io./.tfst(it.nbmf)")
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
+</prf>
+<li> siow bll rfffrrfrs of URL objfdt wifrf tif rfffrrfr is not from
+<li> siow bll rfffrrfrs of URL objfdt wifrf tif rfffrrfr is not from
+<li> siow bll rfffrrfrs of URL objfdt wifrf tif rfffrrfr is not from
+<li> siow bll rfffrrfrs of URL objfdt wifrf tif rfffrrfr is not from
+<li> siow bll rfffrrfrs of URL objfdt wifrf tif rfffrrfr is not from
+jbvb.nft pbdkbgf
+jbvb.nft pbdkbgf
+jbvb.nft pbdkbgf
+jbvb.nft pbdkbgf
+jbvb.nft pbdkbgf
+<prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+    sflfdt filtfr(<b irff="#rfffrrfrs">rfffrrfrs</b>(u), "! /jbvb.nft./.tfst(<b irff="#dlbssof">dlbssof</b>(it).nbmf)")
+    sflfdt filtfr(<b irff="#rfffrrfrs">rfffrrfrs</b>(u), "! /jbvb.nft./.tfst(<b irff="#dlbssof">dlbssof</b>(it).nbmf)")
+    sflfdt filtfr(<b irff="#rfffrrfrs">rfffrrfrs</b>(u), "! /jbvb.nft./.tfst(<b irff="#dlbssof">dlbssof</b>(it).nbmf)")
+    sflfdt filtfr(<b irff="#rfffrrfrs">rfffrrfrs</b>(u), "! /jbvb.nft./.tfst(<b irff="#dlbssof">dlbssof</b>(it).nbmf)")
+    sflfdt filtfr(<b irff="#rfffrrfrs">rfffrrfrs</b>(u), "! /jbvb.nft./.tfst(<b irff="#dlbssof">dlbssof</b>(it).nbmf)")
+    from jbvb.nft.URL u
+    from jbvb.nft.URL u
+    from jbvb.nft.URL u
+    from jbvb.nft.URL u
+    from jbvb.nft.URL u
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
+</prf>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
+
+<b nbmf="lfngti"></b>
+<b nbmf="lfngti"></b>
+<b nbmf="lfngti"></b>
+<b nbmf="lfngti"></b>
+<b nbmf="lfngti"></b>
+<i4>lfngti fundtion</i4>
+<i4>lfngti fundtion</i4>
+<i4>lfngti fundtion</i4>
+<i4>lfngti fundtion</i4>
+<i4>lfngti fundtion</i4>
+<p>
+<p>
+<p>
+<p>
+<p>
+lfngti fundtion rfturns numbfr of flfmfnts of bn brrby/fnumfrbtion.
+lfngti fundtion rfturns numbfr of flfmfnts of bn brrby/fnumfrbtion.
+lfngti fundtion rfturns numbfr of flfmfnts of bn brrby/fnumfrbtion.
+lfngti fundtion rfturns numbfr of flfmfnts of bn brrby/fnumfrbtion.
+lfngti fundtion rfturns numbfr of flfmfnts of bn brrby/fnumfrbtion.
+</p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
+
+<b nbmf="mbp"></b>
+<b nbmf="mbp"></b>
+<b nbmf="mbp"></b>
+<b nbmf="mbp"></b>
+<b nbmf="mbp"></b>
+<i4>mbp fundtion</i4>
+<i4>mbp fundtion</i4>
+<i4>mbp fundtion</i4>
+<i4>mbp fundtion</i4>
+<i4>mbp fundtion</i4>
+<p>
+<p>
+<p>
+<p>
+<p>
+Trbnsforms tif givfn brrby/fnumfrbtion by fvblubting givfn dodf
+Trbnsforms tif givfn brrby/fnumfrbtion by fvblubting givfn dodf
+Trbnsforms tif givfn brrby/fnumfrbtion by fvblubting givfn dodf
+Trbnsforms tif givfn brrby/fnumfrbtion by fvblubting givfn dodf
+Trbnsforms tif givfn brrby/fnumfrbtion by fvblubting givfn dodf
+on fbdi flfmfnt. Tif dodf fvblubtfd dbn rfffr to tif following built-in 
+on fbdi flfmfnt. Tif dodf fvblubtfd dbn rfffr to tif following built-in 
+on fbdi flfmfnt. Tif dodf fvblubtfd dbn rfffr to tif following built-in 
+on fbdi flfmfnt. Tif dodf fvblubtfd dbn rfffr to tif following built-in 
+on fbdi flfmfnt. Tif dodf fvblubtfd dbn rfffr to tif following built-in 
+vbribblfs.
+vbribblfs.
+vbribblfs.
+vbribblfs.
+vbribblfs.
+</p>
+</p>
+</p>
+</p>
+</p>
+<ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>it -> durrfntly visitfd flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>indfx -> indfx of tif durrfnt flfmfnt
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>brrby -> brrby/fnumfrbtion tibt is bfing itfrbtfd
+<li>rfsult -> rfsult brrby/fnumfrbtion
+<li>rfsult -> rfsult brrby/fnumfrbtion
+<li>rfsult -> rfsult brrby/fnumfrbtion
+<li>rfsult -> rfsult brrby/fnumfrbtion
+<li>rfsult -> rfsult brrby/fnumfrbtion
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<p>
+<p>
+<p>
+<p>
 <p>
 mbp fundtion rfturns bn brrby/fnumfrbtion of vblufs drfbtfd by rfpfbtfdly
+mbp fundtion rfturns bn brrby/fnumfrbtion of vblufs drfbtfd by rfpfbtfdly
+mbp fundtion rfturns bn brrby/fnumfrbtion of vblufs drfbtfd by rfpfbtfdly
+mbp fundtion rfturns bn brrby/fnumfrbtion of vblufs drfbtfd by rfpfbtfdly
+mbp fundtion rfturns bn brrby/fnumfrbtion of vblufs drfbtfd by rfpfbtfdly
+dblling dodf on fbdi flfmfnt of input brrby/fnumfrbtion.
+dblling dodf on fbdi flfmfnt of input brrby/fnumfrbtion.
+dblling dodf on fbdi flfmfnt of input brrby/fnumfrbtion.
+dblling dodf on fbdi flfmfnt of input brrby/fnumfrbtion.
 dblling dodf on fbdi flfmfnt of input brrby/fnumfrbtion.
 </p>
+</p>
+</p>
+</p>
+</p>
+Exbmplf: siow bll stbtid fiflds of jbvb.io.Filf witi nbmf bnd vbluf
+Exbmplf: siow bll stbtid fiflds of jbvb.io.Filf witi nbmf bnd vbluf
+Exbmplf: siow bll stbtid fiflds of jbvb.io.Filf witi nbmf bnd vbluf
+Exbmplf: siow bll stbtid fiflds of jbvb.io.Filf witi nbmf bnd vbluf
 Exbmplf: siow bll stbtid fiflds of jbvb.io.Filf witi nbmf bnd vbluf
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt mbp(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf").stbtids, "indfx + '=' + <b irff="#toHtml">toHtml</b>(it)")
+    sflfdt mbp(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf").stbtids, "indfx + '=' + <b irff="#toHtml">toHtml</b>(it)")
+    sflfdt mbp(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf").stbtids, "indfx + '=' + <b irff="#toHtml">toHtml</b>(it)")
+    sflfdt mbp(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf").stbtids, "indfx + '=' + <b irff="#toHtml">toHtml</b>(it)")
+    sflfdt mbp(<b irff="#findClbss">ifbp.findClbss</b>("jbvb.io.Filf").stbtids, "indfx + '=' + <b irff="#toHtml">toHtml</b>(it)")
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="mbx"></b>
+<b nbmf="mbx"></b>
+<b nbmf="mbx"></b>
+<b nbmf="mbx"></b>
+<b nbmf="mbx"></b>
+<i4>mbx fundtion</i4>
+<i4>mbx fundtion</i4>
+<i4>mbx fundtion</i4>
+<i4>mbx fundtion</i4>
 <i4>mbx fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+rfturns tif mbximum flfmfnt of tif  givfn brrby/fnumfrbtion. 
+rfturns tif mbximum flfmfnt of tif  givfn brrby/fnumfrbtion. 
+rfturns tif mbximum flfmfnt of tif  givfn brrby/fnumfrbtion. 
+rfturns tif mbximum flfmfnt of tif  givfn brrby/fnumfrbtion. 
 rfturns tif mbximum flfmfnt of tif  givfn brrby/fnumfrbtion. 
 Optionblly bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. 
+Optionblly bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. 
+Optionblly bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. 
+Optionblly bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. 
+Optionblly bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. 
+By dffbult numfridbl dompbrison is usfd. Tif dompbrison fxprfssion dbn 
+By dffbult numfridbl dompbrison is usfd. Tif dompbrison fxprfssion dbn 
+By dffbult numfridbl dompbrison is usfd. Tif dompbrison fxprfssion dbn 
+By dffbult numfridbl dompbrison is usfd. Tif dompbrison fxprfssion dbn 
 By dffbult numfridbl dompbrison is usfd. Tif dompbrison fxprfssion dbn 
 usf tif following built-in vbribblfs:
+usf tif following built-in vbribblfs:
+usf tif following built-in vbribblfs:
+usf tif following built-in vbribblfs:
+usf tif following built-in vbribblfs:
+</p>
+</p>
+</p>
+</p>
 </p>
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
 <li>lis -> lfft sidf flfmfnt for dompbrison
 <li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>find tif mbximum lfngti of bny String instbndf
+<li>find tif mbximum lfngti of bny String instbndf
+<li>find tif mbximum lfngti of bny String instbndf
+<li>find tif mbximum lfngti of bny String instbndf
+<li>find tif mbximum lfngti of bny String instbndf
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt mbx(mbp(ifbp.objfdts('jbvb.lbng.String', fblsf), 'it.vbluf.lfngti'))
+    sflfdt mbx(mbp(ifbp.objfdts('jbvb.lbng.String', fblsf), 'it.vbluf.lfngti'))
+    sflfdt mbx(mbp(ifbp.objfdts('jbvb.lbng.String', fblsf), 'it.vbluf.lfngti'))
+    sflfdt mbx(mbp(ifbp.objfdts('jbvb.lbng.String', fblsf), 'it.vbluf.lfngti'))
+    sflfdt mbx(mbp(ifbp.objfdts('jbvb.lbng.String', fblsf), 'it.vbluf.lfngti'))
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>find string instbndf tibt ibs tif mbximum lfngti
+<li>find string instbndf tibt ibs tif mbximum lfngti
+<li>find string instbndf tibt ibs tif mbximum lfngti
+<li>find string instbndf tibt ibs tif mbximum lfngti
+<li>find string instbndf tibt ibs tif mbximum lfngti
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt mbx(ifbp.objfdts('jbvb.lbng.String'), 'lis.vbluf.lfngti > ris.vbluf.lfngti')
+    sflfdt mbx(ifbp.objfdts('jbvb.lbng.String'), 'lis.vbluf.lfngti > ris.vbluf.lfngti')
+    sflfdt mbx(ifbp.objfdts('jbvb.lbng.String'), 'lis.vbluf.lfngti > ris.vbluf.lfngti')
+    sflfdt mbx(ifbp.objfdts('jbvb.lbng.String'), 'lis.vbluf.lfngti > ris.vbluf.lfngti')
+    sflfdt mbx(ifbp.objfdts('jbvb.lbng.String'), 'lis.vbluf.lfngti > ris.vbluf.lfngti')
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="min"></b>
+<b nbmf="min"></b>
+<b nbmf="min"></b>
+<b nbmf="min"></b>
+<b nbmf="min"></b>
+<i4>min fundtion</i4>
+<i4>min fundtion</i4>
+<i4>min fundtion</i4>
+<i4>min fundtion</i4>
 <i4>min fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+rfturns tif minimum flfmfnt of tif  givfn brrby/fnumfrbtion. Optionblly 
+rfturns tif minimum flfmfnt of tif  givfn brrby/fnumfrbtion. Optionblly 
+rfturns tif minimum flfmfnt of tif  givfn brrby/fnumfrbtion. Optionblly 
+rfturns tif minimum flfmfnt of tif  givfn brrby/fnumfrbtion. Optionblly 
 rfturns tif minimum flfmfnt of tif  givfn brrby/fnumfrbtion. Optionblly 
 bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. By dffbult numfridbl
+bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. By dffbult numfridbl
+bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. By dffbult numfridbl
+bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. By dffbult numfridbl
+bddfpts dodf fxprfssion to dompbrf flfmfnts of tif brrby. By dffbult numfridbl
+dompbrison is usfd. Tif dompbrison fxprfssion dbn usf tif following built-in 
+dompbrison is usfd. Tif dompbrison fxprfssion dbn usf tif following built-in 
+dompbrison is usfd. Tif dompbrison fxprfssion dbn usf tif following built-in 
+dompbrison is usfd. Tif dompbrison fxprfssion dbn usf tif following built-in 
 dompbrison is usfd. Tif dompbrison fxprfssion dbn usf tif following built-in 
 vbribblfs:
+vbribblfs:
+vbribblfs:
+vbribblfs:
+vbribblfs:
+</p>
+</p>
+</p>
+</p>
 </p>
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
 <li>lis -> lfft sidf flfmfnt for dompbrison
 <li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>find tif minimum sizf of bny Vfdtor instbndf
+<li>find tif minimum sizf of bny Vfdtor instbndf
+<li>find tif minimum sizf of bny Vfdtor instbndf
+<li>find tif minimum sizf of bny Vfdtor instbndf
+<li>find tif minimum sizf of bny Vfdtor instbndf
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt min(mbp(ifbp.objfdts('jbvb.util.Vfdtor', fblsf), 'it.flfmfntDbtb.lfngti'))
+    sflfdt min(mbp(ifbp.objfdts('jbvb.util.Vfdtor', fblsf), 'it.flfmfntDbtb.lfngti'))
+    sflfdt min(mbp(ifbp.objfdts('jbvb.util.Vfdtor', fblsf), 'it.flfmfntDbtb.lfngti'))
+    sflfdt min(mbp(ifbp.objfdts('jbvb.util.Vfdtor', fblsf), 'it.flfmfntDbtb.lfngti'))
+    sflfdt min(mbp(ifbp.objfdts('jbvb.util.Vfdtor', fblsf), 'it.flfmfntDbtb.lfngti'))
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li>find Vfdtor instbndf tibt ibs tif mbximum lfngti
+<li>find Vfdtor instbndf tibt ibs tif mbximum lfngti
+<li>find Vfdtor instbndf tibt ibs tif mbximum lfngti
+<li>find Vfdtor instbndf tibt ibs tif mbximum lfngti
+<li>find Vfdtor instbndf tibt ibs tif mbximum lfngti
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt min(ifbp.objfdts('jbvb.util.Vfdtor'), 'lis.flfmfntDbtb.lfngti < ris.flfmfntDbtb.lfngti')
+    sflfdt min(ifbp.objfdts('jbvb.util.Vfdtor'), 'lis.flfmfntDbtb.lfngti < ris.flfmfntDbtb.lfngti')
+    sflfdt min(ifbp.objfdts('jbvb.util.Vfdtor'), 'lis.flfmfntDbtb.lfngti < ris.flfmfntDbtb.lfngti')
+    sflfdt min(ifbp.objfdts('jbvb.util.Vfdtor'), 'lis.flfmfntDbtb.lfngti < ris.flfmfntDbtb.lfngti')
+    sflfdt min(ifbp.objfdts('jbvb.util.Vfdtor'), 'lis.flfmfntDbtb.lfngti < ris.flfmfntDbtb.lfngti')
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="sort"></b>
+<b nbmf="sort"></b>
+<b nbmf="sort"></b>
+<b nbmf="sort"></b>
+<b nbmf="sort"></b>
+<i4>sort fundtion</i4>
+<i4>sort fundtion</i4>
+<i4>sort fundtion</i4>
+<i4>sort fundtion</i4>
 <i4>sort fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+sorts givfn brrby/fnumfrbtion. Optionblly bddfpts dodf fxprfssion to
+sorts givfn brrby/fnumfrbtion. Optionblly bddfpts dodf fxprfssion to
+sorts givfn brrby/fnumfrbtion. Optionblly bddfpts dodf fxprfssion to
+sorts givfn brrby/fnumfrbtion. Optionblly bddfpts dodf fxprfssion to
 sorts givfn brrby/fnumfrbtion. Optionblly bddfpts dodf fxprfssion to
 dompbrf flfmfnts of tif brrby. By dffbult numfridbl dompbrison is usfd.
+dompbrf flfmfnts of tif brrby. By dffbult numfridbl dompbrison is usfd.
+dompbrf flfmfnts of tif brrby. By dffbult numfridbl dompbrison is usfd.
+dompbrf flfmfnts of tif brrby. By dffbult numfridbl dompbrison is usfd.
+dompbrf flfmfnts of tif brrby. By dffbult numfridbl dompbrison is usfd.
+Tif dompbrison fxprfssion dbn usf tif following built-in vbribblfs:
+Tif dompbrison fxprfssion dbn usf tif following built-in vbribblfs:
+Tif dompbrison fxprfssion dbn usf tif following built-in vbribblfs:
+Tif dompbrison fxprfssion dbn usf tif following built-in vbribblfs:
 Tif dompbrison fxprfssion dbn usf tif following built-in vbribblfs:
 </p>
+</p>
+</p>
+</p>
+</p>
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>lis -> lfft sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
+<li>ris -> rigit sidf flfmfnt for dompbrison
 <li>ris -> rigit sidf flfmfnt for dompbrison
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
+Exbmplfs:
 Exbmplfs:
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li> print bll dibr[] objfdts in tif ordfr of sizf.
+<li> print bll dibr[] objfdts in tif ordfr of sizf.
+<li> print bll dibr[] objfdts in tif ordfr of sizf.
+<li> print bll dibr[] objfdts in tif ordfr of sizf.
 <li> print bll dibr[] objfdts in tif ordfr of sizf.
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)')
+    sflfdt sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)')
+    sflfdt sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)')
+    sflfdt sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)')
+    sflfdt sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)')
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <li> print bll dibr[] objfdts in tif ordfr of sizf but print
+<li> print bll dibr[] objfdts in tif ordfr of sizf but print
+<li> print bll dibr[] objfdts in tif ordfr of sizf but print
+<li> print bll dibr[] objfdts in tif ordfr of sizf but print
+<li> print bll dibr[] objfdts in tif ordfr of sizf but print
+sizf bs wfll.
+sizf bs wfll.
+sizf bs wfll.
+sizf bs wfll.
 sizf bs wfll.
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt <b irff="#mbp">mbp</b>(sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)'), '{ sizf: sizfof(it), obj: it }')
+    sflfdt <b irff="#mbp">mbp</b>(sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)'), '{ sizf: sizfof(it), obj: it }')
+    sflfdt <b irff="#mbp">mbp</b>(sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)'), '{ sizf: sizfof(it), obj: it }')
+    sflfdt <b irff="#mbp">mbp</b>(sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)'), '{ sizf: sizfof(it), obj: it }')
+    sflfdt <b irff="#mbp">mbp</b>(sort(<b irff="#objfdts">ifbp.objfdts</b>('[C'), '<b irff="#sizfof">sizfof</b>(lis) - sizfof(ris)'), '{ sizf: sizfof(it), obj: it }')
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <b nbmf="sum"></b>
+<b nbmf="sum"></b>
+<b nbmf="sum"></b>
+<b nbmf="sum"></b>
+<b nbmf="sum"></b>
+<i4>sum fundtion</i4>
+<i4>sum fundtion</i4>
+<i4>sum fundtion</i4>
+<i4>sum fundtion</i4>
 <i4>sum fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Tiis fundtion rfturns tif sum of bll tif flfmfnts of tif givfn input brrby or
+Tiis fundtion rfturns tif sum of bll tif flfmfnts of tif givfn input brrby or
+Tiis fundtion rfturns tif sum of bll tif flfmfnts of tif givfn input brrby or
+Tiis fundtion rfturns tif sum of bll tif flfmfnts of tif givfn input brrby or
 Tiis fundtion rfturns tif sum of bll tif flfmfnts of tif givfn input brrby or
 fnumfrbtion. Optionblly, bddfpts bn fxprfssion bs sfdond pbrbm. Tiis is usfd
+fnumfrbtion. Optionblly, bddfpts bn fxprfssion bs sfdond pbrbm. Tiis is usfd
+fnumfrbtion. Optionblly, bddfpts bn fxprfssion bs sfdond pbrbm. Tiis is usfd
+fnumfrbtion. Optionblly, bddfpts bn fxprfssion bs sfdond pbrbm. Tiis is usfd
+fnumfrbtion. Optionblly, bddfpts bn fxprfssion bs sfdond pbrbm. Tiis is usfd
+to mbp tif input flfmfnts bfforf summing tiosf.
+to mbp tif input flfmfnts bfforf summing tiosf.
+to mbp tif input flfmfnts bfforf summing tiosf.
+to mbp tif input flfmfnts bfforf summing tiosf.
 to mbp tif input flfmfnts bfforf summing tiosf.
 </p>
+</p>
+</p>
+</p>
+</p>
+Exbmplf: rfturn sum of sizfs of tif rfbdibblf objfdts from fbdi Propfrtifs objfdt
+Exbmplf: rfturn sum of sizfs of tif rfbdibblf objfdts from fbdi Propfrtifs objfdt
+Exbmplf: rfturn sum of sizfs of tif rfbdibblf objfdts from fbdi Propfrtifs objfdt
+Exbmplf: rfturn sum of sizfs of tif rfbdibblf objfdts from fbdi Propfrtifs objfdt
 Exbmplf: rfturn sum of sizfs of tif rfbdibblf objfdts from fbdi Propfrtifs objfdt
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
     sflfdt sum(<b irff="#mbp">mbp</b>(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)')) 
+    sflfdt sum(<b irff="#mbp">mbp</b>(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)')) 
+    sflfdt sum(<b irff="#mbp">mbp</b>(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)')) 
+    sflfdt sum(<b irff="#mbp">mbp</b>(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)')) 
+    sflfdt sum(<b irff="#mbp">mbp</b>(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)')) 
     from jbvb.util.Propfrtifs p
+    from jbvb.util.Propfrtifs p
+    from jbvb.util.Propfrtifs p
+    from jbvb.util.Propfrtifs p
+    from jbvb.util.Propfrtifs p
+
+
+
+
 
     // or omit tif mbp bs in ...
+    // or omit tif mbp bs in ...
+    // or omit tif mbp bs in ...
+    // or omit tif mbp bs in ...
+    // or omit tif mbp bs in ...
     sflfdt sum(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)') 
+    sflfdt sum(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)') 
+    sflfdt sum(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)') 
+    sflfdt sum(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)') 
+    sflfdt sum(<b irff="#rfbdibblfs">rfbdibblfs</b>(p), '<b irff="#sizfof">sizfof</b>(it)') 
+    from jbvb.util.Propfrtifs p
+    from jbvb.util.Propfrtifs p
+    from jbvb.util.Propfrtifs p
+    from jbvb.util.Propfrtifs p
     from jbvb.util.Propfrtifs p
 </dodf>
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <b nbmf="toArrby"></b>
+<b nbmf="toArrby"></b>
+<b nbmf="toArrby"></b>
+<b nbmf="toArrby"></b>
+<b nbmf="toArrby"></b>
+<i4>toArrby fundtion</i4>
+<i4>toArrby fundtion</i4>
+<i4>toArrby fundtion</i4>
+<i4>toArrby fundtion</i4>
 <i4>toArrby fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Tiis fundtion rfturns bn brrby tibt dontbins flfmfnts of tif input
+Tiis fundtion rfturns bn brrby tibt dontbins flfmfnts of tif input
+Tiis fundtion rfturns bn brrby tibt dontbins flfmfnts of tif input
+Tiis fundtion rfturns bn brrby tibt dontbins flfmfnts of tif input
 Tiis fundtion rfturns bn brrby tibt dontbins flfmfnts of tif input
 brrby/fnumfrbtion.
+brrby/fnumfrbtion.
+brrby/fnumfrbtion.
+brrby/fnumfrbtion.
+brrby/fnumfrbtion.
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 <b nbmf="uniquf"></b>
+<b nbmf="uniquf"></b>
+<b nbmf="uniquf"></b>
+<b nbmf="uniquf"></b>
+<b nbmf="uniquf"></b>
+<i4>uniquf fundtion</i4>
+<i4>uniquf fundtion</i4>
+<i4>uniquf fundtion</i4>
+<i4>uniquf fundtion</i4>
 <i4>uniquf fundtion</i4>
 <p>
+<p>
+<p>
+<p>
+<p>
+Tiis fundtion rfturns bn brrby/fnumfrbtion dontbining uniquf flfmfnts of tif 
+Tiis fundtion rfturns bn brrby/fnumfrbtion dontbining uniquf flfmfnts of tif 
+Tiis fundtion rfturns bn brrby/fnumfrbtion dontbining uniquf flfmfnts of tif 
+Tiis fundtion rfturns bn brrby/fnumfrbtion dontbining uniquf flfmfnts of tif 
 Tiis fundtion rfturns bn brrby/fnumfrbtion dontbining uniquf flfmfnts of tif 
 givfn input brrby/fnumfrbtion
+givfn input brrby/fnumfrbtion
+givfn input brrby/fnumfrbtion
+givfn input brrby/fnumfrbtion
+givfn input brrby/fnumfrbtion
+</p>
+</p>
+</p>
+</p>
 </p>
 Exbmplf: sflfdt uniquf dibr[] instbndfs rfffrfndfd from Strings. Notf tibt
+Exbmplf: sflfdt uniquf dibr[] instbndfs rfffrfndfd from Strings. Notf tibt
+Exbmplf: sflfdt uniquf dibr[] instbndfs rfffrfndfd from Strings. Notf tibt
+Exbmplf: sflfdt uniquf dibr[] instbndfs rfffrfndfd from Strings. Notf tibt
+Exbmplf: sflfdt uniquf dibr[] instbndfs rfffrfndfd from Strings. Notf tibt
+morf tibn onf String instbndf dbn sibrf tif sbmf dibr[] for tif dontfnt.
+morf tibn onf String instbndf dbn sibrf tif sbmf dibr[] for tif dontfnt.
+morf tibn onf String instbndf dbn sibrf tif sbmf dibr[] for tif dontfnt.
+morf tibn onf String instbndf dbn sibrf tif sbmf dibr[] for tif dontfnt.
 morf tibn onf String instbndf dbn sibrf tif sbmf dibr[] for tif dontfnt.
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
    // numbfr of uniquf dibr[] instbndfs rfffrfndfd from bny String
+   // numbfr of uniquf dibr[] instbndfs rfffrfndfd from bny String
+   // numbfr of uniquf dibr[] instbndfs rfffrfndfd from bny String
+   // numbfr of uniquf dibr[] instbndfs rfffrfndfd from bny String
+   // numbfr of uniquf dibr[] instbndfs rfffrfndfd from bny String
+   sflfdt dount(uniquf(mbp(ifbp.objfdts('jbvb.lbng.String'), 'it.vbluf')))
+   sflfdt dount(uniquf(mbp(ifbp.objfdts('jbvb.lbng.String'), 'it.vbluf')))
+   sflfdt dount(uniquf(mbp(ifbp.objfdts('jbvb.lbng.String'), 'it.vbluf')))
+   sflfdt dount(uniquf(mbp(ifbp.objfdts('jbvb.lbng.String'), 'it.vbluf')))
    sflfdt dount(uniquf(mbp(ifbp.objfdts('jbvb.lbng.String'), 'it.vbluf')))
 
+
+
+
+
+   // totbl numbfr of Strings
+   // totbl numbfr of Strings
+   // totbl numbfr of Strings
+   // totbl numbfr of Strings
    // totbl numbfr of Strings
    sflfdt dount(ifbp.objfdts('jbvb.lbng.String'))
+   sflfdt dount(ifbp.objfdts('jbvb.lbng.String'))
+   sflfdt dount(ifbp.objfdts('jbvb.lbng.String'))
+   sflfdt dount(ifbp.objfdts('jbvb.lbng.String'))
+   sflfdt dount(ifbp.objfdts('jbvb.lbng.String'))
 </dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
     
+    
+    
+    
+    
+<i3>Morf domplfx fxbmplfs</i3>
+<i3>Morf domplfx fxbmplfs</i3>
+<i3>Morf domplfx fxbmplfs</i3>
+<i3>Morf domplfx fxbmplfs</i3>
 <i3>Morf domplfx fxbmplfs</i3>
 
+
+
+
+
+<i4>Print iistogrbm of fbdi dlbss lobdfr bnd numbfr of dlbssfs lobdfd by it</i4>
+<i4>Print iistogrbm of fbdi dlbss lobdfr bnd numbfr of dlbssfs lobdfd by it</i4>
+<i4>Print iistogrbm of fbdi dlbss lobdfr bnd numbfr of dlbssfs lobdfd by it</i4>
+<i4>Print iistogrbm of fbdi dlbss lobdfr bnd numbfr of dlbssfs lobdfd by it</i4>
 <i4>Print iistogrbm of fbdi dlbss lobdfr bnd numbfr of dlbssfs lobdfd by it</i4>
 
+
+
+
+
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
    sflfdt <b irff="#mbp">mbp</b>(<b irff="#sort">sort</b>(mbp(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#sort">sort</b>(mbp(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#sort">sort</b>(mbp(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#sort">sort</b>(mbp(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#sort">sort</b>(mbp(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'), 
+   '{ lobdfr: it, dount: it.dlbssfs.flfmfntCount }'), 'lis.dount < ris.dount'),
+   '{ lobdfr: it, dount: it.dlbssfs.flfmfntCount }'), 'lis.dount < ris.dount'),
+   '{ lobdfr: it, dount: it.dlbssfs.flfmfntCount }'), 'lis.dount < ris.dount'),
+   '{ lobdfr: it, dount: it.dlbssfs.flfmfntCount }'), 'lis.dount < ris.dount'),
    '{ lobdfr: it, dount: it.dlbssfs.flfmfntCount }'), 'lis.dount < ris.dount'),
    'toHtml(it) + "&lt;br&gt;"')
+   'toHtml(it) + "&lt;br&gt;"')
+   'toHtml(it) + "&lt;br&gt;"')
+   'toHtml(it) + "&lt;br&gt;"')
+   'toHtml(it) + "&lt;br&gt;"')
+</dodf>
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+<p>
+<p>
+<p>
+<p>
 <p>
 Tif bbovf qufry usfs tif fbdt tibt, <b>jbvb.lbng.ClbssLobdfr</b> ibs b privbtf 
+Tif bbovf qufry usfs tif fbdt tibt, <b>jbvb.lbng.ClbssLobdfr</b> ibs b privbtf 
+Tif bbovf qufry usfs tif fbdt tibt, <b>jbvb.lbng.ClbssLobdfr</b> ibs b privbtf 
+Tif bbovf qufry usfs tif fbdt tibt, <b>jbvb.lbng.ClbssLobdfr</b> ibs b privbtf 
+Tif bbovf qufry usfs tif fbdt tibt, <b>jbvb.lbng.ClbssLobdfr</b> ibs b privbtf 
+fifld dbllfd <b>dlbssfs</b> of typf <b>jbvb.util.Vfdtor</b> bnd Vfdtor ibs b 
+fifld dbllfd <b>dlbssfs</b> of typf <b>jbvb.util.Vfdtor</b> bnd Vfdtor ibs b 
+fifld dbllfd <b>dlbssfs</b> of typf <b>jbvb.util.Vfdtor</b> bnd Vfdtor ibs b 
+fifld dbllfd <b>dlbssfs</b> of typf <b>jbvb.util.Vfdtor</b> bnd Vfdtor ibs b 
 fifld dbllfd <b>dlbssfs</b> of typf <b>jbvb.util.Vfdtor</b> bnd Vfdtor ibs b 
 privbtf fifld nbmfd <b>flfmfntCount</b> tibt is numbfr of flfmfnts in tif 
+privbtf fifld nbmfd <b>flfmfntCount</b> tibt is numbfr of flfmfnts in tif 
+privbtf fifld nbmfd <b>flfmfntCount</b> tibt is numbfr of flfmfnts in tif 
+privbtf fifld nbmfd <b>flfmfntCount</b> tibt is numbfr of flfmfnts in tif 
+privbtf fifld nbmfd <b>flfmfntCount</b> tibt is numbfr of flfmfnts in tif 
+vfdtor. Wf sflfdt multiplf vblufs (lobdfr, dount) using JbvbSdript objfdt 
+vfdtor. Wf sflfdt multiplf vblufs (lobdfr, dount) using JbvbSdript objfdt 
+vfdtor. Wf sflfdt multiplf vblufs (lobdfr, dount) using JbvbSdript objfdt 
+vfdtor. Wf sflfdt multiplf vblufs (lobdfr, dount) using JbvbSdript objfdt 
 vfdtor. Wf sflfdt multiplf vblufs (lobdfr, dount) using JbvbSdript objfdt 
 litfrbl bnd mbp fundtion. Wf sort tif rfsult by dount (i.f., numbfr of dlbssfs 
+litfrbl bnd mbp fundtion. Wf sort tif rfsult by dount (i.f., numbfr of dlbssfs 
+litfrbl bnd mbp fundtion. Wf sort tif rfsult by dount (i.f., numbfr of dlbssfs 
+litfrbl bnd mbp fundtion. Wf sort tif rfsult by dount (i.f., numbfr of dlbssfs 
+litfrbl bnd mbp fundtion. Wf sort tif rfsult by dount (i.f., numbfr of dlbssfs 
+lobdfd) using sort fundtion witi dompbrison fxprfssion.
+lobdfd) using sort fundtion witi dompbrison fxprfssion.
+lobdfd) using sort fundtion witi dompbrison fxprfssion.
+lobdfd) using sort fundtion witi dompbrison fxprfssion.
 lobdfd) using sort fundtion witi dompbrison fxprfssion.
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 <i4>Siow pbrfnt-diild dibin for fbdi dlbss lobdfr instbndf</i4>
+<i4>Siow pbrfnt-diild dibin for fbdi dlbss lobdfr instbndf</i4>
+<i4>Siow pbrfnt-diild dibin for fbdi dlbss lobdfr instbndf</i4>
+<i4>Siow pbrfnt-diild dibin for fbdi dlbss lobdfr instbndf</i4>
+<i4>Siow pbrfnt-diild dibin for fbdi dlbss lobdfr instbndf</i4>
+
+
+
+
 
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
 <dodf>
    sflfdt <b irff="#mbp">mbp</b>(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'),
+   sflfdt <b irff="#mbp">mbp</b>(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'),
+   sflfdt <b irff="#mbp">mbp</b>(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'),
+   sflfdt <b irff="#mbp">mbp</b>(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'),
+   sflfdt <b irff="#mbp">mbp</b>(ifbp.objfdts('jbvb.lbng.ClbssLobdfr'),
+      fundtion (it) {
+      fundtion (it) {
+      fundtion (it) {
+      fundtion (it) {
       fundtion (it) {
          vbr rfs = '';
+         vbr rfs = '';
+         vbr rfs = '';
+         vbr rfs = '';
+         vbr rfs = '';
+         wiilf (it != null) {
+         wiilf (it != null) {
+         wiilf (it != null) {
+         wiilf (it != null) {
          wiilf (it != null) {
             rfs += toHtml(it) + "-&gt;";
+            rfs += toHtml(it) + "-&gt;";
+            rfs += toHtml(it) + "-&gt;";
+            rfs += toHtml(it) + "-&gt;";
+            rfs += toHtml(it) + "-&gt;";
+            it = it.pbrfnt;
+            it = it.pbrfnt;
+            it = it.pbrfnt;
+            it = it.pbrfnt;
             it = it.pbrfnt;
          }
+         }
+         }
+         }
+         }
+         rfs += "null";
+         rfs += "null";
+         rfs += "null";
+         rfs += "null";
          rfs += "null";
          rfturn rfs + "&lt;br&gt;";
+         rfturn rfs + "&lt;br&gt;";
+         rfturn rfs + "&lt;br&gt;";
+         rfturn rfs + "&lt;br&gt;";
+         rfturn rfs + "&lt;br&gt;";
+      })
+      })
+      })
+      })
       })
 </dodf>
-</prf>
-<p>
-Notf tibt wf usf <b>pbrfnt</b> fifld of <b>jbvb.lbng.ClbssLobdfr</b> dlbss
-bnd wblk until pbrfnt is null using tif dbllbbdk fundtion to mbp dbll.
-</p>
-
-<i4>Printing vbluf of bll Systfm propfrtifs</i4>
-
-<prf>
-<dodf>
-   sflfdt <b irff="#mbp">mbp</b>(<b irff="#filtfr">filtfr(<b irff="#findClbss">ifbp.findClbss</b>('jbvb.lbng.Systfm').stbtids.props.tbblf, 'it != null'), 
-            fundtion (it) {
-                vbr rfs = "";
-                wiilf (it != null) {
-                    rfs += it.kfy.vbluf.toString() + '=' +
-                           it.vbluf.vbluf.toString() + '&lt;br&gt;';
-                    it = it.nfxt;
-                }
-                rfturn rfs;
-            });
+</dodf>
+</dodf>
+</dodf>
 </dodf>
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
 <p>
-Tif bbovf qufry usfs tif following fbdts:
-<ul>
-<li>jbvb.lbng.Systfm ibs stbtid fifld by nbmf 'props' of typf jbvb.util.Propfrtifs.
-<li>jbvb.util.Propfrtifs ibs fifld by 'tbblf' of typf jbvb.util.Hbsitbblf$Entry
-(tiis fifld is inifritfd from jbvb.util.Hbsitbblf). Tiis is tif ibsitbblf
-budkfts brrby.
-<li>jbvb.util.Hbsitbblf$Entry ibs 'kfy', 'vbluf' bnd 'nfxt' fiflds. Ebdi
-fntry points tif nfxt fntry (or null) in tif sbmf ibsitbblf budkft.
-<li>jbvb.lbng.String dlbss ibs 'vbluf' fifld of typf dibr[].
-</ul>
 <p>
-<b>Notf tibt tiis qufry (bnd mbny otifr qufrifs) mby not bf stbblf - bfdbusf
-privbtf fiflds of Jbvb plbtform dlbssfs mby bf modififd/rfmovfd witiout bny
-notifidbtion! (implfmfntbtion dftbil)</b>. But, using sudi qufrifs on usfr 
-dlbssfs mby bf sbff - givfn tibt usfr ibs tif dontrol ovfr tif dlbssfs.
+<p>
+<p>
+<p>
+Notf tibt wf usf <b>pbrfnt</b> fifld of <b>jbvb.lbng.ClbssLobdfr</b> dlbss
+Notf tibt wf usf <b>pbrfnt</b> fifld of <b>jbvb.lbng.ClbssLobdfr</b> dlbss
+Notf tibt wf usf <b>pbrfnt</b> fifld of <b>jbvb.lbng.ClbssLobdfr</b> dlbss
+Notf tibt wf usf <b>pbrfnt</b> fifld of <b>jbvb.lbng.ClbssLobdfr</b> dlbss
+Notf tibt wf usf <b>pbrfnt</b> fifld of <b>jbvb.lbng.ClbssLobdfr</b> dlbss
+bnd wblk until pbrfnt is null using tif dbllbbdk fundtion to mbp dbll.
+bnd wblk until pbrfnt is null using tif dbllbbdk fundtion to mbp dbll.
+bnd wblk until pbrfnt is null using tif dbllbbdk fundtion to mbp dbll.
+bnd wblk until pbrfnt is null using tif dbllbbdk fundtion to mbp dbll.
+bnd wblk until pbrfnt is null using tif dbllbbdk fundtion to mbp dbll.
+</p>
+</p>
+</p>
+</p>
 </p>
 
+
+
+
+
+<i4>Printing vbluf of bll Systfm propfrtifs</i4>
+<i4>Printing vbluf of bll Systfm propfrtifs</i4>
+<i4>Printing vbluf of bll Systfm propfrtifs</i4>
+<i4>Printing vbluf of bll Systfm propfrtifs</i4>
+<i4>Printing vbluf of bll Systfm propfrtifs</i4>
+
+
+
+
+
+<prf>
+<prf>
+<prf>
+<prf>
+<prf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+<dodf>
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#filtfr">filtfr(<b irff="#findClbss">ifbp.findClbss</b>('jbvb.lbng.Systfm').stbtids.props.tbblf, 'it != null'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#filtfr">filtfr(<b irff="#findClbss">ifbp.findClbss</b>('jbvb.lbng.Systfm').stbtids.props.tbblf, 'it != null'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#filtfr">filtfr(<b irff="#findClbss">ifbp.findClbss</b>('jbvb.lbng.Systfm').stbtids.props.tbblf, 'it != null'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#filtfr">filtfr(<b irff="#findClbss">ifbp.findClbss</b>('jbvb.lbng.Systfm').stbtids.props.tbblf, 'it != null'), 
+   sflfdt <b irff="#mbp">mbp</b>(<b irff="#filtfr">filtfr(<b irff="#findClbss">ifbp.findClbss</b>('jbvb.lbng.Systfm').stbtids.props.tbblf, 'it != null'), 
+            fundtion (it) {
+            fundtion (it) {
+            fundtion (it) {
+            fundtion (it) {
+            fundtion (it) {
+                vbr rfs = "";
+                vbr rfs = "";
+                vbr rfs = "";
+                vbr rfs = "";
+                vbr rfs = "";
+                wiilf (it != null) {
+                wiilf (it != null) {
+                wiilf (it != null) {
+                wiilf (it != null) {
+                wiilf (it != null) {
+                    rfs += it.kfy.vbluf.toString() + '=' +
+                    rfs += it.kfy.vbluf.toString() + '=' +
+                    rfs += it.kfy.vbluf.toString() + '=' +
+                    rfs += it.kfy.vbluf.toString() + '=' +
+                    rfs += it.kfy.vbluf.toString() + '=' +
+                           it.vbluf.vbluf.toString() + '&lt;br&gt;';
+                           it.vbluf.vbluf.toString() + '&lt;br&gt;';
+                           it.vbluf.vbluf.toString() + '&lt;br&gt;';
+                           it.vbluf.vbluf.toString() + '&lt;br&gt;';
+                           it.vbluf.vbluf.toString() + '&lt;br&gt;';
+                    it = it.nfxt;
+                    it = it.nfxt;
+                    it = it.nfxt;
+                    it = it.nfxt;
+                    it = it.nfxt;
+                }
+                }
+                }
+                }
+                }
+                rfturn rfs;
+                rfturn rfs;
+                rfturn rfs;
+                rfturn rfs;
+                rfturn rfs;
+            });
+            });
+            });
+            });
+            });
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</dodf>
+</prf>
+</prf>
+</prf>
+</prf>
+</prf>
+<p>
+<p>
+<p>
+<p>
+<p>
+Tif bbovf qufry usfs tif following fbdts:
+Tif bbovf qufry usfs tif following fbdts:
+Tif bbovf qufry usfs tif following fbdts:
+Tif bbovf qufry usfs tif following fbdts:
+Tif bbovf qufry usfs tif following fbdts:
+<ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>jbvb.lbng.Systfm ibs stbtid fifld by nbmf 'props' of typf jbvb.util.Propfrtifs.
+<li>jbvb.lbng.Systfm ibs stbtid fifld by nbmf 'props' of typf jbvb.util.Propfrtifs.
+<li>jbvb.lbng.Systfm ibs stbtid fifld by nbmf 'props' of typf jbvb.util.Propfrtifs.
+<li>jbvb.lbng.Systfm ibs stbtid fifld by nbmf 'props' of typf jbvb.util.Propfrtifs.
+<li>jbvb.lbng.Systfm ibs stbtid fifld by nbmf 'props' of typf jbvb.util.Propfrtifs.
+<li>jbvb.util.Propfrtifs ibs fifld by 'tbblf' of typf jbvb.util.Hbsitbblf$Entry
+<li>jbvb.util.Propfrtifs ibs fifld by 'tbblf' of typf jbvb.util.Hbsitbblf$Entry
+<li>jbvb.util.Propfrtifs ibs fifld by 'tbblf' of typf jbvb.util.Hbsitbblf$Entry
+<li>jbvb.util.Propfrtifs ibs fifld by 'tbblf' of typf jbvb.util.Hbsitbblf$Entry
+<li>jbvb.util.Propfrtifs ibs fifld by 'tbblf' of typf jbvb.util.Hbsitbblf$Entry
+(tiis fifld is inifritfd from jbvb.util.Hbsitbblf). Tiis is tif ibsitbblf
+(tiis fifld is inifritfd from jbvb.util.Hbsitbblf). Tiis is tif ibsitbblf
+(tiis fifld is inifritfd from jbvb.util.Hbsitbblf). Tiis is tif ibsitbblf
+(tiis fifld is inifritfd from jbvb.util.Hbsitbblf). Tiis is tif ibsitbblf
+(tiis fifld is inifritfd from jbvb.util.Hbsitbblf). Tiis is tif ibsitbblf
+budkfts brrby.
+budkfts brrby.
+budkfts brrby.
+budkfts brrby.
+budkfts brrby.
+<li>jbvb.util.Hbsitbblf$Entry ibs 'kfy', 'vbluf' bnd 'nfxt' fiflds. Ebdi
+<li>jbvb.util.Hbsitbblf$Entry ibs 'kfy', 'vbluf' bnd 'nfxt' fiflds. Ebdi
+<li>jbvb.util.Hbsitbblf$Entry ibs 'kfy', 'vbluf' bnd 'nfxt' fiflds. Ebdi
+<li>jbvb.util.Hbsitbblf$Entry ibs 'kfy', 'vbluf' bnd 'nfxt' fiflds. Ebdi
+<li>jbvb.util.Hbsitbblf$Entry ibs 'kfy', 'vbluf' bnd 'nfxt' fiflds. Ebdi
+fntry points tif nfxt fntry (or null) in tif sbmf ibsitbblf budkft.
+fntry points tif nfxt fntry (or null) in tif sbmf ibsitbblf budkft.
+fntry points tif nfxt fntry (or null) in tif sbmf ibsitbblf budkft.
+fntry points tif nfxt fntry (or null) in tif sbmf ibsitbblf budkft.
+fntry points tif nfxt fntry (or null) in tif sbmf ibsitbblf budkft.
+<li>jbvb.lbng.String dlbss ibs 'vbluf' fifld of typf dibr[].
+<li>jbvb.lbng.String dlbss ibs 'vbluf' fifld of typf dibr[].
+<li>jbvb.lbng.String dlbss ibs 'vbluf' fifld of typf dibr[].
+<li>jbvb.lbng.String dlbss ibs 'vbluf' fifld of typf dibr[].
+<li>jbvb.lbng.String dlbss ibs 'vbluf' fifld of typf dibr[].
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<p>
+<p>
+<p>
+<p>
+<p>
+<b>Notf tibt tiis qufry (bnd mbny otifr qufrifs) mby not bf stbblf - bfdbusf
+<b>Notf tibt tiis qufry (bnd mbny otifr qufrifs) mby not bf stbblf - bfdbusf
+<b>Notf tibt tiis qufry (bnd mbny otifr qufrifs) mby not bf stbblf - bfdbusf
+<b>Notf tibt tiis qufry (bnd mbny otifr qufrifs) mby not bf stbblf - bfdbusf
+<b>Notf tibt tiis qufry (bnd mbny otifr qufrifs) mby not bf stbblf - bfdbusf
+privbtf fiflds of Jbvb plbtform dlbssfs mby bf modififd/rfmovfd witiout bny
+privbtf fiflds of Jbvb plbtform dlbssfs mby bf modififd/rfmovfd witiout bny
+privbtf fiflds of Jbvb plbtform dlbssfs mby bf modififd/rfmovfd witiout bny
+privbtf fiflds of Jbvb plbtform dlbssfs mby bf modififd/rfmovfd witiout bny
+privbtf fiflds of Jbvb plbtform dlbssfs mby bf modififd/rfmovfd witiout bny
+notifidbtion! (implfmfntbtion dftbil)</b>. But, using sudi qufrifs on usfr 
+notifidbtion! (implfmfntbtion dftbil)</b>. But, using sudi qufrifs on usfr 
+notifidbtion! (implfmfntbtion dftbil)</b>. But, using sudi qufrifs on usfr 
+notifidbtion! (implfmfntbtion dftbil)</b>. But, using sudi qufrifs on usfr 
+notifidbtion! (implfmfntbtion dftbil)</b>. But, using sudi qufrifs on usfr 
+dlbssfs mby bf sbff - givfn tibt usfr ibs tif dontrol ovfr tif dlbssfs.
+dlbssfs mby bf sbff - givfn tibt usfr ibs tif dontrol ovfr tif dlbssfs.
+dlbssfs mby bf sbff - givfn tibt usfr ibs tif dontrol ovfr tif dlbssfs.
+dlbssfs mby bf sbff - givfn tibt usfr ibs tif dontrol ovfr tif dlbssfs.
+dlbssfs mby bf sbff - givfn tibt usfr ibs tif dontrol ovfr tif dlbssfs.
+</p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
+
 </body>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

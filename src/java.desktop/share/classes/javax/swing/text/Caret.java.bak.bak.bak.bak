@@ -1,204 +1,1020 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
 pbdkbgf jbvbx.swing.tfxt;
 
-import jbvb.bwt.Grbphids;
+
+
+
+
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Point;
+import jbvb.bwt.Point;
+import jbvb.bwt.Point;
+import jbvb.bwt.Point;
 import jbvb.bwt.Point;
 import jbvbx.swing.Adtion;
-import jbvbx.swing.fvfnt.ChbngfListfnfr;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+
+
+
+
 
 /**
- * A plbdf within b dodumfnt vifw thbt rfprfsfnts whfrf
- * things dbn bf insfrtfd into thf dodumfnt modfl.  A dbrft
- * hbs b position in thf dodumfnt rfffrrfd to bs b dot.
- * Thf dot is whfrf thf dbrft is durrfntly lodbtfd in thf
- * modfl.  Thfrf is
- * b sfdond position mbintbinfd by thf dbrft thbt rfprfsfnts
- * thf othfr fnd of b sflfdtion dbllfd mbrk.  If thfrf is
- * no sflfdtion thf dot bnd mbrk will bf fqubl.  If b sflfdtion
- * fxists, thf two vblufs will bf difffrfnt.
+/**
+/**
+/**
+/**
+ * A plbdf witiin b dodumfnt vifw tibt rfprfsfnts wifrf
+ * A plbdf witiin b dodumfnt vifw tibt rfprfsfnts wifrf
+ * A plbdf witiin b dodumfnt vifw tibt rfprfsfnts wifrf
+ * A plbdf witiin b dodumfnt vifw tibt rfprfsfnts wifrf
+ * A plbdf witiin b dodumfnt vifw tibt rfprfsfnts wifrf
+ * tiings dbn bf insfrtfd into tif dodumfnt modfl.  A dbrft
+ * tiings dbn bf insfrtfd into tif dodumfnt modfl.  A dbrft
+ * tiings dbn bf insfrtfd into tif dodumfnt modfl.  A dbrft
+ * tiings dbn bf insfrtfd into tif dodumfnt modfl.  A dbrft
+ * tiings dbn bf insfrtfd into tif dodumfnt modfl.  A dbrft
+ * ibs b position in tif dodumfnt rfffrrfd to bs b dot.
+ * ibs b position in tif dodumfnt rfffrrfd to bs b dot.
+ * ibs b position in tif dodumfnt rfffrrfd to bs b dot.
+ * ibs b position in tif dodumfnt rfffrrfd to bs b dot.
+ * ibs b position in tif dodumfnt rfffrrfd to bs b dot.
+ * Tif dot is wifrf tif dbrft is durrfntly lodbtfd in tif
+ * Tif dot is wifrf tif dbrft is durrfntly lodbtfd in tif
+ * Tif dot is wifrf tif dbrft is durrfntly lodbtfd in tif
+ * Tif dot is wifrf tif dbrft is durrfntly lodbtfd in tif
+ * Tif dot is wifrf tif dbrft is durrfntly lodbtfd in tif
+ * modfl.  Tifrf is
+ * modfl.  Tifrf is
+ * modfl.  Tifrf is
+ * modfl.  Tifrf is
+ * modfl.  Tifrf is
+ * b sfdond position mbintbinfd by tif dbrft tibt rfprfsfnts
+ * b sfdond position mbintbinfd by tif dbrft tibt rfprfsfnts
+ * b sfdond position mbintbinfd by tif dbrft tibt rfprfsfnts
+ * b sfdond position mbintbinfd by tif dbrft tibt rfprfsfnts
+ * b sfdond position mbintbinfd by tif dbrft tibt rfprfsfnts
+ * tif otifr fnd of b sflfdtion dbllfd mbrk.  If tifrf is
+ * tif otifr fnd of b sflfdtion dbllfd mbrk.  If tifrf is
+ * tif otifr fnd of b sflfdtion dbllfd mbrk.  If tifrf is
+ * tif otifr fnd of b sflfdtion dbllfd mbrk.  If tifrf is
+ * tif otifr fnd of b sflfdtion dbllfd mbrk.  If tifrf is
+ * no sflfdtion tif dot bnd mbrk will bf fqubl.  If b sflfdtion
+ * no sflfdtion tif dot bnd mbrk will bf fqubl.  If b sflfdtion
+ * no sflfdtion tif dot bnd mbrk will bf fqubl.  If b sflfdtion
+ * no sflfdtion tif dot bnd mbrk will bf fqubl.  If b sflfdtion
+ * no sflfdtion tif dot bnd mbrk will bf fqubl.  If b sflfdtion
+ * fxists, tif two vblufs will bf difffrfnt.
+ * fxists, tif two vblufs will bf difffrfnt.
+ * fxists, tif two vblufs will bf difffrfnt.
+ * fxists, tif two vblufs will bf difffrfnt.
+ * fxists, tif two vblufs will bf difffrfnt.
  * <p>
- * Thf dot dbn bf plbdfd by fithfr dblling
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif dot dbn bf plbdfd by fitifr dblling
+ * Tif dot dbn bf plbdfd by fitifr dblling
+ * Tif dot dbn bf plbdfd by fitifr dblling
+ * Tif dot dbn bf plbdfd by fitifr dblling
+ * Tif dot dbn bf plbdfd by fitifr dblling
  * <dodf>sftDot</dodf> or <dodf>movfDot</dodf>.  Sftting
- * thf dot hbs thf ffffdt of rfmoving bny sflfdtion thbt mby
- * hbvf prfviously fxistfd.  Thf dot bnd mbrk will bf fqubl.
- * Moving thf dot hbs thf ffffdt of drfbting b sflfdtion bs
- * thf mbrk is lfft bt whbtfvfr position it prfviously hbd.
+ * <dodf>sftDot</dodf> or <dodf>movfDot</dodf>.  Sftting
+ * <dodf>sftDot</dodf> or <dodf>movfDot</dodf>.  Sftting
+ * <dodf>sftDot</dodf> or <dodf>movfDot</dodf>.  Sftting
+ * <dodf>sftDot</dodf> or <dodf>movfDot</dodf>.  Sftting
+ * tif dot ibs tif ffffdt of rfmoving bny sflfdtion tibt mby
+ * tif dot ibs tif ffffdt of rfmoving bny sflfdtion tibt mby
+ * tif dot ibs tif ffffdt of rfmoving bny sflfdtion tibt mby
+ * tif dot ibs tif ffffdt of rfmoving bny sflfdtion tibt mby
+ * tif dot ibs tif ffffdt of rfmoving bny sflfdtion tibt mby
+ * ibvf prfviously fxistfd.  Tif dot bnd mbrk will bf fqubl.
+ * ibvf prfviously fxistfd.  Tif dot bnd mbrk will bf fqubl.
+ * ibvf prfviously fxistfd.  Tif dot bnd mbrk will bf fqubl.
+ * ibvf prfviously fxistfd.  Tif dot bnd mbrk will bf fqubl.
+ * ibvf prfviously fxistfd.  Tif dot bnd mbrk will bf fqubl.
+ * Moving tif dot ibs tif ffffdt of drfbting b sflfdtion bs
+ * Moving tif dot ibs tif ffffdt of drfbting b sflfdtion bs
+ * Moving tif dot ibs tif ffffdt of drfbting b sflfdtion bs
+ * Moving tif dot ibs tif ffffdt of drfbting b sflfdtion bs
+ * Moving tif dot ibs tif ffffdt of drfbting b sflfdtion bs
+ * tif mbrk is lfft bt wibtfvfr position it prfviously ibd.
+ * tif mbrk is lfft bt wibtfvfr position it prfviously ibd.
+ * tif mbrk is lfft bt wibtfvfr position it prfviously ibd.
+ * tif mbrk is lfft bt wibtfvfr position it prfviously ibd.
+ * tif mbrk is lfft bt wibtfvfr position it prfviously ibd.
  *
- * @buthor  Timothy Prinzing
+ *
+ *
+ *
+ *
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf Cbrft {
+publid intfrfbdf Cbrft {
+publid intfrfbdf Cbrft {
+publid intfrfbdf Cbrft {
+publid intfrfbdf Cbrft {
+
+
+
+
 
     /**
-     * Cbllfd whfn thf UI is bfing instbllfd into thf
-     * intfrfbdf of b JTfxtComponfnt.  This dbn bf usfd
-     * to gbin bddfss to thf modfl thbt is bfing nbvigbtfd
-     * by thf implfmfntbtion of this intfrfbdf.
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
      *
-     * @pbrbm d thf JTfxtComponfnt
+     *
+     *
+     *
+     *
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     */
+     */
+     */
+     */
      */
     publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+
+
+
+
 
     /**
-     * Cbllfd whfn thf UI is bfing rfmovfd from thf
-     * intfrfbdf of b JTfxtComponfnt.  This is usfd to
-     * unrfgistfr bny listfnfrs thbt wfrf bttbdhfd.
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
      *
-     * @pbrbm d thf JTfxtComponfnt
+     *
+     *
+     *
+     *
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     * @pbrbm d tif JTfxtComponfnt
+     */
+     */
+     */
+     */
      */
     publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+
+
+
+
 
     /**
-     * Rfndfrs thf dbrft. This mfthod is dbllfd by UI dlbssfs.
+    /**
+    /**
+    /**
+    /**
+     * Rfndfrs tif dbrft. Tiis mftiod is dbllfd by UI dlbssfs.
+     * Rfndfrs tif dbrft. Tiis mftiod is dbllfd by UI dlbssfs.
+     * Rfndfrs tif dbrft. Tiis mftiod is dbllfd by UI dlbssfs.
+     * Rfndfrs tif dbrft. Tiis mftiod is dbllfd by UI dlbssfs.
+     * Rfndfrs tif dbrft. Tiis mftiod is dbllfd by UI dlbssfs.
      *
-     * @pbrbm g thf grbphids dontfxt
+     *
+     *
+     *
+     *
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm g tif grbpiids dontfxt
      */
-    publid void pbint(Grbphids g);
-
-    /**
-     * Adds b listfnfr to trbdk whfnfvfr thf dbrft position
-     * hbs bffn dhbngfd.
-     *
-     * @pbrbm l thf dhbngf listfnfr
      */
-    publid void bddChbngfListfnfr(ChbngfListfnfr l);
-
-    /**
-     * Rfmovfs b listfnfr thbt wbs trbdking dbrft position dhbngfs.
-     *
-     * @pbrbm l thf dhbngf listfnfr
      */
-    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l);
+     */
+     */
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+
+
+
+
 
     /**
-     * Dftfrminfs if thf dbrft is durrfntly visiblf.
+    /**
+    /**
+    /**
+    /**
+     * Adds b listfnfr to trbdk wifnfvfr tif dbrft position
+     * Adds b listfnfr to trbdk wifnfvfr tif dbrft position
+     * Adds b listfnfr to trbdk wifnfvfr tif dbrft position
+     * Adds b listfnfr to trbdk wifnfvfr tif dbrft position
+     * Adds b listfnfr to trbdk wifnfvfr tif dbrft position
+     * ibs bffn dibngfd.
+     * ibs bffn dibngfd.
+     * ibs bffn dibngfd.
+     * ibs bffn dibngfd.
+     * ibs bffn dibngfd.
      *
-     * @rfturn truf if thf dbrft is visiblf flsf fblsf
+     *
+     *
+     *
+     *
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     */
+     */
+     */
+     */
+     */
+    publid void bddCibngfListfnfr(CibngfListfnfr l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfmovfs b listfnfr tibt wbs trbdking dbrft position dibngfs.
+     * Rfmovfs b listfnfr tibt wbs trbdking dbrft position dibngfs.
+     * Rfmovfs b listfnfr tibt wbs trbdking dbrft position dibngfs.
+     * Rfmovfs b listfnfr tibt wbs trbdking dbrft position dibngfs.
+     * Rfmovfs b listfnfr tibt wbs trbdking dbrft position dibngfs.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     * @pbrbm l tif dibngf listfnfr
+     */
+     */
+     */
+     */
+     */
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs if tif dbrft is durrfntly visiblf.
+     * Dftfrminfs if tif dbrft is durrfntly visiblf.
+     * Dftfrminfs if tif dbrft is durrfntly visiblf.
+     * Dftfrminfs if tif dbrft is durrfntly visiblf.
+     * Dftfrminfs if tif dbrft is durrfntly visiblf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     */
+     */
+     */
+     */
      */
     publid boolfbn isVisiblf();
+    publid boolfbn isVisiblf();
+    publid boolfbn isVisiblf();
+    publid boolfbn isVisiblf();
+    publid boolfbn isVisiblf();
+
+
+
+
 
     /**
-     * Sfts thf visibility of thf dbrft.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif visibility of tif dbrft.
+     * Sfts tif visibility of tif dbrft.
+     * Sfts tif visibility of tif dbrft.
+     * Sfts tif visibility of tif dbrft.
+     * Sfts tif visibility of tif dbrft.
      *
-     * @pbrbm v  truf if thf dbrft should bf shown,
-     *  bnd fblsf if thf dbrft should bf hiddfn
+     *
+     *
+     *
+     *
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     */
+     */
+     */
+     */
      */
     publid void sftVisiblf(boolfbn v);
+    publid void sftVisiblf(boolfbn v);
+    publid void sftVisiblf(boolfbn v);
+    publid void sftVisiblf(boolfbn v);
+    publid void sftVisiblf(boolfbn v);
+
+
+
+
 
     /**
-     * Dftfrminfs if thf sflfdtion is durrfntly visiblf.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs if tif sflfdtion is durrfntly visiblf.
+     * Dftfrminfs if tif sflfdtion is durrfntly visiblf.
+     * Dftfrminfs if tif sflfdtion is durrfntly visiblf.
+     * Dftfrminfs if tif sflfdtion is durrfntly visiblf.
+     * Dftfrminfs if tif sflfdtion is durrfntly visiblf.
      *
-     * @rfturn truf if thf dbrft is visiblf flsf fblsf
+     *
+     *
+     *
+     *
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     * @rfturn truf if tif dbrft is visiblf flsf fblsf
+     */
+     */
+     */
+     */
      */
     publid boolfbn isSflfdtionVisiblf();
+    publid boolfbn isSflfdtionVisiblf();
+    publid boolfbn isSflfdtionVisiblf();
+    publid boolfbn isSflfdtionVisiblf();
+    publid boolfbn isSflfdtionVisiblf();
+
+
+
+
 
     /**
-     * Sfts thf visibility of thf sflfdtion
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif visibility of tif sflfdtion
+     * Sfts tif visibility of tif sflfdtion
+     * Sfts tif visibility of tif sflfdtion
+     * Sfts tif visibility of tif sflfdtion
+     * Sfts tif visibility of tif sflfdtion
      *
-     * @pbrbm v  truf if thf dbrft should bf shown,
-     *  bnd fblsf if thf dbrft should bf hiddfn
+     *
+     *
+     *
+     *
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     * @pbrbm v  truf if tif dbrft siould bf siown,
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     *  bnd fblsf if tif dbrft siould bf iiddfn
+     */
+     */
+     */
+     */
      */
     publid void sftSflfdtionVisiblf(boolfbn v);
+    publid void sftSflfdtionVisiblf(boolfbn v);
+    publid void sftSflfdtionVisiblf(boolfbn v);
+    publid void sftSflfdtionVisiblf(boolfbn v);
+    publid void sftSflfdtionVisiblf(boolfbn v);
+
+
+
+
 
     /**
-     * Sft thf durrfnt dbrft visubl lodbtion.  This dbn bf usfd whfn
-     * moving bftwffn linfs thbt hbvf unfvfn fnd positions (sudh bs
-     * whfn dbrft up or down bdtions oddur).  If tfxt flows
-     * lfft-to-right or right-to-lfft thf x-doordinbtf will indidbtf
-     * thf dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
-     * thf tfxt flow is top-to-bottom, thf y-doordinbtf will indidbtf
-     * thf dfsirfd nbvigbtion lodbtion for horizontbl movfmfnt.
+    /**
+    /**
+    /**
+    /**
+     * Sft tif durrfnt dbrft visubl lodbtion.  Tiis dbn bf usfd wifn
+     * Sft tif durrfnt dbrft visubl lodbtion.  Tiis dbn bf usfd wifn
+     * Sft tif durrfnt dbrft visubl lodbtion.  Tiis dbn bf usfd wifn
+     * Sft tif durrfnt dbrft visubl lodbtion.  Tiis dbn bf usfd wifn
+     * Sft tif durrfnt dbrft visubl lodbtion.  Tiis dbn bf usfd wifn
+     * moving bftwffn linfs tibt ibvf unfvfn fnd positions (sudi bs
+     * moving bftwffn linfs tibt ibvf unfvfn fnd positions (sudi bs
+     * moving bftwffn linfs tibt ibvf unfvfn fnd positions (sudi bs
+     * moving bftwffn linfs tibt ibvf unfvfn fnd positions (sudi bs
+     * moving bftwffn linfs tibt ibvf unfvfn fnd positions (sudi bs
+     * wifn dbrft up or down bdtions oddur).  If tfxt flows
+     * wifn dbrft up or down bdtions oddur).  If tfxt flows
+     * wifn dbrft up or down bdtions oddur).  If tfxt flows
+     * wifn dbrft up or down bdtions oddur).  If tfxt flows
+     * wifn dbrft up or down bdtions oddur).  If tfxt flows
+     * lfft-to-rigit or rigit-to-lfft tif x-doordinbtf will indidbtf
+     * lfft-to-rigit or rigit-to-lfft tif x-doordinbtf will indidbtf
+     * lfft-to-rigit or rigit-to-lfft tif x-doordinbtf will indidbtf
+     * lfft-to-rigit or rigit-to-lfft tif x-doordinbtf will indidbtf
+     * lfft-to-rigit or rigit-to-lfft tif x-doordinbtf will indidbtf
+     * tif dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
+     * tif dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
+     * tif dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
+     * tif dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
+     * tif dfsirfd nbvigbtion lodbtion for vfrtidbl movfmfnt.  If
+     * tif tfxt flow is top-to-bottom, tif y-doordinbtf will indidbtf
+     * tif tfxt flow is top-to-bottom, tif y-doordinbtf will indidbtf
+     * tif tfxt flow is top-to-bottom, tif y-doordinbtf will indidbtf
+     * tif tfxt flow is top-to-bottom, tif y-doordinbtf will indidbtf
+     * tif tfxt flow is top-to-bottom, tif y-doordinbtf will indidbtf
+     * tif dfsirfd nbvigbtion lodbtion for iorizontbl movfmfnt.
+     * tif dfsirfd nbvigbtion lodbtion for iorizontbl movfmfnt.
+     * tif dfsirfd nbvigbtion lodbtion for iorizontbl movfmfnt.
+     * tif dfsirfd nbvigbtion lodbtion for iorizontbl movfmfnt.
+     * tif dfsirfd nbvigbtion lodbtion for iorizontbl movfmfnt.
      *
-     * @pbrbm p  thf Point to usf for thf sbvfd position.  This
-     *   dbn bf null to indidbtf thfrf is no visubl lodbtion.
+     *
+     *
+     *
+     *
+     * @pbrbm p  tif Point to usf for tif sbvfd position.  Tiis
+     * @pbrbm p  tif Point to usf for tif sbvfd position.  Tiis
+     * @pbrbm p  tif Point to usf for tif sbvfd position.  Tiis
+     * @pbrbm p  tif Point to usf for tif sbvfd position.  Tiis
+     * @pbrbm p  tif Point to usf for tif sbvfd position.  Tiis
+     *   dbn bf null to indidbtf tifrf is no visubl lodbtion.
+     *   dbn bf null to indidbtf tifrf is no visubl lodbtion.
+     *   dbn bf null to indidbtf tifrf is no visubl lodbtion.
+     *   dbn bf null to indidbtf tifrf is no visubl lodbtion.
+     *   dbn bf null to indidbtf tifrf is no visubl lodbtion.
+     */
+     */
+     */
+     */
      */
     publid void sftMbgidCbrftPosition(Point p);
+    publid void sftMbgidCbrftPosition(Point p);
+    publid void sftMbgidCbrftPosition(Point p);
+    publid void sftMbgidCbrftPosition(Point p);
+    publid void sftMbgidCbrftPosition(Point p);
+
+
+
+
 
     /**
-     * Gfts thf durrfnt dbrft visubl lodbtion.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif durrfnt dbrft visubl lodbtion.
+     * Gfts tif durrfnt dbrft visubl lodbtion.
+     * Gfts tif durrfnt dbrft visubl lodbtion.
+     * Gfts tif durrfnt dbrft visubl lodbtion.
+     * Gfts tif durrfnt dbrft visubl lodbtion.
      *
-     * @rfturn thf visubl position.
+     *
+     *
+     *
+     *
+     * @rfturn tif visubl position.
+     * @rfturn tif visubl position.
+     * @rfturn tif visubl position.
+     * @rfturn tif visubl position.
+     * @rfturn tif visubl position.
+     * @sff #sftMbgidCbrftPosition
+     * @sff #sftMbgidCbrftPosition
+     * @sff #sftMbgidCbrftPosition
+     * @sff #sftMbgidCbrftPosition
      * @sff #sftMbgidCbrftPosition
      */
+     */
+     */
+     */
+     */
+    publid Point gftMbgidCbrftPosition();
+    publid Point gftMbgidCbrftPosition();
+    publid Point gftMbgidCbrftPosition();
+    publid Point gftMbgidCbrftPosition();
     publid Point gftMbgidCbrftPosition();
 
+
+
+
+
     /**
-     * Sfts thf blink rbtf of thf dbrft.  This dftfrminfs if
-     * bnd how fbst thf dbrft blinks, dommonly usfd bs onf
-     * wby to bttrbdt bttfntion to thf dbrft.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Sfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Sfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Sfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Sfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
      *
-     * @pbrbm rbtf  thf dflby in millisfdonds &gt;=0.  If this is
-     *  zfro thf dbrft will not blink.
+     *
+     *
+     *
+     *
+     * @pbrbm rbtf  tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @pbrbm rbtf  tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @pbrbm rbtf  tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @pbrbm rbtf  tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @pbrbm rbtf  tif dflby in millisfdonds &gt;=0.  If tiis is
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     */
+     */
+     */
+     */
      */
     publid void sftBlinkRbtf(int rbtf);
+    publid void sftBlinkRbtf(int rbtf);
+    publid void sftBlinkRbtf(int rbtf);
+    publid void sftBlinkRbtf(int rbtf);
+    publid void sftBlinkRbtf(int rbtf);
+
+
+
+
 
     /**
-     * Gfts thf blink rbtf of thf dbrft.  This dftfrminfs if
-     * bnd how fbst thf dbrft blinks, dommonly usfd bs onf
-     * wby to bttrbdt bttfntion to thf dbrft.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Gfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Gfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Gfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * Gfts tif blink rbtf of tif dbrft.  Tiis dftfrminfs if
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * bnd iow fbst tif dbrft blinks, dommonly usfd bs onf
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
+     * wby to bttrbdt bttfntion to tif dbrft.
      *
-     * @rfturn thf dflby in millisfdonds &gt;=0.  If this is
-     *  zfro thf dbrft will not blink.
+     *
+     *
+     *
+     *
+     * @rfturn tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @rfturn tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @rfturn tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @rfturn tif dflby in millisfdonds &gt;=0.  If tiis is
+     * @rfturn tif dflby in millisfdonds &gt;=0.  If tiis is
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     *  zfro tif dbrft will not blink.
+     */
+     */
+     */
+     */
      */
     publid int gftBlinkRbtf();
+    publid int gftBlinkRbtf();
+    publid int gftBlinkRbtf();
+    publid int gftBlinkRbtf();
+    publid int gftBlinkRbtf();
+
+
+
+
 
     /**
-     * Fftdhfs thf durrfnt position of thf dbrft.
+    /**
+    /**
+    /**
+    /**
+     * Fftdifs tif durrfnt position of tif dbrft.
+     * Fftdifs tif durrfnt position of tif dbrft.
+     * Fftdifs tif durrfnt position of tif dbrft.
+     * Fftdifs tif durrfnt position of tif dbrft.
+     * Fftdifs tif durrfnt position of tif dbrft.
      *
-     * @rfturn thf position &gt;=0
+     *
+     *
+     *
+     *
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     */
+     */
+     */
+     */
      */
     publid int gftDot();
+    publid int gftDot();
+    publid int gftDot();
+    publid int gftDot();
+    publid int gftDot();
+
+
+
+
 
     /**
-     * Fftdhfs thf durrfnt position of thf mbrk.  If thfrf
-     * is b sflfdtion, thf mbrk will not bf thf sbmf bs
-     * thf dot.
+    /**
+    /**
+    /**
+    /**
+     * Fftdifs tif durrfnt position of tif mbrk.  If tifrf
+     * Fftdifs tif durrfnt position of tif mbrk.  If tifrf
+     * Fftdifs tif durrfnt position of tif mbrk.  If tifrf
+     * Fftdifs tif durrfnt position of tif mbrk.  If tifrf
+     * Fftdifs tif durrfnt position of tif mbrk.  If tifrf
+     * is b sflfdtion, tif mbrk will not bf tif sbmf bs
+     * is b sflfdtion, tif mbrk will not bf tif sbmf bs
+     * is b sflfdtion, tif mbrk will not bf tif sbmf bs
+     * is b sflfdtion, tif mbrk will not bf tif sbmf bs
+     * is b sflfdtion, tif mbrk will not bf tif sbmf bs
+     * tif dot.
+     * tif dot.
+     * tif dot.
+     * tif dot.
+     * tif dot.
      *
-     * @rfturn thf position &gt;=0
+     *
+     *
+     *
+     *
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     * @rfturn tif position &gt;=0
+     */
+     */
+     */
+     */
      */
     publid int gftMbrk();
+    publid int gftMbrk();
+    publid int gftMbrk();
+    publid int gftMbrk();
+    publid int gftMbrk();
+
+
+
+
 
     /**
-     * Sfts thf dbrft position to somf position.  This
-     * dbusfs thf mbrk to bfdomf thf sbmf bs thf dot,
-     * ffffdtivfly sftting thf sflfdtion rbngf to zfro.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif dbrft position to somf position.  Tiis
+     * Sfts tif dbrft position to somf position.  Tiis
+     * Sfts tif dbrft position to somf position.  Tiis
+     * Sfts tif dbrft position to somf position.  Tiis
+     * Sfts tif dbrft position to somf position.  Tiis
+     * dbusfs tif mbrk to bfdomf tif sbmf bs tif dot,
+     * dbusfs tif mbrk to bfdomf tif sbmf bs tif dot,
+     * dbusfs tif mbrk to bfdomf tif sbmf bs tif dot,
+     * dbusfs tif mbrk to bfdomf tif sbmf bs tif dot,
+     * dbusfs tif mbrk to bfdomf tif sbmf bs tif dot,
+     * ffffdtivfly sftting tif sflfdtion rbngf to zfro.
+     * ffffdtivfly sftting tif sflfdtion rbngf to zfro.
+     * ffffdtivfly sftting tif sflfdtion rbngf to zfro.
+     * ffffdtivfly sftting tif sflfdtion rbngf to zfro.
+     * ffffdtivfly sftting tif sflfdtion rbngf to zfro.
      * <p>
-     * If thf pbrbmftfr is nfgbtivf or bfyond thf lfngth of thf dodumfnt,
-     * thf dbrft is plbdfd bt thf bfginning or bt thf fnd, rfspfdtivfly.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tif pbrbmftfr is nfgbtivf or bfyond tif lfngti of tif dodumfnt,
+     * If tif pbrbmftfr is nfgbtivf or bfyond tif lfngti of tif dodumfnt,
+     * If tif pbrbmftfr is nfgbtivf or bfyond tif lfngti of tif dodumfnt,
+     * If tif pbrbmftfr is nfgbtivf or bfyond tif lfngti of tif dodumfnt,
+     * If tif pbrbmftfr is nfgbtivf or bfyond tif lfngti of tif dodumfnt,
+     * tif dbrft is plbdfd bt tif bfginning or bt tif fnd, rfspfdtivfly.
+     * tif dbrft is plbdfd bt tif bfginning or bt tif fnd, rfspfdtivfly.
+     * tif dbrft is plbdfd bt tif bfginning or bt tif fnd, rfspfdtivfly.
+     * tif dbrft is plbdfd bt tif bfginning or bt tif fnd, rfspfdtivfly.
+     * tif dbrft is plbdfd bt tif bfginning or bt tif fnd, rfspfdtivfly.
      *
-     * @pbrbm dot  thf nfw position to sft thf dbrft to
+     *
+     *
+     *
+     *
+     * @pbrbm dot  tif nfw position to sft tif dbrft to
+     * @pbrbm dot  tif nfw position to sft tif dbrft to
+     * @pbrbm dot  tif nfw position to sft tif dbrft to
+     * @pbrbm dot  tif nfw position to sft tif dbrft to
+     * @pbrbm dot  tif nfw position to sft tif dbrft to
+     */
+     */
+     */
+     */
      */
     publid void sftDot(int dot);
+    publid void sftDot(int dot);
+    publid void sftDot(int dot);
+    publid void sftDot(int dot);
+    publid void sftDot(int dot);
+
+
+
+
 
     /**
-     * Movfs thf dbrft position (dot) to somf othfr position,
-     * lfbving bfhind thf mbrk.  This is usfful for
+    /**
+    /**
+    /**
+    /**
+     * Movfs tif dbrft position (dot) to somf otifr position,
+     * Movfs tif dbrft position (dot) to somf otifr position,
+     * Movfs tif dbrft position (dot) to somf otifr position,
+     * Movfs tif dbrft position (dot) to somf otifr position,
+     * Movfs tif dbrft position (dot) to somf otifr position,
+     * lfbving bfiind tif mbrk.  Tiis is usfful for
+     * lfbving bfiind tif mbrk.  Tiis is usfful for
+     * lfbving bfiind tif mbrk.  Tiis is usfful for
+     * lfbving bfiind tif mbrk.  Tiis is usfful for
+     * lfbving bfiind tif mbrk.  Tiis is usfful for
+     * mbking sflfdtions.
+     * mbking sflfdtions.
+     * mbking sflfdtions.
+     * mbking sflfdtions.
      * mbking sflfdtions.
      *
-     * @pbrbm dot  thf nfw position to movf thf dbrft to &gt;=0
+     *
+     *
+     *
+     *
+     * @pbrbm dot  tif nfw position to movf tif dbrft to &gt;=0
+     * @pbrbm dot  tif nfw position to movf tif dbrft to &gt;=0
+     * @pbrbm dot  tif nfw position to movf tif dbrft to &gt;=0
+     * @pbrbm dot  tif nfw position to movf tif dbrft to &gt;=0
+     * @pbrbm dot  tif nfw position to movf tif dbrft to &gt;=0
+     */
+     */
+     */
+     */
      */
     publid void movfDot(int dot);
+    publid void movfDot(int dot);
+    publid void movfDot(int dot);
+    publid void movfDot(int dot);
+    publid void movfDot(int dot);
 
+
+
+
+
+};
+};
+};
+};
 };

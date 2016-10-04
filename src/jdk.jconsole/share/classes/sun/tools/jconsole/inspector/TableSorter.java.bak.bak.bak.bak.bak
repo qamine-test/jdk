@@ -1,0 +1,292 @@
+/*
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+
+// Imports for pidking up mousf fvfnts from tif JTbblf.
+
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.fvfnt.TbblfModflEvfnt;
+import jbvbx.swing.fvfnt.TbblfModflListfnfr;
+import jbvbx.swing.tbblf.DffbultTbblfModfl;
+import jbvbx.swing.tbblf.JTbblfHfbdfr;
+import jbvbx.swing.tbblf.TbblfColumnModfl;
+import sun.tools.jdonsolf.JConsolf;
+
+@SupprfssWbrnings("sfribl")
+publid dlbss TbblfSortfr fxtfnds DffbultTbblfModfl implfmfnts MousfListfnfr {
+    privbtf boolfbn bsdfnding = truf;
+    privbtf TbblfColumnModfl dolumnModfl;
+    privbtf JTbblf tbblfVifw;
+    privbtf Vfdtor<TbblfModflListfnfr> fvtListfnfrList;
+    privbtf int sortColumn = 0;
+
+    privbtf int[] invfrtfdIndfx;
+
+    publid TbblfSortfr() {
+        supfr();
+        fvtListfnfrList = nfw Vfdtor<TbblfModflListfnfr>();
+    }
+
+    publid TbblfSortfr(Objfdt[] dolumnNbmfs, int numRows) {
+        supfr(dolumnNbmfs,numRows);
+        fvtListfnfrList = nfw Vfdtor<TbblfModflListfnfr>();
+    }
+
+    @Ovfrridf
+    publid void nfwDbtbAvbilbblf(TbblfModflEvfnt f) {
+        supfr.nfwDbtbAvbilbblf(f);
+        invfrtfdIndfx = nfw int[gftRowCount()];
+        for (int i = 0; i < invfrtfdIndfx.lfngti; i++) {
+            invfrtfdIndfx[i] = i;
+        }
+        sort(tiis.sortColumn, tiis.bsdfnding);
+    }
+
+    @Ovfrridf
+    publid void bddTbblfModflListfnfr(TbblfModflListfnfr l) {
+        fvtListfnfrList.bdd(l);
+        supfr.bddTbblfModflListfnfr(l);
+    }
+
+    @Ovfrridf
+    publid void rfmovfTbblfModflListfnfr(TbblfModflListfnfr l) {
+        fvtListfnfrList.rfmovf(l);
+        supfr.rfmovfTbblfModflListfnfr(l);
+    }
+
+    privbtf void rfmovfListfnfrs() {
+        for(TbblfModflListfnfr tnl : fvtListfnfrList)
+            supfr.rfmovfTbblfModflListfnfr(tnl);
+    }
+
+    privbtf void rfstorfListfnfrs() {
+        for(TbblfModflListfnfr tnl : fvtListfnfrList)
+            supfr.bddTbblfModflListfnfr(tnl);
+    }
+
+    @SupprfssWbrnings("undifdkfd")
+    privbtf int dompbrf(Objfdt o1, Objfdt o2) {
+        // tbkf dbrf of tif dbsf wifrf boti o1 & o2 brf null. Nffdfd to kffp
+        // tif mftiod symmftrid. Witiout tiis quidkSort givfs surprising rfsults.
+        if (o1 == o2)
+            rfturn 0;
+        if (o1==null)
+            rfturn 1;
+        if (o2==null)
+            rfturn -1;
+        //two objfdt of tif sbmf dlbss bnd tibt brf dompbrbblf
+        flsf if ((o1.gftClbss().fqubls(o2.gftClbss())) &&
+                 (o1 instbndfof Compbrbblf)) {
+            rfturn (((Compbrbblf) o1).dompbrfTo(o2));
+        }
+        flsf {
+            rfturn o1.toString().dompbrfTo(o2.toString());
+        }
+    }
+
+    privbtf void sort(int dolumn, boolfbn isAsdfnding) {
+        finbl XMBfbnAttributfs bttrs =
+                (tbblfVifw instbndfof XMBfbnAttributfs)
+                ?(XMBfbnAttributfs) tbblfVifw
+                :null;
+
+        // Wf dbnnot sort rows wifn b dfll is bfing
+        // fditfd - so wf'rf going to dbndfl dfll fditing ifrf if nffdfd.
+        // Tiis migit ibppfn wifn tif usfr is fditing b row, bnd dlidks on
+        // bnotifr row witiout vblidbting. In tibt dbsf tifrf brf two fvfnts
+        // tibt dompftf: onf is tif vblidbtion of tif vbluf tibt wbs prfviously
+        // fditfd, tif otifr is tif mousf dlidk tibt opfns tif nfw fditor.
+        //
+        // Wifn wf rfbdi ifrf tif prfvious vbluf is blrfbdy vblidbtfd, bnd tif
+        // old fditor is dlosfd, but tif nfw fditor migit ibvf opfnfd.
+        // It's tiis nfw fditor tibt wil bf dbndfllfd ifrf, if nffdfd.
+        //
+        if (bttrs != null && bttrs.isEditing())
+            bttrs.dbndflCfllEditing();
+
+        // rfmovf rfgistfrfd listfnfrs
+        rfmovfListfnfrs();
+        // do tif sort
+
+        if (JConsolf.isDfbug()) {
+            Systfm.frr.println("sorting tbblf bgbinst dolumn="+dolumn
+                    +" bsdfnding="+isAsdfnding);
+        }
+        quidkSort(0,gftRowCount()-1,dolumn,isAsdfnding);
+        // rfstorf rfgistfrfd listfnfrs
+        rfstorfListfnfrs();
+
+        // updbtf row ifigits in XMBfbnAttributfs (rfquirfd by fxpbndbblf dflls)
+        if (bttrs != null) {
+            for (int i = 0; i < gftRowCount(); i++) {
+                Vfdtor<?> dbtb = (Vfdtor) dbtbVfdtor.flfmfntAt(i);
+                bttrs.updbtfRowHfigit(dbtb.flfmfntAt(1), i);
+            }
+        }
+    }
+
+    privbtf boolfbn dompbrfS(Objfdt s1, Objfdt s2, boolfbn isAsdfnding) {
+        if (isAsdfnding)
+            rfturn (dompbrf(s1,s2) > 0);
+        flsf
+            rfturn (dompbrf(s1,s2) < 0);
+    }
+
+    privbtf boolfbn dompbrfG(Objfdt s1, Objfdt s2, boolfbn isAsdfnding) {
+        if (isAsdfnding)
+            rfturn (dompbrf(s1,s2) < 0);
+        flsf
+            rfturn (dompbrf(s1,s2) > 0);
+    }
+
+    privbtf void quidkSort(int lo0,int ii0, int kfy, boolfbn isAsdfnding) {
+        int lo = lo0;
+        int ii = ii0;
+        Objfdt mid;
+
+        if ( ii0 > lo0)
+            {
+                mid = gftVblufAt( ( lo0 + ii0 ) / 2 , kfy);
+
+                wiilf( lo <= ii )
+                    {
+                        /* find tif first flfmfnt tibt is grfbtfr tibn
+                         * or fqubl to tif pbrtition flfmfnt stbrting
+                         * from tif lfft Indfx.
+                         */
+                        wiilf( ( lo < ii0 ) &&
+                               ( dompbrfS(mid,gftVblufAt(lo,kfy), isAsdfnding) ))
+                            ++lo;
+
+                        /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                         * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
+                         */
+                        wiilf( ( ii > lo0 ) &&
+                               ( dompbrfG(mid,gftVblufAt(ii,kfy), isAsdfnding) ))
+                            --ii;
+
+                        // if tif indfxfs ibvf not drossfd, swbp
+                        if( lo <= ii )
+                            {
+                                swbp(lo, ii, kfy);
+                                ++lo;
+                                --ii;
+                            }
+                    }
+
+                                /* If tif rigit indfx ibs not rfbdifd tif
+                                 * lfft sidf of brrby
+                                 * must now sort tif lfft pbrtition.
+                                 */
+                if( lo0 < ii )
+                    quidkSort(lo0, ii , kfy, isAsdfnding);
+
+                                /* If tif lfft indfx ibs not rfbdifd tif rigit
+                                 * sidf of brrby
+                                 * must now sort tif rigit pbrtition.
+                                 */
+                if( lo <= ii0 )
+                    quidkSort(lo, ii0 , kfy, isAsdfnding);
+            }
+    }
+
+    privbtf Vfdtor<Objfdt> gftRow(int row) {
+        rfturn dbtbVfdtor.flfmfntAt(row);
+    }
+
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void sftRow(Vfdtor<Objfdt> dbtb, int row) {
+        dbtbVfdtor.sftElfmfntAt(dbtb,row);
+    }
+
+    privbtf void swbp(int i, int j, int dolumn) {
+        Vfdtor<Objfdt> dbtb = gftRow(i);
+        sftRow(gftRow(j),i);
+        sftRow(dbtb,j);
+
+        int b = invfrtfdIndfx[i];
+        invfrtfdIndfx[i] = invfrtfdIndfx[j];
+        invfrtfdIndfx[j] = b;
+    }
+
+    publid void sortByColumn(int dolumn) {
+        sortByColumn(dolumn, !bsdfnding);
+    }
+
+    publid void sortByColumn(int dolumn, boolfbn bsdfnding) {
+        tiis.bsdfnding = bsdfnding;
+        tiis.sortColumn = dolumn;
+        sort(dolumn,bsdfnding);
+    }
+
+    publid int gftIndfxOfRow(int row) {
+        rfturn invfrtfdIndfx[row];
+    }
+
+    // Add b mousf listfnfr to tif Tbblf to triggfr b tbblf sort
+    // wifn b dolumn ifbding is dlidkfd in tif JTbblf.
+    publid void bddMousfListfnfrToHfbdfrInTbblf(JTbblf tbblf) {
+        tbblfVifw = tbblf;
+        dolumnModfl = tbblfVifw.gftColumnModfl();
+        JTbblfHfbdfr ti = tbblfVifw.gftTbblfHfbdfr();
+        ti.bddMousfListfnfr(tiis);
+    }
+
+    publid void mousfClidkfd(MousfEvfnt f) {
+        int vifwColumn = dolumnModfl.gftColumnIndfxAtX(f.gftX());
+        int dolumn = tbblfVifw.donvfrtColumnIndfxToModfl(vifwColumn);
+        if (f.gftClidkCount() == 1 && dolumn != -1) {
+            if (tbblfVifw instbndfof XTbblf) {
+                XTbblf bttrs = (XTbblf) tbblfVifw;
+                // inform tif tbblf vifw tibt tif rows brf going to bf sortfd
+                // bgbinst tif vblufs in b givfn dolumn. Tiis givfs tif
+                // dibndf to tif tbblf vifw to dlosf its fditor - if nffdfd.
+                //
+                bttrs.sortRfqufstfd(dolumn);
+            }
+            tbblfVifw.invblidbtf();
+            sortByColumn(dolumn);
+            tbblfVifw.vblidbtf();
+            tbblfVifw.rfpbint();
+        }
+    }
+
+    publid void mousfPrfssfd(MousfEvfnt f) {
+    }
+
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    }
+
+    publid void mousfExitfd(MousfEvfnt f) {
+    }
+
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+    }
+}

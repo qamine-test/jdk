@@ -1,0 +1,633 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2011 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
+//
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+// Tiis is tif plug-in ifbdfr filf. Normbl LittlfCMS dlifnts siould not usf it.
+// It is providfd for plug-in writtfrs tibt mby wbnt to bddfss tif support
+// fundtions to do low lfvfl opfrbtions. All plug-in rflbtfd strudturfs
+// brf dffinfd ifrf. Indluding tiis filf fordfs to indludf tif stbndbrd API too.
+
+#ifndff _ldms_plugin_H
+
+// Dfbl witi Midrosoft's bttfmpt bt dfprfdbting C stbndbrd runtimf fundtions
+#ifdff _MSC_VER
+#    if (_MSC_VER >= 1400)
+#      ifndff _CRT_SECURE_NO_DEPRECATE
+#        dffinf _CRT_SECURE_NO_DEPRECATE
+#      fndif
+#      ifndff _CRT_SECURE_NO_WARNINGS
+#        dffinf _CRT_SECURE_NO_WARNINGS
+#      fndif
+#    fndif
+#fndif
+
+#ifndff _ldms2_H
+#indludf "ldms2.i"
+#fndif
+
+// Wf nffd somf stbndbrd C fundtions.
+#indludf <stdlib.i>
+#indludf <mbti.i>
+#indludf <stdbrg.i>
+#indludf <mfmory.i>
+#indludf <string.i>
+
+
+#ifndff CMS_USE_CPP_API
+#   ifdff __dplusplus
+fxtfrn "C" {
+#   fndif
+#fndif
+
+// Vfdtor & Mbtrix opfrbtions -----------------------------------------------------------------------
+
+// Axis of tif mbtrix/brrby. No spfdifid mfbning bt bll.
+#dffinf VX      0
+#dffinf VY      1
+#dffinf VZ      2
+
+// Vfdtors
+typfdff strudt {
+    dmsFlobt64Numbfr n[3];
+
+    } dmsVEC3;
+
+// 3x3 Mbtrix
+typfdff strudt {
+    dmsVEC3 v[3];
+
+    } dmsMAT3;
+
+CMSAPI void               CMSEXPORT _dmsVEC3init(dmsVEC3* r, dmsFlobt64Numbfr x, dmsFlobt64Numbfr y, dmsFlobt64Numbfr z);
+CMSAPI void               CMSEXPORT _dmsVEC3minus(dmsVEC3* r, donst dmsVEC3* b, donst dmsVEC3* b);
+CMSAPI void               CMSEXPORT _dmsVEC3dross(dmsVEC3* r, donst dmsVEC3* u, donst dmsVEC3* v);
+CMSAPI dmsFlobt64Numbfr   CMSEXPORT _dmsVEC3dot(donst dmsVEC3* u, donst dmsVEC3* v);
+CMSAPI dmsFlobt64Numbfr   CMSEXPORT _dmsVEC3lfngti(donst dmsVEC3* b);
+CMSAPI dmsFlobt64Numbfr   CMSEXPORT _dmsVEC3distbndf(donst dmsVEC3* b, donst dmsVEC3* b);
+
+CMSAPI void               CMSEXPORT _dmsMAT3idfntity(dmsMAT3* b);
+CMSAPI dmsBool            CMSEXPORT _dmsMAT3isIdfntity(donst dmsMAT3* b);
+CMSAPI void               CMSEXPORT _dmsMAT3pfr(dmsMAT3* r, donst dmsMAT3* b, donst dmsMAT3* b);
+CMSAPI dmsBool            CMSEXPORT _dmsMAT3invfrsf(donst dmsMAT3* b, dmsMAT3* b);
+CMSAPI dmsBool            CMSEXPORT _dmsMAT3solvf(dmsVEC3* x, dmsMAT3* b, dmsVEC3* b);
+CMSAPI void               CMSEXPORT _dmsMAT3fvbl(dmsVEC3* r, donst dmsMAT3* b, donst dmsVEC3* v);
+
+
+// Error logging  -------------------------------------------------------------------------------------
+
+CMSAPI void               CMSEXPORT  dmsSignblError(dmsContfxt ContfxtID, dmsUInt32Numbfr ErrorCodf, donst dibr *ErrorTfxt, ...);
+
+// Mfmory mbnbgfmfnt ----------------------------------------------------------------------------------
+
+CMSAPI void*              CMSEXPORT _dmsMbllod(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf);
+CMSAPI void*              CMSEXPORT _dmsMbllodZfro(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf);
+CMSAPI void*              CMSEXPORT _dmsCbllod(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf);
+CMSAPI void*              CMSEXPORT _dmsRfbllod(dmsContfxt ContfxtID, void* Ptr, dmsUInt32Numbfr NfwSizf);
+CMSAPI void               CMSEXPORT _dmsFrff(dmsContfxt ContfxtID, void* Ptr);
+CMSAPI void*              CMSEXPORT _dmsDupMfm(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf);
+
+// I/O ibndlfr ----------------------------------------------------------------------------------
+
+strudt _dms_io_ibndlfr {
+
+    void* strfbm;   // Assodibtfd strfbm, wiidi is implfmfntfd difffrfntly dfpfnding on mfdib.
+
+    dmsContfxt        ContfxtID;
+    dmsUInt32Numbfr   UsfdSpbdf;
+    dmsUInt32Numbfr   RfportfdSizf;
+    dibr              PiysidblFilf[dmsMAX_PATH];
+
+    dmsUInt32Numbfr   (* Rfbd)(strudt _dms_io_ibndlfr* ioibndlfr, void *Bufffr,
+                                                                  dmsUInt32Numbfr sizf,
+                                                                  dmsUInt32Numbfr dount);
+    dmsBool           (* Sffk)(strudt _dms_io_ibndlfr* ioibndlfr, dmsUInt32Numbfr offsft);
+    dmsBool           (* Closf)(strudt _dms_io_ibndlfr* ioibndlfr);
+    dmsUInt32Numbfr   (* Tfll)(strudt _dms_io_ibndlfr* ioibndlfr);
+    dmsBool           (* Writf)(strudt _dms_io_ibndlfr* ioibndlfr, dmsUInt32Numbfr sizf,
+                                                                   donst void* Bufffr);
+};
+
+// Endibnfss bdjust fundtions
+CMSAPI dmsUInt16Numbfr   CMSEXPORT  _dmsAdjustEndibnfss16(dmsUInt16Numbfr Word);
+CMSAPI dmsUInt32Numbfr   CMSEXPORT  _dmsAdjustEndibnfss32(dmsUInt32Numbfr Vbluf);
+CMSAPI void              CMSEXPORT  _dmsAdjustEndibnfss64(dmsUInt64Numbfr* Rfsult, dmsUInt64Numbfr* QWord);
+
+// Hflpfr IO fundtions
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbdUInt8Numbfr(dmsIOHANDLER* io,  dmsUInt8Numbfr* n);
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbdUInt16Numbfr(dmsIOHANDLER* io, dmsUInt16Numbfr* n);
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbdUInt32Numbfr(dmsIOHANDLER* io, dmsUInt32Numbfr* n);
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbdFlobt32Numbfr(dmsIOHANDLER* io, dmsFlobt32Numbfr* n);
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbdUInt64Numbfr(dmsIOHANDLER* io, dmsUInt64Numbfr* n);
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbd15Fixfd16Numbfr(dmsIOHANDLER* io, dmsFlobt64Numbfr* n);
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbdXYZNumbfr(dmsIOHANDLER* io, dmsCIEXYZ* XYZ);
+CMSAPI dmsBool           CMSEXPORT  _dmsRfbdUInt16Arrby(dmsIOHANDLER* io, dmsUInt32Numbfr n, dmsUInt16Numbfr* Arrby);
+
+CMSAPI dmsBool           CMSEXPORT  _dmsWritfUInt8Numbfr(dmsIOHANDLER* io, dmsUInt8Numbfr n);
+CMSAPI dmsBool           CMSEXPORT  _dmsWritfUInt16Numbfr(dmsIOHANDLER* io, dmsUInt16Numbfr n);
+CMSAPI dmsBool           CMSEXPORT  _dmsWritfUInt32Numbfr(dmsIOHANDLER* io, dmsUInt32Numbfr n);
+CMSAPI dmsBool           CMSEXPORT  _dmsWritfFlobt32Numbfr(dmsIOHANDLER* io, dmsFlobt32Numbfr n);
+CMSAPI dmsBool           CMSEXPORT  _dmsWritfUInt64Numbfr(dmsIOHANDLER* io, dmsUInt64Numbfr* n);
+CMSAPI dmsBool           CMSEXPORT  _dmsWritf15Fixfd16Numbfr(dmsIOHANDLER* io, dmsFlobt64Numbfr n);
+CMSAPI dmsBool           CMSEXPORT  _dmsWritfXYZNumbfr(dmsIOHANDLER* io, donst dmsCIEXYZ* XYZ);
+CMSAPI dmsBool           CMSEXPORT  _dmsWritfUInt16Arrby(dmsIOHANDLER* io, dmsUInt32Numbfr n, donst dmsUInt16Numbfr* Arrby);
+
+// ICC bbsf tbg
+typfdff strudt {
+    dmsTbgTypfSignbturf  sig;
+    dmsInt8Numbfr        rfsfrvfd[4];
+
+} _dmsTbgBbsf;
+
+// Typf bbsf iflpfr fundtions
+CMSAPI dmsTbgTypfSignbturf  CMSEXPORT _dmsRfbdTypfBbsf(dmsIOHANDLER* io);
+CMSAPI dmsBool              CMSEXPORT _dmsWritfTypfBbsf(dmsIOHANDLER* io, dmsTbgTypfSignbturf sig);
+
+// Alignmfnt fundtions
+CMSAPI dmsBool             CMSEXPORT _dmsRfbdAlignmfnt(dmsIOHANDLER* io);
+CMSAPI dmsBool             CMSEXPORT _dmsWritfAlignmfnt(dmsIOHANDLER* io);
+
+// To dfbl witi tfxt strfbms. 2K bt most
+CMSAPI dmsBool             CMSEXPORT _dmsIOPrintf(dmsIOHANDLER* io, donst dibr* frm, ...);
+
+// Fixfd point iflpfr fundtions
+CMSAPI dmsFlobt64Numbfr    CMSEXPORT _dms8Fixfd8toDoublf(dmsUInt16Numbfr fixfd8);
+CMSAPI dmsUInt16Numbfr     CMSEXPORT _dmsDoublfTo8Fixfd8(dmsFlobt64Numbfr vbl);
+
+CMSAPI dmsFlobt64Numbfr    CMSEXPORT _dms15Fixfd16toDoublf(dmsS15Fixfd16Numbfr fix32);
+CMSAPI dmsS15Fixfd16Numbfr CMSEXPORT _dmsDoublfTo15Fixfd16(dmsFlobt64Numbfr v);
+
+// Dbtf/timf iflpfr fundtions
+CMSAPI void                CMSEXPORT _dmsEndodfDbtfTimfNumbfr(dmsDbtfTimfNumbfr *Dfst, donst strudt tm *Sourdf);
+CMSAPI void                CMSEXPORT _dmsDfdodfDbtfTimfNumbfr(donst dmsDbtfTimfNumbfr *Sourdf, strudt tm *Dfst);
+
+//----------------------------------------------------------------------------------------------------------
+
+// Sibrfd dbllbbdks for usfr dbtb
+typfdff void     (* _dmsFrffUsfrDbtbFn)(dmsContfxt ContfxtID, void* Dbtb);
+typfdff void*    (* _dmsDupUsfrDbtbFn)(dmsContfxt ContfxtID, donst void* Dbtb);
+
+//----------------------------------------------------------------------------------------------------------
+
+// Plug-in foundbtion
+#dffinf dmsPluginMbgidNumbfr                 0x61637070     // 'bdpp'
+
+#dffinf dmsPluginMfmHbndlfrSig               0x6D656D48     // 'mfmH'
+#dffinf dmsPluginIntfrpolbtionSig            0x696E7048     // 'inpH'
+#dffinf dmsPluginPbrbmftridCurvfSig          0x70617248     // 'pbrH'
+#dffinf dmsPluginFormbttfrsSig               0x66726D48     // 'frmH
+#dffinf dmsPluginTbgTypfSig                  0x74797048     // 'typH'
+#dffinf dmsPluginTbgSig                      0x74616748     // 'tbgH'
+#dffinf dmsPluginRfndfringIntfntSig          0x696E7448     // 'intH'
+#dffinf dmsPluginMultiProdfssElfmfntSig      0x6D706548     // 'mpfH'
+#dffinf dmsPluginOptimizbtionSig             0x6F707448     // 'optH'
+#dffinf dmsPluginTrbnsformSig                0x7A666D48     // 'xfmH'
+
+typfdff strudt _dmsPluginBbsfStrudt {
+
+        dmsUInt32Numbfr                Mbgid;               // 'bdpp' signbturf
+        dmsUInt32Numbfr                ExpfdtfdVfrsion;     // Expfdtfd vfrsion of LittlfCMS
+        dmsUInt32Numbfr                Typf;                // Typf of plug-in
+        strudt _dmsPluginBbsfStrudt*   Nfxt;                // For multiplf plugin dffinition. NULL for fnd of list.
+
+} dmsPluginBbsf;
+
+// Mbximum numbfr of typfs in b plugin brrby
+#dffinf MAX_TYPES_IN_LCMS_PLUGIN    20
+
+//----------------------------------------------------------------------------------------------------------
+
+// Mfmory ibndlfr. Ebdi nfw plug-in typf rfplbdfs durrfnt bfibviour
+typfdff strudt {
+
+        dmsPluginBbsf bbsf;
+
+        // Rfquirfd
+        void * (* MbllodPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf);
+        void   (* FrffPtr)(dmsContfxt ContfxtID, void *Ptr);
+        void * (* RfbllodPtr)(dmsContfxt ContfxtID, void* Ptr, dmsUInt32Numbfr NfwSizf);
+
+        // Optionbl
+        void * (* MbllodZfroPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf);
+        void * (* CbllodPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf);
+        void * (* DupPtr)(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf);
+
+} dmsPluginMfmHbndlfr;
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+// Intfrpolbtion. 16 bits bnd flobting point vfrsions.
+strudt _dms_intfrp_strud;
+
+// Intfrpolbtion dbllbbdks
+
+// 16 bits forwbrd intfrpolbtion. Tiis fundtion pfrforms prfdision-limitfd linfbr intfrpolbtion
+// bnd is supposfd to bf quitf fbst. Implfmfntbtion mby bf tftrbifdrbl or trilinfbr, bnd plug-ins mby
+// dioosf to implfmfnt bny otifr intfrpolbtion blgoritim.
+typfdff void (* _dmsIntfrpFn16)(rfgistfr donst dmsUInt16Numbfr Input[],
+                                rfgistfr dmsUInt16Numbfr Output[],
+                                rfgistfr donst strudt _dms_intfrp_strud* p);
+
+// Flobting point forwbrd intfrpolbtion. Full prfdision intfrpolbtion using flobts. Tiis is not b
+// timf dritidbl fundtion. Implfmfntbtion mby bf tftrbifdrbl or trilinfbr, bnd plug-ins mby
+// dioosf to implfmfnt bny otifr intfrpolbtion blgoritim.
+typfdff void (* _dmsIntfrpFnFlobt)(dmsFlobt32Numbfr donst Input[],
+                                   dmsFlobt32Numbfr Output[],
+                                   donst strudt _dms_intfrp_strud* p);
+
+
+
+// Tiis typf iolds b pointfr to bn intfrpolbtor tibt dbn bf fitifr 16 bits or flobt
+typfdff union {
+    _dmsIntfrpFn16       Lfrp16;            // Forwbrd intfrpolbtion in 16 bits
+    _dmsIntfrpFnFlobt    LfrpFlobt;         // Forwbrd intfrpolbtion in flobting point
+} dmsIntfrpFundtion;
+
+// Flbgs for intfrpolbtor sflfdtion
+#dffinf CMS_LERP_FLAGS_16BITS             0x0000        // Tif dffbult
+#dffinf CMS_LERP_FLAGS_FLOAT              0x0001        // Rfquirfs difffrfnt implfmfntbtion
+#dffinf CMS_LERP_FLAGS_TRILINEAR          0x0100        // Hint only
+
+
+#dffinf MAX_INPUT_DIMENSIONS 8
+
+typfdff strudt _dms_intfrp_strud {  // Usfd on bll intfrpolbtions. Supplifd by ldms2 wifn dblling tif intfrpolbtion fundtion
+
+    dmsContfxt ContfxtID;     // Tif dblling tirfbd
+
+    dmsUInt32Numbfr dwFlbgs;  // Kffp originbl flbgs
+    dmsUInt32Numbfr nInputs;  // != 1 only in 3D intfrpolbtion
+    dmsUInt32Numbfr nOutputs; // != 1 only in 3D intfrpolbtion
+
+    dmsUInt32Numbfr nSbmplfs[MAX_INPUT_DIMENSIONS];  // Vblid on bll kinds of tbblfs
+    dmsUInt32Numbfr Dombin[MAX_INPUT_DIMENSIONS];    // Dombin = nSbmplfs - 1
+
+    dmsUInt32Numbfr optb[MAX_INPUT_DIMENSIONS];     // Optimizbtion for 3D CLUT. Tiis is tif numbfr of nodfs prfmultiplifd for fbdi
+                                                    // dimfnsion. For fxbmplf, in 7 nodfs, 7, 7^2 , 7^3, 7^4, ftd. On non-rfgulbr
+                                                    // Sbmplings mby vbry bddording of tif numbfr of nodfs for fbdi dimfnsion.
+
+    donst void *Tbblf;                // Points to tif bdtubl intfrpolbtion tbblf
+    dmsIntfrpFundtion Intfrpolbtion;  // Points to tif fundtion to do tif intfrpolbtion
+
+ } dmsIntfrpPbrbms;
+
+// Intfrpolbtors fbdtory
+typfdff dmsIntfrpFundtion (* dmsIntfrpFnFbdtory)(dmsUInt32Numbfr nInputCibnnfls, dmsUInt32Numbfr nOutputCibnnfls, dmsUInt32Numbfr dwFlbgs);
+
+// Tif plug-in
+typfdff strudt {
+    dmsPluginBbsf bbsf;
+
+    // Points to b usfr-supplifd fundtion wiidi implfmfnts tif fbdtory
+    dmsIntfrpFnFbdtory IntfrpolbtorsFbdtory;
+
+} dmsPluginIntfrpolbtion;
+
+//----------------------------------------------------------------------------------------------------------
+
+// Pbrbmftrid durvfs. A nfgbtivf typf mfbns sbmf fundtion but bnblytidblly invfrtfd. Mbx. numbfr of pbrbms is 10
+
+// Evblubtor dbllbbdk for usfr-suplifd pbrbmftrid durvfs. Mby implfmfnt morf tibn onf typf
+typfdff  dmsFlobt64Numbfr (* dmsPbrbmftridCurvfEvblubtor)(dmsInt32Numbfr Typf, donst dmsFlobt64Numbfr Pbrbms[10], dmsFlobt64Numbfr R);
+
+// Plug-in mby implfmfnt bn brbitrbry numbfr of pbrbmftrid durvfs
+typfdff strudt {
+    dmsPluginBbsf bbsf;
+
+    dmsUInt32Numbfr nFundtions;                                     // Numbfr of supportfd fundtions
+    dmsUInt32Numbfr FundtionTypfs[MAX_TYPES_IN_LCMS_PLUGIN];        // Tif idfntifidbtion typfs
+    dmsUInt32Numbfr PbrbmftfrCount[MAX_TYPES_IN_LCMS_PLUGIN];       // Numbfr of pbrbmftfrs for fbdi fundtion
+
+    dmsPbrbmftridCurvfEvblubtor    Evblubtor;                       // Tif fvblubtor
+
+} dmsPluginPbrbmftridCurvfs;
+//----------------------------------------------------------------------------------------------------------
+
+// Formbttfrs. Tiis plug-in bdds nfw ibndlfrs, rfplbding tifm if tify blrfbdy fxist. Formbttfrs dfbling witi
+// dmsFlobt32Numbfr (bps = 4) or doublf (bps = 0) typfs brf rfqufstfd vib FormbttfrFlobt dbllbbdk. Otifrs domf bdross
+// Formbttfr16 dbllbbdk
+
+strudt _dmstrbnsform_strudt;
+
+typfdff dmsUInt8Numbfr* (* dmsFormbttfr16)(rfgistfr strudt _dmstrbnsform_strudt* CMMdbrgo,
+                                           rfgistfr dmsUInt16Numbfr Vblufs[],
+                                           rfgistfr dmsUInt8Numbfr*  Bufffr,
+                                           rfgistfr dmsUInt32Numbfr  Stridf);
+
+typfdff dmsUInt8Numbfr* (* dmsFormbttfrFlobt)(strudt _dmstrbnsform_strudt* CMMdbrgo,
+                                              dmsFlobt32Numbfr Vblufs[],
+                                              dmsUInt8Numbfr*  Bufffr,
+                                              dmsUInt32Numbfr  Stridf);
+
+// Tiis typf iolds b pointfr to b formbttfr tibt dbn bf fitifr 16 bits or dmsFlobt32Numbfr
+typfdff union {
+    dmsFormbttfr16    Fmt16;
+    dmsFormbttfrFlobt FmtFlobt;
+
+} dmsFormbttfr;
+
+#dffinf CMS_PACK_FLAGS_16BITS       0x0000
+#dffinf CMS_PACK_FLAGS_FLOAT        0x0001
+
+typfdff fnum { dmsFormbttfrInput=0, dmsFormbttfrOutput=1 } dmsFormbttfrDirfdtion;
+
+typfdff dmsFormbttfr (* dmsFormbttfrFbdtory)(dmsUInt32Numbfr Typf,           // Spfdifid typf, i.f. TYPE_RGB_8
+                                             dmsFormbttfrDirfdtion Dir,
+                                             dmsUInt32Numbfr dwFlbgs);      // prfdision
+
+// Plug-in mby implfmfnt bn brbitrbry numbfr of formbttfrs
+typfdff strudt {
+    dmsPluginBbsf          bbsf;
+    dmsFormbttfrFbdtory    FormbttfrsFbdtory;
+
+} dmsPluginFormbttfrs;
+
+//----------------------------------------------------------------------------------------------------------
+
+// Tbg typf ibndlfr. Ebdi typf is frff to rfturn bnytiing it wbnts, bnd it is up to tif dbllfr to
+// know in bdvbndf wibt is tif typf dontbinfd in tif tbg.
+typfdff strudt _dms_typfibndlfr_strudt {
+
+        dmsTbgTypfSignbturf Signbturf;     // Tif signbturf of tif typf
+
+        // Allodbtfs bnd rfbds itfms
+        void *   (* RfbdPtr)(strudt _dms_typfibndlfr_strudt* sflf,
+                             dmsIOHANDLER*      io,
+                             dmsUInt32Numbfr*   nItfms,
+                             dmsUInt32Numbfr    SizfOfTbg);
+
+        // Writfs n Itfms
+        dmsBool  (* WritfPtr)(strudt _dms_typfibndlfr_strudt* sflf,
+                              dmsIOHANDLER*     io,
+                              void*             Ptr,
+                              dmsUInt32Numbfr   nItfms);
+
+        // Duplidbtf bn itfm or brrby of itfms
+        void*   (* DupPtr)(strudt _dms_typfibndlfr_strudt* sflf,
+                           donst void *Ptr,
+                           dmsUInt32Numbfr n);
+
+        // Frff bll rfsourdfs
+        void    (* FrffPtr)(strudt _dms_typfibndlfr_strudt* sflf,
+                            void *Ptr);
+
+        // Additionbl pbrbmftfrs usfd by tif dblling tirfbd
+        dmsContfxt       ContfxtID;
+        dmsUInt32Numbfr  ICCVfrsion;
+
+} dmsTbgTypfHbndlfr;
+
+// Ebdi plug-in implfmfnts b singlf typf
+typfdff strudt {
+        dmsPluginBbsf      bbsf;
+        dmsTbgTypfHbndlfr  Hbndlfr;
+
+} dmsPluginTbgTypf;
+
+//----------------------------------------------------------------------------------------------------------
+
+// Tiis is tif tbg plugin, wiidi idfntififs tbgs. For writing, b pointfr to fundtion is providfd.
+// Tiis fundtion siould rfturn tif dfsirfd typf for tiis tbg, givfn tif vfrsion of profilf
+// bnd tif dbtb bfing sfriblizfd.
+typfdff strudt {
+
+    dmsUInt32Numbfr     ElfmCount;          // If tiis tbg nffds bn brrby, iow mbny flfmfnts siould kffp
+
+    // For rfbding.
+    dmsUInt32Numbfr     nSupportfdTypfs;    // In iow mbny typfs tiis tbg dbn domf (MAX_TYPES_IN_LCMS_PLUGIN mbximum)
+    dmsTbgTypfSignbturf SupportfdTypfs[MAX_TYPES_IN_LCMS_PLUGIN];
+
+    // For writting
+    dmsTbgTypfSignbturf (* DfdidfTypf)(dmsFlobt64Numbfr ICCVfrsion, donst void *Dbtb);
+
+} dmsTbgDfsdriptor;
+
+// Plug-in implfmfnts b singlf tbg
+typfdff strudt {
+    dmsPluginBbsf    bbsf;
+
+    dmsTbgSignbturf  Signbturf;
+    dmsTbgDfsdriptor Dfsdriptor;
+
+} dmsPluginTbg;
+
+//----------------------------------------------------------------------------------------------------------
+
+// Custom intfnts. Tiis fundtion siould join bll profilfs spfdififd in tif brrby in
+// b singlf LUT. Any dustom intfnt in tif dibin rfdirfdts to dustom fundtion. If morf tibn
+// onf dustom intfnt is found, tif onf lodbtfd first is invokfd. Usublly usfrs siould usf only onf
+// dustom intfnt, so mixing dustom intfnts in sbmf multiprofilf trbnsform is not supportfd.
+
+typfdff dmsPipflinf* (* dmsIntfntFn)( dmsContfxt       ContfxtID,
+                                      dmsUInt32Numbfr  nProfilfs,
+                                      dmsUInt32Numbfr  Intfnts[],
+                                      dmsHPROFILE      iProfilfs[],
+                                      dmsBool          BPC[],
+                                      dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                                      dmsUInt32Numbfr  dwFlbgs);
+
+
+// Ebdi plug-in dffinfs b singlf intfnt numbfr.
+typfdff strudt {
+    dmsPluginBbsf     bbsf;
+    dmsUInt32Numbfr   Intfnt;
+    dmsIntfntFn       Link;
+    dibr              Dfsdription[256];
+
+} dmsPluginRfndfringIntfnt;
+
+
+// Tif dffbult ICC intfnts (pfrdfptubl, sbturbtion, rfl.dol bnd bbs.dol)
+CMSAPI dmsPipflinf*  CMSEXPORT _dmsDffbultICCintfnts(dmsContfxt       ContfxtID,
+                                                     dmsUInt32Numbfr  nProfilfs,
+                                                     dmsUInt32Numbfr  Intfnts[],
+                                                     dmsHPROFILE      iProfilfs[],
+                                                     dmsBool          BPC[],
+                                                     dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                                                     dmsUInt32Numbfr  dwFlbgs);
+
+
+//----------------------------------------------------------------------------------------------------------
+
+// Pipflinfs, Multi Prodfss Elfmfnts.
+
+typfdff void (* _dmsStbgfEvblFn)     (donst dmsFlobt32Numbfr In[], dmsFlobt32Numbfr Out[], donst dmsStbgf* mpf);
+typfdff void*(* _dmsStbgfDupElfmFn)  (dmsStbgf* mpf);
+typfdff void (* _dmsStbgfFrffElfmFn) (dmsStbgf* mpf);
+
+
+// Tiis fundtion bllodbtfs b gfnfrid MPE
+CMSAPI dmsStbgf* CMSEXPORT _dmsStbgfAllodPlbdfioldfr(dmsContfxt ContfxtID,
+                                dmsStbgfSignbturf     Typf,
+                                dmsUInt32Numbfr       InputCibnnfls,
+                                dmsUInt32Numbfr       OutputCibnnfls,
+                                _dmsStbgfEvblFn       EvblPtr,            // Points to fn tibt fvblubtfs tif flfmfnt (blwbys in flobting point)
+                                _dmsStbgfDupElfmFn    DupElfmPtr,         // Points to b fn tibt duplidbtfs tif stbgf
+                                _dmsStbgfFrffElfmFn   FrffPtr,            // Points to b fn tibt sfts tif flfmfnt frff
+                                void*                 Dbtb);              // A gfnfrid pointfr to wibtfvfr mfmory nffdfd by tif flfmfnt
+typfdff strudt {
+      dmsPluginBbsf     bbsf;
+      dmsTbgTypfHbndlfr Hbndlfr;
+
+}  dmsPluginMultiProdfssElfmfnt;
+
+
+// Dbtb kfpt in "Elfmfnt" mfmbfr of dmsStbgf
+
+// Curvfs
+typfdff strudt {
+    dmsUInt32Numbfr nCurvfs;
+    dmsTonfCurvf**  TifCurvfs;
+
+} _dmsStbgfTonfCurvfsDbtb;
+
+// Mbtrix
+typfdff strudt {
+    dmsFlobt64Numbfr*  Doublf;          // flobting point for tif mbtrix
+    dmsFlobt64Numbfr*  Offsft;          // Tif offsft
+
+} _dmsStbgfMbtrixDbtb;
+
+// CLUT
+typfdff strudt {
+
+    union {                       // Cbn ibvf only onf of boti rfprfsfntbtions bt sbmf timf
+        dmsUInt16Numbfr*  T;      // Points to tif tbblf 16 bits tbblf
+        dmsFlobt32Numbfr* TFlobt; // Points to tif dmsFlobt32Numbfr tbblf
+
+    } Tbb;
+
+    dmsIntfrpPbrbms* Pbrbms;
+    dmsUInt32Numbfr  nEntrifs;
+    dmsBool          HbsFlobtVblufs;
+
+} _dmsStbgfCLutDbtb;
+
+
+//----------------------------------------------------------------------------------------------------------
+// Optimizbtion. Using tiis plug-in, bdditionbl optimizbtion strbtfgifs mby bf implfmfntfd.
+// Tif fundtion siould rfturn TRUE if bny optimizbtion is donf on tif LUT, tiis tfrminbtfs
+// tif optimizbtion  sfbrdi. Or FALSE if it is unbblf to optimizf bnd wbnt to givf b dibndf
+// to tif rfst of optimizfrs.
+
+typfdff void     (* _dmsOPTfvbl16Fn)(rfgistfr donst dmsUInt16Numbfr In[],
+                                     rfgistfr dmsUInt16Numbfr Out[],
+                                     rfgistfr donst void* Dbtb);
+
+
+typfdff dmsBool  (* _dmsOPToptimizfFn)(dmsPipflinf** Lut,
+                                       dmsUInt32Numbfr  Intfnt,
+                                       dmsUInt32Numbfr* InputFormbt,
+                                       dmsUInt32Numbfr* OutputFormbt,
+                                       dmsUInt32Numbfr* dwFlbgs);
+
+// Tiis fundtion mby bf usfd to sft tif optionbl fvblubtor bnd b blodk of privbtf dbtb. If privbtf dbtb is bfing usfd, bn optionbl
+// duplidbtor bnd frff fundtions siould blso bf spfdififd in ordfr to duplidbtf tif LUT donstrudt. Usf NULL to iniibit sudi fundtionblity.
+
+CMSAPI void CMSEXPORT _dmsPipflinfSftOptimizbtionPbrbmftfrs(dmsPipflinf* Lut,
+                                               _dmsOPTfvbl16Fn Evbl16,
+                                               void* PrivbtfDbtb,
+                                               _dmsFrffUsfrDbtbFn FrffPrivbtfDbtbFn,
+                                               _dmsDupUsfrDbtbFn DupPrivbtfDbtbFn);
+
+typfdff strudt {
+      dmsPluginBbsf     bbsf;
+
+      // Optimizf fntry point
+      _dmsOPToptimizfFn  OptimizfPtr;
+
+}  dmsPluginOptimizbtion;
+
+//----------------------------------------------------------------------------------------------------------
+// Full xform
+typfdff void     (* _dmsTrbnsformFn)(strudt _dmstrbnsform_strudt *CMMdbrgo,
+                                     donst void* InputBufffr,
+                                     void* OutputBufffr,
+                                     dmsUInt32Numbfr Sizf,
+                                     dmsUInt32Numbfr Stridf);
+
+typfdff dmsBool  (* _dmsTrbnsformFbdtory)(_dmsTrbnsformFn* xform,
+                                         void** UsfrDbtb,
+                                         _dmsFrffUsfrDbtbFn* FrffPrivbtfDbtbFn,
+                                         dmsPipflinf** Lut,
+                                         dmsUInt32Numbfr* InputFormbt,
+                                         dmsUInt32Numbfr* OutputFormbt,
+                                         dmsUInt32Numbfr* dwFlbgs);
+
+
+// Rftrifvf usfr dbtb bs spfdififd by tif fbdtory
+CMSAPI void   CMSEXPORT _dmsSftTrbnsformUsfrDbtb(strudt _dmstrbnsform_strudt *CMMdbrgo, void* ptr, _dmsFrffUsfrDbtbFn FrffPrivbtfDbtbFn);
+CMSAPI void * CMSEXPORT _dmsGftTrbnsformUsfrDbtb(strudt _dmstrbnsform_strudt *CMMdbrgo);
+
+
+// Rftrifvf formbttfrs
+CMSAPI void   CMSEXPORT _dmsGftTrbnsformFormbttfrs16   (strudt _dmstrbnsform_strudt *CMMdbrgo, dmsFormbttfr16* FromInput, dmsFormbttfr16* ToOutput);
+CMSAPI void   CMSEXPORT _dmsGftTrbnsformFormbttfrsFlobt(strudt _dmstrbnsform_strudt *CMMdbrgo, dmsFormbttfrFlobt* FromInput, dmsFormbttfrFlobt* ToOutput);
+
+typfdff strudt {
+      dmsPluginBbsf     bbsf;
+
+      // Trbnsform fntry point
+      _dmsTrbnsformFbdtory  Fbdtory;
+
+}  dmsPluginTrbnsform;
+
+
+#ifndff CMS_USE_CPP_API
+#   ifdff __dplusplus
+    }
+#   fndif
+#fndif
+
+#dffinf _ldms_plugin_H
+#fndif

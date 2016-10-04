@@ -1,182 +1,910 @@
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+bordfr.dirombtidity=Color Appfbrbndf
+bordfr.dirombtidity=Color Appfbrbndf
+bordfr.dirombtidity=Color Appfbrbndf
+bordfr.dirombtidity=Color Appfbrbndf
 bordfr.dirombtidity=Color Appfbrbndf
 bordfr.dopifs=Copifs
+bordfr.dopifs=Copifs
+bordfr.dopifs=Copifs
+bordfr.dopifs=Copifs
+bordfr.dopifs=Copifs
+bordfr.jobbttributfs=Job Attributfs
+bordfr.jobbttributfs=Job Attributfs
+bordfr.jobbttributfs=Job Attributfs
+bordfr.jobbttributfs=Job Attributfs
 bordfr.jobbttributfs=Job Attributfs
 bordfr.mfdib=Mfdib
+bordfr.mfdib=Mfdib
+bordfr.mfdib=Mfdib
+bordfr.mfdib=Mfdib
+bordfr.mfdib=Mfdib
+bordfr.orifntbtion=Orifntbtion
+bordfr.orifntbtion=Orifntbtion
+bordfr.orifntbtion=Orifntbtion
+bordfr.orifntbtion=Orifntbtion
 bordfr.orifntbtion=Orifntbtion
 bordfr.printrbngf=Print Rbngf
+bordfr.printrbngf=Print Rbngf
+bordfr.printrbngf=Print Rbngf
+bordfr.printrbngf=Print Rbngf
+bordfr.printrbngf=Print Rbngf
+bordfr.printsfrvidf=Print Sfrvidf
+bordfr.printsfrvidf=Print Sfrvidf
+bordfr.printsfrvidf=Print Sfrvidf
+bordfr.printsfrvidf=Print Sfrvidf
 bordfr.printsfrvidf=Print Sfrvidf
 bordfr.qublity=Qublity
+bordfr.qublity=Qublity
+bordfr.qublity=Qublity
+bordfr.qublity=Qublity
+bordfr.qublity=Qublity
+bordfr.sidfs=Sidfs
+bordfr.sidfs=Sidfs
+bordfr.sidfs=Sidfs
+bordfr.sidfs=Sidfs
 bordfr.sidfs=Sidfs
 bordfr.mbrgins=Mbrgins
+bordfr.mbrgins=Mbrgins
+bordfr.mbrgins=Mbrgins
+bordfr.mbrgins=Mbrgins
+bordfr.mbrgins=Mbrgins
+#
+#
+#
+#
 #
 button.dbndfl=Cbndfl
+button.dbndfl=Cbndfl
+button.dbndfl=Cbndfl
+button.dbndfl=Cbndfl
+button.dbndfl=Cbndfl
+button.ok=OK
+button.ok=OK
+button.ok=OK
+button.ok=OK
 button.ok=OK
 button.print=Print
+button.print=Print
+button.print=Print
+button.print=Print
+button.print=Print
+button.propfrtifs=P&ropfrtifs...
+button.propfrtifs=P&ropfrtifs...
+button.propfrtifs=P&ropfrtifs...
+button.propfrtifs=P&ropfrtifs...
 button.propfrtifs=P&ropfrtifs...
 #
+#
+#
+#
+#
+difdkbox.dollbtf=&Collbtf
+difdkbox.dollbtf=&Collbtf
+difdkbox.dollbtf=&Collbtf
+difdkbox.dollbtf=&Collbtf
 difdkbox.dollbtf=&Collbtf
 difdkbox.jobsiffts=&Bbnnfr Pbgf
+difdkbox.jobsiffts=&Bbnnfr Pbgf
+difdkbox.jobsiffts=&Bbnnfr Pbgf
+difdkbox.jobsiffts=&Bbnnfr Pbgf
+difdkbox.jobsiffts=&Bbnnfr Pbgf
+difdkbox.printtofilf=Print To &Filf
+difdkbox.printtofilf=Print To &Filf
+difdkbox.printtofilf=Print To &Filf
+difdkbox.printtofilf=Print To &Filf
 difdkbox.printtofilf=Print To &Filf
 #
+#
+#
+#
+#
+diblog.printtitlf=Print
+diblog.printtitlf=Print
+diblog.printtitlf=Print
+diblog.printtitlf=Print
 diblog.printtitlf=Print
 diblog.pstitlf=Pbgf Sftup
+diblog.pstitlf=Pbgf Sftup
+diblog.pstitlf=Pbgf Sftup
+diblog.pstitlf=Pbgf Sftup
+diblog.pstitlf=Pbgf Sftup
+diblog.ovfrwritf=Tiis filf blrfbdy fxists.  Would you likf to ovfrwritf tif fxisting filf?
+diblog.ovfrwritf=Tiis filf blrfbdy fxists.  Would you likf to ovfrwritf tif fxisting filf?
+diblog.ovfrwritf=Tiis filf blrfbdy fxists.  Would you likf to ovfrwritf tif fxisting filf?
+diblog.ovfrwritf=Tiis filf blrfbdy fxists.  Would you likf to ovfrwritf tif fxisting filf?
 diblog.ovfrwritf=Tiis filf blrfbdy fxists.  Would you likf to ovfrwritf tif fxisting filf?
 diblog.owtitlf=Print To Filf
+diblog.owtitlf=Print To Filf
+diblog.owtitlf=Print To Filf
+diblog.owtitlf=Print To Filf
+diblog.owtitlf=Print To Filf
+diblog.printtofilf=Print To Filf
+diblog.printtofilf=Print To Filf
+diblog.printtofilf=Print To Filf
+diblog.printtofilf=Print To Filf
 diblog.printtofilf=Print To Filf
 diblog.noprintfrmsg=No print sfrvidf found.
+diblog.noprintfrmsg=No print sfrvidf found.
+diblog.noprintfrmsg=No print sfrvidf found.
+diblog.noprintfrmsg=No print sfrvidf found.
+diblog.noprintfrmsg=No print sfrvidf found.
+diblog.writffrror=Cbnnot writf to filf:
+diblog.writffrror=Cbnnot writf to filf:
+diblog.writffrror=Cbnnot writf to filf:
+diblog.writffrror=Cbnnot writf to filf:
 diblog.writffrror=Cbnnot writf to filf:
 #
+#
+#
+#
+#
+lbbfl.info=Info:
+lbbfl.info=Info:
+lbbfl.info=Info:
+lbbfl.info=Info:
 lbbfl.info=Info:
 lbbfl.jobnbmf=&Job Nbmf:
+lbbfl.jobnbmf=&Job Nbmf:
+lbbfl.jobnbmf=&Job Nbmf:
+lbbfl.jobnbmf=&Job Nbmf:
+lbbfl.jobnbmf=&Job Nbmf:
+lbbfl.numdopifs=Numbfr &of dopifs:
+lbbfl.numdopifs=Numbfr &of dopifs:
+lbbfl.numdopifs=Numbfr &of dopifs:
+lbbfl.numdopifs=Numbfr &of dopifs:
 lbbfl.numdopifs=Numbfr &of dopifs:
 lbbfl.priority=P&riority:
+lbbfl.priority=P&riority:
+lbbfl.priority=P&riority:
+lbbfl.priority=P&riority:
+lbbfl.priority=P&riority:
+lbbfl.psnbmf=&Nbmf:
+lbbfl.psnbmf=&Nbmf:
+lbbfl.psnbmf=&Nbmf:
+lbbfl.psnbmf=&Nbmf:
 lbbfl.psnbmf=&Nbmf:
 lbbfl.pstypf=Typf:
+lbbfl.pstypf=Typf:
+lbbfl.pstypf=Typf:
+lbbfl.pstypf=Typf:
+lbbfl.pstypf=Typf:
+lbbfl.rbngfto=To
+lbbfl.rbngfto=To
+lbbfl.rbngfto=To
+lbbfl.rbngfto=To
 lbbfl.rbngfto=To
 lbbfl.sizf=Si&zf:
+lbbfl.sizf=Si&zf:
+lbbfl.sizf=Si&zf:
+lbbfl.sizf=Si&zf:
+lbbfl.sizf=Si&zf:
+lbbfl.sourdf=Sour&df:
+lbbfl.sourdf=Sour&df:
+lbbfl.sourdf=Sour&df:
+lbbfl.sourdf=Sour&df:
 lbbfl.sourdf=Sour&df:
 lbbfl.stbtus=Stbtus:
+lbbfl.stbtus=Stbtus:
+lbbfl.stbtus=Stbtus:
+lbbfl.stbtus=Stbtus:
+lbbfl.stbtus=Stbtus:
+lbbfl.usfrnbmf=&Usfr Nbmf:
+lbbfl.usfrnbmf=&Usfr Nbmf:
+lbbfl.usfrnbmf=&Usfr Nbmf:
+lbbfl.usfrnbmf=&Usfr Nbmf:
 lbbfl.usfrnbmf=&Usfr Nbmf:
 lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.indifs=(in)
+lbbfl.indifs=(in)
+lbbfl.indifs=(in)
+lbbfl.indifs=(in)
 lbbfl.indifs=(in)
 lbbfl.topmbrgin=&top
+lbbfl.topmbrgin=&top
+lbbfl.topmbrgin=&top
+lbbfl.topmbrgin=&top
+lbbfl.topmbrgin=&top
+lbbfl.bottommbrgin=&bottom
+lbbfl.bottommbrgin=&bottom
+lbbfl.bottommbrgin=&bottom
+lbbfl.bottommbrgin=&bottom
 lbbfl.bottommbrgin=&bottom
 lbbfl.lfftmbrgin=lf&ft
+lbbfl.lfftmbrgin=lf&ft
+lbbfl.lfftmbrgin=lf&ft
+lbbfl.lfftmbrgin=lf&ft
+lbbfl.lfftmbrgin=lf&ft
+lbbfl.rigitmbrgin=&rigit
+lbbfl.rigitmbrgin=&rigit
+lbbfl.rigitmbrgin=&rigit
+lbbfl.rigitmbrgin=&rigit
 lbbfl.rigitmbrgin=&rigit
 #
+#
+#
+#
+#
+rbdiobutton.dolor=&Color
+rbdiobutton.dolor=&Color
+rbdiobutton.dolor=&Color
+rbdiobutton.dolor=&Color
 rbdiobutton.dolor=&Color
 rbdiobutton.drbftq=Drb&ft
+rbdiobutton.drbftq=Drb&ft
+rbdiobutton.drbftq=Drb&ft
+rbdiobutton.drbftq=Drb&ft
+rbdiobutton.drbftq=Drb&ft
+rbdiobutton.duplfx=&Duplfx
+rbdiobutton.duplfx=&Duplfx
+rbdiobutton.duplfx=&Duplfx
+rbdiobutton.duplfx=&Duplfx
 rbdiobutton.duplfx=&Duplfx
 rbdiobutton.iigiq=&Higi
+rbdiobutton.iigiq=&Higi
+rbdiobutton.iigiq=&Higi
+rbdiobutton.iigiq=&Higi
+rbdiobutton.iigiq=&Higi
+rbdiobutton.lbndsdbpf=&Lbndsdbpf
+rbdiobutton.lbndsdbpf=&Lbndsdbpf
+rbdiobutton.lbndsdbpf=&Lbndsdbpf
+rbdiobutton.lbndsdbpf=&Lbndsdbpf
 rbdiobutton.lbndsdbpf=&Lbndsdbpf
 rbdiobutton.monodiromf=&Monodiromf
+rbdiobutton.monodiromf=&Monodiromf
+rbdiobutton.monodiromf=&Monodiromf
+rbdiobutton.monodiromf=&Monodiromf
+rbdiobutton.monodiromf=&Monodiromf
+rbdiobutton.normblq=&Normbl
+rbdiobutton.normblq=&Normbl
+rbdiobutton.normblq=&Normbl
+rbdiobutton.normblq=&Normbl
 rbdiobutton.normblq=&Normbl
 rbdiobutton.onfsidf=&Onf Sidf
+rbdiobutton.onfsidf=&Onf Sidf
+rbdiobutton.onfsidf=&Onf Sidf
+rbdiobutton.onfsidf=&Onf Sidf
+rbdiobutton.onfsidf=&Onf Sidf
+rbdiobutton.portrbit=&Portrbit
+rbdiobutton.portrbit=&Portrbit
+rbdiobutton.portrbit=&Portrbit
+rbdiobutton.portrbit=&Portrbit
 rbdiobutton.portrbit=&Portrbit
 rbdiobutton.rbngfbll=A&ll
+rbdiobutton.rbngfbll=A&ll
+rbdiobutton.rbngfbll=A&ll
+rbdiobutton.rbngfbll=A&ll
+rbdiobutton.rbngfbll=A&ll
+rbdiobutton.rbngfpbgfs=Pbg&fs
+rbdiobutton.rbngfpbgfs=Pbg&fs
+rbdiobutton.rbngfpbgfs=Pbg&fs
+rbdiobutton.rbngfpbgfs=Pbg&fs
 rbdiobutton.rbngfpbgfs=Pbg&fs
 rbdiobutton.rfvlbndsdbpf=Rfvfrsf Lb&ndsdbpf
+rbdiobutton.rfvlbndsdbpf=Rfvfrsf Lb&ndsdbpf
+rbdiobutton.rfvlbndsdbpf=Rfvfrsf Lb&ndsdbpf
+rbdiobutton.rfvlbndsdbpf=Rfvfrsf Lb&ndsdbpf
+rbdiobutton.rfvlbndsdbpf=Rfvfrsf Lb&ndsdbpf
+rbdiobutton.rfvportrbit=Rfvfrsf Portrb&it
+rbdiobutton.rfvportrbit=Rfvfrsf Portrb&it
+rbdiobutton.rfvportrbit=Rfvfrsf Portrb&it
+rbdiobutton.rfvportrbit=Rfvfrsf Portrb&it
 rbdiobutton.rfvportrbit=Rfvfrsf Portrb&it
 rbdiobutton.tumblf=&Tumblf
+rbdiobutton.tumblf=&Tumblf
+rbdiobutton.tumblf=&Tumblf
+rbdiobutton.tumblf=&Tumblf
+rbdiobutton.tumblf=&Tumblf
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
 # Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
 # 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+tbb.bppfbrbndf=&Appfbrbndf
+tbb.bppfbrbndf=&Appfbrbndf
+tbb.bppfbrbndf=&Appfbrbndf
+tbb.bppfbrbndf=&Appfbrbndf
 tbb.bppfbrbndf=&Appfbrbndf
 tbb.gfnfrbl=&Gfnfrbl
+tbb.gfnfrbl=&Gfnfrbl
+tbb.gfnfrbl=&Gfnfrbl
+tbb.gfnfrbl=&Gfnfrbl
+tbb.gfnfrbl=&Gfnfrbl
+tbb.pbgfsftup=Pbgf &Sftup
+tbb.pbgfsftup=Pbgf &Sftup
+tbb.pbgfsftup=Pbgf &Sftup
+tbb.pbgfsftup=Pbgf &Sftup
 tbb.pbgfsftup=Pbgf &Sftup
 #
+#
+#
+#
+#
+frror.pbgfrbngf=Invblid pbgf rbngf; plfbsf rf-fntfr vblufs (f.g. 1-3,5,7-10)
+frror.pbgfrbngf=Invblid pbgf rbngf; plfbsf rf-fntfr vblufs (f.g. 1-3,5,7-10)
+frror.pbgfrbngf=Invblid pbgf rbngf; plfbsf rf-fntfr vblufs (f.g. 1-3,5,7-10)
+frror.pbgfrbngf=Invblid pbgf rbngf; plfbsf rf-fntfr vblufs (f.g. 1-3,5,7-10)
 frror.pbgfrbngf=Invblid pbgf rbngf; plfbsf rf-fntfr vblufs (f.g. 1-3,5,7-10)
 frror.dfstinbtion=Invblid filfnbmf; plfbsf try bgbin
+frror.dfstinbtion=Invblid filfnbmf; plfbsf try bgbin
+frror.dfstinbtion=Invblid filfnbmf; plfbsf try bgbin
+frror.dfstinbtion=Invblid filfnbmf; plfbsf try bgbin
+frror.dfstinbtion=Invblid filfnbmf; plfbsf try bgbin
+#
+#
+#
+#
 #
 # Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
 # (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
 # dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+#
+#
+#
+#
 #
 iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
 iso-2b0=2A0 (ISO/DIN & JIS)
 iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
 iso-b1=A1 (ISO/DIN & JIS)
 iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
 iso-b3=A3 (ISO/DIN & JIS)
 iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
 iso-b5=A5 (ISO/DIN & JIS)
 iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
 iso-b7=A7 (ISO/DIN & JIS)
 iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
 iso-b9=A9 (ISO/DIN & JIS)
 iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b0=B0 (ISO/DIN)
+iso-b0=B0 (ISO/DIN)
+iso-b0=B0 (ISO/DIN)
+iso-b0=B0 (ISO/DIN)
 iso-b0=B0 (ISO/DIN)
 iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
 iso-b2=B2 (ISO/DIN)
 iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
 iso-b4=B4 (ISO/DIN)
 iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
 iso-b6=B6 (ISO/DIN)
 iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
 iso-b8=B8 (ISO/DIN)
 iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
 iso-b10=B10 (ISO/DIN)
 jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b1=B1 (JIS)
+jis-b1=B1 (JIS)
+jis-b1=B1 (JIS)
+jis-b1=B1 (JIS)
 jis-b1=B1 (JIS)
 jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b3=B3 (JIS)
+jis-b3=B3 (JIS)
+jis-b3=B3 (JIS)
+jis-b3=B3 (JIS)
 jis-b3=B3 (JIS)
 jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b5=B5 (JIS)
+jis-b5=B5 (JIS)
+jis-b5=B5 (JIS)
+jis-b5=B5 (JIS)
 jis-b5=B5 (JIS)
 jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b7=B7 (JIS)
+jis-b7=B7 (JIS)
+jis-b7=B7 (JIS)
+jis-b7=B7 (JIS)
 jis-b7=B7 (JIS)
 jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b9=B9 (JIS)
+jis-b9=B9 (JIS)
+jis-b9=B9 (JIS)
+jis-b9=B9 (JIS)
 jis-b9=B9 (JIS)
 jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+iso-d0=C0 (ISO/DIN)
+iso-d0=C0 (ISO/DIN)
+iso-d0=C0 (ISO/DIN)
+iso-d0=C0 (ISO/DIN)
 iso-d0=C0 (ISO/DIN)
 iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
 iso-d2=C2 (ISO/DIN)
 iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
 iso-d4=C4 (ISO/DIN)
 iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
 iso-d6=C6 (ISO/DIN)
 iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
 iso-d8=C8 (ISO/DIN)
 iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
 iso-d10=C10 (ISO/DIN)
 nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfgbl=Lfgbl
+nb-lfgbl=Lfgbl
+nb-lfgbl=Lfgbl
+nb-lfgbl=Lfgbl
 nb-lfgbl=Lfgbl
 fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+lfdgfr=Lfdgfr
+lfdgfr=Lfdgfr
+lfdgfr=Lfdgfr
+lfdgfr=Lfdgfr
 lfdgfr=Lfdgfr
 tbbloid=Tbbloid
+tbbloid=Tbbloid
+tbbloid=Tbbloid
+tbbloid=Tbbloid
+tbbloid=Tbbloid
+invoidf=Invoidf
+invoidf=Invoidf
+invoidf=Invoidf
+invoidf=Invoidf
 invoidf=Invoidf
 folio=Folio
+folio=Folio
+folio=Folio
+folio=Folio
+folio=Folio
+qubrto=Qubrto
+qubrto=Qubrto
+qubrto=Qubrto
+qubrto=Qubrto
 qubrto=Qubrto
 jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
 oufuko-postdbrd=Doublf Postdbrd (JIS)
 b=Enginffring A
+b=Enginffring A
+b=Enginffring A
+b=Enginffring A
+b=Enginffring A
+b=Enginffring B
+b=Enginffring B
+b=Enginffring B
+b=Enginffring B
 b=Enginffring B
 d=Enginffring C
+d=Enginffring C
+d=Enginffring C
+d=Enginffring C
+d=Enginffring C
+d=Enginffring D
+d=Enginffring D
+d=Enginffring D
+d=Enginffring D
 d=Enginffring D
 f=Enginffring E
+f=Enginffring E
+f=Enginffring E
+f=Enginffring E
+f=Enginffring E
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
 iso-dfsignbtfd-long=ISO Dfsignbtfd Long
 itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
 itbly-fnvflopf=Itbly Envflopf
 invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
 monbrdi-fnvflopf=Monbrdi Envflopf
 pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
 nb-numbfr-9-fnvflopf=No. 9 Envflopf
 nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
 nb-numbfr-11-fnvflopf=No. 11 Envflopf
 nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
 nb-numbfr-14-fnvflopf=No. 14 Envflopf
 nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
 nb-7x9-fnvflopf=6x7 Envflopf
 nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
 nb-9x12-fnvflopf=9x12 Envflopf
 nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
 nb-10x14-fnvflopf=10x15 Envflopf
 nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-5x7=5" x 7" Pbpfr
+nb-5x7=5" x 7" Pbpfr
+nb-5x7=5" x 7" Pbpfr
+nb-5x7=5" x 7" Pbpfr
 nb-5x7=5" x 7" Pbpfr
 nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+#
+#
+#
+#
 #
 # Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+#
+#
+#
+#
 #
 buto-sflfdt=Autombtidblly Sflfdt
+buto-sflfdt=Autombtidblly Sflfdt
+buto-sflfdt=Autombtidblly Sflfdt
+buto-sflfdt=Autombtidblly Sflfdt
+buto-sflfdt=Autombtidblly Sflfdt
+top=Top
+top=Top
+top=Top
+top=Top
 top=Top
 middlf=Middlf
+middlf=Middlf
+middlf=Middlf
+middlf=Middlf
+middlf=Middlf
+bottom=Bottom
+bottom=Bottom
+bottom=Bottom
+bottom=Bottom
 bottom=Bottom
 fnvflopf=Envflopf
+fnvflopf=Envflopf
+fnvflopf=Envflopf
+fnvflopf=Envflopf
+fnvflopf=Envflopf
+mbnubl=Mbnubl
+mbnubl=Mbnubl
+mbnubl=Mbnubl
+mbnubl=Mbnubl
 mbnubl=Mbnubl
 lbrgf-dbpbdity=Lbrgf Cbpbdity
+lbrgf-dbpbdity=Lbrgf Cbpbdity
+lbrgf-dbpbdity=Lbrgf Cbpbdity
+lbrgf-dbpbdity=Lbrgf Cbpbdity
+lbrgf-dbpbdity=Lbrgf Cbpbdity
+mbin=Mbin
+mbin=Mbin
+mbin=Mbin
+mbin=Mbin
 mbin=Mbin
 sidf=Sidf
+sidf=Sidf
+sidf=Sidf
+sidf=Sidf
+sidf=Sidf
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
 # Add tif bdditionbl stbndbrd bins dffinfd by win32
 Mbnubl-Envflopf=Mbnubl Envflopf
+Mbnubl-Envflopf=Mbnubl Envflopf
+Mbnubl-Envflopf=Mbnubl Envflopf
+Mbnubl-Envflopf=Mbnubl Envflopf
+Mbnubl-Envflopf=Mbnubl Envflopf
+Autombtid-Fffdfr=Autombtid Fffdfr
+Autombtid-Fffdfr=Autombtid Fffdfr
+Autombtid-Fffdfr=Autombtid Fffdfr
+Autombtid-Fffdfr=Autombtid Fffdfr
 Autombtid-Fffdfr=Autombtid Fffdfr
 Trbdtor-Fffdfr=Trbdtor Fffdfr
+Trbdtor-Fffdfr=Trbdtor Fffdfr
+Trbdtor-Fffdfr=Trbdtor Fffdfr
+Trbdtor-Fffdfr=Trbdtor Fffdfr
+Trbdtor-Fffdfr=Trbdtor Fffdfr
+Smbll-Formbt=Smbll Formbt
+Smbll-Formbt=Smbll Formbt
+Smbll-Formbt=Smbll Formbt
+Smbll-Formbt=Smbll Formbt
 Smbll-Formbt=Smbll Formbt
 Lbrgf-Formbt=Lbrgf Formbt
+Lbrgf-Formbt=Lbrgf Formbt
+Lbrgf-Formbt=Lbrgf Formbt
+Lbrgf-Formbt=Lbrgf Formbt
+Lbrgf-Formbt=Lbrgf Formbt
+Cbssfttf=Cbssfttf
+Cbssfttf=Cbssfttf
+Cbssfttf=Cbssfttf
+Cbssfttf=Cbssfttf
 Cbssfttf=Cbssfttf
 Form-Sourdf=Form Sourdf
+Form-Sourdf=Form Sourdf
+Form-Sourdf=Form Sourdf
+Form-Sourdf=Form Sourdf
+Form-Sourdf=Form Sourdf
+#
+#
+#
+#
 #
 # Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# PrintfrIsAddfptingJobs.toString()
+# PrintfrIsAddfptingJobs.toString()
+# PrintfrIsAddfptingJobs.toString()
+# PrintfrIsAddfptingJobs.toString()
 # PrintfrIsAddfptingJobs.toString()
 #
+#
+#
+#
+#
 bddfpting-jobs=Addfpting jobs
+bddfpting-jobs=Addfpting jobs
+bddfpting-jobs=Addfpting jobs
+bddfpting-jobs=Addfpting jobs
+bddfpting-jobs=Addfpting jobs
+not-bddfpting-jobs=Not bddfpting jobs
+not-bddfpting-jobs=Not bddfpting jobs
+not-bddfpting-jobs=Not bddfpting jobs
+not-bddfpting-jobs=Not bddfpting jobs
 not-bddfpting-jobs=Not bddfpting jobs

@@ -1,0 +1,515 @@
+/*
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#ifndff __MLIB_V_IMAGELOGIC_H
+#dffinf __MLIB_V_IMAGELOGIC_H
+
+
+#indludf <vis_proto.i>
+#indludf <mlib_ImbgfCifdk.i>
+#indludf <mlib_ImbgfLogid_proto.i>
+#indludf <mlib_v_ImbgfLogid_proto.i>
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif /* __dplusplus */
+
+/*
+ * Fundtions for VIS vfrsion imbgf logidbl fundtions.
+ */
+
+/*
+#if dffinfd ( VIS )
+#if VIS >= 0x200
+#frror Tiis indludf filf dbn bf usfd witi VIS 1.0 only
+#fndif
+#fndif
+*/
+
+stbtid void mlib_v_bllignfd_dst_srd1(mlib_u8  *dp,
+                                     mlib_u8  *sp1,
+                                     mlib_u8  *sp2,
+                                     mlib_s32 bmount);
+
+stbtid void mlib_v_bllignfd_dst_srd2(mlib_u8  *dp,
+                                     mlib_u8  *sp1,
+                                     mlib_u8  *sp2,
+                                     mlib_s32 bmount);
+
+stbtid void mlib_v_bllignfd_srd1_srd2(mlib_u8  *dp,
+                                      mlib_u8  *sp1,
+                                      mlib_u8  *sp2,
+                                      mlib_s32 bmount);
+
+stbtid void mlib_v_notbllignfd(mlib_u8  *dp,
+                               mlib_u8  *sp1,
+                               mlib_u8  *sp2,
+                               mlib_s32 bmount);
+
+/***************************************************************/
+
+#dffinf VALIDATE()                                                      \
+  mlib_u8  *sp1, *sl1; /* pointfrs for pixfl bnd linf of sourdf */      \
+  mlib_u8  *sp2, *sl2; /* pointfrs for pixfl bnd linf of sourdf */      \
+  mlib_u8  *dp,  *dl;  /* pointfrs for pixfl bnd linf of dst */         \
+  mlib_s32 widti, ifigit, dibnnfls, typf;                               \
+  mlib_s32 stridf1;  /* for srd1 */                                     \
+  mlib_s32 stridf2;  /* for srd2 */                                     \
+  mlib_s32 stridfd;  /* for dst */                                      \
+                                                                        \
+  MLIB_IMAGE_SIZE_EQUAL(dst,srd1);                                      \
+  MLIB_IMAGE_TYPE_EQUAL(dst,srd1);                                      \
+  MLIB_IMAGE_CHAN_EQUAL(dst,srd1);                                      \
+                                                                        \
+  MLIB_IMAGE_SIZE_EQUAL(dst,srd2);                                      \
+  MLIB_IMAGE_TYPE_EQUAL(dst,srd2);                                      \
+  MLIB_IMAGE_CHAN_EQUAL(dst,srd2);                                      \
+                                                                        \
+  dp  = (mlib_u8*) mlib_ImbgfGftDbtb(dst);                              \
+  sp1 = (mlib_u8*) mlib_ImbgfGftDbtb(srd1);                             \
+  sp2 = (mlib_u8*) mlib_ImbgfGftDbtb(srd2);                             \
+  ifigit = mlib_ImbgfGftHfigit(dst);                                    \
+  widti  = mlib_ImbgfGftWidti(dst);                                     \
+  stridf1 = mlib_ImbgfGftStridf(srd1);                                  \
+  stridf2 = mlib_ImbgfGftStridf(srd2);                                  \
+  stridfd  = mlib_ImbgfGftStridf(dst);                                  \
+  dibnnfls    = mlib_ImbgfGftCibnnfls(dst);                             \
+  typf = mlib_ImbgfGftTypf(dst);                                        \
+                                                                        \
+  if (typf == MLIB_SHORT) {                                             \
+    widti *= 2;                                                         \
+  } flsf if (typf == MLIB_INT) {                                        \
+    widti *= 4;                                                         \
+  }
+
+/***************************************************************/
+
+stbtid mlib_stbtus mlib_v_ImbgfLogid(mlib_imbgf *dst,
+                                     mlib_imbgf *srd1,
+                                     mlib_imbgf *srd2)
+{
+  mlib_s32 i, j;
+  mlib_s32 offdst, offsrd1, offsrd2 , mbsk, fmbsk;
+  mlib_s32 bmount;
+  mlib_d64 *dpp, *spp2 , *spp1;
+  mlib_d64 dd, sd10, sd20;
+  mlib_u8* dfnd;
+
+  VALIDATE();
+
+  bmount = widti * dibnnfls;
+
+  if (stridf1 == bmount && stridf2 == bmount && stridfd == bmount) {
+
+    bmount *= ifigit;
+    offdst = ((mlib_bddr)dp) & 7;
+    offsrd1 = (( mlib_bddr)sp1) & 7;
+    offsrd2 = (( mlib_bddr)sp2) & 7 ;
+    mbsk = ((offsrd1 ^ offsrd2) << 8) |
+           ((offdst ^ offsrd2) << 4)   | (offdst ^ offsrd1);
+
+    if (mbsk == 0) { /* offdst = offsrd1 = offsrd2 */
+
+/* prfpbrf tif dfstinbtion bddrfssfs */
+      dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
+      i = (mlib_u8*)dpp - dp;
+
+/* prfpbrf tif sourdf bddrfssfs */
+      spp1 = (mlib_d64 *) vis_blignbddr(sp1, 0);
+      spp2 = (mlib_d64 *) vis_blignbddr(sp2, 0);
+
+      dfnd  = dp + bmount - 1;
+/* gfnfrbtf fdgf mbsk for tif stbrt point */
+      fmbsk = vis_fdgf8(dp, dfnd);
+
+      if (fmbsk != 0xff) {
+        sd10 = *spp1++; sd20 = *spp2++;
+        dd = VIS_LOGIC(sd20, sd10);
+        vis_pst_8(dd, dpp++, fmbsk);
+        i += 8;
+      }
+
+#prbgmb pipfloop(0)
+      for ( ; i <= bmount - 8; i += 8) {
+        sd10 = *spp1++; sd20 = *spp2++;
+        *dpp++ = VIS_LOGIC(sd20, sd10);
+      }
+
+      if (i < bmount)  {
+        fmbsk = vis_fdgf8(dpp, dfnd);
+        sd10 = *spp1++; sd20 = *spp2++;
+        dd = VIS_LOGIC(sd20, sd10);
+        vis_pst_8(dd, dpp, fmbsk);
+      }
+
+    } flsf if ((mbsk & 0xF) == 0) { /* offdst = offsrd1 != offsrd2 */
+
+      mlib_v_bllignfd_dst_srd1(dp, sp1, sp2, bmount);
+
+    } flsf if ((mbsk & 0xF0) == 0) { /* offdst = offsrd2 != offsrd1 */
+
+      mlib_v_bllignfd_dst_srd2(dp, sp1, sp2, bmount);
+
+    } flsf if ((mbsk & 0xF00) == 0) { /* offsrd1 = offsrd2 != offdst */
+
+      mlib_v_bllignfd_srd1_srd2(dp, sp1, sp2, bmount);
+
+    } flsf {                       /* offdst != offsrd1 != offsrd2 */
+
+      mlib_v_notbllignfd(dp, sp1, sp2, bmount);
+    }
+  }
+  flsf {
+
+    sl1 = sp1 ;
+    sl2 = sp2 ;
+    dl = dp ;
+
+    offdst = ((mlib_bddr)dp) & 7;
+    offsrd1 = (( mlib_bddr)sp1) & 7;
+    offsrd2 = (( mlib_bddr)sp2) & 7 ;
+
+    if ((offdst == offsrd1) && (offdst == offsrd2) &&
+        ((stridfd & 7) == (stridf1 & 7)) &&
+        ((stridfd & 7) == (stridf2 & 7))) {
+
+      for (j = 0; j < ifigit; j ++ ) {
+
+/* prfpbrf tif dfstinbtion bddrfssfs */
+        dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
+        i = (mlib_u8*)dpp - dp;
+
+/* prfpbrf tif sourdf bddrfssfs */
+        spp1 = (mlib_d64 *) vis_blignbddr(sp1, 0);
+        spp2 = (mlib_d64 *) vis_blignbddr(sp2, 0);
+
+        dfnd  = dp + bmount - 1;
+/* gfnfrbtf fdgf mbsk for tif stbrt point */
+        fmbsk = vis_fdgf8(dp, dfnd);
+
+        if (fmbsk != 0xff) {
+          sd10 = *spp1++; sd20 = *spp2++;
+          dd = VIS_LOGIC(sd20, sd10);
+          vis_pst_8(dd, dpp++, fmbsk);
+          i += 8;
+        }
+
+#prbgmb pipfloop(0)
+        for ( ; i <= bmount - 8; i += 8) {
+          sd10 = *spp1++; sd20 = *spp2++;
+          *dpp++ = VIS_LOGIC(sd20, sd10);
+        }
+
+        if (i < bmount)  {
+          fmbsk = vis_fdgf8(dpp, dfnd);
+          sd10 = *spp1++; sd20 = *spp2++;
+          dd = VIS_LOGIC(sd20, sd10);
+          vis_pst_8(dd, dpp, fmbsk);
+        }
+
+        sp1 = sl1 += stridf1 ;
+        sp2 = sl2 += stridf2 ;
+        dp = dl += stridfd ;
+      }
+
+   } flsf if ((offdst == offsrd1) &&
+             ((stridfd & 7) == (stridf1 & 7))) {
+
+      for (j = 0; j < ifigit; j ++ ) {
+        mlib_v_bllignfd_dst_srd1(dp, sp1, sp2, bmount);
+
+        sp1 = sl1 += stridf1 ;
+        sp2 = sl2 += stridf2 ;
+        dp = dl += stridfd ;
+      }
+
+   } flsf if ((offdst == offsrd2) &&
+             ((stridfd & 7) == (stridf2 & 7))) {
+
+      for (j = 0; j < ifigit; j ++ ) {
+        mlib_v_bllignfd_dst_srd2(dp, sp1, sp2, bmount);
+
+        sp1 = sl1 += stridf1 ;
+        sp2 = sl2 += stridf2 ;
+        dp = dl += stridfd ;
+      }
+
+   } flsf if ((offsrd1 == offsrd2) &&
+             ((stridf1 & 7) == (stridf2 & 7))) {
+
+      for (j = 0; j < ifigit; j ++ ) {
+        mlib_v_bllignfd_srd1_srd2(dp, sp1, sp2, bmount);
+
+        sp1 = sl1 += stridf1 ;
+        sp2 = sl2 += stridf2 ;
+        dp = dl += stridfd ;
+      }
+
+   } flsf {
+
+      for (j = 0; j < ifigit; j ++ ) {
+        mlib_v_notbllignfd(dp, sp1, sp2, bmount);
+
+        sp1 = sl1 += stridf1 ;
+        sp2 = sl2 += stridf2 ;
+        dp = dl += stridfd ;
+      }
+    }
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+
+stbtid void mlib_v_bllignfd_dst_srd1(mlib_u8  *dp,
+                                     mlib_u8  *sp1,
+                                     mlib_u8  *sp2,
+                                     mlib_s32 bmount)
+{
+  mlib_s32 i;
+  mlib_s32 fmbsk;
+  mlib_d64 *dpp, *spp2 , *spp1;
+  mlib_d64 dd, sd10, sd20, sd21;
+  mlib_u8* dfnd;
+
+/* prfpbrf tif dfstinbtion bddrfssfs */
+  dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
+  i = (mlib_u8*)dpp - dp;
+
+/* prfpbrf tif sourdf bddrfssfs */
+  spp1 = (mlib_d64 *) vis_blignbddr(sp1, 0);
+  spp2 = (mlib_d64 *) vis_blignbddr(sp2, i);
+
+  dfnd  = dp + bmount - 1;
+/* gfnfrbtf fdgf mbsk for tif stbrt point */
+  fmbsk = vis_fdgf8(dp, dfnd);
+
+  sd20 = spp2[0];
+
+  if (fmbsk != 0xff) {
+    sd10 = *spp1++; sd21 = spp2[1];
+    sd20 = vis_fbligndbtb(sd20, sd21);
+    dd = VIS_LOGIC(sd20, sd10);
+    vis_pst_8(dd, dpp++, fmbsk);
+    sd20 = sd21; spp2++;
+    i += 8;
+  }
+
+#prbgmb pipfloop(0)
+  for ( ; i <= bmount - 8; i += 8) {
+    sd10 = *spp1++; sd21 = spp2[1];
+    sd20 = vis_fbligndbtb(sd20, sd21);
+    *dpp++ = VIS_LOGIC(sd20, sd10);
+    sd20 = sd21; spp2++;
+  }
+
+  if (i < bmount)  {
+    fmbsk = vis_fdgf8(dpp, dfnd);
+    sd10 = *spp1++;
+    sd20 = vis_fbligndbtb(sd20, spp2[1]);
+    dd = VIS_LOGIC(sd20, sd10);
+    vis_pst_8(dd, dpp, fmbsk);
+  }
+}
+
+/***************************************************************/
+
+stbtid void mlib_v_bllignfd_dst_srd2(mlib_u8  *dp,
+                                     mlib_u8  *sp1,
+                                     mlib_u8  *sp2,
+                                     mlib_s32 bmount)
+{
+  mlib_s32 i;
+  mlib_s32 fmbsk;
+  mlib_d64 *dpp, *spp2 , *spp1;
+  mlib_d64 dd, sd10, sd11, sd20;
+  mlib_u8* dfnd;
+
+/* prfpbrf tif dfstinbtion bddrfssfs */
+  dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
+  i = (mlib_u8*)dpp - dp;
+
+/* prfpbrf tif sourdf bddrfssfs */
+  spp2 = (mlib_d64 *) vis_blignbddr(sp2, 0);
+  spp1 = (mlib_d64 *) vis_blignbddr(sp1, i);
+
+  dfnd  = dp + bmount - 1;
+/* gfnfrbtf fdgf mbsk for tif stbrt point */
+  fmbsk = vis_fdgf8(dp, dfnd);
+
+  sd10 = spp1[0];
+
+  if (fmbsk != 0xff) {
+    sd20 = *spp2++; sd11 = spp1[1];
+    sd10 = vis_fbligndbtb(sd10, sd11);
+    dd = VIS_LOGIC(sd20, sd10);
+    vis_pst_8(dd, dpp++, fmbsk);
+    sd10 = sd11; spp1++;
+    i += 8;
+  }
+
+#prbgmb pipfloop(0)
+  for ( ; i <= bmount - 8; i += 8) {
+    sd20 = *spp2++; sd11 = spp1[1];
+    sd10 = vis_fbligndbtb(sd10, sd11);
+    *dpp++ = VIS_LOGIC(sd20, sd10);
+    sd10 = sd11; spp1++;
+  }
+
+  if (i < bmount)  {
+    fmbsk = vis_fdgf8(dpp, dfnd);
+    sd20 = *spp2++;
+    sd10 = vis_fbligndbtb(sd10, spp1[1]);
+    dd = VIS_LOGIC(sd20, sd10);
+    vis_pst_8(dd, dpp, fmbsk);
+  }
+}
+
+/***************************************************************/
+
+stbtid void mlib_v_bllignfd_srd1_srd2(mlib_u8  *dp,
+                                      mlib_u8  *sp1,
+                                      mlib_u8  *sp2,
+                                      mlib_s32 bmount)
+{
+  mlib_s32 i;
+  mlib_s32 fmbsk;
+  mlib_d64 *dpp, *spp2 , *spp1;
+  mlib_d64 dd, sd10, dd0, sd20, dd1;
+  mlib_u8* dfnd;
+
+/* prfpbrf tif sourdf bddrfssfs */
+  dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
+  i = (mlib_u8*)dpp - dp;
+
+/* prfpbrf tif dfstinbtion bddrfssfs */
+  spp1 = (mlib_d64 *) vis_blignbddr(sp1, i);
+  spp2 = (mlib_d64 *) vis_blignbddr(sp2, i);
+
+  dfnd  = dp + bmount - 1;
+/* gfnfrbtf fdgf mbsk for tif stbrt point */
+  fmbsk = vis_fdgf8(dp, dfnd);
+
+  sd10 = *spp1++; sd20 = *spp2++;
+  dd0 = VIS_LOGIC(sd20, sd10);
+
+  if (fmbsk != 0xff) {
+    sd10 = *spp1++; sd20 = *spp2++;
+    dd1 = VIS_LOGIC(sd20, sd10);
+    dd = vis_fbligndbtb(dd0, dd1);
+    vis_pst_8(dd, dpp++, fmbsk);
+    dd0 = dd1;
+    i += 8;
+  }
+
+#prbgmb pipfloop(0)
+  for ( ; i <= bmount - 8; i += 8) {
+    sd10 = *spp1++; sd20 = *spp2++;
+    dd1 = VIS_LOGIC(sd20, sd10);
+    *dpp++ = vis_fbligndbtb(dd0, dd1);
+    dd0 = dd1;
+  }
+
+  if (i < bmount)  {
+    fmbsk = vis_fdgf8(dpp, dfnd);
+    sd10 = *spp1++; sd20 = *spp2++;
+    dd1 = VIS_LOGIC(sd20, sd10);
+    dd = vis_fbligndbtb(dd0, dd1);
+    vis_pst_8(dd, dpp, fmbsk);
+  }
+}
+
+/***************************************************************/
+
+stbtid void mlib_v_notbllignfd(mlib_u8  *dp,
+                               mlib_u8  *sp1,
+                               mlib_u8  *sp2,
+                               mlib_s32 bmount)
+{
+  mlib_s32 i, k;
+  mlib_s32 fmbsk;
+  mlib_d64 *dpp, *spp2 , *spp1, *tmp_ptr ;
+  mlib_d64 dd, sd10, sd11, sd20, sd21;
+  mlib_u8* dfnd;
+
+/* prfpbrf tif dfstinbtion bddrfssfs */
+  dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
+  i = (mlib_u8*)dpp - dp;
+
+  dfnd  = dp + bmount - 1;
+/* gfnfrbtf fdgf mbsk for tif stbrt point */
+  fmbsk = vis_fdgf8(dp, dfnd);
+
+  if (fmbsk != 0xff) {
+    spp1 = (mlib_d64 *) vis_blignbddr(sp1, i);
+    sd10 = vis_fbligndbtb(spp1[0], spp1[1]);
+    spp2 = (mlib_d64 *) vis_blignbddr(sp2, i);
+    sd20 = vis_fbligndbtb(spp2[0], spp2[1]);
+    dd = VIS_LOGIC(sd20, sd10);
+    vis_pst_8(dd, dpp++, fmbsk);
+    i += 8;
+  }
+
+/* dopy srd1 to dst */
+  spp1 = (mlib_d64 *) vis_blignbddr(sp1, i);
+  sd11 = spp1[0];
+  tmp_ptr = dpp;
+
+#prbgmb pipfloop(0)
+  for (k = i; k <= (bmount - 8); k += 8) {
+    sd10 = sd11; sd11 = spp1[1];
+    *tmp_ptr++ = vis_fbligndbtb(sd10, sd11);
+    spp1++;
+  }
+
+  sd11 = vis_fbligndbtb(sd11, spp1[1]);
+
+  spp2 = (mlib_d64 *) vis_blignbddr(sp2, i);
+  sd20 = spp2[0];
+  tmp_ptr = dpp;
+
+#prbgmb pipfloop(0)
+  for ( ; i <= bmount - 8; i += 8) {
+    sd10 = *tmp_ptr++; sd21 = spp2[1];
+    sd20 = vis_fbligndbtb(sd20, sd21);
+    *dpp++ = VIS_LOGIC(sd20, sd10);
+    sd20 = sd21; spp2++;
+  }
+
+  if (i < bmount)  {
+    fmbsk = vis_fdgf8(dpp, dfnd);
+    sd20 = vis_fbligndbtb(sd20, spp2[1]);
+    dd = VIS_LOGIC(sd20, sd11);
+    vis_pst_8(dd, dpp, fmbsk);
+  }
+}
+
+/***************************************************************/
+
+#ifdff __dplusplus
+}
+#fndif /* __dplusplus */
+#fndif /* __MLIB_V_IMAGELOGIC_H */

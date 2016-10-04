@@ -1,218 +1,1090 @@
 /*
- * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf sun.misd;
-
-import jbvb.io.OutputStrfbm;
-import jbvb.io.BytfArrbyOutputStrfbm;
-import jbvb.io.InputStrfbm;
-import jbvb.io.PushbbdkInputStrfbm;
-import jbvb.io.BytfArrbyInputStrfbm;
-import jbvb.io.IOExdfption;
-import jbvb.nio.BytfBufffr;
-
-/**
- * This dlbss dffinfs thf dfdoding hblf of dhbrbdtfr fndodfrs.
- * A dhbrbdtfr dfdodfr is bn blgorithim for trbnsforming 8 bit
- * binbry dbtb thbt hbs bffn fndodfd into tfxt by b dhbrbdtfr
- * fndodfr, bbdk into originbl binbry form.
- *
- * Thf dhbrbdtfr fndodfrs, in gfnfrbl, hbvf bffn strudturfd
- * bround b dfntrbl thfmf thbt binbry dbtb dbn bf fndodfd into
- * tfxt thbt hbs thf form:
- *
- * <prf>
- *      [Bufffr Prffix]
- *      [Linf Prffix][fndodfd dbtb btoms][Linf Suffix]
- *      [Bufffr Suffix]
- * </prf>
- *
- * Of doursf in thf simplfst fndoding sdhfmfs, thf bufffr hbs no
- * distindt prffix of suffix, howfvfr bll hbvf somf fixfd rflbtionship
- * bftwffn thf tfxt in bn 'btom' bnd thf binbry dbtb itsflf.
- *
- * In thf ChbrbdtfrEndodfr bnd ChbrbdtfrDfdodfr dlbssfs, onf domplftf
- * dhunk of dbtb is rfffrrfd to bs b <i>bufffr</i>. Endodfd bufffrs
- * brf bll tfxt, bnd dfdodfd bufffrs (somftimfs just rfffrrfd to bs
- * bufffrs) brf binbry odtfts.
- *
- * To drfbtf b dustom dfdodfr, you must, bt b minimum,  ovfridf thrff
- * bbstrbdt mfthods in this dlbss.
- * <DL>
- * <DD>bytfsPfrAtom whidh tflls thf dfdodfr how mbny bytfs to
- * fxpfdt from dfdodfAtom
- * <DD>dfdodfAtom whidh dfdodfs thf bytfs sfnt to it bs tfxt.
- * <DD>bytfsPfrLinf whidh tflls thf fndodfr thf mbximum numbfr of
- * bytfs pfr linf.
- * </DL>
- *
- * In gfnfrbl, thf dhbrbdtfr dfdodfrs rfturn frror in thf form of b
- * CEFormbtExdfption. Thf syntbx of thf dftbil string is
- * <prf>
- *      DfdodfrClbssNbmf: Error mfssbgf.
- * </prf>
- *
- * Sfvfrbl usfful dfdodfrs hbvf blrfbdy bffn writtfn bnd brf
- * rfffrfndfd in thf Sff Also list bflow.
- *
- * @buthor      Chudk MdMbnis
- * @sff         CEFormbtExdfption
- * @sff         ChbrbdtfrEndodfr
- * @sff         UCDfdodfr
- * @sff         UUDfdodfr
- * @sff         BASE64Dfdodfr
+ */
+ */
+ */
  */
 
-publid bbstrbdt dlbss ChbrbdtfrDfdodfr {
 
-    /** Rfturn thf numbfr of bytfs pfr btom of dfdoding */
+
+
+
+pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+
+
+
+
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PusibbdkInputStrfbm;
+import jbvb.io.PusibbdkInputStrfbm;
+import jbvb.io.PusibbdkInputStrfbm;
+import jbvb.io.PusibbdkInputStrfbm;
+import jbvb.io.PusibbdkInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Tiis dlbss dffinfs tif dfdoding iblf of dibrbdtfr fndodfrs.
+ * Tiis dlbss dffinfs tif dfdoding iblf of dibrbdtfr fndodfrs.
+ * Tiis dlbss dffinfs tif dfdoding iblf of dibrbdtfr fndodfrs.
+ * Tiis dlbss dffinfs tif dfdoding iblf of dibrbdtfr fndodfrs.
+ * Tiis dlbss dffinfs tif dfdoding iblf of dibrbdtfr fndodfrs.
+ * A dibrbdtfr dfdodfr is bn blgoritiim for trbnsforming 8 bit
+ * A dibrbdtfr dfdodfr is bn blgoritiim for trbnsforming 8 bit
+ * A dibrbdtfr dfdodfr is bn blgoritiim for trbnsforming 8 bit
+ * A dibrbdtfr dfdodfr is bn blgoritiim for trbnsforming 8 bit
+ * A dibrbdtfr dfdodfr is bn blgoritiim for trbnsforming 8 bit
+ * binbry dbtb tibt ibs bffn fndodfd into tfxt by b dibrbdtfr
+ * binbry dbtb tibt ibs bffn fndodfd into tfxt by b dibrbdtfr
+ * binbry dbtb tibt ibs bffn fndodfd into tfxt by b dibrbdtfr
+ * binbry dbtb tibt ibs bffn fndodfd into tfxt by b dibrbdtfr
+ * binbry dbtb tibt ibs bffn fndodfd into tfxt by b dibrbdtfr
+ * fndodfr, bbdk into originbl binbry form.
+ * fndodfr, bbdk into originbl binbry form.
+ * fndodfr, bbdk into originbl binbry form.
+ * fndodfr, bbdk into originbl binbry form.
+ * fndodfr, bbdk into originbl binbry form.
+ *
+ *
+ *
+ *
+ *
+ * Tif dibrbdtfr fndodfrs, in gfnfrbl, ibvf bffn strudturfd
+ * Tif dibrbdtfr fndodfrs, in gfnfrbl, ibvf bffn strudturfd
+ * Tif dibrbdtfr fndodfrs, in gfnfrbl, ibvf bffn strudturfd
+ * Tif dibrbdtfr fndodfrs, in gfnfrbl, ibvf bffn strudturfd
+ * Tif dibrbdtfr fndodfrs, in gfnfrbl, ibvf bffn strudturfd
+ * bround b dfntrbl tifmf tibt binbry dbtb dbn bf fndodfd into
+ * bround b dfntrbl tifmf tibt binbry dbtb dbn bf fndodfd into
+ * bround b dfntrbl tifmf tibt binbry dbtb dbn bf fndodfd into
+ * bround b dfntrbl tifmf tibt binbry dbtb dbn bf fndodfd into
+ * bround b dfntrbl tifmf tibt binbry dbtb dbn bf fndodfd into
+ * tfxt tibt ibs tif form:
+ * tfxt tibt ibs tif form:
+ * tfxt tibt ibs tif form:
+ * tfxt tibt ibs tif form:
+ * tfxt tibt ibs tif form:
+ *
+ *
+ *
+ *
+ *
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ *      [Bufffr Prffix]
+ *      [Bufffr Prffix]
+ *      [Bufffr Prffix]
+ *      [Bufffr Prffix]
+ *      [Bufffr Prffix]
+ *      [Linf Prffix][fndodfd dbtb btoms][Linf Suffix]
+ *      [Linf Prffix][fndodfd dbtb btoms][Linf Suffix]
+ *      [Linf Prffix][fndodfd dbtb btoms][Linf Suffix]
+ *      [Linf Prffix][fndodfd dbtb btoms][Linf Suffix]
+ *      [Linf Prffix][fndodfd dbtb btoms][Linf Suffix]
+ *      [Bufffr Suffix]
+ *      [Bufffr Suffix]
+ *      [Bufffr Suffix]
+ *      [Bufffr Suffix]
+ *      [Bufffr Suffix]
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ *
+ *
+ *
+ *
+ *
+ * Of doursf in tif simplfst fndoding sdifmfs, tif bufffr ibs no
+ * Of doursf in tif simplfst fndoding sdifmfs, tif bufffr ibs no
+ * Of doursf in tif simplfst fndoding sdifmfs, tif bufffr ibs no
+ * Of doursf in tif simplfst fndoding sdifmfs, tif bufffr ibs no
+ * Of doursf in tif simplfst fndoding sdifmfs, tif bufffr ibs no
+ * distindt prffix of suffix, iowfvfr bll ibvf somf fixfd rflbtionsiip
+ * distindt prffix of suffix, iowfvfr bll ibvf somf fixfd rflbtionsiip
+ * distindt prffix of suffix, iowfvfr bll ibvf somf fixfd rflbtionsiip
+ * distindt prffix of suffix, iowfvfr bll ibvf somf fixfd rflbtionsiip
+ * distindt prffix of suffix, iowfvfr bll ibvf somf fixfd rflbtionsiip
+ * bftwffn tif tfxt in bn 'btom' bnd tif binbry dbtb itsflf.
+ * bftwffn tif tfxt in bn 'btom' bnd tif binbry dbtb itsflf.
+ * bftwffn tif tfxt in bn 'btom' bnd tif binbry dbtb itsflf.
+ * bftwffn tif tfxt in bn 'btom' bnd tif binbry dbtb itsflf.
+ * bftwffn tif tfxt in bn 'btom' bnd tif binbry dbtb itsflf.
+ *
+ *
+ *
+ *
+ *
+ * In tif CibrbdtfrEndodfr bnd CibrbdtfrDfdodfr dlbssfs, onf domplftf
+ * In tif CibrbdtfrEndodfr bnd CibrbdtfrDfdodfr dlbssfs, onf domplftf
+ * In tif CibrbdtfrEndodfr bnd CibrbdtfrDfdodfr dlbssfs, onf domplftf
+ * In tif CibrbdtfrEndodfr bnd CibrbdtfrDfdodfr dlbssfs, onf domplftf
+ * In tif CibrbdtfrEndodfr bnd CibrbdtfrDfdodfr dlbssfs, onf domplftf
+ * diunk of dbtb is rfffrrfd to bs b <i>bufffr</i>. Endodfd bufffrs
+ * diunk of dbtb is rfffrrfd to bs b <i>bufffr</i>. Endodfd bufffrs
+ * diunk of dbtb is rfffrrfd to bs b <i>bufffr</i>. Endodfd bufffrs
+ * diunk of dbtb is rfffrrfd to bs b <i>bufffr</i>. Endodfd bufffrs
+ * diunk of dbtb is rfffrrfd to bs b <i>bufffr</i>. Endodfd bufffrs
+ * brf bll tfxt, bnd dfdodfd bufffrs (somftimfs just rfffrrfd to bs
+ * brf bll tfxt, bnd dfdodfd bufffrs (somftimfs just rfffrrfd to bs
+ * brf bll tfxt, bnd dfdodfd bufffrs (somftimfs just rfffrrfd to bs
+ * brf bll tfxt, bnd dfdodfd bufffrs (somftimfs just rfffrrfd to bs
+ * brf bll tfxt, bnd dfdodfd bufffrs (somftimfs just rfffrrfd to bs
+ * bufffrs) brf binbry odtfts.
+ * bufffrs) brf binbry odtfts.
+ * bufffrs) brf binbry odtfts.
+ * bufffrs) brf binbry odtfts.
+ * bufffrs) brf binbry odtfts.
+ *
+ *
+ *
+ *
+ *
+ * To drfbtf b dustom dfdodfr, you must, bt b minimum,  ovfridf tirff
+ * To drfbtf b dustom dfdodfr, you must, bt b minimum,  ovfridf tirff
+ * To drfbtf b dustom dfdodfr, you must, bt b minimum,  ovfridf tirff
+ * To drfbtf b dustom dfdodfr, you must, bt b minimum,  ovfridf tirff
+ * To drfbtf b dustom dfdodfr, you must, bt b minimum,  ovfridf tirff
+ * bbstrbdt mftiods in tiis dlbss.
+ * bbstrbdt mftiods in tiis dlbss.
+ * bbstrbdt mftiods in tiis dlbss.
+ * bbstrbdt mftiods in tiis dlbss.
+ * bbstrbdt mftiods in tiis dlbss.
+ * <DL>
+ * <DL>
+ * <DL>
+ * <DL>
+ * <DL>
+ * <DD>bytfsPfrAtom wiidi tflls tif dfdodfr iow mbny bytfs to
+ * <DD>bytfsPfrAtom wiidi tflls tif dfdodfr iow mbny bytfs to
+ * <DD>bytfsPfrAtom wiidi tflls tif dfdodfr iow mbny bytfs to
+ * <DD>bytfsPfrAtom wiidi tflls tif dfdodfr iow mbny bytfs to
+ * <DD>bytfsPfrAtom wiidi tflls tif dfdodfr iow mbny bytfs to
+ * fxpfdt from dfdodfAtom
+ * fxpfdt from dfdodfAtom
+ * fxpfdt from dfdodfAtom
+ * fxpfdt from dfdodfAtom
+ * fxpfdt from dfdodfAtom
+ * <DD>dfdodfAtom wiidi dfdodfs tif bytfs sfnt to it bs tfxt.
+ * <DD>dfdodfAtom wiidi dfdodfs tif bytfs sfnt to it bs tfxt.
+ * <DD>dfdodfAtom wiidi dfdodfs tif bytfs sfnt to it bs tfxt.
+ * <DD>dfdodfAtom wiidi dfdodfs tif bytfs sfnt to it bs tfxt.
+ * <DD>dfdodfAtom wiidi dfdodfs tif bytfs sfnt to it bs tfxt.
+ * <DD>bytfsPfrLinf wiidi tflls tif fndodfr tif mbximum numbfr of
+ * <DD>bytfsPfrLinf wiidi tflls tif fndodfr tif mbximum numbfr of
+ * <DD>bytfsPfrLinf wiidi tflls tif fndodfr tif mbximum numbfr of
+ * <DD>bytfsPfrLinf wiidi tflls tif fndodfr tif mbximum numbfr of
+ * <DD>bytfsPfrLinf wiidi tflls tif fndodfr tif mbximum numbfr of
+ * bytfs pfr linf.
+ * bytfs pfr linf.
+ * bytfs pfr linf.
+ * bytfs pfr linf.
+ * bytfs pfr linf.
+ * </DL>
+ * </DL>
+ * </DL>
+ * </DL>
+ * </DL>
+ *
+ *
+ *
+ *
+ *
+ * In gfnfrbl, tif dibrbdtfr dfdodfrs rfturn frror in tif form of b
+ * In gfnfrbl, tif dibrbdtfr dfdodfrs rfturn frror in tif form of b
+ * In gfnfrbl, tif dibrbdtfr dfdodfrs rfturn frror in tif form of b
+ * In gfnfrbl, tif dibrbdtfr dfdodfrs rfturn frror in tif form of b
+ * In gfnfrbl, tif dibrbdtfr dfdodfrs rfturn frror in tif form of b
+ * CEFormbtExdfption. Tif syntbx of tif dftbil string is
+ * CEFormbtExdfption. Tif syntbx of tif dftbil string is
+ * CEFormbtExdfption. Tif syntbx of tif dftbil string is
+ * CEFormbtExdfption. Tif syntbx of tif dftbil string is
+ * CEFormbtExdfption. Tif syntbx of tif dftbil string is
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ *      DfdodfrClbssNbmf: Error mfssbgf.
+ *      DfdodfrClbssNbmf: Error mfssbgf.
+ *      DfdodfrClbssNbmf: Error mfssbgf.
+ *      DfdodfrClbssNbmf: Error mfssbgf.
+ *      DfdodfrClbssNbmf: Error mfssbgf.
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ *
+ *
+ *
+ *
+ *
+ * Sfvfrbl usfful dfdodfrs ibvf blrfbdy bffn writtfn bnd brf
+ * Sfvfrbl usfful dfdodfrs ibvf blrfbdy bffn writtfn bnd brf
+ * Sfvfrbl usfful dfdodfrs ibvf blrfbdy bffn writtfn bnd brf
+ * Sfvfrbl usfful dfdodfrs ibvf blrfbdy bffn writtfn bnd brf
+ * Sfvfrbl usfful dfdodfrs ibvf blrfbdy bffn writtfn bnd brf
+ * rfffrfndfd in tif Sff Also list bflow.
+ * rfffrfndfd in tif Sff Also list bflow.
+ * rfffrfndfd in tif Sff Also list bflow.
+ * rfffrfndfd in tif Sff Also list bflow.
+ * rfffrfndfd in tif Sff Also list bflow.
+ *
+ *
+ *
+ *
+ *
+ * @butior      Ciudk MdMbnis
+ * @butior      Ciudk MdMbnis
+ * @butior      Ciudk MdMbnis
+ * @butior      Ciudk MdMbnis
+ * @butior      Ciudk MdMbnis
+ * @sff         CEFormbtExdfption
+ * @sff         CEFormbtExdfption
+ * @sff         CEFormbtExdfption
+ * @sff         CEFormbtExdfption
+ * @sff         CEFormbtExdfption
+ * @sff         CibrbdtfrEndodfr
+ * @sff         CibrbdtfrEndodfr
+ * @sff         CibrbdtfrEndodfr
+ * @sff         CibrbdtfrEndodfr
+ * @sff         CibrbdtfrEndodfr
+ * @sff         UCDfdodfr
+ * @sff         UCDfdodfr
+ * @sff         UCDfdodfr
+ * @sff         UCDfdodfr
+ * @sff         UCDfdodfr
+ * @sff         UUDfdodfr
+ * @sff         UUDfdodfr
+ * @sff         UUDfdodfr
+ * @sff         UUDfdodfr
+ * @sff         UUDfdodfr
+ * @sff         BASE64Dfdodfr
+ * @sff         BASE64Dfdodfr
+ * @sff         BASE64Dfdodfr
+ * @sff         BASE64Dfdodfr
+ * @sff         BASE64Dfdodfr
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid bbstrbdt dlbss CibrbdtfrDfdodfr {
+publid bbstrbdt dlbss CibrbdtfrDfdodfr {
+publid bbstrbdt dlbss CibrbdtfrDfdodfr {
+publid bbstrbdt dlbss CibrbdtfrDfdodfr {
+publid bbstrbdt dlbss CibrbdtfrDfdodfr {
+
+
+
+
+
+    /** Rfturn tif numbfr of bytfs pfr btom of dfdoding */
+    /** Rfturn tif numbfr of bytfs pfr btom of dfdoding */
+    /** Rfturn tif numbfr of bytfs pfr btom of dfdoding */
+    /** Rfturn tif numbfr of bytfs pfr btom of dfdoding */
+    /** Rfturn tif numbfr of bytfs pfr btom of dfdoding */
+    bbstrbdt protfdtfd int bytfsPfrAtom();
+    bbstrbdt protfdtfd int bytfsPfrAtom();
+    bbstrbdt protfdtfd int bytfsPfrAtom();
+    bbstrbdt protfdtfd int bytfsPfrAtom();
     bbstrbdt protfdtfd int bytfsPfrAtom();
 
-    /** Rfturn thf mbximum numbfr of bytfs thbt dbn bf fndodfd pfr linf */
+
+
+
+
+    /** Rfturn tif mbximum numbfr of bytfs tibt dbn bf fndodfd pfr linf */
+    /** Rfturn tif mbximum numbfr of bytfs tibt dbn bf fndodfd pfr linf */
+    /** Rfturn tif mbximum numbfr of bytfs tibt dbn bf fndodfd pfr linf */
+    /** Rfturn tif mbximum numbfr of bytfs tibt dbn bf fndodfd pfr linf */
+    /** Rfturn tif mbximum numbfr of bytfs tibt dbn bf fndodfd pfr linf */
+    bbstrbdt protfdtfd int bytfsPfrLinf();
+    bbstrbdt protfdtfd int bytfsPfrLinf();
+    bbstrbdt protfdtfd int bytfsPfrLinf();
+    bbstrbdt protfdtfd int bytfsPfrLinf();
     bbstrbdt protfdtfd int bytfsPfrLinf();
 
-    /** dfdodf thf bfginning of thf bufffr, by dffbult this is b NOP. */
-    protfdtfd void dfdodfBufffrPrffix(PushbbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) throws IOExdfption { }
 
-    /** dfdodf thf bufffr suffix, bgbin by dffbult it is b NOP. */
-    protfdtfd void dfdodfBufffrSuffix(PushbbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) throws IOExdfption { }
+
+
+
+    /** dfdodf tif bfginning of tif bufffr, by dffbult tiis is b NOP. */
+    /** dfdodf tif bfginning of tif bufffr, by dffbult tiis is b NOP. */
+    /** dfdodf tif bfginning of tif bufffr, by dffbult tiis is b NOP. */
+    /** dfdodf tif bfginning of tif bufffr, by dffbult tiis is b NOP. */
+    /** dfdodf tif bfginning of tif bufffr, by dffbult tiis is b NOP. */
+    protfdtfd void dfdodfBufffrPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+
+
+
+
+
+    /** dfdodf tif bufffr suffix, bgbin by dffbult it is b NOP. */
+    /** dfdodf tif bufffr suffix, bgbin by dffbult it is b NOP. */
+    /** dfdodf tif bufffr suffix, bgbin by dffbult it is b NOP. */
+    /** dfdodf tif bufffr suffix, bgbin by dffbult it is b NOP. */
+    /** dfdodf tif bufffr suffix, bgbin by dffbult it is b NOP. */
+    protfdtfd void dfdodfBufffrSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfBufffrSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+
+
+
+
 
     /**
-     * This mfthod should rfturn, if it knows, thf numbfr of bytfs
-     * thbt will bf dfdodfd. Mbny formbts sudh bs uufndoding providf
-     * this informbtion. By dffbult wf rfturn thf mbximum bytfs thbt
-     * dould hbvf bffn fndodfd on thf linf.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod siould rfturn, if it knows, tif numbfr of bytfs
+     * Tiis mftiod siould rfturn, if it knows, tif numbfr of bytfs
+     * Tiis mftiod siould rfturn, if it knows, tif numbfr of bytfs
+     * Tiis mftiod siould rfturn, if it knows, tif numbfr of bytfs
+     * Tiis mftiod siould rfturn, if it knows, tif numbfr of bytfs
+     * tibt will bf dfdodfd. Mbny formbts sudi bs uufndoding providf
+     * tibt will bf dfdodfd. Mbny formbts sudi bs uufndoding providf
+     * tibt will bf dfdodfd. Mbny formbts sudi bs uufndoding providf
+     * tibt will bf dfdodfd. Mbny formbts sudi bs uufndoding providf
+     * tibt will bf dfdodfd. Mbny formbts sudi bs uufndoding providf
+     * tiis informbtion. By dffbult wf rfturn tif mbximum bytfs tibt
+     * tiis informbtion. By dffbult wf rfturn tif mbximum bytfs tibt
+     * tiis informbtion. By dffbult wf rfturn tif mbximum bytfs tibt
+     * tiis informbtion. By dffbult wf rfturn tif mbximum bytfs tibt
+     * tiis informbtion. By dffbult wf rfturn tif mbximum bytfs tibt
+     * dould ibvf bffn fndodfd on tif linf.
+     * dould ibvf bffn fndodfd on tif linf.
+     * dould ibvf bffn fndodfd on tif linf.
+     * dould ibvf bffn fndodfd on tif linf.
+     * dould ibvf bffn fndodfd on tif linf.
      */
-    protfdtfd int dfdodfLinfPrffix(PushbbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) throws IOExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd int dfdodfLinfPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    protfdtfd int dfdodfLinfPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    protfdtfd int dfdodfLinfPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    protfdtfd int dfdodfLinfPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    protfdtfd int dfdodfLinfPrffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+        rfturn (bytfsPfrLinf());
+        rfturn (bytfsPfrLinf());
+        rfturn (bytfsPfrLinf());
+        rfturn (bytfsPfrLinf());
         rfturn (bytfsPfrLinf());
     }
-
-    /**
-     * This mfthod post prodfssfs thf linf, if thfrf brf frror dftfdtion
-     * or dorrfdtion dodfs in b linf, thfy brf gfnfrblly prodfssfd by
-     * this mfthod. Thf simplfst vfrsion of this mfthod looks for thf
-     * (nfwlinf) dhbrbdtfr.
-     */
-    protfdtfd void dfdodfLinfSuffix(PushbbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) throws IOExdfption { }
-
-    /**
-     * This mfthod dofs bn bdtubl dfdodf. It tbkfs thf dfdodfd bytfs bnd
-     * writfs thfm to thf OutputStrfbm. Thf intfgfr <i>l</i> tflls thf
-     * mfthod how mbny bytfs brf rfquirfd. This is blwbys <= bytfsPfrAtom().
-     */
-    protfdtfd void dfdodfAtom(PushbbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm, int l) throws IOExdfption {
-        throw nfw CEStrfbmExhbustfd();
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * This mfthod works bround thf bizbrrf sfmbntids of BufffrfdInputStrfbm's
-     * rfbd mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod post prodfssfs tif linf, if tifrf brf frror dftfdtion
+     * Tiis mftiod post prodfssfs tif linf, if tifrf brf frror dftfdtion
+     * Tiis mftiod post prodfssfs tif linf, if tifrf brf frror dftfdtion
+     * Tiis mftiod post prodfssfs tif linf, if tifrf brf frror dftfdtion
+     * Tiis mftiod post prodfssfs tif linf, if tifrf brf frror dftfdtion
+     * or dorrfdtion dodfs in b linf, tify brf gfnfrblly prodfssfd by
+     * or dorrfdtion dodfs in b linf, tify brf gfnfrblly prodfssfd by
+     * or dorrfdtion dodfs in b linf, tify brf gfnfrblly prodfssfd by
+     * or dorrfdtion dodfs in b linf, tify brf gfnfrblly prodfssfd by
+     * or dorrfdtion dodfs in b linf, tify brf gfnfrblly prodfssfd by
+     * tiis mftiod. Tif simplfst vfrsion of tiis mftiod looks for tif
+     * tiis mftiod. Tif simplfst vfrsion of tiis mftiod looks for tif
+     * tiis mftiod. Tif simplfst vfrsion of tiis mftiod looks for tif
+     * tiis mftiod. Tif simplfst vfrsion of tiis mftiod looks for tif
+     * tiis mftiod. Tif simplfst vfrsion of tiis mftiod looks for tif
+     * (nfwlinf) dibrbdtfr.
+     * (nfwlinf) dibrbdtfr.
+     * (nfwlinf) dibrbdtfr.
+     * (nfwlinf) dibrbdtfr.
+     * (nfwlinf) dibrbdtfr.
+     */
+     */
+     */
+     */
+     */
+    protfdtfd void dfdodfLinfSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfLinfSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfLinfSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfLinfSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+    protfdtfd void dfdodfLinfSuffix(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption { }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod dofs bn bdtubl dfdodf. It tbkfs tif dfdodfd bytfs bnd
+     * Tiis mftiod dofs bn bdtubl dfdodf. It tbkfs tif dfdodfd bytfs bnd
+     * Tiis mftiod dofs bn bdtubl dfdodf. It tbkfs tif dfdodfd bytfs bnd
+     * Tiis mftiod dofs bn bdtubl dfdodf. It tbkfs tif dfdodfd bytfs bnd
+     * Tiis mftiod dofs bn bdtubl dfdodf. It tbkfs tif dfdodfd bytfs bnd
+     * writfs tifm to tif OutputStrfbm. Tif intfgfr <i>l</i> tflls tif
+     * writfs tifm to tif OutputStrfbm. Tif intfgfr <i>l</i> tflls tif
+     * writfs tifm to tif OutputStrfbm. Tif intfgfr <i>l</i> tflls tif
+     * writfs tifm to tif OutputStrfbm. Tif intfgfr <i>l</i> tflls tif
+     * writfs tifm to tif OutputStrfbm. Tif intfgfr <i>l</i> tflls tif
+     * mftiod iow mbny bytfs brf rfquirfd. Tiis is blwbys <= bytfsPfrAtom().
+     * mftiod iow mbny bytfs brf rfquirfd. Tiis is blwbys <= bytfsPfrAtom().
+     * mftiod iow mbny bytfs brf rfquirfd. Tiis is blwbys <= bytfsPfrAtom().
+     * mftiod iow mbny bytfs brf rfquirfd. Tiis is blwbys <= bytfsPfrAtom().
+     * mftiod iow mbny bytfs brf rfquirfd. Tiis is blwbys <= bytfsPfrAtom().
+     */
+     */
+     */
+     */
+     */
+    protfdtfd void dfdodfAtom(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm, int l) tirows IOExdfption {
+    protfdtfd void dfdodfAtom(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm, int l) tirows IOExdfption {
+    protfdtfd void dfdodfAtom(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm, int l) tirows IOExdfption {
+    protfdtfd void dfdodfAtom(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm, int l) tirows IOExdfption {
+    protfdtfd void dfdodfAtom(PusibbdkInputStrfbm bStrfbm, OutputStrfbm bStrfbm, int l) tirows IOExdfption {
+        tirow nfw CEStrfbmExibustfd();
+        tirow nfw CEStrfbmExibustfd();
+        tirow nfw CEStrfbmExibustfd();
+        tirow nfw CEStrfbmExibustfd();
+        tirow nfw CEStrfbmExibustfd();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod works bround tif bizbrrf sfmbntids of BufffrfdInputStrfbm's
+     * Tiis mftiod works bround tif bizbrrf sfmbntids of BufffrfdInputStrfbm's
+     * Tiis mftiod works bround tif bizbrrf sfmbntids of BufffrfdInputStrfbm's
+     * Tiis mftiod works bround tif bizbrrf sfmbntids of BufffrfdInputStrfbm's
+     * Tiis mftiod works bround tif bizbrrf sfmbntids of BufffrfdInputStrfbm's
+     * rfbd mftiod.
+     * rfbd mftiod.
+     * rfbd mftiod.
+     * rfbd mftiod.
+     * rfbd mftiod.
+     */
+     */
+     */
+     */
      */
     protfdtfd int rfbdFully(InputStrfbm in, bytf bufffr[], int offsft, int lfn)
-        throws jbvb.io.IOExdfption {
+    protfdtfd int rfbdFully(InputStrfbm in, bytf bufffr[], int offsft, int lfn)
+    protfdtfd int rfbdFully(InputStrfbm in, bytf bufffr[], int offsft, int lfn)
+    protfdtfd int rfbdFully(InputStrfbm in, bytf bufffr[], int offsft, int lfn)
+    protfdtfd int rfbdFully(InputStrfbm in, bytf bufffr[], int offsft, int lfn)
+        tirows jbvb.io.IOExdfption {
+        tirows jbvb.io.IOExdfption {
+        tirows jbvb.io.IOExdfption {
+        tirows jbvb.io.IOExdfption {
+        tirows jbvb.io.IOExdfption {
+        for (int i = 0; i < lfn; i++) {
+        for (int i = 0; i < lfn; i++) {
+        for (int i = 0; i < lfn; i++) {
+        for (int i = 0; i < lfn; i++) {
         for (int i = 0; i < lfn; i++) {
             int q = in.rfbd();
+            int q = in.rfbd();
+            int q = in.rfbd();
+            int q = in.rfbd();
+            int q = in.rfbd();
+            if (q == -1)
+            if (q == -1)
+            if (q == -1)
+            if (q == -1)
             if (q == -1)
                 rfturn ((i == 0) ? -1 : i);
+                rfturn ((i == 0) ? -1 : i);
+                rfturn ((i == 0) ? -1 : i);
+                rfturn ((i == 0) ? -1 : i);
+                rfturn ((i == 0) ? -1 : i);
+            bufffr[i+offsft] = (bytf)q;
+            bufffr[i+offsft] = (bytf)q;
+            bufffr[i+offsft] = (bytf)q;
+            bufffr[i+offsft] = (bytf)q;
             bufffr[i+offsft] = (bytf)q;
         }
+        }
+        }
+        }
+        }
+        rfturn lfn;
+        rfturn lfn;
+        rfturn lfn;
+        rfturn lfn;
         rfturn lfn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dfdodf thf tfxt from thf InputStrfbm bnd writf thf dfdodfd
-     * odtfts to thf OutputStrfbm. This mfthod runs until thf strfbm
-     * is fxhbustfd.
-     * @fxdfption CEFormbtExdfption An frror hbs oddurrfd whilf dfdoding
-     * @fxdfption CEStrfbmExhbustfd Thf input strfbm is unfxpfdtfdly out of dbtb
+    /**
+    /**
+    /**
+    /**
+     * Dfdodf tif tfxt from tif InputStrfbm bnd writf tif dfdodfd
+     * Dfdodf tif tfxt from tif InputStrfbm bnd writf tif dfdodfd
+     * Dfdodf tif tfxt from tif InputStrfbm bnd writf tif dfdodfd
+     * Dfdodf tif tfxt from tif InputStrfbm bnd writf tif dfdodfd
+     * Dfdodf tif tfxt from tif InputStrfbm bnd writf tif dfdodfd
+     * odtfts to tif OutputStrfbm. Tiis mftiod runs until tif strfbm
+     * odtfts to tif OutputStrfbm. Tiis mftiod runs until tif strfbm
+     * odtfts to tif OutputStrfbm. Tiis mftiod runs until tif strfbm
+     * odtfts to tif OutputStrfbm. Tiis mftiod runs until tif strfbm
+     * odtfts to tif OutputStrfbm. Tiis mftiod runs until tif strfbm
+     * is fxibustfd.
+     * is fxibustfd.
+     * is fxibustfd.
+     * is fxibustfd.
+     * is fxibustfd.
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEStrfbmExibustfd Tif input strfbm is unfxpfdtfdly out of dbtb
+     * @fxdfption CEStrfbmExibustfd Tif input strfbm is unfxpfdtfdly out of dbtb
+     * @fxdfption CEStrfbmExibustfd Tif input strfbm is unfxpfdtfdly out of dbtb
+     * @fxdfption CEStrfbmExibustfd Tif input strfbm is unfxpfdtfdly out of dbtb
+     * @fxdfption CEStrfbmExibustfd Tif input strfbm is unfxpfdtfdly out of dbtb
      */
-    publid void dfdodfBufffr(InputStrfbm bStrfbm, OutputStrfbm bStrfbm) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid void dfdodfBufffr(InputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    publid void dfdodfBufffr(InputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    publid void dfdodfBufffr(InputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    publid void dfdodfBufffr(InputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+    publid void dfdodfBufffr(InputStrfbm bStrfbm, OutputStrfbm bStrfbm) tirows IOExdfption {
+        int     i;
+        int     i;
+        int     i;
+        int     i;
         int     i;
         int     totblBytfs = 0;
+        int     totblBytfs = 0;
+        int     totblBytfs = 0;
+        int     totblBytfs = 0;
+        int     totblBytfs = 0;
 
-        PushbbdkInputStrfbm ps = nfw PushbbdkInputStrfbm (bStrfbm);
+
+
+
+
+        PusibbdkInputStrfbm ps = nfw PusibbdkInputStrfbm (bStrfbm);
+        PusibbdkInputStrfbm ps = nfw PusibbdkInputStrfbm (bStrfbm);
+        PusibbdkInputStrfbm ps = nfw PusibbdkInputStrfbm (bStrfbm);
+        PusibbdkInputStrfbm ps = nfw PusibbdkInputStrfbm (bStrfbm);
+        PusibbdkInputStrfbm ps = nfw PusibbdkInputStrfbm (bStrfbm);
         dfdodfBufffrPrffix(ps, bStrfbm);
-        whilf (truf) {
-            int lfngth;
+        dfdodfBufffrPrffix(ps, bStrfbm);
+        dfdodfBufffrPrffix(ps, bStrfbm);
+        dfdodfBufffrPrffix(ps, bStrfbm);
+        dfdodfBufffrPrffix(ps, bStrfbm);
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+            int lfngti;
+            int lfngti;
+            int lfngti;
+            int lfngti;
+            int lfngti;
+
+
+
+
 
             try {
-                lfngth = dfdodfLinfPrffix(ps, bStrfbm);
-                for (i = 0; (i+bytfsPfrAtom()) < lfngth; i += bytfsPfrAtom()) {
+            try {
+            try {
+            try {
+            try {
+                lfngti = dfdodfLinfPrffix(ps, bStrfbm);
+                lfngti = dfdodfLinfPrffix(ps, bStrfbm);
+                lfngti = dfdodfLinfPrffix(ps, bStrfbm);
+                lfngti = dfdodfLinfPrffix(ps, bStrfbm);
+                lfngti = dfdodfLinfPrffix(ps, bStrfbm);
+                for (i = 0; (i+bytfsPfrAtom()) < lfngti; i += bytfsPfrAtom()) {
+                for (i = 0; (i+bytfsPfrAtom()) < lfngti; i += bytfsPfrAtom()) {
+                for (i = 0; (i+bytfsPfrAtom()) < lfngti; i += bytfsPfrAtom()) {
+                for (i = 0; (i+bytfsPfrAtom()) < lfngti; i += bytfsPfrAtom()) {
+                for (i = 0; (i+bytfsPfrAtom()) < lfngti; i += bytfsPfrAtom()) {
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
                     dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
                     totblBytfs += bytfsPfrAtom();
+                    totblBytfs += bytfsPfrAtom();
+                    totblBytfs += bytfsPfrAtom();
+                    totblBytfs += bytfsPfrAtom();
+                    totblBytfs += bytfsPfrAtom();
                 }
-                if ((i + bytfsPfrAtom()) == lfngth) {
+                }
+                }
+                }
+                }
+                if ((i + bytfsPfrAtom()) == lfngti) {
+                if ((i + bytfsPfrAtom()) == lfngti) {
+                if ((i + bytfsPfrAtom()) == lfngti) {
+                if ((i + bytfsPfrAtom()) == lfngti) {
+                if ((i + bytfsPfrAtom()) == lfngti) {
                     dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    dfdodfAtom(ps, bStrfbm, bytfsPfrAtom());
+                    totblBytfs += bytfsPfrAtom();
+                    totblBytfs += bytfsPfrAtom();
+                    totblBytfs += bytfsPfrAtom();
+                    totblBytfs += bytfsPfrAtom();
                     totblBytfs += bytfsPfrAtom();
                 } flsf {
-                    dfdodfAtom(ps, bStrfbm, lfngth - i);
-                    totblBytfs += (lfngth - i);
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    dfdodfAtom(ps, bStrfbm, lfngti - i);
+                    dfdodfAtom(ps, bStrfbm, lfngti - i);
+                    dfdodfAtom(ps, bStrfbm, lfngti - i);
+                    dfdodfAtom(ps, bStrfbm, lfngti - i);
+                    dfdodfAtom(ps, bStrfbm, lfngti - i);
+                    totblBytfs += (lfngti - i);
+                    totblBytfs += (lfngti - i);
+                    totblBytfs += (lfngti - i);
+                    totblBytfs += (lfngti - i);
+                    totblBytfs += (lfngti - i);
+                }
+                }
+                }
+                }
                 }
                 dfdodfLinfSuffix(ps, bStrfbm);
-            } dbtdh (CEStrfbmExhbustfd f) {
+                dfdodfLinfSuffix(ps, bStrfbm);
+                dfdodfLinfSuffix(ps, bStrfbm);
+                dfdodfLinfSuffix(ps, bStrfbm);
+                dfdodfLinfSuffix(ps, bStrfbm);
+            } dbtdi (CEStrfbmExibustfd f) {
+            } dbtdi (CEStrfbmExibustfd f) {
+            } dbtdi (CEStrfbmExibustfd f) {
+            } dbtdi (CEStrfbmExibustfd f) {
+            } dbtdi (CEStrfbmExibustfd f) {
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         dfdodfBufffrSuffix(ps, bStrfbm);
+        dfdodfBufffrSuffix(ps, bStrfbm);
+        dfdodfBufffrSuffix(ps, bStrfbm);
+        dfdodfBufffrSuffix(ps, bStrfbm);
+        dfdodfBufffrSuffix(ps, bStrfbm);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Altfrnbtf dfdodf intfrfbdf thbt tbkfs b String dontbining thf fndodfd
-     * bufffr bnd rfturns b bytf brrby dontbining thf dbtb.
-     * @fxdfption CEFormbtExdfption An frror hbs oddurrfd whilf dfdoding
+    /**
+    /**
+    /**
+    /**
+     * Altfrnbtf dfdodf intfrfbdf tibt tbkfs b String dontbining tif fndodfd
+     * Altfrnbtf dfdodf intfrfbdf tibt tbkfs b String dontbining tif fndodfd
+     * Altfrnbtf dfdodf intfrfbdf tibt tbkfs b String dontbining tif fndodfd
+     * Altfrnbtf dfdodf intfrfbdf tibt tbkfs b String dontbining tif fndodfd
+     * Altfrnbtf dfdodf intfrfbdf tibt tbkfs b String dontbining tif fndodfd
+     * bufffr bnd rfturns b bytf brrby dontbining tif dbtb.
+     * bufffr bnd rfturns b bytf brrby dontbining tif dbtb.
+     * bufffr bnd rfturns b bytf brrby dontbining tif dbtb.
+     * bufffr bnd rfturns b bytf brrby dontbining tif dbtb.
+     * bufffr bnd rfturns b bytf brrby dontbining tif dbtb.
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
+     * @fxdfption CEFormbtExdfption An frror ibs oddurrfd wiilf dfdoding
      */
-    publid bytf[] dfdodfBufffr(String inputString) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid bytf[] dfdodfBufffr(String inputString) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(String inputString) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(String inputString) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(String inputString) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(String inputString) tirows IOExdfption {
+        bytf inputBufffr[] = inputString.gftBytfs("ISO-8859-1");
+        bytf inputBufffr[] = inputString.gftBytfs("ISO-8859-1");
+        bytf inputBufffr[] = inputString.gftBytfs("ISO-8859-1");
+        bytf inputBufffr[] = inputString.gftBytfs("ISO-8859-1");
         bytf inputBufffr[] = inputString.gftBytfs("ISO-8859-1");
         BytfArrbyInputStrfbm inStrfbm = nfw BytfArrbyInputStrfbm(inputBufffr);
+        BytfArrbyInputStrfbm inStrfbm = nfw BytfArrbyInputStrfbm(inputBufffr);
+        BytfArrbyInputStrfbm inStrfbm = nfw BytfArrbyInputStrfbm(inputBufffr);
+        BytfArrbyInputStrfbm inStrfbm = nfw BytfArrbyInputStrfbm(inputBufffr);
+        BytfArrbyInputStrfbm inStrfbm = nfw BytfArrbyInputStrfbm(inputBufffr);
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
         BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
         dfdodfBufffr(inStrfbm, outStrfbm);
+        dfdodfBufffr(inStrfbm, outStrfbm);
+        dfdodfBufffr(inStrfbm, outStrfbm);
+        dfdodfBufffr(inStrfbm, outStrfbm);
+        dfdodfBufffr(inStrfbm, outStrfbm);
+        rfturn outStrfbm.toBytfArrby();
+        rfturn outStrfbm.toBytfArrby();
+        rfturn outStrfbm.toBytfArrby();
+        rfturn outStrfbm.toBytfArrby();
         rfturn outStrfbm.toBytfArrby();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dfdodf thf dontfnts of thf inputstrfbm into b bufffr.
+    /**
+    /**
+    /**
+    /**
+     * Dfdodf tif dontfnts of tif inputstrfbm into b bufffr.
+     * Dfdodf tif dontfnts of tif inputstrfbm into b bufffr.
+     * Dfdodf tif dontfnts of tif inputstrfbm into b bufffr.
+     * Dfdodf tif dontfnts of tif inputstrfbm into b bufffr.
+     * Dfdodf tif dontfnts of tif inputstrfbm into b bufffr.
      */
-    publid bytf[] dfdodfBufffr(InputStrfbm in) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid bytf[] dfdodfBufffr(InputStrfbm in) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(InputStrfbm in) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(InputStrfbm in) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(InputStrfbm in) tirows IOExdfption {
+    publid bytf[] dfdodfBufffr(InputStrfbm in) tirows IOExdfption {
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
         BytfArrbyOutputStrfbm outStrfbm = nfw BytfArrbyOutputStrfbm();
         dfdodfBufffr(in, outStrfbm);
+        dfdodfBufffr(in, outStrfbm);
+        dfdodfBufffr(in, outStrfbm);
+        dfdodfBufffr(in, outStrfbm);
+        dfdodfBufffr(in, outStrfbm);
+        rfturn outStrfbm.toBytfArrby();
+        rfturn outStrfbm.toBytfArrby();
+        rfturn outStrfbm.toBytfArrby();
+        rfturn outStrfbm.toBytfArrby();
         rfturn outStrfbm.toBytfArrby();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dfdodf thf dontfnts of thf String into b BytfBufffr.
+    /**
+    /**
+    /**
+    /**
+     * Dfdodf tif dontfnts of tif String into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif String into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif String into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif String into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif String into b BytfBufffr.
+     */
+     */
+     */
+     */
      */
     publid BytfBufffr dfdodfBufffrToBytfBufffr(String inputString)
-        throws IOExdfption {
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(String inputString)
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(String inputString)
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(String inputString)
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(String inputString)
+        tirows IOExdfption {
+        tirows IOExdfption {
+        tirows IOExdfption {
+        tirows IOExdfption {
+        tirows IOExdfption {
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(inputString));
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(inputString));
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(inputString));
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(inputString));
         rfturn BytfBufffr.wrbp(dfdodfBufffr(inputString));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dfdodf thf dontfnts of thf inputStrfbm into b BytfBufffr.
+    /**
+    /**
+    /**
+    /**
+     * Dfdodf tif dontfnts of tif inputStrfbm into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif inputStrfbm into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif inputStrfbm into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif inputStrfbm into b BytfBufffr.
+     * Dfdodf tif dontfnts of tif inputStrfbm into b BytfBufffr.
+     */
+     */
+     */
+     */
      */
     publid BytfBufffr dfdodfBufffrToBytfBufffr(InputStrfbm in)
-        throws IOExdfption {
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(InputStrfbm in)
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(InputStrfbm in)
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(InputStrfbm in)
+    publid BytfBufffr dfdodfBufffrToBytfBufffr(InputStrfbm in)
+        tirows IOExdfption {
+        tirows IOExdfption {
+        tirows IOExdfption {
+        tirows IOExdfption {
+        tirows IOExdfption {
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(in));
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(in));
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(in));
+        rfturn BytfBufffr.wrbp(dfdodfBufffr(in));
         rfturn BytfBufffr.wrbp(dfdodfBufffr(in));
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

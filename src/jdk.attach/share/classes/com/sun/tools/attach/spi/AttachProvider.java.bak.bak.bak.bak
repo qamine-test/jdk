@@ -1,274 +1,1370 @@
 /*
- * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf dom.sun.tools.bttbdh.spi;
-
-import jbvb.io.IOExdfption;
-import jbvb.util.Collfdtions;
-import jbvb.util.Itfrbtor;
-import jbvb.util.ArrbyList;
-import jbvb.util.List;
-import dom.sun.tools.bttbdh.VirtublMbdhinf;
-import dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor;
-import dom.sun.tools.bttbdh.AttbdhPfrmission;
-import dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption;
-import jbvb.util.SfrvidfLobdfr;
-
-/**
- * Attbdh providfr dlbss for bttbdhing to b Jbvb virtubl mbdhinf.
- *
- * <p> An bttbdh providfr is b dondrftf subdlbss of this dlbss thbt hbs b
- * zfro-brgumfnt donstrudtor bnd implfmfnts thf bbstrbdt mfthods spfdififd
- * bflow. </p>
- *
- * <p> An bttbdh providfr implfmfntbtion is typidblly tifd to b Jbvb virtubl
- * mbdhinf implfmfntbtion, vfrsion, or fvfn modf of opfrbtion. Thbt is, b spfdifid
- * providfr implfmfntbtion will typidblly only bf dbpbblf of bttbdhing to
- * b spfdifid Jbvb virtubl mbdhinf implfmfntbtion or vfrsion. For fxbmplf, Sun's
- * JDK implfmfntbtion ships with providfr implfmfntbtions thbt dbn only bttbdh to
- * Sun's <i>HotSpot</i> virtubl mbdhinf. In gfnfrbl, if bn fnvironmfnt
- * donsists of Jbvb virtubl mbdhinfs of difffrfnt vfrsions bnd from difffrfnt
- * vfndors thfn thfrf will bf bn bttbdh providfr implfmfntbtion for fbdh
- * <i>fbmily</i> of implfmfntbtions or vfrsions. </p>
- *
- * <p> An bttbdh providfr is idfntififd by its {@link #nbmf <i>nbmf</i>} bnd
- * {@link #typf <i>typf</i>}. Thf <i>nbmf</i> is typidblly, but not rfquirfd to
- * bf, b nbmf thbt dorrfsponds to thf VM vfndor. Thf Sun JDK implfmfntbtion,
- * for fxbmplf, ships with bttbdh providfrs thbt usf thf nbmf <i>"sun"</i>. Thf
- * <i>typf</i> typidblly dorrfsponds to thf bttbdh mfdhbnism. For fxbmplf, bn
- * implfmfntbtion thbt usfs thf Doors intfr-prodfss dommunidbtion mfdhbnism
- * might usf thf typf <i>"doors"</i>. Thf purposf of thf nbmf bnd typf is to
- * idfntify providfrs in fnvironmfnts whfrf thfrf brf multiplf providfrs
- * instbllfd. </p>
- *
- * <p> AttbdhProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd bt thf first
- * invodbtion of thf {@link #providfrs() providfrs} mfthod. This mfthod
- * bttfmpts to lobd bll providfr implfmfntbtions thbt brf instbllfd on thf
- * plbtform. </p>
- *
- * <p> All of thf mfthods in this dlbss brf sbff for usf by multiplf
- * dondurrfnt thrfbds. </p>
- *
- * @sindf 1.6
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf dom.sun.tools.bttbdi.spi;
+pbdkbgf dom.sun.tools.bttbdi.spi;
+pbdkbgf dom.sun.tools.bttbdi.spi;
+pbdkbgf dom.sun.tools.bttbdi.spi;
+pbdkbgf dom.sun.tools.bttbdi.spi;
+
+
+
+
+
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.AttbdiPfrmission;
+import dom.sun.tools.bttbdi.AttbdiPfrmission;
+import dom.sun.tools.bttbdi.AttbdiPfrmission;
+import dom.sun.tools.bttbdi.AttbdiPfrmission;
+import dom.sun.tools.bttbdi.AttbdiPfrmission;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfLobdfr;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Attbdi providfr dlbss for bttbdiing to b Jbvb virtubl mbdiinf.
+ * Attbdi providfr dlbss for bttbdiing to b Jbvb virtubl mbdiinf.
+ * Attbdi providfr dlbss for bttbdiing to b Jbvb virtubl mbdiinf.
+ * Attbdi providfr dlbss for bttbdiing to b Jbvb virtubl mbdiinf.
+ * Attbdi providfr dlbss for bttbdiing to b Jbvb virtubl mbdiinf.
+ *
+ *
+ *
+ *
+ *
+ * <p> An bttbdi providfr is b dondrftf subdlbss of tiis dlbss tibt ibs b
+ * <p> An bttbdi providfr is b dondrftf subdlbss of tiis dlbss tibt ibs b
+ * <p> An bttbdi providfr is b dondrftf subdlbss of tiis dlbss tibt ibs b
+ * <p> An bttbdi providfr is b dondrftf subdlbss of tiis dlbss tibt ibs b
+ * <p> An bttbdi providfr is b dondrftf subdlbss of tiis dlbss tibt ibs b
+ * zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * bflow. </p>
+ * bflow. </p>
+ * bflow. </p>
+ * bflow. </p>
+ * bflow. </p>
+ *
+ *
+ *
+ *
+ *
+ * <p> An bttbdi providfr implfmfntbtion is typidblly tifd to b Jbvb virtubl
+ * <p> An bttbdi providfr implfmfntbtion is typidblly tifd to b Jbvb virtubl
+ * <p> An bttbdi providfr implfmfntbtion is typidblly tifd to b Jbvb virtubl
+ * <p> An bttbdi providfr implfmfntbtion is typidblly tifd to b Jbvb virtubl
+ * <p> An bttbdi providfr implfmfntbtion is typidblly tifd to b Jbvb virtubl
+ * mbdiinf implfmfntbtion, vfrsion, or fvfn modf of opfrbtion. Tibt is, b spfdifid
+ * mbdiinf implfmfntbtion, vfrsion, or fvfn modf of opfrbtion. Tibt is, b spfdifid
+ * mbdiinf implfmfntbtion, vfrsion, or fvfn modf of opfrbtion. Tibt is, b spfdifid
+ * mbdiinf implfmfntbtion, vfrsion, or fvfn modf of opfrbtion. Tibt is, b spfdifid
+ * mbdiinf implfmfntbtion, vfrsion, or fvfn modf of opfrbtion. Tibt is, b spfdifid
+ * providfr implfmfntbtion will typidblly only bf dbpbblf of bttbdiing to
+ * providfr implfmfntbtion will typidblly only bf dbpbblf of bttbdiing to
+ * providfr implfmfntbtion will typidblly only bf dbpbblf of bttbdiing to
+ * providfr implfmfntbtion will typidblly only bf dbpbblf of bttbdiing to
+ * providfr implfmfntbtion will typidblly only bf dbpbblf of bttbdiing to
+ * b spfdifid Jbvb virtubl mbdiinf implfmfntbtion or vfrsion. For fxbmplf, Sun's
+ * b spfdifid Jbvb virtubl mbdiinf implfmfntbtion or vfrsion. For fxbmplf, Sun's
+ * b spfdifid Jbvb virtubl mbdiinf implfmfntbtion or vfrsion. For fxbmplf, Sun's
+ * b spfdifid Jbvb virtubl mbdiinf implfmfntbtion or vfrsion. For fxbmplf, Sun's
+ * b spfdifid Jbvb virtubl mbdiinf implfmfntbtion or vfrsion. For fxbmplf, Sun's
+ * JDK implfmfntbtion siips witi providfr implfmfntbtions tibt dbn only bttbdi to
+ * JDK implfmfntbtion siips witi providfr implfmfntbtions tibt dbn only bttbdi to
+ * JDK implfmfntbtion siips witi providfr implfmfntbtions tibt dbn only bttbdi to
+ * JDK implfmfntbtion siips witi providfr implfmfntbtions tibt dbn only bttbdi to
+ * JDK implfmfntbtion siips witi providfr implfmfntbtions tibt dbn only bttbdi to
+ * Sun's <i>HotSpot</i> virtubl mbdiinf. In gfnfrbl, if bn fnvironmfnt
+ * Sun's <i>HotSpot</i> virtubl mbdiinf. In gfnfrbl, if bn fnvironmfnt
+ * Sun's <i>HotSpot</i> virtubl mbdiinf. In gfnfrbl, if bn fnvironmfnt
+ * Sun's <i>HotSpot</i> virtubl mbdiinf. In gfnfrbl, if bn fnvironmfnt
+ * Sun's <i>HotSpot</i> virtubl mbdiinf. In gfnfrbl, if bn fnvironmfnt
+ * donsists of Jbvb virtubl mbdiinfs of difffrfnt vfrsions bnd from difffrfnt
+ * donsists of Jbvb virtubl mbdiinfs of difffrfnt vfrsions bnd from difffrfnt
+ * donsists of Jbvb virtubl mbdiinfs of difffrfnt vfrsions bnd from difffrfnt
+ * donsists of Jbvb virtubl mbdiinfs of difffrfnt vfrsions bnd from difffrfnt
+ * donsists of Jbvb virtubl mbdiinfs of difffrfnt vfrsions bnd from difffrfnt
+ * vfndors tifn tifrf will bf bn bttbdi providfr implfmfntbtion for fbdi
+ * vfndors tifn tifrf will bf bn bttbdi providfr implfmfntbtion for fbdi
+ * vfndors tifn tifrf will bf bn bttbdi providfr implfmfntbtion for fbdi
+ * vfndors tifn tifrf will bf bn bttbdi providfr implfmfntbtion for fbdi
+ * vfndors tifn tifrf will bf bn bttbdi providfr implfmfntbtion for fbdi
+ * <i>fbmily</i> of implfmfntbtions or vfrsions. </p>
+ * <i>fbmily</i> of implfmfntbtions or vfrsions. </p>
+ * <i>fbmily</i> of implfmfntbtions or vfrsions. </p>
+ * <i>fbmily</i> of implfmfntbtions or vfrsions. </p>
+ * <i>fbmily</i> of implfmfntbtions or vfrsions. </p>
+ *
+ *
+ *
+ *
+ *
+ * <p> An bttbdi providfr is idfntififd by its {@link #nbmf <i>nbmf</i>} bnd
+ * <p> An bttbdi providfr is idfntififd by its {@link #nbmf <i>nbmf</i>} bnd
+ * <p> An bttbdi providfr is idfntififd by its {@link #nbmf <i>nbmf</i>} bnd
+ * <p> An bttbdi providfr is idfntififd by its {@link #nbmf <i>nbmf</i>} bnd
+ * <p> An bttbdi providfr is idfntififd by its {@link #nbmf <i>nbmf</i>} bnd
+ * {@link #typf <i>typf</i>}. Tif <i>nbmf</i> is typidblly, but not rfquirfd to
+ * {@link #typf <i>typf</i>}. Tif <i>nbmf</i> is typidblly, but not rfquirfd to
+ * {@link #typf <i>typf</i>}. Tif <i>nbmf</i> is typidblly, but not rfquirfd to
+ * {@link #typf <i>typf</i>}. Tif <i>nbmf</i> is typidblly, but not rfquirfd to
+ * {@link #typf <i>typf</i>}. Tif <i>nbmf</i> is typidblly, but not rfquirfd to
+ * bf, b nbmf tibt dorrfsponds to tif VM vfndor. Tif Sun JDK implfmfntbtion,
+ * bf, b nbmf tibt dorrfsponds to tif VM vfndor. Tif Sun JDK implfmfntbtion,
+ * bf, b nbmf tibt dorrfsponds to tif VM vfndor. Tif Sun JDK implfmfntbtion,
+ * bf, b nbmf tibt dorrfsponds to tif VM vfndor. Tif Sun JDK implfmfntbtion,
+ * bf, b nbmf tibt dorrfsponds to tif VM vfndor. Tif Sun JDK implfmfntbtion,
+ * for fxbmplf, siips witi bttbdi providfrs tibt usf tif nbmf <i>"sun"</i>. Tif
+ * for fxbmplf, siips witi bttbdi providfrs tibt usf tif nbmf <i>"sun"</i>. Tif
+ * for fxbmplf, siips witi bttbdi providfrs tibt usf tif nbmf <i>"sun"</i>. Tif
+ * for fxbmplf, siips witi bttbdi providfrs tibt usf tif nbmf <i>"sun"</i>. Tif
+ * for fxbmplf, siips witi bttbdi providfrs tibt usf tif nbmf <i>"sun"</i>. Tif
+ * <i>typf</i> typidblly dorrfsponds to tif bttbdi mfdibnism. For fxbmplf, bn
+ * <i>typf</i> typidblly dorrfsponds to tif bttbdi mfdibnism. For fxbmplf, bn
+ * <i>typf</i> typidblly dorrfsponds to tif bttbdi mfdibnism. For fxbmplf, bn
+ * <i>typf</i> typidblly dorrfsponds to tif bttbdi mfdibnism. For fxbmplf, bn
+ * <i>typf</i> typidblly dorrfsponds to tif bttbdi mfdibnism. For fxbmplf, bn
+ * implfmfntbtion tibt usfs tif Doors intfr-prodfss dommunidbtion mfdibnism
+ * implfmfntbtion tibt usfs tif Doors intfr-prodfss dommunidbtion mfdibnism
+ * implfmfntbtion tibt usfs tif Doors intfr-prodfss dommunidbtion mfdibnism
+ * implfmfntbtion tibt usfs tif Doors intfr-prodfss dommunidbtion mfdibnism
+ * implfmfntbtion tibt usfs tif Doors intfr-prodfss dommunidbtion mfdibnism
+ * migit usf tif typf <i>"doors"</i>. Tif purposf of tif nbmf bnd typf is to
+ * migit usf tif typf <i>"doors"</i>. Tif purposf of tif nbmf bnd typf is to
+ * migit usf tif typf <i>"doors"</i>. Tif purposf of tif nbmf bnd typf is to
+ * migit usf tif typf <i>"doors"</i>. Tif purposf of tif nbmf bnd typf is to
+ * migit usf tif typf <i>"doors"</i>. Tif purposf of tif nbmf bnd typf is to
+ * idfntify providfrs in fnvironmfnts wifrf tifrf brf multiplf providfrs
+ * idfntify providfrs in fnvironmfnts wifrf tifrf brf multiplf providfrs
+ * idfntify providfrs in fnvironmfnts wifrf tifrf brf multiplf providfrs
+ * idfntify providfrs in fnvironmfnts wifrf tifrf brf multiplf providfrs
+ * idfntify providfrs in fnvironmfnts wifrf tifrf brf multiplf providfrs
+ * instbllfd. </p>
+ * instbllfd. </p>
+ * instbllfd. </p>
+ * instbllfd. </p>
+ * instbllfd. </p>
+ *
+ *
+ *
+ *
+ *
+ * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd bt tif first
+ * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd bt tif first
+ * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd bt tif first
+ * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd bt tif first
+ * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd bt tif first
+ * invodbtion of tif {@link #providfrs() providfrs} mftiod. Tiis mftiod
+ * invodbtion of tif {@link #providfrs() providfrs} mftiod. Tiis mftiod
+ * invodbtion of tif {@link #providfrs() providfrs} mftiod. Tiis mftiod
+ * invodbtion of tif {@link #providfrs() providfrs} mftiod. Tiis mftiod
+ * invodbtion of tif {@link #providfrs() providfrs} mftiod. Tiis mftiod
+ * bttfmpts to lobd bll providfr implfmfntbtions tibt brf instbllfd on tif
+ * bttfmpts to lobd bll providfr implfmfntbtions tibt brf instbllfd on tif
+ * bttfmpts to lobd bll providfr implfmfntbtions tibt brf instbllfd on tif
+ * bttfmpts to lobd bll providfr implfmfntbtions tibt brf instbllfd on tif
+ * bttfmpts to lobd bll providfr implfmfntbtions tibt brf instbllfd on tif
+ * plbtform. </p>
+ * plbtform. </p>
+ * plbtform. </p>
+ * plbtform. </p>
+ * plbtform. </p>
+ *
+ *
+ *
+ *
+ *
+ * <p> All of tif mftiods in tiis dlbss brf sbff for usf by multiplf
+ * <p> All of tif mftiods in tiis dlbss brf sbff for usf by multiplf
+ * <p> All of tif mftiods in tiis dlbss brf sbff for usf by multiplf
+ * <p> All of tif mftiods in tiis dlbss brf sbff for usf by multiplf
+ * <p> All of tif mftiods in tiis dlbss brf sbff for usf by multiplf
+ * dondurrfnt tirfbds. </p>
+ * dondurrfnt tirfbds. </p>
+ * dondurrfnt tirfbds. </p>
+ * dondurrfnt tirfbds. </p>
+ * dondurrfnt tirfbds. </p>
+ *
+ *
+ *
+ *
+ *
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
 @jdk.Exportfd
-publid bbstrbdt dlbss AttbdhProvidfr {
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+publid bbstrbdt dlbss AttbdiProvidfr {
+publid bbstrbdt dlbss AttbdiProvidfr {
+publid bbstrbdt dlbss AttbdiProvidfr {
+publid bbstrbdt dlbss AttbdiProvidfr {
+publid bbstrbdt dlbss AttbdiProvidfr {
+
+
+
+
 
     privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
-    privbtf stbtid List<AttbdhProvidfr> providfrs = null;
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid List<AttbdiProvidfr> providfrs = null;
+    privbtf stbtid List<AttbdiProvidfr> providfrs = null;
+    privbtf stbtid List<AttbdiProvidfr> providfrs = null;
+    privbtf stbtid List<AttbdiProvidfr> providfrs = null;
+    privbtf stbtid List<AttbdiProvidfr> providfrs = null;
+
+
+
+
 
     /**
-     * Initiblizfs b nfw instbndf of this dlbss.  </p>
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs b nfw instbndf of tiis dlbss.  </p>
+     * Initiblizfs b nfw instbndf of tiis dlbss.  </p>
+     * Initiblizfs b nfw instbndf of tiis dlbss.  </p>
+     * Initiblizfs b nfw instbndf of tiis dlbss.  </p>
+     * Initiblizfs b nfw instbndf of tiis dlbss.  </p>
      *
-     * @throws  SfdurityExdfption
-     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
-     *          {@link dom.sun.tools.bttbdh.AttbdhPfrmission AttbdhPfrmission}
-     *          <tt>("drfbtfAttbdhProvidfr")</tt>
+     *
+     *
+     *
+     *
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("drfbtfAttbdiProvidfr")</tt>
+     *          <tt>("drfbtfAttbdiProvidfr")</tt>
+     *          <tt>("drfbtfAttbdiProvidfr")</tt>
+     *          <tt>("drfbtfAttbdiProvidfr")</tt>
+     *          <tt>("drfbtfAttbdiProvidfr")</tt>
      */
-    protfdtfd AttbdhProvidfr() {
+     */
+     */
+     */
+     */
+    protfdtfd AttbdiProvidfr() {
+    protfdtfd AttbdiProvidfr() {
+    protfdtfd AttbdiProvidfr() {
+    protfdtfd AttbdiProvidfr() {
+    protfdtfd AttbdiProvidfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.dhfdkPfrmission(nfw AttbdhPfrmission("drfbtfAttbdhProvidfr"));
+        if (sm != null)
+        if (sm != null)
+        if (sm != null)
+        if (sm != null)
+            sm.difdkPfrmission(nfw AttbdiPfrmission("drfbtfAttbdiProvidfr"));
+            sm.difdkPfrmission(nfw AttbdiPfrmission("drfbtfAttbdiProvidfr"));
+            sm.difdkPfrmission(nfw AttbdiPfrmission("drfbtfAttbdiProvidfr"));
+            sm.difdkPfrmission(nfw AttbdiPfrmission("drfbtfAttbdiProvidfr"));
+            sm.difdkPfrmission(nfw AttbdiPfrmission("drfbtfAttbdiProvidfr"));
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturn this providfr's nbmf. </p>
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tiis providfr's nbmf. </p>
+     * Rfturn tiis providfr's nbmf. </p>
+     * Rfturn tiis providfr's nbmf. </p>
+     * Rfturn tiis providfr's nbmf. </p>
+     * Rfturn tiis providfr's nbmf. </p>
      *
-     * @rfturn  Thf nbmf of this providfr
+     *
+     *
+     *
+     *
+     * @rfturn  Tif nbmf of tiis providfr
+     * @rfturn  Tif nbmf of tiis providfr
+     * @rfturn  Tif nbmf of tiis providfr
+     * @rfturn  Tif nbmf of tiis providfr
+     * @rfturn  Tif nbmf of tiis providfr
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt String nbmf();
+    publid bbstrbdt String nbmf();
+    publid bbstrbdt String nbmf();
+    publid bbstrbdt String nbmf();
+    publid bbstrbdt String nbmf();
+
+
+
+
 
     /**
-     * Rfturn this providfr's typf. </p>
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tiis providfr's typf. </p>
+     * Rfturn tiis providfr's typf. </p>
+     * Rfturn tiis providfr's typf. </p>
+     * Rfturn tiis providfr's typf. </p>
+     * Rfturn tiis providfr's typf. </p>
      *
-     * @rfturn  Thf typf of this providfr
+     *
+     *
+     *
+     *
+     * @rfturn  Tif typf of tiis providfr
+     * @rfturn  Tif typf of tiis providfr
+     * @rfturn  Tif typf of tiis providfr
+     * @rfturn  Tif typf of tiis providfr
+     * @rfturn  Tif typf of tiis providfr
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt String typf();
+    publid bbstrbdt String typf();
+    publid bbstrbdt String typf();
+    publid bbstrbdt String typf();
+    publid bbstrbdt String typf();
+
+
+
+
 
     /**
-     * Attbdhfs to b Jbvb virtubl mbdhinf.
+    /**
+    /**
+    /**
+    /**
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
      *
-     * <p> A Jbvb virtubl mbdhinf is idfntififd by bn bbstrbdt idfntififr. Thf
-     * nbturf of this idfntififr is plbtform dfpfndfnt but in mbny dbsfs it will bf thf
-     * string rfprfsfntbtion of thf prodfss idfntififr (or pid). </p>
      *
-     * <p> This mfthod pbrsfs thf idfntififr bnd mbps thf idfntififr to b Jbvb
-     * virtubl mbdhinf (in bn implfmfntbtion dfpfndfnt mbnnfr). If thf idfntififr
-     * dbnnot bf pbrsfd by thf providfr thfn bn {@link
-     * dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption AttbdhNotSupportfdExdfption}
-     * is thrown. Ondf pbrsfd this mfthod bttfmpts to bttbdh to thf Jbvb virtubl mbdhinf.
-     * If thf providfr dftfdts thbt thf idfntififr dorrfsponds to b Jbvb virtubl mbdhinf
-     * thbt dofs not fxist, or it dorrfsponds to b Jbvb virtubl mbdhinf thbt dofs not support
-     * thf bttbdh mfdhbnism implfmfntfd by this providfr, or it dftfdts thbt thf
-     * Jbvb virtubl mbdhinf is b vfrsion to whidh this providfr dbnnot bttbdh, thfn
-     * bn <dodf>AttbdhNotSupportfdExdfption</dodf> is thrown. </p>
+     *
+     *
+     *
+     * <p> A Jbvb virtubl mbdiinf is idfntififd by bn bbstrbdt idfntififr. Tif
+     * <p> A Jbvb virtubl mbdiinf is idfntififd by bn bbstrbdt idfntififr. Tif
+     * <p> A Jbvb virtubl mbdiinf is idfntififd by bn bbstrbdt idfntififr. Tif
+     * <p> A Jbvb virtubl mbdiinf is idfntififd by bn bbstrbdt idfntififr. Tif
+     * <p> A Jbvb virtubl mbdiinf is idfntififd by bn bbstrbdt idfntififr. Tif
+     * nbturf of tiis idfntififr is plbtform dfpfndfnt but in mbny dbsfs it will bf tif
+     * nbturf of tiis idfntififr is plbtform dfpfndfnt but in mbny dbsfs it will bf tif
+     * nbturf of tiis idfntififr is plbtform dfpfndfnt but in mbny dbsfs it will bf tif
+     * nbturf of tiis idfntififr is plbtform dfpfndfnt but in mbny dbsfs it will bf tif
+     * nbturf of tiis idfntififr is plbtform dfpfndfnt but in mbny dbsfs it will bf tif
+     * string rfprfsfntbtion of tif prodfss idfntififr (or pid). </p>
+     * string rfprfsfntbtion of tif prodfss idfntififr (or pid). </p>
+     * string rfprfsfntbtion of tif prodfss idfntififr (or pid). </p>
+     * string rfprfsfntbtion of tif prodfss idfntififr (or pid). </p>
+     * string rfprfsfntbtion of tif prodfss idfntififr (or pid). </p>
+     *
+     *
+     *
+     *
+     *
+     * <p> Tiis mftiod pbrsfs tif idfntififr bnd mbps tif idfntififr to b Jbvb
+     * <p> Tiis mftiod pbrsfs tif idfntififr bnd mbps tif idfntififr to b Jbvb
+     * <p> Tiis mftiod pbrsfs tif idfntififr bnd mbps tif idfntififr to b Jbvb
+     * <p> Tiis mftiod pbrsfs tif idfntififr bnd mbps tif idfntififr to b Jbvb
+     * <p> Tiis mftiod pbrsfs tif idfntififr bnd mbps tif idfntififr to b Jbvb
+     * virtubl mbdiinf (in bn implfmfntbtion dfpfndfnt mbnnfr). If tif idfntififr
+     * virtubl mbdiinf (in bn implfmfntbtion dfpfndfnt mbnnfr). If tif idfntififr
+     * virtubl mbdiinf (in bn implfmfntbtion dfpfndfnt mbnnfr). If tif idfntififr
+     * virtubl mbdiinf (in bn implfmfntbtion dfpfndfnt mbnnfr). If tif idfntififr
+     * virtubl mbdiinf (in bn implfmfntbtion dfpfndfnt mbnnfr). If tif idfntififr
+     * dbnnot bf pbrsfd by tif providfr tifn bn {@link
+     * dbnnot bf pbrsfd by tif providfr tifn bn {@link
+     * dbnnot bf pbrsfd by tif providfr tifn bn {@link
+     * dbnnot bf pbrsfd by tif providfr tifn bn {@link
+     * dbnnot bf pbrsfd by tif providfr tifn bn {@link
+     * dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption AttbdiNotSupportfdExdfption}
+     * dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption AttbdiNotSupportfdExdfption}
+     * dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption AttbdiNotSupportfdExdfption}
+     * dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption AttbdiNotSupportfdExdfption}
+     * dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption AttbdiNotSupportfdExdfption}
+     * is tirown. Ondf pbrsfd tiis mftiod bttfmpts to bttbdi to tif Jbvb virtubl mbdiinf.
+     * is tirown. Ondf pbrsfd tiis mftiod bttfmpts to bttbdi to tif Jbvb virtubl mbdiinf.
+     * is tirown. Ondf pbrsfd tiis mftiod bttfmpts to bttbdi to tif Jbvb virtubl mbdiinf.
+     * is tirown. Ondf pbrsfd tiis mftiod bttfmpts to bttbdi to tif Jbvb virtubl mbdiinf.
+     * is tirown. Ondf pbrsfd tiis mftiod bttfmpts to bttbdi to tif Jbvb virtubl mbdiinf.
+     * If tif providfr dftfdts tibt tif idfntififr dorrfsponds to b Jbvb virtubl mbdiinf
+     * If tif providfr dftfdts tibt tif idfntififr dorrfsponds to b Jbvb virtubl mbdiinf
+     * If tif providfr dftfdts tibt tif idfntififr dorrfsponds to b Jbvb virtubl mbdiinf
+     * If tif providfr dftfdts tibt tif idfntififr dorrfsponds to b Jbvb virtubl mbdiinf
+     * If tif providfr dftfdts tibt tif idfntififr dorrfsponds to b Jbvb virtubl mbdiinf
+     * tibt dofs not fxist, or it dorrfsponds to b Jbvb virtubl mbdiinf tibt dofs not support
+     * tibt dofs not fxist, or it dorrfsponds to b Jbvb virtubl mbdiinf tibt dofs not support
+     * tibt dofs not fxist, or it dorrfsponds to b Jbvb virtubl mbdiinf tibt dofs not support
+     * tibt dofs not fxist, or it dorrfsponds to b Jbvb virtubl mbdiinf tibt dofs not support
+     * tibt dofs not fxist, or it dorrfsponds to b Jbvb virtubl mbdiinf tibt dofs not support
+     * tif bttbdi mfdibnism implfmfntfd by tiis providfr, or it dftfdts tibt tif
+     * tif bttbdi mfdibnism implfmfntfd by tiis providfr, or it dftfdts tibt tif
+     * tif bttbdi mfdibnism implfmfntfd by tiis providfr, or it dftfdts tibt tif
+     * tif bttbdi mfdibnism implfmfntfd by tiis providfr, or it dftfdts tibt tif
+     * tif bttbdi mfdibnism implfmfntfd by tiis providfr, or it dftfdts tibt tif
+     * Jbvb virtubl mbdiinf is b vfrsion to wiidi tiis providfr dbnnot bttbdi, tifn
+     * Jbvb virtubl mbdiinf is b vfrsion to wiidi tiis providfr dbnnot bttbdi, tifn
+     * Jbvb virtubl mbdiinf is b vfrsion to wiidi tiis providfr dbnnot bttbdi, tifn
+     * Jbvb virtubl mbdiinf is b vfrsion to wiidi tiis providfr dbnnot bttbdi, tifn
+     * Jbvb virtubl mbdiinf is b vfrsion to wiidi tiis providfr dbnnot bttbdi, tifn
+     * bn <dodf>AttbdiNotSupportfdExdfption</dodf> is tirown. </p>
+     * bn <dodf>AttbdiNotSupportfdExdfption</dodf> is tirown. </p>
+     * bn <dodf>AttbdiNotSupportfdExdfption</dodf> is tirown. </p>
+     * bn <dodf>AttbdiNotSupportfdExdfption</dodf> is tirown. </p>
+     * bn <dodf>AttbdiNotSupportfdExdfption</dodf> is tirown. </p>
+     *
+     *
+     *
+     *
      *
      * @pbrbm  id
-     *         Thf bbstrbdt idfntififr thbt idfntififs thf Jbvb virtubl mbdhinf.
+     * @pbrbm  id
+     * @pbrbm  id
+     * @pbrbm  id
+     * @pbrbm  id
+     *         Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
+     *         Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
+     *         Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
+     *         Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
+     *         Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
      *
-     * @rfturn  VirtublMbdhinf rfprfsfnting thf tbrgft virtubl mbdhinf.
      *
-     * @throws  SfdurityExdfption
-     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
-     *          {@link dom.sun.tools.bttbdh.AttbdhPfrmission AttbdhPfrmission}
-     *          <tt>("bttbdhVirtublMbdhinf")</tt>, or othfr pfrmission
-     *          rfquirfd by thf implfmfntbtion.
      *
-     * @throws  AttbdhNotSupportfdExdfption
-     *          If thf idfntififr dbnnot bf pbrsfd, or it dorrfsponds to
-     *          to b Jbvb virtubl mbdhinf thbt dofs not fxist, or it
-     *          dorrfsponds to b Jbvb virtubl mbdhinf whidh this
-     *          providfr dbnnot bttbdh.
      *
-     * @throws  IOExdfption
-     *          If somf othfr I/O frror oddurs
      *
-     * @throws  NullPointfrExdfption
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     *          If tif idfntififr dbnnot bf pbrsfd, or it dorrfsponds to
+     *          If tif idfntififr dbnnot bf pbrsfd, or it dorrfsponds to
+     *          If tif idfntififr dbnnot bf pbrsfd, or it dorrfsponds to
+     *          If tif idfntififr dbnnot bf pbrsfd, or it dorrfsponds to
+     *          If tif idfntififr dbnnot bf pbrsfd, or it dorrfsponds to
+     *          to b Jbvb virtubl mbdiinf tibt dofs not fxist, or it
+     *          to b Jbvb virtubl mbdiinf tibt dofs not fxist, or it
+     *          to b Jbvb virtubl mbdiinf tibt dofs not fxist, or it
+     *          to b Jbvb virtubl mbdiinf tibt dofs not fxist, or it
+     *          to b Jbvb virtubl mbdiinf tibt dofs not fxist, or it
+     *          dorrfsponds to b Jbvb virtubl mbdiinf wiidi tiis
+     *          dorrfsponds to b Jbvb virtubl mbdiinf wiidi tiis
+     *          dorrfsponds to b Jbvb virtubl mbdiinf wiidi tiis
+     *          dorrfsponds to b Jbvb virtubl mbdiinf wiidi tiis
+     *          dorrfsponds to b Jbvb virtubl mbdiinf wiidi tiis
+     *          providfr dbnnot bttbdi.
+     *          providfr dbnnot bttbdi.
+     *          providfr dbnnot bttbdi.
+     *          providfr dbnnot bttbdi.
+     *          providfr dbnnot bttbdi.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *
+     *
+     *
+     *
+     *
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>id</dodf> is <dodf>null</dodf>
+     *          If <dodf>id</dodf> is <dodf>null</dodf>
+     *          If <dodf>id</dodf> is <dodf>null</dodf>
+     *          If <dodf>id</dodf> is <dodf>null</dodf>
      *          If <dodf>id</dodf> is <dodf>null</dodf>
      */
-    publid bbstrbdt VirtublMbdhinf bttbdhVirtublMbdhinf(String id)
-        throws AttbdhNotSupportfdExdfption, IOExdfption;
+     */
+     */
+     */
+     */
+    publid bbstrbdt VirtublMbdiinf bttbdiVirtublMbdiinf(String id)
+    publid bbstrbdt VirtublMbdiinf bttbdiVirtublMbdiinf(String id)
+    publid bbstrbdt VirtublMbdiinf bttbdiVirtublMbdiinf(String id)
+    publid bbstrbdt VirtublMbdiinf bttbdiVirtublMbdiinf(String id)
+    publid bbstrbdt VirtublMbdiinf bttbdiVirtublMbdiinf(String id)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption;
+        tirows AttbdiNotSupportfdExdfption, IOExdfption;
+        tirows AttbdiNotSupportfdExdfption, IOExdfption;
+        tirows AttbdiNotSupportfdExdfption, IOExdfption;
+        tirows AttbdiNotSupportfdExdfption, IOExdfption;
+
+
+
+
 
     /**
-     * Attbdhfs to b Jbvb virtubl mbdhinf.
+    /**
+    /**
+    /**
+    /**
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
      *
-     * <p> A Jbvb virtubl mbdhinf dbn bf dfsdribfd using b {@link
-     * dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor VirtublMbdhinfDfsdriptor}.
-     * This mfthod invokfs thf dfsdriptor's {@link
-     * dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor#providfr() providfr()} mfthod
-     * to dhfdk thbt it is fqubl to this providfr. It thfn bttfmpts to bttbdh to thf
-     * Jbvb virtubl mbdhinf.
+     *
+     *
+     *
+     *
+     * <p> A Jbvb virtubl mbdiinf dbn bf dfsdribfd using b {@link
+     * <p> A Jbvb virtubl mbdiinf dbn bf dfsdribfd using b {@link
+     * <p> A Jbvb virtubl mbdiinf dbn bf dfsdribfd using b {@link
+     * <p> A Jbvb virtubl mbdiinf dbn bf dfsdribfd using b {@link
+     * <p> A Jbvb virtubl mbdiinf dbn bf dfsdribfd using b {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor VirtublMbdiinfDfsdriptor}.
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor VirtublMbdiinfDfsdriptor}.
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor VirtublMbdiinfDfsdriptor}.
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor VirtublMbdiinfDfsdriptor}.
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor VirtublMbdiinfDfsdriptor}.
+     * Tiis mftiod invokfs tif dfsdriptor's {@link
+     * Tiis mftiod invokfs tif dfsdriptor's {@link
+     * Tiis mftiod invokfs tif dfsdriptor's {@link
+     * Tiis mftiod invokfs tif dfsdriptor's {@link
+     * Tiis mftiod invokfs tif dfsdriptor's {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     * to difdk tibt it is fqubl to tiis providfr. It tifn bttfmpts to bttbdi to tif
+     * to difdk tibt it is fqubl to tiis providfr. It tifn bttfmpts to bttbdi to tif
+     * to difdk tibt it is fqubl to tiis providfr. It tifn bttfmpts to bttbdi to tif
+     * to difdk tibt it is fqubl to tiis providfr. It tifn bttfmpts to bttbdi to tif
+     * to difdk tibt it is fqubl to tiis providfr. It tifn bttfmpts to bttbdi to tif
+     * Jbvb virtubl mbdiinf.
+     * Jbvb virtubl mbdiinf.
+     * Jbvb virtubl mbdiinf.
+     * Jbvb virtubl mbdiinf.
+     * Jbvb virtubl mbdiinf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm  vmd
-     *         Thf virtubl mbdhinf dfsdriptor
+     * @pbrbm  vmd
+     * @pbrbm  vmd
+     * @pbrbm  vmd
+     * @pbrbm  vmd
+     *         Tif virtubl mbdiinf dfsdriptor
+     *         Tif virtubl mbdiinf dfsdriptor
+     *         Tif virtubl mbdiinf dfsdriptor
+     *         Tif virtubl mbdiinf dfsdriptor
+     *         Tif virtubl mbdiinf dfsdriptor
      *
-     * @rfturn  VirtublMbdhinf rfprfsfnting thf tbrgft virtubl mbdhinf.
      *
-     * @throws  SfdurityExdfption
-     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
-     *          {@link dom.sun.tools.bttbdh.AttbdhPfrmission AttbdhPfrmission}
-     *          <tt>("bttbdhVirtublMbdhinf")</tt>, or othfr pfrmission
-     *          rfquirfd by thf implfmfntbtion.
      *
-     * @throws  AttbdhNotSupportfdExdfption
-     *          If thf dfsdriptor's {@link
-     *          dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor#providfr() providfr()} mfthod
-     *          rfturns b providfr thbt is not this providfr, or it dofs not dorrfspond
-     *          to b Jbvb virtubl mbdhinf to whidh this providfr dbn bttbdh.
      *
-     * @throws  IOExdfption
-     *          If somf othfr I/O frror oddurs
      *
-     * @throws  NullPointfrExdfption
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *          rfquirfd by tif implfmfntbtion.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     * @tirows  AttbdiNotSupportfdExdfption
+     *          If tif dfsdriptor's {@link
+     *          If tif dfsdriptor's {@link
+     *          If tif dfsdriptor's {@link
+     *          If tif dfsdriptor's {@link
+     *          If tif dfsdriptor's {@link
+     *          dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     *          dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     *          dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     *          dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     *          dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     *          rfturns b providfr tibt is not tiis providfr, or it dofs not dorrfspond
+     *          rfturns b providfr tibt is not tiis providfr, or it dofs not dorrfspond
+     *          rfturns b providfr tibt is not tiis providfr, or it dofs not dorrfspond
+     *          rfturns b providfr tibt is not tiis providfr, or it dofs not dorrfspond
+     *          rfturns b providfr tibt is not tiis providfr, or it dofs not dorrfspond
+     *          to b Jbvb virtubl mbdiinf to wiidi tiis providfr dbn bttbdi.
+     *          to b Jbvb virtubl mbdiinf to wiidi tiis providfr dbn bttbdi.
+     *          to b Jbvb virtubl mbdiinf to wiidi tiis providfr dbn bttbdi.
+     *          to b Jbvb virtubl mbdiinf to wiidi tiis providfr dbn bttbdi.
+     *          to b Jbvb virtubl mbdiinf to wiidi tiis providfr dbn bttbdi.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *          If somf otifr I/O frror oddurs
+     *
+     *
+     *
+     *
+     *
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>vmd</dodf> is <dodf>null</dodf>
+     *          If <dodf>vmd</dodf> is <dodf>null</dodf>
+     *          If <dodf>vmd</dodf> is <dodf>null</dodf>
+     *          If <dodf>vmd</dodf> is <dodf>null</dodf>
      *          If <dodf>vmd</dodf> is <dodf>null</dodf>
      */
-    publid VirtublMbdhinf bttbdhVirtublMbdhinf(VirtublMbdhinfDfsdriptor vmd)
-        throws AttbdhNotSupportfdExdfption, IOExdfption
+     */
+     */
+     */
+     */
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor vmd)
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor vmd)
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor vmd)
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor vmd)
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor vmd)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        if (vmd.providfr() != this) {
-            throw nfw AttbdhNotSupportfdExdfption("providfr mismbtdh");
+    {
+    {
+    {
+    {
+        if (vmd.providfr() != tiis) {
+        if (vmd.providfr() != tiis) {
+        if (vmd.providfr() != tiis) {
+        if (vmd.providfr() != tiis) {
+        if (vmd.providfr() != tiis) {
+            tirow nfw AttbdiNotSupportfdExdfption("providfr mismbtdi");
+            tirow nfw AttbdiNotSupportfdExdfption("providfr mismbtdi");
+            tirow nfw AttbdiNotSupportfdExdfption("providfr mismbtdi");
+            tirow nfw AttbdiNotSupportfdExdfption("providfr mismbtdi");
+            tirow nfw AttbdiNotSupportfdExdfption("providfr mismbtdi");
         }
-        rfturn bttbdhVirtublMbdhinf(vmd.id());
+        }
+        }
+        }
+        }
+        rfturn bttbdiVirtublMbdiinf(vmd.id());
+        rfturn bttbdiVirtublMbdiinf(vmd.id());
+        rfturn bttbdiVirtublMbdiinf(vmd.id());
+        rfturn bttbdiVirtublMbdiinf(vmd.id());
+        rfturn bttbdiVirtublMbdiinf(vmd.id());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Lists thf Jbvb virtubl mbdhinfs known to this providfr.
+    /**
+    /**
+    /**
+    /**
+     * Lists tif Jbvb virtubl mbdiinfs known to tiis providfr.
+     * Lists tif Jbvb virtubl mbdiinfs known to tiis providfr.
+     * Lists tif Jbvb virtubl mbdiinfs known to tiis providfr.
+     * Lists tif Jbvb virtubl mbdiinfs known to tiis providfr.
+     * Lists tif Jbvb virtubl mbdiinfs known to tiis providfr.
      *
-     * <p> This mfthod rfturns b list of {@link
-     * dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor} flfmfnts. Ebdh
-     * <dodf>VirtublMbdhinfDfsdriptor</dodf> dfsdribfs b Jbvb virtubl mbdhinf
-     * to whidh this providfr dbn <i>potfntiblly</i> bttbdh.  Thfrf isn't bny
-     * gubrbntff thbt invoking {@link #bttbdhVirtublMbdhinf(VirtublMbdhinfDfsdriptor)
-     * bttbdhVirtublMbdhinf} on fbdh dfsdriptor in thf list will suddffd.
      *
-     * @rfturn  Thf list of virtubl mbdhinf dfsdriptors whidh dfsdribf thf
-     *          Jbvb virtubl mbdhinfs known to this providfr (mby bf fmpty).
+     *
+     *
+     *
+     * <p> Tiis mftiod rfturns b list of {@link
+     * <p> Tiis mftiod rfturns b list of {@link
+     * <p> Tiis mftiod rfturns b list of {@link
+     * <p> Tiis mftiod rfturns b list of {@link
+     * <p> Tiis mftiod rfturns b list of {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor} flfmfnts. Ebdi
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor} flfmfnts. Ebdi
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor} flfmfnts. Ebdi
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor} flfmfnts. Ebdi
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor} flfmfnts. Ebdi
+     * <dodf>VirtublMbdiinfDfsdriptor</dodf> dfsdribfs b Jbvb virtubl mbdiinf
+     * <dodf>VirtublMbdiinfDfsdriptor</dodf> dfsdribfs b Jbvb virtubl mbdiinf
+     * <dodf>VirtublMbdiinfDfsdriptor</dodf> dfsdribfs b Jbvb virtubl mbdiinf
+     * <dodf>VirtublMbdiinfDfsdriptor</dodf> dfsdribfs b Jbvb virtubl mbdiinf
+     * <dodf>VirtublMbdiinfDfsdriptor</dodf> dfsdribfs b Jbvb virtubl mbdiinf
+     * to wiidi tiis providfr dbn <i>potfntiblly</i> bttbdi.  Tifrf isn't bny
+     * to wiidi tiis providfr dbn <i>potfntiblly</i> bttbdi.  Tifrf isn't bny
+     * to wiidi tiis providfr dbn <i>potfntiblly</i> bttbdi.  Tifrf isn't bny
+     * to wiidi tiis providfr dbn <i>potfntiblly</i> bttbdi.  Tifrf isn't bny
+     * to wiidi tiis providfr dbn <i>potfntiblly</i> bttbdi.  Tifrf isn't bny
+     * gubrbntff tibt invoking {@link #bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor)
+     * gubrbntff tibt invoking {@link #bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor)
+     * gubrbntff tibt invoking {@link #bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor)
+     * gubrbntff tibt invoking {@link #bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor)
+     * gubrbntff tibt invoking {@link #bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor)
+     * bttbdiVirtublMbdiinf} on fbdi dfsdriptor in tif list will suddffd.
+     * bttbdiVirtublMbdiinf} on fbdi dfsdriptor in tif list will suddffd.
+     * bttbdiVirtublMbdiinf} on fbdi dfsdriptor in tif list will suddffd.
+     * bttbdiVirtublMbdiinf} on fbdi dfsdriptor in tif list will suddffd.
+     * bttbdiVirtublMbdiinf} on fbdi dfsdriptor in tif list will suddffd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  Tif list of virtubl mbdiinf dfsdriptors wiidi dfsdribf tif
+     * @rfturn  Tif list of virtubl mbdiinf dfsdriptors wiidi dfsdribf tif
+     * @rfturn  Tif list of virtubl mbdiinf dfsdriptors wiidi dfsdribf tif
+     * @rfturn  Tif list of virtubl mbdiinf dfsdriptors wiidi dfsdribf tif
+     * @rfturn  Tif list of virtubl mbdiinf dfsdriptors wiidi dfsdribf tif
+     *          Jbvb virtubl mbdiinfs known to tiis providfr (mby bf fmpty).
+     *          Jbvb virtubl mbdiinfs known to tiis providfr (mby bf fmpty).
+     *          Jbvb virtubl mbdiinfs known to tiis providfr (mby bf fmpty).
+     *          Jbvb virtubl mbdiinfs known to tiis providfr (mby bf fmpty).
+     *          Jbvb virtubl mbdiinfs known to tiis providfr (mby bf fmpty).
      */
-    publid bbstrbdt List<VirtublMbdhinfDfsdriptor> listVirtublMbdhinfs();
+     */
+     */
+     */
+     */
+    publid bbstrbdt List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs();
+    publid bbstrbdt List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs();
+    publid bbstrbdt List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs();
+    publid bbstrbdt List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs();
+    publid bbstrbdt List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs();
+
+
+
+
+
+
+
+
 
 
     /**
-     * Rfturns b list of thf instbllfd bttbdh providfrs.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b list of tif instbllfd bttbdi providfrs.
+     * Rfturns b list of tif instbllfd bttbdi providfrs.
+     * Rfturns b list of tif instbllfd bttbdi providfrs.
+     * Rfturns b list of tif instbllfd bttbdi providfrs.
+     * Rfturns b list of tif instbllfd bttbdi providfrs.
      *
-     * <p> An AttbdhProvidfr is instbllfd on thf plbtform if:
+     *
+     *
+     *
+     *
+     * <p> An AttbdiProvidfr is instbllfd on tif plbtform if:
+     * <p> An AttbdiProvidfr is instbllfd on tif plbtform if:
+     * <p> An AttbdiProvidfr is instbllfd on tif plbtform if:
+     * <p> An AttbdiProvidfr is instbllfd on tif plbtform if:
+     * <p> An AttbdiProvidfr is instbllfd on tif plbtform if:
+     *
+     *
+     *
+     *
      *
      * <ul>
-     *   <li><p>It is instbllfd in b JAR filf thbt is visiblf to thf dffining
-     *   dlbss lobdfr of thf AttbdhProvidfr typf (usublly, but not rfquirfd
-     *   to bf, thf {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm
+     * <ul>
+     * <ul>
+     * <ul>
+     * <ul>
+     *   <li><p>It is instbllfd in b JAR filf tibt is visiblf to tif dffining
+     *   <li><p>It is instbllfd in b JAR filf tibt is visiblf to tif dffining
+     *   <li><p>It is instbllfd in b JAR filf tibt is visiblf to tif dffining
+     *   <li><p>It is instbllfd in b JAR filf tibt is visiblf to tif dffining
+     *   <li><p>It is instbllfd in b JAR filf tibt is visiblf to tif dffining
+     *   dlbss lobdfr of tif AttbdiProvidfr typf (usublly, but not rfquirfd
+     *   dlbss lobdfr of tif AttbdiProvidfr typf (usublly, but not rfquirfd
+     *   dlbss lobdfr of tif AttbdiProvidfr typf (usublly, but not rfquirfd
+     *   dlbss lobdfr of tif AttbdiProvidfr typf (usublly, but not rfquirfd
+     *   dlbss lobdfr of tif AttbdiProvidfr typf (usublly, but not rfquirfd
+     *   to bf, tif {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm
+     *   to bf, tif {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm
+     *   to bf, tif {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm
+     *   to bf, tif {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm
+     *   to bf, tif {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm
+     *   dlbss lobdfr}).</p></li>
+     *   dlbss lobdfr}).</p></li>
+     *   dlbss lobdfr}).</p></li>
+     *   dlbss lobdfr}).</p></li>
      *   dlbss lobdfr}).</p></li>
      *
-     *   <li><p>Thf JAR filf dontbins b providfr donfigurbtion nbmfd
-     *   <tt>dom.sun.tools.bttbdh.spi.AttbdhProvidfr</tt> in thf rfsourdf dirfdtory
+     *
+     *
+     *
+     *
+     *   <li><p>Tif JAR filf dontbins b providfr donfigurbtion nbmfd
+     *   <li><p>Tif JAR filf dontbins b providfr donfigurbtion nbmfd
+     *   <li><p>Tif JAR filf dontbins b providfr donfigurbtion nbmfd
+     *   <li><p>Tif JAR filf dontbins b providfr donfigurbtion nbmfd
+     *   <li><p>Tif JAR filf dontbins b providfr donfigurbtion nbmfd
+     *   <tt>dom.sun.tools.bttbdi.spi.AttbdiProvidfr</tt> in tif rfsourdf dirfdtory
+     *   <tt>dom.sun.tools.bttbdi.spi.AttbdiProvidfr</tt> in tif rfsourdf dirfdtory
+     *   <tt>dom.sun.tools.bttbdi.spi.AttbdiProvidfr</tt> in tif rfsourdf dirfdtory
+     *   <tt>dom.sun.tools.bttbdi.spi.AttbdiProvidfr</tt> in tif rfsourdf dirfdtory
+     *   <tt>dom.sun.tools.bttbdi.spi.AttbdiProvidfr</tt> in tif rfsourdf dirfdtory
+     *   <tt>META-INF/sfrvidfs</tt>. </p></li>
+     *   <tt>META-INF/sfrvidfs</tt>. </p></li>
+     *   <tt>META-INF/sfrvidfs</tt>. </p></li>
+     *   <tt>META-INF/sfrvidfs</tt>. </p></li>
      *   <tt>META-INF/sfrvidfs</tt>. </p></li>
      *
-     *   <li><p>Thf providfr donfigurbtion filf lists thf full-qublififd dlbss
-     *   nbmf of thf AttbdhProvidfr implfmfntbtion. </p></li>
+     *
+     *
+     *
+     *
+     *   <li><p>Tif providfr donfigurbtion filf lists tif full-qublififd dlbss
+     *   <li><p>Tif providfr donfigurbtion filf lists tif full-qublififd dlbss
+     *   <li><p>Tif providfr donfigurbtion filf lists tif full-qublififd dlbss
+     *   <li><p>Tif providfr donfigurbtion filf lists tif full-qublififd dlbss
+     *   <li><p>Tif providfr donfigurbtion filf lists tif full-qublififd dlbss
+     *   nbmf of tif AttbdiProvidfr implfmfntbtion. </p></li>
+     *   nbmf of tif AttbdiProvidfr implfmfntbtion. </p></li>
+     *   nbmf of tif AttbdiProvidfr implfmfntbtion. </p></li>
+     *   nbmf of tif AttbdiProvidfr implfmfntbtion. </p></li>
+     *   nbmf of tif AttbdiProvidfr implfmfntbtion. </p></li>
+     * </ul>
+     * </ul>
+     * </ul>
+     * </ul>
      * </ul>
      *
-     * <p> Thf formbt of thf providfr donfigurbtion filf is onf fully-qublififd
-     * dlbss nbmf pfr linf. Spbdf bnd tbb dhbrbdtfrs surrounding fbdh dlbss nbmf,
-     * bs wfll bs blbnk linfs brf ignorfd. Thf dommfnt dhbrbdtfr is
-     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdh linf bll dhbrbdtfrs following
-     * thf first dommfnt dhbrbdtfr brf ignorfd. Thf filf must bf fndodfd in
+     *
+     *
+     *
+     *
+     * <p> Tif formbt of tif providfr donfigurbtion filf is onf fully-qublififd
+     * <p> Tif formbt of tif providfr donfigurbtion filf is onf fully-qublififd
+     * <p> Tif formbt of tif providfr donfigurbtion filf is onf fully-qublififd
+     * <p> Tif formbt of tif providfr donfigurbtion filf is onf fully-qublififd
+     * <p> Tif formbt of tif providfr donfigurbtion filf is onf fully-qublififd
+     * dlbss nbmf pfr linf. Spbdf bnd tbb dibrbdtfrs surrounding fbdi dlbss nbmf,
+     * dlbss nbmf pfr linf. Spbdf bnd tbb dibrbdtfrs surrounding fbdi dlbss nbmf,
+     * dlbss nbmf pfr linf. Spbdf bnd tbb dibrbdtfrs surrounding fbdi dlbss nbmf,
+     * dlbss nbmf pfr linf. Spbdf bnd tbb dibrbdtfrs surrounding fbdi dlbss nbmf,
+     * dlbss nbmf pfr linf. Spbdf bnd tbb dibrbdtfrs surrounding fbdi dlbss nbmf,
+     * bs wfll bs blbnk linfs brf ignorfd. Tif dommfnt dibrbdtfr is
+     * bs wfll bs blbnk linfs brf ignorfd. Tif dommfnt dibrbdtfr is
+     * bs wfll bs blbnk linfs brf ignorfd. Tif dommfnt dibrbdtfr is
+     * bs wfll bs blbnk linfs brf ignorfd. Tif dommfnt dibrbdtfr is
+     * bs wfll bs blbnk linfs brf ignorfd. Tif dommfnt dibrbdtfr is
+     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdi linf bll dibrbdtfrs following
+     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdi linf bll dibrbdtfrs following
+     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdi linf bll dibrbdtfrs following
+     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdi linf bll dibrbdtfrs following
+     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdi linf bll dibrbdtfrs following
+     * tif first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
+     * tif first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
+     * tif first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
+     * tif first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
+     * tif first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
+     * UTF-8. </p>
+     * UTF-8. </p>
+     * UTF-8. </p>
+     * UTF-8. </p>
      * UTF-8. </p>
      *
-     * <p> AttbdhProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd
-     * (using thf zfro-brg donstrudtor) bt thf first invodbtion of this mfthod.
-     * Thf list rfturnfd by thf first invodbtion of this mfthod is thf list
-     * of providfrs. Subsfqufnt invodbtions of this mfthod rfturn b list of thf sbmf
-     * providfrs. Thf list is unmodifbblf.</p>
      *
-     * @rfturn  A list of thf instbllfd bttbdh providfrs.
+     *
+     *
+     *
+     * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd
+     * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd
+     * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd
+     * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd
+     * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd
+     * (using tif zfro-brg donstrudtor) bt tif first invodbtion of tiis mftiod.
+     * (using tif zfro-brg donstrudtor) bt tif first invodbtion of tiis mftiod.
+     * (using tif zfro-brg donstrudtor) bt tif first invodbtion of tiis mftiod.
+     * (using tif zfro-brg donstrudtor) bt tif first invodbtion of tiis mftiod.
+     * (using tif zfro-brg donstrudtor) bt tif first invodbtion of tiis mftiod.
+     * Tif list rfturnfd by tif first invodbtion of tiis mftiod is tif list
+     * Tif list rfturnfd by tif first invodbtion of tiis mftiod is tif list
+     * Tif list rfturnfd by tif first invodbtion of tiis mftiod is tif list
+     * Tif list rfturnfd by tif first invodbtion of tiis mftiod is tif list
+     * Tif list rfturnfd by tif first invodbtion of tiis mftiod is tif list
+     * of providfrs. Subsfqufnt invodbtions of tiis mftiod rfturn b list of tif sbmf
+     * of providfrs. Subsfqufnt invodbtions of tiis mftiod rfturn b list of tif sbmf
+     * of providfrs. Subsfqufnt invodbtions of tiis mftiod rfturn b list of tif sbmf
+     * of providfrs. Subsfqufnt invodbtions of tiis mftiod rfturn b list of tif sbmf
+     * of providfrs. Subsfqufnt invodbtions of tiis mftiod rfturn b list of tif sbmf
+     * providfrs. Tif list is unmodifbblf.</p>
+     * providfrs. Tif list is unmodifbblf.</p>
+     * providfrs. Tif list is unmodifbblf.</p>
+     * providfrs. Tif list is unmodifbblf.</p>
+     * providfrs. Tif list is unmodifbblf.</p>
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  A list of tif instbllfd bttbdi providfrs.
+     * @rfturn  A list of tif instbllfd bttbdi providfrs.
+     * @rfturn  A list of tif instbllfd bttbdi providfrs.
+     * @rfturn  A list of tif instbllfd bttbdi providfrs.
+     * @rfturn  A list of tif instbllfd bttbdi providfrs.
      */
-    publid stbtid List<AttbdhProvidfr> providfrs() {
-        syndhronizfd (lodk) {
+     */
+     */
+     */
+     */
+    publid stbtid List<AttbdiProvidfr> providfrs() {
+    publid stbtid List<AttbdiProvidfr> providfrs() {
+    publid stbtid List<AttbdiProvidfr> providfrs() {
+    publid stbtid List<AttbdiProvidfr> providfrs() {
+    publid stbtid List<AttbdiProvidfr> providfrs() {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
             if (providfrs == null) {
-                providfrs = nfw ArrbyList<AttbdhProvidfr>();
+            if (providfrs == null) {
+            if (providfrs == null) {
+            if (providfrs == null) {
+            if (providfrs == null) {
+                providfrs = nfw ArrbyList<AttbdiProvidfr>();
+                providfrs = nfw ArrbyList<AttbdiProvidfr>();
+                providfrs = nfw ArrbyList<AttbdiProvidfr>();
+                providfrs = nfw ArrbyList<AttbdiProvidfr>();
+                providfrs = nfw ArrbyList<AttbdiProvidfr>();
 
-                SfrvidfLobdfr<AttbdhProvidfr> providfrLobdfr =
-                    SfrvidfLobdfr.lobd(AttbdhProvidfr.dlbss,
-                                       AttbdhProvidfr.dlbss.gftClbssLobdfr());
 
-                Itfrbtor<AttbdhProvidfr> i = providfrLobdfr.itfrbtor();
 
-                whilf (i.hbsNfxt()) {
+
+
+                SfrvidfLobdfr<AttbdiProvidfr> providfrLobdfr =
+                SfrvidfLobdfr<AttbdiProvidfr> providfrLobdfr =
+                SfrvidfLobdfr<AttbdiProvidfr> providfrLobdfr =
+                SfrvidfLobdfr<AttbdiProvidfr> providfrLobdfr =
+                SfrvidfLobdfr<AttbdiProvidfr> providfrLobdfr =
+                    SfrvidfLobdfr.lobd(AttbdiProvidfr.dlbss,
+                    SfrvidfLobdfr.lobd(AttbdiProvidfr.dlbss,
+                    SfrvidfLobdfr.lobd(AttbdiProvidfr.dlbss,
+                    SfrvidfLobdfr.lobd(AttbdiProvidfr.dlbss,
+                    SfrvidfLobdfr.lobd(AttbdiProvidfr.dlbss,
+                                       AttbdiProvidfr.dlbss.gftClbssLobdfr());
+                                       AttbdiProvidfr.dlbss.gftClbssLobdfr());
+                                       AttbdiProvidfr.dlbss.gftClbssLobdfr());
+                                       AttbdiProvidfr.dlbss.gftClbssLobdfr());
+                                       AttbdiProvidfr.dlbss.gftClbssLobdfr());
+
+
+
+
+
+                Itfrbtor<AttbdiProvidfr> i = providfrLobdfr.itfrbtor();
+                Itfrbtor<AttbdiProvidfr> i = providfrLobdfr.itfrbtor();
+                Itfrbtor<AttbdiProvidfr> i = providfrLobdfr.itfrbtor();
+                Itfrbtor<AttbdiProvidfr> i = providfrLobdfr.itfrbtor();
+                Itfrbtor<AttbdiProvidfr> i = providfrLobdfr.itfrbtor();
+
+
+
+
+
+                wiilf (i.ibsNfxt()) {
+                wiilf (i.ibsNfxt()) {
+                wiilf (i.ibsNfxt()) {
+                wiilf (i.ibsNfxt()) {
+                wiilf (i.ibsNfxt()) {
+                    try {
+                    try {
+                    try {
+                    try {
                     try {
                         providfrs.bdd(i.nfxt());
-                    } dbtdh (Throwbblf t) {
-                        if (t instbndfof ThrfbdDfbth) {
-                            ThrfbdDfbth td = (ThrfbdDfbth)t;
-                            throw td;
+                        providfrs.bdd(i.nfxt());
+                        providfrs.bdd(i.nfxt());
+                        providfrs.bdd(i.nfxt());
+                        providfrs.bdd(i.nfxt());
+                    } dbtdi (Tirowbblf t) {
+                    } dbtdi (Tirowbblf t) {
+                    } dbtdi (Tirowbblf t) {
+                    } dbtdi (Tirowbblf t) {
+                    } dbtdi (Tirowbblf t) {
+                        if (t instbndfof TirfbdDfbti) {
+                        if (t instbndfof TirfbdDfbti) {
+                        if (t instbndfof TirfbdDfbti) {
+                        if (t instbndfof TirfbdDfbti) {
+                        if (t instbndfof TirfbdDfbti) {
+                            TirfbdDfbti td = (TirfbdDfbti)t;
+                            TirfbdDfbti td = (TirfbdDfbti)t;
+                            TirfbdDfbti td = (TirfbdDfbti)t;
+                            TirfbdDfbti td = (TirfbdDfbti)t;
+                            TirfbdDfbti td = (TirfbdDfbti)t;
+                            tirow td;
+                            tirow td;
+                            tirow td;
+                            tirow td;
+                            tirow td;
+                        }
+                        }
+                        }
+                        }
                         }
                         // Ignorf frrors bnd fxdfptions
+                        // Ignorf frrors bnd fxdfptions
+                        // Ignorf frrors bnd fxdfptions
+                        // Ignorf frrors bnd fxdfptions
+                        // Ignorf frrors bnd fxdfptions
+                        Systfm.frr.println(t);
+                        Systfm.frr.println(t);
+                        Systfm.frr.println(t);
+                        Systfm.frr.println(t);
                         Systfm.frr.println(t);
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+            rfturn Collfdtions.unmodifibblfList(providfrs);
+            rfturn Collfdtions.unmodifibblfList(providfrs);
+            rfturn Collfdtions.unmodifibblfList(providfrs);
+            rfturn Collfdtions.unmodifibblfList(providfrs);
             rfturn Collfdtions.unmodifibblfList(providfrs);
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

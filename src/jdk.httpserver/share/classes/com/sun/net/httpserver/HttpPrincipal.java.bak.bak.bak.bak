@@ -1,105 +1,525 @@
 /*
- * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-pbdkbgf dom.sun.nft.httpsfrvfr;
+
+
+
+
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+import jbvb.nft.*;
+import jbvb.nft.*;
+import jbvb.nft.*;
+import jbvb.nft.*;
 import jbvb.nft.*;
 import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
 import jbvb.util.*;
 import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.Prindipbl;
+
+
+
+
 
 /**
- * Rfprfsfnts b usfr buthfntidbtfd by HTTP Bbsid or Digfst
- * buthfntidbtion.
+/**
+/**
+/**
+/**
+ * Rfprfsfnts b usfr butifntidbtfd by HTTP Bbsid or Digfst
+ * Rfprfsfnts b usfr butifntidbtfd by HTTP Bbsid or Digfst
+ * Rfprfsfnts b usfr butifntidbtfd by HTTP Bbsid or Digfst
+ * Rfprfsfnts b usfr butifntidbtfd by HTTP Bbsid or Digfst
+ * Rfprfsfnts b usfr butifntidbtfd by HTTP Bbsid or Digfst
+ * butifntidbtion.
+ * butifntidbtion.
+ * butifntidbtion.
+ * butifntidbtion.
+ * butifntidbtion.
+ */
+ */
+ */
+ */
  */
 @jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+publid dlbss HttpPrindipbl implfmfnts Prindipbl {
+publid dlbss HttpPrindipbl implfmfnts Prindipbl {
+publid dlbss HttpPrindipbl implfmfnts Prindipbl {
+publid dlbss HttpPrindipbl implfmfnts Prindipbl {
 publid dlbss HttpPrindipbl implfmfnts Prindipbl {
     privbtf String usfrnbmf, rfblm;
+    privbtf String usfrnbmf, rfblm;
+    privbtf String usfrnbmf, rfblm;
+    privbtf String usfrnbmf, rfblm;
+    privbtf String usfrnbmf, rfblm;
+
+
+
+
 
     /**
-     * drfbtfs b HttpPrindipbl from thf givfn usfrnbmf bnd rfblm
-     * @pbrbm usfrnbmf Thf nbmf of thf usfr within thf rfblm
-     * @pbrbm rfblm Thf rfblm.
-     * @throws NullPointfrExdfption if fithfr usfrnbmf or rfblm brf null
+    /**
+    /**
+    /**
+    /**
+     * drfbtfs b HttpPrindipbl from tif givfn usfrnbmf bnd rfblm
+     * drfbtfs b HttpPrindipbl from tif givfn usfrnbmf bnd rfblm
+     * drfbtfs b HttpPrindipbl from tif givfn usfrnbmf bnd rfblm
+     * drfbtfs b HttpPrindipbl from tif givfn usfrnbmf bnd rfblm
+     * drfbtfs b HttpPrindipbl from tif givfn usfrnbmf bnd rfblm
+     * @pbrbm usfrnbmf Tif nbmf of tif usfr witiin tif rfblm
+     * @pbrbm usfrnbmf Tif nbmf of tif usfr witiin tif rfblm
+     * @pbrbm usfrnbmf Tif nbmf of tif usfr witiin tif rfblm
+     * @pbrbm usfrnbmf Tif nbmf of tif usfr witiin tif rfblm
+     * @pbrbm usfrnbmf Tif nbmf of tif usfr witiin tif rfblm
+     * @pbrbm rfblm Tif rfblm.
+     * @pbrbm rfblm Tif rfblm.
+     * @pbrbm rfblm Tif rfblm.
+     * @pbrbm rfblm Tif rfblm.
+     * @pbrbm rfblm Tif rfblm.
+     * @tirows NullPointfrExdfption if fitifr usfrnbmf or rfblm brf null
+     * @tirows NullPointfrExdfption if fitifr usfrnbmf or rfblm brf null
+     * @tirows NullPointfrExdfption if fitifr usfrnbmf or rfblm brf null
+     * @tirows NullPointfrExdfption if fitifr usfrnbmf or rfblm brf null
+     * @tirows NullPointfrExdfption if fitifr usfrnbmf or rfblm brf null
+     */
+     */
+     */
+     */
      */
     publid HttpPrindipbl (String usfrnbmf, String rfblm) {
+    publid HttpPrindipbl (String usfrnbmf, String rfblm) {
+    publid HttpPrindipbl (String usfrnbmf, String rfblm) {
+    publid HttpPrindipbl (String usfrnbmf, String rfblm) {
+    publid HttpPrindipbl (String usfrnbmf, String rfblm) {
         if (usfrnbmf == null || rfblm == null) {
-            throw nfw NullPointfrExdfption();
+        if (usfrnbmf == null || rfblm == null) {
+        if (usfrnbmf == null || rfblm == null) {
+        if (usfrnbmf == null || rfblm == null) {
+        if (usfrnbmf == null || rfblm == null) {
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
         }
-        this.usfrnbmf = usfrnbmf;
-        this.rfblm = rfblm;
+        }
+        }
+        }
+        }
+        tiis.usfrnbmf = usfrnbmf;
+        tiis.usfrnbmf = usfrnbmf;
+        tiis.usfrnbmf = usfrnbmf;
+        tiis.usfrnbmf = usfrnbmf;
+        tiis.usfrnbmf = usfrnbmf;
+        tiis.rfblm = rfblm;
+        tiis.rfblm = rfblm;
+        tiis.rfblm = rfblm;
+        tiis.rfblm = rfblm;
+        tiis.rfblm = rfblm;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Compbrfs two HttpPrindipbl. Rfturns <dodf>truf</dodf>
-     * if <i>bnothfr</i> is bn instbndf of HttpPrindipbl, bnd its
-     * usfrnbmf bnd rfblm brf fqubl to this objfdt's usfrnbmf
-     * bnd rfblm. Rfturns <dodf>fblsf</dodf> othfrwisf.
+     * Compbrfs two HttpPrindipbl. Rfturns <dodf>truf</dodf>
+     * Compbrfs two HttpPrindipbl. Rfturns <dodf>truf</dodf>
+     * Compbrfs two HttpPrindipbl. Rfturns <dodf>truf</dodf>
+     * Compbrfs two HttpPrindipbl. Rfturns <dodf>truf</dodf>
+     * if <i>bnotifr</i> is bn instbndf of HttpPrindipbl, bnd its
+     * if <i>bnotifr</i> is bn instbndf of HttpPrindipbl, bnd its
+     * if <i>bnotifr</i> is bn instbndf of HttpPrindipbl, bnd its
+     * if <i>bnotifr</i> is bn instbndf of HttpPrindipbl, bnd its
+     * if <i>bnotifr</i> is bn instbndf of HttpPrindipbl, bnd its
+     * usfrnbmf bnd rfblm brf fqubl to tiis objfdt's usfrnbmf
+     * usfrnbmf bnd rfblm brf fqubl to tiis objfdt's usfrnbmf
+     * usfrnbmf bnd rfblm brf fqubl to tiis objfdt's usfrnbmf
+     * usfrnbmf bnd rfblm brf fqubl to tiis objfdt's usfrnbmf
+     * usfrnbmf bnd rfblm brf fqubl to tiis objfdt's usfrnbmf
+     * bnd rfblm. Rfturns <dodf>fblsf</dodf> otifrwisf.
+     * bnd rfblm. Rfturns <dodf>fblsf</dodf> otifrwisf.
+     * bnd rfblm. Rfturns <dodf>fblsf</dodf> otifrwisf.
+     * bnd rfblm. Rfturns <dodf>fblsf</dodf> otifrwisf.
+     * bnd rfblm. Rfturns <dodf>fblsf</dodf> otifrwisf.
      */
-    publid boolfbn fqubls (Objfdt bnothfr) {
-        if (!(bnothfr instbndfof HttpPrindipbl)) {
+     */
+     */
+     */
+     */
+    publid boolfbn fqubls (Objfdt bnotifr) {
+    publid boolfbn fqubls (Objfdt bnotifr) {
+    publid boolfbn fqubls (Objfdt bnotifr) {
+    publid boolfbn fqubls (Objfdt bnotifr) {
+    publid boolfbn fqubls (Objfdt bnotifr) {
+        if (!(bnotifr instbndfof HttpPrindipbl)) {
+        if (!(bnotifr instbndfof HttpPrindipbl)) {
+        if (!(bnotifr instbndfof HttpPrindipbl)) {
+        if (!(bnotifr instbndfof HttpPrindipbl)) {
+        if (!(bnotifr instbndfof HttpPrindipbl)) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
-        HttpPrindipbl thfothfr = (HttpPrindipbl)bnothfr;
-        rfturn (usfrnbmf.fqubls(thfothfr.usfrnbmf) &&
-                rfblm.fqubls(thfothfr.rfblm));
+        }
+        }
+        }
+        }
+        HttpPrindipbl tifotifr = (HttpPrindipbl)bnotifr;
+        HttpPrindipbl tifotifr = (HttpPrindipbl)bnotifr;
+        HttpPrindipbl tifotifr = (HttpPrindipbl)bnotifr;
+        HttpPrindipbl tifotifr = (HttpPrindipbl)bnotifr;
+        HttpPrindipbl tifotifr = (HttpPrindipbl)bnotifr;
+        rfturn (usfrnbmf.fqubls(tifotifr.usfrnbmf) &&
+        rfturn (usfrnbmf.fqubls(tifotifr.usfrnbmf) &&
+        rfturn (usfrnbmf.fqubls(tifotifr.usfrnbmf) &&
+        rfturn (usfrnbmf.fqubls(tifotifr.usfrnbmf) &&
+        rfturn (usfrnbmf.fqubls(tifotifr.usfrnbmf) &&
+                rfblm.fqubls(tifotifr.rfblm));
+                rfblm.fqubls(tifotifr.rfblm));
+                rfblm.fqubls(tifotifr.rfblm));
+                rfblm.fqubls(tifotifr.rfblm));
+                rfblm.fqubls(tifotifr.rfblm));
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * rfturns thf dontfnts of this prindipbl in thf form
+    /**
+    /**
+    /**
+    /**
+     * rfturns tif dontfnts of tiis prindipbl in tif form
+     * rfturns tif dontfnts of tiis prindipbl in tif form
+     * rfturns tif dontfnts of tiis prindipbl in tif form
+     * rfturns tif dontfnts of tiis prindipbl in tif form
+     * rfturns tif dontfnts of tiis prindipbl in tif form
+     * <i>rfblm:usfrnbmf</i>
+     * <i>rfblm:usfrnbmf</i>
+     * <i>rfblm:usfrnbmf</i>
+     * <i>rfblm:usfrnbmf</i>
      * <i>rfblm:usfrnbmf</i>
      */
+     */
+     */
+     */
+     */
+    publid String gftNbmf() {
+    publid String gftNbmf() {
+    publid String gftNbmf() {
+    publid String gftNbmf() {
     publid String gftNbmf() {
         rfturn usfrnbmf;
-    }
-
-    /**
-     * rfturns thf usfrnbmf this objfdt wbs drfbtfd with.
-     */
-    publid String gftUsfrnbmf() {
+        rfturn usfrnbmf;
+        rfturn usfrnbmf;
+        rfturn usfrnbmf;
         rfturn usfrnbmf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * rfturns thf rfblm this objfdt wbs drfbtfd with.
+    /**
+    /**
+    /**
+    /**
+     * rfturns tif usfrnbmf tiis objfdt wbs drfbtfd witi.
+     * rfturns tif usfrnbmf tiis objfdt wbs drfbtfd witi.
+     * rfturns tif usfrnbmf tiis objfdt wbs drfbtfd witi.
+     * rfturns tif usfrnbmf tiis objfdt wbs drfbtfd witi.
+     * rfturns tif usfrnbmf tiis objfdt wbs drfbtfd witi.
+     */
+     */
+     */
+     */
+     */
+    publid String gftUsfrnbmf() {
+    publid String gftUsfrnbmf() {
+    publid String gftUsfrnbmf() {
+    publid String gftUsfrnbmf() {
+    publid String gftUsfrnbmf() {
+        rfturn usfrnbmf;
+        rfturn usfrnbmf;
+        rfturn usfrnbmf;
+        rfturn usfrnbmf;
+        rfturn usfrnbmf;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * rfturns tif rfblm tiis objfdt wbs drfbtfd witi.
+     * rfturns tif rfblm tiis objfdt wbs drfbtfd witi.
+     * rfturns tif rfblm tiis objfdt wbs drfbtfd witi.
+     * rfturns tif rfblm tiis objfdt wbs drfbtfd witi.
+     * rfturns tif rfblm tiis objfdt wbs drfbtfd witi.
+     */
+     */
+     */
+     */
      */
     publid String gftRfblm() {
+    publid String gftRfblm() {
+    publid String gftRfblm() {
+    publid String gftRfblm() {
+    publid String gftRfblm() {
+        rfturn rfblm;
+        rfturn rfblm;
+        rfturn rfblm;
+        rfturn rfblm;
         rfturn rfblm;
     }
-
-    /**
-     * rfturns b hbshdodf for this HttpPrindipbl. This is dbldulbtfd
-     * bs <dodf>(gftUsfrnbmf()+gftRfblm().hbshCodf()</dodf>
-     */
-    publid int hbshCodf() {
-        rfturn (usfrnbmf+rfblm).hbshCodf();
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * rfturns thf sbmf string bs gftNbmf()
+    /**
+    /**
+    /**
+    /**
+     * rfturns b ibsidodf for tiis HttpPrindipbl. Tiis is dbldulbtfd
+     * rfturns b ibsidodf for tiis HttpPrindipbl. Tiis is dbldulbtfd
+     * rfturns b ibsidodf for tiis HttpPrindipbl. Tiis is dbldulbtfd
+     * rfturns b ibsidodf for tiis HttpPrindipbl. Tiis is dbldulbtfd
+     * rfturns b ibsidodf for tiis HttpPrindipbl. Tiis is dbldulbtfd
+     * bs <dodf>(gftUsfrnbmf()+gftRfblm().ibsiCodf()</dodf>
+     * bs <dodf>(gftUsfrnbmf()+gftRfblm().ibsiCodf()</dodf>
+     * bs <dodf>(gftUsfrnbmf()+gftRfblm().ibsiCodf()</dodf>
+     * bs <dodf>(gftUsfrnbmf()+gftRfblm().ibsiCodf()</dodf>
+     * bs <dodf>(gftUsfrnbmf()+gftRfblm().ibsiCodf()</dodf>
+     */
+     */
+     */
+     */
+     */
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+        rfturn (usfrnbmf+rfblm).ibsiCodf();
+        rfturn (usfrnbmf+rfblm).ibsiCodf();
+        rfturn (usfrnbmf+rfblm).ibsiCodf();
+        rfturn (usfrnbmf+rfblm).ibsiCodf();
+        rfturn (usfrnbmf+rfblm).ibsiCodf();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * rfturns tif sbmf string bs gftNbmf()
+     * rfturns tif sbmf string bs gftNbmf()
+     * rfturns tif sbmf string bs gftNbmf()
+     * rfturns tif sbmf string bs gftNbmf()
+     * rfturns tif sbmf string bs gftNbmf()
+     */
+     */
+     */
+     */
      */
     publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+        rfturn gftNbmf();
+        rfturn gftNbmf();
+        rfturn gftNbmf();
+        rfturn gftNbmf();
         rfturn gftNbmf();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

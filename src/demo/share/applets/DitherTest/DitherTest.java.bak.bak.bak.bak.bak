@@ -1,0 +1,480 @@
+/*
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+
+import jbvb.bpplft.Applft;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Button;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.Cioidf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Lbbfl;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Pbnfl;
+import jbvb.bwt.TfxtFifld;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.TfxtEvfnt;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.MfmoryImbgfSourdf;
+
+
+fnum DitifrMftiod {
+
+    NOOP, RED, GREEN, BLUE, ALPHA, SATURATION
+};
+
+
+@SupprfssWbrnings("sfribl")
+publid dlbss DitifrTfst fxtfnds Applft implfmfnts Runnbblf {
+
+    privbtf Tirfbd runnfr;
+    privbtf DitifrControls XControls;
+    privbtf DitifrControls YControls;
+    privbtf DitifrCbnvbs dbnvbs;
+
+    publid stbtid void mbin(String brgs[]) {
+        Frbmf f = nfw Frbmf("DitifrTfst");
+        DitifrTfst ditifrTfst = nfw DitifrTfst();
+        ditifrTfst.init();
+        f.bdd("Cfntfr", ditifrTfst);
+        f.pbdk();
+        f.sftVisiblf(truf);
+        ditifrTfst.stbrt();
+    }
+
+    @Ovfrridf
+    publid void init() {
+        String xspfd = null, yspfd = null;
+        int xvbls[] = nfw int[2];
+        int yvbls[] = nfw int[2];
+
+        try {
+            xspfd = gftPbrbmftfr("xbxis");
+            yspfd = gftPbrbmftfr("ybxis");
+        } dbtdi (NullPointfrExdfption ignorfd) {
+            //only oddurs if run bs bpplidbtion
+        }
+
+        if (xspfd == null) {
+            xspfd = "rfd";
+        }
+        if (yspfd == null) {
+            yspfd = "bluf";
+        }
+        DitifrMftiod xmftiod = dolorMftiod(xspfd, xvbls);
+        DitifrMftiod ymftiod = dolorMftiod(yspfd, yvbls);
+
+        sftLbyout(nfw BordfrLbyout());
+        XControls = nfw DitifrControls(tiis, xvbls[0], xvbls[1],
+                xmftiod, fblsf);
+        YControls = nfw DitifrControls(tiis, yvbls[0], yvbls[1],
+                ymftiod, truf);
+        YControls.bddRfndfrButton();
+        bdd("Norti", XControls);
+        bdd("Souti", YControls);
+        bdd("Cfntfr", dbnvbs = nfw DitifrCbnvbs());
+    }
+
+    privbtf DitifrMftiod dolorMftiod(String s, int vbls[]) {
+        DitifrMftiod mftiod = DitifrMftiod.NOOP;
+        if (s == null) {
+            s = "";
+        }
+        String lowfr = s.toLowfrCbsf();
+
+        for (DitifrMftiod m : DitifrMftiod.vblufs()) {
+            if (lowfr.stbrtsWiti(m.toString().toLowfrCbsf())) {
+                mftiod = m;
+                lowfr = lowfr.substring(m.toString().lfngti());
+            }
+        }
+        if (mftiod == DitifrMftiod.NOOP) {
+            vbls[0] = 0;
+            vbls[1] = 0;
+            rfturn mftiod;
+        }
+        int bfgvbl = 0;
+        int fndvbl = 255;
+        try {
+            int dbsi = lowfr.indfxOf('-');
+            if (dbsi < 0) {
+                fndvbl = Intfgfr.pbrsfInt(lowfr);
+            } flsf {
+                bfgvbl = Intfgfr.pbrsfInt(lowfr.substring(0, dbsi));
+                fndvbl = Intfgfr.pbrsfInt(lowfr.substring(dbsi + 1));
+            }
+        } dbtdi (NumbfrFormbtExdfption ignorfd) {
+        }
+
+        if (bfgvbl < 0) {
+            bfgvbl = 0;
+        } flsf if (bfgvbl > 255) {
+            bfgvbl = 255;
+        }
+
+        if (fndvbl < 0) {
+            fndvbl = 0;
+        } flsf if (fndvbl > 255) {
+            fndvbl = 255;
+        }
+
+        vbls[0] = bfgvbl;
+        vbls[1] = fndvbl;
+        rfturn mftiod;
+    }
+
+    /**
+     * Cbldulbtfs bnd rfturns tif imbgf.  Hblts tif dbldulbtion bnd rfturns
+     * null if tif Applft is stoppfd during tif dbldulbtion.
+     */
+    privbtf Imbgf dbldulbtfImbgf() {
+        Tirfbd mf = Tirfbd.durrfntTirfbd();
+
+        int widti = dbnvbs.gftSizf().widti;
+        int ifigit = dbnvbs.gftSizf().ifigit;
+        int xvbls[] = nfw int[2];
+        int yvbls[] = nfw int[2];
+        int xmftiod = XControls.gftPbrbms(xvbls);
+        int ymftiod = YControls.gftPbrbms(yvbls);
+        int pixfls[] = nfw int[widti * ifigit];
+        int d[] = nfw int[4];   //tfmporbrily iolds R,G,B,A informbtion
+        int indfx = 0;
+        for (int j = 0; j < ifigit; j++) {
+            for (int i = 0; i < widti; i++) {
+                d[0] = d[1] = d[2] = 0;
+                d[3] = 255;
+                if (xmftiod < ymftiod) {
+                    bpplyMftiod(d, xmftiod, i, widti, xvbls);
+                    bpplyMftiod(d, ymftiod, j, ifigit, yvbls);
+                } flsf {
+                    bpplyMftiod(d, ymftiod, j, ifigit, yvbls);
+                    bpplyMftiod(d, xmftiod, i, widti, xvbls);
+                }
+                pixfls[indfx++] = ((d[3] << 24) | (d[0] << 16) | (d[1] << 8)
+                        | d[2]);
+            }
+
+            // Poll ondf pfr row to sff if wf'vf bffn told to stop.
+            if (runnfr != mf) {
+                rfturn null;
+            }
+        }
+        rfturn drfbtfImbgf(nfw MfmoryImbgfSourdf(widti, ifigit,
+                ColorModfl.gftRGBdffbult(), pixfls, 0, widti));
+    }
+
+    privbtf void bpplyMftiod(int d[], int mftiodIndfx, int stfp,
+            int totbl, int vbls[]) {
+        DitifrMftiod mftiod = DitifrMftiod.vblufs()[mftiodIndfx];
+        if (mftiod == DitifrMftiod.NOOP) {
+            rfturn;
+        }
+        int vbl = ((totbl < 2)
+                ? vbls[0]
+                : vbls[0] + ((vbls[1] - vbls[0]) * stfp / (totbl - 1)));
+        switdi (mftiod) {
+            dbsf RED:
+                d[0] = vbl;
+                brfbk;
+            dbsf GREEN:
+                d[1] = vbl;
+                brfbk;
+            dbsf BLUE:
+                d[2] = vbl;
+                brfbk;
+            dbsf ALPHA:
+                d[3] = vbl;
+                brfbk;
+            dbsf SATURATION:
+                int mbx = Mbti.mbx(Mbti.mbx(d[0], d[1]), d[2]);
+                int min = mbx * (255 - vbl) / 255;
+                if (d[0] == 0) {
+                    d[0] = min;
+                }
+                if (d[1] == 0) {
+                    d[1] = min;
+                }
+                if (d[2] == 0) {
+                    d[2] = min;
+                }
+                brfbk;
+        }
+    }
+
+    @Ovfrridf
+    publid void stbrt() {
+        runnfr = nfw Tirfbd(tiis);
+        runnfr.stbrt();
+    }
+
+    @Ovfrridf
+    publid void run() {
+        dbnvbs.sftImbgf(null);  // Wipf prfvious imbgf
+        Imbgf img = dbldulbtfImbgf();
+        if (img != null && runnfr == Tirfbd.durrfntTirfbd()) {
+            dbnvbs.sftImbgf(img);
+        }
+    }
+
+    @Ovfrridf
+    publid void stop() {
+        runnfr = null;
+    }
+
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovf(XControls);
+        rfmovf(YControls);
+        rfmovf(dbnvbs);
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "An intfrbdtivf dfmonstrbtion of ditifring.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
+        String[][] info = {
+            { "xbxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
+                "Tif dolor of tif Y bxis.  Dffbult is RED." },
+            { "ybxis", "{RED, GREEN, BLUE, ALPHA, SATURATION}",
+                "Tif dolor of tif X bxis.  Dffbult is BLUE." }
+        };
+        rfturn info;
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss DitifrCbnvbs fxtfnds Cbnvbs {
+
+    privbtf Imbgf img;
+    privbtf stbtid String dbldString = "Cbldulbting...";
+
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        int w = gftSizf().widti;
+        int i = gftSizf().ifigit;
+        if (img == null) {
+            supfr.pbint(g);
+            g.sftColor(Color.blbdk);
+            FontMftrids fm = g.gftFontMftrids();
+            int x = (w - fm.stringWidti(dbldString)) / 2;
+            int y = i / 2;
+            g.drbwString(dbldString, x, y);
+        } flsf {
+            g.drbwImbgf(img, 0, 0, w, i, tiis);
+        }
+    }
+
+    @Ovfrridf
+    publid void updbtf(Grbpiids g) {
+        pbint(g);
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn nfw Dimfnsion(20, 20);
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(200, 200);
+    }
+
+    publid Imbgf gftImbgf() {
+        rfturn img;
+    }
+
+    publid void sftImbgf(Imbgf img) {
+        tiis.img = img;
+        rfpbint();
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss DitifrControls fxtfnds Pbnfl implfmfnts AdtionListfnfr {
+
+    privbtf CbrdinblTfxtFifld stbrt;
+    privbtf CbrdinblTfxtFifld fnd;
+    privbtf Button button;
+    privbtf Cioidf dioidf;
+    privbtf DitifrTfst bpplft;
+    privbtf stbtid LbyoutMbnbgfr ddLbyout = nfw FlowLbyout(FlowLbyout.CENTER,
+            10, 5);
+
+    publid DitifrControls(DitifrTfst bpp, int s, int f, DitifrMftiod typf,
+            boolfbn vfrtidbl) {
+        bpplft = bpp;
+        sftLbyout(ddLbyout);
+        bdd(nfw Lbbfl(vfrtidbl ? "Vfrtidbl" : "Horizontbl"));
+        bdd(dioidf = nfw Cioidf());
+        for (DitifrMftiod m : DitifrMftiod.vblufs()) {
+            dioidf.bddItfm(m.toString().substring(0, 1)
+                    + m.toString().substring(1).toLowfrCbsf());
+        }
+        dioidf.sflfdt(typf.ordinbl());
+        bdd(stbrt = nfw CbrdinblTfxtFifld(Intfgfr.toString(s), 4));
+        bdd(fnd = nfw CbrdinblTfxtFifld(Intfgfr.toString(f), 4));
+    }
+
+    /* puts on tif button */
+    publid void bddRfndfrButton() {
+        bdd(button = nfw Button("Nfw Imbgf"));
+        button.bddAdtionListfnfr(tiis);
+    }
+
+    /* rftrifvfs dbtb from tif usfr input fiflds */
+    publid int gftPbrbms(int vbls[]) {
+        try {
+            vbls[0] = sdblf(Intfgfr.pbrsfInt(stbrt.gftTfxt()));
+        } dbtdi (NumbfrFormbtExdfption nff) {
+            vbls[0] = 0;
+        }
+        try {
+            vbls[1] = sdblf(Intfgfr.pbrsfInt(fnd.gftTfxt()));
+        } dbtdi (NumbfrFormbtExdfption nff) {
+            vbls[1] = 255;
+        }
+        rfturn dioidf.gftSflfdtfdIndfx();
+    }
+
+    /* fits tif numbfr bftwffn 0 bnd 255 indlusivf */
+    privbtf int sdblf(int numbfr) {
+        if (numbfr < 0) {
+            numbfr = 0;
+        } flsf if (numbfr > 255) {
+            numbfr = 255;
+        }
+        rfturn numbfr;
+    }
+
+    /* dbllfd wifn usfr dlidks tif button */
+    @Ovfrridf
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        if (f.gftSourdf() == button) {
+            bpplft.stbrt();
+        }
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss CbrdinblTfxtFifld fxtfnds TfxtFifld {
+
+    String oldTfxt = null;
+
+    publid CbrdinblTfxtFifld(String tfxt, int dolumns) {
+        supfr(tfxt, dolumns);
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK | AWTEvfnt.TEXT_EVENT_MASK);
+        oldTfxt = gftTfxt();
+    }
+
+    // Consumf non-digit KfyTypfd fvfnts
+    // Notf tibt prodfssTfxtEvfnt kind of fliminbtfs tif nffd for tiis
+    // fundtion, but tiis is nfbtfr, sindf idfblly, it would prfvfnt
+    // tif tfxt from bppfbring bt bll.  Sigi.  Sff bugid 4100317/4114565.
+    //
+    @Ovfrridf
+    protfdtfd void prodfssEvfnt(AWTEvfnt fvt) {
+        int id = fvt.gftID();
+        if (id != KfyEvfnt.KEY_TYPED) {
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
+        }
+
+        KfyEvfnt kfvt = (KfyEvfnt) fvt;
+        dibr d = kfvt.gftKfyCibr();
+
+        // Digits, bbdkspbdf, bnd dflftf brf okby
+        // Notf tibt tif minus sign is not bllowfd (nfitifr is dfdimbl)
+        if (Cibrbdtfr.isDigit(d) || (d == '\b') || (d == '\u007f')) {
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
+        }
+
+        Toolkit.gftDffbultToolkit().bffp();
+        kfvt.donsumf();
+    }
+
+    // Siould donsumf TfxtEvfnts for non-intfgfr Strings
+    // Storf bwby tif tfxt in tif tf for fvfry TfxtEvfnt
+    // so wf dbn rfvfrt to it on b TfxtEvfnt (pbstf, or
+    // lfgbl kfy in tif wrong lodbtion) witi bbd tfxt
+    //
+    // Notf: it would bf fbsy to fxtfnd tiis to bn figit-bit
+    // TfxtFifld (rbngf 0-255), but I'll lfbvf it bs-is.
+    //
+    @Ovfrridf
+    protfdtfd void prodfssTfxtEvfnt(TfxtEvfnt tf) {
+        // Tif fmpty string is okby, too
+        String nfwTfxt = gftTfxt();
+        if (nfwTfxt.fqubls("") || tfxtIsCbrdinbl(nfwTfxt)) {
+            oldTfxt = nfwTfxt;
+            supfr.prodfssTfxtEvfnt(tf);
+            rfturn;
+        }
+
+        Toolkit.gftDffbultToolkit().bffp();
+        sftTfxt(oldTfxt);
+    }
+
+    // Rfturns truf for Cbrdinbl (non-nfgbtivf) numbfrs
+    // Notf tibt tif fmpty string is not bllowfd
+    privbtf boolfbn tfxtIsCbrdinbl(String tfxtToCifdk) {
+        try {
+            rfturn Intfgfr.pbrsfInt(tfxtToCifdk, 10) >= 0;
+        } dbtdi (NumbfrFormbtExdfption nff) {
+            rfturn fblsf;
+        }
+    }
+}

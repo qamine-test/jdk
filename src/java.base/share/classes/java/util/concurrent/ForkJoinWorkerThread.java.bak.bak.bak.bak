@@ -1,277 +1,1385 @@
 /*
+/*
+/*
+/*
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
- * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
- * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+/*
+/*
+/*
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ * filf:
+ * filf:
+ * filf:
  * filf:
  *
- * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
- * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
- * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ *
+ *
+ *
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+
+
+
+
 
 import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.ProtfdtionDombin;
 import jbvb.sfdurity.ProtfdtionDombin;
 
+
+
+
+
 /**
- * A thrfbd mbnbgfd by b {@link ForkJoinPool}, whidh fxfdutfs
+/**
+/**
+/**
+/**
+ * A tirfbd mbnbgfd by b {@link ForkJoinPool}, wiidi fxfdutfs
+ * A tirfbd mbnbgfd by b {@link ForkJoinPool}, wiidi fxfdutfs
+ * A tirfbd mbnbgfd by b {@link ForkJoinPool}, wiidi fxfdutfs
+ * A tirfbd mbnbgfd by b {@link ForkJoinPool}, wiidi fxfdutfs
+ * A tirfbd mbnbgfd by b {@link ForkJoinPool}, wiidi fxfdutfs
  * {@link ForkJoinTbsk}s.
- * This dlbss is subdlbssbblf solfly for thf sbkf of bdding
- * fundtionblity -- thfrf brf no ovfrridbblf mfthods dfbling with
- * sdhfduling or fxfdution.  Howfvfr, you dbn ovfrridf initiblizbtion
- * bnd tfrminbtion mfthods surrounding thf mbin tbsk prodfssing loop.
- * If you do drfbtf sudh b subdlbss, you will blso nffd to supply b
- * dustom {@link ForkJoinPool.ForkJoinWorkfrThrfbdFbdtory} to
+ * {@link ForkJoinTbsk}s.
+ * {@link ForkJoinTbsk}s.
+ * {@link ForkJoinTbsk}s.
+ * {@link ForkJoinTbsk}s.
+ * Tiis dlbss is subdlbssbblf solfly for tif sbkf of bdding
+ * Tiis dlbss is subdlbssbblf solfly for tif sbkf of bdding
+ * Tiis dlbss is subdlbssbblf solfly for tif sbkf of bdding
+ * Tiis dlbss is subdlbssbblf solfly for tif sbkf of bdding
+ * Tiis dlbss is subdlbssbblf solfly for tif sbkf of bdding
+ * fundtionblity -- tifrf brf no ovfrridbblf mftiods dfbling witi
+ * fundtionblity -- tifrf brf no ovfrridbblf mftiods dfbling witi
+ * fundtionblity -- tifrf brf no ovfrridbblf mftiods dfbling witi
+ * fundtionblity -- tifrf brf no ovfrridbblf mftiods dfbling witi
+ * fundtionblity -- tifrf brf no ovfrridbblf mftiods dfbling witi
+ * sdifduling or fxfdution.  Howfvfr, you dbn ovfrridf initiblizbtion
+ * sdifduling or fxfdution.  Howfvfr, you dbn ovfrridf initiblizbtion
+ * sdifduling or fxfdution.  Howfvfr, you dbn ovfrridf initiblizbtion
+ * sdifduling or fxfdution.  Howfvfr, you dbn ovfrridf initiblizbtion
+ * sdifduling or fxfdution.  Howfvfr, you dbn ovfrridf initiblizbtion
+ * bnd tfrminbtion mftiods surrounding tif mbin tbsk prodfssing loop.
+ * bnd tfrminbtion mftiods surrounding tif mbin tbsk prodfssing loop.
+ * bnd tfrminbtion mftiods surrounding tif mbin tbsk prodfssing loop.
+ * bnd tfrminbtion mftiods surrounding tif mbin tbsk prodfssing loop.
+ * bnd tfrminbtion mftiods surrounding tif mbin tbsk prodfssing loop.
+ * If you do drfbtf sudi b subdlbss, you will blso nffd to supply b
+ * If you do drfbtf sudi b subdlbss, you will blso nffd to supply b
+ * If you do drfbtf sudi b subdlbss, you will blso nffd to supply b
+ * If you do drfbtf sudi b subdlbss, you will blso nffd to supply b
+ * If you do drfbtf sudi b subdlbss, you will blso nffd to supply b
+ * dustom {@link ForkJoinPool.ForkJoinWorkfrTirfbdFbdtory} to
+ * dustom {@link ForkJoinPool.ForkJoinWorkfrTirfbdFbdtory} to
+ * dustom {@link ForkJoinPool.ForkJoinWorkfrTirfbdFbdtory} to
+ * dustom {@link ForkJoinPool.ForkJoinWorkfrTirfbdFbdtory} to
+ * dustom {@link ForkJoinPool.ForkJoinWorkfrTirfbdFbdtory} to
+ * {@linkplbin ForkJoinPool#ForkJoinPool usf it} in b {@dodf ForkJoinPool}.
+ * {@linkplbin ForkJoinPool#ForkJoinPool usf it} in b {@dodf ForkJoinPool}.
+ * {@linkplbin ForkJoinPool#ForkJoinPool usf it} in b {@dodf ForkJoinPool}.
+ * {@linkplbin ForkJoinPool#ForkJoinPool usf it} in b {@dodf ForkJoinPool}.
  * {@linkplbin ForkJoinPool#ForkJoinPool usf it} in b {@dodf ForkJoinPool}.
  *
+ *
+ *
+ *
+ *
  * @sindf 1.7
- * @buthor Doug Lfb
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ * @butior Doug Lfb
+ * @butior Doug Lfb
+ * @butior Doug Lfb
+ * @butior Doug Lfb
+ * @butior Doug Lfb
  */
-publid dlbss ForkJoinWorkfrThrfbd fxtfnds Thrfbd {
+ */
+ */
+ */
+ */
+publid dlbss ForkJoinWorkfrTirfbd fxtfnds Tirfbd {
+publid dlbss ForkJoinWorkfrTirfbd fxtfnds Tirfbd {
+publid dlbss ForkJoinWorkfrTirfbd fxtfnds Tirfbd {
+publid dlbss ForkJoinWorkfrTirfbd fxtfnds Tirfbd {
+publid dlbss ForkJoinWorkfrTirfbd fxtfnds Tirfbd {
     /*
-     * ForkJoinWorkfrThrfbds brf mbnbgfd by ForkJoinPools bnd pfrform
-     * ForkJoinTbsks. For fxplbnbtion, sff thf intfrnbl dodumfntbtion
+    /*
+    /*
+    /*
+    /*
+     * ForkJoinWorkfrTirfbds brf mbnbgfd by ForkJoinPools bnd pfrform
+     * ForkJoinWorkfrTirfbds brf mbnbgfd by ForkJoinPools bnd pfrform
+     * ForkJoinWorkfrTirfbds brf mbnbgfd by ForkJoinPools bnd pfrform
+     * ForkJoinWorkfrTirfbds brf mbnbgfd by ForkJoinPools bnd pfrform
+     * ForkJoinWorkfrTirfbds brf mbnbgfd by ForkJoinPools bnd pfrform
+     * ForkJoinTbsks. For fxplbnbtion, sff tif intfrnbl dodumfntbtion
+     * ForkJoinTbsks. For fxplbnbtion, sff tif intfrnbl dodumfntbtion
+     * ForkJoinTbsks. For fxplbnbtion, sff tif intfrnbl dodumfntbtion
+     * ForkJoinTbsks. For fxplbnbtion, sff tif intfrnbl dodumfntbtion
+     * ForkJoinTbsks. For fxplbnbtion, sff tif intfrnbl dodumfntbtion
+     * of dlbss ForkJoinPool.
+     * of dlbss ForkJoinPool.
+     * of dlbss ForkJoinPool.
+     * of dlbss ForkJoinPool.
      * of dlbss ForkJoinPool.
      *
-     * This dlbss just mbintbins links to its pool bnd WorkQufuf.  Thf
-     * pool fifld is sft immfdibtfly upon donstrudtion, but thf
+     *
+     *
+     *
+     *
+     * Tiis dlbss just mbintbins links to its pool bnd WorkQufuf.  Tif
+     * Tiis dlbss just mbintbins links to its pool bnd WorkQufuf.  Tif
+     * Tiis dlbss just mbintbins links to its pool bnd WorkQufuf.  Tif
+     * Tiis dlbss just mbintbins links to its pool bnd WorkQufuf.  Tif
+     * Tiis dlbss just mbintbins links to its pool bnd WorkQufuf.  Tif
+     * pool fifld is sft immfdibtfly upon donstrudtion, but tif
+     * pool fifld is sft immfdibtfly upon donstrudtion, but tif
+     * pool fifld is sft immfdibtfly upon donstrudtion, but tif
+     * pool fifld is sft immfdibtfly upon donstrudtion, but tif
+     * pool fifld is sft immfdibtfly upon donstrudtion, but tif
      * workQufuf fifld is not sft until b dbll to rfgistfrWorkfr
-     * domplftfs. This lfbds to b visibility rbdf, thbt is tolfrbtfd
-     * by rfquiring thbt thf workQufuf fifld is only bddfssfd by thf
-     * owning thrfbd.
+     * workQufuf fifld is not sft until b dbll to rfgistfrWorkfr
+     * workQufuf fifld is not sft until b dbll to rfgistfrWorkfr
+     * workQufuf fifld is not sft until b dbll to rfgistfrWorkfr
+     * workQufuf fifld is not sft until b dbll to rfgistfrWorkfr
+     * domplftfs. Tiis lfbds to b visibility rbdf, tibt is tolfrbtfd
+     * domplftfs. Tiis lfbds to b visibility rbdf, tibt is tolfrbtfd
+     * domplftfs. Tiis lfbds to b visibility rbdf, tibt is tolfrbtfd
+     * domplftfs. Tiis lfbds to b visibility rbdf, tibt is tolfrbtfd
+     * domplftfs. Tiis lfbds to b visibility rbdf, tibt is tolfrbtfd
+     * by rfquiring tibt tif workQufuf fifld is only bddfssfd by tif
+     * by rfquiring tibt tif workQufuf fifld is only bddfssfd by tif
+     * by rfquiring tibt tif workQufuf fifld is only bddfssfd by tif
+     * by rfquiring tibt tif workQufuf fifld is only bddfssfd by tif
+     * by rfquiring tibt tif workQufuf fifld is only bddfssfd by tif
+     * owning tirfbd.
+     * owning tirfbd.
+     * owning tirfbd.
+     * owning tirfbd.
+     * owning tirfbd.
      *
-     * Support for (non-publid) subdlbss InnoduousForkJoinWorkfrThrfbd
-     * rfquirfs thbt wf brfbk quitf b lot of fndbpulbtion (vib Unsbff)
-     * both hfrf bnd in thf subdlbss to bddfss bnd sft Thrfbd fiflds.
+     *
+     *
+     *
+     *
+     * Support for (non-publid) subdlbss InnoduousForkJoinWorkfrTirfbd
+     * Support for (non-publid) subdlbss InnoduousForkJoinWorkfrTirfbd
+     * Support for (non-publid) subdlbss InnoduousForkJoinWorkfrTirfbd
+     * Support for (non-publid) subdlbss InnoduousForkJoinWorkfrTirfbd
+     * Support for (non-publid) subdlbss InnoduousForkJoinWorkfrTirfbd
+     * rfquirfs tibt wf brfbk quitf b lot of fndbpulbtion (vib Unsbff)
+     * rfquirfs tibt wf brfbk quitf b lot of fndbpulbtion (vib Unsbff)
+     * rfquirfs tibt wf brfbk quitf b lot of fndbpulbtion (vib Unsbff)
+     * rfquirfs tibt wf brfbk quitf b lot of fndbpulbtion (vib Unsbff)
+     * rfquirfs tibt wf brfbk quitf b lot of fndbpulbtion (vib Unsbff)
+     * boti ifrf bnd in tif subdlbss to bddfss bnd sft Tirfbd fiflds.
+     * boti ifrf bnd in tif subdlbss to bddfss bnd sft Tirfbd fiflds.
+     * boti ifrf bnd in tif subdlbss to bddfss bnd sft Tirfbd fiflds.
+     * boti ifrf bnd in tif subdlbss to bddfss bnd sft Tirfbd fiflds.
+     * boti ifrf bnd in tif subdlbss to bddfss bnd sft Tirfbd fiflds.
+     */
+     */
+     */
+     */
      */
 
-    finbl ForkJoinPool pool;                // thf pool this thrfbd works in
-    finbl ForkJoinPool.WorkQufuf workQufuf; // work-stfbling mfdhbnids
+
+
+
+
+    finbl ForkJoinPool pool;                // tif pool tiis tirfbd works in
+    finbl ForkJoinPool pool;                // tif pool tiis tirfbd works in
+    finbl ForkJoinPool pool;                // tif pool tiis tirfbd works in
+    finbl ForkJoinPool pool;                // tif pool tiis tirfbd works in
+    finbl ForkJoinPool pool;                // tif pool tiis tirfbd works in
+    finbl ForkJoinPool.WorkQufuf workQufuf; // work-stfbling mfdibnids
+    finbl ForkJoinPool.WorkQufuf workQufuf; // work-stfbling mfdibnids
+    finbl ForkJoinPool.WorkQufuf workQufuf; // work-stfbling mfdibnids
+    finbl ForkJoinPool.WorkQufuf workQufuf; // work-stfbling mfdibnids
+    finbl ForkJoinPool.WorkQufuf workQufuf; // work-stfbling mfdibnids
+
+
+
+
 
     /**
-     * Crfbtfs b ForkJoinWorkfrThrfbd opfrbting in thf givfn pool.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b ForkJoinWorkfrTirfbd opfrbting in tif givfn pool.
+     * Crfbtfs b ForkJoinWorkfrTirfbd opfrbting in tif givfn pool.
+     * Crfbtfs b ForkJoinWorkfrTirfbd opfrbting in tif givfn pool.
+     * Crfbtfs b ForkJoinWorkfrTirfbd opfrbting in tif givfn pool.
+     * Crfbtfs b ForkJoinWorkfrTirfbd opfrbting in tif givfn pool.
      *
-     * @pbrbm pool thf pool this thrfbd works in
-     * @throws NullPointfrExdfption if pool is null
+     *
+     *
+     *
+     *
+     * @pbrbm pool tif pool tiis tirfbd works in
+     * @pbrbm pool tif pool tiis tirfbd works in
+     * @pbrbm pool tif pool tiis tirfbd works in
+     * @pbrbm pool tif pool tiis tirfbd works in
+     * @pbrbm pool tif pool tiis tirfbd works in
+     * @tirows NullPointfrExdfption if pool is null
+     * @tirows NullPointfrExdfption if pool is null
+     * @tirows NullPointfrExdfption if pool is null
+     * @tirows NullPointfrExdfption if pool is null
+     * @tirows NullPointfrExdfption if pool is null
      */
-    protfdtfd ForkJoinWorkfrThrfbd(ForkJoinPool pool) {
-        // Usf b plbdfholdfr until b usfful nbmf dbn bf sft in rfgistfrWorkfr
-        supfr("bForkJoinWorkfrThrfbd");
-        this.pool = pool;
-        this.workQufuf = pool.rfgistfrWorkfr(this);
+     */
+     */
+     */
+     */
+    protfdtfd ForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+    protfdtfd ForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+    protfdtfd ForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+    protfdtfd ForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+    protfdtfd ForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+        // Usf b plbdfioldfr until b usfful nbmf dbn bf sft in rfgistfrWorkfr
+        // Usf b plbdfioldfr until b usfful nbmf dbn bf sft in rfgistfrWorkfr
+        // Usf b plbdfioldfr until b usfful nbmf dbn bf sft in rfgistfrWorkfr
+        // Usf b plbdfioldfr until b usfful nbmf dbn bf sft in rfgistfrWorkfr
+        // Usf b plbdfioldfr until b usfful nbmf dbn bf sft in rfgistfrWorkfr
+        supfr("bForkJoinWorkfrTirfbd");
+        supfr("bForkJoinWorkfrTirfbd");
+        supfr("bForkJoinWorkfrTirfbd");
+        supfr("bForkJoinWorkfrTirfbd");
+        supfr("bForkJoinWorkfrTirfbd");
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Vfrsion for InnoduousForkJoinWorkfrThrfbd
+    /**
+    /**
+    /**
+    /**
+     * Vfrsion for InnoduousForkJoinWorkfrTirfbd
+     * Vfrsion for InnoduousForkJoinWorkfrTirfbd
+     * Vfrsion for InnoduousForkJoinWorkfrTirfbd
+     * Vfrsion for InnoduousForkJoinWorkfrTirfbd
+     * Vfrsion for InnoduousForkJoinWorkfrTirfbd
      */
-    ForkJoinWorkfrThrfbd(ForkJoinPool pool, ThrfbdGroup thrfbdGroup,
+     */
+     */
+     */
+     */
+    ForkJoinWorkfrTirfbd(ForkJoinPool pool, TirfbdGroup tirfbdGroup,
+    ForkJoinWorkfrTirfbd(ForkJoinPool pool, TirfbdGroup tirfbdGroup,
+    ForkJoinWorkfrTirfbd(ForkJoinPool pool, TirfbdGroup tirfbdGroup,
+    ForkJoinWorkfrTirfbd(ForkJoinPool pool, TirfbdGroup tirfbdGroup,
+    ForkJoinWorkfrTirfbd(ForkJoinPool pool, TirfbdGroup tirfbdGroup,
                          AddfssControlContfxt bdd) {
-        supfr(thrfbdGroup, null, "bForkJoinWorkfrThrfbd");
-        U.putOrdfrfdObjfdt(this, INHERITEDACCESSCONTROLCONTEXT, bdd);
-        frbsfThrfbdLodbls(); // dlfbr bfforf rfgistfring
-        this.pool = pool;
-        this.workQufuf = pool.rfgistfrWorkfr(this);
+                         AddfssControlContfxt bdd) {
+                         AddfssControlContfxt bdd) {
+                         AddfssControlContfxt bdd) {
+                         AddfssControlContfxt bdd) {
+        supfr(tirfbdGroup, null, "bForkJoinWorkfrTirfbd");
+        supfr(tirfbdGroup, null, "bForkJoinWorkfrTirfbd");
+        supfr(tirfbdGroup, null, "bForkJoinWorkfrTirfbd");
+        supfr(tirfbdGroup, null, "bForkJoinWorkfrTirfbd");
+        supfr(tirfbdGroup, null, "bForkJoinWorkfrTirfbd");
+        U.putOrdfrfdObjfdt(tiis, INHERITEDACCESSCONTROLCONTEXT, bdd);
+        U.putOrdfrfdObjfdt(tiis, INHERITEDACCESSCONTROLCONTEXT, bdd);
+        U.putOrdfrfdObjfdt(tiis, INHERITEDACCESSCONTROLCONTEXT, bdd);
+        U.putOrdfrfdObjfdt(tiis, INHERITEDACCESSCONTROLCONTEXT, bdd);
+        U.putOrdfrfdObjfdt(tiis, INHERITEDACCESSCONTROLCONTEXT, bdd);
+        frbsfTirfbdLodbls(); // dlfbr bfforf rfgistfring
+        frbsfTirfbdLodbls(); // dlfbr bfforf rfgistfring
+        frbsfTirfbdLodbls(); // dlfbr bfforf rfgistfring
+        frbsfTirfbdLodbls(); // dlfbr bfforf rfgistfring
+        frbsfTirfbdLodbls(); // dlfbr bfforf rfgistfring
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.pool = pool;
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+        tiis.workQufuf = pool.rfgistfrWorkfr(tiis);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf pool hosting this thrfbd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif pool iosting tiis tirfbd.
+     * Rfturns tif pool iosting tiis tirfbd.
+     * Rfturns tif pool iosting tiis tirfbd.
+     * Rfturns tif pool iosting tiis tirfbd.
+     * Rfturns tif pool iosting tiis tirfbd.
      *
-     * @rfturn thf pool
+     *
+     *
+     *
+     *
+     * @rfturn tif pool
+     * @rfturn tif pool
+     * @rfturn tif pool
+     * @rfturn tif pool
+     * @rfturn tif pool
+     */
+     */
+     */
+     */
      */
     publid ForkJoinPool gftPool() {
+    publid ForkJoinPool gftPool() {
+    publid ForkJoinPool gftPool() {
+    publid ForkJoinPool gftPool() {
+    publid ForkJoinPool gftPool() {
+        rfturn pool;
+        rfturn pool;
+        rfturn pool;
+        rfturn pool;
         rfturn pool;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf uniquf indfx numbfr of this thrfbd in its pool.
-     * Thf rfturnfd vbluf rbngfs from zfro to thf mbximum numbfr of
-     * thrfbds (minus onf) thbt mby fxist in thf pool, bnd dofs not
-     * dhbngf during thf lifftimf of thf thrfbd.  This mfthod mby bf
-     * usfful for bpplidbtions thbt trbdk stbtus or dollfdt rfsults
-     * pfr-workfr-thrfbd rbthfr thbn pfr-tbsk.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif uniquf indfx numbfr of tiis tirfbd in its pool.
+     * Rfturns tif uniquf indfx numbfr of tiis tirfbd in its pool.
+     * Rfturns tif uniquf indfx numbfr of tiis tirfbd in its pool.
+     * Rfturns tif uniquf indfx numbfr of tiis tirfbd in its pool.
+     * Rfturns tif uniquf indfx numbfr of tiis tirfbd in its pool.
+     * Tif rfturnfd vbluf rbngfs from zfro to tif mbximum numbfr of
+     * Tif rfturnfd vbluf rbngfs from zfro to tif mbximum numbfr of
+     * Tif rfturnfd vbluf rbngfs from zfro to tif mbximum numbfr of
+     * Tif rfturnfd vbluf rbngfs from zfro to tif mbximum numbfr of
+     * Tif rfturnfd vbluf rbngfs from zfro to tif mbximum numbfr of
+     * tirfbds (minus onf) tibt mby fxist in tif pool, bnd dofs not
+     * tirfbds (minus onf) tibt mby fxist in tif pool, bnd dofs not
+     * tirfbds (minus onf) tibt mby fxist in tif pool, bnd dofs not
+     * tirfbds (minus onf) tibt mby fxist in tif pool, bnd dofs not
+     * tirfbds (minus onf) tibt mby fxist in tif pool, bnd dofs not
+     * dibngf during tif lifftimf of tif tirfbd.  Tiis mftiod mby bf
+     * dibngf during tif lifftimf of tif tirfbd.  Tiis mftiod mby bf
+     * dibngf during tif lifftimf of tif tirfbd.  Tiis mftiod mby bf
+     * dibngf during tif lifftimf of tif tirfbd.  Tiis mftiod mby bf
+     * dibngf during tif lifftimf of tif tirfbd.  Tiis mftiod mby bf
+     * usfful for bpplidbtions tibt trbdk stbtus or dollfdt rfsults
+     * usfful for bpplidbtions tibt trbdk stbtus or dollfdt rfsults
+     * usfful for bpplidbtions tibt trbdk stbtus or dollfdt rfsults
+     * usfful for bpplidbtions tibt trbdk stbtus or dollfdt rfsults
+     * usfful for bpplidbtions tibt trbdk stbtus or dollfdt rfsults
+     * pfr-workfr-tirfbd rbtifr tibn pfr-tbsk.
+     * pfr-workfr-tirfbd rbtifr tibn pfr-tbsk.
+     * pfr-workfr-tirfbd rbtifr tibn pfr-tbsk.
+     * pfr-workfr-tirfbd rbtifr tibn pfr-tbsk.
+     * pfr-workfr-tirfbd rbtifr tibn pfr-tbsk.
      *
-     * @rfturn thf indfx numbfr
+     *
+     *
+     *
+     *
+     * @rfturn tif indfx numbfr
+     * @rfturn tif indfx numbfr
+     * @rfturn tif indfx numbfr
+     * @rfturn tif indfx numbfr
+     * @rfturn tif indfx numbfr
+     */
+     */
+     */
+     */
      */
     publid int gftPoolIndfx() {
+    publid int gftPoolIndfx() {
+    publid int gftPoolIndfx() {
+    publid int gftPoolIndfx() {
+    publid int gftPoolIndfx() {
+        rfturn workQufuf.poolIndfx >>> 1; // ignorf odd/fvfn tbg bit
+        rfturn workQufuf.poolIndfx >>> 1; // ignorf odd/fvfn tbg bit
+        rfturn workQufuf.poolIndfx >>> 1; // ignorf odd/fvfn tbg bit
+        rfturn workQufuf.poolIndfx >>> 1; // ignorf odd/fvfn tbg bit
         rfturn workQufuf.poolIndfx >>> 1; // ignorf odd/fvfn tbg bit
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Initiblizfs intfrnbl stbtf bftfr donstrudtion but bfforf
-     * prodfssing bny tbsks. If you ovfrridf this mfthod, you must
-     * invokf {@dodf supfr.onStbrt()} bt thf bfginning of thf mfthod.
-     * Initiblizbtion rfquirfs dbrf: Most fiflds must hbvf lfgbl
-     * dffbult vblufs, to fnsurf thbt bttfmptfd bddfssfs from othfr
-     * thrfbds work dorrfdtly fvfn bfforf this thrfbd stbrts
+     * Initiblizfs intfrnbl stbtf bftfr donstrudtion but bfforf
+     * Initiblizfs intfrnbl stbtf bftfr donstrudtion but bfforf
+     * Initiblizfs intfrnbl stbtf bftfr donstrudtion but bfforf
+     * Initiblizfs intfrnbl stbtf bftfr donstrudtion but bfforf
+     * prodfssing bny tbsks. If you ovfrridf tiis mftiod, you must
+     * prodfssing bny tbsks. If you ovfrridf tiis mftiod, you must
+     * prodfssing bny tbsks. If you ovfrridf tiis mftiod, you must
+     * prodfssing bny tbsks. If you ovfrridf tiis mftiod, you must
+     * prodfssing bny tbsks. If you ovfrridf tiis mftiod, you must
+     * invokf {@dodf supfr.onStbrt()} bt tif bfginning of tif mftiod.
+     * invokf {@dodf supfr.onStbrt()} bt tif bfginning of tif mftiod.
+     * invokf {@dodf supfr.onStbrt()} bt tif bfginning of tif mftiod.
+     * invokf {@dodf supfr.onStbrt()} bt tif bfginning of tif mftiod.
+     * invokf {@dodf supfr.onStbrt()} bt tif bfginning of tif mftiod.
+     * Initiblizbtion rfquirfs dbrf: Most fiflds must ibvf lfgbl
+     * Initiblizbtion rfquirfs dbrf: Most fiflds must ibvf lfgbl
+     * Initiblizbtion rfquirfs dbrf: Most fiflds must ibvf lfgbl
+     * Initiblizbtion rfquirfs dbrf: Most fiflds must ibvf lfgbl
+     * Initiblizbtion rfquirfs dbrf: Most fiflds must ibvf lfgbl
+     * dffbult vblufs, to fnsurf tibt bttfmptfd bddfssfs from otifr
+     * dffbult vblufs, to fnsurf tibt bttfmptfd bddfssfs from otifr
+     * dffbult vblufs, to fnsurf tibt bttfmptfd bddfssfs from otifr
+     * dffbult vblufs, to fnsurf tibt bttfmptfd bddfssfs from otifr
+     * dffbult vblufs, to fnsurf tibt bttfmptfd bddfssfs from otifr
+     * tirfbds work dorrfdtly fvfn bfforf tiis tirfbd stbrts
+     * tirfbds work dorrfdtly fvfn bfforf tiis tirfbd stbrts
+     * tirfbds work dorrfdtly fvfn bfforf tiis tirfbd stbrts
+     * tirfbds work dorrfdtly fvfn bfforf tiis tirfbd stbrts
+     * tirfbds work dorrfdtly fvfn bfforf tiis tirfbd stbrts
+     * prodfssing tbsks.
+     * prodfssing tbsks.
+     * prodfssing tbsks.
+     * prodfssing tbsks.
      * prodfssing tbsks.
      */
+     */
+     */
+     */
+     */
+    protfdtfd void onStbrt() {
+    protfdtfd void onStbrt() {
+    protfdtfd void onStbrt() {
+    protfdtfd void onStbrt() {
     protfdtfd void onStbrt() {
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pfrforms dlfbnup bssodibtfd with tfrminbtion of this workfr
-     * thrfbd.  If you ovfrridf this mfthod, you must invokf
-     * {@dodf supfr.onTfrminbtion} bt thf fnd of thf ovfrriddfn mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Pfrforms dlfbnup bssodibtfd witi tfrminbtion of tiis workfr
+     * Pfrforms dlfbnup bssodibtfd witi tfrminbtion of tiis workfr
+     * Pfrforms dlfbnup bssodibtfd witi tfrminbtion of tiis workfr
+     * Pfrforms dlfbnup bssodibtfd witi tfrminbtion of tiis workfr
+     * Pfrforms dlfbnup bssodibtfd witi tfrminbtion of tiis workfr
+     * tirfbd.  If you ovfrridf tiis mftiod, you must invokf
+     * tirfbd.  If you ovfrridf tiis mftiod, you must invokf
+     * tirfbd.  If you ovfrridf tiis mftiod, you must invokf
+     * tirfbd.  If you ovfrridf tiis mftiod, you must invokf
+     * tirfbd.  If you ovfrridf tiis mftiod, you must invokf
+     * {@dodf supfr.onTfrminbtion} bt tif fnd of tif ovfrriddfn mftiod.
+     * {@dodf supfr.onTfrminbtion} bt tif fnd of tif ovfrriddfn mftiod.
+     * {@dodf supfr.onTfrminbtion} bt tif fnd of tif ovfrriddfn mftiod.
+     * {@dodf supfr.onTfrminbtion} bt tif fnd of tif ovfrriddfn mftiod.
+     * {@dodf supfr.onTfrminbtion} bt tif fnd of tif ovfrriddfn mftiod.
      *
-     * @pbrbm fxdfption thf fxdfption dbusing this thrfbd to bbort duf
+     *
+     *
+     *
+     *
+     * @pbrbm fxdfption tif fxdfption dbusing tiis tirfbd to bbort duf
+     * @pbrbm fxdfption tif fxdfption dbusing tiis tirfbd to bbort duf
+     * @pbrbm fxdfption tif fxdfption dbusing tiis tirfbd to bbort duf
+     * @pbrbm fxdfption tif fxdfption dbusing tiis tirfbd to bbort duf
+     * @pbrbm fxdfption tif fxdfption dbusing tiis tirfbd to bbort duf
+     * to bn unrfdovfrbblf frror, or {@dodf null} if domplftfd normblly
+     * to bn unrfdovfrbblf frror, or {@dodf null} if domplftfd normblly
+     * to bn unrfdovfrbblf frror, or {@dodf null} if domplftfd normblly
+     * to bn unrfdovfrbblf frror, or {@dodf null} if domplftfd normblly
      * to bn unrfdovfrbblf frror, or {@dodf null} if domplftfd normblly
      */
-    protfdtfd void onTfrminbtion(Throwbblf fxdfption) {
+     */
+     */
+     */
+     */
+    protfdtfd void onTfrminbtion(Tirowbblf fxdfption) {
+    protfdtfd void onTfrminbtion(Tirowbblf fxdfption) {
+    protfdtfd void onTfrminbtion(Tirowbblf fxdfption) {
+    protfdtfd void onTfrminbtion(Tirowbblf fxdfption) {
+    protfdtfd void onTfrminbtion(Tirowbblf fxdfption) {
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * This mfthod is rfquirfd to bf publid, but should nfvfr bf
-     * dbllfd fxpliditly. It pfrforms thf mbin run loop to fxfdutf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod is rfquirfd to bf publid, but siould nfvfr bf
+     * Tiis mftiod is rfquirfd to bf publid, but siould nfvfr bf
+     * Tiis mftiod is rfquirfd to bf publid, but siould nfvfr bf
+     * Tiis mftiod is rfquirfd to bf publid, but siould nfvfr bf
+     * Tiis mftiod is rfquirfd to bf publid, but siould nfvfr bf
+     * dbllfd fxpliditly. It pfrforms tif mbin run loop to fxfdutf
+     * dbllfd fxpliditly. It pfrforms tif mbin run loop to fxfdutf
+     * dbllfd fxpliditly. It pfrforms tif mbin run loop to fxfdutf
+     * dbllfd fxpliditly. It pfrforms tif mbin run loop to fxfdutf
+     * dbllfd fxpliditly. It pfrforms tif mbin run loop to fxfdutf
+     * {@link ForkJoinTbsk}s.
+     * {@link ForkJoinTbsk}s.
+     * {@link ForkJoinTbsk}s.
+     * {@link ForkJoinTbsk}s.
      * {@link ForkJoinTbsk}s.
      */
+     */
+     */
+     */
+     */
+    publid void run() {
+    publid void run() {
+    publid void run() {
+    publid void run() {
     publid void run() {
         if (workQufuf.brrby == null) { // only run ondf
-            Throwbblf fxdfption = null;
+        if (workQufuf.brrby == null) { // only run ondf
+        if (workQufuf.brrby == null) { // only run ondf
+        if (workQufuf.brrby == null) { // only run ondf
+        if (workQufuf.brrby == null) { // only run ondf
+            Tirowbblf fxdfption = null;
+            Tirowbblf fxdfption = null;
+            Tirowbblf fxdfption = null;
+            Tirowbblf fxdfption = null;
+            Tirowbblf fxdfption = null;
+            try {
+            try {
+            try {
+            try {
             try {
                 onStbrt();
+                onStbrt();
+                onStbrt();
+                onStbrt();
+                onStbrt();
                 pool.runWorkfr(workQufuf);
-            } dbtdh (Throwbblf fx) {
+                pool.runWorkfr(workQufuf);
+                pool.runWorkfr(workQufuf);
+                pool.runWorkfr(workQufuf);
+                pool.runWorkfr(workQufuf);
+            } dbtdi (Tirowbblf fx) {
+            } dbtdi (Tirowbblf fx) {
+            } dbtdi (Tirowbblf fx) {
+            } dbtdi (Tirowbblf fx) {
+            } dbtdi (Tirowbblf fx) {
+                fxdfption = fx;
+                fxdfption = fx;
+                fxdfption = fx;
+                fxdfption = fx;
                 fxdfption = fx;
             } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+                try {
+                try {
+                try {
+                try {
                 try {
                     onTfrminbtion(fxdfption);
-                } dbtdh (Throwbblf fx) {
+                    onTfrminbtion(fxdfption);
+                    onTfrminbtion(fxdfption);
+                    onTfrminbtion(fxdfption);
+                    onTfrminbtion(fxdfption);
+                } dbtdi (Tirowbblf fx) {
+                } dbtdi (Tirowbblf fx) {
+                } dbtdi (Tirowbblf fx) {
+                } dbtdi (Tirowbblf fx) {
+                } dbtdi (Tirowbblf fx) {
+                    if (fxdfption == null)
+                    if (fxdfption == null)
+                    if (fxdfption == null)
+                    if (fxdfption == null)
                     if (fxdfption == null)
                         fxdfption = fx;
+                        fxdfption = fx;
+                        fxdfption = fx;
+                        fxdfption = fx;
+                        fxdfption = fx;
                 } finblly {
-                    pool.dfrfgistfrWorkfr(this, fxdfption);
+                } finblly {
+                } finblly {
+                } finblly {
+                } finblly {
+                    pool.dfrfgistfrWorkfr(tiis, fxdfption);
+                    pool.dfrfgistfrWorkfr(tiis, fxdfption);
+                    pool.dfrfgistfrWorkfr(tiis, fxdfption);
+                    pool.dfrfgistfrWorkfr(tiis, fxdfption);
+                    pool.dfrfgistfrWorkfr(tiis, fxdfption);
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
-
-    /**
-     * Erbsfs ThrfbdLodbls by nulling out Thrfbd mbps
-     */
-    finbl void frbsfThrfbdLodbls() {
-        U.putObjfdt(this, THREADLOCALS, null);
-        U.putObjfdt(this, INHERITABLETHREADLOCALS, null);
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Non-publid hook mfthod for InnoduousForkJoinWorkfrThrfbd
+    /**
+    /**
+    /**
+    /**
+     * Erbsfs TirfbdLodbls by nulling out Tirfbd mbps
+     * Erbsfs TirfbdLodbls by nulling out Tirfbd mbps
+     * Erbsfs TirfbdLodbls by nulling out Tirfbd mbps
+     * Erbsfs TirfbdLodbls by nulling out Tirfbd mbps
+     * Erbsfs TirfbdLodbls by nulling out Tirfbd mbps
+     */
+     */
+     */
+     */
+     */
+    finbl void frbsfTirfbdLodbls() {
+    finbl void frbsfTirfbdLodbls() {
+    finbl void frbsfTirfbdLodbls() {
+    finbl void frbsfTirfbdLodbls() {
+    finbl void frbsfTirfbdLodbls() {
+        U.putObjfdt(tiis, THREADLOCALS, null);
+        U.putObjfdt(tiis, THREADLOCALS, null);
+        U.putObjfdt(tiis, THREADLOCALS, null);
+        U.putObjfdt(tiis, THREADLOCALS, null);
+        U.putObjfdt(tiis, THREADLOCALS, null);
+        U.putObjfdt(tiis, INHERITABLETHREADLOCALS, null);
+        U.putObjfdt(tiis, INHERITABLETHREADLOCALS, null);
+        U.putObjfdt(tiis, INHERITABLETHREADLOCALS, null);
+        U.putObjfdt(tiis, INHERITABLETHREADLOCALS, null);
+        U.putObjfdt(tiis, INHERITABLETHREADLOCALS, null);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Non-publid iook mftiod for InnoduousForkJoinWorkfrTirfbd
+     * Non-publid iook mftiod for InnoduousForkJoinWorkfrTirfbd
+     * Non-publid iook mftiod for InnoduousForkJoinWorkfrTirfbd
+     * Non-publid iook mftiod for InnoduousForkJoinWorkfrTirfbd
+     * Non-publid iook mftiod for InnoduousForkJoinWorkfrTirfbd
+     */
+     */
+     */
+     */
      */
     void bftfrTopLfvflExfd() {
+    void bftfrTopLfvflExfd() {
+    void bftfrTopLfvflExfd() {
+    void bftfrTopLfvflExfd() {
+    void bftfrTopLfvflExfd() {
+    }
+    }
+    }
+    }
     }
 
-    // Sft up to bllow sftting thrfbd fiflds in donstrudtor
+
+
+
+
+    // Sft up to bllow sftting tirfbd fiflds in donstrudtor
+    // Sft up to bllow sftting tirfbd fiflds in donstrudtor
+    // Sft up to bllow sftting tirfbd fiflds in donstrudtor
+    // Sft up to bllow sftting tirfbd fiflds in donstrudtor
+    // Sft up to bllow sftting tirfbd fiflds in donstrudtor
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl sun.misd.Unsbff U;
     privbtf stbtid finbl sun.misd.Unsbff U;
     privbtf stbtid finbl long THREADLOCALS;
+    privbtf stbtid finbl long THREADLOCALS;
+    privbtf stbtid finbl long THREADLOCALS;
+    privbtf stbtid finbl long THREADLOCALS;
+    privbtf stbtid finbl long THREADLOCALS;
+    privbtf stbtid finbl long INHERITABLETHREADLOCALS;
+    privbtf stbtid finbl long INHERITABLETHREADLOCALS;
+    privbtf stbtid finbl long INHERITABLETHREADLOCALS;
+    privbtf stbtid finbl long INHERITABLETHREADLOCALS;
     privbtf stbtid finbl long INHERITABLETHREADLOCALS;
     privbtf stbtid finbl long INHERITEDACCESSCONTROLCONTEXT;
+    privbtf stbtid finbl long INHERITEDACCESSCONTROLCONTEXT;
+    privbtf stbtid finbl long INHERITEDACCESSCONTROLCONTEXT;
+    privbtf stbtid finbl long INHERITEDACCESSCONTROLCONTEXT;
+    privbtf stbtid finbl long INHERITEDACCESSCONTROLCONTEXT;
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
     stbtid {
         try {
+        try {
+        try {
+        try {
+        try {
             U = sun.misd.Unsbff.gftUnsbff();
-            Clbss<?> tk = Thrfbd.dlbss;
+            U = sun.misd.Unsbff.gftUnsbff();
+            U = sun.misd.Unsbff.gftUnsbff();
+            U = sun.misd.Unsbff.gftUnsbff();
+            U = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> tk = Tirfbd.dlbss;
+            Clbss<?> tk = Tirfbd.dlbss;
+            Clbss<?> tk = Tirfbd.dlbss;
+            Clbss<?> tk = Tirfbd.dlbss;
+            Clbss<?> tk = Tirfbd.dlbss;
             THREADLOCALS = U.objfdtFifldOffsft
-                (tk.gftDfdlbrfdFifld("thrfbdLodbls"));
+            THREADLOCALS = U.objfdtFifldOffsft
+            THREADLOCALS = U.objfdtFifldOffsft
+            THREADLOCALS = U.objfdtFifldOffsft
+            THREADLOCALS = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("tirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("tirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("tirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("tirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("tirfbdLodbls"));
             INHERITABLETHREADLOCALS = U.objfdtFifldOffsft
-                (tk.gftDfdlbrfdFifld("inhfritbblfThrfbdLodbls"));
+            INHERITABLETHREADLOCALS = U.objfdtFifldOffsft
+            INHERITABLETHREADLOCALS = U.objfdtFifldOffsft
+            INHERITABLETHREADLOCALS = U.objfdtFifldOffsft
+            INHERITABLETHREADLOCALS = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("inifritbblfTirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("inifritbblfTirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("inifritbblfTirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("inifritbblfTirfbdLodbls"));
+                (tk.gftDfdlbrfdFifld("inifritbblfTirfbdLodbls"));
             INHERITEDACCESSCONTROLCONTEXT = U.objfdtFifldOffsft
-                (tk.gftDfdlbrfdFifld("inhfritfdAddfssControlContfxt"));
+            INHERITEDACCESSCONTROLCONTEXT = U.objfdtFifldOffsft
+            INHERITEDACCESSCONTROLCONTEXT = U.objfdtFifldOffsft
+            INHERITEDACCESSCONTROLCONTEXT = U.objfdtFifldOffsft
+            INHERITEDACCESSCONTROLCONTEXT = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("inifritfdAddfssControlContfxt"));
+                (tk.gftDfdlbrfdFifld("inifritfdAddfssControlContfxt"));
+                (tk.gftDfdlbrfdFifld("inifritfdAddfssControlContfxt"));
+                (tk.gftDfdlbrfdFifld("inifritfdAddfssControlContfxt"));
+                (tk.gftDfdlbrfdFifld("inifritfdAddfssControlContfxt"));
 
-        } dbtdh (Exdfption f) {
-            throw nfw Error(f);
+
+
+
+
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
+            tirow nfw Error(f);
+            tirow nfw Error(f);
+            tirow nfw Error(f);
+            tirow nfw Error(f);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * A workfr thrfbd thbt hbs no pfrmissions, is not b mfmbfr of bny
-     * usfr-dffinfd ThrfbdGroup, bnd frbsfs bll ThrfbdLodbls bftfr
-     * running fbdh top-lfvfl tbsk.
+    /**
+    /**
+    /**
+    /**
+     * A workfr tirfbd tibt ibs no pfrmissions, is not b mfmbfr of bny
+     * A workfr tirfbd tibt ibs no pfrmissions, is not b mfmbfr of bny
+     * A workfr tirfbd tibt ibs no pfrmissions, is not b mfmbfr of bny
+     * A workfr tirfbd tibt ibs no pfrmissions, is not b mfmbfr of bny
+     * A workfr tirfbd tibt ibs no pfrmissions, is not b mfmbfr of bny
+     * usfr-dffinfd TirfbdGroup, bnd frbsfs bll TirfbdLodbls bftfr
+     * usfr-dffinfd TirfbdGroup, bnd frbsfs bll TirfbdLodbls bftfr
+     * usfr-dffinfd TirfbdGroup, bnd frbsfs bll TirfbdLodbls bftfr
+     * usfr-dffinfd TirfbdGroup, bnd frbsfs bll TirfbdLodbls bftfr
+     * usfr-dffinfd TirfbdGroup, bnd frbsfs bll TirfbdLodbls bftfr
+     * running fbdi top-lfvfl tbsk.
+     * running fbdi top-lfvfl tbsk.
+     * running fbdi top-lfvfl tbsk.
+     * running fbdi top-lfvfl tbsk.
+     * running fbdi top-lfvfl tbsk.
      */
-    stbtid finbl dlbss InnoduousForkJoinWorkfrThrfbd fxtfnds ForkJoinWorkfrThrfbd {
-        /** Thf ThrfbdGroup for bll InnoduousForkJoinWorkfrThrfbds */
-        privbtf stbtid finbl ThrfbdGroup innoduousThrfbdGroup =
-            drfbtfThrfbdGroup();
+     */
+     */
+     */
+     */
+    stbtid finbl dlbss InnoduousForkJoinWorkfrTirfbd fxtfnds ForkJoinWorkfrTirfbd {
+    stbtid finbl dlbss InnoduousForkJoinWorkfrTirfbd fxtfnds ForkJoinWorkfrTirfbd {
+    stbtid finbl dlbss InnoduousForkJoinWorkfrTirfbd fxtfnds ForkJoinWorkfrTirfbd {
+    stbtid finbl dlbss InnoduousForkJoinWorkfrTirfbd fxtfnds ForkJoinWorkfrTirfbd {
+    stbtid finbl dlbss InnoduousForkJoinWorkfrTirfbd fxtfnds ForkJoinWorkfrTirfbd {
+        /** Tif TirfbdGroup for bll InnoduousForkJoinWorkfrTirfbds */
+        /** Tif TirfbdGroup for bll InnoduousForkJoinWorkfrTirfbds */
+        /** Tif TirfbdGroup for bll InnoduousForkJoinWorkfrTirfbds */
+        /** Tif TirfbdGroup for bll InnoduousForkJoinWorkfrTirfbds */
+        /** Tif TirfbdGroup for bll InnoduousForkJoinWorkfrTirfbds */
+        privbtf stbtid finbl TirfbdGroup innoduousTirfbdGroup =
+        privbtf stbtid finbl TirfbdGroup innoduousTirfbdGroup =
+        privbtf stbtid finbl TirfbdGroup innoduousTirfbdGroup =
+        privbtf stbtid finbl TirfbdGroup innoduousTirfbdGroup =
+        privbtf stbtid finbl TirfbdGroup innoduousTirfbdGroup =
+            drfbtfTirfbdGroup();
+            drfbtfTirfbdGroup();
+            drfbtfTirfbdGroup();
+            drfbtfTirfbdGroup();
+            drfbtfTirfbdGroup();
+
+
+
+
 
         /** An AddfssControlContfxt supporting no privilfgfs */
+        /** An AddfssControlContfxt supporting no privilfgfs */
+        /** An AddfssControlContfxt supporting no privilfgfs */
+        /** An AddfssControlContfxt supporting no privilfgfs */
+        /** An AddfssControlContfxt supporting no privilfgfs */
+        privbtf stbtid finbl AddfssControlContfxt INNOCUOUS_ACC =
+        privbtf stbtid finbl AddfssControlContfxt INNOCUOUS_ACC =
+        privbtf stbtid finbl AddfssControlContfxt INNOCUOUS_ACC =
+        privbtf stbtid finbl AddfssControlContfxt INNOCUOUS_ACC =
         privbtf stbtid finbl AddfssControlContfxt INNOCUOUS_ACC =
             nfw AddfssControlContfxt(
+            nfw AddfssControlContfxt(
+            nfw AddfssControlContfxt(
+            nfw AddfssControlContfxt(
+            nfw AddfssControlContfxt(
+                nfw ProtfdtionDombin[] {
+                nfw ProtfdtionDombin[] {
+                nfw ProtfdtionDombin[] {
+                nfw ProtfdtionDombin[] {
                 nfw ProtfdtionDombin[] {
                     nfw ProtfdtionDombin(null, null)
+                    nfw ProtfdtionDombin(null, null)
+                    nfw ProtfdtionDombin(null, null)
+                    nfw ProtfdtionDombin(null, null)
+                    nfw ProtfdtionDombin(null, null)
+                });
+                });
+                });
+                });
                 });
 
-        InnoduousForkJoinWorkfrThrfbd(ForkJoinPool pool) {
-            supfr(pool, innoduousThrfbdGroup, INNOCUOUS_ACC);
+
+
+
+
+        InnoduousForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+        InnoduousForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+        InnoduousForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+        InnoduousForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+        InnoduousForkJoinWorkfrTirfbd(ForkJoinPool pool) {
+            supfr(pool, innoduousTirfbdGroup, INNOCUOUS_ACC);
+            supfr(pool, innoduousTirfbdGroup, INNOCUOUS_ACC);
+            supfr(pool, innoduousTirfbdGroup, INNOCUOUS_ACC);
+            supfr(pool, innoduousTirfbdGroup, INNOCUOUS_ACC);
+            supfr(pool, innoduousTirfbdGroup, INNOCUOUS_ACC);
+        }
+        }
+        }
+        }
         }
 
-        @Ovfrridf // to frbsf ThrfbdLodbls
+
+
+
+
+        @Ovfrridf // to frbsf TirfbdLodbls
+        @Ovfrridf // to frbsf TirfbdLodbls
+        @Ovfrridf // to frbsf TirfbdLodbls
+        @Ovfrridf // to frbsf TirfbdLodbls
+        @Ovfrridf // to frbsf TirfbdLodbls
         void bftfrTopLfvflExfd() {
-            frbsfThrfbdLodbls();
+        void bftfrTopLfvflExfd() {
+        void bftfrTopLfvflExfd() {
+        void bftfrTopLfvflExfd() {
+        void bftfrTopLfvflExfd() {
+            frbsfTirfbdLodbls();
+            frbsfTirfbdLodbls();
+            frbsfTirfbdLodbls();
+            frbsfTirfbdLodbls();
+            frbsfTirfbdLodbls();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         @Ovfrridf // to blwbys rfport systfm lobdfr
+        @Ovfrridf // to blwbys rfport systfm lobdfr
+        @Ovfrridf // to blwbys rfport systfm lobdfr
+        @Ovfrridf // to blwbys rfport systfm lobdfr
+        @Ovfrridf // to blwbys rfport systfm lobdfr
+        publid ClbssLobdfr gftContfxtClbssLobdfr() {
+        publid ClbssLobdfr gftContfxtClbssLobdfr() {
+        publid ClbssLobdfr gftContfxtClbssLobdfr() {
+        publid ClbssLobdfr gftContfxtClbssLobdfr() {
         publid ClbssLobdfr gftContfxtClbssLobdfr() {
             rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
+            rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
+            rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
+            rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
+            rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         @Ovfrridf // to silfntly fbil
-        publid void sftUndbughtExdfptionHbndlfr(UndbughtExdfptionHbndlfr x) { }
+        @Ovfrridf // to silfntly fbil
+        @Ovfrridf // to silfntly fbil
+        @Ovfrridf // to silfntly fbil
+        @Ovfrridf // to silfntly fbil
+        publid void sftUndbugitExdfptionHbndlfr(UndbugitExdfptionHbndlfr x) { }
+        publid void sftUndbugitExdfptionHbndlfr(UndbugitExdfptionHbndlfr x) { }
+        publid void sftUndbugitExdfptionHbndlfr(UndbugitExdfptionHbndlfr x) { }
+        publid void sftUndbugitExdfptionHbndlfr(UndbugitExdfptionHbndlfr x) { }
+        publid void sftUndbugitExdfptionHbndlfr(UndbugitExdfptionHbndlfr x) { }
+
+
+
+
 
         @Ovfrridf // pbrbnoidblly
+        @Ovfrridf // pbrbnoidblly
+        @Ovfrridf // pbrbnoidblly
+        @Ovfrridf // pbrbnoidblly
+        @Ovfrridf // pbrbnoidblly
         publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
-            throw nfw SfdurityExdfption("sftContfxtClbssLobdfr");
+        publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
+        publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
+        publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
+        publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
+            tirow nfw SfdurityExdfption("sftContfxtClbssLobdfr");
+            tirow nfw SfdurityExdfption("sftContfxtClbssLobdfr");
+            tirow nfw SfdurityExdfption("sftContfxtClbssLobdfr");
+            tirow nfw SfdurityExdfption("sftContfxtClbssLobdfr");
+            tirow nfw SfdurityExdfption("sftContfxtClbssLobdfr");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Rfturns b nfw group with thf systfm ThrfbdGroup (thf
+        /**
+        /**
+        /**
+        /**
+         * Rfturns b nfw group witi tif systfm TirfbdGroup (tif
+         * Rfturns b nfw group witi tif systfm TirfbdGroup (tif
+         * Rfturns b nfw group witi tif systfm TirfbdGroup (tif
+         * Rfturns b nfw group witi tif systfm TirfbdGroup (tif
+         * Rfturns b nfw group witi tif systfm TirfbdGroup (tif
          * topmost, pbrfntlfss group) bs pbrfnt.  Usfs Unsbff to
-         * trbvfrsf Thrfbd group bnd ThrfbdGroup pbrfnt fiflds.
+         * topmost, pbrfntlfss group) bs pbrfnt.  Usfs Unsbff to
+         * topmost, pbrfntlfss group) bs pbrfnt.  Usfs Unsbff to
+         * topmost, pbrfntlfss group) bs pbrfnt.  Usfs Unsbff to
+         * topmost, pbrfntlfss group) bs pbrfnt.  Usfs Unsbff to
+         * trbvfrsf Tirfbd group bnd TirfbdGroup pbrfnt fiflds.
+         * trbvfrsf Tirfbd group bnd TirfbdGroup pbrfnt fiflds.
+         * trbvfrsf Tirfbd group bnd TirfbdGroup pbrfnt fiflds.
+         * trbvfrsf Tirfbd group bnd TirfbdGroup pbrfnt fiflds.
+         * trbvfrsf Tirfbd group bnd TirfbdGroup pbrfnt fiflds.
          */
-        privbtf stbtid ThrfbdGroup drfbtfThrfbdGroup() {
+         */
+         */
+         */
+         */
+        privbtf stbtid TirfbdGroup drfbtfTirfbdGroup() {
+        privbtf stbtid TirfbdGroup drfbtfTirfbdGroup() {
+        privbtf stbtid TirfbdGroup drfbtfTirfbdGroup() {
+        privbtf stbtid TirfbdGroup drfbtfTirfbdGroup() {
+        privbtf stbtid TirfbdGroup drfbtfTirfbdGroup() {
+            try {
+            try {
+            try {
+            try {
             try {
                 sun.misd.Unsbff u = sun.misd.Unsbff.gftUnsbff();
-                Clbss<?> tk = Thrfbd.dlbss;
-                Clbss<?> gk = ThrfbdGroup.dlbss;
+                sun.misd.Unsbff u = sun.misd.Unsbff.gftUnsbff();
+                sun.misd.Unsbff u = sun.misd.Unsbff.gftUnsbff();
+                sun.misd.Unsbff u = sun.misd.Unsbff.gftUnsbff();
+                sun.misd.Unsbff u = sun.misd.Unsbff.gftUnsbff();
+                Clbss<?> tk = Tirfbd.dlbss;
+                Clbss<?> tk = Tirfbd.dlbss;
+                Clbss<?> tk = Tirfbd.dlbss;
+                Clbss<?> tk = Tirfbd.dlbss;
+                Clbss<?> tk = Tirfbd.dlbss;
+                Clbss<?> gk = TirfbdGroup.dlbss;
+                Clbss<?> gk = TirfbdGroup.dlbss;
+                Clbss<?> gk = TirfbdGroup.dlbss;
+                Clbss<?> gk = TirfbdGroup.dlbss;
+                Clbss<?> gk = TirfbdGroup.dlbss;
+                long tg = u.objfdtFifldOffsft(tk.gftDfdlbrfdFifld("group"));
+                long tg = u.objfdtFifldOffsft(tk.gftDfdlbrfdFifld("group"));
+                long tg = u.objfdtFifldOffsft(tk.gftDfdlbrfdFifld("group"));
+                long tg = u.objfdtFifldOffsft(tk.gftDfdlbrfdFifld("group"));
                 long tg = u.objfdtFifldOffsft(tk.gftDfdlbrfdFifld("group"));
                 long gp = u.objfdtFifldOffsft(gk.gftDfdlbrfdFifld("pbrfnt"));
-                ThrfbdGroup group = (ThrfbdGroup)
-                    u.gftObjfdt(Thrfbd.durrfntThrfbd(), tg);
-                whilf (group != null) {
-                    ThrfbdGroup pbrfnt = (ThrfbdGroup)u.gftObjfdt(group, gp);
+                long gp = u.objfdtFifldOffsft(gk.gftDfdlbrfdFifld("pbrfnt"));
+                long gp = u.objfdtFifldOffsft(gk.gftDfdlbrfdFifld("pbrfnt"));
+                long gp = u.objfdtFifldOffsft(gk.gftDfdlbrfdFifld("pbrfnt"));
+                long gp = u.objfdtFifldOffsft(gk.gftDfdlbrfdFifld("pbrfnt"));
+                TirfbdGroup group = (TirfbdGroup)
+                TirfbdGroup group = (TirfbdGroup)
+                TirfbdGroup group = (TirfbdGroup)
+                TirfbdGroup group = (TirfbdGroup)
+                TirfbdGroup group = (TirfbdGroup)
+                    u.gftObjfdt(Tirfbd.durrfntTirfbd(), tg);
+                    u.gftObjfdt(Tirfbd.durrfntTirfbd(), tg);
+                    u.gftObjfdt(Tirfbd.durrfntTirfbd(), tg);
+                    u.gftObjfdt(Tirfbd.durrfntTirfbd(), tg);
+                    u.gftObjfdt(Tirfbd.durrfntTirfbd(), tg);
+                wiilf (group != null) {
+                wiilf (group != null) {
+                wiilf (group != null) {
+                wiilf (group != null) {
+                wiilf (group != null) {
+                    TirfbdGroup pbrfnt = (TirfbdGroup)u.gftObjfdt(group, gp);
+                    TirfbdGroup pbrfnt = (TirfbdGroup)u.gftObjfdt(group, gp);
+                    TirfbdGroup pbrfnt = (TirfbdGroup)u.gftObjfdt(group, gp);
+                    TirfbdGroup pbrfnt = (TirfbdGroup)u.gftObjfdt(group, gp);
+                    TirfbdGroup pbrfnt = (TirfbdGroup)u.gftObjfdt(group, gp);
                     if (pbrfnt == null)
-                        rfturn nfw ThrfbdGroup(group,
-                                               "InnoduousForkJoinWorkfrThrfbdGroup");
+                    if (pbrfnt == null)
+                    if (pbrfnt == null)
+                    if (pbrfnt == null)
+                    if (pbrfnt == null)
+                        rfturn nfw TirfbdGroup(group,
+                        rfturn nfw TirfbdGroup(group,
+                        rfturn nfw TirfbdGroup(group,
+                        rfturn nfw TirfbdGroup(group,
+                        rfturn nfw TirfbdGroup(group,
+                                               "InnoduousForkJoinWorkfrTirfbdGroup");
+                                               "InnoduousForkJoinWorkfrTirfbdGroup");
+                                               "InnoduousForkJoinWorkfrTirfbdGroup");
+                                               "InnoduousForkJoinWorkfrTirfbdGroup");
+                                               "InnoduousForkJoinWorkfrTirfbdGroup");
+                    group = pbrfnt;
+                    group = pbrfnt;
+                    group = pbrfnt;
+                    group = pbrfnt;
                     group = pbrfnt;
                 }
-            } dbtdh (Exdfption f) {
-                throw nfw Error(f);
+                }
+                }
+                }
+                }
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+                tirow nfw Error(f);
+                tirow nfw Error(f);
+                tirow nfw Error(f);
+                tirow nfw Error(f);
+                tirow nfw Error(f);
             }
-            // fbll through if null bs dbnnot-hbppfn sbffgubrd
-            throw nfw Error("Cbnnot drfbtf ThrfbdGroup");
+            }
+            }
+            }
+            }
+            // fbll tirougi if null bs dbnnot-ibppfn sbffgubrd
+            // fbll tirougi if null bs dbnnot-ibppfn sbffgubrd
+            // fbll tirougi if null bs dbnnot-ibppfn sbffgubrd
+            // fbll tirougi if null bs dbnnot-ibppfn sbffgubrd
+            // fbll tirougi if null bs dbnnot-ibppfn sbffgubrd
+            tirow nfw Error("Cbnnot drfbtf TirfbdGroup");
+            tirow nfw Error("Cbnnot drfbtf TirfbdGroup");
+            tirow nfw Error("Cbnnot drfbtf TirfbdGroup");
+            tirow nfw Error("Cbnnot drfbtf TirfbdGroup");
+            tirow nfw Error("Cbnnot drfbtf TirfbdGroup");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
 }
+}
+}
+}
+}
+
+
+
+
 

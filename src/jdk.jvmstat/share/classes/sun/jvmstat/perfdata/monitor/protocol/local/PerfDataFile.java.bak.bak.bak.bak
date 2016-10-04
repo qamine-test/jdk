@@ -1,307 +1,1535 @@
 /*
- * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+
+
+
+
 
 import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.FilfnbmfFiltfr;
 import jbvb.io.FilfnbmfFiltfr;
 
+
+
+
+
 /**
- * Clbss to providf trbnslbtions from thf lodbl Vm Idfntififr
- * nbmf spbdf into thf filf systfm nbmf spbdf bnd vidf-vfrsb.
+/**
+/**
+/**
+/**
+ * Clbss to providf trbnslbtions from tif lodbl Vm Idfntififr
+ * Clbss to providf trbnslbtions from tif lodbl Vm Idfntififr
+ * Clbss to providf trbnslbtions from tif lodbl Vm Idfntififr
+ * Clbss to providf trbnslbtions from tif lodbl Vm Idfntififr
+ * Clbss to providf trbnslbtions from tif lodbl Vm Idfntififr
+ * nbmf spbdf into tif filf systfm nbmf spbdf bnd vidf-vfrsb.
+ * nbmf spbdf into tif filf systfm nbmf spbdf bnd vidf-vfrsb.
+ * nbmf spbdf into tif filf systfm nbmf spbdf bnd vidf-vfrsb.
+ * nbmf spbdf into tif filf systfm nbmf spbdf bnd vidf-vfrsb.
+ * nbmf spbdf into tif filf systfm nbmf spbdf bnd vidf-vfrsb.
  * <p>
- * Providfs b fbdtory for drfbting b Filf objfdt to thf bbdking
- * storf filf for instrumfntbtion shbrfd mfmory rfgion for b JVM
- * idfntififd by its Lodbl Jbvb Virtubl Mbdhinf Idfntififr, or
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Providfs b fbdtory for drfbting b Filf objfdt to tif bbdking
+ * Providfs b fbdtory for drfbting b Filf objfdt to tif bbdking
+ * Providfs b fbdtory for drfbting b Filf objfdt to tif bbdking
+ * Providfs b fbdtory for drfbting b Filf objfdt to tif bbdking
+ * Providfs b fbdtory for drfbting b Filf objfdt to tif bbdking
+ * storf filf for instrumfntbtion sibrfd mfmory rfgion for b JVM
+ * storf filf for instrumfntbtion sibrfd mfmory rfgion for b JVM
+ * storf filf for instrumfntbtion sibrfd mfmory rfgion for b JVM
+ * storf filf for instrumfntbtion sibrfd mfmory rfgion for b JVM
+ * storf filf for instrumfntbtion sibrfd mfmory rfgion for b JVM
+ * idfntififd by its Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or
+ * idfntififd by its Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or
+ * idfntififd by its Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or
+ * idfntififd by its Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or
+ * idfntififd by its Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or
+ * <fm>lvmid</fm>.
+ * <fm>lvmid</fm>.
+ * <fm>lvmid</fm>.
+ * <fm>lvmid</fm>.
  * <fm>lvmid</fm>.
  *
- * @buthor Bribn Dohfrty
+ *
+ *
+ *
+ *
+ * @butior Bribn Doifrty
+ * @butior Bribn Doifrty
+ * @butior Bribn Doifrty
+ * @butior Bribn Doifrty
+ * @butior Bribn Doifrty
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  * @sff jbvb.io.Filf
+ * @sff jbvb.io.Filf
+ * @sff jbvb.io.Filf
+ * @sff jbvb.io.Filf
+ * @sff jbvb.io.Filf
+ */
+ */
+ */
+ */
  */
 publid dlbss PfrfDbtbFilf {
+publid dlbss PfrfDbtbFilf {
+publid dlbss PfrfDbtbFilf {
+publid dlbss PfrfDbtbFilf {
+publid dlbss PfrfDbtbFilf {
+    privbtf PfrfDbtbFilf() { };
+    privbtf PfrfDbtbFilf() { };
+    privbtf PfrfDbtbFilf() { };
+    privbtf PfrfDbtbFilf() { };
     privbtf PfrfDbtbFilf() { };
 
+
+
+
+
     /**
-     * Thf nbmf of thf of thf systfm dfpfndfnt tfmporbry dirfdtory
+    /**
+    /**
+    /**
+    /**
+     * Tif nbmf of tif of tif systfm dfpfndfnt tfmporbry dirfdtory
+     * Tif nbmf of tif of tif systfm dfpfndfnt tfmporbry dirfdtory
+     * Tif nbmf of tif of tif systfm dfpfndfnt tfmporbry dirfdtory
+     * Tif nbmf of tif of tif systfm dfpfndfnt tfmporbry dirfdtory
+     * Tif nbmf of tif of tif systfm dfpfndfnt tfmporbry dirfdtory
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl String tmpDirNbmf;
+    publid stbtid finbl String tmpDirNbmf;
+    publid stbtid finbl String tmpDirNbmf;
+    publid stbtid finbl String tmpDirNbmf;
+    publid stbtid finbl String tmpDirNbmf;
+
+
+
+
 
     /**
-     * Thf filf nbmf prffix for PfrfDbtb shbrfd mfmory filfs.
+    /**
+    /**
+    /**
+    /**
+     * Tif filf nbmf prffix for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf prffix for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf prffix for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf prffix for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf prffix for PfrfDbtb sibrfd mfmory filfs.
      * <p>
-     * This prffix must bf kfpt in synd with thf prffix usfd by thf JVM.
-     */
-    publid stbtid finbl String dirNbmfPrffix = "hspfrfdbtb_";
-
-    /**
-     * Thf dirfdtory nbmf pbttfrn for thf usfr dirfdtorifs.
-     */
-    publid stbtid finbl String usfrDirNbmfPbttfrn = "hspfrfdbtb_\\S*";
-
-    /**
-     * Thf filf nbmf pbttfrn for PfrfDbtb shbrfd mfmory filfs.
      * <p>
-     * This pbttfrn must bf kfpt in syndh with thf filf nbmf pbttfrn
-     * usfd by thf 1.4.2 bnd lbtfr HotSpot JVM.
+     * <p>
+     * <p>
+     * <p>
+     * Tiis prffix must bf kfpt in synd witi tif prffix usfd by tif JVM.
+     * Tiis prffix must bf kfpt in synd witi tif prffix usfd by tif JVM.
+     * Tiis prffix must bf kfpt in synd witi tif prffix usfd by tif JVM.
+     * Tiis prffix must bf kfpt in synd witi tif prffix usfd by tif JVM.
+     * Tiis prffix must bf kfpt in synd witi tif prffix usfd by tif JVM.
+     */
+     */
+     */
+     */
+     */
+    publid stbtid finbl String dirNbmfPrffix = "ispfrfdbtb_";
+    publid stbtid finbl String dirNbmfPrffix = "ispfrfdbtb_";
+    publid stbtid finbl String dirNbmfPrffix = "ispfrfdbtb_";
+    publid stbtid finbl String dirNbmfPrffix = "ispfrfdbtb_";
+    publid stbtid finbl String dirNbmfPrffix = "ispfrfdbtb_";
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif dirfdtory nbmf pbttfrn for tif usfr dirfdtorifs.
+     * Tif dirfdtory nbmf pbttfrn for tif usfr dirfdtorifs.
+     * Tif dirfdtory nbmf pbttfrn for tif usfr dirfdtorifs.
+     * Tif dirfdtory nbmf pbttfrn for tif usfr dirfdtorifs.
+     * Tif dirfdtory nbmf pbttfrn for tif usfr dirfdtorifs.
+     */
+     */
+     */
+     */
+     */
+    publid stbtid finbl String usfrDirNbmfPbttfrn = "ispfrfdbtb_\\S*";
+    publid stbtid finbl String usfrDirNbmfPbttfrn = "ispfrfdbtb_\\S*";
+    publid stbtid finbl String usfrDirNbmfPbttfrn = "ispfrfdbtb_\\S*";
+    publid stbtid finbl String usfrDirNbmfPbttfrn = "ispfrfdbtb_\\S*";
+    publid stbtid finbl String usfrDirNbmfPbttfrn = "ispfrfdbtb_\\S*";
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif filf nbmf pbttfrn for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for PfrfDbtb sibrfd mfmory filfs.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * usfd by tif 1.4.2 bnd lbtfr HotSpot JVM.
+     * usfd by tif 1.4.2 bnd lbtfr HotSpot JVM.
+     * usfd by tif 1.4.2 bnd lbtfr HotSpot JVM.
+     * usfd by tif 1.4.2 bnd lbtfr HotSpot JVM.
+     * usfd by tif 1.4.2 bnd lbtfr HotSpot JVM.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl String filfNbmfPbttfrn = "^[0-9]+$";
+    publid stbtid finbl String filfNbmfPbttfrn = "^[0-9]+$";
+    publid stbtid finbl String filfNbmfPbttfrn = "^[0-9]+$";
+    publid stbtid finbl String filfNbmfPbttfrn = "^[0-9]+$";
+    publid stbtid finbl String filfNbmfPbttfrn = "^[0-9]+$";
+
+
+
+
 
     /**
-     * Thf filf nbmf pbttfrn for 1.4.1 PfrfDbtb shbrfd mfmory filfs.
+    /**
+    /**
+    /**
+    /**
+     * Tif filf nbmf pbttfrn for 1.4.1 PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for 1.4.1 PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for 1.4.1 PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for 1.4.1 PfrfDbtb sibrfd mfmory filfs.
+     * Tif filf nbmf pbttfrn for 1.4.1 PfrfDbtb sibrfd mfmory filfs.
      * <p>
-     * This pbttfrn must bf kfpt in syndh with thf filf nbmf pbttfrn
-     * usfd by thf 1.4.1 HotSpot JVM.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * usfd by tif 1.4.1 HotSpot JVM.
+     * usfd by tif 1.4.1 HotSpot JVM.
+     * usfd by tif 1.4.1 HotSpot JVM.
+     * usfd by tif 1.4.1 HotSpot JVM.
+     * usfd by tif 1.4.1 HotSpot JVM.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl String tmpFilfNbmfPbttfrn =
-            "^hspfrfdbtb_[0-9]+(_[1-2]+)?$";
+    publid stbtid finbl String tmpFilfNbmfPbttfrn =
+    publid stbtid finbl String tmpFilfNbmfPbttfrn =
+    publid stbtid finbl String tmpFilfNbmfPbttfrn =
+    publid stbtid finbl String tmpFilfNbmfPbttfrn =
+            "^ispfrfdbtb_[0-9]+(_[1-2]+)?$";
+            "^ispfrfdbtb_[0-9]+(_[1-2]+)?$";
+            "^ispfrfdbtb_[0-9]+(_[1-2]+)?$";
+            "^ispfrfdbtb_[0-9]+(_[1-2]+)?$";
+            "^ispfrfdbtb_[0-9]+(_[1-2]+)?$";
+
+
+
+
+
+
+
+
 
 
     /**
-     * Gft b Filf objfdt for thf instrumfntbtion bbdking storf filf
-     * for thf JVM idfntififd by thf givfn lodbl Vm Idfntififr.
+    /**
+    /**
+    /**
+    /**
+     * Gft b Filf objfdt for tif instrumfntbtion bbdking storf filf
+     * Gft b Filf objfdt for tif instrumfntbtion bbdking storf filf
+     * Gft b Filf objfdt for tif instrumfntbtion bbdking storf filf
+     * Gft b Filf objfdt for tif instrumfntbtion bbdking storf filf
+     * Gft b Filf objfdt for tif instrumfntbtion bbdking storf filf
+     * for tif JVM idfntififd by tif givfn lodbl Vm Idfntififr.
+     * for tif JVM idfntififd by tif givfn lodbl Vm Idfntififr.
+     * for tif JVM idfntififd by tif givfn lodbl Vm Idfntififr.
+     * for tif JVM idfntififd by tif givfn lodbl Vm Idfntififr.
+     * for tif JVM idfntififd by tif givfn lodbl Vm Idfntififr.
      * <p>
-     * This mfthod looks for thf most up to dbtf bbdking storf filf for
-     * thf givfn <tt>lvmid</tt>. It will sfbrdh bll thf usfr spfdifid
-     * dirfdtorifs in thf tfmporbry dirfdtory for thf host opfrbting
-     * systfm, whidh mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * tif givfn <tt>lvmid</tt>. It will sfbrdi bll tif usfr spfdifid
+     * tif givfn <tt>lvmid</tt>. It will sfbrdi bll tif usfr spfdifid
+     * tif givfn <tt>lvmid</tt>. It will sfbrdi bll tif usfr spfdifid
+     * tif givfn <tt>lvmid</tt>. It will sfbrdi bll tif usfr spfdifid
+     * tif givfn <tt>lvmid</tt>. It will sfbrdi bll tif usfr spfdifid
+     * dirfdtorifs in tif tfmporbry dirfdtory for tif iost opfrbting
+     * dirfdtorifs in tif tfmporbry dirfdtory for tif iost opfrbting
+     * dirfdtorifs in tif tfmporbry dirfdtory for tif iost opfrbting
+     * dirfdtorifs in tif tfmporbry dirfdtory for tif iost opfrbting
+     * dirfdtorifs in tif tfmporbry dirfdtory for tif iost opfrbting
+     * systfm, wiidi mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * systfm, wiidi mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * systfm, wiidi mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * systfm, wiidi mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * systfm, wiidi mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * vbribblfs.
+     * vbribblfs.
+     * vbribblfs.
+     * vbribblfs.
      * vbribblfs.
      *
-     * @pbrbm lvmid  thf lodbl Jbvb Virtubl Mbdhinf Idfntififr for thf tbrgft
-     * @rfturn Filf - b Filf objfdt to thf bbdking storf filf for thf nbmfd
-     *                shbrfd mfmory rfgion of thf tbrgft JVM.
+     *
+     *
+     *
+     *
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     * @sff jbvb.io.Filf
+     * @sff jbvb.io.Filf
+     * @sff jbvb.io.Filf
+     * @sff jbvb.io.Filf
      * @sff jbvb.io.Filf
      * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     */
+     */
+     */
+     */
      */
     publid stbtid Filf gftFilf(int lvmid) {
+    publid stbtid Filf gftFilf(int lvmid) {
+    publid stbtid Filf gftFilf(int lvmid) {
+    publid stbtid Filf gftFilf(int lvmid) {
+    publid stbtid Filf gftFilf(int lvmid) {
+        if (lvmid == 0) {
+        if (lvmid == 0) {
+        if (lvmid == 0) {
+        if (lvmid == 0) {
         if (lvmid == 0) {
             /*
-             * lvmid == 0 is usfd to indidbtf thf durrfnt Jbvb Virtubl Mbdhinf.
-             * If thf SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdhinf
-             * idfntififr, thfn b filfnbmf dould bf donstrudtfd with thbt
-             * idfntififr. In bbsfndf of sudh bn bpi, rfturn null.
+            /*
+            /*
+            /*
+            /*
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             */
+             */
+             */
+             */
              */
             rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /*
-         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf thbt
-         * mbtdh thf filf nbmf pbttfrns.
+        /*
+        /*
+        /*
+        /*
+         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf tibt
+         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf tibt
+         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf tibt
+         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf tibt
+         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf tibt
+         * mbtdi tif filf nbmf pbttfrns.
+         * mbtdi tif filf nbmf pbttfrns.
+         * mbtdi tif filf nbmf pbttfrns.
+         * mbtdi tif filf nbmf pbttfrns.
+         * mbtdi tif filf nbmf pbttfrns.
+         */
+         */
+         */
+         */
          */
         Filf tmpDir = nfw Filf(tmpDirNbmf);
+        Filf tmpDir = nfw Filf(tmpDirNbmf);
+        Filf tmpDir = nfw Filf(tmpDirNbmf);
+        Filf tmpDir = nfw Filf(tmpDirNbmf);
+        Filf tmpDir = nfw Filf(tmpDirNbmf);
+        String[] filfs = tmpDir.list(nfw FilfnbmfFiltfr() {
+        String[] filfs = tmpDir.list(nfw FilfnbmfFiltfr() {
+        String[] filfs = tmpDir.list(nfw FilfnbmfFiltfr() {
+        String[] filfs = tmpDir.list(nfw FilfnbmfFiltfr() {
         String[] filfs = tmpDir.list(nfw FilfnbmfFiltfr() {
             publid boolfbn bddfpt(Filf dir, String nbmf) {
-                if (!nbmf.stbrtsWith(dirNbmfPrffix)) {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+                if (!nbmf.stbrtsWiti(dirNbmfPrffix)) {
+                if (!nbmf.stbrtsWiti(dirNbmfPrffix)) {
+                if (!nbmf.stbrtsWiti(dirNbmfPrffix)) {
+                if (!nbmf.stbrtsWiti(dirNbmfPrffix)) {
+                if (!nbmf.stbrtsWiti(dirNbmfPrffix)) {
+                    rfturn fblsf;
+                    rfturn fblsf;
+                    rfturn fblsf;
+                    rfturn fblsf;
                     rfturn fblsf;
                 }
+                }
+                }
+                }
+                }
+                Filf dbndidbtf = nfw Filf(dir, nbmf);
+                Filf dbndidbtf = nfw Filf(dir, nbmf);
+                Filf dbndidbtf = nfw Filf(dir, nbmf);
+                Filf dbndidbtf = nfw Filf(dir, nbmf);
                 Filf dbndidbtf = nfw Filf(dir, nbmf);
                 rfturn ((dbndidbtf.isDirfdtory() || dbndidbtf.isFilf())
+                rfturn ((dbndidbtf.isDirfdtory() || dbndidbtf.isFilf())
+                rfturn ((dbndidbtf.isDirfdtory() || dbndidbtf.isFilf())
+                rfturn ((dbndidbtf.isDirfdtory() || dbndidbtf.isFilf())
+                rfturn ((dbndidbtf.isDirfdtory() || dbndidbtf.isFilf())
+                        && dbndidbtf.dbnRfbd());
+                        && dbndidbtf.dbnRfbd());
+                        && dbndidbtf.dbnRfbd());
+                        && dbndidbtf.dbnRfbd());
                         && dbndidbtf.dbnRfbd());
             }
+            }
+            }
+            }
+            }
+        });
+        });
+        });
+        });
         });
 
+
+
+
+
+        long nfwfstTimf = 0;
+        long nfwfstTimf = 0;
+        long nfwfstTimf = 0;
+        long nfwfstTimf = 0;
         long nfwfstTimf = 0;
         Filf nfwfst = null;
+        Filf nfwfst = null;
+        Filf nfwfst = null;
+        Filf nfwfst = null;
+        Filf nfwfst = null;
 
-        for (int i = 0; i < filfs.lfngth; i++) {
+
+
+
+
+        for (int i = 0; i < filfs.lfngti; i++) {
+        for (int i = 0; i < filfs.lfngti; i++) {
+        for (int i = 0; i < filfs.lfngti; i++) {
+        for (int i = 0; i < filfs.lfngti; i++) {
+        for (int i = 0; i < filfs.lfngti; i++) {
+            Filf f = nfw Filf(tmpDirNbmf + filfs[i]);
+            Filf f = nfw Filf(tmpDirNbmf + filfs[i]);
+            Filf f = nfw Filf(tmpDirNbmf + filfs[i]);
+            Filf f = nfw Filf(tmpDirNbmf + filfs[i]);
             Filf f = nfw Filf(tmpDirNbmf + filfs[i]);
             Filf dbndidbtf = null;
+            Filf dbndidbtf = null;
+            Filf dbndidbtf = null;
+            Filf dbndidbtf = null;
+            Filf dbndidbtf = null;
+
+
+
+
 
             if (f.fxists() && f.isDirfdtory()) {
+            if (f.fxists() && f.isDirfdtory()) {
+            if (f.fxists() && f.isDirfdtory()) {
+            if (f.fxists() && f.isDirfdtory()) {
+            if (f.fxists() && f.isDirfdtory()) {
                 /*
-                 * found b dirfdtory mbtdhing thf nbmf pbttfrns. This
-                 * is b 1.4.2 hspfrfdbtb_<usfr> dirfdtory. Chfdk for
-                 * filf nbmfd <lvmid> in thbt dirfdtory
+                /*
+                /*
+                /*
+                /*
+                 * found b dirfdtory mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b dirfdtory mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b dirfdtory mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b dirfdtory mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b dirfdtory mbtdiing tif nbmf pbttfrns. Tiis
+                 * is b 1.4.2 ispfrfdbtb_<usfr> dirfdtory. Cifdk for
+                 * is b 1.4.2 ispfrfdbtb_<usfr> dirfdtory. Cifdk for
+                 * is b 1.4.2 ispfrfdbtb_<usfr> dirfdtory. Cifdk for
+                 * is b 1.4.2 ispfrfdbtb_<usfr> dirfdtory. Cifdk for
+                 * is b 1.4.2 ispfrfdbtb_<usfr> dirfdtory. Cifdk for
+                 * filf nbmfd <lvmid> in tibt dirfdtory
+                 * filf nbmfd <lvmid> in tibt dirfdtory
+                 * filf nbmfd <lvmid> in tibt dirfdtory
+                 * filf nbmfd <lvmid> in tibt dirfdtory
+                 * filf nbmfd <lvmid> in tibt dirfdtory
+                 */
+                 */
+                 */
+                 */
                  */
                 String nbmf = Intfgfr.toString(lvmid);
+                String nbmf = Intfgfr.toString(lvmid);
+                String nbmf = Intfgfr.toString(lvmid);
+                String nbmf = Intfgfr.toString(lvmid);
+                String nbmf = Intfgfr.toString(lvmid);
+                dbndidbtf = nfw Filf(f.gftNbmf(), nbmf);
+                dbndidbtf = nfw Filf(f.gftNbmf(), nbmf);
+                dbndidbtf = nfw Filf(f.gftNbmf(), nbmf);
+                dbndidbtf = nfw Filf(f.gftNbmf(), nbmf);
                 dbndidbtf = nfw Filf(f.gftNbmf(), nbmf);
 
+
+
+
+
+            } flsf if (f.fxists() && f.isFilf()) {
+            } flsf if (f.fxists() && f.isFilf()) {
+            } flsf if (f.fxists() && f.isFilf()) {
+            } flsf if (f.fxists() && f.isFilf()) {
             } flsf if (f.fxists() && f.isFilf()) {
                 /*
-                 * found b filf mbtdhing thf nbmf pbttfrns. This
-                 * is b 1.4.1 hspfrfdbtb_<lvmid> filf.
+                /*
+                /*
+                /*
+                /*
+                 * found b filf mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b filf mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b filf mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b filf mbtdiing tif nbmf pbttfrns. Tiis
+                 * found b filf mbtdiing tif nbmf pbttfrns. Tiis
+                 * is b 1.4.1 ispfrfdbtb_<lvmid> filf.
+                 * is b 1.4.1 ispfrfdbtb_<lvmid> filf.
+                 * is b 1.4.1 ispfrfdbtb_<lvmid> filf.
+                 * is b 1.4.1 ispfrfdbtb_<lvmid> filf.
+                 * is b 1.4.1 ispfrfdbtb_<lvmid> filf.
+                 */
+                 */
+                 */
+                 */
                  */
                 dbndidbtf = f;
+                dbndidbtf = f;
+                dbndidbtf = f;
+                dbndidbtf = f;
+                dbndidbtf = f;
+
+
+
+
 
             } flsf {
-                // unfxpfdtfd - lft donditionbl bflow filtfr this onf out
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                // unfxpfdtfd - lft donditionbl bflow filtfr tiis onf out
+                // unfxpfdtfd - lft donditionbl bflow filtfr tiis onf out
+                // unfxpfdtfd - lft donditionbl bflow filtfr tiis onf out
+                // unfxpfdtfd - lft donditionbl bflow filtfr tiis onf out
+                // unfxpfdtfd - lft donditionbl bflow filtfr tiis onf out
+                dbndidbtf = f;
+                dbndidbtf = f;
+                dbndidbtf = f;
+                dbndidbtf = f;
                 dbndidbtf = f;
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             if (dbndidbtf.fxists() && dbndidbtf.isFilf()
+            if (dbndidbtf.fxists() && dbndidbtf.isFilf()
+            if (dbndidbtf.fxists() && dbndidbtf.isFilf()
+            if (dbndidbtf.fxists() && dbndidbtf.isFilf()
+            if (dbndidbtf.fxists() && dbndidbtf.isFilf()
+                    && dbndidbtf.dbnRfbd()) {
+                    && dbndidbtf.dbnRfbd()) {
+                    && dbndidbtf.dbnRfbd()) {
+                    && dbndidbtf.dbnRfbd()) {
                     && dbndidbtf.dbnRfbd()) {
                 long modTimf = dbndidbtf.lbstModififd();
+                long modTimf = dbndidbtf.lbstModififd();
+                long modTimf = dbndidbtf.lbstModififd();
+                long modTimf = dbndidbtf.lbstModififd();
+                long modTimf = dbndidbtf.lbstModififd();
                 if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                    nfwfstTimf = modTimf;
+                    nfwfstTimf = modTimf;
+                    nfwfstTimf = modTimf;
+                    nfwfstTimf = modTimf;
                     nfwfstTimf = modTimf;
                     nfwfst = dbndidbtf;
+                    nfwfst = dbndidbtf;
+                    nfwfst = dbndidbtf;
+                    nfwfst = dbndidbtf;
+                    nfwfst = dbndidbtf;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn nfwfst;
+        rfturn nfwfst;
+        rfturn nfwfst;
+        rfturn nfwfst;
+        rfturn nfwfst;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturn thf Filf objfdt for thf bbdking storf filf for thf spfdififd Jbvb
-     * Virtubl Mbdhinf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif Filf objfdt for tif bbdking storf filf for tif spfdififd Jbvb
+     * Rfturn tif Filf objfdt for tif bbdking storf filf for tif spfdififd Jbvb
+     * Rfturn tif Filf objfdt for tif bbdking storf filf for tif spfdififd Jbvb
+     * Rfturn tif Filf objfdt for tif bbdking storf filf for tif spfdififd Jbvb
+     * Rfturn tif Filf objfdt for tif bbdking storf filf for tif spfdififd Jbvb
+     * Virtubl Mbdiinf.
+     * Virtubl Mbdiinf.
+     * Virtubl Mbdiinf.
+     * Virtubl Mbdiinf.
+     * Virtubl Mbdiinf.
      * <p>
-     * This mfthod looks for thf most up to dbtf bbdking storf filf for
-     * thf JVM idfntififd by thf givfn usfr nbmf bnd lvmid. Thf dirfdtory
-     * sfbrdhfd is thf tfmporbry dirfdtory for thf host opfrbting systfm,
-     * whidh mby bf influfndfd by fnvironmfnt vbribblfs.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * tif JVM idfntififd by tif givfn usfr nbmf bnd lvmid. Tif dirfdtory
+     * tif JVM idfntififd by tif givfn usfr nbmf bnd lvmid. Tif dirfdtory
+     * tif JVM idfntififd by tif givfn usfr nbmf bnd lvmid. Tif dirfdtory
+     * tif JVM idfntififd by tif givfn usfr nbmf bnd lvmid. Tif dirfdtory
+     * tif JVM idfntififd by tif givfn usfr nbmf bnd lvmid. Tif dirfdtory
+     * sfbrdifd is tif tfmporbry dirfdtory for tif iost opfrbting systfm,
+     * sfbrdifd is tif tfmporbry dirfdtory for tif iost opfrbting systfm,
+     * sfbrdifd is tif tfmporbry dirfdtory for tif iost opfrbting systfm,
+     * sfbrdifd is tif tfmporbry dirfdtory for tif iost opfrbting systfm,
+     * sfbrdifd is tif tfmporbry dirfdtory for tif iost opfrbting systfm,
+     * wiidi mby bf influfndfd by fnvironmfnt vbribblfs.
+     * wiidi mby bf influfndfd by fnvironmfnt vbribblfs.
+     * wiidi mby bf influfndfd by fnvironmfnt vbribblfs.
+     * wiidi mby bf influfndfd by fnvironmfnt vbribblfs.
+     * wiidi mby bf influfndfd by fnvironmfnt vbribblfs.
      *
-     * @pbrbm usfr   thf usfr nbmf
-     * @pbrbm lvmid  thf lodbl Jbvb Virtubl Mbdhinf Idfntififr for thf tbrgft
-     * @rfturn Filf - b Filf objfdt to thf bbdking storf filf for thf nbmfd
-     *                shbrfd mfmory rfgion of thf tbrgft JVM.
+     *
+     *
+     *
+     *
+     * @pbrbm usfr   tif usfr nbmf
+     * @pbrbm usfr   tif usfr nbmf
+     * @pbrbm usfr   tif usfr nbmf
+     * @pbrbm usfr   tif usfr nbmf
+     * @pbrbm usfr   tif usfr nbmf
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     * @sff jbvb.io.Filf
+     * @sff jbvb.io.Filf
+     * @sff jbvb.io.Filf
+     * @sff jbvb.io.Filf
      * @sff jbvb.io.Filf
      * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     * @sff #gftTfmpDirfdtory()
+     */
+     */
+     */
+     */
      */
     publid stbtid Filf gftFilf(String usfr, int lvmid) {
+    publid stbtid Filf gftFilf(String usfr, int lvmid) {
+    publid stbtid Filf gftFilf(String usfr, int lvmid) {
+    publid stbtid Filf gftFilf(String usfr, int lvmid) {
+    publid stbtid Filf gftFilf(String usfr, int lvmid) {
+        if (lvmid == 0) {
+        if (lvmid == 0) {
+        if (lvmid == 0) {
+        if (lvmid == 0) {
         if (lvmid == 0) {
             /*
-             * lvmid == 0 is usfd to indidbtf thf durrfnt Jbvb Virtubl Mbdhinf.
-             * If thf SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdhinf
-             * idfntififr, thfn b filfnbmf dould bf donstrudtfd with thbt
-             * idfntififr. In bbsfndf of sudh bn bpi, rfturn null.
+            /*
+            /*
+            /*
+            /*
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
+             */
+             */
+             */
+             */
              */
             rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // first try for 1.4.2 bnd lbtfr JVMs
+        // first try for 1.4.2 bnd lbtfr JVMs
+        // first try for 1.4.2 bnd lbtfr JVMs
+        // first try for 1.4.2 bnd lbtfr JVMs
+        // first try for 1.4.2 bnd lbtfr JVMs
+        String bbsfnbmf = gftTfmpDirfdtory(usfr) + Intfgfr.toString(lvmid);
+        String bbsfnbmf = gftTfmpDirfdtory(usfr) + Intfgfr.toString(lvmid);
+        String bbsfnbmf = gftTfmpDirfdtory(usfr) + Intfgfr.toString(lvmid);
+        String bbsfnbmf = gftTfmpDirfdtory(usfr) + Intfgfr.toString(lvmid);
         String bbsfnbmf = gftTfmpDirfdtory(usfr) + Intfgfr.toString(lvmid);
         Filf f = nfw Filf(bbsfnbmf);
+        Filf f = nfw Filf(bbsfnbmf);
+        Filf f = nfw Filf(bbsfnbmf);
+        Filf f = nfw Filf(bbsfnbmf);
+        Filf f = nfw Filf(bbsfnbmf);
+
+
+
+
 
         if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+        if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+        if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+        if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+        if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+            rfturn f;
+            rfturn f;
+            rfturn f;
+            rfturn f;
             rfturn f;
         }
+        }
+        }
+        }
+        }
 
-        // No hit on 1.4.2 JVMs, try 1.4.1 filfs
+
+
+
+
+        // No iit on 1.4.2 JVMs, try 1.4.1 filfs
+        // No iit on 1.4.2 JVMs, try 1.4.1 filfs
+        // No iit on 1.4.2 JVMs, try 1.4.1 filfs
+        // No iit on 1.4.2 JVMs, try 1.4.1 filfs
+        // No iit on 1.4.2 JVMs, try 1.4.1 filfs
+        long nfwfstTimf = 0;
+        long nfwfstTimf = 0;
+        long nfwfstTimf = 0;
+        long nfwfstTimf = 0;
         long nfwfstTimf = 0;
         Filf nfwfst = null;
+        Filf nfwfst = null;
+        Filf nfwfst = null;
+        Filf nfwfst = null;
+        Filf nfwfst = null;
+        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
         for (int i = 0; i < 2; i++) {
             if (i == 0) {
+            if (i == 0) {
+            if (i == 0) {
+            if (i == 0) {
+            if (i == 0) {
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid);
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid);
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid);
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid);
                 bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid);
             } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid)
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid)
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid)
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid)
                 bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid)
                            + Intfgfr.toString(i);
+                           + Intfgfr.toString(i);
+                           + Intfgfr.toString(i);
+                           + Intfgfr.toString(i);
+                           + Intfgfr.toString(i);
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             f = nfw Filf(bbsfnbmf);
+            f = nfw Filf(bbsfnbmf);
+            f = nfw Filf(bbsfnbmf);
+            f = nfw Filf(bbsfnbmf);
+            f = nfw Filf(bbsfnbmf);
+
+
+
+
 
             if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+            if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+            if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+            if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+            if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+                long modTimf = f.lbstModififd();
+                long modTimf = f.lbstModififd();
+                long modTimf = f.lbstModififd();
+                long modTimf = f.lbstModififd();
                 long modTimf = f.lbstModififd();
                 if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                if (modTimf >= nfwfstTimf) {
+                    nfwfstTimf = modTimf;
+                    nfwfstTimf = modTimf;
+                    nfwfstTimf = modTimf;
+                    nfwfstTimf = modTimf;
                     nfwfstTimf = modTimf;
                     nfwfst = f;
+                    nfwfst = f;
+                    nfwfst = f;
+                    nfwfst = f;
+                    nfwfst = f;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn nfwfst;
+        rfturn nfwfst;
+        rfturn nfwfst;
+        rfturn nfwfst;
+        rfturn nfwfst;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mfthod to fxtrbdt b lodbl Jbvb Virtubl Mbdhinf Idfntififr from thf
-     * filf nbmf of thf givfn Filf objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Mftiod to fxtrbdt b lodbl Jbvb Virtubl Mbdiinf Idfntififr from tif
+     * Mftiod to fxtrbdt b lodbl Jbvb Virtubl Mbdiinf Idfntififr from tif
+     * Mftiod to fxtrbdt b lodbl Jbvb Virtubl Mbdiinf Idfntififr from tif
+     * Mftiod to fxtrbdt b lodbl Jbvb Virtubl Mbdiinf Idfntififr from tif
+     * Mftiod to fxtrbdt b lodbl Jbvb Virtubl Mbdiinf Idfntififr from tif
+     * filf nbmf of tif givfn Filf objfdt.
+     * filf nbmf of tif givfn Filf objfdt.
+     * filf nbmf of tif givfn Filf objfdt.
+     * filf nbmf of tif givfn Filf objfdt.
+     * filf nbmf of tif givfn Filf objfdt.
      *
-     * @pbrbm filf A Filf objfdt rfprfsfnting thf nbmf of b
-     *             shbrfd mfmory rfgion for b tbrgft JVM
-     * @rfturn int - thf lodbl Jbvb Virtubl Mbdhinf Idfntififr for thf tbrgft
-     *               bssodibtfd with thf filf
-     * @throws jbvb.lbng.IllfgblArgumfntExdfption Thrown if thf filf nbmf
-     *               dofs not donform to thf fxpfdtfd pbttfrn
+     *
+     *
+     *
+     *
+     * @pbrbm filf A Filf objfdt rfprfsfnting tif nbmf of b
+     * @pbrbm filf A Filf objfdt rfprfsfnting tif nbmf of b
+     * @pbrbm filf A Filf objfdt rfprfsfnting tif nbmf of b
+     * @pbrbm filf A Filf objfdt rfprfsfnting tif nbmf of b
+     * @pbrbm filf A Filf objfdt rfprfsfnting tif nbmf of b
+     *             sibrfd mfmory rfgion for b tbrgft JVM
+     *             sibrfd mfmory rfgion for b tbrgft JVM
+     *             sibrfd mfmory rfgion for b tbrgft JVM
+     *             sibrfd mfmory rfgion for b tbrgft JVM
+     *             sibrfd mfmory rfgion for b tbrgft JVM
+     * @rfturn int - tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn int - tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn int - tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn int - tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn int - tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     *               bssodibtfd witi tif filf
+     *               bssodibtfd witi tif filf
+     *               bssodibtfd witi tif filf
+     *               bssodibtfd witi tif filf
+     *               bssodibtfd witi tif filf
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption Tirown if tif filf nbmf
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption Tirown if tif filf nbmf
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption Tirown if tif filf nbmf
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption Tirown if tif filf nbmf
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption Tirown if tif filf nbmf
+     *               dofs not donform to tif fxpfdtfd pbttfrn
+     *               dofs not donform to tif fxpfdtfd pbttfrn
+     *               dofs not donform to tif fxpfdtfd pbttfrn
+     *               dofs not donform to tif fxpfdtfd pbttfrn
+     *               dofs not donform to tif fxpfdtfd pbttfrn
+     */
+     */
+     */
+     */
      */
     publid stbtid int gftLodblVmId(Filf filf) {
+    publid stbtid int gftLodblVmId(Filf filf) {
+    publid stbtid int gftLodblVmId(Filf filf) {
+    publid stbtid int gftLodblVmId(Filf filf) {
+    publid stbtid int gftLodblVmId(Filf filf) {
+        try {
+        try {
+        try {
+        try {
         try {
             // try 1.4.2 bnd lbtfr formbt first
+            // try 1.4.2 bnd lbtfr formbt first
+            // try 1.4.2 bnd lbtfr formbt first
+            // try 1.4.2 bnd lbtfr formbt first
+            // try 1.4.2 bnd lbtfr formbt first
             rfturn Intfgfr.pbrsfInt(filf.gftNbmf());
-        } dbtdh (NumbfrFormbtExdfption f) { }
+            rfturn Intfgfr.pbrsfInt(filf.gftNbmf());
+            rfturn Intfgfr.pbrsfInt(filf.gftNbmf());
+            rfturn Intfgfr.pbrsfInt(filf.gftNbmf());
+            rfturn Intfgfr.pbrsfInt(filf.gftNbmf());
+        } dbtdi (NumbfrFormbtExdfption f) { }
+        } dbtdi (NumbfrFormbtExdfption f) { }
+        } dbtdi (NumbfrFormbtExdfption f) { }
+        } dbtdi (NumbfrFormbtExdfption f) { }
+        } dbtdi (NumbfrFormbtExdfption f) { }
 
-        // now try thf 1.4.1 formbt
+
+
+
+
+        // now try tif 1.4.1 formbt
+        // now try tif 1.4.1 formbt
+        // now try tif 1.4.1 formbt
+        // now try tif 1.4.1 formbt
+        // now try tif 1.4.1 formbt
         String nbmf = filf.gftNbmf();
-        if (nbmf.stbrtsWith(dirNbmfPrffix)) {
+        String nbmf = filf.gftNbmf();
+        String nbmf = filf.gftNbmf();
+        String nbmf = filf.gftNbmf();
+        String nbmf = filf.gftNbmf();
+        if (nbmf.stbrtsWiti(dirNbmfPrffix)) {
+        if (nbmf.stbrtsWiti(dirNbmfPrffix)) {
+        if (nbmf.stbrtsWiti(dirNbmfPrffix)) {
+        if (nbmf.stbrtsWiti(dirNbmfPrffix)) {
+        if (nbmf.stbrtsWiti(dirNbmfPrffix)) {
+            int first = nbmf.indfxOf('_');
+            int first = nbmf.indfxOf('_');
+            int first = nbmf.indfxOf('_');
+            int first = nbmf.indfxOf('_');
             int first = nbmf.indfxOf('_');
             int lbst = nbmf.lbstIndfxOf('_');
+            int lbst = nbmf.lbstIndfxOf('_');
+            int lbst = nbmf.lbstIndfxOf('_');
+            int lbst = nbmf.lbstIndfxOf('_');
+            int lbst = nbmf.lbstIndfxOf('_');
+            try {
+            try {
+            try {
+            try {
             try {
                 if (first == lbst) {
+                if (first == lbst) {
+                if (first == lbst) {
+                if (first == lbst) {
+                if (first == lbst) {
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1));
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1));
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1));
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1));
                     rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1));
                 } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1, lbst));
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1, lbst));
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1, lbst));
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1, lbst));
                     rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1, lbst));
                 }
-            } dbtdh (NumbfrFormbtExdfption f) { }
+                }
+                }
+                }
+                }
+            } dbtdi (NumbfrFormbtExdfption f) { }
+            } dbtdi (NumbfrFormbtExdfption f) { }
+            } dbtdi (NumbfrFormbtExdfption f) { }
+            } dbtdi (NumbfrFormbtExdfption f) { }
+            } dbtdi (NumbfrFormbtExdfption f) { }
         }
-        throw nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdh pbttfrn");
+        }
+        }
+        }
+        }
+        tirow nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdi pbttfrn");
+        tirow nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdi pbttfrn");
+        tirow nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdi pbttfrn");
+        tirow nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdi pbttfrn");
+        tirow nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdi pbttfrn");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturn thf nbmf of thf tfmporbry dirfdtory bfing sfbrdhfd for
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory bfing sfbrdifd for
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory bfing sfbrdifd for
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory bfing sfbrdifd for
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory bfing sfbrdifd for
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory bfing sfbrdifd for
+     * HotSpot PfrfDbtb bbdking storf filfs.
+     * HotSpot PfrfDbtb bbdking storf filfs.
+     * HotSpot PfrfDbtb bbdking storf filfs.
+     * HotSpot PfrfDbtb bbdking storf filfs.
      * HotSpot PfrfDbtb bbdking storf filfs.
      * <p>
-     * This mfthod gfnfrblly rfturns thf vbluf of thf jbvb.io.tmpdir
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod gfnfrblly rfturns tif vbluf of tif jbvb.io.tmpdir
+     * Tiis mftiod gfnfrblly rfturns tif vbluf of tif jbvb.io.tmpdir
+     * Tiis mftiod gfnfrblly rfturns tif vbluf of tif jbvb.io.tmpdir
+     * Tiis mftiod gfnfrblly rfturns tif vbluf of tif jbvb.io.tmpdir
+     * Tiis mftiod gfnfrblly rfturns tif vbluf of tif jbvb.io.tmpdir
      * propfrty. Howfvfr, on somf plbtforms it mby rfturn b difffrfnt
-     * dirfdtory, bs thf JVM implfmfntbtion mby storf thf PfrfDbtb bbdking
+     * propfrty. Howfvfr, on somf plbtforms it mby rfturn b difffrfnt
+     * propfrty. Howfvfr, on somf plbtforms it mby rfturn b difffrfnt
+     * propfrty. Howfvfr, on somf plbtforms it mby rfturn b difffrfnt
+     * propfrty. Howfvfr, on somf plbtforms it mby rfturn b difffrfnt
+     * dirfdtory, bs tif JVM implfmfntbtion mby storf tif PfrfDbtb bbdking
+     * dirfdtory, bs tif JVM implfmfntbtion mby storf tif PfrfDbtb bbdking
+     * dirfdtory, bs tif JVM implfmfntbtion mby storf tif PfrfDbtb bbdking
+     * dirfdtory, bs tif JVM implfmfntbtion mby storf tif PfrfDbtb bbdking
+     * dirfdtory, bs tif JVM implfmfntbtion mby storf tif PfrfDbtb bbdking
+     * storf filfs in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     * storf filfs in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     * storf filfs in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     * storf filfs in b difffrfnt dirfdtory for pfrformbndf rfbsons.
      * storf filfs in b difffrfnt dirfdtory for pfrformbndf rfbsons.
      *
-     * @rfturn String - thf nbmf of thf tfmporbry dirfdtory.
+     *
+     *
+     *
+     *
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     */
+     */
+     */
+     */
      */
     publid stbtid String gftTfmpDirfdtory() {
+    publid stbtid String gftTfmpDirfdtory() {
+    publid stbtid String gftTfmpDirfdtory() {
+    publid stbtid String gftTfmpDirfdtory() {
+    publid stbtid String gftTfmpDirfdtory() {
+        rfturn tmpDirNbmf;
+        rfturn tmpDirNbmf;
+        rfturn tmpDirNbmf;
+        rfturn tmpDirNbmf;
         rfturn tmpDirNbmf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturn thf nbmf of thf tfmporbry dirfdtory to bf sfbrdhfd
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory to bf sfbrdifd
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory to bf sfbrdifd
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory to bf sfbrdifd
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory to bf sfbrdifd
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory to bf sfbrdifd
+     * for HotSpot PfrfDbtb bbdking storf filfs for b givfn usfr.
+     * for HotSpot PfrfDbtb bbdking storf filfs for b givfn usfr.
+     * for HotSpot PfrfDbtb bbdking storf filfs for b givfn usfr.
+     * for HotSpot PfrfDbtb bbdking storf filfs for b givfn usfr.
      * for HotSpot PfrfDbtb bbdking storf filfs for b givfn usfr.
      * <p>
-     * This mfthod gfnfrblly rfturns thf nbmf of b subdirfdtory of
-     * thf dirfdtory indidbtfd in thf jbvb.io.tmpdir propfrty. Howfvfr,
-     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs thf
-     * JVM implfmfntbtion mby storf thf PfrfDbtb bbdking storf filfs
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod gfnfrblly rfturns tif nbmf of b subdirfdtory of
+     * Tiis mftiod gfnfrblly rfturns tif nbmf of b subdirfdtory of
+     * Tiis mftiod gfnfrblly rfturns tif nbmf of b subdirfdtory of
+     * Tiis mftiod gfnfrblly rfturns tif nbmf of b subdirfdtory of
+     * Tiis mftiod gfnfrblly rfturns tif nbmf of b subdirfdtory of
+     * tif dirfdtory indidbtfd in tif jbvb.io.tmpdir propfrty. Howfvfr,
+     * tif dirfdtory indidbtfd in tif jbvb.io.tmpdir propfrty. Howfvfr,
+     * tif dirfdtory indidbtfd in tif jbvb.io.tmpdir propfrty. Howfvfr,
+     * tif dirfdtory indidbtfd in tif jbvb.io.tmpdir propfrty. Howfvfr,
+     * tif dirfdtory indidbtfd in tif jbvb.io.tmpdir propfrty. Howfvfr,
+     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs tif
+     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs tif
+     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs tif
+     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs tif
+     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs tif
+     * JVM implfmfntbtion mby storf tif PfrfDbtb bbdking storf filfs
+     * JVM implfmfntbtion mby storf tif PfrfDbtb bbdking storf filfs
+     * JVM implfmfntbtion mby storf tif PfrfDbtb bbdking storf filfs
+     * JVM implfmfntbtion mby storf tif PfrfDbtb bbdking storf filfs
+     * JVM implfmfntbtion mby storf tif PfrfDbtb bbdking storf filfs
+     * in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     * in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     * in b difffrfnt dirfdtory for pfrformbndf rfbsons.
+     * in b difffrfnt dirfdtory for pfrformbndf rfbsons.
      * in b difffrfnt dirfdtory for pfrformbndf rfbsons.
      *
-     * @rfturn String - thf nbmf of thf tfmporbry dirfdtory.
+     *
+     *
+     *
+     *
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
+     */
+     */
+     */
+     */
      */
     publid stbtid String gftTfmpDirfdtory(String usfr) {
+    publid stbtid String gftTfmpDirfdtory(String usfr) {
+    publid stbtid String gftTfmpDirfdtory(String usfr) {
+    publid stbtid String gftTfmpDirfdtory(String usfr) {
+    publid stbtid String gftTfmpDirfdtory(String usfr) {
+        rfturn tmpDirNbmf + dirNbmfPrffix + usfr + Filf.sfpbrbtor;
+        rfturn tmpDirNbmf + dirNbmfPrffix + usfr + Filf.sfpbrbtor;
+        rfturn tmpDirNbmf + dirNbmfPrffix + usfr + Filf.sfpbrbtor;
+        rfturn tmpDirNbmf + dirNbmfPrffix + usfr + Filf.sfpbrbtor;
         rfturn tmpDirNbmf + dirNbmfPrffix + usfr + Filf.sfpbrbtor;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
         /*
-         * For this to work, thf tbrgft VM bnd this dodf nffd to usf
-         * thf sbmf dirfdtory. Instfbd of gufssing whidh dirfdtory thf
+        /*
+        /*
+        /*
+        /*
+         * For tiis to work, tif tbrgft VM bnd tiis dodf nffd to usf
+         * For tiis to work, tif tbrgft VM bnd tiis dodf nffd to usf
+         * For tiis to work, tif tbrgft VM bnd tiis dodf nffd to usf
+         * For tiis to work, tif tbrgft VM bnd tiis dodf nffd to usf
+         * For tiis to work, tif tbrgft VM bnd tiis dodf nffd to usf
+         * tif sbmf dirfdtory. Instfbd of gufssing wiidi dirfdtory tif
+         * tif sbmf dirfdtory. Instfbd of gufssing wiidi dirfdtory tif
+         * tif sbmf dirfdtory. Instfbd of gufssing wiidi dirfdtory tif
+         * tif sbmf dirfdtory. Instfbd of gufssing wiidi dirfdtory tif
+         * tif sbmf dirfdtory. Instfbd of gufssing wiidi dirfdtory tif
+         * VM is using, wf will bsk.
+         * VM is using, wf will bsk.
+         * VM is using, wf will bsk.
+         * VM is using, wf will bsk.
          * VM is using, wf will bsk.
          */
+         */
+         */
+         */
+         */
+        String tmpdir = sun.misd.VMSupport.gftVMTfmporbryDirfdtory();
+        String tmpdir = sun.misd.VMSupport.gftVMTfmporbryDirfdtory();
+        String tmpdir = sun.misd.VMSupport.gftVMTfmporbryDirfdtory();
+        String tmpdir = sun.misd.VMSupport.gftVMTfmporbryDirfdtory();
         String tmpdir = sun.misd.VMSupport.gftVMTfmporbryDirfdtory();
 
+
+
+
+
         /*
-         * Assurf thbt thf string rfturnfd hbs b trbiling Filf.sfpbrbtor
-         * dhbrbdtfr. This dhfdk wbs bddfd bfdbusf thf Linux implfmfntbtion
-         * dhbngfd sudh thbt thf jbvb.io.tmpdir string no longfr tfrminbtfs
-         * with b Filf.sfpbrbtor dhbrbdtfr.
+        /*
+        /*
+        /*
+        /*
+         * Assurf tibt tif string rfturnfd ibs b trbiling Filf.sfpbrbtor
+         * Assurf tibt tif string rfturnfd ibs b trbiling Filf.sfpbrbtor
+         * Assurf tibt tif string rfturnfd ibs b trbiling Filf.sfpbrbtor
+         * Assurf tibt tif string rfturnfd ibs b trbiling Filf.sfpbrbtor
+         * Assurf tibt tif string rfturnfd ibs b trbiling Filf.sfpbrbtor
+         * dibrbdtfr. Tiis difdk wbs bddfd bfdbusf tif Linux implfmfntbtion
+         * dibrbdtfr. Tiis difdk wbs bddfd bfdbusf tif Linux implfmfntbtion
+         * dibrbdtfr. Tiis difdk wbs bddfd bfdbusf tif Linux implfmfntbtion
+         * dibrbdtfr. Tiis difdk wbs bddfd bfdbusf tif Linux implfmfntbtion
+         * dibrbdtfr. Tiis difdk wbs bddfd bfdbusf tif Linux implfmfntbtion
+         * dibngfd sudi tibt tif jbvb.io.tmpdir string no longfr tfrminbtfs
+         * dibngfd sudi tibt tif jbvb.io.tmpdir string no longfr tfrminbtfs
+         * dibngfd sudi tibt tif jbvb.io.tmpdir string no longfr tfrminbtfs
+         * dibngfd sudi tibt tif jbvb.io.tmpdir string no longfr tfrminbtfs
+         * dibngfd sudi tibt tif jbvb.io.tmpdir string no longfr tfrminbtfs
+         * witi b Filf.sfpbrbtor dibrbdtfr.
+         * witi b Filf.sfpbrbtor dibrbdtfr.
+         * witi b Filf.sfpbrbtor dibrbdtfr.
+         * witi b Filf.sfpbrbtor dibrbdtfr.
+         * witi b Filf.sfpbrbtor dibrbdtfr.
          */
-        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngth()-1)) {
+         */
+         */
+         */
+         */
+        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngti()-1)) {
+        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngti()-1)) {
+        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngti()-1)) {
+        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngti()-1)) {
+        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngti()-1)) {
+            tmpdir = tmpdir + Filf.sfpbrbtor;
+            tmpdir = tmpdir + Filf.sfpbrbtor;
+            tmpdir = tmpdir + Filf.sfpbrbtor;
+            tmpdir = tmpdir + Filf.sfpbrbtor;
             tmpdir = tmpdir + Filf.sfpbrbtor;
         }
+        }
+        }
+        }
+        }
+        tmpDirNbmf = tmpdir;
+        tmpDirNbmf = tmpdir;
+        tmpDirNbmf = tmpdir;
+        tmpDirNbmf = tmpdir;
         tmpDirNbmf = tmpdir;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

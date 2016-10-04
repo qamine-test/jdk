@@ -1,17 +1,85 @@
-hbndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
 
+
+
+
+
+.lfvfl=INFO
+.lfvfl=INFO
+.lfvfl=INFO
+.lfvfl=INFO
 .lfvfl=INFO
 
 
-jbvb.util.logging.FilfHbndlfr.pbttfrn = %h/jbvb%u.log
+
+
+
+
+
+
+
+
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.limit = 50000
 jbvb.util.logging.FilfHbndlfr.limit = 50000
 jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
 jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
 
+
+
+
+
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = FINEST
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = FINEST
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = FINEST
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = FINEST
 jbvb.util.logging.ConsolfHbndlfr.lfvfl = FINEST
 jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+
+
+
+
 
 jbvbx.mbnbgfmfnt.lfvfl=INFO
+jbvbx.mbnbgfmfnt.lfvfl=INFO
+jbvbx.mbnbgfmfnt.lfvfl=INFO
+jbvbx.mbnbgfmfnt.lfvfl=INFO
+jbvbx.mbnbgfmfnt.lfvfl=INFO
+dom.sun.jmx.lfvfl=INFO
+dom.sun.jmx.lfvfl=INFO
+dom.sun.jmx.lfvfl=INFO
+dom.sun.jmx.lfvfl=INFO
 dom.sun.jmx.lfvfl=INFO
 dom.sun.jmx.fxbmplfs.lfvfl=FINE
+dom.sun.jmx.fxbmplfs.lfvfl=FINE
+dom.sun.jmx.fxbmplfs.lfvfl=FINE
+dom.sun.jmx.fxbmplfs.lfvfl=FINE
+dom.sun.jmx.fxbmplfs.lfvfl=FINE
+
+
+
+
 

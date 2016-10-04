@@ -1,0 +1,204 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Imbgf;
+
+/**
+ * Tif <dodf>BufffrStrbtfgy</dodf> dlbss rfprfsfnts tif mfdibnism witi wiidi
+ * to orgbnizf domplfx mfmory on b pbrtidulbr <dodf>Cbnvbs</dodf> or
+ * <dodf>Window</dodf>.  Hbrdwbrf bnd softwbrf limitbtions dftfrminf wiftifr bnd
+ * iow b pbrtidulbr bufffr strbtfgy dbn bf implfmfntfd.  Tifsf limitbtions
+ * brf dftfdtbblf tirougi tif dbpbbilitifs of tif
+ * <dodf>GrbpiidsConfigurbtion</dodf> usfd wifn drfbting tif
+ * <dodf>Cbnvbs</dodf> or <dodf>Window</dodf>.
+ * <p>
+ * It is worti noting tibt tif tfrms <i>bufffr</i> bnd <i>surfbdf</i> brf mfbnt
+ * to bf synonymous: bn brfb of dontiguous mfmory, fitifr in vidfo dfvidf
+ * mfmory or in systfm mfmory.
+ * <p>
+ * Tifrf brf sfvfrbl typfs of domplfx bufffr strbtfgifs, indluding
+ * sfqufntibl ring bufffring bnd blit bufffring.
+ * Sfqufntibl ring bufffring (i.f., doublf or triplf
+ * bufffring) is tif most dommon; bn bpplidbtion drbws to b singlf <i>bbdk
+ * bufffr</i> bnd tifn movfs tif dontfnts to tif front (displby) in b singlf
+ * stfp, fitifr by dopying tif dbtb or moving tif vidfo pointfr.
+ * Moving tif vidfo pointfr fxdibngfs tif bufffrs so tibt tif first bufffr
+ * drbwn bfdomfs tif <i>front bufffr</i>, or wibt is durrfntly displbyfd on tif
+ * dfvidf; tiis is dbllfd <i>pbgf flipping</i>.
+ * <p>
+ * Altfrnbtivfly, tif dontfnts of tif bbdk bufffr dbn bf dopifd, or
+ * <i>blittfd</i> forwbrd in b dibin instfbd of moving tif vidfo pointfr.
+ * <prf>{@dodf
+ * Doublf bufffring:
+ *
+ *                    ***********         ***********
+ *                    *         * ------> *         *
+ * [To displby] <---- * Front B *   Siow  * Bbdk B. * <---- Rfndfring
+ *                    *         * <------ *         *
+ *                    ***********         ***********
+ *
+ * Triplf bufffring:
+ *
+ * [To      ***********         ***********        ***********
+ * displby] *         * --------+---------+------> *         *
+ *    <---- * Front B *   Siow  * Mid. B. *        * Bbdk B. * <---- Rfndfring
+ *          *         * <------ *         * <----- *         *
+ *          ***********         ***********        ***********
+ *
+ * }</prf>
+ * <p>
+ * Hfrf is bn fxbmplf of iow bufffr strbtfgifs dbn bf drfbtfd bnd usfd:
+ * <prf><dodf>
+ *
+ * // Cifdk tif dbpbbilitifs of tif GrbpiidsConfigurbtion
+ * ...
+ *
+ * // Crfbtf our domponfnt
+ * Window w = nfw Window(gd);
+ *
+ * // Siow our window
+ * w.sftVisiblf(truf);
+ *
+ * // Crfbtf b gfnfrbl doublf-bufffring strbtfgy
+ * w.drfbtfBufffrStrbtfgy(2);
+ * BufffrStrbtfgy strbtfgy = w.gftBufffrStrbtfgy();
+ *
+ * // Mbin loop
+ * wiilf (!donf) {
+ *     // Prfpbrf for rfndfring tif nfxt frbmf
+ *     // ...
+ *
+ *     // Rfndfr singlf frbmf
+ *     do {
+ *         // Tif following loop fnsurfs tibt tif dontfnts of tif drbwing bufffr
+ *         // brf donsistfnt in dbsf tif undfrlying surfbdf wbs rfdrfbtfd
+ *         do {
+ *             // Gft b nfw grbpiids dontfxt fvfry timf tirougi tif loop
+ *             // to mbkf surf tif strbtfgy is vblidbtfd
+ *             Grbpiids grbpiids = strbtfgy.gftDrbwGrbpiids();
+ *
+ *             // Rfndfr to grbpiids
+ *             // ...
+ *
+ *             // Disposf tif grbpiids
+ *             grbpiids.disposf();
+ *
+ *             // Rfpfbt tif rfndfring if tif drbwing bufffr dontfnts
+ *             // wfrf rfstorfd
+ *         } wiilf (strbtfgy.dontfntsRfstorfd());
+ *
+ *         // Displby tif bufffr
+ *         strbtfgy.siow();
+ *
+ *         // Rfpfbt tif rfndfring if tif drbwing bufffr wbs lost
+ *     } wiilf (strbtfgy.dontfntsLost());
+ * }
+ *
+ * // Disposf tif window
+ * w.sftVisiblf(fblsf);
+ * w.disposf();
+ * </dodf></prf>
+ *
+ * @sff jbvb.bwt.Window
+ * @sff jbvb.bwt.Cbnvbs
+ * @sff jbvb.bwt.GrbpiidsConfigurbtion
+ * @sff VolbtilfImbgf
+ * @butior Midibfl Mbrtbk
+ * @sindf 1.4
+ */
+publid bbstrbdt dlbss BufffrStrbtfgy {
+
+    /**
+     * Rfturns tif <dodf>BufffrCbpbbilitifs</dodf> for tiis
+     * <dodf>BufffrStrbtfgy</dodf>.
+     *
+     * @rfturn tif bufffring dbpbbilitifs of tiis strbtfgy
+     */
+    publid bbstrbdt BufffrCbpbbilitifs gftCbpbbilitifs();
+
+    /**
+     * Crfbtfs b grbpiids dontfxt for tif drbwing bufffr.  Tiis mftiod mby not
+     * bf syndironizfd for pfrformbndf rfbsons; usf of tiis mftiod by multiplf
+     * tirfbds siould bf ibndlfd bt tif bpplidbtion lfvfl.  Disposbl of tif
+     * grbpiids objfdt obtbinfd must bf ibndlfd by tif bpplidbtion.
+     *
+     * @rfturn b grbpiids dontfxt for tif drbwing bufffr
+     */
+    publid bbstrbdt Grbpiids gftDrbwGrbpiids();
+
+    /**
+     * Rfturns wiftifr tif drbwing bufffr wbs lost sindf tif lbst dbll to
+     * <dodf>gftDrbwGrbpiids</dodf>.  Sindf tif bufffrs in b bufffr strbtfgy
+     * brf usublly typf <dodf>VolbtilfImbgf</dodf>, tify mby bfdomf lost.
+     * For b disdussion on lost bufffrs, sff <dodf>VolbtilfImbgf</dodf>.
+     *
+     * @rfturn Wiftifr or not tif drbwing bufffr wbs lost sindf tif lbst dbll
+     * to <dodf>gftDrbwGrbpiids</dodf>.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf
+     */
+    publid bbstrbdt boolfbn dontfntsLost();
+
+    /**
+     * Rfturns wiftifr tif drbwing bufffr wbs rfdfntly rfstorfd from b lost
+     * stbtf bnd rfinitiblizfd to tif dffbult bbdkground dolor (wiitf).
+     * Sindf tif bufffrs in b bufffr strbtfgy brf usublly typf
+     * <dodf>VolbtilfImbgf</dodf>, tify mby bfdomf lost.  If b surfbdf ibs
+     * bffn rfdfntly rfstorfd from b lost stbtf sindf tif lbst dbll to
+     * <dodf>gftDrbwGrbpiids</dodf>, it mby rfquirf rfpbinting.
+     * For b disdussion on lost bufffrs, sff <dodf>VolbtilfImbgf</dodf>.
+     *
+     * @rfturn Wiftifr or not tif drbwing bufffr wbs rfstorfd sindf tif lbst
+     *         dbll to <dodf>gftDrbwGrbpiids</dodf>.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf
+     */
+    publid bbstrbdt boolfbn dontfntsRfstorfd();
+
+    /**
+     * Mbkfs tif nfxt bvbilbblf bufffr visiblf by fitifr dopying tif mfmory
+     * (blitting) or dibnging tif displby pointfr (flipping).
+     */
+    publid bbstrbdt void siow();
+
+    /**
+     * Rflfbsfs systfm rfsourdfs durrfntly donsumfd by tiis
+     * <dodf>BufffrStrbtfgy</dodf> bnd
+     * rfmovfs it from tif bssodibtfd Componfnt.  Aftfr invoking tiis
+     * mftiod, <dodf>gftBufffrStrbtfgy</dodf> will rfturn null.  Trying
+     * to usf b <dodf>BufffrStrbtfgy</dodf> bftfr it ibs bffn disposfd will
+     * rfsult in undffinfd bfibvior.
+     *
+     * @sff jbvb.bwt.Window#drfbtfBufffrStrbtfgy
+     * @sff jbvb.bwt.Cbnvbs#drfbtfBufffrStrbtfgy
+     * @sff jbvb.bwt.Window#gftBufffrStrbtfgy
+     * @sff jbvb.bwt.Cbnvbs#gftBufffrStrbtfgy
+     * @sindf 1.6
+     */
+    publid void disposf() {
+    }
+}

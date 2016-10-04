@@ -1,243 +1,1215 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
 
-</hfbd>
 
-<body bgdolor="whitf">
 
-Thf mbin pbdkbgf of thf Jbvb Imbgf I/O API.
+
+
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+
+
+
+
+
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+Tif mbin pbdkbgf of tif Jbvb Imbgf I/O API.
+Tif mbin pbdkbgf of tif Jbvb Imbgf I/O API.
+Tif mbin pbdkbgf of tif Jbvb Imbgf I/O API.
+Tif mbin pbdkbgf of tif Jbvb Imbgf I/O API.
+Tif mbin pbdkbgf of tif Jbvb Imbgf I/O API.
+
+
+
+
 
 <p>
-
-Mbny dommon imbgf I/O opfrbtions mby bf pfrformfd using thf stbtid
-mfthods of thf <dodf>ImbgfIO</dodf> dlbss.
-
+<p>
+<p>
+<p>
 <p>
 
-This pbdkbgf dontbins thf bbsid dlbssfs bnd intfrfbdfs for dfsdribing
-thf dontfnts of imbgf filfs, indluding mftbdbtb bnd thumbnbils
-(<dodf>IIOImbgf</dodf>); for dontrolling thf imbgf rfbding prodfss
+
+
+
+
+Mbny dommon imbgf I/O opfrbtions mby bf pfrformfd using tif stbtid
+Mbny dommon imbgf I/O opfrbtions mby bf pfrformfd using tif stbtid
+Mbny dommon imbgf I/O opfrbtions mby bf pfrformfd using tif stbtid
+Mbny dommon imbgf I/O opfrbtions mby bf pfrformfd using tif stbtid
+Mbny dommon imbgf I/O opfrbtions mby bf pfrformfd using tif stbtid
+mftiods of tif <dodf>ImbgfIO</dodf> dlbss.
+mftiods of tif <dodf>ImbgfIO</dodf> dlbss.
+mftiods of tif <dodf>ImbgfIO</dodf> dlbss.
+mftiods of tif <dodf>ImbgfIO</dodf> dlbss.
+mftiods of tif <dodf>ImbgfIO</dodf> dlbss.
+
+
+
+
+
+<p>
+<p>
+<p>
+<p>
+<p>
+
+
+
+
+
+Tiis pbdkbgf dontbins tif bbsid dlbssfs bnd intfrfbdfs for dfsdribing
+Tiis pbdkbgf dontbins tif bbsid dlbssfs bnd intfrfbdfs for dfsdribing
+Tiis pbdkbgf dontbins tif bbsid dlbssfs bnd intfrfbdfs for dfsdribing
+Tiis pbdkbgf dontbins tif bbsid dlbssfs bnd intfrfbdfs for dfsdribing
+Tiis pbdkbgf dontbins tif bbsid dlbssfs bnd intfrfbdfs for dfsdribing
+tif dontfnts of imbgf filfs, indluding mftbdbtb bnd tiumbnbils
+tif dontfnts of imbgf filfs, indluding mftbdbtb bnd tiumbnbils
+tif dontfnts of imbgf filfs, indluding mftbdbtb bnd tiumbnbils
+tif dontfnts of imbgf filfs, indluding mftbdbtb bnd tiumbnbils
+tif dontfnts of imbgf filfs, indluding mftbdbtb bnd tiumbnbils
+(<dodf>IIOImbgf</dodf>); for dontrolling tif imbgf rfbding prodfss
+(<dodf>IIOImbgf</dodf>); for dontrolling tif imbgf rfbding prodfss
+(<dodf>IIOImbgf</dodf>); for dontrolling tif imbgf rfbding prodfss
+(<dodf>IIOImbgf</dodf>); for dontrolling tif imbgf rfbding prodfss
+(<dodf>IIOImbgf</dodf>); for dontrolling tif imbgf rfbding prodfss
+(<dodf>ImbgfRfbdfr</dodf>, <dodf>ImbgfRfbdPbrbm</dodf>, bnd
+(<dodf>ImbgfRfbdfr</dodf>, <dodf>ImbgfRfbdPbrbm</dodf>, bnd
+(<dodf>ImbgfRfbdfr</dodf>, <dodf>ImbgfRfbdPbrbm</dodf>, bnd
+(<dodf>ImbgfRfbdfr</dodf>, <dodf>ImbgfRfbdPbrbm</dodf>, bnd
 (<dodf>ImbgfRfbdfr</dodf>, <dodf>ImbgfRfbdPbrbm</dodf>, bnd
 <dodf>ImbgfTypfSpfdififr</dodf>) bnd imbgf writing prodfss
+<dodf>ImbgfTypfSpfdififr</dodf>) bnd imbgf writing prodfss
+<dodf>ImbgfTypfSpfdififr</dodf>) bnd imbgf writing prodfss
+<dodf>ImbgfTypfSpfdififr</dodf>) bnd imbgf writing prodfss
+<dodf>ImbgfTypfSpfdififr</dodf>) bnd imbgf writing prodfss
+(<dodf>ImbgfWritfr</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf>); for
+(<dodf>ImbgfWritfr</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf>); for
+(<dodf>ImbgfWritfr</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf>); for
+(<dodf>ImbgfWritfr</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf>); for
 (<dodf>ImbgfWritfr</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf>); for
 pfrforming trbnsdoding bftwffn formbts (<dodf>ImbgfTrbnsdodfr</dodf>),
+pfrforming trbnsdoding bftwffn formbts (<dodf>ImbgfTrbnsdodfr</dodf>),
+pfrforming trbnsdoding bftwffn formbts (<dodf>ImbgfTrbnsdodfr</dodf>),
+pfrforming trbnsdoding bftwffn formbts (<dodf>ImbgfTrbnsdodfr</dodf>),
+pfrforming trbnsdoding bftwffn formbts (<dodf>ImbgfTrbnsdodfr</dodf>),
+bnd for rfporting frrors (<dodf>IIOExdfption</dodf>).
+bnd for rfporting frrors (<dodf>IIOExdfption</dodf>).
+bnd for rfporting frrors (<dodf>IIOExdfption</dodf>).
+bnd for rfporting frrors (<dodf>IIOExdfption</dodf>).
 bnd for rfporting frrors (<dodf>IIOExdfption</dodf>).
 
+
+
+
+
 <p>
-All implfmfntbtions of jbvbx.imbgfio providf thf following stbndbrd
+<p>
+<p>
+<p>
+<p>
+All implfmfntbtions of jbvbx.imbgfio providf tif following stbndbrd
+All implfmfntbtions of jbvbx.imbgfio providf tif following stbndbrd
+All implfmfntbtions of jbvbx.imbgfio providf tif following stbndbrd
+All implfmfntbtions of jbvbx.imbgfio providf tif following stbndbrd
+All implfmfntbtions of jbvbx.imbgfio providf tif following stbndbrd
+imbgf formbt plug-ins:
+imbgf formbt plug-ins:
+imbgf formbt plug-ins:
+imbgf formbt plug-ins:
 imbgf formbt plug-ins:
 </p>
+</p>
+</p>
+</p>
+</p>
+<div>
+<div>
+<div>
+<div>
 <div>
 <tbblf bordfr=1 blign='dfntfr' dfllpbdding=5>
+<tbblf bordfr=1 blign='dfntfr' dfllpbdding=5>
+<tbblf bordfr=1 blign='dfntfr' dfllpbdding=5>
+<tbblf bordfr=1 blign='dfntfr' dfllpbdding=5>
+<tbblf bordfr=1 blign='dfntfr' dfllpbdding=5>
 <tr>
-    <th>&nbsp;</th> <th>Rfbding</th> <th>Writing</th>
-    <th>Notfs</th> <th>Mftbdbtb</th>
+<tr>
+<tr>
+<tr>
+<tr>
+    <ti>&nbsp;</ti> <ti>Rfbding</ti> <ti>Writing</ti>
+    <ti>&nbsp;</ti> <ti>Rfbding</ti> <ti>Writing</ti>
+    <ti>&nbsp;</ti> <ti>Rfbding</ti> <ti>Writing</ti>
+    <ti>&nbsp;</ti> <ti>Rfbding</ti> <ti>Writing</ti>
+    <ti>&nbsp;</ti> <ti>Rfbding</ti> <ti>Writing</ti>
+    <ti>Notfs</ti> <ti>Mftbdbtb</ti>
+    <ti>Notfs</ti> <ti>Mftbdbtb</ti>
+    <ti>Notfs</ti> <ti>Mftbdbtb</ti>
+    <ti>Notfs</ti> <ti>Mftbdbtb</ti>
+    <ti>Notfs</ti> <ti>Mftbdbtb</ti>
+</tr>
+</tr>
+</tr>
+</tr>
 </tr>
 <!-- JPEG plugin -->
+<!-- JPEG plugin -->
+<!-- JPEG plugin -->
+<!-- JPEG plugin -->
+<!-- JPEG plugin -->
 <tr>
-    <td> <b hrff="http://www.jpfg.org">JPEG</b></td>
+<tr>
+<tr>
+<tr>
+<tr>
+    <td> <b irff="ittp://www.jpfg.org">JPEG</b></td>
+    <td> <b irff="ittp://www.jpfg.org">JPEG</b></td>
+    <td> <b irff="ittp://www.jpfg.org">JPEG</b></td>
+    <td> <b irff="ittp://www.jpfg.org">JPEG</b></td>
+    <td> <b irff="ittp://www.jpfg.org">JPEG</b></td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>nonf</td>
-    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/jpfg_mftbdbtb.html'>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/jpfg_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/jpfg_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/jpfg_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/jpfg_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/jpfg_mftbdbtb.itml'>
+    JPEG mftbdbtb formbt</b></td>
+    JPEG mftbdbtb formbt</b></td>
+    JPEG mftbdbtb formbt</b></td>
+    JPEG mftbdbtb formbt</b></td>
     JPEG mftbdbtb formbt</b></td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<!-- PNG plugin -->
+<!-- PNG plugin -->
+<!-- PNG plugin -->
+<!-- PNG plugin -->
 <!-- PNG plugin -->
 <tr>
-    <td><b hrff="http://www.libpng.org/pub/png/spfd/">PNG</b></td>
+<tr>
+<tr>
+<tr>
+<tr>
+    <td><b irff="ittp://www.libpng.org/pub/png/spfd/">PNG</b></td>
+    <td><b irff="ittp://www.libpng.org/pub/png/spfd/">PNG</b></td>
+    <td><b irff="ittp://www.libpng.org/pub/png/spfd/">PNG</b></td>
+    <td><b irff="ittp://www.libpng.org/pub/png/spfd/">PNG</b></td>
+    <td><b irff="ittp://www.libpng.org/pub/png/spfd/">PNG</b></td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>nonf</td>
-    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/png_mftbdbtb.html'>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/png_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/png_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/png_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/png_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/png_mftbdbtb.itml'>
+    PNG mftbdbtb formbt</b></td>
+    PNG mftbdbtb formbt</b></td>
+    PNG mftbdbtb formbt</b></td>
+    PNG mftbdbtb formbt</b></td>
     PNG mftbdbtb formbt</b></td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<!-- BMP plugin -->
+<!-- BMP plugin -->
+<!-- BMP plugin -->
+<!-- BMP plugin -->
 <!-- BMP plugin -->
 <tr>
+<tr>
+<tr>
+<tr>
+<tr>
+    <td>BMP</td>
+    <td>BMP</td>
+    <td>BMP</td>
+    <td>BMP</td>
     <td>BMP</td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>nonf</td>
-    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/bmp_mftbdbtb.html'>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/bmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/bmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/bmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/bmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/bmp_mftbdbtb.itml'>
+    BMP mftbdbtb formbt</b></td>
+    BMP mftbdbtb formbt</b></td>
+    BMP mftbdbtb formbt</b></td>
+    BMP mftbdbtb formbt</b></td>
     BMP mftbdbtb formbt</b></td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<!-- WBMP plugin -->
+<!-- WBMP plugin -->
+<!-- WBMP plugin -->
+<!-- WBMP plugin -->
 <!-- WBMP plugin -->
 <tr>
-    <td><b hrff="http://www.wbpforum.org/whbt/tfdhnidbl/SPEC-WAESpfd-19990524.pdf">WBMP</b></td>
+<tr>
+<tr>
+<tr>
+<tr>
+    <td><b irff="ittp://www.wbpforum.org/wibt/tfdinidbl/SPEC-WAESpfd-19990524.pdf">WBMP</b></td>
+    <td><b irff="ittp://www.wbpforum.org/wibt/tfdinidbl/SPEC-WAESpfd-19990524.pdf">WBMP</b></td>
+    <td><b irff="ittp://www.wbpforum.org/wibt/tfdinidbl/SPEC-WAESpfd-19990524.pdf">WBMP</b></td>
+    <td><b irff="ittp://www.wbpforum.org/wibt/tfdinidbl/SPEC-WAESpfd-19990524.pdf">WBMP</b></td>
+    <td><b irff="ittp://www.wbpforum.org/wibt/tfdinidbl/SPEC-WAESpfd-19990524.pdf">WBMP</b></td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>nonf</td>
-    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/wbmp_mftbdbtb.html'>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/wbmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/wbmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/wbmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/wbmp_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/wbmp_mftbdbtb.itml'>
+    WBMP mftbdbtb formbt</b></td>
+    WBMP mftbdbtb formbt</b></td>
+    WBMP mftbdbtb formbt</b></td>
+    WBMP mftbdbtb formbt</b></td>
     WBMP mftbdbtb formbt</b></td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<!-- GIF plugin -->
+<!-- GIF plugin -->
+<!-- GIF plugin -->
+<!-- GIF plugin -->
 <!-- GIF plugin -->
 <tr>
-    <td><b hrff="http://www.w3.org/Grbphids/GIF/spfd-gif89b.txt">GIF</b></td>
+<tr>
+<tr>
+<tr>
+<tr>
+    <td><b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">GIF</b></td>
+    <td><b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">GIF</b></td>
+    <td><b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">GIF</b></td>
+    <td><b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">GIF</b></td>
+    <td><b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">GIF</b></td>
     <td blign='dfntfr'>yfs</td>
     <td blign='dfntfr'>yfs</td>
-    <td blign='dfntfr'><b hrff="#gif_plugin_notfs">
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'><b irff="#gif_plugin_notfs">
+    <td blign='dfntfr'><b irff="#gif_plugin_notfs">
+    <td blign='dfntfr'><b irff="#gif_plugin_notfs">
+    <td blign='dfntfr'><b irff="#gif_plugin_notfs">
+    <td blign='dfntfr'><b irff="#gif_plugin_notfs">
     GIF plug-in notfs</b></td>
-    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/gif_mftbdbtb.html'>
+    GIF plug-in notfs</b></td>
+    GIF plug-in notfs</b></td>
+    GIF plug-in notfs</b></td>
+    GIF plug-in notfs</b></td>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/gif_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/gif_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/gif_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/gif_mftbdbtb.itml'>
+    <td blign='dfntfr'><b irff='mftbdbtb/dod-filfs/gif_mftbdbtb.itml'>
+    GIF mftbdbtb formbt</b></td>
+    GIF mftbdbtb formbt</b></td>
+    GIF mftbdbtb formbt</b></td>
+    GIF mftbdbtb formbt</b></td>
     GIF mftbdbtb formbt</b></td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 </tbblf>
+</tbblf>
+</tbblf>
+</tbblf>
+</tbblf>
+</div>
+</div>
+</div>
+</div>
 </div>
 <BR>
 <BR>
 <BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
 
-<h2> Stbndbrd Plug-in Notfs</h2>
-<h3><b nbmf="gif_plugin_notfs">Stbndbrd plug-in for GIF imbgf formbt</b></h3>
 
 
+
+
+<i2> Stbndbrd Plug-in Notfs</i2>
+<i2> Stbndbrd Plug-in Notfs</i2>
+<i2> Stbndbrd Plug-in Notfs</i2>
+<i2> Stbndbrd Plug-in Notfs</i2>
+<i2> Stbndbrd Plug-in Notfs</i2>
+<i3><b nbmf="gif_plugin_notfs">Stbndbrd plug-in for GIF imbgf formbt</b></i3>
+<i3><b nbmf="gif_plugin_notfs">Stbndbrd plug-in for GIF imbgf formbt</b></i3>
+<i3><b nbmf="gif_plugin_notfs">Stbndbrd plug-in for GIF imbgf formbt</b></i3>
+<i3><b nbmf="gif_plugin_notfs">Stbndbrd plug-in for GIF imbgf formbt</b></i3>
+<i3><b nbmf="gif_plugin_notfs">Stbndbrd plug-in for GIF imbgf formbt</b></i3>
+
+
+
+
+
+
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 ImbgfIO providfs <dodf>ImbgfRfbdfr</dodf> bnd <dodf>ImbgfWritfr</dodf>
-plug-ins for thf <b hrff="http://www.w3.org/Grbphids/GIF/spfd-gif89b.txt">
-Grbphids Intfrdhbngf Formbt (GIF)</b> imbgf formbt.
+ImbgfIO providfs <dodf>ImbgfRfbdfr</dodf> bnd <dodf>ImbgfWritfr</dodf>
+ImbgfIO providfs <dodf>ImbgfRfbdfr</dodf> bnd <dodf>ImbgfWritfr</dodf>
+ImbgfIO providfs <dodf>ImbgfRfbdfr</dodf> bnd <dodf>ImbgfWritfr</dodf>
+ImbgfIO providfs <dodf>ImbgfRfbdfr</dodf> bnd <dodf>ImbgfWritfr</dodf>
+plug-ins for tif <b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">
+plug-ins for tif <b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">
+plug-ins for tif <b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">
+plug-ins for tif <b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">
+plug-ins for tif <b irff="ittp://www.w3.org/Grbpiids/GIF/spfd-gif89b.txt">
+Grbpiids Intfrdibngf Formbt (GIF)</b> imbgf formbt.
+Grbpiids Intfrdibngf Formbt (GIF)</b> imbgf formbt.
+Grbpiids Intfrdibngf Formbt (GIF)</b> imbgf formbt.
+Grbpiids Intfrdibngf Formbt (GIF)</b> imbgf formbt.
+Grbpiids Intfrdibngf Formbt (GIF)</b> imbgf formbt.
 
-Thfsf brf thf "stbndbrd" GIF plug-ins, mfbning thosf thbt brf indludfd in thf
-JRE, bs distindt from thosf indludfd in stbndbrd fxtfnsions, or 3rd pbrty
-plug-ins. Thf following notfs bnd mftbdbtb spfdifidbtion bpply to thf
+
+
+
+
+Tifsf brf tif "stbndbrd" GIF plug-ins, mfbning tiosf tibt brf indludfd in tif
+Tifsf brf tif "stbndbrd" GIF plug-ins, mfbning tiosf tibt brf indludfd in tif
+Tifsf brf tif "stbndbrd" GIF plug-ins, mfbning tiosf tibt brf indludfd in tif
+Tifsf brf tif "stbndbrd" GIF plug-ins, mfbning tiosf tibt brf indludfd in tif
+Tifsf brf tif "stbndbrd" GIF plug-ins, mfbning tiosf tibt brf indludfd in tif
+JRE, bs distindt from tiosf indludfd in stbndbrd fxtfnsions, or 3rd pbrty
+JRE, bs distindt from tiosf indludfd in stbndbrd fxtfnsions, or 3rd pbrty
+JRE, bs distindt from tiosf indludfd in stbndbrd fxtfnsions, or 3rd pbrty
+JRE, bs distindt from tiosf indludfd in stbndbrd fxtfnsions, or 3rd pbrty
+JRE, bs distindt from tiosf indludfd in stbndbrd fxtfnsions, or 3rd pbrty
+plug-ins. Tif following notfs bnd mftbdbtb spfdifidbtion bpply to tif
+plug-ins. Tif following notfs bnd mftbdbtb spfdifidbtion bpply to tif
+plug-ins. Tif following notfs bnd mftbdbtb spfdifidbtion bpply to tif
+plug-ins. Tif following notfs bnd mftbdbtb spfdifidbtion bpply to tif
+plug-ins. Tif following notfs bnd mftbdbtb spfdifidbtion bpply to tif
+stbndbrd plug-ins.
+stbndbrd plug-ins.
+stbndbrd plug-ins.
+stbndbrd plug-ins.
 stbndbrd plug-ins.
 
-<h3>Writing GIF imbgfs</h3>
- Thf GIF imbgf writfr plug-in gubrbntffs losslfss writing for imbgfs whidh mfft
- thf following rfquirfmfnts:
+
+
+
+
+<i3>Writing GIF imbgfs</i3>
+<i3>Writing GIF imbgfs</i3>
+<i3>Writing GIF imbgfs</i3>
+<i3>Writing GIF imbgfs</i3>
+<i3>Writing GIF imbgfs</i3>
+ Tif GIF imbgf writfr plug-in gubrbntffs losslfss writing for imbgfs wiidi mfft
+ Tif GIF imbgf writfr plug-in gubrbntffs losslfss writing for imbgfs wiidi mfft
+ Tif GIF imbgf writfr plug-in gubrbntffs losslfss writing for imbgfs wiidi mfft
+ Tif GIF imbgf writfr plug-in gubrbntffs losslfss writing for imbgfs wiidi mfft
+ Tif GIF imbgf writfr plug-in gubrbntffs losslfss writing for imbgfs wiidi mfft
+ tif following rfquirfmfnts:
+ tif following rfquirfmfnts:
+ tif following rfquirfmfnts:
+ tif following rfquirfmfnts:
+ tif following rfquirfmfnts:
 <ul>
-<li>thf numbfr of bbnds is 1;
-<li>thf numbfr of bits pfr sbmplf is not grfbtfr thbn 8;
-<li>thf sizf of b dolor domponfnt is not grfbtfr thbn 8;
+<ul>
+<ul>
+<ul>
+<ul>
+<li>tif numbfr of bbnds is 1;
+<li>tif numbfr of bbnds is 1;
+<li>tif numbfr of bbnds is 1;
+<li>tif numbfr of bbnds is 1;
+<li>tif numbfr of bbnds is 1;
+<li>tif numbfr of bits pfr sbmplf is not grfbtfr tibn 8;
+<li>tif numbfr of bits pfr sbmplf is not grfbtfr tibn 8;
+<li>tif numbfr of bits pfr sbmplf is not grfbtfr tibn 8;
+<li>tif numbfr of bits pfr sbmplf is not grfbtfr tibn 8;
+<li>tif numbfr of bits pfr sbmplf is not grfbtfr tibn 8;
+<li>tif sizf of b dolor domponfnt is not grfbtfr tibn 8;
+<li>tif sizf of b dolor domponfnt is not grfbtfr tibn 8;
+<li>tif sizf of b dolor domponfnt is not grfbtfr tibn 8;
+<li>tif sizf of b dolor domponfnt is not grfbtfr tibn 8;
+<li>tif sizf of b dolor domponfnt is not grfbtfr tibn 8;
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 
+
+
+
+
 <p>
- By dffbult thf GIF writfr plug-in drfbtfs vfrsion "89b" imbgfs. This dbn bf
- dhbngfd to "87b" by fxpliditly sftting thf vfrsion in thf
+<p>
+<p>
+<p>
+<p>
+ By dffbult tif GIF writfr plug-in drfbtfs vfrsion "89b" imbgfs. Tiis dbn bf
+ By dffbult tif GIF writfr plug-in drfbtfs vfrsion "89b" imbgfs. Tiis dbn bf
+ By dffbult tif GIF writfr plug-in drfbtfs vfrsion "89b" imbgfs. Tiis dbn bf
+ By dffbult tif GIF writfr plug-in drfbtfs vfrsion "89b" imbgfs. Tiis dbn bf
+ By dffbult tif GIF writfr plug-in drfbtfs vfrsion "89b" imbgfs. Tiis dbn bf
+ dibngfd to "87b" by fxpliditly sftting tif vfrsion in tif
+ dibngfd to "87b" by fxpliditly sftting tif vfrsion in tif
+ dibngfd to "87b" by fxpliditly sftting tif vfrsion in tif
+ dibngfd to "87b" by fxpliditly sftting tif vfrsion in tif
+ dibngfd to "87b" by fxpliditly sftting tif vfrsion in tif
  strfbm mftbdbtb (sff <b
- hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#gif_strfbm_mftbdbtb_formbt">
+ strfbm mftbdbtb (sff <b
+ strfbm mftbdbtb (sff <b
+ strfbm mftbdbtb (sff <b
+ strfbm mftbdbtb (sff <b
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
  GIF Strfbm Mftbdbtb Formbt Spfdifidbtion</b>).
+ GIF Strfbm Mftbdbtb Formbt Spfdifidbtion</b>).
+ GIF Strfbm Mftbdbtb Formbt Spfdifidbtion</b>).
+ GIF Strfbm Mftbdbtb Formbt Spfdifidbtion</b>).
+ GIF Strfbm Mftbdbtb Formbt Spfdifidbtion</b>).
+</p> 
+</p> 
+</p> 
+</p> 
 </p> 
  
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!-- bnimbtfd imbgfs -->
+<!-- bnimbtfd imbgfs -->
+<!-- bnimbtfd imbgfs -->
+<!-- bnimbtfd imbgfs -->
 <!-- bnimbtfd imbgfs -->
 <p>
- Thf GIF writfr plug-in supports thf drfbtion of bnimbtfd GIF imbgfs through
- thf stbndbrd sfqufndf writing mfthods dffinfd in thf
+<p>
+<p>
+<p>
+<p>
+ Tif GIF writfr plug-in supports tif drfbtion of bnimbtfd GIF imbgfs tirougi
+ Tif GIF writfr plug-in supports tif drfbtion of bnimbtfd GIF imbgfs tirougi
+ Tif GIF writfr plug-in supports tif drfbtion of bnimbtfd GIF imbgfs tirougi
+ Tif GIF writfr plug-in supports tif drfbtion of bnimbtfd GIF imbgfs tirougi
+ Tif GIF writfr plug-in supports tif drfbtion of bnimbtfd GIF imbgfs tirougi
+ tif stbndbrd sfqufndf writing mftiods dffinfd in tif
+ tif stbndbrd sfqufndf writing mftiods dffinfd in tif
+ tif stbndbrd sfqufndf writing mftiods dffinfd in tif
+ tif stbndbrd sfqufndf writing mftiods dffinfd in tif
+ tif stbndbrd sfqufndf writing mftiods dffinfd in tif
+ <dodf>ImbgfWritfr</dodf> dlbss.
+ <dodf>ImbgfWritfr</dodf> dlbss.
+ <dodf>ImbgfWritfr</dodf> dlbss.
+ <dodf>ImbgfWritfr</dodf> dlbss.
  <dodf>ImbgfWritfr</dodf> dlbss.
  
- <!-- TODO: bdd fxbmplf hfrf --> 
+ 
+ 
+ 
+ 
+ <!-- TODO: bdd fxbmplf ifrf --> 
+ <!-- TODO: bdd fxbmplf ifrf --> 
+ <!-- TODO: bdd fxbmplf ifrf --> 
+ <!-- TODO: bdd fxbmplf ifrf --> 
+ <!-- TODO: bdd fxbmplf ifrf --> 
+</p>
+</p>
+</p>
+</p>
 </p>
  
+ 
+ 
+ 
+ 
+<!--  dolor tbblfs -->
+<!--  dolor tbblfs -->
+<!--  dolor tbblfs -->
+<!--  dolor tbblfs -->
 <!--  dolor tbblfs -->
 <p>
- A globbl dolor tbblf is writtfn to thf output strfbm if onf of thf
+<p>
+<p>
+<p>
+<p>
+ A globbl dolor tbblf is writtfn to tif output strfbm if onf of tif
+ A globbl dolor tbblf is writtfn to tif output strfbm if onf of tif
+ A globbl dolor tbblf is writtfn to tif output strfbm if onf of tif
+ A globbl dolor tbblf is writtfn to tif output strfbm if onf of tif
+ A globbl dolor tbblf is writtfn to tif output strfbm if onf of tif
+ following donditions is mft:
+ following donditions is mft:
+ following donditions is mft:
+ following donditions is mft:
  following donditions is mft:
  <ul>
+ <ul>
+ <ul>
+ <ul>
+ <ul>
+ <li> strfbm mftbdbtb dontbining b GlobblColorTbblf flfmfnt is
+ <li> strfbm mftbdbtb dontbining b GlobblColorTbblf flfmfnt is
+ <li> strfbm mftbdbtb dontbining b GlobblColorTbblf flfmfnt is
+ <li> strfbm mftbdbtb dontbining b GlobblColorTbblf flfmfnt is
  <li> strfbm mftbdbtb dontbining b GlobblColorTbblf flfmfnt is
   supplifd; </li>
+  supplifd; </li>
+  supplifd; </li>
+  supplifd; </li>
+  supplifd; </li>
  <li> b sfqufndf is bfing writtfn bnd imbgf mftbdbtb dontbining b
-  LodblColorTbblf flfmfnt is supplifd for thf first imbgf in thf
+ <li> b sfqufndf is bfing writtfn bnd imbgf mftbdbtb dontbining b
+ <li> b sfqufndf is bfing writtfn bnd imbgf mftbdbtb dontbining b
+ <li> b sfqufndf is bfing writtfn bnd imbgf mftbdbtb dontbining b
+ <li> b sfqufndf is bfing writtfn bnd imbgf mftbdbtb dontbining b
+  LodblColorTbblf flfmfnt is supplifd for tif first imbgf in tif
+  LodblColorTbblf flfmfnt is supplifd for tif first imbgf in tif
+  LodblColorTbblf flfmfnt is supplifd for tif first imbgf in tif
+  LodblColorTbblf flfmfnt is supplifd for tif first imbgf in tif
+  LodblColorTbblf flfmfnt is supplifd for tif first imbgf in tif
+  sfqufndf;</li>
+  sfqufndf;</li>
+  sfqufndf;</li>
+  sfqufndf;</li>
   sfqufndf;</li>
  <li>imbgf mftbdbtb is not supplifd or dofs not dontbin b LodblColorTbblf
+ <li>imbgf mftbdbtb is not supplifd or dofs not dontbin b LodblColorTbblf
+ <li>imbgf mftbdbtb is not supplifd or dofs not dontbin b LodblColorTbblf
+ <li>imbgf mftbdbtb is not supplifd or dofs not dontbin b LodblColorTbblf
+ <li>imbgf mftbdbtb is not supplifd or dofs not dontbin b LodblColorTbblf
+  flfmfnt. </li>
+  flfmfnt. </li>
+  flfmfnt. </li>
+  flfmfnt. </li>
   flfmfnt. </li>
  </ul>
+ </ul>
+ </ul>
+ </ul>
+ </ul>
+ 
+ 
+ 
+ 
  
  <p>
- In thf first dbsf thf globbl dolor tbblf in thf strfbm mftbdbtb is
-  usfd, in thf sfdond thf lodbl dolor tbblf in thf imbgf mftbdbtb is
-  usfd, bnd in thf third b globbl dolor tbblf is drfbtfd from thf
-  ColorModfl or SbmplfModfl of thf (first) imbgf.
+ <p>
+ <p>
+ <p>
+ <p>
+ In tif first dbsf tif globbl dolor tbblf in tif strfbm mftbdbtb is
+ In tif first dbsf tif globbl dolor tbblf in tif strfbm mftbdbtb is
+ In tif first dbsf tif globbl dolor tbblf in tif strfbm mftbdbtb is
+ In tif first dbsf tif globbl dolor tbblf in tif strfbm mftbdbtb is
+ In tif first dbsf tif globbl dolor tbblf in tif strfbm mftbdbtb is
+  usfd, in tif sfdond tif lodbl dolor tbblf in tif imbgf mftbdbtb is
+  usfd, in tif sfdond tif lodbl dolor tbblf in tif imbgf mftbdbtb is
+  usfd, in tif sfdond tif lodbl dolor tbblf in tif imbgf mftbdbtb is
+  usfd, in tif sfdond tif lodbl dolor tbblf in tif imbgf mftbdbtb is
+  usfd, in tif sfdond tif lodbl dolor tbblf in tif imbgf mftbdbtb is
+  usfd, bnd in tif tiird b globbl dolor tbblf is drfbtfd from tif
+  usfd, bnd in tif tiird b globbl dolor tbblf is drfbtfd from tif
+  usfd, bnd in tif tiird b globbl dolor tbblf is drfbtfd from tif
+  usfd, bnd in tif tiird b globbl dolor tbblf is drfbtfd from tif
+  usfd, bnd in tif tiird b globbl dolor tbblf is drfbtfd from tif
+  ColorModfl or SbmplfModfl of tif (first) imbgf.
+  ColorModfl or SbmplfModfl of tif (first) imbgf.
+  ColorModfl or SbmplfModfl of tif (first) imbgf.
+  ColorModfl or SbmplfModfl of tif (first) imbgf.
+  ColorModfl or SbmplfModfl of tif (first) imbgf.
+ </p>
+ </p>
+ </p>
+ </p>
  </p>
  
- <p>
- A lodbl dolor tbblf is writtfn to thf output strfbm only if imbgf
-  mftbdbtb dontbining b LodblColorTbblf flfmfnt is supplifd to thf
-  writfr, or no imbgf mftbdbtb is supplifd to thf writfr bnd thf lodbl
-  dolor tbblf whidh would bf gfnfrbtfd from thf imbgf itsflf is not
-  fqubl to thf globbl dolor tbblf.
- </p>
+ 
+ 
+ 
  
  <p>
- A Grbphid Control Extfnsion blodk is writtfn to thf output strfbm only
-  if imbgf mftbdbtb dontbining b GrbphidControlExtfnsion flfmfnt is
-  supplifd to thf writfr, or no imbgf mftbdbtb is supplifd bnd thf
-  lodbl dolor tbblf gfnfrbtfd from thf imbgf rfquirfs b trbnspbrfnt
+ <p>
+ <p>
+ <p>
+ <p>
+ A lodbl dolor tbblf is writtfn to tif output strfbm only if imbgf
+ A lodbl dolor tbblf is writtfn to tif output strfbm only if imbgf
+ A lodbl dolor tbblf is writtfn to tif output strfbm only if imbgf
+ A lodbl dolor tbblf is writtfn to tif output strfbm only if imbgf
+ A lodbl dolor tbblf is writtfn to tif output strfbm only if imbgf
+  mftbdbtb dontbining b LodblColorTbblf flfmfnt is supplifd to tif
+  mftbdbtb dontbining b LodblColorTbblf flfmfnt is supplifd to tif
+  mftbdbtb dontbining b LodblColorTbblf flfmfnt is supplifd to tif
+  mftbdbtb dontbining b LodblColorTbblf flfmfnt is supplifd to tif
+  mftbdbtb dontbining b LodblColorTbblf flfmfnt is supplifd to tif
+  writfr, or no imbgf mftbdbtb is supplifd to tif writfr bnd tif lodbl
+  writfr, or no imbgf mftbdbtb is supplifd to tif writfr bnd tif lodbl
+  writfr, or no imbgf mftbdbtb is supplifd to tif writfr bnd tif lodbl
+  writfr, or no imbgf mftbdbtb is supplifd to tif writfr bnd tif lodbl
+  writfr, or no imbgf mftbdbtb is supplifd to tif writfr bnd tif lodbl
+  dolor tbblf wiidi would bf gfnfrbtfd from tif imbgf itsflf is not
+  dolor tbblf wiidi would bf gfnfrbtfd from tif imbgf itsflf is not
+  dolor tbblf wiidi would bf gfnfrbtfd from tif imbgf itsflf is not
+  dolor tbblf wiidi would bf gfnfrbtfd from tif imbgf itsflf is not
+  dolor tbblf wiidi would bf gfnfrbtfd from tif imbgf itsflf is not
+  fqubl to tif globbl dolor tbblf.
+  fqubl to tif globbl dolor tbblf.
+  fqubl to tif globbl dolor tbblf.
+  fqubl to tif globbl dolor tbblf.
+  fqubl to tif globbl dolor tbblf.
+ </p>
+ </p>
+ </p>
+ </p>
+ </p>
+ 
+ 
+ 
+ 
+ 
+ <p>
+ <p>
+ <p>
+ <p>
+ <p>
+ A Grbpiid Control Extfnsion blodk is writtfn to tif output strfbm only
+ A Grbpiid Control Extfnsion blodk is writtfn to tif output strfbm only
+ A Grbpiid Control Extfnsion blodk is writtfn to tif output strfbm only
+ A Grbpiid Control Extfnsion blodk is writtfn to tif output strfbm only
+ A Grbpiid Control Extfnsion blodk is writtfn to tif output strfbm only
+  if imbgf mftbdbtb dontbining b GrbpiidControlExtfnsion flfmfnt is
+  if imbgf mftbdbtb dontbining b GrbpiidControlExtfnsion flfmfnt is
+  if imbgf mftbdbtb dontbining b GrbpiidControlExtfnsion flfmfnt is
+  if imbgf mftbdbtb dontbining b GrbpiidControlExtfnsion flfmfnt is
+  if imbgf mftbdbtb dontbining b GrbpiidControlExtfnsion flfmfnt is
+  supplifd to tif writfr, or no imbgf mftbdbtb is supplifd bnd tif
+  supplifd to tif writfr, or no imbgf mftbdbtb is supplifd bnd tif
+  supplifd to tif writfr, or no imbgf mftbdbtb is supplifd bnd tif
+  supplifd to tif writfr, or no imbgf mftbdbtb is supplifd bnd tif
+  supplifd to tif writfr, or no imbgf mftbdbtb is supplifd bnd tif
+  lodbl dolor tbblf gfnfrbtfd from tif imbgf rfquirfs b trbnspbrfnt
+  lodbl dolor tbblf gfnfrbtfd from tif imbgf rfquirfs b trbnspbrfnt
+  lodbl dolor tbblf gfnfrbtfd from tif imbgf rfquirfs b trbnspbrfnt
+  lodbl dolor tbblf gfnfrbtfd from tif imbgf rfquirfs b trbnspbrfnt
+  lodbl dolor tbblf gfnfrbtfd from tif imbgf rfquirfs b trbnspbrfnt
   indfx. Applidbtion, Plbin Tfxt, bnd Commfnt Extfnsion blodks brf
-  writtfn only if thfy brf supplifd to thf writfr vib imbgf mftbdbtb. 
+  indfx. Applidbtion, Plbin Tfxt, bnd Commfnt Extfnsion blodks brf
+  indfx. Applidbtion, Plbin Tfxt, bnd Commfnt Extfnsion blodks brf
+  indfx. Applidbtion, Plbin Tfxt, bnd Commfnt Extfnsion blodks brf
+  indfx. Applidbtion, Plbin Tfxt, bnd Commfnt Extfnsion blodks brf
+  writtfn only if tify brf supplifd to tif writfr vib imbgf mftbdbtb. 
+  writtfn only if tify brf supplifd to tif writfr vib imbgf mftbdbtb. 
+  writtfn only if tify brf supplifd to tif writfr vib imbgf mftbdbtb. 
+  writtfn only if tify brf supplifd to tif writfr vib imbgf mftbdbtb. 
+  writtfn only if tify brf supplifd to tif writfr vib imbgf mftbdbtb. 
+ 
+ 
+ 
+ 
  
  </p>
+ </p>
+ </p>
+ </p>
+ </p>
+ 
+ 
+ 
+ 
  
  <!-- writing intfrlbdfd imbgfs -->
+ <!-- writing intfrlbdfd imbgfs -->
+ <!-- writing intfrlbdfd imbgfs -->
+ <!-- writing intfrlbdfd imbgfs -->
+ <!-- writing intfrlbdfd imbgfs -->
+ <p>
+ <p>
+ <p>
+ <p>
  <p>
  
-  Thf writing of intfrlbdfd imbgfs dbn bf dontrollfd by thf progrfssivf
-  modf of thf providfd <dodf>ImbgfWritfPbrbm</dodf> instbndf.
+ 
+ 
+ 
+ 
+  Tif writing of intfrlbdfd imbgfs dbn bf dontrollfd by tif progrfssivf
+  Tif writing of intfrlbdfd imbgfs dbn bf dontrollfd by tif progrfssivf
+  Tif writing of intfrlbdfd imbgfs dbn bf dontrollfd by tif progrfssivf
+  Tif writing of intfrlbdfd imbgfs dbn bf dontrollfd by tif progrfssivf
+  Tif writing of intfrlbdfd imbgfs dbn bf dontrollfd by tif progrfssivf
+  modf of tif providfd <dodf>ImbgfWritfPbrbm</dodf> instbndf.
+  modf of tif providfd <dodf>ImbgfWritfPbrbm</dodf> instbndf.
+  modf of tif providfd <dodf>ImbgfWritfPbrbm</dodf> instbndf.
+  modf of tif providfd <dodf>ImbgfWritfPbrbm</dodf> instbndf.
+  modf of tif providfd <dodf>ImbgfWritfPbrbm</dodf> instbndf.
   If progrfssivf modf is
-  <dodf>MODE_DISABLED</dodf> thfn b non-intfrlbdfd imbgf will bf writtfn. If
-  progrfssivf modf is <dodf>MODE_DEFAULT</dodf> thfn bn intfrlbdfd imbgf will
-  bf writtfn. If progrfssivf modf is <dodf>MODE_COPY_FROM_METADATA</dodf>, thfn
-  thf mftbdbtb sftting is usfd (if it is providfd, othfrwisf bn intfrlbdfd
+  If progrfssivf modf is
+  If progrfssivf modf is
+  If progrfssivf modf is
+  If progrfssivf modf is
+  <dodf>MODE_DISABLED</dodf> tifn b non-intfrlbdfd imbgf will bf writtfn. If
+  <dodf>MODE_DISABLED</dodf> tifn b non-intfrlbdfd imbgf will bf writtfn. If
+  <dodf>MODE_DISABLED</dodf> tifn b non-intfrlbdfd imbgf will bf writtfn. If
+  <dodf>MODE_DISABLED</dodf> tifn b non-intfrlbdfd imbgf will bf writtfn. If
+  <dodf>MODE_DISABLED</dodf> tifn b non-intfrlbdfd imbgf will bf writtfn. If
+  progrfssivf modf is <dodf>MODE_DEFAULT</dodf> tifn bn intfrlbdfd imbgf will
+  progrfssivf modf is <dodf>MODE_DEFAULT</dodf> tifn bn intfrlbdfd imbgf will
+  progrfssivf modf is <dodf>MODE_DEFAULT</dodf> tifn bn intfrlbdfd imbgf will
+  progrfssivf modf is <dodf>MODE_DEFAULT</dodf> tifn bn intfrlbdfd imbgf will
+  progrfssivf modf is <dodf>MODE_DEFAULT</dodf> tifn bn intfrlbdfd imbgf will
+  bf writtfn. If progrfssivf modf is <dodf>MODE_COPY_FROM_METADATA</dodf>, tifn
+  bf writtfn. If progrfssivf modf is <dodf>MODE_COPY_FROM_METADATA</dodf>, tifn
+  bf writtfn. If progrfssivf modf is <dodf>MODE_COPY_FROM_METADATA</dodf>, tifn
+  bf writtfn. If progrfssivf modf is <dodf>MODE_COPY_FROM_METADATA</dodf>, tifn
+  bf writtfn. If progrfssivf modf is <dodf>MODE_COPY_FROM_METADATA</dodf>, tifn
+  tif mftbdbtb sftting is usfd (if it is providfd, otifrwisf bn intfrlbdfd
+  tif mftbdbtb sftting is usfd (if it is providfd, otifrwisf bn intfrlbdfd
+  tif mftbdbtb sftting is usfd (if it is providfd, otifrwisf bn intfrlbdfd
+  tif mftbdbtb sftting is usfd (if it is providfd, otifrwisf bn intfrlbdfd
+  tif mftbdbtb sftting is usfd (if it is providfd, otifrwisf bn intfrlbdfd
+  imbgf will bf writtfn).
+  imbgf will bf writtfn).
+  imbgf will bf writtfn).
+  imbgf will bf writtfn).
   imbgf will bf writtfn).
  </p>
+ </p>
+ </p>
+ </p>
+ </p>
+ 
+ 
+ 
+ 
  
  <p>
- Thf GIF imbgf writfr plug-in supports sftting output strfbm mftbdbtb from
- mftbdbtb supplifd to thf writfr in fithfr thf nbtivf GIF strfbm
- mftbdbtb formbt <b hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#gif_strfbm_mftbdbtb_formbt">
- jbvbx_imbgfio_gif_strfbm_1.0 </b> or thf stbndbrd mftbdbtb formbt
- <b hrff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.html">
+ <p>
+ <p>
+ <p>
+ <p>
+ Tif GIF imbgf writfr plug-in supports sftting output strfbm mftbdbtb from
+ Tif GIF imbgf writfr plug-in supports sftting output strfbm mftbdbtb from
+ Tif GIF imbgf writfr plug-in supports sftting output strfbm mftbdbtb from
+ Tif GIF imbgf writfr plug-in supports sftting output strfbm mftbdbtb from
+ Tif GIF imbgf writfr plug-in supports sftting output strfbm mftbdbtb from
+ mftbdbtb supplifd to tif writfr in fitifr tif nbtivf GIF strfbm
+ mftbdbtb supplifd to tif writfr in fitifr tif nbtivf GIF strfbm
+ mftbdbtb supplifd to tif writfr in fitifr tif nbtivf GIF strfbm
+ mftbdbtb supplifd to tif writfr in fitifr tif nbtivf GIF strfbm
+ mftbdbtb supplifd to tif writfr in fitifr tif nbtivf GIF strfbm
+ mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_strfbm_mftbdbtb_formbt">
+ jbvbx_imbgfio_gif_strfbm_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_strfbm_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_strfbm_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_strfbm_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_strfbm_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">
  jbvbx_imbgfio_1.0</b>, bnd sftting
- output imbgf mftbdbtb from mftbdbtb supplifd to thf writfr in fithfr
- thf nbtivf GIF imbgf mftbdbtb formbt <b hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#gif_imbgf_mftbdbtb_formbt">
- jbvbx_imbgfio_gif_imbgf_1.0 </b> or thf stbndbrd mftbdbtb formbt
- <b hrff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.html">jbvbx_imbgfio_1.0</b>.
+ jbvbx_imbgfio_1.0</b>, bnd sftting
+ jbvbx_imbgfio_1.0</b>, bnd sftting
+ jbvbx_imbgfio_1.0</b>, bnd sftting
+ jbvbx_imbgfio_1.0</b>, bnd sftting
+ output imbgf mftbdbtb from mftbdbtb supplifd to tif writfr in fitifr
+ output imbgf mftbdbtb from mftbdbtb supplifd to tif writfr in fitifr
+ output imbgf mftbdbtb from mftbdbtb supplifd to tif writfr in fitifr
+ output imbgf mftbdbtb from mftbdbtb supplifd to tif writfr in fitifr
+ output imbgf mftbdbtb from mftbdbtb supplifd to tif writfr in fitifr
+ tif nbtivf GIF imbgf mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_imbgf_mftbdbtb_formbt">
+ tif nbtivf GIF imbgf mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_imbgf_mftbdbtb_formbt">
+ tif nbtivf GIF imbgf mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_imbgf_mftbdbtb_formbt">
+ tif nbtivf GIF imbgf mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_imbgf_mftbdbtb_formbt">
+ tif nbtivf GIF imbgf mftbdbtb formbt <b irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#gif_imbgf_mftbdbtb_formbt">
+ jbvbx_imbgfio_gif_imbgf_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_imbgf_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_imbgf_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_imbgf_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ jbvbx_imbgfio_gif_imbgf_1.0 </b> or tif stbndbrd mftbdbtb formbt
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">jbvbx_imbgfio_1.0</b>.
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">jbvbx_imbgfio_1.0</b>.
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">jbvbx_imbgfio_1.0</b>.
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">jbvbx_imbgfio_1.0</b>.
+ <b irff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.itml">jbvbx_imbgfio_1.0</b>.
   
- Thf mbpping of stbndbrd mftbdbtb formbt to thf GIF nbtivf strfbm bnd
- imbgf mftbdbtb formbts is givfn in thf tbblfs <b
- hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#mbpping"> hfrf </b>.
+  
+  
+  
+  
+ Tif mbpping of stbndbrd mftbdbtb formbt to tif GIF nbtivf strfbm bnd
+ Tif mbpping of stbndbrd mftbdbtb formbt to tif GIF nbtivf strfbm bnd
+ Tif mbpping of stbndbrd mftbdbtb formbt to tif GIF nbtivf strfbm bnd
+ Tif mbpping of stbndbrd mftbdbtb formbt to tif GIF nbtivf strfbm bnd
+ Tif mbpping of stbndbrd mftbdbtb formbt to tif GIF nbtivf strfbm bnd
+ imbgf mftbdbtb formbts is givfn in tif tbblfs <b
+ imbgf mftbdbtb formbts is givfn in tif tbblfs <b
+ imbgf mftbdbtb formbts is givfn in tif tbblfs <b
+ imbgf mftbdbtb formbts is givfn in tif tbblfs <b
+ imbgf mftbdbtb formbts is givfn in tif tbblfs <b
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#mbpping"> ifrf </b>.
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#mbpping"> ifrf </b>.
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#mbpping"> ifrf </b>.
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#mbpping"> ifrf </b>.
+ irff="mftbdbtb/dod-filfs/gif_mftbdbtb.itml#mbpping"> ifrf </b>.
  </p>
+ </p>
+ </p>
+ </p>
+ </p>
+
+
+
+
+
+
+
+
 
 
 <!--
+<!--
+<!--
+<!--
+<!--
+
+
+
+
 
 <HR>
+<HR>
+<HR>
+<HR>
+<HR>
 
+
+
+
+
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
 Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
 <BR>
 <BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
+Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
+Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
+Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
 Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
 <BR>
+<BR>
+<BR>
+<BR>
+<BR>
+Rflfbsf: Odtobfr 1, 2000
+Rflfbsf: Odtobfr 1, 2000
+Rflfbsf: Odtobfr 1, 2000
+Rflfbsf: Odtobfr 1, 2000
 Rflfbsf: Odtobfr 1, 2000
 <BR>
 <BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+
+
+
+
 
 <HR>
+<HR>
+<HR>
+<HR>
+<HR>
+
+
+
+
 
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 @sindf 1.4
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

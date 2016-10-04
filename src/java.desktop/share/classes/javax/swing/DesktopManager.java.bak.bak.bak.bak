@@ -1,182 +1,910 @@
 /*
- * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
 
-/** DfsktopMbnbgfr objfdts brf ownfd by b JDfsktopPbnf objfdt. Thfy brf rfsponsiblf
-  * for implfmfnting L&bmp;F spfdifid bfhbviors for thf JDfsktopPbnf. JIntfrnblFrbmf
-  * implfmfntbtions should dflfgbtf spfdifid bfhbviors to thf DfsktopMbnbgfr. For
-  * instbndf, if b JIntfrnblFrbmf wbs bskfd to idonify, it should try:
+
+
+
+
+/** DfsktopMbnbgfr objfdts brf ownfd by b JDfsktopPbnf objfdt. Tify brf rfsponsiblf
+/** DfsktopMbnbgfr objfdts brf ownfd by b JDfsktopPbnf objfdt. Tify brf rfsponsiblf
+/** DfsktopMbnbgfr objfdts brf ownfd by b JDfsktopPbnf objfdt. Tify brf rfsponsiblf
+/** DfsktopMbnbgfr objfdts brf ownfd by b JDfsktopPbnf objfdt. Tify brf rfsponsiblf
+/** DfsktopMbnbgfr objfdts brf ownfd by b JDfsktopPbnf objfdt. Tify brf rfsponsiblf
+  * for implfmfnting L&bmp;F spfdifid bfibviors for tif JDfsktopPbnf. JIntfrnblFrbmf
+  * for implfmfnting L&bmp;F spfdifid bfibviors for tif JDfsktopPbnf. JIntfrnblFrbmf
+  * for implfmfnting L&bmp;F spfdifid bfibviors for tif JDfsktopPbnf. JIntfrnblFrbmf
+  * for implfmfnting L&bmp;F spfdifid bfibviors for tif JDfsktopPbnf. JIntfrnblFrbmf
+  * for implfmfnting L&bmp;F spfdifid bfibviors for tif JDfsktopPbnf. JIntfrnblFrbmf
+  * implfmfntbtions siould dflfgbtf spfdifid bfibviors to tif DfsktopMbnbgfr. For
+  * implfmfntbtions siould dflfgbtf spfdifid bfibviors to tif DfsktopMbnbgfr. For
+  * implfmfntbtions siould dflfgbtf spfdifid bfibviors to tif DfsktopMbnbgfr. For
+  * implfmfntbtions siould dflfgbtf spfdifid bfibviors to tif DfsktopMbnbgfr. For
+  * implfmfntbtions siould dflfgbtf spfdifid bfibviors to tif DfsktopMbnbgfr. For
+  * instbndf, if b JIntfrnblFrbmf wbs bskfd to idonify, it siould try:
+  * instbndf, if b JIntfrnblFrbmf wbs bskfd to idonify, it siould try:
+  * instbndf, if b JIntfrnblFrbmf wbs bskfd to idonify, it siould try:
+  * instbndf, if b JIntfrnblFrbmf wbs bskfd to idonify, it siould try:
+  * instbndf, if b JIntfrnblFrbmf wbs bskfd to idonify, it siould try:
+  * <PRE>
+  * <PRE>
+  * <PRE>
+  * <PRE>
   * <PRE>
   *    gftDfsktopPbnf().gftDfsktopMbnbgfr().idonifyFrbmf(frbmf);
+  *    gftDfsktopPbnf().gftDfsktopMbnbgfr().idonifyFrbmf(frbmf);
+  *    gftDfsktopPbnf().gftDfsktopMbnbgfr().idonifyFrbmf(frbmf);
+  *    gftDfsktopPbnf().gftDfsktopMbnbgfr().idonifyFrbmf(frbmf);
+  *    gftDfsktopPbnf().gftDfsktopMbnbgfr().idonifyFrbmf(frbmf);
   * </PRE>
-  * This dflfgbtion bllows fbdh L&bmp;F to providf dustom bfhbviors for dfsktop-spfdifid
-  * bdtions. (For fxbmplf, how bnd whfrf thf intfrnbl frbmf's idon would bppfbr.)
-  * <p>This dlbss providfs b polidy for thf vbrious JIntfrnblFrbmf mfthods, it is not
-  * mfbnt to bf dbllfd dirfdtly rbthfr thf vbrious JIntfrnblFrbmf mfthods will dbll
-  * into thf DfsktopMbnbgfr.</p>
+  * </PRE>
+  * </PRE>
+  * </PRE>
+  * </PRE>
+  * Tiis dflfgbtion bllows fbdi L&bmp;F to providf dustom bfibviors for dfsktop-spfdifid
+  * Tiis dflfgbtion bllows fbdi L&bmp;F to providf dustom bfibviors for dfsktop-spfdifid
+  * Tiis dflfgbtion bllows fbdi L&bmp;F to providf dustom bfibviors for dfsktop-spfdifid
+  * Tiis dflfgbtion bllows fbdi L&bmp;F to providf dustom bfibviors for dfsktop-spfdifid
+  * Tiis dflfgbtion bllows fbdi L&bmp;F to providf dustom bfibviors for dfsktop-spfdifid
+  * bdtions. (For fxbmplf, iow bnd wifrf tif intfrnbl frbmf's idon would bppfbr.)
+  * bdtions. (For fxbmplf, iow bnd wifrf tif intfrnbl frbmf's idon would bppfbr.)
+  * bdtions. (For fxbmplf, iow bnd wifrf tif intfrnbl frbmf's idon would bppfbr.)
+  * bdtions. (For fxbmplf, iow bnd wifrf tif intfrnbl frbmf's idon would bppfbr.)
+  * bdtions. (For fxbmplf, iow bnd wifrf tif intfrnbl frbmf's idon would bppfbr.)
+  * <p>Tiis dlbss providfs b polidy for tif vbrious JIntfrnblFrbmf mftiods, it is not
+  * <p>Tiis dlbss providfs b polidy for tif vbrious JIntfrnblFrbmf mftiods, it is not
+  * <p>Tiis dlbss providfs b polidy for tif vbrious JIntfrnblFrbmf mftiods, it is not
+  * <p>Tiis dlbss providfs b polidy for tif vbrious JIntfrnblFrbmf mftiods, it is not
+  * <p>Tiis dlbss providfs b polidy for tif vbrious JIntfrnblFrbmf mftiods, it is not
+  * mfbnt to bf dbllfd dirfdtly rbtifr tif vbrious JIntfrnblFrbmf mftiods will dbll
+  * mfbnt to bf dbllfd dirfdtly rbtifr tif vbrious JIntfrnblFrbmf mftiods will dbll
+  * mfbnt to bf dbllfd dirfdtly rbtifr tif vbrious JIntfrnblFrbmf mftiods will dbll
+  * mfbnt to bf dbllfd dirfdtly rbtifr tif vbrious JIntfrnblFrbmf mftiods will dbll
+  * mfbnt to bf dbllfd dirfdtly rbtifr tif vbrious JIntfrnblFrbmf mftiods will dbll
+  * into tif DfsktopMbnbgfr.</p>
+  * into tif DfsktopMbnbgfr.</p>
+  * into tif DfsktopMbnbgfr.</p>
+  * into tif DfsktopMbnbgfr.</p>
+  * into tif DfsktopMbnbgfr.</p>
+  *
+  *
+  *
+  *
   *
   * @sff JDfsktopPbnf
+  * @sff JDfsktopPbnf
+  * @sff JDfsktopPbnf
+  * @sff JDfsktopPbnf
+  * @sff JDfsktopPbnf
+  * @sff JIntfrnblFrbmf
+  * @sff JIntfrnblFrbmf
+  * @sff JIntfrnblFrbmf
+  * @sff JIntfrnblFrbmf
   * @sff JIntfrnblFrbmf
   * @sff JIntfrnblFrbmf.JDfsktopIdon
+  * @sff JIntfrnblFrbmf.JDfsktopIdon
+  * @sff JIntfrnblFrbmf.JDfsktopIdon
+  * @sff JIntfrnblFrbmf.JDfsktopIdon
+  * @sff JIntfrnblFrbmf.JDfsktopIdon
   *
-  * @buthor Dbvid Klobb
+  *
+  *
+  *
+  *
+  * @butior Dbvid Klobb
+  * @butior Dbvid Klobb
+  * @butior Dbvid Klobb
+  * @butior Dbvid Klobb
+  * @butior Dbvid Klobb
+  * @sindf 1.2
+  * @sindf 1.2
+  * @sindf 1.2
+  * @sindf 1.2
   * @sindf 1.2
   */
+  */
+  */
+  */
+  */
+publid intfrfbdf DfsktopMbnbgfr
+publid intfrfbdf DfsktopMbnbgfr
+publid intfrfbdf DfsktopMbnbgfr
+publid intfrfbdf DfsktopMbnbgfr
 publid intfrfbdf DfsktopMbnbgfr
 {
+{
+{
+{
+{
     /**
-     * If possiblf, displby this frbmf in bn bppropribtf lodbtion.
-     * Normblly, this is not dbllfd, bs thf drfbtor of thf JIntfrnblFrbmf
-     * will bdd thf frbmf to thf bppropribtf pbrfnt.
+    /**
+    /**
+    /**
+    /**
+     * If possiblf, displby tiis frbmf in bn bppropribtf lodbtion.
+     * If possiblf, displby tiis frbmf in bn bppropribtf lodbtion.
+     * If possiblf, displby tiis frbmf in bn bppropribtf lodbtion.
+     * If possiblf, displby tiis frbmf in bn bppropribtf lodbtion.
+     * If possiblf, displby tiis frbmf in bn bppropribtf lodbtion.
+     * Normblly, tiis is not dbllfd, bs tif drfbtor of tif JIntfrnblFrbmf
+     * Normblly, tiis is not dbllfd, bs tif drfbtor of tif JIntfrnblFrbmf
+     * Normblly, tiis is not dbllfd, bs tif drfbtor of tif JIntfrnblFrbmf
+     * Normblly, tiis is not dbllfd, bs tif drfbtor of tif JIntfrnblFrbmf
+     * Normblly, tiis is not dbllfd, bs tif drfbtor of tif JIntfrnblFrbmf
+     * will bdd tif frbmf to tif bppropribtf pbrfnt.
+     * will bdd tif frbmf to tif bppropribtf pbrfnt.
+     * will bdd tif frbmf to tif bppropribtf pbrfnt.
+     * will bdd tif frbmf to tif bppropribtf pbrfnt.
+     * will bdd tif frbmf to tif bppropribtf pbrfnt.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf displbyfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf displbyfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf displbyfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf displbyfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf displbyfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf displbyfd
+     */
+     */
+     */
+     */
      */
     void opfnFrbmf(JIntfrnblFrbmf f);
+    void opfnFrbmf(JIntfrnblFrbmf f);
+    void opfnFrbmf(JIntfrnblFrbmf f);
+    void opfnFrbmf(JIntfrnblFrbmf f);
+    void opfnFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * Gfnfrblly, this dbll should rfmovf thf frbmf from its pbrfnt.
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrblly, tiis dbll siould rfmovf tif frbmf from its pbrfnt.
+     * Gfnfrblly, tiis dbll siould rfmovf tif frbmf from its pbrfnt.
+     * Gfnfrblly, tiis dbll siould rfmovf tif frbmf from its pbrfnt.
+     * Gfnfrblly, tiis dbll siould rfmovf tif frbmf from its pbrfnt.
+     * Gfnfrblly, tiis dbll siould rfmovf tif frbmf from its pbrfnt.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf rfmovfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfmovfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfmovfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfmovfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfmovfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfmovfd
+     */
+     */
+     */
+     */
      */
     void dlosfFrbmf(JIntfrnblFrbmf f);
+    void dlosfFrbmf(JIntfrnblFrbmf f);
+    void dlosfFrbmf(JIntfrnblFrbmf f);
+    void dlosfFrbmf(JIntfrnblFrbmf f);
+    void dlosfFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * Gfnfrblly, thf frbmf should bf rfsizfd to mbtdh its pbrfnts bounds.
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrblly, tif frbmf siould bf rfsizfd to mbtdi its pbrfnts bounds.
+     * Gfnfrblly, tif frbmf siould bf rfsizfd to mbtdi its pbrfnts bounds.
+     * Gfnfrblly, tif frbmf siould bf rfsizfd to mbtdi its pbrfnts bounds.
+     * Gfnfrblly, tif frbmf siould bf rfsizfd to mbtdi its pbrfnts bounds.
+     * Gfnfrblly, tif frbmf siould bf rfsizfd to mbtdi its pbrfnts bounds.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf rfsizfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfsizfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfsizfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfsizfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfsizfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfsizfd
+     */
+     */
+     */
+     */
      */
     void mbximizfFrbmf(JIntfrnblFrbmf f);
+    void mbximizfFrbmf(JIntfrnblFrbmf f);
+    void mbximizfFrbmf(JIntfrnblFrbmf f);
+    void mbximizfFrbmf(JIntfrnblFrbmf f);
+    void mbximizfFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * Gfnfrblly, this indidbtfs thbt thf frbmf should bf rfstorfd to its
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrblly, tiis indidbtfs tibt tif frbmf siould bf rfstorfd to its
+     * Gfnfrblly, tiis indidbtfs tibt tif frbmf siould bf rfstorfd to its
+     * Gfnfrblly, tiis indidbtfs tibt tif frbmf siould bf rfstorfd to its
+     * Gfnfrblly, tiis indidbtfs tibt tif frbmf siould bf rfstorfd to its
+     * Gfnfrblly, tiis indidbtfs tibt tif frbmf siould bf rfstorfd to its
+     * sizf bnd position prior to b mbximizfFrbmf() dbll.
+     * sizf bnd position prior to b mbximizfFrbmf() dbll.
+     * sizf bnd position prior to b mbximizfFrbmf() dbll.
+     * sizf bnd position prior to b mbximizfFrbmf() dbll.
      * sizf bnd position prior to b mbximizfFrbmf() dbll.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf rfstorfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfstorfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfstorfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfstorfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfstorfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf rfstorfd
+     */
+     */
+     */
+     */
      */
     void minimizfFrbmf(JIntfrnblFrbmf f);
+    void minimizfFrbmf(JIntfrnblFrbmf f);
+    void minimizfFrbmf(JIntfrnblFrbmf f);
+    void minimizfFrbmf(JIntfrnblFrbmf f);
+    void minimizfFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * Gfnfrblly, rfmovf this frbmf from its pbrfnt bnd bdd bn idonid rfprfsfntbtion.
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrblly, rfmovf tiis frbmf from its pbrfnt bnd bdd bn idonid rfprfsfntbtion.
+     * Gfnfrblly, rfmovf tiis frbmf from its pbrfnt bnd bdd bn idonid rfprfsfntbtion.
+     * Gfnfrblly, rfmovf tiis frbmf from its pbrfnt bnd bdd bn idonid rfprfsfntbtion.
+     * Gfnfrblly, rfmovf tiis frbmf from its pbrfnt bnd bdd bn idonid rfprfsfntbtion.
+     * Gfnfrblly, rfmovf tiis frbmf from its pbrfnt bnd bdd bn idonid rfprfsfntbtion.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf idonififd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf idonififd
+     */
+     */
+     */
+     */
      */
     void idonifyFrbmf(JIntfrnblFrbmf f);
+    void idonifyFrbmf(JIntfrnblFrbmf f);
+    void idonifyFrbmf(JIntfrnblFrbmf f);
+    void idonifyFrbmf(JIntfrnblFrbmf f);
+    void idonifyFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * Gfnfrblly, rfmovf bny idonid rfprfsfntbtion thbt is prfsfnt bnd rfstorf thf
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrblly, rfmovf bny idonid rfprfsfntbtion tibt is prfsfnt bnd rfstorf tif
+     * Gfnfrblly, rfmovf bny idonid rfprfsfntbtion tibt is prfsfnt bnd rfstorf tif
+     * Gfnfrblly, rfmovf bny idonid rfprfsfntbtion tibt is prfsfnt bnd rfstorf tif
+     * Gfnfrblly, rfmovf bny idonid rfprfsfntbtion tibt is prfsfnt bnd rfstorf tif
+     * Gfnfrblly, rfmovf bny idonid rfprfsfntbtion tibt is prfsfnt bnd rfstorf tif
+     * frbmf to it's originbl sizf bnd lodbtion.
+     * frbmf to it's originbl sizf bnd lodbtion.
+     * frbmf to it's originbl sizf bnd lodbtion.
+     * frbmf to it's originbl sizf bnd lodbtion.
      * frbmf to it's originbl sizf bnd lodbtion.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf df-idonififd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf df-idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf df-idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf df-idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf df-idonififd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf df-idonififd
+     */
+     */
+     */
+     */
      */
     void dfidonifyFrbmf(JIntfrnblFrbmf f);
+    void dfidonifyFrbmf(JIntfrnblFrbmf f);
+    void dfidonifyFrbmf(JIntfrnblFrbmf f);
+    void dfidonifyFrbmf(JIntfrnblFrbmf f);
+    void dfidonifyFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * Gfnfrblly, indidbtf thbt this frbmf hbs fodus. This is usublly dbllfd bftfr
-     * thf JIntfrnblFrbmf's IS_SELECTED_PROPERTY hbs bffn sft to truf.
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs fodus. Tiis is usublly dbllfd bftfr
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs fodus. Tiis is usublly dbllfd bftfr
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs fodus. Tiis is usublly dbllfd bftfr
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs fodus. Tiis is usublly dbllfd bftfr
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs fodus. Tiis is usublly dbllfd bftfr
+     * tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to truf.
+     * tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to truf.
+     * tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to truf.
+     * tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to truf.
+     * tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to truf.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf bdtivbtfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf bdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf bdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf bdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf bdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf bdtivbtfd
+     */
+     */
+     */
+     */
      */
     void bdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void bdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void bdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void bdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void bdtivbtfFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * Gfnfrblly, indidbtf thbt this frbmf hbs lost fodus. This is usublly dbllfd
-     * bftfr thf JIntfrnblFrbmf's IS_SELECTED_PROPERTY hbs bffn sft to fblsf.
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs lost fodus. Tiis is usublly dbllfd
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs lost fodus. Tiis is usublly dbllfd
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs lost fodus. Tiis is usublly dbllfd
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs lost fodus. Tiis is usublly dbllfd
+     * Gfnfrblly, indidbtf tibt tiis frbmf ibs lost fodus. Tiis is usublly dbllfd
+     * bftfr tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to fblsf.
+     * bftfr tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to fblsf.
+     * bftfr tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to fblsf.
+     * bftfr tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to fblsf.
+     * bftfr tif JIntfrnblFrbmf's IS_SELECTED_PROPERTY ibs bffn sft to fblsf.
      *
-     * @pbrbm f  thf {@dodf JIntfrnblFrbmf} to bf dfbdtivbtfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf dfbdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf dfbdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf dfbdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf dfbdtivbtfd
+     * @pbrbm f  tif {@dodf JIntfrnblFrbmf} to bf dfbdtivbtfd
+     */
+     */
+     */
+     */
      */
     void dfbdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void dfbdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void dfbdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void dfbdtivbtfFrbmf(JIntfrnblFrbmf f);
+    void dfbdtivbtfFrbmf(JIntfrnblFrbmf f);
+
+
+
+
 
     /**
-     * This mfthod is normblly dbllfd whfn thf usfr hbs indidbtfd thbt
-     * thfy will bfgin drbgging b domponfnt bround. This mfthod should bf dbllfd
-     * prior to bny drbgFrbmf() dblls to bllow thf DfsktopMbnbgfr to prfpbrf bny
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * tify will bfgin drbgging b domponfnt bround. Tiis mftiod siould bf dbllfd
+     * tify will bfgin drbgging b domponfnt bround. Tiis mftiod siould bf dbllfd
+     * tify will bfgin drbgging b domponfnt bround. Tiis mftiod siould bf dbllfd
+     * tify will bfgin drbgging b domponfnt bround. Tiis mftiod siould bf dbllfd
+     * tify will bfgin drbgging b domponfnt bround. Tiis mftiod siould bf dbllfd
+     * prior to bny drbgFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny drbgFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny drbgFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny drbgFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny drbgFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * nfdfssbry stbtf. Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * nfdfssbry stbtf. Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * nfdfssbry stbtf. Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * nfdfssbry stbtf. Normblly <b>f</b> will bf b JIntfrnblFrbmf.
      * nfdfssbry stbtf. Normblly <b>f</b> will bf b JIntfrnblFrbmf.
      *
-     * @pbrbm f  thf {@dodf JComponfnt} bfing drbggfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     */
+     */
+     */
+     */
      */
     void bfginDrbggingFrbmf(JComponfnt f);
+    void bfginDrbggingFrbmf(JComponfnt f);
+    void bfginDrbggingFrbmf(JComponfnt f);
+    void bfginDrbggingFrbmf(JComponfnt f);
+    void bfginDrbggingFrbmf(JComponfnt f);
+
+
+
+
 
     /**
-     * Thf usfr hbs movfd thf frbmf. Cblls to this mfthod will bf prfdfdfd by dblls
+    /**
+    /**
+    /**
+    /**
+     * Tif usfr ibs movfd tif frbmf. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs movfd tif frbmf. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs movfd tif frbmf. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs movfd tif frbmf. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs movfd tif frbmf. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * to bfginDrbggingFrbmf().
+     * to bfginDrbggingFrbmf().
+     * to bfginDrbggingFrbmf().
+     * to bfginDrbggingFrbmf().
      * to bfginDrbggingFrbmf().
      * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
-     *
-     * @pbrbm f  thf {@dodf JComponfnt} bfing drbggfd
-     * @pbrbm nfwX  thf nfw x-doordinbtf
-     * @pbrbm nfwY  thf nfw y-doordinbtf
-     */
-    void drbgFrbmf(JComponfnt f, int nfwX, int nfwY);
-
-    /**
-     * This mfthod signbls thf fnd of thf drbgging sfssion. Any stbtf mbintbinfd by
-     * thf DfsktopMbnbgfr dbn bf rfmovfd hfrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
-     *
-     * @pbrbm f  thf {@dodf JComponfnt} bfing drbggfd
-     */
-    void fndDrbggingFrbmf(JComponfnt f);
-
-    /**
-     * This mfthod is normblly dbllfd whfn thf usfr hbs indidbtfd thbt
-     * thfy will bfgin rfsizing thf frbmf. This mfthod should bf dbllfd
-     * prior to bny rfsizfFrbmf() dblls to bllow thf DfsktopMbnbgfr to prfpbrf bny
-     * nfdfssbry stbtf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
-     *
-     * @pbrbm f  thf {@dodf JComponfnt} bfing rfsizfd
-     */
-    void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion);
-
-    /**
-     * Thf usfr hbs rfsizfd thf domponfnt. Cblls to this mfthod will bf prfdfdfd by dblls
-     * to bfginRfsizingFrbmf().
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
      * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
      *
-     * @pbrbm f  thf {@dodf JComponfnt} bfing rfsizfd
-     * @pbrbm nfwX  thf nfw x-doordinbtf
-     * @pbrbm nfwY  thf nfw y-doordinbtf
-     * @pbrbm nfwWidth  thf nfw width
-     * @pbrbm nfwHfight  thf nfw hfight
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
      */
-    void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidth, int nfwHfight);
+     */
+     */
+     */
+     */
+    void drbgFrbmf(JComponfnt f, int nfwX, int nfwY);
+    void drbgFrbmf(JComponfnt f, int nfwX, int nfwY);
+    void drbgFrbmf(JComponfnt f, int nfwX, int nfwY);
+    void drbgFrbmf(JComponfnt f, int nfwX, int nfwY);
+    void drbgFrbmf(JComponfnt f, int nfwX, int nfwY);
+
+
+
+
 
     /**
-     * This mfthod signbls thf fnd of thf rfsizf sfssion. Any stbtf mbintbinfd by
-     * thf DfsktopMbnbgfr dbn bf rfmovfd hfrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod signbls tif fnd of tif drbgging sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif drbgging sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif drbgging sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif drbgging sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif drbgging sfssion. Any stbtf mbintbinfd by
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
      *
-     * @pbrbm f  thf {@dodf JComponfnt} bfing rfsizfd
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing drbggfd
+     */
+     */
+     */
+     */
+     */
+    void fndDrbggingFrbmf(JComponfnt f);
+    void fndDrbggingFrbmf(JComponfnt f);
+    void fndDrbggingFrbmf(JComponfnt f);
+    void fndDrbggingFrbmf(JComponfnt f);
+    void fndDrbggingFrbmf(JComponfnt f);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * Tiis mftiod is normblly dbllfd wifn tif usfr ibs indidbtfd tibt
+     * tify will bfgin rfsizing tif frbmf. Tiis mftiod siould bf dbllfd
+     * tify will bfgin rfsizing tif frbmf. Tiis mftiod siould bf dbllfd
+     * tify will bfgin rfsizing tif frbmf. Tiis mftiod siould bf dbllfd
+     * tify will bfgin rfsizing tif frbmf. Tiis mftiod siould bf dbllfd
+     * tify will bfgin rfsizing tif frbmf. Tiis mftiod siould bf dbllfd
+     * prior to bny rfsizfFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny rfsizfFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny rfsizfFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny rfsizfFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * prior to bny rfsizfFrbmf() dblls to bllow tif DfsktopMbnbgfr to prfpbrf bny
+     * nfdfssbry stbtf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * nfdfssbry stbtf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * nfdfssbry stbtf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * nfdfssbry stbtf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * nfdfssbry stbtf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     */
+     */
+     */
+     */
+     */
+    void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion);
+    void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion);
+    void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion);
+    void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion);
+    void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif usfr ibs rfsizfd tif domponfnt. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs rfsizfd tif domponfnt. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs rfsizfd tif domponfnt. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs rfsizfd tif domponfnt. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * Tif usfr ibs rfsizfd tif domponfnt. Cblls to tiis mftiod will bf prfdfdfd by dblls
+     * to bfginRfsizingFrbmf().
+     * to bfginRfsizingFrbmf().
+     * to bfginRfsizingFrbmf().
+     * to bfginRfsizingFrbmf().
+     * to bfginRfsizingFrbmf().
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     */
+     */
+     */
+     */
+     */
+    void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod signbls tif fnd of tif rfsizf sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif rfsizf sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif rfsizf sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif rfsizf sfssion. Any stbtf mbintbinfd by
+     * Tiis mftiod signbls tif fnd of tif rfsizf sfssion. Any stbtf mbintbinfd by
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     * tif DfsktopMbnbgfr dbn bf rfmovfd ifrf.  Normblly <b>f</b> will bf b JIntfrnblFrbmf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing rfsizfd
+     */
+     */
+     */
+     */
      */
     void fndRfsizingFrbmf(JComponfnt f);
+    void fndRfsizingFrbmf(JComponfnt f);
+    void fndRfsizingFrbmf(JComponfnt f);
+    void fndRfsizingFrbmf(JComponfnt f);
+    void fndRfsizingFrbmf(JComponfnt f);
+
+
+
+
 
     /**
-     * This is b primitivf rfshbpf mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Tiis is b primitivf rfsibpf mftiod.
+     * Tiis is b primitivf rfsibpf mftiod.
+     * Tiis is b primitivf rfsibpf mftiod.
+     * Tiis is b primitivf rfsibpf mftiod.
+     * Tiis is b primitivf rfsibpf mftiod.
      *
-     * @pbrbm f  thf {@dodf JComponfnt} bfing movfd or rfsizfd
-     * @pbrbm nfwX  thf nfw x-doordinbtf
-     * @pbrbm nfwY  thf nfw y-doordinbtf
-     * @pbrbm nfwWidth  thf nfw width
-     * @pbrbm nfwHfight  thf nfw hfight
+     *
+     *
+     *
+     *
+     * @pbrbm f  tif {@dodf JComponfnt} bfing movfd or rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing movfd or rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing movfd or rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing movfd or rfsizfd
+     * @pbrbm f  tif {@dodf JComponfnt} bfing movfd or rfsizfd
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwX  tif nfw x-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwY  tif nfw y-doordinbtf
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwWidti  tif nfw widti
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
+     * @pbrbm nfwHfigit  tif nfw ifigit
      */
-    void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidth, int nfwHfight);
+     */
+     */
+     */
+     */
+    void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+    void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit);
+}
+}
+}
+}
 }

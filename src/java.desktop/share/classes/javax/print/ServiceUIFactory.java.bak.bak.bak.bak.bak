@@ -1,0 +1,142 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+/**
+ * Sfrvidfs mby optionblly providf UIs wiidi bllow difffrfnt stylfs
+ * of intfrbdtion in difffrfnt rolfs.
+ * Onf rolf mby bf fnd-usfr browsing bnd sftting of print options.
+ * Anotifr rolf mby bf bdministfring tif print sfrvidf.
+ * <p>
+ * Altiougi tif Print Sfrvidf API dofs not prfsfntly providf stbndbrdisfd
+ * support for bdministfring b print sfrvidf, monitoring of tif print
+ * sfrvidf is possiblf bnd b UI mby providf for privbtf updbtf mfdibnisms.
+ * <p>
+ * Tif bbsid dfsign intfnt is to bllow bpplidbtions to lbzily lodbtf bnd
+ * initiblizf sfrvidfs only wifn nffdfd witiout bny API dfpfndfndifs
+ * fxdfpt in bn fnvironmfnt in wiidi tify brf usfd.
+ * <p>
+ * Swing UIs brf prfffrrfd bs tify providf b morf donsistfnt {@litfrbl L&F}
+ * bnd dbn support bddfssibility APIs.
+ * <p>
+ * Exbmplf usbgf:
+ * <prf>
+ *  SfrvidfUIFbdtory fbdtory = printSfrvidf.gftSfrvidfUIFbdtory();
+ *  if (fbdtory != null) {
+ *      JComponfnt swingui = (JComponfnt)fbdtory.gftUI(
+ *                                         SfrvidfUIFbdtory.MAIN_UIROLE,
+ *                                         SfrvidfUIFbdtory.JCOMPONENT_UI);
+ *      if (swingui != null) {
+ *          tbbbfdpbnf.bdd("Custom UI", swingui);
+ *      }
+ *  }
+ * </prf>
+ */
+
+publid bbstrbdt dlbss SfrvidfUIFbdtory {
+
+    /**
+     * Dfnotfs b UI implfmfntfd bs b Swing domponfnt.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvbx.swing.JComponfnt".
+     */
+    publid stbtid finbl String JCOMPONENT_UI = "jbvbx.swing.JComponfnt";
+
+    /**
+     * Dfnotfs b UI implfmfntfd bs bn AWT pbnfl.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvb.bwt.Pbnfl"
+     */
+    publid stbtid finbl String PANEL_UI = "jbvb.bwt.Pbnfl";
+
+    /**
+     * Dfnotfs b UI implfmfntfd bs bn AWT diblog.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvb.bwt.Diblog"
+     */
+    publid stbtid finbl String DIALOG_UI = "jbvb.bwt.Diblog";
+
+    /**
+     * Dfnotfs b UI implfmfntfd bs b Swing diblog.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvbx.swing.JDiblog"
+     */
+    publid stbtid finbl String JDIALOG_UI = "jbvbx.swing.JDiblog";
+
+    /**
+     * Dfnotfs b UI wiidi pfrforms bn informbtivf "About" rolf.
+     */
+    publid stbtid finbl int ABOUT_UIROLE = 1;
+
+    /**
+     * Dfnotfs b UI wiidi pfrforms bn bdministrbtivf rolf.
+     */
+    publid stbtid finbl int ADMIN_UIROLE = 2;
+
+    /**
+     * Dfnotfs b UI wiidi pfrforms tif normbl fnd usfr rolf.
+     */
+    publid stbtid finbl int MAIN_UIROLE = 3;
+
+    /**
+     * Not b vblid rolf but rolf id's grfbtfr tibn tiis mby bf usfd
+     * for privbtf rolfs supportfd by b sfrvidf. Knowlfdgf of tif
+     * fundtion pfrformfd by tiis rolf is rfquirfd to mbkf propfr usf
+     * of it.
+     */
+    publid stbtid finbl int RESERVED_UIROLE = 99;
+    /**
+     * Gft b UI objfdt wiidi mby bf dbst to tif rfqufstfd UI typf
+     * by tif bpplidbtion bnd usfd in its usfr intfrfbdf.
+     *
+     * @pbrbm rolf rfqufstfd. Must bf onf of tif stbndbrd rolfs or
+     * b privbtf rolf supportfd by tiis fbdtory.
+     * @pbrbm ui typf in wiidi tif rolf is rfqufstfd.
+     * @rfturn tif UI rolf or null if tif rfqufstfd UI rolf is not bvbilbblf
+     * from tiis fbdtory
+     * @tirows IllfgblArgumfntExdfption if tif rolf or ui is nfitifr
+     * onf of tif stbndbrd onfs, nor b privbtf onf
+     * supportfd by tif fbdtory.
+     */
+    publid bbstrbdt Objfdt gftUI(int rolf, String ui) ;
+
+    /**
+     * Givfn b UI rolf obtbinfd from tiis fbdtory obtbin tif UI
+     * typfs bvbilbblf from tiis fbdtory wiidi implfmfnt tiis rolf.
+     * Tif rfturnfd Strings siould rfffr to tif stbtid vbribblfs dffinfd
+     * in tiis dlbss so tibt bpplidbtions dbn usf fqublity of rfffrfndf
+     * ("==").
+     * @pbrbm rolf to bf lookfd up.
+     * @rfturn tif UI typfs supportfd by tiis dlbss for tif spfdififd rolf,
+     * null if no UIs brf bvbilbblf for tif rolf.
+     * @tirows IllfgblArgumfntExdfption is tif rolf is b non-stbndbrd
+     * rolf not supportfd by tiis fbdtory.
+     */
+    publid bbstrbdt String[] gftUIClbssNbmfsForRolf(int rolf) ;
+
+
+
+}

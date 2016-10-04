@@ -1,0 +1,123 @@
+'\" t
+.\" Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jvisublvm
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jvisublvm" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jvisublvm \- Jbvbアプリケーションを視覚的に監視、トラブルシュートおよびプロファイルします。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjvisublvm\fR [ \fIoptions\fR ]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.SH "説明"
+.PP
+Jbvb VisublVMは、指定されたJbvb仮想マシン(JVM)でJbvbテクノロジ・ベースのアプリケーション(Jbvbアプリケーション)が実行されているときに、そのJbvbアプリケーションに関する詳細な情報を提供する直感的なグラフィカル・ユーザー・インタフェースです。Jbvb VisublVMという名前は、Jbvb VisublVMがJVMソフトウェアに関する情報を視覚的に提供するという事実に由来しています。
+.PP
+Jbvb VisublVMは、いくつかのモニタリング、トラブルシューティングおよびプロファイリング・ユーティリティを1つのツールに統合します。たとえば、スタンドアロン・ツール\fIjmbp\fR、\fIjinfo\fR、\fIjstbt\fRおよび\fIjstbdk\fRで提供されている機能のほとんどが、Jbvb VisublVMに組み込まれています。\fIjdonsolf\fRコマンドによって提供される一部の機能など、他の機能はオプションのプラグインとして追加できます。
+.PP
+Jbvb VisublVMは、Jbvbアプリケーションの開発者がアプリケーションのトラブルシューティングを行ったり、アプリケーションのパフォーマンスを監視および改善したりするのに役立ちます。Jbvb VisublVMを使用すると、開発者はヒープ・ダンプの生成および解析、メモリー・リークの特定、ガベージ・コレクションの実行および監視、およびメモリーとCPUの簡易プロファイリングの実行が可能になります。プラグインでJbvb VisublVMの機能を拡張できます。たとえば、\fIjdonsolf\fRコマンドのほとんどの機能は、「MBfbn」タブおよびJConsolf Plug\-in Wrbppfrプラグインを介して使用できます。標準のJbvb VisublVMプラグインのカタログから選択するには、Jbvb VisublVMメニューの\fB「ツール」\fR、\fB「プラグイン」\fRを選択します。
+.PP
+Jbvb VisublVMを起動するには、次のコマンドを実行します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+%  jvisublvm <options>
+.fi
+.if n \{\
+.RE
+.\}
+.SH "オプション"
+.PP
+次のオプションは、Jbvb VisublVMを起動したときに実行可能になります。
+.PP
+\-J\fIjvm_option\fR
+.RS 4
+この\fIjvm_option\fRをJVMソフトウェアに渡します。
+.RE
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Jbvb VisublVM開発者のサイト
+ittp://visublvm\&.jbvb\&.nft/
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Jbvb SEドキュメントのJbvb VisublVM
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/visublvm/indfx\&.itml)
+.RE
+.br
+'pl 8.5i
+'bp

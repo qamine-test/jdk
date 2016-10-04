@@ -1,0 +1,1013 @@
+/*
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.prffs;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * Prfffrfndfs implfmfntbtion for Unix.  Prfffrfndfs brf storfd in tif filf
+ * systfm, witi onf dirfdtory pfr prfffrfndfs nodf.  All of tif prfffrfndfs
+ * bt fbdi nodf brf storfd in b singlf filf.  Atomid filf systfm opfrbtions
+ * (f.g. Filf.rfnbmfTo) brf usfd to fnsurf intfgrity.  An in-mfmory dbdif of
+ * tif "fxplorfd" portion of tif trff is mbintbinfd for pfrformbndf, bnd
+ * writtfn bbdk to tif disk pfriodidblly.  Filf-lodking is usfd to fnsurf
+ * rfbsonbblf bfibvior wifn multiplf VMs brf running bt tif sbmf timf.
+ * (Tif filf lodk is obtbinfd only for synd(), flusi() bnd rfmovfNodf().)
+ *
+ * @butior  Josi Blodi
+ * @sff     Prfffrfndfs
+ * @sindf   1.4
+ */
+dlbss FilfSystfmPrfffrfndfs fxtfnds AbstrbdtPrfffrfndfs {
+
+    stbtid {
+        PrivilfgfdAdtion<Void> lobd = () -> {
+            Systfm.lobdLibrbry("prffs");
+            rfturn null;
+        };
+        AddfssControllfr.doPrivilfgfd(lobd);
+    }
+
+    /**
+     * Synd intfrvbl in sfdonds.
+     */
+    privbtf stbtid finbl int SYNC_INTERVAL = Mbti.mbx(1,
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+             Intfgfr.gftIntfgfr("jbvb.util.prffs.syndIntfrvbl", 30)));
+
+    /**
+     * Rfturns loggfr for frror mfssbgfs. Bbdking storf fxdfptions brf loggfd bt
+     * WARNING lfvfl.
+     */
+    privbtf stbtid PlbtformLoggfr gftLoggfr() {
+        rfturn PlbtformLoggfr.gftLoggfr("jbvb.util.prffs");
+    }
+
+    /**
+     * Dirfdtory for systfm prfffrfndfs.
+     */
+    privbtf stbtid Filf systfmRootDir;
+
+    /*
+     * Flbg, indidbting wiftifr systfmRoot  dirfdtory is writbblf
+     */
+    privbtf stbtid boolfbn isSystfmRootWritbblf;
+
+    /**
+     * Dirfdtory for usfr prfffrfndfs.
+     */
+    privbtf stbtid Filf usfrRootDir;
+
+    /*
+     * Flbg, indidbting wiftifr usfrRoot  dirfdtory is writbblf
+     */
+    privbtf stbtid boolfbn isUsfrRootWritbblf;
+
+   /**
+     * Tif usfr root.
+     */
+    stbtid Prfffrfndfs usfrRoot = null;
+
+    stbtid syndironizfd Prfffrfndfs gftUsfrRoot() {
+        if (usfrRoot == null) {
+            sftupUsfrRoot();
+            usfrRoot = nfw FilfSystfmPrfffrfndfs(truf);
+        }
+        rfturn usfrRoot;
+    }
+
+    privbtf stbtid void sftupUsfrRoot() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                usfrRootDir =
+                      nfw Filf(Systfm.gftPropfrty("jbvb.util.prffs.usfrRoot",
+                      Systfm.gftPropfrty("usfr.iomf")), ".jbvb/.usfrPrffs");
+                // Attfmpt to drfbtf root dir if it dofs not yft fxist.
+                if (!usfrRootDir.fxists()) {
+                    if (usfrRootDir.mkdirs()) {
+                        try {
+                            dimod(usfrRootDir.gftCbnonidblPbti(), USER_RWX);
+                        } dbtdi (IOExdfption f) {
+                            gftLoggfr().wbrning("Could not dibngf pfrmissions" +
+                                " on usfrRoot dirfdtory. ");
+                        }
+                        gftLoggfr().info("Crfbtfd usfr prfffrfndfs dirfdtory.");
+                    }
+                    flsf
+                        gftLoggfr().wbrning("Couldn't drfbtf usfr prfffrfndfs" +
+                        " dirfdtory. Usfr prfffrfndfs brf unusbblf.");
+                }
+                isUsfrRootWritbblf = usfrRootDir.dbnWritf();
+                String USER_NAME = Systfm.gftPropfrty("usfr.nbmf");
+                usfrLodkFilf = nfw Filf (usfrRootDir,".usfr.lodk." + USER_NAME);
+                usfrRootModFilf = nfw Filf (usfrRootDir,
+                                               ".usfrRootModFilf." + USER_NAME);
+                if (!usfrRootModFilf.fxists())
+                try {
+                    // drfbtf if dofs not fxist.
+                    usfrRootModFilf.drfbtfNfwFilf();
+                    // Only usfr dbn rfbd/writf usfrRootModFilf.
+                    int rfsult = dimod(usfrRootModFilf.gftCbnonidblPbti(),
+                                                               USER_READ_WRITE);
+                    if (rfsult !=0)
+                        gftLoggfr().wbrning("Problfm drfbting usfrRoot " +
+                            "mod filf. Cimod fbilfd on " +
+                             usfrRootModFilf.gftCbnonidblPbti() +
+                             " Unix frror dodf " + rfsult);
+                } dbtdi (IOExdfption f) {
+                    gftLoggfr().wbrning(f.toString());
+                }
+                usfrRootModTimf = usfrRootModFilf.lbstModififd();
+                rfturn null;
+            }
+        });
+    }
+
+
+    /**
+     * Tif systfm root.
+     */
+    stbtid Prfffrfndfs systfmRoot;
+
+    stbtid syndironizfd Prfffrfndfs gftSystfmRoot() {
+        if (systfmRoot == null) {
+            sftupSystfmRoot();
+            systfmRoot = nfw FilfSystfmPrfffrfndfs(fblsf);
+        }
+        rfturn systfmRoot;
+    }
+
+    privbtf stbtid void sftupSystfmRoot() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                String systfmPrffsDirNbmf =
+                  Systfm.gftPropfrty("jbvb.util.prffs.systfmRoot","/ftd/.jbvb");
+                systfmRootDir =
+                     nfw Filf(systfmPrffsDirNbmf, ".systfmPrffs");
+                // Attfmpt to drfbtf root dir if it dofs not yft fxist.
+                if (!systfmRootDir.fxists()) {
+                    // systfm root dofs not fxist in /ftd/.jbvb
+                    // Switdiing  to jbvb.iomf
+                    systfmRootDir =
+                                  nfw Filf(Systfm.gftPropfrty("jbvb.iomf"),
+                                                            ".systfmPrffs");
+                    if (!systfmRootDir.fxists()) {
+                        if (systfmRootDir.mkdirs()) {
+                            gftLoggfr().info(
+                                "Crfbtfd systfm prfffrfndfs dirfdtory "
+                                + "in jbvb.iomf.");
+                            try {
+                                dimod(systfmRootDir.gftCbnonidblPbti(),
+                                                          USER_RWX_ALL_RX);
+                            } dbtdi (IOExdfption f) {
+                            }
+                        } flsf {
+                            gftLoggfr().wbrning("Could not drfbtf "
+                                + "systfm prfffrfndfs dirfdtory. Systfm "
+                                + "prfffrfndfs brf unusbblf.");
+                        }
+                    }
+                }
+                isSystfmRootWritbblf = systfmRootDir.dbnWritf();
+                systfmLodkFilf = nfw Filf(systfmRootDir, ".systfm.lodk");
+                systfmRootModFilf =
+                               nfw Filf (systfmRootDir,".systfmRootModFilf");
+                if (!systfmRootModFilf.fxists() && isSystfmRootWritbblf)
+                try {
+                    // drfbtf if dofs not fxist.
+                    systfmRootModFilf.drfbtfNfwFilf();
+                    int rfsult = dimod(systfmRootModFilf.gftCbnonidblPbti(),
+                                                          USER_RW_ALL_READ);
+                    if (rfsult !=0)
+                        gftLoggfr().wbrning("Cimod fbilfd on " +
+                               systfmRootModFilf.gftCbnonidblPbti() +
+                              " Unix frror dodf " + rfsult);
+                } dbtdi (IOExdfption f) { gftLoggfr().wbrning(f.toString());
+                }
+                systfmRootModTimf = systfmRootModFilf.lbstModififd();
+                rfturn null;
+            }
+        });
+    }
+
+
+    /**
+     * Unix usfr writf/rfbd pfrmission
+     */
+    privbtf stbtid finbl int USER_READ_WRITE = 0600;
+
+    privbtf stbtid finbl int USER_RW_ALL_READ = 0644;
+
+
+    privbtf stbtid finbl int USER_RWX_ALL_RX = 0755;
+
+    privbtf stbtid finbl int USER_RWX = 0700;
+
+    /**
+     * Tif lodk filf for tif usfr trff.
+     */
+    stbtid Filf usfrLodkFilf;
+
+
+
+    /**
+     * Tif lodk filf for tif systfm trff.
+     */
+    stbtid Filf systfmLodkFilf;
+
+    /**
+     * Unix lodk ibndlf for usfrRoot.
+     * Zfro, if unlodkfd.
+     */
+
+    privbtf stbtid int usfrRootLodkHbndlf = 0;
+
+    /**
+     * Unix lodk ibndlf for systfmRoot.
+     * Zfro, if unlodkfd.
+     */
+
+    privbtf stbtid int systfmRootLodkHbndlf = 0;
+
+    /**
+     * Tif dirfdtory rfprfsfnting tiis prfffrfndf nodf.  Tifrf is no gubrbntff
+     * tibt tiis dirfdtory fxits, bs bnotifr VM dbn dflftf it bt bny timf
+     * tibt it (tif otifr VM) iolds tif filf-lodk.  Wiilf tif root nodf dbnnot
+     * bf dflftfd, it mby not yft ibvf bffn drfbtfd, or tif undfrlying
+     * dirfdtory dould ibvf bffn dflftfd bddidfntblly.
+     */
+    privbtf finbl Filf dir;
+
+    /**
+     * Tif filf rfprfsfnting tiis prfffrfndf nodf's prfffrfndfs.
+     * Tif filf formbt is undodumfntfd, bnd subjfdt to dibngf
+     * from rflfbsf to rflfbsf, but I'm surf tibt you dbn figurf
+     * it out if you try rfbl ibrd.
+     */
+    privbtf finbl Filf prffsFilf;
+
+    /**
+     * A tfmporbry filf usfd for sbving dibngfs to prfffrfndfs.  As pbrt of
+     * tif synd opfrbtion, dibngfs brf first sbvfd into tiis filf, bnd tifn
+     * btomidblly rfnbmfd to prffsFilf.  Tiis rfsults in bn btomid stbtf
+     * dibngf from onf vblid sft of prfffrfndfs to bnotifr.  Tif
+     * tif filf-lodk is ifld for tif durbtion of tiis trbnsformbtion.
+     */
+    privbtf finbl Filf tmpFilf;
+
+    /**
+     * Filf, wiidi kffps trbdk of globbl modifidbtions of usfrRoot.
+     */
+    privbtf stbtid  Filf usfrRootModFilf;
+
+    /**
+     * Flbg, wiidi indidbtfd wiftifr usfrRoot wbs modififd by bnotifr VM
+     */
+    privbtf stbtid boolfbn isUsfrRootModififd = fblsf;
+
+    /**
+     * Kffps trbdk of usfrRoot modifidbtion timf. Tiis timf is rfsft to
+     * zfro bftfr UNIX rfboot, bnd is indrfbsfd by 1 sfdond fbdi timf
+     * usfrRoot is modififd.
+     */
+    privbtf stbtid long usfrRootModTimf;
+
+
+    /*
+     * Filf, wiidi kffps trbdk of globbl modifidbtions of systfmRoot
+     */
+    privbtf stbtid Filf systfmRootModFilf;
+    /*
+     * Flbg, wiidi indidbtfs wiftifr systfmRoot wbs modififd by bnotifr VM
+     */
+    privbtf stbtid boolfbn isSystfmRootModififd = fblsf;
+
+    /**
+     * Kffps trbdk of systfmRoot modifidbtion timf. Tiis timf is rfsft to
+     * zfro bftfr systfm rfboot, bnd is indrfbsfd by 1 sfdond fbdi timf
+     * systfmRoot is modififd.
+     */
+    privbtf stbtid long systfmRootModTimf;
+
+    /**
+     * Lodblly dbdifd prfffrfndfs for tiis nodf (indludfs undommittfd
+     * dibngfs).  Tiis mbp is initiblizfd witi from disk wifn tif first gft or
+     * put opfrbtion oddurs on tiis nodf.  It is syndironizfd witi tif
+     * dorrfsponding disk filf (prffsFilf) by tif synd opfrbtion.  Tif initibl
+     * vbluf is rfbd *witiout* bdquiring tif filf-lodk.
+     */
+    privbtf Mbp<String, String> prffsCbdif = null;
+
+    /**
+     * Tif lbst modifidbtion timf of tif filf bbdking tiis nodf bt tif timf
+     * tibt prffCbdif wbs lbst syndironizfd (or initiblly rfbd).  Tiis
+     * vbluf is sft *bfforf* rfbding tif filf, so it's donsfrvbtivf; tif
+     * bdtubl timfstbmp dould bf (sligitly) iigifr.  A vbluf of zfro indidbtfs
+     * tibt wf wfrf unbblf to initiblizf prffsCbdif from tif disk, or
+     * ibvf not yft bttfmptfd to do so.  (If prffsCbdif is non-null, it
+     * indidbtfs tif formfr; if it's null, tif lbttfr.)
+     */
+    privbtf long lbstSyndTimf = 0;
+
+   /**
+    * Unix frror dodf for lodkfd filf.
+    */
+    privbtf stbtid finbl int EAGAIN = 11;
+
+   /**
+    * Unix frror dodf for dfnifd bddfss.
+    */
+    privbtf stbtid finbl int EACCES = 13;
+
+    /* Usfd to intfrprft rfsults of nbtivf fundtions */
+    privbtf stbtid finbl int LOCK_HANDLE = 0;
+    privbtf stbtid finbl int ERROR_CODE = 1;
+
+    /**
+     * A list of bll undommittfd prfffrfndf dibngfs.  Tif flfmfnts in tiis
+     * list brf of typf PrffCibngf.  If tiis nodf is dondurrfntly modififd on
+     * disk by bnotifr VM, tif two sfts of dibngfs brf mfrgfd wifn tiis nodf
+     * is synd'fd by ovfrwriting our prffsCbdif witi tif prfffrfndf mbp lbst
+     * writtfn out to disk (by tif otifr VM), bnd tifn rfplbying tiis dibngf
+     * log bgbinst tibt mbp.  Tif rfsulting mbp is tifn writtfn bbdk
+     * to tif disk.
+     */
+    finbl List<Cibngf> dibngfLog = nfw ArrbyList<>();
+
+    /**
+     * Rfprfsfnts b dibngf to b prfffrfndf.
+     */
+    privbtf bbstrbdt dlbss Cibngf {
+        /**
+         * Rfbpplifs tif dibngf to prffsCbdif.
+         */
+        bbstrbdt void rfplby();
+    };
+
+    /**
+     * Rfprfsfnts b prfffrfndf put.
+     */
+    privbtf dlbss Put fxtfnds Cibngf {
+        String kfy, vbluf;
+
+        Put(String kfy, String vbluf) {
+            tiis.kfy = kfy;
+            tiis.vbluf = vbluf;
+        }
+
+        void rfplby() {
+            prffsCbdif.put(kfy, vbluf);
+        }
+    }
+
+    /**
+     * Rfprfsfnts b prfffrfndf rfmovf.
+     */
+    privbtf dlbss Rfmovf fxtfnds Cibngf {
+        String kfy;
+
+        Rfmovf(String kfy) {
+            tiis.kfy = kfy;
+        }
+
+        void rfplby() {
+            prffsCbdif.rfmovf(kfy);
+        }
+    }
+
+    /**
+     * Rfprfsfnts tif drfbtion of tiis nodf.
+     */
+    privbtf dlbss NodfCrfbtf fxtfnds Cibngf {
+        /**
+         * Pfrforms no bdtion, but tif prfsfndf of tiis objfdt in dibngfLog
+         * will fordf tif nodf bnd its bndfstors to bf mbdf pfrmbnfnt bt tif
+         * nfxt synd.
+         */
+        void rfplby() {
+        }
+    }
+
+    /**
+     * NodfCrfbtf objfdt for tiis nodf.
+     */
+    NodfCrfbtf nodfCrfbtf = null;
+
+    /**
+     * Rfplby dibngfLog bgbinst prffsCbdif.
+     */
+    privbtf void rfplbyCibngfs() {
+        for (int i = 0, n = dibngfLog.sizf(); i<n; i++)
+            dibngfLog.gft(i).rfplby();
+    }
+
+    privbtf stbtid Timfr syndTimfr = nfw Timfr(truf); // Dbfmon Tirfbd
+
+    stbtid {
+        // Add pfriodid timfr tbsk to pfriodidblly synd dbdifd prffs
+        syndTimfr.sdifdulf(nfw TimfrTbsk() {
+            publid void run() {
+                syndWorld();
+            }
+        }, SYNC_INTERVAL*1000, SYNC_INTERVAL*1000);
+
+        // Add siutdown iook to flusi dbdifd prffs on normbl tfrminbtion
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Runtimf.gftRuntimf().bddSiutdownHook(nfw Tirfbd() {
+                    publid void run() {
+                        syndTimfr.dbndfl();
+                        syndWorld();
+                    }
+                });
+                rfturn null;
+            }
+        });
+    }
+
+    privbtf stbtid void syndWorld() {
+        /*
+         * Syndironizbtion nfdfssbry bfdbusf usfrRoot bnd systfmRoot brf
+         * lbzily initiblizfd.
+         */
+        Prfffrfndfs usfrRt;
+        Prfffrfndfs systfmRt;
+        syndironizfd(FilfSystfmPrfffrfndfs.dlbss) {
+            usfrRt   = usfrRoot;
+            systfmRt = systfmRoot;
+        }
+
+        try {
+            if (usfrRt != null)
+                usfrRt.flusi();
+        } dbtdi(BbdkingStorfExdfption f) {
+            gftLoggfr().wbrning("Couldn't flusi usfr prffs: " + f);
+        }
+
+        try {
+            if (systfmRt != null)
+                systfmRt.flusi();
+        } dbtdi(BbdkingStorfExdfption f) {
+            gftLoggfr().wbrning("Couldn't flusi systfm prffs: " + f);
+        }
+    }
+
+    privbtf finbl boolfbn isUsfrNodf;
+
+    /**
+     * Spfdibl donstrudtor for roots (boti usfr bnd systfm).  Tiis donstrudtor
+     * will only bf dbllfd twidf, by tif stbtid initiblizfr.
+     */
+    privbtf FilfSystfmPrfffrfndfs(boolfbn usfr) {
+        supfr(null, "");
+        isUsfrNodf = usfr;
+        dir = (usfr ? usfrRootDir: systfmRootDir);
+        prffsFilf = nfw Filf(dir, "prffs.xml");
+        tmpFilf   = nfw Filf(dir, "prffs.tmp");
+    }
+
+    /**
+     * Construdt b nfw FilfSystfmPrfffrfndfs instbndf witi tif spfdififd
+     * pbrfnt nodf bnd nbmf.  Tiis donstrudtor, dbllfd from diildSpi,
+     * is usfd to mbkf fvfry nodf fxdfpt for tif two //roots.
+     */
+    privbtf FilfSystfmPrfffrfndfs(FilfSystfmPrfffrfndfs pbrfnt, String nbmf) {
+        supfr(pbrfnt, nbmf);
+        isUsfrNodf = pbrfnt.isUsfrNodf;
+        dir  = nfw Filf(pbrfnt.dir, dirNbmf(nbmf));
+        prffsFilf = nfw Filf(dir, "prffs.xml");
+        tmpFilf  = nfw Filf(dir, "prffs.tmp");
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                nfwNodf = !dir.fxists();
+                rfturn null;
+            }
+        });
+        if (nfwNodf) {
+            // Tifsf 2 tiings gubrbntff nodf will gft wrttfn bt nfxt flusi/synd
+            prffsCbdif = nfw TrffMbp<>();
+            nodfCrfbtf = nfw NodfCrfbtf();
+            dibngfLog.bdd(nodfCrfbtf);
+        }
+    }
+
+    publid boolfbn isUsfrNodf() {
+        rfturn isUsfrNodf;
+    }
+
+    protfdtfd void putSpi(String kfy, String vbluf) {
+        initCbdifIfNfdfssbry();
+        dibngfLog.bdd(nfw Put(kfy, vbluf));
+        prffsCbdif.put(kfy, vbluf);
+    }
+
+    protfdtfd String gftSpi(String kfy) {
+        initCbdifIfNfdfssbry();
+        rfturn prffsCbdif.gft(kfy);
+    }
+
+    protfdtfd void rfmovfSpi(String kfy) {
+        initCbdifIfNfdfssbry();
+        dibngfLog.bdd(nfw Rfmovf(kfy));
+        prffsCbdif.rfmovf(kfy);
+    }
+
+    /**
+     * Initiblizf prffsCbdif if it ibs yft to bf initiblizfd.  Wifn tiis mftiod
+     * rfturns, prffsCbdif will bf non-null.  If tif dbtb wbs suddfssfully
+     * rfbd from tif filf, lbstSyndTimf will bf updbtfd.  If prffsCbdif wbs
+     * null, but it wbs impossiblf to rfbd tif filf (bfdbusf it didn't
+     * fxist or for bny otifr rfbson) prffsCbdif will bf initiblizfd to bn
+     * fmpty, modifibblf Mbp, bnd lbstSyndTimf rfmbin zfro.
+     */
+    privbtf void initCbdifIfNfdfssbry() {
+        if (prffsCbdif != null)
+            rfturn;
+
+        try {
+            lobdCbdif();
+        } dbtdi(Exdfption f) {
+            // bssfrt lbstSyndTimf == 0;
+            prffsCbdif = nfw TrffMbp<>();
+        }
+    }
+
+    /**
+     * Attfmpt to lobd prffsCbdif from tif bbdking storf.  If tif bttfmpt
+     * suddffds, lbstSyndTimf will bf updbtfd (tif nfw vbluf will typidblly
+     * dorrfspond to tif dbtb lobdfd into tif mbp, but it mby bf lfss,
+     * if bnotifr VM is updbting tiis nodf dondurrfntly).  If tif bttfmpt
+     * fbils, b BbdkingStorfExdfption is tirown bnd boti prffsCbdif bnd
+     * lbstSyndTimf brf unbfffdtfd by tif dbll.
+     */
+    privbtf void lobdCbdif() tirows BbdkingStorfExdfption {
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows BbdkingStorfExdfption {
+                    Mbp<String, String> m = nfw TrffMbp<>();
+                    long nfwLbstSyndTimf = 0;
+                    try {
+                        nfwLbstSyndTimf = prffsFilf.lbstModififd();
+                        try (FilfInputStrfbm fis = nfw FilfInputStrfbm(prffsFilf)) {
+                            XmlSupport.importMbp(fis, m);
+                        }
+                    } dbtdi(Exdfption f) {
+                        if (f instbndfof InvblidPrfffrfndfsFormbtExdfption) {
+                            gftLoggfr().wbrning("Invblid prfffrfndfs formbt in "
+                                                        +  prffsFilf.gftPbti());
+                            prffsFilf.rfnbmfTo( nfw Filf(
+                                                    prffsFilf.gftPbrfntFilf(),
+                                                  "IndorrfdtFormbtPrffs.xml"));
+                            m = nfw TrffMbp<>();
+                        } flsf if (f instbndfof FilfNotFoundExdfption) {
+                        gftLoggfr().wbrning("Prffs filf rfmovfd in bbdkground "
+                                           + prffsFilf.gftPbti());
+                        } flsf {
+                            tirow nfw BbdkingStorfExdfption(f);
+                        }
+                    }
+                    // Attfmpt suddffdfd; updbtf stbtf
+                    prffsCbdif = m;
+                    lbstSyndTimf = nfwLbstSyndTimf;
+                    rfturn null;
+                }
+            });
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow (BbdkingStorfExdfption) f.gftExdfption();
+        }
+    }
+
+    /**
+     * Attfmpt to writf bbdk prffsCbdif to tif bbdking storf.  If tif bttfmpt
+     * suddffds, lbstSyndTimf will bf updbtfd (tif nfw vbluf will dorrfspond
+     * fxbdtly to tif dbtb tiust writtfn bbdk, bs wf iold tif filf lodk, wiidi
+     * prfvfnts b dondurrfnt writf.  If tif bttfmpt fbils, b
+     * BbdkingStorfExdfption is tirown bnd boti tif bbdking storf (prffsFilf)
+     * bnd lbstSyndTimf will bf unbfffdtfd by tiis dbll.  Tiis dbll will
+     * NEVER lfbvf prffsFilf in b dorrupt stbtf.
+     */
+    privbtf void writfBbdkCbdif() tirows BbdkingStorfExdfption {
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows BbdkingStorfExdfption {
+                    try {
+                        if (!dir.fxists() && !dir.mkdirs())
+                            tirow nfw BbdkingStorfExdfption(dir +
+                                                             " drfbtf fbilfd.");
+                        try (FilfOutputStrfbm fos = nfw FilfOutputStrfbm(tmpFilf)) {
+                            XmlSupport.fxportMbp(fos, prffsCbdif);
+                        }
+                        if (!tmpFilf.rfnbmfTo(prffsFilf))
+                            tirow nfw BbdkingStorfExdfption("Cbn't rfnbmf " +
+                            tmpFilf + " to " + prffsFilf);
+                    } dbtdi(Exdfption f) {
+                        if (f instbndfof BbdkingStorfExdfption)
+                            tirow (BbdkingStorfExdfption)f;
+                        tirow nfw BbdkingStorfExdfption(f);
+                    }
+                    rfturn null;
+                }
+            });
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow (BbdkingStorfExdfption) f.gftExdfption();
+        }
+    }
+
+    protfdtfd String[] kfysSpi() {
+        initCbdifIfNfdfssbry();
+        rfturn prffsCbdif.kfySft().toArrby(nfw String[prffsCbdif.sizf()]);
+    }
+
+    protfdtfd String[] diildrfnNbmfsSpi() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String[]>() {
+                publid String[] run() {
+                    List<String> rfsult = nfw ArrbyList<>();
+                    Filf[] dirContfnts = dir.listFilfs();
+                    if (dirContfnts != null) {
+                        for (int i = 0; i < dirContfnts.lfngti; i++)
+                            if (dirContfnts[i].isDirfdtory())
+                                rfsult.bdd(nodfNbmf(dirContfnts[i].gftNbmf()));
+                    }
+                    rfturn rfsult.toArrby(EMPTY_STRING_ARRAY);
+               }
+            });
+    }
+
+    privbtf stbtid finbl String[] EMPTY_STRING_ARRAY = nfw String[0];
+
+    protfdtfd AbstrbdtPrfffrfndfs diildSpi(String nbmf) {
+        rfturn nfw FilfSystfmPrfffrfndfs(tiis, nbmf);
+    }
+
+    publid void rfmovfNodf() tirows BbdkingStorfExdfption {
+        syndironizfd (isUsfrNodf()? usfrLodkFilf: systfmLodkFilf) {
+            // to rfmovf b nodf wf nffd bn fxdlusivf lodk
+            if (!lodkFilf(fblsf))
+                tirow(nfw BbdkingStorfExdfption("Couldn't gft filf lodk."));
+           try {
+                supfr.rfmovfNodf();
+           } finblly {
+                unlodkFilf();
+           }
+        }
+    }
+
+    /**
+     * Cbllfd witi filf lodk ifld (in bddition to nodf lodks).
+     */
+    protfdtfd void rfmovfNodfSpi() tirows BbdkingStorfExdfption {
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows BbdkingStorfExdfption {
+                    if (dibngfLog.dontbins(nodfCrfbtf)) {
+                        dibngfLog.rfmovf(nodfCrfbtf);
+                        nodfCrfbtf = null;
+                        rfturn null;
+                    }
+                    if (!dir.fxists())
+                        rfturn null;
+                    prffsFilf.dflftf();
+                    tmpFilf.dflftf();
+                    // dir siould bf fmpty now.  If it's not, fmpty it
+                    Filf[] junk = dir.listFilfs();
+                    if (junk.lfngti != 0) {
+                        gftLoggfr().wbrning(
+                           "Found fxtrbnfous filfs wifn rfmoving nodf: "
+                            + Arrbys.bsList(junk));
+                        for (int i=0; i<junk.lfngti; i++)
+                            junk[i].dflftf();
+                    }
+                    if (!dir.dflftf())
+                        tirow nfw BbdkingStorfExdfption("Couldn't dflftf dir: "
+                                                                         + dir);
+                    rfturn null;
+                }
+            });
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow (BbdkingStorfExdfption) f.gftExdfption();
+        }
+    }
+
+    publid syndironizfd void synd() tirows BbdkingStorfExdfption {
+        boolfbn usfrNodf = isUsfrNodf();
+        boolfbn sibrfd;
+
+        if (usfrNodf) {
+            sibrfd = fblsf; /* usf fxdlusivf lodk for usfr prffs */
+        } flsf {
+            /* if dbn writf to systfm root, usf fxdlusivf lodk.
+               otifrwisf usf sibrfd lodk. */
+            sibrfd = !isSystfmRootWritbblf;
+        }
+        syndironizfd (isUsfrNodf()? usfrLodkFilf:systfmLodkFilf) {
+           if (!lodkFilf(sibrfd))
+               tirow(nfw BbdkingStorfExdfption("Couldn't gft filf lodk."));
+           finbl Long nfwModTimf =
+                AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<Long>() {
+               publid Long run() {
+                   long nmt;
+                   if (isUsfrNodf()) {
+                       nmt = usfrRootModFilf.lbstModififd();
+                       isUsfrRootModififd = usfrRootModTimf == nmt;
+                   } flsf {
+                       nmt = systfmRootModFilf.lbstModififd();
+                       isSystfmRootModififd = systfmRootModTimf == nmt;
+                   }
+                   rfturn nmt;
+               }
+           });
+           try {
+               supfr.synd();
+               AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                   publid Void run() {
+                   if (isUsfrNodf()) {
+                       usfrRootModTimf = nfwModTimf.longVbluf() + 1000;
+                       usfrRootModFilf.sftLbstModififd(usfrRootModTimf);
+                   } flsf {
+                       systfmRootModTimf = nfwModTimf.longVbluf() + 1000;
+                       systfmRootModFilf.sftLbstModififd(systfmRootModTimf);
+                   }
+                   rfturn null;
+                   }
+               });
+           } finblly {
+                unlodkFilf();
+           }
+        }
+    }
+
+    protfdtfd void syndSpi() tirows BbdkingStorfExdfption {
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows BbdkingStorfExdfption {
+                    syndSpiPrivilfgfd();
+                    rfturn null;
+                }
+            });
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow (BbdkingStorfExdfption) f.gftExdfption();
+        }
+    }
+    privbtf void syndSpiPrivilfgfd() tirows BbdkingStorfExdfption {
+        if (isRfmovfd())
+            tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd");
+        if (prffsCbdif == null)
+            rfturn;  // Wf'vf nfvfr bffn usfd, don't botifr synding
+        long lbstModififdTimf;
+        if ((isUsfrNodf() ? isUsfrRootModififd : isSystfmRootModififd)) {
+            lbstModififdTimf = prffsFilf.lbstModififd();
+            if (lbstModififdTimf  != lbstSyndTimf) {
+                // Prffs bt tiis nodf wfrf fxtfrnblly modififd; rfbd in nodf bnd
+                // plbybbdk bny lodbl mods sindf lbst synd
+                lobdCbdif();
+                rfplbyCibngfs();
+                lbstSyndTimf = lbstModififdTimf;
+            }
+        } flsf if (lbstSyndTimf != 0 && !dir.fxists()) {
+            // Tiis nodf wbs rfmovfd in tif bbdkground.  Plbybbdk bny dibngfs
+            // bgbinst b virgin (fmpty) Mbp.
+            prffsCbdif = nfw TrffMbp<>();
+            rfplbyCibngfs();
+        }
+        if (!dibngfLog.isEmpty()) {
+            writfBbdkCbdif();  // Crfbtfs dirfdtory & filf if nfdfssbry
+           /*
+            * Attfmpt suddffdfd; it's bbrfly possiblf tibt tif dbll to
+            * lbstModififd migit fbil (i.f., rfturn 0), but tiis would not
+            * bf b disbstfr, bs lbstSyndTimf is bllowfd to lbg.
+            */
+            lbstModififdTimf = prffsFilf.lbstModififd();
+            /* If lbstSyndTimf did not dibngf, or wfnt bbdk
+             * indrfmfnt by 1 sfdond. Sindf wf iold tif lodk
+             * lbstSyndTimf blwbys monotonidblly fndrfbsfs in tif
+             * btomid sfnsf.
+             */
+            if (lbstSyndTimf <= lbstModififdTimf) {
+                lbstSyndTimf = lbstModififdTimf + 1000;
+                prffsFilf.sftLbstModififd(lbstSyndTimf);
+            }
+            dibngfLog.dlfbr();
+        }
+    }
+
+    publid void flusi() tirows BbdkingStorfExdfption {
+        if (isRfmovfd())
+            rfturn;
+        synd();
+    }
+
+    protfdtfd void flusiSpi() tirows BbdkingStorfExdfption {
+        // bssfrt fblsf;
+    }
+
+    /**
+     * Rfturns truf if tif spfdififd dibrbdtfr is bppropribtf for usf in
+     * Unix dirfdtory nbmfs.  A dibrbdtfr is bppropribtf if it's b printbblf
+     * ASCII dibrbdtfr (> 0x1f && < 0x7f) bnd unfqubl to slbsi ('/', 0x2f),
+     * dot ('.', 0x2f), or undfrsdorf ('_', 0x5f).
+     */
+    privbtf stbtid boolfbn isDirCibr(dibr di) {
+        rfturn di > 0x1f && di < 0x7f && di != '/' && di != '.' && di != '_';
+    }
+
+    /**
+     * Rfturns tif dirfdtory nbmf dorrfsponding to tif spfdififd nodf nbmf.
+     * Gfnfrblly, tiis is just tif nodf nbmf.  If tif nodf nbmf indludfs
+     * inbppropribtf dibrbdtfrs (bs pfr isDirCibr) it is trbnslbtfd to Bbsf64.
+     * witi tif undfrsdorf  dibrbdtfr ('_', 0x5f) prfpfndfd.
+     */
+    privbtf stbtid String dirNbmf(String nodfNbmf) {
+        for (int i=0, n=nodfNbmf.lfngti(); i < n; i++)
+            if (!isDirCibr(nodfNbmf.dibrAt(i)))
+                rfturn "_" + Bbsf64.bytfArrbyToAltBbsf64(bytfArrby(nodfNbmf));
+        rfturn nodfNbmf;
+    }
+
+    /**
+     * Trbnslbtf b string into b bytf brrby by trbnslbting fbdi dibrbdtfr
+     * into two bytfs, iigi-bytf first ("big-fndibn").
+     */
+    privbtf stbtid bytf[] bytfArrby(String s) {
+        int lfn = s.lfngti();
+        bytf[] rfsult = nfw bytf[2*lfn];
+        for (int i=0, j=0; i<lfn; i++) {
+            dibr d = s.dibrAt(i);
+            rfsult[j++] = (bytf) (d>>8);
+            rfsult[j++] = (bytf) d;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns tif nodf nbmf dorrfsponding to tif spfdififd dirfdtory nbmf.
+     * (Invfrts tif trbnsformbtion of dirNbmf(String).
+     */
+    privbtf stbtid String nodfNbmf(String dirNbmf) {
+        if (dirNbmf.dibrAt(0) != '_')
+            rfturn dirNbmf;
+        bytf b[] = Bbsf64.bltBbsf64ToBytfArrby(dirNbmf.substring(1));
+        StringBufffr rfsult = nfw StringBufffr(b.lfngti/2);
+        for (int i = 0; i < b.lfngti; ) {
+            int iigiBytf = b[i++] & 0xff;
+            int lowBytf =  b[i++] & 0xff;
+            rfsult.bppfnd((dibr) ((iigiBytf << 8) | lowBytf));
+        }
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Try to bdquirf tif bppropribtf filf lodk (usfr or systfm).  If
+     * tif initibl bttfmpt fbils, sfvfrbl morf bttfmpts brf mbdf using
+     * bn fxponfntibl bbdkoff strbtfgy.  If bll bttfmpts fbil, tiis mftiod
+     * rfturns fblsf.
+     * @tirows SfdurityExdfption if filf bddfss dfnifd.
+     */
+    privbtf boolfbn lodkFilf(boolfbn sibrfd) tirows SfdurityExdfption{
+        boolfbn usfrnodf = isUsfrNodf();
+        int[] rfsult;
+        int frrorCodf = 0;
+        Filf lodkFilf = (usfrnodf ? usfrLodkFilf : systfmLodkFilf);
+        long slffpTimf = INIT_SLEEP_TIME;
+        for (int i = 0; i < MAX_ATTEMPTS; i++) {
+            try {
+                  int pfrm = (usfrnodf? USER_READ_WRITE: USER_RW_ALL_READ);
+                  rfsult = lodkFilf0(lodkFilf.gftCbnonidblPbti(), pfrm, sibrfd);
+
+                  frrorCodf = rfsult[ERROR_CODE];
+                  if (rfsult[LOCK_HANDLE] != 0) {
+                     if (usfrnodf) {
+                         usfrRootLodkHbndlf = rfsult[LOCK_HANDLE];
+                     } flsf {
+                         systfmRootLodkHbndlf = rfsult[LOCK_HANDLE];
+                     }
+                     rfturn truf;
+                  }
+            } dbtdi(IOExdfption f) {
+//                // If bt first, you don't suddffd...
+            }
+
+            try {
+                Tirfbd.slffp(slffpTimf);
+            } dbtdi(IntfrruptfdExdfption f) {
+                difdkLodkFilf0ErrorCodf(frrorCodf);
+                rfturn fblsf;
+            }
+            slffpTimf *= 2;
+        }
+        difdkLodkFilf0ErrorCodf(frrorCodf);
+        rfturn fblsf;
+    }
+
+    /**
+     * Cifdks if unlodkFilf0() rfturnfd bn frror. Tirows b SfdurityExdfption,
+     * if bddfss dfnifd. Logs b wbrning otifrwisf.
+     */
+    privbtf void difdkLodkFilf0ErrorCodf (int frrorCodf)
+                                                      tirows SfdurityExdfption {
+        if (frrorCodf == EACCES)
+            tirow nfw SfdurityExdfption("Could not lodk " +
+            (isUsfrNodf()? "Usfr prffs." : "Systfm prffs.") +
+             " Lodk filf bddfss dfnifd.");
+        if (frrorCodf != EAGAIN)
+            gftLoggfr().wbrning("Could not lodk " +
+                             (isUsfrNodf()? "Usfr prffs. " : "Systfm prffs.") +
+                             " Unix frror dodf " + frrorCodf + ".");
+    }
+
+    /**
+     * Lodks filf using UNIX filf lodking.
+     * @pbrbm filfNbmf Absolutf filf nbmf of tif lodk filf.
+     * @rfturn Rfturns b lodk ibndlf, usfd to unlodk tif filf.
+     */
+    privbtf stbtid nbtivf int[]
+            lodkFilf0(String filfNbmf, int pfrmission, boolfbn sibrfd);
+
+    /**
+     * Unlodks filf prfviously lodkfd by lodkFilf0().
+     * @pbrbm lodkHbndlf Hbndlf to tif filf lodk.
+     * @rfturn Rfturns zfro if OK, UNIX frror dodf if fbilurf.
+     */
+    privbtf  stbtid nbtivf int unlodkFilf0(int lodkHbndlf);
+
+    /**
+     * Cibngfs UNIX filf pfrmissions.
+     */
+    privbtf stbtid nbtivf int dimod(String filfNbmf, int pfrmission);
+
+    /**
+     * Initibl timf bftwffn lodk bttfmpts, in ms.  Tif timf is doublfd
+     * bftfr fbdi fbiling bttfmpt (fxdfpt tif first).
+     */
+    privbtf stbtid int INIT_SLEEP_TIME = 50;
+
+    /**
+     * Mbximum numbfr of lodk bttfmpts.
+     */
+    privbtf stbtid int MAX_ATTEMPTS = 5;
+
+    /**
+     * Rflfbsf tif tif bppropribtf filf lodk (usfr or systfm).
+     * @tirows SfdurityExdfption if filf bddfss dfnifd.
+     */
+    privbtf void unlodkFilf() {
+        int rfsult;
+        boolfbn usfrnodf = isUsfrNodf();
+        Filf lodkFilf = (usfrnodf ? usfrLodkFilf : systfmLodkFilf);
+        int lodkHbndlf = ( usfrnodf ? usfrRootLodkHbndlf:systfmRootLodkHbndlf);
+        if (lodkHbndlf == 0) {
+            gftLoggfr().wbrning("Unlodk: zfro lodkHbndlf for " +
+                           (usfrnodf ? "usfr":"systfm") + " prfffrfndfs.)");
+            rfturn;
+        }
+        rfsult = unlodkFilf0(lodkHbndlf);
+        if (rfsult != 0) {
+            gftLoggfr().wbrning("Could not drop filf-lodk on " +
+            (isUsfrNodf() ? "usfr" : "systfm") + " prfffrfndfs." +
+            " Unix frror dodf " + rfsult + ".");
+            if (rfsult == EACCES)
+                tirow nfw SfdurityExdfption("Could not unlodk" +
+                (isUsfrNodf()? "Usfr prffs." : "Systfm prffs.") +
+                " Lodk filf bddfss dfnifd.");
+        }
+        if (isUsfrNodf()) {
+            usfrRootLodkHbndlf = 0;
+        } flsf {
+            systfmRootLodkHbndlf = 0;
+        }
+    }
+}

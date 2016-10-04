@@ -1,110 +1,550 @@
 # ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+#           Tfmplbtf for SNMP Addfss Control List Filf
+#           Tfmplbtf for SNMP Addfss Control List Filf
+#           Tfmplbtf for SNMP Addfss Control List Filf
+#           Tfmplbtf for SNMP Addfss Control List Filf
 #           Tfmplbtf for SNMP Addfss Control List Filf
 #
-# o Copy this tfmplbtf to snmp.bdl
-# o Sft bddfss dontrol for SNMP support
-# o Chbngf thf pfrmission of snmp.bdl to bf rfbd-only
-#   by thf ownfr.
 #
-# Sff bflow for thf lodbtion of snmp.bdl filf.
+#
+#
+#
+# o Copy tiis tfmplbtf to snmp.bdl
+# o Copy tiis tfmplbtf to snmp.bdl
+# o Copy tiis tfmplbtf to snmp.bdl
+# o Copy tiis tfmplbtf to snmp.bdl
+# o Copy tiis tfmplbtf to snmp.bdl
+# o Sft bddfss dontrol for SNMP support
+# o Sft bddfss dontrol for SNMP support
+# o Sft bddfss dontrol for SNMP support
+# o Sft bddfss dontrol for SNMP support
+# o Sft bddfss dontrol for SNMP support
+# o Cibngf tif pfrmission of snmp.bdl to bf rfbd-only
+# o Cibngf tif pfrmission of snmp.bdl to bf rfbd-only
+# o Cibngf tif pfrmission of snmp.bdl to bf rfbd-only
+# o Cibngf tif pfrmission of snmp.bdl to bf rfbd-only
+# o Cibngf tif pfrmission of snmp.bdl to bf rfbd-only
+#   by tif ownfr.
+#   by tif ownfr.
+#   by tif ownfr.
+#   by tif ownfr.
+#   by tif ownfr.
+#
+#
+#
+#
+#
+# Sff bflow for tif lodbtion of snmp.bdl filf.
+# Sff bflow for tif lodbtion of snmp.bdl filf.
+# Sff bflow for tif lodbtion of snmp.bdl filf.
+# Sff bflow for tif lodbtion of snmp.bdl filf.
+# Sff bflow for tif lodbtion of snmp.bdl filf.
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 
+
+
+
+
+############################################################
+############################################################
+############################################################
+############################################################
 ############################################################
 #            SNMP Addfss Control List Filf  
+#            SNMP Addfss Control List Filf  
+#            SNMP Addfss Control List Filf  
+#            SNMP Addfss Control List Filf  
+#            SNMP Addfss Control List Filf  
+############################################################
+############################################################
+############################################################
+############################################################
 ############################################################
 #
-# Dffbult lodbtion of this filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+#
+#
+#
+#
+# Dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+# Dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+# Dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+# Dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+# Dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
 # You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
-# thf mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
-# or by spfdifying b systfm propfrty (Sff thbt filf for dftbils).
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# or by spfdifying b systfm propfrty (Sff tibt filf for dftbils).
+# or by spfdifying b systfm propfrty (Sff tibt filf for dftbils).
+# or by spfdifying b systfm propfrty (Sff tibt filf for dftbils).
+# or by spfdifying b systfm propfrty (Sff tibt filf for dftbils).
+# or by spfdifying b systfm propfrty (Sff tibt filf for dftbils).
+#
+#
+#
+#
 #
 
 
+
+
+
+
+
+
+
+
 ##############################################################
-#        Filf pfrmissions of thf snmp.bdl filf
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+#        Filf pfrmissions of tif snmp.bdl filf
+#        Filf pfrmissions of tif snmp.bdl filf
+#        Filf pfrmissions of tif snmp.bdl filf
+#        Filf pfrmissions of tif snmp.bdl filf
+#        Filf pfrmissions of tif snmp.bdl filf
+##############################################################
+##############################################################
+##############################################################
+##############################################################
 ##############################################################
 # 
-#      Sindf thfrf brf dlfbrtfxt dommunity strings storfd in this filf,
-#      this ACL filf must bf rfbdbblf by ONLY thf ownfr,
-#      othfrwisf thf progrbm will fxit with bn frror. 
+# 
+# 
+# 
+# 
+#      Sindf tifrf brf dlfbrtfxt dommunity strings storfd in tiis filf,
+#      Sindf tifrf brf dlfbrtfxt dommunity strings storfd in tiis filf,
+#      Sindf tifrf brf dlfbrtfxt dommunity strings storfd in tiis filf,
+#      Sindf tifrf brf dlfbrtfxt dommunity strings storfd in tiis filf,
+#      Sindf tifrf brf dlfbrtfxt dommunity strings storfd in tiis filf,
+#      tiis ACL filf must bf rfbdbblf by ONLY tif ownfr,
+#      tiis ACL filf must bf rfbdbblf by ONLY tif ownfr,
+#      tiis ACL filf must bf rfbdbblf by ONLY tif ownfr,
+#      tiis ACL filf must bf rfbdbblf by ONLY tif ownfr,
+#      tiis ACL filf must bf rfbdbblf by ONLY tif ownfr,
+#      otifrwisf tif progrbm will fxit witi bn frror. 
+#      otifrwisf tif progrbm will fxit witi bn frror. 
+#      otifrwisf tif progrbm will fxit witi bn frror. 
+#      otifrwisf tif progrbm will fxit witi bn frror. 
+#      otifrwisf tif progrbm will fxit witi bn frror. 
+#
+#
+#
+#
 #
 ##############################################################
-#		Formbt of thf bdl group
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+#		Formbt of tif bdl group
+#		Formbt of tif bdl group
+#		Formbt of tif bdl group
+#		Formbt of tif bdl group
+#		Formbt of tif bdl group
+##############################################################
+##############################################################
+##############################################################
+##############################################################
 ##############################################################
 #
-# dommunitifs: b list of SNMP dommunity strings to whidh thf
+#
+#
+#
+#
+# dommunitifs: b list of SNMP dommunity strings to wiidi tif
+# dommunitifs: b list of SNMP dommunity strings to wiidi tif
+# dommunitifs: b list of SNMP dommunity strings to wiidi tif
+# dommunitifs: b list of SNMP dommunity strings to wiidi tif
+# dommunitifs: b list of SNMP dommunity strings to wiidi tif
+#              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
+#              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
+#              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
+#              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
 #              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
 #
-# bddfss: fithfr "rfbd-only" or "rfbd-writf".
 #
-# mbnbgfrs: b list of hosts to bf grbntfd thf bddfss rights.
-#    Ebdh dbn bf fxprfssfd bs bny onf of thf following:
-#    - hostnbmf: hubblf
+#
+#
+#
+# bddfss: fitifr "rfbd-only" or "rfbd-writf".
+# bddfss: fitifr "rfbd-only" or "rfbd-writf".
+# bddfss: fitifr "rfbd-only" or "rfbd-writf".
+# bddfss: fitifr "rfbd-only" or "rfbd-writf".
+# bddfss: fitifr "rfbd-only" or "rfbd-writf".
+#
+#
+#
+#
+#
+# mbnbgfrs: b list of iosts to bf grbntfd tif bddfss rigits.
+# mbnbgfrs: b list of iosts to bf grbntfd tif bddfss rigits.
+# mbnbgfrs: b list of iosts to bf grbntfd tif bddfss rigits.
+# mbnbgfrs: b list of iosts to bf grbntfd tif bddfss rigits.
+# mbnbgfrs: b list of iosts to bf grbntfd tif bddfss rigits.
+#    Ebdi dbn bf fxprfssfd bs bny onf of tif following:
+#    Ebdi dbn bf fxprfssfd bs bny onf of tif following:
+#    Ebdi dbn bf fxprfssfd bs bny onf of tif following:
+#    Ebdi dbn bf fxprfssfd bs bny onf of tif following:
+#    Ebdi dbn bf fxprfssfd bs bny onf of tif following:
+#    - iostnbmf: iubblf
+#    - iostnbmf: iubblf
+#    - iostnbmf: iubblf
+#    - iostnbmf: iubblf
+#    - iostnbmf: iubblf
+#    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
+#    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
+#    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
+#    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
 #    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
 #    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
+#    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
+#    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
+#    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
+#    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
 #         ff80::b00:20ff:ff9b:fb82/64  
-#      sff RFC 2373 (http://www.iftf.org/rfd/rfd2373.txt)
+#         ff80::b00:20ff:ff9b:fb82/64  
+#         ff80::b00:20ff:ff9b:fb82/64  
+#         ff80::b00:20ff:ff9b:fb82/64  
+#         ff80::b00:20ff:ff9b:fb82/64  
+#      sff RFC 2373 (ittp://www.iftf.org/rfd/rfd2373.txt)
+#      sff RFC 2373 (ittp://www.iftf.org/rfd/rfd2373.txt)
+#      sff RFC 2373 (ittp://www.iftf.org/rfd/rfd2373.txt)
+#      sff RFC 2373 (ittp://www.iftf.org/rfd/rfd2373.txt)
+#      sff RFC 2373 (ittp://www.iftf.org/rfd/rfd2373.txt)
 #
-# An fxbmplf of two dommunity groups for multiplf hosts:
+#
+#
+#
+#
+# An fxbmplf of two dommunity groups for multiplf iosts:
+# An fxbmplf of two dommunity groups for multiplf iosts:
+# An fxbmplf of two dommunity groups for multiplf iosts:
+# An fxbmplf of two dommunity groups for multiplf iosts:
+# An fxbmplf of two dommunity groups for multiplf iosts:
+#    bdl = {
+#    bdl = {
+#    bdl = {
+#    bdl = {
 #    bdl = {
 #     {
+#     {
+#     {
+#     {
+#     {
+#       dommunitifs = publid, privbtf
+#       dommunitifs = publid, privbtf
+#       dommunitifs = publid, privbtf
+#       dommunitifs = publid, privbtf
 #       dommunitifs = publid, privbtf
 #       bddfss = rfbd-only
-#       mbnbgfrs = hubblf, snowbfll, nbnbk
+#       bddfss = rfbd-only
+#       bddfss = rfbd-only
+#       bddfss = rfbd-only
+#       bddfss = rfbd-only
+#       mbnbgfrs = iubblf, snowbfll, nbnbk
+#       mbnbgfrs = iubblf, snowbfll, nbnbk
+#       mbnbgfrs = iubblf, snowbfll, nbnbk
+#       mbnbgfrs = iubblf, snowbfll, nbnbk
+#       mbnbgfrs = iubblf, snowbfll, nbnbk
+#     }
+#     }
+#     }
+#     }
 #     }
 #     {
+#     {
+#     {
+#     {
+#     {
+#       dommunitifs = jfrry
+#       dommunitifs = jfrry
+#       dommunitifs = jfrry
+#       dommunitifs = jfrry
 #       dommunitifs = jfrry
 #       bddfss = rfbd-writf
-#       mbnbgfrs = hubblf, tflfsdopf
+#       bddfss = rfbd-writf
+#       bddfss = rfbd-writf
+#       bddfss = rfbd-writf
+#       bddfss = rfbd-writf
+#       mbnbgfrs = iubblf, tflfsdopf
+#       mbnbgfrs = iubblf, tflfsdopf
+#       mbnbgfrs = iubblf, tflfsdopf
+#       mbnbgfrs = iubblf, tflfsdopf
+#       mbnbgfrs = iubblf, tflfsdopf
+#     }
+#     }
+#     }
+#     }
 #     }
 #    }
+#    }
+#    }
+#    }
+#    }
+# 
+# 
+# 
+# 
 # 
 ##############################################################
-#                   Formbt of thf trbp group
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+#                   Formbt of tif trbp group
+#                   Formbt of tif trbp group
+#                   Formbt of tif trbp group
+#                   Formbt of tif trbp group
+#                   Formbt of tif trbp group
+##############################################################
+##############################################################
+##############################################################
+##############################################################
 ##############################################################
 #
-# trbp-dommunity: b singlf SNMP dommunity string thbt will bf indludfd
-#                 in  thf trbps sfnt to thf hosts.
 #
-# hosts: b list of hosts to whidh thf SNMP bgfnt will sfnd trbps.
 #
-# An fxbmplf of two trbp dommunity dffinitions for multiplf hosts:
+#
+#
+# trbp-dommunity: b singlf SNMP dommunity string tibt will bf indludfd
+# trbp-dommunity: b singlf SNMP dommunity string tibt will bf indludfd
+# trbp-dommunity: b singlf SNMP dommunity string tibt will bf indludfd
+# trbp-dommunity: b singlf SNMP dommunity string tibt will bf indludfd
+# trbp-dommunity: b singlf SNMP dommunity string tibt will bf indludfd
+#                 in  tif trbps sfnt to tif iosts.
+#                 in  tif trbps sfnt to tif iosts.
+#                 in  tif trbps sfnt to tif iosts.
+#                 in  tif trbps sfnt to tif iosts.
+#                 in  tif trbps sfnt to tif iosts.
+#
+#
+#
+#
+#
+# iosts: b list of iosts to wiidi tif SNMP bgfnt will sfnd trbps.
+# iosts: b list of iosts to wiidi tif SNMP bgfnt will sfnd trbps.
+# iosts: b list of iosts to wiidi tif SNMP bgfnt will sfnd trbps.
+# iosts: b list of iosts to wiidi tif SNMP bgfnt will sfnd trbps.
+# iosts: b list of iosts to wiidi tif SNMP bgfnt will sfnd trbps.
+#
+#
+#
+#
+#
+# An fxbmplf of two trbp dommunity dffinitions for multiplf iosts:
+# An fxbmplf of two trbp dommunity dffinitions for multiplf iosts:
+# An fxbmplf of two trbp dommunity dffinitions for multiplf iosts:
+# An fxbmplf of two trbp dommunity dffinitions for multiplf iosts:
+# An fxbmplf of two trbp dommunity dffinitions for multiplf iosts:
+#    trbp = {
+#    trbp = {
+#    trbp = {
+#    trbp = {
 #    trbp = {
 #      {
+#      {
+#      {
+#      {
+#      {
 #        trbp-dommunity = publid
-#        hosts = hubblf, snowbfll
+#        trbp-dommunity = publid
+#        trbp-dommunity = publid
+#        trbp-dommunity = publid
+#        trbp-dommunity = publid
+#        iosts = iubblf, snowbfll
+#        iosts = iubblf, snowbfll
+#        iosts = iubblf, snowbfll
+#        iosts = iubblf, snowbfll
+#        iosts = iubblf, snowbfll
+#      }
+#      }
+#      }
+#      }
 #      }
 #      {
+#      {
+#      {
+#      {
+#      {
 #        trbp-dommunity = privbtf
-#        hosts = tflfsdopf
+#        trbp-dommunity = privbtf
+#        trbp-dommunity = privbtf
+#        trbp-dommunity = privbtf
+#        trbp-dommunity = privbtf
+#        iosts = tflfsdopf
+#        iosts = tflfsdopf
+#        iosts = tflfsdopf
+#        iosts = tflfsdopf
+#        iosts = tflfsdopf
+#      }
+#      }
+#      }
+#      }
 #      }
 #    }
+#    }
+#    }
+#    }
+#    }
+#
+#
+#
+#
 #
 ############################################################
+############################################################
+############################################################
+############################################################
+############################################################
 #
-#  Updbtf thf dommunity strings (publid bnd privbtf) bflow
-#  bfforf dopying this tfmplbtf filf
+#
+#
+#
+#
+#  Updbtf tif dommunity strings (publid bnd privbtf) bflow
+#  Updbtf tif dommunity strings (publid bnd privbtf) bflow
+#  Updbtf tif dommunity strings (publid bnd privbtf) bflow
+#  Updbtf tif dommunity strings (publid bnd privbtf) bflow
+#  Updbtf tif dommunity strings (publid bnd privbtf) bflow
+#  bfforf dopying tiis tfmplbtf filf
+#  bfforf dopying tiis tfmplbtf filf
+#  bfforf dopying tiis tfmplbtf filf
+#  bfforf dopying tiis tfmplbtf filf
+#  bfforf dopying tiis tfmplbtf filf
+# 	
+# 	
+# 	
+# 	
 # 	
 # Common SNMP ACL Exbmplf
+# Common SNMP ACL Exbmplf
+# Common SNMP ACL Exbmplf
+# Common SNMP ACL Exbmplf
+# Common SNMP ACL Exbmplf
+# ------------------------
+# ------------------------
+# ------------------------
+# ------------------------
 # ------------------------
 #
-# o Only lodblhost dbn donnfdt, bnd bddfss rights
+#
+#
+#
+#
+# o Only lodbliost dbn donnfdt, bnd bddfss rigits
+# o Only lodbliost dbn donnfdt, bnd bddfss rigits
+# o Only lodbliost dbn donnfdt, bnd bddfss rigits
+# o Only lodbliost dbn donnfdt, bnd bddfss rigits
+# o Only lodbliost dbn donnfdt, bnd bddfss rigits
 #   brf limitfd to rfbd-only
-# o Trbps brf sfnt to lodblhost only
+#   brf limitfd to rfbd-only
+#   brf limitfd to rfbd-only
+#   brf limitfd to rfbd-only
+#   brf limitfd to rfbd-only
+# o Trbps brf sfnt to lodbliost only
+# o Trbps brf sfnt to lodbliost only
+# o Trbps brf sfnt to lodbliost only
+# o Trbps brf sfnt to lodbliost only
+# o Trbps brf sfnt to lodbliost only
+#
+#
+#
+#
+#
+#
+#
+#
 #
 #
 # bdl = {
+# bdl = {
+# bdl = {
+# bdl = {
+# bdl = {
+#  {
+#  {
+#  {
+#  {
 #  {
 #    dommunitifs = publid, privbtf
+#    dommunitifs = publid, privbtf
+#    dommunitifs = publid, privbtf
+#    dommunitifs = publid, privbtf
+#    dommunitifs = publid, privbtf
 #    bddfss = rfbd-only
-#    mbnbgfrs = lodblhost
+#    bddfss = rfbd-only
+#    bddfss = rfbd-only
+#    bddfss = rfbd-only
+#    bddfss = rfbd-only
+#    mbnbgfrs = lodbliost
+#    mbnbgfrs = lodbliost
+#    mbnbgfrs = lodbliost
+#    mbnbgfrs = lodbliost
+#    mbnbgfrs = lodbliost
 #  }
+#  }
+#  }
+#  }
+#  }
+# }
+# }
+# }
+# }
 # }
 # 
 # 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# trbp = {
+# trbp = {
+# trbp = {
+# trbp = {
 # trbp = {
 #   {
+#   {
+#   {
+#   {
+#   {
 #     trbp-dommunity = publid
-#     hosts = lodblhost 
+#     trbp-dommunity = publid
+#     trbp-dommunity = publid
+#     trbp-dommunity = publid
+#     trbp-dommunity = publid
+#     iosts = lodbliost 
+#     iosts = lodbliost 
+#     iosts = lodbliost 
+#     iosts = lodbliost 
+#     iosts = lodbliost 
 #   }
+#   }
+#   }
+#   }
+#   }
+# }
+# }
+# }
+# }
 # }

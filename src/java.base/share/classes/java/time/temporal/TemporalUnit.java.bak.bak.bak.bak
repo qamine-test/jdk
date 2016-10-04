@@ -1,297 +1,1485 @@
 /*
- * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
- * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
- * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+/*
+/*
+/*
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ * filf:
+ * filf:
+ * filf:
  * filf:
  *
- * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
  *
- * All rights rfsfrvfd.
  *
- * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
- * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
  *
- *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
- *    this list of donditions bnd thf following disdlbimfr.
  *
- *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
- *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
- *    bnd/or othfr mbtfribls providfd with thf distribution.
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
- *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
- *    without spfdifid prior writtfn pfrmission.
+ *
+ *
+ *
+ *
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ *
+ *
+ *
+ *
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *
+ *
+ *
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *
+ *
+ *
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *
+ *
+ *
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ *
+ *
+ *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ */
+ */
+ */
  */
 pbdkbgf jbvb.timf.tfmporbl;
+pbdkbgf jbvb.timf.tfmporbl;
+pbdkbgf jbvb.timf.tfmporbl;
+pbdkbgf jbvb.timf.tfmporbl;
+pbdkbgf jbvb.timf.tfmporbl;
+
+
+
+
 
 import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Durbtion;
+import jbvb.timf.Durbtion;
+import jbvb.timf.Durbtion;
+import jbvb.timf.Durbtion;
 import jbvb.timf.Durbtion;
 import jbvb.timf.LodblTimf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.LodblTimf;
 import jbvb.timf.Pfriod;
-import jbvb.timf.dhrono.ChronoLodblDbtf;
-import jbvb.timf.dhrono.ChronoLodblDbtfTimf;
-import jbvb.timf.dhrono.ChronoZonfdDbtfTimf;
+import jbvb.timf.Pfriod;
+import jbvb.timf.Pfriod;
+import jbvb.timf.Pfriod;
+import jbvb.timf.Pfriod;
+import jbvb.timf.dirono.CironoLodblDbtf;
+import jbvb.timf.dirono.CironoLodblDbtf;
+import jbvb.timf.dirono.CironoLodblDbtf;
+import jbvb.timf.dirono.CironoLodblDbtf;
+import jbvb.timf.dirono.CironoLodblDbtf;
+import jbvb.timf.dirono.CironoLodblDbtfTimf;
+import jbvb.timf.dirono.CironoLodblDbtfTimf;
+import jbvb.timf.dirono.CironoLodblDbtfTimf;
+import jbvb.timf.dirono.CironoLodblDbtfTimf;
+import jbvb.timf.dirono.CironoLodblDbtfTimf;
+import jbvb.timf.dirono.CironoZonfdDbtfTimf;
+import jbvb.timf.dirono.CironoZonfdDbtfTimf;
+import jbvb.timf.dirono.CironoZonfdDbtfTimf;
+import jbvb.timf.dirono.CironoZonfdDbtfTimf;
+import jbvb.timf.dirono.CironoZonfdDbtfTimf;
+
+
+
+
 
 /**
- * A unit of dbtf-timf, sudh bs Dbys or Hours.
+/**
+/**
+/**
+/**
+ * A unit of dbtf-timf, sudi bs Dbys or Hours.
+ * A unit of dbtf-timf, sudi bs Dbys or Hours.
+ * A unit of dbtf-timf, sudi bs Dbys or Hours.
+ * A unit of dbtf-timf, sudi bs Dbys or Hours.
+ * A unit of dbtf-timf, sudi bs Dbys or Hours.
  * <p>
- * Mfbsurfmfnt of timf is built on units, sudh bs yfbrs, months, dbys, hours, minutfs bnd sfdonds.
- * Implfmfntbtions of this intfrfbdf rfprfsfnt thosf units.
  * <p>
- * An instbndf of this intfrfbdf rfprfsfnts thf unit itsflf, rbthfr thbn bn bmount of thf unit.
- * Sff {@link Pfriod} for b dlbss thbt rfprfsfnts bn bmount in tfrms of thf dommon units.
  * <p>
- * Thf most dommonly usfd units brf dffinfd in {@link ChronoUnit}.
- * Furthfr units brf supplifd in {@link IsoFiflds}.
- * Units dbn blso bf writtfn by bpplidbtion dodf by implfmfnting this intfrfbdf.
  * <p>
- * Thf unit works using doublf dispbtdh. Clifnt dodf dblls mfthods on b dbtf-timf likf
- * {@dodf LodblDbtfTimf} whidh dhfdk if thf unit is b {@dodf ChronoUnit}.
- * If it is, thfn thf dbtf-timf must hbndlf it.
- * Othfrwisf, thf mfthod dbll is rf-dispbtdhfd to thf mbtdhing mfthod in this intfrfbdf.
+ * <p>
+ * Mfbsurfmfnt of timf is built on units, sudi bs yfbrs, montis, dbys, iours, minutfs bnd sfdonds.
+ * Mfbsurfmfnt of timf is built on units, sudi bs yfbrs, montis, dbys, iours, minutfs bnd sfdonds.
+ * Mfbsurfmfnt of timf is built on units, sudi bs yfbrs, montis, dbys, iours, minutfs bnd sfdonds.
+ * Mfbsurfmfnt of timf is built on units, sudi bs yfbrs, montis, dbys, iours, minutfs bnd sfdonds.
+ * Mfbsurfmfnt of timf is built on units, sudi bs yfbrs, montis, dbys, iours, minutfs bnd sfdonds.
+ * Implfmfntbtions of tiis intfrfbdf rfprfsfnt tiosf units.
+ * Implfmfntbtions of tiis intfrfbdf rfprfsfnt tiosf units.
+ * Implfmfntbtions of tiis intfrfbdf rfprfsfnt tiosf units.
+ * Implfmfntbtions of tiis intfrfbdf rfprfsfnt tiosf units.
+ * Implfmfntbtions of tiis intfrfbdf rfprfsfnt tiosf units.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * An instbndf of tiis intfrfbdf rfprfsfnts tif unit itsflf, rbtifr tibn bn bmount of tif unit.
+ * An instbndf of tiis intfrfbdf rfprfsfnts tif unit itsflf, rbtifr tibn bn bmount of tif unit.
+ * An instbndf of tiis intfrfbdf rfprfsfnts tif unit itsflf, rbtifr tibn bn bmount of tif unit.
+ * An instbndf of tiis intfrfbdf rfprfsfnts tif unit itsflf, rbtifr tibn bn bmount of tif unit.
+ * An instbndf of tiis intfrfbdf rfprfsfnts tif unit itsflf, rbtifr tibn bn bmount of tif unit.
+ * Sff {@link Pfriod} for b dlbss tibt rfprfsfnts bn bmount in tfrms of tif dommon units.
+ * Sff {@link Pfriod} for b dlbss tibt rfprfsfnts bn bmount in tfrms of tif dommon units.
+ * Sff {@link Pfriod} for b dlbss tibt rfprfsfnts bn bmount in tfrms of tif dommon units.
+ * Sff {@link Pfriod} for b dlbss tibt rfprfsfnts bn bmount in tfrms of tif dommon units.
+ * Sff {@link Pfriod} for b dlbss tibt rfprfsfnts bn bmount in tfrms of tif dommon units.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif most dommonly usfd units brf dffinfd in {@link CironoUnit}.
+ * Tif most dommonly usfd units brf dffinfd in {@link CironoUnit}.
+ * Tif most dommonly usfd units brf dffinfd in {@link CironoUnit}.
+ * Tif most dommonly usfd units brf dffinfd in {@link CironoUnit}.
+ * Tif most dommonly usfd units brf dffinfd in {@link CironoUnit}.
+ * Furtifr units brf supplifd in {@link IsoFiflds}.
+ * Furtifr units brf supplifd in {@link IsoFiflds}.
+ * Furtifr units brf supplifd in {@link IsoFiflds}.
+ * Furtifr units brf supplifd in {@link IsoFiflds}.
+ * Furtifr units brf supplifd in {@link IsoFiflds}.
+ * Units dbn blso bf writtfn by bpplidbtion dodf by implfmfnting tiis intfrfbdf.
+ * Units dbn blso bf writtfn by bpplidbtion dodf by implfmfnting tiis intfrfbdf.
+ * Units dbn blso bf writtfn by bpplidbtion dodf by implfmfnting tiis intfrfbdf.
+ * Units dbn blso bf writtfn by bpplidbtion dodf by implfmfnting tiis intfrfbdf.
+ * Units dbn blso bf writtfn by bpplidbtion dodf by implfmfnting tiis intfrfbdf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif unit works using doublf dispbtdi. Clifnt dodf dblls mftiods on b dbtf-timf likf
+ * Tif unit works using doublf dispbtdi. Clifnt dodf dblls mftiods on b dbtf-timf likf
+ * Tif unit works using doublf dispbtdi. Clifnt dodf dblls mftiods on b dbtf-timf likf
+ * Tif unit works using doublf dispbtdi. Clifnt dodf dblls mftiods on b dbtf-timf likf
+ * Tif unit works using doublf dispbtdi. Clifnt dodf dblls mftiods on b dbtf-timf likf
+ * {@dodf LodblDbtfTimf} wiidi difdk if tif unit is b {@dodf CironoUnit}.
+ * {@dodf LodblDbtfTimf} wiidi difdk if tif unit is b {@dodf CironoUnit}.
+ * {@dodf LodblDbtfTimf} wiidi difdk if tif unit is b {@dodf CironoUnit}.
+ * {@dodf LodblDbtfTimf} wiidi difdk if tif unit is b {@dodf CironoUnit}.
+ * {@dodf LodblDbtfTimf} wiidi difdk if tif unit is b {@dodf CironoUnit}.
+ * If it is, tifn tif dbtf-timf must ibndlf it.
+ * If it is, tifn tif dbtf-timf must ibndlf it.
+ * If it is, tifn tif dbtf-timf must ibndlf it.
+ * If it is, tifn tif dbtf-timf must ibndlf it.
+ * If it is, tifn tif dbtf-timf must ibndlf it.
+ * Otifrwisf, tif mftiod dbll is rf-dispbtdifd to tif mbtdiing mftiod in tiis intfrfbdf.
+ * Otifrwisf, tif mftiod dbll is rf-dispbtdifd to tif mbtdiing mftiod in tiis intfrfbdf.
+ * Otifrwisf, tif mftiod dbll is rf-dispbtdifd to tif mbtdiing mftiod in tiis intfrfbdf.
+ * Otifrwisf, tif mftiod dbll is rf-dispbtdifd to tif mbtdiing mftiod in tiis intfrfbdf.
+ * Otifrwisf, tif mftiod dbll is rf-dispbtdifd to tif mbtdiing mftiod in tiis intfrfbdf.
+ *
+ *
+ *
+ *
  *
  * @implSpfd
- * This intfrfbdf must bf implfmfntfd with dbrf to fnsurf othfr dlbssfs opfrbtf dorrfdtly.
- * All implfmfntbtions thbt dbn bf instbntibtfd must bf finbl, immutbblf bnd thrfbd-sbff.
- * It is rfdommfndfd to usf bn fnum whfrf possiblf.
+ * @implSpfd
+ * @implSpfd
+ * @implSpfd
+ * @implSpfd
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * It is rfdommfndfd to usf bn fnum wifrf possiblf.
+ * It is rfdommfndfd to usf bn fnum wifrf possiblf.
+ * It is rfdommfndfd to usf bn fnum wifrf possiblf.
+ * It is rfdommfndfd to usf bn fnum wifrf possiblf.
+ * It is rfdommfndfd to usf bn fnum wifrf possiblf.
+ *
+ *
+ *
+ *
  *
  * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf TfmporblUnit {
+publid intfrfbdf TfmporblUnit {
+publid intfrfbdf TfmporblUnit {
+publid intfrfbdf TfmporblUnit {
+publid intfrfbdf TfmporblUnit {
+
+
+
+
 
     /**
-     * Gfts thf durbtion of this unit, whidh mby bf bn fstimbtf.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif durbtion of tiis unit, wiidi mby bf bn fstimbtf.
+     * Gfts tif durbtion of tiis unit, wiidi mby bf bn fstimbtf.
+     * Gfts tif durbtion of tiis unit, wiidi mby bf bn fstimbtf.
+     * Gfts tif durbtion of tiis unit, wiidi mby bf bn fstimbtf.
+     * Gfts tif durbtion of tiis unit, wiidi mby bf bn fstimbtf.
      * <p>
-     * All units rfturn b durbtion mfbsurfd in stbndbrd nbnosfdonds from this mfthod.
-     * Thf durbtion will bf positivf bnd non-zfro.
-     * For fxbmplf, bn hour hbs b durbtion of {@dodf 60 * 60 * 1,000,000,000ns}.
      * <p>
-     * Somf units mby rfturn bn bddurbtf durbtion whilf othfrs rfturn bn fstimbtf.
-     * For fxbmplf, dbys hbvf bn fstimbtfd durbtion duf to thf possibility of
-     * dbylight sbving timf dhbngfs.
-     * To dftfrminf if thf durbtion is bn fstimbtf, usf {@link #isDurbtionEstimbtfd()}.
+     * <p>
+     * <p>
+     * <p>
+     * All units rfturn b durbtion mfbsurfd in stbndbrd nbnosfdonds from tiis mftiod.
+     * All units rfturn b durbtion mfbsurfd in stbndbrd nbnosfdonds from tiis mftiod.
+     * All units rfturn b durbtion mfbsurfd in stbndbrd nbnosfdonds from tiis mftiod.
+     * All units rfturn b durbtion mfbsurfd in stbndbrd nbnosfdonds from tiis mftiod.
+     * All units rfturn b durbtion mfbsurfd in stbndbrd nbnosfdonds from tiis mftiod.
+     * Tif durbtion will bf positivf bnd non-zfro.
+     * Tif durbtion will bf positivf bnd non-zfro.
+     * Tif durbtion will bf positivf bnd non-zfro.
+     * Tif durbtion will bf positivf bnd non-zfro.
+     * Tif durbtion will bf positivf bnd non-zfro.
+     * For fxbmplf, bn iour ibs b durbtion of {@dodf 60 * 60 * 1,000,000,000ns}.
+     * For fxbmplf, bn iour ibs b durbtion of {@dodf 60 * 60 * 1,000,000,000ns}.
+     * For fxbmplf, bn iour ibs b durbtion of {@dodf 60 * 60 * 1,000,000,000ns}.
+     * For fxbmplf, bn iour ibs b durbtion of {@dodf 60 * 60 * 1,000,000,000ns}.
+     * For fxbmplf, bn iour ibs b durbtion of {@dodf 60 * 60 * 1,000,000,000ns}.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Somf units mby rfturn bn bddurbtf durbtion wiilf otifrs rfturn bn fstimbtf.
+     * Somf units mby rfturn bn bddurbtf durbtion wiilf otifrs rfturn bn fstimbtf.
+     * Somf units mby rfturn bn bddurbtf durbtion wiilf otifrs rfturn bn fstimbtf.
+     * Somf units mby rfturn bn bddurbtf durbtion wiilf otifrs rfturn bn fstimbtf.
+     * Somf units mby rfturn bn bddurbtf durbtion wiilf otifrs rfturn bn fstimbtf.
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * To dftfrminf if tif durbtion is bn fstimbtf, usf {@link #isDurbtionEstimbtfd()}.
+     * To dftfrminf if tif durbtion is bn fstimbtf, usf {@link #isDurbtionEstimbtfd()}.
+     * To dftfrminf if tif durbtion is bn fstimbtf, usf {@link #isDurbtionEstimbtfd()}.
+     * To dftfrminf if tif durbtion is bn fstimbtf, usf {@link #isDurbtionEstimbtfd()}.
+     * To dftfrminf if tif durbtion is bn fstimbtf, usf {@link #isDurbtionEstimbtfd()}.
      *
-     * @rfturn thf durbtion of this unit, whidh mby bf bn fstimbtf, not null
+     *
+     *
+     *
+     *
+     * @rfturn tif durbtion of tiis unit, wiidi mby bf bn fstimbtf, not null
+     * @rfturn tif durbtion of tiis unit, wiidi mby bf bn fstimbtf, not null
+     * @rfturn tif durbtion of tiis unit, wiidi mby bf bn fstimbtf, not null
+     * @rfturn tif durbtion of tiis unit, wiidi mby bf bn fstimbtf, not null
+     * @rfturn tif durbtion of tiis unit, wiidi mby bf bn fstimbtf, not null
+     */
+     */
+     */
+     */
      */
     Durbtion gftDurbtion();
+    Durbtion gftDurbtion();
+    Durbtion gftDurbtion();
+    Durbtion gftDurbtion();
+    Durbtion gftDurbtion();
+
+
+
+
 
     /**
-     * Chfdks if thf durbtion of thf unit is bn fstimbtf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdks if tif durbtion of tif unit is bn fstimbtf.
+     * Cifdks if tif durbtion of tif unit is bn fstimbtf.
+     * Cifdks if tif durbtion of tif unit is bn fstimbtf.
+     * Cifdks if tif durbtion of tif unit is bn fstimbtf.
+     * Cifdks if tif durbtion of tif unit is bn fstimbtf.
      * <p>
-     * All units hbvf b durbtion, howfvfr thf durbtion is not blwbys bddurbtf.
-     * For fxbmplf, dbys hbvf bn fstimbtfd durbtion duf to thf possibility of
-     * dbylight sbving timf dhbngfs.
-     * This mfthod rfturns truf if thf durbtion is bn fstimbtf bnd fblsf if it is
-     * bddurbtf. Notf thbt bddurbtf/fstimbtfd ignorfs lfbp sfdonds.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * All units ibvf b durbtion, iowfvfr tif durbtion is not blwbys bddurbtf.
+     * All units ibvf b durbtion, iowfvfr tif durbtion is not blwbys bddurbtf.
+     * All units ibvf b durbtion, iowfvfr tif durbtion is not blwbys bddurbtf.
+     * All units ibvf b durbtion, iowfvfr tif durbtion is not blwbys bddurbtf.
+     * All units ibvf b durbtion, iowfvfr tif durbtion is not blwbys bddurbtf.
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * For fxbmplf, dbys ibvf bn fstimbtfd durbtion duf to tif possibility of
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * dbyligit sbving timf dibngfs.
+     * Tiis mftiod rfturns truf if tif durbtion is bn fstimbtf bnd fblsf if it is
+     * Tiis mftiod rfturns truf if tif durbtion is bn fstimbtf bnd fblsf if it is
+     * Tiis mftiod rfturns truf if tif durbtion is bn fstimbtf bnd fblsf if it is
+     * Tiis mftiod rfturns truf if tif durbtion is bn fstimbtf bnd fblsf if it is
+     * Tiis mftiod rfturns truf if tif durbtion is bn fstimbtf bnd fblsf if it is
+     * bddurbtf. Notf tibt bddurbtf/fstimbtfd ignorfs lfbp sfdonds.
+     * bddurbtf. Notf tibt bddurbtf/fstimbtfd ignorfs lfbp sfdonds.
+     * bddurbtf. Notf tibt bddurbtf/fstimbtfd ignorfs lfbp sfdonds.
+     * bddurbtf. Notf tibt bddurbtf/fstimbtfd ignorfs lfbp sfdonds.
+     * bddurbtf. Notf tibt bddurbtf/fstimbtfd ignorfs lfbp sfdonds.
      *
-     * @rfturn truf if thf durbtion is fstimbtfd, fblsf if bddurbtf
+     *
+     *
+     *
+     *
+     * @rfturn truf if tif durbtion is fstimbtfd, fblsf if bddurbtf
+     * @rfturn truf if tif durbtion is fstimbtfd, fblsf if bddurbtf
+     * @rfturn truf if tif durbtion is fstimbtfd, fblsf if bddurbtf
+     * @rfturn truf if tif durbtion is fstimbtfd, fblsf if bddurbtf
+     * @rfturn truf if tif durbtion is fstimbtfd, fblsf if bddurbtf
+     */
+     */
+     */
+     */
      */
     boolfbn isDurbtionEstimbtfd();
+    boolfbn isDurbtionEstimbtfd();
+    boolfbn isDurbtionEstimbtfd();
+    boolfbn isDurbtionEstimbtfd();
+    boolfbn isDurbtionEstimbtfd();
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Chfdks if this unit rfprfsfnts b domponfnt of b dbtf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b dbtf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b dbtf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b dbtf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b dbtf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b dbtf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * A dbtf is timf-bbsfd if it dbn bf usfd to imply mfbning from b dbtf.
-     * It must hbvf b {@linkplbin #gftDurbtion() durbtion} thbt is bn intfgrbl
-     * multiplf of thf lfngth of b stbndbrd dby.
-     * Notf thbt it is vblid for both {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
-     * to rfturn fblsf, sudh bs whfn rfprfsfnting b unit likf 36 hours.
+     * A dbtf is timf-bbsfd if it dbn bf usfd to imply mfbning from b dbtf.
+     * A dbtf is timf-bbsfd if it dbn bf usfd to imply mfbning from b dbtf.
+     * A dbtf is timf-bbsfd if it dbn bf usfd to imply mfbning from b dbtf.
+     * A dbtf is timf-bbsfd if it dbn bf usfd to imply mfbning from b dbtf.
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt is bn intfgrbl
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt is bn intfgrbl
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt is bn intfgrbl
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt is bn intfgrbl
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt is bn intfgrbl
+     * multiplf of tif lfngti of b stbndbrd dby.
+     * multiplf of tif lfngti of b stbndbrd dby.
+     * multiplf of tif lfngti of b stbndbrd dby.
+     * multiplf of tif lfngti of b stbndbrd dby.
+     * multiplf of tif lfngti of b stbndbrd dby.
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
      *
-     * @rfturn truf if this unit is b domponfnt of b dbtf
+     *
+     *
+     *
+     *
+     * @rfturn truf if tiis unit is b domponfnt of b dbtf
+     * @rfturn truf if tiis unit is b domponfnt of b dbtf
+     * @rfturn truf if tiis unit is b domponfnt of b dbtf
+     * @rfturn truf if tiis unit is b domponfnt of b dbtf
+     * @rfturn truf if tiis unit is b domponfnt of b dbtf
+     */
+     */
+     */
+     */
      */
     boolfbn isDbtfBbsfd();
+    boolfbn isDbtfBbsfd();
+    boolfbn isDbtfBbsfd();
+    boolfbn isDbtfBbsfd();
+    boolfbn isDbtfBbsfd();
+
+
+
+
 
     /**
-     * Chfdks if this unit rfprfsfnts b domponfnt of b timf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b timf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b timf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b timf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b timf.
+     * Cifdks if tiis unit rfprfsfnts b domponfnt of b timf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * A unit is timf-bbsfd if it dbn bf usfd to imply mfbning from b timf.
-     * It must hbvf b {@linkplbin #gftDurbtion() durbtion} thbt dividfs into
-     * thf lfngth of b stbndbrd dby without rfmbindfr.
-     * Notf thbt it is vblid for both {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
-     * to rfturn fblsf, sudh bs whfn rfprfsfnting b unit likf 36 hours.
+     * A unit is timf-bbsfd if it dbn bf usfd to imply mfbning from b timf.
+     * A unit is timf-bbsfd if it dbn bf usfd to imply mfbning from b timf.
+     * A unit is timf-bbsfd if it dbn bf usfd to imply mfbning from b timf.
+     * A unit is timf-bbsfd if it dbn bf usfd to imply mfbning from b timf.
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt dividfs into
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt dividfs into
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt dividfs into
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt dividfs into
+     * It must ibvf b {@linkplbin #gftDurbtion() durbtion} tibt dividfs into
+     * tif lfngti of b stbndbrd dby witiout rfmbindfr.
+     * tif lfngti of b stbndbrd dby witiout rfmbindfr.
+     * tif lfngti of b stbndbrd dby witiout rfmbindfr.
+     * tif lfngti of b stbndbrd dby witiout rfmbindfr.
+     * tif lfngti of b stbndbrd dby witiout rfmbindfr.
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b unit likf 36 iours.
      *
-     * @rfturn truf if this unit is b domponfnt of b timf
+     *
+     *
+     *
+     *
+     * @rfturn truf if tiis unit is b domponfnt of b timf
+     * @rfturn truf if tiis unit is b domponfnt of b timf
+     * @rfturn truf if tiis unit is b domponfnt of b timf
+     * @rfturn truf if tiis unit is b domponfnt of b timf
+     * @rfturn truf if tiis unit is b domponfnt of b timf
+     */
+     */
+     */
+     */
      */
     boolfbn isTimfBbsfd();
+    boolfbn isTimfBbsfd();
+    boolfbn isTimfBbsfd();
+    boolfbn isTimfBbsfd();
+    boolfbn isTimfBbsfd();
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Chfdks if this unit is supportfd by thf spfdififd tfmporbl objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Cifdks if tiis unit is supportfd by tif spfdififd tfmporbl objfdt.
+     * Cifdks if tiis unit is supportfd by tif spfdififd tfmporbl objfdt.
+     * Cifdks if tiis unit is supportfd by tif spfdififd tfmporbl objfdt.
+     * Cifdks if tiis unit is supportfd by tif spfdififd tfmporbl objfdt.
+     * Cifdks if tiis unit is supportfd by tif spfdififd tfmporbl objfdt.
      * <p>
-     * This dhfdks thbt thf implfmfnting dbtf-timf dbn bdd/subtrbdt this unit.
-     * This dbn bf usfd to bvoid throwing bn fxdfption.
      * <p>
-     * This dffbult implfmfntbtion dfrivfs thf vbluf using
+     * <p>
+     * <p>
+     * <p>
+     * Tiis difdks tibt tif implfmfnting dbtf-timf dbn bdd/subtrbdt tiis unit.
+     * Tiis difdks tibt tif implfmfnting dbtf-timf dbn bdd/subtrbdt tiis unit.
+     * Tiis difdks tibt tif implfmfnting dbtf-timf dbn bdd/subtrbdt tiis unit.
+     * Tiis difdks tibt tif implfmfnting dbtf-timf dbn bdd/subtrbdt tiis unit.
+     * Tiis difdks tibt tif implfmfnting dbtf-timf dbn bdd/subtrbdt tiis unit.
+     * Tiis dbn bf usfd to bvoid tirowing bn fxdfption.
+     * Tiis dbn bf usfd to bvoid tirowing bn fxdfption.
+     * Tiis dbn bf usfd to bvoid tirowing bn fxdfption.
+     * Tiis dbn bf usfd to bvoid tirowing bn fxdfption.
+     * Tiis dbn bf usfd to bvoid tirowing bn fxdfption.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis dffbult implfmfntbtion dfrivfs tif vbluf using
+     * Tiis dffbult implfmfntbtion dfrivfs tif vbluf using
+     * Tiis dffbult implfmfntbtion dfrivfs tif vbluf using
+     * Tiis dffbult implfmfntbtion dfrivfs tif vbluf using
+     * Tiis dffbult implfmfntbtion dfrivfs tif vbluf using
+     * {@link Tfmporbl#plus(long, TfmporblUnit)}.
+     * {@link Tfmporbl#plus(long, TfmporblUnit)}.
+     * {@link Tfmporbl#plus(long, TfmporblUnit)}.
+     * {@link Tfmporbl#plus(long, TfmporblUnit)}.
      * {@link Tfmporbl#plus(long, TfmporblUnit)}.
      *
-     * @pbrbm tfmporbl  thf tfmporbl objfdt to dhfdk, not null
-     * @rfturn truf if thf unit is supportfd
+     *
+     *
+     *
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to difdk, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to difdk, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to difdk, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to difdk, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to difdk, not null
+     * @rfturn truf if tif unit is supportfd
+     * @rfturn truf if tif unit is supportfd
+     * @rfturn truf if tif unit is supportfd
+     * @rfturn truf if tif unit is supportfd
+     * @rfturn truf if tif unit is supportfd
+     */
+     */
+     */
+     */
      */
     dffbult boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+    dffbult boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+    dffbult boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+    dffbult boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+    dffbult boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+        if (tfmporbl instbndfof LodblTimf) {
+        if (tfmporbl instbndfof LodblTimf) {
+        if (tfmporbl instbndfof LodblTimf) {
+        if (tfmporbl instbndfof LodblTimf) {
         if (tfmporbl instbndfof LodblTimf) {
             rfturn isTimfBbsfd();
+            rfturn isTimfBbsfd();
+            rfturn isTimfBbsfd();
+            rfturn isTimfBbsfd();
+            rfturn isTimfBbsfd();
         }
-        if (tfmporbl instbndfof ChronoLodblDbtf) {
+        }
+        }
+        }
+        }
+        if (tfmporbl instbndfof CironoLodblDbtf) {
+        if (tfmporbl instbndfof CironoLodblDbtf) {
+        if (tfmporbl instbndfof CironoLodblDbtf) {
+        if (tfmporbl instbndfof CironoLodblDbtf) {
+        if (tfmporbl instbndfof CironoLodblDbtf) {
+            rfturn isDbtfBbsfd();
+            rfturn isDbtfBbsfd();
+            rfturn isDbtfBbsfd();
+            rfturn isDbtfBbsfd();
             rfturn isDbtfBbsfd();
         }
-        if (tfmporbl instbndfof ChronoLodblDbtfTimf || tfmporbl instbndfof ChronoZonfdDbtfTimf) {
+        }
+        }
+        }
+        }
+        if (tfmporbl instbndfof CironoLodblDbtfTimf || tfmporbl instbndfof CironoZonfdDbtfTimf) {
+        if (tfmporbl instbndfof CironoLodblDbtfTimf || tfmporbl instbndfof CironoZonfdDbtfTimf) {
+        if (tfmporbl instbndfof CironoLodblDbtfTimf || tfmporbl instbndfof CironoZonfdDbtfTimf) {
+        if (tfmporbl instbndfof CironoLodblDbtfTimf || tfmporbl instbndfof CironoZonfdDbtfTimf) {
+        if (tfmporbl instbndfof CironoLodblDbtfTimf || tfmporbl instbndfof CironoZonfdDbtfTimf) {
             rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+        }
+        }
+        }
+        }
         }
         try {
-            tfmporbl.plus(1, this);
+        try {
+        try {
+        try {
+        try {
+            tfmporbl.plus(1, tiis);
+            tfmporbl.plus(1, tiis);
+            tfmporbl.plus(1, tiis);
+            tfmporbl.plus(1, tiis);
+            tfmporbl.plus(1, tiis);
             rfturn truf;
-        } dbtdh (UnsupportfdTfmporblTypfExdfption fx) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+        } dbtdi (UnsupportfdTfmporblTypfExdfption fx) {
+        } dbtdi (UnsupportfdTfmporblTypfExdfption fx) {
+        } dbtdi (UnsupportfdTfmporblTypfExdfption fx) {
+        } dbtdi (UnsupportfdTfmporblTypfExdfption fx) {
+        } dbtdi (UnsupportfdTfmporblTypfExdfption fx) {
             rfturn fblsf;
-        } dbtdh (RuntimfExdfption fx) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        } dbtdi (RuntimfExdfption fx) {
+        } dbtdi (RuntimfExdfption fx) {
+        } dbtdi (RuntimfExdfption fx) {
+        } dbtdi (RuntimfExdfption fx) {
+        } dbtdi (RuntimfExdfption fx) {
             try {
-                tfmporbl.plus(-1, this);
+            try {
+            try {
+            try {
+            try {
+                tfmporbl.plus(-1, tiis);
+                tfmporbl.plus(-1, tiis);
+                tfmporbl.plus(-1, tiis);
+                tfmporbl.plus(-1, tiis);
+                tfmporbl.plus(-1, tiis);
                 rfturn truf;
-            } dbtdh (RuntimfExdfption fx2) {
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+            } dbtdi (RuntimfExdfption fx2) {
+            } dbtdi (RuntimfExdfption fx2) {
+            } dbtdi (RuntimfExdfption fx2) {
+            } dbtdi (RuntimfExdfption fx2) {
+            } dbtdi (RuntimfExdfption fx2) {
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
                 rfturn fblsf;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b dopy of thf spfdififd tfmporbl objfdt with thf spfdififd pfriod bddfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b dopy of tif spfdififd tfmporbl objfdt witi tif spfdififd pfriod bddfd.
+     * Rfturns b dopy of tif spfdififd tfmporbl objfdt witi tif spfdififd pfriod bddfd.
+     * Rfturns b dopy of tif spfdififd tfmporbl objfdt witi tif spfdififd pfriod bddfd.
+     * Rfturns b dopy of tif spfdififd tfmporbl objfdt witi tif spfdififd pfriod bddfd.
+     * Rfturns b dopy of tif spfdififd tfmporbl objfdt witi tif spfdififd pfriod bddfd.
      * <p>
-     * Thf pfriod bddfd is b multiplf of this unit. For fxbmplf, this mfthod
-     * dould bf usfd to bdd "3 dbys" to b dbtf by dblling this mfthod on thf
-     * instbndf rfprfsfnting "dbys", pbssing thf dbtf bnd thf pfriod "3".
-     * Thf pfriod to bf bddfd mby bf nfgbtivf, whidh is fquivblfnt to subtrbdtion.
      * <p>
-     * Thfrf brf two fquivblfnt wbys of using this mfthod.
-     * Thf first is to invokf this mfthod dirfdtly.
-     * Thf sfdond is to usf {@link Tfmporbl#plus(long, TfmporblUnit)}:
+     * <p>
+     * <p>
+     * <p>
+     * Tif pfriod bddfd is b multiplf of tiis unit. For fxbmplf, tiis mftiod
+     * Tif pfriod bddfd is b multiplf of tiis unit. For fxbmplf, tiis mftiod
+     * Tif pfriod bddfd is b multiplf of tiis unit. For fxbmplf, tiis mftiod
+     * Tif pfriod bddfd is b multiplf of tiis unit. For fxbmplf, tiis mftiod
+     * Tif pfriod bddfd is b multiplf of tiis unit. For fxbmplf, tiis mftiod
+     * dould bf usfd to bdd "3 dbys" to b dbtf by dblling tiis mftiod on tif
+     * dould bf usfd to bdd "3 dbys" to b dbtf by dblling tiis mftiod on tif
+     * dould bf usfd to bdd "3 dbys" to b dbtf by dblling tiis mftiod on tif
+     * dould bf usfd to bdd "3 dbys" to b dbtf by dblling tiis mftiod on tif
+     * dould bf usfd to bdd "3 dbys" to b dbtf by dblling tiis mftiod on tif
+     * instbndf rfprfsfnting "dbys", pbssing tif dbtf bnd tif pfriod "3".
+     * instbndf rfprfsfnting "dbys", pbssing tif dbtf bnd tif pfriod "3".
+     * instbndf rfprfsfnting "dbys", pbssing tif dbtf bnd tif pfriod "3".
+     * instbndf rfprfsfnting "dbys", pbssing tif dbtf bnd tif pfriod "3".
+     * instbndf rfprfsfnting "dbys", pbssing tif dbtf bnd tif pfriod "3".
+     * Tif pfriod to bf bddfd mby bf nfgbtivf, wiidi is fquivblfnt to subtrbdtion.
+     * Tif pfriod to bf bddfd mby bf nfgbtivf, wiidi is fquivblfnt to subtrbdtion.
+     * Tif pfriod to bf bddfd mby bf nfgbtivf, wiidi is fquivblfnt to subtrbdtion.
+     * Tif pfriod to bf bddfd mby bf nfgbtivf, wiidi is fquivblfnt to subtrbdtion.
+     * Tif pfriod to bf bddfd mby bf nfgbtivf, wiidi is fquivblfnt to subtrbdtion.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link Tfmporbl#plus(long, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#plus(long, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#plus(long, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#plus(long, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#plus(long, TfmporblUnit)}:
      * <prf>
-     *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
-     *   tfmporbl = thisUnit.bddTo(tfmporbl);
-     *   tfmporbl = tfmporbl.plus(thisUnit);
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisUnit.bddTo(tfmporbl);
+     *   tfmporbl = tiisUnit.bddTo(tfmporbl);
+     *   tfmporbl = tiisUnit.bddTo(tfmporbl);
+     *   tfmporbl = tiisUnit.bddTo(tfmporbl);
+     *   tfmporbl = tiisUnit.bddTo(tfmporbl);
+     *   tfmporbl = tfmporbl.plus(tiisUnit);
+     *   tfmporbl = tfmporbl.plus(tiisUnit);
+     *   tfmporbl = tfmporbl.plus(tiisUnit);
+     *   tfmporbl = tfmporbl.plus(tiisUnit);
+     *   tfmporbl = tfmporbl.plus(tiisUnit);
      * </prf>
-     * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf plus(TfmporblUnit)},
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf plus(TfmporblUnit)},
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf plus(TfmporblUnit)},
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf plus(TfmporblUnit)},
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf plus(TfmporblUnit)},
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf plus(TfmporblUnit)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     * bs it is b lot dlfbrfr to rfbd in dodf.
      * bs it is b lot dlfbrfr to rfbd in dodf.
      * <p>
-     * Implfmfntbtions should pfrform bny qufrifs or dbldulbtions using thf units
-     * bvbilbblf in {@link ChronoUnit} or thf fiflds bvbilbblf in {@link ChronoFifld}.
-     * If thf unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
      * <p>
-     * Implfmfntbtions must not bltfr thf spfdififd tfmporbl objfdt.
-     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
-     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     * <p>
+     * <p>
+     * <p>
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdt.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdt.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdt.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdt.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdt.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf implfmfntbtions.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf implfmfntbtions.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf implfmfntbtions.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf implfmfntbtions.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf implfmfntbtions.
      *
-     * @pbrbm <R>  thf typf of thf Tfmporbl objfdt
-     * @pbrbm tfmporbl  thf tfmporbl objfdt to bdjust, not null
-     * @pbrbm bmount  thf bmount of this unit to bdd, positivf or nfgbtivf
-     * @rfturn thf bdjustfd tfmporbl objfdt, not null
-     * @throws DbtfTimfExdfption if thf bmount dbnnot bf bddfd
-     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd by thf tfmporbl
+     *
+     *
+     *
+     *
+     * @pbrbm <R>  tif typf of tif Tfmporbl objfdt
+     * @pbrbm <R>  tif typf of tif Tfmporbl objfdt
+     * @pbrbm <R>  tif typf of tif Tfmporbl objfdt
+     * @pbrbm <R>  tif typf of tif Tfmporbl objfdt
+     * @pbrbm <R>  tif typf of tif Tfmporbl objfdt
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to bdjust, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to bdjust, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to bdjust, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to bdjust, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to bdjust, not null
+     * @pbrbm bmount  tif bmount of tiis unit to bdd, positivf or nfgbtivf
+     * @pbrbm bmount  tif bmount of tiis unit to bdd, positivf or nfgbtivf
+     * @pbrbm bmount  tif bmount of tiis unit to bdd, positivf or nfgbtivf
+     * @pbrbm bmount  tif bmount of tiis unit to bdd, positivf or nfgbtivf
+     * @pbrbm bmount  tif bmount of tiis unit to bdd, positivf or nfgbtivf
+     * @rfturn tif bdjustfd tfmporbl objfdt, not null
+     * @rfturn tif bdjustfd tfmporbl objfdt, not null
+     * @rfturn tif bdjustfd tfmporbl objfdt, not null
+     * @rfturn tif bdjustfd tfmporbl objfdt, not null
+     * @rfturn tif bdjustfd tfmporbl objfdt, not null
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf bddfd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf bddfd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf bddfd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf bddfd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf bddfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     */
+     */
+     */
+     */
      */
     <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount);
+    <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount);
+    <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount);
+    <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount);
+    <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount);
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Cbldulbtfs thf bmount of timf bftwffn two tfmporbl objfdts.
+    /**
+    /**
+    /**
+    /**
+     * Cbldulbtfs tif bmount of timf bftwffn two tfmporbl objfdts.
+     * Cbldulbtfs tif bmount of timf bftwffn two tfmporbl objfdts.
+     * Cbldulbtfs tif bmount of timf bftwffn two tfmporbl objfdts.
+     * Cbldulbtfs tif bmount of timf bftwffn two tfmporbl objfdts.
+     * Cbldulbtfs tif bmount of timf bftwffn two tfmporbl objfdts.
      * <p>
-     * This dbldulbtfs thf bmount in tfrms of this unit. Thf stbrt bnd fnd
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis dbldulbtfs tif bmount in tfrms of tiis unit. Tif stbrt bnd fnd
+     * Tiis dbldulbtfs tif bmount in tfrms of tiis unit. Tif stbrt bnd fnd
+     * Tiis dbldulbtfs tif bmount in tfrms of tiis unit. Tif stbrt bnd fnd
+     * Tiis dbldulbtfs tif bmount in tfrms of tiis unit. Tif stbrt bnd fnd
+     * Tiis dbldulbtfs tif bmount in tfrms of tiis unit. Tif stbrt bnd fnd
      * points brf supplifd bs tfmporbl objfdts bnd must bf of dompbtiblf typfs.
-     * Thf implfmfntbtion will donvfrt thf sfdond typf to bf bn instbndf of thf
-     * first typf bfforf thf dbldulbting thf bmount.
-     * Thf rfsult will bf nfgbtivf if thf fnd is bfforf thf stbrt.
-     * For fxbmplf, thf bmount in hours bftwffn two tfmporbl objfdts dbn bf
+     * points brf supplifd bs tfmporbl objfdts bnd must bf of dompbtiblf typfs.
+     * points brf supplifd bs tfmporbl objfdts bnd must bf of dompbtiblf typfs.
+     * points brf supplifd bs tfmporbl objfdts bnd must bf of dompbtiblf typfs.
+     * points brf supplifd bs tfmporbl objfdts bnd must bf of dompbtiblf typfs.
+     * Tif implfmfntbtion will donvfrt tif sfdond typf to bf bn instbndf of tif
+     * Tif implfmfntbtion will donvfrt tif sfdond typf to bf bn instbndf of tif
+     * Tif implfmfntbtion will donvfrt tif sfdond typf to bf bn instbndf of tif
+     * Tif implfmfntbtion will donvfrt tif sfdond typf to bf bn instbndf of tif
+     * Tif implfmfntbtion will donvfrt tif sfdond typf to bf bn instbndf of tif
+     * first typf bfforf tif dbldulbting tif bmount.
+     * first typf bfforf tif dbldulbting tif bmount.
+     * first typf bfforf tif dbldulbting tif bmount.
+     * first typf bfforf tif dbldulbting tif bmount.
+     * first typf bfforf tif dbldulbting tif bmount.
+     * Tif rfsult will bf nfgbtivf if tif fnd is bfforf tif stbrt.
+     * Tif rfsult will bf nfgbtivf if tif fnd is bfforf tif stbrt.
+     * Tif rfsult will bf nfgbtivf if tif fnd is bfforf tif stbrt.
+     * Tif rfsult will bf nfgbtivf if tif fnd is bfforf tif stbrt.
+     * Tif rfsult will bf nfgbtivf if tif fnd is bfforf tif stbrt.
+     * For fxbmplf, tif bmount in iours bftwffn two tfmporbl objfdts dbn bf
+     * For fxbmplf, tif bmount in iours bftwffn two tfmporbl objfdts dbn bf
+     * For fxbmplf, tif bmount in iours bftwffn two tfmporbl objfdts dbn bf
+     * For fxbmplf, tif bmount in iours bftwffn two tfmporbl objfdts dbn bf
+     * For fxbmplf, tif bmount in iours bftwffn two tfmporbl objfdts dbn bf
+     * dbldulbtfd using {@dodf HOURS.bftwffn(stbrtTimf, fndTimf)}.
+     * dbldulbtfd using {@dodf HOURS.bftwffn(stbrtTimf, fndTimf)}.
+     * dbldulbtfd using {@dodf HOURS.bftwffn(stbrtTimf, fndTimf)}.
+     * dbldulbtfd using {@dodf HOURS.bftwffn(stbrtTimf, fndTimf)}.
      * dbldulbtfd using {@dodf HOURS.bftwffn(stbrtTimf, fndTimf)}.
      * <p>
-     * Thf dbldulbtion rfturns b wholf numbfr, rfprfsfnting thf numbfr of
-     * domplftf units bftwffn thf two tfmporbls.
-     * For fxbmplf, thf bmount in hours bftwffn thf timfs 11:30 bnd 13:29
-     * will only bf onf hour bs it is onf minutf short of two hours.
      * <p>
-     * Thfrf brf two fquivblfnt wbys of using this mfthod.
-     * Thf first is to invokf this mfthod dirfdtly.
-     * Thf sfdond is to usf {@link Tfmporbl#until(Tfmporbl, TfmporblUnit)}:
+     * <p>
+     * <p>
+     * <p>
+     * Tif dbldulbtion rfturns b wiolf numbfr, rfprfsfnting tif numbfr of
+     * Tif dbldulbtion rfturns b wiolf numbfr, rfprfsfnting tif numbfr of
+     * Tif dbldulbtion rfturns b wiolf numbfr, rfprfsfnting tif numbfr of
+     * Tif dbldulbtion rfturns b wiolf numbfr, rfprfsfnting tif numbfr of
+     * Tif dbldulbtion rfturns b wiolf numbfr, rfprfsfnting tif numbfr of
+     * domplftf units bftwffn tif two tfmporbls.
+     * domplftf units bftwffn tif two tfmporbls.
+     * domplftf units bftwffn tif two tfmporbls.
+     * domplftf units bftwffn tif two tfmporbls.
+     * domplftf units bftwffn tif two tfmporbls.
+     * For fxbmplf, tif bmount in iours bftwffn tif timfs 11:30 bnd 13:29
+     * For fxbmplf, tif bmount in iours bftwffn tif timfs 11:30 bnd 13:29
+     * For fxbmplf, tif bmount in iours bftwffn tif timfs 11:30 bnd 13:29
+     * For fxbmplf, tif bmount in iours bftwffn tif timfs 11:30 bnd 13:29
+     * For fxbmplf, tif bmount in iours bftwffn tif timfs 11:30 bnd 13:29
+     * will only bf onf iour bs it is onf minutf siort of two iours.
+     * will only bf onf iour bs it is onf minutf siort of two iours.
+     * will only bf onf iour bs it is onf minutf siort of two iours.
+     * will only bf onf iour bs it is onf minutf siort of two iours.
+     * will only bf onf iour bs it is onf minutf siort of two iours.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link Tfmporbl#until(Tfmporbl, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#until(Tfmporbl, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#until(Tfmporbl, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#until(Tfmporbl, TfmporblUnit)}:
+     * Tif sfdond is to usf {@link Tfmporbl#until(Tfmporbl, TfmporblUnit)}:
      * <prf>
-     *   // thfsf two linfs brf fquivblfnt
-     *   bftwffn = thisUnit.bftwffn(stbrt, fnd);
-     *   bftwffn = stbrt.until(fnd, thisUnit);
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt
+     *   // tifsf two linfs brf fquivblfnt
+     *   // tifsf two linfs brf fquivblfnt
+     *   // tifsf two linfs brf fquivblfnt
+     *   // tifsf two linfs brf fquivblfnt
+     *   bftwffn = tiisUnit.bftwffn(stbrt, fnd);
+     *   bftwffn = tiisUnit.bftwffn(stbrt, fnd);
+     *   bftwffn = tiisUnit.bftwffn(stbrt, fnd);
+     *   bftwffn = tiisUnit.bftwffn(stbrt, fnd);
+     *   bftwffn = tiisUnit.bftwffn(stbrt, fnd);
+     *   bftwffn = stbrt.until(fnd, tiisUnit);
+     *   bftwffn = stbrt.until(fnd, tiisUnit);
+     *   bftwffn = stbrt.until(fnd, tiisUnit);
+     *   bftwffn = stbrt.until(fnd, tiisUnit);
+     *   bftwffn = stbrt.until(fnd, tiisUnit);
      * </prf>
-     * Thf dhoidf should bf mbdf bbsfd on whidh mbkfs thf dodf morf rfbdbblf.
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * Tif dioidf siould bf mbdf bbsfd on wiidi mbkfs tif dodf morf rfbdbblf.
+     * Tif dioidf siould bf mbdf bbsfd on wiidi mbkfs tif dodf morf rfbdbblf.
+     * Tif dioidf siould bf mbdf bbsfd on wiidi mbkfs tif dodf morf rfbdbblf.
+     * Tif dioidf siould bf mbdf bbsfd on wiidi mbkfs tif dodf morf rfbdbblf.
+     * Tif dioidf siould bf mbdf bbsfd on wiidi mbkfs tif dodf morf rfbdbblf.
      * <p>
-     * For fxbmplf, this mfthod bllows thf numbfr of dbys bftwffn two dbtfs to
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * For fxbmplf, tiis mftiod bllows tif numbfr of dbys bftwffn two dbtfs to
+     * For fxbmplf, tiis mftiod bllows tif numbfr of dbys bftwffn two dbtfs to
+     * For fxbmplf, tiis mftiod bllows tif numbfr of dbys bftwffn two dbtfs to
+     * For fxbmplf, tiis mftiod bllows tif numbfr of dbys bftwffn two dbtfs to
+     * For fxbmplf, tiis mftiod bllows tif numbfr of dbys bftwffn two dbtfs to
+     * bf dbldulbtfd:
+     * bf dbldulbtfd:
+     * bf dbldulbtfd:
+     * bf dbldulbtfd:
      * bf dbldulbtfd:
      * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *  long dbysBftwffn = DAYS.bftwffn(stbrt, fnd);
+     *  long dbysBftwffn = DAYS.bftwffn(stbrt, fnd);
+     *  long dbysBftwffn = DAYS.bftwffn(stbrt, fnd);
+     *  long dbysBftwffn = DAYS.bftwffn(stbrt, fnd);
      *  long dbysBftwffn = DAYS.bftwffn(stbrt, fnd);
      *  // or bltfrnbtivfly
+     *  // or bltfrnbtivfly
+     *  // or bltfrnbtivfly
+     *  // or bltfrnbtivfly
+     *  // or bltfrnbtivfly
+     *  long dbysBftwffn = stbrt.until(fnd, DAYS);
+     *  long dbysBftwffn = stbrt.until(fnd, DAYS);
+     *  long dbysBftwffn = stbrt.until(fnd, DAYS);
+     *  long dbysBftwffn = stbrt.until(fnd, DAYS);
      *  long dbysBftwffn = stbrt.until(fnd, DAYS);
      * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      * <p>
-     * Implfmfntbtions should pfrform bny qufrifs or dbldulbtions using thf units
-     * bvbilbblf in {@link ChronoUnit} or thf fiflds bvbilbblf in {@link ChronoFifld}.
-     * If thf unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
-     * Implfmfntbtions must not bltfr thf spfdififd tfmporbl objfdts.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif units
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * bvbilbblf in {@link CironoUnit} or tif fiflds bvbilbblf in {@link CironoFifld}.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * If tif unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdts.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdts.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdts.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdts.
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdts.
+     *
+     *
+     *
+     *
      *
      * @implSpfd
-     * Implfmfntbtions must bfgin by dhfdking to if thf two tfmporbls hbvf thf
-     * sbmf typf using {@dodf gftClbss()}. If thfy do not, thfn thf rfsult must bf
-     * obtbinfd by dblling {@dodf tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, this)}.
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * Implfmfntbtions must bfgin by difdking to if tif two tfmporbls ibvf tif
+     * Implfmfntbtions must bfgin by difdking to if tif two tfmporbls ibvf tif
+     * Implfmfntbtions must bfgin by difdking to if tif two tfmporbls ibvf tif
+     * Implfmfntbtions must bfgin by difdking to if tif two tfmporbls ibvf tif
+     * Implfmfntbtions must bfgin by difdking to if tif two tfmporbls ibvf tif
+     * sbmf typf using {@dodf gftClbss()}. If tify do not, tifn tif rfsult must bf
+     * sbmf typf using {@dodf gftClbss()}. If tify do not, tifn tif rfsult must bf
+     * sbmf typf using {@dodf gftClbss()}. If tify do not, tifn tif rfsult must bf
+     * sbmf typf using {@dodf gftClbss()}. If tify do not, tifn tif rfsult must bf
+     * sbmf typf using {@dodf gftClbss()}. If tify do not, tifn tif rfsult must bf
+     * obtbinfd by dblling {@dodf tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, tiis)}.
+     * obtbinfd by dblling {@dodf tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, tiis)}.
+     * obtbinfd by dblling {@dodf tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, tiis)}.
+     * obtbinfd by dblling {@dodf tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, tiis)}.
+     * obtbinfd by dblling {@dodf tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, tiis)}.
      *
-     * @pbrbm tfmporbl1Indlusivf  thf bbsf tfmporbl objfdt, not null
-     * @pbrbm tfmporbl2Exdlusivf  thf othfr tfmporbl objfdt, fxdlusivf, not null
-     * @rfturn thf bmount of timf bftwffn tfmporbl1Indlusivf bnd tfmporbl2Exdlusivf
-     *  in tfrms of this unit; positivf if tfmporbl2Exdlusivf is lbtfr thbn
+     *
+     *
+     *
+     *
+     * @pbrbm tfmporbl1Indlusivf  tif bbsf tfmporbl objfdt, not null
+     * @pbrbm tfmporbl1Indlusivf  tif bbsf tfmporbl objfdt, not null
+     * @pbrbm tfmporbl1Indlusivf  tif bbsf tfmporbl objfdt, not null
+     * @pbrbm tfmporbl1Indlusivf  tif bbsf tfmporbl objfdt, not null
+     * @pbrbm tfmporbl1Indlusivf  tif bbsf tfmporbl objfdt, not null
+     * @pbrbm tfmporbl2Exdlusivf  tif otifr tfmporbl objfdt, fxdlusivf, not null
+     * @pbrbm tfmporbl2Exdlusivf  tif otifr tfmporbl objfdt, fxdlusivf, not null
+     * @pbrbm tfmporbl2Exdlusivf  tif otifr tfmporbl objfdt, fxdlusivf, not null
+     * @pbrbm tfmporbl2Exdlusivf  tif otifr tfmporbl objfdt, fxdlusivf, not null
+     * @pbrbm tfmporbl2Exdlusivf  tif otifr tfmporbl objfdt, fxdlusivf, not null
+     * @rfturn tif bmount of timf bftwffn tfmporbl1Indlusivf bnd tfmporbl2Exdlusivf
+     * @rfturn tif bmount of timf bftwffn tfmporbl1Indlusivf bnd tfmporbl2Exdlusivf
+     * @rfturn tif bmount of timf bftwffn tfmporbl1Indlusivf bnd tfmporbl2Exdlusivf
+     * @rfturn tif bmount of timf bftwffn tfmporbl1Indlusivf bnd tfmporbl2Exdlusivf
+     * @rfturn tif bmount of timf bftwffn tfmporbl1Indlusivf bnd tfmporbl2Exdlusivf
+     *  in tfrms of tiis unit; positivf if tfmporbl2Exdlusivf is lbtfr tibn
+     *  in tfrms of tiis unit; positivf if tfmporbl2Exdlusivf is lbtfr tibn
+     *  in tfrms of tiis unit; positivf if tfmporbl2Exdlusivf is lbtfr tibn
+     *  in tfrms of tiis unit; positivf if tfmporbl2Exdlusivf is lbtfr tibn
+     *  in tfrms of tiis unit; positivf if tfmporbl2Exdlusivf is lbtfr tibn
      *  tfmporbl1Indlusivf, nfgbtivf if fbrlifr
-     * @throws DbtfTimfExdfption if thf bmount dbnnot bf dbldulbtfd, or thf fnd
-     *  tfmporbl dbnnot bf donvfrtfd to thf sbmf typf bs thf stbrt tfmporbl
-     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd by thf tfmporbl
-     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     *  tfmporbl1Indlusivf, nfgbtivf if fbrlifr
+     *  tfmporbl1Indlusivf, nfgbtivf if fbrlifr
+     *  tfmporbl1Indlusivf, nfgbtivf if fbrlifr
+     *  tfmporbl1Indlusivf, nfgbtivf if fbrlifr
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf dbldulbtfd, or tif fnd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf dbldulbtfd, or tif fnd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf dbldulbtfd, or tif fnd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf dbldulbtfd, or tif fnd
+     * @tirows DbtfTimfExdfption if tif bmount dbnnot bf dbldulbtfd, or tif fnd
+     *  tfmporbl dbnnot bf donvfrtfd to tif sbmf typf bs tif stbrt tfmporbl
+     *  tfmporbl dbnnot bf donvfrtfd to tif sbmf typf bs tif stbrt tfmporbl
+     *  tfmporbl dbnnot bf donvfrtfd to tif sbmf typf bs tif stbrt tfmporbl
+     *  tfmporbl dbnnot bf donvfrtfd to tif sbmf typf bs tif stbrt tfmporbl
+     *  tfmporbl dbnnot bf donvfrtfd to tif sbmf typf bs tif stbrt tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif unit is not supportfd by tif tfmporbl
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     */
+     */
+     */
+     */
      */
     long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf);
+    long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf);
+    long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf);
+    long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf);
+    long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf);
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Gfts b dfsdriptivf nbmf for thf unit.
+    /**
+    /**
+    /**
+    /**
+     * Gfts b dfsdriptivf nbmf for tif unit.
+     * Gfts b dfsdriptivf nbmf for tif unit.
+     * Gfts b dfsdriptivf nbmf for tif unit.
+     * Gfts b dfsdriptivf nbmf for tif unit.
+     * Gfts b dfsdriptivf nbmf for tif unit.
      * <p>
-     * This should bf in thf plurbl bnd uppfr-first dbmfl dbsf, sudh bs 'Dbys' or 'Minutfs'.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis siould bf in tif plurbl bnd uppfr-first dbmfl dbsf, sudi bs 'Dbys' or 'Minutfs'.
+     * Tiis siould bf in tif plurbl bnd uppfr-first dbmfl dbsf, sudi bs 'Dbys' or 'Minutfs'.
+     * Tiis siould bf in tif plurbl bnd uppfr-first dbmfl dbsf, sudi bs 'Dbys' or 'Minutfs'.
+     * Tiis siould bf in tif plurbl bnd uppfr-first dbmfl dbsf, sudi bs 'Dbys' or 'Minutfs'.
+     * Tiis siould bf in tif plurbl bnd uppfr-first dbmfl dbsf, sudi bs 'Dbys' or 'Minutfs'.
      *
-     * @rfturn thf nbmf of this unit, not null
+     *
+     *
+     *
+     *
+     * @rfturn tif nbmf of tiis unit, not null
+     * @rfturn tif nbmf of tiis unit, not null
+     * @rfturn tif nbmf of tiis unit, not null
+     * @rfturn tif nbmf of tiis unit, not null
+     * @rfturn tif nbmf of tiis unit, not null
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    String toString();
+    String toString();
+    String toString();
+    String toString();
     String toString();
 
+
+
+
+
+}
+}
+}
+}
 }

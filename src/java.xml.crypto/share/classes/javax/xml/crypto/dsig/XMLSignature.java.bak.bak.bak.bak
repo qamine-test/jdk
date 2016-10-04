@@ -1,245 +1,1225 @@
 /*
- * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
+/*
+/*
+/*
+/*
+ * ===========================================================================
+ * ===========================================================================
+ * ===========================================================================
+ * ===========================================================================
  * ===========================================================================
  *
- * (C) Copyright IBM Corp. 2003 All Rights Rfsfrvfd.
  *
+ *
+ *
+ *
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
+ *
+ *
+ *
+ *
+ *
+ * ===========================================================================
+ * ===========================================================================
+ * ===========================================================================
+ * ===========================================================================
  * ===========================================================================
  */
+ */
+ */
+ */
+ */
+/*
+/*
+/*
+/*
 /*
  * $Id: XMLSignbturf.jbvb,v 1.10 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: XMLSignbturf.jbvb,v 1.10 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: XMLSignbturf.jbvb,v 1.10 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: XMLSignbturf.jbvb,v 1.10 2005/05/10 16:03:48 mullbn Exp $
+ * $Id: XMLSignbturf.jbvb,v 1.10 2005/05/10 16:03:48 mullbn Exp $
+ */
+ */
+ */
+ */
  */
 pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+
+
+
 
 import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.KfySflfdtor;
 import jbvbx.xml.drypto.KfySflfdtorRfsult;
-import jbvbx.xml.drypto.MbrshblExdfption;
+import jbvbx.xml.drypto.KfySflfdtorRfsult;
+import jbvbx.xml.drypto.KfySflfdtorRfsult;
+import jbvbx.xml.drypto.KfySflfdtorRfsult;
+import jbvbx.xml.drypto.KfySflfdtorRfsult;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.XMLStrudturf;
 import jbvbx.xml.drypto.XMLStrudturf;
 import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.Signbturf;
 import jbvb.sfdurity.Signbturf;
 import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+
+
+
+
 
 /**
- * A rfprfsfntbtion of thf XML <dodf>Signbturf</dodf> flfmfnt bs
- * dffinfd in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+/**
+/**
+/**
+/**
+ * A rfprfsfntbtion of tif XML <dodf>Signbturf</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Signbturf</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Signbturf</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Signbturf</dodf> flfmfnt bs
+ * A rfprfsfntbtion of tif XML <dodf>Signbturf</dodf> flfmfnt bs
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
  * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
- * This dlbss dontbins mfthods for signing bnd vblidbting XML signbturfs
- * with bfhbvior bs dffinfd by thf W3C spfdifidbtion. Thf XML Sdhfmb Dffinition
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Tiis dlbss dontbins mftiods for signing bnd vblidbting XML signbturfs
+ * Tiis dlbss dontbins mftiods for signing bnd vblidbting XML signbturfs
+ * Tiis dlbss dontbins mftiods for signing bnd vblidbting XML signbturfs
+ * Tiis dlbss dontbins mftiods for signing bnd vblidbting XML signbturfs
+ * Tiis dlbss dontbins mftiods for signing bnd vblidbting XML signbturfs
+ * witi bfibvior bs dffinfd by tif W3C spfdifidbtion. Tif XML Sdifmb Dffinition
+ * witi bfibvior bs dffinfd by tif W3C spfdifidbtion. Tif XML Sdifmb Dffinition
+ * witi bfibvior bs dffinfd by tif W3C spfdifidbtion. Tif XML Sdifmb Dffinition
+ * witi bfibvior bs dffinfd by tif W3C spfdifidbtion. Tif XML Sdifmb Dffinition
+ * witi bfibvior bs dffinfd by tif W3C spfdifidbtion. Tif XML Sdifmb Dffinition
+ * is dffinfd bs:
+ * is dffinfd bs:
+ * is dffinfd bs:
+ * is dffinfd bs:
  * is dffinfd bs:
  * <prf><dodf>
+ * <prf><dodf>
+ * <prf><dodf>
+ * <prf><dodf>
+ * <prf><dodf>
+ * &lt;flfmfnt nbmf="Signbturf" typf="ds:SignbturfTypf"/&gt;
+ * &lt;flfmfnt nbmf="Signbturf" typf="ds:SignbturfTypf"/&gt;
+ * &lt;flfmfnt nbmf="Signbturf" typf="ds:SignbturfTypf"/&gt;
+ * &lt;flfmfnt nbmf="Signbturf" typf="ds:SignbturfTypf"/&gt;
  * &lt;flfmfnt nbmf="Signbturf" typf="ds:SignbturfTypf"/&gt;
  * &lt;domplfxTypf nbmf="SignbturfTypf"&gt;
+ * &lt;domplfxTypf nbmf="SignbturfTypf"&gt;
+ * &lt;domplfxTypf nbmf="SignbturfTypf"&gt;
+ * &lt;domplfxTypf nbmf="SignbturfTypf"&gt;
+ * &lt;domplfxTypf nbmf="SignbturfTypf"&gt;
+ *    &lt;sfqufndf&gt;
+ *    &lt;sfqufndf&gt;
+ *    &lt;sfqufndf&gt;
+ *    &lt;sfqufndf&gt;
  *    &lt;sfqufndf&gt;
  *      &lt;flfmfnt rff="ds:SignfdInfo"/&gt;
+ *      &lt;flfmfnt rff="ds:SignfdInfo"/&gt;
+ *      &lt;flfmfnt rff="ds:SignfdInfo"/&gt;
+ *      &lt;flfmfnt rff="ds:SignfdInfo"/&gt;
+ *      &lt;flfmfnt rff="ds:SignfdInfo"/&gt;
+ *      &lt;flfmfnt rff="ds:SignbturfVbluf"/&gt;
+ *      &lt;flfmfnt rff="ds:SignbturfVbluf"/&gt;
+ *      &lt;flfmfnt rff="ds:SignbturfVbluf"/&gt;
+ *      &lt;flfmfnt rff="ds:SignbturfVbluf"/&gt;
  *      &lt;flfmfnt rff="ds:SignbturfVbluf"/&gt;
  *      &lt;flfmfnt rff="ds:KfyInfo" minOddurs="0"/&gt;
+ *      &lt;flfmfnt rff="ds:KfyInfo" minOddurs="0"/&gt;
+ *      &lt;flfmfnt rff="ds:KfyInfo" minOddurs="0"/&gt;
+ *      &lt;flfmfnt rff="ds:KfyInfo" minOddurs="0"/&gt;
+ *      &lt;flfmfnt rff="ds:KfyInfo" minOddurs="0"/&gt;
+ *      &lt;flfmfnt rff="ds:Objfdt" minOddurs="0" mbxOddurs="unboundfd"/&gt;
+ *      &lt;flfmfnt rff="ds:Objfdt" minOddurs="0" mbxOddurs="unboundfd"/&gt;
+ *      &lt;flfmfnt rff="ds:Objfdt" minOddurs="0" mbxOddurs="unboundfd"/&gt;
+ *      &lt;flfmfnt rff="ds:Objfdt" minOddurs="0" mbxOddurs="unboundfd"/&gt;
  *      &lt;flfmfnt rff="ds:Objfdt" minOddurs="0" mbxOddurs="unboundfd"/&gt;
  *    &lt;/sfqufndf&gt;
+ *    &lt;/sfqufndf&gt;
+ *    &lt;/sfqufndf&gt;
+ *    &lt;/sfqufndf&gt;
+ *    &lt;/sfqufndf&gt;
+ *    &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *    &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *    &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *    &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
  *    &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
  * &lt;/domplfxTypf&gt;
+ * &lt;/domplfxTypf&gt;
+ * &lt;/domplfxTypf&gt;
+ * &lt;/domplfxTypf&gt;
+ * &lt;/domplfxTypf&gt;
+ * </dodf></prf>
+ * </dodf></prf>
+ * </dodf></prf>
+ * </dodf></prf>
  * </dodf></prf>
  * <p>
- * An <dodf>XMLSignbturf</dodf> instbndf mby bf drfbtfd by invoking onf of thf
- * {@link XMLSignbturfFbdtory#nfwXMLSignbturf nfwXMLSignbturf} mfthods of thf
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * An <dodf>XMLSignbturf</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * An <dodf>XMLSignbturf</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * An <dodf>XMLSignbturf</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * An <dodf>XMLSignbturf</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * An <dodf>XMLSignbturf</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * {@link XMLSignbturfFbdtory#nfwXMLSignbturf nfwXMLSignbturf} mftiods of tif
+ * {@link XMLSignbturfFbdtory#nfwXMLSignbturf nfwXMLSignbturf} mftiods of tif
+ * {@link XMLSignbturfFbdtory#nfwXMLSignbturf nfwXMLSignbturf} mftiods of tif
+ * {@link XMLSignbturfFbdtory#nfwXMLSignbturf nfwXMLSignbturf} mftiods of tif
+ * {@link XMLSignbturfFbdtory#nfwXMLSignbturf nfwXMLSignbturf} mftiods of tif
+ * {@link XMLSignbturfFbdtory} dlbss.
+ * {@link XMLSignbturfFbdtory} dlbss.
+ * {@link XMLSignbturfFbdtory} dlbss.
+ * {@link XMLSignbturfFbdtory} dlbss.
  * {@link XMLSignbturfFbdtory} dlbss.
  *
- * <p>If thf dontfnts of thf undfrlying dodumfnt dontbining thf
- * <dodf>XMLSignbturf</dodf> brf subsfqufntly modififd, thf bfhbvior is
+ *
+ *
+ *
+ *
+ * <p>If tif dontfnts of tif undfrlying dodumfnt dontbining tif
+ * <p>If tif dontfnts of tif undfrlying dodumfnt dontbining tif
+ * <p>If tif dontfnts of tif undfrlying dodumfnt dontbining tif
+ * <p>If tif dontfnts of tif undfrlying dodumfnt dontbining tif
+ * <p>If tif dontfnts of tif undfrlying dodumfnt dontbining tif
+ * <dodf>XMLSignbturf</dodf> brf subsfqufntly modififd, tif bfibvior is
+ * <dodf>XMLSignbturf</dodf> brf subsfqufntly modififd, tif bfibvior is
+ * <dodf>XMLSignbturf</dodf> brf subsfqufntly modififd, tif bfibvior is
+ * <dodf>XMLSignbturf</dodf> brf subsfqufntly modififd, tif bfibvior is
+ * <dodf>XMLSignbturf</dodf> brf subsfqufntly modififd, tif bfibvior is
+ * undffinfd.
+ * undffinfd.
+ * undffinfd.
+ * undffinfd.
  * undffinfd.
  *
- * <p>Notf thbt this dlbss is nbmfd <dodf>XMLSignbturf</dodf> rbthfr thbn
- * <dodf>Signbturf</dodf> to bvoid nbming dlbshfs with thf fxisting
+ *
+ *
+ *
+ *
+ * <p>Notf tibt tiis dlbss is nbmfd <dodf>XMLSignbturf</dodf> rbtifr tibn
+ * <p>Notf tibt tiis dlbss is nbmfd <dodf>XMLSignbturf</dodf> rbtifr tibn
+ * <p>Notf tibt tiis dlbss is nbmfd <dodf>XMLSignbturf</dodf> rbtifr tibn
+ * <p>Notf tibt tiis dlbss is nbmfd <dodf>XMLSignbturf</dodf> rbtifr tibn
+ * <p>Notf tibt tiis dlbss is nbmfd <dodf>XMLSignbturf</dodf> rbtifr tibn
+ * <dodf>Signbturf</dodf> to bvoid nbming dlbsifs witi tif fxisting
+ * <dodf>Signbturf</dodf> to bvoid nbming dlbsifs witi tif fxisting
+ * <dodf>Signbturf</dodf> to bvoid nbming dlbsifs witi tif fxisting
+ * <dodf>Signbturf</dodf> to bvoid nbming dlbsifs witi tif fxisting
+ * <dodf>Signbturf</dodf> to bvoid nbming dlbsifs witi tif fxisting
+ * {@link Signbturf jbvb.sfdurity.Signbturf} dlbss.
+ * {@link Signbturf jbvb.sfdurity.Signbturf} dlbss.
+ * {@link Signbturf jbvb.sfdurity.Signbturf} dlbss.
+ * {@link Signbturf jbvb.sfdurity.Signbturf} dlbss.
  * {@link Signbturf jbvb.sfdurity.Signbturf} dlbss.
  *
+ *
+ *
+ *
+ *
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo)
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo)
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo)
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo)
  * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo)
  * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo, List, String, String)
- * @buthor Joydf L. Lfung
- * @buthor Sfbn Mullbn
- * @buthor Erwin vbn dfr Koogh
- * @buthor JSR 105 Expfrt Group
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo, List, String, String)
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo, List, String, String)
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo, List, String, String)
+ * @sff XMLSignbturfFbdtory#nfwXMLSignbturf(SignfdInfo, KfyInfo, List, String, String)
+ * @butior Joydf L. Lfung
+ * @butior Joydf L. Lfung
+ * @butior Joydf L. Lfung
+ * @butior Joydf L. Lfung
+ * @butior Joydf L. Lfung
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Erwin vbn dfr Koogi
+ * @butior Erwin vbn dfr Koogi
+ * @butior Erwin vbn dfr Koogi
+ * @butior Erwin vbn dfr Koogi
+ * @butior Erwin vbn dfr Koogi
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
  * @sindf 1.6
  */
+ */
+ */
+ */
+ */
+publid intfrfbdf XMLSignbturf fxtfnds XMLStrudturf {
+publid intfrfbdf XMLSignbturf fxtfnds XMLStrudturf {
+publid intfrfbdf XMLSignbturf fxtfnds XMLStrudturf {
+publid intfrfbdf XMLSignbturf fxtfnds XMLStrudturf {
 publid intfrfbdf XMLSignbturf fxtfnds XMLStrudturf {
 
+
+
+
+
     /**
-     * Thf XML Nbmfspbdf URI of thf W3C Rfdommfndbtion for XML-Signbturf
+    /**
+    /**
+    /**
+    /**
+     * Tif XML Nbmfspbdf URI of tif W3C Rfdommfndbtion for XML-Signbturf
+     * Tif XML Nbmfspbdf URI of tif W3C Rfdommfndbtion for XML-Signbturf
+     * Tif XML Nbmfspbdf URI of tif W3C Rfdommfndbtion for XML-Signbturf
+     * Tif XML Nbmfspbdf URI of tif W3C Rfdommfndbtion for XML-Signbturf
+     * Tif XML Nbmfspbdf URI of tif W3C Rfdommfndbtion for XML-Signbturf
+     * Syntbx bnd Prodfssing.
+     * Syntbx bnd Prodfssing.
+     * Syntbx bnd Prodfssing.
+     * Syntbx bnd Prodfssing.
      * Syntbx bnd Prodfssing.
      */
-    finbl stbtid String XMLNS = "http://www.w3.org/2000/09/xmldsig#";
+     */
+     */
+     */
+     */
+    finbl stbtid String XMLNS = "ittp://www.w3.org/2000/09/xmldsig#";
+    finbl stbtid String XMLNS = "ittp://www.w3.org/2000/09/xmldsig#";
+    finbl stbtid String XMLNS = "ittp://www.w3.org/2000/09/xmldsig#";
+    finbl stbtid String XMLNS = "ittp://www.w3.org/2000/09/xmldsig#";
+    finbl stbtid String XMLNS = "ittp://www.w3.org/2000/09/xmldsig#";
+
+
+
+
 
     /**
-     * Vblidbtfs thf signbturf bddording to thf
-     * <b hrff="http://www.w3.org/TR/xmldsig-dorf/#sfd-CorfVblidbtion">
-     * dorf vblidbtion prodfssing rulfs</b>. This mfthod vblidbtfs thf
-     * signbturf using thf fxisting stbtf, it dofs not unmbrshbl bnd
-     * rfinitiblizf thf dontfnts of thf <dodf>XMLSignbturf</dodf> using thf
-     * lodbtion informbtion spfdififd in thf dontfxt.
+    /**
+    /**
+    /**
+    /**
+     * Vblidbtfs tif signbturf bddording to tif
+     * Vblidbtfs tif signbturf bddording to tif
+     * Vblidbtfs tif signbturf bddording to tif
+     * Vblidbtfs tif signbturf bddording to tif
+     * Vblidbtfs tif signbturf bddording to tif
+     * <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-CorfVblidbtion">
+     * <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-CorfVblidbtion">
+     * <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-CorfVblidbtion">
+     * <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-CorfVblidbtion">
+     * <b irff="ittp://www.w3.org/TR/xmldsig-dorf/#sfd-CorfVblidbtion">
+     * dorf vblidbtion prodfssing rulfs</b>. Tiis mftiod vblidbtfs tif
+     * dorf vblidbtion prodfssing rulfs</b>. Tiis mftiod vblidbtfs tif
+     * dorf vblidbtion prodfssing rulfs</b>. Tiis mftiod vblidbtfs tif
+     * dorf vblidbtion prodfssing rulfs</b>. Tiis mftiod vblidbtfs tif
+     * dorf vblidbtion prodfssing rulfs</b>. Tiis mftiod vblidbtfs tif
+     * signbturf using tif fxisting stbtf, it dofs not unmbrsibl bnd
+     * signbturf using tif fxisting stbtf, it dofs not unmbrsibl bnd
+     * signbturf using tif fxisting stbtf, it dofs not unmbrsibl bnd
+     * signbturf using tif fxisting stbtf, it dofs not unmbrsibl bnd
+     * signbturf using tif fxisting stbtf, it dofs not unmbrsibl bnd
+     * rfinitiblizf tif dontfnts of tif <dodf>XMLSignbturf</dodf> using tif
+     * rfinitiblizf tif dontfnts of tif <dodf>XMLSignbturf</dodf> using tif
+     * rfinitiblizf tif dontfnts of tif <dodf>XMLSignbturf</dodf> using tif
+     * rfinitiblizf tif dontfnts of tif <dodf>XMLSignbturf</dodf> using tif
+     * rfinitiblizf tif dontfnts of tif <dodf>XMLSignbturf</dodf> using tif
+     * lodbtion informbtion spfdififd in tif dontfxt.
+     * lodbtion informbtion spfdififd in tif dontfxt.
+     * lodbtion informbtion spfdififd in tif dontfxt.
+     * lodbtion informbtion spfdififd in tif dontfxt.
+     * lodbtion informbtion spfdififd in tif dontfxt.
      *
-     * <p>This mfthod only vblidbtfs thf signbturf thf first timf it is
-     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdhfd rfsult.
      *
-     * @pbrbm vblidbtfContfxt thf vblidbting dontfxt
-     * @rfturn <dodf>truf</dodf> if thf signbturf pbssfd dorf vblidbtion,
-     *    othfrwisf <dodf>fblsf</dodf>
-     * @throws ClbssCbstExdfption if thf typf of <dodf>vblidbtfContfxt</dodf>
-     *    is not dompbtiblf with this <dodf>XMLSignbturf</dodf>
-     * @throws NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+     *
+     *
+     *
+     * <p>Tiis mftiod only vblidbtfs tif signbturf tif first timf it is
+     * <p>Tiis mftiod only vblidbtfs tif signbturf tif first timf it is
+     * <p>Tiis mftiod only vblidbtfs tif signbturf tif first timf it is
+     * <p>Tiis mftiod only vblidbtfs tif signbturf tif first timf it is
+     * <p>Tiis mftiod only vblidbtfs tif signbturf tif first timf it is
+     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd rfsult.
+     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd rfsult.
+     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd rfsult.
+     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd rfsult.
+     * invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd rfsult.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+     * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+     * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+     * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+     * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+     * @rfturn <dodf>truf</dodf> if tif signbturf pbssfd dorf vblidbtion,
+     * @rfturn <dodf>truf</dodf> if tif signbturf pbssfd dorf vblidbtion,
+     * @rfturn <dodf>truf</dodf> if tif signbturf pbssfd dorf vblidbtion,
+     * @rfturn <dodf>truf</dodf> if tif signbturf pbssfd dorf vblidbtion,
+     * @rfturn <dodf>truf</dodf> if tif signbturf pbssfd dorf vblidbtion,
+     *    otifrwisf <dodf>fblsf</dodf>
+     *    otifrwisf <dodf>fblsf</dodf>
+     *    otifrwisf <dodf>fblsf</dodf>
+     *    otifrwisf <dodf>fblsf</dodf>
+     *    otifrwisf <dodf>fblsf</dodf>
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>vblidbtfContfxt</dodf>
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>vblidbtfContfxt</dodf>
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>vblidbtfContfxt</dodf>
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>vblidbtfContfxt</dodf>
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>vblidbtfContfxt</dodf>
+     *    is not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    is not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    is not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    is not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    is not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
      *    <dodf>null</dodf>
-     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs during
-     *    vblidbtion thbt prfvfntfd thf vblidbtion opfrbtion from domplfting
+     *    <dodf>null</dodf>
+     *    <dodf>null</dodf>
+     *    <dodf>null</dodf>
+     *    <dodf>null</dodf>
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs during
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs during
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs during
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs during
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs during
+     *    vblidbtion tibt prfvfntfd tif vblidbtion opfrbtion from domplfting
+     *    vblidbtion tibt prfvfntfd tif vblidbtion opfrbtion from domplfting
+     *    vblidbtion tibt prfvfntfd tif vblidbtion opfrbtion from domplfting
+     *    vblidbtion tibt prfvfntfd tif vblidbtion opfrbtion from domplfting
+     *    vblidbtion tibt prfvfntfd tif vblidbtion opfrbtion from domplfting
+     */
+     */
+     */
+     */
      */
     boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
-        throws XMLSignbturfExdfption;
+    boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+    boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+    boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+    boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+        tirows XMLSignbturfExdfption;
+        tirows XMLSignbturfExdfption;
+        tirows XMLSignbturfExdfption;
+        tirows XMLSignbturfExdfption;
+        tirows XMLSignbturfExdfption;
+
+
+
+
 
     /**
-     * Rfturns thf kfy info of this <dodf>XMLSignbturf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif kfy info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif kfy info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif kfy info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif kfy info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif kfy info of tiis <dodf>XMLSignbturf</dodf>.
      *
-     * @rfturn thf kfy info (mby bf <dodf>null</dodf> if not spfdififd)
+     *
+     *
+     *
+     *
+     * @rfturn tif kfy info (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif kfy info (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif kfy info (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif kfy info (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif kfy info (mby bf <dodf>null</dodf> if not spfdififd)
+     */
+     */
+     */
+     */
      */
     KfyInfo gftKfyInfo();
+    KfyInfo gftKfyInfo();
+    KfyInfo gftKfyInfo();
+    KfyInfo gftKfyInfo();
+    KfyInfo gftKfyInfo();
+
+
+
+
 
     /**
-     * Rfturns thf signfd info of this <dodf>XMLSignbturf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif signfd info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signfd info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signfd info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signfd info of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signfd info of tiis <dodf>XMLSignbturf</dodf>.
      *
-     * @rfturn thf signfd info (nfvfr <dodf>null</dodf>)
+     *
+     *
+     *
+     *
+     * @rfturn tif signfd info (nfvfr <dodf>null</dodf>)
+     * @rfturn tif signfd info (nfvfr <dodf>null</dodf>)
+     * @rfturn tif signfd info (nfvfr <dodf>null</dodf>)
+     * @rfturn tif signfd info (nfvfr <dodf>null</dodf>)
+     * @rfturn tif signfd info (nfvfr <dodf>null</dodf>)
+     */
+     */
+     */
+     */
      */
     SignfdInfo gftSignfdInfo();
+    SignfdInfo gftSignfdInfo();
+    SignfdInfo gftSignfdInfo();
+    SignfdInfo gftSignfdInfo();
+    SignfdInfo gftSignfdInfo();
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
-     * list} of {@link XMLObjfdt}s dontbinfd in this <dodf>XMLSignbturf</dodf>.
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of {@link XMLObjfdt}s dontbinfd in tiis <dodf>XMLSignbturf</dodf>.
+     * list} of {@link XMLObjfdt}s dontbinfd in tiis <dodf>XMLSignbturf</dodf>.
+     * list} of {@link XMLObjfdt}s dontbinfd in tiis <dodf>XMLSignbturf</dodf>.
+     * list} of {@link XMLObjfdt}s dontbinfd in tiis <dodf>XMLSignbturf</dodf>.
+     * list} of {@link XMLObjfdt}s dontbinfd in tiis <dodf>XMLSignbturf</dodf>.
+     *
+     *
+     *
+     *
      *
      * @rfturn bn unmodifibblf list of <dodf>XMLObjfdt</dodf>s (mby bf fmpty
+     * @rfturn bn unmodifibblf list of <dodf>XMLObjfdt</dodf>s (mby bf fmpty
+     * @rfturn bn unmodifibblf list of <dodf>XMLObjfdt</dodf>s (mby bf fmpty
+     * @rfturn bn unmodifibblf list of <dodf>XMLObjfdt</dodf>s (mby bf fmpty
+     * @rfturn bn unmodifibblf list of <dodf>XMLObjfdt</dodf>s (mby bf fmpty
+     *    but nfvfr <dodf>null</dodf>)
+     *    but nfvfr <dodf>null</dodf>)
+     *    but nfvfr <dodf>null</dodf>)
+     *    but nfvfr <dodf>null</dodf>)
      *    but nfvfr <dodf>null</dodf>)
      */
+     */
+     */
+     */
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    @SupprfssWbrnings("rbwtypfs")
+    @SupprfssWbrnings("rbwtypfs")
+    @SupprfssWbrnings("rbwtypfs")
     @SupprfssWbrnings("rbwtypfs")
     List gftObjfdts();
+    List gftObjfdts();
+    List gftObjfdts();
+    List gftObjfdts();
+    List gftObjfdts();
+
+
+
+
 
     /**
-     * Rfturns thf optionbl Id of this <dodf>XMLSignbturf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif optionbl Id of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif optionbl Id of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif optionbl Id of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif optionbl Id of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif optionbl Id of tiis <dodf>XMLSignbturf</dodf>.
      *
-     * @rfturn thf Id (mby bf <dodf>null</dodf> if not spfdififd)
+     *
+     *
+     *
+     *
+     * @rfturn tif Id (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif Id (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif Id (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif Id (mby bf <dodf>null</dodf> if not spfdififd)
+     * @rfturn tif Id (mby bf <dodf>null</dodf> if not spfdififd)
+     */
+     */
+     */
+     */
      */
     String gftId();
+    String gftId();
+    String gftId();
+    String gftId();
+    String gftId();
+
+
+
+
 
     /**
-     * Rfturns thf signbturf vbluf of this <dodf>XMLSignbturf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif signbturf vbluf of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signbturf vbluf of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signbturf vbluf of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signbturf vbluf of tiis <dodf>XMLSignbturf</dodf>.
+     * Rfturns tif signbturf vbluf of tiis <dodf>XMLSignbturf</dodf>.
      *
-     * @rfturn thf signbturf vbluf
+     *
+     *
+     *
+     *
+     * @rfturn tif signbturf vbluf
+     * @rfturn tif signbturf vbluf
+     * @rfturn tif signbturf vbluf
+     * @rfturn tif signbturf vbluf
+     * @rfturn tif signbturf vbluf
+     */
+     */
+     */
+     */
      */
     SignbturfVbluf gftSignbturfVbluf();
+    SignbturfVbluf gftSignbturfVbluf();
+    SignbturfVbluf gftSignbturfVbluf();
+    SignbturfVbluf gftSignbturfVbluf();
+    SignbturfVbluf gftSignbturfVbluf();
+
+
+
+
 
     /**
-     * Signs this <dodf>XMLSignbturf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Signs tiis <dodf>XMLSignbturf</dodf>.
+     * Signs tiis <dodf>XMLSignbturf</dodf>.
+     * Signs tiis <dodf>XMLSignbturf</dodf>.
+     * Signs tiis <dodf>XMLSignbturf</dodf>.
+     * Signs tiis <dodf>XMLSignbturf</dodf>.
      *
-     * <p>If this mfthod throws bn fxdfption, this <dodf>XMLSignbturf</dodf> bnd
-     * thf <dodf>signContfxt</dodf> pbrbmftfr will bf lfft in thf stbtf thbt
-     * it wbs in prior to thf invodbtion.
      *
-     * @pbrbm signContfxt thf signing dontfxt
-     * @throws ClbssCbstExdfption if thf typf of <dodf>signContfxt</dodf> is
-     *    not dompbtiblf with this <dodf>XMLSignbturf</dodf>
-     * @throws NullPointfrExdfption if <dodf>signContfxt</dodf> is
+     *
+     *
+     *
+     * <p>If tiis mftiod tirows bn fxdfption, tiis <dodf>XMLSignbturf</dodf> bnd
+     * <p>If tiis mftiod tirows bn fxdfption, tiis <dodf>XMLSignbturf</dodf> bnd
+     * <p>If tiis mftiod tirows bn fxdfption, tiis <dodf>XMLSignbturf</dodf> bnd
+     * <p>If tiis mftiod tirows bn fxdfption, tiis <dodf>XMLSignbturf</dodf> bnd
+     * <p>If tiis mftiod tirows bn fxdfption, tiis <dodf>XMLSignbturf</dodf> bnd
+     * tif <dodf>signContfxt</dodf> pbrbmftfr will bf lfft in tif stbtf tibt
+     * tif <dodf>signContfxt</dodf> pbrbmftfr will bf lfft in tif stbtf tibt
+     * tif <dodf>signContfxt</dodf> pbrbmftfr will bf lfft in tif stbtf tibt
+     * tif <dodf>signContfxt</dodf> pbrbmftfr will bf lfft in tif stbtf tibt
+     * tif <dodf>signContfxt</dodf> pbrbmftfr will bf lfft in tif stbtf tibt
+     * it wbs in prior to tif invodbtion.
+     * it wbs in prior to tif invodbtion.
+     * it wbs in prior to tif invodbtion.
+     * it wbs in prior to tif invodbtion.
+     * it wbs in prior to tif invodbtion.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm signContfxt tif signing dontfxt
+     * @pbrbm signContfxt tif signing dontfxt
+     * @pbrbm signContfxt tif signing dontfxt
+     * @pbrbm signContfxt tif signing dontfxt
+     * @pbrbm signContfxt tif signing dontfxt
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>signContfxt</dodf> is
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>signContfxt</dodf> is
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>signContfxt</dodf> is
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>signContfxt</dodf> is
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>signContfxt</dodf> is
+     *    not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     *    not dompbtiblf witi tiis <dodf>XMLSignbturf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>signContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>signContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>signContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>signContfxt</dodf> is
+     * @tirows NullPointfrExdfption if <dodf>signContfxt</dodf> is
      *    <dodf>null</dodf>
-     * @throws MbrshblExdfption if bn fxdfption oddurs whilf mbrshblling
-     * @throws XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs whilf
-     *    gfnfrbting thf signbturf
+     *    <dodf>null</dodf>
+     *    <dodf>null</dodf>
+     *    <dodf>null</dodf>
+     *    <dodf>null</dodf>
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+     *    gfnfrbting tif signbturf
+     *    gfnfrbting tif signbturf
+     *    gfnfrbting tif signbturf
+     *    gfnfrbting tif signbturf
+     *    gfnfrbting tif signbturf
      */
-    void sign(XMLSignContfxt signContfxt) throws MbrshblExdfption,
+     */
+     */
+     */
+     */
+    void sign(XMLSignContfxt signContfxt) tirows MbrsiblExdfption,
+    void sign(XMLSignContfxt signContfxt) tirows MbrsiblExdfption,
+    void sign(XMLSignContfxt signContfxt) tirows MbrsiblExdfption,
+    void sign(XMLSignContfxt signContfxt) tirows MbrsiblExdfption,
+    void sign(XMLSignContfxt signContfxt) tirows MbrsiblExdfption,
+        XMLSignbturfExdfption;
+        XMLSignbturfExdfption;
+        XMLSignbturfExdfption;
+        XMLSignbturfExdfption;
         XMLSignbturfExdfption;
 
+
+
+
+
     /**
-     * Rfturns thf rfsult of thf {@link KfySflfdtor}, if spfdififd, bftfr
-     * this <dodf>XMLSignbturf</dodf> hbs bffn signfd or vblidbtfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif rfsult of tif {@link KfySflfdtor}, if spfdififd, bftfr
+     * Rfturns tif rfsult of tif {@link KfySflfdtor}, if spfdififd, bftfr
+     * Rfturns tif rfsult of tif {@link KfySflfdtor}, if spfdififd, bftfr
+     * Rfturns tif rfsult of tif {@link KfySflfdtor}, if spfdififd, bftfr
+     * Rfturns tif rfsult of tif {@link KfySflfdtor}, if spfdififd, bftfr
+     * tiis <dodf>XMLSignbturf</dodf> ibs bffn signfd or vblidbtfd.
+     * tiis <dodf>XMLSignbturf</dodf> ibs bffn signfd or vblidbtfd.
+     * tiis <dodf>XMLSignbturf</dodf> ibs bffn signfd or vblidbtfd.
+     * tiis <dodf>XMLSignbturf</dodf> ibs bffn signfd or vblidbtfd.
+     * tiis <dodf>XMLSignbturf</dodf> ibs bffn signfd or vblidbtfd.
      *
-     * @rfturn thf kfy sflfdtor rfsult, or <dodf>null</dodf> if b kfy
-     *    sflfdtor hbs not bffn spfdififd or this <dodf>XMLSignbturf</dodf>
-     *    hbs not bffn signfd or vblidbtfd
+     *
+     *
+     *
+     *
+     * @rfturn tif kfy sflfdtor rfsult, or <dodf>null</dodf> if b kfy
+     * @rfturn tif kfy sflfdtor rfsult, or <dodf>null</dodf> if b kfy
+     * @rfturn tif kfy sflfdtor rfsult, or <dodf>null</dodf> if b kfy
+     * @rfturn tif kfy sflfdtor rfsult, or <dodf>null</dodf> if b kfy
+     * @rfturn tif kfy sflfdtor rfsult, or <dodf>null</dodf> if b kfy
+     *    sflfdtor ibs not bffn spfdififd or tiis <dodf>XMLSignbturf</dodf>
+     *    sflfdtor ibs not bffn spfdififd or tiis <dodf>XMLSignbturf</dodf>
+     *    sflfdtor ibs not bffn spfdififd or tiis <dodf>XMLSignbturf</dodf>
+     *    sflfdtor ibs not bffn spfdififd or tiis <dodf>XMLSignbturf</dodf>
+     *    sflfdtor ibs not bffn spfdififd or tiis <dodf>XMLSignbturf</dodf>
+     *    ibs not bffn signfd or vblidbtfd
+     *    ibs not bffn signfd or vblidbtfd
+     *    ibs not bffn signfd or vblidbtfd
+     *    ibs not bffn signfd or vblidbtfd
+     *    ibs not bffn signfd or vblidbtfd
+     */
+     */
+     */
+     */
      */
     KfySflfdtorRfsult gftKfySflfdtorRfsult();
+    KfySflfdtorRfsult gftKfySflfdtorRfsult();
+    KfySflfdtorRfsult gftKfySflfdtorRfsult();
+    KfySflfdtorRfsult gftKfySflfdtorRfsult();
+    KfySflfdtorRfsult gftKfySflfdtorRfsult();
+
+
+
+
 
     /**
-     * A rfprfsfntbtion of thf XML <dodf>SignbturfVbluf</dodf> flfmfnt bs
-     * dffinfd in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+    /**
+    /**
+    /**
+    /**
+     * A rfprfsfntbtion of tif XML <dodf>SignbturfVbluf</dodf> flfmfnt bs
+     * A rfprfsfntbtion of tif XML <dodf>SignbturfVbluf</dodf> flfmfnt bs
+     * A rfprfsfntbtion of tif XML <dodf>SignbturfVbluf</dodf> flfmfnt bs
+     * A rfprfsfntbtion of tif XML <dodf>SignbturfVbluf</dodf> flfmfnt bs
+     * A rfprfsfntbtion of tif XML <dodf>SignbturfVbluf</dodf> flfmfnt bs
+     * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+     * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+     * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+     * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+     * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
      * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
-     * Thf XML Sdhfmb Dffinition is dffinfd bs:
+     * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+     * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+     * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+     * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+     * Tif XML Sdifmb Dffinition is dffinfd bs:
+     * Tif XML Sdifmb Dffinition is dffinfd bs:
+     * Tif XML Sdifmb Dffinition is dffinfd bs:
+     * Tif XML Sdifmb Dffinition is dffinfd bs:
+     * Tif XML Sdifmb Dffinition is dffinfd bs:
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
      * <prf>
      *   &lt;flfmfnt nbmf="SignbturfVbluf" typf="ds:SignbturfVblufTypf"/&gt;
+     *   &lt;flfmfnt nbmf="SignbturfVbluf" typf="ds:SignbturfVblufTypf"/&gt;
+     *   &lt;flfmfnt nbmf="SignbturfVbluf" typf="ds:SignbturfVblufTypf"/&gt;
+     *   &lt;flfmfnt nbmf="SignbturfVbluf" typf="ds:SignbturfVblufTypf"/&gt;
+     *   &lt;flfmfnt nbmf="SignbturfVbluf" typf="ds:SignbturfVblufTypf"/&gt;
+     *     &lt;domplfxTypf nbmf="SignbturfVblufTypf"&gt;
+     *     &lt;domplfxTypf nbmf="SignbturfVblufTypf"&gt;
+     *     &lt;domplfxTypf nbmf="SignbturfVblufTypf"&gt;
+     *     &lt;domplfxTypf nbmf="SignbturfVblufTypf"&gt;
      *     &lt;domplfxTypf nbmf="SignbturfVblufTypf"&gt;
      *       &lt;simplfContfnt&gt;
+     *       &lt;simplfContfnt&gt;
+     *       &lt;simplfContfnt&gt;
+     *       &lt;simplfContfnt&gt;
+     *       &lt;simplfContfnt&gt;
+     *         &lt;fxtfnsion bbsf="bbsf64Binbry"&gt;
+     *         &lt;fxtfnsion bbsf="bbsf64Binbry"&gt;
+     *         &lt;fxtfnsion bbsf="bbsf64Binbry"&gt;
+     *         &lt;fxtfnsion bbsf="bbsf64Binbry"&gt;
      *         &lt;fxtfnsion bbsf="bbsf64Binbry"&gt;
      *           &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+     *           &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+     *           &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+     *           &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+     *           &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+     *         &lt;/fxtfnsion&gt;
+     *         &lt;/fxtfnsion&gt;
+     *         &lt;/fxtfnsion&gt;
+     *         &lt;/fxtfnsion&gt;
      *         &lt;/fxtfnsion&gt;
      *       &lt;/simplfContfnt&gt;
+     *       &lt;/simplfContfnt&gt;
+     *       &lt;/simplfContfnt&gt;
+     *       &lt;/simplfContfnt&gt;
+     *       &lt;/simplfContfnt&gt;
+     *     &lt;/domplfxTypf&gt;
+     *     &lt;/domplfxTypf&gt;
+     *     &lt;/domplfxTypf&gt;
+     *     &lt;/domplfxTypf&gt;
      *     &lt;/domplfxTypf&gt;
      * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      *
-     * @buthor Sfbn Mullbn
-     * @buthor JSR 105 Expfrt Group
+     *
+     *
+     *
+     *
+     * @butior Sfbn Mullbn
+     * @butior Sfbn Mullbn
+     * @butior Sfbn Mullbn
+     * @butior Sfbn Mullbn
+     * @butior Sfbn Mullbn
+     * @butior JSR 105 Expfrt Group
+     * @butior JSR 105 Expfrt Group
+     * @butior JSR 105 Expfrt Group
+     * @butior JSR 105 Expfrt Group
+     * @butior JSR 105 Expfrt Group
+     */
+     */
+     */
+     */
      */
     publid intfrfbdf SignbturfVbluf fxtfnds XMLStrudturf {
+    publid intfrfbdf SignbturfVbluf fxtfnds XMLStrudturf {
+    publid intfrfbdf SignbturfVbluf fxtfnds XMLStrudturf {
+    publid intfrfbdf SignbturfVbluf fxtfnds XMLStrudturf {
+    publid intfrfbdf SignbturfVbluf fxtfnds XMLStrudturf {
         /**
-         * Rfturns thf optionbl <dodf>Id</dodf> bttributf of this
-         * <dodf>SignbturfVbluf</dodf>, whidh pfrmits this flfmfnt to bf
-         * rfffrfndfd from flsfwhfrf.
+        /**
+        /**
+        /**
+        /**
+         * Rfturns tif optionbl <dodf>Id</dodf> bttributf of tiis
+         * Rfturns tif optionbl <dodf>Id</dodf> bttributf of tiis
+         * Rfturns tif optionbl <dodf>Id</dodf> bttributf of tiis
+         * Rfturns tif optionbl <dodf>Id</dodf> bttributf of tiis
+         * Rfturns tif optionbl <dodf>Id</dodf> bttributf of tiis
+         * <dodf>SignbturfVbluf</dodf>, wiidi pfrmits tiis flfmfnt to bf
+         * <dodf>SignbturfVbluf</dodf>, wiidi pfrmits tiis flfmfnt to bf
+         * <dodf>SignbturfVbluf</dodf>, wiidi pfrmits tiis flfmfnt to bf
+         * <dodf>SignbturfVbluf</dodf>, wiidi pfrmits tiis flfmfnt to bf
+         * <dodf>SignbturfVbluf</dodf>, wiidi pfrmits tiis flfmfnt to bf
+         * rfffrfndfd from flsfwifrf.
+         * rfffrfndfd from flsfwifrf.
+         * rfffrfndfd from flsfwifrf.
+         * rfffrfndfd from flsfwifrf.
+         * rfffrfndfd from flsfwifrf.
          *
-         * @rfturn thf <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if
+         *
+         *
+         *
+         *
+         * @rfturn tif <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if
+         * @rfturn tif <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if
+         * @rfturn tif <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if
+         * @rfturn tif <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if
+         * @rfturn tif <dodf>Id</dodf> bttributf (mby bf <dodf>null</dodf> if
+         *    not spfdififd)
+         *    not spfdififd)
+         *    not spfdififd)
+         *    not spfdififd)
          *    not spfdififd)
          */
+         */
+         */
+         */
+         */
+        String gftId();
+        String gftId();
+        String gftId();
+        String gftId();
         String gftId();
 
-        /**
-         * Rfturns thf signbturf vbluf of this <dodf>SignbturfVbluf</dodf>.
-         *
-         * @rfturn thf signbturf vbluf (mby bf <dodf>null</dodf> if thf
-         *    <dodf>XMLSignbturf</dodf> hbs not bffn signfd yft). Ebdh
-         *    invodbtion of this mfthod rfturns b nfw dlonf of thf brrby to
-         *    prfvfnt subsfqufnt modifidbtion.
-         */
-        bytf[] gftVbluf();
+
+
+
 
         /**
-         * Vblidbtfs thf signbturf vbluf. This mfthod pfrforms b
-         * dryptogrbphid vblidbtion of thf signbturf dbldulbtfd ovfr thf
-         * <dodf>SignfdInfo</dodf> of thf <dodf>XMLSignbturf</dodf>.
+        /**
+        /**
+        /**
+        /**
+         * Rfturns tif signbturf vbluf of tiis <dodf>SignbturfVbluf</dodf>.
+         * Rfturns tif signbturf vbluf of tiis <dodf>SignbturfVbluf</dodf>.
+         * Rfturns tif signbturf vbluf of tiis <dodf>SignbturfVbluf</dodf>.
+         * Rfturns tif signbturf vbluf of tiis <dodf>SignbturfVbluf</dodf>.
+         * Rfturns tif signbturf vbluf of tiis <dodf>SignbturfVbluf</dodf>.
          *
-         * <p>This mfthod only vblidbtfs thf signbturf thf first
-         * timf it is invokfd. On subsfqufnt invodbtions, it rfturns b dbdhfd
+         *
+         *
+         *
+         *
+         * @rfturn tif signbturf vbluf (mby bf <dodf>null</dodf> if tif
+         * @rfturn tif signbturf vbluf (mby bf <dodf>null</dodf> if tif
+         * @rfturn tif signbturf vbluf (mby bf <dodf>null</dodf> if tif
+         * @rfturn tif signbturf vbluf (mby bf <dodf>null</dodf> if tif
+         * @rfturn tif signbturf vbluf (mby bf <dodf>null</dodf> if tif
+         *    <dodf>XMLSignbturf</dodf> ibs not bffn signfd yft). Ebdi
+         *    <dodf>XMLSignbturf</dodf> ibs not bffn signfd yft). Ebdi
+         *    <dodf>XMLSignbturf</dodf> ibs not bffn signfd yft). Ebdi
+         *    <dodf>XMLSignbturf</dodf> ibs not bffn signfd yft). Ebdi
+         *    <dodf>XMLSignbturf</dodf> ibs not bffn signfd yft). Ebdi
+         *    invodbtion of tiis mftiod rfturns b nfw dlonf of tif brrby to
+         *    invodbtion of tiis mftiod rfturns b nfw dlonf of tif brrby to
+         *    invodbtion of tiis mftiod rfturns b nfw dlonf of tif brrby to
+         *    invodbtion of tiis mftiod rfturns b nfw dlonf of tif brrby to
+         *    invodbtion of tiis mftiod rfturns b nfw dlonf of tif brrby to
+         *    prfvfnt subsfqufnt modifidbtion.
+         *    prfvfnt subsfqufnt modifidbtion.
+         *    prfvfnt subsfqufnt modifidbtion.
+         *    prfvfnt subsfqufnt modifidbtion.
+         *    prfvfnt subsfqufnt modifidbtion.
+         */
+         */
+         */
+         */
+         */
+        bytf[] gftVbluf();
+        bytf[] gftVbluf();
+        bytf[] gftVbluf();
+        bytf[] gftVbluf();
+        bytf[] gftVbluf();
+
+
+
+
+
+        /**
+        /**
+        /**
+        /**
+        /**
+         * Vblidbtfs tif signbturf vbluf. Tiis mftiod pfrforms b
+         * Vblidbtfs tif signbturf vbluf. Tiis mftiod pfrforms b
+         * Vblidbtfs tif signbturf vbluf. Tiis mftiod pfrforms b
+         * Vblidbtfs tif signbturf vbluf. Tiis mftiod pfrforms b
+         * Vblidbtfs tif signbturf vbluf. Tiis mftiod pfrforms b
+         * dryptogrbpiid vblidbtion of tif signbturf dbldulbtfd ovfr tif
+         * dryptogrbpiid vblidbtion of tif signbturf dbldulbtfd ovfr tif
+         * dryptogrbpiid vblidbtion of tif signbturf dbldulbtfd ovfr tif
+         * dryptogrbpiid vblidbtion of tif signbturf dbldulbtfd ovfr tif
+         * dryptogrbpiid vblidbtion of tif signbturf dbldulbtfd ovfr tif
+         * <dodf>SignfdInfo</dodf> of tif <dodf>XMLSignbturf</dodf>.
+         * <dodf>SignfdInfo</dodf> of tif <dodf>XMLSignbturf</dodf>.
+         * <dodf>SignfdInfo</dodf> of tif <dodf>XMLSignbturf</dodf>.
+         * <dodf>SignfdInfo</dodf> of tif <dodf>XMLSignbturf</dodf>.
+         * <dodf>SignfdInfo</dodf> of tif <dodf>XMLSignbturf</dodf>.
+         *
+         *
+         *
+         *
+         *
+         * <p>Tiis mftiod only vblidbtfs tif signbturf tif first
+         * <p>Tiis mftiod only vblidbtfs tif signbturf tif first
+         * <p>Tiis mftiod only vblidbtfs tif signbturf tif first
+         * <p>Tiis mftiod only vblidbtfs tif signbturf tif first
+         * <p>Tiis mftiod only vblidbtfs tif signbturf tif first
+         * timf it is invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd
+         * timf it is invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd
+         * timf it is invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd
+         * timf it is invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd
+         * timf it is invokfd. On subsfqufnt invodbtions, it rfturns b dbdifd
+         * rfsult.
+         * rfsult.
+         * rfsult.
+         * rfsult.
          * rfsult.
          *
-         * @rfturn <dodf>truf</dodf> if thf signbturf wbs
-         *    vblidbtfd suddfssfully; <dodf>fblsf</dodf> othfrwisf
-         * @pbrbm vblidbtfContfxt thf vblidbting dontfxt
-         * @throws NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+         *
+         *
+         *
+         *
+         * @rfturn <dodf>truf</dodf> if tif signbturf wbs
+         * @rfturn <dodf>truf</dodf> if tif signbturf wbs
+         * @rfturn <dodf>truf</dodf> if tif signbturf wbs
+         * @rfturn <dodf>truf</dodf> if tif signbturf wbs
+         * @rfturn <dodf>truf</dodf> if tif signbturf wbs
+         *    vblidbtfd suddfssfully; <dodf>fblsf</dodf> otifrwisf
+         *    vblidbtfd suddfssfully; <dodf>fblsf</dodf> otifrwisf
+         *    vblidbtfd suddfssfully; <dodf>fblsf</dodf> otifrwisf
+         *    vblidbtfd suddfssfully; <dodf>fblsf</dodf> otifrwisf
+         *    vblidbtfd suddfssfully; <dodf>fblsf</dodf> otifrwisf
+         * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+         * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+         * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+         * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+         * @pbrbm vblidbtfContfxt tif vblidbting dontfxt
+         * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+         * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+         * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+         * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
+         * @tirows NullPointfrExdfption if <dodf>vblidbtfContfxt</dodf> is
          *    <dodf>null</dodf>
-         * @throws XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs whilf
-         *    vblidbting thf signbturf
+         *    <dodf>null</dodf>
+         *    <dodf>null</dodf>
+         *    <dodf>null</dodf>
+         *    <dodf>null</dodf>
+         * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+         * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+         * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+         * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+         * @tirows XMLSignbturfExdfption if bn unfxpfdtfd fxdfption oddurs wiilf
+         *    vblidbting tif signbturf
+         *    vblidbting tif signbturf
+         *    vblidbting tif signbturf
+         *    vblidbting tif signbturf
+         *    vblidbting tif signbturf
+         */
+         */
+         */
+         */
          */
         boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
-            throws XMLSignbturfExdfption;
+        boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+        boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+        boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+        boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+            tirows XMLSignbturfExdfption;
+            tirows XMLSignbturfExdfption;
+            tirows XMLSignbturfExdfption;
+            tirows XMLSignbturfExdfption;
+            tirows XMLSignbturfExdfption;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,116 @@
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.rfqufst;
+
+import dom.sun.jdi.*;
+
+/**
+ * Rfqufst for notifidbtion wifn b tirfbd in tif tbrgft VM ibs finisifd wbiting on
+ * b monitor objfdt. Tibt is, b tirfbd is lfbving Objfdt.wbit(). "
+ * Wifn bn fnbblfd MonitorWbitfdRfqufst is sbtisfifd, bn
+ * {@link dom.sun.jdi.fvfnt.EvfntSft fvfnt sft} dontbining b
+ * {@link dom.sun.jdi.fvfnt.MonitorWbitfdEvfnt MonitorWbitfdEvfnt}
+ * will bf plbdfd on tif
+ * {@link dom.sun.jdi.fvfnt.EvfntQufuf EvfntQufuf}.
+ * Tif dollfdtion of fxisting MonitorWbitfdEvfnts is
+ * mbnbgfd by tif {@link EvfntRfqufstMbnbgfr}
+ *
+ * @sff dom.sun.jdi.fvfnt.MonitorWbitfdEvfnt
+ * @sff dom.sun.jdi.fvfnt.EvfntQufuf
+ * @sff EvfntRfqufstMbnbgfr
+ *
+ * @butior Swbmy Vfnkbtbrbmbnbppb
+ * @sindf  1.6
+ */
+@jdk.Exportfd
+publid intfrfbdf MonitorWbitfdRfqufst fxtfnds EvfntRfqufst {
+
+    /**
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf in
+     * tif givfn tirfbd.
+     * @pbrbm tirfbd tif tirfbd to filtfr on.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddTirfbdFiltfr(TirfbdRfffrfndf tirfbd);
+
+    /**
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf wiosf
+     * monitor objfdt is of tif givfn rfffrfndf typf or bny of
+     * its subtypfs.
+     *
+     * @pbrbm rffTypf tif rfffrfndf typf to filtfr on.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddClbssFiltfr(RfffrfndfTypf rffTypf);
+
+    /**
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf
+     * in wiidi tif nbmf of tif dlbss of tif monitor objfdt mbtdifs tiis rfstridtfd
+     * rfgulbr fxprfssion. Rfgulbr fxprfssions brf limitfd
+     * to fxbdt mbtdifs bnd pbttfrns tibt bfgin witi '*' or fnd witi '*';
+     * for fxbmplf, "*.Foo" or "jbvb.*".
+     *
+     * @pbrbm dlbssPbttfrn tif pbttfrn String to filtfr for.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddClbssFiltfr(String dlbssPbttfrn);
+
+    /**
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf
+     * in wiidi tif nbmf of tif dlbss of tif monitor objfdt dofs <b>not</b>mbtdi tiis rfstridtfd
+     * rfgulbr fxprfssion, f.g.  "jbvb.*" or "*.Foo".
+     * @pbrbm dlbssPbttfrn tif pbttfrn String to filtfr bgbinst.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddClbssExdlusionFiltfr(String dlbssPbttfrn);
+
+    /**
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf in
+     * wiidi tif durrfntly fxfduting instbndf ("tiis") is tif objfdt
+     * spfdififd.
+     * <P>
+     * Not bll tbrgfts support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnUsfInstbndfFiltfrs()}
+     * to dftfrminf if tif opfrbtion is supportfd.
+     * @pbrbm instbndf tif objfdt wiidi must bf tif durrfnt instbndf
+     * in ordfr to pbss tiis filtfr.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddInstbndfFiltfr(ObjfdtRfffrfndf instbndf);
+}

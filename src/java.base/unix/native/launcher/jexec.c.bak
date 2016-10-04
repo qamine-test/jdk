@@ -1,358 +1,1790 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
+/*
+/*
+/*
+/*
+ * jfxfd for J2SE
+ * jfxfd for J2SE
+ * jfxfd for J2SE
+ * jfxfd for J2SE
  * jfxfd for J2SE
  *
+ *
+ *
+ *
+ *
+ * jfxfd is usfd by tif systfm to bllow fxfdution of JAR filfs.
+ * jfxfd is usfd by tif systfm to bllow fxfdution of JAR filfs.
+ * jfxfd is usfd by tif systfm to bllow fxfdution of JAR filfs.
+ * jfxfd is usfd by tif systfm to bllow fxfdution of JAR filfs.
  * jfxfd is usfd by tif systfm to bllow fxfdution of JAR filfs.
  *    Essfntiblly jfxfd nffds to run jbvb bnd
+ *    Essfntiblly jfxfd nffds to run jbvb bnd
+ *    Essfntiblly jfxfd nffds to run jbvb bnd
+ *    Essfntiblly jfxfd nffds to run jbvb bnd
+ *    Essfntiblly jfxfd nffds to run jbvb bnd
+ *    nffds to bf b nbtivf ISA fxfdutbblf (not b sifll sdript), bltiougi
+ *    nffds to bf b nbtivf ISA fxfdutbblf (not b sifll sdript), bltiougi
+ *    nffds to bf b nbtivf ISA fxfdutbblf (not b sifll sdript), bltiougi
+ *    nffds to bf b nbtivf ISA fxfdutbblf (not b sifll sdript), bltiougi
  *    nffds to bf b nbtivf ISA fxfdutbblf (not b sifll sdript), bltiougi
  *    tiis nbtivf ISA fxfdutbblf rfquirfmfnt wbs b mistbkf tibt will bf fixfd.
+ *    tiis nbtivf ISA fxfdutbblf rfquirfmfnt wbs b mistbkf tibt will bf fixfd.
+ *    tiis nbtivf ISA fxfdutbblf rfquirfmfnt wbs b mistbkf tibt will bf fixfd.
+ *    tiis nbtivf ISA fxfdutbblf rfquirfmfnt wbs b mistbkf tibt will bf fixfd.
+ *    tiis nbtivf ISA fxfdutbblf rfquirfmfnt wbs b mistbkf tibt will bf fixfd.
+ *    (<ISA> is spbrd or i386 or bmd64).
+ *    (<ISA> is spbrd or i386 or bmd64).
+ *    (<ISA> is spbrd or i386 or bmd64).
+ *    (<ISA> is spbrd or i386 or bmd64).
  *    (<ISA> is spbrd or i386 or bmd64).
  *
+ *
+ *
+ *
+ *
+ *    Wifn you fxfdutf b jbr filf, jfxfd is fxfdutfd by tif systfm bs follows:
+ *    Wifn you fxfdutf b jbr filf, jfxfd is fxfdutfd by tif systfm bs follows:
+ *    Wifn you fxfdutf b jbr filf, jfxfd is fxfdutfd by tif systfm bs follows:
+ *    Wifn you fxfdutf b jbr filf, jfxfd is fxfdutfd by tif systfm bs follows:
  *    Wifn you fxfdutf b jbr filf, jfxfd is fxfdutfd by tif systfm bs follows:
  *      /usr/jbvb/jrf/lib/<ISA>/jfxfd -jbr JARFILENAME
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd -jbr JARFILENAME
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd -jbr JARFILENAME
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd -jbr JARFILENAME
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd -jbr JARFILENAME
+ *    so tiis just nffds to bf turnfd into:
+ *    so tiis just nffds to bf turnfd into:
+ *    so tiis just nffds to bf turnfd into:
+ *    so tiis just nffds to bf turnfd into:
  *    so tiis just nffds to bf turnfd into:
  *      /usr/jbvb/jrf/bin/jbvb -jbr JARFILENAME
+ *      /usr/jbvb/jrf/bin/jbvb -jbr JARFILENAME
+ *      /usr/jbvb/jrf/bin/jbvb -jbr JARFILENAME
+ *      /usr/jbvb/jrf/bin/jbvb -jbr JARFILENAME
+ *      /usr/jbvb/jrf/bin/jbvb -jbr JARFILENAME
+ *
+ *
+ *
+ *
  *
  * Solbris systfms (nfw 7's bnd bll 8's) will bf looking for jfxfd bt:
+ * Solbris systfms (nfw 7's bnd bll 8's) will bf looking for jfxfd bt:
+ * Solbris systfms (nfw 7's bnd bll 8's) will bf looking for jfxfd bt:
+ * Solbris systfms (nfw 7's bnd bll 8's) will bf looking for jfxfd bt:
+ * Solbris systfms (nfw 7's bnd bll 8's) will bf looking for jfxfd bt:
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd
  *      /usr/jbvb/jrf/lib/<ISA>/jfxfd
  * Oldfr systfms mby nffd to bdd tiis to tifir /ftd/systfm filf:
+ * Oldfr systfms mby nffd to bdd tiis to tifir /ftd/systfm filf:
+ * Oldfr systfms mby nffd to bdd tiis to tifir /ftd/systfm filf:
+ * Oldfr systfms mby nffd to bdd tiis to tifir /ftd/systfm filf:
+ * Oldfr systfms mby nffd to bdd tiis to tifir /ftd/systfm filf:
+ *      sft jbvbfxfd:jfxfd="/usr/jbvb/jrf/lib/<ISA>/jfxfd"
+ *      sft jbvbfxfd:jfxfd="/usr/jbvb/jrf/lib/<ISA>/jfxfd"
+ *      sft jbvbfxfd:jfxfd="/usr/jbvb/jrf/lib/<ISA>/jfxfd"
+ *      sft jbvbfxfd:jfxfd="/usr/jbvb/jrf/lib/<ISA>/jfxfd"
  *      sft jbvbfxfd:jfxfd="/usr/jbvb/jrf/lib/<ISA>/jfxfd"
  *     bnd rfboot tif mbdiinf for tiis to work.
+ *     bnd rfboot tif mbdiinf for tiis to work.
+ *     bnd rfboot tif mbdiinf for tiis to work.
+ *     bnd rfboot tif mbdiinf for tiis to work.
+ *     bnd rfboot tif mbdiinf for tiis to work.
+ *
+ *
+ *
+ *
  *
  * Tiis sourdf siould bf dompilfd bs:
+ * Tiis sourdf siould bf dompilfd bs:
+ * Tiis sourdf siould bf dompilfd bs:
+ * Tiis sourdf siould bf dompilfd bs:
+ * Tiis sourdf siould bf dompilfd bs:
+ *      dd -o jfxfd jfxfd.d
+ *      dd -o jfxfd jfxfd.d
+ *      dd -o jfxfd jfxfd.d
+ *      dd -o jfxfd jfxfd.d
  *      dd -o jfxfd jfxfd.d
  *
+ *
+ *
+ *
+ *
+ * And jfxfd siould bf plbdfd bt tif following lodbtion of tif instbllbtion:
+ * And jfxfd siould bf plbdfd bt tif following lodbtion of tif instbllbtion:
+ * And jfxfd siould bf plbdfd bt tif following lodbtion of tif instbllbtion:
+ * And jfxfd siould bf plbdfd bt tif following lodbtion of tif instbllbtion:
  * And jfxfd siould bf plbdfd bt tif following lodbtion of tif instbllbtion:
  *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux)
  *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux)
  *
+ *
+ *
+ *
+ *
+ * NOTE: Unlfss <INSTALLATIONDIR> is tif "dffbult" JDK on tif systfm
+ * NOTE: Unlfss <INSTALLATIONDIR> is tif "dffbult" JDK on tif systfm
+ * NOTE: Unlfss <INSTALLATIONDIR> is tif "dffbult" JDK on tif systfm
+ * NOTE: Unlfss <INSTALLATIONDIR> is tif "dffbult" JDK on tif systfm
  * NOTE: Unlfss <INSTALLATIONDIR> is tif "dffbult" JDK on tif systfm
  *       (i.f. /usr/jbvb -> <INSTALLATIONDIR>), tiis jfxfd will not bf
+ *       (i.f. /usr/jbvb -> <INSTALLATIONDIR>), tiis jfxfd will not bf
+ *       (i.f. /usr/jbvb -> <INSTALLATIONDIR>), tiis jfxfd will not bf
+ *       (i.f. /usr/jbvb -> <INSTALLATIONDIR>), tiis jfxfd will not bf
+ *       (i.f. /usr/jbvb -> <INSTALLATIONDIR>), tiis jfxfd will not bf
+ *       found.  Tif 1.2 jbvb is only tif dffbult on Solbris 8 bnd
+ *       found.  Tif 1.2 jbvb is only tif dffbult on Solbris 8 bnd
+ *       found.  Tif 1.2 jbvb is only tif dffbult on Solbris 8 bnd
+ *       found.  Tif 1.2 jbvb is only tif dffbult on Solbris 8 bnd
  *       found.  Tif 1.2 jbvb is only tif dffbult on Solbris 8 bnd
  *       on systfms wifrf tif 1.2 pbdkbgfs wfrf instbllfd bnd no 1.1
+ *       on systfms wifrf tif 1.2 pbdkbgfs wfrf instbllfd bnd no 1.1
+ *       on systfms wifrf tif 1.2 pbdkbgfs wfrf instbllfd bnd no 1.1
+ *       on systfms wifrf tif 1.2 pbdkbgfs wfrf instbllfd bnd no 1.1
+ *       on systfms wifrf tif 1.2 pbdkbgfs wfrf instbllfd bnd no 1.1
+ *       jbvb wbs found.
+ *       jbvb wbs found.
+ *       jbvb wbs found.
+ *       jbvb wbs found.
  *       jbvb wbs found.
  *
+ *
+ *
+ *
+ *
+ * NOTE: You must usf 1.2 jbr to build your jbr filfs. Tif systfm
+ * NOTE: You must usf 1.2 jbr to build your jbr filfs. Tif systfm
+ * NOTE: You must usf 1.2 jbr to build your jbr filfs. Tif systfm
+ * NOTE: You must usf 1.2 jbr to build your jbr filfs. Tif systfm
  * NOTE: You must usf 1.2 jbr to build your jbr filfs. Tif systfm
  *       dofsn't sffm to pidk up 1.1 jbr filfs.
+ *       dofsn't sffm to pidk up 1.1 jbr filfs.
+ *       dofsn't sffm to pidk up 1.1 jbr filfs.
+ *       dofsn't sffm to pidk up 1.1 jbr filfs.
+ *       dofsn't sffm to pidk up 1.1 jbr filfs.
+ *
+ *
+ *
+ *
  *
  * NOTE: Wf don't nffd to sft LD_LIBRARY_PATH ifrf, fvfn tiougi wf
+ * NOTE: Wf don't nffd to sft LD_LIBRARY_PATH ifrf, fvfn tiougi wf
+ * NOTE: Wf don't nffd to sft LD_LIBRARY_PATH ifrf, fvfn tiougi wf
+ * NOTE: Wf don't nffd to sft LD_LIBRARY_PATH ifrf, fvfn tiougi wf
+ * NOTE: Wf don't nffd to sft LD_LIBRARY_PATH ifrf, fvfn tiougi wf
+ *       brf running tif bdtubl jbvb binbry bfdbusf tif jbvb binbry will
+ *       brf running tif bdtubl jbvb binbry bfdbusf tif jbvb binbry will
+ *       brf running tif bdtubl jbvb binbry bfdbusf tif jbvb binbry will
+ *       brf running tif bdtubl jbvb binbry bfdbusf tif jbvb binbry will
  *       brf running tif bdtubl jbvb binbry bfdbusf tif jbvb binbry will
  *       look for it's librbrifs tirougi it's own runpbti, wiidi usfs
+ *       look for it's librbrifs tirougi it's own runpbti, wiidi usfs
+ *       look for it's librbrifs tirougi it's own runpbti, wiidi usfs
+ *       look for it's librbrifs tirougi it's own runpbti, wiidi usfs
+ *       look for it's librbrifs tirougi it's own runpbti, wiidi usfs
+ *       $ORIGIN.
+ *       $ORIGIN.
+ *       $ORIGIN.
+ *       $ORIGIN.
  *       $ORIGIN.
  *
+ *
+ *
+ *
+ *
+ * NOTE: Tiis jfxfd siould NOT ibvf bny spfdibl .so librbry nffds bfdbusf
+ * NOTE: Tiis jfxfd siould NOT ibvf bny spfdibl .so librbry nffds bfdbusf
+ * NOTE: Tiis jfxfd siould NOT ibvf bny spfdibl .so librbry nffds bfdbusf
+ * NOTE: Tiis jfxfd siould NOT ibvf bny spfdibl .so librbry nffds bfdbusf
  * NOTE: Tiis jfxfd siould NOT ibvf bny spfdibl .so librbry nffds bfdbusf
  *       it bppfbrs tibt tiis fxfdutbblf will NOT gft tif $ORIGIN of jfxfd
+ *       it bppfbrs tibt tiis fxfdutbblf will NOT gft tif $ORIGIN of jfxfd
+ *       it bppfbrs tibt tiis fxfdutbblf will NOT gft tif $ORIGIN of jfxfd
+ *       it bppfbrs tibt tiis fxfdutbblf will NOT gft tif $ORIGIN of jfxfd
+ *       it bppfbrs tibt tiis fxfdutbblf will NOT gft tif $ORIGIN of jfxfd
+ *       but tif $ORIGIN of tif jbr filf bfing fxfdutfd. Bf dbrfful to kffp
+ *       but tif $ORIGIN of tif jbr filf bfing fxfdutfd. Bf dbrfful to kffp
+ *       but tif $ORIGIN of tif jbr filf bfing fxfdutfd. Bf dbrfful to kffp
+ *       but tif $ORIGIN of tif jbr filf bfing fxfdutfd. Bf dbrfful to kffp
  *       but tif $ORIGIN of tif jbr filf bfing fxfdutfd. Bf dbrfful to kffp
  *       tiis progrbm simplf bnd witi no .so dfpfndfndifs.
+ *       tiis progrbm simplf bnd witi no .so dfpfndfndifs.
+ *       tiis progrbm simplf bnd witi no .so dfpfndfndifs.
+ *       tiis progrbm simplf bnd witi no .so dfpfndfndifs.
+ *       tiis progrbm simplf bnd witi no .so dfpfndfndifs.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
 #indludf <stdlib.i>
 #indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <unistd.i>
+#indludf <unistd.i>
+#indludf <unistd.i>
+#indludf <unistd.i>
 #indludf <unistd.i>
 #indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <limits.i>
+#indludf <limits.i>
+#indludf <limits.i>
+#indludf <limits.i>
 #indludf <limits.i>
 #indludf <frrno.i>
+#indludf <frrno.i>
+#indludf <frrno.i>
+#indludf <frrno.i>
+#indludf <frrno.i>
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
 #ifdff __linux__
 #  indludf <sys/typfs.i>
+#  indludf <sys/typfs.i>
+#  indludf <sys/typfs.i>
+#  indludf <sys/typfs.i>
+#  indludf <sys/typfs.i>
+#  indludf <sys/stbt.i>
+#  indludf <sys/stbt.i>
+#  indludf <sys/stbt.i>
+#  indludf <sys/stbt.i>
 #  indludf <sys/stbt.i>
 #  indludf <fdntl.i>
+#  indludf <fdntl.i>
+#  indludf <fdntl.i>
+#  indludf <fdntl.i>
+#  indludf <fdntl.i>
+#  indludf "jni.i"
+#  indludf "jni.i"
+#  indludf "jni.i"
+#  indludf "jni.i"
 #  indludf "jni.i"
 #  indludf "mbniffst_info.i"
+#  indludf "mbniffst_info.i"
+#  indludf "mbniffst_info.i"
+#  indludf "mbniffst_info.i"
+#  indludf "mbniffst_info.i"
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
+
+
+
+
 
 stbtid donst int CRAZY_EXEC = ENOEXEC;
+stbtid donst int CRAZY_EXEC = ENOEXEC;
+stbtid donst int CRAZY_EXEC = ENOEXEC;
+stbtid donst int CRAZY_EXEC = ENOEXEC;
+stbtid donst int CRAZY_EXEC = ENOEXEC;
+stbtid donst int BAD_MAGIC  = ENOEXEC;
+stbtid donst int BAD_MAGIC  = ENOEXEC;
+stbtid donst int BAD_MAGIC  = ENOEXEC;
+stbtid donst int BAD_MAGIC  = ENOEXEC;
 stbtid donst int BAD_MAGIC  = ENOEXEC;
 
+
+
+
+
+stbtid donst dibr * BAD_EXEC_MSG     = "jfxfd fbilfd";
+stbtid donst dibr * BAD_EXEC_MSG     = "jfxfd fbilfd";
+stbtid donst dibr * BAD_EXEC_MSG     = "jfxfd fbilfd";
+stbtid donst dibr * BAD_EXEC_MSG     = "jfxfd fbilfd";
 stbtid donst dibr * BAD_EXEC_MSG     = "jfxfd fbilfd";
 stbtid donst dibr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtid donst dibr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtid donst dibr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtid donst dibr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtid donst dibr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtid donst dibr * MISSING_JAVA_MSG = "dbn't lodbtf jbvb";
+stbtid donst dibr * MISSING_JAVA_MSG = "dbn't lodbtf jbvb";
+stbtid donst dibr * MISSING_JAVA_MSG = "dbn't lodbtf jbvb";
+stbtid donst dibr * MISSING_JAVA_MSG = "dbn't lodbtf jbvb";
 stbtid donst dibr * MISSING_JAVA_MSG = "dbn't lodbtf jbvb";
 stbtid donst dibr * BAD_ARG_MSG      = "indorrfdt numbfr of brgumfnts";
+stbtid donst dibr * BAD_ARG_MSG      = "indorrfdt numbfr of brgumfnts";
+stbtid donst dibr * BAD_ARG_MSG      = "indorrfdt numbfr of brgumfnts";
+stbtid donst dibr * BAD_ARG_MSG      = "indorrfdt numbfr of brgumfnts";
+stbtid donst dibr * BAD_ARG_MSG      = "indorrfdt numbfr of brgumfnts";
+stbtid donst dibr * MEM_FAILED_MSG   = "mfmory bllodbtion fbilfd";
+stbtid donst dibr * MEM_FAILED_MSG   = "mfmory bllodbtion fbilfd";
+stbtid donst dibr * MEM_FAILED_MSG   = "mfmory bllodbtion fbilfd";
+stbtid donst dibr * MEM_FAILED_MSG   = "mfmory bllodbtion fbilfd";
 stbtid donst dibr * MEM_FAILED_MSG   = "mfmory bllodbtion fbilfd";
 #ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+stbtid donst dibr * BAD_PATHNAME_MSG = "invblid pbti";
+stbtid donst dibr * BAD_PATHNAME_MSG = "invblid pbti";
+stbtid donst dibr * BAD_PATHNAME_MSG = "invblid pbti";
+stbtid donst dibr * BAD_PATHNAME_MSG = "invblid pbti";
 stbtid donst dibr * BAD_PATHNAME_MSG = "invblid pbti";
 stbtid donst dibr * BAD_FILE_MSG     = "invblid filf";
+stbtid donst dibr * BAD_FILE_MSG     = "invblid filf";
+stbtid donst dibr * BAD_FILE_MSG     = "invblid filf";
+stbtid donst dibr * BAD_FILE_MSG     = "invblid filf";
+stbtid donst dibr * BAD_FILE_MSG     = "invblid filf";
+stbtid donst dibr * BAD_MAGIC_MSG    = "invblid filf (bbd mbgid numbfr)";
+stbtid donst dibr * BAD_MAGIC_MSG    = "invblid filf (bbd mbgid numbfr)";
+stbtid donst dibr * BAD_MAGIC_MSG    = "invblid filf (bbd mbgid numbfr)";
+stbtid donst dibr * BAD_MAGIC_MSG    = "invblid filf (bbd mbgid numbfr)";
 stbtid donst dibr * BAD_MAGIC_MSG    = "invblid filf (bbd mbgid numbfr)";
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
+stbtid donst dibr * UNKNOWN_ERROR    = "unknown frror";
+stbtid donst dibr * UNKNOWN_ERROR    = "unknown frror";
+stbtid donst dibr * UNKNOWN_ERROR    = "unknown frror";
+stbtid donst dibr * UNKNOWN_ERROR    = "unknown frror";
 stbtid donst dibr * UNKNOWN_ERROR    = "unknown frror";
 
+
+
+
+
+/* Dffinf b donstbnt tibt rfprfsfnts tif numbfr of dirfdtorifs to pop off tif
+/* Dffinf b donstbnt tibt rfprfsfnts tif numbfr of dirfdtorifs to pop off tif
+/* Dffinf b donstbnt tibt rfprfsfnts tif numbfr of dirfdtorifs to pop off tif
+/* Dffinf b donstbnt tibt rfprfsfnts tif numbfr of dirfdtorifs to pop off tif
 /* Dffinf b donstbnt tibt rfprfsfnts tif numbfr of dirfdtorifs to pop off tif
  * durrfnt lodbtion to find tif jbvb binbry */
+ * durrfnt lodbtion to find tif jbvb binbry */
+ * durrfnt lodbtion to find tif jbvb binbry */
+ * durrfnt lodbtion to find tif jbvb binbry */
+ * durrfnt lodbtion to find tif jbvb binbry */
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
 #ifdff __linux__
 stbtid donst int RELATIVE_DEPTH = 2;
+stbtid donst int RELATIVE_DEPTH = 2;
+stbtid donst int RELATIVE_DEPTH = 2;
+stbtid donst int RELATIVE_DEPTH = 2;
+stbtid donst int RELATIVE_DEPTH = 2;
+#flsf /* Solbris */
+#flsf /* Solbris */
+#flsf /* Solbris */
+#flsf /* Solbris */
 #flsf /* Solbris */
 stbtid donst int RELATIVE_DEPTH = 3;
+stbtid donst int RELATIVE_DEPTH = 3;
+stbtid donst int RELATIVE_DEPTH = 3;
+stbtid donst int RELATIVE_DEPTH = 3;
+stbtid donst int RELATIVE_DEPTH = 3;
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif
 
+
+
+
+
+/* pbti to jbvb bftfr popping */
+/* pbti to jbvb bftfr popping */
+/* pbti to jbvb bftfr popping */
+/* pbti to jbvb bftfr popping */
 /* pbti to jbvb bftfr popping */
 stbtid donst dibr * BIN_PATH = "/bin/jbvb";
+stbtid donst dibr * BIN_PATH = "/bin/jbvb";
+stbtid donst dibr * BIN_PATH = "/bin/jbvb";
+stbtid donst dibr * BIN_PATH = "/bin/jbvb";
+stbtid donst dibr * BIN_PATH = "/bin/jbvb";
+
+
+
+
 
 /* flbg usfd wifn running JAR filfs */
+/* flbg usfd wifn running JAR filfs */
+/* flbg usfd wifn running JAR filfs */
+/* flbg usfd wifn running JAR filfs */
+/* flbg usfd wifn running JAR filfs */
+stbtid donst dibr * JAR_FLAG = "-jbr";
+stbtid donst dibr * JAR_FLAG = "-jbr";
+stbtid donst dibr * JAR_FLAG = "-jbr";
+stbtid donst dibr * JAR_FLAG = "-jbr";
 stbtid donst dibr * JAR_FLAG = "-jbr";
 
 
+
+
+
+
+
+
+
+
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
 #ifdff __linux__
 /* lbrgfst possiblf sizf for b lodbl filf ifbdfr */
+/* lbrgfst possiblf sizf for b lodbl filf ifbdfr */
+/* lbrgfst possiblf sizf for b lodbl filf ifbdfr */
+/* lbrgfst possiblf sizf for b lodbl filf ifbdfr */
+/* lbrgfst possiblf sizf for b lodbl filf ifbdfr */
+stbtid donst sizf_t CHUNK_SIZE = 65535;
+stbtid donst sizf_t CHUNK_SIZE = 65535;
+stbtid donst sizf_t CHUNK_SIZE = 65535;
+stbtid donst sizf_t CHUNK_SIZE = 65535;
 stbtid donst sizf_t CHUNK_SIZE = 65535;
 
+
+
+
+
+/* smbllfst possiblf sizf for b lodbl filf ifbdfr */
+/* smbllfst possiblf sizf for b lodbl filf ifbdfr */
+/* smbllfst possiblf sizf for b lodbl filf ifbdfr */
+/* smbllfst possiblf sizf for b lodbl filf ifbdfr */
 /* smbllfst possiblf sizf for b lodbl filf ifbdfr */
 stbtid donst ssizf_t MIN_SIZE = LOCHDR + 1 + 4;
+stbtid donst ssizf_t MIN_SIZE = LOCHDR + 1 + 4;
+stbtid donst ssizf_t MIN_SIZE = LOCHDR + 1 + 4;
+stbtid donst ssizf_t MIN_SIZE = LOCHDR + 1 + 4;
+stbtid donst ssizf_t MIN_SIZE = LOCHDR + 1 + 4;
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
+
+
+
+
+
+
+
+
 
 
 int mbin(int brgd, donst dibr * brgv[]);
+int mbin(int brgd, donst dibr * brgv[]);
+int mbin(int brgd, donst dibr * brgv[]);
+int mbin(int brgd, donst dibr * brgv[]);
+int mbin(int brgd, donst dibr * brgv[]);
+void frrorExit(int frror, donst dibr * mfssbgf);
+void frrorExit(int frror, donst dibr * mfssbgf);
+void frrorExit(int frror, donst dibr * mfssbgf);
+void frrorExit(int frror, donst dibr * mfssbgf);
 void frrorExit(int frror, donst dibr * mfssbgf);
 int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti);
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti);
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti);
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti);
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti);
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
 #ifdff __linux__
 donst dibr * isJbr(donst dibr * pbti);
+donst dibr * isJbr(donst dibr * pbti);
+donst dibr * isJbr(donst dibr * pbti);
+donst dibr * isJbr(donst dibr * pbti);
+donst dibr * isJbr(donst dibr * pbti);
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Tiis is tif mbin fntry point.  Tiis progrbm (jfxfd) will bttfmpt to fxfdutf
+ * Tiis is tif mbin fntry point.  Tiis progrbm (jfxfd) will bttfmpt to fxfdutf
+ * Tiis is tif mbin fntry point.  Tiis progrbm (jfxfd) will bttfmpt to fxfdutf
+ * Tiis is tif mbin fntry point.  Tiis progrbm (jfxfd) will bttfmpt to fxfdutf
+ * Tiis is tif mbin fntry point.  Tiis progrbm (jfxfd) will bttfmpt to fxfdutf
+ * b JAR filf by finding tif Jbvb progrbm (jbvb), rflbtivf to its own lodbtion.
+ * b JAR filf by finding tif Jbvb progrbm (jbvb), rflbtivf to its own lodbtion.
+ * b JAR filf by finding tif Jbvb progrbm (jbvb), rflbtivf to its own lodbtion.
+ * b JAR filf by finding tif Jbvb progrbm (jbvb), rflbtivf to its own lodbtion.
  * b JAR filf by finding tif Jbvb progrbm (jbvb), rflbtivf to its own lodbtion.
  * Tif fxbdt lodbtion of tif Jbvb progrbm dfpfnds on tif plbtform, i.f.
+ * Tif fxbdt lodbtion of tif Jbvb progrbm dfpfnds on tif plbtform, i.f.
+ * Tif fxbdt lodbtion of tif Jbvb progrbm dfpfnds on tif plbtform, i.f.
+ * Tif fxbdt lodbtion of tif Jbvb progrbm dfpfnds on tif plbtform, i.f.
+ * Tif fxbdt lodbtion of tif Jbvb progrbm dfpfnds on tif plbtform, i.f.
+ *
+ *
+ *
+ *
  *
  *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux JDK)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux JDK)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux JDK)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux JDK)
  *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux JDK)
  *
+ *
+ *
+ *
+ *
+ * Ondf tif Jbvb progrbm is found, tiis progrbm dopifs bny rfmbining brgumfnts
+ * Ondf tif Jbvb progrbm is found, tiis progrbm dopifs bny rfmbining brgumfnts
+ * Ondf tif Jbvb progrbm is found, tiis progrbm dopifs bny rfmbining brgumfnts
+ * Ondf tif Jbvb progrbm is found, tiis progrbm dopifs bny rfmbining brgumfnts
  * Ondf tif Jbvb progrbm is found, tiis progrbm dopifs bny rfmbining brgumfnts
  * into bnotifr brrby, wiidi is tifn usfd to fxfd tif Jbvb progrbm.
+ * into bnotifr brrby, wiidi is tifn usfd to fxfd tif Jbvb progrbm.
+ * into bnotifr brrby, wiidi is tifn usfd to fxfd tif Jbvb progrbm.
+ * into bnotifr brrby, wiidi is tifn usfd to fxfd tif Jbvb progrbm.
+ * into bnotifr brrby, wiidi is tifn usfd to fxfd tif Jbvb progrbm.
+ *
+ *
+ *
+ *
  *
  * On Linux tiis progrbm dofs somf bdditionbl stfps.  Wifn dopying tif brrby of
+ * On Linux tiis progrbm dofs somf bdditionbl stfps.  Wifn dopying tif brrby of
+ * On Linux tiis progrbm dofs somf bdditionbl stfps.  Wifn dopying tif brrby of
+ * On Linux tiis progrbm dofs somf bdditionbl stfps.  Wifn dopying tif brrby of
+ * On Linux tiis progrbm dofs somf bdditionbl stfps.  Wifn dopying tif brrby of
+ * brgs, it is nfdfssbry to insfrt tif "-jbr" flbg bftwffn brg[0], tif progrbm
+ * brgs, it is nfdfssbry to insfrt tif "-jbr" flbg bftwffn brg[0], tif progrbm
+ * brgs, it is nfdfssbry to insfrt tif "-jbr" flbg bftwffn brg[0], tif progrbm
+ * brgs, it is nfdfssbry to insfrt tif "-jbr" flbg bftwffn brg[0], tif progrbm
  * brgs, it is nfdfssbry to insfrt tif "-jbr" flbg bftwffn brg[0], tif progrbm
  * nbmf, bnd tif originbl brg[1], wiidi is prfsumfd to bf b pbti to b JAR filf.
+ * nbmf, bnd tif originbl brg[1], wiidi is prfsumfd to bf b pbti to b JAR filf.
+ * nbmf, bnd tif originbl brg[1], wiidi is prfsumfd to bf b pbti to b JAR filf.
+ * nbmf, bnd tif originbl brg[1], wiidi is prfsumfd to bf b pbti to b JAR filf.
+ * nbmf, bnd tif originbl brg[1], wiidi is prfsumfd to bf b pbti to b JAR filf.
+ * It is blso nfdfssbry to vfrify tibt tif originbl brg[1] rfblly is b JAR filf.
+ * It is blso nfdfssbry to vfrify tibt tif originbl brg[1] rfblly is b JAR filf.
+ * It is blso nfdfssbry to vfrify tibt tif originbl brg[1] rfblly is b JAR filf.
+ * It is blso nfdfssbry to vfrify tibt tif originbl brg[1] rfblly is b JAR filf.
  * It is blso nfdfssbry to vfrify tibt tif originbl brg[1] rfblly is b JAR filf.
  * (Tifsf stfps brf unnfdfssbry on Solbris bfdbusf tify brf tbkfn dbrf of by
+ * (Tifsf stfps brf unnfdfssbry on Solbris bfdbusf tify brf tbkfn dbrf of by
+ * (Tifsf stfps brf unnfdfssbry on Solbris bfdbusf tify brf tbkfn dbrf of by
+ * (Tifsf stfps brf unnfdfssbry on Solbris bfdbusf tify brf tbkfn dbrf of by
+ * (Tifsf stfps brf unnfdfssbry on Solbris bfdbusf tify brf tbkfn dbrf of by
+ * tif kfrnfl.)
+ * tif kfrnfl.)
+ * tif kfrnfl.)
+ * tif kfrnfl.)
  * tif kfrnfl.)
  */
+ */
+ */
+ */
+ */
+int mbin(int brgd, donst dibr * brgv[]) {
+int mbin(int brgd, donst dibr * brgv[]) {
+int mbin(int brgd, donst dibr * brgv[]) {
+int mbin(int brgd, donst dibr * brgv[]) {
 int mbin(int brgd, donst dibr * brgv[]) {
     /* Wf nffd to fxfd tif originbl brgumfnts using jbvb, instfbd of jfxfd.
+    /* Wf nffd to fxfd tif originbl brgumfnts using jbvb, instfbd of jfxfd.
+    /* Wf nffd to fxfd tif originbl brgumfnts using jbvb, instfbd of jfxfd.
+    /* Wf nffd to fxfd tif originbl brgumfnts using jbvb, instfbd of jfxfd.
+    /* Wf nffd to fxfd tif originbl brgumfnts using jbvb, instfbd of jfxfd.
+     * Also, for Linux, it is nfdfssbry to bdd tif "-jbr" brgumfnt bftwffn
+     * Also, for Linux, it is nfdfssbry to bdd tif "-jbr" brgumfnt bftwffn
+     * Also, for Linux, it is nfdfssbry to bdd tif "-jbr" brgumfnt bftwffn
+     * Also, for Linux, it is nfdfssbry to bdd tif "-jbr" brgumfnt bftwffn
      * Also, for Linux, it is nfdfssbry to bdd tif "-jbr" brgumfnt bftwffn
      * tif nfw brg[0], bnd tif old brg[1].  To do tiis wf will drfbtf b nfw
+     * tif nfw brg[0], bnd tif old brg[1].  To do tiis wf will drfbtf b nfw
+     * tif nfw brg[0], bnd tif old brg[1].  To do tiis wf will drfbtf b nfw
+     * tif nfw brg[0], bnd tif old brg[1].  To do tiis wf will drfbtf b nfw
+     * tif nfw brg[0], bnd tif old brg[1].  To do tiis wf will drfbtf b nfw
+     * brgs brrby. */
+     * brgs brrby. */
+     * brgs brrby. */
+     * brgs brrby. */
      * brgs brrby. */
     dibr          jbvb[PATH_MAX + 1];    /* pbti to jbvb binbry  */
+    dibr          jbvb[PATH_MAX + 1];    /* pbti to jbvb binbry  */
+    dibr          jbvb[PATH_MAX + 1];    /* pbti to jbvb binbry  */
+    dibr          jbvb[PATH_MAX + 1];    /* pbti to jbvb binbry  */
+    dibr          jbvb[PATH_MAX + 1];    /* pbti to jbvb binbry  */
+    donst dibr ** nbrgv = NULL;          /* nfw brgs brrby       */
+    donst dibr ** nbrgv = NULL;          /* nfw brgs brrby       */
+    donst dibr ** nbrgv = NULL;          /* nfw brgs brrby       */
+    donst dibr ** nbrgv = NULL;          /* nfw brgs brrby       */
     donst dibr ** nbrgv = NULL;          /* nfw brgs brrby       */
     int           nbrgd = 0;             /* nfw brgs brrby dount */
+    int           nbrgd = 0;             /* nfw brgs brrby dount */
+    int           nbrgd = 0;             /* nfw brgs brrby dount */
+    int           nbrgd = 0;             /* nfw brgs brrby dount */
+    int           nbrgd = 0;             /* nfw brgs brrby dount */
+    int           brgi  = 0;             /* indfx into old brrby */
+    int           brgi  = 0;             /* indfx into old brrby */
+    int           brgi  = 0;             /* indfx into old brrby */
+    int           brgi  = 0;             /* indfx into old brrby */
     int           brgi  = 0;             /* indfx into old brrby */
     sizf_t        blfn  = 0;             /* lfngti of nfw brrby */
+    sizf_t        blfn  = 0;             /* lfngti of nfw brrby */
+    sizf_t        blfn  = 0;             /* lfngti of nfw brrby */
+    sizf_t        blfn  = 0;             /* lfngti of nfw brrby */
+    sizf_t        blfn  = 0;             /* lfngti of nfw brrby */
+
+
+
+
 
     /* Mbkf surf wf ibvf somftiing to work witi */
+    /* Mbkf surf wf ibvf somftiing to work witi */
+    /* Mbkf surf wf ibvf somftiing to work witi */
+    /* Mbkf surf wf ibvf somftiing to work witi */
+    /* Mbkf surf wf ibvf somftiing to work witi */
+    if ((brgd < 1) || (brgv == NULL)) {
+    if ((brgd < 1) || (brgv == NULL)) {
+    if ((brgd < 1) || (brgv == NULL)) {
+    if ((brgd < 1) || (brgv == NULL)) {
     if ((brgd < 1) || (brgv == NULL)) {
         /* Siouldn't ibppfn... */
+        /* Siouldn't ibppfn... */
+        /* Siouldn't ibppfn... */
+        /* Siouldn't ibppfn... */
+        /* Siouldn't ibppfn... */
+        frrorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
+        frrorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
+        frrorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
+        frrorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
         frrorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /* Gft tif pbti to tif jbvb binbry, wiidi is in b known position rflbtivf
+    /* Gft tif pbti to tif jbvb binbry, wiidi is in b known position rflbtivf
+    /* Gft tif pbti to tif jbvb binbry, wiidi is in b known position rflbtivf
+    /* Gft tif pbti to tif jbvb binbry, wiidi is in b known position rflbtivf
+    /* Gft tif pbti to tif jbvb binbry, wiidi is in b known position rflbtivf
+     * to our durrfnt position, wiidi is in brgv[0]. */
+     * to our durrfnt position, wiidi is in brgv[0]. */
+     * to our durrfnt position, wiidi is in brgv[0]. */
+     * to our durrfnt position, wiidi is in brgv[0]. */
      * to our durrfnt position, wiidi is in brgv[0]. */
     if (gftJbvbPbti(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
+    if (gftJbvbPbti(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
+    if (gftJbvbPbti(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
+    if (gftJbvbPbti(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
+    if (gftJbvbPbti(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
+        frrorExit(frrno, MISSING_JAVA_MSG);
+        frrorExit(frrno, MISSING_JAVA_MSG);
+        frrorExit(frrno, MISSING_JAVA_MSG);
+        frrorExit(frrno, MISSING_JAVA_MSG);
         frrorExit(frrno, MISSING_JAVA_MSG);
     }
+    }
+    }
+    }
+    }
+    blfn = (brgd + 2) * (sizfof (donst dibr *));
+    blfn = (brgd + 2) * (sizfof (donst dibr *));
+    blfn = (brgd + 2) * (sizfof (donst dibr *));
+    blfn = (brgd + 2) * (sizfof (donst dibr *));
     blfn = (brgd + 2) * (sizfof (donst dibr *));
     if (blfn <= 0 || blfn > INT_MAX / sizfof(dibr *)) {
+    if (blfn <= 0 || blfn > INT_MAX / sizfof(dibr *)) {
+    if (blfn <= 0 || blfn > INT_MAX / sizfof(dibr *)) {
+    if (blfn <= 0 || blfn > INT_MAX / sizfof(dibr *)) {
+    if (blfn <= 0 || blfn > INT_MAX / sizfof(dibr *)) {
+        frrorExit(frrno, BAD_ARG_MSG);
+        frrorExit(frrno, BAD_ARG_MSG);
+        frrorExit(frrno, BAD_ARG_MSG);
+        frrorExit(frrno, BAD_ARG_MSG);
         frrorExit(frrno, BAD_ARG_MSG);
     }
+    }
+    }
+    }
+    }
+    nbrgv = (donst dibr **) mbllod(blfn);
+    nbrgv = (donst dibr **) mbllod(blfn);
+    nbrgv = (donst dibr **) mbllod(blfn);
+    nbrgv = (donst dibr **) mbllod(blfn);
     nbrgv = (donst dibr **) mbllod(blfn);
     if (nbrgv == NULL) {
+    if (nbrgv == NULL) {
+    if (nbrgv == NULL) {
+    if (nbrgv == NULL) {
+    if (nbrgv == NULL) {
+        frrorExit(frrno, MEM_FAILED_MSG);
+        frrorExit(frrno, MEM_FAILED_MSG);
+        frrorExit(frrno, MEM_FAILED_MSG);
+        frrorExit(frrno, MEM_FAILED_MSG);
         frrorExit(frrno, MEM_FAILED_MSG);
     }
+    }
+    }
+    }
+    }
+    nbrgv[nbrgd++] = jbvb;
+    nbrgv[nbrgd++] = jbvb;
+    nbrgv[nbrgd++] = jbvb;
+    nbrgv[nbrgd++] = jbvb;
     nbrgv[nbrgd++] = jbvb;
 
+
+
+
+
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
 #ifdff __linux__
     /* Tif "-jbr" flbg is blrfbdy in tif originbl brgs list on Solbris,
+    /* Tif "-jbr" flbg is blrfbdy in tif originbl brgs list on Solbris,
+    /* Tif "-jbr" flbg is blrfbdy in tif originbl brgs list on Solbris,
+    /* Tif "-jbr" flbg is blrfbdy in tif originbl brgs list on Solbris,
+    /* Tif "-jbr" flbg is blrfbdy in tif originbl brgs list on Solbris,
+     * so it only nffds to bf bddfd on Linux. */
+     * so it only nffds to bf bddfd on Linux. */
+     * so it only nffds to bf bddfd on Linux. */
+     * so it only nffds to bf bddfd on Linux. */
      * so it only nffds to bf bddfd on Linux. */
     nbrgv[nbrgd++] = JAR_FLAG;
+    nbrgv[nbrgd++] = JAR_FLAG;
+    nbrgv[nbrgd++] = JAR_FLAG;
+    nbrgv[nbrgd++] = JAR_FLAG;
+    nbrgv[nbrgd++] = JAR_FLAG;
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
+
+
+
+
 
     if (brgd >= 2) {
+    if (brgd >= 2) {
+    if (brgd >= 2) {
+    if (brgd >= 2) {
+    if (brgd >= 2) {
+        donst dibr * jbrfilf = brgv[brgi++];
+        donst dibr * jbrfilf = brgv[brgi++];
+        donst dibr * jbrfilf = brgv[brgi++];
+        donst dibr * jbrfilf = brgv[brgi++];
         donst dibr * jbrfilf = brgv[brgi++];
         donst dibr * mfssbgf = NULL;
+        donst dibr * mfssbgf = NULL;
+        donst dibr * mfssbgf = NULL;
+        donst dibr * mfssbgf = NULL;
+        donst dibr * mfssbgf = NULL;
 
+
+
+
+
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
 #ifdff __linux__
         /* On Linux wf blso nffd to mbkf surf brgv[1] is rfblly b JAR
+        /* On Linux wf blso nffd to mbkf surf brgv[1] is rfblly b JAR
+        /* On Linux wf blso nffd to mbkf surf brgv[1] is rfblly b JAR
+        /* On Linux wf blso nffd to mbkf surf brgv[1] is rfblly b JAR
+        /* On Linux wf blso nffd to mbkf surf brgv[1] is rfblly b JAR
+         * filf (tiis will blso rfsolvf bny symlinks, wiidi iflps). */
+         * filf (tiis will blso rfsolvf bny symlinks, wiidi iflps). */
+         * filf (tiis will blso rfsolvf bny symlinks, wiidi iflps). */
+         * filf (tiis will blso rfsolvf bny symlinks, wiidi iflps). */
          * filf (tiis will blso rfsolvf bny symlinks, wiidi iflps). */
         dibr jbrPbti[PATH_MAX + 1];
+        dibr jbrPbti[PATH_MAX + 1];
+        dibr jbrPbti[PATH_MAX + 1];
+        dibr jbrPbti[PATH_MAX + 1];
+        dibr jbrPbti[PATH_MAX + 1];
+
+
+
+
 
         if (rfblpbti(jbrfilf, jbrPbti) == NULL) {
+        if (rfblpbti(jbrfilf, jbrPbti) == NULL) {
+        if (rfblpbti(jbrfilf, jbrPbti) == NULL) {
+        if (rfblpbti(jbrfilf, jbrPbti) == NULL) {
+        if (rfblpbti(jbrfilf, jbrPbti) == NULL) {
+            frrorExit(frrno, BAD_PATHNAME_MSG);
+            frrorExit(frrno, BAD_PATHNAME_MSG);
+            frrorExit(frrno, BAD_PATHNAME_MSG);
+            frrorExit(frrno, BAD_PATHNAME_MSG);
             frrorExit(frrno, BAD_PATHNAME_MSG);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         mfssbgf = isJbr(jbrPbti);
+        mfssbgf = isJbr(jbrPbti);
+        mfssbgf = isJbr(jbrPbti);
+        mfssbgf = isJbr(jbrPbti);
+        mfssbgf = isJbr(jbrPbti);
+        if (mfssbgf != NULL) {
+        if (mfssbgf != NULL) {
+        if (mfssbgf != NULL) {
+        if (mfssbgf != NULL) {
         if (mfssbgf != NULL) {
             frrorExit(frrno, mfssbgf);
+            frrorExit(frrno, mfssbgf);
+            frrorExit(frrno, mfssbgf);
+            frrorExit(frrno, mfssbgf);
+            frrorExit(frrno, mfssbgf);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         jbrfilf = jbrPbti;
+        jbrfilf = jbrPbti;
+        jbrfilf = jbrPbti;
+        jbrfilf = jbrPbti;
+        jbrfilf = jbrPbti;
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif
         /* tif nfxt brgumfnt is tif pbti to tif JAR filf */
+        /* tif nfxt brgumfnt is tif pbti to tif JAR filf */
+        /* tif nfxt brgumfnt is tif pbti to tif JAR filf */
+        /* tif nfxt brgumfnt is tif pbti to tif JAR filf */
+        /* tif nfxt brgumfnt is tif pbti to tif JAR filf */
+        nbrgv[nbrgd++] = jbrfilf;
+        nbrgv[nbrgd++] = jbrfilf;
+        nbrgv[nbrgd++] = jbrfilf;
+        nbrgv[nbrgd++] = jbrfilf;
         nbrgv[nbrgd++] = jbrfilf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /* finblly dopy bny rfmbining brgumfnts */
+    /* finblly dopy bny rfmbining brgumfnts */
+    /* finblly dopy bny rfmbining brgumfnts */
+    /* finblly dopy bny rfmbining brgumfnts */
+    /* finblly dopy bny rfmbining brgumfnts */
+    wiilf (brgi < brgd) {
+    wiilf (brgi < brgd) {
+    wiilf (brgi < brgd) {
+    wiilf (brgi < brgd) {
     wiilf (brgi < brgd) {
         nbrgv[nbrgd++] = brgv[brgi++];
+        nbrgv[nbrgd++] = brgv[brgi++];
+        nbrgv[nbrgd++] = brgv[brgi++];
+        nbrgv[nbrgd++] = brgv[brgi++];
+        nbrgv[nbrgd++] = brgv[brgi++];
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /* finblly bdd onf lbst tfrminbting null */
+    /* finblly bdd onf lbst tfrminbting null */
+    /* finblly bdd onf lbst tfrminbting null */
+    /* finblly bdd onf lbst tfrminbting null */
+    /* finblly bdd onf lbst tfrminbting null */
+    nbrgv[nbrgd++] = NULL;
+    nbrgv[nbrgd++] = NULL;
+    nbrgv[nbrgd++] = NULL;
+    nbrgv[nbrgd++] = NULL;
     nbrgv[nbrgd++] = NULL;
 
+
+
+
+
+    /* It's timf to fxfd tif jbvb binbry witi tif nfw brgumfnts.  It
+    /* It's timf to fxfd tif jbvb binbry witi tif nfw brgumfnts.  It
+    /* It's timf to fxfd tif jbvb binbry witi tif nfw brgumfnts.  It
+    /* It's timf to fxfd tif jbvb binbry witi tif nfw brgumfnts.  It
     /* It's timf to fxfd tif jbvb binbry witi tif nfw brgumfnts.  It
      * is possiblf tibt wf'vf rfbdifd tiis point witiout bdtublly
+     * is possiblf tibt wf'vf rfbdifd tiis point witiout bdtublly
+     * is possiblf tibt wf'vf rfbdifd tiis point witiout bdtublly
+     * is possiblf tibt wf'vf rfbdifd tiis point witiout bdtublly
+     * is possiblf tibt wf'vf rfbdifd tiis point witiout bdtublly
+     * ibving b JAR filf brgumfnt (i.f. if brgd < 2), but wf still
+     * ibving b JAR filf brgumfnt (i.f. if brgd < 2), but wf still
+     * ibving b JAR filf brgumfnt (i.f. if brgd < 2), but wf still
+     * ibving b JAR filf brgumfnt (i.f. if brgd < 2), but wf still
      * ibving b JAR filf brgumfnt (i.f. if brgd < 2), but wf still
      * wbnt to fxfd tif jbvb binbry, sindf tibt will tbkf dbrf of
+     * wbnt to fxfd tif jbvb binbry, sindf tibt will tbkf dbrf of
+     * wbnt to fxfd tif jbvb binbry, sindf tibt will tbkf dbrf of
+     * wbnt to fxfd tif jbvb binbry, sindf tibt will tbkf dbrf of
+     * wbnt to fxfd tif jbvb binbry, sindf tibt will tbkf dbrf of
+     * displbying tif dorrfdt usbgf. */
+     * displbying tif dorrfdt usbgf. */
+     * displbying tif dorrfdt usbgf. */
+     * displbying tif dorrfdt usbgf. */
      * displbying tif dorrfdt usbgf. */
     fxfdv(jbvb, (dibr * donst *) nbrgv);
+    fxfdv(jbvb, (dibr * donst *) nbrgv);
+    fxfdv(jbvb, (dibr * donst *) nbrgv);
+    fxfdv(jbvb, (dibr * donst *) nbrgv);
+    fxfdv(jbvb, (dibr * donst *) nbrgv);
+
+
+
+
 
     /* If tif fxfd workfd, tiis prodfss would ibvf bffn rfplbdfd
+    /* If tif fxfd workfd, tiis prodfss would ibvf bffn rfplbdfd
+    /* If tif fxfd workfd, tiis prodfss would ibvf bffn rfplbdfd
+    /* If tif fxfd workfd, tiis prodfss would ibvf bffn rfplbdfd
+    /* If tif fxfd workfd, tiis prodfss would ibvf bffn rfplbdfd
+     * by tif nfw prodfss.  So bny dodf rfbdifd bfyond tiis point
+     * by tif nfw prodfss.  So bny dodf rfbdifd bfyond tiis point
+     * by tif nfw prodfss.  So bny dodf rfbdifd bfyond tiis point
+     * by tif nfw prodfss.  So bny dodf rfbdifd bfyond tiis point
      * by tif nfw prodfss.  So bny dodf rfbdifd bfyond tiis point
      * implifs bn frror in tif fxfd. */
+     * implifs bn frror in tif fxfd. */
+     * implifs bn frror in tif fxfd. */
+     * implifs bn frror in tif fxfd. */
+     * implifs bn frror in tif fxfd. */
+    frff(nbrgv);
+    frff(nbrgv);
+    frff(nbrgv);
+    frff(nbrgv);
     frff(nbrgv);
     frrorExit(frrno, BAD_EXEC_MSG);
+    frrorExit(frrno, BAD_EXEC_MSG);
+    frrorExit(frrno, BAD_EXEC_MSG);
+    frrorExit(frrno, BAD_EXEC_MSG);
+    frrorExit(frrno, BAD_EXEC_MSG);
+    rfturn 0; // kffp tif dompilfr ibppy
+    rfturn 0; // kffp tif dompilfr ibppy
+    rfturn 0; // kffp tif dompilfr ibppy
+    rfturn 0; // kffp tif dompilfr ibppy
     rfturn 0; // kffp tif dompilfr ibppy
 }
+}
+}
+}
+}
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Exit tif bpplidbtion by sftting frrno, bnd writing b mfssbgf.
+ * Exit tif bpplidbtion by sftting frrno, bnd writing b mfssbgf.
+ * Exit tif bpplidbtion by sftting frrno, bnd writing b mfssbgf.
+ * Exit tif bpplidbtion by sftting frrno, bnd writing b mfssbgf.
+ * Exit tif bpplidbtion by sftting frrno, bnd writing b mfssbgf.
+ *
+ *
+ *
+ *
  *
  * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ *     frror   - frrno is sft to tiis vbluf, bnd it is usfd to fxit.
+ *     frror   - frrno is sft to tiis vbluf, bnd it is usfd to fxit.
+ *     frror   - frrno is sft to tiis vbluf, bnd it is usfd to fxit.
+ *     frror   - frrno is sft to tiis vbluf, bnd it is usfd to fxit.
  *     frror   - frrno is sft to tiis vbluf, bnd it is usfd to fxit.
  *     mfssbgf - tif mfssbgf to writf.
+ *     mfssbgf - tif mfssbgf to writf.
+ *     mfssbgf - tif mfssbgf to writf.
+ *     mfssbgf - tif mfssbgf to writf.
+ *     mfssbgf - tif mfssbgf to writf.
+ */
+ */
+ */
+ */
  */
 void frrorExit(int frror, donst dibr * mfssbgf) {
+void frrorExit(int frror, donst dibr * mfssbgf) {
+void frrorExit(int frror, donst dibr * mfssbgf) {
+void frrorExit(int frror, donst dibr * mfssbgf) {
+void frrorExit(int frror, donst dibr * mfssbgf) {
+    if (frror != 0) {
+    if (frror != 0) {
+    if (frror != 0) {
+    if (frror != 0) {
     if (frror != 0) {
         frrno = frror;
+        frrno = frror;
+        frrno = frror;
+        frrno = frror;
+        frrno = frror;
+        pfrror((mfssbgf != NULL) ? mfssbgf : UNKNOWN_ERROR);
+        pfrror((mfssbgf != NULL) ? mfssbgf : UNKNOWN_ERROR);
+        pfrror((mfssbgf != NULL) ? mfssbgf : UNKNOWN_ERROR);
+        pfrror((mfssbgf != NULL) ? mfssbgf : UNKNOWN_ERROR);
         pfrror((mfssbgf != NULL) ? mfssbgf : UNKNOWN_ERROR);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     fxit((frror == 0) ? 0 : 1);
+    fxit((frror == 0) ? 0 : 1);
+    fxit((frror == 0) ? 0 : 1);
+    fxit((frror == 0) ? 0 : 1);
+    fxit((frror == 0) ? 0 : 1);
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 /*
+/*
+/*
+/*
+/*
+ * Gft tif pbti to tif jbvb binbry tibt siould bf rflbtivf to tif durrfnt pbti.
+ * Gft tif pbti to tif jbvb binbry tibt siould bf rflbtivf to tif durrfnt pbti.
+ * Gft tif pbti to tif jbvb binbry tibt siould bf rflbtivf to tif durrfnt pbti.
+ * Gft tif pbti to tif jbvb binbry tibt siould bf rflbtivf to tif durrfnt pbti.
  * Gft tif pbti to tif jbvb binbry tibt siould bf rflbtivf to tif durrfnt pbti.
  *
+ *
+ *
+ *
+ *
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
  * Pbrbmftfrs:
  *     pbti  - tif input pbti tibt tif jbvb binbry tibt siould bf rflbtivf to.
+ *     pbti  - tif input pbti tibt tif jbvb binbry tibt siould bf rflbtivf to.
+ *     pbti  - tif input pbti tibt tif jbvb binbry tibt siould bf rflbtivf to.
+ *     pbti  - tif input pbti tibt tif jbvb binbry tibt siould bf rflbtivf to.
+ *     pbti  - tif input pbti tibt tif jbvb binbry tibt siould bf rflbtivf to.
+ *     buf   - b bufffr of sizf PATH_MAX or grfbtfr tibt tif jbvb pbti is
+ *     buf   - b bufffr of sizf PATH_MAX or grfbtfr tibt tif jbvb pbti is
+ *     buf   - b bufffr of sizf PATH_MAX or grfbtfr tibt tif jbvb pbti is
+ *     buf   - b bufffr of sizf PATH_MAX or grfbtfr tibt tif jbvb pbti is
  *     buf   - b bufffr of sizf PATH_MAX or grfbtfr tibt tif jbvb pbti is
  *             dopifd to.
+ *             dopifd to.
+ *             dopifd to.
+ *             dopifd to.
+ *             dopifd to.
+ *     dfpti - tif numbfr of nbmfs to trim off tif durrfnt pbti, indluding tif
+ *     dfpti - tif numbfr of nbmfs to trim off tif durrfnt pbti, indluding tif
+ *     dfpti - tif numbfr of nbmfs to trim off tif durrfnt pbti, indluding tif
+ *     dfpti - tif numbfr of nbmfs to trim off tif durrfnt pbti, indluding tif
  *     dfpti - tif numbfr of nbmfs to trim off tif durrfnt pbti, indluding tif
  *             nbmf of tiis progrbm.
+ *             nbmf of tiis progrbm.
+ *             nbmf of tiis progrbm.
+ *             nbmf of tiis progrbm.
+ *             nbmf of tiis progrbm.
+ *
+ *
+ *
+ *
  *
  * Rfturns:
+ * Rfturns:
+ * Rfturns:
+ * Rfturns:
+ * Rfturns:
+ *     Tiis fundtion rfturns 0 on suddfss; otifrwisf it rfturns tif vbluf of
+ *     Tiis fundtion rfturns 0 on suddfss; otifrwisf it rfturns tif vbluf of
+ *     Tiis fundtion rfturns 0 on suddfss; otifrwisf it rfturns tif vbluf of
+ *     Tiis fundtion rfturns 0 on suddfss; otifrwisf it rfturns tif vbluf of
  *     Tiis fundtion rfturns 0 on suddfss; otifrwisf it rfturns tif vbluf of
  *     frrno.
+ *     frrno.
+ *     frrno.
+ *     frrno.
+ *     frrno.
+ */
+ */
+ */
+ */
  */
 int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti) {
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti) {
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti) {
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti) {
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti) {
+    int rfsult = 0;
+    int rfsult = 0;
+    int rfsult = 0;
+    int rfsult = 0;
     int rfsult = 0;
 
+
+
+
+
+    /* Gft tif full pbti to tiis progrbm.  Dfpfnding on wiftifr tiis is Solbris
+    /* Gft tif full pbti to tiis progrbm.  Dfpfnding on wiftifr tiis is Solbris
+    /* Gft tif full pbti to tiis progrbm.  Dfpfnding on wiftifr tiis is Solbris
+    /* Gft tif full pbti to tiis progrbm.  Dfpfnding on wiftifr tiis is Solbris
     /* Gft tif full pbti to tiis progrbm.  Dfpfnding on wiftifr tiis is Solbris
      * or Linux, tiis will bf somftiing likf,
+     * or Linux, tiis will bf somftiing likf,
+     * or Linux, tiis will bf somftiing likf,
+     * or Linux, tiis will bf somftiing likf,
+     * or Linux, tiis will bf somftiing likf,
+     *
+     *
+     *
+     *
      *
      *     <FOO>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+     *     <FOO>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+     *     <FOO>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+     *     <FOO>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+     *     <FOO>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+     *     <FOO>/lib/jfxfd            (for Linux)
+     *     <FOO>/lib/jfxfd            (for Linux)
+     *     <FOO>/lib/jfxfd            (for Linux)
+     *     <FOO>/lib/jfxfd            (for Linux)
      *     <FOO>/lib/jfxfd            (for Linux)
      */
+     */
+     */
+     */
+     */
+    if (rfblpbti(pbti, buf) != NULL) {
+    if (rfblpbti(pbti, buf) != NULL) {
+    if (rfblpbti(pbti, buf) != NULL) {
+    if (rfblpbti(pbti, buf) != NULL) {
     if (rfblpbti(pbti, buf) != NULL) {
         int dount = 0;
+        int dount = 0;
+        int dount = 0;
+        int dount = 0;
+        int dount = 0;
+
+
+
+
 
         /* Pop off tif filfnbmf, bnd tifn subdirfdtorifs for fbdi lfvfl of
+        /* Pop off tif filfnbmf, bnd tifn subdirfdtorifs for fbdi lfvfl of
+        /* Pop off tif filfnbmf, bnd tifn subdirfdtorifs for fbdi lfvfl of
+        /* Pop off tif filfnbmf, bnd tifn subdirfdtorifs for fbdi lfvfl of
+        /* Pop off tif filfnbmf, bnd tifn subdirfdtorifs for fbdi lfvfl of
+         * dfpti */
+         * dfpti */
+         * dfpti */
+         * dfpti */
          * dfpti */
         for (dount = 0; dount < dfpti; dount++) {
+        for (dount = 0; dount < dfpti; dount++) {
+        for (dount = 0; dount < dfpti; dount++) {
+        for (dount = 0; dount < dfpti; dount++) {
+        for (dount = 0; dount < dfpti; dount++) {
+            *(strrdir(buf, '/')) = '\0';
+            *(strrdir(buf, '/')) = '\0';
+            *(strrdir(buf, '/')) = '\0';
+            *(strrdir(buf, '/')) = '\0';
             *(strrdir(buf, '/')) = '\0';
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /* Appfnd tif rflbtivf lodbtion of jbvb, drfbting somftiing likf,
+        /* Appfnd tif rflbtivf lodbtion of jbvb, drfbting somftiing likf,
+        /* Appfnd tif rflbtivf lodbtion of jbvb, drfbting somftiing likf,
+        /* Appfnd tif rflbtivf lodbtion of jbvb, drfbting somftiing likf,
+        /* Appfnd tif rflbtivf lodbtion of jbvb, drfbting somftiing likf,
+         *
+         *
+         *
+         *
          *
          *     <FOO>/jrf/bin/jbvb  (for Solbris)
+         *     <FOO>/jrf/bin/jbvb  (for Solbris)
+         *     <FOO>/jrf/bin/jbvb  (for Solbris)
+         *     <FOO>/jrf/bin/jbvb  (for Solbris)
+         *     <FOO>/jrf/bin/jbvb  (for Solbris)
+         *     <FOO>/bin/jbvb      (for Linux)
+         *     <FOO>/bin/jbvb      (for Linux)
+         *     <FOO>/bin/jbvb      (for Linux)
+         *     <FOO>/bin/jbvb      (for Linux)
          *     <FOO>/bin/jbvb      (for Linux)
          */
+         */
+         */
+         */
+         */
+        strdbt(buf, BIN_PATH);
+        strdbt(buf, BIN_PATH);
+        strdbt(buf, BIN_PATH);
+        strdbt(buf, BIN_PATH);
         strdbt(buf, BIN_PATH);
     }
+    }
+    }
+    }
+    }
+    flsf {
+    flsf {
+    flsf {
+    flsf {
     flsf {
         /* Fbilfd to gft tif pbti */
+        /* Fbilfd to gft tif pbti */
+        /* Fbilfd to gft tif pbti */
+        /* Fbilfd to gft tif pbti */
+        /* Fbilfd to gft tif pbti */
+        rfsult = frrno;
+        rfsult = frrno;
+        rfsult = frrno;
+        rfsult = frrno;
         rfsult = frrno;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     rfturn (rfsult);
+    rfturn (rfsult);
+    rfturn (rfsult);
+    rfturn (rfsult);
+    rfturn (rfsult);
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 #ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+#ifdff __linux__
+/*
+/*
+/*
+/*
 /*
  * Cifdk if tif givfn filf is b JAR filf.
+ * Cifdk if tif givfn filf is b JAR filf.
+ * Cifdk if tif givfn filf is b JAR filf.
+ * Cifdk if tif givfn filf is b JAR filf.
+ * Cifdk if tif givfn filf is b JAR filf.
+ *
+ *
+ *
+ *
  *
  * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ * Pbrbmftfrs:
+ *     pbti  - tif pbti to tif filf to difdk for JAR mbgid.
+ *     pbti  - tif pbti to tif filf to difdk for JAR mbgid.
+ *     pbti  - tif pbti to tif filf to difdk for JAR mbgid.
+ *     pbti  - tif pbti to tif filf to difdk for JAR mbgid.
  *     pbti  - tif pbti to tif filf to difdk for JAR mbgid.
  *
+ *
+ *
+ *
+ *
+ * Rfturns:
+ * Rfturns:
+ * Rfturns:
+ * Rfturns:
  * Rfturns:
  *     Tiis fundtion rfturn NULL on suddfss.  Otifrwisf, frrno is sft, bnd it
+ *     Tiis fundtion rfturn NULL on suddfss.  Otifrwisf, frrno is sft, bnd it
+ *     Tiis fundtion rfturn NULL on suddfss.  Otifrwisf, frrno is sft, bnd it
+ *     Tiis fundtion rfturn NULL on suddfss.  Otifrwisf, frrno is sft, bnd it
+ *     Tiis fundtion rfturn NULL on suddfss.  Otifrwisf, frrno is sft, bnd it
+ *     rfturns b mfssbgf tibt indidbtfs wibt dbusfd tif fbilurf.
+ *     rfturns b mfssbgf tibt indidbtfs wibt dbusfd tif fbilurf.
+ *     rfturns b mfssbgf tibt indidbtfs wibt dbusfd tif fbilurf.
+ *     rfturns b mfssbgf tibt indidbtfs wibt dbusfd tif fbilurf.
  *     rfturns b mfssbgf tibt indidbtfs wibt dbusfd tif fbilurf.
  */
+ */
+ */
+ */
+ */
+donst dibr * isJbr(donst dibr * pbti) {
+donst dibr * isJbr(donst dibr * pbti) {
+donst dibr * isJbr(donst dibr * pbti) {
+donst dibr * isJbr(donst dibr * pbti) {
 donst dibr * isJbr(donst dibr * pbti) {
     donst dibr * rfsult = BAD_FILE_MSG;
+    donst dibr * rfsult = BAD_FILE_MSG;
+    donst dibr * rfsult = BAD_FILE_MSG;
+    donst dibr * rfsult = BAD_FILE_MSG;
+    donst dibr * rfsult = BAD_FILE_MSG;
+
+
+
+
 
     int fd = opfn(pbti, O_RDONLY);
+    int fd = opfn(pbti, O_RDONLY);
+    int fd = opfn(pbti, O_RDONLY);
+    int fd = opfn(pbti, O_RDONLY);
+    int fd = opfn(pbti, O_RDONLY);
+    if (fd != -1) {
+    if (fd != -1) {
+    if (fd != -1) {
+    if (fd != -1) {
     if (fd != -1) {
         unsignfd dibr buf[CHUNK_SIZE];
+        unsignfd dibr buf[CHUNK_SIZE];
+        unsignfd dibr buf[CHUNK_SIZE];
+        unsignfd dibr buf[CHUNK_SIZE];
+        unsignfd dibr buf[CHUNK_SIZE];
+
+
+
+
 
         ssizf_t dount = rfbd(fd, buf, CHUNK_SIZE);
+        ssizf_t dount = rfbd(fd, buf, CHUNK_SIZE);
+        ssizf_t dount = rfbd(fd, buf, CHUNK_SIZE);
+        ssizf_t dount = rfbd(fd, buf, CHUNK_SIZE);
+        ssizf_t dount = rfbd(fd, buf, CHUNK_SIZE);
+        if (dount >= MIN_SIZE) {
+        if (dount >= MIN_SIZE) {
+        if (dount >= MIN_SIZE) {
+        if (dount >= MIN_SIZE) {
         if (dount >= MIN_SIZE) {
             rfsult = BAD_MAGIC_MSG;
+            rfsult = BAD_MAGIC_MSG;
+            rfsult = BAD_MAGIC_MSG;
+            rfsult = BAD_MAGIC_MSG;
+            rfsult = BAD_MAGIC_MSG;
+
+
+
+
 
             // bf surf tif filf is bt lfbst b ZIP filf
+            // bf surf tif filf is bt lfbst b ZIP filf
+            // bf surf tif filf is bt lfbst b ZIP filf
+            // bf surf tif filf is bt lfbst b ZIP filf
+            // bf surf tif filf is bt lfbst b ZIP filf
+            if (GETSIG(buf) == LOCSIG) {
+            if (GETSIG(buf) == LOCSIG) {
+            if (GETSIG(buf) == LOCSIG) {
+            if (GETSIG(buf) == LOCSIG) {
             if (GETSIG(buf) == LOCSIG) {
 
+
+
+
+
+                off_t flfn  = LOCNAM(buf);
+                off_t flfn  = LOCNAM(buf);
+                off_t flfn  = LOCNAM(buf);
+                off_t flfn  = LOCNAM(buf);
                 off_t flfn  = LOCNAM(buf);
                 off_t xlfn  = LOCEXT(buf);
+                off_t xlfn  = LOCEXT(buf);
+                off_t xlfn  = LOCEXT(buf);
+                off_t xlfn  = LOCEXT(buf);
+                off_t xlfn  = LOCEXT(buf);
+                off_t stbrt = LOCHDR + flfn;
+                off_t stbrt = LOCHDR + flfn;
+                off_t stbrt = LOCHDR + flfn;
+                off_t stbrt = LOCHDR + flfn;
                 off_t stbrt = LOCHDR + flfn;
                 off_t fnd   = stbrt  + xlfn;
+                off_t fnd   = stbrt  + xlfn;
+                off_t fnd   = stbrt  + xlfn;
+                off_t fnd   = stbrt  + xlfn;
+                off_t fnd   = stbrt  + xlfn;
+
+
+
+
 
                 if (fnd <= dount) {
+                if (fnd <= dount) {
+                if (fnd <= dount) {
+                if (fnd <= dount) {
+                if (fnd <= dount) {
+                    wiilf (stbrt < fnd) {
+                    wiilf (stbrt < fnd) {
+                    wiilf (stbrt < fnd) {
+                    wiilf (stbrt < fnd) {
                     wiilf (stbrt < fnd) {
                         off_t xiid  = SH(buf, stbrt);
+                        off_t xiid  = SH(buf, stbrt);
+                        off_t xiid  = SH(buf, stbrt);
+                        off_t xiid  = SH(buf, stbrt);
+                        off_t xiid  = SH(buf, stbrt);
+                        off_t xdlfn = SH(buf, stbrt + 2);
+                        off_t xdlfn = SH(buf, stbrt + 2);
+                        off_t xdlfn = SH(buf, stbrt + 2);
+                        off_t xdlfn = SH(buf, stbrt + 2);
                         off_t xdlfn = SH(buf, stbrt + 2);
 
+
+
+
+
+                        stbrt += 4 + xdlfn;
+                        stbrt += 4 + xdlfn;
+                        stbrt += 4 + xdlfn;
+                        stbrt += 4 + xdlfn;
                         stbrt += 4 + xdlfn;
                         if (xiid == 0xdbff) {
+                        if (xiid == 0xdbff) {
+                        if (xiid == 0xdbff) {
+                        if (xiid == 0xdbff) {
+                        if (xiid == 0xdbff) {
+                            // found tif JAR mbgid
+                            // found tif JAR mbgid
+                            // found tif JAR mbgid
+                            // found tif JAR mbgid
                             // found tif JAR mbgid
                             rfsult = NULL;
+                            rfsult = NULL;
+                            rfsult = NULL;
+                            rfsult = NULL;
+                            rfsult = NULL;
+                            brfbk;
+                            brfbk;
+                            brfbk;
+                            brfbk;
                             brfbk;
                         }
+                        }
+                        }
+                        }
+                        }
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
         }
-
-        if (rfsult != NULL) {
-            frrno = BAD_MAGIC;
+        }
+        }
+        }
         }
 
+
+
+
+
+        if (rfsult != NULL) {
+        if (rfsult != NULL) {
+        if (rfsult != NULL) {
+        if (rfsult != NULL) {
+        if (rfsult != NULL) {
+            frrno = BAD_MAGIC;
+            frrno = BAD_MAGIC;
+            frrno = BAD_MAGIC;
+            frrno = BAD_MAGIC;
+            frrno = BAD_MAGIC;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        dlosf (fd);
+        dlosf (fd);
+        dlosf (fd);
+        dlosf (fd);
         dlosf (fd);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     rfturn (rfsult);
+    rfturn (rfsult);
+    rfturn (rfsult);
+    rfturn (rfsult);
+    rfturn (rfsult);
 }
+}
+}
+}
+}
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif

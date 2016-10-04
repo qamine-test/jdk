@@ -1,174 +1,870 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+
+
+
+
 
 import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvb.sfdurity.spfd.*;
+import jbvb.sfdurity.spfd.*;
+import jbvb.sfdurity.spfd.*;
 import jbvb.sfdurity.spfd.*;
 import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
 import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
 
+
+
+
+
 /*
- * This dlbss gfnfrbtfs pbrbmftfrs for thf Diffif-Hfllmbn blgorithm.
- * Thf pbrbmftfrs brf b primf, b bbsf, bnd optionblly thf lfngth in bits of
- * thf privbtf vbluf.
+/*
+/*
+/*
+/*
+ * Tiis dlbss gfnfrbtfs pbrbmftfrs for tif Diffif-Hfllmbn blgoritim.
+ * Tiis dlbss gfnfrbtfs pbrbmftfrs for tif Diffif-Hfllmbn blgoritim.
+ * Tiis dlbss gfnfrbtfs pbrbmftfrs for tif Diffif-Hfllmbn blgoritim.
+ * Tiis dlbss gfnfrbtfs pbrbmftfrs for tif Diffif-Hfllmbn blgoritim.
+ * Tiis dlbss gfnfrbtfs pbrbmftfrs for tif Diffif-Hfllmbn blgoritim.
+ * Tif pbrbmftfrs brf b primf, b bbsf, bnd optionblly tif lfngti in bits of
+ * Tif pbrbmftfrs brf b primf, b bbsf, bnd optionblly tif lfngti in bits of
+ * Tif pbrbmftfrs brf b primf, b bbsf, bnd optionblly tif lfngti in bits of
+ * Tif pbrbmftfrs brf b primf, b bbsf, bnd optionblly tif lfngti in bits of
+ * Tif pbrbmftfrs brf b primf, b bbsf, bnd optionblly tif lfngti in bits of
+ * tif privbtf vbluf.
+ * tif privbtf vbluf.
+ * tif privbtf vbluf.
+ * tif privbtf vbluf.
+ * tif privbtf vbluf.
  *
- * <p>Thf Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts thf sizf in bits of thf
- * primf modulus bnd thf sizf in bits of thf rbndom fxponfnt bs input.
- * Thf sizf of thf primf modulus dffbults to 1024 bits.
- *
- * @buthor Jbn Lufhf
  *
  *
- * @sff jbvb.sfdurity.AlgorithmPbrbmftfrs
- * @sff jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd
+ *
+ *
+ * <p>Tif Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts tif sizf in bits of tif
+ * <p>Tif Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts tif sizf in bits of tif
+ * <p>Tif Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts tif sizf in bits of tif
+ * <p>Tif Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts tif sizf in bits of tif
+ * <p>Tif Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts tif sizf in bits of tif
+ * primf modulus bnd tif sizf in bits of tif rbndom fxponfnt bs input.
+ * primf modulus bnd tif sizf in bits of tif rbndom fxponfnt bs input.
+ * primf modulus bnd tif sizf in bits of tif rbndom fxponfnt bs input.
+ * primf modulus bnd tif sizf in bits of tif rbndom fxponfnt bs input.
+ * primf modulus bnd tif sizf in bits of tif rbndom fxponfnt bs input.
+ * Tif sizf of tif primf modulus dffbults to 1024 bits.
+ * Tif sizf of tif primf modulus dffbults to 1024 bits.
+ * Tif sizf of tif primf modulus dffbults to 1024 bits.
+ * Tif sizf of tif primf modulus dffbults to 1024 bits.
+ * Tif sizf of tif primf modulus dffbults to 1024 bits.
+ *
+ *
+ *
+ *
+ *
+ * @butior Jbn Lufif
+ * @butior Jbn Lufif
+ * @butior Jbn Lufif
+ * @butior Jbn Lufif
+ * @butior Jbn Lufif
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * @sff jbvb.sfdurity.AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff DHPbrbmftfrs
+ * @sff DHPbrbmftfrs
+ * @sff DHPbrbmftfrs
+ * @sff DHPbrbmftfrs
  * @sff DHPbrbmftfrs
  */
+ */
+ */
+ */
+ */
 publid finbl dlbss DHPbrbmftfrGfnfrbtor
-fxtfnds AlgorithmPbrbmftfrGfnfrbtorSpi {
+publid finbl dlbss DHPbrbmftfrGfnfrbtor
+publid finbl dlbss DHPbrbmftfrGfnfrbtor
+publid finbl dlbss DHPbrbmftfrGfnfrbtor
+publid finbl dlbss DHPbrbmftfrGfnfrbtor
+fxtfnds AlgoritimPbrbmftfrGfnfrbtorSpi {
+fxtfnds AlgoritimPbrbmftfrGfnfrbtorSpi {
+fxtfnds AlgoritimPbrbmftfrGfnfrbtorSpi {
+fxtfnds AlgoritimPbrbmftfrGfnfrbtorSpi {
+fxtfnds AlgoritimPbrbmftfrGfnfrbtorSpi {
 
-    // Thf sizf in bits of thf primf modulus
+
+
+
+
+    // Tif sizf in bits of tif primf modulus
+    // Tif sizf in bits of tif primf modulus
+    // Tif sizf in bits of tif primf modulus
+    // Tif sizf in bits of tif primf modulus
+    // Tif sizf in bits of tif primf modulus
+    privbtf int primfSizf = 1024;
+    privbtf int primfSizf = 1024;
+    privbtf int primfSizf = 1024;
+    privbtf int primfSizf = 1024;
     privbtf int primfSizf = 1024;
 
-    // Thf sizf in bits of thf rbndom fxponfnt (privbtf vbluf)
+
+
+
+
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+    privbtf int fxponfntSizf = 0;
+    privbtf int fxponfntSizf = 0;
+    privbtf int fxponfntSizf = 0;
+    privbtf int fxponfntSizf = 0;
     privbtf int fxponfntSizf = 0;
 
-    // Thf sourdf of rbndomnfss
+
+
+
+
+    // Tif sourdf of rbndomnfss
+    // Tif sourdf of rbndomnfss
+    // Tif sourdf of rbndomnfss
+    // Tif sourdf of rbndomnfss
+    // Tif sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom = null;
+    privbtf SfdurfRbndom rbndom = null;
+    privbtf SfdurfRbndom rbndom = null;
+    privbtf SfdurfRbndom rbndom = null;
     privbtf SfdurfRbndom rbndom = null;
 
-    privbtf stbtid void dhfdkKfySizf(int kfysizf)
-        throws InvblidAlgorithmPbrbmftfrExdfption {
+
+
+
+
+    privbtf stbtid void difdkKfySizf(int kfysizf)
+    privbtf stbtid void difdkKfySizf(int kfysizf)
+    privbtf stbtid void difdkKfySizf(int kfysizf)
+    privbtf stbtid void difdkKfySizf(int kfysizf)
+    privbtf stbtid void difdkKfySizf(int kfysizf)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if ((kfysizf != 2048) &&
+        if ((kfysizf != 2048) &&
+        if ((kfysizf != 2048) &&
+        if ((kfysizf != 2048) &&
         if ((kfysizf != 2048) &&
             ((kfysizf < 512) || (kfysizf > 1024) || (kfysizf % 64 != 0))) {
-            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+            ((kfysizf < 512) || (kfysizf > 1024) || (kfysizf % 64 != 0))) {
+            ((kfysizf < 512) || (kfysizf > 1024) || (kfysizf % 64 != 0))) {
+            ((kfysizf < 512) || (kfysizf > 1024) || (kfysizf % 64 != 0))) {
+            ((kfysizf < 512) || (kfysizf > 1024) || (kfysizf % 64 != 0))) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "Kfysizf must bf multiplf of 64 rbnging from "
+                "Kfysizf must bf multiplf of 64 rbnging from "
+                "Kfysizf must bf multiplf of 64 rbnging from "
+                "Kfysizf must bf multiplf of 64 rbnging from "
                 "Kfysizf must bf multiplf of 64 rbnging from "
                 + "512 to 1024 (indlusivf), or 2048");
+                + "512 to 1024 (indlusivf), or 2048");
+                + "512 to 1024 (indlusivf), or 2048");
+                + "512 to 1024 (indlusivf), or 2048");
+                + "512 to 1024 (indlusivf), or 2048");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Initiblizfs this pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
      * bnd sourdf of rbndomnfss.
-     * Thf kfysizf is spfdififd bs thf sizf in bits of thf primf modulus.
+     * bnd sourdf of rbndomnfss.
+     * bnd sourdf of rbndomnfss.
+     * bnd sourdf of rbndomnfss.
+     * bnd sourdf of rbndomnfss.
+     * Tif kfysizf is spfdififd bs tif sizf in bits of tif primf modulus.
+     * Tif kfysizf is spfdififd bs tif sizf in bits of tif primf modulus.
+     * Tif kfysizf is spfdififd bs tif sizf in bits of tif primf modulus.
+     * Tif kfysizf is spfdififd bs tif sizf in bits of tif primf modulus.
+     * Tif kfysizf is spfdififd bs tif sizf in bits of tif primf modulus.
      *
-     * @pbrbm kfysizf thf kfysizf (sizf of primf modulus) in bits
-     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     *
+     *
+     *
+     * @pbrbm kfysizf tif kfysizf (sizf of primf modulus) in bits
+     * @pbrbm kfysizf tif kfysizf (sizf of primf modulus) in bits
+     * @pbrbm kfysizf tif kfysizf (sizf of primf modulus) in bits
+     * @pbrbm kfysizf tif kfysizf (sizf of primf modulus) in bits
+     * @pbrbm kfysizf tif kfysizf (sizf of primf modulus) in bits
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     */
+     */
+     */
+     */
      */
     protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
-        // Rf-usfs DSA pbrbmftfrs bnd thus hbvf thf sbmf rbngf
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
         try {
-            dhfdkKfySizf(kfysizf);
-        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption fx) {
-            throw nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
+        try {
+        try {
+        try {
+        try {
+            difdkKfySizf(kfysizf);
+            difdkKfySizf(kfysizf);
+            difdkKfySizf(kfysizf);
+            difdkKfySizf(kfysizf);
+            difdkKfySizf(kfysizf);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+            tirow nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
+            tirow nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
+            tirow nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
+            tirow nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
+            tirow nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
         }
-        this.primfSizf = kfysizf;
-        this.rbndom = rbndom;
+        }
+        }
+        }
+        }
+        tiis.primfSizf = kfysizf;
+        tiis.primfSizf = kfysizf;
+        tiis.primfSizf = kfysizf;
+        tiis.primfSizf = kfysizf;
+        tiis.primfSizf = kfysizf;
+        tiis.rbndom = rbndom;
+        tiis.rbndom = rbndom;
+        tiis.rbndom = rbndom;
+        tiis.rbndom = rbndom;
+        tiis.rbndom = rbndom;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Initiblizfs this pbrbmftfr gfnfrbtor with b sft of pbrbmftfr
-     * gfnfrbtion vblufs, whidh spfdify thf sizf of thf primf modulus bnd
-     * thf sizf of thf rbndom fxponfnt, both in bits.
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of pbrbmftfr
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of pbrbmftfr
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of pbrbmftfr
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of pbrbmftfr
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of pbrbmftfr
+     * gfnfrbtion vblufs, wiidi spfdify tif sizf of tif primf modulus bnd
+     * gfnfrbtion vblufs, wiidi spfdify tif sizf of tif primf modulus bnd
+     * gfnfrbtion vblufs, wiidi spfdify tif sizf of tif primf modulus bnd
+     * gfnfrbtion vblufs, wiidi spfdify tif sizf of tif primf modulus bnd
+     * gfnfrbtion vblufs, wiidi spfdify tif sizf of tif primf modulus bnd
+     * tif sizf of tif rbndom fxponfnt, boti in bits.
+     * tif sizf of tif rbndom fxponfnt, boti in bits.
+     * tif sizf of tif rbndom fxponfnt, boti in bits.
+     * tif sizf of tif rbndom fxponfnt, boti in bits.
+     * tif sizf of tif rbndom fxponfnt, boti in bits.
      *
-     * @pbrbm pbrbms thf sft of pbrbmftfr gfnfrbtion vblufs
-     * @pbrbm rbndom thf sourdf of rbndomnfss
      *
-     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfr
-     * gfnfrbtion vblufs brf inbppropribtf for this pbrbmftfr gfnfrbtor
+     *
+     *
+     *
+     * @pbrbm pbrbms tif sft of pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm pbrbms tif sft of pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm pbrbms tif sft of pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm pbrbms tif sft of pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm pbrbms tif sft of pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     * @pbrbm rbndom tif sourdf of rbndomnfss
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor
      */
-    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd gfnPbrbmSpfd,
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
                               SfdurfRbndom rbndom)
-        throws InvblidAlgorithmPbrbmftfrExdfption {
+                              SfdurfRbndom rbndom)
+                              SfdurfRbndom rbndom)
+                              SfdurfRbndom rbndom)
+                              SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
         if (!(gfnPbrbmSpfd instbndfof DHGfnPbrbmftfrSpfd)) {
-            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+        if (!(gfnPbrbmSpfd instbndfof DHGfnPbrbmftfrSpfd)) {
+        if (!(gfnPbrbmSpfd instbndfof DHGfnPbrbmftfrSpfd)) {
+        if (!(gfnPbrbmSpfd instbndfof DHGfnPbrbmftfrSpfd)) {
+        if (!(gfnPbrbmSpfd instbndfof DHGfnPbrbmftfrSpfd)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Inbppropribtf pbrbmftfr typf");
+                ("Inbppropribtf pbrbmftfr typf");
+                ("Inbppropribtf pbrbmftfr typf");
+                ("Inbppropribtf pbrbmftfr typf");
                 ("Inbppropribtf pbrbmftfr typf");
         }
-
-        DHGfnPbrbmftfrSpfd dhPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
-
-        primfSizf = dhPbrbmSpfd.gftPrimfSizf();
-
-        // Rf-usfs DSA pbrbmftfrs bnd thus hbvf thf sbmf rbngf
-        dhfdkKfySizf(primfSizf);
-
-        fxponfntSizf = dhPbrbmSpfd.gftExponfntSizf();
-        if (fxponfntSizf <= 0) {
-            throw nfw InvblidAlgorithmPbrbmftfrExdfption
-                ("Exponfnt sizf must bf grfbtfr thbn zfro");
         }
+        }
+        }
+        }
+
+
+
+
+
+        DHGfnPbrbmftfrSpfd diPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
+        DHGfnPbrbmftfrSpfd diPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
+        DHGfnPbrbmftfrSpfd diPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
+        DHGfnPbrbmftfrSpfd diPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
+        DHGfnPbrbmftfrSpfd diPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
+
+
+
+
+
+        primfSizf = diPbrbmSpfd.gftPrimfSizf();
+        primfSizf = diPbrbmSpfd.gftPrimfSizf();
+        primfSizf = diPbrbmSpfd.gftPrimfSizf();
+        primfSizf = diPbrbmSpfd.gftPrimfSizf();
+        primfSizf = diPbrbmSpfd.gftPrimfSizf();
+
+
+
+
+
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        difdkKfySizf(primfSizf);
+        difdkKfySizf(primfSizf);
+        difdkKfySizf(primfSizf);
+        difdkKfySizf(primfSizf);
+        difdkKfySizf(primfSizf);
+
+
+
+
+
+        fxponfntSizf = diPbrbmSpfd.gftExponfntSizf();
+        fxponfntSizf = diPbrbmSpfd.gftExponfntSizf();
+        fxponfntSizf = diPbrbmSpfd.gftExponfntSizf();
+        fxponfntSizf = diPbrbmSpfd.gftExponfntSizf();
+        fxponfntSizf = diPbrbmSpfd.gftExponfntSizf();
+        if (fxponfntSizf <= 0) {
+        if (fxponfntSizf <= 0) {
+        if (fxponfntSizf <= 0) {
+        if (fxponfntSizf <= 0) {
+        if (fxponfntSizf <= 0) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Exponfnt sizf must bf grfbtfr tibn zfro");
+                ("Exponfnt sizf must bf grfbtfr tibn zfro");
+                ("Exponfnt sizf must bf grfbtfr tibn zfro");
+                ("Exponfnt sizf must bf grfbtfr tibn zfro");
+                ("Exponfnt sizf must bf grfbtfr tibn zfro");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // Rfquirf fxponfntSizf < primfSizf
+        // Rfquirf fxponfntSizf < primfSizf
+        // Rfquirf fxponfntSizf < primfSizf
+        // Rfquirf fxponfntSizf < primfSizf
+        // Rfquirf fxponfntSizf < primfSizf
         if (fxponfntSizf >= primfSizf) {
-            throw nfw InvblidAlgorithmPbrbmftfrExdfption
-                ("Exponfnt sizf must bf lfss thbn modulus sizf");
+        if (fxponfntSizf >= primfSizf) {
+        if (fxponfntSizf >= primfSizf) {
+        if (fxponfntSizf >= primfSizf) {
+        if (fxponfntSizf >= primfSizf) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Exponfnt sizf must bf lfss tibn modulus sizf");
+                ("Exponfnt sizf must bf lfss tibn modulus sizf");
+                ("Exponfnt sizf must bf lfss tibn modulus sizf");
+                ("Exponfnt sizf must bf lfss tibn modulus sizf");
+                ("Exponfnt sizf must bf lfss tibn modulus sizf");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gfnfrbtfs thf pbrbmftfrs.
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrbtfs tif pbrbmftfrs.
+     * Gfnfrbtfs tif pbrbmftfrs.
+     * Gfnfrbtfs tif pbrbmftfrs.
+     * Gfnfrbtfs tif pbrbmftfrs.
+     * Gfnfrbtfs tif pbrbmftfrs.
      *
-     * @rfturn thf nfw AlgorithmPbrbmftfrs objfdt
+     *
+     *
+     *
+     *
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt
      */
-    protfdtfd AlgorithmPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
-        AlgorithmPbrbmftfrs blgPbrbms = null;
+     */
+     */
+     */
+     */
+    protfdtfd AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+    protfdtfd AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+    protfdtfd AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+    protfdtfd AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+    protfdtfd AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+        AlgoritimPbrbmftfrs blgPbrbms = null;
+        AlgoritimPbrbmftfrs blgPbrbms = null;
+        AlgoritimPbrbmftfrs blgPbrbms = null;
+        AlgoritimPbrbmftfrs blgPbrbms = null;
+        AlgoritimPbrbmftfrs blgPbrbms = null;
 
-        if (this.fxponfntSizf == 0) {
-            this.fxponfntSizf = this.primfSizf - 1;
+
+
+
+
+        if (tiis.fxponfntSizf == 0) {
+        if (tiis.fxponfntSizf == 0) {
+        if (tiis.fxponfntSizf == 0) {
+        if (tiis.fxponfntSizf == 0) {
+        if (tiis.fxponfntSizf == 0) {
+            tiis.fxponfntSizf = tiis.primfSizf - 1;
+            tiis.fxponfntSizf = tiis.primfSizf - 1;
+            tiis.fxponfntSizf = tiis.primfSizf - 1;
+            tiis.fxponfntSizf = tiis.primfSizf - 1;
+            tiis.fxponfntSizf = tiis.primfSizf - 1;
+        }
+        }
+        }
+        }
         }
 
-        if (this.rbndom == null)
-            this.rbndom = SunJCE.gftRbndom();
+
+
+
+
+        if (tiis.rbndom == null)
+        if (tiis.rbndom == null)
+        if (tiis.rbndom == null)
+        if (tiis.rbndom == null)
+        if (tiis.rbndom == null)
+            tiis.rbndom = SunJCE.gftRbndom();
+            tiis.rbndom = SunJCE.gftRbndom();
+            tiis.rbndom = SunJCE.gftRbndom();
+            tiis.rbndom = SunJCE.gftRbndom();
+            tiis.rbndom = SunJCE.gftRbndom();
+
+
+
+
 
         try {
-            AlgorithmPbrbmftfrGfnfrbtor pbrbmGfn;
+        try {
+        try {
+        try {
+        try {
+            AlgoritimPbrbmftfrGfnfrbtor pbrbmGfn;
+            AlgoritimPbrbmftfrGfnfrbtor pbrbmGfn;
+            AlgoritimPbrbmftfrGfnfrbtor pbrbmGfn;
+            AlgoritimPbrbmftfrGfnfrbtor pbrbmGfn;
+            AlgoritimPbrbmftfrGfnfrbtor pbrbmGfn;
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd;
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd;
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd;
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd;
             DSAPbrbmftfrSpfd dsbPbrbmSpfd;
 
-            pbrbmGfn = AlgorithmPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
-            pbrbmGfn.init(this.primfSizf, rbndom);
+
+
+
+
+            pbrbmGfn = AlgoritimPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
+            pbrbmGfn = AlgoritimPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
+            pbrbmGfn = AlgoritimPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
+            pbrbmGfn = AlgoritimPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
+            pbrbmGfn = AlgoritimPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
+            pbrbmGfn.init(tiis.primfSizf, rbndom);
+            pbrbmGfn.init(tiis.primfSizf, rbndom);
+            pbrbmGfn.init(tiis.primfSizf, rbndom);
+            pbrbmGfn.init(tiis.primfSizf, rbndom);
+            pbrbmGfn.init(tiis.primfSizf, rbndom);
+            blgPbrbms = pbrbmGfn.gfnfrbtfPbrbmftfrs();
+            blgPbrbms = pbrbmGfn.gfnfrbtfPbrbmftfrs();
+            blgPbrbms = pbrbmGfn.gfnfrbtfPbrbmftfrs();
+            blgPbrbms = pbrbmGfn.gfnfrbtfPbrbmftfrs();
             blgPbrbms = pbrbmGfn.gfnfrbtfPbrbmftfrs();
             dsbPbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+            dsbPbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+            dsbPbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+            dsbPbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+            dsbPbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
 
-            DHPbrbmftfrSpfd dhPbrbmSpfd;
-            if (this.fxponfntSizf > 0) {
-                dhPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+
+
+
+
+            DHPbrbmftfrSpfd diPbrbmSpfd;
+            DHPbrbmftfrSpfd diPbrbmSpfd;
+            DHPbrbmftfrSpfd diPbrbmSpfd;
+            DHPbrbmftfrSpfd diPbrbmSpfd;
+            DHPbrbmftfrSpfd diPbrbmSpfd;
+            if (tiis.fxponfntSizf > 0) {
+            if (tiis.fxponfntSizf > 0) {
+            if (tiis.fxponfntSizf > 0) {
+            if (tiis.fxponfntSizf > 0) {
+            if (tiis.fxponfntSizf > 0) {
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
                                                   dsbPbrbmSpfd.gftG(),
-                                                  this.fxponfntSizf);
+                                                  dsbPbrbmSpfd.gftG(),
+                                                  dsbPbrbmSpfd.gftG(),
+                                                  dsbPbrbmSpfd.gftG(),
+                                                  dsbPbrbmSpfd.gftG(),
+                                                  tiis.fxponfntSizf);
+                                                  tiis.fxponfntSizf);
+                                                  tiis.fxponfntSizf);
+                                                  tiis.fxponfntSizf);
+                                                  tiis.fxponfntSizf);
             } flsf {
-                dhPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                                                  dsbPbrbmSpfd.gftG());
+                                                  dsbPbrbmSpfd.gftG());
+                                                  dsbPbrbmSpfd.gftG());
+                                                  dsbPbrbmSpfd.gftG());
                                                   dsbPbrbmSpfd.gftG());
             }
-            blgPbrbms = AlgorithmPbrbmftfrs.gftInstbndf("DH",
+            }
+            }
+            }
+            }
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf("DH",
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf("DH",
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf("DH",
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf("DH",
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf("DH",
                     SunJCE.gftInstbndf());
-            blgPbrbms.init(dhPbrbmSpfd);
-        } dbtdh (InvblidPbrbmftfrSpfdExdfption f) {
-            // this should nfvfr hbppfn
-            throw nfw RuntimfExdfption(f.gftMfssbgf());
-        } dbtdh (NoSudhAlgorithmExdfption f) {
-            // this should nfvfr hbppfn, bfdbusf wf providf it
-            throw nfw RuntimfExdfption(f.gftMfssbgf());
+                    SunJCE.gftInstbndf());
+                    SunJCE.gftInstbndf());
+                    SunJCE.gftInstbndf());
+                    SunJCE.gftInstbndf());
+            blgPbrbms.init(diPbrbmSpfd);
+            blgPbrbms.init(diPbrbmSpfd);
+            blgPbrbms.init(diPbrbmSpfd);
+            blgPbrbms.init(diPbrbmSpfd);
+            blgPbrbms.init(diPbrbmSpfd);
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+            // tiis siould nfvfr ibppfn
+            // tiis siould nfvfr ibppfn
+            // tiis siould nfvfr ibppfn
+            // tiis siould nfvfr ibppfn
+            // tiis siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+        }
+        }
+        }
+        }
         }
         rfturn blgPbrbms;
+        rfturn blgPbrbms;
+        rfturn blgPbrbms;
+        rfturn blgPbrbms;
+        rfturn blgPbrbms;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

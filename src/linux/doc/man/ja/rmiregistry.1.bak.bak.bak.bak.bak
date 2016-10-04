@@ -1,0 +1,132 @@
+'\" t
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: rmirfgistry
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "rmirfgistry" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+rmirfgistry \- 現在のホストの指定したポート上にリモート・オブジェクト・レジストリを開始します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIrmirfgistry\fR [ \fIport\fR ]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIport\fR
+.RS 4
+リモート・オブジェクト・レジストリを開始する現在のホスト上の\fIport\fRの数。
+.RE
+.SH "説明"
+.PP
+\fIrmirfgistry\fRコマンドは、現在のホストの指定したポート上にリモート・オブジェクト・レジストリを作成し、開始します。portの指定を省略した場合、レジストリはポート1099で開始します。\fIrmirfgistry\fRコマンドに、出力機能はありません。通常、これはバックグラウンドで実行されます。次に例を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+rmirfgistry &
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+リモート・オブジェクト・レジストリは、ブートストラップのネーム・サービスです。同一ホストのRMIサーバーが、リモート・オブジェクトを名前にバインドするために使用されます。次に、ローカルおよびリモート・ホストのクライアントはリモート・オブジェクトを検索し、リモート・メソッドの呼出しを行います。
+.PP
+レジストリは、一般的に、最初のリモート・オブジェクトの位置を指定します。そこで、アプリケーションはメソッドを呼び出す必要があります。その後、そのオブジェクトはアプリケーション指定のサポートを提供し、他のオブジェクトを探します。
+.PP
+\fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fRクラスのメソッドは、ローカル・ホスト、またはローカル・ホストとポートで動作するレジストリを取得するために使用されます。
+.PP
+\fIjbvb\&.rmi\&.Nbming\fRクラスのURLベース・メソッドはレジストリに対して操作を実行し、任意のホストおよびローカル・ホストでのリモート・オブジェクトの検索に使用できます。単純名(文字列)をリモート・オブジェクトにバインドし、新しい名前をリモート・オブジェクトに再バインドし(古いバインドをオーバーライド)、リモート・オブジェクトをアンバインドし、レジストリにバインドされているURLをリスト表示します。
+.SH "オプション"
+.PP
+\-J
+.RS 4
+Jbvbオプションとともに使用して、\fI\-J\fRの後ろに続くオプションをJbvbインタプリタに引き渡します(\fI\-J\fRとオプションの間にスペースは入れません)。
+.RE
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvb(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI「jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI「jbvb\&.rmi\&.Nbming dlbss dfsdription」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
+.RE
+.br
+'pl 8.5i
+'bp

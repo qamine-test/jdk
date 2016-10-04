@@ -1,69 +1,345 @@
 /*
+/*
+/*
+/*
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
- * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
- * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+/*
+/*
+/*
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ * filf:
+ * filf:
+ * filf:
  * filf:
  *
- * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
- * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
- * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ *
+ *
+ *
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+
+
+
+
 
 /**
- * An objfdt thbt drfbtfs nfw thrfbds on dfmbnd.  Using thrfbd fbdtorifs
- * rfmovfs hbrdwiring of dblls to {@link Thrfbd#Thrfbd(Runnbblf) nfw Thrfbd},
- * fnbbling bpplidbtions to usf spfdibl thrfbd subdlbssfs, prioritifs, ftd.
+/**
+/**
+/**
+/**
+ * An objfdt tibt drfbtfs nfw tirfbds on dfmbnd.  Using tirfbd fbdtorifs
+ * An objfdt tibt drfbtfs nfw tirfbds on dfmbnd.  Using tirfbd fbdtorifs
+ * An objfdt tibt drfbtfs nfw tirfbds on dfmbnd.  Using tirfbd fbdtorifs
+ * An objfdt tibt drfbtfs nfw tirfbds on dfmbnd.  Using tirfbd fbdtorifs
+ * An objfdt tibt drfbtfs nfw tirfbds on dfmbnd.  Using tirfbd fbdtorifs
+ * rfmovfs ibrdwiring of dblls to {@link Tirfbd#Tirfbd(Runnbblf) nfw Tirfbd},
+ * rfmovfs ibrdwiring of dblls to {@link Tirfbd#Tirfbd(Runnbblf) nfw Tirfbd},
+ * rfmovfs ibrdwiring of dblls to {@link Tirfbd#Tirfbd(Runnbblf) nfw Tirfbd},
+ * rfmovfs ibrdwiring of dblls to {@link Tirfbd#Tirfbd(Runnbblf) nfw Tirfbd},
+ * rfmovfs ibrdwiring of dblls to {@link Tirfbd#Tirfbd(Runnbblf) nfw Tirfbd},
+ * fnbbling bpplidbtions to usf spfdibl tirfbd subdlbssfs, prioritifs, ftd.
+ * fnbbling bpplidbtions to usf spfdibl tirfbd subdlbssfs, prioritifs, ftd.
+ * fnbbling bpplidbtions to usf spfdibl tirfbd subdlbssfs, prioritifs, ftd.
+ * fnbbling bpplidbtions to usf spfdibl tirfbd subdlbssfs, prioritifs, ftd.
+ * fnbbling bpplidbtions to usf spfdibl tirfbd subdlbssfs, prioritifs, ftd.
+ *
+ *
+ *
+ *
  *
  * <p>
- * Thf simplfst implfmfntbtion of this intfrfbdf is just:
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif simplfst implfmfntbtion of tiis intfrfbdf is just:
+ * Tif simplfst implfmfntbtion of tiis intfrfbdf is just:
+ * Tif simplfst implfmfntbtion of tiis intfrfbdf is just:
+ * Tif simplfst implfmfntbtion of tiis intfrfbdf is just:
+ * Tif simplfst implfmfntbtion of tiis intfrfbdf is just:
  *  <prf> {@dodf
- * dlbss SimplfThrfbdFbdtory implfmfnts ThrfbdFbdtory {
- *   publid Thrfbd nfwThrfbd(Runnbblf r) {
- *     rfturn nfw Thrfbd(r);
+ *  <prf> {@dodf
+ *  <prf> {@dodf
+ *  <prf> {@dodf
+ *  <prf> {@dodf
+ * dlbss SimplfTirfbdFbdtory implfmfnts TirfbdFbdtory {
+ * dlbss SimplfTirfbdFbdtory implfmfnts TirfbdFbdtory {
+ * dlbss SimplfTirfbdFbdtory implfmfnts TirfbdFbdtory {
+ * dlbss SimplfTirfbdFbdtory implfmfnts TirfbdFbdtory {
+ * dlbss SimplfTirfbdFbdtory implfmfnts TirfbdFbdtory {
+ *   publid Tirfbd nfwTirfbd(Runnbblf r) {
+ *   publid Tirfbd nfwTirfbd(Runnbblf r) {
+ *   publid Tirfbd nfwTirfbd(Runnbblf r) {
+ *   publid Tirfbd nfwTirfbd(Runnbblf r) {
+ *   publid Tirfbd nfwTirfbd(Runnbblf r) {
+ *     rfturn nfw Tirfbd(r);
+ *     rfturn nfw Tirfbd(r);
+ *     rfturn nfw Tirfbd(r);
+ *     rfturn nfw Tirfbd(r);
+ *     rfturn nfw Tirfbd(r);
+ *   }
+ *   }
+ *   }
+ *   }
  *   }
  * }}</prf>
+ * }}</prf>
+ * }}</prf>
+ * }}</prf>
+ * }}</prf>
  *
- * Thf {@link Exfdutors#dffbultThrfbdFbdtory} mfthod providfs b morf
- * usfful simplf implfmfntbtion, thbt sfts thf drfbtfd thrfbd dontfxt
+ *
+ *
+ *
+ *
+ * Tif {@link Exfdutors#dffbultTirfbdFbdtory} mftiod providfs b morf
+ * Tif {@link Exfdutors#dffbultTirfbdFbdtory} mftiod providfs b morf
+ * Tif {@link Exfdutors#dffbultTirfbdFbdtory} mftiod providfs b morf
+ * Tif {@link Exfdutors#dffbultTirfbdFbdtory} mftiod providfs b morf
+ * Tif {@link Exfdutors#dffbultTirfbdFbdtory} mftiod providfs b morf
+ * usfful simplf implfmfntbtion, tibt sfts tif drfbtfd tirfbd dontfxt
+ * usfful simplf implfmfntbtion, tibt sfts tif drfbtfd tirfbd dontfxt
+ * usfful simplf implfmfntbtion, tibt sfts tif drfbtfd tirfbd dontfxt
+ * usfful simplf implfmfntbtion, tibt sfts tif drfbtfd tirfbd dontfxt
+ * usfful simplf implfmfntbtion, tibt sfts tif drfbtfd tirfbd dontfxt
+ * to known vblufs bfforf rfturning it.
+ * to known vblufs bfforf rfturning it.
+ * to known vblufs bfforf rfturning it.
+ * to known vblufs bfforf rfturning it.
  * to known vblufs bfforf rfturning it.
  * @sindf 1.5
- * @buthor Doug Lfb
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @butior Doug Lfb
+ * @butior Doug Lfb
+ * @butior Doug Lfb
+ * @butior Doug Lfb
  */
-publid intfrfbdf ThrfbdFbdtory {
+ */
+ */
+ */
+ */
+publid intfrfbdf TirfbdFbdtory {
+publid intfrfbdf TirfbdFbdtory {
+publid intfrfbdf TirfbdFbdtory {
+publid intfrfbdf TirfbdFbdtory {
+publid intfrfbdf TirfbdFbdtory {
+
+
+
+
 
     /**
-     * Construdts b nfw {@dodf Thrfbd}.  Implfmfntbtions mby blso initiblizf
-     * priority, nbmf, dbfmon stbtus, {@dodf ThrfbdGroup}, ftd.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nfw {@dodf Tirfbd}.  Implfmfntbtions mby blso initiblizf
+     * Construdts b nfw {@dodf Tirfbd}.  Implfmfntbtions mby blso initiblizf
+     * Construdts b nfw {@dodf Tirfbd}.  Implfmfntbtions mby blso initiblizf
+     * Construdts b nfw {@dodf Tirfbd}.  Implfmfntbtions mby blso initiblizf
+     * Construdts b nfw {@dodf Tirfbd}.  Implfmfntbtions mby blso initiblizf
+     * priority, nbmf, dbfmon stbtus, {@dodf TirfbdGroup}, ftd.
+     * priority, nbmf, dbfmon stbtus, {@dodf TirfbdGroup}, ftd.
+     * priority, nbmf, dbfmon stbtus, {@dodf TirfbdGroup}, ftd.
+     * priority, nbmf, dbfmon stbtus, {@dodf TirfbdGroup}, ftd.
+     * priority, nbmf, dbfmon stbtus, {@dodf TirfbdGroup}, ftd.
      *
-     * @pbrbm r b runnbblf to bf fxfdutfd by nfw thrfbd instbndf
-     * @rfturn donstrudtfd thrfbd, or {@dodf null} if thf rfqufst to
-     *         drfbtf b thrfbd is rfjfdtfd
+     *
+     *
+     *
+     *
+     * @pbrbm r b runnbblf to bf fxfdutfd by nfw tirfbd instbndf
+     * @pbrbm r b runnbblf to bf fxfdutfd by nfw tirfbd instbndf
+     * @pbrbm r b runnbblf to bf fxfdutfd by nfw tirfbd instbndf
+     * @pbrbm r b runnbblf to bf fxfdutfd by nfw tirfbd instbndf
+     * @pbrbm r b runnbblf to bf fxfdutfd by nfw tirfbd instbndf
+     * @rfturn donstrudtfd tirfbd, or {@dodf null} if tif rfqufst to
+     * @rfturn donstrudtfd tirfbd, or {@dodf null} if tif rfqufst to
+     * @rfturn donstrudtfd tirfbd, or {@dodf null} if tif rfqufst to
+     * @rfturn donstrudtfd tirfbd, or {@dodf null} if tif rfqufst to
+     * @rfturn donstrudtfd tirfbd, or {@dodf null} if tif rfqufst to
+     *         drfbtf b tirfbd is rfjfdtfd
+     *         drfbtf b tirfbd is rfjfdtfd
+     *         drfbtf b tirfbd is rfjfdtfd
+     *         drfbtf b tirfbd is rfjfdtfd
+     *         drfbtf b tirfbd is rfjfdtfd
      */
-    Thrfbd nfwThrfbd(Runnbblf r);
+     */
+     */
+     */
+     */
+    Tirfbd nfwTirfbd(Runnbblf r);
+    Tirfbd nfwTirfbd(Runnbblf r);
+    Tirfbd nfwTirfbd(Runnbblf r);
+    Tirfbd nfwTirfbd(Runnbblf r);
+    Tirfbd nfwTirfbd(Runnbblf r);
+}
+}
+}
+}
 }

@@ -1,115 +1,575 @@
 /*
- * Copyright (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.rmi.dgd;
+pbdkbgf jbvb.rmi.dgd;
+pbdkbgf jbvb.rmi.dgd;
+pbdkbgf jbvb.rmi.dgd;
 pbdkbgf jbvb.rmi.dgd;
 
+
+
+
+
+import jbvb.rmi.*;
+import jbvb.rmi.*;
+import jbvb.rmi.*;
+import jbvb.rmi.*;
 import jbvb.rmi.*;
 import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.ObjID;
+
+
+
+
 
 /**
- * Thf DGC bbstrbdtion is usfd for thf sfrvfr sidf of thf distributfd
- * gbrbbgf dollfdtion blgorithm. This intfrfbdf dontbins thf two
- * mfthods: dirty bnd dlfbn. A dirty dbll is mbdf whfn b rfmotf
- * rfffrfndf is unmbrshblfd in b dlifnt (thf dlifnt is indidbtfd by
- * its VMID). A dorrfsponding dlfbn dbll is mbdf whfn no morf
- * rfffrfndfs to thf rfmotf rfffrfndf fxist in thf dlifnt. A fbilfd
- * dirty dbll must sdhfdulf b strong dlfbn dbll so thbt thf dbll's
+/**
+/**
+/**
+/**
+ * Tif DGC bbstrbdtion is usfd for tif sfrvfr sidf of tif distributfd
+ * Tif DGC bbstrbdtion is usfd for tif sfrvfr sidf of tif distributfd
+ * Tif DGC bbstrbdtion is usfd for tif sfrvfr sidf of tif distributfd
+ * Tif DGC bbstrbdtion is usfd for tif sfrvfr sidf of tif distributfd
+ * Tif DGC bbstrbdtion is usfd for tif sfrvfr sidf of tif distributfd
+ * gbrbbgf dollfdtion blgoritim. Tiis intfrfbdf dontbins tif two
+ * gbrbbgf dollfdtion blgoritim. Tiis intfrfbdf dontbins tif two
+ * gbrbbgf dollfdtion blgoritim. Tiis intfrfbdf dontbins tif two
+ * gbrbbgf dollfdtion blgoritim. Tiis intfrfbdf dontbins tif two
+ * gbrbbgf dollfdtion blgoritim. Tiis intfrfbdf dontbins tif two
+ * mftiods: dirty bnd dlfbn. A dirty dbll is mbdf wifn b rfmotf
+ * mftiods: dirty bnd dlfbn. A dirty dbll is mbdf wifn b rfmotf
+ * mftiods: dirty bnd dlfbn. A dirty dbll is mbdf wifn b rfmotf
+ * mftiods: dirty bnd dlfbn. A dirty dbll is mbdf wifn b rfmotf
+ * mftiods: dirty bnd dlfbn. A dirty dbll is mbdf wifn b rfmotf
+ * rfffrfndf is unmbrsiblfd in b dlifnt (tif dlifnt is indidbtfd by
+ * rfffrfndf is unmbrsiblfd in b dlifnt (tif dlifnt is indidbtfd by
+ * rfffrfndf is unmbrsiblfd in b dlifnt (tif dlifnt is indidbtfd by
+ * rfffrfndf is unmbrsiblfd in b dlifnt (tif dlifnt is indidbtfd by
+ * rfffrfndf is unmbrsiblfd in b dlifnt (tif dlifnt is indidbtfd by
+ * its VMID). A dorrfsponding dlfbn dbll is mbdf wifn no morf
+ * its VMID). A dorrfsponding dlfbn dbll is mbdf wifn no morf
+ * its VMID). A dorrfsponding dlfbn dbll is mbdf wifn no morf
+ * its VMID). A dorrfsponding dlfbn dbll is mbdf wifn no morf
+ * its VMID). A dorrfsponding dlfbn dbll is mbdf wifn no morf
+ * rfffrfndfs to tif rfmotf rfffrfndf fxist in tif dlifnt. A fbilfd
+ * rfffrfndfs to tif rfmotf rfffrfndf fxist in tif dlifnt. A fbilfd
+ * rfffrfndfs to tif rfmotf rfffrfndf fxist in tif dlifnt. A fbilfd
+ * rfffrfndfs to tif rfmotf rfffrfndf fxist in tif dlifnt. A fbilfd
+ * rfffrfndfs to tif rfmotf rfffrfndf fxist in tif dlifnt. A fbilfd
+ * dirty dbll must sdifdulf b strong dlfbn dbll so tibt tif dbll's
+ * dirty dbll must sdifdulf b strong dlfbn dbll so tibt tif dbll's
+ * dirty dbll must sdifdulf b strong dlfbn dbll so tibt tif dbll's
+ * dirty dbll must sdifdulf b strong dlfbn dbll so tibt tif dbll's
+ * dirty dbll must sdifdulf b strong dlfbn dbll so tibt tif dbll's
  * sfqufndf numbfr dbn bf rftbinfd in ordfr to dftfdt futurf dblls
- * rfdfivfd out of ordfr by thf distributfd gbrbbgf dollfdtor.
+ * sfqufndf numbfr dbn bf rftbinfd in ordfr to dftfdt futurf dblls
+ * sfqufndf numbfr dbn bf rftbinfd in ordfr to dftfdt futurf dblls
+ * sfqufndf numbfr dbn bf rftbinfd in ordfr to dftfdt futurf dblls
+ * sfqufndf numbfr dbn bf rftbinfd in ordfr to dftfdt futurf dblls
+ * rfdfivfd out of ordfr by tif distributfd gbrbbgf dollfdtor.
+ * rfdfivfd out of ordfr by tif distributfd gbrbbgf dollfdtor.
+ * rfdfivfd out of ordfr by tif distributfd gbrbbgf dollfdtor.
+ * rfdfivfd out of ordfr by tif distributfd gbrbbgf dollfdtor.
+ * rfdfivfd out of ordfr by tif distributfd gbrbbgf dollfdtor.
+ *
+ *
+ *
+ *
  *
  * A rfffrfndf to b rfmotf objfdt is lfbsfd for b pfriod of timf by
- * thf dlifnt holding thf rfffrfndf. Thf lfbsf pfriod stbrts whfn thf
- * dirty dbll is rfdfivfd. It is thf dlifnt's rfsponsibility to rfnfw
- * thf lfbsfs, by mbking bdditionbl dirty dblls, on thf rfmotf
- * rfffrfndfs it holds bfforf sudh lfbsfs fxpirf. If thf dlifnt dofs
- * not rfnfw thf lfbsf bfforf it fxpirfs, thf distributfd gbrbbgf
- * dollfdtor bssumfs thbt thf rfmotf objfdt is no longfr rfffrfndfd by
- * thbt dlifnt.
+ * A rfffrfndf to b rfmotf objfdt is lfbsfd for b pfriod of timf by
+ * A rfffrfndf to b rfmotf objfdt is lfbsfd for b pfriod of timf by
+ * A rfffrfndf to b rfmotf objfdt is lfbsfd for b pfriod of timf by
+ * A rfffrfndf to b rfmotf objfdt is lfbsfd for b pfriod of timf by
+ * tif dlifnt iolding tif rfffrfndf. Tif lfbsf pfriod stbrts wifn tif
+ * tif dlifnt iolding tif rfffrfndf. Tif lfbsf pfriod stbrts wifn tif
+ * tif dlifnt iolding tif rfffrfndf. Tif lfbsf pfriod stbrts wifn tif
+ * tif dlifnt iolding tif rfffrfndf. Tif lfbsf pfriod stbrts wifn tif
+ * tif dlifnt iolding tif rfffrfndf. Tif lfbsf pfriod stbrts wifn tif
+ * dirty dbll is rfdfivfd. It is tif dlifnt's rfsponsibility to rfnfw
+ * dirty dbll is rfdfivfd. It is tif dlifnt's rfsponsibility to rfnfw
+ * dirty dbll is rfdfivfd. It is tif dlifnt's rfsponsibility to rfnfw
+ * dirty dbll is rfdfivfd. It is tif dlifnt's rfsponsibility to rfnfw
+ * dirty dbll is rfdfivfd. It is tif dlifnt's rfsponsibility to rfnfw
+ * tif lfbsfs, by mbking bdditionbl dirty dblls, on tif rfmotf
+ * tif lfbsfs, by mbking bdditionbl dirty dblls, on tif rfmotf
+ * tif lfbsfs, by mbking bdditionbl dirty dblls, on tif rfmotf
+ * tif lfbsfs, by mbking bdditionbl dirty dblls, on tif rfmotf
+ * tif lfbsfs, by mbking bdditionbl dirty dblls, on tif rfmotf
+ * rfffrfndfs it iolds bfforf sudi lfbsfs fxpirf. If tif dlifnt dofs
+ * rfffrfndfs it iolds bfforf sudi lfbsfs fxpirf. If tif dlifnt dofs
+ * rfffrfndfs it iolds bfforf sudi lfbsfs fxpirf. If tif dlifnt dofs
+ * rfffrfndfs it iolds bfforf sudi lfbsfs fxpirf. If tif dlifnt dofs
+ * rfffrfndfs it iolds bfforf sudi lfbsfs fxpirf. If tif dlifnt dofs
+ * not rfnfw tif lfbsf bfforf it fxpirfs, tif distributfd gbrbbgf
+ * not rfnfw tif lfbsf bfforf it fxpirfs, tif distributfd gbrbbgf
+ * not rfnfw tif lfbsf bfforf it fxpirfs, tif distributfd gbrbbgf
+ * not rfnfw tif lfbsf bfforf it fxpirfs, tif distributfd gbrbbgf
+ * not rfnfw tif lfbsf bfforf it fxpirfs, tif distributfd gbrbbgf
+ * dollfdtor bssumfs tibt tif rfmotf objfdt is no longfr rfffrfndfd by
+ * dollfdtor bssumfs tibt tif rfmotf objfdt is no longfr rfffrfndfd by
+ * dollfdtor bssumfs tibt tif rfmotf objfdt is no longfr rfffrfndfd by
+ * dollfdtor bssumfs tibt tif rfmotf objfdt is no longfr rfffrfndfd by
+ * dollfdtor bssumfs tibt tif rfmotf objfdt is no longfr rfffrfndfd by
+ * tibt dlifnt.
+ * tibt dlifnt.
+ * tibt dlifnt.
+ * tibt dlifnt.
+ * tibt dlifnt.
  *
- * @buthor Ann Wollrbth
+ *
+ *
+ *
+ *
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf DGC fxtfnds Rfmotf {
+publid intfrfbdf DGC fxtfnds Rfmotf {
+publid intfrfbdf DGC fxtfnds Rfmotf {
+publid intfrfbdf DGC fxtfnds Rfmotf {
+publid intfrfbdf DGC fxtfnds Rfmotf {
+
+
+
+
 
     /**
-     * Thf dirty dbll rfqufsts lfbsfs for thf rfmotf objfdt rfffrfndfs
-     * bssodibtfd with thf objfdt idfntififrs dontbinfd in thf brrby
-     * 'ids'. Thf 'lfbsf' dontbins b dlifnt's uniquf VM idfntififr (VMID)
-     * bnd b rfqufstfd lfbsf pfriod. For fbdh rfmotf objfdt fxportfd
-     * in thf lodbl VM, thf gbrbbgf dollfdtor mbintbins b rfffrfndf
-     * list-b list of dlifnts thbt hold rfffrfndfs to it. If thf lfbsf
-     * is grbntfd, thf gbrbbgf dollfdtor bdds thf dlifnt's VMID to thf
-     * rfffrfndf list for fbdh rfmotf objfdt indidbtfd in 'ids'. Thf
-     * 'sfqufndfNum' pbrbmftfr is b sfqufndf numbfr thbt is usfd to
-     * dftfdt bnd disdbrd lbtf dblls to thf gbrbbgf dollfdtor. Thf
-     * sfqufndf numbfr should blwbys indrfbsf for fbdh subsfqufnt dbll
-     * to thf gbrbbgf dollfdtor.
+    /**
+    /**
+    /**
+    /**
+     * Tif dirty dbll rfqufsts lfbsfs for tif rfmotf objfdt rfffrfndfs
+     * Tif dirty dbll rfqufsts lfbsfs for tif rfmotf objfdt rfffrfndfs
+     * Tif dirty dbll rfqufsts lfbsfs for tif rfmotf objfdt rfffrfndfs
+     * Tif dirty dbll rfqufsts lfbsfs for tif rfmotf objfdt rfffrfndfs
+     * Tif dirty dbll rfqufsts lfbsfs for tif rfmotf objfdt rfffrfndfs
+     * bssodibtfd witi tif objfdt idfntififrs dontbinfd in tif brrby
+     * bssodibtfd witi tif objfdt idfntififrs dontbinfd in tif brrby
+     * bssodibtfd witi tif objfdt idfntififrs dontbinfd in tif brrby
+     * bssodibtfd witi tif objfdt idfntififrs dontbinfd in tif brrby
+     * bssodibtfd witi tif objfdt idfntififrs dontbinfd in tif brrby
+     * 'ids'. Tif 'lfbsf' dontbins b dlifnt's uniquf VM idfntififr (VMID)
+     * 'ids'. Tif 'lfbsf' dontbins b dlifnt's uniquf VM idfntififr (VMID)
+     * 'ids'. Tif 'lfbsf' dontbins b dlifnt's uniquf VM idfntififr (VMID)
+     * 'ids'. Tif 'lfbsf' dontbins b dlifnt's uniquf VM idfntififr (VMID)
+     * 'ids'. Tif 'lfbsf' dontbins b dlifnt's uniquf VM idfntififr (VMID)
+     * bnd b rfqufstfd lfbsf pfriod. For fbdi rfmotf objfdt fxportfd
+     * bnd b rfqufstfd lfbsf pfriod. For fbdi rfmotf objfdt fxportfd
+     * bnd b rfqufstfd lfbsf pfriod. For fbdi rfmotf objfdt fxportfd
+     * bnd b rfqufstfd lfbsf pfriod. For fbdi rfmotf objfdt fxportfd
+     * bnd b rfqufstfd lfbsf pfriod. For fbdi rfmotf objfdt fxportfd
+     * in tif lodbl VM, tif gbrbbgf dollfdtor mbintbins b rfffrfndf
+     * in tif lodbl VM, tif gbrbbgf dollfdtor mbintbins b rfffrfndf
+     * in tif lodbl VM, tif gbrbbgf dollfdtor mbintbins b rfffrfndf
+     * in tif lodbl VM, tif gbrbbgf dollfdtor mbintbins b rfffrfndf
+     * in tif lodbl VM, tif gbrbbgf dollfdtor mbintbins b rfffrfndf
+     * list-b list of dlifnts tibt iold rfffrfndfs to it. If tif lfbsf
+     * list-b list of dlifnts tibt iold rfffrfndfs to it. If tif lfbsf
+     * list-b list of dlifnts tibt iold rfffrfndfs to it. If tif lfbsf
+     * list-b list of dlifnts tibt iold rfffrfndfs to it. If tif lfbsf
+     * list-b list of dlifnts tibt iold rfffrfndfs to it. If tif lfbsf
+     * is grbntfd, tif gbrbbgf dollfdtor bdds tif dlifnt's VMID to tif
+     * is grbntfd, tif gbrbbgf dollfdtor bdds tif dlifnt's VMID to tif
+     * is grbntfd, tif gbrbbgf dollfdtor bdds tif dlifnt's VMID to tif
+     * is grbntfd, tif gbrbbgf dollfdtor bdds tif dlifnt's VMID to tif
+     * is grbntfd, tif gbrbbgf dollfdtor bdds tif dlifnt's VMID to tif
+     * rfffrfndf list for fbdi rfmotf objfdt indidbtfd in 'ids'. Tif
+     * rfffrfndf list for fbdi rfmotf objfdt indidbtfd in 'ids'. Tif
+     * rfffrfndf list for fbdi rfmotf objfdt indidbtfd in 'ids'. Tif
+     * rfffrfndf list for fbdi rfmotf objfdt indidbtfd in 'ids'. Tif
+     * rfffrfndf list for fbdi rfmotf objfdt indidbtfd in 'ids'. Tif
+     * 'sfqufndfNum' pbrbmftfr is b sfqufndf numbfr tibt is usfd to
+     * 'sfqufndfNum' pbrbmftfr is b sfqufndf numbfr tibt is usfd to
+     * 'sfqufndfNum' pbrbmftfr is b sfqufndf numbfr tibt is usfd to
+     * 'sfqufndfNum' pbrbmftfr is b sfqufndf numbfr tibt is usfd to
+     * 'sfqufndfNum' pbrbmftfr is b sfqufndf numbfr tibt is usfd to
+     * dftfdt bnd disdbrd lbtf dblls to tif gbrbbgf dollfdtor. Tif
+     * dftfdt bnd disdbrd lbtf dblls to tif gbrbbgf dollfdtor. Tif
+     * dftfdt bnd disdbrd lbtf dblls to tif gbrbbgf dollfdtor. Tif
+     * dftfdt bnd disdbrd lbtf dblls to tif gbrbbgf dollfdtor. Tif
+     * dftfdt bnd disdbrd lbtf dblls to tif gbrbbgf dollfdtor. Tif
+     * sfqufndf numbfr siould blwbys indrfbsf for fbdi subsfqufnt dbll
+     * sfqufndf numbfr siould blwbys indrfbsf for fbdi subsfqufnt dbll
+     * sfqufndf numbfr siould blwbys indrfbsf for fbdi subsfqufnt dbll
+     * sfqufndf numbfr siould blwbys indrfbsf for fbdi subsfqufnt dbll
+     * sfqufndf numbfr siould blwbys indrfbsf for fbdi subsfqufnt dbll
+     * to tif gbrbbgf dollfdtor.
+     * to tif gbrbbgf dollfdtor.
+     * to tif gbrbbgf dollfdtor.
+     * to tif gbrbbgf dollfdtor.
+     * to tif gbrbbgf dollfdtor.
+     *
+     *
+     *
+     *
      *
      * Somf dlifnts brf unbblf to gfnfrbtf b VMID, sindf b VMID is b
-     * univfrsblly uniquf idfntififr thbt dontbins b host bddrfss
-     * whidh somf dlifnts brf unbblf to obtbin duf to sfdurity
-     * rfstridtions. In this dbsf, b dlifnt dbn usf b VMID of null,
-     * bnd thf distributfd gbrbbgf dollfdtor will bssign b VMID for
-     * thf dlifnt.
+     * Somf dlifnts brf unbblf to gfnfrbtf b VMID, sindf b VMID is b
+     * Somf dlifnts brf unbblf to gfnfrbtf b VMID, sindf b VMID is b
+     * Somf dlifnts brf unbblf to gfnfrbtf b VMID, sindf b VMID is b
+     * Somf dlifnts brf unbblf to gfnfrbtf b VMID, sindf b VMID is b
+     * univfrsblly uniquf idfntififr tibt dontbins b iost bddrfss
+     * univfrsblly uniquf idfntififr tibt dontbins b iost bddrfss
+     * univfrsblly uniquf idfntififr tibt dontbins b iost bddrfss
+     * univfrsblly uniquf idfntififr tibt dontbins b iost bddrfss
+     * univfrsblly uniquf idfntififr tibt dontbins b iost bddrfss
+     * wiidi somf dlifnts brf unbblf to obtbin duf to sfdurity
+     * wiidi somf dlifnts brf unbblf to obtbin duf to sfdurity
+     * wiidi somf dlifnts brf unbblf to obtbin duf to sfdurity
+     * wiidi somf dlifnts brf unbblf to obtbin duf to sfdurity
+     * wiidi somf dlifnts brf unbblf to obtbin duf to sfdurity
+     * rfstridtions. In tiis dbsf, b dlifnt dbn usf b VMID of null,
+     * rfstridtions. In tiis dbsf, b dlifnt dbn usf b VMID of null,
+     * rfstridtions. In tiis dbsf, b dlifnt dbn usf b VMID of null,
+     * rfstridtions. In tiis dbsf, b dlifnt dbn usf b VMID of null,
+     * rfstridtions. In tiis dbsf, b dlifnt dbn usf b VMID of null,
+     * bnd tif distributfd gbrbbgf dollfdtor will bssign b VMID for
+     * bnd tif distributfd gbrbbgf dollfdtor will bssign b VMID for
+     * bnd tif distributfd gbrbbgf dollfdtor will bssign b VMID for
+     * bnd tif distributfd gbrbbgf dollfdtor will bssign b VMID for
+     * bnd tif distributfd gbrbbgf dollfdtor will bssign b VMID for
+     * tif dlifnt.
+     * tif dlifnt.
+     * tif dlifnt.
+     * tif dlifnt.
+     * tif dlifnt.
      *
-     * Thf dirty dbll rfturns b Lfbsf objfdt thbt dontbins thf VMID
-     * usfd bnd thf lfbsf pfriod grbntfd for thf rfmotf rfffrfndfs (b
-     * sfrvfr mby dfdidf to grbnt b smbllfr lfbsf pfriod thbn thf
-     * dlifnt rfqufsts). A dlifnt must usf thf VMID thf gbrbbgf
-     * dollfdtor usfs in ordfr to mbkf dorrfsponding dlfbn dblls whfn
-     * thf dlifnt drops rfmotf objfdt rfffrfndfs.
      *
-     * A dlifnt VM nffd only mbkf onf initibl dirty dbll for fbdh
-     * rfmotf rfffrfndf rfffrfndfd in thf VM (fvfn if it hbs multiplf
-     * rfffrfndfs to thf sbmf rfmotf objfdt). Thf dlifnt must blso
+     *
+     *
+     *
+     * Tif dirty dbll rfturns b Lfbsf objfdt tibt dontbins tif VMID
+     * Tif dirty dbll rfturns b Lfbsf objfdt tibt dontbins tif VMID
+     * Tif dirty dbll rfturns b Lfbsf objfdt tibt dontbins tif VMID
+     * Tif dirty dbll rfturns b Lfbsf objfdt tibt dontbins tif VMID
+     * Tif dirty dbll rfturns b Lfbsf objfdt tibt dontbins tif VMID
+     * usfd bnd tif lfbsf pfriod grbntfd for tif rfmotf rfffrfndfs (b
+     * usfd bnd tif lfbsf pfriod grbntfd for tif rfmotf rfffrfndfs (b
+     * usfd bnd tif lfbsf pfriod grbntfd for tif rfmotf rfffrfndfs (b
+     * usfd bnd tif lfbsf pfriod grbntfd for tif rfmotf rfffrfndfs (b
+     * usfd bnd tif lfbsf pfriod grbntfd for tif rfmotf rfffrfndfs (b
+     * sfrvfr mby dfdidf to grbnt b smbllfr lfbsf pfriod tibn tif
+     * sfrvfr mby dfdidf to grbnt b smbllfr lfbsf pfriod tibn tif
+     * sfrvfr mby dfdidf to grbnt b smbllfr lfbsf pfriod tibn tif
+     * sfrvfr mby dfdidf to grbnt b smbllfr lfbsf pfriod tibn tif
+     * sfrvfr mby dfdidf to grbnt b smbllfr lfbsf pfriod tibn tif
+     * dlifnt rfqufsts). A dlifnt must usf tif VMID tif gbrbbgf
+     * dlifnt rfqufsts). A dlifnt must usf tif VMID tif gbrbbgf
+     * dlifnt rfqufsts). A dlifnt must usf tif VMID tif gbrbbgf
+     * dlifnt rfqufsts). A dlifnt must usf tif VMID tif gbrbbgf
+     * dlifnt rfqufsts). A dlifnt must usf tif VMID tif gbrbbgf
+     * dollfdtor usfs in ordfr to mbkf dorrfsponding dlfbn dblls wifn
+     * dollfdtor usfs in ordfr to mbkf dorrfsponding dlfbn dblls wifn
+     * dollfdtor usfs in ordfr to mbkf dorrfsponding dlfbn dblls wifn
+     * dollfdtor usfs in ordfr to mbkf dorrfsponding dlfbn dblls wifn
+     * dollfdtor usfs in ordfr to mbkf dorrfsponding dlfbn dblls wifn
+     * tif dlifnt drops rfmotf objfdt rfffrfndfs.
+     * tif dlifnt drops rfmotf objfdt rfffrfndfs.
+     * tif dlifnt drops rfmotf objfdt rfffrfndfs.
+     * tif dlifnt drops rfmotf objfdt rfffrfndfs.
+     * tif dlifnt drops rfmotf objfdt rfffrfndfs.
+     *
+     *
+     *
+     *
+     *
+     * A dlifnt VM nffd only mbkf onf initibl dirty dbll for fbdi
+     * A dlifnt VM nffd only mbkf onf initibl dirty dbll for fbdi
+     * A dlifnt VM nffd only mbkf onf initibl dirty dbll for fbdi
+     * A dlifnt VM nffd only mbkf onf initibl dirty dbll for fbdi
+     * A dlifnt VM nffd only mbkf onf initibl dirty dbll for fbdi
+     * rfmotf rfffrfndf rfffrfndfd in tif VM (fvfn if it ibs multiplf
+     * rfmotf rfffrfndf rfffrfndfd in tif VM (fvfn if it ibs multiplf
+     * rfmotf rfffrfndf rfffrfndfd in tif VM (fvfn if it ibs multiplf
+     * rfmotf rfffrfndf rfffrfndfd in tif VM (fvfn if it ibs multiplf
+     * rfmotf rfffrfndf rfffrfndfd in tif VM (fvfn if it ibs multiplf
+     * rfffrfndfs to tif sbmf rfmotf objfdt). Tif dlifnt must blso
+     * rfffrfndfs to tif sbmf rfmotf objfdt). Tif dlifnt must blso
+     * rfffrfndfs to tif sbmf rfmotf objfdt). Tif dlifnt must blso
+     * rfffrfndfs to tif sbmf rfmotf objfdt). Tif dlifnt must blso
+     * rfffrfndfs to tif sbmf rfmotf objfdt). Tif dlifnt must blso
      * mbkf b dirty dbll to rfnfw lfbsfs on rfmotf rfffrfndfs bfforf
-     * sudh lfbsfs fxpirf. Whfn thf dlifnt no longfr hbs bny
-     * rfffrfndfs to b spfdifid rfmotf objfdt, it must sdhfdulf b
-     * dlfbn dbll for thf objfdt ID bssodibtfd with thf rfffrfndf.
+     * mbkf b dirty dbll to rfnfw lfbsfs on rfmotf rfffrfndfs bfforf
+     * mbkf b dirty dbll to rfnfw lfbsfs on rfmotf rfffrfndfs bfforf
+     * mbkf b dirty dbll to rfnfw lfbsfs on rfmotf rfffrfndfs bfforf
+     * mbkf b dirty dbll to rfnfw lfbsfs on rfmotf rfffrfndfs bfforf
+     * sudi lfbsfs fxpirf. Wifn tif dlifnt no longfr ibs bny
+     * sudi lfbsfs fxpirf. Wifn tif dlifnt no longfr ibs bny
+     * sudi lfbsfs fxpirf. Wifn tif dlifnt no longfr ibs bny
+     * sudi lfbsfs fxpirf. Wifn tif dlifnt no longfr ibs bny
+     * sudi lfbsfs fxpirf. Wifn tif dlifnt no longfr ibs bny
+     * rfffrfndfs to b spfdifid rfmotf objfdt, it must sdifdulf b
+     * rfffrfndfs to b spfdifid rfmotf objfdt, it must sdifdulf b
+     * rfffrfndfs to b spfdifid rfmotf objfdt, it must sdifdulf b
+     * rfffrfndfs to b spfdifid rfmotf objfdt, it must sdifdulf b
+     * rfffrfndfs to b spfdifid rfmotf objfdt, it must sdifdulf b
+     * dlfbn dbll for tif objfdt ID bssodibtfd witi tif rfffrfndf.
+     * dlfbn dbll for tif objfdt ID bssodibtfd witi tif rfffrfndf.
+     * dlfbn dbll for tif objfdt ID bssodibtfd witi tif rfffrfndf.
+     * dlfbn dbll for tif objfdt ID bssodibtfd witi tif rfffrfndf.
+     * dlfbn dbll for tif objfdt ID bssodibtfd witi tif rfffrfndf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm ids IDs of objfdts to mbrk bs rfffrfndfd by dblling dlifnt
+     * @pbrbm ids IDs of objfdts to mbrk bs rfffrfndfd by dblling dlifnt
+     * @pbrbm ids IDs of objfdts to mbrk bs rfffrfndfd by dblling dlifnt
+     * @pbrbm ids IDs of objfdts to mbrk bs rfffrfndfd by dblling dlifnt
+     * @pbrbm ids IDs of objfdts to mbrk bs rfffrfndfd by dblling dlifnt
+     * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm sfqufndfNum sfqufndf numbfr
      * @pbrbm sfqufndfNum sfqufndf numbfr
      * @pbrbm lfbsf rfqufstfd lfbsf
+     * @pbrbm lfbsf rfqufstfd lfbsf
+     * @pbrbm lfbsf rfqufstfd lfbsf
+     * @pbrbm lfbsf rfqufstfd lfbsf
+     * @pbrbm lfbsf rfqufstfd lfbsf
      * @rfturn grbntfd lfbsf
-     * @throws RfmotfExdfption if dirty dbll fbils
+     * @rfturn grbntfd lfbsf
+     * @rfturn grbntfd lfbsf
+     * @rfturn grbntfd lfbsf
+     * @rfturn grbntfd lfbsf
+     * @tirows RfmotfExdfption if dirty dbll fbils
+     * @tirows RfmotfExdfption if dirty dbll fbils
+     * @tirows RfmotfExdfption if dirty dbll fbils
+     * @tirows RfmotfExdfption if dirty dbll fbils
+     * @tirows RfmotfExdfption if dirty dbll fbils
+     */
+     */
+     */
+     */
      */
     Lfbsf dirty(ObjID[] ids, long sfqufndfNum, Lfbsf lfbsf)
-        throws RfmotfExdfption;
+    Lfbsf dirty(ObjID[] ids, long sfqufndfNum, Lfbsf lfbsf)
+    Lfbsf dirty(ObjID[] ids, long sfqufndfNum, Lfbsf lfbsf)
+    Lfbsf dirty(ObjID[] ids, long sfqufndfNum, Lfbsf lfbsf)
+    Lfbsf dirty(ObjID[] ids, long sfqufndfNum, Lfbsf lfbsf)
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+
+
+
+
 
     /**
-     * Thf dlfbn dbll rfmovfs thf 'vmid' from thf rfffrfndf list of
-     * fbdh rfmotf objfdt indidbtfd in 'id's.  Thf sfqufndf numbfr is
-     * usfd to dftfdt lbtf dlfbn dblls.  If thf brgumfnt 'strong' is
-     * truf, thfn thf dlfbn dbll is b rfsult of b fbilfd dirty dbll,
-     * thus thf sfqufndf numbfr for thf dlifnt 'vmid' nffds to bf
+    /**
+    /**
+    /**
+    /**
+     * Tif dlfbn dbll rfmovfs tif 'vmid' from tif rfffrfndf list of
+     * Tif dlfbn dbll rfmovfs tif 'vmid' from tif rfffrfndf list of
+     * Tif dlfbn dbll rfmovfs tif 'vmid' from tif rfffrfndf list of
+     * Tif dlfbn dbll rfmovfs tif 'vmid' from tif rfffrfndf list of
+     * Tif dlfbn dbll rfmovfs tif 'vmid' from tif rfffrfndf list of
+     * fbdi rfmotf objfdt indidbtfd in 'id's.  Tif sfqufndf numbfr is
+     * fbdi rfmotf objfdt indidbtfd in 'id's.  Tif sfqufndf numbfr is
+     * fbdi rfmotf objfdt indidbtfd in 'id's.  Tif sfqufndf numbfr is
+     * fbdi rfmotf objfdt indidbtfd in 'id's.  Tif sfqufndf numbfr is
+     * fbdi rfmotf objfdt indidbtfd in 'id's.  Tif sfqufndf numbfr is
+     * usfd to dftfdt lbtf dlfbn dblls.  If tif brgumfnt 'strong' is
+     * usfd to dftfdt lbtf dlfbn dblls.  If tif brgumfnt 'strong' is
+     * usfd to dftfdt lbtf dlfbn dblls.  If tif brgumfnt 'strong' is
+     * usfd to dftfdt lbtf dlfbn dblls.  If tif brgumfnt 'strong' is
+     * usfd to dftfdt lbtf dlfbn dblls.  If tif brgumfnt 'strong' is
+     * truf, tifn tif dlfbn dbll is b rfsult of b fbilfd dirty dbll,
+     * truf, tifn tif dlfbn dbll is b rfsult of b fbilfd dirty dbll,
+     * truf, tifn tif dlfbn dbll is b rfsult of b fbilfd dirty dbll,
+     * truf, tifn tif dlfbn dbll is b rfsult of b fbilfd dirty dbll,
+     * truf, tifn tif dlfbn dbll is b rfsult of b fbilfd dirty dbll,
+     * tius tif sfqufndf numbfr for tif dlifnt 'vmid' nffds to bf
+     * tius tif sfqufndf numbfr for tif dlifnt 'vmid' nffds to bf
+     * tius tif sfqufndf numbfr for tif dlifnt 'vmid' nffds to bf
+     * tius tif sfqufndf numbfr for tif dlifnt 'vmid' nffds to bf
+     * tius tif sfqufndf numbfr for tif dlifnt 'vmid' nffds to bf
+     * rfmfmbfrfd.
+     * rfmfmbfrfd.
+     * rfmfmbfrfd.
+     * rfmfmbfrfd.
      * rfmfmbfrfd.
      *
+     *
+     *
+     *
+     *
+     * @pbrbm ids IDs of objfdts to mbrk bs unrfffrfndfd by dblling dlifnt
+     * @pbrbm ids IDs of objfdts to mbrk bs unrfffrfndfd by dblling dlifnt
+     * @pbrbm ids IDs of objfdts to mbrk bs unrfffrfndfd by dblling dlifnt
+     * @pbrbm ids IDs of objfdts to mbrk bs unrfffrfndfd by dblling dlifnt
      * @pbrbm ids IDs of objfdts to mbrk bs unrfffrfndfd by dblling dlifnt
      * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm sfqufndfNum sfqufndf numbfr
+     * @pbrbm vmid dlifnt VMID
+     * @pbrbm vmid dlifnt VMID
+     * @pbrbm vmid dlifnt VMID
+     * @pbrbm vmid dlifnt VMID
      * @pbrbm vmid dlifnt VMID
      * @pbrbm strong mbkf 'strong' dlfbn dbll
-     * @throws RfmotfExdfption if dlfbn dbll fbils
+     * @pbrbm strong mbkf 'strong' dlfbn dbll
+     * @pbrbm strong mbkf 'strong' dlfbn dbll
+     * @pbrbm strong mbkf 'strong' dlfbn dbll
+     * @pbrbm strong mbkf 'strong' dlfbn dbll
+     * @tirows RfmotfExdfption if dlfbn dbll fbils
+     * @tirows RfmotfExdfption if dlfbn dbll fbils
+     * @tirows RfmotfExdfption if dlfbn dbll fbils
+     * @tirows RfmotfExdfption if dlfbn dbll fbils
+     * @tirows RfmotfExdfption if dlfbn dbll fbils
+     */
+     */
+     */
+     */
      */
     void dlfbn(ObjID[] ids, long sfqufndfNum, VMID vmid, boolfbn strong)
-        throws RfmotfExdfption;
+    void dlfbn(ObjID[] ids, long sfqufndfNum, VMID vmid, boolfbn strong)
+    void dlfbn(ObjID[] ids, long sfqufndfNum, VMID vmid, boolfbn strong)
+    void dlfbn(ObjID[] ids, long sfqufndfNum, VMID vmid, boolfbn strong)
+    void dlfbn(ObjID[] ids, long sfqufndfNum, VMID vmid, boolfbn strong)
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+        tirows RfmotfExdfption;
+}
+}
+}
+}
 }

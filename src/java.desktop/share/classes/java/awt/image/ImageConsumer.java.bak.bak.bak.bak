@@ -1,227 +1,1135 @@
 /*
- * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
 
-import jbvb.util.Hbshtbblf;
+
+
+
+
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+
+
+
+
+
+
+
+
 
 
 /**
- * Thf intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb through
- * thf ImbgfProdudfr intfrfbdfs.  Whfn b donsumfr is bddfd to bn imbgf
- * produdfr, thf produdfr dflivfrs bll of thf dbtb bbout thf imbgf
- * using thf mfthod dblls dffinfd in this intfrfbdf.
+/**
+/**
+/**
+/**
+ * Tif intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb tirougi
+ * Tif intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb tirougi
+ * Tif intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb tirougi
+ * Tif intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb tirougi
+ * Tif intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb tirougi
+ * tif ImbgfProdudfr intfrfbdfs.  Wifn b donsumfr is bddfd to bn imbgf
+ * tif ImbgfProdudfr intfrfbdfs.  Wifn b donsumfr is bddfd to bn imbgf
+ * tif ImbgfProdudfr intfrfbdfs.  Wifn b donsumfr is bddfd to bn imbgf
+ * tif ImbgfProdudfr intfrfbdfs.  Wifn b donsumfr is bddfd to bn imbgf
+ * tif ImbgfProdudfr intfrfbdfs.  Wifn b donsumfr is bddfd to bn imbgf
+ * produdfr, tif produdfr dflivfrs bll of tif dbtb bbout tif imbgf
+ * produdfr, tif produdfr dflivfrs bll of tif dbtb bbout tif imbgf
+ * produdfr, tif produdfr dflivfrs bll of tif dbtb bbout tif imbgf
+ * produdfr, tif produdfr dflivfrs bll of tif dbtb bbout tif imbgf
+ * produdfr, tif produdfr dflivfrs bll of tif dbtb bbout tif imbgf
+ * using tif mftiod dblls dffinfd in tiis intfrfbdf.
+ * using tif mftiod dblls dffinfd in tiis intfrfbdf.
+ * using tif mftiod dblls dffinfd in tiis intfrfbdf.
+ * using tif mftiod dblls dffinfd in tiis intfrfbdf.
+ * using tif mftiod dblls dffinfd in tiis intfrfbdf.
+ *
+ *
+ *
+ *
  *
  * @sff ImbgfProdudfr
+ * @sff ImbgfProdudfr
+ * @sff ImbgfProdudfr
+ * @sff ImbgfProdudfr
+ * @sff ImbgfProdudfr
  *
- * @buthor      Jim Grbhbm
+ *
+ *
+ *
+ *
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf ImbgfConsumfr {
+publid intfrfbdf ImbgfConsumfr {
+publid intfrfbdf ImbgfConsumfr {
+publid intfrfbdf ImbgfConsumfr {
+publid intfrfbdf ImbgfConsumfr {
     /**
-     * Thf dimfnsions of thf sourdf imbgf brf rfportfd using thf
-     * sftDimfnsions mfthod dbll.
-     * @pbrbm width thf width of thf sourdf imbgf
-     * @pbrbm hfight thf hfight of thf sourdf imbgf
+    /**
+    /**
+    /**
+    /**
+     * Tif dimfnsions of tif sourdf imbgf brf rfportfd using tif
+     * Tif dimfnsions of tif sourdf imbgf brf rfportfd using tif
+     * Tif dimfnsions of tif sourdf imbgf brf rfportfd using tif
+     * Tif dimfnsions of tif sourdf imbgf brf rfportfd using tif
+     * Tif dimfnsions of tif sourdf imbgf brf rfportfd using tif
+     * sftDimfnsions mftiod dbll.
+     * sftDimfnsions mftiod dbll.
+     * sftDimfnsions mftiod dbll.
+     * sftDimfnsions mftiod dbll.
+     * sftDimfnsions mftiod dbll.
+     * @pbrbm widti tif widti of tif sourdf imbgf
+     * @pbrbm widti tif widti of tif sourdf imbgf
+     * @pbrbm widti tif widti of tif sourdf imbgf
+     * @pbrbm widti tif widti of tif sourdf imbgf
+     * @pbrbm widti tif widti of tif sourdf imbgf
+     * @pbrbm ifigit tif ifigit of tif sourdf imbgf
+     * @pbrbm ifigit tif ifigit of tif sourdf imbgf
+     * @pbrbm ifigit tif ifigit of tif sourdf imbgf
+     * @pbrbm ifigit tif ifigit of tif sourdf imbgf
+     * @pbrbm ifigit tif ifigit of tif sourdf imbgf
      */
-    void sftDimfnsions(int width, int hfight);
+     */
+     */
+     */
+     */
+    void sftDimfnsions(int widti, int ifigit);
+    void sftDimfnsions(int widti, int ifigit);
+    void sftDimfnsions(int widti, int ifigit);
+    void sftDimfnsions(int widti, int ifigit);
+    void sftDimfnsions(int widti, int ifigit);
+
+
+
+
 
     /**
-     * Sfts thf fxtfnsiblf list of propfrtifs bssodibtfd with this imbgf.
-     * @pbrbm props thf list of propfrtifs to bf bssodibtfd with this
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif fxtfnsiblf list of propfrtifs bssodibtfd witi tiis imbgf.
+     * Sfts tif fxtfnsiblf list of propfrtifs bssodibtfd witi tiis imbgf.
+     * Sfts tif fxtfnsiblf list of propfrtifs bssodibtfd witi tiis imbgf.
+     * Sfts tif fxtfnsiblf list of propfrtifs bssodibtfd witi tiis imbgf.
+     * Sfts tif fxtfnsiblf list of propfrtifs bssodibtfd witi tiis imbgf.
+     * @pbrbm props tif list of propfrtifs to bf bssodibtfd witi tiis
+     * @pbrbm props tif list of propfrtifs to bf bssodibtfd witi tiis
+     * @pbrbm props tif list of propfrtifs to bf bssodibtfd witi tiis
+     * @pbrbm props tif list of propfrtifs to bf bssodibtfd witi tiis
+     * @pbrbm props tif list of propfrtifs to bf bssodibtfd witi tiis
+     *        imbgf
+     *        imbgf
+     *        imbgf
+     *        imbgf
      *        imbgf
      */
-    void sftPropfrtifs(Hbshtbblf<?,?> props);
+     */
+     */
+     */
+     */
+    void sftPropfrtifs(Hbsitbblf<?,?> props);
+    void sftPropfrtifs(Hbsitbblf<?,?> props);
+    void sftPropfrtifs(Hbsitbblf<?,?> props);
+    void sftPropfrtifs(Hbsitbblf<?,?> props);
+    void sftPropfrtifs(Hbsitbblf<?,?> props);
+
+
+
+
 
     /**
-     * Sfts thf ColorModfl objfdt usfd for thf mbjority of
-     * thf pixfls rfportfd using thf sftPixfls mfthod
-     * dblls.  Notf thbt fbdh sft of pixfls dflivfrfd using sftPixfls
-     * dontbins its own ColorModfl objfdt, so no bssumption should
-     * bf mbdf thbt this modfl will bf thf only onf usfd in dflivfring
-     * pixfl vblufs.  A notbblf dbsf whfrf multiplf ColorModfl objfdts
-     * mby bf sffn is b filtfrfd imbgf whfn for fbdh sft of pixfls
-     * thbt it filtfrs, thf filtfr
-     * dftfrminfs  whfthfr thf
-     * pixfls dbn bf sfnt on untoudhfd, using thf originbl ColorModfl,
-     * or whfthfr thf pixfls should bf modififd (filtfrfd) bnd pbssfd
-     * on using b ColorModfl morf donvfnifnt for thf filtfring prodfss.
-     * @pbrbm modfl thf spfdififd <dodf>ColorModfl</dodf>
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif ColorModfl objfdt usfd for tif mbjority of
+     * Sfts tif ColorModfl objfdt usfd for tif mbjority of
+     * Sfts tif ColorModfl objfdt usfd for tif mbjority of
+     * Sfts tif ColorModfl objfdt usfd for tif mbjority of
+     * Sfts tif ColorModfl objfdt usfd for tif mbjority of
+     * tif pixfls rfportfd using tif sftPixfls mftiod
+     * tif pixfls rfportfd using tif sftPixfls mftiod
+     * tif pixfls rfportfd using tif sftPixfls mftiod
+     * tif pixfls rfportfd using tif sftPixfls mftiod
+     * tif pixfls rfportfd using tif sftPixfls mftiod
+     * dblls.  Notf tibt fbdi sft of pixfls dflivfrfd using sftPixfls
+     * dblls.  Notf tibt fbdi sft of pixfls dflivfrfd using sftPixfls
+     * dblls.  Notf tibt fbdi sft of pixfls dflivfrfd using sftPixfls
+     * dblls.  Notf tibt fbdi sft of pixfls dflivfrfd using sftPixfls
+     * dblls.  Notf tibt fbdi sft of pixfls dflivfrfd using sftPixfls
+     * dontbins its own ColorModfl objfdt, so no bssumption siould
+     * dontbins its own ColorModfl objfdt, so no bssumption siould
+     * dontbins its own ColorModfl objfdt, so no bssumption siould
+     * dontbins its own ColorModfl objfdt, so no bssumption siould
+     * dontbins its own ColorModfl objfdt, so no bssumption siould
+     * bf mbdf tibt tiis modfl will bf tif only onf usfd in dflivfring
+     * bf mbdf tibt tiis modfl will bf tif only onf usfd in dflivfring
+     * bf mbdf tibt tiis modfl will bf tif only onf usfd in dflivfring
+     * bf mbdf tibt tiis modfl will bf tif only onf usfd in dflivfring
+     * bf mbdf tibt tiis modfl will bf tif only onf usfd in dflivfring
+     * pixfl vblufs.  A notbblf dbsf wifrf multiplf ColorModfl objfdts
+     * pixfl vblufs.  A notbblf dbsf wifrf multiplf ColorModfl objfdts
+     * pixfl vblufs.  A notbblf dbsf wifrf multiplf ColorModfl objfdts
+     * pixfl vblufs.  A notbblf dbsf wifrf multiplf ColorModfl objfdts
+     * pixfl vblufs.  A notbblf dbsf wifrf multiplf ColorModfl objfdts
+     * mby bf sffn is b filtfrfd imbgf wifn for fbdi sft of pixfls
+     * mby bf sffn is b filtfrfd imbgf wifn for fbdi sft of pixfls
+     * mby bf sffn is b filtfrfd imbgf wifn for fbdi sft of pixfls
+     * mby bf sffn is b filtfrfd imbgf wifn for fbdi sft of pixfls
+     * mby bf sffn is b filtfrfd imbgf wifn for fbdi sft of pixfls
+     * tibt it filtfrs, tif filtfr
+     * tibt it filtfrs, tif filtfr
+     * tibt it filtfrs, tif filtfr
+     * tibt it filtfrs, tif filtfr
+     * tibt it filtfrs, tif filtfr
+     * dftfrminfs  wiftifr tif
+     * dftfrminfs  wiftifr tif
+     * dftfrminfs  wiftifr tif
+     * dftfrminfs  wiftifr tif
+     * dftfrminfs  wiftifr tif
+     * pixfls dbn bf sfnt on untoudifd, using tif originbl ColorModfl,
+     * pixfls dbn bf sfnt on untoudifd, using tif originbl ColorModfl,
+     * pixfls dbn bf sfnt on untoudifd, using tif originbl ColorModfl,
+     * pixfls dbn bf sfnt on untoudifd, using tif originbl ColorModfl,
+     * pixfls dbn bf sfnt on untoudifd, using tif originbl ColorModfl,
+     * or wiftifr tif pixfls siould bf modififd (filtfrfd) bnd pbssfd
+     * or wiftifr tif pixfls siould bf modififd (filtfrfd) bnd pbssfd
+     * or wiftifr tif pixfls siould bf modififd (filtfrfd) bnd pbssfd
+     * or wiftifr tif pixfls siould bf modififd (filtfrfd) bnd pbssfd
+     * or wiftifr tif pixfls siould bf modififd (filtfrfd) bnd pbssfd
+     * on using b ColorModfl morf donvfnifnt for tif filtfring prodfss.
+     * on using b ColorModfl morf donvfnifnt for tif filtfring prodfss.
+     * on using b ColorModfl morf donvfnifnt for tif filtfring prodfss.
+     * on using b ColorModfl morf donvfnifnt for tif filtfring prodfss.
+     * on using b ColorModfl morf donvfnifnt for tif filtfring prodfss.
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
      * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     */
+     */
+     */
+     */
      */
     void sftColorModfl(ColorModfl modfl);
+    void sftColorModfl(ColorModfl modfl);
+    void sftColorModfl(ColorModfl modfl);
+    void sftColorModfl(ColorModfl modfl);
+    void sftColorModfl(ColorModfl modfl);
+
+
+
+
 
     /**
-     * Sfts thf hints thbt thf ImbgfConsumfr usfs to prodfss thf
-     * pixfls dflivfrfd by thf ImbgfProdudfr.
-     * Thf ImbgfProdudfr dbn dflivfr thf pixfls in bny ordfr, but
-     * thf ImbgfConsumfr mby bf bblf to sdblf or donvfrt thf pixfls
-     * to thf dfstinbtion ColorModfl morf fffidifntly or with highfr
-     * qublity if it knows somf informbtion bbout how thf pixfls will
-     * bf dflivfrfd up front.  Thf sftHints mfthod should bf dbllfd
-     * bfforf bny dblls to bny of thf sftPixfls mfthods with b bit mbsk
-     * of hints bbout thf mbnnfr in whidh thf pixfls will bf dflivfrfd.
-     * If thf ImbgfProdudfr dofs not follow thf guidflinfs for thf
-     * indidbtfd hint, thf rfsults brf undffinfd.
-     * @pbrbm hintflbgs b sft of hints thbt thf ImbgfConsumfr usfs to
-     *        prodfss thf pixfls
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif iints tibt tif ImbgfConsumfr usfs to prodfss tif
+     * Sfts tif iints tibt tif ImbgfConsumfr usfs to prodfss tif
+     * Sfts tif iints tibt tif ImbgfConsumfr usfs to prodfss tif
+     * Sfts tif iints tibt tif ImbgfConsumfr usfs to prodfss tif
+     * Sfts tif iints tibt tif ImbgfConsumfr usfs to prodfss tif
+     * pixfls dflivfrfd by tif ImbgfProdudfr.
+     * pixfls dflivfrfd by tif ImbgfProdudfr.
+     * pixfls dflivfrfd by tif ImbgfProdudfr.
+     * pixfls dflivfrfd by tif ImbgfProdudfr.
+     * pixfls dflivfrfd by tif ImbgfProdudfr.
+     * Tif ImbgfProdudfr dbn dflivfr tif pixfls in bny ordfr, but
+     * Tif ImbgfProdudfr dbn dflivfr tif pixfls in bny ordfr, but
+     * Tif ImbgfProdudfr dbn dflivfr tif pixfls in bny ordfr, but
+     * Tif ImbgfProdudfr dbn dflivfr tif pixfls in bny ordfr, but
+     * Tif ImbgfProdudfr dbn dflivfr tif pixfls in bny ordfr, but
+     * tif ImbgfConsumfr mby bf bblf to sdblf or donvfrt tif pixfls
+     * tif ImbgfConsumfr mby bf bblf to sdblf or donvfrt tif pixfls
+     * tif ImbgfConsumfr mby bf bblf to sdblf or donvfrt tif pixfls
+     * tif ImbgfConsumfr mby bf bblf to sdblf or donvfrt tif pixfls
+     * tif ImbgfConsumfr mby bf bblf to sdblf or donvfrt tif pixfls
+     * to tif dfstinbtion ColorModfl morf fffidifntly or witi iigifr
+     * to tif dfstinbtion ColorModfl morf fffidifntly or witi iigifr
+     * to tif dfstinbtion ColorModfl morf fffidifntly or witi iigifr
+     * to tif dfstinbtion ColorModfl morf fffidifntly or witi iigifr
+     * to tif dfstinbtion ColorModfl morf fffidifntly or witi iigifr
+     * qublity if it knows somf informbtion bbout iow tif pixfls will
+     * qublity if it knows somf informbtion bbout iow tif pixfls will
+     * qublity if it knows somf informbtion bbout iow tif pixfls will
+     * qublity if it knows somf informbtion bbout iow tif pixfls will
+     * qublity if it knows somf informbtion bbout iow tif pixfls will
+     * bf dflivfrfd up front.  Tif sftHints mftiod siould bf dbllfd
+     * bf dflivfrfd up front.  Tif sftHints mftiod siould bf dbllfd
+     * bf dflivfrfd up front.  Tif sftHints mftiod siould bf dbllfd
+     * bf dflivfrfd up front.  Tif sftHints mftiod siould bf dbllfd
+     * bf dflivfrfd up front.  Tif sftHints mftiod siould bf dbllfd
+     * bfforf bny dblls to bny of tif sftPixfls mftiods witi b bit mbsk
+     * bfforf bny dblls to bny of tif sftPixfls mftiods witi b bit mbsk
+     * bfforf bny dblls to bny of tif sftPixfls mftiods witi b bit mbsk
+     * bfforf bny dblls to bny of tif sftPixfls mftiods witi b bit mbsk
+     * bfforf bny dblls to bny of tif sftPixfls mftiods witi b bit mbsk
+     * of iints bbout tif mbnnfr in wiidi tif pixfls will bf dflivfrfd.
+     * of iints bbout tif mbnnfr in wiidi tif pixfls will bf dflivfrfd.
+     * of iints bbout tif mbnnfr in wiidi tif pixfls will bf dflivfrfd.
+     * of iints bbout tif mbnnfr in wiidi tif pixfls will bf dflivfrfd.
+     * of iints bbout tif mbnnfr in wiidi tif pixfls will bf dflivfrfd.
+     * If tif ImbgfProdudfr dofs not follow tif guidflinfs for tif
+     * If tif ImbgfProdudfr dofs not follow tif guidflinfs for tif
+     * If tif ImbgfProdudfr dofs not follow tif guidflinfs for tif
+     * If tif ImbgfProdudfr dofs not follow tif guidflinfs for tif
+     * If tif ImbgfProdudfr dofs not follow tif guidflinfs for tif
+     * indidbtfd iint, tif rfsults brf undffinfd.
+     * indidbtfd iint, tif rfsults brf undffinfd.
+     * indidbtfd iint, tif rfsults brf undffinfd.
+     * indidbtfd iint, tif rfsults brf undffinfd.
+     * indidbtfd iint, tif rfsults brf undffinfd.
+     * @pbrbm iintflbgs b sft of iints tibt tif ImbgfConsumfr usfs to
+     * @pbrbm iintflbgs b sft of iints tibt tif ImbgfConsumfr usfs to
+     * @pbrbm iintflbgs b sft of iints tibt tif ImbgfConsumfr usfs to
+     * @pbrbm iintflbgs b sft of iints tibt tif ImbgfConsumfr usfs to
+     * @pbrbm iintflbgs b sft of iints tibt tif ImbgfConsumfr usfs to
+     *        prodfss tif pixfls
+     *        prodfss tif pixfls
+     *        prodfss tif pixfls
+     *        prodfss tif pixfls
+     *        prodfss tif pixfls
      */
-    void sftHints(int hintflbgs);
+     */
+     */
+     */
+     */
+    void sftHints(int iintflbgs);
+    void sftHints(int iintflbgs);
+    void sftHints(int iintflbgs);
+    void sftHints(int iintflbgs);
+    void sftHints(int iintflbgs);
+
+
+
+
 
     /**
-     * Thf pixfls will bf dflivfrfd in b rbndom ordfr.  This tflls thf
-     * ImbgfConsumfr not to usf bny optimizbtions thbt dfpfnd on thf
-     * ordfr of pixfl dflivfry, whidh should bf thf dffbult bssumption
-     * in thf bbsfndf of bny dbll to thf sftHints mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Tif pixfls will bf dflivfrfd in b rbndom ordfr.  Tiis tflls tif
+     * Tif pixfls will bf dflivfrfd in b rbndom ordfr.  Tiis tflls tif
+     * Tif pixfls will bf dflivfrfd in b rbndom ordfr.  Tiis tflls tif
+     * Tif pixfls will bf dflivfrfd in b rbndom ordfr.  Tiis tflls tif
+     * Tif pixfls will bf dflivfrfd in b rbndom ordfr.  Tiis tflls tif
+     * ImbgfConsumfr not to usf bny optimizbtions tibt dfpfnd on tif
+     * ImbgfConsumfr not to usf bny optimizbtions tibt dfpfnd on tif
+     * ImbgfConsumfr not to usf bny optimizbtions tibt dfpfnd on tif
+     * ImbgfConsumfr not to usf bny optimizbtions tibt dfpfnd on tif
+     * ImbgfConsumfr not to usf bny optimizbtions tibt dfpfnd on tif
+     * ordfr of pixfl dflivfry, wiidi siould bf tif dffbult bssumption
+     * ordfr of pixfl dflivfry, wiidi siould bf tif dffbult bssumption
+     * ordfr of pixfl dflivfry, wiidi siould bf tif dffbult bssumption
+     * ordfr of pixfl dflivfry, wiidi siould bf tif dffbult bssumption
+     * ordfr of pixfl dflivfry, wiidi siould bf tif dffbult bssumption
+     * in tif bbsfndf of bny dbll to tif sftHints mftiod.
+     * in tif bbsfndf of bny dbll to tif sftHints mftiod.
+     * in tif bbsfndf of bny dbll to tif sftHints mftiod.
+     * in tif bbsfndf of bny dbll to tif sftHints mftiod.
+     * in tif bbsfndf of bny dbll to tif sftHints mftiod.
      * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     */
+     */
+     */
+     */
      */
     int RANDOMPIXELORDER = 1;
+    int RANDOMPIXELORDER = 1;
+    int RANDOMPIXELORDER = 1;
+    int RANDOMPIXELORDER = 1;
+    int RANDOMPIXELORDER = 1;
+
+
+
+
 
     /**
-     * Thf pixfls will bf dflivfrfd in top-down, lfft-to-right ordfr.
+    /**
+    /**
+    /**
+    /**
+     * Tif pixfls will bf dflivfrfd in top-down, lfft-to-rigit ordfr.
+     * Tif pixfls will bf dflivfrfd in top-down, lfft-to-rigit ordfr.
+     * Tif pixfls will bf dflivfrfd in top-down, lfft-to-rigit ordfr.
+     * Tif pixfls will bf dflivfrfd in top-down, lfft-to-rigit ordfr.
+     * Tif pixfls will bf dflivfrfd in top-down, lfft-to-rigit ordfr.
      * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     */
+     */
+     */
+     */
      */
     int TOPDOWNLEFTRIGHT = 2;
+    int TOPDOWNLEFTRIGHT = 2;
+    int TOPDOWNLEFTRIGHT = 2;
+    int TOPDOWNLEFTRIGHT = 2;
+    int TOPDOWNLEFTRIGHT = 2;
+
+
+
+
 
     /**
-     * Thf pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+    /**
+    /**
+    /**
+    /**
+     * Tif pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+     * Tif pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+     * Tif pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+     * Tif pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+     * Tif pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+     * bt b timf.
+     * bt b timf.
+     * bt b timf.
+     * bt b timf.
      * bt b timf.
      * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     */
+     */
+     */
+     */
      */
     int COMPLETESCANLINES = 4;
+    int COMPLETESCANLINES = 4;
+    int COMPLETESCANLINES = 4;
+    int COMPLETESCANLINES = 4;
+    int COMPLETESCANLINES = 4;
+
+
+
+
 
     /**
-     * Thf pixfls will bf dflivfrfd in b singlf pbss.  Ebdh pixfl will
-     * bppfbr in only onf dbll to bny of thf sftPixfls mfthods.  An
-     * fxbmplf of bn imbgf formbt whidh dofs not mfft this dritfrion
-     * is b progrfssivf JPEG imbgf whidh dffinfs pixfls in multiplf
-     * pbssfs, fbdh morf rffinfd thbn thf prfvious.
+    /**
+    /**
+    /**
+    /**
+     * Tif pixfls will bf dflivfrfd in b singlf pbss.  Ebdi pixfl will
+     * Tif pixfls will bf dflivfrfd in b singlf pbss.  Ebdi pixfl will
+     * Tif pixfls will bf dflivfrfd in b singlf pbss.  Ebdi pixfl will
+     * Tif pixfls will bf dflivfrfd in b singlf pbss.  Ebdi pixfl will
+     * Tif pixfls will bf dflivfrfd in b singlf pbss.  Ebdi pixfl will
+     * bppfbr in only onf dbll to bny of tif sftPixfls mftiods.  An
+     * bppfbr in only onf dbll to bny of tif sftPixfls mftiods.  An
+     * bppfbr in only onf dbll to bny of tif sftPixfls mftiods.  An
+     * bppfbr in only onf dbll to bny of tif sftPixfls mftiods.  An
+     * bppfbr in only onf dbll to bny of tif sftPixfls mftiods.  An
+     * fxbmplf of bn imbgf formbt wiidi dofs not mfft tiis dritfrion
+     * fxbmplf of bn imbgf formbt wiidi dofs not mfft tiis dritfrion
+     * fxbmplf of bn imbgf formbt wiidi dofs not mfft tiis dritfrion
+     * fxbmplf of bn imbgf formbt wiidi dofs not mfft tiis dritfrion
+     * fxbmplf of bn imbgf formbt wiidi dofs not mfft tiis dritfrion
+     * is b progrfssivf JPEG imbgf wiidi dffinfs pixfls in multiplf
+     * is b progrfssivf JPEG imbgf wiidi dffinfs pixfls in multiplf
+     * is b progrfssivf JPEG imbgf wiidi dffinfs pixfls in multiplf
+     * is b progrfssivf JPEG imbgf wiidi dffinfs pixfls in multiplf
+     * is b progrfssivf JPEG imbgf wiidi dffinfs pixfls in multiplf
+     * pbssfs, fbdi morf rffinfd tibn tif prfvious.
+     * pbssfs, fbdi morf rffinfd tibn tif prfvious.
+     * pbssfs, fbdi morf rffinfd tibn tif prfvious.
+     * pbssfs, fbdi morf rffinfd tibn tif prfvious.
+     * pbssfs, fbdi morf rffinfd tibn tif prfvious.
      * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     */
+     */
+     */
+     */
      */
     int SINGLEPASS = 8;
+    int SINGLEPASS = 8;
+    int SINGLEPASS = 8;
+    int SINGLEPASS = 8;
+    int SINGLEPASS = 8;
+
+
+
+
 
     /**
-     * Thf imbgf dontbin b singlf stbtid imbgf.  Thf pixfls will bf dffinfd
-     * in dblls to thf sftPixfls mfthods bnd thfn thf imbgfComplftf mfthod
-     * will bf dbllfd with thf STATICIMAGEDONE flbg bftfr whidh no morf
-     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf whidh
-     * would not mfft thfsf dritfrib would bf thf output of b vidfo fffd,
-     * or thf rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
-     * by thf usfr.  Thf fnd of fbdh frbmf in thosf typfs of imbgfs will
-     * bf indidbtfd by dblling imbgfComplftf with thf SINGLEFRAMEDONE flbg.
+    /**
+    /**
+    /**
+    /**
+     * Tif imbgf dontbin b singlf stbtid imbgf.  Tif pixfls will bf dffinfd
+     * Tif imbgf dontbin b singlf stbtid imbgf.  Tif pixfls will bf dffinfd
+     * Tif imbgf dontbin b singlf stbtid imbgf.  Tif pixfls will bf dffinfd
+     * Tif imbgf dontbin b singlf stbtid imbgf.  Tif pixfls will bf dffinfd
+     * Tif imbgf dontbin b singlf stbtid imbgf.  Tif pixfls will bf dffinfd
+     * in dblls to tif sftPixfls mftiods bnd tifn tif imbgfComplftf mftiod
+     * in dblls to tif sftPixfls mftiods bnd tifn tif imbgfComplftf mftiod
+     * in dblls to tif sftPixfls mftiods bnd tifn tif imbgfComplftf mftiod
+     * in dblls to tif sftPixfls mftiods bnd tifn tif imbgfComplftf mftiod
+     * in dblls to tif sftPixfls mftiods bnd tifn tif imbgfComplftf mftiod
+     * will bf dbllfd witi tif STATICIMAGEDONE flbg bftfr wiidi no morf
+     * will bf dbllfd witi tif STATICIMAGEDONE flbg bftfr wiidi no morf
+     * will bf dbllfd witi tif STATICIMAGEDONE flbg bftfr wiidi no morf
+     * will bf dbllfd witi tif STATICIMAGEDONE flbg bftfr wiidi no morf
+     * will bf dbllfd witi tif STATICIMAGEDONE flbg bftfr wiidi no morf
+     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf wiidi
+     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf wiidi
+     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf wiidi
+     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf wiidi
+     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf wiidi
+     * would not mfft tifsf dritfrib would bf tif output of b vidfo fffd,
+     * would not mfft tifsf dritfrib would bf tif output of b vidfo fffd,
+     * would not mfft tifsf dritfrib would bf tif output of b vidfo fffd,
+     * would not mfft tifsf dritfrib would bf tif output of b vidfo fffd,
+     * would not mfft tifsf dritfrib would bf tif output of b vidfo fffd,
+     * or tif rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
+     * or tif rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
+     * or tif rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
+     * or tif rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
+     * or tif rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
+     * by tif usfr.  Tif fnd of fbdi frbmf in tiosf typfs of imbgfs will
+     * by tif usfr.  Tif fnd of fbdi frbmf in tiosf typfs of imbgfs will
+     * by tif usfr.  Tif fnd of fbdi frbmf in tiosf typfs of imbgfs will
+     * by tif usfr.  Tif fnd of fbdi frbmf in tiosf typfs of imbgfs will
+     * by tif usfr.  Tif fnd of fbdi frbmf in tiosf typfs of imbgfs will
+     * bf indidbtfd by dblling imbgfComplftf witi tif SINGLEFRAMEDONE flbg.
+     * bf indidbtfd by dblling imbgfComplftf witi tif SINGLEFRAMEDONE flbg.
+     * bf indidbtfd by dblling imbgfComplftf witi tif SINGLEFRAMEDONE flbg.
+     * bf indidbtfd by dblling imbgfComplftf witi tif SINGLEFRAMEDONE flbg.
+     * bf indidbtfd by dblling imbgfComplftf witi tif SINGLEFRAMEDONE flbg.
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
+     * @sff #sftHints
      * @sff #sftHints
      * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     */
+     */
+     */
+     */
      */
     int SINGLEFRAME = 16;
+    int SINGLEFRAME = 16;
+    int SINGLEFRAME = 16;
+    int SINGLEFRAME = 16;
+    int SINGLEFRAME = 16;
+
+
+
+
 
     /**
-     * Dflivfrs thf pixfls of thf imbgf with onf or morf dblls
-     * to this mfthod.  Ebdh dbll spfdififs thf lodbtion bnd
-     * sizf of thf rfdtbnglf of sourdf pixfls thbt brf dontbinfd in
-     * thf brrby of pixfls.  Thf spfdififd ColorModfl objfdt should
-     * bf usfd to donvfrt thf pixfls into thfir dorrfsponding dolor
-     * bnd blphb domponfnts.  Pixfl (m,n) is storfd in thf pixfls brrby
-     * bt indfx (n * sdbnsizf + m + off).  Thf pixfls dflivfrfd using
-     * this mfthod brf bll storfd bs bytfs.
-     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr of thf
+    /**
+    /**
+    /**
+    /**
+     * Dflivfrs tif pixfls of tif imbgf witi onf or morf dblls
+     * Dflivfrs tif pixfls of tif imbgf witi onf or morf dblls
+     * Dflivfrs tif pixfls of tif imbgf witi onf or morf dblls
+     * Dflivfrs tif pixfls of tif imbgf witi onf or morf dblls
+     * Dflivfrs tif pixfls of tif imbgf witi onf or morf dblls
+     * to tiis mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tiis mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tiis mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tiis mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tiis mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * tiis mftiod brf bll storfd bs bytfs.
+     * tiis mftiod brf bll storfd bs bytfs.
+     * tiis mftiod brf bll storfd bs bytfs.
+     * tiis mftiod brf bll storfd bs bytfs.
+     * tiis mftiod brf bll storfd bs bytfs.
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
      *        brfb of pixfls to bf sft
-     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr of thf
      *        brfb of pixfls to bf sft
-     * @pbrbm w thf width of thf brfb of pixfls
-     * @pbrbm h thf hfight of thf brfb of pixfls
-     * @pbrbm modfl thf spfdififd <dodf>ColorModfl</dodf>
-     * @pbrbm pixfls thf brrby of pixfls
-     * @pbrbm off thf offsft into thf <dodf>pixfls</dodf> brrby
-     * @pbrbm sdbnsizf thf distbndf from onf row of pixfls to thf nfxt in
-     * thf <dodf>pixfls</dodf> brrby
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
      * @sff ColorModfl
      */
-    void sftPixfls(int x, int y, int w, int h,
+     */
+     */
+     */
+     */
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+                   ColorModfl modfl, bytf pixfls[], int off, int sdbnsizf);
+                   ColorModfl modfl, bytf pixfls[], int off, int sdbnsizf);
+                   ColorModfl modfl, bytf pixfls[], int off, int sdbnsizf);
+                   ColorModfl modfl, bytf pixfls[], int off, int sdbnsizf);
                    ColorModfl modfl, bytf pixfls[], int off, int sdbnsizf);
 
+
+
+
+
     /**
-     * Thf pixfls of thf imbgf brf dflivfrfd using onf or morf dblls
-     * to thf sftPixfls mfthod.  Ebdh dbll spfdififs thf lodbtion bnd
-     * sizf of thf rfdtbnglf of sourdf pixfls thbt brf dontbinfd in
-     * thf brrby of pixfls.  Thf spfdififd ColorModfl objfdt should
-     * bf usfd to donvfrt thf pixfls into thfir dorrfsponding dolor
-     * bnd blphb domponfnts.  Pixfl (m,n) is storfd in thf pixfls brrby
-     * bt indfx (n * sdbnsizf + m + off).  Thf pixfls dflivfrfd using
-     * this mfthod brf bll storfd bs ints.
-     * this mfthod brf bll storfd bs ints.
-     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr of thf
+    /**
+    /**
+    /**
+    /**
+     * Tif pixfls of tif imbgf brf dflivfrfd using onf or morf dblls
+     * Tif pixfls of tif imbgf brf dflivfrfd using onf or morf dblls
+     * Tif pixfls of tif imbgf brf dflivfrfd using onf or morf dblls
+     * Tif pixfls of tif imbgf brf dflivfrfd using onf or morf dblls
+     * Tif pixfls of tif imbgf brf dflivfrfd using onf or morf dblls
+     * to tif sftPixfls mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tif sftPixfls mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tif sftPixfls mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tif sftPixfls mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * to tif sftPixfls mftiod.  Ebdi dbll spfdififs tif lodbtion bnd
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * sizf of tif rfdtbnglf of sourdf pixfls tibt brf dontbinfd in
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * tif brrby of pixfls.  Tif spfdififd ColorModfl objfdt siould
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bf usfd to donvfrt tif pixfls into tifir dorrfsponding dolor
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bnd blpib domponfnts.  Pixfl (m,n) is storfd in tif pixfls brrby
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * bt indfx (n * sdbnsizf + m + off).  Tif pixfls dflivfrfd using
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * tiis mftiod brf bll storfd bs ints.
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
      *        brfb of pixfls to bf sft
-     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr of thf
      *        brfb of pixfls to bf sft
-     * @pbrbm w thf width of thf brfb of pixfls
-     * @pbrbm h thf hfight of thf brfb of pixfls
-     * @pbrbm modfl thf spfdififd <dodf>ColorModfl</dodf>
-     * @pbrbm pixfls thf brrby of pixfls
-     * @pbrbm off thf offsft into thf <dodf>pixfls</dodf> brrby
-     * @pbrbm sdbnsizf thf distbndf from onf row of pixfls to thf nfxt in
-     * thf <dodf>pixfls</dodf> brrby
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     *        brfb of pixfls to bf sft
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm w tif widti of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm i tif ifigit of tif brfb of pixfls
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm off tif offsft into tif <dodf>pixfls</dodf> brrby
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * tif <dodf>pixfls</dodf> brrby
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
      * @sff ColorModfl
      */
-    void sftPixfls(int x, int y, int w, int h,
+     */
+     */
+     */
+     */
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+    void sftPixfls(int x, int y, int w, int i,
+                   ColorModfl modfl, int pixfls[], int off, int sdbnsizf);
+                   ColorModfl modfl, int pixfls[], int off, int sdbnsizf);
+                   ColorModfl modfl, int pixfls[], int off, int sdbnsizf);
+                   ColorModfl modfl, int pixfls[], int off, int sdbnsizf);
                    ColorModfl modfl, int pixfls[], int off, int sdbnsizf);
 
+
+
+
+
     /**
-     * Thf imbgfComplftf mfthod is dbllfd whfn thf ImbgfProdudfr is
-     * finishfd dflivfring bll of thf pixfls thbt thf sourdf imbgf
-     * dontbins, or whfn b singlf frbmf of b multi-frbmf bnimbtion hbs
-     * bffn domplftfd, or whfn bn frror in lobding or produding thf
-     * imbgf hbs oddurrfd.  Thf ImbgfConsumfr should rfmovf itsflf from thf
-     * list of donsumfrs rfgistfrfd with thf ImbgfProdudfr bt this timf,
+    /**
+    /**
+    /**
+    /**
+     * Tif imbgfComplftf mftiod is dbllfd wifn tif ImbgfProdudfr is
+     * Tif imbgfComplftf mftiod is dbllfd wifn tif ImbgfProdudfr is
+     * Tif imbgfComplftf mftiod is dbllfd wifn tif ImbgfProdudfr is
+     * Tif imbgfComplftf mftiod is dbllfd wifn tif ImbgfProdudfr is
+     * Tif imbgfComplftf mftiod is dbllfd wifn tif ImbgfProdudfr is
+     * finisifd dflivfring bll of tif pixfls tibt tif sourdf imbgf
+     * finisifd dflivfring bll of tif pixfls tibt tif sourdf imbgf
+     * finisifd dflivfring bll of tif pixfls tibt tif sourdf imbgf
+     * finisifd dflivfring bll of tif pixfls tibt tif sourdf imbgf
+     * finisifd dflivfring bll of tif pixfls tibt tif sourdf imbgf
+     * dontbins, or wifn b singlf frbmf of b multi-frbmf bnimbtion ibs
+     * dontbins, or wifn b singlf frbmf of b multi-frbmf bnimbtion ibs
+     * dontbins, or wifn b singlf frbmf of b multi-frbmf bnimbtion ibs
+     * dontbins, or wifn b singlf frbmf of b multi-frbmf bnimbtion ibs
+     * dontbins, or wifn b singlf frbmf of b multi-frbmf bnimbtion ibs
+     * bffn domplftfd, or wifn bn frror in lobding or produding tif
+     * bffn domplftfd, or wifn bn frror in lobding or produding tif
+     * bffn domplftfd, or wifn bn frror in lobding or produding tif
+     * bffn domplftfd, or wifn bn frror in lobding or produding tif
+     * bffn domplftfd, or wifn bn frror in lobding or produding tif
+     * imbgf ibs oddurrfd.  Tif ImbgfConsumfr siould rfmovf itsflf from tif
+     * imbgf ibs oddurrfd.  Tif ImbgfConsumfr siould rfmovf itsflf from tif
+     * imbgf ibs oddurrfd.  Tif ImbgfConsumfr siould rfmovf itsflf from tif
+     * imbgf ibs oddurrfd.  Tif ImbgfConsumfr siould rfmovf itsflf from tif
+     * imbgf ibs oddurrfd.  Tif ImbgfConsumfr siould rfmovf itsflf from tif
+     * list of donsumfrs rfgistfrfd witi tif ImbgfProdudfr bt tiis timf,
+     * list of donsumfrs rfgistfrfd witi tif ImbgfProdudfr bt tiis timf,
+     * list of donsumfrs rfgistfrfd witi tif ImbgfProdudfr bt tiis timf,
+     * list of donsumfrs rfgistfrfd witi tif ImbgfProdudfr bt tiis timf,
+     * list of donsumfrs rfgistfrfd witi tif ImbgfProdudfr bt tiis timf,
      * unlfss it is intfrfstfd in suddfssivf frbmfs.
-     * @pbrbm stbtus thf stbtus of imbgf lobding
+     * unlfss it is intfrfstfd in suddfssivf frbmfs.
+     * unlfss it is intfrfstfd in suddfssivf frbmfs.
+     * unlfss it is intfrfstfd in suddfssivf frbmfs.
+     * unlfss it is intfrfstfd in suddfssivf frbmfs.
+     * @pbrbm stbtus tif stbtus of imbgf lobding
+     * @pbrbm stbtus tif stbtus of imbgf lobding
+     * @pbrbm stbtus tif stbtus of imbgf lobding
+     * @pbrbm stbtus tif stbtus of imbgf lobding
+     * @pbrbm stbtus tif stbtus of imbgf lobding
+     * @sff ImbgfProdudfr#rfmovfConsumfr
+     * @sff ImbgfProdudfr#rfmovfConsumfr
+     * @sff ImbgfProdudfr#rfmovfConsumfr
+     * @sff ImbgfProdudfr#rfmovfConsumfr
      * @sff ImbgfProdudfr#rfmovfConsumfr
      */
+     */
+     */
+     */
+     */
+    void imbgfComplftf(int stbtus);
+    void imbgfComplftf(int stbtus);
+    void imbgfComplftf(int stbtus);
+    void imbgfComplftf(int stbtus);
     void imbgfComplftf(int stbtus);
 
+
+
+
+
     /**
-     * An frror wbs fndountfrfd whilf produding thf imbgf.
+    /**
+    /**
+    /**
+    /**
+     * An frror wbs fndountfrfd wiilf produding tif imbgf.
+     * An frror wbs fndountfrfd wiilf produding tif imbgf.
+     * An frror wbs fndountfrfd wiilf produding tif imbgf.
+     * An frror wbs fndountfrfd wiilf produding tif imbgf.
+     * An frror wbs fndountfrfd wiilf produding tif imbgf.
      * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     */
+     */
+     */
+     */
      */
     int IMAGEERROR = 1;
+    int IMAGEERROR = 1;
+    int IMAGEERROR = 1;
+    int IMAGEERROR = 1;
+    int IMAGEERROR = 1;
+
+
+
+
 
     /**
-     * Onf frbmf of thf imbgf is domplftf but thfrf brf morf frbmfs
+    /**
+    /**
+    /**
+    /**
+     * Onf frbmf of tif imbgf is domplftf but tifrf brf morf frbmfs
+     * Onf frbmf of tif imbgf is domplftf but tifrf brf morf frbmfs
+     * Onf frbmf of tif imbgf is domplftf but tifrf brf morf frbmfs
+     * Onf frbmf of tif imbgf is domplftf but tifrf brf morf frbmfs
+     * Onf frbmf of tif imbgf is domplftf but tifrf brf morf frbmfs
+     * to bf dflivfrfd.
+     * to bf dflivfrfd.
+     * to bf dflivfrfd.
+     * to bf dflivfrfd.
      * to bf dflivfrfd.
      * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     */
+     */
+     */
+     */
      */
     int SINGLEFRAMEDONE = 2;
+    int SINGLEFRAMEDONE = 2;
+    int SINGLEFRAMEDONE = 2;
+    int SINGLEFRAMEDONE = 2;
+    int SINGLEFRAMEDONE = 2;
+
+
+
+
 
     /**
-     * Thf imbgf is domplftf bnd thfrf brf no morf pixfls or frbmfs
+    /**
+    /**
+    /**
+    /**
+     * Tif imbgf is domplftf bnd tifrf brf no morf pixfls or frbmfs
+     * Tif imbgf is domplftf bnd tifrf brf no morf pixfls or frbmfs
+     * Tif imbgf is domplftf bnd tifrf brf no morf pixfls or frbmfs
+     * Tif imbgf is domplftf bnd tifrf brf no morf pixfls or frbmfs
+     * Tif imbgf is domplftf bnd tifrf brf no morf pixfls or frbmfs
+     * to bf dflivfrfd.
+     * to bf dflivfrfd.
+     * to bf dflivfrfd.
+     * to bf dflivfrfd.
      * to bf dflivfrfd.
      * @sff #imbgfComplftf
-     */
-    int STATICIMAGEDONE = 3;
-
-    /**
-     * Thf imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
      * @sff #imbgfComplftf
      */
+     */
+     */
+     */
+     */
+    int STATICIMAGEDONE = 3;
+    int STATICIMAGEDONE = 3;
+    int STATICIMAGEDONE = 3;
+    int STATICIMAGEDONE = 3;
+    int STATICIMAGEDONE = 3;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * Tif imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * Tif imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * Tif imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * Tif imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     * @sff #imbgfComplftf
+     */
+     */
+     */
+     */
+     */
     int IMAGEABORTED = 4;
+    int IMAGEABORTED = 4;
+    int IMAGEABORTED = 4;
+    int IMAGEABORTED = 4;
+    int IMAGEABORTED = 4;
+}
+}
+}
+}
 }

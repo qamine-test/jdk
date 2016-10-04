@@ -1,702 +1,3510 @@
 /*
- * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 pbdkbgf dom.sun.jmx.snmp.dbfmon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+
+
+
+
 
 // jbvb import
+// jbvb import
+// jbvb import
+// jbvb import
+// jbvb import
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
 import jbvb.util.Vfdtor;
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftAddrfss;
 import jbvb.nft.InftAddrfss;
 
+
+
+
+
+// jmx imports
+// jmx imports
+// jmx imports
+// jmx imports
 // jmx imports
 //
+//
+//
+//
+//
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
 import dom.sun.jmx.snmp.SnmpPduFbdtory;
 import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
 import dom.sun.jmx.snmp.SnmpVbrBindList;
 import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpTimftidks;
 import dom.sun.jmx.snmp.SnmpTimftidks;
 import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
 import dom.sun.jmx.snmp.SnmpPduPbdkft;
 import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.SnmpPffr;
+import dom.sun.jmx.snmp.SnmpPffr;
+import dom.sun.jmx.snmp.SnmpPffr;
+import dom.sun.jmx.snmp.SnmpPffr;
 import dom.sun.jmx.snmp.SnmpPffr;
 
+
+
+
+
+// SNMP Runtimf imports
+// SNMP Runtimf imports
+// SNMP Runtimf imports
+// SNMP Runtimf imports
 // SNMP Runtimf imports
 //
+//
+//
+//
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
 import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
 import dom.sun.jmx.snmp.bgfnt.SnmpMibHbndlfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibHbndlfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibHbndlfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibHbndlfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibHbndlfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
+import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
 import dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory;
 
+
+
+
+
 /**
- * Exposfs thf rfmotf mbnbgfmfnt intfrfbdf of thf {@link SnmpAdbptorSfrvfr} MBfbn.
- * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
- * to dhbngf without notidf.</b></p>
+/**
+/**
+/**
+/**
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif {@link SnmpAdbptorSfrvfr} MBfbn.
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif {@link SnmpAdbptorSfrvfr} MBfbn.
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif {@link SnmpAdbptorSfrvfr} MBfbn.
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif {@link SnmpAdbptorSfrvfr} MBfbn.
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif {@link SnmpAdbptorSfrvfr} MBfbn.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ * to dibngf witiout notidf.</b></p>
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+publid intfrfbdf SnmpAdbptorSfrvfrMBfbn fxtfnds CommunidbtorSfrvfrMBfbn {
+publid intfrfbdf SnmpAdbptorSfrvfrMBfbn fxtfnds CommunidbtorSfrvfrMBfbn {
+publid intfrfbdf SnmpAdbptorSfrvfrMBfbn fxtfnds CommunidbtorSfrvfrMBfbn {
+publid intfrfbdf SnmpAdbptorSfrvfrMBfbn fxtfnds CommunidbtorSfrvfrMBfbn {
 publid intfrfbdf SnmpAdbptorSfrvfrMBfbn fxtfnds CommunidbtorSfrvfrMBfbn {
 
+
+
+
+
+    // GETTERS AND SETTERS
+    // GETTERS AND SETTERS
+    // GETTERS AND SETTERS
+    // GETTERS AND SETTERS
     // GETTERS AND SETTERS
     //--------------------
+    //--------------------
+    //--------------------
+    //--------------------
+    //--------------------
+
+
+
+
 
     /**
-     * Rfturns thf Ip bddrfss bbsfd ACL usfd by this SNMP protodol bdbptor.
-     * @rfturn Thf <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Ip bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
+     * Rfturns tif Ip bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
+     * Rfturns tif Ip bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
+     * Rfturns tif Ip bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
+     * Rfturns tif Ip bddrfss bbsfd ACL usfd by tiis SNMP protodol bdbptor.
+     * @rfturn Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     * @rfturn Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     * @rfturn Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     * @rfturn Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     * @rfturn Tif <CODE>InftAddrfssAdl</CODE> implfmfntbtion.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid InftAddrfssAdl gftInftAddrfssAdl();
+    publid InftAddrfssAdl gftInftAddrfssAdl();
+    publid InftAddrfssAdl gftInftAddrfssAdl();
+    publid InftAddrfssAdl gftInftAddrfssAdl();
+    publid InftAddrfssAdl gftInftAddrfssAdl();
     /**
-     * Rfturns thf port usfd by this SNMP protodol bdbptor for sfnding trbps.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * By dffbult, port 162 is usfd.
+     * By dffbult, port 162 is usfd.
+     * By dffbult, port 162 is usfd.
+     * By dffbult, port 162 is usfd.
      * By dffbult, port 162 is usfd.
      *
-     * @rfturn Thf port numbfr for sfnding SNMP trbps.
+     *
+     *
+     *
+     *
+     * @rfturn Tif port numbfr for sfnding SNMP trbps.
+     * @rfturn Tif port numbfr for sfnding SNMP trbps.
+     * @rfturn Tif port numbfr for sfnding SNMP trbps.
+     * @rfturn Tif port numbfr for sfnding SNMP trbps.
+     * @rfturn Tif port numbfr for sfnding SNMP trbps.
+     */
+     */
+     */
+     */
      */
     publid Intfgfr gftTrbpPort();
+    publid Intfgfr gftTrbpPort();
+    publid Intfgfr gftTrbpPort();
+    publid Intfgfr gftTrbpPort();
+    publid Intfgfr gftTrbpPort();
+
+
+
+
 
     /**
-     * Sfts thf port usfd by this SNMP protodol bdbptor for sfnding trbps.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding trbps.
      *
-     * @pbrbm port Thf port numbfr for sfnding SNMP trbps.
+     *
+     *
+     *
+     *
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
+     * @pbrbm port Tif port numbfr for sfnding SNMP trbps.
+     */
+     */
+     */
+     */
      */
     publid void sftTrbpPort(Intfgfr port);
+    publid void sftTrbpPort(Intfgfr port);
+    publid void sftTrbpPort(Intfgfr port);
+    publid void sftTrbpPort(Intfgfr port);
+    publid void sftTrbpPort(Intfgfr port);
+
+
+
+
 
     /**
-     * Rfturns thf port usfd by this SNMP protodol bdbptor for sfnding inform rfqufsts.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Rfturns tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * By dffbult, port 162 is usfd.
+     * By dffbult, port 162 is usfd.
+     * By dffbult, port 162 is usfd.
+     * By dffbult, port 162 is usfd.
      * By dffbult, port 162 is usfd.
      *
-     * @rfturn Thf port numbfr for sfnding SNMP inform rfqufsts.
+     *
+     *
+     *
+     *
+     * @rfturn Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @rfturn Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @rfturn Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @rfturn Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @rfturn Tif port numbfr for sfnding SNMP inform rfqufsts.
+     */
+     */
+     */
+     */
      */
     publid int gftInformPort();
+    publid int gftInformPort();
+    publid int gftInformPort();
+    publid int gftInformPort();
+    publid int gftInformPort();
+
+
+
+
 
     /**
-     * Sfts thf port usfd by this SNMP protodol bdbptor for sfnding inform rfqufsts.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
+     * Sfts tif port usfd by tiis SNMP protodol bdbptor for sfnding inform rfqufsts.
      *
-     * @pbrbm port Thf port numbfr for sfnding SNMP inform rfqufsts.
+     *
+     *
+     *
+     *
+     * @pbrbm port Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @pbrbm port Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @pbrbm port Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @pbrbm port Tif port numbfr for sfnding SNMP inform rfqufsts.
+     * @pbrbm port Tif port numbfr for sfnding SNMP inform rfqufsts.
+     */
+     */
+     */
+     */
      */
     publid void sftInformPort(int port);
+    publid void sftInformPort(int port);
+    publid void sftInformPort(int port);
+    publid void sftInformPort(int port);
+    publid void sftInformPort(int port);
+
+
+
+
 
     /**
-     * Gfts thf numbfr of mbnbgfrs thbt hbvf bffn prodfssfd by this SNMP protodol bdbptor
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif numbfr of mbnbgfrs tibt ibvf bffn prodfssfd by tiis SNMP protodol bdbptor
+     * Gfts tif numbfr of mbnbgfrs tibt ibvf bffn prodfssfd by tiis SNMP protodol bdbptor
+     * Gfts tif numbfr of mbnbgfrs tibt ibvf bffn prodfssfd by tiis SNMP protodol bdbptor
+     * Gfts tif numbfr of mbnbgfrs tibt ibvf bffn prodfssfd by tiis SNMP protodol bdbptor
+     * Gfts tif numbfr of mbnbgfrs tibt ibvf bffn prodfssfd by tiis SNMP protodol bdbptor
+     * sindf its drfbtion.
+     * sindf its drfbtion.
+     * sindf its drfbtion.
+     * sindf its drfbtion.
      * sindf its drfbtion.
      *
-     * @rfturn Thf numbfr of mbnbgfrs hbndlfd by this SNMP protodol bdbptor
-     * sindf its drfbtion. This dountfr is not rfsft by thf <CODE>stop</CODE> mfthod.
+     *
+     *
+     *
+     *
+     * @rfturn Tif numbfr of mbnbgfrs ibndlfd by tiis SNMP protodol bdbptor
+     * @rfturn Tif numbfr of mbnbgfrs ibndlfd by tiis SNMP protodol bdbptor
+     * @rfturn Tif numbfr of mbnbgfrs ibndlfd by tiis SNMP protodol bdbptor
+     * @rfturn Tif numbfr of mbnbgfrs ibndlfd by tiis SNMP protodol bdbptor
+     * @rfturn Tif numbfr of mbnbgfrs ibndlfd by tiis SNMP protodol bdbptor
+     * sindf its drfbtion. Tiis dountfr is not rfsft by tif <CODE>stop</CODE> mftiod.
+     * sindf its drfbtion. Tiis dountfr is not rfsft by tif <CODE>stop</CODE> mftiod.
+     * sindf its drfbtion. Tiis dountfr is not rfsft by tif <CODE>stop</CODE> mftiod.
+     * sindf its drfbtion. Tiis dountfr is not rfsft by tif <CODE>stop</CODE> mftiod.
+     * sindf its drfbtion. Tiis dountfr is not rfsft by tif <CODE>stop</CODE> mftiod.
+     */
+     */
+     */
+     */
      */
     publid int gftSfrvfdClifntCount();
+    publid int gftSfrvfdClifntCount();
+    publid int gftSfrvfdClifntCount();
+    publid int gftSfrvfdClifntCount();
+    publid int gftSfrvfdClifntCount();
+
+
+
+
 
     /**
-     * Gfts thf numbfr of mbnbgfrs durrfntly bfing prodfssfd by this
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * Gfts tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * Gfts tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * Gfts tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * Gfts tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * SNMP protodol bdbptor.
+     * SNMP protodol bdbptor.
+     * SNMP protodol bdbptor.
+     * SNMP protodol bdbptor.
      * SNMP protodol bdbptor.
      *
-     * @rfturn Thf numbfr of mbnbgfrs durrfntly bfing prodfssfd by this
+     *
+     *
+     *
+     *
+     * @rfturn Tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * @rfturn Tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * @rfturn Tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * @rfturn Tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
+     * @rfturn Tif numbfr of mbnbgfrs durrfntly bfing prodfssfd by tiis
      * SNMP protodol bdbptor.
+     * SNMP protodol bdbptor.
+     * SNMP protodol bdbptor.
+     * SNMP protodol bdbptor.
+     * SNMP protodol bdbptor.
+     */
+     */
+     */
+     */
      */
     publid int gftAdtivfClifntCount();
+    publid int gftAdtivfClifntCount();
+    publid int gftAdtivfClifntCount();
+    publid int gftAdtivfClifntCount();
+    publid int gftAdtivfClifntCount();
+
+
+
+
 
     /**
-     * Gfts thf mbximum numbfr of mbnbgfrs thbt this SNMP protodol bdbptor dbn
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * Gfts tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * Gfts tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * Gfts tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * Gfts tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
      * prodfss dondurrfntly.
      *
-     * @rfturn Thf mbximum numbfr of mbnbgfrs thbt this SNMP protodol bdbptor dbn
+     *
+     *
+     *
+     *
+     * @rfturn Tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * @rfturn Tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * @rfturn Tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * @rfturn Tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
+     * @rfturn Tif mbximum numbfr of mbnbgfrs tibt tiis SNMP protodol bdbptor dbn
      * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     */
+     */
+     */
+     */
      */
     publid int gftMbxAdtivfClifntCount();
+    publid int gftMbxAdtivfClifntCount();
+    publid int gftMbxAdtivfClifntCount();
+    publid int gftMbxAdtivfClifntCount();
+    publid int gftMbxAdtivfClifntCount();
+
+
+
+
 
     /**
-     * Sfts thf mbximum numbfr of mbnbgfrs this SNMP protodol bdbptor dbn
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif mbximum numbfr of mbnbgfrs tiis SNMP protodol bdbptor dbn
+     * Sfts tif mbximum numbfr of mbnbgfrs tiis SNMP protodol bdbptor dbn
+     * Sfts tif mbximum numbfr of mbnbgfrs tiis SNMP protodol bdbptor dbn
+     * Sfts tif mbximum numbfr of mbnbgfrs tiis SNMP protodol bdbptor dbn
+     * Sfts tif mbximum numbfr of mbnbgfrs tiis SNMP protodol bdbptor dbn
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
+     * prodfss dondurrfntly.
      * prodfss dondurrfntly.
      *
-     * @pbrbm d Thf numbfr of mbnbgfrs.
      *
-     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption This mfthod hbs bffn invokfd
-     * whilf thf dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     *
+     *
+     *
+     * @pbrbm d Tif numbfr of mbnbgfrs.
+     * @pbrbm d Tif numbfr of mbnbgfrs.
+     * @pbrbm d Tif numbfr of mbnbgfrs.
+     * @pbrbm d Tif numbfr of mbnbgfrs.
+     * @pbrbm d Tif numbfr of mbnbgfrs.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    publid void sftMbxAdtivfClifntCount(int d) throws jbvb.lbng.IllfgblStbtfExdfption;
+     */
+     */
+     */
+     */
+    publid void sftMbxAdtivfClifntCount(int d) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftMbxAdtivfClifntCount(int d) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftMbxAdtivfClifntCount(int d) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftMbxAdtivfClifntCount(int d) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftMbxAdtivfClifntCount(int d) tirows jbvb.lbng.IllfgblStbtfExdfption;
+
+
+
+
 
     /**
-     * Rfturns thf protodol of this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif protodol of tiis SNMP protodol bdbptor.
+     * Rfturns tif protodol of tiis SNMP protodol bdbptor.
+     * Rfturns tif protodol of tiis SNMP protodol bdbptor.
+     * Rfturns tif protodol of tiis SNMP protodol bdbptor.
+     * Rfturns tif protodol of tiis SNMP protodol bdbptor.
      *
-     * @rfturn Thf string "snmp".
+     *
+     *
+     *
+     *
+     * @rfturn Tif string "snmp".
+     * @rfturn Tif string "snmp".
+     * @rfturn Tif string "snmp".
+     * @rfturn Tif string "snmp".
+     * @rfturn Tif string "snmp".
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid String gftProtodol();
+    publid String gftProtodol();
+    publid String gftProtodol();
+    publid String gftProtodol();
     publid String gftProtodol();
 
+
+
+
+
     /**
-     * Rfturns thf bufffr sizf of this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Rfturns tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Rfturns tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Rfturns tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Rfturns tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * By dffbult, bufffr sizf 1024 is usfd.
+     * By dffbult, bufffr sizf 1024 is usfd.
+     * By dffbult, bufffr sizf 1024 is usfd.
+     * By dffbult, bufffr sizf 1024 is usfd.
      * By dffbult, bufffr sizf 1024 is usfd.
      *
-     * @rfturn Thf bufffr sizf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif bufffr sizf.
+     * @rfturn Tif bufffr sizf.
+     * @rfturn Tif bufffr sizf.
+     * @rfturn Tif bufffr sizf.
+     * @rfturn Tif bufffr sizf.
+     */
+     */
+     */
+     */
      */
     publid Intfgfr gftBufffrSizf();
+    publid Intfgfr gftBufffrSizf();
+    publid Intfgfr gftBufffrSizf();
+    publid Intfgfr gftBufffrSizf();
+    publid Intfgfr gftBufffrSizf();
+
+
+
+
 
     /**
-     * Sfts thf bufffr sizf of this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Sfts tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Sfts tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Sfts tif bufffr sizf of tiis SNMP protodol bdbptor.
+     * Sfts tif bufffr sizf of tiis SNMP protodol bdbptor.
      *
-     * @pbrbm s Thf bufffr sizf.
      *
-     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption This mfthod hbs bffn invokfd
-     * whilf thf dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     *
+     *
+     *
+     * @pbrbm s Tif bufffr sizf.
+     * @pbrbm s Tif bufffr sizf.
+     * @pbrbm s Tif bufffr sizf.
+     * @pbrbm s Tif bufffr sizf.
+     * @pbrbm s Tif bufffr sizf.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
+     * wiilf tif dommunidbtor wbs <CODE>ONLINE</CODE> or <CODE>STARTING</CODE>.
      */
-    publid void sftBufffrSizf(Intfgfr s) throws jbvb.lbng.IllfgblStbtfExdfption;
+     */
+     */
+     */
+     */
+    publid void sftBufffrSizf(Intfgfr s) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftBufffrSizf(Intfgfr s) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftBufffrSizf(Intfgfr s) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftBufffrSizf(Intfgfr s) tirows jbvb.lbng.IllfgblStbtfExdfption;
+    publid void sftBufffrSizf(Intfgfr s) tirows jbvb.lbng.IllfgblStbtfExdfption;
+
+
+
+
 
     /**
-     * Gfts thf numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
-     * @rfturn Thf mbximun numbfr of trifs.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Gfts tif numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Gfts tif numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Gfts tif numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Gfts tif numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * @rfturn Tif mbximun numbfr of trifs.
+     * @rfturn Tif mbximun numbfr of trifs.
+     * @rfturn Tif mbximun numbfr of trifs.
+     * @rfturn Tif mbximun numbfr of trifs.
+     * @rfturn Tif mbximun numbfr of trifs.
+     */
+     */
+     */
+     */
      */
     publid int gftMbxTrifs();
+    publid int gftMbxTrifs();
+    publid int gftMbxTrifs();
+    publid int gftMbxTrifs();
+    publid int gftMbxTrifs();
+
+
+
+
 
     /**
-     * Chbngfs thf mbximun numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
-     * @pbrbm nfwMbxTrifs Thf mbximun numbfr of trifs.
+    /**
+    /**
+    /**
+    /**
+     * Cibngfs tif mbximun numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Cibngfs tif mbximun numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Cibngfs tif mbximun numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Cibngfs tif mbximun numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * Cibngfs tif mbximun numbfr of timfs to try sfnding bn inform rfqufst bfforf giving up.
+     * @pbrbm nfwMbxTrifs Tif mbximun numbfr of trifs.
+     * @pbrbm nfwMbxTrifs Tif mbximun numbfr of trifs.
+     * @pbrbm nfwMbxTrifs Tif mbximun numbfr of trifs.
+     * @pbrbm nfwMbxTrifs Tif mbximun numbfr of trifs.
+     * @pbrbm nfwMbxTrifs Tif mbximun numbfr of trifs.
+     */
+     */
+     */
+     */
      */
     publid void sftMbxTrifs(int nfwMbxTrifs);
+    publid void sftMbxTrifs(int nfwMbxTrifs);
+    publid void sftMbxTrifs(int nfwMbxTrifs);
+    publid void sftMbxTrifs(int nfwMbxTrifs);
+    publid void sftMbxTrifs(int nfwMbxTrifs);
+
+
+
+
 
     /**
-     * Gfts thf timfout to wbit for bn inform rfsponsf from thf mbnbgfr.
-     * @rfturn Thf vbluf of thf timfout propfrty.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Gfts tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Gfts tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Gfts tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Gfts tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * @rfturn Tif vbluf of tif timfout propfrty.
+     * @rfturn Tif vbluf of tif timfout propfrty.
+     * @rfturn Tif vbluf of tif timfout propfrty.
+     * @rfturn Tif vbluf of tif timfout propfrty.
+     * @rfturn Tif vbluf of tif timfout propfrty.
+     */
+     */
+     */
+     */
      */
     publid int gftTimfout();
+    publid int gftTimfout();
+    publid int gftTimfout();
+    publid int gftTimfout();
+    publid int gftTimfout();
+
+
+
+
 
     /**
-     * Chbngfs thf timfout to wbit for bn inform rfsponsf from thf mbnbgfr.
-     * @pbrbm nfwTimfout Thf timfout (in millisfdonds).
+    /**
+    /**
+    /**
+    /**
+     * Cibngfs tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Cibngfs tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Cibngfs tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Cibngfs tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * Cibngfs tif timfout to wbit for bn inform rfsponsf from tif mbnbgfr.
+     * @pbrbm nfwTimfout Tif timfout (in millisfdonds).
+     * @pbrbm nfwTimfout Tif timfout (in millisfdonds).
+     * @pbrbm nfwTimfout Tif timfout (in millisfdonds).
+     * @pbrbm nfwTimfout Tif timfout (in millisfdonds).
+     * @pbrbm nfwTimfout Tif timfout (in millisfdonds).
+     */
+     */
+     */
+     */
      */
     publid void sftTimfout(int nfwTimfout);
+    publid void sftTimfout(int nfwTimfout);
+    publid void sftTimfout(int nfwTimfout);
+    publid void sftTimfout(int nfwTimfout);
+    publid void sftTimfout(int nfwTimfout);
+
+
+
+
 
     /**
-     * Rfturns thf mfssbgf fbdtory of this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Rfturns tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Rfturns tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Rfturns tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Rfturns tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @rfturn Thf fbdtory objfdt.
+     *
+     *
+     *
+     *
+     * @rfturn Tif fbdtory objfdt.
+     * @rfturn Tif fbdtory objfdt.
+     * @rfturn Tif fbdtory objfdt.
+     * @rfturn Tif fbdtory objfdt.
+     * @rfturn Tif fbdtory objfdt.
+     */
+     */
+     */
+     */
      */
     publid SnmpPduFbdtory gftPduFbdtory();
+    publid SnmpPduFbdtory gftPduFbdtory();
+    publid SnmpPduFbdtory gftPduFbdtory();
+    publid SnmpPduFbdtory gftPduFbdtory();
+    publid SnmpPduFbdtory gftPduFbdtory();
+
+
+
+
 
     /**
-     * Sfts thf mfssbgf fbdtory of this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Sfts tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Sfts tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Sfts tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
+     * Sfts tif mfssbgf fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @pbrbm fbdtory Thf fbdtory objfdt (null mfbns thf dffbult fbdtory).
+     *
+     *
+     *
+     *
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns tif dffbult fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns tif dffbult fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns tif dffbult fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns tif dffbult fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns tif dffbult fbdtory).
      */
+     */
+     */
+     */
+     */
+    publid void sftPduFbdtory(SnmpPduFbdtory fbdtory);
+    publid void sftPduFbdtory(SnmpPduFbdtory fbdtory);
+    publid void sftPduFbdtory(SnmpPduFbdtory fbdtory);
+    publid void sftPduFbdtory(SnmpPduFbdtory fbdtory);
     publid void sftPduFbdtory(SnmpPduFbdtory fbdtory);
 
 
+
+
+
+
+
+
+
+
     /**
-     * Sft thf usfr-dbtb fbdtory of this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Sft tif usfr-dbtb fbdtory of tiis SNMP protodol bdbptor.
+     * Sft tif usfr-dbtb fbdtory of tiis SNMP protodol bdbptor.
+     * Sft tif usfr-dbtb fbdtory of tiis SNMP protodol bdbptor.
+     * Sft tif usfr-dbtb fbdtory of tiis SNMP protodol bdbptor.
+     * Sft tif usfr-dbtb fbdtory of tiis SNMP protodol bdbptor.
      *
-     * @pbrbm fbdtory Thf fbdtory objfdt (null mfbns no fbdtory).
+     *
+     *
+     *
+     *
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @pbrbm fbdtory Tif fbdtory objfdt (null mfbns no fbdtory).
      * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     */
+     */
+     */
+     */
      */
     publid void sftUsfrDbtbFbdtory(SnmpUsfrDbtbFbdtory fbdtory);
+    publid void sftUsfrDbtbFbdtory(SnmpUsfrDbtbFbdtory fbdtory);
+    publid void sftUsfrDbtbFbdtory(SnmpUsfrDbtbFbdtory fbdtory);
+    publid void sftUsfrDbtbFbdtory(SnmpUsfrDbtbFbdtory fbdtory);
+    publid void sftUsfrDbtbFbdtory(SnmpUsfrDbtbFbdtory fbdtory);
+
+
+
+
 
     /**
-     * Gft thf usfr-dbtb fbdtory bssodibtfd with this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif usfr-dbtb fbdtory bssodibtfd witi tiis SNMP protodol bdbptor.
+     * Gft tif usfr-dbtb fbdtory bssodibtfd witi tiis SNMP protodol bdbptor.
+     * Gft tif usfr-dbtb fbdtory bssodibtfd witi tiis SNMP protodol bdbptor.
+     * Gft tif usfr-dbtb fbdtory bssodibtfd witi tiis SNMP protodol bdbptor.
+     * Gft tif usfr-dbtb fbdtory bssodibtfd witi tiis SNMP protodol bdbptor.
      *
-     * @rfturn Thf fbdtory objfdt (null mfbns no fbdtory).
+     *
+     *
+     *
+     *
+     * @rfturn Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @rfturn Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @rfturn Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @rfturn Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @rfturn Tif fbdtory objfdt (null mfbns no fbdtory).
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
      * @sff dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory
      */
+     */
+     */
+     */
+     */
+    publid SnmpUsfrDbtbFbdtory gftUsfrDbtbFbdtory();
+    publid SnmpUsfrDbtbFbdtory gftUsfrDbtbFbdtory();
+    publid SnmpUsfrDbtbFbdtory gftUsfrDbtbFbdtory();
+    publid SnmpUsfrDbtbFbdtory gftUsfrDbtbFbdtory();
     publid SnmpUsfrDbtbFbdtory gftUsfrDbtbFbdtory();
 
-    /**
-     * Rfturns <CODE>truf</CODE> if buthfntidbtion trbps brf fnbblfd.
-     * <P>
-     * Whfn this ffbturf is fnbblfd, thf SNMP protodol bdbptor sfnds
-     * bn <CODE>buthfntidbtionFbilurf</CODE> trbp fbdh timf bn buthfntidbtion fbils.
-     * <P>
-     * Thf dffbult bfhbviour is to sfnd buthfntidbtion trbps.
-     *
-     * @rfturn <CODE>truf</CODE> if buthfntidbtion trbps brf fnbblfd, <CODE>fblsf</CODE> othfrwisf.
-     */
-    publid boolfbn gftAuthTrbpEnbblfd();
+
+
+
 
     /**
-     * Sfts thf flbg indidbting if trbps nffd to bf sfnt in dbsf of buthfntidbtion fbilurf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd.
+     * Rfturns <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd.
+     * Rfturns <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd.
+     * Rfturns <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd.
+     * Rfturns <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd.
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds
+     * bn <CODE>butifntidbtionFbilurf</CODE> trbp fbdi timf bn butifntidbtion fbils.
+     * bn <CODE>butifntidbtionFbilurf</CODE> trbp fbdi timf bn butifntidbtion fbils.
+     * bn <CODE>butifntidbtionFbilurf</CODE> trbp fbdi timf bn butifntidbtion fbils.
+     * bn <CODE>butifntidbtionFbilurf</CODE> trbp fbdi timf bn butifntidbtion fbils.
+     * bn <CODE>butifntidbtionFbilurf</CODE> trbp fbdi timf bn butifntidbtion fbils.
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * Tif dffbult bfibviour is to sfnd butifntidbtion trbps.
+     * Tif dffbult bfibviour is to sfnd butifntidbtion trbps.
+     * Tif dffbult bfibviour is to sfnd butifntidbtion trbps.
+     * Tif dffbult bfibviour is to sfnd butifntidbtion trbps.
+     * Tif dffbult bfibviour is to sfnd butifntidbtion trbps.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd, <CODE>fblsf</CODE> otifrwisf.
+     * @rfturn <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd, <CODE>fblsf</CODE> otifrwisf.
+     * @rfturn <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd, <CODE>fblsf</CODE> otifrwisf.
+     * @rfturn <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd, <CODE>fblsf</CODE> otifrwisf.
+     * @rfturn <CODE>truf</CODE> if butifntidbtion trbps brf fnbblfd, <CODE>fblsf</CODE> otifrwisf.
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn gftAutiTrbpEnbblfd();
+    publid boolfbn gftAutiTrbpEnbblfd();
+    publid boolfbn gftAutiTrbpEnbblfd();
+    publid boolfbn gftAutiTrbpEnbblfd();
+    publid boolfbn gftAutiTrbpEnbblfd();
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif flbg indidbting if trbps nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if trbps nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if trbps nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if trbps nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if trbps nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm fnbblfd Flbg indidbting if trbps nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if trbps nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if trbps nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if trbps nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if trbps nffd to bf sfnt.
      */
-    publid void sftAuthTrbpEnbblfd(boolfbn fnbblfd);
+     */
+     */
+     */
+     */
+    publid void sftAutiTrbpEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiTrbpEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiTrbpEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiTrbpEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiTrbpEnbblfd(boolfbn fnbblfd);
+
+
+
+
 
     /**
-     * Rfturns <dodf>truf</dodf> if this SNMP protodol bdbptor sfnds b rfsponsf in dbsf
-     * of buthfntidbtion fbilurf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>truf</dodf> if tiis SNMP protodol bdbptor sfnds b rfsponsf in dbsf
+     * Rfturns <dodf>truf</dodf> if tiis SNMP protodol bdbptor sfnds b rfsponsf in dbsf
+     * Rfturns <dodf>truf</dodf> if tiis SNMP protodol bdbptor sfnds b rfsponsf in dbsf
+     * Rfturns <dodf>truf</dodf> if tiis SNMP protodol bdbptor sfnds b rfsponsf in dbsf
+     * Rfturns <dodf>truf</dodf> if tiis SNMP protodol bdbptor sfnds b rfsponsf in dbsf
+     * of butifntidbtion fbilurf.
+     * of butifntidbtion fbilurf.
+     * of butifntidbtion fbilurf.
+     * of butifntidbtion fbilurf.
+     * of butifntidbtion fbilurf.
      * <P>
-     * Whfn this ffbturf is fnbblfd, thf SNMP protodol bdbptor sfnds b rfsponsf with <CODE>noSudhNbmf</CODE>
-     * or <CODE>rfbdOnly</CODE> whfn thf buthfntidbtion fbilfd. If thf flbg is disbblfd, thf
-     * SNMP protodol bdbptor trbshfs thf PDU silfntly.
      * <P>
-     * Thf dffbult bfhbvior is to sfnd rfsponsfs.
+     * <P>
+     * <P>
+     * <P>
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds b rfsponsf witi <CODE>noSudiNbmf</CODE>
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds b rfsponsf witi <CODE>noSudiNbmf</CODE>
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds b rfsponsf witi <CODE>noSudiNbmf</CODE>
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds b rfsponsf witi <CODE>noSudiNbmf</CODE>
+     * Wifn tiis ffbturf is fnbblfd, tif SNMP protodol bdbptor sfnds b rfsponsf witi <CODE>noSudiNbmf</CODE>
+     * or <CODE>rfbdOnly</CODE> wifn tif butifntidbtion fbilfd. If tif flbg is disbblfd, tif
+     * or <CODE>rfbdOnly</CODE> wifn tif butifntidbtion fbilfd. If tif flbg is disbblfd, tif
+     * or <CODE>rfbdOnly</CODE> wifn tif butifntidbtion fbilfd. If tif flbg is disbblfd, tif
+     * or <CODE>rfbdOnly</CODE> wifn tif butifntidbtion fbilfd. If tif flbg is disbblfd, tif
+     * or <CODE>rfbdOnly</CODE> wifn tif butifntidbtion fbilfd. If tif flbg is disbblfd, tif
+     * SNMP protodol bdbptor trbsifs tif PDU silfntly.
+     * SNMP protodol bdbptor trbsifs tif PDU silfntly.
+     * SNMP protodol bdbptor trbsifs tif PDU silfntly.
+     * SNMP protodol bdbptor trbsifs tif PDU silfntly.
+     * SNMP protodol bdbptor trbsifs tif PDU silfntly.
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * Tif dffbult bfibvior is to sfnd rfsponsfs.
+     * Tif dffbult bfibvior is to sfnd rfsponsfs.
+     * Tif dffbult bfibvior is to sfnd rfsponsfs.
+     * Tif dffbult bfibvior is to sfnd rfsponsfs.
+     * Tif dffbult bfibvior is to sfnd rfsponsfs.
+     *
+     *
+     *
+     *
      *
      * @rfturn <dodf>truf</dodf> if rfsponsfs brf sfnt.
+     * @rfturn <dodf>truf</dodf> if rfsponsfs brf sfnt.
+     * @rfturn <dodf>truf</dodf> if rfsponsfs brf sfnt.
+     * @rfturn <dodf>truf</dodf> if rfsponsfs brf sfnt.
+     * @rfturn <dodf>truf</dodf> if rfsponsfs brf sfnt.
      */
-    publid boolfbn gftAuthRfspEnbblfd();
+     */
+     */
+     */
+     */
+    publid boolfbn gftAutiRfspEnbblfd();
+    publid boolfbn gftAutiRfspEnbblfd();
+    publid boolfbn gftAutiRfspEnbblfd();
+    publid boolfbn gftAutiRfspEnbblfd();
+    publid boolfbn gftAutiRfspEnbblfd();
+
+
+
+
 
     /**
-     * Sfts thf flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of buthfntidbtion fbilurf.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     * Sfts tif flbg indidbting if rfsponsfs nffd to bf sfnt in dbsf of butifntidbtion fbilurf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm fnbblfd Flbg indidbting if rfsponsfs nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if rfsponsfs nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if rfsponsfs nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if rfsponsfs nffd to bf sfnt.
+     * @pbrbm fnbblfd Flbg indidbting if rfsponsfs nffd to bf sfnt.
      */
-    publid void sftAuthRfspEnbblfd(boolfbn fnbblfd);
+     */
+     */
+     */
+     */
+    publid void sftAutiRfspEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiRfspEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiRfspEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiRfspEnbblfd(boolfbn fnbblfd);
+    publid void sftAutiRfspEnbblfd(boolfbn fnbblfd);
+
+
+
+
 
     /**
-     * Rfturns thf fntfrprisf OID. It is usfd by {@link #snmpV1Trbp snmpV1Trbp} to fill
-     * thf 'fntfrprisf' fifld of thf trbp rfqufst.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif fntfrprisf OID. It is usfd by {@link #snmpV1Trbp snmpV1Trbp} to fill
+     * Rfturns tif fntfrprisf OID. It is usfd by {@link #snmpV1Trbp snmpV1Trbp} to fill
+     * Rfturns tif fntfrprisf OID. It is usfd by {@link #snmpV1Trbp snmpV1Trbp} to fill
+     * Rfturns tif fntfrprisf OID. It is usfd by {@link #snmpV1Trbp snmpV1Trbp} to fill
+     * Rfturns tif fntfrprisf OID. It is usfd by {@link #snmpV1Trbp snmpV1Trbp} to fill
+     * tif 'fntfrprisf' fifld of tif trbp rfqufst.
+     * tif 'fntfrprisf' fifld of tif trbp rfqufst.
+     * tif 'fntfrprisf' fifld of tif trbp rfqufst.
+     * tif 'fntfrprisf' fifld of tif trbp rfqufst.
+     * tif 'fntfrprisf' fifld of tif trbp rfqufst.
      *
-     * @rfturn Thf OID in string formbt "x.x.x.x".
+     *
+     *
+     *
+     *
+     * @rfturn Tif OID in string formbt "x.x.x.x".
+     * @rfturn Tif OID in string formbt "x.x.x.x".
+     * @rfturn Tif OID in string formbt "x.x.x.x".
+     * @rfturn Tif OID in string formbt "x.x.x.x".
+     * @rfturn Tif OID in string formbt "x.x.x.x".
+     */
+     */
+     */
+     */
      */
     publid String gftEntfrprisfOid();
+    publid String gftEntfrprisfOid();
+    publid String gftEntfrprisfOid();
+    publid String gftEntfrprisfOid();
+    publid String gftEntfrprisfOid();
+
+
+
+
 
     /**
-     * Sfts thf fntfrprisf OID.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif fntfrprisf OID.
+     * Sfts tif fntfrprisf OID.
+     * Sfts tif fntfrprisf OID.
+     * Sfts tif fntfrprisf OID.
+     * Sfts tif fntfrprisf OID.
      *
-     * @pbrbm oid Thf OID in string formbt "x.x.x.x".
      *
-     * @fxdfption IllfgblArgumfntExdfption Thf string formbt is indorrfdt
+     *
+     *
+     *
+     * @pbrbm oid Tif OID in string formbt "x.x.x.x".
+     * @pbrbm oid Tif OID in string formbt "x.x.x.x".
+     * @pbrbm oid Tif OID in string formbt "x.x.x.x".
+     * @pbrbm oid Tif OID in string formbt "x.x.x.x".
+     * @pbrbm oid Tif OID in string formbt "x.x.x.x".
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblArgumfntExdfption Tif string formbt is indorrfdt
+     * @fxdfption IllfgblArgumfntExdfption Tif string formbt is indorrfdt
+     * @fxdfption IllfgblArgumfntExdfption Tif string formbt is indorrfdt
+     * @fxdfption IllfgblArgumfntExdfption Tif string formbt is indorrfdt
+     * @fxdfption IllfgblArgumfntExdfption Tif string formbt is indorrfdt
      */
-    publid void sftEntfrprisfOid(String oid) throws IllfgblArgumfntExdfption;
+     */
+     */
+     */
+     */
+    publid void sftEntfrprisfOid(String oid) tirows IllfgblArgumfntExdfption;
+    publid void sftEntfrprisfOid(String oid) tirows IllfgblArgumfntExdfption;
+    publid void sftEntfrprisfOid(String oid) tirows IllfgblArgumfntExdfption;
+    publid void sftEntfrprisfOid(String oid) tirows IllfgblArgumfntExdfption;
+    publid void sftEntfrprisfOid(String oid) tirows IllfgblArgumfntExdfption;
+
+
+
+
 
     /**
-     * Rfturns thf nbmfs of thf MIBs bvbilbblf in this SNMP protodol bdbptor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nbmfs of tif MIBs bvbilbblf in tiis SNMP protodol bdbptor.
+     * Rfturns tif nbmfs of tif MIBs bvbilbblf in tiis SNMP protodol bdbptor.
+     * Rfturns tif nbmfs of tif MIBs bvbilbblf in tiis SNMP protodol bdbptor.
+     * Rfturns tif nbmfs of tif MIBs bvbilbblf in tiis SNMP protodol bdbptor.
+     * Rfturns tif nbmfs of tif MIBs bvbilbblf in tiis SNMP protodol bdbptor.
+     *
+     *
+     *
+     *
      *
      * @rfturn An brrby of MIB nbmfs.
+     * @rfturn An brrby of MIB nbmfs.
+     * @rfturn An brrby of MIB nbmfs.
+     * @rfturn An brrby of MIB nbmfs.
+     * @rfturn An brrby of MIB nbmfs.
+     */
+     */
+     */
+     */
      */
     publid String[] gftMibs();
+    publid String[] gftMibs();
+    publid String[] gftMibs();
+    publid String[] gftMibs();
+    publid String[] gftMibs();
+
+
+
+
 
     // GETTERS FOR SNMP GROUP (MIBII)
+    // GETTERS FOR SNMP GROUP (MIBII)
+    // GETTERS FOR SNMP GROUP (MIBII)
+    // GETTERS FOR SNMP GROUP (MIBII)
+    // GETTERS FOR SNMP GROUP (MIBII)
+    //-------------------------------
+    //-------------------------------
+    //-------------------------------
+    //-------------------------------
     //-------------------------------
 
+
+
+
+
     /**
-     * Rfturns thf <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTrbps</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpOutTrbps</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpOutTrbps</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTrbps</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTrbps</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTrbps</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTrbps</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpOutTrbps();
+    publid Long gftSnmpOutTrbps();
+    publid Long gftSnmpOutTrbps();
+    publid Long gftSnmpOutTrbps();
+    publid Long gftSnmpOutTrbps();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGftRfsponsfs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpOutGftRfsponsfs();
+    publid Long gftSnmpOutGftRfsponsfs();
+    publid Long gftSnmpOutGftRfsponsfs();
+    publid Long gftSnmpOutGftRfsponsfs();
+    publid Long gftSnmpOutGftRfsponsfs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutGfnErrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpOutGfnErrs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpOutGfnErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGfnErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGfnErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGfnErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutGfnErrs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpOutGfnErrs();
+    publid Long gftSnmpOutGfnErrs();
+    publid Long gftSnmpOutGfnErrs();
+    publid Long gftSnmpOutGfnErrs();
+    publid Long gftSnmpOutGfnErrs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutBbdVblufs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpOutBbdVblufs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpOutBbdVblufs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutBbdVblufs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutBbdVblufs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutBbdVblufs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutBbdVblufs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpOutBbdVblufs();
+    publid Long gftSnmpOutBbdVblufs();
+    publid Long gftSnmpOutBbdVblufs();
+    publid Long gftSnmpOutBbdVblufs();
+    publid Long gftSnmpOutBbdVblufs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpOutNoSudhNbmfs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpOutNoSudhNbmfs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutNoSudiNbmfs</CODE> vbluf.
      */
-    publid Long gftSnmpOutNoSudhNbmfs();
+     */
+     */
+     */
+     */
+    publid Long gftSnmpOutNoSudiNbmfs();
+    publid Long gftSnmpOutNoSudiNbmfs();
+    publid Long gftSnmpOutNoSudiNbmfs();
+    publid Long gftSnmpOutNoSudiNbmfs();
+    publid Long gftSnmpOutNoSudiNbmfs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutTooBigs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpOutTooBigs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpOutTooBigs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTooBigs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTooBigs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTooBigs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutTooBigs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpOutTooBigs();
+    publid Long gftSnmpOutTooBigs();
+    publid Long gftSnmpOutTooBigs();
+    publid Long gftSnmpOutTooBigs();
+    publid Long gftSnmpOutTooBigs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInASNPbrsfErrs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInASNPbrsfErrs();
+    publid Long gftSnmpInASNPbrsfErrs();
+    publid Long gftSnmpInASNPbrsfErrs();
+    publid Long gftSnmpInASNPbrsfErrs();
+    publid Long gftSnmpInASNPbrsfErrs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityUsfs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInBbdCommunityUsfs();
+    publid Long gftSnmpInBbdCommunityUsfs();
+    publid Long gftSnmpInBbdCommunityUsfs();
+    publid Long gftSnmpInBbdCommunityUsfs();
+    publid Long gftSnmpInBbdCommunityUsfs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdCommunityNbmfs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInBbdCommunityNbmfs();
+    publid Long gftSnmpInBbdCommunityNbmfs();
+    publid Long gftSnmpInBbdCommunityNbmfs();
+    publid Long gftSnmpInBbdCommunityNbmfs();
+    publid Long gftSnmpInBbdCommunityNbmfs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInBbdVfrsions</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInBbdVfrsions</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInBbdVfrsions</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdVfrsions</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdVfrsions</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdVfrsions</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInBbdVfrsions</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInBbdVfrsions();
+    publid Long gftSnmpInBbdVfrsions();
+    publid Long gftSnmpInBbdVfrsions();
+    publid Long gftSnmpInBbdVfrsions();
+    publid Long gftSnmpInBbdVfrsions();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpOutPkts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpOutPkts</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpOutPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpOutPkts</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpOutPkts();
+    publid Long gftSnmpOutPkts();
+    publid Long gftSnmpOutPkts();
+    publid Long gftSnmpOutPkts();
+    publid Long gftSnmpOutPkts();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInPkts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInPkts</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInPkts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInPkts</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInPkts();
+    publid Long gftSnmpInPkts();
+    publid Long gftSnmpInPkts();
+    publid Long gftSnmpInPkts();
+    publid Long gftSnmpInPkts();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInGftRfqufsts</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInGftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftRfqufsts</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInGftRfqufsts();
+    publid Long gftSnmpInGftRfqufsts();
+    publid Long gftSnmpInGftRfqufsts();
+    publid Long gftSnmpInGftRfqufsts();
+    publid Long gftSnmpInGftRfqufsts();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInGftNfxts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInGftNfxts</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInGftNfxts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftNfxts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftNfxts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftNfxts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInGftNfxts</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInGftNfxts();
+    publid Long gftSnmpInGftNfxts();
+    publid Long gftSnmpInGftNfxts();
+    publid Long gftSnmpInGftNfxts();
+    publid Long gftSnmpInGftNfxts();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInSftRfqufsts</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInSftRfqufsts</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInSftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInSftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInSftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInSftRfqufsts</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInSftRfqufsts</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInSftRfqufsts();
+    publid Long gftSnmpInSftRfqufsts();
+    publid Long gftSnmpInSftRfqufsts();
+    publid Long gftSnmpInSftRfqufsts();
+    publid Long gftSnmpInSftRfqufsts();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblSftVbrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInTotblSftVbrs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblSftVbrs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInTotblSftVbrs();
+    publid Long gftSnmpInTotblSftVbrs();
+    publid Long gftSnmpInTotblSftVbrs();
+    publid Long gftSnmpInTotblSftVbrs();
+    publid Long gftSnmpInTotblSftVbrs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
+     * Rfturns tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf dffinfd in MIB-II.
      *
-     * @rfturn Thf <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpInTotblRfqVbrs</CODE> vbluf.
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpInTotblRfqVbrs();
+    publid Long gftSnmpInTotblRfqVbrs();
+    publid Long gftSnmpInTotblRfqVbrs();
+    publid Long gftSnmpInTotblRfqVbrs();
+    publid Long gftSnmpInTotblRfqVbrs();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpSilfntDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
      *
-     * @rfturn Thf <CODE>snmpSilfntDrops</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpSilfntDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpSilfntDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpSilfntDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpSilfntDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpSilfntDrops</CODE> vbluf.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpSilfntDrops();
+    publid Long gftSnmpSilfntDrops();
+    publid Long gftSnmpSilfntDrops();
+    publid Long gftSnmpSilfntDrops();
+    publid Long gftSnmpSilfntDrops();
+
+
+
+
 
     /**
-     * Rfturns thf <CODE>snmpProxyDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <CODE>snmpProxyDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpProxyDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpProxyDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpProxyDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
+     * Rfturns tif <CODE>snmpProxyDrops</CODE> vbluf dffinfd in rfd 1907 NMPv2-MIB .
      *
-     * @rfturn Thf <CODE>snmpProxyDrops</CODE> vbluf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>snmpProxyDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpProxyDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpProxyDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpProxyDrops</CODE> vbluf.
+     * @rfturn Tif <CODE>snmpProxyDrops</CODE> vbluf.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid Long gftSnmpProxyDrops();
+    publid Long gftSnmpProxyDrops();
+    publid Long gftSnmpProxyDrops();
+    publid Long gftSnmpProxyDrops();
+    publid Long gftSnmpProxyDrops();
+
+
+
+
 
     // PUBLIC METHODS
+    // PUBLIC METHODS
+    // PUBLIC METHODS
+    // PUBLIC METHODS
+    // PUBLIC METHODS
+    //---------------
+    //---------------
+    //---------------
+    //---------------
     //---------------
 
-    /**
-     * Adds b nfw MIB in thf SNMP MIB hbndlfr.
-     * This mfthod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
-     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
-     * bnd should not bf dbllfd dirfdtly.
-     *
-     * @pbrbm mib Thf MIB to bdd.
-     *
-     * @rfturn A rfffrfndf to thf SNMP MIB hbndlfr.
-     *
-     * @fxdfption IllfgblArgumfntExdfption If thf pbrbmftfr is null.
-     */
-    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) throws IllfgblArgumfntExdfption;
+
+
+
 
     /**
-     * Adds b nfw MIB in thf SNMP MIB hbndlfr.
+    /**
+    /**
+    /**
+    /**
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
      *
-     * @pbrbm mib Thf MIB to bdd.
-     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
      *
-     * @rfturn A rfffrfndf to thf SNMP MIB hbndlfr.
      *
-     * @fxdfption IllfgblArgumfntExdfption If thf pbrbmftfr is null.
+     *
+     *
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     */
+     */
+     */
+     */
+     */
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) tirows IllfgblArgumfntExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
      */
-    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) throws IllfgblArgumfntExdfption;
+     */
+     */
+     */
+     */
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) tirows IllfgblArgumfntExdfption;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) tirows IllfgblArgumfntExdfption;
+
+
+
+
 
     /**
-     * Rfmovfs thf spfdififd MIB from thf SNMP protodol bdbptor.
-     * This mfthod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+    /**
+    /**
+    /**
+    /**
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)}
      * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
-     * bnd should not bf dbllfd dirfdtly.
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)}
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
+     * bnd siould not bf dbllfd dirfdtly.
      *
-     * @pbrbm mib Thf MIB to bf rfmovfd.
      *
-     * @rfturn <dodf>truf</dodf> if thf spfdififd <CODE>mib</CODE> wbs b MIB indludfd in thf SNMP MIB hbndlfr,
-     * <dodf>fblsf</dodf> othfrwisf.
+     *
+     *
+     *
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * <dodf>fblsf</dodf> otifrwisf.
+     * <dodf>fblsf</dodf> otifrwisf.
+     * <dodf>fblsf</dodf> otifrwisf.
+     * <dodf>fblsf</dodf> otifrwisf.
+     * <dodf>fblsf</dodf> otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid boolfbn rfmovfMib(SnmpMibAgfnt mib);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib);
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds b trbp using SNMP V1 trbp formbt.
-     * <BR>Thf trbp is sfnt to fbdh dfstinbtion dffinfd in thf ACL filf (if bvbilbblf).
-     * If no ACL filf or no dfstinbtions brf bvbilbblf, thf trbp is sfnt to thf lodbl host.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
      *
-     * @pbrbm gfnfrid Thf gfnfrid numbfr of thf trbp.
-     * @pbrbm spfdifid Thf spfdifid numbfr of thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    publid void snmpV1Trbp(int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList) throws IOExdfption, SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid void snmpV1Trbp(int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV1Trbp(int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV1Trbp(int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV1Trbp(int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV1Trbp(int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+
+
+
+
+
+
+
+
 
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds b trbp using SNMP V1 trbp formbt.
-     * <BR>Thf trbp is sfnt to thf spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
-     * using thf spfdififd dommunity string (bnd thf ACL filf is not usfd).
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
      *
-     * @pbrbm bddrfss Thf <CODE>InftAddrfss</CODE> dfstinbtion of thf trbp.
-     * @pbrbm ds Thf dommunity string to bf usfd for thf trbp.
-     * @pbrbm gfnfrid Thf gfnfrid numbfr of thf trbp.
-     * @pbrbm spfdifid Thf spfdifid numbfr of thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     */
+     */
+     */
+     */
      */
     publid void snmpV1Trbp(InftAddrfss bddrfss, String ds, int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList)
-        throws IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV1Trbp(InftAddrfss bddrfss, String ds, int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList)
+    publid void snmpV1Trbp(InftAddrfss bddrfss, String ds, int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList)
+    publid void snmpV1Trbp(InftAddrfss bddrfss, String ds, int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList)
+    publid void snmpV1Trbp(InftAddrfss bddrfss, String ds, int gfnfrid, int spfdifid, SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
 
 
+
+
+
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Sfnds b trbp using SNMP V1 trbp formbt.
-     * <BR>Thf trbp is sfnt to thf spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
-     * Thf dommunity string usfd is thf onf lodbtfd in thf <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * Sfnds b trbp using SNMP V1 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
      *
-     * @pbrbm pffr Thf <CODE>SnmpPffr</CODE> dfstinbtion of thf trbp.
-     * @pbrbm bgfntAddr Thf bgfnt bddrfss to bf usfd for thf trbp.
-     * @pbrbm fntfrpOid Thf fntfrprisf OID to bf usfd for thf trbp.
-     * @pbrbm gfnfrid Thf gfnfrid numbfr of thf trbp.
-     * @pbrbm spfdifid Thf spfdifid numbfr of thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm bgfntAddr Tif bgfnt bddrfss to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm fntfrpOid Tif fntfrprisf OID to bf usfd for tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm gfnfrid Tif gfnfrid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
+     * @pbrbm spfdifid Tif spfdifid numbfr of tif trbp.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
-     * @pbrbm timf Thf timf stbmp (ovfrwritf thf durrfnt timf).
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
      *
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid void snmpV1Trbp(SnmpPffr pffr,
+    publid void snmpV1Trbp(SnmpPffr pffr,
+    publid void snmpV1Trbp(SnmpPffr pffr,
+    publid void snmpV1Trbp(SnmpPffr pffr,
+    publid void snmpV1Trbp(SnmpPffr pffr,
+                           SnmpIpAddrfss bgfntAddr,
+                           SnmpIpAddrfss bgfntAddr,
+                           SnmpIpAddrfss bgfntAddr,
+                           SnmpIpAddrfss bgfntAddr,
                            SnmpIpAddrfss bgfntAddr,
                            SnmpOid fntfrpOid,
+                           SnmpOid fntfrpOid,
+                           SnmpOid fntfrpOid,
+                           SnmpOid fntfrpOid,
+                           SnmpOid fntfrpOid,
+                           int gfnfrid,
+                           int gfnfrid,
+                           int gfnfrid,
+                           int gfnfrid,
                            int gfnfrid,
                            int spfdifid,
+                           int spfdifid,
+                           int spfdifid,
+                           int spfdifid,
+                           int spfdifid,
                            SnmpVbrBindList vbrBindList,
-                           SnmpTimftidks timf) throws IOExdfption, SnmpStbtusExdfption;
+                           SnmpVbrBindList vbrBindList,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds b trbp using SNMP V2 trbp formbt.
-     * <BR>Thf trbp is sfnt to thf spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
-     * <BR>Thf dommunity string usfd is thf onf lodbtfd in thf <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
-     * <BR>Thf vbribblf list indludfd in thf outgoing trbp is domposfd of thf following itfms:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * <BR>Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftRdCommunity() </CODE>).
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTimf.0</CODE> with thf vbluf spfdififd by <CODE>timf</CODE>
-     * <LI><CODE>snmpTrbpOid.0</CODE> with thf vbluf spfdififd by <CODE>trbpOid</CODE>
-     * <LI><CODE>bll thf (oid,vblufs)</CODE> from thf spfdififd <CODE>vbrBindList</CODE>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by <CODE>timf</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by <CODE>timf</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by <CODE>timf</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by <CODE>timf</CODE>
+     * <LI><CODE>sysUpTimf.0</CODE> witi tif vbluf spfdififd by <CODE>timf</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
      * </UL>
      *
-     * @pbrbm pffr Thf <CODE>SnmpPffr</CODE> dfstinbtion of thf trbp.
-     * @pbrbm trbpOid Thf OID idfntifying thf trbp.
-     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
-     * @pbrbm timf Thf timf stbmp (ovfrwritf thf durrfnt timf).
      *
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion of tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     * @pbrbm timf Tif timf stbmp (ovfrwritf tif durrfnt timf).
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid void snmpV2Trbp(SnmpPffr pffr,
+    publid void snmpV2Trbp(SnmpPffr pffr,
+    publid void snmpV2Trbp(SnmpPffr pffr,
+    publid void snmpV2Trbp(SnmpPffr pffr,
+    publid void snmpV2Trbp(SnmpPffr pffr,
+                           SnmpOid trbpOid,
+                           SnmpOid trbpOid,
+                           SnmpOid trbpOid,
+                           SnmpOid trbpOid,
                            SnmpOid trbpOid,
                            SnmpVbrBindList vbrBindList,
-                           SnmpTimftidks timf) throws IOExdfption, SnmpStbtusExdfption;
+                           SnmpVbrBindList vbrBindList,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpVbrBindList vbrBindList,
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+                           SnmpTimftidks timf) tirows IOExdfption, SnmpStbtusExdfption;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds b trbp using SNMP V2 trbp formbt.
-     * <BR>Thf trbp is sfnt to fbdh dfstinbtion dffinfd in thf ACL filf (if bvbilbblf).
-     * If no ACL filf or no dfstinbtions brf bvbilbblf, thf trbp is sfnt to thf lodbl host.
-     * <BR>Thf vbribblf list indludfd in thf outgoing trbp is domposfd of thf following itfms:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif trbp is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif trbp is sfnt to tif lodbl iost.
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTimf.0</CODE> with its durrfnt vbluf
-     * <LI><CODE>snmpTrbpOid.0</CODE> with thf vbluf spfdififd by <CODE>trbpOid</CODE>
-     * <LI><CODE>bll thf (oid,vblufs)</CODE> from thf spfdififd <CODE>vbrBindList</CODE>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
      * </UL>
      *
-     * @pbrbm trbpOid Thf OID idfntifying thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      */
-    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) throws IOExdfption, SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV2Trbp(SnmpOid trbpOid, SnmpVbrBindList vbrBindList) tirows IOExdfption, SnmpStbtusExdfption;
+
+
+
+
+
+
+
+
 
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds b trbp using SNMP V2 trbp formbt.
-     * <BR>Thf trbp is sfnt to thf spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
-     * using thf spfdififd dommunity string (bnd thf ACL filf is not usfd).
-     * <BR>Thf vbribblf list indludfd in thf outgoing trbp is domposfd of thf following itfms:
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * Sfnds b trbp using SNMP V2 trbp formbt.
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif trbp is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * using tif spfdififd dommunity string (bnd tif ACL filf is not usfd).
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing trbp is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTimf.0</CODE> with its durrfnt vbluf
-     * <LI><CODE>snmpTrbpOid.0</CODE> with thf vbluf spfdififd by <CODE>trbpOid</CODE>
-     * <LI><CODE>bll thf (oid,vblufs)</CODE> from thf spfdififd <CODE>vbrBindList</CODE>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
      * </UL>
      *
-     * @pbrbm bddrfss Thf <CODE>InftAddrfss</CODE> dfstinbtion of thf trbp.
-     * @pbrbm ds Thf dommunity string to bf usfd for thf trbp.
-     * @pbrbm trbpOid Thf OID idfntifying thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion of tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     */
+     */
+     */
+     */
      */
     publid void snmpV2Trbp(InftAddrfss bddrfss, String ds, SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
-        throws IOExdfption, SnmpStbtusExdfption;
+    publid void snmpV2Trbp(InftAddrfss bddrfss, String ds, SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+    publid void snmpV2Trbp(InftAddrfss bddrfss, String ds, SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+    publid void snmpV2Trbp(InftAddrfss bddrfss, String ds, SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+    publid void snmpV2Trbp(InftAddrfss bddrfss, String ds, SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Sfnd thf spfdififd trbp PDU to thf pbssfd <CODE>InftAddrfss</CODE>.
-     * @pbrbm bddrfss Thf dfstinbtion bddrfss.
-     * @pbrbm pdu Thf pdu to sfnd.
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+    /**
+    /**
+    /**
+    /**
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>InftAddrfss</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>InftAddrfss</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>InftAddrfss</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>InftAddrfss</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>InftAddrfss</CODE>.
+     * @pbrbm bddrfss Tif dfstinbtion bddrfss.
+     * @pbrbm bddrfss Tif dfstinbtion bddrfss.
+     * @pbrbm bddrfss Tif dfstinbtion bddrfss.
+     * @pbrbm bddrfss Tif dfstinbtion bddrfss.
+     * @pbrbm bddrfss Tif dfstinbtion bddrfss.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid void snmpPduTrbp(InftAddrfss bddrfss, SnmpPduPbdkft pdu)
-        throws IOExdfption, SnmpStbtusExdfption;
+    publid void snmpPduTrbp(InftAddrfss bddrfss, SnmpPduPbdkft pdu)
+    publid void snmpPduTrbp(InftAddrfss bddrfss, SnmpPduPbdkft pdu)
+    publid void snmpPduTrbp(InftAddrfss bddrfss, SnmpPduPbdkft pdu)
+    publid void snmpPduTrbp(InftAddrfss bddrfss, SnmpPduPbdkft pdu)
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
     /**
-     * Sfnd thf spfdififd trbp PDU to thf pbssfd <CODE>SnmpPffr</CODE>.
-     * @pbrbm pffr Thf dfstinbtion pffr. Thf Rfbd dommunity string is usfd of <CODE>SnmpPbrbmftfrs</CODE> is usfd bs thf trbp dommunity string.
-     * @pbrbm pdu Thf pdu to sfnd.
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf trbp.
-     * @fxdfption SnmpStbtusExdfption If thf trbp fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+    /**
+    /**
+    /**
+    /**
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>SnmpPffr</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>SnmpPffr</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>SnmpPffr</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>SnmpPffr</CODE>.
+     * Sfnd tif spfdififd trbp PDU to tif pbssfd <CODE>SnmpPffr</CODE>.
+     * @pbrbm pffr Tif dfstinbtion pffr. Tif Rfbd dommunity string is usfd of <CODE>SnmpPbrbmftfrs</CODE> is usfd bs tif trbp dommunity string.
+     * @pbrbm pffr Tif dfstinbtion pffr. Tif Rfbd dommunity string is usfd of <CODE>SnmpPbrbmftfrs</CODE> is usfd bs tif trbp dommunity string.
+     * @pbrbm pffr Tif dfstinbtion pffr. Tif Rfbd dommunity string is usfd of <CODE>SnmpPbrbmftfrs</CODE> is usfd bs tif trbp dommunity string.
+     * @pbrbm pffr Tif dfstinbtion pffr. Tif Rfbd dommunity string is usfd of <CODE>SnmpPbrbmftfrs</CODE> is usfd bs tif trbp dommunity string.
+     * @pbrbm pffr Tif dfstinbtion pffr. Tif Rfbd dommunity string is usfd of <CODE>SnmpPbrbmftfrs</CODE> is usfd bs tif trbp dommunity string.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @pbrbm pdu Tif pdu to sfnd.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif trbp.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif trbp fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid void snmpPduTrbp(SnmpPffr pffr,
+    publid void snmpPduTrbp(SnmpPffr pffr,
+    publid void snmpPduTrbp(SnmpPffr pffr,
+    publid void snmpPduTrbp(SnmpPffr pffr,
+    publid void snmpPduTrbp(SnmpPffr pffr,
                             SnmpPduPbdkft pdu)
-        throws IOExdfption, SnmpStbtusExdfption;
+                            SnmpPduPbdkft pdu)
+                            SnmpPduPbdkft pdu)
+                            SnmpPduPbdkft pdu)
+                            SnmpPduPbdkft pdu)
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+        tirows IOExdfption, SnmpStbtusExdfption;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
-     * <BR>Thf inform rfqufst is sfnt to fbdh dfstinbtion dffinfd in thf ACL filf (if bvbilbblf).
-     * If no ACL filf or no dfstinbtions brf bvbilbblf, thf inform rfqufst is sfnt to thf lodbl host.
-     * <BR>Thf vbribblf list indludfd in thf outgoing inform rfqufst is domposfd of thf following itfms:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform rfqufst is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif inform rfqufst is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif inform rfqufst is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif inform rfqufst is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * <BR>Tif inform rfqufst is sfnt to fbdi dfstinbtion dffinfd in tif ACL filf (if bvbilbblf).
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif inform rfqufst is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif inform rfqufst is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif inform rfqufst is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif inform rfqufst is sfnt to tif lodbl iost.
+     * If no ACL filf or no dfstinbtions brf bvbilbblf, tif inform rfqufst is sfnt to tif lodbl iost.
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTimf.0</CODE> with its durrfnt vbluf
-     * <LI><CODE>snmpTrbpOid.0</CODE> with thf vbluf spfdififd by <CODE>trbpOid</CODE>
-     * <LI><CODE>bll thf (oid,vblufs)</CODE> from thf spfdififd <CODE>vbrBindList</CODE>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
-     * To sfnd bn inform rfqufst, thf SNMP bdbptor sfrvfr must bf bdtivf.
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @pbrbm db Thf dbllbbdk thbt is invokfd whfn b rfqufst is domplftf.
-     * @pbrbm trbpOid Thf OID idfntifying thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     *
+     *
+     *
+     *
      *
      * @rfturn A vfdtor of {@link dom.sun.jmx.snmp.dbfmon.SnmpInformRfqufst} objfdts.
-     * <P>If thfrf is no dfstinbtion host for this inform rfqufst, thf rfturnfd vfdtor will bf fmpty.
+     * @rfturn A vfdtor of {@link dom.sun.jmx.snmp.dbfmon.SnmpInformRfqufst} objfdts.
+     * @rfturn A vfdtor of {@link dom.sun.jmx.snmp.dbfmon.SnmpInformRfqufst} objfdts.
+     * @rfturn A vfdtor of {@link dom.sun.jmx.snmp.dbfmon.SnmpInformRfqufst} objfdts.
+     * @rfturn A vfdtor of {@link dom.sun.jmx.snmp.dbfmon.SnmpInformRfqufst} objfdts.
+     * <P>If tifrf is no dfstinbtion iost for tiis inform rfqufst, tif rfturnfd vfdtor will bf fmpty.
+     * <P>If tifrf is no dfstinbtion iost for tiis inform rfqufst, tif rfturnfd vfdtor will bf fmpty.
+     * <P>If tifrf is no dfstinbtion iost for tiis inform rfqufst, tif rfturnfd vfdtor will bf fmpty.
+     * <P>If tifrf is no dfstinbtion iost for tiis inform rfqufst, tif rfturnfd vfdtor will bf fmpty.
+     * <P>If tifrf is no dfstinbtion iost for tiis inform rfqufst, tif rfturnfd vfdtor will bf fmpty.
      *
-     * @fxdfption IllfgblStbtfExdfption  This mfthod hbs bffn invokfd whilf thf SNMP bdbptor sfrvfr wbs not bdtivf.
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf inform rfqufst.
-     * @fxdfption SnmpStbtusExdfption If thf inform rfqufst fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     */
+     */
+     */
+     */
      */
     publid Vfdtor<?> snmpInformRfqufst(SnmpInformHbndlfr db, SnmpOid trbpOid,
+    publid Vfdtor<?> snmpInformRfqufst(SnmpInformHbndlfr db, SnmpOid trbpOid,
+    publid Vfdtor<?> snmpInformRfqufst(SnmpInformHbndlfr db, SnmpOid trbpOid,
+    publid Vfdtor<?> snmpInformRfqufst(SnmpInformHbndlfr db, SnmpOid trbpOid,
+    publid Vfdtor<?> snmpInformRfqufst(SnmpInformHbndlfr db, SnmpOid trbpOid,
             SnmpVbrBindList vbrBindList)
-        throws IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+            SnmpVbrBindList vbrBindList)
+            SnmpVbrBindList vbrBindList)
+            SnmpVbrBindList vbrBindList)
+            SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
-     * <BR>Thf inform is sfnt to thf spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
-     * using thf spfdififd dommunity string.
-     * <BR>Thf vbribblf list indludfd in thf outgoing inform rfqufst is domposfd of thf following itfms:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>InftAddrfss</CODE> dfstinbtion
+     * using tif spfdififd dommunity string.
+     * using tif spfdififd dommunity string.
+     * using tif spfdififd dommunity string.
+     * using tif spfdififd dommunity string.
+     * using tif spfdififd dommunity string.
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform rfqufst is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTimf.0</CODE> with its durrfnt vbluf
-     * <LI><CODE>snmpTrbpOid.0</CODE> with thf vbluf spfdififd by <CODE>trbpOid</CODE>
-     * <LI><CODE>bll thf (oid,vblufs)</CODE> from thf spfdififd <CODE>vbrBindList</CODE>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
-     * To sfnd bn inform rfqufst, thf SNMP bdbptor sfrvfr must bf bdtivf.
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @pbrbm bddrfss Thf <CODE>InftAddrfss</CODE> dfstinbtion for this inform rfqufst.
-     * @pbrbm ds Thf dommunity string to bf usfd for thf inform rfqufst.
-     * @pbrbm db Thf dbllbbdk thbt is invokfd whfn b rfqufst is domplftf.
-     * @pbrbm trbpOid Thf OID idfntifying thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm bddrfss Tif <CODE>InftAddrfss</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif inform rfqufst.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif inform rfqufst.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif inform rfqufst.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif inform rfqufst.
+     * @pbrbm ds Tif dommunity string to bf usfd for tif inform rfqufst.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @rfturn Thf inform rfqufst objfdt.
      *
-     * @fxdfption IllfgblStbtfExdfption  This mfthod hbs bffn invokfd whilf thf SNMP bdbptor sfrvfr wbs not bdtivf.
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf inform rfqufst.
-     * @fxdfption SnmpStbtusExdfption If thf inform rfqufst fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     */
+     */
+     */
+     */
      */
     publid SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddrfss, String ds, SnmpInformHbndlfr db,
+    publid SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddrfss, String ds, SnmpInformHbndlfr db,
+    publid SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddrfss, String ds, SnmpInformHbndlfr db,
+    publid SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddrfss, String ds, SnmpInformHbndlfr db,
+    publid SnmpInformRfqufst snmpInformRfqufst(InftAddrfss bddrfss, String ds, SnmpInformHbndlfr db,
                                                SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
-        throws IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+                                               SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+                                               SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+                                               SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+                                               SnmpOid trbpOid, SnmpVbrBindList vbrBindList)
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+        tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+
+
+
+
+
+
+
+
 
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
-     * <BR>Thf inform is sfnt to thf spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
-     * <BR> Thf dommunity string usfd is thf onf lodbtfd in thf <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
-     * <BR>Thf vbribblf list indludfd in thf outgoing inform is domposfd of thf following itfms:
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * Sfnds bn inform using SNMP V2 inform rfqufst formbt.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR>Tif inform is sfnt to tif spfdififd <CODE>SnmpPffr</CODE> dfstinbtion.
+     * <BR> Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
+     * <BR> Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
+     * <BR> Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
+     * <BR> Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
+     * <BR> Tif dommunity string usfd is tif onf lodbtfd in tif <CODE>SnmpPffr</CODE> pbrbmftfrs (<CODE>SnmpPbrbmftfrs.gftInformCommunity() </CODE>).
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd of tif following itfms:
+     * <BR>Tif vbribblf list indludfd in tif outgoing inform is domposfd of tif following itfms:
      * <UL>
-     * <LI><CODE>sysUpTimf.0</CODE> with its durrfnt vbluf
-     * <LI><CODE>snmpTrbpOid.0</CODE> with thf vbluf spfdififd by <CODE>trbpOid</CODE>
-     * <LI><CODE>bll thf (oid,vblufs)</CODE> from thf spfdififd <CODE>vbrBindList</CODE>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>sysUpTimf.0</CODE> witi its durrfnt vbluf
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>snmpTrbpOid.0</CODE> witi tif vbluf spfdififd by <CODE>trbpOid</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
+     * <LI><CODE>bll tif (oid,vblufs)</CODE> from tif spfdififd <CODE>vbrBindList</CODE>
      * </UL>
-     * To sfnd bn inform rfqufst, thf SNMP bdbptor sfrvfr must bf bdtivf.
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
+     * To sfnd bn inform rfqufst, tif SNMP bdbptor sfrvfr must bf bdtivf.
      *
-     * @pbrbm pffr Thf <CODE>SnmpPffr</CODE> dfstinbtion for this inform rfqufst.
-     * @pbrbm db Thf dbllbbdk thbt is invokfd whfn b rfqufst is domplftf.
-     * @pbrbm trbpOid Thf OID idfntifying thf trbp.
+     *
+     *
+     *
+     *
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm pffr Tif <CODE>SnmpPffr</CODE> dfstinbtion for tiis inform rfqufst.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm db Tif dbllbbdk tibt is invokfd wifn b rfqufst is domplftf.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm trbpOid Tif OID idfntifying tif trbp.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
+     * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      * @pbrbm vbrBindList A list of <CODE>SnmpVbrBind</CODE> instbndfs or null.
      *
-     * @rfturn Thf inform rfqufst objfdt.
      *
-     * @fxdfption IllfgblStbtfExdfption  This mfthod hbs bffn invokfd whilf thf SNMP bdbptor sfrvfr wbs not bdtivf.
-     * @fxdfption IOExdfption An I/O frror oddurrfd whilf sfnding thf inform rfqufst.
-     * @fxdfption SnmpStbtusExdfption If thf inform rfqufst fxdffds thf limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     * @rfturn Tif inform rfqufst objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IllfgblStbtfExdfption  Tiis mftiod ibs bffn invokfd wiilf tif SNMP bdbptor sfrvfr wbs not bdtivf.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption IOExdfption An I/O frror oddurrfd wiilf sfnding tif inform rfqufst.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif inform rfqufst fxdffds tif limit dffinfd by <CODE>bufffrSizf</CODE>.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid SnmpInformRfqufst snmpInformRfqufst(SnmpPffr pffr,
+    publid SnmpInformRfqufst snmpInformRfqufst(SnmpPffr pffr,
+    publid SnmpInformRfqufst snmpInformRfqufst(SnmpPffr pffr,
+    publid SnmpInformRfqufst snmpInformRfqufst(SnmpPffr pffr,
+    publid SnmpInformRfqufst snmpInformRfqufst(SnmpPffr pffr,
+                                               SnmpInformHbndlfr db,
+                                               SnmpInformHbndlfr db,
+                                               SnmpInformHbndlfr db,
+                                               SnmpInformHbndlfr db,
                                                SnmpInformHbndlfr db,
                                                SnmpOid trbpOid,
-                                               SnmpVbrBindList vbrBindList) throws IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+                                               SnmpOid trbpOid,
+                                               SnmpOid trbpOid,
+                                               SnmpOid trbpOid,
+                                               SnmpOid trbpOid,
+                                               SnmpVbrBindList vbrBindList) tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+                                               SnmpVbrBindList vbrBindList) tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+                                               SnmpVbrBindList vbrBindList) tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+                                               SnmpVbrBindList vbrBindList) tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+                                               SnmpVbrBindList vbrBindList) tirows IllfgblStbtfExdfption, IOExdfption, SnmpStbtusExdfption;
+}
+}
+}
+}
 }

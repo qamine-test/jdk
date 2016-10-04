@@ -1,348 +1,1740 @@
 /*
- * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+pbdkbgf sun.misd;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
 import jbvb.io.PrintStrfbm;
 
+
+
+
+
+publid dlbss Vfrsion {
+publid dlbss Vfrsion {
+publid dlbss Vfrsion {
+publid dlbss Vfrsion {
 publid dlbss Vfrsion {
 
 
-    privbtf stbtid finbl String lbundhfr_nbmf =
-        "@@lbundhfr_nbmf@@";
+
+
+
+
+
+
+
+
+    privbtf stbtid finbl String lbundifr_nbmf =
+    privbtf stbtid finbl String lbundifr_nbmf =
+    privbtf stbtid finbl String lbundifr_nbmf =
+    privbtf stbtid finbl String lbundifr_nbmf =
+    privbtf stbtid finbl String lbundifr_nbmf =
+        "@@lbundifr_nbmf@@";
+        "@@lbundifr_nbmf@@";
+        "@@lbundifr_nbmf@@";
+        "@@lbundifr_nbmf@@";
+        "@@lbundifr_nbmf@@";
+
+
+
+
 
     privbtf stbtid finbl String jbvb_vfrsion =
+    privbtf stbtid finbl String jbvb_vfrsion =
+    privbtf stbtid finbl String jbvb_vfrsion =
+    privbtf stbtid finbl String jbvb_vfrsion =
+    privbtf stbtid finbl String jbvb_vfrsion =
+        "@@jbvb_vfrsion@@";
+        "@@jbvb_vfrsion@@";
+        "@@jbvb_vfrsion@@";
+        "@@jbvb_vfrsion@@";
         "@@jbvb_vfrsion@@";
 
+
+
+
+
+    privbtf stbtid finbl String jbvb_runtimf_nbmf =
+    privbtf stbtid finbl String jbvb_runtimf_nbmf =
+    privbtf stbtid finbl String jbvb_runtimf_nbmf =
+    privbtf stbtid finbl String jbvb_runtimf_nbmf =
     privbtf stbtid finbl String jbvb_runtimf_nbmf =
         "@@jbvb_runtimf_nbmf@@";
+        "@@jbvb_runtimf_nbmf@@";
+        "@@jbvb_runtimf_nbmf@@";
+        "@@jbvb_runtimf_nbmf@@";
+        "@@jbvb_runtimf_nbmf@@";
+
+
+
+
 
     privbtf stbtid finbl String jbvb_profilf_nbmf =
+    privbtf stbtid finbl String jbvb_profilf_nbmf =
+    privbtf stbtid finbl String jbvb_profilf_nbmf =
+    privbtf stbtid finbl String jbvb_profilf_nbmf =
+    privbtf stbtid finbl String jbvb_profilf_nbmf =
+        "@@jbvb_profilf_nbmf@@";
+        "@@jbvb_profilf_nbmf@@";
+        "@@jbvb_profilf_nbmf@@";
+        "@@jbvb_profilf_nbmf@@";
         "@@jbvb_profilf_nbmf@@";
 
+
+
+
+
+    privbtf stbtid finbl String jbvb_runtimf_vfrsion =
+    privbtf stbtid finbl String jbvb_runtimf_vfrsion =
+    privbtf stbtid finbl String jbvb_runtimf_vfrsion =
+    privbtf stbtid finbl String jbvb_runtimf_vfrsion =
     privbtf stbtid finbl String jbvb_runtimf_vfrsion =
         "@@jbvb_runtimf_vfrsion@@";
+        "@@jbvb_runtimf_vfrsion@@";
+        "@@jbvb_runtimf_vfrsion@@";
+        "@@jbvb_runtimf_vfrsion@@";
+        "@@jbvb_runtimf_vfrsion@@";
+
+
+
+
 
     stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+        init();
+        init();
+        init();
+        init();
         init();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid stbtid void init() {
+    publid stbtid void init() {
+    publid stbtid void init() {
+    publid stbtid void init() {
+    publid stbtid void init() {
+        Systfm.sftPropfrty("jbvb.vfrsion", jbvb_vfrsion);
+        Systfm.sftPropfrty("jbvb.vfrsion", jbvb_vfrsion);
+        Systfm.sftPropfrty("jbvb.vfrsion", jbvb_vfrsion);
+        Systfm.sftPropfrty("jbvb.vfrsion", jbvb_vfrsion);
         Systfm.sftPropfrty("jbvb.vfrsion", jbvb_vfrsion);
         Systfm.sftPropfrty("jbvb.runtimf.vfrsion", jbvb_runtimf_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.vfrsion", jbvb_runtimf_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.vfrsion", jbvb_runtimf_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.vfrsion", jbvb_runtimf_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.vfrsion", jbvb_runtimf_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.nbmf", jbvb_runtimf_nbmf);
+        Systfm.sftPropfrty("jbvb.runtimf.nbmf", jbvb_runtimf_nbmf);
+        Systfm.sftPropfrty("jbvb.runtimf.nbmf", jbvb_runtimf_nbmf);
+        Systfm.sftPropfrty("jbvb.runtimf.nbmf", jbvb_runtimf_nbmf);
         Systfm.sftPropfrty("jbvb.runtimf.nbmf", jbvb_runtimf_nbmf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid boolfbn vfrsionsInitiblizfd = fblsf;
+    privbtf stbtid boolfbn vfrsionsInitiblizfd = fblsf;
+    privbtf stbtid boolfbn vfrsionsInitiblizfd = fblsf;
+    privbtf stbtid boolfbn vfrsionsInitiblizfd = fblsf;
+    privbtf stbtid boolfbn vfrsionsInitiblizfd = fblsf;
+    privbtf stbtid int jvm_mbjor_vfrsion = 0;
+    privbtf stbtid int jvm_mbjor_vfrsion = 0;
+    privbtf stbtid int jvm_mbjor_vfrsion = 0;
+    privbtf stbtid int jvm_mbjor_vfrsion = 0;
     privbtf stbtid int jvm_mbjor_vfrsion = 0;
     privbtf stbtid int jvm_minor_vfrsion = 0;
+    privbtf stbtid int jvm_minor_vfrsion = 0;
+    privbtf stbtid int jvm_minor_vfrsion = 0;
+    privbtf stbtid int jvm_minor_vfrsion = 0;
+    privbtf stbtid int jvm_minor_vfrsion = 0;
+    privbtf stbtid int jvm_midro_vfrsion = 0;
+    privbtf stbtid int jvm_midro_vfrsion = 0;
+    privbtf stbtid int jvm_midro_vfrsion = 0;
+    privbtf stbtid int jvm_midro_vfrsion = 0;
     privbtf stbtid int jvm_midro_vfrsion = 0;
     privbtf stbtid int jvm_updbtf_vfrsion = 0;
+    privbtf stbtid int jvm_updbtf_vfrsion = 0;
+    privbtf stbtid int jvm_updbtf_vfrsion = 0;
+    privbtf stbtid int jvm_updbtf_vfrsion = 0;
+    privbtf stbtid int jvm_updbtf_vfrsion = 0;
+    privbtf stbtid int jvm_build_numbfr = 0;
+    privbtf stbtid int jvm_build_numbfr = 0;
+    privbtf stbtid int jvm_build_numbfr = 0;
+    privbtf stbtid int jvm_build_numbfr = 0;
     privbtf stbtid int jvm_build_numbfr = 0;
     privbtf stbtid String jvm_spfdibl_vfrsion = null;
+    privbtf stbtid String jvm_spfdibl_vfrsion = null;
+    privbtf stbtid String jvm_spfdibl_vfrsion = null;
+    privbtf stbtid String jvm_spfdibl_vfrsion = null;
+    privbtf stbtid String jvm_spfdibl_vfrsion = null;
+    privbtf stbtid int jdk_mbjor_vfrsion = 0;
+    privbtf stbtid int jdk_mbjor_vfrsion = 0;
+    privbtf stbtid int jdk_mbjor_vfrsion = 0;
+    privbtf stbtid int jdk_mbjor_vfrsion = 0;
     privbtf stbtid int jdk_mbjor_vfrsion = 0;
     privbtf stbtid int jdk_minor_vfrsion = 0;
+    privbtf stbtid int jdk_minor_vfrsion = 0;
+    privbtf stbtid int jdk_minor_vfrsion = 0;
+    privbtf stbtid int jdk_minor_vfrsion = 0;
+    privbtf stbtid int jdk_minor_vfrsion = 0;
+    privbtf stbtid int jdk_midro_vfrsion = 0;
+    privbtf stbtid int jdk_midro_vfrsion = 0;
+    privbtf stbtid int jdk_midro_vfrsion = 0;
+    privbtf stbtid int jdk_midro_vfrsion = 0;
     privbtf stbtid int jdk_midro_vfrsion = 0;
     privbtf stbtid int jdk_updbtf_vfrsion = 0;
+    privbtf stbtid int jdk_updbtf_vfrsion = 0;
+    privbtf stbtid int jdk_updbtf_vfrsion = 0;
+    privbtf stbtid int jdk_updbtf_vfrsion = 0;
+    privbtf stbtid int jdk_updbtf_vfrsion = 0;
+    privbtf stbtid int jdk_build_numbfr = 0;
+    privbtf stbtid int jdk_build_numbfr = 0;
+    privbtf stbtid int jdk_build_numbfr = 0;
+    privbtf stbtid int jdk_build_numbfr = 0;
     privbtf stbtid int jdk_build_numbfr = 0;
     privbtf stbtid String jdk_spfdibl_vfrsion = null;
+    privbtf stbtid String jdk_spfdibl_vfrsion = null;
+    privbtf stbtid String jdk_spfdibl_vfrsion = null;
+    privbtf stbtid String jdk_spfdibl_vfrsion = null;
+    privbtf stbtid String jdk_spfdibl_vfrsion = null;
+
+
+
+
 
     /**
-     * In dbsf you wfrf wondfring this mfthod is dbllfd by jbvb -vfrsion.
-     * Sbd thbt it prints to stdfrr; would bf nidfr if dffbult printfd on
+    /**
+    /**
+    /**
+    /**
+     * In dbsf you wfrf wondfring tiis mftiod is dbllfd by jbvb -vfrsion.
+     * In dbsf you wfrf wondfring tiis mftiod is dbllfd by jbvb -vfrsion.
+     * In dbsf you wfrf wondfring tiis mftiod is dbllfd by jbvb -vfrsion.
+     * In dbsf you wfrf wondfring tiis mftiod is dbllfd by jbvb -vfrsion.
+     * In dbsf you wfrf wondfring tiis mftiod is dbllfd by jbvb -vfrsion.
+     * Sbd tibt it prints to stdfrr; would bf nidfr if dffbult printfd on
+     * Sbd tibt it prints to stdfrr; would bf nidfr if dffbult printfd on
+     * Sbd tibt it prints to stdfrr; would bf nidfr if dffbult printfd on
+     * Sbd tibt it prints to stdfrr; would bf nidfr if dffbult printfd on
+     * Sbd tibt it prints to stdfrr; would bf nidfr if dffbult printfd on
+     * stdout.
+     * stdout.
+     * stdout.
+     * stdout.
      * stdout.
      */
+     */
+     */
+     */
+     */
+    publid stbtid void print() {
+    publid stbtid void print() {
+    publid stbtid void print() {
+    publid stbtid void print() {
     publid stbtid void print() {
         print(Systfm.frr);
+        print(Systfm.frr);
+        print(Systfm.frr);
+        print(Systfm.frr);
+        print(Systfm.frr);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * This is thf sbmf bs print fxdfpt thbt it bdds bn fxtrb linf-fffd
-     * bt thf fnd, typidblly usfd by thf -showvfrsion in thf lbundhfr
+    /**
+    /**
+    /**
+    /**
+     * Tiis is tif sbmf bs print fxdfpt tibt it bdds bn fxtrb linf-fffd
+     * Tiis is tif sbmf bs print fxdfpt tibt it bdds bn fxtrb linf-fffd
+     * Tiis is tif sbmf bs print fxdfpt tibt it bdds bn fxtrb linf-fffd
+     * Tiis is tif sbmf bs print fxdfpt tibt it bdds bn fxtrb linf-fffd
+     * Tiis is tif sbmf bs print fxdfpt tibt it bdds bn fxtrb linf-fffd
+     * bt tif fnd, typidblly usfd by tif -siowvfrsion in tif lbundifr
+     * bt tif fnd, typidblly usfd by tif -siowvfrsion in tif lbundifr
+     * bt tif fnd, typidblly usfd by tif -siowvfrsion in tif lbundifr
+     * bt tif fnd, typidblly usfd by tif -siowvfrsion in tif lbundifr
+     * bt tif fnd, typidblly usfd by tif -siowvfrsion in tif lbundifr
+     */
+     */
+     */
+     */
      */
     publid stbtid void println() {
+    publid stbtid void println() {
+    publid stbtid void println() {
+    publid stbtid void println() {
+    publid stbtid void println() {
+        print(Systfm.frr);
+        print(Systfm.frr);
+        print(Systfm.frr);
+        print(Systfm.frr);
         print(Systfm.frr);
         Systfm.frr.println();
+        Systfm.frr.println();
+        Systfm.frr.println();
+        Systfm.frr.println();
+        Systfm.frr.println();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Givf b strfbm, it will print vfrsion info on it.
+     * Givf b strfbm, it will print vfrsion info on it.
+     * Givf b strfbm, it will print vfrsion info on it.
+     * Givf b strfbm, it will print vfrsion info on it.
+     * Givf b strfbm, it will print vfrsion info on it.
+     */
+     */
+     */
+     */
      */
     publid stbtid void print(PrintStrfbm ps) {
+    publid stbtid void print(PrintStrfbm ps) {
+    publid stbtid void print(PrintStrfbm ps) {
+    publid stbtid void print(PrintStrfbm ps) {
+    publid stbtid void print(PrintStrfbm ps) {
+        boolfbn isHfbdlfss = fblsf;
+        boolfbn isHfbdlfss = fblsf;
+        boolfbn isHfbdlfss = fblsf;
+        boolfbn isHfbdlfss = fblsf;
         boolfbn isHfbdlfss = fblsf;
 
-        /* Rfport thbt wf'rf running hfbdlfss if thf propfrty is truf */
-        String hfbdlfss = Systfm.gftPropfrty("jbvb.bwt.hfbdlfss");
-        if ( (hfbdlfss != null) && (hfbdlfss.fqublsIgnorfCbsf("truf")) ) {
+
+
+
+
+        /* Rfport tibt wf'rf running ifbdlfss if tif propfrty is truf */
+        /* Rfport tibt wf'rf running ifbdlfss if tif propfrty is truf */
+        /* Rfport tibt wf'rf running ifbdlfss if tif propfrty is truf */
+        /* Rfport tibt wf'rf running ifbdlfss if tif propfrty is truf */
+        /* Rfport tibt wf'rf running ifbdlfss if tif propfrty is truf */
+        String ifbdlfss = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
+        String ifbdlfss = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
+        String ifbdlfss = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
+        String ifbdlfss = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
+        String ifbdlfss = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
+        if ( (ifbdlfss != null) && (ifbdlfss.fqublsIgnorfCbsf("truf")) ) {
+        if ( (ifbdlfss != null) && (ifbdlfss.fqublsIgnorfCbsf("truf")) ) {
+        if ( (ifbdlfss != null) && (ifbdlfss.fqublsIgnorfCbsf("truf")) ) {
+        if ( (ifbdlfss != null) && (ifbdlfss.fqublsIgnorfCbsf("truf")) ) {
+        if ( (ifbdlfss != null) && (ifbdlfss.fqublsIgnorfCbsf("truf")) ) {
+            isHfbdlfss = truf;
+            isHfbdlfss = truf;
+            isHfbdlfss = truf;
+            isHfbdlfss = truf;
             isHfbdlfss = truf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /* First linf: plbtform vfrsion. */
-        ps.println(lbundhfr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
+        /* First linf: plbtform vfrsion. */
+        /* First linf: plbtform vfrsion. */
+        /* First linf: plbtform vfrsion. */
+        /* First linf: plbtform vfrsion. */
+        ps.println(lbundifr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
+        ps.println(lbundifr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
+        ps.println(lbundifr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
+        ps.println(lbundifr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
+        ps.println(lbundifr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
+
+
+
+
 
         /* Sfdond linf: runtimf vfrsion (if, librbrifs). */
+        /* Sfdond linf: runtimf vfrsion (if, librbrifs). */
+        /* Sfdond linf: runtimf vfrsion (if, librbrifs). */
+        /* Sfdond linf: runtimf vfrsion (if, librbrifs). */
+        /* Sfdond linf: runtimf vfrsion (if, librbrifs). */
+
+
+
+
 
         ps.print(jbvb_runtimf_nbmf + " (build " + jbvb_runtimf_vfrsion);
+        ps.print(jbvb_runtimf_nbmf + " (build " + jbvb_runtimf_vfrsion);
+        ps.print(jbvb_runtimf_nbmf + " (build " + jbvb_runtimf_vfrsion);
+        ps.print(jbvb_runtimf_nbmf + " (build " + jbvb_runtimf_vfrsion);
+        ps.print(jbvb_runtimf_nbmf + " (build " + jbvb_runtimf_vfrsion);
 
-        if (jbvb_profilf_nbmf.lfngth() > 0) {
+
+
+
+
+        if (jbvb_profilf_nbmf.lfngti() > 0) {
+        if (jbvb_profilf_nbmf.lfngti() > 0) {
+        if (jbvb_profilf_nbmf.lfngti() > 0) {
+        if (jbvb_profilf_nbmf.lfngti() > 0) {
+        if (jbvb_profilf_nbmf.lfngti() > 0) {
+            // profilf nbmf
+            // profilf nbmf
+            // profilf nbmf
+            // profilf nbmf
             // profilf nbmf
             ps.print(", profilf " + jbvb_profilf_nbmf);
+            ps.print(", profilf " + jbvb_profilf_nbmf);
+            ps.print(", profilf " + jbvb_profilf_nbmf);
+            ps.print(", profilf " + jbvb_profilf_nbmf);
+            ps.print(", profilf " + jbvb_profilf_nbmf);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (jbvb_runtimf_nbmf.indfxOf("Embfddfd") != -1 && isHfbdlfss) {
-            // fmbfddfd builds rfport hfbdlfss stbtf
-            ps.print(", hfbdlfss");
+        if (jbvb_runtimf_nbmf.indfxOf("Embfddfd") != -1 && isHfbdlfss) {
+        if (jbvb_runtimf_nbmf.indfxOf("Embfddfd") != -1 && isHfbdlfss) {
+        if (jbvb_runtimf_nbmf.indfxOf("Embfddfd") != -1 && isHfbdlfss) {
+        if (jbvb_runtimf_nbmf.indfxOf("Embfddfd") != -1 && isHfbdlfss) {
+            // fmbfddfd builds rfport ifbdlfss stbtf
+            // fmbfddfd builds rfport ifbdlfss stbtf
+            // fmbfddfd builds rfport ifbdlfss stbtf
+            // fmbfddfd builds rfport ifbdlfss stbtf
+            // fmbfddfd builds rfport ifbdlfss stbtf
+            ps.print(", ifbdlfss");
+            ps.print(", ifbdlfss");
+            ps.print(", ifbdlfss");
+            ps.print(", ifbdlfss");
+            ps.print(", ifbdlfss");
+        }
+        }
+        }
+        }
         }
         ps.println(')');
+        ps.println(')');
+        ps.println(')');
+        ps.println(')');
+        ps.println(')');
 
-        /* Third linf: JVM informbtion. */
+
+
+
+
+        /* Tiird linf: JVM informbtion. */
+        /* Tiird linf: JVM informbtion. */
+        /* Tiird linf: JVM informbtion. */
+        /* Tiird linf: JVM informbtion. */
+        /* Tiird linf: JVM informbtion. */
+        String jbvb_vm_nbmf    = Systfm.gftPropfrty("jbvb.vm.nbmf");
+        String jbvb_vm_nbmf    = Systfm.gftPropfrty("jbvb.vm.nbmf");
+        String jbvb_vm_nbmf    = Systfm.gftPropfrty("jbvb.vm.nbmf");
+        String jbvb_vm_nbmf    = Systfm.gftPropfrty("jbvb.vm.nbmf");
         String jbvb_vm_nbmf    = Systfm.gftPropfrty("jbvb.vm.nbmf");
         String jbvb_vm_vfrsion = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+        String jbvb_vm_vfrsion = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+        String jbvb_vm_vfrsion = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+        String jbvb_vm_vfrsion = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+        String jbvb_vm_vfrsion = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+        String jbvb_vm_info    = Systfm.gftPropfrty("jbvb.vm.info");
+        String jbvb_vm_info    = Systfm.gftPropfrty("jbvb.vm.info");
+        String jbvb_vm_info    = Systfm.gftPropfrty("jbvb.vm.info");
+        String jbvb_vm_info    = Systfm.gftPropfrty("jbvb.vm.info");
         String jbvb_vm_info    = Systfm.gftPropfrty("jbvb.vm.info");
         ps.println(jbvb_vm_nbmf + " (build " + jbvb_vm_vfrsion + ", " +
+        ps.println(jbvb_vm_nbmf + " (build " + jbvb_vm_vfrsion + ", " +
+        ps.println(jbvb_vm_nbmf + " (build " + jbvb_vm_vfrsion + ", " +
+        ps.println(jbvb_vm_nbmf + " (build " + jbvb_vm_vfrsion + ", " +
+        ps.println(jbvb_vm_nbmf + " (build " + jbvb_vm_vfrsion + ", " +
+                   jbvb_vm_info + ")");
+                   jbvb_vm_info + ")");
+                   jbvb_vm_info + ")");
+                   jbvb_vm_info + ")");
                    jbvb_vm_info + ")");
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
-     * Rfturns thf mbjor vfrsion of thf running JVM if it's 1.6 or nfwfr
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif mbjor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif mbjor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif mbjor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif mbjor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif mbjor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jvmMbjorVfrsion() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jvmMbjorVfrsion() {
+    publid stbtid syndironizfd int jvmMbjorVfrsion() {
+    publid stbtid syndironizfd int jvmMbjorVfrsion() {
+    publid stbtid syndironizfd int jvmMbjorVfrsion() {
+    publid stbtid syndironizfd int jvmMbjorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jvm_mbjor_vfrsion;
+        rfturn jvm_mbjor_vfrsion;
+        rfturn jvm_mbjor_vfrsion;
+        rfturn jvm_mbjor_vfrsion;
+        rfturn jvm_mbjor_vfrsion;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf minor vfrsion of thf running JVM if it's 1.6 or nfwfr
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif minor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif minor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif minor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif minor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif minor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jvmMinorVfrsion() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jvmMinorVfrsion() {
+    publid stbtid syndironizfd int jvmMinorVfrsion() {
+    publid stbtid syndironizfd int jvmMinorVfrsion() {
+    publid stbtid syndironizfd int jvmMinorVfrsion() {
+    publid stbtid syndironizfd int jvmMinorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jvm_minor_vfrsion;
+        rfturn jvm_minor_vfrsion;
+        rfturn jvm_minor_vfrsion;
+        rfturn jvm_minor_vfrsion;
+        rfturn jvm_minor_vfrsion;
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * Rfturns thf midro vfrsion of thf running JVM if it's 1.6 or nfwfr
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif midro vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif midro vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif midro vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif midro vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * Rfturns tif midro vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * 1.4.x build.
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jvmMidroVfrsion() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jvmMidroVfrsion() {
+    publid stbtid syndironizfd int jvmMidroVfrsion() {
+    publid stbtid syndironizfd int jvmMidroVfrsion() {
+    publid stbtid syndironizfd int jvmMidroVfrsion() {
+    publid stbtid syndironizfd int jvmMidroVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jvm_midro_vfrsion;
+        rfturn jvm_midro_vfrsion;
+        rfturn jvm_midro_vfrsion;
+        rfturn jvm_midro_vfrsion;
+        rfturn jvm_midro_vfrsion;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf updbtf rflfbsf vfrsion of thf running JVM if it's
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JVM if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JVM if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JVM if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JVM if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JVM if it's
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
      * b RE build. It will rfturn 0 if it's bn intfrnbl build.
      * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jvmUpdbtfVfrsion() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jvmUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jvmUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jvmUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jvmUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jvmUpdbtfVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jvm_updbtf_vfrsion;
+        rfturn jvm_updbtf_vfrsion;
+        rfturn jvm_updbtf_vfrsion;
+        rfturn jvm_updbtf_vfrsion;
+        rfturn jvm_updbtf_vfrsion;
+    }
+    }
+    }
+    }
     }
 
-    publid stbtid syndhronizfd String jvmSpfdiblVfrsion() {
+
+
+
+
+    publid stbtid syndironizfd String jvmSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jvmSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jvmSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jvmSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jvmSpfdiblVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         if (jvm_spfdibl_vfrsion == null) {
+        if (jvm_spfdibl_vfrsion == null) {
+        if (jvm_spfdibl_vfrsion == null) {
+        if (jvm_spfdibl_vfrsion == null) {
+        if (jvm_spfdibl_vfrsion == null) {
+            jvm_spfdibl_vfrsion = gftJvmSpfdiblVfrsion();
+            jvm_spfdibl_vfrsion = gftJvmSpfdiblVfrsion();
+            jvm_spfdibl_vfrsion = gftJvmSpfdiblVfrsion();
+            jvm_spfdibl_vfrsion = gftJvmSpfdiblVfrsion();
             jvm_spfdibl_vfrsion = gftJvmSpfdiblVfrsion();
         }
+        }
+        }
+        }
+        }
+        rfturn jvm_spfdibl_vfrsion;
+        rfturn jvm_spfdibl_vfrsion;
+        rfturn jvm_spfdibl_vfrsion;
+        rfturn jvm_spfdibl_vfrsion;
         rfturn jvm_spfdibl_vfrsion;
     }
+    }
+    }
+    }
+    }
+    publid stbtid nbtivf String gftJvmSpfdiblVfrsion();
+    publid stbtid nbtivf String gftJvmSpfdiblVfrsion();
+    publid stbtid nbtivf String gftJvmSpfdiblVfrsion();
+    publid stbtid nbtivf String gftJvmSpfdiblVfrsion();
     publid stbtid nbtivf String gftJvmSpfdiblVfrsion();
 
+
+
+
+
     /**
-     * Rfturns thf build numbfr of thf running JVM if it's b RE build
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif build numbfr of tif running JVM if it's b RE build
+     * Rfturns tif build numbfr of tif running JVM if it's b RE build
+     * Rfturns tif build numbfr of tif running JVM if it's b RE build
+     * Rfturns tif build numbfr of tif running JVM if it's b RE build
+     * Rfturns tif build numbfr of tif running JVM if it's b RE build
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * It will rfturn 0 if it's bn intfrnbl build.
      * It will rfturn 0 if it's bn intfrnbl build.
      * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jvmBuildNumbfr() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jvmBuildNumbfr() {
+    publid stbtid syndironizfd int jvmBuildNumbfr() {
+    publid stbtid syndironizfd int jvmBuildNumbfr() {
+    publid stbtid syndironizfd int jvmBuildNumbfr() {
+    publid stbtid syndironizfd int jvmBuildNumbfr() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jvm_build_numbfr;
+        rfturn jvm_build_numbfr;
+        rfturn jvm_build_numbfr;
+        rfturn jvm_build_numbfr;
+        rfturn jvm_build_numbfr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf mbjor vfrsion of thf running JDK.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif mbjor vfrsion of tif running JDK.
+     * Rfturns tif mbjor vfrsion of tif running JDK.
+     * Rfturns tif mbjor vfrsion of tif running JDK.
+     * Rfturns tif mbjor vfrsion of tif running JDK.
+     * Rfturns tif mbjor vfrsion of tif running JDK.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jdkMbjorVfrsion() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jdkMbjorVfrsion() {
+    publid stbtid syndironizfd int jdkMbjorVfrsion() {
+    publid stbtid syndironizfd int jdkMbjorVfrsion() {
+    publid stbtid syndironizfd int jdkMbjorVfrsion() {
+    publid stbtid syndironizfd int jdkMbjorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jdk_mbjor_vfrsion;
+        rfturn jdk_mbjor_vfrsion;
+        rfturn jdk_mbjor_vfrsion;
+        rfturn jdk_mbjor_vfrsion;
+        rfturn jdk_mbjor_vfrsion;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf minor vfrsion of thf running JDK.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif minor vfrsion of tif running JDK.
+     * Rfturns tif minor vfrsion of tif running JDK.
+     * Rfturns tif minor vfrsion of tif running JDK.
+     * Rfturns tif minor vfrsion of tif running JDK.
+     * Rfturns tif minor vfrsion of tif running JDK.
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jdkMinorVfrsion() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jdkMinorVfrsion() {
+    publid stbtid syndironizfd int jdkMinorVfrsion() {
+    publid stbtid syndironizfd int jdkMinorVfrsion() {
+    publid stbtid syndironizfd int jdkMinorVfrsion() {
+    publid stbtid syndironizfd int jdkMinorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jdk_minor_vfrsion;
+        rfturn jdk_minor_vfrsion;
+        rfturn jdk_minor_vfrsion;
+        rfturn jdk_minor_vfrsion;
+        rfturn jdk_minor_vfrsion;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf midro vfrsion of thf running JDK.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif midro vfrsion of tif running JDK.
+     * Rfturns tif midro vfrsion of tif running JDK.
+     * Rfturns tif midro vfrsion of tif running JDK.
+     * Rfturns tif midro vfrsion of tif running JDK.
+     * Rfturns tif midro vfrsion of tif running JDK.
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jdkMidroVfrsion() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jdkMidroVfrsion() {
+    publid stbtid syndironizfd int jdkMidroVfrsion() {
+    publid stbtid syndironizfd int jdkMidroVfrsion() {
+    publid stbtid syndironizfd int jdkMidroVfrsion() {
+    publid stbtid syndironizfd int jdkMidroVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jdk_midro_vfrsion;
+        rfturn jdk_midro_vfrsion;
+        rfturn jdk_midro_vfrsion;
+        rfturn jdk_midro_vfrsion;
+        rfturn jdk_midro_vfrsion;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf updbtf rflfbsf vfrsion of thf running JDK if it's
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JDK if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JDK if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JDK if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JDK if it's
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JDK if it's
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
      * b RE build. It will rfturn 0 if it's bn intfrnbl build.
      * @sindf 1.6
-     */
-    publid stbtid syndhronizfd int jdkUpdbtfVfrsion() {
-        if (!vfrsionsInitiblizfd) {
-            initVfrsions();
-        }
-        rfturn jdk_updbtf_vfrsion;
-    }
-
-    publid stbtid syndhronizfd String jdkSpfdiblVfrsion() {
-        if (!vfrsionsInitiblizfd) {
-            initVfrsions();
-        }
-        if (jdk_spfdibl_vfrsion == null) {
-            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
-        }
-        rfturn jdk_spfdibl_vfrsion;
-    }
-    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
-
-    /**
-     * Rfturns thf build numbfr of thf running JDK if it's b RE build
-     * It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
-    publid stbtid syndhronizfd int jdkBuildNumbfr() {
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jdkUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jdkUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jdkUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jdkUpdbtfVfrsion() {
+    publid stbtid syndironizfd int jdkUpdbtfVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
         if (!vfrsionsInitiblizfd) {
             initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
+        }
+        rfturn jdk_updbtf_vfrsion;
+        rfturn jdk_updbtf_vfrsion;
+        rfturn jdk_updbtf_vfrsion;
+        rfturn jdk_updbtf_vfrsion;
+        rfturn jdk_updbtf_vfrsion;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid stbtid syndironizfd String jdkSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jdkSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jdkSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jdkSpfdiblVfrsion() {
+    publid stbtid syndironizfd String jdkSpfdiblVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
+        }
+        if (jdk_spfdibl_vfrsion == null) {
+        if (jdk_spfdibl_vfrsion == null) {
+        if (jdk_spfdibl_vfrsion == null) {
+        if (jdk_spfdibl_vfrsion == null) {
+        if (jdk_spfdibl_vfrsion == null) {
+            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
+            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
+            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
+            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
+            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
+        }
+        }
+        }
+        }
+        }
+        rfturn jdk_spfdibl_vfrsion;
+        rfturn jdk_spfdibl_vfrsion;
+        rfturn jdk_spfdibl_vfrsion;
+        rfturn jdk_spfdibl_vfrsion;
+        rfturn jdk_spfdibl_vfrsion;
+    }
+    }
+    }
+    }
+    }
+    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
+    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
+    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
+    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
+    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif build numbfr of tif running JDK if it's b RE build
+     * Rfturns tif build numbfr of tif running JDK if it's b RE build
+     * Rfturns tif build numbfr of tif running JDK if it's b RE build
+     * Rfturns tif build numbfr of tif running JDK if it's b RE build
+     * Rfturns tif build numbfr of tif running JDK if it's b RE build
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     */
+     */
+     */
+     */
+     */
+    publid stbtid syndironizfd int jdkBuildNumbfr() {
+    publid stbtid syndironizfd int jdkBuildNumbfr() {
+    publid stbtid syndironizfd int jdkBuildNumbfr() {
+    publid stbtid syndironizfd int jdkBuildNumbfr() {
+    publid stbtid syndironizfd int jdkBuildNumbfr() {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+            initVfrsions();
+        }
+        }
+        }
+        }
         }
         rfturn jdk_build_numbfr;
+        rfturn jdk_build_numbfr;
+        rfturn jdk_build_numbfr;
+        rfturn jdk_build_numbfr;
+        rfturn jdk_build_numbfr;
+    }
+    }
+    }
+    }
     }
 
-    // truf if JVM fxports thf vfrsion info indluding thf dbpbbilitifs
+
+
+
+
+    // truf if JVM fxports tif vfrsion info indluding tif dbpbbilitifs
+    // truf if JVM fxports tif vfrsion info indluding tif dbpbbilitifs
+    // truf if JVM fxports tif vfrsion info indluding tif dbpbbilitifs
+    // truf if JVM fxports tif vfrsion info indluding tif dbpbbilitifs
+    // truf if JVM fxports tif vfrsion info indluding tif dbpbbilitifs
     privbtf stbtid boolfbn jvmVfrsionInfoAvbilbblf;
-    privbtf stbtid syndhronizfd void initVfrsions() {
+    privbtf stbtid boolfbn jvmVfrsionInfoAvbilbblf;
+    privbtf stbtid boolfbn jvmVfrsionInfoAvbilbblf;
+    privbtf stbtid boolfbn jvmVfrsionInfoAvbilbblf;
+    privbtf stbtid boolfbn jvmVfrsionInfoAvbilbblf;
+    privbtf stbtid syndironizfd void initVfrsions() {
+    privbtf stbtid syndironizfd void initVfrsions() {
+    privbtf stbtid syndironizfd void initVfrsions() {
+    privbtf stbtid syndironizfd void initVfrsions() {
+    privbtf stbtid syndironizfd void initVfrsions() {
+        if (vfrsionsInitiblizfd) {
+        if (vfrsionsInitiblizfd) {
+        if (vfrsionsInitiblizfd) {
+        if (vfrsionsInitiblizfd) {
         if (vfrsionsInitiblizfd) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
         }
         jvmVfrsionInfoAvbilbblf = gftJvmVfrsionInfo();
+        jvmVfrsionInfoAvbilbblf = gftJvmVfrsionInfo();
+        jvmVfrsionInfoAvbilbblf = gftJvmVfrsionInfo();
+        jvmVfrsionInfoAvbilbblf = gftJvmVfrsionInfo();
+        jvmVfrsionInfoAvbilbblf = gftJvmVfrsionInfo();
         if (!jvmVfrsionInfoAvbilbblf) {
-            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf thf
+        if (!jvmVfrsionInfoAvbilbblf) {
+        if (!jvmVfrsionInfoAvbilbblf) {
+        if (!jvmVfrsionInfoAvbilbblf) {
+        if (!jvmVfrsionInfoAvbilbblf) {
+            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf tif
+            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf tif
+            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf tif
+            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf tif
+            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf tif
             // nfw JVM_GftVfrsionInfo is bddfd.
-            // vblid formbt of thf vfrsion string is:
+            // nfw JVM_GftVfrsionInfo is bddfd.
+            // nfw JVM_GftVfrsionInfo is bddfd.
+            // nfw JVM_GftVfrsionInfo is bddfd.
+            // nfw JVM_GftVfrsionInfo is bddfd.
+            // vblid formbt of tif vfrsion string is:
+            // vblid formbt of tif vfrsion string is:
+            // vblid formbt of tif vfrsion string is:
+            // vblid formbt of tif vfrsion string is:
+            // vblid formbt of tif vfrsion string is:
             // n.n.n[_uu[d]][-<idfntiffr>]-bxx
-            ChbrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
-            if (ds.lfngth() >= 5 &&
-                Chbrbdtfr.isDigit(ds.dhbrAt(0)) && ds.dhbrAt(1) == '.' &&
-                Chbrbdtfr.isDigit(ds.dhbrAt(2)) && ds.dhbrAt(3) == '.' &&
-                Chbrbdtfr.isDigit(ds.dhbrAt(4))) {
-                jvm_mbjor_vfrsion = Chbrbdtfr.digit(ds.dhbrAt(0), 10);
-                jvm_minor_vfrsion = Chbrbdtfr.digit(ds.dhbrAt(2), 10);
-                jvm_midro_vfrsion = Chbrbdtfr.digit(ds.dhbrAt(4), 10);
-                ds = ds.subSfqufndf(5, ds.lfngth());
-                if (ds.dhbrAt(0) == '_' && ds.lfngth() >= 3 &&
-                    Chbrbdtfr.isDigit(ds.dhbrAt(1)) &&
-                    Chbrbdtfr.isDigit(ds.dhbrAt(2))) {
-                    int nfxtChbr = 3;
+            // n.n.n[_uu[d]][-<idfntiffr>]-bxx
+            // n.n.n[_uu[d]][-<idfntiffr>]-bxx
+            // n.n.n[_uu[d]][-<idfntiffr>]-bxx
+            // n.n.n[_uu[d]][-<idfntiffr>]-bxx
+            CibrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+            CibrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+            CibrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+            CibrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+            CibrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+            if (ds.lfngti() >= 5 &&
+            if (ds.lfngti() >= 5 &&
+            if (ds.lfngti() >= 5 &&
+            if (ds.lfngti() >= 5 &&
+            if (ds.lfngti() >= 5 &&
+                Cibrbdtfr.isDigit(ds.dibrAt(0)) && ds.dibrAt(1) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(0)) && ds.dibrAt(1) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(0)) && ds.dibrAt(1) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(0)) && ds.dibrAt(1) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(0)) && ds.dibrAt(1) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(2)) && ds.dibrAt(3) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(2)) && ds.dibrAt(3) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(2)) && ds.dibrAt(3) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(2)) && ds.dibrAt(3) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(2)) && ds.dibrAt(3) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(4))) {
+                Cibrbdtfr.isDigit(ds.dibrAt(4))) {
+                Cibrbdtfr.isDigit(ds.dibrAt(4))) {
+                Cibrbdtfr.isDigit(ds.dibrAt(4))) {
+                Cibrbdtfr.isDigit(ds.dibrAt(4))) {
+                jvm_mbjor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(0), 10);
+                jvm_mbjor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(0), 10);
+                jvm_mbjor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(0), 10);
+                jvm_mbjor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(0), 10);
+                jvm_mbjor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(0), 10);
+                jvm_minor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(2), 10);
+                jvm_minor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(2), 10);
+                jvm_minor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(2), 10);
+                jvm_minor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(2), 10);
+                jvm_minor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(2), 10);
+                jvm_midro_vfrsion = Cibrbdtfr.digit(ds.dibrAt(4), 10);
+                jvm_midro_vfrsion = Cibrbdtfr.digit(ds.dibrAt(4), 10);
+                jvm_midro_vfrsion = Cibrbdtfr.digit(ds.dibrAt(4), 10);
+                jvm_midro_vfrsion = Cibrbdtfr.digit(ds.dibrAt(4), 10);
+                jvm_midro_vfrsion = Cibrbdtfr.digit(ds.dibrAt(4), 10);
+                ds = ds.subSfqufndf(5, ds.lfngti());
+                ds = ds.subSfqufndf(5, ds.lfngti());
+                ds = ds.subSfqufndf(5, ds.lfngti());
+                ds = ds.subSfqufndf(5, ds.lfngti());
+                ds = ds.subSfqufndf(5, ds.lfngti());
+                if (ds.dibrAt(0) == '_' && ds.lfngti() >= 3 &&
+                if (ds.dibrAt(0) == '_' && ds.lfngti() >= 3 &&
+                if (ds.dibrAt(0) == '_' && ds.lfngti() >= 3 &&
+                if (ds.dibrAt(0) == '_' && ds.lfngti() >= 3 &&
+                if (ds.dibrAt(0) == '_' && ds.lfngti() >= 3 &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(1)) &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(1)) &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(1)) &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(1)) &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(1)) &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(2))) {
+                    Cibrbdtfr.isDigit(ds.dibrAt(2))) {
+                    Cibrbdtfr.isDigit(ds.dibrAt(2))) {
+                    Cibrbdtfr.isDigit(ds.dibrAt(2))) {
+                    Cibrbdtfr.isDigit(ds.dibrAt(2))) {
+                    int nfxtCibr = 3;
+                    int nfxtCibr = 3;
+                    int nfxtCibr = 3;
+                    int nfxtCibr = 3;
+                    int nfxtCibr = 3;
+                    try {
+                    try {
+                    try {
+                    try {
                     try {
                         String uu = ds.subSfqufndf(1, 3).toString();
+                        String uu = ds.subSfqufndf(1, 3).toString();
+                        String uu = ds.subSfqufndf(1, 3).toString();
+                        String uu = ds.subSfqufndf(1, 3).toString();
+                        String uu = ds.subSfqufndf(1, 3).toString();
                         jvm_updbtf_vfrsion = Intfgfr.vblufOf(uu).intVbluf();
-                        if (ds.lfngth() >= 4) {
-                            dhbr d = ds.dhbrAt(3);
+                        jvm_updbtf_vfrsion = Intfgfr.vblufOf(uu).intVbluf();
+                        jvm_updbtf_vfrsion = Intfgfr.vblufOf(uu).intVbluf();
+                        jvm_updbtf_vfrsion = Intfgfr.vblufOf(uu).intVbluf();
+                        jvm_updbtf_vfrsion = Intfgfr.vblufOf(uu).intVbluf();
+                        if (ds.lfngti() >= 4) {
+                        if (ds.lfngti() >= 4) {
+                        if (ds.lfngti() >= 4) {
+                        if (ds.lfngti() >= 4) {
+                        if (ds.lfngti() >= 4) {
+                            dibr d = ds.dibrAt(3);
+                            dibr d = ds.dibrAt(3);
+                            dibr d = ds.dibrAt(3);
+                            dibr d = ds.dibrAt(3);
+                            dibr d = ds.dibrAt(3);
                             if (d >= 'b' && d <= 'z') {
-                                jvm_spfdibl_vfrsion = Chbrbdtfr.toString(d);
-                                nfxtChbr++;
+                            if (d >= 'b' && d <= 'z') {
+                            if (d >= 'b' && d <= 'z') {
+                            if (d >= 'b' && d <= 'z') {
+                            if (d >= 'b' && d <= 'z') {
+                                jvm_spfdibl_vfrsion = Cibrbdtfr.toString(d);
+                                jvm_spfdibl_vfrsion = Cibrbdtfr.toString(d);
+                                jvm_spfdibl_vfrsion = Cibrbdtfr.toString(d);
+                                jvm_spfdibl_vfrsion = Cibrbdtfr.toString(d);
+                                jvm_spfdibl_vfrsion = Cibrbdtfr.toString(d);
+                                nfxtCibr++;
+                                nfxtCibr++;
+                                nfxtCibr++;
+                                nfxtCibr++;
+                                nfxtCibr++;
+                            }
+                            }
+                            }
+                            }
                             }
                         }
-                    } dbtdh (NumbfrFormbtExdfption f) {
-                        // not donforming to thf nbming donvfntion
+                        }
+                        }
+                        }
+                        }
+                    } dbtdi (NumbfrFormbtExdfption f) {
+                    } dbtdi (NumbfrFormbtExdfption f) {
+                    } dbtdi (NumbfrFormbtExdfption f) {
+                    } dbtdi (NumbfrFormbtExdfption f) {
+                    } dbtdi (NumbfrFormbtExdfption f) {
+                        // not donforming to tif nbming donvfntion
+                        // not donforming to tif nbming donvfntion
+                        // not donforming to tif nbming donvfntion
+                        // not donforming to tif nbming donvfntion
+                        // not donforming to tif nbming donvfntion
+                        rfturn;
+                        rfturn;
+                        rfturn;
+                        rfturn;
                         rfturn;
                     }
-                    ds = ds.subSfqufndf(nfxtChbr, ds.lfngth());
+                    }
+                    }
+                    }
+                    }
+                    ds = ds.subSfqufndf(nfxtCibr, ds.lfngti());
+                    ds = ds.subSfqufndf(nfxtCibr, ds.lfngti());
+                    ds = ds.subSfqufndf(nfxtCibr, ds.lfngti());
+                    ds = ds.subSfqufndf(nfxtCibr, ds.lfngti());
+                    ds = ds.subSfqufndf(nfxtCibr, ds.lfngti());
                 }
-                if (ds.dhbrAt(0) == '-') {
-                    // skip thf first dhbrbdtfr
+                }
+                }
+                }
+                }
+                if (ds.dibrAt(0) == '-') {
+                if (ds.dibrAt(0) == '-') {
+                if (ds.dibrAt(0) == '-') {
+                if (ds.dibrAt(0) == '-') {
+                if (ds.dibrAt(0) == '-') {
+                    // skip tif first dibrbdtfr
+                    // skip tif first dibrbdtfr
+                    // skip tif first dibrbdtfr
+                    // skip tif first dibrbdtfr
+                    // skip tif first dibrbdtfr
                     // vblid formbt: <idfntififr>-bxx or bxx
-                    // non-produdt VM will hbvf -dfbug|-rflfbsf bppfndfd
-                    ds = ds.subSfqufndf(1, ds.lfngth());
+                    // vblid formbt: <idfntififr>-bxx or bxx
+                    // vblid formbt: <idfntififr>-bxx or bxx
+                    // vblid formbt: <idfntififr>-bxx or bxx
+                    // vblid formbt: <idfntififr>-bxx or bxx
+                    // non-produdt VM will ibvf -dfbug|-rflfbsf bppfndfd
+                    // non-produdt VM will ibvf -dfbug|-rflfbsf bppfndfd
+                    // non-produdt VM will ibvf -dfbug|-rflfbsf bppfndfd
+                    // non-produdt VM will ibvf -dfbug|-rflfbsf bppfndfd
+                    // non-produdt VM will ibvf -dfbug|-rflfbsf bppfndfd
+                    ds = ds.subSfqufndf(1, ds.lfngti());
+                    ds = ds.subSfqufndf(1, ds.lfngti());
+                    ds = ds.subSfqufndf(1, ds.lfngti());
+                    ds = ds.subSfqufndf(1, ds.lfngti());
+                    ds = ds.subSfqufndf(1, ds.lfngti());
+                    String[] rfs = ds.toString().split("-");
+                    String[] rfs = ds.toString().split("-");
+                    String[] rfs = ds.toString().split("-");
+                    String[] rfs = ds.toString().split("-");
                     String[] rfs = ds.toString().split("-");
                     for (String s : rfs) {
-                        if (s.dhbrAt(0) == 'b' && s.lfngth() == 3 &&
-                            Chbrbdtfr.isDigit(s.dhbrAt(1)) &&
-                            Chbrbdtfr.isDigit(s.dhbrAt(2))) {
+                    for (String s : rfs) {
+                    for (String s : rfs) {
+                    for (String s : rfs) {
+                    for (String s : rfs) {
+                        if (s.dibrAt(0) == 'b' && s.lfngti() == 3 &&
+                        if (s.dibrAt(0) == 'b' && s.lfngti() == 3 &&
+                        if (s.dibrAt(0) == 'b' && s.lfngti() == 3 &&
+                        if (s.dibrAt(0) == 'b' && s.lfngti() == 3 &&
+                        if (s.dibrAt(0) == 'b' && s.lfngti() == 3 &&
+                            Cibrbdtfr.isDigit(s.dibrAt(1)) &&
+                            Cibrbdtfr.isDigit(s.dibrAt(1)) &&
+                            Cibrbdtfr.isDigit(s.dibrAt(1)) &&
+                            Cibrbdtfr.isDigit(s.dibrAt(1)) &&
+                            Cibrbdtfr.isDigit(s.dibrAt(1)) &&
+                            Cibrbdtfr.isDigit(s.dibrAt(2))) {
+                            Cibrbdtfr.isDigit(s.dibrAt(2))) {
+                            Cibrbdtfr.isDigit(s.dibrAt(2))) {
+                            Cibrbdtfr.isDigit(s.dibrAt(2))) {
+                            Cibrbdtfr.isDigit(s.dibrAt(2))) {
+                            jvm_build_numbfr =
+                            jvm_build_numbfr =
+                            jvm_build_numbfr =
+                            jvm_build_numbfr =
                             jvm_build_numbfr =
                                 Intfgfr.vblufOf(s.substring(1, 3)).intVbluf();
+                                Intfgfr.vblufOf(s.substring(1, 3)).intVbluf();
+                                Intfgfr.vblufOf(s.substring(1, 3)).intVbluf();
+                                Intfgfr.vblufOf(s.substring(1, 3)).intVbluf();
+                                Intfgfr.vblufOf(s.substring(1, 3)).intVbluf();
+                            brfbk;
+                            brfbk;
+                            brfbk;
+                            brfbk;
                             brfbk;
                         }
+                        }
+                        }
+                        }
+                        }
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+        gftJdkVfrsionInfo();
+        gftJdkVfrsionInfo();
+        gftJdkVfrsionInfo();
+        gftJdkVfrsionInfo();
         gftJdkVfrsionInfo();
         vfrsionsInitiblizfd = truf;
+        vfrsionsInitiblizfd = truf;
+        vfrsionsInitiblizfd = truf;
+        vfrsionsInitiblizfd = truf;
+        vfrsionsInitiblizfd = truf;
+    }
+    }
+    }
+    }
     }
 
-    // Gfts thf JVM vfrsion info if bvbilbblf bnd sfts thf jvm_*_vfrsion fiflds
+
+
+
+
+    // Gfts tif JVM vfrsion info if bvbilbblf bnd sfts tif jvm_*_vfrsion fiflds
+    // Gfts tif JVM vfrsion info if bvbilbblf bnd sfts tif jvm_*_vfrsion fiflds
+    // Gfts tif JVM vfrsion info if bvbilbblf bnd sfts tif jvm_*_vfrsion fiflds
+    // Gfts tif JVM vfrsion info if bvbilbblf bnd sfts tif jvm_*_vfrsion fiflds
+    // Gfts tif JVM vfrsion info if bvbilbblf bnd sfts tif jvm_*_vfrsion fiflds
+    // bnd its dbpbbilitifs.
+    // bnd its dbpbbilitifs.
+    // bnd its dbpbbilitifs.
+    // bnd its dbpbbilitifs.
     // bnd its dbpbbilitifs.
     //
-    // Rfturn fblsf if not bvbilbblf whidh implifs bn old VM (Tigfr or bfforf).
+    //
+    //
+    //
+    //
+    // Rfturn fblsf if not bvbilbblf wiidi implifs bn old VM (Tigfr or bfforf).
+    // Rfturn fblsf if not bvbilbblf wiidi implifs bn old VM (Tigfr or bfforf).
+    // Rfturn fblsf if not bvbilbblf wiidi implifs bn old VM (Tigfr or bfforf).
+    // Rfturn fblsf if not bvbilbblf wiidi implifs bn old VM (Tigfr or bfforf).
+    // Rfturn fblsf if not bvbilbblf wiidi implifs bn old VM (Tigfr or bfforf).
+    privbtf stbtid nbtivf boolfbn gftJvmVfrsionInfo();
+    privbtf stbtid nbtivf boolfbn gftJvmVfrsionInfo();
+    privbtf stbtid nbtivf boolfbn gftJvmVfrsionInfo();
+    privbtf stbtid nbtivf boolfbn gftJvmVfrsionInfo();
     privbtf stbtid nbtivf boolfbn gftJvmVfrsionInfo();
     privbtf stbtid nbtivf void gftJdkVfrsionInfo();
+    privbtf stbtid nbtivf void gftJdkVfrsionInfo();
+    privbtf stbtid nbtivf void gftJdkVfrsionInfo();
+    privbtf stbtid nbtivf void gftJdkVfrsionInfo();
+    privbtf stbtid nbtivf void gftJdkVfrsionInfo();
+}
+}
+}
+}
 }
 
-// Hflp Embds b littlf bfdbusf this filf dofsn't fnd in .jbvb.
+
+
+
+
+// Hflp Embds b littlf bfdbusf tiis filf dofsn't fnd in .jbvb.
+// Hflp Embds b littlf bfdbusf tiis filf dofsn't fnd in .jbvb.
+// Hflp Embds b littlf bfdbusf tiis filf dofsn't fnd in .jbvb.
+// Hflp Embds b littlf bfdbusf tiis filf dofsn't fnd in .jbvb.
+// Hflp Embds b littlf bfdbusf tiis filf dofsn't fnd in .jbvb.
+//
+//
+//
+//
 //
 // Lodbl Vbribblfs: ***
+// Lodbl Vbribblfs: ***
+// Lodbl Vbribblfs: ***
+// Lodbl Vbribblfs: ***
+// Lodbl Vbribblfs: ***
 // modf: jbvb ***
+// modf: jbvb ***
+// modf: jbvb ***
+// modf: jbvb ***
+// modf: jbvb ***
+// End: ***
+// End: ***
+// End: ***
+// End: ***
 // End: ***

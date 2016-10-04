@@ -1,205 +1,1025 @@
 /*
- * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
+
+
+
+
+pbdkbgf dom.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 pbdkbgf dom.sun.jndi.dns;
 
 
+
+
+
+
+
+
+
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
 import jbvb.lbng.rff.SoftRfffrfndf;
 import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
 import jbvb.util.Vfdtor;
 
 
+
+
+
+
+
+
+
+
 /**
- * ZonfNodf fxtfnds NbmfNodf to rfprfsfnt b trff of thf zonfs in thf
- * DNS nbmfspbdf, blong with bny intfrmfdibtf nodfs bftwffn zonfs.
- * A ZonfNodf thbt rfprfsfnts b zonf mby bf "populbtfd" with b
- * NbmfNodf trff dontbining thf zonf's dontfnts.
+/**
+/**
+/**
+/**
+ * ZonfNodf fxtfnds NbmfNodf to rfprfsfnt b trff of tif zonfs in tif
+ * ZonfNodf fxtfnds NbmfNodf to rfprfsfnt b trff of tif zonfs in tif
+ * ZonfNodf fxtfnds NbmfNodf to rfprfsfnt b trff of tif zonfs in tif
+ * ZonfNodf fxtfnds NbmfNodf to rfprfsfnt b trff of tif zonfs in tif
+ * ZonfNodf fxtfnds NbmfNodf to rfprfsfnt b trff of tif zonfs in tif
+ * DNS nbmfspbdf, blong witi bny intfrmfdibtf nodfs bftwffn zonfs.
+ * DNS nbmfspbdf, blong witi bny intfrmfdibtf nodfs bftwffn zonfs.
+ * DNS nbmfspbdf, blong witi bny intfrmfdibtf nodfs bftwffn zonfs.
+ * DNS nbmfspbdf, blong witi bny intfrmfdibtf nodfs bftwffn zonfs.
+ * DNS nbmfspbdf, blong witi bny intfrmfdibtf nodfs bftwffn zonfs.
+ * A ZonfNodf tibt rfprfsfnts b zonf mby bf "populbtfd" witi b
+ * A ZonfNodf tibt rfprfsfnts b zonf mby bf "populbtfd" witi b
+ * A ZonfNodf tibt rfprfsfnts b zonf mby bf "populbtfd" witi b
+ * A ZonfNodf tibt rfprfsfnts b zonf mby bf "populbtfd" witi b
+ * A ZonfNodf tibt rfprfsfnts b zonf mby bf "populbtfd" witi b
+ * NbmfNodf trff dontbining tif zonf's dontfnts.
+ * NbmfNodf trff dontbining tif zonf's dontfnts.
+ * NbmfNodf trff dontbining tif zonf's dontfnts.
+ * NbmfNodf trff dontbining tif zonf's dontfnts.
+ * NbmfNodf trff dontbining tif zonf's dontfnts.
  *
- * <p> A populbtfd zonf's dontfnts will bf flbggfd bs hbving fxpirfd bftfr
- * thf timf spfdififd by thf minimum TTL vbluf in thf zonf's SOA rfdord.
+ *
+ *
+ *
+ *
+ * <p> A populbtfd zonf's dontfnts will bf flbggfd bs ibving fxpirfd bftfr
+ * <p> A populbtfd zonf's dontfnts will bf flbggfd bs ibving fxpirfd bftfr
+ * <p> A populbtfd zonf's dontfnts will bf flbggfd bs ibving fxpirfd bftfr
+ * <p> A populbtfd zonf's dontfnts will bf flbggfd bs ibving fxpirfd bftfr
+ * <p> A populbtfd zonf's dontfnts will bf flbggfd bs ibving fxpirfd bftfr
+ * tif timf spfdififd by tif minimum TTL vbluf in tif zonf's SOA rfdord.
+ * tif timf spfdififd by tif minimum TTL vbluf in tif zonf's SOA rfdord.
+ * tif timf spfdififd by tif minimum TTL vbluf in tif zonf's SOA rfdord.
+ * tif timf spfdififd by tif minimum TTL vbluf in tif zonf's SOA rfdord.
+ * tif timf spfdififd by tif minimum TTL vbluf in tif zonf's SOA rfdord.
+ *
+ *
+ *
+ *
  *
  * <p> Sindf zonf duts brfn't dirfdtly modflfd by b trff of ZonfNodfs,
+ * <p> Sindf zonf duts brfn't dirfdtly modflfd by b trff of ZonfNodfs,
+ * <p> Sindf zonf duts brfn't dirfdtly modflfd by b trff of ZonfNodfs,
+ * <p> Sindf zonf duts brfn't dirfdtly modflfd by b trff of ZonfNodfs,
+ * <p> Sindf zonf duts brfn't dirfdtly modflfd by b trff of ZonfNodfs,
+ * ZonfNodf.isZonfCut() blwbys rfturns fblsf.
+ * ZonfNodf.isZonfCut() blwbys rfturns fblsf.
+ * ZonfNodf.isZonfCut() blwbys rfturns fblsf.
+ * ZonfNodf.isZonfCut() blwbys rfturns fblsf.
  * ZonfNodf.isZonfCut() blwbys rfturns fblsf.
  *
- * <p> Thf syndhronizbtion strbtfgy is dodumfntfd in DnsContfxt.jbvb.
  *
- * <p> Thf zonf's dontfnts brf bddfssfd vib b soft rfffrfndf, so its
- * hfbp spbdf mby bf rfdlbimfd whfn nfdfssbry.  Thf zonf mby bf
+ *
+ *
+ *
+ * <p> Tif syndironizbtion strbtfgy is dodumfntfd in DnsContfxt.jbvb.
+ * <p> Tif syndironizbtion strbtfgy is dodumfntfd in DnsContfxt.jbvb.
+ * <p> Tif syndironizbtion strbtfgy is dodumfntfd in DnsContfxt.jbvb.
+ * <p> Tif syndironizbtion strbtfgy is dodumfntfd in DnsContfxt.jbvb.
+ * <p> Tif syndironizbtion strbtfgy is dodumfntfd in DnsContfxt.jbvb.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tif zonf's dontfnts brf bddfssfd vib b soft rfffrfndf, so its
+ * <p> Tif zonf's dontfnts brf bddfssfd vib b soft rfffrfndf, so its
+ * <p> Tif zonf's dontfnts brf bddfssfd vib b soft rfffrfndf, so its
+ * <p> Tif zonf's dontfnts brf bddfssfd vib b soft rfffrfndf, so its
+ * <p> Tif zonf's dontfnts brf bddfssfd vib b soft rfffrfndf, so its
+ * ifbp spbdf mby bf rfdlbimfd wifn nfdfssbry.  Tif zonf mby bf
+ * ifbp spbdf mby bf rfdlbimfd wifn nfdfssbry.  Tif zonf mby bf
+ * ifbp spbdf mby bf rfdlbimfd wifn nfdfssbry.  Tif zonf mby bf
+ * ifbp spbdf mby bf rfdlbimfd wifn nfdfssbry.  Tif zonf mby bf
+ * ifbp spbdf mby bf rfdlbimfd wifn nfdfssbry.  Tif zonf mby bf
+ * rfpopulbtfd lbtfr.
+ * rfpopulbtfd lbtfr.
+ * rfpopulbtfd lbtfr.
+ * rfpopulbtfd lbtfr.
  * rfpopulbtfd lbtfr.
  *
- * @buthor Sdott Sfligmbn
+ *
+ *
+ *
+ *
+ * @butior Sdott Sfligmbn
+ * @butior Sdott Sfligmbn
+ * @butior Sdott Sfligmbn
+ * @butior Sdott Sfligmbn
+ * @butior Sdott Sfligmbn
+ */
+ */
+ */
+ */
  */
 
 
+
+
+
+
+
+
+
+
+dlbss ZonfNodf fxtfnds NbmfNodf {
+dlbss ZonfNodf fxtfnds NbmfNodf {
+dlbss ZonfNodf fxtfnds NbmfNodf {
+dlbss ZonfNodf fxtfnds NbmfNodf {
 dlbss ZonfNodf fxtfnds NbmfNodf {
 
-    privbtf SoftRfffrfndf<NbmfNodf> dontfntsRff = null;   // thf zonf's nbmfspbdf
-    privbtf long sfriblNumbfr = -1;     // thf zonf dbtb's sfribl numbfr
-    privbtf Dbtf fxpirbtion = null;     // timf whfn thf zonf's dbtb fxpirfs
+
+
+
+
+    privbtf SoftRfffrfndf<NbmfNodf> dontfntsRff = null;   // tif zonf's nbmfspbdf
+    privbtf SoftRfffrfndf<NbmfNodf> dontfntsRff = null;   // tif zonf's nbmfspbdf
+    privbtf SoftRfffrfndf<NbmfNodf> dontfntsRff = null;   // tif zonf's nbmfspbdf
+    privbtf SoftRfffrfndf<NbmfNodf> dontfntsRff = null;   // tif zonf's nbmfspbdf
+    privbtf SoftRfffrfndf<NbmfNodf> dontfntsRff = null;   // tif zonf's nbmfspbdf
+    privbtf long sfriblNumbfr = -1;     // tif zonf dbtb's sfribl numbfr
+    privbtf long sfriblNumbfr = -1;     // tif zonf dbtb's sfribl numbfr
+    privbtf long sfriblNumbfr = -1;     // tif zonf dbtb's sfribl numbfr
+    privbtf long sfriblNumbfr = -1;     // tif zonf dbtb's sfribl numbfr
+    privbtf long sfriblNumbfr = -1;     // tif zonf dbtb's sfribl numbfr
+    privbtf Dbtf fxpirbtion = null;     // timf wifn tif zonf's dbtb fxpirfs
+    privbtf Dbtf fxpirbtion = null;     // timf wifn tif zonf's dbtb fxpirfs
+    privbtf Dbtf fxpirbtion = null;     // timf wifn tif zonf's dbtb fxpirfs
+    privbtf Dbtf fxpirbtion = null;     // timf wifn tif zonf's dbtb fxpirfs
+    privbtf Dbtf fxpirbtion = null;     // timf wifn tif zonf's dbtb fxpirfs
+
+
+
+
 
     ZonfNodf(String lbbfl) {
+    ZonfNodf(String lbbfl) {
+    ZonfNodf(String lbbfl) {
+    ZonfNodf(String lbbfl) {
+    ZonfNodf(String lbbfl) {
+        supfr(lbbfl);
+        supfr(lbbfl);
+        supfr(lbbfl);
+        supfr(lbbfl);
         supfr(lbbfl);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+    protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+    protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+    protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+    protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+        rfturn nfw ZonfNodf(lbbfl);
+        rfturn nfw ZonfNodf(lbbfl);
+        rfturn nfw ZonfNodf(lbbfl);
+        rfturn nfw ZonfNodf(lbbfl);
         rfturn nfw ZonfNodf(lbbfl);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Clfbrs thf dontfnts of this nodf.  If thf nodf wbs flbggfd bs
+    /*
+    /*
+    /*
+    /*
+     * Clfbrs tif dontfnts of tiis nodf.  If tif nodf wbs flbggfd bs
+     * Clfbrs tif dontfnts of tiis nodf.  If tif nodf wbs flbggfd bs
+     * Clfbrs tif dontfnts of tiis nodf.  If tif nodf wbs flbggfd bs
+     * Clfbrs tif dontfnts of tiis nodf.  If tif nodf wbs flbggfd bs
+     * Clfbrs tif dontfnts of tiis nodf.  If tif nodf wbs flbggfd bs
+     * fxpirfd, it rfmbins so.
+     * fxpirfd, it rfmbins so.
+     * fxpirfd, it rfmbins so.
+     * fxpirfd, it rfmbins so.
      * fxpirfd, it rfmbins so.
      */
-    syndhronizfd void dfpopulbtf() {
+     */
+     */
+     */
+     */
+    syndironizfd void dfpopulbtf() {
+    syndironizfd void dfpopulbtf() {
+    syndironizfd void dfpopulbtf() {
+    syndironizfd void dfpopulbtf() {
+    syndironizfd void dfpopulbtf() {
+        dontfntsRff = null;
+        dontfntsRff = null;
+        dontfntsRff = null;
+        dontfntsRff = null;
         dontfntsRff = null;
         sfriblNumbfr = -1;
+        sfriblNumbfr = -1;
+        sfriblNumbfr = -1;
+        sfriblNumbfr = -1;
+        sfriblNumbfr = -1;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /*
-     * Is this nodf durrfntly populbtfd?
+    /*
+    /*
+    /*
+    /*
+     * Is tiis nodf durrfntly populbtfd?
+     * Is tiis nodf durrfntly populbtfd?
+     * Is tiis nodf durrfntly populbtfd?
+     * Is tiis nodf durrfntly populbtfd?
+     * Is tiis nodf durrfntly populbtfd?
      */
-    syndhronizfd boolfbn isPopulbtfd() {
+     */
+     */
+     */
+     */
+    syndironizfd boolfbn isPopulbtfd() {
+    syndironizfd boolfbn isPopulbtfd() {
+    syndironizfd boolfbn isPopulbtfd() {
+    syndironizfd boolfbn isPopulbtfd() {
+    syndironizfd boolfbn isPopulbtfd() {
+        rfturn (gftContfnts() != null);
+        rfturn (gftContfnts() != null);
+        rfturn (gftContfnts() != null);
+        rfturn (gftContfnts() != null);
         rfturn (gftContfnts() != null);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Rfturns thf zonf's dontfnts, or null if thf zonf is not populbtfd.
+    /*
+    /*
+    /*
+    /*
+     * Rfturns tif zonf's dontfnts, or null if tif zonf is not populbtfd.
+     * Rfturns tif zonf's dontfnts, or null if tif zonf is not populbtfd.
+     * Rfturns tif zonf's dontfnts, or null if tif zonf is not populbtfd.
+     * Rfturns tif zonf's dontfnts, or null if tif zonf is not populbtfd.
+     * Rfturns tif zonf's dontfnts, or null if tif zonf is not populbtfd.
      */
-    syndhronizfd NbmfNodf gftContfnts() {
+     */
+     */
+     */
+     */
+    syndironizfd NbmfNodf gftContfnts() {
+    syndironizfd NbmfNodf gftContfnts() {
+    syndironizfd NbmfNodf gftContfnts() {
+    syndironizfd NbmfNodf gftContfnts() {
+    syndironizfd NbmfNodf gftContfnts() {
+        rfturn (dontfntsRff != null)
+        rfturn (dontfntsRff != null)
+        rfturn (dontfntsRff != null)
+        rfturn (dontfntsRff != null)
         rfturn (dontfntsRff != null)
                 ? dontfntsRff.gft()
+                ? dontfntsRff.gft()
+                ? dontfntsRff.gft()
+                ? dontfntsRff.gft()
+                ? dontfntsRff.gft()
+                : null;
+                : null;
+                : null;
+                : null;
                 : null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Hbs this zonf's dbtb fxpirfd?
+    /*
+    /*
+    /*
+    /*
+     * Hbs tiis zonf's dbtb fxpirfd?
+     * Hbs tiis zonf's dbtb fxpirfd?
+     * Hbs tiis zonf's dbtb fxpirfd?
+     * Hbs tiis zonf's dbtb fxpirfd?
+     * Hbs tiis zonf's dbtb fxpirfd?
      */
-    syndhronizfd boolfbn isExpirfd() {
+     */
+     */
+     */
+     */
+    syndironizfd boolfbn isExpirfd() {
+    syndironizfd boolfbn isExpirfd() {
+    syndironizfd boolfbn isExpirfd() {
+    syndironizfd boolfbn isExpirfd() {
+    syndironizfd boolfbn isExpirfd() {
+        rfturn ((fxpirbtion != null) && fxpirbtion.bfforf(nfw Dbtf()));
+        rfturn ((fxpirbtion != null) && fxpirbtion.bfforf(nfw Dbtf()));
+        rfturn ((fxpirbtion != null) && fxpirbtion.bfforf(nfw Dbtf()));
+        rfturn ((fxpirbtion != null) && fxpirbtion.bfforf(nfw Dbtf()));
         rfturn ((fxpirbtion != null) && fxpirbtion.bfforf(nfw Dbtf()));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Rfturns thf dffpfst populbtfd zonf on thf pbth spfdififd by b
-     * fully-qublififd dombin nbmf, or null if thfrf is no populbtfd
-     * zonf on thbt pbth.  Notf thbt b nodf mby bf dfpopulbtfd bftfr
+    /*
+    /*
+    /*
+    /*
+     * Rfturns tif dffpfst populbtfd zonf on tif pbti spfdififd by b
+     * Rfturns tif dffpfst populbtfd zonf on tif pbti spfdififd by b
+     * Rfturns tif dffpfst populbtfd zonf on tif pbti spfdififd by b
+     * Rfturns tif dffpfst populbtfd zonf on tif pbti spfdififd by b
+     * Rfturns tif dffpfst populbtfd zonf on tif pbti spfdififd by b
+     * fully-qublififd dombin nbmf, or null if tifrf is no populbtfd
+     * fully-qublififd dombin nbmf, or null if tifrf is no populbtfd
+     * fully-qublififd dombin nbmf, or null if tifrf is no populbtfd
+     * fully-qublififd dombin nbmf, or null if tifrf is no populbtfd
+     * fully-qublififd dombin nbmf, or null if tifrf is no populbtfd
+     * zonf on tibt pbti.  Notf tibt b nodf mby bf dfpopulbtfd bftfr
+     * zonf on tibt pbti.  Notf tibt b nodf mby bf dfpopulbtfd bftfr
+     * zonf on tibt pbti.  Notf tibt b nodf mby bf dfpopulbtfd bftfr
+     * zonf on tibt pbti.  Notf tibt b nodf mby bf dfpopulbtfd bftfr
+     * zonf on tibt pbti.  Notf tibt b nodf mby bf dfpopulbtfd bftfr
+     * bfing rfturnfd.
+     * bfing rfturnfd.
+     * bfing rfturnfd.
+     * bfing rfturnfd.
      * bfing rfturnfd.
      */
+     */
+     */
+     */
+     */
     ZonfNodf gftDffpfstPopulbtfd(DnsNbmf fqdn) {
-        ZonfNodf znodf = this;
-        ZonfNodf popNodf = isPopulbtfd() ? this : null;
+    ZonfNodf gftDffpfstPopulbtfd(DnsNbmf fqdn) {
+    ZonfNodf gftDffpfstPopulbtfd(DnsNbmf fqdn) {
+    ZonfNodf gftDffpfstPopulbtfd(DnsNbmf fqdn) {
+    ZonfNodf gftDffpfstPopulbtfd(DnsNbmf fqdn) {
+        ZonfNodf znodf = tiis;
+        ZonfNodf znodf = tiis;
+        ZonfNodf znodf = tiis;
+        ZonfNodf znodf = tiis;
+        ZonfNodf znodf = tiis;
+        ZonfNodf popNodf = isPopulbtfd() ? tiis : null;
+        ZonfNodf popNodf = isPopulbtfd() ? tiis : null;
+        ZonfNodf popNodf = isPopulbtfd() ? tiis : null;
+        ZonfNodf popNodf = isPopulbtfd() ? tiis : null;
+        ZonfNodf popNodf = isPopulbtfd() ? tiis : null;
+        for (int i = 1; i < fqdn.sizf(); i++) { //     "i=1" to skip root lbbfl
+        for (int i = 1; i < fqdn.sizf(); i++) { //     "i=1" to skip root lbbfl
+        for (int i = 1; i < fqdn.sizf(); i++) { //     "i=1" to skip root lbbfl
+        for (int i = 1; i < fqdn.sizf(); i++) { //     "i=1" to skip root lbbfl
         for (int i = 1; i < fqdn.sizf(); i++) { //     "i=1" to skip root lbbfl
             znodf = (ZonfNodf) znodf.gft(fqdn.gftKfy(i));
+            znodf = (ZonfNodf) znodf.gft(fqdn.gftKfy(i));
+            znodf = (ZonfNodf) znodf.gft(fqdn.gftKfy(i));
+            znodf = (ZonfNodf) znodf.gft(fqdn.gftKfy(i));
+            znodf = (ZonfNodf) znodf.gft(fqdn.gftKfy(i));
+            if (znodf == null) {
+            if (znodf == null) {
+            if (znodf == null) {
+            if (znodf == null) {
             if (znodf == null) {
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            } flsf if (znodf.isPopulbtfd()) {
+            } flsf if (znodf.isPopulbtfd()) {
+            } flsf if (znodf.isPopulbtfd()) {
+            } flsf if (znodf.isPopulbtfd()) {
             } flsf if (znodf.isPopulbtfd()) {
                 popNodf = znodf;
+                popNodf = znodf;
+                popNodf = znodf;
+                popNodf = znodf;
+                popNodf = znodf;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn popNodf;
+        rfturn popNodf;
+        rfturn popNodf;
+        rfturn popNodf;
+        rfturn popNodf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Populbtfs (or rfpopulbtfs) b zonf givfn its own fully-qublififd
-     * nbmf bnd its rfsourdf rfdords.  Rfturns thf zonf's nfw dontfnts.
+     * Populbtfs (or rfpopulbtfs) b zonf givfn its own fully-qublififd
+     * Populbtfs (or rfpopulbtfs) b zonf givfn its own fully-qublififd
+     * Populbtfs (or rfpopulbtfs) b zonf givfn its own fully-qublififd
+     * Populbtfs (or rfpopulbtfs) b zonf givfn its own fully-qublififd
+     * nbmf bnd its rfsourdf rfdords.  Rfturns tif zonf's nfw dontfnts.
+     * nbmf bnd its rfsourdf rfdords.  Rfturns tif zonf's nfw dontfnts.
+     * nbmf bnd its rfsourdf rfdords.  Rfturns tif zonf's nfw dontfnts.
+     * nbmf bnd its rfsourdf rfdords.  Rfturns tif zonf's nfw dontfnts.
+     * nbmf bnd its rfsourdf rfdords.  Rfturns tif zonf's nfw dontfnts.
+     */
+     */
+     */
+     */
      */
     NbmfNodf populbtf(DnsNbmf zonf, RfsourdfRfdords rrs) {
-        // bssfrt zonf.gft(0).fqubls("");               // zonf hbs root lbbfl
-        // bssfrt (zonf.sizf() == (dfpth() + 1));       // +1 duf to root lbbfl
+    NbmfNodf populbtf(DnsNbmf zonf, RfsourdfRfdords rrs) {
+    NbmfNodf populbtf(DnsNbmf zonf, RfsourdfRfdords rrs) {
+    NbmfNodf populbtf(DnsNbmf zonf, RfsourdfRfdords rrs) {
+    NbmfNodf populbtf(DnsNbmf zonf, RfsourdfRfdords rrs) {
+        // bssfrt zonf.gft(0).fqubls("");               // zonf ibs root lbbfl
+        // bssfrt zonf.gft(0).fqubls("");               // zonf ibs root lbbfl
+        // bssfrt zonf.gft(0).fqubls("");               // zonf ibs root lbbfl
+        // bssfrt zonf.gft(0).fqubls("");               // zonf ibs root lbbfl
+        // bssfrt zonf.gft(0).fqubls("");               // zonf ibs root lbbfl
+        // bssfrt (zonf.sizf() == (dfpti() + 1));       // +1 duf to root lbbfl
+        // bssfrt (zonf.sizf() == (dfpti() + 1));       // +1 duf to root lbbfl
+        // bssfrt (zonf.sizf() == (dfpti() + 1));       // +1 duf to root lbbfl
+        // bssfrt (zonf.sizf() == (dfpti() + 1));       // +1 duf to root lbbfl
+        // bssfrt (zonf.sizf() == (dfpti() + 1));       // +1 duf to root lbbfl
+
+
+
+
 
         NbmfNodf nfwContfnts = nfw NbmfNodf(null);
+        NbmfNodf nfwContfnts = nfw NbmfNodf(null);
+        NbmfNodf nfwContfnts = nfw NbmfNodf(null);
+        NbmfNodf nfwContfnts = nfw NbmfNodf(null);
+        NbmfNodf nfwContfnts = nfw NbmfNodf(null);
+
+
+
+
 
         for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+        for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+        for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+        for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+        for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
             RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
             DnsNbmf n = rr.gftNbmf();
+            DnsNbmf n = rr.gftNbmf();
+            DnsNbmf n = rr.gftNbmf();
+            DnsNbmf n = rr.gftNbmf();
+            DnsNbmf n = rr.gftNbmf();
 
-            // Ignorf rfsourdf rfdords whosf nbmfs brfn't within thf zonf's
-            // dombin.  Also skip rfdords of thf zonf's top nodf, sindf
-            // thf zonf's root NbmfNodf is blrfbdy in plbdf.
-            if ((n.sizf() > zonf.sizf()) && n.stbrtsWith(zonf)) {
+
+
+
+
+            // Ignorf rfsourdf rfdords wiosf nbmfs brfn't witiin tif zonf's
+            // Ignorf rfsourdf rfdords wiosf nbmfs brfn't witiin tif zonf's
+            // Ignorf rfsourdf rfdords wiosf nbmfs brfn't witiin tif zonf's
+            // Ignorf rfsourdf rfdords wiosf nbmfs brfn't witiin tif zonf's
+            // Ignorf rfsourdf rfdords wiosf nbmfs brfn't witiin tif zonf's
+            // dombin.  Also skip rfdords of tif zonf's top nodf, sindf
+            // dombin.  Also skip rfdords of tif zonf's top nodf, sindf
+            // dombin.  Also skip rfdords of tif zonf's top nodf, sindf
+            // dombin.  Also skip rfdords of tif zonf's top nodf, sindf
+            // dombin.  Also skip rfdords of tif zonf's top nodf, sindf
+            // tif zonf's root NbmfNodf is blrfbdy in plbdf.
+            // tif zonf's root NbmfNodf is blrfbdy in plbdf.
+            // tif zonf's root NbmfNodf is blrfbdy in plbdf.
+            // tif zonf's root NbmfNodf is blrfbdy in plbdf.
+            // tif zonf's root NbmfNodf is blrfbdy in plbdf.
+            if ((n.sizf() > zonf.sizf()) && n.stbrtsWiti(zonf)) {
+            if ((n.sizf() > zonf.sizf()) && n.stbrtsWiti(zonf)) {
+            if ((n.sizf() > zonf.sizf()) && n.stbrtsWiti(zonf)) {
+            if ((n.sizf() > zonf.sizf()) && n.stbrtsWiti(zonf)) {
+            if ((n.sizf() > zonf.sizf()) && n.stbrtsWiti(zonf)) {
+                NbmfNodf nnodf = nfwContfnts.bdd(n, zonf.sizf());
+                NbmfNodf nnodf = nfwContfnts.bdd(n, zonf.sizf());
+                NbmfNodf nnodf = nfwContfnts.bdd(n, zonf.sizf());
+                NbmfNodf nnodf = nfwContfnts.bdd(n, zonf.sizf());
                 NbmfNodf nnodf = nfwContfnts.bdd(n, zonf.sizf());
                 if (rr.gftTypf() == RfsourdfRfdord.TYPE_NS) {
+                if (rr.gftTypf() == RfsourdfRfdord.TYPE_NS) {
+                if (rr.gftTypf() == RfsourdfRfdord.TYPE_NS) {
+                if (rr.gftTypf() == RfsourdfRfdord.TYPE_NS) {
+                if (rr.gftTypf() == RfsourdfRfdord.TYPE_NS) {
+                    nnodf.sftZonfCut(truf);
+                    nnodf.sftZonfCut(truf);
+                    nnodf.sftZonfCut(truf);
+                    nnodf.sftZonfCut(truf);
                     nnodf.sftZonfCut(truf);
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
         }
-        // Thf zonf's SOA rfdord is thf first rfdord in thf bnswfr sfdtion.
+        }
+        }
+        }
+        }
+        // Tif zonf's SOA rfdord is tif first rfdord in tif bnswfr sfdtion.
+        // Tif zonf's SOA rfdord is tif first rfdord in tif bnswfr sfdtion.
+        // Tif zonf's SOA rfdord is tif first rfdord in tif bnswfr sfdtion.
+        // Tif zonf's SOA rfdord is tif first rfdord in tif bnswfr sfdtion.
+        // Tif zonf's SOA rfdord is tif first rfdord in tif bnswfr sfdtion.
         RfsourdfRfdord sob = rrs.bnswfr.firstElfmfnt();
-        syndhronizfd (this) {
+        RfsourdfRfdord sob = rrs.bnswfr.firstElfmfnt();
+        RfsourdfRfdord sob = rrs.bnswfr.firstElfmfnt();
+        RfsourdfRfdord sob = rrs.bnswfr.firstElfmfnt();
+        RfsourdfRfdord sob = rrs.bnswfr.firstElfmfnt();
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+            dontfntsRff = nfw SoftRfffrfndf<NbmfNodf>(nfwContfnts);
+            dontfntsRff = nfw SoftRfffrfndf<NbmfNodf>(nfwContfnts);
+            dontfntsRff = nfw SoftRfffrfndf<NbmfNodf>(nfwContfnts);
+            dontfntsRff = nfw SoftRfffrfndf<NbmfNodf>(nfwContfnts);
             dontfntsRff = nfw SoftRfffrfndf<NbmfNodf>(nfwContfnts);
             sfriblNumbfr = gftSfriblNumbfr(sob);
+            sfriblNumbfr = gftSfriblNumbfr(sob);
+            sfriblNumbfr = gftSfriblNumbfr(sob);
+            sfriblNumbfr = gftSfriblNumbfr(sob);
+            sfriblNumbfr = gftSfriblNumbfr(sob);
+            sftExpirbtion(gftMinimumTtl(sob));
+            sftExpirbtion(gftMinimumTtl(sob));
+            sftExpirbtion(gftMinimumTtl(sob));
+            sftExpirbtion(gftMinimumTtl(sob));
             sftExpirbtion(gftMinimumTtl(sob));
             rfturn nfwContfnts;
+            rfturn nfwContfnts;
+            rfturn nfwContfnts;
+            rfturn nfwContfnts;
+            rfturn nfwContfnts;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Sft this zonf's dbtb to fxpirf in <tt>sfdsToExpirbtion</tt> sfdonds.
+    /*
+    /*
+    /*
+    /*
+     * Sft tiis zonf's dbtb to fxpirf in <tt>sfdsToExpirbtion</tt> sfdonds.
+     * Sft tiis zonf's dbtb to fxpirf in <tt>sfdsToExpirbtion</tt> sfdonds.
+     * Sft tiis zonf's dbtb to fxpirf in <tt>sfdsToExpirbtion</tt> sfdonds.
+     * Sft tiis zonf's dbtb to fxpirf in <tt>sfdsToExpirbtion</tt> sfdonds.
+     * Sft tiis zonf's dbtb to fxpirf in <tt>sfdsToExpirbtion</tt> sfdonds.
+     */
+     */
+     */
+     */
      */
     privbtf void sftExpirbtion(long sfdsToExpirbtion) {
+    privbtf void sftExpirbtion(long sfdsToExpirbtion) {
+    privbtf void sftExpirbtion(long sfdsToExpirbtion) {
+    privbtf void sftExpirbtion(long sfdsToExpirbtion) {
+    privbtf void sftExpirbtion(long sfdsToExpirbtion) {
+        fxpirbtion = nfw Dbtf(Systfm.durrfntTimfMillis() +
+        fxpirbtion = nfw Dbtf(Systfm.durrfntTimfMillis() +
+        fxpirbtion = nfw Dbtf(Systfm.durrfntTimfMillis() +
+        fxpirbtion = nfw Dbtf(Systfm.durrfntTimfMillis() +
         fxpirbtion = nfw Dbtf(Systfm.durrfntTimfMillis() +
                               1000 * sfdsToExpirbtion);
+                              1000 * sfdsToExpirbtion);
+                              1000 * sfdsToExpirbtion);
+                              1000 * sfdsToExpirbtion);
+                              1000 * sfdsToExpirbtion);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Rfturns bn SOA rfdord's minimum TTL fifld.
+     * Rfturns bn SOA rfdord's minimum TTL fifld.
+     * Rfturns bn SOA rfdord's minimum TTL fifld.
+     * Rfturns bn SOA rfdord's minimum TTL fifld.
+     * Rfturns bn SOA rfdord's minimum TTL fifld.
+     */
+     */
+     */
+     */
      */
     privbtf stbtid long gftMinimumTtl(RfsourdfRfdord sob) {
+    privbtf stbtid long gftMinimumTtl(RfsourdfRfdord sob) {
+    privbtf stbtid long gftMinimumTtl(RfsourdfRfdord sob) {
+    privbtf stbtid long gftMinimumTtl(RfsourdfRfdord sob) {
+    privbtf stbtid long gftMinimumTtl(RfsourdfRfdord sob) {
+        String rdbtb = (String) sob.gftRdbtb();
+        String rdbtb = (String) sob.gftRdbtb();
+        String rdbtb = (String) sob.gftRdbtb();
+        String rdbtb = (String) sob.gftRdbtb();
         String rdbtb = (String) sob.gftRdbtb();
         int pos = rdbtb.lbstIndfxOf(' ') + 1;
+        int pos = rdbtb.lbstIndfxOf(' ') + 1;
+        int pos = rdbtb.lbstIndfxOf(' ') + 1;
+        int pos = rdbtb.lbstIndfxOf(' ') + 1;
+        int pos = rdbtb.lbstIndfxOf(' ') + 1;
+        rfturn Long.pbrsfLong(rdbtb.substring(pos));
+        rfturn Long.pbrsfLong(rdbtb.substring(pos));
+        rfturn Long.pbrsfLong(rdbtb.substring(pos));
+        rfturn Long.pbrsfLong(rdbtb.substring(pos));
         rfturn Long.pbrsfLong(rdbtb.substring(pos));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Compbrfs this zonf's sfribl numbfr with thbt of bn SOA rfdord.
+    /*
+    /*
+    /*
+    /*
+     * Compbrfs tiis zonf's sfribl numbfr witi tibt of bn SOA rfdord.
+     * Compbrfs tiis zonf's sfribl numbfr witi tibt of bn SOA rfdord.
+     * Compbrfs tiis zonf's sfribl numbfr witi tibt of bn SOA rfdord.
+     * Compbrfs tiis zonf's sfribl numbfr witi tibt of bn SOA rfdord.
+     * Compbrfs tiis zonf's sfribl numbfr witi tibt of bn SOA rfdord.
      * Zonf must bf populbtfd.
-     * Rfturns b nfgbtivf, zfro, or positivf intfgfr bs this zonf's
-     * sfribl numbfr is lfss thbn, fqubl to, or grfbtfr thbn thf SOA
+     * Zonf must bf populbtfd.
+     * Zonf must bf populbtfd.
+     * Zonf must bf populbtfd.
+     * Zonf must bf populbtfd.
+     * Rfturns b nfgbtivf, zfro, or positivf intfgfr bs tiis zonf's
+     * Rfturns b nfgbtivf, zfro, or positivf intfgfr bs tiis zonf's
+     * Rfturns b nfgbtivf, zfro, or positivf intfgfr bs tiis zonf's
+     * Rfturns b nfgbtivf, zfro, or positivf intfgfr bs tiis zonf's
+     * Rfturns b nfgbtivf, zfro, or positivf intfgfr bs tiis zonf's
+     * sfribl numbfr is lfss tibn, fqubl to, or grfbtfr tibn tif SOA
+     * sfribl numbfr is lfss tibn, fqubl to, or grfbtfr tibn tif SOA
+     * sfribl numbfr is lfss tibn, fqubl to, or grfbtfr tibn tif SOA
+     * sfribl numbfr is lfss tibn, fqubl to, or grfbtfr tibn tif SOA
+     * sfribl numbfr is lfss tibn, fqubl to, or grfbtfr tibn tif SOA
+     * rfdord's.
+     * rfdord's.
+     * rfdord's.
+     * rfdord's.
      * rfdord's.
      * Sff RfsourdfRfdord.dompbrfSfriblNumbfrs() for b dfsdription of
-     * sfribl numbfr brithmftid.
+     * Sff RfsourdfRfdord.dompbrfSfriblNumbfrs() for b dfsdription of
+     * Sff RfsourdfRfdord.dompbrfSfriblNumbfrs() for b dfsdription of
+     * Sff RfsourdfRfdord.dompbrfSfriblNumbfrs() for b dfsdription of
+     * Sff RfsourdfRfdord.dompbrfSfriblNumbfrs() for b dfsdription of
+     * sfribl numbfr britimftid.
+     * sfribl numbfr britimftid.
+     * sfribl numbfr britimftid.
+     * sfribl numbfr britimftid.
+     * sfribl numbfr britimftid.
+     */
+     */
+     */
+     */
      */
     int dompbrfSfriblNumbfrTo(RfsourdfRfdord sob) {
+    int dompbrfSfriblNumbfrTo(RfsourdfRfdord sob) {
+    int dompbrfSfriblNumbfrTo(RfsourdfRfdord sob) {
+    int dompbrfSfriblNumbfrTo(RfsourdfRfdord sob) {
+    int dompbrfSfriblNumbfrTo(RfsourdfRfdord sob) {
+        // bssfrt isPopulbtfd();
+        // bssfrt isPopulbtfd();
+        // bssfrt isPopulbtfd();
+        // bssfrt isPopulbtfd();
         // bssfrt isPopulbtfd();
         rfturn RfsourdfRfdord.dompbrfSfriblNumbfrs(sfriblNumbfr,
+        rfturn RfsourdfRfdord.dompbrfSfriblNumbfrs(sfriblNumbfr,
+        rfturn RfsourdfRfdord.dompbrfSfriblNumbfrs(sfriblNumbfr,
+        rfturn RfsourdfRfdord.dompbrfSfriblNumbfrs(sfriblNumbfr,
+        rfturn RfsourdfRfdord.dompbrfSfriblNumbfrs(sfriblNumbfr,
+                                                   gftSfriblNumbfr(sob));
+                                                   gftSfriblNumbfr(sob));
+                                                   gftSfriblNumbfr(sob));
+                                                   gftSfriblNumbfr(sob));
                                                    gftSfriblNumbfr(sob));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
+    /*
+    /*
+    /*
+    /*
+     * Rfturns bn SOA rfdord's sfribl numbfr.
+     * Rfturns bn SOA rfdord's sfribl numbfr.
+     * Rfturns bn SOA rfdord's sfribl numbfr.
+     * Rfturns bn SOA rfdord's sfribl numbfr.
      * Rfturns bn SOA rfdord's sfribl numbfr.
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid long gftSfriblNumbfr(RfsourdfRfdord sob) {
+    privbtf stbtid long gftSfriblNumbfr(RfsourdfRfdord sob) {
+    privbtf stbtid long gftSfriblNumbfr(RfsourdfRfdord sob) {
+    privbtf stbtid long gftSfriblNumbfr(RfsourdfRfdord sob) {
     privbtf stbtid long gftSfriblNumbfr(RfsourdfRfdord sob) {
         String rdbtb = (String) sob.gftRdbtb();
+        String rdbtb = (String) sob.gftRdbtb();
+        String rdbtb = (String) sob.gftRdbtb();
+        String rdbtb = (String) sob.gftRdbtb();
+        String rdbtb = (String) sob.gftRdbtb();
 
-        // An SOA rfdord fnds with:  sfribl rffrfsh rftry fxpirf minimum.
-        // Sft "bfg" to thf spbdf bfforf sfribl, bnd "fnd" to thf spbdf bftfr.
-        // Wf go "bbdkwbrd" to bvoid dfbling with fsdbpfd spbdfs in nbmfs.
-        int bfg = rdbtb.lfngth();
+
+
+
+
+        // An SOA rfdord fnds witi:  sfribl rffrfsi rftry fxpirf minimum.
+        // An SOA rfdord fnds witi:  sfribl rffrfsi rftry fxpirf minimum.
+        // An SOA rfdord fnds witi:  sfribl rffrfsi rftry fxpirf minimum.
+        // An SOA rfdord fnds witi:  sfribl rffrfsi rftry fxpirf minimum.
+        // An SOA rfdord fnds witi:  sfribl rffrfsi rftry fxpirf minimum.
+        // Sft "bfg" to tif spbdf bfforf sfribl, bnd "fnd" to tif spbdf bftfr.
+        // Sft "bfg" to tif spbdf bfforf sfribl, bnd "fnd" to tif spbdf bftfr.
+        // Sft "bfg" to tif spbdf bfforf sfribl, bnd "fnd" to tif spbdf bftfr.
+        // Sft "bfg" to tif spbdf bfforf sfribl, bnd "fnd" to tif spbdf bftfr.
+        // Sft "bfg" to tif spbdf bfforf sfribl, bnd "fnd" to tif spbdf bftfr.
+        // Wf go "bbdkwbrd" to bvoid dfbling witi fsdbpfd spbdfs in nbmfs.
+        // Wf go "bbdkwbrd" to bvoid dfbling witi fsdbpfd spbdfs in nbmfs.
+        // Wf go "bbdkwbrd" to bvoid dfbling witi fsdbpfd spbdfs in nbmfs.
+        // Wf go "bbdkwbrd" to bvoid dfbling witi fsdbpfd spbdfs in nbmfs.
+        // Wf go "bbdkwbrd" to bvoid dfbling witi fsdbpfd spbdfs in nbmfs.
+        int bfg = rdbtb.lfngti();
+        int bfg = rdbtb.lfngti();
+        int bfg = rdbtb.lfngti();
+        int bfg = rdbtb.lfngti();
+        int bfg = rdbtb.lfngti();
+        int fnd = -1;
+        int fnd = -1;
+        int fnd = -1;
+        int fnd = -1;
         int fnd = -1;
         for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
+            fnd = bfg;
+            fnd = bfg;
+            fnd = bfg;
+            fnd = bfg;
             fnd = bfg;
             bfg = rdbtb.lbstIndfxOf(' ', fnd - 1);
+            bfg = rdbtb.lbstIndfxOf(' ', fnd - 1);
+            bfg = rdbtb.lbstIndfxOf(' ', fnd - 1);
+            bfg = rdbtb.lbstIndfxOf(' ', fnd - 1);
+            bfg = rdbtb.lbstIndfxOf(' ', fnd - 1);
+        }
+        }
+        }
+        }
         }
         rfturn Long.pbrsfLong(rdbtb.substring(bfg + 1, fnd));
+        rfturn Long.pbrsfLong(rdbtb.substring(bfg + 1, fnd));
+        rfturn Long.pbrsfLong(rdbtb.substring(bfg + 1, fnd));
+        rfturn Long.pbrsfLong(rdbtb.substring(bfg + 1, fnd));
+        rfturn Long.pbrsfLong(rdbtb.substring(bfg + 1, fnd));
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
+<!--
+Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+-->
+<titlf></titlf>
+</ifbd>
+<body bgdolor="wiitf">
+
+Providfs usfr intfrfbdf objfdts built bddording to tif dross-plbtform
+Nimbus look bnd fffl.
+
+<p>Nimbus usfs instbndfs of tif {@link jbvbx.swing.Pbintfr} intfrfbdf to pbint
+domponfnts. Witi fbdi Swing domponfnt it bssodibtfs b forfground bnd b
+bbdkground {@dodf Pbintfr}, bnd tifrf mby bf sfvfrbl pbintfrs for difffrfnt
+domponfnt stbtfs.
+
+<p>Nimbus bllows dustomizing mbny of its propfrtifs, indluding pbintfrs, by
+bltfring tif {@link jbvbx.swing.UIDffbults} tbblf. Hfrf's bn fxbmplf:
+<prf>
+    UIMbnbgfr.put("ProgrfssBbr.tilfWidti", myTilfWidti);
+    UIMbnbgfr.put("ProgrfssBbr[Enbblfd].bbdkgroundPbintfr", myBgPbintfr);
+    UIMbnbgfr.put("ProgrfssBbr[Enbblfd].forfgroundPbintfr", myFgPbintfr);
+</prf>
+
+<p>Pfr-domponfnt dustomizbtion is blso possiblf. Wifn rfndfring b domponfnt,
+Nimbus difdks its dlifnt propfrty nbmfd "Nimbus.Ovfrridfs". Tif vbluf of tiis
+propfrty siould bf bn instbndf of {@dodf UIDffbults}. Sfttings from tibt tbblf
+ovfrridf tif UIMbnbgfr sfttings, but for tibt pbrtidulbr domponfnt instbndf
+only. An optionbl dlifnt propfrty, "Nimbus.Ovfrridfs.InifritDffbults" of typf
+Boolfbn, spfdififs wiftifr tif ovfrriding sfttings siould bf mfrgfd witi
+dffbult onfs ({@dodf truf}), or rfplbdf tifm ({@dodf fblsf}). By dffbult tify
+brf mfrgfd:
+<prf>
+    JProgrfssBbr bbr = nfw JProgrfssBbr();
+    UIDffbults ovfrridfs = nfw UIDffbults();
+    ovfrridfs.put("ProgrfssBbr.dydlfTimf", 330);
+    ...
+    bbr.putClifntPropfrty("Nimbus.Ovfrridfs", ovfrridfs);
+    bbr.putClifntPropfrty("Nimbus.Ovfrridfs.InifritDffbults", fblsf);
+</prf>
+
+<p>Colors in Nimbus brf dfrivfd from b dorf sft of
+<b irff="dod-filfs/propfrtifs.itml#primbryColors">primbry dolors</b>. Tifrf brf blso
+<b irff="dod-filfs/propfrtifs.itml#sfdondbryColors">sfdondbry dolors</b>, wiidi brf
+dfrivfd from primbry onfs, but sfrvf tifmsflvfs bs bbsf dolors for otifr
+dfrivfd dolors. Tif dfrivbtion mfdibnism bllows for runtimf dustomizbtion,
+i.f. if b primbry or sfdondbry dolor is dibngfd, bll dolors tibt brf dfrivfd
+from it brf butombtidblly updbtfd. Tif mftiod
+{@link jbvbx.swing.plbf.nimbus.NimbusLookAndFffl#gftDfrivfdColor(jbvb.lbng.String, flobt, flobt, flobt, int, boolfbn)}
+mby bf usfd to drfbtf b dfrivfd dolor.
+
+<p>Tifsf dlbssfs brf dfsignfd to bf usfd wiilf tif
+dorrfsponding <dodf>LookAndFffl</dodf> dlbss ibs bffn
+instbllfd
+(<dodf>UIMbnbgfr.sftLookAndFffl(nfw <i>XXX</i>LookAndFffl())</dodf>).
+Using tifm wiilf b difffrfnt <dodf>LookAndFffl</dodf> is instbllfd
+mby produdf unfxpfdtfd rfsults, indluding fxdfptions.
+Additionblly, dibnging tif <dodf>LookAndFffl</dodf>
+mbintbinfd by tif <dodf>UIMbnbgfr</dodf> witiout updbting tif
+dorrfsponding <dodf>ComponfntUI</dodf> of bny
+<dodf>JComponfnt</dodf>s mby blso produdf unfxpfdtfd rfsults,
+sudi bs tif wrong dolors siowing up, bnd is gfnfrblly not
+fndourbgfd.
+
+<p><strong>Notf:</strong>
+Most of tif Swing API is <fm>not</fm> tirfbd sbff.
+For dftbils, sff
+<b irff="ittp://jbvb.sun.dom/dods/books/tutoribl/uiswing/dondurrfndy/indfx.itml"
+   tbrgft="_top">Condurrfndy in Swing</b>,
+b sfdtion in
+<fm><b irff="ittp://jbvb.sun.dom/dods/books/tutoribl/"
+       tbrgft="_top">Tif Jbvb Tutoribl</b></fm>.
+
+@sindf 1.7
+@sfribl fxdludf
+
+</body>
+</itml>

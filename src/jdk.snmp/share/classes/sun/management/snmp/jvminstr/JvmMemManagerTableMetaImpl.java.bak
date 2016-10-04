@@ -1,303 +1,1515 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
 
+
+
+
+
+
+
+
+
+// jbvb imports
+// jbvb imports
+// jbvb imports
+// jbvb imports
 // jbvb imports
 //
+//
+//
+//
+//
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
 import dom.sun.jmx.mbfbnsfrvfr.Util;
 import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
 import jbvb.util.List;
 import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffMbp;
 import jbvb.util.TrffMbp;
 
+
+
+
+
+// jmx imports
+// jmx imports
+// jmx imports
+// jmx imports
 // jmx imports
 //
+//
+//
+//
+//
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
 import dom.sun.jmx.snmp.SnmpOid;
 import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+
+
+
 
 // jdmk imports
+// jdmk imports
+// jdmk imports
+// jdmk imports
+// jdmk imports
+//
+//
+//
+//
 //
 import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
 import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
 
+
+
+
+
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
 import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
 import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+
+
+
+
 
 import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMbnbgfrTbblfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMbnbgfrTbblfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMbnbgfrTbblfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMbnbgfrTbblfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMbnbgfrTbblfMftb;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdif;
 import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdif;
 import sun.mbnbgfmfnt.snmp.util.SnmpNbmfdListTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpNbmfdListTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpNbmfdListTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpNbmfdListTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpNbmfdListTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
 import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
 import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
 import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * Tif dlbss is usfd for implfmfnting tif "JvmMfmMbnbgfrTbblf" tbblf.
+ * Tif dlbss is usfd for implfmfnting tif "JvmMfmMbnbgfrTbblf" tbblf.
+ * Tif dlbss is usfd for implfmfnting tif "JvmMfmMbnbgfrTbblf" tbblf.
+ * Tif dlbss is usfd for implfmfnting tif "JvmMfmMbnbgfrTbblf" tbblf.
+ * Tif dlbss is usfd for implfmfnting tif "JvmMfmMbnbgfrTbblf" tbblf.
+ *
+ *
+ *
+ *
  *
  * Tiis dustom implfmfntbtion siow iow to implfmfnt bn SNMP tbblf
+ * Tiis dustom implfmfntbtion siow iow to implfmfnt bn SNMP tbblf
+ * Tiis dustom implfmfntbtion siow iow to implfmfnt bn SNMP tbblf
+ * Tiis dustom implfmfntbtion siow iow to implfmfnt bn SNMP tbblf
+ * Tiis dustom implfmfntbtion siow iow to implfmfnt bn SNMP tbblf
+ * ovfr b wfbk dbdif, rfdomputing tif dbifd dbtb wifn nffdfd.
+ * ovfr b wfbk dbdif, rfdomputing tif dbifd dbtb wifn nffdfd.
+ * ovfr b wfbk dbdif, rfdomputing tif dbifd dbtb wifn nffdfd.
+ * ovfr b wfbk dbdif, rfdomputing tif dbifd dbtb wifn nffdfd.
  * ovfr b wfbk dbdif, rfdomputing tif dbifd dbtb wifn nffdfd.
  */
+ */
+ */
+ */
+ */
+publid dlbss JvmMfmMbnbgfrTbblfMftbImpl fxtfnds JvmMfmMbnbgfrTbblfMftb {
+publid dlbss JvmMfmMbnbgfrTbblfMftbImpl fxtfnds JvmMfmMbnbgfrTbblfMftb {
+publid dlbss JvmMfmMbnbgfrTbblfMftbImpl fxtfnds JvmMfmMbnbgfrTbblfMftb {
+publid dlbss JvmMfmMbnbgfrTbblfMftbImpl fxtfnds JvmMfmMbnbgfrTbblfMftb {
 publid dlbss JvmMfmMbnbgfrTbblfMftbImpl fxtfnds JvmMfmMbnbgfrTbblfMftb {
 
+
+
+
+
+    stbtid finbl long sfriblVfrsionUID = 36176771566817592L;
+    stbtid finbl long sfriblVfrsionUID = 36176771566817592L;
+    stbtid finbl long sfriblVfrsionUID = 36176771566817592L;
+    stbtid finbl long sfriblVfrsionUID = 36176771566817592L;
     stbtid finbl long sfriblVfrsionUID = 36176771566817592L;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * A dondrftf implfmfntbtion of {@link SnmpNbmfdListTbblfCbdif}, for tif
+     * A dondrftf implfmfntbtion of {@link SnmpNbmfdListTbblfCbdif}, for tif
+     * A dondrftf implfmfntbtion of {@link SnmpNbmfdListTbblfCbdif}, for tif
+     * A dondrftf implfmfntbtion of {@link SnmpNbmfdListTbblfCbdif}, for tif
+     * A dondrftf implfmfntbtion of {@link SnmpNbmfdListTbblfCbdif}, for tif
+     * jvmMfmMbnbgfrTbblf.
+     * jvmMfmMbnbgfrTbblf.
+     * jvmMfmMbnbgfrTbblf.
+     * jvmMfmMbnbgfrTbblf.
      * jvmMfmMbnbgfrTbblf.
      **/
+     **/
+     **/
+     **/
+     **/
+    privbtf stbtid dlbss JvmMfmMbnbgfrTbblfCbdif
+    privbtf stbtid dlbss JvmMfmMbnbgfrTbblfCbdif
+    privbtf stbtid dlbss JvmMfmMbnbgfrTbblfCbdif
+    privbtf stbtid dlbss JvmMfmMbnbgfrTbblfCbdif
     privbtf stbtid dlbss JvmMfmMbnbgfrTbblfCbdif
         fxtfnds SnmpNbmfdListTbblfCbdif {
+        fxtfnds SnmpNbmfdListTbblfCbdif {
+        fxtfnds SnmpNbmfdListTbblfCbdif {
+        fxtfnds SnmpNbmfdListTbblfCbdif {
+        fxtfnds SnmpNbmfdListTbblfCbdif {
+
+
+
+
 
         stbtid finbl long sfriblVfrsionUID = 6564294074653009240L;
+        stbtid finbl long sfriblVfrsionUID = 6564294074653009240L;
+        stbtid finbl long sfriblVfrsionUID = 6564294074653009240L;
+        stbtid finbl long sfriblVfrsionUID = 6564294074653009240L;
+        stbtid finbl long sfriblVfrsionUID = 6564294074653009240L;
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Crfbtf b wfbk dbdif for tif jvmMfmMbnbgfrTbblf.
+         * Crfbtf b wfbk dbdif for tif jvmMfmMbnbgfrTbblf.
+         * Crfbtf b wfbk dbdif for tif jvmMfmMbnbgfrTbblf.
+         * Crfbtf b wfbk dbdif for tif jvmMfmMbnbgfrTbblf.
+         * Crfbtf b wfbk dbdif for tif jvmMfmMbnbgfrTbblf.
+         * @pbrbm vblidity vblidity of tif dbdifd dbtb, in ms.
+         * @pbrbm vblidity vblidity of tif dbdifd dbtb, in ms.
+         * @pbrbm vblidity vblidity of tif dbdifd dbtb, in ms.
+         * @pbrbm vblidity vblidity of tif dbdifd dbtb, in ms.
          * @pbrbm vblidity vblidity of tif dbdifd dbtb, in ms.
          **/
+         **/
+         **/
+         **/
+         **/
+        JvmMfmMbnbgfrTbblfCbdif(long vblidity) {
+        JvmMfmMbnbgfrTbblfCbdif(long vblidity) {
+        JvmMfmMbnbgfrTbblfCbdif(long vblidity) {
+        JvmMfmMbnbgfrTbblfCbdif(long vblidity) {
         JvmMfmMbnbgfrTbblfCbdif(long vblidity) {
             tiis.vblidity = vblidity;
+            tiis.vblidity = vblidity;
+            tiis.vblidity = vblidity;
+            tiis.vblidity = vblidity;
+            tiis.vblidity = vblidity;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Usf tif MfmoryMbnbgfrMXBfbn nbmf bs kfy.
+         * Usf tif MfmoryMbnbgfrMXBfbn nbmf bs kfy.
+         * Usf tif MfmoryMbnbgfrMXBfbn nbmf bs kfy.
+         * Usf tif MfmoryMbnbgfrMXBfbn nbmf bs kfy.
+         * Usf tif MfmoryMbnbgfrMXBfbn nbmf bs kfy.
+         * @pbrbm dontfxt A {@link TrffMbp} bs bllodbtfd by tif pbrfnt
+         * @pbrbm dontfxt A {@link TrffMbp} bs bllodbtfd by tif pbrfnt
+         * @pbrbm dontfxt A {@link TrffMbp} bs bllodbtfd by tif pbrfnt
+         * @pbrbm dontfxt A {@link TrffMbp} bs bllodbtfd by tif pbrfnt
          * @pbrbm dontfxt A {@link TrffMbp} bs bllodbtfd by tif pbrfnt
          *        {@link SnmpNbmfdListTbblfCbdif} dlbss.
+         *        {@link SnmpNbmfdListTbblfCbdif} dlbss.
+         *        {@link SnmpNbmfdListTbblfCbdif} dlbss.
+         *        {@link SnmpNbmfdListTbblfCbdif} dlbss.
+         *        {@link SnmpNbmfdListTbblfCbdif} dlbss.
+         * @pbrbm rbwDbtbs List of {@link MfmoryMbnbgfrMXBfbn}, bs
+         * @pbrbm rbwDbtbs List of {@link MfmoryMbnbgfrMXBfbn}, bs
+         * @pbrbm rbwDbtbs List of {@link MfmoryMbnbgfrMXBfbn}, bs
+         * @pbrbm rbwDbtbs List of {@link MfmoryMbnbgfrMXBfbn}, bs
          * @pbrbm rbwDbtbs List of {@link MfmoryMbnbgfrMXBfbn}, bs
          *        rfturnfd by
+         *        rfturnfd by
+         *        rfturnfd by
+         *        rfturnfd by
+         *        rfturnfd by
+         * <dodf>MbnbgfmfntFbdtory.gftMfmoryMBfbn().gftMfmoryMbnbgfrs()</dodf>
+         * <dodf>MbnbgfmfntFbdtory.gftMfmoryMBfbn().gftMfmoryMbnbgfrs()</dodf>
+         * <dodf>MbnbgfmfntFbdtory.gftMfmoryMBfbn().gftMfmoryMbnbgfrs()</dodf>
+         * <dodf>MbnbgfmfntFbdtory.gftMfmoryMBfbn().gftMfmoryMbnbgfrs()</dodf>
          * <dodf>MbnbgfmfntFbdtory.gftMfmoryMBfbn().gftMfmoryMbnbgfrs()</dodf>
          * @pbrbm rbnk Tif <vbr>rbnk</vbr> of <vbr>itfm</vbr> in tif list.
+         * @pbrbm rbnk Tif <vbr>rbnk</vbr> of <vbr>itfm</vbr> in tif list.
+         * @pbrbm rbnk Tif <vbr>rbnk</vbr> of <vbr>itfm</vbr> in tif list.
+         * @pbrbm rbnk Tif <vbr>rbnk</vbr> of <vbr>itfm</vbr> in tif list.
+         * @pbrbm rbnk Tif <vbr>rbnk</vbr> of <vbr>itfm</vbr> in tif list.
+         * @pbrbm itfm Tif <vbr>rbnk</vbr><supfr>ti</supfr>
+         * @pbrbm itfm Tif <vbr>rbnk</vbr><supfr>ti</supfr>
+         * @pbrbm itfm Tif <vbr>rbnk</vbr><supfr>ti</supfr>
+         * @pbrbm itfm Tif <vbr>rbnk</vbr><supfr>ti</supfr>
          * @pbrbm itfm Tif <vbr>rbnk</vbr><supfr>ti</supfr>
          *        <dodf>MfmoryMbnbgfrMXBfbn</dodf> in tif list.
+         *        <dodf>MfmoryMbnbgfrMXBfbn</dodf> in tif list.
+         *        <dodf>MfmoryMbnbgfrMXBfbn</dodf> in tif list.
+         *        <dodf>MfmoryMbnbgfrMXBfbn</dodf> in tif list.
+         *        <dodf>MfmoryMbnbgfrMXBfbn</dodf> in tif list.
+         * @rfturn  <dodf>((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf()</dodf>
+         * @rfturn  <dodf>((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf()</dodf>
+         * @rfturn  <dodf>((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf()</dodf>
+         * @rfturn  <dodf>((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf()</dodf>
          * @rfturn  <dodf>((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf()</dodf>
          **/
+         **/
+         **/
+         **/
+         **/
+        protfdtfd String gftKfy(Objfdt dontfxt, List<?> rbwDbtbs,
+        protfdtfd String gftKfy(Objfdt dontfxt, List<?> rbwDbtbs,
+        protfdtfd String gftKfy(Objfdt dontfxt, List<?> rbwDbtbs,
+        protfdtfd String gftKfy(Objfdt dontfxt, List<?> rbwDbtbs,
         protfdtfd String gftKfy(Objfdt dontfxt, List<?> rbwDbtbs,
                                 int rbnk, Objfdt itfm) {
+                                int rbnk, Objfdt itfm) {
+                                int rbnk, Objfdt itfm) {
+                                int rbnk, Objfdt itfm) {
+                                int rbnk, Objfdt itfm) {
+            if (itfm == null) rfturn null;
+            if (itfm == null) rfturn null;
+            if (itfm == null) rfturn null;
+            if (itfm == null) rfturn null;
             if (itfm == null) rfturn null;
             finbl String nbmf = ((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf();
+            finbl String nbmf = ((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf();
+            finbl String nbmf = ((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf();
+            finbl String nbmf = ((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf();
+            finbl String nbmf = ((MfmoryMbnbgfrMXBfbn)itfm).gftNbmf();
+            log.dfbug("gftKfy", "kfy=" + nbmf);
+            log.dfbug("gftKfy", "kfy=" + nbmf);
+            log.dfbug("gftKfy", "kfy=" + nbmf);
+            log.dfbug("gftKfy", "kfy=" + nbmf);
             log.dfbug("gftKfy", "kfy=" + nbmf);
             rfturn nbmf;
+            rfturn nbmf;
+            rfturn nbmf;
+            rfturn nbmf;
+            rfturn nbmf;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Cbll <dodf>gftTbblfHbndlfr(JvmContfxtFbdtory.gftUsfrDbtb())</dodf>.
+         * Cbll <dodf>gftTbblfHbndlfr(JvmContfxtFbdtory.gftUsfrDbtb())</dodf>.
+         * Cbll <dodf>gftTbblfHbndlfr(JvmContfxtFbdtory.gftUsfrDbtb())</dodf>.
+         * Cbll <dodf>gftTbblfHbndlfr(JvmContfxtFbdtory.gftUsfrDbtb())</dodf>.
+         * Cbll <dodf>gftTbblfHbndlfr(JvmContfxtFbdtory.gftUsfrDbtb())</dodf>.
+         **/
+         **/
+         **/
+         **/
          **/
         publid SnmpTbblfHbndlfr gftTbblfHbndlfr() {
+        publid SnmpTbblfHbndlfr gftTbblfHbndlfr() {
+        publid SnmpTbblfHbndlfr gftTbblfHbndlfr() {
+        publid SnmpTbblfHbndlfr gftTbblfHbndlfr() {
+        publid SnmpTbblfHbndlfr gftTbblfHbndlfr() {
+            finbl Mbp<Objfdt, Objfdt> usfrDbtb = JvmContfxtFbdtory.gftUsfrDbtb();
+            finbl Mbp<Objfdt, Objfdt> usfrDbtb = JvmContfxtFbdtory.gftUsfrDbtb();
+            finbl Mbp<Objfdt, Objfdt> usfrDbtb = JvmContfxtFbdtory.gftUsfrDbtb();
+            finbl Mbp<Objfdt, Objfdt> usfrDbtb = JvmContfxtFbdtory.gftUsfrDbtb();
             finbl Mbp<Objfdt, Objfdt> usfrDbtb = JvmContfxtFbdtory.gftUsfrDbtb();
             rfturn gftTbblfDbtbs(usfrDbtb);
+            rfturn gftTbblfDbtbs(usfrDbtb);
+            rfturn gftTbblfDbtbs(usfrDbtb);
+            rfturn gftTbblfDbtbs(usfrDbtb);
+            rfturn gftTbblfDbtbs(usfrDbtb);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Rfturn tif kfy usfd to dbdif tif rbw dbtb of tiis tbblf.
+         * Rfturn tif kfy usfd to dbdif tif rbw dbtb of tiis tbblf.
+         * Rfturn tif kfy usfd to dbdif tif rbw dbtb of tiis tbblf.
+         * Rfturn tif kfy usfd to dbdif tif rbw dbtb of tiis tbblf.
+         * Rfturn tif kfy usfd to dbdif tif rbw dbtb of tiis tbblf.
+         **/
+         **/
+         **/
+         **/
          **/
         protfdtfd String gftRbwDbtbsKfy() {
+        protfdtfd String gftRbwDbtbsKfy() {
+        protfdtfd String gftRbwDbtbsKfy() {
+        protfdtfd String gftRbwDbtbsKfy() {
+        protfdtfd String gftRbwDbtbsKfy() {
+            rfturn "JvmMfmMbnbgfrTbblf.gftMfmoryMbnbgfrs";
+            rfturn "JvmMfmMbnbgfrTbblf.gftMfmoryMbnbgfrs";
+            rfturn "JvmMfmMbnbgfrTbblf.gftMfmoryMbnbgfrs";
+            rfturn "JvmMfmMbnbgfrTbblf.gftMfmoryMbnbgfrs";
             rfturn "JvmMfmMbnbgfrTbblf.gftMfmoryMbnbgfrs";
         }
-
-        /**
-         * Cbll MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() to
-         * lobd tif rbw dbtb of tiis tbblf.
-         **/
-        protfdtfd List<MfmoryMbnbgfrMXBfbn> lobdRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb) {
-            rfturn MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns();
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
+        /**
+         * Cbll MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() to
+         * Cbll MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() to
+         * Cbll MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() to
+         * Cbll MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() to
+         * Cbll MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() to
+         * lobd tif rbw dbtb of tiis tbblf.
+         * lobd tif rbw dbtb of tiis tbblf.
+         * lobd tif rbw dbtb of tiis tbblf.
+         * lobd tif rbw dbtb of tiis tbblf.
+         * lobd tif rbw dbtb of tiis tbblf.
+         **/
+         **/
+         **/
+         **/
+         **/
+        protfdtfd List<MfmoryMbnbgfrMXBfbn> lobdRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb) {
+        protfdtfd List<MfmoryMbnbgfrMXBfbn> lobdRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb) {
+        protfdtfd List<MfmoryMbnbgfrMXBfbn> lobdRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb) {
+        protfdtfd List<MfmoryMbnbgfrMXBfbn> lobdRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb) {
+        protfdtfd List<MfmoryMbnbgfrMXBfbn> lobdRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb) {
+            rfturn MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns();
+            rfturn MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns();
+            rfturn MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns();
+            rfturn MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns();
+            rfturn MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns();
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     // Tif wfbk dbdif for tiis tbblf.
+    // Tif wfbk dbdif for tiis tbblf.
+    // Tif wfbk dbdif for tiis tbblf.
+    // Tif wfbk dbdif for tiis tbblf.
+    // Tif wfbk dbdif for tiis tbblf.
+    protfdtfd SnmpTbblfCbdif dbdif;
+    protfdtfd SnmpTbblfCbdif dbdif;
+    protfdtfd SnmpTbblfCbdif dbdif;
+    protfdtfd SnmpTbblfCbdif dbdif;
     protfdtfd SnmpTbblfCbdif dbdif;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdtor for tif tbblf. Initiblizf mftbdbtb for
+     * Construdtor for tif tbblf. Initiblizf mftbdbtb for
+     * Construdtor for tif tbblf. Initiblizf mftbdbtb for
+     * Construdtor for tif tbblf. Initiblizf mftbdbtb for
+     * Construdtor for tif tbblf. Initiblizf mftbdbtb for
+     * "JvmMfmMbnbgfrTbblfMftb".
+     * "JvmMfmMbnbgfrTbblfMftb".
+     * "JvmMfmMbnbgfrTbblfMftb".
+     * "JvmMfmMbnbgfrTbblfMftb".
      * "JvmMfmMbnbgfrTbblfMftb".
      * Tif rfffrfndf on tif MBfbn sfrvfr is updbtfd so tif fntrifs
+     * Tif rfffrfndf on tif MBfbn sfrvfr is updbtfd so tif fntrifs
+     * Tif rfffrfndf on tif MBfbn sfrvfr is updbtfd so tif fntrifs
+     * Tif rfffrfndf on tif MBfbn sfrvfr is updbtfd so tif fntrifs
+     * Tif rfffrfndf on tif MBfbn sfrvfr is updbtfd so tif fntrifs
+     * drfbtfd tirougi bn SNMP SET will bf AUTOMATICALLY REGISTERED
+     * drfbtfd tirougi bn SNMP SET will bf AUTOMATICALLY REGISTERED
+     * drfbtfd tirougi bn SNMP SET will bf AUTOMATICALLY REGISTERED
+     * drfbtfd tirougi bn SNMP SET will bf AUTOMATICALLY REGISTERED
      * drfbtfd tirougi bn SNMP SET will bf AUTOMATICALLY REGISTERED
      * in Jbvb DMK.
+     * in Jbvb DMK.
+     * in Jbvb DMK.
+     * in Jbvb DMK.
+     * in Jbvb DMK.
+     */
+     */
+     */
+     */
      */
     publid JvmMfmMbnbgfrTbblfMftbImpl(SnmpMib myMib,
+    publid JvmMfmMbnbgfrTbblfMftbImpl(SnmpMib myMib,
+    publid JvmMfmMbnbgfrTbblfMftbImpl(SnmpMib myMib,
+    publid JvmMfmMbnbgfrTbblfMftbImpl(SnmpMib myMib,
+    publid JvmMfmMbnbgfrTbblfMftbImpl(SnmpMib myMib,
+                                      SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+                                      SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+                                      SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+                                      SnmpStbndbrdObjfdtSfrvfr objsfrv) {
                                       SnmpStbndbrdObjfdtSfrvfr objsfrv) {
         supfr(myMib,objsfrv);
+        supfr(myMib,objsfrv);
+        supfr(myMib,objsfrv);
+        supfr(myMib,objsfrv);
+        supfr(myMib,objsfrv);
+        tiis.dbdif = nfw
+        tiis.dbdif = nfw
+        tiis.dbdif = nfw
+        tiis.dbdif = nfw
         tiis.dbdif = nfw
             JvmMfmMbnbgfrTbblfCbdif(((JVM_MANAGEMENT_MIB_IMPL)myMib).
+            JvmMfmMbnbgfrTbblfCbdif(((JVM_MANAGEMENT_MIB_IMPL)myMib).
+            JvmMfmMbnbgfrTbblfCbdif(((JVM_MANAGEMENT_MIB_IMPL)myMib).
+            JvmMfmMbnbgfrTbblfCbdif(((JVM_MANAGEMENT_MIB_IMPL)myMib).
+            JvmMfmMbnbgfrTbblfCbdif(((JVM_MANAGEMENT_MIB_IMPL)myMib).
+                                    vblidity());
+                                    vblidity());
+                                    vblidity());
+                                    vblidity());
                                     vblidity());
     }
-
-    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
-    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
-        tirows SnmpStbtusExdfption {
-        // null mfbns gft tif first OID.
-        rfturn gftNfxtOid(null,usfrDbtb);
+    }
+    }
+    }
     }
 
+
+
+
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        // null mfbns gft tif first OID.
+        // null mfbns gft tif first OID.
+        // null mfbns gft tif first OID.
+        // null mfbns gft tif first OID.
+        // null mfbns gft tif first OID.
+        rfturn gftNfxtOid(null,usfrDbtb);
+        rfturn gftNfxtOid(null,usfrDbtb);
+        rfturn gftNfxtOid(null,usfrDbtb);
+        rfturn gftNfxtOid(null,usfrDbtb);
+        rfturn gftNfxtOid(null,usfrDbtb);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
     // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
     protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
         tirows SnmpStbtusExdfption {
         finbl boolfbn dbg = log.isDfbugOn();
+        finbl boolfbn dbg = log.isDfbugOn();
+        finbl boolfbn dbg = log.isDfbugOn();
+        finbl boolfbn dbg = log.isDfbugOn();
+        finbl boolfbn dbg = log.isDfbugOn();
+        if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
+        if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
+        if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
+        if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
         if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
 
 
+
+
+
+
+
+
+
+
+        // Gft tif dbtb ibndlfr.
+        // Gft tif dbtb ibndlfr.
+        // Gft tif dbtb ibndlfr.
+        // Gft tif dbtb ibndlfr.
         // Gft tif dbtb ibndlfr.
         //
+        //
+        //
+        //
+        //
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
         SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
         if (ibndlfr == null) {
+        if (ibndlfr == null) {
+        if (ibndlfr == null) {
+        if (ibndlfr == null) {
+        if (ibndlfr == null) {
+            // Tiis siould nfvfr ibppfn.
+            // Tiis siould nfvfr ibppfn.
+            // Tiis siould nfvfr ibppfn.
+            // Tiis siould nfvfr ibppfn.
             // Tiis siould nfvfr ibppfn.
             // If wf gft ifrf it's b bug.
+            // If wf gft ifrf it's b bug.
+            // If wf gft ifrf it's b bug.
+            // If wf gft ifrf it's b bug.
+            // If wf gft ifrf it's b bug.
+            //
+            //
+            //
+            //
             //
             if (dbg) log.dfbug("gftNfxtOid", "ibndlfr is null!");
+            if (dbg) log.dfbug("gftNfxtOid", "ibndlfr is null!");
+            if (dbg) log.dfbug("gftNfxtOid", "ibndlfr is null!");
+            if (dbg) log.dfbug("gftNfxtOid", "ibndlfr is null!");
+            if (dbg) log.dfbug("gftNfxtOid", "ibndlfr is null!");
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
             tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // Gft tif nfxt oid
+        // Gft tif nfxt oid
+        // Gft tif nfxt oid
+        // Gft tif nfxt oid
+        // Gft tif nfxt oid
+        //
+        //
+        //
+        //
         //
         finbl SnmpOid nfxt = ibndlfr.gftNfxt(oid);
+        finbl SnmpOid nfxt = ibndlfr.gftNfxt(oid);
+        finbl SnmpOid nfxt = ibndlfr.gftNfxt(oid);
+        finbl SnmpOid nfxt = ibndlfr.gftNfxt(oid);
+        finbl SnmpOid nfxt = ibndlfr.gftNfxt(oid);
+        if (dbg) log.dfbug("gftNfxtOid", "nfxt=" + nfxt);
+        if (dbg) log.dfbug("gftNfxtOid", "nfxt=" + nfxt);
+        if (dbg) log.dfbug("gftNfxtOid", "nfxt=" + nfxt);
+        if (dbg) log.dfbug("gftNfxtOid", "nfxt=" + nfxt);
         if (dbg) log.dfbug("gftNfxtOid", "nfxt=" + nfxt);
 
+
+
+
+
+        // if nfxt is null: wf rfbdifd tif fnd of tif tbblf.
+        // if nfxt is null: wf rfbdifd tif fnd of tif tbblf.
+        // if nfxt is null: wf rfbdifd tif fnd of tif tbblf.
+        // if nfxt is null: wf rfbdifd tif fnd of tif tbblf.
         // if nfxt is null: wf rfbdifd tif fnd of tif tbblf.
         //
+        //
+        //
+        //
+        //
+        if (nfxt == null)
+        if (nfxt == null)
+        if (nfxt == null)
+        if (nfxt == null)
         if (nfxt == null)
             tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+
+
+
+
 
         rfturn nfxt;
+        rfturn nfxt;
+        rfturn nfxt;
+        rfturn nfxt;
+        rfturn nfxt;
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
     // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
     protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+
+
+
+
 
         // Gft tif ibndlfr.
+        // Gft tif ibndlfr.
+        // Gft tif ibndlfr.
+        // Gft tif ibndlfr.
+        // Gft tif ibndlfr.
+        //
+        //
+        //
+        //
         //
         SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+
+
+
+
 
         // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
         //
+        //
+        //
+        //
+        //
+        if (ibndlfr == null)
+        if (ibndlfr == null)
+        if (ibndlfr == null)
+        if (ibndlfr == null)
         if (ibndlfr == null)
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+
+
+
+
 
         rfturn ibndlfr.dontbins(oid);
+        rfturn ibndlfr.dontbins(oid);
+        rfturn ibndlfr.dontbins(oid);
+        rfturn ibndlfr.dontbins(oid);
+        rfturn ibndlfr.dontbins(oid);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    publid Objfdt gftEntry(SnmpOid oid)
+    publid Objfdt gftEntry(SnmpOid oid)
+    publid Objfdt gftEntry(SnmpOid oid)
+    publid Objfdt gftEntry(SnmpOid oid)
     publid Objfdt gftEntry(SnmpOid oid)
         tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+        tirows SnmpStbtusExdfption {
+
+
+
+
 
         if (oid == null)
+        if (oid == null)
+        if (oid == null)
+        if (oid == null)
+        if (oid == null)
             tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+
+
+
+
 
         // Gft tif rfqufst dontfxtubl dbdif (usfrDbtb).
+        // Gft tif rfqufst dontfxtubl dbdif (usfrDbtb).
+        // Gft tif rfqufst dontfxtubl dbdif (usfrDbtb).
+        // Gft tif rfqufst dontfxtubl dbdif (usfrDbtb).
+        // Gft tif rfqufst dontfxtubl dbdif (usfrDbtb).
+        //
+        //
+        //
+        //
         //
         finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+        finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+        finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+        finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+        finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
+
+
+
+
 
         // Wf know in tif dbsf of tiis tbblf tibt tif indfx is bn intfgfr,
+        // Wf know in tif dbsf of tiis tbblf tibt tif indfx is bn intfgfr,
+        // Wf know in tif dbsf of tiis tbblf tibt tif indfx is bn intfgfr,
+        // Wf know in tif dbsf of tiis tbblf tibt tif indfx is bn intfgfr,
+        // Wf know in tif dbsf of tiis tbblf tibt tif indfx is bn intfgfr,
+        // it is tius tif first OID brd of tif indfx OID.
+        // it is tius tif first OID brd of tif indfx OID.
+        // it is tius tif first OID brd of tif indfx OID.
+        // it is tius tif first OID brd of tif indfx OID.
         // it is tius tif first OID brd of tif indfx OID.
         //
+        //
+        //
+        //
+        //
+        finbl long   indfx    = oid.gftOidArd(0);
+        finbl long   indfx    = oid.gftOidArd(0);
+        finbl long   indfx    = oid.gftOidArd(0);
+        finbl long   indfx    = oid.gftOidArd(0);
         finbl long   indfx    = oid.gftOidArd(0);
 
+
+
+
+
+        // Wf'rf going to usf tiis nbmf to storf/rftrifvf tif fntry in
+        // Wf'rf going to usf tiis nbmf to storf/rftrifvf tif fntry in
+        // Wf'rf going to usf tiis nbmf to storf/rftrifvf tif fntry in
+        // Wf'rf going to usf tiis nbmf to storf/rftrifvf tif fntry in
         // Wf'rf going to usf tiis nbmf to storf/rftrifvf tif fntry in
         // tif rfqufst dontfxtubl dbdif.
+        // tif rfqufst dontfxtubl dbdif.
+        // tif rfqufst dontfxtubl dbdif.
+        // tif rfqufst dontfxtubl dbdif.
+        // tif rfqufst dontfxtubl dbdif.
+        //
+        //
+        //
+        //
         //
         // Rfvisit: Probbbly bfttfr progrbmming to put bll tifsf strings
+        // Rfvisit: Probbbly bfttfr progrbmming to put bll tifsf strings
+        // Rfvisit: Probbbly bfttfr progrbmming to put bll tifsf strings
+        // Rfvisit: Probbbly bfttfr progrbmming to put bll tifsf strings
+        // Rfvisit: Probbbly bfttfr progrbmming to put bll tifsf strings
+        //          in somf intfrfbdf.
+        //          in somf intfrfbdf.
+        //          in somf intfrfbdf.
+        //          in somf intfrfbdf.
         //          in somf intfrfbdf.
         //
+        //
+        //
+        //
+        //
+        finbl String fntryTbg = ((m==null)?null:("JvmMfmMbnbgfrTbblf.fntry." +
+        finbl String fntryTbg = ((m==null)?null:("JvmMfmMbnbgfrTbblf.fntry." +
+        finbl String fntryTbg = ((m==null)?null:("JvmMfmMbnbgfrTbblf.fntry." +
+        finbl String fntryTbg = ((m==null)?null:("JvmMfmMbnbgfrTbblf.fntry." +
         finbl String fntryTbg = ((m==null)?null:("JvmMfmMbnbgfrTbblf.fntry." +
                                                  indfx));
+                                                 indfx));
+                                                 indfx));
+                                                 indfx));
+                                                 indfx));
+
+
+
+
 
         // If tif fntry is in tif dbdif, simply rfturn it.
+        // If tif fntry is in tif dbdif, simply rfturn it.
+        // If tif fntry is in tif dbdif, simply rfturn it.
+        // If tif fntry is in tif dbdif, simply rfturn it.
+        // If tif fntry is in tif dbdif, simply rfturn it.
         //
+        //
+        //
+        //
+        //
+        if (m != null) {
+        if (m != null) {
+        if (m != null) {
+        if (m != null) {
         if (m != null) {
             finbl Objfdt fntry = m.gft(fntryTbg);
+            finbl Objfdt fntry = m.gft(fntryTbg);
+            finbl Objfdt fntry = m.gft(fntryTbg);
+            finbl Objfdt fntry = m.gft(fntryTbg);
+            finbl Objfdt fntry = m.gft(fntryTbg);
+            if (fntry != null) rfturn fntry;
+            if (fntry != null) rfturn fntry;
+            if (fntry != null) rfturn fntry;
+            if (fntry != null) rfturn fntry;
             if (fntry != null) rfturn fntry;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // Tif fntry wbs not in tif dbdif, mbkf b nfw onf.
+        // Tif fntry wbs not in tif dbdif, mbkf b nfw onf.
+        // Tif fntry wbs not in tif dbdif, mbkf b nfw onf.
+        // Tif fntry wbs not in tif dbdif, mbkf b nfw onf.
+        // Tif fntry wbs not in tif dbdif, mbkf b nfw onf.
+        //
+        //
+        //
+        //
         //
         // Gft tif dbtb ibnlfr.
+        // Gft tif dbtb ibnlfr.
+        // Gft tif dbtb ibnlfr.
+        // Gft tif dbtb ibnlfr.
+        // Gft tif dbtb ibnlfr.
+        //
+        //
+        //
+        //
         //
         SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(m);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(m);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(m);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(m);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(m);
+
+
+
+
 
         // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
+        // ibndlfr siould nfvfr bf null.
+        //
+        //
+        //
+        //
         //
         if (ibndlfr == null)
+        if (ibndlfr == null)
+        if (ibndlfr == null)
+        if (ibndlfr == null)
+        if (ibndlfr == null)
             tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+
+
+
+
 
         // Gft tif dbtb bssodibtfd witi our fntry.
+        // Gft tif dbtb bssodibtfd witi our fntry.
+        // Gft tif dbtb bssodibtfd witi our fntry.
+        // Gft tif dbtb bssodibtfd witi our fntry.
+        // Gft tif dbtb bssodibtfd witi our fntry.
+        //
+        //
+        //
+        //
         //
         finbl Objfdt dbtb = ibndlfr.gftDbtb(oid);
+        finbl Objfdt dbtb = ibndlfr.gftDbtb(oid);
+        finbl Objfdt dbtb = ibndlfr.gftDbtb(oid);
+        finbl Objfdt dbtb = ibndlfr.gftDbtb(oid);
+        finbl Objfdt dbtb = ibndlfr.gftDbtb(oid);
+
+
+
+
 
         // dbtb mby bf null if tif OID wf wfrf givfn is not vblid.
+        // dbtb mby bf null if tif OID wf wfrf givfn is not vblid.
+        // dbtb mby bf null if tif OID wf wfrf givfn is not vblid.
+        // dbtb mby bf null if tif OID wf wfrf givfn is not vblid.
+        // dbtb mby bf null if tif OID wf wfrf givfn is not vblid.
+        //
+        //
+        //
+        //
         //
         if (dbtb == null)
+        if (dbtb == null)
+        if (dbtb == null)
+        if (dbtb == null)
+        if (dbtb == null)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
             tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
 
+
+
+
+
+        // mbkf tif nfw fntry (trbnsifnt objfdt tibt will bf kfpt only
+        // mbkf tif nfw fntry (trbnsifnt objfdt tibt will bf kfpt only
+        // mbkf tif nfw fntry (trbnsifnt objfdt tibt will bf kfpt only
+        // mbkf tif nfw fntry (trbnsifnt objfdt tibt will bf kfpt only
         // mbkf tif nfw fntry (trbnsifnt objfdt tibt will bf kfpt only
         // for tif durbtion of tif rfqufst.
+        // for tif durbtion of tif rfqufst.
+        // for tif durbtion of tif rfqufst.
+        // for tif durbtion of tif rfqufst.
+        // for tif durbtion of tif rfqufst.
+        //
+        //
+        //
+        //
         //
         finbl Objfdt fntry =
+        finbl Objfdt fntry =
+        finbl Objfdt fntry =
+        finbl Objfdt fntry =
+        finbl Objfdt fntry =
+            nfw JvmMfmMbnbgfrEntryImpl((MfmoryMbnbgfrMXBfbn)dbtb,(int)indfx);
+            nfw JvmMfmMbnbgfrEntryImpl((MfmoryMbnbgfrMXBfbn)dbtb,(int)indfx);
+            nfw JvmMfmMbnbgfrEntryImpl((MfmoryMbnbgfrMXBfbn)dbtb,(int)indfx);
+            nfw JvmMfmMbnbgfrEntryImpl((MfmoryMbnbgfrMXBfbn)dbtb,(int)indfx);
             nfw JvmMfmMbnbgfrEntryImpl((MfmoryMbnbgfrMXBfbn)dbtb,(int)indfx);
 
+
+
+
+
+        // Put tif fntry in tif dbdif in dbsf wf nffd it lbtfr wiilf prodfssing
+        // Put tif fntry in tif dbdif in dbsf wf nffd it lbtfr wiilf prodfssing
+        // Put tif fntry in tif dbdif in dbsf wf nffd it lbtfr wiilf prodfssing
+        // Put tif fntry in tif dbdif in dbsf wf nffd it lbtfr wiilf prodfssing
         // Put tif fntry in tif dbdif in dbsf wf nffd it lbtfr wiilf prodfssing
         // tif rfqufst.
+        // tif rfqufst.
+        // tif rfqufst.
+        // tif rfqufst.
+        // tif rfqufst.
+        //
+        //
+        //
+        //
         //
         if (m != null && fntry != null) {
+        if (m != null && fntry != null) {
+        if (m != null && fntry != null) {
+        if (m != null && fntry != null) {
+        if (m != null && fntry != null) {
+            m.put(fntryTbg,fntry);
+            m.put(fntryTbg,fntry);
+            m.put(fntryTbg,fntry);
+            m.put(fntryTbg,fntry);
             m.put(fntryTbg,fntry);
         }
-
-        rfturn fntry;
-    }
-
-    /**
-     * Gft tif SnmpTbblfHbndlfr tibt iolds tif jvmMfmMbnbgfrTbblf dbtb.
-     * First look it up in tif rfqufst dontfxtubl dbdif, bnd if it is
-     * not found, obtbin it from tif wfbk dbdif.
-     * <br>Tif rfqufst dontfxtubl dbdif will bf rflfbsfd bt tif fnd of tif
-     * durrfnt rfqufsts, bnd is usfd only to prodfss tiis rfqufst.
-     * <br>Tif wfbk dbdif is sibrfd by bll rfqufsts, bnd is only
-     * rfdomputfd wifn it is found to bf obsolftf.
-     * <br>Notf tibt tif dbtb put in tif rfqufst dontfxtubl dbdif is
-     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
-     *     doifrfndy.
-     **/
-    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
-        finbl Mbp<Objfdt, Objfdt> m;
-        if (usfrDbtb instbndfof Mbp) m=Util.dbst(usfrDbtb);
-        flsf m=null;
-
-        // Look in tif dontfxtubl dbdif.
-        if (m != null) {
-            finbl SnmpTbblfHbndlfr ibndlfr =
-                (SnmpTbblfHbndlfr)m.gft("JvmMfmMbnbgfrTbblf.ibndlfr");
-            if (ibndlfr != null) rfturn ibndlfr;
+        }
+        }
+        }
         }
 
-        // No ibndlfr in dontfxtubl dbdif, mbkf b nfw onf.
-        finbl SnmpTbblfHbndlfr ibndlfr = dbdif.gftTbblfHbndlfr();
 
-        if (m != null && ibndlfr != null )
-            m.put("JvmMfmMbnbgfrTbblf.ibndlfr",ibndlfr);
 
-        rfturn ibndlfr;
+
+
+        rfturn fntry;
+        rfturn fntry;
+        rfturn fntry;
+        rfturn fntry;
+        rfturn fntry;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Gft tif SnmpTbblfHbndlfr tibt iolds tif jvmMfmMbnbgfrTbblf dbtb.
+     * Gft tif SnmpTbblfHbndlfr tibt iolds tif jvmMfmMbnbgfrTbblf dbtb.
+     * Gft tif SnmpTbblfHbndlfr tibt iolds tif jvmMfmMbnbgfrTbblf dbtb.
+     * Gft tif SnmpTbblfHbndlfr tibt iolds tif jvmMfmMbnbgfrTbblf dbtb.
+     * Gft tif SnmpTbblfHbndlfr tibt iolds tif jvmMfmMbnbgfrTbblf dbtb.
+     * First look it up in tif rfqufst dontfxtubl dbdif, bnd if it is
+     * First look it up in tif rfqufst dontfxtubl dbdif, bnd if it is
+     * First look it up in tif rfqufst dontfxtubl dbdif, bnd if it is
+     * First look it up in tif rfqufst dontfxtubl dbdif, bnd if it is
+     * First look it up in tif rfqufst dontfxtubl dbdif, bnd if it is
+     * not found, obtbin it from tif wfbk dbdif.
+     * not found, obtbin it from tif wfbk dbdif.
+     * not found, obtbin it from tif wfbk dbdif.
+     * not found, obtbin it from tif wfbk dbdif.
+     * not found, obtbin it from tif wfbk dbdif.
+     * <br>Tif rfqufst dontfxtubl dbdif will bf rflfbsfd bt tif fnd of tif
+     * <br>Tif rfqufst dontfxtubl dbdif will bf rflfbsfd bt tif fnd of tif
+     * <br>Tif rfqufst dontfxtubl dbdif will bf rflfbsfd bt tif fnd of tif
+     * <br>Tif rfqufst dontfxtubl dbdif will bf rflfbsfd bt tif fnd of tif
+     * <br>Tif rfqufst dontfxtubl dbdif will bf rflfbsfd bt tif fnd of tif
+     * durrfnt rfqufsts, bnd is usfd only to prodfss tiis rfqufst.
+     * durrfnt rfqufsts, bnd is usfd only to prodfss tiis rfqufst.
+     * durrfnt rfqufsts, bnd is usfd only to prodfss tiis rfqufst.
+     * durrfnt rfqufsts, bnd is usfd only to prodfss tiis rfqufst.
+     * durrfnt rfqufsts, bnd is usfd only to prodfss tiis rfqufst.
+     * <br>Tif wfbk dbdif is sibrfd by bll rfqufsts, bnd is only
+     * <br>Tif wfbk dbdif is sibrfd by bll rfqufsts, bnd is only
+     * <br>Tif wfbk dbdif is sibrfd by bll rfqufsts, bnd is only
+     * <br>Tif wfbk dbdif is sibrfd by bll rfqufsts, bnd is only
+     * <br>Tif wfbk dbdif is sibrfd by bll rfqufsts, bnd is only
+     * rfdomputfd wifn it is found to bf obsolftf.
+     * rfdomputfd wifn it is found to bf obsolftf.
+     * rfdomputfd wifn it is found to bf obsolftf.
+     * rfdomputfd wifn it is found to bf obsolftf.
+     * rfdomputfd wifn it is found to bf obsolftf.
+     * <br>Notf tibt tif dbtb put in tif rfqufst dontfxtubl dbdif is
+     * <br>Notf tibt tif dbtb put in tif rfqufst dontfxtubl dbdif is
+     * <br>Notf tibt tif dbtb put in tif rfqufst dontfxtubl dbdif is
+     * <br>Notf tibt tif dbtb put in tif rfqufst dontfxtubl dbdif is
+     * <br>Notf tibt tif dbtb put in tif rfqufst dontfxtubl dbdif is
+     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
+     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
+     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
+     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
+     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
+     *     doifrfndy.
+     *     doifrfndy.
+     *     doifrfndy.
+     *     doifrfndy.
+     *     doifrfndy.
+     **/
+     **/
+     **/
+     **/
+     **/
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m;
+        finbl Mbp<Objfdt, Objfdt> m;
+        finbl Mbp<Objfdt, Objfdt> m;
+        finbl Mbp<Objfdt, Objfdt> m;
+        finbl Mbp<Objfdt, Objfdt> m;
+        if (usfrDbtb instbndfof Mbp) m=Util.dbst(usfrDbtb);
+        if (usfrDbtb instbndfof Mbp) m=Util.dbst(usfrDbtb);
+        if (usfrDbtb instbndfof Mbp) m=Util.dbst(usfrDbtb);
+        if (usfrDbtb instbndfof Mbp) m=Util.dbst(usfrDbtb);
+        if (usfrDbtb instbndfof Mbp) m=Util.dbst(usfrDbtb);
+        flsf m=null;
+        flsf m=null;
+        flsf m=null;
+        flsf m=null;
+        flsf m=null;
+
+
+
+
+
+        // Look in tif dontfxtubl dbdif.
+        // Look in tif dontfxtubl dbdif.
+        // Look in tif dontfxtubl dbdif.
+        // Look in tif dontfxtubl dbdif.
+        // Look in tif dontfxtubl dbdif.
+        if (m != null) {
+        if (m != null) {
+        if (m != null) {
+        if (m != null) {
+        if (m != null) {
+            finbl SnmpTbblfHbndlfr ibndlfr =
+            finbl SnmpTbblfHbndlfr ibndlfr =
+            finbl SnmpTbblfHbndlfr ibndlfr =
+            finbl SnmpTbblfHbndlfr ibndlfr =
+            finbl SnmpTbblfHbndlfr ibndlfr =
+                (SnmpTbblfHbndlfr)m.gft("JvmMfmMbnbgfrTbblf.ibndlfr");
+                (SnmpTbblfHbndlfr)m.gft("JvmMfmMbnbgfrTbblf.ibndlfr");
+                (SnmpTbblfHbndlfr)m.gft("JvmMfmMbnbgfrTbblf.ibndlfr");
+                (SnmpTbblfHbndlfr)m.gft("JvmMfmMbnbgfrTbblf.ibndlfr");
+                (SnmpTbblfHbndlfr)m.gft("JvmMfmMbnbgfrTbblf.ibndlfr");
+            if (ibndlfr != null) rfturn ibndlfr;
+            if (ibndlfr != null) rfturn ibndlfr;
+            if (ibndlfr != null) rfturn ibndlfr;
+            if (ibndlfr != null) rfturn ibndlfr;
+            if (ibndlfr != null) rfturn ibndlfr;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        // No ibndlfr in dontfxtubl dbdif, mbkf b nfw onf.
+        // No ibndlfr in dontfxtubl dbdif, mbkf b nfw onf.
+        // No ibndlfr in dontfxtubl dbdif, mbkf b nfw onf.
+        // No ibndlfr in dontfxtubl dbdif, mbkf b nfw onf.
+        // No ibndlfr in dontfxtubl dbdif, mbkf b nfw onf.
+        finbl SnmpTbblfHbndlfr ibndlfr = dbdif.gftTbblfHbndlfr();
+        finbl SnmpTbblfHbndlfr ibndlfr = dbdif.gftTbblfHbndlfr();
+        finbl SnmpTbblfHbndlfr ibndlfr = dbdif.gftTbblfHbndlfr();
+        finbl SnmpTbblfHbndlfr ibndlfr = dbdif.gftTbblfHbndlfr();
+        finbl SnmpTbblfHbndlfr ibndlfr = dbdif.gftTbblfHbndlfr();
+
+
+
+
+
+        if (m != null && ibndlfr != null )
+        if (m != null && ibndlfr != null )
+        if (m != null && ibndlfr != null )
+        if (m != null && ibndlfr != null )
+        if (m != null && ibndlfr != null )
+            m.put("JvmMfmMbnbgfrTbblf.ibndlfr",ibndlfr);
+            m.put("JvmMfmMbnbgfrTbblf.ibndlfr",ibndlfr);
+            m.put("JvmMfmMbnbgfrTbblf.ibndlfr",ibndlfr);
+            m.put("JvmMfmMbnbgfrTbblf.ibndlfr",ibndlfr);
+            m.put("JvmMfmMbnbgfrTbblf.ibndlfr",ibndlfr);
+
+
+
+
+
+        rfturn ibndlfr;
+        rfturn ibndlfr;
+        rfturn ibndlfr;
+        rfturn ibndlfr;
+        rfturn ibndlfr;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    stbtid finbl MibLoggfr log =
+    stbtid finbl MibLoggfr log =
+    stbtid finbl MibLoggfr log =
+    stbtid finbl MibLoggfr log =
     stbtid finbl MibLoggfr log =
         nfw MibLoggfr(JvmMfmMbnbgfrTbblfMftbImpl.dlbss);
+        nfw MibLoggfr(JvmMfmMbnbgfrTbblfMftbImpl.dlbss);
+        nfw MibLoggfr(JvmMfmMbnbgfrTbblfMftbImpl.dlbss);
+        nfw MibLoggfr(JvmMfmMbnbgfrTbblfMftbImpl.dlbss);
+        nfw MibLoggfr(JvmMfmMbnbgfrTbblfMftbImpl.dlbss);
+}
+}
+}
+}
 }

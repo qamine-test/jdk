@@ -1,118 +1,590 @@
 /*
- * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.nbming.ldbp;
+pbdkbgf jbvbx.nbming.ldbp;
+pbdkbgf jbvbx.nbming.ldbp;
+pbdkbgf jbvbx.nbming.ldbp;
+pbdkbgf jbvbx.nbming.ldbp;
+
+
+
+
 
 /**
+/**
+/**
+/**
+/**
  * A sort kfy bnd its bssodibtfd sort pbrbmftfrs.
- * This dlbss implfmfnts b sort kfy whidh is usfd by thf LDAPv3
- * Control for sfrvfr-sidf sorting of sfbrdh rfsults bs dffinfd in
- * <b hrff="http://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ * A sort kfy bnd its bssodibtfd sort pbrbmftfrs.
+ * A sort kfy bnd its bssodibtfd sort pbrbmftfrs.
+ * A sort kfy bnd its bssodibtfd sort pbrbmftfrs.
+ * A sort kfy bnd its bssodibtfd sort pbrbmftfrs.
+ * Tiis dlbss implfmfnts b sort kfy wiidi is usfd by tif LDAPv3
+ * Tiis dlbss implfmfnts b sort kfy wiidi is usfd by tif LDAPv3
+ * Tiis dlbss implfmfnts b sort kfy wiidi is usfd by tif LDAPv3
+ * Tiis dlbss implfmfnts b sort kfy wiidi is usfd by tif LDAPv3
+ * Tiis dlbss implfmfnts b sort kfy wiidi is usfd by tif LDAPv3
+ * Control for sfrvfr-sidf sorting of sfbrdi rfsults bs dffinfd in
+ * Control for sfrvfr-sidf sorting of sfbrdi rfsults bs dffinfd in
+ * Control for sfrvfr-sidf sorting of sfbrdi rfsults bs dffinfd in
+ * Control for sfrvfr-sidf sorting of sfbrdi rfsults bs dffinfd in
+ * Control for sfrvfr-sidf sorting of sfbrdi rfsults bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ * <b irff="ittp://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ * <b irff="ittp://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ * <b irff="ittp://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ * <b irff="ittp://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ *
+ *
+ *
+ *
  *
  * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sff SortControl
- * @buthor Vindfnt Rybn
+ * @sff SortControl
+ * @sff SortControl
+ * @sff SortControl
+ * @sff SortControl
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ */
+ */
+ */
+ */
  */
 publid dlbss SortKfy {
+publid dlbss SortKfy {
+publid dlbss SortKfy {
+publid dlbss SortKfy {
+publid dlbss SortKfy {
+
+
+
+
 
     /*
-     * Thf ID of thf bttributf to sort by.
+    /*
+    /*
+    /*
+    /*
+     * Tif ID of tif bttributf to sort by.
+     * Tif ID of tif bttributf to sort by.
+     * Tif ID of tif bttributf to sort by.
+     * Tif ID of tif bttributf to sort by.
+     * Tif ID of tif bttributf to sort by.
+     */
+     */
+     */
+     */
      */
     privbtf String bttrID;
+    privbtf String bttrID;
+    privbtf String bttrID;
+    privbtf String bttrID;
+    privbtf String bttrID;
+
+
+
+
 
     /*
-     * Thf sort ordfr. Asdfnding ordfr, by dffbult.
+    /*
+    /*
+    /*
+    /*
+     * Tif sort ordfr. Asdfnding ordfr, by dffbult.
+     * Tif sort ordfr. Asdfnding ordfr, by dffbult.
+     * Tif sort ordfr. Asdfnding ordfr, by dffbult.
+     * Tif sort ordfr. Asdfnding ordfr, by dffbult.
+     * Tif sort ordfr. Asdfnding ordfr, by dffbult.
+     */
+     */
+     */
+     */
      */
     privbtf boolfbn rfvfrsfOrdfr = fblsf;
+    privbtf boolfbn rfvfrsfOrdfr = fblsf;
+    privbtf boolfbn rfvfrsfOrdfr = fblsf;
+    privbtf boolfbn rfvfrsfOrdfr = fblsf;
+    privbtf boolfbn rfvfrsfOrdfr = fblsf;
+
+
+
+
 
     /*
-     * Thf ID of thf mbtdhing rulf to usf for ordfring bttributf vblufs.
+    /*
+    /*
+    /*
+    /*
+     * Tif ID of tif mbtdiing rulf to usf for ordfring bttributf vblufs.
+     * Tif ID of tif mbtdiing rulf to usf for ordfring bttributf vblufs.
+     * Tif ID of tif mbtdiing rulf to usf for ordfring bttributf vblufs.
+     * Tif ID of tif mbtdiing rulf to usf for ordfring bttributf vblufs.
+     * Tif ID of tif mbtdiing rulf to usf for ordfring bttributf vblufs.
      */
-    privbtf String mbtdhingRulfID = null;
+     */
+     */
+     */
+     */
+    privbtf String mbtdiingRulfID = null;
+    privbtf String mbtdiingRulfID = null;
+    privbtf String mbtdiingRulfID = null;
+    privbtf String mbtdiingRulfID = null;
+    privbtf String mbtdiingRulfID = null;
+
+
+
+
 
     /**
-     * Crfbtfs thf dffbult sort kfy for bn bttributf. Entrifs will bf sortfd
-     * bddording to thf spfdififd bttributf in bsdfnding ordfr using thf
-     * ordfring mbtdhing rulf dffinfd for usf with thbt bttributf.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs tif dffbult sort kfy for bn bttributf. Entrifs will bf sortfd
+     * Crfbtfs tif dffbult sort kfy for bn bttributf. Entrifs will bf sortfd
+     * Crfbtfs tif dffbult sort kfy for bn bttributf. Entrifs will bf sortfd
+     * Crfbtfs tif dffbult sort kfy for bn bttributf. Entrifs will bf sortfd
+     * Crfbtfs tif dffbult sort kfy for bn bttributf. Entrifs will bf sortfd
+     * bddording to tif spfdififd bttributf in bsdfnding ordfr using tif
+     * bddording to tif spfdififd bttributf in bsdfnding ordfr using tif
+     * bddording to tif spfdififd bttributf in bsdfnding ordfr using tif
+     * bddording to tif spfdififd bttributf in bsdfnding ordfr using tif
+     * bddording to tif spfdififd bttributf in bsdfnding ordfr using tif
+     * ordfring mbtdiing rulf dffinfd for usf witi tibt bttributf.
+     * ordfring mbtdiing rulf dffinfd for usf witi tibt bttributf.
+     * ordfring mbtdiing rulf dffinfd for usf witi tibt bttributf.
+     * ordfring mbtdiing rulf dffinfd for usf witi tibt bttributf.
+     * ordfring mbtdiing rulf dffinfd for usf witi tibt bttributf.
      *
-     * @pbrbm   bttrID  Thf non-null ID of thf bttributf to bf usfd bs b sort
+     *
+     *
+     *
+     *
+     * @pbrbm   bttrID  Tif non-null ID of tif bttributf to bf usfd bs b sort
+     * @pbrbm   bttrID  Tif non-null ID of tif bttributf to bf usfd bs b sort
+     * @pbrbm   bttrID  Tif non-null ID of tif bttributf to bf usfd bs b sort
+     * @pbrbm   bttrID  Tif non-null ID of tif bttributf to bf usfd bs b sort
+     * @pbrbm   bttrID  Tif non-null ID of tif bttributf to bf usfd bs b sort
+     *          kfy.
+     *          kfy.
+     *          kfy.
+     *          kfy.
      *          kfy.
      */
+     */
+     */
+     */
+     */
     publid SortKfy(String bttrID) {
-        this.bttrID = bttrID;
+    publid SortKfy(String bttrID) {
+    publid SortKfy(String bttrID) {
+    publid SortKfy(String bttrID) {
+    publid SortKfy(String bttrID) {
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b sort kfy for bn bttributf. Entrifs will bf sortfd bddording to
-     * thf spfdififd bttributf in thf spfdififd sort ordfr bnd using thf
-     * spfdififd mbtdhing rulf, if supplifd.
+     * Crfbtfs b sort kfy for bn bttributf. Entrifs will bf sortfd bddording to
+     * Crfbtfs b sort kfy for bn bttributf. Entrifs will bf sortfd bddording to
+     * Crfbtfs b sort kfy for bn bttributf. Entrifs will bf sortfd bddording to
+     * Crfbtfs b sort kfy for bn bttributf. Entrifs will bf sortfd bddording to
+     * tif spfdififd bttributf in tif spfdififd sort ordfr bnd using tif
+     * tif spfdififd bttributf in tif spfdififd sort ordfr bnd using tif
+     * tif spfdififd bttributf in tif spfdififd sort ordfr bnd using tif
+     * tif spfdififd bttributf in tif spfdififd sort ordfr bnd using tif
+     * tif spfdififd bttributf in tif spfdififd sort ordfr bnd using tif
+     * spfdififd mbtdiing rulf, if supplifd.
+     * spfdififd mbtdiing rulf, if supplifd.
+     * spfdififd mbtdiing rulf, if supplifd.
+     * spfdififd mbtdiing rulf, if supplifd.
+     * spfdififd mbtdiing rulf, if supplifd.
      *
-     * @pbrbm   bttrID          Thf non-null ID of thf bttributf to bf usfd bs
+     *
+     *
+     *
+     *
+     * @pbrbm   bttrID          Tif non-null ID of tif bttributf to bf usfd bs
+     * @pbrbm   bttrID          Tif non-null ID of tif bttributf to bf usfd bs
+     * @pbrbm   bttrID          Tif non-null ID of tif bttributf to bf usfd bs
+     * @pbrbm   bttrID          Tif non-null ID of tif bttributf to bf usfd bs
+     * @pbrbm   bttrID          Tif non-null ID of tif bttributf to bf usfd bs
      *                          b sort kfy.
-     * @pbrbm   bsdfndingOrdfr  If truf thfn fntrifs brf brrbngfd in bsdfnding
-     *                          ordfr. Othfrwisf thfrf brf brrbngfd in
+     *                          b sort kfy.
+     *                          b sort kfy.
+     *                          b sort kfy.
+     *                          b sort kfy.
+     * @pbrbm   bsdfndingOrdfr  If truf tifn fntrifs brf brrbngfd in bsdfnding
+     * @pbrbm   bsdfndingOrdfr  If truf tifn fntrifs brf brrbngfd in bsdfnding
+     * @pbrbm   bsdfndingOrdfr  If truf tifn fntrifs brf brrbngfd in bsdfnding
+     * @pbrbm   bsdfndingOrdfr  If truf tifn fntrifs brf brrbngfd in bsdfnding
+     * @pbrbm   bsdfndingOrdfr  If truf tifn fntrifs brf brrbngfd in bsdfnding
+     *                          ordfr. Otifrwisf tifrf brf brrbngfd in
+     *                          ordfr. Otifrwisf tifrf brf brrbngfd in
+     *                          ordfr. Otifrwisf tifrf brf brrbngfd in
+     *                          ordfr. Otifrwisf tifrf brf brrbngfd in
+     *                          ordfr. Otifrwisf tifrf brf brrbngfd in
      *                          dfsdfnding ordfr.
-     * @pbrbm   mbtdhingRulfID  Thf possibly null ID of thf mbtdhing rulf to
-     *                          usf to ordfr thf bttributf vblufs. If not
-     *                          spfdififd thfn thf ordfring mbtdhing rulf
-     *                          dffinfd for thf sort kfy bttributf is usfd.
+     *                          dfsdfnding ordfr.
+     *                          dfsdfnding ordfr.
+     *                          dfsdfnding ordfr.
+     *                          dfsdfnding ordfr.
+     * @pbrbm   mbtdiingRulfID  Tif possibly null ID of tif mbtdiing rulf to
+     * @pbrbm   mbtdiingRulfID  Tif possibly null ID of tif mbtdiing rulf to
+     * @pbrbm   mbtdiingRulfID  Tif possibly null ID of tif mbtdiing rulf to
+     * @pbrbm   mbtdiingRulfID  Tif possibly null ID of tif mbtdiing rulf to
+     * @pbrbm   mbtdiingRulfID  Tif possibly null ID of tif mbtdiing rulf to
+     *                          usf to ordfr tif bttributf vblufs. If not
+     *                          usf to ordfr tif bttributf vblufs. If not
+     *                          usf to ordfr tif bttributf vblufs. If not
+     *                          usf to ordfr tif bttributf vblufs. If not
+     *                          usf to ordfr tif bttributf vblufs. If not
+     *                          spfdififd tifn tif ordfring mbtdiing rulf
+     *                          spfdififd tifn tif ordfring mbtdiing rulf
+     *                          spfdififd tifn tif ordfring mbtdiing rulf
+     *                          spfdififd tifn tif ordfring mbtdiing rulf
+     *                          spfdififd tifn tif ordfring mbtdiing rulf
+     *                          dffinfd for tif sort kfy bttributf is usfd.
+     *                          dffinfd for tif sort kfy bttributf is usfd.
+     *                          dffinfd for tif sort kfy bttributf is usfd.
+     *                          dffinfd for tif sort kfy bttributf is usfd.
+     *                          dffinfd for tif sort kfy bttributf is usfd.
+     */
+     */
+     */
+     */
      */
     publid SortKfy(String bttrID, boolfbn bsdfndingOrdfr,
-                    String mbtdhingRulfID) {
+    publid SortKfy(String bttrID, boolfbn bsdfndingOrdfr,
+    publid SortKfy(String bttrID, boolfbn bsdfndingOrdfr,
+    publid SortKfy(String bttrID, boolfbn bsdfndingOrdfr,
+    publid SortKfy(String bttrID, boolfbn bsdfndingOrdfr,
+                    String mbtdiingRulfID) {
+                    String mbtdiingRulfID) {
+                    String mbtdiingRulfID) {
+                    String mbtdiingRulfID) {
+                    String mbtdiingRulfID) {
 
-        this.bttrID = bttrID;
+
+
+
+
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
+        tiis.bttrID = bttrID;
         rfvfrsfOrdfr = (! bsdfndingOrdfr);
-        this.mbtdhingRulfID = mbtdhingRulfID;
+        rfvfrsfOrdfr = (! bsdfndingOrdfr);
+        rfvfrsfOrdfr = (! bsdfndingOrdfr);
+        rfvfrsfOrdfr = (! bsdfndingOrdfr);
+        rfvfrsfOrdfr = (! bsdfndingOrdfr);
+        tiis.mbtdiingRulfID = mbtdiingRulfID;
+        tiis.mbtdiingRulfID = mbtdiingRulfID;
+        tiis.mbtdiingRulfID = mbtdiingRulfID;
+        tiis.mbtdiingRulfID = mbtdiingRulfID;
+        tiis.mbtdiingRulfID = mbtdiingRulfID;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs thf bttributf ID of thf sort kfy.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif bttributf ID of tif sort kfy.
+     * Rftrifvfs tif bttributf ID of tif sort kfy.
+     * Rftrifvfs tif bttributf ID of tif sort kfy.
+     * Rftrifvfs tif bttributf ID of tif sort kfy.
+     * Rftrifvfs tif bttributf ID of tif sort kfy.
      *
-     * @rfturn    Thf non-null Attributf ID of thf sort kfy.
+     *
+     *
+     *
+     *
+     * @rfturn    Tif non-null Attributf ID of tif sort kfy.
+     * @rfturn    Tif non-null Attributf ID of tif sort kfy.
+     * @rfturn    Tif non-null Attributf ID of tif sort kfy.
+     * @rfturn    Tif non-null Attributf ID of tif sort kfy.
+     * @rfturn    Tif non-null Attributf ID of tif sort kfy.
+     */
+     */
+     */
+     */
      */
     publid String gftAttributfID() {
+    publid String gftAttributfID() {
+    publid String gftAttributfID() {
+    publid String gftAttributfID() {
+    publid String gftAttributfID() {
+        rfturn bttrID;
+        rfturn bttrID;
+        rfturn bttrID;
+        rfturn bttrID;
         rfturn bttrID;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dftfrminfs thf sort ordfr.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs tif sort ordfr.
+     * Dftfrminfs tif sort ordfr.
+     * Dftfrminfs tif sort ordfr.
+     * Dftfrminfs tif sort ordfr.
+     * Dftfrminfs tif sort ordfr.
      *
-     * @rfturn    truf if thf sort ordfr is bsdfnding, fblsf if dfsdfnding.
+     *
+     *
+     *
+     *
+     * @rfturn    truf if tif sort ordfr is bsdfnding, fblsf if dfsdfnding.
+     * @rfturn    truf if tif sort ordfr is bsdfnding, fblsf if dfsdfnding.
+     * @rfturn    truf if tif sort ordfr is bsdfnding, fblsf if dfsdfnding.
+     * @rfturn    truf if tif sort ordfr is bsdfnding, fblsf if dfsdfnding.
+     * @rfturn    truf if tif sort ordfr is bsdfnding, fblsf if dfsdfnding.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isAsdfnding() {
+    publid boolfbn isAsdfnding() {
+    publid boolfbn isAsdfnding() {
+    publid boolfbn isAsdfnding() {
+    publid boolfbn isAsdfnding() {
+        rfturn (! rfvfrsfOrdfr);
+        rfturn (! rfvfrsfOrdfr);
+        rfturn (! rfvfrsfOrdfr);
+        rfturn (! rfvfrsfOrdfr);
         rfturn (! rfvfrsfOrdfr);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rftrifvfs thf mbtdhing rulf ID usfd to ordfr thf bttributf vblufs.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif mbtdiing rulf ID usfd to ordfr tif bttributf vblufs.
+     * Rftrifvfs tif mbtdiing rulf ID usfd to ordfr tif bttributf vblufs.
+     * Rftrifvfs tif mbtdiing rulf ID usfd to ordfr tif bttributf vblufs.
+     * Rftrifvfs tif mbtdiing rulf ID usfd to ordfr tif bttributf vblufs.
+     * Rftrifvfs tif mbtdiing rulf ID usfd to ordfr tif bttributf vblufs.
      *
-     * @rfturn    Thf possibly null mbtdhing rulf ID. If null thfn thf
-     *            ordfring mbtdhing rulf dffinfd for thf sort kfy bttributf
+     *
+     *
+     *
+     *
+     * @rfturn    Tif possibly null mbtdiing rulf ID. If null tifn tif
+     * @rfturn    Tif possibly null mbtdiing rulf ID. If null tifn tif
+     * @rfturn    Tif possibly null mbtdiing rulf ID. If null tifn tif
+     * @rfturn    Tif possibly null mbtdiing rulf ID. If null tifn tif
+     * @rfturn    Tif possibly null mbtdiing rulf ID. If null tifn tif
+     *            ordfring mbtdiing rulf dffinfd for tif sort kfy bttributf
+     *            ordfring mbtdiing rulf dffinfd for tif sort kfy bttributf
+     *            ordfring mbtdiing rulf dffinfd for tif sort kfy bttributf
+     *            ordfring mbtdiing rulf dffinfd for tif sort kfy bttributf
+     *            ordfring mbtdiing rulf dffinfd for tif sort kfy bttributf
+     *            is usfd.
+     *            is usfd.
+     *            is usfd.
+     *            is usfd.
      *            is usfd.
      */
-    publid String gftMbtdhingRulfID() {
-        rfturn mbtdhingRulfID;
+     */
+     */
+     */
+     */
+    publid String gftMbtdiingRulfID() {
+    publid String gftMbtdiingRulfID() {
+    publid String gftMbtdiingRulfID() {
+    publid String gftMbtdiingRulfID() {
+    publid String gftMbtdiingRulfID() {
+        rfturn mbtdiingRulfID;
+        rfturn mbtdiingRulfID;
+        rfturn mbtdiingRulfID;
+        rfturn mbtdiingRulfID;
+        rfturn mbtdiingRulfID;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

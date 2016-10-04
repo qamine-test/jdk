@@ -1,519 +1,2595 @@
 /*
- * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights rfsfrvfd.
  *
- * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
- * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
  *
- *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
- *    this list of donditions bnd thf following disdlbimfr.
  *
- *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
- *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
- *    bnd/or othfr mbtfribls providfd with thf distribution.
  *
- *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
- *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
- *    without spfdifid prior writtfn pfrmission.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ * All rigits rfsfrvfd.
+ *
+ *
+ *
+ *
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *
+ *
+ *
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *
+ *
+ *
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *
+ *
+ *
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ *
+ *
+ *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-pbdkbgf jbvb.timf.dhrono;
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
+pbdkbgf jbvb.timf.dirono;
 
-import stbtid jbvb.timf.dhrono.ThbiBuddhistChronology.YEARS_DIFFERENCE;
-import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_MONTH;
-import stbtid jbvb.timf.tfmporbl.ChronoFifld.MONTH_OF_YEAR;
-import stbtid jbvb.timf.tfmporbl.ChronoFifld.YEAR;
+
+
+
+
+import stbtid jbvb.timf.dirono.TibiBuddiistCironology.YEARS_DIFFERENCE;
+import stbtid jbvb.timf.dirono.TibiBuddiistCironology.YEARS_DIFFERENCE;
+import stbtid jbvb.timf.dirono.TibiBuddiistCironology.YEARS_DIFFERENCE;
+import stbtid jbvb.timf.dirono.TibiBuddiistCironology.YEARS_DIFFERENCE;
+import stbtid jbvb.timf.dirono.TibiBuddiistCironology.YEARS_DIFFERENCE;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+
+
+
+
 
 import jbvb.io.DbtbInput;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.DbtbOutput;
 import jbvb.io.DbtbOutput;
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
 import jbvb.io.InvblidObjfdtExdfption;
 import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
 import jbvb.io.Sfriblizbblf;
 import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.DbtfTimfExdfption;
 import jbvb.timf.DbtfTimfExdfption;
 import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.LodblTimf;
 import jbvb.timf.LodblTimf;
 import jbvb.timf.Pfriod;
+import jbvb.timf.Pfriod;
+import jbvb.timf.Pfriod;
+import jbvb.timf.Pfriod;
+import jbvb.timf.Pfriod;
 import jbvb.timf.ZonfId;
-import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfId;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
 import jbvb.timf.tfmporbl.TfmporblAddfssor;
 import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblAmount;
 import jbvb.timf.tfmporbl.TfmporblAmount;
 import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblQufry;
 import jbvb.timf.tfmporbl.TfmporblQufry;
 import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
 import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
 import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
 import jbvb.util.Objfdts;
 
+
+
+
+
 /**
- * A dbtf in thf Thbi Buddhist dblfndbr systfm.
+/**
+/**
+/**
+/**
+ * A dbtf in tif Tibi Buddiist dblfndbr systfm.
+ * A dbtf in tif Tibi Buddiist dblfndbr systfm.
+ * A dbtf in tif Tibi Buddiist dblfndbr systfm.
+ * A dbtf in tif Tibi Buddiist dblfndbr systfm.
+ * A dbtf in tif Tibi Buddiist dblfndbr systfm.
  * <p>
- * This dbtf opfrbtfs using thf {@linkplbin ThbiBuddhistChronology Thbi Buddhist dblfndbr}.
- * This dblfndbr systfm is primbrily usfd in Thbilbnd.
- * Dbtfs brf blignfd sudh thbt {@dodf 2484-01-01 (Buddhist)} is {@dodf 1941-01-01 (ISO)}.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis dbtf opfrbtfs using tif {@linkplbin TibiBuddiistCironology Tibi Buddiist dblfndbr}.
+ * Tiis dbtf opfrbtfs using tif {@linkplbin TibiBuddiistCironology Tibi Buddiist dblfndbr}.
+ * Tiis dbtf opfrbtfs using tif {@linkplbin TibiBuddiistCironology Tibi Buddiist dblfndbr}.
+ * Tiis dbtf opfrbtfs using tif {@linkplbin TibiBuddiistCironology Tibi Buddiist dblfndbr}.
+ * Tiis dbtf opfrbtfs using tif {@linkplbin TibiBuddiistCironology Tibi Buddiist dblfndbr}.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Tiis dblfndbr systfm is primbrily usfd in Tibilbnd.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ * Dbtfs brf blignfd sudi tibt {@dodf 2484-01-01 (Buddiist)} is {@dodf 1941-01-01 (ISO)}.
+ *
+ *
+ *
+ *
  *
  * <p>
- * This is b <b hrff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.html">vbluf-bbsfd</b>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
  * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
- * ({@dodf ==}), idfntity hbsh dodf, or syndhronizbtion) on instbndfs of
- * {@dodf ThbiBuddhistDbtf} mby hbvf unprfdidtbblf rfsults bnd should bf bvoidfd.
- * Thf {@dodf fqubls} mfthod should bf usfd for dompbrisons.
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf TibiBuddiistDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * {@dodf TibiBuddiistDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * {@dodf TibiBuddiistDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * {@dodf TibiBuddiistDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * {@dodf TibiBuddiistDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
+ *
+ *
+ *
+ *
  *
  * @implSpfd
- * This dlbss is immutbblf bnd thrfbd-sbff.
+ * @implSpfd
+ * @implSpfd
+ * @implSpfd
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ *
+ *
+ *
+ *
  *
  * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
  */
-publid finbl dlbss ThbiBuddhistDbtf
-        fxtfnds ChronoLodblDbtfImpl<ThbiBuddhistDbtf>
-        implfmfnts ChronoLodblDbtf, Sfriblizbblf {
+ */
+ */
+ */
+ */
+publid finbl dlbss TibiBuddiistDbtf
+publid finbl dlbss TibiBuddiistDbtf
+publid finbl dlbss TibiBuddiistDbtf
+publid finbl dlbss TibiBuddiistDbtf
+publid finbl dlbss TibiBuddiistDbtf
+        fxtfnds CironoLodblDbtfImpl<TibiBuddiistDbtf>
+        fxtfnds CironoLodblDbtfImpl<TibiBuddiistDbtf>
+        fxtfnds CironoLodblDbtfImpl<TibiBuddiistDbtf>
+        fxtfnds CironoLodblDbtfImpl<TibiBuddiistDbtf>
+        fxtfnds CironoLodblDbtfImpl<TibiBuddiistDbtf>
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     * Sfriblizbtion vfrsion.
+     */
+     */
+     */
+     */
      */
     privbtf stbtid finbl long sfriblVfrsionUID = -8722293800195731463L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8722293800195731463L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8722293800195731463L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8722293800195731463L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8722293800195731463L;
+
+
+
+
 
     /**
-     * Thf undfrlying dbtf.
+    /**
+    /**
+    /**
+    /**
+     * Tif undfrlying dbtf.
+     * Tif undfrlying dbtf.
+     * Tif undfrlying dbtf.
+     * Tif undfrlying dbtf.
+     * Tif undfrlying dbtf.
+     */
+     */
+     */
+     */
      */
     privbtf finbl trbnsifnt LodblDbtf isoDbtf;
+    privbtf finbl trbnsifnt LodblDbtf isoDbtf;
+    privbtf finbl trbnsifnt LodblDbtf isoDbtf;
+    privbtf finbl trbnsifnt LodblDbtf isoDbtf;
+    privbtf finbl trbnsifnt LodblDbtf isoDbtf;
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Obtbins thf durrfnt {@dodf ThbiBuddhistDbtf} from thf systfm dlodk in thf dffbult timf-zonf.
+    /**
+    /**
+    /**
+    /**
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif dffbult timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif dffbult timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif dffbult timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif dffbult timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif dffbult timf-zonf.
      * <p>
-     * This will qufry thf {@link Clodk#systfmDffbultZonf() systfm dlodk} in thf dffbult
-     * timf-zonf to obtbin thf durrfnt dbtf.
      * <p>
-     * Using this mfthod will prfvfnt thf bbility to usf bn bltfrnbtf dlodk for tfsting
-     * bfdbusf thf dlodk is hbrd-dodfd.
+     * <p>
+     * <p>
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @rfturn thf durrfnt dbtf using thf systfm dlodk bnd dffbult timf-zonf, not null
+     *
+     *
+     *
+     *
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
      */
-    publid stbtid ThbiBuddhistDbtf now() {
+     */
+     */
+     */
+     */
+    publid stbtid TibiBuddiistDbtf now() {
+    publid stbtid TibiBuddiistDbtf now() {
+    publid stbtid TibiBuddiistDbtf now() {
+    publid stbtid TibiBuddiistDbtf now() {
+    publid stbtid TibiBuddiistDbtf now() {
+        rfturn now(Clodk.systfmDffbultZonf());
+        rfturn now(Clodk.systfmDffbultZonf());
+        rfturn now(Clodk.systfmDffbultZonf());
+        rfturn now(Clodk.systfmDffbultZonf());
         rfturn now(Clodk.systfmDffbultZonf());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Obtbins thf durrfnt {@dodf ThbiBuddhistDbtf} from thf systfm dlodk in thf spfdififd timf-zonf.
+    /**
+    /**
+    /**
+    /**
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif spfdififd timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif spfdififd timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif spfdififd timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif spfdififd timf-zonf.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif systfm dlodk in tif spfdififd timf-zonf.
      * <p>
-     * This will qufry thf {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin thf durrfnt dbtf.
-     * Spfdifying thf timf-zonf bvoids dfpfndfndf on thf dffbult timf-zonf.
      * <p>
-     * Using this mfthod will prfvfnt thf bbility to usf bn bltfrnbtf dlodk for tfsting
-     * bfdbusf thf dlodk is hbrd-dodfd.
+     * <p>
+     * <p>
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @pbrbm zonf  thf zonf ID to usf, not null
-     * @rfturn thf durrfnt dbtf using thf systfm dlodk, not null
+     *
+     *
+     *
+     *
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
      */
-    publid stbtid ThbiBuddhistDbtf now(ZonfId zonf) {
+     */
+     */
+     */
+     */
+    publid stbtid TibiBuddiistDbtf now(ZonfId zonf) {
+    publid stbtid TibiBuddiistDbtf now(ZonfId zonf) {
+    publid stbtid TibiBuddiistDbtf now(ZonfId zonf) {
+    publid stbtid TibiBuddiistDbtf now(ZonfId zonf) {
+    publid stbtid TibiBuddiistDbtf now(ZonfId zonf) {
+        rfturn now(Clodk.systfm(zonf));
+        rfturn now(Clodk.systfm(zonf));
+        rfturn now(Clodk.systfm(zonf));
+        rfturn now(Clodk.systfm(zonf));
         rfturn now(Clodk.systfm(zonf));
     }
-
-    /**
-     * Obtbins thf durrfnt {@dodf ThbiBuddhistDbtf} from thf spfdififd dlodk.
-     * <p>
-     * This will qufry thf spfdififd dlodk to obtbin thf durrfnt dbtf - todby.
-     * Using this mfthod bllows thf usf of bn bltfrnbtf dlodk for tfsting.
-     * Thf bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
-     *
-     * @pbrbm dlodk  thf dlodk to usf, not null
-     * @rfturn thf durrfnt dbtf, not null
-     * @throws DbtfTimfExdfption if thf durrfnt dbtf dbnnot bf obtbinfd
-     */
-    publid stbtid ThbiBuddhistDbtf now(Clodk dlodk) {
-        rfturn nfw ThbiBuddhistDbtf(LodblDbtf.now(dlodk));
+    }
+    }
+    }
     }
 
-    /**
-     * Obtbins b {@dodf ThbiBuddhistDbtf} rfprfsfnting b dbtf in thf Thbi Buddhist dblfndbr
-     * systfm from thf prolfptid-yfbr, month-of-yfbr bnd dby-of-month fiflds.
-     * <p>
-     * This rfturns b {@dodf ThbiBuddhistDbtf} with thf spfdififd fiflds.
-     * Thf dby must bf vblid for thf yfbr bnd month, othfrwisf bn fxdfption will bf thrown.
-     *
-     * @pbrbm prolfptidYfbr  thf Thbi Buddhist prolfptid-yfbr
-     * @pbrbm month  thf Thbi Buddhist month-of-yfbr, from 1 to 12
-     * @pbrbm dbyOfMonth  thf Thbi Buddhist dby-of-month, from 1 to 31
-     * @rfturn thf dbtf in Thbi Buddhist dblfndbr systfm, not null
-     * @throws DbtfTimfExdfption if thf vbluf of bny fifld is out of rbngf,
-     *  or if thf dby-of-month is invblid for thf month-yfbr
-     */
-    publid stbtid ThbiBuddhistDbtf of(int prolfptidYfbr, int month, int dbyOfMonth) {
-        rfturn nfw ThbiBuddhistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, month, dbyOfMonth));
-    }
+
+
+
 
     /**
-     * Obtbins b {@dodf ThbiBuddhistDbtf} from b tfmporbl objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif spfdififd dlodk.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif spfdififd dlodk.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif spfdififd dlodk.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif spfdififd dlodk.
+     * Obtbins tif durrfnt {@dodf TibiBuddiistDbtf} from tif spfdififd dlodk.
      * <p>
-     * This obtbins b dbtf in thf Thbi Buddhist dblfndbr systfm bbsfd on thf spfdififd tfmporbl.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
+     */
+     */
+     */
+     */
+     */
+    publid stbtid TibiBuddiistDbtf now(Clodk dlodk) {
+    publid stbtid TibiBuddiistDbtf now(Clodk dlodk) {
+    publid stbtid TibiBuddiistDbtf now(Clodk dlodk) {
+    publid stbtid TibiBuddiistDbtf now(Clodk dlodk) {
+    publid stbtid TibiBuddiistDbtf now(Clodk dlodk) {
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.now(dlodk));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.now(dlodk));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.now(dlodk));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.now(dlodk));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.now(dlodk));
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Obtbins b {@dodf TibiBuddiistDbtf} rfprfsfnting b dbtf in tif Tibi Buddiist dblfndbr
+     * Obtbins b {@dodf TibiBuddiistDbtf} rfprfsfnting b dbtf in tif Tibi Buddiist dblfndbr
+     * Obtbins b {@dodf TibiBuddiistDbtf} rfprfsfnting b dbtf in tif Tibi Buddiist dblfndbr
+     * Obtbins b {@dodf TibiBuddiistDbtf} rfprfsfnting b dbtf in tif Tibi Buddiist dblfndbr
+     * Obtbins b {@dodf TibiBuddiistDbtf} rfprfsfnting b dbtf in tif Tibi Buddiist dblfndbr
+     * systfm from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * systfm from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * systfm from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * systfm from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * systfm from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis rfturns b {@dodf TibiBuddiistDbtf} witi tif spfdififd fiflds.
+     * Tiis rfturns b {@dodf TibiBuddiistDbtf} witi tif spfdififd fiflds.
+     * Tiis rfturns b {@dodf TibiBuddiistDbtf} witi tif spfdififd fiflds.
+     * Tiis rfturns b {@dodf TibiBuddiistDbtf} witi tif spfdififd fiflds.
+     * Tiis rfturns b {@dodf TibiBuddiistDbtf} witi tif spfdififd fiflds.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm prolfptidYfbr  tif Tibi Buddiist prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif Tibi Buddiist prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif Tibi Buddiist prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif Tibi Buddiist prolfptid-yfbr
+     * @pbrbm prolfptidYfbr  tif Tibi Buddiist prolfptid-yfbr
+     * @pbrbm monti  tif Tibi Buddiist monti-of-yfbr, from 1 to 12
+     * @pbrbm monti  tif Tibi Buddiist monti-of-yfbr, from 1 to 12
+     * @pbrbm monti  tif Tibi Buddiist monti-of-yfbr, from 1 to 12
+     * @pbrbm monti  tif Tibi Buddiist monti-of-yfbr, from 1 to 12
+     * @pbrbm monti  tif Tibi Buddiist monti-of-yfbr, from 1 to 12
+     * @pbrbm dbyOfMonti  tif Tibi Buddiist dby-of-monti, from 1 to 31
+     * @pbrbm dbyOfMonti  tif Tibi Buddiist dby-of-monti, from 1 to 31
+     * @pbrbm dbyOfMonti  tif Tibi Buddiist dby-of-monti, from 1 to 31
+     * @pbrbm dbyOfMonti  tif Tibi Buddiist dby-of-monti, from 1 to 31
+     * @pbrbm dbyOfMonti  tif Tibi Buddiist dby-of-monti, from 1 to 31
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
+     */
+     */
+     */
+     */
+     */
+    publid stbtid TibiBuddiistDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid stbtid TibiBuddiistDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid stbtid TibiBuddiistDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid stbtid TibiBuddiistDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+    publid stbtid TibiBuddiistDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+        rfturn nfw TibiBuddiistDbtf(LodblDbtf.of(prolfptidYfbr - YEARS_DIFFERENCE, monti, dbyOfMonti));
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Obtbins b {@dodf TibiBuddiistDbtf} from b tfmporbl objfdt.
+     * Obtbins b {@dodf TibiBuddiistDbtf} from b tfmporbl objfdt.
+     * Obtbins b {@dodf TibiBuddiistDbtf} from b tfmporbl objfdt.
+     * Obtbins b {@dodf TibiBuddiistDbtf} from b tfmporbl objfdt.
+     * Obtbins b {@dodf TibiBuddiistDbtf} from b tfmporbl objfdt.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis obtbins b dbtf in tif Tibi Buddiist dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
+     * Tiis obtbins b dbtf in tif Tibi Buddiist dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
+     * Tiis obtbins b dbtf in tif Tibi Buddiist dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
+     * Tiis obtbins b dbtf in tif Tibi Buddiist dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
+     * Tiis obtbins b dbtf in tif Tibi Buddiist dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
      * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
-     * whidh this fbdtory donvfrts to bn instbndf of {@dodf ThbiBuddhistDbtf}.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf TibiBuddiistDbtf}.
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf TibiBuddiistDbtf}.
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf TibiBuddiistDbtf}.
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf TibiBuddiistDbtf}.
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf TibiBuddiistDbtf}.
      * <p>
-     * Thf donvfrsion typidblly usfs thf {@link ChronoFifld#EPOCH_DAY EPOCH_DAY}
-     * fifld, whidh is stbndbrdizfd bdross dblfndbr systfms.
      * <p>
-     * This mfthod mbtdhfs thf signbturf of thf fundtionbl intfrfbdf {@link TfmporblQufry}
-     * bllowing it to bf usfd bs b qufry vib mfthod rfffrfndf, {@dodf ThbiBuddhistDbtf::from}.
+     * <p>
+     * <p>
+     * <p>
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf TibiBuddiistDbtf::from}.
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf TibiBuddiistDbtf::from}.
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf TibiBuddiistDbtf::from}.
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf TibiBuddiistDbtf::from}.
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf TibiBuddiistDbtf::from}.
      *
-     * @pbrbm tfmporbl  thf tfmporbl objfdt to donvfrt, not null
-     * @rfturn thf dbtf in Thbi Buddhist dblfndbr systfm, not null
-     * @throws DbtfTimfExdfption if unbblf to donvfrt to b {@dodf ThbiBuddhistDbtf}
+     *
+     *
+     *
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @rfturn tif dbtf in Tibi Buddiist dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf TibiBuddiistDbtf}
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf TibiBuddiistDbtf}
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf TibiBuddiistDbtf}
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf TibiBuddiistDbtf}
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf TibiBuddiistDbtf}
      */
-    publid stbtid ThbiBuddhistDbtf from(TfmporblAddfssor tfmporbl) {
-        rfturn ThbiBuddhistChronology.INSTANCE.dbtf(tfmporbl);
+     */
+     */
+     */
+     */
+    publid stbtid TibiBuddiistDbtf from(TfmporblAddfssor tfmporbl) {
+    publid stbtid TibiBuddiistDbtf from(TfmporblAddfssor tfmporbl) {
+    publid stbtid TibiBuddiistDbtf from(TfmporblAddfssor tfmporbl) {
+    publid stbtid TibiBuddiistDbtf from(TfmporblAddfssor tfmporbl) {
+    publid stbtid TibiBuddiistDbtf from(TfmporblAddfssor tfmporbl) {
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(tfmporbl);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(tfmporbl);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(tfmporbl);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(tfmporbl);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(tfmporbl);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs bn instbndf from bn ISO dbtf.
+     * Crfbtfs bn instbndf from bn ISO dbtf.
+     * Crfbtfs bn instbndf from bn ISO dbtf.
+     * Crfbtfs bn instbndf from bn ISO dbtf.
+     * Crfbtfs bn instbndf from bn ISO dbtf.
      *
-     * @pbrbm isoDbtf  thf stbndbrd lodbl dbtf, vblidbtfd not null
+     *
+     *
+     *
+     *
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
      */
-    ThbiBuddhistDbtf(LodblDbtf isoDbtf) {
+     */
+     */
+     */
+     */
+    TibiBuddiistDbtf(LodblDbtf isoDbtf) {
+    TibiBuddiistDbtf(LodblDbtf isoDbtf) {
+    TibiBuddiistDbtf(LodblDbtf isoDbtf) {
+    TibiBuddiistDbtf(LodblDbtf isoDbtf) {
+    TibiBuddiistDbtf(LodblDbtf isoDbtf) {
         Objfdts.rfquirfNonNull(isoDbtf, "isoDbtf");
-        this.isoDbtf = isoDbtf;
+        Objfdts.rfquirfNonNull(isoDbtf, "isoDbtf");
+        Objfdts.rfquirfNonNull(isoDbtf, "isoDbtf");
+        Objfdts.rfquirfNonNull(isoDbtf, "isoDbtf");
+        Objfdts.rfquirfNonNull(isoDbtf, "isoDbtf");
+        tiis.isoDbtf = isoDbtf;
+        tiis.isoDbtf = isoDbtf;
+        tiis.isoDbtf = isoDbtf;
+        tiis.isoDbtf = isoDbtf;
+        tiis.isoDbtf = isoDbtf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     /**
-     * Gfts thf dhronology of this dbtf, whidh is thf Thbi Buddhist dblfndbr systfm.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Tibi Buddiist dblfndbr systfm.
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Tibi Buddiist dblfndbr systfm.
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Tibi Buddiist dblfndbr systfm.
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Tibi Buddiist dblfndbr systfm.
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Tibi Buddiist dblfndbr systfm.
      * <p>
-     * Thf {@dodf Chronology} rfprfsfnts thf dblfndbr systfm in usf.
-     * Thf frb bnd othfr fiflds in {@link ChronoFifld} brf dffinfd by thf dhronology.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
      *
-     * @rfturn thf Thbi Buddhist dhronology, not null
+     *
+     *
+     *
+     *
+     * @rfturn tif Tibi Buddiist dironology, not null
+     * @rfturn tif Tibi Buddiist dironology, not null
+     * @rfturn tif Tibi Buddiist dironology, not null
+     * @rfturn tif Tibi Buddiist dironology, not null
+     * @rfturn tif Tibi Buddiist dironology, not null
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid ThbiBuddhistChronology gftChronology() {
-        rfturn ThbiBuddhistChronology.INSTANCE;
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistCironology gftCironology() {
+    publid TibiBuddiistCironology gftCironology() {
+    publid TibiBuddiistCironology gftCironology() {
+    publid TibiBuddiistCironology gftCironology() {
+    publid TibiBuddiistCironology gftCironology() {
+        rfturn TibiBuddiistCironology.INSTANCE;
+        rfturn TibiBuddiistCironology.INSTANCE;
+        rfturn TibiBuddiistCironology.INSTANCE;
+        rfturn TibiBuddiistCironology.INSTANCE;
+        rfturn TibiBuddiistCironology.INSTANCE;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Gfts thf frb bpplidbblf bt this dbtf.
-     * <p>
-     * Thf Thbi Buddhist dblfndbr systfm hbs two frbs, 'BE' bnd 'BEFORE_BE',
-     * dffinfd by {@link ThbiBuddhistErb}.
-     *
-     * @rfturn thf frb bpplidbblf bt this dbtf, not null
-     */
-    @Ovfrridf
-    publid ThbiBuddhistErb gftErb() {
-        rfturn (gftProlfptidYfbr() >= 1 ? ThbiBuddhistErb.BE : ThbiBuddhistErb.BEFORE_BE);
-    }
+
+
+
 
     /**
-     * Rfturns thf lfngth of thf month rfprfsfntfd by this dbtf.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
      * <p>
-     * This rfturns thf lfngth of thf month in dbys.
-     * Month lfngths mbtdh thosf of thf ISO dblfndbr systfm.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif Tibi Buddiist dblfndbr systfm ibs two frbs, 'BE' bnd 'BEFORE_BE',
+     * Tif Tibi Buddiist dblfndbr systfm ibs two frbs, 'BE' bnd 'BEFORE_BE',
+     * Tif Tibi Buddiist dblfndbr systfm ibs two frbs, 'BE' bnd 'BEFORE_BE',
+     * Tif Tibi Buddiist dblfndbr systfm ibs two frbs, 'BE' bnd 'BEFORE_BE',
+     * Tif Tibi Buddiist dblfndbr systfm ibs two frbs, 'BE' bnd 'BEFORE_BE',
+     * dffinfd by {@link TibiBuddiistErb}.
+     * dffinfd by {@link TibiBuddiistErb}.
+     * dffinfd by {@link TibiBuddiistErb}.
+     * dffinfd by {@link TibiBuddiistErb}.
+     * dffinfd by {@link TibiBuddiistErb}.
      *
-     * @rfturn thf lfngth of thf month in dbys
+     *
+     *
+     *
+     *
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid int lfngthOfMonth() {
-        rfturn isoDbtf.lfngthOfMonth();
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistErb gftErb() {
+    publid TibiBuddiistErb gftErb() {
+    publid TibiBuddiistErb gftErb() {
+    publid TibiBuddiistErb gftErb() {
+    publid TibiBuddiistErb gftErb() {
+        rfturn (gftProlfptidYfbr() >= 1 ? TibiBuddiistErb.BE : TibiBuddiistErb.BEFORE_BE);
+        rfturn (gftProlfptidYfbr() >= 1 ? TibiBuddiistErb.BE : TibiBuddiistErb.BEFORE_BE);
+        rfturn (gftProlfptidYfbr() >= 1 ? TibiBuddiistErb.BE : TibiBuddiistErb.BEFORE_BE);
+        rfturn (gftProlfptidYfbr() >= 1 ? TibiBuddiistErb.BE : TibiBuddiistErb.BEFORE_BE);
+        rfturn (gftProlfptidYfbr() >= 1 ? TibiBuddiistErb.BE : TibiBuddiistErb.BEFORE_BE);
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Monti lfngtis mbtdi tiosf of tif ISO dblfndbr systfm.
+     * Monti lfngtis mbtdi tiosf of tif ISO dblfndbr systfm.
+     * Monti lfngtis mbtdi tiosf of tif ISO dblfndbr systfm.
+     * Monti lfngtis mbtdi tiosf of tif ISO dblfndbr systfm.
+     * Monti lfngtis mbtdi tiosf of tif ISO dblfndbr systfm.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif lfngti of tif monti in dbys
+     * @rfturn tif lfngti of tif monti in dbys
+     * @rfturn tif lfngti of tif monti in dbys
+     * @rfturn tif lfngti of tif monti in dbys
+     * @rfturn tif lfngti of tif monti in dbys
+     */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid int lfngtiOfMonti() {
+    publid int lfngtiOfMonti() {
+    publid int lfngtiOfMonti() {
+    publid int lfngtiOfMonti() {
+    publid int lfngtiOfMonti() {
+        rfturn isoDbtf.lfngtiOfMonti();
+        rfturn isoDbtf.lfngtiOfMonti();
+        rfturn isoDbtf.lfngtiOfMonti();
+        rfturn isoDbtf.lfngtiOfMonti();
+        rfturn isoDbtf.lfngtiOfMonti();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid VblufRbngf rbngf(TfmporblFifld fifld) {
-        if (fifld instbndfof ChronoFifld) {
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
             if (isSupportfd(fifld)) {
-                ChronoFifld f = (ChronoFifld) fifld;
-                switdh (f) {
+            if (isSupportfd(fifld)) {
+            if (isSupportfd(fifld)) {
+            if (isSupportfd(fifld)) {
+            if (isSupportfd(fifld)) {
+                CironoFifld f = (CironoFifld) fifld;
+                CironoFifld f = (CironoFifld) fifld;
+                CironoFifld f = (CironoFifld) fifld;
+                CironoFifld f = (CironoFifld) fifld;
+                CironoFifld f = (CironoFifld) fifld;
+                switdi (f) {
+                switdi (f) {
+                switdi (f) {
+                switdi (f) {
+                switdi (f) {
+                    dbsf DAY_OF_MONTH:
+                    dbsf DAY_OF_MONTH:
+                    dbsf DAY_OF_MONTH:
+                    dbsf DAY_OF_MONTH:
                     dbsf DAY_OF_MONTH:
                     dbsf DAY_OF_YEAR:
+                    dbsf DAY_OF_YEAR:
+                    dbsf DAY_OF_YEAR:
+                    dbsf DAY_OF_YEAR:
+                    dbsf DAY_OF_YEAR:
+                    dbsf ALIGNED_WEEK_OF_MONTH:
+                    dbsf ALIGNED_WEEK_OF_MONTH:
+                    dbsf ALIGNED_WEEK_OF_MONTH:
+                    dbsf ALIGNED_WEEK_OF_MONTH:
                     dbsf ALIGNED_WEEK_OF_MONTH:
                         rfturn isoDbtf.rbngf(fifld);
+                        rfturn isoDbtf.rbngf(fifld);
+                        rfturn isoDbtf.rbngf(fifld);
+                        rfturn isoDbtf.rbngf(fifld);
+                        rfturn isoDbtf.rbngf(fifld);
+                    dbsf YEAR_OF_ERA: {
+                    dbsf YEAR_OF_ERA: {
+                    dbsf YEAR_OF_ERA: {
+                    dbsf YEAR_OF_ERA: {
                     dbsf YEAR_OF_ERA: {
                         VblufRbngf rbngf = YEAR.rbngf();
+                        VblufRbngf rbngf = YEAR.rbngf();
+                        VblufRbngf rbngf = YEAR.rbngf();
+                        VblufRbngf rbngf = YEAR.rbngf();
+                        VblufRbngf rbngf = YEAR.rbngf();
+                        long mbx = (gftProlfptidYfbr() <= 0 ? -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1 : rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                        long mbx = (gftProlfptidYfbr() <= 0 ? -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1 : rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                        long mbx = (gftProlfptidYfbr() <= 0 ? -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1 : rbngf.gftMbximum() + YEARS_DIFFERENCE);
+                        long mbx = (gftProlfptidYfbr() <= 0 ? -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1 : rbngf.gftMbximum() + YEARS_DIFFERENCE);
                         long mbx = (gftProlfptidYfbr() <= 0 ? -(rbngf.gftMinimum() + YEARS_DIFFERENCE) + 1 : rbngf.gftMbximum() + YEARS_DIFFERENCE);
                         rfturn VblufRbngf.of(1, mbx);
+                        rfturn VblufRbngf.of(1, mbx);
+                        rfturn VblufRbngf.of(1, mbx);
+                        rfturn VblufRbngf.of(1, mbx);
+                        rfturn VblufRbngf.of(1, mbx);
+                    }
+                    }
+                    }
+                    }
                     }
                 }
-                rfturn gftChronology().rbngf(f);
+                }
+                }
+                }
+                }
+                rfturn gftCironology().rbngf(f);
+                rfturn gftCironology().rbngf(f);
+                rfturn gftCironology().rbngf(f);
+                rfturn gftCironology().rbngf(f);
+                rfturn gftCironology().rbngf(f);
             }
-            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+            }
+            }
+            }
+            }
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        rfturn fifld.rbngfRffinfdBy(this);
+        }
+        }
+        }
+        }
+        rfturn fifld.rbngfRffinfdBy(tiis);
+        rfturn fifld.rbngfRffinfdBy(tiis);
+        rfturn fifld.rbngfRffinfdBy(tiis);
+        rfturn fifld.rbngfRffinfdBy(tiis);
+        rfturn fifld.rbngfRffinfdBy(tiis);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid long gftLong(TfmporblFifld fifld) {
-        if (fifld instbndfof ChronoFifld) {
-            switdh ((ChronoFifld) fifld) {
+    publid long gftLong(TfmporblFifld fifld) {
+    publid long gftLong(TfmporblFifld fifld) {
+    publid long gftLong(TfmporblFifld fifld) {
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+            switdi ((CironoFifld) fifld) {
+            switdi ((CironoFifld) fifld) {
+            switdi ((CironoFifld) fifld) {
+            switdi ((CironoFifld) fifld) {
                 dbsf PROLEPTIC_MONTH:
-                    rfturn gftProlfptidMonth();
+                dbsf PROLEPTIC_MONTH:
+                dbsf PROLEPTIC_MONTH:
+                dbsf PROLEPTIC_MONTH:
+                dbsf PROLEPTIC_MONTH:
+                    rfturn gftProlfptidMonti();
+                    rfturn gftProlfptidMonti();
+                    rfturn gftProlfptidMonti();
+                    rfturn gftProlfptidMonti();
+                    rfturn gftProlfptidMonti();
+                dbsf YEAR_OF_ERA: {
+                dbsf YEAR_OF_ERA: {
+                dbsf YEAR_OF_ERA: {
+                dbsf YEAR_OF_ERA: {
                 dbsf YEAR_OF_ERA: {
                     int prolfptidYfbr = gftProlfptidYfbr();
+                    int prolfptidYfbr = gftProlfptidYfbr();
+                    int prolfptidYfbr = gftProlfptidYfbr();
+                    int prolfptidYfbr = gftProlfptidYfbr();
+                    int prolfptidYfbr = gftProlfptidYfbr();
+                    rfturn (prolfptidYfbr >= 1 ? prolfptidYfbr : 1 - prolfptidYfbr);
+                    rfturn (prolfptidYfbr >= 1 ? prolfptidYfbr : 1 - prolfptidYfbr);
+                    rfturn (prolfptidYfbr >= 1 ? prolfptidYfbr : 1 - prolfptidYfbr);
+                    rfturn (prolfptidYfbr >= 1 ? prolfptidYfbr : 1 - prolfptidYfbr);
                     rfturn (prolfptidYfbr >= 1 ? prolfptidYfbr : 1 - prolfptidYfbr);
                 }
+                }
+                }
+                }
+                }
+                dbsf YEAR:
+                dbsf YEAR:
+                dbsf YEAR:
+                dbsf YEAR:
                 dbsf YEAR:
                     rfturn gftProlfptidYfbr();
+                    rfturn gftProlfptidYfbr();
+                    rfturn gftProlfptidYfbr();
+                    rfturn gftProlfptidYfbr();
+                    rfturn gftProlfptidYfbr();
+                dbsf ERA:
+                dbsf ERA:
+                dbsf ERA:
+                dbsf ERA:
                 dbsf ERA:
                     rfturn (gftProlfptidYfbr() >= 1 ? 1 : 0);
+                    rfturn (gftProlfptidYfbr() >= 1 ? 1 : 0);
+                    rfturn (gftProlfptidYfbr() >= 1 ? 1 : 0);
+                    rfturn (gftProlfptidYfbr() >= 1 ? 1 : 0);
+                    rfturn (gftProlfptidYfbr() >= 1 ? 1 : 0);
+            }
+            }
+            }
+            }
             }
             rfturn isoDbtf.gftLong(fifld);
+            rfturn isoDbtf.gftLong(fifld);
+            rfturn isoDbtf.gftLong(fifld);
+            rfturn isoDbtf.gftLong(fifld);
+            rfturn isoDbtf.gftLong(fifld);
         }
-        rfturn fifld.gftFrom(this);
+        }
+        }
+        }
+        }
+        rfturn fifld.gftFrom(tiis);
+        rfturn fifld.gftFrom(tiis);
+        rfturn fifld.gftFrom(tiis);
+        rfturn fifld.gftFrom(tiis);
+        rfturn fifld.gftFrom(tiis);
+    }
+    }
+    }
+    }
     }
 
-    privbtf long gftProlfptidMonth() {
-        rfturn gftProlfptidYfbr() * 12L + isoDbtf.gftMonthVbluf() - 1;
+
+
+
+
+    privbtf long gftProlfptidMonti() {
+    privbtf long gftProlfptidMonti() {
+    privbtf long gftProlfptidMonti() {
+    privbtf long gftProlfptidMonti() {
+    privbtf long gftProlfptidMonti() {
+        rfturn gftProlfptidYfbr() * 12L + isoDbtf.gftMontiVbluf() - 1;
+        rfturn gftProlfptidYfbr() * 12L + isoDbtf.gftMontiVbluf() - 1;
+        rfturn gftProlfptidYfbr() * 12L + isoDbtf.gftMontiVbluf() - 1;
+        rfturn gftProlfptidYfbr() * 12L + isoDbtf.gftMontiVbluf() - 1;
+        rfturn gftProlfptidYfbr() * 12L + isoDbtf.gftMontiVbluf() - 1;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf int gftProlfptidYfbr() {
+    privbtf int gftProlfptidYfbr() {
+    privbtf int gftProlfptidYfbr() {
+    privbtf int gftProlfptidYfbr() {
+    privbtf int gftProlfptidYfbr() {
+        rfturn isoDbtf.gftYfbr() + YEARS_DIFFERENCE;
+        rfturn isoDbtf.gftYfbr() + YEARS_DIFFERENCE;
+        rfturn isoDbtf.gftYfbr() + YEARS_DIFFERENCE;
+        rfturn isoDbtf.gftYfbr() + YEARS_DIFFERENCE;
         rfturn isoDbtf.gftYfbr() + YEARS_DIFFERENCE;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     @Ovfrridf
-    publid ThbiBuddhistDbtf with(TfmporblFifld fifld, long nfwVbluf) {
-        if (fifld instbndfof ChronoFifld) {
-            ChronoFifld f = (ChronoFifld) fifld;
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+    publid TibiBuddiistDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+    publid TibiBuddiistDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+    publid TibiBuddiistDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+    publid TibiBuddiistDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            CironoFifld f = (CironoFifld) fifld;
+            CironoFifld f = (CironoFifld) fifld;
+            CironoFifld f = (CironoFifld) fifld;
+            CironoFifld f = (CironoFifld) fifld;
             if (gftLong(f) == nfwVbluf) {
-                rfturn this;
+            if (gftLong(f) == nfwVbluf) {
+            if (gftLong(f) == nfwVbluf) {
+            if (gftLong(f) == nfwVbluf) {
+            if (gftLong(f) == nfwVbluf) {
+                rfturn tiis;
+                rfturn tiis;
+                rfturn tiis;
+                rfturn tiis;
+                rfturn tiis;
             }
-            switdh (f) {
+            }
+            }
+            }
+            }
+            switdi (f) {
+            switdi (f) {
+            switdi (f) {
+            switdi (f) {
+            switdi (f) {
                 dbsf PROLEPTIC_MONTH:
-                    gftChronology().rbngf(f).dhfdkVblidVbluf(nfwVbluf, f);
-                    rfturn plusMonths(nfwVbluf - gftProlfptidMonth());
+                dbsf PROLEPTIC_MONTH:
+                dbsf PROLEPTIC_MONTH:
+                dbsf PROLEPTIC_MONTH:
+                dbsf PROLEPTIC_MONTH:
+                    gftCironology().rbngf(f).difdkVblidVbluf(nfwVbluf, f);
+                    gftCironology().rbngf(f).difdkVblidVbluf(nfwVbluf, f);
+                    gftCironology().rbngf(f).difdkVblidVbluf(nfwVbluf, f);
+                    gftCironology().rbngf(f).difdkVblidVbluf(nfwVbluf, f);
+                    gftCironology().rbngf(f).difdkVblidVbluf(nfwVbluf, f);
+                    rfturn plusMontis(nfwVbluf - gftProlfptidMonti());
+                    rfturn plusMontis(nfwVbluf - gftProlfptidMonti());
+                    rfturn plusMontis(nfwVbluf - gftProlfptidMonti());
+                    rfturn plusMontis(nfwVbluf - gftProlfptidMonti());
+                    rfturn plusMontis(nfwVbluf - gftProlfptidMonti());
+                dbsf YEAR_OF_ERA:
+                dbsf YEAR_OF_ERA:
+                dbsf YEAR_OF_ERA:
+                dbsf YEAR_OF_ERA:
                 dbsf YEAR_OF_ERA:
                 dbsf YEAR:
+                dbsf YEAR:
+                dbsf YEAR:
+                dbsf YEAR:
+                dbsf YEAR:
                 dbsf ERA: {
-                    int nvbluf = gftChronology().rbngf(f).dhfdkVblidIntVbluf(nfwVbluf, f);
-                    switdh (f) {
+                dbsf ERA: {
+                dbsf ERA: {
+                dbsf ERA: {
+                dbsf ERA: {
+                    int nvbluf = gftCironology().rbngf(f).difdkVblidIntVbluf(nfwVbluf, f);
+                    int nvbluf = gftCironology().rbngf(f).difdkVblidIntVbluf(nfwVbluf, f);
+                    int nvbluf = gftCironology().rbngf(f).difdkVblidIntVbluf(nfwVbluf, f);
+                    int nvbluf = gftCironology().rbngf(f).difdkVblidIntVbluf(nfwVbluf, f);
+                    int nvbluf = gftCironology().rbngf(f).difdkVblidIntVbluf(nfwVbluf, f);
+                    switdi (f) {
+                    switdi (f) {
+                    switdi (f) {
+                    switdi (f) {
+                    switdi (f) {
                         dbsf YEAR_OF_ERA:
-                            rfturn with(isoDbtf.withYfbr((gftProlfptidYfbr() >= 1 ? nvbluf : 1 - nvbluf)  - YEARS_DIFFERENCE));
+                        dbsf YEAR_OF_ERA:
+                        dbsf YEAR_OF_ERA:
+                        dbsf YEAR_OF_ERA:
+                        dbsf YEAR_OF_ERA:
+                            rfturn witi(isoDbtf.witiYfbr((gftProlfptidYfbr() >= 1 ? nvbluf : 1 - nvbluf)  - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((gftProlfptidYfbr() >= 1 ? nvbluf : 1 - nvbluf)  - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((gftProlfptidYfbr() >= 1 ? nvbluf : 1 - nvbluf)  - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((gftProlfptidYfbr() >= 1 ? nvbluf : 1 - nvbluf)  - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((gftProlfptidYfbr() >= 1 ? nvbluf : 1 - nvbluf)  - YEARS_DIFFERENCE));
                         dbsf YEAR:
-                            rfturn with(isoDbtf.withYfbr(nvbluf - YEARS_DIFFERENCE));
+                        dbsf YEAR:
+                        dbsf YEAR:
+                        dbsf YEAR:
+                        dbsf YEAR:
+                            rfturn witi(isoDbtf.witiYfbr(nvbluf - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr(nvbluf - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr(nvbluf - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr(nvbluf - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr(nvbluf - YEARS_DIFFERENCE));
                         dbsf ERA:
-                            rfturn with(isoDbtf.withYfbr((1 - gftProlfptidYfbr()) - YEARS_DIFFERENCE));
+                        dbsf ERA:
+                        dbsf ERA:
+                        dbsf ERA:
+                        dbsf ERA:
+                            rfturn witi(isoDbtf.witiYfbr((1 - gftProlfptidYfbr()) - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((1 - gftProlfptidYfbr()) - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((1 - gftProlfptidYfbr()) - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((1 - gftProlfptidYfbr()) - YEARS_DIFFERENCE));
+                            rfturn witi(isoDbtf.witiYfbr((1 - gftProlfptidYfbr()) - YEARS_DIFFERENCE));
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
             }
-            rfturn with(isoDbtf.with(fifld, nfwVbluf));
+            }
+            }
+            }
+            }
+            rfturn witi(isoDbtf.witi(fifld, nfwVbluf));
+            rfturn witi(isoDbtf.witi(fifld, nfwVbluf));
+            rfturn witi(isoDbtf.witi(fifld, nfwVbluf));
+            rfturn witi(isoDbtf.witi(fifld, nfwVbluf));
+            rfturn witi(isoDbtf.witi(fifld, nfwVbluf));
         }
-        rfturn supfr.with(fifld, nfwVbluf);
+        }
+        }
+        }
+        }
+        rfturn supfr.witi(fifld, nfwVbluf);
+        rfturn supfr.witi(fifld, nfwVbluf);
+        rfturn supfr.witi(fifld, nfwVbluf);
+        rfturn supfr.witi(fifld, nfwVbluf);
+        rfturn supfr.witi(fifld, nfwVbluf);
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * {@inhfritDod}
-     * @throws DbtfTimfExdfption {@inhfritDod}
-     * @throws ArithmftidExdfption {@inhfritDod}
-     */
-    @Ovfrridf
-    publid  ThbiBuddhistDbtf with(TfmporblAdjustfr bdjustfr) {
-        rfturn supfr.with(bdjustfr);
-    }
+
+
+
 
     /**
-     * {@inhfritDod}
-     * @throws DbtfTimfExdfption {@inhfritDod}
-     * @throws ArithmftidExdfption {@inhfritDod}
+    /**
+    /**
+    /**
+    /**
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid ThbiBuddhistDbtf plus(TfmporblAmount bmount) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid  TibiBuddiistDbtf witi(TfmporblAdjustfr bdjustfr) {
+    publid  TibiBuddiistDbtf witi(TfmporblAdjustfr bdjustfr) {
+    publid  TibiBuddiistDbtf witi(TfmporblAdjustfr bdjustfr) {
+    publid  TibiBuddiistDbtf witi(TfmporblAdjustfr bdjustfr) {
+    publid  TibiBuddiistDbtf witi(TfmporblAdjustfr bdjustfr) {
+        rfturn supfr.witi(bdjustfr);
+        rfturn supfr.witi(bdjustfr);
+        rfturn supfr.witi(bdjustfr);
+        rfturn supfr.witi(bdjustfr);
+        rfturn supfr.witi(bdjustfr);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf plus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf plus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf plus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf plus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf plus(TfmporblAmount bmount) {
+        rfturn supfr.plus(bmount);
+        rfturn supfr.plus(bmount);
+        rfturn supfr.plus(bmount);
+        rfturn supfr.plus(bmount);
         rfturn supfr.plus(bmount);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * {@inhfritDod}
-     * @throws DbtfTimfExdfption {@inhfritDod}
-     * @throws ArithmftidExdfption {@inhfritDod}
+    /**
+    /**
+    /**
+    /**
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid ThbiBuddhistDbtf minus(TfmporblAmount bmount) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf minus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf minus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf minus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf minus(TfmporblAmount bmount) {
+    publid TibiBuddiistDbtf minus(TfmporblAmount bmount) {
+        rfturn supfr.minus(bmount);
+        rfturn supfr.minus(bmount);
+        rfturn supfr.minus(bmount);
+        rfturn supfr.minus(bmount);
         rfturn supfr.minus(bmount);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
     @Ovfrridf
-    ThbiBuddhistDbtf plusYfbrs(long yfbrs) {
-        rfturn with(isoDbtf.plusYfbrs(yfbrs));
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf plusYfbrs(long yfbrs) {
+    TibiBuddiistDbtf plusYfbrs(long yfbrs) {
+    TibiBuddiistDbtf plusYfbrs(long yfbrs) {
+    TibiBuddiistDbtf plusYfbrs(long yfbrs) {
+    TibiBuddiistDbtf plusYfbrs(long yfbrs) {
+        rfturn witi(isoDbtf.plusYfbrs(yfbrs));
+        rfturn witi(isoDbtf.plusYfbrs(yfbrs));
+        rfturn witi(isoDbtf.plusYfbrs(yfbrs));
+        rfturn witi(isoDbtf.plusYfbrs(yfbrs));
+        rfturn witi(isoDbtf.plusYfbrs(yfbrs));
+    }
+    }
+    }
+    }
     }
 
-    @Ovfrridf
-    ThbiBuddhistDbtf plusMonths(long months) {
-        rfturn with(isoDbtf.plusMonths(months));
-    }
+
+
+
 
     @Ovfrridf
-    ThbiBuddhistDbtf plusWffks(long wffksToAdd) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf plusMontis(long montis) {
+    TibiBuddiistDbtf plusMontis(long montis) {
+    TibiBuddiistDbtf plusMontis(long montis) {
+    TibiBuddiistDbtf plusMontis(long montis) {
+    TibiBuddiistDbtf plusMontis(long montis) {
+        rfturn witi(isoDbtf.plusMontis(montis));
+        rfturn witi(isoDbtf.plusMontis(montis));
+        rfturn witi(isoDbtf.plusMontis(montis));
+        rfturn witi(isoDbtf.plusMontis(montis));
+        rfturn witi(isoDbtf.plusMontis(montis));
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf plusWffks(long wffksToAdd) {
+    TibiBuddiistDbtf plusWffks(long wffksToAdd) {
+    TibiBuddiistDbtf plusWffks(long wffksToAdd) {
+    TibiBuddiistDbtf plusWffks(long wffksToAdd) {
+    TibiBuddiistDbtf plusWffks(long wffksToAdd) {
+        rfturn supfr.plusWffks(wffksToAdd);
+        rfturn supfr.plusWffks(wffksToAdd);
+        rfturn supfr.plusWffks(wffksToAdd);
+        rfturn supfr.plusWffks(wffksToAdd);
         rfturn supfr.plusWffks(wffksToAdd);
     }
-
-    @Ovfrridf
-    ThbiBuddhistDbtf plusDbys(long dbys) {
-        rfturn with(isoDbtf.plusDbys(dbys));
+    }
+    }
+    }
     }
 
+
+
+
+
     @Ovfrridf
-    publid ThbiBuddhistDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf plusDbys(long dbys) {
+    TibiBuddiistDbtf plusDbys(long dbys) {
+    TibiBuddiistDbtf plusDbys(long dbys) {
+    TibiBuddiistDbtf plusDbys(long dbys) {
+    TibiBuddiistDbtf plusDbys(long dbys) {
+        rfturn witi(isoDbtf.plusDbys(dbys));
+        rfturn witi(isoDbtf.plusDbys(dbys));
+        rfturn witi(isoDbtf.plusDbys(dbys));
+        rfturn witi(isoDbtf.plusDbys(dbys));
+        rfturn witi(isoDbtf.plusDbys(dbys));
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.plus(bmountToAdd, unit);
+        rfturn supfr.plus(bmountToAdd, unit);
+        rfturn supfr.plus(bmountToAdd, unit);
+        rfturn supfr.plus(bmountToAdd, unit);
         rfturn supfr.plus(bmountToAdd, unit);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid ThbiBuddhistDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid TibiBuddiistDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+    publid TibiBuddiistDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.minus(bmountToAdd, unit);
+        rfturn supfr.minus(bmountToAdd, unit);
+        rfturn supfr.minus(bmountToAdd, unit);
+        rfturn supfr.minus(bmountToAdd, unit);
         rfturn supfr.minus(bmountToAdd, unit);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    ThbiBuddhistDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+    TibiBuddiistDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+    TibiBuddiistDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+    TibiBuddiistDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+    TibiBuddiistDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
         rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
     }
-
-    @Ovfrridf
-    ThbiBuddhistDbtf minusMonths(long monthsToSubtrbdt) {
-        rfturn supfr.minusMonths(monthsToSubtrbdt);
+    }
+    }
+    }
     }
 
+
+
+
+
     @Ovfrridf
-    ThbiBuddhistDbtf minusWffks(long wffksToSubtrbdt) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf minusMontis(long montisToSubtrbdt) {
+    TibiBuddiistDbtf minusMontis(long montisToSubtrbdt) {
+    TibiBuddiistDbtf minusMontis(long montisToSubtrbdt) {
+    TibiBuddiistDbtf minusMontis(long montisToSubtrbdt) {
+    TibiBuddiistDbtf minusMontis(long montisToSubtrbdt) {
+        rfturn supfr.minusMontis(montisToSubtrbdt);
+        rfturn supfr.minusMontis(montisToSubtrbdt);
+        rfturn supfr.minusMontis(montisToSubtrbdt);
+        rfturn supfr.minusMontis(montisToSubtrbdt);
+        rfturn supfr.minusMontis(montisToSubtrbdt);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf minusWffks(long wffksToSubtrbdt) {
+    TibiBuddiistDbtf minusWffks(long wffksToSubtrbdt) {
+    TibiBuddiistDbtf minusWffks(long wffksToSubtrbdt) {
+    TibiBuddiistDbtf minusWffks(long wffksToSubtrbdt) {
+    TibiBuddiistDbtf minusWffks(long wffksToSubtrbdt) {
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
         rfturn supfr.minusWffks(wffksToSubtrbdt);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    ThbiBuddhistDbtf minusDbys(long dbysToSubtrbdt) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    TibiBuddiistDbtf minusDbys(long dbysToSubtrbdt) {
+    TibiBuddiistDbtf minusDbys(long dbysToSubtrbdt) {
+    TibiBuddiistDbtf minusDbys(long dbysToSubtrbdt) {
+    TibiBuddiistDbtf minusDbys(long dbysToSubtrbdt) {
+    TibiBuddiistDbtf minusDbys(long dbysToSubtrbdt) {
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
         rfturn supfr.minusDbys(dbysToSubtrbdt);
     }
-
-    privbtf ThbiBuddhistDbtf with(LodblDbtf nfwDbtf) {
-        rfturn (nfwDbtf.fqubls(isoDbtf) ? this : nfw ThbiBuddhistDbtf(nfwDbtf));
     }
+    }
+    }
+    }
+
+
+
+
+
+    privbtf TibiBuddiistDbtf witi(LodblDbtf nfwDbtf) {
+    privbtf TibiBuddiistDbtf witi(LodblDbtf nfwDbtf) {
+    privbtf TibiBuddiistDbtf witi(LodblDbtf nfwDbtf) {
+    privbtf TibiBuddiistDbtf witi(LodblDbtf nfwDbtf) {
+    privbtf TibiBuddiistDbtf witi(LodblDbtf nfwDbtf) {
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? tiis : nfw TibiBuddiistDbtf(nfwDbtf));
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? tiis : nfw TibiBuddiistDbtf(nfwDbtf));
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? tiis : nfw TibiBuddiistDbtf(nfwDbtf));
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? tiis : nfw TibiBuddiistDbtf(nfwDbtf));
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? tiis : nfw TibiBuddiistDbtf(nfwDbtf));
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
-    @SupprfssWbrnings("undhfdkfd")
-    publid finbl ChronoLodblDbtfTimf<ThbiBuddhistDbtf> btTimf(LodblTimf lodblTimf) {
-        rfturn (ChronoLodblDbtfTimf<ThbiBuddhistDbtf>) supfr.btTimf(lodblTimf);
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl CironoLodblDbtfTimf<TibiBuddiistDbtf> btTimf(LodblTimf lodblTimf) {
+    publid finbl CironoLodblDbtfTimf<TibiBuddiistDbtf> btTimf(LodblTimf lodblTimf) {
+    publid finbl CironoLodblDbtfTimf<TibiBuddiistDbtf> btTimf(LodblTimf lodblTimf) {
+    publid finbl CironoLodblDbtfTimf<TibiBuddiistDbtf> btTimf(LodblTimf lodblTimf) {
+    publid finbl CironoLodblDbtfTimf<TibiBuddiistDbtf> btTimf(LodblTimf lodblTimf) {
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>) supfr.btTimf(lodblTimf);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>) supfr.btTimf(lodblTimf);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>) supfr.btTimf(lodblTimf);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>) supfr.btTimf(lodblTimf);
+        rfturn (CironoLodblDbtfTimf<TibiBuddiistDbtf>) supfr.btTimf(lodblTimf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid ChronoPfriod until(ChronoLodblDbtf fndDbtf) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
         Pfriod pfriod = isoDbtf.until(fndDbtf);
-        rfturn gftChronology().pfriod(pfriod.gftYfbrs(), pfriod.gftMonths(), pfriod.gftDbys());
+        Pfriod pfriod = isoDbtf.until(fndDbtf);
+        Pfriod pfriod = isoDbtf.until(fndDbtf);
+        Pfriod pfriod = isoDbtf.until(fndDbtf);
+        Pfriod pfriod = isoDbtf.until(fndDbtf);
+        rfturn gftCironology().pfriod(pfriod.gftYfbrs(), pfriod.gftMontis(), pfriod.gftDbys());
+        rfturn gftCironology().pfriod(pfriod.gftYfbrs(), pfriod.gftMontis(), pfriod.gftDbys());
+        rfturn gftCironology().pfriod(pfriod.gftYfbrs(), pfriod.gftMontis(), pfriod.gftDbys());
+        rfturn gftCironology().pfriod(pfriod.gftYfbrs(), pfriod.gftMontis(), pfriod.gftDbys());
+        rfturn gftCironology().pfriod(pfriod.gftYfbrs(), pfriod.gftMontis(), pfriod.gftDbys());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     @Ovfrridf  // ovfrridf for pfrformbndf
-    publid long toEpodhDby() {
-        rfturn isoDbtf.toEpodhDby();
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid long toEpodiDby() {
+    publid long toEpodiDby() {
+    publid long toEpodiDby() {
+    publid long toEpodiDby() {
+    publid long toEpodiDby() {
+        rfturn isoDbtf.toEpodiDby();
+        rfturn isoDbtf.toEpodiDby();
+        rfturn isoDbtf.toEpodiDby();
+        rfturn isoDbtf.toEpodiDby();
+        rfturn isoDbtf.toEpodiDby();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     /**
-     * Compbrfs this dbtf to bnothfr dbtf, indluding thf dhronology.
+    /**
+    /**
+    /**
+    /**
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
      * <p>
-     * Compbrfs this {@dodf ThbiBuddhistDbtf} with bnothfr fnsuring thbt thf dbtf is thf sbmf.
      * <p>
-     * Only objfdts of typf {@dodf ThbiBuddhistDbtf} brf dompbrfd, othfr typfs rfturn fblsf.
-     * To dompbrf thf dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
-     * in two difffrfnt dhronologifs, usf {@link ChronoFifld#EPOCH_DAY} bs b dompbrbtor.
+     * <p>
+     * <p>
+     * <p>
+     * Compbrfs tiis {@dodf TibiBuddiistDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
+     * Compbrfs tiis {@dodf TibiBuddiistDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
+     * Compbrfs tiis {@dodf TibiBuddiistDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
+     * Compbrfs tiis {@dodf TibiBuddiistDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
+     * Compbrfs tiis {@dodf TibiBuddiistDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Only objfdts of typf {@dodf TibiBuddiistDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * Only objfdts of typf {@dodf TibiBuddiistDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * Only objfdts of typf {@dodf TibiBuddiistDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * Only objfdts of typf {@dodf TibiBuddiistDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * Only objfdts of typf {@dodf TibiBuddiistDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
      *
-     * @pbrbm obj  thf objfdt to dhfdk, null rfturns fblsf
-     * @rfturn truf if this is fqubl to thf othfr dbtf
+     *
+     *
+     *
+     *
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
     @Ovfrridf  // ovfrridf for pfrformbndf
     publid boolfbn fqubls(Objfdt obj) {
-        if (this == obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         }
-        if (obj instbndfof ThbiBuddhistDbtf) {
-            ThbiBuddhistDbtf othfrDbtf = (ThbiBuddhistDbtf) obj;
-            rfturn this.isoDbtf.fqubls(othfrDbtf.isoDbtf);
+        }
+        }
+        }
+        }
+        if (obj instbndfof TibiBuddiistDbtf) {
+        if (obj instbndfof TibiBuddiistDbtf) {
+        if (obj instbndfof TibiBuddiistDbtf) {
+        if (obj instbndfof TibiBuddiistDbtf) {
+        if (obj instbndfof TibiBuddiistDbtf) {
+            TibiBuddiistDbtf otifrDbtf = (TibiBuddiistDbtf) obj;
+            TibiBuddiistDbtf otifrDbtf = (TibiBuddiistDbtf) obj;
+            TibiBuddiistDbtf otifrDbtf = (TibiBuddiistDbtf) obj;
+            TibiBuddiistDbtf otifrDbtf = (TibiBuddiistDbtf) obj;
+            TibiBuddiistDbtf otifrDbtf = (TibiBuddiistDbtf) obj;
+            rfturn tiis.isoDbtf.fqubls(otifrDbtf.isoDbtf);
+            rfturn tiis.isoDbtf.fqubls(otifrDbtf.isoDbtf);
+            rfturn tiis.isoDbtf.fqubls(otifrDbtf.isoDbtf);
+            rfturn tiis.isoDbtf.fqubls(otifrDbtf.isoDbtf);
+            rfturn tiis.isoDbtf.fqubls(otifrDbtf.isoDbtf);
+        }
+        }
+        }
+        }
         }
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * A hbsh dodf for this dbtf.
+    /**
+    /**
+    /**
+    /**
+     * A ibsi dodf for tiis dbtf.
+     * A ibsi dodf for tiis dbtf.
+     * A ibsi dodf for tiis dbtf.
+     * A ibsi dodf for tiis dbtf.
+     * A ibsi dodf for tiis dbtf.
      *
-     * @rfturn b suitbblf hbsh dodf bbsfd only on thf Chronology bnd thf dbtf
+     *
+     *
+     *
+     *
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
+     */
+     */
+     */
+     */
      */
     @Ovfrridf  // ovfrridf for pfrformbndf
-    publid int hbshCodf() {
-        rfturn gftChronology().gftId().hbshCodf() ^ isoDbtf.hbshCodf();
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+        rfturn gftCironology().gftId().ibsiCodf() ^ isoDbtf.ibsiCodf();
+        rfturn gftCironology().gftId().ibsiCodf() ^ isoDbtf.ibsiCodf();
+        rfturn gftCironology().gftId().ibsiCodf() ^ isoDbtf.ibsiCodf();
+        rfturn gftCironology().gftId().ibsiCodf() ^ isoDbtf.ibsiCodf();
+        rfturn gftCironology().gftId().ibsiCodf() ^ isoDbtf.ibsiCodf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------
+    /**
+    /**
+    /**
+    /**
     /**
      * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @pbrbm s thf strfbm to rfbd
-     * @throws InvblidObjfdtExdfption blwbys
+     *
+     *
+     *
+     *
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
-        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+     */
+     */
+     */
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Writfs thf objfdt using b
-     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.Sfr">dfdidbtfd sfriblizfd form</b>.
+    /**
+    /**
+    /**
+    /**
+     * Writfs tif objfdt using b
+     * Writfs tif objfdt using b
+     * Writfs tif objfdt using b
+     * Writfs tif objfdt using b
+     * Writfs tif objfdt using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * @sfriblDbtb
+     * @sfriblDbtb
+     * @sfriblDbtb
      * @sfriblDbtb
      * <prf>
-     *  out.writfBytf(10);                // idfntififs b ThbiBuddhistDbtf
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *  out.writfBytf(10);                // idfntififs b TibiBuddiistDbtf
+     *  out.writfBytf(10);                // idfntififs b TibiBuddiistDbtf
+     *  out.writfBytf(10);                // idfntififs b TibiBuddiistDbtf
+     *  out.writfBytf(10);                // idfntififs b TibiBuddiistDbtf
+     *  out.writfBytf(10);                // idfntififs b TibiBuddiistDbtf
+     *  out.writfInt(gft(YEAR));
+     *  out.writfInt(gft(YEAR));
+     *  out.writfInt(gft(YEAR));
+     *  out.writfInt(gft(YEAR));
      *  out.writfInt(gft(YEAR));
      *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
      *  out.writfBytf(gft(DAY_OF_MONTH));
      * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      *
-     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     *
+     *
+     *
+     *
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     */
+     */
+     */
+     */
      */
     privbtf Objfdt writfRfplbdf() {
-        rfturn nfw Sfr(Sfr.THAIBUDDHIST_DATE_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+    privbtf Objfdt writfRfplbdf() {
+    privbtf Objfdt writfRfplbdf() {
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.THAIBUDDHIST_DATE_TYPE, tiis);
+        rfturn nfw Sfr(Sfr.THAIBUDDHIST_DATE_TYPE, tiis);
+        rfturn nfw Sfr(Sfr.THAIBUDDHIST_DATE_TYPE, tiis);
+        rfturn nfw Sfr(Sfr.THAIBUDDHIST_DATE_TYPE, tiis);
+        rfturn nfw Sfr(Sfr.THAIBUDDHIST_DATE_TYPE, tiis);
+    }
+    }
+    }
+    }
     }
 
-    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
-        // ThbiBuddhistChronology is implidit in thf THAIBUDDHIST_DATE_TYPE
-        out.writfInt(this.gft(YEAR));
-        out.writfBytf(this.gft(MONTH_OF_YEAR));
-        out.writfBytf(this.gft(DAY_OF_MONTH));
+
+
+
+
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        // TibiBuddiistCironology is implidit in tif THAIBUDDHIST_DATE_TYPE
+        // TibiBuddiistCironology is implidit in tif THAIBUDDHIST_DATE_TYPE
+        // TibiBuddiistCironology is implidit in tif THAIBUDDHIST_DATE_TYPE
+        // TibiBuddiistCironology is implidit in tif THAIBUDDHIST_DATE_TYPE
+        // TibiBuddiistCironology is implidit in tif THAIBUDDHIST_DATE_TYPE
+        out.writfInt(tiis.gft(YEAR));
+        out.writfInt(tiis.gft(YEAR));
+        out.writfInt(tiis.gft(YEAR));
+        out.writfInt(tiis.gft(YEAR));
+        out.writfInt(tiis.gft(YEAR));
+        out.writfBytf(tiis.gft(MONTH_OF_YEAR));
+        out.writfBytf(tiis.gft(MONTH_OF_YEAR));
+        out.writfBytf(tiis.gft(MONTH_OF_YEAR));
+        out.writfBytf(tiis.gft(MONTH_OF_YEAR));
+        out.writfBytf(tiis.gft(MONTH_OF_YEAR));
+        out.writfBytf(tiis.gft(DAY_OF_MONTH));
+        out.writfBytf(tiis.gft(DAY_OF_MONTH));
+        out.writfBytf(tiis.gft(DAY_OF_MONTH));
+        out.writfBytf(tiis.gft(DAY_OF_MONTH));
+        out.writfBytf(tiis.gft(DAY_OF_MONTH));
+    }
+    }
+    }
+    }
     }
 
-    stbtid ThbiBuddhistDbtf rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+
+
+
+
+    stbtid TibiBuddiistDbtf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+    stbtid TibiBuddiistDbtf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+    stbtid TibiBuddiistDbtf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+    stbtid TibiBuddiistDbtf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+    stbtid TibiBuddiistDbtf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
         int yfbr = in.rfbdInt();
-        int month = in.rfbdBytf();
-        int dbyOfMonth = in.rfbdBytf();
-        rfturn ThbiBuddhistChronology.INSTANCE.dbtf(yfbr, month, dbyOfMonth);
+        int yfbr = in.rfbdInt();
+        int yfbr = in.rfbdInt();
+        int yfbr = in.rfbdInt();
+        int yfbr = in.rfbdInt();
+        int monti = in.rfbdBytf();
+        int monti = in.rfbdBytf();
+        int monti = in.rfbdBytf();
+        int monti = in.rfbdBytf();
+        int monti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti);
+        rfturn TibiBuddiistCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

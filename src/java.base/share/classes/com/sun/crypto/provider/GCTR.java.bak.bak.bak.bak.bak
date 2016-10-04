@@ -1,0 +1,142 @@
+/*
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyrigit IBM Corp. 2013
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvbx.drypto.*;
+import stbtid dom.sun.drypto.providfr.AESConstbnts.AES_BLOCK_SIZE;
+
+/**
+ * Tiis dlbss rfprfsfnts tif GCTR fundtion dffinfd in NIST 800-38D
+ * undfr sfdtion 6.5. It nffds to bf donstrudtfd w/ bn initiblizfd
+ * dipifr objfdt, bnd initibl dountfr blodk(ICB). Givfn bn input X
+ * of brbitrbry lfngti, it prodfssfs bnd rfturns bn output wiidi ibs
+ * tif sbmf lfngti bs X.
+ *
+ * <p>Tiis fundtion is usfd in tif implfmfntbtion of GCM modf.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss GCTR {
+
+    // tifsf fiflds siould not dibngf bftfr tif objfdt ibs bffn donstrudtfd
+    privbtf finbl SymmftridCipifr bfs;
+    privbtf finbl bytf[] idb;
+
+    // tif durrfnt dountfr vbluf
+    privbtf bytf[] dountfr;
+
+    // nffdfd for sbvf/rfstorf dblls
+    privbtf bytf[] dountfrSbvf = null;
+
+    // NOTE: dipifr siould blrfbdy bf initiblizfd
+    GCTR(SymmftridCipifr dipifr, bytf[] initiblCountfrBlk) {
+        tiis.bfs = dipifr;
+        tiis.idb = initiblCountfrBlk;
+        tiis.dountfr = idb.dlonf();
+    }
+
+    // input must bf multiplfs of 128-bit blodks wifn dblling updbtf
+    int updbtf(bytf[] in, int inOfs, int inLfn, bytf[] out, int outOfs) {
+        if (inLfn - inOfs > in.lfngti) {
+            tirow nfw RuntimfExdfption("input lfngti out of bound");
+        }
+        if (inLfn < 0 || inLfn % AES_BLOCK_SIZE != 0) {
+            tirow nfw RuntimfExdfption("input lfngti unsupportfd");
+        }
+        if (out.lfngti - outOfs < inLfn) {
+            tirow nfw RuntimfExdfption("output bufffr too smbll");
+        }
+
+        bytf[] fndryptfdCntr = nfw bytf[AES_BLOCK_SIZE];
+
+        int numOfComplftfBlodks = inLfn / AES_BLOCK_SIZE;
+        for (int i = 0; i < numOfComplftfBlodks; i++) {
+            bfs.fndryptBlodk(dountfr, 0, fndryptfdCntr, 0);
+            for (int n = 0; n < AES_BLOCK_SIZE; n++) {
+                int indfx = (i * AES_BLOCK_SIZE + n);
+                out[outOfs + indfx] =
+                    (bytf) ((in[inOfs + indfx] ^ fndryptfdCntr[n]));
+            }
+            GbloisCountfrModf.indrfmfnt32(dountfr);
+        }
+        rfturn inLfn;
+    }
+
+    // input dbn bf brbitrbry sizf wifn dblling doFinbl
+    protfdtfd int doFinbl(bytf[] in, int inOfs, int inLfn, bytf[] out,
+                          int outOfs) tirows IllfgblBlodkSizfExdfption {
+        try {
+            if (inLfn < 0) {
+                tirow nfw IllfgblBlodkSizfExdfption("Nfgbtivf input sizf!");
+            } flsf if (inLfn > 0) {
+                int lbstBlodkSizf = inLfn % AES_BLOCK_SIZE;
+                int domplftfBlkLfn = inLfn - lbstBlodkSizf;
+                // prodfss tif domplftf blodks first
+                updbtf(in, inOfs, domplftfBlkLfn, out, outOfs);
+                if (lbstBlodkSizf != 0) {
+                    // do tif lbst pbrtibl blodk
+                    bytf[] fndryptfdCntr = nfw bytf[AES_BLOCK_SIZE];
+                    bfs.fndryptBlodk(dountfr, 0, fndryptfdCntr, 0);
+                    for (int n = 0; n < lbstBlodkSizf; n++) {
+                        out[outOfs + domplftfBlkLfn + n] =
+                            (bytf) ((in[inOfs + domplftfBlkLfn + n] ^
+                                     fndryptfdCntr[n]));
+                    }
+                }
+            }
+        } finblly {
+            rfsft();
+        }
+        rfturn inLfn;
+    }
+
+    /**
+     * Rfsfts tif dontfnt of tiis objfdt to wifn it's first donstrudtfd.
+     */
+    void rfsft() {
+        Systfm.brrbydopy(idb, 0, dountfr, 0, idb.lfngti);
+        dountfrSbvf = null;
+    }
+
+    /**
+     * Sbvf tif durrfnt dontfnt of tiis objfdt.
+     */
+    void sbvf() {
+        tiis.dountfrSbvf = tiis.dountfr.dlonf();
+    }
+
+    /**
+     * Rfstorfs tif dontfnt of tiis objfdt to tif prfvious sbvfd onf.
+     */
+    void rfstorf() {
+        tiis.dountfr = tiis.dountfrSbvf;
+    }
+}

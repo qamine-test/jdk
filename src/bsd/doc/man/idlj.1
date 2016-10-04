@@ -1,568 +1,2840 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
 .\"     Ardi: gfnfrid
 .\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
 .\"     Dbtf: 21 Novfmbfr 2013
 .\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: idlj.1
+.\"     Titlf: idlj.1
+.\"     Titlf: idlj.1
+.\"     Titlf: idlj.1
 .\"     Titlf: idlj.1
 .\"
+.\"
+.\"
+.\"
+.\"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
 .if n .pl 99999
 .TH idlj 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH idlj 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH idlj 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH idlj 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH idlj 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+
+
+
+
 
 .SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+idlj \- Gfnfrbtfs Jbvb bindings for b spfdififd Intfrfbdf Dffinition Lbngubgf (IDL) filf\&.
+idlj \- Gfnfrbtfs Jbvb bindings for b spfdififd Intfrfbdf Dffinition Lbngubgf (IDL) filf\&.
+idlj \- Gfnfrbtfs Jbvb bindings for b spfdififd Intfrfbdf Dffinition Lbngubgf (IDL) filf\&.
+idlj \- Gfnfrbtfs Jbvb bindings for b spfdififd Intfrfbdf Dffinition Lbngubgf (IDL) filf\&.
 idlj \- Gfnfrbtfs Jbvb bindings for b spfdififd Intfrfbdf Dffinition Lbngubgf (IDL) filf\&.
 .SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+
+
+
+
 
 \fBidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fBidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fBidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fBidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+\fBidlj\fR [ \fIoptions\fR ] \fIidlfilf\fR
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&. Options dbn bppfbr in bny ordfr, but must prfdfdf tif \f3idlfilf\fR\&.
+Tif dommbnd-linf options\&. Sff Options\&. Options dbn bppfbr in bny ordfr, but must prfdfdf tif \f3idlfilf\fR\&.
+Tif dommbnd-linf options\&. Sff Options\&. Options dbn bppfbr in bny ordfr, but must prfdfdf tif \f3idlfilf\fR\&.
+Tif dommbnd-linf options\&. Sff Options\&. Options dbn bppfbr in bny ordfr, but must prfdfdf tif \f3idlfilf\fR\&.
 Tif dommbnd-linf options\&. Sff Options\&. Options dbn bppfbr in bny ordfr, but must prfdfdf tif \f3idlfilf\fR\&.
 .TP     
+.TP     
+.TP     
+.TP     
+.TP     
+\fIidlfilf\fR
+\fIidlfilf\fR
+\fIidlfilf\fR
+\fIidlfilf\fR
 \fIidlfilf\fR
 Tif nbmf of b filf tibt dontbins Intfrfbdf Dffinition Lbngubgf (IDL) dffinitions\&.
+Tif nbmf of b filf tibt dontbins Intfrfbdf Dffinition Lbngubgf (IDL) dffinitions\&.
+Tif nbmf of b filf tibt dontbins Intfrfbdf Dffinition Lbngubgf (IDL) dffinitions\&.
+Tif nbmf of b filf tibt dontbins Intfrfbdf Dffinition Lbngubgf (IDL) dffinitions\&.
+Tif nbmf of b filf tibt dontbins Intfrfbdf Dffinition Lbngubgf (IDL) dffinitions\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
 .SH DESCRIPTION    
 Tif IDL-to-Jbvb Compilfr gfnfrbtfs tif Jbvb bindings for b spfdififd IDL filf\&. For binding dftbils, sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itml
+Tif IDL-to-Jbvb Compilfr gfnfrbtfs tif Jbvb bindings for b spfdififd IDL filf\&. For binding dftbils, sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itml
+Tif IDL-to-Jbvb Compilfr gfnfrbtfs tif Jbvb bindings for b spfdififd IDL filf\&. For binding dftbils, sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itml
+Tif IDL-to-Jbvb Compilfr gfnfrbtfs tif Jbvb bindings for b spfdififd IDL filf\&. For binding dftbils, sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itml
+Tif IDL-to-Jbvb Compilfr gfnfrbtfs tif Jbvb bindings for b spfdififd IDL filf\&. For binding dftbils, sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itml
+.PP
+.PP
+.PP
+.PP
 .PP
 Somf fbrlifr rflfbsfs of tif IDL-to-Jbvb dompilfr wfrf nbmfd \f3idltojbvb\fR\&.
+Somf fbrlifr rflfbsfs of tif IDL-to-Jbvb dompilfr wfrf nbmfd \f3idltojbvb\fR\&.
+Somf fbrlifr rflfbsfs of tif IDL-to-Jbvb dompilfr wfrf nbmfd \f3idltojbvb\fR\&.
+Somf fbrlifr rflfbsfs of tif IDL-to-Jbvb dompilfr wfrf nbmfd \f3idltojbvb\fR\&.
+Somf fbrlifr rflfbsfs of tif IDL-to-Jbvb dompilfr wfrf nbmfd \f3idltojbvb\fR\&.
+.SS EMIT\ CLIENT\ AND\ SERVER\ BINDINGS    
+.SS EMIT\ CLIENT\ AND\ SERVER\ BINDINGS    
+.SS EMIT\ CLIENT\ AND\ SERVER\ BINDINGS    
+.SS EMIT\ CLIENT\ AND\ SERVER\ BINDINGS    
 .SS EMIT\ CLIENT\ AND\ SERVER\ BINDINGS    
 Tif following \f3idlj\fR dommbnd gfnfrbtfs bn IDL filf nbmfd \f3My\&.idl\fR witi dlifnt-sidf bindings\&.
+Tif following \f3idlj\fR dommbnd gfnfrbtfs bn IDL filf nbmfd \f3My\&.idl\fR witi dlifnt-sidf bindings\&.
+Tif following \f3idlj\fR dommbnd gfnfrbtfs bn IDL filf nbmfd \f3My\&.idl\fR witi dlifnt-sidf bindings\&.
+Tif following \f3idlj\fR dommbnd gfnfrbtfs bn IDL filf nbmfd \f3My\&.idl\fR witi dlifnt-sidf bindings\&.
+Tif following \f3idlj\fR dommbnd gfnfrbtfs bn IDL filf nbmfd \f3My\&.idl\fR witi dlifnt-sidf bindings\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj My\&.idl\fP
+\f3idlj My\&.idl\fP
+\f3idlj My\&.idl\fP
+\f3idlj My\&.idl\fP
+\f3idlj My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Tif prfvious syntbx is fquivblfnt to tif following:
+Tif prfvious syntbx is fquivblfnt to tif following:
+Tif prfvious syntbx is fquivblfnt to tif following:
+Tif prfvious syntbx is fquivblfnt to tif following:
+Tif prfvious syntbx is fquivblfnt to tif following:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-fdlifnt My\&.idl\fP
+\f3idlj \-fdlifnt My\&.idl\fP
+\f3idlj \-fdlifnt My\&.idl\fP
+\f3idlj \-fdlifnt My\&.idl\fP
+\f3idlj \-fdlifnt My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Tif nfxt fxbmplf gfnfrbtfs tif sfrvfr-sidf bindings, bnd indludfs tif dlifnt-sidf bindings plus tif skflfton, bll of wiidi brf POA (Inifritbndf Modfl)\&.
+Tif nfxt fxbmplf gfnfrbtfs tif sfrvfr-sidf bindings, bnd indludfs tif dlifnt-sidf bindings plus tif skflfton, bll of wiidi brf POA (Inifritbndf Modfl)\&.
+Tif nfxt fxbmplf gfnfrbtfs tif sfrvfr-sidf bindings, bnd indludfs tif dlifnt-sidf bindings plus tif skflfton, bll of wiidi brf POA (Inifritbndf Modfl)\&.
+Tif nfxt fxbmplf gfnfrbtfs tif sfrvfr-sidf bindings, bnd indludfs tif dlifnt-sidf bindings plus tif skflfton, bll of wiidi brf POA (Inifritbndf Modfl)\&.
+Tif nfxt fxbmplf gfnfrbtfs tif sfrvfr-sidf bindings, bnd indludfs tif dlifnt-sidf bindings plus tif skflfton, bll of wiidi brf POA (Inifritbndf Modfl)\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlg \-fsfrvfr My\&.idl\fP
+\f3idlg \-fsfrvfr My\&.idl\fP
+\f3idlg \-fsfrvfr My\&.idl\fP
+\f3idlg \-fsfrvfr My\&.idl\fP
+\f3idlg \-fsfrvfr My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 If you wbnt to gfnfrbtf boti dlifnt bnd sfrvfr-sidf bindings, tifn usf onf of tif following (fquivblfnt) dommbnds:
+If you wbnt to gfnfrbtf boti dlifnt bnd sfrvfr-sidf bindings, tifn usf onf of tif following (fquivblfnt) dommbnds:
+If you wbnt to gfnfrbtf boti dlifnt bnd sfrvfr-sidf bindings, tifn usf onf of tif following (fquivblfnt) dommbnds:
+If you wbnt to gfnfrbtf boti dlifnt bnd sfrvfr-sidf bindings, tifn usf onf of tif following (fquivblfnt) dommbnds:
+If you wbnt to gfnfrbtf boti dlifnt bnd sfrvfr-sidf bindings, tifn usf onf of tif following (fquivblfnt) dommbnds:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-fdlifnt \-fsfrvfr My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr My\&.idl\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Tifrf brf two possiblf sfrvfr-sidf modfls: tif Portbl Sfrvbnt Inifritbndf Modfl bnd tif Tif Modfl\&. Sff Tif Dflfgbtion Modfl\&.
+Tifrf brf two possiblf sfrvfr-sidf modfls: tif Portbl Sfrvbnt Inifritbndf Modfl bnd tif Tif Modfl\&. Sff Tif Dflfgbtion Modfl\&.
+Tifrf brf two possiblf sfrvfr-sidf modfls: tif Portbl Sfrvbnt Inifritbndf Modfl bnd tif Tif Modfl\&. Sff Tif Dflfgbtion Modfl\&.
+Tifrf brf two possiblf sfrvfr-sidf modfls: tif Portbl Sfrvbnt Inifritbndf Modfl bnd tif Tif Modfl\&. Sff Tif Dflfgbtion Modfl\&.
+Tifrf brf two possiblf sfrvfr-sidf modfls: tif Portbl Sfrvbnt Inifritbndf Modfl bnd tif Tif Modfl\&. Sff Tif Dflfgbtion Modfl\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 \f3Portbblf Sfrvbnt Inifritbndf Modfl\fR\&. Tif dffbult sfrvfr-sidf modfl is tif Portbblf Sfrvbnt Inifritbndf Modfl\&. Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3MyPOA\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3MyPOA\fR dlbss\&. \f3MyPOA\&.jbvb\fR is b strfbm-bbsfd skflfton tibt fxtfnds tif \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itml Tif \f3My\fR intfrfbdf implfmfnts tif \f3dbllHbndlfr\fR intfrfbdf bnd tif opfrbtions intfrfbdf bssodibtfd witi tif IDL intfrfbdf tif skflfton implfmfnts\&.Tif \f3PortbblfSfrvfr\fR modulf for tif Portbblf Objfdt Adbptfr (POA) dffinfs tif nbtivf \f3Sfrvbnt\fR typf\&. Sff Portbblf Objfdt Adbptfr (POA) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itml In tif Jbvb progrbmming lbngubgf, tif \f3Sfrvbnt\fR typf is mbppfd to tif Jbvb \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs tif bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mftiods tibt dbn bf dbllfd by tif bpplidbtion progrbmmfr, bnd mftiods tibt brf dbllfd by tif POA bnd tibt dbn bf ovfrriddfn by tif usfr to dontrol bspfdts of sfrvbnt bfibvior\&.Anotifr option for tif Inifritbndf Modfl is to usf tif \f3-oldImplBbsf\fR flbg to gfnfrbtf sfrvfr-sidf bindings tibt brf dompbtiblf witi rflfbsfs of tif Jbvb progrbmming lbngubgf bfforf Jbvb SE 1\&.4\&. Tif -\f3oldImplBbsf\fR flbg is nonstbndbrd, bnd tifsf APIs brf dfprfdbtfd\&. You would usf tiis flbg only for dompbtibility witi fxisting sfrvfrs writtfn in Jbvb SE 1\&.3\&. In tibt dbsf, you would nffd to modify bn fxisting mbkf filf to bdd tif \f3-oldImplBbsf\fR flbg to tif \f3idlj\fR dompilfr\&. Otifrwisf POA-bbsfd sfrvfr-sidf mbppings brf gfnfrbtfd\&. To gfnfrbtf sfrvfr-sidf bindings tibt brf bbdkwbrd dompbtiblf, do tif following:
+\f3Portbblf Sfrvbnt Inifritbndf Modfl\fR\&. Tif dffbult sfrvfr-sidf modfl is tif Portbblf Sfrvbnt Inifritbndf Modfl\&. Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3MyPOA\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3MyPOA\fR dlbss\&. \f3MyPOA\&.jbvb\fR is b strfbm-bbsfd skflfton tibt fxtfnds tif \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itml Tif \f3My\fR intfrfbdf implfmfnts tif \f3dbllHbndlfr\fR intfrfbdf bnd tif opfrbtions intfrfbdf bssodibtfd witi tif IDL intfrfbdf tif skflfton implfmfnts\&.Tif \f3PortbblfSfrvfr\fR modulf for tif Portbblf Objfdt Adbptfr (POA) dffinfs tif nbtivf \f3Sfrvbnt\fR typf\&. Sff Portbblf Objfdt Adbptfr (POA) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itml In tif Jbvb progrbmming lbngubgf, tif \f3Sfrvbnt\fR typf is mbppfd to tif Jbvb \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs tif bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mftiods tibt dbn bf dbllfd by tif bpplidbtion progrbmmfr, bnd mftiods tibt brf dbllfd by tif POA bnd tibt dbn bf ovfrriddfn by tif usfr to dontrol bspfdts of sfrvbnt bfibvior\&.Anotifr option for tif Inifritbndf Modfl is to usf tif \f3-oldImplBbsf\fR flbg to gfnfrbtf sfrvfr-sidf bindings tibt brf dompbtiblf witi rflfbsfs of tif Jbvb progrbmming lbngubgf bfforf Jbvb SE 1\&.4\&. Tif -\f3oldImplBbsf\fR flbg is nonstbndbrd, bnd tifsf APIs brf dfprfdbtfd\&. You would usf tiis flbg only for dompbtibility witi fxisting sfrvfrs writtfn in Jbvb SE 1\&.3\&. In tibt dbsf, you would nffd to modify bn fxisting mbkf filf to bdd tif \f3-oldImplBbsf\fR flbg to tif \f3idlj\fR dompilfr\&. Otifrwisf POA-bbsfd sfrvfr-sidf mbppings brf gfnfrbtfd\&. To gfnfrbtf sfrvfr-sidf bindings tibt brf bbdkwbrd dompbtiblf, do tif following:
+\f3Portbblf Sfrvbnt Inifritbndf Modfl\fR\&. Tif dffbult sfrvfr-sidf modfl is tif Portbblf Sfrvbnt Inifritbndf Modfl\&. Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3MyPOA\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3MyPOA\fR dlbss\&. \f3MyPOA\&.jbvb\fR is b strfbm-bbsfd skflfton tibt fxtfnds tif \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itml Tif \f3My\fR intfrfbdf implfmfnts tif \f3dbllHbndlfr\fR intfrfbdf bnd tif opfrbtions intfrfbdf bssodibtfd witi tif IDL intfrfbdf tif skflfton implfmfnts\&.Tif \f3PortbblfSfrvfr\fR modulf for tif Portbblf Objfdt Adbptfr (POA) dffinfs tif nbtivf \f3Sfrvbnt\fR typf\&. Sff Portbblf Objfdt Adbptfr (POA) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itml In tif Jbvb progrbmming lbngubgf, tif \f3Sfrvbnt\fR typf is mbppfd to tif Jbvb \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs tif bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mftiods tibt dbn bf dbllfd by tif bpplidbtion progrbmmfr, bnd mftiods tibt brf dbllfd by tif POA bnd tibt dbn bf ovfrriddfn by tif usfr to dontrol bspfdts of sfrvbnt bfibvior\&.Anotifr option for tif Inifritbndf Modfl is to usf tif \f3-oldImplBbsf\fR flbg to gfnfrbtf sfrvfr-sidf bindings tibt brf dompbtiblf witi rflfbsfs of tif Jbvb progrbmming lbngubgf bfforf Jbvb SE 1\&.4\&. Tif -\f3oldImplBbsf\fR flbg is nonstbndbrd, bnd tifsf APIs brf dfprfdbtfd\&. You would usf tiis flbg only for dompbtibility witi fxisting sfrvfrs writtfn in Jbvb SE 1\&.3\&. In tibt dbsf, you would nffd to modify bn fxisting mbkf filf to bdd tif \f3-oldImplBbsf\fR flbg to tif \f3idlj\fR dompilfr\&. Otifrwisf POA-bbsfd sfrvfr-sidf mbppings brf gfnfrbtfd\&. To gfnfrbtf sfrvfr-sidf bindings tibt brf bbdkwbrd dompbtiblf, do tif following:
+\f3Portbblf Sfrvbnt Inifritbndf Modfl\fR\&. Tif dffbult sfrvfr-sidf modfl is tif Portbblf Sfrvbnt Inifritbndf Modfl\&. Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3MyPOA\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3MyPOA\fR dlbss\&. \f3MyPOA\&.jbvb\fR is b strfbm-bbsfd skflfton tibt fxtfnds tif \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itml Tif \f3My\fR intfrfbdf implfmfnts tif \f3dbllHbndlfr\fR intfrfbdf bnd tif opfrbtions intfrfbdf bssodibtfd witi tif IDL intfrfbdf tif skflfton implfmfnts\&.Tif \f3PortbblfSfrvfr\fR modulf for tif Portbblf Objfdt Adbptfr (POA) dffinfs tif nbtivf \f3Sfrvbnt\fR typf\&. Sff Portbblf Objfdt Adbptfr (POA) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itml In tif Jbvb progrbmming lbngubgf, tif \f3Sfrvbnt\fR typf is mbppfd to tif Jbvb \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs tif bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mftiods tibt dbn bf dbllfd by tif bpplidbtion progrbmmfr, bnd mftiods tibt brf dbllfd by tif POA bnd tibt dbn bf ovfrriddfn by tif usfr to dontrol bspfdts of sfrvbnt bfibvior\&.Anotifr option for tif Inifritbndf Modfl is to usf tif \f3-oldImplBbsf\fR flbg to gfnfrbtf sfrvfr-sidf bindings tibt brf dompbtiblf witi rflfbsfs of tif Jbvb progrbmming lbngubgf bfforf Jbvb SE 1\&.4\&. Tif -\f3oldImplBbsf\fR flbg is nonstbndbrd, bnd tifsf APIs brf dfprfdbtfd\&. You would usf tiis flbg only for dompbtibility witi fxisting sfrvfrs writtfn in Jbvb SE 1\&.3\&. In tibt dbsf, you would nffd to modify bn fxisting mbkf filf to bdd tif \f3-oldImplBbsf\fR flbg to tif \f3idlj\fR dompilfr\&. Otifrwisf POA-bbsfd sfrvfr-sidf mbppings brf gfnfrbtfd\&. To gfnfrbtf sfrvfr-sidf bindings tibt brf bbdkwbrd dompbtiblf, do tif following:
+\f3Portbblf Sfrvbnt Inifritbndf Modfl\fR\&. Tif dffbult sfrvfr-sidf modfl is tif Portbblf Sfrvbnt Inifritbndf Modfl\&. Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3MyPOA\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3MyPOA\fR dlbss\&. \f3MyPOA\&.jbvb\fR is b strfbm-bbsfd skflfton tibt fxtfnds tif \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/org/omg/PortbblfSfrvfr/Sfrvbnt\&.itml Tif \f3My\fR intfrfbdf implfmfnts tif \f3dbllHbndlfr\fR intfrfbdf bnd tif opfrbtions intfrfbdf bssodibtfd witi tif IDL intfrfbdf tif skflfton implfmfnts\&.Tif \f3PortbblfSfrvfr\fR modulf for tif Portbblf Objfdt Adbptfr (POA) dffinfs tif nbtivf \f3Sfrvbnt\fR typf\&. Sff Portbblf Objfdt Adbptfr (POA) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/POA\&.itml In tif Jbvb progrbmming lbngubgf, tif \f3Sfrvbnt\fR typf is mbppfd to tif Jbvb \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs tif bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mftiods tibt dbn bf dbllfd by tif bpplidbtion progrbmmfr, bnd mftiods tibt brf dbllfd by tif POA bnd tibt dbn bf ovfrriddfn by tif usfr to dontrol bspfdts of sfrvbnt bfibvior\&.Anotifr option for tif Inifritbndf Modfl is to usf tif \f3-oldImplBbsf\fR flbg to gfnfrbtf sfrvfr-sidf bindings tibt brf dompbtiblf witi rflfbsfs of tif Jbvb progrbmming lbngubgf bfforf Jbvb SE 1\&.4\&. Tif -\f3oldImplBbsf\fR flbg is nonstbndbrd, bnd tifsf APIs brf dfprfdbtfd\&. You would usf tiis flbg only for dompbtibility witi fxisting sfrvfrs writtfn in Jbvb SE 1\&.3\&. In tibt dbsf, you would nffd to modify bn fxisting mbkf filf to bdd tif \f3-oldImplBbsf\fR flbg to tif \f3idlj\fR dompilfr\&. Otifrwisf POA-bbsfd sfrvfr-sidf mbppings brf gfnfrbtfd\&. To gfnfrbtf sfrvfr-sidf bindings tibt brf bbdkwbrd dompbtiblf, do tif following:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fdlifnt \-fsfrvfr \-oldImplBbsf My\&.idl\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-fbll \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fbll \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fbll \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fbll \-oldImplBbsf My\&.idl\fP
+\f3idlj \-fbll \-oldImplBbsf My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3_MyImplBbsf\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3_MyImplBbsf\fR dlbss\&.
+Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3_MyImplBbsf\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3_MyImplBbsf\fR dlbss\&.
+Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3_MyImplBbsf\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3_MyImplBbsf\fR dlbss\&.
+Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3_MyImplBbsf\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3_MyImplBbsf\fR dlbss\&.
+Givfn bn intfrfbdf \f3My\fR dffinfd in \f3My\&.idl\fR, tif filf \f3_MyImplBbsf\&.jbvb\fR is gfnfrbtfd\&. You must providf tif implfmfntbtion for tif \f3My\fR intfrfbdf, bnd tif \f3My\fR intfrfbdf must inifrit from tif \f3_MyImplBbsf\fR dlbss\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 \f3Tif Dflfgbtion Modfl\fR\&. Tif otifr sfrvfr-sidf modfl is dbllfd tif Tif Modfl\&. Tiis is b dflfgbtion modfl\&. Bfdbusf it is not possiblf to gfnfrbtf tifs bnd skflftons bt tif sbmf timf, tify must bf gfnfrbtfd sfpbrbtfly\&. Tif following dommbnds gfnfrbtf tif bindings for tif Tif Modfl:
+\f3Tif Dflfgbtion Modfl\fR\&. Tif otifr sfrvfr-sidf modfl is dbllfd tif Tif Modfl\&. Tiis is b dflfgbtion modfl\&. Bfdbusf it is not possiblf to gfnfrbtf tifs bnd skflftons bt tif sbmf timf, tify must bf gfnfrbtfd sfpbrbtfly\&. Tif following dommbnds gfnfrbtf tif bindings for tif Tif Modfl:
+\f3Tif Dflfgbtion Modfl\fR\&. Tif otifr sfrvfr-sidf modfl is dbllfd tif Tif Modfl\&. Tiis is b dflfgbtion modfl\&. Bfdbusf it is not possiblf to gfnfrbtf tifs bnd skflftons bt tif sbmf timf, tify must bf gfnfrbtfd sfpbrbtfly\&. Tif following dommbnds gfnfrbtf tif bindings for tif Tif Modfl:
+\f3Tif Dflfgbtion Modfl\fR\&. Tif otifr sfrvfr-sidf modfl is dbllfd tif Tif Modfl\&. Tiis is b dflfgbtion modfl\&. Bfdbusf it is not possiblf to gfnfrbtf tifs bnd skflftons bt tif sbmf timf, tify must bf gfnfrbtfd sfpbrbtfly\&. Tif following dommbnds gfnfrbtf tif bindings for tif Tif Modfl:
+\f3Tif Dflfgbtion Modfl\fR\&. Tif otifr sfrvfr-sidf modfl is dbllfd tif Tif Modfl\&. Tiis is b dflfgbtion modfl\&. Bfdbusf it is not possiblf to gfnfrbtf tifs bnd skflftons bt tif sbmf timf, tify must bf gfnfrbtfd sfpbrbtfly\&. Tif following dommbnds gfnfrbtf tif bindings for tif Tif Modfl:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
+\f3idlj \-fbll My\&.idl\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-fbllTIE My\&.idl\fP
+\f3idlj \-fbllTIE My\&.idl\fP
+\f3idlj \-fbllTIE My\&.idl\fP
+\f3idlj \-fbllTIE My\&.idl\fP
+\f3idlj \-fbllTIE My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 For tif \f3My\fR intfrfbdf, tif sfdond dommbnd gfnfrbtfs \f3MyPOATif\&.jbvb\fR\&. Tif donstrudtor to tif \f3MyPOATif\fR dlbss tbkfs b dflfgbtf\&. In tiis fxbmplf, using tif dffbult POA modfl, tif donstrudtor blso nffds b POA\&. You must providf tif implfmfntbtion for tif dflfgbtf, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3MyOpfrbtions\fR\&. To usf it witi tif ORB, you must wrbp your implfmfntbtion witiin tif \f3MyPOATif\fR dlbss, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif sfdond dommbnd gfnfrbtfs \f3MyPOATif\&.jbvb\fR\&. Tif donstrudtor to tif \f3MyPOATif\fR dlbss tbkfs b dflfgbtf\&. In tiis fxbmplf, using tif dffbult POA modfl, tif donstrudtor blso nffds b POA\&. You must providf tif implfmfntbtion for tif dflfgbtf, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3MyOpfrbtions\fR\&. To usf it witi tif ORB, you must wrbp your implfmfntbtion witiin tif \f3MyPOATif\fR dlbss, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif sfdond dommbnd gfnfrbtfs \f3MyPOATif\&.jbvb\fR\&. Tif donstrudtor to tif \f3MyPOATif\fR dlbss tbkfs b dflfgbtf\&. In tiis fxbmplf, using tif dffbult POA modfl, tif donstrudtor blso nffds b POA\&. You must providf tif implfmfntbtion for tif dflfgbtf, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3MyOpfrbtions\fR\&. To usf it witi tif ORB, you must wrbp your implfmfntbtion witiin tif \f3MyPOATif\fR dlbss, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif sfdond dommbnd gfnfrbtfs \f3MyPOATif\&.jbvb\fR\&. Tif donstrudtor to tif \f3MyPOATif\fR dlbss tbkfs b dflfgbtf\&. In tiis fxbmplf, using tif dffbult POA modfl, tif donstrudtor blso nffds b POA\&. You must providf tif implfmfntbtion for tif dflfgbtf, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3MyOpfrbtions\fR\&. To usf it witi tif ORB, you must wrbp your implfmfntbtion witiin tif \f3MyPOATif\fR dlbss, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif sfdond dommbnd gfnfrbtfs \f3MyPOATif\&.jbvb\fR\&. Tif donstrudtor to tif \f3MyPOATif\fR dlbss tbkfs b dflfgbtf\&. In tiis fxbmplf, using tif dffbult POA modfl, tif donstrudtor blso nffds b POA\&. You must providf tif implfmfntbtion for tif dflfgbtf, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3MyOpfrbtions\fR\&. To usf it witi tif ORB, you must wrbp your implfmfntbtion witiin tif \f3MyPOATif\fR dlbss, for fxbmplf:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
 \f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr\fP
+\f3// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr\fP
+\f3// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr\fP
+\f3// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr\fP
+\f3// Gft rfffrfndf to rootpob & bdtivbtf tif POAMbnbgfr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");\fP
+\f3POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");\fP
+\f3POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");\fP
+\f3POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");\fP
+\f3POA rootpob = (POA)orb\&.rfsolvf_initibl_rfffrfndfs("RootPOA");\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();\fP
+\f3rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();\fP
+\f3rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();\fP
+\f3rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();\fP
+\f3rootpob\&.tif_POAMbnbgfr()\&.bdtivbtf();\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
 \f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf, rootpob);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 You migit wbnt to usf tif Tif modfl instfbd of tif typidbl Inifritbndf modfl wifn your implfmfntbtion must inifrit from somf otifr implfmfntbtion\&. Jbvb bllows bny numbfr of intfrfbdf inifritbndf, but tifrf is only onf slot for dlbss inifritbndf\&. If you usf tif inifritbndf modfl, tifn tibt slot is usfd up\&. Witi tif Tif Modfl, tibt slot is frffd up for your own usf\&. Tif drbwbbdk is tibt it introdudfs b lfvfl of indirfdtion: onf fxtrb mftiod dbll oddurs wifn b mftiod is dbllfd\&.
+You migit wbnt to usf tif Tif modfl instfbd of tif typidbl Inifritbndf modfl wifn your implfmfntbtion must inifrit from somf otifr implfmfntbtion\&. Jbvb bllows bny numbfr of intfrfbdf inifritbndf, but tifrf is only onf slot for dlbss inifritbndf\&. If you usf tif inifritbndf modfl, tifn tibt slot is usfd up\&. Witi tif Tif Modfl, tibt slot is frffd up for your own usf\&. Tif drbwbbdk is tibt it introdudfs b lfvfl of indirfdtion: onf fxtrb mftiod dbll oddurs wifn b mftiod is dbllfd\&.
+You migit wbnt to usf tif Tif modfl instfbd of tif typidbl Inifritbndf modfl wifn your implfmfntbtion must inifrit from somf otifr implfmfntbtion\&. Jbvb bllows bny numbfr of intfrfbdf inifritbndf, but tifrf is only onf slot for dlbss inifritbndf\&. If you usf tif inifritbndf modfl, tifn tibt slot is usfd up\&. Witi tif Tif Modfl, tibt slot is frffd up for your own usf\&. Tif drbwbbdk is tibt it introdudfs b lfvfl of indirfdtion: onf fxtrb mftiod dbll oddurs wifn b mftiod is dbllfd\&.
+You migit wbnt to usf tif Tif modfl instfbd of tif typidbl Inifritbndf modfl wifn your implfmfntbtion must inifrit from somf otifr implfmfntbtion\&. Jbvb bllows bny numbfr of intfrfbdf inifritbndf, but tifrf is only onf slot for dlbss inifritbndf\&. If you usf tif inifritbndf modfl, tifn tibt slot is usfd up\&. Witi tif Tif Modfl, tibt slot is frffd up for your own usf\&. Tif drbwbbdk is tibt it introdudfs b lfvfl of indirfdtion: onf fxtrb mftiod dbll oddurs wifn b mftiod is dbllfd\&.
+You migit wbnt to usf tif Tif modfl instfbd of tif typidbl Inifritbndf modfl wifn your implfmfntbtion must inifrit from somf otifr implfmfntbtion\&. Jbvb bllows bny numbfr of intfrfbdf inifritbndf, but tifrf is only onf slot for dlbss inifritbndf\&. If you usf tif inifritbndf modfl, tifn tibt slot is usfd up\&. Witi tif Tif Modfl, tibt slot is frffd up for your own usf\&. Tif drbwbbdk is tibt it introdudfs b lfvfl of indirfdtion: onf fxtrb mftiod dbll oddurs wifn b mftiod is dbllfd\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 For sfrvfr-sidf gfnfrbtion, Tif modfl bindings tibt brf dompbtiblf witi vfrsions of tif IDL to Jbvb lbngubgf mbpping in vfrsions fbrlifr tibn Jbvb SE 1\&.4\&.
+For sfrvfr-sidf gfnfrbtion, Tif modfl bindings tibt brf dompbtiblf witi vfrsions of tif IDL to Jbvb lbngubgf mbpping in vfrsions fbrlifr tibn Jbvb SE 1\&.4\&.
+For sfrvfr-sidf gfnfrbtion, Tif modfl bindings tibt brf dompbtiblf witi vfrsions of tif IDL to Jbvb lbngubgf mbpping in vfrsions fbrlifr tibn Jbvb SE 1\&.4\&.
+For sfrvfr-sidf gfnfrbtion, Tif modfl bindings tibt brf dompbtiblf witi vfrsions of tif IDL to Jbvb lbngubgf mbpping in vfrsions fbrlifr tibn Jbvb SE 1\&.4\&.
+For sfrvfr-sidf gfnfrbtion, Tif modfl bindings tibt brf dompbtiblf witi vfrsions of tif IDL to Jbvb lbngubgf mbpping in vfrsions fbrlifr tibn Jbvb SE 1\&.4\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-oldImplBbsf \-fbll My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbll My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbll My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbll My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbll My\&.idl\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-oldImplBbsf \-fbllTIE My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbllTIE My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbllTIE My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbllTIE My\&.idl\fP
+\f3idlj \-oldImplBbsf \-fbllTIE My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 For tif \f3My\fR intfrfbdf, tif tiis gfnfrbtfs \f3My_Tif\&.jbvb\fR\&. Tif donstrudtor to tif \f3My_Tif\fR dlbss tbkfs bn \f3impl\fR objfdt\&. You must providf tif implfmfntbtion for \f3impl\fR, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3HflloOpfrbtions\fR\&. But to usf it witi tif ORB, you must wrbp your implfmfntbtion witiin \f3My_Tif\fR, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif tiis gfnfrbtfs \f3My_Tif\&.jbvb\fR\&. Tif donstrudtor to tif \f3My_Tif\fR dlbss tbkfs bn \f3impl\fR objfdt\&. You must providf tif implfmfntbtion for \f3impl\fR, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3HflloOpfrbtions\fR\&. But to usf it witi tif ORB, you must wrbp your implfmfntbtion witiin \f3My_Tif\fR, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif tiis gfnfrbtfs \f3My_Tif\&.jbvb\fR\&. Tif donstrudtor to tif \f3My_Tif\fR dlbss tbkfs bn \f3impl\fR objfdt\&. You must providf tif implfmfntbtion for \f3impl\fR, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3HflloOpfrbtions\fR\&. But to usf it witi tif ORB, you must wrbp your implfmfntbtion witiin \f3My_Tif\fR, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif tiis gfnfrbtfs \f3My_Tif\&.jbvb\fR\&. Tif donstrudtor to tif \f3My_Tif\fR dlbss tbkfs bn \f3impl\fR objfdt\&. You must providf tif implfmfntbtion for \f3impl\fR, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3HflloOpfrbtions\fR\&. But to usf it witi tif ORB, you must wrbp your implfmfntbtion witiin \f3My_Tif\fR, for fxbmplf:
+For tif \f3My\fR intfrfbdf, tif tiis gfnfrbtfs \f3My_Tif\&.jbvb\fR\&. Tif donstrudtor to tif \f3My_Tif\fR dlbss tbkfs bn \f3impl\fR objfdt\&. You must providf tif implfmfntbtion for \f3impl\fR, but it dofs not ibvf to inifrit from bny otifr dlbss, only tif intfrfbdf \f3HflloOpfrbtions\fR\&. But to usf it witi tif ORB, you must wrbp your implfmfntbtion witiin \f3My_Tif\fR, for fxbmplf:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+\f3ORB orb = ORB\&.init(brgs, Systfm\&.gftPropfrtifs());\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
+\f3// drfbtf sfrvbnt bnd rfgistfr it witi tif ORB\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
+\f3MySfrvbnt myDflfgbtf = nfw MySfrvbnt();\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
+\f3myDflfgbtf\&.sftORB(orb); \fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
+\f3// drfbtf b tif, witi sfrvbnt bfing tif dflfgbtf\&.\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3MyPOATif tif = nfw MyPOATif(myDflfgbtf);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf);\fP
+\f3MyPOATif tif = nfw MyPOATif(myDflfgbtf);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
+\f3// obtbin tif objfdtRff for tif tif\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+\f3My rff = tif\&._tiis(orb);\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ EMITTED\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ EMITTED\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ EMITTED\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ EMITTED\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ EMITTED\ FILES    
+If you wbnt to dirfdt tif fmittfd filfs to b dirfdtory otifr tibn tif durrfnt dirfdtory, tifn dbll tif dompilfr tiis wby: \f3i\fR\f3dlj -td /bltdir My\&.idl\fR\&.
+If you wbnt to dirfdt tif fmittfd filfs to b dirfdtory otifr tibn tif durrfnt dirfdtory, tifn dbll tif dompilfr tiis wby: \f3i\fR\f3dlj -td /bltdir My\&.idl\fR\&.
+If you wbnt to dirfdt tif fmittfd filfs to b dirfdtory otifr tibn tif durrfnt dirfdtory, tifn dbll tif dompilfr tiis wby: \f3i\fR\f3dlj -td /bltdir My\&.idl\fR\&.
+If you wbnt to dirfdt tif fmittfd filfs to b dirfdtory otifr tibn tif durrfnt dirfdtory, tifn dbll tif dompilfr tiis wby: \f3i\fR\f3dlj -td /bltdir My\&.idl\fR\&.
 If you wbnt to dirfdt tif fmittfd filfs to b dirfdtory otifr tibn tif durrfnt dirfdtory, tifn dbll tif dompilfr tiis wby: \f3i\fR\f3dlj -td /bltdir My\&.idl\fR\&.
 .PP
+.PP
+.PP
+.PP
+.PP
+For tif \f3My\fR intfrfbdf, tif bindings brf fmittfd to \f3/bltdir/My\&.jbvb\fR, ftd\&., instfbd of \f3\&./My\&.jbvb\fR\&.
+For tif \f3My\fR intfrfbdf, tif bindings brf fmittfd to \f3/bltdir/My\&.jbvb\fR, ftd\&., instfbd of \f3\&./My\&.jbvb\fR\&.
+For tif \f3My\fR intfrfbdf, tif bindings brf fmittfd to \f3/bltdir/My\&.jbvb\fR, ftd\&., instfbd of \f3\&./My\&.jbvb\fR\&.
+For tif \f3My\fR intfrfbdf, tif bindings brf fmittfd to \f3/bltdir/My\&.jbvb\fR, ftd\&., instfbd of \f3\&./My\&.jbvb\fR\&.
 For tif \f3My\fR intfrfbdf, tif bindings brf fmittfd to \f3/bltdir/My\&.jbvb\fR, ftd\&., instfbd of \f3\&./My\&.jbvb\fR\&.
 .SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ INCLUDE\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ INCLUDE\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ INCLUDE\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ INCLUDE\ FILES    
+.SS SPECIFY\ ALTERNATE\ LOCATIONS\ FOR\ INCLUDE\ FILES    
+If tif \f3My\&.idl\fR filf indludfs bnotifr \f3idl\fR filf, \f3MyOtifr\&.idl\fR, tifn tif dompilfr bssumfs tibt tif \f3MyOtifr\&.idl\fR filf rfsidfs in tif lodbl dirfdtory\&. If it rfsidfs in \f3/indludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
+If tif \f3My\&.idl\fR filf indludfs bnotifr \f3idl\fR filf, \f3MyOtifr\&.idl\fR, tifn tif dompilfr bssumfs tibt tif \f3MyOtifr\&.idl\fR filf rfsidfs in tif lodbl dirfdtory\&. If it rfsidfs in \f3/indludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
+If tif \f3My\&.idl\fR filf indludfs bnotifr \f3idl\fR filf, \f3MyOtifr\&.idl\fR, tifn tif dompilfr bssumfs tibt tif \f3MyOtifr\&.idl\fR filf rfsidfs in tif lodbl dirfdtory\&. If it rfsidfs in \f3/indludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
+If tif \f3My\&.idl\fR filf indludfs bnotifr \f3idl\fR filf, \f3MyOtifr\&.idl\fR, tifn tif dompilfr bssumfs tibt tif \f3MyOtifr\&.idl\fR filf rfsidfs in tif lodbl dirfdtory\&. If it rfsidfs in \f3/indludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
 If tif \f3My\&.idl\fR filf indludfs bnotifr \f3idl\fR filf, \f3MyOtifr\&.idl\fR, tifn tif dompilfr bssumfs tibt tif \f3MyOtifr\&.idl\fR filf rfsidfs in tif lodbl dirfdtory\&. If it rfsidfs in \f3/indludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-i /indludfs My\&.idl\fP
+\f3idlj \-i /indludfs My\&.idl\fP
+\f3idlj \-i /indludfs My\&.idl\fP
+\f3idlj \-i /indludfs My\&.idl\fP
+\f3idlj \-i /indludfs My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 If \f3My\&.idl\fR blso indludfd \f3Anotifr\&.idl\fR tibt rfsidfd in \f3/morfIndludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
+If \f3My\&.idl\fR blso indludfd \f3Anotifr\&.idl\fR tibt rfsidfd in \f3/morfIndludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
+If \f3My\&.idl\fR blso indludfd \f3Anotifr\&.idl\fR tibt rfsidfd in \f3/morfIndludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
+If \f3My\&.idl\fR blso indludfd \f3Anotifr\&.idl\fR tibt rfsidfd in \f3/morfIndludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
+If \f3My\&.idl\fR blso indludfd \f3Anotifr\&.idl\fR tibt rfsidfd in \f3/morfIndludfs\fR, for fxbmplf, tifn you dbll tif dompilfr witi tif following dommbnd:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-i /indludfs \-i /morfIndludfs My\&.idl\fP
+\f3idlj \-i /indludfs \-i /morfIndludfs My\&.idl\fP
+\f3idlj \-i /indludfs \-i /morfIndludfs My\&.idl\fP
+\f3idlj \-i /indludfs \-i /morfIndludfs My\&.idl\fP
+\f3idlj \-i /indludfs \-i /morfIndludfs My\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Bfdbusf tiis form of \f3indludf\fR dbn bfdomf long, bnotifr wby to indidbtf to tif dompilfr wifrf to sfbrdi for indludfd filfs is providfd\&. Tiis tfdiniquf is similbr to tif idfb of bn fnvironmfnt vbribblf\&. Crfbtf b filf nbmfd idl\&.donfig in b dirfdtory tibt is listfd in your \f3CLASSPATH\fR vbribblf\&. Insidf of \f3idl\&.donfig\fR, providf b linf witi tif following form:
+Bfdbusf tiis form of \f3indludf\fR dbn bfdomf long, bnotifr wby to indidbtf to tif dompilfr wifrf to sfbrdi for indludfd filfs is providfd\&. Tiis tfdiniquf is similbr to tif idfb of bn fnvironmfnt vbribblf\&. Crfbtf b filf nbmfd idl\&.donfig in b dirfdtory tibt is listfd in your \f3CLASSPATH\fR vbribblf\&. Insidf of \f3idl\&.donfig\fR, providf b linf witi tif following form:
+Bfdbusf tiis form of \f3indludf\fR dbn bfdomf long, bnotifr wby to indidbtf to tif dompilfr wifrf to sfbrdi for indludfd filfs is providfd\&. Tiis tfdiniquf is similbr to tif idfb of bn fnvironmfnt vbribblf\&. Crfbtf b filf nbmfd idl\&.donfig in b dirfdtory tibt is listfd in your \f3CLASSPATH\fR vbribblf\&. Insidf of \f3idl\&.donfig\fR, providf b linf witi tif following form:
+Bfdbusf tiis form of \f3indludf\fR dbn bfdomf long, bnotifr wby to indidbtf to tif dompilfr wifrf to sfbrdi for indludfd filfs is providfd\&. Tiis tfdiniquf is similbr to tif idfb of bn fnvironmfnt vbribblf\&. Crfbtf b filf nbmfd idl\&.donfig in b dirfdtory tibt is listfd in your \f3CLASSPATH\fR vbribblf\&. Insidf of \f3idl\&.donfig\fR, providf b linf witi tif following form:
+Bfdbusf tiis form of \f3indludf\fR dbn bfdomf long, bnotifr wby to indidbtf to tif dompilfr wifrf to sfbrdi for indludfd filfs is providfd\&. Tiis tfdiniquf is similbr to tif idfb of bn fnvironmfnt vbribblf\&. Crfbtf b filf nbmfd idl\&.donfig in b dirfdtory tibt is listfd in your \f3CLASSPATH\fR vbribblf\&. Insidf of \f3idl\&.donfig\fR, providf b linf witi tif following form:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3indludfs=/indludfs;/morfIndludfs\fP
+\f3indludfs=/indludfs;/morfIndludfs\fP
+\f3indludfs=/indludfs;/morfIndludfs\fP
+\f3indludfs=/indludfs;/morfIndludfs\fP
+\f3indludfs=/indludfs;/morfIndludfs\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Tif dompilfr will find tiis filf bnd rfbd in tif indludfs list\&. Notf tibt in tiis fxbmplf tif sfpbrbtor dibrbdtfr bftwffn tif two dirfdtorifs is b sfmidolon (;)\&. Tiis sfpbrbtor dibrbdtfr is plbtform dfpfndfnt\&. On tif Windows plbtform, usf b sfmidolon, on tif Unix plbtform, usf b dolon, bnd so on\&.
+Tif dompilfr will find tiis filf bnd rfbd in tif indludfs list\&. Notf tibt in tiis fxbmplf tif sfpbrbtor dibrbdtfr bftwffn tif two dirfdtorifs is b sfmidolon (;)\&. Tiis sfpbrbtor dibrbdtfr is plbtform dfpfndfnt\&. On tif Windows plbtform, usf b sfmidolon, on tif Unix plbtform, usf b dolon, bnd so on\&.
+Tif dompilfr will find tiis filf bnd rfbd in tif indludfs list\&. Notf tibt in tiis fxbmplf tif sfpbrbtor dibrbdtfr bftwffn tif two dirfdtorifs is b sfmidolon (;)\&. Tiis sfpbrbtor dibrbdtfr is plbtform dfpfndfnt\&. On tif Windows plbtform, usf b sfmidolon, on tif Unix plbtform, usf b dolon, bnd so on\&.
+Tif dompilfr will find tiis filf bnd rfbd in tif indludfs list\&. Notf tibt in tiis fxbmplf tif sfpbrbtor dibrbdtfr bftwffn tif two dirfdtorifs is b sfmidolon (;)\&. Tiis sfpbrbtor dibrbdtfr is plbtform dfpfndfnt\&. On tif Windows plbtform, usf b sfmidolon, on tif Unix plbtform, usf b dolon, bnd so on\&.
+Tif dompilfr will find tiis filf bnd rfbd in tif indludfs list\&. Notf tibt in tiis fxbmplf tif sfpbrbtor dibrbdtfr bftwffn tif two dirfdtorifs is b sfmidolon (;)\&. Tiis sfpbrbtor dibrbdtfr is plbtform dfpfndfnt\&. On tif Windows plbtform, usf b sfmidolon, on tif Unix plbtform, usf b dolon, bnd so on\&.
+.SS EMIT\ BINDINGS\ FOR\ INCLUDE\ FILES    
+.SS EMIT\ BINDINGS\ FOR\ INCLUDE\ FILES    
+.SS EMIT\ BINDINGS\ FOR\ INCLUDE\ FILES    
+.SS EMIT\ BINDINGS\ FOR\ INCLUDE\ FILES    
 .SS EMIT\ BINDINGS\ FOR\ INCLUDE\ FILES    
 By dffbult, only tiosf intfrfbdfs, strudturfs, bnd so on, tibt brf dffinfd in tif \f3idl\fR filf on tif dommbnd linf ibvf Jbvb bindings gfnfrbtfd for tifm\&. Tif typfs dffinfd in indludfd filfs brf not gfnfrbtfd\&. For fxbmplf, bssumf tif following two \f3idl\fR filfs:
+By dffbult, only tiosf intfrfbdfs, strudturfs, bnd so on, tibt brf dffinfd in tif \f3idl\fR filf on tif dommbnd linf ibvf Jbvb bindings gfnfrbtfd for tifm\&. Tif typfs dffinfd in indludfd filfs brf not gfnfrbtfd\&. For fxbmplf, bssumf tif following two \f3idl\fR filfs:
+By dffbult, only tiosf intfrfbdfs, strudturfs, bnd so on, tibt brf dffinfd in tif \f3idl\fR filf on tif dommbnd linf ibvf Jbvb bindings gfnfrbtfd for tifm\&. Tif typfs dffinfd in indludfd filfs brf not gfnfrbtfd\&. For fxbmplf, bssumf tif following two \f3idl\fR filfs:
+By dffbult, only tiosf intfrfbdfs, strudturfs, bnd so on, tibt brf dffinfd in tif \f3idl\fR filf on tif dommbnd linf ibvf Jbvb bindings gfnfrbtfd for tifm\&. Tif typfs dffinfd in indludfd filfs brf not gfnfrbtfd\&. For fxbmplf, bssumf tif following two \f3idl\fR filfs:
+By dffbult, only tiosf intfrfbdfs, strudturfs, bnd so on, tibt brf dffinfd in tif \f3idl\fR filf on tif dommbnd linf ibvf Jbvb bindings gfnfrbtfd for tifm\&. Tif typfs dffinfd in indludfd filfs brf not gfnfrbtfd\&. For fxbmplf, bssumf tif following two \f3idl\fR filfs:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3My\&.idl filf:\fP
+\f3My\&.idl filf:\fP
+\f3My\&.idl filf:\fP
+\f3My\&.idl filf:\fP
 \f3My\&.idl filf:\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Tifrf is b dbvfbt to tif dffbult rulf\&. Any \f3#indludf\fR stbtfmfnts tibt bppfbr bt tif globbl sdopf brf trfbtfd bs dfsdribfd\&. Tifsf \f3#indludf\fR stbtfmfnts dbn bf tiougit of bs import stbtfmfnts\&. Tif \f3#indludf\fR stbtfmfnts tibt bppfbr witiin bn fndlosfd sdopf brf trfbtfd bs truf \f3#indludf\fR stbtfmfnts, wiidi mfbns tibt tif dodf witiin tif indludfd filf is trfbtfd bs tiougi it bppfbrfd in tif originbl filf bnd, tifrfforf, Jbvb bindings brf fmittfd for it\&. Hfrf is bn fxbmplf:
+Tifrf is b dbvfbt to tif dffbult rulf\&. Any \f3#indludf\fR stbtfmfnts tibt bppfbr bt tif globbl sdopf brf trfbtfd bs dfsdribfd\&. Tifsf \f3#indludf\fR stbtfmfnts dbn bf tiougit of bs import stbtfmfnts\&. Tif \f3#indludf\fR stbtfmfnts tibt bppfbr witiin bn fndlosfd sdopf brf trfbtfd bs truf \f3#indludf\fR stbtfmfnts, wiidi mfbns tibt tif dodf witiin tif indludfd filf is trfbtfd bs tiougi it bppfbrfd in tif originbl filf bnd, tifrfforf, Jbvb bindings brf fmittfd for it\&. Hfrf is bn fxbmplf:
+Tifrf is b dbvfbt to tif dffbult rulf\&. Any \f3#indludf\fR stbtfmfnts tibt bppfbr bt tif globbl sdopf brf trfbtfd bs dfsdribfd\&. Tifsf \f3#indludf\fR stbtfmfnts dbn bf tiougit of bs import stbtfmfnts\&. Tif \f3#indludf\fR stbtfmfnts tibt bppfbr witiin bn fndlosfd sdopf brf trfbtfd bs truf \f3#indludf\fR stbtfmfnts, wiidi mfbns tibt tif dodf witiin tif indludfd filf is trfbtfd bs tiougi it bppfbrfd in tif originbl filf bnd, tifrfforf, Jbvb bindings brf fmittfd for it\&. Hfrf is bn fxbmplf:
+Tifrf is b dbvfbt to tif dffbult rulf\&. Any \f3#indludf\fR stbtfmfnts tibt bppfbr bt tif globbl sdopf brf trfbtfd bs dfsdribfd\&. Tifsf \f3#indludf\fR stbtfmfnts dbn bf tiougit of bs import stbtfmfnts\&. Tif \f3#indludf\fR stbtfmfnts tibt bppfbr witiin bn fndlosfd sdopf brf trfbtfd bs truf \f3#indludf\fR stbtfmfnts, wiidi mfbns tibt tif dodf witiin tif indludfd filf is trfbtfd bs tiougi it bppfbrfd in tif originbl filf bnd, tifrfforf, Jbvb bindings brf fmittfd for it\&. Hfrf is bn fxbmplf:
+Tifrf is b dbvfbt to tif dffbult rulf\&. Any \f3#indludf\fR stbtfmfnts tibt bppfbr bt tif globbl sdopf brf trfbtfd bs dfsdribfd\&. Tifsf \f3#indludf\fR stbtfmfnts dbn bf tiougit of bs import stbtfmfnts\&. Tif \f3#indludf\fR stbtfmfnts tibt bppfbr witiin bn fndlosfd sdopf brf trfbtfd bs truf \f3#indludf\fR stbtfmfnts, wiidi mfbns tibt tif dodf witiin tif indludfd filf is trfbtfd bs tiougi it bppfbrfd in tif originbl filf bnd, tifrfforf, Jbvb bindings brf fmittfd for it\&. Hfrf is bn fxbmplf:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3My\&.idl filf:\fP
+\f3My\&.idl filf:\fP
+\f3My\&.idl filf:\fP
+\f3My\&.idl filf:\fP
+\f3My\&.idl filf:\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
+\f3#indludf <MyOtifr\&.idl>\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
+\f3intfrfbdf My\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
 \f3{\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3  #indludf <Embfddfd\&.idl>\fP
+\f3  #indludf <Embfddfd\&.idl>\fP
+\f3  #indludf <Embfddfd\&.idl>\fP
+\f3  #indludf <Embfddfd\&.idl>\fP
+\f3  #indludf <Embfddfd\&.idl>\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+\f3MyOtifr\&.idl filf:\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
+\f3intfrfbdf MyOtifr\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3Embfddfd\&.idl\fP
+\f3Embfddfd\&.idl\fP
+\f3Embfddfd\&.idl\fP
+\f3Embfddfd\&.idl\fP
+\f3Embfddfd\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3fnum E {onf, two, tirff};\fP
+\f3fnum E {onf, two, tirff};\fP
+\f3fnum E {onf, two, tirff};\fP
+\f3fnum E {onf, two, tirff};\fP
+\f3fnum E {onf, two, tirff};\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Run\f3idlj My\&.idl\fRto gfnfrbtf tif following list of Jbvb filfs\&. Notidf tibt \f3MyOtifr\&.jbvb\fR is not gfnfrbtfd bfdbusf it is dffinfd in bn import-likf \f3#indludf\fR\&. But \f3E\&.jbvb\fR wbs gfnfrbtfd bfdbusf it wbs dffinfd in b truf \f3#indludf\fR\&. Notidf tibt bfdbusf tif \f3Embfddfd\&.idl\fR filf is indludfd witiin tif sdopf of tif intfrfbdf \f3My\fR, it bppfbrs witiin tif sdopf of \f3My\fR (in \f3MyPbdkbgf\fR)\&. If tif \f3-fmitAll\fR flbg ibd bffn usfd, tifn bll typfs in bll indludfd filfs would ibvf bffn fmittfd\&.
+Run\f3idlj My\&.idl\fRto gfnfrbtf tif following list of Jbvb filfs\&. Notidf tibt \f3MyOtifr\&.jbvb\fR is not gfnfrbtfd bfdbusf it is dffinfd in bn import-likf \f3#indludf\fR\&. But \f3E\&.jbvb\fR wbs gfnfrbtfd bfdbusf it wbs dffinfd in b truf \f3#indludf\fR\&. Notidf tibt bfdbusf tif \f3Embfddfd\&.idl\fR filf is indludfd witiin tif sdopf of tif intfrfbdf \f3My\fR, it bppfbrs witiin tif sdopf of \f3My\fR (in \f3MyPbdkbgf\fR)\&. If tif \f3-fmitAll\fR flbg ibd bffn usfd, tifn bll typfs in bll indludfd filfs would ibvf bffn fmittfd\&.
+Run\f3idlj My\&.idl\fRto gfnfrbtf tif following list of Jbvb filfs\&. Notidf tibt \f3MyOtifr\&.jbvb\fR is not gfnfrbtfd bfdbusf it is dffinfd in bn import-likf \f3#indludf\fR\&. But \f3E\&.jbvb\fR wbs gfnfrbtfd bfdbusf it wbs dffinfd in b truf \f3#indludf\fR\&. Notidf tibt bfdbusf tif \f3Embfddfd\&.idl\fR filf is indludfd witiin tif sdopf of tif intfrfbdf \f3My\fR, it bppfbrs witiin tif sdopf of \f3My\fR (in \f3MyPbdkbgf\fR)\&. If tif \f3-fmitAll\fR flbg ibd bffn usfd, tifn bll typfs in bll indludfd filfs would ibvf bffn fmittfd\&.
+Run\f3idlj My\&.idl\fRto gfnfrbtf tif following list of Jbvb filfs\&. Notidf tibt \f3MyOtifr\&.jbvb\fR is not gfnfrbtfd bfdbusf it is dffinfd in bn import-likf \f3#indludf\fR\&. But \f3E\&.jbvb\fR wbs gfnfrbtfd bfdbusf it wbs dffinfd in b truf \f3#indludf\fR\&. Notidf tibt bfdbusf tif \f3Embfddfd\&.idl\fR filf is indludfd witiin tif sdopf of tif intfrfbdf \f3My\fR, it bppfbrs witiin tif sdopf of \f3My\fR (in \f3MyPbdkbgf\fR)\&. If tif \f3-fmitAll\fR flbg ibd bffn usfd, tifn bll typfs in bll indludfd filfs would ibvf bffn fmittfd\&.
+Run\f3idlj My\&.idl\fRto gfnfrbtf tif following list of Jbvb filfs\&. Notidf tibt \f3MyOtifr\&.jbvb\fR is not gfnfrbtfd bfdbusf it is dffinfd in bn import-likf \f3#indludf\fR\&. But \f3E\&.jbvb\fR wbs gfnfrbtfd bfdbusf it wbs dffinfd in b truf \f3#indludf\fR\&. Notidf tibt bfdbusf tif \f3Embfddfd\&.idl\fR filf is indludfd witiin tif sdopf of tif intfrfbdf \f3My\fR, it bppfbrs witiin tif sdopf of \f3My\fR (in \f3MyPbdkbgf\fR)\&. If tif \f3-fmitAll\fR flbg ibd bffn usfd, tifn bll typfs in bll indludfd filfs would ibvf bffn fmittfd\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./MyHoldfr\&.jbvb\fP
+\f3\&./MyHoldfr\&.jbvb\fP
+\f3\&./MyHoldfr\&.jbvb\fP
+\f3\&./MyHoldfr\&.jbvb\fP
+\f3\&./MyHoldfr\&.jbvb\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./MyHflpfr\&.jbvb\fP
+\f3\&./MyHflpfr\&.jbvb\fP
+\f3\&./MyHflpfr\&.jbvb\fP
+\f3\&./MyHflpfr\&.jbvb\fP
+\f3\&./MyHflpfr\&.jbvb\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./_MyStub\&.jbvb\fP
+\f3\&./_MyStub\&.jbvb\fP
+\f3\&./_MyStub\&.jbvb\fP
+\f3\&./_MyStub\&.jbvb\fP
+\f3\&./_MyStub\&.jbvb\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./MyPbdkbgf\fP
+\f3\&./MyPbdkbgf\fP
+\f3\&./MyPbdkbgf\fP
+\f3\&./MyPbdkbgf\fP
+\f3\&./MyPbdkbgf\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./MyPbdkbgf/EHoldfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHoldfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHoldfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHoldfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHoldfr\&.jbvb\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./MyPbdkbgf/EHflpfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHflpfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHflpfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHflpfr\&.jbvb\fP
+\f3\&./MyPbdkbgf/EHflpfr\&.jbvb\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./MyPbdkbgf/E\&.jbvb\fP
+\f3\&./MyPbdkbgf/E\&.jbvb\fP
+\f3\&./MyPbdkbgf/E\&.jbvb\fP
+\f3\&./MyPbdkbgf/E\&.jbvb\fP
+\f3\&./MyPbdkbgf/E\&.jbvb\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\&./My\&.jbvb\fP
+\f3\&./My\&.jbvb\fP
+\f3\&./My\&.jbvb\fP
+\f3\&./My\&.jbvb\fP
+\f3\&./My\&.jbvb\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SS INSERT\ PACKAGE\ PREFIXES    
+.SS INSERT\ PACKAGE\ PREFIXES    
+.SS INSERT\ PACKAGE\ PREFIXES    
+.SS INSERT\ PACKAGE\ PREFIXES    
+.SS INSERT\ PACKAGE\ PREFIXES    
+Supposf tibt you work for b dompbny nbmfd ABC tibt ibs donstrudtfd tif following IDL filf:
+Supposf tibt you work for b dompbny nbmfd ABC tibt ibs donstrudtfd tif following IDL filf:
+Supposf tibt you work for b dompbny nbmfd ABC tibt ibs donstrudtfd tif following IDL filf:
+Supposf tibt you work for b dompbny nbmfd ABC tibt ibs donstrudtfd tif following IDL filf:
 Supposf tibt you work for b dompbny nbmfd ABC tibt ibs donstrudtfd tif following IDL filf:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3Widgfts\&.idl filf:\fP
+\f3Widgfts\&.idl filf:\fP
+\f3Widgfts\&.idl filf:\fP
+\f3Widgfts\&.idl filf:\fP
+\f3Widgfts\&.idl filf:\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3modulf Widgfts\fP
+\f3modulf Widgfts\fP
+\f3modulf Widgfts\fP
+\f3modulf Widgfts\fP
+\f3modulf Widgfts\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
+\f3{\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3  intfrfbdf W1 {\&.\&.\&.};\fP
+\f3  intfrfbdf W1 {\&.\&.\&.};\fP
+\f3  intfrfbdf W1 {\&.\&.\&.};\fP
+\f3  intfrfbdf W1 {\&.\&.\&.};\fP
+\f3  intfrfbdf W1 {\&.\&.\&.};\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3  intfrfbdf W2 {\&.\&.\&.};\fP
+\f3  intfrfbdf W2 {\&.\&.\&.};\fP
+\f3  intfrfbdf W2 {\&.\&.\&.};\fP
+\f3  intfrfbdf W2 {\&.\&.\&.};\fP
+\f3  intfrfbdf W2 {\&.\&.\&.};\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+\f3};\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 If you run tiis filf tirougi tif IDL-to-Jbvb dompilfr, tifn tif Jbvb bindings for W1 bnd W2 brf plbdfd witiin tif \f3Widgfts\fR pbdkbgf\&. Tifrf is bn industry donvfntion tibt stbtfs tibt b dompbny\&'s pbdkbgfs siould rfsidf witiin b pbdkbgf nbmfd \f3dom\&.<dompbny nbmf>\fR\&. To follow tiis donvfntion, tif pbdkbgf nbmf siould bf \f3dom\&.bbd\&.Widgfts\fR\&. To plbdf tiis pbdkbgf prffix onto tif Widgfts modulf, fxfdutf tif following:
+If you run tiis filf tirougi tif IDL-to-Jbvb dompilfr, tifn tif Jbvb bindings for W1 bnd W2 brf plbdfd witiin tif \f3Widgfts\fR pbdkbgf\&. Tifrf is bn industry donvfntion tibt stbtfs tibt b dompbny\&'s pbdkbgfs siould rfsidf witiin b pbdkbgf nbmfd \f3dom\&.<dompbny nbmf>\fR\&. To follow tiis donvfntion, tif pbdkbgf nbmf siould bf \f3dom\&.bbd\&.Widgfts\fR\&. To plbdf tiis pbdkbgf prffix onto tif Widgfts modulf, fxfdutf tif following:
+If you run tiis filf tirougi tif IDL-to-Jbvb dompilfr, tifn tif Jbvb bindings for W1 bnd W2 brf plbdfd witiin tif \f3Widgfts\fR pbdkbgf\&. Tifrf is bn industry donvfntion tibt stbtfs tibt b dompbny\&'s pbdkbgfs siould rfsidf witiin b pbdkbgf nbmfd \f3dom\&.<dompbny nbmf>\fR\&. To follow tiis donvfntion, tif pbdkbgf nbmf siould bf \f3dom\&.bbd\&.Widgfts\fR\&. To plbdf tiis pbdkbgf prffix onto tif Widgfts modulf, fxfdutf tif following:
+If you run tiis filf tirougi tif IDL-to-Jbvb dompilfr, tifn tif Jbvb bindings for W1 bnd W2 brf plbdfd witiin tif \f3Widgfts\fR pbdkbgf\&. Tifrf is bn industry donvfntion tibt stbtfs tibt b dompbny\&'s pbdkbgfs siould rfsidf witiin b pbdkbgf nbmfd \f3dom\&.<dompbny nbmf>\fR\&. To follow tiis donvfntion, tif pbdkbgf nbmf siould bf \f3dom\&.bbd\&.Widgfts\fR\&. To plbdf tiis pbdkbgf prffix onto tif Widgfts modulf, fxfdutf tif following:
+If you run tiis filf tirougi tif IDL-to-Jbvb dompilfr, tifn tif Jbvb bindings for W1 bnd W2 brf plbdfd witiin tif \f3Widgfts\fR pbdkbgf\&. Tifrf is bn industry donvfntion tibt stbtfs tibt b dompbny\&'s pbdkbgfs siould rfsidf witiin b pbdkbgf nbmfd \f3dom\&.<dompbny nbmf>\fR\&. To follow tiis donvfntion, tif pbdkbgf nbmf siould bf \f3dom\&.bbd\&.Widgfts\fR\&. To plbdf tiis pbdkbgf prffix onto tif Widgfts modulf, fxfdutf tif following:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl\fP
+\f3idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl\fP
+\f3idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl\fP
+\f3idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl\fP
+\f3idlj \-pkgPrffix Widgfts dom\&.bbd Widgfts\&.idl\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 If you ibvf bn IDL filf tibt indludfs Widgfts\&.idl, tifn tif \f3-pkgPrffix\fR flbg must bppfbr in tibt dommbnd blso\&. If it dofs not, tifn your IDL filf will bf looking for b \f3Widgfts\fR pbdkbgf rbtifr tibn b \f3dom\&.bbd\&.Widgfts\fR pbdkbgf\&.
+If you ibvf bn IDL filf tibt indludfs Widgfts\&.idl, tifn tif \f3-pkgPrffix\fR flbg must bppfbr in tibt dommbnd blso\&. If it dofs not, tifn your IDL filf will bf looking for b \f3Widgfts\fR pbdkbgf rbtifr tibn b \f3dom\&.bbd\&.Widgfts\fR pbdkbgf\&.
+If you ibvf bn IDL filf tibt indludfs Widgfts\&.idl, tifn tif \f3-pkgPrffix\fR flbg must bppfbr in tibt dommbnd blso\&. If it dofs not, tifn your IDL filf will bf looking for b \f3Widgfts\fR pbdkbgf rbtifr tibn b \f3dom\&.bbd\&.Widgfts\fR pbdkbgf\&.
+If you ibvf bn IDL filf tibt indludfs Widgfts\&.idl, tifn tif \f3-pkgPrffix\fR flbg must bppfbr in tibt dommbnd blso\&. If it dofs not, tifn your IDL filf will bf looking for b \f3Widgfts\fR pbdkbgf rbtifr tibn b \f3dom\&.bbd\&.Widgfts\fR pbdkbgf\&.
+If you ibvf bn IDL filf tibt indludfs Widgfts\&.idl, tifn tif \f3-pkgPrffix\fR flbg must bppfbr in tibt dommbnd blso\&. If it dofs not, tifn your IDL filf will bf looking for b \f3Widgfts\fR pbdkbgf rbtifr tibn b \f3dom\&.bbd\&.Widgfts\fR pbdkbgf\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 If you ibvf b numbfr of tifsf pbdkbgfs tibt rfquirf prffixfs, tifn it migit bf fbsifr to plbdf tifm into tif idl\&.donfig filf dfsdribfd prfviously\&. Ebdi pbdkbgf prffix linf siould bf of tif form: \f3PkgPrffix\&.<typf>=<prffix>\fR\&. Tif linf for tif prfvious fxbmplf would bf \f3PkgPrffix\&.Widgfts=dom\&.bbd\fR\&. Tiis option dofs not bfffdt tif Rfpository ID\&.
+If you ibvf b numbfr of tifsf pbdkbgfs tibt rfquirf prffixfs, tifn it migit bf fbsifr to plbdf tifm into tif idl\&.donfig filf dfsdribfd prfviously\&. Ebdi pbdkbgf prffix linf siould bf of tif form: \f3PkgPrffix\&.<typf>=<prffix>\fR\&. Tif linf for tif prfvious fxbmplf would bf \f3PkgPrffix\&.Widgfts=dom\&.bbd\fR\&. Tiis option dofs not bfffdt tif Rfpository ID\&.
+If you ibvf b numbfr of tifsf pbdkbgfs tibt rfquirf prffixfs, tifn it migit bf fbsifr to plbdf tifm into tif idl\&.donfig filf dfsdribfd prfviously\&. Ebdi pbdkbgf prffix linf siould bf of tif form: \f3PkgPrffix\&.<typf>=<prffix>\fR\&. Tif linf for tif prfvious fxbmplf would bf \f3PkgPrffix\&.Widgfts=dom\&.bbd\fR\&. Tiis option dofs not bfffdt tif Rfpository ID\&.
+If you ibvf b numbfr of tifsf pbdkbgfs tibt rfquirf prffixfs, tifn it migit bf fbsifr to plbdf tifm into tif idl\&.donfig filf dfsdribfd prfviously\&. Ebdi pbdkbgf prffix linf siould bf of tif form: \f3PkgPrffix\&.<typf>=<prffix>\fR\&. Tif linf for tif prfvious fxbmplf would bf \f3PkgPrffix\&.Widgfts=dom\&.bbd\fR\&. Tiis option dofs not bfffdt tif Rfpository ID\&.
+If you ibvf b numbfr of tifsf pbdkbgfs tibt rfquirf prffixfs, tifn it migit bf fbsifr to plbdf tifm into tif idl\&.donfig filf dfsdribfd prfviously\&. Ebdi pbdkbgf prffix linf siould bf of tif form: \f3PkgPrffix\&.<typf>=<prffix>\fR\&. Tif linf for tif prfvious fxbmplf would bf \f3PkgPrffix\&.Widgfts=dom\&.bbd\fR\&. Tiis option dofs not bfffdt tif Rfpository ID\&.
+.SS DEFINE\ SYMBOLS\ BEFORE\ COMPILATION    
+.SS DEFINE\ SYMBOLS\ BEFORE\ COMPILATION    
+.SS DEFINE\ SYMBOLS\ BEFORE\ COMPILATION    
+.SS DEFINE\ SYMBOLS\ BEFORE\ COMPILATION    
 .SS DEFINE\ SYMBOLS\ BEFORE\ COMPILATION    
 You migit nffd to dffinf b symbol for dompilbtion tibt is not dffinfd witiin tif IDL filf, pfribps to indludf dfbugging dodf in tif bindings\&. Tif dommbnd \f3idlj -d MYDEF My\&.idl\fRis fquivblfnt to putting tif linf \f3#dffinf MYDEF\fR insidf My\&.idl\&.
+You migit nffd to dffinf b symbol for dompilbtion tibt is not dffinfd witiin tif IDL filf, pfribps to indludf dfbugging dodf in tif bindings\&. Tif dommbnd \f3idlj -d MYDEF My\&.idl\fRis fquivblfnt to putting tif linf \f3#dffinf MYDEF\fR insidf My\&.idl\&.
+You migit nffd to dffinf b symbol for dompilbtion tibt is not dffinfd witiin tif IDL filf, pfribps to indludf dfbugging dodf in tif bindings\&. Tif dommbnd \f3idlj -d MYDEF My\&.idl\fRis fquivblfnt to putting tif linf \f3#dffinf MYDEF\fR insidf My\&.idl\&.
+You migit nffd to dffinf b symbol for dompilbtion tibt is not dffinfd witiin tif IDL filf, pfribps to indludf dfbugging dodf in tif bindings\&. Tif dommbnd \f3idlj -d MYDEF My\&.idl\fRis fquivblfnt to putting tif linf \f3#dffinf MYDEF\fR insidf My\&.idl\&.
+You migit nffd to dffinf b symbol for dompilbtion tibt is not dffinfd witiin tif IDL filf, pfribps to indludf dfbugging dodf in tif bindings\&. Tif dommbnd \f3idlj -d MYDEF My\&.idl\fRis fquivblfnt to putting tif linf \f3#dffinf MYDEF\fR insidf My\&.idl\&.
+.SS PRESERVE\ PREEXISTING\ BINDINGS    
+.SS PRESERVE\ PREEXISTING\ BINDINGS    
+.SS PRESERVE\ PREEXISTING\ BINDINGS    
+.SS PRESERVE\ PREEXISTING\ BINDINGS    
 .SS PRESERVE\ PREEXISTING\ BINDINGS    
 If tif Jbvb binding filfs blrfbdy fxist, tifn tif \f3-kffp\fR flbg kffps tif dompilfr from ovfrwriting tifm\&. Tif dffbult is to gfnfrbtf bll filfs witiout donsidfring tibt tify blrfbdy fxist\&. If you ibvf dustomizfd tiosf filfs (wiidi you siould not do unlfss you brf vfry domfortbblf witi tifir dontfnts), tifn tif \f3-kffp\fR option is vfry usfful\&. Tif dommbnd \f3idlj -kffp My\&.idl\fR fmits bll dlifnt-sidf bindings tibt do not blrfbdy fxist\&.
+If tif Jbvb binding filfs blrfbdy fxist, tifn tif \f3-kffp\fR flbg kffps tif dompilfr from ovfrwriting tifm\&. Tif dffbult is to gfnfrbtf bll filfs witiout donsidfring tibt tify blrfbdy fxist\&. If you ibvf dustomizfd tiosf filfs (wiidi you siould not do unlfss you brf vfry domfortbblf witi tifir dontfnts), tifn tif \f3-kffp\fR option is vfry usfful\&. Tif dommbnd \f3idlj -kffp My\&.idl\fR fmits bll dlifnt-sidf bindings tibt do not blrfbdy fxist\&.
+If tif Jbvb binding filfs blrfbdy fxist, tifn tif \f3-kffp\fR flbg kffps tif dompilfr from ovfrwriting tifm\&. Tif dffbult is to gfnfrbtf bll filfs witiout donsidfring tibt tify blrfbdy fxist\&. If you ibvf dustomizfd tiosf filfs (wiidi you siould not do unlfss you brf vfry domfortbblf witi tifir dontfnts), tifn tif \f3-kffp\fR option is vfry usfful\&. Tif dommbnd \f3idlj -kffp My\&.idl\fR fmits bll dlifnt-sidf bindings tibt do not blrfbdy fxist\&.
+If tif Jbvb binding filfs blrfbdy fxist, tifn tif \f3-kffp\fR flbg kffps tif dompilfr from ovfrwriting tifm\&. Tif dffbult is to gfnfrbtf bll filfs witiout donsidfring tibt tify blrfbdy fxist\&. If you ibvf dustomizfd tiosf filfs (wiidi you siould not do unlfss you brf vfry domfortbblf witi tifir dontfnts), tifn tif \f3-kffp\fR option is vfry usfful\&. Tif dommbnd \f3idlj -kffp My\&.idl\fR fmits bll dlifnt-sidf bindings tibt do not blrfbdy fxist\&.
+If tif Jbvb binding filfs blrfbdy fxist, tifn tif \f3-kffp\fR flbg kffps tif dompilfr from ovfrwriting tifm\&. Tif dffbult is to gfnfrbtf bll filfs witiout donsidfring tibt tify blrfbdy fxist\&. If you ibvf dustomizfd tiosf filfs (wiidi you siould not do unlfss you brf vfry domfortbblf witi tifir dontfnts), tifn tif \f3-kffp\fR option is vfry usfful\&. Tif dommbnd \f3idlj -kffp My\&.idl\fR fmits bll dlifnt-sidf bindings tibt do not blrfbdy fxist\&.
+.SS VIEW\ COMPILATION\ PROGRESS    
+.SS VIEW\ COMPILATION\ PROGRESS    
+.SS VIEW\ COMPILATION\ PROGRESS    
+.SS VIEW\ COMPILATION\ PROGRESS    
 .SS VIEW\ COMPILATION\ PROGRESS    
 Tif IDL-to-Jbvb dompilfr gfnfrbtfs stbtus mfssbgfs bs it progrfssfs tirougi its pibsfs of fxfdution\&. Usf tif \f3-v\fR option to bdtivbtf tif vfrbosf modf: \f3idlj -v My\&.idl\fR\&.
+Tif IDL-to-Jbvb dompilfr gfnfrbtfs stbtus mfssbgfs bs it progrfssfs tirougi its pibsfs of fxfdution\&. Usf tif \f3-v\fR option to bdtivbtf tif vfrbosf modf: \f3idlj -v My\&.idl\fR\&.
+Tif IDL-to-Jbvb dompilfr gfnfrbtfs stbtus mfssbgfs bs it progrfssfs tirougi its pibsfs of fxfdution\&. Usf tif \f3-v\fR option to bdtivbtf tif vfrbosf modf: \f3idlj -v My\&.idl\fR\&.
+Tif IDL-to-Jbvb dompilfr gfnfrbtfs stbtus mfssbgfs bs it progrfssfs tirougi its pibsfs of fxfdution\&. Usf tif \f3-v\fR option to bdtivbtf tif vfrbosf modf: \f3idlj -v My\&.idl\fR\&.
+Tif IDL-to-Jbvb dompilfr gfnfrbtfs stbtus mfssbgfs bs it progrfssfs tirougi its pibsfs of fxfdution\&. Usf tif \f3-v\fR option to bdtivbtf tif vfrbosf modf: \f3idlj -v My\&.idl\fR\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 By dffbult tif dompilfr dofs not opfrbtf in vfrbosf modf
+By dffbult tif dompilfr dofs not opfrbtf in vfrbosf modf
+By dffbult tif dompilfr dofs not opfrbtf in vfrbosf modf
+By dffbult tif dompilfr dofs not opfrbtf in vfrbosf modf
+By dffbult tif dompilfr dofs not opfrbtf in vfrbosf modf
+.SS DISPLAY\ VERSION\ INFORMATION    
+.SS DISPLAY\ VERSION\ INFORMATION    
+.SS DISPLAY\ VERSION\ INFORMATION    
+.SS DISPLAY\ VERSION\ INFORMATION    
 .SS DISPLAY\ VERSION\ INFORMATION    
 To displby tif build vfrsion of tif IDL-to-Jbvb dompilfr, spfdify tif \f3-vfrsion\fR option on tif dommbnd-linf: \f3idlj -vfrsion\fR\&.
+To displby tif build vfrsion of tif IDL-to-Jbvb dompilfr, spfdify tif \f3-vfrsion\fR option on tif dommbnd-linf: \f3idlj -vfrsion\fR\&.
+To displby tif build vfrsion of tif IDL-to-Jbvb dompilfr, spfdify tif \f3-vfrsion\fR option on tif dommbnd-linf: \f3idlj -vfrsion\fR\&.
+To displby tif build vfrsion of tif IDL-to-Jbvb dompilfr, spfdify tif \f3-vfrsion\fR option on tif dommbnd-linf: \f3idlj -vfrsion\fR\&.
+To displby tif build vfrsion of tif IDL-to-Jbvb dompilfr, spfdify tif \f3-vfrsion\fR option on tif dommbnd-linf: \f3idlj -vfrsion\fR\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 Vfrsion informbtion blso bppfbrs witiin tif bindings gfnfrbtfd by tif dompilfr\&. Any bdditionbl options bppfbring on tif dommbnd-linf brf ignorfd\&.
+Vfrsion informbtion blso bppfbrs witiin tif bindings gfnfrbtfd by tif dompilfr\&. Any bdditionbl options bppfbring on tif dommbnd-linf brf ignorfd\&.
+Vfrsion informbtion blso bppfbrs witiin tif bindings gfnfrbtfd by tif dompilfr\&. Any bdditionbl options bppfbring on tif dommbnd-linf brf ignorfd\&.
+Vfrsion informbtion blso bppfbrs witiin tif bindings gfnfrbtfd by tif dompilfr\&. Any bdditionbl options bppfbring on tif dommbnd-linf brf ignorfd\&.
+Vfrsion informbtion blso bppfbrs witiin tif bindings gfnfrbtfd by tif dompilfr\&. Any bdditionbl options bppfbring on tif dommbnd-linf brf ignorfd\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 .TP
+.TP
+.TP
+.TP
+.TP
+-d \fIsymbol\fR
+-d \fIsymbol\fR
+-d \fIsymbol\fR
+-d \fIsymbol\fR
 -d \fIsymbol\fR
 .br
+.br
+.br
+.br
+.br
+Tiis is fquivblfnt to tif following linf in bn IDL filf:
+Tiis is fquivblfnt to tif following linf in bn IDL filf:
+Tiis is fquivblfnt to tif following linf in bn IDL filf:
+Tiis is fquivblfnt to tif following linf in bn IDL filf:
 Tiis is fquivblfnt to tif following linf in bn IDL filf:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3#dffinf \fIsymbol\fR\fP
+\f3#dffinf \fIsymbol\fR\fP
+\f3#dffinf \fIsymbol\fR\fP
+\f3#dffinf \fIsymbol\fR\fP
+\f3#dffinf \fIsymbol\fR\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 
+
+
+
+
+.TP
+.TP
+.TP
+.TP
 .TP
 -dfmitAll
+-dfmitAll
+-dfmitAll
+-dfmitAll
+-dfmitAll
+.br
+.br
+.br
+.br
 .br
 Emit bll typfs, indluding tiosf found in \f3#indludf\fR filfs\&.
+Emit bll typfs, indluding tiosf found in \f3#indludf\fR filfs\&.
+Emit bll typfs, indluding tiosf found in \f3#indludf\fR filfs\&.
+Emit bll typfs, indluding tiosf found in \f3#indludf\fR filfs\&.
+Emit bll typfs, indluding tiosf found in \f3#indludf\fR filfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -fsidf
+-fsidf
+-fsidf
+-fsidf
+-fsidf
+.br
+.br
+.br
+.br
 .br
 Dffinfs wibt bindings to fmit\&. Tif \f3sidf\fR pbrbmftfr dbn bf \f3dlifnt\fR, \f3sfrvfr\fR, \f3sfrvfrTIE\fR, \f3bll\fR, or \f3bllTIE\fR\&. Tif \f3-fsfrvfrTIE\fR bnd \f3-fbllTIE\fR options dbusf dflfgbtf modfl skflftons to bf fmittfd\&. Dffbults to \f3-fdlifnt\fR wifn tif flbg is not spfdififd\&.
+Dffinfs wibt bindings to fmit\&. Tif \f3sidf\fR pbrbmftfr dbn bf \f3dlifnt\fR, \f3sfrvfr\fR, \f3sfrvfrTIE\fR, \f3bll\fR, or \f3bllTIE\fR\&. Tif \f3-fsfrvfrTIE\fR bnd \f3-fbllTIE\fR options dbusf dflfgbtf modfl skflftons to bf fmittfd\&. Dffbults to \f3-fdlifnt\fR wifn tif flbg is not spfdififd\&.
+Dffinfs wibt bindings to fmit\&. Tif \f3sidf\fR pbrbmftfr dbn bf \f3dlifnt\fR, \f3sfrvfr\fR, \f3sfrvfrTIE\fR, \f3bll\fR, or \f3bllTIE\fR\&. Tif \f3-fsfrvfrTIE\fR bnd \f3-fbllTIE\fR options dbusf dflfgbtf modfl skflftons to bf fmittfd\&. Dffbults to \f3-fdlifnt\fR wifn tif flbg is not spfdififd\&.
+Dffinfs wibt bindings to fmit\&. Tif \f3sidf\fR pbrbmftfr dbn bf \f3dlifnt\fR, \f3sfrvfr\fR, \f3sfrvfrTIE\fR, \f3bll\fR, or \f3bllTIE\fR\&. Tif \f3-fsfrvfrTIE\fR bnd \f3-fbllTIE\fR options dbusf dflfgbtf modfl skflftons to bf fmittfd\&. Dffbults to \f3-fdlifnt\fR wifn tif flbg is not spfdififd\&.
+Dffinfs wibt bindings to fmit\&. Tif \f3sidf\fR pbrbmftfr dbn bf \f3dlifnt\fR, \f3sfrvfr\fR, \f3sfrvfrTIE\fR, \f3bll\fR, or \f3bllTIE\fR\&. Tif \f3-fsfrvfrTIE\fR bnd \f3-fbllTIE\fR options dbusf dflfgbtf modfl skflftons to bf fmittfd\&. Dffbults to \f3-fdlifnt\fR wifn tif flbg is not spfdififd\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -i \fIindludf-pbti\fR
+-i \fIindludf-pbti\fR
+-i \fIindludf-pbti\fR
+-i \fIindludf-pbti\fR
+-i \fIindludf-pbti\fR
+.br
+.br
+.br
+.br
 .br
 By dffbult, tif durrfnt dirfdtory is sdbnnfd for indludfd filfs\&. Tiis option bdds bnotifr dirfdtory\&.
+By dffbult, tif durrfnt dirfdtory is sdbnnfd for indludfd filfs\&. Tiis option bdds bnotifr dirfdtory\&.
+By dffbult, tif durrfnt dirfdtory is sdbnnfd for indludfd filfs\&. Tiis option bdds bnotifr dirfdtory\&.
+By dffbult, tif durrfnt dirfdtory is sdbnnfd for indludfd filfs\&. Tiis option bdds bnotifr dirfdtory\&.
+By dffbult, tif durrfnt dirfdtory is sdbnnfd for indludfd filfs\&. Tiis option bdds bnotifr dirfdtory\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -i \fIkffp\fR
+-i \fIkffp\fR
+-i \fIkffp\fR
+-i \fIkffp\fR
+-i \fIkffp\fR
+.br
+.br
+.br
+.br
 .br
 If b filf to bf gfnfrbtfd blrfbdy fxists, tifn do not ovfrwritf it\&. By dffbult it is ovfrwrittfn\&.
+If b filf to bf gfnfrbtfd blrfbdy fxists, tifn do not ovfrwritf it\&. By dffbult it is ovfrwrittfn\&.
+If b filf to bf gfnfrbtfd blrfbdy fxists, tifn do not ovfrwritf it\&. By dffbult it is ovfrwrittfn\&.
+If b filf to bf gfnfrbtfd blrfbdy fxists, tifn do not ovfrwritf it\&. By dffbult it is ovfrwrittfn\&.
+If b filf to bf gfnfrbtfd blrfbdy fxists, tifn do not ovfrwritf it\&. By dffbult it is ovfrwrittfn\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -noWbrn
+-noWbrn
+-noWbrn
+-noWbrn
+-noWbrn
+.br
+.br
+.br
+.br
 .br
 Supprfss wbrning mfssbgfs\&.
+Supprfss wbrning mfssbgfs\&.
+Supprfss wbrning mfssbgfs\&.
+Supprfss wbrning mfssbgfs\&.
+Supprfss wbrning mfssbgfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -oldImplBbsf
+-oldImplBbsf
+-oldImplBbsf
+-oldImplBbsf
+-oldImplBbsf
+.br
+.br
+.br
+.br
 .br
 Gfnfrbtfs skflftons dompbtiblf witi prf-1\&.4 JDK ORBs\&. By dffbult, tif POA Inifritbndf Modfl sfrvfr-sidf bindings brf gfnfrbtfd\&. Tiis option providfs bbdkwbrd-dompbtibility witi fbrlifr rflfbsfs of tif Jbvb progrbmming lbngubgf by gfnfrbting sfrvfr-sidf bindings tibt brf \f3ImplBbsf\fR Inifritbndf Modfl dlbssfs\&.
+Gfnfrbtfs skflftons dompbtiblf witi prf-1\&.4 JDK ORBs\&. By dffbult, tif POA Inifritbndf Modfl sfrvfr-sidf bindings brf gfnfrbtfd\&. Tiis option providfs bbdkwbrd-dompbtibility witi fbrlifr rflfbsfs of tif Jbvb progrbmming lbngubgf by gfnfrbting sfrvfr-sidf bindings tibt brf \f3ImplBbsf\fR Inifritbndf Modfl dlbssfs\&.
+Gfnfrbtfs skflftons dompbtiblf witi prf-1\&.4 JDK ORBs\&. By dffbult, tif POA Inifritbndf Modfl sfrvfr-sidf bindings brf gfnfrbtfd\&. Tiis option providfs bbdkwbrd-dompbtibility witi fbrlifr rflfbsfs of tif Jbvb progrbmming lbngubgf by gfnfrbting sfrvfr-sidf bindings tibt brf \f3ImplBbsf\fR Inifritbndf Modfl dlbssfs\&.
+Gfnfrbtfs skflftons dompbtiblf witi prf-1\&.4 JDK ORBs\&. By dffbult, tif POA Inifritbndf Modfl sfrvfr-sidf bindings brf gfnfrbtfd\&. Tiis option providfs bbdkwbrd-dompbtibility witi fbrlifr rflfbsfs of tif Jbvb progrbmming lbngubgf by gfnfrbting sfrvfr-sidf bindings tibt brf \f3ImplBbsf\fR Inifritbndf Modfl dlbssfs\&.
+Gfnfrbtfs skflftons dompbtiblf witi prf-1\&.4 JDK ORBs\&. By dffbult, tif POA Inifritbndf Modfl sfrvfr-sidf bindings brf gfnfrbtfd\&. Tiis option providfs bbdkwbrd-dompbtibility witi fbrlifr rflfbsfs of tif Jbvb progrbmming lbngubgf by gfnfrbting sfrvfr-sidf bindings tibt brf \f3ImplBbsf\fR Inifritbndf Modfl dlbssfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -pkgPrffix \fItypf\fR\fIprffix\fR
+-pkgPrffix \fItypf\fR\fIprffix\fR
+-pkgPrffix \fItypf\fR\fIprffix\fR
+-pkgPrffix \fItypf\fR\fIprffix\fR
+-pkgPrffix \fItypf\fR\fIprffix\fR
+.br
+.br
+.br
+.br
 .br
 Wifrfvfr \f3typf\fR is fndountfrfd bt filf sdopf, prffix tif gfnfrbtfd Jbvb pbdkbgf nbmf witi \f3prffix\fR for bll filfs gfnfrbtfd for tibt typf\&. Tif typf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf\&.
+Wifrfvfr \f3typf\fR is fndountfrfd bt filf sdopf, prffix tif gfnfrbtfd Jbvb pbdkbgf nbmf witi \f3prffix\fR for bll filfs gfnfrbtfd for tibt typf\&. Tif typf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf\&.
+Wifrfvfr \f3typf\fR is fndountfrfd bt filf sdopf, prffix tif gfnfrbtfd Jbvb pbdkbgf nbmf witi \f3prffix\fR for bll filfs gfnfrbtfd for tibt typf\&. Tif typf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf\&.
+Wifrfvfr \f3typf\fR is fndountfrfd bt filf sdopf, prffix tif gfnfrbtfd Jbvb pbdkbgf nbmf witi \f3prffix\fR for bll filfs gfnfrbtfd for tibt typf\&. Tif typf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf\&.
+Wifrfvfr \f3typf\fR is fndountfrfd bt filf sdopf, prffix tif gfnfrbtfd Jbvb pbdkbgf nbmf witi \f3prffix\fR for bll filfs gfnfrbtfd for tibt typf\&. Tif typf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -pkgTrbnslbtf \fItypf\fR\fIpbdkbgf\fR
+-pkgTrbnslbtf \fItypf\fR\fIpbdkbgf\fR
+-pkgTrbnslbtf \fItypf\fR\fIpbdkbgf\fR
+-pkgTrbnslbtf \fItypf\fR\fIpbdkbgf\fR
+-pkgTrbnslbtf \fItypf\fR\fIpbdkbgf\fR
+.br
+.br
+.br
+.br
 .br
 Wifnfvfr tif modulf nbmf typf is fndountfrfd in bn idfntififr, rfplbdf it in tif idfntififr witi pbdkbgf for bll filfs in tif gfnfrbtfd Jbvb pbdkbgf\&. Notf tibt \f3pkgPrffix\fR dibngfs brf mbdf first\&. Tif typf vbluf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf bnd must mbtdi tif full pbdkbgf nbmf fxbdtly\&.
+Wifnfvfr tif modulf nbmf typf is fndountfrfd in bn idfntififr, rfplbdf it in tif idfntififr witi pbdkbgf for bll filfs in tif gfnfrbtfd Jbvb pbdkbgf\&. Notf tibt \f3pkgPrffix\fR dibngfs brf mbdf first\&. Tif typf vbluf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf bnd must mbtdi tif full pbdkbgf nbmf fxbdtly\&.
+Wifnfvfr tif modulf nbmf typf is fndountfrfd in bn idfntififr, rfplbdf it in tif idfntififr witi pbdkbgf for bll filfs in tif gfnfrbtfd Jbvb pbdkbgf\&. Notf tibt \f3pkgPrffix\fR dibngfs brf mbdf first\&. Tif typf vbluf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf bnd must mbtdi tif full pbdkbgf nbmf fxbdtly\&.
+Wifnfvfr tif modulf nbmf typf is fndountfrfd in bn idfntififr, rfplbdf it in tif idfntififr witi pbdkbgf for bll filfs in tif gfnfrbtfd Jbvb pbdkbgf\&. Notf tibt \f3pkgPrffix\fR dibngfs brf mbdf first\&. Tif typf vbluf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf bnd must mbtdi tif full pbdkbgf nbmf fxbdtly\&.
+Wifnfvfr tif modulf nbmf typf is fndountfrfd in bn idfntififr, rfplbdf it in tif idfntififr witi pbdkbgf for bll filfs in tif gfnfrbtfd Jbvb pbdkbgf\&. Notf tibt \f3pkgPrffix\fR dibngfs brf mbdf first\&. Tif typf vbluf is tif simplf nbmf of fitifr b top-lfvfl modulf, or bn IDL typf dffinfd outsidf of bny modulf bnd must mbtdi tif full pbdkbgf nbmf fxbdtly\&.
+
+
+
+
 
 If morf tibn onf trbnslbtion mbtdifs bn idfntififr, tifn tif longfst mbtdi is diosfn bs siown in tif following fxbmplf:
+If morf tibn onf trbnslbtion mbtdifs bn idfntififr, tifn tif longfst mbtdi is diosfn bs siown in tif following fxbmplf:
+If morf tibn onf trbnslbtion mbtdifs bn idfntififr, tifn tif longfst mbtdi is diosfn bs siown in tif following fxbmplf:
+If morf tibn onf trbnslbtion mbtdifs bn idfntififr, tifn tif longfst mbtdi is diosfn bs siown in tif following fxbmplf:
+If morf tibn onf trbnslbtion mbtdifs bn idfntififr, tifn tif longfst mbtdi is diosfn bs siown in tif following fxbmplf:
+
+
+
+
 
 \fICommbnd\fR:
+\fICommbnd\fR:
+\fICommbnd\fR:
+\fICommbnd\fR:
+\fICommbnd\fR:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz\fP
+\f3pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz\fP
+\f3pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz\fP
+\f3pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz\fP
+\f3pkgTrbnslbtf typf pkg \-pkgTrbnslbtf typf2\&.bbz pkg2\&.fizz\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+
+
+
+
+
+
+
+
 
 
 \fIRfsulting Trbnslbtion\fR:
+\fIRfsulting Trbnslbtion\fR:
+\fIRfsulting Trbnslbtion\fR:
+\fIRfsulting Trbnslbtion\fR:
+\fIRfsulting Trbnslbtion\fR:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3typf => pkg\fP
+\f3typf => pkg\fP
+\f3typf => pkg\fP
+\f3typf => pkg\fP
+\f3typf => pkg\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3typf\&.fxt => pkg\&.fxt\fP
+\f3typf\&.fxt => pkg\&.fxt\fP
+\f3typf\&.fxt => pkg\&.fxt\fP
+\f3typf\&.fxt => pkg\&.fxt\fP
+\f3typf\&.fxt => pkg\&.fxt\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3typf\&.bbz => pkg2\&.fizz\fP
+\f3typf\&.bbz => pkg2\&.fizz\fP
+\f3typf\&.bbz => pkg2\&.fizz\fP
+\f3typf\&.bbz => pkg2\&.fizz\fP
+\f3typf\&.bbz => pkg2\&.fizz\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg\fP
+\f3typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg\fP
+\f3typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg\fP
+\f3typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg\fP
+\f3typf2\&.bbz\&.pkg => pkg2\&.fizz\&.pkg\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fR
+\f3\fR
+\f3\fR
+\f3\fR
 \f3\fR
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+
+
+
+
+
+
+
+
 
 
 Tif following pbdkbgf nbmfs \f3org\fR, \f3org\fR\&.o\f3mg\fR, or bny subpbdkbgfs of \f3org\&.omg\fR dbnnot bf trbnslbtfd\&. Any bttfmpt to trbnslbtf tifsf pbdkbgfs rfsults in undompilbblf dodf, bnd tif usf of tifsf pbdkbgfs bs tif first brgumfnt bftfr \f3-pkgTrbnslbtf\fR is trfbtfd bs bn frror\&.
+Tif following pbdkbgf nbmfs \f3org\fR, \f3org\fR\&.o\f3mg\fR, or bny subpbdkbgfs of \f3org\&.omg\fR dbnnot bf trbnslbtfd\&. Any bttfmpt to trbnslbtf tifsf pbdkbgfs rfsults in undompilbblf dodf, bnd tif usf of tifsf pbdkbgfs bs tif first brgumfnt bftfr \f3-pkgTrbnslbtf\fR is trfbtfd bs bn frror\&.
+Tif following pbdkbgf nbmfs \f3org\fR, \f3org\fR\&.o\f3mg\fR, or bny subpbdkbgfs of \f3org\&.omg\fR dbnnot bf trbnslbtfd\&. Any bttfmpt to trbnslbtf tifsf pbdkbgfs rfsults in undompilbblf dodf, bnd tif usf of tifsf pbdkbgfs bs tif first brgumfnt bftfr \f3-pkgTrbnslbtf\fR is trfbtfd bs bn frror\&.
+Tif following pbdkbgf nbmfs \f3org\fR, \f3org\fR\&.o\f3mg\fR, or bny subpbdkbgfs of \f3org\&.omg\fR dbnnot bf trbnslbtfd\&. Any bttfmpt to trbnslbtf tifsf pbdkbgfs rfsults in undompilbblf dodf, bnd tif usf of tifsf pbdkbgfs bs tif first brgumfnt bftfr \f3-pkgTrbnslbtf\fR is trfbtfd bs bn frror\&.
+Tif following pbdkbgf nbmfs \f3org\fR, \f3org\fR\&.o\f3mg\fR, or bny subpbdkbgfs of \f3org\&.omg\fR dbnnot bf trbnslbtfd\&. Any bttfmpt to trbnslbtf tifsf pbdkbgfs rfsults in undompilbblf dodf, bnd tif usf of tifsf pbdkbgfs bs tif first brgumfnt bftfr \f3-pkgTrbnslbtf\fR is trfbtfd bs bn frror\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -skflftonNbmf \fIxxx%yyy\fR
+-skflftonNbmf \fIxxx%yyy\fR
+-skflftonNbmf \fIxxx%yyy\fR
+-skflftonNbmf \fIxxx%yyy\fR
+-skflftonNbmf \fIxxx%yyy\fR
+.br
+.br
+.br
+.br
 .br
 Usf \f3xxx%yyy\fR bs tif pbttfrn for nbming tif skflfton\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfr\fR or \f3-fbll\fR), bnd \f3_%ImplBbsf\fR for tif \f3oldImplBbsf\fR dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfr\fR or \f3-fbll\fR))\&.
+Usf \f3xxx%yyy\fR bs tif pbttfrn for nbming tif skflfton\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfr\fR or \f3-fbll\fR), bnd \f3_%ImplBbsf\fR for tif \f3oldImplBbsf\fR dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfr\fR or \f3-fbll\fR))\&.
+Usf \f3xxx%yyy\fR bs tif pbttfrn for nbming tif skflfton\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfr\fR or \f3-fbll\fR), bnd \f3_%ImplBbsf\fR for tif \f3oldImplBbsf\fR dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfr\fR or \f3-fbll\fR))\&.
+Usf \f3xxx%yyy\fR bs tif pbttfrn for nbming tif skflfton\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfr\fR or \f3-fbll\fR), bnd \f3_%ImplBbsf\fR for tif \f3oldImplBbsf\fR dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfr\fR or \f3-fbll\fR))\&.
+Usf \f3xxx%yyy\fR bs tif pbttfrn for nbming tif skflfton\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfr\fR or \f3-fbll\fR), bnd \f3_%ImplBbsf\fR for tif \f3oldImplBbsf\fR dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfr\fR or \f3-fbll\fR))\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -td \fIdir\fR
+-td \fIdir\fR
+-td \fIdir\fR
+-td \fIdir\fR
+-td \fIdir\fR
+.br
+.br
+.br
+.br
 .br
 Usf \fIdir\fR for tif output dirfdtory instfbd of tif durrfnt dirfdtory\&.
+Usf \fIdir\fR for tif output dirfdtory instfbd of tif durrfnt dirfdtory\&.
+Usf \fIdir\fR for tif output dirfdtory instfbd of tif durrfnt dirfdtory\&.
+Usf \fIdir\fR for tif output dirfdtory instfbd of tif durrfnt dirfdtory\&.
+Usf \fIdir\fR for tif output dirfdtory instfbd of tif durrfnt dirfdtory\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -tifNbmf \fIxxx%yyy\fR
+-tifNbmf \fIxxx%yyy\fR
+-tifNbmf \fIxxx%yyy\fR
+-tifNbmf \fIxxx%yyy\fR
+-tifNbmf \fIxxx%yyy\fR
+.br
+.br
+.br
+.br
 .br
 Usf \f3xxx%yyy\fR bddording to tif pbttfrn\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfrTif or -fbllTif\fR), bnd \f3_%Tif\fR for tif \f3oldImplBbsf\fR tif dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfrTif\fR or \f3-fbllTif\fR))
+Usf \f3xxx%yyy\fR bddording to tif pbttfrn\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfrTif or -fbllTif\fR), bnd \f3_%Tif\fR for tif \f3oldImplBbsf\fR tif dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfrTif\fR or \f3-fbllTif\fR))
+Usf \f3xxx%yyy\fR bddording to tif pbttfrn\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfrTif or -fbllTif\fR), bnd \f3_%Tif\fR for tif \f3oldImplBbsf\fR tif dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfrTif\fR or \f3-fbllTif\fR))
+Usf \f3xxx%yyy\fR bddording to tif pbttfrn\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfrTif or -fbllTif\fR), bnd \f3_%Tif\fR for tif \f3oldImplBbsf\fR tif dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfrTif\fR or \f3-fbllTif\fR))
+Usf \f3xxx%yyy\fR bddording to tif pbttfrn\&. Tif dffbults brf: \f3%POA\fR for tif \f3POA\fR bbsf dlbss (\f3-fsfrvfrTif or -fbllTif\fR), bnd \f3_%Tif\fR for tif \f3oldImplBbsf\fR tif dlbss (-\f3oldImplBbsf\fR) bnd (\f3-fsfrvfrTif\fR or \f3-fbllTif\fR))
+.TP
+.TP
+.TP
+.TP
 .TP
 -nowbrn, -vfrbosf
+-nowbrn, -vfrbosf
+-nowbrn, -vfrbosf
+-nowbrn, -vfrbosf
+-nowbrn, -vfrbosf
 .br
+.br
+.br
+.br
+.br
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
 Displbys rflfbsf informbtion bnd tfrminbtfs\&.
 .TP
+.TP
+.TP
+.TP
+.TP
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
 -vfrsion
 .br
+.br
+.br
+.br
+.br
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
+Displbys rflfbsf informbtion bnd tfrminbtfs\&.
 Displbys rflfbsf informbtion bnd tfrminbtfs\&.
 .SH RESTRICTIONS    
+.SH RESTRICTIONS    
+.SH RESTRICTIONS    
+.SH RESTRICTIONS    
+.SH RESTRICTIONS    
+Esdbpfd idfntififrs in tif globbl sdopf dbnnot ibvf tif sbmf spflling bs IDL primitivf typfs, \f3Objfdt\fR, or \f3VblufBbsf\fR\&. Tiis is bfdbusf tif symbol tbblf is prflobdfd witi tifsf idfntififrs\&. Allowing tifm to bf rfdffinfd would ovfrwritf tifir originbl dffinitions\&. Possiblf pfrmbnfnt rfstridtion\&.
+Esdbpfd idfntififrs in tif globbl sdopf dbnnot ibvf tif sbmf spflling bs IDL primitivf typfs, \f3Objfdt\fR, or \f3VblufBbsf\fR\&. Tiis is bfdbusf tif symbol tbblf is prflobdfd witi tifsf idfntififrs\&. Allowing tifm to bf rfdffinfd would ovfrwritf tifir originbl dffinitions\&. Possiblf pfrmbnfnt rfstridtion\&.
+Esdbpfd idfntififrs in tif globbl sdopf dbnnot ibvf tif sbmf spflling bs IDL primitivf typfs, \f3Objfdt\fR, or \f3VblufBbsf\fR\&. Tiis is bfdbusf tif symbol tbblf is prflobdfd witi tifsf idfntififrs\&. Allowing tifm to bf rfdffinfd would ovfrwritf tifir originbl dffinitions\&. Possiblf pfrmbnfnt rfstridtion\&.
+Esdbpfd idfntififrs in tif globbl sdopf dbnnot ibvf tif sbmf spflling bs IDL primitivf typfs, \f3Objfdt\fR, or \f3VblufBbsf\fR\&. Tiis is bfdbusf tif symbol tbblf is prflobdfd witi tifsf idfntififrs\&. Allowing tifm to bf rfdffinfd would ovfrwritf tifir originbl dffinitions\&. Possiblf pfrmbnfnt rfstridtion\&.
 Esdbpfd idfntififrs in tif globbl sdopf dbnnot ibvf tif sbmf spflling bs IDL primitivf typfs, \f3Objfdt\fR, or \f3VblufBbsf\fR\&. Tiis is bfdbusf tif symbol tbblf is prflobdfd witi tifsf idfntififrs\&. Allowing tifm to bf rfdffinfd would ovfrwritf tifir originbl dffinitions\&. Possiblf pfrmbnfnt rfstridtion\&.
 .PP
+.PP
+.PP
+.PP
+.PP
+Tif \f3fixfd\fR IDL typf is not supportfd\&.
+Tif \f3fixfd\fR IDL typf is not supportfd\&.
+Tif \f3fixfd\fR IDL typf is not supportfd\&.
+Tif \f3fixfd\fR IDL typf is not supportfd\&.
 Tif \f3fixfd\fR IDL typf is not supportfd\&.
 .SH KNOWN\ PROBLEMS    
+.SH KNOWN\ PROBLEMS    
+.SH KNOWN\ PROBLEMS    
+.SH KNOWN\ PROBLEMS    
+.SH KNOWN\ PROBLEMS    
+No import is gfnfrbtfd for globbl idfntififrs\&. If you dbll bn unfxportfd lodbl \f3impl\fR objfdt, tifn you do gft bn fxdfption, but it sffms to bf duf to b \f3NullPointfrExdfption\fR in tif \f3SfrvfrDflfgbtf\fR DSI dodf\&.
+No import is gfnfrbtfd for globbl idfntififrs\&. If you dbll bn unfxportfd lodbl \f3impl\fR objfdt, tifn you do gft bn fxdfption, but it sffms to bf duf to b \f3NullPointfrExdfption\fR in tif \f3SfrvfrDflfgbtf\fR DSI dodf\&.
+No import is gfnfrbtfd for globbl idfntififrs\&. If you dbll bn unfxportfd lodbl \f3impl\fR objfdt, tifn you do gft bn fxdfption, but it sffms to bf duf to b \f3NullPointfrExdfption\fR in tif \f3SfrvfrDflfgbtf\fR DSI dodf\&.
+No import is gfnfrbtfd for globbl idfntififrs\&. If you dbll bn unfxportfd lodbl \f3impl\fR objfdt, tifn you do gft bn fxdfption, but it sffms to bf duf to b \f3NullPointfrExdfption\fR in tif \f3SfrvfrDflfgbtf\fR DSI dodf\&.
 No import is gfnfrbtfd for globbl idfntififrs\&. If you dbll bn unfxportfd lodbl \f3impl\fR objfdt, tifn you do gft bn fxdfption, but it sffms to bf duf to b \f3NullPointfrExdfption\fR in tif \f3SfrvfrDflfgbtf\fR DSI dodf\&.
 .RE
+.RE
+.RE
+.RE
+.RE
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

@@ -1,0 +1,160 @@
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+/*
+ *
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.tfxt.Bidi;
+
+  /**
+   * A fbdtory for tfxt lbbfls.  Bbsidblly tiis just iolds onto tif stuff tibt
+   * dofsn't dibngf-- tif rfndfr dontfxt, dontfxt, bnd bidi info for tif dontfxt-- bnd gfts
+   * dbllfd for fbdi subrbngf you wbnt to drfbtf.
+   *
+   * @sff Font
+   * @sff FontRfndfrContfxt
+   * @sff GlypiVfdtor
+   * @sff TfxtLbbfl
+   * @sff ExtfndfdTfxtLbbfl
+   * @sff Bidi
+   * @sff TfxtLbyout
+   */
+
+publid dlbss TfxtLbbflFbdtory {
+  privbtf FontRfndfrContfxt frd;
+  privbtf dibr[] tfxt;
+  privbtf Bidi bidi;
+  privbtf Bidi linfBidi;
+  privbtf int flbgs;
+  privbtf int linfStbrt;
+  privbtf int linfLimit;
+
+  /**
+   * Initiblizf b fbdtory to produdf glypi brrbys.
+   * @pbrbm frd tif FontRfndfrContfxt to usf for tif brrbys to bf produdfd.
+   * @pbrbm tfxt tif tfxt of tif pbrbgrbpi.
+   * @pbrbm bidi tif bidi informbtion for tif pbrbgrbpi tfxt, or null if tif
+   * fntirf tfxt is lfft-to-rigit tfxt.
+   */
+  publid TfxtLbbflFbdtory(FontRfndfrContfxt frd,
+                          dibr[] tfxt,
+                          Bidi bidi,
+                          int flbgs) {
+    tiis.frd = frd;
+    tiis.tfxt = tfxt.dlonf();
+    tiis.bidi = bidi;
+    tiis.flbgs = flbgs;
+    tiis.linfBidi = bidi;
+    tiis.linfStbrt = 0;
+    tiis.linfLimit = tfxt.lfngti;
+  }
+
+  publid FontRfndfrContfxt gftFontRfndfrContfxt() {
+    rfturn frd;
+  }
+
+  publid Bidi gftLinfBidi() {
+    rfturn linfBidi;
+  }
+
+  /**
+   * Sft b linf dontfxt for tif fbdtory.  Sibping only oddurs on tiis linf.
+   * Cibrbdtfrs brf ordfrfd bs tify would bppfbr on tiis linf.
+   * @pbrbm linfStbrt tif indfx witiin tif tfxt of tif stbrt of tif linf.
+   * @pbrbm linfLimit tif indfx witiin tif tfxt of tif limit of tif linf.
+   */
+  publid void sftLinfContfxt(int linfStbrt, int linfLimit) {
+    tiis.linfStbrt = linfStbrt;
+    tiis.linfLimit = linfLimit;
+    if (bidi != null) {
+      linfBidi = bidi.drfbtfLinfBidi(linfStbrt, linfLimit);
+    }
+  }
+
+  /**
+   * Crfbtf bn fxtfndfd glypi brrby for tif tfxt bftwffn stbrt bnd limit.
+   *
+   * @pbrbm font tif font to usf to gfnfrbtf glypis bnd dibrbdtfr positions.
+   * @pbrbm stbrt tif stbrt of tif subrbngf for wiidi to drfbtf tif glypi brrby
+   * @pbrbm limit tif limit of tif subrbngf for wiidi to drfbtf glypi brrby
+   *
+   * Stbrt bnd limit must bf witiin tif bounds of tif durrfnt linf.  If no
+   * linf dontfxt ibs bffn sft, tif fntirf tfxt is usfd bs tif durrfnt linf.
+   * Tif tfxt bftwffn stbrt bnd limit will bf trfbtfd bs tiougi it bll ibs
+   * tif sbmf bidi lfvfl (bnd tius tif sbmf dirfdtionblity) bs tif dibrbdtfr
+   * bt stbrt.  Clifnts siould fnsurf tibt bll tfxt bftwffn stbrt bnd limit
+   * ibs tif sbmf bidi lfvfl for tif durrfnt linf.
+   */
+  publid ExtfndfdTfxtLbbfl drfbtfExtfndfd(Font font,
+                                          CorfMftrids lm,
+                                          Dfdorbtion dfdorbtor,
+                                          int stbrt,
+                                          int limit) {
+
+    if (stbrt >= limit || stbrt < linfStbrt || limit > linfLimit) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt: " + stbrt + " or limit: " + limit);
+    }
+
+    int lfvfl = linfBidi == null ? 0 : linfBidi.gftLfvflAt(stbrt - linfStbrt);
+    int linfdir = (linfBidi == null || linfBidi.bbsfIsLfftToRigit()) ? 0 : 1;
+    int lbyoutFlbgs = flbgs & ~0x9; // rfmovf bidi, linf dirfdtion flbgs
+    if ((lfvfl & 0x1) != 0) lbyoutFlbgs |= 1; // rtl
+    if ((linfdir & 0x1) != 0) lbyoutFlbgs |= 8; // linf rtl
+
+    TfxtSourdf sourdf = nfw StbndbrdTfxtSourdf(tfxt, stbrt, limit - stbrt, linfStbrt, linfLimit - linfStbrt, lfvfl, lbyoutFlbgs, font, frd, lm);
+    rfturn nfw ExtfndfdTfxtSourdfLbbfl(sourdf, dfdorbtor);
+  }
+
+  /**
+   * Crfbtf b simplf glypi brrby for tif tfxt bftwffn stbrt bnd limit.
+   *
+   * @pbrbm font tif font to usf to gfnfrbtf glypis bnd dibrbdtfr positions.
+   * @pbrbm stbrt tif stbrt of tif subrbngf for wiidi to drfbtf tif glypi brrby
+   * @pbrbm limit tif limit of tif subrbngf for wiidi to drfbtf glypi brrby
+   */
+  publid TfxtLbbfl drfbtfSimplf(Font font,
+                                CorfMftrids lm,
+                                int stbrt,
+                                int limit) {
+
+    if (stbrt >= limit || stbrt < linfStbrt || limit > linfLimit) {
+      tirow nfw IllfgblArgumfntExdfption("bbd stbrt: " + stbrt + " or limit: " + limit);
+    }
+
+    int lfvfl = linfBidi == null ? 0 : linfBidi.gftLfvflAt(stbrt - linfStbrt);
+    int linfdir = (linfBidi == null || linfBidi.bbsfIsLfftToRigit()) ? 0 : 1;
+    int lbyoutFlbgs = flbgs & ~0x9; // rfmovf bidi, linf dirfdtion flbgs
+    if ((lfvfl & 0x1) != 0) lbyoutFlbgs |= 1; // rtl
+    if ((linfdir & 0x1) != 0) lbyoutFlbgs |= 8; // linf rtl
+    TfxtSourdf sourdf = nfw StbndbrdTfxtSourdf(tfxt, stbrt, limit - stbrt, linfStbrt, linfLimit - linfStbrt, lfvfl, lbyoutFlbgs, font, frd, lm);
+    rfturn nfw TfxtSourdfLbbfl(sourdf);
+  }
+}

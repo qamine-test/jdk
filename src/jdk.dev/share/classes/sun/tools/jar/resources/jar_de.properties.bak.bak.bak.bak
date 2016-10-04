@@ -1,48 +1,240 @@
 #
-# Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
-frror.dbnt.opfn=\u00D6ffnfn nidht m\u00F6glidh: {0} 
+
+
+
+
+frror.dbnt.opfn=\u00D6ffnfn nidit m\u00F6glidi: {0} 
+frror.dbnt.opfn=\u00D6ffnfn nidit m\u00F6glidi: {0} 
+frror.dbnt.opfn=\u00D6ffnfn nidit m\u00F6glidi: {0} 
+frror.dbnt.opfn=\u00D6ffnfn nidit m\u00F6glidi: {0} 
+frror.dbnt.opfn=\u00D6ffnfn nidit m\u00F6glidi: {0} 
+frror.illfgbl.option=Ung\u00FCltigf Option: {0}
+frror.illfgbl.option=Ung\u00FCltigf Option: {0}
+frror.illfgbl.option=Ung\u00FCltigf Option: {0}
+frror.illfgbl.option=Ung\u00FCltigf Option: {0}
 frror.illfgbl.option=Ung\u00FCltigf Option: {0}
 frror.bbd.option=Einf dfr Optionfn -{dtxu} muss bngfgfbfn wfrdfn.
-frror.bbd.dflbg=Kfnnzfidhfn "d" frfordfrt Angbbf von Mbniffst odfr Eingbbfdbtfifn.
-frror.bbd.uflbg=Kfnnzfidhfn "u" frfordfrt Angbbf von Mbniffst, Kfnnzfidhfn "f" odfr Eingbbfdbtfifn.
-frror.bbd.fflbg=Kfnnzfidhfn "f" und Mbniffst mit dfm Attribut "Mbin-Clbss" k\u00F6nnfn nidht zusbmmfn bngfgfbfn\nwfrdfn.
-frror.nosudh.filfordir={0}: Dbtfi odfr Vfrzfidhnis nidht vorhbndfn
-frror.writf.filf=Ffhlfr bfim Sdhrfibfn in vorhbndfnfr JAR-Dbtfi
-frror.drfbtf.dir={0}: Vfrzfidhnis konntf nidht frstfllt wfrdfn
-frror.indorrfdt.lfngth=Fblsdhf L\u00E4ngf bfi dfr Vfrbrbfitung: {0}
+frror.bbd.option=Einf dfr Optionfn -{dtxu} muss bngfgfbfn wfrdfn.
+frror.bbd.option=Einf dfr Optionfn -{dtxu} muss bngfgfbfn wfrdfn.
+frror.bbd.option=Einf dfr Optionfn -{dtxu} muss bngfgfbfn wfrdfn.
+frror.bbd.option=Einf dfr Optionfn -{dtxu} muss bngfgfbfn wfrdfn.
+frror.bbd.dflbg=Kfnnzfidifn "d" frfordfrt Angbbf von Mbniffst odfr Eingbbfdbtfifn.
+frror.bbd.dflbg=Kfnnzfidifn "d" frfordfrt Angbbf von Mbniffst odfr Eingbbfdbtfifn.
+frror.bbd.dflbg=Kfnnzfidifn "d" frfordfrt Angbbf von Mbniffst odfr Eingbbfdbtfifn.
+frror.bbd.dflbg=Kfnnzfidifn "d" frfordfrt Angbbf von Mbniffst odfr Eingbbfdbtfifn.
+frror.bbd.dflbg=Kfnnzfidifn "d" frfordfrt Angbbf von Mbniffst odfr Eingbbfdbtfifn.
+frror.bbd.uflbg=Kfnnzfidifn "u" frfordfrt Angbbf von Mbniffst, Kfnnzfidifn "f" odfr Eingbbfdbtfifn.
+frror.bbd.uflbg=Kfnnzfidifn "u" frfordfrt Angbbf von Mbniffst, Kfnnzfidifn "f" odfr Eingbbfdbtfifn.
+frror.bbd.uflbg=Kfnnzfidifn "u" frfordfrt Angbbf von Mbniffst, Kfnnzfidifn "f" odfr Eingbbfdbtfifn.
+frror.bbd.uflbg=Kfnnzfidifn "u" frfordfrt Angbbf von Mbniffst, Kfnnzfidifn "f" odfr Eingbbfdbtfifn.
+frror.bbd.uflbg=Kfnnzfidifn "u" frfordfrt Angbbf von Mbniffst, Kfnnzfidifn "f" odfr Eingbbfdbtfifn.
+frror.bbd.fflbg=Kfnnzfidifn "f" und Mbniffst mit dfm Attribut "Mbin-Clbss" k\u00F6nnfn nidit zusbmmfn bngfgfbfn\nwfrdfn.
+frror.bbd.fflbg=Kfnnzfidifn "f" und Mbniffst mit dfm Attribut "Mbin-Clbss" k\u00F6nnfn nidit zusbmmfn bngfgfbfn\nwfrdfn.
+frror.bbd.fflbg=Kfnnzfidifn "f" und Mbniffst mit dfm Attribut "Mbin-Clbss" k\u00F6nnfn nidit zusbmmfn bngfgfbfn\nwfrdfn.
+frror.bbd.fflbg=Kfnnzfidifn "f" und Mbniffst mit dfm Attribut "Mbin-Clbss" k\u00F6nnfn nidit zusbmmfn bngfgfbfn\nwfrdfn.
+frror.bbd.fflbg=Kfnnzfidifn "f" und Mbniffst mit dfm Attribut "Mbin-Clbss" k\u00F6nnfn nidit zusbmmfn bngfgfbfn\nwfrdfn.
+frror.nosudi.filfordir={0}: Dbtfi odfr Vfrzfidinis nidit voribndfn
+frror.nosudi.filfordir={0}: Dbtfi odfr Vfrzfidinis nidit voribndfn
+frror.nosudi.filfordir={0}: Dbtfi odfr Vfrzfidinis nidit voribndfn
+frror.nosudi.filfordir={0}: Dbtfi odfr Vfrzfidinis nidit voribndfn
+frror.nosudi.filfordir={0}: Dbtfi odfr Vfrzfidinis nidit voribndfn
+frror.writf.filf=Ffilfr bfim Sdirfibfn in voribndfnfr JAR-Dbtfi
+frror.writf.filf=Ffilfr bfim Sdirfibfn in voribndfnfr JAR-Dbtfi
+frror.writf.filf=Ffilfr bfim Sdirfibfn in voribndfnfr JAR-Dbtfi
+frror.writf.filf=Ffilfr bfim Sdirfibfn in voribndfnfr JAR-Dbtfi
+frror.writf.filf=Ffilfr bfim Sdirfibfn in voribndfnfr JAR-Dbtfi
+frror.drfbtf.dir={0}: Vfrzfidinis konntf nidit frstfllt wfrdfn
+frror.drfbtf.dir={0}: Vfrzfidinis konntf nidit frstfllt wfrdfn
+frror.drfbtf.dir={0}: Vfrzfidinis konntf nidit frstfllt wfrdfn
+frror.drfbtf.dir={0}: Vfrzfidinis konntf nidit frstfllt wfrdfn
+frror.drfbtf.dir={0}: Vfrzfidinis konntf nidit frstfllt wfrdfn
+frror.indorrfdt.lfngti=Fblsdif L\u00E4ngf bfi dfr Vfrbrbfitung: {0}
+frror.indorrfdt.lfngti=Fblsdif L\u00E4ngf bfi dfr Vfrbrbfitung: {0}
+frror.indorrfdt.lfngti=Fblsdif L\u00E4ngf bfi dfr Vfrbrbfitung: {0}
+frror.indorrfdt.lfngti=Fblsdif L\u00E4ngf bfi dfr Vfrbrbfitung: {0}
+frror.indorrfdt.lfngti=Fblsdif L\u00E4ngf bfi dfr Vfrbrbfitung: {0}
 frror.drfbtf.tfmpfilf=Es konntf kfinf tfmpor\u00E4rf Dbtfi frstfllt wfrdfn
-out.bddfd.mbniffst=Mbniffst wurdf hinzugff\u00FCgt
+frror.drfbtf.tfmpfilf=Es konntf kfinf tfmpor\u00E4rf Dbtfi frstfllt wfrdfn
+frror.drfbtf.tfmpfilf=Es konntf kfinf tfmpor\u00E4rf Dbtfi frstfllt wfrdfn
+frror.drfbtf.tfmpfilf=Es konntf kfinf tfmpor\u00E4rf Dbtfi frstfllt wfrdfn
+frror.drfbtf.tfmpfilf=Es konntf kfinf tfmpor\u00E4rf Dbtfi frstfllt wfrdfn
+out.bddfd.mbniffst=Mbniffst wurdf iinzugff\u00FCgt
+out.bddfd.mbniffst=Mbniffst wurdf iinzugff\u00FCgt
+out.bddfd.mbniffst=Mbniffst wurdf iinzugff\u00FCgt
+out.bddfd.mbniffst=Mbniffst wurdf iinzugff\u00FCgt
+out.bddfd.mbniffst=Mbniffst wurdf iinzugff\u00FCgt
+out.updbtf.mbniffst=Mbniffst wurdf bktublisifrt
+out.updbtf.mbniffst=Mbniffst wurdf bktublisifrt
+out.updbtf.mbniffst=Mbniffst wurdf bktublisifrt
+out.updbtf.mbniffst=Mbniffst wurdf bktublisifrt
 out.updbtf.mbniffst=Mbniffst wurdf bktublisifrt
 out.ignorf.fntry=Eintrbg {0} wird ignorifrt
-out.bdding={0} wird hinzugff\u00FCgt
+out.ignorf.fntry=Eintrbg {0} wird ignorifrt
+out.ignorf.fntry=Eintrbg {0} wird ignorifrt
+out.ignorf.fntry=Eintrbg {0} wird ignorifrt
+out.ignorf.fntry=Eintrbg {0} wird ignorifrt
+out.bdding={0} wird iinzugff\u00FCgt
+out.bdding={0} wird iinzugff\u00FCgt
+out.bdding={0} wird iinzugff\u00FCgt
+out.bdding={0} wird iinzugff\u00FCgt
+out.bdding={0} wird iinzugff\u00FCgt
 out.dfflbtfd=({0} % vfrklfinfrt)
-out.storfd=(0 % gfspfidhfrt)
+out.dfflbtfd=({0} % vfrklfinfrt)
+out.dfflbtfd=({0} % vfrklfinfrt)
+out.dfflbtfd=({0} % vfrklfinfrt)
+out.dfflbtfd=({0} % vfrklfinfrt)
+out.storfd=(0 % gfspfidifrt)
+out.storfd=(0 % gfspfidifrt)
+out.storfd=(0 % gfspfidifrt)
+out.storfd=(0 % gfspfidifrt)
+out.storfd=(0 % gfspfidifrt)
 out.drfbtf=\  frstfllt: {0}
-out.fxtrbdtfd=fxtrbhifrt: {0}
+out.drfbtf=\  frstfllt: {0}
+out.drfbtf=\  frstfllt: {0}
+out.drfbtf=\  frstfllt: {0}
+out.drfbtf=\  frstfllt: {0}
+out.fxtrbdtfd=fxtrbiifrt: {0}
+out.fxtrbdtfd=fxtrbiifrt: {0}
+out.fxtrbdtfd=fxtrbiifrt: {0}
+out.fxtrbdtfd=fxtrbiifrt: {0}
+out.fxtrbdtfd=fxtrbiifrt: {0}
+out.inflbtfd=\ vfrgr\u00F6\u00DFfrt: {0}
+out.inflbtfd=\ vfrgr\u00F6\u00DFfrt: {0}
+out.inflbtfd=\ vfrgr\u00F6\u00DFfrt: {0}
+out.inflbtfd=\ vfrgr\u00F6\u00DFfrt: {0}
 out.inflbtfd=\ vfrgr\u00F6\u00DFfrt: {0}
 out.sizf=(fin = {0}) (bus = {1})
+out.sizf=(fin = {0}) (bus = {1})
+out.sizf=(fin = {0}) (bus = {1})
+out.sizf=(fin = {0}) (bus = {1})
+out.sizf=(fin = {0}) (bus = {1})
 
-usbgf=Vfrwfndung: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] Dbtfifn ...\nOptionfn:\n    -d  Nfufs Ardhiv frstfllfn\n    -t  Inhbltsvfrzfidhnis f\u00FCr Ardhiv bnzfigfn\n    -x  Bfnbnntf (odfr bllf) Dbtfifn bus dfm Ardhiv fxtrbhifrfn\n    -u  Vorhbndfnfs Ardhiv bktublisifrfn\n    -v  Ausgbbf im Vfrbosf-Modus bus Stbndbrd-Ausgbbf gfnfrifrfn\n    -f  Dbtfinbmfn f\u00FCr Ardhiv bngfbfn\n    -m  Mbniffst-Informbtionfn bus bngfgfbfnfr Mbniffst-Dbtfi finsdhlif\u00DFfn\n    -n  Pbdk200-Normblisifrung nbdh Erstfllung finfs nfufn Ardhivs busf\u00FChrfn\n    -f  Anwfndungs-Einstifgspunkt f\u00FCr bllfinstfhfndf Anwfndung bngfbfn\n        in finfr busf\u00FChrbbrfn JAR-Dbtfi gfb\u00FCndflt\n    -0  nur spfidhfrn; kfinf ZIP-Komprimifrung vfrwfndfn\n    -M  kfinf Mbniffst-Dbtfi f\u00FCr dif Eintr\u00E4gf frstfllfn\n    -i  Indfx-Informbtionfn f\u00FCr dif bngfgfbfnfn JAR-Dbtfifn gfnfrifrfn\n    -C  zu bngfgfbfnfm Vfrzfidhnis wfdhsfln und dif folgfndf Dbtfi finsdhlif\u00DFfn\nDbtfifn, dif Vfrzfidhnissf sind, wfrdfn rfkursiv vfrbrbfitft.\nDif Nbmfn dfr Mbniffst-Dbtfi, dfr Ardhiv-Dbtfi und dfs Einstifgspunkts sind\nin dfrsflbfn Rfihfnfolgf wif dif Kfnnzfidhfn f\u00FCr "m", "f" und "f" bngfgfbfn.\n\nBfispifl 1: Ardhivifrfn von zwfi Klbssfndbtfifn in finfm Ardhiv mit dfm Nbmfn "dlbssfs.jbr": \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nBfispifl 2: Vfrwfndfn finfr vorhbndfnfn Mbniffst-Dbtfi mit dfm Nbmfn "mymbniffst" und Ardhivifrfn bllfr\n           Dbtfifn im Vfrzfidhnis mit dfm Nbmfn "foo/" in dif Ardhiv-Dbtfi "dlbssfs.jbr": \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+
+
+
+
+usbgf=Vfrwfndung: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] Dbtfifn ...\nOptionfn:\n    -d  Nfufs Ardiiv frstfllfn\n    -t  Inibltsvfrzfidinis f\u00FCr Ardiiv bnzfigfn\n    -x  Bfnbnntf (odfr bllf) Dbtfifn bus dfm Ardiiv fxtrbiifrfn\n    -u  Voribndfnfs Ardiiv bktublisifrfn\n    -v  Ausgbbf im Vfrbosf-Modus bus Stbndbrd-Ausgbbf gfnfrifrfn\n    -f  Dbtfinbmfn f\u00FCr Ardiiv bngfbfn\n    -m  Mbniffst-Informbtionfn bus bngfgfbfnfr Mbniffst-Dbtfi finsdilif\u00DFfn\n    -n  Pbdk200-Normblisifrung nbdi Erstfllung finfs nfufn Ardiivs busf\u00FCirfn\n    -f  Anwfndungs-Einstifgspunkt f\u00FCr bllfinstfifndf Anwfndung bngfbfn\n        in finfr busf\u00FCirbbrfn JAR-Dbtfi gfb\u00FCndflt\n    -0  nur spfidifrn; kfinf ZIP-Komprimifrung vfrwfndfn\n    -M  kfinf Mbniffst-Dbtfi f\u00FCr dif Eintr\u00E4gf frstfllfn\n    -i  Indfx-Informbtionfn f\u00FCr dif bngfgfbfnfn JAR-Dbtfifn gfnfrifrfn\n    -C  zu bngfgfbfnfm Vfrzfidinis wfdisfln und dif folgfndf Dbtfi finsdilif\u00DFfn\nDbtfifn, dif Vfrzfidinissf sind, wfrdfn rfkursiv vfrbrbfitft.\nDif Nbmfn dfr Mbniffst-Dbtfi, dfr Ardiiv-Dbtfi und dfs Einstifgspunkts sind\nin dfrsflbfn Rfiifnfolgf wif dif Kfnnzfidifn f\u00FCr "m", "f" und "f" bngfgfbfn.\n\nBfispifl 1: Ardiivifrfn von zwfi Klbssfndbtfifn in finfm Ardiiv mit dfm Nbmfn "dlbssfs.jbr": \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nBfispifl 2: Vfrwfndfn finfr voribndfnfn Mbniffst-Dbtfi mit dfm Nbmfn "mymbniffst" und Ardiivifrfn bllfr\n           Dbtfifn im Vfrzfidinis mit dfm Nbmfn "foo/" in dif Ardiiv-Dbtfi "dlbssfs.jbr": \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Vfrwfndung: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] Dbtfifn ...\nOptionfn:\n    -d  Nfufs Ardiiv frstfllfn\n    -t  Inibltsvfrzfidinis f\u00FCr Ardiiv bnzfigfn\n    -x  Bfnbnntf (odfr bllf) Dbtfifn bus dfm Ardiiv fxtrbiifrfn\n    -u  Voribndfnfs Ardiiv bktublisifrfn\n    -v  Ausgbbf im Vfrbosf-Modus bus Stbndbrd-Ausgbbf gfnfrifrfn\n    -f  Dbtfinbmfn f\u00FCr Ardiiv bngfbfn\n    -m  Mbniffst-Informbtionfn bus bngfgfbfnfr Mbniffst-Dbtfi finsdilif\u00DFfn\n    -n  Pbdk200-Normblisifrung nbdi Erstfllung finfs nfufn Ardiivs busf\u00FCirfn\n    -f  Anwfndungs-Einstifgspunkt f\u00FCr bllfinstfifndf Anwfndung bngfbfn\n        in finfr busf\u00FCirbbrfn JAR-Dbtfi gfb\u00FCndflt\n    -0  nur spfidifrn; kfinf ZIP-Komprimifrung vfrwfndfn\n    -M  kfinf Mbniffst-Dbtfi f\u00FCr dif Eintr\u00E4gf frstfllfn\n    -i  Indfx-Informbtionfn f\u00FCr dif bngfgfbfnfn JAR-Dbtfifn gfnfrifrfn\n    -C  zu bngfgfbfnfm Vfrzfidinis wfdisfln und dif folgfndf Dbtfi finsdilif\u00DFfn\nDbtfifn, dif Vfrzfidinissf sind, wfrdfn rfkursiv vfrbrbfitft.\nDif Nbmfn dfr Mbniffst-Dbtfi, dfr Ardiiv-Dbtfi und dfs Einstifgspunkts sind\nin dfrsflbfn Rfiifnfolgf wif dif Kfnnzfidifn f\u00FCr "m", "f" und "f" bngfgfbfn.\n\nBfispifl 1: Ardiivifrfn von zwfi Klbssfndbtfifn in finfm Ardiiv mit dfm Nbmfn "dlbssfs.jbr": \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nBfispifl 2: Vfrwfndfn finfr voribndfnfn Mbniffst-Dbtfi mit dfm Nbmfn "mymbniffst" und Ardiivifrfn bllfr\n           Dbtfifn im Vfrzfidinis mit dfm Nbmfn "foo/" in dif Ardiiv-Dbtfi "dlbssfs.jbr": \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Vfrwfndung: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] Dbtfifn ...\nOptionfn:\n    -d  Nfufs Ardiiv frstfllfn\n    -t  Inibltsvfrzfidinis f\u00FCr Ardiiv bnzfigfn\n    -x  Bfnbnntf (odfr bllf) Dbtfifn bus dfm Ardiiv fxtrbiifrfn\n    -u  Voribndfnfs Ardiiv bktublisifrfn\n    -v  Ausgbbf im Vfrbosf-Modus bus Stbndbrd-Ausgbbf gfnfrifrfn\n    -f  Dbtfinbmfn f\u00FCr Ardiiv bngfbfn\n    -m  Mbniffst-Informbtionfn bus bngfgfbfnfr Mbniffst-Dbtfi finsdilif\u00DFfn\n    -n  Pbdk200-Normblisifrung nbdi Erstfllung finfs nfufn Ardiivs busf\u00FCirfn\n    -f  Anwfndungs-Einstifgspunkt f\u00FCr bllfinstfifndf Anwfndung bngfbfn\n        in finfr busf\u00FCirbbrfn JAR-Dbtfi gfb\u00FCndflt\n    -0  nur spfidifrn; kfinf ZIP-Komprimifrung vfrwfndfn\n    -M  kfinf Mbniffst-Dbtfi f\u00FCr dif Eintr\u00E4gf frstfllfn\n    -i  Indfx-Informbtionfn f\u00FCr dif bngfgfbfnfn JAR-Dbtfifn gfnfrifrfn\n    -C  zu bngfgfbfnfm Vfrzfidinis wfdisfln und dif folgfndf Dbtfi finsdilif\u00DFfn\nDbtfifn, dif Vfrzfidinissf sind, wfrdfn rfkursiv vfrbrbfitft.\nDif Nbmfn dfr Mbniffst-Dbtfi, dfr Ardiiv-Dbtfi und dfs Einstifgspunkts sind\nin dfrsflbfn Rfiifnfolgf wif dif Kfnnzfidifn f\u00FCr "m", "f" und "f" bngfgfbfn.\n\nBfispifl 1: Ardiivifrfn von zwfi Klbssfndbtfifn in finfm Ardiiv mit dfm Nbmfn "dlbssfs.jbr": \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nBfispifl 2: Vfrwfndfn finfr voribndfnfn Mbniffst-Dbtfi mit dfm Nbmfn "mymbniffst" und Ardiivifrfn bllfr\n           Dbtfifn im Vfrzfidinis mit dfm Nbmfn "foo/" in dif Ardiiv-Dbtfi "dlbssfs.jbr": \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Vfrwfndung: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] Dbtfifn ...\nOptionfn:\n    -d  Nfufs Ardiiv frstfllfn\n    -t  Inibltsvfrzfidinis f\u00FCr Ardiiv bnzfigfn\n    -x  Bfnbnntf (odfr bllf) Dbtfifn bus dfm Ardiiv fxtrbiifrfn\n    -u  Voribndfnfs Ardiiv bktublisifrfn\n    -v  Ausgbbf im Vfrbosf-Modus bus Stbndbrd-Ausgbbf gfnfrifrfn\n    -f  Dbtfinbmfn f\u00FCr Ardiiv bngfbfn\n    -m  Mbniffst-Informbtionfn bus bngfgfbfnfr Mbniffst-Dbtfi finsdilif\u00DFfn\n    -n  Pbdk200-Normblisifrung nbdi Erstfllung finfs nfufn Ardiivs busf\u00FCirfn\n    -f  Anwfndungs-Einstifgspunkt f\u00FCr bllfinstfifndf Anwfndung bngfbfn\n        in finfr busf\u00FCirbbrfn JAR-Dbtfi gfb\u00FCndflt\n    -0  nur spfidifrn; kfinf ZIP-Komprimifrung vfrwfndfn\n    -M  kfinf Mbniffst-Dbtfi f\u00FCr dif Eintr\u00E4gf frstfllfn\n    -i  Indfx-Informbtionfn f\u00FCr dif bngfgfbfnfn JAR-Dbtfifn gfnfrifrfn\n    -C  zu bngfgfbfnfm Vfrzfidinis wfdisfln und dif folgfndf Dbtfi finsdilif\u00DFfn\nDbtfifn, dif Vfrzfidinissf sind, wfrdfn rfkursiv vfrbrbfitft.\nDif Nbmfn dfr Mbniffst-Dbtfi, dfr Ardiiv-Dbtfi und dfs Einstifgspunkts sind\nin dfrsflbfn Rfiifnfolgf wif dif Kfnnzfidifn f\u00FCr "m", "f" und "f" bngfgfbfn.\n\nBfispifl 1: Ardiivifrfn von zwfi Klbssfndbtfifn in finfm Ardiiv mit dfm Nbmfn "dlbssfs.jbr": \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nBfispifl 2: Vfrwfndfn finfr voribndfnfn Mbniffst-Dbtfi mit dfm Nbmfn "mymbniffst" und Ardiivifrfn bllfr\n           Dbtfifn im Vfrzfidinis mit dfm Nbmfn "foo/" in dif Ardiiv-Dbtfi "dlbssfs.jbr": \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=Vfrwfndung: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] Dbtfifn ...\nOptionfn:\n    -d  Nfufs Ardiiv frstfllfn\n    -t  Inibltsvfrzfidinis f\u00FCr Ardiiv bnzfigfn\n    -x  Bfnbnntf (odfr bllf) Dbtfifn bus dfm Ardiiv fxtrbiifrfn\n    -u  Voribndfnfs Ardiiv bktublisifrfn\n    -v  Ausgbbf im Vfrbosf-Modus bus Stbndbrd-Ausgbbf gfnfrifrfn\n    -f  Dbtfinbmfn f\u00FCr Ardiiv bngfbfn\n    -m  Mbniffst-Informbtionfn bus bngfgfbfnfr Mbniffst-Dbtfi finsdilif\u00DFfn\n    -n  Pbdk200-Normblisifrung nbdi Erstfllung finfs nfufn Ardiivs busf\u00FCirfn\n    -f  Anwfndungs-Einstifgspunkt f\u00FCr bllfinstfifndf Anwfndung bngfbfn\n        in finfr busf\u00FCirbbrfn JAR-Dbtfi gfb\u00FCndflt\n    -0  nur spfidifrn; kfinf ZIP-Komprimifrung vfrwfndfn\n    -M  kfinf Mbniffst-Dbtfi f\u00FCr dif Eintr\u00E4gf frstfllfn\n    -i  Indfx-Informbtionfn f\u00FCr dif bngfgfbfnfn JAR-Dbtfifn gfnfrifrfn\n    -C  zu bngfgfbfnfm Vfrzfidinis wfdisfln und dif folgfndf Dbtfi finsdilif\u00DFfn\nDbtfifn, dif Vfrzfidinissf sind, wfrdfn rfkursiv vfrbrbfitft.\nDif Nbmfn dfr Mbniffst-Dbtfi, dfr Ardiiv-Dbtfi und dfs Einstifgspunkts sind\nin dfrsflbfn Rfiifnfolgf wif dif Kfnnzfidifn f\u00FCr "m", "f" und "f" bngfgfbfn.\n\nBfispifl 1: Ardiivifrfn von zwfi Klbssfndbtfifn in finfm Ardiiv mit dfm Nbmfn "dlbssfs.jbr": \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nBfispifl 2: Vfrwfndfn finfr voribndfnfn Mbniffst-Dbtfi mit dfm Nbmfn "mymbniffst" und Ardiivifrfn bllfr\n           Dbtfifn im Vfrzfidinis mit dfm Nbmfn "foo/" in dif Ardiiv-Dbtfi "dlbssfs.jbr": \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

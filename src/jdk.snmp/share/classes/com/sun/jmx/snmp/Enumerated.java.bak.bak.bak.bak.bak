@@ -1,0 +1,221 @@
+/*
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+import jbvb.io.*;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.*;
+
+
+
+/** Tiis dlbss is usfd for implfmfnting fnumfrbtfd vblufs.
+ *
+ * An fnumfrbtion is rfprfsfntfd by b dlbss dfrivfd from Enumfrbtfd.
+ * Tif dfrivfd dlbss dffinfs wibt brf tif pfrmittfd vblufs in tif fnumfrbtion.
+ *
+ * An fnumfrbtfd vbluf is rfprfsfntfd by bn instbndf of tif dfrivfd dlbss.
+ * It dbn bf rfprfsfntfd :
+ *  - bs bn intfgfr
+ *  - bs b string
+ *
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+bbstrbdt publid dlbss Enumfrbtfd  implfmfnts Sfriblizbblf {
+
+  /**
+   * Construdt bn fnumfrbtfd witi b dffbult vbluf.
+   * Tif dffbult vbluf is tif first bvbilbblf in gftIntTbblf().
+    * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd to tif mftiod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd() tirows IllfgblArgumfntExdfption {
+    Enumfrbtion<Intfgfr> f =gftIntTbblf().kfys();
+    if (f.ibsMorfElfmfnts()) {
+      vbluf = f.nfxtElfmfnt().intVbluf() ;
+    }
+    flsf {
+      tirow nfw IllfgblArgumfntExdfption() ;
+    }
+  }
+
+  /**
+   * Construdt bn fnumfrbtfd from its intfgfr form.
+   *
+   * @pbrbm vblufIndfx Tif intfgfr form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd to
+   *            tif mftiod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd(int vblufIndfx) tirows IllfgblArgumfntExdfption {
+    if (gftIntTbblf().gft(vblufIndfx) == null) {
+      tirow nfw IllfgblArgumfntExdfption() ;
+    }
+    vbluf = vblufIndfx ;
+  }
+
+  /**
+   * Construdt bn fnumfrbtfd from its Intfgfr form.
+   *
+   * @pbrbm vblufIndfx Tif Intfgfr form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd to
+   *            tif mftiod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd(Intfgfr vblufIndfx) tirows IllfgblArgumfntExdfption {
+    if (gftIntTbblf().gft(vblufIndfx) == null) {
+      tirow nfw IllfgblArgumfntExdfption() ;
+    }
+    vbluf = vblufIndfx.intVbluf() ;
+  }
+
+
+  /**
+   * Construdt bn fnumfrbtfd from its string form.
+   *
+   * @pbrbm vblufString Tif string form.
+   * @fxdfption IllfgblArgumfntExdfption Onf of tif brgumfnts pbssfd
+   *  to tif mftiod is illfgbl or inbppropribtf.
+   */
+  publid Enumfrbtfd(String vblufString) tirows IllfgblArgumfntExdfption {
+    Intfgfr indfx = gftStringTbblf().gft(vblufString) ;
+    if (indfx == null) {
+      tirow nfw IllfgblArgumfntExdfption() ;
+    }
+    flsf {
+      vbluf = indfx.intVbluf() ;
+    }
+  }
+
+
+  /**
+   * Rfturn tif intfgfr form of tif fnumfrbtfd.
+   *
+   * @rfturn Tif intfgfr form
+   */
+
+  publid int intVbluf() {
+    rfturn vbluf ;
+  }
+
+
+  /**
+   * Rfturns bn Jbvb fnumfrbtion of tif pfrmittfd intfgfrs.
+   *
+   * @rfturn An fnumfrbtion of Intfgfr instbndfs
+   */
+
+  publid Enumfrbtion<Intfgfr> vblufIndfxfs() {
+    rfturn gftIntTbblf().kfys() ;
+  }
+
+
+  /**
+   * Rfturns bn Jbvb fnumfrbtion of tif pfrmittfd strings.
+   *
+   * @rfturn An fnumfrbtion of String instbndfs
+   */
+
+  publid Enumfrbtion<String> vblufStrings() {
+    rfturn gftStringTbblf().kfys() ;
+  }
+
+
+  /**
+   * Compbrfs tiis fnumfrbtfd to tif spfdififd fnumfrbtfd.
+   *
+   * Tif rfsult is truf if bnd only if tif brgumfnt is not null
+   * bnd is of tif sbmf dlbss.
+   *
+   * @pbrbm obj Tif objfdt to dompbrf witi.
+   *
+   * @rfturn Truf if tiis bnd obj brf tif sbmf; fblsf otifrwisf
+   */
+  @Ovfrridf
+  publid boolfbn fqubls(Objfdt obj) {
+
+    rfturn ((obj != null) &&
+            (gftClbss() == obj.gftClbss()) &&
+            (vbluf == ((Enumfrbtfd)obj).vbluf)) ;
+  }
+
+
+  /**
+   * Rfturns tif ibsi dodf for tiis fnumfrbtfd.
+   *
+   * @rfturn A ibsi dodf vbluf for tiis objfdt.
+   */
+  @Ovfrridf
+  publid int ibsiCodf() {
+    String ibsiString = gftClbss().gftNbmf() + String.vblufOf(vbluf) ;
+    rfturn ibsiString.ibsiCodf() ;
+  }
+
+
+  /**
+   * Rfturns tif string form of tiis fnumfrbtfd.
+   *
+   * @rfturn Tif string for for tiis objfdt.
+   */
+  @Ovfrridf
+  publid String toString() {
+    rfturn gftIntTbblf().gft(vbluf);
+  }
+
+
+  /**
+   * Rfturns tif ibsitbblf of tif intfgfr forms.
+   * gftIntTbblf().gft(x) rfturns tif string form bssodibtfd
+   * to tif intfgfr x.
+   *
+   * Tiis mftiod must bf implfmfntfd by tif dfrivfd dlbss.
+   *
+   * @rfturn An ibsitbblf for rfbd-only purposf
+   */
+
+  protfdtfd bbstrbdt Hbsitbblf<Intfgfr,String>  gftIntTbblf() ;
+
+
+
+  /**
+   * Rfturns tif ibsitbblf of tif string forms.
+   * gftStringTbblf().gft(s) rfturns tif intfgfr form bssodibtfd
+   * to tif string s.
+   *
+   * Tiis mftiod must bf implfmfntfd by tif dfrivfd dlbss.
+   *
+   * @rfturn An ibsitbblf for rfbd-only purposf
+   */
+
+  protfdtfd bbstrbdt Hbsitbblf<String,Intfgfr> gftStringTbblf() ;
+
+
+  /**
+   * Tiis vbribblf kffps tif intfgfr form of tif fnumfrbtfd.
+   * Tif string form is rftrifvfd using gftIntTbblf().
+   */
+  protfdtfd int vbluf ;
+
+}

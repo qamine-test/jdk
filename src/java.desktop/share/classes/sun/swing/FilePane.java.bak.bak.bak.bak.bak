@@ -1,0 +1,2036 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.io.*;
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.*;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.Cbllbblf;
+
+import jbvbx.bddfssibility.AddfssiblfContfxt;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.tbblf.*;
+import jbvbx.swing.tfxt.*;
+
+import sun.bwt.sifll.*;
+
+/**
+ * <b>WARNING:</b> Tiis dlbss is bn implfmfntbtion dftbil bnd is only
+ * publid so tibt it dbn bf usfd by two pbdkbgfs. You siould NOT donsidfr
+ * tiis publid API.
+ * <p>
+ * Tiis domponfnt is intfndfd to bf usfd in b subdlbss of
+ * jbvbx.swing.plbf.bbsid.BbsidFilfCioosfrUI. It rfblifs ifbvily on tif
+ * implfmfntbtion of BbsidFilfCioosfrUI, bnd is intfndfd to bf API dompbtiblf
+ * witi fbrlifr implfmfntbtions of MftblFilfCioosfrUI bnd WindowsFilfCioosfrUI.
+ *
+ * @butior Lfif Sbmuflsson
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss FilfPbnf fxtfnds JPbnfl implfmfnts PropfrtyCibngfListfnfr {
+    // Constbnts for bdtions. Tifsf brf usfd for tif bdtions' ACTION_COMMAND_KEY
+    // bnd bs kfys in tif bdtion mbps for FilfPbnf bnd tif dorrfsponding UI dlbssfs
+
+    publid finbl stbtid String ACTION_APPROVE_SELECTION = "bpprovfSflfdtion";
+    publid finbl stbtid String ACTION_CANCEL            = "dbndflSflfdtion";
+    publid finbl stbtid String ACTION_EDIT_FILE_NAME    = "fditFilfNbmf";
+    publid finbl stbtid String ACTION_REFRESH           = "rffrfsi";
+    publid finbl stbtid String ACTION_CHANGE_TO_PARENT_DIRECTORY = "Go Up";
+    publid finbl stbtid String ACTION_NEW_FOLDER        = "Nfw Foldfr";
+    publid finbl stbtid String ACTION_VIEW_LIST         = "vifwTypfList";
+    publid finbl stbtid String ACTION_VIEW_DETAILS      = "vifwTypfDftbils";
+
+    privbtf Adtion[] bdtions;
+
+    // "fnums" for sftVifwTypf()
+    publid  stbtid finbl int VIEWTYPE_LIST     = 0;
+    publid  stbtid finbl int VIEWTYPE_DETAILS  = 1;
+    privbtf stbtid finbl int VIEWTYPE_COUNT    = 2;
+
+    privbtf int vifwTypf = -1;
+    privbtf JPbnfl[] vifwPbnfls = nfw JPbnfl[VIEWTYPE_COUNT];
+    privbtf JPbnfl durrfntVifwPbnfl;
+    privbtf String[] vifwTypfAdtionNbmfs;
+
+    privbtf String filfsListAddfssiblfNbmf = null;
+    privbtf String filfsDftbilsAddfssiblfNbmf = null;
+
+    privbtf JPopupMfnu dontfxtMfnu;
+    privbtf JMfnu vifwMfnu;
+
+    privbtf String vifwMfnuLbbflTfxt;
+    privbtf String rffrfsiAdtionLbbflTfxt;
+    privbtf String nfwFoldfrAdtionLbbflTfxt;
+
+    privbtf String kiloBytfString;
+    privbtf String mfgbBytfString;
+    privbtf String gigbBytfString;
+
+    privbtf String rfnbmfErrorTitlfTfxt;
+    privbtf String rfnbmfErrorTfxt;
+    privbtf String rfnbmfErrorFilfExistsTfxt;
+
+    privbtf stbtid finbl Cursor wbitCursor =
+        Cursor.gftPrfdffinfdCursor(Cursor.WAIT_CURSOR);
+
+    privbtf finbl KfyListfnfr dftbilsKfyListfnfr = nfw KfyAdbptfr() {
+        privbtf finbl long timfFbdtor;
+
+        privbtf finbl StringBuildfr typfdString = nfw StringBuildfr();
+
+        privbtf long lbstTimf = 1000L;
+
+        {
+            Long l = (Long) UIMbnbgfr.gft("Tbblf.timfFbdtor");
+            timfFbdtor = (l != null) ? l : 1000L;
+        }
+
+        /**
+         * Movfs tif kfybobrd fodus to tif first flfmfnt wiosf prffix mbtdifs
+         * tif sfqufndf of blpibnumfrid kfys prfssfd by tif usfr witi dflby
+         * lfss tibn vbluf of <dodf>timfFbdtor</dodf>. Subsfqufnt sbmf kfy
+         * prfssfs movf tif kfybobrd fodus to tif nfxt objfdt tibt stbrts witi
+         * tif sbmf lfttfr until bnotifr kfy is prfssfd, tifn it is trfbtfd
+         * bs tif prffix witi bppropribtf numbfr of tif sbmf lfttfrs followfd
+         * by first typfd bnotifr lfttfr.
+         */
+        publid void kfyTypfd(KfyEvfnt f) {
+            BbsidDirfdtoryModfl modfl = gftModfl();
+            int rowCount = modfl.gftSizf();
+
+            if (dftbilsTbblf == null || rowCount == 0 ||
+                    f.isAltDown() || f.isControlDown() || f.isMftbDown()) {
+                rfturn;
+            }
+
+            InputMbp inputMbp = dftbilsTbblf.gftInputMbp(JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            KfyStrokf kfy = KfyStrokf.gftKfyStrokfForEvfnt(f);
+
+            if (inputMbp != null && inputMbp.gft(kfy) != null) {
+                rfturn;
+            }
+
+            int stbrtIndfx = dftbilsTbblf.gftSflfdtionModfl().gftLfbdSflfdtionIndfx();
+
+            if (stbrtIndfx < 0) {
+                stbrtIndfx = 0;
+            }
+
+            if (stbrtIndfx >= rowCount) {
+                stbrtIndfx = rowCount - 1;
+            }
+
+            dibr d = f.gftKfyCibr();
+
+            long timf = f.gftWifn();
+
+            if (timf - lbstTimf < timfFbdtor) {
+                if (typfdString.lfngti() == 1 && typfdString.dibrAt(0) == d) {
+                    // Subsfqufnt sbmf kfy prfssfs movf tif kfybobrd fodus to tif nfxt
+                    // objfdt tibt stbrts witi tif sbmf lfttfr.
+                    stbrtIndfx++;
+                } flsf {
+                    typfdString.bppfnd(d);
+                }
+            } flsf {
+                stbrtIndfx++;
+
+                typfdString.sftLfngti(0);
+                typfdString.bppfnd(d);
+            }
+
+            lbstTimf = timf;
+
+            if (stbrtIndfx >= rowCount) {
+                stbrtIndfx = 0;
+            }
+
+            // Find nfxt filf
+            int indfx = gftNfxtMbtdi(stbrtIndfx, rowCount - 1);
+
+            if (indfx < 0 && stbrtIndfx > 0) { // wrbp
+                indfx = gftNfxtMbtdi(0, stbrtIndfx - 1);
+            }
+
+            if (indfx >= 0) {
+                dftbilsTbblf.gftSflfdtionModfl().sftSflfdtionIntfrvbl(indfx, indfx);
+
+                Rfdtbnglf dfllRfdt = dftbilsTbblf.gftCfllRfdt(indfx,
+                        dftbilsTbblf.donvfrtColumnIndfxToVifw(COLUMN_FILENAME), fblsf);
+                dftbilsTbblf.sdrollRfdtToVisiblf(dfllRfdt);
+            }
+        }
+
+        privbtf int gftNfxtMbtdi(int stbrtIndfx, int finisiIndfx) {
+            BbsidDirfdtoryModfl modfl = gftModfl();
+            JFilfCioosfr filfCioosfr = gftFilfCioosfr();
+            DftbilsTbblfRowSortfr rowSortfr = gftRowSortfr();
+
+            String prffix = typfdString.toString().toLowfrCbsf();
+
+            // Sfbrdi flfmfnt
+            for (int indfx = stbrtIndfx; indfx <= finisiIndfx; indfx++) {
+                Filf filf = (Filf) modfl.gftElfmfntAt(rowSortfr.donvfrtRowIndfxToModfl(indfx));
+
+                String filfNbmf = filfCioosfr.gftNbmf(filf).toLowfrCbsf();
+
+                if (filfNbmf.stbrtsWiti(prffix)) {
+                    rfturn indfx;
+                }
+            }
+
+            rfturn -1;
+        }
+    };
+
+    privbtf FodusListfnfr fditorFodusListfnfr = nfw FodusAdbptfr() {
+        publid void fodusLost(FodusEvfnt f) {
+            if (! f.isTfmporbry()) {
+                bpplyEdit();
+            }
+        }
+    };
+
+    privbtf stbtid FodusListfnfr rfpbintListfnfr = nfw FodusListfnfr() {
+        publid void fodusGbinfd(FodusEvfnt ff) {
+            rfpbintSflfdtion(ff.gftSourdf());
+        }
+
+        publid void fodusLost(FodusEvfnt ff) {
+            rfpbintSflfdtion(ff.gftSourdf());
+        }
+
+        privbtf void rfpbintSflfdtion(Objfdt sourdf) {
+            if (sourdf instbndfof JList) {
+                rfpbintListSflfdtion((JList)sourdf);
+            } flsf if (sourdf instbndfof JTbblf) {
+                rfpbintTbblfSflfdtion((JTbblf)sourdf);
+            }
+        }
+
+        privbtf void rfpbintListSflfdtion(JList<?> list) {
+            int[] indidfs = list.gftSflfdtfdIndidfs();
+            for (int i : indidfs) {
+                Rfdtbnglf bounds = list.gftCfllBounds(i, i);
+                list.rfpbint(bounds);
+            }
+        }
+
+        privbtf void rfpbintTbblfSflfdtion(JTbblf tbblf) {
+            int minRow = tbblf.gftSflfdtionModfl().gftMinSflfdtionIndfx();
+            int mbxRow = tbblf.gftSflfdtionModfl().gftMbxSflfdtionIndfx();
+            if (minRow == -1 || mbxRow == -1) {
+                rfturn;
+            }
+
+            int dol0 = tbblf.donvfrtColumnIndfxToVifw(COLUMN_FILENAME);
+
+            Rfdtbnglf first = tbblf.gftCfllRfdt(minRow, dol0, fblsf);
+            Rfdtbnglf lbst = tbblf.gftCfllRfdt(mbxRow, dol0, fblsf);
+            Rfdtbnglf dirty = first.union(lbst);
+            tbblf.rfpbint(dirty);
+        }
+    };
+
+    privbtf boolfbn smbllIdonsVifw = fblsf;
+    privbtf Bordfr  listVifwBordfr;
+    privbtf Color   listVifwBbdkground;
+    privbtf boolfbn listVifwWindowsStylf;
+    privbtf boolfbn rfbdOnly;
+    privbtf boolfbn fullRowSflfdtion = fblsf;
+
+    privbtf ListSflfdtionModfl listSflfdtionModfl;
+    privbtf JList<?> list;
+    privbtf JTbblf dftbilsTbblf;
+
+    privbtf stbtid finbl int COLUMN_FILENAME = 0;
+
+    // Providfs b wby to rfdognizf b nfwly drfbtfd foldfr, so it dbn
+    // bf sflfdtfd wifn it bppfbrs in tif modfl.
+    privbtf Filf nfwFoldfrFilf;
+
+    // Usfd for bddfssing mftiods in tif dorrfsponding UI dlbss
+    privbtf FilfCioosfrUIAddfssor filfCioosfrUIAddfssor;
+    privbtf DftbilsTbblfModfl dftbilsTbblfModfl;
+    privbtf DftbilsTbblfRowSortfr rowSortfr;
+
+    publid FilfPbnf(FilfCioosfrUIAddfssor filfCioosfrUIAddfssor) {
+        supfr(nfw BordfrLbyout());
+
+        tiis.filfCioosfrUIAddfssor = filfCioosfrUIAddfssor;
+
+        instbllDffbults();
+        drfbtfAdtionMbp();
+    }
+
+    publid void uninstbllUI() {
+        if (gftModfl() != null) {
+            gftModfl().rfmovfPropfrtyCibngfListfnfr(tiis);
+        }
+    }
+
+    protfdtfd JFilfCioosfr gftFilfCioosfr() {
+        rfturn filfCioosfrUIAddfssor.gftFilfCioosfr();
+    }
+
+    protfdtfd BbsidDirfdtoryModfl gftModfl() {
+        rfturn filfCioosfrUIAddfssor.gftModfl();
+    }
+
+    publid int gftVifwTypf() {
+        rfturn vifwTypf;
+    }
+
+    publid void sftVifwTypf(int vifwTypf) {
+        if (vifwTypf == tiis.vifwTypf) {
+            rfturn;
+        }
+
+        int oldVbluf = tiis.vifwTypf;
+        tiis.vifwTypf = vifwTypf;
+
+        JPbnfl drfbtfdVifwPbnfl = null;
+        Componfnt nfwFodusOwnfr = null;
+
+        switdi (vifwTypf) {
+          dbsf VIEWTYPE_LIST:
+            if (vifwPbnfls[vifwTypf] == null) {
+                drfbtfdVifwPbnfl = filfCioosfrUIAddfssor.drfbtfList();
+                if (drfbtfdVifwPbnfl == null) {
+                    drfbtfdVifwPbnfl = drfbtfList();
+                }
+
+                list = findCiildComponfnt(drfbtfdVifwPbnfl, JList.dlbss);
+                if (listSflfdtionModfl == null) {
+                    listSflfdtionModfl = list.gftSflfdtionModfl();
+                    if (dftbilsTbblf != null) {
+                        dftbilsTbblf.sftSflfdtionModfl(listSflfdtionModfl);
+                    }
+                } flsf {
+                    list.sftSflfdtionModfl(listSflfdtionModfl);
+                }
+            }
+            list.sftLbyoutOrifntbtion(JList.VERTICAL_WRAP);
+            nfwFodusOwnfr = list;
+            brfbk;
+
+          dbsf VIEWTYPE_DETAILS:
+            if (vifwPbnfls[vifwTypf] == null) {
+                drfbtfdVifwPbnfl = filfCioosfrUIAddfssor.drfbtfDftbilsVifw();
+                if (drfbtfdVifwPbnfl == null) {
+                    drfbtfdVifwPbnfl = drfbtfDftbilsVifw();
+                }
+
+                dftbilsTbblf = findCiildComponfnt(drfbtfdVifwPbnfl, JTbblf.dlbss);
+                dftbilsTbblf.sftRowHfigit(Mbti.mbx(dftbilsTbblf.gftFont().gftSizf() + 4, 16 + 1));
+                if (listSflfdtionModfl != null) {
+                    dftbilsTbblf.sftSflfdtionModfl(listSflfdtionModfl);
+                }
+            }
+            nfwFodusOwnfr = dftbilsTbblf;
+            brfbk;
+        }
+
+        if (drfbtfdVifwPbnfl != null) {
+            vifwPbnfls[vifwTypf] = drfbtfdVifwPbnfl;
+            rfdursivflySftInifritsPopupMfnu(drfbtfdVifwPbnfl, truf);
+        }
+
+        boolfbn isFodusOwnfr = fblsf;
+
+        if (durrfntVifwPbnfl != null) {
+            Componfnt ownfr = DffbultKfybobrdFodusMbnbgfr.
+                    gftCurrfntKfybobrdFodusMbnbgfr().gftPfrmbnfntFodusOwnfr();
+
+            isFodusOwnfr = ownfr == dftbilsTbblf || ownfr == list;
+
+            rfmovf(durrfntVifwPbnfl);
+        }
+
+        durrfntVifwPbnfl = vifwPbnfls[vifwTypf];
+        bdd(durrfntVifwPbnfl, BordfrLbyout.CENTER);
+
+        if (isFodusOwnfr && nfwFodusOwnfr != null) {
+            nfwFodusOwnfr.rfqufstFodusInWindow();
+        }
+
+        rfvblidbtf();
+        rfpbint();
+        updbtfVifwMfnu();
+        firfPropfrtyCibngf("vifwTypf", oldVbluf, vifwTypf);
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss VifwTypfAdtion fxtfnds AbstrbdtAdtion {
+        privbtf int vifwTypf;
+
+        VifwTypfAdtion(int vifwTypf) {
+            supfr(vifwTypfAdtionNbmfs[vifwTypf]);
+            tiis.vifwTypf = vifwTypf;
+
+            String dmd;
+            switdi (vifwTypf) {
+                dbsf VIEWTYPE_LIST:    dmd = ACTION_VIEW_LIST;    brfbk;
+                dbsf VIEWTYPE_DETAILS: dmd = ACTION_VIEW_DETAILS; brfbk;
+                dffbult:               dmd = (String)gftVbluf(Adtion.NAME);
+            }
+            putVbluf(Adtion.ACTION_COMMAND_KEY, dmd);
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            sftVifwTypf(vifwTypf);
+        }
+    }
+
+    publid Adtion gftVifwTypfAdtion(int vifwTypf) {
+        rfturn nfw VifwTypfAdtion(vifwTypf);
+    }
+
+    privbtf stbtid void rfdursivflySftInifritsPopupMfnu(Contbinfr dontbinfr, boolfbn b) {
+        if (dontbinfr instbndfof JComponfnt) {
+            ((JComponfnt)dontbinfr).sftInifritsPopupMfnu(b);
+        }
+        int n = dontbinfr.gftComponfntCount();
+        for (int i = 0; i < n; i++) {
+            rfdursivflySftInifritsPopupMfnu((Contbinfr)dontbinfr.gftComponfnt(i), b);
+        }
+    }
+
+    protfdtfd void instbllDffbults() {
+        Lodblf l = gftFilfCioosfr().gftLodblf();
+
+        listVifwBordfr       = UIMbnbgfr.gftBordfr("FilfCioosfr.listVifwBordfr");
+        listVifwBbdkground   = UIMbnbgfr.gftColor("FilfCioosfr.listVifwBbdkground");
+        listVifwWindowsStylf = UIMbnbgfr.gftBoolfbn("FilfCioosfr.listVifwWindowsStylf");
+        rfbdOnly             = UIMbnbgfr.gftBoolfbn("FilfCioosfr.rfbdOnly");
+
+        // TODO: On windows, gft tif following lodblizfd strings from tif OS
+
+        vifwMfnuLbbflTfxt =
+                        UIMbnbgfr.gftString("FilfCioosfr.vifwMfnuLbbflTfxt", l);
+        rffrfsiAdtionLbbflTfxt =
+                        UIMbnbgfr.gftString("FilfCioosfr.rffrfsiAdtionLbbflTfxt", l);
+        nfwFoldfrAdtionLbbflTfxt =
+                        UIMbnbgfr.gftString("FilfCioosfr.nfwFoldfrAdtionLbbflTfxt", l);
+
+        vifwTypfAdtionNbmfs = nfw String[VIEWTYPE_COUNT];
+        vifwTypfAdtionNbmfs[VIEWTYPE_LIST] =
+                        UIMbnbgfr.gftString("FilfCioosfr.listVifwAdtionLbbflTfxt", l);
+        vifwTypfAdtionNbmfs[VIEWTYPE_DETAILS] =
+                        UIMbnbgfr.gftString("FilfCioosfr.dftbilsVifwAdtionLbbflTfxt", l);
+
+        kiloBytfString = UIMbnbgfr.gftString("FilfCioosfr.filfSizfKiloBytfs", l);
+        mfgbBytfString = UIMbnbgfr.gftString("FilfCioosfr.filfSizfMfgbBytfs", l);
+        gigbBytfString = UIMbnbgfr.gftString("FilfCioosfr.filfSizfGigbBytfs", l);
+        fullRowSflfdtion = UIMbnbgfr.gftBoolfbn("FilfVifw.fullRowSflfdtion");
+
+        filfsListAddfssiblfNbmf = UIMbnbgfr.gftString("FilfCioosfr.filfsListAddfssiblfNbmf", l);
+        filfsDftbilsAddfssiblfNbmf = UIMbnbgfr.gftString("FilfCioosfr.filfsDftbilsAddfssiblfNbmf", l);
+
+        rfnbmfErrorTitlfTfxt = UIMbnbgfr.gftString("FilfCioosfr.rfnbmfErrorTitlfTfxt", l);
+        rfnbmfErrorTfxt = UIMbnbgfr.gftString("FilfCioosfr.rfnbmfErrorTfxt", l);
+        rfnbmfErrorFilfExistsTfxt = UIMbnbgfr.gftString("FilfCioosfr.rfnbmfErrorFilfExistsTfxt", l);
+    }
+
+    /**
+     * Fftdifs tif dommbnd list for tif FilfPbnf. Tifsf dommbnds
+     * brf usfful for binding to fvfnts, sudi bs in b kfymbp.
+     *
+     * @rfturn tif dommbnd list
+     */
+    publid Adtion[] gftAdtions() {
+        if (bdtions == null) {
+            @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+            dlbss FilfPbnfAdtion fxtfnds AbstrbdtAdtion {
+                FilfPbnfAdtion(String nbmf) {
+                    tiis(nbmf, nbmf);
+                }
+
+                FilfPbnfAdtion(String nbmf, String dmd) {
+                    supfr(nbmf);
+                    putVbluf(Adtion.ACTION_COMMAND_KEY, dmd);
+                }
+
+                publid void bdtionPfrformfd(AdtionEvfnt f) {
+                    String dmd = (String)gftVbluf(Adtion.ACTION_COMMAND_KEY);
+
+                    if (dmd == ACTION_CANCEL) {
+                        if (fditFilf != null) {
+                           dbndflEdit();
+                        } flsf {
+                           gftFilfCioosfr().dbndflSflfdtion();
+                        }
+                    } flsf if (dmd == ACTION_EDIT_FILE_NAME) {
+                        JFilfCioosfr fd = gftFilfCioosfr();
+                        int indfx = listSflfdtionModfl.gftMinSflfdtionIndfx();
+                        if (indfx >= 0 && fditFilf == null &&
+                            (!fd.isMultiSflfdtionEnbblfd() ||
+                             fd.gftSflfdtfdFilfs().lfngti <= 1)) {
+
+                            fditFilfNbmf(indfx);
+                        }
+                    } flsf if (dmd == ACTION_REFRESH) {
+                        gftFilfCioosfr().rfsdbnCurrfntDirfdtory();
+                    }
+                }
+
+                publid boolfbn isEnbblfd() {
+                    String dmd = (String)gftVbluf(Adtion.ACTION_COMMAND_KEY);
+                    if (dmd == ACTION_CANCEL) {
+                        rfturn gftFilfCioosfr().isEnbblfd();
+                    } flsf if (dmd == ACTION_EDIT_FILE_NAME) {
+                        rfturn !rfbdOnly && gftFilfCioosfr().isEnbblfd();
+                    } flsf {
+                        rfturn truf;
+                    }
+                }
+            }
+
+            ArrbyList<Adtion> bdtionList = nfw ArrbyList<Adtion>(8);
+            Adtion bdtion;
+
+            bdtionList.bdd(nfw FilfPbnfAdtion(ACTION_CANCEL));
+            bdtionList.bdd(nfw FilfPbnfAdtion(ACTION_EDIT_FILE_NAME));
+            bdtionList.bdd(nfw FilfPbnfAdtion(rffrfsiAdtionLbbflTfxt, ACTION_REFRESH));
+
+            bdtion = filfCioosfrUIAddfssor.gftApprovfSflfdtionAdtion();
+            if (bdtion != null) {
+                bdtionList.bdd(bdtion);
+            }
+            bdtion = filfCioosfrUIAddfssor.gftCibngfToPbrfntDirfdtoryAdtion();
+            if (bdtion != null) {
+                bdtionList.bdd(bdtion);
+            }
+            bdtion = gftNfwFoldfrAdtion();
+            if (bdtion != null) {
+                bdtionList.bdd(bdtion);
+            }
+            bdtion = gftVifwTypfAdtion(VIEWTYPE_LIST);
+            if (bdtion != null) {
+                bdtionList.bdd(bdtion);
+            }
+            bdtion = gftVifwTypfAdtion(VIEWTYPE_DETAILS);
+            if (bdtion != null) {
+                bdtionList.bdd(bdtion);
+            }
+            bdtions = bdtionList.toArrby(nfw Adtion[bdtionList.sizf()]);
+        }
+
+        rfturn bdtions;
+    }
+
+    protfdtfd void drfbtfAdtionMbp() {
+        bddAdtionsToMbp(supfr.gftAdtionMbp(), gftAdtions());
+    }
+
+
+    publid stbtid void bddAdtionsToMbp(AdtionMbp mbp, Adtion[] bdtions) {
+        if (mbp != null && bdtions != null) {
+            for (Adtion b : bdtions) {
+                String dmd = (String)b.gftVbluf(Adtion.ACTION_COMMAND_KEY);
+                if (dmd == null) {
+                    dmd = (String)b.gftVbluf(Adtion.NAME);
+                }
+                mbp.put(dmd, b);
+            }
+        }
+    }
+
+
+    privbtf void updbtfListRowCount(JList<?> list) {
+        if (smbllIdonsVifw) {
+            list.sftVisiblfRowCount(gftModfl().gftSizf() / 3);
+        } flsf {
+            list.sftVisiblfRowCount(-1);
+        }
+    }
+
+    publid JPbnfl drfbtfList() {
+        JPbnfl p = nfw JPbnfl(nfw BordfrLbyout());
+        finbl JFilfCioosfr filfCioosfr = gftFilfCioosfr();
+
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        finbl JList<Objfdt> list = nfw JList<Objfdt>() {
+            publid int gftNfxtMbtdi(String prffix, int stbrtIndfx, Position.Bibs bibs) {
+                ListModfl<?> modfl = gftModfl();
+                int mbx = modfl.gftSizf();
+                if (prffix == null || stbrtIndfx < 0 || stbrtIndfx >= mbx) {
+                    tirow nfw IllfgblArgumfntExdfption();
+                }
+                // stbrt sfbrdi from tif nfxt flfmfnt bfforf/bftfr tif sflfdtfd flfmfnt
+                boolfbn bbdkwbrds = (bibs == Position.Bibs.Bbdkwbrd);
+                for (int i = stbrtIndfx; bbdkwbrds ? i >= 0 : i < mbx; i += (bbdkwbrds ?  -1 : 1)) {
+                    String filfnbmf = filfCioosfr.gftNbmf((Filf)modfl.gftElfmfntAt(i));
+                    if (filfnbmf.rfgionMbtdifs(truf, 0, prffix, 0, prffix.lfngti())) {
+                        rfturn i;
+                    }
+                }
+                rfturn -1;
+            }
+        };
+        list.sftCfllRfndfrfr(nfw FilfRfndfrfr());
+        list.sftLbyoutOrifntbtion(JList.VERTICAL_WRAP);
+
+        // 4835633 : tfll BbsidListUI tibt tiis is b filf list
+        list.putClifntPropfrty("List.isFilfList", Boolfbn.TRUE);
+
+        if (listVifwWindowsStylf) {
+            list.bddFodusListfnfr(rfpbintListfnfr);
+        }
+
+        updbtfListRowCount(list);
+
+        gftModfl().bddListDbtbListfnfr(nfw ListDbtbListfnfr() {
+            publid void intfrvblAddfd(ListDbtbEvfnt f) {
+                updbtfListRowCount(list);
+            }
+            publid void intfrvblRfmovfd(ListDbtbEvfnt f) {
+                updbtfListRowCount(list);
+            }
+            publid void dontfntsCibngfd(ListDbtbEvfnt f) {
+                if (isSiowing()) {
+                    dlfbrSflfdtion();
+                }
+                updbtfListRowCount(list);
+            }
+        });
+
+        gftModfl().bddPropfrtyCibngfListfnfr(tiis);
+
+        if (filfCioosfr.isMultiSflfdtionEnbblfd()) {
+            list.sftSflfdtionModf(ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION);
+        } flsf {
+            list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+        }
+        list.sftModfl(nfw SortbblfListModfl());
+
+        list.bddListSflfdtionListfnfr(drfbtfListSflfdtionListfnfr());
+        list.bddMousfListfnfr(gftMousfHbndlfr());
+
+        JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(list);
+        if (listVifwBbdkground != null) {
+            list.sftBbdkground(listVifwBbdkground);
+        }
+        if (listVifwBordfr != null) {
+            sdrollpbnf.sftBordfr(listVifwBordfr);
+        }
+
+        list.putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY, filfsListAddfssiblfNbmf);
+
+        p.bdd(sdrollpbnf, BordfrLbyout.CENTER);
+        rfturn p;
+    }
+
+    /**
+     * Tiis modfl bllows for sorting JList
+     */
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss SortbblfListModfl fxtfnds AbstrbdtListModfl<Objfdt>
+            implfmfnts TbblfModflListfnfr, RowSortfrListfnfr {
+
+        publid SortbblfListModfl() {
+            gftDftbilsTbblfModfl().bddTbblfModflListfnfr(tiis);
+            gftRowSortfr().bddRowSortfrListfnfr(tiis);
+        }
+
+        publid int gftSizf() {
+            rfturn gftModfl().gftSizf();
+        }
+
+        publid Objfdt gftElfmfntAt(int indfx) {
+            // JList dofsn't support RowSortfr so fbr, so wf put it into tif list modfl
+            rfturn gftModfl().gftElfmfntAt(gftRowSortfr().donvfrtRowIndfxToModfl(indfx));
+        }
+
+        publid void tbblfCibngfd(TbblfModflEvfnt f) {
+            firfContfntsCibngfd(tiis, 0, gftSizf());
+        }
+
+        publid void sortfrCibngfd(RowSortfrEvfnt f) {
+            firfContfntsCibngfd(tiis, 0, gftSizf());
+        }
+    }
+
+    privbtf DftbilsTbblfModfl gftDftbilsTbblfModfl() {
+        if(dftbilsTbblfModfl == null) {
+            dftbilsTbblfModfl = nfw DftbilsTbblfModfl(gftFilfCioosfr());
+        }
+        rfturn dftbilsTbblfModfl;
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss DftbilsTbblfModfl fxtfnds AbstrbdtTbblfModfl implfmfnts ListDbtbListfnfr {
+        JFilfCioosfr dioosfr;
+        BbsidDirfdtoryModfl dirfdtoryModfl;
+
+        SifllFoldfrColumnInfo[] dolumns;
+        int[] dolumnMbp;
+
+        DftbilsTbblfModfl(JFilfCioosfr fd) {
+            tiis.dioosfr = fd;
+            dirfdtoryModfl = gftModfl();
+            dirfdtoryModfl.bddListDbtbListfnfr(tiis);
+
+            updbtfColumnInfo();
+        }
+
+        void updbtfColumnInfo() {
+            Filf dir = dioosfr.gftCurrfntDirfdtory();
+            if (dir != null && usfsSifllFoldfr(dioosfr)) {
+                try {
+                    dir = SifllFoldfr.gftSifllFoldfr(dir);
+                } dbtdi (FilfNotFoundExdfption f) {
+                    // Lfbvf dir witiout dibnging
+                }
+            }
+
+            SifllFoldfrColumnInfo[] bllColumns = SifllFoldfr.gftFoldfrColumns(dir);
+
+            ArrbyList<SifllFoldfrColumnInfo> visiblfColumns =
+                    nfw ArrbyList<SifllFoldfrColumnInfo>();
+            dolumnMbp = nfw int[bllColumns.lfngti];
+            for (int i = 0; i < bllColumns.lfngti; i++) {
+                SifllFoldfrColumnInfo dolumn = bllColumns[i];
+                if (dolumn.isVisiblf()) {
+                    dolumnMbp[visiblfColumns.sizf()] = i;
+                    visiblfColumns.bdd(dolumn);
+                }
+            }
+
+            dolumns = nfw SifllFoldfrColumnInfo[visiblfColumns.sizf()];
+            visiblfColumns.toArrby(dolumns);
+            dolumnMbp = Arrbys.dopyOf(dolumnMbp, dolumns.lfngti);
+
+            List<? fxtfnds RowSortfr.SortKfy> sortKfys =
+                    (rowSortfr == null) ? null : rowSortfr.gftSortKfys();
+            firfTbblfStrudturfCibngfd();
+            rfstorfSortKfys(sortKfys);
+        }
+
+        privbtf void rfstorfSortKfys(List<? fxtfnds RowSortfr.SortKfy> sortKfys) {
+            if (sortKfys != null) {
+                // difdk if prfsfrvfd sortKfys brf vblid for tiis foldfr
+                for (int i = 0; i < sortKfys.sizf(); i++) {
+                    RowSortfr.SortKfy sortKfy = sortKfys.gft(i);
+                    if (sortKfy.gftColumn() >= dolumns.lfngti) {
+                        sortKfys = null;
+                        brfbk;
+                    }
+                }
+                if (sortKfys != null) {
+                    rowSortfr.sftSortKfys(sortKfys);
+                }
+            }
+        }
+
+        publid int gftRowCount() {
+            rfturn dirfdtoryModfl.gftSizf();
+        }
+
+        publid int gftColumnCount() {
+            rfturn dolumns.lfngti;
+        }
+
+        publid Objfdt gftVblufAt(int row, int dol) {
+            // Notf: It is vfry importbnt to bvoid gftting info on drivfs, bs
+            // tiis will triggfr "No disk in A:" bnd similbr diblogs.
+            //
+            // Usf (f.fxists() && !dioosfr.gftFilfSystfmVifw().isFilfSystfmRoot(f)) to
+            // dftfrminf if it is sbff to dbll mftiods dirfdtly on f.
+            rfturn gftFilfColumnVbluf((Filf)dirfdtoryModfl.gftElfmfntAt(row), dol);
+        }
+
+        privbtf Objfdt gftFilfColumnVbluf(Filf f, int dol) {
+            rfturn (dol == COLUMN_FILENAME)
+                    ? f // blwbys rfturn tif filf itsflf for tif 1st dolumn
+                    : SifllFoldfr.gftFoldfrColumnVbluf(f, dolumnMbp[dol]);
+        }
+
+        publid void sftVblufAt(Objfdt vbluf, int row, int dol) {
+            if (dol == COLUMN_FILENAME) {
+                finbl JFilfCioosfr dioosfr = gftFilfCioosfr();
+                Filf f = (Filf)gftVblufAt(row, dol);
+                if (f != null) {
+                    String oldDisplbyNbmf = dioosfr.gftNbmf(f);
+                    String oldFilfNbmf = f.gftNbmf();
+                    String nfwDisplbyNbmf = ((String)vbluf).trim();
+                    String nfwFilfNbmf;
+
+                    if (!nfwDisplbyNbmf.fqubls(oldDisplbyNbmf)) {
+                        nfwFilfNbmf = nfwDisplbyNbmf;
+                        //Cifdk if fxtfnsion is iiddfn from usfr
+                        int i1 = oldFilfNbmf.lfngti();
+                        int i2 = oldDisplbyNbmf.lfngti();
+                        if (i1 > i2 && oldFilfNbmf.dibrAt(i2) == '.') {
+                            nfwFilfNbmf = nfwDisplbyNbmf + oldFilfNbmf.substring(i2);
+                        }
+
+                        // rfnbmf
+                        FilfSystfmVifw fsv = dioosfr.gftFilfSystfmVifw();
+                        finbl Filf f2 = fsv.drfbtfFilfObjfdt(f.gftPbrfntFilf(), nfwFilfNbmf);
+                        if (f2.fxists()) {
+                            JOptionPbnf.siowMfssbgfDiblog(dioosfr, MfssbgfFormbt.formbt(rfnbmfErrorFilfExistsTfxt,
+                                    oldFilfNbmf), rfnbmfErrorTitlfTfxt, JOptionPbnf.ERROR_MESSAGE);
+                        } flsf {
+                            if (FilfPbnf.tiis.gftModfl().rfnbmfFilf(f, f2)) {
+                                if (fsv.isPbrfnt(dioosfr.gftCurrfntDirfdtory(), f2)) {
+                                    // Tif sftSflfdtfdFilf mftiod produdfs b nfw sftVblufAt invodbtion wiilf tif JTbblf
+                                    // is fditing. Postponf filf sflfdtion to bf surf tibt fdit modf of tif JTbblf
+                                    // is domplftfd
+                                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                                        publid void run() {
+                                            if (dioosfr.isMultiSflfdtionEnbblfd()) {
+                                                dioosfr.sftSflfdtfdFilfs(nfw Filf[]{f2});
+                                            } flsf {
+                                                dioosfr.sftSflfdtfdFilf(f2);
+                                            }
+                                        }
+                                    });
+                                } flsf {
+                                    // Could bf bfdbusf of dflby in updbting Dfsktop foldfr
+                                    // dioosfr.sftSflfdtfdFilf(null);
+                                }
+                            } flsf {
+                                JOptionPbnf.siowMfssbgfDiblog(dioosfr, MfssbgfFormbt.formbt(rfnbmfErrorTfxt, oldFilfNbmf),
+                                        rfnbmfErrorTitlfTfxt, JOptionPbnf.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        publid boolfbn isCfllEditbblf(int row, int dolumn) {
+            Filf durrfntDirfdtory = gftFilfCioosfr().gftCurrfntDirfdtory();
+            rfturn (!rfbdOnly && dolumn == COLUMN_FILENAME && dbnWritf(durrfntDirfdtory));
+        }
+
+        publid void dontfntsCibngfd(ListDbtbEvfnt f) {
+            // Updbtf tif sflfdtion bftfr tif modfl ibs bffn updbtfd
+            nfw DflbyfdSflfdtionUpdbtfr();
+            firfTbblfDbtbCibngfd();
+        }
+
+        publid void intfrvblAddfd(ListDbtbEvfnt f) {
+            int i0 = f.gftIndfx0();
+            int i1 = f.gftIndfx1();
+            if (i0 == i1) {
+                Filf filf = (Filf)gftModfl().gftElfmfntAt(i0);
+                if (filf.fqubls(nfwFoldfrFilf)) {
+                    nfw DflbyfdSflfdtionUpdbtfr(filf);
+                    nfwFoldfrFilf = null;
+                }
+            }
+
+            firfTbblfRowsInsfrtfd(f.gftIndfx0(), f.gftIndfx1());
+        }
+        publid void intfrvblRfmovfd(ListDbtbEvfnt f) {
+            firfTbblfRowsDflftfd(f.gftIndfx0(), f.gftIndfx1());
+        }
+
+        publid SifllFoldfrColumnInfo[] gftColumns() {
+            rfturn dolumns;
+        }
+    }
+
+
+    privbtf void updbtfDftbilsColumnModfl(JTbblf tbblf) {
+        if (tbblf != null) {
+            SifllFoldfrColumnInfo[] dolumns = dftbilsTbblfModfl.gftColumns();
+
+            TbblfColumnModfl dolumnModfl = nfw DffbultTbblfColumnModfl();
+            for (int i = 0; i < dolumns.lfngti; i++) {
+                SifllFoldfrColumnInfo dbtbItfm = dolumns[i];
+                TbblfColumn dolumn = nfw TbblfColumn(i);
+
+                String titlf = dbtbItfm.gftTitlf();
+                if (titlf != null && titlf.stbrtsWiti("FilfCioosfr.") && titlf.fndsWiti("HfbdfrTfxt")) {
+                    // tif dolumn must ibvf b string rfsourdf tibt wf try to gft
+                    String uiTitlf = UIMbnbgfr.gftString(titlf, tbblf.gftLodblf());
+                    if (uiTitlf != null) {
+                        titlf = uiTitlf;
+                    }
+                }
+                dolumn.sftHfbdfrVbluf(titlf);
+
+                Intfgfr widti = dbtbItfm.gftWidti();
+                if (widti != null) {
+                    dolumn.sftPrfffrrfdWidti(widti);
+                    // otifrwisf wf lft JTbblf to dfdidf tif bdtubl widti
+                }
+
+                dolumnModfl.bddColumn(dolumn);
+            }
+
+            // Instbll dfll fditor for fditing filf nbmf
+            if (!rfbdOnly && dolumnModfl.gftColumnCount() > COLUMN_FILENAME) {
+                dolumnModfl.gftColumn(COLUMN_FILENAME).
+                        sftCfllEditor(gftDftbilsTbblfCfllEditor());
+            }
+
+            tbblf.sftColumnModfl(dolumnModfl);
+        }
+    }
+
+    privbtf DftbilsTbblfRowSortfr gftRowSortfr() {
+        if (rowSortfr == null) {
+            rowSortfr = nfw DftbilsTbblfRowSortfr();
+        }
+        rfturn rowSortfr;
+    }
+
+    privbtf dlbss DftbilsTbblfRowSortfr fxtfnds TbblfRowSortfr<TbblfModfl> {
+        publid DftbilsTbblfRowSortfr() {
+            sftModflWrbppfr(nfw SortfrModflWrbppfr());
+        }
+
+        publid void updbtfCompbrbtors(SifllFoldfrColumnInfo [] dolumns) {
+            for (int i = 0; i < dolumns.lfngti; i++) {
+                Compbrbtor<?> d = dolumns[i].gftCompbrbtor();
+                if (d != null) {
+                    d = nfw DirfdtorifsFirstCompbrbtorWrbppfr(i, d);
+                }
+                sftCompbrbtor(i, d);
+            }
+        }
+
+        @Ovfrridf
+        publid void sort() {
+            SifllFoldfr.invokf(nfw Cbllbblf<Void>() {
+                publid Void dbll() {
+                    DftbilsTbblfRowSortfr.supfr.sort();
+                    rfturn null;
+                }
+            });
+        }
+
+        publid void modflStrudturfCibngfd() {
+            supfr.modflStrudturfCibngfd();
+            updbtfCompbrbtors(dftbilsTbblfModfl.gftColumns());
+        }
+
+        privbtf dlbss SortfrModflWrbppfr fxtfnds ModflWrbppfr<TbblfModfl, Intfgfr> {
+            publid TbblfModfl gftModfl() {
+                rfturn gftDftbilsTbblfModfl();
+            }
+
+            publid int gftColumnCount() {
+                rfturn gftDftbilsTbblfModfl().gftColumnCount();
+            }
+
+            publid int gftRowCount() {
+                rfturn gftDftbilsTbblfModfl().gftRowCount();
+            }
+
+            publid Objfdt gftVblufAt(int row, int dolumn) {
+                rfturn FilfPbnf.tiis.gftModfl().gftElfmfntAt(row);
+            }
+
+            publid Intfgfr gftIdfntififr(int row) {
+                rfturn row;
+            }
+        }
+    }
+
+    /**
+     * Tiis dlbss sorts dirfdtorifs bfforf filfs, dompbring dirfdtory to
+     * dirfdtory bnd filf to filf using tif wrbppfd dompbrbtor.
+     */
+    privbtf dlbss DirfdtorifsFirstCompbrbtorWrbppfr implfmfnts Compbrbtor<Filf> {
+        privbtf Compbrbtor<Objfdt> dompbrbtor;
+        privbtf int dolumn;
+
+        @SupprfssWbrnings("undifdkfd")
+        publid DirfdtorifsFirstCompbrbtorWrbppfr(int dolumn, Compbrbtor<?> dompbrbtor) {
+            tiis.dolumn = dolumn;
+            tiis.dompbrbtor = (Compbrbtor<Objfdt>)dompbrbtor;
+        }
+
+        publid int dompbrf(Filf f1, Filf f2) {
+            if (f1 != null && f2 != null) {
+                boolfbn trbvfrsbblf1 = gftFilfCioosfr().isTrbvfrsbblf(f1);
+                boolfbn trbvfrsbblf2 = gftFilfCioosfr().isTrbvfrsbblf(f2);
+                // dirfdtorifs go first
+                if (trbvfrsbblf1 && !trbvfrsbblf2) {
+                    rfturn -1;
+                }
+                if (!trbvfrsbblf1 && trbvfrsbblf2) {
+                    rfturn 1;
+                }
+            }
+            if (dftbilsTbblfModfl.gftColumns()[dolumn].isCompbrfByColumn()) {
+                rfturn dompbrbtor.dompbrf(
+                        gftDftbilsTbblfModfl().gftFilfColumnVbluf(f1, dolumn),
+                        gftDftbilsTbblfModfl().gftFilfColumnVbluf(f2, dolumn)
+                );
+            }
+            // For tiis dolumn wf nffd to pbss tif filf itsflf (not b
+            // dolumn vbluf) to tif dompbrbtor
+            rfturn dompbrbtor.dompbrf(f1, f2);
+        }
+    }
+
+    privbtf DftbilsTbblfCfllEditor tbblfCfllEditor;
+
+    privbtf DftbilsTbblfCfllEditor gftDftbilsTbblfCfllEditor() {
+        if (tbblfCfllEditor == null) {
+            tbblfCfllEditor = nfw DftbilsTbblfCfllEditor(nfw JTfxtFifld());
+        }
+        rfturn tbblfCfllEditor;
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss DftbilsTbblfCfllEditor fxtfnds DffbultCfllEditor {
+        privbtf finbl JTfxtFifld tf;
+
+        publid DftbilsTbblfCfllEditor(JTfxtFifld tf) {
+            supfr(tf);
+            tiis.tf = tf;
+            tf.sftNbmf("Tbblf.fditor");
+            tf.bddFodusListfnfr(fditorFodusListfnfr);
+        }
+
+        publid Componfnt gftTbblfCfllEditorComponfnt(JTbblf tbblf, Objfdt vbluf,
+                                                     boolfbn isSflfdtfd, int row, int dolumn) {
+            Componfnt domp = supfr.gftTbblfCfllEditorComponfnt(tbblf, vbluf,
+                    isSflfdtfd, row, dolumn);
+            if (vbluf instbndfof Filf) {
+                tf.sftTfxt(gftFilfCioosfr().gftNbmf((Filf) vbluf));
+                tf.sflfdtAll();
+            }
+            rfturn domp;
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss DftbilsTbblfCfllRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr {
+        JFilfCioosfr dioosfr;
+        DbtfFormbt df;
+
+        DftbilsTbblfCfllRfndfrfr(JFilfCioosfr dioosfr) {
+            tiis.dioosfr = dioosfr;
+            df = DbtfFormbt.gftDbtfTimfInstbndf(DbtfFormbt.SHORT, DbtfFormbt.SHORT,
+                                                dioosfr.gftLodblf());
+        }
+
+        publid void sftBounds(int x, int y, int widti, int ifigit) {
+        if (gftHorizontblAlignmfnt() == SwingConstbnts.LEADING &&
+                    !fullRowSflfdtion) {
+                // Rfstridt widti to bdtubl tfxt
+                widti = Mbti.min(widti, tiis.gftPrfffrrfdSizf().widti+4);
+            } flsf {
+                x -= 4;
+            }
+            supfr.sftBounds(x, y, widti, ifigit);
+        }
+
+
+        publid Insfts gftInsfts(Insfts i) {
+            // Providf somf spbdf bftwffn dolumns
+            i = supfr.gftInsfts(i);
+            i.lfft  += 4;
+            i.rigit += 4;
+            rfturn i;
+        }
+
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+                              boolfbn isSflfdtfd, boolfbn ibsFodus, int row, int dolumn) {
+
+            if ((tbblf.donvfrtColumnIndfxToModfl(dolumn) != COLUMN_FILENAME ||
+                    (listVifwWindowsStylf && !tbblf.isFodusOwnfr())) &&
+                    !fullRowSflfdtion) {
+                isSflfdtfd = fblsf;
+            }
+
+            supfr.gftTbblfCfllRfndfrfrComponfnt(tbblf, vbluf, isSflfdtfd,
+                                                       ibsFodus, row, dolumn);
+
+            sftIdon(null);
+
+            int modflColumn = tbblf.donvfrtColumnIndfxToModfl(dolumn);
+            SifllFoldfrColumnInfo dolumnInfo = dftbilsTbblfModfl.gftColumns()[modflColumn];
+
+            Intfgfr blignmfnt = dolumnInfo.gftAlignmfnt();
+            if (blignmfnt == null) {
+                blignmfnt = (vbluf instbndfof Numbfr)
+                        ? SwingConstbnts.RIGHT
+                        : SwingConstbnts.LEADING;
+            }
+
+            sftHorizontblAlignmfnt(blignmfnt);
+
+            // formbtting dfll tfxt
+            // TODO: it's rbtifr b tfmporbry tridk, to bf rfvisfd
+            String tfxt;
+
+            if (vbluf == null) {
+                tfxt = "";
+
+            } flsf if (vbluf instbndfof Filf) {
+                Filf filf = (Filf)vbluf;
+                tfxt = dioosfr.gftNbmf(filf);
+                Idon idon = dioosfr.gftIdon(filf);
+                sftIdon(idon);
+
+            } flsf if (vbluf instbndfof Long) {
+                long lfn = ((Long) vbluf) / 1024L;
+                if (listVifwWindowsStylf) {
+                    tfxt = MfssbgfFormbt.formbt(kiloBytfString, lfn + 1);
+                } flsf if (lfn < 1024L) {
+                    tfxt = MfssbgfFormbt.formbt(kiloBytfString, (lfn == 0L) ? 1L : lfn);
+                } flsf {
+                    lfn /= 1024L;
+                    if (lfn < 1024L) {
+                        tfxt = MfssbgfFormbt.formbt(mfgbBytfString, lfn);
+                    } flsf {
+                        lfn /= 1024L;
+                        tfxt = MfssbgfFormbt.formbt(gigbBytfString, lfn);
+                    }
+                }
+
+            } flsf if (vbluf instbndfof Dbtf) {
+                tfxt = df.formbt((Dbtf)vbluf);
+
+            } flsf {
+                tfxt = vbluf.toString();
+            }
+
+            sftTfxt(tfxt);
+
+            rfturn tiis;
+        }
+    }
+
+    publid JPbnfl drfbtfDftbilsVifw() {
+        finbl JFilfCioosfr dioosfr = gftFilfCioosfr();
+
+        JPbnfl p = nfw JPbnfl(nfw BordfrLbyout());
+
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        finbl JTbblf dftbilsTbblf = nfw JTbblf(gftDftbilsTbblfModfl()) {
+            // Hbndlf Esdbpf kfy fvfnts ifrf
+            protfdtfd boolfbn prodfssKfyBinding(KfyStrokf ks, KfyEvfnt f, int dondition, boolfbn prfssfd) {
+                if (f.gftKfyCodf() == KfyEvfnt.VK_ESCAPE && gftCfllEditor() == null) {
+                    // Wf brf not fditing, forwbrd to filfdioosfr.
+                    dioosfr.dispbtdiEvfnt(f);
+                    rfturn truf;
+                }
+                rfturn supfr.prodfssKfyBinding(ks, f, dondition, prfssfd);
+            }
+
+            publid void tbblfCibngfd(TbblfModflEvfnt f) {
+                supfr.tbblfCibngfd(f);
+
+                if (f.gftFirstRow() == TbblfModflEvfnt.HEADER_ROW) {
+                    // updbtf ifbdfr witi possibly dibngfd dolumn sft
+                    updbtfDftbilsColumnModfl(tiis);
+                }
+            }
+        };
+
+        dftbilsTbblf.sftRowSortfr(gftRowSortfr());
+        dftbilsTbblf.sftAutoCrfbtfColumnsFromModfl(fblsf);
+        dftbilsTbblf.sftComponfntOrifntbtion(dioosfr.gftComponfntOrifntbtion());
+        dftbilsTbblf.sftAutoRfsizfModf(JTbblf.AUTO_RESIZE_OFF);
+        dftbilsTbblf.sftSiowGrid(fblsf);
+        dftbilsTbblf.putClifntPropfrty("JTbblf.butoStbrtsEdit", Boolfbn.FALSE);
+        dftbilsTbblf.bddKfyListfnfr(dftbilsKfyListfnfr);
+
+        Font font = list.gftFont();
+        dftbilsTbblf.sftFont(font);
+        dftbilsTbblf.sftIntfrdfllSpbding(nfw Dimfnsion(0, 0));
+
+        TbblfCfllRfndfrfr ifbdfrRfndfrfr =
+                nfw AlignbblfTbblfHfbdfrRfndfrfr(dftbilsTbblf.gftTbblfHfbdfr().gftDffbultRfndfrfr());
+        dftbilsTbblf.gftTbblfHfbdfr().sftDffbultRfndfrfr(ifbdfrRfndfrfr);
+        TbblfCfllRfndfrfr dfllRfndfrfr = nfw DftbilsTbblfCfllRfndfrfr(dioosfr);
+        dftbilsTbblf.sftDffbultRfndfrfr(Objfdt.dlbss, dfllRfndfrfr);
+
+        // So tibt drbg dbn bf stbrtfd on b mousf prfss
+        dftbilsTbblf.gftColumnModfl().gftSflfdtionModfl().
+            sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+
+        dftbilsTbblf.bddMousfListfnfr(gftMousfHbndlfr());
+        // No nffd to bddListSflfdtionListfnfr bfdbusf sflfdtions brf forwbrdfd
+        // to our JList.
+
+        // 4835633 : tfll BbsidTbblfUI tibt tiis is b filf list
+        dftbilsTbblf.putClifntPropfrty("Tbblf.isFilfList", Boolfbn.TRUE);
+
+        if (listVifwWindowsStylf) {
+            dftbilsTbblf.bddFodusListfnfr(rfpbintListfnfr);
+        }
+
+        // TAB/SHIFT-TAB siould trbnsffr fodus bnd ENTER siould sflfdt bn itfm.
+        // Wf don't wbnt tifm to nbvigbtf witiin tif tbblf
+        AdtionMbp bm = SwingUtilitifs.gftUIAdtionMbp(dftbilsTbblf);
+        bm.rfmovf("sflfdtNfxtRowCfll");
+        bm.rfmovf("sflfdtPrfviousRowCfll");
+        bm.rfmovf("sflfdtNfxtColumnCfll");
+        bm.rfmovf("sflfdtPrfviousColumnCfll");
+        dftbilsTbblf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                     null);
+        dftbilsTbblf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                     null);
+
+        JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(dftbilsTbblf);
+        sdrollpbnf.sftComponfntOrifntbtion(dioosfr.gftComponfntOrifntbtion());
+        LookAndFffl.instbllColors(sdrollpbnf.gftVifwport(), "Tbblf.bbdkground", "Tbblf.forfground");
+
+        // Adjust widti of first dolumn so tif tbblf fills tif vifwport wifn
+        // first displbyfd (tfmporbry listfnfr).
+        sdrollpbnf.bddComponfntListfnfr(nfw ComponfntAdbptfr() {
+            publid void domponfntRfsizfd(ComponfntEvfnt f) {
+                JSdrollPbnf sp = (JSdrollPbnf)f.gftComponfnt();
+                fixNbmfColumnWidti(sp.gftVifwport().gftSizf().widti);
+                sp.rfmovfComponfntListfnfr(tiis);
+            }
+        });
+
+        // 4835633.
+        // If tif mousf is prfssfd in tif brfb bflow tif Dftbils vifw tbblf, tif
+        // fvfnt is not dispbtdifd to tif Tbblf MousfListfnfr but to tif
+        // sdrollpbnf.  Listfn for tibt ifrf so wf dbn dlfbr tif sflfdtion.
+        sdrollpbnf.bddMousfListfnfr(nfw MousfAdbptfr() {
+            publid void mousfPrfssfd(MousfEvfnt f) {
+                JSdrollPbnf jsp = ((JSdrollPbnf)f.gftComponfnt());
+                JTbblf tbblf = (JTbblf)jsp.gftVifwport().gftVifw();
+
+                if (!f.isSiiftDown() || tbblf.gftSflfdtionModfl().gftSflfdtionModf() == ListSflfdtionModfl.SINGLE_SELECTION) {
+                    dlfbrSflfdtion();
+                    TbblfCfllEditor tdf = tbblf.gftCfllEditor();
+                    if (tdf != null) {
+                        tdf.stopCfllEditing();
+                    }
+                }
+            }
+        });
+
+        dftbilsTbblf.sftForfground(list.gftForfground());
+        dftbilsTbblf.sftBbdkground(list.gftBbdkground());
+
+        if (listVifwBordfr != null) {
+            sdrollpbnf.sftBordfr(listVifwBordfr);
+        }
+        p.bdd(sdrollpbnf, BordfrLbyout.CENTER);
+
+        dftbilsTbblfModfl.firfTbblfStrudturfCibngfd();
+
+        dftbilsTbblf.putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY, filfsDftbilsAddfssiblfNbmf);
+
+        rfturn p;
+    } // drfbtfDftbilsVifw
+
+    privbtf dlbss AlignbblfTbblfHfbdfrRfndfrfr implfmfnts TbblfCfllRfndfrfr {
+        TbblfCfllRfndfrfr wrbppfdRfndfrfr;
+
+        publid AlignbblfTbblfHfbdfrRfndfrfr(TbblfCfllRfndfrfr wrbppfdRfndfrfr) {
+            tiis.wrbppfdRfndfrfr = wrbppfdRfndfrfr;
+        }
+
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(
+                                JTbblf tbblf, Objfdt vbluf, boolfbn isSflfdtfd,
+                                boolfbn ibsFodus, int row, int dolumn) {
+
+            Componfnt d = wrbppfdRfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                tbblf, vbluf, isSflfdtfd, ibsFodus, row, dolumn);
+
+            int modflColumn = tbblf.donvfrtColumnIndfxToModfl(dolumn);
+            SifllFoldfrColumnInfo dolumnInfo = dftbilsTbblfModfl.gftColumns()[modflColumn];
+
+            Intfgfr blignmfnt = dolumnInfo.gftAlignmfnt();
+            if (blignmfnt == null) {
+                blignmfnt = SwingConstbnts.CENTER;
+            }
+            if (d instbndfof JLbbfl) {
+                ((JLbbfl) d).sftHorizontblAlignmfnt(blignmfnt);
+            }
+
+            rfturn d;
+        }
+    }
+
+    privbtf void fixNbmfColumnWidti(int vifwWidti) {
+        TbblfColumn nbmfCol = dftbilsTbblf.gftColumnModfl().gftColumn(COLUMN_FILENAME);
+        int tbblfWidti = dftbilsTbblf.gftPrfffrrfdSizf().widti;
+
+        if (tbblfWidti < vifwWidti) {
+            nbmfCol.sftPrfffrrfdWidti(nbmfCol.gftPrfffrrfdWidti() + vifwWidti - tbblfWidti);
+        }
+    }
+
+    privbtf dlbss DflbyfdSflfdtionUpdbtfr implfmfnts Runnbblf {
+        Filf fditFilf;
+
+        DflbyfdSflfdtionUpdbtfr() {
+            tiis(null);
+        }
+
+        DflbyfdSflfdtionUpdbtfr(Filf fditFilf) {
+            tiis.fditFilf = fditFilf;
+            if (isSiowing()) {
+                SwingUtilitifs.invokfLbtfr(tiis);
+            }
+        }
+
+        publid void run() {
+            sftFilfSflfdtfd();
+            if (fditFilf != null) {
+                fditFilfNbmf(gftRowSortfr().donvfrtRowIndfxToVifw(
+                        gftModfl().indfxOf(fditFilf)));
+                fditFilf = null;
+            }
+        }
+    }
+
+
+    /**
+     * Crfbtfs b sflfdtion listfnfr for tif list of filfs bnd dirfdtorifs.
+     *
+     * @rfturn b <dodf>ListSflfdtionListfnfr</dodf>
+     */
+    publid ListSflfdtionListfnfr drfbtfListSflfdtionListfnfr() {
+        rfturn filfCioosfrUIAddfssor.drfbtfListSflfdtionListfnfr();
+    }
+
+    int lbstIndfx = -1;
+    Filf fditFilf = null;
+
+    privbtf int gftEditIndfx() {
+        rfturn lbstIndfx;
+    }
+
+    privbtf void sftEditIndfx(int i) {
+        lbstIndfx = i;
+    }
+
+    privbtf void rfsftEditIndfx() {
+        lbstIndfx = -1;
+    }
+
+    privbtf void dbndflEdit() {
+        if (fditFilf != null) {
+            fditFilf = null;
+            list.rfmovf(fditCfll);
+            rfpbint();
+        } flsf if (dftbilsTbblf != null && dftbilsTbblf.isEditing()) {
+            dftbilsTbblf.gftCfllEditor().dbndflCfllEditing();
+        }
+    }
+
+    JTfxtFifld fditCfll = null;
+
+    /**
+     * @pbrbm indfx visubl indfx of tif filf to bf fditfd
+     */
+    privbtf void fditFilfNbmf(int indfx) {
+        JFilfCioosfr dioosfr = gftFilfCioosfr();
+        Filf durrfntDirfdtory = dioosfr.gftCurrfntDirfdtory();
+
+        if (rfbdOnly || !dbnWritf(durrfntDirfdtory)) {
+            rfturn;
+        }
+
+        fnsurfIndfxIsVisiblf(indfx);
+        switdi (vifwTypf) {
+          dbsf VIEWTYPE_LIST:
+            fditFilf = (Filf)gftModfl().gftElfmfntAt(gftRowSortfr().donvfrtRowIndfxToModfl(indfx));
+            Rfdtbnglf r = list.gftCfllBounds(indfx, indfx);
+            if (fditCfll == null) {
+                fditCfll = nfw JTfxtFifld();
+                fditCfll.sftNbmf("Trff.dfllEditor");
+                fditCfll.bddAdtionListfnfr(nfw EditAdtionListfnfr());
+                fditCfll.bddFodusListfnfr(fditorFodusListfnfr);
+                fditCfll.sftNfxtFodusbblfComponfnt(list);
+            }
+            list.bdd(fditCfll);
+            fditCfll.sftTfxt(dioosfr.gftNbmf(fditFilf));
+            ComponfntOrifntbtion orifntbtion = list.gftComponfntOrifntbtion();
+            fditCfll.sftComponfntOrifntbtion(orifntbtion);
+
+            Idon idon = dioosfr.gftIdon(fditFilf);
+
+            // PENDING - grbb pbdding (4) bflow from dffbults tbblf.
+            int fditX = idon == null ? 20 : idon.gftIdonWidti() + 4;
+
+            if (orifntbtion.isLfftToRigit()) {
+                fditCfll.sftBounds(fditX + r.x, r.y, r.widti - fditX, r.ifigit);
+            } flsf {
+                fditCfll.sftBounds(r.x, r.y, r.widti - fditX, r.ifigit);
+            }
+            fditCfll.rfqufstFodus();
+            fditCfll.sflfdtAll();
+            brfbk;
+
+          dbsf VIEWTYPE_DETAILS:
+            dftbilsTbblf.fditCfllAt(indfx, COLUMN_FILENAME);
+            brfbk;
+        }
+    }
+
+
+    dlbss EditAdtionListfnfr implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            bpplyEdit();
+        }
+    }
+
+    privbtf void bpplyEdit() {
+        if (fditFilf != null && fditFilf.fxists()) {
+            JFilfCioosfr dioosfr = gftFilfCioosfr();
+            String oldDisplbyNbmf = dioosfr.gftNbmf(fditFilf);
+            String oldFilfNbmf = fditFilf.gftNbmf();
+            String nfwDisplbyNbmf = fditCfll.gftTfxt().trim();
+            String nfwFilfNbmf;
+
+            if (!nfwDisplbyNbmf.fqubls(oldDisplbyNbmf)) {
+                nfwFilfNbmf = nfwDisplbyNbmf;
+                //Cifdk if fxtfnsion is iiddfn from usfr
+                int i1 = oldFilfNbmf.lfngti();
+                int i2 = oldDisplbyNbmf.lfngti();
+                if (i1 > i2 && oldFilfNbmf.dibrAt(i2) == '.') {
+                    nfwFilfNbmf = nfwDisplbyNbmf + oldFilfNbmf.substring(i2);
+                }
+
+                // rfnbmf
+                FilfSystfmVifw fsv = dioosfr.gftFilfSystfmVifw();
+                Filf f2 = fsv.drfbtfFilfObjfdt(fditFilf.gftPbrfntFilf(), nfwFilfNbmf);
+                if (f2.fxists()) {
+                    JOptionPbnf.siowMfssbgfDiblog(dioosfr, MfssbgfFormbt.formbt(rfnbmfErrorFilfExistsTfxt, oldFilfNbmf),
+                            rfnbmfErrorTitlfTfxt, JOptionPbnf.ERROR_MESSAGE);
+                } flsf {
+                    if (gftModfl().rfnbmfFilf(fditFilf, f2)) {
+                        if (fsv.isPbrfnt(dioosfr.gftCurrfntDirfdtory(), f2)) {
+                            if (dioosfr.isMultiSflfdtionEnbblfd()) {
+                                dioosfr.sftSflfdtfdFilfs(nfw Filf[]{f2});
+                            } flsf {
+                                dioosfr.sftSflfdtfdFilf(f2);
+                            }
+                        } flsf {
+                            //Could bf bfdbusf of dflby in updbting Dfsktop foldfr
+                            //dioosfr.sftSflfdtfdFilf(null);
+                        }
+                    } flsf {
+                        JOptionPbnf.siowMfssbgfDiblog(dioosfr, MfssbgfFormbt.formbt(rfnbmfErrorTfxt, oldFilfNbmf),
+                                rfnbmfErrorTitlfTfxt, JOptionPbnf.ERROR_MESSAGE);
+                    }
+                }
+            }
+        }
+        if (dftbilsTbblf != null && dftbilsTbblf.isEditing()) {
+            dftbilsTbblf.gftCfllEditor().stopCfllEditing();
+        }
+        dbndflEdit();
+    }
+
+    protfdtfd Adtion nfwFoldfrAdtion;
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss insidf
+    publid Adtion gftNfwFoldfrAdtion() {
+        if (!rfbdOnly && nfwFoldfrAdtion == null) {
+            nfwFoldfrAdtion = nfw AbstrbdtAdtion(nfwFoldfrAdtionLbbflTfxt) {
+                privbtf Adtion bbsidNfwFoldfrAdtion;
+
+                // Initiblizfr
+                {
+                    putVbluf(Adtion.ACTION_COMMAND_KEY, FilfPbnf.ACTION_NEW_FOLDER);
+
+                    Filf durrfntDirfdtory = gftFilfCioosfr().gftCurrfntDirfdtory();
+                    if (durrfntDirfdtory != null) {
+                        sftEnbblfd(dbnWritf(durrfntDirfdtory));
+                    }
+                }
+
+                publid void bdtionPfrformfd(AdtionEvfnt fv) {
+                    if (bbsidNfwFoldfrAdtion == null) {
+                        bbsidNfwFoldfrAdtion = filfCioosfrUIAddfssor.gftNfwFoldfrAdtion();
+                    }
+                    JFilfCioosfr fd = gftFilfCioosfr();
+                    Filf oldFilf = fd.gftSflfdtfdFilf();
+                    bbsidNfwFoldfrAdtion.bdtionPfrformfd(fv);
+                    Filf nfwFilf = fd.gftSflfdtfdFilf();
+                    if (nfwFilf != null && !nfwFilf.fqubls(oldFilf) && nfwFilf.isDirfdtory()) {
+                        nfwFoldfrFilf = nfwFilf;
+                    }
+                }
+            };
+        }
+        rfturn nfwFoldfrAdtion;
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    protfdtfd dlbss FilfRfndfrfr fxtfnds DffbultListCfllRfndfrfr  {
+
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list, Objfdt vbluf,
+                                                      int indfx, boolfbn isSflfdtfd,
+                                                      boolfbn dfllHbsFodus) {
+
+            if (listVifwWindowsStylf && !list.isFodusOwnfr()) {
+                isSflfdtfd = fblsf;
+            }
+
+            supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx, isSflfdtfd, dfllHbsFodus);
+            Filf filf = (Filf) vbluf;
+            String filfNbmf = gftFilfCioosfr().gftNbmf(filf);
+            sftTfxt(filfNbmf);
+            sftFont(list.gftFont());
+
+            Idon idon = gftFilfCioosfr().gftIdon(filf);
+            if (idon != null) {
+                sftIdon(idon);
+            } flsf {
+                if (gftFilfCioosfr().gftFilfSystfmVifw().isTrbvfrsbblf(filf)) {
+                    sftTfxt(filfNbmf+Filf.sfpbrbtor);
+                }
+            }
+
+            rfturn tiis;
+        }
+    }
+
+
+    void sftFilfSflfdtfd() {
+        if (gftFilfCioosfr().isMultiSflfdtionEnbblfd() && !isDirfdtorySflfdtfd()) {
+            Filf[] filfs = gftFilfCioosfr().gftSflfdtfdFilfs(); // Siould bf sflfdtfd
+            Objfdt[] sflfdtfdObjfdts = list.gftSflfdtfdVblufs(); // Arf bdtublly sflfdtfd
+
+            listSflfdtionModfl.sftVblufIsAdjusting(truf);
+            try {
+                int lfbd = listSflfdtionModfl.gftLfbdSflfdtionIndfx();
+                int bndior = listSflfdtionModfl.gftAndiorSflfdtionIndfx();
+
+                Arrbys.sort(filfs);
+                Arrbys.sort(sflfdtfdObjfdts);
+
+                int siouldIndfx = 0;
+                int bdtubllyIndfx = 0;
+
+                // Rfmovf filfs tibt siouldn't bf sflfdtfd bnd bdd filfs wiidi siould bf sflfdtfd
+                // Notf: Assumf filfs brf blrfbdy sortfd in dompbrfTo ordfr.
+                wiilf (siouldIndfx < filfs.lfngti &&
+                       bdtubllyIndfx < sflfdtfdObjfdts.lfngti) {
+                    int dompbrison = filfs[siouldIndfx].dompbrfTo((Filf)sflfdtfdObjfdts[bdtubllyIndfx]);
+                    if (dompbrison < 0) {
+                        doSflfdtFilf(filfs[siouldIndfx++]);
+                    } flsf if (dompbrison > 0) {
+                        doDfsflfdtFilf(sflfdtfdObjfdts[bdtubllyIndfx++]);
+                    } flsf {
+                        // Do notiing
+                        siouldIndfx++;
+                        bdtubllyIndfx++;
+                    }
+
+                }
+
+                wiilf (siouldIndfx < filfs.lfngti) {
+                    doSflfdtFilf(filfs[siouldIndfx++]);
+                }
+
+                wiilf (bdtubllyIndfx < sflfdtfdObjfdts.lfngti) {
+                    doDfsflfdtFilf(sflfdtfdObjfdts[bdtubllyIndfx++]);
+                }
+
+                // rfstorf tif bndior bnd lfbd
+                if (listSflfdtionModfl instbndfof DffbultListSflfdtionModfl) {
+                    ((DffbultListSflfdtionModfl)listSflfdtionModfl).
+                        movfLfbdSflfdtionIndfx(lfbd);
+                    listSflfdtionModfl.sftAndiorSflfdtionIndfx(bndior);
+                }
+            } finblly {
+                listSflfdtionModfl.sftVblufIsAdjusting(fblsf);
+            }
+        } flsf {
+            JFilfCioosfr dioosfr = gftFilfCioosfr();
+            Filf f;
+            if (isDirfdtorySflfdtfd()) {
+                f = gftDirfdtory();
+            } flsf {
+                f = dioosfr.gftSflfdtfdFilf();
+            }
+            int i;
+            if (f != null && (i = gftModfl().indfxOf(f)) >= 0) {
+                int vifwIndfx = gftRowSortfr().donvfrtRowIndfxToVifw(i);
+                listSflfdtionModfl.sftSflfdtionIntfrvbl(vifwIndfx, vifwIndfx);
+                fnsurfIndfxIsVisiblf(vifwIndfx);
+            } flsf {
+                dlfbrSflfdtion();
+            }
+        }
+    }
+
+    privbtf void doSflfdtFilf(Filf filfToSflfdt) {
+        int indfx = gftModfl().indfxOf(filfToSflfdt);
+        // dould bf missfd in tif durrfnt dirfdtory if it dibngfd
+        if (indfx >= 0) {
+            indfx = gftRowSortfr().donvfrtRowIndfxToVifw(indfx);
+            listSflfdtionModfl.bddSflfdtionIntfrvbl(indfx, indfx);
+        }
+    }
+
+    privbtf void doDfsflfdtFilf(Objfdt filfToDfsflfdt) {
+        int indfx = gftRowSortfr().donvfrtRowIndfxToVifw(
+                                gftModfl().indfxOf(filfToDfsflfdt));
+        listSflfdtionModfl.rfmovfSflfdtionIntfrvbl(indfx, indfx);
+    }
+
+    /* Tif following mftiods brf usfd by tif PropfrtyCibngf Listfnfr */
+
+    privbtf void doSflfdtfdFilfCibngfd(PropfrtyCibngfEvfnt f) {
+        bpplyEdit();
+        Filf f = (Filf) f.gftNfwVbluf();
+        JFilfCioosfr fd = gftFilfCioosfr();
+        if (f != null
+            && ((fd.isFilfSflfdtionEnbblfd() && !f.isDirfdtory())
+                || (f.isDirfdtory() && fd.isDirfdtorySflfdtionEnbblfd()))) {
+
+            sftFilfSflfdtfd();
+        }
+    }
+
+    privbtf void doSflfdtfdFilfsCibngfd(PropfrtyCibngfEvfnt f) {
+        bpplyEdit();
+        Filf[] filfs = (Filf[]) f.gftNfwVbluf();
+        JFilfCioosfr fd = gftFilfCioosfr();
+        if (filfs != null
+            && filfs.lfngti > 0
+            && (filfs.lfngti > 1 || fd.isDirfdtorySflfdtionEnbblfd() || !filfs[0].isDirfdtory())) {
+            sftFilfSflfdtfd();
+        }
+    }
+
+    privbtf void doDirfdtoryCibngfd(PropfrtyCibngfEvfnt f) {
+        gftDftbilsTbblfModfl().updbtfColumnInfo();
+
+        JFilfCioosfr fd = gftFilfCioosfr();
+        FilfSystfmVifw fsv = fd.gftFilfSystfmVifw();
+
+        bpplyEdit();
+        rfsftEditIndfx();
+        fnsurfIndfxIsVisiblf(0);
+        Filf durrfntDirfdtory = fd.gftCurrfntDirfdtory();
+        if (durrfntDirfdtory != null) {
+            if (!rfbdOnly) {
+                gftNfwFoldfrAdtion().sftEnbblfd(dbnWritf(durrfntDirfdtory));
+            }
+            filfCioosfrUIAddfssor.gftCibngfToPbrfntDirfdtoryAdtion().sftEnbblfd(!fsv.isRoot(durrfntDirfdtory));
+        }
+        if (list != null) {
+            list.dlfbrSflfdtion();
+        }
+    }
+
+    privbtf void doFiltfrCibngfd(PropfrtyCibngfEvfnt f) {
+        bpplyEdit();
+        rfsftEditIndfx();
+        dlfbrSflfdtion();
+    }
+
+    privbtf void doFilfSflfdtionModfCibngfd(PropfrtyCibngfEvfnt f) {
+        bpplyEdit();
+        rfsftEditIndfx();
+        dlfbrSflfdtion();
+    }
+
+    privbtf void doMultiSflfdtionCibngfd(PropfrtyCibngfEvfnt f) {
+        if (gftFilfCioosfr().isMultiSflfdtionEnbblfd()) {
+            listSflfdtionModfl.sftSflfdtionModf(ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION);
+        } flsf {
+            listSflfdtionModfl.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+            dlfbrSflfdtion();
+            gftFilfCioosfr().sftSflfdtfdFilfs(null);
+        }
+    }
+
+    /*
+     * Listfn for filfdioosfr propfrty dibngfs, sudi bs
+     * tif sflfdtfd filf dibnging, or tif typf of tif diblog dibnging.
+     */
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            if (vifwTypf == -1) {
+                sftVifwTypf(VIEWTYPE_LIST);
+            }
+
+        String s = f.gftPropfrtyNbmf();
+        if (s.fqubls(JFilfCioosfr.SELECTED_FILE_CHANGED_PROPERTY)) {
+            doSflfdtfdFilfCibngfd(f);
+        } flsf if (s.fqubls(JFilfCioosfr.SELECTED_FILES_CHANGED_PROPERTY)) {
+            doSflfdtfdFilfsCibngfd(f);
+        } flsf if (s.fqubls(JFilfCioosfr.DIRECTORY_CHANGED_PROPERTY)) {
+            doDirfdtoryCibngfd(f);
+        } flsf if (s.fqubls(JFilfCioosfr.FILE_FILTER_CHANGED_PROPERTY)) {
+            doFiltfrCibngfd(f);
+        } flsf if (s.fqubls(JFilfCioosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY)) {
+            doFilfSflfdtionModfCibngfd(f);
+        } flsf if (s.fqubls(JFilfCioosfr.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+            doMultiSflfdtionCibngfd(f);
+        } flsf if (s.fqubls(JFilfCioosfr.CANCEL_SELECTION)) {
+            bpplyEdit();
+        } flsf if (s.fqubls("busy")) {
+            sftCursor((Boolfbn)f.gftNfwVbluf() ? wbitCursor : null);
+        } flsf if (s.fqubls("domponfntOrifntbtion")) {
+            ComponfntOrifntbtion o = (ComponfntOrifntbtion)f.gftNfwVbluf();
+            JFilfCioosfr dd = (JFilfCioosfr)f.gftSourdf();
+            if (o != f.gftOldVbluf()) {
+                dd.bpplyComponfntOrifntbtion(o);
+            }
+            if (dftbilsTbblf != null) {
+                dftbilsTbblf.sftComponfntOrifntbtion(o);
+                dftbilsTbblf.gftPbrfnt().gftPbrfnt().sftComponfntOrifntbtion(o);
+            }
+        }
+    }
+
+    privbtf void fnsurfIndfxIsVisiblf(int i) {
+        if (i >= 0) {
+            if (list != null) {
+                list.fnsurfIndfxIsVisiblf(i);
+            }
+            if (dftbilsTbblf != null) {
+                dftbilsTbblf.sdrollRfdtToVisiblf(dftbilsTbblf.gftCfllRfdt(i, COLUMN_FILENAME, truf));
+            }
+        }
+    }
+
+    publid void fnsurfFilfIsVisiblf(JFilfCioosfr fd, Filf f) {
+        int modflIndfx = gftModfl().indfxOf(f);
+        if (modflIndfx >= 0) {
+            fnsurfIndfxIsVisiblf(gftRowSortfr().donvfrtRowIndfxToVifw(modflIndfx));
+        }
+    }
+
+    publid void rfsdbnCurrfntDirfdtory() {
+        gftModfl().vblidbtfFilfCbdif();
+    }
+
+    publid void dlfbrSflfdtion() {
+        if (listSflfdtionModfl != null) {
+            listSflfdtionModfl.dlfbrSflfdtion();
+            if (listSflfdtionModfl instbndfof DffbultListSflfdtionModfl) {
+                ((DffbultListSflfdtionModfl)listSflfdtionModfl).movfLfbdSflfdtionIndfx(0);
+                listSflfdtionModfl.sftAndiorSflfdtionIndfx(0);
+            }
+        }
+    }
+
+    publid JMfnu gftVifwMfnu() {
+        if (vifwMfnu == null) {
+            vifwMfnu = nfw JMfnu(vifwMfnuLbbflTfxt);
+            ButtonGroup vifwButtonGroup = nfw ButtonGroup();
+
+            for (int i = 0; i < VIEWTYPE_COUNT; i++) {
+                JRbdioButtonMfnuItfm mi =
+                    nfw JRbdioButtonMfnuItfm(nfw VifwTypfAdtion(i));
+                vifwButtonGroup.bdd(mi);
+                vifwMfnu.bdd(mi);
+            }
+            updbtfVifwMfnu();
+        }
+        rfturn vifwMfnu;
+    }
+
+    privbtf void updbtfVifwMfnu() {
+        if (vifwMfnu != null) {
+            Componfnt[] domps = vifwMfnu.gftMfnuComponfnts();
+            for (Componfnt domp : domps) {
+                if (domp instbndfof JRbdioButtonMfnuItfm) {
+                    JRbdioButtonMfnuItfm mi = (JRbdioButtonMfnuItfm) domp;
+                    if (((VifwTypfAdtion)mi.gftAdtion()).vifwTypf == vifwTypf) {
+                        mi.sftSflfdtfd(truf);
+                    }
+                }
+            }
+        }
+    }
+
+    publid JPopupMfnu gftComponfntPopupMfnu() {
+        JPopupMfnu popupMfnu = gftFilfCioosfr().gftComponfntPopupMfnu();
+        if (popupMfnu != null) {
+            rfturn popupMfnu;
+        }
+
+        JMfnu vifwMfnu = gftVifwMfnu();
+        if (dontfxtMfnu == null) {
+            dontfxtMfnu = nfw JPopupMfnu();
+            if (vifwMfnu != null) {
+                dontfxtMfnu.bdd(vifwMfnu);
+                if (listVifwWindowsStylf) {
+                    dontfxtMfnu.bddSfpbrbtor();
+                }
+            }
+            AdtionMbp bdtionMbp = gftAdtionMbp();
+            Adtion rffrfsiAdtion   = bdtionMbp.gft(ACTION_REFRESH);
+            Adtion nfwFoldfrAdtion = bdtionMbp.gft(ACTION_NEW_FOLDER);
+            if (rffrfsiAdtion != null) {
+                dontfxtMfnu.bdd(rffrfsiAdtion);
+                if (listVifwWindowsStylf && nfwFoldfrAdtion != null) {
+                    dontfxtMfnu.bddSfpbrbtor();
+                }
+            }
+            if (nfwFoldfrAdtion != null) {
+                dontfxtMfnu.bdd(nfwFoldfrAdtion);
+            }
+        }
+        if (vifwMfnu != null) {
+            vifwMfnu.gftPopupMfnu().sftInvokfr(vifwMfnu);
+        }
+        rfturn dontfxtMfnu;
+    }
+
+
+    privbtf Hbndlfr ibndlfr;
+
+    protfdtfd Hbndlfr gftMousfHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
+        }
+        rfturn ibndlfr;
+    }
+
+    privbtf dlbss Hbndlfr implfmfnts MousfListfnfr {
+        privbtf MousfListfnfr doublfClidkListfnfr;
+
+        publid void mousfClidkfd(MousfEvfnt fvt) {
+            JComponfnt sourdf = (JComponfnt)fvt.gftSourdf();
+
+            int indfx;
+            if (sourdf instbndfof JList) {
+                indfx = SwingUtilitifs2.lod2IndfxFilfList(list, fvt.gftPoint());
+            } flsf if (sourdf instbndfof JTbblf) {
+                JTbblf tbblf = (JTbblf)sourdf;
+                Point p = fvt.gftPoint();
+                indfx = tbblf.rowAtPoint(p);
+
+                boolfbn pointOutsidfPrffSizf =
+                        SwingUtilitifs2.pointOutsidfPrffSizf(
+                            tbblf, indfx, tbblf.dolumnAtPoint(p), p);
+
+                if (pointOutsidfPrffSizf && !fullRowSflfdtion) {
+                    rfturn;
+                }
+
+                // Trbnslbtf point from tbblf to list
+                if (indfx >= 0 && list != null &&
+                    listSflfdtionModfl.isSflfdtfdIndfx(indfx)) {
+
+                    // Mbkf b nfw fvfnt witi tif list bs sourdf, plbding tif
+                    // dlidk in tif dorrfsponding list dfll.
+                    Rfdtbnglf r = list.gftCfllBounds(indfx, indfx);
+                    fvt = nfw MousfEvfnt(list, fvt.gftID(),
+                                         fvt.gftWifn(), fvt.gftModififrs(),
+                                         r.x + 1, r.y + r.ifigit/2,
+                                         fvt.gftXOnSdrffn(),
+                                         fvt.gftYOnSdrffn(),
+                                         fvt.gftClidkCount(), fvt.isPopupTriggfr(),
+                                         fvt.gftButton());
+                }
+            } flsf {
+                rfturn;
+            }
+
+            if (indfx >= 0 && SwingUtilitifs.isLfftMousfButton(fvt)) {
+                JFilfCioosfr fd = gftFilfCioosfr();
+
+                // For singlf dlidk, wf ibndlf fditing filf nbmf
+                if (fvt.gftClidkCount() == 1 && sourdf instbndfof JList) {
+                    if ((!fd.isMultiSflfdtionEnbblfd() || fd.gftSflfdtfdFilfs().lfngti <= 1)
+                        && indfx >= 0 && listSflfdtionModfl.isSflfdtfdIndfx(indfx)
+                        && gftEditIndfx() == indfx && fditFilf == null) {
+
+                        fditFilfNbmf(indfx);
+                    } flsf {
+                        if (indfx >= 0) {
+                            sftEditIndfx(indfx);
+                        } flsf {
+                            rfsftEditIndfx();
+                        }
+                    }
+                } flsf if (fvt.gftClidkCount() == 2) {
+                    // on doublf dlidk (opfn or drill down onf dirfdtory) bf
+                    // surf to dlfbr tif fdit indfx
+                    rfsftEditIndfx();
+                }
+            }
+
+            // Forwbrd fvfnt to Bbsid
+            if (gftDoublfClidkListfnfr() != null) {
+                gftDoublfClidkListfnfr().mousfClidkfd(fvt);
+            }
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt fvt) {
+            JComponfnt sourdf = (JComponfnt)fvt.gftSourdf();
+            if (sourdf instbndfof JTbblf) {
+                JTbblf tbblf = (JTbblf)fvt.gftSourdf();
+
+                TrbnsffrHbndlfr ti1 = gftFilfCioosfr().gftTrbnsffrHbndlfr();
+                TrbnsffrHbndlfr ti2 = tbblf.gftTrbnsffrHbndlfr();
+                if (ti1 != ti2) {
+                    tbblf.sftTrbnsffrHbndlfr(ti1);
+                }
+
+                boolfbn drbgEnbblfd = gftFilfCioosfr().gftDrbgEnbblfd();
+                if (drbgEnbblfd != tbblf.gftDrbgEnbblfd()) {
+                    tbblf.sftDrbgEnbblfd(drbgEnbblfd);
+                }
+            } flsf if (sourdf instbndfof JList) {
+                // Forwbrd fvfnt to Bbsid
+                if (gftDoublfClidkListfnfr() != null) {
+                    gftDoublfClidkListfnfr().mousfEntfrfd(fvt);
+                }
+            }
+        }
+
+        publid void mousfExitfd(MousfEvfnt fvt) {
+            if (fvt.gftSourdf() instbndfof JList) {
+                // Forwbrd fvfnt to Bbsid
+                if (gftDoublfClidkListfnfr() != null) {
+                    gftDoublfClidkListfnfr().mousfExitfd(fvt);
+                }
+            }
+        }
+
+        publid void mousfPrfssfd(MousfEvfnt fvt) {
+            if (fvt.gftSourdf() instbndfof JList) {
+                // Forwbrd fvfnt to Bbsid
+                if (gftDoublfClidkListfnfr() != null) {
+                    gftDoublfClidkListfnfr().mousfPrfssfd(fvt);
+                }
+            }
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt fvt) {
+            if (fvt.gftSourdf() instbndfof JList) {
+                // Forwbrd fvfnt to Bbsid
+                if (gftDoublfClidkListfnfr() != null) {
+                    gftDoublfClidkListfnfr().mousfRflfbsfd(fvt);
+                }
+            }
+        }
+
+        privbtf MousfListfnfr gftDoublfClidkListfnfr() {
+            // Lbzy drfbtion of Bbsid's listfnfr
+            if (doublfClidkListfnfr == null && list != null) {
+                doublfClidkListfnfr =
+                    filfCioosfrUIAddfssor.drfbtfDoublfClidkListfnfr(list);
+            }
+            rfturn doublfClidkListfnfr;
+        }
+    }
+
+    /**
+     * Propfrty to rfmfmbfr wiftifr b dirfdtory is durrfntly sflfdtfd in tif UI.
+     *
+     * @rfturn <dodf>truf</dodf> iff b dirfdtory is durrfntly sflfdtfd.
+     */
+    protfdtfd boolfbn isDirfdtorySflfdtfd() {
+        rfturn filfCioosfrUIAddfssor.isDirfdtorySflfdtfd();
+    }
+
+
+    /**
+     * Propfrty to rfmfmbfr tif dirfdtory tibt is durrfntly sflfdtfd in tif UI.
+     *
+     * @rfturn tif vbluf of tif <dodf>dirfdtory</dodf> propfrty
+     * @sff jbvbx.swing.plbf.bbsid.BbsidFilfCioosfrUI#sftDirfdtory
+     */
+    protfdtfd Filf gftDirfdtory() {
+        rfturn filfCioosfrUIAddfssor.gftDirfdtory();
+    }
+
+    privbtf <T> T findCiildComponfnt(Contbinfr dontbinfr, Clbss<T> dls) {
+        int n = dontbinfr.gftComponfntCount();
+        for (int i = 0; i < n; i++) {
+            Componfnt domp = dontbinfr.gftComponfnt(i);
+            if (dls.isInstbndf(domp)) {
+                rfturn dls.dbst(domp);
+            } flsf if (domp instbndfof Contbinfr) {
+                T d = findCiildComponfnt((Contbinfr)domp, dls);
+                if (d != null) {
+                    rfturn d;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    publid boolfbn dbnWritf(Filf f) {
+        // Rfturn fblsf for non FilfSystfm filfs or if filf dofsn't fxist.
+        if (!f.fxists()) {
+            rfturn fblsf;
+        }
+
+        if (f instbndfof SifllFoldfr) {
+            rfturn f.dbnWritf();
+        } flsf {
+            if (usfsSifllFoldfr(gftFilfCioosfr())) {
+                try {
+                    rfturn SifllFoldfr.gftSifllFoldfr(f).dbnWritf();
+                } dbtdi (FilfNotFoundExdfption fx) {
+                    // Filf dofsn't fxist
+                    rfturn fblsf;
+                }
+            } flsf {
+                // Ordinbry filf
+                rfturn f.dbnWritf();
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if spfdififd FilfCioosfr siould usf SifllFoldfr
+     */
+    publid stbtid boolfbn usfsSifllFoldfr(JFilfCioosfr dioosfr) {
+        Boolfbn prop = (Boolfbn) dioosfr.gftClifntPropfrty("FilfCioosfr.usfSifllFoldfr");
+
+        rfturn prop == null ? dioosfr.gftFilfSystfmVifw().fqubls(FilfSystfmVifw.gftFilfSystfmVifw())
+                : prop.boolfbnVbluf();
+    }
+
+    // Tiis intfrfbdf is usfd to bddfss mftiods in tif FilfCioosfrUI
+    // tibt brf not publid.
+    publid intfrfbdf FilfCioosfrUIAddfssor {
+        publid JFilfCioosfr gftFilfCioosfr();
+        publid BbsidDirfdtoryModfl gftModfl();
+        publid JPbnfl drfbtfList();
+        publid JPbnfl drfbtfDftbilsVifw();
+        publid boolfbn isDirfdtorySflfdtfd();
+        publid Filf gftDirfdtory();
+        publid Adtion gftApprovfSflfdtionAdtion();
+        publid Adtion gftCibngfToPbrfntDirfdtoryAdtion();
+        publid Adtion gftNfwFoldfrAdtion();
+        publid MousfListfnfr drfbtfDoublfClidkListfnfr(JList<?> list);
+        publid ListSflfdtionListfnfr drfbtfListSflfdtionListfnfr();
+    }
+}

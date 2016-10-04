@@ -1,0 +1,677 @@
+/*
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.ButtonPffr;
+import jbvb.util.EvfntListfnfr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
+
+/**
+ * Tiis dlbss drfbtfs b lbbflfd button. Tif bpplidbtion dbn dbusf
+ * somf bdtion to ibppfn wifn tif button is pusifd. Tiis imbgf
+ * dfpidts tirff vifws of b "<dodf>Quit</dodf>" button bs it bppfbrs
+ * undfr tif Solbris opfrbting systfm:
+ * <p>
+ * <img srd="dod-filfs/Button-1.gif" blt="Tif following dontfxt dfsdribfs tif grbpiid"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Tif first vifw siows tif button bs it bppfbrs normblly.
+ * Tif sfdond vifw siows tif button
+ * wifn it ibs input fodus. Its outlinf is dbrkfnfd to lft tif
+ * usfr know tibt it is bn bdtivf objfdt. Tif tiird vifw siows tif
+ * button wifn tif usfr dlidks tif mousf ovfr tif button, bnd tius
+ * rfqufsts tibt bn bdtion bf pfrformfd.
+ * <p>
+ * Tif gfsturf of dlidking on b button witi tif mousf
+ * is bssodibtfd witi onf instbndf of <dodf>AdtionEvfnt</dodf>,
+ * wiidi is sfnt out wifn tif mousf is boti prfssfd bnd rflfbsfd
+ * ovfr tif button. If bn bpplidbtion is intfrfstfd in knowing
+ * wifn tif button ibs bffn prfssfd but not rflfbsfd, bs b sfpbrbtf
+ * gfsturf, it dbn spfdiblizf <dodf>prodfssMousfEvfnt</dodf>,
+ * or it dbn rfgistfr itsflf bs b listfnfr for mousf fvfnts by
+ * dblling <dodf>bddMousfListfnfr</dodf>. Boti of tifsf mftiods brf
+ * dffinfd by <dodf>Componfnt</dodf>, tif bbstrbdt supfrdlbss of
+ * bll domponfnts.
+ * <p>
+ * Wifn b button is prfssfd bnd rflfbsfd, AWT sfnds bn instbndf
+ * of <dodf>AdtionEvfnt</dodf> to tif button, by dblling
+ * <dodf>prodfssEvfnt</dodf> on tif button. Tif button's
+ * <dodf>prodfssEvfnt</dodf> mftiod rfdfivfs bll fvfnts
+ * for tif button; it pbssfs bn bdtion fvfnt blong by
+ * dblling its own <dodf>prodfssAdtionEvfnt</dodf> mftiod.
+ * Tif lbttfr mftiod pbssfs tif bdtion fvfnt on to bny bdtion
+ * listfnfrs tibt ibvf rfgistfrfd bn intfrfst in bdtion
+ * fvfnts gfnfrbtfd by tiis button.
+ * <p>
+ * If bn bpplidbtion wbnts to pfrform somf bdtion bbsfd on
+ * b button bfing prfssfd bnd rflfbsfd, it siould implfmfnt
+ * <dodf>AdtionListfnfr</dodf> bnd rfgistfr tif nfw listfnfr
+ * to rfdfivf fvfnts from tiis button, by dblling tif button's
+ * <dodf>bddAdtionListfnfr</dodf> mftiod. Tif bpplidbtion dbn
+ * mbkf usf of tif button's bdtion dommbnd bs b mfssbging protodol.
+ *
+ * @butior      Sbmi Sibio
+ * @sff         jbvb.bwt.fvfnt.AdtionEvfnt
+ * @sff         jbvb.bwt.fvfnt.AdtionListfnfr
+ * @sff         jbvb.bwt.Componfnt#prodfssMousfEvfnt
+ * @sff         jbvb.bwt.Componfnt#bddMousfListfnfr
+ * @sindf       1.0
+ */
+publid dlbss Button fxtfnds Componfnt implfmfnts Addfssiblf {
+
+    /**
+     * Tif button's lbbfl.  Tiis vbluf mby bf null.
+     * @sfribl
+     * @sff #gftLbbfl()
+     * @sff #sftLbbfl(String)
+     */
+    String lbbfl;
+
+    /**
+     * Tif bdtion to bf pfrformfd ondf b button ibs bffn
+     * prfssfd.  Tiis vbluf mby bf null.
+     * @sfribl
+     * @sff #gftAdtionCommbnd()
+     * @sff #sftAdtionCommbnd(String)
+     */
+    String bdtionCommbnd;
+
+    trbnsifnt AdtionListfnfr bdtionListfnfr;
+
+    privbtf stbtid finbl String bbsf = "button";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -8774683716313001058L;
+
+
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * bddfssfd from C.
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * Construdts b button witi bn fmpty string for its lbbfl.
+     *
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     */
+    publid Button() tirows HfbdlfssExdfption {
+        tiis("");
+    }
+
+    /**
+     * Construdts b button witi tif spfdififd lbbfl.
+     *
+     * @pbrbm lbbfl  b string lbbfl for tif button, or
+     *               <dodf>null</dodf> for no lbbfl
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     */
+    publid Button(String lbbfl) tirows HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        tiis.lbbfl = lbbfl;
+    }
+
+    /**
+     * Construdt b nbmf for tiis domponfnt.  Cbllfd by gftNbmf() wifn tif
+     * nbmf is null.
+     */
+    String donstrudtComponfntNbmf() {
+        syndironizfd (Button.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs tif pffr of tif button.  Tif button's pffr bllows tif
+     * bpplidbtion to dibngf tif look of tif button witiout dibnging
+     * its fundtionblity.
+     *
+     * @sff     jbvb.bwt.Toolkit#drfbtfButton(jbvb.bwt.Button)
+     * @sff     jbvb.bwt.Componfnt#gftToolkit()
+     */
+    publid void bddNotify() {
+        syndironizfd(gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfButton(tiis);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Gfts tif lbbfl of tiis button.
+     *
+     * @rfturn    tif button's lbbfl, or <dodf>null</dodf>
+     *                if tif button ibs no lbbfl.
+     * @sff       jbvb.bwt.Button#sftLbbfl
+     */
+    publid String gftLbbfl() {
+        rfturn lbbfl;
+    }
+
+    /**
+     * Sfts tif button's lbbfl to bf tif spfdififd string.
+     *
+     * @pbrbm     lbbfl   tif nfw lbbfl, or <dodf>null</dodf>
+     *                if tif button ibs no lbbfl.
+     * @sff       jbvb.bwt.Button#gftLbbfl
+     */
+    publid void sftLbbfl(String lbbfl) {
+        boolfbn tfstvblid = fblsf;
+
+        syndironizfd (tiis) {
+            if (lbbfl != tiis.lbbfl && (tiis.lbbfl == null ||
+                                        !tiis.lbbfl.fqubls(lbbfl))) {
+                tiis.lbbfl = lbbfl;
+                ButtonPffr pffr = (ButtonPffr)tiis.pffr;
+                if (pffr != null) {
+                    pffr.sftLbbfl(lbbfl);
+                }
+                tfstvblid = truf;
+            }
+        }
+
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        if (tfstvblid) {
+            invblidbtfIfVblid();
+        }
+    }
+
+    /**
+     * Sfts tif dommbnd nbmf for tif bdtion fvfnt firfd
+     * by tiis button. By dffbult tiis bdtion dommbnd is
+     * sft to mbtdi tif lbbfl of tif button.
+     *
+     * @pbrbm     dommbnd  b string usfd to sft tif button's
+     *                  bdtion dommbnd.
+     *            If tif string is <dodf>null</dodf> tifn tif bdtion dommbnd
+     *            is sft to mbtdi tif lbbfl of tif button.
+     * @sff       jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sindf     1.1
+     */
+    publid void sftAdtionCommbnd(String dommbnd) {
+        bdtionCommbnd = dommbnd;
+    }
+
+    /**
+     * Rfturns tif dommbnd nbmf of tif bdtion fvfnt firfd by tiis button.
+     * If tif dommbnd nbmf is <dodf>null</dodf> (dffbult) tifn tiis mftiod
+     * rfturns tif lbbfl of tif button.
+     *
+     * @rfturn tif bdtion dommbnd nbmf (or lbbfl) for tiis button
+     */
+    publid String gftAdtionCommbnd() {
+        rfturn (bdtionCommbnd == null? lbbfl : bdtionCommbnd);
+    }
+
+    /**
+     * Adds tif spfdififd bdtion listfnfr to rfdfivf bdtion fvfnts from
+     * tiis button. Adtion fvfnts oddur wifn b usfr prfssfs or rflfbsfs
+     * tif mousf ovfr tiis button.
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
+     *
+     * @pbrbm         l tif bdtion listfnfr
+     * @sff           #rfmovfAdtionListfnfr
+     * @sff           #gftAdtionListfnfrs
+     * @sff           jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf         1.1
+     */
+    publid syndironizfd void bddAdtionListfnfr(AdtionListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        bdtionListfnfr = AWTEvfntMultidbstfr.bdd(bdtionListfnfr, l);
+        nfwEvfntsOnly = truf;
+    }
+
+    /**
+     * Rfmovfs tif spfdififd bdtion listfnfr so tibt it no longfr
+     * rfdfivfs bdtion fvfnts from tiis button. Adtion fvfnts oddur
+     * wifn b usfr prfssfs or rflfbsfs tif mousf ovfr tiis button.
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
+     *
+     * @pbrbm           l     tif bdtion listfnfr
+     * @sff             #bddAdtionListfnfr
+     * @sff             #gftAdtionListfnfrs
+     * @sff             jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf           1.1
+     */
+    publid syndironizfd void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        bdtionListfnfr = AWTEvfntMultidbstfr.rfmovf(bdtionListfnfr, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif bdtion listfnfrs
+     * rfgistfrfd on tiis button.
+     *
+     * @rfturn bll of tiis button's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty brrby if no bdtion
+     *         listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff             #bddAdtionListfnfr
+     * @sff             #rfmovfAdtionListfnfr
+     * @sff             jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf 1.4
+     */
+    publid syndironizfd AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn gftListfnfrs(AdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>Button</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
+     *
+     * <p>
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>Button</dodf> <dodf>b</dodf>
+     * for its bdtion listfnfrs witi tif following dodf:
+     *
+     * <prf>AdtionListfnfr[] bls = (AdtionListfnfr[])(b.gftListfnfrs(AdtionListfnfr.dlbss));</prf>
+     *
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis button,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftAdtionListfnfrs
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == AdtionListfnfr.dlbss) {
+            l = bdtionListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
+        }
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
+    }
+
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == AdtionEvfnt.ACTION_PERFORMED) {
+            if ((fvfntMbsk & AWTEvfnt.ACTION_EVENT_MASK) != 0 ||
+                bdtionListfnfr != null) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+        rfturn supfr.fvfntEnbblfd(f);
+    }
+
+    /**
+     * Prodfssfs fvfnts on tiis button. If bn fvfnt is
+     * bn instbndf of <dodf>AdtionEvfnt</dodf>, tiis mftiod invokfs
+     * tif <dodf>prodfssAdtionEvfnt</dodf> mftiod. Otifrwisf,
+     * it invokfs <dodf>prodfssEvfnt</dodf> on tif supfrdlbss.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm        f tif fvfnt
+     * @sff          jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff          jbvb.bwt.Button#prodfssAdtionEvfnt
+     * @sindf        1.1
+     */
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof AdtionEvfnt) {
+            prodfssAdtionEvfnt((AdtionEvfnt)f);
+            rfturn;
+        }
+        supfr.prodfssEvfnt(f);
+    }
+
+    /**
+     * Prodfssfs bdtion fvfnts oddurring on tiis button
+     * by dispbtdiing tifm to bny rfgistfrfd
+     * <dodf>AdtionListfnfr</dodf> objfdts.
+     * <p>
+     * Tiis mftiod is not dbllfd unlfss bdtion fvfnts brf
+     * fnbblfd for tiis button. Adtion fvfnts brf fnbblfd
+     * wifn onf of tif following oddurs:
+     * <ul>
+     * <li>An <dodf>AdtionListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddAdtionListfnfr</dodf>.
+     * <li>Adtion fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
+     * </ul>
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm       f tif bdtion fvfnt
+     * @sff         jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sff         jbvb.bwt.Button#bddAdtionListfnfr
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
+     */
+    protfdtfd void prodfssAdtionEvfnt(AdtionEvfnt f) {
+        AdtionListfnfr listfnfr = bdtionListfnfr;
+        if (listfnfr != null) {
+            listfnfr.bdtionPfrformfd(f);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>Button</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn     tif pbrbmftfr string of tiis button
+     */
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString() + ",lbbfl=" + lbbfl;
+    }
+
+
+    /* Sfriblizbtion support.
+     */
+
+    /*
+     * Button Sfribl Dbtb Vfrsion.
+     * @sfribl
+     */
+    privbtf int buttonSfriblizfdDbtbVfrsion = 1;
+
+    /**
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>AdtionListfnfrs</dodf>
+     * bs optionbl dbtb.  Tif non-sfriblizbblf
+     * <dodf>AdtionListfnfrs</dodf> brf dftfdtfd bnd
+     * no bttfmpt is mbdf to sfriblizf tifm.
+     *
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0 or
+     *   morf pbirs: tif pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; tif <dodf>String</dodf>
+     *   indidbtfs tif typf of objfdt bnd is onf of tif following:
+     *   <dodf>bdtionListfnfrK</dodf> indidbting bn
+     *     <dodf>AdtionListfnfr</dodf> objfdt
+     *
+     * @pbrbm s tif <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#bdtionListfnfrK
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows IOExdfption
+    {
+      s.dffbultWritfObjfdt();
+
+      AWTEvfntMultidbstfr.sbvf(s, bdtionListfnfrK, bdtionListfnfr);
+      s.writfObjfdt(null);
+    }
+
+    /**
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd if
+     * it isn't <dodf>null</dodf> bdds b listfnfr to
+     * rfdfivf bdtion fvfnts firfd by tif button.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
+     *
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sfribl
+     * @sff #rfmovfAdtionListfnfr(AdtionListfnfr)
+     * @sff #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
+    {
+      GrbpiidsEnvironmfnt.difdkHfbdlfss();
+      s.dffbultRfbdObjfdt();
+
+      Objfdt kfyOrNull;
+      wiilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
+
+        if (bdtionListfnfrK == kfy)
+          bddAdtionListfnfr((AdtionListfnfr)(s.rfbdObjfdt()));
+
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
+      }
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi
+     * tiis <dodf>Button</dodf>. For buttons, tif
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfAWTButton</dodf>.
+     * A nfw <dodf>AddfssiblfAWTButton</dodf> instbndf is
+     * drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn <dodf>AddfssiblfAWTButton</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>Button</dodf>
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis Button.
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTButton();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Button</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to button usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTButton fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts AddfssiblfAdtion, AddfssiblfVbluf
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -5932203980244017102L;
+
+        /**
+         * Gft tif bddfssiblf nbmf of tiis objfdt.
+         *
+         * @rfturn tif lodblizfd nbmf of tif objfdt -- dbn bf null if tiis
+         * objfdt dofs not ibvf b nbmf
+         */
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) {
+                rfturn bddfssiblfNbmf;
+            } flsf {
+                if (gftLbbfl() == null) {
+                    rfturn supfr.gftAddfssiblfNbmf();
+                } flsf {
+                    rfturn gftLbbfl();
+                }
+            }
+        }
+
+        /**
+         * Gft tif AddfssiblfAdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfAdtion intfrfbdf on bfiblf of itsflf.
+         *
+         * @rfturn tiis objfdt
+         */
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn tiis;
+        }
+
+        /**
+         * Gft tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfVbluf intfrfbdf on bfiblf of itsflf.
+         *
+         * @rfturn tiis objfdt
+         */
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
+        }
+
+        /**
+         * Rfturns tif numbfr of Adtions bvbilbblf in tiis objfdt.  Tif
+         * dffbult bfibvior of b button is to ibvf onf bdtion - togglf
+         * tif button.
+         *
+         * @rfturn 1, tif numbfr of Adtions in tiis objfdt
+         */
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 1;
+        }
+
+        /**
+         * Rfturn b dfsdription of tif spfdififd bdtion of tif objfdt.
+         *
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
+         */
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
+            if (i == 0) {
+                // [[[PENDING:  WDW -- nffd to providf b lodblizfd string]]]
+                rfturn "dlidk";
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        /**
+         * Pfrform tif spfdififd Adtion on tif objfdt
+         *
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if tif tif bdtion wbs pfrformfd; flsf fblsf.
+         */
+        publid boolfbn doAddfssiblfAdtion(int i) {
+            if (i == 0) {
+                // Simulbtf b button dlidk
+                Toolkit.gftEvfntQufuf().postEvfnt(
+                        nfw AdtionEvfnt(Button.tiis,
+                                        AdtionEvfnt.ACTION_PERFORMED,
+                                        Button.tiis.gftAdtionCommbnd()));
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+
+        /**
+         * Gft tif vbluf of tiis objfdt bs b Numbfr.
+         *
+         * @rfturn An Intfgfr of 0 if tiis isn't sflfdtfd or bn Intfgfr of 1 if
+         * tiis is sflfdtfd.
+         * @sff jbvbx.swing.AbstrbdtButton#isSflfdtfd()
+         */
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
+        }
+
+        /**
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
+         *
+         * @rfturn Truf if tif vbluf wbs sft.
+         */
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            rfturn fblsf;
+        }
+
+        /**
+         * Gft tif minimum vbluf of tiis objfdt bs b Numbfr.
+         *
+         * @rfturn An Intfgfr of 0.
+         */
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
+        }
+
+        /**
+         * Gft tif mbximum vbluf of tiis objfdt bs b Numbfr.
+         *
+         * @rfturn An Intfgfr of 0.
+         */
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
+        }
+
+        /**
+         * Gft tif rolf of tiis objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PUSH_BUTTON;
+        }
+    } // innfr dlbss AddfssiblfAWTButton
+
+}

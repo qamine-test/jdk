@@ -1,0 +1,220 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.sfdurity.MfssbgfDigfstSpi;
+import jbvb.sfdurity.DigfstExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+
+/**
+ * Common bbsf mfssbgf digfst implfmfntbtion for tif Sun providfr.
+ * It implfmfnts bll tif JCA mftiods bs suitbblf for b Jbvb mfssbgf digfst
+ * implfmfntbtion of bn blgoritim bbsfd on b domprfssion fundtion (bs bll
+ * dommonly usfd blgoritims brf). Tif individubl digfst subdlbssfs only nffd to
+ * implfmfnt tif following mftiods:
+ *
+ *  . bbstrbdt void implComprfss(bytf[] b, int ofs);
+ *  . bbstrbdt void implDigfst(bytf[] out, int ofs);
+ *  . bbstrbdt void implRfsft();
+ *
+ * Sff tif inlinf dodumfntbtion for dftbils.
+ *
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
+ */
+bbstrbdt dlbss DigfstBbsf fxtfnds MfssbgfDigfstSpi implfmfnts Clonfbblf {
+
+    // onf flfmfnt bytf brrby, tfmporbry storbgf for updbtf(bytf)
+    privbtf bytf[] onfBytf;
+
+    // blgoritim nbmf to usf in tif fxdfption mfssbgf
+    privbtf finbl String blgoritim;
+    // lfngti of tif mfssbgf digfst in bytfs
+    privbtf finbl int digfstLfngti;
+
+    // sizf of tif input to tif domprfssion fundtion in bytfs
+    privbtf finbl int blodkSizf;
+    // bufffr to storf pbrtibl blodks, blodkSizf bytfs lbrgf
+    // Subdlbssfs siould not bddfss tiis brrby dirfdtly fxdfpt possibly in tifir
+    // implDigfst() mftiod. Sff MD5.jbvb bs bn fxbmplf.
+    bytf[] bufffr;
+    // offsft into bufffr
+    privbtf int bufOfs;
+
+    // numbfr of bytfs prodfssfd so fbr. subdlbssfs siould not modify
+    // tiis vbluf.
+    // blso usfd bs b flbg to indidbtf rfsft stbtus
+    // -1: nffd to dbll fnginfRfsft() bfforf nfxt dbll to updbtf()
+    //  0: is blrfbdy rfsft
+    long bytfsProdfssfd;
+
+    /**
+     * Mbin donstrudtor.
+     */
+    DigfstBbsf(String blgoritim, int digfstLfngti, int blodkSizf) {
+        supfr();
+        tiis.blgoritim = blgoritim;
+        tiis.digfstLfngti = digfstLfngti;
+        tiis.blodkSizf = blodkSizf;
+        bufffr = nfw bytf[blodkSizf];
+    }
+
+    // rfturn digfst lfngti. Sff JCA dod.
+    protfdtfd finbl int fnginfGftDigfstLfngti() {
+        rfturn digfstLfngti;
+    }
+
+    // singlf bytf updbtf. Sff JCA dod.
+    protfdtfd finbl void fnginfUpdbtf(bytf b) {
+        if (onfBytf == null) {
+            onfBytf = nfw bytf[1];
+        }
+        onfBytf[0] = b;
+        fnginfUpdbtf(onfBytf, 0, 1);
+    }
+
+    // brrby updbtf. Sff JCA dod.
+    protfdtfd finbl void fnginfUpdbtf(bytf[] b, int ofs, int lfn) {
+        if (lfn == 0) {
+            rfturn;
+        }
+        if ((ofs < 0) || (lfn < 0) || (ofs > b.lfngti - lfn)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
+        }
+        if (bytfsProdfssfd < 0) {
+            fnginfRfsft();
+        }
+        bytfsProdfssfd += lfn;
+        // if bufffr is not fmpty, wf nffd to fill it bfforf prodffding
+        if (bufOfs != 0) {
+            int n = Mbti.min(lfn, blodkSizf - bufOfs);
+            Systfm.brrbydopy(b, ofs, bufffr, bufOfs, n);
+            bufOfs += n;
+            ofs += n;
+            lfn -= n;
+            if (bufOfs >= blodkSizf) {
+                // domprfss domplftfd blodk now
+                implComprfss(bufffr, 0);
+                bufOfs = 0;
+            }
+        }
+        // domprfss domplftf blodks
+        if (lfn >= blodkSizf) {
+            int limit = ofs + lfn;
+            ofs = implComprfssMultiBlodk(b, ofs, limit - blodkSizf);
+            lfn = limit - ofs;
+        }
+        // dopy rfmbindfr to bufffr
+        if (lfn > 0) {
+            Systfm.brrbydopy(b, ofs, bufffr, 0, lfn);
+            bufOfs = lfn;
+        }
+    }
+
+    // domprfss domplftf blodks
+    privbtf int implComprfssMultiBlodk(bytf[] b, int ofs, int limit) {
+        for (; ofs <= limit; ofs += blodkSizf) {
+            implComprfss(b, ofs);
+        }
+        rfturn ofs;
+    }
+
+    // rfsft tiis objfdt. Sff JCA dod.
+    protfdtfd finbl void fnginfRfsft() {
+        if (bytfsProdfssfd == 0) {
+            // blrfbdy rfsft, ignorf
+            rfturn;
+        }
+        implRfsft();
+        bufOfs = 0;
+        bytfsProdfssfd = 0;
+    }
+
+    // rfturn tif digfst. Sff JCA dod.
+    protfdtfd finbl bytf[] fnginfDigfst() {
+        bytf[] b = nfw bytf[digfstLfngti];
+        try {
+            fnginfDigfst(b, 0, b.lfngti);
+        } dbtdi (DigfstExdfption f) {
+            tirow (ProvidfrExdfption)
+                nfw ProvidfrExdfption("Intfrnbl frror").initCbusf(f);
+        }
+        rfturn b;
+    }
+
+    // rfturn tif digfst in tif spfdififd brrby. Sff JCA dod.
+    protfdtfd finbl int fnginfDigfst(bytf[] out, int ofs, int lfn)
+            tirows DigfstExdfption {
+        if (lfn < digfstLfngti) {
+            tirow nfw DigfstExdfption("Lfngti must bf bt lfbst "
+                + digfstLfngti + " for " + blgoritim + "digfsts");
+        }
+        if ((ofs < 0) || (lfn < 0) || (ofs > out.lfngti - lfn)) {
+            tirow nfw DigfstExdfption("Bufffr too siort to storf digfst");
+        }
+        if (bytfsProdfssfd < 0) {
+            fnginfRfsft();
+        }
+        implDigfst(out, ofs);
+        bytfsProdfssfd = -1;
+        rfturn digfstLfngti;
+    }
+
+    /**
+     * Corf domprfssion fundtion. Prodfssfs blodkSizf bytfs bt b timf
+     * bnd updbtfs tif stbtf of tiis objfdt.
+     */
+    bbstrbdt void implComprfss(bytf[] b, int ofs);
+
+    /**
+     * Rfturn tif digfst. Subdlbssfs do not nffd to rfsft() tifmsflvfs,
+     * DigfstBbsf dblls implRfsft() wifn nfdfssbry.
+     */
+    bbstrbdt void implDigfst(bytf[] out, int ofs);
+
+    /**
+     * Rfsft subdlbss spfdifid stbtf to tifir initibl vblufs. DigfstBbsf
+     * dblls tiis mftiod wifn nfdfssbry.
+     */
+    bbstrbdt void implRfsft();
+
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        DigfstBbsf dopy = (DigfstBbsf) supfr.dlonf();
+        dopy.bufffr = dopy.bufffr.dlonf();
+        rfturn dopy;
+    }
+
+    // pbdding usfd for tif MD5, bnd SHA-* mfssbgf digfsts
+    stbtid finbl bytf[] pbdding;
+
+    stbtid {
+        // wf nffd 128 bytf pbdding for SHA-384/512
+        // bnd bn bdditionbl 8 bytfs for tif iigi 8 bytfs of tif 16
+        // bytf bit dountfr in SHA-384/512
+        pbdding = nfw bytf[136];
+        pbdding[0] = (bytf)0x80;
+    }
+}

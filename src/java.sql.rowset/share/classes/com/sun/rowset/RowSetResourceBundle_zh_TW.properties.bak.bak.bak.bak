@@ -1,170 +1,850 @@
 #
-# Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
-# CbdhfRowSftImpl fxdfptions
-dbdhfdrowsftimpl.populbtf = \u70BA\u690D\u5165\u65B9\u6CD5\u63D0\u4F9B\u7684 RfsultSft \u7269\u4EF6\u7121\u6548
-dbdhfdrowsftimpl.invblidp = \u7522\u751F\u7684\u6301\u7E8C\u6027\u63D0\u4F9B\u8005\u7121\u6548
-dbdhfdrowsftimpl.nullhbsh = \u7121\u6CD5\u5EFA\u7ACB CbdhfdRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbshtbblf \u70BA\u7A7A\u503C
-dbdhfdrowsftimpl.invblidop = \u63D2\u5165\u5217\u6642\u7684\u4F5C\u696D\u7121\u6548
-dbdhfdrowsftimpl.bddfbilfd = bddfptChbngfs \u5931\u6557
-dbdhfdrowsftimpl.invbliddp = \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
-dbdhfdrowsftimpl.illfgblop = \u975E\u63D2\u5165\u5217\u4E0A\u5B58\u5728\u7121\u6548\u4F5C\u696D
-dbdhfdrowsftimpl.dlonffbil = \u8907\u88FD\u5931\u6557: {0}
-dbdhfdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
-dbdhfdrowsftimpl.invbldolnm = \u6B04\u540D\u7121\u6548
-dbdhfdrowsftimpl.boolfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBoolfn \u5931\u6557
-dbdhfdrowsftimpl.bytffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBytf \u5931\u6557
-dbdhfdrowsftimpl.shortfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftShort \u5931\u6557
-dbdhfdrowsftimpl.intfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftInt \u5931\u6557
-dbdhfdrowsftimpl.longfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftLong \u5931\u6557
-dbdhfdrowsftimpl.flobtfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftFlobt \u5931\u6557
-dbdhfdrowsftimpl.doublffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDoublf \u5931\u6557
-dbdhfdrowsftimpl.dtypfmismt = \u8CC7\u6599\u985E\u578B\u4E0D\u76F8\u7B26
-dbdhfdrowsftimpl.dbtffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDbtf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
-dbdhfdrowsftimpl.timffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftTimf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
-dbdhfdrowsftimpl.posupdbtf = \u4E0D\u652F\u63F4\u5B9A\u4F4D\u7684\u66F4\u65B0
-dbdhfdrowsftimpl.unbblfins = \u7121\u6CD5\u5EFA\u7ACB: {0}
-dbdhfdrowsftimpl.bfforffirst = bfforfFirst: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
-dbdhfdrowsftimpl.first = First: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
-dbdhfdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
-dbdhfdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
-dbdhfdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
-dbdhfdrowsftimpl.bsdiistrfbm = \u8B80\u53D6 bsdii \u4E32\u6D41\u5931\u6557
-dbdhfdrowsftimpl.binstrfbm = \u8B80\u53D6\u4E8C\u9032\u4F4D\u4E32\u6D41\u5931\u6557
-dbdhfdrowsftimpl.fbilfdins = \u63D2\u5165\u5217\u5931\u6557
-dbdhfdrowsftimpl.updbtfins = \u63D2\u5165\u5217\u6642\u547C\u53EB updbtfRow
-dbdhfdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
-dbdhfdrowsftimpl.movftoins1 = movfToInsfrtRow: \u6C92\u6709\u63CF\u8FF0\u8CC7\u6599
-dbdhfdrowsftimpl.movftoins2 = movfToInsfrtRow: \u6B04\u6578\u7121\u6548
-dbdhfdrowsftimpl.tbblfnbmf = \u8868\u683C\u540D\u7A31\u4E0D\u80FD\u70BA\u7A7A\u503C
-dbdhfdrowsftimpl.kfydols = \u95DC\u9375\u6B04\u7121\u6548
-dbdhfdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
-dbdhfdrowsftimpl.opnotsupp = \u8CC7\u6599\u5EAB\u4E0D\u652F\u63F4\u4F5C\u696D
-dbdhfdrowsftimpl.mbtdhdols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
-dbdhfdrowsftimpl.sftmbtdhdols = \u5728\u53D6\u5F97\u5339\u914D\u6B04\u4E4B\u524D\u8A2D\u5B9A\u5B83\u5011
-dbdhfdrowsftimpl.mbtdhdols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
-dbdhfdrowsftimpl.mbtdhdols2 = \u5339\u914D\u6B04\u61C9\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
-dbdhfdrowsftimpl.unsftmbtdh = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
-dbdhfdrowsftimpl.unsftmbtdh1 = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdhColumn \u7684\u5F15\u6578
-dbdhfdrowsftimpl.unsftmbtdh2 = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdhColumn \u7684\u5F15\u6578
-dbdhfdrowsftimpl.numrows = \u5217\u6578\u5C0F\u65BC\u96F6\u6216\u5C0F\u65BC\u64F7\u53D6\u5927\u5C0F
-dbdhfdrowsftimpl.stbrtpos = \u8D77\u59CB\u4F4D\u7F6E\u4E0D\u80FD\u70BA\u8CA0\u6578
-dbdhfdrowsftimpl.nfxtpbgf = \u5728\u547C\u53EB\u4E4B\u524D\u690D\u5165\u8CC7\u6599 
-dbdhfdrowsftimpl.pbgfsizf = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5C0F\u65BC\u96F6
-dbdhfdrowsftimpl.pbgfsizf1 = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5927\u65BC mbxRows
-dbdhfdrowsftimpl.fwdonly = RfsultSft \u53EA\u80FD\u5411\u524D\u9032\u884C
-dbdhfdrowsftimpl.typf = \u985E\u578B\u662F: {0}
-dbdhfdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
-dbdhfdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+
+
+
+
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+dbdifdrowsftimpl.populbtf = \u70BA\u690D\u5165\u65B9\u6CD5\u63D0\u4F9B\u7684 RfsultSft \u7269\u4EF6\u7121\u6548
+dbdifdrowsftimpl.populbtf = \u70BA\u690D\u5165\u65B9\u6CD5\u63D0\u4F9B\u7684 RfsultSft \u7269\u4EF6\u7121\u6548
+dbdifdrowsftimpl.populbtf = \u70BA\u690D\u5165\u65B9\u6CD5\u63D0\u4F9B\u7684 RfsultSft \u7269\u4EF6\u7121\u6548
+dbdifdrowsftimpl.populbtf = \u70BA\u690D\u5165\u65B9\u6CD5\u63D0\u4F9B\u7684 RfsultSft \u7269\u4EF6\u7121\u6548
+dbdifdrowsftimpl.populbtf = \u70BA\u690D\u5165\u65B9\u6CD5\u63D0\u4F9B\u7684 RfsultSft \u7269\u4EF6\u7121\u6548
+dbdifdrowsftimpl.invblidp = \u7522\u751F\u7684\u6301\u7E8C\u6027\u63D0\u4F9B\u8005\u7121\u6548
+dbdifdrowsftimpl.invblidp = \u7522\u751F\u7684\u6301\u7E8C\u6027\u63D0\u4F9B\u8005\u7121\u6548
+dbdifdrowsftimpl.invblidp = \u7522\u751F\u7684\u6301\u7E8C\u6027\u63D0\u4F9B\u8005\u7121\u6548
+dbdifdrowsftimpl.invblidp = \u7522\u751F\u7684\u6301\u7E8C\u6027\u63D0\u4F9B\u8005\u7121\u6548
+dbdifdrowsftimpl.invblidp = \u7522\u751F\u7684\u6301\u7E8C\u6027\u63D0\u4F9B\u8005\u7121\u6548
+dbdifdrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB CbdifdRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+dbdifdrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB CbdifdRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+dbdifdrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB CbdifdRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+dbdifdrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB CbdifdRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+dbdifdrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB CbdifdRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+dbdifdrowsftimpl.invblidop = \u63D2\u5165\u5217\u6642\u7684\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.invblidop = \u63D2\u5165\u5217\u6642\u7684\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.invblidop = \u63D2\u5165\u5217\u6642\u7684\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.invblidop = \u63D2\u5165\u5217\u6642\u7684\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.invblidop = \u63D2\u5165\u5217\u6642\u7684\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs \u5931\u6557
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs \u5931\u6557
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs \u5931\u6557
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs \u5931\u6557
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs \u5931\u6557
+dbdifdrowsftimpl.invbliddp = \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.invbliddp = \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.invbliddp = \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.invbliddp = \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.invbliddp = \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.illfgblop = \u975E\u63D2\u5165\u5217\u4E0A\u5B58\u5728\u7121\u6548\u4F5C\u696D
+dbdifdrowsftimpl.illfgblop = \u975E\u63D2\u5165\u5217\u4E0A\u5B58\u5728\u7121\u6548\u4F5C\u696D
+dbdifdrowsftimpl.illfgblop = \u975E\u63D2\u5165\u5217\u4E0A\u5B58\u5728\u7121\u6548\u4F5C\u696D
+dbdifdrowsftimpl.illfgblop = \u975E\u63D2\u5165\u5217\u4E0A\u5B58\u5728\u7121\u6548\u4F5C\u696D
+dbdifdrowsftimpl.illfgblop = \u975E\u63D2\u5165\u5217\u4E0A\u5B58\u5728\u7121\u6548\u4F5C\u696D
+dbdifdrowsftimpl.dlonffbil = \u8907\u88FD\u5931\u6557: {0}
+dbdifdrowsftimpl.dlonffbil = \u8907\u88FD\u5931\u6557: {0}
+dbdifdrowsftimpl.dlonffbil = \u8907\u88FD\u5931\u6557: {0}
+dbdifdrowsftimpl.dlonffbil = \u8907\u88FD\u5931\u6557: {0}
+dbdifdrowsftimpl.dlonffbil = \u8907\u88FD\u5931\u6557: {0}
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbldolnm = \u6B04\u540D\u7121\u6548
+dbdifdrowsftimpl.invbldolnm = \u6B04\u540D\u7121\u6548
+dbdifdrowsftimpl.invbldolnm = \u6B04\u540D\u7121\u6548
+dbdifdrowsftimpl.invbldolnm = \u6B04\u540D\u7121\u6548
+dbdifdrowsftimpl.invbldolnm = \u6B04\u540D\u7121\u6548
+dbdifdrowsftimpl.boolfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBoolfn \u5931\u6557
+dbdifdrowsftimpl.boolfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBoolfn \u5931\u6557
+dbdifdrowsftimpl.boolfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBoolfn \u5931\u6557
+dbdifdrowsftimpl.boolfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBoolfn \u5931\u6557
+dbdifdrowsftimpl.boolfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBoolfn \u5931\u6557
+dbdifdrowsftimpl.bytffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBytf \u5931\u6557
+dbdifdrowsftimpl.bytffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBytf \u5931\u6557
+dbdifdrowsftimpl.bytffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBytf \u5931\u6557
+dbdifdrowsftimpl.bytffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBytf \u5931\u6557
+dbdifdrowsftimpl.bytffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftBytf \u5931\u6557
+dbdifdrowsftimpl.siortfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftSiort \u5931\u6557
+dbdifdrowsftimpl.siortfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftSiort \u5931\u6557
+dbdifdrowsftimpl.siortfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftSiort \u5931\u6557
+dbdifdrowsftimpl.siortfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftSiort \u5931\u6557
+dbdifdrowsftimpl.siortfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftSiort \u5931\u6557
+dbdifdrowsftimpl.intfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftInt \u5931\u6557
+dbdifdrowsftimpl.intfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftInt \u5931\u6557
+dbdifdrowsftimpl.intfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftInt \u5931\u6557
+dbdifdrowsftimpl.intfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftInt \u5931\u6557
+dbdifdrowsftimpl.intfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftInt \u5931\u6557
+dbdifdrowsftimpl.longfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftLong \u5931\u6557
+dbdifdrowsftimpl.longfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftLong \u5931\u6557
+dbdifdrowsftimpl.longfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftLong \u5931\u6557
+dbdifdrowsftimpl.longfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftLong \u5931\u6557
+dbdifdrowsftimpl.longfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftLong \u5931\u6557
+dbdifdrowsftimpl.flobtfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftFlobt \u5931\u6557
+dbdifdrowsftimpl.flobtfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftFlobt \u5931\u6557
+dbdifdrowsftimpl.flobtfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftFlobt \u5931\u6557
+dbdifdrowsftimpl.flobtfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftFlobt \u5931\u6557
+dbdifdrowsftimpl.flobtfbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftFlobt \u5931\u6557
+dbdifdrowsftimpl.doublffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDoublf \u5931\u6557
+dbdifdrowsftimpl.doublffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDoublf \u5931\u6557
+dbdifdrowsftimpl.doublffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDoublf \u5931\u6557
+dbdifdrowsftimpl.doublffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDoublf \u5931\u6557
+dbdifdrowsftimpl.doublffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDoublf \u5931\u6557
+dbdifdrowsftimpl.dtypfmismt = \u8CC7\u6599\u985E\u578B\u4E0D\u76F8\u7B26
+dbdifdrowsftimpl.dtypfmismt = \u8CC7\u6599\u985E\u578B\u4E0D\u76F8\u7B26
+dbdifdrowsftimpl.dtypfmismt = \u8CC7\u6599\u985E\u578B\u4E0D\u76F8\u7B26
+dbdifdrowsftimpl.dtypfmismt = \u8CC7\u6599\u985E\u578B\u4E0D\u76F8\u7B26
+dbdifdrowsftimpl.dtypfmismt = \u8CC7\u6599\u985E\u578B\u4E0D\u76F8\u7B26
+dbdifdrowsftimpl.dbtffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDbtf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.dbtffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDbtf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.dbtffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDbtf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.dbtffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDbtf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.dbtffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftDbtf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.timffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftTimf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.timffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftTimf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.timffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftTimf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.timffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftTimf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.timffbil = \u5C0D\u6B04 {1} \u4E2D\u7684\u503C ( {0} ) \u57F7\u884C gftTimf \u5931\u6557\uFF0C\u672A\u9032\u884C\u8F49\u63DB
+dbdifdrowsftimpl.posupdbtf = \u4E0D\u652F\u63F4\u5B9A\u4F4D\u7684\u66F4\u65B0
+dbdifdrowsftimpl.posupdbtf = \u4E0D\u652F\u63F4\u5B9A\u4F4D\u7684\u66F4\u65B0
+dbdifdrowsftimpl.posupdbtf = \u4E0D\u652F\u63F4\u5B9A\u4F4D\u7684\u66F4\u65B0
+dbdifdrowsftimpl.posupdbtf = \u4E0D\u652F\u63F4\u5B9A\u4F4D\u7684\u66F4\u65B0
+dbdifdrowsftimpl.posupdbtf = \u4E0D\u652F\u63F4\u5B9A\u4F4D\u7684\u66F4\u65B0
+dbdifdrowsftimpl.unbblfins = \u7121\u6CD5\u5EFA\u7ACB: {0}
+dbdifdrowsftimpl.unbblfins = \u7121\u6CD5\u5EFA\u7ACB: {0}
+dbdifdrowsftimpl.unbblfins = \u7121\u6CD5\u5EFA\u7ACB: {0}
+dbdifdrowsftimpl.unbblfins = \u7121\u6CD5\u5EFA\u7ACB: {0}
+dbdifdrowsftimpl.unbblfins = \u7121\u6CD5\u5EFA\u7ACB: {0}
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.first = First: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.first = First: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.first = First: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.first = First: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.first = First: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+dbdifdrowsftimpl.bsdiistrfbm = \u8B80\u53D6 bsdii \u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.bsdiistrfbm = \u8B80\u53D6 bsdii \u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.bsdiistrfbm = \u8B80\u53D6 bsdii \u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.bsdiistrfbm = \u8B80\u53D6 bsdii \u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.bsdiistrfbm = \u8B80\u53D6 bsdii \u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.binstrfbm = \u8B80\u53D6\u4E8C\u9032\u4F4D\u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.binstrfbm = \u8B80\u53D6\u4E8C\u9032\u4F4D\u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.binstrfbm = \u8B80\u53D6\u4E8C\u9032\u4F4D\u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.binstrfbm = \u8B80\u53D6\u4E8C\u9032\u4F4D\u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.binstrfbm = \u8B80\u53D6\u4E8C\u9032\u4F4D\u4E32\u6D41\u5931\u6557
+dbdifdrowsftimpl.fbilfdins = \u63D2\u5165\u5217\u5931\u6557
+dbdifdrowsftimpl.fbilfdins = \u63D2\u5165\u5217\u5931\u6557
+dbdifdrowsftimpl.fbilfdins = \u63D2\u5165\u5217\u5931\u6557
+dbdifdrowsftimpl.fbilfdins = \u63D2\u5165\u5217\u5931\u6557
+dbdifdrowsftimpl.fbilfdins = \u63D2\u5165\u5217\u5931\u6557
+dbdifdrowsftimpl.updbtfins = \u63D2\u5165\u5217\u6642\u547C\u53EB updbtfRow
+dbdifdrowsftimpl.updbtfins = \u63D2\u5165\u5217\u6642\u547C\u53EB updbtfRow
+dbdifdrowsftimpl.updbtfins = \u63D2\u5165\u5217\u6642\u547C\u53EB updbtfRow
+dbdifdrowsftimpl.updbtfins = \u63D2\u5165\u5217\u6642\u547C\u53EB updbtfRow
+dbdifdrowsftimpl.updbtfins = \u63D2\u5165\u5217\u6642\u547C\u53EB updbtfRow
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: \u6C92\u6709\u63CF\u8FF0\u8CC7\u6599
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: \u6C92\u6709\u63CF\u8FF0\u8CC7\u6599
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: \u6C92\u6709\u63CF\u8FF0\u8CC7\u6599
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: \u6C92\u6709\u63CF\u8FF0\u8CC7\u6599
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: \u6C92\u6709\u63CF\u8FF0\u8CC7\u6599
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: \u6B04\u6578\u7121\u6548
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: \u6B04\u6578\u7121\u6548
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: \u6B04\u6578\u7121\u6548
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: \u6B04\u6578\u7121\u6548
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: \u6B04\u6578\u7121\u6548
+dbdifdrowsftimpl.tbblfnbmf = \u8868\u683C\u540D\u7A31\u4E0D\u80FD\u70BA\u7A7A\u503C
+dbdifdrowsftimpl.tbblfnbmf = \u8868\u683C\u540D\u7A31\u4E0D\u80FD\u70BA\u7A7A\u503C
+dbdifdrowsftimpl.tbblfnbmf = \u8868\u683C\u540D\u7A31\u4E0D\u80FD\u70BA\u7A7A\u503C
+dbdifdrowsftimpl.tbblfnbmf = \u8868\u683C\u540D\u7A31\u4E0D\u80FD\u70BA\u7A7A\u503C
+dbdifdrowsftimpl.tbblfnbmf = \u8868\u683C\u540D\u7A31\u4E0D\u80FD\u70BA\u7A7A\u503C
+dbdifdrowsftimpl.kfydols = \u95DC\u9375\u6B04\u7121\u6548
+dbdifdrowsftimpl.kfydols = \u95DC\u9375\u6B04\u7121\u6548
+dbdifdrowsftimpl.kfydols = \u95DC\u9375\u6B04\u7121\u6548
+dbdifdrowsftimpl.kfydols = \u95DC\u9375\u6B04\u7121\u6548
+dbdifdrowsftimpl.kfydols = \u95DC\u9375\u6B04\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.invbliddol = \u6B04\u7D22\u5F15\u7121\u6548
+dbdifdrowsftimpl.opnotsupp = \u8CC7\u6599\u5EAB\u4E0D\u652F\u63F4\u4F5C\u696D
+dbdifdrowsftimpl.opnotsupp = \u8CC7\u6599\u5EAB\u4E0D\u652F\u63F4\u4F5C\u696D
+dbdifdrowsftimpl.opnotsupp = \u8CC7\u6599\u5EAB\u4E0D\u652F\u63F4\u4F5C\u696D
+dbdifdrowsftimpl.opnotsupp = \u8CC7\u6599\u5EAB\u4E0D\u652F\u63F4\u4F5C\u696D
+dbdifdrowsftimpl.opnotsupp = \u8CC7\u6599\u5EAB\u4E0D\u652F\u63F4\u4F5C\u696D
+dbdifdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.sftmbtdidols = \u5728\u53D6\u5F97\u5339\u914D\u6B04\u4E4B\u524D\u8A2D\u5B9A\u5B83\u5011
+dbdifdrowsftimpl.sftmbtdidols = \u5728\u53D6\u5F97\u5339\u914D\u6B04\u4E4B\u524D\u8A2D\u5B9A\u5B83\u5011
+dbdifdrowsftimpl.sftmbtdidols = \u5728\u53D6\u5F97\u5339\u914D\u6B04\u4E4B\u524D\u8A2D\u5B9A\u5B83\u5011
+dbdifdrowsftimpl.sftmbtdidols = \u5728\u53D6\u5F97\u5339\u914D\u6B04\u4E4B\u524D\u8A2D\u5B9A\u5B83\u5011
+dbdifdrowsftimpl.sftmbtdidols = \u5728\u53D6\u5F97\u5339\u914D\u6B04\u4E4B\u524D\u8A2D\u5B9A\u5B83\u5011
+dbdifdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+dbdifdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+dbdifdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+dbdifdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+dbdifdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+dbdifdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u61C9\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+dbdifdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u61C9\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+dbdifdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u61C9\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+dbdifdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u61C9\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+dbdifdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u61C9\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+dbdifdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+dbdifdrowsftimpl.unsftmbtdi1 = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi1 = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi1 = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi1 = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi1 = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi2 = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi2 = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi2 = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi2 = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.unsftmbtdi2 = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+dbdifdrowsftimpl.numrows = \u5217\u6578\u5C0F\u65BC\u96F6\u6216\u5C0F\u65BC\u64F7\u53D6\u5927\u5C0F
+dbdifdrowsftimpl.numrows = \u5217\u6578\u5C0F\u65BC\u96F6\u6216\u5C0F\u65BC\u64F7\u53D6\u5927\u5C0F
+dbdifdrowsftimpl.numrows = \u5217\u6578\u5C0F\u65BC\u96F6\u6216\u5C0F\u65BC\u64F7\u53D6\u5927\u5C0F
+dbdifdrowsftimpl.numrows = \u5217\u6578\u5C0F\u65BC\u96F6\u6216\u5C0F\u65BC\u64F7\u53D6\u5927\u5C0F
+dbdifdrowsftimpl.numrows = \u5217\u6578\u5C0F\u65BC\u96F6\u6216\u5C0F\u65BC\u64F7\u53D6\u5927\u5C0F
+dbdifdrowsftimpl.stbrtpos = \u8D77\u59CB\u4F4D\u7F6E\u4E0D\u80FD\u70BA\u8CA0\u6578
+dbdifdrowsftimpl.stbrtpos = \u8D77\u59CB\u4F4D\u7F6E\u4E0D\u80FD\u70BA\u8CA0\u6578
+dbdifdrowsftimpl.stbrtpos = \u8D77\u59CB\u4F4D\u7F6E\u4E0D\u80FD\u70BA\u8CA0\u6578
+dbdifdrowsftimpl.stbrtpos = \u8D77\u59CB\u4F4D\u7F6E\u4E0D\u80FD\u70BA\u8CA0\u6578
+dbdifdrowsftimpl.stbrtpos = \u8D77\u59CB\u4F4D\u7F6E\u4E0D\u80FD\u70BA\u8CA0\u6578
+dbdifdrowsftimpl.nfxtpbgf = \u5728\u547C\u53EB\u4E4B\u524D\u690D\u5165\u8CC7\u6599 
+dbdifdrowsftimpl.nfxtpbgf = \u5728\u547C\u53EB\u4E4B\u524D\u690D\u5165\u8CC7\u6599 
+dbdifdrowsftimpl.nfxtpbgf = \u5728\u547C\u53EB\u4E4B\u524D\u690D\u5165\u8CC7\u6599 
+dbdifdrowsftimpl.nfxtpbgf = \u5728\u547C\u53EB\u4E4B\u524D\u690D\u5165\u8CC7\u6599 
+dbdifdrowsftimpl.nfxtpbgf = \u5728\u547C\u53EB\u4E4B\u524D\u690D\u5165\u8CC7\u6599 
+dbdifdrowsftimpl.pbgfsizf = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5C0F\u65BC\u96F6
+dbdifdrowsftimpl.pbgfsizf = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5C0F\u65BC\u96F6
+dbdifdrowsftimpl.pbgfsizf = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5C0F\u65BC\u96F6
+dbdifdrowsftimpl.pbgfsizf = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5C0F\u65BC\u96F6
+dbdifdrowsftimpl.pbgfsizf = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5C0F\u65BC\u96F6
+dbdifdrowsftimpl.pbgfsizf1 = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5927\u65BC mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5927\u65BC mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5927\u65BC mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5927\u65BC mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = \u9801\u9762\u5927\u5C0F\u4E0D\u80FD\u5927\u65BC mbxRows
+dbdifdrowsftimpl.fwdonly = RfsultSft \u53EA\u80FD\u5411\u524D\u9032\u884C
+dbdifdrowsftimpl.fwdonly = RfsultSft \u53EA\u80FD\u5411\u524D\u9032\u884C
+dbdifdrowsftimpl.fwdonly = RfsultSft \u53EA\u80FD\u5411\u524D\u9032\u884C
+dbdifdrowsftimpl.fwdonly = RfsultSft \u53EA\u80FD\u5411\u524D\u9032\u884C
+dbdifdrowsftimpl.fwdonly = RfsultSft \u53EA\u80FD\u5411\u524D\u9032\u884C
+dbdifdrowsftimpl.typf = \u985E\u578B\u662F: {0}
+dbdifdrowsftimpl.typf = \u985E\u578B\u662F: {0}
+dbdifdrowsftimpl.typf = \u985E\u578B\u662F: {0}
+dbdifdrowsftimpl.typf = \u985E\u578B\u662F: {0}
+dbdifdrowsftimpl.typf = \u985E\u578B\u662F: {0}
+dbdifdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+dbdifdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+dbdifdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+dbdifdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+dbdifdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+dbdifdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+dbdifdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+dbdifdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+dbdifdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+dbdifdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+
+
+
+
 
 # WfbRowSftImpl fxdfptions
-wfbrowsftimpl.nullhbsh = \u7121\u6CD5\u5EFA\u7ACB WfbRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbshtbblf \u70BA\u7A7A\u503C
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB WfbRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+wfbrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB WfbRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+wfbrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB WfbRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+wfbrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB WfbRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+wfbrowsftimpl.nullibsi = \u7121\u6CD5\u5EFA\u7ACB WfbRowSftImpl \u57F7\u884C\u8655\u7406\u3002\u70BA\u5EFA\u69CB\u5B50\u63D0\u4F9B\u7684 Hbsitbblf \u70BA\u7A7A\u503C
+wfbrowsftimpl.invblidwr = \u5BEB\u5165\u5668\u7121\u6548
+wfbrowsftimpl.invblidwr = \u5BEB\u5165\u5668\u7121\u6548
+wfbrowsftimpl.invblidwr = \u5BEB\u5165\u5668\u7121\u6548
+wfbrowsftimpl.invblidwr = \u5BEB\u5165\u5668\u7121\u6548
 wfbrowsftimpl.invblidwr = \u5BEB\u5165\u5668\u7121\u6548
 wfbrowsftimpl.invblidrd = \u8B80\u53D6\u5668\u7121\u6548
+wfbrowsftimpl.invblidrd = \u8B80\u53D6\u5668\u7121\u6548
+wfbrowsftimpl.invblidrd = \u8B80\u53D6\u5668\u7121\u6548
+wfbrowsftimpl.invblidrd = \u8B80\u53D6\u5668\u7121\u6548
+wfbrowsftimpl.invblidrd = \u8B80\u53D6\u5668\u7121\u6548
+
+
+
+
 
 #FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548 
 filtfrfdrowsftimpl.rflbtivf = rflbtivf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548 
 filtfrfdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: \u6E38\u6A19\u4F5C\u696D\u7121\u6548
+filtfrfdrowsftimpl.notbllowfd = \u4E0D\u5141\u8A31\u6B64\u503C\u901A\u904E\u7BE9\u9078
+filtfrfdrowsftimpl.notbllowfd = \u4E0D\u5141\u8A31\u6B64\u503C\u901A\u904E\u7BE9\u9078
+filtfrfdrowsftimpl.notbllowfd = \u4E0D\u5141\u8A31\u6B64\u503C\u901A\u904E\u7BE9\u9078
+filtfrfdrowsftimpl.notbllowfd = \u4E0D\u5141\u8A31\u6B64\u503C\u901A\u904E\u7BE9\u9078
 filtfrfdrowsftimpl.notbllowfd = \u4E0D\u5141\u8A31\u6B64\u503C\u901A\u904E\u7BE9\u9078
 
+
+
+
+
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
 #JoinRowSftImpl fxdfptions
 joinrowsftimpl.notinstbndf = \u4E0D\u662F rowsft \u7684\u57F7\u884C\u8655\u7406
-joinrowsftimpl.mbtdhnotsft = \u672A\u8A2D\u5B9A\u7528\u65BC\u9023\u7D50\u7684\u5339\u914D\u6B04
+joinrowsftimpl.notinstbndf = \u4E0D\u662F rowsft \u7684\u57F7\u884C\u8655\u7406
+joinrowsftimpl.notinstbndf = \u4E0D\u662F rowsft \u7684\u57F7\u884C\u8655\u7406
+joinrowsftimpl.notinstbndf = \u4E0D\u662F rowsft \u7684\u57F7\u884C\u8655\u7406
+joinrowsftimpl.notinstbndf = \u4E0D\u662F rowsft \u7684\u57F7\u884C\u8655\u7406
+joinrowsftimpl.mbtdinotsft = \u672A\u8A2D\u5B9A\u7528\u65BC\u9023\u7D50\u7684\u5339\u914D\u6B04
+joinrowsftimpl.mbtdinotsft = \u672A\u8A2D\u5B9A\u7528\u65BC\u9023\u7D50\u7684\u5339\u914D\u6B04
+joinrowsftimpl.mbtdinotsft = \u672A\u8A2D\u5B9A\u7528\u65BC\u9023\u7D50\u7684\u5339\u914D\u6B04
+joinrowsftimpl.mbtdinotsft = \u672A\u8A2D\u5B9A\u7528\u65BC\u9023\u7D50\u7684\u5339\u914D\u6B04
+joinrowsftimpl.mbtdinotsft = \u672A\u8A2D\u5B9A\u7528\u65BC\u9023\u7D50\u7684\u5339\u914D\u6B04
+joinrowsftimpl.numnotfqubl = rowsft \u4E2D\u7684\u5143\u7D20\u6578\u4E0D\u7B49\u65BC\u5339\u914D\u6B04
+joinrowsftimpl.numnotfqubl = rowsft \u4E2D\u7684\u5143\u7D20\u6578\u4E0D\u7B49\u65BC\u5339\u914D\u6B04
+joinrowsftimpl.numnotfqubl = rowsft \u4E2D\u7684\u5143\u7D20\u6578\u4E0D\u7B49\u65BC\u5339\u914D\u6B04
+joinrowsftimpl.numnotfqubl = rowsft \u4E2D\u7684\u5143\u7D20\u6578\u4E0D\u7B49\u65BC\u5339\u914D\u6B04
 joinrowsftimpl.numnotfqubl = rowsft \u4E2D\u7684\u5143\u7D20\u6578\u4E0D\u7B49\u65BC\u5339\u914D\u6B04
 joinrowsftimpl.notdffinfd = \u9019\u4E0D\u662F\u9023\u7D50\u7684\u5DF2\u5B9A\u7FA9\u985E\u578B
+joinrowsftimpl.notdffinfd = \u9019\u4E0D\u662F\u9023\u7D50\u7684\u5DF2\u5B9A\u7FA9\u985E\u578B
+joinrowsftimpl.notdffinfd = \u9019\u4E0D\u662F\u9023\u7D50\u7684\u5DF2\u5B9A\u7FA9\u985E\u578B
+joinrowsftimpl.notdffinfd = \u9019\u4E0D\u662F\u9023\u7D50\u7684\u5DF2\u5B9A\u7FA9\u985E\u578B
+joinrowsftimpl.notdffinfd = \u9019\u4E0D\u662F\u9023\u7D50\u7684\u5DF2\u5B9A\u7FA9\u985E\u578B
+joinrowsftimpl.notsupportfd = \u4E0D\u652F\u63F4\u6B64\u985E\u9023\u7D50
+joinrowsftimpl.notsupportfd = \u4E0D\u652F\u63F4\u6B64\u985E\u9023\u7D50
+joinrowsftimpl.notsupportfd = \u4E0D\u652F\u63F4\u6B64\u985E\u9023\u7D50
+joinrowsftimpl.notsupportfd = \u4E0D\u652F\u63F4\u6B64\u985E\u9023\u7D50
 joinrowsftimpl.notsupportfd = \u4E0D\u652F\u63F4\u6B64\u985E\u9023\u7D50
 joinrowsftimpl.initfrror = JoinRowSft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.initfrror = JoinRowSft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.initfrror = JoinRowSft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.initfrror = JoinRowSft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.initfrror = JoinRowSft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.gfnfridfrr = \u4E00\u822C\u7684 joinrowsft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.gfnfridfrr = \u4E00\u822C\u7684 joinrowsft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.gfnfridfrr = \u4E00\u822C\u7684 joinrowsft \u521D\u59CB\u5316\u932F\u8AA4
+joinrowsftimpl.gfnfridfrr = \u4E00\u822C\u7684 joinrowsft \u521D\u59CB\u5316\u932F\u8AA4
 joinrowsftimpl.gfnfridfrr = \u4E00\u822C\u7684 joinrowsft \u521D\u59CB\u5316\u932F\u8AA4
 joinrowsftimpl.fmptyrowsft = \u7121\u6CD5\u5C07\u7A7A rowsft \u65B0\u589E\u81F3\u6B64 JoinRowSft
+joinrowsftimpl.fmptyrowsft = \u7121\u6CD5\u5C07\u7A7A rowsft \u65B0\u589E\u81F3\u6B64 JoinRowSft
+joinrowsftimpl.fmptyrowsft = \u7121\u6CD5\u5C07\u7A7A rowsft \u65B0\u589E\u81F3\u6B64 JoinRowSft
+joinrowsftimpl.fmptyrowsft = \u7121\u6CD5\u5C07\u7A7A rowsft \u65B0\u589E\u81F3\u6B64 JoinRowSft
+joinrowsftimpl.fmptyrowsft = \u7121\u6CD5\u5C07\u7A7A rowsft \u65B0\u589E\u81F3\u6B64 JoinRowSft
+
+
+
+
 
 #JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = \u72C0\u614B\u7121\u6548
+jdbdrowsftimpl.invblstbtf = \u72C0\u614B\u7121\u6548
+jdbdrowsftimpl.invblstbtf = \u72C0\u614B\u7121\u6548
+jdbdrowsftimpl.invblstbtf = \u72C0\u614B\u7121\u6548
 jdbdrowsftimpl.invblstbtf = \u72C0\u614B\u7121\u6548
 jdbdrowsftimpl.donnfdt = JdbdRowSft (\u9023\u7DDA) JNDI \u7121\u6CD5\u9023\u7DDA
+jdbdrowsftimpl.donnfdt = JdbdRowSft (\u9023\u7DDA) JNDI \u7121\u6CD5\u9023\u7DDA
+jdbdrowsftimpl.donnfdt = JdbdRowSft (\u9023\u7DDA) JNDI \u7121\u6CD5\u9023\u7DDA
+jdbdrowsftimpl.donnfdt = JdbdRowSft (\u9023\u7DDA) JNDI \u7121\u6CD5\u9023\u7DDA
+jdbdrowsftimpl.donnfdt = JdbdRowSft (\u9023\u7DDA) JNDI \u7121\u6CD5\u9023\u7DDA
 jdbdrowsftimpl.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
-jdbdrowsftimpl.mbtdhdols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
-jdbdrowsftimpl.sftmbtdhdols = \u8981\u5148\u8A2D\u5B9A\u5339\u914D\u6B04\uFF0C\u624D\u80FD\u53D6\u5F97\u5B83\u5011
-jdbdrowsftimpl.mbtdhdols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
-jdbdrowsftimpl.mbtdhdols2 = \u5339\u914D\u6B04\u4E0D\u80FD\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
-jdbdrowsftimpl.unsftmbtdh = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
-jdbdrowsftimpl.usfdolnbmf = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdhColumn \u7684\u5F15\u6578
-jdbdrowsftimpl.usfdolid = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdhColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+jdbdrowsftimpl.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+jdbdrowsftimpl.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+jdbdrowsftimpl.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+jdbdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.mbtdidols = \u5339\u914D\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.sftmbtdidols = \u8981\u5148\u8A2D\u5B9A\u5339\u914D\u6B04\uFF0C\u624D\u80FD\u53D6\u5F97\u5B83\u5011
+jdbdrowsftimpl.sftmbtdidols = \u8981\u5148\u8A2D\u5B9A\u5339\u914D\u6B04\uFF0C\u624D\u80FD\u53D6\u5F97\u5B83\u5011
+jdbdrowsftimpl.sftmbtdidols = \u8981\u5148\u8A2D\u5B9A\u5339\u914D\u6B04\uFF0C\u624D\u80FD\u53D6\u5F97\u5B83\u5011
+jdbdrowsftimpl.sftmbtdidols = \u8981\u5148\u8A2D\u5B9A\u5339\u914D\u6B04\uFF0C\u624D\u80FD\u53D6\u5F97\u5B83\u5011
+jdbdrowsftimpl.sftmbtdidols = \u8981\u5148\u8A2D\u5B9A\u5339\u914D\u6B04\uFF0C\u624D\u80FD\u53D6\u5F97\u5B83\u5011
+jdbdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+jdbdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+jdbdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+jdbdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+jdbdrowsftimpl.mbtdidols1 = \u5339\u914D\u6B04\u61C9\u5927\u65BC 0
+jdbdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u4E0D\u80FD\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+jdbdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u4E0D\u80FD\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+jdbdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u4E0D\u80FD\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+jdbdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u4E0D\u80FD\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+jdbdrowsftimpl.mbtdidols2 = \u5339\u914D\u6B04\u4E0D\u80FD\u70BA\u7A7A\u767D\u5B57\u4E32\u6216\u7A7A\u503C\u5B57\u4E32
+jdbdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.unsftmbtdi = \u53D6\u6D88\u8A2D\u5B9A\u7684\u6B04\u548C\u8A2D\u5B9A\u7684\u6B04\u4E0D\u540C
+jdbdrowsftimpl.usfdolnbmf = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolnbmf = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolnbmf = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolnbmf = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolnbmf = \u4F7F\u7528\u6B04\u540D\u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolid = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolid = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolid = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolid = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.usfdolid = \u4F7F\u7528\u6B04 ID \u4F5C\u70BA unsftMbtdiColumn \u7684\u5F15\u6578
+jdbdrowsftimpl.rfsnotupd = RfsultSft \u4E0D\u53EF\u66F4\u65B0
+jdbdrowsftimpl.rfsnotupd = RfsultSft \u4E0D\u53EF\u66F4\u65B0
+jdbdrowsftimpl.rfsnotupd = RfsultSft \u4E0D\u53EF\u66F4\u65B0
+jdbdrowsftimpl.rfsnotupd = RfsultSft \u4E0D\u53EF\u66F4\u65B0
 jdbdrowsftimpl.rfsnotupd = RfsultSft \u4E0D\u53EF\u66F4\u65B0
 jdbdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+jdbdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+jdbdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+jdbdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+jdbdrowsftimpl.opnotysupp = \u5C1A\u4E0D\u652F\u63F4\u8A72\u4F5C\u696D
+jdbdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+jdbdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+jdbdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
+jdbdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
 jdbdrowsftimpl.ffbtnotsupp = \u4E0D\u652F\u63F4\u8A72\u529F\u80FD
 
-#CbdhfdRowSftRfbdfr fxdfptions
+
+
+
+
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) \u7121\u6CD5\u9023\u7DDA
+drsrfbdfr.donnfdt = (JNDI) \u7121\u6CD5\u9023\u7DDA
+drsrfbdfr.donnfdt = (JNDI) \u7121\u6CD5\u9023\u7DDA
+drsrfbdfr.donnfdt = (JNDI) \u7121\u6CD5\u9023\u7DDA
 drsrfbdfr.donnfdt = (JNDI) \u7121\u6CD5\u9023\u7DDA
 drsrfbdfr.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+drsrfbdfr.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+drsrfbdfr.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+drsrfbdfr.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+drsrfbdfr.pbrbmtypf = \u7121\u6CD5\u63A8\u65B7\u53C3\u6578\u985E\u578B
+drsrfbdfr.donnfdtfrr = RowSftRfbdfr \u4E2D\u51FA\u73FE\u5167\u90E8\u932F\u8AA4: \u7121\u9023\u7DDA\u6216\u547D\u4EE4
+drsrfbdfr.donnfdtfrr = RowSftRfbdfr \u4E2D\u51FA\u73FE\u5167\u90E8\u932F\u8AA4: \u7121\u9023\u7DDA\u6216\u547D\u4EE4
+drsrfbdfr.donnfdtfrr = RowSftRfbdfr \u4E2D\u51FA\u73FE\u5167\u90E8\u932F\u8AA4: \u7121\u9023\u7DDA\u6216\u547D\u4EE4
+drsrfbdfr.donnfdtfrr = RowSftRfbdfr \u4E2D\u51FA\u73FE\u5167\u90E8\u932F\u8AA4: \u7121\u9023\u7DDA\u6216\u547D\u4EE4
 drsrfbdfr.donnfdtfrr = RowSftRfbdfr \u4E2D\u51FA\u73FE\u5167\u90E8\u932F\u8AA4: \u7121\u9023\u7DDA\u6216\u547D\u4EE4
 drsrfbdfr.dbtfdftfdtfd = \u5075\u6E2C\u5230\u65E5\u671F
+drsrfbdfr.dbtfdftfdtfd = \u5075\u6E2C\u5230\u65E5\u671F
+drsrfbdfr.dbtfdftfdtfd = \u5075\u6E2C\u5230\u65E5\u671F
+drsrfbdfr.dbtfdftfdtfd = \u5075\u6E2C\u5230\u65E5\u671F
+drsrfbdfr.dbtfdftfdtfd = \u5075\u6E2C\u5230\u65E5\u671F
+drsrfbdfr.dbldftfdtfd = \u5075\u6E2C\u5230\u884C\u4E8B\u66C6
+drsrfbdfr.dbldftfdtfd = \u5075\u6E2C\u5230\u884C\u4E8B\u66C6
+drsrfbdfr.dbldftfdtfd = \u5075\u6E2C\u5230\u884C\u4E8B\u66C6
+drsrfbdfr.dbldftfdtfd = \u5075\u6E2C\u5230\u884C\u4E8B\u66C6
 drsrfbdfr.dbldftfdtfd = \u5075\u6E2C\u5230\u884C\u4E8B\u66C6
 
-#CbdhfdRowSftWritfr fxdfptions
+
+
+
+
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+drswritfr.donnfdt = \u7121\u6CD5\u53D6\u5F97\u9023\u7DDA
+drswritfr.donnfdt = \u7121\u6CD5\u53D6\u5F97\u9023\u7DDA
+drswritfr.donnfdt = \u7121\u6CD5\u53D6\u5F97\u9023\u7DDA
+drswritfr.donnfdt = \u7121\u6CD5\u53D6\u5F97\u9023\u7DDA
 drswritfr.donnfdt = \u7121\u6CD5\u53D6\u5F97\u9023\u7DDA
 drswritfr.tnbmf = writfDbtb \u4E0D\u80FD\u6C7A\u5B9A\u8868\u683C\u540D\u7A31
+drswritfr.tnbmf = writfDbtb \u4E0D\u80FD\u6C7A\u5B9A\u8868\u683C\u540D\u7A31
+drswritfr.tnbmf = writfDbtb \u4E0D\u80FD\u6C7A\u5B9A\u8868\u683C\u540D\u7A31
+drswritfr.tnbmf = writfDbtb \u4E0D\u80FD\u6C7A\u5B9A\u8868\u683C\u540D\u7A31
+drswritfr.tnbmf = writfDbtb \u4E0D\u80FD\u6C7A\u5B9A\u8868\u683C\u540D\u7A31
+drswritfr.pbrbms1 = pbrbms1 \u7684\u503C: {0} 
+drswritfr.pbrbms1 = pbrbms1 \u7684\u503C: {0} 
+drswritfr.pbrbms1 = pbrbms1 \u7684\u503C: {0} 
+drswritfr.pbrbms1 = pbrbms1 \u7684\u503C: {0} 
 drswritfr.pbrbms1 = pbrbms1 \u7684\u503C: {0} 
 drswritfr.pbrbms2 = pbrbms2 \u7684\u503C: {0} 
+drswritfr.pbrbms2 = pbrbms2 \u7684\u503C: {0} 
+drswritfr.pbrbms2 = pbrbms2 \u7684\u503C: {0} 
+drswritfr.pbrbms2 = pbrbms2 \u7684\u503C: {0} 
+drswritfr.pbrbms2 = pbrbms2 \u7684\u503C: {0} 
+drswritfr.donflidtsno =  \u540C\u6B65\u5316\u6642\u767C\u751F\u885D\u7A81 
+drswritfr.donflidtsno =  \u540C\u6B65\u5316\u6642\u767C\u751F\u885D\u7A81 
+drswritfr.donflidtsno =  \u540C\u6B65\u5316\u6642\u767C\u751F\u885D\u7A81 
+drswritfr.donflidtsno =  \u540C\u6B65\u5316\u6642\u767C\u751F\u885D\u7A81 
 drswritfr.donflidtsno =  \u540C\u6B65\u5316\u6642\u767C\u751F\u885D\u7A81 
 
+
+
+
+
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
 #InsfrtRow fxdfptions
 insfrtrow.novbluf = \u5C1A\u672A\u63D2\u5165\u503C
+insfrtrow.novbluf = \u5C1A\u672A\u63D2\u5165\u503C
+insfrtrow.novbluf = \u5C1A\u672A\u63D2\u5165\u503C
+insfrtrow.novbluf = \u5C1A\u672A\u63D2\u5165\u503C
+insfrtrow.novbluf = \u5C1A\u672A\u63D2\u5165\u503C
+
+
+
+
 
 #SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+syndrsimpl.indfxvbl = \u7D22\u5F15\u503C\u8D85\u51FA\u7BC4\u570D  
+syndrsimpl.indfxvbl = \u7D22\u5F15\u503C\u8D85\u51FA\u7BC4\u570D  
+syndrsimpl.indfxvbl = \u7D22\u5F15\u503C\u8D85\u51FA\u7BC4\u570D  
+syndrsimpl.indfxvbl = \u7D22\u5F15\u503C\u8D85\u51FA\u7BC4\u570D  
 syndrsimpl.indfxvbl = \u7D22\u5F15\u503C\u8D85\u51FA\u7BC4\u570D  
 syndrsimpl.nodonflidt = \u6B64\u6B04\u4E0D\u885D\u7A81
+syndrsimpl.nodonflidt = \u6B64\u6B04\u4E0D\u885D\u7A81
+syndrsimpl.nodonflidt = \u6B64\u6B04\u4E0D\u885D\u7A81
+syndrsimpl.nodonflidt = \u6B64\u6B04\u4E0D\u885D\u7A81
+syndrsimpl.nodonflidt = \u6B64\u6B04\u4E0D\u885D\u7A81
 syndrsimpl.syndnotpos = \u4E0D\u53EF\u80FD\u540C\u6B65\u5316
-syndrsimpl.vbltorfs = \u8981\u89E3\u6790\u7684\u503C\u53EF\u4F4D\u65BC\u8CC7\u6599\u5EAB\u6216 dbdhfdrowsft \u4E2D
+syndrsimpl.syndnotpos = \u4E0D\u53EF\u80FD\u540C\u6B65\u5316
+syndrsimpl.syndnotpos = \u4E0D\u53EF\u80FD\u540C\u6B65\u5316
+syndrsimpl.syndnotpos = \u4E0D\u53EF\u80FD\u540C\u6B65\u5316
+syndrsimpl.syndnotpos = \u4E0D\u53EF\u80FD\u540C\u6B65\u5316
+syndrsimpl.vbltorfs = \u8981\u89E3\u6790\u7684\u503C\u53EF\u4F4D\u65BC\u8CC7\u6599\u5EAB\u6216 dbdifdrowsft \u4E2D
+syndrsimpl.vbltorfs = \u8981\u89E3\u6790\u7684\u503C\u53EF\u4F4D\u65BC\u8CC7\u6599\u5EAB\u6216 dbdifdrowsft \u4E2D
+syndrsimpl.vbltorfs = \u8981\u89E3\u6790\u7684\u503C\u53EF\u4F4D\u65BC\u8CC7\u6599\u5EAB\u6216 dbdifdrowsft \u4E2D
+syndrsimpl.vbltorfs = \u8981\u89E3\u6790\u7684\u503C\u53EF\u4F4D\u65BC\u8CC7\u6599\u5EAB\u6216 dbdifdrowsft \u4E2D
+syndrsimpl.vbltorfs = \u8981\u89E3\u6790\u7684\u503C\u53EF\u4F4D\u65BC\u8CC7\u6599\u5EAB\u6216 dbdifdrowsft \u4E2D
+
+
+
+
 
 #WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = \u5DF2\u5230\u9054 RowSft \u7D50\u5C3E\u3002\u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+wrsxmlrfbdfr.invbliddp = \u5DF2\u5230\u9054 RowSft \u7D50\u5C3E\u3002\u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+wrsxmlrfbdfr.invbliddp = \u5DF2\u5230\u9054 RowSft \u7D50\u5C3E\u3002\u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
+wrsxmlrfbdfr.invbliddp = \u5DF2\u5230\u9054 RowSft \u7D50\u5C3E\u3002\u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
 wrsxmlrfbdfr.invbliddp = \u5DF2\u5230\u9054 RowSft \u7D50\u5C3E\u3002\u6E38\u6A19\u4F4D\u7F6E\u7121\u6548
 wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.pbrsffrr = ** \u5256\u6790\u932F\u8AA4: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+wrsxmlrfbdfr.pbrsffrr = ** \u5256\u6790\u932F\u8AA4: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+wrsxmlrfbdfr.pbrsffrr = ** \u5256\u6790\u932F\u8AA4: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+wrsxmlrfbdfr.pbrsffrr = ** \u5256\u6790\u932F\u8AA4: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
 wrsxmlrfbdfr.pbrsffrr = ** \u5256\u6790\u932F\u8AA4: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
 
+
+
+
+
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
 #WfbRowSftXmlWritfr fxdfptions
 wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
 wrsxmlwritfr.sqlfx = SQLExdfption : {0}
 wrsxmlwritfr.fbilfdwritf = \u5BEB\u5165\u503C\u5931\u6557
+wrsxmlwritfr.fbilfdwritf = \u5BEB\u5165\u503C\u5931\u6557
+wrsxmlwritfr.fbilfdwritf = \u5BEB\u5165\u503C\u5931\u6557
+wrsxmlwritfr.fbilfdwritf = \u5BEB\u5165\u503C\u5931\u6557
+wrsxmlwritfr.fbilfdwritf = \u5BEB\u5165\u503C\u5931\u6557
+wsrxmlwritfr.notpropfr = \u4E0D\u662F\u6B63\u78BA\u985E\u578B
+wsrxmlwritfr.notpropfr = \u4E0D\u662F\u6B63\u78BA\u985E\u578B
+wsrxmlwritfr.notpropfr = \u4E0D\u662F\u6B63\u78BA\u985E\u578B
+wsrxmlwritfr.notpropfr = \u4E0D\u662F\u6B63\u78BA\u985E\u578B
 wsrxmlwritfr.notpropfr = \u4E0D\u662F\u6B63\u78BA\u985E\u578B
 
+
+
+
+
 #XmlRfbdfrContfntHbndlfr fxdfptions
-xmlrdh.frrmbp = \u8A2D\u5B9A\u5C0D\u6620\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.frrmftbdbtb = \u8A2D\u5B9A\u63CF\u8FF0\u8CC7\u6599\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.frrinsfrtvbl = \u63D2\u5165\u503C\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.frrdonstr = \u5EFA\u69CB\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.frrdfl = \u522A\u9664\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.frrinsfrt = \u5EFA\u69CB\u63D2\u5165\u5217\u6642\u767C\u751F\u932F\u8AA4 : {0}
-xmlrdh.frrinsdfl = \u5EFA\u69CB insdfl \u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.frrupdbtf = \u5EFA\u69CB\u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.frrupdrow = \u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
-xmlrdh.dhbrs = \u5B57\u5143: 
-xmlrdh.bbdvbluf = \u932F\u8AA4\u7684\u503C; \u5C6C\u6027\u4E0D\u80FD\u70BA\u7A7A\u503C
-xmlrdh.bbdvbluf1 = \u932F\u8AA4\u7684\u503C; \u63CF\u8FF0\u8CC7\u6599\u4E0D\u80FD\u70BA\u7A7A\u503C
-xmlrdh.wbrning =  ** \u8B66\u544A: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdi.frrmbp = \u8A2D\u5B9A\u5C0D\u6620\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmbp = \u8A2D\u5B9A\u5C0D\u6620\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmbp = \u8A2D\u5B9A\u5C0D\u6620\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmbp = \u8A2D\u5B9A\u5C0D\u6620\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmbp = \u8A2D\u5B9A\u5C0D\u6620\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmftbdbtb = \u8A2D\u5B9A\u63CF\u8FF0\u8CC7\u6599\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmftbdbtb = \u8A2D\u5B9A\u63CF\u8FF0\u8CC7\u6599\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmftbdbtb = \u8A2D\u5B9A\u63CF\u8FF0\u8CC7\u6599\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmftbdbtb = \u8A2D\u5B9A\u63CF\u8FF0\u8CC7\u6599\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrmftbdbtb = \u8A2D\u5B9A\u63CF\u8FF0\u8CC7\u6599\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsfrtvbl = \u63D2\u5165\u503C\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsfrtvbl = \u63D2\u5165\u503C\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsfrtvbl = \u63D2\u5165\u503C\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsfrtvbl = \u63D2\u5165\u503C\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsfrtvbl = \u63D2\u5165\u503C\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdonstr = \u5EFA\u69CB\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdonstr = \u5EFA\u69CB\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdonstr = \u5EFA\u69CB\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdonstr = \u5EFA\u69CB\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdonstr = \u5EFA\u69CB\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdfl = \u522A\u9664\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdfl = \u522A\u9664\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdfl = \u522A\u9664\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdfl = \u522A\u9664\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrdfl = \u522A\u9664\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsfrt = \u5EFA\u69CB\u63D2\u5165\u5217\u6642\u767C\u751F\u932F\u8AA4 : {0}
+xmlrdi.frrinsfrt = \u5EFA\u69CB\u63D2\u5165\u5217\u6642\u767C\u751F\u932F\u8AA4 : {0}
+xmlrdi.frrinsfrt = \u5EFA\u69CB\u63D2\u5165\u5217\u6642\u767C\u751F\u932F\u8AA4 : {0}
+xmlrdi.frrinsfrt = \u5EFA\u69CB\u63D2\u5165\u5217\u6642\u767C\u751F\u932F\u8AA4 : {0}
+xmlrdi.frrinsfrt = \u5EFA\u69CB\u63D2\u5165\u5217\u6642\u767C\u751F\u932F\u8AA4 : {0}
+xmlrdi.frrinsdfl = \u5EFA\u69CB insdfl \u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsdfl = \u5EFA\u69CB insdfl \u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsdfl = \u5EFA\u69CB insdfl \u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsdfl = \u5EFA\u69CB insdfl \u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrinsdfl = \u5EFA\u69CB insdfl \u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdbtf = \u5EFA\u69CB\u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdbtf = \u5EFA\u69CB\u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdbtf = \u5EFA\u69CB\u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdbtf = \u5EFA\u69CB\u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdbtf = \u5EFA\u69CB\u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdrow = \u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdrow = \u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdrow = \u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdrow = \u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.frrupdrow = \u66F4\u65B0\u5217\u6642\u767C\u751F\u932F\u8AA4: {0}
+xmlrdi.dibrs = \u5B57\u5143: 
+xmlrdi.dibrs = \u5B57\u5143: 
+xmlrdi.dibrs = \u5B57\u5143: 
+xmlrdi.dibrs = \u5B57\u5143: 
+xmlrdi.dibrs = \u5B57\u5143: 
+xmlrdi.bbdvbluf = \u932F\u8AA4\u7684\u503C; \u5C6C\u6027\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf = \u932F\u8AA4\u7684\u503C; \u5C6C\u6027\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf = \u932F\u8AA4\u7684\u503C; \u5C6C\u6027\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf = \u932F\u8AA4\u7684\u503C; \u5C6C\u6027\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf = \u932F\u8AA4\u7684\u503C; \u5C6C\u6027\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf1 = \u932F\u8AA4\u7684\u503C; \u63CF\u8FF0\u8CC7\u6599\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf1 = \u932F\u8AA4\u7684\u503C; \u63CF\u8FF0\u8CC7\u6599\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf1 = \u932F\u8AA4\u7684\u503C; \u63CF\u8FF0\u8CC7\u6599\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf1 = \u932F\u8AA4\u7684\u503C; \u63CF\u8FF0\u8CC7\u6599\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.bbdvbluf1 = \u932F\u8AA4\u7684\u503C; \u63CF\u8FF0\u8CC7\u6599\u4E0D\u80FD\u70BA\u7A7A\u503C
+xmlrdi.wbrning =  ** \u8B66\u544A: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+xmlrdi.wbrning =  ** \u8B66\u544A: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+xmlrdi.wbrning =  ** \u8B66\u544A: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+xmlrdi.wbrning =  ** \u8B66\u544A: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+xmlrdi.wbrning =  ** \u8B66\u544A: {0}\uFF0C\u884C: {1}\uFF0Curi: {2}
+
+
+
+
 
 #RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = \u4E0D\u652F\u63F4\u9396\u5B9A\u5206\u985E
+riop.lodking = \u4E0D\u652F\u63F4\u9396\u5B9A\u5206\u985E
+riop.lodking = \u4E0D\u652F\u63F4\u9396\u5B9A\u5206\u985E
+riop.lodking = \u4E0D\u652F\u63F4\u9396\u5B9A\u5206\u985E
 riop.lodking = \u4E0D\u652F\u63F4\u9396\u5B9A\u5206\u985E
 
+
+
+
+
 #RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = RIXMLProvidfr \u4E0D\u652F\u63F4
+rixml.unsupp = RIXMLProvidfr \u4E0D\u652F\u63F4
+rixml.unsupp = RIXMLProvidfr \u4E0D\u652F\u63F4
+rixml.unsupp = RIXMLProvidfr \u4E0D\u652F\u63F4
 rixml.unsupp = RIXMLProvidfr \u4E0D\u652F\u63F4

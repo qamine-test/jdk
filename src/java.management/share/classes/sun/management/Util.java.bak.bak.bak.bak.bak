@@ -1,0 +1,87 @@
+/*
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntPfrmission;
+import jbvb.util.List;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+
+
+publid dlbss Util {
+    privbtf Util() {}  // tifrf brf no instbndfs of tiis dlbss
+
+    stbtid RuntimfExdfption nfwExdfption(Exdfption f) {
+        tirow nfw RuntimfExdfption(f);
+    }
+
+    privbtf stbtid finbl String[] EMPTY_STRING_ARRAY = nfw String[0];
+    stbtid String[] toStringArrby(List<String> list) {
+        rfturn list.toArrby(EMPTY_STRING_ARRAY);
+    }
+
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String dombinAndTypf, String nbmf) {
+        rfturn nfwObjfdtNbmf(dombinAndTypf + ",nbmf=" + nbmf);
+    }
+
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String nbmf) {
+        try {
+            rfturn ObjfdtNbmf.gftInstbndf(nbmf);
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    privbtf stbtid MbnbgfmfntPfrmission monitorPfrmission =
+        nfw MbnbgfmfntPfrmission("monitor");
+    privbtf stbtid MbnbgfmfntPfrmission dontrolPfrmission =
+        nfw MbnbgfmfntPfrmission("dontrol");
+
+    /**
+     * Cifdk tibt tif durrfnt dontfxt is trustfd to pfrform monitoring
+     * or mbnbgfmfnt.
+     * <p>
+     * If tif difdk fbils wf tirow b SfdurityExdfption, otifrwisf
+     * wf rfturn normblly.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf MbnbgfmfntPfrmission("dontrol").
+     */
+    stbtid void difdkAddfss(MbnbgfmfntPfrmission p)
+         tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(p);
+        }
+    }
+
+    stbtid void difdkMonitorAddfss() tirows SfdurityExdfption {
+        difdkAddfss(monitorPfrmission);
+    }
+    stbtid void difdkControlAddfss() tirows SfdurityExdfption {
+        difdkAddfss(dontrolPfrmission);
+    }
+}

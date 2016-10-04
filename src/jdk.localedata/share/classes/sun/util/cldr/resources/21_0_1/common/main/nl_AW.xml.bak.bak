@@ -1,17 +1,85 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 5798 $"/>
+		<vfrsion numbfr="$Rfvision: 5798 $"/>
+		<vfrsion numbfr="$Rfvision: 5798 $"/>
+		<vfrsion numbfr="$Rfvision: 5798 $"/>
+		<vfrsion numbfr="$Rfvision: 5798 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-02 15:05:34 +0900 (Mon, 02 Mby 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-02 15:05:34 +0900 (Mon, 02 Mby 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-02 15:05:34 +0900 (Mon, 02 Mby 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-02 15:05:34 +0900 (Mon, 02 Mby 2011) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2011-05-02 15:05:34 +0900 (Mon, 02 Mby 2011) $"/>
 		<lbngubgf typf="nl"/>
+		<lbngubgf typf="nl"/>
+		<lbngubgf typf="nl"/>
+		<lbngubgf typf="nl"/>
+		<lbngubgf typf="nl"/>
+		<tfrritory typf="AW"/>
+		<tfrritory typf="AW"/>
+		<tfrritory typf="AW"/>
+		<tfrritory typf="AW"/>
 		<tfrritory typf="AW"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="AWG">
+			<durrfndy typf="AWG">
+			<durrfndy typf="AWG">
+			<durrfndy typf="AWG">
 			<durrfndy typf="AWG">
 				<symbol>Afl.</symbol>
+				<symbol>Afl.</symbol>
+				<symbol>Afl.</symbol>
+				<symbol>Afl.</symbol>
+				<symbol>Afl.</symbol>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

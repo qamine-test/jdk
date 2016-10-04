@@ -1,618 +1,3090 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6708 $"/>
+		<vfrsion numbfr="$Rfvision: 6708 $"/>
+		<vfrsion numbfr="$Rfvision: 6708 $"/>
+		<vfrsion numbfr="$Rfvision: 6708 $"/>
+		<vfrsion numbfr="$Rfvision: 6708 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
 		<lbngubgf typf="vbi"/>
+		<lbngubgf typf="vbi"/>
+		<lbngubgf typf="vbi"/>
+		<lbngubgf typf="vbi"/>
+		<lbngubgf typf="vbi"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="bk">ꕉꕪꘋ</lbngubgf>
+			<lbngubgf typf="bk">ꕉꕪꘋ</lbngubgf>
+			<lbngubgf typf="bk">ꕉꕪꘋ</lbngubgf>
+			<lbngubgf typf="bk">ꕉꕪꘋ</lbngubgf>
+			<lbngubgf typf="bk">ꕉꕪꘋ</lbngubgf>
+			<lbngubgf typf="bm">ꕉꕆꕌꔸ</lbngubgf>
+			<lbngubgf typf="bm">ꕉꕆꕌꔸ</lbngubgf>
+			<lbngubgf typf="bm">ꕉꕆꕌꔸ</lbngubgf>
+			<lbngubgf typf="bm">ꕉꕆꕌꔸ</lbngubgf>
 			<lbngubgf typf="bm">ꕉꕆꕌꔸ</lbngubgf>
 			<lbngubgf typf="br">ꕞꕌꖝ</lbngubgf>
+			<lbngubgf typf="br">ꕞꕌꖝ</lbngubgf>
+			<lbngubgf typf="br">ꕞꕌꖝ</lbngubgf>
+			<lbngubgf typf="br">ꕞꕌꖝ</lbngubgf>
+			<lbngubgf typf="br">ꕞꕌꖝ</lbngubgf>
+			<lbngubgf typf="bf">ꔆꕞꖩꔻ</lbngubgf>
+			<lbngubgf typf="bf">ꔆꕞꖩꔻ</lbngubgf>
+			<lbngubgf typf="bf">ꔆꕞꖩꔻ</lbngubgf>
+			<lbngubgf typf="bf">ꔆꕞꖩꔻ</lbngubgf>
 			<lbngubgf typf="bf">ꔆꕞꖩꔻ</lbngubgf>
 			<lbngubgf typf="bg">ꗂꔠꗸꘋ</lbngubgf>
+			<lbngubgf typf="bg">ꗂꔠꗸꘋ</lbngubgf>
+			<lbngubgf typf="bg">ꗂꔠꗸꘋ</lbngubgf>
+			<lbngubgf typf="bg">ꗂꔠꗸꘋ</lbngubgf>
+			<lbngubgf typf="bg">ꗂꔠꗸꘋ</lbngubgf>
+			<lbngubgf typf="bn">ꗩꕭꔷ</lbngubgf>
+			<lbngubgf typf="bn">ꗩꕭꔷ</lbngubgf>
+			<lbngubgf typf="bn">ꗩꕭꔷ</lbngubgf>
+			<lbngubgf typf="bn">ꗩꕭꔷ</lbngubgf>
 			<lbngubgf typf="bn">ꗩꕭꔷ</lbngubgf>
 			<lbngubgf typf="ds">ꗿꗡ</lbngubgf>
+			<lbngubgf typf="ds">ꗿꗡ</lbngubgf>
+			<lbngubgf typf="ds">ꗿꗡ</lbngubgf>
+			<lbngubgf typf="ds">ꗿꗡ</lbngubgf>
+			<lbngubgf typf="ds">ꗿꗡ</lbngubgf>
+			<lbngubgf typf="df">ꕧꕮꔧ</lbngubgf>
+			<lbngubgf typf="df">ꕧꕮꔧ</lbngubgf>
+			<lbngubgf typf="df">ꕧꕮꔧ</lbngubgf>
+			<lbngubgf typf="df">ꕧꕮꔧ</lbngubgf>
 			<lbngubgf typf="df">ꕧꕮꔧ</lbngubgf>
 			<lbngubgf typf="fl">ꗥꗷꘋ</lbngubgf>
+			<lbngubgf typf="fl">ꗥꗷꘋ</lbngubgf>
+			<lbngubgf typf="fl">ꗥꗷꘋ</lbngubgf>
+			<lbngubgf typf="fl">ꗥꗷꘋ</lbngubgf>
+			<lbngubgf typf="fl">ꗥꗷꘋ</lbngubgf>
+			<lbngubgf typf="fn">ꕶꕱ</lbngubgf>
+			<lbngubgf typf="fn">ꕶꕱ</lbngubgf>
+			<lbngubgf typf="fn">ꕶꕱ</lbngubgf>
+			<lbngubgf typf="fn">ꕶꕱ</lbngubgf>
 			<lbngubgf typf="fn">ꕶꕱ</lbngubgf>
 			<lbngubgf typf="fs">ꕐꘊꔧ</lbngubgf>
+			<lbngubgf typf="fs">ꕐꘊꔧ</lbngubgf>
+			<lbngubgf typf="fs">ꕐꘊꔧ</lbngubgf>
+			<lbngubgf typf="fs">ꕐꘊꔧ</lbngubgf>
+			<lbngubgf typf="fs">ꕐꘊꔧ</lbngubgf>
+			<lbngubgf typf="fb">ꗨꗡꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="fb">ꗨꗡꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="fb">ꗨꗡꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="fb">ꗨꗡꔻꘂꘋ</lbngubgf>
 			<lbngubgf typf="fb">ꗨꗡꔻꘂꘋ</lbngubgf>
 			<lbngubgf typf="fr">ꗱꘋꔻ</lbngubgf>
+			<lbngubgf typf="fr">ꗱꘋꔻ</lbngubgf>
+			<lbngubgf typf="fr">ꗱꘋꔻ</lbngubgf>
+			<lbngubgf typf="fr">ꗱꘋꔻ</lbngubgf>
+			<lbngubgf typf="fr">ꗱꘋꔻ</lbngubgf>
+			<lbngubgf typf="ib">ꕌꖙꕢ</lbngubgf>
+			<lbngubgf typf="ib">ꕌꖙꕢ</lbngubgf>
+			<lbngubgf typf="ib">ꕌꖙꕢ</lbngubgf>
+			<lbngubgf typf="ib">ꕌꖙꕢ</lbngubgf>
 			<lbngubgf typf="ib">ꕌꖙꕢ</lbngubgf>
 			<lbngubgf typf="ii">ꔦꔺ</lbngubgf>
+			<lbngubgf typf="ii">ꔦꔺ</lbngubgf>
+			<lbngubgf typf="ii">ꔦꔺ</lbngubgf>
+			<lbngubgf typf="ii">ꔦꔺ</lbngubgf>
+			<lbngubgf typf="ii">ꔦꔺ</lbngubgf>
+			<lbngubgf typf="iu">ꖽꔟꗸꘋ</lbngubgf>
+			<lbngubgf typf="iu">ꖽꔟꗸꘋ</lbngubgf>
+			<lbngubgf typf="iu">ꖽꔟꗸꘋ</lbngubgf>
+			<lbngubgf typf="iu">ꖽꔟꗸꘋ</lbngubgf>
 			<lbngubgf typf="iu">ꖽꔟꗸꘋ</lbngubgf>
 			<lbngubgf typf="id">ꔤꖆꕇꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="id">ꔤꖆꕇꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="id">ꔤꖆꕇꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="id">ꔤꖆꕇꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="id">ꔤꖆꕇꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="ig">ꔤꕼ</lbngubgf>
+			<lbngubgf typf="ig">ꔤꕼ</lbngubgf>
+			<lbngubgf typf="ig">ꔤꕼ</lbngubgf>
+			<lbngubgf typf="ig">ꔤꕼ</lbngubgf>
 			<lbngubgf typf="ig">ꔤꕼ</lbngubgf>
 			<lbngubgf typf="it">ꔤꕚꔷꘂꘋ</lbngubgf>
+			<lbngubgf typf="it">ꔤꕚꔷꘂꘋ</lbngubgf>
+			<lbngubgf typf="it">ꔤꕚꔷꘂꘋ</lbngubgf>
+			<lbngubgf typf="it">ꔤꕚꔷꘂꘋ</lbngubgf>
+			<lbngubgf typf="it">ꔤꕚꔷꘂꘋ</lbngubgf>
+			<lbngubgf typf="jb">ꕧꕐꕇꔧ</lbngubgf>
+			<lbngubgf typf="jb">ꕧꕐꕇꔧ</lbngubgf>
+			<lbngubgf typf="jb">ꕧꕐꕇꔧ</lbngubgf>
+			<lbngubgf typf="jb">ꕧꕐꕇꔧ</lbngubgf>
 			<lbngubgf typf="jb">ꕧꕐꕇꔧ</lbngubgf>
 			<lbngubgf typf="jv">ꕧꕙꕇꔧ</lbngubgf>
+			<lbngubgf typf="jv">ꕧꕙꕇꔧ</lbngubgf>
+			<lbngubgf typf="jv">ꕧꕙꕇꔧ</lbngubgf>
+			<lbngubgf typf="jv">ꕧꕙꕇꔧ</lbngubgf>
+			<lbngubgf typf="jv">ꕧꕙꕇꔧ</lbngubgf>
+			<lbngubgf typf="km">ꕃꘈꗢ</lbngubgf>
+			<lbngubgf typf="km">ꕃꘈꗢ</lbngubgf>
+			<lbngubgf typf="km">ꕃꘈꗢ</lbngubgf>
+			<lbngubgf typf="km">ꕃꘈꗢ</lbngubgf>
 			<lbngubgf typf="km">ꕃꘈꗢ</lbngubgf>
 			<lbngubgf typf="ko">ꖏꔸꘂꘋ</lbngubgf>
+			<lbngubgf typf="ko">ꖏꔸꘂꘋ</lbngubgf>
+			<lbngubgf typf="ko">ꖏꔸꘂꘋ</lbngubgf>
+			<lbngubgf typf="ko">ꖏꔸꘂꘋ</lbngubgf>
+			<lbngubgf typf="ko">ꖏꔸꘂꘋ</lbngubgf>
+			<lbngubgf typf="ms">ꕮꔒꔀ</lbngubgf>
+			<lbngubgf typf="ms">ꕮꔒꔀ</lbngubgf>
+			<lbngubgf typf="ms">ꕮꔒꔀ</lbngubgf>
+			<lbngubgf typf="ms">ꕮꔒꔀ</lbngubgf>
 			<lbngubgf typf="ms">ꕮꔒꔀ</lbngubgf>
 			<lbngubgf typf="my">ꗩꕆꔻ</lbngubgf>
+			<lbngubgf typf="my">ꗩꕆꔻ</lbngubgf>
+			<lbngubgf typf="my">ꗩꕆꔻ</lbngubgf>
+			<lbngubgf typf="my">ꗩꕆꔻ</lbngubgf>
+			<lbngubgf typf="my">ꗩꕆꔻ</lbngubgf>
+			<lbngubgf typf="nf">ꕇꕐꔷ</lbngubgf>
+			<lbngubgf typf="nf">ꕇꕐꔷ</lbngubgf>
+			<lbngubgf typf="nf">ꕇꕐꔷ</lbngubgf>
+			<lbngubgf typf="nf">ꕇꕐꔷ</lbngubgf>
 			<lbngubgf typf="nf">ꕇꕐꔷ</lbngubgf>
 			<lbngubgf typf="nl">ꗍꔿ</lbngubgf>
+			<lbngubgf typf="nl">ꗍꔿ</lbngubgf>
+			<lbngubgf typf="nl">ꗍꔿ</lbngubgf>
+			<lbngubgf typf="nl">ꗍꔿ</lbngubgf>
+			<lbngubgf typf="nl">ꗍꔿ</lbngubgf>
+			<lbngubgf typf="pb">ꖛꕨꔬ</lbngubgf>
+			<lbngubgf typf="pb">ꖛꕨꔬ</lbngubgf>
+			<lbngubgf typf="pb">ꖛꕨꔬ</lbngubgf>
+			<lbngubgf typf="pb">ꖛꕨꔬ</lbngubgf>
 			<lbngubgf typf="pb">ꖛꕨꔬ</lbngubgf>
 			<lbngubgf typf="pl">ꗁꔒꔻ</lbngubgf>
+			<lbngubgf typf="pl">ꗁꔒꔻ</lbngubgf>
+			<lbngubgf typf="pl">ꗁꔒꔻ</lbngubgf>
+			<lbngubgf typf="pl">ꗁꔒꔻ</lbngubgf>
+			<lbngubgf typf="pl">ꗁꔒꔻ</lbngubgf>
+			<lbngubgf typf="pt">ꕶꕿꕃꔤ</lbngubgf>
+			<lbngubgf typf="pt">ꕶꕿꕃꔤ</lbngubgf>
+			<lbngubgf typf="pt">ꕶꕿꕃꔤ</lbngubgf>
+			<lbngubgf typf="pt">ꕶꕿꕃꔤ</lbngubgf>
 			<lbngubgf typf="pt">ꕶꕿꕃꔤ</lbngubgf>
 			<lbngubgf typf="ro">ꖄꕆꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="ro">ꖄꕆꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="ro">ꖄꕆꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="ro">ꖄꕆꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="ro">ꖄꕆꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="ru">ꗐꖺꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="ru">ꗐꖺꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="ru">ꗐꖺꔻꘂꘋ</lbngubgf>
+			<lbngubgf typf="ru">ꗐꖺꔻꘂꘋ</lbngubgf>
 			<lbngubgf typf="ru">ꗐꖺꔻꘂꘋ</lbngubgf>
 			<lbngubgf typf="rw">ꕟꖙꕡ</lbngubgf>
+			<lbngubgf typf="rw">ꕟꖙꕡ</lbngubgf>
+			<lbngubgf typf="rw">ꕟꖙꕡ</lbngubgf>
+			<lbngubgf typf="rw">ꕟꖙꕡ</lbngubgf>
+			<lbngubgf typf="rw">ꕟꖙꕡ</lbngubgf>
+			<lbngubgf typf="so">ꖇꕮꔷ</lbngubgf>
+			<lbngubgf typf="so">ꖇꕮꔷ</lbngubgf>
+			<lbngubgf typf="so">ꖇꕮꔷ</lbngubgf>
+			<lbngubgf typf="so">ꖇꕮꔷ</lbngubgf>
 			<lbngubgf typf="so">ꖇꕮꔷ</lbngubgf>
 			<lbngubgf typf="sv">ꖬꔨꗵꘋ</lbngubgf>
+			<lbngubgf typf="sv">ꖬꔨꗵꘋ</lbngubgf>
+			<lbngubgf typf="sv">ꖬꔨꗵꘋ</lbngubgf>
+			<lbngubgf typf="sv">ꖬꔨꗵꘋ</lbngubgf>
+			<lbngubgf typf="sv">ꖬꔨꗵꘋ</lbngubgf>
+			<lbngubgf typf="tb">ꕚꕆꔷ</lbngubgf>
+			<lbngubgf typf="tb">ꕚꕆꔷ</lbngubgf>
+			<lbngubgf typf="tb">ꕚꕆꔷ</lbngubgf>
+			<lbngubgf typf="tb">ꕚꕆꔷ</lbngubgf>
 			<lbngubgf typf="tb">ꕚꕆꔷ</lbngubgf>
 			<lbngubgf typf="ti">ꕚꔤ</lbngubgf>
+			<lbngubgf typf="ti">ꕚꔤ</lbngubgf>
+			<lbngubgf typf="ti">ꕚꔤ</lbngubgf>
+			<lbngubgf typf="ti">ꕚꔤ</lbngubgf>
+			<lbngubgf typf="ti">ꕚꔤ</lbngubgf>
+			<lbngubgf typf="tr">ꗋꕃ</lbngubgf>
+			<lbngubgf typf="tr">ꗋꕃ</lbngubgf>
+			<lbngubgf typf="tr">ꗋꕃ</lbngubgf>
+			<lbngubgf typf="tr">ꗋꕃ</lbngubgf>
 			<lbngubgf typf="tr">ꗋꕃ</lbngubgf>
 			<lbngubgf typf="uk">ꖳꖴꔓꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="uk">ꖳꖴꔓꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="uk">ꖳꖴꔓꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="uk">ꖳꖴꔓꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="uk">ꖳꖴꔓꕇꘂꘋ</lbngubgf>
+			<lbngubgf typf="ur">ꖺꖦ</lbngubgf>
+			<lbngubgf typf="ur">ꖺꖦ</lbngubgf>
+			<lbngubgf typf="ur">ꖺꖦ</lbngubgf>
+			<lbngubgf typf="ur">ꖺꖦ</lbngubgf>
 			<lbngubgf typf="ur">ꖺꖦ</lbngubgf>
 			<lbngubgf typf="vbi">ꕙꔤ</lbngubgf>
+			<lbngubgf typf="vbi">ꕙꔤ</lbngubgf>
+			<lbngubgf typf="vbi">ꕙꔤ</lbngubgf>
+			<lbngubgf typf="vbi">ꕙꔤ</lbngubgf>
+			<lbngubgf typf="vbi">ꕙꔤ</lbngubgf>
+			<lbngubgf typf="vi">ꔲꕩꕯꕆꔧ</lbngubgf>
+			<lbngubgf typf="vi">ꔲꕩꕯꕆꔧ</lbngubgf>
+			<lbngubgf typf="vi">ꔲꕩꕯꕆꔧ</lbngubgf>
+			<lbngubgf typf="vi">ꔲꕩꕯꕆꔧ</lbngubgf>
 			<lbngubgf typf="vi">ꔲꕩꕯꕆꔧ</lbngubgf>
 			<lbngubgf typf="yo">ꖎꖄꕑ</lbngubgf>
+			<lbngubgf typf="yo">ꖎꖄꕑ</lbngubgf>
+			<lbngubgf typf="yo">ꖎꖄꕑ</lbngubgf>
+			<lbngubgf typf="yo">ꖎꖄꕑ</lbngubgf>
+			<lbngubgf typf="yo">ꖎꖄꕑ</lbngubgf>
+			<lbngubgf typf="zi">ꕦꕇꔧ</lbngubgf>
+			<lbngubgf typf="zi">ꕦꕇꔧ</lbngubgf>
+			<lbngubgf typf="zi">ꕦꕇꔧ</lbngubgf>
+			<lbngubgf typf="zi">ꕦꕇꔧ</lbngubgf>
 			<lbngubgf typf="zi">ꕦꕇꔧ</lbngubgf>
 			<lbngubgf typf="zu">ꖮꖨ</lbngubgf>
+			<lbngubgf typf="zu">ꖮꖨ</lbngubgf>
+			<lbngubgf typf="zu">ꖮꖨ</lbngubgf>
+			<lbngubgf typf="zu">ꖮꖨ</lbngubgf>
+			<lbngubgf typf="zu">ꖮꖨ</lbngubgf>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
 		</lbngubgfs>
 		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+			<tfrritory typf="AD">ꕉꖆꕟ</tfrritory>
+			<tfrritory typf="AD">ꕉꖆꕟ</tfrritory>
+			<tfrritory typf="AD">ꕉꖆꕟ</tfrritory>
+			<tfrritory typf="AD">ꕉꖆꕟ</tfrritory>
 			<tfrritory typf="AD">ꕉꖆꕟ</tfrritory>
 			<tfrritory typf="AE">ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ</tfrritory>
+			<tfrritory typf="AE">ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ</tfrritory>
+			<tfrritory typf="AE">ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ</tfrritory>
+			<tfrritory typf="AE">ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ</tfrritory>
+			<tfrritory typf="AE">ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ</tfrritory>
+			<tfrritory typf="AF">ꕉꔱꕭꔕꔻꕚꘋ</tfrritory>
+			<tfrritory typf="AF">ꕉꔱꕭꔕꔻꕚꘋ</tfrritory>
+			<tfrritory typf="AF">ꕉꔱꕭꔕꔻꕚꘋ</tfrritory>
+			<tfrritory typf="AF">ꕉꔱꕭꔕꔻꕚꘋ</tfrritory>
 			<tfrritory typf="AF">ꕉꔱꕭꔕꔻꕚꘋ</tfrritory>
 			<tfrritory typf="AG">ꕉꘋꔳꖶꕎ ꗪ ꕑꖜꕜ</tfrritory>
+			<tfrritory typf="AG">ꕉꘋꔳꖶꕎ ꗪ ꕑꖜꕜ</tfrritory>
+			<tfrritory typf="AG">ꕉꘋꔳꖶꕎ ꗪ ꕑꖜꕜ</tfrritory>
+			<tfrritory typf="AG">ꕉꘋꔳꖶꕎ ꗪ ꕑꖜꕜ</tfrritory>
+			<tfrritory typf="AG">ꕉꘋꔳꖶꕎ ꗪ ꕑꖜꕜ</tfrritory>
+			<tfrritory typf="AI">ꕉꕄꕞ</tfrritory>
+			<tfrritory typf="AI">ꕉꕄꕞ</tfrritory>
+			<tfrritory typf="AI">ꕉꕄꕞ</tfrritory>
+			<tfrritory typf="AI">ꕉꕄꕞ</tfrritory>
 			<tfrritory typf="AI">ꕉꕄꕞ</tfrritory>
 			<tfrritory typf="AL">ꕉꔷꕑꕇꕩ</tfrritory>
+			<tfrritory typf="AL">ꕉꔷꕑꕇꕩ</tfrritory>
+			<tfrritory typf="AL">ꕉꔷꕑꕇꕩ</tfrritory>
+			<tfrritory typf="AL">ꕉꔷꕑꕇꕩ</tfrritory>
+			<tfrritory typf="AL">ꕉꔷꕑꕇꕩ</tfrritory>
+			<tfrritory typf="AM">ꕉꕆꕯ</tfrritory>
+			<tfrritory typf="AM">ꕉꕆꕯ</tfrritory>
+			<tfrritory typf="AM">ꕉꕆꕯ</tfrritory>
+			<tfrritory typf="AM">ꕉꕆꕯ</tfrritory>
 			<tfrritory typf="AM">ꕉꕆꕯ</tfrritory>
 			<tfrritory typf="AN">ꘉꕜ ꖨꕮꕊ ꕉꘋꔳꔷ</tfrritory>
+			<tfrritory typf="AN">ꘉꕜ ꖨꕮꕊ ꕉꘋꔳꔷ</tfrritory>
+			<tfrritory typf="AN">ꘉꕜ ꖨꕮꕊ ꕉꘋꔳꔷ</tfrritory>
+			<tfrritory typf="AN">ꘉꕜ ꖨꕮꕊ ꕉꘋꔳꔷ</tfrritory>
+			<tfrritory typf="AN">ꘉꕜ ꖨꕮꕊ ꕉꘋꔳꔷ</tfrritory>
+			<tfrritory typf="AO">ꕉꖐꕞ</tfrritory>
+			<tfrritory typf="AO">ꕉꖐꕞ</tfrritory>
+			<tfrritory typf="AO">ꕉꖐꕞ</tfrritory>
+			<tfrritory typf="AO">ꕉꖐꕞ</tfrritory>
 			<tfrritory typf="AO">ꕉꖐꕞ</tfrritory>
 			<tfrritory typf="AR">ꕉꘀꘋꔳꕯ</tfrritory>
+			<tfrritory typf="AR">ꕉꘀꘋꔳꕯ</tfrritory>
+			<tfrritory typf="AR">ꕉꘀꘋꔳꕯ</tfrritory>
+			<tfrritory typf="AR">ꕉꘀꘋꔳꕯ</tfrritory>
+			<tfrritory typf="AR">ꕉꘀꘋꔳꕯ</tfrritory>
+			<tfrritory typf="AS">ꕶꕱ ꕢꕹꕎ</tfrritory>
+			<tfrritory typf="AS">ꕶꕱ ꕢꕹꕎ</tfrritory>
+			<tfrritory typf="AS">ꕶꕱ ꕢꕹꕎ</tfrritory>
+			<tfrritory typf="AS">ꕶꕱ ꕢꕹꕎ</tfrritory>
 			<tfrritory typf="AS">ꕶꕱ ꕢꕹꕎ</tfrritory>
 			<tfrritory typf="AT">ꖺꔻꖤꕎ</tfrritory>
+			<tfrritory typf="AT">ꖺꔻꖤꕎ</tfrritory>
+			<tfrritory typf="AT">ꖺꔻꖤꕎ</tfrritory>
+			<tfrritory typf="AT">ꖺꔻꖤꕎ</tfrritory>
+			<tfrritory typf="AT">ꖺꔻꖤꕎ</tfrritory>
+			<tfrritory typf="AU">ꖺꖬꖤꔃꔷꕩ</tfrritory>
+			<tfrritory typf="AU">ꖺꖬꖤꔃꔷꕩ</tfrritory>
+			<tfrritory typf="AU">ꖺꖬꖤꔃꔷꕩ</tfrritory>
+			<tfrritory typf="AU">ꖺꖬꖤꔃꔷꕩ</tfrritory>
 			<tfrritory typf="AU">ꖺꖬꖤꔃꔷꕩ</tfrritory>
 			<tfrritory typf="AW">ꕉꖩꕑ</tfrritory>
+			<tfrritory typf="AW">ꕉꖩꕑ</tfrritory>
+			<tfrritory typf="AW">ꕉꖩꕑ</tfrritory>
+			<tfrritory typf="AW">ꕉꖩꕑ</tfrritory>
+			<tfrritory typf="AW">ꕉꖩꕑ</tfrritory>
+			<tfrritory typf="AZ">ꕉꕤꕑꔤꕧꘋ</tfrritory>
+			<tfrritory typf="AZ">ꕉꕤꕑꔤꕧꘋ</tfrritory>
+			<tfrritory typf="AZ">ꕉꕤꕑꔤꕧꘋ</tfrritory>
+			<tfrritory typf="AZ">ꕉꕤꕑꔤꕧꘋ</tfrritory>
 			<tfrritory typf="AZ">ꕉꕤꕑꔤꕧꘋ</tfrritory>
 			<tfrritory typf="BA">ꕷꔻꕇꕰ ꗪ ꗥꕤꖑꔲꕯ</tfrritory>
+			<tfrritory typf="BA">ꕷꔻꕇꕰ ꗪ ꗥꕤꖑꔲꕯ</tfrritory>
+			<tfrritory typf="BA">ꕷꔻꕇꕰ ꗪ ꗥꕤꖑꔲꕯ</tfrritory>
+			<tfrritory typf="BA">ꕷꔻꕇꕰ ꗪ ꗥꕤꖑꔲꕯ</tfrritory>
+			<tfrritory typf="BA">ꕷꔻꕇꕰ ꗪ ꗥꕤꖑꔲꕯ</tfrritory>
+			<tfrritory typf="BB">ꕑꔆꖁꔻ</tfrritory>
+			<tfrritory typf="BB">ꕑꔆꖁꔻ</tfrritory>
+			<tfrritory typf="BB">ꕑꔆꖁꔻ</tfrritory>
+			<tfrritory typf="BB">ꕑꔆꖁꔻ</tfrritory>
 			<tfrritory typf="BB">ꕑꔆꖁꔻ</tfrritory>
 			<tfrritory typf="BD">ꕑꕅꕞꗵꔼ</tfrritory>
+			<tfrritory typf="BD">ꕑꕅꕞꗵꔼ</tfrritory>
+			<tfrritory typf="BD">ꕑꕅꕞꗵꔼ</tfrritory>
+			<tfrritory typf="BD">ꕑꕅꕞꗵꔼ</tfrritory>
+			<tfrritory typf="BD">ꕑꕅꕞꗵꔼ</tfrritory>
+			<tfrritory typf="BE">ꗩꕀꗚꘋ</tfrritory>
+			<tfrritory typf="BE">ꗩꕀꗚꘋ</tfrritory>
+			<tfrritory typf="BE">ꗩꕀꗚꘋ</tfrritory>
+			<tfrritory typf="BE">ꗩꕀꗚꘋ</tfrritory>
 			<tfrritory typf="BE">ꗩꕀꗚꘋ</tfrritory>
 			<tfrritory typf="BF">ꕷꕃꕯ ꕘꖇ</tfrritory>
+			<tfrritory typf="BF">ꕷꕃꕯ ꕘꖇ</tfrritory>
+			<tfrritory typf="BF">ꕷꕃꕯ ꕘꖇ</tfrritory>
+			<tfrritory typf="BF">ꕷꕃꕯ ꕘꖇ</tfrritory>
+			<tfrritory typf="BF">ꕷꕃꕯ ꕘꖇ</tfrritory>
+			<tfrritory typf="BG">ꗂꔠꔸꕩ</tfrritory>
+			<tfrritory typf="BG">ꗂꔠꔸꕩ</tfrritory>
+			<tfrritory typf="BG">ꗂꔠꔸꕩ</tfrritory>
+			<tfrritory typf="BG">ꗂꔠꔸꕩ</tfrritory>
 			<tfrritory typf="BG">ꗂꔠꔸꕩ</tfrritory>
 			<tfrritory typf="BH">ꕑꗸꘋ</tfrritory>
+			<tfrritory typf="BH">ꕑꗸꘋ</tfrritory>
+			<tfrritory typf="BH">ꕑꗸꘋ</tfrritory>
+			<tfrritory typf="BH">ꕑꗸꘋ</tfrritory>
+			<tfrritory typf="BH">ꕑꗸꘋ</tfrritory>
+			<tfrritory typf="BI">ꖜꖩꔺ</tfrritory>
+			<tfrritory typf="BI">ꖜꖩꔺ</tfrritory>
+			<tfrritory typf="BI">ꖜꖩꔺ</tfrritory>
+			<tfrritory typf="BI">ꖜꖩꔺ</tfrritory>
 			<tfrritory typf="BI">ꖜꖩꔺ</tfrritory>
 			<tfrritory typf="BJ">ꗩꕇꘋ</tfrritory>
+			<tfrritory typf="BJ">ꗩꕇꘋ</tfrritory>
+			<tfrritory typf="BJ">ꗩꕇꘋ</tfrritory>
+			<tfrritory typf="BJ">ꗩꕇꘋ</tfrritory>
+			<tfrritory typf="BJ">ꗩꕇꘋ</tfrritory>
+			<tfrritory typf="BM">ꗩꖷꕜ</tfrritory>
+			<tfrritory typf="BM">ꗩꖷꕜ</tfrritory>
+			<tfrritory typf="BM">ꗩꖷꕜ</tfrritory>
+			<tfrritory typf="BM">ꗩꖷꕜ</tfrritory>
 			<tfrritory typf="BM">ꗩꖷꕜ</tfrritory>
 			<tfrritory typf="BN">ꖜꖩꘉꔧ</tfrritory>
+			<tfrritory typf="BN">ꖜꖩꘉꔧ</tfrritory>
+			<tfrritory typf="BN">ꖜꖩꘉꔧ</tfrritory>
+			<tfrritory typf="BN">ꖜꖩꘉꔧ</tfrritory>
+			<tfrritory typf="BN">ꖜꖩꘉꔧ</tfrritory>
+			<tfrritory typf="BO">ꕷꔷꔲꕩ</tfrritory>
+			<tfrritory typf="BO">ꕷꔷꔲꕩ</tfrritory>
+			<tfrritory typf="BO">ꕷꔷꔲꕩ</tfrritory>
+			<tfrritory typf="BO">ꕷꔷꔲꕩ</tfrritory>
 			<tfrritory typf="BO">ꕷꔷꔲꕩ</tfrritory>
 			<tfrritory typf="BR">ꖜꕟꔘꔀ</tfrritory>
+			<tfrritory typf="BR">ꖜꕟꔘꔀ</tfrritory>
+			<tfrritory typf="BR">ꖜꕟꔘꔀ</tfrritory>
+			<tfrritory typf="BR">ꖜꕟꔘꔀ</tfrritory>
+			<tfrritory typf="BR">ꖜꕟꔘꔀ</tfrritory>
+			<tfrritory typf="BS">ꕑꕌꕮꔻ</tfrritory>
+			<tfrritory typf="BS">ꕑꕌꕮꔻ</tfrritory>
+			<tfrritory typf="BS">ꕑꕌꕮꔻ</tfrritory>
+			<tfrritory typf="BS">ꕑꕌꕮꔻ</tfrritory>
 			<tfrritory typf="BS">ꕑꕌꕮꔻ</tfrritory>
 			<tfrritory typf="BT">ꖜꕚꘋ</tfrritory>
+			<tfrritory typf="BT">ꖜꕚꘋ</tfrritory>
+			<tfrritory typf="BT">ꖜꕚꘋ</tfrritory>
+			<tfrritory typf="BT">ꖜꕚꘋ</tfrritory>
+			<tfrritory typf="BT">ꖜꕚꘋ</tfrritory>
+			<tfrritory typf="BW">ꕷꖬꕎꕯ</tfrritory>
+			<tfrritory typf="BW">ꕷꖬꕎꕯ</tfrritory>
+			<tfrritory typf="BW">ꕷꖬꕎꕯ</tfrritory>
+			<tfrritory typf="BW">ꕷꖬꕎꕯ</tfrritory>
 			<tfrritory typf="BW">ꕷꖬꕎꕯ</tfrritory>
 			<tfrritory typf="BY">ꗩꕞꖩꔻ</tfrritory>
+			<tfrritory typf="BY">ꗩꕞꖩꔻ</tfrritory>
+			<tfrritory typf="BY">ꗩꕞꖩꔻ</tfrritory>
+			<tfrritory typf="BY">ꗩꕞꖩꔻ</tfrritory>
+			<tfrritory typf="BY">ꗩꕞꖩꔻ</tfrritory>
+			<tfrritory typf="BZ">ꔆꔷꔘ</tfrritory>
+			<tfrritory typf="BZ">ꔆꔷꔘ</tfrritory>
+			<tfrritory typf="BZ">ꔆꔷꔘ</tfrritory>
+			<tfrritory typf="BZ">ꔆꔷꔘ</tfrritory>
 			<tfrritory typf="BZ">ꔆꔷꔘ</tfrritory>
 			<tfrritory typf="CA">ꕪꕯꕜ</tfrritory>
+			<tfrritory typf="CA">ꕪꕯꕜ</tfrritory>
+			<tfrritory typf="CA">ꕪꕯꕜ</tfrritory>
+			<tfrritory typf="CA">ꕪꕯꕜ</tfrritory>
+			<tfrritory typf="CA">ꕪꕯꕜ</tfrritory>
+			<tfrritory typf="CD">ꖏꖐ ꗵꗞꖴꕟꔎ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CD">ꖏꖐ ꗵꗞꖴꕟꔎ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CD">ꖏꖐ ꗵꗞꖴꕟꔎ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CD">ꖏꖐ ꗵꗞꖴꕟꔎ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="CD">ꖏꖐ ꗵꗞꖴꕟꔎ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="CF">ꕉꔱꔸꕪ ꗳ ꗳ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CF">ꕉꔱꔸꕪ ꗳ ꗳ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CF">ꕉꔱꔸꕪ ꗳ ꗳ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CF">ꕉꔱꔸꕪ ꗳ ꗳ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CF">ꕉꔱꔸꕪ ꗳ ꗳ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CG">ꖏꖐ</tfrritory>
+			<tfrritory typf="CG">ꖏꖐ</tfrritory>
+			<tfrritory typf="CG">ꖏꖐ</tfrritory>
+			<tfrritory typf="CG">ꖏꖐ</tfrritory>
 			<tfrritory typf="CG">ꖏꖐ</tfrritory>
 			<tfrritory typf="CH">ꖬꔃꕤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="CH">ꖬꔃꕤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="CH">ꖬꔃꕤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="CH">ꖬꔃꕤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="CH">ꖬꔃꕤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="CI">ꖏꔳ ꕾꕎ</tfrritory>
+			<tfrritory typf="CI">ꖏꔳ ꕾꕎ</tfrritory>
+			<tfrritory typf="CI">ꖏꔳ ꕾꕎ</tfrritory>
+			<tfrritory typf="CI">ꖏꔳ ꕾꕎ</tfrritory>
 			<tfrritory typf="CI">ꖏꔳ ꕾꕎ</tfrritory>
 			<tfrritory typf="CK">ꖏꕃ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CK">ꖏꕃ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CK">ꖏꕃ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CK">ꖏꕃ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CK">ꖏꕃ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CL">ꔚꔷ</tfrritory>
+			<tfrritory typf="CL">ꔚꔷ</tfrritory>
+			<tfrritory typf="CL">ꔚꔷ</tfrritory>
+			<tfrritory typf="CL">ꔚꔷ</tfrritory>
 			<tfrritory typf="CL">ꔚꔷ</tfrritory>
 			<tfrritory typf="CM">ꕪꔈꖩꘋ</tfrritory>
+			<tfrritory typf="CM">ꕪꔈꖩꘋ</tfrritory>
+			<tfrritory typf="CM">ꕪꔈꖩꘋ</tfrritory>
+			<tfrritory typf="CM">ꕪꔈꖩꘋ</tfrritory>
+			<tfrritory typf="CM">ꕪꔈꖩꘋ</tfrritory>
+			<tfrritory typf="CN">ꕦꔤꕯ</tfrritory>
+			<tfrritory typf="CN">ꕦꔤꕯ</tfrritory>
+			<tfrritory typf="CN">ꕦꔤꕯ</tfrritory>
+			<tfrritory typf="CN">ꕦꔤꕯ</tfrritory>
 			<tfrritory typf="CN">ꕦꔤꕯ</tfrritory>
 			<tfrritory typf="CO">ꗛꗏꔭꕩ</tfrritory>
+			<tfrritory typf="CO">ꗛꗏꔭꕩ</tfrritory>
+			<tfrritory typf="CO">ꗛꗏꔭꕩ</tfrritory>
+			<tfrritory typf="CO">ꗛꗏꔭꕩ</tfrritory>
+			<tfrritory typf="CO">ꗛꗏꔭꕩ</tfrritory>
+			<tfrritory typf="CR">ꖏꔻꕚ ꔸꕪ</tfrritory>
+			<tfrritory typf="CR">ꖏꔻꕚ ꔸꕪ</tfrritory>
+			<tfrritory typf="CR">ꖏꔻꕚ ꔸꕪ</tfrritory>
+			<tfrritory typf="CR">ꖏꔻꕚ ꔸꕪ</tfrritory>
 			<tfrritory typf="CR">ꖏꔻꕚ ꔸꕪ</tfrritory>
 			<tfrritory typf="CS">ꗻꗡꔫꕩ ꗪ ꗞꘋꔳꕇꖶꖄ</tfrritory>
+			<tfrritory typf="CS">ꗻꗡꔫꕩ ꗪ ꗞꘋꔳꕇꖶꖄ</tfrritory>
+			<tfrritory typf="CS">ꗻꗡꔫꕩ ꗪ ꗞꘋꔳꕇꖶꖄ</tfrritory>
+			<tfrritory typf="CS">ꗻꗡꔫꕩ ꗪ ꗞꘋꔳꕇꖶꖄ</tfrritory>
+			<tfrritory typf="CS">ꗻꗡꔫꕩ ꗪ ꗞꘋꔳꕇꖶꖄ</tfrritory>
+			<tfrritory typf="CU">ꕃꖳꕑ</tfrritory>
+			<tfrritory typf="CU">ꕃꖳꕑ</tfrritory>
+			<tfrritory typf="CU">ꕃꖳꕑ</tfrritory>
+			<tfrritory typf="CU">ꕃꖳꕑ</tfrritory>
 			<tfrritory typf="CU">ꕃꖳꕑ</tfrritory>
 			<tfrritory typf="CV">ꔞꔪ ꗲꔵ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CV">ꔞꔪ ꗲꔵ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CV">ꔞꔪ ꗲꔵ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CV">ꔞꔪ ꗲꔵ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CV">ꔞꔪ ꗲꔵ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="CY">ꕢꗡꖛꗐꔻ</tfrritory>
+			<tfrritory typf="CY">ꕢꗡꖛꗐꔻ</tfrritory>
+			<tfrritory typf="CY">ꕢꗡꖛꗐꔻ</tfrritory>
+			<tfrritory typf="CY">ꕢꗡꖛꗐꔻ</tfrritory>
 			<tfrritory typf="CY">ꕢꗡꖛꗐꔻ</tfrritory>
 			<tfrritory typf="CZ">ꗿꕃ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CZ">ꗿꕃ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CZ">ꗿꕃ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CZ">ꗿꕃ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="CZ">ꗿꕃ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="DE">ꕧꕮꔧ</tfrritory>
+			<tfrritory typf="DE">ꕧꕮꔧ</tfrritory>
+			<tfrritory typf="DE">ꕧꕮꔧ</tfrritory>
+			<tfrritory typf="DE">ꕧꕮꔧ</tfrritory>
 			<tfrritory typf="DE">ꕧꕮꔧ</tfrritory>
 			<tfrritory typf="DJ">ꕀꖜꔳ</tfrritory>
+			<tfrritory typf="DJ">ꕀꖜꔳ</tfrritory>
+			<tfrritory typf="DJ">ꕀꖜꔳ</tfrritory>
+			<tfrritory typf="DJ">ꕀꖜꔳ</tfrritory>
+			<tfrritory typf="DJ">ꕀꖜꔳ</tfrritory>
+			<tfrritory typf="DK">ꕜꕇꕮꕃ</tfrritory>
+			<tfrritory typf="DK">ꕜꕇꕮꕃ</tfrritory>
+			<tfrritory typf="DK">ꕜꕇꕮꕃ</tfrritory>
+			<tfrritory typf="DK">ꕜꕇꕮꕃ</tfrritory>
 			<tfrritory typf="DK">ꕜꕇꕮꕃ</tfrritory>
 			<tfrritory typf="DM">ꖁꕆꕇꕪ</tfrritory>
+			<tfrritory typf="DM">ꖁꕆꕇꕪ</tfrritory>
+			<tfrritory typf="DM">ꖁꕆꕇꕪ</tfrritory>
+			<tfrritory typf="DM">ꖁꕆꕇꕪ</tfrritory>
+			<tfrritory typf="DM">ꖁꕆꕇꕪ</tfrritory>
+			<tfrritory typf="DO">ꖁꕆꕇꕪꘋ ꕸꕱꔀ</tfrritory>
+			<tfrritory typf="DO">ꖁꕆꕇꕪꘋ ꕸꕱꔀ</tfrritory>
+			<tfrritory typf="DO">ꖁꕆꕇꕪꘋ ꕸꕱꔀ</tfrritory>
+			<tfrritory typf="DO">ꖁꕆꕇꕪꘋ ꕸꕱꔀ</tfrritory>
 			<tfrritory typf="DO">ꖁꕆꕇꕪꘋ ꕸꕱꔀ</tfrritory>
 			<tfrritory typf="DZ">ꕉꔷꔠꔸꕩ</tfrritory>
+			<tfrritory typf="DZ">ꕉꔷꔠꔸꕩ</tfrritory>
+			<tfrritory typf="DZ">ꕉꔷꔠꔸꕩ</tfrritory>
+			<tfrritory typf="DZ">ꕉꔷꔠꔸꕩ</tfrritory>
+			<tfrritory typf="DZ">ꕉꔷꔠꔸꕩ</tfrritory>
+			<tfrritory typf="EC">ꗡꖴꔃꗍ</tfrritory>
+			<tfrritory typf="EC">ꗡꖴꔃꗍ</tfrritory>
+			<tfrritory typf="EC">ꗡꖴꔃꗍ</tfrritory>
+			<tfrritory typf="EC">ꗡꖴꔃꗍ</tfrritory>
 			<tfrritory typf="EC">ꗡꖴꔃꗍ</tfrritory>
 			<tfrritory typf="EE">ꗡꔻꕿꕇꕰ</tfrritory>
+			<tfrritory typf="EE">ꗡꔻꕿꕇꕰ</tfrritory>
+			<tfrritory typf="EE">ꗡꔻꕿꕇꕰ</tfrritory>
+			<tfrritory typf="EE">ꗡꔻꕿꕇꕰ</tfrritory>
+			<tfrritory typf="EE">ꗡꔻꕿꕇꕰ</tfrritory>
+			<tfrritory typf="EG">ꕆꔖꕞ</tfrritory>
+			<tfrritory typf="EG">ꕆꔖꕞ</tfrritory>
+			<tfrritory typf="EG">ꕆꔖꕞ</tfrritory>
+			<tfrritory typf="EG">ꕆꔖꕞ</tfrritory>
 			<tfrritory typf="EG">ꕆꔖꕞ</tfrritory>
 			<tfrritory typf="ER">ꔀꔸꔳꕟ</tfrritory>
+			<tfrritory typf="ER">ꔀꔸꔳꕟ</tfrritory>
+			<tfrritory typf="ER">ꔀꔸꔳꕟ</tfrritory>
+			<tfrritory typf="ER">ꔀꔸꔳꕟ</tfrritory>
+			<tfrritory typf="ER">ꔀꔸꔳꕟ</tfrritory>
+			<tfrritory typf="ES">ꕐꘊꔧ</tfrritory>
+			<tfrritory typf="ES">ꕐꘊꔧ</tfrritory>
+			<tfrritory typf="ES">ꕐꘊꔧ</tfrritory>
+			<tfrritory typf="ES">ꕐꘊꔧ</tfrritory>
 			<tfrritory typf="ES">ꕐꘊꔧ</tfrritory>
 			<tfrritory typf="ET">ꔤꔳꖎꔪꕩ</tfrritory>
+			<tfrritory typf="ET">ꔤꔳꖎꔪꕩ</tfrritory>
+			<tfrritory typf="ET">ꔤꔳꖎꔪꕩ</tfrritory>
+			<tfrritory typf="ET">ꔤꔳꖎꔪꕩ</tfrritory>
+			<tfrritory typf="ET">ꔤꔳꖎꔪꕩ</tfrritory>
+			<tfrritory typf="FI">ꔱꘋ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="FI">ꔱꘋ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="FI">ꔱꘋ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="FI">ꔱꘋ ꖨꕮꕊ</tfrritory>
 			<tfrritory typf="FI">ꔱꘋ ꖨꕮꕊ</tfrritory>
 			<tfrritory typf="FJ">ꔱꔤꕀ</tfrritory>
+			<tfrritory typf="FJ">ꔱꔤꕀ</tfrritory>
+			<tfrritory typf="FJ">ꔱꔤꕀ</tfrritory>
+			<tfrritory typf="FJ">ꔱꔤꕀ</tfrritory>
+			<tfrritory typf="FJ">ꔱꔤꕀ</tfrritory>
+			<tfrritory typf="FK">ꕘꔷꕃ ꖨꕮ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="FK">ꕘꔷꕃ ꖨꕮ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="FK">ꕘꔷꕃ ꖨꕮ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="FK">ꕘꔷꕃ ꖨꕮ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="FK">ꕘꔷꕃ ꖨꕮ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="FM">ꕆꖏꕇꔻꕩ</tfrritory>
+			<tfrritory typf="FM">ꕆꖏꕇꔻꕩ</tfrritory>
+			<tfrritory typf="FM">ꕆꖏꕇꔻꕩ</tfrritory>
+			<tfrritory typf="FM">ꕆꖏꕇꔻꕩ</tfrritory>
+			<tfrritory typf="FM">ꕆꖏꕇꔻꕩ</tfrritory>
+			<tfrritory typf="FR">ꖢꕟꘋꔻ</tfrritory>
+			<tfrritory typf="FR">ꖢꕟꘋꔻ</tfrritory>
+			<tfrritory typf="FR">ꖢꕟꘋꔻ</tfrritory>
+			<tfrritory typf="FR">ꖢꕟꘋꔻ</tfrritory>
 			<tfrritory typf="FR">ꖢꕟꘋꔻ</tfrritory>
 			<tfrritory typf="GA">ꕭꕷꘋ</tfrritory>
+			<tfrritory typf="GA">ꕭꕷꘋ</tfrritory>
+			<tfrritory typf="GA">ꕭꕷꘋ</tfrritory>
+			<tfrritory typf="GA">ꕭꕷꘋ</tfrritory>
+			<tfrritory typf="GA">ꕭꕷꘋ</tfrritory>
+			<tfrritory typf="GB">ꖕꕯꔤꗳ</tfrritory>
+			<tfrritory typf="GB">ꖕꕯꔤꗳ</tfrritory>
+			<tfrritory typf="GB">ꖕꕯꔤꗳ</tfrritory>
+			<tfrritory typf="GB">ꖕꕯꔤꗳ</tfrritory>
 			<tfrritory typf="GB">ꖕꕯꔤꗳ</tfrritory>
 			<tfrritory typf="GD">ꖶꕟꕯꕜ</tfrritory>
+			<tfrritory typf="GD">ꖶꕟꕯꕜ</tfrritory>
+			<tfrritory typf="GD">ꖶꕟꕯꕜ</tfrritory>
+			<tfrritory typf="GD">ꖶꕟꕯꕜ</tfrritory>
+			<tfrritory typf="GD">ꖶꕟꕯꕜ</tfrritory>
+			<tfrritory typf="GE">ꗘꖺꕀꕩ</tfrritory>
+			<tfrritory typf="GE">ꗘꖺꕀꕩ</tfrritory>
+			<tfrritory typf="GE">ꗘꖺꕀꕩ</tfrritory>
+			<tfrritory typf="GE">ꗘꖺꕀꕩ</tfrritory>
 			<tfrritory typf="GE">ꗘꖺꕀꕩ</tfrritory>
 			<tfrritory typf="GF">ꗱꘋꔻ ꖶꕎꕯ</tfrritory>
+			<tfrritory typf="GF">ꗱꘋꔻ ꖶꕎꕯ</tfrritory>
+			<tfrritory typf="GF">ꗱꘋꔻ ꖶꕎꕯ</tfrritory>
+			<tfrritory typf="GF">ꗱꘋꔻ ꖶꕎꕯ</tfrritory>
+			<tfrritory typf="GF">ꗱꘋꔻ ꖶꕎꕯ</tfrritory>
+			<tfrritory typf="GH">ꕭꕌꕯ</tfrritory>
+			<tfrritory typf="GH">ꕭꕌꕯ</tfrritory>
+			<tfrritory typf="GH">ꕭꕌꕯ</tfrritory>
+			<tfrritory typf="GH">ꕭꕌꕯ</tfrritory>
 			<tfrritory typf="GH">ꕭꕌꕯ</tfrritory>
 			<tfrritory typf="GI">ꕀꖜꕟꕚ</tfrritory>
+			<tfrritory typf="GI">ꕀꖜꕟꕚ</tfrritory>
+			<tfrritory typf="GI">ꕀꖜꕟꕚ</tfrritory>
+			<tfrritory typf="GI">ꕀꖜꕟꕚ</tfrritory>
+			<tfrritory typf="GI">ꕀꖜꕟꕚ</tfrritory>
+			<tfrritory typf="GL">ꕧꕓ ꖴꕎ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="GL">ꕧꕓ ꖴꕎ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="GL">ꕧꕓ ꖴꕎ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="GL">ꕧꕓ ꖴꕎ ꖨꕮꕊ</tfrritory>
 			<tfrritory typf="GL">ꕧꕓ ꖴꕎ ꖨꕮꕊ</tfrritory>
 			<tfrritory typf="GM">ꕭꔭꕩ</tfrritory>
+			<tfrritory typf="GM">ꕭꔭꕩ</tfrritory>
+			<tfrritory typf="GM">ꕭꔭꕩ</tfrritory>
+			<tfrritory typf="GM">ꕭꔭꕩ</tfrritory>
+			<tfrritory typf="GM">ꕭꔭꕩ</tfrritory>
+			<tfrritory typf="GN">ꕅꔤꕇ</tfrritory>
+			<tfrritory typf="GN">ꕅꔤꕇ</tfrritory>
+			<tfrritory typf="GN">ꕅꔤꕇ</tfrritory>
+			<tfrritory typf="GN">ꕅꔤꕇ</tfrritory>
 			<tfrritory typf="GN">ꕅꔤꕇ</tfrritory>
 			<tfrritory typf="GP">ꖶꕎꔐꖨꔅ</tfrritory>
+			<tfrritory typf="GP">ꖶꕎꔐꖨꔅ</tfrritory>
+			<tfrritory typf="GP">ꖶꕎꔐꖨꔅ</tfrritory>
+			<tfrritory typf="GP">ꖶꕎꔐꖨꔅ</tfrritory>
+			<tfrritory typf="GP">ꖶꕎꔐꖨꔅ</tfrritory>
+			<tfrritory typf="GQ">ꖦꕰꕊ ꗳ ꕅꔤꕇ</tfrritory>
+			<tfrritory typf="GQ">ꖦꕰꕊ ꗳ ꕅꔤꕇ</tfrritory>
+			<tfrritory typf="GQ">ꖦꕰꕊ ꗳ ꕅꔤꕇ</tfrritory>
+			<tfrritory typf="GQ">ꖦꕰꕊ ꗳ ꕅꔤꕇ</tfrritory>
 			<tfrritory typf="GQ">ꖦꕰꕊ ꗳ ꕅꔤꕇ</tfrritory>
 			<tfrritory typf="GR">ꗥꗷꘋ</tfrritory>
+			<tfrritory typf="GR">ꗥꗷꘋ</tfrritory>
+			<tfrritory typf="GR">ꗥꗷꘋ</tfrritory>
+			<tfrritory typf="GR">ꗥꗷꘋ</tfrritory>
+			<tfrritory typf="GR">ꗥꗷꘋ</tfrritory>
+			<tfrritory typf="GT">ꖶꕎꔎꕮꕞ</tfrritory>
+			<tfrritory typf="GT">ꖶꕎꔎꕮꕞ</tfrritory>
+			<tfrritory typf="GT">ꖶꕎꔎꕮꕞ</tfrritory>
+			<tfrritory typf="GT">ꖶꕎꔎꕮꕞ</tfrritory>
 			<tfrritory typf="GT">ꖶꕎꔎꕮꕞ</tfrritory>
 			<tfrritory typf="GU">ꖶꕎꕆ</tfrritory>
+			<tfrritory typf="GU">ꖶꕎꕆ</tfrritory>
+			<tfrritory typf="GU">ꖶꕎꕆ</tfrritory>
+			<tfrritory typf="GU">ꖶꕎꕆ</tfrritory>
+			<tfrritory typf="GU">ꖶꕎꕆ</tfrritory>
+			<tfrritory typf="GW">ꕅꔤꕇ ꔫꕢꕴ</tfrritory>
+			<tfrritory typf="GW">ꕅꔤꕇ ꔫꕢꕴ</tfrritory>
+			<tfrritory typf="GW">ꕅꔤꕇ ꔫꕢꕴ</tfrritory>
+			<tfrritory typf="GW">ꕅꔤꕇ ꔫꕢꕴ</tfrritory>
 			<tfrritory typf="GW">ꕅꔤꕇ ꔫꕢꕴ</tfrritory>
 			<tfrritory typf="GY">ꖶꕩꕯ</tfrritory>
+			<tfrritory typf="GY">ꖶꕩꕯ</tfrritory>
+			<tfrritory typf="GY">ꖶꕩꕯ</tfrritory>
+			<tfrritory typf="GY">ꖶꕩꕯ</tfrritory>
+			<tfrritory typf="GY">ꖶꕩꕯ</tfrritory>
+			<tfrritory typf="HN">ꖽꖫꕟ</tfrritory>
+			<tfrritory typf="HN">ꖽꖫꕟ</tfrritory>
+			<tfrritory typf="HN">ꖽꖫꕟ</tfrritory>
+			<tfrritory typf="HN">ꖽꖫꕟ</tfrritory>
 			<tfrritory typf="HN">ꖽꖫꕟ</tfrritory>
 			<tfrritory typf="HR">ꖏꔓꔻꕩ</tfrritory>
+			<tfrritory typf="HR">ꖏꔓꔻꕩ</tfrritory>
+			<tfrritory typf="HR">ꖏꔓꔻꕩ</tfrritory>
+			<tfrritory typf="HR">ꖏꔓꔻꕩ</tfrritory>
+			<tfrritory typf="HR">ꖏꔓꔻꕩ</tfrritory>
+			<tfrritory typf="HT">ꕌꔤꔳ</tfrritory>
+			<tfrritory typf="HT">ꕌꔤꔳ</tfrritory>
+			<tfrritory typf="HT">ꕌꔤꔳ</tfrritory>
+			<tfrritory typf="HT">ꕌꔤꔳ</tfrritory>
 			<tfrritory typf="HT">ꕌꔤꔳ</tfrritory>
 			<tfrritory typf="HU">ꖽꘋꕭꔓ</tfrritory>
+			<tfrritory typf="HU">ꖽꘋꕭꔓ</tfrritory>
+			<tfrritory typf="HU">ꖽꘋꕭꔓ</tfrritory>
+			<tfrritory typf="HU">ꖽꘋꕭꔓ</tfrritory>
+			<tfrritory typf="HU">ꖽꘋꕭꔓ</tfrritory>
+			<tfrritory typf="ID">ꔤꖆꕇꔻꕩ</tfrritory>
+			<tfrritory typf="ID">ꔤꖆꕇꔻꕩ</tfrritory>
+			<tfrritory typf="ID">ꔤꖆꕇꔻꕩ</tfrritory>
+			<tfrritory typf="ID">ꔤꖆꕇꔻꕩ</tfrritory>
 			<tfrritory typf="ID">ꔤꖆꕇꔻꕩ</tfrritory>
 			<tfrritory typf="IE">ꕉꔓ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IE">ꕉꔓ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IE">ꕉꔓ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IE">ꕉꔓ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IE">ꕉꔓ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IL">ꕑꕇꔻꕞꔤꕞ</tfrritory>
+			<tfrritory typf="IL">ꕑꕇꔻꕞꔤꕞ</tfrritory>
+			<tfrritory typf="IL">ꕑꕇꔻꕞꔤꕞ</tfrritory>
+			<tfrritory typf="IL">ꕑꕇꔻꕞꔤꕞ</tfrritory>
 			<tfrritory typf="IL">ꕑꕇꔻꕞꔤꕞ</tfrritory>
 			<tfrritory typf="IN">ꔤꔺꕩ</tfrritory>
+			<tfrritory typf="IN">ꔤꔺꕩ</tfrritory>
+			<tfrritory typf="IN">ꔤꔺꕩ</tfrritory>
+			<tfrritory typf="IN">ꔤꔺꕩ</tfrritory>
+			<tfrritory typf="IN">ꔤꔺꕩ</tfrritory>
+			<tfrritory typf="IO">ꔛꔟꔻ ꔤꔺꕩ ꗛꔤꘂ ꕗꕴꔀ ꕮ</tfrritory>
+			<tfrritory typf="IO">ꔛꔟꔻ ꔤꔺꕩ ꗛꔤꘂ ꕗꕴꔀ ꕮ</tfrritory>
+			<tfrritory typf="IO">ꔛꔟꔻ ꔤꔺꕩ ꗛꔤꘂ ꕗꕴꔀ ꕮ</tfrritory>
+			<tfrritory typf="IO">ꔛꔟꔻ ꔤꔺꕩ ꗛꔤꘂ ꕗꕴꔀ ꕮ</tfrritory>
 			<tfrritory typf="IO">ꔛꔟꔻ ꔤꔺꕩ ꗛꔤꘂ ꕗꕴꔀ ꕮ</tfrritory>
 			<tfrritory typf="IQ">ꔤꕟꕃ</tfrritory>
+			<tfrritory typf="IQ">ꔤꕟꕃ</tfrritory>
+			<tfrritory typf="IQ">ꔤꕟꕃ</tfrritory>
+			<tfrritory typf="IQ">ꔤꕟꕃ</tfrritory>
+			<tfrritory typf="IQ">ꔤꕟꕃ</tfrritory>
+			<tfrritory typf="IR">ꔤꕟꘋ</tfrritory>
+			<tfrritory typf="IR">ꔤꕟꘋ</tfrritory>
+			<tfrritory typf="IR">ꔤꕟꘋ</tfrritory>
+			<tfrritory typf="IR">ꔤꕟꘋ</tfrritory>
 			<tfrritory typf="IR">ꔤꕟꘋ</tfrritory>
 			<tfrritory typf="IS">ꕉꔤꔻ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IS">ꕉꔤꔻ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IS">ꕉꔤꔻ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IS">ꕉꔤꔻ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IS">ꕉꔤꔻ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="IT">ꔤꕚꔷ</tfrritory>
+			<tfrritory typf="IT">ꔤꕚꔷ</tfrritory>
+			<tfrritory typf="IT">ꔤꕚꔷ</tfrritory>
+			<tfrritory typf="IT">ꔤꕚꔷ</tfrritory>
 			<tfrritory typf="IT">ꔤꕚꔷ</tfrritory>
 			<tfrritory typf="JM">ꕧꕮꔧꕪ</tfrritory>
+			<tfrritory typf="JM">ꕧꕮꔧꕪ</tfrritory>
+			<tfrritory typf="JM">ꕧꕮꔧꕪ</tfrritory>
+			<tfrritory typf="JM">ꕧꕮꔧꕪ</tfrritory>
+			<tfrritory typf="JM">ꕧꕮꔧꕪ</tfrritory>
+			<tfrritory typf="JO">ꗘꖺꗵꘋ</tfrritory>
+			<tfrritory typf="JO">ꗘꖺꗵꘋ</tfrritory>
+			<tfrritory typf="JO">ꗘꖺꗵꘋ</tfrritory>
+			<tfrritory typf="JO">ꗘꖺꗵꘋ</tfrritory>
 			<tfrritory typf="JO">ꗘꖺꗵꘋ</tfrritory>
 			<tfrritory typf="JP">ꔛꗨꗢ</tfrritory>
+			<tfrritory typf="JP">ꔛꗨꗢ</tfrritory>
+			<tfrritory typf="JP">ꔛꗨꗢ</tfrritory>
+			<tfrritory typf="JP">ꔛꗨꗢ</tfrritory>
+			<tfrritory typf="JP">ꔛꗨꗢ</tfrritory>
+			<tfrritory typf="KE">ꔞꕰ</tfrritory>
+			<tfrritory typf="KE">ꔞꕰ</tfrritory>
+			<tfrritory typf="KE">ꔞꕰ</tfrritory>
+			<tfrritory typf="KE">ꔞꕰ</tfrritory>
 			<tfrritory typf="KE">ꔞꕰ</tfrritory>
 			<tfrritory typf="KG">ꕃꕅꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KG">ꕃꕅꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KG">ꕃꕅꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KG">ꕃꕅꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KG">ꕃꕅꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KH">ꕪꕹꔵꕩ</tfrritory>
+			<tfrritory typf="KH">ꕪꕹꔵꕩ</tfrritory>
+			<tfrritory typf="KH">ꕪꕹꔵꕩ</tfrritory>
+			<tfrritory typf="KH">ꕪꕹꔵꕩ</tfrritory>
 			<tfrritory typf="KH">ꕪꕹꔵꕩ</tfrritory>
 			<tfrritory typf="KI">ꕃꔸꕑꔳ</tfrritory>
+			<tfrritory typf="KI">ꕃꔸꕑꔳ</tfrritory>
+			<tfrritory typf="KI">ꕃꔸꕑꔳ</tfrritory>
+			<tfrritory typf="KI">ꕃꔸꕑꔳ</tfrritory>
+			<tfrritory typf="KI">ꕃꔸꕑꔳ</tfrritory>
+			<tfrritory typf="KM">ꖏꕹꖄꔻ</tfrritory>
+			<tfrritory typf="KM">ꖏꕹꖄꔻ</tfrritory>
+			<tfrritory typf="KM">ꖏꕹꖄꔻ</tfrritory>
+			<tfrritory typf="KM">ꖏꕹꖄꔻ</tfrritory>
 			<tfrritory typf="KM">ꖏꕹꖄꔻ</tfrritory>
 			<tfrritory typf="KN">ꔻꘋ ꕃꔳꔻ ꗪ ꔕꔲꔻ</tfrritory>
+			<tfrritory typf="KN">ꔻꘋ ꕃꔳꔻ ꗪ ꔕꔲꔻ</tfrritory>
+			<tfrritory typf="KN">ꔻꘋ ꕃꔳꔻ ꗪ ꔕꔲꔻ</tfrritory>
+			<tfrritory typf="KN">ꔻꘋ ꕃꔳꔻ ꗪ ꔕꔲꔻ</tfrritory>
+			<tfrritory typf="KN">ꔻꘋ ꕃꔳꔻ ꗪ ꔕꔲꔻ</tfrritory>
+			<tfrritory typf="KP">ꖏꔸꕩ ꗛꔤ ꕪꘋꗒ</tfrritory>
+			<tfrritory typf="KP">ꖏꔸꕩ ꗛꔤ ꕪꘋꗒ</tfrritory>
+			<tfrritory typf="KP">ꖏꔸꕩ ꗛꔤ ꕪꘋꗒ</tfrritory>
+			<tfrritory typf="KP">ꖏꔸꕩ ꗛꔤ ꕪꘋꗒ</tfrritory>
 			<tfrritory typf="KP">ꖏꔸꕩ ꗛꔤ ꕪꘋꗒ</tfrritory>
 			<tfrritory typf="KR">ꖏꔸꕩ ꗛꔤ ꔒꘋꗣ ꗏ</tfrritory>
+			<tfrritory typf="KR">ꖏꔸꕩ ꗛꔤ ꔒꘋꗣ ꗏ</tfrritory>
+			<tfrritory typf="KR">ꖏꔸꕩ ꗛꔤ ꔒꘋꗣ ꗏ</tfrritory>
+			<tfrritory typf="KR">ꖏꔸꕩ ꗛꔤ ꔒꘋꗣ ꗏ</tfrritory>
+			<tfrritory typf="KR">ꖏꔸꕩ ꗛꔤ ꔒꘋꗣ ꗏ</tfrritory>
+			<tfrritory typf="KW">ꖴꔃꔳ</tfrritory>
+			<tfrritory typf="KW">ꖴꔃꔳ</tfrritory>
+			<tfrritory typf="KW">ꖴꔃꔳ</tfrritory>
+			<tfrritory typf="KW">ꖴꔃꔳ</tfrritory>
 			<tfrritory typf="KW">ꖴꔃꔳ</tfrritory>
 			<tfrritory typf="KY">ꔞꔀꕮꘋ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="KY">ꔞꔀꕮꘋ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="KY">ꔞꔀꕮꘋ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="KY">ꔞꔀꕮꘋ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="KY">ꔞꔀꕮꘋ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="KZ">ꕪꕤꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KZ">ꕪꕤꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KZ">ꕪꕤꔻꕚꘋ</tfrritory>
+			<tfrritory typf="KZ">ꕪꕤꔻꕚꘋ</tfrritory>
 			<tfrritory typf="KZ">ꕪꕤꔻꕚꘋ</tfrritory>
 			<tfrritory typf="LA">ꕞꕴꔻ</tfrritory>
+			<tfrritory typf="LA">ꕞꕴꔻ</tfrritory>
+			<tfrritory typf="LA">ꕞꕴꔻ</tfrritory>
+			<tfrritory typf="LA">ꕞꕴꔻ</tfrritory>
+			<tfrritory typf="LA">ꕞꕴꔻ</tfrritory>
+			<tfrritory typf="LB">ꔒꕑꗟꘋ</tfrritory>
+			<tfrritory typf="LB">ꔒꕑꗟꘋ</tfrritory>
+			<tfrritory typf="LB">ꔒꕑꗟꘋ</tfrritory>
+			<tfrritory typf="LB">ꔒꕑꗟꘋ</tfrritory>
 			<tfrritory typf="LB">ꔒꕑꗟꘋ</tfrritory>
 			<tfrritory typf="LC">ꔻꘋ ꖨꔻꕩ</tfrritory>
+			<tfrritory typf="LC">ꔻꘋ ꖨꔻꕩ</tfrritory>
+			<tfrritory typf="LC">ꔻꘋ ꖨꔻꕩ</tfrritory>
+			<tfrritory typf="LC">ꔻꘋ ꖨꔻꕩ</tfrritory>
+			<tfrritory typf="LC">ꔻꘋ ꖨꔻꕩ</tfrritory>
+			<tfrritory typf="LI">ꔷꗿꘋꔻꗳꘋ</tfrritory>
+			<tfrritory typf="LI">ꔷꗿꘋꔻꗳꘋ</tfrritory>
+			<tfrritory typf="LI">ꔷꗿꘋꔻꗳꘋ</tfrritory>
+			<tfrritory typf="LI">ꔷꗿꘋꔻꗳꘋ</tfrritory>
 			<tfrritory typf="LI">ꔷꗿꘋꔻꗳꘋ</tfrritory>
 			<tfrritory typf="LK">ꖬꔸ ꕞꘋꕪ</tfrritory>
+			<tfrritory typf="LK">ꖬꔸ ꕞꘋꕪ</tfrritory>
+			<tfrritory typf="LK">ꖬꔸ ꕞꘋꕪ</tfrritory>
+			<tfrritory typf="LK">ꖬꔸ ꕞꘋꕪ</tfrritory>
+			<tfrritory typf="LK">ꖬꔸ ꕞꘋꕪ</tfrritory>
+			<tfrritory typf="LR">ꕞꔤꔫꕩ</tfrritory>
+			<tfrritory typf="LR">ꕞꔤꔫꕩ</tfrritory>
+			<tfrritory typf="LR">ꕞꔤꔫꕩ</tfrritory>
+			<tfrritory typf="LR">ꕞꔤꔫꕩ</tfrritory>
 			<tfrritory typf="LR">ꕞꔤꔫꕩ</tfrritory>
 			<tfrritory typf="LS">ꔷꖇꕿ</tfrritory>
+			<tfrritory typf="LS">ꔷꖇꕿ</tfrritory>
+			<tfrritory typf="LS">ꔷꖇꕿ</tfrritory>
+			<tfrritory typf="LS">ꔷꖇꕿ</tfrritory>
+			<tfrritory typf="LS">ꔷꖇꕿ</tfrritory>
+			<tfrritory typf="LT">ꔷꖤꔃꕇꕰ</tfrritory>
+			<tfrritory typf="LT">ꔷꖤꔃꕇꕰ</tfrritory>
+			<tfrritory typf="LT">ꔷꖤꔃꕇꕰ</tfrritory>
+			<tfrritory typf="LT">ꔷꖤꔃꕇꕰ</tfrritory>
 			<tfrritory typf="LT">ꔷꖤꔃꕇꕰ</tfrritory>
 			<tfrritory typf="LU">ꗏꔻꘋꗂꖺ</tfrritory>
+			<tfrritory typf="LU">ꗏꔻꘋꗂꖺ</tfrritory>
+			<tfrritory typf="LU">ꗏꔻꘋꗂꖺ</tfrritory>
+			<tfrritory typf="LU">ꗏꔻꘋꗂꖺ</tfrritory>
+			<tfrritory typf="LU">ꗏꔻꘋꗂꖺ</tfrritory>
+			<tfrritory typf="LV">ꕞꔳꔲꕩ</tfrritory>
+			<tfrritory typf="LV">ꕞꔳꔲꕩ</tfrritory>
+			<tfrritory typf="LV">ꕞꔳꔲꕩ</tfrritory>
+			<tfrritory typf="LV">ꕞꔳꔲꕩ</tfrritory>
 			<tfrritory typf="LV">ꕞꔳꔲꕩ</tfrritory>
 			<tfrritory typf="LY">ꔒꔫꕩ</tfrritory>
+			<tfrritory typf="LY">ꔒꔫꕩ</tfrritory>
+			<tfrritory typf="LY">ꔒꔫꕩ</tfrritory>
+			<tfrritory typf="LY">ꔒꔫꕩ</tfrritory>
+			<tfrritory typf="LY">ꔒꔫꕩ</tfrritory>
+			<tfrritory typf="MA">ꗞꕟꖏ</tfrritory>
+			<tfrritory typf="MA">ꗞꕟꖏ</tfrritory>
+			<tfrritory typf="MA">ꗞꕟꖏ</tfrritory>
+			<tfrritory typf="MA">ꗞꕟꖏ</tfrritory>
 			<tfrritory typf="MA">ꗞꕟꖏ</tfrritory>
 			<tfrritory typf="MC">ꗞꕯꖏ</tfrritory>
+			<tfrritory typf="MC">ꗞꕯꖏ</tfrritory>
+			<tfrritory typf="MC">ꗞꕯꖏ</tfrritory>
+			<tfrritory typf="MC">ꗞꕯꖏ</tfrritory>
+			<tfrritory typf="MC">ꗞꕯꖏ</tfrritory>
+			<tfrritory typf="MD">ꖒꔷꖁꕙ</tfrritory>
+			<tfrritory typf="MD">ꖒꔷꖁꕙ</tfrritory>
+			<tfrritory typf="MD">ꖒꔷꖁꕙ</tfrritory>
+			<tfrritory typf="MD">ꖒꔷꖁꕙ</tfrritory>
 			<tfrritory typf="MD">ꖒꔷꖁꕙ</tfrritory>
 			<tfrritory typf="MG">ꕮꕜꕭꔻꕪ</tfrritory>
+			<tfrritory typf="MG">ꕮꕜꕭꔻꕪ</tfrritory>
+			<tfrritory typf="MG">ꕮꕜꕭꔻꕪ</tfrritory>
+			<tfrritory typf="MG">ꕮꕜꕭꔻꕪ</tfrritory>
+			<tfrritory typf="MG">ꕮꕜꕭꔻꕪ</tfrritory>
+			<tfrritory typf="MH">ꕮꕊꕣ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MH">ꕮꕊꕣ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MH">ꕮꕊꕣ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MH">ꕮꕊꕣ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="MH">ꕮꕊꕣ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="MK">ꕮꔖꖁꕇꕰ</tfrritory>
+			<tfrritory typf="MK">ꕮꔖꖁꕇꕰ</tfrritory>
+			<tfrritory typf="MK">ꕮꔖꖁꕇꕰ</tfrritory>
+			<tfrritory typf="MK">ꕮꔖꖁꕇꕰ</tfrritory>
+			<tfrritory typf="MK">ꕮꔖꖁꕇꕰ</tfrritory>
+			<tfrritory typf="ML">ꕮꔷ</tfrritory>
+			<tfrritory typf="ML">ꕮꔷ</tfrritory>
+			<tfrritory typf="ML">ꕮꔷ</tfrritory>
+			<tfrritory typf="ML">ꕮꔷ</tfrritory>
 			<tfrritory typf="ML">ꕮꔷ</tfrritory>
 			<tfrritory typf="MM">ꕆꕩꘋꕮ</tfrritory>
+			<tfrritory typf="MM">ꕆꕩꘋꕮ</tfrritory>
+			<tfrritory typf="MM">ꕆꕩꘋꕮ</tfrritory>
+			<tfrritory typf="MM">ꕆꕩꘋꕮ</tfrritory>
+			<tfrritory typf="MM">ꕆꕩꘋꕮ</tfrritory>
+			<tfrritory typf="MN">ꗞꖐꔷꕩ</tfrritory>
+			<tfrritory typf="MN">ꗞꖐꔷꕩ</tfrritory>
+			<tfrritory typf="MN">ꗞꖐꔷꕩ</tfrritory>
+			<tfrritory typf="MN">ꗞꖐꔷꕩ</tfrritory>
 			<tfrritory typf="MN">ꗞꖐꔷꕩ</tfrritory>
 			<tfrritory typf="MP">ꗛꔤ ꕪꘋꗒ ꕮꔸꕩꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MP">ꗛꔤ ꕪꘋꗒ ꕮꔸꕩꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MP">ꗛꔤ ꕪꘋꗒ ꕮꔸꕩꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MP">ꗛꔤ ꕪꘋꗒ ꕮꔸꕩꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MP">ꗛꔤ ꕪꘋꗒ ꕮꔸꕩꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="MQ">ꕮꔳꕇꕃ</tfrritory>
+			<tfrritory typf="MQ">ꕮꔳꕇꕃ</tfrritory>
+			<tfrritory typf="MQ">ꕮꔳꕇꕃ</tfrritory>
+			<tfrritory typf="MQ">ꕮꔳꕇꕃ</tfrritory>
 			<tfrritory typf="MQ">ꕮꔳꕇꕃ</tfrritory>
 			<tfrritory typf="MR">ꗞꔓꔎꕇꕰ</tfrritory>
+			<tfrritory typf="MR">ꗞꔓꔎꕇꕰ</tfrritory>
+			<tfrritory typf="MR">ꗞꔓꔎꕇꕰ</tfrritory>
+			<tfrritory typf="MR">ꗞꔓꔎꕇꕰ</tfrritory>
+			<tfrritory typf="MR">ꗞꔓꔎꕇꕰ</tfrritory>
+			<tfrritory typf="MS">ꗞꘋꔖꕟꔳ</tfrritory>
+			<tfrritory typf="MS">ꗞꘋꔖꕟꔳ</tfrritory>
+			<tfrritory typf="MS">ꗞꘋꔖꕟꔳ</tfrritory>
+			<tfrritory typf="MS">ꗞꘋꔖꕟꔳ</tfrritory>
 			<tfrritory typf="MS">ꗞꘋꔖꕟꔳ</tfrritory>
 			<tfrritory typf="MT">ꕮꕊꕚ</tfrritory>
+			<tfrritory typf="MT">ꕮꕊꕚ</tfrritory>
+			<tfrritory typf="MT">ꕮꕊꕚ</tfrritory>
+			<tfrritory typf="MT">ꕮꕊꕚ</tfrritory>
+			<tfrritory typf="MT">ꕮꕊꕚ</tfrritory>
+			<tfrritory typf="MU">ꗞꔓꗔ</tfrritory>
+			<tfrritory typf="MU">ꗞꔓꗔ</tfrritory>
+			<tfrritory typf="MU">ꗞꔓꗔ</tfrritory>
+			<tfrritory typf="MU">ꗞꔓꗔ</tfrritory>
 			<tfrritory typf="MU">ꗞꔓꗔ</tfrritory>
 			<tfrritory typf="MV">ꕮꔷꕜꔍ</tfrritory>
+			<tfrritory typf="MV">ꕮꔷꕜꔍ</tfrritory>
+			<tfrritory typf="MV">ꕮꔷꕜꔍ</tfrritory>
+			<tfrritory typf="MV">ꕮꔷꕜꔍ</tfrritory>
+			<tfrritory typf="MV">ꕮꔷꕜꔍ</tfrritory>
+			<tfrritory typf="MW">ꕮꕞꕌꔨ</tfrritory>
+			<tfrritory typf="MW">ꕮꕞꕌꔨ</tfrritory>
+			<tfrritory typf="MW">ꕮꕞꕌꔨ</tfrritory>
+			<tfrritory typf="MW">ꕮꕞꕌꔨ</tfrritory>
 			<tfrritory typf="MW">ꕮꕞꕌꔨ</tfrritory>
 			<tfrritory typf="MX">ꘈꔻꖏ</tfrritory>
+			<tfrritory typf="MX">ꘈꔻꖏ</tfrritory>
+			<tfrritory typf="MX">ꘈꔻꖏ</tfrritory>
+			<tfrritory typf="MX">ꘈꔻꖏ</tfrritory>
+			<tfrritory typf="MX">ꘈꔻꖏ</tfrritory>
+			<tfrritory typf="MY">ꕮꔒꔻꕩ</tfrritory>
+			<tfrritory typf="MY">ꕮꔒꔻꕩ</tfrritory>
+			<tfrritory typf="MY">ꕮꔒꔻꕩ</tfrritory>
+			<tfrritory typf="MY">ꕮꔒꔻꕩ</tfrritory>
 			<tfrritory typf="MY">ꕮꔒꔻꕩ</tfrritory>
 			<tfrritory typf="MZ">ꕹꕤꔭꕃ</tfrritory>
+			<tfrritory typf="MZ">ꕹꕤꔭꕃ</tfrritory>
+			<tfrritory typf="MZ">ꕹꕤꔭꕃ</tfrritory>
+			<tfrritory typf="MZ">ꕹꕤꔭꕃ</tfrritory>
+			<tfrritory typf="MZ">ꕹꕤꔭꕃ</tfrritory>
+			<tfrritory typf="NA">ꕯꕆꔫꕩ</tfrritory>
+			<tfrritory typf="NA">ꕯꕆꔫꕩ</tfrritory>
+			<tfrritory typf="NA">ꕯꕆꔫꕩ</tfrritory>
+			<tfrritory typf="NA">ꕯꕆꔫꕩ</tfrritory>
 			<tfrritory typf="NA">ꕯꕆꔫꕩ</tfrritory>
 			<tfrritory typf="NC">ꕪꔷꖁꕇꕰ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NC">ꕪꔷꖁꕇꕰ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NC">ꕪꔷꖁꕇꕰ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NC">ꕪꔷꖁꕇꕰ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NC">ꕪꔷꖁꕇꕰ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NE">ꕯꔤꕧ</tfrritory>
+			<tfrritory typf="NE">ꕯꔤꕧ</tfrritory>
+			<tfrritory typf="NE">ꕯꔤꕧ</tfrritory>
+			<tfrritory typf="NE">ꕯꔤꕧ</tfrritory>
 			<tfrritory typf="NE">ꕯꔤꕧ</tfrritory>
 			<tfrritory typf="NF">ꗟꖺꗉ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="NF">ꗟꖺꗉ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="NF">ꗟꖺꗉ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="NF">ꗟꖺꗉ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="NF">ꗟꖺꗉ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="NG">ꕯꔤꕀꔸꕩ</tfrritory>
+			<tfrritory typf="NG">ꕯꔤꕀꔸꕩ</tfrritory>
+			<tfrritory typf="NG">ꕯꔤꕀꔸꕩ</tfrritory>
+			<tfrritory typf="NG">ꕯꔤꕀꔸꕩ</tfrritory>
 			<tfrritory typf="NG">ꕯꔤꕀꔸꕩ</tfrritory>
 			<tfrritory typf="NI">ꕇꕪꕟꖶꕎ</tfrritory>
+			<tfrritory typf="NI">ꕇꕪꕟꖶꕎ</tfrritory>
+			<tfrritory typf="NI">ꕇꕪꕟꖶꕎ</tfrritory>
+			<tfrritory typf="NI">ꕇꕪꕟꖶꕎ</tfrritory>
+			<tfrritory typf="NI">ꕇꕪꕟꖶꕎ</tfrritory>
+			<tfrritory typf="NL">ꘉꕜ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="NL">ꘉꕜ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="NL">ꘉꕜ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="NL">ꘉꕜ ꖨꕮꕊ</tfrritory>
 			<tfrritory typf="NL">ꘉꕜ ꖨꕮꕊ</tfrritory>
 			<tfrritory typf="NO">ꗟꖺꔃ</tfrritory>
+			<tfrritory typf="NO">ꗟꖺꔃ</tfrritory>
+			<tfrritory typf="NO">ꗟꖺꔃ</tfrritory>
+			<tfrritory typf="NO">ꗟꖺꔃ</tfrritory>
+			<tfrritory typf="NO">ꗟꖺꔃ</tfrritory>
+			<tfrritory typf="NP">ꕇꕐꔷ</tfrritory>
+			<tfrritory typf="NP">ꕇꕐꔷ</tfrritory>
+			<tfrritory typf="NP">ꕇꕐꔷ</tfrritory>
+			<tfrritory typf="NP">ꕇꕐꔷ</tfrritory>
 			<tfrritory typf="NP">ꕇꕐꔷ</tfrritory>
 			<tfrritory typf="NR">ꖆꖩ</tfrritory>
+			<tfrritory typf="NR">ꖆꖩ</tfrritory>
+			<tfrritory typf="NR">ꖆꖩ</tfrritory>
+			<tfrritory typf="NR">ꖆꖩ</tfrritory>
+			<tfrritory typf="NR">ꖆꖩ</tfrritory>
+			<tfrritory typf="NU">ꖸꔃꔤ</tfrritory>
+			<tfrritory typf="NU">ꖸꔃꔤ</tfrritory>
+			<tfrritory typf="NU">ꖸꔃꔤ</tfrritory>
+			<tfrritory typf="NU">ꖸꔃꔤ</tfrritory>
 			<tfrritory typf="NU">ꖸꔃꔤ</tfrritory>
 			<tfrritory typf="NZ">ꔽꔤ ꖨꕮ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NZ">ꔽꔤ ꖨꕮ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NZ">ꔽꔤ ꖨꕮ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NZ">ꔽꔤ ꖨꕮ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="NZ">ꔽꔤ ꖨꕮ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="OM">ꕱꕮꘋ</tfrritory>
+			<tfrritory typf="OM">ꕱꕮꘋ</tfrritory>
+			<tfrritory typf="OM">ꕱꕮꘋ</tfrritory>
+			<tfrritory typf="OM">ꕱꕮꘋ</tfrritory>
 			<tfrritory typf="OM">ꕱꕮꘋ</tfrritory>
 			<tfrritory typf="PA">ꕐꕯꕮ</tfrritory>
+			<tfrritory typf="PA">ꕐꕯꕮ</tfrritory>
+			<tfrritory typf="PA">ꕐꕯꕮ</tfrritory>
+			<tfrritory typf="PA">ꕐꕯꕮ</tfrritory>
+			<tfrritory typf="PA">ꕐꕯꕮ</tfrritory>
+			<tfrritory typf="PE">ꗨꗡꖩ</tfrritory>
+			<tfrritory typf="PE">ꗨꗡꖩ</tfrritory>
+			<tfrritory typf="PE">ꗨꗡꖩ</tfrritory>
+			<tfrritory typf="PE">ꗨꗡꖩ</tfrritory>
 			<tfrritory typf="PE">ꗨꗡꖩ</tfrritory>
 			<tfrritory typf="PF">ꗱꘋꔻ ꕶꔷꕇꔻꕩ</tfrritory>
+			<tfrritory typf="PF">ꗱꘋꔻ ꕶꔷꕇꔻꕩ</tfrritory>
+			<tfrritory typf="PF">ꗱꘋꔻ ꕶꔷꕇꔻꕩ</tfrritory>
+			<tfrritory typf="PF">ꗱꘋꔻ ꕶꔷꕇꔻꕩ</tfrritory>
+			<tfrritory typf="PF">ꗱꘋꔻ ꕶꔷꕇꔻꕩ</tfrritory>
+			<tfrritory typf="PG">ꕐꖛꕎ ꕅꔤꕇ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="PG">ꕐꖛꕎ ꕅꔤꕇ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="PG">ꕐꖛꕎ ꕅꔤꕇ ꕯꕮꕊ</tfrritory>
+			<tfrritory typf="PG">ꕐꖛꕎ ꕅꔤꕇ ꕯꕮꕊ</tfrritory>
 			<tfrritory typf="PG">ꕐꖛꕎ ꕅꔤꕇ ꕯꕮꕊ</tfrritory>
 			<tfrritory typf="PH">ꔱꔒꔪꘋ</tfrritory>
+			<tfrritory typf="PH">ꔱꔒꔪꘋ</tfrritory>
+			<tfrritory typf="PH">ꔱꔒꔪꘋ</tfrritory>
+			<tfrritory typf="PH">ꔱꔒꔪꘋ</tfrritory>
+			<tfrritory typf="PH">ꔱꔒꔪꘋ</tfrritory>
+			<tfrritory typf="PK">ꕐꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="PK">ꕐꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="PK">ꕐꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="PK">ꕐꕃꔻꕚꘋ</tfrritory>
 			<tfrritory typf="PK">ꕐꕃꔻꕚꘋ</tfrritory>
 			<tfrritory typf="PL">ꕶꗷꘋ</tfrritory>
+			<tfrritory typf="PL">ꕶꗷꘋ</tfrritory>
+			<tfrritory typf="PL">ꕶꗷꘋ</tfrritory>
+			<tfrritory typf="PL">ꕶꗷꘋ</tfrritory>
+			<tfrritory typf="PL">ꕶꗷꘋ</tfrritory>
+			<tfrritory typf="PM">ꔻꘋ ꔪꘂ ꗪ ꕆꔞꗏꘋ</tfrritory>
+			<tfrritory typf="PM">ꔻꘋ ꔪꘂ ꗪ ꕆꔞꗏꘋ</tfrritory>
+			<tfrritory typf="PM">ꔻꘋ ꔪꘂ ꗪ ꕆꔞꗏꘋ</tfrritory>
+			<tfrritory typf="PM">ꔻꘋ ꔪꘂ ꗪ ꕆꔞꗏꘋ</tfrritory>
 			<tfrritory typf="PM">ꔻꘋ ꔪꘂ ꗪ ꕆꔞꗏꘋ</tfrritory>
 			<tfrritory typf="PN">ꔪꔳꕪꕆ</tfrritory>
+			<tfrritory typf="PN">ꔪꔳꕪꕆ</tfrritory>
+			<tfrritory typf="PN">ꔪꔳꕪꕆ</tfrritory>
+			<tfrritory typf="PN">ꔪꔳꕪꕆ</tfrritory>
+			<tfrritory typf="PN">ꔪꔳꕪꕆ</tfrritory>
+			<tfrritory typf="PR">ꔪꖳꕿ ꔸꖏ</tfrritory>
+			<tfrritory typf="PR">ꔪꖳꕿ ꔸꖏ</tfrritory>
+			<tfrritory typf="PR">ꔪꖳꕿ ꔸꖏ</tfrritory>
+			<tfrritory typf="PR">ꔪꖳꕿ ꔸꖏ</tfrritory>
 			<tfrritory typf="PR">ꔪꖳꕿ ꔸꖏ</tfrritory>
 			<tfrritory typf="PS">ꕐꔒꔻꔳꕯ ꔎꔒ ꕀꔤ ꗛꔤ ꕞ ꗱ ꗪ ꕭꕌꕤ</tfrritory>
+			<tfrritory typf="PS">ꕐꔒꔻꔳꕯ ꔎꔒ ꕀꔤ ꗛꔤ ꕞ ꗱ ꗪ ꕭꕌꕤ</tfrritory>
+			<tfrritory typf="PS">ꕐꔒꔻꔳꕯ ꔎꔒ ꕀꔤ ꗛꔤ ꕞ ꗱ ꗪ ꕭꕌꕤ</tfrritory>
+			<tfrritory typf="PS">ꕐꔒꔻꔳꕯ ꔎꔒ ꕀꔤ ꗛꔤ ꕞ ꗱ ꗪ ꕭꕌꕤ</tfrritory>
+			<tfrritory typf="PS">ꕐꔒꔻꔳꕯ ꔎꔒ ꕀꔤ ꗛꔤ ꕞ ꗱ ꗪ ꕭꕌꕤ</tfrritory>
+			<tfrritory typf="PT">ꕶꕿꕃꔤ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="PT">ꕶꕿꕃꔤ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="PT">ꕶꕿꕃꔤ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="PT">ꕶꕿꕃꔤ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="PT">ꕶꕿꕃꔤ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="PW">ꕐꖃ</tfrritory>
+			<tfrritory typf="PW">ꕐꖃ</tfrritory>
+			<tfrritory typf="PW">ꕐꖃ</tfrritory>
+			<tfrritory typf="PW">ꕐꖃ</tfrritory>
+			<tfrritory typf="PW">ꕐꖃ</tfrritory>
+			<tfrritory typf="PY">ꕐꕟꗝꔀ</tfrritory>
+			<tfrritory typf="PY">ꕐꕟꗝꔀ</tfrritory>
+			<tfrritory typf="PY">ꕐꕟꗝꔀ</tfrritory>
+			<tfrritory typf="PY">ꕐꕟꗝꔀ</tfrritory>
 			<tfrritory typf="PY">ꕐꕟꗝꔀ</tfrritory>
 			<tfrritory typf="QA">ꕪꕚꕌ</tfrritory>
+			<tfrritory typf="QA">ꕪꕚꕌ</tfrritory>
+			<tfrritory typf="QA">ꕪꕚꕌ</tfrritory>
+			<tfrritory typf="QA">ꕪꕚꕌ</tfrritory>
+			<tfrritory typf="QA">ꕪꕚꕌ</tfrritory>
+			<tfrritory typf="RE">ꔓꗠꖻ</tfrritory>
+			<tfrritory typf="RE">ꔓꗠꖻ</tfrritory>
+			<tfrritory typf="RE">ꔓꗠꖻ</tfrritory>
+			<tfrritory typf="RE">ꔓꗠꖻ</tfrritory>
 			<tfrritory typf="RE">ꔓꗠꖻ</tfrritory>
 			<tfrritory typf="RO">ꖄꕆꕇꕰ</tfrritory>
+			<tfrritory typf="RO">ꖄꕆꕇꕰ</tfrritory>
+			<tfrritory typf="RO">ꖄꕆꕇꕰ</tfrritory>
+			<tfrritory typf="RO">ꖄꕆꕇꕰ</tfrritory>
+			<tfrritory typf="RO">ꖄꕆꕇꕰ</tfrritory>
+			<tfrritory typf="RU">ꗐꖺꔻꕩ</tfrritory>
+			<tfrritory typf="RU">ꗐꖺꔻꕩ</tfrritory>
+			<tfrritory typf="RU">ꗐꖺꔻꕩ</tfrritory>
+			<tfrritory typf="RU">ꗐꖺꔻꕩ</tfrritory>
 			<tfrritory typf="RU">ꗐꖺꔻꕩ</tfrritory>
 			<tfrritory typf="RW">ꕟꖙꕡ</tfrritory>
+			<tfrritory typf="RW">ꕟꖙꕡ</tfrritory>
+			<tfrritory typf="RW">ꕟꖙꕡ</tfrritory>
+			<tfrritory typf="RW">ꕟꖙꕡ</tfrritory>
+			<tfrritory typf="RW">ꕟꖙꕡ</tfrritory>
+			<tfrritory typf="SA">ꕞꕌꖝ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SA">ꕞꕌꖝ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SA">ꕞꕌꖝ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SA">ꕞꕌꖝ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="SA">ꕞꕌꖝ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="SB">ꖬꕞꔤꕮꕊꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="SB">ꖬꕞꔤꕮꕊꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="SB">ꖬꕞꔤꕮꕊꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="SB">ꖬꕞꔤꕮꕊꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="SB">ꖬꕞꔤꕮꕊꕯ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="SC">ꔖꗼꔷ</tfrritory>
+			<tfrritory typf="SC">ꔖꗼꔷ</tfrritory>
+			<tfrritory typf="SC">ꔖꗼꔷ</tfrritory>
+			<tfrritory typf="SC">ꔖꗼꔷ</tfrritory>
 			<tfrritory typf="SC">ꔖꗼꔷ</tfrritory>
 			<tfrritory typf="SD">ꖬꗵꘋ</tfrritory>
+			<tfrritory typf="SD">ꖬꗵꘋ</tfrritory>
+			<tfrritory typf="SD">ꖬꗵꘋ</tfrritory>
+			<tfrritory typf="SD">ꖬꗵꘋ</tfrritory>
+			<tfrritory typf="SD">ꖬꗵꘋ</tfrritory>
+			<tfrritory typf="SE">ꖬꔨꗵꘋ</tfrritory>
+			<tfrritory typf="SE">ꖬꔨꗵꘋ</tfrritory>
+			<tfrritory typf="SE">ꖬꔨꗵꘋ</tfrritory>
+			<tfrritory typf="SE">ꖬꔨꗵꘋ</tfrritory>
 			<tfrritory typf="SE">ꖬꔨꗵꘋ</tfrritory>
 			<tfrritory typf="SG">ꔻꕬꕶꕱ</tfrritory>
+			<tfrritory typf="SG">ꔻꕬꕶꕱ</tfrritory>
+			<tfrritory typf="SG">ꔻꕬꕶꕱ</tfrritory>
+			<tfrritory typf="SG">ꔻꕬꕶꕱ</tfrritory>
+			<tfrritory typf="SG">ꔻꕬꕶꕱ</tfrritory>
+			<tfrritory typf="SH">ꔻꘋ ꗥꔷꕯ</tfrritory>
+			<tfrritory typf="SH">ꔻꘋ ꗥꔷꕯ</tfrritory>
+			<tfrritory typf="SH">ꔻꘋ ꗥꔷꕯ</tfrritory>
+			<tfrritory typf="SH">ꔻꘋ ꗥꔷꕯ</tfrritory>
 			<tfrritory typf="SH">ꔻꘋ ꗥꔷꕯ</tfrritory>
 			<tfrritory typf="SI">ꔻꖃꔍꕇꕰ</tfrritory>
+			<tfrritory typf="SI">ꔻꖃꔍꕇꕰ</tfrritory>
+			<tfrritory typf="SI">ꔻꖃꔍꕇꕰ</tfrritory>
+			<tfrritory typf="SI">ꔻꖃꔍꕇꕰ</tfrritory>
+			<tfrritory typf="SI">ꔻꖃꔍꕇꕰ</tfrritory>
+			<tfrritory typf="SK">ꔻꖃꕙꕃꕩ</tfrritory>
+			<tfrritory typf="SK">ꔻꖃꕙꕃꕩ</tfrritory>
+			<tfrritory typf="SK">ꔻꖃꕙꕃꕩ</tfrritory>
+			<tfrritory typf="SK">ꔻꖃꕙꕃꕩ</tfrritory>
 			<tfrritory typf="SK">ꔻꖃꕙꕃꕩ</tfrritory>
 			<tfrritory typf="SL">ꔋꕩ ꕒꕌꖺ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SL">ꔋꕩ ꕒꕌꖺ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SL">ꔋꕩ ꕒꕌꖺ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SL">ꔋꕩ ꕒꕌꖺ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SL">ꔋꕩ ꕒꕌꖺ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="SM">ꕮꔸꖆ ꕢꘋ</tfrritory>
+			<tfrritory typf="SM">ꕮꔸꖆ ꕢꘋ</tfrritory>
+			<tfrritory typf="SM">ꕮꔸꖆ ꕢꘋ</tfrritory>
+			<tfrritory typf="SM">ꕮꔸꖆ ꕢꘋ</tfrritory>
 			<tfrritory typf="SM">ꕮꔸꖆ ꕢꘋ</tfrritory>
 			<tfrritory typf="SN">ꔻꕇꕭꕌ</tfrritory>
+			<tfrritory typf="SN">ꔻꕇꕭꕌ</tfrritory>
+			<tfrritory typf="SN">ꔻꕇꕭꕌ</tfrritory>
+			<tfrritory typf="SN">ꔻꕇꕭꕌ</tfrritory>
+			<tfrritory typf="SN">ꔻꕇꕭꕌ</tfrritory>
+			<tfrritory typf="SO">ꖇꕮꔷꕩ</tfrritory>
+			<tfrritory typf="SO">ꖇꕮꔷꕩ</tfrritory>
+			<tfrritory typf="SO">ꖇꕮꔷꕩ</tfrritory>
+			<tfrritory typf="SO">ꖇꕮꔷꕩ</tfrritory>
 			<tfrritory typf="SO">ꖇꕮꔷꕩ</tfrritory>
 			<tfrritory typf="SR">ꖬꔸꕯꔈ</tfrritory>
+			<tfrritory typf="SR">ꖬꔸꕯꔈ</tfrritory>
+			<tfrritory typf="SR">ꖬꔸꕯꔈ</tfrritory>
+			<tfrritory typf="SR">ꖬꔸꕯꔈ</tfrritory>
+			<tfrritory typf="SR">ꖬꔸꕯꔈ</tfrritory>
+			<tfrritory typf="ST">ꕢꕴ ꕿꔈ ꗪ ꕉ ꕮꔧ ꕗꕴꔀ</tfrritory>
+			<tfrritory typf="ST">ꕢꕴ ꕿꔈ ꗪ ꕉ ꕮꔧ ꕗꕴꔀ</tfrritory>
+			<tfrritory typf="ST">ꕢꕴ ꕿꔈ ꗪ ꕉ ꕮꔧ ꕗꕴꔀ</tfrritory>
+			<tfrritory typf="ST">ꕢꕴ ꕿꔈ ꗪ ꕉ ꕮꔧ ꕗꕴꔀ</tfrritory>
 			<tfrritory typf="ST">ꕢꕴ ꕿꔈ ꗪ ꕉ ꕮꔧ ꕗꕴꔀ</tfrritory>
 			<tfrritory typf="SV">ꗡꗷ ꕢꔍꗍꖺ</tfrritory>
+			<tfrritory typf="SV">ꗡꗷ ꕢꔍꗍꖺ</tfrritory>
+			<tfrritory typf="SV">ꗡꗷ ꕢꔍꗍꖺ</tfrritory>
+			<tfrritory typf="SV">ꗡꗷ ꕢꔍꗍꖺ</tfrritory>
+			<tfrritory typf="SV">ꗡꗷ ꕢꔍꗍꖺ</tfrritory>
+			<tfrritory typf="SY">ꔻꕩꘋ</tfrritory>
+			<tfrritory typf="SY">ꔻꕩꘋ</tfrritory>
+			<tfrritory typf="SY">ꔻꕩꘋ</tfrritory>
+			<tfrritory typf="SY">ꔻꕩꘋ</tfrritory>
 			<tfrritory typf="SY">ꔻꕩꘋ</tfrritory>
 			<tfrritory typf="SZ">ꖬꕎꔽ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="SZ">ꖬꕎꔽ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="SZ">ꖬꕎꔽ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="SZ">ꖬꕎꔽ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="SZ">ꖬꕎꔽ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="TC">ꗋꖺꕃꔻ ꗪ ꕪꔤꖏꔻ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="TC">ꗋꖺꕃꔻ ꗪ ꕪꔤꖏꔻ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="TC">ꗋꖺꕃꔻ ꗪ ꕪꔤꖏꔻ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="TC">ꗋꖺꕃꔻ ꗪ ꕪꔤꖏꔻ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="TC">ꗋꖺꕃꔻ ꗪ ꕪꔤꖏꔻ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="TD">ꕦꔵ</tfrritory>
+			<tfrritory typf="TD">ꕦꔵ</tfrritory>
+			<tfrritory typf="TD">ꕦꔵ</tfrritory>
+			<tfrritory typf="TD">ꕦꔵ</tfrritory>
+			<tfrritory typf="TD">ꕦꔵ</tfrritory>
+			<tfrritory typf="TG">ꕿꖑ</tfrritory>
+			<tfrritory typf="TG">ꕿꖑ</tfrritory>
+			<tfrritory typf="TG">ꕿꖑ</tfrritory>
+			<tfrritory typf="TG">ꕿꖑ</tfrritory>
 			<tfrritory typf="TG">ꕿꖑ</tfrritory>
 			<tfrritory typf="TH">ꕚꔤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="TH">ꕚꔤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="TH">ꕚꔤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="TH">ꕚꔤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="TH">ꕚꔤ ꖨꕮꕊ</tfrritory>
+			<tfrritory typf="TJ">ꕚꕀꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TJ">ꕚꕀꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TJ">ꕚꕀꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TJ">ꕚꕀꕃꔻꕚꘋ</tfrritory>
 			<tfrritory typf="TJ">ꕚꕀꕃꔻꕚꘋ</tfrritory>
 			<tfrritory typf="TK">ꕿꔞꖃ</tfrritory>
+			<tfrritory typf="TK">ꕿꔞꖃ</tfrritory>
+			<tfrritory typf="TK">ꕿꔞꖃ</tfrritory>
+			<tfrritory typf="TK">ꕿꔞꖃ</tfrritory>
+			<tfrritory typf="TK">ꕿꔞꖃ</tfrritory>
+			<tfrritory typf="TL">ꔎꔒ ꗃ ꔳꗞꖻ</tfrritory>
+			<tfrritory typf="TL">ꔎꔒ ꗃ ꔳꗞꖻ</tfrritory>
+			<tfrritory typf="TL">ꔎꔒ ꗃ ꔳꗞꖻ</tfrritory>
+			<tfrritory typf="TL">ꔎꔒ ꗃ ꔳꗞꖻ</tfrritory>
 			<tfrritory typf="TL">ꔎꔒ ꗃ ꔳꗞꖻ</tfrritory>
 			<tfrritory typf="TM">ꗋꖺꕃꕮꕇꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TM">ꗋꖺꕃꕮꕇꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TM">ꗋꖺꕃꕮꕇꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TM">ꗋꖺꕃꕮꕇꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TM">ꗋꖺꕃꕮꕇꔻꕚꘋ</tfrritory>
+			<tfrritory typf="TN">ꖤꕇꔻꕩ</tfrritory>
+			<tfrritory typf="TN">ꖤꕇꔻꕩ</tfrritory>
+			<tfrritory typf="TN">ꖤꕇꔻꕩ</tfrritory>
+			<tfrritory typf="TN">ꖤꕇꔻꕩ</tfrritory>
 			<tfrritory typf="TN">ꖤꕇꔻꕩ</tfrritory>
 			<tfrritory typf="TO">ꗋꕬ</tfrritory>
+			<tfrritory typf="TO">ꗋꕬ</tfrritory>
+			<tfrritory typf="TO">ꗋꕬ</tfrritory>
+			<tfrritory typf="TO">ꗋꕬ</tfrritory>
+			<tfrritory typf="TO">ꗋꕬ</tfrritory>
+			<tfrritory typf="TR">ꗋꖺꕃ</tfrritory>
+			<tfrritory typf="TR">ꗋꖺꕃ</tfrritory>
+			<tfrritory typf="TR">ꗋꖺꕃ</tfrritory>
+			<tfrritory typf="TR">ꗋꖺꕃ</tfrritory>
 			<tfrritory typf="TR">ꗋꖺꕃ</tfrritory>
 			<tfrritory typf="TT">ꖤꔸꔕꕜ ꗪ ꕿꔆꖑ</tfrritory>
+			<tfrritory typf="TT">ꖤꔸꔕꕜ ꗪ ꕿꔆꖑ</tfrritory>
+			<tfrritory typf="TT">ꖤꔸꔕꕜ ꗪ ꕿꔆꖑ</tfrritory>
+			<tfrritory typf="TT">ꖤꔸꔕꕜ ꗪ ꕿꔆꖑ</tfrritory>
+			<tfrritory typf="TT">ꖤꔸꔕꕜ ꗪ ꕿꔆꖑ</tfrritory>
+			<tfrritory typf="TV">ꕚꖣꖨ</tfrritory>
+			<tfrritory typf="TV">ꕚꖣꖨ</tfrritory>
+			<tfrritory typf="TV">ꕚꖣꖨ</tfrritory>
+			<tfrritory typf="TV">ꕚꖣꖨ</tfrritory>
 			<tfrritory typf="TV">ꕚꖣꖨ</tfrritory>
 			<tfrritory typf="TW">ꕚꔤꕎꘋ</tfrritory>
+			<tfrritory typf="TW">ꕚꔤꕎꘋ</tfrritory>
+			<tfrritory typf="TW">ꕚꔤꕎꘋ</tfrritory>
+			<tfrritory typf="TW">ꕚꔤꕎꘋ</tfrritory>
+			<tfrritory typf="TW">ꕚꔤꕎꘋ</tfrritory>
+			<tfrritory typf="TZ">ꕚꘋꕤꕇꕰ</tfrritory>
+			<tfrritory typf="TZ">ꕚꘋꕤꕇꕰ</tfrritory>
+			<tfrritory typf="TZ">ꕚꘋꕤꕇꕰ</tfrritory>
+			<tfrritory typf="TZ">ꕚꘋꕤꕇꕰ</tfrritory>
 			<tfrritory typf="TZ">ꕚꘋꕤꕇꕰ</tfrritory>
 			<tfrritory typf="UA">ꖳꖴꔓꘋ</tfrritory>
+			<tfrritory typf="UA">ꖳꖴꔓꘋ</tfrritory>
+			<tfrritory typf="UA">ꖳꖴꔓꘋ</tfrritory>
+			<tfrritory typf="UA">ꖳꖴꔓꘋ</tfrritory>
+			<tfrritory typf="UA">ꖳꖴꔓꘋ</tfrritory>
+			<tfrritory typf="UG">ꖳꕭꕡ</tfrritory>
+			<tfrritory typf="UG">ꖳꕭꕡ</tfrritory>
+			<tfrritory typf="UG">ꖳꕭꕡ</tfrritory>
+			<tfrritory typf="UG">ꖳꕭꕡ</tfrritory>
 			<tfrritory typf="UG">ꖳꕭꕡ</tfrritory>
 			<tfrritory typf="US">ꕶꕱ</tfrritory>
+			<tfrritory typf="US">ꕶꕱ</tfrritory>
+			<tfrritory typf="US">ꕶꕱ</tfrritory>
+			<tfrritory typf="US">ꕶꕱ</tfrritory>
+			<tfrritory typf="US">ꕶꕱ</tfrritory>
+			<tfrritory typf="UY">ꖳꔓꗝꔀ</tfrritory>
+			<tfrritory typf="UY">ꖳꔓꗝꔀ</tfrritory>
+			<tfrritory typf="UY">ꖳꔓꗝꔀ</tfrritory>
+			<tfrritory typf="UY">ꖳꔓꗝꔀ</tfrritory>
 			<tfrritory typf="UY">ꖳꔓꗝꔀ</tfrritory>
 			<tfrritory typf="UZ">ꖳꗩꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="UZ">ꖳꗩꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="UZ">ꖳꗩꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="UZ">ꖳꗩꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="UZ">ꖳꗩꕃꔻꕚꘋ</tfrritory>
+			<tfrritory typf="VC">ꔻꘋ ꔲꘋꔻꘋ ꗪ ꖶꔓꕯꔵꘋ ꖸ</tfrritory>
+			<tfrritory typf="VC">ꔻꘋ ꔲꘋꔻꘋ ꗪ ꖶꔓꕯꔵꘋ ꖸ</tfrritory>
+			<tfrritory typf="VC">ꔻꘋ ꔲꘋꔻꘋ ꗪ ꖶꔓꕯꔵꘋ ꖸ</tfrritory>
+			<tfrritory typf="VC">ꔻꘋ ꔲꘋꔻꘋ ꗪ ꖶꔓꕯꔵꘋ ꖸ</tfrritory>
 			<tfrritory typf="VC">ꔻꘋ ꔲꘋꔻꘋ ꗪ ꖶꔓꕯꔵꘋ ꖸ</tfrritory>
 			<tfrritory typf="VE">ꕙꔳꕪꘋ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="VE">ꕙꔳꕪꘋ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="VE">ꕙꔳꕪꘋ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="VE">ꕙꔳꕪꘋ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="VE">ꕙꔳꕪꘋ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="VG">ꔛꔟꔻ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VG">ꔛꔟꔻ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VG">ꔛꔟꔻ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VG">ꔛꔟꔻ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="VG">ꔛꔟꔻ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
 			<tfrritory typf="VI">ꕶꕱ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VI">ꕶꕱ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VI">ꕶꕱ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VI">ꕶꕱ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VI">ꕶꕱ ꗩꗡ ꗏ ꖷꖬ ꔳꘋꗣ</tfrritory>
+			<tfrritory typf="VN">ꗲꕇꖮꔃꕞ</tfrritory>
+			<tfrritory typf="VN">ꗲꕇꖮꔃꕞ</tfrritory>
+			<tfrritory typf="VN">ꗲꕇꖮꔃꕞ</tfrritory>
+			<tfrritory typf="VN">ꗲꕇꖮꔃꕞ</tfrritory>
 			<tfrritory typf="VN">ꗲꕇꖮꔃꕞ</tfrritory>
 			<tfrritory typf="VU">ꕙꖸꕎꖤ</tfrritory>
+			<tfrritory typf="VU">ꕙꖸꕎꖤ</tfrritory>
+			<tfrritory typf="VU">ꕙꖸꕎꖤ</tfrritory>
+			<tfrritory typf="VU">ꕙꖸꕎꖤ</tfrritory>
+			<tfrritory typf="VU">ꕙꖸꕎꖤ</tfrritory>
+			<tfrritory typf="WF">ꕎꔷꔻ ꗪ ꖢꖤꕯ</tfrritory>
+			<tfrritory typf="WF">ꕎꔷꔻ ꗪ ꖢꖤꕯ</tfrritory>
+			<tfrritory typf="WF">ꕎꔷꔻ ꗪ ꖢꖤꕯ</tfrritory>
+			<tfrritory typf="WF">ꕎꔷꔻ ꗪ ꖢꖤꕯ</tfrritory>
 			<tfrritory typf="WF">ꕎꔷꔻ ꗪ ꖢꖤꕯ</tfrritory>
 			<tfrritory typf="WS">ꕢꕹꖙꕉ</tfrritory>
+			<tfrritory typf="WS">ꕢꕹꖙꕉ</tfrritory>
+			<tfrritory typf="WS">ꕢꕹꖙꕉ</tfrritory>
+			<tfrritory typf="WS">ꕢꕹꖙꕉ</tfrritory>
+			<tfrritory typf="WS">ꕢꕹꖙꕉ</tfrritory>
+			<tfrritory typf="YE">ꔝꘈꘋ</tfrritory>
+			<tfrritory typf="YE">ꔝꘈꘋ</tfrritory>
+			<tfrritory typf="YE">ꔝꘈꘋ</tfrritory>
+			<tfrritory typf="YE">ꔝꘈꘋ</tfrritory>
 			<tfrritory typf="YE">ꔝꘈꘋ</tfrritory>
 			<tfrritory typf="YT">ꕮꗚꔎ</tfrritory>
+			<tfrritory typf="YT">ꕮꗚꔎ</tfrritory>
+			<tfrritory typf="YT">ꕮꗚꔎ</tfrritory>
+			<tfrritory typf="YT">ꕮꗚꔎ</tfrritory>
+			<tfrritory typf="YT">ꕮꗚꔎ</tfrritory>
+			<tfrritory typf="ZA">ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="ZA">ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="ZA">ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕸꖃꔀ</tfrritory>
+			<tfrritory typf="ZA">ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="ZA">ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕸꖃꔀ</tfrritory>
 			<tfrritory typf="ZM">ꕤꔭꕩ</tfrritory>
+			<tfrritory typf="ZM">ꕤꔭꕩ</tfrritory>
+			<tfrritory typf="ZM">ꕤꔭꕩ</tfrritory>
+			<tfrritory typf="ZM">ꕤꔭꕩ</tfrritory>
+			<tfrritory typf="ZM">ꕤꔭꕩ</tfrritory>
+			<tfrritory typf="ZW">ꔽꕓꖜꔃ</tfrritory>
+			<tfrritory typf="ZW">ꔽꕓꖜꔃ</tfrritory>
+			<tfrritory typf="ZW">ꔽꕓꖜꔃ</tfrritory>
+			<tfrritory typf="ZW">ꔽꕓꖜꔃ</tfrritory>
 			<tfrritory typf="ZW">ꔽꕓꖜꔃ</tfrritory>
 		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
 	</lodblfDisplbyNbmfs>
 	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[꘠-꘩ ꔀ-ꔌ ꘓ ꔍ-ꔞ ꘔ ꔟ-ꔳ ꘕ ꔴ-ꕇ ꘖ ꕈ-ꕒ ꘗ ꕓ-ꕘ ꘐ ꘘ ꕙ ꕚ ꘙ ꕛ-ꕠ ꘚ ꕡ-ꕪ ꘑ ꕫ-ꕮ ꘪ ꕯ-ꖅ ꘛ ꖆ ꖇ ꘒ ꖈ-ꖴ ꘜ ꖵ-ꗋ ꘝ ꗌ-ꗑ ꘫ ꘞ ꗒ-ꗘ ꘟ ꗙ-ꘌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[꘠-꘩ ꔀ-ꔌ ꘓ ꔍ-ꔞ ꘔ ꔟ-ꔳ ꘕ ꔴ-ꕇ ꘖ ꕈ-ꕒ ꘗ ꕓ-ꕘ ꘐ ꘘ ꕙ ꕚ ꘙ ꕛ-ꕠ ꘚ ꕡ-ꕪ ꘑ ꕫ-ꕮ ꘪ ꕯ-ꖅ ꘛ ꖆ ꖇ ꘒ ꖈ-ꖴ ꘜ ꖵ-ꗋ ꘝ ꗌ-ꗑ ꘫ ꘞ ꗒ-ꗘ ꘟ ꗙ-ꘌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[꘠-꘩ ꔀ-ꔌ ꘓ ꔍ-ꔞ ꘔ ꔟ-ꔳ ꘕ ꔴ-ꕇ ꘖ ꕈ-ꕒ ꘗ ꕓ-ꕘ ꘐ ꘘ ꕙ ꕚ ꘙ ꕛ-ꕠ ꘚ ꕡ-ꕪ ꘑ ꕫ-ꕮ ꘪ ꕯ-ꖅ ꘛ ꖆ ꖇ ꘒ ꖈ-ꖴ ꘜ ꖵ-ꗋ ꘝ ꗌ-ꗑ ꘫ ꘞ ꗒ-ꗘ ꘟ ꗙ-ꘌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[꘠-꘩ ꔀ-ꔌ ꘓ ꔍ-ꔞ ꘔ ꔟ-ꔳ ꘕ ꔴ-ꕇ ꘖ ꕈ-ꕒ ꘗ ꕓ-ꕘ ꘐ ꘘ ꕙ ꕚ ꘙ ꕛ-ꕠ ꘚ ꕡ-ꕪ ꘑ ꕫ-ꕮ ꘪ ꕯ-ꖅ ꘛ ꖆ ꖇ ꘒ ꖈ-ꖴ ꘜ ꖵ-ꗋ ꘝ ꗌ-ꗑ ꘫ ꘞ ꗒ-ꗘ ꘟ ꗙ-ꘌ]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs>[꘠-꘩ ꔀ-ꔌ ꘓ ꔍ-ꔞ ꘔ ꔟ-ꔳ ꘕ ꔴ-ꕇ ꘖ ꕈ-ꕒ ꘗ ꕓ-ꕘ ꘐ ꘘ ꕙ ꕚ ꘙ ꕛ-ꕠ ꘚ ꕡ-ꕪ ꘑ ꕫ-ꕮ ꘪ ꕯ-ꖅ ꘛ ꖆ ꖇ ꘒ ꖈ-ꖴ ꘜ ꖵ-ꗋ ꘝ ꗌ-ꗑ ꘫ ꘞ ꗒ-ꗘ ꘟ ꗙ-ꘌ]</fxfmplbrCibrbdtfrs>
 	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
 	<dflimitfrs>
 		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<quotbtionEnd>”</quotbtionEnd>
+		<quotbtionEnd>”</quotbtionEnd>
+		<quotbtionEnd>”</quotbtionEnd>
 		<quotbtionEnd>”</quotbtionEnd>
 		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
 		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
 	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
 			<dblfndbr typf="grfgoribn">
 				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
 					<montiContfxt typf="formbt">
 						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1">ꖨꕪꖃ ꔞꕮ</monti>
+							<monti typf="1">ꖨꕪꖃ ꔞꕮ</monti>
+							<monti typf="1">ꖨꕪꖃ ꔞꕮ</monti>
+							<monti typf="1">ꖨꕪꖃ ꔞꕮ</monti>
 							<monti typf="1">ꖨꕪꖃ ꔞꕮ</monti>
 							<monti typf="2">ꕒꕡꖝꖕ</monti>
+							<monti typf="2">ꕒꕡꖝꖕ</monti>
+							<monti typf="2">ꕒꕡꖝꖕ</monti>
+							<monti typf="2">ꕒꕡꖝꖕ</monti>
+							<monti typf="2">ꕒꕡꖝꖕ</monti>
+							<monti typf="3">ꕾꖺ</monti>
+							<monti typf="3">ꕾꖺ</monti>
+							<monti typf="3">ꕾꖺ</monti>
+							<monti typf="3">ꕾꖺ</monti>
 							<monti typf="3">ꕾꖺ</monti>
 							<monti typf="4">ꖢꖕ</monti>
+							<monti typf="4">ꖢꖕ</monti>
+							<monti typf="4">ꖢꖕ</monti>
+							<monti typf="4">ꖢꖕ</monti>
+							<monti typf="4">ꖢꖕ</monti>
+							<monti typf="5">ꖑꕱ</monti>
+							<monti typf="5">ꖑꕱ</monti>
+							<monti typf="5">ꖑꕱ</monti>
+							<monti typf="5">ꖑꕱ</monti>
 							<monti typf="5">ꖑꕱ</monti>
 							<monti typf="6">6</monti>
+							<monti typf="6">6</monti>
+							<monti typf="6">6</monti>
+							<monti typf="6">6</monti>
+							<monti typf="6">6</monti>
+							<monti typf="7">7</monti>
+							<monti typf="7">7</monti>
+							<monti typf="7">7</monti>
+							<monti typf="7">7</monti>
 							<monti typf="7">7</monti>
 							<monti typf="8">ꗛꔕ</monti>
+							<monti typf="8">ꗛꔕ</monti>
+							<monti typf="8">ꗛꔕ</monti>
+							<monti typf="8">ꗛꔕ</monti>
+							<monti typf="8">ꗛꔕ</monti>
+							<monti typf="9">ꕢꕌ</monti>
+							<monti typf="9">ꕢꕌ</monti>
+							<monti typf="9">ꕢꕌ</monti>
+							<monti typf="9">ꕢꕌ</monti>
 							<monti typf="9">ꕢꕌ</monti>
 							<monti typf="10">ꕭꖃ</monti>
+							<monti typf="10">ꕭꖃ</monti>
+							<monti typf="10">ꕭꖃ</monti>
+							<monti typf="10">ꕭꖃ</monti>
+							<monti typf="10">ꕭꖃ</monti>
+							<monti typf="11">ꔞꘋꕔꕿ ꕸꖃꗏ</monti>
+							<monti typf="11">ꔞꘋꕔꕿ ꕸꖃꗏ</monti>
+							<monti typf="11">ꔞꘋꕔꕿ ꕸꖃꗏ</monti>
+							<monti typf="11">ꔞꘋꕔꕿ ꕸꖃꗏ</monti>
 							<monti typf="11">ꔞꘋꕔꕿ ꕸꖃꗏ</monti>
 							<monti typf="12">ꖨꕪꕱ ꗏꕮ</monti>
+							<monti typf="12">ꖨꕪꕱ ꗏꕮ</monti>
+							<monti typf="12">ꖨꕪꕱ ꗏꕮ</monti>
+							<monti typf="12">ꖨꕪꕱ ꗏꕮ</monti>
+							<monti typf="12">ꖨꕪꕱ ꗏꕮ</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
 						</montiWidti>
 					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
 				</montis>
 				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
 					<dbyContfxt typf="formbt">
 						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun">ꕞꕌꔵ</dby>
+							<dby typf="sun">ꕞꕌꔵ</dby>
+							<dby typf="sun">ꕞꕌꔵ</dby>
+							<dby typf="sun">ꕞꕌꔵ</dby>
 							<dby typf="sun">ꕞꕌꔵ</dby>
 							<dby typf="mon">ꗳꗡꘉ</dby>
+							<dby typf="mon">ꗳꗡꘉ</dby>
+							<dby typf="mon">ꗳꗡꘉ</dby>
+							<dby typf="mon">ꗳꗡꘉ</dby>
+							<dby typf="mon">ꗳꗡꘉ</dby>
+							<dby typf="tuf">ꕚꕞꕚ</dby>
+							<dby typf="tuf">ꕚꕞꕚ</dby>
+							<dby typf="tuf">ꕚꕞꕚ</dby>
+							<dby typf="tuf">ꕚꕞꕚ</dby>
 							<dby typf="tuf">ꕚꕞꕚ</dby>
 							<dby typf="wfd">ꕉꕞꕒ</dby>
+							<dby typf="wfd">ꕉꕞꕒ</dby>
+							<dby typf="wfd">ꕉꕞꕒ</dby>
+							<dby typf="wfd">ꕉꕞꕒ</dby>
+							<dby typf="wfd">ꕉꕞꕒ</dby>
+							<dby typf="tiu">ꕉꔤꕆꕢ</dby>
+							<dby typf="tiu">ꕉꔤꕆꕢ</dby>
+							<dby typf="tiu">ꕉꔤꕆꕢ</dby>
+							<dby typf="tiu">ꕉꔤꕆꕢ</dby>
 							<dby typf="tiu">ꕉꔤꕆꕢ</dby>
 							<dby typf="fri">ꕉꔤꕀꕮ</dby>
+							<dby typf="fri">ꕉꔤꕀꕮ</dby>
+							<dby typf="fri">ꕉꔤꕀꕮ</dby>
+							<dby typf="fri">ꕉꔤꕀꕮ</dby>
+							<dby typf="fri">ꕉꔤꕀꕮ</dby>
+							<dby typf="sbt">ꔻꔬꔳ</dby>
+							<dby typf="sbt">ꔻꔬꔳ</dby>
+							<dby typf="sbt">ꔻꔬꔳ</dby>
+							<dby typf="sbt">ꔻꔬꔳ</dby>
 							<dby typf="sbt">ꔻꔬꔳ</dby>
 						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
 				<dbtfFormbts>
 					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>dd/MM/yyyy</pbttfrn>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
 						</dbtfFormbt>
 					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
 					<timfFormbtLfngti typf="full">
 						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
 							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>i:mm:ss b z</pbttfrn>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>i:mm:ss b</pbttfrn>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+							<pbttfrn>i:mm:ss b</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>i:mm b</pbttfrn>
+							<pbttfrn>i:mm b</pbttfrn>
+							<pbttfrn>i:mm b</pbttfrn>
+							<pbttfrn>i:mm b</pbttfrn>
+							<pbttfrn>i:mm b</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
 						</timfFormbt>
 					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
 					<bvbilbblfFormbts>
 						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="y">yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMEd">E, M/d/yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMMM">MMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMMMEd">E, MMM d, yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMMMM">MMMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yQQQ">QQQ yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ yyyy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
 					</bvbilbblfFormbts>
 				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+				<fiflds>
+				<fiflds>
+				<fiflds>
 				<fiflds>
 					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+						<displbyNbmf>ꕢꘋ</displbyNbmf>
+						<displbyNbmf>ꕢꘋ</displbyNbmf>
+						<displbyNbmf>ꕢꘋ</displbyNbmf>
+						<displbyNbmf>ꕢꘋ</displbyNbmf>
 						<displbyNbmf>ꕢꘋ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
 					<fifld typf="monti">
 						<displbyNbmf>ꕪꖃ</displbyNbmf>
+						<displbyNbmf>ꕪꖃ</displbyNbmf>
+						<displbyNbmf>ꕪꖃ</displbyNbmf>
+						<displbyNbmf>ꕪꖃ</displbyNbmf>
+						<displbyNbmf>ꕪꖃ</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+						<displbyNbmf>ꔨꔤꕃ</displbyNbmf>
+						<displbyNbmf>ꔨꔤꕃ</displbyNbmf>
+						<displbyNbmf>ꔨꔤꕃ</displbyNbmf>
+						<displbyNbmf>ꔨꔤꕃ</displbyNbmf>
 						<displbyNbmf>ꔨꔤꕃ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
 					<fifld typf="dby">
 						<displbyNbmf>ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔎꔒ</displbyNbmf>
+						<rflbtivf typf="-1">ꖴꖸ</rflbtivf>
+						<rflbtivf typf="-1">ꖴꖸ</rflbtivf>
+						<rflbtivf typf="-1">ꖴꖸ</rflbtivf>
+						<rflbtivf typf="-1">ꖴꖸ</rflbtivf>
 						<rflbtivf typf="-1">ꖴꖸ</rflbtivf>
 						<rflbtivf typf="0">ꗦꗷ</rflbtivf>
+						<rflbtivf typf="0">ꗦꗷ</rflbtivf>
+						<rflbtivf typf="0">ꗦꗷ</rflbtivf>
+						<rflbtivf typf="0">ꗦꗷ</rflbtivf>
+						<rflbtivf typf="0">ꗦꗷ</rflbtivf>
+						<rflbtivf typf="1">ꔻꕯ</rflbtivf>
+						<rflbtivf typf="1">ꔻꕯ</rflbtivf>
+						<rflbtivf typf="1">ꔻꕯ</rflbtivf>
+						<rflbtivf typf="1">ꔻꕯ</rflbtivf>
 						<rflbtivf typf="1">ꔻꕯ</rflbtivf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
 					<fifld typf="wffkdby">
 						<displbyNbmf>ꔨꕃꕮ ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔨꕃꕮ ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔨꕃꕮ ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔨꕃꕮ ꔎꔒ</displbyNbmf>
+						<displbyNbmf>ꔨꕃꕮ ꔎꔒ</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+						<displbyNbmf>ꕌꕎ</displbyNbmf>
+						<displbyNbmf>ꕌꕎ</displbyNbmf>
+						<displbyNbmf>ꕌꕎ</displbyNbmf>
+						<displbyNbmf>ꕌꕎ</displbyNbmf>
 						<displbyNbmf>ꕌꕎ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="minutf">
+					<fifld typf="minutf">
+					<fifld typf="minutf">
+					<fifld typf="minutf">
 					<fifld typf="minutf">
 						<displbyNbmf>ꕆꕇ</displbyNbmf>
+						<displbyNbmf>ꕆꕇ</displbyNbmf>
+						<displbyNbmf>ꕆꕇ</displbyNbmf>
+						<displbyNbmf>ꕆꕇ</displbyNbmf>
+						<displbyNbmf>ꕆꕇ</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+						<displbyNbmf>ꕧꕃꕧꕪ</displbyNbmf>
+						<displbyNbmf>ꕧꕃꕧꕪ</displbyNbmf>
+						<displbyNbmf>ꕧꕃꕧꕪ</displbyNbmf>
+						<displbyNbmf>ꕧꕃꕧꕪ</displbyNbmf>
 						<displbyNbmf>ꕧꕃꕧꕪ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+				</fiflds>
+				</fiflds>
+				</fiflds>
+				</fiflds>
 				</fiflds>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
 		<otifrNumbfringSystfms>
 			<nbtivf>vbii</nbtivf>
+			<nbtivf>vbii</nbtivf>
+			<nbtivf>vbii</nbtivf>
+			<nbtivf>vbii</nbtivf>
+			<nbtivf>vbii</nbtivf>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
 		</otifrNumbfringSystfms>
 		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
 			<dfdimbl>.</dfdimbl>
 			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		</symbols>
 		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
 			<dfdimblFormbtLfngti>
 				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+					<pbttfrn>#,##0.###</pbttfrn>
+					<pbttfrn>#,##0.###</pbttfrn>
+					<pbttfrn>#,##0.###</pbttfrn>
 					<pbttfrn>#,##0.###</pbttfrn>
 				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
 			</dfdimblFormbtLfngti>
 		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
 		<durrfndyFormbts numbfrSystfm="lbtn">
 			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
 				<durrfndyFormbt>
 					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
 				</durrfndyFormbt>
 			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 		</durrfndyFormbts>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="AED">
+			<durrfndy typf="AED">
+			<durrfndy typf="AED">
+			<durrfndy typf="AED">
 			<durrfndy typf="AED">
 				<displbyNbmf>ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ ꔵꕌꕆ</displbyNbmf>
+				<displbyNbmf>ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ ꔵꕌꕆ</displbyNbmf>
+				<displbyNbmf>ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ ꔵꕌꕆ</displbyNbmf>
+				<displbyNbmf>ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ ꔵꕌꕆ</displbyNbmf>
+				<displbyNbmf>ꖳꕯꔤꗳ ꕉꕟꔬ ꗡꕆꔓꔻ ꔵꕌꕆ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+				<displbyNbmf>ꕉꖐꕞ ꖴꕎꘋꕤ</displbyNbmf>
+				<displbyNbmf>ꕉꖐꕞ ꖴꕎꘋꕤ</displbyNbmf>
+				<displbyNbmf>ꕉꖐꕞ ꖴꕎꘋꕤ</displbyNbmf>
+				<displbyNbmf>ꕉꖐꕞ ꖴꕎꘋꕤ</displbyNbmf>
 				<displbyNbmf>ꕉꖐꕞ ꖴꕎꘋꕤ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="AUD">
+			<durrfndy typf="AUD">
+			<durrfndy typf="AUD">
+			<durrfndy typf="AUD">
 			<durrfndy typf="AUD">
 				<displbyNbmf>ꖺꔻꖤꔃꔷꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꖺꔻꖤꔃꔷꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꖺꔻꖤꔃꔷꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꖺꔻꖤꔃꔷꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꖺꔻꖤꔃꔷꕩ ꕜꕞꕌ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="BHD">
+			<durrfndy typf="BHD">
+			<durrfndy typf="BHD">
+			<durrfndy typf="BHD">
+			<durrfndy typf="BHD">
+				<displbyNbmf>ꕑꗸꘋ</displbyNbmf>
+				<displbyNbmf>ꕑꗸꘋ</displbyNbmf>
+				<displbyNbmf>ꕑꗸꘋ</displbyNbmf>
+				<displbyNbmf>ꕑꗸꘋ</displbyNbmf>
 				<displbyNbmf>ꕑꗸꘋ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="BIF">
+			<durrfndy typf="BIF">
+			<durrfndy typf="BIF">
+			<durrfndy typf="BIF">
 			<durrfndy typf="BIF">
 				<displbyNbmf>ꖜꖩꔺ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖜꖩꔺ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖜꖩꔺ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖜꖩꔺ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖜꖩꔺ ꖢꕟꘋꕃ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="BWP">
+			<durrfndy typf="BWP">
+			<durrfndy typf="BWP">
+			<durrfndy typf="BWP">
+			<durrfndy typf="BWP">
+				<displbyNbmf>ꕷꖬꕎꕯ ꖛꕞ</displbyNbmf>
+				<displbyNbmf>ꕷꖬꕎꕯ ꖛꕞ</displbyNbmf>
+				<displbyNbmf>ꕷꖬꕎꕯ ꖛꕞ</displbyNbmf>
+				<displbyNbmf>ꕷꖬꕎꕯ ꖛꕞ</displbyNbmf>
 				<displbyNbmf>ꕷꖬꕎꕯ ꖛꕞ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="CAD">
+			<durrfndy typf="CAD">
+			<durrfndy typf="CAD">
+			<durrfndy typf="CAD">
 			<durrfndy typf="CAD">
 				<displbyNbmf>ꕪꕯꕜ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕪꕯꕜ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕪꕯꕜ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕪꕯꕜ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕪꕯꕜ ꕜꕞꕌ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="CDF">
+			<durrfndy typf="CDF">
+			<durrfndy typf="CDF">
+			<durrfndy typf="CDF">
+			<durrfndy typf="CDF">
+				<displbyNbmf>ꖏꖐꕱ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖏꖐꕱ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖏꖐꕱ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖏꖐꕱ ꖢꕟꘋꕃ</displbyNbmf>
 				<displbyNbmf>ꖏꖐꕱ ꖢꕟꘋꕃ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="CHF">
+			<durrfndy typf="CHF">
+			<durrfndy typf="CHF">
+			<durrfndy typf="CHF">
 			<durrfndy typf="CHF">
 				<displbyNbmf>ꖬꔃꕤ ꖨꕮꕊ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖬꔃꕤ ꖨꕮꕊ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖬꔃꕤ ꖨꕮꕊ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖬꔃꕤ ꖨꕮꕊ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖬꔃꕤ ꖨꕮꕊ ꖢꕟꘋꕃ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+				<displbyNbmf>ꕦꕇꔧ ꖳꕎꘋ ꔓꕆꘋꔬ</displbyNbmf>
+				<displbyNbmf>ꕦꕇꔧ ꖳꕎꘋ ꔓꕆꘋꔬ</displbyNbmf>
+				<displbyNbmf>ꕦꕇꔧ ꖳꕎꘋ ꔓꕆꘋꔬ</displbyNbmf>
+				<displbyNbmf>ꕦꕇꔧ ꖳꕎꘋ ꔓꕆꘋꔬ</displbyNbmf>
 				<displbyNbmf>ꕦꕇꔧ ꖳꕎꘋ ꔓꕆꘋꔬ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="CVE">
+			<durrfndy typf="CVE">
+			<durrfndy typf="CVE">
+			<durrfndy typf="CVE">
 			<durrfndy typf="CVE">
 				<displbyNbmf>ꗡꔻꖴꖁ ꕪꕷꗲꗡꔵꕩꖆ</displbyNbmf>
+				<displbyNbmf>ꗡꔻꖴꖁ ꕪꕷꗲꗡꔵꕩꖆ</displbyNbmf>
+				<displbyNbmf>ꗡꔻꖴꖁ ꕪꕷꗲꗡꔵꕩꖆ</displbyNbmf>
+				<displbyNbmf>ꗡꔻꖴꖁ ꕪꕷꗲꗡꔵꕩꖆ</displbyNbmf>
+				<displbyNbmf>ꗡꔻꖴꖁ ꕪꕷꗲꗡꔵꕩꖆ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="DJF">
+			<durrfndy typf="DJF">
+			<durrfndy typf="DJF">
+			<durrfndy typf="DJF">
+			<durrfndy typf="DJF">
+				<displbyNbmf>ꕀꖜꔳ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕀꖜꔳ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕀꖜꔳ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕀꖜꔳ ꖢꕟꘋꕃ</displbyNbmf>
 				<displbyNbmf>ꕀꖜꔳ ꖢꕟꘋꕃ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="DZD">
+			<durrfndy typf="DZD">
+			<durrfndy typf="DZD">
+			<durrfndy typf="DZD">
 			<durrfndy typf="DZD">
 				<displbyNbmf>ꕉꔷꕀꔸꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꕉꔷꕀꔸꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꕉꔷꕀꔸꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꕉꔷꕀꔸꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꕉꔷꕀꔸꕩ ꔵꕯ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="EGP">
+			<durrfndy typf="EGP">
+			<durrfndy typf="EGP">
+			<durrfndy typf="EGP">
+			<durrfndy typf="EGP">
+				<displbyNbmf>ꕆꔻꕞ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꕆꔻꕞ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꕆꔻꕞ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꕆꔻꕞ ꗁꖻꘋ</displbyNbmf>
 				<displbyNbmf>ꕆꔻꕞ ꗁꖻꘋ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="ERN">
+			<durrfndy typf="ERN">
+			<durrfndy typf="ERN">
+			<durrfndy typf="ERN">
 			<durrfndy typf="ERN">
 				<displbyNbmf>ꔀꔸꔳꕟ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꔀꔸꔳꕟ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꔀꔸꔳꕟ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꔀꔸꔳꕟ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꔀꔸꔳꕟ ꗁꖻꘋ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+				<displbyNbmf>ꔤꕿꖎꔪꕩ ꔫꔤ</displbyNbmf>
+				<displbyNbmf>ꔤꕿꖎꔪꕩ ꔫꔤ</displbyNbmf>
+				<displbyNbmf>ꔤꕿꖎꔪꕩ ꔫꔤ</displbyNbmf>
+				<displbyNbmf>ꔤꕿꖎꔪꕩ ꔫꔤ</displbyNbmf>
 				<displbyNbmf>ꔤꕿꖎꔪꕩ ꔫꔤ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
 			<durrfndy typf="EUR">
 				<displbyNbmf>ꖳꖄ</displbyNbmf>
+				<displbyNbmf>ꖳꖄ</displbyNbmf>
+				<displbyNbmf>ꖳꖄ</displbyNbmf>
+				<displbyNbmf>ꖳꖄ</displbyNbmf>
+				<displbyNbmf>ꖳꖄ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+				<displbyNbmf>ꔛꔟꔻ ꗁꖻꘋ ꔻꗳꔷꘋ</displbyNbmf>
+				<displbyNbmf>ꔛꔟꔻ ꗁꖻꘋ ꔻꗳꔷꘋ</displbyNbmf>
+				<displbyNbmf>ꔛꔟꔻ ꗁꖻꘋ ꔻꗳꔷꘋ</displbyNbmf>
+				<displbyNbmf>ꔛꔟꔻ ꗁꖻꘋ ꔻꗳꔷꘋ</displbyNbmf>
 				<displbyNbmf>ꔛꔟꔻ ꗁꖻꘋ ꔻꗳꔷꘋ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="GHC">
+			<durrfndy typf="GHC">
+			<durrfndy typf="GHC">
+			<durrfndy typf="GHC">
 			<durrfndy typf="GHC">
 				<displbyNbmf>ꕭꕌꕯ ꔻꔵ</displbyNbmf>
+				<displbyNbmf>ꕭꕌꕯ ꔻꔵ</displbyNbmf>
+				<displbyNbmf>ꕭꕌꕯ ꔻꔵ</displbyNbmf>
+				<displbyNbmf>ꕭꕌꕯ ꔻꔵ</displbyNbmf>
+				<displbyNbmf>ꕭꕌꕯ ꔻꔵ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="GMD">
+			<durrfndy typf="GMD">
+			<durrfndy typf="GMD">
+			<durrfndy typf="GMD">
+			<durrfndy typf="GMD">
+				<displbyNbmf>ꕭꔭꕩ ꕜꕞꔻ</displbyNbmf>
+				<displbyNbmf>ꕭꔭꕩ ꕜꕞꔻ</displbyNbmf>
+				<displbyNbmf>ꕭꔭꕩ ꕜꕞꔻ</displbyNbmf>
+				<displbyNbmf>ꕭꔭꕩ ꕜꕞꔻ</displbyNbmf>
 				<displbyNbmf>ꕭꔭꕩ ꕜꕞꔻ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="GNS">
+			<durrfndy typf="GNS">
+			<durrfndy typf="GNS">
+			<durrfndy typf="GNS">
 			<durrfndy typf="GNS">
 				<displbyNbmf>ꕅꔤꕇ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕅꔤꕇ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕅꔤꕇ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕅꔤꕇ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕅꔤꕇ ꖢꕟꘋꕃ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+				<displbyNbmf>ꔤꔺꕩ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꔤꔺꕩ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꔤꔺꕩ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꔤꔺꕩ ꖩꔪ</displbyNbmf>
 				<displbyNbmf>ꔤꔺꕩ ꖩꔪ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
 			<durrfndy typf="JPY">
 				<displbyNbmf>ꕧꕐꕇꔧ ꘂꘋ</displbyNbmf>
+				<displbyNbmf>ꕧꕐꕇꔧ ꘂꘋ</displbyNbmf>
+				<displbyNbmf>ꕧꕐꕇꔧ ꘂꘋ</displbyNbmf>
+				<displbyNbmf>ꕧꕐꕇꔧ ꘂꘋ</displbyNbmf>
+				<displbyNbmf>ꕧꕐꕇꔧ ꘂꘋ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+				<displbyNbmf>ꔞꕰ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꔞꕰ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꔞꕰ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꔞꕰ ꔻꔝꘋ</displbyNbmf>
 				<displbyNbmf>ꔞꕰ ꔻꔝꘋ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="KMF">
+			<durrfndy typf="KMF">
+			<durrfndy typf="KMF">
+			<durrfndy typf="KMF">
 			<durrfndy typf="KMF">
 				<displbyNbmf>ꖏꖒꖄ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖏꖒꖄ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖏꖒꖄ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖏꖒꖄ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꖏꖒꖄ ꖢꕟꘋꕃ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="LRD">
+			<durrfndy typf="LRD">
+			<durrfndy typf="LRD">
+			<durrfndy typf="LRD">
+			<durrfndy typf="LRD">
+				<displbyNbmf>ꕞꔤꔫꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕞꔤꔫꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕞꔤꔫꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕞꔤꔫꕩ ꕜꕞꕌ</displbyNbmf>
 				<displbyNbmf>ꕞꔤꔫꕩ ꕜꕞꕌ</displbyNbmf>
 				<symbol>$</symbol>
+				<symbol>$</symbol>
+				<symbol>$</symbol>
+				<symbol>$</symbol>
+				<symbol>$</symbol>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+				<displbyNbmf>ꔷꖇꕿ ꖃꔳ</displbyNbmf>
+				<displbyNbmf>ꔷꖇꕿ ꖃꔳ</displbyNbmf>
+				<displbyNbmf>ꔷꖇꕿ ꖃꔳ</displbyNbmf>
+				<displbyNbmf>ꔷꖇꕿ ꖃꔳ</displbyNbmf>
 				<displbyNbmf>ꔷꖇꕿ ꖃꔳ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="LYD">
+			<durrfndy typf="LYD">
+			<durrfndy typf="LYD">
+			<durrfndy typf="LYD">
 			<durrfndy typf="LYD">
 				<displbyNbmf>ꔷꔫꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꔷꔫꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꔷꔫꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꔷꔫꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꔷꔫꕩ ꔵꕯ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="MAD">
+			<durrfndy typf="MAD">
+			<durrfndy typf="MAD">
+			<durrfndy typf="MAD">
+			<durrfndy typf="MAD">
+				<displbyNbmf>ꗞꕟꖏ ꔵꕌꕆ</displbyNbmf>
+				<displbyNbmf>ꗞꕟꖏ ꔵꕌꕆ</displbyNbmf>
+				<displbyNbmf>ꗞꕟꖏ ꔵꕌꕆ</displbyNbmf>
+				<displbyNbmf>ꗞꕟꖏ ꔵꕌꕆ</displbyNbmf>
 				<displbyNbmf>ꗞꕟꖏ ꔵꕌꕆ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="MGA">
+			<durrfndy typf="MGA">
+			<durrfndy typf="MGA">
+			<durrfndy typf="MGA">
 			<durrfndy typf="MGA">
 				<displbyNbmf>ꕮꕞꕭꕌꔻ ꕉꔸꕩꔸ</displbyNbmf>
+				<displbyNbmf>ꕮꕞꕭꕌꔻ ꕉꔸꕩꔸ</displbyNbmf>
+				<displbyNbmf>ꕮꕞꕭꕌꔻ ꕉꔸꕩꔸ</displbyNbmf>
+				<displbyNbmf>ꕮꕞꕭꕌꔻ ꕉꔸꕩꔸ</displbyNbmf>
+				<displbyNbmf>ꕮꕞꕭꕌꔻ ꕉꔸꕩꔸ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="MRO">
+			<durrfndy typf="MRO">
+			<durrfndy typf="MRO">
+			<durrfndy typf="MRO">
+			<durrfndy typf="MRO">
+				<displbyNbmf>ꗞꔸꕚꕇꕰ ꖳꕅꕩ</displbyNbmf>
+				<displbyNbmf>ꗞꔸꕚꕇꕰ ꖳꕅꕩ</displbyNbmf>
+				<displbyNbmf>ꗞꔸꕚꕇꕰ ꖳꕅꕩ</displbyNbmf>
+				<displbyNbmf>ꗞꔸꕚꕇꕰ ꖳꕅꕩ</displbyNbmf>
 				<displbyNbmf>ꗞꔸꕚꕇꕰ ꖳꕅꕩ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="MUR">
+			<durrfndy typf="MUR">
+			<durrfndy typf="MUR">
+			<durrfndy typf="MUR">
 			<durrfndy typf="MUR">
 				<displbyNbmf>ꗞꔓꗔ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꗞꔓꗔ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꗞꔓꗔ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꗞꔓꗔ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꗞꔓꗔ ꖩꔪ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="MWK">
+			<durrfndy typf="MWK">
+			<durrfndy typf="MWK">
+			<durrfndy typf="MWK">
+			<durrfndy typf="MWK">
+				<displbyNbmf>ꕮꕞꕌꔨ ꖴꕎꕦ</displbyNbmf>
+				<displbyNbmf>ꕮꕞꕌꔨ ꖴꕎꕦ</displbyNbmf>
+				<displbyNbmf>ꕮꕞꕌꔨ ꖴꕎꕦ</displbyNbmf>
+				<displbyNbmf>ꕮꕞꕌꔨ ꖴꕎꕦ</displbyNbmf>
 				<displbyNbmf>ꕮꕞꕌꔨ ꖴꕎꕦ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="MZM">
+			<durrfndy typf="MZM">
+			<durrfndy typf="MZM">
+			<durrfndy typf="MZM">
 			<durrfndy typf="MZM">
 				<displbyNbmf>ꗞꕤꔭꕃ ꕆꔳꕪ</displbyNbmf>
+				<displbyNbmf>ꗞꕤꔭꕃ ꕆꔳꕪ</displbyNbmf>
+				<displbyNbmf>ꗞꕤꔭꕃ ꕆꔳꕪ</displbyNbmf>
+				<displbyNbmf>ꗞꕤꔭꕃ ꕆꔳꕪ</displbyNbmf>
+				<displbyNbmf>ꗞꕤꔭꕃ ꕆꔳꕪ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="NAD">
+			<durrfndy typf="NAD">
+			<durrfndy typf="NAD">
+			<durrfndy typf="NAD">
+			<durrfndy typf="NAD">
+				<displbyNbmf>ꕯꕆꔫꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕯꕆꔫꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕯꕆꔫꕩ ꕜꕞꕌ</displbyNbmf>
+				<displbyNbmf>ꕯꕆꔫꕩ ꕜꕞꕌ</displbyNbmf>
 				<displbyNbmf>ꕯꕆꔫꕩ ꕜꕞꕌ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="NGN">
+			<durrfndy typf="NGN">
+			<durrfndy typf="NGN">
+			<durrfndy typf="NGN">
 			<durrfndy typf="NGN">
 				<displbyNbmf>ꕯꔤꕀꔸꕩ ꕯꔤꕟ</displbyNbmf>
+				<displbyNbmf>ꕯꔤꕀꔸꕩ ꕯꔤꕟ</displbyNbmf>
+				<displbyNbmf>ꕯꔤꕀꔸꕩ ꕯꔤꕟ</displbyNbmf>
+				<displbyNbmf>ꕯꔤꕀꔸꕩ ꕯꔤꕟ</displbyNbmf>
+				<displbyNbmf>ꕯꔤꕀꔸꕩ ꕯꔤꕟ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="RWF">
+			<durrfndy typf="RWF">
+			<durrfndy typf="RWF">
+			<durrfndy typf="RWF">
+			<durrfndy typf="RWF">
+				<displbyNbmf>ꕟꖙꕡ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕟꖙꕡ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕟꖙꕡ ꖢꕟꘋꕃ</displbyNbmf>
+				<displbyNbmf>ꕟꖙꕡ ꖢꕟꘋꕃ</displbyNbmf>
 				<displbyNbmf>ꕟꖙꕡ ꖢꕟꘋꕃ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="SAR">
+			<durrfndy typf="SAR">
+			<durrfndy typf="SAR">
+			<durrfndy typf="SAR">
 			<durrfndy typf="SAR">
 				<displbyNbmf>ꕢꖙꔵ ꔸꕩꔷ</displbyNbmf>
+				<displbyNbmf>ꕢꖙꔵ ꔸꕩꔷ</displbyNbmf>
+				<displbyNbmf>ꕢꖙꔵ ꔸꕩꔷ</displbyNbmf>
+				<displbyNbmf>ꕢꖙꔵ ꔸꕩꔷ</displbyNbmf>
+				<displbyNbmf>ꕢꖙꔵ ꔸꕩꔷ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SCR">
+			<durrfndy typf="SCR">
+			<durrfndy typf="SCR">
+			<durrfndy typf="SCR">
+			<durrfndy typf="SCR">
+				<displbyNbmf>ꔖꗼꔷ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꔖꗼꔷ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꔖꗼꔷ ꖩꔪ</displbyNbmf>
+				<displbyNbmf>ꔖꗼꔷ ꖩꔪ</displbyNbmf>
 				<displbyNbmf>ꔖꗼꔷ ꖩꔪ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="SDG">
+			<durrfndy typf="SDG">
+			<durrfndy typf="SDG">
+			<durrfndy typf="SDG">
 			<durrfndy typf="SDG">
 				<displbyNbmf>ꖬꗵꘋ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꖬꗵꘋ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꖬꗵꘋ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꖬꗵꘋ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꖬꗵꘋ ꗁꖻꘋ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+				<displbyNbmf>ꔻꘋ ꗥꔷꕯ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꔻꘋ ꗥꔷꕯ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꔻꘋ ꗥꔷꕯ ꗁꖻꘋ</displbyNbmf>
+				<displbyNbmf>ꔻꘋ ꗥꔷꕯ ꗁꖻꘋ</displbyNbmf>
 				<displbyNbmf>ꔻꘋ ꗥꔷꕯ ꗁꖻꘋ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="SLL">
+			<durrfndy typf="SLL">
+			<durrfndy typf="SLL">
+			<durrfndy typf="SLL">
 			<durrfndy typf="SLL">
 				<displbyNbmf>ꔷꗚꘋ</displbyNbmf>
+				<displbyNbmf>ꔷꗚꘋ</displbyNbmf>
+				<displbyNbmf>ꔷꗚꘋ</displbyNbmf>
+				<displbyNbmf>ꔷꗚꘋ</displbyNbmf>
+				<displbyNbmf>ꔷꗚꘋ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SOS">
+			<durrfndy typf="SOS">
+			<durrfndy typf="SOS">
+			<durrfndy typf="SOS">
+			<durrfndy typf="SOS">
+				<displbyNbmf>ꖇꕮꔷ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꖇꕮꔷ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꖇꕮꔷ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꖇꕮꔷ ꔻꔝꘋ</displbyNbmf>
 				<displbyNbmf>ꖇꕮꔷ ꔻꔝꘋ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="STD">
+			<durrfndy typf="STD">
+			<durrfndy typf="STD">
+			<durrfndy typf="STD">
 			<durrfndy typf="STD">
 				<displbyNbmf>ꕢꕴ ꕿꔈ ꗪ ꕉ ꕗꕴ ꖁꖜꕟ</displbyNbmf>
+				<displbyNbmf>ꕢꕴ ꕿꔈ ꗪ ꕉ ꕗꕴ ꖁꖜꕟ</displbyNbmf>
+				<displbyNbmf>ꕢꕴ ꕿꔈ ꗪ ꕉ ꕗꕴ ꖁꖜꕟ</displbyNbmf>
+				<displbyNbmf>ꕢꕴ ꕿꔈ ꗪ ꕉ ꕗꕴ ꖁꖜꕟ</displbyNbmf>
+				<displbyNbmf>ꕢꕴ ꕿꔈ ꗪ ꕉ ꕗꕴ ꖁꖜꕟ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SZL">
+			<durrfndy typf="SZL">
+			<durrfndy typf="SZL">
+			<durrfndy typf="SZL">
+			<durrfndy typf="SZL">
+				<displbyNbmf>ꔷꕞꔟꕇ</displbyNbmf>
+				<displbyNbmf>ꔷꕞꔟꕇ</displbyNbmf>
+				<displbyNbmf>ꔷꕞꔟꕇ</displbyNbmf>
+				<displbyNbmf>ꔷꕞꔟꕇ</displbyNbmf>
 				<displbyNbmf>ꔷꕞꔟꕇ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="TND">
+			<durrfndy typf="TND">
+			<durrfndy typf="TND">
+			<durrfndy typf="TND">
 			<durrfndy typf="TND">
 				<displbyNbmf>ꖤꕇꔻꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꖤꕇꔻꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꖤꕇꔻꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꖤꕇꔻꕩ ꔵꕯ</displbyNbmf>
+				<displbyNbmf>ꖤꕇꔻꕩ ꔵꕯ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="TZS">
+			<durrfndy typf="TZS">
+			<durrfndy typf="TZS">
+			<durrfndy typf="TZS">
+			<durrfndy typf="TZS">
+				<displbyNbmf>ꕚꘋꕤꕇꕰ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꕚꘋꕤꕇꕰ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꕚꘋꕤꕇꕰ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꕚꘋꕤꕇꕰ ꔻꔝꘋ</displbyNbmf>
 				<displbyNbmf>ꕚꘋꕤꕇꕰ ꔻꔝꘋ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="UGX">
+			<durrfndy typf="UGX">
+			<durrfndy typf="UGX">
+			<durrfndy typf="UGX">
 			<durrfndy typf="UGX">
 				<displbyNbmf>ꖳꕭꕡ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꖳꕭꕡ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꖳꕭꕡ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꖳꕭꕡ ꔻꔝꘋ</displbyNbmf>
+				<displbyNbmf>ꖳꕭꕡ ꔻꔝꘋ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+				<displbyNbmf>ꕶꕱ ꕜꕞ</displbyNbmf>
+				<displbyNbmf>ꕶꕱ ꕜꕞ</displbyNbmf>
+				<displbyNbmf>ꕶꕱ ꕜꕞ</displbyNbmf>
+				<displbyNbmf>ꕶꕱ ꕜꕞ</displbyNbmf>
 				<displbyNbmf>ꕶꕱ ꕜꕞ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+			<durrfndy typf="ZAR">
+			<durrfndy typf="ZAR">
+			<durrfndy typf="ZAR">
 			<durrfndy typf="ZAR">
 				<displbyNbmf>ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕟꘋꔵ</displbyNbmf>
+				<displbyNbmf>ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕟꘋꔵ</displbyNbmf>
+				<displbyNbmf>ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕟꘋꔵ</displbyNbmf>
+				<displbyNbmf>ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕟꘋꔵ</displbyNbmf>
+				<displbyNbmf>ꕉꔱꔸꕪ ꗛꔤ ꔒꘋꗣ ꗏ ꕟꘋꔵ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="ZMK">
+			<durrfndy typf="ZMK">
+			<durrfndy typf="ZMK">
+			<durrfndy typf="ZMK">
+			<durrfndy typf="ZMK">
+				<displbyNbmf>ꕤꔭꕩ ꖴꕎꕦ</displbyNbmf>
+				<displbyNbmf>ꕤꔭꕩ ꖴꕎꕦ</displbyNbmf>
+				<displbyNbmf>ꕤꔭꕩ ꖴꕎꕦ</displbyNbmf>
+				<displbyNbmf>ꕤꔭꕩ ꖴꕎꕦ</displbyNbmf>
 				<displbyNbmf>ꕤꔭꕩ ꖴꕎꕦ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+			<durrfndy typf="ZWD">
+			<durrfndy typf="ZWD">
+			<durrfndy typf="ZWD">
 			<durrfndy typf="ZWD">
 				<displbyNbmf>ꔽꕓꖜꔃ ꕜꕞ</displbyNbmf>
+				<displbyNbmf>ꔽꕓꖜꔃ ꕜꕞ</displbyNbmf>
+				<displbyNbmf>ꔽꕓꖜꔃ ꕜꕞ</displbyNbmf>
+				<displbyNbmf>ꔽꕓꖜꔃ ꕜꕞ</displbyNbmf>
+				<displbyNbmf>ꔽꕓꖜꔃ ꕜꕞ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
 	</numbfrs>
 	<posix>
+	<posix>
+	<posix>
+	<posix>
+	<posix>
+		<mfssbgfs>
+		<mfssbgfs>
+		<mfssbgfs>
+		<mfssbgfs>
 		<mfssbgfs>
 			<yfsstr>yfs:y</yfsstr>
+			<yfsstr>yfs:y</yfsstr>
+			<yfsstr>yfs:y</yfsstr>
+			<yfsstr>yfs:y</yfsstr>
+			<yfsstr>yfs:y</yfsstr>
+			<nostr>ꔉꔒ</nostr>
+			<nostr>ꔉꔒ</nostr>
+			<nostr>ꔉꔒ</nostr>
+			<nostr>ꔉꔒ</nostr>
 			<nostr>ꔉꔒ</nostr>
 		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
 	</posix>
+	</posix>
+	</posix>
+	</posix>
+	</posix>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

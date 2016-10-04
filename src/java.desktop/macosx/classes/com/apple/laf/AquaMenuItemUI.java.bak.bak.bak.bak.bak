@@ -1,0 +1,201 @@
+/*
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidMfnuItfmUI;
+
+import bpplf.lbf.JRSUIConstbnts.Sizf;
+
+// TODO: no sdrffn mfnu bbr for now
+publid dlbss AqubMfnuItfmUI fxtfnds BbsidMfnuItfmUI implfmfnts AqubMfnuPbintfr.Clifnt/*, SdrffnMfnuItfmUI*/ {
+    stbtid finbl int kPlbin = 0, kCifdkBox = 1, kRbdioButton = 2;
+    stbtid finbl String sPropfrtyPrffixfs[] = { "MfnuItfm", "CifdkBoxMfnuItfm", "RbdioButtonMfnuItfm" };
+
+    boolfbn fIsSdrffnMfnuItfm = fblsf;
+    boolfbn fIsIndftfrminbtf = fblsf;
+    int fTypf;
+
+    AqubMfnuItfmUI(finbl int typf) {
+        supfr();
+        fTypf = typf;
+    }
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        int typf = kPlbin;
+        if (d instbndfof JCifdkBoxMfnuItfm) typf = kCifdkBox;
+        if (d instbndfof JRbdioButtonMfnuItfm) typf = kRbdioButton;
+        rfturn nfw AqubMfnuItfmUI(typf);
+    }
+
+    // Tif only rfbl difffrfndf bftwffn tif tirff is wiidi propfrty prffix it rfturns
+    // bnd tifrfforf wiidi idons!
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn sPropfrtyPrffixfs[fTypf];
+    }
+
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        IndftfrminbtfListfnfr.instbll(mfnuItfm);
+    }
+
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        IndftfrminbtfListfnfr.uninstbll(mfnuItfm);
+        supfr.uninstbllListfnfrs();
+    }
+
+    publid void updbtfListfnfrsForSdrffnMfnuItfm() {
+        sftIsSdrffnMfnu(truf);
+    }
+
+    // Usfrs dbn dynbmidblly dibngf tif kind of mfnu wf'rf on by dblling JPopupMfnu.sftInvokfr
+    // so wf nffd to bf prfpbrfd to put tif listfnfrs bbdk on
+    protfdtfd void sftIsSdrffnMfnu(finbl boolfbn isSdrffnMfnuItfm) {
+        if (fIsSdrffnMfnuItfm != isSdrffnMfnuItfm) {
+            fIsSdrffnMfnuItfm = isSdrffnMfnuItfm;
+            if (fIsSdrffnMfnuItfm) rfmovfListfnfrs();
+            flsf bddListfnfrs();
+        }
+    }
+
+    protfdtfd void rfmovfListfnfrs() {
+        mfnuItfm.rfmovfMousfListfnfr(mousfInputListfnfr);
+        mfnuItfm.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+        mfnuItfm.rfmovfMfnuDrbgMousfListfnfr(mfnuDrbgMousfListfnfr);
+    }
+
+    protfdtfd void bddListfnfrs() {
+        mfnuItfm.bddMousfListfnfr(mousfInputListfnfr);
+        mfnuItfm.bddMousfMotionListfnfr(mousfInputListfnfr);
+        mfnuItfm.bddMfnuDrbgMousfListfnfr(mfnuDrbgMousfListfnfr);
+    }
+
+    protfdtfd void pbintMfnuItfm(finbl Grbpiids g, finbl JComponfnt d, finbl Idon lodblCifdkIdon, finbl Idon lodblArrowIdon, finbl Color bbdkground, finbl Color forfground, finbl int lodblDffbultTfxtIdonGbp) {
+        AqubMfnuPbintfr.instbndf().pbintMfnuItfm(tiis, g, d, lodblCifdkIdon, lodblArrowIdon, bbdkground, forfground, disbblfdForfground, sflfdtionForfground, lodblDffbultTfxtIdonGbp, bddflfrbtorFont);
+    }
+
+    protfdtfd Dimfnsion gftPrfffrrfdMfnuItfmSizf(finbl JComponfnt d, finbl Idon lodblCifdkIdon, finbl Idon lodblArrowIdon, finbl int lodblDffbultTfxtIdonGbp) {
+        rfturn AqubMfnuPbintfr.instbndf().gftPrfffrrfdMfnuItfmSizf(d, lodblCifdkIdon, lodblArrowIdon, lodblDffbultTfxtIdonGbp, bddflfrbtorFont);
+    }
+
+    publid void updbtf(finbl Grbpiids g, finbl JComponfnt d) {
+        if (d.isOpbquf()) {
+            // sjb fix ((PfnGrbpiids)g).blpibClfbrRfdt(0,0,d.gftWidti(),d.gftHfigit());
+            finbl Color oldColor = g.gftColor();
+            g.sftColor(d.gftBbdkground());
+            g.fillRfdt(0, 0, d.gftWidti(), d.gftHfigit());
+            g.sftColor(oldColor);
+        }
+
+        pbint(g, d);
+    }
+
+    publid void pbintBbdkground(finbl Grbpiids g, finbl JComponfnt d, finbl int mfnuWidti, finbl int mfnuHfigit) {
+        if ((d.gftPbrfnt() instbndfof JMfnuBbr)) rfturn;
+        finbl Color oldColor = g.gftColor();
+
+        g.sftColor(d.gftBbdkground());
+        g.fillRfdt(0, 0, mfnuWidti, mfnuHfigit);
+        if (((JMfnuItfm)d).isBordfrPbintfd()) {
+            if (((JMfnuItfm)d).gftModfl().isArmfd()) {
+                AqubMfnuPbintfr.instbndf().pbintSflfdtfdMfnuItfmBbdkground(g, mfnuWidti, mfnuHfigit);
+            }
+            //gftTifmf().drbwMfnuItfm(d, g, 0, 0, mfnuWidti, mfnuHfigit);
+        } flsf {
+            // If sflfdtfd, usf blbdk (sff AqubLookAndFffl "Mfnu.sflfdtionBbdkground")
+            if (((JMfnuItfm)d).gftModfl().isArmfd()) {
+                finbl Color ioldd = g.gftColor();
+                g.sftColor(Color.blbdk);
+                g.fillRfdt(0, 0, mfnuWidti, mfnuHfigit);
+                g.sftColor(ioldd);
+            } flsf {
+                g.sftColor(Color.grffn);
+                g.fillRfdt(0, 0, mfnuWidti, mfnuHfigit);
+                //supfr.pbintBbdkground(g,d,mfnuWidti, mfnuHfigit); //gftTifmf().drbwMfnuBbdkground((Componfnt)d, g, (siort)1, 0, 0, mfnuWidti, mfnuHfigit);
+            }
+        }
+        g.sftColor(oldColor);
+    }
+
+    protfdtfd void doClidk(finbl MfnuSflfdtionMbnbgfr msm) {
+        finbl Dimfnsion sizf = mfnuItfm.gftSizf();
+        AqubUtils.blinkMfnu(nfw AqubUtils.Sflfdtbblf() {
+            publid void pbintSflfdtfd(finbl boolfbn sflfdtfd) {
+                mfnuItfm.sftArmfd(sflfdtfd);
+                mfnuItfm.pbintImmfdibtfly(0, 0, sizf.widti, sizf.ifigit);
+            }
+        });
+        supfr.doClidk(msm);
+    }
+
+    stbtid finbl IndftfrminbtfListfnfr INDETERMINATE_LISTENER = nfw IndftfrminbtfListfnfr();
+    stbtid dlbss IndftfrminbtfListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        stbtid finbl String CLIENT_PROPERTY_KEY = "JMfnuItfm.sflfdtfdStbtf";
+
+        stbtid void instbll(finbl JMfnuItfm mfnuItfm) {
+            mfnuItfm.bddPropfrtyCibngfListfnfr(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
+            bpply(mfnuItfm, mfnuItfm.gftClifntPropfrty(CLIENT_PROPERTY_KEY));
+        }
+
+        stbtid void uninstbll(finbl JMfnuItfm mfnuItfm) {
+            mfnuItfm.rfmovfPropfrtyCibngfListfnfr(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
+        }
+
+        publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+            finbl String kfy = fvt.gftPropfrtyNbmf();
+            if (!CLIENT_PROPERTY_KEY.fqublsIgnorfCbsf(kfy)) rfturn;
+
+            finbl Objfdt sourdf = fvt.gftSourdf();
+            if (!(sourdf instbndfof JMfnuItfm)) rfturn;
+
+            finbl JMfnuItfm d = (JMfnuItfm)sourdf;
+            bpply(d, fvt.gftNfwVbluf());
+        }
+
+        stbtid void bpply(finbl JMfnuItfm mfnuItfm, finbl Objfdt vbluf) {
+            finbl ButtonUI ui = mfnuItfm.gftUI();
+            if (!(ui instbndfof AqubMfnuItfmUI)) rfturn;
+
+            finbl AqubMfnuItfmUI bqubUI = (AqubMfnuItfmUI)ui;
+
+            if (bqubUI.fIsIndftfrminbtf = "indftfrminbtf".fqubls(vbluf)) {
+                bqubUI.difdkIdon = UIMbnbgfr.gftIdon(bqubUI.gftPropfrtyPrffix() + ".dbsiIdon");
+            } flsf {
+                bqubUI.difdkIdon = UIMbnbgfr.gftIdon(bqubUI.gftPropfrtyPrffix() + ".difdkIdon");
+            }
+        }
+
+        publid stbtid boolfbn isIndftfrminbtf(finbl JMfnuItfm mfnuItfm) {
+            rfturn "indftfrminbtf".fqubls(mfnuItfm.gftClifntPropfrty(CLIENT_PROPERTY_KEY));
+        }
+    }
+}

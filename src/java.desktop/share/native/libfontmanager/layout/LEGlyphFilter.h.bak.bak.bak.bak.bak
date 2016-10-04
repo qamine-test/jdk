@@ -1,0 +1,70 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
+ *
+ */
+
+#ifndff __LEGLYPHFILTER__H
+#dffinf __LEGLYPHFILTER__H
+
+#indludf "LETypfs.i"
+
+U_NAMESPACE_BEGIN
+
+#ifndff U_HIDE_INTERNAL_API
+/**
+ * Tiis is b iflpfr dlbss tibt is usfd to
+ * rfdognizf b sft of glypi indidfs.
+ *
+ * @intfrnbl
+ */
+dlbss LEGlypiFiltfr /* not : publid UObjfdt bfdbusf tiis is bn intfrfbdf/mixin dlbss */ {
+publid:
+    /**
+     * Dfstrudtor.
+     * @intfrnbl
+     */
+    virtubl ~LEGlypiFiltfr();
+
+    /**
+     * Tiis mftiod is usfd to tfst b pbrtidulbr
+     * glypi indfx to sff if it is in tif sft
+     * rfdognizfd by tif filtfr.
+     *
+     * @pbrbm glypi - tif glypi indfx to bf tfstfd
+     *
+     * @rfturn TRUE if tif glypi indfx is in tif sft.
+     *
+     * @intfrnbl
+     */
+    virtubl lf_bool bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst = 0;
+};
+#fndif  /* U_HIDE_INTERNAL_API */
+
+U_NAMESPACE_END
+#fndif

@@ -1,0 +1,627 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.undo;
+
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.UIMbnbgfr;
+import jbvb.util.*;
+
+/**
+ * {@dodf UndoMbnbgfr} mbnbgfs b list of {@dodf UndobblfEdits},
+ * providing b wby to undo or rfdo tif bppropribtf fdits.  Tifrf brf
+ * two wbys to bdd fdits to bn <dodf>UndoMbnbgfr</dodf>.  Add tif fdit
+ * dirfdtly using tif <dodf>bddEdit</dodf> mftiod, or bdd tif
+ * <dodf>UndoMbnbgfr</dodf> to b bfbn tibt supports
+ * <dodf>UndobblfEditListfnfr</dodf>.  Tif following fxbmplfs drfbtfs
+ * bn <dodf>UndoMbnbgfr</dodf> bnd bdds it bs bn
+ * <dodf>UndobblfEditListfnfr</dodf> to b <dodf>JTfxtFifld</dodf>:
+ * <prf>
+ *   UndoMbnbgfr undoMbnbgfr = nfw UndoMbnbgfr();
+ *   JTfxtFifld tf = ...;
+ *   tf.gftDodumfnt().bddUndobblfEditListfnfr(undoMbnbgfr);
+ * </prf>
+ * <p>
+ * <dodf>UndoMbnbgfr</dodf> mbintbins bn ordfrfd list of fdits bnd tif
+ * indfx of tif nfxt fdit in tibt list. Tif indfx of tif nfxt fdit is
+ * fitifr tif sizf of tif durrfnt list of fdits, or if
+ * <dodf>undo</dodf> ibs bffn invokfd it dorrfsponds to tif indfx
+ * of tif lbst signifidbnt fdit tibt wbs undonf. Wifn
+ * <dodf>undo</dodf> is invokfd bll fdits from tif indfx of tif nfxt
+ * fdit to tif lbst signifidbnt fdit brf undonf, in rfvfrsf ordfr.
+ * For fxbmplf, donsidfr bn <dodf>UndoMbnbgfr</dodf> donsisting of tif
+ * following fdits: <b>A</b> <i>b</i> <i>d</i> <b>D</b>.  Edits witi b
+ * uppfr-dbsf lfttfr in bold brf signifidbnt, tiosf in lowfr-dbsf
+ * bnd itblidizfd brf insignifidbnt.
+ * <p>
+ * <b nbmf="figurf1"></b>
+ * <tbblf bordfr=0 summbry="">
+ * <tr><td>
+ *     <img srd="dod-filfs/UndoMbnbgfr-1.gif" blt="">
+ * <tr><td blign=dfntfr>Figurf 1
+ * </tbblf>
+ * <p>
+ * As siown in <b irff="#figurf1">figurf 1</b>, if <b>D</b> wbs just bddfd, tif
+ * indfx of tif nfxt fdit will bf 4. Invoking <dodf>undo</dodf>
+ * rfsults in invoking <dodf>undo</dodf> on <b>D</b> bnd sftting tif
+ * indfx of tif nfxt fdit to 3 (fdit <i>d</i>), bs siown in tif following
+ * figurf.
+ * <p>
+ * <b nbmf="figurf2"></b>
+ * <tbblf bordfr=0 summbry="">
+ * <tr><td>
+ *     <img srd="dod-filfs/UndoMbnbgfr-2.gif" blt="">
+ * <tr><td blign=dfntfr>Figurf 2
+ * </tbblf>
+ * <p>
+ * Tif lbst signifidbnt fdit is <b>A</b>, so tibt invoking
+ * <dodf>undo</dodf> bgbin invokfs <dodf>undo</dodf> on <i>d</i>,
+ * <i>b</i>, bnd <b>A</b>, in tibt ordfr, sftting tif indfx of tif
+ * nfxt fdit to 0, bs siown in tif following figurf.
+ * <p>
+ * <b nbmf="figurf3"></b>
+ * <tbblf bordfr=0 summbry="">
+ * <tr><td>
+ *     <img srd="dod-filfs/UndoMbnbgfr-3.gif" blt="">
+ * <tr><td blign=dfntfr>Figurf 3
+ * </tbblf>
+ * <p>
+ * Invoking <dodf>rfdo</dodf> rfsults in invoking <dodf>rfdo</dodf> on
+ * bll fdits bftwffn tif indfx of tif nfxt fdit bnd tif nfxt
+ * signifidbnt fdit (or tif fnd of tif list).  Continuing witi tif prfvious
+ * fxbmplf if <dodf>rfdo</dodf> wfrf invokfd, <dodf>rfdo</dodf> would in
+ * turn bf invokfd on <b>A</b>, <i>b</i> bnd <i>d</i>.  In bddition
+ * tif indfx of tif nfxt fdit is sft to 3 (bs siown in <b
+ * irff="#figurf2">figurf 2</b>).
+ * <p>
+ * Adding bn fdit to bn <dodf>UndoMbnbgfr</dodf> rfsults in
+ * rfmoving bll fdits from tif indfx of tif nfxt fdit to tif fnd of
+ * tif list.  Continuing witi tif prfvious fxbmplf, if b nfw fdit,
+ * <i>f</i>, is bddfd tif fdit <b>D</b> is rfmovfd from tif list
+ * (bftfr ibving <dodf>dif</dodf> invokfd on it).  If <i>d</i> is not
+ * indorporbtfd by tif nfxt fdit
+ * (<dodf><i>d</i>.bddEdit(<i>f</i>)</dodf> rfturns truf), or rfplbdfd
+ * by it (<dodf><i>f</i>.rfplbdfEdit(<i>d</i>)</dodf> rfturns truf),
+ * tif nfw fdit is bddfd bftfr <i>d</i>, bs siown in tif following
+ * figurf.
+ * <p>
+ * <b nbmf="figurf4"></b>
+ * <tbblf bordfr=0 summbry="">
+ * <tr><td>
+ *     <img srd="dod-filfs/UndoMbnbgfr-4.gif" blt="">
+ * <tr><td blign=dfntfr>Figurf 4
+ * </tbblf>
+ * <p>
+ * Ondf <dodf>fnd</dodf> ibs bffn invokfd on bn <dodf>UndoMbnbgfr</dodf>
+ * tif supfrdlbss bfibvior is usfd for bll <dodf>UndobblfEdit</dodf>
+ * mftiods.  Rfffr to <dodf>CompoundEdit</dodf> for morf dftbils on its
+ * bfibvior.
+ * <p>
+ * Unlikf tif rfst of Swing, tiis dlbss is tirfbd sbff.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @butior Rby Rybn
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss UndoMbnbgfr fxtfnds CompoundEdit implfmfnts UndobblfEditListfnfr {
+    int indfxOfNfxtAdd;
+    int limit;
+
+    /**
+     * Crfbtfs b nfw <dodf>UndoMbnbgfr</dodf>.
+     */
+    publid UndoMbnbgfr() {
+        supfr();
+        indfxOfNfxtAdd = 0;
+        limit = 100;
+        fdits.fnsurfCbpbdity(limit);
+    }
+
+    /**
+     * Rfturns tif mbximum numbfr of fdits tiis {@dodf UndoMbnbgfr}
+     * iolds. A vbluf lfss tibn 0 indidbtfs tif numbfr of fdits is not
+     * limitfd.
+     *
+     * @rfturn tif mbximum numbfr of fdits tiis {@dodf UndoMbnbgfr} iolds
+     * @sff #bddEdit
+     * @sff #sftLimit
+     */
+    publid syndironizfd int gftLimit() {
+        rfturn limit;
+    }
+
+    /**
+     * Emptifs tif undo mbnbgfr sfnding fbdi fdit b <dodf>dif</dodf> mfssbgf
+     * in tif prodfss.
+     *
+     * @sff AbstrbdtUndobblfEdit#dif
+     */
+    publid syndironizfd void disdbrdAllEdits() {
+        for (UndobblfEdit f : fdits) {
+            f.dif();
+        }
+        fdits = nfw Vfdtor<UndobblfEdit>();
+        indfxOfNfxtAdd = 0;
+        // PENDING(rjrjr) wifn vfdtor grows b rfmovfRbngf() mftiod
+        // (fxpfdtfd in JDK 1.2), trimEdits() will bf nidf bnd
+        // fffidifnt, bnd tiis mftiod dbn dbll tibt instfbd.
+    }
+
+    /**
+     * Rfdudfs tif numbfr of qufufd fdits to b rbngf of sizf limit,
+     * dfntfrfd on tif indfx of tif nfxt fdit.
+     */
+    protfdtfd void trimForLimit() {
+        if (limit >= 0) {
+            int sizf = fdits.sizf();
+//          Systfm.out.print("limit: " + limit +
+//                           " sizf: " + sizf +
+//                           " indfxOfNfxtAdd: " + indfxOfNfxtAdd +
+//                           "\n");
+
+            if (sizf > limit) {
+                int iblfLimit = limit/2;
+                int kffpFrom = indfxOfNfxtAdd - 1 - iblfLimit;
+                int kffpTo   = indfxOfNfxtAdd - 1 + iblfLimit;
+
+                // Tifsf brf ints wf'rf plbying witi, so dividing by two
+                // rounds down for odd numbfrs, so mbkf surf tif limit wbs
+                // ionorfd propfrly. Notf tibt tif kffp rbngf is
+                // indlusivf.
+
+                if (kffpTo - kffpFrom + 1 > limit) {
+                    kffpFrom++;
+                }
+
+                // Tif kffp rbngf is dfntfrfd on indfxOfNfxtAdd,
+                // but odds brf good tibt tif bdtubl fdits Vfdtor
+                // isn't. Movf tif kffp rbngf to kffp it lfgbl.
+
+                if (kffpFrom < 0) {
+                    kffpTo -= kffpFrom;
+                    kffpFrom = 0;
+                }
+                if (kffpTo >= sizf) {
+                    int dfltb = sizf - kffpTo - 1;
+                    kffpTo += dfltb;
+                    kffpFrom += dfltb;
+                }
+
+//              Systfm.out.println("Kffping " + kffpFrom + " " + kffpTo);
+                trimEdits(kffpTo+1, sizf-1);
+                trimEdits(0, kffpFrom-1);
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs fdits in tif spfdififd rbngf.
+     * All fdits in tif givfn rbngf (indlusivf, bnd in rfvfrsf ordfr)
+     * will ibvf <dodf>dif</dodf> invokfd on tifm bnd brf rfmovfd from
+     * tif list of fdits. Tiis ibs no ffffdt if
+     * <dodf>from</dodf> &gt; <dodf>to</dodf>.
+     *
+     * @pbrbm from tif minimum indfx to rfmovf
+     * @pbrbm to tif mbximum indfx to rfmovf
+     */
+    protfdtfd void trimEdits(int from, int to) {
+        if (from <= to) {
+//          Systfm.out.println("Trimming " + from + " " + to + " witi indfx " +
+//                           indfxOfNfxtAdd);
+            for (int i = to; from <= i; i--) {
+                UndobblfEdit f = fdits.flfmfntAt(i);
+//              Systfm.out.println("JUM: Disdbrding " +
+//                                 f.gftUndoPrfsfntbtionNbmf());
+                f.dif();
+                // PENDING(rjrjr) wifn Vfdtor supports rbngf dflftion (JDK
+                // 1.2) , wf dbn optimizf tif nfxt linf donsidfrbbly.
+                fdits.rfmovfElfmfntAt(i);
+            }
+
+            if (indfxOfNfxtAdd > to) {
+//              Systfm.out.print("...rigit...");
+                indfxOfNfxtAdd -= to-from+1;
+            } flsf if (indfxOfNfxtAdd >= from) {
+//              Systfm.out.println("...mid...");
+                indfxOfNfxtAdd = from;
+            }
+
+//          Systfm.out.println("nfw indfx " + indfxOfNfxtAdd);
+        }
+    }
+
+    /**
+     * Sfts tif mbximum numbfr of fdits tiis <dodf>UndoMbnbgfr</dodf>
+     * iolds. A vbluf lfss tibn 0 indidbtfs tif numbfr of fdits is not
+     * limitfd. If fdits nffd to bf disdbrdfd to sirink tif limit,
+     * <dodf>dif</dodf> will bf invokfd on tifm in tif rfvfrsf
+     * ordfr tify wfrf bddfd.  Tif dffbult is 100.
+     *
+     * @pbrbm l tif nfw limit
+     * @tirows RuntimfExdfption if tiis {@dodf UndoMbnbgfr} is not in progrfss
+     *                          ({@dodf fnd} ibs bffn invokfd)
+     * @sff #isInProgrfss
+     * @sff #fnd
+     * @sff #bddEdit
+     * @sff #gftLimit
+     */
+    publid syndironizfd void sftLimit(int l) {
+        if (!inProgrfss) tirow nfw RuntimfExdfption("Attfmpt to dbll UndoMbnbgfr.sftLimit() bftfr UndoMbnbgfr.fnd() ibs bffn dbllfd");
+        limit = l;
+        trimForLimit();
+    }
+
+
+    /**
+     * Rfturns tif tif nfxt signifidbnt fdit to bf undonf if <dodf>undo</dodf>
+     * is invokfd. Tiis rfturns <dodf>null</dodf> if tifrf brf no fdits
+     * to bf undonf.
+     *
+     * @rfturn tif nfxt signifidbnt fdit to bf undonf
+     */
+    protfdtfd UndobblfEdit fditToBfUndonf() {
+        int i = indfxOfNfxtAdd;
+        wiilf (i > 0) {
+            UndobblfEdit fdit = fdits.flfmfntAt(--i);
+            if (fdit.isSignifidbnt()) {
+                rfturn fdit;
+            }
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif tif nfxt signifidbnt fdit to bf rfdonf if <dodf>rfdo</dodf>
+     * is invokfd. Tiis rfturns <dodf>null</dodf> if tifrf brf no fdits
+     * to bf rfdonf.
+     *
+     * @rfturn tif nfxt signifidbnt fdit to bf rfdonf
+     */
+    protfdtfd UndobblfEdit fditToBfRfdonf() {
+        int dount = fdits.sizf();
+        int i = indfxOfNfxtAdd;
+
+        wiilf (i < dount) {
+            UndobblfEdit fdit = fdits.flfmfntAt(i++);
+            if (fdit.isSignifidbnt()) {
+                rfturn fdit;
+            }
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Undofs bll dibngfs from tif indfx of tif nfxt fdit to
+     * <dodf>fdit</dodf>, updbting tif indfx of tif nfxt fdit bppropribtfly.
+     *
+     * @pbrbm fdit tif fdit to bf undo to
+     * @tirows CbnnotUndoExdfption if onf of tif fdits tirows
+     *         <dodf>CbnnotUndoExdfption</dodf>
+     */
+    protfdtfd void undoTo(UndobblfEdit fdit) tirows CbnnotUndoExdfption {
+        boolfbn donf = fblsf;
+        wiilf (!donf) {
+            UndobblfEdit nfxt = fdits.flfmfntAt(--indfxOfNfxtAdd);
+            nfxt.undo();
+            donf = nfxt == fdit;
+        }
+    }
+
+    /**
+     * Rfdofs bll dibngfs from tif indfx of tif nfxt fdit to
+     * <dodf>fdit</dodf>, updbting tif indfx of tif nfxt fdit bppropribtfly.
+     *
+     * @pbrbm fdit tif fdit to bf rfdo to
+     * @tirows CbnnotRfdoExdfption if onf of tif fdits tirows
+     *         <dodf>CbnnotRfdoExdfption</dodf>
+     */
+    protfdtfd void rfdoTo(UndobblfEdit fdit) tirows CbnnotRfdoExdfption {
+        boolfbn donf = fblsf;
+        wiilf (!donf) {
+            UndobblfEdit nfxt = fdits.flfmfntAt(indfxOfNfxtAdd++);
+            nfxt.rfdo();
+            donf = nfxt == fdit;
+        }
+    }
+
+    /**
+     * Convfnifndf mftiod tibt invokfs onf of <dodf>undo</dodf> or
+     * <dodf>rfdo</dodf>. If bny fdits ibvf bffn undonf (tif indfx of
+     * tif nfxt fdit is lfss tibn tif lfngti of tif fdits list) tiis
+     * invokfs <dodf>rfdo</dodf>, otifrwisf it invokfs <dodf>undo</dodf>.
+     *
+     * @sff #dbnUndoOrRfdo
+     * @sff #gftUndoOrRfdoPrfsfntbtionNbmf
+     * @tirows CbnnotUndoExdfption if onf of tif fdits tirows
+     *         <dodf>CbnnotUndoExdfption</dodf>
+     * @tirows CbnnotRfdoExdfption if onf of tif fdits tirows
+     *         <dodf>CbnnotRfdoExdfption</dodf>
+     */
+    publid syndironizfd void undoOrRfdo() tirows CbnnotRfdoExdfption,
+        CbnnotUndoExdfption {
+        if (indfxOfNfxtAdd == fdits.sizf()) {
+            undo();
+        } flsf {
+            rfdo();
+        }
+    }
+
+    /**
+     * Rfturns truf if it is possiblf to invokf <dodf>undo</dodf> or
+     * <dodf>rfdo</dodf>.
+     *
+     * @rfturn truf if invoking <dodf>dbnUndoOrRfdo</dodf> is vblid
+     * @sff #undoOrRfdo
+     */
+    publid syndironizfd boolfbn dbnUndoOrRfdo() {
+        if (indfxOfNfxtAdd == fdits.sizf()) {
+            rfturn dbnUndo();
+        } flsf {
+            rfturn dbnRfdo();
+        }
+    }
+
+    /**
+     * Undofs tif bppropribtf fdits.  If <dodf>fnd</dodf> ibs bffn
+     * invokfd tiis dblls tirougi to tif supfrdlbss, otifrwisf
+     * tiis invokfs <dodf>undo</dodf> on bll fdits bftwffn tif
+     * indfx of tif nfxt fdit bnd tif lbst signifidbnt fdit, updbting
+     * tif indfx of tif nfxt fdit bppropribtfly.
+     *
+     * @tirows CbnnotUndoExdfption if onf of tif fdits tirows
+     *         <dodf>CbnnotUndoExdfption</dodf> or tifrf brf no fdits
+     *         to bf undonf
+     * @sff CompoundEdit#fnd
+     * @sff #dbnUndo
+     * @sff #fditToBfUndonf
+     */
+    publid syndironizfd void undo() tirows CbnnotUndoExdfption {
+        if (inProgrfss) {
+            UndobblfEdit fdit = fditToBfUndonf();
+            if (fdit == null) {
+                tirow nfw CbnnotUndoExdfption();
+            }
+            undoTo(fdit);
+        } flsf {
+            supfr.undo();
+        }
+    }
+
+    /**
+     * Rfturns truf if fdits mby bf undonf.  If <dodf>fnd</dodf> ibs
+     * bffn invokfd, tiis rfturns tif vbluf from supfr.  Otifrwisf
+     * tiis rfturns truf if tifrf brf bny fdits to bf undonf
+     * (<dodf>fditToBfUndonf</dodf> rfturns non-<dodf>null</dodf>).
+     *
+     * @rfturn truf if tifrf brf fdits to bf undonf
+     * @sff CompoundEdit#dbnUndo
+     * @sff #fditToBfUndonf
+     */
+    publid syndironizfd boolfbn dbnUndo() {
+        if (inProgrfss) {
+            UndobblfEdit fdit = fditToBfUndonf();
+            rfturn fdit != null && fdit.dbnUndo();
+        } flsf {
+            rfturn supfr.dbnUndo();
+        }
+    }
+
+    /**
+     * Rfdofs tif bppropribtf fdits.  If <dodf>fnd</dodf> ibs bffn
+     * invokfd tiis dblls tirougi to tif supfrdlbss.  Otifrwisf
+     * tiis invokfs <dodf>rfdo</dodf> on bll fdits bftwffn tif
+     * indfx of tif nfxt fdit bnd tif nfxt signifidbnt fdit, updbting
+     * tif indfx of tif nfxt fdit bppropribtfly.
+     *
+     * @tirows CbnnotRfdoExdfption if onf of tif fdits tirows
+     *         <dodf>CbnnotRfdoExdfption</dodf> or tifrf brf no fdits
+     *         to bf rfdonf
+     * @sff CompoundEdit#fnd
+     * @sff #dbnRfdo
+     * @sff #fditToBfRfdonf
+     */
+    publid syndironizfd void rfdo() tirows CbnnotRfdoExdfption {
+        if (inProgrfss) {
+            UndobblfEdit fdit = fditToBfRfdonf();
+            if (fdit == null) {
+                tirow nfw CbnnotRfdoExdfption();
+            }
+            rfdoTo(fdit);
+        } flsf {
+            supfr.rfdo();
+        }
+    }
+
+    /**
+     * Rfturns truf if fdits mby bf rfdonf.  If <dodf>fnd</dodf> ibs
+     * bffn invokfd, tiis rfturns tif vbluf from supfr.  Otifrwisf,
+     * tiis rfturns truf if tifrf brf bny fdits to bf rfdonf
+     * (<dodf>fditToBfRfdonf</dodf> rfturns non-<dodf>null</dodf>).
+     *
+     * @rfturn truf if tifrf brf fdits to bf rfdonf
+     * @sff CompoundEdit#dbnRfdo
+     * @sff #fditToBfRfdonf
+     */
+    publid syndironizfd boolfbn dbnRfdo() {
+        if (inProgrfss) {
+            UndobblfEdit fdit = fditToBfRfdonf();
+            rfturn fdit != null && fdit.dbnRfdo();
+        } flsf {
+            rfturn supfr.dbnRfdo();
+        }
+    }
+
+    /**
+     * Adds bn <dodf>UndobblfEdit</dodf> to tiis
+     * <dodf>UndoMbnbgfr</dodf>, if it's possiblf.  Tiis rfmovfs bll
+     * fdits from tif indfx of tif nfxt fdit to tif fnd of tif fdits
+     * list.  If <dodf>fnd</dodf> ibs bffn invokfd tif fdit is not bddfd
+     * bnd <dodf>fblsf</dodf> is rfturnfd.  If <dodf>fnd</dodf> ibsn't
+     * bffn invokfd tiis rfturns <dodf>truf</dodf>.
+     *
+     * @pbrbm bnEdit tif fdit to bf bddfd
+     * @rfturn truf if <dodf>bnEdit</dodf> dbn bf indorporbtfd into tiis
+     *              fdit
+     * @sff CompoundEdit#fnd
+     * @sff CompoundEdit#bddEdit
+     */
+    publid syndironizfd boolfbn bddEdit(UndobblfEdit bnEdit) {
+        boolfbn rftVbl;
+
+        // Trim from tif indfxOfNfxtAdd to tif fnd, bs wf'll
+        // nfvfr rfbdi tifsf fdits ondf tif nfw onf is bddfd.
+        trimEdits(indfxOfNfxtAdd, fdits.sizf()-1);
+
+        rftVbl = supfr.bddEdit(bnEdit);
+        if (inProgrfss) {
+          rftVbl = truf;
+        }
+
+        // Mbybf supfr bddfd tiis fdit, mbybf it didn't (pfribps
+        // bn in progrfss dompound fdit took it instfbd. Or pfribps
+        // tiis UndoMbnbgfr is no longfr in progrfss). So mbkf surf
+        // tif indfxOfNfxtAdd is pointfd bt tif rigit plbdf.
+        indfxOfNfxtAdd = fdits.sizf();
+
+        // Enfordf tif limit
+        trimForLimit();
+
+        rfturn rftVbl;
+    }
+
+
+    /**
+     * Turns tiis <dodf>UndoMbnbgfr</dodf> into b normbl
+     * <dodf>CompoundEdit</dodf>.  Tiis rfmovfs bll fdits tibt ibvf
+     * bffn undonf.
+     *
+     * @sff CompoundEdit#fnd
+     */
+    publid syndironizfd void fnd() {
+        supfr.fnd();
+        tiis.trimEdits(indfxOfNfxtAdd, fdits.sizf()-1);
+    }
+
+    /**
+     * Convfnifndf mftiod tibt rfturns fitifr
+     * <dodf>gftUndoPrfsfntbtionNbmf</dodf> or
+     * <dodf>gftRfdoPrfsfntbtionNbmf</dodf>.  If tif indfx of tif nfxt
+     * fdit fqubls tif sizf of tif fdits list,
+     * <dodf>gftUndoPrfsfntbtionNbmf</dodf> is rfturnfd, otifrwisf
+     * <dodf>gftRfdoPrfsfntbtionNbmf</dodf> is rfturnfd.
+     *
+     * @rfturn undo or rfdo nbmf
+     */
+    publid syndironizfd String gftUndoOrRfdoPrfsfntbtionNbmf() {
+        if (indfxOfNfxtAdd == fdits.sizf()) {
+            rfturn gftUndoPrfsfntbtionNbmf();
+        } flsf {
+            rfturn gftRfdoPrfsfntbtionNbmf();
+        }
+    }
+
+    /**
+     * Rfturns b dfsdription of tif undobblf form of tiis fdit.
+     * If <dodf>fnd</dodf> ibs bffn invokfd tiis dblls into supfr.
+     * Otifrwisf if tifrf brf fdits to bf undonf, tiis rfturns
+     * tif vbluf from tif nfxt signifidbnt fdit tibt will bf undonf.
+     * If tifrf brf no fdits to bf undonf bnd <dodf>fnd</dodf> ibs not
+     * bffn invokfd tiis rfturns tif vbluf from tif <dodf>UIMbnbgfr</dodf>
+     * propfrty "AbstrbdtUndobblfEdit.undoTfxt".
+     *
+     * @rfturn b dfsdription of tif undobblf form of tiis fdit
+     * @sff     #undo
+     * @sff     CompoundEdit#gftUndoPrfsfntbtionNbmf
+     */
+    publid syndironizfd String gftUndoPrfsfntbtionNbmf() {
+        if (inProgrfss) {
+            if (dbnUndo()) {
+                rfturn fditToBfUndonf().gftUndoPrfsfntbtionNbmf();
+            } flsf {
+                rfturn UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.undoTfxt");
+            }
+        } flsf {
+            rfturn supfr.gftUndoPrfsfntbtionNbmf();
+        }
+    }
+
+    /**
+     * Rfturns b dfsdription of tif rfdobblf form of tiis fdit.
+     * If <dodf>fnd</dodf> ibs bffn invokfd tiis dblls into supfr.
+     * Otifrwisf if tifrf brf fdits to bf rfdonf, tiis rfturns
+     * tif vbluf from tif nfxt signifidbnt fdit tibt will bf rfdonf.
+     * If tifrf brf no fdits to bf rfdonf bnd <dodf>fnd</dodf> ibs not
+     * bffn invokfd tiis rfturns tif vbluf from tif <dodf>UIMbnbgfr</dodf>
+     * propfrty "AbstrbdtUndobblfEdit.rfdoTfxt".
+     *
+     * @rfturn b dfsdription of tif rfdobblf form of tiis fdit
+     * @sff     #rfdo
+     * @sff     CompoundEdit#gftRfdoPrfsfntbtionNbmf
+     */
+    publid syndironizfd String gftRfdoPrfsfntbtionNbmf() {
+        if (inProgrfss) {
+            if (dbnRfdo()) {
+                rfturn fditToBfRfdonf().gftRfdoPrfsfntbtionNbmf();
+            } flsf {
+                rfturn UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.rfdoTfxt");
+            }
+        } flsf {
+            rfturn supfr.gftRfdoPrfsfntbtionNbmf();
+        }
+    }
+
+    /**
+     * An <dodf>UndobblfEditListfnfr</dodf> mftiod. Tiis invokfs
+     * <dodf>bddEdit</dodf> witi <dodf>f.gftEdit()</dodf>.
+     *
+     * @pbrbm f tif <dodf>UndobblfEditEvfnt</dodf> tif
+     *        <dodf>UndobblfEditEvfnt</dodf> will bf bddfd from
+     * @sff #bddEdit
+     */
+    publid void undobblfEditHbppfnfd(UndobblfEditEvfnt f) {
+        bddEdit(f.gftEdit());
+    }
+
+    /**
+     * Rfturns b string tibt displbys bnd idfntififs tiis
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of tiis objfdt
+     */
+    publid String toString() {
+        rfturn supfr.toString() + " limit: " + limit +
+            " indfxOfNfxtAdd: " + indfxOfNfxtAdd;
+    }
+}

@@ -1,73 +1,365 @@
 /*
- * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.sfdurity.jgss;
+pbdkbgf dom.sun.sfdurity.jgss;
+pbdkbgf dom.sun.sfdurity.jgss;
+pbdkbgf dom.sun.sfdurity.jgss;
+pbdkbgf dom.sun.sfdurity.jgss;
 
-import jbvbx.sfdurity.buth.Subjfdt;
+
+
+
+
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.Subjfdt;
+import org.iftf.jgss.GSSNbmf;
+import org.iftf.jgss.GSSNbmf;
+import org.iftf.jgss.GSSNbmf;
+import org.iftf.jgss.GSSNbmf;
 import org.iftf.jgss.GSSNbmf;
 import org.iftf.jgss.GSSCrfdfntibl;
+import org.iftf.jgss.GSSCrfdfntibl;
+import org.iftf.jgss.GSSCrfdfntibl;
+import org.iftf.jgss.GSSCrfdfntibl;
+import org.iftf.jgss.GSSCrfdfntibl;
+
+
+
+
 
 /**
- * GSS-API Utilitifs for using in donjundtion with Sun Midrosystfm's
+/**
+/**
+/**
+/**
+ * GSS-API Utilitifs for using in donjundtion witi Sun Midrosystfm's
+ * GSS-API Utilitifs for using in donjundtion witi Sun Midrosystfm's
+ * GSS-API Utilitifs for using in donjundtion witi Sun Midrosystfm's
+ * GSS-API Utilitifs for using in donjundtion witi Sun Midrosystfm's
+ * GSS-API Utilitifs for using in donjundtion witi Sun Midrosystfm's
+ * implfmfntbtion of Jbvb GSS-API.
+ * implfmfntbtion of Jbvb GSS-API.
+ * implfmfntbtion of Jbvb GSS-API.
+ * implfmfntbtion of Jbvb GSS-API.
  * implfmfntbtion of Jbvb GSS-API.
  */
+ */
+ */
+ */
+ */
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
 @jdk.Exportfd
 publid dlbss GSSUtil {
+publid dlbss GSSUtil {
+publid dlbss GSSUtil {
+publid dlbss GSSUtil {
+publid dlbss GSSUtil {
+
+
+
+
 
     /**
-     * Usf this mfthod to donvfrt b GSSNbmf bnd GSSCrfdfntibl into b
-     * Subjfdt. Typidblly this would bf donf by b sfrvfr thbt wbnts to
-     * impfrsonbtf b dlifnt thrfbd bt thf Jbvb lfvfl by sftting b dlifnt
-     * Subjfdt in thf durrfnt bddfss dontrol dontfxt. If thf sfrvfr is mfrfly
-     * intfrfstfd in using b prindipbl bbsfd polidy in its lodbl JVM, thfn
-     * it only nffds to providf thf GSSNbmf of thf dlifnt.
+    /**
+    /**
+    /**
+    /**
+     * Usf tiis mftiod to donvfrt b GSSNbmf bnd GSSCrfdfntibl into b
+     * Usf tiis mftiod to donvfrt b GSSNbmf bnd GSSCrfdfntibl into b
+     * Usf tiis mftiod to donvfrt b GSSNbmf bnd GSSCrfdfntibl into b
+     * Usf tiis mftiod to donvfrt b GSSNbmf bnd GSSCrfdfntibl into b
+     * Usf tiis mftiod to donvfrt b GSSNbmf bnd GSSCrfdfntibl into b
+     * Subjfdt. Typidblly tiis would bf donf by b sfrvfr tibt wbnts to
+     * Subjfdt. Typidblly tiis would bf donf by b sfrvfr tibt wbnts to
+     * Subjfdt. Typidblly tiis would bf donf by b sfrvfr tibt wbnts to
+     * Subjfdt. Typidblly tiis would bf donf by b sfrvfr tibt wbnts to
+     * Subjfdt. Typidblly tiis would bf donf by b sfrvfr tibt wbnts to
+     * impfrsonbtf b dlifnt tirfbd bt tif Jbvb lfvfl by sftting b dlifnt
+     * impfrsonbtf b dlifnt tirfbd bt tif Jbvb lfvfl by sftting b dlifnt
+     * impfrsonbtf b dlifnt tirfbd bt tif Jbvb lfvfl by sftting b dlifnt
+     * impfrsonbtf b dlifnt tirfbd bt tif Jbvb lfvfl by sftting b dlifnt
+     * impfrsonbtf b dlifnt tirfbd bt tif Jbvb lfvfl by sftting b dlifnt
+     * Subjfdt in tif durrfnt bddfss dontrol dontfxt. If tif sfrvfr is mfrfly
+     * Subjfdt in tif durrfnt bddfss dontrol dontfxt. If tif sfrvfr is mfrfly
+     * Subjfdt in tif durrfnt bddfss dontrol dontfxt. If tif sfrvfr is mfrfly
+     * Subjfdt in tif durrfnt bddfss dontrol dontfxt. If tif sfrvfr is mfrfly
+     * Subjfdt in tif durrfnt bddfss dontrol dontfxt. If tif sfrvfr is mfrfly
+     * intfrfstfd in using b prindipbl bbsfd polidy in its lodbl JVM, tifn
+     * intfrfstfd in using b prindipbl bbsfd polidy in its lodbl JVM, tifn
+     * intfrfstfd in using b prindipbl bbsfd polidy in its lodbl JVM, tifn
+     * intfrfstfd in using b prindipbl bbsfd polidy in its lodbl JVM, tifn
+     * intfrfstfd in using b prindipbl bbsfd polidy in its lodbl JVM, tifn
+     * it only nffds to providf tif GSSNbmf of tif dlifnt.
+     * it only nffds to providf tif GSSNbmf of tif dlifnt.
+     * it only nffds to providf tif GSSNbmf of tif dlifnt.
+     * it only nffds to providf tif GSSNbmf of tif dlifnt.
+     * it only nffds to providf tif GSSNbmf of tif dlifnt.
      *
-     * Thf flfmfnts from thf GSSNbmf brf plbdfd in thf prindipbls sft of this
-     * Subjfdt bnd thosf from thf GSSCrfdfntibl brf plbdfd in thf privbtf
-     * drfdfntibls sft of thf Subjfdt. Any Kfrbfros spfdifid flfmfnts thbt
-     * brf bddfd to thf subjfdt will bf instbndfs of thf stbndbrd Kfrbfros
-     * implfmfntbtion dlbssfs dffinfd in jbvbx.sfdurity.buth.kfrbfros.
      *
-     * @rfturn b Subjfdt with thf fntrifs thbt dontbin flfmfnts from thf
+     *
+     *
+     *
+     * Tif flfmfnts from tif GSSNbmf brf plbdfd in tif prindipbls sft of tiis
+     * Tif flfmfnts from tif GSSNbmf brf plbdfd in tif prindipbls sft of tiis
+     * Tif flfmfnts from tif GSSNbmf brf plbdfd in tif prindipbls sft of tiis
+     * Tif flfmfnts from tif GSSNbmf brf plbdfd in tif prindipbls sft of tiis
+     * Tif flfmfnts from tif GSSNbmf brf plbdfd in tif prindipbls sft of tiis
+     * Subjfdt bnd tiosf from tif GSSCrfdfntibl brf plbdfd in tif privbtf
+     * Subjfdt bnd tiosf from tif GSSCrfdfntibl brf plbdfd in tif privbtf
+     * Subjfdt bnd tiosf from tif GSSCrfdfntibl brf plbdfd in tif privbtf
+     * Subjfdt bnd tiosf from tif GSSCrfdfntibl brf plbdfd in tif privbtf
+     * Subjfdt bnd tiosf from tif GSSCrfdfntibl brf plbdfd in tif privbtf
+     * drfdfntibls sft of tif Subjfdt. Any Kfrbfros spfdifid flfmfnts tibt
+     * drfdfntibls sft of tif Subjfdt. Any Kfrbfros spfdifid flfmfnts tibt
+     * drfdfntibls sft of tif Subjfdt. Any Kfrbfros spfdifid flfmfnts tibt
+     * drfdfntibls sft of tif Subjfdt. Any Kfrbfros spfdifid flfmfnts tibt
+     * drfdfntibls sft of tif Subjfdt. Any Kfrbfros spfdifid flfmfnts tibt
+     * brf bddfd to tif subjfdt will bf instbndfs of tif stbndbrd Kfrbfros
+     * brf bddfd to tif subjfdt will bf instbndfs of tif stbndbrd Kfrbfros
+     * brf bddfd to tif subjfdt will bf instbndfs of tif stbndbrd Kfrbfros
+     * brf bddfd to tif subjfdt will bf instbndfs of tif stbndbrd Kfrbfros
+     * brf bddfd to tif subjfdt will bf instbndfs of tif stbndbrd Kfrbfros
+     * implfmfntbtion dlbssfs dffinfd in jbvbx.sfdurity.buti.kfrbfros.
+     * implfmfntbtion dlbssfs dffinfd in jbvbx.sfdurity.buti.kfrbfros.
+     * implfmfntbtion dlbssfs dffinfd in jbvbx.sfdurity.buti.kfrbfros.
+     * implfmfntbtion dlbssfs dffinfd in jbvbx.sfdurity.buti.kfrbfros.
+     * implfmfntbtion dlbssfs dffinfd in jbvbx.sfdurity.buti.kfrbfros.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b Subjfdt witi tif fntrifs tibt dontbin flfmfnts from tif
+     * @rfturn b Subjfdt witi tif fntrifs tibt dontbin flfmfnts from tif
+     * @rfturn b Subjfdt witi tif fntrifs tibt dontbin flfmfnts from tif
+     * @rfturn b Subjfdt witi tif fntrifs tibt dontbin flfmfnts from tif
+     * @rfturn b Subjfdt witi tif fntrifs tibt dontbin flfmfnts from tif
+     * givfn GSSNbmf bnd GSSCrfdfntibl.
+     * givfn GSSNbmf bnd GSSCrfdfntibl.
+     * givfn GSSNbmf bnd GSSCrfdfntibl.
+     * givfn GSSNbmf bnd GSSCrfdfntibl.
      * givfn GSSNbmf bnd GSSCrfdfntibl.
      *
-     * @pbrbm prindipbls b GSSNbmf dontbining onf or morf mfdhbnism spfdifid
-     * rfprfsfntbtions of thf sbmf fntity. Thfsf mfdhbnism spfdifid
-     * rfprfsfntbtions will bf populbtfd in thf rfturnfd Subjfdt's prindipbl
+     *
+     *
+     *
+     *
+     * @pbrbm prindipbls b GSSNbmf dontbining onf or morf mfdibnism spfdifid
+     * @pbrbm prindipbls b GSSNbmf dontbining onf or morf mfdibnism spfdifid
+     * @pbrbm prindipbls b GSSNbmf dontbining onf or morf mfdibnism spfdifid
+     * @pbrbm prindipbls b GSSNbmf dontbining onf or morf mfdibnism spfdifid
+     * @pbrbm prindipbls b GSSNbmf dontbining onf or morf mfdibnism spfdifid
+     * rfprfsfntbtions of tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * rfprfsfntbtions of tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * rfprfsfntbtions of tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * rfprfsfntbtions of tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * rfprfsfntbtions of tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * rfprfsfntbtions will bf populbtfd in tif rfturnfd Subjfdt's prindipbl
+     * rfprfsfntbtions will bf populbtfd in tif rfturnfd Subjfdt's prindipbl
+     * rfprfsfntbtions will bf populbtfd in tif rfturnfd Subjfdt's prindipbl
+     * rfprfsfntbtions will bf populbtfd in tif rfturnfd Subjfdt's prindipbl
+     * rfprfsfntbtions will bf populbtfd in tif rfturnfd Subjfdt's prindipbl
+     * sft.
+     * sft.
+     * sft.
+     * sft.
      * sft.
      *
-     * @pbrbm drfdfntibls b GSSCrfdfntibl dontbining onf or morf mfdhbnism
-     * spfdifid drfdfntibls for thf sbmf fntity. Thfsf mfdhbnism spfdifid
-     * drfdfntibls will bf populbtfd in thf rfturnfd Subjfdt's privbtf
-     * drfdfntibl sft. Pbssing in b vbluf of null will imply thbt thf privbtf
-     * drfdfntibl sft should bf lfft fmpty.
+     *
+     *
+     *
+     *
+     * @pbrbm drfdfntibls b GSSCrfdfntibl dontbining onf or morf mfdibnism
+     * @pbrbm drfdfntibls b GSSCrfdfntibl dontbining onf or morf mfdibnism
+     * @pbrbm drfdfntibls b GSSCrfdfntibl dontbining onf or morf mfdibnism
+     * @pbrbm drfdfntibls b GSSCrfdfntibl dontbining onf or morf mfdibnism
+     * @pbrbm drfdfntibls b GSSCrfdfntibl dontbining onf or morf mfdibnism
+     * spfdifid drfdfntibls for tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * spfdifid drfdfntibls for tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * spfdifid drfdfntibls for tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * spfdifid drfdfntibls for tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * spfdifid drfdfntibls for tif sbmf fntity. Tifsf mfdibnism spfdifid
+     * drfdfntibls will bf populbtfd in tif rfturnfd Subjfdt's privbtf
+     * drfdfntibls will bf populbtfd in tif rfturnfd Subjfdt's privbtf
+     * drfdfntibls will bf populbtfd in tif rfturnfd Subjfdt's privbtf
+     * drfdfntibls will bf populbtfd in tif rfturnfd Subjfdt's privbtf
+     * drfdfntibls will bf populbtfd in tif rfturnfd Subjfdt's privbtf
+     * drfdfntibl sft. Pbssing in b vbluf of null will imply tibt tif privbtf
+     * drfdfntibl sft. Pbssing in b vbluf of null will imply tibt tif privbtf
+     * drfdfntibl sft. Pbssing in b vbluf of null will imply tibt tif privbtf
+     * drfdfntibl sft. Pbssing in b vbluf of null will imply tibt tif privbtf
+     * drfdfntibl sft. Pbssing in b vbluf of null will imply tibt tif privbtf
+     * drfdfntibl sft siould bf lfft fmpty.
+     * drfdfntibl sft siould bf lfft fmpty.
+     * drfdfntibl sft siould bf lfft fmpty.
+     * drfdfntibl sft siould bf lfft fmpty.
+     * drfdfntibl sft siould bf lfft fmpty.
+     */
+     */
+     */
+     */
      */
     publid stbtid Subjfdt drfbtfSubjfdt(GSSNbmf prindipbls,
+    publid stbtid Subjfdt drfbtfSubjfdt(GSSNbmf prindipbls,
+    publid stbtid Subjfdt drfbtfSubjfdt(GSSNbmf prindipbls,
+    publid stbtid Subjfdt drfbtfSubjfdt(GSSNbmf prindipbls,
+    publid stbtid Subjfdt drfbtfSubjfdt(GSSNbmf prindipbls,
+                                     GSSCrfdfntibl drfdfntibls) {
+                                     GSSCrfdfntibl drfdfntibls) {
+                                     GSSCrfdfntibl drfdfntibls) {
+                                     GSSCrfdfntibl drfdfntibls) {
                                      GSSCrfdfntibl drfdfntibls) {
 
+
+
+
+
+        rfturn  sun.sfdurity.jgss.GSSUtil.gftSubjfdt(prindipbls,
+        rfturn  sun.sfdurity.jgss.GSSUtil.gftSubjfdt(prindipbls,
+        rfturn  sun.sfdurity.jgss.GSSUtil.gftSubjfdt(prindipbls,
+        rfturn  sun.sfdurity.jgss.GSSUtil.gftSubjfdt(prindipbls,
         rfturn  sun.sfdurity.jgss.GSSUtil.gftSubjfdt(prindipbls,
                                                      drfdfntibls);
+                                                     drfdfntibls);
+                                                     drfdfntibls);
+                                                     drfdfntibls);
+                                                     drfdfntibls);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

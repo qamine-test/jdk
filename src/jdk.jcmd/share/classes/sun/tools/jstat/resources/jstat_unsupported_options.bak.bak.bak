@@ -1,228 +1,1140 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+option dlbsslobd {
+option dlbsslobd {
+option dlbsslobd {
+option dlbsslobd {
 option dlbsslobd {
   dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
+    ifbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
+    ifbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
+    ifbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
+    ifbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
     ifbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
     dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.sibrfdLobdfdClbssfs)
+    dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.sibrfdLobdfdClbssfs)
+    dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.sibrfdLobdfdClbssfs)
+    dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.sibrfdLobdfdClbssfs)
+    dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.sibrfdLobdfdClbssfs)
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    widti 5
+    widti 5
+    widti 5
+    widti 5
     widti 5
     formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    dbtb sun.dls.timf/sun.os.irt.frfqufndy
+    dbtb sun.dls.timf/sun.os.irt.frfqufndy
+    dbtb sun.dls.timf/sun.os.irt.frfqufndy
+    dbtb sun.dls.timf/sun.os.irt.frfqufndy
     dbtb sun.dls.timf/sun.os.irt.frfqufndy
     sdblf sfd
+    sdblf sfd
+    sdblf sfd
+    sdblf sfd
+    sdblf sfd
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "^Initfd^"	/* Numbfr of initiblizfd dlbssfs */
+    ifbdfr "^Initfd^"	/* Numbfr of initiblizfd dlbssfs */
+    ifbdfr "^Initfd^"	/* Numbfr of initiblizfd dlbssfs */
+    ifbdfr "^Initfd^"	/* Numbfr of initiblizfd dlbssfs */
+    ifbdfr "^Initfd^"	/* Numbfr of initiblizfd dlbssfs */
+    dbtb sun.dls.initiblizfdClbssfs
+    dbtb sun.dls.initiblizfdClbssfs
+    dbtb sun.dls.initiblizfdClbssfs
+    dbtb sun.dls.initiblizfdClbssfs
     dbtb sun.dls.initiblizfdClbssfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss initiblizbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss initiblizbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss initiblizbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss initiblizbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss initiblizbtion */
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
     dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Sibrfd^"	/* Numbfr of systfm dlbssfs lobdfd from sibrfd brdiivf */
+    ifbdfr "Sibrfd^"	/* Numbfr of systfm dlbssfs lobdfd from sibrfd brdiivf */
+    ifbdfr "Sibrfd^"	/* Numbfr of systfm dlbssfs lobdfd from sibrfd brdiivf */
+    ifbdfr "Sibrfd^"	/* Numbfr of systfm dlbssfs lobdfd from sibrfd brdiivf */
+    ifbdfr "Sibrfd^"	/* Numbfr of systfm dlbssfs lobdfd from sibrfd brdiivf */
+    dbtb jbvb.dls.sibrfdLobdfdClbssfs
+    dbtb jbvb.dls.sibrfdLobdfdClbssfs
+    dbtb jbvb.dls.sibrfdLobdfdClbssfs
+    dbtb jbvb.dls.sibrfdLobdfdClbssfs
     dbtb jbvb.dls.sibrfdLobdfdClbssfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Kbytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    ifbdfr "Kbytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    ifbdfr "Kbytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    ifbdfr "Kbytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    ifbdfr "Kbytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    dbtb sun.dls.sibrfdLobdfdBytfs
+    dbtb sun.dls.sibrfdLobdfdBytfs
+    dbtb sun.dls.sibrfdLobdfdBytfs
+    dbtb sun.dls.sibrfdLobdfdBytfs
     dbtb sun.dls.sibrfdLobdfdBytfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf K
+    sdblf K
+    sdblf K
+    sdblf K
     sdblf K
     widti 7
+    widti 7
+    widti 7
+    widti 7
+    widti 7
+    formbt "0.0"
+    formbt "0.0"
+    formbt "0.0"
+    formbt "0.0"
     formbt "0.0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding dlbssfs from sibrfd brdiivf */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding dlbssfs from sibrfd brdiivf */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding dlbssfs from sibrfd brdiivf */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding dlbssfs from sibrfd brdiivf */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding dlbssfs from sibrfd brdiivf */
+    dbtb sun.dls.sibrfdClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.sibrfdClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.sibrfdClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.sibrfdClbssLobdTimf/sun.os.irt.frfqufndy
     dbtb sun.dls.sibrfdClbssLobdTimf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "^SysClbss^"	/* Numbfr of systfm dlbssfs lobdfd */
+    ifbdfr "^SysClbss^"	/* Numbfr of systfm dlbssfs lobdfd */
+    ifbdfr "^SysClbss^"	/* Numbfr of systfm dlbssfs lobdfd */
+    ifbdfr "^SysClbss^"	/* Numbfr of systfm dlbssfs lobdfd */
+    ifbdfr "^SysClbss^"	/* Numbfr of systfm dlbssfs lobdfd */
+    dbtb jbvb.dls.lobdfdClbssfs
+    dbtb jbvb.dls.lobdfdClbssfs
+    dbtb jbvb.dls.lobdfdClbssfs
+    dbtb jbvb.dls.lobdfdClbssfs
     dbtb jbvb.dls.lobdfdClbssfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Kbytfs^"	/* Bytfs rfbd from systfm dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from systfm dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from systfm dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from systfm dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from systfm dlbss filfs */
+    dbtb sun.dls.sysClbssBytfs
+    dbtb sun.dls.sysClbssBytfs
+    dbtb sun.dls.sysClbssBytfs
+    dbtb sun.dls.sysClbssBytfs
     dbtb sun.dls.sysClbssBytfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf K
+    sdblf K
+    sdblf K
+    sdblf K
     sdblf K
     widti 7
+    widti 7
+    widti 7
+    widti 7
+    widti 7
+    formbt "0.0"
+    formbt "0.0"
+    formbt "0.0"
+    formbt "0.0"
     formbt "0.0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding non-sibrfd systfm dlbssfs */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding non-sibrfd systfm dlbssfs */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding non-sibrfd systfm dlbssfs */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding non-sibrfd systfm dlbssfs */
+    ifbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding non-sibrfd systfm dlbssfs */
+    dbtb sun.dls.sysClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.sysClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.sysClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.sysClbssLobdTimf/sun.os.irt.frfqufndy
     dbtb sun.dls.sysClbssLobdTimf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Lookup^"	/* Timf spfnt in looking up/rfbding of systfm dlbssfs */
+    ifbdfr "Lookup^"	/* Timf spfnt in looking up/rfbding of systfm dlbssfs */
+    ifbdfr "Lookup^"	/* Timf spfnt in looking up/rfbding of systfm dlbssfs */
+    ifbdfr "Lookup^"	/* Timf spfnt in looking up/rfbding of systfm dlbssfs */
+    ifbdfr "Lookup^"	/* Timf spfnt in looking up/rfbding of systfm dlbssfs */
+    dbtb sun.dls.lookupSysClbssTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.lookupSysClbssTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.lookupSysClbssTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.lookupSysClbssTimf/sun.os.irt.frfqufndy
     dbtb sun.dls.lookupSysClbssTimf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Pbrsf^"	/* Timf spfnt in pbrsing systfm dlbssfs */
+    ifbdfr "Pbrsf^"	/* Timf spfnt in pbrsing systfm dlbssfs */
+    ifbdfr "Pbrsf^"	/* Timf spfnt in pbrsing systfm dlbssfs */
+    ifbdfr "Pbrsf^"	/* Timf spfnt in pbrsing systfm dlbssfs */
+    ifbdfr "Pbrsf^"	/* Timf spfnt in pbrsing systfm dlbssfs */
+    dbtb sun.dls.pbrsfClbssTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.pbrsfClbssTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.pbrsfClbssTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.pbrsfClbssTimf.sflf/sun.os.irt.frfqufndy
     dbtb sun.dls.pbrsfClbssTimf.sflf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "^Linkfd^"	/* Numbfr of linkfd dlbssfs */
+    ifbdfr "^Linkfd^"	/* Numbfr of linkfd dlbssfs */
+    ifbdfr "^Linkfd^"	/* Numbfr of linkfd dlbssfs */
+    ifbdfr "^Linkfd^"	/* Numbfr of linkfd dlbssfs */
+    ifbdfr "^Linkfd^"	/* Numbfr of linkfd dlbssfs */
+    dbtb sun.dls.linkfdClbssfs
+    dbtb sun.dls.linkfdClbssfs
+    dbtb sun.dls.linkfdClbssfs
+    dbtb sun.dls.linkfdClbssfs
     dbtb sun.dls.linkfdClbssfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss linking */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss linking */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss linking */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss linking */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss linking */
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
     dbtb sun.dls.dlbssInitTimf.sflf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "^Vfrififd^"	/* Numbfr of vfrififd dlbssfs */
+    ifbdfr "^Vfrififd^"	/* Numbfr of vfrififd dlbssfs */
+    ifbdfr "^Vfrififd^"	/* Numbfr of vfrififd dlbssfs */
+    ifbdfr "^Vfrififd^"	/* Numbfr of vfrififd dlbssfs */
+    ifbdfr "^Vfrififd^"	/* Numbfr of vfrififd dlbssfs */
+    dbtb sun.dls.vfrififdClbssfs
+    dbtb sun.dls.vfrififdClbssfs
+    dbtb sun.dls.vfrififdClbssfs
+    dbtb sun.dls.vfrififdClbssfs
     dbtb sun.dls.vfrififdClbssfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss vfrifidbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss vfrifidbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss vfrifidbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss vfrifidbtion */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dlbss vfrifidbtion */
+    dbtb sun.dls.dlbssVfrifyTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssVfrifyTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssVfrifyTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dlbssVfrifyTimf.sflf/sun.os.irt.frfqufndy
     dbtb sun.dls.dlbssVfrifyTimf.sflf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "AppClbss^"	/* Numbfr of lobdfd bpplidbtion dlbssfs */
+    ifbdfr "AppClbss^"	/* Numbfr of lobdfd bpplidbtion dlbssfs */
+    ifbdfr "AppClbss^"	/* Numbfr of lobdfd bpplidbtion dlbssfs */
+    ifbdfr "AppClbss^"	/* Numbfr of lobdfd bpplidbtion dlbssfs */
+    ifbdfr "AppClbss^"	/* Numbfr of lobdfd bpplidbtion dlbssfs */
+    dbtb sun.dls.bppClbssLobdCount
+    dbtb sun.dls.bppClbssLobdCount
+    dbtb sun.dls.bppClbssLobdCount
+    dbtb sun.dls.bppClbssLobdCount
     dbtb sun.dls.bppClbssLobdCount
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Kbytfs^"	/* Bytfs rfbd from bpp dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from bpp dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from bpp dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from bpp dlbss filfs */
+    ifbdfr "Kbytfs^"	/* Bytfs rfbd from bpp dlbss filfs */
+    dbtb sun.dls.bppClbssBytfs
+    dbtb sun.dls.bppClbssBytfs
+    dbtb sun.dls.bppClbssBytfs
+    dbtb sun.dls.bppClbssBytfs
     dbtb sun.dls.bppClbssBytfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf K
+    sdblf K
+    sdblf K
+    sdblf K
     sdblf K
     widti 7
+    widti 7
+    widti 7
+    widti 7
+    widti 7
+    formbt "0.0"
+    formbt "0.0"
+    formbt "0.0"
+    formbt "0.0"
     formbt "0.0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "AppCL^"	/* Addumulbtfd timf for lobding bpp dlbssfs */
+    ifbdfr "AppCL^"	/* Addumulbtfd timf for lobding bpp dlbssfs */
+    ifbdfr "AppCL^"	/* Addumulbtfd timf for lobding bpp dlbssfs */
+    ifbdfr "AppCL^"	/* Addumulbtfd timf for lobding bpp dlbssfs */
+    ifbdfr "AppCL^"	/* Addumulbtfd timf for lobding bpp dlbssfs */
+    dbtb sun.dls.bppClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.bppClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.bppClbssLobdTimf/sun.os.irt.frfqufndy
+    dbtb sun.dls.bppClbssLobdTimf/sun.os.irt.frfqufndy
     dbtb sun.dls.bppClbssLobdTimf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "^DffinfClbss^"	/* Numbfr of dffinfClbss dblls */
+    ifbdfr "^DffinfClbss^"	/* Numbfr of dffinfClbss dblls */
+    ifbdfr "^DffinfClbss^"	/* Numbfr of dffinfClbss dblls */
+    ifbdfr "^DffinfClbss^"	/* Numbfr of dffinfClbss dblls */
+    ifbdfr "^DffinfClbss^"	/* Numbfr of dffinfClbss dblls */
+    dbtb sun.dls.dffinfAppClbssfs
+    dbtb sun.dls.dffinfAppClbssfs
+    dbtb sun.dls.dffinfAppClbssfs
+    dbtb sun.dls.dffinfAppClbssfs
     dbtb sun.dls.dffinfAppClbssfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Timf^"	/* Addumulbtfd timf for dffinfClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dffinfClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dffinfClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dffinfClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for dffinfClbss */
+    dbtb sun.dls.dffinfAppClbssTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dffinfAppClbssTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dffinfAppClbssTimf.sflf/sun.os.irt.frfqufndy
+    dbtb sun.dls.dffinfAppClbssTimf.sflf/sun.os.irt.frfqufndy
     dbtb sun.dls.dffinfAppClbssTimf.sflf/sun.os.irt.frfqufndy
     sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
     blign rigit
     widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
     formbt "0.000"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "^FindClbss^"	/* Numbfr of findClbss dblls */
+    ifbdfr "^FindClbss^"	/* Numbfr of findClbss dblls */
+    ifbdfr "^FindClbss^"	/* Numbfr of findClbss dblls */
+    ifbdfr "^FindClbss^"	/* Numbfr of findClbss dblls */
+    ifbdfr "^FindClbss^"	/* Numbfr of findClbss dblls */
+    dbtb sun.dlbsslobdfr.findClbssfs
+    dbtb sun.dlbsslobdfr.findClbssfs
+    dbtb sun.dlbsslobdfr.findClbssfs
+    dbtb sun.dlbsslobdfr.findClbssfs
     dbtb sun.dlbsslobdfr.findClbssfs
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     widti 5
+    widti 5
+    widti 5
+    widti 5
+    widti 5
+    formbt "0"
+    formbt "0"
+    formbt "0"
+    formbt "0"
     formbt "0"
   }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
   dolumn {
     ifbdfr "Timf^"	/* Addumulbtfd timf for findClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for findClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for findClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for findClbss */
+    ifbdfr "Timf^"	/* Addumulbtfd timf for findClbss */
+    dbtb sun.dlbsslobdfr.findClbssTimf/1000000000
+    dbtb sun.dlbsslobdfr.findClbssTimf/1000000000
+    dbtb sun.dlbsslobdfr.findClbssTimf/1000000000
+    dbtb sun.dlbsslobdfr.findClbssTimf/1000000000
     dbtb sun.dlbsslobdfr.findClbssTimf/1000000000
     sdblf rbw
-    blign rigit
-    widti 10
-    formbt "0.000"
-  }
-  dolumn {
-    ifbdfr "Dflfgbtion^"	/* Pbrfnt dlbss lobdfr dflfgbtion timf */
-    dbtb sun.dlbsslobdfr.pbrfntDflfgbtionTimf/1000000000
-    sdblf rbw 
-    blign rigit
-    widti 10
-    formbt "0.000"
-  }
-  dolumn {
-    ifbdfr "URLCL Rfbd^"	/* Addumulbtfd timf for URLClbssLobdfr rfbding bytfs */
-    dbtb sun.urlClbssLobdfr.rfbdClbssBytfsTimf/1000000000
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
     sdblf rbw
     blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    widti 10
+    widti 10
+    widti 10
+    widti 10
     widti 10
     formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+  }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
+    ifbdfr "Dflfgbtion^"	/* Pbrfnt dlbss lobdfr dflfgbtion timf */
+    ifbdfr "Dflfgbtion^"	/* Pbrfnt dlbss lobdfr dflfgbtion timf */
+    ifbdfr "Dflfgbtion^"	/* Pbrfnt dlbss lobdfr dflfgbtion timf */
+    ifbdfr "Dflfgbtion^"	/* Pbrfnt dlbss lobdfr dflfgbtion timf */
+    ifbdfr "Dflfgbtion^"	/* Pbrfnt dlbss lobdfr dflfgbtion timf */
+    dbtb sun.dlbsslobdfr.pbrfntDflfgbtionTimf/1000000000
+    dbtb sun.dlbsslobdfr.pbrfntDflfgbtionTimf/1000000000
+    dbtb sun.dlbsslobdfr.pbrfntDflfgbtionTimf/1000000000
+    dbtb sun.dlbsslobdfr.pbrfntDflfgbtionTimf/1000000000
+    dbtb sun.dlbsslobdfr.pbrfntDflfgbtionTimf/1000000000
+    sdblf rbw 
+    sdblf rbw 
+    sdblf rbw 
+    sdblf rbw 
+    sdblf rbw 
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+  }
+  }
+  }
+  }
+  }
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
+  dolumn {
+    ifbdfr "URLCL Rfbd^"	/* Addumulbtfd timf for URLClbssLobdfr rfbding bytfs */
+    ifbdfr "URLCL Rfbd^"	/* Addumulbtfd timf for URLClbssLobdfr rfbding bytfs */
+    ifbdfr "URLCL Rfbd^"	/* Addumulbtfd timf for URLClbssLobdfr rfbding bytfs */
+    ifbdfr "URLCL Rfbd^"	/* Addumulbtfd timf for URLClbssLobdfr rfbding bytfs */
+    ifbdfr "URLCL Rfbd^"	/* Addumulbtfd timf for URLClbssLobdfr rfbding bytfs */
+    dbtb sun.urlClbssLobdfr.rfbdClbssBytfsTimf/1000000000
+    dbtb sun.urlClbssLobdfr.rfbdClbssBytfsTimf/1000000000
+    dbtb sun.urlClbssLobdfr.rfbdClbssBytfsTimf/1000000000
+    dbtb sun.urlClbssLobdfr.rfbdClbssBytfsTimf/1000000000
+    dbtb sun.urlClbssLobdfr.rfbdClbssBytfsTimf/1000000000
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    sdblf rbw
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    blign rigit
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    widti 10
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+    formbt "0.000"
+  }
+  }
+  }
+  }
   }
 }
+}
+}
+}
+}
+
+
+
+
 

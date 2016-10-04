@@ -1,93 +1,465 @@
 #
 #
-# Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+#
+#
+#
+#
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
-# Lodblizbtions for Lfvfl nbmfs.  For thf US lodblf
-# thfsf brf thf sbmf bs thf non-lodblizfd lfvfl nbmf.
+
+
+
+
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+
+
+
+
 
 bgfnt.frr.frror			   = Error
+bgfnt.frr.frror			   = Error
+bgfnt.frr.frror			   = Error
+bgfnt.frr.frror			   = Error
+bgfnt.frr.frror			   = Error
+bgfnt.frr.fxdfption                = Exdfpdi\u00F3n dfvufltb por fl bgfntf 
+bgfnt.frr.fxdfption                = Exdfpdi\u00F3n dfvufltb por fl bgfntf 
+bgfnt.frr.fxdfption                = Exdfpdi\u00F3n dfvufltb por fl bgfntf 
+bgfnt.frr.fxdfption                = Exdfpdi\u00F3n dfvufltb por fl bgfntf 
 bgfnt.frr.fxdfption                = Exdfpdi\u00F3n dfvufltb por fl bgfntf 
 bgfnt.frr.wbrning		   = Advfrtfndib
+bgfnt.frr.wbrning		   = Advfrtfndib
+bgfnt.frr.wbrning		   = Advfrtfndib
+bgfnt.frr.wbrning		   = Advfrtfndib
+bgfnt.frr.wbrning		   = Advfrtfndib
 
-bgfnt.frr.donfigfilf.notfound      = No sf hb fndontrbdo fl brdhivo df donfigurbdi\u00F3n
-bgfnt.frr.donfigfilf.fbilfd        = Fbllo bl lffr fl brdhivo df donfigurbdi\u00F3n
-bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbllo bl dfrrbr fl brdhivo df donfigurbdi\u00F3n
-bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfso dfnfgbdo bl brdhivo df donfigurbdi\u00F3n
+
+
+
+
+bgfnt.frr.donfigfilf.notfound      = No sf ib fndontrbdo fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.notfound      = No sf ib fndontrbdo fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.notfound      = No sf ib fndontrbdo fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.notfound      = No sf ib fndontrbdo fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.notfound      = No sf ib fndontrbdo fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.fbilfd        = Fbllo bl lffr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.fbilfd        = Fbllo bl lffr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.fbilfd        = Fbllo bl lffr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.fbilfd        = Fbllo bl lffr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.fbilfd        = Fbllo bl lffr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbllo bl dfrrbr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbllo bl dfrrbr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbllo bl dfrrbr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbllo bl dfrrbr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Fbllo bl dfrrbr fl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfso dfnfgbdo bl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfso dfnfgbdo bl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfso dfnfgbdo bl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfso dfnfgbdo bl brdiivo df donfigurbdi\u00F3n
+bgfnt.frr.donfigfilf.bddfss.dfnifd = Addfso dfnfgbdo bl brdiivo df donfigurbdi\u00F3n
+
+
+
+
 
 bgfnt.frr.fxportbddrfss.fbilfd	   = Fbllo bl fxportbr lb dirfddi\u00F3n dfl donfdtor JMX bl bufffr df instrumfntbdi\u00F3n
+bgfnt.frr.fxportbddrfss.fbilfd	   = Fbllo bl fxportbr lb dirfddi\u00F3n dfl donfdtor JMX bl bufffr df instrumfntbdi\u00F3n
+bgfnt.frr.fxportbddrfss.fbilfd	   = Fbllo bl fxportbr lb dirfddi\u00F3n dfl donfdtor JMX bl bufffr df instrumfntbdi\u00F3n
+bgfnt.frr.fxportbddrfss.fbilfd	   = Fbllo bl fxportbr lb dirfddi\u00F3n dfl donfdtor JMX bl bufffr df instrumfntbdi\u00F3n
+bgfnt.frr.fxportbddrfss.fbilfd	   = Fbllo bl fxportbr lb dirfddi\u00F3n dfl donfdtor JMX bl bufffr df instrumfntbdi\u00F3n
+
+
+
+
 
 bgfnt.frr.bgfntdlbss.notfound      = Clbsf df bgfntf df gfsti\u00F3n no fndontrbdb
+bgfnt.frr.bgfntdlbss.notfound      = Clbsf df bgfntf df gfsti\u00F3n no fndontrbdb
+bgfnt.frr.bgfntdlbss.notfound      = Clbsf df bgfntf df gfsti\u00F3n no fndontrbdb
+bgfnt.frr.bgfntdlbss.notfound      = Clbsf df bgfntf df gfsti\u00F3n no fndontrbdb
+bgfnt.frr.bgfntdlbss.notfound      = Clbsf df bgfntf df gfsti\u00F3n no fndontrbdb
+bgfnt.frr.bgfntdlbss.fbilfd        = Fbllo df dlbsf df bgfntf df gfsti\u00F3n 
+bgfnt.frr.bgfntdlbss.fbilfd        = Fbllo df dlbsf df bgfntf df gfsti\u00F3n 
+bgfnt.frr.bgfntdlbss.fbilfd        = Fbllo df dlbsf df bgfntf df gfsti\u00F3n 
+bgfnt.frr.bgfntdlbss.fbilfd        = Fbllo df dlbsf df bgfntf df gfsti\u00F3n 
 bgfnt.frr.bgfntdlbss.fbilfd        = Fbllo df dlbsf df bgfntf df gfsti\u00F3n 
 bgfnt.frr.prfmbin.notfound         = prfmbin(String) no fxistf fn lb dlbsf dfl bgfntf
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) no fxistf fn lb dlbsf dfl bgfntf
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) no fxistf fn lb dlbsf dfl bgfntf
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) no fxistf fn lb dlbsf dfl bgfntf
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) no fxistf fn lb dlbsf dfl bgfntf
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Addfso dfnfgbdo b prfmbin(String)
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Addfso dfnfgbdo b prfmbin(String)
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Addfso dfnfgbdo b prfmbin(String)
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Addfso dfnfgbdo b prfmbin(String)
 bgfnt.frr.bgfntdlbss.bddfss.dfnifd = Addfso dfnfgbdo b prfmbin(String)
 bgfnt.frr.invblid.bgfntdlbss       = Vblor df propifdbd dom.sun.mbnbgfmfnt.bgfnt.dlbss no v\u00E1lido
+bgfnt.frr.invblid.bgfntdlbss       = Vblor df propifdbd dom.sun.mbnbgfmfnt.bgfnt.dlbss no v\u00E1lido
+bgfnt.frr.invblid.bgfntdlbss       = Vblor df propifdbd dom.sun.mbnbgfmfnt.bgfnt.dlbss no v\u00E1lido
+bgfnt.frr.invblid.bgfntdlbss       = Vblor df propifdbd dom.sun.mbnbgfmfnt.bgfnt.dlbss no v\u00E1lido
+bgfnt.frr.invblid.bgfntdlbss       = Vblor df propifdbd dom.sun.mbnbgfmfnt.bgfnt.dlbss no v\u00E1lido
+bgfnt.frr.invblid.stbtf            = Estbdo dfl bgfntf no v\u00E1lido
+bgfnt.frr.invblid.stbtf            = Estbdo dfl bgfntf no v\u00E1lido
+bgfnt.frr.invblid.stbtf            = Estbdo dfl bgfntf no v\u00E1lido
+bgfnt.frr.invblid.stbtf            = Estbdo dfl bgfntf no v\u00E1lido
 bgfnt.frr.invblid.stbtf            = Estbdo dfl bgfntf no v\u00E1lido
 bgfnt.frr.invblid.jmxrfmotf.port   = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.port   = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.port   = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.port   = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.port   = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port no v\u00E1lido
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port no v\u00E1lido
 bgfnt.frr.invblid.jmxrfmotf.rmi.port = N\u00FAmfro dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port no v\u00E1lido
 
-bgfnt.frr.filf.not.sft               = Ardhivo no fspfdifidbdo
-bgfnt.frr.filf.not.rfbdbblf          = Ardhivo ilfgiblf
-bgfnt.frr.filf.rfbd.fbilfd           = Fbllo bl lffr fl brdhivo
-bgfnt.frr.filf.not.found             = Ardhivo no fndontrbdo
-bgfnt.frr.filf.bddfss.not.rfstridtfd = El bddfso df lfdturb bl brdhivo dfbf sfr rfstringido
 
-bgfnt.frr.pbssword.filf.notsft     = El brdhivo df dontrbsf\u00F1bs no sf hb fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=truf
-bgfnt.frr.pbssword.filf.not.rfbdbblf = No sf pufdf lffr fl brdhivo df dontrbsf\u00F1bs
-bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbllo bl lffr fl brdhivo df dontrbsf\u00F1bs
-bgfnt.frr.pbssword.filf.notfound   = Ardhivo df dontrbsf\u00F1bs no fndontrbdo
-bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdhivo df dontrbsf\u00F1bs
 
-bgfnt.frr.bddfss.filf.notsft       = El brdhivo df bddfso no sf hb fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=truf
-bgfnt.frr.bddfss.filf.not.rfbdbblf = No sf pufdf lffr fl brdhivo df bddfso
-bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbllo bl lffr fl brdhivo df bddfso
-bgfnt.frr.bddfss.filf.notfound     = Ardhivo df bddfso no fndontrbdo
+
+
+bgfnt.frr.filf.not.sft               = Ardiivo no fspfdifidbdo
+bgfnt.frr.filf.not.sft               = Ardiivo no fspfdifidbdo
+bgfnt.frr.filf.not.sft               = Ardiivo no fspfdifidbdo
+bgfnt.frr.filf.not.sft               = Ardiivo no fspfdifidbdo
+bgfnt.frr.filf.not.sft               = Ardiivo no fspfdifidbdo
+bgfnt.frr.filf.not.rfbdbblf          = Ardiivo ilfgiblf
+bgfnt.frr.filf.not.rfbdbblf          = Ardiivo ilfgiblf
+bgfnt.frr.filf.not.rfbdbblf          = Ardiivo ilfgiblf
+bgfnt.frr.filf.not.rfbdbblf          = Ardiivo ilfgiblf
+bgfnt.frr.filf.not.rfbdbblf          = Ardiivo ilfgiblf
+bgfnt.frr.filf.rfbd.fbilfd           = Fbllo bl lffr fl brdiivo
+bgfnt.frr.filf.rfbd.fbilfd           = Fbllo bl lffr fl brdiivo
+bgfnt.frr.filf.rfbd.fbilfd           = Fbllo bl lffr fl brdiivo
+bgfnt.frr.filf.rfbd.fbilfd           = Fbllo bl lffr fl brdiivo
+bgfnt.frr.filf.rfbd.fbilfd           = Fbllo bl lffr fl brdiivo
+bgfnt.frr.filf.not.found             = Ardiivo no fndontrbdo
+bgfnt.frr.filf.not.found             = Ardiivo no fndontrbdo
+bgfnt.frr.filf.not.found             = Ardiivo no fndontrbdo
+bgfnt.frr.filf.not.found             = Ardiivo no fndontrbdo
+bgfnt.frr.filf.not.found             = Ardiivo no fndontrbdo
+bgfnt.frr.filf.bddfss.not.rfstridtfd = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido
+bgfnt.frr.filf.bddfss.not.rfstridtfd = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido
+bgfnt.frr.filf.bddfss.not.rfstridtfd = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido
+bgfnt.frr.filf.bddfss.not.rfstridtfd = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido
+bgfnt.frr.filf.bddfss.not.rfstridtfd = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido
+
+
+
+
+
+bgfnt.frr.pbssword.filf.notsft     = El brdiivo df dontrbsf\u00F1bs no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.notsft     = El brdiivo df dontrbsf\u00F1bs no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.notsft     = El brdiivo df dontrbsf\u00F1bs no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.notsft     = El brdiivo df dontrbsf\u00F1bs no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.notsft     = El brdiivo df dontrbsf\u00F1bs no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbllo bl lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbllo bl lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbllo bl lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbllo bl lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Fbllo bl lffr fl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.notfound   = Ardiivo df dontrbsf\u00F1bs no fndontrbdo
+bgfnt.frr.pbssword.filf.notfound   = Ardiivo df dontrbsf\u00F1bs no fndontrbdo
+bgfnt.frr.pbssword.filf.notfound   = Ardiivo df dontrbsf\u00F1bs no fndontrbdo
+bgfnt.frr.pbssword.filf.notfound   = Ardiivo df dontrbsf\u00F1bs no fndontrbdo
+bgfnt.frr.pbssword.filf.notfound   = Ardiivo df dontrbsf\u00F1bs no fndontrbdo
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+
+
+
+
+
+bgfnt.frr.bddfss.filf.notsft       = El brdiivo df bddfso no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.notsft       = El brdiivo df bddfso no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.notsft       = El brdiivo df bddfso no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.notsft       = El brdiivo df bddfso no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.notsft       = El brdiivo df bddfso no sf ib fspfdifidbdo, pfro dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.not.rfbdbblf = No sf pufdf lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbllo bl lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbllo bl lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbllo bl lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbllo bl lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Fbllo bl lffr fl brdiivo df bddfso
+bgfnt.frr.bddfss.filf.notfound     = Ardiivo df bddfso no fndontrbdo
+bgfnt.frr.bddfss.filf.notfound     = Ardiivo df bddfso no fndontrbdo
+bgfnt.frr.bddfss.filf.notfound     = Ardiivo df bddfso no fndontrbdo
+bgfnt.frr.bddfss.filf.notfound     = Ardiivo df bddfso no fndontrbdo
+bgfnt.frr.bddfss.filf.notfound     = Ardiivo df bddfso no fndontrbdo
+
+
+
+
 
 bgfnt.frr.donnfdtor.sfrvfr.io.frror = Error df domunidbdi\u00F3n don fl sfrvidor df donfdtor JMX
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = Error df domunidbdi\u00F3n don fl sfrvidor df donfdtor JMX
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = Error df domunidbdi\u00F3n don fl sfrvidor df donfdtor JMX
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = Error df domunidbdi\u00F3n don fl sfrvidor df donfdtor JMX
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = Error df domunidbdi\u00F3n don fl sfrvidor df donfdtor JMX
+
+
+
+
 
 bgfnt.frr.invblid.option	   = Opdi\u00F3n fspfdifidbdb no v\u00E1lidb
+bgfnt.frr.invblid.option	   = Opdi\u00F3n fspfdifidbdb no v\u00E1lidb
+bgfnt.frr.invblid.option	   = Opdi\u00F3n fspfdifidbdb no v\u00E1lidb
+bgfnt.frr.invblid.option	   = Opdi\u00F3n fspfdifidbdb no v\u00E1lidb
+bgfnt.frr.invblid.option	   = Opdi\u00F3n fspfdifidbdb no v\u00E1lidb
+bgfnt.frr.invblid.snmp.port        = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.port no v\u00E1lido
+bgfnt.frr.invblid.snmp.port        = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.port no v\u00E1lido
+bgfnt.frr.invblid.snmp.port        = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.port no v\u00E1lido
+bgfnt.frr.invblid.snmp.port        = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.port no v\u00E1lido
 bgfnt.frr.invblid.snmp.port        = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.port no v\u00E1lido
 bgfnt.frr.invblid.snmp.trbp.port   = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.trbp no v\u00E1lido
+bgfnt.frr.invblid.snmp.trbp.port   = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.trbp no v\u00E1lido
+bgfnt.frr.invblid.snmp.trbp.port   = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.trbp no v\u00E1lido
+bgfnt.frr.invblid.snmp.trbp.port   = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.trbp no v\u00E1lido
+bgfnt.frr.invblid.snmp.trbp.port   = N\u00FAmfro df dom.sun.mbnbgfmfnt.snmp.trbp no v\u00E1lido
 bgfnt.frr.unknown.snmp.intfrfbdf   = Intfrfbz SNMP dfsdonodidb
-bgfnt.frr.bdl.filf.notsft          = No sf hb fspfdifidbdo ning\u00FAn brdhivo ACL df SNMP, pfro dom.sun.mbnbgfmfnt.snmp.bdl=truf
-bgfnt.frr.bdl.filf.notfound        = Ardhivo ACL df SNMP no fndontrbdo
-bgfnt.frr.bdl.filf.not.rfbdbblf    = No sf pufdf lffr fl brdhivo ACL df SNMP
-bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbllo bl lffr fl brdhivo ACL df SNMP
-bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdhivo df dontrbsf\u00F1bs
+bgfnt.frr.unknown.snmp.intfrfbdf   = Intfrfbz SNMP dfsdonodidb
+bgfnt.frr.unknown.snmp.intfrfbdf   = Intfrfbz SNMP dfsdonodidb
+bgfnt.frr.unknown.snmp.intfrfbdf   = Intfrfbz SNMP dfsdonodidb
+bgfnt.frr.unknown.snmp.intfrfbdf   = Intfrfbz SNMP dfsdonodidb
+bgfnt.frr.bdl.filf.notsft          = No sf ib fspfdifidbdo ning\u00FAn brdiivo ACL df SNMP, pfro dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notsft          = No sf ib fspfdifidbdo ning\u00FAn brdiivo ACL df SNMP, pfro dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notsft          = No sf ib fspfdifidbdo ning\u00FAn brdiivo ACL df SNMP, pfro dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notsft          = No sf ib fspfdifidbdo ning\u00FAn brdiivo ACL df SNMP, pfro dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notsft          = No sf ib fspfdifidbdo ning\u00FAn brdiivo ACL df SNMP, pfro dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notfound        = Ardiivo ACL df SNMP no fndontrbdo
+bgfnt.frr.bdl.filf.notfound        = Ardiivo ACL df SNMP no fndontrbdo
+bgfnt.frr.bdl.filf.notfound        = Ardiivo ACL df SNMP no fndontrbdo
+bgfnt.frr.bdl.filf.notfound        = Ardiivo ACL df SNMP no fndontrbdo
+bgfnt.frr.bdl.filf.notfound        = Ardiivo ACL df SNMP no fndontrbdo
+bgfnt.frr.bdl.filf.not.rfbdbblf    = No sf pufdf lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.not.rfbdbblf    = No sf pufdf lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.not.rfbdbblf    = No sf pufdf lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.not.rfbdbblf    = No sf pufdf lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.not.rfbdbblf    = No sf pufdf lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbllo bl lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbllo bl lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbllo bl lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbllo bl lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Fbllo bl lffr fl brdiivo ACL df SNMP
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs
+
+
+
+
 
 bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Fbllo bl inidibr fl bdbptbdor df SNMP don lb dirfddi\u00F3n
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Fbllo bl inidibr fl bdbptbdor df SNMP don lb dirfddi\u00F3n
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Fbllo bl inidibr fl bdbptbdor df SNMP don lb dirfddi\u00F3n
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Fbllo bl inidibr fl bdbptbdor df SNMP don lb dirfddi\u00F3n
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Fbllo bl inidibr fl bdbptbdor df SNMP don lb dirfddi\u00F3n
+bgfnt.frr.snmp.mib.init.fbilfd     = Fbllo bl inidiblizbr fl MIB df SNMP don frror
+bgfnt.frr.snmp.mib.init.fbilfd     = Fbllo bl inidiblizbr fl MIB df SNMP don frror
+bgfnt.frr.snmp.mib.init.fbilfd     = Fbllo bl inidiblizbr fl MIB df SNMP don frror
+bgfnt.frr.snmp.mib.init.fbilfd     = Fbllo bl inidiblizbr fl MIB df SNMP don frror
 bgfnt.frr.snmp.mib.init.fbilfd     = Fbllo bl inidiblizbr fl MIB df SNMP don frror
 
+
+
+
+
 jmxrfmotf.ConnfdtorBootstrbp.stbrting = Inidibndo sfrvidor df donfdtor JMX:
-jmxrfmotf.ConnfdtorBootstrbp.noAuthfntidbtion = Sin butfntidbdi\u00F3n
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = Inidibndo sfrvidor df donfdtor JMX:
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = Inidibndo sfrvidor df donfdtor JMX:
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = Inidibndo sfrvidor df donfdtor JMX:
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = Inidibndo sfrvidor df donfdtor JMX:
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = Sin butfntidbdi\u00F3n
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = Sin butfntidbdi\u00F3n
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = Sin butfntidbdi\u00F3n
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = Sin butfntidbdi\u00F3n
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = Sin butfntidbdi\u00F3n
 jmxrfmotf.ConnfdtorBootstrbp.rfbdy = Confdtor JMX listo fn: {0}
-jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Sf dfbf rfstringir fl bddfso df lfdturb bl brdhivo df dontrbsf\u00F1bs: {0}
-jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = El bddfso df lfdturb bl brdhivo dfbf sfr rfstringido: {0}
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = Confdtor JMX listo fn: {0}
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = Confdtor JMX listo fn: {0}
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = Confdtor JMX listo fn: {0}
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = Confdtor JMX listo fn: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = Sf dfbf rfstringir fl bddfso df lfdturb bl brdiivo df dontrbsf\u00F1bs: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = El bddfso df lfdturb bl brdiivo dfbf sfr rfstringido: {0}
+
+
+
+
 
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = Prodfsbndo ACL
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = Prodfsbndo ACL
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = Prodfsbndo ACL
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = Prodfsbndo ACL
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = Prodfsbndo ACL
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Agrfgbndo dfstino: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Agrfgbndo dfstino: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Agrfgbndo dfstino: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Agrfgbndo dfstino: {0}
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = Agrfgbndo dfstino: {0}
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Inidibndo sfrvidor df bdbptbdor:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Inidibndo sfrvidor df bdbptbdor:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Inidibndo sfrvidor df bdbptbdor:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Inidibndo sfrvidor df bdbptbdor:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Inidibndo sfrvidor df bdbptbdor:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptbdor listo.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptbdor listo.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptbdor listo.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptbdor listo.
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptbdor listo.
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = Adbptbdor SNMP listo fn: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = Adbptbdor SNMP listo fn: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = Adbptbdor SNMP listo fn: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = Adbptbdor SNMP listo fn: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = Adbptbdor SNMP listo fn: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = tfrminbr {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = tfrminbr {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = tfrminbr {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = tfrminbr {0}
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = tfrminbr {0}

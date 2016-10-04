@@ -1,583 +1,2915 @@
 /*
- * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
 pbdkbgf jbvb.bwt;
 
+
+
+
+
+import jbvb.bwt.pffr.FilfDiblogPffr;
+import jbvb.bwt.pffr.FilfDiblogPffr;
+import jbvb.bwt.pffr.FilfDiblogPffr;
+import jbvb.bwt.pffr.FilfDiblogPffr;
 import jbvb.bwt.pffr.FilfDiblogPffr;
 import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
 import jbvb.io.IOExdfption;
 import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
 import jbvb.io.Filf;
 import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+
+
+
+
 
 /**
- * Thf <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
- * from whidh thf usfr dbn sflfdt b filf.
+/**
+/**
+/**
+/**
+ * Tif <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
+ * Tif <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
+ * Tif <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
+ * Tif <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
+ * Tif <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
+ * from wiidi tif usfr dbn sflfdt b filf.
+ * from wiidi tif usfr dbn sflfdt b filf.
+ * from wiidi tif usfr dbn sflfdt b filf.
+ * from wiidi tif usfr dbn sflfdt b filf.
+ * from wiidi tif usfr dbn sflfdt b filf.
  * <p>
- * Sindf it is b modbl diblog, whfn thf bpplidbtion dblls
- * its <dodf>show</dodf> mfthod to displby thf diblog,
- * it blodks thf rfst of thf bpplidbtion until thf usfr hbs
- * dhosfn b filf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Sindf it is b modbl diblog, wifn tif bpplidbtion dblls
+ * Sindf it is b modbl diblog, wifn tif bpplidbtion dblls
+ * Sindf it is b modbl diblog, wifn tif bpplidbtion dblls
+ * Sindf it is b modbl diblog, wifn tif bpplidbtion dblls
+ * Sindf it is b modbl diblog, wifn tif bpplidbtion dblls
+ * its <dodf>siow</dodf> mftiod to displby tif diblog,
+ * its <dodf>siow</dodf> mftiod to displby tif diblog,
+ * its <dodf>siow</dodf> mftiod to displby tif diblog,
+ * its <dodf>siow</dodf> mftiod to displby tif diblog,
+ * its <dodf>siow</dodf> mftiod to displby tif diblog,
+ * it blodks tif rfst of tif bpplidbtion until tif usfr ibs
+ * it blodks tif rfst of tif bpplidbtion until tif usfr ibs
+ * it blodks tif rfst of tif bpplidbtion until tif usfr ibs
+ * it blodks tif rfst of tif bpplidbtion until tif usfr ibs
+ * it blodks tif rfst of tif bpplidbtion until tif usfr ibs
+ * diosfn b filf.
+ * diosfn b filf.
+ * diosfn b filf.
+ * diosfn b filf.
+ * diosfn b filf.
  *
- * @sff Window#show
  *
- * @buthor      Sbmi Shbio
- * @buthor      Arthur vbn Hoff
+ *
+ *
+ *
+ * @sff Window#siow
+ * @sff Window#siow
+ * @sff Window#siow
+ * @sff Window#siow
+ * @sff Window#siow
+ *
+ *
+ *
+ *
+ *
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @butior      Artiur vbn Hoff
+ * @butior      Artiur vbn Hoff
+ * @butior      Artiur vbn Hoff
+ * @butior      Artiur vbn Hoff
+ * @butior      Artiur vbn Hoff
+ * @sindf       1.0
+ * @sindf       1.0
+ * @sindf       1.0
+ * @sindf       1.0
  * @sindf       1.0
  */
+ */
+ */
+ */
+ */
+publid dlbss FilfDiblog fxtfnds Diblog {
+publid dlbss FilfDiblog fxtfnds Diblog {
+publid dlbss FilfDiblog fxtfnds Diblog {
+publid dlbss FilfDiblog fxtfnds Diblog {
 publid dlbss FilfDiblog fxtfnds Diblog {
 
+
+
+
+
     /**
-     * This donstbnt vbluf indidbtfs thbt thf purposf of thf filf
-     * diblog window is to lodbtf b filf from whidh to rfbd.
+    /**
+    /**
+    /**
+    /**
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * diblog window is to lodbtf b filf from wiidi to rfbd.
+     * diblog window is to lodbtf b filf from wiidi to rfbd.
+     * diblog window is to lodbtf b filf from wiidi to rfbd.
+     * diblog window is to lodbtf b filf from wiidi to rfbd.
+     * diblog window is to lodbtf b filf from wiidi to rfbd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int LOAD = 0;
+    publid stbtid finbl int LOAD = 0;
+    publid stbtid finbl int LOAD = 0;
+    publid stbtid finbl int LOAD = 0;
+    publid stbtid finbl int LOAD = 0;
+
+
+
+
 
     /**
-     * This donstbnt vbluf indidbtfs thbt thf purposf of thf filf
-     * diblog window is to lodbtf b filf to whidh to writf.
+    /**
+    /**
+    /**
+    /**
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * diblog window is to lodbtf b filf to wiidi to writf.
+     * diblog window is to lodbtf b filf to wiidi to writf.
+     * diblog window is to lodbtf b filf to wiidi to writf.
+     * diblog window is to lodbtf b filf to wiidi to writf.
+     * diblog window is to lodbtf b filf to wiidi to writf.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int SAVE = 1;
+    publid stbtid finbl int SAVE = 1;
+    publid stbtid finbl int SAVE = 1;
+    publid stbtid finbl int SAVE = 1;
+    publid stbtid finbl int SAVE = 1;
+
+
+
+
 
     /*
-     * Thfrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
+    /*
+    /*
+    /*
+    /*
+     * Tifrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
+     * Tifrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
+     * Tifrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
+     * Tifrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
+     * Tifrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
      * <dodf>SAVE</dodf>.
-     * This intfgfr will rfprfsfnt onf or thf othfr.
-     * If thf modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
+     * <dodf>SAVE</dodf>.
+     * <dodf>SAVE</dodf>.
+     * <dodf>SAVE</dodf>.
+     * <dodf>SAVE</dodf>.
+     * Tiis intfgfr will rfprfsfnt onf or tif otifr.
+     * Tiis intfgfr will rfprfsfnt onf or tif otifr.
+     * Tiis intfgfr will rfprfsfnt onf or tif otifr.
+     * Tiis intfgfr will rfprfsfnt onf or tif otifr.
+     * Tiis intfgfr will rfprfsfnt onf or tif otifr.
+     * If tif modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
+     * If tif modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
+     * If tif modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
+     * If tif modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
+     * If tif modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff gftModf()
+     * @sff gftModf()
+     * @sff gftModf()
+     * @sff gftModf()
+     * @sff gftModf()
+     * @sff sftModf()
+     * @sff sftModf()
+     * @sff sftModf()
+     * @sff sftModf()
      * @sff sftModf()
      * @sff jbvb.bwt.FilfDiblog#LOAD
+     * @sff jbvb.bwt.FilfDiblog#LOAD
+     * @sff jbvb.bwt.FilfDiblog#LOAD
+     * @sff jbvb.bwt.FilfDiblog#LOAD
+     * @sff jbvb.bwt.FilfDiblog#LOAD
+     * @sff jbvb.bwt.FilfDiblog#SAVE
+     * @sff jbvb.bwt.FilfDiblog#SAVE
+     * @sff jbvb.bwt.FilfDiblog#SAVE
+     * @sff jbvb.bwt.FilfDiblog#SAVE
      * @sff jbvb.bwt.FilfDiblog#SAVE
      */
+     */
+     */
+     */
+     */
+    int modf;
+    int modf;
+    int modf;
+    int modf;
     int modf;
 
+
+
+
+
     /*
-     * Thf string spfdifying thf dirfdtory to displby
-     * in thf filf diblog.  This vbribblf mby bf <dodf>null</dodf>.
+    /*
+    /*
+    /*
+    /*
+     * Tif string spfdifying tif dirfdtory to displby
+     * Tif string spfdifying tif dirfdtory to displby
+     * Tif string spfdifying tif dirfdtory to displby
+     * Tif string spfdifying tif dirfdtory to displby
+     * Tif string spfdifying tif dirfdtory to displby
+     * in tif filf diblog.  Tiis vbribblf mby bf <dodf>null</dodf>.
+     * in tif filf diblog.  Tiis vbribblf mby bf <dodf>null</dodf>.
+     * in tif filf diblog.  Tiis vbribblf mby bf <dodf>null</dodf>.
+     * in tif filf diblog.  Tiis vbribblf mby bf <dodf>null</dodf>.
+     * in tif filf diblog.  Tiis vbribblf mby bf <dodf>null</dodf>.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff gftDirfdtory()
+     * @sff gftDirfdtory()
+     * @sff gftDirfdtory()
+     * @sff gftDirfdtory()
+     * @sff gftDirfdtory()
+     * @sff sftDirfdtory()
+     * @sff sftDirfdtory()
+     * @sff sftDirfdtory()
+     * @sff sftDirfdtory()
      * @sff sftDirfdtory()
      */
+     */
+     */
+     */
+     */
+    String dir;
+    String dir;
+    String dir;
+    String dir;
     String dir;
 
+
+
+
+
     /*
-     * Thf string spfdifying thf initibl vbluf of thf
-     * filfnbmf tfxt fifld in thf filf diblog.
-     * This vbribblf mby bf <dodf>null</dodf>.
+    /*
+    /*
+    /*
+    /*
+     * Tif string spfdifying tif initibl vbluf of tif
+     * Tif string spfdifying tif initibl vbluf of tif
+     * Tif string spfdifying tif initibl vbluf of tif
+     * Tif string spfdifying tif initibl vbluf of tif
+     * Tif string spfdifying tif initibl vbluf of tif
+     * filfnbmf tfxt fifld in tif filf diblog.
+     * filfnbmf tfxt fifld in tif filf diblog.
+     * filfnbmf tfxt fifld in tif filf diblog.
+     * filfnbmf tfxt fifld in tif filf diblog.
+     * filfnbmf tfxt fifld in tif filf diblog.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff gftFilf()
+     * @sff gftFilf()
+     * @sff gftFilf()
+     * @sff gftFilf()
+     * @sff gftFilf()
+     * @sff sftFilf()
+     * @sff sftFilf()
+     * @sff sftFilf()
+     * @sff sftFilf()
      * @sff sftFilf()
      */
+     */
+     */
+     */
+     */
+    String filf;
+    String filf;
+    String filf;
+    String filf;
     String filf;
 
+
+
+
+
     /**
-     * Contbins thf Filf instbndfs for bll thf filfs thbt thf usfr sflfdts.
+    /**
+    /**
+    /**
+    /**
+     * Contbins tif Filf instbndfs for bll tif filfs tibt tif usfr sflfdts.
+     * Contbins tif Filf instbndfs for bll tif filfs tibt tif usfr sflfdts.
+     * Contbins tif Filf instbndfs for bll tif filfs tibt tif usfr sflfdts.
+     * Contbins tif Filf instbndfs for bll tif filfs tibt tif usfr sflfdts.
+     * Contbins tif Filf instbndfs for bll tif filfs tibt tif usfr sflfdts.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff #gftFilfs
+     * @sff #gftFilfs
+     * @sff #gftFilfs
+     * @sff #gftFilfs
+     * @sff #gftFilfs
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     privbtf Filf[] filfs;
+    privbtf Filf[] filfs;
+    privbtf Filf[] filfs;
+    privbtf Filf[] filfs;
+    privbtf Filf[] filfs;
+
+
+
+
 
     /**
-     * Rfprfsfnts whfthfr thf filf diblog bllows thf multiplf filf sflfdtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfprfsfnts wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfprfsfnts wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfprfsfnts wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfprfsfnts wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfprfsfnts wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff #sftMultiplfModf
+     * @sff #sftMultiplfModf
+     * @sff #sftMultiplfModf
+     * @sff #sftMultiplfModf
+     * @sff #sftMultiplfModf
+     * @sff #isMultiplfModf
+     * @sff #isMultiplfModf
+     * @sff #isMultiplfModf
+     * @sff #isMultiplfModf
      * @sff #isMultiplfModf
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     privbtf boolfbn multiplfModf = fblsf;
+    privbtf boolfbn multiplfModf = fblsf;
+    privbtf boolfbn multiplfModf = fblsf;
+    privbtf boolfbn multiplfModf = fblsf;
+    privbtf boolfbn multiplfModf = fblsf;
+
+
+
+
 
     /*
-     * Thf filtfr usfd bs thf filf diblog's filfnbmf filtfr.
-     * Thf filf diblog will only bf displbying filfs whosf
-     * nbmfs brf bddfptfd by this filtfr.
-     * This vbribblf mby bf <dodf>null</dodf>.
+    /*
+    /*
+    /*
+    /*
+     * Tif filtfr usfd bs tif filf diblog's filfnbmf filtfr.
+     * Tif filtfr usfd bs tif filf diblog's filfnbmf filtfr.
+     * Tif filtfr usfd bs tif filf diblog's filfnbmf filtfr.
+     * Tif filtfr usfd bs tif filf diblog's filfnbmf filtfr.
+     * Tif filtfr usfd bs tif filf diblog's filfnbmf filtfr.
+     * Tif filf diblog will only bf displbying filfs wiosf
+     * Tif filf diblog will only bf displbying filfs wiosf
+     * Tif filf diblog will only bf displbying filfs wiosf
+     * Tif filf diblog will only bf displbying filfs wiosf
+     * Tif filf diblog will only bf displbying filfs wiosf
+     * nbmfs brf bddfptfd by tiis filtfr.
+     * nbmfs brf bddfptfd by tiis filtfr.
+     * nbmfs brf bddfptfd by tiis filtfr.
+     * nbmfs brf bddfptfd by tiis filtfr.
+     * nbmfs brf bddfptfd by tiis filtfr.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sff #gftFilfnbmfFiltfr()
+     * @sff #gftFilfnbmfFiltfr()
+     * @sff #gftFilfnbmfFiltfr()
+     * @sff #gftFilfnbmfFiltfr()
      * @sff #gftFilfnbmfFiltfr()
      * @sff #sftFilfnbmfFiltfr()
+     * @sff #sftFilfnbmfFiltfr()
+     * @sff #sftFilfnbmfFiltfr()
+     * @sff #sftFilfnbmfFiltfr()
+     * @sff #sftFilfnbmfFiltfr()
+     * @sff FilfNbmfFiltfr
+     * @sff FilfNbmfFiltfr
+     * @sff FilfNbmfFiltfr
+     * @sff FilfNbmfFiltfr
      * @sff FilfNbmfFiltfr
      */
+     */
+     */
+     */
+     */
+    FilfnbmfFiltfr filtfr;
+    FilfnbmfFiltfr filtfr;
+    FilfnbmfFiltfr filtfr;
+    FilfnbmfFiltfr filtfr;
     FilfnbmfFiltfr filtfr;
 
+
+
+
+
+    privbtf stbtid finbl String bbsf = "filfdlg";
+    privbtf stbtid finbl String bbsf = "filfdlg";
+    privbtf stbtid finbl String bbsf = "filfdlg";
+    privbtf stbtid finbl String bbsf = "filfdlg";
     privbtf stbtid finbl String bbsf = "filfdlg";
     privbtf stbtid int nbmfCountfr = 0;
+    privbtf stbtid int nbmfCountfr = 0;
+    privbtf stbtid int nbmfCountfr = 0;
+    privbtf stbtid int nbmfCountfr = 0;
+    privbtf stbtid int nbmfCountfr = 0;
+
+
+
+
 
     /*
+    /*
+    /*
+    /*
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
      * JDK 1.1 sfriblVfrsionUID
      */
+     */
+     */
+     */
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 5035145889651310422L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 5035145889651310422L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 5035145889651310422L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 5035145889651310422L;
      privbtf stbtid finbl long sfriblVfrsionUID = 5035145889651310422L;
 
 
+
+
+
+
+
+
+
+
     stbtid {
-        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
         Toolkit.lobdLibrbrifs();
-        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+        Toolkit.lobdLibrbrifs();
+        Toolkit.lobdLibrbrifs();
+        Toolkit.lobdLibrbrifs();
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+            initIDs();
+            initIDs();
+            initIDs();
             initIDs();
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+        AWTAddfssor.sftFilfDiblogAddfssor(
+        AWTAddfssor.sftFilfDiblogAddfssor(
+        AWTAddfssor.sftFilfDiblogAddfssor(
+        AWTAddfssor.sftFilfDiblogAddfssor(
         AWTAddfssor.sftFilfDiblogAddfssor(
             nfw AWTAddfssor.FilfDiblogAddfssor() {
+            nfw AWTAddfssor.FilfDiblogAddfssor() {
+            nfw AWTAddfssor.FilfDiblogAddfssor() {
+            nfw AWTAddfssor.FilfDiblogAddfssor() {
+            nfw AWTAddfssor.FilfDiblogAddfssor() {
+                publid void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]) {
+                publid void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]) {
+                publid void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]) {
+                publid void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]) {
                 publid void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]) {
                     filfDiblog.sftFilfs(filfs);
+                    filfDiblog.sftFilfs(filfs);
+                    filfDiblog.sftFilfs(filfs);
+                    filfDiblog.sftFilfs(filfs);
+                    filfDiblog.sftFilfs(filfs);
+                }
+                }
+                }
+                }
                 }
                 publid void sftFilf(FilfDiblog filfDiblog, String filf) {
+                publid void sftFilf(FilfDiblog filfDiblog, String filf) {
+                publid void sftFilf(FilfDiblog filfDiblog, String filf) {
+                publid void sftFilf(FilfDiblog filfDiblog, String filf) {
+                publid void sftFilf(FilfDiblog filfDiblog, String filf) {
+                    filfDiblog.filf = ("".fqubls(filf)) ? null : filf;
+                    filfDiblog.filf = ("".fqubls(filf)) ? null : filf;
+                    filfDiblog.filf = ("".fqubls(filf)) ? null : filf;
+                    filfDiblog.filf = ("".fqubls(filf)) ? null : filf;
                     filfDiblog.filf = ("".fqubls(filf)) ? null : filf;
                 }
+                }
+                }
+                }
+                }
+                publid void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory) {
+                publid void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory) {
+                publid void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory) {
+                publid void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory) {
                 publid void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory) {
                     filfDiblog.dir = ("".fqubls(dirfdtory)) ? null : dirfdtory;
+                    filfDiblog.dir = ("".fqubls(dirfdtory)) ? null : dirfdtory;
+                    filfDiblog.dir = ("".fqubls(dirfdtory)) ? null : dirfdtory;
+                    filfDiblog.dir = ("".fqubls(dirfdtory)) ? null : dirfdtory;
+                    filfDiblog.dir = ("".fqubls(dirfdtory)) ? null : dirfdtory;
+                }
+                }
+                }
+                }
                 }
                 publid boolfbn isMultiplfModf(FilfDiblog filfDiblog) {
-                    syndhronizfd (filfDiblog.gftObjfdtLodk()) {
+                publid boolfbn isMultiplfModf(FilfDiblog filfDiblog) {
+                publid boolfbn isMultiplfModf(FilfDiblog filfDiblog) {
+                publid boolfbn isMultiplfModf(FilfDiblog filfDiblog) {
+                publid boolfbn isMultiplfModf(FilfDiblog filfDiblog) {
+                    syndironizfd (filfDiblog.gftObjfdtLodk()) {
+                    syndironizfd (filfDiblog.gftObjfdtLodk()) {
+                    syndironizfd (filfDiblog.gftObjfdtLodk()) {
+                    syndironizfd (filfDiblog.gftObjfdtLodk()) {
+                    syndironizfd (filfDiblog.gftObjfdtLodk()) {
+                        rfturn filfDiblog.multiplfModf;
+                        rfturn filfDiblog.multiplfModf;
+                        rfturn filfDiblog.multiplfModf;
+                        rfturn filfDiblog.multiplfModf;
                         rfturn filfDiblog.multiplfModf;
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
             });
+            });
+            });
+            });
+            });
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Initiblizf JNI fifld bnd mfthod IDs for fiflds thbt mby bf
+    /**
+    /**
+    /**
+    /**
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+       bddfssfd from C.
+       bddfssfd from C.
+       bddfssfd from C.
+       bddfssfd from C.
        bddfssfd from C.
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid nbtivf void initIDs();
+    privbtf stbtid nbtivf void initIDs();
+    privbtf stbtid nbtivf void initIDs();
+    privbtf stbtid nbtivf void initIDs();
     privbtf stbtid nbtivf void initIDs();
 
+
+
+
+
     /**
-     * Crfbtfs b filf diblog for lobding b filf.  Thf titlf of thf
-     * filf diblog is initiblly fmpty.  This is b donvfnifndf mfthod for
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
      * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
      *
-     * @pbrbm pbrfnt thf ownfr of thf diblog
+     *
+     *
+     *
+     *
+     * @pbrbm pbrfnt tif ownfr of tif diblog
+     * @pbrbm pbrfnt tif ownfr of tif diblog
+     * @pbrbm pbrfnt tif ownfr of tif diblog
+     * @pbrbm pbrfnt tif ownfr of tif diblog
+     * @pbrbm pbrfnt tif ownfr of tif diblog
+     * @sindf 1.1
+     * @sindf 1.1
+     * @sindf 1.1
+     * @sindf 1.1
      * @sindf 1.1
      */
+     */
+     */
+     */
+     */
     publid FilfDiblog(Frbmf pbrfnt) {
-        this(pbrfnt, "", LOAD);
+    publid FilfDiblog(Frbmf pbrfnt) {
+    publid FilfDiblog(Frbmf pbrfnt) {
+    publid FilfDiblog(Frbmf pbrfnt) {
+    publid FilfDiblog(Frbmf pbrfnt) {
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
-     * b filf. Thf filfs shown brf thosf in thf durrfnt dirfdtory.
-     * This is b donvfnifndf mfthod for
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
      * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
      *
-     * @pbrbm     pbrfnt   thf ownfr of thf diblog
-     * @pbrbm     titlf    thf titlf of thf diblog
+     *
+     *
+     *
+     *
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog
+     */
+     */
+     */
+     */
      */
     publid FilfDiblog(Frbmf pbrfnt, String titlf) {
-        this(pbrfnt, titlf, LOAD);
+    publid FilfDiblog(Frbmf pbrfnt, String titlf) {
+    publid FilfDiblog(Frbmf pbrfnt, String titlf) {
+    publid FilfDiblog(Frbmf pbrfnt, String titlf) {
+    publid FilfDiblog(Frbmf pbrfnt, String titlf) {
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * or sbving b filf.
+     * or sbving b filf.
+     * or sbving b filf.
+     * or sbving b filf.
      * or sbving b filf.
      * <p>
-     * If thf vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, thfn thf
-     * filf diblog is finding b filf to rfbd, bnd thf filfs shown brf thosf
-     * in thf durrfnt dirfdtory.   If thf vbluf of
-     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, thf filf diblog is finding
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * b plbdf to writf b filf.
+     * b plbdf to writf b filf.
+     * b plbdf to writf b filf.
+     * b plbdf to writf b filf.
      * b plbdf to writf b filf.
      *
-     * @pbrbm     pbrfnt   thf ownfr of thf diblog
-     * @pbrbm     titlf   thf titlf of thf diblog
-     * @pbrbm     modf   thf modf of thf diblog; fithfr
+     *
+     *
+     *
+     *
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf   tif titlf of tif diblog
+     * @pbrbm     titlf   tif titlf of tif diblog
+     * @pbrbm     titlf   tif titlf of tif diblog
+     * @pbrbm     titlf   tif titlf of tif diblog
+     * @pbrbm     titlf   tif titlf of tif diblog
+     * @pbrbm     modf   tif modf of tif diblog; fitifr
+     * @pbrbm     modf   tif modf of tif diblog; fitifr
+     * @pbrbm     modf   tif modf of tif diblog; fitifr
+     * @pbrbm     modf   tif modf of tif diblog; fitifr
+     * @pbrbm     modf   tif modf of tif diblog; fitifr
+     *          <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     *          <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     *          <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     *          <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
      *          <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
      * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
-     *                 diblog modf is supplifd
-     * @sff       jbvb.bwt.FilfDiblog#LOAD
-     * @sff       jbvb.bwt.FilfDiblog#SAVE
-     */
-    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
-        supfr(pbrfnt, titlf, truf);
-        this.sftModf(modf);
-        sftLbyout(null);
-    }
-
-    /**
-     * Crfbtfs b filf diblog for lobding b filf.  Thf titlf of thf
-     * filf diblog is initiblly fmpty.  This is b donvfnifndf mfthod for
-     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
-     *
-     * @pbrbm     pbrfnt   thf ownfr of thf diblog
-     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>pbrfnt</dodf>'s
-     *            <dodf>GrbphidsConfigurbtion</dodf>
-     *            is not from b sdrffn dfvidf;
-     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
-     *            is <dodf>null</dodf>; this fxdfption is blwbys thrown whfn
-     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
-     *            rfturns <dodf>truf</dodf>
-     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
-     * @sindf 1.5
-     */
-    publid FilfDiblog(Diblog pbrfnt) {
-        this(pbrfnt, "", LOAD);
-    }
-
-    /**
-     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
-     * b filf. Thf filfs shown brf thosf in thf durrfnt dirfdtory.
-     * This is b donvfnifndf mfthod for
-     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
-     *
-     * @pbrbm     pbrfnt   thf ownfr of thf diblog
-     * @pbrbm     titlf    thf titlf of thf diblog; b <dodf>null</dodf> vbluf
-     *                     will bf bddfptfd without dbusing b
-     *                     <dodf>NullPointfrExdfption</dodf> to bf thrown
-     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>pbrfnt</dodf>'s
-     *            <dodf>GrbphidsConfigurbtion</dodf>
-     *            is not from b sdrffn dfvidf;
-     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
-     *            is <dodf>null</dodf>; this fxdfption is blwbys thrown whfn
-     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
-     *            rfturns <dodf>truf</dodf>
-     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
-     * @sindf     1.5
-     */
-    publid FilfDiblog(Diblog pbrfnt, String titlf) {
-        this(pbrfnt, titlf, LOAD);
-    }
-
-    /**
-     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
-     * or sbving b filf.
-     * <p>
-     * If thf vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, thfn thf
-     * filf diblog is finding b filf to rfbd, bnd thf filfs shown brf thosf
-     * in thf durrfnt dirfdtory.   If thf vbluf of
-     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, thf filf diblog is finding
-     * b plbdf to writf b filf.
-     *
-     * @pbrbm     pbrfnt   thf ownfr of thf diblog
-     * @pbrbm     titlf    thf titlf of thf diblog; b <dodf>null</dodf> vbluf
-     *                     will bf bddfptfd without dbusing b
-     *                     <dodf>NullPointfrExdfption</dodf> to bf thrown
-     * @pbrbm     modf     thf modf of thf diblog; fithfr
-     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
-     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
-     *            filf diblog modf is supplifd;
-     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>pbrfnt</dodf>'s
-     *            <dodf>GrbphidsConfigurbtion</dodf>
-     *            is not from b sdrffn dfvidf;
-     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
-     *            is <dodf>null</dodf>; this fxdfption is blwbys thrown whfn
-     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
-     *            rfturns <dodf>truf</dodf>
-     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
-     * @sff       jbvb.bwt.FilfDiblog#LOAD
-     * @sff       jbvb.bwt.FilfDiblog#SAVE
-     * @sindf     1.5
-     */
-    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
-        supfr(pbrfnt, titlf, truf);
-        this.sftModf(modf);
-        sftLbyout(null);
-    }
-
-    /**
-     * Construdts b nbmf for this domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
-     * whfn thf nbmf is <dodf>null</dodf>.
-     */
-    String donstrudtComponfntNbmf() {
-        syndhronizfd (FilfDiblog.dlbss) {
-            rfturn bbsf + nbmfCountfr++;
-        }
-    }
-
-    /**
-     * Crfbtfs thf filf diblog's pffr.  Thf pffr bllows us to dhbngf thf look
-     * of thf filf diblog without dhbnging its fundtionblity.
-     */
-    publid void bddNotify() {
-        syndhronizfd(gftTrffLodk()) {
-            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
-                pbrfnt.bddNotify();
-            }
-            if (pffr == null)
-                pffr = gftToolkit().drfbtfFilfDiblog(this);
-            supfr.bddNotify();
-        }
-    }
-
-    /**
-     * Indidbtfs whfthfr this filf diblog box is for lobding from b filf
-     * or for sbving to b filf.
-     *
-     * @rfturn   thf modf of this filf diblog window, fithfr
-     *               <dodf>FilfDiblog.LOAD</dodf> or
-     *               <dodf>FilfDiblog.SAVE</dodf>
-     * @sff      jbvb.bwt.FilfDiblog#LOAD
-     * @sff      jbvb.bwt.FilfDiblog#SAVE
-     * @sff      jbvb.bwt.FilfDiblog#sftModf
-     */
-    publid int gftModf() {
-        rfturn modf;
-    }
-
-    /**
-     * Sfts thf modf of thf filf diblog.  If <dodf>modf</dodf> is not
-     * b lfgbl vbluf, bn fxdfption will bf thrown bnd <dodf>modf</dodf>
-     * will not bf sft.
-     *
-     * @pbrbm      modf  thf modf for this filf diblog, fithfr
-     *                 <dodf>FilfDiblog.LOAD</dodf> or
-     *                 <dodf>FilfDiblog.SAVE</dodf>
-     * @sff        jbvb.bwt.FilfDiblog#LOAD
-     * @sff        jbvb.bwt.FilfDiblog#SAVE
-     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
      * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
      *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     */
+     */
+     */
+     */
+     */
+    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        sftLbyout(null);
+        sftLbyout(null);
+        sftLbyout(null);
+        sftLbyout(null);
+        sftLbyout(null);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
+     */
+    publid FilfDiblog(Diblog pbrfnt) {
+    publid FilfDiblog(Diblog pbrfnt) {
+    publid FilfDiblog(Diblog pbrfnt) {
+    publid FilfDiblog(Diblog pbrfnt) {
+    publid FilfDiblog(Diblog pbrfnt) {
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+        tiis(pbrfnt, "", LOAD);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.5
+     * @sindf     1.5
+     * @sindf     1.5
+     * @sindf     1.5
+     * @sindf     1.5
+     */
+     */
+     */
+     */
+     */
+    publid FilfDiblog(Diblog pbrfnt, String titlf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf) {
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+        tiis(pbrfnt, titlf, LOAD);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * or sbving b filf.
+     * or sbving b filf.
+     * or sbving b filf.
+     * or sbving b filf.
+     * or sbving b filf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * b plbdf to writf b filf.
+     * b plbdf to writf b filf.
+     * b plbdf to writf b filf.
+     * b plbdf to writf b filf.
+     * b plbdf to writf b filf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     will bf bddfptfd witiout dbusing b
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     * @pbrbm     modf     tif modf of tif diblog; fitifr
+     * @pbrbm     modf     tif modf of tif diblog; fitifr
+     * @pbrbm     modf     tif modf of tif diblog; fitifr
+     * @pbrbm     modf     tif modf of tif diblog; fitifr
+     * @pbrbm     modf     tif modf of tif diblog; fitifr
+     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
+     *            filf diblog modf is supplifd;
+     *            filf diblog modf is supplifd;
+     *            filf diblog modf is supplifd;
+     *            filf diblog modf is supplifd;
+     *            filf diblog modf is supplifd;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff       jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sindf     1.5
+     * @sindf     1.5
+     * @sindf     1.5
+     * @sindf     1.5
+     * @sindf     1.5
+     */
+     */
+     */
+     */
+     */
+    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
+    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        supfr(pbrfnt, titlf, truf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        tiis.sftModf(modf);
+        sftLbyout(null);
+        sftLbyout(null);
+        sftLbyout(null);
+        sftLbyout(null);
+        sftLbyout(null);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nbmf for tiis domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
+     * Construdts b nbmf for tiis domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
+     * Construdts b nbmf for tiis domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
+     * Construdts b nbmf for tiis domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
+     * Construdts b nbmf for tiis domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
+     * wifn tif nbmf is <dodf>null</dodf>.
+     * wifn tif nbmf is <dodf>null</dodf>.
+     * wifn tif nbmf is <dodf>null</dodf>.
+     * wifn tif nbmf is <dodf>null</dodf>.
+     * wifn tif nbmf is <dodf>null</dodf>.
+     */
+     */
+     */
+     */
+     */
+    String donstrudtComponfntNbmf() {
+    String donstrudtComponfntNbmf() {
+    String donstrudtComponfntNbmf() {
+    String donstrudtComponfntNbmf() {
+    String donstrudtComponfntNbmf() {
+        syndironizfd (FilfDiblog.dlbss) {
+        syndironizfd (FilfDiblog.dlbss) {
+        syndironizfd (FilfDiblog.dlbss) {
+        syndironizfd (FilfDiblog.dlbss) {
+        syndironizfd (FilfDiblog.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+            rfturn bbsf + nbmfCountfr++;
+            rfturn bbsf + nbmfCountfr++;
+            rfturn bbsf + nbmfCountfr++;
+            rfturn bbsf + nbmfCountfr++;
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs tif filf diblog's pffr.  Tif pffr bllows us to dibngf tif look
+     * Crfbtfs tif filf diblog's pffr.  Tif pffr bllows us to dibngf tif look
+     * Crfbtfs tif filf diblog's pffr.  Tif pffr bllows us to dibngf tif look
+     * Crfbtfs tif filf diblog's pffr.  Tif pffr bllows us to dibngf tif look
+     * Crfbtfs tif filf diblog's pffr.  Tif pffr bllows us to dibngf tif look
+     * of tif filf diblog witiout dibnging its fundtionblity.
+     * of tif filf diblog witiout dibnging its fundtionblity.
+     * of tif filf diblog witiout dibnging its fundtionblity.
+     * of tif filf diblog witiout dibnging its fundtionblity.
+     * of tif filf diblog witiout dibnging its fundtionblity.
+     */
+     */
+     */
+     */
+     */
+    publid void bddNotify() {
+    publid void bddNotify() {
+    publid void bddNotify() {
+    publid void bddNotify() {
+    publid void bddNotify() {
+        syndironizfd(gftTrffLodk()) {
+        syndironizfd(gftTrffLodk()) {
+        syndironizfd(gftTrffLodk()) {
+        syndironizfd(gftTrffLodk()) {
+        syndironizfd(gftTrffLodk()) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+                pbrfnt.bddNotify();
+                pbrfnt.bddNotify();
+                pbrfnt.bddNotify();
+                pbrfnt.bddNotify();
+                pbrfnt.bddNotify();
+            }
+            }
+            }
+            }
+            }
+            if (pffr == null)
+            if (pffr == null)
+            if (pffr == null)
+            if (pffr == null)
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfFilfDiblog(tiis);
+                pffr = gftToolkit().drfbtfFilfDiblog(tiis);
+                pffr = gftToolkit().drfbtfFilfDiblog(tiis);
+                pffr = gftToolkit().drfbtfFilfDiblog(tiis);
+                pffr = gftToolkit().drfbtfFilfDiblog(tiis);
+            supfr.bddNotify();
+            supfr.bddNotify();
+            supfr.bddNotify();
+            supfr.bddNotify();
+            supfr.bddNotify();
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs wiftifr tiis filf diblog box is for lobding from b filf
+     * Indidbtfs wiftifr tiis filf diblog box is for lobding from b filf
+     * Indidbtfs wiftifr tiis filf diblog box is for lobding from b filf
+     * Indidbtfs wiftifr tiis filf diblog box is for lobding from b filf
+     * Indidbtfs wiftifr tiis filf diblog box is for lobding from b filf
+     * or for sbving to b filf.
+     * or for sbving to b filf.
+     * or for sbving to b filf.
+     * or for sbving to b filf.
+     * or for sbving to b filf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn   tif modf of tiis filf diblog window, fitifr
+     * @rfturn   tif modf of tiis filf diblog window, fitifr
+     * @rfturn   tif modf of tiis filf diblog window, fitifr
+     * @rfturn   tif modf of tiis filf diblog window, fitifr
+     * @rfturn   tif modf of tiis filf diblog window, fitifr
+     *               <dodf>FilfDiblog.LOAD</dodf> or
+     *               <dodf>FilfDiblog.LOAD</dodf> or
+     *               <dodf>FilfDiblog.LOAD</dodf> or
+     *               <dodf>FilfDiblog.LOAD</dodf> or
+     *               <dodf>FilfDiblog.LOAD</dodf> or
+     *               <dodf>FilfDiblog.SAVE</dodf>
+     *               <dodf>FilfDiblog.SAVE</dodf>
+     *               <dodf>FilfDiblog.SAVE</dodf>
+     *               <dodf>FilfDiblog.SAVE</dodf>
+     *               <dodf>FilfDiblog.SAVE</dodf>
+     * @sff      jbvb.bwt.FilfDiblog#LOAD
+     * @sff      jbvb.bwt.FilfDiblog#LOAD
+     * @sff      jbvb.bwt.FilfDiblog#LOAD
+     * @sff      jbvb.bwt.FilfDiblog#LOAD
+     * @sff      jbvb.bwt.FilfDiblog#LOAD
+     * @sff      jbvb.bwt.FilfDiblog#SAVE
+     * @sff      jbvb.bwt.FilfDiblog#SAVE
+     * @sff      jbvb.bwt.FilfDiblog#SAVE
+     * @sff      jbvb.bwt.FilfDiblog#SAVE
+     * @sff      jbvb.bwt.FilfDiblog#SAVE
+     * @sff      jbvb.bwt.FilfDiblog#sftModf
+     * @sff      jbvb.bwt.FilfDiblog#sftModf
+     * @sff      jbvb.bwt.FilfDiblog#sftModf
+     * @sff      jbvb.bwt.FilfDiblog#sftModf
+     * @sff      jbvb.bwt.FilfDiblog#sftModf
+     */
+     */
+     */
+     */
+     */
+    publid int gftModf() {
+    publid int gftModf() {
+    publid int gftModf() {
+    publid int gftModf() {
+    publid int gftModf() {
+        rfturn modf;
+        rfturn modf;
+        rfturn modf;
+        rfturn modf;
+        rfturn modf;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif modf of tif filf diblog.  If <dodf>modf</dodf> is not
+     * Sfts tif modf of tif filf diblog.  If <dodf>modf</dodf> is not
+     * Sfts tif modf of tif filf diblog.  If <dodf>modf</dodf> is not
+     * Sfts tif modf of tif filf diblog.  If <dodf>modf</dodf> is not
+     * Sfts tif modf of tif filf diblog.  If <dodf>modf</dodf> is not
+     * b lfgbl vbluf, bn fxdfption will bf tirown bnd <dodf>modf</dodf>
+     * b lfgbl vbluf, bn fxdfption will bf tirown bnd <dodf>modf</dodf>
+     * b lfgbl vbluf, bn fxdfption will bf tirown bnd <dodf>modf</dodf>
+     * b lfgbl vbluf, bn fxdfption will bf tirown bnd <dodf>modf</dodf>
+     * b lfgbl vbluf, bn fxdfption will bf tirown bnd <dodf>modf</dodf>
+     * will not bf sft.
+     * will not bf sft.
+     * will not bf sft.
+     * will not bf sft.
+     * will not bf sft.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm      modf  tif modf for tiis filf diblog, fitifr
+     * @pbrbm      modf  tif modf for tiis filf diblog, fitifr
+     * @pbrbm      modf  tif modf for tiis filf diblog, fitifr
+     * @pbrbm      modf  tif modf for tiis filf diblog, fitifr
+     * @pbrbm      modf  tif modf for tiis filf diblog, fitifr
+     *                 <dodf>FilfDiblog.LOAD</dodf> or
+     *                 <dodf>FilfDiblog.LOAD</dodf> or
+     *                 <dodf>FilfDiblog.LOAD</dodf> or
+     *                 <dodf>FilfDiblog.LOAD</dodf> or
+     *                 <dodf>FilfDiblog.LOAD</dodf> or
+     *                 <dodf>FilfDiblog.SAVE</dodf>
+     *                 <dodf>FilfDiblog.SAVE</dodf>
+     *                 <dodf>FilfDiblog.SAVE</dodf>
+     *                 <dodf>FilfDiblog.SAVE</dodf>
+     *                 <dodf>FilfDiblog.SAVE</dodf>
+     * @sff        jbvb.bwt.FilfDiblog#LOAD
+     * @sff        jbvb.bwt.FilfDiblog#LOAD
+     * @sff        jbvb.bwt.FilfDiblog#LOAD
+     * @sff        jbvb.bwt.FilfDiblog#LOAD
+     * @sff        jbvb.bwt.FilfDiblog#LOAD
+     * @sff        jbvb.bwt.FilfDiblog#SAVE
+     * @sff        jbvb.bwt.FilfDiblog#SAVE
+     * @sff        jbvb.bwt.FilfDiblog#SAVE
+     * @sff        jbvb.bwt.FilfDiblog#SAVE
+     * @sff        jbvb.bwt.FilfDiblog#SAVE
+     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     *                 diblog modf is supplifd
+     * @sindf      1.1
+     * @sindf      1.1
+     * @sindf      1.1
+     * @sindf      1.1
      * @sindf      1.1
      */
+     */
+     */
+     */
+     */
     publid void sftModf(int modf) {
-        switdh (modf) {
+    publid void sftModf(int modf) {
+    publid void sftModf(int modf) {
+    publid void sftModf(int modf) {
+    publid void sftModf(int modf) {
+        switdi (modf) {
+        switdi (modf) {
+        switdi (modf) {
+        switdi (modf) {
+        switdi (modf) {
+          dbsf LOAD:
+          dbsf LOAD:
+          dbsf LOAD:
+          dbsf LOAD:
           dbsf LOAD:
           dbsf SAVE:
-            this.modf = modf;
+          dbsf SAVE:
+          dbsf SAVE:
+          dbsf SAVE:
+          dbsf SAVE:
+            tiis.modf = modf;
+            tiis.modf = modf;
+            tiis.modf = modf;
+            tiis.modf = modf;
+            tiis.modf = modf;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
           dffbult:
-            throw nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
+          dffbult:
+          dffbult:
+          dffbult:
+          dffbult:
+            tirow nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gfts thf dirfdtory of this filf diblog.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif dirfdtory of tiis filf diblog.
+     * Gfts tif dirfdtory of tiis filf diblog.
+     * Gfts tif dirfdtory of tiis filf diblog.
+     * Gfts tif dirfdtory of tiis filf diblog.
+     * Gfts tif dirfdtory of tiis filf diblog.
      *
-     * @rfturn  thf (potfntiblly <dodf>null</dodf> or invblid)
-     *          dirfdtory of this <dodf>FilfDiblog</dodf>
+     *
+     *
+     *
+     *
+     * @rfturn  tif (potfntiblly <dodf>null</dodf> or invblid)
+     * @rfturn  tif (potfntiblly <dodf>null</dodf> or invblid)
+     * @rfturn  tif (potfntiblly <dodf>null</dodf> or invblid)
+     * @rfturn  tif (potfntiblly <dodf>null</dodf> or invblid)
+     * @rfturn  tif (potfntiblly <dodf>null</dodf> or invblid)
+     *          dirfdtory of tiis <dodf>FilfDiblog</dodf>
+     *          dirfdtory of tiis <dodf>FilfDiblog</dodf>
+     *          dirfdtory of tiis <dodf>FilfDiblog</dodf>
+     *          dirfdtory of tiis <dodf>FilfDiblog</dodf>
+     *          dirfdtory of tiis <dodf>FilfDiblog</dodf>
+     * @sff       jbvb.bwt.FilfDiblog#sftDirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#sftDirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#sftDirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#sftDirfdtory
      * @sff       jbvb.bwt.FilfDiblog#sftDirfdtory
      */
+     */
+     */
+     */
+     */
+    publid String gftDirfdtory() {
+    publid String gftDirfdtory() {
+    publid String gftDirfdtory() {
+    publid String gftDirfdtory() {
     publid String gftDirfdtory() {
         rfturn dir;
+        rfturn dir;
+        rfturn dir;
+        rfturn dir;
+        rfturn dir;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sfts thf dirfdtory of this filf diblog window to bf thf
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif dirfdtory of tiis filf diblog window to bf tif
+     * Sfts tif dirfdtory of tiis filf diblog window to bf tif
+     * Sfts tif dirfdtory of tiis filf diblog window to bf tif
+     * Sfts tif dirfdtory of tiis filf diblog window to bf tif
+     * Sfts tif dirfdtory of tiis filf diblog window to bf tif
+     * spfdififd dirfdtory. Spfdifying b <dodf>null</dodf> or bn
+     * spfdififd dirfdtory. Spfdifying b <dodf>null</dodf> or bn
+     * spfdififd dirfdtory. Spfdifying b <dodf>null</dodf> or bn
+     * spfdififd dirfdtory. Spfdifying b <dodf>null</dodf> or bn
      * spfdififd dirfdtory. Spfdifying b <dodf>null</dodf> or bn
      * invblid dirfdtory implifs bn implfmfntbtion-dffinfd dffbult.
-     * This dffbult will not bf rfblizfd, howfvfr, until thf usfr
-     * hbs sflfdtfd b filf. Until this point, <dodf>gftDirfdtory()</dodf>
-     * will rfturn thf vbluf pbssfd into this mfthod.
+     * invblid dirfdtory implifs bn implfmfntbtion-dffinfd dffbult.
+     * invblid dirfdtory implifs bn implfmfntbtion-dffinfd dffbult.
+     * invblid dirfdtory implifs bn implfmfntbtion-dffinfd dffbult.
+     * invblid dirfdtory implifs bn implfmfntbtion-dffinfd dffbult.
+     * Tiis dffbult will not bf rfblizfd, iowfvfr, until tif usfr
+     * Tiis dffbult will not bf rfblizfd, iowfvfr, until tif usfr
+     * Tiis dffbult will not bf rfblizfd, iowfvfr, until tif usfr
+     * Tiis dffbult will not bf rfblizfd, iowfvfr, until tif usfr
+     * Tiis dffbult will not bf rfblizfd, iowfvfr, until tif usfr
+     * ibs sflfdtfd b filf. Until tiis point, <dodf>gftDirfdtory()</dodf>
+     * ibs sflfdtfd b filf. Until tiis point, <dodf>gftDirfdtory()</dodf>
+     * ibs sflfdtfd b filf. Until tiis point, <dodf>gftDirfdtory()</dodf>
+     * ibs sflfdtfd b filf. Until tiis point, <dodf>gftDirfdtory()</dodf>
+     * ibs sflfdtfd b filf. Until tiis point, <dodf>gftDirfdtory()</dodf>
+     * will rfturn tif vbluf pbssfd into tiis mftiod.
+     * will rfturn tif vbluf pbssfd into tiis mftiod.
+     * will rfturn tif vbluf pbssfd into tiis mftiod.
+     * will rfturn tif vbluf pbssfd into tiis mftiod.
+     * will rfturn tif vbluf pbssfd into tiis mftiod.
      * <p>
-     * Spfdifying "" bs thf dirfdtory is fxbdtly fquivblfnt to
-     * spfdifying <dodf>null</dodf> bs thf dirfdtory.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Spfdifying "" bs tif dirfdtory is fxbdtly fquivblfnt to
+     * Spfdifying "" bs tif dirfdtory is fxbdtly fquivblfnt to
+     * Spfdifying "" bs tif dirfdtory is fxbdtly fquivblfnt to
+     * Spfdifying "" bs tif dirfdtory is fxbdtly fquivblfnt to
+     * Spfdifying "" bs tif dirfdtory is fxbdtly fquivblfnt to
+     * spfdifying <dodf>null</dodf> bs tif dirfdtory.
+     * spfdifying <dodf>null</dodf> bs tif dirfdtory.
+     * spfdifying <dodf>null</dodf> bs tif dirfdtory.
+     * spfdifying <dodf>null</dodf> bs tif dirfdtory.
+     * spfdifying <dodf>null</dodf> bs tif dirfdtory.
      *
-     * @pbrbm     dir   thf spfdififd dirfdtory
+     *
+     *
+     *
+     *
+     * @pbrbm     dir   tif spfdififd dirfdtory
+     * @pbrbm     dir   tif spfdififd dirfdtory
+     * @pbrbm     dir   tif spfdififd dirfdtory
+     * @pbrbm     dir   tif spfdififd dirfdtory
+     * @pbrbm     dir   tif spfdififd dirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#gftDirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#gftDirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#gftDirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#gftDirfdtory
      * @sff       jbvb.bwt.FilfDiblog#gftDirfdtory
      */
+     */
+     */
+     */
+     */
     publid void sftDirfdtory(String dir) {
-        this.dir = (dir != null && dir.fqubls("")) ? null : dir;
-        FilfDiblogPffr pffr = (FilfDiblogPffr)this.pffr;
+    publid void sftDirfdtory(String dir) {
+    publid void sftDirfdtory(String dir) {
+    publid void sftDirfdtory(String dir) {
+    publid void sftDirfdtory(String dir) {
+        tiis.dir = (dir != null && dir.fqubls("")) ? null : dir;
+        tiis.dir = (dir != null && dir.fqubls("")) ? null : dir;
+        tiis.dir = (dir != null && dir.fqubls("")) ? null : dir;
+        tiis.dir = (dir != null && dir.fqubls("")) ? null : dir;
+        tiis.dir = (dir != null && dir.fqubls("")) ? null : dir;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
         if (pffr != null) {
-            pffr.sftDirfdtory(this.dir);
+        if (pffr != null) {
+        if (pffr != null) {
+        if (pffr != null) {
+        if (pffr != null) {
+            pffr.sftDirfdtory(tiis.dir);
+            pffr.sftDirfdtory(tiis.dir);
+            pffr.sftDirfdtory(tiis.dir);
+            pffr.sftDirfdtory(tiis.dir);
+            pffr.sftDirfdtory(tiis.dir);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gfts thf sflfdtfd filf of this filf diblog.  If thf usfr
-     * sflfdtfd <dodf>CANCEL</dodf>, thf rfturnfd filf is <dodf>null</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif sflfdtfd filf of tiis filf diblog.  If tif usfr
+     * Gfts tif sflfdtfd filf of tiis filf diblog.  If tif usfr
+     * Gfts tif sflfdtfd filf of tiis filf diblog.  If tif usfr
+     * Gfts tif sflfdtfd filf of tiis filf diblog.  If tif usfr
+     * Gfts tif sflfdtfd filf of tiis filf diblog.  If tif usfr
+     * sflfdtfd <dodf>CANCEL</dodf>, tif rfturnfd filf is <dodf>null</dodf>.
+     * sflfdtfd <dodf>CANCEL</dodf>, tif rfturnfd filf is <dodf>null</dodf>.
+     * sflfdtfd <dodf>CANCEL</dodf>, tif rfturnfd filf is <dodf>null</dodf>.
+     * sflfdtfd <dodf>CANCEL</dodf>, tif rfturnfd filf is <dodf>null</dodf>.
+     * sflfdtfd <dodf>CANCEL</dodf>, tif rfturnfd filf is <dodf>null</dodf>.
      *
-     * @rfturn    thf durrfntly sflfdtfd filf of this filf diblog window,
+     *
+     *
+     *
+     *
+     * @rfturn    tif durrfntly sflfdtfd filf of tiis filf diblog window,
+     * @rfturn    tif durrfntly sflfdtfd filf of tiis filf diblog window,
+     * @rfturn    tif durrfntly sflfdtfd filf of tiis filf diblog window,
+     * @rfturn    tif durrfntly sflfdtfd filf of tiis filf diblog window,
+     * @rfturn    tif durrfntly sflfdtfd filf of tiis filf diblog window,
+     *                or <dodf>null</dodf> if nonf is sflfdtfd
+     *                or <dodf>null</dodf> if nonf is sflfdtfd
+     *                or <dodf>null</dodf> if nonf is sflfdtfd
+     *                or <dodf>null</dodf> if nonf is sflfdtfd
      *                or <dodf>null</dodf> if nonf is sflfdtfd
      * @sff       jbvb.bwt.FilfDiblog#sftFilf
+     * @sff       jbvb.bwt.FilfDiblog#sftFilf
+     * @sff       jbvb.bwt.FilfDiblog#sftFilf
+     * @sff       jbvb.bwt.FilfDiblog#sftFilf
+     * @sff       jbvb.bwt.FilfDiblog#sftFilf
+     */
+     */
+     */
+     */
      */
     publid String gftFilf() {
+    publid String gftFilf() {
+    publid String gftFilf() {
+    publid String gftFilf() {
+    publid String gftFilf() {
+        rfturn filf;
+        rfturn filf;
+        rfturn filf;
+        rfturn filf;
         rfturn filf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns filfs thbt thf usfr sflfdts.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns filfs tibt tif usfr sflfdts.
+     * Rfturns filfs tibt tif usfr sflfdts.
+     * Rfturns filfs tibt tif usfr sflfdts.
+     * Rfturns filfs tibt tif usfr sflfdts.
+     * Rfturns filfs tibt tif usfr sflfdts.
      * <p>
-     * If thf usfr dbndfls thf filf diblog,
-     * thfn thf mfthod rfturns bn fmpty brrby.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tif usfr dbndfls tif filf diblog,
+     * If tif usfr dbndfls tif filf diblog,
+     * If tif usfr dbndfls tif filf diblog,
+     * If tif usfr dbndfls tif filf diblog,
+     * If tif usfr dbndfls tif filf diblog,
+     * tifn tif mftiod rfturns bn fmpty brrby.
+     * tifn tif mftiod rfturns bn fmpty brrby.
+     * tifn tif mftiod rfturns bn fmpty brrby.
+     * tifn tif mftiod rfturns bn fmpty brrby.
+     * tifn tif mftiod rfturns bn fmpty brrby.
      *
-     * @rfturn    filfs thbt thf usfr sflfdts or bn fmpty brrby
-     *            if thf usfr dbndfls thf filf diblog.
+     *
+     *
+     *
+     *
+     * @rfturn    filfs tibt tif usfr sflfdts or bn fmpty brrby
+     * @rfturn    filfs tibt tif usfr sflfdts or bn fmpty brrby
+     * @rfturn    filfs tibt tif usfr sflfdts or bn fmpty brrby
+     * @rfturn    filfs tibt tif usfr sflfdts or bn fmpty brrby
+     * @rfturn    filfs tibt tif usfr sflfdts or bn fmpty brrby
+     *            if tif usfr dbndfls tif filf diblog.
+     *            if tif usfr dbndfls tif filf diblog.
+     *            if tif usfr dbndfls tif filf diblog.
+     *            if tif usfr dbndfls tif filf diblog.
+     *            if tif usfr dbndfls tif filf diblog.
+     * @sff       #sftFilf(String)
+     * @sff       #sftFilf(String)
+     * @sff       #sftFilf(String)
+     * @sff       #sftFilf(String)
      * @sff       #sftFilf(String)
      * @sff       #gftFilf
+     * @sff       #gftFilf
+     * @sff       #gftFilf
+     * @sff       #gftFilf
+     * @sff       #gftFilf
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     publid Filf[] gftFilfs() {
-        syndhronizfd (gftObjfdtLodk()) {
+    publid Filf[] gftFilfs() {
+    publid Filf[] gftFilfs() {
+    publid Filf[] gftFilfs() {
+    publid Filf[] gftFilfs() {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+            if (filfs != null) {
+            if (filfs != null) {
+            if (filfs != null) {
+            if (filfs != null) {
             if (filfs != null) {
                 rfturn filfs.dlonf();
+                rfturn filfs.dlonf();
+                rfturn filfs.dlonf();
+                rfturn filfs.dlonf();
+                rfturn filfs.dlonf();
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 rfturn nfw Filf[0];
+                rfturn nfw Filf[0];
+                rfturn nfw Filf[0];
+                rfturn nfw Filf[0];
+                rfturn nfw Filf[0];
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Storfs thf nbmfs of bll thf filfs thbt thf usfr sflfdts.
+    /**
+    /**
+    /**
+    /**
+     * Storfs tif nbmfs of bll tif filfs tibt tif usfr sflfdts.
+     * Storfs tif nbmfs of bll tif filfs tibt tif usfr sflfdts.
+     * Storfs tif nbmfs of bll tif filfs tibt tif usfr sflfdts.
+     * Storfs tif nbmfs of bll tif filfs tibt tif usfr sflfdts.
+     * Storfs tif nbmfs of bll tif filfs tibt tif usfr sflfdts.
      *
-     * Notf thbt thf mfthod is privbtf bnd it's intfndfd to bf usfd
-     * by thf pffrs through thf AWTAddfssor API.
      *
-     * @pbrbm filfs     thf brrby thbt dontbins thf short nbmfs of
-     *                  bll thf filfs thbt thf usfr sflfdts.
+     *
+     *
+     *
+     * Notf tibt tif mftiod is privbtf bnd it's intfndfd to bf usfd
+     * Notf tibt tif mftiod is privbtf bnd it's intfndfd to bf usfd
+     * Notf tibt tif mftiod is privbtf bnd it's intfndfd to bf usfd
+     * Notf tibt tif mftiod is privbtf bnd it's intfndfd to bf usfd
+     * Notf tibt tif mftiod is privbtf bnd it's intfndfd to bf usfd
+     * by tif pffrs tirougi tif AWTAddfssor API.
+     * by tif pffrs tirougi tif AWTAddfssor API.
+     * by tif pffrs tirougi tif AWTAddfssor API.
+     * by tif pffrs tirougi tif AWTAddfssor API.
+     * by tif pffrs tirougi tif AWTAddfssor API.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm filfs     tif brrby tibt dontbins tif siort nbmfs of
+     * @pbrbm filfs     tif brrby tibt dontbins tif siort nbmfs of
+     * @pbrbm filfs     tif brrby tibt dontbins tif siort nbmfs of
+     * @pbrbm filfs     tif brrby tibt dontbins tif siort nbmfs of
+     * @pbrbm filfs     tif brrby tibt dontbins tif siort nbmfs of
+     *                  bll tif filfs tibt tif usfr sflfdts.
+     *                  bll tif filfs tibt tif usfr sflfdts.
+     *                  bll tif filfs tibt tif usfr sflfdts.
+     *                  bll tif filfs tibt tif usfr sflfdts.
+     *                  bll tif filfs tibt tif usfr sflfdts.
+     *
+     *
+     *
+     *
      *
      * @sff #gftFilfs
+     * @sff #gftFilfs
+     * @sff #gftFilfs
+     * @sff #gftFilfs
+     * @sff #gftFilfs
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     privbtf void sftFilfs(Filf filfs[]) {
-        syndhronizfd (gftObjfdtLodk()) {
-            this.filfs = filfs;
+    privbtf void sftFilfs(Filf filfs[]) {
+    privbtf void sftFilfs(Filf filfs[]) {
+    privbtf void sftFilfs(Filf filfs[]) {
+    privbtf void sftFilfs(Filf filfs[]) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+            tiis.filfs = filfs;
+            tiis.filfs = filfs;
+            tiis.filfs = filfs;
+            tiis.filfs = filfs;
+            tiis.filfs = filfs;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Sfts thf sflfdtfd filf for this filf diblog window to bf thf
-     * spfdififd filf. This filf bfdomfs thf dffbult filf if it is sft
-     * bfforf thf filf diblog window is first shown.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif sflfdtfd filf for tiis filf diblog window to bf tif
+     * Sfts tif sflfdtfd filf for tiis filf diblog window to bf tif
+     * Sfts tif sflfdtfd filf for tiis filf diblog window to bf tif
+     * Sfts tif sflfdtfd filf for tiis filf diblog window to bf tif
+     * Sfts tif sflfdtfd filf for tiis filf diblog window to bf tif
+     * spfdififd filf. Tiis filf bfdomfs tif dffbult filf if it is sft
+     * spfdififd filf. Tiis filf bfdomfs tif dffbult filf if it is sft
+     * spfdififd filf. Tiis filf bfdomfs tif dffbult filf if it is sft
+     * spfdififd filf. Tiis filf bfdomfs tif dffbult filf if it is sft
+     * spfdififd filf. Tiis filf bfdomfs tif dffbult filf if it is sft
+     * bfforf tif filf diblog window is first siown.
+     * bfforf tif filf diblog window is first siown.
+     * bfforf tif filf diblog window is first siown.
+     * bfforf tif filf diblog window is first siown.
+     * bfforf tif filf diblog window is first siown.
      * <p>
-     * Whfn thf diblog is shown, thf spfdififd filf is sflfdtfd. Thf kind of
-     * sflfdtion dfpfnds on thf filf fxistfndf, thf diblog typf, bnd thf nbtivf
-     * plbtform. E.g., thf filf dould bf highlightfd in thf filf list, or b
-     * filf nbmf fditbox dould bf populbtfd with thf filf nbmf.
      * <p>
-     * This mfthod bddfpts fithfr b full filf pbth, or b filf nbmf with bn
-     * fxtfnsion if usfd togfthfr with thf {@dodf sftDirfdtory} mfthod.
      * <p>
-     * Spfdifying "" bs thf filf is fxbdtly fquivblfnt to spfdifying
-     * {@dodf null} bs thf filf.
+     * <p>
+     * <p>
+     * Wifn tif diblog is siown, tif spfdififd filf is sflfdtfd. Tif kind of
+     * Wifn tif diblog is siown, tif spfdififd filf is sflfdtfd. Tif kind of
+     * Wifn tif diblog is siown, tif spfdififd filf is sflfdtfd. Tif kind of
+     * Wifn tif diblog is siown, tif spfdififd filf is sflfdtfd. Tif kind of
+     * Wifn tif diblog is siown, tif spfdififd filf is sflfdtfd. Tif kind of
+     * sflfdtion dfpfnds on tif filf fxistfndf, tif diblog typf, bnd tif nbtivf
+     * sflfdtion dfpfnds on tif filf fxistfndf, tif diblog typf, bnd tif nbtivf
+     * sflfdtion dfpfnds on tif filf fxistfndf, tif diblog typf, bnd tif nbtivf
+     * sflfdtion dfpfnds on tif filf fxistfndf, tif diblog typf, bnd tif nbtivf
+     * sflfdtion dfpfnds on tif filf fxistfndf, tif diblog typf, bnd tif nbtivf
+     * plbtform. E.g., tif filf dould bf iigiligitfd in tif filf list, or b
+     * plbtform. E.g., tif filf dould bf iigiligitfd in tif filf list, or b
+     * plbtform. E.g., tif filf dould bf iigiligitfd in tif filf list, or b
+     * plbtform. E.g., tif filf dould bf iigiligitfd in tif filf list, or b
+     * plbtform. E.g., tif filf dould bf iigiligitfd in tif filf list, or b
+     * filf nbmf fditbox dould bf populbtfd witi tif filf nbmf.
+     * filf nbmf fditbox dould bf populbtfd witi tif filf nbmf.
+     * filf nbmf fditbox dould bf populbtfd witi tif filf nbmf.
+     * filf nbmf fditbox dould bf populbtfd witi tif filf nbmf.
+     * filf nbmf fditbox dould bf populbtfd witi tif filf nbmf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod bddfpts fitifr b full filf pbti, or b filf nbmf witi bn
+     * Tiis mftiod bddfpts fitifr b full filf pbti, or b filf nbmf witi bn
+     * Tiis mftiod bddfpts fitifr b full filf pbti, or b filf nbmf witi bn
+     * Tiis mftiod bddfpts fitifr b full filf pbti, or b filf nbmf witi bn
+     * Tiis mftiod bddfpts fitifr b full filf pbti, or b filf nbmf witi bn
+     * fxtfnsion if usfd togftifr witi tif {@dodf sftDirfdtory} mftiod.
+     * fxtfnsion if usfd togftifr witi tif {@dodf sftDirfdtory} mftiod.
+     * fxtfnsion if usfd togftifr witi tif {@dodf sftDirfdtory} mftiod.
+     * fxtfnsion if usfd togftifr witi tif {@dodf sftDirfdtory} mftiod.
+     * fxtfnsion if usfd togftifr witi tif {@dodf sftDirfdtory} mftiod.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Spfdifying "" bs tif filf is fxbdtly fquivblfnt to spfdifying
+     * Spfdifying "" bs tif filf is fxbdtly fquivblfnt to spfdifying
+     * Spfdifying "" bs tif filf is fxbdtly fquivblfnt to spfdifying
+     * Spfdifying "" bs tif filf is fxbdtly fquivblfnt to spfdifying
+     * Spfdifying "" bs tif filf is fxbdtly fquivblfnt to spfdifying
+     * {@dodf null} bs tif filf.
+     * {@dodf null} bs tif filf.
+     * {@dodf null} bs tif filf.
+     * {@dodf null} bs tif filf.
+     * {@dodf null} bs tif filf.
      *
-     * @pbrbm    filf   thf filf bfing sft
+     *
+     *
+     *
+     *
+     * @pbrbm    filf   tif filf bfing sft
+     * @pbrbm    filf   tif filf bfing sft
+     * @pbrbm    filf   tif filf bfing sft
+     * @pbrbm    filf   tif filf bfing sft
+     * @pbrbm    filf   tif filf bfing sft
+     * @sff      #gftFilf
+     * @sff      #gftFilf
+     * @sff      #gftFilf
+     * @sff      #gftFilf
      * @sff      #gftFilf
      * @sff      #gftFilfs
+     * @sff      #gftFilfs
+     * @sff      #gftFilfs
+     * @sff      #gftFilfs
+     * @sff      #gftFilfs
+     */
+     */
+     */
+     */
      */
     publid void sftFilf(String filf) {
-        this.filf = (filf != null && filf.fqubls("")) ? null : filf;
-        FilfDiblogPffr pffr = (FilfDiblogPffr)this.pffr;
+    publid void sftFilf(String filf) {
+    publid void sftFilf(String filf) {
+    publid void sftFilf(String filf) {
+    publid void sftFilf(String filf) {
+        tiis.filf = (filf != null && filf.fqubls("")) ? null : filf;
+        tiis.filf = (filf != null && filf.fqubls("")) ? null : filf;
+        tiis.filf = (filf != null && filf.fqubls("")) ? null : filf;
+        tiis.filf = (filf != null && filf.fqubls("")) ? null : filf;
+        tiis.filf = (filf != null && filf.fqubls("")) ? null : filf;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
         if (pffr != null) {
-            pffr.sftFilf(this.filf);
+        if (pffr != null) {
+        if (pffr != null) {
+        if (pffr != null) {
+        if (pffr != null) {
+            pffr.sftFilf(tiis.filf);
+            pffr.sftFilf(tiis.filf);
+            pffr.sftFilf(tiis.filf);
+            pffr.sftFilf(tiis.filf);
+            pffr.sftFilf(tiis.filf);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Enbblfs or disbblfs multiplf filf sflfdtion for thf filf diblog.
+    /**
+    /**
+    /**
+    /**
+     * Enbblfs or disbblfs multiplf filf sflfdtion for tif filf diblog.
+     * Enbblfs or disbblfs multiplf filf sflfdtion for tif filf diblog.
+     * Enbblfs or disbblfs multiplf filf sflfdtion for tif filf diblog.
+     * Enbblfs or disbblfs multiplf filf sflfdtion for tif filf diblog.
+     * Enbblfs or disbblfs multiplf filf sflfdtion for tif filf diblog.
+     *
+     *
+     *
+     *
      *
      * @pbrbm fnbblf    if {@dodf truf}, multiplf filf sflfdtion is fnbblfd;
+     * @pbrbm fnbblf    if {@dodf truf}, multiplf filf sflfdtion is fnbblfd;
+     * @pbrbm fnbblf    if {@dodf truf}, multiplf filf sflfdtion is fnbblfd;
+     * @pbrbm fnbblf    if {@dodf truf}, multiplf filf sflfdtion is fnbblfd;
+     * @pbrbm fnbblf    if {@dodf truf}, multiplf filf sflfdtion is fnbblfd;
+     *                  {@dodf fblsf} - disbblfd.
+     *                  {@dodf fblsf} - disbblfd.
+     *                  {@dodf fblsf} - disbblfd.
+     *                  {@dodf fblsf} - disbblfd.
      *                  {@dodf fblsf} - disbblfd.
      * @sff #isMultiplfModf
+     * @sff #isMultiplfModf
+     * @sff #isMultiplfModf
+     * @sff #isMultiplfModf
+     * @sff #isMultiplfModf
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     publid void sftMultiplfModf(boolfbn fnbblf) {
-        syndhronizfd (gftObjfdtLodk()) {
-            this.multiplfModf = fnbblf;
+    publid void sftMultiplfModf(boolfbn fnbblf) {
+    publid void sftMultiplfModf(boolfbn fnbblf) {
+    publid void sftMultiplfModf(boolfbn fnbblf) {
+    publid void sftMultiplfModf(boolfbn fnbblf) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+            tiis.multiplfModf = fnbblf;
+            tiis.multiplfModf = fnbblf;
+            tiis.multiplfModf = fnbblf;
+            tiis.multiplfModf = fnbblf;
+            tiis.multiplfModf = fnbblf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns whfthfr thf filf diblog bllows thf multiplf filf sflfdtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfturns wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfturns wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfturns wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
+     * Rfturns wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
      *
-     * @rfturn          {@dodf truf} if thf filf diblog bllows thf multiplf
-     *                  filf sflfdtion; {@dodf fblsf} othfrwisf.
+     *
+     *
+     *
+     *
+     * @rfturn          {@dodf truf} if tif filf diblog bllows tif multiplf
+     * @rfturn          {@dodf truf} if tif filf diblog bllows tif multiplf
+     * @rfturn          {@dodf truf} if tif filf diblog bllows tif multiplf
+     * @rfturn          {@dodf truf} if tif filf diblog bllows tif multiplf
+     * @rfturn          {@dodf truf} if tif filf diblog bllows tif multiplf
+     *                  filf sflfdtion; {@dodf fblsf} otifrwisf.
+     *                  filf sflfdtion; {@dodf fblsf} otifrwisf.
+     *                  filf sflfdtion; {@dodf fblsf} otifrwisf.
+     *                  filf sflfdtion; {@dodf fblsf} otifrwisf.
+     *                  filf sflfdtion; {@dodf fblsf} otifrwisf.
+     * @sff #sftMultiplfModf
+     * @sff #sftMultiplfModf
+     * @sff #sftMultiplfModf
+     * @sff #sftMultiplfModf
      * @sff #sftMultiplfModf
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     publid boolfbn isMultiplfModf() {
-        syndhronizfd (gftObjfdtLodk()) {
+    publid boolfbn isMultiplfModf() {
+    publid boolfbn isMultiplfModf() {
+    publid boolfbn isMultiplfModf() {
+    publid boolfbn isMultiplfModf() {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+        syndironizfd (gftObjfdtLodk()) {
+            rfturn multiplfModf;
+            rfturn multiplfModf;
+            rfturn multiplfModf;
+            rfturn multiplfModf;
             rfturn multiplfModf;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Dftfrminfs this filf diblog's filfnbmf filtfr. A filfnbmf filtfr
-     * bllows thf usfr to spfdify whidh filfs bppfbr in thf filf diblog
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs tiis filf diblog's filfnbmf filtfr. A filfnbmf filtfr
+     * Dftfrminfs tiis filf diblog's filfnbmf filtfr. A filfnbmf filtfr
+     * Dftfrminfs tiis filf diblog's filfnbmf filtfr. A filfnbmf filtfr
+     * Dftfrminfs tiis filf diblog's filfnbmf filtfr. A filfnbmf filtfr
+     * Dftfrminfs tiis filf diblog's filfnbmf filtfr. A filfnbmf filtfr
+     * bllows tif usfr to spfdify wiidi filfs bppfbr in tif filf diblog
+     * bllows tif usfr to spfdify wiidi filfs bppfbr in tif filf diblog
+     * bllows tif usfr to spfdify wiidi filfs bppfbr in tif filf diblog
+     * bllows tif usfr to spfdify wiidi filfs bppfbr in tif filf diblog
+     * bllows tif usfr to spfdify wiidi filfs bppfbr in tif filf diblog
+     * window.  Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * window.  Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * window.  Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * window.  Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
      * window.  Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
      * implfmfntbtion for Midrosoft Windows.
-     *
-     * @rfturn    this filf diblog's filfnbmf filtfr
-     * @sff       jbvb.io.FilfnbmfFiltfr
-     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
-     */
-    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
-        rfturn filtfr;
-    }
-
-    /**
-     * Sfts thf filfnbmf filtfr for this filf diblog window to thf
-     * spfdififd filtfr.
-     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * implfmfntbtion for Midrosoft Windows.
+     * implfmfntbtion for Midrosoft Windows.
+     * implfmfntbtion for Midrosoft Windows.
      * implfmfntbtion for Midrosoft Windows.
      *
-     * @pbrbm   filtfr   thf spfdififd filtfr
+     *
+     *
+     *
+     *
+     * @rfturn    tiis filf diblog's filfnbmf filtfr
+     * @rfturn    tiis filf diblog's filfnbmf filtfr
+     * @rfturn    tiis filf diblog's filfnbmf filtfr
+     * @rfturn    tiis filf diblog's filfnbmf filtfr
+     * @rfturn    tiis filf diblog's filfnbmf filtfr
+     * @sff       jbvb.io.FilfnbmfFiltfr
+     * @sff       jbvb.io.FilfnbmfFiltfr
+     * @sff       jbvb.io.FilfnbmfFiltfr
+     * @sff       jbvb.io.FilfnbmfFiltfr
+     * @sff       jbvb.io.FilfnbmfFiltfr
+     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
+     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
+     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
+     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
+     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
+     */
+     */
+     */
+     */
+     */
+    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
+    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
+    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
+    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
+    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
+        rfturn filtfr;
+        rfturn filtfr;
+        rfturn filtfr;
+        rfturn filtfr;
+        rfturn filtfr;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif filfnbmf filtfr for tiis filf diblog window to tif
+     * Sfts tif filfnbmf filtfr for tiis filf diblog window to tif
+     * Sfts tif filfnbmf filtfr for tiis filf diblog window to tif
+     * Sfts tif filfnbmf filtfr for tiis filf diblog window to tif
+     * Sfts tif filfnbmf filtfr for tiis filf diblog window to tif
+     * spfdififd filtfr.
+     * spfdififd filtfr.
+     * spfdififd filtfr.
+     * spfdififd filtfr.
+     * spfdififd filtfr.
+     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * implfmfntbtion for Midrosoft Windows.
+     * implfmfntbtion for Midrosoft Windows.
+     * implfmfntbtion for Midrosoft Windows.
+     * implfmfntbtion for Midrosoft Windows.
+     * implfmfntbtion for Midrosoft Windows.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   filtfr   tif spfdififd filtfr
+     * @pbrbm   filtfr   tif spfdififd filtfr
+     * @pbrbm   filtfr   tif spfdififd filtfr
+     * @pbrbm   filtfr   tif spfdififd filtfr
+     * @pbrbm   filtfr   tif spfdififd filtfr
+     * @sff     jbvb.io.FilfnbmfFiltfr
+     * @sff     jbvb.io.FilfnbmfFiltfr
+     * @sff     jbvb.io.FilfnbmfFiltfr
+     * @sff     jbvb.io.FilfnbmfFiltfr
      * @sff     jbvb.io.FilfnbmfFiltfr
      * @sff     jbvb.bwt.FilfDiblog#gftFilfnbmfFiltfr
+     * @sff     jbvb.bwt.FilfDiblog#gftFilfnbmfFiltfr
+     * @sff     jbvb.bwt.FilfDiblog#gftFilfnbmfFiltfr
+     * @sff     jbvb.bwt.FilfDiblog#gftFilfnbmfFiltfr
+     * @sff     jbvb.bwt.FilfDiblog#gftFilfnbmfFiltfr
      */
-    publid syndhronizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
-        this.filtfr = filtfr;
-        FilfDiblogPffr pffr = (FilfDiblogPffr)this.pffr;
+     */
+     */
+     */
+     */
+    publid syndironizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+    publid syndironizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+    publid syndironizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+    publid syndironizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+    publid syndironizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+        tiis.filtfr = filtfr;
+        tiis.filtfr = filtfr;
+        tiis.filtfr = filtfr;
+        tiis.filtfr = filtfr;
+        tiis.filtfr = filtfr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        if (pffr != null) {
+        if (pffr != null) {
+        if (pffr != null) {
+        if (pffr != null) {
         if (pffr != null) {
             pffr.sftFilfnbmfFiltfr(filtfr);
+            pffr.sftFilfnbmfFiltfr(filtfr);
+            pffr.sftFilfnbmfFiltfr(filtfr);
+            pffr.sftFilfnbmfFiltfr(filtfr);
+            pffr.sftFilfnbmfFiltfr(filtfr);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfbds thf <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
-     * b bbdkwbrds dompbtibility dhfdk by donvfrting
-     * fithfr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+    /**
+    /**
+    /**
+    /**
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
+     * b bbdkwbrds dompbtibility difdk by donvfrting
+     * b bbdkwbrds dompbtibility difdk by donvfrting
+     * b bbdkwbrds dompbtibility difdk by donvfrting
+     * b bbdkwbrds dompbtibility difdk by donvfrting
+     * b bbdkwbrds dompbtibility difdk by donvfrting
+     * fitifr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+     * fitifr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+     * fitifr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+     * fitifr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+     * fitifr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+     * fqubl to bn fmpty string to <dodf>null</dodf>.
+     * fqubl to bn fmpty string to <dodf>null</dodf>.
+     * fqubl to bn fmpty string to <dodf>null</dodf>.
+     * fqubl to bn fmpty string to <dodf>null</dodf>.
      * fqubl to bn fmpty string to <dodf>null</dodf>.
      *
-     * @pbrbm s thf <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     *
+     *
+     *
+     *
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     */
+     */
+     */
+     */
      */
     privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
-        throws ClbssNotFoundExdfption, IOExdfption
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption
+        tirows ClbssNotFoundExdfption, IOExdfption
+        tirows ClbssNotFoundExdfption, IOExdfption
+        tirows ClbssNotFoundExdfption, IOExdfption
+        tirows ClbssNotFoundExdfption, IOExdfption
+    {
+    {
+    {
+    {
     {
         s.dffbultRfbdObjfdt();
+        s.dffbultRfbdObjfdt();
+        s.dffbultRfbdObjfdt();
+        s.dffbultRfbdObjfdt();
+        s.dffbultRfbdObjfdt();
+
+
+
+
 
         // 1.1 Compbtibility: "" is not donvfrtfd to null in 1.1
+        // 1.1 Compbtibility: "" is not donvfrtfd to null in 1.1
+        // 1.1 Compbtibility: "" is not donvfrtfd to null in 1.1
+        // 1.1 Compbtibility: "" is not donvfrtfd to null in 1.1
+        // 1.1 Compbtibility: "" is not donvfrtfd to null in 1.1
+        if (dir != null && dir.fqubls("")) {
+        if (dir != null && dir.fqubls("")) {
+        if (dir != null && dir.fqubls("")) {
+        if (dir != null && dir.fqubls("")) {
         if (dir != null && dir.fqubls("")) {
             dir = null;
+            dir = null;
+            dir = null;
+            dir = null;
+            dir = null;
+        }
+        }
+        }
+        }
         }
         if (filf != null && filf.fqubls("")) {
+        if (filf != null && filf.fqubls("")) {
+        if (filf != null && filf.fqubls("")) {
+        if (filf != null && filf.fqubls("")) {
+        if (filf != null && filf.fqubls("")) {
+            filf = null;
+            filf = null;
+            filf = null;
+            filf = null;
             filf = null;
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>FilfDiblog</dodf>
-     * window. This mfthod is intfndfd to bf usfd only for dfbugging purposfs,
-     * bnd thf dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
-     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>FilfDiblog</dodf>
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>FilfDiblog</dodf>
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>FilfDiblog</dodf>
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>FilfDiblog</dodf>
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>FilfDiblog</dodf>
+     * window. Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * window. Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * window. Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * window. Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * window. Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
      * <dodf>null</dodf>.
      *
-     * @rfturn  thf pbrbmftfr string of this filf diblog window
+     *
+     *
+     *
+     *
+     * @rfturn  tif pbrbmftfr string of tiis filf diblog window
+     * @rfturn  tif pbrbmftfr string of tiis filf diblog window
+     * @rfturn  tif pbrbmftfr string of tiis filf diblog window
+     * @rfturn  tif pbrbmftfr string of tiis filf diblog window
+     * @rfturn  tif pbrbmftfr string of tiis filf diblog window
+     */
+     */
+     */
+     */
      */
     protfdtfd String pbrbmString() {
+    protfdtfd String pbrbmString() {
+    protfdtfd String pbrbmString() {
+    protfdtfd String pbrbmString() {
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString();
+        String str = supfr.pbrbmString();
+        String str = supfr.pbrbmString();
+        String str = supfr.pbrbmString();
         String str = supfr.pbrbmString();
         str += ",dir= " + dir;
+        str += ",dir= " + dir;
+        str += ",dir= " + dir;
+        str += ",dir= " + dir;
+        str += ",dir= " + dir;
+        str += ",filf= " + filf;
+        str += ",filf= " + filf;
+        str += ",filf= " + filf;
+        str += ",filf= " + filf;
         str += ",filf= " + filf;
         rfturn str + ((modf == LOAD) ? ",lobd" : ",sbvf");
+        rfturn str + ((modf == LOAD) ? ",lobd" : ",sbvf");
+        rfturn str + ((modf == LOAD) ? ",lobd" : ",sbvf");
+        rfturn str + ((modf == LOAD) ? ",lobd" : ",sbvf");
+        rfturn str + ((modf == LOAD) ? ",lobd" : ",sbvf");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    boolfbn postsOldMousfEvfnts() {
+    boolfbn postsOldMousfEvfnts() {
+    boolfbn postsOldMousfEvfnts() {
+    boolfbn postsOldMousfEvfnts() {
     boolfbn postsOldMousfEvfnts() {
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

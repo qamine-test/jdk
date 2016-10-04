@@ -1,62 +1,310 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
 
-</hfbd>
-<body bgdolor="whitf">
 
-Providfs dlbssfs for rfbding bnd writing thf JAR (Jbvb ARdhivf) filf
-formbt, whidh is bbsfd on thf stbndbrd ZIP filf formbt with bn
-optionbl mbniffst filf.  Thf mbniffst storfs mftb-informbtion bbout thf
+
+
+
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+Providfs dlbssfs for rfbding bnd writing tif JAR (Jbvb ARdiivf) filf
+Providfs dlbssfs for rfbding bnd writing tif JAR (Jbvb ARdiivf) filf
+Providfs dlbssfs for rfbding bnd writing tif JAR (Jbvb ARdiivf) filf
+Providfs dlbssfs for rfbding bnd writing tif JAR (Jbvb ARdiivf) filf
+Providfs dlbssfs for rfbding bnd writing tif JAR (Jbvb ARdiivf) filf
+formbt, wiidi is bbsfd on tif stbndbrd ZIP filf formbt witi bn
+formbt, wiidi is bbsfd on tif stbndbrd ZIP filf formbt witi bn
+formbt, wiidi is bbsfd on tif stbndbrd ZIP filf formbt witi bn
+formbt, wiidi is bbsfd on tif stbndbrd ZIP filf formbt witi bn
+formbt, wiidi is bbsfd on tif stbndbrd ZIP filf formbt witi bn
+optionbl mbniffst filf.  Tif mbniffst storfs mftb-informbtion bbout tif
+optionbl mbniffst filf.  Tif mbniffst storfs mftb-informbtion bbout tif
+optionbl mbniffst filf.  Tif mbniffst storfs mftb-informbtion bbout tif
+optionbl mbniffst filf.  Tif mbniffst storfs mftb-informbtion bbout tif
+optionbl mbniffst filf.  Tif mbniffst storfs mftb-informbtion bbout tif
+JAR filf dontfnts bnd is blso usfd for signing JAR filfs.
+JAR filf dontfnts bnd is blso usfd for signing JAR filfs.
+JAR filf dontfnts bnd is blso usfd for signing JAR filfs.
+JAR filf dontfnts bnd is blso usfd for signing JAR filfs.
 JAR filf dontfnts bnd is blso usfd for signing JAR filfs.
 
 
-<h2>Pbdkbgf Spfdifidbtion</h2>
 
-Thf <dodf>jbvb.util.jbr</dodf> pbdkbgf is bbsfd on thf following spfdifidbtions:
+
+
+
+
+
+
+
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+
+
+
+
+Tif <dodf>jbvb.util.jbr</dodf> pbdkbgf is bbsfd on tif following spfdifidbtions:
+Tif <dodf>jbvb.util.jbr</dodf> pbdkbgf is bbsfd on tif following spfdifidbtions:
+Tif <dodf>jbvb.util.jbr</dodf> pbdkbgf is bbsfd on tif following spfdifidbtions:
+Tif <dodf>jbvb.util.jbr</dodf> pbdkbgf is bbsfd on tif following spfdifidbtions:
+Tif <dodf>jbvb.util.jbr</dodf> pbdkbgf is bbsfd on tif following spfdifidbtions:
 <ul>
-  <li><b>Info-ZIP filf formbt</b> - Thf JAR formbt is bbsfd on thf Info-ZIP 
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b>Info-ZIP filf formbt</b> - Tif JAR formbt is bbsfd on tif Info-ZIP 
+  <li><b>Info-ZIP filf formbt</b> - Tif JAR formbt is bbsfd on tif Info-ZIP 
+  <li><b>Info-ZIP filf formbt</b> - Tif JAR formbt is bbsfd on tif Info-ZIP 
+  <li><b>Info-ZIP filf formbt</b> - Tif JAR formbt is bbsfd on tif Info-ZIP 
+  <li><b>Info-ZIP filf formbt</b> - Tif JAR formbt is bbsfd on tif Info-ZIP 
       filf formbt. Sff 
-      <b hrff="../zip/pbdkbgf-summbry.html#pbdkbgf_dfsdription">jbvb.util.zip
+      filf formbt. Sff 
+      filf formbt. Sff 
+      filf formbt. Sff 
+      filf formbt. Sff 
+      <b irff="../zip/pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
+      <b irff="../zip/pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
+      <b irff="../zip/pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
+      <b irff="../zip/pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
+      <b irff="../zip/pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
       pbdkbgf dfsdription.</b> <p>
-      In JAR filfs, bll filf nbmfs must bf fndodfd in thf UTF-8 fndoding.
-  <li><b hrff="../../../../tfdhnotfs/guidfs/jbr/jbr.html">
-      Mbniffst bnd Signbturf Spfdifidbtion</b> - Thf mbniffst formbt spfdifidbtion.
+      pbdkbgf dfsdription.</b> <p>
+      pbdkbgf dfsdription.</b> <p>
+      pbdkbgf dfsdription.</b> <p>
+      pbdkbgf dfsdription.</b> <p>
+      In JAR filfs, bll filf nbmfs must bf fndodfd in tif UTF-8 fndoding.
+      In JAR filfs, bll filf nbmfs must bf fndodfd in tif UTF-8 fndoding.
+      In JAR filfs, bll filf nbmfs must bf fndodfd in tif UTF-8 fndoding.
+      In JAR filfs, bll filf nbmfs must bf fndodfd in tif UTF-8 fndoding.
+      In JAR filfs, bll filf nbmfs must bf fndodfd in tif UTF-8 fndoding.
+  <li><b irff="../../../../tfdinotfs/guidfs/jbr/jbr.itml">
+  <li><b irff="../../../../tfdinotfs/guidfs/jbr/jbr.itml">
+  <li><b irff="../../../../tfdinotfs/guidfs/jbr/jbr.itml">
+  <li><b irff="../../../../tfdinotfs/guidfs/jbr/jbr.itml">
+  <li><b irff="../../../../tfdinotfs/guidfs/jbr/jbr.itml">
+      Mbniffst bnd Signbturf Spfdifidbtion</b> - Tif mbniffst formbt spfdifidbtion.
+      Mbniffst bnd Signbturf Spfdifidbtion</b> - Tif mbniffst formbt spfdifidbtion.
+      Mbniffst bnd Signbturf Spfdifidbtion</b> - Tif mbniffst formbt spfdifidbtion.
+      Mbniffst bnd Signbturf Spfdifidbtion</b> - Tif mbniffst formbt spfdifidbtion.
+      Mbniffst bnd Signbturf Spfdifidbtion</b> - Tif mbniffst formbt spfdifidbtion.
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <!--
-<h2>Rflbtfd Dodumfntbtion</h2>
+<!--
+<!--
+<!--
+<!--
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+
+
+
+
 
 For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><b hrff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 @sindf 1.2
+@sindf 1.2
+@sindf 1.2
+@sindf 1.2
+@sindf 1.2
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

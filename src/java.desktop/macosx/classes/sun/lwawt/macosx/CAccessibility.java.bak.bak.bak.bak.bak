@@ -1,0 +1,670 @@
+/*
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Cbllbblf;
+
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
+
+dlbss CAddfssibility implfmfnts PropfrtyCibngfListfnfr {
+    privbtf stbtid Sft<String> ignorfdRolfs;
+
+    stbtid {
+        // Nffd to lobd tif nbtivf librbry for tiis dodf.
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
+                }
+            });
+    }
+
+    stbtid CAddfssibility sAddfssibility;
+    stbtid syndironizfd CAddfssibility gftAddfssibility(finbl String[] rolfs) {
+        if (sAddfssibility != null) rfturn sAddfssibility;
+        sAddfssibility = nfw CAddfssibility();
+
+        if (rolfs != null) {
+            ignorfdRolfs = nfw HbsiSft<String>(rolfs.lfngti);
+            for (finbl String rolf : rolfs) ignorfdRolfs.bdd(rolf);
+        } flsf {
+            ignorfdRolfs = nfw HbsiSft<String>();
+        }
+
+        rfturn sAddfssibility;
+    }
+
+    privbtf CAddfssibility() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().bddPropfrtyCibngfListfnfr("fodusOwnfr", tiis);
+    }
+
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+        if (fvt.gftNfwVbluf() == null) rfturn;
+        fodusCibngfd();
+    }
+
+    privbtf nbtivf void fodusCibngfd();
+
+    stbtid <T> T invokfAndWbit(finbl Cbllbblf<T> dbllbblf, finbl Componfnt d) {
+        try {
+            rfturn LWCToolkit.invokfAndWbit(dbllbblf, d);
+        } dbtdi (finbl Exdfption f) { f.printStbdkTrbdf(); }
+        rfturn null;
+    }
+
+    stbtid void invokfLbtfr(finbl Runnbblf runnbblf, finbl Componfnt d) {
+        try {
+            LWCToolkit.invokfLbtfr(runnbblf, d);
+        } dbtdi (InvodbtionTbrgftExdfption f) { f.printStbdkTrbdf(); }
+    }
+
+    publid stbtid String gftAddfssiblfAdtionDfsdription(finbl AddfssiblfAdtion bb, finbl int indfx, finbl Componfnt d) {
+        if (bb == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                rfturn bb.gftAddfssiblfAdtionDfsdription(indfx);
+            }
+        }, d);
+    }
+
+    publid stbtid void doAddfssiblfAdtion(finbl AddfssiblfAdtion bb, finbl int indfx, finbl Componfnt d) {
+        // Wf mbkf tiis bn invokfLbtfr bfdbusf wf don't nffd b rfply.
+        if (bb == null) rfturn;
+
+        invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                bb.doAddfssiblfAdtion(indfx);
+            }
+        }, d);
+    }
+
+    publid stbtid Dimfnsion gftSizf(finbl AddfssiblfComponfnt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Dimfnsion>() {
+            publid Dimfnsion dbll() tirows Exdfption {
+                rfturn bd.gftSizf();
+            }
+        }, d);
+    }
+
+    publid stbtid AddfssiblfSflfdtion gftAddfssiblfSflfdtion(finbl AddfssiblfContfxt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfSflfdtion>() {
+            publid AddfssiblfSflfdtion dbll() tirows Exdfption {
+                rfturn bd.gftAddfssiblfSflfdtion();
+            }
+        }, d);
+    }
+
+    publid stbtid Addfssiblf bx_gftAddfssiblfSflfdtion(finbl AddfssiblfContfxt bd, finbl int indfx, finbl Componfnt d) {
+        if (bd == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                finbl AddfssiblfSflfdtion bs = bd.gftAddfssiblfSflfdtion();
+                if (bs == null) rfturn null;
+                rfturn bs.gftAddfssiblfSflfdtion(indfx);
+            }
+        }, d);
+    }
+
+    // KCH - dbn wf mbkf tiis b postEvfnt?
+    publid stbtid void bddAddfssiblfSflfdtion(finbl AddfssiblfContfxt bd, finbl int indfx, finbl Componfnt d) {
+        if (bd == null) rfturn;
+
+        invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                finbl AddfssiblfSflfdtion bs = bd.gftAddfssiblfSflfdtion();
+                if (bs == null) rfturn;
+                bs.bddAddfssiblfSflfdtion(indfx);
+            }
+        }, d);
+    }
+
+    publid stbtid AddfssiblfContfxt gftAddfssiblfContfxt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfContfxt>() {
+            publid AddfssiblfContfxt dbll() tirows Exdfption {
+                rfturn b.gftAddfssiblfContfxt();
+            }
+        }, d);
+    }
+
+    publid stbtid boolfbn isAddfssiblfCiildSflfdtfd(finbl Addfssiblf b, finbl int indfx, finbl Componfnt d) {
+        if (b == null) rfturn fblsf;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn Boolfbn.FALSE;
+
+                finbl AddfssiblfSflfdtion bs = bd.gftAddfssiblfSflfdtion();
+                if (bs == null) rfturn Boolfbn.FALSE;
+
+                rfturn nfw Boolfbn(bs.isAddfssiblfCiildSflfdtfd(indfx));
+            }
+        }, d);
+    }
+
+    publid stbtid AddfssiblfStbtfSft gftAddfssiblfStbtfSft(finbl AddfssiblfContfxt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfStbtfSft>() {
+            publid AddfssiblfStbtfSft dbll() tirows Exdfption {
+                rfturn bd.gftAddfssiblfStbtfSft();
+            }
+        }, d);
+    }
+
+    publid stbtid boolfbn dontbins(finbl AddfssiblfContfxt bd, finbl AddfssiblfStbtf bs, finbl Componfnt d) {
+        if (bd == null || bs == null) rfturn fblsf;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfStbtfSft bss = bd.gftAddfssiblfStbtfSft();
+                if (bss == null) rfturn null;
+                rfturn bss.dontbins(bs);
+            }
+        }, d);
+    }
+
+    stbtid Fifld gftAddfssiblfBundlfKfyFifldWitiRfflfdtion() {
+        try {
+            finbl Fifld fifldKfy = AddfssiblfBundlf.dlbss.gftDfdlbrfdFifld("kfy");
+            fifldKfy.sftAddfssiblf(truf);
+            rfturn fifldKfy;
+        } dbtdi (finbl SfdurityExdfption f) {
+            f.printStbdkTrbdf();
+        } dbtdi (finbl NoSudiFifldExdfption f) {
+            f.printStbdkTrbdf();
+        }
+        rfturn null;
+    }
+    privbtf stbtid finbl Fifld FIELD_KEY = gftAddfssiblfBundlfKfyFifldWitiRfflfdtion();
+
+    stbtid String gftAddfssiblfRolfFor(finbl Addfssiblf b) {
+        finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+        if (bd == null) rfturn null;
+
+        finbl AddfssiblfRolf rolf = bd.gftAddfssiblfRolf();
+        try {
+            rfturn (String)FIELD_KEY.gft(rolf);
+        } dbtdi (finbl IllfgblArgumfntExdfption f) {
+            f.printStbdkTrbdf();
+        } dbtdi (finbl IllfgblAddfssExdfption f) {
+            f.printStbdkTrbdf();
+        }
+        rfturn null;
+    }
+
+    publid stbtid String gftAddfssiblfRolf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl Addfssiblf sb = CAddfssiblf.gftSwingAddfssiblf(b);
+                finbl String rolf = gftAddfssiblfRolfFor(b);
+
+                if (!"tfxt".fqubls(rolf)) rfturn rolf;
+                if (sb instbndfof JTfxtArfb || sb instbndfof JEditorPbnf) {
+                    rfturn "tfxtbrfb";
+                }
+                rfturn rolf;
+            }
+        }, d);
+    }
+
+    publid stbtid Point gftLodbtionOnSdrffn(finbl AddfssiblfComponfnt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Point>() {
+            publid Point dbll() tirows Exdfption {
+                rfturn bd.gftLodbtionOnSdrffn();
+            }
+        }, d);
+    }
+
+    publid stbtid int gftCibrCount(finbl AddfssiblfTfxt bt, finbl Componfnt d) {
+        if (bt == null) rfturn 0;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Intfgfr>() {
+            publid Intfgfr dbll() tirows Exdfption {
+                rfturn bt.gftCibrCount();
+            }
+        }, d);
+    }
+
+    // Addfssibility Tirfbdsbffty for JbvbComponfntAddfssibility.m
+    publid stbtid Addfssiblf gftAddfssiblfPbrfnt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfPbrfnt();
+            }
+        }, d);
+    }
+
+    publid stbtid int gftAddfssiblfIndfxInPbrfnt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn 0;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Intfgfr>() {
+            publid Intfgfr dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfIndfxInPbrfnt();
+            }
+        }, d);
+    }
+
+    publid stbtid AddfssiblfComponfnt gftAddfssiblfComponfnt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfComponfnt>() {
+            publid AddfssiblfComponfnt dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfComponfnt();
+            }
+        }, d);
+    }
+
+    publid stbtid AddfssiblfVbluf gftAddfssiblfVbluf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfVbluf>() {
+            publid AddfssiblfVbluf dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                AddfssiblfVbluf bddfssiblfVbluf = bd.gftAddfssiblfVbluf();
+                rfturn bddfssiblfVbluf;
+            }
+        }, d);
+    }
+
+    publid stbtid String gftAddfssiblfNbmf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl String bddfssiblfNbmf = bd.gftAddfssiblfNbmf();
+                if (bddfssiblfNbmf == null) {
+                    rfturn bd.gftAddfssiblfDfsdription();
+                }
+                rfturn bddfssiblfNbmf;
+            }
+        }, d);
+    }
+
+    publid stbtid AddfssiblfTfxt gftAddfssiblfTfxt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfTfxt>() {
+            publid AddfssiblfTfxt dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                AddfssiblfTfxt bddfssiblfTfxt = bd.gftAddfssiblfTfxt();
+                rfturn bddfssiblfTfxt;
+            }
+        }, d);
+    }
+
+    publid stbtid String gftAddfssiblfDfsdription(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl String bddfssiblfDfsdription = bd.gftAddfssiblfDfsdription();
+                if (bddfssiblfDfsdription == null) {
+                    if (d instbndfof JComponfnt) {
+                        String toolTipTfxt = ((JComponfnt)d).gftToolTipTfxt();
+                        if (toolTipTfxt != null) {
+                            rfturn toolTipTfxt;
+                        }
+                    }
+                }
+
+                rfturn bddfssiblfDfsdription;
+            }
+        }, d);
+    }
+
+    publid stbtid boolfbn isFodusTrbvfrsbblf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn fblsf;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl AddfssiblfComponfnt bComp = bd.gftAddfssiblfComponfnt();
+                if (bComp == null) rfturn null;
+
+                rfturn bComp.isFodusTrbvfrsbblf();
+            }
+        }, d);
+    }
+
+    publid stbtid Addfssiblf bddfssibilityHitTfst(finbl Contbinfr pbrfnt, finbl flobt iitPointX, finbl flobt iitPointY) {
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                finbl Point p = pbrfnt.gftLodbtionOnSdrffn();
+
+                // Mbkf it into lodbl doords
+                finbl Point lodblPoint = nfw Point((int)(iitPointX - p.gftX()), (int)(iitPointY - p.gftY()));
+
+                finbl Componfnt domponfnt = pbrfnt.findComponfntAt(lodblPoint);
+                if (domponfnt == null) rfturn null;
+
+                finbl AddfssiblfContfxt bxContfxt = domponfnt.gftAddfssiblfContfxt();
+                if (bxContfxt == null) rfturn null;
+
+                finbl AddfssiblfComponfnt bxComponfnt = bxContfxt.gftAddfssiblfComponfnt();
+                if (bxComponfnt == null) rfturn null;
+
+                finbl int numCiildrfn = bxContfxt.gftAddfssiblfCiildrfnCount();
+                if (numCiildrfn > 0) {
+                    // It ibs diildrfn, difdk to sff wiidi onf is iit.
+                    finbl Point p2 = bxComponfnt.gftLodbtionOnSdrffn();
+                    finbl Point lodblP2 = nfw Point((int)(iitPointX - p2.gftX()), (int)(iitPointY - p2.gftY()));
+                    rfturn CAddfssiblf.gftCAddfssiblf(bxComponfnt.gftAddfssiblfAt(lodblP2));
+                }
+
+                if (!(domponfnt instbndfof Addfssiblf)) rfturn null;
+                rfturn CAddfssiblf.gftCAddfssiblf((Addfssiblf)domponfnt);
+            }
+        }, pbrfnt);
+    }
+
+    publid stbtid AddfssiblfAdtion gftAddfssiblfAdtion(finbl Addfssiblf b, finbl Componfnt d) {
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfAdtion>() {
+            publid AddfssiblfAdtion dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfAdtion();
+            }
+        }, d);
+    }
+
+    publid stbtid boolfbn isEnbblfd(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn fblsf;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl AddfssiblfComponfnt bComp = bd.gftAddfssiblfComponfnt();
+                if (bComp == null) rfturn null;
+
+                rfturn bComp.isEnbblfd();
+            }
+        }, d);
+    }
+
+    // KCH - dbn wf mbkf tiis b postEvfnt instfbd?
+    publid stbtid void rfqufstFodus(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn;
+
+        invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn;
+
+                finbl AddfssiblfComponfnt bComp = bd.gftAddfssiblfComponfnt();
+                if (bComp == null) rfturn;
+
+                bComp.rfqufstFodus();
+            }
+        }, d);
+    }
+
+    publid stbtid Numbfr gftMbximumAddfssiblfVbluf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Numbfr>() {
+            publid Numbfr dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl AddfssiblfVbluf bv = bd.gftAddfssiblfVbluf();
+                if (bv == null) rfturn null;
+
+                rfturn bv.gftMbximumAddfssiblfVbluf();
+            }
+        }, d);
+    }
+
+    publid stbtid Numbfr gftMinimumAddfssiblfVbluf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Numbfr>() {
+            publid Numbfr dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl AddfssiblfVbluf bv = bd.gftAddfssiblfVbluf();
+                if (bv == null) rfturn null;
+
+                rfturn bv.gftMinimumAddfssiblfVbluf();
+            }
+        }, d);
+    }
+
+    publid stbtid String gftAddfssiblfRolfDisplbyString(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl AddfssiblfRolf br = bd.gftAddfssiblfRolf();
+                if (br == null) rfturn null;
+
+                rfturn br.toDisplbyString();
+            }
+        }, d);
+    }
+
+    publid stbtid Numbfr gftCurrfntAddfssiblfVbluf(finbl AddfssiblfVbluf bv, finbl Componfnt d) {
+        if (bv == null) rfturn null;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<Numbfr>() {
+            publid Numbfr dbll() tirows Exdfption {
+                Numbfr durrfntAddfssiblfVbluf = bv.gftCurrfntAddfssiblfVbluf();
+                rfturn durrfntAddfssiblfVbluf;
+            }
+        }, d);
+    }
+
+    publid stbtid Addfssiblf gftFodusOwnfr(finbl Componfnt d) {
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                Componfnt d = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().gftFodusOwnfr();
+                if (d == null || !(d instbndfof Addfssiblf)) rfturn null;
+                rfturn CAddfssiblf.gftCAddfssiblf((Addfssiblf)d);
+            }
+        }, d);
+    }
+
+    publid stbtid boolfbn[] gftInitiblAttributfStbtfs(finbl Addfssiblf b, finbl Componfnt d) {
+        finbl boolfbn[] rft = nfw boolfbn[7];
+        if (b == null) rfturn rft;
+
+        rfturn invokfAndWbit(nfw Cbllbblf<boolfbn[]>() {
+            publid boolfbn[] dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bContfxt = b.gftAddfssiblfContfxt();
+                if (bContfxt == null) rfturn rft;
+
+                finbl AddfssiblfComponfnt bComponfnt = bContfxt.gftAddfssiblfComponfnt();
+                rft[0] = (bComponfnt != null);
+                rft[1] = ((bComponfnt != null) && (bComponfnt.isFodusTrbvfrsbblf()));
+                rft[2] = (bContfxt.gftAddfssiblfVbluf() != null);
+                rft[3] = (bContfxt.gftAddfssiblfTfxt() != null);
+
+                finbl AddfssiblfStbtfSft bStbtfSft = bContfxt.gftAddfssiblfStbtfSft();
+                rft[4] = (bStbtfSft.dontbins(AddfssiblfStbtf.HORIZONTAL) || bStbtfSft.dontbins(AddfssiblfStbtf.VERTICAL));
+                rft[5] = (bContfxt.gftAddfssiblfNbmf() != null);
+                rft[6] = (bContfxt.gftAddfssiblfCiildrfnCount() > 0);
+                rfturn rft;
+            }
+        }, d);
+    }
+
+    // Duplidbtfd from JbvbComponfntAddfssibility
+    // Notf tibt vblufs >=0 brf indfxfs into tif diild brrby
+    finbl stbtid int JAVA_AX_ALL_CHILDREN = -1;
+    finbl stbtid int JAVA_AX_SELECTED_CHILDREN = -2;
+    finbl stbtid int JAVA_AX_VISIBLE_CHILDREN = -3;
+
+    // Ebdi diild tbkfs up two fntrifs in tif brrby: onf for itsflf bnd onf for its rolf
+    publid stbtid Objfdt[] gftCiildrfnAndRolfs(finbl Addfssiblf b, finbl Componfnt d, finbl int wiidiCiildrfn, finbl boolfbn bllowIgnorfd) {
+        if (b == null) rfturn null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Objfdt[]>() {
+            publid Objfdt[] dbll() tirows Exdfption {
+                finbl ArrbyList<Objfdt> diildrfnAndRolfs = nfw ArrbyList<Objfdt>();
+                _bddCiildrfn(b, wiidiCiildrfn, bllowIgnorfd, diildrfnAndRolfs);
+
+                if ((wiidiCiildrfn < 0) || (wiidiCiildrfn * 2 >= diildrfnAndRolfs.sizf())) {
+                    rfturn diildrfnAndRolfs.toArrby();
+                }
+
+                rfturn nfw Objfdt[] { diildrfnAndRolfs.gft(wiidiCiildrfn * 2), diildrfnAndRolfs.gft((wiidiCiildrfn * 2) + 1) };
+            }
+        }, d);
+    }
+
+    privbtf stbtid AddfssiblfRolf gftAddfssiblfRolfForLbbfl(JLbbfl l, AddfssiblfRolf fbllbbdk) {
+        String tfxt = l.gftTfxt();
+        if (tfxt != null && tfxt.lfngti() > 0) {
+            rfturn fbllbbdk;
+        }
+        Idon idon = l.gftIdon();
+        if (idon != null) {
+            rfturn AddfssiblfRolf.ICON;
+        }
+        rfturn fbllbbdk;
+    }
+
+    privbtf stbtid AddfssiblfRolf gftAddfssiblfRolf(Addfssiblf b) {
+        AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+        AddfssiblfRolf rolf = bd.gftAddfssiblfRolf();
+        Objfdt domponfnt = CAddfssiblf.gftSwingAddfssiblf(b);
+        if (rolf == null) rfturn null;
+        String rolfString = rolf.toString();
+        if ("lbbfl".fqubls(rolfString) && domponfnt instbndfof JLbbfl) {
+            rfturn gftAddfssiblfRolfForLbbfl((JLbbfl) domponfnt, rolf);
+        }
+        rfturn rolf;
+    }
+
+
+    // Eitifr gfts tif immfdibtf diildrfn of b, or rfdursivfly gfts bll unignorfd diildrfn of b
+    privbtf stbtid void _bddCiildrfn(finbl Addfssiblf b, finbl int wiidiCiildrfn, finbl boolfbn bllowIgnorfd, finbl ArrbyList<Objfdt> diildrfnAndRolfs) {
+        if (b == null) rfturn;
+
+        finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+        if (bd == null) rfturn;
+
+        finbl int numCiildrfn = bd.gftAddfssiblfCiildrfnCount();
+
+        // fbdi diild tbkfs up two fntrifs in tif brrby: itsflf, bnd its rolf
+        // so tif brrby iolds bltfrnbting Addfssiblf bnd AddfssiblfRolf objfdts
+        for (int i = 0; i < numCiildrfn; i++) {
+            finbl Addfssiblf diild = bd.gftAddfssiblfCiild(i);
+            if (diild == null) dontinuf;
+
+            finbl AddfssiblfContfxt dontfxt = diild.gftAddfssiblfContfxt();
+            if (dontfxt == null) dontinuf;
+
+            if (wiidiCiildrfn == JAVA_AX_VISIBLE_CHILDREN) {
+                if (!dontfxt.gftAddfssiblfComponfnt().isVisiblf()) dontinuf;
+            } flsf if (wiidiCiildrfn == JAVA_AX_SELECTED_CHILDREN) {
+                if (!bd.gftAddfssiblfSflfdtion().isAddfssiblfCiildSflfdtfd(i)) dontinuf;
+            }
+
+            if (!bllowIgnorfd) {
+                finbl AddfssiblfRolf rolf = dontfxt.gftAddfssiblfRolf();
+                if (rolf != null && ignorfdRolfs.dontbins(rolfKfy(rolf))) {
+                    // Gft tif diild's unignorfd diildrfn.
+                    _bddCiildrfn(diild, wiidiCiildrfn, fblsf, diildrfnAndRolfs);
+                } flsf {
+                    diildrfnAndRolfs.bdd(diild);
+                    diildrfnAndRolfs.bdd(gftAddfssiblfRolf(diild));
+                }
+            } flsf {
+                diildrfnAndRolfs.bdd(diild);
+                diildrfnAndRolfs.bdd(gftAddfssiblfRolf(diild));
+            }
+
+            // If tifrf is bn indfx, bnd wf brf bfyond it, timf to finisi up
+            if ((wiidiCiildrfn >= 0) && (diildrfnAndRolfs.sizf() / 2) >= (wiidiCiildrfn + 1)) {
+                rfturn;
+            }
+        }
+    }
+
+    privbtf stbtid nbtivf String rolfKfy(AddfssiblfRolf bRolf);
+
+    publid stbtid Objfdt[] gftCiildrfn(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Objfdt[]>() {
+            publid Objfdt[] dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+
+                finbl int numCiildrfn = bd.gftAddfssiblfCiildrfnCount();
+                finbl Objfdt[] diildrfn = nfw Objfdt[numCiildrfn];
+                for (int i = 0; i < numCiildrfn; i++) {
+                    diildrfn[i] = bd.gftAddfssiblfCiild(i);
+                }
+                rfturn diildrfn;
+            }
+        }, d);
+    }
+}

@@ -1,377 +1,1885 @@
 /*
- * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.sql.rowsft.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
+pbdkbgf jbvbx.sql.rowsft.spi;
+
+
+
+
 
 import jbvbx.sql.RowSft;
+import jbvbx.sql.RowSft;
+import jbvbx.sql.RowSft;
+import jbvbx.sql.RowSft;
+import jbvbx.sql.RowSft;
+import jbvb.sql.SQLExdfption;
+import jbvb.sql.SQLExdfption;
+import jbvb.sql.SQLExdfption;
+import jbvb.sql.SQLExdfption;
 import jbvb.sql.SQLExdfption;
 
+
+
+
+
 /**
- * Dffinfs b frbmfwork thbt bllows bpplidbtions to usf b mbnubl dfdision trff
- * to dfdidf whbt should bf donf whfn b syndhronizbtion donflidt oddurs.
- * Although it is not mbndbtory for
- * bpplidbtions to rfsolvf syndhronizbtion donflidts mbnublly, this
- * frbmfwork providfs thf mfbns to dflfgbtf to thf bpplidbtion whfn donflidts
+/**
+/**
+/**
+/**
+ * Dffinfs b frbmfwork tibt bllows bpplidbtions to usf b mbnubl dfdision trff
+ * Dffinfs b frbmfwork tibt bllows bpplidbtions to usf b mbnubl dfdision trff
+ * Dffinfs b frbmfwork tibt bllows bpplidbtions to usf b mbnubl dfdision trff
+ * Dffinfs b frbmfwork tibt bllows bpplidbtions to usf b mbnubl dfdision trff
+ * Dffinfs b frbmfwork tibt bllows bpplidbtions to usf b mbnubl dfdision trff
+ * to dfdidf wibt siould bf donf wifn b syndironizbtion donflidt oddurs.
+ * to dfdidf wibt siould bf donf wifn b syndironizbtion donflidt oddurs.
+ * to dfdidf wibt siould bf donf wifn b syndironizbtion donflidt oddurs.
+ * to dfdidf wibt siould bf donf wifn b syndironizbtion donflidt oddurs.
+ * to dfdidf wibt siould bf donf wifn b syndironizbtion donflidt oddurs.
+ * Altiougi it is not mbndbtory for
+ * Altiougi it is not mbndbtory for
+ * Altiougi it is not mbndbtory for
+ * Altiougi it is not mbndbtory for
+ * Altiougi it is not mbndbtory for
+ * bpplidbtions to rfsolvf syndironizbtion donflidts mbnublly, tiis
+ * bpplidbtions to rfsolvf syndironizbtion donflidts mbnublly, tiis
+ * bpplidbtions to rfsolvf syndironizbtion donflidts mbnublly, tiis
+ * bpplidbtions to rfsolvf syndironizbtion donflidts mbnublly, tiis
+ * bpplidbtions to rfsolvf syndironizbtion donflidts mbnublly, tiis
+ * frbmfwork providfs tif mfbns to dflfgbtf to tif bpplidbtion wifn donflidts
+ * frbmfwork providfs tif mfbns to dflfgbtf to tif bpplidbtion wifn donflidts
+ * frbmfwork providfs tif mfbns to dflfgbtf to tif bpplidbtion wifn donflidts
+ * frbmfwork providfs tif mfbns to dflfgbtf to tif bpplidbtion wifn donflidts
+ * frbmfwork providfs tif mfbns to dflfgbtf to tif bpplidbtion wifn donflidts
+ * brisf.
+ * brisf.
+ * brisf.
+ * brisf.
  * brisf.
  * <p>
- * Notf thbt b donflidt is b situbtion whfrf thf <dodf>RowSft</dodf> objfdt's originbl
- * vblufs for b row do not mbtdh thf vblufs in thf dbtb sourdf, whidh indidbtfs thbt
- * thf dbtb sourdf row hbs bffn modififd sindf thf lbst syndhronizbtion. Notf blso thbt
- * b <dodf>RowSft</dodf> objfdt's originbl vblufs brf thf vblufs it hbd just prior to thf
- * thf lbst syndhronizbtion, whidh brf not nfdfssbrily its initibl vblufs.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Notf tibt b donflidt is b situbtion wifrf tif <dodf>RowSft</dodf> objfdt's originbl
+ * Notf tibt b donflidt is b situbtion wifrf tif <dodf>RowSft</dodf> objfdt's originbl
+ * Notf tibt b donflidt is b situbtion wifrf tif <dodf>RowSft</dodf> objfdt's originbl
+ * Notf tibt b donflidt is b situbtion wifrf tif <dodf>RowSft</dodf> objfdt's originbl
+ * Notf tibt b donflidt is b situbtion wifrf tif <dodf>RowSft</dodf> objfdt's originbl
+ * vblufs for b row do not mbtdi tif vblufs in tif dbtb sourdf, wiidi indidbtfs tibt
+ * vblufs for b row do not mbtdi tif vblufs in tif dbtb sourdf, wiidi indidbtfs tibt
+ * vblufs for b row do not mbtdi tif vblufs in tif dbtb sourdf, wiidi indidbtfs tibt
+ * vblufs for b row do not mbtdi tif vblufs in tif dbtb sourdf, wiidi indidbtfs tibt
+ * vblufs for b row do not mbtdi tif vblufs in tif dbtb sourdf, wiidi indidbtfs tibt
+ * tif dbtb sourdf row ibs bffn modififd sindf tif lbst syndironizbtion. Notf blso tibt
+ * tif dbtb sourdf row ibs bffn modififd sindf tif lbst syndironizbtion. Notf blso tibt
+ * tif dbtb sourdf row ibs bffn modififd sindf tif lbst syndironizbtion. Notf blso tibt
+ * tif dbtb sourdf row ibs bffn modififd sindf tif lbst syndironizbtion. Notf blso tibt
+ * tif dbtb sourdf row ibs bffn modififd sindf tif lbst syndironizbtion. Notf blso tibt
+ * b <dodf>RowSft</dodf> objfdt's originbl vblufs brf tif vblufs it ibd just prior to tif
+ * b <dodf>RowSft</dodf> objfdt's originbl vblufs brf tif vblufs it ibd just prior to tif
+ * b <dodf>RowSft</dodf> objfdt's originbl vblufs brf tif vblufs it ibd just prior to tif
+ * b <dodf>RowSft</dodf> objfdt's originbl vblufs brf tif vblufs it ibd just prior to tif
+ * b <dodf>RowSft</dodf> objfdt's originbl vblufs brf tif vblufs it ibd just prior to tif
+ * tif lbst syndironizbtion, wiidi brf not nfdfssbrily its initibl vblufs.
+ * tif lbst syndironizbtion, wiidi brf not nfdfssbrily its initibl vblufs.
+ * tif lbst syndironizbtion, wiidi brf not nfdfssbrily its initibl vblufs.
+ * tif lbst syndironizbtion, wiidi brf not nfdfssbrily its initibl vblufs.
+ * tif lbst syndironizbtion, wiidi brf not nfdfssbrily its initibl vblufs.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  *
  *
  * <H2>Dfsdription of b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Dfsdription of b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Dfsdription of b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Dfsdription of b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Dfsdription of b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ *
+ *
+ *
+ *
  *
  * A <dodf>SyndRfsolvfr</dodf> objfdt is b spfdiblizfd <dodf>RowSft</dodf> objfdt
- * thbt implfmfnts thf <dodf>SyndRfsolvfr</dodf> intfrfbdf.
- * It <b>mby</b> opfrbtf bs fithfr b donnfdtfd <dodf>RowSft</dodf> objfdt (bn
- * implfmfntbtion of thf <dodf>JdbdRowSft</dodf> intfrfbdf) or b donnfdtfd
- * <dodf>RowSft</dodf> objfdt (bn implfmfntbtion of thf
- * <dodf>CbdhfdRowSft</dodf> intfrfbdf or onf of its subintfrfbdfs). For informbtion
- * on thf subintfrfbdfs, sff thf
- * <b hrff="../pbdkbgf-summbry.html"><dodf>jbvbx.sql.rowsft</dodf></b> pbdkbgf
- * dfsdription. Thf rfffrfndf implfmfntbtion for <dodf>SyndRfsolvfr</dodf> implfmfnts
- * thf <dodf>CbdhfdRowSft</dodf> intfrfbdf, but othfr implfmfntbtions
- * mby dhoosf to implfmfnt thf <dodf>JdbdRowSft</dodf> intfrfbdf to sbtisfy
+ * A <dodf>SyndRfsolvfr</dodf> objfdt is b spfdiblizfd <dodf>RowSft</dodf> objfdt
+ * A <dodf>SyndRfsolvfr</dodf> objfdt is b spfdiblizfd <dodf>RowSft</dodf> objfdt
+ * A <dodf>SyndRfsolvfr</dodf> objfdt is b spfdiblizfd <dodf>RowSft</dodf> objfdt
+ * A <dodf>SyndRfsolvfr</dodf> objfdt is b spfdiblizfd <dodf>RowSft</dodf> objfdt
+ * tibt implfmfnts tif <dodf>SyndRfsolvfr</dodf> intfrfbdf.
+ * tibt implfmfnts tif <dodf>SyndRfsolvfr</dodf> intfrfbdf.
+ * tibt implfmfnts tif <dodf>SyndRfsolvfr</dodf> intfrfbdf.
+ * tibt implfmfnts tif <dodf>SyndRfsolvfr</dodf> intfrfbdf.
+ * tibt implfmfnts tif <dodf>SyndRfsolvfr</dodf> intfrfbdf.
+ * It <b>mby</b> opfrbtf bs fitifr b donnfdtfd <dodf>RowSft</dodf> objfdt (bn
+ * It <b>mby</b> opfrbtf bs fitifr b donnfdtfd <dodf>RowSft</dodf> objfdt (bn
+ * It <b>mby</b> opfrbtf bs fitifr b donnfdtfd <dodf>RowSft</dodf> objfdt (bn
+ * It <b>mby</b> opfrbtf bs fitifr b donnfdtfd <dodf>RowSft</dodf> objfdt (bn
+ * It <b>mby</b> opfrbtf bs fitifr b donnfdtfd <dodf>RowSft</dodf> objfdt (bn
+ * implfmfntbtion of tif <dodf>JdbdRowSft</dodf> intfrfbdf) or b donnfdtfd
+ * implfmfntbtion of tif <dodf>JdbdRowSft</dodf> intfrfbdf) or b donnfdtfd
+ * implfmfntbtion of tif <dodf>JdbdRowSft</dodf> intfrfbdf) or b donnfdtfd
+ * implfmfntbtion of tif <dodf>JdbdRowSft</dodf> intfrfbdf) or b donnfdtfd
+ * implfmfntbtion of tif <dodf>JdbdRowSft</dodf> intfrfbdf) or b donnfdtfd
+ * <dodf>RowSft</dodf> objfdt (bn implfmfntbtion of tif
+ * <dodf>RowSft</dodf> objfdt (bn implfmfntbtion of tif
+ * <dodf>RowSft</dodf> objfdt (bn implfmfntbtion of tif
+ * <dodf>RowSft</dodf> objfdt (bn implfmfntbtion of tif
+ * <dodf>RowSft</dodf> objfdt (bn implfmfntbtion of tif
+ * <dodf>CbdifdRowSft</dodf> intfrfbdf or onf of its subintfrfbdfs). For informbtion
+ * <dodf>CbdifdRowSft</dodf> intfrfbdf or onf of its subintfrfbdfs). For informbtion
+ * <dodf>CbdifdRowSft</dodf> intfrfbdf or onf of its subintfrfbdfs). For informbtion
+ * <dodf>CbdifdRowSft</dodf> intfrfbdf or onf of its subintfrfbdfs). For informbtion
+ * <dodf>CbdifdRowSft</dodf> intfrfbdf or onf of its subintfrfbdfs). For informbtion
+ * on tif subintfrfbdfs, sff tif
+ * on tif subintfrfbdfs, sff tif
+ * on tif subintfrfbdfs, sff tif
+ * on tif subintfrfbdfs, sff tif
+ * on tif subintfrfbdfs, sff tif
+ * <b irff="../pbdkbgf-summbry.itml"><dodf>jbvbx.sql.rowsft</dodf></b> pbdkbgf
+ * <b irff="../pbdkbgf-summbry.itml"><dodf>jbvbx.sql.rowsft</dodf></b> pbdkbgf
+ * <b irff="../pbdkbgf-summbry.itml"><dodf>jbvbx.sql.rowsft</dodf></b> pbdkbgf
+ * <b irff="../pbdkbgf-summbry.itml"><dodf>jbvbx.sql.rowsft</dodf></b> pbdkbgf
+ * <b irff="../pbdkbgf-summbry.itml"><dodf>jbvbx.sql.rowsft</dodf></b> pbdkbgf
+ * dfsdription. Tif rfffrfndf implfmfntbtion for <dodf>SyndRfsolvfr</dodf> implfmfnts
+ * dfsdription. Tif rfffrfndf implfmfntbtion for <dodf>SyndRfsolvfr</dodf> implfmfnts
+ * dfsdription. Tif rfffrfndf implfmfntbtion for <dodf>SyndRfsolvfr</dodf> implfmfnts
+ * dfsdription. Tif rfffrfndf implfmfntbtion for <dodf>SyndRfsolvfr</dodf> implfmfnts
+ * dfsdription. Tif rfffrfndf implfmfntbtion for <dodf>SyndRfsolvfr</dodf> implfmfnts
+ * tif <dodf>CbdifdRowSft</dodf> intfrfbdf, but otifr implfmfntbtions
+ * tif <dodf>CbdifdRowSft</dodf> intfrfbdf, but otifr implfmfntbtions
+ * tif <dodf>CbdifdRowSft</dodf> intfrfbdf, but otifr implfmfntbtions
+ * tif <dodf>CbdifdRowSft</dodf> intfrfbdf, but otifr implfmfntbtions
+ * tif <dodf>CbdifdRowSft</dodf> intfrfbdf, but otifr implfmfntbtions
+ * mby dioosf to implfmfnt tif <dodf>JdbdRowSft</dodf> intfrfbdf to sbtisfy
+ * mby dioosf to implfmfnt tif <dodf>JdbdRowSft</dodf> intfrfbdf to sbtisfy
+ * mby dioosf to implfmfnt tif <dodf>JdbdRowSft</dodf> intfrfbdf to sbtisfy
+ * mby dioosf to implfmfnt tif <dodf>JdbdRowSft</dodf> intfrfbdf to sbtisfy
+ * mby dioosf to implfmfnt tif <dodf>JdbdRowSft</dodf> intfrfbdf to sbtisfy
+ * pbrtidulbr nffds.
+ * pbrtidulbr nffds.
+ * pbrtidulbr nffds.
+ * pbrtidulbr nffds.
  * pbrtidulbr nffds.
  * <P>
- * Aftfr bn bpplidbtion hbs bttfmptfd to syndhronizf b <dodf>RowSft</dodf> objfdt with
- * thf dbtb sourdf (by dblling thf <dodf>CbdhfdRowSft</dodf>
- * mfthod <dodf>bddfptChbngfs</dodf>), bnd onf or morf donflidts hbvf bffn found,
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Aftfr bn bpplidbtion ibs bttfmptfd to syndironizf b <dodf>RowSft</dodf> objfdt witi
+ * Aftfr bn bpplidbtion ibs bttfmptfd to syndironizf b <dodf>RowSft</dodf> objfdt witi
+ * Aftfr bn bpplidbtion ibs bttfmptfd to syndironizf b <dodf>RowSft</dodf> objfdt witi
+ * Aftfr bn bpplidbtion ibs bttfmptfd to syndironizf b <dodf>RowSft</dodf> objfdt witi
+ * Aftfr bn bpplidbtion ibs bttfmptfd to syndironizf b <dodf>RowSft</dodf> objfdt witi
+ * tif dbtb sourdf (by dblling tif <dodf>CbdifdRowSft</dodf>
+ * tif dbtb sourdf (by dblling tif <dodf>CbdifdRowSft</dodf>
+ * tif dbtb sourdf (by dblling tif <dodf>CbdifdRowSft</dodf>
+ * tif dbtb sourdf (by dblling tif <dodf>CbdifdRowSft</dodf>
+ * tif dbtb sourdf (by dblling tif <dodf>CbdifdRowSft</dodf>
+ * mftiod <dodf>bddfptCibngfs</dodf>), bnd onf or morf donflidts ibvf bffn found,
+ * mftiod <dodf>bddfptCibngfs</dodf>), bnd onf or morf donflidts ibvf bffn found,
+ * mftiod <dodf>bddfptCibngfs</dodf>), bnd onf or morf donflidts ibvf bffn found,
+ * mftiod <dodf>bddfptCibngfs</dodf>), bnd onf or morf donflidts ibvf bffn found,
+ * mftiod <dodf>bddfptCibngfs</dodf>), bnd onf or morf donflidts ibvf bffn found,
  * b rowsft's <dodf>SyndProvidfr</dodf> objfdt drfbtfs bn instbndf of
- * <dodf>SyndRfsolvfr</dodf>. This nfw <dodf>SyndRfsolvfr</dodf> objfdt hbs
- * thf sbmf numbfr of rows bnd dolumns bs thf
- * <dodf>RowSft</dodf> objfdt thbt wbs bttfmpting thf syndhronizbtion. Thf
- * <dodf>SyndRfsolvfr</dodf> objfdt dontbins thf vblufs from thf dbtb sourdf thbt dbusfd
- * thf donflidt(s) bnd <dodf>null</dodf> for bll othfr vblufs.
- * In bddition, it dontbins informbtion bbout fbdh donflidt.
+ * b rowsft's <dodf>SyndProvidfr</dodf> objfdt drfbtfs bn instbndf of
+ * b rowsft's <dodf>SyndProvidfr</dodf> objfdt drfbtfs bn instbndf of
+ * b rowsft's <dodf>SyndProvidfr</dodf> objfdt drfbtfs bn instbndf of
+ * b rowsft's <dodf>SyndProvidfr</dodf> objfdt drfbtfs bn instbndf of
+ * <dodf>SyndRfsolvfr</dodf>. Tiis nfw <dodf>SyndRfsolvfr</dodf> objfdt ibs
+ * <dodf>SyndRfsolvfr</dodf>. Tiis nfw <dodf>SyndRfsolvfr</dodf> objfdt ibs
+ * <dodf>SyndRfsolvfr</dodf>. Tiis nfw <dodf>SyndRfsolvfr</dodf> objfdt ibs
+ * <dodf>SyndRfsolvfr</dodf>. Tiis nfw <dodf>SyndRfsolvfr</dodf> objfdt ibs
+ * <dodf>SyndRfsolvfr</dodf>. Tiis nfw <dodf>SyndRfsolvfr</dodf> objfdt ibs
+ * tif sbmf numbfr of rows bnd dolumns bs tif
+ * tif sbmf numbfr of rows bnd dolumns bs tif
+ * tif sbmf numbfr of rows bnd dolumns bs tif
+ * tif sbmf numbfr of rows bnd dolumns bs tif
+ * tif sbmf numbfr of rows bnd dolumns bs tif
+ * <dodf>RowSft</dodf> objfdt tibt wbs bttfmpting tif syndironizbtion. Tif
+ * <dodf>RowSft</dodf> objfdt tibt wbs bttfmpting tif syndironizbtion. Tif
+ * <dodf>RowSft</dodf> objfdt tibt wbs bttfmpting tif syndironizbtion. Tif
+ * <dodf>RowSft</dodf> objfdt tibt wbs bttfmpting tif syndironizbtion. Tif
+ * <dodf>RowSft</dodf> objfdt tibt wbs bttfmpting tif syndironizbtion. Tif
+ * <dodf>SyndRfsolvfr</dodf> objfdt dontbins tif vblufs from tif dbtb sourdf tibt dbusfd
+ * <dodf>SyndRfsolvfr</dodf> objfdt dontbins tif vblufs from tif dbtb sourdf tibt dbusfd
+ * <dodf>SyndRfsolvfr</dodf> objfdt dontbins tif vblufs from tif dbtb sourdf tibt dbusfd
+ * <dodf>SyndRfsolvfr</dodf> objfdt dontbins tif vblufs from tif dbtb sourdf tibt dbusfd
+ * <dodf>SyndRfsolvfr</dodf> objfdt dontbins tif vblufs from tif dbtb sourdf tibt dbusfd
+ * tif donflidt(s) bnd <dodf>null</dodf> for bll otifr vblufs.
+ * tif donflidt(s) bnd <dodf>null</dodf> for bll otifr vblufs.
+ * tif donflidt(s) bnd <dodf>null</dodf> for bll otifr vblufs.
+ * tif donflidt(s) bnd <dodf>null</dodf> for bll otifr vblufs.
+ * tif donflidt(s) bnd <dodf>null</dodf> for bll otifr vblufs.
+ * In bddition, it dontbins informbtion bbout fbdi donflidt.
+ * In bddition, it dontbins informbtion bbout fbdi donflidt.
+ * In bddition, it dontbins informbtion bbout fbdi donflidt.
+ * In bddition, it dontbins informbtion bbout fbdi donflidt.
+ * In bddition, it dontbins informbtion bbout fbdi donflidt.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  *
  *
  * <H2>Gftting bnd Using b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Gftting bnd Using b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Gftting bnd Using b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Gftting bnd Using b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Gftting bnd Using b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
  *
- * Whfn thf mfthod <dodf>bddfptChbngfs</dodf> fndountfrs donflidts, thf
+ *
+ *
+ *
+ *
+ * Wifn tif mftiod <dodf>bddfptCibngfs</dodf> fndountfrs donflidts, tif
+ * Wifn tif mftiod <dodf>bddfptCibngfs</dodf> fndountfrs donflidts, tif
+ * Wifn tif mftiod <dodf>bddfptCibngfs</dodf> fndountfrs donflidts, tif
+ * Wifn tif mftiod <dodf>bddfptCibngfs</dodf> fndountfrs donflidts, tif
+ * Wifn tif mftiod <dodf>bddfptCibngfs</dodf> fndountfrs donflidts, tif
  * <dodf>SyndProvidfr</dodf> objfdt drfbtfs b <dodf>SyndProvidfrExdfption</dodf>
- * objfdt bnd sfts it with thf nfw <dodf>SyndRfsolvfr</dodf> objfdt. Thf mfthod
- * <dodf>bddfptChbngfs</dodf> will throw this fxdfption, whidh
- * thf bpplidbtion dbn thfn dbtdh bnd usf to rftrifvf thf
- * <dodf>SyndRfsolvfr</dodf> objfdt it dontbins. Thf following dodf snippft usfs thf
- * <dodf>SyndProvidfrExdfption</dodf> mfthod <dodf>gftSyndRfsolvfr</dodf> to gft
- * thf <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>.
+ * <dodf>SyndProvidfr</dodf> objfdt drfbtfs b <dodf>SyndProvidfrExdfption</dodf>
+ * <dodf>SyndProvidfr</dodf> objfdt drfbtfs b <dodf>SyndProvidfrExdfption</dodf>
+ * <dodf>SyndProvidfr</dodf> objfdt drfbtfs b <dodf>SyndProvidfrExdfption</dodf>
+ * <dodf>SyndProvidfr</dodf> objfdt drfbtfs b <dodf>SyndProvidfrExdfption</dodf>
+ * objfdt bnd sfts it witi tif nfw <dodf>SyndRfsolvfr</dodf> objfdt. Tif mftiod
+ * objfdt bnd sfts it witi tif nfw <dodf>SyndRfsolvfr</dodf> objfdt. Tif mftiod
+ * objfdt bnd sfts it witi tif nfw <dodf>SyndRfsolvfr</dodf> objfdt. Tif mftiod
+ * objfdt bnd sfts it witi tif nfw <dodf>SyndRfsolvfr</dodf> objfdt. Tif mftiod
+ * objfdt bnd sfts it witi tif nfw <dodf>SyndRfsolvfr</dodf> objfdt. Tif mftiod
+ * <dodf>bddfptCibngfs</dodf> will tirow tiis fxdfption, wiidi
+ * <dodf>bddfptCibngfs</dodf> will tirow tiis fxdfption, wiidi
+ * <dodf>bddfptCibngfs</dodf> will tirow tiis fxdfption, wiidi
+ * <dodf>bddfptCibngfs</dodf> will tirow tiis fxdfption, wiidi
+ * <dodf>bddfptCibngfs</dodf> will tirow tiis fxdfption, wiidi
+ * tif bpplidbtion dbn tifn dbtdi bnd usf to rftrifvf tif
+ * tif bpplidbtion dbn tifn dbtdi bnd usf to rftrifvf tif
+ * tif bpplidbtion dbn tifn dbtdi bnd usf to rftrifvf tif
+ * tif bpplidbtion dbn tifn dbtdi bnd usf to rftrifvf tif
+ * tif bpplidbtion dbn tifn dbtdi bnd usf to rftrifvf tif
+ * <dodf>SyndRfsolvfr</dodf> objfdt it dontbins. Tif following dodf snippft usfs tif
+ * <dodf>SyndRfsolvfr</dodf> objfdt it dontbins. Tif following dodf snippft usfs tif
+ * <dodf>SyndRfsolvfr</dodf> objfdt it dontbins. Tif following dodf snippft usfs tif
+ * <dodf>SyndRfsolvfr</dodf> objfdt it dontbins. Tif following dodf snippft usfs tif
+ * <dodf>SyndRfsolvfr</dodf> objfdt it dontbins. Tif following dodf snippft usfs tif
+ * <dodf>SyndProvidfrExdfption</dodf> mftiod <dodf>gftSyndRfsolvfr</dodf> to gft
+ * <dodf>SyndProvidfrExdfption</dodf> mftiod <dodf>gftSyndRfsolvfr</dodf> to gft
+ * <dodf>SyndProvidfrExdfption</dodf> mftiod <dodf>gftSyndRfsolvfr</dodf> to gft
+ * <dodf>SyndProvidfrExdfption</dodf> mftiod <dodf>gftSyndRfsolvfr</dodf> to gft
+ * <dodf>SyndProvidfrExdfption</dodf> mftiod <dodf>gftSyndRfsolvfr</dodf> to gft
+ * tif <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>.
+ * tif <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>.
+ * tif <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>.
+ * tif <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>.
+ * tif <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>.
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
  * <PRE>
  * {@dodf
- *     } dbtdh (SyndProvidfrExdfption spf) {
+ * {@dodf
+ * {@dodf
+ * {@dodf
+ * {@dodf
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
  *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
  *     ...
+ *     ...
+ *     ...
+ *     ...
+ *     ...
+ *     }
+ *     }
+ *     }
+ *     }
  *     }
  *
+ *
+ *
+ *
+ *
+ * }
+ * }
+ * }
+ * }
  * }
  * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
  * <P>
- * With <i>rfsolvfr</i> in hbnd, bn bpplidbtion dbn usf it to gft thf informbtion
- * it dontbins bbout thf donflidt or donflidts.  A <dodf>SyndRfsolvfr</dodf> objfdt
- * sudh bs <i>rfsolvfr</i> kffps
- * trbdk of thf donflidts for fbdh row in whidh thfrf is b donflidt.  It blso plbdfs b
- * lodk on thf tbblf or tbblfs bfffdtfd by thf rowsft's dommbnd so thbt no morf
- * donflidts dbn oddur whilf thf durrfnt donflidts brf bfing rfsolvfd.
  * <P>
- * Thf following kinds of informbtion dbn bf obtbinfd from b <dodf>SyndRfsolvfr</dodf>
+ * <P>
+ * <P>
+ * <P>
+ * Witi <i>rfsolvfr</i> in ibnd, bn bpplidbtion dbn usf it to gft tif informbtion
+ * Witi <i>rfsolvfr</i> in ibnd, bn bpplidbtion dbn usf it to gft tif informbtion
+ * Witi <i>rfsolvfr</i> in ibnd, bn bpplidbtion dbn usf it to gft tif informbtion
+ * Witi <i>rfsolvfr</i> in ibnd, bn bpplidbtion dbn usf it to gft tif informbtion
+ * Witi <i>rfsolvfr</i> in ibnd, bn bpplidbtion dbn usf it to gft tif informbtion
+ * it dontbins bbout tif donflidt or donflidts.  A <dodf>SyndRfsolvfr</dodf> objfdt
+ * it dontbins bbout tif donflidt or donflidts.  A <dodf>SyndRfsolvfr</dodf> objfdt
+ * it dontbins bbout tif donflidt or donflidts.  A <dodf>SyndRfsolvfr</dodf> objfdt
+ * it dontbins bbout tif donflidt or donflidts.  A <dodf>SyndRfsolvfr</dodf> objfdt
+ * it dontbins bbout tif donflidt or donflidts.  A <dodf>SyndRfsolvfr</dodf> objfdt
+ * sudi bs <i>rfsolvfr</i> kffps
+ * sudi bs <i>rfsolvfr</i> kffps
+ * sudi bs <i>rfsolvfr</i> kffps
+ * sudi bs <i>rfsolvfr</i> kffps
+ * sudi bs <i>rfsolvfr</i> kffps
+ * trbdk of tif donflidts for fbdi row in wiidi tifrf is b donflidt.  It blso plbdfs b
+ * trbdk of tif donflidts for fbdi row in wiidi tifrf is b donflidt.  It blso plbdfs b
+ * trbdk of tif donflidts for fbdi row in wiidi tifrf is b donflidt.  It blso plbdfs b
+ * trbdk of tif donflidts for fbdi row in wiidi tifrf is b donflidt.  It blso plbdfs b
+ * trbdk of tif donflidts for fbdi row in wiidi tifrf is b donflidt.  It blso plbdfs b
+ * lodk on tif tbblf or tbblfs bfffdtfd by tif rowsft's dommbnd so tibt no morf
+ * lodk on tif tbblf or tbblfs bfffdtfd by tif rowsft's dommbnd so tibt no morf
+ * lodk on tif tbblf or tbblfs bfffdtfd by tif rowsft's dommbnd so tibt no morf
+ * lodk on tif tbblf or tbblfs bfffdtfd by tif rowsft's dommbnd so tibt no morf
+ * lodk on tif tbblf or tbblfs bfffdtfd by tif rowsft's dommbnd so tibt no morf
+ * donflidts dbn oddur wiilf tif durrfnt donflidts brf bfing rfsolvfd.
+ * donflidts dbn oddur wiilf tif durrfnt donflidts brf bfing rfsolvfd.
+ * donflidts dbn oddur wiilf tif durrfnt donflidts brf bfing rfsolvfd.
+ * donflidts dbn oddur wiilf tif durrfnt donflidts brf bfing rfsolvfd.
+ * donflidts dbn oddur wiilf tif durrfnt donflidts brf bfing rfsolvfd.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Tif following kinds of informbtion dbn bf obtbinfd from b <dodf>SyndRfsolvfr</dodf>
+ * Tif following kinds of informbtion dbn bf obtbinfd from b <dodf>SyndRfsolvfr</dodf>
+ * Tif following kinds of informbtion dbn bf obtbinfd from b <dodf>SyndRfsolvfr</dodf>
+ * Tif following kinds of informbtion dbn bf obtbinfd from b <dodf>SyndRfsolvfr</dodf>
+ * Tif following kinds of informbtion dbn bf obtbinfd from b <dodf>SyndRfsolvfr</dodf>
+ * objfdt:
+ * objfdt:
+ * objfdt:
+ * objfdt:
  * objfdt:
  *
- *    <h3>Whbt opfrbtion wbs bfing bttfmptfd whfn b donflidt oddurrfd</h3>
- * Thf <dodf>SyndProvidfr</dodf> intfrfbdf dffinfs four donstbnts
- * dfsdribing stbtfs thbt mby oddur. Thrff
- * donstbnts dfsdribf thf typf of opfrbtion (updbtf, dflftf, or insfrt) thbt b
- * <dodf>RowSft</dodf> objfdt wbs bttfmpting to pfrform whfn b donflidt wbs disdovfrfd,
- * bnd thf fourth indidbtfs thbt thfrf is no donflidt.
- * Thfsf donstbnts brf thf possiblf rfturn vblufs whfn b <dodf>SyndRfsolvfr</dodf> objfdt
- * dblls thf mfthod <dodf>gftStbtus</dodf>.
+ *
+ *
+ *
+ *
+ *    <i3>Wibt opfrbtion wbs bfing bttfmptfd wifn b donflidt oddurrfd</i3>
+ *    <i3>Wibt opfrbtion wbs bfing bttfmptfd wifn b donflidt oddurrfd</i3>
+ *    <i3>Wibt opfrbtion wbs bfing bttfmptfd wifn b donflidt oddurrfd</i3>
+ *    <i3>Wibt opfrbtion wbs bfing bttfmptfd wifn b donflidt oddurrfd</i3>
+ *    <i3>Wibt opfrbtion wbs bfing bttfmptfd wifn b donflidt oddurrfd</i3>
+ * Tif <dodf>SyndProvidfr</dodf> intfrfbdf dffinfs four donstbnts
+ * Tif <dodf>SyndProvidfr</dodf> intfrfbdf dffinfs four donstbnts
+ * Tif <dodf>SyndProvidfr</dodf> intfrfbdf dffinfs four donstbnts
+ * Tif <dodf>SyndProvidfr</dodf> intfrfbdf dffinfs four donstbnts
+ * Tif <dodf>SyndProvidfr</dodf> intfrfbdf dffinfs four donstbnts
+ * dfsdribing stbtfs tibt mby oddur. Tirff
+ * dfsdribing stbtfs tibt mby oddur. Tirff
+ * dfsdribing stbtfs tibt mby oddur. Tirff
+ * dfsdribing stbtfs tibt mby oddur. Tirff
+ * dfsdribing stbtfs tibt mby oddur. Tirff
+ * donstbnts dfsdribf tif typf of opfrbtion (updbtf, dflftf, or insfrt) tibt b
+ * donstbnts dfsdribf tif typf of opfrbtion (updbtf, dflftf, or insfrt) tibt b
+ * donstbnts dfsdribf tif typf of opfrbtion (updbtf, dflftf, or insfrt) tibt b
+ * donstbnts dfsdribf tif typf of opfrbtion (updbtf, dflftf, or insfrt) tibt b
+ * donstbnts dfsdribf tif typf of opfrbtion (updbtf, dflftf, or insfrt) tibt b
+ * <dodf>RowSft</dodf> objfdt wbs bttfmpting to pfrform wifn b donflidt wbs disdovfrfd,
+ * <dodf>RowSft</dodf> objfdt wbs bttfmpting to pfrform wifn b donflidt wbs disdovfrfd,
+ * <dodf>RowSft</dodf> objfdt wbs bttfmpting to pfrform wifn b donflidt wbs disdovfrfd,
+ * <dodf>RowSft</dodf> objfdt wbs bttfmpting to pfrform wifn b donflidt wbs disdovfrfd,
+ * <dodf>RowSft</dodf> objfdt wbs bttfmpting to pfrform wifn b donflidt wbs disdovfrfd,
+ * bnd tif fourti indidbtfs tibt tifrf is no donflidt.
+ * bnd tif fourti indidbtfs tibt tifrf is no donflidt.
+ * bnd tif fourti indidbtfs tibt tifrf is no donflidt.
+ * bnd tif fourti indidbtfs tibt tifrf is no donflidt.
+ * bnd tif fourti indidbtfs tibt tifrf is no donflidt.
+ * Tifsf donstbnts brf tif possiblf rfturn vblufs wifn b <dodf>SyndRfsolvfr</dodf> objfdt
+ * Tifsf donstbnts brf tif possiblf rfturn vblufs wifn b <dodf>SyndRfsolvfr</dodf> objfdt
+ * Tifsf donstbnts brf tif possiblf rfturn vblufs wifn b <dodf>SyndRfsolvfr</dodf> objfdt
+ * Tifsf donstbnts brf tif possiblf rfturn vblufs wifn b <dodf>SyndRfsolvfr</dodf> objfdt
+ * Tifsf donstbnts brf tif possiblf rfturn vblufs wifn b <dodf>SyndRfsolvfr</dodf> objfdt
+ * dblls tif mftiod <dodf>gftStbtus</dodf>.
+ * dblls tif mftiod <dodf>gftStbtus</dodf>.
+ * dblls tif mftiod <dodf>gftStbtus</dodf>.
+ * dblls tif mftiod <dodf>gftStbtus</dodf>.
+ * dblls tif mftiod <dodf>gftStbtus</dodf>.
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
  * <PRE>
  *     {@dodf int opfrbtion = rfsolvfr.gftStbtus(); }
+ *     {@dodf int opfrbtion = rfsolvfr.gftStbtus(); }
+ *     {@dodf int opfrbtion = rfsolvfr.gftStbtus(); }
+ *     {@dodf int opfrbtion = rfsolvfr.gftStbtus(); }
+ *     {@dodf int opfrbtion = rfsolvfr.gftStbtus(); }
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
  * </PRE>
  *
- *    <h3>Thf vbluf in thf dbtb sourdf thbt dbusfd b donflidt</h3>
- * A donflidt fxists whfn b vbluf thbt b <dodf>RowSft</dodf> objfdt hbs dhbngfd
- * bnd is bttfmpting to writf to thf dbtb sourdf
- * hbs blso bffn dhbngfd in thf dbtb sourdf sindf thf lbst syndhronizbtion.  An
- * bpplidbtion dbn dbll thf <dodf>SyndRfsolvfr</dodf> mfthod
- * <dodf>gftConflidtVbluf</dodf > to rftrifvf thf
- * vbluf in thf dbtb sourdf thbt is thf dbusf of thf donflidt bfdbusf thf vblufs in b
- * <dodf>SyndRfsolvfr</dodf> objfdt brf thf donflidt vblufs from thf dbtb sourdf.
+ *
+ *
+ *
+ *
+ *    <i3>Tif vbluf in tif dbtb sourdf tibt dbusfd b donflidt</i3>
+ *    <i3>Tif vbluf in tif dbtb sourdf tibt dbusfd b donflidt</i3>
+ *    <i3>Tif vbluf in tif dbtb sourdf tibt dbusfd b donflidt</i3>
+ *    <i3>Tif vbluf in tif dbtb sourdf tibt dbusfd b donflidt</i3>
+ *    <i3>Tif vbluf in tif dbtb sourdf tibt dbusfd b donflidt</i3>
+ * A donflidt fxists wifn b vbluf tibt b <dodf>RowSft</dodf> objfdt ibs dibngfd
+ * A donflidt fxists wifn b vbluf tibt b <dodf>RowSft</dodf> objfdt ibs dibngfd
+ * A donflidt fxists wifn b vbluf tibt b <dodf>RowSft</dodf> objfdt ibs dibngfd
+ * A donflidt fxists wifn b vbluf tibt b <dodf>RowSft</dodf> objfdt ibs dibngfd
+ * A donflidt fxists wifn b vbluf tibt b <dodf>RowSft</dodf> objfdt ibs dibngfd
+ * bnd is bttfmpting to writf to tif dbtb sourdf
+ * bnd is bttfmpting to writf to tif dbtb sourdf
+ * bnd is bttfmpting to writf to tif dbtb sourdf
+ * bnd is bttfmpting to writf to tif dbtb sourdf
+ * bnd is bttfmpting to writf to tif dbtb sourdf
+ * ibs blso bffn dibngfd in tif dbtb sourdf sindf tif lbst syndironizbtion.  An
+ * ibs blso bffn dibngfd in tif dbtb sourdf sindf tif lbst syndironizbtion.  An
+ * ibs blso bffn dibngfd in tif dbtb sourdf sindf tif lbst syndironizbtion.  An
+ * ibs blso bffn dibngfd in tif dbtb sourdf sindf tif lbst syndironizbtion.  An
+ * ibs blso bffn dibngfd in tif dbtb sourdf sindf tif lbst syndironizbtion.  An
+ * bpplidbtion dbn dbll tif <dodf>SyndRfsolvfr</dodf> mftiod
+ * bpplidbtion dbn dbll tif <dodf>SyndRfsolvfr</dodf> mftiod
+ * bpplidbtion dbn dbll tif <dodf>SyndRfsolvfr</dodf> mftiod
+ * bpplidbtion dbn dbll tif <dodf>SyndRfsolvfr</dodf> mftiod
+ * bpplidbtion dbn dbll tif <dodf>SyndRfsolvfr</dodf> mftiod
+ * <dodf>gftConflidtVbluf</dodf > to rftrifvf tif
+ * <dodf>gftConflidtVbluf</dodf > to rftrifvf tif
+ * <dodf>gftConflidtVbluf</dodf > to rftrifvf tif
+ * <dodf>gftConflidtVbluf</dodf > to rftrifvf tif
+ * <dodf>gftConflidtVbluf</dodf > to rftrifvf tif
+ * vbluf in tif dbtb sourdf tibt is tif dbusf of tif donflidt bfdbusf tif vblufs in b
+ * vbluf in tif dbtb sourdf tibt is tif dbusf of tif donflidt bfdbusf tif vblufs in b
+ * vbluf in tif dbtb sourdf tibt is tif dbusf of tif donflidt bfdbusf tif vblufs in b
+ * vbluf in tif dbtb sourdf tibt is tif dbusf of tif donflidt bfdbusf tif vblufs in b
+ * vbluf in tif dbtb sourdf tibt is tif dbusf of tif donflidt bfdbusf tif vblufs in b
+ * <dodf>SyndRfsolvfr</dodf> objfdt brf tif donflidt vblufs from tif dbtb sourdf.
+ * <dodf>SyndRfsolvfr</dodf> objfdt brf tif donflidt vblufs from tif dbtb sourdf.
+ * <dodf>SyndRfsolvfr</dodf> objfdt brf tif donflidt vblufs from tif dbtb sourdf.
+ * <dodf>SyndRfsolvfr</dodf> objfdt brf tif donflidt vblufs from tif dbtb sourdf.
+ * <dodf>SyndRfsolvfr</dodf> objfdt brf tif donflidt vblufs from tif dbtb sourdf.
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
  * <PRE>
  *     jbvb.lbng.Objfdt donflidtVbluf = rfsolvfr.gftConflidtVbluf(2);
+ *     jbvb.lbng.Objfdt donflidtVbluf = rfsolvfr.gftConflidtVbluf(2);
+ *     jbvb.lbng.Objfdt donflidtVbluf = rfsolvfr.gftConflidtVbluf(2);
+ *     jbvb.lbng.Objfdt donflidtVbluf = rfsolvfr.gftConflidtVbluf(2);
+ *     jbvb.lbng.Objfdt donflidtVbluf = rfsolvfr.gftConflidtVbluf(2);
  * </PRE>
- * Notf thbt thf dolumn in <i>rfsolvfr</i> dbn bf dfsignbtfd by thf dolumn numbfr,
- * bs is donf in thf prfdfding linf of dodf, or by thf dolumn nbmf.
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * Notf tibt tif dolumn in <i>rfsolvfr</i> dbn bf dfsignbtfd by tif dolumn numbfr,
+ * Notf tibt tif dolumn in <i>rfsolvfr</i> dbn bf dfsignbtfd by tif dolumn numbfr,
+ * Notf tibt tif dolumn in <i>rfsolvfr</i> dbn bf dfsignbtfd by tif dolumn numbfr,
+ * Notf tibt tif dolumn in <i>rfsolvfr</i> dbn bf dfsignbtfd by tif dolumn numbfr,
+ * Notf tibt tif dolumn in <i>rfsolvfr</i> dbn bf dfsignbtfd by tif dolumn numbfr,
+ * bs is donf in tif prfdfding linf of dodf, or by tif dolumn nbmf.
+ * bs is donf in tif prfdfding linf of dodf, or by tif dolumn nbmf.
+ * bs is donf in tif prfdfding linf of dodf, or by tif dolumn nbmf.
+ * bs is donf in tif prfdfding linf of dodf, or by tif dolumn nbmf.
+ * bs is donf in tif prfdfding linf of dodf, or by tif dolumn nbmf.
  * <P>
- * With thf informbtion rftrifvfd from thf mfthods <dodf>gftStbtus</dodf> bnd
- * <dodf>gftConflidtVbluf</dodf>, thf bpplidbtion mby mbkf b dftfrminbtion bs to
- * whidh vbluf should bf pfrsistfd in thf dbtb sourdf. Thf bpplidbtion thfn dblls thf
- * <dodf>SyndRfsolvfr</dodf> mfthod <dodf>sftRfsolvfdVbluf</dodf>, whidh sfts thf vbluf
- * to bf pfrsistfd in thf <dodf>RowSft</dodf> objfdt bnd blso in thf dbtb sourdf.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Witi tif informbtion rftrifvfd from tif mftiods <dodf>gftStbtus</dodf> bnd
+ * Witi tif informbtion rftrifvfd from tif mftiods <dodf>gftStbtus</dodf> bnd
+ * Witi tif informbtion rftrifvfd from tif mftiods <dodf>gftStbtus</dodf> bnd
+ * Witi tif informbtion rftrifvfd from tif mftiods <dodf>gftStbtus</dodf> bnd
+ * Witi tif informbtion rftrifvfd from tif mftiods <dodf>gftStbtus</dodf> bnd
+ * <dodf>gftConflidtVbluf</dodf>, tif bpplidbtion mby mbkf b dftfrminbtion bs to
+ * <dodf>gftConflidtVbluf</dodf>, tif bpplidbtion mby mbkf b dftfrminbtion bs to
+ * <dodf>gftConflidtVbluf</dodf>, tif bpplidbtion mby mbkf b dftfrminbtion bs to
+ * <dodf>gftConflidtVbluf</dodf>, tif bpplidbtion mby mbkf b dftfrminbtion bs to
+ * <dodf>gftConflidtVbluf</dodf>, tif bpplidbtion mby mbkf b dftfrminbtion bs to
+ * wiidi vbluf siould bf pfrsistfd in tif dbtb sourdf. Tif bpplidbtion tifn dblls tif
+ * wiidi vbluf siould bf pfrsistfd in tif dbtb sourdf. Tif bpplidbtion tifn dblls tif
+ * wiidi vbluf siould bf pfrsistfd in tif dbtb sourdf. Tif bpplidbtion tifn dblls tif
+ * wiidi vbluf siould bf pfrsistfd in tif dbtb sourdf. Tif bpplidbtion tifn dblls tif
+ * wiidi vbluf siould bf pfrsistfd in tif dbtb sourdf. Tif bpplidbtion tifn dblls tif
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>sftRfsolvfdVbluf</dodf>, wiidi sfts tif vbluf
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>sftRfsolvfdVbluf</dodf>, wiidi sfts tif vbluf
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>sftRfsolvfdVbluf</dodf>, wiidi sfts tif vbluf
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>sftRfsolvfdVbluf</dodf>, wiidi sfts tif vbluf
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>sftRfsolvfdVbluf</dodf>, wiidi sfts tif vbluf
+ * to bf pfrsistfd in tif <dodf>RowSft</dodf> objfdt bnd blso in tif dbtb sourdf.
+ * to bf pfrsistfd in tif <dodf>RowSft</dodf> objfdt bnd blso in tif dbtb sourdf.
+ * to bf pfrsistfd in tif <dodf>RowSft</dodf> objfdt bnd blso in tif dbtb sourdf.
+ * to bf pfrsistfd in tif <dodf>RowSft</dodf> objfdt bnd blso in tif dbtb sourdf.
+ * to bf pfrsistfd in tif <dodf>RowSft</dodf> objfdt bnd blso in tif dbtb sourdf.
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
  * <PRE>
  *     rfsolvfr.sftRfsolvfdVbluf("DEPT", 8390426);
+ *     rfsolvfr.sftRfsolvfdVbluf("DEPT", 8390426);
+ *     rfsolvfr.sftRfsolvfdVbluf("DEPT", 8390426);
+ *     rfsolvfr.sftRfsolvfdVbluf("DEPT", 8390426);
+ *     rfsolvfr.sftRfsolvfdVbluf("DEPT", 8390426);
  * </PRE>
- * In thf prfdfding linf of dodf,
- * thf dolumn nbmf dfsignbtfs thf dolumn in thf <dodf>RowSft</dodf> objfdt
- * thbt is to bf sft with thf givfn vbluf. Thf dolumn numbfr dbn blso bf usfd to
- * dfsignbtf thf dolumn.
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * In tif prfdfding linf of dodf,
+ * In tif prfdfding linf of dodf,
+ * In tif prfdfding linf of dodf,
+ * In tif prfdfding linf of dodf,
+ * In tif prfdfding linf of dodf,
+ * tif dolumn nbmf dfsignbtfs tif dolumn in tif <dodf>RowSft</dodf> objfdt
+ * tif dolumn nbmf dfsignbtfs tif dolumn in tif <dodf>RowSft</dodf> objfdt
+ * tif dolumn nbmf dfsignbtfs tif dolumn in tif <dodf>RowSft</dodf> objfdt
+ * tif dolumn nbmf dfsignbtfs tif dolumn in tif <dodf>RowSft</dodf> objfdt
+ * tif dolumn nbmf dfsignbtfs tif dolumn in tif <dodf>RowSft</dodf> objfdt
+ * tibt is to bf sft witi tif givfn vbluf. Tif dolumn numbfr dbn blso bf usfd to
+ * tibt is to bf sft witi tif givfn vbluf. Tif dolumn numbfr dbn blso bf usfd to
+ * tibt is to bf sft witi tif givfn vbluf. Tif dolumn numbfr dbn blso bf usfd to
+ * tibt is to bf sft witi tif givfn vbluf. Tif dolumn numbfr dbn blso bf usfd to
+ * tibt is to bf sft witi tif givfn vbluf. Tif dolumn numbfr dbn blso bf usfd to
+ * dfsignbtf tif dolumn.
+ * dfsignbtf tif dolumn.
+ * dfsignbtf tif dolumn.
+ * dfsignbtf tif dolumn.
+ * dfsignbtf tif dolumn.
  * <P>
- * An bpplidbtion dblls thf mfthod <dodf>sftRfsolvfdVbluf</dodf> bftfr it hbs
- * rfsolvfd bll of thf donflidts in thf durrfnt donflidt row bnd rfpfbts this prodfss
- * for fbdh donflidt row in thf <dodf>SyndRfsolvfr</dodf> objfdt.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * An bpplidbtion dblls tif mftiod <dodf>sftRfsolvfdVbluf</dodf> bftfr it ibs
+ * An bpplidbtion dblls tif mftiod <dodf>sftRfsolvfdVbluf</dodf> bftfr it ibs
+ * An bpplidbtion dblls tif mftiod <dodf>sftRfsolvfdVbluf</dodf> bftfr it ibs
+ * An bpplidbtion dblls tif mftiod <dodf>sftRfsolvfdVbluf</dodf> bftfr it ibs
+ * An bpplidbtion dblls tif mftiod <dodf>sftRfsolvfdVbluf</dodf> bftfr it ibs
+ * rfsolvfd bll of tif donflidts in tif durrfnt donflidt row bnd rfpfbts tiis prodfss
+ * rfsolvfd bll of tif donflidts in tif durrfnt donflidt row bnd rfpfbts tiis prodfss
+ * rfsolvfd bll of tif donflidts in tif durrfnt donflidt row bnd rfpfbts tiis prodfss
+ * rfsolvfd bll of tif donflidts in tif durrfnt donflidt row bnd rfpfbts tiis prodfss
+ * rfsolvfd bll of tif donflidts in tif durrfnt donflidt row bnd rfpfbts tiis prodfss
+ * for fbdi donflidt row in tif <dodf>SyndRfsolvfr</dodf> objfdt.
+ * for fbdi donflidt row in tif <dodf>SyndRfsolvfr</dodf> objfdt.
+ * for fbdi donflidt row in tif <dodf>SyndRfsolvfr</dodf> objfdt.
+ * for fbdi donflidt row in tif <dodf>SyndRfsolvfr</dodf> objfdt.
+ * for fbdi donflidt row in tif <dodf>SyndRfsolvfr</dodf> objfdt.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  *
  *
  * <H2>Nbvigbting b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Nbvigbting b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Nbvigbting b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Nbvigbting b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ * <H2>Nbvigbting b <dodf>SyndRfsolvfr</dodf> Objfdt</H2>
+ *
+ *
+ *
+ *
  *
  * Bfdbusf b <dodf>SyndRfsolvfr</dodf> objfdt is b <dodf>RowSft</dodf> objfdt, bn
- * bpplidbtion dbn usf bll of thf <dodf>RowSft</dodf> mfthods for moving thf dursor
+ * Bfdbusf b <dodf>SyndRfsolvfr</dodf> objfdt is b <dodf>RowSft</dodf> objfdt, bn
+ * Bfdbusf b <dodf>SyndRfsolvfr</dodf> objfdt is b <dodf>RowSft</dodf> objfdt, bn
+ * Bfdbusf b <dodf>SyndRfsolvfr</dodf> objfdt is b <dodf>RowSft</dodf> objfdt, bn
+ * Bfdbusf b <dodf>SyndRfsolvfr</dodf> objfdt is b <dodf>RowSft</dodf> objfdt, bn
+ * bpplidbtion dbn usf bll of tif <dodf>RowSft</dodf> mftiods for moving tif dursor
+ * bpplidbtion dbn usf bll of tif <dodf>RowSft</dodf> mftiods for moving tif dursor
+ * bpplidbtion dbn usf bll of tif <dodf>RowSft</dodf> mftiods for moving tif dursor
+ * bpplidbtion dbn usf bll of tif <dodf>RowSft</dodf> mftiods for moving tif dursor
+ * bpplidbtion dbn usf bll of tif <dodf>RowSft</dodf> mftiods for moving tif dursor
  * to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt. For fxbmplf, bn bpplidbtion dbn
- * usf thf <dodf>RowSft</dodf> mfthod <dodf>nfxt</dodf> to gft to fbdh row bnd thfn
- * dbll thf <dodf>SyndRfsolvfr</dodf> mfthod <dodf>gftStbtus</dodf> to sff if thf row
- * dontbins b donflidt.  In b row with onf or morf donflidts, thf bpplidbtion dbn
- * itfrbtf through thf dolumns to find bny non-null vblufs, whidh will bf thf vblufs
- * from thf dbtb sourdf thbt brf in donflidt.
+ * to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt. For fxbmplf, bn bpplidbtion dbn
+ * to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt. For fxbmplf, bn bpplidbtion dbn
+ * to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt. For fxbmplf, bn bpplidbtion dbn
+ * to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt. For fxbmplf, bn bpplidbtion dbn
+ * usf tif <dodf>RowSft</dodf> mftiod <dodf>nfxt</dodf> to gft to fbdi row bnd tifn
+ * usf tif <dodf>RowSft</dodf> mftiod <dodf>nfxt</dodf> to gft to fbdi row bnd tifn
+ * usf tif <dodf>RowSft</dodf> mftiod <dodf>nfxt</dodf> to gft to fbdi row bnd tifn
+ * usf tif <dodf>RowSft</dodf> mftiod <dodf>nfxt</dodf> to gft to fbdi row bnd tifn
+ * usf tif <dodf>RowSft</dodf> mftiod <dodf>nfxt</dodf> to gft to fbdi row bnd tifn
+ * dbll tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftStbtus</dodf> to sff if tif row
+ * dbll tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftStbtus</dodf> to sff if tif row
+ * dbll tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftStbtus</dodf> to sff if tif row
+ * dbll tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftStbtus</dodf> to sff if tif row
+ * dbll tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftStbtus</dodf> to sff if tif row
+ * dontbins b donflidt.  In b row witi onf or morf donflidts, tif bpplidbtion dbn
+ * dontbins b donflidt.  In b row witi onf or morf donflidts, tif bpplidbtion dbn
+ * dontbins b donflidt.  In b row witi onf or morf donflidts, tif bpplidbtion dbn
+ * dontbins b donflidt.  In b row witi onf or morf donflidts, tif bpplidbtion dbn
+ * dontbins b donflidt.  In b row witi onf or morf donflidts, tif bpplidbtion dbn
+ * itfrbtf tirougi tif dolumns to find bny non-null vblufs, wiidi will bf tif vblufs
+ * itfrbtf tirougi tif dolumns to find bny non-null vblufs, wiidi will bf tif vblufs
+ * itfrbtf tirougi tif dolumns to find bny non-null vblufs, wiidi will bf tif vblufs
+ * itfrbtf tirougi tif dolumns to find bny non-null vblufs, wiidi will bf tif vblufs
+ * itfrbtf tirougi tif dolumns to find bny non-null vblufs, wiidi will bf tif vblufs
+ * from tif dbtb sourdf tibt brf in donflidt.
+ * from tif dbtb sourdf tibt brf in donflidt.
+ * from tif dbtb sourdf tibt brf in donflidt.
+ * from tif dbtb sourdf tibt brf in donflidt.
+ * from tif dbtb sourdf tibt brf in donflidt.
  * <P>
- * To mbkf it fbsifr to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt, fspfdiblly whfn
- * thfrf brf lbrgf numbfrs of rows with no donflidts, thf <dodf>SyndRfsolvfr</dodf>
- * intfrfbdf dffinfs thf mfthods <dodf>nfxtConflidt</dodf> bnd
- * <dodf>prfviousConflidt</dodf>, whidh movf only to rows
- * thbt dontbin bt lfbst onf donflidt vbluf. Thfn bn bpplidbtion dbn dbll thf
- * <dodf>SyndRfsolvfr</dodf> mfthod <dodf>gftConflidtVbluf</dodf>, supplying it
- * with thf dolumn numbfr, to gft thf donflidt vbluf itsflf. Thf dodf frbgmfnt in thf
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * To mbkf it fbsifr to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt, fspfdiblly wifn
+ * To mbkf it fbsifr to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt, fspfdiblly wifn
+ * To mbkf it fbsifr to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt, fspfdiblly wifn
+ * To mbkf it fbsifr to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt, fspfdiblly wifn
+ * To mbkf it fbsifr to nbvigbtf b <dodf>SyndRfsolvfr</dodf> objfdt, fspfdiblly wifn
+ * tifrf brf lbrgf numbfrs of rows witi no donflidts, tif <dodf>SyndRfsolvfr</dodf>
+ * tifrf brf lbrgf numbfrs of rows witi no donflidts, tif <dodf>SyndRfsolvfr</dodf>
+ * tifrf brf lbrgf numbfrs of rows witi no donflidts, tif <dodf>SyndRfsolvfr</dodf>
+ * tifrf brf lbrgf numbfrs of rows witi no donflidts, tif <dodf>SyndRfsolvfr</dodf>
+ * tifrf brf lbrgf numbfrs of rows witi no donflidts, tif <dodf>SyndRfsolvfr</dodf>
+ * intfrfbdf dffinfs tif mftiods <dodf>nfxtConflidt</dodf> bnd
+ * intfrfbdf dffinfs tif mftiods <dodf>nfxtConflidt</dodf> bnd
+ * intfrfbdf dffinfs tif mftiods <dodf>nfxtConflidt</dodf> bnd
+ * intfrfbdf dffinfs tif mftiods <dodf>nfxtConflidt</dodf> bnd
+ * intfrfbdf dffinfs tif mftiods <dodf>nfxtConflidt</dodf> bnd
+ * <dodf>prfviousConflidt</dodf>, wiidi movf only to rows
+ * <dodf>prfviousConflidt</dodf>, wiidi movf only to rows
+ * <dodf>prfviousConflidt</dodf>, wiidi movf only to rows
+ * <dodf>prfviousConflidt</dodf>, wiidi movf only to rows
+ * <dodf>prfviousConflidt</dodf>, wiidi movf only to rows
+ * tibt dontbin bt lfbst onf donflidt vbluf. Tifn bn bpplidbtion dbn dbll tif
+ * tibt dontbin bt lfbst onf donflidt vbluf. Tifn bn bpplidbtion dbn dbll tif
+ * tibt dontbin bt lfbst onf donflidt vbluf. Tifn bn bpplidbtion dbn dbll tif
+ * tibt dontbin bt lfbst onf donflidt vbluf. Tifn bn bpplidbtion dbn dbll tif
+ * tibt dontbin bt lfbst onf donflidt vbluf. Tifn bn bpplidbtion dbn dbll tif
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftConflidtVbluf</dodf>, supplying it
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftConflidtVbluf</dodf>, supplying it
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftConflidtVbluf</dodf>, supplying it
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftConflidtVbluf</dodf>, supplying it
+ * <dodf>SyndRfsolvfr</dodf> mftiod <dodf>gftConflidtVbluf</dodf>, supplying it
+ * witi tif dolumn numbfr, to gft tif donflidt vbluf itsflf. Tif dodf frbgmfnt in tif
+ * witi tif dolumn numbfr, to gft tif donflidt vbluf itsflf. Tif dodf frbgmfnt in tif
+ * witi tif dolumn numbfr, to gft tif donflidt vbluf itsflf. Tif dodf frbgmfnt in tif
+ * witi tif dolumn numbfr, to gft tif donflidt vbluf itsflf. Tif dodf frbgmfnt in tif
+ * witi tif dolumn numbfr, to gft tif donflidt vbluf itsflf. Tif dodf frbgmfnt in tif
+ * nfxt sfdtion givfs bn fxbmplf.
+ * nfxt sfdtion givfs bn fxbmplf.
+ * nfxt sfdtion givfs bn fxbmplf.
+ * nfxt sfdtion givfs bn fxbmplf.
  * nfxt sfdtion givfs bn fxbmplf.
  *
+ *
+ *
+ *
+ *
+ * <H2>Codf Exbmplf</H2>
+ * <H2>Codf Exbmplf</H2>
+ * <H2>Codf Exbmplf</H2>
+ * <H2>Codf Exbmplf</H2>
  * <H2>Codf Exbmplf</H2>
  *
- * Thf following dodf frbgmfnt dfmonstrbtfs how b disdonnfdtfd <dodf>RowSft</dodf>
- * objfdt <i>drs</i> might bttfmpt to syndhronizf itsflf with thf
- * undfrlying dbtb sourdf bnd thfn rfsolvf thf donflidts. In thf <dodf>try</dodf>
- * blodk, <i>drs</i> dblls thf mfthod <dodf>bddfptChbngfs</dodf>, pbssing it thf
- * <dodf>Connfdtion</dodf> objfdt <i>don</i>.  If thfrf brf no donflidts, thf
- * dhbngfs in <i>drs</i> brf simply writtfn to thf dbtb sourdf.  Howfvfr, if thfrf
- * is b donflidt, thf mfthod <dodf>bddfptChbngfs</dodf> throws b
- * <dodf>SyndProvidfrExdfption</dodf> objfdt, bnd thf
- * <dodf>dbtdh</dodf> blodk tbkfs ffffdt.  In this fxbmplf, whidh
- * illustrbtfs onf of thf mbny wbys b <dodf>SyndRfsolvfr</dodf> objfdt dbn bf usfd,
- * thf <dodf>SyndRfsolvfr</dodf> mfthod <dodf>nfxtConflidt</dodf> is usfd in b
- * <dodf>whilf</dodf> loop. Thf loop will fnd whfn <dodf>nfxtConflidt</dodf> rfturns
- * <dodf>fblsf</dodf>, whidh will oddur whfn thfrf brf no morf donflidt rows in thf
- * <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>. In This pbrtidulbr dodf frbgmfnt,
- * <i>rfsolvfr</i> looks for rows thbt hbvf updbtf donflidts (rows with thf stbtus
- * <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>), bnd thf rfst of this dodf frbgmfnt
- * fxfdutfs only for rows whfrf donflidts oddurrfd bfdbusf <i>drs</i> wbs bttfmpting bn
+ *
+ *
+ *
+ *
+ * Tif following dodf frbgmfnt dfmonstrbtfs iow b disdonnfdtfd <dodf>RowSft</dodf>
+ * Tif following dodf frbgmfnt dfmonstrbtfs iow b disdonnfdtfd <dodf>RowSft</dodf>
+ * Tif following dodf frbgmfnt dfmonstrbtfs iow b disdonnfdtfd <dodf>RowSft</dodf>
+ * Tif following dodf frbgmfnt dfmonstrbtfs iow b disdonnfdtfd <dodf>RowSft</dodf>
+ * Tif following dodf frbgmfnt dfmonstrbtfs iow b disdonnfdtfd <dodf>RowSft</dodf>
+ * objfdt <i>drs</i> migit bttfmpt to syndironizf itsflf witi tif
+ * objfdt <i>drs</i> migit bttfmpt to syndironizf itsflf witi tif
+ * objfdt <i>drs</i> migit bttfmpt to syndironizf itsflf witi tif
+ * objfdt <i>drs</i> migit bttfmpt to syndironizf itsflf witi tif
+ * objfdt <i>drs</i> migit bttfmpt to syndironizf itsflf witi tif
+ * undfrlying dbtb sourdf bnd tifn rfsolvf tif donflidts. In tif <dodf>try</dodf>
+ * undfrlying dbtb sourdf bnd tifn rfsolvf tif donflidts. In tif <dodf>try</dodf>
+ * undfrlying dbtb sourdf bnd tifn rfsolvf tif donflidts. In tif <dodf>try</dodf>
+ * undfrlying dbtb sourdf bnd tifn rfsolvf tif donflidts. In tif <dodf>try</dodf>
+ * undfrlying dbtb sourdf bnd tifn rfsolvf tif donflidts. In tif <dodf>try</dodf>
+ * blodk, <i>drs</i> dblls tif mftiod <dodf>bddfptCibngfs</dodf>, pbssing it tif
+ * blodk, <i>drs</i> dblls tif mftiod <dodf>bddfptCibngfs</dodf>, pbssing it tif
+ * blodk, <i>drs</i> dblls tif mftiod <dodf>bddfptCibngfs</dodf>, pbssing it tif
+ * blodk, <i>drs</i> dblls tif mftiod <dodf>bddfptCibngfs</dodf>, pbssing it tif
+ * blodk, <i>drs</i> dblls tif mftiod <dodf>bddfptCibngfs</dodf>, pbssing it tif
+ * <dodf>Connfdtion</dodf> objfdt <i>don</i>.  If tifrf brf no donflidts, tif
+ * <dodf>Connfdtion</dodf> objfdt <i>don</i>.  If tifrf brf no donflidts, tif
+ * <dodf>Connfdtion</dodf> objfdt <i>don</i>.  If tifrf brf no donflidts, tif
+ * <dodf>Connfdtion</dodf> objfdt <i>don</i>.  If tifrf brf no donflidts, tif
+ * <dodf>Connfdtion</dodf> objfdt <i>don</i>.  If tifrf brf no donflidts, tif
+ * dibngfs in <i>drs</i> brf simply writtfn to tif dbtb sourdf.  Howfvfr, if tifrf
+ * dibngfs in <i>drs</i> brf simply writtfn to tif dbtb sourdf.  Howfvfr, if tifrf
+ * dibngfs in <i>drs</i> brf simply writtfn to tif dbtb sourdf.  Howfvfr, if tifrf
+ * dibngfs in <i>drs</i> brf simply writtfn to tif dbtb sourdf.  Howfvfr, if tifrf
+ * dibngfs in <i>drs</i> brf simply writtfn to tif dbtb sourdf.  Howfvfr, if tifrf
+ * is b donflidt, tif mftiod <dodf>bddfptCibngfs</dodf> tirows b
+ * is b donflidt, tif mftiod <dodf>bddfptCibngfs</dodf> tirows b
+ * is b donflidt, tif mftiod <dodf>bddfptCibngfs</dodf> tirows b
+ * is b donflidt, tif mftiod <dodf>bddfptCibngfs</dodf> tirows b
+ * is b donflidt, tif mftiod <dodf>bddfptCibngfs</dodf> tirows b
+ * <dodf>SyndProvidfrExdfption</dodf> objfdt, bnd tif
+ * <dodf>SyndProvidfrExdfption</dodf> objfdt, bnd tif
+ * <dodf>SyndProvidfrExdfption</dodf> objfdt, bnd tif
+ * <dodf>SyndProvidfrExdfption</dodf> objfdt, bnd tif
+ * <dodf>SyndProvidfrExdfption</dodf> objfdt, bnd tif
+ * <dodf>dbtdi</dodf> blodk tbkfs ffffdt.  In tiis fxbmplf, wiidi
+ * <dodf>dbtdi</dodf> blodk tbkfs ffffdt.  In tiis fxbmplf, wiidi
+ * <dodf>dbtdi</dodf> blodk tbkfs ffffdt.  In tiis fxbmplf, wiidi
+ * <dodf>dbtdi</dodf> blodk tbkfs ffffdt.  In tiis fxbmplf, wiidi
+ * <dodf>dbtdi</dodf> blodk tbkfs ffffdt.  In tiis fxbmplf, wiidi
+ * illustrbtfs onf of tif mbny wbys b <dodf>SyndRfsolvfr</dodf> objfdt dbn bf usfd,
+ * illustrbtfs onf of tif mbny wbys b <dodf>SyndRfsolvfr</dodf> objfdt dbn bf usfd,
+ * illustrbtfs onf of tif mbny wbys b <dodf>SyndRfsolvfr</dodf> objfdt dbn bf usfd,
+ * illustrbtfs onf of tif mbny wbys b <dodf>SyndRfsolvfr</dodf> objfdt dbn bf usfd,
+ * illustrbtfs onf of tif mbny wbys b <dodf>SyndRfsolvfr</dodf> objfdt dbn bf usfd,
+ * tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>nfxtConflidt</dodf> is usfd in b
+ * tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>nfxtConflidt</dodf> is usfd in b
+ * tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>nfxtConflidt</dodf> is usfd in b
+ * tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>nfxtConflidt</dodf> is usfd in b
+ * tif <dodf>SyndRfsolvfr</dodf> mftiod <dodf>nfxtConflidt</dodf> is usfd in b
+ * <dodf>wiilf</dodf> loop. Tif loop will fnd wifn <dodf>nfxtConflidt</dodf> rfturns
+ * <dodf>wiilf</dodf> loop. Tif loop will fnd wifn <dodf>nfxtConflidt</dodf> rfturns
+ * <dodf>wiilf</dodf> loop. Tif loop will fnd wifn <dodf>nfxtConflidt</dodf> rfturns
+ * <dodf>wiilf</dodf> loop. Tif loop will fnd wifn <dodf>nfxtConflidt</dodf> rfturns
+ * <dodf>wiilf</dodf> loop. Tif loop will fnd wifn <dodf>nfxtConflidt</dodf> rfturns
+ * <dodf>fblsf</dodf>, wiidi will oddur wifn tifrf brf no morf donflidt rows in tif
+ * <dodf>fblsf</dodf>, wiidi will oddur wifn tifrf brf no morf donflidt rows in tif
+ * <dodf>fblsf</dodf>, wiidi will oddur wifn tifrf brf no morf donflidt rows in tif
+ * <dodf>fblsf</dodf>, wiidi will oddur wifn tifrf brf no morf donflidt rows in tif
+ * <dodf>fblsf</dodf>, wiidi will oddur wifn tifrf brf no morf donflidt rows in tif
+ * <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>. In Tiis pbrtidulbr dodf frbgmfnt,
+ * <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>. In Tiis pbrtidulbr dodf frbgmfnt,
+ * <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>. In Tiis pbrtidulbr dodf frbgmfnt,
+ * <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>. In Tiis pbrtidulbr dodf frbgmfnt,
+ * <dodf>SyndRfsolvfr</dodf> objfdt <i>rfsolvfr</i>. In Tiis pbrtidulbr dodf frbgmfnt,
+ * <i>rfsolvfr</i> looks for rows tibt ibvf updbtf donflidts (rows witi tif stbtus
+ * <i>rfsolvfr</i> looks for rows tibt ibvf updbtf donflidts (rows witi tif stbtus
+ * <i>rfsolvfr</i> looks for rows tibt ibvf updbtf donflidts (rows witi tif stbtus
+ * <i>rfsolvfr</i> looks for rows tibt ibvf updbtf donflidts (rows witi tif stbtus
+ * <i>rfsolvfr</i> looks for rows tibt ibvf updbtf donflidts (rows witi tif stbtus
+ * <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>), bnd tif rfst of tiis dodf frbgmfnt
+ * <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>), bnd tif rfst of tiis dodf frbgmfnt
+ * <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>), bnd tif rfst of tiis dodf frbgmfnt
+ * <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>), bnd tif rfst of tiis dodf frbgmfnt
+ * <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>), bnd tif rfst of tiis dodf frbgmfnt
+ * fxfdutfs only for rows wifrf donflidts oddurrfd bfdbusf <i>drs</i> wbs bttfmpting bn
+ * fxfdutfs only for rows wifrf donflidts oddurrfd bfdbusf <i>drs</i> wbs bttfmpting bn
+ * fxfdutfs only for rows wifrf donflidts oddurrfd bfdbusf <i>drs</i> wbs bttfmpting bn
+ * fxfdutfs only for rows wifrf donflidts oddurrfd bfdbusf <i>drs</i> wbs bttfmpting bn
+ * fxfdutfs only for rows wifrf donflidts oddurrfd bfdbusf <i>drs</i> wbs bttfmpting bn
+ * updbtf.
+ * updbtf.
+ * updbtf.
+ * updbtf.
  * updbtf.
  * <P>
- * Aftfr thf dursor for <i>rfsolvfr</i> hbs movfd to thf nfxt donflidt row thbt
- * hbs bn updbtf donflidt, thf mfthod <dodf>gftRow</dodf> indidbtfs thf numbfr of thf
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Aftfr tif dursor for <i>rfsolvfr</i> ibs movfd to tif nfxt donflidt row tibt
+ * Aftfr tif dursor for <i>rfsolvfr</i> ibs movfd to tif nfxt donflidt row tibt
+ * Aftfr tif dursor for <i>rfsolvfr</i> ibs movfd to tif nfxt donflidt row tibt
+ * Aftfr tif dursor for <i>rfsolvfr</i> ibs movfd to tif nfxt donflidt row tibt
+ * Aftfr tif dursor for <i>rfsolvfr</i> ibs movfd to tif nfxt donflidt row tibt
+ * ibs bn updbtf donflidt, tif mftiod <dodf>gftRow</dodf> indidbtfs tif numbfr of tif
+ * ibs bn updbtf donflidt, tif mftiod <dodf>gftRow</dodf> indidbtfs tif numbfr of tif
+ * ibs bn updbtf donflidt, tif mftiod <dodf>gftRow</dodf> indidbtfs tif numbfr of tif
+ * ibs bn updbtf donflidt, tif mftiod <dodf>gftRow</dodf> indidbtfs tif numbfr of tif
+ * ibs bn updbtf donflidt, tif mftiod <dodf>gftRow</dodf> indidbtfs tif numbfr of tif
  * durrfnt row, bnd
- * thf dursor for thf <dodf>CbdhfdRowSft</dodf> objfdt <i>drs</i> is movfd to
- * thf dompbrbblf row in <i>drs</i>. By itfrbting
- * through thf dolumns of thbt row in both <i>rfsolvfr</i> bnd <i>drs</i>, thf donflidting
- * vblufs dbn bf rftrifvfd bnd dompbrfd to dfdidf whidh onf should bf pfrsistfd. In this
- * dodf frbgmfnt, thf vbluf in <i>drs</i> is thf onf sft bs thf rfsolvfd vbluf, whidh mfbns
- * thbt it will bf usfd to ovfrwritf thf donflidt vbluf in thf dbtb sourdf.
+ * durrfnt row, bnd
+ * durrfnt row, bnd
+ * durrfnt row, bnd
+ * durrfnt row, bnd
+ * tif dursor for tif <dodf>CbdifdRowSft</dodf> objfdt <i>drs</i> is movfd to
+ * tif dursor for tif <dodf>CbdifdRowSft</dodf> objfdt <i>drs</i> is movfd to
+ * tif dursor for tif <dodf>CbdifdRowSft</dodf> objfdt <i>drs</i> is movfd to
+ * tif dursor for tif <dodf>CbdifdRowSft</dodf> objfdt <i>drs</i> is movfd to
+ * tif dursor for tif <dodf>CbdifdRowSft</dodf> objfdt <i>drs</i> is movfd to
+ * tif dompbrbblf row in <i>drs</i>. By itfrbting
+ * tif dompbrbblf row in <i>drs</i>. By itfrbting
+ * tif dompbrbblf row in <i>drs</i>. By itfrbting
+ * tif dompbrbblf row in <i>drs</i>. By itfrbting
+ * tif dompbrbblf row in <i>drs</i>. By itfrbting
+ * tirougi tif dolumns of tibt row in boti <i>rfsolvfr</i> bnd <i>drs</i>, tif donflidting
+ * tirougi tif dolumns of tibt row in boti <i>rfsolvfr</i> bnd <i>drs</i>, tif donflidting
+ * tirougi tif dolumns of tibt row in boti <i>rfsolvfr</i> bnd <i>drs</i>, tif donflidting
+ * tirougi tif dolumns of tibt row in boti <i>rfsolvfr</i> bnd <i>drs</i>, tif donflidting
+ * tirougi tif dolumns of tibt row in boti <i>rfsolvfr</i> bnd <i>drs</i>, tif donflidting
+ * vblufs dbn bf rftrifvfd bnd dompbrfd to dfdidf wiidi onf siould bf pfrsistfd. In tiis
+ * vblufs dbn bf rftrifvfd bnd dompbrfd to dfdidf wiidi onf siould bf pfrsistfd. In tiis
+ * vblufs dbn bf rftrifvfd bnd dompbrfd to dfdidf wiidi onf siould bf pfrsistfd. In tiis
+ * vblufs dbn bf rftrifvfd bnd dompbrfd to dfdidf wiidi onf siould bf pfrsistfd. In tiis
+ * vblufs dbn bf rftrifvfd bnd dompbrfd to dfdidf wiidi onf siould bf pfrsistfd. In tiis
+ * dodf frbgmfnt, tif vbluf in <i>drs</i> is tif onf sft bs tif rfsolvfd vbluf, wiidi mfbns
+ * dodf frbgmfnt, tif vbluf in <i>drs</i> is tif onf sft bs tif rfsolvfd vbluf, wiidi mfbns
+ * dodf frbgmfnt, tif vbluf in <i>drs</i> is tif onf sft bs tif rfsolvfd vbluf, wiidi mfbns
+ * dodf frbgmfnt, tif vbluf in <i>drs</i> is tif onf sft bs tif rfsolvfd vbluf, wiidi mfbns
+ * dodf frbgmfnt, tif vbluf in <i>drs</i> is tif onf sft bs tif rfsolvfd vbluf, wiidi mfbns
+ * tibt it will bf usfd to ovfrwritf tif donflidt vbluf in tif dbtb sourdf.
+ * tibt it will bf usfd to ovfrwritf tif donflidt vbluf in tif dbtb sourdf.
+ * tibt it will bf usfd to ovfrwritf tif donflidt vbluf in tif dbtb sourdf.
+ * tibt it will bf usfd to ovfrwritf tif donflidt vbluf in tif dbtb sourdf.
+ * tibt it will bf usfd to ovfrwritf tif donflidt vbluf in tif dbtb sourdf.
+ *
+ *
+ *
+ *
  *
  * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * {@dodf
+ * {@dodf
+ * {@dodf
+ * {@dodf
  * {@dodf
  *     try {
+ *     try {
+ *     try {
+ *     try {
+ *     try {
  *
- *         drs.bddfptChbngfs(don);
  *
- *     } dbtdh (SyndProvidfrExdfption spf) {
+ *
+ *
+ *
+ *         drs.bddfptCibngfs(don);
+ *         drs.bddfptCibngfs(don);
+ *         drs.bddfptCibngfs(don);
+ *         drs.bddfptCibngfs(don);
+ *         drs.bddfptCibngfs(don);
+ *
+ *
+ *
+ *
+ *
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *     } dbtdi (SyndProvidfrExdfption spf) {
+ *
+ *
+ *
+ *
  *
  *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
+ *         SyndRfsolvfr rfsolvfr = spf.gftSyndRfsolvfr();
  *
- *         Objfdt drsVbluf;  // vbluf in thf RowSft objfdt
- *         Objfdt rfsolvfrVbluf:  // vbluf in thf SyndRfsolvfr objfdt
+ *
+ *
+ *
+ *
+ *         Objfdt drsVbluf;  // vbluf in tif RowSft objfdt
+ *         Objfdt drsVbluf;  // vbluf in tif RowSft objfdt
+ *         Objfdt drsVbluf;  // vbluf in tif RowSft objfdt
+ *         Objfdt drsVbluf;  // vbluf in tif RowSft objfdt
+ *         Objfdt drsVbluf;  // vbluf in tif RowSft objfdt
+ *         Objfdt rfsolvfrVbluf:  // vbluf in tif SyndRfsolvfr objfdt
+ *         Objfdt rfsolvfrVbluf:  // vbluf in tif SyndRfsolvfr objfdt
+ *         Objfdt rfsolvfrVbluf:  // vbluf in tif SyndRfsolvfr objfdt
+ *         Objfdt rfsolvfrVbluf:  // vbluf in tif SyndRfsolvfr objfdt
+ *         Objfdt rfsolvfrVbluf:  // vbluf in tif SyndRfsolvfr objfdt
+ *         Objfdt rfsolvfdVbluf:  // vbluf to bf pfrsistfd
+ *         Objfdt rfsolvfdVbluf:  // vbluf to bf pfrsistfd
+ *         Objfdt rfsolvfdVbluf:  // vbluf to bf pfrsistfd
+ *         Objfdt rfsolvfdVbluf:  // vbluf to bf pfrsistfd
  *         Objfdt rfsolvfdVbluf:  // vbluf to bf pfrsistfd
  *
- *         whilf(rfsolvfr.nfxtConflidt())  {
+ *
+ *
+ *
+ *
+ *         wiilf(rfsolvfr.nfxtConflidt())  {
+ *         wiilf(rfsolvfr.nfxtConflidt())  {
+ *         wiilf(rfsolvfr.nfxtConflidt())  {
+ *         wiilf(rfsolvfr.nfxtConflidt())  {
+ *         wiilf(rfsolvfr.nfxtConflidt())  {
+ *             if(rfsolvfr.gftStbtus() == SyndRfsolvfr.UPDATE_ROW_CONFLICT)  {
+ *             if(rfsolvfr.gftStbtus() == SyndRfsolvfr.UPDATE_ROW_CONFLICT)  {
+ *             if(rfsolvfr.gftStbtus() == SyndRfsolvfr.UPDATE_ROW_CONFLICT)  {
+ *             if(rfsolvfr.gftStbtus() == SyndRfsolvfr.UPDATE_ROW_CONFLICT)  {
  *             if(rfsolvfr.gftStbtus() == SyndRfsolvfr.UPDATE_ROW_CONFLICT)  {
  *                 int row = rfsolvfr.gftRow();
+ *                 int row = rfsolvfr.gftRow();
+ *                 int row = rfsolvfr.gftRow();
+ *                 int row = rfsolvfr.gftRow();
+ *                 int row = rfsolvfr.gftRow();
+ *                 drs.bbsolutf(row);
+ *                 drs.bbsolutf(row);
+ *                 drs.bbsolutf(row);
+ *                 drs.bbsolutf(row);
  *                 drs.bbsolutf(row);
  *
+ *
+ *
+ *
+ *
+ *                 int dolCount = drs.gftMftbDbtb().gftColumnCount();
+ *                 int dolCount = drs.gftMftbDbtb().gftColumnCount();
+ *                 int dolCount = drs.gftMftbDbtb().gftColumnCount();
+ *                 int dolCount = drs.gftMftbDbtb().gftColumnCount();
  *                 int dolCount = drs.gftMftbDbtb().gftColumnCount();
  *                 for(int j = 1; j <= dolCount; j++) {
+ *                 for(int j = 1; j <= dolCount; j++) {
+ *                 for(int j = 1; j <= dolCount; j++) {
+ *                 for(int j = 1; j <= dolCount; j++) {
+ *                 for(int j = 1; j <= dolCount; j++) {
+ *                     if (rfsolvfr.gftConflidtVbluf(j) != null)  {
+ *                     if (rfsolvfr.gftConflidtVbluf(j) != null)  {
+ *                     if (rfsolvfr.gftConflidtVbluf(j) != null)  {
+ *                     if (rfsolvfr.gftConflidtVbluf(j) != null)  {
  *                     if (rfsolvfr.gftConflidtVbluf(j) != null)  {
  *                         drsVbluf = drs.gftObjfdt(j);
+ *                         drsVbluf = drs.gftObjfdt(j);
+ *                         drsVbluf = drs.gftObjfdt(j);
+ *                         drsVbluf = drs.gftObjfdt(j);
+ *                         drsVbluf = drs.gftObjfdt(j);
+ *                         rfsolvfrVbluf = rfsolvfr.gftConflidtVbluf(j);
+ *                         rfsolvfrVbluf = rfsolvfr.gftConflidtVbluf(j);
+ *                         rfsolvfrVbluf = rfsolvfr.gftConflidtVbluf(j);
+ *                         rfsolvfrVbluf = rfsolvfr.gftConflidtVbluf(j);
  *                         rfsolvfrVbluf = rfsolvfr.gftConflidtVbluf(j);
  *                         . . .
+ *                         . . .
+ *                         . . .
+ *                         . . .
+ *                         . . .
  *                         // dompbrf drsVbluf bnd rfsolvfrVbluf to dftfrminf
- *                         // whidh should bf thf rfsolvfd vbluf (thf vbluf to pfrsist)
+ *                         // dompbrf drsVbluf bnd rfsolvfrVbluf to dftfrminf
+ *                         // dompbrf drsVbluf bnd rfsolvfrVbluf to dftfrminf
+ *                         // dompbrf drsVbluf bnd rfsolvfrVbluf to dftfrminf
+ *                         // dompbrf drsVbluf bnd rfsolvfrVbluf to dftfrminf
+ *                         // wiidi siould bf tif rfsolvfd vbluf (tif vbluf to pfrsist)
+ *                         // wiidi siould bf tif rfsolvfd vbluf (tif vbluf to pfrsist)
+ *                         // wiidi siould bf tif rfsolvfd vbluf (tif vbluf to pfrsist)
+ *                         // wiidi siould bf tif rfsolvfd vbluf (tif vbluf to pfrsist)
+ *                         // wiidi siould bf tif rfsolvfd vbluf (tif vbluf to pfrsist)
+ *                         rfsolvfdVbluf = drsVbluf;
+ *                         rfsolvfdVbluf = drsVbluf;
+ *                         rfsolvfdVbluf = drsVbluf;
+ *                         rfsolvfdVbluf = drsVbluf;
  *                         rfsolvfdVbluf = drsVbluf;
  *
+ *
+ *
+ *
+ *
+ *                         rfsolvfr.sftRfsolvfdVbluf(j, rfsolvfdVbluf);
+ *                         rfsolvfr.sftRfsolvfdVbluf(j, rfsolvfdVbluf);
+ *                         rfsolvfr.sftRfsolvfdVbluf(j, rfsolvfdVbluf);
+ *                         rfsolvfr.sftRfsolvfdVbluf(j, rfsolvfdVbluf);
  *                         rfsolvfr.sftRfsolvfdVbluf(j, rfsolvfdVbluf);
  *                      }
+ *                      }
+ *                      }
+ *                      }
+ *                      }
+ *                  }
+ *                  }
+ *                  }
+ *                  }
  *                  }
  *              }
+ *              }
+ *              }
+ *              }
+ *              }
+ *          }
+ *          }
+ *          }
+ *          }
  *          }
  *      }
+ *      }
+ *      }
+ *      }
+ *      }
+ * }</PRE>
+ * }</PRE>
+ * }</PRE>
+ * }</PRE>
  * }</PRE>
  *
- * @buthor  Jonbthbn Brudf
+ *
+ *
+ *
+ *
+ * @butior  Jonbtibn Brudf
+ * @butior  Jonbtibn Brudf
+ * @butior  Jonbtibn Brudf
+ * @butior  Jonbtibn Brudf
+ * @butior  Jonbtibn Brudf
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 publid intfrfbdf SyndRfsolvfr fxtfnds RowSft {
+publid intfrfbdf SyndRfsolvfr fxtfnds RowSft {
+publid intfrfbdf SyndRfsolvfr fxtfnds RowSft {
+publid intfrfbdf SyndRfsolvfr fxtfnds RowSft {
+publid intfrfbdf SyndRfsolvfr fxtfnds RowSft {
     /**
-     * Indidbtfs thbt b donflidt oddurrfd whilf thf <dodf>RowSft</dodf> objfdt wbs
-     * bttfmpting to updbtf b row in thf dbtb sourdf.
-     * Thf vblufs in thf dbtb sourdf row to bf updbtfd difffr from thf
-     * <dodf>RowSft</dodf> objfdt's originbl vblufs for thbt row, whidh mfbns thbt
-     * thf row in thf dbtb sourdf hbs bffn updbtfd or dflftfd sindf thf lbst
-     * syndhronizbtion.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * bttfmpting to updbtf b row in tif dbtb sourdf.
+     * bttfmpting to updbtf b row in tif dbtb sourdf.
+     * bttfmpting to updbtf b row in tif dbtb sourdf.
+     * bttfmpting to updbtf b row in tif dbtb sourdf.
+     * bttfmpting to updbtf b row in tif dbtb sourdf.
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * syndironizbtion.
+     * syndironizbtion.
+     * syndironizbtion.
+     * syndironizbtion.
+     * syndironizbtion.
+     */
+     */
+     */
+     */
      */
      publid stbtid int UPDATE_ROW_CONFLICT = 0;
+     publid stbtid int UPDATE_ROW_CONFLICT = 0;
+     publid stbtid int UPDATE_ROW_CONFLICT = 0;
+     publid stbtid int UPDATE_ROW_CONFLICT = 0;
+     publid stbtid int UPDATE_ROW_CONFLICT = 0;
+
+
+
+
 
     /**
-     * Indidbtfs thbt b donflidt oddurrfd whilf thf <dodf>RowSft</dodf> objfdt wbs
-     * bttfmpting to dflftf b row in thf dbtb sourdf.
-     * Thf vblufs in thf dbtb sourdf row to bf updbtfd difffr from thf
-     * <dodf>RowSft</dodf> objfdt's originbl vblufs for thbt row, whidh mfbns thbt
-     * thf row in thf dbtb sourdf hbs bffn updbtfd or dflftfd sindf thf lbst
-     * syndhronizbtion.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+     * bttfmpting to dflftf b row in tif dbtb sourdf.
+     * bttfmpting to dflftf b row in tif dbtb sourdf.
+     * bttfmpting to dflftf b row in tif dbtb sourdf.
+     * bttfmpting to dflftf b row in tif dbtb sourdf.
+     * bttfmpting to dflftf b row in tif dbtb sourdf.
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * Tif vblufs in tif dbtb sourdf row to bf updbtfd difffr from tif
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * <dodf>RowSft</dodf> objfdt's originbl vblufs for tibt row, wiidi mfbns tibt
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * tif row in tif dbtb sourdf ibs bffn updbtfd or dflftfd sindf tif lbst
+     * syndironizbtion.
+     * syndironizbtion.
+     * syndironizbtion.
+     * syndironizbtion.
+     * syndironizbtion.
+     */
+     */
+     */
+     */
      */
     publid stbtid int DELETE_ROW_CONFLICT = 1;
+    publid stbtid int DELETE_ROW_CONFLICT = 1;
+    publid stbtid int DELETE_ROW_CONFLICT = 1;
+    publid stbtid int DELETE_ROW_CONFLICT = 1;
+    publid stbtid int DELETE_ROW_CONFLICT = 1;
+
+
+
+
 
    /**
-    * Indidbtfs thbt b donflidt oddurrfd whilf thf <dodf>RowSft</dodf> objfdt wbs
-    * bttfmpting to insfrt b row into thf dbtb sourdf.  This mfbns thbt b
-    * row with thf sbmf primbry kfy bs thf row to bf insfrtfd hbs bffn insfrtfd
-    * into thf dbtb sourdf sindf thf lbst syndhronizbtion.
+   /**
+   /**
+   /**
+   /**
+    * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+    * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+    * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+    * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+    * Indidbtfs tibt b donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt wbs
+    * bttfmpting to insfrt b row into tif dbtb sourdf.  Tiis mfbns tibt b
+    * bttfmpting to insfrt b row into tif dbtb sourdf.  Tiis mfbns tibt b
+    * bttfmpting to insfrt b row into tif dbtb sourdf.  Tiis mfbns tibt b
+    * bttfmpting to insfrt b row into tif dbtb sourdf.  Tiis mfbns tibt b
+    * bttfmpting to insfrt b row into tif dbtb sourdf.  Tiis mfbns tibt b
+    * row witi tif sbmf primbry kfy bs tif row to bf insfrtfd ibs bffn insfrtfd
+    * row witi tif sbmf primbry kfy bs tif row to bf insfrtfd ibs bffn insfrtfd
+    * row witi tif sbmf primbry kfy bs tif row to bf insfrtfd ibs bffn insfrtfd
+    * row witi tif sbmf primbry kfy bs tif row to bf insfrtfd ibs bffn insfrtfd
+    * row witi tif sbmf primbry kfy bs tif row to bf insfrtfd ibs bffn insfrtfd
+    * into tif dbtb sourdf sindf tif lbst syndironizbtion.
+    * into tif dbtb sourdf sindf tif lbst syndironizbtion.
+    * into tif dbtb sourdf sindf tif lbst syndironizbtion.
+    * into tif dbtb sourdf sindf tif lbst syndironizbtion.
+    * into tif dbtb sourdf sindf tif lbst syndironizbtion.
+    */
+    */
+    */
+    */
     */
     publid stbtid int INSERT_ROW_CONFLICT = 2;
+    publid stbtid int INSERT_ROW_CONFLICT = 2;
+    publid stbtid int INSERT_ROW_CONFLICT = 2;
+    publid stbtid int INSERT_ROW_CONFLICT = 2;
+    publid stbtid int INSERT_ROW_CONFLICT = 2;
+
+
+
+
 
     /**
-     * Indidbtfs thbt <b>no</b> donflidt oddurrfd whilf thf <dodf>RowSft</dodf> objfdt
-     * wbs bttfmpting to updbtf, dflftf or insfrt b row in thf dbtb sourdf. Thf vblufs in
-     * thf <dodf>SyndRfsolvfr</dodf> will dontbin <dodf>null</dodf> vblufs only bs bn indidbtion
-     * thbt no informbtion in pfrtinfnt to thf donflidt rfsolution in this row.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs tibt <b>no</b> donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt
+     * Indidbtfs tibt <b>no</b> donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt
+     * Indidbtfs tibt <b>no</b> donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt
+     * Indidbtfs tibt <b>no</b> donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt
+     * Indidbtfs tibt <b>no</b> donflidt oddurrfd wiilf tif <dodf>RowSft</dodf> objfdt
+     * wbs bttfmpting to updbtf, dflftf or insfrt b row in tif dbtb sourdf. Tif vblufs in
+     * wbs bttfmpting to updbtf, dflftf or insfrt b row in tif dbtb sourdf. Tif vblufs in
+     * wbs bttfmpting to updbtf, dflftf or insfrt b row in tif dbtb sourdf. Tif vblufs in
+     * wbs bttfmpting to updbtf, dflftf or insfrt b row in tif dbtb sourdf. Tif vblufs in
+     * wbs bttfmpting to updbtf, dflftf or insfrt b row in tif dbtb sourdf. Tif vblufs in
+     * tif <dodf>SyndRfsolvfr</dodf> will dontbin <dodf>null</dodf> vblufs only bs bn indidbtion
+     * tif <dodf>SyndRfsolvfr</dodf> will dontbin <dodf>null</dodf> vblufs only bs bn indidbtion
+     * tif <dodf>SyndRfsolvfr</dodf> will dontbin <dodf>null</dodf> vblufs only bs bn indidbtion
+     * tif <dodf>SyndRfsolvfr</dodf> will dontbin <dodf>null</dodf> vblufs only bs bn indidbtion
+     * tif <dodf>SyndRfsolvfr</dodf> will dontbin <dodf>null</dodf> vblufs only bs bn indidbtion
+     * tibt no informbtion in pfrtinfnt to tif donflidt rfsolution in tiis row.
+     * tibt no informbtion in pfrtinfnt to tif donflidt rfsolution in tiis row.
+     * tibt no informbtion in pfrtinfnt to tif donflidt rfsolution in tiis row.
+     * tibt no informbtion in pfrtinfnt to tif donflidt rfsolution in tiis row.
+     * tibt no informbtion in pfrtinfnt to tif donflidt rfsolution in tiis row.
+     */
+     */
+     */
+     */
      */
     publid stbtid int NO_ROW_CONFLICT = 3;
+    publid stbtid int NO_ROW_CONFLICT = 3;
+    publid stbtid int NO_ROW_CONFLICT = 3;
+    publid stbtid int NO_ROW_CONFLICT = 3;
+    publid stbtid int NO_ROW_CONFLICT = 3;
+
+
+
+
 
     /**
-     * Rftrifvfs thf donflidt stbtus of thf durrfnt row of this <dodf>SyndRfsolvfr</dodf>,
-     * whidh indidbtfs thf opfrbtion
-     * thf <dodf>RowSft</dodf> objfdt wbs bttfmpting whfn thf donflidt oddurrfd.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif donflidt stbtus of tif durrfnt row of tiis <dodf>SyndRfsolvfr</dodf>,
+     * Rftrifvfs tif donflidt stbtus of tif durrfnt row of tiis <dodf>SyndRfsolvfr</dodf>,
+     * Rftrifvfs tif donflidt stbtus of tif durrfnt row of tiis <dodf>SyndRfsolvfr</dodf>,
+     * Rftrifvfs tif donflidt stbtus of tif durrfnt row of tiis <dodf>SyndRfsolvfr</dodf>,
+     * Rftrifvfs tif donflidt stbtus of tif durrfnt row of tiis <dodf>SyndRfsolvfr</dodf>,
+     * wiidi indidbtfs tif opfrbtion
+     * wiidi indidbtfs tif opfrbtion
+     * wiidi indidbtfs tif opfrbtion
+     * wiidi indidbtfs tif opfrbtion
+     * wiidi indidbtfs tif opfrbtion
+     * tif <dodf>RowSft</dodf> objfdt wbs bttfmpting wifn tif donflidt oddurrfd.
+     * tif <dodf>RowSft</dodf> objfdt wbs bttfmpting wifn tif donflidt oddurrfd.
+     * tif <dodf>RowSft</dodf> objfdt wbs bttfmpting wifn tif donflidt oddurrfd.
+     * tif <dodf>RowSft</dodf> objfdt wbs bttfmpting wifn tif donflidt oddurrfd.
+     * tif <dodf>RowSft</dodf> objfdt wbs bttfmpting wifn tif donflidt oddurrfd.
      *
-     * @rfturn onf of thf following donstbnts:
+     *
+     *
+     *
+     *
+     * @rfturn onf of tif following donstbnts:
+     * @rfturn onf of tif following donstbnts:
+     * @rfturn onf of tif following donstbnts:
+     * @rfturn onf of tif following donstbnts:
+     * @rfturn onf of tif following donstbnts:
+     *         <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>,
      *         <dodf>SyndRfsolvfr.UPDATE_ROW_CONFLICT</dodf>,
      *         <dodf>SyndRfsolvfr.DELETE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.DELETE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.DELETE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.DELETE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.DELETE_ROW_CONFLICT</dodf>,
+     *         <dodf>SyndRfsolvfr.INSERT_ROW_CONFLICT</dodf>, or
+     *         <dodf>SyndRfsolvfr.INSERT_ROW_CONFLICT</dodf>, or
+     *         <dodf>SyndRfsolvfr.INSERT_ROW_CONFLICT</dodf>, or
+     *         <dodf>SyndRfsolvfr.INSERT_ROW_CONFLICT</dodf>, or
      *         <dodf>SyndRfsolvfr.INSERT_ROW_CONFLICT</dodf>, or
      *         <dodf>SyndRfsolvfr.NO_ROW_CONFLICT</dodf>
+     *         <dodf>SyndRfsolvfr.NO_ROW_CONFLICT</dodf>
+     *         <dodf>SyndRfsolvfr.NO_ROW_CONFLICT</dodf>
+     *         <dodf>SyndRfsolvfr.NO_ROW_CONFLICT</dodf>
+     *         <dodf>SyndRfsolvfr.NO_ROW_CONFLICT</dodf>
+     */
+     */
+     */
+     */
      */
     publid int gftStbtus();
+    publid int gftStbtus();
+    publid int gftStbtus();
+    publid int gftStbtus();
+    publid int gftStbtus();
+
+
+
+
 
     /**
-     * Rftrifvfs thf vbluf in thf dfsignbtfd dolumn in thf durrfnt row of this
-     * <dodf>SyndRfsolvfr</dodf> objfdt, whidh is thf vbluf in thf dbtb sourdf
-     * thbt dbusfd b donflidt.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
      *
-     * @pbrbm indfx bn <dodf>int</dodf> dfsignbting thf dolumn in this row of this
-     *        <dodf>SyndRfsolvfr</dodf> objfdt from whidh to rftrifvf thf vbluf
+     *
+     *
+     *
+     *
+     * @pbrbm indfx bn <dodf>int</dodf> dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm indfx bn <dodf>int</dodf> dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm indfx bn <dodf>int</dodf> dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm indfx bn <dodf>int</dodf> dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm indfx bn <dodf>int</dodf> dfsignbting tif dolumn in tiis row of tiis
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
      *        dbusing b donflidt
-     * @rfturn thf vbluf of thf dfsignbtfd dolumn in thf durrfnt row of this
-     *         <dodf>SyndRfsolvfr</dodf> objfdt
-     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
-     */
-    publid Objfdt gftConflidtVbluf(int indfx) throws SQLExdfption;
-
-    /**
-     * Rftrifvfs thf vbluf in thf dfsignbtfd dolumn in thf durrfnt row of this
-     * <dodf>SyndRfsolvfr</dodf> objfdt, whidh is thf vbluf in thf dbtb sourdf
-     * thbt dbusfd b donflidt.
-     *
-     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt dfsignbting thf dolumn in this row of this
-     *        <dodf>SyndRfsolvfr</dodf> objfdt from whidh to rftrifvf thf vbluf
      *        dbusing b donflidt
-     * @rfturn thf vbluf of thf dfsignbtfd dolumn in thf durrfnt row of this
+     *        dbusing b donflidt
+     *        dbusing b donflidt
+     *        dbusing b donflidt
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
      *         <dodf>SyndRfsolvfr</dodf> objfdt
-     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    publid Objfdt gftConflidtVbluf(String dolumnNbmf) throws SQLExdfption;
+     */
+     */
+     */
+     */
+    publid Objfdt gftConflidtVbluf(int indfx) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(int indfx) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(int indfx) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(int indfx) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(int indfx) tirows SQLExdfption;
+
+
+
+
 
     /**
-     * Sfts <i>obj</i> bs thf vbluf in dolumn <i>indfx</i> in thf durrfnt row of thf
-     * <dodf>RowSft</dodf> objfdt thbt is bfing syndhronizfd. <i>obj</i>
-     * is sft bs thf vbluf in thf dbtb sourdf intfrnblly.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * Rftrifvfs tif vbluf in tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * <dodf>SyndRfsolvfr</dodf> objfdt, wiidi is tif vbluf in tif dbtb sourdf
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
+     * tibt dbusfd b donflidt.
      *
-     * @pbrbm indfx bn <dodf>int</dodf> giving thf numbfr of thf dolumn into whidh to
-     *        sft thf vbluf to bf pfrsistfd
-     * @pbrbm obj bn <dodf>Objfdt</dodf> thbt is thf vbluf to bf sft in thf
-     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in thf dbtb sourdf
-     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
-     */
-    publid void sftRfsolvfdVbluf(int indfx, Objfdt obj) throws SQLExdfption;
-
-    /**
-     * Sfts <i>obj</i> bs thf vbluf in dolumn <i>dolumnNbmf</i> in thf durrfnt row of thf
-     * <dodf>RowSft</dodf> objfdt thbt is bfing syndhronizfd. <i>obj</i>
-     * is sft bs thf vbluf in thf dbtb sourdf intfrnblly.
      *
-     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving thf nbmf of thf dolumn
-     *        into whidh to sft thf vbluf to bf pfrsistfd
-     * @pbrbm obj bn <dodf>Objfdt</dodf> thbt is thf vbluf to bf sft in thf
-     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in thf dbtb sourdf
-     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *
+     *
+     *
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt dfsignbting tif dolumn in tiis row of tiis
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt dfsignbting tif dolumn in tiis row of tiis
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        <dodf>SyndRfsolvfr</dodf> objfdt from wiidi to rftrifvf tif vbluf
+     *        dbusing b donflidt
+     *        dbusing b donflidt
+     *        dbusing b donflidt
+     *        dbusing b donflidt
+     *        dbusing b donflidt
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     * @rfturn tif vbluf of tif dfsignbtfd dolumn in tif durrfnt row of tiis
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     *         <dodf>SyndRfsolvfr</dodf> objfdt
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    publid void sftRfsolvfdVbluf(String dolumnNbmf, Objfdt obj) throws SQLExdfption;
+     */
+     */
+     */
+     */
+    publid Objfdt gftConflidtVbluf(String dolumnNbmf) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(String dolumnNbmf) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(String dolumnNbmf) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(String dolumnNbmf) tirows SQLExdfption;
+    publid Objfdt gftConflidtVbluf(String dolumnNbmf) tirows SQLExdfption;
+
+
+
+
 
     /**
-     * Movfs thf dursor down from its durrfnt position to thf nfxt row thbt dontbins
+    /**
+    /**
+    /**
+    /**
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>indfx</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>indfx</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>indfx</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>indfx</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>indfx</i> in tif durrfnt row of tif
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm indfx bn <dodf>int</dodf> giving tif numbfr of tif dolumn into wiidi to
+     * @pbrbm indfx bn <dodf>int</dodf> giving tif numbfr of tif dolumn into wiidi to
+     * @pbrbm indfx bn <dodf>int</dodf> giving tif numbfr of tif dolumn into wiidi to
+     * @pbrbm indfx bn <dodf>int</dodf> giving tif numbfr of tif dolumn into wiidi to
+     * @pbrbm indfx bn <dodf>int</dodf> giving tif numbfr of tif dolumn into wiidi to
+     *        sft tif vbluf to bf pfrsistfd
+     *        sft tif vbluf to bf pfrsistfd
+     *        sft tif vbluf to bf pfrsistfd
+     *        sft tif vbluf to bf pfrsistfd
+     *        sft tif vbluf to bf pfrsistfd
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+     */
+     */
+     */
+     */
+    publid void sftRfsolvfdVbluf(int indfx, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(int indfx, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(int indfx, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(int indfx, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(int indfx, Objfdt obj) tirows SQLExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>dolumnNbmf</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>dolumnNbmf</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>dolumnNbmf</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>dolumnNbmf</i> in tif durrfnt row of tif
+     * Sfts <i>obj</i> bs tif vbluf in dolumn <i>dolumnNbmf</i> in tif durrfnt row of tif
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * <dodf>RowSft</dodf> objfdt tibt is bfing syndironizfd. <i>obj</i>
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     * is sft bs tif vbluf in tif dbtb sourdf intfrnblly.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving tif nbmf of tif dolumn
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving tif nbmf of tif dolumn
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving tif nbmf of tif dolumn
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving tif nbmf of tif dolumn
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving tif nbmf of tif dolumn
+     *        into wiidi to sft tif vbluf to bf pfrsistfd
+     *        into wiidi to sft tif vbluf to bf pfrsistfd
+     *        into wiidi to sft tif vbluf to bf pfrsistfd
+     *        into wiidi to sft tif vbluf to bf pfrsistfd
+     *        into wiidi to sft tif vbluf to bf pfrsistfd
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     * @pbrbm obj bn <dodf>Objfdt</dodf> tibt is tif vbluf to bf sft in tif
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     *        <dodf>RowSft</dodf> objfdt bnd pfrsistfd in tif dbtb sourdf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+     */
+     */
+     */
+     */
+    publid void sftRfsolvfdVbluf(String dolumnNbmf, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(String dolumnNbmf, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(String dolumnNbmf, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(String dolumnNbmf, Objfdt obj) tirows SQLExdfption;
+    publid void sftRfsolvfdVbluf(String dolumnNbmf, Objfdt obj) tirows SQLExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Movfs tif dursor down from its durrfnt position to tif nfxt row tibt dontbins
+     * Movfs tif dursor down from its durrfnt position to tif nfxt row tibt dontbins
+     * Movfs tif dursor down from its durrfnt position to tif nfxt row tibt dontbins
+     * Movfs tif dursor down from its durrfnt position to tif nfxt row tibt dontbins
+     * Movfs tif dursor down from its durrfnt position to tif nfxt row tibt dontbins
      * b donflidt vbluf. A <dodf>SyndRfsolvfr</dodf> objfdt's
-     * dursor is initiblly positionfd bfforf thf first donflidt row; thf first dbll to thf
-     * mfthod <dodf>nfxtConflidt</dodf> mbkfs thf first donflidt row thf durrfnt row;
-     * thf sfdond dbll mbkfs thf sfdond donflidt row thf durrfnt row, bnd so on.
+     * b donflidt vbluf. A <dodf>SyndRfsolvfr</dodf> objfdt's
+     * b donflidt vbluf. A <dodf>SyndRfsolvfr</dodf> objfdt's
+     * b donflidt vbluf. A <dodf>SyndRfsolvfr</dodf> objfdt's
+     * b donflidt vbluf. A <dodf>SyndRfsolvfr</dodf> objfdt's
+     * dursor is initiblly positionfd bfforf tif first donflidt row; tif first dbll to tif
+     * dursor is initiblly positionfd bfforf tif first donflidt row; tif first dbll to tif
+     * dursor is initiblly positionfd bfforf tif first donflidt row; tif first dbll to tif
+     * dursor is initiblly positionfd bfforf tif first donflidt row; tif first dbll to tif
+     * dursor is initiblly positionfd bfforf tif first donflidt row; tif first dbll to tif
+     * mftiod <dodf>nfxtConflidt</dodf> mbkfs tif first donflidt row tif durrfnt row;
+     * mftiod <dodf>nfxtConflidt</dodf> mbkfs tif first donflidt row tif durrfnt row;
+     * mftiod <dodf>nfxtConflidt</dodf> mbkfs tif first donflidt row tif durrfnt row;
+     * mftiod <dodf>nfxtConflidt</dodf> mbkfs tif first donflidt row tif durrfnt row;
+     * mftiod <dodf>nfxtConflidt</dodf> mbkfs tif first donflidt row tif durrfnt row;
+     * tif sfdond dbll mbkfs tif sfdond donflidt row tif durrfnt row, bnd so on.
+     * tif sfdond dbll mbkfs tif sfdond donflidt row tif durrfnt row, bnd so on.
+     * tif sfdond dbll mbkfs tif sfdond donflidt row tif durrfnt row, bnd so on.
+     * tif sfdond dbll mbkfs tif sfdond donflidt row tif durrfnt row, bnd so on.
+     * tif sfdond dbll mbkfs tif sfdond donflidt row tif durrfnt row, bnd so on.
      * <p>
-     * A dbll to thf mfthod <dodf>nfxtConflidt</dodf> will impliditly dlosf
-     * bn input strfbm if onf is opfn bnd will dlfbr thf <dodf>SyndRfsolvfr</dodf>
-     * objfdt's wbrning dhbin.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * A dbll to tif mftiod <dodf>nfxtConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>nfxtConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>nfxtConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>nfxtConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>nfxtConflidt</dodf> will impliditly dlosf
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
      *
-     * @rfturn <dodf>truf</dodf> if thf nfw durrfnt row is vblid; <dodf>fblsf</dodf>
-     *         if thfrf brf no morf rows
-     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf rfsult sft typf
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tif nfw durrfnt row is vblid; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif nfw durrfnt row is vblid; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif nfw durrfnt row is vblid; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif nfw durrfnt row is vblid; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif nfw durrfnt row is vblid; <dodf>fblsf</dodf>
+     *         if tifrf brf no morf rows
+     *         if tifrf brf no morf rows
+     *         if tifrf brf no morf rows
+     *         if tifrf brf no morf rows
+     *         if tifrf brf no morf rows
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
      *     is <dodf>TYPE_FORWARD_ONLY</dodf>
      *
+     *
+     *
+     *
+     *
      */
-    publid boolfbn nfxtConflidt() throws SQLExdfption;
+     */
+     */
+     */
+     */
+    publid boolfbn nfxtConflidt() tirows SQLExdfption;
+    publid boolfbn nfxtConflidt() tirows SQLExdfption;
+    publid boolfbn nfxtConflidt() tirows SQLExdfption;
+    publid boolfbn nfxtConflidt() tirows SQLExdfption;
+    publid boolfbn nfxtConflidt() tirows SQLExdfption;
+
+
+
+
 
     /**
-     * Movfs thf dursor up from its durrfnt position to thf prfvious donflidt
-     * row in this <dodf>SyndRfsolvfr</dodf> objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Movfs tif dursor up from its durrfnt position to tif prfvious donflidt
+     * Movfs tif dursor up from its durrfnt position to tif prfvious donflidt
+     * Movfs tif dursor up from its durrfnt position to tif prfvious donflidt
+     * Movfs tif dursor up from its durrfnt position to tif prfvious donflidt
+     * Movfs tif dursor up from its durrfnt position to tif prfvious donflidt
+     * row in tiis <dodf>SyndRfsolvfr</dodf> objfdt.
+     * row in tiis <dodf>SyndRfsolvfr</dodf> objfdt.
+     * row in tiis <dodf>SyndRfsolvfr</dodf> objfdt.
+     * row in tiis <dodf>SyndRfsolvfr</dodf> objfdt.
+     * row in tiis <dodf>SyndRfsolvfr</dodf> objfdt.
      * <p>
-     * A dbll to thf mfthod <dodf>prfviousConflidt</dodf> will impliditly dlosf
-     * bn input strfbm if onf is opfn bnd will dlfbr thf <dodf>SyndRfsolvfr</dodf>
-     * objfdt's wbrning dhbin.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * A dbll to tif mftiod <dodf>prfviousConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>prfviousConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>prfviousConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>prfviousConflidt</dodf> will impliditly dlosf
+     * A dbll to tif mftiod <dodf>prfviousConflidt</dodf> will impliditly dlosf
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * bn input strfbm if onf is opfn bnd will dlfbr tif <dodf>SyndRfsolvfr</dodf>
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
+     * objfdt's wbrning dibin.
      *
-     * @rfturn <dodf>truf</dodf> if thf dursor is on b vblid row; <dodf>fblsf</dodf>
-     *     if it is off thf rfsult sft
-     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf rfsult sft typf
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tif dursor is on b vblid row; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif dursor is on b vblid row; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif dursor is on b vblid row; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif dursor is on b vblid row; <dodf>fblsf</dodf>
+     * @rfturn <dodf>truf</dodf> if tif dursor is on b vblid row; <dodf>fblsf</dodf>
+     *     if it is off tif rfsult sft
+     *     if it is off tif rfsult sft
+     *     if it is off tif rfsult sft
+     *     if it is off tif rfsult sft
+     *     if it is off tif rfsult sft
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tif rfsult sft typf
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
+     *     is <dodf>TYPE_FORWARD_ONLY</dodf>
      *     is <dodf>TYPE_FORWARD_ONLY</dodf>
      */
-    publid boolfbn prfviousConflidt() throws SQLExdfption;
+     */
+     */
+     */
+     */
+    publid boolfbn prfviousConflidt() tirows SQLExdfption;
+    publid boolfbn prfviousConflidt() tirows SQLExdfption;
+    publid boolfbn prfviousConflidt() tirows SQLExdfption;
+    publid boolfbn prfviousConflidt() tirows SQLExdfption;
+    publid boolfbn prfviousConflidt() tirows SQLExdfption;
 
+
+
+
+
+}
+}
+}
+}
 }

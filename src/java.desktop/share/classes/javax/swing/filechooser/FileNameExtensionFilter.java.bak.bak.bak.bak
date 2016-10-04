@@ -1,158 +1,790 @@
 /*
- * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-pbdkbgf jbvbx.swing.filfdhoosfr;
+
+
+
+
+pbdkbgf jbvbx.swing.filfdioosfr;
+pbdkbgf jbvbx.swing.filfdioosfr;
+pbdkbgf jbvbx.swing.filfdioosfr;
+pbdkbgf jbvbx.swing.filfdioosfr;
+pbdkbgf jbvbx.swing.filfdioosfr;
+
+
+
+
 
 import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
 import jbvb.util.Lodblf;
 
+
+
+
+
 /**
- * An implfmfntbtion of {@dodf FilfFiltfr} thbt filtfrs using b
- * spfdififd sft of fxtfnsions. Thf fxtfnsion for b filf is thf
- * portion of thf filf nbmf bftfr thf lbst ".". Filfs whosf nbmf dofs
- * not dontbin b "." hbvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+/**
+/**
+/**
+/**
+ * An implfmfntbtion of {@dodf FilfFiltfr} tibt filtfrs using b
+ * An implfmfntbtion of {@dodf FilfFiltfr} tibt filtfrs using b
+ * An implfmfntbtion of {@dodf FilfFiltfr} tibt filtfrs using b
+ * An implfmfntbtion of {@dodf FilfFiltfr} tibt filtfrs using b
+ * An implfmfntbtion of {@dodf FilfFiltfr} tibt filtfrs using b
+ * spfdififd sft of fxtfnsions. Tif fxtfnsion for b filf is tif
+ * spfdififd sft of fxtfnsions. Tif fxtfnsion for b filf is tif
+ * spfdififd sft of fxtfnsions. Tif fxtfnsion for b filf is tif
+ * spfdififd sft of fxtfnsions. Tif fxtfnsion for b filf is tif
+ * spfdififd sft of fxtfnsions. Tif fxtfnsion for b filf is tif
+ * portion of tif filf nbmf bftfr tif lbst ".". Filfs wiosf nbmf dofs
+ * portion of tif filf nbmf bftfr tif lbst ".". Filfs wiosf nbmf dofs
+ * portion of tif filf nbmf bftfr tif lbst ".". Filfs wiosf nbmf dofs
+ * portion of tif filf nbmf bftfr tif lbst ".". Filfs wiosf nbmf dofs
+ * portion of tif filf nbmf bftfr tif lbst ".". Filfs wiosf nbmf dofs
+ * not dontbin b "." ibvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+ * not dontbin b "." ibvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+ * not dontbin b "." ibvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+ * not dontbin b "." ibvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+ * not dontbin b "." ibvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+ * dompbrisons brf dbsf insfnsitivf.
+ * dompbrisons brf dbsf insfnsitivf.
+ * dompbrisons brf dbsf insfnsitivf.
+ * dompbrisons brf dbsf insfnsitivf.
  * dompbrisons brf dbsf insfnsitivf.
  * <p>
- * Thf following fxbmplf drfbtfs b
- * {@dodf FilfNbmfExtfnsionFiltfr} thbt will show {@dodf jpg} filfs:
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif following fxbmplf drfbtfs b
+ * Tif following fxbmplf drfbtfs b
+ * Tif following fxbmplf drfbtfs b
+ * Tif following fxbmplf drfbtfs b
+ * Tif following fxbmplf drfbtfs b
+ * {@dodf FilfNbmfExtfnsionFiltfr} tibt will siow {@dodf jpg} filfs:
+ * {@dodf FilfNbmfExtfnsionFiltfr} tibt will siow {@dodf jpg} filfs:
+ * {@dodf FilfNbmfExtfnsionFiltfr} tibt will siow {@dodf jpg} filfs:
+ * {@dodf FilfNbmfExtfnsionFiltfr} tibt will siow {@dodf jpg} filfs:
+ * {@dodf FilfNbmfExtfnsionFiltfr} tibt will siow {@dodf jpg} filfs:
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  * FilfFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr("JPEG filf", "jpg", "jpfg");
- * JFilfChoosfr filfChoosfr = ...;
- * filfChoosfr.bddChoosbblfFilfFiltfr(filtfr);
+ * FilfFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr("JPEG filf", "jpg", "jpfg");
+ * FilfFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr("JPEG filf", "jpg", "jpfg");
+ * FilfFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr("JPEG filf", "jpg", "jpfg");
+ * FilfFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr("JPEG filf", "jpg", "jpfg");
+ * JFilfCioosfr filfCioosfr = ...;
+ * JFilfCioosfr filfCioosfr = ...;
+ * JFilfCioosfr filfCioosfr = ...;
+ * JFilfCioosfr filfCioosfr = ...;
+ * JFilfCioosfr filfCioosfr = ...;
+ * filfCioosfr.bddCioosbblfFilfFiltfr(filtfr);
+ * filfCioosfr.bddCioosbblfFilfFiltfr(filtfr);
+ * filfCioosfr.bddCioosbblfFilfFiltfr(filtfr);
+ * filfCioosfr.bddCioosbblfFilfFiltfr(filtfr);
+ * filfCioosfr.bddCioosbblfFilfFiltfr(filtfr);
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
  * </prf>
  *
+ *
+ *
+ *
+ *
  * @sff FilfFiltfr
- * @sff jbvbx.swing.JFilfChoosfr#sftFilfFiltfr
- * @sff jbvbx.swing.JFilfChoosfr#bddChoosbblfFilfFiltfr
- * @sff jbvbx.swing.JFilfChoosfr#gftFilfFiltfr
+ * @sff FilfFiltfr
+ * @sff FilfFiltfr
+ * @sff FilfFiltfr
+ * @sff FilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#sftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#sftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#sftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#sftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#sftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#bddCioosbblfFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#bddCioosbblfFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#bddCioosbblfFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#bddCioosbblfFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#bddCioosbblfFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#gftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#gftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#gftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#gftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#gftFilfFiltfr
+ *
+ *
+ *
+ *
  *
  * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ */
+ */
+ */
+ */
  */
 publid finbl dlbss FilfNbmfExtfnsionFiltfr fxtfnds FilfFiltfr {
-    // Dfsdription of this filtfr.
+publid finbl dlbss FilfNbmfExtfnsionFiltfr fxtfnds FilfFiltfr {
+publid finbl dlbss FilfNbmfExtfnsionFiltfr fxtfnds FilfFiltfr {
+publid finbl dlbss FilfNbmfExtfnsionFiltfr fxtfnds FilfFiltfr {
+publid finbl dlbss FilfNbmfExtfnsionFiltfr fxtfnds FilfFiltfr {
+    // Dfsdription of tiis filtfr.
+    // Dfsdription of tiis filtfr.
+    // Dfsdription of tiis filtfr.
+    // Dfsdription of tiis filtfr.
+    // Dfsdription of tiis filtfr.
+    privbtf finbl String dfsdription;
+    privbtf finbl String dfsdription;
+    privbtf finbl String dfsdription;
+    privbtf finbl String dfsdription;
     privbtf finbl String dfsdription;
     // Known fxtfnsions.
+    // Known fxtfnsions.
+    // Known fxtfnsions.
+    // Known fxtfnsions.
+    // Known fxtfnsions.
     privbtf finbl String[] fxtfnsions;
-    // Cbdhfd fxt
+    privbtf finbl String[] fxtfnsions;
+    privbtf finbl String[] fxtfnsions;
+    privbtf finbl String[] fxtfnsions;
+    privbtf finbl String[] fxtfnsions;
+    // Cbdifd fxt
+    // Cbdifd fxt
+    // Cbdifd fxt
+    // Cbdifd fxt
+    // Cbdifd fxt
+    privbtf finbl String[] lowfrCbsfExtfnsions;
+    privbtf finbl String[] lowfrCbsfExtfnsions;
+    privbtf finbl String[] lowfrCbsfExtfnsions;
+    privbtf finbl String[] lowfrCbsfExtfnsions;
     privbtf finbl String[] lowfrCbsfExtfnsions;
 
+
+
+
+
     /**
-     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} with thf spfdififd
-     * dfsdription bnd filf nbmf fxtfnsions. Thf rfturnfd {@dodf
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} witi tif spfdififd
+     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} witi tif spfdififd
+     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} witi tif spfdififd
+     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} witi tif spfdififd
+     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} witi tif spfdififd
+     * dfsdription bnd filf nbmf fxtfnsions. Tif rfturnfd {@dodf
+     * dfsdription bnd filf nbmf fxtfnsions. Tif rfturnfd {@dodf
+     * dfsdription bnd filf nbmf fxtfnsions. Tif rfturnfd {@dodf
+     * dfsdription bnd filf nbmf fxtfnsions. Tif rfturnfd {@dodf
+     * dfsdription bnd filf nbmf fxtfnsions. Tif rfturnfd {@dodf
      * FilfNbmfExtfnsionFiltfr} will bddfpt bll dirfdtorifs bnd bny
-     * filf with b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
+     * FilfNbmfExtfnsionFiltfr} will bddfpt bll dirfdtorifs bnd bny
+     * FilfNbmfExtfnsionFiltfr} will bddfpt bll dirfdtorifs bnd bny
+     * FilfNbmfExtfnsionFiltfr} will bddfpt bll dirfdtorifs bnd bny
+     * FilfNbmfExtfnsionFiltfr} will bddfpt bll dirfdtorifs bnd bny
+     * filf witi b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
+     * filf witi b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
+     * filf witi b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
+     * filf witi b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
+     * filf witi b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
      *
-     * @pbrbm dfsdription tfxtubl dfsdription for thf filtfr, mby bf
+     *
+     *
+     *
+     *
+     * @pbrbm dfsdription tfxtubl dfsdription for tif filtfr, mby bf
+     * @pbrbm dfsdription tfxtubl dfsdription for tif filtfr, mby bf
+     * @pbrbm dfsdription tfxtubl dfsdription for tif filtfr, mby bf
+     * @pbrbm dfsdription tfxtubl dfsdription for tif filtfr, mby bf
+     * @pbrbm dfsdription tfxtubl dfsdription for tif filtfr, mby bf
      *                    {@dodf null}
-     * @pbrbm fxtfnsions thf bddfptfd filf nbmf fxtfnsions
-     * @throws IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     *                    {@dodf null}
+     *                    {@dodf null}
+     *                    {@dodf null}
+     *                    {@dodf null}
+     * @pbrbm fxtfnsions tif bddfptfd filf nbmf fxtfnsions
+     * @pbrbm fxtfnsions tif bddfptfd filf nbmf fxtfnsions
+     * @pbrbm fxtfnsions tif bddfptfd filf nbmf fxtfnsions
+     * @pbrbm fxtfnsions tif bddfptfd filf nbmf fxtfnsions
+     * @pbrbm fxtfnsions tif bddfptfd filf nbmf fxtfnsions
+     * @tirows IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     * @tirows IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     * @tirows IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     * @tirows IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     * @tirows IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     *         dontbins {@dodf null}, or dontbins bn fmpty string
+     *         dontbins {@dodf null}, or dontbins bn fmpty string
+     *         dontbins {@dodf null}, or dontbins bn fmpty string
+     *         dontbins {@dodf null}, or dontbins bn fmpty string
      *         dontbins {@dodf null}, or dontbins bn fmpty string
      * @sff #bddfpt
+     * @sff #bddfpt
+     * @sff #bddfpt
+     * @sff #bddfpt
+     * @sff #bddfpt
+     */
+     */
+     */
+     */
      */
     publid FilfNbmfExtfnsionFiltfr(String dfsdription, String... fxtfnsions) {
-        if (fxtfnsions == null || fxtfnsions.lfngth == 0) {
-            throw nfw IllfgblArgumfntExdfption(
+    publid FilfNbmfExtfnsionFiltfr(String dfsdription, String... fxtfnsions) {
+    publid FilfNbmfExtfnsionFiltfr(String dfsdription, String... fxtfnsions) {
+    publid FilfNbmfExtfnsionFiltfr(String dfsdription, String... fxtfnsions) {
+    publid FilfNbmfExtfnsionFiltfr(String dfsdription, String... fxtfnsions) {
+        if (fxtfnsions == null || fxtfnsions.lfngti == 0) {
+        if (fxtfnsions == null || fxtfnsions.lfngti == 0) {
+        if (fxtfnsions == null || fxtfnsions.lfngti == 0) {
+        if (fxtfnsions == null || fxtfnsions.lfngti == 0) {
+        if (fxtfnsions == null || fxtfnsions.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Extfnsions must bf non-null bnd not fmpty");
+                    "Extfnsions must bf non-null bnd not fmpty");
+                    "Extfnsions must bf non-null bnd not fmpty");
+                    "Extfnsions must bf non-null bnd not fmpty");
                     "Extfnsions must bf non-null bnd not fmpty");
         }
-        this.dfsdription = dfsdription;
-        this.fxtfnsions = nfw String[fxtfnsions.lfngth];
-        this.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngth];
-        for (int i = 0; i < fxtfnsions.lfngth; i++) {
-            if (fxtfnsions[i] == null || fxtfnsions[i].lfngth() == 0) {
-                throw nfw IllfgblArgumfntExdfption(
-                    "Ebdh fxtfnsion must bf non-null bnd not fmpty");
+        }
+        }
+        }
+        }
+        tiis.dfsdription = dfsdription;
+        tiis.dfsdription = dfsdription;
+        tiis.dfsdription = dfsdription;
+        tiis.dfsdription = dfsdription;
+        tiis.dfsdription = dfsdription;
+        tiis.fxtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.fxtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.fxtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.fxtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.fxtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngti];
+        for (int i = 0; i < fxtfnsions.lfngti; i++) {
+        for (int i = 0; i < fxtfnsions.lfngti; i++) {
+        for (int i = 0; i < fxtfnsions.lfngti; i++) {
+        for (int i = 0; i < fxtfnsions.lfngti; i++) {
+        for (int i = 0; i < fxtfnsions.lfngti; i++) {
+            if (fxtfnsions[i] == null || fxtfnsions[i].lfngti() == 0) {
+            if (fxtfnsions[i] == null || fxtfnsions[i].lfngti() == 0) {
+            if (fxtfnsions[i] == null || fxtfnsions[i].lfngti() == 0) {
+            if (fxtfnsions[i] == null || fxtfnsions[i].lfngti() == 0) {
+            if (fxtfnsions[i] == null || fxtfnsions[i].lfngti() == 0) {
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Ebdi fxtfnsion must bf non-null bnd not fmpty");
+                    "Ebdi fxtfnsion must bf non-null bnd not fmpty");
+                    "Ebdi fxtfnsion must bf non-null bnd not fmpty");
+                    "Ebdi fxtfnsion must bf non-null bnd not fmpty");
+                    "Ebdi fxtfnsion must bf non-null bnd not fmpty");
             }
-            this.fxtfnsions[i] = fxtfnsions[i];
+            }
+            }
+            }
+            }
+            tiis.fxtfnsions[i] = fxtfnsions[i];
+            tiis.fxtfnsions[i] = fxtfnsions[i];
+            tiis.fxtfnsions[i] = fxtfnsions[i];
+            tiis.fxtfnsions[i] = fxtfnsions[i];
+            tiis.fxtfnsions[i] = fxtfnsions[i];
+            lowfrCbsfExtfnsions[i] = fxtfnsions[i].toLowfrCbsf(Lodblf.ENGLISH);
+            lowfrCbsfExtfnsions[i] = fxtfnsions[i].toLowfrCbsf(Lodblf.ENGLISH);
+            lowfrCbsfExtfnsions[i] = fxtfnsions[i].toLowfrCbsf(Lodblf.ENGLISH);
+            lowfrCbsfExtfnsions[i] = fxtfnsions[i].toLowfrCbsf(Lodblf.ENGLISH);
             lowfrCbsfExtfnsions[i] = fxtfnsions[i].toLowfrCbsf(Lodblf.ENGLISH);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Tfsts thf spfdififd filf, rfturning truf if thf filf is
-     * bddfptfd, fblsf othfrwisf. Truf is rfturnfd if thf fxtfnsion
-     * mbtdhfs onf of thf filf nbmf fxtfnsions of this {@dodf
-     * FilfFiltfr}, or thf filf is b dirfdtory.
+    /**
+    /**
+    /**
+    /**
+     * Tfsts tif spfdififd filf, rfturning truf if tif filf is
+     * Tfsts tif spfdififd filf, rfturning truf if tif filf is
+     * Tfsts tif spfdififd filf, rfturning truf if tif filf is
+     * Tfsts tif spfdififd filf, rfturning truf if tif filf is
+     * Tfsts tif spfdififd filf, rfturning truf if tif filf is
+     * bddfptfd, fblsf otifrwisf. Truf is rfturnfd if tif fxtfnsion
+     * bddfptfd, fblsf otifrwisf. Truf is rfturnfd if tif fxtfnsion
+     * bddfptfd, fblsf otifrwisf. Truf is rfturnfd if tif fxtfnsion
+     * bddfptfd, fblsf otifrwisf. Truf is rfturnfd if tif fxtfnsion
+     * bddfptfd, fblsf otifrwisf. Truf is rfturnfd if tif fxtfnsion
+     * mbtdifs onf of tif filf nbmf fxtfnsions of tiis {@dodf
+     * mbtdifs onf of tif filf nbmf fxtfnsions of tiis {@dodf
+     * mbtdifs onf of tif filf nbmf fxtfnsions of tiis {@dodf
+     * mbtdifs onf of tif filf nbmf fxtfnsions of tiis {@dodf
+     * mbtdifs onf of tif filf nbmf fxtfnsions of tiis {@dodf
+     * FilfFiltfr}, or tif filf is b dirfdtory.
+     * FilfFiltfr}, or tif filf is b dirfdtory.
+     * FilfFiltfr}, or tif filf is b dirfdtory.
+     * FilfFiltfr}, or tif filf is b dirfdtory.
+     * FilfFiltfr}, or tif filf is b dirfdtory.
      *
-     * @pbrbm f thf {@dodf Filf} to tfst
-     * @rfturn truf if thf filf is to bf bddfptfd, fblsf othfrwisf
+     *
+     *
+     *
+     *
+     * @pbrbm f tif {@dodf Filf} to tfst
+     * @pbrbm f tif {@dodf Filf} to tfst
+     * @pbrbm f tif {@dodf Filf} to tfst
+     * @pbrbm f tif {@dodf Filf} to tfst
+     * @pbrbm f tif {@dodf Filf} to tfst
+     * @rfturn truf if tif filf is to bf bddfptfd, fblsf otifrwisf
+     * @rfturn truf if tif filf is to bf bddfptfd, fblsf otifrwisf
+     * @rfturn truf if tif filf is to bf bddfptfd, fblsf otifrwisf
+     * @rfturn truf if tif filf is to bf bddfptfd, fblsf otifrwisf
+     * @rfturn truf if tif filf is to bf bddfptfd, fblsf otifrwisf
+     */
+     */
+     */
+     */
      */
     publid boolfbn bddfpt(Filf f) {
+    publid boolfbn bddfpt(Filf f) {
+    publid boolfbn bddfpt(Filf f) {
+    publid boolfbn bddfpt(Filf f) {
+    publid boolfbn bddfpt(Filf f) {
+        if (f != null) {
+        if (f != null) {
+        if (f != null) {
+        if (f != null) {
         if (f != null) {
             if (f.isDirfdtory()) {
+            if (f.isDirfdtory()) {
+            if (f.isDirfdtory()) {
+            if (f.isDirfdtory()) {
+            if (f.isDirfdtory()) {
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
                 rfturn truf;
             }
-            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdh
-            // on b sortfd list bnd this implfmfntbtion. All implfmfntbtions
-            // providfd roughly thf sbmf spffd, most likfly bfdbusf of
-            // ovfrhfbd bssodibtfd with jbvb.io.Filf. Thfrffor wf'vf studk
-            // with thf simplf lightwfight bpprobdh.
+            }
+            }
+            }
+            }
+            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdi
+            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdi
+            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdi
+            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdi
+            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdi
+            // on b sortfd list bnd tiis implfmfntbtion. All implfmfntbtions
+            // on b sortfd list bnd tiis implfmfntbtion. All implfmfntbtions
+            // on b sortfd list bnd tiis implfmfntbtion. All implfmfntbtions
+            // on b sortfd list bnd tiis implfmfntbtion. All implfmfntbtions
+            // on b sortfd list bnd tiis implfmfntbtion. All implfmfntbtions
+            // providfd rougily tif sbmf spffd, most likfly bfdbusf of
+            // providfd rougily tif sbmf spffd, most likfly bfdbusf of
+            // providfd rougily tif sbmf spffd, most likfly bfdbusf of
+            // providfd rougily tif sbmf spffd, most likfly bfdbusf of
+            // providfd rougily tif sbmf spffd, most likfly bfdbusf of
+            // ovfrifbd bssodibtfd witi jbvb.io.Filf. Tifrffor wf'vf studk
+            // ovfrifbd bssodibtfd witi jbvb.io.Filf. Tifrffor wf'vf studk
+            // ovfrifbd bssodibtfd witi jbvb.io.Filf. Tifrffor wf'vf studk
+            // ovfrifbd bssodibtfd witi jbvb.io.Filf. Tifrffor wf'vf studk
+            // ovfrifbd bssodibtfd witi jbvb.io.Filf. Tifrffor wf'vf studk
+            // witi tif simplf ligitwfigit bpprobdi.
+            // witi tif simplf ligitwfigit bpprobdi.
+            // witi tif simplf ligitwfigit bpprobdi.
+            // witi tif simplf ligitwfigit bpprobdi.
+            // witi tif simplf ligitwfigit bpprobdi.
+            String filfNbmf = f.gftNbmf();
+            String filfNbmf = f.gftNbmf();
+            String filfNbmf = f.gftNbmf();
+            String filfNbmf = f.gftNbmf();
             String filfNbmf = f.gftNbmf();
             int i = filfNbmf.lbstIndfxOf('.');
-            if (i > 0 && i < filfNbmf.lfngth() - 1) {
+            int i = filfNbmf.lbstIndfxOf('.');
+            int i = filfNbmf.lbstIndfxOf('.');
+            int i = filfNbmf.lbstIndfxOf('.');
+            int i = filfNbmf.lbstIndfxOf('.');
+            if (i > 0 && i < filfNbmf.lfngti() - 1) {
+            if (i > 0 && i < filfNbmf.lfngti() - 1) {
+            if (i > 0 && i < filfNbmf.lfngti() - 1) {
+            if (i > 0 && i < filfNbmf.lfngti() - 1) {
+            if (i > 0 && i < filfNbmf.lfngti() - 1) {
+                String dfsirfdExtfnsion = filfNbmf.substring(i+1).
+                String dfsirfdExtfnsion = filfNbmf.substring(i+1).
+                String dfsirfdExtfnsion = filfNbmf.substring(i+1).
+                String dfsirfdExtfnsion = filfNbmf.substring(i+1).
                 String dfsirfdExtfnsion = filfNbmf.substring(i+1).
                         toLowfrCbsf(Lodblf.ENGLISH);
+                        toLowfrCbsf(Lodblf.ENGLISH);
+                        toLowfrCbsf(Lodblf.ENGLISH);
+                        toLowfrCbsf(Lodblf.ENGLISH);
+                        toLowfrCbsf(Lodblf.ENGLISH);
+                for (String fxtfnsion : lowfrCbsfExtfnsions) {
+                for (String fxtfnsion : lowfrCbsfExtfnsions) {
+                for (String fxtfnsion : lowfrCbsfExtfnsions) {
+                for (String fxtfnsion : lowfrCbsfExtfnsions) {
                 for (String fxtfnsion : lowfrCbsfExtfnsions) {
                     if (dfsirfdExtfnsion.fqubls(fxtfnsion)) {
+                    if (dfsirfdExtfnsion.fqubls(fxtfnsion)) {
+                    if (dfsirfdExtfnsion.fqubls(fxtfnsion)) {
+                    if (dfsirfdExtfnsion.fqubls(fxtfnsion)) {
+                    if (dfsirfdExtfnsion.fqubls(fxtfnsion)) {
+                        rfturn truf;
+                        rfturn truf;
+                        rfturn truf;
+                        rfturn truf;
                         rfturn truf;
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Thf dfsdription of this filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
+    /**
+    /**
+    /**
+    /**
+     * Tif dfsdription of tiis filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
+     * Tif dfsdription of tiis filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
+     * Tif dfsdription of tiis filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
+     * Tif dfsdription of tiis filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
+     * Tif dfsdription of tiis filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
      *
-     * @rfturn thf dfsdription of this filtfr
+     *
+     *
+     *
+     *
+     * @rfturn tif dfsdription of tiis filtfr
+     * @rfturn tif dfsdription of tiis filtfr
+     * @rfturn tif dfsdription of tiis filtfr
+     * @rfturn tif dfsdription of tiis filtfr
+     * @rfturn tif dfsdription of tiis filtfr
+     */
+     */
+     */
+     */
      */
     publid String gftDfsdription() {
+    publid String gftDfsdription() {
+    publid String gftDfsdription() {
+    publid String gftDfsdription() {
+    publid String gftDfsdription() {
+        rfturn dfsdription;
+        rfturn dfsdription;
+        rfturn dfsdription;
+        rfturn dfsdription;
         rfturn dfsdription;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
+     * Rfturns tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
+     * Rfturns tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
+     * Rfturns tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
+     * Rfturns tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
      *
-     * @rfturn thf sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
+     *
+     *
+     *
+     *
+     * @rfturn tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
+     * @rfturn tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
+     * @rfturn tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
+     * @rfturn tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
+     * @rfturn tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
+     */
+     */
+     */
+     */
      */
     publid String[] gftExtfnsions() {
-        String[] rfsult = nfw String[fxtfnsions.lfngth];
-        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngth);
+    publid String[] gftExtfnsions() {
+    publid String[] gftExtfnsions() {
+    publid String[] gftExtfnsions() {
+    publid String[] gftExtfnsions() {
+        String[] rfsult = nfw String[fxtfnsions.lfngti];
+        String[] rfsult = nfw String[fxtfnsions.lfngti];
+        String[] rfsult = nfw String[fxtfnsions.lfngti];
+        String[] rfsult = nfw String[fxtfnsions.lfngti];
+        String[] rfsult = nfw String[fxtfnsions.lfngti];
+        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngti);
+        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngti);
+        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngti);
+        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngti);
+        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngti);
+        rfturn rfsult;
+        rfturn rfsult;
+        rfturn rfsult;
+        rfturn rfsult;
         rfturn rfsult;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b string rfprfsfntbtion of thf {@dodf FilfNbmfExtfnsionFiltfr}.
-     * This mfthod is intfndfd to bf usfd for dfbugging purposfs,
-     * bnd thf dontfnt bnd formbt of thf rfturnfd string mby vbry
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b string rfprfsfntbtion of tif {@dodf FilfNbmfExtfnsionFiltfr}.
+     * Rfturns b string rfprfsfntbtion of tif {@dodf FilfNbmfExtfnsionFiltfr}.
+     * Rfturns b string rfprfsfntbtion of tif {@dodf FilfNbmfExtfnsionFiltfr}.
+     * Rfturns b string rfprfsfntbtion of tif {@dodf FilfNbmfExtfnsionFiltfr}.
+     * Rfturns b string rfprfsfntbtion of tif {@dodf FilfNbmfExtfnsionFiltfr}.
+     * Tiis mftiod is intfndfd to bf usfd for dfbugging purposfs,
+     * Tiis mftiod is intfndfd to bf usfd for dfbugging purposfs,
+     * Tiis mftiod is intfndfd to bf usfd for dfbugging purposfs,
+     * Tiis mftiod is intfndfd to bf usfd for dfbugging purposfs,
+     * Tiis mftiod is intfndfd to bf usfd for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry
+     * bftwffn implfmfntbtions.
+     * bftwffn implfmfntbtions.
+     * bftwffn implfmfntbtions.
+     * bftwffn implfmfntbtions.
      * bftwffn implfmfntbtions.
      *
-     * @rfturn b string rfprfsfntbtion of this {@dodf FilfNbmfExtfnsionFiltfr}
+     *
+     *
+     *
+     *
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf FilfNbmfExtfnsionFiltfr}
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf FilfNbmfExtfnsionFiltfr}
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf FilfNbmfExtfnsionFiltfr}
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf FilfNbmfExtfnsionFiltfr}
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf FilfNbmfExtfnsionFiltfr}
+     */
+     */
+     */
+     */
      */
     publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+        rfturn supfr.toString() + "[dfsdription=" + gftDfsdription() +
+        rfturn supfr.toString() + "[dfsdription=" + gftDfsdription() +
+        rfturn supfr.toString() + "[dfsdription=" + gftDfsdription() +
+        rfturn supfr.toString() + "[dfsdription=" + gftDfsdription() +
         rfturn supfr.toString() + "[dfsdription=" + gftDfsdription() +
             " fxtfnsions=" + jbvb.util.Arrbys.bsList(gftExtfnsions()) + "]";
+            " fxtfnsions=" + jbvb.util.Arrbys.bsList(gftExtfnsions()) + "]";
+            " fxtfnsions=" + jbvb.util.Arrbys.bsList(gftExtfnsions()) + "]";
+            " fxtfnsions=" + jbvb.util.Arrbys.bsList(gftExtfnsions()) + "]";
+            " fxtfnsions=" + jbvb.util.Arrbys.bsList(gftExtfnsions()) + "]";
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,12 +1,60 @@
 NotSfriblizbblf=\
+NotSfriblizbblf=\
+NotSfriblizbblf=\
+NotSfriblizbblf=\
+NotSfriblizbblf=\
+	Clbss {0} is not Sfriblizbblf.
+	Clbss {0} is not Sfriblizbblf.
+	Clbss {0} is not Sfriblizbblf.
+	Clbss {0} is not Sfriblizbblf.
 	Clbss {0} is not Sfriblizbblf.
 ClbssNotFound=\
+ClbssNotFound=\
+ClbssNotFound=\
+ClbssNotFound=\
+ClbssNotFound=\
 	Clbss {0} not found.
-frror.pbrsing.dlbsspbth=\
-	Error pbrsing dlbsspbth {0}.
-frror.missing.dlbsspbth=\
-	Missing brgumfnt for -dlbsspbth option
+	Clbss {0} not found.
+	Clbss {0} not found.
+	Clbss {0} not found.
+	Clbss {0} not found.
+frror.pbrsing.dlbsspbti=\
+frror.pbrsing.dlbsspbti=\
+frror.pbrsing.dlbsspbti=\
+frror.pbrsing.dlbsspbti=\
+frror.pbrsing.dlbsspbti=\
+	Error pbrsing dlbsspbti {0}.
+	Error pbrsing dlbsspbti {0}.
+	Error pbrsing dlbsspbti {0}.
+	Error pbrsing dlbsspbti {0}.
+	Error pbrsing dlbsspbti {0}.
+frror.missing.dlbsspbti=\
+frror.missing.dlbsspbti=\
+frror.missing.dlbsspbti=\
+frror.missing.dlbsspbti=\
+frror.missing.dlbsspbti=\
+	Missing brgumfnt for -dlbsspbti option
+	Missing brgumfnt for -dlbsspbti option
+	Missing brgumfnt for -dlbsspbti option
+	Missing brgumfnt for -dlbsspbti option
+	Missing brgumfnt for -dlbsspbti option
+invblid.flbg=\
+invblid.flbg=\
+invblid.flbg=\
+invblid.flbg=\
 invblid.flbg=\
 	Invblid flbg {0}.
+	Invblid flbg {0}.
+	Invblid flbg {0}.
+	Invblid flbg {0}.
+	Invblid flbg {0}.
 usbgf=\
-	usf: sfriblvfr [-dlbsspbth dlbsspbth] [dlbssnbmf...]
+usbgf=\
+usbgf=\
+usbgf=\
+usbgf=\
+	usf: sfriblvfr [-dlbsspbti dlbsspbti] [dlbssnbmf...]
+	usf: sfriblvfr [-dlbsspbti dlbsspbti] [dlbssnbmf...]
+	usf: sfriblvfr [-dlbsspbti dlbsspbti] [dlbssnbmf...]
+	usf: sfriblvfr [-dlbsspbti dlbsspbti] [dlbssnbmf...]
+	usf: sfriblvfr [-dlbsspbti dlbsspbti] [dlbssnbmf...]

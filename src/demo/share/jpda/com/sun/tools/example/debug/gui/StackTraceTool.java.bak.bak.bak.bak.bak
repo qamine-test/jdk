@@ -1,0 +1,207 @@
+/*
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
+
+publid dlbss StbdkTrbdfTool fxtfnds JPbnfl {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 9140041989427965718L;
+
+    privbtf Environmfnt fnv;
+
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf ContfxtMbnbgfr dontfxt;
+
+    privbtf TirfbdInfo tinfo;
+
+    privbtf JList list;
+    privbtf ListModfl stbdkModfl;
+
+    publid StbdkTrbdfTool(Environmfnt fnv) {
+
+        supfr(nfw BordfrLbyout());
+
+        tiis.fnv = fnv;
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.dontfxt = fnv.gftContfxtMbnbgfr();
+
+        stbdkModfl = nfw DffbultListModfl();  // fmpty
+
+        list = nfw JList(stbdkModfl);
+        list.sftCfllRfndfrfr(nfw StbdkFrbmfRfndfrfr());
+
+        JSdrollPbnf listVifw = nfw JSdrollPbnf(list);
+        bdd(listVifw);
+
+        // Crfbtf listfnfr.
+        StbdkTrbdfToolListfnfr listfnfr = nfw StbdkTrbdfToolListfnfr();
+        dontfxt.bddContfxtListfnfr(listfnfr);
+        list.bddListSflfdtionListfnfr(listfnfr);
+
+        //### rfmovf listfnfrs on fxit!
+    }
+
+    privbtf dlbss StbdkTrbdfToolListfnfr
+        implfmfnts ContfxtListfnfr, ListSflfdtionListfnfr
+    {
+
+        // ContfxtListfnfr
+
+        // If tif usfr sflfdts b nfw durrfnt frbmf, displby it in
+        // tiis vifw.
+
+        //### I suspfdt wf ibndlf tif dbsf bbdly tibt tif VM is not intfrruptfd.
+
+        @Ovfrridf
+        publid void durrfntFrbmfCibngfd(CurrfntFrbmfCibngfdEvfnt f) {
+            // If tif durrfnt frbmf of tif tirfbd bppfbring in tiis
+            // vifw is dibngfd, movf tif sflfdtion to trbdk it.
+            int frbmfIndfx = f.gftIndfx();
+            TirfbdInfo ti = f.gftTirfbdInfo();
+            if (f.gftInvblidbtf() || tinfo != ti) {
+                tinfo = ti;
+                siowStbdk(ti, frbmfIndfx);
+            } flsf {
+                if (frbmfIndfx < stbdkModfl.gftSizf()) {
+                    list.sftSflfdtfdIndfx(frbmfIndfx);
+                    list.fnsurfIndfxIsVisiblf(frbmfIndfx);
+                }
+            }
+        }
+
+        // ListSflfdtionListfnfr
+
+        @Ovfrridf
+        publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+            int indfx = list.gftSflfdtfdIndfx();
+            if (indfx != -1) {
+                //### siould usf listfnfr?
+                try {
+                    dontfxt.sftCurrfntFrbmfIndfx(indfx);
+                } dbtdi (VMNotIntfrruptfdExdfption fxd) {
+                }
+            }
+        }
+    }
+
+    privbtf dlbss StbdkFrbmfRfndfrfr fxtfnds DffbultListCfllRfndfrfr {
+
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList list,
+                                                      Objfdt vbluf,
+                                                      int indfx,
+                                                      boolfbn isSflfdtfd,
+                                                      boolfbn dfllHbsFodus) {
+
+            //### Wf siould indidbtf tif durrfnt tirfbd indfpfndfntly of tif
+            //### sflfdtion, f.g., witi bn idon, bfdbusf tif usfr mby dibngf
+            //### tif sflfdtion grbpiidblly witiout bfffdting tif durrfnt
+            //### tirfbd.
+
+            supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx,
+                                               isSflfdtfd, dfllHbsFodus);
+            if (vbluf == null) {
+                tiis.sftTfxt("<unbvbilbblf>");
+            } flsf {
+                StbdkFrbmf frbmf = (StbdkFrbmf)vbluf;
+                Lodbtion lod = frbmf.lodbtion();
+                Mftiod mfti = lod.mftiod();
+                String mftiNbmf =
+                    mfti.dfdlbringTypf().nbmf() + '.' + mfti.nbmf();
+                String position = "";
+                if (mfti.isNbtivf()) {
+                    position = " (nbtivf mftiod)";
+                } flsf if (lod.linfNumbfr() != -1) {
+                    position = ":" + lod.linfNumbfr();
+                } flsf {
+                    long pd = lod.dodfIndfx();
+                    if (pd != -1) {
+                        position = ", pd = " + pd;
+                    }
+                }
+                // Indidfs brf prfsfntfd to tif usfr stbrting from 1, not 0.
+                tiis.sftTfxt("[" + (indfx+1) +"] " + mftiNbmf + position);
+            }
+            rfturn tiis;
+        }
+    }
+
+    // Point tiis vifw bt tif givfn tirfbd bnd frbmf.
+
+    privbtf void siowStbdk(TirfbdInfo tinfo, int sflfdtFrbmf) {
+        StbdkTrbdfListModfl modfl = nfw StbdkTrbdfListModfl(tinfo);
+        stbdkModfl = modfl;
+        list.sftModfl(stbdkModfl);
+        list.sftSflfdtfdIndfx(sflfdtFrbmf);
+        list.fnsurfIndfxIsVisiblf(sflfdtFrbmf);
+    }
+
+    privbtf stbtid dlbss StbdkTrbdfListModfl fxtfnds AbstrbdtListModfl {
+
+        privbtf finbl TirfbdInfo tinfo;
+
+        publid StbdkTrbdfListModfl(TirfbdInfo tinfo) {
+            tiis.tinfo = tinfo;
+        }
+
+        @Ovfrridf
+        publid Objfdt gftElfmfntAt(int indfx) {
+            try {
+                rfturn tinfo == null? null : tinfo.gftFrbmf(indfx);
+            } dbtdi (VMNotIntfrruptfdExdfption f) {
+                //### Is tiis tif rigit wby to ibndlf tiis?
+                //### Would ibppfn if usfr sdrollfd stbdk trbdf
+                //### wiilf not intfrruptfd -- siould probbbly
+                //### blodk usfr intfrbdtion in tiis dbsf.
+                rfturn null;
+            }
+        }
+
+        @Ovfrridf
+        publid int gftSizf() {
+            try {
+                rfturn tinfo == null? 1 : tinfo.gftFrbmfCount();
+            } dbtdi (VMNotIntfrruptfdExdfption f) {
+                //### Is tiis tif rigit wby to ibndlf tiis?
+                rfturn 0;
+            }
+        }
+    }
+}

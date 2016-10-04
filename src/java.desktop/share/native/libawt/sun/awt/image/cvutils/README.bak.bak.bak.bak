@@ -1,277 +1,1385 @@
 /* 
- * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/* 
+/* 
+/* 
+/* 
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * 
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  * 
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  * 
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  * 
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * 
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * 
+ * 
+ * 
+ * 
+ * 
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * 
+ * 
+ * 
+ * 
+ * 
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * 
+ * 
+ * 
+ * 
+ * 
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-This dirfdtory dontbins sourdf dodf to pfrform b widf vbrifty of imbgf
-donvfrsions for thf Jbvb AWT.
 
-Thf imbgf donvfrsion prodfss is dontrollfd by b fundtion skflfton
-dffinfd in thf indludf filf <img_sdblfloop.h> whidh invokfs b numbfr
-of mbdros in difffrfnt dbtfgorifs to pfrform thf work of rfbding bnd
-dfdoding thf input pixfls bnd thfn sdbling, dithfring, bnd storing thf
-pixfls in thf dfstinbtion imbgf strudturf.  Ebdh pbrt of thbt prodfss
-dbn bf implfmfntfd in onf of sfvfrbl difffrfnt wbys dfpfnding on thf
+
+
+
+Tiis dirfdtory dontbins sourdf dodf to pfrform b widf vbrifty of imbgf
+Tiis dirfdtory dontbins sourdf dodf to pfrform b widf vbrifty of imbgf
+Tiis dirfdtory dontbins sourdf dodf to pfrform b widf vbrifty of imbgf
+Tiis dirfdtory dontbins sourdf dodf to pfrform b widf vbrifty of imbgf
+Tiis dirfdtory dontbins sourdf dodf to pfrform b widf vbrifty of imbgf
+donvfrsions for tif Jbvb AWT.
+donvfrsions for tif Jbvb AWT.
+donvfrsions for tif Jbvb AWT.
+donvfrsions for tif Jbvb AWT.
+donvfrsions for tif Jbvb AWT.
+
+
+
+
+
+Tif imbgf donvfrsion prodfss is dontrollfd by b fundtion skflfton
+Tif imbgf donvfrsion prodfss is dontrollfd by b fundtion skflfton
+Tif imbgf donvfrsion prodfss is dontrollfd by b fundtion skflfton
+Tif imbgf donvfrsion prodfss is dontrollfd by b fundtion skflfton
+Tif imbgf donvfrsion prodfss is dontrollfd by b fundtion skflfton
+dffinfd in tif indludf filf <img_sdblfloop.i> wiidi invokfs b numbfr
+dffinfd in tif indludf filf <img_sdblfloop.i> wiidi invokfs b numbfr
+dffinfd in tif indludf filf <img_sdblfloop.i> wiidi invokfs b numbfr
+dffinfd in tif indludf filf <img_sdblfloop.i> wiidi invokfs b numbfr
+dffinfd in tif indludf filf <img_sdblfloop.i> wiidi invokfs b numbfr
+of mbdros in difffrfnt dbtfgorifs to pfrform tif work of rfbding bnd
+of mbdros in difffrfnt dbtfgorifs to pfrform tif work of rfbding bnd
+of mbdros in difffrfnt dbtfgorifs to pfrform tif work of rfbding bnd
+of mbdros in difffrfnt dbtfgorifs to pfrform tif work of rfbding bnd
+of mbdros in difffrfnt dbtfgorifs to pfrform tif work of rfbding bnd
+dfdoding tif input pixfls bnd tifn sdbling, ditifring, bnd storing tif
+dfdoding tif input pixfls bnd tifn sdbling, ditifring, bnd storing tif
+dfdoding tif input pixfls bnd tifn sdbling, ditifring, bnd storing tif
+dfdoding tif input pixfls bnd tifn sdbling, ditifring, bnd storing tif
+dfdoding tif input pixfls bnd tifn sdbling, ditifring, bnd storing tif
+pixfls in tif dfstinbtion imbgf strudturf.  Ebdi pbrt of tibt prodfss
+pixfls in tif dfstinbtion imbgf strudturf.  Ebdi pbrt of tibt prodfss
+pixfls in tif dfstinbtion imbgf strudturf.  Ebdi pbrt of tibt prodfss
+pixfls in tif dfstinbtion imbgf strudturf.  Ebdi pbrt of tibt prodfss
+pixfls in tif dfstinbtion imbgf strudturf.  Ebdi pbrt of tibt prodfss
+dbn bf implfmfntfd in onf of sfvfrbl difffrfnt wbys dfpfnding on tif
+dbn bf implfmfntfd in onf of sfvfrbl difffrfnt wbys dfpfnding on tif
+dbn bf implfmfntfd in onf of sfvfrbl difffrfnt wbys dfpfnding on tif
+dbn bf implfmfntfd in onf of sfvfrbl difffrfnt wbys dfpfnding on tif
+dbn bf implfmfntfd in onf of sfvfrbl difffrfnt wbys dfpfnding on tif
 typf of input dbtb bnd output rfprfsfntbtion nffdfd bnd dfpfnding on
-thf spffd bnd qublity dfsirfd.
+typf of input dbtb bnd output rfprfsfntbtion nffdfd bnd dfpfnding on
+typf of input dbtb bnd output rfprfsfntbtion nffdfd bnd dfpfnding on
+typf of input dbtb bnd output rfprfsfntbtion nffdfd bnd dfpfnding on
+typf of input dbtb bnd output rfprfsfntbtion nffdfd bnd dfpfnding on
+tif spffd bnd qublity dfsirfd.
+tif spffd bnd qublity dfsirfd.
+tif spffd bnd qublity dfsirfd.
+tif spffd bnd qublity dfsirfd.
+tif spffd bnd qublity dfsirfd.
 
-Thf donvfrsion prodfss bs dffinfd by <img_sdblfloop.h> dbn bf brokfn
-down into thf following dbtfgorifs:
 
-	Fftdhing	rftrifving pixfls from thf sourdf pixfl dbtb
-	Dfdoding	dfdoding sourdf pixfls into dolor/blphb informbtion
+
+
+
+Tif donvfrsion prodfss bs dffinfd by <img_sdblfloop.i> dbn bf brokfn
+Tif donvfrsion prodfss bs dffinfd by <img_sdblfloop.i> dbn bf brokfn
+Tif donvfrsion prodfss bs dffinfd by <img_sdblfloop.i> dbn bf brokfn
+Tif donvfrsion prodfss bs dffinfd by <img_sdblfloop.i> dbn bf brokfn
+Tif donvfrsion prodfss bs dffinfd by <img_sdblfloop.i> dbn bf brokfn
+down into tif following dbtfgorifs:
+down into tif following dbtfgorifs:
+down into tif following dbtfgorifs:
+down into tif following dbtfgorifs:
+down into tif following dbtfgorifs:
+
+
+
+
+
+	Fftdiing	rftrifving pixfls from tif sourdf pixfl dbtb
+	Fftdiing	rftrifving pixfls from tif sourdf pixfl dbtb
+	Fftdiing	rftrifving pixfls from tif sourdf pixfl dbtb
+	Fftdiing	rftrifving pixfls from tif sourdf pixfl dbtb
+	Fftdiing	rftrifving pixfls from tif sourdf pixfl dbtb
+	Dfdoding	dfdoding sourdf pixfls into dolor/blpib informbtion
+	Dfdoding	dfdoding sourdf pixfls into dolor/blpib informbtion
+	Dfdoding	dfdoding sourdf pixfls into dolor/blpib informbtion
+	Dfdoding	dfdoding sourdf pixfls into dolor/blpib informbtion
+	Dfdoding	dfdoding sourdf pixfls into dolor/blpib informbtion
+	Sdbling		rfsbmpling sourdf dbtb for b difffrfnt rfsolution
+	Sdbling		rfsbmpling sourdf dbtb for b difffrfnt rfsolution
+	Sdbling		rfsbmpling sourdf dbtb for b difffrfnt rfsolution
+	Sdbling		rfsbmpling sourdf dbtb for b difffrfnt rfsolution
 	Sdbling		rfsbmpling sourdf dbtb for b difffrfnt rfsolution
 	Endoding	donvfrting sourdf dolors into b dfstinbtion pixfl
-	Alphb		donvfrting blphb vblufs into mbsks or blphb dhbnnfls
-	Storing		storing thf finbl pixfls in thf dfstinbtion imbgf
+	Endoding	donvfrting sourdf dolors into b dfstinbtion pixfl
+	Endoding	donvfrting sourdf dolors into b dfstinbtion pixfl
+	Endoding	donvfrting sourdf dolors into b dfstinbtion pixfl
+	Endoding	donvfrting sourdf dolors into b dfstinbtion pixfl
+	Alpib		donvfrting blpib vblufs into mbsks or blpib dibnnfls
+	Alpib		donvfrting blpib vblufs into mbsks or blpib dibnnfls
+	Alpib		donvfrting blpib vblufs into mbsks or blpib dibnnfls
+	Alpib		donvfrting blpib vblufs into mbsks or blpib dibnnfls
+	Alpib		donvfrting blpib vblufs into mbsks or blpib dibnnfls
+	Storing		storing tif finbl pixfls in tif dfstinbtion imbgf
+	Storing		storing tif finbl pixfls in tif dfstinbtion imbgf
+	Storing		storing tif finbl pixfls in tif dfstinbtion imbgf
+	Storing		storing tif finbl pixfls in tif dfstinbtion imbgf
+	Storing		storing tif finbl pixfls in tif dfstinbtion imbgf
 
-Ebdh dbtfgory dffinfs b numbfr of difffrfnt mbdros thbt brf usfd by thf
-dodf skflfton in <img_sdblfloop.h> to pfrform thf work of donvfrting
-thf imbgfs.  Thf mbdros for fbdh dbtfgory brf bll implfmfntfd by b
-numbfr of othfr hfbdfr filfs with multiplf implfmfntbtions providfd
-for fbdh dbtfgory dfpfnding on thf pbrtidulbr typf of input or output
-dbtb dfsirfd.  Thf filfs whidh implfmfnt thf vbrious dbtfgorifs brf bs
+
+
+
+
+Ebdi dbtfgory dffinfs b numbfr of difffrfnt mbdros tibt brf usfd by tif
+Ebdi dbtfgory dffinfs b numbfr of difffrfnt mbdros tibt brf usfd by tif
+Ebdi dbtfgory dffinfs b numbfr of difffrfnt mbdros tibt brf usfd by tif
+Ebdi dbtfgory dffinfs b numbfr of difffrfnt mbdros tibt brf usfd by tif
+Ebdi dbtfgory dffinfs b numbfr of difffrfnt mbdros tibt brf usfd by tif
+dodf skflfton in <img_sdblfloop.i> to pfrform tif work of donvfrting
+dodf skflfton in <img_sdblfloop.i> to pfrform tif work of donvfrting
+dodf skflfton in <img_sdblfloop.i> to pfrform tif work of donvfrting
+dodf skflfton in <img_sdblfloop.i> to pfrform tif work of donvfrting
+dodf skflfton in <img_sdblfloop.i> to pfrform tif work of donvfrting
+tif imbgfs.  Tif mbdros for fbdi dbtfgory brf bll implfmfntfd by b
+tif imbgfs.  Tif mbdros for fbdi dbtfgory brf bll implfmfntfd by b
+tif imbgfs.  Tif mbdros for fbdi dbtfgory brf bll implfmfntfd by b
+tif imbgfs.  Tif mbdros for fbdi dbtfgory brf bll implfmfntfd by b
+tif imbgfs.  Tif mbdros for fbdi dbtfgory brf bll implfmfntfd by b
+numbfr of otifr ifbdfr filfs witi multiplf implfmfntbtions providfd
+numbfr of otifr ifbdfr filfs witi multiplf implfmfntbtions providfd
+numbfr of otifr ifbdfr filfs witi multiplf implfmfntbtions providfd
+numbfr of otifr ifbdfr filfs witi multiplf implfmfntbtions providfd
+numbfr of otifr ifbdfr filfs witi multiplf implfmfntbtions providfd
+for fbdi dbtfgory dfpfnding on tif pbrtidulbr typf of input or output
+for fbdi dbtfgory dfpfnding on tif pbrtidulbr typf of input or output
+for fbdi dbtfgory dfpfnding on tif pbrtidulbr typf of input or output
+for fbdi dbtfgory dfpfnding on tif pbrtidulbr typf of input or output
+for fbdi dbtfgory dfpfnding on tif pbrtidulbr typf of input or output
+dbtb dfsirfd.  Tif filfs wiidi implfmfnt tif vbrious dbtfgorifs brf bs
+dbtb dfsirfd.  Tif filfs wiidi implfmfnt tif vbrious dbtfgorifs brf bs
+dbtb dfsirfd.  Tif filfs wiidi implfmfnt tif vbrious dbtfgorifs brf bs
+dbtb dfsirfd.  Tif filfs wiidi implfmfnt tif vbrious dbtfgorifs brf bs
+dbtb dfsirfd.  Tif filfs wiidi implfmfnt tif vbrious dbtfgorifs brf bs
+follows:
+follows:
+follows:
+follows:
 follows:
 
-    Fftdhing
-	<img_input8.h>		Fftdh 8 bit pixfls from b bytf brrby
-	<img_input32.h>		Fftdh 32 bit pixfls from b int brrby
-	<img_input8_32.h>	Fftdh 8 or 32 bit pixfls
+
+
+
+
+    Fftdiing
+    Fftdiing
+    Fftdiing
+    Fftdiing
+    Fftdiing
+	<img_input8.i>		Fftdi 8 bit pixfls from b bytf brrby
+	<img_input8.i>		Fftdi 8 bit pixfls from b bytf brrby
+	<img_input8.i>		Fftdi 8 bit pixfls from b bytf brrby
+	<img_input8.i>		Fftdi 8 bit pixfls from b bytf brrby
+	<img_input8.i>		Fftdi 8 bit pixfls from b bytf brrby
+	<img_input32.i>		Fftdi 32 bit pixfls from b int brrby
+	<img_input32.i>		Fftdi 32 bit pixfls from b int brrby
+	<img_input32.i>		Fftdi 32 bit pixfls from b int brrby
+	<img_input32.i>		Fftdi 32 bit pixfls from b int brrby
+	<img_input32.i>		Fftdi 32 bit pixfls from b int brrby
+	<img_input8_32.i>	Fftdi 8 or 32 bit pixfls
+	<img_input8_32.i>	Fftdi 8 or 32 bit pixfls
+	<img_input8_32.i>	Fftdi 8 or 32 bit pixfls
+	<img_input8_32.i>	Fftdi 8 or 32 bit pixfls
+	<img_input8_32.i>	Fftdi 8 or 32 bit pixfls
+
+
+
+
 
     Dfdoding
-    	<img_idm.h>		Dfdodf IndfxColorModfl pixfls
-    	<img_ddm.h>		Dfdodf DirfdtColorModfl pixfls
-    	<img_ddm8.h>		Dfdodf DirfdtColorModfl pixfls with bt
+    Dfdoding
+    Dfdoding
+    Dfdoding
+    Dfdoding
+    	<img_idm.i>		Dfdodf IndfxColorModfl pixfls
+    	<img_idm.i>		Dfdodf IndfxColorModfl pixfls
+    	<img_idm.i>		Dfdodf IndfxColorModfl pixfls
+    	<img_idm.i>		Dfdodf IndfxColorModfl pixfls
+    	<img_idm.i>		Dfdodf IndfxColorModfl pixfls
+    	<img_ddm.i>		Dfdodf DirfdtColorModfl pixfls
+    	<img_ddm.i>		Dfdodf DirfdtColorModfl pixfls
+    	<img_ddm.i>		Dfdodf DirfdtColorModfl pixfls
+    	<img_ddm.i>		Dfdodf DirfdtColorModfl pixfls
+    	<img_ddm.i>		Dfdodf DirfdtColorModfl pixfls
+    	<img_ddm8.i>		Dfdodf DirfdtColorModfl pixfls witi bt
+    	<img_ddm8.i>		Dfdodf DirfdtColorModfl pixfls witi bt
+    	<img_ddm8.i>		Dfdodf DirfdtColorModfl pixfls witi bt
+    	<img_ddm8.i>		Dfdodf DirfdtColorModfl pixfls witi bt
+    	<img_ddm8.i>		Dfdodf DirfdtColorModfl pixfls witi bt
 				    lfbst 8 bits pfr domponfnt
-    	<img_bnydm.h>		Dfdodf bny typf of ColorModfl's pixfls (with
-				    nbtivf hbndling of Indfx bnd Dirfdt)
+				    lfbst 8 bits pfr domponfnt
+				    lfbst 8 bits pfr domponfnt
+				    lfbst 8 bits pfr domponfnt
+				    lfbst 8 bits pfr domponfnt
+    	<img_bnydm.i>		Dfdodf bny typf of ColorModfl's pixfls (witi
+    	<img_bnydm.i>		Dfdodf bny typf of ColorModfl's pixfls (witi
+    	<img_bnydm.i>		Dfdodf bny typf of ColorModfl's pixfls (witi
+    	<img_bnydm.i>		Dfdodf bny typf of ColorModfl's pixfls (witi
+    	<img_bnydm.i>		Dfdodf bny typf of ColorModfl's pixfls (witi
+				    nbtivf ibndling of Indfx bnd Dirfdt)
+				    nbtivf ibndling of Indfx bnd Dirfdt)
+				    nbtivf ibndling of Indfx bnd Dirfdt)
+				    nbtivf ibndling of Indfx bnd Dirfdt)
+				    nbtivf ibndling of Indfx bnd Dirfdt)
+
+
+
+
 
     Sdbling
-    	<img_nosdblf.h>		Don't sdblf input dbtb bt bll
-	<img_rfplsdblf.h>	Nfbrfst Nfighbor sdbling - rfplidbtf or
+    Sdbling
+    Sdbling
+    Sdbling
+    Sdbling
+    	<img_nosdblf.i>		Don't sdblf input dbtb bt bll
+    	<img_nosdblf.i>		Don't sdblf input dbtb bt bll
+    	<img_nosdblf.i>		Don't sdblf input dbtb bt bll
+    	<img_nosdblf.i>		Don't sdblf input dbtb bt bll
+    	<img_nosdblf.i>		Don't sdblf input dbtb bt bll
+	<img_rfplsdblf.i>	Nfbrfst Nfigibor sdbling - rfplidbtf or
+	<img_rfplsdblf.i>	Nfbrfst Nfigibor sdbling - rfplidbtf or
+	<img_rfplsdblf.i>	Nfbrfst Nfigibor sdbling - rfplidbtf or
+	<img_rfplsdblf.i>	Nfbrfst Nfigibor sdbling - rfplidbtf or
+	<img_rfplsdblf.i>	Nfbrfst Nfigibor sdbling - rfplidbtf or
+				    omit pixfls bs nfdfssbry
+				    omit pixfls bs nfdfssbry
+				    omit pixfls bs nfdfssbry
+				    omit pixfls bs nfdfssbry
 				    omit pixfls bs nfdfssbry
 
+
+
+
+
     Endoding
-	<img_nodithfr.h>	No fndoding bt bll (only for 24-bit imbgfs)
-	<img_dir8dithfr.h>	Composf DirfdtColor pixfls, 8-bits/domponfnt 
-	<img_dirdithfr.h>	Composf DirfdtColor pixfls up to 8-bits/domp
-	<img_fsgrby.h>		Floyd-Stfinbfrg frror diffusion, grby rbmp
-				    (rfquirfs TopDownLfftRight sourdf dbtb)
-	<img_fsdolor.h>		Floyd-Stfinbfrg frror diffusion, RGB dolor mbp
-				    (rfquirfs TopDownLfftRight sourdf dbtb)
-	<img_fsdithfr.h>	Floyd-Stfinbfrg frror diffusion, RGB or grby
-				    (rfquirfs TopDownLfftRight sourdf dbtb)
-	<img_ordgrby.h>		unsignfd ordfrfd dithfr frror, grby rbmp
-	<img_orddlruns.h>	unsignfd ordfrfd dithfr frror, RGB dolor mbp
-	<img_orddlrsgn.h>	signfd ordfrfd dithfr frror, RGB dolor mbp
-	<img_orddithfr.h>	unsignfd ordfrfd dithfr frror, RGB or grby
+    Endoding
+    Endoding
+    Endoding
+    Endoding
+	<img_noditifr.i>	No fndoding bt bll (only for 24-bit imbgfs)
+	<img_noditifr.i>	No fndoding bt bll (only for 24-bit imbgfs)
+	<img_noditifr.i>	No fndoding bt bll (only for 24-bit imbgfs)
+	<img_noditifr.i>	No fndoding bt bll (only for 24-bit imbgfs)
+	<img_noditifr.i>	No fndoding bt bll (only for 24-bit imbgfs)
+	<img_dir8ditifr.i>	Composf DirfdtColor pixfls, 8-bits/domponfnt 
+	<img_dir8ditifr.i>	Composf DirfdtColor pixfls, 8-bits/domponfnt 
+	<img_dir8ditifr.i>	Composf DirfdtColor pixfls, 8-bits/domponfnt 
+	<img_dir8ditifr.i>	Composf DirfdtColor pixfls, 8-bits/domponfnt 
+	<img_dir8ditifr.i>	Composf DirfdtColor pixfls, 8-bits/domponfnt 
+	<img_dirditifr.i>	Composf DirfdtColor pixfls up to 8-bits/domp
+	<img_dirditifr.i>	Composf DirfdtColor pixfls up to 8-bits/domp
+	<img_dirditifr.i>	Composf DirfdtColor pixfls up to 8-bits/domp
+	<img_dirditifr.i>	Composf DirfdtColor pixfls up to 8-bits/domp
+	<img_dirditifr.i>	Composf DirfdtColor pixfls up to 8-bits/domp
+	<img_fsgrby.i>		Floyd-Stfinbfrg frror diffusion, grby rbmp
+	<img_fsgrby.i>		Floyd-Stfinbfrg frror diffusion, grby rbmp
+	<img_fsgrby.i>		Floyd-Stfinbfrg frror diffusion, grby rbmp
+	<img_fsgrby.i>		Floyd-Stfinbfrg frror diffusion, grby rbmp
+	<img_fsgrby.i>		Floyd-Stfinbfrg frror diffusion, grby rbmp
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+	<img_fsdolor.i>		Floyd-Stfinbfrg frror diffusion, RGB dolor mbp
+	<img_fsdolor.i>		Floyd-Stfinbfrg frror diffusion, RGB dolor mbp
+	<img_fsdolor.i>		Floyd-Stfinbfrg frror diffusion, RGB dolor mbp
+	<img_fsdolor.i>		Floyd-Stfinbfrg frror diffusion, RGB dolor mbp
+	<img_fsdolor.i>		Floyd-Stfinbfrg frror diffusion, RGB dolor mbp
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+	<img_fsditifr.i>	Floyd-Stfinbfrg frror diffusion, RGB or grby
+	<img_fsditifr.i>	Floyd-Stfinbfrg frror diffusion, RGB or grby
+	<img_fsditifr.i>	Floyd-Stfinbfrg frror diffusion, RGB or grby
+	<img_fsditifr.i>	Floyd-Stfinbfrg frror diffusion, RGB or grby
+	<img_fsditifr.i>	Floyd-Stfinbfrg frror diffusion, RGB or grby
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+				    (rfquirfs TopDownLfftRigit sourdf dbtb)
+	<img_ordgrby.i>		unsignfd ordfrfd ditifr frror, grby rbmp
+	<img_ordgrby.i>		unsignfd ordfrfd ditifr frror, grby rbmp
+	<img_ordgrby.i>		unsignfd ordfrfd ditifr frror, grby rbmp
+	<img_ordgrby.i>		unsignfd ordfrfd ditifr frror, grby rbmp
+	<img_ordgrby.i>		unsignfd ordfrfd ditifr frror, grby rbmp
+	<img_orddlruns.i>	unsignfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlruns.i>	unsignfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlruns.i>	unsignfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlruns.i>	unsignfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlruns.i>	unsignfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlrsgn.i>	signfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlrsgn.i>	signfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlrsgn.i>	signfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlrsgn.i>	signfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_orddlrsgn.i>	signfd ordfrfd ditifr frror, RGB dolor mbp
+	<img_ordditifr.i>	unsignfd ordfrfd ditifr frror, RGB or grby
+	<img_ordditifr.i>	unsignfd ordfrfd ditifr frror, RGB or grby
+	<img_ordditifr.i>	unsignfd ordfrfd ditifr frror, RGB or grby
+	<img_ordditifr.i>	unsignfd ordfrfd ditifr frror, RGB or grby
+	<img_ordditifr.i>	unsignfd ordfrfd ditifr frror, RGB or grby
+				    (must blso indludf orddlrsgn or orddlruns)
+				    (must blso indludf orddlrsgn or orddlruns)
+				    (must blso indludf orddlrsgn or orddlruns)
+				    (must blso indludf orddlrsgn or orddlruns)
 				    (must blso indludf orddlrsgn or orddlruns)
 
-    Alphb
-    	<img_opbquf.h>		No blphb prodfssing (must bf opbquf input)
-    	<img_blphb.h>		Produdf 1-bit trbnspbrfndy mbsks from blphb
-				    dbtb using bn ordfrfd dithfring tfdhniquf
+
+
+
+
+    Alpib
+    Alpib
+    Alpib
+    Alpib
+    Alpib
+    	<img_opbquf.i>		No blpib prodfssing (must bf opbquf input)
+    	<img_opbquf.i>		No blpib prodfssing (must bf opbquf input)
+    	<img_opbquf.i>		No blpib prodfssing (must bf opbquf input)
+    	<img_opbquf.i>		No blpib prodfssing (must bf opbquf input)
+    	<img_opbquf.i>		No blpib prodfssing (must bf opbquf input)
+    	<img_blpib.i>		Produdf 1-bit trbnspbrfndy mbsks from blpib
+    	<img_blpib.i>		Produdf 1-bit trbnspbrfndy mbsks from blpib
+    	<img_blpib.i>		Produdf 1-bit trbnspbrfndy mbsks from blpib
+    	<img_blpib.i>		Produdf 1-bit trbnspbrfndy mbsks from blpib
+    	<img_blpib.i>		Produdf 1-bit trbnspbrfndy mbsks from blpib
+				    dbtb using bn ordfrfd ditifring tfdiniquf
+				    dbtb using bn ordfrfd ditifring tfdiniquf
+				    dbtb using bn ordfrfd ditifring tfdiniquf
+				    dbtb using bn ordfrfd ditifring tfdiniquf
+				    dbtb using bn ordfrfd ditifring tfdiniquf
+
+
+
+
 
     Storing
-    	<img_output8.h>		Storf 8-bit pixfls in b bytf brrby
-    	<img_output16.h>	Storf 16-bit pixfls in b short brrby
-    	<img_output24.h>	Storf 24-bit pixfls in b bytf triplft brrby
-    	<img_output32.h>	Storf 32-bit pixfls in bn int brrby
-    	<img_output8_16_24.h>	Storf 8, 16 or 24 bit pixfls
-    	<img_output8_16_32.h>	Storf 8, 16 or 32 bit pixfls
-    	<img_output8_32.h>	Storf 8 or 32 bit pixfls
+    Storing
+    Storing
+    Storing
+    Storing
+    	<img_output8.i>		Storf 8-bit pixfls in b bytf brrby
+    	<img_output8.i>		Storf 8-bit pixfls in b bytf brrby
+    	<img_output8.i>		Storf 8-bit pixfls in b bytf brrby
+    	<img_output8.i>		Storf 8-bit pixfls in b bytf brrby
+    	<img_output8.i>		Storf 8-bit pixfls in b bytf brrby
+    	<img_output16.i>	Storf 16-bit pixfls in b siort brrby
+    	<img_output16.i>	Storf 16-bit pixfls in b siort brrby
+    	<img_output16.i>	Storf 16-bit pixfls in b siort brrby
+    	<img_output16.i>	Storf 16-bit pixfls in b siort brrby
+    	<img_output16.i>	Storf 16-bit pixfls in b siort brrby
+    	<img_output24.i>	Storf 24-bit pixfls in b bytf triplft brrby
+    	<img_output24.i>	Storf 24-bit pixfls in b bytf triplft brrby
+    	<img_output24.i>	Storf 24-bit pixfls in b bytf triplft brrby
+    	<img_output24.i>	Storf 24-bit pixfls in b bytf triplft brrby
+    	<img_output24.i>	Storf 24-bit pixfls in b bytf triplft brrby
+    	<img_output32.i>	Storf 32-bit pixfls in bn int brrby
+    	<img_output32.i>	Storf 32-bit pixfls in bn int brrby
+    	<img_output32.i>	Storf 32-bit pixfls in bn int brrby
+    	<img_output32.i>	Storf 32-bit pixfls in bn int brrby
+    	<img_output32.i>	Storf 32-bit pixfls in bn int brrby
+    	<img_output8_16_24.i>	Storf 8, 16 or 24 bit pixfls
+    	<img_output8_16_24.i>	Storf 8, 16 or 24 bit pixfls
+    	<img_output8_16_24.i>	Storf 8, 16 or 24 bit pixfls
+    	<img_output8_16_24.i>	Storf 8, 16 or 24 bit pixfls
+    	<img_output8_16_24.i>	Storf 8, 16 or 24 bit pixfls
+    	<img_output8_16_32.i>	Storf 8, 16 or 32 bit pixfls
+    	<img_output8_16_32.i>	Storf 8, 16 or 32 bit pixfls
+    	<img_output8_16_32.i>	Storf 8, 16 or 32 bit pixfls
+    	<img_output8_16_32.i>	Storf 8, 16 or 32 bit pixfls
+    	<img_output8_16_32.i>	Storf 8, 16 or 32 bit pixfls
+    	<img_output8_32.i>	Storf 8 or 32 bit pixfls
+    	<img_output8_32.i>	Storf 8 or 32 bit pixfls
+    	<img_output8_32.i>	Storf 8 or 32 bit pixfls
+    	<img_output8_32.i>	Storf 8 or 32 bit pixfls
+    	<img_output8_32.i>	Storf 8 or 32 bit pixfls
 
-Somf of thfsf hfbdfr filfs blso rfquirf b numbfr of dffinitions to bf
-providfd by thf plbtform implfmfntor.  Thfsf dffinitions brf usublly
-plbdfd in b filf dbllfd "img_util_md.h" bnd indludfd whfn dffining bn
-bdtubl imbgf sdbling fundtion (sff bflow).  Most of thf dffinitions
-dbn bf implfmfntfd using fithfr mbdros or fundtions unlfss indidbtfd
-bflow.  Hfrf is b list of thf vbrious rfquirfd dffinitions bnd thf
-filfs or dbtfgorifs whidh rfly on thfm:
 
-usfd by <img_blphb.h>
+
+
+
+Somf of tifsf ifbdfr filfs blso rfquirf b numbfr of dffinitions to bf
+Somf of tifsf ifbdfr filfs blso rfquirf b numbfr of dffinitions to bf
+Somf of tifsf ifbdfr filfs blso rfquirf b numbfr of dffinitions to bf
+Somf of tifsf ifbdfr filfs blso rfquirf b numbfr of dffinitions to bf
+Somf of tifsf ifbdfr filfs blso rfquirf b numbfr of dffinitions to bf
+providfd by tif plbtform implfmfntor.  Tifsf dffinitions brf usublly
+providfd by tif plbtform implfmfntor.  Tifsf dffinitions brf usublly
+providfd by tif plbtform implfmfntor.  Tifsf dffinitions brf usublly
+providfd by tif plbtform implfmfntor.  Tifsf dffinitions brf usublly
+providfd by tif plbtform implfmfntor.  Tifsf dffinitions brf usublly
+plbdfd in b filf dbllfd "img_util_md.i" bnd indludfd wifn dffining bn
+plbdfd in b filf dbllfd "img_util_md.i" bnd indludfd wifn dffining bn
+plbdfd in b filf dbllfd "img_util_md.i" bnd indludfd wifn dffining bn
+plbdfd in b filf dbllfd "img_util_md.i" bnd indludfd wifn dffining bn
+plbdfd in b filf dbllfd "img_util_md.i" bnd indludfd wifn dffining bn
+bdtubl imbgf sdbling fundtion (sff bflow).  Most of tif dffinitions
+bdtubl imbgf sdbling fundtion (sff bflow).  Most of tif dffinitions
+bdtubl imbgf sdbling fundtion (sff bflow).  Most of tif dffinitions
+bdtubl imbgf sdbling fundtion (sff bflow).  Most of tif dffinitions
+bdtubl imbgf sdbling fundtion (sff bflow).  Most of tif dffinitions
+dbn bf implfmfntfd using fitifr mbdros or fundtions unlfss indidbtfd
+dbn bf implfmfntfd using fitifr mbdros or fundtions unlfss indidbtfd
+dbn bf implfmfntfd using fitifr mbdros or fundtions unlfss indidbtfd
+dbn bf implfmfntfd using fitifr mbdros or fundtions unlfss indidbtfd
+dbn bf implfmfntfd using fitifr mbdros or fundtions unlfss indidbtfd
+bflow.  Hfrf is b list of tif vbrious rfquirfd dffinitions bnd tif
+bflow.  Hfrf is b list of tif vbrious rfquirfd dffinitions bnd tif
+bflow.  Hfrf is b list of tif vbrious rfquirfd dffinitions bnd tif
+bflow.  Hfrf is b list of tif vbrious rfquirfd dffinitions bnd tif
+bflow.  Hfrf is b list of tif vbrious rfquirfd dffinitions bnd tif
+filfs or dbtfgorifs wiidi rfly on tifm:
+filfs or dbtfgorifs wiidi rfly on tifm:
+filfs or dbtfgorifs wiidi rfly on tifm:
+filfs or dbtfgorifs wiidi rfly on tifm:
+filfs or dbtfgorifs wiidi rfly on tifm:
+
+
+
+
+
+usfd by <img_blpib.i>
+usfd by <img_blpib.i>
+usfd by <img_blpib.i>
+usfd by <img_blpib.i>
+usfd by <img_blpib.i>
+
+
+
+
 
     typfdff [intfgfr bbsf typf] MbskBits;
-	Spfdififs thf bbsf typf for trbnspbrfndy mbsk mbnipulbtion.
-	Somf plbtforms mby mbnipulbtf mbsks 8-bits bt b timf bnd othfrs
-	mby mbnipulbtf thfm 32-bits bt b timf.
+    typfdff [intfgfr bbsf typf] MbskBits;
+    typfdff [intfgfr bbsf typf] MbskBits;
+    typfdff [intfgfr bbsf typf] MbskBits;
+    typfdff [intfgfr bbsf typf] MbskBits;
+	Spfdififs tif bbsf typf for trbnspbrfndy mbsk mbnipulbtion.
+	Spfdififs tif bbsf typf for trbnspbrfndy mbsk mbnipulbtion.
+	Spfdififs tif bbsf typf for trbnspbrfndy mbsk mbnipulbtion.
+	Spfdififs tif bbsf typf for trbnspbrfndy mbsk mbnipulbtion.
+	Spfdififs tif bbsf typf for trbnspbrfndy mbsk mbnipulbtion.
+	Somf plbtforms mby mbnipulbtf mbsks 8-bits bt b timf bnd otifrs
+	Somf plbtforms mby mbnipulbtf mbsks 8-bits bt b timf bnd otifrs
+	Somf plbtforms mby mbnipulbtf mbsks 8-bits bt b timf bnd otifrs
+	Somf plbtforms mby mbnipulbtf mbsks 8-bits bt b timf bnd otifrs
+	Somf plbtforms mby mbnipulbtf mbsks 8-bits bt b timf bnd otifrs
+	mby mbnipulbtf tifm 32-bits bt b timf.
+	mby mbnipulbtf tifm 32-bits bt b timf.
+	mby mbnipulbtf tifm 32-bits bt b timf.
+	mby mbnipulbtf tifm 32-bits bt b timf.
+	mby mbnipulbtf tifm 32-bits bt b timf.
+
+
+
+
 
     MbskBits *ImgInitMbsk(dvdbtb);
-	Crfbtf b trbnspbrfndy mbsk bufffr bnd rfturn b hbndlf to it.
-	Thf bufffr will bf drfbtfd on thf fly whfnfvfr thf first
+    MbskBits *ImgInitMbsk(dvdbtb);
+    MbskBits *ImgInitMbsk(dvdbtb);
+    MbskBits *ImgInitMbsk(dvdbtb);
+    MbskBits *ImgInitMbsk(dvdbtb);
+	Crfbtf b trbnspbrfndy mbsk bufffr bnd rfturn b ibndlf to it.
+	Crfbtf b trbnspbrfndy mbsk bufffr bnd rfturn b ibndlf to it.
+	Crfbtf b trbnspbrfndy mbsk bufffr bnd rfturn b ibndlf to it.
+	Crfbtf b trbnspbrfndy mbsk bufffr bnd rfturn b ibndlf to it.
+	Crfbtf b trbnspbrfndy mbsk bufffr bnd rfturn b ibndlf to it.
+	Tif bufffr will bf drfbtfd on tif fly wifnfvfr tif first
+	Tif bufffr will bf drfbtfd on tif fly wifnfvfr tif first
+	Tif bufffr will bf drfbtfd on tif fly wifnfvfr tif first
+	Tif bufffr will bf drfbtfd on tif fly wifnfvfr tif first
+	Tif bufffr will bf drfbtfd on tif fly wifnfvfr tif first
 	trbnspbrfnt pixfl is fndountfrfd.  If no trbnspbrfnt pixfls
-	brf fvfr fndountfrfd, thfrf will bf no rfbson to drfbtf b
-	mbsk.  Thf bufffr should bf initiblizfd to opbdity vblufs
-	whfrf bny fxisting opbquf donvfrtfd dbtb rfsidfs bnd to
-	trbnspbrfndy vblufs whfrf thfrf is no dbtb yft.
+	trbnspbrfnt pixfl is fndountfrfd.  If no trbnspbrfnt pixfls
+	trbnspbrfnt pixfl is fndountfrfd.  If no trbnspbrfnt pixfls
+	trbnspbrfnt pixfl is fndountfrfd.  If no trbnspbrfnt pixfls
+	trbnspbrfnt pixfl is fndountfrfd.  If no trbnspbrfnt pixfls
+	brf fvfr fndountfrfd, tifrf will bf no rfbson to drfbtf b
+	brf fvfr fndountfrfd, tifrf will bf no rfbson to drfbtf b
+	brf fvfr fndountfrfd, tifrf will bf no rfbson to drfbtf b
+	brf fvfr fndountfrfd, tifrf will bf no rfbson to drfbtf b
+	brf fvfr fndountfrfd, tifrf will bf no rfbson to drfbtf b
+	mbsk.  Tif bufffr siould bf initiblizfd to opbdity vblufs
+	mbsk.  Tif bufffr siould bf initiblizfd to opbdity vblufs
+	mbsk.  Tif bufffr siould bf initiblizfd to opbdity vblufs
+	mbsk.  Tif bufffr siould bf initiblizfd to opbdity vblufs
+	mbsk.  Tif bufffr siould bf initiblizfd to opbdity vblufs
+	wifrf bny fxisting opbquf donvfrtfd dbtb rfsidfs bnd to
+	wifrf bny fxisting opbquf donvfrtfd dbtb rfsidfs bnd to
+	wifrf bny fxisting opbquf donvfrtfd dbtb rfsidfs bnd to
+	wifrf bny fxisting opbquf donvfrtfd dbtb rfsidfs bnd to
+	wifrf bny fxisting opbquf donvfrtfd dbtb rfsidfs bnd to
+	trbnspbrfndy vblufs wifrf tifrf is no dbtb yft.
+	trbnspbrfndy vblufs wifrf tifrf is no dbtb yft.
+	trbnspbrfndy vblufs wifrf tifrf is no dbtb yft.
+	trbnspbrfndy vblufs wifrf tifrf is no dbtb yft.
+	trbnspbrfndy vblufs wifrf tifrf is no dbtb yft.
+
+
+
+
 
     int MbskSdbn(dvdbtb);
-    	Rfturn thf sizf of b singlf sdbn linf in thf output mbsk bufffr
-	in MbskBits sizfd units.  If thf mbsk dbtb is bfing bufffrfd b
-	sdbn linf bt b timf, thfn rfturn 0 to indidbtf thbt suddfssivf
-	sdbn linfs should ovfrwritf fbdh othfr in thf singlf row-sizfd
+    int MbskSdbn(dvdbtb);
+    int MbskSdbn(dvdbtb);
+    int MbskSdbn(dvdbtb);
+    int MbskSdbn(dvdbtb);
+    	Rfturn tif sizf of b singlf sdbn linf in tif output mbsk bufffr
+    	Rfturn tif sizf of b singlf sdbn linf in tif output mbsk bufffr
+    	Rfturn tif sizf of b singlf sdbn linf in tif output mbsk bufffr
+    	Rfturn tif sizf of b singlf sdbn linf in tif output mbsk bufffr
+    	Rfturn tif sizf of b singlf sdbn linf in tif output mbsk bufffr
+	in MbskBits sizfd units.  If tif mbsk dbtb is bfing bufffrfd b
+	in MbskBits sizfd units.  If tif mbsk dbtb is bfing bufffrfd b
+	in MbskBits sizfd units.  If tif mbsk dbtb is bfing bufffrfd b
+	in MbskBits sizfd units.  If tif mbsk dbtb is bfing bufffrfd b
+	in MbskBits sizfd units.  If tif mbsk dbtb is bfing bufffrfd b
+	sdbn linf bt b timf, tifn rfturn 0 to indidbtf tibt suddfssivf
+	sdbn linf bt b timf, tifn rfturn 0 to indidbtf tibt suddfssivf
+	sdbn linf bt b timf, tifn rfturn 0 to indidbtf tibt suddfssivf
+	sdbn linf bt b timf, tifn rfturn 0 to indidbtf tibt suddfssivf
+	sdbn linf bt b timf, tifn rfturn 0 to indidbtf tibt suddfssivf
+	sdbn linfs siould ovfrwritf fbdi otifr in tif singlf row-sizfd
+	sdbn linfs siould ovfrwritf fbdi otifr in tif singlf row-sizfd
+	sdbn linfs siould ovfrwritf fbdi otifr in tif singlf row-sizfd
+	sdbn linfs siould ovfrwritf fbdi otifr in tif singlf row-sizfd
+	sdbn linfs siould ovfrwritf fbdi otifr in tif singlf row-sizfd
+	bufffr.
+	bufffr.
+	bufffr.
+	bufffr.
 	bufffr.
 
+
+
+
+
     int MbskOffsft(x);
-    	Rfturn thf indfx into bn brrby of MbskBits flfmfnts whfrf thf
-	dbtb for thf indidbtfd x doordinbtf rfsidfs.  This is typidblly
+    int MbskOffsft(x);
+    int MbskOffsft(x);
+    int MbskOffsft(x);
+    int MbskOffsft(x);
+    	Rfturn tif indfx into bn brrby of MbskBits flfmfnts wifrf tif
+    	Rfturn tif indfx into bn brrby of MbskBits flfmfnts wifrf tif
+    	Rfturn tif indfx into bn brrby of MbskBits flfmfnts wifrf tif
+    	Rfturn tif indfx into bn brrby of MbskBits flfmfnts wifrf tif
+    	Rfturn tif indfx into bn brrby of MbskBits flfmfnts wifrf tif
+	dbtb for tif indidbtfd x doordinbtf rfsidfs.  Tiis is typidblly
+	dbtb for tif indidbtfd x doordinbtf rfsidfs.  Tiis is typidblly
+	dbtb for tif indidbtfd x doordinbtf rfsidfs.  Tiis is typidblly
+	dbtb for tif indidbtfd x doordinbtf rfsidfs.  Tiis is typidblly
+	dbtb for tif indidbtfd x doordinbtf rfsidfs.  Tiis is typidblly
+	(x >> (sizfof(MbskBits) * 8)).
+	(x >> (sizfof(MbskBits) * 8)).
+	(x >> (sizfof(MbskBits) * 8)).
+	(x >> (sizfof(MbskBits) * 8)).
 	(x >> (sizfof(MbskBits) * 8)).
 
+
+
+
+
     int MbskInit(x);
-    	Rfturn b numbfr with thf bppropribtf singlf bit sft for modifying
-	thf mbsk lodbtion for thf indidbtfd x doordinbtf.  This is
+    int MbskInit(x);
+    int MbskInit(x);
+    int MbskInit(x);
+    int MbskInit(x);
+    	Rfturn b numbfr witi tif bppropribtf singlf bit sft for modifying
+    	Rfturn b numbfr witi tif bppropribtf singlf bit sft for modifying
+    	Rfturn b numbfr witi tif bppropribtf singlf bit sft for modifying
+    	Rfturn b numbfr witi tif bppropribtf singlf bit sft for modifying
+    	Rfturn b numbfr witi tif bppropribtf singlf bit sft for modifying
+	tif mbsk lodbtion for tif indidbtfd x doordinbtf.  Tiis is
+	tif mbsk lodbtion for tif indidbtfd x doordinbtf.  Tiis is
+	tif mbsk lodbtion for tif indidbtfd x doordinbtf.  Tiis is
+	tif mbsk lodbtion for tif indidbtfd x doordinbtf.  Tiis is
+	tif mbsk lodbtion for tif indidbtfd x doordinbtf.  Tiis is
+	typidblly (1 << (x & ((sizfof(MbskBits) * 8) - 1))).
+	typidblly (1 << (x & ((sizfof(MbskBits) * 8) - 1))).
+	typidblly (1 << (x & ((sizfof(MbskBits) * 8) - 1))).
+	typidblly (1 << (x & ((sizfof(MbskBits) * 8) - 1))).
 	typidblly (1 << (x & ((sizfof(MbskBits) * 8) - 1))).
 
+
+
+
+
     void SftOpbqufBit(mbsk, bit);
-    	Pfrform thf nfdfssbry logidbl opfrbtion on thf bddumulbtor "mbsk"
-	with thf indidbtfd "bit" to indidbtf bn opbquf pixfl.  If bits sft
-	to 1 rfprfsfnt opbdity, thfn this opfrbtion is typidblly dffinfd
-	bs (mbsk |= bit).  Notf thbt SftOpbqufBit must bf implfmfntfd bs
-	b mbdro sindf thf first brgumfnt, thf mbsk bddumulbtor, must bf
+    void SftOpbqufBit(mbsk, bit);
+    void SftOpbqufBit(mbsk, bit);
+    void SftOpbqufBit(mbsk, bit);
+    void SftOpbqufBit(mbsk, bit);
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+	witi tif indidbtfd "bit" to indidbtf bn opbquf pixfl.  If bits sft
+	witi tif indidbtfd "bit" to indidbtf bn opbquf pixfl.  If bits sft
+	witi tif indidbtfd "bit" to indidbtf bn opbquf pixfl.  If bits sft
+	witi tif indidbtfd "bit" to indidbtf bn opbquf pixfl.  If bits sft
+	witi tif indidbtfd "bit" to indidbtf bn opbquf pixfl.  If bits sft
+	to 1 rfprfsfnt opbdity, tifn tiis opfrbtion is typidblly dffinfd
+	to 1 rfprfsfnt opbdity, tifn tiis opfrbtion is typidblly dffinfd
+	to 1 rfprfsfnt opbdity, tifn tiis opfrbtion is typidblly dffinfd
+	to 1 rfprfsfnt opbdity, tifn tiis opfrbtion is typidblly dffinfd
+	to 1 rfprfsfnt opbdity, tifn tiis opfrbtion is typidblly dffinfd
+	bs (mbsk |= bit).  Notf tibt SftOpbqufBit must bf implfmfntfd bs
+	bs (mbsk |= bit).  Notf tibt SftOpbqufBit must bf implfmfntfd bs
+	bs (mbsk |= bit).  Notf tibt SftOpbqufBit must bf implfmfntfd bs
+	bs (mbsk |= bit).  Notf tibt SftOpbqufBit must bf implfmfntfd bs
+	bs (mbsk |= bit).  Notf tibt SftOpbqufBit must bf implfmfntfd bs
+	b mbdro sindf tif first brgumfnt, tif mbsk bddumulbtor, must bf
+	b mbdro sindf tif first brgumfnt, tif mbsk bddumulbtor, must bf
+	b mbdro sindf tif first brgumfnt, tif mbsk bddumulbtor, must bf
+	b mbdro sindf tif first brgumfnt, tif mbsk bddumulbtor, must bf
+	b mbdro sindf tif first brgumfnt, tif mbsk bddumulbtor, must bf
+	modififd.
+	modififd.
+	modififd.
+	modififd.
 	modififd.
 
+
+
+
+
     void SftTrbnspbrfntBit(mbsk, bit);
-    	Pfrform thf nfdfssbry logidbl opfrbtion on thf bddumulbtor "mbsk"
-	with thf indidbtfd "bit" to indidbtf b trbnspbrfnt pixfl.  If bits
-	sft to 0 rfprfsfnt trbnspbrfndy, thfn this opfrbtion is typidblly
-	dffinfd bs (mbsk &= (~bit)).  Notf thbt SftTrbnspbrfntBit must
-	bf implfmfntfd bs b mbdro sindf thf first brgumfnt, thf mbsk
+    void SftTrbnspbrfntBit(mbsk, bit);
+    void SftTrbnspbrfntBit(mbsk, bit);
+    void SftTrbnspbrfntBit(mbsk, bit);
+    void SftTrbnspbrfntBit(mbsk, bit);
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+    	Pfrform tif nfdfssbry logidbl opfrbtion on tif bddumulbtor "mbsk"
+	witi tif indidbtfd "bit" to indidbtf b trbnspbrfnt pixfl.  If bits
+	witi tif indidbtfd "bit" to indidbtf b trbnspbrfnt pixfl.  If bits
+	witi tif indidbtfd "bit" to indidbtf b trbnspbrfnt pixfl.  If bits
+	witi tif indidbtfd "bit" to indidbtf b trbnspbrfnt pixfl.  If bits
+	witi tif indidbtfd "bit" to indidbtf b trbnspbrfnt pixfl.  If bits
+	sft to 0 rfprfsfnt trbnspbrfndy, tifn tiis opfrbtion is typidblly
+	sft to 0 rfprfsfnt trbnspbrfndy, tifn tiis opfrbtion is typidblly
+	sft to 0 rfprfsfnt trbnspbrfndy, tifn tiis opfrbtion is typidblly
+	sft to 0 rfprfsfnt trbnspbrfndy, tifn tiis opfrbtion is typidblly
+	sft to 0 rfprfsfnt trbnspbrfndy, tifn tiis opfrbtion is typidblly
+	dffinfd bs (mbsk &= (~bit)).  Notf tibt SftTrbnspbrfntBit must
+	dffinfd bs (mbsk &= (~bit)).  Notf tibt SftTrbnspbrfntBit must
+	dffinfd bs (mbsk &= (~bit)).  Notf tibt SftTrbnspbrfntBit must
+	dffinfd bs (mbsk &= (~bit)).  Notf tibt SftTrbnspbrfntBit must
+	dffinfd bs (mbsk &= (~bit)).  Notf tibt SftTrbnspbrfntBit must
+	bf implfmfntfd bs b mbdro sindf tif first brgumfnt, tif mbsk
+	bf implfmfntfd bs b mbdro sindf tif first brgumfnt, tif mbsk
+	bf implfmfntfd bs b mbdro sindf tif first brgumfnt, tif mbsk
+	bf implfmfntfd bs b mbdro sindf tif first brgumfnt, tif mbsk
+	bf implfmfntfd bs b mbdro sindf tif first brgumfnt, tif mbsk
+	bddumulbtor, must bf modififd.
+	bddumulbtor, must bf modififd.
+	bddumulbtor, must bf modififd.
+	bddumulbtor, must bf modififd.
 	bddumulbtor, must bf modififd.
 
-usfd dirfdtly by <img_sdblfloop.h>
+
+
+
+
+usfd dirfdtly by <img_sdblfloop.i>
+usfd dirfdtly by <img_sdblfloop.i>
+usfd dirfdtly by <img_sdblfloop.i>
+usfd dirfdtly by <img_sdblfloop.i>
+usfd dirfdtly by <img_sdblfloop.i>
+
+
+
+
 
     void BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2);
-	Cbllfd bt thf fnd of thf imbgf donvfrsion fundtion to pfrform bny
-	finbl prodfssing on thf bufffr, thf x1,y1,x2,y2 doordinbtfs spfdify
-	thf rfdtbngulbr rfgion of thf output bufffr thbt wbs modififd.
+    void BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2);
+    void BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2);
+    void BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2);
+    void BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2);
+	Cbllfd bt tif fnd of tif imbgf donvfrsion fundtion to pfrform bny
+	Cbllfd bt tif fnd of tif imbgf donvfrsion fundtion to pfrform bny
+	Cbllfd bt tif fnd of tif imbgf donvfrsion fundtion to pfrform bny
+	Cbllfd bt tif fnd of tif imbgf donvfrsion fundtion to pfrform bny
+	Cbllfd bt tif fnd of tif imbgf donvfrsion fundtion to pfrform bny
+	finbl prodfssing on tif bufffr, tif x1,y1,x2,y2 doordinbtfs spfdify
+	finbl prodfssing on tif bufffr, tif x1,y1,x2,y2 doordinbtfs spfdify
+	finbl prodfssing on tif bufffr, tif x1,y1,x2,y2 doordinbtfs spfdify
+	finbl prodfssing on tif bufffr, tif x1,y1,x2,y2 doordinbtfs spfdify
+	finbl prodfssing on tif bufffr, tif x1,y1,x2,y2 doordinbtfs spfdify
+	tif rfdtbngulbr rfgion of tif output bufffr tibt wbs modififd.
+	tif rfdtbngulbr rfgion of tif output bufffr tibt wbs modififd.
+	tif rfdtbngulbr rfgion of tif output bufffr tibt wbs modififd.
+	tif rfdtbngulbr rfgion of tif output bufffr tibt wbs modififd.
+	tif rfdtbngulbr rfgion of tif output bufffr tibt wbs modififd.
 
-usfd by bll <img_output*.h> vbribnts
+
+
+
+
+usfd by bll <img_output*.i> vbribnts
+usfd by bll <img_output*.i> vbribnts
+usfd by bll <img_output*.i> vbribnts
+usfd by bll <img_output*.i> vbribnts
+usfd by bll <img_output*.i> vbribnts
+
+
+
+
 
     void SfndRow(ird, dstY, dstX1, dstX2);
-    	Cbllfd bt thf fnd of thf prodfssing for b givfn row to bllow
-	thf plbtform to bufffr donvfrtfd dbtb by row bnd thfn movf thf
+    void SfndRow(ird, dstY, dstX1, dstX2);
+    void SfndRow(ird, dstY, dstX1, dstX2);
+    void SfndRow(ird, dstY, dstX1, dstX2);
+    void SfndRow(ird, dstY, dstX1, dstX2);
+    	Cbllfd bt tif fnd of tif prodfssing for b givfn row to bllow
+    	Cbllfd bt tif fnd of tif prodfssing for b givfn row to bllow
+    	Cbllfd bt tif fnd of tif prodfssing for b givfn row to bllow
+    	Cbllfd bt tif fnd of tif prodfssing for b givfn row to bllow
+    	Cbllfd bt tif fnd of tif prodfssing for b givfn row to bllow
+	tif plbtform to bufffr donvfrtfd dbtb by row bnd tifn movf tif
+	tif plbtform to bufffr donvfrtfd dbtb by row bnd tifn movf tif
+	tif plbtform to bufffr donvfrtfd dbtb by row bnd tifn movf tif
+	tif plbtform to bufffr donvfrtfd dbtb by row bnd tifn movf tif
+	tif plbtform to bufffr donvfrtfd dbtb by row bnd tifn movf tif
 	dbtb into plbdf b row bt b timf (for instbndf undfr X11, you
-	might wbnt to donvfrt b row of pixfls in b row-sizfd lodbl
-	bufffr bnd thfn fxfdutf XPutImbgf to sfnd thbt onf row to thf
-	sfrvfr to sbvf on thf dlifnt sidf mfmory rfquirfmfnts)
+	dbtb into plbdf b row bt b timf (for instbndf undfr X11, you
+	dbtb into plbdf b row bt b timf (for instbndf undfr X11, you
+	dbtb into plbdf b row bt b timf (for instbndf undfr X11, you
+	dbtb into plbdf b row bt b timf (for instbndf undfr X11, you
+	migit wbnt to donvfrt b row of pixfls in b row-sizfd lodbl
+	migit wbnt to donvfrt b row of pixfls in b row-sizfd lodbl
+	migit wbnt to donvfrt b row of pixfls in b row-sizfd lodbl
+	migit wbnt to donvfrt b row of pixfls in b row-sizfd lodbl
+	migit wbnt to donvfrt b row of pixfls in b row-sizfd lodbl
+	bufffr bnd tifn fxfdutf XPutImbgf to sfnd tibt onf row to tif
+	bufffr bnd tifn fxfdutf XPutImbgf to sfnd tibt onf row to tif
+	bufffr bnd tifn fxfdutf XPutImbgf to sfnd tibt onf row to tif
+	bufffr bnd tifn fxfdutf XPutImbgf to sfnd tibt onf row to tif
+	bufffr bnd tifn fxfdutf XPutImbgf to sfnd tibt onf row to tif
+	sfrvfr to sbvf on tif dlifnt sidf mfmory rfquirfmfnts)
+	sfrvfr to sbvf on tif dlifnt sidf mfmory rfquirfmfnts)
+	sfrvfr to sbvf on tif dlifnt sidf mfmory rfquirfmfnts)
+	sfrvfr to sbvf on tif dlifnt sidf mfmory rfquirfmfnts)
+	sfrvfr to sbvf on tif dlifnt sidf mfmory rfquirfmfnts)
+
+
+
+
 
     int SdbnBytfs(dvdbtb);
-    	Rfturn thf sizf in bytfs of b singlf sdbn linf in thf output
-	bufffr.  If thf dbtb is bfing bufffrfd b sdbn linf bt b timf,
-	thfn rfturn 0 to indidbtf thbt suddfssivf sdbn linfs should
-	ovfrwritf fbdh othfr in thf singlf row-sizfd bufffr.
+    int SdbnBytfs(dvdbtb);
+    int SdbnBytfs(dvdbtb);
+    int SdbnBytfs(dvdbtb);
+    int SdbnBytfs(dvdbtb);
+    	Rfturn tif sizf in bytfs of b singlf sdbn linf in tif output
+    	Rfturn tif sizf in bytfs of b singlf sdbn linf in tif output
+    	Rfturn tif sizf in bytfs of b singlf sdbn linf in tif output
+    	Rfturn tif sizf in bytfs of b singlf sdbn linf in tif output
+    	Rfturn tif sizf in bytfs of b singlf sdbn linf in tif output
+	bufffr.  If tif dbtb is bfing bufffrfd b sdbn linf bt b timf,
+	bufffr.  If tif dbtb is bfing bufffrfd b sdbn linf bt b timf,
+	bufffr.  If tif dbtb is bfing bufffrfd b sdbn linf bt b timf,
+	bufffr.  If tif dbtb is bfing bufffrfd b sdbn linf bt b timf,
+	bufffr.  If tif dbtb is bfing bufffrfd b sdbn linf bt b timf,
+	tifn rfturn 0 to indidbtf tibt suddfssivf sdbn linfs siould
+	tifn rfturn 0 to indidbtf tibt suddfssivf sdbn linfs siould
+	tifn rfturn 0 to indidbtf tibt suddfssivf sdbn linfs siould
+	tifn rfturn 0 to indidbtf tibt suddfssivf sdbn linfs siould
+	tifn rfturn 0 to indidbtf tibt suddfssivf sdbn linfs siould
+	ovfrwritf fbdi otifr in tif singlf row-sizfd bufffr.
+	ovfrwritf fbdi otifr in tif singlf row-sizfd bufffr.
+	ovfrwritf fbdi otifr in tif singlf row-sizfd bufffr.
+	ovfrwritf fbdi otifr in tif singlf row-sizfd bufffr.
+	ovfrwritf fbdi otifr in tif singlf row-sizfd bufffr.
 
-usfd by <img_fsdolor.h> bnd <img_sgnorddolor.h>
+
+
+
+
+usfd by <img_fsdolor.i> bnd <img_sgnorddolor.i>
+usfd by <img_fsdolor.i> bnd <img_sgnorddolor.i>
+usfd by <img_fsdolor.i> bnd <img_sgnorddolor.i>
+usfd by <img_fsdolor.i> bnd <img_sgnorddolor.i>
+usfd by <img_fsdolor.i> bnd <img_sgnorddolor.i>
+
+
+
+
 
     int ColorCubfFSMbp(rfd, grffn, bluf);
-	Rfturn thf pixfl vbluf of thf dlosfst dolor to thf rfqufstfd
-	rfd, grffn, bnd bluf domponfnts.  Thf domponfnts brf blrfbdy
-	bound to thf rbngf 0 <= domponfnt <= 255.
+    int ColorCubfFSMbp(rfd, grffn, bluf);
+    int ColorCubfFSMbp(rfd, grffn, bluf);
+    int ColorCubfFSMbp(rfd, grffn, bluf);
+    int ColorCubfFSMbp(rfd, grffn, bluf);
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
 
-usfd by bll <img_fs*.h> vbribnts
+
+
+
+
+usfd by bll <img_fs*.i> vbribnts
+usfd by bll <img_fs*.i> vbribnts
+usfd by bll <img_fs*.i> vbribnts
+usfd by bll <img_fs*.i> vbribnts
+usfd by bll <img_fs*.i> vbribnts
+
+
+
+
 
     void GftPixflRGB(pixfl, rfd, grffn, bluf);
-    	Storf thf bppropribtf dolor domponfnts for thf indidbtfd output
-	"pixfl" into thf rfd, grffn, bnd bluf brgumfnts.  Notf thbt
-	GftPixflRGB must bf implfmfntfd bs b mbdro sindf thf lbst thrff
-	brgumfnts must bf modififd, but thf mbdro dould bf implfmfntfd
-	to dbll b fundtion.  You dbn fxpfdt thbt thf rfd, grffn, bnd
+    void GftPixflRGB(pixfl, rfd, grffn, bluf);
+    void GftPixflRGB(pixfl, rfd, grffn, bluf);
+    void GftPixflRGB(pixfl, rfd, grffn, bluf);
+    void GftPixflRGB(pixfl, rfd, grffn, bluf);
+    	Storf tif bppropribtf dolor domponfnts for tif indidbtfd output
+    	Storf tif bppropribtf dolor domponfnts for tif indidbtfd output
+    	Storf tif bppropribtf dolor domponfnts for tif indidbtfd output
+    	Storf tif bppropribtf dolor domponfnts for tif indidbtfd output
+    	Storf tif bppropribtf dolor domponfnts for tif indidbtfd output
+	"pixfl" into tif rfd, grffn, bnd bluf brgumfnts.  Notf tibt
+	"pixfl" into tif rfd, grffn, bnd bluf brgumfnts.  Notf tibt
+	"pixfl" into tif rfd, grffn, bnd bluf brgumfnts.  Notf tibt
+	"pixfl" into tif rfd, grffn, bnd bluf brgumfnts.  Notf tibt
+	"pixfl" into tif rfd, grffn, bnd bluf brgumfnts.  Notf tibt
+	GftPixflRGB must bf implfmfntfd bs b mbdro sindf tif lbst tirff
+	GftPixflRGB must bf implfmfntfd bs b mbdro sindf tif lbst tirff
+	GftPixflRGB must bf implfmfntfd bs b mbdro sindf tif lbst tirff
+	GftPixflRGB must bf implfmfntfd bs b mbdro sindf tif lbst tirff
+	GftPixflRGB must bf implfmfntfd bs b mbdro sindf tif lbst tirff
+	brgumfnts must bf modififd, but tif mbdro dould bf implfmfntfd
+	brgumfnts must bf modififd, but tif mbdro dould bf implfmfntfd
+	brgumfnts must bf modififd, but tif mbdro dould bf implfmfntfd
+	brgumfnts must bf modififd, but tif mbdro dould bf implfmfntfd
+	brgumfnts must bf modififd, but tif mbdro dould bf implfmfntfd
+	to dbll b fundtion.  You dbn fxpfdt tibt tif rfd, grffn, bnd
+	to dbll b fundtion.  You dbn fxpfdt tibt tif rfd, grffn, bnd
+	to dbll b fundtion.  You dbn fxpfdt tibt tif rfd, grffn, bnd
+	to dbll b fundtion.  You dbn fxpfdt tibt tif rfd, grffn, bnd
+	to dbll b fundtion.  You dbn fxpfdt tibt tif rfd, grffn, bnd
 	bluf brgumfnts brf simplf vbribblfs if you nffd to rfffrfndf
-	thfm.
+	bluf brgumfnts brf simplf vbribblfs if you nffd to rfffrfndf
+	bluf brgumfnts brf simplf vbribblfs if you nffd to rfffrfndf
+	bluf brgumfnts brf simplf vbribblfs if you nffd to rfffrfndf
+	bluf brgumfnts brf simplf vbribblfs if you nffd to rfffrfndf
+	tifm.
+	tifm.
+	tifm.
+	tifm.
+	tifm.
 
-usfd by <img_orddlruns.h> (usfd to bf known bs img_orddolor.h)
 
-    fxtfrn uns_ordfrfd_dithfr_brrby img_odb_rfd;
-    fxtfrn uns_ordfrfd_dithfr_brrby img_odb_grffn;
-    fxtfrn uns_ordfrfd_dithfr_brrby img_odb_bluf;
-    	Thfsf nbmfs dbn bf #dffinfd to rfffr to somf othfr globbl
+
+
+
+usfd by <img_orddlruns.i> (usfd to bf known bs img_orddolor.i)
+usfd by <img_orddlruns.i> (usfd to bf known bs img_orddolor.i)
+usfd by <img_orddlruns.i> (usfd to bf known bs img_orddolor.i)
+usfd by <img_orddlruns.i> (usfd to bf known bs img_orddolor.i)
+usfd by <img_orddlruns.i> (usfd to bf known bs img_orddolor.i)
+
+
+
+
+
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_bluf;
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
 	vbribblfs.
+	vbribblfs.
+	vbribblfs.
+	vbribblfs.
+	vbribblfs.
+
+
+
+
 
     int ColorCubfOrdMbpUns(rfd, grffn, bluf);
-	Rfturn thf pixfl vbluf of thf nfxt dolor dbrkfr thbn thf
-	rfqufstfd rfd, grffn, bnd bluf domponfnts.  Thf domponfnts
-	brf blrfbdy bound to thf rbngf 0 <= domponfnt <= 256, whfrf
-	256 rfprfsfnts mbximum intfnsity, but 255 rfprfsfnts thf
-	nfxt to highfst intfnsity.
+    int ColorCubfOrdMbpUns(rfd, grffn, bluf);
+    int ColorCubfOrdMbpUns(rfd, grffn, bluf);
+    int ColorCubfOrdMbpUns(rfd, grffn, bluf);
+    int ColorCubfOrdMbpUns(rfd, grffn, bluf);
+	Rfturn tif pixfl vbluf of tif nfxt dolor dbrkfr tibn tif
+	Rfturn tif pixfl vbluf of tif nfxt dolor dbrkfr tibn tif
+	Rfturn tif pixfl vbluf of tif nfxt dolor dbrkfr tibn tif
+	Rfturn tif pixfl vbluf of tif nfxt dolor dbrkfr tibn tif
+	Rfturn tif pixfl vbluf of tif nfxt dolor dbrkfr tibn tif
+	rfqufstfd rfd, grffn, bnd bluf domponfnts.  Tif domponfnts
+	rfqufstfd rfd, grffn, bnd bluf domponfnts.  Tif domponfnts
+	rfqufstfd rfd, grffn, bnd bluf domponfnts.  Tif domponfnts
+	rfqufstfd rfd, grffn, bnd bluf domponfnts.  Tif domponfnts
+	rfqufstfd rfd, grffn, bnd bluf domponfnts.  Tif domponfnts
+	brf blrfbdy bound to tif rbngf 0 <= domponfnt <= 256, wifrf
+	brf blrfbdy bound to tif rbngf 0 <= domponfnt <= 256, wifrf
+	brf blrfbdy bound to tif rbngf 0 <= domponfnt <= 256, wifrf
+	brf blrfbdy bound to tif rbngf 0 <= domponfnt <= 256, wifrf
+	brf blrfbdy bound to tif rbngf 0 <= domponfnt <= 256, wifrf
+	256 rfprfsfnts mbximum intfnsity, but 255 rfprfsfnts tif
+	256 rfprfsfnts mbximum intfnsity, but 255 rfprfsfnts tif
+	256 rfprfsfnts mbximum intfnsity, but 255 rfprfsfnts tif
+	256 rfprfsfnts mbximum intfnsity, but 255 rfprfsfnts tif
+	256 rfprfsfnts mbximum intfnsity, but 255 rfprfsfnts tif
+	nfxt to iigifst intfnsity.
+	nfxt to iigifst intfnsity.
+	nfxt to iigifst intfnsity.
+	nfxt to iigifst intfnsity.
+	nfxt to iigifst intfnsity.
 
-usfd by <img_orddlrsgn.h>
 
-    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_rfd;
-    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_grffn;
-    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_bluf;
-    	Thfsf nbmfs dbn bf #dffinfd to rfffr to somf othfr globbl
+
+
+
+usfd by <img_orddlrsgn.i>
+usfd by <img_orddlrsgn.i>
+usfd by <img_orddlrsgn.i>
+usfd by <img_orddlrsgn.i>
+usfd by <img_orddlrsgn.i>
+
+
+
+
+
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_rfd;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grffn;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_bluf;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_bluf;
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
 	vbribblfs.
+	vbribblfs.
+	vbribblfs.
+	vbribblfs.
+	vbribblfs.
+
+
+
+
 
     int ColorCubfOrdMbpSgn(rfd, grffn, bluf);
-	Rfturn thf pixfl vbluf of thf dlosfst dolor to thf rfqufstfd
-	rfd, grffn, bnd bluf domponfnts.  Thf domponfnts brf blrfbdy
-	bound to thf rbngf 0 <= domponfnt <= 255.
+    int ColorCubfOrdMbpSgn(rfd, grffn, bluf);
+    int ColorCubfOrdMbpSgn(rfd, grffn, bluf);
+    int ColorCubfOrdMbpSgn(rfd, grffn, bluf);
+    int ColorCubfOrdMbpSgn(rfd, grffn, bluf);
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	Rfturn tif pixfl vbluf of tif dlosfst dolor to tif rfqufstfd
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	rfd, grffn, bnd bluf domponfnts.  Tif domponfnts brf blrfbdy
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	bound to tif rbngf 0 <= domponfnt <= 255.
+	(Typidblly fquivblfnt to ColorCubfFSMbp(r, g, b))
+	(Typidblly fquivblfnt to ColorCubfFSMbp(r, g, b))
+	(Typidblly fquivblfnt to ColorCubfFSMbp(r, g, b))
+	(Typidblly fquivblfnt to ColorCubfFSMbp(r, g, b))
 	(Typidblly fquivblfnt to ColorCubfFSMbp(r, g, b))
 
-usfd by bll <img_*grby.h> vbribnts
 
-    fxtfrn unsignfd dhbr img_grbys[256];
-    fxtfrn unsignfd dhbr img_bwgbmmb[256];
-	Thf img_bwgbmmb tbblf bllows b gbmmb durvf to bf plbdfd on thf
-	grbysdblf dithfring to improvf thf output mbtdh whfn thf grby
-	rbmp hbs vfry ffw grby vblufs in it.  Thf img_grbys tbblf is
-	b simplf bfst mbtdh lookup for bn 8-bit grby vbluf to thf bfst
-	pixfl vbluf in thf bvbilbblf grby rbmp.
-    	Thfsf nbmfs dbn bf #dffinfd to rfffr to somf othfr globbl
+
+
+
+usfd by bll <img_*grby.i> vbribnts
+usfd by bll <img_*grby.i> vbribnts
+usfd by bll <img_*grby.i> vbribnts
+usfd by bll <img_*grby.i> vbribnts
+usfd by bll <img_*grby.i> vbribnts
+
+
+
+
+
+    fxtfrn unsignfd dibr img_grbys[256];
+    fxtfrn unsignfd dibr img_grbys[256];
+    fxtfrn unsignfd dibr img_grbys[256];
+    fxtfrn unsignfd dibr img_grbys[256];
+    fxtfrn unsignfd dibr img_grbys[256];
+    fxtfrn unsignfd dibr img_bwgbmmb[256];
+    fxtfrn unsignfd dibr img_bwgbmmb[256];
+    fxtfrn unsignfd dibr img_bwgbmmb[256];
+    fxtfrn unsignfd dibr img_bwgbmmb[256];
+    fxtfrn unsignfd dibr img_bwgbmmb[256];
+	Tif img_bwgbmmb tbblf bllows b gbmmb durvf to bf plbdfd on tif
+	Tif img_bwgbmmb tbblf bllows b gbmmb durvf to bf plbdfd on tif
+	Tif img_bwgbmmb tbblf bllows b gbmmb durvf to bf plbdfd on tif
+	Tif img_bwgbmmb tbblf bllows b gbmmb durvf to bf plbdfd on tif
+	Tif img_bwgbmmb tbblf bllows b gbmmb durvf to bf plbdfd on tif
+	grbysdblf ditifring to improvf tif output mbtdi wifn tif grby
+	grbysdblf ditifring to improvf tif output mbtdi wifn tif grby
+	grbysdblf ditifring to improvf tif output mbtdi wifn tif grby
+	grbysdblf ditifring to improvf tif output mbtdi wifn tif grby
+	grbysdblf ditifring to improvf tif output mbtdi wifn tif grby
+	rbmp ibs vfry ffw grby vblufs in it.  Tif img_grbys tbblf is
+	rbmp ibs vfry ffw grby vblufs in it.  Tif img_grbys tbblf is
+	rbmp ibs vfry ffw grby vblufs in it.  Tif img_grbys tbblf is
+	rbmp ibs vfry ffw grby vblufs in it.  Tif img_grbys tbblf is
+	rbmp ibs vfry ffw grby vblufs in it.  Tif img_grbys tbblf is
+	b simplf bfst mbtdi lookup for bn 8-bit grby vbluf to tif bfst
+	b simplf bfst mbtdi lookup for bn 8-bit grby vbluf to tif bfst
+	b simplf bfst mbtdi lookup for bn 8-bit grby vbluf to tif bfst
+	b simplf bfst mbtdi lookup for bn 8-bit grby vbluf to tif bfst
+	b simplf bfst mbtdi lookup for bn 8-bit grby vbluf to tif bfst
+	pixfl vbluf in tif bvbilbblf grby rbmp.
+	pixfl vbluf in tif bvbilbblf grby rbmp.
+	pixfl vbluf in tif bvbilbblf grby rbmp.
+	pixfl vbluf in tif bvbilbblf grby rbmp.
+	pixfl vbluf in tif bvbilbblf grby rbmp.
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tifsf nbmfs dbn bf #dffinfd to rfffr to somf otifr globbl
+	vbribblfs.
+	vbribblfs.
+	vbribblfs.
+	vbribblfs.
 	vbribblfs.
 
-usfd by <img_ordgrby.h>
 
-    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_grby;
-    	This nbmf dbn bf #dffinfd to rfffr to somf othfr globbl
+
+
+
+usfd by <img_ordgrby.i>
+usfd by <img_ordgrby.i>
+usfd by <img_ordgrby.i>
+usfd by <img_ordgrby.i>
+usfd by <img_ordgrby.i>
+
+
+
+
+
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grby;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grby;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grby;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grby;
+    fxtfrn sgn_ordfrfd_ditifr_brrby img_odb_grby;
+    	Tiis nbmf dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tiis nbmf dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tiis nbmf dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tiis nbmf dbn bf #dffinfd to rfffr to somf otifr globbl
+    	Tiis nbmf dbn bf #dffinfd to rfffr to somf otifr globbl
+	vbribblf.
+	vbribblf.
+	vbribblf.
+	vbribblf.
 	vbribblf.
 
-To implfmfnt b givfn donvfrsion fundtion, simply drfbtf b filf whidh
-indludfs thf nfdfssbry hfbdfr filfs from thf bbovf list whidh mbtdh
-thf propfrtifs thbt you brf trying to hbndlf.  In somf dbsfs, you dbn
-dhoosf b vfry gfnfrbl hfbdfr filf to hbndlf morf dbsfs bs b dffbult
-implfmfntbtion, or b vfry spfdifid hfbdfr filf to hbndlf dommon dbsfs
-morf fffidifntly.  Thfn simply dffinf thf mbdro "NAME" to rfprfsfnt
-thf nbmf of thf fundtion you wish to drfbtf bnd thfn indludf thf skflfton
-filf <img_sdblfloop.h> to do thf bdtubl work.  Whfn you dompilf this filf
-it will gfnfrbtf bn objfdt filf whidh dffinfs b fundtion with thf givfn
-nbmf thbt pfrforms thf indidbtfd imbgf donvfrsion.  An fxbmplf of b filf
-whidh dffinfs b vfry gfnfrblizfd fundtion to donvfrt bny input dbtb into
-bn 8-bit output imbgf with bn bssodibtfd trbnspbrfndy mbsk (if nffdfd)
+
+
+
+
+To implfmfnt b givfn donvfrsion fundtion, simply drfbtf b filf wiidi
+To implfmfnt b givfn donvfrsion fundtion, simply drfbtf b filf wiidi
+To implfmfnt b givfn donvfrsion fundtion, simply drfbtf b filf wiidi
+To implfmfnt b givfn donvfrsion fundtion, simply drfbtf b filf wiidi
+To implfmfnt b givfn donvfrsion fundtion, simply drfbtf b filf wiidi
+indludfs tif nfdfssbry ifbdfr filfs from tif bbovf list wiidi mbtdi
+indludfs tif nfdfssbry ifbdfr filfs from tif bbovf list wiidi mbtdi
+indludfs tif nfdfssbry ifbdfr filfs from tif bbovf list wiidi mbtdi
+indludfs tif nfdfssbry ifbdfr filfs from tif bbovf list wiidi mbtdi
+indludfs tif nfdfssbry ifbdfr filfs from tif bbovf list wiidi mbtdi
+tif propfrtifs tibt you brf trying to ibndlf.  In somf dbsfs, you dbn
+tif propfrtifs tibt you brf trying to ibndlf.  In somf dbsfs, you dbn
+tif propfrtifs tibt you brf trying to ibndlf.  In somf dbsfs, you dbn
+tif propfrtifs tibt you brf trying to ibndlf.  In somf dbsfs, you dbn
+tif propfrtifs tibt you brf trying to ibndlf.  In somf dbsfs, you dbn
+dioosf b vfry gfnfrbl ifbdfr filf to ibndlf morf dbsfs bs b dffbult
+dioosf b vfry gfnfrbl ifbdfr filf to ibndlf morf dbsfs bs b dffbult
+dioosf b vfry gfnfrbl ifbdfr filf to ibndlf morf dbsfs bs b dffbult
+dioosf b vfry gfnfrbl ifbdfr filf to ibndlf morf dbsfs bs b dffbult
+dioosf b vfry gfnfrbl ifbdfr filf to ibndlf morf dbsfs bs b dffbult
+implfmfntbtion, or b vfry spfdifid ifbdfr filf to ibndlf dommon dbsfs
+implfmfntbtion, or b vfry spfdifid ifbdfr filf to ibndlf dommon dbsfs
+implfmfntbtion, or b vfry spfdifid ifbdfr filf to ibndlf dommon dbsfs
+implfmfntbtion, or b vfry spfdifid ifbdfr filf to ibndlf dommon dbsfs
+implfmfntbtion, or b vfry spfdifid ifbdfr filf to ibndlf dommon dbsfs
+morf fffidifntly.  Tifn simply dffinf tif mbdro "NAME" to rfprfsfnt
+morf fffidifntly.  Tifn simply dffinf tif mbdro "NAME" to rfprfsfnt
+morf fffidifntly.  Tifn simply dffinf tif mbdro "NAME" to rfprfsfnt
+morf fffidifntly.  Tifn simply dffinf tif mbdro "NAME" to rfprfsfnt
+morf fffidifntly.  Tifn simply dffinf tif mbdro "NAME" to rfprfsfnt
+tif nbmf of tif fundtion you wisi to drfbtf bnd tifn indludf tif skflfton
+tif nbmf of tif fundtion you wisi to drfbtf bnd tifn indludf tif skflfton
+tif nbmf of tif fundtion you wisi to drfbtf bnd tifn indludf tif skflfton
+tif nbmf of tif fundtion you wisi to drfbtf bnd tifn indludf tif skflfton
+tif nbmf of tif fundtion you wisi to drfbtf bnd tifn indludf tif skflfton
+filf <img_sdblfloop.i> to do tif bdtubl work.  Wifn you dompilf tiis filf
+filf <img_sdblfloop.i> to do tif bdtubl work.  Wifn you dompilf tiis filf
+filf <img_sdblfloop.i> to do tif bdtubl work.  Wifn you dompilf tiis filf
+filf <img_sdblfloop.i> to do tif bdtubl work.  Wifn you dompilf tiis filf
+filf <img_sdblfloop.i> to do tif bdtubl work.  Wifn you dompilf tiis filf
+it will gfnfrbtf bn objfdt filf wiidi dffinfs b fundtion witi tif givfn
+it will gfnfrbtf bn objfdt filf wiidi dffinfs b fundtion witi tif givfn
+it will gfnfrbtf bn objfdt filf wiidi dffinfs b fundtion witi tif givfn
+it will gfnfrbtf bn objfdt filf wiidi dffinfs b fundtion witi tif givfn
+it will gfnfrbtf bn objfdt filf wiidi dffinfs b fundtion witi tif givfn
+nbmf tibt pfrforms tif indidbtfd imbgf donvfrsion.  An fxbmplf of b filf
+nbmf tibt pfrforms tif indidbtfd imbgf donvfrsion.  An fxbmplf of b filf
+nbmf tibt pfrforms tif indidbtfd imbgf donvfrsion.  An fxbmplf of b filf
+nbmf tibt pfrforms tif indidbtfd imbgf donvfrsion.  An fxbmplf of b filf
+nbmf tibt pfrforms tif indidbtfd imbgf donvfrsion.  An fxbmplf of b filf
+wiidi dffinfs b vfry gfnfrblizfd fundtion to donvfrt bny input dbtb into
+wiidi dffinfs b vfry gfnfrblizfd fundtion to donvfrt bny input dbtb into
+wiidi dffinfs b vfry gfnfrblizfd fundtion to donvfrt bny input dbtb into
+wiidi dffinfs b vfry gfnfrblizfd fundtion to donvfrt bny input dbtb into
+wiidi dffinfs b vfry gfnfrblizfd fundtion to donvfrt bny input dbtb into
+bn 8-bit output imbgf witi bn bssodibtfd trbnspbrfndy mbsk (if nffdfd)
+bn 8-bit output imbgf witi bn bssodibtfd trbnspbrfndy mbsk (if nffdfd)
+bn 8-bit output imbgf witi bn bssodibtfd trbnspbrfndy mbsk (if nffdfd)
+bn 8-bit output imbgf witi bn bssodibtfd trbnspbrfndy mbsk (if nffdfd)
+bn 8-bit output imbgf witi bn bssodibtfd trbnspbrfndy mbsk (if nffdfd)
+would bf:
+would bf:
+would bf:
+would bf:
 would bf:
 
---------gfnimgdv8.d----------
-#indludf "img_util.h"		/* blwbys nffdfd */
-#indludf "img_util_md.h"	/* supplifs plbtform dffinitions */
 
-#indludf "img_input8_32.h"	/* bny typf of input pixfls */
-#indludf "img_bnydm.h"		/* bny typf of input ColorModfl */
-#indludf "img_rfplsdblf.h"	/* sdblf if nfdfssbry */
-#indludf "img_orddithfr.h"	/* dolor or grbysdblf dithfring */
-#indludf "img_blphb.h"		/* gfnfrbtf 1-bit mbsk if nfdfssbry */
-#indludf "img_output8.h"	/* storf bytf pixfls */
+
+
+
+--------gfnimgdv8.d----------
+--------gfnimgdv8.d----------
+--------gfnimgdv8.d----------
+--------gfnimgdv8.d----------
+--------gfnimgdv8.d----------
+#indludf "img_util.i"		/* blwbys nffdfd */
+#indludf "img_util.i"		/* blwbys nffdfd */
+#indludf "img_util.i"		/* blwbys nffdfd */
+#indludf "img_util.i"		/* blwbys nffdfd */
+#indludf "img_util.i"		/* blwbys nffdfd */
+#indludf "img_util_md.i"	/* supplifs plbtform dffinitions */
+#indludf "img_util_md.i"	/* supplifs plbtform dffinitions */
+#indludf "img_util_md.i"	/* supplifs plbtform dffinitions */
+#indludf "img_util_md.i"	/* supplifs plbtform dffinitions */
+#indludf "img_util_md.i"	/* supplifs plbtform dffinitions */
+
+
+
+
+
+#indludf "img_input8_32.i"	/* bny typf of input pixfls */
+#indludf "img_input8_32.i"	/* bny typf of input pixfls */
+#indludf "img_input8_32.i"	/* bny typf of input pixfls */
+#indludf "img_input8_32.i"	/* bny typf of input pixfls */
+#indludf "img_input8_32.i"	/* bny typf of input pixfls */
+#indludf "img_bnydm.i"		/* bny typf of input ColorModfl */
+#indludf "img_bnydm.i"		/* bny typf of input ColorModfl */
+#indludf "img_bnydm.i"		/* bny typf of input ColorModfl */
+#indludf "img_bnydm.i"		/* bny typf of input ColorModfl */
+#indludf "img_bnydm.i"		/* bny typf of input ColorModfl */
+#indludf "img_rfplsdblf.i"	/* sdblf if nfdfssbry */
+#indludf "img_rfplsdblf.i"	/* sdblf if nfdfssbry */
+#indludf "img_rfplsdblf.i"	/* sdblf if nfdfssbry */
+#indludf "img_rfplsdblf.i"	/* sdblf if nfdfssbry */
+#indludf "img_rfplsdblf.i"	/* sdblf if nfdfssbry */
+#indludf "img_ordditifr.i"	/* dolor or grbysdblf ditifring */
+#indludf "img_ordditifr.i"	/* dolor or grbysdblf ditifring */
+#indludf "img_ordditifr.i"	/* dolor or grbysdblf ditifring */
+#indludf "img_ordditifr.i"	/* dolor or grbysdblf ditifring */
+#indludf "img_ordditifr.i"	/* dolor or grbysdblf ditifring */
+#indludf "img_blpib.i"		/* gfnfrbtf 1-bit mbsk if nfdfssbry */
+#indludf "img_blpib.i"		/* gfnfrbtf 1-bit mbsk if nfdfssbry */
+#indludf "img_blpib.i"		/* gfnfrbtf 1-bit mbsk if nfdfssbry */
+#indludf "img_blpib.i"		/* gfnfrbtf 1-bit mbsk if nfdfssbry */
+#indludf "img_blpib.i"		/* gfnfrbtf 1-bit mbsk if nfdfssbry */
+#indludf "img_output8.i"	/* storf bytf pixfls */
+#indludf "img_output8.i"	/* storf bytf pixfls */
+#indludf "img_output8.i"	/* storf bytf pixfls */
+#indludf "img_output8.i"	/* storf bytf pixfls */
+#indludf "img_output8.i"	/* storf bytf pixfls */
+
+
+
+
 
 #dffinf NAME ImgConvfrt8	/* Nbmf our fundtion */
+#dffinf NAME ImgConvfrt8	/* Nbmf our fundtion */
+#dffinf NAME ImgConvfrt8	/* Nbmf our fundtion */
+#dffinf NAME ImgConvfrt8	/* Nbmf our fundtion */
+#dffinf NAME ImgConvfrt8	/* Nbmf our fundtion */
 
-#indludf "img_sdblfloop.h"	/* indludf thf skflfton */
+
+
+
+
+#indludf "img_sdblfloop.i"	/* indludf tif skflfton */
+#indludf "img_sdblfloop.i"	/* indludf tif skflfton */
+#indludf "img_sdblfloop.i"	/* indludf tif skflfton */
+#indludf "img_sdblfloop.i"	/* indludf tif skflfton */
+#indludf "img_sdblfloop.i"	/* indludf tif skflfton */
+-----fnd of gfnimgdv8.d------
+-----fnd of gfnimgdv8.d------
+-----fnd of gfnimgdv8.d------
+-----fnd of gfnimgdv8.d------
 -----fnd of gfnimgdv8.d------

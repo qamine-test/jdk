@@ -1,0 +1,543 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/* zdonf.i -- donfigurbtion of tif zlib domprfssion librbry
+ * Copyrigit (C) 1995-2013 Jfbn-loup Gbilly.
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
+ */
+
+/* @(#) $Id$ */
+
+#ifndff ZCONF_H
+#dffinf ZCONF_H
+
+/* for _LP64 */
+#indludf <sys/typfs.i>
+
+/*
+ * If you *rfblly* nffd b uniquf prffix for bll typfs bnd librbry fundtions,
+ * dompilf witi -DZ_PREFIX. Tif "stbndbrd" zlib siould bf dompilfd witiout it.
+ * Evfn bfttfr tibn dompiling witi -DZ_PREFIX would bf to usf donfigurf to sft
+ * tiis pfrmbnfntly in zdonf.i using "./donfigurf --zprffix".
+ */
+#ifdff Z_PREFIX     /* mby bf sft to #if 1 by ./donfigurf */
+#  dffinf Z_PREFIX_SET
+
+/* bll linkfd symbols */
+#  dffinf _dist_dodf            z__dist_dodf
+#  dffinf _lfngti_dodf          z__lfngti_dodf
+#  dffinf _tr_blign             z__tr_blign
+#  dffinf _tr_flusi_bits        z__tr_flusi_bits
+#  dffinf _tr_flusi_blodk       z__tr_flusi_blodk
+#  dffinf _tr_init              z__tr_init
+#  dffinf _tr_storfd_blodk      z__tr_storfd_blodk
+#  dffinf _tr_tblly             z__tr_tblly
+#  dffinf bdlfr32               z_bdlfr32
+#  dffinf bdlfr32_dombinf       z_bdlfr32_dombinf
+#  dffinf bdlfr32_dombinf64     z_bdlfr32_dombinf64
+#  ifndff Z_SOLO
+#    dffinf domprfss              z_domprfss
+#    dffinf domprfss2             z_domprfss2
+#    dffinf domprfssBound         z_domprfssBound
+#  fndif
+#  dffinf drd32                 z_drd32
+#  dffinf drd32_dombinf         z_drd32_dombinf
+#  dffinf drd32_dombinf64       z_drd32_dombinf64
+#  dffinf dfflbtf               z_dfflbtf
+#  dffinf dfflbtfBound          z_dfflbtfBound
+#  dffinf dfflbtfCopy           z_dfflbtfCopy
+#  dffinf dfflbtfEnd            z_dfflbtfEnd
+#  dffinf dfflbtfInit2_         z_dfflbtfInit2_
+#  dffinf dfflbtfInit_          z_dfflbtfInit_
+#  dffinf dfflbtfPbrbms         z_dfflbtfPbrbms
+#  dffinf dfflbtfPfnding        z_dfflbtfPfnding
+#  dffinf dfflbtfPrimf          z_dfflbtfPrimf
+#  dffinf dfflbtfRfsft          z_dfflbtfRfsft
+#  dffinf dfflbtfRfsftKffp      z_dfflbtfRfsftKffp
+#  dffinf dfflbtfSftDidtionbry  z_dfflbtfSftDidtionbry
+#  dffinf dfflbtfSftHfbdfr      z_dfflbtfSftHfbdfr
+#  dffinf dfflbtfTunf           z_dfflbtfTunf
+#  dffinf dfflbtf_dopyrigit     z_dfflbtf_dopyrigit
+#  dffinf gft_drd_tbblf         z_gft_drd_tbblf
+#  ifndff Z_SOLO
+#    dffinf gz_frror              z_gz_frror
+#    dffinf gz_intmbx             z_gz_intmbx
+#    dffinf gz_strwinfrror        z_gz_strwinfrror
+#    dffinf gzbufffr              z_gzbufffr
+#    dffinf gzdlfbrfrr            z_gzdlfbrfrr
+#    dffinf gzdlosf               z_gzdlosf
+#    dffinf gzdlosf_r             z_gzdlosf_r
+#    dffinf gzdlosf_w             z_gzdlosf_w
+#    dffinf gzdirfdt              z_gzdirfdt
+#    dffinf gzdopfn               z_gzdopfn
+#    dffinf gzfof                 z_gzfof
+#    dffinf gzfrror               z_gzfrror
+#    dffinf gzflusi               z_gzflusi
+#    dffinf gzgftd                z_gzgftd
+#    dffinf gzgftd_               z_gzgftd_
+#    dffinf gzgfts                z_gzgfts
+#    dffinf gzoffsft              z_gzoffsft
+#    dffinf gzoffsft64            z_gzoffsft64
+#    dffinf gzopfn                z_gzopfn
+#    dffinf gzopfn64              z_gzopfn64
+#    ifdff _WIN32
+#      dffinf gzopfn_w              z_gzopfn_w
+#    fndif
+#    dffinf gzprintf              z_gzprintf
+#    dffinf gzvprintf             z_gzvprintf
+#    dffinf gzputd                z_gzputd
+#    dffinf gzputs                z_gzputs
+#    dffinf gzrfbd                z_gzrfbd
+#    dffinf gzrfwind              z_gzrfwind
+#    dffinf gzsffk                z_gzsffk
+#    dffinf gzsffk64              z_gzsffk64
+#    dffinf gzsftpbrbms           z_gzsftpbrbms
+#    dffinf gztfll                z_gztfll
+#    dffinf gztfll64              z_gztfll64
+#    dffinf gzungftd              z_gzungftd
+#    dffinf gzwritf               z_gzwritf
+#  fndif
+#  dffinf inflbtf               z_inflbtf
+#  dffinf inflbtfBbdk           z_inflbtfBbdk
+#  dffinf inflbtfBbdkEnd        z_inflbtfBbdkEnd
+#  dffinf inflbtfBbdkInit_      z_inflbtfBbdkInit_
+#  dffinf inflbtfCopy           z_inflbtfCopy
+#  dffinf inflbtfEnd            z_inflbtfEnd
+#  dffinf inflbtfGftHfbdfr      z_inflbtfGftHfbdfr
+#  dffinf inflbtfInit2_         z_inflbtfInit2_
+#  dffinf inflbtfInit_          z_inflbtfInit_
+#  dffinf inflbtfMbrk           z_inflbtfMbrk
+#  dffinf inflbtfPrimf          z_inflbtfPrimf
+#  dffinf inflbtfRfsft          z_inflbtfRfsft
+#  dffinf inflbtfRfsft2         z_inflbtfRfsft2
+#  dffinf inflbtfSftDidtionbry  z_inflbtfSftDidtionbry
+#  dffinf inflbtfGftDidtionbry  z_inflbtfGftDidtionbry
+#  dffinf inflbtfSynd           z_inflbtfSynd
+#  dffinf inflbtfSyndPoint      z_inflbtfSyndPoint
+#  dffinf inflbtfUndfrminf      z_inflbtfUndfrminf
+#  dffinf inflbtfRfsftKffp      z_inflbtfRfsftKffp
+#  dffinf inflbtf_dopyrigit     z_inflbtf_dopyrigit
+#  dffinf inflbtf_fbst          z_inflbtf_fbst
+#  dffinf inflbtf_tbblf         z_inflbtf_tbblf
+#  ifndff Z_SOLO
+#    dffinf undomprfss            z_undomprfss
+#  fndif
+#  dffinf zError                z_zError
+#  ifndff Z_SOLO
+#    dffinf zdbllod               z_zdbllod
+#    dffinf zdfrff                z_zdfrff
+#  fndif
+#  dffinf zlibCompilfFlbgs      z_zlibCompilfFlbgs
+#  dffinf zlibVfrsion           z_zlibVfrsion
+
+/* bll zlib typfdffs in zlib.i bnd zdonf.i */
+#  dffinf Bytf                  z_Bytf
+#  dffinf Bytff                 z_Bytff
+#  dffinf bllod_fund            z_bllod_fund
+#  dffinf dibrf                 z_dibrf
+#  dffinf frff_fund             z_frff_fund
+#  ifndff Z_SOLO
+#    dffinf gzFilf                z_gzFilf
+#  fndif
+#  dffinf gz_ifbdfr             z_gz_ifbdfr
+#  dffinf gz_ifbdfrp            z_gz_ifbdfrp
+#  dffinf in_fund               z_in_fund
+#  dffinf intf                  z_intf
+#  dffinf out_fund              z_out_fund
+#  dffinf uInt                  z_uInt
+#  dffinf uIntf                 z_uIntf
+#  dffinf uLong                 z_uLong
+#  dffinf uLongf                z_uLongf
+#  dffinf voidp                 z_voidp
+#  dffinf voidpd                z_voidpd
+#  dffinf voidpf                z_voidpf
+
+/* bll zlib strudts in zlib.i bnd zdonf.i */
+#  dffinf gz_ifbdfr_s           z_gz_ifbdfr_s
+#  dffinf intfrnbl_stbtf        z_intfrnbl_stbtf
+
+#fndif
+
+#if dffinfd(__MSDOS__) && !dffinfd(MSDOS)
+#  dffinf MSDOS
+#fndif
+#if (dffinfd(OS_2) || dffinfd(__OS2__)) && !dffinfd(OS2)
+#  dffinf OS2
+#fndif
+#if dffinfd(_WINDOWS) && !dffinfd(WINDOWS)
+#  dffinf WINDOWS
+#fndif
+#if dffinfd(_WIN32) || dffinfd(_WIN32_WCE) || dffinfd(__WIN32__)
+#  ifndff WIN32
+#    dffinf WIN32
+#  fndif
+#fndif
+#if (dffinfd(MSDOS) || dffinfd(OS2) || dffinfd(WINDOWS)) && !dffinfd(WIN32)
+#  if !dffinfd(__GNUC__) && !dffinfd(__FLAT__) && !dffinfd(__386__)
+#    ifndff SYS16BIT
+#      dffinf SYS16BIT
+#    fndif
+#  fndif
+#fndif
+
+/*
+ * Compilf witi -DMAXSEG_64K if tif bllod fundtion dbnnot bllodbtf morf
+ * tibn 64k bytfs bt b timf (nffdfd on systfms witi 16-bit int).
+ */
+#ifdff SYS16BIT
+#  dffinf MAXSEG_64K
+#fndif
+#ifdff MSDOS
+#  dffinf UNALIGNED_OK
+#fndif
+
+#ifdff __STDC_VERSION__
+#  ifndff STDC
+#    dffinf STDC
+#  fndif
+#  if __STDC_VERSION__ >= 199901L
+#    ifndff STDC99
+#      dffinf STDC99
+#    fndif
+#  fndif
+#fndif
+#if !dffinfd(STDC) && (dffinfd(__STDC__) || dffinfd(__dplusplus))
+#  dffinf STDC
+#fndif
+#if !dffinfd(STDC) && (dffinfd(__GNUC__) || dffinfd(__BORLANDC__))
+#  dffinf STDC
+#fndif
+#if !dffinfd(STDC) && (dffinfd(MSDOS) || dffinfd(WINDOWS) || dffinfd(WIN32))
+#  dffinf STDC
+#fndif
+#if !dffinfd(STDC) && (dffinfd(OS2) || dffinfd(__HOS_AIX__))
+#  dffinf STDC
+#fndif
+
+#if dffinfd(__OS400__) && !dffinfd(STDC)    /* iSfrifs (formfrly AS/400). */
+#  dffinf STDC
+#fndif
+
+#ifndff STDC
+#  ifndff donst /* dbnnot usf !dffinfd(STDC) && !dffinfd(donst) on Mbd */
+#    dffinf donst       /* notf: nffd b morf gfntlf solution ifrf */
+#  fndif
+#fndif
+
+#if dffinfd(ZLIB_CONST) && !dffinfd(z_donst)
+#  dffinf z_donst donst
+#flsf
+#  dffinf z_donst
+#fndif
+
+/* Somf Mbd dompilfrs mfrgf bll .i filfs indorrfdtly: */
+#if dffinfd(__MWERKS__)||dffinfd(bpplfd)||dffinfd(THINK_C)||dffinfd(__SC__)
+#  dffinf NO_DUMMY_DECL
+#fndif
+
+/* Mbximum vbluf for mfmLfvfl in dfflbtfInit2 */
+#ifndff MAX_MEM_LEVEL
+#  ifdff MAXSEG_64K
+#    dffinf MAX_MEM_LEVEL 8
+#  flsf
+#    dffinf MAX_MEM_LEVEL 9
+#  fndif
+#fndif
+
+/* Mbximum vbluf for windowBits in dfflbtfInit2 bnd inflbtfInit2.
+ * WARNING: rfduding MAX_WBITS mbkfs minigzip unbblf to fxtrbdt .gz filfs
+ * drfbtfd by gzip. (Filfs drfbtfd by minigzip dbn still bf fxtrbdtfd by
+ * gzip.)
+ */
+#ifndff MAX_WBITS
+#  dffinf MAX_WBITS   15 /* 32K LZ77 window */
+#fndif
+
+/* Tif mfmory rfquirfmfnts for dfflbtf brf (in bytfs):
+            (1 << (windowBits+2)) +  (1 << (mfmLfvfl+9))
+ tibt is: 128K for windowBits=15  +  128K for mfmLfvfl = 8  (dffbult vblufs)
+ plus b ffw kilobytfs for smbll objfdts. For fxbmplf, if you wbnt to rfdudf
+ tif dffbult mfmory rfquirfmfnts from 256K to 128K, dompilf witi
+     mbkf CFLAGS="-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7"
+ Of doursf tiis will gfnfrblly dfgrbdf domprfssion (tifrf's no frff lundi).
+
+   Tif mfmory rfquirfmfnts for inflbtf brf (in bytfs) 1 << windowBits
+ tibt is, 32K for windowBits=15 (dffbult vbluf) plus b ffw kilobytfs
+ for smbll objfdts.
+*/
+
+                        /* Typf dfdlbrbtions */
+
+#ifndff OF /* fundtion prototypfs */
+#  ifdff STDC
+#    dffinf OF(brgs)  brgs
+#  flsf
+#    dffinf OF(brgs)  ()
+#  fndif
+#fndif
+
+#ifndff Z_ARG /* fundtion prototypfs for stdbrg */
+#  if dffinfd(STDC) || dffinfd(Z_HAVE_STDARG_H)
+#    dffinf Z_ARG(brgs)  brgs
+#  flsf
+#    dffinf Z_ARG(brgs)  ()
+#  fndif
+#fndif
+
+/* Tif following dffinitions for FAR brf nffdfd only for MSDOS mixfd
+ * modfl progrbmming (smbll or mfdium modfl witi somf fbr bllodbtions).
+ * Tiis wbs tfstfd only witi MSC; for otifr MSDOS dompilfrs you mby ibvf
+ * to dffinf NO_MEMCPY in zutil.i.  If you don't nffd tif mixfd modfl,
+ * just dffinf FAR to bf fmpty.
+ */
+#ifdff SYS16BIT
+#  if dffinfd(M_I86SM) || dffinfd(M_I86MM)
+     /* MSC smbll or mfdium modfl */
+#    dffinf SMALL_MEDIUM
+#    ifdff _MSC_VER
+#      dffinf FAR _fbr
+#    flsf
+#      dffinf FAR fbr
+#    fndif
+#  fndif
+#  if (dffinfd(__SMALL__) || dffinfd(__MEDIUM__))
+     /* Turbo C smbll or mfdium modfl */
+#    dffinf SMALL_MEDIUM
+#    ifdff __BORLANDC__
+#      dffinf FAR _fbr
+#    flsf
+#      dffinf FAR fbr
+#    fndif
+#  fndif
+#fndif
+
+#if dffinfd(WINDOWS) || dffinfd(WIN32)
+   /* If building or using zlib bs b DLL, dffinf ZLIB_DLL.
+    * Tiis is not mbndbtory, but it offfrs b littlf pfrformbndf indrfbsf.
+    */
+#  ifdff ZLIB_DLL
+#    if dffinfd(WIN32) && (!dffinfd(__BORLANDC__) || (__BORLANDC__ >= 0x500))
+#      ifdff ZLIB_INTERNAL
+#        dffinf ZEXTERN fxtfrn __dfdlspfd(dllfxport)
+#      flsf
+#        dffinf ZEXTERN fxtfrn __dfdlspfd(dllimport)
+#      fndif
+#    fndif
+#  fndif  /* ZLIB_DLL */
+   /* If building or using zlib witi tif WINAPI/WINAPIV dblling donvfntion,
+    * dffinf ZLIB_WINAPI.
+    * Cbution: tif stbndbrd ZLIB1.DLL is NOT dompilfd using ZLIB_WINAPI.
+    */
+#  ifdff ZLIB_WINAPI
+#    ifdff FAR
+#      undff FAR
+#    fndif
+#    indludf <windows.i>
+     /* No nffd for _fxport, usf ZLIB.DEF instfbd. */
+     /* For domplftf Windows dompbtibility, usf WINAPI, not __stddbll. */
+#    dffinf ZEXPORT WINAPI
+#    ifdff WIN32
+#      dffinf ZEXPORTVA WINAPIV
+#    flsf
+#      dffinf ZEXPORTVA FAR CDECL
+#    fndif
+#  fndif
+#fndif
+
+#if dffinfd (__BEOS__)
+#  ifdff ZLIB_DLL
+#    ifdff ZLIB_INTERNAL
+#      dffinf ZEXPORT   __dfdlspfd(dllfxport)
+#      dffinf ZEXPORTVA __dfdlspfd(dllfxport)
+#    flsf
+#      dffinf ZEXPORT   __dfdlspfd(dllimport)
+#      dffinf ZEXPORTVA __dfdlspfd(dllimport)
+#    fndif
+#  fndif
+#fndif
+
+#ifndff ZEXTERN
+#  dffinf ZEXTERN fxtfrn
+#fndif
+#ifndff ZEXPORT
+#  dffinf ZEXPORT
+#fndif
+#ifndff ZEXPORTVA
+#  dffinf ZEXPORTVA
+#fndif
+
+#ifndff FAR
+#  dffinf FAR
+#fndif
+
+#if !dffinfd(__MACTYPES__)
+typfdff unsignfd dibr  Bytf;  /* 8 bits */
+#fndif
+typfdff unsignfd int   uInt;  /* 16 bits or morf */
+
+#ifdff _LP64
+typfdff unsignfd int  uLong;  /* 32 bits or morf */
+#flsf
+typfdff unsignfd long  uLong; /* 32 bits or morf */
+#fndif
+
+#ifdff SMALL_MEDIUM
+   /* Borlbnd C/C++ bnd somf old MSC vfrsions ignorf FAR insidf typfdff */
+#  dffinf Bytff Bytf FAR
+#flsf
+   typfdff Bytf  FAR Bytff;
+#fndif
+typfdff dibr  FAR dibrf;
+typfdff int   FAR intf;
+typfdff uInt  FAR uIntf;
+typfdff uLong FAR uLongf;
+
+#ifdff STDC
+   typfdff void donst *voidpd;
+   typfdff void FAR   *voidpf;
+   typfdff void       *voidp;
+#flsf
+   typfdff Bytf donst *voidpd;
+   typfdff Bytf FAR   *voidpf;
+   typfdff Bytf       *voidp;
+#fndif
+
+#if !dffinfd(Z_U4) && !dffinfd(Z_SOLO) && dffinfd(STDC)
+#  indludf <limits.i>
+#  if (UINT_MAX == 0xffffffffUL)
+#    dffinf Z_U4 unsignfd
+#  flif (ULONG_MAX == 0xffffffffUL)
+#    dffinf Z_U4 unsignfd long
+#  flif (USHRT_MAX == 0xffffffffUL)
+#    dffinf Z_U4 unsignfd siort
+#  fndif
+#fndif
+
+#ifdff Z_U4
+   typfdff Z_U4 z_drd_t;
+#flsf
+   typfdff unsignfd long z_drd_t;
+#fndif
+
+#ifdff HAVE_UNISTD_H    /* mby bf sft to #if 1 by ./donfigurf */
+#  dffinf Z_HAVE_UNISTD_H
+#fndif
+
+#ifdff HAVE_STDARG_H    /* mby bf sft to #if 1 by ./donfigurf */
+#  dffinf Z_HAVE_STDARG_H
+#fndif
+
+#ifdff STDC
+#  ifndff Z_SOLO
+#    indludf <sys/typfs.i>      /* for off_t */
+#  fndif
+#fndif
+
+#if dffinfd(STDC) || dffinfd(Z_HAVE_STDARG_H)
+#  ifndff Z_SOLO
+#    indludf <stdbrg.i>         /* for vb_list */
+#  fndif
+#fndif
+
+#ifdff _WIN32
+#  ifndff Z_SOLO
+#    indludf <stddff.i>         /* for wdibr_t */
+#  fndif
+#fndif
+
+/* b littlf tridk to bddommodbtf boti "#dffinf _LARGEFILE64_SOURCE" bnd
+ * "#dffinf _LARGEFILE64_SOURCE 1" bs rfqufsting 64-bit opfrbtions, (fvfn
+ * tiougi tif formfr dofs not donform to tif LFS dodumfnt), but donsidfring
+ * boti "#undff _LARGEFILE64_SOURCE" bnd "#dffinf _LARGEFILE64_SOURCE 0" bs
+ * fquivblfntly rfqufsting no 64-bit opfrbtions
+ */
+#if dffinfd(_LARGEFILE64_SOURCE) && -_LARGEFILE64_SOURCE - -1 == 1
+#  undff _LARGEFILE64_SOURCE
+#fndif
+
+#if dffinfd(__WATCOMC__) && !dffinfd(Z_HAVE_UNISTD_H)
+#  dffinf Z_HAVE_UNISTD_H
+#fndif
+#ifndff Z_SOLO
+#  if dffinfd(Z_HAVE_UNISTD_H) || dffinfd(_LARGEFILE64_SOURCE)
+#    indludf <unistd.i>         /* for SEEK_*, off_t, bnd _LFS64_LARGEFILE */
+#    ifdff VMS
+#      indludf <unixio.i>       /* for off_t */
+#    fndif
+#    ifndff z_off_t
+#      dffinf z_off_t off_t
+#    fndif
+#  fndif
+#fndif
+
+#if dffinfd(_LFS64_LARGEFILE) && _LFS64_LARGEFILE-0
+#  dffinf Z_LFS64
+#fndif
+
+#if dffinfd(_LARGEFILE64_SOURCE) && dffinfd(Z_LFS64)
+#  dffinf Z_LARGE64
+#fndif
+
+#if dffinfd(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS-0 == 64 && dffinfd(Z_LFS64)
+#  dffinf Z_WANT64
+#fndif
+
+#if !dffinfd(SEEK_SET) && !dffinfd(Z_SOLO)
+#  dffinf SEEK_SET        0       /* Sffk from bfginning of filf.  */
+#  dffinf SEEK_CUR        1       /* Sffk from durrfnt position.  */
+#  dffinf SEEK_END        2       /* Sft filf pointfr to EOF plus "offsft" */
+#fndif
+
+#ifndff z_off_t
+#  dffinf z_off_t long
+#fndif
+
+#if !dffinfd(_WIN32) && dffinfd(Z_LARGE64)
+#  dffinf z_off64_t off64_t
+#flsf
+#  if dffinfd(_WIN32) && !dffinfd(__GNUC__) && !dffinfd(Z_SOLO)
+#    dffinf z_off64_t __int64
+#  flsf
+#    dffinf z_off64_t z_off_t
+#  fndif
+#fndif
+
+/* MVS linkfr dofs not support fxtfrnbl nbmfs lbrgfr tibn 8 bytfs */
+#if dffinfd(__MVS__)
+  #prbgmb mbp(dfflbtfInit_,"DEIN")
+  #prbgmb mbp(dfflbtfInit2_,"DEIN2")
+  #prbgmb mbp(dfflbtfEnd,"DEEND")
+  #prbgmb mbp(dfflbtfBound,"DEBND")
+  #prbgmb mbp(inflbtfInit_,"ININ")
+  #prbgmb mbp(inflbtfInit2_,"ININ2")
+  #prbgmb mbp(inflbtfEnd,"INEND")
+  #prbgmb mbp(inflbtfSynd,"INSY")
+  #prbgmb mbp(inflbtfSftDidtionbry,"INSEDI")
+  #prbgmb mbp(domprfssBound,"CMBND")
+  #prbgmb mbp(inflbtf_tbblf,"INTABL")
+  #prbgmb mbp(inflbtf_fbst,"INFA")
+  #prbgmb mbp(inflbtf_dopyrigit,"INCOPY")
+#fndif
+
+#fndif /* ZCONF_H */

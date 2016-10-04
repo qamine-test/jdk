@@ -1,109 +1,545 @@
 /*
- * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.lbng.invokf;
+pbdkbgf jbvb.lbng.invokf;
+pbdkbgf jbvb.lbng.invokf;
+pbdkbgf jbvb.lbng.invokf;
+pbdkbgf jbvb.lbng.invokf;
+
+
+
+
 
 /**
- * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} whosf tbrgft bdts likf b volbtilf vbribblf.
+/**
+/**
+/**
+/**
+ * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} wiosf tbrgft bdts likf b volbtilf vbribblf.
+ * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} wiosf tbrgft bdts likf b volbtilf vbribblf.
+ * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} wiosf tbrgft bdts likf b volbtilf vbribblf.
+ * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} wiosf tbrgft bdts likf b volbtilf vbribblf.
+ * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} wiosf tbrgft bdts likf b volbtilf vbribblf.
  * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf VolbtilfCbllSitf} sffs updbtfs
- * to its dbll sitf tbrgft immfdibtfly, fvfn if thf updbtf oddurs in bnothfr thrfbd.
- * Thfrf mby bf b pfrformbndf pfnblty for sudh tight doupling bftwffn thrfbds.
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf VolbtilfCbllSitf} sffs updbtfs
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf VolbtilfCbllSitf} sffs updbtfs
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf VolbtilfCbllSitf} sffs updbtfs
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf VolbtilfCbllSitf} sffs updbtfs
+ * to its dbll sitf tbrgft immfdibtfly, fvfn if tif updbtf oddurs in bnotifr tirfbd.
+ * to its dbll sitf tbrgft immfdibtfly, fvfn if tif updbtf oddurs in bnotifr tirfbd.
+ * to its dbll sitf tbrgft immfdibtfly, fvfn if tif updbtf oddurs in bnotifr tirfbd.
+ * to its dbll sitf tbrgft immfdibtfly, fvfn if tif updbtf oddurs in bnotifr tirfbd.
+ * to its dbll sitf tbrgft immfdibtfly, fvfn if tif updbtf oddurs in bnotifr tirfbd.
+ * Tifrf mby bf b pfrformbndf pfnblty for sudi tigit doupling bftwffn tirfbds.
+ * Tifrf mby bf b pfrformbndf pfnblty for sudi tigit doupling bftwffn tirfbds.
+ * Tifrf mby bf b pfrformbndf pfnblty for sudi tigit doupling bftwffn tirfbds.
+ * Tifrf mby bf b pfrformbndf pfnblty for sudi tigit doupling bftwffn tirfbds.
+ * Tifrf mby bf b pfrformbndf pfnblty for sudi tigit doupling bftwffn tirfbds.
  * <p>
- * Unlikf {@dodf MutbblfCbllSitf}, thfrf is no
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Unlikf {@dodf MutbblfCbllSitf}, tifrf is no
+ * Unlikf {@dodf MutbblfCbllSitf}, tifrf is no
+ * Unlikf {@dodf MutbblfCbllSitf}, tifrf is no
+ * Unlikf {@dodf MutbblfCbllSitf}, tifrf is no
+ * Unlikf {@dodf MutbblfCbllSitf}, tifrf is no
+ * {@linkplbin MutbblfCbllSitf#syndAll syndAll opfrbtion} on volbtilf
+ * {@linkplbin MutbblfCbllSitf#syndAll syndAll opfrbtion} on volbtilf
+ * {@linkplbin MutbblfCbllSitf#syndAll syndAll opfrbtion} on volbtilf
+ * {@linkplbin MutbblfCbllSitf#syndAll syndAll opfrbtion} on volbtilf
  * {@linkplbin MutbblfCbllSitf#syndAll syndAll opfrbtion} on volbtilf
  * dbll sitfs, sindf fvfry writf to b volbtilf vbribblf is impliditly
- * syndhronizfd with rfbdfr thrfbds.
+ * dbll sitfs, sindf fvfry writf to b volbtilf vbribblf is impliditly
+ * dbll sitfs, sindf fvfry writf to b volbtilf vbribblf is impliditly
+ * dbll sitfs, sindf fvfry writf to b volbtilf vbribblf is impliditly
+ * dbll sitfs, sindf fvfry writf to b volbtilf vbribblf is impliditly
+ * syndironizfd witi rfbdfr tirfbds.
+ * syndironizfd witi rfbdfr tirfbds.
+ * syndironizfd witi rfbdfr tirfbds.
+ * syndironizfd witi rfbdfr tirfbds.
+ * syndironizfd witi rfbdfr tirfbds.
  * <p>
- * In othfr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdhbngfbblf
- * with {@dodf MutbblfCbllSitf}.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * In otifr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdibngfbblf
+ * In otifr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdibngfbblf
+ * In otifr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdibngfbblf
+ * In otifr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdibngfbblf
+ * In otifr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdibngfbblf
+ * witi {@dodf MutbblfCbllSitf}.
+ * witi {@dodf MutbblfCbllSitf}.
+ * witi {@dodf MutbblfCbllSitf}.
+ * witi {@dodf MutbblfCbllSitf}.
+ * witi {@dodf MutbblfCbllSitf}.
  * @sff MutbblfCbllSitf
- * @buthor John Rosf, JSR 292 EG
+ * @sff MutbblfCbllSitf
+ * @sff MutbblfCbllSitf
+ * @sff MutbblfCbllSitf
+ * @sff MutbblfCbllSitf
+ * @butior Join Rosf, JSR 292 EG
+ * @butior Join Rosf, JSR 292 EG
+ * @butior Join Rosf, JSR 292 EG
+ * @butior Join Rosf, JSR 292 EG
+ * @butior Join Rosf, JSR 292 EG
+ */
+ */
+ */
+ */
  */
 publid dlbss VolbtilfCbllSitf fxtfnds CbllSitf {
+publid dlbss VolbtilfCbllSitf fxtfnds CbllSitf {
+publid dlbss VolbtilfCbllSitf fxtfnds CbllSitf {
+publid dlbss VolbtilfCbllSitf fxtfnds CbllSitf {
+publid dlbss VolbtilfCbllSitf fxtfnds CbllSitf {
     /**
-     * Crfbtfs b dbll sitf with b volbtilf binding to its tbrgft.
-     * Thf initibl tbrgft is sft to b mfthod hbndlf
-     * of thf givfn typf whidh will throw bn {@dodf IllfgblStbtfExdfption} if dbllfd.
-     * @pbrbm typf thf mfthod typf thbt this dbll sitf will hbvf
-     * @throws NullPointfrExdfption if thf proposfd typf is null
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Tif initibl tbrgft is sft to b mftiod ibndlf
+     * Tif initibl tbrgft is sft to b mftiod ibndlf
+     * Tif initibl tbrgft is sft to b mftiod ibndlf
+     * Tif initibl tbrgft is sft to b mftiod ibndlf
+     * Tif initibl tbrgft is sft to b mftiod ibndlf
+     * of tif givfn typf wiidi will tirow bn {@dodf IllfgblStbtfExdfption} if dbllfd.
+     * of tif givfn typf wiidi will tirow bn {@dodf IllfgblStbtfExdfption} if dbllfd.
+     * of tif givfn typf wiidi will tirow bn {@dodf IllfgblStbtfExdfption} if dbllfd.
+     * of tif givfn typf wiidi will tirow bn {@dodf IllfgblStbtfExdfption} if dbllfd.
+     * of tif givfn typf wiidi will tirow bn {@dodf IllfgblStbtfExdfption} if dbllfd.
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
      */
-    publid VolbtilfCbllSitf(MfthodTypf typf) {
+     */
+     */
+     */
+     */
+    publid VolbtilfCbllSitf(MftiodTypf typf) {
+    publid VolbtilfCbllSitf(MftiodTypf typf) {
+    publid VolbtilfCbllSitf(MftiodTypf typf) {
+    publid VolbtilfCbllSitf(MftiodTypf typf) {
+    publid VolbtilfCbllSitf(MftiodTypf typf) {
+        supfr(typf);
+        supfr(typf);
+        supfr(typf);
+        supfr(typf);
         supfr(typf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Crfbtfs b dbll sitf with b volbtilf binding to its tbrgft.
-     * Thf tbrgft is sft to thf givfn vbluf.
-     * @pbrbm tbrgft thf mfthod hbndlf thbt will bf thf initibl tbrgft of thf dbll sitf
-     * @throws NullPointfrExdfption if thf proposfd tbrgft is null
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Tif tbrgft is sft to tif givfn vbluf.
+     * Tif tbrgft is sft to tif givfn vbluf.
+     * Tif tbrgft is sft to tif givfn vbluf.
+     * Tif tbrgft is sft to tif givfn vbluf.
+     * Tif tbrgft is sft to tif givfn vbluf.
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
      */
-    publid VolbtilfCbllSitf(MfthodHbndlf tbrgft) {
+     */
+     */
+     */
+     */
+    publid VolbtilfCbllSitf(MftiodHbndlf tbrgft) {
+    publid VolbtilfCbllSitf(MftiodHbndlf tbrgft) {
+    publid VolbtilfCbllSitf(MftiodHbndlf tbrgft) {
+    publid VolbtilfCbllSitf(MftiodHbndlf tbrgft) {
+    publid VolbtilfCbllSitf(MftiodHbndlf tbrgft) {
+        supfr(tbrgft);
+        supfr(tbrgft);
+        supfr(tbrgft);
+        supfr(tbrgft);
         supfr(tbrgft);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf tbrgft mfthod of thf dbll sitf, whidh bfhbvfs
-     * likf b {@dodf volbtilf} fifld of thf {@dodf VolbtilfCbllSitf}.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * likf b {@dodf volbtilf} fifld of tif {@dodf VolbtilfCbllSitf}.
+     * likf b {@dodf volbtilf} fifld of tif {@dodf VolbtilfCbllSitf}.
+     * likf b {@dodf volbtilf} fifld of tif {@dodf VolbtilfCbllSitf}.
+     * likf b {@dodf volbtilf} fifld of tif {@dodf VolbtilfCbllSitf}.
+     * likf b {@dodf volbtilf} fifld of tif {@dodf VolbtilfCbllSitf}.
      * <p>
-     * Thf intfrbdtions of {@dodf gftTbrgft} with mfmory brf thf sbmf
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * bs of b rfbd from b {@dodf volbtilf} fifld.
+     * bs of b rfbd from b {@dodf volbtilf} fifld.
+     * bs of b rfbd from b {@dodf volbtilf} fifld.
+     * bs of b rfbd from b {@dodf volbtilf} fifld.
      * bs of b rfbd from b {@dodf volbtilf} fifld.
      * <p>
-     * In pbrtidulbr, thf durrfnt thrfbd is rfquirfd to issuf b frfsh
-     * rfbd of thf tbrgft from mfmory, bnd must not fbil to sff
-     * b rfdfnt updbtf to thf tbrgft by bnothfr thrfbd.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * In pbrtidulbr, tif durrfnt tirfbd is rfquirfd to issuf b frfsi
+     * In pbrtidulbr, tif durrfnt tirfbd is rfquirfd to issuf b frfsi
+     * In pbrtidulbr, tif durrfnt tirfbd is rfquirfd to issuf b frfsi
+     * In pbrtidulbr, tif durrfnt tirfbd is rfquirfd to issuf b frfsi
+     * In pbrtidulbr, tif durrfnt tirfbd is rfquirfd to issuf b frfsi
+     * rfbd of tif tbrgft from mfmory, bnd must not fbil to sff
+     * rfbd of tif tbrgft from mfmory, bnd must not fbil to sff
+     * rfbd of tif tbrgft from mfmory, bnd must not fbil to sff
+     * rfbd of tif tbrgft from mfmory, bnd must not fbil to sff
+     * rfbd of tif tbrgft from mfmory, bnd must not fbil to sff
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
      *
-     * @rfturn thf linkbgf stbtf of this dbll sitf, b mfthod hbndlf whidh dbn dhbngf ovfr timf
+     *
+     *
+     *
+     *
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @sff #sftTbrgft
+     * @sff #sftTbrgft
+     * @sff #sftTbrgft
+     * @sff #sftTbrgft
      * @sff #sftTbrgft
      */
-    @Ovfrridf publid finbl MfthodHbndlf gftTbrgft() {
+     */
+     */
+     */
+     */
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+        rfturn gftTbrgftVolbtilf();
+        rfturn gftTbrgftVolbtilf();
+        rfturn gftTbrgftVolbtilf();
+        rfturn gftTbrgftVolbtilf();
         rfturn gftTbrgftVolbtilf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Updbtfs thf tbrgft mfthod of this dbll sitf, bs b volbtilf vbribblf.
-     * Thf typf of thf nfw tbrgft must bgrff with thf typf of thf old tbrgft.
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b volbtilf vbribblf.
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b volbtilf vbribblf.
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b volbtilf vbribblf.
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b volbtilf vbribblf.
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b volbtilf vbribblf.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
      * <p>
-     * Thf intfrbdtions with mfmory brf thf sbmf bs of b writf to b volbtilf fifld.
-     * In pbrtidulbr, bny thrfbds is gubrbntffd to sff thf updbtfd tbrgft
-     * thf nfxt timf it dblls {@dodf gftTbrgft}.
-     * @pbrbm nfwTbrgft thf nfw tbrgft
-     * @throws NullPointfrExdfption if thf proposfd nfw tbrgft is null
-     * @throws WrongMfthodTypfExdfption if thf proposfd nfw tbrgft
-     *         hbs b mfthod typf thbt difffrs from thf prfvious tbrgft
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif intfrbdtions witi mfmory brf tif sbmf bs of b writf to b volbtilf fifld.
+     * Tif intfrbdtions witi mfmory brf tif sbmf bs of b writf to b volbtilf fifld.
+     * Tif intfrbdtions witi mfmory brf tif sbmf bs of b writf to b volbtilf fifld.
+     * Tif intfrbdtions witi mfmory brf tif sbmf bs of b writf to b volbtilf fifld.
+     * Tif intfrbdtions witi mfmory brf tif sbmf bs of b writf to b volbtilf fifld.
+     * In pbrtidulbr, bny tirfbds is gubrbntffd to sff tif updbtfd tbrgft
+     * In pbrtidulbr, bny tirfbds is gubrbntffd to sff tif updbtfd tbrgft
+     * In pbrtidulbr, bny tirfbds is gubrbntffd to sff tif updbtfd tbrgft
+     * In pbrtidulbr, bny tirfbds is gubrbntffd to sff tif updbtfd tbrgft
+     * In pbrtidulbr, bny tirfbds is gubrbntffd to sff tif updbtfd tbrgft
+     * tif nfxt timf it dblls {@dodf gftTbrgft}.
+     * tif nfxt timf it dblls {@dodf gftTbrgft}.
+     * tif nfxt timf it dblls {@dodf gftTbrgft}.
+     * tif nfxt timf it dblls {@dodf gftTbrgft}.
+     * tif nfxt timf it dblls {@dodf gftTbrgft}.
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     * @sff #gftTbrgft
+     * @sff #gftTbrgft
+     * @sff #gftTbrgft
+     * @sff #gftTbrgft
      * @sff #gftTbrgft
      */
-    @Ovfrridf publid void sftTbrgft(MfthodHbndlf nfwTbrgft) {
-        dhfdkTbrgftChbngf(gftTbrgftVolbtilf(), nfwTbrgft);
+     */
+     */
+     */
+     */
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+        difdkTbrgftCibngf(gftTbrgftVolbtilf(), nfwTbrgft);
+        difdkTbrgftCibngf(gftTbrgftVolbtilf(), nfwTbrgft);
+        difdkTbrgftCibngf(gftTbrgftVolbtilf(), nfwTbrgft);
+        difdkTbrgftCibngf(gftTbrgftVolbtilf(), nfwTbrgft);
+        difdkTbrgftCibngf(gftTbrgftVolbtilf(), nfwTbrgft);
+        sftTbrgftVolbtilf(nfwTbrgft);
+        sftTbrgftVolbtilf(nfwTbrgft);
+        sftTbrgftVolbtilf(nfwTbrgft);
+        sftTbrgftVolbtilf(nfwTbrgft);
         sftTbrgftVolbtilf(nfwTbrgft);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * {@inhfritDod}
+    /**
+    /**
+    /**
+    /**
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     * {@inifritDod}
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    publid finbl MfthodHbndlf dynbmidInvokfr() {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+        rfturn mbkfDynbmidInvokfr();
+        rfturn mbkfDynbmidInvokfr();
+        rfturn mbkfDynbmidInvokfr();
+        rfturn mbkfDynbmidInvokfr();
         rfturn mbkfDynbmidInvokfr();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

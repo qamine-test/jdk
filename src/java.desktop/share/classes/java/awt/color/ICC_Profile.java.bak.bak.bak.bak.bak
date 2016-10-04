@@ -1,0 +1,2085 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd    ***
+ *** Stbtfs Codf.  All rigits rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.dolor;
+
+import sun.jbvb2d.dmm.PCMM;
+import sun.jbvb2d.dmm.CMSMbnbgfr;
+import sun.jbvb2d.dmm.Profilf;
+import sun.jbvb2d.dmm.ProfilfDbtbVfrififr;
+import sun.jbvb2d.dmm.ProfilfDfffrrblMgr;
+import sun.jbvb2d.dmm.ProfilfDfffrrblInfo;
+import sun.jbvb2d.dmm.ProfilfAdtivbtor;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.util.StringTokfnizfr;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+
+/**
+ * A rfprfsfntbtion of dolor profilf dbtb for dfvidf indfpfndfnt bnd
+ * dfvidf dfpfndfnt dolor spbdfs bbsfd on tif Intfrnbtionbl Color
+ * Consortium Spfdifidbtion ICC.1:2001-12, Filf Formbt for Color Profilfs,
+ * (sff <A irff="ittp://www.dolor.org"> ittp://www.dolor.org</A>).
+ * <p>
+ * An ICC_ColorSpbdf objfdt dbn bf donstrudtfd from bn bppropribtf
+ * ICC_Profilf.
+ * Typidblly, bn ICC_ColorSpbdf would bf bssodibtfd witi bn ICC
+ * Profilf wiidi is fitifr bn input, displby, or output profilf (sff
+ * tif ICC spfdifidbtion).  Tifrf brf blso dfvidf link, bbstrbdt,
+ * dolor spbdf donvfrsion, bnd nbmfd dolor profilfs.  Tifsf brf lfss
+ * usfful for tbgging b dolor or imbgf, but brf usfful for otifr
+ * purposfs (in pbrtidulbr dfvidf link profilfs dbn providf improvfd
+ * pfrformbndf for donvfrting from onf dfvidf's dolor spbdf to
+ * bnotifr's).
+ * <p>
+ * ICC Profilfs rfprfsfnt trbnsformbtions from tif dolor spbdf of
+ * tif profilf (f.g. b monitor) to b Profilf Connfdtion Spbdf (PCS).
+ * Profilfs of intfrfst for tbgging imbgfs or dolors ibvf b PCS
+ * wiidi is onf of tif two spfdifid dfvidf indfpfndfnt
+ * spbdfs (onf CIEXYZ spbdf bnd onf CIELbb spbdf) dffinfd in tif
+ * ICC Profilf Formbt Spfdifidbtion.  Most profilfs of intfrfst
+ * fitifr ibvf invfrtiblf trbnsformbtions or fxpliditly spfdify
+ * trbnsformbtions going boti dirfdtions.
+ * @sff ICC_ColorSpbdf
+ */
+
+
+publid dlbss ICC_Profilf implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -3938515861990936766L;
+
+    privbtf trbnsifnt Profilf dmmProfilf;
+
+    privbtf trbnsifnt ProfilfDfffrrblInfo dfffrrblInfo;
+    privbtf trbnsifnt ProfilfAdtivbtor profilfAdtivbtor;
+
+    // Rfgistry of singlfton profilf objfdts for spfdifid dolor spbdfs
+    // dffinfd in tif ColorSpbdf dlbss (f.g. CS_sRGB), sff
+    // gftInstbndf(int dspbdf) fbdtory mftiod.
+    privbtf stbtid ICC_Profilf sRGBprofilf;
+    privbtf stbtid ICC_Profilf XYZprofilf;
+    privbtf stbtid ICC_Profilf PYCCprofilf;
+    privbtf stbtid ICC_Profilf GRAYprofilf;
+    privbtf stbtid ICC_Profilf LINEAR_RGBprofilf;
+
+
+    /**
+     * Profilf dlbss is input.
+     */
+    publid stbtid finbl int CLASS_INPUT = 0;
+
+    /**
+     * Profilf dlbss is displby.
+     */
+    publid stbtid finbl int CLASS_DISPLAY = 1;
+
+    /**
+     * Profilf dlbss is output.
+     */
+    publid stbtid finbl int CLASS_OUTPUT = 2;
+
+    /**
+     * Profilf dlbss is dfvidf link.
+     */
+    publid stbtid finbl int CLASS_DEVICELINK = 3;
+
+    /**
+     * Profilf dlbss is dolor spbdf donvfrsion.
+     */
+    publid stbtid finbl int CLASS_COLORSPACECONVERSION = 4;
+
+    /**
+     * Profilf dlbss is bbstrbdt.
+     */
+    publid stbtid finbl int CLASS_ABSTRACT = 5;
+
+    /**
+     * Profilf dlbss is nbmfd dolor.
+     */
+    publid stbtid finbl int CLASS_NAMEDCOLOR = 6;
+
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'XYZ '.
+     */
+    publid stbtid finbl int idSigXYZDbtb        = 0x58595A20;    /* 'XYZ ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'Lbb '.
+     */
+    publid stbtid finbl int idSigLbbDbtb        = 0x4C616220;    /* 'Lbb ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'Luv '.
+     */
+    publid stbtid finbl int idSigLuvDbtb        = 0x4C757620;    /* 'Luv ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'YCbr'.
+     */
+    publid stbtid finbl int idSigYCbCrDbtb        = 0x59436272;    /* 'YCbr' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'Yxy '.
+     */
+    publid stbtid finbl int idSigYxyDbtb        = 0x59787920;    /* 'Yxy ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'RGB '.
+     */
+    publid stbtid finbl int idSigRgbDbtb        = 0x52474220;    /* 'RGB ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'GRAY'.
+     */
+    publid stbtid finbl int idSigGrbyDbtb        = 0x47524159;    /* 'GRAY' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'HSV'.
+     */
+    publid stbtid finbl int idSigHsvDbtb        = 0x48535620;    /* 'HSV ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'HLS'.
+     */
+    publid stbtid finbl int idSigHlsDbtb        = 0x484C5320;    /* 'HLS ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'CMYK'.
+     */
+    publid stbtid finbl int idSigCmykDbtb        = 0x434D594B;    /* 'CMYK' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'CMY '.
+     */
+    publid stbtid finbl int idSigCmyDbtb        = 0x434D5920;    /* 'CMY ' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '2CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf2CLR        = 0x32434C52;    /* '2CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '3CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf3CLR        = 0x33434C52;    /* '3CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '4CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf4CLR        = 0x34434C52;    /* '4CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '5CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf5CLR        = 0x35434C52;    /* '5CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '6CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf6CLR        = 0x36434C52;    /* '6CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '7CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf7CLR        = 0x37434C52;    /* '7CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '8CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf8CLR        = 0x38434C52;    /* '8CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: '9CLR'.
+     */
+    publid stbtid finbl int idSigSpbdf9CLR        = 0x39434C52;    /* '9CLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'ACLR'.
+     */
+    publid stbtid finbl int idSigSpbdfACLR        = 0x41434C52;    /* 'ACLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'BCLR'.
+     */
+    publid stbtid finbl int idSigSpbdfBCLR        = 0x42434C52;    /* 'BCLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'CCLR'.
+     */
+    publid stbtid finbl int idSigSpbdfCCLR        = 0x43434C52;    /* 'CCLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'DCLR'.
+     */
+    publid stbtid finbl int idSigSpbdfDCLR        = 0x44434C52;    /* 'DCLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'ECLR'.
+     */
+    publid stbtid finbl int idSigSpbdfECLR        = 0x45434C52;    /* 'ECLR' */
+
+    /**
+     * ICC Profilf Color Spbdf Typf Signbturf: 'FCLR'.
+     */
+    publid stbtid finbl int idSigSpbdfFCLR        = 0x46434C52;    /* 'FCLR' */
+
+
+    /**
+     * ICC Profilf Clbss Signbturf: 'sdnr'.
+     */
+    publid stbtid finbl int idSigInputClbss       = 0x73636E72;    /* 'sdnr' */
+
+    /**
+     * ICC Profilf Clbss Signbturf: 'mntr'.
+     */
+    publid stbtid finbl int idSigDisplbyClbss     = 0x6D6E7472;    /* 'mntr' */
+
+    /**
+     * ICC Profilf Clbss Signbturf: 'prtr'.
+     */
+    publid stbtid finbl int idSigOutputClbss      = 0x70727472;    /* 'prtr' */
+
+    /**
+     * ICC Profilf Clbss Signbturf: 'link'.
+     */
+    publid stbtid finbl int idSigLinkClbss        = 0x6C696E6B;    /* 'link' */
+
+    /**
+     * ICC Profilf Clbss Signbturf: 'bbst'.
+     */
+    publid stbtid finbl int idSigAbstrbdtClbss    = 0x61627374;    /* 'bbst' */
+
+    /**
+     * ICC Profilf Clbss Signbturf: 'spbd'.
+     */
+    publid stbtid finbl int idSigColorSpbdfClbss  = 0x73706163;    /* 'spbd' */
+
+    /**
+     * ICC Profilf Clbss Signbturf: 'nmdl'.
+     */
+    publid stbtid finbl int idSigNbmfdColorClbss  = 0x6f6d636d;    /* 'nmdl' */
+
+
+    /**
+     * ICC Profilf Rfndfring Intfnt: Pfrdfptubl.
+     */
+    publid stbtid finbl int idPfrdfptubl            = 0;
+
+    /**
+     * ICC Profilf Rfndfring Intfnt: RflbtivfColorimftrid.
+     */
+    publid stbtid finbl int idRflbtivfColorimftrid    = 1;
+
+    /**
+     * ICC Profilf Rfndfring Intfnt: Mfdib-RflbtivfColorimftrid.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idMfdibRflbtivfColorimftrid = 1;
+
+    /**
+     * ICC Profilf Rfndfring Intfnt: Sbturbtion.
+     */
+    publid stbtid finbl int idSbturbtion            = 2;
+
+    /**
+     * ICC Profilf Rfndfring Intfnt: AbsolutfColorimftrid.
+     */
+    publid stbtid finbl int idAbsolutfColorimftrid    = 3;
+
+    /**
+     * ICC Profilf Rfndfring Intfnt: ICC-AbsolutfColorimftrid.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idICCAbsolutfColorimftrid = 3;
+
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'ifbd' - spfdibl.
+     */
+    publid stbtid finbl int idSigHfbd      = 0x68656164; /* 'ifbd' - spfdibl */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'A2B0'.
+     */
+    publid stbtid finbl int idSigAToB0Tbg         = 0x41324230;    /* 'A2B0' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'A2B1'.
+     */
+    publid stbtid finbl int idSigAToB1Tbg         = 0x41324231;    /* 'A2B1' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'A2B2'.
+     */
+    publid stbtid finbl int idSigAToB2Tbg         = 0x41324232;    /* 'A2B2' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'bXYZ'.
+     */
+    publid stbtid finbl int idSigBlufColorbntTbg  = 0x6258595A;    /* 'bXYZ' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'bXYZ'.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idSigBlufMbtrixColumnTbg = 0x6258595A; /* 'bXYZ' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'bTRC'.
+     */
+    publid stbtid finbl int idSigBlufTRCTbg       = 0x62545243;    /* 'bTRC' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'B2A0'.
+     */
+    publid stbtid finbl int idSigBToA0Tbg         = 0x42324130;    /* 'B2A0' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'B2A1'.
+     */
+    publid stbtid finbl int idSigBToA1Tbg         = 0x42324131;    /* 'B2A1' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'B2A2'.
+     */
+    publid stbtid finbl int idSigBToA2Tbg         = 0x42324132;    /* 'B2A2' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dblt'.
+     */
+    publid stbtid finbl int idSigCblibrbtionDbtfTimfTbg = 0x63616C74;
+                                                                   /* 'dblt' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'tbrg'.
+     */
+    publid stbtid finbl int idSigCibrTbrgftTbg    = 0x74617267;    /* 'tbrg' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dprt'.
+     */
+    publid stbtid finbl int idSigCopyrigitTbg     = 0x63707274;    /* 'dprt' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'drdi'.
+     */
+    publid stbtid finbl int idSigCrdInfoTbg       = 0x63726469;    /* 'drdi' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dmnd'.
+     */
+    publid stbtid finbl int idSigDfvidfMfgDfsdTbg = 0x646D6E64;    /* 'dmnd' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dmdd'.
+     */
+    publid stbtid finbl int idSigDfvidfModflDfsdTbg = 0x646D6464;  /* 'dmdd' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dfvs'.
+     */
+    publid stbtid finbl int idSigDfvidfSfttingsTbg =  0x64657673;  /* 'dfvs' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'gbmt'.
+     */
+    publid stbtid finbl int idSigGbmutTbg         = 0x67616D74;    /* 'gbmt' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'kTRC'.
+     */
+    publid stbtid finbl int idSigGrbyTRCTbg       = 0x6b545243;    /* 'kTRC' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'gXYZ'.
+     */
+    publid stbtid finbl int idSigGrffnColorbntTbg = 0x6758595A;    /* 'gXYZ' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'gXYZ'.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idSigGrffnMbtrixColumnTbg = 0x6758595A;/* 'gXYZ' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'gTRC'.
+     */
+    publid stbtid finbl int idSigGrffnTRCTbg      = 0x67545243;    /* 'gTRC' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'lumi'.
+     */
+    publid stbtid finbl int idSigLuminbndfTbg     = 0x6C756d69;    /* 'lumi' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'mfbs'.
+     */
+    publid stbtid finbl int idSigMfbsurfmfntTbg   = 0x6D656173;    /* 'mfbs' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'bkpt'.
+     */
+    publid stbtid finbl int idSigMfdibBlbdkPointTbg = 0x626B7074;  /* 'bkpt' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'wtpt'.
+     */
+    publid stbtid finbl int idSigMfdibWiitfPointTbg = 0x77747074;  /* 'wtpt' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'ndl2'.
+     */
+    publid stbtid finbl int idSigNbmfdColor2Tbg   = 0x6E636C32;    /* 'ndl2' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'rfsp'.
+     */
+    publid stbtid finbl int idSigOutputRfsponsfTbg = 0x72657370;   /* 'rfsp' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'prf0'.
+     */
+    publid stbtid finbl int idSigPrfvifw0Tbg      = 0x70726530;    /* 'prf0' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'prf1'.
+     */
+    publid stbtid finbl int idSigPrfvifw1Tbg      = 0x70726531;    /* 'prf1' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'prf2'.
+     */
+    publid stbtid finbl int idSigPrfvifw2Tbg      = 0x70726532;    /* 'prf2' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dfsd'.
+     */
+    publid stbtid finbl int idSigProfilfDfsdriptionTbg = 0x64657363;
+                                                                   /* 'dfsd' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'psfq'.
+     */
+    publid stbtid finbl int idSigProfilfSfqufndfDfsdTbg = 0x70736571;
+                                                                   /* 'psfq' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'psd0'.
+     */
+    publid stbtid finbl int idSigPs2CRD0Tbg       = 0x70736430;    /* 'psd0' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'psd1'.
+     */
+    publid stbtid finbl int idSigPs2CRD1Tbg       = 0x70736431;    /* 'psd1' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'psd2'.
+     */
+    publid stbtid finbl int idSigPs2CRD2Tbg       = 0x70736432;    /* 'psd2' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'psd3'.
+     */
+    publid stbtid finbl int idSigPs2CRD3Tbg       = 0x70736433;    /* 'psd3' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'ps2s'.
+     */
+    publid stbtid finbl int idSigPs2CSATbg        = 0x70733273;    /* 'ps2s' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'ps2i'.
+     */
+    publid stbtid finbl int idSigPs2RfndfringIntfntTbg = 0x70733269;
+                                                                   /* 'ps2i' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'rXYZ'.
+     */
+    publid stbtid finbl int idSigRfdColorbntTbg   = 0x7258595A;    /* 'rXYZ' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'rXYZ'.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idSigRfdMbtrixColumnTbg = 0x7258595A;  /* 'rXYZ' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'rTRC'.
+     */
+    publid stbtid finbl int idSigRfdTRCTbg        = 0x72545243;    /* 'rTRC' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'sdrd'.
+     */
+    publid stbtid finbl int idSigSdrffningDfsdTbg = 0x73637264;    /* 'sdrd' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'sdrn'.
+     */
+    publid stbtid finbl int idSigSdrffningTbg     = 0x7363726E;    /* 'sdrn' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'tfdi'.
+     */
+    publid stbtid finbl int idSigTfdinologyTbg    = 0x74656368;    /* 'tfdi' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'bfd '.
+     */
+    publid stbtid finbl int idSigUdrBgTbg         = 0x62666420;    /* 'bfd ' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'vufd'.
+     */
+    publid stbtid finbl int idSigVifwingCondDfsdTbg = 0x76756564;  /* 'vufd' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'vifw'.
+     */
+    publid stbtid finbl int idSigVifwingConditionsTbg = 0x76696577;/* 'vifw' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dirm'.
+     */
+    publid stbtid finbl int idSigCirombtidityTbg  = 0x6368726d;    /* 'dirm' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dibd'.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idSigCirombtidAdbptbtionTbg = 0x63686164;/* 'dibd' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dlro'.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idSigColorbntOrdfrTbg = 0x636C726F;    /* 'dlro' */
+
+    /**
+     * ICC Profilf Tbg Signbturf: 'dlrt'.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idSigColorbntTbblfTbg = 0x636C7274;    /* 'dlrt' */
+
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: profilf sizf in bytfs.
+     */
+    publid stbtid finbl int idHdrSizf         = 0;  /* Profilf sizf in bytfs */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: CMM for tiis profilf.
+     */
+    publid stbtid finbl int idHdrCmmId        = 4;  /* CMM for tiis profilf */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: formbt vfrsion numbfr.
+     */
+    publid stbtid finbl int idHdrVfrsion      = 8;  /* Formbt vfrsion numbfr */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: typf of profilf.
+     */
+    publid stbtid finbl int idHdrDfvidfClbss  = 12; /* Typf of profilf */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: dolor spbdf of dbtb.
+     */
+    publid stbtid finbl int idHdrColorSpbdf   = 16; /* Color spbdf of dbtb */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: PCS - XYZ or Lbb only.
+     */
+    publid stbtid finbl int idHdrPds          = 20; /* PCS - XYZ or Lbb only */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: dbtf profilf wbs drfbtfd.
+     */
+    publid stbtid finbl int idHdrDbtf       = 24; /* Dbtf profilf wbs drfbtfd */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: idMbgidNumbfr.
+     */
+    publid stbtid finbl int idHdrMbgid        = 36; /* idMbgidNumbfr */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: primbry plbtform.
+     */
+    publid stbtid finbl int idHdrPlbtform     = 40; /* Primbry Plbtform */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: vbrious bit sfttings.
+     */
+    publid stbtid finbl int idHdrFlbgs        = 44; /* Vbrious bit sfttings */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: dfvidf mbnufbdturfr.
+     */
+    publid stbtid finbl int idHdrMbnufbdturfr = 48; /* Dfvidf mbnufbdturfr */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: dfvidf modfl numbfr.
+     */
+    publid stbtid finbl int idHdrModfl        = 52; /* Dfvidf modfl numbfr */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: dfvidf bttributfs.
+     */
+    publid stbtid finbl int idHdrAttributfs   = 56; /* Dfvidf bttributfs */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: rfndfring intfnt.
+     */
+    publid stbtid finbl int idHdrRfndfringIntfnt = 64; /* Rfndfring intfnt */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: profilf illuminbnt.
+     */
+    publid stbtid finbl int idHdrIlluminbnt   = 68; /* Profilf illuminbnt */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: profilf drfbtor.
+     */
+    publid stbtid finbl int idHdrCrfbtor      = 80; /* Profilf drfbtor */
+
+    /**
+     * ICC Profilf Hfbdfr Lodbtion: profilf's ID.
+     * @sindf 1.5
+     */
+    publid stbtid finbl int idHdrProfilfID = 84; /* Profilf's ID */
+
+
+    /**
+     * ICC Profilf Constbnt: tbg typf signbturE.
+     */
+    publid stbtid finbl int idTbgTypf          = 0;    /* tbg typf signbturf */
+
+    /**
+     * ICC Profilf Constbnt: rfsfrvfd.
+     */
+    publid stbtid finbl int idTbgRfsfrvfd      = 4;    /* rfsfrvfd */
+
+    /**
+     * ICC Profilf Constbnt: durvfTypf dount.
+     */
+    publid stbtid finbl int idCurvfCount       = 8;    /* durvfTypf dount */
+
+    /**
+     * ICC Profilf Constbnt: durvfTypf dbtb.
+     */
+    publid stbtid finbl int idCurvfDbtb        = 12;   /* durvfTypf dbtb */
+
+    /**
+     * ICC Profilf Constbnt: XYZNumbfr X.
+     */
+    publid stbtid finbl int idXYZNumbfrX       = 8;    /* XYZNumbfr X */
+
+
+    /**
+     * Construdts bn ICC_Profilf objfdt witi b givfn ID.
+     */
+    ICC_Profilf(Profilf p) {
+        tiis.dmmProfilf = p;
+    }
+
+
+    /**
+     * Construdts bn ICC_Profilf objfdt wiosf lobding will bf dfffrrfd.
+     * Tif ID will bf 0 until tif profilf is lobdfd.
+     */
+    ICC_Profilf(ProfilfDfffrrblInfo pdi) {
+        tiis.dfffrrblInfo = pdi;
+        tiis.profilfAdtivbtor = nfw ProfilfAdtivbtor() {
+            publid void bdtivbtf() tirows ProfilfDbtbExdfption {
+                bdtivbtfDfffrrfdProfilf();
+            }
+        };
+        ProfilfDfffrrblMgr.rfgistfrDfffrrbl(tiis.profilfAdtivbtor);
+    }
+
+
+    /**
+     * Frffs tif rfsourdfs bssodibtfd witi bn ICC_Profilf objfdt.
+     */
+    protfdtfd void finblizf () {
+        if (dmmProfilf != null) {
+            CMSMbnbgfr.gftModulf().frffProfilf(dmmProfilf);
+        } flsf if (profilfAdtivbtor != null) {
+            ProfilfDfffrrblMgr.unrfgistfrDfffrrbl(profilfAdtivbtor);
+        }
+    }
+
+
+    /**
+     * Construdts bn ICC_Profilf objfdt dorrfsponding to tif dbtb in
+     * b bytf brrby.  Tirows bn IllfgblArgumfntExdfption if tif dbtb
+     * dofs not dorrfspond to b vblid ICC Profilf.
+     * @pbrbm dbtb tif spfdififd ICC Profilf dbtb
+     * @rfturn bn <dodf>ICC_Profilf</dodf> objfdt dorrfsponding to
+     *          tif dbtb in tif spfdififd <dodf>dbtb</dodf> brrby.
+     */
+    publid stbtid ICC_Profilf gftInstbndf(bytf[] dbtb) {
+    ICC_Profilf tiisProfilf;
+
+        Profilf p = null;
+
+        if (ProfilfDfffrrblMgr.dfffrring) {
+            ProfilfDfffrrblMgr.bdtivbtfProfilfs();
+        }
+
+        ProfilfDbtbVfrififr.vfrify(dbtb);
+
+        try {
+            p = CMSMbnbgfr.gftModulf().lobdProfilf(dbtb);
+        } dbtdi (CMMExdfption d) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
+        }
+
+        try {
+            if ((gftColorSpbdfTypf (p) == ColorSpbdf.TYPE_GRAY) &&
+                (gftDbtb (p, idSigMfdibWiitfPointTbg) != null) &&
+                (gftDbtb (p, idSigGrbyTRCTbg) != null)) {
+                tiisProfilf = nfw ICC_ProfilfGrby (p);
+            }
+            flsf if ((gftColorSpbdfTypf (p) == ColorSpbdf.TYPE_RGB) &&
+                (gftDbtb (p, idSigMfdibWiitfPointTbg) != null) &&
+                (gftDbtb (p, idSigRfdColorbntTbg) != null) &&
+                (gftDbtb (p, idSigGrffnColorbntTbg) != null) &&
+                (gftDbtb (p, idSigBlufColorbntTbg) != null) &&
+                (gftDbtb (p, idSigRfdTRCTbg) != null) &&
+                (gftDbtb (p, idSigGrffnTRCTbg) != null) &&
+                (gftDbtb (p, idSigBlufTRCTbg) != null)) {
+                tiisProfilf = nfw ICC_ProfilfRGB (p);
+            }
+            flsf {
+                tiisProfilf = nfw ICC_Profilf (p);
+            }
+        } dbtdi (CMMExdfption d) {
+            tiisProfilf = nfw ICC_Profilf (p);
+        }
+        rfturn tiisProfilf;
+    }
+
+
+
+    /**
+     * Construdts bn ICC_Profilf dorrfsponding to onf of tif spfdifid dolor
+     * spbdfs dffinfd by tif ColorSpbdf dlbss (for fxbmplf CS_sRGB).
+     * Tirows bn IllfgblArgumfntExdfption if dspbdf is not onf of tif
+     * dffinfd dolor spbdfs.
+     *
+     * @pbrbm dspbdf tif typf of dolor spbdf to drfbtf b profilf for.
+     * Tif spfdififd typf is onf of tif dolor
+     * spbdf donstbnts dffinfd in tif  <CODE>ColorSpbdf</CODE> dlbss.
+     *
+     * @rfturn bn <dodf>ICC_Profilf</dodf> objfdt dorrfsponding to
+     *          tif spfdififd <dodf>ColorSpbdf</dodf> typf.
+     * @fxdfption IllfgblArgumfntExdfption If <CODE>dspbdf</CODE> is not
+     * onf of tif prfdffinfd dolor spbdf typfs.
+     */
+    publid stbtid ICC_Profilf gftInstbndf (int dspbdf) {
+        ICC_Profilf tiisProfilf = null;
+        String filfNbmf;
+
+        switdi (dspbdf) {
+        dbsf ColorSpbdf.CS_sRGB:
+            syndironizfd(ICC_Profilf.dlbss) {
+                if (sRGBprofilf == null) {
+                    /*
+                     * Dfffrrbl is only usfd for stbndbrd profilfs.
+                     * Enbbling tif bppropribtf bddfss privilfgfs is ibndlfd
+                     * bt b lowfr lfvfl.
+                     */
+                    ProfilfDfffrrblInfo pInfo =
+                        nfw ProfilfDfffrrblInfo("sRGB.pf",
+                                                ColorSpbdf.TYPE_RGB, 3,
+                                                CLASS_DISPLAY);
+                    sRGBprofilf = gftDfffrrfdInstbndf(pInfo);
+                }
+                tiisProfilf = sRGBprofilf;
+            }
+
+            brfbk;
+
+        dbsf ColorSpbdf.CS_CIEXYZ:
+            syndironizfd(ICC_Profilf.dlbss) {
+                if (XYZprofilf == null) {
+                    ProfilfDfffrrblInfo pInfo =
+                        nfw ProfilfDfffrrblInfo("CIEXYZ.pf",
+                                                ColorSpbdf.TYPE_XYZ, 3,
+                                                CLASS_DISPLAY);
+                    XYZprofilf = gftDfffrrfdInstbndf(pInfo);
+                }
+                tiisProfilf = XYZprofilf;
+            }
+
+            brfbk;
+
+        dbsf ColorSpbdf.CS_PYCC:
+            syndironizfd(ICC_Profilf.dlbss) {
+                if (PYCCprofilf == null) {
+                    if (stbndbrdProfilfExists("PYCC.pf"))
+                    {
+                        ProfilfDfffrrblInfo pInfo =
+                            nfw ProfilfDfffrrblInfo("PYCC.pf",
+                                                    ColorSpbdf.TYPE_3CLR, 3,
+                                                    CLASS_DISPLAY);
+                        PYCCprofilf = gftDfffrrfdInstbndf(pInfo);
+                    } flsf {
+                        tirow nfw IllfgblArgumfntExdfption(
+                                "Cbn't lobd stbndbrd profilf: PYCC.pf");
+                    }
+                }
+                tiisProfilf = PYCCprofilf;
+            }
+
+            brfbk;
+
+        dbsf ColorSpbdf.CS_GRAY:
+            syndironizfd(ICC_Profilf.dlbss) {
+                if (GRAYprofilf == null) {
+                    ProfilfDfffrrblInfo pInfo =
+                        nfw ProfilfDfffrrblInfo("GRAY.pf",
+                                                ColorSpbdf.TYPE_GRAY, 1,
+                                                CLASS_DISPLAY);
+                    GRAYprofilf = gftDfffrrfdInstbndf(pInfo);
+                }
+                tiisProfilf = GRAYprofilf;
+            }
+
+            brfbk;
+
+        dbsf ColorSpbdf.CS_LINEAR_RGB:
+            syndironizfd(ICC_Profilf.dlbss) {
+                if (LINEAR_RGBprofilf == null) {
+                    ProfilfDfffrrblInfo pInfo =
+                        nfw ProfilfDfffrrblInfo("LINEAR_RGB.pf",
+                                                ColorSpbdf.TYPE_RGB, 3,
+                                                CLASS_DISPLAY);
+                    LINEAR_RGBprofilf = gftDfffrrfdInstbndf(pInfo);
+                }
+                tiisProfilf = LINEAR_RGBprofilf;
+            }
+
+            brfbk;
+
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Unknown dolor spbdf");
+        }
+
+        rfturn tiisProfilf;
+    }
+
+    /* Tiis bssfrts systfm privilfgfs, so is usfd only for tif
+     * stbndbrd profilfs.
+     */
+    privbtf stbtid ICC_Profilf gftStbndbrdProfilf(finbl String nbmf) {
+
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ICC_Profilf>() {
+                 publid ICC_Profilf run() {
+                     ICC_Profilf p = null;
+                     try {
+                         p = gftInstbndf (nbmf);
+                     } dbtdi (IOExdfption fx) {
+                         tirow nfw IllfgblArgumfntExdfption(
+                               "Cbn't lobd stbndbrd profilf: " + nbmf);
+                     }
+                     rfturn p;
+                 }
+             });
+    }
+
+    /**
+     * Construdts bn ICC_Profilf dorrfsponding to tif dbtb in b filf.
+     * filfNbmf mby bf bn bbsolutf or b rflbtivf filf spfdifidbtion.
+     * Rflbtivf filf nbmfs brf lookfd for in sfvfrbl plbdfs: first, rflbtivf
+     * to bny dirfdtorifs spfdififd by tif jbvb.iddprofilf.pbti propfrty;
+     * sfdond, rflbtivf to bny dirfdtorifs spfdififd by tif jbvb.dlbss.pbti
+     * propfrty; finblly, in b dirfdtory usfd to storf profilfs blwbys
+     * bvbilbblf, sudi bs tif profilf for sRGB.  Built-in profilfs usf .pf bs
+     * tif filf nbmf fxtfnsion for profilfs, f.g. sRGB.pf.
+     * Tiis mftiod tirows bn IOExdfption if tif spfdififd filf dbnnot bf
+     * opfnfd or if bn I/O frror oddurs wiilf rfbding tif filf.  It tirows
+     * bn IllfgblArgumfntExdfption if tif filf dofs not dontbin vblid ICC
+     * Profilf dbtb.
+     * @pbrbm filfNbmf Tif filf tibt dontbins tif dbtb for tif profilf.
+     *
+     * @rfturn bn <dodf>ICC_Profilf</dodf> objfdt dorrfsponding to
+     *          tif dbtb in tif spfdififd filf.
+     * @fxdfption IOExdfption If tif spfdififd filf dbnnot bf opfnfd or
+     * bn I/O frror oddurs wiilf rfbding tif filf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption If tif filf dofs not
+     * dontbin vblid ICC Profilf dbtb.
+     *
+     * @fxdfption SfdurityExdfption If b sfdurity mbnbgfr is instbllfd
+     * bnd it dofs not pfrmit rfbd bddfss to tif givfn filf.
+     */
+    publid stbtid ICC_Profilf gftInstbndf(String filfNbmf) tirows IOExdfption {
+        ICC_Profilf tiisProfilf;
+        FilfInputStrfbm fis = null;
+
+
+        Filf f = gftProfilfFilf(filfNbmf);
+        if (f != null) {
+            fis = nfw FilfInputStrfbm(f);
+        }
+        if (fis == null) {
+            tirow nfw IOExdfption("Cbnnot opfn filf " + filfNbmf);
+        }
+
+        tiisProfilf = gftInstbndf(fis);
+
+        fis.dlosf();    /* dlosf tif filf */
+
+        rfturn tiisProfilf;
+    }
+
+
+    /**
+     * Construdts bn ICC_Profilf dorrfsponding to tif dbtb in bn InputStrfbm.
+     * Tiis mftiod tirows bn IllfgblArgumfntExdfption if tif strfbm dofs not
+     * dontbin vblid ICC Profilf dbtb.  It tirows bn IOExdfption if bn I/O
+     * frror oddurs wiilf rfbding tif strfbm.
+     * @pbrbm s Tif input strfbm from wiidi to rfbd tif profilf dbtb.
+     *
+     * @rfturn bn <CODE>ICC_Profilf</CODE> objfdt dorrfsponding to tif
+     *     dbtb in tif spfdififd <dodf>InputStrfbm</dodf>.
+     *
+     * @fxdfption IOExdfption If bn I/O frror oddurs wiilf rfbding tif strfbm.
+     *
+     * @fxdfption IllfgblArgumfntExdfption If tif strfbm dofs not
+     * dontbin vblid ICC Profilf dbtb.
+     */
+    publid stbtid ICC_Profilf gftInstbndf(InputStrfbm s) tirows IOExdfption {
+    bytf profilfDbtb[];
+
+        if (s instbndfof ProfilfDfffrrblInfo) {
+            /* ibdk to dftfdt profilfs wiosf lobding dbn bf dfffrrfd */
+            rfturn gftDfffrrfdInstbndf((ProfilfDfffrrblInfo) s);
+        }
+
+        if ((profilfDbtb = gftProfilfDbtbFromStrfbm(s)) == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid ICC Profilf Dbtb");
+        }
+
+        rfturn gftInstbndf(profilfDbtb);
+    }
+
+
+    stbtid bytf[] gftProfilfDbtbFromStrfbm(InputStrfbm s) tirows IOExdfption {
+    bytf profilfDbtb[];
+    int profilfSizf;
+
+        bytf ifbdfr[] = nfw bytf[128];
+        int bytfstorfbd = 128;
+        int bytfsrfbd = 0;
+        int n;
+
+        wiilf (bytfstorfbd != 0) {
+            if ((n = s.rfbd(ifbdfr, bytfsrfbd, bytfstorfbd)) < 0) {
+                rfturn null;
+            }
+            bytfsrfbd += n;
+            bytfstorfbd -= n;
+        }
+        if (ifbdfr[36] != 0x61 || ifbdfr[37] != 0x63 ||
+            ifbdfr[38] != 0x73 || ifbdfr[39] != 0x70) {
+            rfturn null;   /* not b vblid profilf */
+        }
+        profilfSizf = ((ifbdfr[0] & 0xff) << 24) |
+                      ((ifbdfr[1] & 0xff) << 16) |
+                      ((ifbdfr[2] & 0xff) <<  8) |
+                       (ifbdfr[3] & 0xff);
+        profilfDbtb = nfw bytf[profilfSizf];
+        Systfm.brrbydopy(ifbdfr, 0, profilfDbtb, 0, 128);
+        bytfstorfbd = profilfSizf - 128;
+        bytfsrfbd = 128;
+        wiilf (bytfstorfbd != 0) {
+            if ((n = s.rfbd(profilfDbtb, bytfsrfbd, bytfstorfbd)) < 0) {
+                rfturn null;
+            }
+            bytfsrfbd += n;
+            bytfstorfbd -= n;
+        }
+
+        rfturn profilfDbtb;
+    }
+
+
+    /**
+     * Construdts bn ICC_Profilf for wiidi tif bdtubl lobding of tif
+     * profilf dbtb from b filf bnd tif initiblizbtion of tif CMM siould
+     * bf dfffrrfd bs long bs possiblf.
+     * Dfffrrbl is only usfd for stbndbrd profilfs.
+     * If dfffrring is disbblfd, tifn gftStbndbrdProfilf() fnsurfs
+     * tibt bll of tif bppropribtf bddfss privilfgfs brf grbntfd
+     * wifn lobding tiis profilf.
+     * If dfffrring is fnbblfd, tifn tif dfffrrfd bdtivbtion
+     * dodf will tbkf dbrf of bddfss privilfgfs.
+     * @sff bdtivbtfDfffrrfdProfilf()
+     */
+    stbtid ICC_Profilf gftDfffrrfdInstbndf(ProfilfDfffrrblInfo pdi) {
+        if (!ProfilfDfffrrblMgr.dfffrring) {
+            rfturn gftStbndbrdProfilf(pdi.filfnbmf);
+        }
+        if (pdi.dolorSpbdfTypf == ColorSpbdf.TYPE_RGB) {
+            rfturn nfw ICC_ProfilfRGB(pdi);
+        } flsf if (pdi.dolorSpbdfTypf == ColorSpbdf.TYPE_GRAY) {
+            rfturn nfw ICC_ProfilfGrby(pdi);
+        } flsf {
+            rfturn nfw ICC_Profilf(pdi);
+        }
+    }
+
+
+    void bdtivbtfDfffrrfdProfilf() tirows ProfilfDbtbExdfption {
+        bytf profilfDbtb[];
+        FilfInputStrfbm fis;
+        finbl String filfNbmf = dfffrrblInfo.filfnbmf;
+
+        profilfAdtivbtor = null;
+        dfffrrblInfo = null;
+        PrivilfgfdAdtion<FilfInputStrfbm> pb = nfw PrivilfgfdAdtion<FilfInputStrfbm>() {
+            publid FilfInputStrfbm run() {
+                Filf f = gftStbndbrdProfilfFilf(filfNbmf);
+                if (f != null) {
+                    try {
+                        rfturn nfw FilfInputStrfbm(f);
+                    } dbtdi (FilfNotFoundExdfption f) {}
+                }
+                rfturn null;
+            }
+        };
+        if ((fis = AddfssControllfr.doPrivilfgfd(pb)) == null) {
+            tirow nfw ProfilfDbtbExdfption("Cbnnot opfn filf " + filfNbmf);
+        }
+        try {
+            profilfDbtb = gftProfilfDbtbFromStrfbm(fis);
+            fis.dlosf();    /* dlosf tif filf */
+        }
+        dbtdi (IOExdfption f) {
+            ProfilfDbtbExdfption pdf = nfw
+                ProfilfDbtbExdfption("Invblid ICC Profilf Dbtb" + filfNbmf);
+            pdf.initCbusf(f);
+            tirow pdf;
+        }
+        if (profilfDbtb == null) {
+            tirow nfw ProfilfDbtbExdfption("Invblid ICC Profilf Dbtb" +
+                filfNbmf);
+        }
+        try {
+            dmmProfilf = CMSMbnbgfr.gftModulf().lobdProfilf(profilfDbtb);
+        } dbtdi (CMMExdfption d) {
+            ProfilfDbtbExdfption pdf = nfw
+                ProfilfDbtbExdfption("Invblid ICC Profilf Dbtb" + filfNbmf);
+            pdf.initCbusf(d);
+            tirow pdf;
+        }
+    }
+
+
+    /**
+     * Rfturns profilf mbjor vfrsion.
+     * @rfturn  Tif mbjor vfrsion of tif profilf.
+     */
+    publid int gftMbjorVfrsion() {
+    bytf[] tifHfbdfr;
+
+        tifHfbdfr = gftDbtb(idSigHfbd); /* gftDbtb will bdtivbtf dfffrrfd
+                                           profilfs if nfdfssbry */
+
+        rfturn (int) tifHfbdfr[8];
+    }
+
+    /**
+     * Rfturns profilf minor vfrsion.
+     * @rfturn Tif minor vfrsion of tif profilf.
+     */
+    publid int gftMinorVfrsion() {
+    bytf[] tifHfbdfr;
+
+        tifHfbdfr = gftDbtb(idSigHfbd); /* gftDbtb will bdtivbtf dfffrrfd
+                                           profilfs if nfdfssbry */
+
+        rfturn (int) tifHfbdfr[9];
+    }
+
+    /**
+     * Rfturns tif profilf dlbss.
+     * @rfturn Onf of tif prfdffinfd profilf dlbss donstbnts.
+     */
+    publid int gftProfilfClbss() {
+    bytf[] tifHfbdfr;
+    int tifClbssSig, tifClbss;
+
+        if (dfffrrblInfo != null) {
+            rfturn dfffrrblInfo.profilfClbss; /* Nffd to ibvf tiis info for
+                                                 ICC_ColorSpbdf witiout
+                                                 dbusing b dfffrrfd profilf
+                                                 to bf lobdfd */
+        }
+
+        tifHfbdfr = gftDbtb(idSigHfbd);
+
+        tifClbssSig = intFromBigEndibn (tifHfbdfr, idHdrDfvidfClbss);
+
+        switdi (tifClbssSig) {
+        dbsf idSigInputClbss:
+            tifClbss = CLASS_INPUT;
+            brfbk;
+
+        dbsf idSigDisplbyClbss:
+            tifClbss = CLASS_DISPLAY;
+            brfbk;
+
+        dbsf idSigOutputClbss:
+            tifClbss = CLASS_OUTPUT;
+            brfbk;
+
+        dbsf idSigLinkClbss:
+            tifClbss = CLASS_DEVICELINK;
+            brfbk;
+
+        dbsf idSigColorSpbdfClbss:
+            tifClbss = CLASS_COLORSPACECONVERSION;
+            brfbk;
+
+        dbsf idSigAbstrbdtClbss:
+            tifClbss = CLASS_ABSTRACT;
+            brfbk;
+
+        dbsf idSigNbmfdColorClbss:
+            tifClbss = CLASS_NAMEDCOLOR;
+            brfbk;
+
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Unknown profilf dlbss");
+        }
+
+        rfturn tifClbss;
+    }
+
+    /**
+     * Rfturns tif dolor spbdf typf.  Rfturns onf of tif dolor spbdf typf
+     * donstbnts dffinfd by tif ColorSpbdf dlbss.  Tiis is tif
+     * "input" dolor spbdf of tif profilf.  Tif typf dffinfs tif
+     * numbfr of domponfnts of tif dolor spbdf bnd tif intfrprftbtion,
+     * f.g. TYPE_RGB idfntififs b dolor spbdf witi tirff domponfnts - rfd,
+     * grffn, bnd bluf.  It dofs not dffinf tif pbrtidulbr dolor
+     * dibrbdtfristids of tif spbdf, f.g. tif dirombtiditifs of tif
+     * primbrifs.
+     * @rfturn Onf of tif dolor spbdf typf donstbnts dffinfd in tif
+     * <CODE>ColorSpbdf</CODE> dlbss.
+     */
+    publid int gftColorSpbdfTypf() {
+        if (dfffrrblInfo != null) {
+            rfturn dfffrrblInfo.dolorSpbdfTypf; /* Nffd to ibvf tiis info for
+                                                   ICC_ColorSpbdf witiout
+                                                   dbusing b dfffrrfd profilf
+                                                   to bf lobdfd */
+        }
+        rfturn    gftColorSpbdfTypf(dmmProfilf);
+    }
+
+    stbtid int gftColorSpbdfTypf(Profilf p) {
+    bytf[] tifHfbdfr;
+    int tifColorSpbdfSig, tifColorSpbdf;
+
+        tifHfbdfr = gftDbtb(p, idSigHfbd);
+        tifColorSpbdfSig = intFromBigEndibn(tifHfbdfr, idHdrColorSpbdf);
+        tifColorSpbdf = iddCStoJCS (tifColorSpbdfSig);
+        rfturn tifColorSpbdf;
+    }
+
+    /**
+     * Rfturns tif dolor spbdf typf of tif Profilf Connfdtion Spbdf (PCS).
+     * Rfturns onf of tif dolor spbdf typf donstbnts dffinfd by tif
+     * ColorSpbdf dlbss.  Tiis is tif "output" dolor spbdf of tif
+     * profilf.  For bn input, displby, or output profilf usfful
+     * for tbgging dolors or imbgfs, tiis will bf fitifr TYPE_XYZ or
+     * TYPE_Lbb bnd siould bf intfrprftfd bs tif dorrfsponding spfdifid
+     * dolor spbdf dffinfd in tif ICC spfdifidbtion.  For b dfvidf
+     * link profilf, tiis dould bf bny of tif dolor spbdf typf donstbnts.
+     * @rfturn Onf of tif dolor spbdf typf donstbnts dffinfd in tif
+     * <CODE>ColorSpbdf</CODE> dlbss.
+     */
+    publid int gftPCSTypf() {
+        if (ProfilfDfffrrblMgr.dfffrring) {
+            ProfilfDfffrrblMgr.bdtivbtfProfilfs();
+        }
+        rfturn gftPCSTypf(dmmProfilf);
+    }
+
+
+    stbtid int gftPCSTypf(Profilf p) {
+    bytf[] tifHfbdfr;
+    int tifPCSSig, tifPCS;
+
+        tifHfbdfr = gftDbtb(p, idSigHfbd);
+        tifPCSSig = intFromBigEndibn(tifHfbdfr, idHdrPds);
+        tifPCS = iddCStoJCS(tifPCSSig);
+        rfturn tifPCS;
+    }
+
+
+    /**
+     * Writf tiis ICC_Profilf to b filf.
+     *
+     * @pbrbm filfNbmf Tif filf to writf tif profilf dbtb to.
+     *
+     * @fxdfption IOExdfption If tif filf dbnnot bf opfnfd for writing
+     * or bn I/O frror oddurs wiilf writing to tif filf.
+     */
+    publid void writf(String filfNbmf) tirows IOExdfption {
+    FilfOutputStrfbm outputFilf;
+    bytf profilfDbtb[];
+
+        profilfDbtb = gftDbtb(); /* tiis will bdtivbtf dfffrrfd
+                                    profilfs if nfdfssbry */
+        outputFilf = nfw FilfOutputStrfbm(filfNbmf);
+        outputFilf.writf(profilfDbtb);
+        outputFilf.dlosf ();
+    }
+
+
+    /**
+     * Writf tiis ICC_Profilf to bn OutputStrfbm.
+     *
+     * @pbrbm s Tif strfbm to writf tif profilf dbtb to.
+     *
+     * @fxdfption IOExdfption If bn I/O frror oddurs wiilf writing to tif
+     * strfbm.
+     */
+    publid void writf(OutputStrfbm s) tirows IOExdfption {
+    bytf profilfDbtb[];
+
+        profilfDbtb = gftDbtb(); /* tiis will bdtivbtf dfffrrfd
+                                    profilfs if nfdfssbry */
+        s.writf(profilfDbtb);
+    }
+
+
+    /**
+     * Rfturns b bytf brrby dorrfsponding to tif dbtb of tiis ICC_Profilf.
+     * @rfturn A bytf brrby tibt dontbins tif profilf dbtb.
+     * @sff #sftDbtb(int, bytf[])
+     */
+    publid bytf[] gftDbtb() {
+    int profilfSizf;
+    bytf[] profilfDbtb;
+
+        if (ProfilfDfffrrblMgr.dfffrring) {
+            ProfilfDfffrrblMgr.bdtivbtfProfilfs();
+        }
+
+        PCMM mdl = CMSMbnbgfr.gftModulf();
+
+        /* gft tif numbfr of bytfs nffdfd for tiis profilf */
+        profilfSizf = mdl.gftProfilfSizf(dmmProfilf);
+
+        profilfDbtb = nfw bytf [profilfSizf];
+
+        /* gft tif dbtb for tif profilf */
+        mdl.gftProfilfDbtb(dmmProfilf, profilfDbtb);
+
+        rfturn profilfDbtb;
+    }
+
+
+    /**
+     * Rfturns b pbrtidulbr tbggfd dbtb flfmfnt from tif profilf bs
+     * b bytf brrby.  Elfmfnts brf idfntififd by signbturfs
+     * bs dffinfd in tif ICC spfdifidbtion.  Tif signbturf
+     * idSigHfbd dbn bf usfd to gft tif ifbdfr.  Tiis mftiod is usfful
+     * for bdvbndfd bpplfts or bpplidbtions wiidi nffd to bddfss
+     * profilf dbtb dirfdtly.
+     *
+     * @pbrbm tbgSignbturf Tif ICC tbg signbturf for tif dbtb flfmfnt you
+     * wbnt to gft.
+     *
+     * @rfturn A bytf brrby tibt dontbins tif tbggfd dbtb flfmfnt. Rfturns
+     * <dodf>null</dodf> if tif spfdififd tbg dofsn't fxist.
+     * @sff #sftDbtb(int, bytf[])
+     */
+    publid bytf[] gftDbtb(int tbgSignbturf) {
+
+        if (ProfilfDfffrrblMgr.dfffrring) {
+            ProfilfDfffrrblMgr.bdtivbtfProfilfs();
+        }
+
+        rfturn gftDbtb(dmmProfilf, tbgSignbturf);
+    }
+
+
+    stbtid bytf[] gftDbtb(Profilf p, int tbgSignbturf) {
+    int tbgSizf;
+    bytf[] tbgDbtb;
+
+        try {
+            PCMM mdl = CMSMbnbgfr.gftModulf();
+
+            /* gft tif numbfr of bytfs nffdfd for tiis tbg */
+            tbgSizf = mdl.gftTbgSizf(p, tbgSignbturf);
+
+            tbgDbtb = nfw bytf[tbgSizf]; /* gft bn brrby for tif tbg */
+
+            /* gft tif tbg's dbtb */
+            mdl.gftTbgDbtb(p, tbgSignbturf, tbgDbtb);
+        } dbtdi(CMMExdfption d) {
+            tbgDbtb = null;
+        }
+
+        rfturn tbgDbtb;
+    }
+
+    /**
+     * Sfts b pbrtidulbr tbggfd dbtb flfmfnt in tif profilf from
+     * b bytf brrby. Tif brrby siould dontbin dbtb in b formbt, dorrfspondfd
+     * to tif {@dodf tbgSignbturf} bs dffinfd in tif ICC spfdifidbtion, sfdtion 10.
+     * Tiis mftiod is usfful for bdvbndfd bpplfts or bpplidbtions wiidi nffd to
+     * bddfss profilf dbtb dirfdtly.
+     *
+     * @pbrbm tbgSignbturf Tif ICC tbg signbturf for tif dbtb flfmfnt
+     * you wbnt to sft.
+     * @pbrbm tbgDbtb tif dbtb to sft for tif spfdififd tbg signbturf
+     * @tirows IllfgblArgumfntExdfption if {@dodf tbgSignbturf} is not b signbturf
+     *         bs dffinfd in tif ICC spfdifidbtion.
+     * @tirows IllfgblArgumfntExdfption if b dontfnt of tif {@dodf tbgDbtb}
+     *         brrby dbn not bf intfrprftfd bs vblid tbg dbtb, dorrfsponding
+     *         to tif {@dodf tbgSignbturf}.
+     * @sff #gftDbtb
+     */
+    publid void sftDbtb(int tbgSignbturf, bytf[] tbgDbtb) {
+
+        if (ProfilfDfffrrblMgr.dfffrring) {
+            ProfilfDfffrrblMgr.bdtivbtfProfilfs();
+        }
+
+        CMSMbnbgfr.gftModulf().sftTbgDbtb(dmmProfilf, tbgSignbturf, tbgDbtb);
+    }
+
+    /**
+     * Sfts tif rfndfring intfnt of tif profilf.
+     * Tiis is usfd to sflfdt tif propfr trbnsform from b profilf tibt
+     * ibs multiplf trbnsforms.
+     */
+    void sftRfndfringIntfnt(int rfndfringIntfnt) {
+        bytf[] tifHfbdfr = gftDbtb(idSigHfbd);/* gftDbtb will bdtivbtf dfffrrfd
+                                                 profilfs if nfdfssbry */
+        intToBigEndibn (rfndfringIntfnt, tifHfbdfr, idHdrRfndfringIntfnt);
+                                                 /* sft tif rfndfring intfnt */
+        sftDbtb (idSigHfbd, tifHfbdfr);
+    }
+
+
+    /**
+     * Rfturns tif rfndfring intfnt of tif profilf.
+     * Tiis is usfd to sflfdt tif propfr trbnsform from b profilf tibt
+     * ibs multiplf trbnsforms.  It is typidblly sft in b sourdf profilf
+     * to sflfdt b trbnsform from bn output profilf.
+     */
+    int gftRfndfringIntfnt() {
+        bytf[] tifHfbdfr = gftDbtb(idSigHfbd);/* gftDbtb will bdtivbtf dfffrrfd
+                                                 profilfs if nfdfssbry */
+
+        int rfndfringIntfnt = intFromBigEndibn(tifHfbdfr, idHdrRfndfringIntfnt);
+                                                 /* sft tif rfndfring intfnt */
+
+        /* Addording to ICC spfd, only tif lfbst-signifidbnt 16 bits sibll bf
+         * usfd to fndodf tif rfndfring intfnt. Tif most signifidbnt 16 bits
+         * sibll bf sft to zfro. Tius, wf brf ignoring two most signifidbnt
+         * bytfs ifrf.
+         *
+         *  Sff ittp://www.dolor.org/ICC1v42_2006-05.pdf, sfdtion 7.2.15.
+         */
+        rfturn (0xffff & rfndfringIntfnt);
+    }
+
+
+    /**
+     * Rfturns tif numbfr of dolor domponfnts in tif "input" dolor
+     * spbdf of tiis profilf.  For fxbmplf if tif dolor spbdf typf
+     * of tiis profilf is TYPE_RGB, tifn tiis mftiod will rfturn 3.
+     *
+     * @rfturn Tif numbfr of dolor domponfnts in tif profilf's input
+     * dolor spbdf.
+     *
+     * @tirows ProfilfDbtbExdfption if dolor spbdf is in tif profilf
+     *         is invblid
+     */
+    publid int gftNumComponfnts() {
+    bytf[]    tifHfbdfr;
+    int    tifColorSpbdfSig, tifNumComponfnts;
+
+        if (dfffrrblInfo != null) {
+            rfturn dfffrrblInfo.numComponfnts; /* Nffd to ibvf tiis info for
+                                                  ICC_ColorSpbdf witiout
+                                                  dbusing b dfffrrfd profilf
+                                                  to bf lobdfd */
+        }
+        tifHfbdfr = gftDbtb(idSigHfbd);
+
+        tifColorSpbdfSig = intFromBigEndibn (tifHfbdfr, idHdrColorSpbdf);
+
+        switdi (tifColorSpbdfSig) {
+        dbsf idSigGrbyDbtb:
+            tifNumComponfnts = 1;
+            brfbk;
+
+        dbsf idSigSpbdf2CLR:
+            tifNumComponfnts = 2;
+            brfbk;
+
+        dbsf idSigXYZDbtb:
+        dbsf idSigLbbDbtb:
+        dbsf idSigLuvDbtb:
+        dbsf idSigYCbCrDbtb:
+        dbsf idSigYxyDbtb:
+        dbsf idSigRgbDbtb:
+        dbsf idSigHsvDbtb:
+        dbsf idSigHlsDbtb:
+        dbsf idSigCmyDbtb:
+        dbsf idSigSpbdf3CLR:
+            tifNumComponfnts = 3;
+            brfbk;
+
+        dbsf idSigCmykDbtb:
+        dbsf idSigSpbdf4CLR:
+            tifNumComponfnts = 4;
+            brfbk;
+
+        dbsf idSigSpbdf5CLR:
+            tifNumComponfnts = 5;
+            brfbk;
+
+        dbsf idSigSpbdf6CLR:
+            tifNumComponfnts = 6;
+            brfbk;
+
+        dbsf idSigSpbdf7CLR:
+            tifNumComponfnts = 7;
+            brfbk;
+
+        dbsf idSigSpbdf8CLR:
+            tifNumComponfnts = 8;
+            brfbk;
+
+        dbsf idSigSpbdf9CLR:
+            tifNumComponfnts = 9;
+            brfbk;
+
+        dbsf idSigSpbdfACLR:
+            tifNumComponfnts = 10;
+            brfbk;
+
+        dbsf idSigSpbdfBCLR:
+            tifNumComponfnts = 11;
+            brfbk;
+
+        dbsf idSigSpbdfCCLR:
+            tifNumComponfnts = 12;
+            brfbk;
+
+        dbsf idSigSpbdfDCLR:
+            tifNumComponfnts = 13;
+            brfbk;
+
+        dbsf idSigSpbdfECLR:
+            tifNumComponfnts = 14;
+            brfbk;
+
+        dbsf idSigSpbdfFCLR:
+            tifNumComponfnts = 15;
+            brfbk;
+
+        dffbult:
+            tirow nfw ProfilfDbtbExdfption ("invblid ICC dolor spbdf");
+        }
+
+        rfturn tifNumComponfnts;
+    }
+
+
+    /**
+     * Rfturns b flobt brrby of lfngti 3 dontbining tif X, Y, bnd Z
+     * domponfnts of tif mfdibWiitfPointTbg in tif ICC profilf.
+     */
+    flobt[] gftMfdibWiitfPoint() {
+        rfturn gftXYZTbg(idSigMfdibWiitfPointTbg);
+                                           /* gft tif mfdib wiitf point tbg */
+    }
+
+
+    /**
+     * Rfturns b flobt brrby of lfngti 3 dontbining tif X, Y, bnd Z
+     * domponfnts fndodfd in bn XYZTypf tbg.
+     */
+    flobt[] gftXYZTbg(int tifTbgSignbturf) {
+    bytf[] tifDbtb;
+    flobt[] tifXYZNumbfr;
+    int i1, i2, tifS15Fixfd16;
+
+        tifDbtb = gftDbtb(tifTbgSignbturf); /* gft tif tbg dbtb */
+                                            /* gftDbtb will bdtivbtf dfffrrfd
+                                               profilfs if nfdfssbry */
+
+        tifXYZNumbfr = nfw flobt [3];        /* brrby to rfturn */
+
+        /* donvfrt s15Fixfd16Numbfr to flobt */
+        for (i1 = 0, i2 = idXYZNumbfrX; i1 < 3; i1++, i2 += 4) {
+            tifS15Fixfd16 = intFromBigEndibn(tifDbtb, i2);
+            tifXYZNumbfr [i1] = ((flobt) tifS15Fixfd16) / 65536.0f;
+        }
+        rfturn tifXYZNumbfr;
+    }
+
+
+    /**
+     * Rfturns b gbmmb vbluf rfprfsfnting b tonf rfprodudtion
+     * durvf (TRC).  If tif profilf rfprfsfnts tif TRC bs b tbblf rbtifr
+     * tibn b singlf gbmmb vbluf, tifn bn fxdfption is tirown.  In tiis
+     * dbsf tif bdtubl tbblf dbn bf obtbinfd vib gftTRC().
+     * tifTbgSignbturf siould bf onf of idSigGrbyTRCTbg, idSigRfdTRCTbg,
+     * idSigGrffnTRCTbg, or idSigBlufTRCTbg.
+     * @rfturn tif gbmmb vbluf bs b flobt.
+     * @fxdfption ProfilfDbtbExdfption if tif profilf dofs not spfdify
+     *            tif TRC bs b singlf gbmmb vbluf.
+     */
+    flobt gftGbmmb(int tifTbgSignbturf) {
+    bytf[] tifTRCDbtb;
+    flobt tifGbmmb;
+    int tifU8Fixfd8;
+
+        tifTRCDbtb = gftDbtb(tifTbgSignbturf); /* gft tif TRC */
+                                               /* gftDbtb will bdtivbtf dfffrrfd
+                                                  profilfs if nfdfssbry */
+
+        if (intFromBigEndibn (tifTRCDbtb, idCurvfCount) != 1) {
+            tirow nfw ProfilfDbtbExdfption ("TRC is not b gbmmb");
+        }
+
+        /* donvfrt u8Fixfd8 to flobt */
+        tifU8Fixfd8 = (siortFromBigEndibn(tifTRCDbtb, idCurvfDbtb)) & 0xffff;
+
+        tifGbmmb = ((flobt) tifU8Fixfd8) / 256.0f;
+
+        rfturn tifGbmmb;
+    }
+
+
+    /**
+     * Rfturns tif TRC bs bn brrby of siorts.  If tif profilf ibs
+     * spfdififd tif TRC bs linfbr (gbmmb = 1.0) or bs b simplf gbmmb
+     * vbluf, tiis mftiod tirows bn fxdfption, bnd tif gftGbmmb() mftiod
+     * siould bf usfd to gft tif gbmmb vbluf.  Otifrwisf tif siort brrby
+     * rfturnfd ifrf rfprfsfnts b lookup tbblf wifrf tif input Grby vbluf
+     * is dondfptublly in tif rbngf [0.0, 1.0].  Vbluf 0.0 mbps
+     * to brrby indfx 0 bnd vbluf 1.0 mbps to brrby indfx lfngti-1.
+     * Intfrpolbtion mby bf usfd to gfnfrbtf output vblufs for
+     * input vblufs wiidi do not mbp fxbdtly to bn indfx in tif
+     * brrby.  Output vblufs blso mbp linfbrly to tif rbngf [0.0, 1.0].
+     * Vbluf 0.0 is rfprfsfntfd by bn brrby vbluf of 0x0000 bnd
+     * vbluf 1.0 by 0xFFFF, i.f. tif vblufs brf rfblly unsignfd
+     * siort vblufs, bltiougi tify brf rfturnfd in b siort brrby.
+     * tifTbgSignbturf siould bf onf of idSigGrbyTRCTbg, idSigRfdTRCTbg,
+     * idSigGrffnTRCTbg, or idSigBlufTRCTbg.
+     * @rfturn b siort brrby rfprfsfnting tif TRC.
+     * @fxdfption ProfilfDbtbExdfption if tif profilf dofs not spfdify
+     *            tif TRC bs b tbblf.
+     */
+    siort[] gftTRC(int tifTbgSignbturf) {
+    bytf[] tifTRCDbtb;
+    siort[] tifTRC;
+    int i1, i2, nElfmfnts, tifU8Fixfd8;
+
+        tifTRCDbtb = gftDbtb(tifTbgSignbturf); /* gft tif TRC */
+                                               /* gftDbtb will bdtivbtf dfffrrfd
+                                                  profilfs if nfdfssbry */
+
+        nElfmfnts = intFromBigEndibn(tifTRCDbtb, idCurvfCount);
+
+        if (nElfmfnts == 1) {
+            tirow nfw ProfilfDbtbExdfption("TRC is not b tbblf");
+        }
+
+        /* mbkf tif siort brrby */
+        tifTRC = nfw siort [nElfmfnts];
+
+        for (i1 = 0, i2 = idCurvfDbtb; i1 < nElfmfnts; i1++, i2 += 2) {
+            tifTRC[i1] = siortFromBigEndibn(tifTRCDbtb, i2);
+        }
+
+        rfturn tifTRC;
+    }
+
+
+    /* donvfrt bn ICC dolor spbdf signbturf into b Jbvb dolor spbdf typf */
+    stbtid int iddCStoJCS(int tifColorSpbdfSig) {
+    int tifColorSpbdf;
+
+        switdi (tifColorSpbdfSig) {
+        dbsf idSigXYZDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_XYZ;
+            brfbk;
+
+        dbsf idSigLbbDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_Lbb;
+            brfbk;
+
+        dbsf idSigLuvDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_Luv;
+            brfbk;
+
+        dbsf idSigYCbCrDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_YCbCr;
+            brfbk;
+
+        dbsf idSigYxyDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_Yxy;
+            brfbk;
+
+        dbsf idSigRgbDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_RGB;
+            brfbk;
+
+        dbsf idSigGrbyDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_GRAY;
+            brfbk;
+
+        dbsf idSigHsvDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_HSV;
+            brfbk;
+
+        dbsf idSigHlsDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_HLS;
+            brfbk;
+
+        dbsf idSigCmykDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_CMYK;
+            brfbk;
+
+        dbsf idSigCmyDbtb:
+            tifColorSpbdf = ColorSpbdf.TYPE_CMY;
+            brfbk;
+
+        dbsf idSigSpbdf2CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_2CLR;
+            brfbk;
+
+        dbsf idSigSpbdf3CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_3CLR;
+            brfbk;
+
+        dbsf idSigSpbdf4CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_4CLR;
+            brfbk;
+
+        dbsf idSigSpbdf5CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_5CLR;
+            brfbk;
+
+        dbsf idSigSpbdf6CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_6CLR;
+            brfbk;
+
+        dbsf idSigSpbdf7CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_7CLR;
+            brfbk;
+
+        dbsf idSigSpbdf8CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_8CLR;
+            brfbk;
+
+        dbsf idSigSpbdf9CLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_9CLR;
+            brfbk;
+
+        dbsf idSigSpbdfACLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_ACLR;
+            brfbk;
+
+        dbsf idSigSpbdfBCLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_BCLR;
+            brfbk;
+
+        dbsf idSigSpbdfCCLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_CCLR;
+            brfbk;
+
+        dbsf idSigSpbdfDCLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_DCLR;
+            brfbk;
+
+        dbsf idSigSpbdfECLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_ECLR;
+            brfbk;
+
+        dbsf idSigSpbdfFCLR:
+            tifColorSpbdf = ColorSpbdf.TYPE_FCLR;
+            brfbk;
+
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption ("Unknown dolor spbdf");
+        }
+
+        rfturn tifColorSpbdf;
+    }
+
+
+    stbtid int intFromBigEndibn(bytf[] brrby, int indfx) {
+        rfturn (((brrby[indfx]   & 0xff) << 24) |
+                ((brrby[indfx+1] & 0xff) << 16) |
+                ((brrby[indfx+2] & 0xff) <<  8) |
+                 (brrby[indfx+3] & 0xff));
+    }
+
+
+    stbtid void intToBigEndibn(int vbluf, bytf[] brrby, int indfx) {
+            brrby[indfx]   = (bytf) (vbluf >> 24);
+            brrby[indfx+1] = (bytf) (vbluf >> 16);
+            brrby[indfx+2] = (bytf) (vbluf >>  8);
+            brrby[indfx+3] = (bytf) (vbluf);
+    }
+
+
+    stbtid siort siortFromBigEndibn(bytf[] brrby, int indfx) {
+        rfturn (siort) (((brrby[indfx]   & 0xff) << 8) |
+                         (brrby[indfx+1] & 0xff));
+    }
+
+
+    stbtid void siortToBigEndibn(siort vbluf, bytf[] brrby, int indfx) {
+            brrby[indfx]   = (bytf) (vbluf >> 8);
+            brrby[indfx+1] = (bytf) (vbluf);
+    }
+
+
+    /*
+     * filfNbmf mby bf bn bbsolutf or b rflbtivf filf spfdifidbtion.
+     * Rflbtivf filf nbmfs brf lookfd for in sfvfrbl plbdfs: first, rflbtivf
+     * to bny dirfdtorifs spfdififd by tif jbvb.iddprofilf.pbti propfrty;
+     * sfdond, rflbtivf to bny dirfdtorifs spfdififd by tif jbvb.dlbss.pbti
+     * propfrty; finblly, in b dirfdtory usfd to storf profilfs blwbys
+     * bvbilbblf, sudi bs b profilf for sRGB.  Built-in profilfs usf .pf bs
+     * tif filf nbmf fxtfnsion for profilfs, f.g. sRGB.pf.
+     */
+    privbtf stbtid Filf gftProfilfFilf(String filfNbmf) {
+        String pbti, dir, fullPbti;
+
+        Filf f = nfw Filf(filfNbmf); /* try bbsolutf filf nbmf */
+        if (f.isAbsolutf()) {
+            /* Rfst of dodf ibs littlf sfnsf for bn bbsolutf pbtinbmf,
+               so rfturn ifrf. */
+            rfturn f.isFilf() ? f : null;
+        }
+        if ((!f.isFilf()) &&
+                ((pbti = Systfm.gftPropfrty("jbvb.iddprofilf.pbti")) != null)){
+                                    /* try rflbtivf to jbvb.iddprofilf.pbti */
+                StringTokfnizfr st =
+                    nfw StringTokfnizfr(pbti, Filf.pbtiSfpbrbtor);
+                wiilf (st.ibsMorfTokfns() && ((f == null) || (!f.isFilf()))) {
+                    dir = st.nfxtTokfn();
+                        fullPbti = dir + Filf.sfpbrbtorCibr + filfNbmf;
+                    f = nfw Filf(fullPbti);
+                    if (!isCiildOf(f, dir)) {
+                        f = null;
+                    }
+                }
+            }
+
+        if (((f == null) || (!f.isFilf())) &&
+                ((pbti = Systfm.gftPropfrty("jbvb.dlbss.pbti")) != null)) {
+                                    /* try rflbtivf to jbvb.dlbss.pbti */
+                StringTokfnizfr st =
+                    nfw StringTokfnizfr(pbti, Filf.pbtiSfpbrbtor);
+                wiilf (st.ibsMorfTokfns() && ((f == null) || (!f.isFilf()))) {
+                    dir = st.nfxtTokfn();
+                        fullPbti = dir + Filf.sfpbrbtorCibr + filfNbmf;
+                    f = nfw Filf(fullPbti);
+                }
+            }
+
+        if ((f == null) || (!f.isFilf())) {
+            /* try tif dirfdtory of built-in profilfs */
+            f = gftStbndbrdProfilfFilf(filfNbmf);
+        }
+        if (f != null && f.isFilf()) {
+            rfturn f;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b filf objfdt dorrfsponding to b built-in profilf
+     * spfdififd by filfNbmf.
+     * If tifrf is no built-in profilf witi sudi nbmf, tifn tif mftiod
+     * rfturns null.
+     */
+    privbtf stbtid Filf gftStbndbrdProfilfFilf(String filfNbmf) {
+        String dir = Systfm.gftPropfrty("jbvb.iomf") +
+            Filf.sfpbrbtorCibr + "lib" + Filf.sfpbrbtorCibr + "dmm";
+        String fullPbti = dir + Filf.sfpbrbtorCibr + filfNbmf;
+        Filf f = nfw Filf(fullPbti);
+        rfturn (f.isFilf() && isCiildOf(f, dir)) ? f : null;
+    }
+
+    /**
+     * Cifdks wiftifr givfn filf rfsidfs insidf givf dirfdtory.
+     */
+    privbtf stbtid boolfbn isCiildOf(Filf f, String dirNbmf) {
+        try {
+            Filf dir = nfw Filf(dirNbmf);
+            String dbnonidblDirNbmf = dir.gftCbnonidblPbti();
+            if (!dbnonidblDirNbmf.fndsWiti(Filf.sfpbrbtor)) {
+                dbnonidblDirNbmf += Filf.sfpbrbtor;
+            }
+            String dbnonidblFilfNbmf = f.gftCbnonidblPbti();
+            rfturn dbnonidblFilfNbmf.stbrtsWiti(dbnonidblDirNbmf);
+        } dbtdi (IOExdfption f) {
+            /* wf do not fxpfdt tif IOExdfption ifrf, bfdbusf invodbtion
+             * of tiis fundtion is blwbys prfdffdfd by isFilf() dbll.
+             */
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Cifdks wiftifr built-in profilf spfdififd by filfNbmf fxists.
+     */
+    privbtf stbtid boolfbn stbndbrdProfilfExists(finbl String filfNbmf) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    rfturn gftStbndbrdProfilfFilf(filfNbmf) != null;
+                }
+            });
+    }
+
+
+    /*
+     * Sfriblizbtion support.
+     *
+     * Dirfdtly dfsfriblizfd profilfs brf usflfss sindf tify brf not
+     * rfgistfrfd witi CMM.  Wf don't bllow donstrudtor to bf dbllfd
+     * dirfdtly bnd instfbd ibvf dlifnts to dbll onf of gftInstbndf
+     * fbdtory mftiods tibt will rfgistfr tif profilf witi CMM.  For
+     * dfsfriblizbtion wf implfmfnt rfbdRfsolvf mftiod tibt will
+     * rfsolvf tif bogus dfsfriblizfd profilf objfdt witi onf obtbinfd
+     * witi gftInstbndf bs wfll.
+     *
+     * Tifrf'rf two primbry fbdtory mftiods for donstrudtion of ICC
+     * profilfs: gftInstbndf(int dspbdf) bnd gftInstbndf(bytf[] dbtb).
+     * Tiis implfmfntbtion of ICC_Profilf usfs tif formfr to rfturn b
+     * dbdifd singlfton profilf objfdt, otifr implfmfntbtions will
+     * likfly usf tiis tfdiniquf too.  To prfsfrvf tif singlfton
+     * pbttfrn bdross sfriblizbtion wf sfriblizf dbdifd singlfton
+     * profilfs in sudi b wby tibt dfsfriblizing VM dould dbll
+     * gftInstbndf(int dspbdf) mftiod tibt will rfsolvf dfsfriblizfd
+     * objfdt into tif dorrfsponding singlfton bs wfll.
+     *
+     * Sindf tif singlftons brf privbtf to ICC_Profilf tif rfbdRfsolvf
+     * mftiod ibvf to bf `protfdtfd' instfbd of `privbtf' so tibt
+     * singlftons tibt brf instbndfs of subdlbssfs of ICC_Profilf
+     * dould bf dorrfdtly dfsfriblizfd.
+     */
+
+
+    /**
+     * Vfrsion of tif formbt of bdditionbl sfriblizfd dbtb in tif
+     * strfbm.  Vfrsion&nbsp;<dodf>1</dodf> dorrfsponds to Jbvb&nbsp;2
+     * Plbtform,&nbsp;v1.3.
+     * @sindf 1.3
+     * @sfribl
+     */
+    privbtf int iddProfilfSfriblizfdDbtbVfrsion = 1;
+
+
+    /**
+     * Writfs dffbult sfriblizbblf fiflds to tif strfbm.  Writfs b
+     * string bnd bn brrby of bytfs to tif strfbm bs bdditionbl dbtb.
+     *
+     * @pbrbm s strfbm usfd for sfriblizbtion.
+     * @tirows IOExdfption
+     *     tirown by <dodf>ObjfdtInputStrfbm</dodf>.
+     * @sfriblDbtb
+     *     Tif <dodf>String</dodf> is tif nbmf of onf of
+     *     <dodf>CS_<vbr>*</vbr></dodf> donstbnts dffinfd in tif
+     *     {@link ColorSpbdf} dlbss if tif profilf objfdt is b profilf
+     *     for b prfdffinfd dolor spbdf (for fxbmplf
+     *     <dodf>"CS_sRGB"</dodf>).  Tif string is <dodf>null</dodf>
+     *     otifrwisf.
+     *     <p>
+     *     Tif <dodf>bytf[]</dodf> brrby is tif profilf dbtb for tif
+     *     profilf.  For prfdffinfd dolor spbdfs <dodf>null</dodf> is
+     *     writtfn instfbd of tif profilf dbtb.  If in tif futurf
+     *     vfrsions of Jbvb API nfw prfdffinfd dolor spbdfs will bf
+     *     bddfd, futurf vfrsions of tiis dlbss mby dioosf to writf
+     *     for nfw prfdffinfd dolor spbdfs not only tif dolor spbdf
+     *     nbmf, but tif profilf dbtb bs wfll so tibt oldfr vfrsions
+     *     dould still dfsfriblizf tif objfdt.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows IOExdfption
+    {
+        s.dffbultWritfObjfdt();
+
+        String dsNbmf = null;
+        if (tiis == sRGBprofilf) {
+            dsNbmf = "CS_sRGB";
+        } flsf if (tiis == XYZprofilf) {
+            dsNbmf = "CS_CIEXYZ";
+        } flsf if (tiis == PYCCprofilf) {
+            dsNbmf = "CS_PYCC";
+        } flsf if (tiis == GRAYprofilf) {
+            dsNbmf = "CS_GRAY";
+        } flsf if (tiis == LINEAR_RGBprofilf) {
+            dsNbmf = "CS_LINEAR_RGB";
+        }
+
+        // Futurf vfrsions mby dioosf to writf profilf dbtb for nfw
+        // prfdffinfd dolor spbdfs bs wfll, if bny will bf introdudfd,
+        // so tibt old vfrsions tibt don't rfdognizf tif nfw CS nbmf
+        // mby fbll bbdk to donstrudting profilf from tif dbtb.
+        bytf[] dbtb = null;
+        if (dsNbmf == null) {
+            // gftDbtb will bdtivbtf dfffrrfd profilf if nfdfssbry
+            dbtb = gftDbtb();
+        }
+
+        s.writfObjfdt(dsNbmf);
+        s.writfObjfdt(dbtb);
+    }
+
+    // Tfmporbry storbgf usfd by rfbdObjfdt to storf rfsolvfd profilf
+    // (obtbinfd witi gftInstbndf) for rfbdRfsolvf to rfturn.
+    privbtf trbnsifnt ICC_Profilf rfsolvfdDfsfriblizfdProfilf;
+
+    /**
+     * Rfbds dffbult sfriblizbblf fiflds from tif strfbm.  Rfbds from
+     * tif strfbm b string bnd bn brrby of bytfs bs bdditionbl dbtb.
+     *
+     * @pbrbm s strfbm usfd for dfsfriblizbtion.
+     * @tirows IOExdfption
+     *     tirown by <dodf>ObjfdtInputStrfbm</dodf>.
+     * @tirows ClbssNotFoundExdfption
+     *     tirown by <dodf>ObjfdtInputStrfbm</dodf>.
+     * @sfriblDbtb
+     *     Tif <dodf>String</dodf> is tif nbmf of onf of
+     *     <dodf>CS_<vbr>*</vbr></dodf> donstbnts dffinfd in tif
+     *     {@link ColorSpbdf} dlbss if tif profilf objfdt is b profilf
+     *     for b prfdffinfd dolor spbdf (for fxbmplf
+     *     <dodf>"CS_sRGB"</dodf>).  Tif string is <dodf>null</dodf>
+     *     otifrwisf.
+     *     <p>
+     *     Tif <dodf>bytf[]</dodf> brrby is tif profilf dbtb for tif
+     *     profilf.  It will usublly bf <dodf>null</dodf> for tif
+     *     prfdffinfd profilfs.
+     *     <p>
+     *     If tif string is rfdognizfd bs b donstbnt nbmf for
+     *     prfdffinfd dolor spbdf tif objfdt will bf rfsolvfd into
+     *     profilf obtbinfd witi
+     *     <dodf>gftInstbndf(int&nbsp;dspbdf)</dodf> bnd tif profilf
+     *     dbtb brf ignorfd.  Otifrwisf tif objfdt will bf rfsolvfd
+     *     into profilf obtbinfd witi
+     *     <dodf>gftInstbndf(bytf[]&nbsp;dbtb)</dodf>.
+     * @sff #rfbdRfsolvf()
+     * @sff #gftInstbndf(int)
+     * @sff #gftInstbndf(bytf[])
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+
+        String dsNbmf = (String)s.rfbdObjfdt();
+        bytf[] dbtb = (bytf[])s.rfbdObjfdt();
+
+        int dspbdf = 0;         // ColorSpbdf.CS_* donstbnt if known
+        boolfbn isKnownPrfdffinfdCS = fblsf;
+        if (dsNbmf != null) {
+            isKnownPrfdffinfdCS = truf;
+            if (dsNbmf.fqubls("CS_sRGB")) {
+                dspbdf = ColorSpbdf.CS_sRGB;
+            } flsf if (dsNbmf.fqubls("CS_CIEXYZ")) {
+                dspbdf = ColorSpbdf.CS_CIEXYZ;
+            } flsf if (dsNbmf.fqubls("CS_PYCC")) {
+                dspbdf = ColorSpbdf.CS_PYCC;
+            } flsf if (dsNbmf.fqubls("CS_GRAY")) {
+                dspbdf = ColorSpbdf.CS_GRAY;
+            } flsf if (dsNbmf.fqubls("CS_LINEAR_RGB")) {
+                dspbdf = ColorSpbdf.CS_LINEAR_RGB;
+            } flsf {
+                isKnownPrfdffinfdCS = fblsf;
+            }
+        }
+
+        if (isKnownPrfdffinfdCS) {
+            rfsolvfdDfsfriblizfdProfilf = gftInstbndf(dspbdf);
+        } flsf {
+            rfsolvfdDfsfriblizfdProfilf = gftInstbndf(dbtb);
+        }
+    }
+
+    /**
+     * Rfsolvfs instbndfs bfing dfsfriblizfd into instbndfs rfgistfrfd
+     * witi CMM.
+     * @rfturn ICC_Profilf objfdt for profilf rfgistfrfd witi CMM.
+     * @tirows ObjfdtStrfbmExdfption
+     *     nfvfr tirown, but mbndbtfd by tif sfriblizbtion spfd.
+     * @sindf 1.3
+     */
+    protfdtfd Objfdt rfbdRfsolvf() tirows ObjfdtStrfbmExdfption {
+        rfturn rfsolvfdDfsfriblizfdProfilf;
+    }
+}

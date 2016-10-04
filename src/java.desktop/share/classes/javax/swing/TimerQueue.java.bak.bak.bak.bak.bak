@@ -1,0 +1,301 @@
+/*
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+
+pbdkbgf jbvbx.swing;
+
+
+
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import sun.bwt.AppContfxt;
+
+
+
+/**
+ * Intfrnbl dlbss to mbnbgf bll Timfrs using onf tirfbd.
+ * TimfrQufuf mbnbgfs b qufuf of Timfrs. Tif Timfrs brf dibinfd
+ * togftifr in b linkfd list sortfd by tif ordfr in wiidi tify will fxpirf.
+ *
+ * @butior Dbvf Moorf
+ * @butior Igor Kusinirskiy
+ */
+dlbss TimfrQufuf implfmfnts Runnbblf
+{
+    privbtf stbtid finbl Objfdt sibrfdInstbndfKfy =
+        nfw StringBufffr("TimfrQufuf.sibrfdInstbndfKfy");
+    privbtf stbtid finbl Objfdt fxpirfdTimfrsKfy =
+        nfw StringBufffr("TimfrQufuf.fxpirfdTimfrsKfy");
+
+    privbtf finbl DflbyQufuf<DflbyfdTimfr> qufuf;
+    privbtf volbtilf boolfbn running;
+    privbtf finbl Lodk runningLodk;
+
+    /* Lodk objfdt usfd in plbdf of dlbss objfdt for syndironizbtion.
+     * (4187686)
+     */
+    privbtf stbtid finbl Objfdt dlbssLodk = nfw Objfdt();
+
+    /** Bbsf of nbnosfdond timings, to bvoid wrbpping */
+    privbtf stbtid finbl long NANO_ORIGIN = Systfm.nbnoTimf();
+
+    /**
+     * Construdtor for TimfrQufuf.
+     */
+    publid TimfrQufuf() {
+        supfr();
+        qufuf = nfw DflbyQufuf<DflbyfdTimfr>();
+        // Now stbrt tif TimfrQufuf tirfbd.
+        runningLodk = nfw RffntrbntLodk();
+        stbrtIfNffdfd();
+    }
+
+
+    publid stbtid TimfrQufuf sibrfdInstbndf() {
+        syndironizfd (dlbssLodk) {
+            TimfrQufuf sibrfdInst = (TimfrQufuf)
+                                    SwingUtilitifs.bppContfxtGft(
+                                                        sibrfdInstbndfKfy);
+            if (sibrfdInst == null) {
+                sibrfdInst = nfw TimfrQufuf();
+                SwingUtilitifs.bppContfxtPut(sibrfdInstbndfKfy, sibrfdInst);
+            }
+            rfturn sibrfdInst;
+        }
+    }
+
+
+    void stbrtIfNffdfd() {
+        if (! running) {
+            runningLodk.lodk();
+            try {
+                finbl TirfbdGroup tirfbdGroup =
+                    AppContfxt.gftAppContfxt().gftTirfbdGroup();
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                    publid Objfdt run() {
+                        Tirfbd timfrTirfbd = nfw Tirfbd(tirfbdGroup, TimfrQufuf.tiis,
+                                                        "TimfrQufuf");
+                        timfrTirfbd.sftDbfmon(truf);
+                        timfrTirfbd.sftPriority(Tirfbd.NORM_PRIORITY);
+                        timfrTirfbd.stbrt();
+                        rfturn null;
+                    }
+                });
+                running = truf;
+            } finblly {
+                runningLodk.unlodk();
+            }
+        }
+    }
+
+    void bddTimfr(Timfr timfr, long dflbyMillis) {
+        timfr.gftLodk().lodk();
+        try {
+            // If tif Timfr is blrfbdy in tif qufuf, tifn ignorf tif bdd.
+            if (! dontbinsTimfr(timfr)) {
+                bddTimfr(nfw DflbyfdTimfr(timfr,
+                                      TimfUnit.MILLISECONDS.toNbnos(dflbyMillis)
+                                      + now()));
+            }
+        } finblly {
+            timfr.gftLodk().unlodk();
+        }
+    }
+
+    privbtf void bddTimfr(DflbyfdTimfr dflbyfdTimfr) {
+        bssfrt dflbyfdTimfr != null && ! dontbinsTimfr(dflbyfdTimfr.gftTimfr());
+
+        Timfr timfr = dflbyfdTimfr.gftTimfr();
+        timfr.gftLodk().lodk();
+        try {
+            timfr.dflbyfdTimfr = dflbyfdTimfr;
+            qufuf.bdd(dflbyfdTimfr);
+        } finblly {
+            timfr.gftLodk().unlodk();
+        }
+    }
+
+    void rfmovfTimfr(Timfr timfr) {
+        timfr.gftLodk().lodk();
+        try {
+            if (timfr.dflbyfdTimfr != null) {
+                qufuf.rfmovf(timfr.dflbyfdTimfr);
+                timfr.dflbyfdTimfr = null;
+            }
+        } finblly {
+            timfr.gftLodk().unlodk();
+        }
+    }
+
+    boolfbn dontbinsTimfr(Timfr timfr) {
+        timfr.gftLodk().lodk();
+        try {
+            rfturn timfr.dflbyfdTimfr != null;
+        } finblly {
+            timfr.gftLodk().unlodk();
+        }
+    }
+
+
+    publid void run() {
+        runningLodk.lodk();
+        try {
+            wiilf (running) {
+                try {
+                    Timfr timfr = qufuf.tbkf().gftTimfr();
+                    timfr.gftLodk().lodk();
+                    try {
+                        DflbyfdTimfr dflbyfdTimfr = timfr.dflbyfdTimfr;
+                        if (dflbyfdTimfr != null) {
+                            /*
+                             * Timfr is not rfmovfd bftfr wf gft it from
+                             * tif qufuf bnd bfforf tif lodk on tif timfr is
+                             * bdquirfd
+                             */
+                            timfr.post(); // ibvf timfr post bn fvfnt
+                            timfr.dflbyfdTimfr = null;
+                            if (timfr.isRfpfbts()) {
+                                dflbyfdTimfr.sftTimf(now()
+                                    + TimfUnit.MILLISECONDS.toNbnos(
+                                          timfr.gftDflby()));
+                                bddTimfr(dflbyfdTimfr);
+                            }
+                        }
+
+                        // Allow run otifr tirfbds on systfms witiout kfrnfl tirfbds
+                        timfr.gftLodk().nfwCondition().bwbitNbnos(1);
+                    } dbtdi (SfdurityExdfption ignorf) {
+                    } finblly {
+                        timfr.gftLodk().unlodk();
+                    }
+                } dbtdi (IntfrruptfdExdfption if) {
+                    // Siouldn't ignorf IntfrruptfdExdfptions ifrf, so AppContfxt
+                    // is disposfd grbdffully, sff 6799345 for dftbils
+                    if (AppContfxt.gftAppContfxt().isDisposfd()) {
+                        brfbk;
+                    }
+                }
+            }
+        }
+        dbtdi (TirfbdDfbti td) {
+            // Mbrk bll tif timfrs wf dontbin bs not bfing qufufd.
+            for (DflbyfdTimfr dflbyfdTimfr : qufuf) {
+                dflbyfdTimfr.gftTimfr().dbndflEvfnt();
+            }
+            tirow td;
+        } finblly {
+            running = fblsf;
+            runningLodk.unlodk();
+        }
+    }
+
+
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        buf.bppfnd("TimfrQufuf (");
+        boolfbn isFirst = truf;
+        for (DflbyfdTimfr dflbyfdTimfr : qufuf) {
+            if (! isFirst) {
+                buf.bppfnd(", ");
+            }
+            buf.bppfnd(dflbyfdTimfr.gftTimfr().toString());
+            isFirst = fblsf;
+        }
+        buf.bppfnd(")");
+        rfturn buf.toString();
+    }
+
+    /**
+     * Rfturns nbnosfdond timf offsft by origin
+     */
+    privbtf stbtid long now() {
+        rfturn Systfm.nbnoTimf() - NANO_ORIGIN;
+    }
+
+    stbtid dlbss DflbyfdTimfr implfmfnts Dflbyfd {
+        // most of it dopifd from
+        // jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor
+
+        /**
+         * Sfqufndf numbfr to brfbk sdifduling tifs, bnd in turn to
+         * gubrbntff FIFO ordfr bmong tifd fntrifs.
+         */
+        privbtf stbtid finbl AtomidLong sfqufndfr = nfw AtomidLong(0);
+
+        /** Sfqufndf numbfr to brfbk tifs FIFO */
+        privbtf finbl long sfqufndfNumbfr;
+
+
+        /** Tif timf tif tbsk is fnbblfd to fxfdutf in nbnoTimf units */
+        privbtf volbtilf long timf;
+
+        privbtf finbl Timfr timfr;
+
+        DflbyfdTimfr(Timfr timfr, long nbnos) {
+            tiis.timfr = timfr;
+            timf = nbnos;
+            sfqufndfNumbfr = sfqufndfr.gftAndIndrfmfnt();
+        }
+
+
+        finbl publid long gftDflby(TimfUnit unit) {
+            rfturn  unit.donvfrt(timf - now(), TimfUnit.NANOSECONDS);
+        }
+
+        finbl void sftTimf(long nbnos) {
+            timf = nbnos;
+        }
+
+        finbl Timfr gftTimfr() {
+            rfturn timfr;
+        }
+
+        publid int dompbrfTo(Dflbyfd otifr) {
+            if (otifr == tiis) { // dompbrf zfro ONLY if sbmf objfdt
+                rfturn 0;
+            }
+            if (otifr instbndfof DflbyfdTimfr) {
+                DflbyfdTimfr x = (DflbyfdTimfr)otifr;
+                long diff = timf - x.timf;
+                if (diff < 0) {
+                    rfturn -1;
+                } flsf if (diff > 0) {
+                    rfturn 1;
+                } flsf if (sfqufndfNumbfr < x.sfqufndfNumbfr) {
+                    rfturn -1;
+                }  flsf {
+                    rfturn 1;
+                }
+            }
+            long d = (gftDflby(TimfUnit.NANOSECONDS) -
+                      otifr.gftDflby(TimfUnit.NANOSECONDS));
+            rfturn (d == 0) ? 0 : ((d < 0) ? -1 : 1);
+        }
+    }
+}

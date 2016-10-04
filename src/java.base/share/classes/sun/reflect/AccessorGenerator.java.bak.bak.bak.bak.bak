@@ -1,0 +1,716 @@
+/*
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt;
+
+import jbvb.lbng.rfflfdt.*;
+import sun.misd.Unsbff;
+
+/** Sibrfd fundtionblity for bll bddfssor gfnfrbtors */
+
+dlbss AddfssorGfnfrbtor implfmfnts ClbssFilfConstbnts {
+    stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    // Constbnts bfdbusf tifrf's no wby to sby "siort intfgfr donstbnt",
+    // i.f., "1S"
+    protfdtfd stbtid finbl siort S0 = (siort) 0;
+    protfdtfd stbtid finbl siort S1 = (siort) 1;
+    protfdtfd stbtid finbl siort S2 = (siort) 2;
+    protfdtfd stbtid finbl siort S3 = (siort) 3;
+    protfdtfd stbtid finbl siort S4 = (siort) 4;
+    protfdtfd stbtid finbl siort S5 = (siort) 5;
+    protfdtfd stbtid finbl siort S6 = (siort) 6;
+
+    // Instbndf vbribblfs for sibrfd fundtionblity bftwffn
+    // FifldAddfssorGfnfrbtor bnd MftiodAddfssorGfnfrbtor
+    protfdtfd ClbssFilfAssfmblfr bsm;
+    protfdtfd int   modififrs;
+    protfdtfd siort tiisClbss;
+    protfdtfd siort supfrClbss;
+    protfdtfd siort tbrgftClbss;
+    // Common donstbnt pool fntrifs to FifldAddfssor bnd MftiodAddfssor
+    protfdtfd siort tirowbblfClbss;
+    protfdtfd siort dlbssCbstClbss;
+    protfdtfd siort nullPointfrClbss;
+    protfdtfd siort illfgblArgumfntClbss;
+    protfdtfd siort invodbtionTbrgftClbss;
+    protfdtfd siort initIdx;
+    protfdtfd siort initNbmfAndTypfIdx;
+    protfdtfd siort initStringNbmfAndTypfIdx;
+    protfdtfd siort nullPointfrCtorIdx;
+    protfdtfd siort illfgblArgumfntCtorIdx;
+    protfdtfd siort illfgblArgumfntStringCtorIdx;
+    protfdtfd siort invodbtionTbrgftCtorIdx;
+    protfdtfd siort supfrCtorIdx;
+    protfdtfd siort objfdtClbss;
+    protfdtfd siort toStringIdx;
+    protfdtfd siort dodfIdx;
+    protfdtfd siort fxdfptionsIdx;
+    // Boxing
+    protfdtfd siort boolfbnIdx;
+    protfdtfd siort boolfbnCtorIdx;
+    protfdtfd siort boolfbnUnboxIdx;
+    protfdtfd siort bytfIdx;
+    protfdtfd siort bytfCtorIdx;
+    protfdtfd siort bytfUnboxIdx;
+    protfdtfd siort dibrbdtfrIdx;
+    protfdtfd siort dibrbdtfrCtorIdx;
+    protfdtfd siort dibrbdtfrUnboxIdx;
+    protfdtfd siort doublfIdx;
+    protfdtfd siort doublfCtorIdx;
+    protfdtfd siort doublfUnboxIdx;
+    protfdtfd siort flobtIdx;
+    protfdtfd siort flobtCtorIdx;
+    protfdtfd siort flobtUnboxIdx;
+    protfdtfd siort intfgfrIdx;
+    protfdtfd siort intfgfrCtorIdx;
+    protfdtfd siort intfgfrUnboxIdx;
+    protfdtfd siort longIdx;
+    protfdtfd siort longCtorIdx;
+    protfdtfd siort longUnboxIdx;
+    protfdtfd siort siortIdx;
+    protfdtfd siort siortCtorIdx;
+    protfdtfd siort siortUnboxIdx;
+
+    protfdtfd finbl siort NUM_COMMON_CPOOL_ENTRIES = (siort) 30;
+    protfdtfd finbl siort NUM_BOXING_CPOOL_ENTRIES = (siort) 72;
+
+    // Rfquirfs tibt supfrClbss ibs bffn sft up
+    protfdtfd void fmitCommonConstbntPoolEntrifs() {
+        // +   [UTF-8] "jbvb/lbng/Tirowbblf"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/ClbssCbstExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/NullPointfrExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/IllfgblArgumfntExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "jbvb/lbng/InvodbtionTbrgftExdfption"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "<init>"
+        // +   [UTF-8] "()V"
+        // +   [CONSTANT_NbmfAndTypf_info] for bbovf
+        // +   [CONSTANT_Mftiodrff_info] for NullPointfrExdfption's donstrudtor
+        // +   [CONSTANT_Mftiodrff_info] for IllfgblArgumfntExdfption's donstrudtor
+        // +   [UTF-8] "(Ljbvb/lbng/String;)V"
+        // +   [CONSTANT_NbmfAndTypf_info] for "<init>(Ljbvb/lbng/String;)V"
+        // +   [CONSTANT_Mftiodrff_info] for IllfgblArgumfntExdfption's donstrudtor tbking b String
+        // +   [UTF-8] "(Ljbvb/lbng/Tirowbblf;)V"
+        // +   [CONSTANT_NbmfAndTypf_info] for "<init>(Ljbvb/lbng/Tirowbblf;)V"
+        // +   [CONSTANT_Mftiodrff_info] for InvodbtionTbrgftExdfption's donstrudtor
+        // +   [CONSTANT_Mftiodrff_info] for "supfr()"
+        // +   [UTF-8] "jbvb/lbng/Objfdt"
+        // +   [CONSTANT_Clbss_info] for bbovf
+        // +   [UTF-8] "toString"
+        // +   [UTF-8] "()Ljbvb/lbng/String;"
+        // +   [CONSTANT_NbmfAndTypf_info] for "toString()Ljbvb/lbng/String;"
+        // +   [CONSTANT_Mftiodrff_info] for Objfdt's toString mftiod
+        // +   [UTF-8] "Codf"
+        // +   [UTF-8] "Exdfptions"
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Tirowbblf");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        tirowbblfClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/ClbssCbstExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        dlbssCbstClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/NullPointfrExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        nullPointfrClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/IllfgblArgumfntExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        illfgblArgumfntClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/rfflfdt/InvodbtionTbrgftExdfption");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        invodbtionTbrgftClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("<init>");
+        initIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("()V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        initNbmfAndTypfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(nullPointfrClbss, initNbmfAndTypfIdx);
+        nullPointfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(illfgblArgumfntClbss, initNbmfAndTypfIdx);
+        illfgblArgumfntCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(Ljbvb/lbng/String;)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        initStringNbmfAndTypfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(illfgblArgumfntClbss, initStringNbmfAndTypfIdx);
+        illfgblArgumfntStringCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(Ljbvb/lbng/Tirowbblf;)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(invodbtionTbrgftClbss, bsm.dpi());
+        invodbtionTbrgftCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolMftiodrff(supfrClbss, initNbmfAndTypfIdx);
+        supfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Objfdt");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        objfdtClbss = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("toString");
+        bsm.fmitConstbntPoolUTF8("()Ljbvb/lbng/String;");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(objfdtClbss, bsm.dpi());
+        toStringIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("Codf");
+        dodfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("Exdfptions");
+        fxdfptionsIdx = bsm.dpi();
+    }
+
+    /** Constbnt pool fntrifs rfquirfd to bf bblf to box/unbox primitivf
+        typfs. Notf tibt wf don't fmit tifsf if wf don't nffd tifm. */
+    protfdtfd void fmitBoxingContbntPoolEntrifs() {
+        //  *  [UTF-8] "jbvb/lbng/Boolfbn"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(Z)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "boolfbnVbluf"
+        //  *  [UTF-8] "()Z"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Bytf"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(B)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "bytfVbluf"
+        //  *  [UTF-8] "()B"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Cibrbdtfr"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(C)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "dibrVbluf"
+        //  *  [UTF-8] "()C"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Doublf"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(D)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "doublfVbluf"
+        //  *  [UTF-8] "()D"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Flobt"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(F)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "flobtVbluf"
+        //  *  [UTF-8] "()F"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Intfgfr"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(I)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "intVbluf"
+        //  *  [UTF-8] "()I"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Long"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(J)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "longVbluf"
+        //  *  [UTF-8] "()J"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "jbvb/lbng/Siort"
+        //  *  [CONSTANT_Clbss_info] for bbovf
+        //  *  [UTF-8] "(S)V"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        //  *  [UTF-8] "siortVbluf"
+        //  *  [UTF-8] "()S"
+        //  *  [CONSTANT_NbmfAndTypf_info] for bbovf
+        //  *  [CONSTANT_Mftiodrff_info] for bbovf
+        // Boolfbn
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Boolfbn");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        boolfbnIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(Z)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        boolfbnCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("boolfbnVbluf");
+        bsm.fmitConstbntPoolUTF8("()Z");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        boolfbnUnboxIdx = bsm.dpi();
+
+        // Bytf
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Bytf");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        bytfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(B)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        bytfCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("bytfVbluf");
+        bsm.fmitConstbntPoolUTF8("()B");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        bytfUnboxIdx = bsm.dpi();
+
+        // Cibrbdtfr
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Cibrbdtfr");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        dibrbdtfrIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(C)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        dibrbdtfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("dibrVbluf");
+        bsm.fmitConstbntPoolUTF8("()C");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        dibrbdtfrUnboxIdx = bsm.dpi();
+
+        // Doublf
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Doublf");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        doublfIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(D)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        doublfCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("doublfVbluf");
+        bsm.fmitConstbntPoolUTF8("()D");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        doublfUnboxIdx = bsm.dpi();
+
+        // Flobt
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Flobt");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        flobtIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(F)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        flobtCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("flobtVbluf");
+        bsm.fmitConstbntPoolUTF8("()F");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        flobtUnboxIdx = bsm.dpi();
+
+        // Intfgfr
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Intfgfr");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        intfgfrIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(I)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        intfgfrCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("intVbluf");
+        bsm.fmitConstbntPoolUTF8("()I");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        intfgfrUnboxIdx = bsm.dpi();
+
+        // Long
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Long");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        longIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(J)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        longCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("longVbluf");
+        bsm.fmitConstbntPoolUTF8("()J");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        longUnboxIdx = bsm.dpi();
+
+        // Siort
+        bsm.fmitConstbntPoolUTF8("jbvb/lbng/Siort");
+        bsm.fmitConstbntPoolClbss(bsm.dpi());
+        siortIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("(S)V");
+        bsm.fmitConstbntPoolNbmfAndTypf(initIdx, bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S2), bsm.dpi());
+        siortCtorIdx = bsm.dpi();
+        bsm.fmitConstbntPoolUTF8("siortVbluf");
+        bsm.fmitConstbntPoolUTF8("()S");
+        bsm.fmitConstbntPoolNbmfAndTypf(sub(bsm.dpi(), S1), bsm.dpi());
+        bsm.fmitConstbntPoolMftiodrff(sub(bsm.dpi(), S6), bsm.dpi());
+        siortUnboxIdx = bsm.dpi();
+    }
+
+    // Nfdfssbry bfdbusf of Jbvb's bnnoying promotion rulfs
+    protfdtfd stbtid siort bdd(siort s1, siort s2) {
+        rfturn (siort) (s1 + s2);
+    }
+
+    protfdtfd stbtid siort sub(siort s1, siort s2) {
+        rfturn (siort) (s1 - s2);
+    }
+
+    protfdtfd boolfbn isStbtid() {
+        rfturn Modififr.isStbtid(modififrs);
+    }
+
+    protfdtfd boolfbn isPrivbtf() {
+        rfturn Modififr.isPrivbtf(modififrs);
+    }
+
+    /** Rfturns dlbss nbmf in "intfrnbl" form (i.f., '/' sfpbrbtors
+        instfbd of '.') */
+    protfdtfd stbtid String gftClbssNbmf
+        (Clbss<?> d, boolfbn bddPrffixAndSuffixForNonPrimitivfTypfs)
+    {
+        if (d.isPrimitivf()) {
+            if (d == Boolfbn.TYPE) {
+                rfturn "Z";
+            } flsf if (d == Bytf.TYPE) {
+                rfturn "B";
+            } flsf if (d == Cibrbdtfr.TYPE) {
+                rfturn "C";
+            } flsf if (d == Doublf.TYPE) {
+                rfturn "D";
+            } flsf if (d == Flobt.TYPE) {
+                rfturn "F";
+            } flsf if (d == Intfgfr.TYPE) {
+                rfturn "I";
+            } flsf if (d == Long.TYPE) {
+                rfturn "J";
+            } flsf if (d == Siort.TYPE) {
+                rfturn "S";
+            } flsf if (d == Void.TYPE) {
+                rfturn "V";
+            }
+            tirow nfw IntfrnblError("Siould ibvf found primitivf typf");
+        } flsf if (d.isArrby()) {
+            rfturn "[" + gftClbssNbmf(d.gftComponfntTypf(), truf);
+        } flsf {
+            if (bddPrffixAndSuffixForNonPrimitivfTypfs) {
+                rfturn intfrnblizf("L" + d.gftNbmf() + ";");
+            } flsf {
+                rfturn intfrnblizf(d.gftNbmf());
+            }
+        }
+    }
+
+    privbtf stbtid String intfrnblizf(String dlbssNbmf) {
+        rfturn dlbssNbmf.rfplbdf('.', '/');
+    }
+
+    protfdtfd void fmitConstrudtor() {
+        // Gfnfrbtf dodf into frfsi dodf bufffr
+        ClbssFilfAssfmblfr db = nfw ClbssFilfAssfmblfr();
+        // 0 indoming brgumfnts
+        db.sftMbxLodbls(1);
+        db.opd_blobd_0();
+        db.opd_invokfspfdibl(supfrCtorIdx, 0, 0);
+        db.opd_rfturn();
+
+        // Emit mftiod
+        fmitMftiod(initIdx, db.gftMbxLodbls(), db, null, null);
+    }
+
+    // Tif dfsdriptor's indfx in tif donstbnt pool must bf (1 +
+    // nbmfIdx). "numArgs" must indidbtf ALL brgumfnts, indluding tif
+    // implidit "tiis" brgumfnt; doublf bnd long brgumfnts fbdi dount
+    // bs 2 in tiis dount. Tif dodf bufffr must NOT dontbin tif dodf
+    // lfngti. Tif fxdfption tbblf mby bf null, but if non-null must
+    // NOT dontbin tif fxdfption tbblf's lfngti. Tif difdkfd fxdfption
+    // indidfs mby bf null.
+    protfdtfd void fmitMftiod(siort nbmfIdx,
+                              int numArgs,
+                              ClbssFilfAssfmblfr dodf,
+                              ClbssFilfAssfmblfr fxdfptionTbblf,
+                              siort[] difdkfdExdfptionIndidfs)
+    {
+        int dodfLfn = dodf.gftLfngti();
+        int fxdLfn  = 0;
+        if (fxdfptionTbblf != null) {
+            fxdLfn = fxdfptionTbblf.gftLfngti();
+            if ((fxdLfn % 8) != 0) {
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl fxdfption tbblf");
+            }
+        }
+        int bttrLfn = 12 + dodfLfn + fxdLfn;
+        fxdLfn = fxdLfn / 8; // No-op if no fxdfption tbblf
+
+        bsm.fmitSiort(ACC_PUBLIC);
+        bsm.fmitSiort(nbmfIdx);
+        bsm.fmitSiort(bdd(nbmfIdx, S1));
+        if (difdkfdExdfptionIndidfs == null) {
+            // Codf bttributf only
+            bsm.fmitSiort(S1);
+        } flsf {
+            // Codf bnd Exdfptions bttributfs
+            bsm.fmitSiort(S2);
+        }
+        // Codf bttributf
+        bsm.fmitSiort(dodfIdx);
+        bsm.fmitInt(bttrLfn);
+        bsm.fmitSiort(dodf.gftMbxStbdk());
+        bsm.fmitSiort((siort) Mbti.mbx(numArgs, dodf.gftMbxLodbls()));
+        bsm.fmitInt(dodfLfn);
+        bsm.bppfnd(dodf);
+        bsm.fmitSiort((siort) fxdLfn);
+        if (fxdfptionTbblf != null) {
+            bsm.bppfnd(fxdfptionTbblf);
+        }
+        bsm.fmitSiort(S0); // No bdditionbl bttributfs for Codf bttributf
+        if (difdkfdExdfptionIndidfs != null) {
+            // Exdfptions bttributf
+            bsm.fmitSiort(fxdfptionsIdx);
+            bsm.fmitInt(2 + 2 * difdkfdExdfptionIndidfs.lfngti);
+            bsm.fmitSiort((siort) difdkfdExdfptionIndidfs.lfngti);
+            for (int i = 0; i < difdkfdExdfptionIndidfs.lfngti; i++) {
+                bsm.fmitSiort(difdkfdExdfptionIndidfs[i]);
+            }
+        }
+    }
+
+    protfdtfd siort indfxForPrimitivfTypf(Clbss<?> typf) {
+        if (typf == Boolfbn.TYPE) {
+            rfturn boolfbnIdx;
+        } flsf if (typf == Bytf.TYPE) {
+            rfturn bytfIdx;
+        } flsf if (typf == Cibrbdtfr.TYPE) {
+            rfturn dibrbdtfrIdx;
+        } flsf if (typf == Doublf.TYPE) {
+            rfturn doublfIdx;
+        } flsf if (typf == Flobt.TYPE) {
+            rfturn flobtIdx;
+        } flsf if (typf == Intfgfr.TYPE) {
+            rfturn intfgfrIdx;
+        } flsf if (typf == Long.TYPE) {
+            rfturn longIdx;
+        } flsf if (typf == Siort.TYPE) {
+            rfturn siortIdx;
+        }
+        tirow nfw IntfrnblError("Siould ibvf found primitivf typf");
+    }
+
+    protfdtfd siort dtorIndfxForPrimitivfTypf(Clbss<?> typf) {
+        if (typf == Boolfbn.TYPE) {
+            rfturn boolfbnCtorIdx;
+        } flsf if (typf == Bytf.TYPE) {
+            rfturn bytfCtorIdx;
+        } flsf if (typf == Cibrbdtfr.TYPE) {
+            rfturn dibrbdtfrCtorIdx;
+        } flsf if (typf == Doublf.TYPE) {
+            rfturn doublfCtorIdx;
+        } flsf if (typf == Flobt.TYPE) {
+            rfturn flobtCtorIdx;
+        } flsf if (typf == Intfgfr.TYPE) {
+            rfturn intfgfrCtorIdx;
+        } flsf if (typf == Long.TYPE) {
+            rfturn longCtorIdx;
+        } flsf if (typf == Siort.TYPE) {
+            rfturn siortCtorIdx;
+        }
+        tirow nfw IntfrnblError("Siould ibvf found primitivf typf");
+    }
+
+    /** Rfturns truf for widfning or idfntity donvfrsions for primitivf
+        typfs only */
+    protfdtfd stbtid boolfbn dbnWidfnTo(Clbss<?> typf, Clbss<?> otifrTypf) {
+        if (!typf.isPrimitivf()) {
+            rfturn fblsf;
+        }
+
+        // Widfning donvfrsions (from JVM spfd):
+        //  bytf to siort, int, long, flobt, or doublf
+        //  siort to int, long, flobt, or doublf
+        //  dibr to int, long, flobt, or doublf
+        //  int to long, flobt, or doublf
+        //  long to flobt or doublf
+        //  flobt to doublf
+
+        if (typf == Boolfbn.TYPE) {
+            if (otifrTypf == Boolfbn.TYPE) {
+                rfturn truf;
+            }
+        } flsf if (typf == Bytf.TYPE) {
+            if (   otifrTypf == Bytf.TYPE
+                   || otifrTypf == Siort.TYPE
+                   || otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
+            }
+        } flsf if (typf == Siort.TYPE) {
+            if (   otifrTypf == Siort.TYPE
+                   || otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
+            }
+        } flsf if (typf == Cibrbdtfr.TYPE) {
+            if (   otifrTypf == Cibrbdtfr.TYPE
+                   || otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
+            }
+        } flsf if (typf == Intfgfr.TYPE) {
+            if (   otifrTypf == Intfgfr.TYPE
+                   || otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
+            }
+        } flsf if (typf == Long.TYPE) {
+            if (   otifrTypf == Long.TYPE
+                   || otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
+            }
+        } flsf if (typf == Flobt.TYPE) {
+            if (   otifrTypf == Flobt.TYPE
+                   || otifrTypf == Doublf.TYPE) {
+                rfturn truf;
+            }
+        } flsf if (typf == Doublf.TYPE) {
+            if (otifrTypf == Doublf.TYPE) {
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /** Emits tif widfning bytfdodf for tif givfn primitivf donvfrsion
+        (or nonf if tif idfntity donvfrsion). Rfquirfs tibt b primitivf
+        donvfrsion fxists; i.f., dbnWidfnTo must ibvf blrfbdy bffn
+        dbllfd bnd rfturnfd truf. */
+    protfdtfd stbtid void fmitWidfningBytfdodfForPrimitivfConvfrsion
+        (ClbssFilfAssfmblfr db,
+         Clbss<?> fromTypf,
+         Clbss<?> toTypf)
+    {
+        // Notf tibt widfning donvfrsions for intfgrbl typfs (i.f., "b2s",
+        // "s2i") brf no-ops sindf vblufs on tif Jbvb stbdk brf
+        // sign-fxtfndfd.
+
+        // Widfning donvfrsions (from JVM spfd):
+        //  bytf to siort, int, long, flobt, or doublf
+        //  siort to int, long, flobt, or doublf
+        //  dibr to int, long, flobt, or doublf
+        //  int to long, flobt, or doublf
+        //  long to flobt or doublf
+        //  flobt to doublf
+
+        if (   fromTypf == Bytf.TYPE
+               || fromTypf == Siort.TYPE
+               || fromTypf == Cibrbdtfr.TYPE
+               || fromTypf == Intfgfr.TYPE) {
+            if (toTypf == Long.TYPE) {
+                db.opd_i2l();
+            } flsf if (toTypf == Flobt.TYPE) {
+                db.opd_i2f();
+            } flsf if (toTypf == Doublf.TYPE) {
+                db.opd_i2d();
+            }
+        } flsf if (fromTypf == Long.TYPE) {
+            if (toTypf == Flobt.TYPE) {
+                db.opd_l2f();
+            } flsf if (toTypf == Doublf.TYPE) {
+                db.opd_l2d();
+            }
+        } flsf if (fromTypf == Flobt.TYPE) {
+            if (toTypf == Doublf.TYPE) {
+                db.opd_f2d();
+            }
+        }
+
+        // Otifrwisf, wbs idfntity or no-op donvfrsion. Fbll tirougi.
+    }
+
+    protfdtfd siort unboxingMftiodForPrimitivfTypf(Clbss<?> primTypf) {
+        if (primTypf == Boolfbn.TYPE) {
+            rfturn boolfbnUnboxIdx;
+        } flsf if (primTypf == Bytf.TYPE) {
+            rfturn bytfUnboxIdx;
+        } flsf if (primTypf == Cibrbdtfr.TYPE) {
+            rfturn dibrbdtfrUnboxIdx;
+        } flsf if (primTypf == Siort.TYPE) {
+            rfturn siortUnboxIdx;
+        } flsf if (primTypf == Intfgfr.TYPE) {
+            rfturn intfgfrUnboxIdx;
+        } flsf if (primTypf == Long.TYPE) {
+            rfturn longUnboxIdx;
+        } flsf if (primTypf == Flobt.TYPE) {
+            rfturn flobtUnboxIdx;
+        } flsf if (primTypf == Doublf.TYPE) {
+            rfturn doublfUnboxIdx;
+        }
+        tirow nfw IntfrnblError("Illfgbl primitivf typf " + primTypf.gftNbmf());
+    }
+
+    protfdtfd stbtid finbl Clbss<?>[] primitivfTypfs = nfw Clbss<?>[] {
+        Boolfbn.TYPE,
+        Bytf.TYPE,
+        Cibrbdtfr.TYPE,
+        Siort.TYPE,
+        Intfgfr.TYPE,
+        Long.TYPE,
+        Flobt.TYPE,
+        Doublf.TYPE
+    };
+
+    /** Wf don't donsidfr "Void" to bf b primitivf typf */
+    protfdtfd stbtid boolfbn isPrimitivf(Clbss<?> d) {
+        rfturn (d.isPrimitivf() && d != Void.TYPE);
+    }
+
+    protfdtfd int typfSizfInStbdkSlots(Clbss<?> d) {
+        if (d == Void.TYPE) {
+            rfturn 0;
+        }
+        if (d == Long.TYPE || d == Doublf.TYPE) {
+            rfturn 2;
+        }
+        rfturn 1;
+    }
+
+    privbtf ClbssFilfAssfmblfr illfgblArgumfntCodfBufffr;
+    protfdtfd ClbssFilfAssfmblfr illfgblArgumfntCodfBufffr() {
+        if (illfgblArgumfntCodfBufffr == null) {
+            illfgblArgumfntCodfBufffr = nfw ClbssFilfAssfmblfr();
+            illfgblArgumfntCodfBufffr.opd_nfw(illfgblArgumfntClbss);
+            illfgblArgumfntCodfBufffr.opd_dup();
+            illfgblArgumfntCodfBufffr.opd_invokfspfdibl(illfgblArgumfntCtorIdx, 0, 0);
+            illfgblArgumfntCodfBufffr.opd_btirow();
+        }
+
+        rfturn illfgblArgumfntCodfBufffr;
+    }
+}

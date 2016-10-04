@@ -1,199 +1,995 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: sfrvfrtool
+.\" Titlf: sfrvfrtool
+.\" Titlf: sfrvfrtool
+.\" Titlf: sfrvfrtool
+.\" Titlf: sfrvfrtool
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
 .\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "sfrvfrtool" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "sfrvfrtool" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "sfrvfrtool" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "sfrvfrtool" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "sfrvfrtool" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 sfrvfrtool \- 開発者が永続サーバーを登録、登録解除、起動、停止するための使いやすいユーザー・インタフェースを提供します。
+sfrvfrtool \- 開発者が永続サーバーを登録、登録解除、起動、停止するための使いやすいユーザー・インタフェースを提供します。
+sfrvfrtool \- 開発者が永続サーバーを登録、登録解除、起動、停止するための使いやすいユーザー・インタフェースを提供します。
+sfrvfrtool \- 開発者が永続サーバーを登録、登録解除、起動、停止するための使いやすいユーザー・インタフェースを提供します。
+sfrvfrtool \- 開発者が永続サーバーを登録、登録解除、起動、停止するための使いやすいユーザー・インタフェースを提供します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+\fIsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+\fIsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+\fIsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+\fIsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
 \fIsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 dommbnds
+dommbnds
+dommbnds
+dommbnds
+dommbnds
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・コマンド。コマンドを参照してください。
+コマンドライン・コマンド。コマンドを参照してください。
+コマンドライン・コマンド。コマンドを参照してください。
+コマンドライン・コマンド。コマンドを参照してください。
+コマンドライン・コマンド。コマンドを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIsfrvfrtool\fR\fIsfrvfrtool >\fR\fIsfrvfrtool >\fR
+\fIsfrvfrtool\fR\fIsfrvfrtool >\fR\fIsfrvfrtool >\fR
+\fIsfrvfrtool\fR\fIsfrvfrtool >\fR\fIsfrvfrtool >\fR
+\fIsfrvfrtool\fR\fIsfrvfrtool >\fR\fIsfrvfrtool >\fR
+\fIsfrvfrtool\fR\fIsfrvfrtool >\fR\fIsfrvfrtool >\fR
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .SH "説明"
 .PP
+.PP
+.PP
+.PP
+.PP
+\fIsfrvfrtool\fRコマンドは、開発者が永続サーバーを登録、登録解除、起動、停止するためのコマンドライン・インタフェースを提供します。コマンドライン・コマンドを使用すると、サーバーに関する様々な統計情報を取得できます。コマンドを参照してください。
+\fIsfrvfrtool\fRコマンドは、開発者が永続サーバーを登録、登録解除、起動、停止するためのコマンドライン・インタフェースを提供します。コマンドライン・コマンドを使用すると、サーバーに関する様々な統計情報を取得できます。コマンドを参照してください。
+\fIsfrvfrtool\fRコマンドは、開発者が永続サーバーを登録、登録解除、起動、停止するためのコマンドライン・インタフェースを提供します。コマンドライン・コマンドを使用すると、サーバーに関する様々な統計情報を取得できます。コマンドを参照してください。
+\fIsfrvfrtool\fRコマンドは、開発者が永続サーバーを登録、登録解除、起動、停止するためのコマンドライン・インタフェースを提供します。コマンドライン・コマンドを使用すると、サーバーに関する様々な統計情報を取得できます。コマンドを参照してください。
 \fIsfrvfrtool\fRコマンドは、開発者が永続サーバーを登録、登録解除、起動、停止するためのコマンドライン・インタフェースを提供します。コマンドライン・コマンドを使用すると、サーバーに関する様々な統計情報を取得できます。コマンドを参照してください。
 .SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.PP
+.PP
+.PP
+.PP
 .PP
 \-ORBInitiblHost \fInbmfsfrvfriost\fR
+\-ORBInitiblHost \fInbmfsfrvfriost\fR
+\-ORBInitiblHost \fInbmfsfrvfriost\fR
+\-ORBInitiblHost \fInbmfsfrvfriost\fR
+\-ORBInitiblHost \fInbmfsfrvfriost\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 このオプションは必須です。ネーム・サーバーが実行され、着信リクエストをリスニングするホスト・マシンを指定します。\fInbmfsfrvfriost\fR値は、\fIorb\fRが実行され、リクエストをリスニングしているポートを指定する必要があります。このオプションを指定しない場合、値はデフォルトで\fIlodbliost\fRに設定されます。\fIorbd\fRと\fIsfrvfrtool\fRが異なるマシン上で実行されている場合は、\fIorbd\fRが実行されているホストの名前またはIPアドレスを指定する必要があります。
+このオプションは必須です。ネーム・サーバーが実行され、着信リクエストをリスニングするホスト・マシンを指定します。\fInbmfsfrvfriost\fR値は、\fIorb\fRが実行され、リクエストをリスニングしているポートを指定する必要があります。このオプションを指定しない場合、値はデフォルトで\fIlodbliost\fRに設定されます。\fIorbd\fRと\fIsfrvfrtool\fRが異なるマシン上で実行されている場合は、\fIorbd\fRが実行されているホストの名前またはIPアドレスを指定する必要があります。
+このオプションは必須です。ネーム・サーバーが実行され、着信リクエストをリスニングするホスト・マシンを指定します。\fInbmfsfrvfriost\fR値は、\fIorb\fRが実行され、リクエストをリスニングしているポートを指定する必要があります。このオプションを指定しない場合、値はデフォルトで\fIlodbliost\fRに設定されます。\fIorbd\fRと\fIsfrvfrtool\fRが異なるマシン上で実行されている場合は、\fIorbd\fRが実行されているホストの名前またはIPアドレスを指定する必要があります。
+このオプションは必須です。ネーム・サーバーが実行され、着信リクエストをリスニングするホスト・マシンを指定します。\fInbmfsfrvfriost\fR値は、\fIorb\fRが実行され、リクエストをリスニングしているポートを指定する必要があります。このオプションを指定しない場合、値はデフォルトで\fIlodbliost\fRに設定されます。\fIorbd\fRと\fIsfrvfrtool\fRが異なるマシン上で実行されている場合は、\fIorbd\fRが実行されているホストの名前またはIPアドレスを指定する必要があります。
+このオプションは必須です。ネーム・サーバーが実行され、着信リクエストをリスニングするホスト・マシンを指定します。\fInbmfsfrvfriost\fR値は、\fIorb\fRが実行され、リクエストをリスニングしているポートを指定する必要があります。このオプションを指定しない場合、値はデフォルトで\fIlodbliost\fRに設定されます。\fIorbd\fRと\fIsfrvfrtool\fRが異なるマシン上で実行されている場合は、\fIorbd\fRが実行されているホストの名前またはIPアドレスを指定する必要があります。
+.sp
+.sp
+.sp
+.sp
 .sp
 \fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+Orbdlf Solbrisでは、1024より小さいポート上でプロセスを開始するには、rootユーザーになる必要があります。\fInbmfsfrvfrport\fR値には、1024以上のポート番号を使用することをお薦めします。
+Orbdlf Solbrisでは、1024より小さいポート上でプロセスを開始するには、rootユーザーになる必要があります。\fInbmfsfrvfrport\fR値には、1024以上のポート番号を使用することをお薦めします。
+Orbdlf Solbrisでは、1024より小さいポート上でプロセスを開始するには、rootユーザーになる必要があります。\fInbmfsfrvfrport\fR値には、1024以上のポート番号を使用することをお薦めします。
+Orbdlf Solbrisでは、1024より小さいポート上でプロセスを開始するには、rootユーザーになる必要があります。\fInbmfsfrvfrport\fR値には、1024以上のポート番号を使用することをお薦めします。
 Orbdlf Solbrisでは、1024より小さいポート上でプロセスを開始するには、rootユーザーになる必要があります。\fInbmfsfrvfrport\fR値には、1024以上のポート番号を使用することをお薦めします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "コマンド"
+.SH "コマンド"
+.SH "コマンド"
+.SH "コマンド"
+.SH "コマンド"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIsfrvfrtool\fRコマンドは、コマンドライン・コマンドを使用して、または使用せずに起動できます。
+\fIsfrvfrtool\fRコマンドは、コマンドライン・コマンドを使用して、または使用せずに起動できます。
+\fIsfrvfrtool\fRコマンドは、コマンドライン・コマンドを使用して、または使用せずに起動できます。
+\fIsfrvfrtool\fRコマンドは、コマンドライン・コマンドを使用して、または使用せずに起動できます。
+\fIsfrvfrtool\fRコマンドは、コマンドライン・コマンドを使用して、または使用せずに起動できます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 \i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 \fIsfrvfrtool\fRの起動時にコマンドを指定しなかった場合、コマンドライン・ツールにコマンド入力を求める\fIsfrvfrtool\fRプロンプトが表示されます:
+\fIsfrvfrtool\fRの起動時にコマンドを指定しなかった場合、コマンドライン・ツールにコマンド入力を求める\fIsfrvfrtool\fRプロンプトが表示されます:
+\fIsfrvfrtool\fRの起動時にコマンドを指定しなかった場合、コマンドライン・ツールにコマンド入力を求める\fIsfrvfrtool\fRプロンプトが表示されます:
+\fIsfrvfrtool\fRの起動時にコマンドを指定しなかった場合、コマンドライン・ツールにコマンド入力を求める\fIsfrvfrtool\fRプロンプトが表示されます:
+\fIsfrvfrtool\fRの起動時にコマンドを指定しなかった場合、コマンドライン・ツールにコマンド入力を求める\fIsfrvfrtool\fRプロンプトが表示されます:
+\fIsfrvfrtool >\fR。
+\fIsfrvfrtool >\fR。
+\fIsfrvfrtool >\fR。
+\fIsfrvfrtool >\fR。
 \fIsfrvfrtool >\fR。
 .RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 \i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 \fIsfrvfrtool\fRの起動時にコマンドを指定した場合、Jbvb IDL Sfrvfr Toolが起動してコマンドを実行し、終了します。
+\fIsfrvfrtool\fRの起動時にコマンドを指定した場合、Jbvb IDL Sfrvfr Toolが起動してコマンドを実行し、終了します。
+\fIsfrvfrtool\fRの起動時にコマンドを指定した場合、Jbvb IDL Sfrvfr Toolが起動してコマンドを実行し、終了します。
+\fIsfrvfrtool\fRの起動時にコマンドを指定した場合、Jbvb IDL Sfrvfr Toolが起動してコマンドを実行し、終了します。
+\fIsfrvfrtool\fRの起動時にコマンドを指定した場合、Jbvb IDL Sfrvfr Toolが起動してコマンドを実行し、終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 rfgistfr \-sfrvfr \fIsfrvfr\-dlbss\-nbmf\fR \-dlbsspbti \fIdlbsspbti\-to\-sfrvfr\fR [ \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR \-brgs \fIbrgs\-to\-sfrvfr\fR \-vmbrgs \fIflbgs\-for\-JVM\fR ]
+rfgistfr \-sfrvfr \fIsfrvfr\-dlbss\-nbmf\fR \-dlbsspbti \fIdlbsspbti\-to\-sfrvfr\fR [ \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR \-brgs \fIbrgs\-to\-sfrvfr\fR \-vmbrgs \fIflbgs\-for\-JVM\fR ]
+rfgistfr \-sfrvfr \fIsfrvfr\-dlbss\-nbmf\fR \-dlbsspbti \fIdlbsspbti\-to\-sfrvfr\fR [ \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR \-brgs \fIbrgs\-to\-sfrvfr\fR \-vmbrgs \fIflbgs\-for\-JVM\fR ]
+rfgistfr \-sfrvfr \fIsfrvfr\-dlbss\-nbmf\fR \-dlbsspbti \fIdlbsspbti\-to\-sfrvfr\fR [ \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR \-brgs \fIbrgs\-to\-sfrvfr\fR \-vmbrgs \fIflbgs\-for\-JVM\fR ]
+rfgistfr \-sfrvfr \fIsfrvfr\-dlbss\-nbmf\fR \-dlbsspbti \fIdlbsspbti\-to\-sfrvfr\fR [ \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR \-brgs \fIbrgs\-to\-sfrvfr\fR \-vmbrgs \fIflbgs\-for\-JVM\fR ]
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Objfdt Rfqufst Brokfr Dbfmon (ORBD)に新規永続サーバーを登録します。サーバーが未登録の場合、登録してアクティブ化します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でインストール・メソッドが呼び出されます。このインストール・メソッドは、\fIpublid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。インストール・メソッドはオプションであり、開発者はデータベース・スキーマの作成など独自のサーバー・インストール動作を指定できます。
+Objfdt Rfqufst Brokfr Dbfmon (ORBD)に新規永続サーバーを登録します。サーバーが未登録の場合、登録してアクティブ化します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でインストール・メソッドが呼び出されます。このインストール・メソッドは、\fIpublid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。インストール・メソッドはオプションであり、開発者はデータベース・スキーマの作成など独自のサーバー・インストール動作を指定できます。
+Objfdt Rfqufst Brokfr Dbfmon (ORBD)に新規永続サーバーを登録します。サーバーが未登録の場合、登録してアクティブ化します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でインストール・メソッドが呼び出されます。このインストール・メソッドは、\fIpublid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。インストール・メソッドはオプションであり、開発者はデータベース・スキーマの作成など独自のサーバー・インストール動作を指定できます。
+Objfdt Rfqufst Brokfr Dbfmon (ORBD)に新規永続サーバーを登録します。サーバーが未登録の場合、登録してアクティブ化します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でインストール・メソッドが呼び出されます。このインストール・メソッドは、\fIpublid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。インストール・メソッドはオプションであり、開発者はデータベース・スキーマの作成など独自のサーバー・インストール動作を指定できます。
+Objfdt Rfqufst Brokfr Dbfmon (ORBD)に新規永続サーバーを登録します。サーバーが未登録の場合、登録してアクティブ化します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でインストール・メソッドが呼び出されます。このインストール・メソッドは、\fIpublid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。インストール・メソッドはオプションであり、開発者はデータベース・スキーマの作成など独自のサーバー・インストール動作を指定できます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 unrfgistfr \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+unrfgistfr \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+unrfgistfr \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+unrfgistfr \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+unrfgistfr \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 サーバーIDまたはアプリケーション名で、サーバーをORBDから登録解除します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でアンインストール・メソッドが呼び出されます。
+サーバーIDまたはアプリケーション名で、サーバーをORBDから登録解除します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でアンインストール・メソッドが呼び出されます。
+サーバーIDまたはアプリケーション名で、サーバーをORBDから登録解除します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でアンインストール・メソッドが呼び出されます。
+サーバーIDまたはアプリケーション名で、サーバーをORBDから登録解除します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でアンインストール・メソッドが呼び出されます。
+サーバーIDまたはアプリケーション名で、サーバーをORBDから登録解除します。このコマンドによって、\fI\-sfrvfr\fRオプションで識別されるサーバーの\fIメイン\fR・クラス内でアンインストール・メソッドが呼び出されます。
+\fIuninstbll\fRメソッドは、\fIpublid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。\fIuninstbll\fRメソッドはオプションであり、開発者は\fIinstbll\fRメソッドの動作の取消など、独自のサーバー・アンインストール動作を指定できます。
+\fIuninstbll\fRメソッドは、\fIpublid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。\fIuninstbll\fRメソッドはオプションであり、開発者は\fIinstbll\fRメソッドの動作の取消など、独自のサーバー・アンインストール動作を指定できます。
+\fIuninstbll\fRメソッドは、\fIpublid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。\fIuninstbll\fRメソッドはオプションであり、開発者は\fIinstbll\fRメソッドの動作の取消など、独自のサーバー・アンインストール動作を指定できます。
+\fIuninstbll\fRメソッドは、\fIpublid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。\fIuninstbll\fRメソッドはオプションであり、開発者は\fIinstbll\fRメソッドの動作の取消など、独自のサーバー・アンインストール動作を指定できます。
 \fIuninstbll\fRメソッドは、\fIpublid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fRになっている必要があります。\fIuninstbll\fRメソッドはオプションであり、開発者は\fIinstbll\fRメソッドの動作の取消など、独自のサーバー・アンインストール動作を指定できます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 gftsfrvfrid \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+gftsfrvfrid \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+gftsfrvfrid \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+gftsfrvfrid \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+gftsfrvfrid \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIbpplidbtion\-nbmf\fR値に対応するサーバーIDを返します。
+\fIbpplidbtion\-nbmf\fR値に対応するサーバーIDを返します。
+\fIbpplidbtion\-nbmf\fR値に対応するサーバーIDを返します。
+\fIbpplidbtion\-nbmf\fR値に対応するサーバーIDを返します。
+\fIbpplidbtion\-nbmf\fR値に対応するサーバーIDを返します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 list
+list
+list
+list
+list
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ORBDに登録されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDに登録されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDに登録されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDに登録されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDに登録されているすべての永続サーバーに関する情報を一覧表示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 listbppnbmfs
+listbppnbmfs
+listbppnbmfs
+listbppnbmfs
+listbppnbmfs
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 現在ORBDに登録されているすべてのサーバーのアプリケーション名を一覧表示します。
+現在ORBDに登録されているすべてのサーバーのアプリケーション名を一覧表示します。
+現在ORBDに登録されているすべてのサーバーのアプリケーション名を一覧表示します。
+現在ORBDに登録されているすべてのサーバーのアプリケーション名を一覧表示します。
+現在ORBDに登録されているすべてのサーバーのアプリケーション名を一覧表示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 listbdtivf
+listbdtivf
+listbdtivf
+listbdtivf
+listbdtivf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ORBDによって起動され、現在実行されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDによって起動され、現在実行されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDによって起動され、現在実行されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDによって起動され、現在実行されているすべての永続サーバーに関する情報を一覧表示します。
+ORBDによって起動され、現在実行されているすべての永続サーバーに関する情報を一覧表示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 lodbtf \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-fndpointTypf \fIfndpointTypf\fR ]
+lodbtf \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-fndpointTypf \fIfndpointTypf\fR ]
+lodbtf \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-fndpointTypf \fIfndpointTypf\fR ]
+lodbtf \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-fndpointTypf \fIfndpointTypf\fR ]
+lodbtf \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-fndpointTypf \fIfndpointTypf\fR ]
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 登録されたサーバーで作成したすべてのORBの特定のタイプについてエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIfndpointTypf\fR値が指定されていない場合、サーバーのORBごとに関連付けられているplbinタイプまたはnon\-protfdtfdタイプのエンドポイントが返されます。
+登録されたサーバーで作成したすべてのORBの特定のタイプについてエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIfndpointTypf\fR値が指定されていない場合、サーバーのORBごとに関連付けられているplbinタイプまたはnon\-protfdtfdタイプのエンドポイントが返されます。
+登録されたサーバーで作成したすべてのORBの特定のタイプについてエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIfndpointTypf\fR値が指定されていない場合、サーバーのORBごとに関連付けられているplbinタイプまたはnon\-protfdtfdタイプのエンドポイントが返されます。
+登録されたサーバーで作成したすべてのORBの特定のタイプについてエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIfndpointTypf\fR値が指定されていない場合、サーバーのORBごとに関連付けられているplbinタイプまたはnon\-protfdtfdタイプのエンドポイントが返されます。
+登録されたサーバーで作成したすべてのORBの特定のタイプについてエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIfndpointTypf\fR値が指定されていない場合、サーバーのORBごとに関連付けられているplbinタイプまたはnon\-protfdtfdタイプのエンドポイントが返されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 lodbtfpfrorb \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-orbid \fIORB\-nbmf\fR ]
+lodbtfpfrorb \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-orbid \fIORB\-nbmf\fR ]
+lodbtfpfrorb \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-orbid \fIORB\-nbmf\fR ]
+lodbtfpfrorb \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-orbid \fIORB\-nbmf\fR ]
+lodbtfpfrorb \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR [ \-orbid \fIORB\-nbmf\fR ]
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 登録されたサーバーの特定のObjfdt Rfqufst Brokfr (ORB)で登録されたエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIorbid\fRが指定されていない場合、デフォルト値の\fI""\fRが\fIorbid\fRに割り当てられます。ORBが空文字列の\fIorbid\fRで作成されている場合、登録したポートがすべて返されます。
+登録されたサーバーの特定のObjfdt Rfqufst Brokfr (ORB)で登録されたエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIorbid\fRが指定されていない場合、デフォルト値の\fI""\fRが\fIorbid\fRに割り当てられます。ORBが空文字列の\fIorbid\fRで作成されている場合、登録したポートがすべて返されます。
+登録されたサーバーの特定のObjfdt Rfqufst Brokfr (ORB)で登録されたエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIorbid\fRが指定されていない場合、デフォルト値の\fI""\fRが\fIorbid\fRに割り当てられます。ORBが空文字列の\fIorbid\fRで作成されている場合、登録したポートがすべて返されます。
+登録されたサーバーの特定のObjfdt Rfqufst Brokfr (ORB)で登録されたエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIorbid\fRが指定されていない場合、デフォルト値の\fI""\fRが\fIorbid\fRに割り当てられます。ORBが空文字列の\fIorbid\fRで作成されている場合、登録したポートがすべて返されます。
+登録されたサーバーの特定のObjfdt Rfqufst Brokfr (ORB)で登録されたエンドポイント(ポート)を検出します。サーバーが実行されていない場合、アクティブ化されます。\fIorbid\fRが指定されていない場合、デフォルト値の\fI""\fRが\fIorbid\fRに割り当てられます。ORBが空文字列の\fIorbid\fRで作成されている場合、登録したポートがすべて返されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 orblist \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+orblist \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+orblist \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+orblist \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+orblist \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf \fIbpplidbtion\-nbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 サーバー上に定義されたORBの\fIORBId\fRを一覧表示します。\fIORBId\fRはサーバーで作成されたORBの文字列名です。サーバーが実行されていない場合、アクティブ化されます。
+サーバー上に定義されたORBの\fIORBId\fRを一覧表示します。\fIORBId\fRはサーバーで作成されたORBの文字列名です。サーバーが実行されていない場合、アクティブ化されます。
+サーバー上に定義されたORBの\fIORBId\fRを一覧表示します。\fIORBId\fRはサーバーで作成されたORBの文字列名です。サーバーが実行されていない場合、アクティブ化されます。
+サーバー上に定義されたORBの\fIORBId\fRを一覧表示します。\fIORBId\fRはサーバーで作成されたORBの文字列名です。サーバーが実行されていない場合、アクティブ化されます。
+サーバー上に定義されたORBの\fIORBId\fRを一覧表示します。\fIORBId\fRはサーバーで作成されたORBの文字列名です。サーバーが実行されていない場合、アクティブ化されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 siutdown \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+siutdown \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+siutdown \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+siutdown \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+siutdown \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ORBDに登録されたアクティブなサーバーを停止します。このコマンドの実行中に、\fI\-sfrvfrid\fRパラメータまたは\fI\-bpplidbtionNbmf\fRパラメータで指定されたクラス内に定義された\fIsiutdown\fRメソッドも呼び出されてサーバー・プロセスを停止します。
+ORBDに登録されたアクティブなサーバーを停止します。このコマンドの実行中に、\fI\-sfrvfrid\fRパラメータまたは\fI\-bpplidbtionNbmf\fRパラメータで指定されたクラス内に定義された\fIsiutdown\fRメソッドも呼び出されてサーバー・プロセスを停止します。
+ORBDに登録されたアクティブなサーバーを停止します。このコマンドの実行中に、\fI\-sfrvfrid\fRパラメータまたは\fI\-bpplidbtionNbmf\fRパラメータで指定されたクラス内に定義された\fIsiutdown\fRメソッドも呼び出されてサーバー・プロセスを停止します。
+ORBDに登録されたアクティブなサーバーを停止します。このコマンドの実行中に、\fI\-sfrvfrid\fRパラメータまたは\fI\-bpplidbtionNbmf\fRパラメータで指定されたクラス内に定義された\fIsiutdown\fRメソッドも呼び出されてサーバー・プロセスを停止します。
+ORBDに登録されたアクティブなサーバーを停止します。このコマンドの実行中に、\fI\-sfrvfrid\fRパラメータまたは\fI\-bpplidbtionNbmf\fRパラメータで指定されたクラス内に定義された\fIsiutdown\fRメソッドも呼び出されてサーバー・プロセスを停止します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 stbrtup \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+stbrtup \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+stbrtup \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+stbrtup \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+stbrtup \-sfrvfrid \fIsfrvfr\-id\fR | \-bpplidbtionNbmf bpplidbtion\-nbmf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ORBDに登録されたサーバーを起動またはアクティブ化します。サーバーが実行されていない場合、このコマンドがサーバーを起動します。サーバーがすでに実行されている場合は、エラー・メッセージが表示されます。
+ORBDに登録されたサーバーを起動またはアクティブ化します。サーバーが実行されていない場合、このコマンドがサーバーを起動します。サーバーがすでに実行されている場合は、エラー・メッセージが表示されます。
+ORBDに登録されたサーバーを起動またはアクティブ化します。サーバーが実行されていない場合、このコマンドがサーバーを起動します。サーバーがすでに実行されている場合は、エラー・メッセージが表示されます。
+ORBDに登録されたサーバーを起動またはアクティブ化します。サーバーが実行されていない場合、このコマンドがサーバーを起動します。サーバーがすでに実行されている場合は、エラー・メッセージが表示されます。
+ORBDに登録されたサーバーを起動またはアクティブ化します。サーバーが実行されていない場合、このコマンドがサーバーを起動します。サーバーがすでに実行されている場合は、エラー・メッセージが表示されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 iflp
+iflp
+iflp
+iflp
+iflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIsfrvfrtool\fRコマンドを介してサーバーが利用できるすべてのコマンドをリストします。
+\fIsfrvfrtool\fRコマンドを介してサーバーが利用できるすべてのコマンドをリストします。
+\fIsfrvfrtool\fRコマンドを介してサーバーが利用できるすべてのコマンドをリストします。
+\fIsfrvfrtool\fRコマンドを介してサーバーが利用できるすべてのコマンドをリストします。
+\fIsfrvfrtool\fRコマンドを介してサーバーが利用できるすべてのコマンドをリストします。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
+.PP
+.PP
+.PP
+.PP
+quit
+quit
+quit
+quit
 quit
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIsfrvfrtool\fRコマンドを終了します。
+\fIsfrvfrtool\fRコマンドを終了します。
+\fIsfrvfrtool\fRコマンドを終了します。
+\fIsfrvfrtool\fRコマンドを終了します。
 \fIsfrvfrtool\fRコマンドを終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
 .SH "関連項目"
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .IP \(bu 2.3
 .\}
+.\}
+.\}
+.\}
+.\}
+orbd(1)
+orbd(1)
+orbd(1)
+orbd(1)
 orbd(1)
 .RE
+.RE
+.RE
+.RE
+.RE
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

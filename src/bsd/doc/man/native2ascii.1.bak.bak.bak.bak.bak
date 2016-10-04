@@ -1,0 +1,87 @@
+'\" t
+.\"  Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Intfrnbtionblizbtion Tools
+.\"     Titlf: nbtivf2bsdii.1
+.\"
+.if n .pl 99999
+.TH nbtivf2bsdii 1 "21 Novfmbfr 2013" "JDK 8" "Intfrnbtionblizbtion Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+nbtivf2bsdii \- Crfbtfs lodblizbblf bpplidbtions by donvfrting b filf witi dibrbdtfrs in bny supportfd dibrbdtfr fndoding to onf witi ASCII bnd/or Unidodf fsdbpfs or vidf vfrsb\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBnbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
+.fi     
+.sp     
+.TP     
+\fIinputfilf\fR
+Tif fndodfd filf to bf donvfrtfd to ASCII\&.
+.TP     
+\fIoutputfilf\fR
+Tif donvfrtfd ASCII filf\&.
+.SH DESCRIPTION    
+Tif \f3nbtivf2bsdii\fR dommbnd donvfrts fndodfd filfs supportfd by tif Jbvb Runtimf Environmfnt (JRE) to filfs fndodfd in ASCII, using Unidodf fsdbpfs (\f3\fu\fR\fIxxxx\fR) notbtion for bll dibrbdtfrs tibt brf not pbrt of tif ASCII dibrbdtfr sft\&. Tiis prodfss is rfquirfd for propfrtifs filfs tibt dontbin dibrbdtfrs not in ISO-8859-1 dibrbdtfr sfts\&. Tif tool dbn blso pfrform tif rfvfrsf donvfrsion\&.
+.PP
+If tif \f3outputfilf\fR vbluf is omittfd, tifn stbndbrd output is usfd for output\&. If, in bddition, tif \f3inputfilf\fR vbluf is omittfd, tifn stbndbrd input is usfd for input\&.
+.SH OPTIONS    
+.TP
+-rfvfrsf
+.br
+Pfrform tif rfvfrsf opfrbtion: Convfrts b filf fndodfd in ISO-8859-1 witi Unidodf fsdbpfs to b filf in bny dibrbdtfr fndoding supportfd by tif JRE\&.
+.TP
+-fndoding \fIfndoding_nbmf\fR
+.br
+Spfdififs tif nbmf of tif dibrbdtfr fndoding to bf usfd by tif donvfrsion prodfdurf\&. If tiis option is not prfsfnt, tifn tif dffbult dibrbdtfr fndoding (bs dftfrminfd by tif \f3jbvb\&.nio\&.dibrsft\&.Cibrsft\&.dffbultCibrsft\fR mftiod) is usfd\&. Tif \f3fndoding_nbmf\fR string must bf tif nbmf of b dibrbdtfr fndoding tibt is supportfd by tif JRE\&. Sff Supportfd Endodings bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/intl/fndoding\&.dod\&.itml
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf (JVM), wifrf option is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.RE
+.br
+'pl 8.5i
+'bp

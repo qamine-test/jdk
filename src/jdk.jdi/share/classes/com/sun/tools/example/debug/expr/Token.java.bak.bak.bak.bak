@@ -1,156 +1,780 @@
 /*
- * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-/* Gfnfrbtfd By:JbvbCC: Do not fdit this linf. Tokfn.jbvb Vfrsion 5.0 */
-/* JbvbCCOptions:TOKEN_EXTENDS=,KEEP_LINE_COL=null,SUPPORT_CLASS_VISIBILITY_PUBLIC=truf */
-pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
-
-/**
- * Dfsdribfs thf input tokfn strfbm.
+ */
+ */
+ */
  */
 
+
+
+
+
+/* Gfnfrbtfd By:JbvbCC: Do not fdit tiis linf. Tokfn.jbvb Vfrsion 5.0 */
+/* Gfnfrbtfd By:JbvbCC: Do not fdit tiis linf. Tokfn.jbvb Vfrsion 5.0 */
+/* Gfnfrbtfd By:JbvbCC: Do not fdit tiis linf. Tokfn.jbvb Vfrsion 5.0 */
+/* Gfnfrbtfd By:JbvbCC: Do not fdit tiis linf. Tokfn.jbvb Vfrsion 5.0 */
+/* Gfnfrbtfd By:JbvbCC: Do not fdit tiis linf. Tokfn.jbvb Vfrsion 5.0 */
+/* JbvbCCOptions:TOKEN_EXTENDS=,KEEP_LINE_COL=null,SUPPORT_CLASS_VISIBILITY_PUBLIC=truf */
+/* JbvbCCOptions:TOKEN_EXTENDS=,KEEP_LINE_COL=null,SUPPORT_CLASS_VISIBILITY_PUBLIC=truf */
+/* JbvbCCOptions:TOKEN_EXTENDS=,KEEP_LINE_COL=null,SUPPORT_CLASS_VISIBILITY_PUBLIC=truf */
+/* JbvbCCOptions:TOKEN_EXTENDS=,KEEP_LINE_COL=null,SUPPORT_CLASS_VISIBILITY_PUBLIC=truf */
+/* JbvbCCOptions:TOKEN_EXTENDS=,KEEP_LINE_COL=null,SUPPORT_CLASS_VISIBILITY_PUBLIC=truf */
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Dfsdribfs tif input tokfn strfbm.
+ * Dfsdribfs tif input tokfn strfbm.
+ * Dfsdribfs tif input tokfn strfbm.
+ * Dfsdribfs tif input tokfn strfbm.
+ * Dfsdribfs tif input tokfn strfbm.
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid dlbss Tokfn implfmfnts jbvb.io.Sfriblizbblf {
+publid dlbss Tokfn implfmfnts jbvb.io.Sfriblizbblf {
+publid dlbss Tokfn implfmfnts jbvb.io.Sfriblizbblf {
+publid dlbss Tokfn implfmfnts jbvb.io.Sfriblizbblf {
 publid dlbss Tokfn implfmfnts jbvb.io.Sfriblizbblf {
 
+
+
+
+
   /**
-   * Thf vfrsion idfntififr for this Sfriblizbblf dlbss.
-   * Indrfmfnt only if thf <i>sfriblizfd</i> form of thf
-   * dlbss dhbngfs.
+  /**
+  /**
+  /**
+  /**
+   * Tif vfrsion idfntififr for tiis Sfriblizbblf dlbss.
+   * Tif vfrsion idfntififr for tiis Sfriblizbblf dlbss.
+   * Tif vfrsion idfntififr for tiis Sfriblizbblf dlbss.
+   * Tif vfrsion idfntififr for tiis Sfriblizbblf dlbss.
+   * Tif vfrsion idfntififr for tiis Sfriblizbblf dlbss.
+   * Indrfmfnt only if tif <i>sfriblizfd</i> form of tif
+   * Indrfmfnt only if tif <i>sfriblizfd</i> form of tif
+   * Indrfmfnt only if tif <i>sfriblizfd</i> form of tif
+   * Indrfmfnt only if tif <i>sfriblizfd</i> form of tif
+   * Indrfmfnt only if tif <i>sfriblizfd</i> form of tif
+   * dlbss dibngfs.
+   * dlbss dibngfs.
+   * dlbss dibngfs.
+   * dlbss dibngfs.
+   * dlbss dibngfs.
+   */
+   */
+   */
+   */
    */
   privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+  privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+  privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+  privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+  privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+
+
+
+
 
   /**
-   * An intfgfr thbt dfsdribfs thf kind of this tokfn.  This numbfring
-   * systfm is dftfrminfd by JbvbCCPbrsfr, bnd b tbblf of thfsf numbfrs is
-   * storfd in thf filf ...Constbnts.jbvb.
+  /**
+  /**
+  /**
+  /**
+   * An intfgfr tibt dfsdribfs tif kind of tiis tokfn.  Tiis numbfring
+   * An intfgfr tibt dfsdribfs tif kind of tiis tokfn.  Tiis numbfring
+   * An intfgfr tibt dfsdribfs tif kind of tiis tokfn.  Tiis numbfring
+   * An intfgfr tibt dfsdribfs tif kind of tiis tokfn.  Tiis numbfring
+   * An intfgfr tibt dfsdribfs tif kind of tiis tokfn.  Tiis numbfring
+   * systfm is dftfrminfd by JbvbCCPbrsfr, bnd b tbblf of tifsf numbfrs is
+   * systfm is dftfrminfd by JbvbCCPbrsfr, bnd b tbblf of tifsf numbfrs is
+   * systfm is dftfrminfd by JbvbCCPbrsfr, bnd b tbblf of tifsf numbfrs is
+   * systfm is dftfrminfd by JbvbCCPbrsfr, bnd b tbblf of tifsf numbfrs is
+   * systfm is dftfrminfd by JbvbCCPbrsfr, bnd b tbblf of tifsf numbfrs is
+   * storfd in tif filf ...Constbnts.jbvb.
+   * storfd in tif filf ...Constbnts.jbvb.
+   * storfd in tif filf ...Constbnts.jbvb.
+   * storfd in tif filf ...Constbnts.jbvb.
+   * storfd in tif filf ...Constbnts.jbvb.
+   */
+   */
+   */
+   */
    */
   publid int kind;
+  publid int kind;
+  publid int kind;
+  publid int kind;
+  publid int kind;
 
-  /** Thf linf numbfr of thf first dhbrbdtfr of this Tokfn. */
+
+
+
+
+  /** Tif linf numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif first dibrbdtfr of tiis Tokfn. */
   publid int bfginLinf;
-  /** Thf dolumn numbfr of thf first dhbrbdtfr of this Tokfn. */
+  publid int bfginLinf;
+  publid int bfginLinf;
+  publid int bfginLinf;
+  publid int bfginLinf;
+  /** Tif dolumn numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif first dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif first dibrbdtfr of tiis Tokfn. */
   publid int bfginColumn;
-  /** Thf linf numbfr of thf lbst dhbrbdtfr of this Tokfn. */
+  publid int bfginColumn;
+  publid int bfginColumn;
+  publid int bfginColumn;
+  publid int bfginColumn;
+  /** Tif linf numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif linf numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
   publid int fndLinf;
-  /** Thf dolumn numbfr of thf lbst dhbrbdtfr of this Tokfn. */
+  publid int fndLinf;
+  publid int fndLinf;
+  publid int fndLinf;
+  publid int fndLinf;
+  /** Tif dolumn numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  /** Tif dolumn numbfr of tif lbst dibrbdtfr of tiis Tokfn. */
+  publid int fndColumn;
+  publid int fndColumn;
+  publid int fndColumn;
+  publid int fndColumn;
   publid int fndColumn;
 
+
+
+
+
   /**
-   * Thf string imbgf of thf tokfn.
+  /**
+  /**
+  /**
+  /**
+   * Tif string imbgf of tif tokfn.
+   * Tif string imbgf of tif tokfn.
+   * Tif string imbgf of tif tokfn.
+   * Tif string imbgf of tif tokfn.
+   * Tif string imbgf of tif tokfn.
+   */
+   */
+   */
+   */
    */
   publid String imbgf;
+  publid String imbgf;
+  publid String imbgf;
+  publid String imbgf;
+  publid String imbgf;
+
+
+
+
 
   /**
-   * A rfffrfndf to thf nfxt rfgulbr (non-spfdibl) tokfn from thf input
-   * strfbm.  If this is thf lbst tokfn from thf input strfbm, or if thf
-   * tokfn mbnbgfr hbs not rfbd tokfns bfyond this onf, this fifld is
-   * sft to null.  This is truf only if this tokfn is blso b rfgulbr
-   * tokfn.  Othfrwisf, sff bflow for b dfsdription of thf dontfnts of
-   * this fifld.
+  /**
+  /**
+  /**
+  /**
+   * A rfffrfndf to tif nfxt rfgulbr (non-spfdibl) tokfn from tif input
+   * A rfffrfndf to tif nfxt rfgulbr (non-spfdibl) tokfn from tif input
+   * A rfffrfndf to tif nfxt rfgulbr (non-spfdibl) tokfn from tif input
+   * A rfffrfndf to tif nfxt rfgulbr (non-spfdibl) tokfn from tif input
+   * A rfffrfndf to tif nfxt rfgulbr (non-spfdibl) tokfn from tif input
+   * strfbm.  If tiis is tif lbst tokfn from tif input strfbm, or if tif
+   * strfbm.  If tiis is tif lbst tokfn from tif input strfbm, or if tif
+   * strfbm.  If tiis is tif lbst tokfn from tif input strfbm, or if tif
+   * strfbm.  If tiis is tif lbst tokfn from tif input strfbm, or if tif
+   * strfbm.  If tiis is tif lbst tokfn from tif input strfbm, or if tif
+   * tokfn mbnbgfr ibs not rfbd tokfns bfyond tiis onf, tiis fifld is
+   * tokfn mbnbgfr ibs not rfbd tokfns bfyond tiis onf, tiis fifld is
+   * tokfn mbnbgfr ibs not rfbd tokfns bfyond tiis onf, tiis fifld is
+   * tokfn mbnbgfr ibs not rfbd tokfns bfyond tiis onf, tiis fifld is
+   * tokfn mbnbgfr ibs not rfbd tokfns bfyond tiis onf, tiis fifld is
+   * sft to null.  Tiis is truf only if tiis tokfn is blso b rfgulbr
+   * sft to null.  Tiis is truf only if tiis tokfn is blso b rfgulbr
+   * sft to null.  Tiis is truf only if tiis tokfn is blso b rfgulbr
+   * sft to null.  Tiis is truf only if tiis tokfn is blso b rfgulbr
+   * sft to null.  Tiis is truf only if tiis tokfn is blso b rfgulbr
+   * tokfn.  Otifrwisf, sff bflow for b dfsdription of tif dontfnts of
+   * tokfn.  Otifrwisf, sff bflow for b dfsdription of tif dontfnts of
+   * tokfn.  Otifrwisf, sff bflow for b dfsdription of tif dontfnts of
+   * tokfn.  Otifrwisf, sff bflow for b dfsdription of tif dontfnts of
+   * tokfn.  Otifrwisf, sff bflow for b dfsdription of tif dontfnts of
+   * tiis fifld.
+   * tiis fifld.
+   * tiis fifld.
+   * tiis fifld.
+   * tiis fifld.
+   */
+   */
+   */
+   */
    */
   publid Tokfn nfxt;
+  publid Tokfn nfxt;
+  publid Tokfn nfxt;
+  publid Tokfn nfxt;
+  publid Tokfn nfxt;
+
+
+
+
 
   /**
-   * This fifld is usfd to bddfss spfdibl tokfns thbt oddur prior to this
-   * tokfn, but bftfr thf immfdibtfly prfdfding rfgulbr (non-spfdibl) tokfn.
-   * If thfrf brf no sudh spfdibl tokfns, this fifld is sft to null.
-   * Whfn thfrf brf morf thbn onf sudh spfdibl tokfn, this fifld rfffrs
-   * to thf lbst of thfsf spfdibl tokfns, whidh in turn rfffrs to thf nfxt
-   * prfvious spfdibl tokfn through its spfdiblTokfn fifld, bnd so on
-   * until thf first spfdibl tokfn (whosf spfdiblTokfn fifld is null).
-   * Thf nfxt fiflds of spfdibl tokfns rfffr to othfr spfdibl tokfns thbt
-   * immfdibtfly follow it (without bn intfrvfning rfgulbr tokfn).  If thfrf
-   * is no sudh tokfn, this fifld is null.
+  /**
+  /**
+  /**
+  /**
+   * Tiis fifld is usfd to bddfss spfdibl tokfns tibt oddur prior to tiis
+   * Tiis fifld is usfd to bddfss spfdibl tokfns tibt oddur prior to tiis
+   * Tiis fifld is usfd to bddfss spfdibl tokfns tibt oddur prior to tiis
+   * Tiis fifld is usfd to bddfss spfdibl tokfns tibt oddur prior to tiis
+   * Tiis fifld is usfd to bddfss spfdibl tokfns tibt oddur prior to tiis
+   * tokfn, but bftfr tif immfdibtfly prfdfding rfgulbr (non-spfdibl) tokfn.
+   * tokfn, but bftfr tif immfdibtfly prfdfding rfgulbr (non-spfdibl) tokfn.
+   * tokfn, but bftfr tif immfdibtfly prfdfding rfgulbr (non-spfdibl) tokfn.
+   * tokfn, but bftfr tif immfdibtfly prfdfding rfgulbr (non-spfdibl) tokfn.
+   * tokfn, but bftfr tif immfdibtfly prfdfding rfgulbr (non-spfdibl) tokfn.
+   * If tifrf brf no sudi spfdibl tokfns, tiis fifld is sft to null.
+   * If tifrf brf no sudi spfdibl tokfns, tiis fifld is sft to null.
+   * If tifrf brf no sudi spfdibl tokfns, tiis fifld is sft to null.
+   * If tifrf brf no sudi spfdibl tokfns, tiis fifld is sft to null.
+   * If tifrf brf no sudi spfdibl tokfns, tiis fifld is sft to null.
+   * Wifn tifrf brf morf tibn onf sudi spfdibl tokfn, tiis fifld rfffrs
+   * Wifn tifrf brf morf tibn onf sudi spfdibl tokfn, tiis fifld rfffrs
+   * Wifn tifrf brf morf tibn onf sudi spfdibl tokfn, tiis fifld rfffrs
+   * Wifn tifrf brf morf tibn onf sudi spfdibl tokfn, tiis fifld rfffrs
+   * Wifn tifrf brf morf tibn onf sudi spfdibl tokfn, tiis fifld rfffrs
+   * to tif lbst of tifsf spfdibl tokfns, wiidi in turn rfffrs to tif nfxt
+   * to tif lbst of tifsf spfdibl tokfns, wiidi in turn rfffrs to tif nfxt
+   * to tif lbst of tifsf spfdibl tokfns, wiidi in turn rfffrs to tif nfxt
+   * to tif lbst of tifsf spfdibl tokfns, wiidi in turn rfffrs to tif nfxt
+   * to tif lbst of tifsf spfdibl tokfns, wiidi in turn rfffrs to tif nfxt
+   * prfvious spfdibl tokfn tirougi its spfdiblTokfn fifld, bnd so on
+   * prfvious spfdibl tokfn tirougi its spfdiblTokfn fifld, bnd so on
+   * prfvious spfdibl tokfn tirougi its spfdiblTokfn fifld, bnd so on
+   * prfvious spfdibl tokfn tirougi its spfdiblTokfn fifld, bnd so on
+   * prfvious spfdibl tokfn tirougi its spfdiblTokfn fifld, bnd so on
+   * until tif first spfdibl tokfn (wiosf spfdiblTokfn fifld is null).
+   * until tif first spfdibl tokfn (wiosf spfdiblTokfn fifld is null).
+   * until tif first spfdibl tokfn (wiosf spfdiblTokfn fifld is null).
+   * until tif first spfdibl tokfn (wiosf spfdiblTokfn fifld is null).
+   * until tif first spfdibl tokfn (wiosf spfdiblTokfn fifld is null).
+   * Tif nfxt fiflds of spfdibl tokfns rfffr to otifr spfdibl tokfns tibt
+   * Tif nfxt fiflds of spfdibl tokfns rfffr to otifr spfdibl tokfns tibt
+   * Tif nfxt fiflds of spfdibl tokfns rfffr to otifr spfdibl tokfns tibt
+   * Tif nfxt fiflds of spfdibl tokfns rfffr to otifr spfdibl tokfns tibt
+   * Tif nfxt fiflds of spfdibl tokfns rfffr to otifr spfdibl tokfns tibt
+   * immfdibtfly follow it (witiout bn intfrvfning rfgulbr tokfn).  If tifrf
+   * immfdibtfly follow it (witiout bn intfrvfning rfgulbr tokfn).  If tifrf
+   * immfdibtfly follow it (witiout bn intfrvfning rfgulbr tokfn).  If tifrf
+   * immfdibtfly follow it (witiout bn intfrvfning rfgulbr tokfn).  If tifrf
+   * immfdibtfly follow it (witiout bn intfrvfning rfgulbr tokfn).  If tifrf
+   * is no sudi tokfn, tiis fifld is null.
+   * is no sudi tokfn, tiis fifld is null.
+   * is no sudi tokfn, tiis fifld is null.
+   * is no sudi tokfn, tiis fifld is null.
+   * is no sudi tokfn, tiis fifld is null.
+   */
+   */
+   */
+   */
    */
   publid Tokfn spfdiblTokfn;
+  publid Tokfn spfdiblTokfn;
+  publid Tokfn spfdiblTokfn;
+  publid Tokfn spfdiblTokfn;
+  publid Tokfn spfdiblTokfn;
+
+
+
+
 
   /**
-   * An optionbl bttributf vbluf of thf Tokfn.
-   * Tokfns whidh brf not usfd bs syntbdtid sugbr will oftfn dontbin
-   * mfbningful vblufs thbt will bf usfd lbtfr on by thf dompilfr or
-   * intfrprftfr. This bttributf vbluf is oftfn difffrfnt from thf imbgf.
-   * Any subdlbss of Tokfn thbt bdtublly wbnts to rfturn b non-null vbluf dbn
-   * ovfrridf this mfthod bs bppropribtf.
+  /**
+  /**
+  /**
+  /**
+   * An optionbl bttributf vbluf of tif Tokfn.
+   * An optionbl bttributf vbluf of tif Tokfn.
+   * An optionbl bttributf vbluf of tif Tokfn.
+   * An optionbl bttributf vbluf of tif Tokfn.
+   * An optionbl bttributf vbluf of tif Tokfn.
+   * Tokfns wiidi brf not usfd bs syntbdtid sugbr will oftfn dontbin
+   * Tokfns wiidi brf not usfd bs syntbdtid sugbr will oftfn dontbin
+   * Tokfns wiidi brf not usfd bs syntbdtid sugbr will oftfn dontbin
+   * Tokfns wiidi brf not usfd bs syntbdtid sugbr will oftfn dontbin
+   * Tokfns wiidi brf not usfd bs syntbdtid sugbr will oftfn dontbin
+   * mfbningful vblufs tibt will bf usfd lbtfr on by tif dompilfr or
+   * mfbningful vblufs tibt will bf usfd lbtfr on by tif dompilfr or
+   * mfbningful vblufs tibt will bf usfd lbtfr on by tif dompilfr or
+   * mfbningful vblufs tibt will bf usfd lbtfr on by tif dompilfr or
+   * mfbningful vblufs tibt will bf usfd lbtfr on by tif dompilfr or
+   * intfrprftfr. Tiis bttributf vbluf is oftfn difffrfnt from tif imbgf.
+   * intfrprftfr. Tiis bttributf vbluf is oftfn difffrfnt from tif imbgf.
+   * intfrprftfr. Tiis bttributf vbluf is oftfn difffrfnt from tif imbgf.
+   * intfrprftfr. Tiis bttributf vbluf is oftfn difffrfnt from tif imbgf.
+   * intfrprftfr. Tiis bttributf vbluf is oftfn difffrfnt from tif imbgf.
+   * Any subdlbss of Tokfn tibt bdtublly wbnts to rfturn b non-null vbluf dbn
+   * Any subdlbss of Tokfn tibt bdtublly wbnts to rfturn b non-null vbluf dbn
+   * Any subdlbss of Tokfn tibt bdtublly wbnts to rfturn b non-null vbluf dbn
+   * Any subdlbss of Tokfn tibt bdtublly wbnts to rfturn b non-null vbluf dbn
+   * Any subdlbss of Tokfn tibt bdtublly wbnts to rfturn b non-null vbluf dbn
+   * ovfrridf tiis mftiod bs bppropribtf.
+   * ovfrridf tiis mftiod bs bppropribtf.
+   * ovfrridf tiis mftiod bs bppropribtf.
+   * ovfrridf tiis mftiod bs bppropribtf.
+   * ovfrridf tiis mftiod bs bppropribtf.
+   */
+   */
+   */
+   */
    */
   publid Objfdt gftVbluf() {
+  publid Objfdt gftVbluf() {
+  publid Objfdt gftVbluf() {
+  publid Objfdt gftVbluf() {
+  publid Objfdt gftVbluf() {
+    rfturn null;
+    rfturn null;
+    rfturn null;
+    rfturn null;
     rfturn null;
   }
+  }
+  }
+  }
+  }
 
+
+
+
+
+  /**
+  /**
+  /**
+  /**
   /**
    * No-brgumfnt donstrudtor
+   * No-brgumfnt donstrudtor
+   * No-brgumfnt donstrudtor
+   * No-brgumfnt donstrudtor
+   * No-brgumfnt donstrudtor
+   */
+   */
+   */
+   */
    */
   publid Tokfn() {}
+  publid Tokfn() {}
+  publid Tokfn() {}
+  publid Tokfn() {}
+  publid Tokfn() {}
+
+
+
+
 
   /**
-   * Construdts b nfw tokfn for thf spfdififd Imbgf.
+  /**
+  /**
+  /**
+  /**
+   * Construdts b nfw tokfn for tif spfdififd Imbgf.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf.
+   */
+   */
+   */
+   */
    */
   publid Tokfn(int kind)
+  publid Tokfn(int kind)
+  publid Tokfn(int kind)
+  publid Tokfn(int kind)
+  publid Tokfn(int kind)
   {
-    this(kind, null);
+  {
+  {
+  {
+  {
+    tiis(kind, null);
+    tiis(kind, null);
+    tiis(kind, null);
+    tiis(kind, null);
+    tiis(kind, null);
+  }
+  }
+  }
+  }
   }
 
+
+
+
+
   /**
-   * Construdts b nfw tokfn for thf spfdififd Imbgf bnd Kind.
+  /**
+  /**
+  /**
+  /**
+   * Construdts b nfw tokfn for tif spfdififd Imbgf bnd Kind.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf bnd Kind.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf bnd Kind.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf bnd Kind.
+   * Construdts b nfw tokfn for tif spfdififd Imbgf bnd Kind.
+   */
+   */
+   */
+   */
    */
   publid Tokfn(int kind, String imbgf)
+  publid Tokfn(int kind, String imbgf)
+  publid Tokfn(int kind, String imbgf)
+  publid Tokfn(int kind, String imbgf)
+  publid Tokfn(int kind, String imbgf)
   {
-    this.kind = kind;
-    this.imbgf = imbgf;
+  {
+  {
+  {
+  {
+    tiis.kind = kind;
+    tiis.kind = kind;
+    tiis.kind = kind;
+    tiis.kind = kind;
+    tiis.kind = kind;
+    tiis.imbgf = imbgf;
+    tiis.imbgf = imbgf;
+    tiis.imbgf = imbgf;
+    tiis.imbgf = imbgf;
+    tiis.imbgf = imbgf;
+  }
+  }
+  }
+  }
   }
 
+
+
+
+
   /**
-   * Rfturns thf imbgf.
+  /**
+  /**
+  /**
+  /**
+   * Rfturns tif imbgf.
+   * Rfturns tif imbgf.
+   * Rfturns tif imbgf.
+   * Rfturns tif imbgf.
+   * Rfturns tif imbgf.
+   */
+   */
+   */
+   */
    */
   publid String toString()
+  publid String toString()
+  publid String toString()
+  publid String toString()
+  publid String toString()
+  {
+  {
+  {
+  {
   {
     rfturn imbgf;
+    rfturn imbgf;
+    rfturn imbgf;
+    rfturn imbgf;
+    rfturn imbgf;
   }
+  }
+  }
+  }
+  }
+
+
+
+
 
   /**
+  /**
+  /**
+  /**
+  /**
    * Rfturns b nfw Tokfn objfdt, by dffbult. Howfvfr, if you wbnt, you
-   * dbn drfbtf bnd rfturn subdlbss objfdts bbsfd on thf vbluf of ofKind.
-   * Simply bdd thf dbsfs to thf switdh for bll thosf spfdibl dbsfs.
-   * For fxbmplf, if you hbvf b subdlbss of Tokfn dbllfd IDTokfn thbt
-   * you wbnt to drfbtf if ofKind is ID, simply bdd somfthing likf :
+   * Rfturns b nfw Tokfn objfdt, by dffbult. Howfvfr, if you wbnt, you
+   * Rfturns b nfw Tokfn objfdt, by dffbult. Howfvfr, if you wbnt, you
+   * Rfturns b nfw Tokfn objfdt, by dffbult. Howfvfr, if you wbnt, you
+   * Rfturns b nfw Tokfn objfdt, by dffbult. Howfvfr, if you wbnt, you
+   * dbn drfbtf bnd rfturn subdlbss objfdts bbsfd on tif vbluf of ofKind.
+   * dbn drfbtf bnd rfturn subdlbss objfdts bbsfd on tif vbluf of ofKind.
+   * dbn drfbtf bnd rfturn subdlbss objfdts bbsfd on tif vbluf of ofKind.
+   * dbn drfbtf bnd rfturn subdlbss objfdts bbsfd on tif vbluf of ofKind.
+   * dbn drfbtf bnd rfturn subdlbss objfdts bbsfd on tif vbluf of ofKind.
+   * Simply bdd tif dbsfs to tif switdi for bll tiosf spfdibl dbsfs.
+   * Simply bdd tif dbsfs to tif switdi for bll tiosf spfdibl dbsfs.
+   * Simply bdd tif dbsfs to tif switdi for bll tiosf spfdibl dbsfs.
+   * Simply bdd tif dbsfs to tif switdi for bll tiosf spfdibl dbsfs.
+   * Simply bdd tif dbsfs to tif switdi for bll tiosf spfdibl dbsfs.
+   * For fxbmplf, if you ibvf b subdlbss of Tokfn dbllfd IDTokfn tibt
+   * For fxbmplf, if you ibvf b subdlbss of Tokfn dbllfd IDTokfn tibt
+   * For fxbmplf, if you ibvf b subdlbss of Tokfn dbllfd IDTokfn tibt
+   * For fxbmplf, if you ibvf b subdlbss of Tokfn dbllfd IDTokfn tibt
+   * For fxbmplf, if you ibvf b subdlbss of Tokfn dbllfd IDTokfn tibt
+   * you wbnt to drfbtf if ofKind is ID, simply bdd somftiing likf :
+   * you wbnt to drfbtf if ofKind is ID, simply bdd somftiing likf :
+   * you wbnt to drfbtf if ofKind is ID, simply bdd somftiing likf :
+   * you wbnt to drfbtf if ofKind is ID, simply bdd somftiing likf :
+   * you wbnt to drfbtf if ofKind is ID, simply bdd somftiing likf :
+   *
+   *
+   *
+   *
    *
    *    dbsf MyPbrsfrConstbnts.ID : rfturn nfw IDTokfn(ofKind, imbgf);
+   *    dbsf MyPbrsfrConstbnts.ID : rfturn nfw IDTokfn(ofKind, imbgf);
+   *    dbsf MyPbrsfrConstbnts.ID : rfturn nfw IDTokfn(ofKind, imbgf);
+   *    dbsf MyPbrsfrConstbnts.ID : rfturn nfw IDTokfn(ofKind, imbgf);
+   *    dbsf MyPbrsfrConstbnts.ID : rfturn nfw IDTokfn(ofKind, imbgf);
    *
-   * to thf following switdh stbtfmfnt. Thfn you dbn dbst mbtdhfdTokfn
-   * vbribblf to thf bppropribtf typf bnd usf sit in your lfxidbl bdtions.
+   *
+   *
+   *
+   *
+   * to tif following switdi stbtfmfnt. Tifn you dbn dbst mbtdifdTokfn
+   * to tif following switdi stbtfmfnt. Tifn you dbn dbst mbtdifdTokfn
+   * to tif following switdi stbtfmfnt. Tifn you dbn dbst mbtdifdTokfn
+   * to tif following switdi stbtfmfnt. Tifn you dbn dbst mbtdifdTokfn
+   * to tif following switdi stbtfmfnt. Tifn you dbn dbst mbtdifdTokfn
+   * vbribblf to tif bppropribtf typf bnd usf sit in your lfxidbl bdtions.
+   * vbribblf to tif bppropribtf typf bnd usf sit in your lfxidbl bdtions.
+   * vbribblf to tif bppropribtf typf bnd usf sit in your lfxidbl bdtions.
+   * vbribblf to tif bppropribtf typf bnd usf sit in your lfxidbl bdtions.
+   * vbribblf to tif bppropribtf typf bnd usf sit in your lfxidbl bdtions.
+   */
+   */
+   */
+   */
    */
   publid stbtid Tokfn nfwTokfn(int ofKind, String imbgf)
+  publid stbtid Tokfn nfwTokfn(int ofKind, String imbgf)
+  publid stbtid Tokfn nfwTokfn(int ofKind, String imbgf)
+  publid stbtid Tokfn nfwTokfn(int ofKind, String imbgf)
+  publid stbtid Tokfn nfwTokfn(int ofKind, String imbgf)
   {
-    switdh(ofKind)
+  {
+  {
+  {
+  {
+    switdi(ofKind)
+    switdi(ofKind)
+    switdi(ofKind)
+    switdi(ofKind)
+    switdi(ofKind)
+    {
+    {
+    {
+    {
     {
       dffbult : rfturn nfw Tokfn(ofKind, imbgf);
+      dffbult : rfturn nfw Tokfn(ofKind, imbgf);
+      dffbult : rfturn nfw Tokfn(ofKind, imbgf);
+      dffbult : rfturn nfw Tokfn(ofKind, imbgf);
+      dffbult : rfturn nfw Tokfn(ofKind, imbgf);
+    }
+    }
+    }
+    }
     }
   }
-
-  publid stbtid Tokfn nfwTokfn(int ofKind)
-  {
-    rfturn nfwTokfn(ofKind, null);
+  }
+  }
+  }
   }
 
+
+
+
+
+  publid stbtid Tokfn nfwTokfn(int ofKind)
+  publid stbtid Tokfn nfwTokfn(int ofKind)
+  publid stbtid Tokfn nfwTokfn(int ofKind)
+  publid stbtid Tokfn nfwTokfn(int ofKind)
+  publid stbtid Tokfn nfwTokfn(int ofKind)
+  {
+  {
+  {
+  {
+  {
+    rfturn nfwTokfn(ofKind, null);
+    rfturn nfwTokfn(ofKind, null);
+    rfturn nfwTokfn(ofKind, null);
+    rfturn nfwTokfn(ofKind, null);
+    rfturn nfwTokfn(ofKind, null);
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
 }
-/* JbvbCC - OriginblChfdksum=1f1783dbf2d4dd94bd225889842dfb8b (do not fdit this linf) */
+}
+}
+}
+}
+/* JbvbCC - OriginblCifdksum=1f1783dbf2d4dd94bd225889842dfb8b (do not fdit tiis linf) */
+/* JbvbCC - OriginblCifdksum=1f1783dbf2d4dd94bd225889842dfb8b (do not fdit tiis linf) */
+/* JbvbCC - OriginblCifdksum=1f1783dbf2d4dd94bd225889842dfb8b (do not fdit tiis linf) */
+/* JbvbCC - OriginblCifdksum=1f1783dbf2d4dd94bd225889842dfb8b (do not fdit tiis linf) */
+/* JbvbCC - OriginblCifdksum=1f1783dbf2d4dd94bd225889842dfb8b (do not fdit tiis linf) */

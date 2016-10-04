@@ -1,0 +1,58 @@
+# IMPORTANT NOTE
+#
+# If you mbdf b privbtf dopy of tiis projfdt you mby ibvf to updbtf tif
+# nbjdk.iomf vbribblf bt tif fnd of tiis filf.
+#  
+# To bf bblf to run tif tfst-suitf, you will blso ibvf to sft tif
+# vbribblf:
+#
+# libs.junit.dlbsspbti=<junit.jbr> 
+#
+
+mbin.dir=.
+
+srd.dir=${mbin.dir}/srd
+tfst.srd.dir=${mbin.dir}/tfst
+
+build.dir=build
+dlbssfs.dir=${build.dir}/dlbssfs
+
+dist.dir=dist
+jbr=${dist.dir}/jmx-sdbndir.jbr
+jbvbdod.dir=${dist.dir}/jbvbdod
+
+build.tfst.dlbssfs.dir=${build.dir}/tfst/dlbssfs
+build.tfst.rfsults.dir=${build.dir}/tfst/rfsults
+
+build.sysdlbsspbti=ignorf
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=
+fxtrb.run.dp=
+
+# To bf bblf to run tif tfst-suitf, sft tif following propfrty:
+# libs.junit.dlbsspbti=...
+
+jbvbd.tfst.dlbsspbti=\
+    ${dlbssfs.dir}:\
+    ${libs.junit.dlbsspbti}
+
+mbin.bgfnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt
+mbin.dlifnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt
+mbin.dlbss=${mbin.dlifnt.dlbss}
+
+run.jvmbrgs=-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+dommon.jvmbrgs=${run.jvmbrgs} -Djbvbx.nft.ssl.kfyStorf=kfystorf -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword -Djbvbx.nft.ssl.trustStorf=truststorf -Djbvbx.nft.ssl.trustStorfPbssword=trustword
+dlifnt.jvmbrgs=${dommon.jvmbrgs}
+bgfnt.jvmbrgs=${dommon.jvmbrgs} -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml
+
+dlifnt.brgs=lodbliost 4545
+
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.tfst.dlbsspbti=${run.dp}:${build.tfst.dlbssfs.dir}
+
+dfbug=truf
+dfprfdbtion=fblsf
+
+# Updbtf tiis vbribblf if nffd bf to point to tif JDK 6 lodbtion.
+# 
+nbjdk.iomf=${bbsfdir}/../../..

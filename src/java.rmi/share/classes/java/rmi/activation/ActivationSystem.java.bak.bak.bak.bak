@@ -1,229 +1,1145 @@
 /*
- * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.rmi.bdtivbtion;
+pbdkbgf jbvb.rmi.bdtivbtion;
+pbdkbgf jbvb.rmi.bdtivbtion;
+pbdkbgf jbvb.rmi.bdtivbtion;
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+
+
+
 
 import jbvb.rmi.Rfmotf;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.RfmotfExdfption;
 import jbvb.rmi.RfmotfExdfption;
 import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
 import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
 
+
+
+
+
 /**
- * Thf <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
- * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd within thosf groups.
- * Thf <dodf>AdtivbtionSystfm</dodf> works dlosfly with thf
- * <dodf>Adtivbtor</dodf>, whidh bdtivbtfs objfdts rfgistfrfd vib thf
- * <dodf>AdtivbtionSystfm</dodf>, bnd thf <dodf>AdtivbtionMonitor</dodf>,
- * whidh obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+/**
+/**
+/**
+/**
+ * Tif <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
+ * Tif <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
+ * Tif <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
+ * Tif <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
+ * Tif <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
+ * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd witiin tiosf groups.
+ * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd witiin tiosf groups.
+ * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd witiin tiosf groups.
+ * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd witiin tiosf groups.
+ * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd witiin tiosf groups.
+ * Tif <dodf>AdtivbtionSystfm</dodf> works dlosfly witi tif
+ * Tif <dodf>AdtivbtionSystfm</dodf> works dlosfly witi tif
+ * Tif <dodf>AdtivbtionSystfm</dodf> works dlosfly witi tif
+ * Tif <dodf>AdtivbtionSystfm</dodf> works dlosfly witi tif
+ * Tif <dodf>AdtivbtionSystfm</dodf> works dlosfly witi tif
+ * <dodf>Adtivbtor</dodf>, wiidi bdtivbtfs objfdts rfgistfrfd vib tif
+ * <dodf>Adtivbtor</dodf>, wiidi bdtivbtfs objfdts rfgistfrfd vib tif
+ * <dodf>Adtivbtor</dodf>, wiidi bdtivbtfs objfdts rfgistfrfd vib tif
+ * <dodf>Adtivbtor</dodf>, wiidi bdtivbtfs objfdts rfgistfrfd vib tif
+ * <dodf>Adtivbtor</dodf>, wiidi bdtivbtfs objfdts rfgistfrfd vib tif
+ * <dodf>AdtivbtionSystfm</dodf>, bnd tif <dodf>AdtivbtionMonitor</dodf>,
+ * <dodf>AdtivbtionSystfm</dodf>, bnd tif <dodf>AdtivbtionMonitor</dodf>,
+ * <dodf>AdtivbtionSystfm</dodf>, bnd tif <dodf>AdtivbtionMonitor</dodf>,
+ * <dodf>AdtivbtionSystfm</dodf>, bnd tif <dodf>AdtivbtionMonitor</dodf>,
+ * <dodf>AdtivbtionSystfm</dodf>, bnd tif <dodf>AdtivbtionMonitor</dodf>,
+ * wiidi obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+ * wiidi obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+ * wiidi obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+ * wiidi obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+ * wiidi obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+ * bnd inbdtivf groups.
+ * bnd inbdtivf groups.
+ * bnd inbdtivf groups.
+ * bnd inbdtivf groups.
  * bnd inbdtivf groups.
  *
- * @buthor      Ann Wollrbth
+ *
+ *
+ *
+ *
+ * @butior      Ann Wollrbti
+ * @butior      Ann Wollrbti
+ * @butior      Ann Wollrbti
+ * @butior      Ann Wollrbti
+ * @butior      Ann Wollrbti
+ * @sff         Adtivbtor
+ * @sff         Adtivbtor
+ * @sff         Adtivbtor
+ * @sff         Adtivbtor
  * @sff         Adtivbtor
  * @sff         AdtivbtionMonitor
+ * @sff         AdtivbtionMonitor
+ * @sff         AdtivbtionMonitor
+ * @sff         AdtivbtionMonitor
+ * @sff         AdtivbtionMonitor
+ * @sindf       1.2
+ * @sindf       1.2
+ * @sindf       1.2
+ * @sindf       1.2
  * @sindf       1.2
  */
+ */
+ */
+ */
+ */
+publid intfrfbdf AdtivbtionSystfm fxtfnds Rfmotf {
+publid intfrfbdf AdtivbtionSystfm fxtfnds Rfmotf {
+publid intfrfbdf AdtivbtionSystfm fxtfnds Rfmotf {
+publid intfrfbdf AdtivbtionSystfm fxtfnds Rfmotf {
 publid intfrfbdf AdtivbtionSystfm fxtfnds Rfmotf {
 
-    /** Thf port to lookup thf bdtivbtion systfm. */
+
+
+
+
+    /** Tif port to lookup tif bdtivbtion systfm. */
+    /** Tif port to lookup tif bdtivbtion systfm. */
+    /** Tif port to lookup tif bdtivbtion systfm. */
+    /** Tif port to lookup tif bdtivbtion systfm. */
+    /** Tif port to lookup tif bdtivbtion systfm. */
+    publid stbtid finbl int SYSTEM_PORT = 1098;
+    publid stbtid finbl int SYSTEM_PORT = 1098;
+    publid stbtid finbl int SYSTEM_PORT = 1098;
+    publid stbtid finbl int SYSTEM_PORT = 1098;
     publid stbtid finbl int SYSTEM_PORT = 1098;
 
+
+
+
+
     /**
-     * Thf <dodf>rfgistfrObjfdt</dodf> mfthod is usfd to rfgistfr bn
+    /**
+    /**
+    /**
+    /**
+     * Tif <dodf>rfgistfrObjfdt</dodf> mftiod is usfd to rfgistfr bn
+     * Tif <dodf>rfgistfrObjfdt</dodf> mftiod is usfd to rfgistfr bn
+     * Tif <dodf>rfgistfrObjfdt</dodf> mftiod is usfd to rfgistfr bn
+     * Tif <dodf>rfgistfrObjfdt</dodf> mftiod is usfd to rfgistfr bn
+     * Tif <dodf>rfgistfrObjfdt</dodf> mftiod is usfd to rfgistfr bn
      * bdtivbtion dfsdriptor, <dodf>dfsd</dodf>, bnd obtbin bn
-     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Thf
+     * bdtivbtion dfsdriptor, <dodf>dfsd</dodf>, bnd obtbin bn
+     * bdtivbtion dfsdriptor, <dodf>dfsd</dodf>, bnd obtbin bn
+     * bdtivbtion dfsdriptor, <dodf>dfsd</dodf>, bnd obtbin bn
+     * bdtivbtion dfsdriptor, <dodf>dfsd</dodf>, bnd obtbin bn
+     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Tif
+     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Tif
+     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Tif
+     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Tif
+     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Tif
      * <dodf>AdtivbtionSystfm</dodf> drfbtfs bn
-     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for thf
-     * objfdt spfdififd by thf dfsdriptor, <dodf>dfsd</dodf>, bnd
-     * rfdords, in stbblf storbgf, thf bdtivbtion dfsdriptor bnd its
-     * bssodibtfd idfntififr for lbtfr usf. Whfn thf <dodf>Adtivbtor</dodf>
+     * <dodf>AdtivbtionSystfm</dodf> drfbtfs bn
+     * <dodf>AdtivbtionSystfm</dodf> drfbtfs bn
+     * <dodf>AdtivbtionSystfm</dodf> drfbtfs bn
+     * <dodf>AdtivbtionSystfm</dodf> drfbtfs bn
+     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for tif
+     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for tif
+     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for tif
+     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for tif
+     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for tif
+     * objfdt spfdififd by tif dfsdriptor, <dodf>dfsd</dodf>, bnd
+     * objfdt spfdififd by tif dfsdriptor, <dodf>dfsd</dodf>, bnd
+     * objfdt spfdififd by tif dfsdriptor, <dodf>dfsd</dodf>, bnd
+     * objfdt spfdififd by tif dfsdriptor, <dodf>dfsd</dodf>, bnd
+     * objfdt spfdififd by tif dfsdriptor, <dodf>dfsd</dodf>, bnd
+     * rfdords, in stbblf storbgf, tif bdtivbtion dfsdriptor bnd its
+     * rfdords, in stbblf storbgf, tif bdtivbtion dfsdriptor bnd its
+     * rfdords, in stbblf storbgf, tif bdtivbtion dfsdriptor bnd its
+     * rfdords, in stbblf storbgf, tif bdtivbtion dfsdriptor bnd its
+     * rfdords, in stbblf storbgf, tif bdtivbtion dfsdriptor bnd its
+     * bssodibtfd idfntififr for lbtfr usf. Wifn tif <dodf>Adtivbtor</dodf>
+     * bssodibtfd idfntififr for lbtfr usf. Wifn tif <dodf>Adtivbtor</dodf>
+     * bssodibtfd idfntififr for lbtfr usf. Wifn tif <dodf>Adtivbtor</dodf>
+     * bssodibtfd idfntififr for lbtfr usf. Wifn tif <dodf>Adtivbtor</dodf>
+     * bssodibtfd idfntififr for lbtfr usf. Wifn tif <dodf>Adtivbtor</dodf>
      * rfdfivfs bn <dodf>bdtivbtf</dodf> rfqufst for b spfdifid idfntififr, it
-     * looks up thf bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
-     * thf spfdififd idfntififr bnd usfs thbt informbtion to bdtivbtf
-     * thf objfdt.
+     * rfdfivfs bn <dodf>bdtivbtf</dodf> rfqufst for b spfdifid idfntififr, it
+     * rfdfivfs bn <dodf>bdtivbtf</dodf> rfqufst for b spfdifid idfntififr, it
+     * rfdfivfs bn <dodf>bdtivbtf</dodf> rfqufst for b spfdifid idfntififr, it
+     * rfdfivfs bn <dodf>bdtivbtf</dodf> rfqufst for b spfdifid idfntififr, it
+     * looks up tif bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
+     * looks up tif bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
+     * looks up tif bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
+     * looks up tif bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
+     * looks up tif bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
+     * tif spfdififd idfntififr bnd usfs tibt informbtion to bdtivbtf
+     * tif spfdififd idfntififr bnd usfs tibt informbtion to bdtivbtf
+     * tif spfdififd idfntififr bnd usfs tibt informbtion to bdtivbtf
+     * tif spfdififd idfntififr bnd usfs tibt informbtion to bdtivbtf
+     * tif spfdififd idfntififr bnd usfs tibt informbtion to bdtivbtf
+     * tif objfdt.
+     * tif objfdt.
+     * tif objfdt.
+     * tif objfdt.
+     * tif objfdt.
      *
-     * @pbrbm dfsd thf objfdt's bdtivbtion dfsdriptor
-     * @rfturn thf bdtivbtion id thbt dbn bf usfd to bdtivbtf thf objfdt
+     *
+     *
+     *
+     *
+     * @pbrbm dfsd tif objfdt's bdtivbtion dfsdriptor
+     * @pbrbm dfsd tif objfdt's bdtivbtion dfsdriptor
+     * @pbrbm dfsd tif objfdt's bdtivbtion dfsdriptor
+     * @pbrbm dfsd tif objfdt's bdtivbtion dfsdriptor
+     * @pbrbm dfsd tif objfdt's bdtivbtion dfsdriptor
+     * @rfturn tif bdtivbtion id tibt dbn bf usfd to bdtivbtf tif objfdt
+     * @rfturn tif bdtivbtion id tibt dbn bf usfd to bdtivbtf tif objfdt
+     * @rfturn tif bdtivbtion id tibt dbn bf usfd to bdtivbtf tif objfdt
+     * @rfturn tif bdtivbtion id tibt dbn bf usfd to bdtivbtf tif objfdt
+     * @rfturn tif bdtivbtion id tibt dbn bf usfd to bdtivbtf tif objfdt
+     * @fxdfption AdtivbtionExdfption if rfgistrbtion fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if rfgistrbtion fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if rfgistrbtion fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if rfgistrbtion fbils (f.g., dbtbbbsf
      * @fxdfption AdtivbtionExdfption if rfgistrbtion fbils (f.g., dbtbbbsf
      * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
      * @fxdfption UnknownGroupExdfption if group rfffrrfd to in
-     * <dodf>dfsd</dodf> is not rfgistfrfd with this systfm
+     * @fxdfption UnknownGroupExdfption if group rfffrrfd to in
+     * @fxdfption UnknownGroupExdfption if group rfffrrfd to in
+     * @fxdfption UnknownGroupExdfption if group rfffrrfd to in
+     * @fxdfption UnknownGroupExdfption if group rfffrrfd to in
+     * <dodf>dfsd</dodf> is not rfgistfrfd witi tiis systfm
+     * <dodf>dfsd</dodf> is not rfgistfrfd witi tiis systfm
+     * <dodf>dfsd</dodf> is not rfgistfrfd witi tiis systfm
+     * <dodf>dfsd</dodf> is not rfgistfrfd witi tiis systfm
+     * <dodf>dfsd</dodf> is not rfgistfrfd witi tiis systfm
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
-        throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+    publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+    publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+    publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+    publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+
+
+
+
 
     /**
-     * Rfmovf thf bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
-     * rfgistfrfd with thf <dodf>AdtivbtionSystfm</dodf>; thf objfdt
-     * dbn no longfr bf bdtivbtfd vib thf objfdt's bdtivbtion id.
+    /**
+    /**
+    /**
+    /**
+     * Rfmovf tif bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
+     * Rfmovf tif bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
+     * Rfmovf tif bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
+     * Rfmovf tif bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
+     * Rfmovf tif bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf>; tif objfdt
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf>; tif objfdt
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf>; tif objfdt
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf>; tif objfdt
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf>; tif objfdt
+     * dbn no longfr bf bdtivbtfd vib tif objfdt's bdtivbtion id.
+     * dbn no longfr bf bdtivbtfd vib tif objfdt's bdtivbtion id.
+     * dbn no longfr bf bdtivbtfd vib tif objfdt's bdtivbtion id.
+     * dbn no longfr bf bdtivbtfd vib tif objfdt's bdtivbtion id.
+     * dbn no longfr bf bdtivbtfd vib tif objfdt's bdtivbtion id.
      *
-     * @pbrbm id thf objfdt's bdtivbtion id (from prfvious rfgistrbtion)
+     *
+     *
+     *
+     *
+     * @pbrbm id tif objfdt's bdtivbtion id (from prfvious rfgistrbtion)
+     * @pbrbm id tif objfdt's bdtivbtion id (from prfvious rfgistrbtion)
+     * @pbrbm id tif objfdt's bdtivbtion id (from prfvious rfgistrbtion)
+     * @pbrbm id tif objfdt's bdtivbtion id (from prfvious rfgistrbtion)
+     * @pbrbm id tif objfdt's bdtivbtion id (from prfvious rfgistrbtion)
      * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
      * updbtf fbilurf, ftd).
      * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     publid void unrfgistfrObjfdt(AdtivbtionID id)
-        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+    publid void unrfgistfrObjfdt(AdtivbtionID id)
+    publid void unrfgistfrObjfdt(AdtivbtionID id)
+    publid void unrfgistfrObjfdt(AdtivbtionID id)
+    publid void unrfgistfrObjfdt(AdtivbtionID id)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+
+
+
+
 
     /**
-     * Rfgistfr thf bdtivbtion group. An bdtivbtion group must bf
-     * rfgistfrfd with thf <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
-     * dbn bf rfgistfrfd within thbt group.
+    /**
+    /**
+    /**
+    /**
+     * Rfgistfr tif bdtivbtion group. An bdtivbtion group must bf
+     * Rfgistfr tif bdtivbtion group. An bdtivbtion group must bf
+     * Rfgistfr tif bdtivbtion group. An bdtivbtion group must bf
+     * Rfgistfr tif bdtivbtion group. An bdtivbtion group must bf
+     * Rfgistfr tif bdtivbtion group. An bdtivbtion group must bf
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
+     * rfgistfrfd witi tif <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
+     * dbn bf rfgistfrfd witiin tibt group.
+     * dbn bf rfgistfrfd witiin tibt group.
+     * dbn bf rfgistfrfd witiin tibt group.
+     * dbn bf rfgistfrfd witiin tibt group.
+     * dbn bf rfgistfrfd witiin tibt group.
      *
-     * @pbrbm dfsd thf group's dfsdriptor
-     * @rfturn bn idfntififr for thf group
+     *
+     *
+     *
+     *
+     * @pbrbm dfsd tif group's dfsdriptor
+     * @pbrbm dfsd tif group's dfsdriptor
+     * @pbrbm dfsd tif group's dfsdriptor
+     * @pbrbm dfsd tif group's dfsdriptor
+     * @pbrbm dfsd tif group's dfsdriptor
+     * @rfturn bn idfntififr for tif group
+     * @rfturn bn idfntififr for tif group
+     * @rfturn bn idfntififr for tif group
+     * @rfturn bn idfntififr for tif group
+     * @rfturn bn idfntififr for tif group
+     * @fxdfption AdtivbtionExdfption if group rfgistrbtion fbils
+     * @fxdfption AdtivbtionExdfption if group rfgistrbtion fbils
+     * @fxdfption AdtivbtionExdfption if group rfgistrbtion fbils
+     * @fxdfption AdtivbtionExdfption if group rfgistrbtion fbils
      * @fxdfption AdtivbtionExdfption if group rfgistrbtion fbils
      * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
-        throws AdtivbtionExdfption, RfmotfExdfption;
+    publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+    publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+    publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+    publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+        tirows AdtivbtionExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, RfmotfExdfption;
+
+
+
+
 
     /**
-     * Cbllbbdk to inform bdtivbtion systfm thbt group is now
-     * bdtivf. This dbll is mbdf intfrnblly by thf
-     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mfthod to inform
-     * thf <dodf>AdtivbtionSystfm</dodf> thbt thf group is now
+    /**
+    /**
+    /**
+    /**
+     * Cbllbbdk to inform bdtivbtion systfm tibt group is now
+     * Cbllbbdk to inform bdtivbtion systfm tibt group is now
+     * Cbllbbdk to inform bdtivbtion systfm tibt group is now
+     * Cbllbbdk to inform bdtivbtion systfm tibt group is now
+     * Cbllbbdk to inform bdtivbtion systfm tibt group is now
+     * bdtivf. Tiis dbll is mbdf intfrnblly by tif
+     * bdtivf. Tiis dbll is mbdf intfrnblly by tif
+     * bdtivf. Tiis dbll is mbdf intfrnblly by tif
+     * bdtivf. Tiis dbll is mbdf intfrnblly by tif
+     * bdtivf. Tiis dbll is mbdf intfrnblly by tif
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod to inform
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod to inform
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod to inform
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod to inform
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mftiod to inform
+     * tif <dodf>AdtivbtionSystfm</dodf> tibt tif group is now
+     * tif <dodf>AdtivbtionSystfm</dodf> tibt tif group is now
+     * tif <dodf>AdtivbtionSystfm</dodf> tibt tif group is now
+     * tif <dodf>AdtivbtionSystfm</dodf> tibt tif group is now
+     * tif <dodf>AdtivbtionSystfm</dodf> tibt tif group is now
+     * bdtivf.
+     * bdtivf.
+     * bdtivf.
+     * bdtivf.
      * bdtivf.
      *
-     * @pbrbm id thf bdtivbtion group's idfntififr
-     * @pbrbm group thf group's instbntibtor
-     * @pbrbm indbrnbtion thf group's indbrnbtion numbfr
+     *
+     *
+     *
+     *
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm group tif group's instbntibtor
+     * @pbrbm group tif group's instbntibtor
+     * @pbrbm group tif group's instbntibtor
+     * @pbrbm group tif group's instbntibtor
+     * @pbrbm group tif group's instbntibtor
+     * @pbrbm indbrnbtion tif group's indbrnbtion numbfr
+     * @pbrbm indbrnbtion tif group's indbrnbtion numbfr
+     * @pbrbm indbrnbtion tif group's indbrnbtion numbfr
+     * @pbrbm indbrnbtion tif group's indbrnbtion numbfr
+     * @pbrbm indbrnbtion tif group's indbrnbtion numbfr
+     * @rfturn monitor for bdtivbtion group
+     * @rfturn monitor for bdtivbtion group
+     * @rfturn monitor for bdtivbtion group
+     * @rfturn monitor for bdtivbtion group
      * @rfturn monitor for bdtivbtion group
      * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
-     * @fxdfption AdtivbtionExdfption if b group for thf spfdififd
-     * <dodf>id</dodf> is blrfbdy bdtivf bnd thbt group is not fqubl
-     * to thf spfdififd <dodf>group</dodf> or thbt group hbs b difffrfnt
-     * <dodf>indbrnbtion</dodf> thbn thf spfdififd <dodf>group</dodf>
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption if b group for tif spfdififd
+     * @fxdfption AdtivbtionExdfption if b group for tif spfdififd
+     * @fxdfption AdtivbtionExdfption if b group for tif spfdififd
+     * @fxdfption AdtivbtionExdfption if b group for tif spfdififd
+     * @fxdfption AdtivbtionExdfption if b group for tif spfdififd
+     * <dodf>id</dodf> is blrfbdy bdtivf bnd tibt group is not fqubl
+     * <dodf>id</dodf> is blrfbdy bdtivf bnd tibt group is not fqubl
+     * <dodf>id</dodf> is blrfbdy bdtivf bnd tibt group is not fqubl
+     * <dodf>id</dodf> is blrfbdy bdtivf bnd tibt group is not fqubl
+     * <dodf>id</dodf> is blrfbdy bdtivf bnd tibt group is not fqubl
+     * to tif spfdififd <dodf>group</dodf> or tibt group ibs b difffrfnt
+     * to tif spfdififd <dodf>group</dodf> or tibt group ibs b difffrfnt
+     * to tif spfdififd <dodf>group</dodf> or tibt group ibs b difffrfnt
+     * to tif spfdififd <dodf>group</dodf> or tibt group ibs b difffrfnt
+     * to tif spfdififd <dodf>group</dodf> or tibt group ibs b difffrfnt
+     * <dodf>indbrnbtion</dodf> tibn tif spfdififd <dodf>group</dodf>
+     * <dodf>indbrnbtion</dodf> tibn tif spfdififd <dodf>group</dodf>
+     * <dodf>indbrnbtion</dodf> tibn tif spfdififd <dodf>group</dodf>
+     * <dodf>indbrnbtion</dodf> tibn tif spfdififd <dodf>group</dodf>
+     * <dodf>indbrnbtion</dodf> tibn tif spfdififd <dodf>group</dodf>
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+    publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+    publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+    publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+    publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+                                         AdtivbtionInstbntibtor group,
+                                         AdtivbtionInstbntibtor group,
+                                         AdtivbtionInstbntibtor group,
+                                         AdtivbtionInstbntibtor group,
                                          AdtivbtionInstbntibtor group,
                                          long indbrnbtion)
-        throws UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
+                                         long indbrnbtion)
+                                         long indbrnbtion)
+                                         long indbrnbtion)
+                                         long indbrnbtion)
+        tirows UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
+        tirows UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
+        tirows UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
+        tirows UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
+        tirows UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
+
+
+
+
 
     /**
-     * Rfmovf thf bdtivbtion group. An bdtivbtion group mbkfs this dbll bbdk
-     * to inform thf bdtivbtor thbt thf group should bf rfmovfd (dfstroyfd).
-     * If this dbll domplftfs suddfssfully, objfdts dbn no longfr bf
-     * rfgistfrfd or bdtivbtfd within thf group. All informbtion of thf
-     * group bnd its bssodibtfd objfdts is rfmovfd from thf systfm.
+    /**
+    /**
+    /**
+    /**
+     * Rfmovf tif bdtivbtion group. An bdtivbtion group mbkfs tiis dbll bbdk
+     * Rfmovf tif bdtivbtion group. An bdtivbtion group mbkfs tiis dbll bbdk
+     * Rfmovf tif bdtivbtion group. An bdtivbtion group mbkfs tiis dbll bbdk
+     * Rfmovf tif bdtivbtion group. An bdtivbtion group mbkfs tiis dbll bbdk
+     * Rfmovf tif bdtivbtion group. An bdtivbtion group mbkfs tiis dbll bbdk
+     * to inform tif bdtivbtor tibt tif group siould bf rfmovfd (dfstroyfd).
+     * to inform tif bdtivbtor tibt tif group siould bf rfmovfd (dfstroyfd).
+     * to inform tif bdtivbtor tibt tif group siould bf rfmovfd (dfstroyfd).
+     * to inform tif bdtivbtor tibt tif group siould bf rfmovfd (dfstroyfd).
+     * to inform tif bdtivbtor tibt tif group siould bf rfmovfd (dfstroyfd).
+     * If tiis dbll domplftfs suddfssfully, objfdts dbn no longfr bf
+     * If tiis dbll domplftfs suddfssfully, objfdts dbn no longfr bf
+     * If tiis dbll domplftfs suddfssfully, objfdts dbn no longfr bf
+     * If tiis dbll domplftfs suddfssfully, objfdts dbn no longfr bf
+     * If tiis dbll domplftfs suddfssfully, objfdts dbn no longfr bf
+     * rfgistfrfd or bdtivbtfd witiin tif group. All informbtion of tif
+     * rfgistfrfd or bdtivbtfd witiin tif group. All informbtion of tif
+     * rfgistfrfd or bdtivbtfd witiin tif group. All informbtion of tif
+     * rfgistfrfd or bdtivbtfd witiin tif group. All informbtion of tif
+     * rfgistfrfd or bdtivbtfd witiin tif group. All informbtion of tif
+     * group bnd its bssodibtfd objfdts is rfmovfd from tif systfm.
+     * group bnd its bssodibtfd objfdts is rfmovfd from tif systfm.
+     * group bnd its bssodibtfd objfdts is rfmovfd from tif systfm.
+     * group bnd its bssodibtfd objfdts is rfmovfd from tif systfm.
+     * group bnd its bssodibtfd objfdts is rfmovfd from tif systfm.
      *
-     * @pbrbm id thf bdtivbtion group's idfntififr
+     *
+     *
+     *
+     *
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @pbrbm id tif bdtivbtion group's idfntififr
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
      * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
      * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * updbtf fbilurf, ftd).
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
      * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
      * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     publid void unrfgistfrGroup(AdtivbtionGroupID id)
-        throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+    publid void unrfgistfrGroup(AdtivbtionGroupID id)
+    publid void unrfgistfrGroup(AdtivbtionGroupID id)
+    publid void unrfgistfrGroup(AdtivbtionGroupID id)
+    publid void unrfgistfrGroup(AdtivbtionGroupID id)
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+        tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+
+
+
+
 
     /**
-     * Shutdown thf bdtivbtion systfm. Dfstroys bll groups spbwnfd by
-     * thf bdtivbtion dbfmon bnd fxits thf bdtivbtion dbfmon.
-     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/shutdown thf bdtivbtion
+    /**
+    /**
+    /**
+    /**
+     * Siutdown tif bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+     * Siutdown tif bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+     * Siutdown tif bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+     * Siutdown tif bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+     * Siutdown tif bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+     * tif bdtivbtion dbfmon bnd fxits tif bdtivbtion dbfmon.
+     * tif bdtivbtion dbfmon bnd fxits tif bdtivbtion dbfmon.
+     * tif bdtivbtion dbfmon bnd fxits tif bdtivbtion dbfmon.
+     * tif bdtivbtion dbfmon bnd fxits tif bdtivbtion dbfmon.
+     * tif bdtivbtion dbfmon bnd fxits tif bdtivbtion dbfmon.
+     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/siutdown tif bdtivbtion
+     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/siutdown tif bdtivbtion
+     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/siutdown tif bdtivbtion
+     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/siutdown tif bdtivbtion
+     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/siutdown tif bdtivbtion
+     * dbfmon
+     * dbfmon
+     * dbfmon
+     * dbfmon
      * dbfmon
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      */
-    publid void shutdown() throws RfmotfExdfption;
+     */
+     */
+     */
+     */
+    publid void siutdown() tirows RfmotfExdfption;
+    publid void siutdown() tirows RfmotfExdfption;
+    publid void siutdown() tirows RfmotfExdfption;
+    publid void siutdown() tirows RfmotfExdfption;
+    publid void siutdown() tirows RfmotfExdfption;
+
+
+
+
 
     /**
-     * Sft thf bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for thf objfdt with
-     * thf bdtivbtion idfntififr, <dodf>id</dodf>. Thf dhbngf will tbkf
-     * ffffdt upon subsfqufnt bdtivbtion of thf objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Sft tif bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for tif objfdt witi
+     * Sft tif bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for tif objfdt witi
+     * Sft tif bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for tif objfdt witi
+     * Sft tif bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for tif objfdt witi
+     * Sft tif bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for tif objfdt witi
+     * tif bdtivbtion idfntififr, <dodf>id</dodf>. Tif dibngf will tbkf
+     * tif bdtivbtion idfntififr, <dodf>id</dodf>. Tif dibngf will tbkf
+     * tif bdtivbtion idfntififr, <dodf>id</dodf>. Tif dibngf will tbkf
+     * tif bdtivbtion idfntififr, <dodf>id</dodf>. Tif dibngf will tbkf
+     * tif bdtivbtion idfntififr, <dodf>id</dodf>. Tif dibngf will tbkf
+     * ffffdt upon subsfqufnt bdtivbtion of tif objfdt.
+     * ffffdt upon subsfqufnt bdtivbtion of tif objfdt.
+     * ffffdt upon subsfqufnt bdtivbtion of tif objfdt.
+     * ffffdt upon subsfqufnt bdtivbtion of tif objfdt.
+     * ffffdt upon subsfqufnt bdtivbtion of tif objfdt.
      *
-     * @pbrbm id thf bdtivbtion idfntififr for thf bdtivbtbblf objfdt
-     * @pbrbm dfsd thf bdtivbtion dfsdriptor for thf bdtivbtbblf objfdt
-     * @fxdfption UnknownGroupExdfption thf group bssodibtfd with
+     *
+     *
+     *
+     *
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm dfsd tif bdtivbtion dfsdriptor for tif bdtivbtbblf objfdt
+     * @pbrbm dfsd tif bdtivbtion dfsdriptor for tif bdtivbtbblf objfdt
+     * @pbrbm dfsd tif bdtivbtion dfsdriptor for tif bdtivbtbblf objfdt
+     * @pbrbm dfsd tif bdtivbtion dfsdriptor for tif bdtivbtbblf objfdt
+     * @pbrbm dfsd tif bdtivbtion dfsdriptor for tif bdtivbtbblf objfdt
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
      * <dodf>dfsd</dodf> is not b rfgistfrfd group
-     * @fxdfption UnknownObjfdtExdfption thf bdtivbtion <dodf>id</dodf>
+     * <dodf>dfsd</dodf> is not b rfgistfrfd group
+     * <dodf>dfsd</dodf> is not b rfgistfrfd group
+     * <dodf>dfsd</dodf> is not b rfgistfrfd group
+     * <dodf>dfsd</dodf> is not b rfgistfrfd group
+     * @fxdfption UnknownObjfdtExdfption tif bdtivbtion <dodf>id</dodf>
+     * @fxdfption UnknownObjfdtExdfption tif bdtivbtion <dodf>id</dodf>
+     * @fxdfption UnknownObjfdtExdfption tif bdtivbtion <dodf>id</dodf>
+     * @fxdfption UnknownObjfdtExdfption tif bdtivbtion <dodf>id</dodf>
+     * @fxdfption UnknownObjfdtExdfption tif bdtivbtion <dodf>id</dodf>
+     * is not rfgistfrfd
+     * is not rfgistfrfd
+     * is not rfgistfrfd
+     * is not rfgistfrfd
      * is not rfgistfrfd
      * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
-     * to updbtf log)
-     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
-     * @rfturn thf prfvious vbluf of thf bdtivbtion dfsdriptor
-     * @sff #gftAdtivbtionDfsd
-     * @sindf 1.2
-     */
-    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
-                                            AdtivbtionDfsd dfsd)
-        throws AdtivbtionExdfption, UnknownObjfdtExdfption,
-            UnknownGroupExdfption, RfmotfExdfption;
-
-    /**
-     * Sft thf bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for thf objfdt
-     * with thf bdtivbtion group idfntififr, <dodf>id</dodf>. Thf dhbngf will
-     * tbkf ffffdt upon subsfqufnt bdtivbtion of thf group.
-     *
-     * @pbrbm id thf bdtivbtion group idfntififr for thf bdtivbtion group
-     * @pbrbm dfsd thf bdtivbtion group dfsdriptor for thf bdtivbtion group
-     * @fxdfption UnknownGroupExdfption thf group bssodibtfd with
-     * <dodf>id</dodf> is not b rfgistfrfd group
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
      * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
      * to updbtf log)
+     * to updbtf log)
+     * to updbtf log)
+     * to updbtf log)
+     * to updbtf log)
      * @fxdfption RfmotfExdfption if rfmotf dbll fbils
-     * @rfturn thf prfvious vbluf of thf bdtivbtion group dfsdriptor
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif prfvious vbluf of tif bdtivbtion dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion dfsdriptor
+     * @sff #gftAdtivbtionDfsd
+     * @sff #gftAdtivbtionDfsd
+     * @sff #gftAdtivbtionDfsd
+     * @sff #gftAdtivbtionDfsd
+     * @sff #gftAdtivbtionDfsd
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
+     */
+    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+                                            AdtivbtionDfsd dfsd)
+                                            AdtivbtionDfsd dfsd)
+                                            AdtivbtionDfsd dfsd)
+                                            AdtivbtionDfsd dfsd)
+                                            AdtivbtionDfsd dfsd)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption,
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption,
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption,
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption,
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption,
+            UnknownGroupExdfption, RfmotfExdfption;
+            UnknownGroupExdfption, RfmotfExdfption;
+            UnknownGroupExdfption, RfmotfExdfption;
+            UnknownGroupExdfption, RfmotfExdfption;
+            UnknownGroupExdfption, RfmotfExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sft tif bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for tif objfdt
+     * Sft tif bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for tif objfdt
+     * Sft tif bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for tif objfdt
+     * Sft tif bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for tif objfdt
+     * Sft tif bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for tif objfdt
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>. Tif dibngf will
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>. Tif dibngf will
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>. Tif dibngf will
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>. Tif dibngf will
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>. Tif dibngf will
+     * tbkf ffffdt upon subsfqufnt bdtivbtion of tif group.
+     * tbkf ffffdt upon subsfqufnt bdtivbtion of tif group.
+     * tbkf ffffdt upon subsfqufnt bdtivbtion of tif group.
+     * tbkf ffffdt upon subsfqufnt bdtivbtion of tif group.
+     * tbkf ffffdt upon subsfqufnt bdtivbtion of tif group.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm id tif bdtivbtion group idfntififr for tif bdtivbtion group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif bdtivbtion group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif bdtivbtion group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif bdtivbtion group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif bdtivbtion group
+     * @pbrbm dfsd tif bdtivbtion group dfsdriptor for tif bdtivbtion group
+     * @pbrbm dfsd tif bdtivbtion group dfsdriptor for tif bdtivbtion group
+     * @pbrbm dfsd tif bdtivbtion group dfsdriptor for tif bdtivbtion group
+     * @pbrbm dfsd tif bdtivbtion group dfsdriptor for tif bdtivbtion group
+     * @pbrbm dfsd tif bdtivbtion group dfsdriptor for tif bdtivbtion group
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * @fxdfption UnknownGroupExdfption tif group bssodibtfd witi
+     * <dodf>id</dodf> is not b rfgistfrfd group
+     * <dodf>id</dodf> is not b rfgistfrfd group
+     * <dodf>id</dodf> is not b rfgistfrfd group
+     * <dodf>id</dodf> is not b rfgistfrfd group
+     * <dodf>id</dodf> is not b rfgistfrfd group
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * to updbtf log)
+     * to updbtf log)
+     * to updbtf log)
+     * to updbtf log)
+     * to updbtf log)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif prfvious vbluf of tif bdtivbtion group dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion group dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion group dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion group dfsdriptor
+     * @rfturn tif prfvious vbluf of tif bdtivbtion group dfsdriptor
+     * @sff #gftAdtivbtionGroupDfsd
+     * @sff #gftAdtivbtionGroupDfsd
+     * @sff #gftAdtivbtionGroupDfsd
+     * @sff #gftAdtivbtionGroupDfsd
      * @sff #gftAdtivbtionGroupDfsd
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+    publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+    publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+    publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+    publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
                                                       AdtivbtionGroupDfsd dfsd)
-       throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+                                                      AdtivbtionGroupDfsd dfsd)
+                                                      AdtivbtionGroupDfsd dfsd)
+                                                      AdtivbtionGroupDfsd dfsd)
+                                                      AdtivbtionGroupDfsd dfsd)
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+
+
+
+
 
     /**
-     * Rfturns thf bdtivbtion dfsdriptor, for thf objfdt with thf bdtivbtion
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bdtivbtion dfsdriptor, for tif objfdt witi tif bdtivbtion
+     * Rfturns tif bdtivbtion dfsdriptor, for tif objfdt witi tif bdtivbtion
+     * Rfturns tif bdtivbtion dfsdriptor, for tif objfdt witi tif bdtivbtion
+     * Rfturns tif bdtivbtion dfsdriptor, for tif objfdt witi tif bdtivbtion
+     * Rfturns tif bdtivbtion dfsdriptor, for tif objfdt witi tif bdtivbtion
+     * idfntififr, <dodf>id</dodf>.
+     * idfntififr, <dodf>id</dodf>.
+     * idfntififr, <dodf>id</dodf>.
+     * idfntififr, <dodf>id</dodf>.
      * idfntififr, <dodf>id</dodf>.
      *
-     * @pbrbm id thf bdtivbtion idfntififr for thf bdtivbtbblf objfdt
+     *
+     *
+     *
+     *
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @pbrbm id tif bdtivbtion idfntififr for tif bdtivbtbblf objfdt
+     * @fxdfption UnknownObjfdtExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption UnknownObjfdtExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption UnknownObjfdtExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption UnknownObjfdtExdfption if <dodf>id</dodf> is not rfgistfrfd
      * @fxdfption UnknownObjfdtExdfption if <dodf>id</dodf> is not rfgistfrfd
      * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
-     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
-     * @rfturn thf bdtivbtion dfsdriptor
-     * @sff #sftAdtivbtionDfsd
-     * @sindf 1.2
-     */
-    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
-       throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
-
-    /**
-     * Rfturns thf bdtivbtion group dfsdriptor, for thf group
-     * with thf bdtivbtion group idfntififr, <dodf>id</dodf>.
-     *
-     * @pbrbm id thf bdtivbtion group idfntififr for thf group
-     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
      * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
      * @fxdfption RfmotfExdfption if rfmotf dbll fbils
-     * @rfturn thf bdtivbtion group dfsdriptor
-     * @sff #sftAdtivbtionGroupDfsd
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif bdtivbtion dfsdriptor
+     * @rfturn tif bdtivbtion dfsdriptor
+     * @rfturn tif bdtivbtion dfsdriptor
+     * @rfturn tif bdtivbtion dfsdriptor
+     * @rfturn tif bdtivbtion dfsdriptor
+     * @sff #sftAdtivbtionDfsd
+     * @sff #sftAdtivbtionDfsd
+     * @sff #sftAdtivbtionDfsd
+     * @sff #sftAdtivbtionDfsd
+     * @sff #sftAdtivbtionDfsd
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      * @sindf 1.2
      */
+     */
+     */
+     */
+     */
+    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+       tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bdtivbtion group dfsdriptor, for tif group
+     * Rfturns tif bdtivbtion group dfsdriptor, for tif group
+     * Rfturns tif bdtivbtion group dfsdriptor, for tif group
+     * Rfturns tif bdtivbtion group dfsdriptor, for tif group
+     * Rfturns tif bdtivbtion group dfsdriptor, for tif group
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>.
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>.
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>.
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>.
+     * witi tif bdtivbtion group idfntififr, <dodf>id</dodf>.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm id tif bdtivbtion group idfntififr for tif group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif group
+     * @pbrbm id tif bdtivbtion group idfntififr for tif group
+     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn tif bdtivbtion group dfsdriptor
+     * @rfturn tif bdtivbtion group dfsdriptor
+     * @rfturn tif bdtivbtion group dfsdriptor
+     * @rfturn tif bdtivbtion group dfsdriptor
+     * @rfturn tif bdtivbtion group dfsdriptor
+     * @sff #sftAdtivbtionGroupDfsd
+     * @sff #sftAdtivbtionGroupDfsd
+     * @sff #sftAdtivbtionGroupDfsd
+     * @sff #sftAdtivbtionGroupDfsd
+     * @sff #sftAdtivbtionGroupDfsd
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
+     */
     publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
-       throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+    publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+    publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+    publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+    publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+       tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+}
+}
+}
+}
 }

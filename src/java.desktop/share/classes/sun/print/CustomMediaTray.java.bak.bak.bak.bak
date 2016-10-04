@@ -1,93 +1,465 @@
 /*
- * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.print;
+pbdkbgf sun.print;
+pbdkbgf sun.print;
+pbdkbgf sun.print;
+pbdkbgf sun.print;
+
+
+
+
 
 import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
+import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
+import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
+import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
 import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
 import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
 import jbvb.util.ArrbyList;
 
+
+
+
+
+dlbss CustomMfdibTrby fxtfnds MfdibTrby {
+dlbss CustomMfdibTrby fxtfnds MfdibTrby {
+dlbss CustomMfdibTrby fxtfnds MfdibTrby {
+dlbss CustomMfdibTrby fxtfnds MfdibTrby {
 dlbss CustomMfdibTrby fxtfnds MfdibTrby {
     privbtf stbtid ArrbyList<String> dustomStringTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<String> dustomStringTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<String> dustomStringTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<String> dustomStringTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<String> dustomStringTbblf = nfw ArrbyList<>();
     privbtf stbtid ArrbyList<MfdibTrby> dustomEnumTbblf = nfw ArrbyList<>();
-    privbtf String dhoidfNbmf;
+    privbtf stbtid ArrbyList<MfdibTrby> dustomEnumTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<MfdibTrby> dustomEnumTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<MfdibTrby> dustomEnumTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<MfdibTrby> dustomEnumTbblf = nfw ArrbyList<>();
+    privbtf String dioidfNbmf;
+    privbtf String dioidfNbmf;
+    privbtf String dioidfNbmf;
+    privbtf String dioidfNbmf;
+    privbtf String dioidfNbmf;
+
+
+
+
 
     privbtf CustomMfdibTrby(int x) {
+    privbtf CustomMfdibTrby(int x) {
+    privbtf CustomMfdibTrby(int x) {
+    privbtf CustomMfdibTrby(int x) {
+    privbtf CustomMfdibTrby(int x) {
+        supfr(x);
+        supfr(x);
+        supfr(x);
+        supfr(x);
         supfr(x);
 
+
+
+
+
+    }
+    }
+    }
+    }
     }
 
-    privbtf syndhronizfd stbtid int nfxtVbluf(String nbmf) {
+
+
+
+
+    privbtf syndironizfd stbtid int nfxtVbluf(String nbmf) {
+    privbtf syndironizfd stbtid int nfxtVbluf(String nbmf) {
+    privbtf syndironizfd stbtid int nfxtVbluf(String nbmf) {
+    privbtf syndironizfd stbtid int nfxtVbluf(String nbmf) {
+    privbtf syndironizfd stbtid int nfxtVbluf(String nbmf) {
+      dustomStringTbblf.bdd(nbmf);
+      dustomStringTbblf.bdd(nbmf);
+      dustomStringTbblf.bdd(nbmf);
+      dustomStringTbblf.bdd(nbmf);
       dustomStringTbblf.bdd(nbmf);
       rfturn (dustomStringTbblf.sizf()-1);
+      rfturn (dustomStringTbblf.sizf()-1);
+      rfturn (dustomStringTbblf.sizf()-1);
+      rfturn (dustomStringTbblf.sizf()-1);
+      rfturn (dustomStringTbblf.sizf()-1);
+    }
+    }
+    }
+    }
     }
 
 
-    publid CustomMfdibTrby(String nbmf, String dhoidf) {
+
+
+
+
+
+
+
+
+    publid CustomMfdibTrby(String nbmf, String dioidf) {
+    publid CustomMfdibTrby(String nbmf, String dioidf) {
+    publid CustomMfdibTrby(String nbmf, String dioidf) {
+    publid CustomMfdibTrby(String nbmf, String dioidf) {
+    publid CustomMfdibTrby(String nbmf, String dioidf) {
         supfr(nfxtVbluf(nbmf));
-        dhoidfNbmf = dhoidf;
-        dustomEnumTbblf.bdd(this);
+        supfr(nfxtVbluf(nbmf));
+        supfr(nfxtVbluf(nbmf));
+        supfr(nfxtVbluf(nbmf));
+        supfr(nfxtVbluf(nbmf));
+        dioidfNbmf = dioidf;
+        dioidfNbmf = dioidf;
+        dioidfNbmf = dioidf;
+        dioidfNbmf = dioidf;
+        dioidfNbmf = dioidf;
+        dustomEnumTbblf.bdd(tiis);
+        dustomEnumTbblf.bdd(tiis);
+        dustomEnumTbblf.bdd(tiis);
+        dustomEnumTbblf.bdd(tiis);
+        dustomEnumTbblf.bdd(tiis);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Vfrsion ID for sfriblizfd form.
+     * Vfrsion ID for sfriblizfd form.
+     * Vfrsion ID for sfriblizfd form.
+     * Vfrsion ID for sfriblizfd form.
      * Vfrsion ID for sfriblizfd form.
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1019451298193987013L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1019451298193987013L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1019451298193987013L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1019451298193987013L;
     privbtf stbtid finbl long sfriblVfrsionUID = 1019451298193987013L;
 
 
+
+
+
+
+
+
+
+
     /**
-     * Rfturns thf dommbnd string for this mfdib trby.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dommbnd string for tiis mfdib trby.
+     * Rfturns tif dommbnd string for tiis mfdib trby.
+     * Rfturns tif dommbnd string for tiis mfdib trby.
+     * Rfturns tif dommbnd string for tiis mfdib trby.
+     * Rfturns tif dommbnd string for tiis mfdib trby.
      */
-    publid String gftChoidfNbmf() {
-        rfturn dhoidfNbmf;
+     */
+     */
+     */
+     */
+    publid String gftCioidfNbmf() {
+    publid String gftCioidfNbmf() {
+    publid String gftCioidfNbmf() {
+    publid String gftCioidfNbmf() {
+    publid String gftCioidfNbmf() {
+        rfturn dioidfNbmf;
+        rfturn dioidfNbmf;
+        rfturn dioidfNbmf;
+        rfturn dioidfNbmf;
+        rfturn dioidfNbmf;
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * Rfturns thf string tbblf for supfr dlbss MfdibTrby.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif string tbblf for supfr dlbss MfdibTrby.
+     * Rfturns tif string tbblf for supfr dlbss MfdibTrby.
+     * Rfturns tif string tbblf for supfr dlbss MfdibTrby.
+     * Rfturns tif string tbblf for supfr dlbss MfdibTrby.
+     * Rfturns tif string tbblf for supfr dlbss MfdibTrby.
+     */
+     */
+     */
+     */
      */
     publid Mfdib[] gftSupfrEnumTbblf() {
+    publid Mfdib[] gftSupfrEnumTbblf() {
+    publid Mfdib[] gftSupfrEnumTbblf() {
+    publid Mfdib[] gftSupfrEnumTbblf() {
+    publid Mfdib[] gftSupfrEnumTbblf() {
+      rfturn (Mfdib[])supfr.gftEnumVblufTbblf();
+      rfturn (Mfdib[])supfr.gftEnumVblufTbblf();
+      rfturn (Mfdib[])supfr.gftEnumVblufTbblf();
+      rfturn (Mfdib[])supfr.gftEnumVblufTbblf();
       rfturn (Mfdib[])supfr.gftEnumVblufTbblf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
-     * Rfturns thf string tbblf for dlbss CustomMfdibTrby.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif string tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif string tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif string tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif string tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif string tbblf for dlbss CustomMfdibTrby.
+     */
+     */
+     */
+     */
      */
     protfdtfd String[] gftStringTbblf() {
+    protfdtfd String[] gftStringTbblf() {
+    protfdtfd String[] gftStringTbblf() {
+    protfdtfd String[] gftStringTbblf() {
+    protfdtfd String[] gftStringTbblf() {
+      String[] nbmfTbblf = nfw String[dustomStringTbblf.sizf()];
+      String[] nbmfTbblf = nfw String[dustomStringTbblf.sizf()];
+      String[] nbmfTbblf = nfw String[dustomStringTbblf.sizf()];
+      String[] nbmfTbblf = nfw String[dustomStringTbblf.sizf()];
       String[] nbmfTbblf = nfw String[dustomStringTbblf.sizf()];
       rfturn dustomStringTbblf.toArrby(nbmfTbblf);
+      rfturn dustomStringTbblf.toArrby(nbmfTbblf);
+      rfturn dustomStringTbblf.toArrby(nbmfTbblf);
+      rfturn dustomStringTbblf.toArrby(nbmfTbblf);
+      rfturn dustomStringTbblf.toArrby(nbmfTbblf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss CustomMfdibTrby.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss CustomMfdibTrby.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss CustomMfdibTrby.
+     */
+     */
+     */
+     */
      */
     protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+      MfdibTrby[] fnumTbblf = nfw MfdibTrby[dustomEnumTbblf.sizf()];
+      MfdibTrby[] fnumTbblf = nfw MfdibTrby[dustomEnumTbblf.sizf()];
+      MfdibTrby[] fnumTbblf = nfw MfdibTrby[dustomEnumTbblf.sizf()];
+      MfdibTrby[] fnumTbblf = nfw MfdibTrby[dustomEnumTbblf.sizf()];
       MfdibTrby[] fnumTbblf = nfw MfdibTrby[dustomEnumTbblf.sizf()];
       rfturn dustomEnumTbblf.toArrby(fnumTbblf);
+      rfturn dustomEnumTbblf.toArrby(fnumTbblf);
+      rfturn dustomEnumTbblf.toArrby(fnumTbblf);
+      rfturn dustomEnumTbblf.toArrby(fnumTbblf);
+      rfturn dustomEnumTbblf.toArrby(fnumTbblf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

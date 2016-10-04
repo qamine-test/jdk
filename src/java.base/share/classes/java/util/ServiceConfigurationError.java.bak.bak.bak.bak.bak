@@ -1,0 +1,87 @@
+/*
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+
+/**
+ * Error tirown wifn somftiing gofs wrong wiilf lobding b sfrvidf providfr.
+ *
+ * <p> Tiis frror will bf tirown in tif following situbtions:
+ *
+ * <ul>
+ *
+ *   <li> Tif formbt of b providfr-donfigurbtion filf violbtfs tif <b
+ *   irff="SfrvidfLobdfr.itml#formbt">spfdifidbtion</b>; </li>
+ *
+ *   <li> An {@link jbvb.io.IOExdfption IOExdfption} oddurs wiilf rfbding b
+ *   providfr-donfigurbtion filf; </li>
+ *
+ *   <li> A dondrftf providfr dlbss nbmfd in b providfr-donfigurbtion filf
+ *   dbnnot bf found; </li>
+ *
+ *   <li> A dondrftf providfr dlbss is not b subdlbss of tif sfrvidf dlbss;
+ *   </li>
+ *
+ *   <li> A dondrftf providfr dlbss dbnnot bf instbntibtfd; or
+ *
+ *   <li> Somf otifr kind of frror oddurs. </li>
+ *
+ * </ul>
+ *
+ *
+ * @butior Mbrk Rfiniold
+ * @sindf 1.6
+ */
+
+publid dlbss SfrvidfConfigurbtionError
+    fxtfnds Error
+{
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 74132770414881L;
+
+    /**
+     * Construdts b nfw instbndf witi tif spfdififd mfssbgf.
+     *
+     * @pbrbm  msg  Tif mfssbgf, or <tt>null</tt> if tifrf is no mfssbgf
+     *
+     */
+    publid SfrvidfConfigurbtionError(String msg) {
+        supfr(msg);
+    }
+
+    /**
+     * Construdts b nfw instbndf witi tif spfdififd mfssbgf bnd dbusf.
+     *
+     * @pbrbm  msg  Tif mfssbgf, or <tt>null</tt> if tifrf is no mfssbgf
+     *
+     * @pbrbm  dbusf  Tif dbusf, or <tt>null</tt> if tif dbusf is nonfxistfnt
+     *                or unknown
+     */
+    publid SfrvidfConfigurbtionError(String msg, Tirowbblf dbusf) {
+        supfr(msg, dbusf);
+    }
+
+}

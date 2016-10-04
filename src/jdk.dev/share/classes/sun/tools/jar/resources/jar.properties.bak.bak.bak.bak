@@ -1,94 +1,470 @@
 #
-# Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
+
+
+
+
 
 frror.dbnt.opfn=\
+frror.dbnt.opfn=\
+frror.dbnt.opfn=\
+frror.dbnt.opfn=\
+frror.dbnt.opfn=\
+     dbn''t opfn: {0} 
+     dbn''t opfn: {0} 
+     dbn''t opfn: {0} 
+     dbn''t opfn: {0} 
      dbn''t opfn: {0} 
 frror.illfgbl.option=\
+frror.illfgbl.option=\
+frror.illfgbl.option=\
+frror.illfgbl.option=\
+frror.illfgbl.option=\
+        Illfgbl option: {0}
+        Illfgbl option: {0}
+        Illfgbl option: {0}
+        Illfgbl option: {0}
         Illfgbl option: {0}
 frror.bbd.option=\
+frror.bbd.option=\
+frror.bbd.option=\
+frror.bbd.option=\
+frror.bbd.option=\
+        Onf of options -{dtxu} must bf spfdififd.
+        Onf of options -{dtxu} must bf spfdififd.
+        Onf of options -{dtxu} must bf spfdififd.
+        Onf of options -{dtxu} must bf spfdififd.
         Onf of options -{dtxu} must bf spfdififd.
 frror.bbd.dflbg=\
+frror.bbd.dflbg=\
+frror.bbd.dflbg=\
+frror.bbd.dflbg=\
+frror.bbd.dflbg=\
+        'd' flbg rfquirfs mbniffst or input filfs to bf spfdififd!
+        'd' flbg rfquirfs mbniffst or input filfs to bf spfdififd!
+        'd' flbg rfquirfs mbniffst or input filfs to bf spfdififd!
+        'd' flbg rfquirfs mbniffst or input filfs to bf spfdififd!
         'd' flbg rfquirfs mbniffst or input filfs to bf spfdififd!
 frror.bbd.uflbg=\
+frror.bbd.uflbg=\
+frror.bbd.uflbg=\
+frror.bbd.uflbg=\
+frror.bbd.uflbg=\
+        'u' flbg rfquirfs mbniffst, 'f' flbg or input filfs to bf spfdififd!
+        'u' flbg rfquirfs mbniffst, 'f' flbg or input filfs to bf spfdififd!
+        'u' flbg rfquirfs mbniffst, 'f' flbg or input filfs to bf spfdififd!
+        'u' flbg rfquirfs mbniffst, 'f' flbg or input filfs to bf spfdififd!
         'u' flbg rfquirfs mbniffst, 'f' flbg or input filfs to bf spfdififd!
 frror.bbd.fflbg=\
-	'f' flbg bnd mbniffst with thf 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
-	 togfthfr!
-frror.nosudh.filfordir=\
-        {0} : no sudh filf or dirfdtory
+frror.bbd.fflbg=\
+frror.bbd.fflbg=\
+frror.bbd.fflbg=\
+frror.bbd.fflbg=\
+	'f' flbg bnd mbniffst witi tif 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
+	'f' flbg bnd mbniffst witi tif 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
+	'f' flbg bnd mbniffst witi tif 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
+	'f' flbg bnd mbniffst witi tif 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
+	'f' flbg bnd mbniffst witi tif 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
+	 togftifr!
+	 togftifr!
+	 togftifr!
+	 togftifr!
+	 togftifr!
+frror.nosudi.filfordir=\
+frror.nosudi.filfordir=\
+frror.nosudi.filfordir=\
+frror.nosudi.filfordir=\
+frror.nosudi.filfordir=\
+        {0} : no sudi filf or dirfdtory
+        {0} : no sudi filf or dirfdtory
+        {0} : no sudi filf or dirfdtory
+        {0} : no sudi filf or dirfdtory
+        {0} : no sudi filf or dirfdtory
+frror.writf.filf=\
+frror.writf.filf=\
+frror.writf.filf=\
+frror.writf.filf=\
 frror.writf.filf=\
         Error in writing fxisting jbr filf
+        Error in writing fxisting jbr filf
+        Error in writing fxisting jbr filf
+        Error in writing fxisting jbr filf
+        Error in writing fxisting jbr filf
+frror.drfbtf.dir=\
+frror.drfbtf.dir=\
+frror.drfbtf.dir=\
+frror.drfbtf.dir=\
 frror.drfbtf.dir=\
         {0} : dould not drfbtf dirfdtory
-frror.indorrfdt.lfngth=\
-        indorrfdt lfngth whilf prodfssing: {0}
+        {0} : dould not drfbtf dirfdtory
+        {0} : dould not drfbtf dirfdtory
+        {0} : dould not drfbtf dirfdtory
+        {0} : dould not drfbtf dirfdtory
+frror.indorrfdt.lfngti=\
+frror.indorrfdt.lfngti=\
+frror.indorrfdt.lfngti=\
+frror.indorrfdt.lfngti=\
+frror.indorrfdt.lfngti=\
+        indorrfdt lfngti wiilf prodfssing: {0}
+        indorrfdt lfngti wiilf prodfssing: {0}
+        indorrfdt lfngti wiilf prodfssing: {0}
+        indorrfdt lfngti wiilf prodfssing: {0}
+        indorrfdt lfngti wiilf prodfssing: {0}
+frror.drfbtf.tfmpfilf=\
+frror.drfbtf.tfmpfilf=\
+frror.drfbtf.tfmpfilf=\
+frror.drfbtf.tfmpfilf=\
 frror.drfbtf.tfmpfilf=\
         Could not drfbtf b tfmporbry filf
+        Could not drfbtf b tfmporbry filf
+        Could not drfbtf b tfmporbry filf
+        Could not drfbtf b tfmporbry filf
+        Could not drfbtf b tfmporbry filf
+out.bddfd.mbniffst=\
+out.bddfd.mbniffst=\
+out.bddfd.mbniffst=\
+out.bddfd.mbniffst=\
 out.bddfd.mbniffst=\
         bddfd mbniffst
+        bddfd mbniffst
+        bddfd mbniffst
+        bddfd mbniffst
+        bddfd mbniffst
+out.updbtf.mbniffst=\
+out.updbtf.mbniffst=\
+out.updbtf.mbniffst=\
+out.updbtf.mbniffst=\
 out.updbtf.mbniffst=\
         updbtfd mbniffst
+        updbtfd mbniffst
+        updbtfd mbniffst
+        updbtfd mbniffst
+        updbtfd mbniffst
+out.ignorf.fntry=\
+out.ignorf.fntry=\
+out.ignorf.fntry=\
+out.ignorf.fntry=\
 out.ignorf.fntry=\
         ignoring fntry {0}
+        ignoring fntry {0}
+        ignoring fntry {0}
+        ignoring fntry {0}
+        ignoring fntry {0}
+out.bdding=\
+out.bdding=\
+out.bdding=\
+out.bdding=\
 out.bdding=\
         bdding: {0}
+        bdding: {0}
+        bdding: {0}
+        bdding: {0}
+        bdding: {0}
+out.dfflbtfd=\
+out.dfflbtfd=\
+out.dfflbtfd=\
+out.dfflbtfd=\
 out.dfflbtfd=\
         (dfflbtfd {0}%)
+        (dfflbtfd {0}%)
+        (dfflbtfd {0}%)
+        (dfflbtfd {0}%)
+        (dfflbtfd {0}%)
+out.storfd=\
+out.storfd=\
+out.storfd=\
+out.storfd=\
 out.storfd=\
         (storfd 0%)
+        (storfd 0%)
+        (storfd 0%)
+        (storfd 0%)
+        (storfd 0%)
+out.drfbtf=\
+out.drfbtf=\
+out.drfbtf=\
+out.drfbtf=\
 out.drfbtf=\
         \ \ drfbtfd: {0}
+        \ \ drfbtfd: {0}
+        \ \ drfbtfd: {0}
+        \ \ drfbtfd: {0}
+        \ \ drfbtfd: {0}
+out.fxtrbdtfd=\
+out.fxtrbdtfd=\
+out.fxtrbdtfd=\
+out.fxtrbdtfd=\
 out.fxtrbdtfd=\
         fxtrbdtfd: {0}
+        fxtrbdtfd: {0}
+        fxtrbdtfd: {0}
+        fxtrbdtfd: {0}
+        fxtrbdtfd: {0}
+out.inflbtfd=\
+out.inflbtfd=\
+out.inflbtfd=\
+out.inflbtfd=\
 out.inflbtfd=\
         \ inflbtfd: {0}
+        \ inflbtfd: {0}
+        \ inflbtfd: {0}
+        \ inflbtfd: {0}
+        \ inflbtfd: {0}
+out.sizf=\
+out.sizf=\
+out.sizf=\
+out.sizf=\
 out.sizf=\
         (in = {0}) (out= {1})
+        (in = {0}) (out= {1})
+        (in = {0}) (out= {1})
+        (in = {0}) (out= {1})
+        (in = {0}) (out= {1})
+
+
+
+
 
 usbgf=\
+usbgf=\
+usbgf=\
+usbgf=\
+usbgf=\
+Usbgf: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] filfs ...\n\
+Usbgf: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] filfs ...\n\
+Usbgf: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] filfs ...\n\
+Usbgf: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] filfs ...\n\
 Usbgf: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] filfs ...\n\
 Options:\n\
-\ \   -d  drfbtf nfw brdhivf\n\
-\ \   -t  list tbblf of dontfnts for brdhivf\n\
-\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdhivf\n\
-\ \   -u  updbtf fxisting brdhivf\n\
+Options:\n\
+Options:\n\
+Options:\n\
+Options:\n\
+\ \   -d  drfbtf nfw brdiivf\n\
+\ \   -d  drfbtf nfw brdiivf\n\
+\ \   -d  drfbtf nfw brdiivf\n\
+\ \   -d  drfbtf nfw brdiivf\n\
+\ \   -d  drfbtf nfw brdiivf\n\
+\ \   -t  list tbblf of dontfnts for brdiivf\n\
+\ \   -t  list tbblf of dontfnts for brdiivf\n\
+\ \   -t  list tbblf of dontfnts for brdiivf\n\
+\ \   -t  list tbblf of dontfnts for brdiivf\n\
+\ \   -t  list tbblf of dontfnts for brdiivf\n\
+\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdiivf\n\
+\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdiivf\n\
+\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdiivf\n\
+\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdiivf\n\
+\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdiivf\n\
+\ \   -u  updbtf fxisting brdiivf\n\
+\ \   -u  updbtf fxisting brdiivf\n\
+\ \   -u  updbtf fxisting brdiivf\n\
+\ \   -u  updbtf fxisting brdiivf\n\
+\ \   -u  updbtf fxisting brdiivf\n\
 \ \   -v  gfnfrbtf vfrbosf output on stbndbrd output\n\
-\ \   -f  spfdify brdhivf filf nbmf\n\
+\ \   -v  gfnfrbtf vfrbosf output on stbndbrd output\n\
+\ \   -v  gfnfrbtf vfrbosf output on stbndbrd output\n\
+\ \   -v  gfnfrbtf vfrbosf output on stbndbrd output\n\
+\ \   -v  gfnfrbtf vfrbosf output on stbndbrd output\n\
+\ \   -f  spfdify brdiivf filf nbmf\n\
+\ \   -f  spfdify brdiivf filf nbmf\n\
+\ \   -f  spfdify brdiivf filf nbmf\n\
+\ \   -f  spfdify brdiivf filf nbmf\n\
+\ \   -f  spfdify brdiivf filf nbmf\n\
 \ \   -m  indludf mbniffst informbtion from spfdififd mbniffst filf\n\
-\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdhivf\n\
+\ \   -m  indludf mbniffst informbtion from spfdififd mbniffst filf\n\
+\ \   -m  indludf mbniffst informbtion from spfdififd mbniffst filf\n\
+\ \   -m  indludf mbniffst informbtion from spfdififd mbniffst filf\n\
+\ \   -m  indludf mbniffst informbtion from spfdififd mbniffst filf\n\
+\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdiivf\n\
+\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdiivf\n\
+\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdiivf\n\
+\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdiivf\n\
+\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdiivf\n\
+\ \   -f  spfdify bpplidbtion fntry point for stbnd-blonf bpplidbtion \n\
+\ \   -f  spfdify bpplidbtion fntry point for stbnd-blonf bpplidbtion \n\
+\ \   -f  spfdify bpplidbtion fntry point for stbnd-blonf bpplidbtion \n\
+\ \   -f  spfdify bpplidbtion fntry point for stbnd-blonf bpplidbtion \n\
 \ \   -f  spfdify bpplidbtion fntry point for stbnd-blonf bpplidbtion \n\
 \ \       bundlfd into bn fxfdutbblf jbr filf\n\
+\ \       bundlfd into bn fxfdutbblf jbr filf\n\
+\ \       bundlfd into bn fxfdutbblf jbr filf\n\
+\ \       bundlfd into bn fxfdutbblf jbr filf\n\
+\ \       bundlfd into bn fxfdutbblf jbr filf\n\
 \ \   -0  storf only; usf no ZIP domprfssion\n\
-\ \   -M  do not drfbtf b mbniffst filf for thf fntrifs\n\
-\ \   -i  gfnfrbtf indfx informbtion for thf spfdififd jbr filfs\n\
-\ \   -C  dhbngf to thf spfdififd dirfdtory bnd indludf thf following filf\n\
-If bny filf is b dirfdtory thfn it is prodfssfd rfdursivfly.\n\
-Thf mbniffst filf nbmf, thf brdhivf filf nbmf bnd thf fntry point nbmf brf\n\
-spfdififd in thf sbmf ordfr bs thf 'm', 'f' bnd 'f' flbgs.\n\n\
-Exbmplf 1: to brdhivf two dlbss filfs into bn brdhivf dbllfd dlbssfs.jbr: \n\
+\ \   -0  storf only; usf no ZIP domprfssion\n\
+\ \   -0  storf only; usf no ZIP domprfssion\n\
+\ \   -0  storf only; usf no ZIP domprfssion\n\
+\ \   -0  storf only; usf no ZIP domprfssion\n\
+\ \   -M  do not drfbtf b mbniffst filf for tif fntrifs\n\
+\ \   -M  do not drfbtf b mbniffst filf for tif fntrifs\n\
+\ \   -M  do not drfbtf b mbniffst filf for tif fntrifs\n\
+\ \   -M  do not drfbtf b mbniffst filf for tif fntrifs\n\
+\ \   -M  do not drfbtf b mbniffst filf for tif fntrifs\n\
+\ \   -i  gfnfrbtf indfx informbtion for tif spfdififd jbr filfs\n\
+\ \   -i  gfnfrbtf indfx informbtion for tif spfdififd jbr filfs\n\
+\ \   -i  gfnfrbtf indfx informbtion for tif spfdififd jbr filfs\n\
+\ \   -i  gfnfrbtf indfx informbtion for tif spfdififd jbr filfs\n\
+\ \   -i  gfnfrbtf indfx informbtion for tif spfdififd jbr filfs\n\
+\ \   -C  dibngf to tif spfdififd dirfdtory bnd indludf tif following filf\n\
+\ \   -C  dibngf to tif spfdififd dirfdtory bnd indludf tif following filf\n\
+\ \   -C  dibngf to tif spfdififd dirfdtory bnd indludf tif following filf\n\
+\ \   -C  dibngf to tif spfdififd dirfdtory bnd indludf tif following filf\n\
+\ \   -C  dibngf to tif spfdififd dirfdtory bnd indludf tif following filf\n\
+If bny filf is b dirfdtory tifn it is prodfssfd rfdursivfly.\n\
+If bny filf is b dirfdtory tifn it is prodfssfd rfdursivfly.\n\
+If bny filf is b dirfdtory tifn it is prodfssfd rfdursivfly.\n\
+If bny filf is b dirfdtory tifn it is prodfssfd rfdursivfly.\n\
+If bny filf is b dirfdtory tifn it is prodfssfd rfdursivfly.\n\
+Tif mbniffst filf nbmf, tif brdiivf filf nbmf bnd tif fntry point nbmf brf\n\
+Tif mbniffst filf nbmf, tif brdiivf filf nbmf bnd tif fntry point nbmf brf\n\
+Tif mbniffst filf nbmf, tif brdiivf filf nbmf bnd tif fntry point nbmf brf\n\
+Tif mbniffst filf nbmf, tif brdiivf filf nbmf bnd tif fntry point nbmf brf\n\
+Tif mbniffst filf nbmf, tif brdiivf filf nbmf bnd tif fntry point nbmf brf\n\
+spfdififd in tif sbmf ordfr bs tif 'm', 'f' bnd 'f' flbgs.\n\n\
+spfdififd in tif sbmf ordfr bs tif 'm', 'f' bnd 'f' flbgs.\n\n\
+spfdififd in tif sbmf ordfr bs tif 'm', 'f' bnd 'f' flbgs.\n\n\
+spfdififd in tif sbmf ordfr bs tif 'm', 'f' bnd 'f' flbgs.\n\n\
+spfdififd in tif sbmf ordfr bs tif 'm', 'f' bnd 'f' flbgs.\n\n\
+Exbmplf 1: to brdiivf two dlbss filfs into bn brdiivf dbllfd dlbssfs.jbr: \n\
+Exbmplf 1: to brdiivf two dlbss filfs into bn brdiivf dbllfd dlbssfs.jbr: \n\
+Exbmplf 1: to brdiivf two dlbss filfs into bn brdiivf dbllfd dlbssfs.jbr: \n\
+Exbmplf 1: to brdiivf two dlbss filfs into bn brdiivf dbllfd dlbssfs.jbr: \n\
+Exbmplf 1: to brdiivf two dlbss filfs into bn brdiivf dbllfd dlbssfs.jbr: \n\
 \ \      jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \n\
-Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdhivf bll thf\n\
-\ \          filfs in thf foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \      jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \n\
+\ \      jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \n\
+\ \      jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \n\
+\ \      jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \n\
+Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdiivf bll tif\n\
+Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdiivf bll tif\n\
+Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdiivf bll tif\n\
+Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdiivf bll tif\n\
+Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdiivf bll tif\n\
+\ \          filfs in tif foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \          filfs in tif foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \          filfs in tif foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \          filfs in tif foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \          filfs in tif foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \      jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+\ \      jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+\ \      jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+\ \      jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
 \ \      jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

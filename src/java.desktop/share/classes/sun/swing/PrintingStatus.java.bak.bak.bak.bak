@@ -1,319 +1,1595 @@
 /*
- * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf sun.swing;
+pbdkbgf sun.swing;
+pbdkbgf sun.swing;
+pbdkbgf sun.swing;
 pbdkbgf sun.swing;
 
+
+
+
+
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
 import jbvbx.swing.*;
 import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
 import jbvb.bwt.fvfnt.AdtionEvfnt;
 import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
 import jbvb.bwt.fvfnt.WindowEvfnt;
 import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.Printbblf;
 import jbvb.bwt.print.Printbblf;
 import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.bwt.print.PrintfrJob;
 import jbvb.bwt.print.PrintfrJob;
 import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
 import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
 import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+
+
+
+
 
 /**
- * Thf {@dodf PrintingStbtus} providfs b diblog thbt displbys progrfss
- * of thf printing job bnd providfs b wby to bbort it
+/**
+/**
+/**
+/**
+ * Tif {@dodf PrintingStbtus} providfs b diblog tibt displbys progrfss
+ * Tif {@dodf PrintingStbtus} providfs b diblog tibt displbys progrfss
+ * Tif {@dodf PrintingStbtus} providfs b diblog tibt displbys progrfss
+ * Tif {@dodf PrintingStbtus} providfs b diblog tibt displbys progrfss
+ * Tif {@dodf PrintingStbtus} providfs b diblog tibt displbys progrfss
+ * of tif printing job bnd providfs b wby to bbort it
+ * of tif printing job bnd providfs b wby to bbort it
+ * of tif printing job bnd providfs b wby to bbort it
+ * of tif printing job bnd providfs b wby to bbort it
+ * of tif printing job bnd providfs b wby to bbort it
  * <p/>
- * Mfthods of thfsf dlbss brf thrfbd sbff, blthough most Swing mfthods
+ * <p/>
+ * <p/>
+ * <p/>
+ * <p/>
+ * Mftiods of tifsf dlbss brf tirfbd sbff, bltiougi most Swing mftiods
+ * Mftiods of tifsf dlbss brf tirfbd sbff, bltiougi most Swing mftiods
+ * Mftiods of tifsf dlbss brf tirfbd sbff, bltiougi most Swing mftiods
+ * Mftiods of tifsf dlbss brf tirfbd sbff, bltiougi most Swing mftiods
+ * Mftiods of tifsf dlbss brf tirfbd sbff, bltiougi most Swing mftiods
  * brf not. Plfbsf sff
- * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+ * brf not. Plfbsf sff
+ * brf not. Plfbsf sff
+ * brf not. Plfbsf sff
+ * brf not. Plfbsf sff
+ * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+ * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+ * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+ * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+ * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+ * in Swing</A> for morf informbtion.
+ * in Swing</A> for morf informbtion.
+ * in Swing</A> for morf informbtion.
+ * in Swing</A> for morf informbtion.
  * in Swing</A> for morf informbtion.
  *
- * @buthor Alfxbndfr Potodhkin
+ *
+ *
+ *
+ *
+ * @butior Alfxbndfr Potodikin
+ * @butior Alfxbndfr Potodikin
+ * @butior Alfxbndfr Potodikin
+ * @butior Alfxbndfr Potodikin
+ * @butior Alfxbndfr Potodikin
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
  * @sindf 1.6
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 publid dlbss PrintingStbtus {
+publid dlbss PrintingStbtus {
+publid dlbss PrintingStbtus {
+publid dlbss PrintingStbtus {
+publid dlbss PrintingStbtus {
+
+
+
+
 
     privbtf finbl PrintfrJob job;
+    privbtf finbl PrintfrJob job;
+    privbtf finbl PrintfrJob job;
+    privbtf finbl PrintfrJob job;
+    privbtf finbl PrintfrJob job;
+    privbtf finbl Componfnt pbrfnt;
+    privbtf finbl Componfnt pbrfnt;
+    privbtf finbl Componfnt pbrfnt;
+    privbtf finbl Componfnt pbrfnt;
     privbtf finbl Componfnt pbrfnt;
     privbtf JDiblog bbortDiblog;
+    privbtf JDiblog bbortDiblog;
+    privbtf JDiblog bbortDiblog;
+    privbtf JDiblog bbortDiblog;
+    privbtf JDiblog bbortDiblog;
+
+
+
+
 
     privbtf JButton bbortButton;
+    privbtf JButton bbortButton;
+    privbtf JButton bbortButton;
+    privbtf JButton bbortButton;
+    privbtf JButton bbortButton;
+    privbtf JLbbfl stbtusLbbfl;
+    privbtf JLbbfl stbtusLbbfl;
+    privbtf JLbbfl stbtusLbbfl;
+    privbtf JLbbfl stbtusLbbfl;
     privbtf JLbbfl stbtusLbbfl;
     privbtf MfssbgfFormbt stbtusFormbt;
+    privbtf MfssbgfFormbt stbtusFormbt;
+    privbtf MfssbgfFormbt stbtusFormbt;
+    privbtf MfssbgfFormbt stbtusFormbt;
+    privbtf MfssbgfFormbt stbtusFormbt;
+    privbtf finbl AtomidBoolfbn isAbortfd = nfw AtomidBoolfbn(fblsf);
+    privbtf finbl AtomidBoolfbn isAbortfd = nfw AtomidBoolfbn(fblsf);
+    privbtf finbl AtomidBoolfbn isAbortfd = nfw AtomidBoolfbn(fblsf);
+    privbtf finbl AtomidBoolfbn isAbortfd = nfw AtomidBoolfbn(fblsf);
     privbtf finbl AtomidBoolfbn isAbortfd = nfw AtomidBoolfbn(fblsf);
 
-    // thf bdtion thbt will bbort printing
+
+
+
+
+    // tif bdtion tibt will bbort printing
+    // tif bdtion tibt will bbort printing
+    // tif bdtion tibt will bbort printing
+    // tif bdtion tibt will bbort printing
+    // tif bdtion tibt will bbort printing
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
     @SupprfssWbrnings("sfribl") // bnonymous dlbss
     privbtf finbl Adtion bbortAdtion = nfw AbstrbdtAdtion() {
+    privbtf finbl Adtion bbortAdtion = nfw AbstrbdtAdtion() {
+    privbtf finbl Adtion bbortAdtion = nfw AbstrbdtAdtion() {
+    privbtf finbl Adtion bbortAdtion = nfw AbstrbdtAdtion() {
+    privbtf finbl Adtion bbortAdtion = nfw AbstrbdtAdtion() {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
         publid void bdtionPfrformfd(AdtionEvfnt bf) {
             if (!isAbortfd.gft()) {
+            if (!isAbortfd.gft()) {
+            if (!isAbortfd.gft()) {
+            if (!isAbortfd.gft()) {
+            if (!isAbortfd.gft()) {
+                isAbortfd.sft(truf);
+                isAbortfd.sft(truf);
+                isAbortfd.sft(truf);
+                isAbortfd.sft(truf);
                 isAbortfd.sft(truf);
 
-                // updbtf thf stbtus bbortDiblog to indidbtf bborting
+
+
+
+
+                // updbtf tif stbtus bbortDiblog to indidbtf bborting
+                // updbtf tif stbtus bbortDiblog to indidbtf bborting
+                // updbtf tif stbtus bbortDiblog to indidbtf bborting
+                // updbtf tif stbtus bbortDiblog to indidbtf bborting
+                // updbtf tif stbtus bbortDiblog to indidbtf bborting
+                bbortButton.sftEnbblfd(fblsf);
+                bbortButton.sftEnbblfd(fblsf);
+                bbortButton.sftEnbblfd(fblsf);
+                bbortButton.sftEnbblfd(fblsf);
                 bbortButton.sftEnbblfd(fblsf);
                 bbortDiblog.sftTitlf(
+                bbortDiblog.sftTitlf(
+                bbortDiblog.sftTitlf(
+                bbortDiblog.sftTitlf(
+                bbortDiblog.sftTitlf(
+                    UIMbnbgfr.gftString("PrintingDiblog.titlfAbortingTfxt"));
+                    UIMbnbgfr.gftString("PrintingDiblog.titlfAbortingTfxt"));
+                    UIMbnbgfr.gftString("PrintingDiblog.titlfAbortingTfxt"));
+                    UIMbnbgfr.gftString("PrintingDiblog.titlfAbortingTfxt"));
                     UIMbnbgfr.gftString("PrintingDiblog.titlfAbortingTfxt"));
                 stbtusLbbfl.sftTfxt(
+                stbtusLbbfl.sftTfxt(
+                stbtusLbbfl.sftTfxt(
+                stbtusLbbfl.sftTfxt(
+                stbtusLbbfl.sftTfxt(
+                    UIMbnbgfr.gftString("PrintingDiblog.dontfntAbortingTfxt"));
+                    UIMbnbgfr.gftString("PrintingDiblog.dontfntAbortingTfxt"));
+                    UIMbnbgfr.gftString("PrintingDiblog.dontfntAbortingTfxt"));
+                    UIMbnbgfr.gftString("PrintingDiblog.dontfntAbortingTfxt"));
                     UIMbnbgfr.gftString("PrintingDiblog.dontfntAbortingTfxt"));
 
-                // dbndfl thf PrintfrJob
+
+
+
+
+                // dbndfl tif PrintfrJob
+                // dbndfl tif PrintfrJob
+                // dbndfl tif PrintfrJob
+                // dbndfl tif PrintfrJob
+                // dbndfl tif PrintfrJob
+                job.dbndfl();
+                job.dbndfl();
+                job.dbndfl();
+                job.dbndfl();
                 job.dbndfl();
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     };
+    };
+    };
+    };
+    };
+
+
+
+
 
     privbtf finbl WindowAdbptfr dlosfListfnfr = nfw WindowAdbptfr() {
+    privbtf finbl WindowAdbptfr dlosfListfnfr = nfw WindowAdbptfr() {
+    privbtf finbl WindowAdbptfr dlosfListfnfr = nfw WindowAdbptfr() {
+    privbtf finbl WindowAdbptfr dlosfListfnfr = nfw WindowAdbptfr() {
+    privbtf finbl WindowAdbptfr dlosfListfnfr = nfw WindowAdbptfr() {
+        publid void windowClosing(WindowEvfnt wf) {
+        publid void windowClosing(WindowEvfnt wf) {
+        publid void windowClosing(WindowEvfnt wf) {
+        publid void windowClosing(WindowEvfnt wf) {
         publid void windowClosing(WindowEvfnt wf) {
             bbortAdtion.bdtionPfrformfd(null);
+            bbortAdtion.bdtionPfrformfd(null);
+            bbortAdtion.bdtionPfrformfd(null);
+            bbortAdtion.bdtionPfrformfd(null);
+            bbortAdtion.bdtionPfrformfd(null);
+        }
+        }
+        }
+        }
         }
     };
+    };
+    };
+    };
+    };
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs PrintingStbtus instbndf
+     * Crfbtfs PrintingStbtus instbndf
+     * Crfbtfs PrintingStbtus instbndf
+     * Crfbtfs PrintingStbtus instbndf
+     * Crfbtfs PrintingStbtus instbndf
+     *
+     *
+     *
+     *
      *
      * @pbrbm pbrfnt b <dodf>Componfnt</dodf> objfdt to bf usfd
+     * @pbrbm pbrfnt b <dodf>Componfnt</dodf> objfdt to bf usfd
+     * @pbrbm pbrfnt b <dodf>Componfnt</dodf> objfdt to bf usfd
+     * @pbrbm pbrfnt b <dodf>Componfnt</dodf> objfdt to bf usfd
+     * @pbrbm pbrfnt b <dodf>Componfnt</dodf> objfdt to bf usfd
+     *               bs pbrfnt domponfnt for PrintingStbtus diblog
+     *               bs pbrfnt domponfnt for PrintingStbtus diblog
+     *               bs pbrfnt domponfnt for PrintingStbtus diblog
+     *               bs pbrfnt domponfnt for PrintingStbtus diblog
      *               bs pbrfnt domponfnt for PrintingStbtus diblog
      * @pbrbm job    b <dodf>PrintfrJob</dodf> objfdt to bf dbndfllfd
-     *               using this <dodf>PrintingStbtus</dodf> diblog
+     * @pbrbm job    b <dodf>PrintfrJob</dodf> objfdt to bf dbndfllfd
+     * @pbrbm job    b <dodf>PrintfrJob</dodf> objfdt to bf dbndfllfd
+     * @pbrbm job    b <dodf>PrintfrJob</dodf> objfdt to bf dbndfllfd
+     * @pbrbm job    b <dodf>PrintfrJob</dodf> objfdt to bf dbndfllfd
+     *               using tiis <dodf>PrintingStbtus</dodf> diblog
+     *               using tiis <dodf>PrintingStbtus</dodf> diblog
+     *               using tiis <dodf>PrintingStbtus</dodf> diblog
+     *               using tiis <dodf>PrintingStbtus</dodf> diblog
+     *               using tiis <dodf>PrintingStbtus</dodf> diblog
+     * @rfturn b <dodf>PrintingStbtus</dodf> objfdt
+     * @rfturn b <dodf>PrintingStbtus</dodf> objfdt
+     * @rfturn b <dodf>PrintingStbtus</dodf> objfdt
+     * @rfturn b <dodf>PrintingStbtus</dodf> objfdt
      * @rfturn b <dodf>PrintingStbtus</dodf> objfdt
      */
+     */
+     */
+     */
+     */
+    publid stbtid PrintingStbtus
+    publid stbtid PrintingStbtus
+    publid stbtid PrintingStbtus
+    publid stbtid PrintingStbtus
     publid stbtid PrintingStbtus
             drfbtfPrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+            drfbtfPrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+            drfbtfPrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+            drfbtfPrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+            drfbtfPrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+        rfturn nfw PrintingStbtus(pbrfnt, job);
+        rfturn nfw PrintingStbtus(pbrfnt, job);
+        rfturn nfw PrintingStbtus(pbrfnt, job);
+        rfturn nfw PrintingStbtus(pbrfnt, job);
         rfturn nfw PrintingStbtus(pbrfnt, job);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     protfdtfd PrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
-        this.job = job;
-        this.pbrfnt = pbrfnt;
+    protfdtfd PrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+    protfdtfd PrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+    protfdtfd PrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+    protfdtfd PrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+        tiis.job = job;
+        tiis.job = job;
+        tiis.job = job;
+        tiis.job = job;
+        tiis.job = job;
+        tiis.pbrfnt = pbrfnt;
+        tiis.pbrfnt = pbrfnt;
+        tiis.pbrfnt = pbrfnt;
+        tiis.pbrfnt = pbrfnt;
+        tiis.pbrfnt = pbrfnt;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void init() {
-        // prfpbrf thf stbtus JOptionPbnf
+    privbtf void init() {
+    privbtf void init() {
+    privbtf void init() {
+    privbtf void init() {
+        // prfpbrf tif stbtus JOptionPbnf
+        // prfpbrf tif stbtus JOptionPbnf
+        // prfpbrf tif stbtus JOptionPbnf
+        // prfpbrf tif stbtus JOptionPbnf
+        // prfpbrf tif stbtus JOptionPbnf
+        String progrfssTitlf =
+        String progrfssTitlf =
+        String progrfssTitlf =
+        String progrfssTitlf =
         String progrfssTitlf =
             UIMbnbgfr.gftString("PrintingDiblog.titlfProgrfssTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.titlfProgrfssTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.titlfProgrfssTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.titlfProgrfssTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.titlfProgrfssTfxt");
+
+
+
+
 
         String diblogInitiblContfnt =
+        String diblogInitiblContfnt =
+        String diblogInitiblContfnt =
+        String diblogInitiblContfnt =
+        String diblogInitiblContfnt =
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntInitiblTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntInitiblTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntInitiblTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntInitiblTfxt");
             UIMbnbgfr.gftString("PrintingDiblog.dontfntInitiblTfxt");
 
-        // this onf's b MfssbgfFormbt sindf it must indludf thf pbgf
+
+
+
+
+        // tiis onf's b MfssbgfFormbt sindf it must indludf tif pbgf
+        // tiis onf's b MfssbgfFormbt sindf it must indludf tif pbgf
+        // tiis onf's b MfssbgfFormbt sindf it must indludf tif pbgf
+        // tiis onf's b MfssbgfFormbt sindf it must indludf tif pbgf
+        // tiis onf's b MfssbgfFormbt sindf it must indludf tif pbgf
+        // numbfr in its tfxt
+        // numbfr in its tfxt
+        // numbfr in its tfxt
+        // numbfr in its tfxt
         // numbfr in its tfxt
         stbtusFormbt = nfw MfssbgfFormbt(
+        stbtusFormbt = nfw MfssbgfFormbt(
+        stbtusFormbt = nfw MfssbgfFormbt(
+        stbtusFormbt = nfw MfssbgfFormbt(
+        stbtusFormbt = nfw MfssbgfFormbt(
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntProgrfssTfxt"));
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntProgrfssTfxt"));
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntProgrfssTfxt"));
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntProgrfssTfxt"));
             UIMbnbgfr.gftString("PrintingDiblog.dontfntProgrfssTfxt"));
 
+
+
+
+
+        String bbortTfxt =
+        String bbortTfxt =
+        String bbortTfxt =
+        String bbortTfxt =
         String bbortTfxt =
             UIMbnbgfr.gftString("PrintingDiblog.bbortButtonTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonTfxt");
+        String bbortTooltip =
+        String bbortTooltip =
+        String bbortTooltip =
+        String bbortTooltip =
         String bbortTooltip =
             UIMbnbgfr.gftString("PrintingDiblog.bbortButtonToolTipTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonToolTipTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonToolTipTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonToolTipTfxt");
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonToolTipTfxt");
+        int bbortMnfmonid =
+        int bbortMnfmonid =
+        int bbortMnfmonid =
+        int bbortMnfmonid =
         int bbortMnfmonid =
             gftInt("PrintingDiblog.bbortButtonMnfmonid", -1);
+            gftInt("PrintingDiblog.bbortButtonMnfmonid", -1);
+            gftInt("PrintingDiblog.bbortButtonMnfmonid", -1);
+            gftInt("PrintingDiblog.bbortButtonMnfmonid", -1);
+            gftInt("PrintingDiblog.bbortButtonMnfmonid", -1);
+        int bbortMnfmonidIndfx =
+        int bbortMnfmonidIndfx =
+        int bbortMnfmonidIndfx =
+        int bbortMnfmonidIndfx =
         int bbortMnfmonidIndfx =
             gftInt("PrintingDiblog.bbortButtonDisplbyfdMnfmonidIndfx", -1);
+            gftInt("PrintingDiblog.bbortButtonDisplbyfdMnfmonidIndfx", -1);
+            gftInt("PrintingDiblog.bbortButtonDisplbyfdMnfmonidIndfx", -1);
+            gftInt("PrintingDiblog.bbortButtonDisplbyfdMnfmonidIndfx", -1);
+            gftInt("PrintingDiblog.bbortButtonDisplbyfdMnfmonidIndfx", -1);
+
+
+
+
 
         bbortButton = nfw JButton(bbortTfxt);
+        bbortButton = nfw JButton(bbortTfxt);
+        bbortButton = nfw JButton(bbortTfxt);
+        bbortButton = nfw JButton(bbortTfxt);
+        bbortButton = nfw JButton(bbortTfxt);
+        bbortButton.bddAdtionListfnfr(bbortAdtion);
+        bbortButton.bddAdtionListfnfr(bbortAdtion);
+        bbortButton.bddAdtionListfnfr(bbortAdtion);
+        bbortButton.bddAdtionListfnfr(bbortAdtion);
         bbortButton.bddAdtionListfnfr(bbortAdtion);
 
+
+
+
+
+        bbortButton.sftToolTipTfxt(bbortTooltip);
+        bbortButton.sftToolTipTfxt(bbortTooltip);
+        bbortButton.sftToolTipTfxt(bbortTooltip);
+        bbortButton.sftToolTipTfxt(bbortTooltip);
         bbortButton.sftToolTipTfxt(bbortTooltip);
         if (bbortMnfmonid != -1) {
+        if (bbortMnfmonid != -1) {
+        if (bbortMnfmonid != -1) {
+        if (bbortMnfmonid != -1) {
+        if (bbortMnfmonid != -1) {
+            bbortButton.sftMnfmonid(bbortMnfmonid);
+            bbortButton.sftMnfmonid(bbortMnfmonid);
+            bbortButton.sftMnfmonid(bbortMnfmonid);
+            bbortButton.sftMnfmonid(bbortMnfmonid);
             bbortButton.sftMnfmonid(bbortMnfmonid);
         }
+        }
+        }
+        }
+        }
+        if (bbortMnfmonidIndfx != -1) {
+        if (bbortMnfmonidIndfx != -1) {
+        if (bbortMnfmonidIndfx != -1) {
+        if (bbortMnfmonidIndfx != -1) {
         if (bbortMnfmonidIndfx != -1) {
             bbortButton.sftDisplbyfdMnfmonidIndfx(bbortMnfmonidIndfx);
+            bbortButton.sftDisplbyfdMnfmonidIndfx(bbortMnfmonidIndfx);
+            bbortButton.sftDisplbyfdMnfmonidIndfx(bbortMnfmonidIndfx);
+            bbortButton.sftDisplbyfdMnfmonidIndfx(bbortMnfmonidIndfx);
+            bbortButton.sftDisplbyfdMnfmonidIndfx(bbortMnfmonidIndfx);
+        }
+        }
+        }
+        }
         }
         stbtusLbbfl = nfw JLbbfl(diblogInitiblContfnt);
+        stbtusLbbfl = nfw JLbbfl(diblogInitiblContfnt);
+        stbtusLbbfl = nfw JLbbfl(diblogInitiblContfnt);
+        stbtusLbbfl = nfw JLbbfl(diblogInitiblContfnt);
+        stbtusLbbfl = nfw JLbbfl(diblogInitiblContfnt);
+        JOptionPbnf bbortPbnf = nfw JOptionPbnf(stbtusLbbfl,
+        JOptionPbnf bbortPbnf = nfw JOptionPbnf(stbtusLbbfl,
+        JOptionPbnf bbortPbnf = nfw JOptionPbnf(stbtusLbbfl,
+        JOptionPbnf bbortPbnf = nfw JOptionPbnf(stbtusLbbfl,
         JOptionPbnf bbortPbnf = nfw JOptionPbnf(stbtusLbbfl,
             JOptionPbnf.INFORMATION_MESSAGE,
+            JOptionPbnf.INFORMATION_MESSAGE,
+            JOptionPbnf.INFORMATION_MESSAGE,
+            JOptionPbnf.INFORMATION_MESSAGE,
+            JOptionPbnf.INFORMATION_MESSAGE,
+            JOptionPbnf.DEFAULT_OPTION,
+            JOptionPbnf.DEFAULT_OPTION,
+            JOptionPbnf.DEFAULT_OPTION,
+            JOptionPbnf.DEFAULT_OPTION,
             JOptionPbnf.DEFAULT_OPTION,
             null, nfw Objfdt[]{bbortButton},
+            null, nfw Objfdt[]{bbortButton},
+            null, nfw Objfdt[]{bbortButton},
+            null, nfw Objfdt[]{bbortButton},
+            null, nfw Objfdt[]{bbortButton},
+            bbortButton);
+            bbortButton);
+            bbortButton);
+            bbortButton);
             bbortButton);
         bbortPbnf.gftAdtionMbp().put("dlosf", bbortAdtion);
+        bbortPbnf.gftAdtionMbp().put("dlosf", bbortAdtion);
+        bbortPbnf.gftAdtionMbp().put("dlosf", bbortAdtion);
+        bbortPbnf.gftAdtionMbp().put("dlosf", bbortAdtion);
+        bbortPbnf.gftAdtionMbp().put("dlosf", bbortAdtion);
 
-        // Thf diblog should bf dfntfrfd ovfr thf vifwport if thf tbblf is in onf
+
+
+
+
+        // Tif diblog siould bf dfntfrfd ovfr tif vifwport if tif tbblf is in onf
+        // Tif diblog siould bf dfntfrfd ovfr tif vifwport if tif tbblf is in onf
+        // Tif diblog siould bf dfntfrfd ovfr tif vifwport if tif tbblf is in onf
+        // Tif diblog siould bf dfntfrfd ovfr tif vifwport if tif tbblf is in onf
+        // Tif diblog siould bf dfntfrfd ovfr tif vifwport if tif tbblf is in onf
+        if (pbrfnt != null && pbrfnt.gftPbrfnt() instbndfof JVifwport) {
+        if (pbrfnt != null && pbrfnt.gftPbrfnt() instbndfof JVifwport) {
+        if (pbrfnt != null && pbrfnt.gftPbrfnt() instbndfof JVifwport) {
+        if (pbrfnt != null && pbrfnt.gftPbrfnt() instbndfof JVifwport) {
         if (pbrfnt != null && pbrfnt.gftPbrfnt() instbndfof JVifwport) {
             bbortDiblog =
+            bbortDiblog =
+            bbortDiblog =
+            bbortDiblog =
+            bbortDiblog =
+                    bbortPbnf.drfbtfDiblog(pbrfnt.gftPbrfnt(), progrfssTitlf);
+                    bbortPbnf.drfbtfDiblog(pbrfnt.gftPbrfnt(), progrfssTitlf);
+                    bbortPbnf.drfbtfDiblog(pbrfnt.gftPbrfnt(), progrfssTitlf);
+                    bbortPbnf.drfbtfDiblog(pbrfnt.gftPbrfnt(), progrfssTitlf);
                     bbortPbnf.drfbtfDiblog(pbrfnt.gftPbrfnt(), progrfssTitlf);
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            bbortDiblog = bbortPbnf.drfbtfDiblog(pbrfnt, progrfssTitlf);
+            bbortDiblog = bbortPbnf.drfbtfDiblog(pbrfnt, progrfssTitlf);
+            bbortDiblog = bbortPbnf.drfbtfDiblog(pbrfnt, progrfssTitlf);
+            bbortDiblog = bbortPbnf.drfbtfDiblog(pbrfnt, progrfssTitlf);
             bbortDiblog = bbortPbnf.drfbtfDiblog(pbrfnt, progrfssTitlf);
         }
-        // dlidking thf X button should not hidf thf diblog
+        }
+        }
+        }
+        }
+        // dlidking tif X button siould not iidf tif diblog
+        // dlidking tif X button siould not iidf tif diblog
+        // dlidking tif X button siould not iidf tif diblog
+        // dlidking tif X button siould not iidf tif diblog
+        // dlidking tif X button siould not iidf tif diblog
+        bbortDiblog.sftDffbultClosfOpfrbtion(JDiblog.DO_NOTHING_ON_CLOSE);
+        bbortDiblog.sftDffbultClosfOpfrbtion(JDiblog.DO_NOTHING_ON_CLOSE);
+        bbortDiblog.sftDffbultClosfOpfrbtion(JDiblog.DO_NOTHING_ON_CLOSE);
+        bbortDiblog.sftDffbultClosfOpfrbtion(JDiblog.DO_NOTHING_ON_CLOSE);
         bbortDiblog.sftDffbultClosfOpfrbtion(JDiblog.DO_NOTHING_ON_CLOSE);
         bbortDiblog.bddWindowListfnfr(dlosfListfnfr);
+        bbortDiblog.bddWindowListfnfr(dlosfListfnfr);
+        bbortDiblog.bddWindowListfnfr(dlosfListfnfr);
+        bbortDiblog.bddWindowListfnfr(dlosfListfnfr);
+        bbortDiblog.bddWindowListfnfr(dlosfListfnfr);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Shows PrintingStbtus diblog.
-     * if diblog is modbl this mfthod rfturns only
-     * bftfr <dodf>disposf()</dodf> wbs dbllfd othfrwisf rfturns immfdibtfly
+    /**
+    /**
+    /**
+    /**
+     * Siows PrintingStbtus diblog.
+     * Siows PrintingStbtus diblog.
+     * Siows PrintingStbtus diblog.
+     * Siows PrintingStbtus diblog.
+     * Siows PrintingStbtus diblog.
+     * if diblog is modbl tiis mftiod rfturns only
+     * if diblog is modbl tiis mftiod rfturns only
+     * if diblog is modbl tiis mftiod rfturns only
+     * if diblog is modbl tiis mftiod rfturns only
+     * if diblog is modbl tiis mftiod rfturns only
+     * bftfr <dodf>disposf()</dodf> wbs dbllfd otifrwisf rfturns immfdibtfly
+     * bftfr <dodf>disposf()</dodf> wbs dbllfd otifrwisf rfturns immfdibtfly
+     * bftfr <dodf>disposf()</dodf> wbs dbllfd otifrwisf rfturns immfdibtfly
+     * bftfr <dodf>disposf()</dodf> wbs dbllfd otifrwisf rfturns immfdibtfly
+     * bftfr <dodf>disposf()</dodf> wbs dbllfd otifrwisf rfturns immfdibtfly
      *
-     * @pbrbm isModbl <dodf>truf</dodf> this diblog should bf modbl;
-     *                <dodf>fblsf</dodf> othfrwisf.
+     *
+     *
+     *
+     *
+     * @pbrbm isModbl <dodf>truf</dodf> tiis diblog siould bf modbl;
+     * @pbrbm isModbl <dodf>truf</dodf> tiis diblog siould bf modbl;
+     * @pbrbm isModbl <dodf>truf</dodf> tiis diblog siould bf modbl;
+     * @pbrbm isModbl <dodf>truf</dodf> tiis diblog siould bf modbl;
+     * @pbrbm isModbl <dodf>truf</dodf> tiis diblog siould bf modbl;
+     *                <dodf>fblsf</dodf> otifrwisf.
+     *                <dodf>fblsf</dodf> otifrwisf.
+     *                <dodf>fblsf</dodf> otifrwisf.
+     *                <dodf>fblsf</dodf> otifrwisf.
+     *                <dodf>fblsf</dodf> otifrwisf.
+     * @sff #disposf
+     * @sff #disposf
+     * @sff #disposf
+     * @sff #disposf
      * @sff #disposf
      */
-    publid void showModbl(finbl boolfbn isModbl) {
-        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
-            showModblOnEDT(isModbl);
+     */
+     */
+     */
+     */
+    publid void siowModbl(finbl boolfbn isModbl) {
+    publid void siowModbl(finbl boolfbn isModbl) {
+    publid void siowModbl(finbl boolfbn isModbl) {
+    publid void siowModbl(finbl boolfbn isModbl) {
+    publid void siowModbl(finbl boolfbn isModbl) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            siowModblOnEDT(isModbl);
+            siowModblOnEDT(isModbl);
+            siowModblOnEDT(isModbl);
+            siowModblOnEDT(isModbl);
+            siowModblOnEDT(isModbl);
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            try {
+            try {
+            try {
+            try {
             try {
                 SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
                     publid void run() {
-                        showModblOnEDT(isModbl);
+                    publid void run() {
+                    publid void run() {
+                    publid void run() {
+                    publid void run() {
+                        siowModblOnEDT(isModbl);
+                        siowModblOnEDT(isModbl);
+                        siowModblOnEDT(isModbl);
+                        siowModblOnEDT(isModbl);
+                        siowModblOnEDT(isModbl);
+                    }
+                    }
+                    }
+                    }
                     }
                 });
-            } dbtdh(IntfrruptfdExdfption f) {
-                throw nfw RuntimfExdfption(f);
-            } dbtdh(InvodbtionTbrgftExdfption f) {
-                Throwbblf dbusf = f.gftCbusf();
+                });
+                });
+                });
+                });
+            } dbtdi(IntfrruptfdExdfption f) {
+            } dbtdi(IntfrruptfdExdfption f) {
+            } dbtdi(IntfrruptfdExdfption f) {
+            } dbtdi(IntfrruptfdExdfption f) {
+            } dbtdi(IntfrruptfdExdfption f) {
+                tirow nfw RuntimfExdfption(f);
+                tirow nfw RuntimfExdfption(f);
+                tirow nfw RuntimfExdfption(f);
+                tirow nfw RuntimfExdfption(f);
+                tirow nfw RuntimfExdfption(f);
+            } dbtdi(InvodbtionTbrgftExdfption f) {
+            } dbtdi(InvodbtionTbrgftExdfption f) {
+            } dbtdi(InvodbtionTbrgftExdfption f) {
+            } dbtdi(InvodbtionTbrgftExdfption f) {
+            } dbtdi(InvodbtionTbrgftExdfption f) {
+                Tirowbblf dbusf = f.gftCbusf();
+                Tirowbblf dbusf = f.gftCbusf();
+                Tirowbblf dbusf = f.gftCbusf();
+                Tirowbblf dbusf = f.gftCbusf();
+                Tirowbblf dbusf = f.gftCbusf();
                 if (dbusf instbndfof RuntimfExdfption) {
-                   throw (RuntimfExdfption) dbusf;
+                if (dbusf instbndfof RuntimfExdfption) {
+                if (dbusf instbndfof RuntimfExdfption) {
+                if (dbusf instbndfof RuntimfExdfption) {
+                if (dbusf instbndfof RuntimfExdfption) {
+                   tirow (RuntimfExdfption) dbusf;
+                   tirow (RuntimfExdfption) dbusf;
+                   tirow (RuntimfExdfption) dbusf;
+                   tirow (RuntimfExdfption) dbusf;
+                   tirow (RuntimfExdfption) dbusf;
                 } flsf if (dbusf instbndfof Error) {
-                   throw (Error) dbusf;
+                } flsf if (dbusf instbndfof Error) {
+                } flsf if (dbusf instbndfof Error) {
+                } flsf if (dbusf instbndfof Error) {
+                } flsf if (dbusf instbndfof Error) {
+                   tirow (Error) dbusf;
+                   tirow (Error) dbusf;
+                   tirow (Error) dbusf;
+                   tirow (Error) dbusf;
+                   tirow (Error) dbusf;
                 } flsf {
-                   throw nfw RuntimfExdfption(dbusf);
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                   tirow nfw RuntimfExdfption(dbusf);
+                   tirow nfw RuntimfExdfption(dbusf);
+                   tirow nfw RuntimfExdfption(dbusf);
+                   tirow nfw RuntimfExdfption(dbusf);
+                   tirow nfw RuntimfExdfption(dbusf);
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Thf EDT pbrt of thf showModbl mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Tif EDT pbrt of tif siowModbl mftiod.
+     * Tif EDT pbrt of tif siowModbl mftiod.
+     * Tif EDT pbrt of tif siowModbl mftiod.
+     * Tif EDT pbrt of tif siowModbl mftiod.
+     * Tif EDT pbrt of tif siowModbl mftiod.
      *
-     * This mfthod is to bf dbllfd on thf EDT only.
+     *
+     *
+     *
+     *
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
      */
-    privbtf void showModblOnEDT(boolfbn isModbl) {
-        bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+     */
+     */
+     */
+     */
+    privbtf void siowModblOnEDT(boolfbn isModbl) {
+    privbtf void siowModblOnEDT(boolfbn isModbl) {
+    privbtf void siowModblOnEDT(boolfbn isModbl) {
+    privbtf void siowModblOnEDT(boolfbn isModbl) {
+    privbtf void siowModblOnEDT(boolfbn isModbl) {
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        init();
+        init();
+        init();
+        init();
         init();
         bbortDiblog.sftModbl(isModbl);
+        bbortDiblog.sftModbl(isModbl);
+        bbortDiblog.sftModbl(isModbl);
+        bbortDiblog.sftModbl(isModbl);
+        bbortDiblog.sftModbl(isModbl);
+        bbortDiblog.sftVisiblf(truf);
+        bbortDiblog.sftVisiblf(truf);
+        bbortDiblog.sftVisiblf(truf);
+        bbortDiblog.sftVisiblf(truf);
         bbortDiblog.sftVisiblf(truf);
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Disposfs modbl PrintingStbtus diblog
+     * Disposfs modbl PrintingStbtus diblog
+     * Disposfs modbl PrintingStbtus diblog
+     * Disposfs modbl PrintingStbtus diblog
+     * Disposfs modbl PrintingStbtus diblog
      *
-     * @sff #showModbl(boolfbn)
+     *
+     *
+     *
+     *
+     * @sff #siowModbl(boolfbn)
+     * @sff #siowModbl(boolfbn)
+     * @sff #siowModbl(boolfbn)
+     * @sff #siowModbl(boolfbn)
+     * @sff #siowModbl(boolfbn)
+     */
+     */
+     */
+     */
      */
     publid void disposf() {
-        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+    publid void disposf() {
+    publid void disposf() {
+    publid void disposf() {
+    publid void disposf() {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            disposfOnEDT();
+            disposfOnEDT();
+            disposfOnEDT();
+            disposfOnEDT();
             disposfOnEDT();
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
             SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
                 publid void run() {
+                publid void run() {
+                publid void run() {
+                publid void run() {
+                publid void run() {
+                    disposfOnEDT();
+                    disposfOnEDT();
+                    disposfOnEDT();
+                    disposfOnEDT();
                     disposfOnEDT();
                 }
+                }
+                }
+                }
+                }
+            });
+            });
+            });
+            });
             });
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Thf EDT pbrt of thf disposf mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Tif EDT pbrt of tif disposf mftiod.
+     * Tif EDT pbrt of tif disposf mftiod.
+     * Tif EDT pbrt of tif disposf mftiod.
+     * Tif EDT pbrt of tif disposf mftiod.
+     * Tif EDT pbrt of tif disposf mftiod.
      *
-     * This mfthod is to bf dbllfd on thf EDT only.
+     *
+     *
+     *
+     *
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     * Tiis mftiod is to bf dbllfd on tif EDT only.
+     */
+     */
+     */
+     */
      */
     privbtf void disposfOnEDT() {
-        bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+    privbtf void disposfOnEDT() {
+    privbtf void disposfOnEDT() {
+    privbtf void disposfOnEDT() {
+    privbtf void disposfOnEDT() {
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+        if (bbortDiblog != null) {
+        if (bbortDiblog != null) {
+        if (bbortDiblog != null) {
+        if (bbortDiblog != null) {
         if (bbortDiblog != null) {
             bbortDiblog.rfmovfWindowListfnfr(dlosfListfnfr);
+            bbortDiblog.rfmovfWindowListfnfr(dlosfListfnfr);
+            bbortDiblog.rfmovfWindowListfnfr(dlosfListfnfr);
+            bbortDiblog.rfmovfWindowListfnfr(dlosfListfnfr);
+            bbortDiblog.rfmovfWindowListfnfr(dlosfListfnfr);
+            bbortDiblog.disposf();
+            bbortDiblog.disposf();
+            bbortDiblog.disposf();
+            bbortDiblog.disposf();
             bbortDiblog.disposf();
             bbortDiblog = null;
+            bbortDiblog = null;
+            bbortDiblog = null;
+            bbortDiblog = null;
+            bbortDiblog = null;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns whfthfr thf printng wbs bbortfd using this PrintingStbtus
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * Rfturns wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * Rfturns wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * Rfturns wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * Rfturns wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
      *
-     * @rfturn whfthfr thf printng wbs bbortfd using this PrintingStbtus
+     *
+     *
+     *
+     *
+     * @rfturn wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * @rfturn wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * @rfturn wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * @rfturn wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     * @rfturn wiftifr tif printng wbs bbortfd using tiis PrintingStbtus
+     */
+     */
+     */
+     */
      */
     publid boolfbn isAbortfd() {
+    publid boolfbn isAbortfd() {
+    publid boolfbn isAbortfd() {
+    publid boolfbn isAbortfd() {
+    publid boolfbn isAbortfd() {
+        rfturn isAbortfd.gft();
+        rfturn isAbortfd.gft();
+        rfturn isAbortfd.gft();
+        rfturn isAbortfd.gft();
         rfturn isAbortfd.gft();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns printbblf whidh is usfd to trbdk thf durrfnt pbgf bfing
-     * printfd in this PrintingStbtus
+    /**
+    /**
+    /**
+    /**
+     * Rfturns printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * Rfturns printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * Rfturns printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * Rfturns printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * Rfturns printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * printfd in tiis PrintingStbtus
+     * printfd in tiis PrintingStbtus
+     * printfd in tiis PrintingStbtus
+     * printfd in tiis PrintingStbtus
+     * printfd in tiis PrintingStbtus
+     *
+     *
+     *
+     *
      *
      * @pbrbm printbblf to bf usfd to drfbtf notifidbtion printbblf
-     * @rfturn printbblf whidh is usfd to trbdk thf durrfnt pbgf bfing
-     *         printfd in this PrintingStbtus
-     * @throws NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
+     * @pbrbm printbblf to bf usfd to drfbtf notifidbtion printbblf
+     * @pbrbm printbblf to bf usfd to drfbtf notifidbtion printbblf
+     * @pbrbm printbblf to bf usfd to drfbtf notifidbtion printbblf
+     * @pbrbm printbblf to bf usfd to drfbtf notifidbtion printbblf
+     * @rfturn printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * @rfturn printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * @rfturn printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * @rfturn printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     * @rfturn printbblf wiidi is usfd to trbdk tif durrfnt pbgf bfing
+     *         printfd in tiis PrintingStbtus
+     *         printfd in tiis PrintingStbtus
+     *         printfd in tiis PrintingStbtus
+     *         printfd in tiis PrintingStbtus
+     *         printfd in tiis PrintingStbtus
+     * @tirows NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
+     */
+     */
+     */
+     */
      */
     publid Printbblf drfbtfNotifidbtionPrintbblf(Printbblf printbblf) {
+    publid Printbblf drfbtfNotifidbtionPrintbblf(Printbblf printbblf) {
+    publid Printbblf drfbtfNotifidbtionPrintbblf(Printbblf printbblf) {
+    publid Printbblf drfbtfNotifidbtionPrintbblf(Printbblf printbblf) {
+    publid Printbblf drfbtfNotifidbtionPrintbblf(Printbblf printbblf) {
+        rfturn nfw NotifidbtionPrintbblf(printbblf);
+        rfturn nfw NotifidbtionPrintbblf(printbblf);
+        rfturn nfw NotifidbtionPrintbblf(printbblf);
+        rfturn nfw NotifidbtionPrintbblf(printbblf);
         rfturn nfw NotifidbtionPrintbblf(printbblf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf dlbss NotifidbtionPrintbblf implfmfnts Printbblf {
+    privbtf dlbss NotifidbtionPrintbblf implfmfnts Printbblf {
+    privbtf dlbss NotifidbtionPrintbblf implfmfnts Printbblf {
+    privbtf dlbss NotifidbtionPrintbblf implfmfnts Printbblf {
+    privbtf dlbss NotifidbtionPrintbblf implfmfnts Printbblf {
+        privbtf finbl Printbblf printDflfgbtff;
+        privbtf finbl Printbblf printDflfgbtff;
+        privbtf finbl Printbblf printDflfgbtff;
+        privbtf finbl Printbblf printDflfgbtff;
         privbtf finbl Printbblf printDflfgbtff;
 
+
+
+
+
+        publid NotifidbtionPrintbblf(Printbblf dflfgbtff) {
+        publid NotifidbtionPrintbblf(Printbblf dflfgbtff) {
+        publid NotifidbtionPrintbblf(Printbblf dflfgbtff) {
+        publid NotifidbtionPrintbblf(Printbblf dflfgbtff) {
         publid NotifidbtionPrintbblf(Printbblf dflfgbtff) {
             if (dflfgbtff == null) {
-                throw nfw NullPointfrExdfption("Printbblf is null");
+            if (dflfgbtff == null) {
+            if (dflfgbtff == null) {
+            if (dflfgbtff == null) {
+            if (dflfgbtff == null) {
+                tirow nfw NullPointfrExdfption("Printbblf is null");
+                tirow nfw NullPointfrExdfption("Printbblf is null");
+                tirow nfw NullPointfrExdfption("Printbblf is null");
+                tirow nfw NullPointfrExdfption("Printbblf is null");
+                tirow nfw NullPointfrExdfption("Printbblf is null");
             }
-            this.printDflfgbtff = dflfgbtff;
+            }
+            }
+            }
+            }
+            tiis.printDflfgbtff = dflfgbtff;
+            tiis.printDflfgbtff = dflfgbtff;
+            tiis.printDflfgbtff = dflfgbtff;
+            tiis.printDflfgbtff = dflfgbtff;
+            tiis.printDflfgbtff = dflfgbtff;
+        }
+        }
+        }
+        }
         }
 
-        publid int print(finbl Grbphids grbphids,
+
+
+
+
+        publid int print(finbl Grbpiids grbpiids,
+        publid int print(finbl Grbpiids grbpiids,
+        publid int print(finbl Grbpiids grbpiids,
+        publid int print(finbl Grbpiids grbpiids,
+        publid int print(finbl Grbpiids grbpiids,
                          finbl PbgfFormbt pbgfFormbt, finbl int pbgfIndfx)
-                throws PrintfrExdfption {
+                         finbl PbgfFormbt pbgfFormbt, finbl int pbgfIndfx)
+                         finbl PbgfFormbt pbgfFormbt, finbl int pbgfIndfx)
+                         finbl PbgfFormbt pbgfFormbt, finbl int pbgfIndfx)
+                         finbl PbgfFormbt pbgfFormbt, finbl int pbgfIndfx)
+                tirows PrintfrExdfption {
+                tirows PrintfrExdfption {
+                tirows PrintfrExdfption {
+                tirows PrintfrExdfption {
+                tirows PrintfrExdfption {
+
+
+
+
 
             finbl int rftVbl =
-                printDflfgbtff.print(grbphids, pbgfFormbt, pbgfIndfx);
+            finbl int rftVbl =
+            finbl int rftVbl =
+            finbl int rftVbl =
+            finbl int rftVbl =
+                printDflfgbtff.print(grbpiids, pbgfFormbt, pbgfIndfx);
+                printDflfgbtff.print(grbpiids, pbgfFormbt, pbgfIndfx);
+                printDflfgbtff.print(grbpiids, pbgfFormbt, pbgfIndfx);
+                printDflfgbtff.print(grbpiids, pbgfFormbt, pbgfIndfx);
+                printDflfgbtff.print(grbpiids, pbgfFormbt, pbgfIndfx);
             if (rftVbl != NO_SUCH_PAGE && !isAbortfd()) {
-                if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            if (rftVbl != NO_SUCH_PAGE && !isAbortfd()) {
+            if (rftVbl != NO_SUCH_PAGE && !isAbortfd()) {
+            if (rftVbl != NO_SUCH_PAGE && !isAbortfd()) {
+            if (rftVbl != NO_SUCH_PAGE && !isAbortfd()) {
+                if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                    updbtfStbtusOnEDT(pbgfIndfx);
+                    updbtfStbtusOnEDT(pbgfIndfx);
+                    updbtfStbtusOnEDT(pbgfIndfx);
+                    updbtfStbtusOnEDT(pbgfIndfx);
                     updbtfStbtusOnEDT(pbgfIndfx);
                 } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
                     SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
                         publid void run() {
+                        publid void run() {
+                        publid void run() {
+                        publid void run() {
+                        publid void run() {
+                            updbtfStbtusOnEDT(pbgfIndfx);
+                            updbtfStbtusOnEDT(pbgfIndfx);
+                            updbtfStbtusOnEDT(pbgfIndfx);
+                            updbtfStbtusOnEDT(pbgfIndfx);
                             updbtfStbtusOnEDT(pbgfIndfx);
                         }
+                        }
+                        }
+                        }
+                        }
+                    });
+                    });
+                    });
+                    });
                     });
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             rfturn rftVbl;
+            rfturn rftVbl;
+            rfturn rftVbl;
+            rfturn rftVbl;
+            rfturn rftVbl;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Thf EDT pbrt of thf print mfthod.
+        /**
+        /**
+        /**
+        /**
+         * Tif EDT pbrt of tif print mftiod.
+         * Tif EDT pbrt of tif print mftiod.
+         * Tif EDT pbrt of tif print mftiod.
+         * Tif EDT pbrt of tif print mftiod.
+         * Tif EDT pbrt of tif print mftiod.
          *
-         * This mfthod is to bf dbllfd on thf EDT only.
+         *
+         *
+         *
+         *
+         * Tiis mftiod is to bf dbllfd on tif EDT only.
+         * Tiis mftiod is to bf dbllfd on tif EDT only.
+         * Tiis mftiod is to bf dbllfd on tif EDT only.
+         * Tiis mftiod is to bf dbllfd on tif EDT only.
+         * Tiis mftiod is to bf dbllfd on tif EDT only.
+         */
+         */
+         */
+         */
          */
         privbtf void updbtfStbtusOnEDT(int pbgfIndfx) {
-            bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+        privbtf void updbtfStbtusOnEDT(int pbgfIndfx) {
+        privbtf void updbtfStbtusOnEDT(int pbgfIndfx) {
+        privbtf void updbtfStbtusOnEDT(int pbgfIndfx) {
+        privbtf void updbtfStbtusOnEDT(int pbgfIndfx) {
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
+            Objfdt[] pbgfNumbfr = nfw Objfdt[]{
+            Objfdt[] pbgfNumbfr = nfw Objfdt[]{
+            Objfdt[] pbgfNumbfr = nfw Objfdt[]{
+            Objfdt[] pbgfNumbfr = nfw Objfdt[]{
             Objfdt[] pbgfNumbfr = nfw Objfdt[]{
                 pbgfIndfx + 1};
+                pbgfIndfx + 1};
+                pbgfIndfx + 1};
+                pbgfIndfx + 1};
+                pbgfIndfx + 1};
+            stbtusLbbfl.sftTfxt(stbtusFormbt.formbt(pbgfNumbfr));
+            stbtusLbbfl.sftTfxt(stbtusFormbt.formbt(pbgfNumbfr));
+            stbtusLbbfl.sftTfxt(stbtusFormbt.formbt(pbgfNumbfr));
+            stbtusLbbfl.sftTfxt(stbtusFormbt.formbt(pbgfNumbfr));
             stbtusLbbfl.sftTfxt(stbtusFormbt.formbt(pbgfNumbfr));
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Duplidbtfd from UIMbnbgfr to mbkf it visiblf
+     * Duplidbtfd from UIMbnbgfr to mbkf it visiblf
+     * Duplidbtfd from UIMbnbgfr to mbkf it visiblf
+     * Duplidbtfd from UIMbnbgfr to mbkf it visiblf
+     * Duplidbtfd from UIMbnbgfr to mbkf it visiblf
+     */
+     */
+     */
+     */
      */
     stbtid int gftInt(Objfdt kfy, int dffbultVbluf) {
+    stbtid int gftInt(Objfdt kfy, int dffbultVbluf) {
+    stbtid int gftInt(Objfdt kfy, int dffbultVbluf) {
+    stbtid int gftInt(Objfdt kfy, int dffbultVbluf) {
+    stbtid int gftInt(Objfdt kfy, int dffbultVbluf) {
+        Objfdt vbluf = UIMbnbgfr.gft(kfy);
+        Objfdt vbluf = UIMbnbgfr.gft(kfy);
+        Objfdt vbluf = UIMbnbgfr.gft(kfy);
+        Objfdt vbluf = UIMbnbgfr.gft(kfy);
         Objfdt vbluf = UIMbnbgfr.gft(kfy);
         if (vbluf instbndfof Intfgfr) {
+        if (vbluf instbndfof Intfgfr) {
+        if (vbluf instbndfof Intfgfr) {
+        if (vbluf instbndfof Intfgfr) {
+        if (vbluf instbndfof Intfgfr) {
+            rfturn ((Intfgfr) vbluf).intVbluf();
+            rfturn ((Intfgfr) vbluf).intVbluf();
+            rfturn ((Intfgfr) vbluf).intVbluf();
+            rfturn ((Intfgfr) vbluf).intVbluf();
             rfturn ((Intfgfr) vbluf).intVbluf();
         }
+        }
+        }
+        }
+        }
+        if (vbluf instbndfof String) {
+        if (vbluf instbndfof String) {
+        if (vbluf instbndfof String) {
+        if (vbluf instbndfof String) {
         if (vbluf instbndfof String) {
             try {
+            try {
+            try {
+            try {
+            try {
                 rfturn Intfgfr.pbrsfInt((String) vbluf);
-            } dbtdh(NumbfrFormbtExdfption nff) {
+                rfturn Intfgfr.pbrsfInt((String) vbluf);
+                rfturn Intfgfr.pbrsfInt((String) vbluf);
+                rfturn Intfgfr.pbrsfInt((String) vbluf);
+                rfturn Intfgfr.pbrsfInt((String) vbluf);
+            } dbtdi(NumbfrFormbtExdfption nff) {
+            } dbtdi(NumbfrFormbtExdfption nff) {
+            } dbtdi(NumbfrFormbtExdfption nff) {
+            } dbtdi(NumbfrFormbtExdfption nff) {
+            } dbtdi(NumbfrFormbtExdfption nff) {
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+        rfturn dffbultVbluf;
+        rfturn dffbultVbluf;
+        rfturn dffbultVbluf;
+        rfturn dffbultVbluf;
         rfturn dffbultVbluf;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

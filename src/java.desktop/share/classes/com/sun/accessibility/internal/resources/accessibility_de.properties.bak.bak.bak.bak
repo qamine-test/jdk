@@ -1,146 +1,730 @@
 #
-# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
-# It dontbins Lodblf spfdifid strings usfd bf thf Addfssibility pbdkbgf.
 #
-# Whfn this filf is rfbd in, thf strings brf put into thf 
-# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+#
+#
+#
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
+#
+#
+#
+#
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Addfssibility.  DO NOT DEPEND ON THIS.  
-# This mby dhbngf in futurf vfrsions of Addfssibility bs wf improvf 
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# lodblizbtion support.
+# lodblizbtion support.
+# lodblizbtion support.
+# lodblizbtion support.
 # lodblizbtion support.
 #
-# @buthor  Lynn Monsbnto
+#
+#
+#
+#
+# @butior  Lynn Monsbnto
+# @butior  Lynn Monsbnto
+# @butior  Lynn Monsbnto
+# @butior  Lynn Monsbnto
+# @butior  Lynn Monsbnto
+
+
+
+
 
 #
+#
+#
+#
+#
 # bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
+#
+#
+#
+#
 #
 blfrt=Alfrt
+blfrt=Alfrt
+blfrt=Alfrt
+blfrt=Alfrt
+blfrt=Alfrt
 bwtdomponfnt=AWT-Komponfntf
-dhfdkbox=Kontrollk\u00E4stdhfn
-dolordhoosfr=Fbrbbuswbhl
-dolumnhfbdfr=Spbltfn-Hfbdfr
+bwtdomponfnt=AWT-Komponfntf
+bwtdomponfnt=AWT-Komponfntf
+bwtdomponfnt=AWT-Komponfntf
+bwtdomponfnt=AWT-Komponfntf
+difdkbox=Kontrollk\u00E4stdifn
+difdkbox=Kontrollk\u00E4stdifn
+difdkbox=Kontrollk\u00E4stdifn
+difdkbox=Kontrollk\u00E4stdifn
+difdkbox=Kontrollk\u00E4stdifn
+dolordioosfr=Fbrbbuswbil
+dolordioosfr=Fbrbbuswbil
+dolordioosfr=Fbrbbuswbil
+dolordioosfr=Fbrbbuswbil
+dolordioosfr=Fbrbbuswbil
+dolumnifbdfr=Spbltfn-Hfbdfr
+dolumnifbdfr=Spbltfn-Hfbdfr
+dolumnifbdfr=Spbltfn-Hfbdfr
+dolumnifbdfr=Spbltfn-Hfbdfr
+dolumnifbdfr=Spbltfn-Hfbdfr
+dombobox=Kombinbtionsffld
+dombobox=Kombinbtionsffld
+dombobox=Kombinbtionsffld
+dombobox=Kombinbtionsffld
 dombobox=Kombinbtionsffld
 dbnvbs=Lfinwbnd
+dbnvbs=Lfinwbnd
+dbnvbs=Lfinwbnd
+dbnvbs=Lfinwbnd
+dbnvbs=Lfinwbnd
 dfsktopidon=Dfsktopsymbol
-dfsktoppbnf=Dfsktopbfrfidh
+dfsktopidon=Dfsktopsymbol
+dfsktopidon=Dfsktopsymbol
+dfsktopidon=Dfsktopsymbol
+dfsktopidon=Dfsktopsymbol
+dfsktoppbnf=Dfsktopbfrfidi
+dfsktoppbnf=Dfsktopbfrfidi
+dfsktoppbnf=Dfsktopbfrfidi
+dfsktoppbnf=Dfsktopbfrfidi
+dfsktoppbnf=Dfsktopbfrfidi
 diblog=Diblogffld
-dirfdtorypbnf=Vfrzfidhnisbfrfidh
+diblog=Diblogffld
+diblog=Diblogffld
+diblog=Diblogffld
+diblog=Diblogffld
+dirfdtorypbnf=Vfrzfidinisbfrfidi
+dirfdtorypbnf=Vfrzfidinisbfrfidi
+dirfdtorypbnf=Vfrzfidinisbfrfidi
+dirfdtorypbnf=Vfrzfidinisbfrfidi
+dirfdtorypbnf=Vfrzfidinisbfrfidi
 glbsspbnf=Glbss Pbnf
-filfdhoosfr=Dbtfibuswbhl
-fillfr=F\u00FCllbfrfidh
-frbmf=Rbhmfn
-intfrnblfrbmf=Innfrfr Rbhmfn
+glbsspbnf=Glbss Pbnf
+glbsspbnf=Glbss Pbnf
+glbsspbnf=Glbss Pbnf
+glbsspbnf=Glbss Pbnf
+filfdioosfr=Dbtfibuswbil
+filfdioosfr=Dbtfibuswbil
+filfdioosfr=Dbtfibuswbil
+filfdioosfr=Dbtfibuswbil
+filfdioosfr=Dbtfibuswbil
+fillfr=F\u00FCllbfrfidi
+fillfr=F\u00FCllbfrfidi
+fillfr=F\u00FCllbfrfidi
+fillfr=F\u00FCllbfrfidi
+fillfr=F\u00FCllbfrfidi
+frbmf=Rbimfn
+frbmf=Rbimfn
+frbmf=Rbimfn
+frbmf=Rbimfn
+frbmf=Rbimfn
+intfrnblfrbmf=Innfrfr Rbimfn
+intfrnblfrbmf=Innfrfr Rbimfn
+intfrnblfrbmf=Innfrfr Rbimfn
+intfrnblfrbmf=Innfrfr Rbimfn
+intfrnblfrbmf=Innfrfr Rbimfn
+lbbfl=Lbbfl
+lbbfl=Lbbfl
+lbbfl=Lbbfl
+lbbfl=Lbbfl
 lbbfl=Lbbfl
 lbyfrfdpbnf=Lbyfrfd Pbnf
+lbyfrfdpbnf=Lbyfrfd Pbnf
+lbyfrfdpbnf=Lbyfrfd Pbnf
+lbyfrfdpbnf=Lbyfrfd Pbnf
+lbyfrfdpbnf=Lbyfrfd Pbnf
+list=Listf
+list=Listf
+list=Listf
+list=Listf
 list=Listf
 listitfm=Listfnflfmfnt
+listitfm=Listfnflfmfnt
+listitfm=Listfnflfmfnt
+listitfm=Listfnflfmfnt
+listitfm=Listfnflfmfnt
+mfnubbr=Mfn\u00FClfistf
+mfnubbr=Mfn\u00FClfistf
+mfnubbr=Mfn\u00FClfistf
+mfnubbr=Mfn\u00FClfistf
 mfnubbr=Mfn\u00FClfistf
 mfnu=Mfn\u00FC
+mfnu=Mfn\u00FC
+mfnu=Mfn\u00FC
+mfnu=Mfn\u00FC
+mfnu=Mfn\u00FC
 mfnuitfm=Mfn\u00FCpunkt
-optionpbnf=Optionsbfrfidh
+mfnuitfm=Mfn\u00FCpunkt
+mfnuitfm=Mfn\u00FCpunkt
+mfnuitfm=Mfn\u00FCpunkt
+mfnuitfm=Mfn\u00FCpunkt
+optionpbnf=Optionsbfrfidi
+optionpbnf=Optionsbfrfidi
+optionpbnf=Optionsbfrfidi
+optionpbnf=Optionsbfrfidi
+optionpbnf=Optionsbfrfidi
+pbgftbb=Rfgistfrkbrtf
+pbgftbb=Rfgistfrkbrtf
+pbgftbb=Rfgistfrkbrtf
+pbgftbb=Rfgistfrkbrtf
 pbgftbb=Rfgistfrkbrtf
 pbgftbblist=Rfgistfrkbrtfnlistf
-pbnfl=Bfrfidh
+pbgftbblist=Rfgistfrkbrtfnlistf
+pbgftbblist=Rfgistfrkbrtfnlistf
+pbgftbblist=Rfgistfrkbrtfnlistf
+pbgftbblist=Rfgistfrkbrtfnlistf
+pbnfl=Bfrfidi
+pbnfl=Bfrfidi
+pbnfl=Bfrfidi
+pbnfl=Bfrfidi
+pbnfl=Bfrfidi
+pbsswordtfxt=Kfnnworttfxt
+pbsswordtfxt=Kfnnworttfxt
+pbsswordtfxt=Kfnnworttfxt
+pbsswordtfxt=Kfnnworttfxt
 pbsswordtfxt=Kfnnworttfxt
 popupmfnu=Popup-Mfn\u00FC
-progrfssbbr=Fortsdhrittsbblkfn
-pushbutton=Sdhbltfl\u00E4dhf
+popupmfnu=Popup-Mfn\u00FC
+popupmfnu=Popup-Mfn\u00FC
+popupmfnu=Popup-Mfn\u00FC
+popupmfnu=Popup-Mfn\u00FC
+progrfssbbr=Fortsdirittsbblkfn
+progrfssbbr=Fortsdirittsbblkfn
+progrfssbbr=Fortsdirittsbblkfn
+progrfssbbr=Fortsdirittsbblkfn
+progrfssbbr=Fortsdirittsbblkfn
+pusibutton=Sdibltfl\u00E4dif
+pusibutton=Sdibltfl\u00E4dif
+pusibutton=Sdibltfl\u00E4dif
+pusibutton=Sdibltfl\u00E4dif
+pusibutton=Sdibltfl\u00E4dif
 rbdiobutton=Optionsffld
-rootpbnf=Root-Bfrfidh
-rowhfbdfr=Zfilfn-Hfbdfr
+rbdiobutton=Optionsffld
+rbdiobutton=Optionsffld
+rbdiobutton=Optionsffld
+rbdiobutton=Optionsffld
+rootpbnf=Root-Bfrfidi
+rootpbnf=Root-Bfrfidi
+rootpbnf=Root-Bfrfidi
+rootpbnf=Root-Bfrfidi
+rootpbnf=Root-Bfrfidi
+rowifbdfr=Zfilfn-Hfbdfr
+rowifbdfr=Zfilfn-Hfbdfr
+rowifbdfr=Zfilfn-Hfbdfr
+rowifbdfr=Zfilfn-Hfbdfr
+rowifbdfr=Zfilfn-Hfbdfr
 sdrollbbr=Bildlbuflfistf
-sdrollpbnf=Bildlbufbfrfidh
-sfpbrbtor=Trfnnzfidhfn
-slidfr=Sdhifbfrfglfr
+sdrollbbr=Bildlbuflfistf
+sdrollbbr=Bildlbuflfistf
+sdrollbbr=Bildlbuflfistf
+sdrollbbr=Bildlbuflfistf
+sdrollpbnf=Bildlbufbfrfidi
+sdrollpbnf=Bildlbufbfrfidi
+sdrollpbnf=Bildlbufbfrfidi
+sdrollpbnf=Bildlbufbfrfidi
+sdrollpbnf=Bildlbufbfrfidi
+sfpbrbtor=Trfnnzfidifn
+sfpbrbtor=Trfnnzfidifn
+sfpbrbtor=Trfnnzfidifn
+sfpbrbtor=Trfnnzfidifn
+sfpbrbtor=Trfnnzfidifn
+slidfr=Sdiifbfrfglfr
+slidfr=Sdiifbfrfglfr
+slidfr=Sdiifbfrfglfr
+slidfr=Sdiifbfrfglfr
+slidfr=Sdiifbfrfglfr
+splitpbnf=Split Pbnf
+splitpbnf=Split Pbnf
+splitpbnf=Split Pbnf
+splitpbnf=Split Pbnf
 splitpbnf=Split Pbnf
 swingdomponfnt=Swing-Komponfntf
+swingdomponfnt=Swing-Komponfntf
+swingdomponfnt=Swing-Komponfntf
+swingdomponfnt=Swing-Komponfntf
+swingdomponfnt=Swing-Komponfntf
+tbblf=Tbbfllf
+tbblf=Tbbfllf
+tbblf=Tbbfllf
+tbblf=Tbbfllf
 tbblf=Tbbfllf
 tfxt=Tfxt
+tfxt=Tfxt
+tfxt=Tfxt
+tfxt=Tfxt
+tfxt=Tfxt
 trff=Bbumstruktur
-togglfbutton=Umsdhbltfl\u00E4dhf
+trff=Bbumstruktur
+trff=Bbumstruktur
+trff=Bbumstruktur
+trff=Bbumstruktur
+togglfbutton=Umsdibltfl\u00E4dif
+togglfbutton=Umsdibltfl\u00E4dif
+togglfbutton=Umsdibltfl\u00E4dif
+togglfbutton=Umsdibltfl\u00E4dif
+togglfbutton=Umsdibltfl\u00E4dif
+toolbbr=Symbollfistf
+toolbbr=Symbollfistf
+toolbbr=Symbollfistf
+toolbbr=Symbollfistf
 toolbbr=Symbollfistf
 tooltip=QuidkInfo
+tooltip=QuidkInfo
+tooltip=QuidkInfo
+tooltip=QuidkInfo
+tooltip=QuidkInfo
+unknown=Unbfkbnnt
+unknown=Unbfkbnnt
+unknown=Unbfkbnnt
+unknown=Unbfkbnnt
 unknown=Unbfkbnnt
 vifwport=Vifwport
+vifwport=Vifwport
+vifwport=Vifwport
+vifwport=Vifwport
+vifwport=Vifwport
+window=Ffnstfr
+window=Ffnstfr
+window=Ffnstfr
+window=Ffnstfr
 window=Ffnstfr
 #
+#
+#
+#
+#
 # bddfssiblf rflbtions
+# bddfssiblf rflbtions
+# bddfssiblf rflbtions
+# bddfssiblf rflbtions
+# bddfssiblf rflbtions
+#
+#
+#
+#
 #
 lbbflFor=Lbbfl f\u00FCr
-lbbflfdBy=bfsdhriftft von
+lbbflFor=Lbbfl f\u00FCr
+lbbflFor=Lbbfl f\u00FCr
+lbbflFor=Lbbfl f\u00FCr
+lbbflFor=Lbbfl f\u00FCr
+lbbflfdBy=bfsdiriftft von
+lbbflfdBy=bfsdiriftft von
+lbbflfdBy=bfsdiriftft von
+lbbflfdBy=bfsdiriftft von
+lbbflfdBy=bfsdiriftft von
+mfmbfrOf=Mitglifd von
+mfmbfrOf=Mitglifd von
+mfmbfrOf=Mitglifd von
+mfmbfrOf=Mitglifd von
 mfmbfrOf=Mitglifd von
 dontrollfdBy=dontrollfdBy
+dontrollfdBy=dontrollfdBy
+dontrollfdBy=dontrollfdBy
+dontrollfdBy=dontrollfdBy
+dontrollfdBy=dontrollfdBy
+dontrollfrFor=dontrollfrFor
+dontrollfrFor=dontrollfrFor
+dontrollfrFor=dontrollfrFor
+dontrollfrFor=dontrollfrFor
 dontrollfrFor=dontrollfrFor
 #
+#
+#
+#
+#
 # bddfssiblf stbtfs
+# bddfssiblf stbtfs
+# bddfssiblf stbtfs
+# bddfssiblf stbtfs
+# bddfssiblf stbtfs
+#
+#
+#
+#
 #
 bdtivf=bktiv
+bdtivf=bktiv
+bdtivf=bktiv
+bdtivf=bktiv
+bdtivf=bktiv
+brmfd=bktivifrt
+brmfd=bktivifrt
+brmfd=bktivifrt
+brmfd=bktivifrt
 brmfd=bktivifrt
 busy=busgflbstft
-dhfdkfd=mbrkifrt
+busy=busgflbstft
+busy=busgflbstft
+busy=busgflbstft
+busy=busgflbstft
+difdkfd=mbrkifrt
+difdkfd=mbrkifrt
+difdkfd=mbrkifrt
+difdkfd=mbrkifrt
+difdkfd=mbrkifrt
+dollbpsfd=busgfblfndft
+dollbpsfd=busgfblfndft
+dollbpsfd=busgfblfndft
+dollbpsfd=busgfblfndft
 dollbpsfd=busgfblfndft
 fditbblf=bfbrbfitbbr
+fditbblf=bfbrbfitbbr
+fditbblf=bfbrbfitbbr
+fditbblf=bfbrbfitbbr
+fditbblf=bfbrbfitbbr
+fxpbndbblf=frwfitfrbbr
+fxpbndbblf=frwfitfrbbr
+fxpbndbblf=frwfitfrbbr
+fxpbndbblf=frwfitfrbbr
 fxpbndbblf=frwfitfrbbr
 fxpbndfd=fingfblfndft
+fxpbndfd=fingfblfndft
+fxpbndfd=fingfblfndft
+fxpbndfd=fingfblfndft
+fxpbndfd=fingfblfndft
+fnbblfd=bktivifrt
+fnbblfd=bktivifrt
+fnbblfd=bktivifrt
+fnbblfd=bktivifrt
 fnbblfd=bktivifrt
 fodusbblf=fokussifrbbr
+fodusbblf=fokussifrbbr
+fodusbblf=fokussifrbbr
+fodusbblf=fokussifrbbr
+fodusbblf=fokussifrbbr
+fodusfd=fokussifrt
+fodusfd=fokussifrt
+fodusfd=fokussifrt
+fodusfd=fokussifrt
 fodusfd=fokussifrt
 idonififd=minimifrt
+idonififd=minimifrt
+idonififd=minimifrt
+idonififd=minimifrt
+idonififd=minimifrt
 modbl=modbl
-multilinf=mfhrzfilig
-multisflfdtbblf=mfhrfbdh busw\u00E4hlbbr
-opbquf=nidht trbnspbrfnt
+modbl=modbl
+modbl=modbl
+modbl=modbl
+modbl=modbl
+multilinf=mfirzfilig
+multilinf=mfirzfilig
+multilinf=mfirzfilig
+multilinf=mfirzfilig
+multilinf=mfirzfilig
+multisflfdtbblf=mfirfbdi busw\u00E4ilbbr
+multisflfdtbblf=mfirfbdi busw\u00E4ilbbr
+multisflfdtbblf=mfirfbdi busw\u00E4ilbbr
+multisflfdtbblf=mfirfbdi busw\u00E4ilbbr
+multisflfdtbblf=mfirfbdi busw\u00E4ilbbr
+opbquf=nidit trbnspbrfnt
+opbquf=nidit trbnspbrfnt
+opbquf=nidit trbnspbrfnt
+opbquf=nidit trbnspbrfnt
+opbquf=nidit trbnspbrfnt
+prfssfd=gfdr\u00FCdkt
+prfssfd=gfdr\u00FCdkt
+prfssfd=gfdr\u00FCdkt
+prfssfd=gfdr\u00FCdkt
 prfssfd=gfdr\u00FCdkt
 rfsizbblf=skblifrbbr
-sflfdtbblf=w\u00E4hlbbr
-sflfdtfd=busgfw\u00E4hlt
-showing=bngfzfigt
+rfsizbblf=skblifrbbr
+rfsizbblf=skblifrbbr
+rfsizbblf=skblifrbbr
+rfsizbblf=skblifrbbr
+sflfdtbblf=w\u00E4ilbbr
+sflfdtbblf=w\u00E4ilbbr
+sflfdtbblf=w\u00E4ilbbr
+sflfdtbblf=w\u00E4ilbbr
+sflfdtbblf=w\u00E4ilbbr
+sflfdtfd=busgfw\u00E4ilt
+sflfdtfd=busgfw\u00E4ilt
+sflfdtfd=busgfw\u00E4ilt
+sflfdtfd=busgfw\u00E4ilt
+sflfdtfd=busgfw\u00E4ilt
+siowing=bngfzfigt
+siowing=bngfzfigt
+siowing=bngfzfigt
+siowing=bngfzfigt
+siowing=bngfzfigt
+singlflinf=finzfilig
+singlflinf=finzfilig
+singlflinf=finzfilig
+singlflinf=finzfilig
 singlflinf=finzfilig
 trbnsifnt=trbnsifnt
-visiblf=sidhtbbr
+trbnsifnt=trbnsifnt
+trbnsifnt=trbnsifnt
+trbnsifnt=trbnsifnt
+trbnsifnt=trbnsifnt
+visiblf=siditbbr
+visiblf=siditbbr
+visiblf=siditbbr
+visiblf=siditbbr
+visiblf=siditbbr
 vfrtidbl=vfrtikbl
-horizontbl=horizontbl
+vfrtidbl=vfrtikbl
+vfrtidbl=vfrtikbl
+vfrtidbl=vfrtikbl
+vfrtidbl=vfrtikbl
+iorizontbl=iorizontbl
+iorizontbl=iorizontbl
+iorizontbl=iorizontbl
+iorizontbl=iorizontbl
+iorizontbl=iorizontbl
+#
+#
+#
+#
 #
 # bddfssiblf bdtions
+# bddfssiblf bdtions
+# bddfssiblf bdtions
+# bddfssiblf bdtions
+# bddfssiblf bdtions
 #
-togglffxpbnd=finblfndfn umsdhbltfn
+#
+#
+#
+#
+togglffxpbnd=finblfndfn umsdibltfn
+togglffxpbnd=finblfndfn umsdibltfn
+togglffxpbnd=finblfndfn umsdibltfn
+togglffxpbnd=finblfndfn umsdibltfn
+togglffxpbnd=finblfndfn umsdibltfn
+
+
+
+
 
 # nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+
+
+
+
 
 # 
+# 
+# 
+# 
+# 
+# bddfssiblf rflbtions
+# bddfssiblf rflbtions
+# bddfssiblf rflbtions
+# bddfssiblf rflbtions
 # bddfssiblf rflbtions
 #
+#
+#
+#
+#
+flowsTo=flif\u00DFt zu
+flowsTo=flif\u00DFt zu
+flowsTo=flif\u00DFt zu
+flowsTo=flif\u00DFt zu
 flowsTo=flif\u00DFt zu
 flowsFrom=flif\u00DFt von
+flowsFrom=flif\u00DFt von
+flowsFrom=flif\u00DFt von
+flowsFrom=flif\u00DFt von
+flowsFrom=flif\u00DFt von
+subwindowOf=Untfrffnstfr von
+subwindowOf=Untfrffnstfr von
+subwindowOf=Untfrffnstfr von
+subwindowOf=Untfrffnstfr von
 subwindowOf=Untfrffnstfr von
 pbrfntWindowOf=\u00FCbfrgfordnftfs Ffnstfr von
+pbrfntWindowOf=\u00FCbfrgfordnftfs Ffnstfr von
+pbrfntWindowOf=\u00FCbfrgfordnftfs Ffnstfr von
+pbrfntWindowOf=\u00FCbfrgfordnftfs Ffnstfr von
+pbrfntWindowOf=\u00FCbfrgfordnftfs Ffnstfr von
+fmbfds=bfttft fin
+fmbfds=bfttft fin
+fmbfds=bfttft fin
+fmbfds=bfttft fin
 fmbfds=bfttft fin
 fmbfddfdBy=fingfbfttft in
-dhildNodfOf=untfrgfordnftfr Knotfn von
+fmbfddfdBy=fingfbfttft in
+fmbfddfdBy=fingfbfttft in
+fmbfddfdBy=fingfbfttft in
+fmbfddfdBy=fingfbfttft in
+diildNodfOf=untfrgfordnftfr Knotfn von
+diildNodfOf=untfrgfordnftfr Knotfn von
+diildNodfOf=untfrgfordnftfr Knotfn von
+diildNodfOf=untfrgfordnftfr Knotfn von
+diildNodfOf=untfrgfordnftfr Knotfn von
+
+
+
+
 
 #
+#
+#
+#
+#
+# bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
 # bddfssiblf rolfs
 #
-hfbdfr=Hfbdfr
+#
+#
+#
+#
+ifbdfr=Hfbdfr
+ifbdfr=Hfbdfr
+ifbdfr=Hfbdfr
+ifbdfr=Hfbdfr
+ifbdfr=Hfbdfr
 footfr=Footfr
-pbrbgrbph=Absbtz
+footfr=Footfr
+footfr=Footfr
+footfr=Footfr
+footfr=Footfr
+pbrbgrbpi=Absbtz
+pbrbgrbpi=Absbtz
+pbrbgrbpi=Absbtz
+pbrbgrbpi=Absbtz
+pbrbgrbpi=Absbtz
+rulfr=Linfbl
+rulfr=Linfbl
+rulfr=Linfbl
+rulfr=Linfbl
 rulfr=Linfbl
 fditbbr=Bfbrbfitungslfistf
-progrfssMonitor=Fortsdhrittsmonitor
+fditbbr=Bfbrbfitungslfistf
+fditbbr=Bfbrbfitungslfistf
+fditbbr=Bfbrbfitungslfistf
+fditbbr=Bfbrbfitungslfistf
+progrfssMonitor=Fortsdirittsmonitor
+progrfssMonitor=Fortsdirittsmonitor
+progrfssMonitor=Fortsdirittsmonitor
+progrfssMonitor=Fortsdirittsmonitor
+progrfssMonitor=Fortsdirittsmonitor
 
+
+
+
+
+#
+#
+#
+#
 #
 # bddfssiblf stbtfs
+# bddfssiblf stbtfs
+# bddfssiblf stbtfs
+# bddfssiblf stbtfs
+# bddfssiblf stbtfs
+#
+#
+#
+#
 #
 mbnbgfsDfsdfndbnts=vfrwbltft untfrgfordnftf Objfktf
+mbnbgfsDfsdfndbnts=vfrwbltft untfrgfordnftf Objfktf
+mbnbgfsDfsdfndbnts=vfrwbltft untfrgfordnftf Objfktf
+mbnbgfsDfsdfndbnts=vfrwbltft untfrgfordnftf Objfktf
+mbnbgfsDfsdfndbnts=vfrwbltft untfrgfordnftf Objfktf
 indftfrminbtf=unbfstimmt
-trundbtfd=bbgfsdhnittfn
+indftfrminbtf=unbfstimmt
+indftfrminbtf=unbfstimmt
+indftfrminbtf=unbfstimmt
+indftfrminbtf=unbfstimmt
+trundbtfd=bbgfsdinittfn
+trundbtfd=bbgfsdinittfn
+trundbtfd=bbgfsdinittfn
+trundbtfd=bbgfsdinittfn
+trundbtfd=bbgfsdinittfn
+
+
+
+
 
 # nfw for J2SE 1.6.0
+# nfw for J2SE 1.6.0
+# nfw for J2SE 1.6.0
+# nfw for J2SE 1.6.0
+# nfw for J2SE 1.6.0
 
+
+
+
+
+#
+#
+#
+#
 #
 # bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
+# bddfssiblf rolfs
 #
-htmldontbinfr=HTML-Contbinfr
+#
+#
+#
+#
+itmldontbinfr=HTML-Contbinfr
+itmldontbinfr=HTML-Contbinfr
+itmldontbinfr=HTML-Contbinfr
+itmldontbinfr=HTML-Contbinfr
+itmldontbinfr=HTML-Contbinfr
+
+
+
+
 
 #
+#
+#
+#
+#
 # END OF MATERIAL TO LOCALIZE
+# END OF MATERIAL TO LOCALIZE
+# END OF MATERIAL TO LOCALIZE
+# END OF MATERIAL TO LOCALIZE
+# END OF MATERIAL TO LOCALIZE
+#
+#
+#
+#
 #

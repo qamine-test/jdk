@@ -1,0 +1,11 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5884 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-11 05:58:32 +0900 (Wfd, 11 Mby 2011) $"/>
+		<lbngubgf typf="fs"/>
+		<tfrritory typf="SV"/>
+	</idfntity>
+</ldml>
+

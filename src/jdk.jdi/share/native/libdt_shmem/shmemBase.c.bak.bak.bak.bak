@@ -1,1182 +1,5910 @@
 /*
- * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-#indludf <stdio.h>
-#indludf <string.h>
-#indludf <frrno.h>
-#indludf <stdlib.h>
+ */
+ */
+ */
+ */
+#indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <string.i>
+#indludf <frrno.i>
+#indludf <frrno.i>
+#indludf <frrno.i>
+#indludf <frrno.i>
+#indludf <frrno.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
 
-#indludf "sysShmfm.h"
-#indludf "shmfmBbsf.h"
-#indludf "jdwpTrbnsport.h"  /* for Pbdkft, TrbnsportCbllbbdk */
+
+
+
+
+#indludf "sysSimfm.i"
+#indludf "sysSimfm.i"
+#indludf "sysSimfm.i"
+#indludf "sysSimfm.i"
+#indludf "sysSimfm.i"
+#indludf "simfmBbsf.i"
+#indludf "simfmBbsf.i"
+#indludf "simfmBbsf.i"
+#indludf "simfmBbsf.i"
+#indludf "simfmBbsf.i"
+#indludf "jdwpTrbnsport.i"  /* for Pbdkft, TrbnsportCbllbbdk */
+#indludf "jdwpTrbnsport.i"  /* for Pbdkft, TrbnsportCbllbbdk */
+#indludf "jdwpTrbnsport.i"  /* for Pbdkft, TrbnsportCbllbbdk */
+#indludf "jdwpTrbnsport.i"  /* for Pbdkft, TrbnsportCbllbbdk */
+#indludf "jdwpTrbnsport.i"  /* for Pbdkft, TrbnsportCbllbbdk */
+
+
+
+
 
 #dffinf MIN(x,y) ((x)<(y)?(x):(y))
+#dffinf MIN(x,y) ((x)<(y)?(x):(y))
+#dffinf MIN(x,y) ((x)<(y)?(x):(y))
+#dffinf MIN(x,y) ((x)<(y)?(x):(y))
+#dffinf MIN(x,y) ((x)<(y)?(x):(y))
+
+
+
+
 
 /*
- * This is thf bbsf shbrfd mfmory trbnsport implfmfntbtion thbt is usfd
- * by both front-fnd trbnsports (through dom.sun.tools.jdi) bnd
- * bbdk-fnd trbnsports (through JDWP_OnLobd bnd thf fundtion tbblfs
- * it rfquirfs). It supports multiplf donnfdtions for thf bfnffit of thf
- * front-fnd dlifnt; thf bbdk fnd intfrfbdf bssumfs only b singlf donnfdtion.
+/*
+/*
+/*
+/*
+ * Tiis is tif bbsf sibrfd mfmory trbnsport implfmfntbtion tibt is usfd
+ * Tiis is tif bbsf sibrfd mfmory trbnsport implfmfntbtion tibt is usfd
+ * Tiis is tif bbsf sibrfd mfmory trbnsport implfmfntbtion tibt is usfd
+ * Tiis is tif bbsf sibrfd mfmory trbnsport implfmfntbtion tibt is usfd
+ * Tiis is tif bbsf sibrfd mfmory trbnsport implfmfntbtion tibt is usfd
+ * by boti front-fnd trbnsports (tirougi dom.sun.tools.jdi) bnd
+ * by boti front-fnd trbnsports (tirougi dom.sun.tools.jdi) bnd
+ * by boti front-fnd trbnsports (tirougi dom.sun.tools.jdi) bnd
+ * by boti front-fnd trbnsports (tirougi dom.sun.tools.jdi) bnd
+ * by boti front-fnd trbnsports (tirougi dom.sun.tools.jdi) bnd
+ * bbdk-fnd trbnsports (tirougi JDWP_OnLobd bnd tif fundtion tbblfs
+ * bbdk-fnd trbnsports (tirougi JDWP_OnLobd bnd tif fundtion tbblfs
+ * bbdk-fnd trbnsports (tirougi JDWP_OnLobd bnd tif fundtion tbblfs
+ * bbdk-fnd trbnsports (tirougi JDWP_OnLobd bnd tif fundtion tbblfs
+ * bbdk-fnd trbnsports (tirougi JDWP_OnLobd bnd tif fundtion tbblfs
+ * it rfquirfs). It supports multiplf donnfdtions for tif bfnffit of tif
+ * it rfquirfs). It supports multiplf donnfdtions for tif bfnffit of tif
+ * it rfquirfs). It supports multiplf donnfdtions for tif bfnffit of tif
+ * it rfquirfs). It supports multiplf donnfdtions for tif bfnffit of tif
+ * it rfquirfs). It supports multiplf donnfdtions for tif bfnffit of tif
+ * front-fnd dlifnt; tif bbdk fnd intfrfbdf bssumfs only b singlf donnfdtion.
+ * front-fnd dlifnt; tif bbdk fnd intfrfbdf bssumfs only b singlf donnfdtion.
+ * front-fnd dlifnt; tif bbdk fnd intfrfbdf bssumfs only b singlf donnfdtion.
+ * front-fnd dlifnt; tif bbdk fnd intfrfbdf bssumfs only b singlf donnfdtion.
+ * front-fnd dlifnt; tif bbdk fnd intfrfbdf bssumfs only b singlf donnfdtion.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 #dffinf MAX_IPC_PREFIX 50   /* usfr-spfdififd or gfnfrbtfd nbmf for */
-                            /* shbrfd mfmory sfg bnd prffix for othfr IPC */
-#dffinf MAX_IPC_SUFFIX 25   /* suffix to shmfm nbmf for othfr IPC nbmfs */
+#dffinf MAX_IPC_PREFIX 50   /* usfr-spfdififd or gfnfrbtfd nbmf for */
+#dffinf MAX_IPC_PREFIX 50   /* usfr-spfdififd or gfnfrbtfd nbmf for */
+#dffinf MAX_IPC_PREFIX 50   /* usfr-spfdififd or gfnfrbtfd nbmf for */
+#dffinf MAX_IPC_PREFIX 50   /* usfr-spfdififd or gfnfrbtfd nbmf for */
+                            /* sibrfd mfmory sfg bnd prffix for otifr IPC */
+                            /* sibrfd mfmory sfg bnd prffix for otifr IPC */
+                            /* sibrfd mfmory sfg bnd prffix for otifr IPC */
+                            /* sibrfd mfmory sfg bnd prffix for otifr IPC */
+                            /* sibrfd mfmory sfg bnd prffix for otifr IPC */
+#dffinf MAX_IPC_SUFFIX 25   /* suffix to simfm nbmf for otifr IPC nbmfs */
+#dffinf MAX_IPC_SUFFIX 25   /* suffix to simfm nbmf for otifr IPC nbmfs */
+#dffinf MAX_IPC_SUFFIX 25   /* suffix to simfm nbmf for otifr IPC nbmfs */
+#dffinf MAX_IPC_SUFFIX 25   /* suffix to simfm nbmf for otifr IPC nbmfs */
+#dffinf MAX_IPC_SUFFIX 25   /* suffix to simfm nbmf for otifr IPC nbmfs */
+#dffinf MAX_IPC_NAME   (MAX_IPC_PREFIX + MAX_IPC_SUFFIX)
+#dffinf MAX_IPC_NAME   (MAX_IPC_PREFIX + MAX_IPC_SUFFIX)
+#dffinf MAX_IPC_NAME   (MAX_IPC_PREFIX + MAX_IPC_SUFFIX)
+#dffinf MAX_IPC_NAME   (MAX_IPC_PREFIX + MAX_IPC_SUFFIX)
 #dffinf MAX_IPC_NAME   (MAX_IPC_PREFIX + MAX_IPC_SUFFIX)
 
+
+
+
+
+#dffinf MAX_GENERATION_RETRIES 20
+#dffinf MAX_GENERATION_RETRIES 20
+#dffinf MAX_GENERATION_RETRIES 20
+#dffinf MAX_GENERATION_RETRIES 20
 #dffinf MAX_GENERATION_RETRIES 20
 #dffinf SHARED_BUFFER_SIZE 5000
+#dffinf SHARED_BUFFER_SIZE 5000
+#dffinf SHARED_BUFFER_SIZE 5000
+#dffinf SHARED_BUFFER_SIZE 5000
+#dffinf SHARED_BUFFER_SIZE 5000
+
+
+
+
 
 #dffinf CHECK_ERROR(fxpr) do { \
+#dffinf CHECK_ERROR(fxpr) do { \
+#dffinf CHECK_ERROR(fxpr) do { \
+#dffinf CHECK_ERROR(fxpr) do { \
+#dffinf CHECK_ERROR(fxpr) do { \
+                              jint frror = (fxpr); \
+                              jint frror = (fxpr); \
+                              jint frror = (fxpr); \
+                              jint frror = (fxpr); \
                               jint frror = (fxpr); \
                               if (frror != SYS_OK) { \
+                              if (frror != SYS_OK) { \
+                              if (frror != SYS_OK) { \
+                              if (frror != SYS_OK) { \
+                              if (frror != SYS_OK) { \
+                                  sftLbstError(frror); \
+                                  sftLbstError(frror); \
+                                  sftLbstError(frror); \
+                                  sftLbstError(frror); \
                                   sftLbstError(frror); \
                                   rfturn frror; \
+                                  rfturn frror; \
+                                  rfturn frror; \
+                                  rfturn frror; \
+                                  rfturn frror; \
                               } \
-                          } whilf (0)
+                              } \
+                              } \
+                              } \
+                              } \
+                          } wiilf (0)
+                          } wiilf (0)
+                          } wiilf (0)
+                          } wiilf (0)
+                          } wiilf (0)
+
+
+
+
 
 /*
- * Thf following bssfrtions should hold bnytimf thf strfbm's mutfx is not hfld
+/*
+/*
+/*
+/*
+ * Tif following bssfrtions siould iold bnytimf tif strfbm's mutfx is not ifld
+ * Tif following bssfrtions siould iold bnytimf tif strfbm's mutfx is not ifld
+ * Tif following bssfrtions siould iold bnytimf tif strfbm's mutfx is not ifld
+ * Tif following bssfrtions siould iold bnytimf tif strfbm's mutfx is not ifld
+ * Tif following bssfrtions siould iold bnytimf tif strfbm's mutfx is not ifld
+ */
+ */
+ */
+ */
  */
 #dffinf STREAM_INVARIANT(strfbm) \
+#dffinf STREAM_INVARIANT(strfbm) \
+#dffinf STREAM_INVARIANT(strfbm) \
+#dffinf STREAM_INVARIANT(strfbm) \
+#dffinf STREAM_INVARIANT(strfbm) \
         do { \
-            SHMEM_ASSERT((strfbm->shbrfd->rfbdOffsft < SHARED_BUFFER_SIZE) \
-                         && (strfbm->shbrfd->rfbdOffsft >= 0)); \
-            SHMEM_ASSERT((strfbm->shbrfd->writfOffsft < SHARED_BUFFER_SIZE) \
-                         && (strfbm->shbrfd->writfOffsft >= 0)); \
-        } whilf (0)
+        do { \
+        do { \
+        do { \
+        do { \
+            SHMEM_ASSERT((strfbm->sibrfd->rfbdOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->rfbdOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->rfbdOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->rfbdOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->rfbdOffsft < SHARED_BUFFER_SIZE) \
+                         && (strfbm->sibrfd->rfbdOffsft >= 0)); \
+                         && (strfbm->sibrfd->rfbdOffsft >= 0)); \
+                         && (strfbm->sibrfd->rfbdOffsft >= 0)); \
+                         && (strfbm->sibrfd->rfbdOffsft >= 0)); \
+                         && (strfbm->sibrfd->rfbdOffsft >= 0)); \
+            SHMEM_ASSERT((strfbm->sibrfd->writfOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->writfOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->writfOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->writfOffsft < SHARED_BUFFER_SIZE) \
+            SHMEM_ASSERT((strfbm->sibrfd->writfOffsft < SHARED_BUFFER_SIZE) \
+                         && (strfbm->sibrfd->writfOffsft >= 0)); \
+                         && (strfbm->sibrfd->writfOffsft >= 0)); \
+                         && (strfbm->sibrfd->writfOffsft >= 0)); \
+                         && (strfbm->sibrfd->writfOffsft >= 0)); \
+                         && (strfbm->sibrfd->writfOffsft >= 0)); \
+        } wiilf (0)
+        } wiilf (0)
+        } wiilf (0)
+        } wiilf (0)
+        } wiilf (0)
+
+
+
+
 
 /*
- * Trbnsports brf duplfx, so dbrvf thf shbrfd mfmory into "strfbms",
- * onf usfd to sfnd from dlifnt to sfrvfr, thf othfr vidf vfrsb.
+/*
+/*
+/*
+/*
+ * Trbnsports brf duplfx, so dbrvf tif sibrfd mfmory into "strfbms",
+ * Trbnsports brf duplfx, so dbrvf tif sibrfd mfmory into "strfbms",
+ * Trbnsports brf duplfx, so dbrvf tif sibrfd mfmory into "strfbms",
+ * Trbnsports brf duplfx, so dbrvf tif sibrfd mfmory into "strfbms",
+ * Trbnsports brf duplfx, so dbrvf tif sibrfd mfmory into "strfbms",
+ * onf usfd to sfnd from dlifnt to sfrvfr, tif otifr vidf vfrsb.
+ * onf usfd to sfnd from dlifnt to sfrvfr, tif otifr vidf vfrsb.
+ * onf usfd to sfnd from dlifnt to sfrvfr, tif otifr vidf vfrsb.
+ * onf usfd to sfnd from dlifnt to sfrvfr, tif otifr vidf vfrsb.
+ * onf usfd to sfnd from dlifnt to sfrvfr, tif otifr vidf vfrsb.
  */
-typfdff strudt ShbrfdMfmoryListfnfr {
-    dhbr mutfxNbmf[MAX_IPC_NAME];
-    dhbr bddfptEvfntNbmf[MAX_IPC_NAME];
-    dhbr bttbdhEvfntNbmf[MAX_IPC_NAME];
+ */
+ */
+ */
+ */
+typfdff strudt SibrfdMfmoryListfnfr {
+typfdff strudt SibrfdMfmoryListfnfr {
+typfdff strudt SibrfdMfmoryListfnfr {
+typfdff strudt SibrfdMfmoryListfnfr {
+typfdff strudt SibrfdMfmoryListfnfr {
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr bddfptEvfntNbmf[MAX_IPC_NAME];
+    dibr bddfptEvfntNbmf[MAX_IPC_NAME];
+    dibr bddfptEvfntNbmf[MAX_IPC_NAME];
+    dibr bddfptEvfntNbmf[MAX_IPC_NAME];
+    dibr bddfptEvfntNbmf[MAX_IPC_NAME];
+    dibr bttbdiEvfntNbmf[MAX_IPC_NAME];
+    dibr bttbdiEvfntNbmf[MAX_IPC_NAME];
+    dibr bttbdiEvfntNbmf[MAX_IPC_NAME];
+    dibr bttbdiEvfntNbmf[MAX_IPC_NAME];
+    dibr bttbdiEvfntNbmf[MAX_IPC_NAME];
+    jboolfbn isListfning;
+    jboolfbn isListfning;
+    jboolfbn isListfning;
+    jboolfbn isListfning;
     jboolfbn isListfning;
     jboolfbn isAddfptfd;
+    jboolfbn isAddfptfd;
+    jboolfbn isAddfptfd;
+    jboolfbn isAddfptfd;
+    jboolfbn isAddfptfd;
     jlong bddfptingPID;
-    jlong bttbdhingPID;
-} ShbrfdListfnfr;
+    jlong bddfptingPID;
+    jlong bddfptingPID;
+    jlong bddfptingPID;
+    jlong bddfptingPID;
+    jlong bttbdiingPID;
+    jlong bttbdiingPID;
+    jlong bttbdiingPID;
+    jlong bttbdiingPID;
+    jlong bttbdiingPID;
+} SibrfdListfnfr;
+} SibrfdListfnfr;
+} SibrfdListfnfr;
+} SibrfdListfnfr;
+} SibrfdListfnfr;
 
-typfdff strudt ShbrfdMfmoryTrbnsport {
-    dhbr nbmf[MAX_IPC_PREFIX];
+
+
+
+
+typfdff strudt SibrfdMfmoryTrbnsport {
+typfdff strudt SibrfdMfmoryTrbnsport {
+typfdff strudt SibrfdMfmoryTrbnsport {
+typfdff strudt SibrfdMfmoryTrbnsport {
+typfdff strudt SibrfdMfmoryTrbnsport {
+    dibr nbmf[MAX_IPC_PREFIX];
+    dibr nbmf[MAX_IPC_PREFIX];
+    dibr nbmf[MAX_IPC_PREFIX];
+    dibr nbmf[MAX_IPC_PREFIX];
+    dibr nbmf[MAX_IPC_PREFIX];
+    sys_ipmutfx_t mutfx;
+    sys_ipmutfx_t mutfx;
+    sys_ipmutfx_t mutfx;
+    sys_ipmutfx_t mutfx;
     sys_ipmutfx_t mutfx;
     sys_fvfnt_t bddfptEvfnt;
-    sys_fvfnt_t bttbdhEvfnt;
-    sys_shmfm_t shbrfdMfmory;
-    ShbrfdListfnfr *shbrfd;
-} ShbrfdMfmoryTrbnsport;
+    sys_fvfnt_t bddfptEvfnt;
+    sys_fvfnt_t bddfptEvfnt;
+    sys_fvfnt_t bddfptEvfnt;
+    sys_fvfnt_t bddfptEvfnt;
+    sys_fvfnt_t bttbdiEvfnt;
+    sys_fvfnt_t bttbdiEvfnt;
+    sys_fvfnt_t bttbdiEvfnt;
+    sys_fvfnt_t bttbdiEvfnt;
+    sys_fvfnt_t bttbdiEvfnt;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    SibrfdListfnfr *sibrfd;
+    SibrfdListfnfr *sibrfd;
+    SibrfdListfnfr *sibrfd;
+    SibrfdListfnfr *sibrfd;
+    SibrfdListfnfr *sibrfd;
+} SibrfdMfmoryTrbnsport;
+} SibrfdMfmoryTrbnsport;
+} SibrfdMfmoryTrbnsport;
+} SibrfdMfmoryTrbnsport;
+} SibrfdMfmoryTrbnsport;
+
+
+
+
 
 /*
- * Addfss must bf syndronizfd.  Holds onf shbrfd
+/*
+/*
+/*
+/*
+ * Addfss must bf syndronizfd.  Holds onf sibrfd
+ * Addfss must bf syndronizfd.  Holds onf sibrfd
+ * Addfss must bf syndronizfd.  Holds onf sibrfd
+ * Addfss must bf syndronizfd.  Holds onf sibrfd
+ * Addfss must bf syndronizfd.  Holds onf sibrfd
+ * mfmory bufffr bnd its stbtf.
+ * mfmory bufffr bnd its stbtf.
+ * mfmory bufffr bnd its stbtf.
+ * mfmory bufffr bnd its stbtf.
  * mfmory bufffr bnd its stbtf.
  */
-typfdff strudt ShbrfdStrfbm {
-    dhbr mutfxNbmf[MAX_IPC_NAME];
-    dhbr hbsDbtbEvfntNbmf[MAX_IPC_NAME];
-    dhbr hbsSpbdfEvfntNbmf[MAX_IPC_NAME];
+ */
+ */
+ */
+ */
+typfdff strudt SibrfdStrfbm {
+typfdff strudt SibrfdStrfbm {
+typfdff strudt SibrfdStrfbm {
+typfdff strudt SibrfdStrfbm {
+typfdff strudt SibrfdStrfbm {
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr mutfxNbmf[MAX_IPC_NAME];
+    dibr ibsDbtbEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsDbtbEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsDbtbEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsDbtbEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsDbtbEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsSpbdfEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsSpbdfEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsSpbdfEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsSpbdfEvfntNbmf[MAX_IPC_NAME];
+    dibr ibsSpbdfEvfntNbmf[MAX_IPC_NAME];
+    int rfbdOffsft;
+    int rfbdOffsft;
+    int rfbdOffsft;
+    int rfbdOffsft;
     int rfbdOffsft;
     int writfOffsft;
+    int writfOffsft;
+    int writfOffsft;
+    int writfOffsft;
+    int writfOffsft;
+    jboolfbn isFull;
+    jboolfbn isFull;
+    jboolfbn isFull;
+    jboolfbn isFull;
     jboolfbn isFull;
     jbytf bufffr[SHARED_BUFFER_SIZE];
-} ShbrfdStrfbm;
+    jbytf bufffr[SHARED_BUFFER_SIZE];
+    jbytf bufffr[SHARED_BUFFER_SIZE];
+    jbytf bufffr[SHARED_BUFFER_SIZE];
+    jbytf bufffr[SHARED_BUFFER_SIZE];
+} SibrfdStrfbm;
+} SibrfdStrfbm;
+} SibrfdStrfbm;
+} SibrfdStrfbm;
+} SibrfdStrfbm;
+
+
+
+
 
 /*
- * Thf two shbrfd strfbms: dlifnt to sfrvfr bnd
+/*
+/*
+/*
+/*
+ * Tif two sibrfd strfbms: dlifnt to sfrvfr bnd
+ * Tif two sibrfd strfbms: dlifnt to sfrvfr bnd
+ * Tif two sibrfd strfbms: dlifnt to sfrvfr bnd
+ * Tif two sibrfd strfbms: dlifnt to sfrvfr bnd
+ * Tif two sibrfd strfbms: dlifnt to sfrvfr bnd
+ * sfrvfr to dlifnt.
+ * sfrvfr to dlifnt.
+ * sfrvfr to dlifnt.
+ * sfrvfr to dlifnt.
  * sfrvfr to dlifnt.
  */
-typfdff strudt ShbrfdMfmory {
-    ShbrfdStrfbm toClifnt;
-    ShbrfdStrfbm toSfrvfr;
-} ShbrfdMfmory;
+ */
+ */
+ */
+ */
+typfdff strudt SibrfdMfmory {
+typfdff strudt SibrfdMfmory {
+typfdff strudt SibrfdMfmory {
+typfdff strudt SibrfdMfmory {
+typfdff strudt SibrfdMfmory {
+    SibrfdStrfbm toClifnt;
+    SibrfdStrfbm toClifnt;
+    SibrfdStrfbm toClifnt;
+    SibrfdStrfbm toClifnt;
+    SibrfdStrfbm toClifnt;
+    SibrfdStrfbm toSfrvfr;
+    SibrfdStrfbm toSfrvfr;
+    SibrfdStrfbm toSfrvfr;
+    SibrfdStrfbm toSfrvfr;
+    SibrfdStrfbm toSfrvfr;
+} SibrfdMfmory;
+} SibrfdMfmory;
+} SibrfdMfmory;
+} SibrfdMfmory;
+} SibrfdMfmory;
+
+
+
+
 
 /*
- * Lodbl (to prodfss) bddfss to thf shbrfd mfmory
- * strfbm.  bddfss to hbsDbtb bnd hbsSpbdf syndhronizfd
+/*
+/*
+/*
+/*
+ * Lodbl (to prodfss) bddfss to tif sibrfd mfmory
+ * Lodbl (to prodfss) bddfss to tif sibrfd mfmory
+ * Lodbl (to prodfss) bddfss to tif sibrfd mfmory
+ * Lodbl (to prodfss) bddfss to tif sibrfd mfmory
+ * Lodbl (to prodfss) bddfss to tif sibrfd mfmory
+ * strfbm.  bddfss to ibsDbtb bnd ibsSpbdf syndironizfd
+ * strfbm.  bddfss to ibsDbtb bnd ibsSpbdf syndironizfd
+ * strfbm.  bddfss to ibsDbtb bnd ibsSpbdf syndironizfd
+ * strfbm.  bddfss to ibsDbtb bnd ibsSpbdf syndironizfd
+ * strfbm.  bddfss to ibsDbtb bnd ibsSpbdf syndironizfd
+ * by OS.
+ * by OS.
+ * by OS.
+ * by OS.
  * by OS.
  */
+ */
+ */
+ */
+ */
+typfdff strudt Strfbm {
+typfdff strudt Strfbm {
+typfdff strudt Strfbm {
+typfdff strudt Strfbm {
 typfdff strudt Strfbm {
     sys_ipmutfx_t mutfx;
-    sys_fvfnt_t hbsDbtb;
-    sys_fvfnt_t hbsSpbdf;
-    ShbrfdStrfbm *shbrfd;
+    sys_ipmutfx_t mutfx;
+    sys_ipmutfx_t mutfx;
+    sys_ipmutfx_t mutfx;
+    sys_ipmutfx_t mutfx;
+    sys_fvfnt_t ibsDbtb;
+    sys_fvfnt_t ibsDbtb;
+    sys_fvfnt_t ibsDbtb;
+    sys_fvfnt_t ibsDbtb;
+    sys_fvfnt_t ibsDbtb;
+    sys_fvfnt_t ibsSpbdf;
+    sys_fvfnt_t ibsSpbdf;
+    sys_fvfnt_t ibsSpbdf;
+    sys_fvfnt_t ibsSpbdf;
+    sys_fvfnt_t ibsSpbdf;
+    SibrfdStrfbm *sibrfd;
+    SibrfdStrfbm *sibrfd;
+    SibrfdStrfbm *sibrfd;
+    SibrfdStrfbm *sibrfd;
+    SibrfdStrfbm *sibrfd;
+    jint stbtf;
+    jint stbtf;
+    jint stbtf;
+    jint stbtf;
     jint stbtf;
 } Strfbm;
+} Strfbm;
+} Strfbm;
+} Strfbm;
+} Strfbm;
+
+
+
+
 
 /*
+/*
+/*
+/*
+/*
+ * Vblufs for Strfbm.stbtf fifld bbovf.
+ * Vblufs for Strfbm.stbtf fifld bbovf.
+ * Vblufs for Strfbm.stbtf fifld bbovf.
+ * Vblufs for Strfbm.stbtf fifld bbovf.
  * Vblufs for Strfbm.stbtf fifld bbovf.
  */
+ */
+ */
+ */
+ */
+#dffinf STATE_CLOSED 0xDEAD
+#dffinf STATE_CLOSED 0xDEAD
+#dffinf STATE_CLOSED 0xDEAD
+#dffinf STATE_CLOSED 0xDEAD
 #dffinf STATE_CLOSED 0xDEAD
 #dffinf STATE_OPEN   (STATE_CLOSED -1)
+#dffinf STATE_OPEN   (STATE_CLOSED -1)
+#dffinf STATE_OPEN   (STATE_CLOSED -1)
+#dffinf STATE_OPEN   (STATE_CLOSED -1)
+#dffinf STATE_OPEN   (STATE_CLOSED -1)
 /*
- * Stbtf dhfdking mbdro. Wf dompbrf bgbinst thf STATE_OPEN vbluf so
- * thbt STATE_CLOSED bnd bny othfr vbluf will bf donsidfrfd dlosfd.
- * This dbtdhfs b frffd Strfbm bs long bs thf mfmory pbgf is still
- * vblid. If thf mfmory pbgf is gonf, thfn thfrf is littlf thbt wf
+/*
+/*
+/*
+/*
+ * Stbtf difdking mbdro. Wf dompbrf bgbinst tif STATE_OPEN vbluf so
+ * Stbtf difdking mbdro. Wf dompbrf bgbinst tif STATE_OPEN vbluf so
+ * Stbtf difdking mbdro. Wf dompbrf bgbinst tif STATE_OPEN vbluf so
+ * Stbtf difdking mbdro. Wf dompbrf bgbinst tif STATE_OPEN vbluf so
+ * Stbtf difdking mbdro. Wf dompbrf bgbinst tif STATE_OPEN vbluf so
+ * tibt STATE_CLOSED bnd bny otifr vbluf will bf donsidfrfd dlosfd.
+ * tibt STATE_CLOSED bnd bny otifr vbluf will bf donsidfrfd dlosfd.
+ * tibt STATE_CLOSED bnd bny otifr vbluf will bf donsidfrfd dlosfd.
+ * tibt STATE_CLOSED bnd bny otifr vbluf will bf donsidfrfd dlosfd.
+ * tibt STATE_CLOSED bnd bny otifr vbluf will bf donsidfrfd dlosfd.
+ * Tiis dbtdifs b frffd Strfbm bs long bs tif mfmory pbgf is still
+ * Tiis dbtdifs b frffd Strfbm bs long bs tif mfmory pbgf is still
+ * Tiis dbtdifs b frffd Strfbm bs long bs tif mfmory pbgf is still
+ * Tiis dbtdifs b frffd Strfbm bs long bs tif mfmory pbgf is still
+ * Tiis dbtdifs b frffd Strfbm bs long bs tif mfmory pbgf is still
+ * vblid. If tif mfmory pbgf is gonf, tifn tifrf is littlf tibt wf
+ * vblid. If tif mfmory pbgf is gonf, tifn tifrf is littlf tibt wf
+ * vblid. If tif mfmory pbgf is gonf, tifn tifrf is littlf tibt wf
+ * vblid. If tif mfmory pbgf is gonf, tifn tifrf is littlf tibt wf
+ * vblid. If tif mfmory pbgf is gonf, tifn tifrf is littlf tibt wf
+ * dbn do.
+ * dbn do.
+ * dbn do.
+ * dbn do.
  * dbn do.
  */
+ */
+ */
+ */
+ */
+#dffinf IS_STATE_CLOSED(stbtf) (stbtf != STATE_OPEN)
+#dffinf IS_STATE_CLOSED(stbtf) (stbtf != STATE_OPEN)
+#dffinf IS_STATE_CLOSED(stbtf) (stbtf != STATE_OPEN)
+#dffinf IS_STATE_CLOSED(stbtf) (stbtf != STATE_OPEN)
 #dffinf IS_STATE_CLOSED(stbtf) (stbtf != STATE_OPEN)
 
 
-typfdff strudt ShbrfdMfmoryConnfdtion {
-    dhbr nbmf[MAX_IPC_NAME];
-    ShbrfdMfmory *shbrfd;
-    sys_shmfm_t shbrfdMfmory;
+
+
+
+
+
+
+
+
+typfdff strudt SibrfdMfmoryConnfdtion {
+typfdff strudt SibrfdMfmoryConnfdtion {
+typfdff strudt SibrfdMfmoryConnfdtion {
+typfdff strudt SibrfdMfmoryConnfdtion {
+typfdff strudt SibrfdMfmoryConnfdtion {
+    dibr nbmf[MAX_IPC_NAME];
+    dibr nbmf[MAX_IPC_NAME];
+    dibr nbmf[MAX_IPC_NAME];
+    dibr nbmf[MAX_IPC_NAME];
+    dibr nbmf[MAX_IPC_NAME];
+    SibrfdMfmory *sibrfd;
+    SibrfdMfmory *sibrfd;
+    SibrfdMfmory *sibrfd;
+    SibrfdMfmory *sibrfd;
+    SibrfdMfmory *sibrfd;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    sys_simfm_t sibrfdMfmory;
+    Strfbm indoming;
+    Strfbm indoming;
+    Strfbm indoming;
+    Strfbm indoming;
     Strfbm indoming;
     Strfbm outgoing;
-    sys_prodfss_t othfrProdfss;
-    sys_fvfnt_t shutdown;           /* signbllfd to indidbtf shutdown */
-} ShbrfdMfmoryConnfdtion;
+    Strfbm outgoing;
+    Strfbm outgoing;
+    Strfbm outgoing;
+    Strfbm outgoing;
+    sys_prodfss_t otifrProdfss;
+    sys_prodfss_t otifrProdfss;
+    sys_prodfss_t otifrProdfss;
+    sys_prodfss_t otifrProdfss;
+    sys_prodfss_t otifrProdfss;
+    sys_fvfnt_t siutdown;           /* signbllfd to indidbtf siutdown */
+    sys_fvfnt_t siutdown;           /* signbllfd to indidbtf siutdown */
+    sys_fvfnt_t siutdown;           /* signbllfd to indidbtf siutdown */
+    sys_fvfnt_t siutdown;           /* signbllfd to indidbtf siutdown */
+    sys_fvfnt_t siutdown;           /* signbllfd to indidbtf siutdown */
+} SibrfdMfmoryConnfdtion;
+} SibrfdMfmoryConnfdtion;
+} SibrfdMfmoryConnfdtion;
+} SibrfdMfmoryConnfdtion;
+} SibrfdMfmoryConnfdtion;
+
+
+
+
 
 stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid JbvbVM *jvm;
+stbtid JbvbVM *jvm;
+stbtid JbvbVM *jvm;
+stbtid JbvbVM *jvm;
 stbtid JbvbVM *jvm;
 stbtid int tlsIndfx;
+stbtid int tlsIndfx;
+stbtid int tlsIndfx;
+stbtid int tlsIndfx;
+stbtid int tlsIndfx;
 
-typfdff jint (*CrfbtfFund)(dhbr *nbmf, void *brg);
+
+
+
+
+typfdff jint (*CrfbtfFund)(dibr *nbmf, void *brg);
+typfdff jint (*CrfbtfFund)(dibr *nbmf, void *brg);
+typfdff jint (*CrfbtfFund)(dibr *nbmf, void *brg);
+typfdff jint (*CrfbtfFund)(dibr *nbmf, void *brg);
+typfdff jint (*CrfbtfFund)(dibr *nbmf, void *brg);
+
+
+
+
 
 /*
- * Sft thf pfr-thrfbd frror mfssbgf (if not blrfbdy sft)
+/*
+/*
+/*
+/*
+ * Sft tif pfr-tirfbd frror mfssbgf (if not blrfbdy sft)
+ * Sft tif pfr-tirfbd frror mfssbgf (if not blrfbdy sft)
+ * Sft tif pfr-tirfbd frror mfssbgf (if not blrfbdy sft)
+ * Sft tif pfr-tirfbd frror mfssbgf (if not blrfbdy sft)
+ * Sft tif pfr-tirfbd frror mfssbgf (if not blrfbdy sft)
+ */
+ */
+ */
+ */
  */
 stbtid void
-sftLbstErrorMsg(dhbr *nfwmsg) {
-    dhbr *msg;
+stbtid void
+stbtid void
+stbtid void
+stbtid void
+sftLbstErrorMsg(dibr *nfwmsg) {
+sftLbstErrorMsg(dibr *nfwmsg) {
+sftLbstErrorMsg(dibr *nfwmsg) {
+sftLbstErrorMsg(dibr *nfwmsg) {
+sftLbstErrorMsg(dibr *nfwmsg) {
+    dibr *msg;
+    dibr *msg;
+    dibr *msg;
+    dibr *msg;
+    dibr *msg;
 
-    msg = (dhbr *)sysTlsGft(tlsIndfx);
+
+
+
+
+    msg = (dibr *)sysTlsGft(tlsIndfx);
+    msg = (dibr *)sysTlsGft(tlsIndfx);
+    msg = (dibr *)sysTlsGft(tlsIndfx);
+    msg = (dibr *)sysTlsGft(tlsIndfx);
+    msg = (dibr *)sysTlsGft(tlsIndfx);
+    if (msg == NULL) {
+    if (msg == NULL) {
+    if (msg == NULL) {
+    if (msg == NULL) {
     if (msg == NULL) {
         msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
+        msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
+        msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
+        msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
+        msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
+        if (msg != NULL) {
+        if (msg != NULL) {
+        if (msg != NULL) {
+        if (msg != NULL) {
         if (msg != NULL) {
            strdpy(msg, nfwmsg);
+           strdpy(msg, nfwmsg);
+           strdpy(msg, nfwmsg);
+           strdpy(msg, nfwmsg);
+           strdpy(msg, nfwmsg);
+        }
+        }
+        }
+        }
         }
         sysTlsPut(tlsIndfx, (void *)msg);
+        sysTlsPut(tlsIndfx, (void *)msg);
+        sysTlsPut(tlsIndfx, (void *)msg);
+        sysTlsPut(tlsIndfx, (void *)msg);
+        sysTlsPut(tlsIndfx, (void *)msg);
+    }
+    }
+    }
+    }
     }
 }
+}
+}
+}
+}
+
+
+
+
 
 /*
- * Clfbr lbst pfr-thrfbd frror mfssbgf
+/*
+/*
+/*
+/*
+ * Clfbr lbst pfr-tirfbd frror mfssbgf
+ * Clfbr lbst pfr-tirfbd frror mfssbgf
+ * Clfbr lbst pfr-tirfbd frror mfssbgf
+ * Clfbr lbst pfr-tirfbd frror mfssbgf
+ * Clfbr lbst pfr-tirfbd frror mfssbgf
  */
+ */
+ */
+ */
+ */
+stbtid void
+stbtid void
+stbtid void
+stbtid void
 stbtid void
 dlfbrLbstError() {
-    dhbr* msg = (dhbr *)sysTlsGft(tlsIndfx);
+dlfbrLbstError() {
+dlfbrLbstError() {
+dlfbrLbstError() {
+dlfbrLbstError() {
+    dibr* msg = (dibr *)sysTlsGft(tlsIndfx);
+    dibr* msg = (dibr *)sysTlsGft(tlsIndfx);
+    dibr* msg = (dibr *)sysTlsGft(tlsIndfx);
+    dibr* msg = (dibr *)sysTlsGft(tlsIndfx);
+    dibr* msg = (dibr *)sysTlsGft(tlsIndfx);
+    if (msg != NULL) {
+    if (msg != NULL) {
+    if (msg != NULL) {
+    if (msg != NULL) {
     if (msg != NULL) {
         (*dbllbbdk->frff)(msg);
+        (*dbllbbdk->frff)(msg);
+        (*dbllbbdk->frff)(msg);
+        (*dbllbbdk->frff)(msg);
+        (*dbllbbdk->frff)(msg);
+        sysTlsPut(tlsIndfx, NULL);
+        sysTlsPut(tlsIndfx, NULL);
+        sysTlsPut(tlsIndfx, NULL);
+        sysTlsPut(tlsIndfx, NULL);
         sysTlsPut(tlsIndfx, NULL);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }
 
+
+
+
+
 /*
- * Sft thf pfr-thrfbd frror mfssbgf to thf tfxtubl rfprfsfntbtion
- * of thf lbst systfm frror (if not blrfbdy sft)
+/*
+/*
+/*
+/*
+ * Sft tif pfr-tirfbd frror mfssbgf to tif tfxtubl rfprfsfntbtion
+ * Sft tif pfr-tirfbd frror mfssbgf to tif tfxtubl rfprfsfntbtion
+ * Sft tif pfr-tirfbd frror mfssbgf to tif tfxtubl rfprfsfntbtion
+ * Sft tif pfr-tirfbd frror mfssbgf to tif tfxtubl rfprfsfntbtion
+ * Sft tif pfr-tirfbd frror mfssbgf to tif tfxtubl rfprfsfntbtion
+ * of tif lbst systfm frror (if not blrfbdy sft)
+ * of tif lbst systfm frror (if not blrfbdy sft)
+ * of tif lbst systfm frror (if not blrfbdy sft)
+ * of tif lbst systfm frror (if not blrfbdy sft)
+ * of tif lbst systfm frror (if not blrfbdy sft)
  */
+ */
+ */
+ */
+ */
+stbtid void
+stbtid void
+stbtid void
+stbtid void
 stbtid void
 sftLbstError(jint frror) {
-    dhbr buf[128];
+sftLbstError(jint frror) {
+sftLbstError(jint frror) {
+sftLbstError(jint frror) {
+sftLbstError(jint frror) {
+    dibr buf[128];
+    dibr buf[128];
+    dibr buf[128];
+    dibr buf[128];
+    dibr buf[128];
 
-    switdh (frror) {
+
+
+
+
+    switdi (frror) {
+    switdi (frror) {
+    switdi (frror) {
+    switdi (frror) {
+    switdi (frror) {
         dbsf SYS_OK      : rfturn;      /* no-op */
-        dbsf SYS_DIED    : strdpy(buf, "Othfr prodfss tfrminbtfd"); brfbk;
+        dbsf SYS_OK      : rfturn;      /* no-op */
+        dbsf SYS_OK      : rfturn;      /* no-op */
+        dbsf SYS_OK      : rfturn;      /* no-op */
+        dbsf SYS_OK      : rfturn;      /* no-op */
+        dbsf SYS_DIED    : strdpy(buf, "Otifr prodfss tfrminbtfd"); brfbk;
+        dbsf SYS_DIED    : strdpy(buf, "Otifr prodfss tfrminbtfd"); brfbk;
+        dbsf SYS_DIED    : strdpy(buf, "Otifr prodfss tfrminbtfd"); brfbk;
+        dbsf SYS_DIED    : strdpy(buf, "Otifr prodfss tfrminbtfd"); brfbk;
+        dbsf SYS_DIED    : strdpy(buf, "Otifr prodfss tfrminbtfd"); brfbk;
+        dbsf SYS_TIMEOUT : strdpy(buf, "Timfd out"); brfbk;
+        dbsf SYS_TIMEOUT : strdpy(buf, "Timfd out"); brfbk;
+        dbsf SYS_TIMEOUT : strdpy(buf, "Timfd out"); brfbk;
+        dbsf SYS_TIMEOUT : strdpy(buf, "Timfd out"); brfbk;
         dbsf SYS_TIMEOUT : strdpy(buf, "Timfd out"); brfbk;
         dffbult          : sysGftLbstError(buf, sizfof(buf));
+        dffbult          : sysGftLbstError(buf, sizfof(buf));
+        dffbult          : sysGftLbstError(buf, sizfof(buf));
+        dffbult          : sysGftLbstError(buf, sizfof(buf));
+        dffbult          : sysGftLbstError(buf, sizfof(buf));
+    }
+    }
+    }
+    }
     }
     sftLbstErrorMsg(buf);
+    sftLbstErrorMsg(buf);
+    sftLbstErrorMsg(buf);
+    sftLbstErrorMsg(buf);
+    sftLbstErrorMsg(buf);
 }
+}
+}
+}
+}
+
+
+
+
 
 jint
-shmfmBbsf_initiblizf(JbvbVM *vm, jdwpTrbnsportCbllbbdk *dbPtr)
+jint
+jint
+jint
+jint
+simfmBbsf_initiblizf(JbvbVM *vm, jdwpTrbnsportCbllbbdk *dbPtr)
+simfmBbsf_initiblizf(JbvbVM *vm, jdwpTrbnsportCbllbbdk *dbPtr)
+simfmBbsf_initiblizf(JbvbVM *vm, jdwpTrbnsportCbllbbdk *dbPtr)
+simfmBbsf_initiblizf(JbvbVM *vm, jdwpTrbnsportCbllbbdk *dbPtr)
+simfmBbsf_initiblizf(JbvbVM *vm, jdwpTrbnsportCbllbbdk *dbPtr)
+{
+{
+{
+{
 {
     jvm = vm;
+    jvm = vm;
+    jvm = vm;
+    jvm = vm;
+    jvm = vm;
+    dbllbbdk = dbPtr;
+    dbllbbdk = dbPtr;
+    dbllbbdk = dbPtr;
+    dbllbbdk = dbPtr;
     dbllbbdk = dbPtr;
     tlsIndfx = sysTlsAllod();
+    tlsIndfx = sysTlsAllod();
+    tlsIndfx = sysTlsAllod();
+    tlsIndfx = sysTlsAllod();
+    tlsIndfx = sysTlsAllod();
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
     rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 stbtid jint
-drfbtfWithGfnfrbtfdNbmf(dhbr *prffix, dhbr *nbmfBufffr, CrfbtfFund fund, void *brg)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+drfbtfWitiGfnfrbtfdNbmf(dibr *prffix, dibr *nbmfBufffr, CrfbtfFund fund, void *brg)
+drfbtfWitiGfnfrbtfdNbmf(dibr *prffix, dibr *nbmfBufffr, CrfbtfFund fund, void *brg)
+drfbtfWitiGfnfrbtfdNbmf(dibr *prffix, dibr *nbmfBufffr, CrfbtfFund fund, void *brg)
+drfbtfWitiGfnfrbtfdNbmf(dibr *prffix, dibr *nbmfBufffr, CrfbtfFund fund, void *brg)
+drfbtfWitiGfnfrbtfdNbmf(dibr *prffix, dibr *nbmfBufffr, CrfbtfFund fund, void *brg)
 {
+{
+{
+{
+{
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
     jint frror;
     jint i = 0;
+    jint i = 0;
+    jint i = 0;
+    jint i = 0;
+    jint i = 0;
+
+
+
+
 
     do {
+    do {
+    do {
+    do {
+    do {
+        strdpy(nbmfBufffr, prffix);
+        strdpy(nbmfBufffr, prffix);
+        strdpy(nbmfBufffr, prffix);
+        strdpy(nbmfBufffr, prffix);
         strdpy(nbmfBufffr, prffix);
         if (i > 0) {
-            dhbr buf[10];
+        if (i > 0) {
+        if (i > 0) {
+        if (i > 0) {
+        if (i > 0) {
+            dibr buf[10];
+            dibr buf[10];
+            dibr buf[10];
+            dibr buf[10];
+            dibr buf[10];
+            sprintf(buf, ".%d", i+1);
+            sprintf(buf, ".%d", i+1);
+            sprintf(buf, ".%d", i+1);
+            sprintf(buf, ".%d", i+1);
             sprintf(buf, ".%d", i+1);
             strdbt(nbmfBufffr, buf);
+            strdbt(nbmfBufffr, buf);
+            strdbt(nbmfBufffr, buf);
+            strdbt(nbmfBufffr, buf);
+            strdbt(nbmfBufffr, buf);
+        }
+        }
+        }
+        }
         }
         frror = fund(nbmfBufffr, brg);
+        frror = fund(nbmfBufffr, brg);
+        frror = fund(nbmfBufffr, brg);
+        frror = fund(nbmfBufffr, brg);
+        frror = fund(nbmfBufffr, brg);
         i++;
-    } whilf ((frror == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
+        i++;
+        i++;
+        i++;
+        i++;
+    } wiilf ((frror == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
+    } wiilf ((frror == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
+    } wiilf ((frror == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
+    } wiilf ((frror == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
+    } wiilf ((frror == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
+
+
+
+
 
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
         sftLbstError(frror);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+}
+}
+}
+}
 }
 
-typfdff strudt ShbrfdMfmoryArg {
+
+
+
+
+typfdff strudt SibrfdMfmoryArg {
+typfdff strudt SibrfdMfmoryArg {
+typfdff strudt SibrfdMfmoryArg {
+typfdff strudt SibrfdMfmoryArg {
+typfdff strudt SibrfdMfmoryArg {
     jint sizf;
-    sys_shmfm_t mfmory;
+    jint sizf;
+    jint sizf;
+    jint sizf;
+    jint sizf;
+    sys_simfm_t mfmory;
+    sys_simfm_t mfmory;
+    sys_simfm_t mfmory;
+    sys_simfm_t mfmory;
+    sys_simfm_t mfmory;
     void *stbrt;
-} ShbrfdMfmoryArg;
+    void *stbrt;
+    void *stbrt;
+    void *stbrt;
+    void *stbrt;
+} SibrfdMfmoryArg;
+} SibrfdMfmoryArg;
+} SibrfdMfmoryArg;
+} SibrfdMfmoryArg;
+} SibrfdMfmoryArg;
+
+
+
+
 
 stbtid jint
-drfbtfShbrfdMfm(dhbr *nbmf, void *ptr)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+drfbtfSibrfdMfm(dibr *nbmf, void *ptr)
+drfbtfSibrfdMfm(dibr *nbmf, void *ptr)
+drfbtfSibrfdMfm(dibr *nbmf, void *ptr)
+drfbtfSibrfdMfm(dibr *nbmf, void *ptr)
+drfbtfSibrfdMfm(dibr *nbmf, void *ptr)
 {
-    ShbrfdMfmoryArg *brg = ptr;
-    rfturn sysShbrfdMfmCrfbtf(nbmf, brg->sizf, &brg->mfmory, &brg->stbrt);
+{
+{
+{
+{
+    SibrfdMfmoryArg *brg = ptr;
+    SibrfdMfmoryArg *brg = ptr;
+    SibrfdMfmoryArg *brg = ptr;
+    SibrfdMfmoryArg *brg = ptr;
+    SibrfdMfmoryArg *brg = ptr;
+    rfturn sysSibrfdMfmCrfbtf(nbmf, brg->sizf, &brg->mfmory, &brg->stbrt);
+    rfturn sysSibrfdMfmCrfbtf(nbmf, brg->sizf, &brg->mfmory, &brg->stbrt);
+    rfturn sysSibrfdMfmCrfbtf(nbmf, brg->sizf, &brg->mfmory, &brg->stbrt);
+    rfturn sysSibrfdMfmCrfbtf(nbmf, brg->sizf, &brg->mfmory, &brg->stbrt);
+    rfturn sysSibrfdMfmCrfbtf(nbmf, brg->sizf, &brg->mfmory, &brg->stbrt);
+}
+}
+}
+}
 }
 
+
+
+
+
 stbtid jint
-drfbtfMutfx(dhbr *nbmf, void *brg)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+drfbtfMutfx(dibr *nbmf, void *brg)
+drfbtfMutfx(dibr *nbmf, void *brg)
+drfbtfMutfx(dibr *nbmf, void *brg)
+drfbtfMutfx(dibr *nbmf, void *brg)
+drfbtfMutfx(dibr *nbmf, void *brg)
+{
+{
+{
+{
 {
     sys_ipmutfx_t *rftArg = brg;
+    sys_ipmutfx_t *rftArg = brg;
+    sys_ipmutfx_t *rftArg = brg;
+    sys_ipmutfx_t *rftArg = brg;
+    sys_ipmutfx_t *rftArg = brg;
+    rfturn sysIPMutfxCrfbtf(nbmf, rftArg);
+    rfturn sysIPMutfxCrfbtf(nbmf, rftArg);
+    rfturn sysIPMutfxCrfbtf(nbmf, rftArg);
+    rfturn sysIPMutfxCrfbtf(nbmf, rftArg);
     rfturn sysIPMutfxCrfbtf(nbmf, rftArg);
 }
+}
+}
+}
+}
+
+
+
+
 
 /*
- * Crfbtfs nbmfd or unnbmfd fvfnt thbt is butombtidblly rfsft
- * (in othfr words, no nffd to rfsft fvfnt bftfr it hbs signbllfd
- * b thrfbd).
+/*
+/*
+/*
+/*
+ * Crfbtfs nbmfd or unnbmfd fvfnt tibt is butombtidblly rfsft
+ * Crfbtfs nbmfd or unnbmfd fvfnt tibt is butombtidblly rfsft
+ * Crfbtfs nbmfd or unnbmfd fvfnt tibt is butombtidblly rfsft
+ * Crfbtfs nbmfd or unnbmfd fvfnt tibt is butombtidblly rfsft
+ * Crfbtfs nbmfd or unnbmfd fvfnt tibt is butombtidblly rfsft
+ * (in otifr words, no nffd to rfsft fvfnt bftfr it ibs signbllfd
+ * (in otifr words, no nffd to rfsft fvfnt bftfr it ibs signbllfd
+ * (in otifr words, no nffd to rfsft fvfnt bftfr it ibs signbllfd
+ * (in otifr words, no nffd to rfsft fvfnt bftfr it ibs signbllfd
+ * (in otifr words, no nffd to rfsft fvfnt bftfr it ibs signbllfd
+ * b tirfbd).
+ * b tirfbd).
+ * b tirfbd).
+ * b tirfbd).
+ * b tirfbd).
+ */
+ */
+ */
+ */
  */
 stbtid jint
-drfbtfEvfnt(dhbr *nbmf, void *brg)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+drfbtfEvfnt(dibr *nbmf, void *brg)
+drfbtfEvfnt(dibr *nbmf, void *brg)
+drfbtfEvfnt(dibr *nbmf, void *brg)
+drfbtfEvfnt(dibr *nbmf, void *brg)
+drfbtfEvfnt(dibr *nbmf, void *brg)
+{
+{
+{
+{
 {
     sys_fvfnt_t *rftArg = brg;
+    sys_fvfnt_t *rftArg = brg;
+    sys_fvfnt_t *rftArg = brg;
+    sys_fvfnt_t *rftArg = brg;
+    sys_fvfnt_t *rftArg = brg;
+    rfturn sysEvfntCrfbtf(nbmf, rftArg, JNI_FALSE);
+    rfturn sysEvfntCrfbtf(nbmf, rftArg, JNI_FALSE);
+    rfturn sysEvfntCrfbtf(nbmf, rftArg, JNI_FALSE);
+    rfturn sysEvfntCrfbtf(nbmf, rftArg, JNI_FALSE);
     rfturn sysEvfntCrfbtf(nbmf, rftArg, JNI_FALSE);
 }
+}
+}
+}
+}
+
+
+
+
 
 #dffinf ADD_OFFSET(o1, o2) ((o1 + o2) % SHARED_BUFFER_SIZE)
-#dffinf FULL(strfbm) (strfbm->shbrfd->isFull)
-#dffinf EMPTY(strfbm) ((strfbm->shbrfd->writfOffsft == strfbm->shbrfd->rfbdOffsft) \
-                       && !strfbm->shbrfd->isFull)
+#dffinf ADD_OFFSET(o1, o2) ((o1 + o2) % SHARED_BUFFER_SIZE)
+#dffinf ADD_OFFSET(o1, o2) ((o1 + o2) % SHARED_BUFFER_SIZE)
+#dffinf ADD_OFFSET(o1, o2) ((o1 + o2) % SHARED_BUFFER_SIZE)
+#dffinf ADD_OFFSET(o1, o2) ((o1 + o2) % SHARED_BUFFER_SIZE)
+#dffinf FULL(strfbm) (strfbm->sibrfd->isFull)
+#dffinf FULL(strfbm) (strfbm->sibrfd->isFull)
+#dffinf FULL(strfbm) (strfbm->sibrfd->isFull)
+#dffinf FULL(strfbm) (strfbm->sibrfd->isFull)
+#dffinf FULL(strfbm) (strfbm->sibrfd->isFull)
+#dffinf EMPTY(strfbm) ((strfbm->sibrfd->writfOffsft == strfbm->sibrfd->rfbdOffsft) \
+#dffinf EMPTY(strfbm) ((strfbm->sibrfd->writfOffsft == strfbm->sibrfd->rfbdOffsft) \
+#dffinf EMPTY(strfbm) ((strfbm->sibrfd->writfOffsft == strfbm->sibrfd->rfbdOffsft) \
+#dffinf EMPTY(strfbm) ((strfbm->sibrfd->writfOffsft == strfbm->sibrfd->rfbdOffsft) \
+#dffinf EMPTY(strfbm) ((strfbm->sibrfd->writfOffsft == strfbm->sibrfd->rfbdOffsft) \
+                       && !strfbm->sibrfd->isFull)
+                       && !strfbm->sibrfd->isFull)
+                       && !strfbm->sibrfd->isFull)
+                       && !strfbm->sibrfd->isFull)
+                       && !strfbm->sibrfd->isFull)
 
+
+
+
+
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
 stbtid jint
 lfbvfMutfx(Strfbm *strfbm)
+lfbvfMutfx(Strfbm *strfbm)
+lfbvfMutfx(Strfbm *strfbm)
+lfbvfMutfx(Strfbm *strfbm)
+lfbvfMutfx(Strfbm *strfbm)
+{
+{
+{
+{
 {
     rfturn sysIPMutfxExit(strfbm->mutfx);
+    rfturn sysIPMutfxExit(strfbm->mutfx);
+    rfturn sysIPMutfxExit(strfbm->mutfx);
+    rfturn sysIPMutfxExit(strfbm->mutfx);
+    rfturn sysIPMutfxExit(strfbm->mutfx);
+}
+}
+}
+}
 }
 
-/* fntfr thf strfbm's mutfx bnd (optionblly) dhfdk for b dlosfd strfbm */
+
+
+
+
+/* fntfr tif strfbm's mutfx bnd (optionblly) difdk for b dlosfd strfbm */
+/* fntfr tif strfbm's mutfx bnd (optionblly) difdk for b dlosfd strfbm */
+/* fntfr tif strfbm's mutfx bnd (optionblly) difdk for b dlosfd strfbm */
+/* fntfr tif strfbm's mutfx bnd (optionblly) difdk for b dlosfd strfbm */
+/* fntfr tif strfbm's mutfx bnd (optionblly) difdk for b dlosfd strfbm */
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
 stbtid jint
 fntfrMutfx(Strfbm *strfbm, sys_fvfnt_t fvfnt)
+fntfrMutfx(Strfbm *strfbm, sys_fvfnt_t fvfnt)
+fntfrMutfx(Strfbm *strfbm, sys_fvfnt_t fvfnt)
+fntfrMutfx(Strfbm *strfbm, sys_fvfnt_t fvfnt)
+fntfrMutfx(Strfbm *strfbm, sys_fvfnt_t fvfnt)
+{
+{
+{
+{
 {
     jint rft = sysIPMutfxEntfr(strfbm->mutfx, fvfnt);
+    jint rft = sysIPMutfxEntfr(strfbm->mutfx, fvfnt);
+    jint rft = sysIPMutfxEntfr(strfbm->mutfx, fvfnt);
+    jint rft = sysIPMutfxEntfr(strfbm->mutfx, fvfnt);
+    jint rft = sysIPMutfxEntfr(strfbm->mutfx, fvfnt);
+    if (rft != SYS_OK) {
+    if (rft != SYS_OK) {
+    if (rft != SYS_OK) {
+    if (rft != SYS_OK) {
     if (rft != SYS_OK) {
         if (IS_STATE_CLOSED(strfbm->stbtf)) {
+        if (IS_STATE_CLOSED(strfbm->stbtf)) {
+        if (IS_STATE_CLOSED(strfbm->stbtf)) {
+        if (IS_STATE_CLOSED(strfbm->stbtf)) {
+        if (IS_STATE_CLOSED(strfbm->stbtf)) {
+            sftLbstErrorMsg("strfbm dlosfd");
+            sftLbstErrorMsg("strfbm dlosfd");
+            sftLbstErrorMsg("strfbm dlosfd");
+            sftLbstErrorMsg("strfbm dlosfd");
             sftLbstErrorMsg("strfbm dlosfd");
         }
+        }
+        }
+        }
+        }
+        rfturn rft;
+        rfturn rft;
+        rfturn rft;
+        rfturn rft;
         rfturn rft;
     }
+    }
+    }
+    }
+    }
+    if (IS_STATE_CLOSED(strfbm->stbtf)) {
+    if (IS_STATE_CLOSED(strfbm->stbtf)) {
+    if (IS_STATE_CLOSED(strfbm->stbtf)) {
+    if (IS_STATE_CLOSED(strfbm->stbtf)) {
     if (IS_STATE_CLOSED(strfbm->stbtf)) {
         sftLbstErrorMsg("strfbm dlosfd");
+        sftLbstErrorMsg("strfbm dlosfd");
+        sftLbstErrorMsg("strfbm dlosfd");
+        sftLbstErrorMsg("strfbm dlosfd");
+        sftLbstErrorMsg("strfbm dlosfd");
+        (void)lfbvfMutfx(strfbm);
+        (void)lfbvfMutfx(strfbm);
+        (void)lfbvfMutfx(strfbm);
+        (void)lfbvfMutfx(strfbm);
         (void)lfbvfMutfx(strfbm);
         rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+    }
+    }
+    }
+    }
     }
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 /*
- * Entfr/fxit with strfbm mutfx hfld.
- * On frror, dofs not hold thf strfbm mutfx.
+/*
+/*
+/*
+/*
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ */
+ */
+ */
+ */
  */
 stbtid jint
-wbitForSpbdf(ShbrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+wbitForSpbdf(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForSpbdf(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForSpbdf(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForSpbdf(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForSpbdf(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+{
+{
+{
+{
 {
     jint frror = SYS_OK;
+    jint frror = SYS_OK;
+    jint frror = SYS_OK;
+    jint frror = SYS_OK;
+    jint frror = SYS_OK;
 
-    /* Assumfs mutfx is hfld on dbll */
-    whilf ((frror == SYS_OK) && FULL(strfbm)) {
+
+
+
+
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    wiilf ((frror == SYS_OK) && FULL(strfbm)) {
+    wiilf ((frror == SYS_OK) && FULL(strfbm)) {
+    wiilf ((frror == SYS_OK) && FULL(strfbm)) {
+    wiilf ((frror == SYS_OK) && FULL(strfbm)) {
+    wiilf ((frror == SYS_OK) && FULL(strfbm)) {
         CHECK_ERROR(lfbvfMutfx(strfbm));
-        frror = sysEvfntWbit(donnfdtion->othfrProdfss, strfbm->hbsSpbdf, 0);
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsSpbdf, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsSpbdf, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsSpbdf, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsSpbdf, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsSpbdf, 0);
         if (frror == SYS_OK) {
-            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             sftLbstError(frror);
+            sftLbstError(frror);
+            sftLbstError(frror);
+            sftLbstError(frror);
+            sftLbstError(frror);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
     rfturn frror;
 }
+}
+}
+}
+}
 
+
+
+
+
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
 stbtid jint
 signblSpbdf(Strfbm *strfbm)
+signblSpbdf(Strfbm *strfbm)
+signblSpbdf(Strfbm *strfbm)
+signblSpbdf(Strfbm *strfbm)
+signblSpbdf(Strfbm *strfbm)
 {
-    rfturn sysEvfntSignbl(strfbm->hbsSpbdf);
+{
+{
+{
+{
+    rfturn sysEvfntSignbl(strfbm->ibsSpbdf);
+    rfturn sysEvfntSignbl(strfbm->ibsSpbdf);
+    rfturn sysEvfntSignbl(strfbm->ibsSpbdf);
+    rfturn sysEvfntSignbl(strfbm->ibsSpbdf);
+    rfturn sysEvfntSignbl(strfbm->ibsSpbdf);
+}
+}
+}
+}
 }
 
+
+
+
+
 /*
- * Entfr/fxit with strfbm mutfx hfld.
- * On frror, dofs not hold thf strfbm mutfx.
+/*
+/*
+/*
+/*
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * Entfr/fxit witi strfbm mutfx ifld.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ * On frror, dofs not iold tif strfbm mutfx.
+ */
+ */
+ */
+ */
  */
 stbtid jint
-wbitForDbtb(ShbrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+wbitForDbtb(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForDbtb(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForDbtb(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForDbtb(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+wbitForDbtb(SibrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+{
+{
+{
+{
 {
     jint frror = SYS_OK;
+    jint frror = SYS_OK;
+    jint frror = SYS_OK;
+    jint frror = SYS_OK;
+    jint frror = SYS_OK;
 
-    /* Assumfs mutfx is hfld on dbll */
-    whilf ((frror == SYS_OK) && EMPTY(strfbm)) {
+
+
+
+
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    /* Assumfs mutfx is ifld on dbll */
+    wiilf ((frror == SYS_OK) && EMPTY(strfbm)) {
+    wiilf ((frror == SYS_OK) && EMPTY(strfbm)) {
+    wiilf ((frror == SYS_OK) && EMPTY(strfbm)) {
+    wiilf ((frror == SYS_OK) && EMPTY(strfbm)) {
+    wiilf ((frror == SYS_OK) && EMPTY(strfbm)) {
         CHECK_ERROR(lfbvfMutfx(strfbm));
-        frror = sysEvfntWbit(donnfdtion->othfrProdfss, strfbm->hbsDbtb, 0);
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsDbtb, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsDbtb, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsDbtb, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsDbtb, 0);
+        frror = sysEvfntWbit(donnfdtion->otifrProdfss, strfbm->ibsDbtb, 0);
         if (frror == SYS_OK) {
-            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             sftLbstError(frror);
+            sftLbstError(frror);
+            sftLbstError(frror);
+            sftLbstError(frror);
+            sftLbstError(frror);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
     rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+}
+}
+}
+}
 }
 
+
+
+
+
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
 stbtid jint
 signblDbtb(Strfbm *strfbm)
+signblDbtb(Strfbm *strfbm)
+signblDbtb(Strfbm *strfbm)
+signblDbtb(Strfbm *strfbm)
+signblDbtb(Strfbm *strfbm)
 {
-    rfturn sysEvfntSignbl(strfbm->hbsDbtb);
+{
+{
+{
+{
+    rfturn sysEvfntSignbl(strfbm->ibsDbtb);
+    rfturn sysEvfntSignbl(strfbm->ibsDbtb);
+    rfturn sysEvfntSignbl(strfbm->ibsDbtb);
+    rfturn sysEvfntSignbl(strfbm->ibsDbtb);
+    rfturn sysEvfntSignbl(strfbm->ibsDbtb);
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+dlosfStrfbm(Strfbm *strfbm, jboolfbn lingfr)
+dlosfStrfbm(Strfbm *strfbm, jboolfbn lingfr)
+dlosfStrfbm(Strfbm *strfbm, jboolfbn lingfr)
+dlosfStrfbm(Strfbm *strfbm, jboolfbn lingfr)
 dlosfStrfbm(Strfbm *strfbm, jboolfbn lingfr)
 {
+{
+{
+{
+{
     /*
-     * Lodk strfbm during dlosf - ignorf shutdown fvfnt bs wf brf
-     * dlosing down bnd shutdown should bf signbllfd.
+    /*
+    /*
+    /*
+    /*
+     * Lodk strfbm during dlosf - ignorf siutdown fvfnt bs wf brf
+     * Lodk strfbm during dlosf - ignorf siutdown fvfnt bs wf brf
+     * Lodk strfbm during dlosf - ignorf siutdown fvfnt bs wf brf
+     * Lodk strfbm during dlosf - ignorf siutdown fvfnt bs wf brf
+     * Lodk strfbm during dlosf - ignorf siutdown fvfnt bs wf brf
+     * dlosing down bnd siutdown siould bf signbllfd.
+     * dlosing down bnd siutdown siould bf signbllfd.
+     * dlosing down bnd siutdown siould bf signbllfd.
+     * dlosing down bnd siutdown siould bf signbllfd.
+     * dlosing down bnd siutdown siould bf signbllfd.
+     */
+     */
+     */
+     */
      */
     CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+    CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+    CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+    CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+    CHECK_ERROR(fntfrMutfx(strfbm, NULL));
 
-    /* mbrk thf strfbm bs dlosfd */
+
+
+
+
+    /* mbrk tif strfbm bs dlosfd */
+    /* mbrk tif strfbm bs dlosfd */
+    /* mbrk tif strfbm bs dlosfd */
+    /* mbrk tif strfbm bs dlosfd */
+    /* mbrk tif strfbm bs dlosfd */
+    strfbm->stbtf = STATE_CLOSED;
+    strfbm->stbtf = STATE_CLOSED;
+    strfbm->stbtf = STATE_CLOSED;
+    strfbm->stbtf = STATE_CLOSED;
     strfbm->stbtf = STATE_CLOSED;
     /* wbkf up wbitForDbtb() if it is in sysEvfntWbit() */
-    sysEvfntSignbl(strfbm->hbsDbtb);
-    sysEvfntClosf(strfbm->hbsDbtb);
+    /* wbkf up wbitForDbtb() if it is in sysEvfntWbit() */
+    /* wbkf up wbitForDbtb() if it is in sysEvfntWbit() */
+    /* wbkf up wbitForDbtb() if it is in sysEvfntWbit() */
+    /* wbkf up wbitForDbtb() if it is in sysEvfntWbit() */
+    sysEvfntSignbl(strfbm->ibsDbtb);
+    sysEvfntSignbl(strfbm->ibsDbtb);
+    sysEvfntSignbl(strfbm->ibsDbtb);
+    sysEvfntSignbl(strfbm->ibsDbtb);
+    sysEvfntSignbl(strfbm->ibsDbtb);
+    sysEvfntClosf(strfbm->ibsDbtb);
+    sysEvfntClosf(strfbm->ibsDbtb);
+    sysEvfntClosf(strfbm->ibsDbtb);
+    sysEvfntClosf(strfbm->ibsDbtb);
+    sysEvfntClosf(strfbm->ibsDbtb);
     /* wbkf up wbitForSpbdf() if it is in sysEvfntWbit() */
-    sysEvfntSignbl(strfbm->hbsSpbdf);
-    sysEvfntClosf(strfbm->hbsSpbdf);
+    /* wbkf up wbitForSpbdf() if it is in sysEvfntWbit() */
+    /* wbkf up wbitForSpbdf() if it is in sysEvfntWbit() */
+    /* wbkf up wbitForSpbdf() if it is in sysEvfntWbit() */
+    /* wbkf up wbitForSpbdf() if it is in sysEvfntWbit() */
+    sysEvfntSignbl(strfbm->ibsSpbdf);
+    sysEvfntSignbl(strfbm->ibsSpbdf);
+    sysEvfntSignbl(strfbm->ibsSpbdf);
+    sysEvfntSignbl(strfbm->ibsSpbdf);
+    sysEvfntSignbl(strfbm->ibsSpbdf);
+    sysEvfntClosf(strfbm->ibsSpbdf);
+    sysEvfntClosf(strfbm->ibsSpbdf);
+    sysEvfntClosf(strfbm->ibsSpbdf);
+    sysEvfntClosf(strfbm->ibsSpbdf);
+    sysEvfntClosf(strfbm->ibsSpbdf);
+
+
+
+
 
     /*
-     * If lingfr rfqufstfd thfn givf thf strfbm b ffw sfdonds to
+    /*
+    /*
+    /*
+    /*
+     * If lingfr rfqufstfd tifn givf tif strfbm b ffw sfdonds to
+     * If lingfr rfqufstfd tifn givf tif strfbm b ffw sfdonds to
+     * If lingfr rfqufstfd tifn givf tif strfbm b ffw sfdonds to
+     * If lingfr rfqufstfd tifn givf tif strfbm b ffw sfdonds to
+     * If lingfr rfqufstfd tifn givf tif strfbm b ffw sfdonds to
+     * drbin bfforf dlosing it.
+     * drbin bfforf dlosing it.
+     * drbin bfforf dlosing it.
+     * drbin bfforf dlosing it.
      * drbin bfforf dlosing it.
      */
+     */
+     */
+     */
+     */
+    if (lingfr) {
+    if (lingfr) {
+    if (lingfr) {
+    if (lingfr) {
     if (lingfr) {
         int bttfmpts = 10;
-        whilf (!EMPTY(strfbm) && bttfmpts>0) {
+        int bttfmpts = 10;
+        int bttfmpts = 10;
+        int bttfmpts = 10;
+        int bttfmpts = 10;
+        wiilf (!EMPTY(strfbm) && bttfmpts>0) {
+        wiilf (!EMPTY(strfbm) && bttfmpts>0) {
+        wiilf (!EMPTY(strfbm) && bttfmpts>0) {
+        wiilf (!EMPTY(strfbm) && bttfmpts>0) {
+        wiilf (!EMPTY(strfbm) && bttfmpts>0) {
+            CHECK_ERROR(lfbvfMutfx(strfbm));
+            CHECK_ERROR(lfbvfMutfx(strfbm));
+            CHECK_ERROR(lfbvfMutfx(strfbm));
+            CHECK_ERROR(lfbvfMutfx(strfbm));
             CHECK_ERROR(lfbvfMutfx(strfbm));
             sysSlffp(200);
+            sysSlffp(200);
+            sysSlffp(200);
+            sysSlffp(200);
+            sysSlffp(200);
+            CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+            CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+            CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+            CHECK_ERROR(fntfrMutfx(strfbm, NULL));
             CHECK_ERROR(fntfrMutfx(strfbm, NULL));
             bttfmpts--;
+            bttfmpts--;
+            bttfmpts--;
+            bttfmpts--;
+            bttfmpts--;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    sysIPMutfxClosf(strfbm->mutfx);
+    sysIPMutfxClosf(strfbm->mutfx);
+    sysIPMutfxClosf(strfbm->mutfx);
+    sysIPMutfxClosf(strfbm->mutfx);
     sysIPMutfxClosf(strfbm->mutfx);
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Sfrvfr drfbtfs strfbm.
+ * Sfrvfr drfbtfs strfbm.
+ * Sfrvfr drfbtfs strfbm.
+ * Sfrvfr drfbtfs strfbm.
+ * Sfrvfr drfbtfs strfbm.
+ */
+ */
+ */
+ */
  */
 stbtid int
-drfbtfStrfbm(dhbr *nbmf, Strfbm *strfbm)
+stbtid int
+stbtid int
+stbtid int
+stbtid int
+drfbtfStrfbm(dibr *nbmf, Strfbm *strfbm)
+drfbtfStrfbm(dibr *nbmf, Strfbm *strfbm)
+drfbtfStrfbm(dibr *nbmf, Strfbm *strfbm)
+drfbtfStrfbm(dibr *nbmf, Strfbm *strfbm)
+drfbtfStrfbm(dibr *nbmf, Strfbm *strfbm)
+{
+{
+{
+{
 {
     jint frror;
-    dhbr prffix[MAX_IPC_PREFIX];
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+
+
+
+
 
     sprintf(prffix, "%s.mutfx", nbmf);
-    frror = drfbtfWithGfnfrbtfdNbmf(prffix, strfbm->shbrfd->mutfxNbmf,
+    sprintf(prffix, "%s.mutfx", nbmf);
+    sprintf(prffix, "%s.mutfx", nbmf);
+    sprintf(prffix, "%s.mutfx", nbmf);
+    sprintf(prffix, "%s.mutfx", nbmf);
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->mutfxNbmf,
+                                    drfbtfMutfx, &strfbm->mutfx);
+                                    drfbtfMutfx, &strfbm->mutfx);
+                                    drfbtfMutfx, &strfbm->mutfx);
+                                    drfbtfMutfx, &strfbm->mutfx);
                                     drfbtfMutfx, &strfbm->mutfx);
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
 
-    sprintf(prffix, "%s.hbsDbtb", nbmf);
-    frror = drfbtfWithGfnfrbtfdNbmf(prffix, strfbm->shbrfd->hbsDbtbEvfntNbmf,
-                                    drfbtfEvfnt, &strfbm->hbsDbtb);
+
+
+
+
+    sprintf(prffix, "%s.ibsDbtb", nbmf);
+    sprintf(prffix, "%s.ibsDbtb", nbmf);
+    sprintf(prffix, "%s.ibsDbtb", nbmf);
+    sprintf(prffix, "%s.ibsDbtb", nbmf);
+    sprintf(prffix, "%s.ibsDbtb", nbmf);
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsDbtbEvfntNbmf,
+                                    drfbtfEvfnt, &strfbm->ibsDbtb);
+                                    drfbtfEvfnt, &strfbm->ibsDbtb);
+                                    drfbtfEvfnt, &strfbm->ibsDbtb);
+                                    drfbtfEvfnt, &strfbm->ibsDbtb);
+                                    drfbtfEvfnt, &strfbm->ibsDbtb);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         (void)dlosfStrfbm(strfbm, JNI_FALSE);
-        rfturn frror;
-    }
-
-    sprintf(prffix, "%s.hbsSpbdf", nbmf);
-    frror = drfbtfWithGfnfrbtfdNbmf(prffix, strfbm->shbrfd->hbsSpbdfEvfntNbmf,
-                                    drfbtfEvfnt, &strfbm->hbsSpbdf);
-    if (frror != SYS_OK) {
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
         (void)dlosfStrfbm(strfbm, JNI_FALSE);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
-    strfbm->shbrfd->rfbdOffsft = 0;
-    strfbm->shbrfd->writfOffsft = 0;
-    strfbm->shbrfd->isFull = JNI_FALSE;
+
+
+
+
+    sprintf(prffix, "%s.ibsSpbdf", nbmf);
+    sprintf(prffix, "%s.ibsSpbdf", nbmf);
+    sprintf(prffix, "%s.ibsSpbdf", nbmf);
+    sprintf(prffix, "%s.ibsSpbdf", nbmf);
+    sprintf(prffix, "%s.ibsSpbdf", nbmf);
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+                                    drfbtfEvfnt, &strfbm->ibsSpbdf);
+                                    drfbtfEvfnt, &strfbm->ibsSpbdf);
+                                    drfbtfEvfnt, &strfbm->ibsSpbdf);
+                                    drfbtfEvfnt, &strfbm->ibsSpbdf);
+                                    drfbtfEvfnt, &strfbm->ibsSpbdf);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    strfbm->sibrfd->rfbdOffsft = 0;
+    strfbm->sibrfd->rfbdOffsft = 0;
+    strfbm->sibrfd->rfbdOffsft = 0;
+    strfbm->sibrfd->rfbdOffsft = 0;
+    strfbm->sibrfd->rfbdOffsft = 0;
+    strfbm->sibrfd->writfOffsft = 0;
+    strfbm->sibrfd->writfOffsft = 0;
+    strfbm->sibrfd->writfOffsft = 0;
+    strfbm->sibrfd->writfOffsft = 0;
+    strfbm->sibrfd->writfOffsft = 0;
+    strfbm->sibrfd->isFull = JNI_FALSE;
+    strfbm->sibrfd->isFull = JNI_FALSE;
+    strfbm->sibrfd->isFull = JNI_FALSE;
+    strfbm->sibrfd->isFull = JNI_FALSE;
+    strfbm->sibrfd->isFull = JNI_FALSE;
+    strfbm->stbtf = STATE_OPEN;
+    strfbm->stbtf = STATE_OPEN;
+    strfbm->stbtf = STATE_OPEN;
+    strfbm->stbtf = STATE_OPEN;
     strfbm->stbtf = STATE_OPEN;
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 /*
- * Initiblizbtion for thf strfbm opfnfd by thf othfr prodfss
+/*
+/*
+/*
+/*
+ * Initiblizbtion for tif strfbm opfnfd by tif otifr prodfss
+ * Initiblizbtion for tif strfbm opfnfd by tif otifr prodfss
+ * Initiblizbtion for tif strfbm opfnfd by tif otifr prodfss
+ * Initiblizbtion for tif strfbm opfnfd by tif otifr prodfss
+ * Initiblizbtion for tif strfbm opfnfd by tif otifr prodfss
+ */
+ */
+ */
+ */
  */
 stbtid int
+stbtid int
+stbtid int
+stbtid int
+stbtid int
+opfnStrfbm(Strfbm *strfbm)
+opfnStrfbm(Strfbm *strfbm)
+opfnStrfbm(Strfbm *strfbm)
+opfnStrfbm(Strfbm *strfbm)
 opfnStrfbm(Strfbm *strfbm)
 {
+{
+{
+{
+{
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
     jint frror;
 
-    CHECK_ERROR(sysIPMutfxOpfn(strfbm->shbrfd->mutfxNbmf, &strfbm->mutfx));
 
-    frror = sysEvfntOpfn(strfbm->shbrfd->hbsDbtbEvfntNbmf,
-                             &strfbm->hbsDbtb);
+
+
+
+    CHECK_ERROR(sysIPMutfxOpfn(strfbm->sibrfd->mutfxNbmf, &strfbm->mutfx));
+    CHECK_ERROR(sysIPMutfxOpfn(strfbm->sibrfd->mutfxNbmf, &strfbm->mutfx));
+    CHECK_ERROR(sysIPMutfxOpfn(strfbm->sibrfd->mutfxNbmf, &strfbm->mutfx));
+    CHECK_ERROR(sysIPMutfxOpfn(strfbm->sibrfd->mutfxNbmf, &strfbm->mutfx));
+    CHECK_ERROR(sysIPMutfxOpfn(strfbm->sibrfd->mutfxNbmf, &strfbm->mutfx));
+
+
+
+
+
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsDbtbEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsDbtbEvfntNbmf,
+                             &strfbm->ibsDbtb);
+                             &strfbm->ibsDbtb);
+                             &strfbm->ibsDbtb);
+                             &strfbm->ibsDbtb);
+                             &strfbm->ibsDbtb);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
-        (void)dlosfStrfbm(strfbm, JNI_FALSE);
-        rfturn frror;
-    }
-
-    frror = sysEvfntOpfn(strfbm->shbrfd->hbsSpbdfEvfntNbmf,
-                             &strfbm->hbsSpbdf);
-    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
         sftLbstError(frror);
         (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+    frror = sysEvfntOpfn(strfbm->sibrfd->ibsSpbdfEvfntNbmf,
+                             &strfbm->ibsSpbdf);
+                             &strfbm->ibsSpbdf);
+                             &strfbm->ibsSpbdf);
+                             &strfbm->ibsSpbdf);
+                             &strfbm->ibsSpbdf);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     strfbm->stbtf = STATE_OPEN;
+    strfbm->stbtf = STATE_OPEN;
+    strfbm->stbtf = STATE_OPEN;
+    strfbm->stbtf = STATE_OPEN;
+    strfbm->stbtf = STATE_OPEN;
+
+
+
+
 
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 /********************************************************************/
+/********************************************************************/
+/********************************************************************/
+/********************************************************************/
+/********************************************************************/
 
-stbtid ShbrfdMfmoryConnfdtion *
+
+
+
+
+stbtid SibrfdMfmoryConnfdtion *
+stbtid SibrfdMfmoryConnfdtion *
+stbtid SibrfdMfmoryConnfdtion *
+stbtid SibrfdMfmoryConnfdtion *
+stbtid SibrfdMfmoryConnfdtion *
+bllodConnfdtion(void)
+bllodConnfdtion(void)
+bllodConnfdtion(void)
+bllodConnfdtion(void)
 bllodConnfdtion(void)
 {
+{
+{
+{
+{
     /*
-     * TO DO: Trbdk bll bllodbtfd donnfdtions for dlfbn shutdown?
+    /*
+    /*
+    /*
+    /*
+     * TO DO: Trbdk bll bllodbtfd donnfdtions for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd donnfdtions for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd donnfdtions for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd donnfdtions for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd donnfdtions for dlfbn siutdown?
      */
-    ShbrfdMfmoryConnfdtion *donn = (*dbllbbdk->bllod)(sizfof(ShbrfdMfmoryConnfdtion));
+     */
+     */
+     */
+     */
+    SibrfdMfmoryConnfdtion *donn = (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryConnfdtion));
+    SibrfdMfmoryConnfdtion *donn = (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryConnfdtion));
+    SibrfdMfmoryConnfdtion *donn = (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryConnfdtion));
+    SibrfdMfmoryConnfdtion *donn = (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryConnfdtion));
+    SibrfdMfmoryConnfdtion *donn = (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryConnfdtion));
     if (donn != NULL) {
-        mfmsft(donn, 0, sizfof(ShbrfdMfmoryConnfdtion));
+    if (donn != NULL) {
+    if (donn != NULL) {
+    if (donn != NULL) {
+    if (donn != NULL) {
+        mfmsft(donn, 0, sizfof(SibrfdMfmoryConnfdtion));
+        mfmsft(donn, 0, sizfof(SibrfdMfmoryConnfdtion));
+        mfmsft(donn, 0, sizfof(SibrfdMfmoryConnfdtion));
+        mfmsft(donn, 0, sizfof(SibrfdMfmoryConnfdtion));
+        mfmsft(donn, 0, sizfof(SibrfdMfmoryConnfdtion));
+    }
+    }
+    }
+    }
     }
     rfturn donn;
+    rfturn donn;
+    rfturn donn;
+    rfturn donn;
+    rfturn donn;
+}
+}
+}
+}
 }
 
+
+
+
+
 stbtid void
-frffConnfdtion(ShbrfdMfmoryConnfdtion *donnfdtion)
+stbtid void
+stbtid void
+stbtid void
+stbtid void
+frffConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+frffConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+frffConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+frffConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+frffConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+{
+{
+{
+{
 {
     (*dbllbbdk->frff)(donnfdtion);
+    (*dbllbbdk->frff)(donnfdtion);
+    (*dbllbbdk->frff)(donnfdtion);
+    (*dbllbbdk->frff)(donnfdtion);
+    (*dbllbbdk->frff)(donnfdtion);
+}
+}
+}
+}
 }
 
+
+
+
+
 stbtid void
-dlosfConnfdtion(ShbrfdMfmoryConnfdtion *donnfdtion)
+stbtid void
+stbtid void
+stbtid void
+stbtid void
+dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+{
+{
+{
+{
 {
     /*
-     * Signbl bll thrfbds bddfssing this donnfdtion thbt wf brf
-     * shutting down.
+    /*
+    /*
+    /*
+    /*
+     * Signbl bll tirfbds bddfssing tiis donnfdtion tibt wf brf
+     * Signbl bll tirfbds bddfssing tiis donnfdtion tibt wf brf
+     * Signbl bll tirfbds bddfssing tiis donnfdtion tibt wf brf
+     * Signbl bll tirfbds bddfssing tiis donnfdtion tibt wf brf
+     * Signbl bll tirfbds bddfssing tiis donnfdtion tibt wf brf
+     * siutting down.
+     * siutting down.
+     * siutting down.
+     * siutting down.
+     * siutting down.
      */
-    if (donnfdtion->shutdown) {
-        sysEvfntSignbl(donnfdtion->shutdown);
+     */
+     */
+     */
+     */
+    if (donnfdtion->siutdown) {
+    if (donnfdtion->siutdown) {
+    if (donnfdtion->siutdown) {
+    if (donnfdtion->siutdown) {
+    if (donnfdtion->siutdown) {
+        sysEvfntSignbl(donnfdtion->siutdown);
+        sysEvfntSignbl(donnfdtion->siutdown);
+        sysEvfntSignbl(donnfdtion->siutdown);
+        sysEvfntSignbl(donnfdtion->siutdown);
+        sysEvfntSignbl(donnfdtion->siutdown);
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     (void)dlosfStrfbm(&donnfdtion->outgoing, JNI_TRUE);
+    (void)dlosfStrfbm(&donnfdtion->outgoing, JNI_TRUE);
+    (void)dlosfStrfbm(&donnfdtion->outgoing, JNI_TRUE);
+    (void)dlosfStrfbm(&donnfdtion->outgoing, JNI_TRUE);
+    (void)dlosfStrfbm(&donnfdtion->outgoing, JNI_TRUE);
+    (void)dlosfStrfbm(&donnfdtion->indoming, JNI_FALSE);
+    (void)dlosfStrfbm(&donnfdtion->indoming, JNI_FALSE);
+    (void)dlosfStrfbm(&donnfdtion->indoming, JNI_FALSE);
+    (void)dlosfStrfbm(&donnfdtion->indoming, JNI_FALSE);
     (void)dlosfStrfbm(&donnfdtion->indoming, JNI_FALSE);
 
-    if (donnfdtion->shbrfdMfmory) {
-        sysShbrfdMfmClosf(donnfdtion->shbrfdMfmory, donnfdtion->shbrfd);
+
+
+
+
+    if (donnfdtion->sibrfdMfmory) {
+    if (donnfdtion->sibrfdMfmory) {
+    if (donnfdtion->sibrfdMfmory) {
+    if (donnfdtion->sibrfdMfmory) {
+    if (donnfdtion->sibrfdMfmory) {
+        sysSibrfdMfmClosf(donnfdtion->sibrfdMfmory, donnfdtion->sibrfd);
+        sysSibrfdMfmClosf(donnfdtion->sibrfdMfmory, donnfdtion->sibrfd);
+        sysSibrfdMfmClosf(donnfdtion->sibrfdMfmory, donnfdtion->sibrfd);
+        sysSibrfdMfmClosf(donnfdtion->sibrfdMfmory, donnfdtion->sibrfd);
+        sysSibrfdMfmClosf(donnfdtion->sibrfdMfmory, donnfdtion->sibrfd);
     }
-    if (donnfdtion->othfrProdfss) {
-        sysProdfssClosf(donnfdtion->othfrProdfss);
+    }
+    }
+    }
+    }
+    if (donnfdtion->otifrProdfss) {
+    if (donnfdtion->otifrProdfss) {
+    if (donnfdtion->otifrProdfss) {
+    if (donnfdtion->otifrProdfss) {
+    if (donnfdtion->otifrProdfss) {
+        sysProdfssClosf(donnfdtion->otifrProdfss);
+        sysProdfssClosf(donnfdtion->otifrProdfss);
+        sysProdfssClosf(donnfdtion->otifrProdfss);
+        sysProdfssClosf(donnfdtion->otifrProdfss);
+        sysProdfssClosf(donnfdtion->otifrProdfss);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /*
-     * Idfblly wf should dlosf thf donnfdtion->shutdown fvfnt bnd
-     * frff thf donnfdtion strudturf. Howfvfr bs dlosing thf
-     * donnfdtion is bsyndhronous it mfbns thbt othfr thrfbds mby
-     * still bf bddfssing thf donnfdtion strudturf. On Win32 this
-     * mfbns wf lfbk 132 bytfs bnd onf fvfnt pfr donnfdtion. This
+    /*
+    /*
+    /*
+    /*
+     * Idfblly wf siould dlosf tif donnfdtion->siutdown fvfnt bnd
+     * Idfblly wf siould dlosf tif donnfdtion->siutdown fvfnt bnd
+     * Idfblly wf siould dlosf tif donnfdtion->siutdown fvfnt bnd
+     * Idfblly wf siould dlosf tif donnfdtion->siutdown fvfnt bnd
+     * Idfblly wf siould dlosf tif donnfdtion->siutdown fvfnt bnd
+     * frff tif donnfdtion strudturf. Howfvfr bs dlosing tif
+     * frff tif donnfdtion strudturf. Howfvfr bs dlosing tif
+     * frff tif donnfdtion strudturf. Howfvfr bs dlosing tif
+     * frff tif donnfdtion strudturf. Howfvfr bs dlosing tif
+     * frff tif donnfdtion strudturf. Howfvfr bs dlosing tif
+     * donnfdtion is bsyndironous it mfbns tibt otifr tirfbds mby
+     * donnfdtion is bsyndironous it mfbns tibt otifr tirfbds mby
+     * donnfdtion is bsyndironous it mfbns tibt otifr tirfbds mby
+     * donnfdtion is bsyndironous it mfbns tibt otifr tirfbds mby
+     * donnfdtion is bsyndironous it mfbns tibt otifr tirfbds mby
+     * still bf bddfssing tif donnfdtion strudturf. On Win32 tiis
+     * still bf bddfssing tif donnfdtion strudturf. On Win32 tiis
+     * still bf bddfssing tif donnfdtion strudturf. On Win32 tiis
+     * still bf bddfssing tif donnfdtion strudturf. On Win32 tiis
+     * still bf bddfssing tif donnfdtion strudturf. On Win32 tiis
+     * mfbns wf lfbk 132 bytfs bnd onf fvfnt pfr donnfdtion. Tiis
+     * mfbns wf lfbk 132 bytfs bnd onf fvfnt pfr donnfdtion. Tiis
+     * mfbns wf lfbk 132 bytfs bnd onf fvfnt pfr donnfdtion. Tiis
+     * mfbns wf lfbk 132 bytfs bnd onf fvfnt pfr donnfdtion. Tiis
+     * mfbns wf lfbk 132 bytfs bnd onf fvfnt pfr donnfdtion. Tiis
+     * mfmory will bf rfdlbim bt prodfss fxit.
+     * mfmory will bf rfdlbim bt prodfss fxit.
+     * mfmory will bf rfdlbim bt prodfss fxit.
+     * mfmory will bf rfdlbim bt prodfss fxit.
      * mfmory will bf rfdlbim bt prodfss fxit.
      *
-     * if (donnfdtion->shutdown)
-     *     sysEvfntClosf(donnfdtion->shutdown);
+     *
+     *
+     *
+     *
+     * if (donnfdtion->siutdown)
+     * if (donnfdtion->siutdown)
+     * if (donnfdtion->siutdown)
+     * if (donnfdtion->siutdown)
+     * if (donnfdtion->siutdown)
+     *     sysEvfntClosf(donnfdtion->siutdown);
+     *     sysEvfntClosf(donnfdtion->siutdown);
+     *     sysEvfntClosf(donnfdtion->siutdown);
+     *     sysEvfntClosf(donnfdtion->siutdown);
+     *     sysEvfntClosf(donnfdtion->siutdown);
+     * frffConnfdtion(donnfdtion);
+     * frffConnfdtion(donnfdtion);
+     * frffConnfdtion(donnfdtion);
+     * frffConnfdtion(donnfdtion);
      * frffConnfdtion(donnfdtion);
      */
+     */
+     */
+     */
+     */
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
 /*
- * For dlifnt: donnfdt to thf shbrfd mfmory.  Opfn indoming bnd
+/*
+/*
+/*
+/*
+ * For dlifnt: donnfdt to tif sibrfd mfmory.  Opfn indoming bnd
+ * For dlifnt: donnfdt to tif sibrfd mfmory.  Opfn indoming bnd
+ * For dlifnt: donnfdt to tif sibrfd mfmory.  Opfn indoming bnd
+ * For dlifnt: donnfdt to tif sibrfd mfmory.  Opfn indoming bnd
+ * For dlifnt: donnfdt to tif sibrfd mfmory.  Opfn indoming bnd
+ * outgoing strfbms.
+ * outgoing strfbms.
+ * outgoing strfbms.
+ * outgoing strfbms.
  * outgoing strfbms.
  */
+ */
+ */
+ */
+ */
 stbtid jint
-opfnConnfdtion(ShbrfdMfmoryTrbnsport *trbnsport, jlong othfrPID,
-               ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+opfnConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+opfnConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+opfnConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+opfnConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+opfnConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+               SibrfdMfmoryConnfdtion **donnfdtionPtr)
+               SibrfdMfmoryConnfdtion **donnfdtionPtr)
+               SibrfdMfmoryConnfdtion **donnfdtionPtr)
+               SibrfdMfmoryConnfdtion **donnfdtionPtr)
+               SibrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+{
+{
+{
 {
     jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
 
-    ShbrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+
+
+
+
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    if (donnfdtion == NULL) {
+    if (donnfdtion == NULL) {
+    if (donnfdtion == NULL) {
+    if (donnfdtion == NULL) {
     if (donnfdtion == NULL) {
         rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, sysProdfssGftID());
-    frror = sysShbrfdMfmOpfn(donnfdtion->nbmf, &donnfdtion->shbrfdMfmory,
-                             &donnfdtion->shbrfd);
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, sysProdfssGftID());
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, sysProdfssGftID());
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, sysProdfssGftID());
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, sysProdfssGftID());
+    frror = sysSibrfdMfmOpfn(donnfdtion->nbmf, &donnfdtion->sibrfdMfmory,
+    frror = sysSibrfdMfmOpfn(donnfdtion->nbmf, &donnfdtion->sibrfdMfmory,
+    frror = sysSibrfdMfmOpfn(donnfdtion->nbmf, &donnfdtion->sibrfdMfmory,
+    frror = sysSibrfdMfmOpfn(donnfdtion->nbmf, &donnfdtion->sibrfdMfmory,
+    frror = sysSibrfdMfmOpfn(donnfdtion->nbmf, &donnfdtion->sibrfdMfmory,
+                             &donnfdtion->sibrfd);
+                             &donnfdtion->sibrfd);
+                             &donnfdtion->sibrfd);
+                             &donnfdtion->sibrfd);
+                             &donnfdtion->sibrfd);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
 
-    /* This prodfss is thf dlifnt */
-    donnfdtion->indoming.shbrfd = &donnfdtion->shbrfd->toClifnt;
-    donnfdtion->outgoing.shbrfd = &donnfdtion->shbrfd->toSfrvfr;
+
+
+
+
+    /* Tiis prodfss is tif dlifnt */
+    /* Tiis prodfss is tif dlifnt */
+    /* Tiis prodfss is tif dlifnt */
+    /* Tiis prodfss is tif dlifnt */
+    /* Tiis prodfss is tif dlifnt */
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+
+
+
+
 
     frror = opfnStrfbm(&donnfdtion->indoming);
+    frror = opfnStrfbm(&donnfdtion->indoming);
+    frror = opfnStrfbm(&donnfdtion->indoming);
+    frror = opfnStrfbm(&donnfdtion->indoming);
+    frror = opfnStrfbm(&donnfdtion->indoming);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     frror = opfnStrfbm(&donnfdtion->outgoing);
+    frror = opfnStrfbm(&donnfdtion->outgoing);
+    frror = opfnStrfbm(&donnfdtion->outgoing);
+    frror = opfnStrfbm(&donnfdtion->outgoing);
+    frror = opfnStrfbm(&donnfdtion->outgoing);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
-    frror = sysProdfssOpfn(othfrPID, &donnfdtion->othfrProdfss);
+
+
+
+
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
         dlosfConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Crfbtf bn fvfnt thbt signbls thbt thf donnfdtion is shutting
-     * down. Thf fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
-     * mbnublly rfsft (so thbt signblling thf fvfnt will signbl
-     * bll thrfbds wbiting on it).
+    /*
+    /*
+    /*
+    /*
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * mbnublly rfsft (so tibt signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt signblling tif fvfnt will signbl
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
      */
-    frror = sysEvfntCrfbtf(NULL, &donnfdtion->shutdown, JNI_TRUE);
+     */
+     */
+     */
+     */
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
         dlosfConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
     *donnfdtionPtr = donnfdtion;
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
+
+
+
+
 /*
- * For sfrvfr: drfbtf thf shbrfd mfmory.  Crfbtf indoming bnd
+/*
+/*
+/*
+/*
+ * For sfrvfr: drfbtf tif sibrfd mfmory.  Crfbtf indoming bnd
+ * For sfrvfr: drfbtf tif sibrfd mfmory.  Crfbtf indoming bnd
+ * For sfrvfr: drfbtf tif sibrfd mfmory.  Crfbtf indoming bnd
+ * For sfrvfr: drfbtf tif sibrfd mfmory.  Crfbtf indoming bnd
+ * For sfrvfr: drfbtf tif sibrfd mfmory.  Crfbtf indoming bnd
+ * outgoing strfbms.
+ * outgoing strfbms.
+ * outgoing strfbms.
+ * outgoing strfbms.
  * outgoing strfbms.
  */
+ */
+ */
+ */
+ */
 stbtid jint
-drfbtfConnfdtion(ShbrfdMfmoryTrbnsport *trbnsport, jlong othfrPID,
-                 ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+drfbtfConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+drfbtfConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+drfbtfConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+drfbtfConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+drfbtfConnfdtion(SibrfdMfmoryTrbnsport *trbnsport, jlong otifrPID,
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+{
+{
+{
 {
     jint frror;
-    dhbr strfbmPrffix[MAX_IPC_NAME];
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
+    dibr strfbmPrffix[MAX_IPC_NAME];
+    dibr strfbmPrffix[MAX_IPC_NAME];
+    dibr strfbmPrffix[MAX_IPC_NAME];
+    dibr strfbmPrffix[MAX_IPC_NAME];
+    dibr strfbmPrffix[MAX_IPC_NAME];
 
-    ShbrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+
+
+
+
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    SibrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    if (donnfdtion == NULL) {
+    if (donnfdtion == NULL) {
+    if (donnfdtion == NULL) {
+    if (donnfdtion == NULL) {
     if (donnfdtion == NULL) {
         rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+    }
+    }
+    }
+    }
     }
 
-    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, othfrPID);
-    frror = sysShbrfdMfmCrfbtf(donnfdtion->nbmf, sizfof(ShbrfdMfmory),
-                               &donnfdtion->shbrfdMfmory, &donnfdtion->shbrfd);
+
+
+
+
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, otifrPID);
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, otifrPID);
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, otifrPID);
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, otifrPID);
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, otifrPID);
+    frror = sysSibrfdMfmCrfbtf(donnfdtion->nbmf, sizfof(SibrfdMfmory),
+    frror = sysSibrfdMfmCrfbtf(donnfdtion->nbmf, sizfof(SibrfdMfmory),
+    frror = sysSibrfdMfmCrfbtf(donnfdtion->nbmf, sizfof(SibrfdMfmory),
+    frror = sysSibrfdMfmCrfbtf(donnfdtion->nbmf, sizfof(SibrfdMfmory),
+    frror = sysSibrfdMfmCrfbtf(donnfdtion->nbmf, sizfof(SibrfdMfmory),
+                               &donnfdtion->sibrfdMfmory, &donnfdtion->sibrfd);
+                               &donnfdtion->sibrfdMfmory, &donnfdtion->sibrfd);
+                               &donnfdtion->sibrfdMfmory, &donnfdtion->sibrfd);
+                               &donnfdtion->sibrfdMfmory, &donnfdtion->sibrfd);
+                               &donnfdtion->sibrfdMfmory, &donnfdtion->sibrfd);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
 
-    mfmsft(donnfdtion->shbrfd, 0, sizfof(ShbrfdMfmory));
 
-    /* This prodfss is thf sfrvfr */
-    donnfdtion->indoming.shbrfd = &donnfdtion->shbrfd->toSfrvfr;
-    donnfdtion->outgoing.shbrfd = &donnfdtion->shbrfd->toClifnt;
 
+
+
+    mfmsft(donnfdtion->sibrfd, 0, sizfof(SibrfdMfmory));
+    mfmsft(donnfdtion->sibrfd, 0, sizfof(SibrfdMfmory));
+    mfmsft(donnfdtion->sibrfd, 0, sizfof(SibrfdMfmory));
+    mfmsft(donnfdtion->sibrfd, 0, sizfof(SibrfdMfmory));
+    mfmsft(donnfdtion->sibrfd, 0, sizfof(SibrfdMfmory));
+
+
+
+
+
+    /* Tiis prodfss is tif sfrvfr */
+    /* Tiis prodfss is tif sfrvfr */
+    /* Tiis prodfss is tif sfrvfr */
+    /* Tiis prodfss is tif sfrvfr */
+    /* Tiis prodfss is tif sfrvfr */
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->indoming.sibrfd = &donnfdtion->sibrfd->toSfrvfr;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toClifnt;
+    donnfdtion->outgoing.sibrfd = &donnfdtion->sibrfd->toClifnt;
+
+
+
+
+
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
     strdpy(strfbmPrffix, donnfdtion->nbmf);
     strdbt(strfbmPrffix, ".dtos");
+    strdbt(strfbmPrffix, ".dtos");
+    strdbt(strfbmPrffix, ".dtos");
+    strdbt(strfbmPrffix, ".dtos");
+    strdbt(strfbmPrffix, ".dtos");
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->indoming);
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->indoming);
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->indoming);
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->indoming);
     frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->indoming);
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
         dlosfConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdbt(strfbmPrffix, ".stod");
+    strdbt(strfbmPrffix, ".stod");
+    strdbt(strfbmPrffix, ".stod");
+    strdbt(strfbmPrffix, ".stod");
     strdbt(strfbmPrffix, ".stod");
     frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->outgoing);
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->outgoing);
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->outgoing);
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->outgoing);
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->outgoing);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
-    frror = sysProdfssOpfn(othfrPID, &donnfdtion->othfrProdfss);
+
+
+
+
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    frror = sysProdfssOpfn(otifrPID, &donnfdtion->otifrProdfss);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
         dlosfConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Crfbtf bn fvfnt thbt signbls thbt thf donnfdtion is shutting
-     * down. Thf fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
-     * mbnublly rfsft (so thbt b signblling thf fvfnt will signbl
-     * bll thrfbds wbiting on it).
+    /*
+    /*
+    /*
+    /*
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * Crfbtf bn fvfnt tibt signbls tibt tif donnfdtion is siutting
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * down. Tif fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * mbnublly rfsft (so tibt b signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt b signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt b signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt b signblling tif fvfnt will signbl
+     * mbnublly rfsft (so tibt b signblling tif fvfnt will signbl
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
+     * bll tirfbds wbiting on it).
      */
-    frror = sysEvfntCrfbtf(NULL, &donnfdtion->shutdown, JNI_TRUE);
+     */
+     */
+     */
+     */
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->siutdown, JNI_TRUE);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
         dlosfConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
     *donnfdtionPtr = donnfdtion;
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 /********************************************************************/
+/********************************************************************/
+/********************************************************************/
+/********************************************************************/
+/********************************************************************/
 
-stbtid ShbrfdMfmoryTrbnsport *
+
+
+
+
+stbtid SibrfdMfmoryTrbnsport *
+stbtid SibrfdMfmoryTrbnsport *
+stbtid SibrfdMfmoryTrbnsport *
+stbtid SibrfdMfmoryTrbnsport *
+stbtid SibrfdMfmoryTrbnsport *
+bllodTrbnsport(void)
+bllodTrbnsport(void)
+bllodTrbnsport(void)
+bllodTrbnsport(void)
 bllodTrbnsport(void)
 {
+{
+{
+{
+{
     /*
-     * TO DO: Trbdk bll bllodbtfd trbnsports for dlfbn shutdown?
+    /*
+    /*
+    /*
+    /*
+     * TO DO: Trbdk bll bllodbtfd trbnsports for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd trbnsports for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd trbnsports for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd trbnsports for dlfbn siutdown?
+     * TO DO: Trbdk bll bllodbtfd trbnsports for dlfbn siutdown?
      */
-    rfturn (*dbllbbdk->bllod)(sizfof(ShbrfdMfmoryTrbnsport));
+     */
+     */
+     */
+     */
+    rfturn (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryTrbnsport));
+    rfturn (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryTrbnsport));
+    rfturn (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryTrbnsport));
+    rfturn (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryTrbnsport));
+    rfturn (*dbllbbdk->bllod)(sizfof(SibrfdMfmoryTrbnsport));
+}
+}
+}
+}
 }
 
+
+
+
+
 stbtid void
-frffTrbnsport(ShbrfdMfmoryTrbnsport *trbnsport)
+stbtid void
+stbtid void
+stbtid void
+stbtid void
+frffTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+frffTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+frffTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+frffTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+frffTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+{
+{
+{
+{
 {
     (*dbllbbdk->frff)(trbnsport);
+    (*dbllbbdk->frff)(trbnsport);
+    (*dbllbbdk->frff)(trbnsport);
+    (*dbllbbdk->frff)(trbnsport);
+    (*dbllbbdk->frff)(trbnsport);
 }
+}
+}
+}
+}
+
+
+
+
 
 stbtid void
-dlosfTrbnsport(ShbrfdMfmoryTrbnsport *trbnsport)
+stbtid void
+stbtid void
+stbtid void
+stbtid void
+dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+{
+{
+{
+{
 {
     sysIPMutfxClosf(trbnsport->mutfx);
+    sysIPMutfxClosf(trbnsport->mutfx);
+    sysIPMutfxClosf(trbnsport->mutfx);
+    sysIPMutfxClosf(trbnsport->mutfx);
+    sysIPMutfxClosf(trbnsport->mutfx);
     sysEvfntClosf(trbnsport->bddfptEvfnt);
-    sysEvfntClosf(trbnsport->bttbdhEvfnt);
-    sysShbrfdMfmClosf(trbnsport->shbrfdMfmory, trbnsport->shbrfd);
+    sysEvfntClosf(trbnsport->bddfptEvfnt);
+    sysEvfntClosf(trbnsport->bddfptEvfnt);
+    sysEvfntClosf(trbnsport->bddfptEvfnt);
+    sysEvfntClosf(trbnsport->bddfptEvfnt);
+    sysEvfntClosf(trbnsport->bttbdiEvfnt);
+    sysEvfntClosf(trbnsport->bttbdiEvfnt);
+    sysEvfntClosf(trbnsport->bttbdiEvfnt);
+    sysEvfntClosf(trbnsport->bttbdiEvfnt);
+    sysEvfntClosf(trbnsport->bttbdiEvfnt);
+    sysSibrfdMfmClosf(trbnsport->sibrfdMfmory, trbnsport->sibrfd);
+    sysSibrfdMfmClosf(trbnsport->sibrfdMfmory, trbnsport->sibrfd);
+    sysSibrfdMfmClosf(trbnsport->sibrfdMfmory, trbnsport->sibrfd);
+    sysSibrfdMfmClosf(trbnsport->sibrfdMfmory, trbnsport->sibrfd);
+    sysSibrfdMfmClosf(trbnsport->sibrfdMfmory, trbnsport->sibrfd);
+    frffTrbnsport(trbnsport);
+    frffTrbnsport(trbnsport);
+    frffTrbnsport(trbnsport);
+    frffTrbnsport(trbnsport);
     frffTrbnsport(trbnsport);
 }
+}
+}
+}
+}
+
+
+
+
 
 stbtid int
-opfnTrbnsport(donst dhbr *bddrfss, ShbrfdMfmoryTrbnsport **trbnsportPtr)
+stbtid int
+stbtid int
+stbtid int
+stbtid int
+opfnTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+opfnTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+opfnTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+opfnTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+opfnTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+{
+{
+{
+{
 {
     jint frror;
-    ShbrfdMfmoryTrbnsport *trbnsport;
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+
+
+
+
 
     trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    if (trbnsport == NULL) {
+    if (trbnsport == NULL) {
+    if (trbnsport == NULL) {
+    if (trbnsport == NULL) {
     if (trbnsport == NULL) {
         rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+    }
+    }
+    }
+    }
     }
     mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+
+
+
+
 
     if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
-        dhbr buf[128];
-        sprintf(buf, "Error: bddrfss strings longfr thbn %d dhbrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+    if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+    if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+    if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+    if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+        dibr buf[128];
+        dibr buf[128];
+        dibr buf[128];
+        dibr buf[128];
+        dibr buf[128];
+        sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+        sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+        sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+        sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+        sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+        sftLbstErrorMsg(buf);
+        sftLbstErrorMsg(buf);
+        sftLbstErrorMsg(buf);
+        sftLbstErrorMsg(buf);
         sftLbstErrorMsg(buf);
         dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
         rfturn SYS_ERR;
     }
+    }
+    }
+    }
+    }
 
-    frror = sysShbrfdMfmOpfn(bddrfss, &trbnsport->shbrfdMfmory, &trbnsport->shbrfd);
+
+
+
+
+    frror = sysSibrfdMfmOpfn(bddrfss, &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+    frror = sysSibrfdMfmOpfn(bddrfss, &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+    frror = sysSibrfdMfmOpfn(bddrfss, &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+    frror = sysSibrfdMfmOpfn(bddrfss, &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+    frror = sysSibrfdMfmOpfn(bddrfss, &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
         dlosfTrbnsport(trbnsport);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
     strdpy(trbnsport->nbmf, bddrfss);
+    strdpy(trbnsport->nbmf, bddrfss);
+    strdpy(trbnsport->nbmf, bddrfss);
+    strdpy(trbnsport->nbmf, bddrfss);
+    strdpy(trbnsport->nbmf, bddrfss);
 
-    frror = sysIPMutfxOpfn(trbnsport->shbrfd->mutfxNbmf, &trbnsport->mutfx);
+
+
+
+
+    frror = sysIPMutfxOpfn(trbnsport->sibrfd->mutfxNbmf, &trbnsport->mutfx);
+    frror = sysIPMutfxOpfn(trbnsport->sibrfd->mutfxNbmf, &trbnsport->mutfx);
+    frror = sysIPMutfxOpfn(trbnsport->sibrfd->mutfxNbmf, &trbnsport->mutfx);
+    frror = sysIPMutfxOpfn(trbnsport->sibrfd->mutfxNbmf, &trbnsport->mutfx);
+    frror = sysIPMutfxOpfn(trbnsport->sibrfd->mutfxNbmf, &trbnsport->mutfx);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
         dlosfTrbnsport(trbnsport);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
-    frror = sysEvfntOpfn(trbnsport->shbrfd->bddfptEvfntNbmf,
+
+
+
+
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bddfptEvfntNbmf,
+                             &trbnsport->bddfptEvfnt);
+                             &trbnsport->bddfptEvfnt);
+                             &trbnsport->bddfptEvfnt);
+                             &trbnsport->bddfptEvfnt);
                              &trbnsport->bddfptEvfnt);
     if (frror != SYS_OK) {
-        sftLbstError(frror);
-        dlosfTrbnsport(trbnsport);
-        rfturn frror;
-    }
-
-    frror = sysEvfntOpfn(trbnsport->shbrfd->bttbdhEvfntNbmf,
-                             &trbnsport->bttbdhEvfnt);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
         dlosfTrbnsport(trbnsport);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = sysEvfntOpfn(trbnsport->sibrfd->bttbdiEvfntNbmf,
+                             &trbnsport->bttbdiEvfnt);
+                             &trbnsport->bttbdiEvfnt);
+                             &trbnsport->bttbdiEvfnt);
+                             &trbnsport->bttbdiEvfnt);
+                             &trbnsport->bttbdiEvfnt);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    *trbnsportPtr = trbnsport;
+    *trbnsportPtr = trbnsport;
+    *trbnsportPtr = trbnsport;
+    *trbnsportPtr = trbnsport;
     *trbnsportPtr = trbnsport;
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
+
+
+
+
 stbtid jint
-drfbtfTrbnsport(donst dhbr *bddrfss, ShbrfdMfmoryTrbnsport **trbnsportPtr)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+drfbtfTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+drfbtfTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+drfbtfTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+drfbtfTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+drfbtfTrbnsport(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
 {
-    ShbrfdMfmoryTrbnsport *trbnsport;
+{
+{
+{
+{
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
     jint frror;
-    dhbr prffix[MAX_IPC_PREFIX];
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+    dibr prffix[MAX_IPC_PREFIX];
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    trbnsport = bllodTrbnsport();
+    if (trbnsport == NULL) {
+    if (trbnsport == NULL) {
+    if (trbnsport == NULL) {
+    if (trbnsport == NULL) {
     if (trbnsport == NULL) {
         rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+        rfturn SYS_NOMEM;
+    }
+    }
+    }
+    }
     }
     mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+
+
+
+
 
     if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
-        ShbrfdMfmoryArg brg;
-        brg.sizf = sizfof(ShbrfdListfnfr);
-        frror = drfbtfWithGfnfrbtfdNbmf("jbvbdfbug", trbnsport->nbmf,
-                                        drfbtfShbrfdMfm, &brg);
-        trbnsport->shbrfd = brg.stbrt;
-        trbnsport->shbrfdMfmory = brg.mfmory;
+    if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
+    if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
+    if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
+    if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
+        SibrfdMfmoryArg brg;
+        SibrfdMfmoryArg brg;
+        SibrfdMfmoryArg brg;
+        SibrfdMfmoryArg brg;
+        SibrfdMfmoryArg brg;
+        brg.sizf = sizfof(SibrfdListfnfr);
+        brg.sizf = sizfof(SibrfdListfnfr);
+        brg.sizf = sizfof(SibrfdListfnfr);
+        brg.sizf = sizfof(SibrfdListfnfr);
+        brg.sizf = sizfof(SibrfdListfnfr);
+        frror = drfbtfWitiGfnfrbtfdNbmf("jbvbdfbug", trbnsport->nbmf,
+        frror = drfbtfWitiGfnfrbtfdNbmf("jbvbdfbug", trbnsport->nbmf,
+        frror = drfbtfWitiGfnfrbtfdNbmf("jbvbdfbug", trbnsport->nbmf,
+        frror = drfbtfWitiGfnfrbtfdNbmf("jbvbdfbug", trbnsport->nbmf,
+        frror = drfbtfWitiGfnfrbtfdNbmf("jbvbdfbug", trbnsport->nbmf,
+                                        drfbtfSibrfdMfm, &brg);
+                                        drfbtfSibrfdMfm, &brg);
+                                        drfbtfSibrfdMfm, &brg);
+                                        drfbtfSibrfdMfm, &brg);
+                                        drfbtfSibrfdMfm, &brg);
+        trbnsport->sibrfd = brg.stbrt;
+        trbnsport->sibrfd = brg.stbrt;
+        trbnsport->sibrfd = brg.stbrt;
+        trbnsport->sibrfd = brg.stbrt;
+        trbnsport->sibrfd = brg.stbrt;
+        trbnsport->sibrfdMfmory = brg.mfmory;
+        trbnsport->sibrfdMfmory = brg.mfmory;
+        trbnsport->sibrfdMfmory = brg.mfmory;
+        trbnsport->sibrfdMfmory = brg.mfmory;
+        trbnsport->sibrfdMfmory = brg.mfmory;
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
-            dhbr buf[128];
-            sprintf(buf, "Error: bddrfss strings longfr thbn %d dhbrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+        if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+        if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+        if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+        if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+            dibr buf[128];
+            dibr buf[128];
+            dibr buf[128];
+            dibr buf[128];
+            dibr buf[128];
+            sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+            sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+            sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+            sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+            sprintf(buf, "Error: bddrfss strings longfr tibn %d dibrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+            sftLbstErrorMsg(buf);
+            sftLbstErrorMsg(buf);
+            sftLbstErrorMsg(buf);
+            sftLbstErrorMsg(buf);
             sftLbstErrorMsg(buf);
             dlosfTrbnsport(trbnsport);
+            dlosfTrbnsport(trbnsport);
+            dlosfTrbnsport(trbnsport);
+            dlosfTrbnsport(trbnsport);
+            dlosfTrbnsport(trbnsport);
             rfturn SYS_ERR;
+            rfturn SYS_ERR;
+            rfturn SYS_ERR;
+            rfturn SYS_ERR;
+            rfturn SYS_ERR;
+        }
+        }
+        }
+        }
         }
         strdpy(trbnsport->nbmf, bddrfss);
-        frror = sysShbrfdMfmCrfbtf(bddrfss, sizfof(ShbrfdListfnfr),
-                                   &trbnsport->shbrfdMfmory, &trbnsport->shbrfd);
+        strdpy(trbnsport->nbmf, bddrfss);
+        strdpy(trbnsport->nbmf, bddrfss);
+        strdpy(trbnsport->nbmf, bddrfss);
+        strdpy(trbnsport->nbmf, bddrfss);
+        frror = sysSibrfdMfmCrfbtf(bddrfss, sizfof(SibrfdListfnfr),
+        frror = sysSibrfdMfmCrfbtf(bddrfss, sizfof(SibrfdListfnfr),
+        frror = sysSibrfdMfmCrfbtf(bddrfss, sizfof(SibrfdListfnfr),
+        frror = sysSibrfdMfmCrfbtf(bddrfss, sizfof(SibrfdListfnfr),
+        frror = sysSibrfdMfmCrfbtf(bddrfss, sizfof(SibrfdListfnfr),
+                                   &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+                                   &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+                                   &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+                                   &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+                                   &trbnsport->sibrfdMfmory, &trbnsport->sibrfd);
+    }
+    }
+    }
+    }
     }
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
         sftLbstError(frror);
         dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
 
-    mfmsft(trbnsport->shbrfd, 0, sizfof(ShbrfdListfnfr));
-    trbnsport->shbrfd->bddfptingPID = sysProdfssGftID();
+
+
+
+
+    mfmsft(trbnsport->sibrfd, 0, sizfof(SibrfdListfnfr));
+    mfmsft(trbnsport->sibrfd, 0, sizfof(SibrfdListfnfr));
+    mfmsft(trbnsport->sibrfd, 0, sizfof(SibrfdListfnfr));
+    mfmsft(trbnsport->sibrfd, 0, sizfof(SibrfdListfnfr));
+    mfmsft(trbnsport->sibrfd, 0, sizfof(SibrfdListfnfr));
+    trbnsport->sibrfd->bddfptingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bddfptingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bddfptingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bddfptingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bddfptingPID = sysProdfssGftID();
+
+
+
+
 
     sprintf(prffix, "%s.mutfx", trbnsport->nbmf);
-    frror = drfbtfWithGfnfrbtfdNbmf(prffix, trbnsport->shbrfd->mutfxNbmf,
+    sprintf(prffix, "%s.mutfx", trbnsport->nbmf);
+    sprintf(prffix, "%s.mutfx", trbnsport->nbmf);
+    sprintf(prffix, "%s.mutfx", trbnsport->nbmf);
+    sprintf(prffix, "%s.mutfx", trbnsport->nbmf);
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->mutfxNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->mutfxNbmf,
+                                    drfbtfMutfx, &trbnsport->mutfx);
+                                    drfbtfMutfx, &trbnsport->mutfx);
+                                    drfbtfMutfx, &trbnsport->mutfx);
+                                    drfbtfMutfx, &trbnsport->mutfx);
                                     drfbtfMutfx, &trbnsport->mutfx);
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
         dlosfTrbnsport(trbnsport);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     sprintf(prffix, "%s.bddfpt", trbnsport->nbmf);
-    frror = drfbtfWithGfnfrbtfdNbmf(prffix, trbnsport->shbrfd->bddfptEvfntNbmf,
+    sprintf(prffix, "%s.bddfpt", trbnsport->nbmf);
+    sprintf(prffix, "%s.bddfpt", trbnsport->nbmf);
+    sprintf(prffix, "%s.bddfpt", trbnsport->nbmf);
+    sprintf(prffix, "%s.bddfpt", trbnsport->nbmf);
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bddfptEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bddfptEvfntNbmf,
+                                    drfbtfEvfnt, &trbnsport->bddfptEvfnt);
+                                    drfbtfEvfnt, &trbnsport->bddfptEvfnt);
+                                    drfbtfEvfnt, &trbnsport->bddfptEvfnt);
+                                    drfbtfEvfnt, &trbnsport->bddfptEvfnt);
                                     drfbtfEvfnt, &trbnsport->bddfptEvfnt);
     if (frror != SYS_OK) {
-        dlosfTrbnsport(trbnsport);
-        rfturn frror;
-    }
-
-    sprintf(prffix, "%s.bttbdh", trbnsport->nbmf);
-    frror = drfbtfWithGfnfrbtfdNbmf(prffix, trbnsport->shbrfd->bttbdhEvfntNbmf,
-                                    drfbtfEvfnt, &trbnsport->bttbdhEvfnt);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    sprintf(prffix, "%s.bttbdi", trbnsport->nbmf);
+    sprintf(prffix, "%s.bttbdi", trbnsport->nbmf);
+    sprintf(prffix, "%s.bttbdi", trbnsport->nbmf);
+    sprintf(prffix, "%s.bttbdi", trbnsport->nbmf);
+    sprintf(prffix, "%s.bttbdi", trbnsport->nbmf);
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bttbdiEvfntNbmf,
+    frror = drfbtfWitiGfnfrbtfdNbmf(prffix, trbnsport->sibrfd->bttbdiEvfntNbmf,
+                                    drfbtfEvfnt, &trbnsport->bttbdiEvfnt);
+                                    drfbtfEvfnt, &trbnsport->bttbdiEvfnt);
+                                    drfbtfEvfnt, &trbnsport->bttbdiEvfnt);
+                                    drfbtfEvfnt, &trbnsport->bttbdiEvfnt);
+                                    drfbtfEvfnt, &trbnsport->bttbdiEvfnt);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     *trbnsportPtr = trbnsport;
+    *trbnsportPtr = trbnsport;
+    *trbnsportPtr = trbnsport;
+    *trbnsportPtr = trbnsport;
+    *trbnsportPtr = trbnsport;
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
 jint
-shmfmBbsf_listfn(donst dhbr *bddrfss, ShbrfdMfmoryTrbnsport **trbnsportPtr)
+jint
+jint
+jint
+jint
+simfmBbsf_listfn(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+simfmBbsf_listfn(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+simfmBbsf_listfn(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+simfmBbsf_listfn(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+simfmBbsf_listfn(donst dibr *bddrfss, SibrfdMfmoryTrbnsport **trbnsportPtr)
+{
+{
+{
+{
 {
     int frror;
+    int frror;
+    int frror;
+    int frror;
+    int frror;
+
+
+
+
 
     dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+
+
+
+
 
     frror = drfbtfTrbnsport(bddrfss, trbnsportPtr);
+    frror = drfbtfTrbnsport(bddrfss, trbnsportPtr);
+    frror = drfbtfTrbnsport(bddrfss, trbnsportPtr);
+    frror = drfbtfTrbnsport(bddrfss, trbnsportPtr);
+    frror = drfbtfTrbnsport(bddrfss, trbnsportPtr);
     if (frror == SYS_OK) {
-        (*trbnsportPtr)->shbrfd->isListfning = JNI_TRUE;
+    if (frror == SYS_OK) {
+    if (frror == SYS_OK) {
+    if (frror == SYS_OK) {
+    if (frror == SYS_OK) {
+        (*trbnsportPtr)->sibrfd->isListfning = JNI_TRUE;
+        (*trbnsportPtr)->sibrfd->isListfning = JNI_TRUE;
+        (*trbnsportPtr)->sibrfd->isListfning = JNI_TRUE;
+        (*trbnsportPtr)->sibrfd->isListfning = JNI_TRUE;
+        (*trbnsportPtr)->sibrfd->isListfning = JNI_TRUE;
+    }
+    }
+    }
+    }
     }
     rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
 jint
-shmfmBbsf_bddfpt(ShbrfdMfmoryTrbnsport *trbnsport,
+jint
+jint
+jint
+jint
+simfmBbsf_bddfpt(SibrfdMfmoryTrbnsport *trbnsport,
+simfmBbsf_bddfpt(SibrfdMfmoryTrbnsport *trbnsport,
+simfmBbsf_bddfpt(SibrfdMfmoryTrbnsport *trbnsport,
+simfmBbsf_bddfpt(SibrfdMfmoryTrbnsport *trbnsport,
+simfmBbsf_bddfpt(SibrfdMfmoryTrbnsport *trbnsport,
                  long timfout,
-                 ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+                 long timfout,
+                 long timfout,
+                 long timfout,
+                 long timfout,
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+                 SibrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+{
+{
+{
 {
     jint frror;
-    ShbrfdMfmoryConnfdtion *donnfdtion;
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
+    SibrfdMfmoryConnfdtion *donnfdtion;
+    SibrfdMfmoryConnfdtion *donnfdtion;
+    SibrfdMfmoryConnfdtion *donnfdtion;
+    SibrfdMfmoryConnfdtion *donnfdtion;
+    SibrfdMfmoryConnfdtion *donnfdtion;
+
+
+
+
 
     dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
 
-    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bttbdhEvfnt, timfout));
 
-    frror = drfbtfConnfdtion(trbnsport, trbnsport->shbrfd->bttbdhingPID,
+
+
+
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bttbdiEvfnt, timfout));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bttbdiEvfnt, timfout));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bttbdiEvfnt, timfout));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bttbdiEvfnt, timfout));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bttbdiEvfnt, timfout));
+
+
+
+
+
+    frror = drfbtfConnfdtion(trbnsport, trbnsport->sibrfd->bttbdiingPID,
+    frror = drfbtfConnfdtion(trbnsport, trbnsport->sibrfd->bttbdiingPID,
+    frror = drfbtfConnfdtion(trbnsport, trbnsport->sibrfd->bttbdiingPID,
+    frror = drfbtfConnfdtion(trbnsport, trbnsport->sibrfd->bttbdiingPID,
+    frror = drfbtfConnfdtion(trbnsport, trbnsport->sibrfd->bttbdiingPID,
+                             &donnfdtion);
+                             &donnfdtion);
+                             &donnfdtion);
+                             &donnfdtion);
                              &donnfdtion);
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
         /*
-         * Rfjfdt thf bttbdhfr
+        /*
+        /*
+        /*
+        /*
+         * Rfjfdt tif bttbdifr
+         * Rfjfdt tif bttbdifr
+         * Rfjfdt tif bttbdifr
+         * Rfjfdt tif bttbdifr
+         * Rfjfdt tif bttbdifr
          */
-        trbnsport->shbrfd->isAddfptfd = JNI_FALSE;
+         */
+         */
+         */
+         */
+        trbnsport->sibrfd->isAddfptfd = JNI_FALSE;
+        trbnsport->sibrfd->isAddfptfd = JNI_FALSE;
+        trbnsport->sibrfd->isAddfptfd = JNI_FALSE;
+        trbnsport->sibrfd->isAddfptfd = JNI_FALSE;
+        trbnsport->sibrfd->isAddfptfd = JNI_FALSE;
+        sysEvfntSignbl(trbnsport->bddfptEvfnt);
+        sysEvfntSignbl(trbnsport->bddfptEvfnt);
+        sysEvfntSignbl(trbnsport->bddfptEvfnt);
+        sysEvfntSignbl(trbnsport->bddfptEvfnt);
         sysEvfntSignbl(trbnsport->bddfptEvfnt);
 
+
+
+
+
+        frffConnfdtion(donnfdtion);
+        frffConnfdtion(donnfdtion);
+        frffConnfdtion(donnfdtion);
+        frffConnfdtion(donnfdtion);
         frffConnfdtion(donnfdtion);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
     }
 
-    trbnsport->shbrfd->isAddfptfd = JNI_TRUE;
+
+
+
+
+    trbnsport->sibrfd->isAddfptfd = JNI_TRUE;
+    trbnsport->sibrfd->isAddfptfd = JNI_TRUE;
+    trbnsport->sibrfd->isAddfptfd = JNI_TRUE;
+    trbnsport->sibrfd->isAddfptfd = JNI_TRUE;
+    trbnsport->sibrfd->isAddfptfd = JNI_TRUE;
+    frror = sysEvfntSignbl(trbnsport->bddfptEvfnt);
+    frror = sysEvfntSignbl(trbnsport->bddfptEvfnt);
+    frror = sysEvfntSignbl(trbnsport->bddfptEvfnt);
+    frror = sysEvfntSignbl(trbnsport->bddfptEvfnt);
     frror = sysEvfntSignbl(trbnsport->bddfptEvfnt);
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        /*
+        /*
+        /*
+        /*
         /*
          * No rfbl point trying to rfjfdt it.
+         * No rfbl point trying to rfjfdt it.
+         * No rfbl point trying to rfjfdt it.
+         * No rfbl point trying to rfjfdt it.
+         * No rfbl point trying to rfjfdt it.
+         */
+         */
+         */
+         */
          */
         dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
         rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    *donnfdtionPtr = donnfdtion;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
     rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 stbtid jint
-doAttbdh(ShbrfdMfmoryTrbnsport *trbnsport, long timfout)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+doAttbdi(SibrfdMfmoryTrbnsport *trbnsport, long timfout)
+doAttbdi(SibrfdMfmoryTrbnsport *trbnsport, long timfout)
+doAttbdi(SibrfdMfmoryTrbnsport *trbnsport, long timfout)
+doAttbdi(SibrfdMfmoryTrbnsport *trbnsport, long timfout)
+doAttbdi(SibrfdMfmoryTrbnsport *trbnsport, long timfout)
 {
-    trbnsport->shbrfd->bttbdhingPID = sysProdfssGftID();
-    CHECK_ERROR(sysEvfntSignbl(trbnsport->bttbdhEvfnt));
+{
+{
+{
+{
+    trbnsport->sibrfd->bttbdiingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bttbdiingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bttbdiingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bttbdiingPID = sysProdfssGftID();
+    trbnsport->sibrfd->bttbdiingPID = sysProdfssGftID();
+    CHECK_ERROR(sysEvfntSignbl(trbnsport->bttbdiEvfnt));
+    CHECK_ERROR(sysEvfntSignbl(trbnsport->bttbdiEvfnt));
+    CHECK_ERROR(sysEvfntSignbl(trbnsport->bttbdiEvfnt));
+    CHECK_ERROR(sysEvfntSignbl(trbnsport->bttbdiEvfnt));
+    CHECK_ERROR(sysEvfntSignbl(trbnsport->bttbdiEvfnt));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bddfptEvfnt, timfout));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bddfptEvfnt, timfout));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bddfptEvfnt, timfout));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bddfptEvfnt, timfout));
     CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bddfptEvfnt, timfout));
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
+
+
+
+
 jint
-shmfmBbsf_bttbdh(donst dhbr *bddrfssString, long timfout, ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+jint
+jint
+jint
+jint
+simfmBbsf_bttbdi(donst dibr *bddrfssString, long timfout, SibrfdMfmoryConnfdtion **donnfdtionPtr)
+simfmBbsf_bttbdi(donst dibr *bddrfssString, long timfout, SibrfdMfmoryConnfdtion **donnfdtionPtr)
+simfmBbsf_bttbdi(donst dibr *bddrfssString, long timfout, SibrfdMfmoryConnfdtion **donnfdtionPtr)
+simfmBbsf_bttbdi(donst dibr *bddrfssString, long timfout, SibrfdMfmoryConnfdtion **donnfdtionPtr)
+simfmBbsf_bttbdi(donst dibr *bddrfssString, long timfout, SibrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+{
+{
+{
 {
     int frror;
-    ShbrfdMfmoryTrbnsport *trbnsport;
+    int frror;
+    int frror;
+    int frror;
+    int frror;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    SibrfdMfmoryTrbnsport *trbnsport;
+    jlong bddfptingPID;
+    jlong bddfptingPID;
+    jlong bddfptingPID;
+    jlong bddfptingPID;
     jlong bddfptingPID;
 
+
+
+
+
     dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+
+
+
+
 
     frror = opfnTrbnsport(bddrfssString, &trbnsport);
+    frror = opfnTrbnsport(bddrfssString, &trbnsport);
+    frror = opfnTrbnsport(bddrfssString, &trbnsport);
+    frror = opfnTrbnsport(bddrfssString, &trbnsport);
+    frror = opfnTrbnsport(bddrfssString, &trbnsport);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
     if (frror != SYS_OK) {
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /* lodk trbnsport - no bdditionbl fvfnt to wbit on bs no donnfdtion yft */
+    /* lodk trbnsport - no bdditionbl fvfnt to wbit on bs no donnfdtion yft */
+    /* lodk trbnsport - no bdditionbl fvfnt to wbit on bs no donnfdtion yft */
+    /* lodk trbnsport - no bdditionbl fvfnt to wbit on bs no donnfdtion yft */
+    /* lodk trbnsport - no bdditionbl fvfnt to wbit on bs no donnfdtion yft */
+    frror = sysIPMutfxEntfr(trbnsport->mutfx, NULL);
+    frror = sysIPMutfxEntfr(trbnsport->mutfx, NULL);
+    frror = sysIPMutfxEntfr(trbnsport->mutfx, NULL);
+    frror = sysIPMutfxEntfr(trbnsport->mutfx, NULL);
     frror = sysIPMutfxEntfr(trbnsport->mutfx, NULL);
     if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
+        sftLbstError(frror);
         sftLbstError(frror);
         dlosfTrbnsport(trbnsport);
-        rfturn frror;
-    }
-
-    if (trbnsport->shbrfd->isListfning) {
-        frror = doAttbdh(trbnsport, timfout);
-        if (frror == SYS_OK) {
-            bddfptingPID = trbnsport->shbrfd->bddfptingPID;
-        }
-    } flsf {
-        /* Not listfning: frror */
-        frror = SYS_ERR;
-    }
-
-    sysIPMutfxExit(trbnsport->mutfx);
-    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
         dlosfTrbnsport(trbnsport);
         rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    if (trbnsport->sibrfd->isListfning) {
+    if (trbnsport->sibrfd->isListfning) {
+    if (trbnsport->sibrfd->isListfning) {
+    if (trbnsport->sibrfd->isListfning) {
+    if (trbnsport->sibrfd->isListfning) {
+        frror = doAttbdi(trbnsport, timfout);
+        frror = doAttbdi(trbnsport, timfout);
+        frror = doAttbdi(trbnsport, timfout);
+        frror = doAttbdi(trbnsport, timfout);
+        frror = doAttbdi(trbnsport, timfout);
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+        if (frror == SYS_OK) {
+            bddfptingPID = trbnsport->sibrfd->bddfptingPID;
+            bddfptingPID = trbnsport->sibrfd->bddfptingPID;
+            bddfptingPID = trbnsport->sibrfd->bddfptingPID;
+            bddfptingPID = trbnsport->sibrfd->bddfptingPID;
+            bddfptingPID = trbnsport->sibrfd->bddfptingPID;
+        }
+        }
+        }
+        }
+        }
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+        /* Not listfning: frror */
+        /* Not listfning: frror */
+        /* Not listfning: frror */
+        /* Not listfning: frror */
+        /* Not listfning: frror */
+        frror = SYS_ERR;
+        frror = SYS_ERR;
+        frror = SYS_ERR;
+        frror = SYS_ERR;
+        frror = SYS_ERR;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    sysIPMutfxExit(trbnsport->mutfx);
+    sysIPMutfxExit(trbnsport->mutfx);
+    sysIPMutfxExit(trbnsport->mutfx);
+    sysIPMutfxExit(trbnsport->mutfx);
+    sysIPMutfxExit(trbnsport->mutfx);
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+        rfturn frror;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     frror = opfnConnfdtion(trbnsport, bddfptingPID, donnfdtionPtr);
+    frror = opfnConnfdtion(trbnsport, bddfptingPID, donnfdtionPtr);
+    frror = opfnConnfdtion(trbnsport, bddfptingPID, donnfdtionPtr);
+    frror = opfnConnfdtion(trbnsport, bddfptingPID, donnfdtionPtr);
+    frror = opfnConnfdtion(trbnsport, bddfptingPID, donnfdtionPtr);
+
+
+
+
 
     dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+
+
+
+
 
     rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+}
+}
+}
+}
 }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void
-shmfmBbsf_dlosfConnfdtion(ShbrfdMfmoryConnfdtion *donnfdtion)
+void
+void
+void
+void
+simfmBbsf_dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+simfmBbsf_dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+simfmBbsf_dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+simfmBbsf_dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
+simfmBbsf_dlosfConnfdtion(SibrfdMfmoryConnfdtion *donnfdtion)
 {
+{
+{
+{
+{
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
     dlfbrLbstError();
     dlosfConnfdtion(donnfdtion);
+    dlosfConnfdtion(donnfdtion);
+    dlosfConnfdtion(donnfdtion);
+    dlosfConnfdtion(donnfdtion);
+    dlosfConnfdtion(donnfdtion);
+}
+}
+}
+}
 }
 
+
+
+
+
 void
-shmfmBbsf_dlosfTrbnsport(ShbrfdMfmoryTrbnsport *trbnsport)
+void
+void
+void
+void
+simfmBbsf_dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+simfmBbsf_dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+simfmBbsf_dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+simfmBbsf_dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
+simfmBbsf_dlosfTrbnsport(SibrfdMfmoryTrbnsport *trbnsport)
 {
+{
+{
+{
+{
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
     dlfbrLbstError();
     dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+    dlosfTrbnsport(trbnsport);
+}
+}
+}
+}
 }
 
+
+
+
+
 jint
-shmfmBbsf_sfndBytf(ShbrfdMfmoryConnfdtion *donnfdtion, jbytf dbtb)
+jint
+jint
+jint
+jint
+simfmBbsf_sfndBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf dbtb)
+simfmBbsf_sfndBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf dbtb)
+simfmBbsf_sfndBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf dbtb)
+simfmBbsf_sfndBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf dbtb)
+simfmBbsf_sfndBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf dbtb)
+{
+{
+{
+{
 {
     Strfbm *strfbm = &donnfdtion->outgoing;
-    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    int offsft;
+    int offsft;
+    int offsft;
+    int offsft;
     int offsft;
 
+
+
+
+
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
     dlfbrLbstError();
 
-    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+
+
+
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+    CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+    CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+    CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
     CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
     SHMEM_ASSERT(!FULL(strfbm));
-    offsft = shbrfd->writfOffsft;
-    shbrfd->bufffr[offsft] = dbtb;
-    shbrfd->writfOffsft = ADD_OFFSET(offsft, 1);
-    shbrfd->isFull = (shbrfd->rfbdOffsft == shbrfd->writfOffsft);
+    SHMEM_ASSERT(!FULL(strfbm));
+    SHMEM_ASSERT(!FULL(strfbm));
+    SHMEM_ASSERT(!FULL(strfbm));
+    SHMEM_ASSERT(!FULL(strfbm));
+    offsft = sibrfd->writfOffsft;
+    offsft = sibrfd->writfOffsft;
+    offsft = sibrfd->writfOffsft;
+    offsft = sibrfd->writfOffsft;
+    offsft = sibrfd->writfOffsft;
+    sibrfd->bufffr[offsft] = dbtb;
+    sibrfd->bufffr[offsft] = dbtb;
+    sibrfd->bufffr[offsft] = dbtb;
+    sibrfd->bufffr[offsft] = dbtb;
+    sibrfd->bufffr[offsft] = dbtb;
+    sibrfd->writfOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->writfOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->writfOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->writfOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->writfOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+    sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+    sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+    sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+    sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+
+
+
+
 
     STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
     CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+
+
+
+
 
     CHECK_ERROR(signblDbtb(strfbm));
+    CHECK_ERROR(signblDbtb(strfbm));
+    CHECK_ERROR(signblDbtb(strfbm));
+    CHECK_ERROR(signblDbtb(strfbm));
+    CHECK_ERROR(signblDbtb(strfbm));
+
+
+
+
 
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
+
+
+
+
 jint
-shmfmBbsf_rfdfivfBytf(ShbrfdMfmoryConnfdtion *donnfdtion, jbytf *dbtb)
+jint
+jint
+jint
+jint
+simfmBbsf_rfdfivfBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf *dbtb)
+simfmBbsf_rfdfivfBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf *dbtb)
+simfmBbsf_rfdfivfBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf *dbtb)
+simfmBbsf_rfdfivfBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf *dbtb)
+simfmBbsf_rfdfivfBytf(SibrfdMfmoryConnfdtion *donnfdtion, jbytf *dbtb)
+{
+{
+{
+{
 {
     Strfbm *strfbm = &donnfdtion->indoming;
-    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    int offsft;
+    int offsft;
+    int offsft;
+    int offsft;
     int offsft;
 
+
+
+
+
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
     dlfbrLbstError();
 
-    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+
+
+
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+    CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+    CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+    CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
     CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
     SHMEM_ASSERT(!EMPTY(strfbm));
-    offsft = shbrfd->rfbdOffsft;
-    *dbtb = shbrfd->bufffr[offsft];
-    shbrfd->rfbdOffsft = ADD_OFFSET(offsft, 1);
-    shbrfd->isFull = JNI_FALSE;
+    SHMEM_ASSERT(!EMPTY(strfbm));
+    SHMEM_ASSERT(!EMPTY(strfbm));
+    SHMEM_ASSERT(!EMPTY(strfbm));
+    SHMEM_ASSERT(!EMPTY(strfbm));
+    offsft = sibrfd->rfbdOffsft;
+    offsft = sibrfd->rfbdOffsft;
+    offsft = sibrfd->rfbdOffsft;
+    offsft = sibrfd->rfbdOffsft;
+    offsft = sibrfd->rfbdOffsft;
+    *dbtb = sibrfd->bufffr[offsft];
+    *dbtb = sibrfd->bufffr[offsft];
+    *dbtb = sibrfd->bufffr[offsft];
+    *dbtb = sibrfd->bufffr[offsft];
+    *dbtb = sibrfd->bufffr[offsft];
+    sibrfd->rfbdOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->rfbdOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->rfbdOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->rfbdOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->rfbdOffsft = ADD_OFFSET(offsft, 1);
+    sibrfd->isFull = JNI_FALSE;
+    sibrfd->isFull = JNI_FALSE;
+    sibrfd->isFull = JNI_FALSE;
+    sibrfd->isFull = JNI_FALSE;
+    sibrfd->isFull = JNI_FALSE;
+
+
+
+
 
     STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
+    STREAM_INVARIANT(strfbm);
     CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+
+
+
+
 
     CHECK_ERROR(signblSpbdf(strfbm));
+    CHECK_ERROR(signblSpbdf(strfbm));
+    CHECK_ERROR(signblSpbdf(strfbm));
+    CHECK_ERROR(signblSpbdf(strfbm));
+    CHECK_ERROR(signblSpbdf(strfbm));
+
+
+
+
 
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
+
+
+
+
 stbtid jint
-sfndBytfs(ShbrfdMfmoryConnfdtion *donnfdtion, donst void *bytfs, jint lfngth)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+sfndBytfs(SibrfdMfmoryConnfdtion *donnfdtion, donst void *bytfs, jint lfngti)
+sfndBytfs(SibrfdMfmoryConnfdtion *donnfdtion, donst void *bytfs, jint lfngti)
+sfndBytfs(SibrfdMfmoryConnfdtion *donnfdtion, donst void *bytfs, jint lfngti)
+sfndBytfs(SibrfdMfmoryConnfdtion *donnfdtion, donst void *bytfs, jint lfngti)
+sfndBytfs(SibrfdMfmoryConnfdtion *donnfdtion, donst void *bytfs, jint lfngti)
+{
+{
+{
+{
 {
     Strfbm *strfbm = &donnfdtion->outgoing;
-    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
     jint frbgmfntStbrt;
-    jint frbgmfntLfngth;
+    jint frbgmfntStbrt;
+    jint frbgmfntStbrt;
+    jint frbgmfntStbrt;
+    jint frbgmfntStbrt;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
     jint indfx = 0;
-    jint mbxLfngth;
+    jint indfx = 0;
+    jint indfx = 0;
+    jint indfx = 0;
+    jint indfx = 0;
+    jint mbxLfngti;
+    jint mbxLfngti;
+    jint mbxLfngti;
+    jint mbxLfngti;
+    jint mbxLfngti;
+
+
+
+
 
     dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
 
-    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
-    whilf (indfx < lfngth) {
+
+
+
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+        CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+        CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+        CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+        CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
         CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
         SHMEM_ASSERT(!FULL(strfbm));
+        SHMEM_ASSERT(!FULL(strfbm));
+        SHMEM_ASSERT(!FULL(strfbm));
+        SHMEM_ASSERT(!FULL(strfbm));
+        SHMEM_ASSERT(!FULL(strfbm));
 
-        frbgmfntStbrt = shbrfd->writfOffsft;
 
-        if (frbgmfntStbrt < shbrfd->rfbdOffsft) {
-            mbxLfngth = shbrfd->rfbdOffsft - frbgmfntStbrt;
+
+
+
+        frbgmfntStbrt = sibrfd->writfOffsft;
+        frbgmfntStbrt = sibrfd->writfOffsft;
+        frbgmfntStbrt = sibrfd->writfOffsft;
+        frbgmfntStbrt = sibrfd->writfOffsft;
+        frbgmfntStbrt = sibrfd->writfOffsft;
+
+
+
+
+
+        if (frbgmfntStbrt < sibrfd->rfbdOffsft) {
+        if (frbgmfntStbrt < sibrfd->rfbdOffsft) {
+        if (frbgmfntStbrt < sibrfd->rfbdOffsft) {
+        if (frbgmfntStbrt < sibrfd->rfbdOffsft) {
+        if (frbgmfntStbrt < sibrfd->rfbdOffsft) {
+            mbxLfngti = sibrfd->rfbdOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->rfbdOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->rfbdOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->rfbdOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->rfbdOffsft - frbgmfntStbrt;
         } flsf {
-            mbxLfngth = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
         }
-        frbgmfntLfngth = MIN(mbxLfngth, lfngth - indfx);
-        mfmdpy(shbrfd->bufffr + frbgmfntStbrt, (jbytf *)bytfs + indfx, frbgmfntLfngth);
-        shbrfd->writfOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngth);
-        indfx += frbgmfntLfngth;
+        }
+        }
+        }
+        }
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        mfmdpy(sibrfd->bufffr + frbgmfntStbrt, (jbytf *)bytfs + indfx, frbgmfntLfngti);
+        mfmdpy(sibrfd->bufffr + frbgmfntStbrt, (jbytf *)bytfs + indfx, frbgmfntLfngti);
+        mfmdpy(sibrfd->bufffr + frbgmfntStbrt, (jbytf *)bytfs + indfx, frbgmfntLfngti);
+        mfmdpy(sibrfd->bufffr + frbgmfntStbrt, (jbytf *)bytfs + indfx, frbgmfntLfngti);
+        mfmdpy(sibrfd->bufffr + frbgmfntStbrt, (jbytf *)bytfs + indfx, frbgmfntLfngti);
+        sibrfd->writfOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->writfOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->writfOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->writfOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->writfOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
 
-        shbrfd->isFull = (shbrfd->rfbdOffsft == shbrfd->writfOffsft);
 
+
+
+
+        sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+        sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+        sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+        sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+        sibrfd->isFull = (sibrfd->rfbdOffsft == sibrfd->writfOffsft);
+
+
+
+
+
+        STREAM_INVARIANT(strfbm);
+        STREAM_INVARIANT(strfbm);
+        STREAM_INVARIANT(strfbm);
+        STREAM_INVARIANT(strfbm);
         STREAM_INVARIANT(strfbm);
         CHECK_ERROR(signblDbtb(strfbm));
+        CHECK_ERROR(signblDbtb(strfbm));
+        CHECK_ERROR(signblDbtb(strfbm));
+        CHECK_ERROR(signblDbtb(strfbm));
+        CHECK_ERROR(signblDbtb(strfbm));
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
     CHECK_ERROR(lfbvfMutfx(strfbm));
 
+
+
+
+
     rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
 /*
- * Sfnd pbdkft hfbdfr followfd by dbtb.
+/*
+/*
+/*
+/*
+ * Sfnd pbdkft ifbdfr followfd by dbtb.
+ * Sfnd pbdkft ifbdfr followfd by dbtb.
+ * Sfnd pbdkft ifbdfr followfd by dbtb.
+ * Sfnd pbdkft ifbdfr followfd by dbtb.
+ * Sfnd pbdkft ifbdfr followfd by dbtb.
+ */
+ */
+ */
+ */
  */
 jint
-shmfmBbsf_sfndPbdkft(ShbrfdMfmoryConnfdtion *donnfdtion, donst jdwpPbdkft *pbdkft)
+jint
+jint
+jint
+jint
+simfmBbsf_sfndPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, donst jdwpPbdkft *pbdkft)
+simfmBbsf_sfndPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, donst jdwpPbdkft *pbdkft)
+simfmBbsf_sfndPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, donst jdwpPbdkft *pbdkft)
+simfmBbsf_sfndPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, donst jdwpPbdkft *pbdkft)
+simfmBbsf_sfndPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, donst jdwpPbdkft *pbdkft)
 {
-    jint dbtb_lfngth;
+{
+{
+{
+{
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+
+
+
+
 
     dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+
+
+
+
 
     CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
     CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
 
+
+
+
+
     if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
-        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jshort)));
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
         CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
     }
-
-    dbtb_lfngth = pbdkft->typf.dmd.lfn - 11;
-    SHMEM_GUARANTEE(dbtb_lfngth >= 0);
-    CHECK_ERROR(sfndBytfs(donnfdtion, &dbtb_lfngth, sizfof(jint)));
-
-    if (dbtb_lfngth > 0) {
-        CHECK_ERROR(sfndBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngth));
+    }
+    }
+    }
     }
 
+
+
+
+
+    dbtb_lfngti = pbdkft->typf.dmd.lfn - 11;
+    dbtb_lfngti = pbdkft->typf.dmd.lfn - 11;
+    dbtb_lfngti = pbdkft->typf.dmd.lfn - 11;
+    dbtb_lfngti = pbdkft->typf.dmd.lfn - 11;
+    dbtb_lfngti = pbdkft->typf.dmd.lfn - 11;
+    SHMEM_GUARANTEE(dbtb_lfngti >= 0);
+    SHMEM_GUARANTEE(dbtb_lfngti >= 0);
+    SHMEM_GUARANTEE(dbtb_lfngti >= 0);
+    SHMEM_GUARANTEE(dbtb_lfngti >= 0);
+    SHMEM_GUARANTEE(dbtb_lfngti >= 0);
+    CHECK_ERROR(sfndBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+
+
+
+
+
+    if (dbtb_lfngti > 0) {
+    if (dbtb_lfngti > 0) {
+    if (dbtb_lfngti > 0) {
+    if (dbtb_lfngti > 0) {
+    if (dbtb_lfngti > 0) {
+        CHECK_ERROR(sfndBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti));
+        CHECK_ERROR(sfndBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti));
+        CHECK_ERROR(sfndBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti));
+        CHECK_ERROR(sfndBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti));
+        CHECK_ERROR(sfndBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti));
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
     rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 stbtid jint
-rfdfivfBytfs(ShbrfdMfmoryConnfdtion *donnfdtion, void *bytfs, jint lfngth)
+stbtid jint
+stbtid jint
+stbtid jint
+stbtid jint
+rfdfivfBytfs(SibrfdMfmoryConnfdtion *donnfdtion, void *bytfs, jint lfngti)
+rfdfivfBytfs(SibrfdMfmoryConnfdtion *donnfdtion, void *bytfs, jint lfngti)
+rfdfivfBytfs(SibrfdMfmoryConnfdtion *donnfdtion, void *bytfs, jint lfngti)
+rfdfivfBytfs(SibrfdMfmoryConnfdtion *donnfdtion, void *bytfs, jint lfngti)
+rfdfivfBytfs(SibrfdMfmoryConnfdtion *donnfdtion, void *bytfs, jint lfngti)
+{
+{
+{
+{
 {
     Strfbm *strfbm = &donnfdtion->indoming;
-    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    Strfbm *strfbm = &donnfdtion->indoming;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
+    SibrfdStrfbm *sibrfd = strfbm->sibrfd;
     jint frbgmfntStbrt;
-    jint frbgmfntLfngth;
+    jint frbgmfntStbrt;
+    jint frbgmfntStbrt;
+    jint frbgmfntStbrt;
+    jint frbgmfntStbrt;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
+    jint frbgmfntLfngti;
     jint indfx = 0;
-    jint mbxLfngth;
+    jint indfx = 0;
+    jint indfx = 0;
+    jint indfx = 0;
+    jint indfx = 0;
+    jint mbxLfngti;
+    jint mbxLfngti;
+    jint mbxLfngti;
+    jint mbxLfngti;
+    jint mbxLfngti;
+
+
+
+
 
     dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
 
-    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
-    whilf (indfx < lfngth) {
+
+
+
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->siutdown));
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+    wiilf (indfx < lfngti) {
+        CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+        CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+        CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+        CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
         CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
         SHMEM_ASSERT(!EMPTY(strfbm));
+        SHMEM_ASSERT(!EMPTY(strfbm));
+        SHMEM_ASSERT(!EMPTY(strfbm));
+        SHMEM_ASSERT(!EMPTY(strfbm));
+        SHMEM_ASSERT(!EMPTY(strfbm));
 
-        frbgmfntStbrt = shbrfd->rfbdOffsft;
-        if (frbgmfntStbrt < shbrfd->writfOffsft) {
-            mbxLfngth = shbrfd->writfOffsft - frbgmfntStbrt;
+
+
+
+
+        frbgmfntStbrt = sibrfd->rfbdOffsft;
+        frbgmfntStbrt = sibrfd->rfbdOffsft;
+        frbgmfntStbrt = sibrfd->rfbdOffsft;
+        frbgmfntStbrt = sibrfd->rfbdOffsft;
+        frbgmfntStbrt = sibrfd->rfbdOffsft;
+        if (frbgmfntStbrt < sibrfd->writfOffsft) {
+        if (frbgmfntStbrt < sibrfd->writfOffsft) {
+        if (frbgmfntStbrt < sibrfd->writfOffsft) {
+        if (frbgmfntStbrt < sibrfd->writfOffsft) {
+        if (frbgmfntStbrt < sibrfd->writfOffsft) {
+            mbxLfngti = sibrfd->writfOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->writfOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->writfOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->writfOffsft - frbgmfntStbrt;
+            mbxLfngti = sibrfd->writfOffsft - frbgmfntStbrt;
         } flsf {
-            mbxLfngth = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+            mbxLfngti = SHARED_BUFFER_SIZE - frbgmfntStbrt;
         }
-        frbgmfntLfngth = MIN(mbxLfngth, lfngth - indfx);
-        mfmdpy((jbytf *)bytfs + indfx, shbrfd->bufffr + frbgmfntStbrt, frbgmfntLfngth);
-        shbrfd->rfbdOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngth);
-        indfx += frbgmfntLfngth;
+        }
+        }
+        }
+        }
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        frbgmfntLfngti = MIN(mbxLfngti, lfngti - indfx);
+        mfmdpy((jbytf *)bytfs + indfx, sibrfd->bufffr + frbgmfntStbrt, frbgmfntLfngti);
+        mfmdpy((jbytf *)bytfs + indfx, sibrfd->bufffr + frbgmfntStbrt, frbgmfntLfngti);
+        mfmdpy((jbytf *)bytfs + indfx, sibrfd->bufffr + frbgmfntStbrt, frbgmfntLfngti);
+        mfmdpy((jbytf *)bytfs + indfx, sibrfd->bufffr + frbgmfntStbrt, frbgmfntLfngti);
+        mfmdpy((jbytf *)bytfs + indfx, sibrfd->bufffr + frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->rfbdOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->rfbdOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->rfbdOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->rfbdOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        sibrfd->rfbdOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngti);
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
+        indfx += frbgmfntLfngti;
 
-        shbrfd->isFull = JNI_FALSE;
+
+
+
+
+        sibrfd->isFull = JNI_FALSE;
+        sibrfd->isFull = JNI_FALSE;
+        sibrfd->isFull = JNI_FALSE;
+        sibrfd->isFull = JNI_FALSE;
+        sibrfd->isFull = JNI_FALSE;
+
+
+
+
 
         STREAM_INVARIANT(strfbm);
+        STREAM_INVARIANT(strfbm);
+        STREAM_INVARIANT(strfbm);
+        STREAM_INVARIANT(strfbm);
+        STREAM_INVARIANT(strfbm);
+        CHECK_ERROR(signblSpbdf(strfbm));
+        CHECK_ERROR(signblSpbdf(strfbm));
+        CHECK_ERROR(signblSpbdf(strfbm));
+        CHECK_ERROR(signblSpbdf(strfbm));
         CHECK_ERROR(signblSpbdf(strfbm));
     }
+    }
+    }
+    }
+    }
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    CHECK_ERROR(lfbvfMutfx(strfbm));
     CHECK_ERROR(lfbvfMutfx(strfbm));
 
+
+
+
+
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
     rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 /*
- * Rfbd pbdkft hfbdfr bnd insfrt into pbdkft strudturf.
- * Allodbtf spbdf for thf dbtb bnd fill it in.
+/*
+/*
+/*
+/*
+ * Rfbd pbdkft ifbdfr bnd insfrt into pbdkft strudturf.
+ * Rfbd pbdkft ifbdfr bnd insfrt into pbdkft strudturf.
+ * Rfbd pbdkft ifbdfr bnd insfrt into pbdkft strudturf.
+ * Rfbd pbdkft ifbdfr bnd insfrt into pbdkft strudturf.
+ * Rfbd pbdkft ifbdfr bnd insfrt into pbdkft strudturf.
+ * Allodbtf spbdf for tif dbtb bnd fill it in.
+ * Allodbtf spbdf for tif dbtb bnd fill it in.
+ * Allodbtf spbdf for tif dbtb bnd fill it in.
+ * Allodbtf spbdf for tif dbtb bnd fill it in.
+ * Allodbtf spbdf for tif dbtb bnd fill it in.
+ */
+ */
+ */
+ */
  */
 jint
-shmfmBbsf_rfdfivfPbdkft(ShbrfdMfmoryConnfdtion *donnfdtion, jdwpPbdkft *pbdkft)
+jint
+jint
+jint
+jint
+simfmBbsf_rfdfivfPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, jdwpPbdkft *pbdkft)
+simfmBbsf_rfdfivfPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, jdwpPbdkft *pbdkft)
+simfmBbsf_rfdfivfPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, jdwpPbdkft *pbdkft)
+simfmBbsf_rfdfivfPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, jdwpPbdkft *pbdkft)
+simfmBbsf_rfdfivfPbdkft(SibrfdMfmoryConnfdtion *donnfdtion, jdwpPbdkft *pbdkft)
 {
-    jint dbtb_lfngth;
+{
+{
+{
+{
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+    jint dbtb_lfngti;
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
     jint frror;
 
+
+
+
+
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
+    dlfbrLbstError();
     dlfbrLbstError();
 
+
+
+
+
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
     CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
     CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+
+
+
+
 
     if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
-        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jshort)));
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jsiort)));
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
         CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
     }
+    }
+    }
+    }
+    }
 
-    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &dbtb_lfngth, sizfof(jint)));
 
-    if (dbtb_lfngth < 0) {
+
+
+
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &dbtb_lfngti, sizfof(jint)));
+
+
+
+
+
+    if (dbtb_lfngti < 0) {
+    if (dbtb_lfngti < 0) {
+    if (dbtb_lfngti < 0) {
+    if (dbtb_lfngti < 0) {
+    if (dbtb_lfngti < 0) {
         rfturn SYS_ERR;
-    } flsf if (dbtb_lfngth == 0) {
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+    } flsf if (dbtb_lfngti == 0) {
+    } flsf if (dbtb_lfngti == 0) {
+    } flsf if (dbtb_lfngti == 0) {
+    } flsf if (dbtb_lfngti == 0) {
+    } flsf if (dbtb_lfngti == 0) {
+        pbdkft->typf.dmd.lfn = 11;
+        pbdkft->typf.dmd.lfn = 11;
+        pbdkft->typf.dmd.lfn = 11;
+        pbdkft->typf.dmd.lfn = 11;
         pbdkft->typf.dmd.lfn = 11;
         pbdkft->typf.dmd.dbtb = NULL;
+        pbdkft->typf.dmd.dbtb = NULL;
+        pbdkft->typf.dmd.dbtb = NULL;
+        pbdkft->typf.dmd.dbtb = NULL;
+        pbdkft->typf.dmd.dbtb = NULL;
     } flsf {
-        pbdkft->typf.dmd.lfn = dbtb_lfngth + 11;
-        pbdkft->typf.dmd.dbtb = (*dbllbbdk->bllod)(dbtb_lfngth);
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+        pbdkft->typf.dmd.lfn = dbtb_lfngti + 11;
+        pbdkft->typf.dmd.lfn = dbtb_lfngti + 11;
+        pbdkft->typf.dmd.lfn = dbtb_lfngti + 11;
+        pbdkft->typf.dmd.lfn = dbtb_lfngti + 11;
+        pbdkft->typf.dmd.lfn = dbtb_lfngti + 11;
+        pbdkft->typf.dmd.dbtb = (*dbllbbdk->bllod)(dbtb_lfngti);
+        pbdkft->typf.dmd.dbtb = (*dbllbbdk->bllod)(dbtb_lfngti);
+        pbdkft->typf.dmd.dbtb = (*dbllbbdk->bllod)(dbtb_lfngti);
+        pbdkft->typf.dmd.dbtb = (*dbllbbdk->bllod)(dbtb_lfngti);
+        pbdkft->typf.dmd.dbtb = (*dbllbbdk->bllod)(dbtb_lfngti);
+        if (pbdkft->typf.dmd.dbtb == NULL) {
+        if (pbdkft->typf.dmd.dbtb == NULL) {
+        if (pbdkft->typf.dmd.dbtb == NULL) {
+        if (pbdkft->typf.dmd.dbtb == NULL) {
         if (pbdkft->typf.dmd.dbtb == NULL) {
             rfturn SYS_ERR;
+            rfturn SYS_ERR;
+            rfturn SYS_ERR;
+            rfturn SYS_ERR;
+            rfturn SYS_ERR;
+        }
+        }
+        }
+        }
         }
 
-        frror = rfdfivfBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngth);
+
+
+
+
+        frror = rfdfivfBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti);
+        frror = rfdfivfBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti);
+        frror = rfdfivfBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti);
+        frror = rfdfivfBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti);
+        frror = rfdfivfBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngti);
+        if (frror != SYS_OK) {
+        if (frror != SYS_OK) {
+        if (frror != SYS_OK) {
+        if (frror != SYS_OK) {
         if (frror != SYS_OK) {
             (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            rfturn frror;
+            rfturn frror;
+            rfturn frror;
+            rfturn frror;
             rfturn frror;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
     rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 jint
-shmfmBbsf_nbmf(strudt ShbrfdMfmoryTrbnsport *trbnsport, dhbr **nbmf)
+jint
+jint
+jint
+jint
+simfmBbsf_nbmf(strudt SibrfdMfmoryTrbnsport *trbnsport, dibr **nbmf)
+simfmBbsf_nbmf(strudt SibrfdMfmoryTrbnsport *trbnsport, dibr **nbmf)
+simfmBbsf_nbmf(strudt SibrfdMfmoryTrbnsport *trbnsport, dibr **nbmf)
+simfmBbsf_nbmf(strudt SibrfdMfmoryTrbnsport *trbnsport, dibr **nbmf)
+simfmBbsf_nbmf(strudt SibrfdMfmoryTrbnsport *trbnsport, dibr **nbmf)
+{
+{
+{
+{
 {
     *nbmf = trbnsport->nbmf;
+    *nbmf = trbnsport->nbmf;
+    *nbmf = trbnsport->nbmf;
+    *nbmf = trbnsport->nbmf;
+    *nbmf = trbnsport->nbmf;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
+    rfturn SYS_OK;
     rfturn SYS_OK;
 }
+}
+}
+}
+}
+
+
+
+
 
 jint
-shmfmBbsf_gftlbstfrror(dhbr *msg, jint sizf) {
-    dhbr *frrstr = (dhbr *)sysTlsGft(tlsIndfx);
+jint
+jint
+jint
+jint
+simfmBbsf_gftlbstfrror(dibr *msg, jint sizf) {
+simfmBbsf_gftlbstfrror(dibr *msg, jint sizf) {
+simfmBbsf_gftlbstfrror(dibr *msg, jint sizf) {
+simfmBbsf_gftlbstfrror(dibr *msg, jint sizf) {
+simfmBbsf_gftlbstfrror(dibr *msg, jint sizf) {
+    dibr *frrstr = (dibr *)sysTlsGft(tlsIndfx);
+    dibr *frrstr = (dibr *)sysTlsGft(tlsIndfx);
+    dibr *frrstr = (dibr *)sysTlsGft(tlsIndfx);
+    dibr *frrstr = (dibr *)sysTlsGft(tlsIndfx);
+    dibr *frrstr = (dibr *)sysTlsGft(tlsIndfx);
+    if (frrstr != NULL) {
+    if (frrstr != NULL) {
+    if (frrstr != NULL) {
+    if (frrstr != NULL) {
     if (frrstr != NULL) {
         strdpy(msg, frrstr);
+        strdpy(msg, frrstr);
+        strdpy(msg, frrstr);
+        strdpy(msg, frrstr);
+        strdpy(msg, frrstr);
+        rfturn SYS_OK;
+        rfturn SYS_OK;
+        rfturn SYS_OK;
+        rfturn SYS_OK;
         rfturn SYS_OK;
     } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
+        rfturn SYS_ERR;
         rfturn SYS_ERR;
     }
+    }
+    }
+    }
+    }
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 void
-fxitTrbnsportWithError(dhbr *mfssbgf, dhbr *filfNbmf,
-                       dhbr *dbtf, int linfNumbfr)
+void
+void
+void
+void
+fxitTrbnsportWitiError(dibr *mfssbgf, dibr *filfNbmf,
+fxitTrbnsportWitiError(dibr *mfssbgf, dibr *filfNbmf,
+fxitTrbnsportWitiError(dibr *mfssbgf, dibr *filfNbmf,
+fxitTrbnsportWitiError(dibr *mfssbgf, dibr *filfNbmf,
+fxitTrbnsportWitiError(dibr *mfssbgf, dibr *filfNbmf,
+                       dibr *dbtf, int linfNumbfr)
+                       dibr *dbtf, int linfNumbfr)
+                       dibr *dbtf, int linfNumbfr)
+                       dibr *dbtf, int linfNumbfr)
+                       dibr *dbtf, int linfNumbfr)
+{
+{
+{
+{
 {
     JNIEnv *fnv;
+    JNIEnv *fnv;
+    JNIEnv *fnv;
+    JNIEnv *fnv;
+    JNIEnv *fnv;
     jint frror;
-    dhbr bufffr[500];
+    jint frror;
+    jint frror;
+    jint frror;
+    jint frror;
+    dibr bufffr[500];
+    dibr bufffr[500];
+    dibr bufffr[500];
+    dibr bufffr[500];
+    dibr bufffr[500];
 
-    sprintf(bufffr, "Shbrfd Mfmory Trbnsport \"%s\" (%s), linf %d: %s\n",
+
+
+
+
+    sprintf(bufffr, "Sibrfd Mfmory Trbnsport \"%s\" (%s), linf %d: %s\n",
+    sprintf(bufffr, "Sibrfd Mfmory Trbnsport \"%s\" (%s), linf %d: %s\n",
+    sprintf(bufffr, "Sibrfd Mfmory Trbnsport \"%s\" (%s), linf %d: %s\n",
+    sprintf(bufffr, "Sibrfd Mfmory Trbnsport \"%s\" (%s), linf %d: %s\n",
+    sprintf(bufffr, "Sibrfd Mfmory Trbnsport \"%s\" (%s), linf %d: %s\n",
+            filfNbmf, dbtf, linfNumbfr, mfssbgf);
+            filfNbmf, dbtf, linfNumbfr, mfssbgf);
+            filfNbmf, dbtf, linfNumbfr, mfssbgf);
+            filfNbmf, dbtf, linfNumbfr, mfssbgf);
             filfNbmf, dbtf, linfNumbfr, mfssbgf);
     frror = (*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2);
+    frror = (*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2);
+    frror = (*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2);
+    frror = (*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2);
+    frror = (*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2);
+    if (frror != JNI_OK) {
+    if (frror != JNI_OK) {
+    if (frror != JNI_OK) {
+    if (frror != JNI_OK) {
     if (frror != JNI_OK) {
         /*
+        /*
+        /*
+        /*
+        /*
+         * Wf'rf fordfd into b dirfdt dbll to fxit()
+         * Wf'rf fordfd into b dirfdt dbll to fxit()
+         * Wf'rf fordfd into b dirfdt dbll to fxit()
+         * Wf'rf fordfd into b dirfdt dbll to fxit()
          * Wf'rf fordfd into b dirfdt dbll to fxit()
          */
+         */
+         */
+         */
+         */
+        fprintf(stdfrr, "%s", bufffr);
+        fprintf(stdfrr, "%s", bufffr);
+        fprintf(stdfrr, "%s", bufffr);
+        fprintf(stdfrr, "%s", bufffr);
         fprintf(stdfrr, "%s", bufffr);
         fxit(-1);
+        fxit(-1);
+        fxit(-1);
+        fxit(-1);
+        fxit(-1);
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
     } flsf {
         (*fnv)->FbtblError(fnv, bufffr);
+        (*fnv)->FbtblError(fnv, bufffr);
+        (*fnv)->FbtblError(fnv, bufffr);
+        (*fnv)->FbtblError(fnv, bufffr);
+        (*fnv)->FbtblError(fnv, bufffr);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

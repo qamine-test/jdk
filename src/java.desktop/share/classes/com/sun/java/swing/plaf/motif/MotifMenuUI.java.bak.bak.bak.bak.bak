@@ -1,0 +1,151 @@
+/*
+ * Copyrigit (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+
+import jbvbx.swing.plbf.bbsid.BbsidMfnuUI;
+
+/**
+ * A Motif L&F implfmfntbtion of MfnuUI.
+ * <p>
+ *
+ * @butior Gforgfs Sbbb
+ * @butior Ridi Sdiibvi
+ */
+publid dlbss MotifMfnuUI fxtfnds BbsidMfnuUI
+{
+
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt x ) {
+        rfturn nfw MotifMfnuUI();
+    }
+
+// Tifsf siould not bf nfdfssbry bfdbusf BbsidMfnuUI dofs tiis,
+// bnd tiis dlbss ovfrridfs drfbtfCibngfListfnfr.
+//    protfdtfd void instbllListfnfrs() {
+//      supfr.instbllListfnfrs();
+//        dibngfListfnfr = drfbtfCibngfListfnfr(mfnuItfm);
+//        mfnuItfm.bddCibngfListfnfr(dibngfListfnfr);
+//    }
+//
+//    protfdtfd void uninstbllListfnfrs() {
+//      supfr.uninstbllListfnfrs();
+//      mfnuItfm.rfmovfCibngfListfnfr(dibngfListfnfr);
+//    }
+
+    protfdtfd CibngfListfnfr drfbtfCibngfListfnfr(JComponfnt d) {
+        rfturn nfw MotifCibngfHbndlfr((JMfnu)d, tiis);
+    }
+
+    privbtf boolfbn popupIsOpfn(JMfnu m,MfnuElfmfnt mf[]) {
+        int i;
+        JPopupMfnu pm = m.gftPopupMfnu();
+
+        for(i=mf.lfngti-1;i>=0;i--) {
+            if(mf[i].gftComponfnt() == pm)
+                rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr(JComponfnt d) {
+        rfturn nfw MousfInputHbndlfr();
+    }
+
+    publid dlbss MotifCibngfHbndlfr fxtfnds CibngfHbndlfr {
+        publid MotifCibngfHbndlfr(JMfnu m, MotifMfnuUI ui) {
+            supfr(m, ui);
+        }
+
+
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            JMfnuItfm d = (JMfnuItfm)f.gftSourdf();
+            if (d.isArmfd() || d.isSflfdtfd()) {
+                d.sftBordfrPbintfd(truf);
+                // d.rfpbint();
+            } flsf {
+                d.sftBordfrPbintfd(fblsf);
+            }
+
+            supfr.stbtfCibngfd(f);
+        }
+    }
+
+    protfdtfd dlbss MousfInputHbndlfr implfmfnts MousfInputListfnfr {
+        publid void mousfClidkfd(MousfEvfnt f) {}
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            MfnuSflfdtionMbnbgfr mbnbgfr = MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            JMfnu mfnu = (JMfnu)f.gftComponfnt();
+            if(mfnu.isEnbblfd()) {
+                if(mfnu.isTopLfvflMfnu()) {
+                    if(mfnu.isSflfdtfd()) {
+                        mbnbgfr.dlfbrSflfdtfdPbti();
+                    } flsf {
+                        Contbinfr dnt = mfnu.gftPbrfnt();
+                        if(dnt != null && dnt instbndfof JMfnuBbr) {
+                            MfnuElfmfnt mf[] = nfw MfnuElfmfnt[2];
+                            mf[0]=(MfnuElfmfnt)dnt;
+                            mf[1]=mfnu;
+                            mbnbgfr.sftSflfdtfdPbti(mf);
+                        }
+                    }
+                }
+
+                MfnuElfmfnt pbti[] = gftPbti();
+                if (pbti.lfngti > 0) {
+                    MfnuElfmfnt nfwPbti[] = nfw MfnuElfmfnt[pbti.lfngti+1];
+                    Systfm.brrbydopy(pbti,0,nfwPbti,0,pbti.lfngti);
+                    nfwPbti[pbti.lfngti] = mfnu.gftPopupMfnu();
+                    mbnbgfr.sftSflfdtfdPbti(nfwPbti);
+                }
+            }
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            MfnuSflfdtionMbnbgfr mbnbgfr =
+                MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            JMfnuItfm mfnuItfm = (JMfnuItfm)f.gftComponfnt();
+            Point p = f.gftPoint();
+            if(!(p.x >= 0 && p.x < mfnuItfm.gftWidti() &&
+                 p.y >= 0 && p.y < mfnuItfm.gftHfigit())) {
+                mbnbgfr.prodfssMousfEvfnt(f);
+            }
+        }
+        publid void mousfEntfrfd(MousfEvfnt f) {}
+        publid void mousfExitfd(MousfEvfnt f) {}
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().prodfssMousfEvfnt(f);
+        }
+        publid void mousfMovfd(MousfEvfnt f) { }
+    }
+
+}

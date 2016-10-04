@@ -1,109 +1,545 @@
 /*
- * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf dom.sun.mfdib.sound;
+pbdkbgf dom.sun.mfdib.sound;
+pbdkbgf dom.sun.mfdib.sound;
+pbdkbgf dom.sun.mfdib.sound;
 pbdkbgf dom.sun.mfdib.sound;
 
+
+
+
+
 /**
- * This dlbss is usfd to storf informbtion  to dfsdribf soundbbnks, instrumfnts
- * bnd sbmplfs. It is storfd insidf b "INFO" List Chunk insidf DLS filfs.
+/**
+/**
+/**
+/**
+ * Tiis dlbss is usfd to storf informbtion  to dfsdribf soundbbnks, instrumfnts
+ * Tiis dlbss is usfd to storf informbtion  to dfsdribf soundbbnks, instrumfnts
+ * Tiis dlbss is usfd to storf informbtion  to dfsdribf soundbbnks, instrumfnts
+ * Tiis dlbss is usfd to storf informbtion  to dfsdribf soundbbnks, instrumfnts
+ * Tiis dlbss is usfd to storf informbtion  to dfsdribf soundbbnks, instrumfnts
+ * bnd sbmplfs. It is storfd insidf b "INFO" List Ciunk insidf DLS filfs.
+ * bnd sbmplfs. It is storfd insidf b "INFO" List Ciunk insidf DLS filfs.
+ * bnd sbmplfs. It is storfd insidf b "INFO" List Ciunk insidf DLS filfs.
+ * bnd sbmplfs. It is storfd insidf b "INFO" List Ciunk insidf DLS filfs.
+ * bnd sbmplfs. It is storfd insidf b "INFO" List Ciunk insidf DLS filfs.
  *
- * @buthor Kbrl Hflgbson
+ *
+ *
+ *
+ *
+ * @butior Kbrl Hflgbson
+ * @butior Kbrl Hflgbson
+ * @butior Kbrl Hflgbson
+ * @butior Kbrl Hflgbson
+ * @butior Kbrl Hflgbson
+ */
+ */
+ */
+ */
  */
 publid finbl dlbss DLSInfo {
+publid finbl dlbss DLSInfo {
+publid finbl dlbss DLSInfo {
+publid finbl dlbss DLSInfo {
+publid finbl dlbss DLSInfo {
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * (INAM) Titlf or subjfdt.
+     * (INAM) Titlf or subjfdt.
+     * (INAM) Titlf or subjfdt.
+     * (INAM) Titlf or subjfdt.
      * (INAM) Titlf or subjfdt.
      */
+     */
+     */
+     */
+     */
+    publid String nbmf = "untitlfd";
+    publid String nbmf = "untitlfd";
+    publid String nbmf = "untitlfd";
+    publid String nbmf = "untitlfd";
     publid String nbmf = "untitlfd";
     /**
-     * (ICRD) Dbtf of drfbtion, thf formbt is: YYYY-MM-DD.
+    /**
+    /**
+    /**
+    /**
+     * (ICRD) Dbtf of drfbtion, tif formbt is: YYYY-MM-DD.
+     * (ICRD) Dbtf of drfbtion, tif formbt is: YYYY-MM-DD.
+     * (ICRD) Dbtf of drfbtion, tif formbt is: YYYY-MM-DD.
+     * (ICRD) Dbtf of drfbtion, tif formbt is: YYYY-MM-DD.
+     * (ICRD) Dbtf of drfbtion, tif formbt is: YYYY-MM-DD.
+     *        For fxbmplf 2007-01-01 for 1. jbnubry of yfbr 2007.
+     *        For fxbmplf 2007-01-01 for 1. jbnubry of yfbr 2007.
+     *        For fxbmplf 2007-01-01 for 1. jbnubry of yfbr 2007.
+     *        For fxbmplf 2007-01-01 for 1. jbnubry of yfbr 2007.
      *        For fxbmplf 2007-01-01 for 1. jbnubry of yfbr 2007.
      */
+     */
+     */
+     */
+     */
+    publid String drfbtionDbtf = null;
+    publid String drfbtionDbtf = null;
+    publid String drfbtionDbtf = null;
+    publid String drfbtionDbtf = null;
     publid String drfbtionDbtf = null;
     /**
-     * (IENG) Nbmf of fnginffr who drfbtfd thf objfdt.
+    /**
+    /**
+    /**
+    /**
+     * (IENG) Nbmf of fnginffr wio drfbtfd tif objfdt.
+     * (IENG) Nbmf of fnginffr wio drfbtfd tif objfdt.
+     * (IENG) Nbmf of fnginffr wio drfbtfd tif objfdt.
+     * (IENG) Nbmf of fnginffr wio drfbtfd tif objfdt.
+     * (IENG) Nbmf of fnginffr wio drfbtfd tif objfdt.
+     */
+     */
+     */
+     */
      */
     publid String fnginffrs = null;
+    publid String fnginffrs = null;
+    publid String fnginffrs = null;
+    publid String fnginffrs = null;
+    publid String fnginffrs = null;
     /**
-     * (IPRD) Nbmf of thf produdt whidh thf objfdt is intfndfd for.
+    /**
+    /**
+    /**
+    /**
+     * (IPRD) Nbmf of tif produdt wiidi tif objfdt is intfndfd for.
+     * (IPRD) Nbmf of tif produdt wiidi tif objfdt is intfndfd for.
+     * (IPRD) Nbmf of tif produdt wiidi tif objfdt is intfndfd for.
+     * (IPRD) Nbmf of tif produdt wiidi tif objfdt is intfndfd for.
+     * (IPRD) Nbmf of tif produdt wiidi tif objfdt is intfndfd for.
+     */
+     */
+     */
+     */
      */
     publid String produdt = null;
+    publid String produdt = null;
+    publid String produdt = null;
+    publid String produdt = null;
+    publid String produdt = null;
     /**
-     * (ICOP) Copyright informbtion.
+    /**
+    /**
+    /**
+    /**
+     * (ICOP) Copyrigit informbtion.
+     * (ICOP) Copyrigit informbtion.
+     * (ICOP) Copyrigit informbtion.
+     * (ICOP) Copyrigit informbtion.
+     * (ICOP) Copyrigit informbtion.
      */
-    publid String dopyright = null;
+     */
+     */
+     */
+     */
+    publid String dopyrigit = null;
+    publid String dopyrigit = null;
+    publid String dopyrigit = null;
+    publid String dopyrigit = null;
+    publid String dopyrigit = null;
     /**
-     * (ICMT) Gfnfrbl dommfnts. Dofsn't dontbin nfwlinf dhbrbdtfrs.
+    /**
+    /**
+    /**
+    /**
+     * (ICMT) Gfnfrbl dommfnts. Dofsn't dontbin nfwlinf dibrbdtfrs.
+     * (ICMT) Gfnfrbl dommfnts. Dofsn't dontbin nfwlinf dibrbdtfrs.
+     * (ICMT) Gfnfrbl dommfnts. Dofsn't dontbin nfwlinf dibrbdtfrs.
+     * (ICMT) Gfnfrbl dommfnts. Dofsn't dontbin nfwlinf dibrbdtfrs.
+     * (ICMT) Gfnfrbl dommfnts. Dofsn't dontbin nfwlinf dibrbdtfrs.
+     */
+     */
+     */
+     */
      */
     publid String dommfnts = null;
+    publid String dommfnts = null;
+    publid String dommfnts = null;
+    publid String dommfnts = null;
+    publid String dommfnts = null;
     /**
-     * (ISFT) Nbmf of softwbrf pbdkbgf usfd to drfbtf thf filf.
+    /**
+    /**
+    /**
+    /**
+     * (ISFT) Nbmf of softwbrf pbdkbgf usfd to drfbtf tif filf.
+     * (ISFT) Nbmf of softwbrf pbdkbgf usfd to drfbtf tif filf.
+     * (ISFT) Nbmf of softwbrf pbdkbgf usfd to drfbtf tif filf.
+     * (ISFT) Nbmf of softwbrf pbdkbgf usfd to drfbtf tif filf.
+     * (ISFT) Nbmf of softwbrf pbdkbgf usfd to drfbtf tif filf.
+     */
+     */
+     */
+     */
      */
     publid String tools = null;
+    publid String tools = null;
+    publid String tools = null;
+    publid String tools = null;
+    publid String tools = null;
     /**
-     * (IARL) Whfrf dontfnt is brdhivfd.
+    /**
+    /**
+    /**
+    /**
+     * (IARL) Wifrf dontfnt is brdiivfd.
+     * (IARL) Wifrf dontfnt is brdiivfd.
+     * (IARL) Wifrf dontfnt is brdiivfd.
+     * (IARL) Wifrf dontfnt is brdiivfd.
+     * (IARL) Wifrf dontfnt is brdiivfd.
      */
-    publid String brdhivbl_lodbtion = null;
+     */
+     */
+     */
+     */
+    publid String brdiivbl_lodbtion = null;
+    publid String brdiivbl_lodbtion = null;
+    publid String brdiivbl_lodbtion = null;
+    publid String brdiivbl_lodbtion = null;
+    publid String brdiivbl_lodbtion = null;
+    /**
+    /**
+    /**
+    /**
     /**
      * (IART) Artists of originbl dontfnt.
+     * (IART) Artists of originbl dontfnt.
+     * (IART) Artists of originbl dontfnt.
+     * (IART) Artists of originbl dontfnt.
+     * (IART) Artists of originbl dontfnt.
+     */
+     */
+     */
+     */
      */
     publid String brtist = null;
+    publid String brtist = null;
+    publid String brtist = null;
+    publid String brtist = null;
+    publid String brtist = null;
     /**
-     * (ICMS) Nbmfs of pfrsons or orginizbtions who dommissionfd thf filf.
+    /**
+    /**
+    /**
+    /**
+     * (ICMS) Nbmfs of pfrsons or orginizbtions wio dommissionfd tif filf.
+     * (ICMS) Nbmfs of pfrsons or orginizbtions wio dommissionfd tif filf.
+     * (ICMS) Nbmfs of pfrsons or orginizbtions wio dommissionfd tif filf.
+     * (ICMS) Nbmfs of pfrsons or orginizbtions wio dommissionfd tif filf.
+     * (ICMS) Nbmfs of pfrsons or orginizbtions wio dommissionfd tif filf.
+     */
+     */
+     */
+     */
      */
     publid String dommissionfd = null;
+    publid String dommissionfd = null;
+    publid String dommissionfd = null;
+    publid String dommissionfd = null;
+    publid String dommissionfd = null;
     /**
-     * (IGNR) Gfnrf of thf work.
+    /**
+    /**
+    /**
+    /**
+     * (IGNR) Gfnrf of tif work.
+     * (IGNR) Gfnrf of tif work.
+     * (IGNR) Gfnrf of tif work.
+     * (IGNR) Gfnrf of tif work.
+     * (IGNR) Gfnrf of tif work.
+     *        Exbmplf: jbzz, dlbssidbl, rodk, ftd.
+     *        Exbmplf: jbzz, dlbssidbl, rodk, ftd.
+     *        Exbmplf: jbzz, dlbssidbl, rodk, ftd.
+     *        Exbmplf: jbzz, dlbssidbl, rodk, ftd.
      *        Exbmplf: jbzz, dlbssidbl, rodk, ftd.
      */
+     */
+     */
+     */
+     */
+    publid String gfnrf = null;
+    publid String gfnrf = null;
+    publid String gfnrf = null;
+    publid String gfnrf = null;
     publid String gfnrf = null;
     /**
-     * (IKEY) List of kfyword thbt dfsdribf thf dontfnt.
+    /**
+    /**
+    /**
+    /**
+     * (IKEY) List of kfyword tibt dfsdribf tif dontfnt.
+     * (IKEY) List of kfyword tibt dfsdribf tif dontfnt.
+     * (IKEY) List of kfyword tibt dfsdribf tif dontfnt.
+     * (IKEY) List of kfyword tibt dfsdribf tif dontfnt.
+     * (IKEY) List of kfyword tibt dfsdribf tif dontfnt.
+     *        Exbmplfs: FX, bird, pibno, ftd.
+     *        Exbmplfs: FX, bird, pibno, ftd.
+     *        Exbmplfs: FX, bird, pibno, ftd.
+     *        Exbmplfs: FX, bird, pibno, ftd.
      *        Exbmplfs: FX, bird, pibno, ftd.
      */
+     */
+     */
+     */
+     */
+    publid String kfywords = null;
+    publid String kfywords = null;
+    publid String kfywords = null;
+    publid String kfywords = null;
     publid String kfywords = null;
     /**
-     * (IMED) Dfsdribfs originbl mfdium of thf dbtb.
+    /**
+    /**
+    /**
+    /**
+     * (IMED) Dfsdribfs originbl mfdium of tif dbtb.
+     * (IMED) Dfsdribfs originbl mfdium of tif dbtb.
+     * (IMED) Dfsdribfs originbl mfdium of tif dbtb.
+     * (IMED) Dfsdribfs originbl mfdium of tif dbtb.
+     * (IMED) Dfsdribfs originbl mfdium of tif dbtb.
+     *        For fxbmplf: rfdord, CD, ftd.
+     *        For fxbmplf: rfdord, CD, ftd.
+     *        For fxbmplf: rfdord, CD, ftd.
+     *        For fxbmplf: rfdord, CD, ftd.
      *        For fxbmplf: rfdord, CD, ftd.
      */
+     */
+     */
+     */
+     */
+    publid String mfdium = null;
+    publid String mfdium = null;
+    publid String mfdium = null;
+    publid String mfdium = null;
     publid String mfdium = null;
     /**
-     * (ISBJ) Dfsdription of thf dontfnt.
+    /**
+    /**
+    /**
+    /**
+     * (ISBJ) Dfsdription of tif dontfnt.
+     * (ISBJ) Dfsdription of tif dontfnt.
+     * (ISBJ) Dfsdription of tif dontfnt.
+     * (ISBJ) Dfsdription of tif dontfnt.
+     * (ISBJ) Dfsdription of tif dontfnt.
+     */
+     */
+     */
+     */
      */
     publid String subjfdt = null;
+    publid String subjfdt = null;
+    publid String subjfdt = null;
+    publid String subjfdt = null;
+    publid String subjfdt = null;
     /**
-     * (ISRC) Nbmf of pfrson or orginizbtion who supplifd
-     *        orginbl mbtfribl for thf filf.
+    /**
+    /**
+    /**
+    /**
+     * (ISRC) Nbmf of pfrson or orginizbtion wio supplifd
+     * (ISRC) Nbmf of pfrson or orginizbtion wio supplifd
+     * (ISRC) Nbmf of pfrson or orginizbtion wio supplifd
+     * (ISRC) Nbmf of pfrson or orginizbtion wio supplifd
+     * (ISRC) Nbmf of pfrson or orginizbtion wio supplifd
+     *        orginbl mbtfribl for tif filf.
+     *        orginbl mbtfribl for tif filf.
+     *        orginbl mbtfribl for tif filf.
+     *        orginbl mbtfribl for tif filf.
+     *        orginbl mbtfribl for tif filf.
+     */
+     */
+     */
+     */
      */
     publid String sourdf = null;
+    publid String sourdf = null;
+    publid String sourdf = null;
+    publid String sourdf = null;
+    publid String sourdf = null;
+    /**
+    /**
+    /**
+    /**
     /**
      * (ISRF) Sourdf mfdib for sbmplf dbtb is from.
+     * (ISRF) Sourdf mfdib for sbmplf dbtb is from.
+     * (ISRF) Sourdf mfdib for sbmplf dbtb is from.
+     * (ISRF) Sourdf mfdib for sbmplf dbtb is from.
+     * (ISRF) Sourdf mfdib for sbmplf dbtb is from.
+     *        For fxbmplf: CD, TV, ftd.
+     *        For fxbmplf: CD, TV, ftd.
+     *        For fxbmplf: CD, TV, ftd.
+     *        For fxbmplf: CD, TV, ftd.
      *        For fxbmplf: CD, TV, ftd.
      */
+     */
+     */
+     */
+     */
+    publid String sourdf_form = null;
+    publid String sourdf_form = null;
+    publid String sourdf_form = null;
+    publid String sourdf_form = null;
     publid String sourdf_form = null;
     /**
-     * (ITCH) Tfdhnidibn who sbmplf thf filf/objfdt.
+    /**
+    /**
+    /**
+    /**
+     * (ITCH) Tfdinidibn wio sbmplf tif filf/objfdt.
+     * (ITCH) Tfdinidibn wio sbmplf tif filf/objfdt.
+     * (ITCH) Tfdinidibn wio sbmplf tif filf/objfdt.
+     * (ITCH) Tfdinidibn wio sbmplf tif filf/objfdt.
+     * (ITCH) Tfdinidibn wio sbmplf tif filf/objfdt.
      */
-    publid String tfdhnidibn = null;
+     */
+     */
+     */
+     */
+    publid String tfdinidibn = null;
+    publid String tfdinidibn = null;
+    publid String tfdinidibn = null;
+    publid String tfdinidibn = null;
+    publid String tfdinidibn = null;
+}
+}
+}
+}
 }

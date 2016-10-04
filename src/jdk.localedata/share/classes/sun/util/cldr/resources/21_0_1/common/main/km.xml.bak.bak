@@ -1,603 +1,3015 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="km"/>
+		<lbngubgf typf="km"/>
+		<lbngubgf typf="km"/>
+		<lbngubgf typf="km"/>
+		<lbngubgf typf="km"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="bb">ភាសាអាហ្វារ</lbngubgf>
+			<lbngubgf typf="bb">ភាសាអាហ្វារ</lbngubgf>
+			<lbngubgf typf="bb">ភាសាអាហ្វារ</lbngubgf>
+			<lbngubgf typf="bb">ភាសាអាហ្វារ</lbngubgf>
+			<lbngubgf typf="bb">ភាសាអាហ្វារ</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាវែស្តង់</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាវែស្តង់</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាវែស្តង់</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាវែស្តង់</lbngubgf>
 			<lbngubgf typf="bf">ភាសាអាវែស្តង់</lbngubgf>
 			<lbngubgf typf="bf">ភាសាអាហ្វ្រីកាអាន</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាហ្វ្រីកាអាន</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាហ្វ្រីកាអាន</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាហ្វ្រីកាអាន</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាហ្វ្រីកាអាន</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">អំហារិក</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">អំហារិក</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">អំហារិក</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">អំហារិក</lbngubgf>
 			<lbngubgf typf="bm" drbft="undonfirmfd">អំហារិក</lbngubgf>
 			<lbngubgf typf="bn">ភាសាអារ៉ាហ្គោន</lbngubgf>
+			<lbngubgf typf="bn">ភាសាអារ៉ាហ្គោន</lbngubgf>
+			<lbngubgf typf="bn">ភាសាអារ៉ាហ្គោន</lbngubgf>
+			<lbngubgf typf="bn">ភាសាអារ៉ាហ្គោន</lbngubgf>
+			<lbngubgf typf="bn">ភាសាអារ៉ាហ្គោន</lbngubgf>
+			<lbngubgf typf="br">ភាសាអារ៉ាប់</lbngubgf>
+			<lbngubgf typf="br">ភាសាអារ៉ាប់</lbngubgf>
+			<lbngubgf typf="br">ភាសាអារ៉ាប់</lbngubgf>
+			<lbngubgf typf="br">ភាសាអារ៉ាប់</lbngubgf>
 			<lbngubgf typf="br">ភាសាអារ៉ាប់</lbngubgf>
 			<lbngubgf typf="by">ភាសាអីម៉ារ៉ា</lbngubgf>
+			<lbngubgf typf="by">ភាសាអីម៉ារ៉ា</lbngubgf>
+			<lbngubgf typf="by">ភាសាអីម៉ារ៉ា</lbngubgf>
+			<lbngubgf typf="by">ភាសាអីម៉ារ៉ា</lbngubgf>
+			<lbngubgf typf="by">ភាសាអីម៉ារ៉ា</lbngubgf>
+			<lbngubgf typf="bz">ភាសាអាហ៊្សែរបែហ្សង់</lbngubgf>
+			<lbngubgf typf="bz">ភាសាអាហ៊្សែរបែហ្សង់</lbngubgf>
+			<lbngubgf typf="bz">ភាសាអាហ៊្សែរបែហ្សង់</lbngubgf>
+			<lbngubgf typf="bz">ភាសាអាហ៊្សែរបែហ្សង់</lbngubgf>
 			<lbngubgf typf="bz">ភាសាអាហ៊្សែរបែហ្សង់</lbngubgf>
 			<lbngubgf typf="bf">ភាសាបេឡារុស្ស</lbngubgf>
+			<lbngubgf typf="bf">ភាសាបេឡារុស្ស</lbngubgf>
+			<lbngubgf typf="bf">ភាសាបេឡារុស្ស</lbngubgf>
+			<lbngubgf typf="bf">ភាសាបេឡារុស្ស</lbngubgf>
+			<lbngubgf typf="bf">ភាសាបេឡារុស្ស</lbngubgf>
+			<lbngubgf typf="bg">ភាសាប៊ុលហ្ការី</lbngubgf>
+			<lbngubgf typf="bg">ភាសាប៊ុលហ្ការី</lbngubgf>
+			<lbngubgf typf="bg">ភាសាប៊ុលហ្ការី</lbngubgf>
+			<lbngubgf typf="bg">ភាសាប៊ុលហ្ការី</lbngubgf>
 			<lbngubgf typf="bg">ភាសាប៊ុលហ្ការី</lbngubgf>
 			<lbngubgf typf="bi">ភាសាបិហារ</lbngubgf>
+			<lbngubgf typf="bi">ភាសាបិហារ</lbngubgf>
+			<lbngubgf typf="bi">ភាសាបិហារ</lbngubgf>
+			<lbngubgf typf="bi">ភាសាបិហារ</lbngubgf>
+			<lbngubgf typf="bi">ភាសាបិហារ</lbngubgf>
+			<lbngubgf typf="bm">ភាសាបាម្បារា</lbngubgf>
+			<lbngubgf typf="bm">ភាសាបាម្បារា</lbngubgf>
+			<lbngubgf typf="bm">ភាសាបាម្បារា</lbngubgf>
+			<lbngubgf typf="bm">ភាសាបាម្បារា</lbngubgf>
 			<lbngubgf typf="bm">ភាសាបាម្បារា</lbngubgf>
 			<lbngubgf typf="bn">ភាសាបេន្កាលី</lbngubgf>
+			<lbngubgf typf="bn">ភាសាបេន្កាលី</lbngubgf>
+			<lbngubgf typf="bn">ភាសាបេន្កាលី</lbngubgf>
+			<lbngubgf typf="bn">ភាសាបេន្កាលី</lbngubgf>
+			<lbngubgf typf="bn">ភាសាបេន្កាលី</lbngubgf>
+			<lbngubgf typf="bo">ភាសាទីបេ</lbngubgf>
+			<lbngubgf typf="bo">ភាសាទីបេ</lbngubgf>
+			<lbngubgf typf="bo">ភាសាទីបេ</lbngubgf>
+			<lbngubgf typf="bo">ភាសាទីបេ</lbngubgf>
 			<lbngubgf typf="bo">ភាសាទីបេ</lbngubgf>
 			<lbngubgf typf="br" drbft="undonfirmfd">ប្រីស្តុន</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ប្រីស្តុន</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ប្រីស្តុន</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ប្រីស្តុន</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ប្រីស្តុន</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ប៊ូស្នៀរ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ប៊ូស្នៀរ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ប៊ូស្នៀរ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ប៊ូស្នៀរ</lbngubgf>
 			<lbngubgf typf="bs" drbft="undonfirmfd">ប៊ូស្នៀរ</lbngubgf>
 			<lbngubgf typf="db">ភាសាកាតាឡាន</lbngubgf>
+			<lbngubgf typf="db">ភាសាកាតាឡាន</lbngubgf>
+			<lbngubgf typf="db">ភាសាកាតាឡាន</lbngubgf>
+			<lbngubgf typf="db">ភាសាកាតាឡាន</lbngubgf>
+			<lbngubgf typf="db">ភាសាកាតាឡាន</lbngubgf>
+			<lbngubgf typf="ds">ភាសាឆេក</lbngubgf>
+			<lbngubgf typf="ds">ភាសាឆេក</lbngubgf>
+			<lbngubgf typf="ds">ភាសាឆេក</lbngubgf>
+			<lbngubgf typf="ds">ភាសាឆេក</lbngubgf>
 			<lbngubgf typf="ds">ភាសាឆេក</lbngubgf>
 			<lbngubgf typf="dy" drbft="undonfirmfd">វេល</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">វេល</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">វេល</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">វេល</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">វេល</lbngubgf>
+			<lbngubgf typf="db">ភាសាដាណឺម៉ាក</lbngubgf>
+			<lbngubgf typf="db">ភាសាដាណឺម៉ាក</lbngubgf>
+			<lbngubgf typf="db">ភាសាដាណឺម៉ាក</lbngubgf>
+			<lbngubgf typf="db">ភាសាដាណឺម៉ាក</lbngubgf>
 			<lbngubgf typf="db">ភាសាដាណឺម៉ាក</lbngubgf>
 			<lbngubgf typf="df">ភាសាអាល្លឺម៉ង់</lbngubgf>
+			<lbngubgf typf="df">ភាសាអាល្លឺម៉ង់</lbngubgf>
+			<lbngubgf typf="df">ភាសាអាល្លឺម៉ង់</lbngubgf>
+			<lbngubgf typf="df">ភាសាអាល្លឺម៉ង់</lbngubgf>
+			<lbngubgf typf="df">ភាសាអាល្លឺម៉ង់</lbngubgf>
+			<lbngubgf typf="dz">ភាសាប៊ូតាន</lbngubgf>
+			<lbngubgf typf="dz">ភាសាប៊ូតាន</lbngubgf>
+			<lbngubgf typf="dz">ភាសាប៊ូតាន</lbngubgf>
+			<lbngubgf typf="dz">ភាសាប៊ូតាន</lbngubgf>
 			<lbngubgf typf="dz">ភាសាប៊ូតាន</lbngubgf>
 			<lbngubgf typf="fl">ភាសាក្រិច</lbngubgf>
+			<lbngubgf typf="fl">ភាសាក្រិច</lbngubgf>
+			<lbngubgf typf="fl">ភាសាក្រិច</lbngubgf>
+			<lbngubgf typf="fl">ភាសាក្រិច</lbngubgf>
+			<lbngubgf typf="fl">ភាសាក្រិច</lbngubgf>
+			<lbngubgf typf="fn">ភាសាអង់គ្លេស</lbngubgf>
+			<lbngubgf typf="fn">ភាសាអង់គ្លេស</lbngubgf>
+			<lbngubgf typf="fn">ភាសាអង់គ្លេស</lbngubgf>
+			<lbngubgf typf="fn">ភាសាអង់គ្លេស</lbngubgf>
 			<lbngubgf typf="fn">ភាសាអង់គ្លេស</lbngubgf>
 			<lbngubgf typf="fo">ភាសាអេស្ពេរ៉ាន្ទោ</lbngubgf>
+			<lbngubgf typf="fo">ភាសាអេស្ពេរ៉ាន្ទោ</lbngubgf>
+			<lbngubgf typf="fo">ភាសាអេស្ពេរ៉ាន្ទោ</lbngubgf>
+			<lbngubgf typf="fo">ភាសាអេស្ពេរ៉ាន្ទោ</lbngubgf>
+			<lbngubgf typf="fo">ភាសាអេស្ពេរ៉ាន្ទោ</lbngubgf>
+			<lbngubgf typf="fs">ភាសាអេស្ប៉ាញ</lbngubgf>
+			<lbngubgf typf="fs">ភាសាអេស្ប៉ាញ</lbngubgf>
+			<lbngubgf typf="fs">ភាសាអេស្ប៉ាញ</lbngubgf>
+			<lbngubgf typf="fs">ភាសាអេស្ប៉ាញ</lbngubgf>
 			<lbngubgf typf="fs">ភាសាអេស្ប៉ាញ</lbngubgf>
 			<lbngubgf typf="ft">ភាសាអេស្តូនី</lbngubgf>
+			<lbngubgf typf="ft">ភាសាអេស្តូនី</lbngubgf>
+			<lbngubgf typf="ft">ភាសាអេស្តូនី</lbngubgf>
+			<lbngubgf typf="ft">ភាសាអេស្តូនី</lbngubgf>
+			<lbngubgf typf="ft">ភាសាអេស្តូនី</lbngubgf>
+			<lbngubgf typf="fu">ភាសាបាស្កេ</lbngubgf>
+			<lbngubgf typf="fu">ភាសាបាស្កេ</lbngubgf>
+			<lbngubgf typf="fu">ភាសាបាស្កេ</lbngubgf>
+			<lbngubgf typf="fu">ភាសាបាស្កេ</lbngubgf>
 			<lbngubgf typf="fu">ភាសាបាស្កេ</lbngubgf>
 			<lbngubgf typf="fb" drbft="undonfirmfd">ភឺសៀន</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ភឺសៀន</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ភឺសៀន</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ភឺសៀន</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ភឺសៀន</lbngubgf>
+			<lbngubgf typf="fi">ភាសាហ្វាំងឡង់</lbngubgf>
+			<lbngubgf typf="fi">ភាសាហ្វាំងឡង់</lbngubgf>
+			<lbngubgf typf="fi">ភាសាហ្វាំងឡង់</lbngubgf>
+			<lbngubgf typf="fi">ភាសាហ្វាំងឡង់</lbngubgf>
 			<lbngubgf typf="fi">ភាសាហ្វាំងឡង់</lbngubgf>
 			<lbngubgf typf="fil" drbft="undonfirmfd">ពីលីពីន</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ពីលីពីន</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ពីលីពីន</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ពីលីពីន</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ពីលីពីន</lbngubgf>
+			<lbngubgf typf="fj">ហ្វ៉ីហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="fj">ហ្វ៉ីហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="fj">ហ្វ៉ីហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="fj">ហ្វ៉ីហ្ស៉ី</lbngubgf>
 			<lbngubgf typf="fj">ហ្វ៉ីហ្ស៉ី</lbngubgf>
 			<lbngubgf typf="fo" drbft="undonfirmfd">ហ្វារូស</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ហ្វារូស</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ហ្វារូស</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ហ្វារូស</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ហ្វារូស</lbngubgf>
+			<lbngubgf typf="fr">ភាសាបារាំង</lbngubgf>
+			<lbngubgf typf="fr">ភាសាបារាំង</lbngubgf>
+			<lbngubgf typf="fr">ភាសាបារាំង</lbngubgf>
+			<lbngubgf typf="fr">ភាសាបារាំង</lbngubgf>
 			<lbngubgf typf="fr">ភាសាបារាំង</lbngubgf>
 			<lbngubgf typf="fy" drbft="undonfirmfd">ហ្រីសង់</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ហ្រីសង់</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ហ្រីសង់</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ហ្រីសង់</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ហ្រីសង់</lbngubgf>
+			<lbngubgf typf="gb">ភាសាហ្កែលិគ</lbngubgf>
+			<lbngubgf typf="gb">ភាសាហ្កែលិគ</lbngubgf>
+			<lbngubgf typf="gb">ភាសាហ្កែលិគ</lbngubgf>
+			<lbngubgf typf="gb">ភាសាហ្កែលិគ</lbngubgf>
 			<lbngubgf typf="gb">ភាសាហ្កែលិគ</lbngubgf>
 			<lbngubgf typf="gd">ភាសាហ្កែលិគ [gd]</lbngubgf>
+			<lbngubgf typf="gd">ភាសាហ្កែលិគ [gd]</lbngubgf>
+			<lbngubgf typf="gd">ភាសាហ្កែលិគ [gd]</lbngubgf>
+			<lbngubgf typf="gd">ភាសាហ្កែលិគ [gd]</lbngubgf>
+			<lbngubgf typf="gd">ភាសាហ្កែលិគ [gd]</lbngubgf>
+			<lbngubgf typf="gl">ភាសាហ្កាលីស៉ី</lbngubgf>
+			<lbngubgf typf="gl">ភាសាហ្កាលីស៉ី</lbngubgf>
+			<lbngubgf typf="gl">ភាសាហ្កាលីស៉ី</lbngubgf>
+			<lbngubgf typf="gl">ភាសាហ្កាលីស៉ី</lbngubgf>
 			<lbngubgf typf="gl">ភាសាហ្កាលីស៉ី</lbngubgf>
 			<lbngubgf typf="gn">ភាសាហ្កួរ៉ានី</lbngubgf>
+			<lbngubgf typf="gn">ភាសាហ្កួរ៉ានី</lbngubgf>
+			<lbngubgf typf="gn">ភាសាហ្កួរ៉ានី</lbngubgf>
+			<lbngubgf typf="gn">ភាសាហ្កួរ៉ានី</lbngubgf>
+			<lbngubgf typf="gn">ភាសាហ្កួរ៉ានី</lbngubgf>
+			<lbngubgf typf="gu">ភាសាហ្កុយ៉ារាទី</lbngubgf>
+			<lbngubgf typf="gu">ភាសាហ្កុយ៉ារាទី</lbngubgf>
+			<lbngubgf typf="gu">ភាសាហ្កុយ៉ារាទី</lbngubgf>
+			<lbngubgf typf="gu">ភាសាហ្កុយ៉ារាទី</lbngubgf>
 			<lbngubgf typf="gu">ភាសាហ្កុយ៉ារាទី</lbngubgf>
 			<lbngubgf typf="if">ភាសាហេប្រិ</lbngubgf>
+			<lbngubgf typf="if">ភាសាហេប្រិ</lbngubgf>
+			<lbngubgf typf="if">ភាសាហេប្រិ</lbngubgf>
+			<lbngubgf typf="if">ភាសាហេប្រិ</lbngubgf>
+			<lbngubgf typf="if">ភាសាហេប្រិ</lbngubgf>
+			<lbngubgf typf="ii">ភាសាហ៉ិនឌី</lbngubgf>
+			<lbngubgf typf="ii">ភាសាហ៉ិនឌី</lbngubgf>
+			<lbngubgf typf="ii">ភាសាហ៉ិនឌី</lbngubgf>
+			<lbngubgf typf="ii">ភាសាហ៉ិនឌី</lbngubgf>
 			<lbngubgf typf="ii">ភាសាហ៉ិនឌី</lbngubgf>
 			<lbngubgf typf="ir" drbft="undonfirmfd">ក្រូអាទៀន</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ក្រូអាទៀន</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ក្រូអាទៀន</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ក្រូអាទៀន</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ក្រូអាទៀន</lbngubgf>
+			<lbngubgf typf="iu">ភាសាហុងគ្រី</lbngubgf>
+			<lbngubgf typf="iu">ភាសាហុងគ្រី</lbngubgf>
+			<lbngubgf typf="iu">ភាសាហុងគ្រី</lbngubgf>
+			<lbngubgf typf="iu">ភាសាហុងគ្រី</lbngubgf>
 			<lbngubgf typf="iu">ភាសាហុងគ្រី</lbngubgf>
 			<lbngubgf typf="iy">ភាសាអារមេនី</lbngubgf>
+			<lbngubgf typf="iy">ភាសាអារមេនី</lbngubgf>
+			<lbngubgf typf="iy">ភាសាអារមេនី</lbngubgf>
+			<lbngubgf typf="iy">ភាសាអារមេនី</lbngubgf>
+			<lbngubgf typf="iy">ភាសាអារមេនី</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">អីនធើលីង</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">អីនធើលីង</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">អីនធើលីង</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">អីនធើលីង</lbngubgf>
 			<lbngubgf typf="ib" drbft="undonfirmfd">អីនធើលីង</lbngubgf>
 			<lbngubgf typf="id">ភាសាឥណ្ឌូនេស៊ី</lbngubgf>
+			<lbngubgf typf="id">ភាសាឥណ្ឌូនេស៊ី</lbngubgf>
+			<lbngubgf typf="id">ភាសាឥណ្ឌូនេស៊ី</lbngubgf>
+			<lbngubgf typf="id">ភាសាឥណ្ឌូនេស៊ី</lbngubgf>
+			<lbngubgf typf="id">ភាសាឥណ្ឌូនេស៊ី</lbngubgf>
+			<lbngubgf typf="is">ភាសាអ៉ីស្លង់</lbngubgf>
+			<lbngubgf typf="is">ភាសាអ៉ីស្លង់</lbngubgf>
+			<lbngubgf typf="is">ភាសាអ៉ីស្លង់</lbngubgf>
+			<lbngubgf typf="is">ភាសាអ៉ីស្លង់</lbngubgf>
 			<lbngubgf typf="is">ភាសាអ៉ីស្លង់</lbngubgf>
 			<lbngubgf typf="it">ភាសាអ៊ីតាលី</lbngubgf>
+			<lbngubgf typf="it">ភាសាអ៊ីតាលី</lbngubgf>
+			<lbngubgf typf="it">ភាសាអ៊ីតាលី</lbngubgf>
+			<lbngubgf typf="it">ភាសាអ៊ីតាលី</lbngubgf>
+			<lbngubgf typf="it">ភាសាអ៊ីតាលី</lbngubgf>
+			<lbngubgf typf="jb">ភាសាជប៉ុន</lbngubgf>
+			<lbngubgf typf="jb">ភាសាជប៉ុន</lbngubgf>
+			<lbngubgf typf="jb">ភាសាជប៉ុន</lbngubgf>
+			<lbngubgf typf="jb">ភាសាជប៉ុន</lbngubgf>
 			<lbngubgf typf="jb">ភាសាជប៉ុន</lbngubgf>
 			<lbngubgf typf="jv">ភាសាយ៉ាវា</lbngubgf>
+			<lbngubgf typf="jv">ភាសាយ៉ាវា</lbngubgf>
+			<lbngubgf typf="jv">ភាសាយ៉ាវា</lbngubgf>
+			<lbngubgf typf="jv">ភាសាយ៉ាវា</lbngubgf>
+			<lbngubgf typf="jv">ភាសាយ៉ាវា</lbngubgf>
+			<lbngubgf typf="kb">ភាសាហ្សកហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="kb">ភាសាហ្សកហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="kb">ភាសាហ្សកហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="kb">ភាសាហ្សកហ្ស៉ី</lbngubgf>
 			<lbngubgf typf="kb">ភាសាហ្សកហ្ស៉ី</lbngubgf>
 			<lbngubgf typf="kk">ភាសាកាហ្សាក់ស្តង់់</lbngubgf>
+			<lbngubgf typf="kk">ភាសាកាហ្សាក់ស្តង់់</lbngubgf>
+			<lbngubgf typf="kk">ភាសាកាហ្សាក់ស្តង់់</lbngubgf>
+			<lbngubgf typf="kk">ភាសាកាហ្សាក់ស្តង់់</lbngubgf>
+			<lbngubgf typf="kk">ភាសាកាហ្សាក់ស្តង់់</lbngubgf>
+			<lbngubgf typf="km">ភាសាខ្មែរ</lbngubgf>
+			<lbngubgf typf="km">ភាសាខ្មែរ</lbngubgf>
+			<lbngubgf typf="km">ភាសាខ្មែរ</lbngubgf>
+			<lbngubgf typf="km">ភាសាខ្មែរ</lbngubgf>
 			<lbngubgf typf="km">ភាសាខ្មែរ</lbngubgf>
 			<lbngubgf typf="kn">ភាសាកិណាដា</lbngubgf>
+			<lbngubgf typf="kn">ភាសាកិណាដា</lbngubgf>
+			<lbngubgf typf="kn">ភាសាកិណាដា</lbngubgf>
+			<lbngubgf typf="kn">ភាសាកិណាដា</lbngubgf>
+			<lbngubgf typf="kn">ភាសាកិណាដា</lbngubgf>
+			<lbngubgf typf="ko">ភាសាកូរ៉េ</lbngubgf>
+			<lbngubgf typf="ko">ភាសាកូរ៉េ</lbngubgf>
+			<lbngubgf typf="ko">ភាសាកូរ៉េ</lbngubgf>
+			<lbngubgf typf="ko">ភាសាកូរ៉េ</lbngubgf>
 			<lbngubgf typf="ko">ភាសាកូរ៉េ</lbngubgf>
 			<lbngubgf typf="ku">ភាសាឃឺដ</lbngubgf>
+			<lbngubgf typf="ku">ភាសាឃឺដ</lbngubgf>
+			<lbngubgf typf="ku">ភាសាឃឺដ</lbngubgf>
+			<lbngubgf typf="ku">ភាសាឃឺដ</lbngubgf>
+			<lbngubgf typf="ku">ភាសាឃឺដ</lbngubgf>
+			<lbngubgf typf="ky">ភាសាគៀរហ្គីស្តង់</lbngubgf>
+			<lbngubgf typf="ky">ភាសាគៀរហ្គីស្តង់</lbngubgf>
+			<lbngubgf typf="ky">ភាសាគៀរហ្គីស្តង់</lbngubgf>
+			<lbngubgf typf="ky">ភាសាគៀរហ្គីស្តង់</lbngubgf>
 			<lbngubgf typf="ky">ភាសាគៀរហ្គីស្តង់</lbngubgf>
 			<lbngubgf typf="lb">ភាសាឡាតំាង</lbngubgf>
+			<lbngubgf typf="lb">ភាសាឡាតំាង</lbngubgf>
+			<lbngubgf typf="lb">ភាសាឡាតំាង</lbngubgf>
+			<lbngubgf typf="lb">ភាសាឡាតំាង</lbngubgf>
+			<lbngubgf typf="lb">ភាសាឡាតំាង</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">លីនកាឡា</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">លីនកាឡា</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">លីនកាឡា</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">លីនកាឡា</lbngubgf>
 			<lbngubgf typf="ln" drbft="undonfirmfd">លីនកាឡា</lbngubgf>
 			<lbngubgf typf="lo">ភាសាឡាវ</lbngubgf>
+			<lbngubgf typf="lo">ភាសាឡាវ</lbngubgf>
+			<lbngubgf typf="lo">ភាសាឡាវ</lbngubgf>
+			<lbngubgf typf="lo">ភាសាឡាវ</lbngubgf>
+			<lbngubgf typf="lo">ភាសាឡាវ</lbngubgf>
+			<lbngubgf typf="lt">ភាសាលីទុយអានី</lbngubgf>
+			<lbngubgf typf="lt">ភាសាលីទុយអានី</lbngubgf>
+			<lbngubgf typf="lt">ភាសាលីទុយអានី</lbngubgf>
+			<lbngubgf typf="lt">ភាសាលីទុយអានី</lbngubgf>
 			<lbngubgf typf="lt">ភាសាលីទុយអានី</lbngubgf>
 			<lbngubgf typf="lv">ភាសាឡាតវីយ៉ា</lbngubgf>
+			<lbngubgf typf="lv">ភាសាឡាតវីយ៉ា</lbngubgf>
+			<lbngubgf typf="lv">ភាសាឡាតវីយ៉ា</lbngubgf>
+			<lbngubgf typf="lv">ភាសាឡាតវីយ៉ា</lbngubgf>
+			<lbngubgf typf="lv">ភាសាឡាតវីយ៉ា</lbngubgf>
+			<lbngubgf typf="mg">ភាសាម៉ាដាហ្កាសការ</lbngubgf>
+			<lbngubgf typf="mg">ភាសាម៉ាដាហ្កាសការ</lbngubgf>
+			<lbngubgf typf="mg">ភាសាម៉ាដាហ្កាសការ</lbngubgf>
+			<lbngubgf typf="mg">ភាសាម៉ាដាហ្កាសការ</lbngubgf>
 			<lbngubgf typf="mg">ភាសាម៉ាដាហ្កាសការ</lbngubgf>
 			<lbngubgf typf="mi">ភាសាម៉ោរី</lbngubgf>
+			<lbngubgf typf="mi">ភាសាម៉ោរី</lbngubgf>
+			<lbngubgf typf="mi">ភាសាម៉ោរី</lbngubgf>
+			<lbngubgf typf="mi">ភាសាម៉ោរី</lbngubgf>
+			<lbngubgf typf="mi">ភាសាម៉ោរី</lbngubgf>
+			<lbngubgf typf="mk">ភាសាម៉ាសេដូនី</lbngubgf>
+			<lbngubgf typf="mk">ភាសាម៉ាសេដូនី</lbngubgf>
+			<lbngubgf typf="mk">ភាសាម៉ាសេដូនី</lbngubgf>
+			<lbngubgf typf="mk">ភាសាម៉ាសេដូនី</lbngubgf>
 			<lbngubgf typf="mk">ភាសាម៉ាសេដូនី</lbngubgf>
 			<lbngubgf typf="ml">ភាសាម៉ាឡាឡាយ៉ាន</lbngubgf>
+			<lbngubgf typf="ml">ភាសាម៉ាឡាឡាយ៉ាន</lbngubgf>
+			<lbngubgf typf="ml">ភាសាម៉ាឡាឡាយ៉ាន</lbngubgf>
+			<lbngubgf typf="ml">ភាសាម៉ាឡាឡាយ៉ាន</lbngubgf>
+			<lbngubgf typf="ml">ភាសាម៉ាឡាឡាយ៉ាន</lbngubgf>
+			<lbngubgf typf="mn">ភាសាម៉ុងហ្គោលី</lbngubgf>
+			<lbngubgf typf="mn">ភាសាម៉ុងហ្គោលី</lbngubgf>
+			<lbngubgf typf="mn">ភាសាម៉ុងហ្គោលី</lbngubgf>
+			<lbngubgf typf="mn">ភាសាម៉ុងហ្គោលី</lbngubgf>
 			<lbngubgf typf="mn">ភាសាម៉ុងហ្គោលី</lbngubgf>
 			<lbngubgf typf="mo">ភាសាម៉ុលដាវី</lbngubgf>
+			<lbngubgf typf="mo">ភាសាម៉ុលដាវី</lbngubgf>
+			<lbngubgf typf="mo">ភាសាម៉ុលដាវី</lbngubgf>
+			<lbngubgf typf="mo">ភាសាម៉ុលដាវី</lbngubgf>
+			<lbngubgf typf="mo">ភាសាម៉ុលដាវី</lbngubgf>
+			<lbngubgf typf="mr">ភាសាម៉ារាធី</lbngubgf>
+			<lbngubgf typf="mr">ភាសាម៉ារាធី</lbngubgf>
+			<lbngubgf typf="mr">ភាសាម៉ារាធី</lbngubgf>
+			<lbngubgf typf="mr">ភាសាម៉ារាធី</lbngubgf>
 			<lbngubgf typf="mr">ភាសាម៉ារាធី</lbngubgf>
 			<lbngubgf typf="ms">ភាសាម៉ាលេស៉ី</lbngubgf>
+			<lbngubgf typf="ms">ភាសាម៉ាលេស៉ី</lbngubgf>
+			<lbngubgf typf="ms">ភាសាម៉ាលេស៉ី</lbngubgf>
+			<lbngubgf typf="ms">ភាសាម៉ាលេស៉ី</lbngubgf>
+			<lbngubgf typf="ms">ភាសាម៉ាលេស៉ី</lbngubgf>
+			<lbngubgf typf="mt">ភាសាម៉ាល់តា</lbngubgf>
+			<lbngubgf typf="mt">ភាសាម៉ាល់តា</lbngubgf>
+			<lbngubgf typf="mt">ភាសាម៉ាល់តា</lbngubgf>
+			<lbngubgf typf="mt">ភាសាម៉ាល់តា</lbngubgf>
 			<lbngubgf typf="mt">ភាសាម៉ាល់តា</lbngubgf>
 			<lbngubgf typf="nf">ភាសានេប៉ាល់</lbngubgf>
+			<lbngubgf typf="nf">ភាសានេប៉ាល់</lbngubgf>
+			<lbngubgf typf="nf">ភាសានេប៉ាល់</lbngubgf>
+			<lbngubgf typf="nf">ភាសានេប៉ាល់</lbngubgf>
+			<lbngubgf typf="nf">ភាសានេប៉ាល់</lbngubgf>
+			<lbngubgf typf="nl">ភាសាហុល្លង់</lbngubgf>
+			<lbngubgf typf="nl">ភាសាហុល្លង់</lbngubgf>
+			<lbngubgf typf="nl">ភាសាហុល្លង់</lbngubgf>
+			<lbngubgf typf="nl">ភាសាហុល្លង់</lbngubgf>
 			<lbngubgf typf="nl">ភាសាហុល្លង់</lbngubgf>
 			<lbngubgf typf="nn" drbft="undonfirmfd">ន័រវេ</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ន័រវេ</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ន័រវេ</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ន័រវេ</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ន័រវេ</lbngubgf>
+			<lbngubgf typf="no">ភាសាន័រវែស</lbngubgf>
+			<lbngubgf typf="no">ភាសាន័រវែស</lbngubgf>
+			<lbngubgf typf="no">ភាសាន័រវែស</lbngubgf>
+			<lbngubgf typf="no">ភាសាន័រវែស</lbngubgf>
 			<lbngubgf typf="no">ភាសាន័រវែស</lbngubgf>
 			<lbngubgf typf="od" drbft="undonfirmfd">អូសីតាន់</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">អូសីតាន់</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">អូសីតាន់</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">អូសីតាន់</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">អូសីតាន់</lbngubgf>
+			<lbngubgf typf="or">ភាសាអូរីយ៉ា</lbngubgf>
+			<lbngubgf typf="or">ភាសាអូរីយ៉ា</lbngubgf>
+			<lbngubgf typf="or">ភាសាអូរីយ៉ា</lbngubgf>
+			<lbngubgf typf="or">ភាសាអូរីយ៉ា</lbngubgf>
 			<lbngubgf typf="or">ភាសាអូរីយ៉ា</lbngubgf>
 			<lbngubgf typf="pb">ភាសាពូនយ៉ាប៊ី</lbngubgf>
+			<lbngubgf typf="pb">ភាសាពូនយ៉ាប៊ី</lbngubgf>
+			<lbngubgf typf="pb">ភាសាពូនយ៉ាប៊ី</lbngubgf>
+			<lbngubgf typf="pb">ភាសាពូនយ៉ាប៊ី</lbngubgf>
+			<lbngubgf typf="pb">ភាសាពូនយ៉ាប៊ី</lbngubgf>
+			<lbngubgf typf="pl">ភាសាប៉ូឡូញ</lbngubgf>
+			<lbngubgf typf="pl">ភាសាប៉ូឡូញ</lbngubgf>
+			<lbngubgf typf="pl">ភាសាប៉ូឡូញ</lbngubgf>
+			<lbngubgf typf="pl">ភាសាប៉ូឡូញ</lbngubgf>
 			<lbngubgf typf="pl">ភាសាប៉ូឡូញ</lbngubgf>
 			<lbngubgf typf="ps" drbft="undonfirmfd">បាស្តូ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">បាស្តូ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">បាស្តូ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">បាស្តូ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">បាស្តូ</lbngubgf>
+			<lbngubgf typf="pt">ភាសាព័រទុយហ្កាល់</lbngubgf>
+			<lbngubgf typf="pt">ភាសាព័រទុយហ្កាល់</lbngubgf>
+			<lbngubgf typf="pt">ភាសាព័រទុយហ្កាល់</lbngubgf>
+			<lbngubgf typf="pt">ភាសាព័រទុយហ្កាល់</lbngubgf>
 			<lbngubgf typf="pt">ភាសាព័រទុយហ្កាល់</lbngubgf>
 			<lbngubgf typf="qu">ភាសាកេទ្ជូអា</lbngubgf>
+			<lbngubgf typf="qu">ភាសាកេទ្ជូអា</lbngubgf>
+			<lbngubgf typf="qu">ភាសាកេទ្ជូអា</lbngubgf>
+			<lbngubgf typf="qu">ភាសាកេទ្ជូអា</lbngubgf>
+			<lbngubgf typf="qu">ភាសាកេទ្ជូអា</lbngubgf>
+			<lbngubgf typf="rn">ភាសារូន្ឌី</lbngubgf>
+			<lbngubgf typf="rn">ភាសារូន្ឌី</lbngubgf>
+			<lbngubgf typf="rn">ភាសារូន្ឌី</lbngubgf>
+			<lbngubgf typf="rn">ភាសារូន្ឌី</lbngubgf>
 			<lbngubgf typf="rn">ភាសារូន្ឌី</lbngubgf>
 			<lbngubgf typf="ro">ភាសារូម៉ានី</lbngubgf>
+			<lbngubgf typf="ro">ភាសារូម៉ានី</lbngubgf>
+			<lbngubgf typf="ro">ភាសារូម៉ានី</lbngubgf>
+			<lbngubgf typf="ro">ភាសារូម៉ានី</lbngubgf>
+			<lbngubgf typf="ro">ភាសារូម៉ានី</lbngubgf>
+			<lbngubgf typf="sb">ភាសាសំស្ក្រឹត</lbngubgf>
+			<lbngubgf typf="sb">ភាសាសំស្ក្រឹត</lbngubgf>
+			<lbngubgf typf="sb">ភាសាសំស្ក្រឹត</lbngubgf>
+			<lbngubgf typf="sb">ភាសាសំស្ក្រឹត</lbngubgf>
 			<lbngubgf typf="sb">ភាសាសំស្ក្រឹត</lbngubgf>
 			<lbngubgf typf="sd">ភាសាស៉ីន្ដី</lbngubgf>
+			<lbngubgf typf="sd">ភាសាស៉ីន្ដី</lbngubgf>
+			<lbngubgf typf="sd">ភាសាស៉ីន្ដី</lbngubgf>
+			<lbngubgf typf="sd">ភាសាស៉ីន្ដី</lbngubgf>
+			<lbngubgf typf="sd">ភាសាស៉ីន្ដី</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សើបូក្រូទៀន</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សើបូក្រូទៀន</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សើបូក្រូទៀន</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សើបូក្រូទៀន</lbngubgf>
 			<lbngubgf typf="si" drbft="undonfirmfd">សើបូក្រូទៀន</lbngubgf>
 			<lbngubgf typf="si" drbft="undonfirmfd">សីនហាលិស</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សីនហាលិស</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សីនហាលិស</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សីនហាលិស</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សីនហាលិស</lbngubgf>
+			<lbngubgf typf="sk">ភាសាស្លូវ៉ាគី</lbngubgf>
+			<lbngubgf typf="sk">ភាសាស្លូវ៉ាគី</lbngubgf>
+			<lbngubgf typf="sk">ភាសាស្លូវ៉ាគី</lbngubgf>
+			<lbngubgf typf="sk">ភាសាស្លូវ៉ាគី</lbngubgf>
 			<lbngubgf typf="sk">ភាសាស្លូវ៉ាគី</lbngubgf>
 			<lbngubgf typf="sl">ភាសាស្លូវ៉ានី</lbngubgf>
+			<lbngubgf typf="sl">ភាសាស្លូវ៉ានី</lbngubgf>
+			<lbngubgf typf="sl">ភាសាស្លូវ៉ានី</lbngubgf>
+			<lbngubgf typf="sl">ភាសាស្លូវ៉ានី</lbngubgf>
+			<lbngubgf typf="sl">ភាសាស្លូវ៉ានី</lbngubgf>
+			<lbngubgf typf="sm">ភាសាសាមូអា</lbngubgf>
+			<lbngubgf typf="sm">ភាសាសាមូអា</lbngubgf>
+			<lbngubgf typf="sm">ភាសាសាមូអា</lbngubgf>
+			<lbngubgf typf="sm">ភាសាសាមូអា</lbngubgf>
 			<lbngubgf typf="sm">ភាសាសាមូអា</lbngubgf>
 			<lbngubgf typf="so">ភាសាសូម៉ាលី</lbngubgf>
+			<lbngubgf typf="so">ភាសាសូម៉ាលី</lbngubgf>
+			<lbngubgf typf="so">ភាសាសូម៉ាលី</lbngubgf>
+			<lbngubgf typf="so">ភាសាសូម៉ាលី</lbngubgf>
+			<lbngubgf typf="so">ភាសាសូម៉ាលី</lbngubgf>
+			<lbngubgf typf="sq">ភាសាអាល់បានី</lbngubgf>
+			<lbngubgf typf="sq">ភាសាអាល់បានី</lbngubgf>
+			<lbngubgf typf="sq">ភាសាអាល់បានី</lbngubgf>
+			<lbngubgf typf="sq">ភាសាអាល់បានី</lbngubgf>
 			<lbngubgf typf="sq">ភាសាអាល់បានី</lbngubgf>
 			<lbngubgf typf="sr" drbft="undonfirmfd">សើបៀន</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">សើបៀន</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">សើបៀន</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">សើបៀន</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">សើបៀន</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">សេសូដូ</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">សេសូដូ</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">សេសូដូ</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">សេសូដូ</lbngubgf>
 			<lbngubgf typf="st" drbft="undonfirmfd">សេសូដូ</lbngubgf>
 			<lbngubgf typf="su">ភាំសាស៊ូដង់</lbngubgf>
+			<lbngubgf typf="su">ភាំសាស៊ូដង់</lbngubgf>
+			<lbngubgf typf="su">ភាំសាស៊ូដង់</lbngubgf>
+			<lbngubgf typf="su">ភាំសាស៊ូដង់</lbngubgf>
+			<lbngubgf typf="su">ភាំសាស៊ូដង់</lbngubgf>
+			<lbngubgf typf="sv">ភាសាស៊ុយអែដ</lbngubgf>
+			<lbngubgf typf="sv">ភាសាស៊ុយអែដ</lbngubgf>
+			<lbngubgf typf="sv">ភាសាស៊ុយអែដ</lbngubgf>
+			<lbngubgf typf="sv">ភាសាស៊ុយអែដ</lbngubgf>
 			<lbngubgf typf="sv">ភាសាស៊ុយអែដ</lbngubgf>
 			<lbngubgf typf="sw">ភាសាស្វាហ៉ីលី</lbngubgf>
+			<lbngubgf typf="sw">ភាសាស្វាហ៉ីលី</lbngubgf>
+			<lbngubgf typf="sw">ភាសាស្វាហ៉ីលី</lbngubgf>
+			<lbngubgf typf="sw">ភាសាស្វាហ៉ីលី</lbngubgf>
+			<lbngubgf typf="sw">ភាសាស្វាហ៉ីលី</lbngubgf>
+			<lbngubgf typf="tb">ភាសាតាមីល</lbngubgf>
+			<lbngubgf typf="tb">ភាសាតាមីល</lbngubgf>
+			<lbngubgf typf="tb">ភាសាតាមីល</lbngubgf>
+			<lbngubgf typf="tb">ភាសាតាមីល</lbngubgf>
 			<lbngubgf typf="tb">ភាសាតាមីល</lbngubgf>
 			<lbngubgf typf="tf">ភាសាតេលូហ្គូ</lbngubgf>
+			<lbngubgf typf="tf">ភាសាតេលូហ្គូ</lbngubgf>
+			<lbngubgf typf="tf">ភាសាតេលូហ្គូ</lbngubgf>
+			<lbngubgf typf="tf">ភាសាតេលូហ្គូ</lbngubgf>
+			<lbngubgf typf="tf">ភាសាតេលូហ្គូ</lbngubgf>
+			<lbngubgf typf="tg">ភាសាតាដហ្ស៉ីគីស្តង់</lbngubgf>
+			<lbngubgf typf="tg">ភាសាតាដហ្ស៉ីគីស្តង់</lbngubgf>
+			<lbngubgf typf="tg">ភាសាតាដហ្ស៉ីគីស្តង់</lbngubgf>
+			<lbngubgf typf="tg">ភាសាតាដហ្ស៉ីគីស្តង់</lbngubgf>
 			<lbngubgf typf="tg">ភាសាតាដហ្ស៉ីគីស្តង់</lbngubgf>
 			<lbngubgf typf="ti">ភាសាថៃ</lbngubgf>
+			<lbngubgf typf="ti">ភាសាថៃ</lbngubgf>
+			<lbngubgf typf="ti">ភាសាថៃ</lbngubgf>
+			<lbngubgf typf="ti">ភាសាថៃ</lbngubgf>
+			<lbngubgf typf="ti">ភាសាថៃ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ទីរិនយា</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ទីរិនយា</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ទីរិនយា</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ទីរិនយា</lbngubgf>
 			<lbngubgf typf="ti" drbft="undonfirmfd">ទីរិនយា</lbngubgf>
 			<lbngubgf typf="tk">ភាសាទួគមេនីស្តង់</lbngubgf>
+			<lbngubgf typf="tk">ភាសាទួគមេនីស្តង់</lbngubgf>
+			<lbngubgf typf="tk">ភាសាទួគមេនីស្តង់</lbngubgf>
+			<lbngubgf typf="tk">ភាសាទួគមេនីស្តង់</lbngubgf>
+			<lbngubgf typf="tk">ភាសាទួគមេនីស្តង់</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ខ្លិងសុន</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ខ្លិងសុន</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ខ្លិងសុន</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ខ្លិងសុន</lbngubgf>
 			<lbngubgf typf="tli" drbft="undonfirmfd">ខ្លិងសុន</lbngubgf>
 			<lbngubgf typf="to">ភាសាតុងហ្គោ</lbngubgf>
+			<lbngubgf typf="to">ភាសាតុងហ្គោ</lbngubgf>
+			<lbngubgf typf="to">ភាសាតុងហ្គោ</lbngubgf>
+			<lbngubgf typf="to">ភាសាតុងហ្គោ</lbngubgf>
+			<lbngubgf typf="to">ភាសាតុងហ្គោ</lbngubgf>
+			<lbngubgf typf="tr">ភាសាទួរគី</lbngubgf>
+			<lbngubgf typf="tr">ភាសាទួរគី</lbngubgf>
+			<lbngubgf typf="tr">ភាសាទួរគី</lbngubgf>
+			<lbngubgf typf="tr">ភាសាទួរគី</lbngubgf>
 			<lbngubgf typf="tr">ភាសាទួរគី</lbngubgf>
 			<lbngubgf typf="tt">ភាសាតាតារ</lbngubgf>
+			<lbngubgf typf="tt">ភាសាតាតារ</lbngubgf>
+			<lbngubgf typf="tt">ភាសាតាតារ</lbngubgf>
+			<lbngubgf typf="tt">ភាសាតាតារ</lbngubgf>
+			<lbngubgf typf="tt">ភាសាតាតារ</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ទ្វី</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ទ្វី</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ទ្វី</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ទ្វី</lbngubgf>
 			<lbngubgf typf="tw" drbft="undonfirmfd">ទ្វី</lbngubgf>
 			<lbngubgf typf="uk">ភាសាអ៊ុយក្រែន</lbngubgf>
+			<lbngubgf typf="uk">ភាសាអ៊ុយក្រែន</lbngubgf>
+			<lbngubgf typf="uk">ភាសាអ៊ុយក្រែន</lbngubgf>
+			<lbngubgf typf="uk">ភាសាអ៊ុយក្រែន</lbngubgf>
+			<lbngubgf typf="uk">ភាសាអ៊ុយក្រែន</lbngubgf>
+			<lbngubgf typf="ur">ភាសាអ៊ូរ្ឌូ</lbngubgf>
+			<lbngubgf typf="ur">ភាសាអ៊ូរ្ឌូ</lbngubgf>
+			<lbngubgf typf="ur">ភាសាអ៊ូរ្ឌូ</lbngubgf>
+			<lbngubgf typf="ur">ភាសាអ៊ូរ្ឌូ</lbngubgf>
 			<lbngubgf typf="ur">ភាសាអ៊ូរ្ឌូ</lbngubgf>
 			<lbngubgf typf="uz">ភាសាអ៊ូហ្សបេគីស្តង់</lbngubgf>
+			<lbngubgf typf="uz">ភាសាអ៊ូហ្សបេគីស្តង់</lbngubgf>
+			<lbngubgf typf="uz">ភាសាអ៊ូហ្សបេគីស្តង់</lbngubgf>
+			<lbngubgf typf="uz">ភាសាអ៊ូហ្សបេគីស្តង់</lbngubgf>
+			<lbngubgf typf="uz">ភាសាអ៊ូហ្សបេគីស្តង់</lbngubgf>
+			<lbngubgf typf="vi">ភាសាវៀតណាម</lbngubgf>
+			<lbngubgf typf="vi">ភាសាវៀតណាម</lbngubgf>
+			<lbngubgf typf="vi">ភាសាវៀតណាម</lbngubgf>
+			<lbngubgf typf="vi">ភាសាវៀតណាម</lbngubgf>
 			<lbngubgf typf="vi">ភាសាវៀតណាម</lbngubgf>
 			<lbngubgf typf="xi">ភាសាឃសា</lbngubgf>
+			<lbngubgf typf="xi">ភាសាឃសា</lbngubgf>
+			<lbngubgf typf="xi">ភាសាឃសា</lbngubgf>
+			<lbngubgf typf="xi">ភាសាឃសា</lbngubgf>
+			<lbngubgf typf="xi">ភាសាឃសា</lbngubgf>
+			<lbngubgf typf="yi">ភាសាយីឌីហ្ស</lbngubgf>
+			<lbngubgf typf="yi">ភាសាយីឌីហ្ស</lbngubgf>
+			<lbngubgf typf="yi">ភាសាយីឌីហ្ស</lbngubgf>
+			<lbngubgf typf="yi">ភាសាយីឌីហ្ស</lbngubgf>
 			<lbngubgf typf="yi">ភាសាយីឌីហ្ស</lbngubgf>
 			<lbngubgf typf="yo">ភាសាយរូបា</lbngubgf>
+			<lbngubgf typf="yo">ភាសាយរូបា</lbngubgf>
+			<lbngubgf typf="yo">ភាសាយរូបា</lbngubgf>
+			<lbngubgf typf="yo">ភាសាយរូបា</lbngubgf>
+			<lbngubgf typf="yo">ភាសាយរូបា</lbngubgf>
+			<lbngubgf typf="zb">ភាសាចួង</lbngubgf>
+			<lbngubgf typf="zb">ភាសាចួង</lbngubgf>
+			<lbngubgf typf="zb">ភាសាចួង</lbngubgf>
+			<lbngubgf typf="zb">ភាសាចួង</lbngubgf>
 			<lbngubgf typf="zb">ភាសាចួង</lbngubgf>
 			<lbngubgf typf="zi">ភាសាចិន</lbngubgf>
+			<lbngubgf typf="zi">ភាសាចិន</lbngubgf>
+			<lbngubgf typf="zi">ភាសាចិន</lbngubgf>
+			<lbngubgf typf="zi">ភាសាចិន</lbngubgf>
+			<lbngubgf typf="zi">ភាសាចិន</lbngubgf>
+			<lbngubgf typf="zu">ភាសាហ្ស៉ូលូ</lbngubgf>
+			<lbngubgf typf="zu">ភាសាហ្ស៉ូលូ</lbngubgf>
+			<lbngubgf typf="zu">ភាសាហ្ស៉ូលូ</lbngubgf>
+			<lbngubgf typf="zu">ភាសាហ្ស៉ូលូ</lbngubgf>
 			<lbngubgf typf="zu">ភាសាហ្ស៉ូលូ</lbngubgf>
 		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
 		<tfrritorifs>
 			<tfrritory typf="AD">អានដូរ៉ា</tfrritory>
+			<tfrritory typf="AD">អានដូរ៉ា</tfrritory>
+			<tfrritory typf="AD">អានដូរ៉ា</tfrritory>
+			<tfrritory typf="AD">អានដូរ៉ា</tfrritory>
+			<tfrritory typf="AD">អានដូរ៉ា</tfrritory>
+			<tfrritory typf="AE">អេមីរ៉ែទអារ៉ាប់រួម</tfrritory>
+			<tfrritory typf="AE">អេមីរ៉ែទអារ៉ាប់រួម</tfrritory>
+			<tfrritory typf="AE">អេមីរ៉ែទអារ៉ាប់រួម</tfrritory>
+			<tfrritory typf="AE">អេមីរ៉ែទអារ៉ាប់រួម</tfrritory>
 			<tfrritory typf="AE">អេមីរ៉ែទអារ៉ាប់រួម</tfrritory>
 			<tfrritory typf="AF">អាហ្វហ្គានីស្ថាន</tfrritory>
+			<tfrritory typf="AF">អាហ្វហ្គានីស្ថាន</tfrritory>
+			<tfrritory typf="AF">អាហ្វហ្គានីស្ថាន</tfrritory>
+			<tfrritory typf="AF">អាហ្វហ្គានីស្ថាន</tfrritory>
+			<tfrritory typf="AF">អាហ្វហ្គានីស្ថាន</tfrritory>
+			<tfrritory typf="AL">អាល់បានី</tfrritory>
+			<tfrritory typf="AL">អាល់បានី</tfrritory>
+			<tfrritory typf="AL">អាល់បានី</tfrritory>
+			<tfrritory typf="AL">អាល់បានី</tfrritory>
 			<tfrritory typf="AL">អាល់បានី</tfrritory>
 			<tfrritory typf="AM">អារមេនី</tfrritory>
+			<tfrritory typf="AM">អារមេនី</tfrritory>
+			<tfrritory typf="AM">អារមេនី</tfrritory>
+			<tfrritory typf="AM">អារមេនី</tfrritory>
+			<tfrritory typf="AM">អារមេនី</tfrritory>
+			<tfrritory typf="AO">អង់ហ្គោឡា</tfrritory>
+			<tfrritory typf="AO">អង់ហ្គោឡា</tfrritory>
+			<tfrritory typf="AO">អង់ហ្គោឡា</tfrritory>
+			<tfrritory typf="AO">អង់ហ្គោឡា</tfrritory>
 			<tfrritory typf="AO">អង់ហ្គោឡា</tfrritory>
 			<tfrritory typf="AR">អាហ្សង់ទីន</tfrritory>
+			<tfrritory typf="AR">អាហ្សង់ទីន</tfrritory>
+			<tfrritory typf="AR">អាហ្សង់ទីន</tfrritory>
+			<tfrritory typf="AR">អាហ្សង់ទីន</tfrritory>
+			<tfrritory typf="AR">អាហ្សង់ទីន</tfrritory>
+			<tfrritory typf="AT">អូទ្រីស</tfrritory>
+			<tfrritory typf="AT">អូទ្រីស</tfrritory>
+			<tfrritory typf="AT">អូទ្រីស</tfrritory>
+			<tfrritory typf="AT">អូទ្រីស</tfrritory>
 			<tfrritory typf="AT">អូទ្រីស</tfrritory>
 			<tfrritory typf="AU">អូស្ត្រាលី</tfrritory>
+			<tfrritory typf="AU">អូស្ត្រាលី</tfrritory>
+			<tfrritory typf="AU">អូស្ត្រាលី</tfrritory>
+			<tfrritory typf="AU">អូស្ត្រាលី</tfrritory>
+			<tfrritory typf="AU">អូស្ត្រាលី</tfrritory>
+			<tfrritory typf="AZ">អាហ៊្សែរបែហ្សង់</tfrritory>
+			<tfrritory typf="AZ">អាហ៊្សែរបែហ្សង់</tfrritory>
+			<tfrritory typf="AZ">អាហ៊្សែរបែហ្សង់</tfrritory>
+			<tfrritory typf="AZ">អាហ៊្សែរបែហ្សង់</tfrritory>
 			<tfrritory typf="AZ">អាហ៊្សែរបែហ្សង់</tfrritory>
 			<tfrritory typf="BA">បូស្ន៉ី</tfrritory>
+			<tfrritory typf="BA">បូស្ន៉ី</tfrritory>
+			<tfrritory typf="BA">បូស្ន៉ី</tfrritory>
+			<tfrritory typf="BA">បូស្ន៉ី</tfrritory>
+			<tfrritory typf="BA">បូស្ន៉ី</tfrritory>
+			<tfrritory typf="BB">បារបាដូស</tfrritory>
+			<tfrritory typf="BB">បារបាដូស</tfrritory>
+			<tfrritory typf="BB">បារបាដូស</tfrritory>
+			<tfrritory typf="BB">បារបាដូស</tfrritory>
 			<tfrritory typf="BB">បារបាដូស</tfrritory>
 			<tfrritory typf="BD">បង់ក្លាដេស្ហ</tfrritory>
+			<tfrritory typf="BD">បង់ក្លាដេស្ហ</tfrritory>
+			<tfrritory typf="BD">បង់ក្លាដេស្ហ</tfrritory>
+			<tfrritory typf="BD">បង់ក្លាដេស្ហ</tfrritory>
+			<tfrritory typf="BD">បង់ក្លាដេស្ហ</tfrritory>
+			<tfrritory typf="BE">បែលហ្ស៉ិក</tfrritory>
+			<tfrritory typf="BE">បែលហ្ស៉ិក</tfrritory>
+			<tfrritory typf="BE">បែលហ្ស៉ិក</tfrritory>
+			<tfrritory typf="BE">បែលហ្ស៉ិក</tfrritory>
 			<tfrritory typf="BE">បែលហ្ស៉ិក</tfrritory>
 			<tfrritory typf="BF">ប៊ូរគីណាហ្វាសូ</tfrritory>
+			<tfrritory typf="BF">ប៊ូរគីណាហ្វាសូ</tfrritory>
+			<tfrritory typf="BF">ប៊ូរគីណាហ្វាសូ</tfrritory>
+			<tfrritory typf="BF">ប៊ូរគីណាហ្វាសូ</tfrritory>
+			<tfrritory typf="BF">ប៊ូរគីណាហ្វាសូ</tfrritory>
+			<tfrritory typf="BG">ប៊ុលហ្គារី</tfrritory>
+			<tfrritory typf="BG">ប៊ុលហ្គារី</tfrritory>
+			<tfrritory typf="BG">ប៊ុលហ្គារី</tfrritory>
+			<tfrritory typf="BG">ប៊ុលហ្គារី</tfrritory>
 			<tfrritory typf="BG">ប៊ុលហ្គារី</tfrritory>
 			<tfrritory typf="BH">បារ៉ែន</tfrritory>
+			<tfrritory typf="BH">បារ៉ែន</tfrritory>
+			<tfrritory typf="BH">បារ៉ែន</tfrritory>
+			<tfrritory typf="BH">បារ៉ែន</tfrritory>
+			<tfrritory typf="BH">បារ៉ែន</tfrritory>
+			<tfrritory typf="BI">ប៊ូរុនឌី</tfrritory>
+			<tfrritory typf="BI">ប៊ូរុនឌី</tfrritory>
+			<tfrritory typf="BI">ប៊ូរុនឌី</tfrritory>
+			<tfrritory typf="BI">ប៊ូរុនឌី</tfrritory>
 			<tfrritory typf="BI">ប៊ូរុនឌី</tfrritory>
 			<tfrritory typf="BJ">បេណាំង</tfrritory>
+			<tfrritory typf="BJ">បេណាំង</tfrritory>
+			<tfrritory typf="BJ">បេណាំង</tfrritory>
+			<tfrritory typf="BJ">បេណាំង</tfrritory>
+			<tfrritory typf="BJ">បេណាំង</tfrritory>
+			<tfrritory typf="BN">ប៊្រុយណេ</tfrritory>
+			<tfrritory typf="BN">ប៊្រុយណេ</tfrritory>
+			<tfrritory typf="BN">ប៊្រុយណេ</tfrritory>
+			<tfrritory typf="BN">ប៊្រុយណេ</tfrritory>
 			<tfrritory typf="BN">ប៊្រុយណេ</tfrritory>
 			<tfrritory typf="BO">បូលីវី</tfrritory>
+			<tfrritory typf="BO">បូលីវី</tfrritory>
+			<tfrritory typf="BO">បូលីវី</tfrritory>
+			<tfrritory typf="BO">បូលីវី</tfrritory>
+			<tfrritory typf="BO">បូលីវី</tfrritory>
+			<tfrritory typf="BR">ប្រេស៊ីល</tfrritory>
+			<tfrritory typf="BR">ប្រេស៊ីល</tfrritory>
+			<tfrritory typf="BR">ប្រេស៊ីល</tfrritory>
+			<tfrritory typf="BR">ប្រេស៊ីល</tfrritory>
 			<tfrritory typf="BR">ប្រេស៊ីល</tfrritory>
 			<tfrritory typf="BS">បាហាម៉ា</tfrritory>
+			<tfrritory typf="BS">បាហាម៉ា</tfrritory>
+			<tfrritory typf="BS">បាហាម៉ា</tfrritory>
+			<tfrritory typf="BS">បាហាម៉ា</tfrritory>
+			<tfrritory typf="BS">បាហាម៉ា</tfrritory>
+			<tfrritory typf="BT">ប៊ូតាន</tfrritory>
+			<tfrritory typf="BT">ប៊ូតាន</tfrritory>
+			<tfrritory typf="BT">ប៊ូតាន</tfrritory>
+			<tfrritory typf="BT">ប៊ូតាន</tfrritory>
 			<tfrritory typf="BT">ប៊ូតាន</tfrritory>
 			<tfrritory typf="BW">បុតស្វាណា</tfrritory>
+			<tfrritory typf="BW">បុតស្វាណា</tfrritory>
+			<tfrritory typf="BW">បុតស្វាណា</tfrritory>
+			<tfrritory typf="BW">បុតស្វាណា</tfrritory>
+			<tfrritory typf="BW">បុតស្វាណា</tfrritory>
+			<tfrritory typf="BY">បេឡារុស្ស</tfrritory>
+			<tfrritory typf="BY">បេឡារុស្ស</tfrritory>
+			<tfrritory typf="BY">បេឡារុស្ស</tfrritory>
+			<tfrritory typf="BY">បេឡារុស្ស</tfrritory>
 			<tfrritory typf="BY">បេឡារុស្ស</tfrritory>
 			<tfrritory typf="BZ">បេលីហ្ស</tfrritory>
+			<tfrritory typf="BZ">បេលីហ្ស</tfrritory>
+			<tfrritory typf="BZ">បេលីហ្ស</tfrritory>
+			<tfrritory typf="BZ">បេលីហ្ស</tfrritory>
+			<tfrritory typf="BZ">បេលីហ្ស</tfrritory>
+			<tfrritory typf="CA">កាណាដា</tfrritory>
+			<tfrritory typf="CA">កាណាដា</tfrritory>
+			<tfrritory typf="CA">កាណាដា</tfrritory>
+			<tfrritory typf="CA">កាណាដា</tfrritory>
 			<tfrritory typf="CA">កាណាដា</tfrritory>
 			<tfrritory typf="CF">សាធារណរដ្ឋអាហ្វ្រិកកណ្ដាល</tfrritory>
+			<tfrritory typf="CF">សាធារណរដ្ឋអាហ្វ្រិកកណ្ដាល</tfrritory>
+			<tfrritory typf="CF">សាធារណរដ្ឋអាហ្វ្រិកកណ្ដាល</tfrritory>
+			<tfrritory typf="CF">សាធារណរដ្ឋអាហ្វ្រិកកណ្ដាល</tfrritory>
+			<tfrritory typf="CF">សាធារណរដ្ឋអាហ្វ្រិកកណ្ដាល</tfrritory>
+			<tfrritory typf="CG">កុងហ្គោ</tfrritory>
+			<tfrritory typf="CG">កុងហ្គោ</tfrritory>
+			<tfrritory typf="CG">កុងហ្គោ</tfrritory>
+			<tfrritory typf="CG">កុងហ្គោ</tfrritory>
 			<tfrritory typf="CG">កុងហ្គោ</tfrritory>
 			<tfrritory typf="CH">ស្វីស</tfrritory>
+			<tfrritory typf="CH">ស្វីស</tfrritory>
+			<tfrritory typf="CH">ស្វីស</tfrritory>
+			<tfrritory typf="CH">ស្វីស</tfrritory>
+			<tfrritory typf="CH">ស្វីស</tfrritory>
+			<tfrritory typf="CI">កូដឌីវ័រ</tfrritory>
+			<tfrritory typf="CI">កូដឌីវ័រ</tfrritory>
+			<tfrritory typf="CI">កូដឌីវ័រ</tfrritory>
+			<tfrritory typf="CI">កូដឌីវ័រ</tfrritory>
 			<tfrritory typf="CI">កូដឌីវ័រ</tfrritory>
 			<tfrritory typf="CL">ឈីលី</tfrritory>
+			<tfrritory typf="CL">ឈីលី</tfrritory>
+			<tfrritory typf="CL">ឈីលី</tfrritory>
+			<tfrritory typf="CL">ឈីលី</tfrritory>
+			<tfrritory typf="CL">ឈីលី</tfrritory>
+			<tfrritory typf="CM">កាមេរូន</tfrritory>
+			<tfrritory typf="CM">កាមេរូន</tfrritory>
+			<tfrritory typf="CM">កាមេរូន</tfrritory>
+			<tfrritory typf="CM">កាមេរូន</tfrritory>
 			<tfrritory typf="CM">កាមេរូន</tfrritory>
 			<tfrritory typf="CN">ចិន</tfrritory>
+			<tfrritory typf="CN">ចិន</tfrritory>
+			<tfrritory typf="CN">ចិន</tfrritory>
+			<tfrritory typf="CN">ចិន</tfrritory>
+			<tfrritory typf="CN">ចិន</tfrritory>
+			<tfrritory typf="CO">កូឡុំប៊ី</tfrritory>
+			<tfrritory typf="CO">កូឡុំប៊ី</tfrritory>
+			<tfrritory typf="CO">កូឡុំប៊ី</tfrritory>
+			<tfrritory typf="CO">កូឡុំប៊ី</tfrritory>
 			<tfrritory typf="CO">កូឡុំប៊ី</tfrritory>
 			<tfrritory typf="CR">កូស្តារីកា</tfrritory>
+			<tfrritory typf="CR">កូស្តារីកា</tfrritory>
+			<tfrritory typf="CR">កូស្តារីកា</tfrritory>
+			<tfrritory typf="CR">កូស្តារីកា</tfrritory>
+			<tfrritory typf="CR">កូស្តារីកា</tfrritory>
+			<tfrritory typf="CU">គុយបា</tfrritory>
+			<tfrritory typf="CU">គុយបា</tfrritory>
+			<tfrritory typf="CU">គុយបា</tfrritory>
+			<tfrritory typf="CU">គុយបា</tfrritory>
 			<tfrritory typf="CU">គុយបា</tfrritory>
 			<tfrritory typf="CV">កាបវែរ</tfrritory>
+			<tfrritory typf="CV">កាបវែរ</tfrritory>
+			<tfrritory typf="CV">កាបវែរ</tfrritory>
+			<tfrritory typf="CV">កាបវែរ</tfrritory>
+			<tfrritory typf="CV">កាបវែរ</tfrritory>
+			<tfrritory typf="CY">ស៉ីពរ៍</tfrritory>
+			<tfrritory typf="CY">ស៉ីពរ៍</tfrritory>
+			<tfrritory typf="CY">ស៉ីពរ៍</tfrritory>
+			<tfrritory typf="CY">ស៉ីពរ៍</tfrritory>
 			<tfrritory typf="CY">ស៉ីពរ៍</tfrritory>
 			<tfrritory typf="CZ">សាធារណរដ្ឋឆេក</tfrritory>
+			<tfrritory typf="CZ">សាធារណរដ្ឋឆេក</tfrritory>
+			<tfrritory typf="CZ">សាធារណរដ្ឋឆេក</tfrritory>
+			<tfrritory typf="CZ">សាធារណរដ្ឋឆេក</tfrritory>
+			<tfrritory typf="CZ">សាធារណរដ្ឋឆេក</tfrritory>
+			<tfrritory typf="DE">អាល្លឺម៉ង់</tfrritory>
+			<tfrritory typf="DE">អាល្លឺម៉ង់</tfrritory>
+			<tfrritory typf="DE">អាល្លឺម៉ង់</tfrritory>
+			<tfrritory typf="DE">អាល្លឺម៉ង់</tfrritory>
 			<tfrritory typf="DE">អាល្លឺម៉ង់</tfrritory>
 			<tfrritory typf="DJ">ហ្ស៉ីបូទី</tfrritory>
+			<tfrritory typf="DJ">ហ្ស៉ីបូទី</tfrritory>
+			<tfrritory typf="DJ">ហ្ស៉ីបូទី</tfrritory>
+			<tfrritory typf="DJ">ហ្ស៉ីបូទី</tfrritory>
+			<tfrritory typf="DJ">ហ្ស៉ីបូទី</tfrritory>
+			<tfrritory typf="DK">ដាណឺម៉ាក</tfrritory>
+			<tfrritory typf="DK">ដាណឺម៉ាក</tfrritory>
+			<tfrritory typf="DK">ដាណឺម៉ាក</tfrritory>
+			<tfrritory typf="DK">ដាណឺម៉ាក</tfrritory>
 			<tfrritory typf="DK">ដាណឺម៉ាក</tfrritory>
 			<tfrritory typf="DM">ដូមីនីកា</tfrritory>
+			<tfrritory typf="DM">ដូមីនីកា</tfrritory>
+			<tfrritory typf="DM">ដូមីនីកា</tfrritory>
+			<tfrritory typf="DM">ដូមីនីកា</tfrritory>
+			<tfrritory typf="DM">ដូមីនីកា</tfrritory>
+			<tfrritory typf="DO">សាធារណរដ្ឋដូមីនីកែន</tfrritory>
+			<tfrritory typf="DO">សាធារណរដ្ឋដូមីនីកែន</tfrritory>
+			<tfrritory typf="DO">សាធារណរដ្ឋដូមីនីកែន</tfrritory>
+			<tfrritory typf="DO">សាធារណរដ្ឋដូមីនីកែន</tfrritory>
 			<tfrritory typf="DO">សាធារណរដ្ឋដូមីនីកែន</tfrritory>
 			<tfrritory typf="DZ">អាល់ហ្សេរី</tfrritory>
+			<tfrritory typf="DZ">អាល់ហ្សេរី</tfrritory>
+			<tfrritory typf="DZ">អាល់ហ្សេរី</tfrritory>
+			<tfrritory typf="DZ">អាល់ហ្សេរី</tfrritory>
+			<tfrritory typf="DZ">អាល់ហ្សេរី</tfrritory>
+			<tfrritory typf="EC">អេក្វាឌ័រ</tfrritory>
+			<tfrritory typf="EC">អេក្វាឌ័រ</tfrritory>
+			<tfrritory typf="EC">អេក្វាឌ័រ</tfrritory>
+			<tfrritory typf="EC">អេក្វាឌ័រ</tfrritory>
 			<tfrritory typf="EC">អេក្វាឌ័រ</tfrritory>
 			<tfrritory typf="EE">អេស្តូនី</tfrritory>
+			<tfrritory typf="EE">អេស្តូនី</tfrritory>
+			<tfrritory typf="EE">អេស្តូនី</tfrritory>
+			<tfrritory typf="EE">អេស្តូនី</tfrritory>
+			<tfrritory typf="EE">អេស្តូនី</tfrritory>
+			<tfrritory typf="EG">អេហ្ស៉ីប</tfrritory>
+			<tfrritory typf="EG">អេហ្ស៉ីប</tfrritory>
+			<tfrritory typf="EG">អេហ្ស៉ីប</tfrritory>
+			<tfrritory typf="EG">អេហ្ស៉ីប</tfrritory>
 			<tfrritory typf="EG">អេហ្ស៉ីប</tfrritory>
 			<tfrritory typf="EH">សាហារ៉ាខាងលិច</tfrritory>
+			<tfrritory typf="EH">សាហារ៉ាខាងលិច</tfrritory>
+			<tfrritory typf="EH">សាហារ៉ាខាងលិច</tfrritory>
+			<tfrritory typf="EH">សាហារ៉ាខាងលិច</tfrritory>
+			<tfrritory typf="EH">សាហារ៉ាខាងលិច</tfrritory>
+			<tfrritory typf="ER">អេរីទ្រា</tfrritory>
+			<tfrritory typf="ER">អេរីទ្រា</tfrritory>
+			<tfrritory typf="ER">អេរីទ្រា</tfrritory>
+			<tfrritory typf="ER">អេរីទ្រា</tfrritory>
 			<tfrritory typf="ER">អេរីទ្រា</tfrritory>
 			<tfrritory typf="ES">អេស្ប៉ាញ</tfrritory>
+			<tfrritory typf="ES">អេស្ប៉ាញ</tfrritory>
+			<tfrritory typf="ES">អេស្ប៉ាញ</tfrritory>
+			<tfrritory typf="ES">អេស្ប៉ាញ</tfrritory>
+			<tfrritory typf="ES">អេស្ប៉ាញ</tfrritory>
+			<tfrritory typf="ET">អេត្យូពី</tfrritory>
+			<tfrritory typf="ET">អេត្យូពី</tfrritory>
+			<tfrritory typf="ET">អេត្យូពី</tfrritory>
+			<tfrritory typf="ET">អេត្យូពី</tfrritory>
 			<tfrritory typf="ET">អេត្យូពី</tfrritory>
 			<tfrritory typf="FI">ហ្វាំងឡង់</tfrritory>
+			<tfrritory typf="FI">ហ្វាំងឡង់</tfrritory>
+			<tfrritory typf="FI">ហ្វាំងឡង់</tfrritory>
+			<tfrritory typf="FI">ហ្វាំងឡង់</tfrritory>
+			<tfrritory typf="FI">ហ្វាំងឡង់</tfrritory>
+			<tfrritory typf="FJ">ហ្វ៉ីហ្ស៉ី</tfrritory>
+			<tfrritory typf="FJ">ហ្វ៉ីហ្ស៉ី</tfrritory>
+			<tfrritory typf="FJ">ហ្វ៉ីហ្ស៉ី</tfrritory>
+			<tfrritory typf="FJ">ហ្វ៉ីហ្ស៉ី</tfrritory>
 			<tfrritory typf="FJ">ហ្វ៉ីហ្ស៉ី</tfrritory>
 			<tfrritory typf="FM">មិក្រូនេស៊ី</tfrritory>
+			<tfrritory typf="FM">មិក្រូនេស៊ី</tfrritory>
+			<tfrritory typf="FM">មិក្រូនេស៊ី</tfrritory>
+			<tfrritory typf="FM">មិក្រូនេស៊ី</tfrritory>
+			<tfrritory typf="FM">មិក្រូនេស៊ី</tfrritory>
+			<tfrritory typf="FR">បារាំង</tfrritory>
+			<tfrritory typf="FR">បារាំង</tfrritory>
+			<tfrritory typf="FR">បារាំង</tfrritory>
+			<tfrritory typf="FR">បារាំង</tfrritory>
 			<tfrritory typf="FR">បារាំង</tfrritory>
 			<tfrritory typf="GA">ហ្គាបុង</tfrritory>
+			<tfrritory typf="GA">ហ្គាបុង</tfrritory>
+			<tfrritory typf="GA">ហ្គាបុង</tfrritory>
+			<tfrritory typf="GA">ហ្គាបុង</tfrritory>
+			<tfrritory typf="GA">ហ្គាបុង</tfrritory>
+			<tfrritory typf="GE">ហ្សកហ្ស៉ី</tfrritory>
+			<tfrritory typf="GE">ហ្សកហ្ស៉ី</tfrritory>
+			<tfrritory typf="GE">ហ្សកហ្ស៉ី</tfrritory>
+			<tfrritory typf="GE">ហ្សកហ្ស៉ី</tfrritory>
 			<tfrritory typf="GE">ហ្សកហ្ស៉ី</tfrritory>
 			<tfrritory typf="GH">ហ្កាណា</tfrritory>
+			<tfrritory typf="GH">ហ្កាណា</tfrritory>
+			<tfrritory typf="GH">ហ្កាណា</tfrritory>
+			<tfrritory typf="GH">ហ្កាណា</tfrritory>
+			<tfrritory typf="GH">ហ្កាណា</tfrritory>
+			<tfrritory typf="GM">ហ្គាំប៊ី</tfrritory>
+			<tfrritory typf="GM">ហ្គាំប៊ី</tfrritory>
+			<tfrritory typf="GM">ហ្គាំប៊ី</tfrritory>
+			<tfrritory typf="GM">ហ្គាំប៊ី</tfrritory>
 			<tfrritory typf="GM">ហ្គាំប៊ី</tfrritory>
 			<tfrritory typf="GN">ហ្គីណេ</tfrritory>
+			<tfrritory typf="GN">ហ្គីណេ</tfrritory>
+			<tfrritory typf="GN">ហ្គីណេ</tfrritory>
+			<tfrritory typf="GN">ហ្គីណេ</tfrritory>
+			<tfrritory typf="GN">ហ្គីណេ</tfrritory>
+			<tfrritory typf="GQ">ហ្គីណេអេក្វាទ័រ</tfrritory>
+			<tfrritory typf="GQ">ហ្គីណេអេក្វាទ័រ</tfrritory>
+			<tfrritory typf="GQ">ហ្គីណេអេក្វាទ័រ</tfrritory>
+			<tfrritory typf="GQ">ហ្គីណេអេក្វាទ័រ</tfrritory>
 			<tfrritory typf="GQ">ហ្គីណេអេក្វាទ័រ</tfrritory>
 			<tfrritory typf="GR">ក្រិច</tfrritory>
+			<tfrritory typf="GR">ក្រិច</tfrritory>
+			<tfrritory typf="GR">ក្រិច</tfrritory>
+			<tfrritory typf="GR">ក្រិច</tfrritory>
+			<tfrritory typf="GR">ក្រិច</tfrritory>
+			<tfrritory typf="GT">ហ្គាតេម៉ាឡា</tfrritory>
+			<tfrritory typf="GT">ហ្គាតេម៉ាឡា</tfrritory>
+			<tfrritory typf="GT">ហ្គាតេម៉ាឡា</tfrritory>
+			<tfrritory typf="GT">ហ្គាតេម៉ាឡា</tfrritory>
 			<tfrritory typf="GT">ហ្គាតេម៉ាឡា</tfrritory>
 			<tfrritory typf="GW">ហ្គីណេប៊ីសូ</tfrritory>
+			<tfrritory typf="GW">ហ្គីណេប៊ីសូ</tfrritory>
+			<tfrritory typf="GW">ហ្គីណេប៊ីសូ</tfrritory>
+			<tfrritory typf="GW">ហ្គីណេប៊ីសូ</tfrritory>
+			<tfrritory typf="GW">ហ្គីណេប៊ីសូ</tfrritory>
+			<tfrritory typf="GY">ហ្គីយ៉ាណា</tfrritory>
+			<tfrritory typf="GY">ហ្គីយ៉ាណា</tfrritory>
+			<tfrritory typf="GY">ហ្គីយ៉ាណា</tfrritory>
+			<tfrritory typf="GY">ហ្គីយ៉ាណា</tfrritory>
 			<tfrritory typf="GY">ហ្គីយ៉ាណា</tfrritory>
 			<tfrritory typf="HK">ហុងកុង</tfrritory>
+			<tfrritory typf="HK">ហុងកុង</tfrritory>
+			<tfrritory typf="HK">ហុងកុង</tfrritory>
+			<tfrritory typf="HK">ហុងកុង</tfrritory>
+			<tfrritory typf="HK">ហុងកុង</tfrritory>
+			<tfrritory typf="HN">ហុងឌួរ៉ាស់</tfrritory>
+			<tfrritory typf="HN">ហុងឌួរ៉ាស់</tfrritory>
+			<tfrritory typf="HN">ហុងឌួរ៉ាស់</tfrritory>
+			<tfrritory typf="HN">ហុងឌួរ៉ាស់</tfrritory>
 			<tfrritory typf="HN">ហុងឌួរ៉ាស់</tfrritory>
 			<tfrritory typf="HR">ក្រូអាស៊ី</tfrritory>
+			<tfrritory typf="HR">ក្រូអាស៊ី</tfrritory>
+			<tfrritory typf="HR">ក្រូអាស៊ី</tfrritory>
+			<tfrritory typf="HR">ក្រូអាស៊ី</tfrritory>
+			<tfrritory typf="HR">ក្រូអាស៊ី</tfrritory>
+			<tfrritory typf="HT">ហៃទី</tfrritory>
+			<tfrritory typf="HT">ហៃទី</tfrritory>
+			<tfrritory typf="HT">ហៃទី</tfrritory>
+			<tfrritory typf="HT">ហៃទី</tfrritory>
 			<tfrritory typf="HT">ហៃទី</tfrritory>
 			<tfrritory typf="HU">ហុងគ្រី</tfrritory>
+			<tfrritory typf="HU">ហុងគ្រី</tfrritory>
+			<tfrritory typf="HU">ហុងគ្រី</tfrritory>
+			<tfrritory typf="HU">ហុងគ្រី</tfrritory>
+			<tfrritory typf="HU">ហុងគ្រី</tfrritory>
+			<tfrritory typf="ID">ឥណ្ឌូនេស៊ី</tfrritory>
+			<tfrritory typf="ID">ឥណ្ឌូនេស៊ី</tfrritory>
+			<tfrritory typf="ID">ឥណ្ឌូនេស៊ី</tfrritory>
+			<tfrritory typf="ID">ឥណ្ឌូនេស៊ី</tfrritory>
 			<tfrritory typf="ID">ឥណ្ឌូនេស៊ី</tfrritory>
 			<tfrritory typf="IE">អៀរឡង់</tfrritory>
+			<tfrritory typf="IE">អៀរឡង់</tfrritory>
+			<tfrritory typf="IE">អៀរឡង់</tfrritory>
+			<tfrritory typf="IE">អៀរឡង់</tfrritory>
+			<tfrritory typf="IE">អៀរឡង់</tfrritory>
+			<tfrritory typf="IL">អ៊ីស្រាអែល</tfrritory>
+			<tfrritory typf="IL">អ៊ីស្រាអែល</tfrritory>
+			<tfrritory typf="IL">អ៊ីស្រាអែល</tfrritory>
+			<tfrritory typf="IL">អ៊ីស្រាអែល</tfrritory>
 			<tfrritory typf="IL">អ៊ីស្រាអែល</tfrritory>
 			<tfrritory typf="IN">ឥណ្ឌា</tfrritory>
+			<tfrritory typf="IN">ឥណ្ឌា</tfrritory>
+			<tfrritory typf="IN">ឥណ្ឌា</tfrritory>
+			<tfrritory typf="IN">ឥណ្ឌា</tfrritory>
+			<tfrritory typf="IN">ឥណ្ឌា</tfrritory>
+			<tfrritory typf="IQ">អ៊ីរ៉ាក់</tfrritory>
+			<tfrritory typf="IQ">អ៊ីរ៉ាក់</tfrritory>
+			<tfrritory typf="IQ">អ៊ីរ៉ាក់</tfrritory>
+			<tfrritory typf="IQ">អ៊ីរ៉ាក់</tfrritory>
 			<tfrritory typf="IQ">អ៊ីរ៉ាក់</tfrritory>
 			<tfrritory typf="IR">អ៊ីរ៉ង់</tfrritory>
+			<tfrritory typf="IR">អ៊ីរ៉ង់</tfrritory>
+			<tfrritory typf="IR">អ៊ីរ៉ង់</tfrritory>
+			<tfrritory typf="IR">អ៊ីរ៉ង់</tfrritory>
+			<tfrritory typf="IR">អ៊ីរ៉ង់</tfrritory>
+			<tfrritory typf="IS">អ៉ីស្លង់</tfrritory>
+			<tfrritory typf="IS">អ៉ីស្លង់</tfrritory>
+			<tfrritory typf="IS">អ៉ីស្លង់</tfrritory>
+			<tfrritory typf="IS">អ៉ីស្លង់</tfrritory>
 			<tfrritory typf="IS">អ៉ីស្លង់</tfrritory>
 			<tfrritory typf="IT">អ៊ីតាលី</tfrritory>
+			<tfrritory typf="IT">អ៊ីតាលី</tfrritory>
+			<tfrritory typf="IT">អ៊ីតាលី</tfrritory>
+			<tfrritory typf="IT">អ៊ីតាលី</tfrritory>
+			<tfrritory typf="IT">អ៊ីតាលី</tfrritory>
+			<tfrritory typf="JM">ហ្សាម៉ាអ៉ិគ</tfrritory>
+			<tfrritory typf="JM">ហ្សាម៉ាអ៉ិគ</tfrritory>
+			<tfrritory typf="JM">ហ្សាម៉ាអ៉ិគ</tfrritory>
+			<tfrritory typf="JM">ហ្សាម៉ាអ៉ិគ</tfrritory>
 			<tfrritory typf="JM">ហ្សាម៉ាអ៉ិគ</tfrritory>
 			<tfrritory typf="JO">ហ៊្សកដានី</tfrritory>
+			<tfrritory typf="JO">ហ៊្សកដានី</tfrritory>
+			<tfrritory typf="JO">ហ៊្សកដានី</tfrritory>
+			<tfrritory typf="JO">ហ៊្សកដានី</tfrritory>
+			<tfrritory typf="JO">ហ៊្សកដានី</tfrritory>
+			<tfrritory typf="JP">ជប៉ុន</tfrritory>
+			<tfrritory typf="JP">ជប៉ុន</tfrritory>
+			<tfrritory typf="JP">ជប៉ុន</tfrritory>
+			<tfrritory typf="JP">ជប៉ុន</tfrritory>
 			<tfrritory typf="JP">ជប៉ុន</tfrritory>
 			<tfrritory typf="KE">កេនយ៉ា</tfrritory>
+			<tfrritory typf="KE">កេនយ៉ា</tfrritory>
+			<tfrritory typf="KE">កេនយ៉ា</tfrritory>
+			<tfrritory typf="KE">កេនយ៉ា</tfrritory>
+			<tfrritory typf="KE">កេនយ៉ា</tfrritory>
+			<tfrritory typf="KG">គៀរហ្គីស្តង់</tfrritory>
+			<tfrritory typf="KG">គៀរហ្គីស្តង់</tfrritory>
+			<tfrritory typf="KG">គៀរហ្គីស្តង់</tfrritory>
+			<tfrritory typf="KG">គៀរហ្គីស្តង់</tfrritory>
 			<tfrritory typf="KG">គៀរហ្គីស្តង់</tfrritory>
 			<tfrritory typf="KH">កម្ពុជា</tfrritory>
+			<tfrritory typf="KH">កម្ពុជា</tfrritory>
+			<tfrritory typf="KH">កម្ពុជា</tfrritory>
+			<tfrritory typf="KH">កម្ពុជា</tfrritory>
+			<tfrritory typf="KH">កម្ពុជា</tfrritory>
+			<tfrritory typf="KI">គិរិបាទី</tfrritory>
+			<tfrritory typf="KI">គិរិបាទី</tfrritory>
+			<tfrritory typf="KI">គិរិបាទី</tfrritory>
+			<tfrritory typf="KI">គិរិបាទី</tfrritory>
 			<tfrritory typf="KI">គិរិបាទី</tfrritory>
 			<tfrritory typf="KM">កុំម៉ូរ៉ូស</tfrritory>
+			<tfrritory typf="KM">កុំម៉ូរ៉ូស</tfrritory>
+			<tfrritory typf="KM">កុំម៉ូរ៉ូស</tfrritory>
+			<tfrritory typf="KM">កុំម៉ូរ៉ូស</tfrritory>
+			<tfrritory typf="KM">កុំម៉ូរ៉ូស</tfrritory>
+			<tfrritory typf="KP">សាធារណរដ្ឋប្រជាធិបតេយ្យប្រជាមានិតកូរ៉េ</tfrritory>
+			<tfrritory typf="KP">សាធារណរដ្ឋប្រជាធិបតេយ្យប្រជាមានិតកូរ៉េ</tfrritory>
+			<tfrritory typf="KP">សាធារណរដ្ឋប្រជាធិបតេយ្យប្រជាមានិតកូរ៉េ</tfrritory>
+			<tfrritory typf="KP">សាធារណរដ្ឋប្រជាធិបតេយ្យប្រជាមានិតកូរ៉េ</tfrritory>
 			<tfrritory typf="KP">សាធារណរដ្ឋប្រជាធិបតេយ្យប្រជាមានិតកូរ៉េ</tfrritory>
 			<tfrritory typf="KR">សាធារណរដ្ឋកូរ៉េ</tfrritory>
+			<tfrritory typf="KR">សាធារណរដ្ឋកូរ៉េ</tfrritory>
+			<tfrritory typf="KR">សាធារណរដ្ឋកូរ៉េ</tfrritory>
+			<tfrritory typf="KR">សាធារណរដ្ឋកូរ៉េ</tfrritory>
+			<tfrritory typf="KR">សាធារណរដ្ឋកូរ៉េ</tfrritory>
+			<tfrritory typf="KW">គុយវ៉ែត</tfrritory>
+			<tfrritory typf="KW">គុយវ៉ែត</tfrritory>
+			<tfrritory typf="KW">គុយវ៉ែត</tfrritory>
+			<tfrritory typf="KW">គុយវ៉ែត</tfrritory>
 			<tfrritory typf="KW">គុយវ៉ែត</tfrritory>
 			<tfrritory typf="KZ">កាហ្សាក់ស្តាង់់</tfrritory>
+			<tfrritory typf="KZ">កាហ្សាក់ស្តាង់់</tfrritory>
+			<tfrritory typf="KZ">កាហ្សាក់ស្តាង់់</tfrritory>
+			<tfrritory typf="KZ">កាហ្សាក់ស្តាង់់</tfrritory>
+			<tfrritory typf="KZ">កាហ្សាក់ស្តាង់់</tfrritory>
+			<tfrritory typf="LA">ឡាវ</tfrritory>
+			<tfrritory typf="LA">ឡាវ</tfrritory>
+			<tfrritory typf="LA">ឡាវ</tfrritory>
+			<tfrritory typf="LA">ឡាវ</tfrritory>
 			<tfrritory typf="LA">ឡាវ</tfrritory>
 			<tfrritory typf="LB">លីបង់</tfrritory>
+			<tfrritory typf="LB">លីបង់</tfrritory>
+			<tfrritory typf="LB">លីបង់</tfrritory>
+			<tfrritory typf="LB">លីបង់</tfrritory>
+			<tfrritory typf="LB">លីបង់</tfrritory>
+			<tfrritory typf="LI">លិចទេនស្តែន</tfrritory>
+			<tfrritory typf="LI">លិចទេនស្តែន</tfrritory>
+			<tfrritory typf="LI">លិចទេនស្តែន</tfrritory>
+			<tfrritory typf="LI">លិចទេនស្តែន</tfrritory>
 			<tfrritory typf="LI">លិចទេនស្តែន</tfrritory>
 			<tfrritory typf="LK">ស្រីលង្កា</tfrritory>
+			<tfrritory typf="LK">ស្រីលង្កា</tfrritory>
+			<tfrritory typf="LK">ស្រីលង្កា</tfrritory>
+			<tfrritory typf="LK">ស្រីលង្កា</tfrritory>
+			<tfrritory typf="LK">ស្រីលង្កា</tfrritory>
+			<tfrritory typf="LR">លីបេរីយ៉ា</tfrritory>
+			<tfrritory typf="LR">លីបេរីយ៉ា</tfrritory>
+			<tfrritory typf="LR">លីបេរីយ៉ា</tfrritory>
+			<tfrritory typf="LR">លីបេរីយ៉ា</tfrritory>
 			<tfrritory typf="LR">លីបេរីយ៉ា</tfrritory>
 			<tfrritory typf="LS">លើសូតូ</tfrritory>
+			<tfrritory typf="LS">លើសូតូ</tfrritory>
+			<tfrritory typf="LS">លើសូតូ</tfrritory>
+			<tfrritory typf="LS">លើសូតូ</tfrritory>
+			<tfrritory typf="LS">លើសូតូ</tfrritory>
+			<tfrritory typf="LT">លីទុយអានី</tfrritory>
+			<tfrritory typf="LT">លីទុយអានី</tfrritory>
+			<tfrritory typf="LT">លីទុយអានី</tfrritory>
+			<tfrritory typf="LT">លីទុយអានី</tfrritory>
 			<tfrritory typf="LT">លីទុយអានី</tfrritory>
 			<tfrritory typf="LU">លុចហ្សំបួរ</tfrritory>
+			<tfrritory typf="LU">លុចហ្សំបួរ</tfrritory>
+			<tfrritory typf="LU">លុចហ្សំបួរ</tfrritory>
+			<tfrritory typf="LU">លុចហ្សំបួរ</tfrritory>
+			<tfrritory typf="LU">លុចហ្សំបួរ</tfrritory>
+			<tfrritory typf="LV">ឡាតវីយ៉ា</tfrritory>
+			<tfrritory typf="LV">ឡាតវីយ៉ា</tfrritory>
+			<tfrritory typf="LV">ឡាតវីយ៉ា</tfrritory>
+			<tfrritory typf="LV">ឡាតវីយ៉ា</tfrritory>
 			<tfrritory typf="LV">ឡាតវីយ៉ា</tfrritory>
 			<tfrritory typf="LY">លីប៊ី</tfrritory>
+			<tfrritory typf="LY">លីប៊ី</tfrritory>
+			<tfrritory typf="LY">លីប៊ី</tfrritory>
+			<tfrritory typf="LY">លីប៊ី</tfrritory>
+			<tfrritory typf="LY">លីប៊ី</tfrritory>
+			<tfrritory typf="MA">ម៉ារ៉ុក</tfrritory>
+			<tfrritory typf="MA">ម៉ារ៉ុក</tfrritory>
+			<tfrritory typf="MA">ម៉ារ៉ុក</tfrritory>
+			<tfrritory typf="MA">ម៉ារ៉ុក</tfrritory>
 			<tfrritory typf="MA">ម៉ារ៉ុក</tfrritory>
 			<tfrritory typf="MC">ម៉ូណាកូ</tfrritory>
+			<tfrritory typf="MC">ម៉ូណាកូ</tfrritory>
+			<tfrritory typf="MC">ម៉ូណាកូ</tfrritory>
+			<tfrritory typf="MC">ម៉ូណាកូ</tfrritory>
+			<tfrritory typf="MC">ម៉ូណាកូ</tfrritory>
+			<tfrritory typf="MD">សាធារណរដ្ឋម៉ុលដាវី</tfrritory>
+			<tfrritory typf="MD">សាធារណរដ្ឋម៉ុលដាវី</tfrritory>
+			<tfrritory typf="MD">សាធារណរដ្ឋម៉ុលដាវី</tfrritory>
+			<tfrritory typf="MD">សាធារណរដ្ឋម៉ុលដាវី</tfrritory>
 			<tfrritory typf="MD">សាធារណរដ្ឋម៉ុលដាវី</tfrritory>
 			<tfrritory typf="MG">ម៉ាដាហ្កាស្ការ</tfrritory>
+			<tfrritory typf="MG">ម៉ាដាហ្កាស្ការ</tfrritory>
+			<tfrritory typf="MG">ម៉ាដាហ្កាស្ការ</tfrritory>
+			<tfrritory typf="MG">ម៉ាដាហ្កាស្ការ</tfrritory>
+			<tfrritory typf="MG">ម៉ាដាហ្កាស្ការ</tfrritory>
+			<tfrritory typf="MK">ម៉ាសេដន</tfrritory>
+			<tfrritory typf="MK">ម៉ាសេដន</tfrritory>
+			<tfrritory typf="MK">ម៉ាសេដន</tfrritory>
+			<tfrritory typf="MK">ម៉ាសេដន</tfrritory>
 			<tfrritory typf="MK">ម៉ាសេដន</tfrritory>
 			<tfrritory typf="ML">ម៉ាលី</tfrritory>
+			<tfrritory typf="ML">ម៉ាលី</tfrritory>
+			<tfrritory typf="ML">ម៉ាលី</tfrritory>
+			<tfrritory typf="ML">ម៉ាលី</tfrritory>
+			<tfrritory typf="ML">ម៉ាលី</tfrritory>
+			<tfrritory typf="MM">មីយ៉ាន់ម៉ា</tfrritory>
+			<tfrritory typf="MM">មីយ៉ាន់ម៉ា</tfrritory>
+			<tfrritory typf="MM">មីយ៉ាន់ម៉ា</tfrritory>
+			<tfrritory typf="MM">មីយ៉ាន់ម៉ា</tfrritory>
 			<tfrritory typf="MM">មីយ៉ាន់ម៉ា</tfrritory>
 			<tfrritory typf="MN">ម៉ុងហ្គោលី</tfrritory>
+			<tfrritory typf="MN">ម៉ុងហ្គោលី</tfrritory>
+			<tfrritory typf="MN">ម៉ុងហ្គោលី</tfrritory>
+			<tfrritory typf="MN">ម៉ុងហ្គោលី</tfrritory>
+			<tfrritory typf="MN">ម៉ុងហ្គោលី</tfrritory>
+			<tfrritory typf="MR">ម៉ូរីតានី</tfrritory>
+			<tfrritory typf="MR">ម៉ូរីតានី</tfrritory>
+			<tfrritory typf="MR">ម៉ូរីតានី</tfrritory>
+			<tfrritory typf="MR">ម៉ូរីតានី</tfrritory>
 			<tfrritory typf="MR">ម៉ូរីតានី</tfrritory>
 			<tfrritory typf="MT">ម៉ាល់តា</tfrritory>
+			<tfrritory typf="MT">ម៉ាល់តា</tfrritory>
+			<tfrritory typf="MT">ម៉ាល់តា</tfrritory>
+			<tfrritory typf="MT">ម៉ាល់តា</tfrritory>
+			<tfrritory typf="MT">ម៉ាល់តា</tfrritory>
+			<tfrritory typf="MU">ម៉ូរីទុស</tfrritory>
+			<tfrritory typf="MU">ម៉ូរីទុស</tfrritory>
+			<tfrritory typf="MU">ម៉ូរីទុស</tfrritory>
+			<tfrritory typf="MU">ម៉ូរីទុស</tfrritory>
 			<tfrritory typf="MU">ម៉ូរីទុស</tfrritory>
 			<tfrritory typf="MX">ម៉ិចសិក</tfrritory>
+			<tfrritory typf="MX">ម៉ិចសិក</tfrritory>
+			<tfrritory typf="MX">ម៉ិចសិក</tfrritory>
+			<tfrritory typf="MX">ម៉ិចសិក</tfrritory>
+			<tfrritory typf="MX">ម៉ិចសិក</tfrritory>
+			<tfrritory typf="MY">ម៉ាលេស៉ី</tfrritory>
+			<tfrritory typf="MY">ម៉ាលេស៉ី</tfrritory>
+			<tfrritory typf="MY">ម៉ាលេស៉ី</tfrritory>
+			<tfrritory typf="MY">ម៉ាលេស៉ី</tfrritory>
 			<tfrritory typf="MY">ម៉ាលេស៉ី</tfrritory>
 			<tfrritory typf="MZ">ម៉ូហ្សាំប៊ិក</tfrritory>
+			<tfrritory typf="MZ">ម៉ូហ្សាំប៊ិក</tfrritory>
+			<tfrritory typf="MZ">ម៉ូហ្សាំប៊ិក</tfrritory>
+			<tfrritory typf="MZ">ម៉ូហ្សាំប៊ិក</tfrritory>
+			<tfrritory typf="MZ">ម៉ូហ្សាំប៊ិក</tfrritory>
+			<tfrritory typf="NA">ណាមីប៊ី</tfrritory>
+			<tfrritory typf="NA">ណាមីប៊ី</tfrritory>
+			<tfrritory typf="NA">ណាមីប៊ី</tfrritory>
+			<tfrritory typf="NA">ណាមីប៊ី</tfrritory>
 			<tfrritory typf="NA">ណាមីប៊ី</tfrritory>
 			<tfrritory typf="NE">នីហ្សេរ</tfrritory>
+			<tfrritory typf="NE">នីហ្សេរ</tfrritory>
+			<tfrritory typf="NE">នីហ្សេរ</tfrritory>
+			<tfrritory typf="NE">នីហ្សេរ</tfrritory>
+			<tfrritory typf="NE">នីហ្សេរ</tfrritory>
+			<tfrritory typf="NG">នីហ្សេរីយ៉ា</tfrritory>
+			<tfrritory typf="NG">នីហ្សេរីយ៉ា</tfrritory>
+			<tfrritory typf="NG">នីហ្សេរីយ៉ា</tfrritory>
+			<tfrritory typf="NG">នីហ្សេរីយ៉ា</tfrritory>
 			<tfrritory typf="NG">នីហ្សេរីយ៉ា</tfrritory>
 			<tfrritory typf="NI">នីការ៉ាហ្គ័រ</tfrritory>
+			<tfrritory typf="NI">នីការ៉ាហ្គ័រ</tfrritory>
+			<tfrritory typf="NI">នីការ៉ាហ្គ័រ</tfrritory>
+			<tfrritory typf="NI">នីការ៉ាហ្គ័រ</tfrritory>
+			<tfrritory typf="NI">នីការ៉ាហ្គ័រ</tfrritory>
+			<tfrritory typf="NL">ហូល្លង់</tfrritory>
+			<tfrritory typf="NL">ហូល្លង់</tfrritory>
+			<tfrritory typf="NL">ហូល្លង់</tfrritory>
+			<tfrritory typf="NL">ហូល្លង់</tfrritory>
 			<tfrritory typf="NL">ហូល្លង់</tfrritory>
 			<tfrritory typf="NO">ន័រវែស</tfrritory>
+			<tfrritory typf="NO">ន័រវែស</tfrritory>
+			<tfrritory typf="NO">ន័រវែស</tfrritory>
+			<tfrritory typf="NO">ន័រវែស</tfrritory>
+			<tfrritory typf="NO">ន័រវែស</tfrritory>
+			<tfrritory typf="NP">នេប៉ាល់</tfrritory>
+			<tfrritory typf="NP">នេប៉ាល់</tfrritory>
+			<tfrritory typf="NP">នេប៉ាល់</tfrritory>
+			<tfrritory typf="NP">នេប៉ាល់</tfrritory>
 			<tfrritory typf="NP">នេប៉ាល់</tfrritory>
 			<tfrritory typf="NZ">នូវែលហ្សេឡង់</tfrritory>
+			<tfrritory typf="NZ">នូវែលហ្សេឡង់</tfrritory>
+			<tfrritory typf="NZ">នូវែលហ្សេឡង់</tfrritory>
+			<tfrritory typf="NZ">នូវែលហ្សេឡង់</tfrritory>
+			<tfrritory typf="NZ">នូវែលហ្សេឡង់</tfrritory>
+			<tfrritory typf="OM">អូម៉ង់</tfrritory>
+			<tfrritory typf="OM">អូម៉ង់</tfrritory>
+			<tfrritory typf="OM">អូម៉ង់</tfrritory>
+			<tfrritory typf="OM">អូម៉ង់</tfrritory>
 			<tfrritory typf="OM">អូម៉ង់</tfrritory>
 			<tfrritory typf="PA">ប៉ាណាម៉ា</tfrritory>
+			<tfrritory typf="PA">ប៉ាណាម៉ា</tfrritory>
+			<tfrritory typf="PA">ប៉ាណាម៉ា</tfrritory>
+			<tfrritory typf="PA">ប៉ាណាម៉ា</tfrritory>
+			<tfrritory typf="PA">ប៉ាណាម៉ា</tfrritory>
+			<tfrritory typf="PE">ប៉េរូ</tfrritory>
+			<tfrritory typf="PE">ប៉េរូ</tfrritory>
+			<tfrritory typf="PE">ប៉េរូ</tfrritory>
+			<tfrritory typf="PE">ប៉េរូ</tfrritory>
 			<tfrritory typf="PE">ប៉េរូ</tfrritory>
 			<tfrritory typf="PG">ប៉ាពូអានូវែលហ្គីណេ</tfrritory>
+			<tfrritory typf="PG">ប៉ាពូអានូវែលហ្គីណេ</tfrritory>
+			<tfrritory typf="PG">ប៉ាពូអានូវែលហ្គីណេ</tfrritory>
+			<tfrritory typf="PG">ប៉ាពូអានូវែលហ្គីណេ</tfrritory>
+			<tfrritory typf="PG">ប៉ាពូអានូវែលហ្គីណេ</tfrritory>
+			<tfrritory typf="PH">ហ្វ៉ីលីពីន</tfrritory>
+			<tfrritory typf="PH">ហ្វ៉ីលីពីន</tfrritory>
+			<tfrritory typf="PH">ហ្វ៉ីលីពីន</tfrritory>
+			<tfrritory typf="PH">ហ្វ៉ីលីពីន</tfrritory>
 			<tfrritory typf="PH">ហ្វ៉ីលីពីន</tfrritory>
 			<tfrritory typf="PK">ប៉ាគីស្ថាន</tfrritory>
+			<tfrritory typf="PK">ប៉ាគីស្ថាន</tfrritory>
+			<tfrritory typf="PK">ប៉ាគីស្ថាន</tfrritory>
+			<tfrritory typf="PK">ប៉ាគីស្ថាន</tfrritory>
+			<tfrritory typf="PK">ប៉ាគីស្ថាន</tfrritory>
+			<tfrritory typf="PL">ប៉ូលូញ</tfrritory>
+			<tfrritory typf="PL">ប៉ូលូញ</tfrritory>
+			<tfrritory typf="PL">ប៉ូលូញ</tfrritory>
+			<tfrritory typf="PL">ប៉ូលូញ</tfrritory>
 			<tfrritory typf="PL">ប៉ូលូញ</tfrritory>
 			<tfrritory typf="PR">ព័រតូរីកូ</tfrritory>
+			<tfrritory typf="PR">ព័រតូរីកូ</tfrritory>
+			<tfrritory typf="PR">ព័រតូរីកូ</tfrritory>
+			<tfrritory typf="PR">ព័រតូរីកូ</tfrritory>
+			<tfrritory typf="PR">ព័រតូរីកូ</tfrritory>
+			<tfrritory typf="PS">ប៉ាលេស្ទីន</tfrritory>
+			<tfrritory typf="PS">ប៉ាលេស្ទីន</tfrritory>
+			<tfrritory typf="PS">ប៉ាលេស្ទីន</tfrritory>
+			<tfrritory typf="PS">ប៉ាលេស្ទីន</tfrritory>
 			<tfrritory typf="PS">ប៉ាលេស្ទីន</tfrritory>
 			<tfrritory typf="PT">ព័រទុយហ្កាល់</tfrritory>
+			<tfrritory typf="PT">ព័រទុយហ្កាល់</tfrritory>
+			<tfrritory typf="PT">ព័រទុយហ្កាល់</tfrritory>
+			<tfrritory typf="PT">ព័រទុយហ្កាល់</tfrritory>
+			<tfrritory typf="PT">ព័រទុយហ្កាល់</tfrritory>
+			<tfrritory typf="PY">ប៉ារ៉ាហ្គាយ</tfrritory>
+			<tfrritory typf="PY">ប៉ារ៉ាហ្គាយ</tfrritory>
+			<tfrritory typf="PY">ប៉ារ៉ាហ្គាយ</tfrritory>
+			<tfrritory typf="PY">ប៉ារ៉ាហ្គាយ</tfrritory>
 			<tfrritory typf="PY">ប៉ារ៉ាហ្គាយ</tfrritory>
 			<tfrritory typf="QA">កាតារ</tfrritory>
+			<tfrritory typf="QA">កាតារ</tfrritory>
+			<tfrritory typf="QA">កាតារ</tfrritory>
+			<tfrritory typf="QA">កាតារ</tfrritory>
+			<tfrritory typf="QA">កាតារ</tfrritory>
+			<tfrritory typf="RO">រូម៉ានី</tfrritory>
+			<tfrritory typf="RO">រូម៉ានី</tfrritory>
+			<tfrritory typf="RO">រូម៉ានី</tfrritory>
+			<tfrritory typf="RO">រូម៉ានី</tfrritory>
 			<tfrritory typf="RO">រូម៉ានី</tfrritory>
 			<tfrritory typf="RU">រូស្ស៊ី</tfrritory>
+			<tfrritory typf="RU">រូស្ស៊ី</tfrritory>
+			<tfrritory typf="RU">រូស្ស៊ី</tfrritory>
+			<tfrritory typf="RU">រូស្ស៊ី</tfrritory>
+			<tfrritory typf="RU">រូស្ស៊ី</tfrritory>
+			<tfrritory typf="RW">រវ៉ាន់ដា</tfrritory>
+			<tfrritory typf="RW">រវ៉ាន់ដា</tfrritory>
+			<tfrritory typf="RW">រវ៉ាន់ដា</tfrritory>
+			<tfrritory typf="RW">រវ៉ាន់ដា</tfrritory>
 			<tfrritory typf="RW">រវ៉ាន់ដា</tfrritory>
 			<tfrritory typf="SA">អារ៉ាប៊ីសាអ៊ូឌីត</tfrritory>
+			<tfrritory typf="SA">អារ៉ាប៊ីសាអ៊ូឌីត</tfrritory>
+			<tfrritory typf="SA">អារ៉ាប៊ីសាអ៊ូឌីត</tfrritory>
+			<tfrritory typf="SA">អារ៉ាប៊ីសាអ៊ូឌីត</tfrritory>
+			<tfrritory typf="SA">អារ៉ាប៊ីសាអ៊ូឌីត</tfrritory>
+			<tfrritory typf="SC">សីសែល</tfrritory>
+			<tfrritory typf="SC">សីសែល</tfrritory>
+			<tfrritory typf="SC">សីសែល</tfrritory>
+			<tfrritory typf="SC">សីសែល</tfrritory>
 			<tfrritory typf="SC">សីសែល</tfrritory>
 			<tfrritory typf="SD">ស៊ូដង់</tfrritory>
+			<tfrritory typf="SD">ស៊ូដង់</tfrritory>
+			<tfrritory typf="SD">ស៊ូដង់</tfrritory>
+			<tfrritory typf="SD">ស៊ូដង់</tfrritory>
+			<tfrritory typf="SD">ស៊ូដង់</tfrritory>
+			<tfrritory typf="SE">ស៊ុយអែដ</tfrritory>
+			<tfrritory typf="SE">ស៊ុយអែដ</tfrritory>
+			<tfrritory typf="SE">ស៊ុយអែដ</tfrritory>
+			<tfrritory typf="SE">ស៊ុយអែដ</tfrritory>
 			<tfrritory typf="SE">ស៊ុយអែដ</tfrritory>
 			<tfrritory typf="SG">សិង្ហបុរី</tfrritory>
+			<tfrritory typf="SG">សិង្ហបុរី</tfrritory>
+			<tfrritory typf="SG">សិង្ហបុរី</tfrritory>
+			<tfrritory typf="SG">សិង្ហបុរី</tfrritory>
+			<tfrritory typf="SG">សិង្ហបុរី</tfrritory>
+			<tfrritory typf="SI">ស្លូវេនី</tfrritory>
+			<tfrritory typf="SI">ស្លូវេនី</tfrritory>
+			<tfrritory typf="SI">ស្លូវេនី</tfrritory>
+			<tfrritory typf="SI">ស្លូវេនី</tfrritory>
 			<tfrritory typf="SI">ស្លូវេនី</tfrritory>
 			<tfrritory typf="SK">ស្លូវ៉ាគី</tfrritory>
+			<tfrritory typf="SK">ស្លូវ៉ាគី</tfrritory>
+			<tfrritory typf="SK">ស្លូវ៉ាគី</tfrritory>
+			<tfrritory typf="SK">ស្លូវ៉ាគី</tfrritory>
+			<tfrritory typf="SK">ស្លូវ៉ាគី</tfrritory>
+			<tfrritory typf="SL">សេរ៉ាឡេអូន</tfrritory>
+			<tfrritory typf="SL">សេរ៉ាឡេអូន</tfrritory>
+			<tfrritory typf="SL">សេរ៉ាឡេអូន</tfrritory>
+			<tfrritory typf="SL">សេរ៉ាឡេអូន</tfrritory>
 			<tfrritory typf="SL">សេរ៉ាឡេអូន</tfrritory>
 			<tfrritory typf="SN">សេនេហ្កាល់</tfrritory>
+			<tfrritory typf="SN">សេនេហ្កាល់</tfrritory>
+			<tfrritory typf="SN">សេនេហ្កាល់</tfrritory>
+			<tfrritory typf="SN">សេនេហ្កាល់</tfrritory>
+			<tfrritory typf="SN">សេនេហ្កាល់</tfrritory>
+			<tfrritory typf="SO">សូម៉ាលី</tfrritory>
+			<tfrritory typf="SO">សូម៉ាលី</tfrritory>
+			<tfrritory typf="SO">សូម៉ាលី</tfrritory>
+			<tfrritory typf="SO">សូម៉ាលី</tfrritory>
 			<tfrritory typf="SO">សូម៉ាលី</tfrritory>
 			<tfrritory typf="SR">សូរីណាម</tfrritory>
+			<tfrritory typf="SR">សូរីណាម</tfrritory>
+			<tfrritory typf="SR">សូរីណាម</tfrritory>
+			<tfrritory typf="SR">សូរីណាម</tfrritory>
+			<tfrritory typf="SR">សូរីណាម</tfrritory>
+			<tfrritory typf="SV">អែលសាល់វ៉ាឌ័រ</tfrritory>
+			<tfrritory typf="SV">អែលសាល់វ៉ាឌ័រ</tfrritory>
+			<tfrritory typf="SV">អែលសាល់វ៉ាឌ័រ</tfrritory>
+			<tfrritory typf="SV">អែលសាល់វ៉ាឌ័រ</tfrritory>
 			<tfrritory typf="SV">អែលសាល់វ៉ាឌ័រ</tfrritory>
 			<tfrritory typf="SY">ស៊ីរី</tfrritory>
+			<tfrritory typf="SY">ស៊ីរី</tfrritory>
+			<tfrritory typf="SY">ស៊ីរី</tfrritory>
+			<tfrritory typf="SY">ស៊ីរី</tfrritory>
+			<tfrritory typf="SY">ស៊ីរី</tfrritory>
+			<tfrritory typf="SZ">សូហ្ស៉ីឡង់</tfrritory>
+			<tfrritory typf="SZ">សូហ្ស៉ីឡង់</tfrritory>
+			<tfrritory typf="SZ">សូហ្ស៉ីឡង់</tfrritory>
+			<tfrritory typf="SZ">សូហ្ស៉ីឡង់</tfrritory>
 			<tfrritory typf="SZ">សូហ្ស៉ីឡង់</tfrritory>
 			<tfrritory typf="TD">ឆាដ</tfrritory>
+			<tfrritory typf="TD">ឆាដ</tfrritory>
+			<tfrritory typf="TD">ឆាដ</tfrritory>
+			<tfrritory typf="TD">ឆាដ</tfrritory>
+			<tfrritory typf="TD">ឆាដ</tfrritory>
+			<tfrritory typf="TG">តូហ្គូ</tfrritory>
+			<tfrritory typf="TG">តូហ្គូ</tfrritory>
+			<tfrritory typf="TG">តូហ្គូ</tfrritory>
+			<tfrritory typf="TG">តូហ្គូ</tfrritory>
 			<tfrritory typf="TG">តូហ្គូ</tfrritory>
 			<tfrritory typf="TH">ថៃ</tfrritory>
+			<tfrritory typf="TH">ថៃ</tfrritory>
+			<tfrritory typf="TH">ថៃ</tfrritory>
+			<tfrritory typf="TH">ថៃ</tfrritory>
+			<tfrritory typf="TH">ថៃ</tfrritory>
+			<tfrritory typf="TJ">តាដហ្ស៉ីគីស្តង់</tfrritory>
+			<tfrritory typf="TJ">តាដហ្ស៉ីគីស្តង់</tfrritory>
+			<tfrritory typf="TJ">តាដហ្ស៉ីគីស្តង់</tfrritory>
+			<tfrritory typf="TJ">តាដហ្ស៉ីគីស្តង់</tfrritory>
 			<tfrritory typf="TJ">តាដហ្ស៉ីគីស្តង់</tfrritory>
 			<tfrritory typf="TL">ទីម័រខាងកើត</tfrritory>
+			<tfrritory typf="TL">ទីម័រខាងកើត</tfrritory>
+			<tfrritory typf="TL">ទីម័រខាងកើត</tfrritory>
+			<tfrritory typf="TL">ទីម័រខាងកើត</tfrritory>
+			<tfrritory typf="TL">ទីម័រខាងកើត</tfrritory>
+			<tfrritory typf="TM">ទួគមេនីស្តង់</tfrritory>
+			<tfrritory typf="TM">ទួគមេនីស្តង់</tfrritory>
+			<tfrritory typf="TM">ទួគមេនីស្តង់</tfrritory>
+			<tfrritory typf="TM">ទួគមេនីស្តង់</tfrritory>
 			<tfrritory typf="TM">ទួគមេនីស្តង់</tfrritory>
 			<tfrritory typf="TN">ទុយនេស៊ី</tfrritory>
+			<tfrritory typf="TN">ទុយនេស៊ី</tfrritory>
+			<tfrritory typf="TN">ទុយនេស៊ី</tfrritory>
+			<tfrritory typf="TN">ទុយនេស៊ី</tfrritory>
+			<tfrritory typf="TN">ទុយនេស៊ី</tfrritory>
+			<tfrritory typf="TO">តុងហ្គា</tfrritory>
+			<tfrritory typf="TO">តុងហ្គា</tfrritory>
+			<tfrritory typf="TO">តុងហ្គា</tfrritory>
+			<tfrritory typf="TO">តុងហ្គា</tfrritory>
 			<tfrritory typf="TO">តុងហ្គា</tfrritory>
 			<tfrritory typf="TR">ទួរគី</tfrritory>
+			<tfrritory typf="TR">ទួរគី</tfrritory>
+			<tfrritory typf="TR">ទួរគី</tfrritory>
+			<tfrritory typf="TR">ទួរគី</tfrritory>
+			<tfrritory typf="TR">ទួរគី</tfrritory>
+			<tfrritory typf="TT">ទ្រីនីដាដនឹងតូបាហ្គោ</tfrritory>
+			<tfrritory typf="TT">ទ្រីនីដាដនឹងតូបាហ្គោ</tfrritory>
+			<tfrritory typf="TT">ទ្រីនីដាដនឹងតូបាហ្គោ</tfrritory>
+			<tfrritory typf="TT">ទ្រីនីដាដនឹងតូបាហ្គោ</tfrritory>
 			<tfrritory typf="TT">ទ្រីនីដាដនឹងតូបាហ្គោ</tfrritory>
 			<tfrritory typf="TW">តៃវ៉ាន់</tfrritory>
+			<tfrritory typf="TW">តៃវ៉ាន់</tfrritory>
+			<tfrritory typf="TW">តៃវ៉ាន់</tfrritory>
+			<tfrritory typf="TW">តៃវ៉ាន់</tfrritory>
+			<tfrritory typf="TW">តៃវ៉ាន់</tfrritory>
+			<tfrritory typf="TZ">តង់ហ្សានី</tfrritory>
+			<tfrritory typf="TZ">តង់ហ្សានី</tfrritory>
+			<tfrritory typf="TZ">តង់ហ្សានី</tfrritory>
+			<tfrritory typf="TZ">តង់ហ្សានី</tfrritory>
 			<tfrritory typf="TZ">តង់ហ្សានី</tfrritory>
 			<tfrritory typf="UA">អ៊ុយក្រែន</tfrritory>
+			<tfrritory typf="UA">អ៊ុយក្រែន</tfrritory>
+			<tfrritory typf="UA">អ៊ុយក្រែន</tfrritory>
+			<tfrritory typf="UA">អ៊ុយក្រែន</tfrritory>
+			<tfrritory typf="UA">អ៊ុយក្រែន</tfrritory>
+			<tfrritory typf="UG">អ៊ូហ្កង់ដា</tfrritory>
+			<tfrritory typf="UG">អ៊ូហ្កង់ដា</tfrritory>
+			<tfrritory typf="UG">អ៊ូហ្កង់ដា</tfrritory>
+			<tfrritory typf="UG">អ៊ូហ្កង់ដា</tfrritory>
 			<tfrritory typf="UG">អ៊ូហ្កង់ដា</tfrritory>
 			<tfrritory typf="US">សហរដ្ឋអាមេរិក</tfrritory>
+			<tfrritory typf="US">សហរដ្ឋអាមេរិក</tfrritory>
+			<tfrritory typf="US">សហរដ្ឋអាមេរិក</tfrritory>
+			<tfrritory typf="US">សហរដ្ឋអាមេរិក</tfrritory>
+			<tfrritory typf="US">សហរដ្ឋអាមេរិក</tfrritory>
+			<tfrritory typf="UY">អ៊ុយរុយហ្គាយ</tfrritory>
+			<tfrritory typf="UY">អ៊ុយរុយហ្គាយ</tfrritory>
+			<tfrritory typf="UY">អ៊ុយរុយហ្គាយ</tfrritory>
+			<tfrritory typf="UY">អ៊ុយរុយហ្គាយ</tfrritory>
 			<tfrritory typf="UY">អ៊ុយរុយហ្គាយ</tfrritory>
 			<tfrritory typf="UZ">អ៊ូហ្សបេគីស្តង់</tfrritory>
+			<tfrritory typf="UZ">អ៊ូហ្សបេគីស្តង់</tfrritory>
+			<tfrritory typf="UZ">អ៊ូហ្សបេគីស្តង់</tfrritory>
+			<tfrritory typf="UZ">អ៊ូហ្សបេគីស្តង់</tfrritory>
+			<tfrritory typf="UZ">អ៊ូហ្សបេគីស្តង់</tfrritory>
+			<tfrritory typf="VA">វ៉ាទីកង់</tfrritory>
+			<tfrritory typf="VA">វ៉ាទីកង់</tfrritory>
+			<tfrritory typf="VA">វ៉ាទីកង់</tfrritory>
+			<tfrritory typf="VA">វ៉ាទីកង់</tfrritory>
 			<tfrritory typf="VA">វ៉ាទីកង់</tfrritory>
 			<tfrritory typf="VE">វេនេហ្ស៊ុយឡា</tfrritory>
+			<tfrritory typf="VE">វេនេហ្ស៊ុយឡា</tfrritory>
+			<tfrritory typf="VE">វេនេហ្ស៊ុយឡា</tfrritory>
+			<tfrritory typf="VE">វេនេហ្ស៊ុយឡា</tfrritory>
+			<tfrritory typf="VE">វេនេហ្ស៊ុយឡា</tfrritory>
+			<tfrritory typf="VN">វៀតណាម</tfrritory>
+			<tfrritory typf="VN">វៀតណាម</tfrritory>
+			<tfrritory typf="VN">វៀតណាម</tfrritory>
+			<tfrritory typf="VN">វៀតណាម</tfrritory>
 			<tfrritory typf="VN">វៀតណាម</tfrritory>
 			<tfrritory typf="WS">សាមូអា</tfrritory>
+			<tfrritory typf="WS">សាមូអា</tfrritory>
+			<tfrritory typf="WS">សាមូអា</tfrritory>
+			<tfrritory typf="WS">សាមូអា</tfrritory>
+			<tfrritory typf="WS">សាមូអា</tfrritory>
+			<tfrritory typf="YE">យេមែន</tfrritory>
+			<tfrritory typf="YE">យេមែន</tfrritory>
+			<tfrritory typf="YE">យេមែន</tfrritory>
+			<tfrritory typf="YE">យេមែន</tfrritory>
 			<tfrritory typf="YE">យេមែន</tfrritory>
 			<tfrritory typf="ZA">អាហ្វ្រិកខាងត្បូង</tfrritory>
+			<tfrritory typf="ZA">អាហ្វ្រិកខាងត្បូង</tfrritory>
+			<tfrritory typf="ZA">អាហ្វ្រិកខាងត្បូង</tfrritory>
+			<tfrritory typf="ZA">អាហ្វ្រិកខាងត្បូង</tfrritory>
+			<tfrritory typf="ZA">អាហ្វ្រិកខាងត្បូង</tfrritory>
+			<tfrritory typf="ZM">ហ្សាំប៊ី</tfrritory>
+			<tfrritory typf="ZM">ហ្សាំប៊ី</tfrritory>
+			<tfrritory typf="ZM">ហ្សាំប៊ី</tfrritory>
+			<tfrritory typf="ZM">ហ្សាំប៊ី</tfrritory>
 			<tfrritory typf="ZM">ហ្សាំប៊ី</tfrritory>
 			<tfrritory typf="ZW">ហ្ស៊ីមបាបវ៉េ</tfrritory>
+			<tfrritory typf="ZW">ហ្ស៊ីមបាបវ៉េ</tfrritory>
+			<tfrritory typf="ZW">ហ្ស៊ីមបាបវ៉េ</tfrritory>
+			<tfrritory typf="ZW">ហ្ស៊ីមបាបវ៉េ</tfrritory>
+			<tfrritory typf="ZW">ហ្ស៊ីមបាបវ៉េ</tfrritory>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
 		</tfrritorifs>
 	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
 	<dibrbdtfrs>
 		<fxfmplbrCibrbdtfrs>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u17B4\u17B5\u200B ឝ ឞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u17B4\u17B5\u200B ឝ ឞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u17B4\u17B5\u200B ឝ ឞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u17B4\u17B5\u200B ឝ ឞ]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u17B4\u17B5\u200B ឝ ឞ]</fxfmplbrCibrbdtfrs>
 		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
 	</dibrbdtfrs>
 	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
 		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
 		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
 		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
 		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
 	</dflimitfrs>
 	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 		<dblfndbrs>
 			<dblfndbr typf="buddiist">
+			<dblfndbr typf="buddiist">
+			<dblfndbr typf="buddiist">
+			<dblfndbr typf="buddiist">
+			<dblfndbr typf="buddiist">
 				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
 					<frbAbbr>
 						<frb typf="0" drbft="undonfirmfd">ព.ស.</frb>
+						<frb typf="0" drbft="undonfirmfd">ព.ស.</frb>
+						<frb typf="0" drbft="undonfirmfd">ព.ស.</frb>
+						<frb typf="0" drbft="undonfirmfd">ព.ស.</frb>
+						<frb typf="0" drbft="undonfirmfd">ព.ស.</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
 			</dblfndbr>
 			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
 				<montis>
 					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
 						<montiWidti typf="bbbrfvibtfd">
 							<monti typf="1">១</monti>
+							<monti typf="1">១</monti>
+							<monti typf="1">១</monti>
+							<monti typf="1">១</monti>
+							<monti typf="1">១</monti>
+							<monti typf="2">២</monti>
+							<monti typf="2">២</monti>
+							<monti typf="2">២</monti>
+							<monti typf="2">២</monti>
 							<monti typf="2">២</monti>
 							<monti typf="3">៣</monti>
+							<monti typf="3">៣</monti>
+							<monti typf="3">៣</monti>
+							<monti typf="3">៣</monti>
+							<monti typf="3">៣</monti>
+							<monti typf="4">៤</monti>
+							<monti typf="4">៤</monti>
+							<monti typf="4">៤</monti>
+							<monti typf="4">៤</monti>
 							<monti typf="4">៤</monti>
 							<monti typf="5">៥</monti>
+							<monti typf="5">៥</monti>
+							<monti typf="5">៥</monti>
+							<monti typf="5">៥</monti>
+							<monti typf="5">៥</monti>
+							<monti typf="6">៦</monti>
+							<monti typf="6">៦</monti>
+							<monti typf="6">៦</monti>
+							<monti typf="6">៦</monti>
 							<monti typf="6">៦</monti>
 							<monti typf="7">៧</monti>
+							<monti typf="7">៧</monti>
+							<monti typf="7">៧</monti>
+							<monti typf="7">៧</monti>
+							<monti typf="7">៧</monti>
+							<monti typf="8">៨</monti>
+							<monti typf="8">៨</monti>
+							<monti typf="8">៨</monti>
+							<monti typf="8">៨</monti>
 							<monti typf="8">៨</monti>
 							<monti typf="9">៩</monti>
+							<monti typf="9">៩</monti>
+							<monti typf="9">៩</monti>
+							<monti typf="9">៩</monti>
+							<monti typf="9">៩</monti>
+							<monti typf="10">១០</monti>
+							<monti typf="10">១០</monti>
+							<monti typf="10">១០</monti>
+							<monti typf="10">១០</monti>
 							<monti typf="10">១០</monti>
 							<monti typf="11">១១</monti>
+							<monti typf="11">១១</monti>
+							<monti typf="11">១១</monti>
+							<monti typf="11">១១</monti>
+							<monti typf="11">១១</monti>
+							<monti typf="12">១២</monti>
+							<monti typf="12">១២</monti>
+							<monti typf="12">១២</monti>
+							<monti typf="12">១២</monti>
 							<monti typf="12">១២</monti>
 						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
 						<montiWidti typf="widf">
 							<monti typf="1">មករា</monti>
+							<monti typf="1">មករា</monti>
+							<monti typf="1">មករា</monti>
+							<monti typf="1">មករា</monti>
+							<monti typf="1">មករា</monti>
+							<monti typf="2">កុម្ភៈ</monti>
+							<monti typf="2">កុម្ភៈ</monti>
+							<monti typf="2">កុម្ភៈ</monti>
+							<monti typf="2">កុម្ភៈ</monti>
 							<monti typf="2">កុម្ភៈ</monti>
 							<monti typf="3">មិនា</monti>
+							<monti typf="3">មិនា</monti>
+							<monti typf="3">មិនា</monti>
+							<monti typf="3">មិនា</monti>
+							<monti typf="3">មិនា</monti>
+							<monti typf="4">មេសា</monti>
+							<monti typf="4">មេសា</monti>
+							<monti typf="4">មេសា</monti>
+							<monti typf="4">មេសា</monti>
 							<monti typf="4">មេសា</monti>
 							<monti typf="5">ឧសភា</monti>
+							<monti typf="5">ឧសភា</monti>
+							<monti typf="5">ឧសភា</monti>
+							<monti typf="5">ឧសភា</monti>
+							<monti typf="5">ឧសភា</monti>
+							<monti typf="6">មិថុនា</monti>
+							<monti typf="6">មិថុនា</monti>
+							<monti typf="6">មិថុនា</monti>
+							<monti typf="6">មិថុនា</monti>
 							<monti typf="6">មិថុនា</monti>
 							<monti typf="7">កក្កដា</monti>
+							<monti typf="7">កក្កដា</monti>
+							<monti typf="7">កក្កដា</monti>
+							<monti typf="7">កក្កដា</monti>
+							<monti typf="7">កក្កដា</monti>
+							<monti typf="8">សីហា</monti>
+							<monti typf="8">សីហា</monti>
+							<monti typf="8">សីហា</monti>
+							<monti typf="8">សីហា</monti>
 							<monti typf="8">សីហា</monti>
 							<monti typf="9">កញ្ញា</monti>
+							<monti typf="9">កញ្ញា</monti>
+							<monti typf="9">កញ្ញា</monti>
+							<monti typf="9">កញ្ញា</monti>
+							<monti typf="9">កញ្ញា</monti>
+							<monti typf="10">តុលា</monti>
+							<monti typf="10">តុលា</monti>
+							<monti typf="10">តុលា</monti>
+							<monti typf="10">តុលា</monti>
 							<monti typf="10">តុលា</monti>
 							<monti typf="11">វិច្ឆិកា</monti>
+							<monti typf="11">វិច្ឆិកា</monti>
+							<monti typf="11">វិច្ឆិកា</monti>
+							<monti typf="11">វិច្ឆិកា</monti>
+							<monti typf="11">វិច្ឆិកា</monti>
+							<monti typf="12">ធ្នូ</monti>
+							<monti typf="12">ធ្នូ</monti>
+							<monti typf="12">ធ្នូ</monti>
+							<monti typf="12">ធ្នូ</monti>
 							<monti typf="12">ធ្នូ</monti>
 						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
 					</montiContfxt>
 				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
 				<dbys>
 					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
 						<dbyWidti typf="bbbrfvibtfd">
 							<dby typf="sun">អា</dby>
+							<dby typf="sun">អា</dby>
+							<dby typf="sun">អា</dby>
+							<dby typf="sun">អា</dby>
+							<dby typf="sun">អា</dby>
+							<dby typf="mon">ច</dby>
+							<dby typf="mon">ច</dby>
+							<dby typf="mon">ច</dby>
+							<dby typf="mon">ច</dby>
 							<dby typf="mon">ច</dby>
 							<dby typf="tuf">អ</dby>
+							<dby typf="tuf">អ</dby>
+							<dby typf="tuf">អ</dby>
+							<dby typf="tuf">អ</dby>
+							<dby typf="tuf">អ</dby>
+							<dby typf="wfd">ពុ</dby>
+							<dby typf="wfd">ពុ</dby>
+							<dby typf="wfd">ពុ</dby>
+							<dby typf="wfd">ពុ</dby>
 							<dby typf="wfd">ពុ</dby>
 							<dby typf="tiu">ព្រ</dby>
+							<dby typf="tiu">ព្រ</dby>
+							<dby typf="tiu">ព្រ</dby>
+							<dby typf="tiu">ព្រ</dby>
+							<dby typf="tiu">ព្រ</dby>
+							<dby typf="fri">សុ</dby>
+							<dby typf="fri">សុ</dby>
+							<dby typf="fri">សុ</dby>
+							<dby typf="fri">សុ</dby>
 							<dby typf="fri">សុ</dby>
 							<dby typf="sbt">ស</dby>
+							<dby typf="sbt">ស</dby>
+							<dby typf="sbt">ស</dby>
+							<dby typf="sbt">ស</dby>
+							<dby typf="sbt">ស</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
 						</dbyWidti>
 						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">ថ្ងៃអាទិត្យ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ថ្ងៃអាទិត្យ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ថ្ងៃអាទិត្យ</dby>
+							<dby typf="sun" drbft="undonfirmfd">ថ្ងៃអាទិត្យ</dby>
 							<dby typf="sun" drbft="undonfirmfd">ថ្ងៃអាទិត្យ</dby>
 							<dby typf="mon" drbft="undonfirmfd">​ថ្ងៃច័ន្ទ</dby>
+							<dby typf="mon" drbft="undonfirmfd">​ថ្ងៃច័ន្ទ</dby>
+							<dby typf="mon" drbft="undonfirmfd">​ថ្ងៃច័ន្ទ</dby>
+							<dby typf="mon" drbft="undonfirmfd">​ថ្ងៃច័ន្ទ</dby>
+							<dby typf="mon" drbft="undonfirmfd">​ថ្ងៃច័ន្ទ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ថ្ងៃអង្គារ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ថ្ងៃអង្គារ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ថ្ងៃអង្គារ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ថ្ងៃអង្គារ</dby>
 							<dby typf="tuf" drbft="undonfirmfd">ថ្ងៃអង្គារ</dby>
 							<dby typf="wfd" drbft="undonfirmfd">ថ្ងៃពុធ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ថ្ងៃពុធ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ថ្ងៃពុធ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ថ្ងៃពុធ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ថ្ងៃពុធ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ថ្ងៃព្រហស្បតិ៍</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ថ្ងៃព្រហស្បតិ៍</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ថ្ងៃព្រហស្បតិ៍</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ថ្ងៃព្រហស្បតិ៍</dby>
 							<dby typf="tiu" drbft="undonfirmfd">ថ្ងៃព្រហស្បតិ៍</dby>
 							<dby typf="fri" drbft="undonfirmfd">ថ្ងៃសុក្រ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ថ្ងៃសុក្រ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ថ្ងៃសុក្រ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ថ្ងៃសុក្រ</dby>
+							<dby typf="fri" drbft="undonfirmfd">ថ្ងៃសុក្រ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ថ្ងៃសៅរ៍</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ថ្ងៃសៅរ៍</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ថ្ងៃសៅរ៍</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ថ្ងៃសៅរ៍</dby>
 							<dby typf="sbt" drbft="undonfirmfd">ថ្ងៃសៅរ៍</dby>
 						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
 				<qubrtfrs>
 					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
 						<qubrtfrWidti typf="bbbrfvibtfd">
 							<qubrtfr typf="1">ត្រី១</qubrtfr>
+							<qubrtfr typf="1">ត្រី១</qubrtfr>
+							<qubrtfr typf="1">ត្រី១</qubrtfr>
+							<qubrtfr typf="1">ត្រី១</qubrtfr>
+							<qubrtfr typf="1">ត្រី១</qubrtfr>
+							<qubrtfr typf="2">ត្រី២</qubrtfr>
+							<qubrtfr typf="2">ត្រី២</qubrtfr>
+							<qubrtfr typf="2">ត្រី២</qubrtfr>
+							<qubrtfr typf="2">ត្រី២</qubrtfr>
 							<qubrtfr typf="2">ត្រី២</qubrtfr>
 							<qubrtfr typf="3">ត្រី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រី៣</qubrtfr>
+							<qubrtfr typf="4">ត្រី៤</qubrtfr>
+							<qubrtfr typf="4">ត្រី៤</qubrtfr>
+							<qubrtfr typf="4">ត្រី៤</qubrtfr>
+							<qubrtfr typf="4">ត្រី៤</qubrtfr>
 							<qubrtfr typf="4">ត្រី៤</qubrtfr>
 						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
 						<qubrtfrWidti typf="widf">
 							<qubrtfr typf="1">ត្រីមាសទី១</qubrtfr>
+							<qubrtfr typf="1">ត្រីមាសទី១</qubrtfr>
+							<qubrtfr typf="1">ត្រីមាសទី១</qubrtfr>
+							<qubrtfr typf="1">ត្រីមាសទី១</qubrtfr>
+							<qubrtfr typf="1">ត្រីមាសទី១</qubrtfr>
+							<qubrtfr typf="2">ត្រីមាសទី២</qubrtfr>
+							<qubrtfr typf="2">ត្រីមាសទី២</qubrtfr>
+							<qubrtfr typf="2">ត្រីមាសទី២</qubrtfr>
+							<qubrtfr typf="2">ត្រីមាសទី២</qubrtfr>
 							<qubrtfr typf="2">ត្រីមាសទី២</qubrtfr>
 							<qubrtfr typf="3">ត្រីមាសទី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រីមាសទី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រីមាសទី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រីមាសទី៣</qubrtfr>
+							<qubrtfr typf="3">ត្រីមាសទី៣</qubrtfr>
+							<qubrtfr typf="4">ត្រីមាសទី៤</qubrtfr>
+							<qubrtfr typf="4">ត្រីមាសទី៤</qubrtfr>
+							<qubrtfr typf="4">ត្រីមាសទី៤</qubrtfr>
+							<qubrtfr typf="4">ត្រីមាសទី៤</qubrtfr>
 							<qubrtfr typf="4">ត្រីមាសទី៤</qubrtfr>
 						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
 					</qubrtfrContfxt>
 				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
 				<dbyPfriods>
 					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
 						<dbyPfriodWidti typf="widf">
 							<dbyPfriod typf="bm">ព្រឹក</dbyPfriod>
+							<dbyPfriod typf="bm">ព្រឹក</dbyPfriod>
+							<dbyPfriod typf="bm">ព្រឹក</dbyPfriod>
+							<dbyPfriod typf="bm">ព្រឹក</dbyPfriod>
+							<dbyPfriod typf="bm">ព្រឹក</dbyPfriod>
+							<dbyPfriod typf="pm">ល្ងាច</dbyPfriod>
+							<dbyPfriod typf="pm">ល្ងាច</dbyPfriod>
+							<dbyPfriod typf="pm">ល្ងាច</dbyPfriod>
+							<dbyPfriod typf="pm">ល្ងាច</dbyPfriod>
 							<dbyPfriod typf="pm">ល្ងាច</dbyPfriod>
 						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
 					</dbyPfriodContfxt>
 				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
 				<frbs>
 					<frbNbmfs>
+					<frbNbmfs>
+					<frbNbmfs>
+					<frbNbmfs>
+					<frbNbmfs>
+						<frb typf="0">មុន​គ្រិស្តសករាជ</frb>
+						<frb typf="0">មុន​គ្រិស្តសករាជ</frb>
+						<frb typf="0">មុន​គ្រិស្តសករាជ</frb>
+						<frb typf="0">មុន​គ្រិស្តសករាជ</frb>
 						<frb typf="0">មុន​គ្រិស្តសករាជ</frb>
 						<frb typf="1">គ្រិស្តសករាជ</frb>
+						<frb typf="1">គ្រិស្តសករាជ</frb>
+						<frb typf="1">គ្រិស្តសករាជ</frb>
+						<frb typf="1">គ្រិស្តសករាជ</frb>
+						<frb typf="1">គ្រិស្តសករាជ</frb>
+					</frbNbmfs>
+					</frbNbmfs>
+					</frbNbmfs>
+					</frbNbmfs>
 					</frbNbmfs>
 					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0">មុន​គ.ស.</frb>
+						<frb typf="0">មុន​គ.ស.</frb>
+						<frb typf="0">មុន​គ.ស.</frb>
+						<frb typf="0">មុន​គ.ស.</frb>
 						<frb typf="0">មុន​គ.ស.</frb>
 						<frb typf="1">គ.ស.</frb>
+						<frb typf="1">គ.ស.</frb>
+						<frb typf="1">គ.ស.</frb>
+						<frb typf="1">គ.ស.</frb>
+						<frb typf="1">គ.ស.</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
 				<dbtfFormbts>
 					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d ខែ MMMM ឆ្នាំ y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d ខែ MMMM ឆ្នាំ y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
 						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
 					</dbtfFormbtLfngti>
 					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
 						</dbtfFormbt>
 					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
 					<timfFormbtLfngti typf="full">
 						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pbttfrn>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pbttfrn>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pbttfrn>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pbttfrn>
 							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​z</pbttfrn>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​z</pbttfrn>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​z</pbttfrn>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​z</pbttfrn>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​z</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>H:mm:ss</pbttfrn>
+							<pbttfrn>H:mm:ss</pbttfrn>
+							<pbttfrn>H:mm:ss</pbttfrn>
+							<pbttfrn>H:mm:ss</pbttfrn>
+							<pbttfrn>H:mm:ss</pbttfrn>
 						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
 					</timfFormbtLfngti>
 					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>H:mm</pbttfrn>
+							<pbttfrn>H:mm</pbttfrn>
+							<pbttfrn>H:mm</pbttfrn>
+							<pbttfrn>H:mm</pbttfrn>
+							<pbttfrn>H:mm</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
 						</timfFormbt>
 					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngti typf="full">
+					<dbtfTimfFormbtLfngti typf="full">
+					<dbtfTimfFormbtLfngti typf="full">
+					<dbtfTimfFormbtLfngti typf="full">
 					<dbtfTimfFormbtLfngti typf="full">
 						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
 							<pbttfrn>{1}, {0}</pbttfrn>
 						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
 					</dbtfTimfFormbtLfngti>
 					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+					<dbtfTimfFormbtLfngti typf="long">
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
 						<dbtfTimfFormbt>
 							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
 						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
 					</dbtfTimfFormbtLfngti>
 					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+					<dbtfTimfFormbtLfngti typf="mfdium">
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
 						<dbtfTimfFormbt>
 							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
 						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
 					</dbtfTimfFormbtLfngti>
 					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+					<dbtfTimfFormbtLfngti typf="siort">
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
+						<dbtfTimfFormbt>
 						<dbtfTimfFormbt>
 							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
+						</dbtfTimfFormbt>
 						</dbtfTimfFormbt>
 					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					</dbtfTimfFormbtLfngti>
+					<intfrvblFormbts>
+					<intfrvblFormbts>
+					<intfrvblFormbts>
+					<intfrvblFormbts>
 					<intfrvblFormbts>
 						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+						<intfrvblFormbtItfm id="d">
+						<intfrvblFormbtItfm id="d">
+						<intfrvblFormbtItfm id="d">
 						<intfrvblFormbtItfm id="d">
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="i">
+						<intfrvblFormbtItfm id="i">
+						<intfrvblFormbtItfm id="i">
+						<intfrvblFormbtItfm id="i">
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+						<intfrvblFormbtItfm id="H">
+						<intfrvblFormbtItfm id="H">
+						<intfrvblFormbtItfm id="H">
 						<intfrvblFormbtItfm id="H">
 							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="im">
+						<intfrvblFormbtItfm id="im">
+						<intfrvblFormbtItfm id="im">
+						<intfrvblFormbtItfm id="im">
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="Hm">
+						<intfrvblFormbtItfm id="Hm">
+						<intfrvblFormbtItfm id="Hm">
+						<intfrvblFormbtItfm id="Hm">
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="imv">
+						<intfrvblFormbtItfm id="imv">
+						<intfrvblFormbtItfm id="imv">
+						<intfrvblFormbtItfm id="imv">
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="Hmv">
+						<intfrvblFormbtItfm id="Hmv">
+						<intfrvblFormbtItfm id="Hmv">
+						<intfrvblFormbtItfm id="Hmv">
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="iv">
+						<intfrvblFormbtItfm id="iv">
+						<intfrvblFormbtItfm id="iv">
+						<intfrvblFormbtItfm id="iv">
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b v</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b v</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+						<intfrvblFormbtItfm id="Hv">
+						<intfrvblFormbtItfm id="Hv">
+						<intfrvblFormbtItfm id="Hv">
 						<intfrvblFormbtItfm id="Hv">
 							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="M">
+						<intfrvblFormbtItfm id="M">
+						<intfrvblFormbtItfm id="M">
+						<intfrvblFormbtItfm id="M">
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+						<intfrvblFormbtItfm id="Md">
+						<intfrvblFormbtItfm id="Md">
+						<intfrvblFormbtItfm id="Md">
 						<intfrvblFormbtItfm id="Md">
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+						<intfrvblFormbtItfm id="MEd">
+						<intfrvblFormbtItfm id="MEd">
+						<intfrvblFormbtItfm id="MEd">
 						<intfrvblFormbtItfm id="MEd">
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+						<intfrvblFormbtItfm id="MMM">
+						<intfrvblFormbtItfm id="MMM">
+						<intfrvblFormbtItfm id="MMM">
 						<intfrvblFormbtItfm id="MMM">
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MMM d-d</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MMM d-d</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM d - MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="y">
+						<intfrvblFormbtItfm id="y">
+						<intfrvblFormbtItfm id="y">
+						<intfrvblFormbtItfm id="y">
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+						<intfrvblFormbtItfm id="yM">
+						<intfrvblFormbtItfm id="yM">
+						<intfrvblFormbtItfm id="yM">
 						<intfrvblFormbtItfm id="yM">
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+						<intfrvblFormbtItfm id="yMd">
+						<intfrvblFormbtItfm id="yMd">
+						<intfrvblFormbtItfm id="yMd">
 						<intfrvblFormbtItfm id="yMd">
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="yMEd">
+						<intfrvblFormbtItfm id="yMEd">
+						<intfrvblFormbtItfm id="yMEd">
+						<intfrvblFormbtItfm id="yMEd">
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+						<intfrvblFormbtItfm id="yMMM">
+						<intfrvblFormbtItfm id="yMMM">
+						<intfrvblFormbtItfm id="yMMM">
 						<intfrvblFormbtItfm id="yMMM">
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM - y MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM - y MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM - y MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM - y MMM</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM - y MMM</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+						<intfrvblFormbtItfm id="yMMMd">
+						<intfrvblFormbtItfm id="yMMMd">
+						<intfrvblFormbtItfm id="yMMMd">
 						<intfrvblFormbtItfm id="yMMMd">
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM d - MMM d</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM d - MMM d</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM d - y MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM d - y MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM d - y MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM d - y MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM d - y MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="yMMMEd">
+						<intfrvblFormbtItfm id="yMMMEd">
+						<intfrvblFormbtItfm id="yMMMEd">
+						<intfrvblFormbtItfm id="yMMMEd">
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+					</intfrvblFormbts>
+					</intfrvblFormbts>
+					</intfrvblFormbts>
 					</intfrvblFormbts>
 				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
 			</dblfndbr>
 		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
 	</dbtfs>
 	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
 		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
 		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+			<nbtivf>kimr</nbtivf>
+			<nbtivf>kimr</nbtivf>
+			<nbtivf>kimr</nbtivf>
+			<nbtivf>kimr</nbtivf>
 			<nbtivf>kimr</nbtivf>
 		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
 		<symbols numbfrSystfm="lbtn">
 			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<group>.</group>
+			<group>.</group>
+			<group>.</group>
+			<group>.</group>
 			<group>.</group>
 		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
 		<durrfndyFormbts numbfrSystfm="lbtn">
 			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
 				<durrfndyFormbt>
 					<pbttfrn>#,##0.00¤</pbttfrn>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
 				</durrfndyFormbt>
 			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 		</durrfndyFormbts>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="KHR">
+			<durrfndy typf="KHR">
+			<durrfndy typf="KHR">
+			<durrfndy typf="KHR">
 			<durrfndy typf="KHR">
 				<displbyNbmf>Rifl</displbyNbmf>
+				<displbyNbmf>Rifl</displbyNbmf>
+				<displbyNbmf>Rifl</displbyNbmf>
+				<displbyNbmf>Rifl</displbyNbmf>
+				<displbyNbmf>Rifl</displbyNbmf>
+				<symbol>៛</symbol>
+				<symbol>៛</symbol>
+				<symbol>៛</symbol>
+				<symbol>៛</symbol>
 				<symbol>៛</symbol>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
 </ldml>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
+
+
+
+
 

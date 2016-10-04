@@ -1,696 +1,3480 @@
 /*
- * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.sql.rowsft.sfribl;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+
+
+
+
 
 import jbvb.sql.*;
+import jbvb.sql.*;
+import jbvb.sql.*;
+import jbvb.sql.*;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
 import jbvb.io.*;
 import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+
+
+
+
 
 /**
- * A sfriblizfd mbpping in thf Jbvb progrbmming lbngubgf of bn SQL
+/**
+/**
+/**
+/**
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * <dodf>CLOB</dodf> vbluf.
+ * <dodf>CLOB</dodf> vbluf.
+ * <dodf>CLOB</dodf> vbluf.
+ * <dodf>CLOB</dodf> vbluf.
  * <dodf>CLOB</dodf> vbluf.
  * <P>
- * Thf <dodf>SfriblClob</dodf> dlbss providfs b donstrudtor for drfbting
- * bn instbndf from b <dodf>Clob</dodf> objfdt.  Notf thbt thf <dodf>Clob</dodf>
- * objfdt should hbvf brought thf SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr
- * to thf dlifnt bfforf b <dodf>SfriblClob</dodf> objfdt
- * is donstrudtfd from it.  Thf dbtb of bn SQL <dodf>CLOB</dodf> vbluf dbn
- * bf mbtfriblizfd on thf dlifnt bs b strfbm of Unidodf dhbrbdtfrs.
  * <P>
- * <dodf>SfriblClob</dodf> mfthods mbkf it possiblf to gft b substring
- * from b <dodf>SfriblClob</dodf> objfdt or to lodbtf thf stbrt of
- * b pbttfrn of dhbrbdtfrs.
+ * <P>
+ * <P>
+ * <P>
+ * Tif <dodf>SfriblClob</dodf> dlbss providfs b donstrudtor for drfbting
+ * Tif <dodf>SfriblClob</dodf> dlbss providfs b donstrudtor for drfbting
+ * Tif <dodf>SfriblClob</dodf> dlbss providfs b donstrudtor for drfbting
+ * Tif <dodf>SfriblClob</dodf> dlbss providfs b donstrudtor for drfbting
+ * Tif <dodf>SfriblClob</dodf> dlbss providfs b donstrudtor for drfbting
+ * bn instbndf from b <dodf>Clob</dodf> objfdt.  Notf tibt tif <dodf>Clob</dodf>
+ * bn instbndf from b <dodf>Clob</dodf> objfdt.  Notf tibt tif <dodf>Clob</dodf>
+ * bn instbndf from b <dodf>Clob</dodf> objfdt.  Notf tibt tif <dodf>Clob</dodf>
+ * bn instbndf from b <dodf>Clob</dodf> objfdt.  Notf tibt tif <dodf>Clob</dodf>
+ * bn instbndf from b <dodf>Clob</dodf> objfdt.  Notf tibt tif <dodf>Clob</dodf>
+ * objfdt siould ibvf brougit tif SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr
+ * objfdt siould ibvf brougit tif SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr
+ * objfdt siould ibvf brougit tif SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr
+ * objfdt siould ibvf brougit tif SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr
+ * objfdt siould ibvf brougit tif SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr
+ * to tif dlifnt bfforf b <dodf>SfriblClob</dodf> objfdt
+ * to tif dlifnt bfforf b <dodf>SfriblClob</dodf> objfdt
+ * to tif dlifnt bfforf b <dodf>SfriblClob</dodf> objfdt
+ * to tif dlifnt bfforf b <dodf>SfriblClob</dodf> objfdt
+ * to tif dlifnt bfforf b <dodf>SfriblClob</dodf> objfdt
+ * is donstrudtfd from it.  Tif dbtb of bn SQL <dodf>CLOB</dodf> vbluf dbn
+ * is donstrudtfd from it.  Tif dbtb of bn SQL <dodf>CLOB</dodf> vbluf dbn
+ * is donstrudtfd from it.  Tif dbtb of bn SQL <dodf>CLOB</dodf> vbluf dbn
+ * is donstrudtfd from it.  Tif dbtb of bn SQL <dodf>CLOB</dodf> vbluf dbn
+ * is donstrudtfd from it.  Tif dbtb of bn SQL <dodf>CLOB</dodf> vbluf dbn
+ * bf mbtfriblizfd on tif dlifnt bs b strfbm of Unidodf dibrbdtfrs.
+ * bf mbtfriblizfd on tif dlifnt bs b strfbm of Unidodf dibrbdtfrs.
+ * bf mbtfriblizfd on tif dlifnt bs b strfbm of Unidodf dibrbdtfrs.
+ * bf mbtfriblizfd on tif dlifnt bs b strfbm of Unidodf dibrbdtfrs.
+ * bf mbtfriblizfd on tif dlifnt bs b strfbm of Unidodf dibrbdtfrs.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <dodf>SfriblClob</dodf> mftiods mbkf it possiblf to gft b substring
+ * <dodf>SfriblClob</dodf> mftiods mbkf it possiblf to gft b substring
+ * <dodf>SfriblClob</dodf> mftiods mbkf it possiblf to gft b substring
+ * <dodf>SfriblClob</dodf> mftiods mbkf it possiblf to gft b substring
+ * <dodf>SfriblClob</dodf> mftiods mbkf it possiblf to gft b substring
+ * from b <dodf>SfriblClob</dodf> objfdt or to lodbtf tif stbrt of
+ * from b <dodf>SfriblClob</dodf> objfdt or to lodbtf tif stbrt of
+ * from b <dodf>SfriblClob</dodf> objfdt or to lodbtf tif stbrt of
+ * from b <dodf>SfriblClob</dodf> objfdt or to lodbtf tif stbrt of
+ * from b <dodf>SfriblClob</dodf> objfdt or to lodbtf tif stbrt of
+ * b pbttfrn of dibrbdtfrs.
+ * b pbttfrn of dibrbdtfrs.
+ * b pbttfrn of dibrbdtfrs.
+ * b pbttfrn of dibrbdtfrs.
+ * b pbttfrn of dibrbdtfrs.
  *
- * <h3> Thrfbd sbffty </h3>
  *
- * <p> A SfriblClob is not sbff for usf by multiplf dondurrfnt thrfbds.  If b
- * SfriblClob is to bf usfd by morf thbn onf thrfbd thfn bddfss to thf SfriblClob
- * should bf dontrollfd by bppropribtf syndhronizbtion.
  *
- * @buthor Jonbthbn Brudf
+ *
+ *
+ * <i3> Tirfbd sbffty </i3>
+ * <i3> Tirfbd sbffty </i3>
+ * <i3> Tirfbd sbffty </i3>
+ * <i3> Tirfbd sbffty </i3>
+ * <i3> Tirfbd sbffty </i3>
+ *
+ *
+ *
+ *
+ *
+ * <p> A SfriblClob is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * <p> A SfriblClob is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * <p> A SfriblClob is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * <p> A SfriblClob is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * <p> A SfriblClob is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * SfriblClob is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblClob
+ * SfriblClob is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblClob
+ * SfriblClob is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblClob
+ * SfriblClob is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblClob
+ * SfriblClob is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif SfriblClob
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
+ * siould bf dontrollfd by bppropribtf syndironizbtion.
+ *
+ *
+ *
+ *
+ *
+ * @butior Jonbtibn Brudf
+ * @butior Jonbtibn Brudf
+ * @butior Jonbtibn Brudf
+ * @butior Jonbtibn Brudf
+ * @butior Jonbtibn Brudf
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  */
+ */
+ */
+ */
+ */
+publid dlbss SfriblClob implfmfnts Clob, Sfriblizbblf, Clonfbblf {
+publid dlbss SfriblClob implfmfnts Clob, Sfriblizbblf, Clonfbblf {
+publid dlbss SfriblClob implfmfnts Clob, Sfriblizbblf, Clonfbblf {
+publid dlbss SfriblClob implfmfnts Clob, Sfriblizbblf, Clonfbblf {
 publid dlbss SfriblClob implfmfnts Clob, Sfriblizbblf, Clonfbblf {
 
+
+
+
+
     /**
-     * A sfriblizfd brrby of dhbrbdtfrs dontbining thf dbtb of thf SQL
-     * <dodf>CLOB</dodf> vbluf thbt this <dodf>SfriblClob</dodf> objfdt
+    /**
+    /**
+    /**
+    /**
+     * A sfriblizfd brrby of dibrbdtfrs dontbining tif dbtb of tif SQL
+     * A sfriblizfd brrby of dibrbdtfrs dontbining tif dbtb of tif SQL
+     * A sfriblizfd brrby of dibrbdtfrs dontbining tif dbtb of tif SQL
+     * A sfriblizfd brrby of dibrbdtfrs dontbining tif dbtb of tif SQL
+     * A sfriblizfd brrby of dibrbdtfrs dontbining tif dbtb of tif SQL
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * rfprfsfnts.
+     * rfprfsfnts.
+     * rfprfsfnts.
+     * rfprfsfnts.
      * rfprfsfnts.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      */
-    privbtf dhbr buf[];
+     */
+     */
+     */
+     */
+    privbtf dibr buf[];
+    privbtf dibr buf[];
+    privbtf dibr buf[];
+    privbtf dibr buf[];
+    privbtf dibr buf[];
+
+
+
+
 
     /**
-     * Intfrnbl Clob rfprfsfntbtion if SfriblClob is initiblizfd with b
-     * Clob. Null if SfriblClob is initiblizfd with b dhbr[].
+    /**
+    /**
+    /**
+    /**
+     * Intfrnbl Clob rfprfsfntbtion if SfriblClob is initiblizfd witi b
+     * Intfrnbl Clob rfprfsfntbtion if SfriblClob is initiblizfd witi b
+     * Intfrnbl Clob rfprfsfntbtion if SfriblClob is initiblizfd witi b
+     * Intfrnbl Clob rfprfsfntbtion if SfriblClob is initiblizfd witi b
+     * Intfrnbl Clob rfprfsfntbtion if SfriblClob is initiblizfd witi b
+     * Clob. Null if SfriblClob is initiblizfd witi b dibr[].
+     * Clob. Null if SfriblClob is initiblizfd witi b dibr[].
+     * Clob. Null if SfriblClob is initiblizfd witi b dibr[].
+     * Clob. Null if SfriblClob is initiblizfd witi b dibr[].
+     * Clob. Null if SfriblClob is initiblizfd witi b dibr[].
+     */
+     */
+     */
+     */
      */
     privbtf Clob dlob;
+    privbtf Clob dlob;
+    privbtf Clob dlob;
+    privbtf Clob dlob;
+    privbtf Clob dlob;
+
+
+
+
 
     /**
-     * Thf lfngth in dhbrbdtfrs of this <dodf>SfriblClob</dodf> objfdt's
-     * intfrnbl brrby of dhbrbdtfrs.
+    /**
+    /**
+    /**
+    /**
+     * Tif lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf> objfdt's
+     * Tif lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf> objfdt's
+     * Tif lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf> objfdt's
+     * Tif lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf> objfdt's
+     * Tif lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf> objfdt's
+     * intfrnbl brrby of dibrbdtfrs.
+     * intfrnbl brrby of dibrbdtfrs.
+     * intfrnbl brrby of dibrbdtfrs.
+     * intfrnbl brrby of dibrbdtfrs.
+     * intfrnbl brrby of dibrbdtfrs.
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf long lfn;
+    privbtf long lfn;
+    privbtf long lfn;
+    privbtf long lfn;
+    privbtf long lfn;
+
+
+
+
 
     /**
-     * Thf originbl lfngth in dhbrbdtfrs of this <dodf>SfriblClob</dodf>
-     * objfdt's intfrnbl brrby of dhbrbdtfrs.
+    /**
+    /**
+    /**
+    /**
+     * Tif originbl lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf>
+     * Tif originbl lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf>
+     * Tif originbl lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf>
+     * Tif originbl lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf>
+     * Tif originbl lfngti in dibrbdtfrs of tiis <dodf>SfriblClob</dodf>
+     * objfdt's intfrnbl brrby of dibrbdtfrs.
+     * objfdt's intfrnbl brrby of dibrbdtfrs.
+     * objfdt's intfrnbl brrby of dibrbdtfrs.
+     * objfdt's intfrnbl brrby of dibrbdtfrs.
+     * objfdt's intfrnbl brrby of dibrbdtfrs.
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf long origLfn;
+    privbtf long origLfn;
+    privbtf long origLfn;
+    privbtf long origLfn;
+    privbtf long origLfn;
+
+
+
+
 
     /**
-     * Construdts b <dodf>SfriblClob</dodf> objfdt thbt is b sfriblizfd vfrsion of
-     * thf givfn <dodf>dhbr</dodf> brrby.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd vfrsion of
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd vfrsion of
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd vfrsion of
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd vfrsion of
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd vfrsion of
+     * tif givfn <dodf>dibr</dodf> brrby.
+     * tif givfn <dodf>dibr</dodf> brrby.
+     * tif givfn <dodf>dibr</dodf> brrby.
+     * tif givfn <dodf>dibr</dodf> brrby.
+     * tif givfn <dodf>dibr</dodf> brrby.
      * <p>
-     * Thf nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd with thf dbtb from thf
-     * <dodf>dhbr</dodf> brrby, thus bllowing disdonnfdtfd <dodf>RowSft</dodf>
-     * objfdts to fstbblish b sfriblizfd <dodf>Clob</dodf> objfdt without toudhing
-     * thf dbtb sourdf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif dbtb from tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif dbtb from tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif dbtb from tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif dbtb from tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif dbtb from tif
+     * <dodf>dibr</dodf> brrby, tius bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * <dodf>dibr</dodf> brrby, tius bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * <dodf>dibr</dodf> brrby, tius bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * <dodf>dibr</dodf> brrby, tius bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * <dodf>dibr</dodf> brrby, tius bllowing disdonnfdtfd <dodf>RowSft</dodf>
+     * objfdts to fstbblisi b sfriblizfd <dodf>Clob</dodf> objfdt witiout toudiing
+     * objfdts to fstbblisi b sfriblizfd <dodf>Clob</dodf> objfdt witiout toudiing
+     * objfdts to fstbblisi b sfriblizfd <dodf>Clob</dodf> objfdt witiout toudiing
+     * objfdts to fstbblisi b sfriblizfd <dodf>Clob</dodf> objfdt witiout toudiing
+     * objfdts to fstbblisi b sfriblizfd <dodf>Clob</dodf> objfdt witiout toudiing
+     * tif dbtb sourdf.
+     * tif dbtb sourdf.
+     * tif dbtb sourdf.
+     * tif dbtb sourdf.
+     * tif dbtb sourdf.
      *
-     * @pbrbm dh thf dhbr brrby rfprfsfnting thf <dodf>Clob</dodf> objfdt to bf
+     *
+     *
+     *
+     *
+     * @pbrbm di tif dibr brrby rfprfsfnting tif <dodf>Clob</dodf> objfdt to bf
+     * @pbrbm di tif dibr brrby rfprfsfnting tif <dodf>Clob</dodf> objfdt to bf
+     * @pbrbm di tif dibr brrby rfprfsfnting tif <dodf>Clob</dodf> objfdt to bf
+     * @pbrbm di tif dibr brrby rfprfsfnting tif <dodf>Clob</dodf> objfdt to bf
+     * @pbrbm di tif dibr brrby rfprfsfnting tif <dodf>Clob</dodf> objfdt to bf
      *         sfriblizfd
-     * @throws SfriblExdfption if bn frror oddurs during sfriblizbtion
-     * @throws SQLExdfption if b SQL frror oddurs
+     *         sfriblizfd
+     *         sfriblizfd
+     *         sfriblizfd
+     *         sfriblizfd
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SQLExdfption if b SQL frror oddurs
+     * @tirows SQLExdfption if b SQL frror oddurs
+     * @tirows SQLExdfption if b SQL frror oddurs
+     * @tirows SQLExdfption if b SQL frror oddurs
+     * @tirows SQLExdfption if b SQL frror oddurs
      */
-    publid SfriblClob(dhbr dh[]) throws SfriblExdfption, SQLExdfption {
+     */
+     */
+     */
+     */
+    publid SfriblClob(dibr di[]) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(dibr di[]) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(dibr di[]) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(dibr di[]) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(dibr di[]) tirows SfriblExdfption, SQLExdfption {
 
-        // %%% JMB. Agrffd. Add dodf hfrf to throw b SQLExdfption if no
+
+
+
+
+        // %%% JMB. Agrffd. Add dodf ifrf to tirow b SQLExdfption if no
+        // %%% JMB. Agrffd. Add dodf ifrf to tirow b SQLExdfption if no
+        // %%% JMB. Agrffd. Add dodf ifrf to tirow b SQLExdfption if no
+        // %%% JMB. Agrffd. Add dodf ifrf to tirow b SQLExdfption if no
+        // %%% JMB. Agrffd. Add dodf ifrf to tirow b SQLExdfption if no
+        // support is bvbilbblf for lodbtorsUpdbtfCopy=fblsf
+        // support is bvbilbblf for lodbtorsUpdbtfCopy=fblsf
+        // support is bvbilbblf for lodbtorsUpdbtfCopy=fblsf
+        // support is bvbilbblf for lodbtorsUpdbtfCopy=fblsf
         // support is bvbilbblf for lodbtorsUpdbtfCopy=fblsf
         // Sfriblizing lodbtors is not supportfd.
+        // Sfriblizing lodbtors is not supportfd.
+        // Sfriblizing lodbtors is not supportfd.
+        // Sfriblizing lodbtors is not supportfd.
+        // Sfriblizing lodbtors is not supportfd.
 
-        lfn = dh.lfngth;
-        buf = nfw dhbr[(int)lfn];
+
+
+
+
+        lfn = di.lfngti;
+        lfn = di.lfngti;
+        lfn = di.lfngti;
+        lfn = di.lfngti;
+        lfn = di.lfngti;
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
         for (int i = 0; i < lfn ; i++){
-           buf[i] = dh[i];
+        for (int i = 0; i < lfn ; i++){
+        for (int i = 0; i < lfn ; i++){
+        for (int i = 0; i < lfn ; i++){
+        for (int i = 0; i < lfn ; i++){
+           buf[i] = di[i];
+           buf[i] = di[i];
+           buf[i] = di[i];
+           buf[i] = di[i];
+           buf[i] = di[i];
         }
+        }
+        }
+        }
+        }
+        origLfn = lfn;
+        origLfn = lfn;
+        origLfn = lfn;
+        origLfn = lfn;
         origLfn = lfn;
         dlob = null;
+        dlob = null;
+        dlob = null;
+        dlob = null;
+        dlob = null;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b <dodf>SfriblClob</dodf> objfdt thbt is b sfriblizfd
-     * vfrsion of thf givfn <dodf>Clob</dodf> objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd
+     * Construdts b <dodf>SfriblClob</dodf> objfdt tibt is b sfriblizfd
+     * vfrsion of tif givfn <dodf>Clob</dodf> objfdt.
+     * vfrsion of tif givfn <dodf>Clob</dodf> objfdt.
+     * vfrsion of tif givfn <dodf>Clob</dodf> objfdt.
+     * vfrsion of tif givfn <dodf>Clob</dodf> objfdt.
+     * vfrsion of tif givfn <dodf>Clob</dodf> objfdt.
      * <P>
-     * Thf nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd with thf
-     * dbtb from thf <dodf>Clob</dodf> objfdt; thfrfforf, thf
-     * <dodf>Clob</dodf> objfdt should hbvf prfviously brought thf
-     * SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr to thf dlifnt from
-     * thf dbtbbbsf. Othfrwisf, thf nfw <dodf>SfriblClob</dodf> objfdt
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif
+     * Tif nfw <dodf>SfriblClob</dodf> objfdt is initiblizfd witi tif
+     * dbtb from tif <dodf>Clob</dodf> objfdt; tifrfforf, tif
+     * dbtb from tif <dodf>Clob</dodf> objfdt; tifrfforf, tif
+     * dbtb from tif <dodf>Clob</dodf> objfdt; tifrfforf, tif
+     * dbtb from tif <dodf>Clob</dodf> objfdt; tifrfforf, tif
+     * dbtb from tif <dodf>Clob</dodf> objfdt; tifrfforf, tif
+     * <dodf>Clob</dodf> objfdt siould ibvf prfviously brougit tif
+     * <dodf>Clob</dodf> objfdt siould ibvf prfviously brougit tif
+     * <dodf>Clob</dodf> objfdt siould ibvf prfviously brougit tif
+     * <dodf>Clob</dodf> objfdt siould ibvf prfviously brougit tif
+     * <dodf>Clob</dodf> objfdt siould ibvf prfviously brougit tif
+     * SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr to tif dlifnt from
+     * SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr to tif dlifnt from
+     * SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr to tif dlifnt from
+     * SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr to tif dlifnt from
+     * SQL <dodf>CLOB</dodf> vbluf's dbtb ovfr to tif dlifnt from
+     * tif dbtbbbsf. Otifrwisf, tif nfw <dodf>SfriblClob</dodf> objfdt
+     * tif dbtbbbsf. Otifrwisf, tif nfw <dodf>SfriblClob</dodf> objfdt
+     * tif dbtbbbsf. Otifrwisf, tif nfw <dodf>SfriblClob</dodf> objfdt
+     * tif dbtbbbsf. Otifrwisf, tif nfw <dodf>SfriblClob</dodf> objfdt
+     * tif dbtbbbsf. Otifrwisf, tif nfw <dodf>SfriblClob</dodf> objfdt
+     * objfdt will dontbin no dbtb.
+     * objfdt will dontbin no dbtb.
+     * objfdt will dontbin no dbtb.
+     * objfdt will dontbin no dbtb.
      * objfdt will dontbin no dbtb.
      * <p>
-     * Notf: Thf <dodf>Clob</dodf> objfdt supplifd to this donstrudtor must
-     * rfturn non-null for both thf <dodf>Clob.gftChbrbdtfrStrfbm()</dodf>
-     * bnd <dodf>Clob.gftAsdiiStrfbm</dodf> mfthods. This <dodf>SfriblClob</dodf>
-     * donstrudtor dbnnot sfriblizf b <dodf>Clob</dodf> objfdt in this instbndf
-     * bnd will throw bn <dodf>SQLExdfption</dodf> objfdt.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Notf: Tif <dodf>Clob</dodf> objfdt supplifd to tiis donstrudtor must
+     * Notf: Tif <dodf>Clob</dodf> objfdt supplifd to tiis donstrudtor must
+     * Notf: Tif <dodf>Clob</dodf> objfdt supplifd to tiis donstrudtor must
+     * Notf: Tif <dodf>Clob</dodf> objfdt supplifd to tiis donstrudtor must
+     * Notf: Tif <dodf>Clob</dodf> objfdt supplifd to tiis donstrudtor must
+     * rfturn non-null for boti tif <dodf>Clob.gftCibrbdtfrStrfbm()</dodf>
+     * rfturn non-null for boti tif <dodf>Clob.gftCibrbdtfrStrfbm()</dodf>
+     * rfturn non-null for boti tif <dodf>Clob.gftCibrbdtfrStrfbm()</dodf>
+     * rfturn non-null for boti tif <dodf>Clob.gftCibrbdtfrStrfbm()</dodf>
+     * rfturn non-null for boti tif <dodf>Clob.gftCibrbdtfrStrfbm()</dodf>
+     * bnd <dodf>Clob.gftAsdiiStrfbm</dodf> mftiods. Tiis <dodf>SfriblClob</dodf>
+     * bnd <dodf>Clob.gftAsdiiStrfbm</dodf> mftiods. Tiis <dodf>SfriblClob</dodf>
+     * bnd <dodf>Clob.gftAsdiiStrfbm</dodf> mftiods. Tiis <dodf>SfriblClob</dodf>
+     * bnd <dodf>Clob.gftAsdiiStrfbm</dodf> mftiods. Tiis <dodf>SfriblClob</dodf>
+     * bnd <dodf>Clob.gftAsdiiStrfbm</dodf> mftiods. Tiis <dodf>SfriblClob</dodf>
+     * donstrudtor dbnnot sfriblizf b <dodf>Clob</dodf> objfdt in tiis instbndf
+     * donstrudtor dbnnot sfriblizf b <dodf>Clob</dodf> objfdt in tiis instbndf
+     * donstrudtor dbnnot sfriblizf b <dodf>Clob</dodf> objfdt in tiis instbndf
+     * donstrudtor dbnnot sfriblizf b <dodf>Clob</dodf> objfdt in tiis instbndf
+     * donstrudtor dbnnot sfriblizf b <dodf>Clob</dodf> objfdt in tiis instbndf
+     * bnd will tirow bn <dodf>SQLExdfption</dodf> objfdt.
+     * bnd will tirow bn <dodf>SQLExdfption</dodf> objfdt.
+     * bnd will tirow bn <dodf>SQLExdfption</dodf> objfdt.
+     * bnd will tirow bn <dodf>SQLExdfption</dodf> objfdt.
+     * bnd will tirow bn <dodf>SQLExdfption</dodf> objfdt.
      *
-     * @pbrbm  dlob thf <dodf>Clob</dodf> objfdt from whidh this
+     *
+     *
+     *
+     *
+     * @pbrbm  dlob tif <dodf>Clob</dodf> objfdt from wiidi tiis
+     * @pbrbm  dlob tif <dodf>Clob</dodf> objfdt from wiidi tiis
+     * @pbrbm  dlob tif <dodf>Clob</dodf> objfdt from wiidi tiis
+     * @pbrbm  dlob tif <dodf>Clob</dodf> objfdt from wiidi tiis
+     * @pbrbm  dlob tif <dodf>Clob</dodf> objfdt from wiidi tiis
      *     <dodf>SfriblClob</dodf> objfdt is to bf donstrudtfd; dbnnot bf null
-     * @throws SfriblExdfption if bn frror oddurs during sfriblizbtion
-     * @throws SQLExdfption if b SQL frror oddurs in dbpturing thf CLOB;
-     *     if thf <dodf>Clob</dodf> objfdt is b null; or if fithfr of thf
-     *     <dodf>Clob.gftChbrbdtfrStrfbm()</dodf> bnd <dodf>Clob.gftAsdiiStrfbm()</dodf>
-     *     mfthods on thf <dodf>Clob</dodf> rfturns b null
+     *     <dodf>SfriblClob</dodf> objfdt is to bf donstrudtfd; dbnnot bf null
+     *     <dodf>SfriblClob</dodf> objfdt is to bf donstrudtfd; dbnnot bf null
+     *     <dodf>SfriblClob</dodf> objfdt is to bf donstrudtfd; dbnnot bf null
+     *     <dodf>SfriblClob</dodf> objfdt is to bf donstrudtfd; dbnnot bf null
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SfriblExdfption if bn frror oddurs during sfriblizbtion
+     * @tirows SQLExdfption if b SQL frror oddurs in dbpturing tif CLOB;
+     * @tirows SQLExdfption if b SQL frror oddurs in dbpturing tif CLOB;
+     * @tirows SQLExdfption if b SQL frror oddurs in dbpturing tif CLOB;
+     * @tirows SQLExdfption if b SQL frror oddurs in dbpturing tif CLOB;
+     * @tirows SQLExdfption if b SQL frror oddurs in dbpturing tif CLOB;
+     *     if tif <dodf>Clob</dodf> objfdt is b null; or if fitifr of tif
+     *     if tif <dodf>Clob</dodf> objfdt is b null; or if fitifr of tif
+     *     if tif <dodf>Clob</dodf> objfdt is b null; or if fitifr of tif
+     *     if tif <dodf>Clob</dodf> objfdt is b null; or if fitifr of tif
+     *     if tif <dodf>Clob</dodf> objfdt is b null; or if fitifr of tif
+     *     <dodf>Clob.gftCibrbdtfrStrfbm()</dodf> bnd <dodf>Clob.gftAsdiiStrfbm()</dodf>
+     *     <dodf>Clob.gftCibrbdtfrStrfbm()</dodf> bnd <dodf>Clob.gftAsdiiStrfbm()</dodf>
+     *     <dodf>Clob.gftCibrbdtfrStrfbm()</dodf> bnd <dodf>Clob.gftAsdiiStrfbm()</dodf>
+     *     <dodf>Clob.gftCibrbdtfrStrfbm()</dodf> bnd <dodf>Clob.gftAsdiiStrfbm()</dodf>
+     *     <dodf>Clob.gftCibrbdtfrStrfbm()</dodf> bnd <dodf>Clob.gftAsdiiStrfbm()</dodf>
+     *     mftiods on tif <dodf>Clob</dodf> rfturns b null
+     *     mftiods on tif <dodf>Clob</dodf> rfturns b null
+     *     mftiods on tif <dodf>Clob</dodf> rfturns b null
+     *     mftiods on tif <dodf>Clob</dodf> rfturns b null
+     *     mftiods on tif <dodf>Clob</dodf> rfturns b null
+     * @sff jbvb.sql.Clob
+     * @sff jbvb.sql.Clob
+     * @sff jbvb.sql.Clob
+     * @sff jbvb.sql.Clob
      * @sff jbvb.sql.Clob
      */
-    publid SfriblClob(Clob dlob) throws SfriblExdfption, SQLExdfption {
+     */
+     */
+     */
+     */
+    publid SfriblClob(Clob dlob) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(Clob dlob) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(Clob dlob) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(Clob dlob) tirows SfriblExdfption, SQLExdfption {
+    publid SfriblClob(Clob dlob) tirows SfriblExdfption, SQLExdfption {
+
+
+
+
 
         if (dlob == null) {
-            throw nfw SQLExdfption("Cbnnot instbntibtf b SfriblClob " +
-                "objfdt with b null Clob objfdt");
+        if (dlob == null) {
+        if (dlob == null) {
+        if (dlob == null) {
+        if (dlob == null) {
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblClob " +
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblClob " +
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblClob " +
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblClob " +
+            tirow nfw SQLExdfption("Cbnnot instbntibtf b SfriblClob " +
+                "objfdt witi b null Clob objfdt");
+                "objfdt witi b null Clob objfdt");
+                "objfdt witi b null Clob objfdt");
+                "objfdt witi b null Clob objfdt");
+                "objfdt witi b null Clob objfdt");
         }
-        lfn = dlob.lfngth();
-        this.dlob = dlob;
-        buf = nfw dhbr[(int)lfn];
+        }
+        }
+        }
+        }
+        lfn = dlob.lfngti();
+        lfn = dlob.lfngti();
+        lfn = dlob.lfngti();
+        lfn = dlob.lfngti();
+        lfn = dlob.lfngti();
+        tiis.dlob = dlob;
+        tiis.dlob = dlob;
+        tiis.dlob = dlob;
+        tiis.dlob = dlob;
+        tiis.dlob = dlob;
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
+        buf = nfw dibr[(int)lfn];
+        int rfbd = 0;
+        int rfbd = 0;
+        int rfbd = 0;
+        int rfbd = 0;
         int rfbd = 0;
         int offsft = 0;
+        int offsft = 0;
+        int offsft = 0;
+        int offsft = 0;
+        int offsft = 0;
 
-        try (Rfbdfr dhbrStrfbm = dlob.gftChbrbdtfrStrfbm()) {
-            if (dhbrStrfbm == null) {
-                throw nfw SQLExdfption("Invblid Clob objfdt. Thf dbll to gftChbrbdtfrStrfbm " +
-                    "rfturnfd null whidh dbnnot bf sfriblizfd.");
+
+
+
+
+        try (Rfbdfr dibrStrfbm = dlob.gftCibrbdtfrStrfbm()) {
+        try (Rfbdfr dibrStrfbm = dlob.gftCibrbdtfrStrfbm()) {
+        try (Rfbdfr dibrStrfbm = dlob.gftCibrbdtfrStrfbm()) {
+        try (Rfbdfr dibrStrfbm = dlob.gftCibrbdtfrStrfbm()) {
+        try (Rfbdfr dibrStrfbm = dlob.gftCibrbdtfrStrfbm()) {
+            if (dibrStrfbm == null) {
+            if (dibrStrfbm == null) {
+            if (dibrStrfbm == null) {
+            if (dibrStrfbm == null) {
+            if (dibrStrfbm == null) {
+                tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftCibrbdtfrStrfbm " +
+                tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftCibrbdtfrStrfbm " +
+                tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftCibrbdtfrStrfbm " +
+                tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftCibrbdtfrStrfbm " +
+                tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftCibrbdtfrStrfbm " +
+                    "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                    "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                    "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                    "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                    "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+            }
+            }
+            }
+            }
             }
 
-            // Notf: gft bn ASCII strfbm in ordfr to null-dhfdk it,
-            // fvfn though wf don't do bnything with it.
+
+
+
+
+            // Notf: gft bn ASCII strfbm in ordfr to null-difdk it,
+            // Notf: gft bn ASCII strfbm in ordfr to null-difdk it,
+            // Notf: gft bn ASCII strfbm in ordfr to null-difdk it,
+            // Notf: gft bn ASCII strfbm in ordfr to null-difdk it,
+            // Notf: gft bn ASCII strfbm in ordfr to null-difdk it,
+            // fvfn tiougi wf don't do bnytiing witi it.
+            // fvfn tiougi wf don't do bnytiing witi it.
+            // fvfn tiougi wf don't do bnytiing witi it.
+            // fvfn tiougi wf don't do bnytiing witi it.
+            // fvfn tiougi wf don't do bnytiing witi it.
+            try (InputStrfbm bsdiiStrfbm = dlob.gftAsdiiStrfbm()) {
+            try (InputStrfbm bsdiiStrfbm = dlob.gftAsdiiStrfbm()) {
+            try (InputStrfbm bsdiiStrfbm = dlob.gftAsdiiStrfbm()) {
+            try (InputStrfbm bsdiiStrfbm = dlob.gftAsdiiStrfbm()) {
             try (InputStrfbm bsdiiStrfbm = dlob.gftAsdiiStrfbm()) {
                 if (bsdiiStrfbm == null) {
-                    throw nfw SQLExdfption("Invblid Clob objfdt. Thf dbll to gftAsdiiStrfbm " +
-                        "rfturnfd null whidh dbnnot bf sfriblizfd.");
+                if (bsdiiStrfbm == null) {
+                if (bsdiiStrfbm == null) {
+                if (bsdiiStrfbm == null) {
+                if (bsdiiStrfbm == null) {
+                    tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftAsdiiStrfbm " +
+                    tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftAsdiiStrfbm " +
+                    tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftAsdiiStrfbm " +
+                    tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftAsdiiStrfbm " +
+                    tirow nfw SQLExdfption("Invblid Clob objfdt. Tif dbll to gftAsdiiStrfbm " +
+                        "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                        "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                        "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                        "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                        "rfturnfd null wiidi dbnnot bf sfriblizfd.");
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
 
-            try (Rfbdfr rfbdfr = nfw BufffrfdRfbdfr(dhbrStrfbm)) {
+
+
+
+
+            try (Rfbdfr rfbdfr = nfw BufffrfdRfbdfr(dibrStrfbm)) {
+            try (Rfbdfr rfbdfr = nfw BufffrfdRfbdfr(dibrStrfbm)) {
+            try (Rfbdfr rfbdfr = nfw BufffrfdRfbdfr(dibrStrfbm)) {
+            try (Rfbdfr rfbdfr = nfw BufffrfdRfbdfr(dibrStrfbm)) {
+            try (Rfbdfr rfbdfr = nfw BufffrfdRfbdfr(dibrStrfbm)) {
+                do {
+                do {
+                do {
+                do {
                 do {
                     rfbd = rfbdfr.rfbd(buf, offsft, (int)(lfn - offsft));
+                    rfbd = rfbdfr.rfbd(buf, offsft, (int)(lfn - offsft));
+                    rfbd = rfbdfr.rfbd(buf, offsft, (int)(lfn - offsft));
+                    rfbd = rfbdfr.rfbd(buf, offsft, (int)(lfn - offsft));
+                    rfbd = rfbdfr.rfbd(buf, offsft, (int)(lfn - offsft));
                     offsft += rfbd;
-                } whilf (rfbd > 0);
+                    offsft += rfbd;
+                    offsft += rfbd;
+                    offsft += rfbd;
+                    offsft += rfbd;
+                } wiilf (rfbd > 0);
+                } wiilf (rfbd > 0);
+                } wiilf (rfbd > 0);
+                } wiilf (rfbd > 0);
+                } wiilf (rfbd > 0);
             }
-        } dbtdh (jbvb.io.IOExdfption fx) {
-            throw nfw SfriblExdfption("SfriblClob: " + fx.gftMfssbgf());
+            }
+            }
+            }
+            }
+        } dbtdi (jbvb.io.IOExdfption fx) {
+        } dbtdi (jbvb.io.IOExdfption fx) {
+        } dbtdi (jbvb.io.IOExdfption fx) {
+        } dbtdi (jbvb.io.IOExdfption fx) {
+        } dbtdi (jbvb.io.IOExdfption fx) {
+            tirow nfw SfriblExdfption("SfriblClob: " + fx.gftMfssbgf());
+            tirow nfw SfriblExdfption("SfriblClob: " + fx.gftMfssbgf());
+            tirow nfw SfriblExdfption("SfriblClob: " + fx.gftMfssbgf());
+            tirow nfw SfriblExdfption("SfriblClob: " + fx.gftMfssbgf());
+            tirow nfw SfriblExdfption("SfriblClob: " + fx.gftMfssbgf());
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         origLfn = lfn;
+        origLfn = lfn;
+        origLfn = lfn;
+        origLfn = lfn;
+        origLfn = lfn;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs thf numbfr of dhbrbdtfrs in this <dodf>SfriblClob</dodf>
-     * objfdt's brrby of dhbrbdtfrs.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif numbfr of dibrbdtfrs in tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif numbfr of dibrbdtfrs in tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif numbfr of dibrbdtfrs in tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif numbfr of dibrbdtfrs in tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif numbfr of dibrbdtfrs in tiis <dodf>SfriblClob</dodf>
+     * objfdt's brrby of dibrbdtfrs.
+     * objfdt's brrby of dibrbdtfrs.
+     * objfdt's brrby of dibrbdtfrs.
+     * objfdt's brrby of dibrbdtfrs.
+     * objfdt's brrby of dibrbdtfrs.
      *
-     * @rfturn b <dodf>long</dodf> indidbting thf lfngth in dhbrbdtfrs of this
-     *         <dodf>SfriblClob</dodf> objfdt's brrby of dhbrbdtfr
-     * @throws SfriblExdfption if bn frror oddurs;
-     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     *
+     *
+     *
+     *
+     * @rfturn b <dodf>long</dodf> indidbting tif lfngti in dibrbdtfrs of tiis
+     * @rfturn b <dodf>long</dodf> indidbting tif lfngti in dibrbdtfrs of tiis
+     * @rfturn b <dodf>long</dodf> indidbting tif lfngti in dibrbdtfrs of tiis
+     * @rfturn b <dodf>long</dodf> indidbting tif lfngti in dibrbdtfrs of tiis
+     * @rfturn b <dodf>long</dodf> indidbting tif lfngti in dibrbdtfrs of tiis
+     *         <dodf>SfriblClob</dodf> objfdt's brrby of dibrbdtfr
+     *         <dodf>SfriblClob</dodf> objfdt's brrby of dibrbdtfr
+     *         <dodf>SfriblClob</dodf> objfdt's brrby of dibrbdtfr
+     *         <dodf>SfriblClob</dodf> objfdt's brrby of dibrbdtfr
+     *         <dodf>SfriblClob</dodf> objfdt's brrby of dibrbdtfr
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    publid long lfngth() throws SfriblExdfption {
+     */
+     */
+     */
+     */
+    publid long lfngti() tirows SfriblExdfption {
+    publid long lfngti() tirows SfriblExdfption {
+    publid long lfngti() tirows SfriblExdfption {
+    publid long lfngti() tirows SfriblExdfption {
+    publid long lfngti() tirows SfriblExdfption {
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
         isVblid();
         rfturn lfn;
+        rfturn lfn;
+        rfturn lfn;
+        rfturn lfn;
+        rfturn lfn;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns this <dodf>SfriblClob</dodf> objfdt's dbtb bs b strfbm
-     * of Unidodf dhbrbdtfrs. Unlikf thf rflbtfd mfthod, <dodf>gftAsdiiStrfbm</dodf>,
-     * b strfbm is produdfd rfgbrdlfss of whfthfr thf <dodf>SfriblClob</dodf> objfdt
-     * wbs drfbtfd with b <dodf>Clob</dodf> objfdt or b <dodf>dhbr</dodf> brrby.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tiis <dodf>SfriblClob</dodf> objfdt's dbtb bs b strfbm
+     * Rfturns tiis <dodf>SfriblClob</dodf> objfdt's dbtb bs b strfbm
+     * Rfturns tiis <dodf>SfriblClob</dodf> objfdt's dbtb bs b strfbm
+     * Rfturns tiis <dodf>SfriblClob</dodf> objfdt's dbtb bs b strfbm
+     * Rfturns tiis <dodf>SfriblClob</dodf> objfdt's dbtb bs b strfbm
+     * of Unidodf dibrbdtfrs. Unlikf tif rflbtfd mftiod, <dodf>gftAsdiiStrfbm</dodf>,
+     * of Unidodf dibrbdtfrs. Unlikf tif rflbtfd mftiod, <dodf>gftAsdiiStrfbm</dodf>,
+     * of Unidodf dibrbdtfrs. Unlikf tif rflbtfd mftiod, <dodf>gftAsdiiStrfbm</dodf>,
+     * of Unidodf dibrbdtfrs. Unlikf tif rflbtfd mftiod, <dodf>gftAsdiiStrfbm</dodf>,
+     * of Unidodf dibrbdtfrs. Unlikf tif rflbtfd mftiod, <dodf>gftAsdiiStrfbm</dodf>,
+     * b strfbm is produdfd rfgbrdlfss of wiftifr tif <dodf>SfriblClob</dodf> objfdt
+     * b strfbm is produdfd rfgbrdlfss of wiftifr tif <dodf>SfriblClob</dodf> objfdt
+     * b strfbm is produdfd rfgbrdlfss of wiftifr tif <dodf>SfriblClob</dodf> objfdt
+     * b strfbm is produdfd rfgbrdlfss of wiftifr tif <dodf>SfriblClob</dodf> objfdt
+     * b strfbm is produdfd rfgbrdlfss of wiftifr tif <dodf>SfriblClob</dodf> objfdt
+     * wbs drfbtfd witi b <dodf>Clob</dodf> objfdt or b <dodf>dibr</dodf> brrby.
+     * wbs drfbtfd witi b <dodf>Clob</dodf> objfdt or b <dodf>dibr</dodf> brrby.
+     * wbs drfbtfd witi b <dodf>Clob</dodf> objfdt or b <dodf>dibr</dodf> brrby.
+     * wbs drfbtfd witi b <dodf>Clob</dodf> objfdt or b <dodf>dibr</dodf> brrby.
+     * wbs drfbtfd witi b <dodf>Clob</dodf> objfdt or b <dodf>dibr</dodf> brrby.
      *
-     * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining this
+     *
+     *
+     *
+     *
+     * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining tiis
+     * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining tiis
+     * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining tiis
+     * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining tiis
+     * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining tiis
      *         <dodf>SfriblClob</dodf> objfdt's dbtb
-     * @throws SfriblExdfption if bn frror oddurs;
-     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     *         <dodf>SfriblClob</dodf> objfdt's dbtb
+     *         <dodf>SfriblClob</dodf> objfdt's dbtb
+     *         <dodf>SfriblClob</dodf> objfdt's dbtb
+     *         <dodf>SfriblClob</dodf> objfdt's dbtb
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * @tirows SfriblExdfption if bn frror oddurs;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    publid jbvb.io.Rfbdfr gftChbrbdtfrStrfbm() throws SfriblExdfption {
+     */
+     */
+     */
+     */
+    publid jbvb.io.Rfbdfr gftCibrbdtfrStrfbm() tirows SfriblExdfption {
+    publid jbvb.io.Rfbdfr gftCibrbdtfrStrfbm() tirows SfriblExdfption {
+    publid jbvb.io.Rfbdfr gftCibrbdtfrStrfbm() tirows SfriblExdfption {
+    publid jbvb.io.Rfbdfr gftCibrbdtfrStrfbm() tirows SfriblExdfption {
+    publid jbvb.io.Rfbdfr gftCibrbdtfrStrfbm() tirows SfriblExdfption {
         isVblid();
-        rfturn (jbvb.io.Rfbdfr) nfw ChbrArrbyRfbdfr(buf);
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
+        rfturn (jbvb.io.Rfbdfr) nfw CibrArrbyRfbdfr(buf);
+        rfturn (jbvb.io.Rfbdfr) nfw CibrArrbyRfbdfr(buf);
+        rfturn (jbvb.io.Rfbdfr) nfw CibrArrbyRfbdfr(buf);
+        rfturn (jbvb.io.Rfbdfr) nfw CibrArrbyRfbdfr(buf);
+        rfturn (jbvb.io.Rfbdfr) nfw CibrArrbyRfbdfr(buf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs thf <dodf>CLOB</dodf> vbluf dfsignbtfd by this <dodf>SfriblClob</dodf>
-     * objfdt bs bn bsdii strfbm. This mfthod forwbrds thf <dodf>gftAsdiiStrfbm</dodf>
-     * dbll to thf undfrlying <dodf>Clob</dodf> objfdt in thf fvfnt thbt this
-     * <dodf>SfriblClob</dodf> objfdt is instbntibtfd with b <dodf>Clob</dodf>
-     * objfdt. If this <dodf>SfriblClob</dodf> objfdt is instbntibtfd with
-     * b <dodf>dhbr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is thrown.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>SfriblClob</dodf>
+     * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>SfriblClob</dodf>
+     * objfdt bs bn bsdii strfbm. Tiis mftiod forwbrds tif <dodf>gftAsdiiStrfbm</dodf>
+     * objfdt bs bn bsdii strfbm. Tiis mftiod forwbrds tif <dodf>gftAsdiiStrfbm</dodf>
+     * objfdt bs bn bsdii strfbm. Tiis mftiod forwbrds tif <dodf>gftAsdiiStrfbm</dodf>
+     * objfdt bs bn bsdii strfbm. Tiis mftiod forwbrds tif <dodf>gftAsdiiStrfbm</dodf>
+     * objfdt bs bn bsdii strfbm. Tiis mftiod forwbrds tif <dodf>gftAsdiiStrfbm</dodf>
+     * dbll to tif undfrlying <dodf>Clob</dodf> objfdt in tif fvfnt tibt tiis
+     * dbll to tif undfrlying <dodf>Clob</dodf> objfdt in tif fvfnt tibt tiis
+     * dbll to tif undfrlying <dodf>Clob</dodf> objfdt in tif fvfnt tibt tiis
+     * dbll to tif undfrlying <dodf>Clob</dodf> objfdt in tif fvfnt tibt tiis
+     * dbll to tif undfrlying <dodf>Clob</dodf> objfdt in tif fvfnt tibt tiis
+     * <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b <dodf>Clob</dodf>
+     * <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b <dodf>Clob</dodf>
+     * <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b <dodf>Clob</dodf>
+     * <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b <dodf>Clob</dodf>
+     * <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b <dodf>Clob</dodf>
+     * objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     *
+     *
+     *
+     *
      *
      * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt dontbining
-     *     this <dodf>SfriblClob</dodf> objfdt's dbtb
-     * @throws SfriblExdfption if this {@dodf SfriblClob} objfdt wbs not
-     * instbntibtfd with b <dodf>Clob</dodf> objfdt;
-     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
-     * @throws SQLExdfption if thfrf is bn frror bddfssing thf
-     *     <dodf>CLOB</dodf> vbluf rfprfsfntfd by thf <dodf>Clob</dodf> objfdt
-     * thbt wbs usfd to drfbtf this <dodf>SfriblClob</dodf> objfdt
+     * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt dontbining
+     * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt dontbining
+     * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt dontbining
+     * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt dontbining
+     *     tiis <dodf>SfriblClob</dodf> objfdt's dbtb
+     *     tiis <dodf>SfriblClob</dodf> objfdt's dbtb
+     *     tiis <dodf>SfriblClob</dodf> objfdt's dbtb
+     *     tiis <dodf>SfriblClob</dodf> objfdt's dbtb
+     *     tiis <dodf>SfriblClob</dodf> objfdt's dbtb
+     * @tirows SfriblExdfption if tiis {@dodf SfriblClob} objfdt wbs not
+     * @tirows SfriblExdfption if tiis {@dodf SfriblClob} objfdt wbs not
+     * @tirows SfriblExdfption if tiis {@dodf SfriblClob} objfdt wbs not
+     * @tirows SfriblExdfption if tiis {@dodf SfriblClob} objfdt wbs not
+     * @tirows SfriblExdfption if tiis {@dodf SfriblClob} objfdt wbs not
+     * instbntibtfd witi b <dodf>Clob</dodf> objfdt;
+     * instbntibtfd witi b <dodf>Clob</dodf> objfdt;
+     * instbntibtfd witi b <dodf>Clob</dodf> objfdt;
+     * instbntibtfd witi b <dodf>Clob</dodf> objfdt;
+     * instbntibtfd witi b <dodf>Clob</dodf> objfdt;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf rfprfsfntfd by tif <dodf>Clob</dodf> objfdt
+     *     <dodf>CLOB</dodf> vbluf rfprfsfntfd by tif <dodf>Clob</dodf> objfdt
+     *     <dodf>CLOB</dodf> vbluf rfprfsfntfd by tif <dodf>Clob</dodf> objfdt
+     *     <dodf>CLOB</dodf> vbluf rfprfsfntfd by tif <dodf>Clob</dodf> objfdt
+     *     <dodf>CLOB</dodf> vbluf rfprfsfntfd by tif <dodf>Clob</dodf> objfdt
+     * tibt wbs usfd to drfbtf tiis <dodf>SfriblClob</dodf> objfdt
+     * tibt wbs usfd to drfbtf tiis <dodf>SfriblClob</dodf> objfdt
+     * tibt wbs usfd to drfbtf tiis <dodf>SfriblClob</dodf> objfdt
+     * tibt wbs usfd to drfbtf tiis <dodf>SfriblClob</dodf> objfdt
+     * tibt wbs usfd to drfbtf tiis <dodf>SfriblClob</dodf> objfdt
      */
-    publid jbvb.io.InputStrfbm gftAsdiiStrfbm() throws SfriblExdfption, SQLExdfption {
+     */
+     */
+     */
+     */
+    publid jbvb.io.InputStrfbm gftAsdiiStrfbm() tirows SfriblExdfption, SQLExdfption {
+    publid jbvb.io.InputStrfbm gftAsdiiStrfbm() tirows SfriblExdfption, SQLExdfption {
+    publid jbvb.io.InputStrfbm gftAsdiiStrfbm() tirows SfriblExdfption, SQLExdfption {
+    publid jbvb.io.InputStrfbm gftAsdiiStrfbm() tirows SfriblExdfption, SQLExdfption {
+    publid jbvb.io.InputStrfbm gftAsdiiStrfbm() tirows SfriblExdfption, SQLExdfption {
         isVblid();
-        if (this.dlob != null) {
-            rfturn this.dlob.gftAsdiiStrfbm();
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+            rfturn tiis.dlob.gftAsdiiStrfbm();
+            rfturn tiis.dlob.gftAsdiiStrfbm();
+            rfturn tiis.dlob.gftAsdiiStrfbm();
+            rfturn tiis.dlob.gftAsdiiStrfbm();
+            rfturn tiis.dlob.gftAsdiiStrfbm();
         } flsf {
-            throw nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
-                "rfturn b thf CLOB vbluf bs bn bsdii strfbm, unlfss instbntibtfd " +
-                "with b fully implfmfntfd Clob objfdt.");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+                "rfturn b tif CLOB vbluf bs bn bsdii strfbm, unlfss instbntibtfd " +
+                "rfturn b tif CLOB vbluf bs bn bsdii strfbm, unlfss instbntibtfd " +
+                "rfturn b tif CLOB vbluf bs bn bsdii strfbm, unlfss instbntibtfd " +
+                "rfturn b tif CLOB vbluf bs bn bsdii strfbm, unlfss instbntibtfd " +
+                "rfturn b tif CLOB vbluf bs bn bsdii strfbm, unlfss instbntibtfd " +
+                "witi b fully implfmfntfd Clob objfdt.");
+                "witi b fully implfmfntfd Clob objfdt.");
+                "witi b fully implfmfntfd Clob objfdt.");
+                "witi b fully implfmfntfd Clob objfdt.");
+                "witi b fully implfmfntfd Clob objfdt.");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b dopy of thf substring dontbinfd in this
-     * <dodf>SfriblClob</dodf> objfdt, stbrting bt thf givfn position
-     * bnd dontinuing for thf spfdififd numbfr or dhbrbdtfrs.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b dopy of tif substring dontbinfd in tiis
+     * Rfturns b dopy of tif substring dontbinfd in tiis
+     * Rfturns b dopy of tif substring dontbinfd in tiis
+     * Rfturns b dopy of tif substring dontbinfd in tiis
+     * Rfturns b dopy of tif substring dontbinfd in tiis
+     * <dodf>SfriblClob</dodf> objfdt, stbrting bt tif givfn position
+     * <dodf>SfriblClob</dodf> objfdt, stbrting bt tif givfn position
+     * <dodf>SfriblClob</dodf> objfdt, stbrting bt tif givfn position
+     * <dodf>SfriblClob</dodf> objfdt, stbrting bt tif givfn position
+     * <dodf>SfriblClob</dodf> objfdt, stbrting bt tif givfn position
+     * bnd dontinuing for tif spfdififd numbfr or dibrbdtfrs.
+     * bnd dontinuing for tif spfdififd numbfr or dibrbdtfrs.
+     * bnd dontinuing for tif spfdififd numbfr or dibrbdtfrs.
+     * bnd dontinuing for tif spfdififd numbfr or dibrbdtfrs.
+     * bnd dontinuing for tif spfdififd numbfr or dibrbdtfrs.
      *
-     * @pbrbm pos thf position of thf first dhbrbdtfr in thf substring
-     *            to bf dopifd; thf first dhbrbdtfr of thf
+     *
+     *
+     *
+     *
+     * @pbrbm pos tif position of tif first dibrbdtfr in tif substring
+     * @pbrbm pos tif position of tif first dibrbdtfr in tif substring
+     * @pbrbm pos tif position of tif first dibrbdtfr in tif substring
+     * @pbrbm pos tif position of tif first dibrbdtfr in tif substring
+     * @pbrbm pos tif position of tif first dibrbdtfr in tif substring
+     *            to bf dopifd; tif first dibrbdtfr of tif
+     *            to bf dopifd; tif first dibrbdtfr of tif
+     *            to bf dopifd; tif first dibrbdtfr of tif
+     *            to bf dopifd; tif first dibrbdtfr of tif
+     *            to bf dopifd; tif first dibrbdtfr of tif
      *            <dodf>SfriblClob</dodf> objfdt is bt position
-     *            <dodf>1</dodf>; must not bf lfss thbn <dodf>1</dodf>,
-     *            bnd thf sum of thf stbrting position bnd thf lfngth
-     *            of thf substring must bf lfss thbn thf lfngth of this
+     *            <dodf>SfriblClob</dodf> objfdt is bt position
+     *            <dodf>SfriblClob</dodf> objfdt is bt position
+     *            <dodf>SfriblClob</dodf> objfdt is bt position
+     *            <dodf>SfriblClob</dodf> objfdt is bt position
+     *            <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf>,
+     *            <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf>,
+     *            <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf>,
+     *            <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf>,
+     *            <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf>,
+     *            bnd tif sum of tif stbrting position bnd tif lfngti
+     *            bnd tif sum of tif stbrting position bnd tif lfngti
+     *            bnd tif sum of tif stbrting position bnd tif lfngti
+     *            bnd tif sum of tif stbrting position bnd tif lfngti
+     *            bnd tif sum of tif stbrting position bnd tif lfngti
+     *            of tif substring must bf lfss tibn tif lfngti of tiis
+     *            of tif substring must bf lfss tibn tif lfngti of tiis
+     *            of tif substring must bf lfss tibn tif lfngti of tiis
+     *            of tif substring must bf lfss tibn tif lfngti of tiis
+     *            of tif substring must bf lfss tibn tif lfngti of tiis
      *            <dodf>SfriblClob</dodf> objfdt
-     * @pbrbm lfngth thf numbfr of dhbrbdtfrs in thf substring to bf
-     *               rfturnfd; must not bf grfbtfr thbn thf lfngth of
-     *               this <dodf>SfriblClob</dodf> objfdt, bnd thf
-     *               sum of thf stbrting position bnd thf lfngth
-     *               of thf substring must bf lfss thbn thf lfngth of this
+     *            <dodf>SfriblClob</dodf> objfdt
+     *            <dodf>SfriblClob</dodf> objfdt
+     *            <dodf>SfriblClob</dodf> objfdt
+     *            <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif substring to bf
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif substring to bf
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif substring to bf
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif substring to bf
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif substring to bf
+     *               rfturnfd; must not bf grfbtfr tibn tif lfngti of
+     *               rfturnfd; must not bf grfbtfr tibn tif lfngti of
+     *               rfturnfd; must not bf grfbtfr tibn tif lfngti of
+     *               rfturnfd; must not bf grfbtfr tibn tif lfngti of
+     *               rfturnfd; must not bf grfbtfr tibn tif lfngti of
+     *               tiis <dodf>SfriblClob</dodf> objfdt, bnd tif
+     *               tiis <dodf>SfriblClob</dodf> objfdt, bnd tif
+     *               tiis <dodf>SfriblClob</dodf> objfdt, bnd tif
+     *               tiis <dodf>SfriblClob</dodf> objfdt, bnd tif
+     *               tiis <dodf>SfriblClob</dodf> objfdt, bnd tif
+     *               sum of tif stbrting position bnd tif lfngti
+     *               sum of tif stbrting position bnd tif lfngti
+     *               sum of tif stbrting position bnd tif lfngti
+     *               sum of tif stbrting position bnd tif lfngti
+     *               sum of tif stbrting position bnd tif lfngti
+     *               of tif substring must bf lfss tibn tif lfngti of tiis
+     *               of tif substring must bf lfss tibn tif lfngti of tiis
+     *               of tif substring must bf lfss tibn tif lfngti of tiis
+     *               of tif substring must bf lfss tibn tif lfngti of tiis
+     *               of tif substring must bf lfss tibn tif lfngti of tiis
+     *               <dodf>SfriblClob</dodf> objfdt
+     *               <dodf>SfriblClob</dodf> objfdt
+     *               <dodf>SfriblClob</dodf> objfdt
+     *               <dodf>SfriblClob</dodf> objfdt
      *               <dodf>SfriblClob</dodf> objfdt
      * @rfturn b <dodf>String</dodf> objfdt dontbining b substring of
-     *         this <dodf>SfriblClob</dodf> objfdt bfginning bt thf
-     *         givfn position bnd dontbining thf spfdififd numbfr of
-     *         donsfdutivf dhbrbdtfrs
-     * @throws SfriblExdfption if fithfr of thf brgumfnts is out of bounds;
-     * if {@dodf frff} hbd prfviously bffn dbllfd on this objfdt
+     * @rfturn b <dodf>String</dodf> objfdt dontbining b substring of
+     * @rfturn b <dodf>String</dodf> objfdt dontbining b substring of
+     * @rfturn b <dodf>String</dodf> objfdt dontbining b substring of
+     * @rfturn b <dodf>String</dodf> objfdt dontbining b substring of
+     *         tiis <dodf>SfriblClob</dodf> objfdt bfginning bt tif
+     *         tiis <dodf>SfriblClob</dodf> objfdt bfginning bt tif
+     *         tiis <dodf>SfriblClob</dodf> objfdt bfginning bt tif
+     *         tiis <dodf>SfriblClob</dodf> objfdt bfginning bt tif
+     *         tiis <dodf>SfriblClob</dodf> objfdt bfginning bt tif
+     *         givfn position bnd dontbining tif spfdififd numbfr of
+     *         givfn position bnd dontbining tif spfdififd numbfr of
+     *         givfn position bnd dontbining tif spfdififd numbfr of
+     *         givfn position bnd dontbining tif spfdififd numbfr of
+     *         givfn position bnd dontbining tif spfdififd numbfr of
+     *         donsfdutivf dibrbdtfrs
+     *         donsfdutivf dibrbdtfrs
+     *         donsfdutivf dibrbdtfrs
+     *         donsfdutivf dibrbdtfrs
+     *         donsfdutivf dibrbdtfrs
+     * @tirows SfriblExdfption if fitifr of tif brgumfnts is out of bounds;
+     * @tirows SfriblExdfption if fitifr of tif brgumfnts is out of bounds;
+     * @tirows SfriblExdfption if fitifr of tif brgumfnts is out of bounds;
+     * @tirows SfriblExdfption if fitifr of tif brgumfnts is out of bounds;
+     * @tirows SfriblExdfption if fitifr of tif brgumfnts is out of bounds;
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
+     * if {@dodf frff} ibd prfviously bffn dbllfd on tiis objfdt
      */
-    publid String gftSubString(long pos, int lfngth) throws SfriblExdfption {
+     */
+     */
+     */
+     */
+    publid String gftSubString(long pos, int lfngti) tirows SfriblExdfption {
+    publid String gftSubString(long pos, int lfngti) tirows SfriblExdfption {
+    publid String gftSubString(long pos, int lfngti) tirows SfriblExdfption {
+    publid String gftSubString(long pos, int lfngti) tirows SfriblExdfption {
+    publid String gftSubString(long pos, int lfngti) tirows SfriblExdfption {
+
+
+
+
 
         isVblid();
-        if (pos < 1 || pos > this.lfngth()) {
-            throw nfw SfriblExdfption("Invblid position in SfriblClob objfdt sft");
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position in SfriblClob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in SfriblClob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in SfriblClob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in SfriblClob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in SfriblClob objfdt sft");
+        }
+        }
+        }
+        }
         }
 
-        if ((pos-1) + lfngth > this.lfngth()) {
-            throw nfw SfriblExdfption("Invblid position bnd substring lfngth");
+
+
+
+
+        if ((pos-1) + lfngti > tiis.lfngti()) {
+        if ((pos-1) + lfngti > tiis.lfngti()) {
+        if ((pos-1) + lfngti > tiis.lfngti()) {
+        if ((pos-1) + lfngti > tiis.lfngti()) {
+        if ((pos-1) + lfngti > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         try {
-            rfturn nfw String(buf, (int)pos - 1, lfngth);
+        try {
+        try {
+        try {
+        try {
+            rfturn nfw String(buf, (int)pos - 1, lfngti);
+            rfturn nfw String(buf, (int)pos - 1, lfngti);
+            rfturn nfw String(buf, (int)pos - 1, lfngti);
+            rfturn nfw String(buf, (int)pos - 1, lfngti);
+            rfturn nfw String(buf, (int)pos - 1, lfngti);
 
-        } dbtdh (StringIndfxOutOfBoundsExdfption f) {
-            throw nfw SfriblExdfption("StringIndfxOutOfBoundsExdfption: " +
+
+
+
+
+        } dbtdi (StringIndfxOutOfBoundsExdfption f) {
+        } dbtdi (StringIndfxOutOfBoundsExdfption f) {
+        } dbtdi (StringIndfxOutOfBoundsExdfption f) {
+        } dbtdi (StringIndfxOutOfBoundsExdfption f) {
+        } dbtdi (StringIndfxOutOfBoundsExdfption f) {
+            tirow nfw SfriblExdfption("StringIndfxOutOfBoundsExdfption: " +
+            tirow nfw SfriblExdfption("StringIndfxOutOfBoundsExdfption: " +
+            tirow nfw SfriblExdfption("StringIndfxOutOfBoundsExdfption: " +
+            tirow nfw SfriblExdfption("StringIndfxOutOfBoundsExdfption: " +
+            tirow nfw SfriblExdfption("StringIndfxOutOfBoundsExdfption: " +
+                f.gftMfssbgf());
+                f.gftMfssbgf());
+                f.gftMfssbgf());
+                f.gftMfssbgf());
                 f.gftMfssbgf());
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf position in this <dodf>SfriblClob</dodf> objfdt
-     * whfrf thf givfn <dodf>String</dodf> objfdt bfgins, stbrting
-     * thf sfbrdh bt thf spfdififd position. This mfthod rfturns
-     * <dodf>-1</dodf> if thf pbttfrn is not found.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * wifrf tif givfn <dodf>String</dodf> objfdt bfgins, stbrting
+     * wifrf tif givfn <dodf>String</dodf> objfdt bfgins, stbrting
+     * wifrf tif givfn <dodf>String</dodf> objfdt bfgins, stbrting
+     * wifrf tif givfn <dodf>String</dodf> objfdt bfgins, stbrting
+     * wifrf tif givfn <dodf>String</dodf> objfdt bfgins, stbrting
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
      *
-     * @pbrbm sfbrdhStr thf <dodf>String</dodf> objfdt for whidh to
-     *                  sfbrdh
-     * @pbrbm stbrt thf position in this <dodf>SfriblClob</dodf> objfdt
-     *         bt whidh to stbrt thf sfbrdh; thf first position is
-     *         <dodf>1</dodf>; must not bf lfss thbn <dodf>1</dodf> nor
-     *         grfbtfr thbn thf lfngth of this <dodf>SfriblClob</dodf> objfdt
-     * @rfturn thf position bt whidh thf givfn <dodf>String</dodf> objfdt
-     *         bfgins, stbrting thf sfbrdh bt thf spfdififd position;
-     *         <dodf>-1</dodf> if thf givfn <dodf>String</dodf> objfdt is
-     *         not found or thf stbrting position is out of bounds; position
-     *         numbfring for thf rfturn vbluf stbrts bt <dodf>1</dodf>
-     * @throws SfriblExdfption  if thf {@dodf frff} mfthod hbd bffn
-     * prfviously dbllfd on this objfdt
-     * @throws SQLExdfption if thfrf is bn frror bddfssing thf Clob vbluf
-     *         from thf dbtbbbsf.
+     *
+     *
+     *
+     *
+     * @pbrbm sfbrdiStr tif <dodf>String</dodf> objfdt for wiidi to
+     * @pbrbm sfbrdiStr tif <dodf>String</dodf> objfdt for wiidi to
+     * @pbrbm sfbrdiStr tif <dodf>String</dodf> objfdt for wiidi to
+     * @pbrbm sfbrdiStr tif <dodf>String</dodf> objfdt for wiidi to
+     * @pbrbm sfbrdiStr tif <dodf>String</dodf> objfdt for wiidi to
+     *                  sfbrdi
+     *                  sfbrdi
+     *                  sfbrdi
+     *                  sfbrdi
+     *                  sfbrdi
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     *         bt wiidi to stbrt tif sfbrdi; tif first position is
+     *         bt wiidi to stbrt tif sfbrdi; tif first position is
+     *         bt wiidi to stbrt tif sfbrdi; tif first position is
+     *         bt wiidi to stbrt tif sfbrdi; tif first position is
+     *         bt wiidi to stbrt tif sfbrdi; tif first position is
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>String</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>String</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>String</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>String</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>String</dodf> objfdt
+     *         bfgins, stbrting tif sfbrdi bt tif spfdififd position;
+     *         bfgins, stbrting tif sfbrdi bt tif spfdififd position;
+     *         bfgins, stbrting tif sfbrdi bt tif spfdififd position;
+     *         bfgins, stbrting tif sfbrdi bt tif spfdififd position;
+     *         bfgins, stbrting tif sfbrdi bt tif spfdififd position;
+     *         <dodf>-1</dodf> if tif givfn <dodf>String</dodf> objfdt is
+     *         <dodf>-1</dodf> if tif givfn <dodf>String</dodf> objfdt is
+     *         <dodf>-1</dodf> if tif givfn <dodf>String</dodf> objfdt is
+     *         <dodf>-1</dodf> if tif givfn <dodf>String</dodf> objfdt is
+     *         <dodf>-1</dodf> if tif givfn <dodf>String</dodf> objfdt is
+     *         not found or tif stbrting position is out of bounds; position
+     *         not found or tif stbrting position is out of bounds; position
+     *         not found or tif stbrting position is out of bounds; position
+     *         not found or tif stbrting position is out of bounds; position
+     *         not found or tif stbrting position is out of bounds; position
+     *         numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     *         numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     *         numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     *         numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     *         numbfring for tif rfturn vbluf stbrts bt <dodf>1</dodf>
+     * @tirows SfriblExdfption  if tif {@dodf frff} mftiod ibd bffn
+     * @tirows SfriblExdfption  if tif {@dodf frff} mftiod ibd bffn
+     * @tirows SfriblExdfption  if tif {@dodf frff} mftiod ibd bffn
+     * @tirows SfriblExdfption  if tif {@dodf frff} mftiod ibd bffn
+     * @tirows SfriblExdfption  if tif {@dodf frff} mftiod ibd bffn
+     * prfviously dbllfd on tiis objfdt
+     * prfviously dbllfd on tiis objfdt
+     * prfviously dbllfd on tiis objfdt
+     * prfviously dbllfd on tiis objfdt
+     * prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     *         from tif dbtbbbsf.
+     *         from tif dbtbbbsf.
+     *         from tif dbtbbbsf.
+     *         from tif dbtbbbsf.
+     *         from tif dbtbbbsf.
      */
-    publid long position(String sfbrdhStr, long stbrt)
-        throws SfriblExdfption, SQLExdfption {
+     */
+     */
+     */
+     */
+    publid long position(String sfbrdiStr, long stbrt)
+    publid long position(String sfbrdiStr, long stbrt)
+    publid long position(String sfbrdiStr, long stbrt)
+    publid long position(String sfbrdiStr, long stbrt)
+    publid long position(String sfbrdiStr, long stbrt)
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
         isVblid();
         if (stbrt < 1 || stbrt > lfn) {
+        if (stbrt < 1 || stbrt > lfn) {
+        if (stbrt < 1 || stbrt > lfn) {
+        if (stbrt < 1 || stbrt > lfn) {
+        if (stbrt < 1 || stbrt > lfn) {
+            rfturn -1;
+            rfturn -1;
+            rfturn -1;
+            rfturn -1;
             rfturn -1;
         }
+        }
+        }
+        }
+        }
 
-        dhbr pbttfrn[] = sfbrdhStr.toChbrArrby();
+
+
+
+
+        dibr pbttfrn[] = sfbrdiStr.toCibrArrby();
+        dibr pbttfrn[] = sfbrdiStr.toCibrArrby();
+        dibr pbttfrn[] = sfbrdiStr.toCibrArrby();
+        dibr pbttfrn[] = sfbrdiStr.toCibrArrby();
+        dibr pbttfrn[] = sfbrdiStr.toCibrArrby();
+
+
+
+
 
         int pos = (int)stbrt-1;
+        int pos = (int)stbrt-1;
+        int pos = (int)stbrt-1;
+        int pos = (int)stbrt-1;
+        int pos = (int)stbrt-1;
         int i = 0;
-        long pbtlfn = pbttfrn.lfngth;
+        int i = 0;
+        int i = 0;
+        int i = 0;
+        int i = 0;
+        long pbtlfn = pbttfrn.lfngti;
+        long pbtlfn = pbttfrn.lfngti;
+        long pbtlfn = pbttfrn.lfngti;
+        long pbtlfn = pbttfrn.lfngti;
+        long pbtlfn = pbttfrn.lfngti;
 
-        whilf (pos < lfn) {
+
+
+
+
+        wiilf (pos < lfn) {
+        wiilf (pos < lfn) {
+        wiilf (pos < lfn) {
+        wiilf (pos < lfn) {
+        wiilf (pos < lfn) {
+            if (pbttfrn[i] == buf[pos]) {
+            if (pbttfrn[i] == buf[pos]) {
+            if (pbttfrn[i] == buf[pos]) {
+            if (pbttfrn[i] == buf[pos]) {
             if (pbttfrn[i] == buf[pos]) {
                 if (i + 1 == pbtlfn) {
+                if (i + 1 == pbtlfn) {
+                if (i + 1 == pbtlfn) {
+                if (i + 1 == pbtlfn) {
+                if (i + 1 == pbtlfn) {
+                    rfturn (pos + 1) - (pbtlfn - 1);
+                    rfturn (pos + 1) - (pbtlfn - 1);
+                    rfturn (pos + 1) - (pbtlfn - 1);
+                    rfturn (pos + 1) - (pbtlfn - 1);
                     rfturn (pos + 1) - (pbtlfn - 1);
                 }
+                }
+                }
+                }
+                }
+                i++; pos++; // indrfmfnt pos, bnd i
+                i++; pos++; // indrfmfnt pos, bnd i
+                i++; pos++; // indrfmfnt pos, bnd i
+                i++; pos++; // indrfmfnt pos, bnd i
                 i++; pos++; // indrfmfnt pos, bnd i
 
+
+
+
+
+            } flsf if (pbttfrn[i] != buf[pos]) {
+            } flsf if (pbttfrn[i] != buf[pos]) {
+            } flsf if (pbttfrn[i] != buf[pos]) {
+            } flsf if (pbttfrn[i] != buf[pos]) {
             } flsf if (pbttfrn[i] != buf[pos]) {
                 pos++; // indrfmfnt pos only
+                pos++; // indrfmfnt pos only
+                pos++; // indrfmfnt pos only
+                pos++; // indrfmfnt pos only
+                pos++; // indrfmfnt pos only
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn -1; // not found
+        rfturn -1; // not found
+        rfturn -1; // not found
+        rfturn -1; // not found
+        rfturn -1; // not found
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf position in this <dodf>SfriblClob</dodf> objfdt
-     * whfrf thf givfn <dodf>Clob</dodf> signbturf bfgins, stbrting
-     * thf sfbrdh bt thf spfdififd position. This mfthod rfturns
-     * <dodf>-1</dodf> if thf pbttfrn is not found.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * Rfturns tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * wifrf tif givfn <dodf>Clob</dodf> signbturf bfgins, stbrting
+     * wifrf tif givfn <dodf>Clob</dodf> signbturf bfgins, stbrting
+     * wifrf tif givfn <dodf>Clob</dodf> signbturf bfgins, stbrting
+     * wifrf tif givfn <dodf>Clob</dodf> signbturf bfgins, stbrting
+     * wifrf tif givfn <dodf>Clob</dodf> signbturf bfgins, stbrting
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * tif sfbrdi bt tif spfdififd position. Tiis mftiod rfturns
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
+     * <dodf>-1</dodf> if tif pbttfrn is not found.
      *
-     * @pbrbm sfbrdhStr thf <dodf>Clob</dodf> objfdt for whidh to sfbrdh
-     * @pbrbm stbrt thf position in this <dodf>SfriblClob</dodf> objfdt
-     *        bt whidh to bfgin thf sfbrdh; thf first position is
-     *         <dodf>1</dodf>; must not bf lfss thbn <dodf>1</dodf> nor
-     *         grfbtfr thbn thf lfngth of this <dodf>SfriblClob</dodf> objfdt
-     * @rfturn thf position bt whidh thf givfn <dodf>Clob</dodf>
-     *         objfdt bfgins in this <dodf>SfriblClob</dodf> objfdt,
-     *         bt or bftfr thf spfdififd stbrting position
-     * @throws SfriblExdfption if bn frror oddurs lodbting thf Clob signbturf;
-     * if thf {@dodf frff} mfthod hbd bffn prfviously dbllfd on this objfdt
-     * @throws SQLExdfption if thfrf is bn frror bddfssing thf Clob vbluf
-     *         from thf dbtbbbsf
+     *
+     *
+     *
+     *
+     * @pbrbm sfbrdiStr tif <dodf>Clob</dodf> objfdt for wiidi to sfbrdi
+     * @pbrbm sfbrdiStr tif <dodf>Clob</dodf> objfdt for wiidi to sfbrdi
+     * @pbrbm sfbrdiStr tif <dodf>Clob</dodf> objfdt for wiidi to sfbrdi
+     * @pbrbm sfbrdiStr tif <dodf>Clob</dodf> objfdt for wiidi to sfbrdi
+     * @pbrbm sfbrdiStr tif <dodf>Clob</dodf> objfdt for wiidi to sfbrdi
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm stbrt tif position in tiis <dodf>SfriblClob</dodf> objfdt
+     *        bt wiidi to bfgin tif sfbrdi; tif first position is
+     *        bt wiidi to bfgin tif sfbrdi; tif first position is
+     *        bt wiidi to bfgin tif sfbrdi; tif first position is
+     *        bt wiidi to bfgin tif sfbrdi; tif first position is
+     *        bt wiidi to bfgin tif sfbrdi; tif first position is
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @rfturn tif position bt wiidi tif givfn <dodf>Clob</dodf>
+     * @rfturn tif position bt wiidi tif givfn <dodf>Clob</dodf>
+     * @rfturn tif position bt wiidi tif givfn <dodf>Clob</dodf>
+     * @rfturn tif position bt wiidi tif givfn <dodf>Clob</dodf>
+     * @rfturn tif position bt wiidi tif givfn <dodf>Clob</dodf>
+     *         objfdt bfgins in tiis <dodf>SfriblClob</dodf> objfdt,
+     *         objfdt bfgins in tiis <dodf>SfriblClob</dodf> objfdt,
+     *         objfdt bfgins in tiis <dodf>SfriblClob</dodf> objfdt,
+     *         objfdt bfgins in tiis <dodf>SfriblClob</dodf> objfdt,
+     *         objfdt bfgins in tiis <dodf>SfriblClob</dodf> objfdt,
+     *         bt or bftfr tif spfdififd stbrting position
+     *         bt or bftfr tif spfdififd stbrting position
+     *         bt or bftfr tif spfdififd stbrting position
+     *         bt or bftfr tif spfdififd stbrting position
+     *         bt or bftfr tif spfdififd stbrting position
+     * @tirows SfriblExdfption if bn frror oddurs lodbting tif Clob signbturf;
+     * @tirows SfriblExdfption if bn frror oddurs lodbting tif Clob signbturf;
+     * @tirows SfriblExdfption if bn frror oddurs lodbting tif Clob signbturf;
+     * @tirows SfriblExdfption if bn frror oddurs lodbting tif Clob signbturf;
+     * @tirows SfriblExdfption if bn frror oddurs lodbting tif Clob signbturf;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif Clob vbluf
+     *         from tif dbtbbbsf
+     *         from tif dbtbbbsf
+     *         from tif dbtbbbsf
+     *         from tif dbtbbbsf
+     *         from tif dbtbbbsf
      */
-    publid long position(Clob sfbrdhStr, long stbrt)
-        throws SfriblExdfption, SQLExdfption {
+     */
+     */
+     */
+     */
+    publid long position(Clob sfbrdiStr, long stbrt)
+    publid long position(Clob sfbrdiStr, long stbrt)
+    publid long position(Clob sfbrdiStr, long stbrt)
+    publid long position(Clob sfbrdiStr, long stbrt)
+    publid long position(Clob sfbrdiStr, long stbrt)
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
         isVblid();
-        rfturn position(sfbrdhStr.gftSubString(1,(int)sfbrdhStr.lfngth()), stbrt);
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
+        rfturn position(sfbrdiStr.gftSubString(1,(int)sfbrdiStr.lfngti()), stbrt);
+        rfturn position(sfbrdiStr.gftSubString(1,(int)sfbrdiStr.lfngti()), stbrt);
+        rfturn position(sfbrdiStr.gftSubString(1,(int)sfbrdiStr.lfngti()), stbrt);
+        rfturn position(sfbrdiStr.gftSubString(1,(int)sfbrdiStr.lfngti()), stbrt);
+        rfturn position(sfbrdiStr.gftSubString(1,(int)sfbrdiStr.lfngti()), stbrt);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Writfs thf givfn Jbvb <dodf>String</dodf> to thf <dodf>CLOB</dodf>
-     * vbluf thbt this <dodf>SfriblClob</dodf> objfdt rfprfsfnts, bt thf position
+    /**
+    /**
+    /**
+    /**
+     * Writfs tif givfn Jbvb <dodf>String</dodf> to tif <dodf>CLOB</dodf>
+     * Writfs tif givfn Jbvb <dodf>String</dodf> to tif <dodf>CLOB</dodf>
+     * Writfs tif givfn Jbvb <dodf>String</dodf> to tif <dodf>CLOB</dodf>
+     * Writfs tif givfn Jbvb <dodf>String</dodf> to tif <dodf>CLOB</dodf>
+     * Writfs tif givfn Jbvb <dodf>String</dodf> to tif <dodf>CLOB</dodf>
+     * vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts, bt tif position
+     * vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts, bt tif position
+     * vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts, bt tif position
+     * vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts, bt tif position
+     * vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts, bt tif position
+     * <dodf>pos</dodf>.
+     * <dodf>pos</dodf>.
+     * <dodf>pos</dodf>.
+     * <dodf>pos</dodf>.
      * <dodf>pos</dodf>.
      *
-     * @pbrbm pos thf position bt whidh to stbrt writing to thf <dodf>CLOB</dodf>
-     *         vbluf thbt this <dodf>SfriblClob</dodf> objfdt rfprfsfnts; thf first
-     *         position is <dodf>1</dodf>; must not bf lfss thbn <dodf>1</dodf> nor
-     *         grfbtfr thbn thf lfngth of this <dodf>SfriblClob</dodf> objfdt
-     * @pbrbm str thf string to bf writtfn to thf <dodf>CLOB</dodf>
-     *        vbluf thbt this <dodf>SfriblClob</dodf> objfdt rfprfsfnts
-     * @rfturn thf numbfr of dhbrbdtfrs writtfn
-     * @throws SfriblExdfption if thfrf is bn frror bddfssing thf
+     *
+     *
+     *
+     *
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     *        vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
      *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
      *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
-     *     is grfbtfr thbn thf <dodf>SfriblClob</dodf> lfngth; or thf dombinfd
-     *     vblufs of thf lfngth bnd offsft is grfbtfr thbn thf Clob bufffr;
-     * if thf {@dodf frff} mfthod hbd bffn prfviously dbllfd on this objfdt
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
      */
-    publid int sftString(long pos, String str) throws SfriblExdfption {
-        rfturn (sftString(pos, str, 0, str.lfngth()));
+     */
+     */
+     */
+     */
+    publid int sftString(long pos, String str) tirows SfriblExdfption {
+    publid int sftString(long pos, String str) tirows SfriblExdfption {
+    publid int sftString(long pos, String str) tirows SfriblExdfption {
+    publid int sftString(long pos, String str) tirows SfriblExdfption {
+    publid int sftString(long pos, String str) tirows SfriblExdfption {
+        rfturn (sftString(pos, str, 0, str.lfngti()));
+        rfturn (sftString(pos, str, 0, str.lfngti()));
+        rfturn (sftString(pos, str, 0, str.lfngti()));
+        rfturn (sftString(pos, str, 0, str.lfngti()));
+        rfturn (sftString(pos, str, 0, str.lfngti()));
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Writfs <dodf>lfn</dodf> dhbrbdtfrs of <dodf>str</dodf>, stbrting
-     * bt dhbrbdtfr <dodf>offsft</dodf>, to thf <dodf>CLOB</dodf> vbluf
-     * thbt this <dodf>Clob</dodf> rfprfsfnts.
+    /**
+    /**
+    /**
+    /**
+     * Writfs <dodf>lfn</dodf> dibrbdtfrs of <dodf>str</dodf>, stbrting
+     * Writfs <dodf>lfn</dodf> dibrbdtfrs of <dodf>str</dodf>, stbrting
+     * Writfs <dodf>lfn</dodf> dibrbdtfrs of <dodf>str</dodf>, stbrting
+     * Writfs <dodf>lfn</dodf> dibrbdtfrs of <dodf>str</dodf>, stbrting
+     * Writfs <dodf>lfn</dodf> dibrbdtfrs of <dodf>str</dodf>, stbrting
+     * bt dibrbdtfr <dodf>offsft</dodf>, to tif <dodf>CLOB</dodf> vbluf
+     * bt dibrbdtfr <dodf>offsft</dodf>, to tif <dodf>CLOB</dodf> vbluf
+     * bt dibrbdtfr <dodf>offsft</dodf>, to tif <dodf>CLOB</dodf> vbluf
+     * bt dibrbdtfr <dodf>offsft</dodf>, to tif <dodf>CLOB</dodf> vbluf
+     * bt dibrbdtfr <dodf>offsft</dodf>, to tif <dodf>CLOB</dodf> vbluf
+     * tibt tiis <dodf>Clob</dodf> rfprfsfnts.
+     * tibt tiis <dodf>Clob</dodf> rfprfsfnts.
+     * tibt tiis <dodf>Clob</dodf> rfprfsfnts.
+     * tibt tiis <dodf>Clob</dodf> rfprfsfnts.
+     * tibt tiis <dodf>Clob</dodf> rfprfsfnts.
      *
-     * @pbrbm pos thf position bt whidh to stbrt writing to thf <dodf>CLOB</dodf>
-     *         vbluf thbt this <dodf>SfriblClob</dodf> objfdt rfprfsfnts; thf first
-     *         position is <dodf>1</dodf>; must not bf lfss thbn <dodf>1</dodf> nor
-     *         grfbtfr thbn thf lfngth of this <dodf>SfriblClob</dodf> objfdt
-     * @pbrbm str thf string to bf writtfn to thf <dodf>CLOB</dodf>
-     *        vbluf thbt this <dodf>Clob</dodf> objfdt rfprfsfnts
-     * @pbrbm offsft thf offsft into <dodf>str</dodf> to stbrt rfbding
-     *        thf dhbrbdtfrs to bf writtfn
-     * @pbrbm lfngth thf numbfr of dhbrbdtfrs to bf writtfn
-     * @rfturn thf numbfr of dhbrbdtfrs writtfn
-     * @throws SfriblExdfption if thfrf is bn frror bddfssing thf
+     *
+     *
+     *
+     *
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts; tif first
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         position is <dodf>1</dodf>; must not bf lfss tibn <dodf>1</dodf> nor
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     *         grfbtfr tibn tif lfngti of tiis <dodf>SfriblClob</dodf> objfdt
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     *        vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts
+     *        vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts
+     * @pbrbm offsft tif offsft into <dodf>str</dodf> to stbrt rfbding
+     * @pbrbm offsft tif offsft into <dodf>str</dodf> to stbrt rfbding
+     * @pbrbm offsft tif offsft into <dodf>str</dodf> to stbrt rfbding
+     * @pbrbm offsft tif offsft into <dodf>str</dodf> to stbrt rfbding
+     * @pbrbm offsft tif offsft into <dodf>str</dodf> to stbrt rfbding
+     *        tif dibrbdtfrs to bf writtfn
+     *        tif dibrbdtfrs to bf writtfn
+     *        tif dibrbdtfrs to bf writtfn
+     *        tif dibrbdtfrs to bf writtfn
+     *        tif dibrbdtfrs to bf writtfn
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to bf writtfn
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to bf writtfn
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to bf writtfn
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to bf writtfn
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to bf writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
+     *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
      *     <dodf>CLOB</dodf> vbluf; if bn invblid position is sft; if bn
      *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
-     *     is grfbtfr thbn thf <dodf>SfriblClob</dodf> lfngth; or thf dombinfd
-     *     vblufs of thf lfngth bnd offsft is grfbtfr thbn thf Clob bufffr;
-     * if thf {@dodf frff} mfthod hbd bffn prfviously dbllfd on this objfdt
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     invblid offsft vbluf is sft; if numbfr of bytfs to bf writtfn
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     is grfbtfr tibn tif <dodf>SfriblClob</dodf> lfngti; or tif dombinfd
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     *     vblufs of tif lfngti bnd offsft is grfbtfr tibn tif Clob bufffr;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
      */
-    publid int sftString(long pos, String str, int offsft, int lfngth)
-        throws SfriblExdfption {
+     */
+     */
+     */
+     */
+    publid int sftString(long pos, String str, int offsft, int lfngti)
+    publid int sftString(long pos, String str, int offsft, int lfngti)
+    publid int sftString(long pos, String str, int offsft, int lfngti)
+    publid int sftString(long pos, String str, int offsft, int lfngti)
+    publid int sftString(long pos, String str, int offsft, int lfngti)
+        tirows SfriblExdfption {
+        tirows SfriblExdfption {
+        tirows SfriblExdfption {
+        tirows SfriblExdfption {
+        tirows SfriblExdfption {
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
         isVblid();
         String tfmp = str.substring(offsft);
-        dhbr dPbttfrn[] = tfmp.toChbrArrby();
+        String tfmp = str.substring(offsft);
+        String tfmp = str.substring(offsft);
+        String tfmp = str.substring(offsft);
+        String tfmp = str.substring(offsft);
+        dibr dPbttfrn[] = tfmp.toCibrArrby();
+        dibr dPbttfrn[] = tfmp.toCibrArrby();
+        dibr dPbttfrn[] = tfmp.toCibrArrby();
+        dibr dPbttfrn[] = tfmp.toCibrArrby();
+        dibr dPbttfrn[] = tfmp.toCibrArrby();
 
-        if (offsft < 0 || offsft > str.lfngth()) {
-            throw nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
+
+
+
+
+        if (offsft < 0 || offsft > str.lfngti()) {
+        if (offsft < 0 || offsft > str.lfngti()) {
+        if (offsft < 0 || offsft > str.lfngti()) {
+        if (offsft < 0 || offsft > str.lfngti()) {
+        if (offsft < 0 || offsft > str.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
+            tirow nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
+            tirow nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
+            tirow nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
+            tirow nfw SfriblExdfption("Invblid offsft in bytf brrby sft");
+        }
+        }
+        }
+        }
         }
 
-        if (pos < 1 || pos > this.lfngth()) {
-            throw nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+
+
+
+
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+        if (pos < 1 || pos > tiis.lfngti()) {
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+        }
+        }
+        }
+        }
         }
 
-        if ((long)(lfngth) > origLfn) {
-            throw nfw SfriblExdfption("Bufffr is not suffidifnt to hold thf vbluf");
+
+
+
+
+        if ((long)(lfngti) > origLfn) {
+        if ((long)(lfngti) > origLfn) {
+        if ((long)(lfngti) > origLfn) {
+        if ((long)(lfngti) > origLfn) {
+        if ((long)(lfngti) > origLfn) {
+            tirow nfw SfriblExdfption("Bufffr is not suffidifnt to iold tif vbluf");
+            tirow nfw SfriblExdfption("Bufffr is not suffidifnt to iold tif vbluf");
+            tirow nfw SfriblExdfption("Bufffr is not suffidifnt to iold tif vbluf");
+            tirow nfw SfriblExdfption("Bufffr is not suffidifnt to iold tif vbluf");
+            tirow nfw SfriblExdfption("Bufffr is not suffidifnt to iold tif vbluf");
+        }
+        }
+        }
+        }
         }
 
-        if ((lfngth + offsft) > str.lfngth()) {
-            // nffd dhfdk to fnsurf lfngth + offsft !> bytfs.lfngth
-            throw nfw SfriblExdfption("Invblid OffSft. Cbnnot hbvf dombinfd offsft " +
-                " bnd lfngth thbt is grfbtfr thbt thf Blob bufffr");
+
+
+
+
+        if ((lfngti + offsft) > str.lfngti()) {
+        if ((lfngti + offsft) > str.lfngti()) {
+        if ((lfngti + offsft) > str.lfngti()) {
+        if ((lfngti + offsft) > str.lfngti()) {
+        if ((lfngti + offsft) > str.lfngti()) {
+            // nffd difdk to fnsurf lfngti + offsft !> bytfs.lfngti
+            // nffd difdk to fnsurf lfngti + offsft !> bytfs.lfngti
+            // nffd difdk to fnsurf lfngti + offsft !> bytfs.lfngti
+            // nffd difdk to fnsurf lfngti + offsft !> bytfs.lfngti
+            // nffd difdk to fnsurf lfngti + offsft !> bytfs.lfngti
+            tirow nfw SfriblExdfption("Invblid OffSft. Cbnnot ibvf dombinfd offsft " +
+            tirow nfw SfriblExdfption("Invblid OffSft. Cbnnot ibvf dombinfd offsft " +
+            tirow nfw SfriblExdfption("Invblid OffSft. Cbnnot ibvf dombinfd offsft " +
+            tirow nfw SfriblExdfption("Invblid OffSft. Cbnnot ibvf dombinfd offsft " +
+            tirow nfw SfriblExdfption("Invblid OffSft. Cbnnot ibvf dombinfd offsft " +
+                " bnd lfngti tibt is grfbtfr tibt tif Blob bufffr");
+                " bnd lfngti tibt is grfbtfr tibt tif Blob bufffr");
+                " bnd lfngti tibt is grfbtfr tibt tif Blob bufffr");
+                " bnd lfngti tibt is grfbtfr tibt tif Blob bufffr");
+                " bnd lfngti tibt is grfbtfr tibt tif Blob bufffr");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         int i = 0;
-        pos--;  //vblufs in thf brrby brf bt position onf lfss
-        whilf ( i < lfngth || (offsft + i +1) < (str.lfngth() - offsft ) ) {
-            this.buf[(int)pos + i ] = dPbttfrn[offsft + i ];
+        int i = 0;
+        int i = 0;
+        int i = 0;
+        int i = 0;
+        pos--;  //vblufs in tif brrby brf bt position onf lfss
+        pos--;  //vblufs in tif brrby brf bt position onf lfss
+        pos--;  //vblufs in tif brrby brf bt position onf lfss
+        pos--;  //vblufs in tif brrby brf bt position onf lfss
+        pos--;  //vblufs in tif brrby brf bt position onf lfss
+        wiilf ( i < lfngti || (offsft + i +1) < (str.lfngti() - offsft ) ) {
+        wiilf ( i < lfngti || (offsft + i +1) < (str.lfngti() - offsft ) ) {
+        wiilf ( i < lfngti || (offsft + i +1) < (str.lfngti() - offsft ) ) {
+        wiilf ( i < lfngti || (offsft + i +1) < (str.lfngti() - offsft ) ) {
+        wiilf ( i < lfngti || (offsft + i +1) < (str.lfngti() - offsft ) ) {
+            tiis.buf[(int)pos + i ] = dPbttfrn[offsft + i ];
+            tiis.buf[(int)pos + i ] = dPbttfrn[offsft + i ];
+            tiis.buf[(int)pos + i ] = dPbttfrn[offsft + i ];
+            tiis.buf[(int)pos + i ] = dPbttfrn[offsft + i ];
+            tiis.buf[(int)pos + i ] = dPbttfrn[offsft + i ];
+            i++;
+            i++;
+            i++;
+            i++;
             i++;
         }
+        }
+        }
+        }
+        }
+        rfturn i;
+        rfturn i;
+        rfturn i;
+        rfturn i;
         rfturn i;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rftrifvfs b strfbm to bf usfd to writf Asdii dhbrbdtfrs to thf
-     * <dodf>CLOB</dodf> vbluf thbt this <dodf>SfriblClob</dodf> objfdt rfprfsfnts,
-     * stbrting bt position <dodf>pos</dodf>. This mfthod forwbrds thf
-     * <dodf>sftAsdiiStrfbm()</dodf> dbll to thf undfrlying <dodf>Clob</dodf> objfdt in
-     * thf fvfnt thbt this <dodf>SfriblClob</dodf> objfdt is instbntibtfd with b
-     * <dodf>Clob</dodf> objfdt. If this <dodf>SfriblClob</dodf> objfdt is instbntibtfd
-     *  with b <dodf>dhbr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is thrown.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs b strfbm to bf usfd to writf Asdii dibrbdtfrs to tif
+     * Rftrifvfs b strfbm to bf usfd to writf Asdii dibrbdtfrs to tif
+     * Rftrifvfs b strfbm to bf usfd to writf Asdii dibrbdtfrs to tif
+     * Rftrifvfs b strfbm to bf usfd to writf Asdii dibrbdtfrs to tif
+     * Rftrifvfs b strfbm to bf usfd to writf Asdii dibrbdtfrs to tif
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts,
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts,
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts,
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts,
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt rfprfsfnts,
+     * stbrting bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * stbrting bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * stbrting bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * stbrting bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * stbrting bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * <dodf>sftAsdiiStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf> objfdt in
+     * <dodf>sftAsdiiStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf> objfdt in
+     * <dodf>sftAsdiiStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf> objfdt in
+     * <dodf>sftAsdiiStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf> objfdt in
+     * <dodf>sftAsdiiStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf> objfdt in
+     * tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd
+     *  witi b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     *  witi b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     *  witi b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     *  witi b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
+     *  witi b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> objfdt is tirown.
      *
-     * @pbrbm pos thf position bt whidh to stbrt writing to thf
+     *
+     *
+     *
+     *
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif
      *        <dodf>CLOB</dodf> objfdt
-     * @rfturn thf strfbm to whidh ASCII fndodfd dhbrbdtfrs dbn bf writtfn
-     * @throws SfriblExdfption if SfriblClob is not instbntibtfd with b
+     *        <dodf>CLOB</dodf> objfdt
+     *        <dodf>CLOB</dodf> objfdt
+     *        <dodf>CLOB</dodf> objfdt
+     *        <dodf>CLOB</dodf> objfdt
+     * @rfturn tif strfbm to wiidi ASCII fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn tif strfbm to wiidi ASCII fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn tif strfbm to wiidi ASCII fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn tif strfbm to wiidi ASCII fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn tif strfbm to wiidi ASCII fndodfd dibrbdtfrs dbn bf writtfn
+     * @tirows SfriblExdfption if SfriblClob is not instbntibtfd witi b
+     * @tirows SfriblExdfption if SfriblClob is not instbntibtfd witi b
+     * @tirows SfriblExdfption if SfriblClob is not instbntibtfd witi b
+     * @tirows SfriblExdfption if SfriblClob is not instbntibtfd witi b
+     * @tirows SfriblExdfption if SfriblClob is not instbntibtfd witi b
      *     Clob objfdt;
-     * if thf {@dodf frff} mfthod hbd bffn prfviously dbllfd on this objfdt
-     * @throws SQLExdfption if thfrf is bn frror bddfssing thf
+     *     Clob objfdt;
+     *     Clob objfdt;
+     *     Clob objfdt;
+     *     Clob objfdt;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     *     <dodf>CLOB</dodf> vbluf
+     *     <dodf>CLOB</dodf> vbluf
+     *     <dodf>CLOB</dodf> vbluf
+     *     <dodf>CLOB</dodf> vbluf
      *     <dodf>CLOB</dodf> vbluf
      * @sff #gftAsdiiStrfbm
+     * @sff #gftAsdiiStrfbm
+     * @sff #gftAsdiiStrfbm
+     * @sff #gftAsdiiStrfbm
+     * @sff #gftAsdiiStrfbm
+     */
+     */
+     */
+     */
      */
     publid jbvb.io.OutputStrfbm sftAsdiiStrfbm(long pos)
-        throws SfriblExdfption, SQLExdfption {
+    publid jbvb.io.OutputStrfbm sftAsdiiStrfbm(long pos)
+    publid jbvb.io.OutputStrfbm sftAsdiiStrfbm(long pos)
+    publid jbvb.io.OutputStrfbm sftAsdiiStrfbm(long pos)
+    publid jbvb.io.OutputStrfbm sftAsdiiStrfbm(long pos)
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
         isVblid();
-         if (this.dlob != null) {
-             rfturn this.dlob.sftAsdiiStrfbm(pos);
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
+         if (tiis.dlob != null) {
+         if (tiis.dlob != null) {
+         if (tiis.dlob != null) {
+         if (tiis.dlob != null) {
+         if (tiis.dlob != null) {
+             rfturn tiis.dlob.sftAsdiiStrfbm(pos);
+             rfturn tiis.dlob.sftAsdiiStrfbm(pos);
+             rfturn tiis.dlob.sftAsdiiStrfbm(pos);
+             rfturn tiis.dlob.sftAsdiiStrfbm(pos);
+             rfturn tiis.dlob.sftAsdiiStrfbm(pos);
          } flsf {
-             throw nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
-                "rfturn b writbblf bsdii strfbm\n unlfss instbntibtfd with b Clob objfdt " +
-                "thbt hbs b sftAsdiiStrfbm() implfmfntbtion");
+         } flsf {
+         } flsf {
+         } flsf {
+         } flsf {
+             tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+             tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+             tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+             tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+             tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+                "rfturn b writbblf bsdii strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf bsdii strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf bsdii strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf bsdii strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf bsdii strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "tibt ibs b sftAsdiiStrfbm() implfmfntbtion");
+                "tibt ibs b sftAsdiiStrfbm() implfmfntbtion");
+                "tibt ibs b sftAsdiiStrfbm() implfmfntbtion");
+                "tibt ibs b sftAsdiiStrfbm() implfmfntbtion");
+                "tibt ibs b sftAsdiiStrfbm() implfmfntbtion");
+         }
+         }
+         }
+         }
          }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dhbrbdtfrs
-     * to thf <dodf>CLOB</dodf> vbluf thbt this <dodf>SfriblClob</dodf> objfdt
-     * rfprfsfnts, bt position <dodf>pos</dodf>. This mfthod forwbrds thf
-     * <dodf>sftChbrbdtfrStrfbm()</dodf> dbll to thf undfrlying <dodf>Clob</dodf>
-     * objfdt in thf fvfnt thbt this <dodf>SfriblClob</dodf> objfdt is instbntibtfd with b
-     * <dodf>Clob</dodf> objfdt. If this <dodf>SfriblClob</dodf> objfdt is instbntibtfd with
-     * b <dodf>dhbr</dodf> brrby, b <dodf>SfriblExdfption</dodf> is thrown.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dibrbdtfrs
+     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dibrbdtfrs
+     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dibrbdtfrs
+     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dibrbdtfrs
+     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dibrbdtfrs
+     * to tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * to tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * to tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * to tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * to tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf> objfdt
+     * rfprfsfnts, bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * rfprfsfnts, bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * rfprfsfnts, bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * rfprfsfnts, bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * rfprfsfnts, bt position <dodf>pos</dodf>. Tiis mftiod forwbrds tif
+     * <dodf>sftCibrbdtfrStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf>
+     * <dodf>sftCibrbdtfrStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf>
+     * <dodf>sftCibrbdtfrStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf>
+     * <dodf>sftCibrbdtfrStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf>
+     * <dodf>sftCibrbdtfrStrfbm()</dodf> dbll to tif undfrlying <dodf>Clob</dodf>
+     * objfdt in tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * objfdt in tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * objfdt in tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * objfdt in tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * objfdt in tif fvfnt tibt tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi b
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * <dodf>Clob</dodf> objfdt. If tiis <dodf>SfriblClob</dodf> objfdt is instbntibtfd witi
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> is tirown.
+     * b <dodf>dibr</dodf> brrby, b <dodf>SfriblExdfption</dodf> is tirown.
      *
-     * @pbrbm  pos thf position bt whidh to stbrt writing to thf
+     *
+     *
+     *
+     *
+     * @pbrbm  pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm  pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm  pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm  pos tif position bt wiidi to stbrt writing to tif
+     * @pbrbm  pos tif position bt wiidi to stbrt writing to tif
+     *        <dodf>CLOB</dodf> vbluf
+     *        <dodf>CLOB</dodf> vbluf
+     *        <dodf>CLOB</dodf> vbluf
+     *        <dodf>CLOB</dodf> vbluf
      *        <dodf>CLOB</dodf> vbluf
      *
-     * @rfturn b strfbm to whidh Unidodf fndodfd dhbrbdtfrs dbn bf writtfn
-     * @throws SfriblExdfption if thf SfriblClob is not instbntibtfd with
+     *
+     *
+     *
+     *
+     * @rfturn b strfbm to wiidi Unidodf fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn b strfbm to wiidi Unidodf fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn b strfbm to wiidi Unidodf fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn b strfbm to wiidi Unidodf fndodfd dibrbdtfrs dbn bf writtfn
+     * @rfturn b strfbm to wiidi Unidodf fndodfd dibrbdtfrs dbn bf writtfn
+     * @tirows SfriblExdfption if tif SfriblClob is not instbntibtfd witi
+     * @tirows SfriblExdfption if tif SfriblClob is not instbntibtfd witi
+     * @tirows SfriblExdfption if tif SfriblClob is not instbntibtfd witi
+     * @tirows SfriblExdfption if tif SfriblClob is not instbntibtfd witi
+     * @tirows SfriblExdfption if tif SfriblClob is not instbntibtfd witi
      *     b Clob objfdt;
-     * if thf {@dodf frff} mfthod hbd bffn prfviously dbllfd on this objfdt
-     * @throws SQLExdfption if thfrf is bn frror bddfssing thf
+     *     b Clob objfdt;
+     *     b Clob objfdt;
+     *     b Clob objfdt;
+     *     b Clob objfdt;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SQLExdfption if tifrf is bn frror bddfssing tif
      *            <dodf>CLOB</dodf> vbluf
-     * @sff #gftChbrbdtfrStrfbm
+     *            <dodf>CLOB</dodf> vbluf
+     *            <dodf>CLOB</dodf> vbluf
+     *            <dodf>CLOB</dodf> vbluf
+     *            <dodf>CLOB</dodf> vbluf
+     * @sff #gftCibrbdtfrStrfbm
+     * @sff #gftCibrbdtfrStrfbm
+     * @sff #gftCibrbdtfrStrfbm
+     * @sff #gftCibrbdtfrStrfbm
+     * @sff #gftCibrbdtfrStrfbm
      */
-    publid jbvb.io.Writfr sftChbrbdtfrStrfbm(long pos)
-        throws SfriblExdfption, SQLExdfption {
+     */
+     */
+     */
+     */
+    publid jbvb.io.Writfr sftCibrbdtfrStrfbm(long pos)
+    publid jbvb.io.Writfr sftCibrbdtfrStrfbm(long pos)
+    publid jbvb.io.Writfr sftCibrbdtfrStrfbm(long pos)
+    publid jbvb.io.Writfr sftCibrbdtfrStrfbm(long pos)
+    publid jbvb.io.Writfr sftCibrbdtfrStrfbm(long pos)
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
+        tirows SfriblExdfption, SQLExdfption {
         isVblid();
-        if (this.dlob != null) {
-            rfturn this.dlob.sftChbrbdtfrStrfbm(pos);
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+        if (tiis.dlob != null) {
+            rfturn tiis.dlob.sftCibrbdtfrStrfbm(pos);
+            rfturn tiis.dlob.sftCibrbdtfrStrfbm(pos);
+            rfturn tiis.dlob.sftCibrbdtfrStrfbm(pos);
+            rfturn tiis.dlob.sftCibrbdtfrStrfbm(pos);
+            rfturn tiis.dlob.sftCibrbdtfrStrfbm(pos);
         } flsf {
-            throw nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
-                "rfturn b writbblf dhbrbdtfr strfbm\n unlfss instbntibtfd with b Clob objfdt " +
-                "thbt hbs b sftChbrbdtfrStrfbm implfmfntbtion");
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+            tirow nfw SfriblExdfption("Unsupportfd opfrbtion. SfriblClob dbnnot " +
+                "rfturn b writbblf dibrbdtfr strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf dibrbdtfr strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf dibrbdtfr strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf dibrbdtfr strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "rfturn b writbblf dibrbdtfr strfbm\n unlfss instbntibtfd witi b Clob objfdt " +
+                "tibt ibs b sftCibrbdtfrStrfbm implfmfntbtion");
+                "tibt ibs b sftCibrbdtfrStrfbm implfmfntbtion");
+                "tibt ibs b sftCibrbdtfrStrfbm implfmfntbtion");
+                "tibt ibs b sftCibrbdtfrStrfbm implfmfntbtion");
+                "tibt ibs b sftCibrbdtfrStrfbm implfmfntbtion");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Trundbtfs thf <dodf>CLOB</dodf> vbluf thbt this <dodf>SfriblClob</dodf>
-     * objfdt rfprfsfnts so thbt it hbs b lfngth of <dodf>lfn</dodf>
-     * dhbrbdtfrs.
+    /**
+    /**
+    /**
+    /**
+     * Trundbtfs tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf>
+     * Trundbtfs tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf>
+     * Trundbtfs tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf>
+     * Trundbtfs tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf>
+     * Trundbtfs tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>SfriblClob</dodf>
+     * objfdt rfprfsfnts so tibt it ibs b lfngti of <dodf>lfn</dodf>
+     * objfdt rfprfsfnts so tibt it ibs b lfngti of <dodf>lfn</dodf>
+     * objfdt rfprfsfnts so tibt it ibs b lfngti of <dodf>lfn</dodf>
+     * objfdt rfprfsfnts so tibt it ibs b lfngti of <dodf>lfn</dodf>
+     * objfdt rfprfsfnts so tibt it ibs b lfngti of <dodf>lfn</dodf>
+     * dibrbdtfrs.
+     * dibrbdtfrs.
+     * dibrbdtfrs.
+     * dibrbdtfrs.
+     * dibrbdtfrs.
      * <p>
-     * Trundbting b <dodf>SfriblClob</dodf> objfdt to lfngth 0 hbs thf ffffdt of
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Trundbting b <dodf>SfriblClob</dodf> objfdt to lfngti 0 ibs tif ffffdt of
+     * Trundbting b <dodf>SfriblClob</dodf> objfdt to lfngti 0 ibs tif ffffdt of
+     * Trundbting b <dodf>SfriblClob</dodf> objfdt to lfngti 0 ibs tif ffffdt of
+     * Trundbting b <dodf>SfriblClob</dodf> objfdt to lfngti 0 ibs tif ffffdt of
+     * Trundbting b <dodf>SfriblClob</dodf> objfdt to lfngti 0 ibs tif ffffdt of
+     * dlfbring its dontfnts.
+     * dlfbring its dontfnts.
+     * dlfbring its dontfnts.
+     * dlfbring its dontfnts.
      * dlfbring its dontfnts.
      *
-     * @pbrbm lfngth thf lfngth, in bytfs, to whidh thf <dodf>CLOB</dodf>
-     *        vbluf should bf trundbtfd
-     * @throws SfriblExdfption if thfrf is bn frror bddfssing thf
+     *
+     *
+     *
+     *
+     * @pbrbm lfngti tif lfngti, in bytfs, to wiidi tif <dodf>CLOB</dodf>
+     * @pbrbm lfngti tif lfngti, in bytfs, to wiidi tif <dodf>CLOB</dodf>
+     * @pbrbm lfngti tif lfngti, in bytfs, to wiidi tif <dodf>CLOB</dodf>
+     * @pbrbm lfngti tif lfngti, in bytfs, to wiidi tif <dodf>CLOB</dodf>
+     * @pbrbm lfngti tif lfngti, in bytfs, to wiidi tif <dodf>CLOB</dodf>
+     *        vbluf siould bf trundbtfd
+     *        vbluf siould bf trundbtfd
+     *        vbluf siould bf trundbtfd
+     *        vbluf siould bf trundbtfd
+     *        vbluf siould bf trundbtfd
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
+     * @tirows SfriblExdfption if tifrf is bn frror bddfssing tif
      *        <dodf>CLOB</dodf> vbluf;
-     * if thf {@dodf frff} mfthod hbd bffn prfviously dbllfd on this objfdt
+     *        <dodf>CLOB</dodf> vbluf;
+     *        <dodf>CLOB</dodf> vbluf;
+     *        <dodf>CLOB</dodf> vbluf;
+     *        <dodf>CLOB</dodf> vbluf;
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
+     * if tif {@dodf frff} mftiod ibd bffn prfviously dbllfd on tiis objfdt
      */
-    publid void trundbtf(long lfngth) throws SfriblExdfption {
+     */
+     */
+     */
+     */
+    publid void trundbtf(long lfngti) tirows SfriblExdfption {
+    publid void trundbtf(long lfngti) tirows SfriblExdfption {
+    publid void trundbtf(long lfngti) tirows SfriblExdfption {
+    publid void trundbtf(long lfngti) tirows SfriblExdfption {
+    publid void trundbtf(long lfngti) tirows SfriblExdfption {
         isVblid();
-        if (lfngth > lfn) {
-           throw nfw SfriblExdfption
-              ("Lfngth morf thbn whbt dbn bf trundbtfd");
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
+        if (lfngti > lfn) {
+        if (lfngti > lfn) {
+        if (lfngti > lfn) {
+        if (lfngti > lfn) {
+        if (lfngti > lfn) {
+           tirow nfw SfriblExdfption
+           tirow nfw SfriblExdfption
+           tirow nfw SfriblExdfption
+           tirow nfw SfriblExdfption
+           tirow nfw SfriblExdfption
+              ("Lfngti morf tibn wibt dbn bf trundbtfd");
+              ("Lfngti morf tibn wibt dbn bf trundbtfd");
+              ("Lfngti morf tibn wibt dbn bf trundbtfd");
+              ("Lfngti morf tibn wibt dbn bf trundbtfd");
+              ("Lfngti morf tibn wibt dbn bf trundbtfd");
         } flsf {
-             lfn = lfngth;
-             // rf-sizf thf bufffr
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+             lfn = lfngti;
+             lfn = lfngti;
+             lfn = lfngti;
+             lfn = lfngti;
+             lfn = lfngti;
+             // rf-sizf tif bufffr
+             // rf-sizf tif bufffr
+             // rf-sizf tif bufffr
+             // rf-sizf tif bufffr
+             // rf-sizf tif bufffr
+
+
+
+
 
              if (lfn == 0) {
-                buf = nfw dhbr[] {};
+             if (lfn == 0) {
+             if (lfn == 0) {
+             if (lfn == 0) {
+             if (lfn == 0) {
+                buf = nfw dibr[] {};
+                buf = nfw dibr[] {};
+                buf = nfw dibr[] {};
+                buf = nfw dibr[] {};
+                buf = nfw dibr[] {};
              } flsf {
-                buf = (this.gftSubString(1, (int)lfn)).toChbrArrby();
+             } flsf {
+             } flsf {
+             } flsf {
+             } flsf {
+                buf = (tiis.gftSubString(1, (int)lfn)).toCibrArrby();
+                buf = (tiis.gftSubString(1, (int)lfn)).toCibrArrby();
+                buf = (tiis.gftSubString(1, (int)lfn)).toCibrArrby();
+                buf = (tiis.gftSubString(1, (int)lfn)).toCibrArrby();
+                buf = (tiis.gftSubString(1, (int)lfn)).toCibrArrby();
+             }
+             }
+             }
+             }
              }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * Rfturns b {@dodf Rfbdfr} objfdt thbt dontbins b pbrtibl
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b {@dodf Rfbdfr} objfdt tibt dontbins b pbrtibl
+     * Rfturns b {@dodf Rfbdfr} objfdt tibt dontbins b pbrtibl
+     * Rfturns b {@dodf Rfbdfr} objfdt tibt dontbins b pbrtibl
+     * Rfturns b {@dodf Rfbdfr} objfdt tibt dontbins b pbrtibl
+     * Rfturns b {@dodf Rfbdfr} objfdt tibt dontbins b pbrtibl
      * {@dodf SfriblClob} vbluf, stbrting
-     * with thf dhbrbdtfr spfdififd by pos, whidh is lfngth dhbrbdtfrs in lfngth.
+     * {@dodf SfriblClob} vbluf, stbrting
+     * {@dodf SfriblClob} vbluf, stbrting
+     * {@dodf SfriblClob} vbluf, stbrting
+     * {@dodf SfriblClob} vbluf, stbrting
+     * witi tif dibrbdtfr spfdififd by pos, wiidi is lfngti dibrbdtfrs in lfngti.
+     * witi tif dibrbdtfr spfdififd by pos, wiidi is lfngti dibrbdtfrs in lfngti.
+     * witi tif dibrbdtfr spfdififd by pos, wiidi is lfngti dibrbdtfrs in lfngti.
+     * witi tif dibrbdtfr spfdififd by pos, wiidi is lfngti dibrbdtfrs in lfngti.
+     * witi tif dibrbdtfr spfdififd by pos, wiidi is lfngti dibrbdtfrs in lfngti.
      *
-     * @pbrbm pos thf offsft to thf first dhbrbdtfr of thf pbrtibl vbluf to
-     * bf rftrifvfd.  Thf first dhbrbdtfr in thf {@dodf SfriblClob} is bt position 1.
-     * @pbrbm lfngth thf lfngth in dhbrbdtfrs of thf pbrtibl vbluf to bf rftrifvfd.
-     * @rfturn {@dodf Rfbdfr} through whidh thf pbrtibl {@dodf SfriblClob}
+     *
+     *
+     *
+     *
+     * @pbrbm pos tif offsft to tif first dibrbdtfr of tif pbrtibl vbluf to
+     * @pbrbm pos tif offsft to tif first dibrbdtfr of tif pbrtibl vbluf to
+     * @pbrbm pos tif offsft to tif first dibrbdtfr of tif pbrtibl vbluf to
+     * @pbrbm pos tif offsft to tif first dibrbdtfr of tif pbrtibl vbluf to
+     * @pbrbm pos tif offsft to tif first dibrbdtfr of tif pbrtibl vbluf to
+     * bf rftrifvfd.  Tif first dibrbdtfr in tif {@dodf SfriblClob} is bt position 1.
+     * bf rftrifvfd.  Tif first dibrbdtfr in tif {@dodf SfriblClob} is bt position 1.
+     * bf rftrifvfd.  Tif first dibrbdtfr in tif {@dodf SfriblClob} is bt position 1.
+     * bf rftrifvfd.  Tif first dibrbdtfr in tif {@dodf SfriblClob} is bt position 1.
+     * bf rftrifvfd.  Tif first dibrbdtfr in tif {@dodf SfriblClob} is bt position 1.
+     * @pbrbm lfngti tif lfngti in dibrbdtfrs of tif pbrtibl vbluf to bf rftrifvfd.
+     * @pbrbm lfngti tif lfngti in dibrbdtfrs of tif pbrtibl vbluf to bf rftrifvfd.
+     * @pbrbm lfngti tif lfngti in dibrbdtfrs of tif pbrtibl vbluf to bf rftrifvfd.
+     * @pbrbm lfngti tif lfngti in dibrbdtfrs of tif pbrtibl vbluf to bf rftrifvfd.
+     * @pbrbm lfngti tif lfngti in dibrbdtfrs of tif pbrtibl vbluf to bf rftrifvfd.
+     * @rfturn {@dodf Rfbdfr} tirougi wiidi tif pbrtibl {@dodf SfriblClob}
+     * @rfturn {@dodf Rfbdfr} tirougi wiidi tif pbrtibl {@dodf SfriblClob}
+     * @rfturn {@dodf Rfbdfr} tirougi wiidi tif pbrtibl {@dodf SfriblClob}
+     * @rfturn {@dodf Rfbdfr} tirougi wiidi tif pbrtibl {@dodf SfriblClob}
+     * @rfturn {@dodf Rfbdfr} tirougi wiidi tif pbrtibl {@dodf SfriblClob}
      * vbluf dbn bf rfbd.
-     * @throws SQLExdfption if pos is lfss thbn 1 or if pos is grfbtfr thbn thf
-     * numbfr of dhbrbdtfrs in thf {@dodf SfriblClob} or if pos + lfngth
-     * is grfbtfr thbn thf numbfr of dhbrbdtfrs in thf {@dodf SfriblClob};
-     * @throws SfriblExdfption if thf {@dodf frff} mfthod hbd bffn prfviously
-     * dbllfd on this objfdt
+     * vbluf dbn bf rfbd.
+     * vbluf dbn bf rfbd.
+     * vbluf dbn bf rfbd.
+     * vbluf dbn bf rfbd.
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif
+     * numbfr of dibrbdtfrs in tif {@dodf SfriblClob} or if pos + lfngti
+     * numbfr of dibrbdtfrs in tif {@dodf SfriblClob} or if pos + lfngti
+     * numbfr of dibrbdtfrs in tif {@dodf SfriblClob} or if pos + lfngti
+     * numbfr of dibrbdtfrs in tif {@dodf SfriblClob} or if pos + lfngti
+     * numbfr of dibrbdtfrs in tif {@dodf SfriblClob} or if pos + lfngti
+     * is grfbtfr tibn tif numbfr of dibrbdtfrs in tif {@dodf SfriblClob};
+     * is grfbtfr tibn tif numbfr of dibrbdtfrs in tif {@dodf SfriblClob};
+     * is grfbtfr tibn tif numbfr of dibrbdtfrs in tif {@dodf SfriblClob};
+     * is grfbtfr tibn tif numbfr of dibrbdtfrs in tif {@dodf SfriblClob};
+     * is grfbtfr tibn tif numbfr of dibrbdtfrs in tif {@dodf SfriblClob};
+     * @tirows SfriblExdfption if tif {@dodf frff} mftiod ibd bffn prfviously
+     * @tirows SfriblExdfption if tif {@dodf frff} mftiod ibd bffn prfviously
+     * @tirows SfriblExdfption if tif {@dodf frff} mftiod ibd bffn prfviously
+     * @tirows SfriblExdfption if tif {@dodf frff} mftiod ibd bffn prfviously
+     * @tirows SfriblExdfption if tif {@dodf frff} mftiod ibd bffn prfviously
+     * dbllfd on tiis objfdt
+     * dbllfd on tiis objfdt
+     * dbllfd on tiis objfdt
+     * dbllfd on tiis objfdt
+     * dbllfd on tiis objfdt
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
-    publid Rfbdfr gftChbrbdtfrStrfbm(long pos, long lfngth) throws SQLExdfption {
+     */
+     */
+     */
+     */
+    publid Rfbdfr gftCibrbdtfrStrfbm(long pos, long lfngti) tirows SQLExdfption {
+    publid Rfbdfr gftCibrbdtfrStrfbm(long pos, long lfngti) tirows SQLExdfption {
+    publid Rfbdfr gftCibrbdtfrStrfbm(long pos, long lfngti) tirows SQLExdfption {
+    publid Rfbdfr gftCibrbdtfrStrfbm(long pos, long lfngti) tirows SQLExdfption {
+    publid Rfbdfr gftCibrbdtfrStrfbm(long pos, long lfngti) tirows SQLExdfption {
+        isVblid();
+        isVblid();
+        isVblid();
+        isVblid();
         isVblid();
         if (pos < 1 || pos > lfn) {
-            throw nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+        if (pos < 1 || pos > lfn) {
+        if (pos < 1 || pos > lfn) {
+        if (pos < 1 || pos > lfn) {
+        if (pos < 1 || pos > lfn) {
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+            tirow nfw SfriblExdfption("Invblid position in Clob objfdt sft");
+        }
+        }
+        }
+        }
         }
 
-        if ((pos-1) + lfngth > lfn) {
-            throw nfw SfriblExdfption("Invblid position bnd substring lfngth");
+
+
+
+
+        if ((pos-1) + lfngti > lfn) {
+        if ((pos-1) + lfngti > lfn) {
+        if ((pos-1) + lfngti > lfn) {
+        if ((pos-1) + lfngti > lfn) {
+        if ((pos-1) + lfngti > lfn) {
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
+            tirow nfw SfriblExdfption("Invblid position bnd substring lfngti");
         }
-        if (lfngth <= 0) {
-            throw nfw SfriblExdfption("Invblid lfngth spfdififd");
         }
-        rfturn nfw ChbrArrbyRfbdfr(buf, (int)pos, (int)lfngth);
+        }
+        }
+        }
+        if (lfngti <= 0) {
+        if (lfngti <= 0) {
+        if (lfngti <= 0) {
+        if (lfngti <= 0) {
+        if (lfngti <= 0) {
+            tirow nfw SfriblExdfption("Invblid lfngti spfdififd");
+            tirow nfw SfriblExdfption("Invblid lfngti spfdififd");
+            tirow nfw SfriblExdfption("Invblid lfngti spfdififd");
+            tirow nfw SfriblExdfption("Invblid lfngti spfdififd");
+            tirow nfw SfriblExdfption("Invblid lfngti spfdififd");
+        }
+        }
+        }
+        }
+        }
+        rfturn nfw CibrArrbyRfbdfr(buf, (int)pos, (int)lfngti);
+        rfturn nfw CibrArrbyRfbdfr(buf, (int)pos, (int)lfngti);
+        rfturn nfw CibrArrbyRfbdfr(buf, (int)pos, (int)lfngti);
+        rfturn nfw CibrArrbyRfbdfr(buf, (int)pos, (int)lfngti);
+        rfturn nfw CibrArrbyRfbdfr(buf, (int)pos, (int)lfngti);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * This mfthod frffs thf {@dodf SfribblfClob} objfdt bnd rflfbsfs thf
-     * rfsourdfs thbt it holds.
-     * Thf objfdt is invblid ondf thf {@dodf frff} mfthod is dbllfd.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod frffs tif {@dodf SfribblfClob} objfdt bnd rflfbsfs tif
+     * Tiis mftiod frffs tif {@dodf SfribblfClob} objfdt bnd rflfbsfs tif
+     * Tiis mftiod frffs tif {@dodf SfribblfClob} objfdt bnd rflfbsfs tif
+     * Tiis mftiod frffs tif {@dodf SfribblfClob} objfdt bnd rflfbsfs tif
+     * Tiis mftiod frffs tif {@dodf SfribblfClob} objfdt bnd rflfbsfs tif
+     * rfsourdfs tibt it iolds.
+     * rfsourdfs tibt it iolds.
+     * rfsourdfs tibt it iolds.
+     * rfsourdfs tibt it iolds.
+     * rfsourdfs tibt it iolds.
+     * Tif objfdt is invblid ondf tif {@dodf frff} mftiod is dbllfd.
+     * Tif objfdt is invblid ondf tif {@dodf frff} mftiod is dbllfd.
+     * Tif objfdt is invblid ondf tif {@dodf frff} mftiod is dbllfd.
+     * Tif objfdt is invblid ondf tif {@dodf frff} mftiod is dbllfd.
+     * Tif objfdt is invblid ondf tif {@dodf frff} mftiod is dbllfd.
      * <p>
-     * If {@dodf frff} is dbllfd multiplf timfs, thf subsfqufnt
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If {@dodf frff} is dbllfd multiplf timfs, tif subsfqufnt
+     * If {@dodf frff} is dbllfd multiplf timfs, tif subsfqufnt
+     * If {@dodf frff} is dbllfd multiplf timfs, tif subsfqufnt
+     * If {@dodf frff} is dbllfd multiplf timfs, tif subsfqufnt
+     * If {@dodf frff} is dbllfd multiplf timfs, tif subsfqufnt
+     * dblls to {@dodf frff} brf trfbtfd bs b no-op.
+     * dblls to {@dodf frff} brf trfbtfd bs b no-op.
+     * dblls to {@dodf frff} brf trfbtfd bs b no-op.
+     * dblls to {@dodf frff} brf trfbtfd bs b no-op.
      * dblls to {@dodf frff} brf trfbtfd bs b no-op.
      * </P>
-     * @throws SQLExdfption if bn frror oddurs rflfbsing
-     * thf Clob's rfsourdfs
+     * </P>
+     * </P>
+     * </P>
+     * </P>
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * tif Clob's rfsourdfs
+     * tif Clob's rfsourdfs
+     * tif Clob's rfsourdfs
+     * tif Clob's rfsourdfs
+     * tif Clob's rfsourdfs
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
-    publid void frff() throws SQLExdfption {
+     */
+     */
+     */
+     */
+    publid void frff() tirows SQLExdfption {
+    publid void frff() tirows SQLExdfption {
+    publid void frff() tirows SQLExdfption {
+    publid void frff() tirows SQLExdfption {
+    publid void frff() tirows SQLExdfption {
+        if (buf != null) {
+        if (buf != null) {
+        if (buf != null) {
+        if (buf != null) {
         if (buf != null) {
             buf = null;
+            buf = null;
+            buf = null;
+            buf = null;
+            buf = null;
+            if (dlob != null) {
+            if (dlob != null) {
+            if (dlob != null) {
+            if (dlob != null) {
             if (dlob != null) {
                 dlob.frff();
+                dlob.frff();
+                dlob.frff();
+                dlob.frff();
+                dlob.frff();
+            }
+            }
+            }
+            }
             }
             dlob = null;
+            dlob = null;
+            dlob = null;
+            dlob = null;
+            dlob = null;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Compbrfs this SfriblClob to thf spfdififd objfdt.  Thf rfsult is {@dodf
-     * truf} if bnd only if thf brgumfnt is not {@dodf null} bnd is b {@dodf
-     * SfriblClob} objfdt thbt rfprfsfnts thf sbmf sfqufndf of dhbrbdtfrs bs this
+    /**
+    /**
+    /**
+    /**
+     * Compbrfs tiis SfriblClob to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * Compbrfs tiis SfriblClob to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * Compbrfs tiis SfriblClob to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * Compbrfs tiis SfriblClob to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * Compbrfs tiis SfriblClob to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b {@dodf
+     * SfriblClob} objfdt tibt rfprfsfnts tif sbmf sfqufndf of dibrbdtfrs bs tiis
+     * SfriblClob} objfdt tibt rfprfsfnts tif sbmf sfqufndf of dibrbdtfrs bs tiis
+     * SfriblClob} objfdt tibt rfprfsfnts tif sbmf sfqufndf of dibrbdtfrs bs tiis
+     * SfriblClob} objfdt tibt rfprfsfnts tif sbmf sfqufndf of dibrbdtfrs bs tiis
+     * SfriblClob} objfdt tibt rfprfsfnts tif sbmf sfqufndf of dibrbdtfrs bs tiis
+     * objfdt.
+     * objfdt.
+     * objfdt.
+     * objfdt.
      * objfdt.
      *
-     * @pbrbm  obj Thf objfdt to dompbrf this {@dodf SfriblClob} bgbinst
      *
-     * @rfturn  {@dodf truf} if thf givfn objfdt rfprfsfnts b {@dodf SfriblClob}
-     *          fquivblfnt to this SfriblClob, {@dodf fblsf} othfrwisf
      *
+     *
+     *
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblClob} bgbinst
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblClob} bgbinst
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblClob} bgbinst
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblClob} bgbinst
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblClob} bgbinst
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblClob}
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblClob}
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblClob}
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblClob}
+     * @rfturn  {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblClob}
+     *          fquivblfnt to tiis SfriblClob, {@dodf fblsf} otifrwisf
+     *          fquivblfnt to tiis SfriblClob, {@dodf fblsf} otifrwisf
+     *          fquivblfnt to tiis SfriblClob, {@dodf fblsf} otifrwisf
+     *          fquivblfnt to tiis SfriblClob, {@dodf fblsf} otifrwisf
+     *          fquivblfnt to tiis SfriblClob, {@dodf fblsf} otifrwisf
+     *
+     *
+     *
+     *
+     *
+     */
+     */
+     */
+     */
      */
     publid boolfbn fqubls(Objfdt obj) {
-        if (this == obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+        if (tiis == obj) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         }
+        }
+        }
+        }
+        }
+        if (obj instbndfof SfriblClob) {
+        if (obj instbndfof SfriblClob) {
+        if (obj instbndfof SfriblClob) {
+        if (obj instbndfof SfriblClob) {
         if (obj instbndfof SfriblClob) {
             SfriblClob sd = (SfriblClob)obj;
-            if (this.lfn == sd.lfn) {
+            SfriblClob sd = (SfriblClob)obj;
+            SfriblClob sd = (SfriblClob)obj;
+            SfriblClob sd = (SfriblClob)obj;
+            SfriblClob sd = (SfriblClob)obj;
+            if (tiis.lfn == sd.lfn) {
+            if (tiis.lfn == sd.lfn) {
+            if (tiis.lfn == sd.lfn) {
+            if (tiis.lfn == sd.lfn) {
+            if (tiis.lfn == sd.lfn) {
+                rfturn Arrbys.fqubls(buf, sd.buf);
+                rfturn Arrbys.fqubls(buf, sd.buf);
+                rfturn Arrbys.fqubls(buf, sd.buf);
+                rfturn Arrbys.fqubls(buf, sd.buf);
                 rfturn Arrbys.fqubls(buf, sd.buf);
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b hbsh dodf for this {@dodf SfriblClob}.
-     * @rfturn  b hbsh dodf vbluf for this objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblClob}.
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblClob}.
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblClob}.
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblClob}.
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblClob}.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    publid int hbshCodf() {
-       rfturn ((31 + Arrbys.hbshCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
+     */
+     */
+     */
+     */
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+       rfturn ((31 + Arrbys.ibsiCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
+       rfturn ((31 + Arrbys.ibsiCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
+       rfturn ((31 + Arrbys.ibsiCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
+       rfturn ((31 + Arrbys.ibsiCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
+       rfturn ((31 + Arrbys.ibsiCodf(buf)) * 31 + (int)lfn) * 31 + (int)origLfn;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b dlonf of this {@dodf SfriblClob}. Thf dopy will dontbin b
-     * rfffrfndf to b dlonf of thf intfrnbl dhbrbdtfr brrby, not b rfffrfndf
-     * to thf originbl intfrnbl dhbrbdtfr brrby of this {@dodf SfriblClob} objfdt.
-     * Thf undfrlying {@dodf Clob} objfdt will bf sft to null.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b dlonf of tiis {@dodf SfriblClob}. Tif dopy will dontbin b
+     * Rfturns b dlonf of tiis {@dodf SfriblClob}. Tif dopy will dontbin b
+     * Rfturns b dlonf of tiis {@dodf SfriblClob}. Tif dopy will dontbin b
+     * Rfturns b dlonf of tiis {@dodf SfriblClob}. Tif dopy will dontbin b
+     * Rfturns b dlonf of tiis {@dodf SfriblClob}. Tif dopy will dontbin b
+     * rfffrfndf to b dlonf of tif intfrnbl dibrbdtfr brrby, not b rfffrfndf
+     * rfffrfndf to b dlonf of tif intfrnbl dibrbdtfr brrby, not b rfffrfndf
+     * rfffrfndf to b dlonf of tif intfrnbl dibrbdtfr brrby, not b rfffrfndf
+     * rfffrfndf to b dlonf of tif intfrnbl dibrbdtfr brrby, not b rfffrfndf
+     * rfffrfndf to b dlonf of tif intfrnbl dibrbdtfr brrby, not b rfffrfndf
+     * to tif originbl intfrnbl dibrbdtfr brrby of tiis {@dodf SfriblClob} objfdt.
+     * to tif originbl intfrnbl dibrbdtfr brrby of tiis {@dodf SfriblClob} objfdt.
+     * to tif originbl intfrnbl dibrbdtfr brrby of tiis {@dodf SfriblClob} objfdt.
+     * to tif originbl intfrnbl dibrbdtfr brrby of tiis {@dodf SfriblClob} objfdt.
+     * to tif originbl intfrnbl dibrbdtfr brrby of tiis {@dodf SfriblClob} objfdt.
+     * Tif undfrlying {@dodf Clob} objfdt will bf sft to null.
+     * Tif undfrlying {@dodf Clob} objfdt will bf sft to null.
+     * Tif undfrlying {@dodf Clob} objfdt will bf sft to null.
+     * Tif undfrlying {@dodf Clob} objfdt will bf sft to null.
+     * Tif undfrlying {@dodf Clob} objfdt will bf sft to null.
      *
-     * @rfturn  b dlonf of this SfriblClob
+     *
+     *
+     *
+     *
+     * @rfturn  b dlonf of tiis SfriblClob
+     * @rfturn  b dlonf of tiis SfriblClob
+     * @rfturn  b dlonf of tiis SfriblClob
+     * @rfturn  b dlonf of tiis SfriblClob
+     * @rfturn  b dlonf of tiis SfriblClob
+     */
+     */
+     */
+     */
      */
     publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+    publid Objfdt dlonf() {
+        try {
+        try {
+        try {
+        try {
         try {
             SfriblClob sd = (SfriblClob) supfr.dlonf();
+            SfriblClob sd = (SfriblClob) supfr.dlonf();
+            SfriblClob sd = (SfriblClob) supfr.dlonf();
+            SfriblClob sd = (SfriblClob) supfr.dlonf();
+            SfriblClob sd = (SfriblClob) supfr.dlonf();
+            sd.buf = (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
+            sd.buf = (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
+            sd.buf = (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
+            sd.buf = (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
             sd.buf = (buf != null) ? Arrbys.dopyOf(buf, (int)lfn) : null;
             sd.dlob = null;
+            sd.dlob = null;
+            sd.dlob = null;
+            sd.dlob = null;
+            sd.dlob = null;
             rfturn sd;
-        } dbtdh (ClonfNotSupportfdExdfption fx) {
-            // this shouldn't hbppfn, sindf wf brf Clonfbblf
-            throw nfw IntfrnblError();
+            rfturn sd;
+            rfturn sd;
+            rfturn sd;
+            rfturn sd;
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError();
+            tirow nfw IntfrnblError();
+            tirow nfw IntfrnblError();
+            tirow nfw IntfrnblError();
+            tirow nfw IntfrnblError();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf SfriblClob from
+    /**
+    /**
+    /**
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblClob from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblClob from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblClob from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblClob from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SfriblClob from
+     * b strfbm.
+     * b strfbm.
+     * b strfbm.
+     * b strfbm.
      * b strfbm.
      */
+     */
+     */
+     */
+     */
     privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
-            throws IOExdfption, ClbssNotFoundExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+
+
+
+
 
         ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
-       dhbr[] tmp = (dhbr[])fiflds.gft("buf", null);
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       dibr[] tmp = (dibr[])fiflds.gft("buf", null);
+       dibr[] tmp = (dibr[])fiflds.gft("buf", null);
+       dibr[] tmp = (dibr[])fiflds.gft("buf", null);
+       dibr[] tmp = (dibr[])fiflds.gft("buf", null);
+       dibr[] tmp = (dibr[])fiflds.gft("buf", null);
        if (tmp == null)
-           throw nfw InvblidObjfdtExdfption("buf is null bnd should not bf!");
+       if (tmp == null)
+       if (tmp == null)
+       if (tmp == null)
+       if (tmp == null)
+           tirow nfw InvblidObjfdtExdfption("buf is null bnd siould not bf!");
+           tirow nfw InvblidObjfdtExdfption("buf is null bnd siould not bf!");
+           tirow nfw InvblidObjfdtExdfption("buf is null bnd siould not bf!");
+           tirow nfw InvblidObjfdtExdfption("buf is null bnd siould not bf!");
+           tirow nfw InvblidObjfdtExdfption("buf is null bnd siould not bf!");
+       buf = tmp.dlonf();
+       buf = tmp.dlonf();
+       buf = tmp.dlonf();
+       buf = tmp.dlonf();
        buf = tmp.dlonf();
        lfn = fiflds.gft("lfn", 0L);
-       if (buf.lfngth != lfn)
-           throw nfw InvblidObjfdtExdfption("buf is not thf fxpfdtfd sizf");
+       lfn = fiflds.gft("lfn", 0L);
+       lfn = fiflds.gft("lfn", 0L);
+       lfn = fiflds.gft("lfn", 0L);
+       lfn = fiflds.gft("lfn", 0L);
+       if (buf.lfngti != lfn)
+       if (buf.lfngti != lfn)
+       if (buf.lfngti != lfn)
+       if (buf.lfngti != lfn)
+       if (buf.lfngti != lfn)
+           tirow nfw InvblidObjfdtExdfption("buf is not tif fxpfdtfd sizf");
+           tirow nfw InvblidObjfdtExdfption("buf is not tif fxpfdtfd sizf");
+           tirow nfw InvblidObjfdtExdfption("buf is not tif fxpfdtfd sizf");
+           tirow nfw InvblidObjfdtExdfption("buf is not tif fxpfdtfd sizf");
+           tirow nfw InvblidObjfdtExdfption("buf is not tif fxpfdtfd sizf");
+       origLfn = fiflds.gft("origLfn", 0L);
+       origLfn = fiflds.gft("origLfn", 0L);
+       origLfn = fiflds.gft("origLfn", 0L);
+       origLfn = fiflds.gft("origLfn", 0L);
        origLfn = fiflds.gft("origLfn", 0L);
        dlob = (Clob) fiflds.gft("dlob", null);
+       dlob = (Clob) fiflds.gft("dlob", null);
+       dlob = (Clob) fiflds.gft("dlob", null);
+       dlob = (Clob) fiflds.gft("dlob", null);
+       dlob = (Clob) fiflds.gft("dlob", null);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * writfObjfdt is dbllfd to sbvf thf stbtf of thf SfriblClob
+    /**
+    /**
+    /**
+    /**
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblClob
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblClob
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblClob
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblClob
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif SfriblClob
+     * to b strfbm.
+     * to b strfbm.
+     * to b strfbm.
+     * to b strfbm.
      * to b strfbm.
      */
+     */
+     */
+     */
+     */
     privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
-            throws IOExdfption, ClbssNotFoundExdfption {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+            tirows IOExdfption, ClbssNotFoundExdfption {
+
+
+
+
 
         ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("buf", buf);
+        fiflds.put("buf", buf);
+        fiflds.put("buf", buf);
+        fiflds.put("buf", buf);
         fiflds.put("buf", buf);
         fiflds.put("lfn", lfn);
+        fiflds.put("lfn", lfn);
+        fiflds.put("lfn", lfn);
+        fiflds.put("lfn", lfn);
+        fiflds.put("lfn", lfn);
         fiflds.put("origLfn", origLfn);
-        // Notf: this dhfdk to sff if it is bn instbndf of Sfriblizbblf
+        fiflds.put("origLfn", origLfn);
+        fiflds.put("origLfn", origLfn);
+        fiflds.put("origLfn", origLfn);
+        fiflds.put("origLfn", origLfn);
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // Notf: tiis difdk to sff if it is bn instbndf of Sfriblizbblf
+        // is for bbdkwbrds dompbtibiity
+        // is for bbdkwbrds dompbtibiity
+        // is for bbdkwbrds dompbtibiity
+        // is for bbdkwbrds dompbtibiity
         // is for bbdkwbrds dompbtibiity
         fiflds.put("dlob", dlob instbndfof Sfriblizbblf ? dlob : null);
+        fiflds.put("dlob", dlob instbndfof Sfriblizbblf ? dlob : null);
+        fiflds.put("dlob", dlob instbndfof Sfriblizbblf ? dlob : null);
+        fiflds.put("dlob", dlob instbndfof Sfriblizbblf ? dlob : null);
+        fiflds.put("dlob", dlob instbndfof Sfriblizbblf ? dlob : null);
+        s.writfFiflds();
+        s.writfFiflds();
+        s.writfFiflds();
+        s.writfFiflds();
         s.writfFiflds();
     }
-
-    /**
-     * Chfdk to sff if this objfdt hbd prfviously hbd its {@dodf frff} mfthod
-     * dbllfd
-     *
-     * @throws SfriblExdfption
-     */
-    privbtf void isVblid() throws SfriblExdfption {
-        if (buf == null) {
-            throw nfw SfriblExdfption("Error: You dbnnot dbll b mfthod on b "
-                    + "SfriblClob instbndf ondf frff() hbs bffn dbllfd.");
-        }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Thf idfntififr thbt bssists in thf sfriblizbtion of this {@dodf SfriblClob}
+    /**
+    /**
+    /**
+    /**
+     * Cifdk to sff if tiis objfdt ibd prfviously ibd its {@dodf frff} mftiod
+     * Cifdk to sff if tiis objfdt ibd prfviously ibd its {@dodf frff} mftiod
+     * Cifdk to sff if tiis objfdt ibd prfviously ibd its {@dodf frff} mftiod
+     * Cifdk to sff if tiis objfdt ibd prfviously ibd its {@dodf frff} mftiod
+     * Cifdk to sff if tiis objfdt ibd prfviously ibd its {@dodf frff} mftiod
+     * dbllfd
+     * dbllfd
+     * dbllfd
+     * dbllfd
+     * dbllfd
+     *
+     *
+     *
+     *
+     *
+     * @tirows SfriblExdfption
+     * @tirows SfriblExdfption
+     * @tirows SfriblExdfption
+     * @tirows SfriblExdfption
+     * @tirows SfriblExdfption
+     */
+     */
+     */
+     */
+     */
+    privbtf void isVblid() tirows SfriblExdfption {
+    privbtf void isVblid() tirows SfriblExdfption {
+    privbtf void isVblid() tirows SfriblExdfption {
+    privbtf void isVblid() tirows SfriblExdfption {
+    privbtf void isVblid() tirows SfriblExdfption {
+        if (buf == null) {
+        if (buf == null) {
+        if (buf == null) {
+        if (buf == null) {
+        if (buf == null) {
+            tirow nfw SfriblExdfption("Error: You dbnnot dbll b mftiod on b "
+            tirow nfw SfriblExdfption("Error: You dbnnot dbll b mftiod on b "
+            tirow nfw SfriblExdfption("Error: You dbnnot dbll b mftiod on b "
+            tirow nfw SfriblExdfption("Error: You dbnnot dbll b mftiod on b "
+            tirow nfw SfriblExdfption("Error: You dbnnot dbll b mftiod on b "
+                    + "SfriblClob instbndf ondf frff() ibs bffn dbllfd.");
+                    + "SfriblClob instbndf ondf frff() ibs bffn dbllfd.");
+                    + "SfriblClob instbndf ondf frff() ibs bffn dbllfd.");
+                    + "SfriblClob instbndf ondf frff() ibs bffn dbllfd.");
+                    + "SfriblClob instbndf ondf frff() ibs bffn dbllfd.");
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis {@dodf SfriblClob}
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis {@dodf SfriblClob}
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis {@dodf SfriblClob}
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis {@dodf SfriblClob}
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis {@dodf SfriblClob}
+     * objfdt.
+     * objfdt.
+     * objfdt.
+     * objfdt.
      * objfdt.
      */
+     */
+     */
+     */
+     */
     stbtid finbl long sfriblVfrsionUID = -1662519690087375313L;
+    stbtid finbl long sfriblVfrsionUID = -1662519690087375313L;
+    stbtid finbl long sfriblVfrsionUID = -1662519690087375313L;
+    stbtid finbl long sfriblVfrsionUID = -1662519690087375313L;
+    stbtid finbl long sfriblVfrsionUID = -1662519690087375313L;
+}
+}
+}
+}
 }

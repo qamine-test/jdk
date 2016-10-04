@@ -1,96 +1,480 @@
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+#
+#
+#
+#
 #
 
+
+
+
+
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
+# "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
 # "rmid", inftd", bnd "wbit" siould not bf trbnslbtfd.
 rmid.syntbx.fxfd.invblid=rmid b \u00E9t\u00E9 lbnd\u00E9 dfpuis inftd bvfd un stbtut non vblidf (doit \u00EAtrf wbit)
+rmid.syntbx.fxfd.invblid=rmid b \u00E9t\u00E9 lbnd\u00E9 dfpuis inftd bvfd un stbtut non vblidf (doit \u00EAtrf wbit)
+rmid.syntbx.fxfd.invblid=rmid b \u00E9t\u00E9 lbnd\u00E9 dfpuis inftd bvfd un stbtut non vblidf (doit \u00EAtrf wbit)
+rmid.syntbx.fxfd.invblid=rmid b \u00E9t\u00E9 lbnd\u00E9 dfpuis inftd bvfd un stbtut non vblidf (doit \u00EAtrf wbit)
+rmid.syntbx.fxfd.invblid=rmid b \u00E9t\u00E9 lbnd\u00E9 dfpuis inftd bvfd un stbtut non vblidf (doit \u00EAtrf wbit)
+
+
+
+
 
 # "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+# "rmid" bnd "inftd" siould not bf trbnslbtfd.
+rmid.syntbx.port.bbdbrg=impossiblf df sp\u00E9dififr port si rmid fst lbnd\u00E9 dfpuis inftd
+rmid.syntbx.port.bbdbrg=impossiblf df sp\u00E9dififr port si rmid fst lbnd\u00E9 dfpuis inftd
+rmid.syntbx.port.bbdbrg=impossiblf df sp\u00E9dififr port si rmid fst lbnd\u00E9 dfpuis inftd
+rmid.syntbx.port.bbdbrg=impossiblf df sp\u00E9dififr port si rmid fst lbnd\u00E9 dfpuis inftd
 rmid.syntbx.port.bbdbrg=impossiblf df sp\u00E9dififr port si rmid fst lbnd\u00E9 dfpuis inftd
 
+
+
+
+
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
+# "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
 # "port" ifrf rfffrs to b TCP port for tif sfrvfr to listfn on.
 rmid.syntbx.port.bbdnumbfr=port n'fst pbs un num\u00E9ro
+rmid.syntbx.port.bbdnumbfr=port n'fst pbs un num\u00E9ro
+rmid.syntbx.port.bbdnumbfr=port n'fst pbs un num\u00E9ro
+rmid.syntbx.port.bbdnumbfr=port n'fst pbs un num\u00E9ro
+rmid.syntbx.port.bbdnumbfr=port n'fst pbs un num\u00E9ro
+
+
+
+
 
 # "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-port" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.port.missing=l'option -port fxigf un brgumfnt
+rmid.syntbx.port.missing=l'option -port fxigf un brgumfnt
+rmid.syntbx.port.missing=l'option -port fxigf un brgumfnt
+rmid.syntbx.port.missing=l'option -port fxigf un brgumfnt
 rmid.syntbx.port.missing=l'option -port fxigf un brgumfnt
 
+
+
+
+
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
 # "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
 rmid.syntbx.log.missing=l'option -log fxigf un brgumfnt
+rmid.syntbx.log.missing=l'option -log fxigf un brgumfnt
+rmid.syntbx.log.missing=l'option -log fxigf un brgumfnt
+rmid.syntbx.log.missing=l'option -log fxigf un brgumfnt
+rmid.syntbx.log.missing=l'option -log fxigf un brgumfnt
+
+
+
+
 
 # "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+# "-log" siould not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.rfquirfd=option -log obligbtoirf
+rmid.syntbx.log.rfquirfd=option -log obligbtoirf
+rmid.syntbx.log.rfquirfd=option -log obligbtoirf
+rmid.syntbx.log.rfquirfd=option -log obligbtoirf
 rmid.syntbx.log.rfquirfd=option -log obligbtoirf
 
+
+
+
+
+# {0} = tif (string) illfgbl brgumfnt in qufstion
+# {0} = tif (string) illfgbl brgumfnt in qufstion
+# {0} = tif (string) illfgbl brgumfnt in qufstion
+# {0} = tif (string) illfgbl brgumfnt in qufstion
 # {0} = tif (string) illfgbl brgumfnt in qufstion
 rmid.syntbx.illfgbl.option=option non bdmisf : {0}
+rmid.syntbx.illfgbl.option=option non bdmisf : {0}
+rmid.syntbx.illfgbl.option=option non bdmisf : {0}
+rmid.syntbx.illfgbl.option=option non bdmisf : {0}
+rmid.syntbx.illfgbl.option=option non bdmisf : {0}
+
+
+
+
 
 # {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# {0} = tif (string) rfbson tfxt tibt dbmf witi b tirown fxdfption
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 # "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin : unf fxdfption s''fst produitf - {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin : unf fxdfption s''fst produitf - {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin : unf fxdfption s''fst produitf - {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin : unf fxdfption s''fst produitf - {0}
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin : unf fxdfption s''fst produitf - {0}
+
+
+
+
 
 # "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "jbvb.iomf" siould not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 # "AdtivbtorImpl" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
 rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl : impossiblf df lodblisfr jbvb.iomf
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl : impossiblf df lodblisfr jbvb.iomf
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl : impossiblf df lodblisfr jbvb.iomf
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl : impossiblf df lodblisfr jbvb.iomf
+rmid.unfound.jbvb.iomf.propfrty=AdtivbtorImpl : impossiblf df lodblisfr jbvb.iomf
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.inifritfd.dibnnfl.info=d\u00E9mbrrbgf df rmid bvfd lf dbnbl fxistbnt
+rmid.inifritfd.dibnnfl.info=d\u00E9mbrrbgf df rmid bvfd lf dbnbl fxistbnt
+rmid.inifritfd.dibnnfl.info=d\u00E9mbrrbgf df rmid bvfd lf dbnbl fxistbnt
+rmid.inifritfd.dibnnfl.info=d\u00E9mbrrbgf df rmid bvfd lf dbnbl fxistbnt
+rmid.inifritfd.dibnnfl.info=d\u00E9mbrrbgf df rmid bvfd lf dbnbl fxistbnt
+
+
+
+
 
 # "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+# "Adtivbtion.mbin" siould not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin : dlbssf df r\u00E8glf fxfd indorrfdtf
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin : dlbssf df r\u00E8glf fxfd indorrfdtf
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin : dlbssf df r\u00E8glf fxfd indorrfdtf
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin : dlbssf df r\u00E8glf fxfd indorrfdtf
 rmid.fxfd.polidy.invblid=Adtivbtion.mbin : dlbssf df r\u00E8glf fxfd indorrfdtf
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.fxfd.polidy.fxdfption=rmid : tfntbtivf d'obtfntion dfs bbsdulfmfnts df dlbssfs fxfd :
+rmid.fxfd.polidy.fxdfption=rmid : tfntbtivf d'obtfntion dfs bbsdulfmfnts df dlbssfs fxfd :
+rmid.fxfd.polidy.fxdfption=rmid : tfntbtivf d'obtfntion dfs bbsdulfmfnts df dlbssfs fxfd :
+rmid.fxfd.polidy.fxdfption=rmid : tfntbtivf d'obtfntion dfs bbsdulfmfnts df dlbssfs fxfd :
+rmid.fxfd.polidy.fxdfption=rmid : tfntbtivf d'obtfntion dfs bbsdulfmfnts df dlbssfs fxfd :
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.fxfd.dommbnd=rmid : dfbugExfd : fx\u00E9dution df "{0}"
+rmid.fxfd.dommbnd=rmid : dfbugExfd : fx\u00E9dution df "{0}"
+rmid.fxfd.dommbnd=rmid : dfbugExfd : fx\u00E9dution df "{0}"
+rmid.fxfd.dommbnd=rmid : dfbugExfd : fx\u00E9dution df "{0}"
+rmid.fxfd.dommbnd=rmid : dfbugExfd : fx\u00E9dution df "{0}"
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.group.inbdtivf=rmid : groupf d''bdtivbtion inbdtif : {0}
+rmid.group.inbdtivf=rmid : groupf d''bdtivbtion inbdtif : {0}
+rmid.group.inbdtivf=rmid : groupf d''bdtivbtion inbdtif : {0}
+rmid.group.inbdtivf=rmid : groupf d''bdtivbtion inbdtif : {0}
+rmid.group.inbdtivf=rmid : groupf d''bdtivbtion inbdtif : {0}
+
+
+
+
 
 # "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
+# "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
 # "ExfdOptionPfrmission" siould not bf trbnslbtfd, sindf tify rfffr to
 # dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+# dlbss/pfrmission nbmfs.
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: bvfrtissfmfnt : propri\u00E9t\u00E9 syst\u00E8mf sun.rmi.bdtivbtion.fxfdPolidy\nnon sp\u00E9difi\u00E9f ft ExfdPfrmissions/ExfdOptionPfrmissions\nnon butoris\u00E9s ; lfs tfntbtivfs d'bdtivbtion suivbntfs risqufnt d'\u00E9dioufr fn rbison df lb v\u00E9rifidbtion dfs droits\nExfdPfrmission/ExfdOptionPfrmission.  Pour obtfnir df lb\ndodumfntbtion sur lb donfigurbtion df lb s\u00E9durit\u00E9 rmid, rfportfz-vous \u00E0 :\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvbsun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: bvfrtissfmfnt : propri\u00E9t\u00E9 syst\u00E8mf sun.rmi.bdtivbtion.fxfdPolidy\nnon sp\u00E9difi\u00E9f ft ExfdPfrmissions/ExfdOptionPfrmissions\nnon butoris\u00E9s ; lfs tfntbtivfs d'bdtivbtion suivbntfs risqufnt d'\u00E9dioufr fn rbison df lb v\u00E9rifidbtion dfs droits\nExfdPfrmission/ExfdOptionPfrmission.  Pour obtfnir df lb\ndodumfntbtion sur lb donfigurbtion df lb s\u00E9durit\u00E9 rmid, rfportfz-vous \u00E0 :\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvbsun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: bvfrtissfmfnt : propri\u00E9t\u00E9 syst\u00E8mf sun.rmi.bdtivbtion.fxfdPolidy\nnon sp\u00E9difi\u00E9f ft ExfdPfrmissions/ExfdOptionPfrmissions\nnon butoris\u00E9s ; lfs tfntbtivfs d'bdtivbtion suivbntfs risqufnt d'\u00E9dioufr fn rbison df lb v\u00E9rifidbtion dfs droits\nExfdPfrmission/ExfdOptionPfrmission.  Pour obtfnir df lb\ndodumfntbtion sur lb donfigurbtion df lb s\u00E9durit\u00E9 rmid, rfportfz-vous \u00E0 :\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvbsun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: bvfrtissfmfnt : propri\u00E9t\u00E9 syst\u00E8mf sun.rmi.bdtivbtion.fxfdPolidy\nnon sp\u00E9difi\u00E9f ft ExfdPfrmissions/ExfdOptionPfrmissions\nnon butoris\u00E9s ; lfs tfntbtivfs d'bdtivbtion suivbntfs risqufnt d'\u00E9dioufr fn rbison df lb v\u00E9rifidbtion dfs droits\nExfdPfrmission/ExfdOptionPfrmission.  Pour obtfnir df lb\ndodumfntbtion sur lb donfigurbtion df lb s\u00E9durit\u00E9 rmid, rfportfz-vous \u00E0 :\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvbsun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
 rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: bvfrtissfmfnt : propri\u00E9t\u00E9 syst\u00E8mf sun.rmi.bdtivbtion.fxfdPolidy\nnon sp\u00E9difi\u00E9f ft ExfdPfrmissions/ExfdOptionPfrmissions\nnon butoris\u00E9s ; lfs tfntbtivfs d'bdtivbtion suivbntfs risqufnt d'\u00E9dioufr fn rbison df lb v\u00E9rifidbtion dfs droits\nExfdPfrmission/ExfdOptionPfrmission.  Pour obtfnir df lb\ndodumfntbtion sur lb donfigurbtion df lb s\u00E9durit\u00E9 rmid, rfportfz-vous \u00E0 :\n\nittp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.itml\nittp://jbvbsun.dom/j2sf/1.4/dods/tooldods/win32/rmid.itml\n
 
+
+
+
+
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
 # "rmid", "-port", "-log", "-stop", "-C" bnd "-J" siould not bf trbnslbtfd,
 # bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+# bfdbusf tify brf syntbx
+rmid.usbgf=Syntbxf : {0} <options>\n\no\u00F9 <options> domprfnd :\n  -port <port>        Port quf rmid doit utilisfr\n  -log <r\u00E9pfrtoirf>    R\u00E9pfrtoirf o\u00F9 rmid fnrfgistrf lf journbl\n  -stop               Arr\u00EAtfr l''bppfl fn dours df rmid (pour lf port sp\u00E9difi\u00E9)\n  -C<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 dibquf prodfssus fnfbnt (groupf d''bdtivbtion)\n  -J<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 l''intfrpr\u00E9tfur Jbvb\n
+rmid.usbgf=Syntbxf : {0} <options>\n\no\u00F9 <options> domprfnd :\n  -port <port>        Port quf rmid doit utilisfr\n  -log <r\u00E9pfrtoirf>    R\u00E9pfrtoirf o\u00F9 rmid fnrfgistrf lf journbl\n  -stop               Arr\u00EAtfr l''bppfl fn dours df rmid (pour lf port sp\u00E9difi\u00E9)\n  -C<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 dibquf prodfssus fnfbnt (groupf d''bdtivbtion)\n  -J<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 l''intfrpr\u00E9tfur Jbvb\n
+rmid.usbgf=Syntbxf : {0} <options>\n\no\u00F9 <options> domprfnd :\n  -port <port>        Port quf rmid doit utilisfr\n  -log <r\u00E9pfrtoirf>    R\u00E9pfrtoirf o\u00F9 rmid fnrfgistrf lf journbl\n  -stop               Arr\u00EAtfr l''bppfl fn dours df rmid (pour lf port sp\u00E9difi\u00E9)\n  -C<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 dibquf prodfssus fnfbnt (groupf d''bdtivbtion)\n  -J<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 l''intfrpr\u00E9tfur Jbvb\n
+rmid.usbgf=Syntbxf : {0} <options>\n\no\u00F9 <options> domprfnd :\n  -port <port>        Port quf rmid doit utilisfr\n  -log <r\u00E9pfrtoirf>    R\u00E9pfrtoirf o\u00F9 rmid fnrfgistrf lf journbl\n  -stop               Arr\u00EAtfr l''bppfl fn dours df rmid (pour lf port sp\u00E9difi\u00E9)\n  -C<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 dibquf prodfssus fnfbnt (groupf d''bdtivbtion)\n  -J<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 l''intfrpr\u00E9tfur Jbvb\n
 rmid.usbgf=Syntbxf : {0} <options>\n\no\u00F9 <options> domprfnd :\n  -port <port>        Port quf rmid doit utilisfr\n  -log <r\u00E9pfrtoirf>    R\u00E9pfrtoirf o\u00F9 rmid fnrfgistrf lf journbl\n  -stop               Arr\u00EAtfr l''bppfl fn dours df rmid (pour lf port sp\u00E9difi\u00E9)\n  -C<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 dibquf prodfssus fnfbnt (groupf d''bdtivbtion)\n  -J<indidbtfur d''fx\u00E9dution>    Trbnsmft l''brgumfnt \u00E0 l''intfrpr\u00E9tfur Jbvb\n
 # Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# Tiis mfbns "Tif durrfntly running bdtivbtion dbfmon ibs bffn siut down,
+# bnd is bbout to fxit".
+# bnd is bbout to fxit".
+# bnd is bbout to fxit".
+# bnd is bbout to fxit".
 # bnd is bbout to fxit".
 rmid.dbfmon.siutdown=d\u00E9mon d'bdtivbtion brr\u00EAt\u00E9
+rmid.dbfmon.siutdown=d\u00E9mon d'bdtivbtion brr\u00EAt\u00E9
+rmid.dbfmon.siutdown=d\u00E9mon d'bdtivbtion brr\u00EAt\u00E9
+rmid.dbfmon.siutdown=d\u00E9mon d'bdtivbtion brr\u00EAt\u00E9
+rmid.dbfmon.siutdown=d\u00E9mon d'bdtivbtion brr\u00EAt\u00E9
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.rfstbrt.group.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df groupfs :
+rmid.rfstbrt.group.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df groupfs :
+rmid.rfstbrt.group.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df groupfs :
+rmid.rfstbrt.group.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df groupfs :
+rmid.rfstbrt.group.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df groupfs :
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.rfstbrt.sfrvidf.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df sfrvidfs :
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df sfrvidfs :
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df sfrvidfs :
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df sfrvidfs :
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid : (AVERTISSEMENT) rfd\u00E9mbrrfr lfs bbsdulfmfnts df sfrvidfs :
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.log.updbtf.wbrning=\nrmid : (AVERTISSEMENT) donsignfr lfs bbsdulfmfnts df misfs \u00E0 jour :
+rmid.log.updbtf.wbrning=\nrmid : (AVERTISSEMENT) donsignfr lfs bbsdulfmfnts df misfs \u00E0 jour :
+rmid.log.updbtf.wbrning=\nrmid : (AVERTISSEMENT) donsignfr lfs bbsdulfmfnts df misfs \u00E0 jour :
+rmid.log.updbtf.wbrning=\nrmid : (AVERTISSEMENT) donsignfr lfs bbsdulfmfnts df misfs \u00E0 jour :
+rmid.log.updbtf.wbrning=\nrmid : (AVERTISSEMENT) donsignfr lfs bbsdulfmfnts df misfs \u00E0 jour :
 
+
+
+
+
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
 # "rmid" siould not bf trbnslbtfd
 rmid.log.snbpsiot.wbrning=\nrmid : (GRAVE) donsignfr lfs bbsdulfmfnts df dlidi\u00E9s :
+rmid.log.snbpsiot.wbrning=\nrmid : (GRAVE) donsignfr lfs bbsdulfmfnts df dlidi\u00E9s :
+rmid.log.snbpsiot.wbrning=\nrmid : (GRAVE) donsignfr lfs bbsdulfmfnts df dlidi\u00E9s :
+rmid.log.snbpsiot.wbrning=\nrmid : (GRAVE) donsignfr lfs bbsdulfmfnts df dlidi\u00E9s :
+rmid.log.snbpsiot.wbrning=\nrmid : (GRAVE) donsignfr lfs bbsdulfmfnts df dlidi\u00E9s :
+
+
+
+
 
 # "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+# "rmid" siould not bf trbnslbtfd
+rmid.log.rfdovfr.wbrning=\nrmid : (AVERTISSEMENT) {0} : fnrfgistrfmfnt du journbl ignor\u00E9 lors df lb r\u00E9dup\u00E9rbtion :
+rmid.log.rfdovfr.wbrning=\nrmid : (AVERTISSEMENT) {0} : fnrfgistrfmfnt du journbl ignor\u00E9 lors df lb r\u00E9dup\u00E9rbtion :
+rmid.log.rfdovfr.wbrning=\nrmid : (AVERTISSEMENT) {0} : fnrfgistrfmfnt du journbl ignor\u00E9 lors df lb r\u00E9dup\u00E9rbtion :
+rmid.log.rfdovfr.wbrning=\nrmid : (AVERTISSEMENT) {0} : fnrfgistrfmfnt du journbl ignor\u00E9 lors df lb r\u00E9dup\u00E9rbtion :
 rmid.log.rfdovfr.wbrning=\nrmid : (AVERTISSEMENT) {0} : fnrfgistrfmfnt du journbl ignor\u00E9 lors df lb r\u00E9dup\u00E9rbtion :

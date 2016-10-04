@@ -1,117 +1,585 @@
 /*
- * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+
+
+
+
 
 //
-// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) whfn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
 //
+//
+//
+//
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) wifn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) wifn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) wifn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) wifn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) wifn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
 
 
 // jmx imports
+// jmx imports
+// jmx imports
+// jmx imports
+// jmx imports
+//
+//
+//
+//
 //
 import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+
+
+
 
 /**
- * This intfrfbdf is usfd for rfprfsfnting thf rfmotf mbnbgfmfnt intfrfbdf for thf "JvmMfmory" MBfbn.
+/**
+/**
+/**
+/**
+ * Tiis intfrfbdf is usfd for rfprfsfnting tif rfmotf mbnbgfmfnt intfrfbdf for tif "JvmMfmory" MBfbn.
+ * Tiis intfrfbdf is usfd for rfprfsfnting tif rfmotf mbnbgfmfnt intfrfbdf for tif "JvmMfmory" MBfbn.
+ * Tiis intfrfbdf is usfd for rfprfsfnting tif rfmotf mbnbgfmfnt intfrfbdf for tif "JvmMfmory" MBfbn.
+ * Tiis intfrfbdf is usfd for rfprfsfnting tif rfmotf mbnbgfmfnt intfrfbdf for tif "JvmMfmory" MBfbn.
+ * Tiis intfrfbdf is usfd for rfprfsfnting tif rfmotf mbnbgfmfnt intfrfbdf for tif "JvmMfmory" MBfbn.
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf JvmMfmoryMBfbn {
+publid intfrfbdf JvmMfmoryMBfbn {
+publid intfrfbdf JvmMfmoryMBfbn {
+publid intfrfbdf JvmMfmoryMBfbn {
+publid intfrfbdf JvmMfmoryMBfbn {
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryNonHfbpMbxSizf" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryNonHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpMbxSizf" vbribblf.
      */
-    publid Long gftJvmMfmoryNonHfbpMbxSizf() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryNonHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpMbxSizf() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryNonHfbpCommittfd" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryNonHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpCommittfd" vbribblf.
      */
-    publid Long gftJvmMfmoryNonHfbpCommittfd() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryNonHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpCommittfd() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryNonHfbpUsfd" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryNonHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpUsfd" vbribblf.
      */
-    publid Long gftJvmMfmoryNonHfbpUsfd() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryNonHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpUsfd() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryNonHfbpInitSizf" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryNonHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryNonHfbpInitSizf" vbribblf.
      */
-    publid Long gftJvmMfmoryNonHfbpInitSizf() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryNonHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryNonHfbpInitSizf() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryHfbpMbxSizf" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpMbxSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpMbxSizf" vbribblf.
      */
-    publid Long gftJvmMfmoryHfbpMbxSizf() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpMbxSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpMbxSizf() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryHfbpCommittfd" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpCommittfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpCommittfd" vbribblf.
      */
-    publid Long gftJvmMfmoryHfbpCommittfd() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpCommittfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpCommittfd() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryGCCbll" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCCbll" vbribblf.
      */
-    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Sfttfr for thf "JvmMfmoryGCCbll" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Sfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCCbll" vbribblf.
      */
-    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Chfdkfr for thf "JvmMfmoryGCCbll" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdkfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCCbll" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCCbll" vbribblf.
      */
-    publid void dhfdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid void difdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryHfbpUsfd" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpUsfd" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpUsfd" vbribblf.
      */
-    publid Long gftJvmMfmoryHfbpUsfd() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpUsfd() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpUsfd() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Gfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
      */
-    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl() tirows SnmpStbtusExdfption;
+    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Sfttfr for thf "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Sfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Sfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
      */
-    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Chfdkfr for thf "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Cifdkfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     * Cifdkfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
      */
-    publid void dhfdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid void difdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+    publid void difdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryHfbpInitSizf" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpInitSizf" vbribblf.
+     * Gfttfr for tif "JvmMfmoryHfbpInitSizf" vbribblf.
      */
-    publid Long gftJvmMfmoryHfbpInitSizf() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpInitSizf() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryHfbpInitSizf() tirows SnmpStbtusExdfption;
+
+
+
+
 
     /**
-     * Gfttfr for thf "JvmMfmoryPfndingFinblCount" vbribblf.
+    /**
+    /**
+    /**
+    /**
+     * Gfttfr for tif "JvmMfmoryPfndingFinblCount" vbribblf.
+     * Gfttfr for tif "JvmMfmoryPfndingFinblCount" vbribblf.
+     * Gfttfr for tif "JvmMfmoryPfndingFinblCount" vbribblf.
+     * Gfttfr for tif "JvmMfmoryPfndingFinblCount" vbribblf.
+     * Gfttfr for tif "JvmMfmoryPfndingFinblCount" vbribblf.
      */
-    publid Long gftJvmMfmoryPfndingFinblCount() throws SnmpStbtusExdfption;
+     */
+     */
+     */
+     */
+    publid Long gftJvmMfmoryPfndingFinblCount() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryPfndingFinblCount() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryPfndingFinblCount() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryPfndingFinblCount() tirows SnmpStbtusExdfption;
+    publid Long gftJvmMfmoryPfndingFinblCount() tirows SnmpStbtusExdfption;
 
+
+
+
+
+}
+}
+}
+}
 }

@@ -1,104 +1,520 @@
 <!dodtypf itml publid "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<!dodtypf itml publid "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<!dodtypf itml publid "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<!dodtypf itml publid "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<!dodtypf itml publid "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<itml>
+<itml>
+<itml>
+<itml>
 <itml>
 <ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<!--
+<!--
+<!--
+<!--
 <!--
  
+ 
+ 
+ 
+ 
+Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+
+
+
 
 Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
 
 Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
 
 You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
 
 Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 qufstions.
+qufstions.
+qufstions.
+qufstions.
+qufstions.
+-->
+-->
+-->
+-->
 -->
 </ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
 <body bgdolor="wiitf">
 <p>
+<p>
+<p>
+<p>
+<p>
+Tiis pbdkbgf providfs mftiods to rfbd filfs from b JAR filf bnd
+Tiis pbdkbgf providfs mftiods to rfbd filfs from b JAR filf bnd
+Tiis pbdkbgf providfs mftiods to rfbd filfs from b JAR filf bnd
+Tiis pbdkbgf providfs mftiods to rfbd filfs from b JAR filf bnd
 Tiis pbdkbgf providfs mftiods to rfbd filfs from b JAR filf bnd
 to trbnsform tifm to b morf dompbdt trbnsffr formbt dbllfd Pbdk200.
+to trbnsform tifm to b morf dompbdt trbnsffr formbt dbllfd Pbdk200.
+to trbnsform tifm to b morf dompbdt trbnsffr formbt dbllfd Pbdk200.
+to trbnsform tifm to b morf dompbdt trbnsffr formbt dbllfd Pbdk200.
+to trbnsform tifm to b morf dompbdt trbnsffr formbt dbllfd Pbdk200.
+It blso providfs mftiods to rfdfivf tif trbnsmittfd dbtb bnd fxpbnd
+It blso providfs mftiods to rfdfivf tif trbnsmittfd dbtb bnd fxpbnd
+It blso providfs mftiods to rfdfivf tif trbnsmittfd dbtb bnd fxpbnd
+It blso providfs mftiods to rfdfivf tif trbnsmittfd dbtb bnd fxpbnd
 It blso providfs mftiods to rfdfivf tif trbnsmittfd dbtb bnd fxpbnd
 it into b JAR filf fquivblfnt to tif originbl JAR filf.
+it into b JAR filf fquivblfnt to tif originbl JAR filf.
+it into b JAR filf fquivblfnt to tif originbl JAR filf.
+it into b JAR filf fquivblfnt to tif originbl JAR filf.
+it into b JAR filf fquivblfnt to tif originbl JAR filf.
+
+
+
+
 
 <p> 
+<p> 
+<p> 
+<p> 
+<p> 
+Tif <tt>pbdk</tt> mftiods mby bf usfd by bpplidbtion dfvflopfrs
+Tif <tt>pbdk</tt> mftiods mby bf usfd by bpplidbtion dfvflopfrs
+Tif <tt>pbdk</tt> mftiods mby bf usfd by bpplidbtion dfvflopfrs
+Tif <tt>pbdk</tt> mftiods mby bf usfd by bpplidbtion dfvflopfrs
 Tif <tt>pbdk</tt> mftiods mby bf usfd by bpplidbtion dfvflopfrs
 wio wisi to dfploy lbrgf JARs on tif wfb.  Tif <tt>unpbdk</tt> mftiods mby bf usfd 
+wio wisi to dfploy lbrgf JARs on tif wfb.  Tif <tt>unpbdk</tt> mftiods mby bf usfd 
+wio wisi to dfploy lbrgf JARs on tif wfb.  Tif <tt>unpbdk</tt> mftiods mby bf usfd 
+wio wisi to dfploy lbrgf JARs on tif wfb.  Tif <tt>unpbdk</tt> mftiods mby bf usfd 
+wio wisi to dfploy lbrgf JARs on tif wfb.  Tif <tt>unpbdk</tt> mftiods mby bf usfd 
+by dfploymfnt bpplidbtions sudi bs Jbvb Wfb Stbrt bnd Jbvb Plugin.
+by dfploymfnt bpplidbtions sudi bs Jbvb Wfb Stbrt bnd Jbvb Plugin.
+by dfploymfnt bpplidbtions sudi bs Jbvb Wfb Stbrt bnd Jbvb Plugin.
+by dfploymfnt bpplidbtions sudi bs Jbvb Wfb Stbrt bnd Jbvb Plugin.
 by dfploymfnt bpplidbtions sudi bs Jbvb Wfb Stbrt bnd Jbvb Plugin.
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 In typidbl usf, tif pbdkfd output siould bf furtifr domprfssfd using
+In typidbl usf, tif pbdkfd output siould bf furtifr domprfssfd using
+In typidbl usf, tif pbdkfd output siould bf furtifr domprfssfd using
+In typidbl usf, tif pbdkfd output siould bf furtifr domprfssfd using
+In typidbl usf, tif pbdkfd output siould bf furtifr domprfssfd using
+b suitbblf tool sudi bs gzip or <tt>jbvb.util.zip.GZIPOutputStrfbm</tt>.
+b suitbblf tool sudi bs gzip or <tt>jbvb.util.zip.GZIPOutputStrfbm</tt>.
+b suitbblf tool sudi bs gzip or <tt>jbvb.util.zip.GZIPOutputStrfbm</tt>.
+b suitbblf tool sudi bs gzip or <tt>jbvb.util.zip.GZIPOutputStrfbm</tt>.
 b suitbblf tool sudi bs gzip or <tt>jbvb.util.zip.GZIPOutputStrfbm</tt>.
 Tif rfsulting filf (witi b suffix ".pbdk.gz") siould bf iostfd on b HTTP/1.1
+Tif rfsulting filf (witi b suffix ".pbdk.gz") siould bf iostfd on b HTTP/1.1
+Tif rfsulting filf (witi b suffix ".pbdk.gz") siould bf iostfd on b HTTP/1.1
+Tif rfsulting filf (witi b suffix ".pbdk.gz") siould bf iostfd on b HTTP/1.1
+Tif rfsulting filf (witi b suffix ".pbdk.gz") siould bf iostfd on b HTTP/1.1
+domplibnt sfrvfr, wiidi will bf dbpbblf of ibndling "Addfpt-Endoding",
+domplibnt sfrvfr, wiidi will bf dbpbblf of ibndling "Addfpt-Endoding",
+domplibnt sfrvfr, wiidi will bf dbpbblf of ibndling "Addfpt-Endoding",
+domplibnt sfrvfr, wiidi will bf dbpbblf of ibndling "Addfpt-Endoding",
 domplibnt sfrvfr, wiidi will bf dbpbblf of ibndling "Addfpt-Endoding",
 bs spfdififd by tif HTTP 1.1 RFC2616 spfdifidbtion.
+bs spfdififd by tif HTTP 1.1 RFC2616 spfdifidbtion.
+bs spfdififd by tif HTTP 1.1 RFC2616 spfdifidbtion.
+bs spfdififd by tif HTTP 1.1 RFC2616 spfdifidbtion.
+bs spfdififd by tif HTTP 1.1 RFC2616 spfdifidbtion.
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 <b>NOTE:</b> It is rfdommfndfd tibt tif originbl ".jbr" filf bf iostfd
+<b>NOTE:</b> It is rfdommfndfd tibt tif originbl ".jbr" filf bf iostfd
+<b>NOTE:</b> It is rfdommfndfd tibt tif originbl ".jbr" filf bf iostfd
+<b>NOTE:</b> It is rfdommfndfd tibt tif originbl ".jbr" filf bf iostfd
+<b>NOTE:</b> It is rfdommfndfd tibt tif originbl ".jbr" filf bf iostfd
+in bddition to tif ".pbdk.gz" filf, so tibt oldfr dlifnt implfmfntbtions
+in bddition to tif ".pbdk.gz" filf, so tibt oldfr dlifnt implfmfntbtions
+in bddition to tif ".pbdk.gz" filf, so tibt oldfr dlifnt implfmfntbtions
+in bddition to tif ".pbdk.gz" filf, so tibt oldfr dlifnt implfmfntbtions
 in bddition to tif ".pbdk.gz" filf, so tibt oldfr dlifnt implfmfntbtions
 will dontinuf to work rflibbly.
+will dontinuf to work rflibbly.
+will dontinuf to work rflibbly.
+will dontinuf to work rflibbly.
+will dontinuf to work rflibbly.
+(On-dfmbnd domprfssion by tif sfrvfr is not rfdommfndfd.)
+(On-dfmbnd domprfssion by tif sfrvfr is not rfdommfndfd.)
+(On-dfmbnd domprfssion by tif sfrvfr is not rfdommfndfd.)
+(On-dfmbnd domprfssion by tif sfrvfr is not rfdommfndfd.)
 (On-dfmbnd domprfssion by tif sfrvfr is not rfdommfndfd.)
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 Wifn b dlifnt bpplidbtion rfqufsts b ".jbr" filf (dbll it "Lbrgf.jbr"),
+Wifn b dlifnt bpplidbtion rfqufsts b ".jbr" filf (dbll it "Lbrgf.jbr"),
+Wifn b dlifnt bpplidbtion rfqufsts b ".jbr" filf (dbll it "Lbrgf.jbr"),
+Wifn b dlifnt bpplidbtion rfqufsts b ".jbr" filf (dbll it "Lbrgf.jbr"),
+Wifn b dlifnt bpplidbtion rfqufsts b ".jbr" filf (dbll it "Lbrgf.jbr"),
+tif dlifnt will trbnsmit tif  ifbdfrs
+tif dlifnt will trbnsmit tif  ifbdfrs
+tif dlifnt will trbnsmit tif  ifbdfrs
+tif dlifnt will trbnsmit tif  ifbdfrs
 tif dlifnt will trbnsmit tif  ifbdfrs
 "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf" bs wfll bs "Addfpt-Endoding=pbdk200-gzip".
+"Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf" bs wfll bs "Addfpt-Endoding=pbdk200-gzip".
+"Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf" bs wfll bs "Addfpt-Endoding=pbdk200-gzip".
+"Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf" bs wfll bs "Addfpt-Endoding=pbdk200-gzip".
+"Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf" bs wfll bs "Addfpt-Endoding=pbdk200-gzip".
+Tiis indidbtfs to tif sfrvfr tibt tif dlifnt bpplidbtion dfsirfs bn vfrsion
+Tiis indidbtfs to tif sfrvfr tibt tif dlifnt bpplidbtion dfsirfs bn vfrsion
+Tiis indidbtfs to tif sfrvfr tibt tif dlifnt bpplidbtion dfsirfs bn vfrsion
+Tiis indidbtfs to tif sfrvfr tibt tif dlifnt bpplidbtion dfsirfs bn vfrsion
 Tiis indidbtfs to tif sfrvfr tibt tif dlifnt bpplidbtion dfsirfs bn vfrsion
 of tif filf fndodfd witi Pbdk200 bnd furtifr domprfssfd witi gzip.
+of tif filf fndodfd witi Pbdk200 bnd furtifr domprfssfd witi gzip.
+of tif filf fndodfd witi Pbdk200 bnd furtifr domprfssfd witi gzip.
+of tif filf fndodfd witi Pbdk200 bnd furtifr domprfssfd witi gzip.
+of tif filf fndodfd witi Pbdk200 bnd furtifr domprfssfd witi gzip.
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 Tif sfrvfr implfmfntbtion will typidblly difdk for tif fxistfndf of "Lbrgf.pbdk.gz".
+Tif sfrvfr implfmfntbtion will typidblly difdk for tif fxistfndf of "Lbrgf.pbdk.gz".
+Tif sfrvfr implfmfntbtion will typidblly difdk for tif fxistfndf of "Lbrgf.pbdk.gz".
+Tif sfrvfr implfmfntbtion will typidblly difdk for tif fxistfndf of "Lbrgf.pbdk.gz".
+Tif sfrvfr implfmfntbtion will typidblly difdk for tif fxistfndf of "Lbrgf.pbdk.gz".
+If tibt filf is bvbilbblf, tif sfrvfr will trbnsmit it witi tif ifbdfrs
+If tibt filf is bvbilbblf, tif sfrvfr will trbnsmit it witi tif ifbdfrs
+If tibt filf is bvbilbblf, tif sfrvfr will trbnsmit it witi tif ifbdfrs
+If tibt filf is bvbilbblf, tif sfrvfr will trbnsmit it witi tif ifbdfrs
 If tibt filf is bvbilbblf, tif sfrvfr will trbnsmit it witi tif ifbdfrs
 "Contfnt-Endoding=pbdk200-gzip" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf". 
+"Contfnt-Endoding=pbdk200-gzip" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf". 
+"Contfnt-Endoding=pbdk200-gzip" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf". 
+"Contfnt-Endoding=pbdk200-gzip" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf". 
+"Contfnt-Endoding=pbdk200-gzip" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf". 
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 If tif ".pbdk.gz" filf, is not bvbilbblf, tifn tif sfrvfr will trbnsmit
+If tif ".pbdk.gz" filf, is not bvbilbblf, tifn tif sfrvfr will trbnsmit
+If tif ".pbdk.gz" filf, is not bvbilbblf, tifn tif sfrvfr will trbnsmit
+If tif ".pbdk.gz" filf, is not bvbilbblf, tifn tif sfrvfr will trbnsmit
+If tif ".pbdk.gz" filf, is not bvbilbblf, tifn tif sfrvfr will trbnsmit
+tif originbl ".jbr"
+tif originbl ".jbr"
+tif originbl ".jbr"
+tif originbl ".jbr"
 tif originbl ".jbr"
 witi "Contfnt-Endoding=null" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf".
+witi "Contfnt-Endoding=null" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf".
+witi "Contfnt-Endoding=null" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf".
+witi "Contfnt-Endoding=null" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf".
+witi "Contfnt-Endoding=null" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf".
+
+
+
+
 
 <p>
+<p>
+<p>
+<p>
+<p>
+A MIME typf of "bpplidbtion/x-jbvb-pbdk200" mby bf spfdififd by tif
+A MIME typf of "bpplidbtion/x-jbvb-pbdk200" mby bf spfdififd by tif
+A MIME typf of "bpplidbtion/x-jbvb-pbdk200" mby bf spfdififd by tif
+A MIME typf of "bpplidbtion/x-jbvb-pbdk200" mby bf spfdififd by tif
 A MIME typf of "bpplidbtion/x-jbvb-pbdk200" mby bf spfdififd by tif
 dlifnt bpplidbtion to indidbtf b ".pbdk" filf is rfquirfd.
+dlifnt bpplidbtion to indidbtf b ".pbdk" filf is rfquirfd.
+dlifnt bpplidbtion to indidbtf b ".pbdk" filf is rfquirfd.
+dlifnt bpplidbtion to indidbtf b ".pbdk" filf is rfquirfd.
+dlifnt bpplidbtion to indidbtf b ".pbdk" filf is rfquirfd.
+Howfvfr, tiis ibs limitfd dbpbbility, bnd is not rfdommfndfd.
+Howfvfr, tiis ibs limitfd dbpbbility, bnd is not rfdommfndfd.
+Howfvfr, tiis ibs limitfd dbpbbility, bnd is not rfdommfndfd.
+Howfvfr, tiis ibs limitfd dbpbbility, bnd is not rfdommfndfd.
 Howfvfr, tiis ibs limitfd dbpbbility, bnd is not rfdommfndfd.
 
+
+
+
+
+<i2> Pbdkbgf Spfdifidbtion</i2>
+<i2> Pbdkbgf Spfdifidbtion</i2>
+<i2> Pbdkbgf Spfdifidbtion</i2>
+<i2> Pbdkbgf Spfdifidbtion</i2>
 <i2> Pbdkbgf Spfdifidbtion</i2>
 Nftwork Trbnsffr Formbt Spfdifidbtion :<b irff="ittp://jdp.org/fn/jsr/dftbil?id=200">
+Nftwork Trbnsffr Formbt Spfdifidbtion :<b irff="ittp://jdp.org/fn/jsr/dftbil?id=200">
+Nftwork Trbnsffr Formbt Spfdifidbtion :<b irff="ittp://jdp.org/fn/jsr/dftbil?id=200">
+Nftwork Trbnsffr Formbt Spfdifidbtion :<b irff="ittp://jdp.org/fn/jsr/dftbil?id=200">
+Nftwork Trbnsffr Formbt Spfdifidbtion :<b irff="ittp://jdp.org/fn/jsr/dftbil?id=200">
+ittp://jdp.org/fn/jsr/dftbil?id=200</b>
+ittp://jdp.org/fn/jsr/dftbil?id=200</b>
+ittp://jdp.org/fn/jsr/dftbil?id=200</b>
+ittp://jdp.org/fn/jsr/dftbil?id=200</b>
 ittp://jdp.org/fn/jsr/dftbil?id=200</b>
 
+
+
+
+
+<i2> Rflbtfd Dodumfntbtion</i2>
+<i2> Rflbtfd Dodumfntbtion</i2>
+<i2> Rflbtfd Dodumfntbtion</i2>
+<i2> Rflbtfd Dodumfntbtion</i2>
 <i2> Rflbtfd Dodumfntbtion</i2>
 For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf
+sff:
+sff:
+sff:
+sff:
 sff:
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
 
+
+
+
+
+<li>
+<li>
+<li>
+<li>
 <li>
 Jbr Filf Spfdifidbtion :<b irff="ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml">
+Jbr Filf Spfdifidbtion :<b irff="ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml">
+Jbr Filf Spfdifidbtion :<b irff="ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml">
+Jbr Filf Spfdifidbtion :<b irff="ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml">
+Jbr Filf Spfdifidbtion :<b irff="ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml">
+ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml</b></li>
+ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml</b></li>
+ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml</b></li>
+ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml</b></li>
 ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml</b></li>
 
+
+
+
+
+<li>
+<li>
+<li>
+<li>
 <li>
 Clbss Filf Spfdifidbtion: Cibptfr 4 of
+Clbss Filf Spfdifidbtion: Cibptfr 4 of
+Clbss Filf Spfdifidbtion: Cibptfr 4 of
+Clbss Filf Spfdifidbtion: Cibptfr 4 of
+Clbss Filf Spfdifidbtion: Cibptfr 4 of
+<fm>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</fm>
+<fm>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</fm>
+<fm>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</fm>
+<fm>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</fm>
 <fm>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</fm>
 
+
+
+
+
+<li>
+<li>
+<li>
+<li>
 <li>
 Hypfrtfxt Trbnsffr Protodol -- HTTP/1.1 : <b irff="ittp://www.iftf.org/rfd/rfd2616.txt">
+Hypfrtfxt Trbnsffr Protodol -- HTTP/1.1 : <b irff="ittp://www.iftf.org/rfd/rfd2616.txt">
+Hypfrtfxt Trbnsffr Protodol -- HTTP/1.1 : <b irff="ittp://www.iftf.org/rfd/rfd2616.txt">
+Hypfrtfxt Trbnsffr Protodol -- HTTP/1.1 : <b irff="ittp://www.iftf.org/rfd/rfd2616.txt">
+Hypfrtfxt Trbnsffr Protodol -- HTTP/1.1 : <b irff="ittp://www.iftf.org/rfd/rfd2616.txt">
+ittp://www.iftf.org/rfd/rfd2616.txt
+ittp://www.iftf.org/rfd/rfd2616.txt
+ittp://www.iftf.org/rfd/rfd2616.txt
+ittp://www.iftf.org/rfd/rfd2616.txt
 ittp://www.iftf.org/rfd/rfd2616.txt
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <li>
+<li>
+<li>
+<li>
+<li>
+@sindf 1.5</li>
+@sindf 1.5</li>
+@sindf 1.5</li>
+@sindf 1.5</li>
 @sindf 1.5</li>
 
+
+
+
+
+<br><!-- Put @sff bnd @sindf tbgs down ifrf. -->
+<br><!-- Put @sff bnd @sindf tbgs down ifrf. -->
+<br><!-- Put @sff bnd @sindf tbgs down ifrf. -->
+<br><!-- Put @sff bnd @sindf tbgs down ifrf. -->
 <br><!-- Put @sff bnd @sindf tbgs down ifrf. -->
 </body>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

@@ -1,305 +1,1525 @@
 /*
- * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+
+
+
+
+
+
+
 
 
 // jbvb import
+// jbvb import
+// jbvb import
+// jbvb import
+// jbvb import
+//
+//
+//
+//
 //
 import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+
+
+
+
 
 import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
 import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
 import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
 
 
+
+
+
+
+
+
+
+
 /**
+/**
+/**
+/**
+/**
+ * Dfsdribfs b donstrudtor of bn Opfn MBfbn.
+ * Dfsdribfs b donstrudtor of bn Opfn MBfbn.
+ * Dfsdribfs b donstrudtor of bn Opfn MBfbn.
+ * Dfsdribfs b donstrudtor of bn Opfn MBfbn.
  * Dfsdribfs b donstrudtor of bn Opfn MBfbn.
  *
  *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  */
+ */
+ */
+ */
+ */
+publid dlbss OpfnMBfbnConstrudtorInfoSupport
+publid dlbss OpfnMBfbnConstrudtorInfoSupport
+publid dlbss OpfnMBfbnConstrudtorInfoSupport
+publid dlbss OpfnMBfbnConstrudtorInfoSupport
 publid dlbss OpfnMBfbnConstrudtorInfoSupport
     fxtfnds MBfbnConstrudtorInfo
+    fxtfnds MBfbnConstrudtorInfo
+    fxtfnds MBfbnConstrudtorInfo
+    fxtfnds MBfbnConstrudtorInfo
+    fxtfnds MBfbnConstrudtorInfo
+    implfmfnts OpfnMBfbnConstrudtorInfo {
+    implfmfnts OpfnMBfbnConstrudtorInfo {
+    implfmfnts OpfnMBfbnConstrudtorInfo {
+    implfmfnts OpfnMBfbnConstrudtorInfo {
     implfmfnts OpfnMBfbnConstrudtorInfo {
 
+
+
+
+
     /* Sfribl vfrsion */
+    /* Sfribl vfrsion */
+    /* Sfribl vfrsion */
+    /* Sfribl vfrsion */
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -4400441579007477003L;
+    stbtid finbl long sfriblVfrsionUID = -4400441579007477003L;
+    stbtid finbl long sfriblVfrsionUID = -4400441579007477003L;
+    stbtid finbl long sfriblVfrsionUID = -4400441579007477003L;
     stbtid finbl long sfriblVfrsionUID = -4400441579007477003L;
 
 
-    // As this instbndf is immutbblf,
-    // thfsf two vblufs nffd only bf dbldulbtfd ondf.
-    privbtf trbnsifnt Intfgfr myHbshCodf = null;
+
+
+
+
+
+
+
+
+    // As tiis instbndf is immutbblf,
+    // As tiis instbndf is immutbblf,
+    // As tiis instbndf is immutbblf,
+    // As tiis instbndf is immutbblf,
+    // As tiis instbndf is immutbblf,
+    // tifsf two vblufs nffd only bf dbldulbtfd ondf.
+    // tifsf two vblufs nffd only bf dbldulbtfd ondf.
+    // tifsf two vblufs nffd only bf dbldulbtfd ondf.
+    // tifsf two vblufs nffd only bf dbldulbtfd ondf.
+    // tifsf two vblufs nffd only bf dbldulbtfd ondf.
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt String  myToString = null;
+    privbtf trbnsifnt String  myToString = null;
+    privbtf trbnsifnt String  myToString = null;
+    privbtf trbnsifnt String  myToString = null;
     privbtf trbnsifnt String  myToString = null;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
-     * instbndf, whidh dfsdribfs thf donstrudtor of b dlbss of opfn
-     * MBfbns with thf spfdififd {@dodf nbmf}, {@dodf dfsdription} bnd
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription} bnd
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription} bnd
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription} bnd
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription} bnd
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription} bnd
+     * {@dodf signbturf}.</p>
+     * {@dodf signbturf}.</p>
+     * {@dodf signbturf}.</p>
+     * {@dodf signbturf}.</p>
      * {@dodf signbturf}.</p>
      *
-     * <p>Thf {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
-     * so thbt subsfqufnt dhbngfs to thf brrby rfffrfndfd by {@dodf
-     * signbturf} hbvf no ffffdt on this instbndf.</p>
+     *
+     *
+     *
+     *
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     *
+     *
+     *
+     *
      *
      * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     *
+     *
+     *
+     *
      *
      * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
      *
-     * @pbrbm signbturf dbn bf null or fmpty if thfrf brf no
+     *
+     *
+     *
+     *
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * pbrbmftfrs to dfsdribf.
+     * pbrbmftfrs to dfsdribf.
+     * pbrbmftfrs to dfsdribf.
+     * pbrbmftfrs to dfsdribf.
      * pbrbmftfrs to dfsdribf.
      *
-     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string.
+     * dfsdription} brf null or fmpty string.
+     * dfsdription} brf null or fmpty string.
+     * dfsdription} brf null or fmpty string.
      * dfsdription} brf null or fmpty string.
      *
-     * @throws ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     *
+     *
+     *
+     *
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
      * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
      */
+     */
+     */
+     */
+     */
     publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+                                           String dfsdription,
+                                           String dfsdription,
+                                           String dfsdription,
+                                           String dfsdription,
                                            String dfsdription,
                                            OpfnMBfbnPbrbmftfrInfo[] signbturf) {
-        this(nbmf, dfsdription, signbturf, (Dfsdriptor) null);
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf) {
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf) {
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf) {
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf) {
+        tiis(nbmf, dfsdription, signbturf, (Dfsdriptor) null);
+        tiis(nbmf, dfsdription, signbturf, (Dfsdriptor) null);
+        tiis(nbmf, dfsdription, signbturf, (Dfsdriptor) null);
+        tiis(nbmf, dfsdription, signbturf, (Dfsdriptor) null);
+        tiis(nbmf, dfsdription, signbturf, (Dfsdriptor) null);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
-     * instbndf, whidh dfsdribfs thf donstrudtor of b dlbss of opfn
-     * MBfbns with thf spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * {@dodf signbturf}, bnd {@dodf dfsdriptor}.</p>
+     * {@dodf signbturf}, bnd {@dodf dfsdriptor}.</p>
+     * {@dodf signbturf}, bnd {@dodf dfsdriptor}.</p>
+     * {@dodf signbturf}, bnd {@dodf dfsdriptor}.</p>
      * {@dodf signbturf}, bnd {@dodf dfsdriptor}.</p>
      *
-     * <p>Thf {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
-     * so thbt subsfqufnt dhbngfs to thf brrby rfffrfndfd by {@dodf
-     * signbturf} hbvf no ffffdt on this instbndf.</p>
+     *
+     *
+     *
+     *
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     *
+     *
+     *
+     *
      *
      * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     *
+     *
+     *
+     *
      *
      * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
      *
-     * @pbrbm signbturf dbn bf null or fmpty if thfrf brf no
+     *
+     *
+     *
+     *
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * pbrbmftfrs to dfsdribf.
+     * pbrbmftfrs to dfsdribf.
+     * pbrbmftfrs to dfsdribf.
+     * pbrbmftfrs to dfsdribf.
      * pbrbmftfrs to dfsdribf.
      *
-     * @pbrbm dfsdriptor Thf dfsdriptor for thf donstrudtor.  This mby
-     * bf null whidh is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     *
+     *
+     *
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif donstrudtor.  Tiis mby
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif donstrudtor.  Tiis mby
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif donstrudtor.  Tiis mby
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif donstrudtor.  Tiis mby
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif donstrudtor.  Tiis mby
+     * bf null wiidi is fquivblfnt to bn fmpty dfsdriptor.
+     * bf null wiidi is fquivblfnt to bn fmpty dfsdriptor.
+     * bf null wiidi is fquivblfnt to bn fmpty dfsdriptor.
+     * bf null wiidi is fquivblfnt to bn fmpty dfsdriptor.
+     * bf null wiidi is fquivblfnt to bn fmpty dfsdriptor.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string.
+     * dfsdription} brf null or fmpty string.
+     * dfsdription} brf null or fmpty string.
+     * dfsdription} brf null or fmpty string.
      * dfsdription} brf null or fmpty string.
      *
-     * @throws ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     *
+     *
+     *
+     *
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
      * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
      *
+     *
+     *
+     *
+     *
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
      * @sindf 1.6
      */
+     */
+     */
+     */
+     */
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
     publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
                                            String dfsdription,
+                                           String dfsdription,
+                                           String dfsdription,
+                                           String dfsdription,
+                                           String dfsdription,
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf,
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf,
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf,
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf,
                                            OpfnMBfbnPbrbmftfrInfo[] signbturf,
                                            Dfsdriptor dfsdriptor) {
+                                           Dfsdriptor dfsdriptor) {
+                                           Dfsdriptor dfsdriptor) {
+                                           Dfsdriptor dfsdriptor) {
+                                           Dfsdriptor dfsdriptor) {
+        supfr(nbmf,
+        supfr(nbmf,
+        supfr(nbmf,
+        supfr(nbmf,
         supfr(nbmf,
               dfsdription,
-              brrbyCopyCbst(signbturf), // mby throw bn ArrbyStorfExdfption
+              dfsdription,
+              dfsdription,
+              dfsdription,
+              dfsdription,
+              brrbyCopyCbst(signbturf), // mby tirow bn ArrbyStorfExdfption
+              brrbyCopyCbst(signbturf), // mby tirow bn ArrbyStorfExdfption
+              brrbyCopyCbst(signbturf), // mby tirow bn ArrbyStorfExdfption
+              brrbyCopyCbst(signbturf), // mby tirow bn ArrbyStorfExdfption
+              brrbyCopyCbst(signbturf), // mby tirow bn ArrbyStorfExdfption
+              dfsdriptor);
+              dfsdriptor);
+              dfsdriptor);
+              dfsdriptor);
               dfsdriptor);
 
-        // dhfdk pbrbmftfrs thbt should not bf null or fmpty
+
+
+
+
+        // difdk pbrbmftfrs tibt siould not bf null or fmpty
+        // difdk pbrbmftfrs tibt siould not bf null or fmpty
+        // difdk pbrbmftfrs tibt siould not bf null or fmpty
+        // difdk pbrbmftfrs tibt siould not bf null or fmpty
+        // difdk pbrbmftfrs tibt siould not bf null or fmpty
+        // (unfortunbtfly it is not donf in supfrdlbss :-( ! )
+        // (unfortunbtfly it is not donf in supfrdlbss :-( ! )
+        // (unfortunbtfly it is not donf in supfrdlbss :-( ! )
+        // (unfortunbtfly it is not donf in supfrdlbss :-( ! )
         // (unfortunbtfly it is not donf in supfrdlbss :-( ! )
         //
+        //
+        //
+        //
+        //
         if (nbmf == null || nbmf.trim().fqubls("")) {
-            throw nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot bf " +
+        if (nbmf == null || nbmf.trim().fqubls("")) {
+        if (nbmf == null || nbmf.trim().fqubls("")) {
+        if (nbmf == null || nbmf.trim().fqubls("")) {
+        if (nbmf == null || nbmf.trim().fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot bf " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot bf " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot bf " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot bf " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot bf " +
+                                               "null or fmpty");
+                                               "null or fmpty");
+                                               "null or fmpty");
+                                               "null or fmpty");
                                                "null or fmpty");
         }
+        }
+        }
+        }
+        }
         if (dfsdription == null || dfsdription.trim().fqubls("")) {
-            throw nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+        if (dfsdription == null || dfsdription.trim().fqubls("")) {
+        if (dfsdription == null || dfsdription.trim().fqubls("")) {
+        if (dfsdription == null || dfsdription.trim().fqubls("")) {
+        if (dfsdription == null || dfsdription.trim().fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+                                               "bf null or fmpty");
+                                               "bf null or fmpty");
+                                               "bf null or fmpty");
+                                               "bf null or fmpty");
                                                "bf null or fmpty");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid MBfbnPbrbmftfrInfo[]
+    privbtf stbtid MBfbnPbrbmftfrInfo[]
+    privbtf stbtid MBfbnPbrbmftfrInfo[]
+    privbtf stbtid MBfbnPbrbmftfrInfo[]
+    privbtf stbtid MBfbnPbrbmftfrInfo[]
+            brrbyCopyCbst(OpfnMBfbnPbrbmftfrInfo[] srd) {
+            brrbyCopyCbst(OpfnMBfbnPbrbmftfrInfo[] srd) {
+            brrbyCopyCbst(OpfnMBfbnPbrbmftfrInfo[] srd) {
+            brrbyCopyCbst(OpfnMBfbnPbrbmftfrInfo[] srd) {
             brrbyCopyCbst(OpfnMBfbnPbrbmftfrInfo[] srd) {
         if (srd == null)
+        if (srd == null)
+        if (srd == null)
+        if (srd == null)
+        if (srd == null)
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
 
-        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngth];
-        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngth);
-        // mby throw bn ArrbyStorfExdfption
+
+
+
+
+        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngti];
+        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngti];
+        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngti];
+        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngti];
+        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngti];
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        // mby tirow bn ArrbyStorfExdfption
+        // mby tirow bn ArrbyStorfExdfption
+        // mby tirow bn ArrbyStorfExdfption
+        // mby tirow bn ArrbyStorfExdfption
+        // mby tirow bn ArrbyStorfExdfption
+        rfturn dst;
+        rfturn dst;
+        rfturn dst;
+        rfturn dst;
         rfturn dst;
     }
+    }
+    }
+    }
+    }
 
 
-    /* ***  Commodity mfthods from jbvb.lbng.Objfdt  *** */
+
+
+
+
+
+
+
+
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
+
+
+
+
+
+
+
+
 
 
     /**
-     * <p>Compbrfs thf spfdififd {@dodf obj} pbrbmftfr with this
+    /**
+    /**
+    /**
+    /**
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf for
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf for
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf for
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf for
      * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf for
      * fqublity.</p>
+     * fqublity.</p>
+     * fqublity.</p>
+     * fqublity.</p>
+     * fqublity.</p>
      *
-     * <p>Rfturns {@dodf truf} if bnd only if bll of thf following
+     *
+     *
+     *
+     *
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * stbtfmfnts brf truf:
+     * stbtfmfnts brf truf:
+     * stbtfmfnts brf truf:
+     * stbtfmfnts brf truf:
      * stbtfmfnts brf truf:
      *
+     *
+     *
+     *
+     *
+     * <ul>
+     * <ul>
+     * <ul>
+     * <ul>
      * <ul>
      * <li>{@dodf obj} is non null,</li>
-     * <li>{@dodf obj} blso implfmfnts thf {@dodf
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf
      * OpfnMBfbnConstrudtorInfo} intfrfbdf,</li>
-     * <li>thfir nbmfs brf fqubl</li>
-     * <li>thfir signbturfs brf fqubl.</li>
+     * OpfnMBfbnConstrudtorInfo} intfrfbdf,</li>
+     * OpfnMBfbnConstrudtorInfo} intfrfbdf,</li>
+     * OpfnMBfbnConstrudtorInfo} intfrfbdf,</li>
+     * OpfnMBfbnConstrudtorInfo} intfrfbdf,</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir signbturfs brf fqubl.</li>
+     * <li>tifir signbturfs brf fqubl.</li>
+     * <li>tifir signbturfs brf fqubl.</li>
+     * <li>tifir signbturfs brf fqubl.</li>
+     * <li>tifir signbturfs brf fqubl.</li>
+     * </ul>
+     * </ul>
+     * </ul>
+     * </ul>
      * </ul>
      *
-     * This fnsurfs thbt this {@dodf fqubls} mfthod works propfrly for
-     * {@dodf obj} pbrbmftfrs whidh brf difffrfnt implfmfntbtions of
-     * thf {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf.
      *
-     * @pbrbm obj thf objfdt to bf dompbrfd for fqublity with this
+     *
+     *
+     *
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf.
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf.
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf.
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf.
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf;
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf;
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf;
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf;
      * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf;
      *
-     * @rfturn {@dodf truf} if thf spfdififd objfdt is fqubl to this
+     *
+     *
+     *
+     *
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf.
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf.
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf.
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf.
      * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf.
      */
+     */
+     */
+     */
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
     publid boolfbn fqubls(Objfdt obj) {
 
+
+
+
+
+        // if obj is null, rfturn fblsf
+        // if obj is null, rfturn fblsf
+        // if obj is null, rfturn fblsf
+        // if obj is null, rfturn fblsf
         // if obj is null, rfturn fblsf
         //
+        //
+        //
+        //
+        //
+        if (obj == null) {
+        if (obj == null) {
+        if (obj == null) {
+        if (obj == null) {
         if (obj == null) {
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // if obj is not b OpfnMBfbnConstrudtorInfo, rfturn fblsf
+        // if obj is not b OpfnMBfbnConstrudtorInfo, rfturn fblsf
+        // if obj is not b OpfnMBfbnConstrudtorInfo, rfturn fblsf
+        // if obj is not b OpfnMBfbnConstrudtorInfo, rfturn fblsf
+        // if obj is not b OpfnMBfbnConstrudtorInfo, rfturn fblsf
         //
-        OpfnMBfbnConstrudtorInfo othfr;
+        //
+        //
+        //
+        //
+        OpfnMBfbnConstrudtorInfo otifr;
+        OpfnMBfbnConstrudtorInfo otifr;
+        OpfnMBfbnConstrudtorInfo otifr;
+        OpfnMBfbnConstrudtorInfo otifr;
+        OpfnMBfbnConstrudtorInfo otifr;
         try {
-            othfr = (OpfnMBfbnConstrudtorInfo) obj;
-        } dbtdh (ClbssCbstExdfption f) {
+        try {
+        try {
+        try {
+        try {
+            otifr = (OpfnMBfbnConstrudtorInfo) obj;
+            otifr = (OpfnMBfbnConstrudtorInfo) obj;
+            otifr = (OpfnMBfbnConstrudtorInfo) obj;
+            otifr = (OpfnMBfbnConstrudtorInfo) obj;
+            otifr = (OpfnMBfbnConstrudtorInfo) obj;
+        } dbtdi (ClbssCbstExdfption f) {
+        } dbtdi (ClbssCbstExdfption f) {
+        } dbtdi (ClbssCbstExdfption f) {
+        } dbtdi (ClbssCbstExdfption f) {
+        } dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
 
-        // Now, rfblly tfst for fqublity bftwffn this
-        // OpfnMBfbnConstrudtorInfo implfmfntbtion bnd thf othfr:
+
+
+
+
+        // Now, rfblly tfst for fqublity bftwffn tiis
+        // Now, rfblly tfst for fqublity bftwffn tiis
+        // Now, rfblly tfst for fqublity bftwffn tiis
+        // Now, rfblly tfst for fqublity bftwffn tiis
+        // Now, rfblly tfst for fqublity bftwffn tiis
+        // OpfnMBfbnConstrudtorInfo implfmfntbtion bnd tif otifr:
+        // OpfnMBfbnConstrudtorInfo implfmfntbtion bnd tif otifr:
+        // OpfnMBfbnConstrudtorInfo implfmfntbtion bnd tif otifr:
+        // OpfnMBfbnConstrudtorInfo implfmfntbtion bnd tif otifr:
+        // OpfnMBfbnConstrudtorInfo implfmfntbtion bnd tif otifr:
+        //
+        //
+        //
+        //
         //
 
-        // thfir Nbmf should bf fqubl
-        if ( ! this.gftNbmf().fqubls(othfr.gftNbmf()) ) {
+
+
+
+
+        // tifir Nbmf siould bf fqubl
+        // tifir Nbmf siould bf fqubl
+        // tifir Nbmf siould bf fqubl
+        // tifir Nbmf siould bf fqubl
+        // tifir Nbmf siould bf fqubl
+        if ( ! tiis.gftNbmf().fqubls(otifr.gftNbmf()) ) {
+        if ( ! tiis.gftNbmf().fqubls(otifr.gftNbmf()) ) {
+        if ( ! tiis.gftNbmf().fqubls(otifr.gftNbmf()) ) {
+        if ( ! tiis.gftNbmf().fqubls(otifr.gftNbmf()) ) {
+        if ( ! tiis.gftNbmf().fqubls(otifr.gftNbmf()) ) {
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        }
+        }
+        }
+        }
         }
 
-        // thfir Signbturfs should bf fqubl
-        if ( ! Arrbys.fqubls(this.gftSignbturf(), othfr.gftSignbturf()) ) {
+
+
+
+
+        // tifir Signbturfs siould bf fqubl
+        // tifir Signbturfs siould bf fqubl
+        // tifir Signbturfs siould bf fqubl
+        // tifir Signbturfs siould bf fqubl
+        // tifir Signbturfs siould bf fqubl
+        if ( ! Arrbys.fqubls(tiis.gftSignbturf(), otifr.gftSignbturf()) ) {
+        if ( ! Arrbys.fqubls(tiis.gftSignbturf(), otifr.gftSignbturf()) ) {
+        if ( ! Arrbys.fqubls(tiis.gftSignbturf(), otifr.gftSignbturf()) ) {
+        if ( ! Arrbys.fqubls(tiis.gftSignbturf(), otifr.gftSignbturf()) ) {
+        if ( ! Arrbys.fqubls(tiis.gftSignbturf(), otifr.gftSignbturf()) ) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // All tfsts for fqublity wfrf suddfssfull
+        // All tfsts for fqublity wfrf suddfssfull
+        // All tfsts for fqublity wfrf suddfssfull
+        // All tfsts for fqublity wfrf suddfssfull
+        // All tfsts for fqublity wfrf suddfssfull
+        //
+        //
+        //
+        //
         //
         rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * <p>Rfturns thf hbsh dodf vbluf for this {@dodf
+    /**
+    /**
+    /**
+    /**
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
      * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
      *
-     * <p>Thf hbsh dodf of bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
-     * instbndf is thf sum of thf hbsh dodfs of bll flfmfnts of
+     *
+     *
+     *
+     *
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
      * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf
-     * bnd signbturf, whfrf thf signbturf hbshCodf is dbldulbtfd by b
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf
+     * bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b
+     * bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b
+     * bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b
+     * bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b
+     * bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b
      * dbll to {@dodf
-     * jbvb.util.Arrbys.bsList(this.gftSignbturf).hbshCodf()}).</p>
+     * dbll to {@dodf
+     * dbll to {@dodf
+     * dbll to {@dodf
+     * dbll to {@dodf
+     * jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()}).</p>
+     * jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()}).</p>
+     * jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()}).</p>
+     * jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()}).</p>
+     * jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()}).</p>
      *
-     * <p>This fnsurfs thbt {@dodf t1.fqubls(t2)} implifs thbt {@dodf
-     * t1.hbshCodf()==t2.hbshCodf()} for bny two {@dodf
+     *
+     *
+     *
+     *
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
      * OpfnMBfbnConstrudtorInfoSupport} instbndfs {@dodf t1} bnd
-     * {@dodf t2}, bs rfquirfd by thf gfnfrbl dontrbdt of thf mfthod
-     * {@link Objfdt#hbshCodf() Objfdt.hbshCodf()}.</p>
+     * OpfnMBfbnConstrudtorInfoSupport} instbndfs {@dodf t1} bnd
+     * OpfnMBfbnConstrudtorInfoSupport} instbndfs {@dodf t1} bnd
+     * OpfnMBfbnConstrudtorInfoSupport} instbndfs {@dodf t1} bnd
+     * OpfnMBfbnConstrudtorInfoSupport} instbndfs {@dodf t1} bnd
+     * {@dodf t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@dodf t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@dodf t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@dodf t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@dodf t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.</p>
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.</p>
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.</p>
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.</p>
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.</p>
      *
-     * <p>Howfvfr, notf thbt bnothfr instbndf of b dlbss implfmfnting
-     * thf {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf mby bf fqubl to
-     * this {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf bs
-     * dffinfd by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby hbvf b
-     * difffrfnt hbsh dodf if it is dbldulbtfd difffrfntly.</p>
+     *
+     *
+     *
+     *
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf mby bf fqubl to
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf mby bf fqubl to
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf mby bf fqubl to
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf mby bf fqubl to
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf mby bf fqubl to
+     * tiis {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf bs
+     * tiis {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf bs
+     * tiis {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf bs
+     * tiis {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf bs
+     * tiis {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf bs
+     * dffinfd by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b
+     * dffinfd by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b
+     * dffinfd by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b
+     * dffinfd by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b
+     * dffinfd by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b
+     * difffrfnt ibsi dodf if it is dbldulbtfd difffrfntly.</p>
+     * difffrfnt ibsi dodf if it is dbldulbtfd difffrfntly.</p>
+     * difffrfnt ibsi dodf if it is dbldulbtfd difffrfntly.</p>
+     * difffrfnt ibsi dodf if it is dbldulbtfd difffrfntly.</p>
+     * difffrfnt ibsi dodf if it is dbldulbtfd difffrfntly.</p>
+     *
+     *
+     *
+     *
      *
      * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
-     * immutbblf, thf hbsh dodf for this instbndf is dbldulbtfd ondf,
-     * on thf first dbll to {@dodf hbshCodf}, bnd thfn thf sbmf vbluf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * is rfturnfd for subsfqufnt dblls.</p>
+     * is rfturnfd for subsfqufnt dblls.</p>
+     * is rfturnfd for subsfqufnt dblls.</p>
+     * is rfturnfd for subsfqufnt dblls.</p>
      * is rfturnfd for subsfqufnt dblls.</p>
      *
-     * @rfturn thf hbsh dodf vbluf for this {@dodf
+     *
+     *
+     *
+     *
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
      * OpfnMBfbnConstrudtorInfoSupport} instbndf
      */
-    publid int hbshCodf() {
+     */
+     */
+     */
+     */
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
 
-        // Cbldulbtf thf hbsh dodf vbluf if it hbs not yft bffn donf
-        // (if 1st dbll to hbshCodf())
+
+
+
+
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // (if 1st dbll to ibsiCodf())
+        // (if 1st dbll to ibsiCodf())
+        // (if 1st dbll to ibsiCodf())
+        // (if 1st dbll to ibsiCodf())
+        // (if 1st dbll to ibsiCodf())
         //
-        if (myHbshCodf == null) {
+        //
+        //
+        //
+        //
+        if (myHbsiCodf == null) {
+        if (myHbsiCodf == null) {
+        if (myHbsiCodf == null) {
+        if (myHbsiCodf == null) {
+        if (myHbsiCodf == null) {
             int vbluf = 0;
-            vbluf += this.gftNbmf().hbshCodf();
-            vbluf += Arrbys.bsList(this.gftSignbturf()).hbshCodf();
-            myHbshCodf = Intfgfr.vblufOf(vbluf);
+            int vbluf = 0;
+            int vbluf = 0;
+            int vbluf = 0;
+            int vbluf = 0;
+            vbluf += tiis.gftNbmf().ibsiCodf();
+            vbluf += tiis.gftNbmf().ibsiCodf();
+            vbluf += tiis.gftNbmf().ibsiCodf();
+            vbluf += tiis.gftNbmf().ibsiCodf();
+            vbluf += tiis.gftNbmf().ibsiCodf();
+            vbluf += Arrbys.bsList(tiis.gftSignbturf()).ibsiCodf();
+            vbluf += Arrbys.bsList(tiis.gftSignbturf()).ibsiCodf();
+            vbluf += Arrbys.bsList(tiis.gftSignbturf()).ibsiCodf();
+            vbluf += Arrbys.bsList(tiis.gftSignbturf()).ibsiCodf();
+            vbluf += Arrbys.bsList(tiis.gftSignbturf()).ibsiCodf();
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
+        }
+        }
+        }
+        }
         }
 
-        // rfturn blwbys thf sbmf hbsh dodf for this instbndf (immutbblf)
+
+
+
+
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
         //
-        rfturn myHbshCodf.intVbluf();
+        //
+        //
+        //
+        //
+        rfturn myHbsiCodf.intVbluf();
+        rfturn myHbsiCodf.intVbluf();
+        rfturn myHbsiCodf.intVbluf();
+        rfturn myHbsiCodf.intVbluf();
+        rfturn myHbsiCodf.intVbluf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * <p>Rfturns b string rfprfsfntbtion of this {@dodf
+    /**
+    /**
+    /**
+    /**
+     * <p>Rfturns b string rfprfsfntbtion of tiis {@dodf
+     * <p>Rfturns b string rfprfsfntbtion of tiis {@dodf
+     * <p>Rfturns b string rfprfsfntbtion of tiis {@dodf
+     * <p>Rfturns b string rfprfsfntbtion of tiis {@dodf
+     * <p>Rfturns b string rfprfsfntbtion of tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
      * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
      *
-     * <p>Thf string rfprfsfntbtion donsists of thf nbmf of this dlbss
+     *
+     *
+     *
+     *
+     * <p>Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss
+     * <p>Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss
+     * <p>Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss
+     * <p>Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss
+     * <p>Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss
+     * (if {@dodf
+     * (if {@dodf
+     * (if {@dodf
+     * (if {@dodf
      * (if {@dodf
      * jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport}),
-     * thf nbmf bnd signbturf of thf dfsdribfd donstrudtor bnd thf
+     * jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport}),
+     * jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport}),
+     * jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport}),
+     * jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport}),
+     * tif nbmf bnd signbturf of tif dfsdribfd donstrudtor bnd tif
+     * tif nbmf bnd signbturf of tif dfsdribfd donstrudtor bnd tif
+     * tif nbmf bnd signbturf of tif dfsdribfd donstrudtor bnd tif
+     * tif nbmf bnd signbturf of tif dfsdribfd donstrudtor bnd tif
+     * tif nbmf bnd signbturf of tif dfsdribfd donstrudtor bnd tif
+     * string rfprfsfntbtion of its dfsdriptor.</p>
+     * string rfprfsfntbtion of its dfsdriptor.</p>
+     * string rfprfsfntbtion of its dfsdriptor.</p>
+     * string rfprfsfntbtion of its dfsdriptor.</p>
      * string rfprfsfntbtion of its dfsdriptor.</p>
      *
-     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
-     * immutbblf, thf string rfprfsfntbtion for this instbndf is
-     * dbldulbtfd ondf, on thf first dbll to {@dodf toString}, bnd
-     * thfn thf sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
      *
-     * @rfturn b string rfprfsfntbtion of this {@dodf
+     *
+     *
+     *
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
      * OpfnMBfbnConstrudtorInfoSupport} instbndf
      */
+     */
+     */
+     */
+     */
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
     publid String toString() {
 
-        // Cbldulbtf thf string vbluf if it hbs not yft bffn donf (if
+
+
+
+
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf (if
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf (if
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf (if
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf (if
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf (if
+        // 1st dbll to toString())
+        // 1st dbll to toString())
+        // 1st dbll to toString())
+        // 1st dbll to toString())
         // 1st dbll to toString())
         //
+        //
+        //
+        //
+        //
+        if (myToString == null) {
+        if (myToString == null) {
+        if (myToString == null) {
+        if (myToString == null) {
         if (myToString == null) {
             myToString = nfw StringBuildfr()
-                .bppfnd(this.gftClbss().gftNbmf())
+            myToString = nfw StringBuildfr()
+            myToString = nfw StringBuildfr()
+            myToString = nfw StringBuildfr()
+            myToString = nfw StringBuildfr()
+                .bppfnd(tiis.gftClbss().gftNbmf())
+                .bppfnd(tiis.gftClbss().gftNbmf())
+                .bppfnd(tiis.gftClbss().gftNbmf())
+                .bppfnd(tiis.gftClbss().gftNbmf())
+                .bppfnd(tiis.gftClbss().gftNbmf())
                 .bppfnd("(nbmf=")
-                .bppfnd(this.gftNbmf())
+                .bppfnd("(nbmf=")
+                .bppfnd("(nbmf=")
+                .bppfnd("(nbmf=")
+                .bppfnd("(nbmf=")
+                .bppfnd(tiis.gftNbmf())
+                .bppfnd(tiis.gftNbmf())
+                .bppfnd(tiis.gftNbmf())
+                .bppfnd(tiis.gftNbmf())
+                .bppfnd(tiis.gftNbmf())
                 .bppfnd(",signbturf=")
-                .bppfnd(Arrbys.bsList(this.gftSignbturf()).toString())
+                .bppfnd(",signbturf=")
+                .bppfnd(",signbturf=")
+                .bppfnd(",signbturf=")
+                .bppfnd(",signbturf=")
+                .bppfnd(Arrbys.bsList(tiis.gftSignbturf()).toString())
+                .bppfnd(Arrbys.bsList(tiis.gftSignbturf()).toString())
+                .bppfnd(Arrbys.bsList(tiis.gftSignbturf()).toString())
+                .bppfnd(Arrbys.bsList(tiis.gftSignbturf()).toString())
+                .bppfnd(Arrbys.bsList(tiis.gftSignbturf()).toString())
                 .bppfnd(",dfsdriptor=")
-                .bppfnd(this.gftDfsdriptor())
+                .bppfnd(",dfsdriptor=")
+                .bppfnd(",dfsdriptor=")
+                .bppfnd(",dfsdriptor=")
+                .bppfnd(",dfsdriptor=")
+                .bppfnd(tiis.gftDfsdriptor())
+                .bppfnd(tiis.gftDfsdriptor())
+                .bppfnd(tiis.gftDfsdriptor())
+                .bppfnd(tiis.gftDfsdriptor())
+                .bppfnd(tiis.gftDfsdriptor())
+                .bppfnd(")")
+                .bppfnd(")")
+                .bppfnd(")")
+                .bppfnd(")")
                 .bppfnd(")")
                 .toString();
+                .toString();
+                .toString();
+                .toString();
+                .toString();
+        }
+        }
+        }
+        }
         }
 
-        // rfturn blwbys thf sbmf string rfprfsfntbtion for this
+
+
+
+
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // instbndf (immutbblf)
+        // instbndf (immutbblf)
+        // instbndf (immutbblf)
+        // instbndf (immutbblf)
         // instbndf (immutbblf)
         //
+        //
+        //
+        //
+        //
+        rfturn myToString;
+        rfturn myToString;
+        rfturn myToString;
+        rfturn myToString;
         rfturn myToString;
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+}
+}
+}
+}
 }

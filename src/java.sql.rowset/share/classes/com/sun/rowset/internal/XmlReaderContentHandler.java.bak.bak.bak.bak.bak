@@ -1,0 +1,1454 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.intfrnbl;
+
+import jbvb.util.*;
+
+import org.xml.sbx.*;
+import org.xml.sbx.iflpfrs.*;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+
+import jbvbx.sql.rowsft.*;
+import dom.sun.rowsft.*;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.MfssbgfFormbt;
+
+/**
+ * Tif dodumfnt ibndlfr tibt rfdfivfs pbrsf fvfnts tibt bn XML pbrsfr sfnds wiilf it
+ * is pbrsing bn XML dodumfnt rfprfsfnting b <dodf>WfbRowSft</dodf> objfdt. Tif
+ * pbrsfr sfnds strings to tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf> bnd tifn usfs
+ * tifsf strings bs brgumfnts for tif <dodf>XmlRfbdfrContfntHbndlfr</dodf> mftiods
+ * it invokfs. Tif finbl gobl of tif SAX pbrsfr working witi bn
+ * <dodf>XmlRfbdfrContfntHbndlfr</dodf> objfdt is to rfbd bn XML dodumfnt tibt rfprfsfnts
+ * b <dodf>RowSft</dodf> objfdt.
+ * <P>
+ * A rowsft donsists of its propfrtifs, mftbdbtb, bnd dbtb vblufs. An XML dodumfnt
+ * rfprfsfntbting b rowsft indludfs tif vblufs in tifsf tirff dbtfgorifs blong witi
+ * bppropribtf XML tbgs to idfntify tifm.  It blso indludfs b top-lfvfl XML tbg for
+ * tif rowsft bnd tirff sfdtion tbgs idfntifying tif tirff dbtfgorifs of vblufs.
+ * <P>
+ * Tif tbgs in bn XML dodumfnt brf iifrbrdiidbl.
+ * Tiis mfbns tibt tif top-lfvfl tbg, <dodf>RowSft</dodf>, is
+ * followfd by tif tirff sfdtions witi bppropribtf tbgs, wiidi brf in turn fbdi
+ * followfd by tifir donstitufnt flfmfnts. For fxbmplf, tif <dodf>propfrtifs</dodf>
+ * flfmfnt will bf followfd by bn flfmfnt for fbdi of tif propfrtifs listfd in
+ * in tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf> objfdt's <dodf>propfrtifs</dodf>
+ * fifld.  Tif dontfnt of tif otifr two fiflds, <dodf>dolDff</dodf>, wiidi lists
+ * tif rowsft's mftbdbtb flfmfnts, bnd <dodf>dbtb</dodf>, wiidi lists tif rowsft's dbtb
+ * flfmfnts, brf ibndlfd similbrly .
+ * <P>
+ * Tiis implfmfntbtion of <dodf>XmlRfbdfrContfntHbndlfr</dodf> providfs tif mfbns for tif
+ * pbrsfr to dftfrminf wiidi flfmfnts nffd to ibvf b vbluf sft bnd tifn to sft
+ * tiosf vblufs. Tif mftiods in tiis dlbss brf bll dbllfd by tif pbrsfr; bn
+ * bpplidbtion progrbmmfr nfvfr dblls tifm dirfdtly.
+ *
+ */
+
+publid dlbss XmlRfbdfrContfntHbndlfr fxtfnds DffbultHbndlfr {
+
+    privbtf HbsiMbp <String, Intfgfr> propMbp;
+    privbtf HbsiMbp <String, Intfgfr> dolDffMbp;
+    privbtf HbsiMbp <String, Intfgfr> dbtbMbp;
+
+    privbtf HbsiMbp<String,Clbss<?>> typfMbp;
+
+    privbtf Vfdtor<Objfdt[]> updbtfs;
+    privbtf Vfdtor<String> kfyCols;
+
+    privbtf String dolumnVbluf;
+    privbtf String propfrtyVbluf;
+    privbtf String mftbDbtbVbluf;
+
+    privbtf int tbg;
+    privbtf int stbtf;
+
+    privbtf WfbRowSftImpl rs;
+    privbtf boolfbn nullVbl;
+    privbtf boolfbn fmptyStringVbl;
+    privbtf RowSftMftbDbtb md;
+    privbtf int idx;
+    privbtf String lbstvbl;
+    privbtf String Kfy_mbp;
+    privbtf String Vbluf_mbp;
+    privbtf String tfmpStr;
+    privbtf String tfmpUpdbtf;
+    privbtf String tfmpCommbnd;
+    privbtf Objfdt [] upd;
+
+    /**
+     * A list of tif propfrtifs for b rowsft. Tifrf is b donstbnt dffinfd to
+     * dorrfspond to fbdi of tifsf propfrtifs so tibt b <dodf>HbsiMbp</dodf>
+     * objfdt dbn bf drfbtfd to mbp tif propfrtifs, wiidi brf strings, to
+     * tif donstbnts, wiidi brf intfgfrs.
+     */
+    privbtf String [] propfrtifs = {"dommbnd", "dondurrfndy", "dbtbsourdf",
+                            "fsdbpf-prodfssing", "fftdi-dirfdtion", "fftdi-sizf",
+                            "isolbtion-lfvfl", "kfy-dolumns", "mbp",
+                            "mbx-fifld-sizf", "mbx-rows", "qufry-timfout",
+                            "rfbd-only", "rowsft-typf", "siow-dflftfd",
+                            "tbblf-nbmf", "url", "null", "dolumn", "typf",
+                            "dlbss", "synd-providfr", "synd-providfr-nbmf",
+                             "synd-providfr-vfndor", "synd-providfr-vfrsion",
+                             "synd-providfr-grbdf","dbtb-sourdf-lodk"};
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif dommbnd propfrty.
+     */
+    privbtf finbl stbtid int CommbndTbg = 0;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif dondurrfndy propfrty.
+     */
+    privbtf finbl stbtid int CondurrfndyTbg = 1;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif dbtbsourdf propfrty.
+     */
+    privbtf finbl stbtid int DbtbsourdfTbg = 2;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif fsdbpf-prodfssing propfrty.
+     */
+    privbtf finbl stbtid int EsdbpfProdfssingTbg = 3;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif fftdi-dirfdtion propfrty.
+     */
+    privbtf finbl stbtid int FftdiDirfdtionTbg = 4;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif fftdi-sizf propfrty.
+     */
+    privbtf finbl stbtid int FftdiSizfTbg = 5;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif isolbtion-lfvfl propfrty
+     */
+    privbtf finbl stbtid int IsolbtionLfvflTbg = 6;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif kfy-dolumns propfrty.
+     */
+    privbtf finbl stbtid int KfydolsTbg = 7;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif mbp propfrty.
+     * Tiis mbp is tif typf mbp tibt spfdififs tif dustom mbpping
+     * for bn SQL usfr-dffinfd typf.
+     */
+    privbtf finbl stbtid int MbpTbg = 8;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif mbx-fifld-sizf propfrty.
+     */
+    privbtf finbl stbtid int MbxFifldSizfTbg = 9;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif mbx-rows propfrty.
+     */
+    privbtf finbl stbtid int MbxRowsTbg = 10;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif qufry-timfout propfrty.
+     */
+    privbtf finbl stbtid int QufryTimfoutTbg = 11;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif rfbd-only propfrty.
+     */
+    privbtf finbl stbtid int RfbdOnlyTbg = 12;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif rowsft-typf propfrty.
+     */
+    privbtf finbl stbtid int RowsftTypfTbg = 13;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif siow-dflftfd propfrty.
+     */
+    privbtf finbl stbtid int SiowDflftfdTbg = 14;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif tbblf-nbmf propfrty.
+     */
+    privbtf finbl stbtid int TbblfNbmfTbg = 15;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif URL propfrty.
+     */
+    privbtf finbl stbtid int UrlTbg = 16;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif null propfrty.
+     */
+    privbtf finbl stbtid int PropNullTbg = 17;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif dolumn propfrty.
+     */
+    privbtf finbl stbtid int PropColumnTbg = 18;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif typf propfrty.
+     */
+    privbtf finbl stbtid int PropTypfTbg = 19;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif dlbss propfrty.
+     */
+    privbtf finbl stbtid int PropClbssTbg = 20;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif synd-providfr.
+     */
+    privbtf finbl stbtid int SyndProvidfrTbg = 21;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif synd-providfr
+     * nbmf
+     */
+    privbtf finbl stbtid int SyndProvidfrNbmfTbg = 22;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif synd-providfr
+     * vfndor tbg.
+     */
+    privbtf finbl stbtid int SyndProvidfrVfndorTbg = 23;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif synd-providfr
+     * vfrsion tbg.
+     */
+    privbtf finbl stbtid int SyndProvidfrVfrsionTbg = 24;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif synd-providfr
+     * grbdf tbg.
+     */
+    privbtf finbl stbtid int SyndProvidfrGrbdfTbg = 25;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tif dbtb sourdf lodk.
+     */
+    privbtf finbl stbtid int DbtbSourdfLodk = 26;
+
+    /**
+     * A listing of tif kinds of mftbdbtb informbtion bvbilbblf bbout
+     * tif dolumns in b <dodf>WfbRowSft</dodf> objfdt.
+     */
+    privbtf String [] dolDff = {"dolumn-dount", "dolumn-dffinition", "dolumn-indfx",
+                        "buto-indrfmfnt", "dbsf-sfnsitivf", "durrfndy",
+                        "nullbblf", "signfd", "sfbrdibblf",
+                        "dolumn-displby-sizf", "dolumn-lbbfl", "dolumn-nbmf",
+                        "sdifmb-nbmf", "dolumn-prfdision", "dolumn-sdblf",
+                        "tbblf-nbmf", "dbtblog-nbmf", "dolumn-typf",
+                        "dolumn-typf-nbmf", "null"};
+
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-dount.
+     */
+    privbtf finbl stbtid int ColumnCountTbg = 0;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-dffinition.
+     */
+    privbtf finbl stbtid int ColumnDffinitionTbg = 1;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-indfx.
+     */
+    privbtf finbl stbtid int ColumnIndfxTbg = 2;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for buto-indrfmfnt.
+     */
+    privbtf finbl stbtid int AutoIndrfmfntTbg = 3;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dbsf-sfnsitivf.
+     */
+    privbtf finbl stbtid int CbsfSfnsitivfTbg = 4;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for durrfndy.
+     */
+    privbtf finbl stbtid int CurrfndyTbg = 5;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for nullbblf.
+     */
+    privbtf finbl stbtid int NullbblfTbg = 6;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for signfd.
+     */
+    privbtf finbl stbtid int SignfdTbg = 7;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for sfbrdibblf.
+     */
+    privbtf finbl stbtid int SfbrdibblfTbg = 8;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-displby-sizf.
+     */
+    privbtf finbl stbtid int ColumnDisplbySizfTbg = 9;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-lbbfl.
+     */
+    privbtf finbl stbtid int ColumnLbbflTbg = 10;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-nbmf.
+     */
+    privbtf finbl stbtid int ColumnNbmfTbg = 11;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for sdifmb-nbmf.
+     */
+    privbtf finbl stbtid int SdifmbNbmfTbg = 12;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-prfdision.
+     */
+    privbtf finbl stbtid int ColumnPrfdisionTbg = 13;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-sdblf.
+     */
+    privbtf finbl stbtid int ColumnSdblfTbg = 14;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for tbblf-nbmf.
+     */
+    privbtf finbl stbtid int MftbTbblfNbmfTbg = 15;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dbtblog-nbmf.
+     */
+    privbtf finbl stbtid int CbtblogNbmfTbg = 16;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-typf.
+     */
+    privbtf finbl stbtid int ColumnTypfTbg = 17;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for dolumn-typf-nbmf.
+     */
+    privbtf finbl stbtid int ColumnTypfNbmfTbg = 18;
+
+    /**
+     * A donstbnt rfprfsfnting tif tbg for null.
+     */
+    privbtf finbl stbtid int MftbNullTbg = 19;
+
+    privbtf String [] dbtb = {"durrfntRow", "dolumnVbluf", "insfrtRow", "dflftfRow", "insdfl", "updbtfRow", "null" , "fmptyString"};
+
+    privbtf finbl stbtid int RowTbg = 0;
+    privbtf finbl stbtid int ColTbg = 1;
+    privbtf finbl stbtid int InsTbg = 2;
+    privbtf finbl stbtid int DflTbg = 3;
+    privbtf finbl stbtid int InsDflTbg = 4;
+    privbtf finbl stbtid int UpdTbg = 5;
+    privbtf finbl stbtid int NullTbg = 6;
+    privbtf finbl stbtid int EmptyStringTbg = 7;
+
+    /**
+     * A donstbnt indidbting tif stbtf of tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf>
+     * objfdt in wiidi it ibs not yft bffn dbllfd by tif SAX pbrsfr bnd tifrfforf
+     * ibs no indidbtion of wibt typf of input to fxpfdt from tif pbrsfr nfxt.
+     * <P>
+     * Tif stbtf is sft to <dodf>INITIAL</dodf> bt tif fnd of fbdi
+     * sfdtion, wiidi bllows tif sfdtions to bppfbr in bny ordfr bnd
+     * still bf pbrsfd dorrfdtly (fxdfpt tibt mftbdbtb must bf
+     * sft bfforf dbtb vblufs dbn bf sft).
+     */
+    privbtf finbl stbtid int INITIAL = 0;
+
+    /**
+     * A donstbnt indidbting tif stbtf in wiidi tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf>
+     * objfdt fxpfdts tif nfxt input rfdfivfd from tif
+     * SAX pbrsfr to bf b string dorrfsponding to onf of tif flfmfnts in
+     * <dodf>propfrtifs</dodf>.
+     */
+    privbtf finbl stbtid int PROPERTIES = 1;
+
+    /**
+     * A donstbnt indidbting tif stbtf in wiidi tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf>
+     * objfdt fxpfdts tif nfxt input rfdfivfd from tif
+     * SAX pbrsfr to bf b string dorrfsponding to onf of tif flfmfnts in
+     * <dodf>dolDff</dodf>.
+     */
+    privbtf finbl stbtid int METADATA = 2;
+
+    /**
+     * A donstbnt indidbting tif stbtf in wiidi tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf>
+     * objfdt fxpfdts tif nfxt input rfdfivfd from tif
+     * SAX pbrsfr to bf b string dorrfsponding to onf of tif flfmfnts in
+     * <dodf>dbtb</dodf>.
+     */
+    privbtf finbl stbtid int DATA = 3;
+
+    privbtf  JdbdRowSftRfsourdfBundlf rfsBundlf;
+
+    /**
+     * Construdts b nfw <dodf>XmlRfbdfrContfntHbndlfr</dodf> objfdt tibt will
+     * bssist tif SAX pbrsfr in rfbding b <dodf>WfbRowSft</dodf> objfdt in tif
+     * formbt of bn XML dodumfnt. In bddition to sftting somf dffbult vblufs,
+     * tiis donstrudtor drfbtfs tirff <dodf>HbsiMbp</dodf> objfdts, onf for
+     * propfrtifs, onf for mftbdbtb, bnd onf for dbtb.  Tifsf ibsi mbps mbp tif
+     * strings sfnt by tif SAX pbrsfr to intfgfr donstbnts so tibt tify dbn bf
+     * dompbrfd morf fffidifntly in <dodf>switdi</dodf> stbtfmfnts.
+     *
+     * @pbrbm r tif <dodf>RowSft</dodf> objfdt in XML formbt tibt will bf rfbd
+     */
+    publid XmlRfbdfrContfntHbndlfr(RowSft r) {
+        // kffp tif rowsft wf'vf bffn givfn
+        rs = (WfbRowSftImpl)r;
+
+        // sft-up tif tokfn mbps
+        initMbps();
+
+        // bllodbtf tif dollfdtion for tif updbtfs
+        updbtfs = nfw Vfdtor<>();
+
+        // stbrt out witi tif fmpty string
+        dolumnVbluf = "";
+        propfrtyVbluf = "";
+        mftbDbtbVbluf = "";
+
+        nullVbl = fblsf;
+        idx = 0;
+        tfmpStr = "";
+        tfmpUpdbtf = "";
+        tfmpCommbnd = "";
+
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
+        }
+    }
+
+    /**
+     * Crfbtfs bnd initiblizfs tirff nfw <dodf>HbsiMbp</dodf> objfdts tibt mbp
+     * tif strings rfturnfd by tif SAX pbrsfr to <dodf>Intfgfr</dodf>
+     * objfdts.  Tif strings rfturnfd by tif pbrsfr will mbtdi tif strings tibt
+     * brf brrby flfmfnts in tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf> objfdt's
+     * <dodf>propfrtifs</dodf>, <dodf>dolDff</dodf>, or <dodf>dbtb</dodf>
+     * fiflds. For fbdi brrby flfmfnt in tifsf fiflds, tifrf is b dorrfsponding
+     * donstbnt dffinfd. It is to tifsf donstbnts tibt tif strings brf mbppfd.
+     * In tif <dodf>HbsiMbp</dodf> objfdts, tif string is tif kfy, bnd tif
+     * intfgfr is tif vbluf.
+     * <P>
+     * Tif purposf of tif mbpping is to mbkf dompbrisons fbstfr.  Bfdbusf dompbring
+     * numbfrs is morf fffidifnt tibn dompbring strings, tif strings rfturnfd
+     * by tif pbrsfr brf mbppfd to intfgfrs, wiidi dbn tifn bf usfd in b
+     * <dodf>switdi</dodf> stbtfmfnt.
+     */
+    privbtf void initMbps() {
+        int itfms, i;
+
+        propMbp = nfw HbsiMbp<>();
+        itfms = propfrtifs.lfngti;
+
+        for (i=0;i<itfms;i++) {
+            propMbp.put(propfrtifs[i], Intfgfr.vblufOf(i));
+        }
+
+        dolDffMbp = nfw HbsiMbp<>();
+        itfms = dolDff.lfngti;
+
+        for (i=0;i<itfms;i++) {
+            dolDffMbp.put(dolDff[i], Intfgfr.vblufOf(i));
+        }
+
+        dbtbMbp = nfw HbsiMbp<>();
+        itfms = dbtb.lfngti;
+
+        for (i=0;i<itfms;i++) {
+            dbtbMbp.put(dbtb[i], Intfgfr.vblufOf(i));
+        }
+
+        //Initiblizf donnfdtion mbp ifrf
+        typfMbp = nfw HbsiMbp<>();
+    }
+
+    publid void stbrtDodumfnt() tirows SAXExdfption {
+    }
+
+    publid void fndDodumfnt() tirows SAXExdfption {
+    }
+
+
+    /**
+     * Sfts tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf> objfdt's <dodf>tbg</dodf>
+     * fifld if tif givfn nbmf is tif kfy for b tbg bnd tiis objfdt's stbtf
+     * is not <dodf>INITIAL</dodf>.  Tif fifld is sft
+     * to tif donstbnt tibt dorrfsponds to tif givfn flfmfnt nbmf.
+     * If tif stbtf is <dodf>INITIAL</dodf>, tif stbtf is sft to tif givfn
+     * nbmf, wiidi will bf onf of tif sfdtions <dodf>PROPERTIES</dodf>,
+     * <dodf>METADATA</dodf>, or <dodf>DATA</dodf>.  In fitifr dbsf, tiis
+     * mftiod puts tiis dodumfnt ibndlfr in tif propfr stbtf for dblling
+     * tif mftiod <dodf>fndElfmfnt</dodf>.
+     * <P>
+     * If tif stbtf is <dodf>DATA</dodf> bnd tif tbg is <dodf>RowTbg</dodf>,
+     * <dodf>DflTbg</dodf>, or <dodf>InsTbg</dodf>, tiis mftiod movfs tif
+     * rowsft's dursor to tif insfrt row bnd sfts tiis
+     * <dodf>XmlRfbdfrContfntHbndlfr</dodf> objfdt's <dodf>idx</dodf>
+     * fifld to <dodf>0</dodf> so tibt it will bf in tif propfr
+     * stbtf wifn tif pbrsfr dblls tif mftiod <dodf>fndElfmfnt</dodf>.
+     *
+     * @pbrbm lNbmf tif nbmf of tif flfmfnt; fitifr (1) onf of tif brrby
+     *        flfmfnts in tif fiflds <dodf>propfrtifs</dodf>,
+     *        <dodf>dolDff</dodf>, or <dodf>dbtb</dodf> or
+     *        (2) onf of tif <dodf>RowSft</dodf> flfmfnts
+     *        <dodf>"propfrtifs"</dodf>, <dodf>"mftbdbtb"</dodf>, or
+     *        <dodf>"dbtb"</dodf>
+     * @pbrbm bttributfs <dodf>org.xml.sbx.AttributfList</dodf> objfdts tibt brf
+     *             bttributfs of tif nbmfd sfdtion flfmfnt; mby bf <dodf>null</dodf>
+     *             if tifrf brf no bttributfs, wiidi is tif dbsf for
+     *             <dodf>WfbRowSft</dodf> objfdts
+     * @fxdfption SAXExdfption if b gfnfrbl SAX frror oddurs
+     */
+    publid void stbrtElfmfnt(String uri, String lNbmf, String qNbmf, Attributfs bttributfs) tirows SAXExdfption {
+        int tbg;
+        String nbmf = "";
+
+        nbmf = lNbmf;
+
+        switdi (gftStbtf()) {
+        dbsf PROPERTIES:
+
+            tfmpCommbnd = "";
+            tbg = propMbp.gft(nbmf);
+            if (tbg == PropNullTbg)
+               sftNullVbluf(truf);
+            flsf
+                sftTbg(tbg);
+            brfbk;
+        dbsf METADATA:
+            tbg = dolDffMbp.gft(nbmf);
+
+            if (tbg == MftbNullTbg)
+                sftNullVbluf(truf);
+            flsf
+                sftTbg(tbg);
+            brfbk;
+        dbsf DATA:
+
+            /**
+              * Tiis ibs bffn bddfd to dlfbr out tif vblufs of tif prfvious rfbd
+              * so tibt wf siould not bdd up vblufs of dbtb bftwffn difffrfnt tbgs
+              */
+            tfmpStr = "";
+            tfmpUpdbtf = "";
+            if(dbtbMbp.gft(nbmf) == null) {
+                tbg = NullTbg;
+            } flsf if(dbtbMbp.gft(nbmf) == EmptyStringTbg) {
+                tbg = EmptyStringTbg;
+            } flsf {
+                 tbg = dbtbMbp.gft(nbmf);
+            }
+
+            if (tbg == NullTbg) {
+                sftNullVbluf(truf);
+            } flsf if(tbg == EmptyStringTbg) {
+                sftEmptyStringVbluf(truf);
+            } flsf {
+                sftTbg(tbg);
+
+                if (tbg == RowTbg || tbg == DflTbg || tbg == InsTbg) {
+                    idx = 0;
+                    try {
+                        rs.movfToInsfrtRow();
+                    } dbtdi (SQLExdfption fx) {
+                        ;
+                    }
+                }
+            }
+
+            brfbk;
+        dffbult:
+            sftStbtf(nbmf);
+        }
+
+    }
+
+    /**
+     * Sfts tif vbluf for tif givfn flfmfnt if <dodf>nbmf</dodf> is onf of
+     * tif brrby flfmfnts in tif fiflds <dodf>propfrtifs</dodf>,
+     * <dodf>dolDff</dodf>, or <dodf>dbtb</dodf> bnd tiis
+     * <dodf>XmlRfbdfrContfntHbndlfr</dodf> objfdt's stbtf is not
+     * <dodf>INITIAL</dodf>. If tif stbtf is <dodf>INITIAL</dodf>,
+     * tiis mftiod dofs notiing.
+     * <P>
+     * If tif stbtf is <dodf>METADATA</dodf> bnd
+     * tif brgumfnt supplifd is <dodf>"mftbdbtb"</dodf>, tif rowsft's
+     * mftbdbtb is sft. If tif stbtf is <dodf>PROPERTIES</dodf>, tif
+     * bppropribtf propfrty is sft using tif givfn nbmf to dftfrminf
+     * tif bppropribtf vbluf. If tif stbtf is <dodf>DATA</dodf> bnd
+     * tif brgumfnt supplifd is <dodf>"dbtb"</dodf>, tiis mftiod sfts
+     * tif stbtf to <dodf>INITIAL</dodf> bnd rfturns.  If tif brgumfnt
+     * supplifd is onf of tif flfmfnts in tif fifld <dodf>dbtb</dodf>,
+     * tiis mftiod mbkfs tif bppropribtf dibngfs to tif rowsft's dbtb.
+     *
+     * @pbrbm lNbmf tif nbmf of tif flfmfnt; fitifr (1) onf of tif brrby
+     *        flfmfnts in tif fiflds <dodf>propfrtifs</dodf>,
+     *        <dodf>dolDff</dodf>, or <dodf>dbtb</dodf> or
+     *        (2) onf of tif <dodf>RowSft</dodf> flfmfnts
+     *        <dodf>"propfrtifs"</dodf>, <dodf>"mftbdbtb"</dodf>, or
+     *        <dodf>"dbtb"</dodf>
+     *
+     * @fxdfption SAXExdfption if b gfnfrbl SAX frror oddurs
+     */
+    @SupprfssWbrnings("fblltirougi")
+    publid void fndElfmfnt(String uri, String lNbmf, String qNbmf) tirows SAXExdfption {
+        int tbg;
+
+        String nbmf = "";
+        nbmf = lNbmf;
+
+        switdi (gftStbtf()) {
+        dbsf PROPERTIES:
+            if (nbmf.fqubls("propfrtifs")) {
+                stbtf = INITIAL;
+                brfbk;
+            }
+
+            try {
+                tbg = propMbp.gft(nbmf);
+                switdi (tbg) {
+                dbsf KfydolsTbg:
+                    if (kfyCols != null) {
+                        int i[] = nfw int[kfyCols.sizf()];
+                        for (int j = 0; j < i.lfngti; j++)
+                            i[j] = Intfgfr.pbrsfInt(kfyCols.flfmfntAt(j));
+                        rs.sftKfyColumns(i);
+                    }
+                    brfbk;
+
+                 dbsf PropClbssTbg:
+                     //Addfd tif ibndling for Clbss tbgs to tbkf dbrf of mbps
+                     //Mbkfs bn fntry into tif mbp upon fnd of dlbss tbg
+                     try{
+                          typfMbp.put(Kfy_mbp,sun.rfflfdt.misd.RfflfdtUtil.forNbmf(Vbluf_mbp));
+
+                        }dbtdi(ClbssNotFoundExdfption fx) {
+                          tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrmbp").toString(), fx.gftMfssbgf()));
+                        }
+                      brfbk;
+
+                 dbsf MbpTbg:
+                      //Addfd tif ibndling for Mbp to tbkf sft tif typfMbp
+                      rs.sftTypfMbp(typfMbp);
+                      brfbk;
+
+                dffbult:
+                    brfbk;
+                }
+
+                if (gftNullVbluf()) {
+                    sftPropfrtyVbluf(null);
+                    sftNullVbluf(fblsf);
+                } flsf {
+                    sftPropfrtyVbluf(propfrtyVbluf);
+                }
+            } dbtdi (SQLExdfption fx) {
+                tirow nfw SAXExdfption(fx.gftMfssbgf());
+            }
+
+            // propfrtyVbluf nffd to bf rfsft to bn fmpty string
+            propfrtyVbluf = "";
+            sftTbg(-1);
+            brfbk;
+        dbsf METADATA:
+            if (nbmf.fqubls("mftbdbtb")) {
+                try {
+                    rs.sftMftbDbtb(md);
+                    stbtf = INITIAL;
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrmftbdbtb").toString(), fx.gftMfssbgf()));
+                }
+            } flsf {
+                try {
+                    if (gftNullVbluf()) {
+                        sftMftbDbtbVbluf(null);
+                        sftNullVbluf(fblsf);
+                    } flsf {
+                        sftMftbDbtbVbluf(mftbDbtbVbluf);
+                    }
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrmftbdbtb").toString(), fx.gftMfssbgf()));
+
+                }
+                // mftbDbtbVbluf nffds to bf rfsft to bn fmpty string
+                mftbDbtbVbluf = "";
+            }
+            sftTbg(-1);
+            brfbk;
+        dbsf DATA:
+            if (nbmf.fqubls("dbtb")) {
+                stbtf = INITIAL;
+                rfturn;
+            }
+
+            if(dbtbMbp.gft(nbmf) == null) {
+                tbg = NullTbg;
+            } flsf {
+                 tbg = dbtbMbp.gft(nbmf);
+            }
+            switdi (tbg) {
+            dbsf ColTbg:
+                try {
+                    idx++;
+                    if (gftNullVbluf()) {
+                        insfrtVbluf(null);
+                        sftNullVbluf(fblsf);
+                    } flsf {
+                        insfrtVbluf(tfmpStr);
+                    }
+                    // dolumnVbluf now nffd to bf rfsft to tif fmpty string
+                    dolumnVbluf = "";
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrinsfrtvbl").toString(), fx.gftMfssbgf()));
+                }
+                brfbk;
+            dbsf RowTbg:
+                try {
+                    rs.insfrtRow();
+                    rs.movfToCurrfntRow();
+                    rs.nfxt();
+
+                    // Mbking tiis bs tif originbl to turn off tif
+                    // rowInsfrtfd flbgging
+                    rs.sftOriginblRow();
+
+                    bpplyUpdbtfs();
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrdonstr").toString(), fx.gftMfssbgf()));
+                }
+                brfbk;
+            dbsf DflTbg:
+                try {
+                    rs.insfrtRow();
+                    rs.movfToCurrfntRow();
+                    rs.nfxt();
+                    rs.sftOriginblRow();
+                    bpplyUpdbtfs();
+                    rs.dflftfRow();
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrdfl").toString() , fx.gftMfssbgf()));
+                }
+                brfbk;
+            dbsf InsTbg:
+                try {
+                    rs.insfrtRow();
+                    rs.movfToCurrfntRow();
+                    rs.nfxt();
+                    bpplyUpdbtfs();
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrinsfrt").toString() , fx.gftMfssbgf()));
+                }
+                brfbk;
+
+            dbsf InsDflTbg:
+                try {
+                    rs.insfrtRow();
+                    rs.movfToCurrfntRow();
+                    rs.nfxt();
+                    rs.sftOriginblRow();
+                    bpplyUpdbtfs();
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrinsdfl").toString() , fx.gftMfssbgf()));
+                }
+                brfbk;
+
+             dbsf UpdTbg:
+                 try {
+                        if(gftNullVbluf())
+                         {
+                          insfrtVbluf(null);
+                          sftNullVbluf(fblsf);
+                         } flsf if(gftEmptyStringVbluf()) {
+                               insfrtVbluf("");
+                               sftEmptyStringVbluf(fblsf);
+                         } flsf {
+                            updbtfs.bdd(upd);
+                         }
+                 }  dbtdi(SQLExdfption fx) {
+                        tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrupdbtf").toString() , fx.gftMfssbgf()));
+                 }
+                brfbk;
+
+            dffbult:
+                brfbk;
+            }
+        dffbult:
+            brfbk;
+        }
+    }
+
+    privbtf void bpplyUpdbtfs() tirows SAXExdfption {
+        // now ibndlf bny updbtfs
+        if (updbtfs.sizf() > 0) {
+            try {
+                Objfdt upd[];
+                Itfrbtor<?> i = updbtfs.itfrbtor();
+                wiilf (i.ibsNfxt()) {
+                    upd = (Objfdt [])i.nfxt();
+                    idx = ((Intfgfr)upd[0]).intVbluf();
+
+                   if(!(lbstvbl.fqubls(upd[1]))){
+                       insfrtVbluf((String)(upd[1]));
+                    }
+                }
+
+                rs.updbtfRow();
+                } dbtdi (SQLExdfption fx) {
+                    tirow nfw SAXExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.frrupdrow").toString() , fx.gftMfssbgf()));
+                }
+            updbtfs.rfmovfAllElfmfnts();
+        }
+
+
+    }
+
+    /**
+     * Sfts b propfrty, mftbdbtb, or dbtb vbluf witi tif dibrbdtfrs in
+     * tif givfn brrby of dibrbdtfrs, stbrting witi tif brrby flfmfnt
+     * indidbtfd by <dodf>stbrt</dodf> bnd dontinuing for <dodf>lfngti</dodf>
+     * numbfr of dibrbdtfrs.
+     * <P>
+     * Tif SAX pbrsfr invokfs tiis mftiod bnd supplifs
+     * tif dibrbdtfr brrby, stbrt position, bnd lfngti pbrbmftfr vblufs it
+     * got from pbrsing tif XML dodumfnt.  An bpplidbtion progrbmmfr nfvfr
+     * invokfs tiis mftiod dirfdtly.
+     *
+     * @pbrbm di bn brrby of dibrbdtfrs supplifd by tif SAX pbrsfr, bll or pbrt of
+     *         wiidi will bf usfd to sft b vbluf
+     * @pbrbm stbrt tif position in tif givfn brrby bt wiidi to stbrt
+     * @pbrbm lfngti tif numbfr of donsfdutivf dibrbdtfrs to usf
+     */
+    publid void dibrbdtfrs(dibr[] di, int stbrt, int lfngti) tirows SAXExdfption {
+        try {
+            switdi (gftStbtf()) {
+            dbsf PROPERTIES:
+                propfrtyVbluf = nfw String(di, stbrt, lfngti);
+
+                /**
+                  * Tiis ibs bffn bddfd for ibndling of spfdibl dibrbdtfrs. Wifn spfdibl
+                  * dibrbdtfrs brf fndountfrfd tif dibrbdtfrs fundtion gfts dbllfd for
+                  * fbdi of tif dibrbdtfrs so wf nffd to bppfnd tif vbluf got in tif
+                  * prfvious dbll bs it is tif sbmf dbtb prfsfnt bftwffn tif stbrt bnd
+                  * tif fnd tbg.
+                  **/
+                tfmpCommbnd = tfmpCommbnd.dondbt(propfrtyVbluf);
+                propfrtyVbluf = tfmpCommbnd;
+
+                // Addfd tif following difdk for ibndling of typf tbgs in mbps
+                if(tbg == PropTypfTbg)
+                {
+                        Kfy_mbp = propfrtyVbluf;
+                }
+
+                // Addfd tif following difdk for ibndling of dlbss tbgs in mbps
+                flsf if(tbg == PropClbssTbg)
+                {
+                        Vbluf_mbp = propfrtyVbluf;
+                }
+                brfbk;
+
+            dbsf METADATA:
+
+                // Tif pbrsfr will domf ifrf bftfr tif fndElfmfnt bs tifrf is
+                // "\n" in tif bftfr fndTbg is printfd. Tiis will dbusf b problfm
+                // wifn tif dbtb bftwffn tif tbgs is bn fmpty string so bdding
+                // bflow dondition to tbkf dbrf of tibt situbtion.
+
+                if (tbg == -1)
+                {
+                        brfbk;
+                }
+
+                mftbDbtbVbluf = nfw String(di, stbrt, lfngti);
+                brfbk;
+            dbsf DATA:
+                sftDbtbVbluf(di, stbrt, lfngti);
+                brfbk;
+            dffbult:
+                ;
+            }
+        } dbtdi (SQLExdfption fx) {
+            tirow nfw SAXExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.dibrs").toString() + fx.gftMfssbgf());
+        }
+    }
+
+    privbtf void sftStbtf(String s) tirows SAXExdfption {
+        if (s.fqubls("wfbRowSft")) {
+            stbtf = INITIAL;
+        } flsf if (s.fqubls("propfrtifs")) {
+            if (stbtf != PROPERTIES)
+                stbtf = PROPERTIES;
+            flsf
+                stbtf = INITIAL;
+        } flsf if (s.fqubls("mftbdbtb")) {
+            if (stbtf != METADATA)
+                stbtf = METADATA;
+            flsf
+                stbtf = INITIAL;
+        } flsf if (s.fqubls("dbtb")) {
+            if (stbtf != DATA)
+                stbtf = DATA;
+            flsf
+                stbtf = INITIAL;
+        }
+
+    }
+
+    /**
+     * Rftrifvfs tif durrfnt stbtf of tiis <dodf>XmlRfbdfrContfntHbndlfr</dodf>
+     * objfdt's rowsft, wiidi is storfd in tif dodumfnt ibndlfr's
+     * <dodf>stbtf</dodf> fifld.
+     *
+     * @rfturn onf of tif following donstbnts:
+     *         <dodf>XmlRfbdfrContfntHbndlfr.PROPERTIES</dodf>
+     *         <dodf>XmlRfbdfrContfntHbndlfr.METADATA</dodf>
+     *         <dodf>XmlRfbdfrContfntHbndlfr.DATA</dodf>
+     *         <dodf>XmlRfbdfrContfntHbndlfr.INITIAL</dodf>
+     */
+    privbtf int gftStbtf() {
+        rfturn stbtf;
+    }
+
+    privbtf void sftTbg(int t) {
+        tbg = t;
+    }
+
+    privbtf int gftTbg() {
+        rfturn tbg;
+    }
+
+    privbtf void sftNullVbluf(boolfbn n) {
+        nullVbl = n;
+    }
+
+    privbtf boolfbn gftNullVbluf() {
+        rfturn nullVbl;
+    }
+
+    privbtf void sftEmptyStringVbluf(boolfbn f) {
+        fmptyStringVbl = f;
+    }
+
+    privbtf boolfbn gftEmptyStringVbluf() {
+        rfturn fmptyStringVbl;
+    }
+
+    privbtf String gftStringVbluf(String s) {
+         rfturn s;
+    }
+
+    privbtf int gftIntfgfrVbluf(String s) {
+        rfturn Intfgfr.pbrsfInt(s);
+    }
+
+    privbtf boolfbn gftBoolfbnVbluf(String s) {
+
+        rfturn Boolfbn.vblufOf(s).boolfbnVbluf();
+    }
+
+    privbtf jbvb.mbti.BigDfdimbl gftBigDfdimblVbluf(String s) {
+        rfturn nfw jbvb.mbti.BigDfdimbl(s);
+    }
+
+    privbtf bytf gftBytfVbluf(String s) {
+        rfturn Bytf.pbrsfBytf(s);
+    }
+
+    privbtf siort gftSiortVbluf(String s) {
+        rfturn Siort.pbrsfSiort(s);
+    }
+
+    privbtf long gftLongVbluf(String s) {
+        rfturn Long.pbrsfLong(s);
+    }
+
+    privbtf flobt gftFlobtVbluf(String s) {
+        rfturn Flobt.pbrsfFlobt(s);
+    }
+
+    privbtf doublf gftDoublfVbluf(String s) {
+        rfturn Doublf.pbrsfDoublf(s);
+    }
+
+    privbtf bytf[] gftBinbryVbluf(String s) {
+        rfturn s.gftBytfs();
+    }
+
+    privbtf jbvb.sql.Dbtf gftDbtfVbluf(String s) {
+        rfturn nfw jbvb.sql.Dbtf(gftLongVbluf(s));
+    }
+
+    privbtf jbvb.sql.Timf gftTimfVbluf(String s) {
+        rfturn nfw jbvb.sql.Timf(gftLongVbluf(s));
+    }
+
+    privbtf jbvb.sql.Timfstbmp gftTimfstbmpVbluf(String s) {
+        rfturn nfw jbvb.sql.Timfstbmp(gftLongVbluf(s));
+    }
+
+    privbtf void sftPropfrtyVbluf(String s) tirows SQLExdfption {
+        // find out if wf brf going to bf dfbling witi b null
+        boolfbn nullVbluf = gftNullVbluf();
+
+        switdi(gftTbg()) {
+        dbsf CommbndTbg:
+            if (nullVbluf)
+               ; //rs.sftCommbnd(null);
+            flsf
+                rs.sftCommbnd(s);
+            brfbk;
+        dbsf CondurrfndyTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftCondurrfndy(gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf DbtbsourdfTbg:
+            if (nullVbluf)
+                rs.sftDbtbSourdfNbmf(null);
+            flsf
+                rs.sftDbtbSourdfNbmf(s);
+            brfbk;
+        dbsf EsdbpfProdfssingTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftEsdbpfProdfssing(gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf FftdiDirfdtionTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftFftdiDirfdtion(gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf FftdiSizfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftFftdiSizf(gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf IsolbtionLfvflTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftTrbnsbdtionIsolbtion(gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf KfydolsTbg:
+            brfbk;
+        dbsf PropColumnTbg:
+            if (kfyCols == null)
+                kfyCols = nfw Vfdtor<>();
+            kfyCols.bdd(s);
+            brfbk;
+        dbsf MbpTbg:
+            brfbk;
+        dbsf MbxFifldSizfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftMbxFifldSizf(gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf MbxRowsTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftMbxRows(gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf QufryTimfoutTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftQufryTimfout(gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf RfbdOnlyTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftRfbdOnly(gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf RowsftTypfTbg:
+            if (nullVbluf) {
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            } flsf {
+                //rs.sftTypf(gftIntfgfrVbluf(s));
+                String strTypf = gftStringVbluf(s);
+                int iTypf = 0;
+
+                if(strTypf.trim().fqubls("RfsultSft.TYPE_SCROLL_INSENSITIVE")) {
+                   iTypf = 1004;
+                } flsf if(strTypf.trim().fqubls("RfsultSft.TYPE_SCROLL_SENSITIVE"))   {
+                   iTypf = 1005;
+                } flsf if(strTypf.trim().fqubls("RfsultSft.TYPE_FORWARD_ONLY")) {
+                   iTypf = 1003;
+                }
+                rs.sftTypf(iTypf);
+            }
+            brfbk;
+        dbsf SiowDflftfdTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf").toString());
+            flsf
+                rs.sftSiowDflftfd(gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf TbblfNbmfTbg:
+            if (nullVbluf)
+                //rs.sftTbblfNbmf(null);
+                ;
+            flsf
+                rs.sftTbblfNbmf(s);
+            brfbk;
+        dbsf UrlTbg:
+            if (nullVbluf)
+                rs.sftUrl(null);
+            flsf
+                rs.sftUrl(s);
+            brfbk;
+        dbsf SyndProvidfrNbmfTbg:
+            if (nullVbluf) {
+                rs.sftSyndProvidfr(null);
+            } flsf {
+                String str = s.substring(0,s.indfxOf('@')+1);
+                rs.sftSyndProvidfr(str);
+            }
+            brfbk;
+        dbsf SyndProvidfrVfndorTbg:
+            // to bf implfmfntfd
+            brfbk;
+        dbsf SyndProvidfrVfrsionTbg:
+            // to bf implfmfntfd
+            brfbk;
+        dbsf SyndProvidfrGrbdfTbg:
+            // to bf implfmfntfd
+            brfbk;
+        dbsf DbtbSourdfLodk:
+            // to bf implfmfntfd
+            brfbk;
+        dffbult:
+            brfbk;
+        }
+
+    }
+
+    privbtf void sftMftbDbtbVbluf(String s) tirows SQLExdfption {
+        // find out if wf brf going to bf dfbling witi b null
+        boolfbn nullVbluf = gftNullVbluf();
+
+        switdi (gftTbg()) {
+        dbsf ColumnCountTbg:
+            md = nfw RowSftMftbDbtbImpl();
+            idx = 0;
+
+            if (nullVbluf) {
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            } flsf {
+                md.sftColumnCount(gftIntfgfrVbluf(s));
+            }
+            brfbk;
+        dbsf ColumnDffinitionTbg:
+            brfbk;
+        dbsf ColumnIndfxTbg:
+            idx++;
+            brfbk;
+        dbsf AutoIndrfmfntTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftAutoIndrfmfnt(idx, gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf CbsfSfnsitivfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftCbsfSfnsitivf(idx, gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf CurrfndyTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftCurrfndy(idx, gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf NullbblfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftNullbblf(idx, gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf SignfdTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftSignfd(idx, gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf SfbrdibblfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftSfbrdibblf(idx, gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf ColumnDisplbySizfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftColumnDisplbySizf(idx, gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf ColumnLbbflTbg:
+            if (nullVbluf)
+                md.sftColumnLbbfl(idx, null);
+            flsf
+                md.sftColumnLbbfl(idx, s);
+            brfbk;
+        dbsf ColumnNbmfTbg:
+            if (nullVbluf)
+                md.sftColumnNbmf(idx, null);
+            flsf
+                md.sftColumnNbmf(idx, s);
+
+            brfbk;
+        dbsf SdifmbNbmfTbg:
+            if (nullVbluf) {
+                md.sftSdifmbNbmf(idx, null); }
+            flsf
+                md.sftSdifmbNbmf(idx, s);
+            brfbk;
+        dbsf ColumnPrfdisionTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftPrfdision(idx, gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf ColumnSdblfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftSdblf(idx, gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf MftbTbblfNbmfTbg:
+            if (nullVbluf)
+                md.sftTbblfNbmf(idx, null);
+            flsf
+                md.sftTbblfNbmf(idx, s);
+            brfbk;
+        dbsf CbtblogNbmfTbg:
+            if (nullVbluf)
+                md.sftCbtblogNbmf(idx, null);
+            flsf
+                md.sftCbtblogNbmf(idx, s);
+            brfbk;
+        dbsf ColumnTypfTbg:
+            if (nullVbluf)
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("xmlrdi.bbdvbluf1").toString());
+            flsf
+                md.sftColumnTypf(idx, gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf ColumnTypfNbmfTbg:
+            if (nullVbluf)
+                md.sftColumnTypfNbmf(idx, null);
+            flsf
+                md.sftColumnTypfNbmf(idx, s);
+            brfbk;
+        dffbult:
+            //Systfm.out.println("MftbDbtb: Unknown Tbg: (" + gftTbg() + ")");
+            brfbk;
+
+        }
+    }
+
+    privbtf void sftDbtbVbluf(dibr[] di, int stbrt, int lfn) tirows SQLExdfption {
+        switdi (gftTbg()) {
+        dbsf ColTbg:
+            dolumnVbluf = nfw String(di, stbrt, lfn);
+            /**
+              * Tiis ibs bffn bddfd for ibndling of spfdibl dibrbdtfrs. Wifn spfdibl
+              * dibrbdtfrs brf fndountfrfd tif dibrbdtfrs fundtion gfts dbllfd for
+              * fbdi of tif dibrbdtfrs so wf nffd to bppfnd tif vbluf got in tif
+              * prfvious dbll bs it is tif sbmf dbtb prfsfnt bftwffn tif stbrt bnd
+              * tif fnd tbg.
+              **/
+            tfmpStr = tfmpStr.dondbt(dolumnVbluf);
+            brfbk;
+        dbsf UpdTbg:
+            upd = nfw Objfdt[2];
+
+            /**
+              * Tiis ibs bffn bddfd for ibndling of spfdibl dibrbdtfrs. Wifn spfdibl
+              * dibrbdtfrs brf fndountfrfd tif dibrbdtfrs fundtion gfts dbllfd for
+              * fbdi of tif dibrbdtfrs so wf nffd to bppfnd tif vbluf got in tif
+              * prfvious dbll bs it is tif sbmf dbtb prfsfnt bftwffn tif stbrt bnd
+              * tif fnd tbg.
+              **/
+
+            tfmpUpdbtf = tfmpUpdbtf.dondbt(nfw String(di,stbrt,lfn));
+            upd[0] = Intfgfr.vblufOf(idx);
+            upd[1] = tfmpUpdbtf;
+            //updbtfs.bdd(upd);
+
+            lbstvbl = (String)upd[1];
+            //insfrtVbluf(di, stbrt, lfn);
+            brfbk;
+        dbsf InsTbg:
+
+        }
+    }
+
+    privbtf void insfrtVbluf(String s) tirows SQLExdfption {
+
+        if (gftNullVbluf()) {
+            rs.updbtfNull(idx);
+            rfturn;
+        }
+
+        // no longfr ibvf to dfbl witi tiosf pfsky nulls.
+        int typf = rs.gftMftbDbtb().gftColumnTypf(idx);
+        switdi (typf) {
+        dbsf jbvb.sql.Typfs.BIT:
+            rs.updbtfBoolfbn(idx, gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.BOOLEAN:
+            rs.updbtfBoolfbn(idx, gftBoolfbnVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.SMALLINT:
+        dbsf jbvb.sql.Typfs.TINYINT:
+            rs.updbtfSiort(idx, gftSiortVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.INTEGER:
+            rs.updbtfInt(idx, gftIntfgfrVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.BIGINT:
+            rs.updbtfLong(idx, gftLongVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.REAL:
+        dbsf jbvb.sql.Typfs.FLOAT:
+            rs.updbtfFlobt(idx, gftFlobtVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.DOUBLE:
+            rs.updbtfDoublf(idx, gftDoublfVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.NUMERIC:
+        dbsf jbvb.sql.Typfs.DECIMAL:
+            rs.updbtfObjfdt(idx, gftBigDfdimblVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.BINARY:
+        dbsf jbvb.sql.Typfs.VARBINARY:
+        dbsf jbvb.sql.Typfs.LONGVARBINARY:
+            rs.updbtfBytfs(idx, gftBinbryVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.DATE:
+            rs.updbtfDbtf(idx,  gftDbtfVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.TIME:
+            rs.updbtfTimf(idx, gftTimfVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.TIMESTAMP:
+            rs.updbtfTimfstbmp(idx, gftTimfstbmpVbluf(s));
+            brfbk;
+        dbsf jbvb.sql.Typfs.CHAR:
+        dbsf jbvb.sql.Typfs.VARCHAR:
+        dbsf jbvb.sql.Typfs.LONGVARCHAR:
+            rs.updbtfString(idx, gftStringVbluf(s));
+            brfbk;
+        dffbult:
+
+        }
+
+    }
+
+    /**
+     * Tirows tif givfn <dodf>SAXPbrsfExdfption</dodf> objfdt. Tiis
+     * fxdfption wbs originblly tirown by tif SAX pbrsfr bnd is pbssfd
+     * to tif mftiod <dodf>frror</dodf> wifn tif SAX pbrsfr invokfs it.
+     *
+     * @pbrbm f tif <dodf>SAXPbrsfExdfption</dodf> objfdt to tirow
+     */
+    publid void frror (SAXPbrsfExdfption f) tirows SAXPbrsfExdfption {
+            tirow f;
+    }
+
+    // dump wbrnings too
+    /**
+     * Prints b wbrning mfssbgf to <dodf>Systfm.out</dodf> giving tif linf
+     * numbfr bnd uri for wibt dbusfd tif wbrning plus b mfssbgf fxplbining
+     * tif rfbson for tif wbrning. Tiis mftiod is invokfd by tif SAX pbrsfr.
+     *
+     * @pbrbm frr b wbrning gfnfrbtfd by tif SAX pbrsfr
+     */
+    publid void wbrning (SAXPbrsfExdfption frr) tirows SAXPbrsfExdfption {
+        Systfm.out.println (MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("xmlrdi.wbrning").toString(), nfw Objfdt[] { frr.gftMfssbgf(), frr.gftLinfNumbfr(), frr.gftSystfmId() }));
+    }
+
+    /**
+     *
+     */
+    publid void notbtionDfdl(String nbmf, String publidId, String systfmId) {
+
+    }
+
+    /**
+     *
+     */
+    publid void unpbrsfdEntityDfdl(String nbmf, String publidId, String systfmId, String notbtionNbmf) {
+
+    }
+
+   /**
+    * Rfturns tif durrfnt row of tiis <dodf>Rowsft</dodf>objfdt.
+    * Tif RfsultSft's dursor is positionfd bt tif Row wiidi is nffdfd
+    *
+    * @rfturn tif <dodf>Row</dodf> objfdt on wiidi tif <dodf>RowSft</dodf>
+    *           implfmfntbtion objfdts's dursor is positionfd
+    */
+    privbtf Row gftPrfsfntRow(WfbRowSftImpl rs) tirows SQLExdfption {
+         //rs.sftOriginblRow();
+         // RfsultSftMftbDbtb rsmd = rs.gftMftbDbtb();
+         // int numCols = rsmd.gftColumnCount();
+         // Objfdt vbls[] = nfw Objfdt[numCols];
+         // for(int j = 1; j<= numCols ; j++){
+         //     vbls[j-1] = rs.gftObjfdt(j);
+         // }
+         // rfturn(nfw Row(numCols, vbls));
+         rfturn null;
+   }
+
+
+
+
+}

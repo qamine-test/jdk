@@ -1,68 +1,340 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 5953 $"/>
+		<vfrsion numbfr="$Rfvision: 5953 $"/>
+		<vfrsion numbfr="$Rfvision: 5953 $"/>
+		<vfrsion numbfr="$Rfvision: 5953 $"/>
+		<vfrsion numbfr="$Rfvision: 5953 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-07-05 08:22:55 +0900 (Tuf, 05 Jul 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-07-05 08:22:55 +0900 (Tuf, 05 Jul 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-07-05 08:22:55 +0900 (Tuf, 05 Jul 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-07-05 08:22:55 +0900 (Tuf, 05 Jul 2011) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2011-07-05 08:22:55 +0900 (Tuf, 05 Jul 2011) $"/>
 		<lbngubgf typf="bn"/>
+		<lbngubgf typf="bn"/>
+		<lbngubgf typf="bn"/>
+		<lbngubgf typf="bn"/>
+		<lbngubgf typf="bn"/>
+		<tfrritory typf="IN"/>
+		<tfrritory typf="IN"/>
+		<tfrritory typf="IN"/>
+		<tfrritory typf="IN"/>
 		<tfrritory typf="IN"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
 	<lodblfDisplbyNbmfs>
 		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb">আবখাজিয়ান</lbngubgf>
+			<lbngubgf typf="bb">আবখাজিয়ান</lbngubgf>
+			<lbngubgf typf="bb">আবখাজিয়ান</lbngubgf>
+			<lbngubgf typf="bb">আবখাজিয়ান</lbngubgf>
 			<lbngubgf typf="bb">আবখাজিয়ান</lbngubgf>
 			<lbngubgf typf="bdf">অ্যাচাইনিজ</lbngubgf>
+			<lbngubgf typf="bdf">অ্যাচাইনিজ</lbngubgf>
+			<lbngubgf typf="bdf">অ্যাচাইনিজ</lbngubgf>
+			<lbngubgf typf="bdf">অ্যাচাইনিজ</lbngubgf>
+			<lbngubgf typf="bdf">অ্যাচাইনিজ</lbngubgf>
+			<lbngubgf typf="bdi">আকোলি</lbngubgf>
+			<lbngubgf typf="bdi">আকোলি</lbngubgf>
+			<lbngubgf typf="bdi">আকোলি</lbngubgf>
+			<lbngubgf typf="bdi">আকোলি</lbngubgf>
 			<lbngubgf typf="bdi">আকোলি</lbngubgf>
 			<lbngubgf typf="bfb">আফ্রো-এশিয়াটিক ভাষা</lbngubgf>
+			<lbngubgf typf="bfb">আফ্রো-এশিয়াটিক ভাষা</lbngubgf>
+			<lbngubgf typf="bfb">আফ্রো-এশিয়াটিক ভাষা</lbngubgf>
+			<lbngubgf typf="bfb">আফ্রো-এশিয়াটিক ভাষা</lbngubgf>
+			<lbngubgf typf="bfb">আফ্রো-এশিয়াটিক ভাষা</lbngubgf>
+			<lbngubgf typf="blg">আলগোনকিউয়ান ভাষা</lbngubgf>
+			<lbngubgf typf="blg">আলগোনকিউয়ান ভাষা</lbngubgf>
+			<lbngubgf typf="blg">আলগোনকিউয়ান ভাষা</lbngubgf>
+			<lbngubgf typf="blg">আলগোনকিউয়ান ভাষা</lbngubgf>
 			<lbngubgf typf="blg">আলগোনকিউয়ান ভাষা</lbngubgf>
 			<lbngubgf typf="bnp" drbft="dontributfd">আঙ্গিকা</lbngubgf>
+			<lbngubgf typf="bnp" drbft="dontributfd">আঙ্গিকা</lbngubgf>
+			<lbngubgf typf="bnp" drbft="dontributfd">আঙ্গিকা</lbngubgf>
+			<lbngubgf typf="bnp" drbft="dontributfd">আঙ্গিকা</lbngubgf>
+			<lbngubgf typf="bnp" drbft="dontributfd">আঙ্গিকা</lbngubgf>
+			<lbngubgf typf="di" drbft="dontributfd">চামোরো</lbngubgf>
+			<lbngubgf typf="di" drbft="dontributfd">চামোরো</lbngubgf>
+			<lbngubgf typf="di" drbft="dontributfd">চামোরো</lbngubgf>
+			<lbngubgf typf="di" drbft="dontributfd">চামোরো</lbngubgf>
 			<lbngubgf typf="di" drbft="dontributfd">চামোরো</lbngubgf>
 			<lbngubgf typf="din" drbft="dontributfd">চিনুক জার্গন</lbngubgf>
+			<lbngubgf typf="din" drbft="dontributfd">চিনুক জার্গন</lbngubgf>
+			<lbngubgf typf="din" drbft="dontributfd">চিনুক জার্গন</lbngubgf>
+			<lbngubgf typf="din" drbft="dontributfd">চিনুক জার্গন</lbngubgf>
+			<lbngubgf typf="din" drbft="dontributfd">চিনুক জার্গন</lbngubgf>
+			<lbngubgf typf="dio" drbft="dontributfd">চকটোও</lbngubgf>
+			<lbngubgf typf="dio" drbft="dontributfd">চকটোও</lbngubgf>
+			<lbngubgf typf="dio" drbft="dontributfd">চকটোও</lbngubgf>
+			<lbngubgf typf="dio" drbft="dontributfd">চকটোও</lbngubgf>
 			<lbngubgf typf="dio" drbft="dontributfd">চকটোও</lbngubgf>
 			<lbngubgf typf="dip" drbft="dontributfd">চিপেওয়াইয়ান</lbngubgf>
+			<lbngubgf typf="dip" drbft="dontributfd">চিপেওয়াইয়ান</lbngubgf>
+			<lbngubgf typf="dip" drbft="dontributfd">চিপেওয়াইয়ান</lbngubgf>
+			<lbngubgf typf="dip" drbft="dontributfd">চিপেওয়াইয়ান</lbngubgf>
+			<lbngubgf typf="dip" drbft="dontributfd">চিপেওয়াইয়ান</lbngubgf>
+			<lbngubgf typf="diy" drbft="dontributfd">চেয়েনি</lbngubgf>
+			<lbngubgf typf="diy" drbft="dontributfd">চেয়েনি</lbngubgf>
+			<lbngubgf typf="diy" drbft="dontributfd">চেয়েনি</lbngubgf>
+			<lbngubgf typf="diy" drbft="dontributfd">চেয়েনি</lbngubgf>
 			<lbngubgf typf="diy" drbft="dontributfd">চেয়েনি</lbngubgf>
 			<lbngubgf typf="du" drbft="dontributfd">চার্চ স্লাভিক</lbngubgf>
+			<lbngubgf typf="du" drbft="dontributfd">চার্চ স্লাভিক</lbngubgf>
+			<lbngubgf typf="du" drbft="dontributfd">চার্চ স্লাভিক</lbngubgf>
+			<lbngubgf typf="du" drbft="dontributfd">চার্চ স্লাভিক</lbngubgf>
+			<lbngubgf typf="du" drbft="dontributfd">চার্চ স্লাভিক</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="dontributfd">অস্ট্রিয়ান জারমান</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="dontributfd">অস্ট্রিয়ান জারমান</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="dontributfd">অস্ট্রিয়ান জারমান</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="dontributfd">অস্ট্রিয়ান জারমান</lbngubgf>
 			<lbngubgf typf="df_AT" drbft="dontributfd">অস্ট্রিয়ান জারমান</lbngubgf>
 			<lbngubgf typf="doi">ডোগরি</lbngubgf>
+			<lbngubgf typf="doi">ডোগরি</lbngubgf>
+			<lbngubgf typf="doi">ডোগরি</lbngubgf>
+			<lbngubgf typf="doi">ডোগরি</lbngubgf>
+			<lbngubgf typf="doi">ডোগরি</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="dontributfd">অস্ট্রেলিয়ান ইংরাজী</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="dontributfd">অস্ট্রেলিয়ান ইংরাজী</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="dontributfd">অস্ট্রেলিয়ান ইংরাজী</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="dontributfd">অস্ট্রেলিয়ান ইংরাজী</lbngubgf>
 			<lbngubgf typf="fn_AU" drbft="dontributfd">অস্ট্রেলিয়ান ইংরাজী</lbngubgf>
 			<lbngubgf typf="fn_CA" drbft="dontributfd">ক্যানাডিয়ান ইংরেজি</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="dontributfd">ক্যানাডিয়ান ইংরেজি</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="dontributfd">ক্যানাডিয়ান ইংরেজি</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="dontributfd">ক্যানাডিয়ান ইংরেজি</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="dontributfd">ক্যানাডিয়ান ইংরেজি</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="dontributfd">ব্রিটিশ ইংরেজী</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="dontributfd">ব্রিটিশ ইংরেজী</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="dontributfd">ব্রিটিশ ইংরেজী</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="dontributfd">ব্রিটিশ ইংরেজী</lbngubgf>
 			<lbngubgf typf="fn_GB" drbft="dontributfd">ব্রিটিশ ইংরেজী</lbngubgf>
 			<lbngubgf typf="fr_CA" drbft="dontributfd">ক্যানাডিয়ান ফরাসী</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="dontributfd">ক্যানাডিয়ান ফরাসী</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="dontributfd">ক্যানাডিয়ান ফরাসী</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="dontributfd">ক্যানাডিয়ান ফরাসী</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="dontributfd">ক্যানাডিয়ান ফরাসী</lbngubgf>
+			<lbngubgf typf="mbp" drbft="dontributfd">অস্ট্রোনেসিয়ান</lbngubgf>
+			<lbngubgf typf="mbp" drbft="dontributfd">অস্ট্রোনেসিয়ান</lbngubgf>
+			<lbngubgf typf="mbp" drbft="dontributfd">অস্ট্রোনেসিয়ান</lbngubgf>
+			<lbngubgf typf="mbp" drbft="dontributfd">অস্ট্রোনেসিয়ান</lbngubgf>
 			<lbngubgf typf="mbp" drbft="dontributfd">অস্ট্রোনেসিয়ান</lbngubgf>
 			<lbngubgf typf="rup" drbft="dontributfd">আরমেনিয়ান</lbngubgf>
+			<lbngubgf typf="rup" drbft="dontributfd">আরমেনিয়ান</lbngubgf>
+			<lbngubgf typf="rup" drbft="dontributfd">আরমেনিয়ান</lbngubgf>
+			<lbngubgf typf="rup" drbft="dontributfd">আরমেনিয়ান</lbngubgf>
+			<lbngubgf typf="rup" drbft="dontributfd">আরমেনিয়ান</lbngubgf>
+			<lbngubgf typf="tut" drbft="dontributfd">আলটাইক</lbngubgf>
+			<lbngubgf typf="tut" drbft="dontributfd">আলটাইক</lbngubgf>
+			<lbngubgf typf="tut" drbft="dontributfd">আলটাইক</lbngubgf>
+			<lbngubgf typf="tut" drbft="dontributfd">আলটাইক</lbngubgf>
 			<lbngubgf typf="tut" drbft="dontributfd">আলটাইক</lbngubgf>
 			<lbngubgf typf="zbl" drbft="dontributfd">ব্লিসসিম্বলস</lbngubgf>
+			<lbngubgf typf="zbl" drbft="dontributfd">ব্লিসসিম্বলস</lbngubgf>
+			<lbngubgf typf="zbl" drbft="dontributfd">ব্লিসসিম্বলস</lbngubgf>
+			<lbngubgf typf="zbl" drbft="dontributfd">ব্লিসসিম্বলস</lbngubgf>
+			<lbngubgf typf="zbl" drbft="dontributfd">ব্লিসসিম্বলস</lbngubgf>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
 		</lbngubgfs>
 	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
 			<dblfndbr typf="grfgoribn">
 				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
 					<qubrtfrContfxt typf="formbt">
 						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
 							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
 							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
 							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
 						</qubrtfrWidti>
 						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
+							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
 							<qubrtfr typf="1">ত্রৈমাসিক</qubrtfr>
 							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="2">ষাণ্মাসিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
+							<qubrtfr typf="4">বার্ষিক</qubrtfr>
 							<qubrtfr typf="4">বার্ষিক</qubrtfr>
 						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
 					</qubrtfrContfxt>
 				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				<fiflds>
+				<fiflds>
+				<fiflds>
+				<fiflds>
 				<fiflds>
 					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+						<rflbtivf typf="-2">গতপরশু</rflbtivf>
+						<rflbtivf typf="-2">গতপরশু</rflbtivf>
+						<rflbtivf typf="-2">গতপরশু</rflbtivf>
+						<rflbtivf typf="-2">গতপরশু</rflbtivf>
 						<rflbtivf typf="-2">গতপরশু</rflbtivf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
 					<fifld typf="iour">
 						<displbyNbmf>ঘণ্টা</displbyNbmf>
+						<displbyNbmf>ঘণ্টা</displbyNbmf>
+						<displbyNbmf>ঘণ্টা</displbyNbmf>
+						<displbyNbmf>ঘণ্টা</displbyNbmf>
+						<displbyNbmf>ঘণ্টা</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+						<displbyNbmf>সেকেণ্ড</displbyNbmf>
+						<displbyNbmf>সেকেণ্ড</displbyNbmf>
+						<displbyNbmf>সেকেণ্ড</displbyNbmf>
+						<displbyNbmf>সেকেণ্ড</displbyNbmf>
 						<displbyNbmf>সেকেণ্ড</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+				</fiflds>
+				</fiflds>
+				</fiflds>
+				</fiflds>
 				</fiflds>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
 </ldml>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
+
+
+
+
 

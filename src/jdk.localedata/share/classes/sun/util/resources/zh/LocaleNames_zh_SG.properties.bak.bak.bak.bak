@@ -1,135 +1,675 @@
 #
-# Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+#
+#
+#
+#
 #
 
+
+
+
+
+#
+#
+#
+#
 #
 # COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
 #
-# Copyright (C) 1991-2007 Unidodf, Ind. All rights rfsfrvfd.
-# Distributfd undfr thf Tfrms of Usf in http://www.unidodf.org/dopyright.html.
 #
-# Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining b dopy
-# of thf Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (thf "Dbtb
-# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (thf
-# "Softwbrf") to dfbl in thf Dbtb Filfs or Softwbrf without rfstridtion,
-# indluding without limitbtion thf rights to usf, dopy, modify, mfrgf,
-# publish, distributf, bnd/or sfll dopifs of thf Dbtb Filfs or Softwbrf, bnd
-# to pfrmit pfrsons to whom thf Dbtb Filfs or Softwbrf brf furnishfd to do
-# so, providfd thbt (b) thf bbovf dopyright notidf(s) bnd this pfrmission
-# notidf bppfbr with bll dopifs of thf Dbtb Filfs or Softwbrf, (b) both thf
-# bbovf dopyright notidf(s) bnd this pfrmission notidf bppfbr in bssodibtfd
-# dodumfntbtion, bnd (d) thfrf is dlfbr notidf in fbdh modififd Dbtb Filf or
-# in thf Softwbrf bs wfll bs in thf dodumfntbtion bssodibtfd with thf Dbtb
-# Filf(s) or Softwbrf thbt thf dbtb or softwbrf hbs bffn modififd.
+#
+#
+#
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+#
+#
+#
+#
+#
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+#
+#
+#
+#
 #
 # THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
 # THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
 # INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
 # CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
 # USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
 #
-# Exdfpt bs dontbinfd in this notidf, thf nbmf of b dopyright holdfr shbll not
-# bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or othfr
-# dfblings in thfsf Dbtb Filfs or Softwbrf without prior writtfn
-# buthorizbtion of thf dopyright holdfr.
+#
+#
+#
+#
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+#
+#
+#
+#
 #
  
-# Gfnfrbtfd butombtidblly from thf Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+ 
+ 
+ 
+ 
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+
+
+
+
 
 bf=\u963f\u7ff4\u65bf\u5854\u6587
+bf=\u963f\u7ff4\u65bf\u5854\u6587
+bf=\u963f\u7ff4\u65bf\u5854\u6587
+bf=\u963f\u7ff4\u65bf\u5854\u6587
+bf=\u963f\u7ff4\u65bf\u5854\u6587
+bk=\u963f\u80bf\u6587
+bk=\u963f\u80bf\u6587
+bk=\u963f\u80bf\u6587
+bk=\u963f\u80bf\u6587
 bk=\u963f\u80bf\u6587
 bo=\u85df\u6587
+bo=\u85df\u6587
+bo=\u85df\u6587
+bo=\u85df\u6587
+bo=\u85df\u6587
+dr=\u514b\u91dd\u65df\u6587
+dr=\u514b\u91dd\u65df\u6587
+dr=\u514b\u91dd\u65df\u6587
+dr=\u514b\u91dd\u65df\u6587
 dr=\u514b\u91dd\u65df\u6587
 du=\u5b97\u6559\u65bf\u62d9\u592b\u6587
+du=\u5b97\u6559\u65bf\u62d9\u592b\u6587
+du=\u5b97\u6559\u65bf\u62d9\u592b\u6587
+du=\u5b97\u6559\u65bf\u62d9\u592b\u6587
+du=\u5b97\u6559\u65bf\u62d9\u592b\u6587
+ff=\u592b\u62d9\u6587
+ff=\u592b\u62d9\u6587
+ff=\u592b\u62d9\u6587
+ff=\u592b\u62d9\u6587
 ff=\u592b\u62d9\u6587
 gd=\u82df\u683d\u5170\u76d6\u5d14\u6587
+gd=\u82df\u683d\u5170\u76d6\u5d14\u6587
+gd=\u82df\u683d\u5170\u76d6\u5d14\u6587
+gd=\u82df\u683d\u5170\u76d6\u5d14\u6587
+gd=\u82df\u683d\u5170\u76d6\u5d14\u6587
 gv=\u9b6d\u6069\u5d9b\u6587
-ho=\u5f0d\u91dd\u83bb\u56ff\u6587
+gv=\u9b6d\u6069\u5d9b\u6587
+gv=\u9b6d\u6069\u5d9b\u6587
+gv=\u9b6d\u6069\u5d9b\u6587
+gv=\u9b6d\u6069\u5d9b\u6587
+io=\u5f0d\u91dd\u83bb\u56ff\u6587
+io=\u5f0d\u91dd\u83bb\u56ff\u6587
+io=\u5f0d\u91dd\u83bb\u56ff\u6587
+io=\u5f0d\u91dd\u83bb\u56ff\u6587
+io=\u5f0d\u91dd\u83bb\u56ff\u6587
+ib=\u56fd\u9645\u6587 A
+ib=\u56fd\u9645\u6587 A
+ib=\u56fd\u9645\u6587 A
+ib=\u56fd\u9645\u6587 A
 ib=\u56fd\u9645\u6587 A
 if=\u56fd\u9645\u6587 E
+if=\u56fd\u9645\u6587 E
+if=\u56fd\u9645\u6587 E
+if=\u56fd\u9645\u6587 E
+if=\u56fd\u9645\u6587 E
+ig=\u4f0b\u683d\u535b\u6587
+ig=\u4f0b\u683d\u535b\u6587
+ig=\u4f0b\u683d\u535b\u6587
+ig=\u4f0b\u683d\u535b\u6587
 ig=\u4f0b\u683d\u535b\u6587
 ii=\u56db\u5ddd\u8bdd
+ii=\u56db\u5ddd\u8bdd
+ii=\u56db\u5ddd\u8bdd
+ii=\u56db\u5ddd\u8bdd
+ii=\u56db\u5ddd\u8bdd
+iu=\u4f0b\u52bb\u4f0b\u7279\u6587
+iu=\u4f0b\u52bb\u4f0b\u7279\u6587
+iu=\u4f0b\u52bb\u4f0b\u7279\u6587
+iu=\u4f0b\u52bb\u4f0b\u7279\u6587
 iu=\u4f0b\u52bb\u4f0b\u7279\u6587
 kj=\u5bbd\u4f9b\u739b\u6587
+kj=\u5bbd\u4f9b\u739b\u6587
+kj=\u5bbd\u4f9b\u739b\u6587
+kj=\u5bbd\u4f9b\u739b\u6587
+kj=\u5bbd\u4f9b\u739b\u6587
+kn=\u574f\u7fb3\u8fbf\u6587
+kn=\u574f\u7fb3\u8fbf\u6587
+kn=\u574f\u7fb3\u8fbf\u6587
+kn=\u574f\u7fb3\u8fbf\u6587
 kn=\u574f\u7fb3\u8fbf\u6587
 ko=\u97f9\u6587
+ko=\u97f9\u6587
+ko=\u97f9\u6587
+ko=\u97f9\u6587
+ko=\u97f9\u6587
+kw=\u51ff\u5d14\u7279\u6587
+kw=\u51ff\u5d14\u7279\u6587
+kw=\u51ff\u5d14\u7279\u6587
+kw=\u51ff\u5d14\u7279\u6587
 kw=\u51ff\u5d14\u7279\u6587
 lg=\u5362\u5f72\u8fbf\u6587
+lg=\u5362\u5f72\u8fbf\u6587
+lg=\u5362\u5f72\u8fbf\u6587
+lg=\u5362\u5f72\u8fbf\u6587
+lg=\u5362\u5f72\u8fbf\u6587
+li=\u6ddb\u5f03\u5d14\u5409\u6587
+li=\u6ddb\u5f03\u5d14\u5409\u6587
+li=\u6ddb\u5f03\u5d14\u5409\u6587
+li=\u6ddb\u5f03\u5d14\u5409\u6587
 li=\u6ddb\u5f03\u5d14\u5409\u6587
 lu=\u9d81\u5df4\u52b0\u4f39\u52b0\u6587
+lu=\u9d81\u5df4\u52b0\u4f39\u52b0\u6587
+lu=\u9d81\u5df4\u52b0\u4f39\u52b0\u6587
+lu=\u9d81\u5df4\u52b0\u4f39\u52b0\u6587
+lu=\u9d81\u5df4\u52b0\u4f39\u52b0\u6587
+lv=\u62d9\u8131\u7ff4\u4f9b\u6587
+lv=\u62d9\u8131\u7ff4\u4f9b\u6587
+lv=\u62d9\u8131\u7ff4\u4f9b\u6587
+lv=\u62d9\u8131\u7ff4\u4f9b\u6587
 lv=\u62d9\u8131\u7ff4\u4f9b\u6587
 nd=\u5317\u6069\u5fb7\u8d1d\u52d2\u6587
+nd=\u5317\u6069\u5fb7\u8d1d\u52d2\u6587
+nd=\u5317\u6069\u5fb7\u8d1d\u52d2\u6587
+nd=\u5317\u6069\u5fb7\u8d1d\u52d2\u6587
+nd=\u5317\u6069\u5fb7\u8d1d\u52d2\u6587
+nr=\u5357\u90f8\u6069\u5fb7\u8d1d\u52d2\u6587
+nr=\u5357\u90f8\u6069\u5fb7\u8d1d\u52d2\u6587
+nr=\u5357\u90f8\u6069\u5fb7\u8d1d\u52d2\u6587
+nr=\u5357\u90f8\u6069\u5fb7\u8d1d\u52d2\u6587
 nr=\u5357\u90f8\u6069\u5fb7\u8d1d\u52d2\u6587
 ny=\u5d3d\u626d\u8d3f\u6587\uff1b\u9f50\u5207\u74f6\u6587\uff1b\u5207\u74f6\u6587
+ny=\u5d3d\u626d\u8d3f\u6587\uff1b\u9f50\u5207\u74f6\u6587\uff1b\u5207\u74f6\u6587
+ny=\u5d3d\u626d\u8d3f\u6587\uff1b\u9f50\u5207\u74f6\u6587\uff1b\u5207\u74f6\u6587
+ny=\u5d3d\u626d\u8d3f\u6587\uff1b\u9f50\u5207\u74f6\u6587\uff1b\u5207\u74f6\u6587
+ny=\u5d3d\u626d\u8d3f\u6587\uff1b\u9f50\u5207\u74f6\u6587\uff1b\u5207\u74f6\u6587
+od=\u5965\u514b\u897f\u5510\u6587(1500\u4ff5\u540f)
+od=\u5965\u514b\u897f\u5510\u6587(1500\u4ff5\u540f)
+od=\u5965\u514b\u897f\u5510\u6587(1500\u4ff5\u540f)
+od=\u5965\u514b\u897f\u5510\u6587(1500\u4ff5\u540f)
 od=\u5965\u514b\u897f\u5510\u6587(1500\u4ff5\u540f)
 om=\u5965\u6d1b\u83bb\u6587
+om=\u5965\u6d1b\u83bb\u6587
+om=\u5965\u6d1b\u83bb\u6587
+om=\u5965\u6d1b\u83bb\u6587
+om=\u5965\u6d1b\u83bb\u6587
+rm=\u5217\u6258\uff0d\u7f57\u66fd\u6587
+rm=\u5217\u6258\uff0d\u7f57\u66fd\u6587
+rm=\u5217\u6258\uff0d\u7f57\u66fd\u6587
+rm=\u5217\u6258\uff0d\u7f57\u66fd\u6587
 rm=\u5217\u6258\uff0d\u7f57\u66fd\u6587
 sd=\u8428\u4f01\u6587
+sd=\u8428\u4f01\u6587
+sd=\u8428\u4f01\u6587
+sd=\u8428\u4f01\u6587
+sd=\u8428\u4f01\u6587
+sd=\u4ff1\u5fb7\u6587
+sd=\u4ff1\u5fb7\u6587
+sd=\u4ff1\u5fb7\u6587
+sd=\u4ff1\u5fb7\u6587
 sd=\u4ff1\u5fb7\u6587
 sf=\u5317\u8428\u7d73\u6587
+sf=\u5317\u8428\u7d73\u6587
+sf=\u5317\u8428\u7d73\u6587
+sf=\u5317\u8428\u7d73\u6587
+sf=\u5317\u8428\u7d73\u6587
+sn=\u7fdd\u7fb3\u6587
+sn=\u7fdd\u7fb3\u6587
+sn=\u7fdd\u7fb3\u6587
+sn=\u7fdd\u7fb3\u6587
 sn=\u7fdd\u7fb3\u6587
 ss=\u65bf\u74f6\u7279\u6587
+ss=\u65bf\u74f6\u7279\u6587
+ss=\u65bf\u74f6\u7279\u6587
+ss=\u65bf\u74f6\u7279\u6587
+ss=\u65bf\u74f6\u7279\u6587
+su=\u5dfd\u4fd6\u6587
+su=\u5dfd\u4fd6\u6587
+su=\u5dfd\u4fd6\u6587
+su=\u5dfd\u4fd6\u6587
 su=\u5dfd\u4fd6\u6587
 tl=\u4fd6\u52b0\u7984\u6587
+tl=\u4fd6\u52b0\u7984\u6587
+tl=\u4fd6\u52b0\u7984\u6587
+tl=\u4fd6\u52b0\u7984\u6587
+tl=\u4fd6\u52b0\u7984\u6587
+tn=\u585f\u8328\u74f6\u7fb3\u6587
+tn=\u585f\u8328\u74f6\u7fb3\u6587
+tn=\u585f\u8328\u74f6\u7fb3\u6587
+tn=\u585f\u8328\u74f6\u7fb3\u6587
 tn=\u585f\u8328\u74f6\u7fb3\u6587
 ts=\u5b97\u52b0\u6587
+ts=\u5b97\u52b0\u6587
+ts=\u5b97\u52b0\u6587
+ts=\u5b97\u52b0\u6587
+ts=\u5b97\u52b0\u6587
+tt=\u5854\u5854\u5d14\u6587
+tt=\u5854\u5854\u5d14\u6587
+tt=\u5854\u5854\u5d14\u6587
+tt=\u5854\u5854\u5d14\u6587
 tt=\u5854\u5854\u5d14\u6587
 tw=\u7279\u5b01\u6587
+tw=\u7279\u5b01\u6587
+tw=\u7279\u5b01\u6587
+tw=\u7279\u5b01\u6587
+tw=\u7279\u5b01\u6587
+ty=\u5854\u897f\u63d0\u6587
+ty=\u5854\u897f\u63d0\u6587
+ty=\u5854\u897f\u63d0\u6587
+ty=\u5854\u897f\u63d0\u6587
 ty=\u5854\u897f\u63d0\u6587
 wb=\u74f6\u9686\u6587
+wb=\u74f6\u9686\u6587
+wb=\u74f6\u9686\u6587
+wb=\u74f6\u9686\u6587
+wb=\u74f6\u9686\u6587
 wo=\u6d83\u6d1b\u592b\u6587
-xh=\u79d1\u8428\u6587
+wo=\u6d83\u6d1b\u592b\u6587
+wo=\u6d83\u6d1b\u592b\u6587
+wo=\u6d83\u6d1b\u592b\u6587
+wo=\u6d83\u6d1b\u592b\u6587
+xi=\u79d1\u8428\u6587
+xi=\u79d1\u8428\u6587
+xi=\u79d1\u8428\u6587
+xi=\u79d1\u8428\u6587
+xi=\u79d1\u8428\u6587
+zb=\u58ff\u8bfd
+zb=\u58ff\u8bfd
+zb=\u58ff\u8bfd
+zb=\u58ff\u8bfd
 zb=\u58ff\u8bfd
 AS=\u7f8f\u5d5f\u8428\u6469\u4f9b
+AS=\u7f8f\u5d5f\u8428\u6469\u4f9b
+AS=\u7f8f\u5d5f\u8428\u6469\u4f9b
+AS=\u7f8f\u5d5f\u8428\u6469\u4f9b
+AS=\u7f8f\u5d5f\u8428\u6469\u4f9b
+AU=\u6fb3\u6d32
+AU=\u6fb3\u6d32
+AU=\u6fb3\u6d32
+AU=\u6fb3\u6d32
 AU=\u6fb3\u6d32
 BA=\u6df2\u65bf\u5d3d\u4f9b\u548d\u9fd1\u585f\u54f5\u7ff4\u90b3
+BA=\u6df2\u65bf\u5d3d\u4f9b\u548d\u9fd1\u585f\u54f5\u7ff4\u90b3
+BA=\u6df2\u65bf\u5d3d\u4f9b\u548d\u9fd1\u585f\u54f5\u7ff4\u90b3
+BA=\u6df2\u65bf\u5d3d\u4f9b\u548d\u9fd1\u585f\u54f5\u7ff4\u90b3
+BA=\u6df2\u65bf\u5d3d\u4f9b\u548d\u9fd1\u585f\u54f5\u7ff4\u90b3
+BD=\u5b5f\u52b0\u62d9\u56fd
+BD=\u5b5f\u52b0\u62d9\u56fd
+BD=\u5b5f\u52b0\u62d9\u56fd
+BD=\u5b5f\u52b0\u62d9\u56fd
 BD=\u5b5f\u52b0\u62d9\u56fd
 BV=\u5f03\u7ff4\u7279\u5d9b
+BV=\u5f03\u7ff4\u7279\u5d9b
+BV=\u5f03\u7ff4\u7279\u5d9b
+BV=\u5f03\u7ff4\u7279\u5d9b
+BV=\u5f03\u7ff4\u7279\u5d9b
+BZ=\u4f2f\u5229\u5179
+BZ=\u4f2f\u5229\u5179
+BZ=\u4f2f\u5229\u5179
+BZ=\u4f2f\u5229\u5179
 BZ=\u4f2f\u5229\u5179
 CC=\u79d1\u79d1\u65bf\uff08\u57fb\u6797\uff09\u7fb4\u5d9b
+CC=\u79d1\u79d1\u65bf\uff08\u57fb\u6797\uff09\u7fb4\u5d9b
+CC=\u79d1\u79d1\u65bf\uff08\u57fb\u6797\uff09\u7fb4\u5d9b
+CC=\u79d1\u79d1\u65bf\uff08\u57fb\u6797\uff09\u7fb4\u5d9b
+CC=\u79d1\u79d1\u65bf\uff08\u57fb\u6797\uff09\u7fb4\u5d9b
+CD=\u521b\u679d\uff08\u91d1\uff09
+CD=\u521b\u679d\uff08\u91d1\uff09
+CD=\u521b\u679d\uff08\u91d1\uff09
+CD=\u521b\u679d\uff08\u91d1\uff09
 CD=\u521b\u679d\uff08\u91d1\uff09
 CG=\u521b\u679d\uff08\u5f03\uff09
+CG=\u521b\u679d\uff08\u5f03\uff09
+CG=\u521b\u679d\uff08\u5f03\uff09
+CG=\u521b\u679d\uff08\u5f03\uff09
+CG=\u521b\u679d\uff08\u5f03\uff09
+CZ=\u6377\u514b
+CZ=\u6377\u514b
+CZ=\u6377\u514b
+CZ=\u6377\u514b
 CZ=\u6377\u514b
 DM=\u591b\u7d73\u5d3d\u52b0
+DM=\u591b\u7d73\u5d3d\u52b0
+DM=\u591b\u7d73\u5d3d\u52b0
+DM=\u591b\u7d73\u5d3d\u52b0
+DM=\u591b\u7d73\u5d3d\u52b0
+ER=\u5384\u7bdb\u7279\u91dd\u4f9b
+ER=\u5384\u7bdb\u7279\u91dd\u4f9b
+ER=\u5384\u7bdb\u7279\u91dd\u4f9b
+ER=\u5384\u7bdb\u7279\u91dd\u4f9b
 ER=\u5384\u7bdb\u7279\u91dd\u4f9b
 FK=\u798f\u514b\u5170\u7fb4\u5d9b
+FK=\u798f\u514b\u5170\u7fb4\u5d9b
+FK=\u798f\u514b\u5170\u7fb4\u5d9b
+FK=\u798f\u514b\u5170\u7fb4\u5d9b
+FK=\u798f\u514b\u5170\u7fb4\u5d9b
+FM=\u5bd6\u514b\u7f57\u5d3d\u897f\u4f9b\u8054\u90b6
+FM=\u5bd6\u514b\u7f57\u5d3d\u897f\u4f9b\u8054\u90b6
+FM=\u5bd6\u514b\u7f57\u5d3d\u897f\u4f9b\u8054\u90b6
+FM=\u5bd6\u514b\u7f57\u5d3d\u897f\u4f9b\u8054\u90b6
 FM=\u5bd6\u514b\u7f57\u5d3d\u897f\u4f9b\u8054\u90b6
 GS=\u5357\u4f50\u6dbb\u4f9b\u548d\u5357\u4f09\u660f\u6dbb\u7fb4\u5d9b
+GS=\u5357\u4f50\u6dbb\u4f9b\u548d\u5357\u4f09\u660f\u6dbb\u7fb4\u5d9b
+GS=\u5357\u4f50\u6dbb\u4f9b\u548d\u5357\u4f09\u660f\u6dbb\u7fb4\u5d9b
+GS=\u5357\u4f50\u6dbb\u4f9b\u548d\u5357\u4f09\u660f\u6dbb\u7fb4\u5d9b
+GS=\u5357\u4f50\u6dbb\u4f9b\u548d\u5357\u4f09\u660f\u6dbb\u7fb4\u5d9b
+GW=\u51f0\u5185\u4f9b\u6bd4\u7fdd
+GW=\u51f0\u5185\u4f9b\u6bd4\u7fdd
+GW=\u51f0\u5185\u4f9b\u6bd4\u7fdd
+GW=\u51f0\u5185\u4f9b\u6bd4\u7fdd
 GW=\u51f0\u5185\u4f9b\u6bd4\u7fdd
 HK=\u4f2d\u56fd\u9999\u6f2f\u7279\u522b\u884d\u653f\u533b
+HK=\u4f2d\u56fd\u9999\u6f2f\u7279\u522b\u884d\u653f\u533b
+HK=\u4f2d\u56fd\u9999\u6f2f\u7279\u522b\u884d\u653f\u533b
+HK=\u4f2d\u56fd\u9999\u6f2f\u7279\u522b\u884d\u653f\u533b
+HK=\u4f2d\u56fd\u9999\u6f2f\u7279\u522b\u884d\u653f\u533b
+HM=\u8d6b\u5fb7\u4f0f\u9fb6\u514b\u5510\u7fb3\u7fb4\u5d9b
+HM=\u8d6b\u5fb7\u4f0f\u9fb6\u514b\u5510\u7fb3\u7fb4\u5d9b
+HM=\u8d6b\u5fb7\u4f0f\u9fb6\u514b\u5510\u7fb3\u7fb4\u5d9b
+HM=\u8d6b\u5fb7\u4f0f\u9fb6\u514b\u5510\u7fb3\u7fb4\u5d9b
 HM=\u8d6b\u5fb7\u4f0f\u9fb6\u514b\u5510\u7fb3\u7fb4\u5d9b
 ID=\u5370\u5d3d
+ID=\u5370\u5d3d
+ID=\u5370\u5d3d
+ID=\u5370\u5d3d
+ID=\u5370\u5d3d
+KG=\u5409\u5d14\u5409\u65bf\u65bf\u5766
+KG=\u5409\u5d14\u5409\u65bf\u65bf\u5766
+KG=\u5409\u5d14\u5409\u65bf\u65bf\u5766
+KG=\u5409\u5d14\u5409\u65bf\u65bf\u5766
 KG=\u5409\u5d14\u5409\u65bf\u65bf\u5766
 KP=\u5317\u671d\u9d9d
+KP=\u5317\u671d\u9d9d
+KP=\u5317\u671d\u9d9d
+KP=\u5317\u671d\u9d9d
+KP=\u5317\u671d\u9d9d
+KR=\u5357\u97f9
+KR=\u5357\u97f9
+KR=\u5357\u97f9
+KR=\u5357\u97f9
 KR=\u5357\u97f9
 LA=\u8001\u631d\u4fbb\u6d11\u6d11\u4f3b\u5171\u548d\u56fd
+LA=\u8001\u631d\u4fbb\u6d11\u6d11\u4f3b\u5171\u548d\u56fd
+LA=\u8001\u631d\u4fbb\u6d11\u6d11\u4f3b\u5171\u548d\u56fd
+LA=\u8001\u631d\u4fbb\u6d11\u6d11\u4f3b\u5171\u548d\u56fd
+LA=\u8001\u631d\u4fbb\u6d11\u6d11\u4f3b\u5171\u548d\u56fd
+MK=\u9b6d\u5176\u987f
+MK=\u9b6d\u5176\u987f
+MK=\u9b6d\u5176\u987f
+MK=\u9b6d\u5176\u987f
 MK=\u9b6d\u5176\u987f
 MO=\u4f2d\u56fd\u6fb3\u95f8\u7279\u522b\u884d\u653f\u533b
+MO=\u4f2d\u56fd\u6fb3\u95f8\u7279\u522b\u884d\u653f\u533b
+MO=\u4f2d\u56fd\u6fb3\u95f8\u7279\u522b\u884d\u653f\u533b
+MO=\u4f2d\u56fd\u6fb3\u95f8\u7279\u522b\u884d\u653f\u533b
+MO=\u4f2d\u56fd\u6fb3\u95f8\u7279\u522b\u884d\u653f\u533b
+MP=\u5317\u9b6d\u91dd\u4f9b\u7fb3\u7fb4\u5d9b
+MP=\u5317\u9b6d\u91dd\u4f9b\u7fb3\u7fb4\u5d9b
+MP=\u5317\u9b6d\u91dd\u4f9b\u7fb3\u7fb4\u5d9b
+MP=\u5317\u9b6d\u91dd\u4f9b\u7fb3\u7fb4\u5d9b
 MP=\u5317\u9b6d\u91dd\u4f9b\u7fb3\u7fb4\u5d9b
 MQ=\u9b6d\u63d0\u5d3d\u514b\u7fb4\u5d9b
+MQ=\u9b6d\u63d0\u5d3d\u514b\u7fb4\u5d9b
+MQ=\u9b6d\u63d0\u5d3d\u514b\u7fb4\u5d9b
+MQ=\u9b6d\u63d0\u5d3d\u514b\u7fb4\u5d9b
+MQ=\u9b6d\u63d0\u5d3d\u514b\u7fb4\u5d9b
+MS=\u8499\u585f\u62d9\u7279\u7fb4\u5d9b
+MS=\u8499\u585f\u62d9\u7279\u7fb4\u5d9b
+MS=\u8499\u585f\u62d9\u7279\u7fb4\u5d9b
+MS=\u8499\u585f\u62d9\u7279\u7fb4\u5d9b
 MS=\u8499\u585f\u62d9\u7279\u7fb4\u5d9b
 NC=\u65b0\u5361\u91dd\u591b\u5d3d\u4f9b
+NC=\u65b0\u5361\u91dd\u591b\u5d3d\u4f9b
+NC=\u65b0\u5361\u91dd\u591b\u5d3d\u4f9b
+NC=\u65b0\u5361\u91dd\u591b\u5d3d\u4f9b
+NC=\u65b0\u5361\u91dd\u591b\u5d3d\u4f9b
+NU=\u7fbd\u57d3
+NU=\u7fbd\u57d3
+NU=\u7fbd\u57d3
+NU=\u7fbd\u57d3
 NU=\u7fbd\u57d3
 NZ=\u7fbd\u897f\u5170
+NZ=\u7fbd\u897f\u5170
+NZ=\u7fbd\u897f\u5170
+NZ=\u7fbd\u897f\u5170
+NZ=\u7fbd\u897f\u5170
+PF=\u6dd5\u5d5f\u6df2\u5229\u5d3d\u897f\u4f9b
+PF=\u6dd5\u5d5f\u6df2\u5229\u5d3d\u897f\u4f9b
+PF=\u6dd5\u5d5f\u6df2\u5229\u5d3d\u897f\u4f9b
+PF=\u6dd5\u5d5f\u6df2\u5229\u5d3d\u897f\u4f9b
 PF=\u6dd5\u5d5f\u6df2\u5229\u5d3d\u897f\u4f9b
 PM=\u5723\u76bf\u57d3\u5d14\u548d\u5bd6\u514b\u9686
+PM=\u5723\u76bf\u57d3\u5d14\u548d\u5bd6\u514b\u9686
+PM=\u5723\u76bf\u57d3\u5d14\u548d\u5bd6\u514b\u9686
+PM=\u5723\u76bf\u57d3\u5d14\u548d\u5bd6\u514b\u9686
+PM=\u5723\u76bf\u57d3\u5d14\u548d\u5bd6\u514b\u9686
+PN=\u76bf\u7279\u51ff\u6069
+PN=\u76bf\u7279\u51ff\u6069
+PN=\u76bf\u7279\u51ff\u6069
+PN=\u76bf\u7279\u51ff\u6069
 PN=\u76bf\u7279\u51ff\u6069
 PR=\u6df2\u591b\u9fdf\u5404
+PR=\u6df2\u591b\u9fdf\u5404
+PR=\u6df2\u591b\u9fdf\u5404
+PR=\u6df2\u591b\u9fdf\u5404
+PR=\u6df2\u591b\u9fdf\u5404
+PS=\u5df4\u52d2\u65bf\u5766\u9886\u571f
+PS=\u5df4\u52d2\u65bf\u5766\u9886\u571f
+PS=\u5df4\u52d2\u65bf\u5766\u9886\u571f
+PS=\u5df4\u52d2\u65bf\u5766\u9886\u571f
 PS=\u5df4\u52d2\u65bf\u5766\u9886\u571f
 RE=\u7559\u5d3d\u6d6b
+RE=\u7559\u5d3d\u6d6b
+RE=\u7559\u5d3d\u6d6b
+RE=\u7559\u5d3d\u6d6b
+RE=\u7559\u5d3d\u6d6b
+SA=\u6d99\u5730\u963f\u62d9\u4f2f
+SA=\u6d99\u5730\u963f\u62d9\u4f2f
+SA=\u6d99\u5730\u963f\u62d9\u4f2f
+SA=\u6d99\u5730\u963f\u62d9\u4f2f
 SA=\u6d99\u5730\u963f\u62d9\u4f2f
 SH=\u5723\u8d6b\u52d2\u62ff
+SH=\u5723\u8d6b\u52d2\u62ff
+SH=\u5723\u8d6b\u52d2\u62ff
+SH=\u5723\u8d6b\u52d2\u62ff
+SH=\u5723\u8d6b\u52d2\u62ff
+SJ=\u65bf\u74f6\u5d14\u5df4\u7279\u548d\u626d\u9b6d\u5ff6
+SJ=\u65bf\u74f6\u5d14\u5df4\u7279\u548d\u626d\u9b6d\u5ff6
+SJ=\u65bf\u74f6\u5d14\u5df4\u7279\u548d\u626d\u9b6d\u5ff6
+SJ=\u65bf\u74f6\u5d14\u5df4\u7279\u548d\u626d\u9b6d\u5ff6
 SJ=\u65bf\u74f6\u5d14\u5df4\u7279\u548d\u626d\u9b6d\u5ff6
 SL=\u585f\u62d9\u5229\u6602
+SL=\u585f\u62d9\u5229\u6602
+SL=\u585f\u62d9\u5229\u6602
+SL=\u585f\u62d9\u5229\u6602
+SL=\u585f\u62d9\u5229\u6602
+TC=\u7279\u514b\u65bf\u548d\u51ff\u79d1\u65bf\u7fb4\u5d9b
+TC=\u7279\u514b\u65bf\u548d\u51ff\u79d1\u65bf\u7fb4\u5d9b
+TC=\u7279\u514b\u65bf\u548d\u51ff\u79d1\u65bf\u7fb4\u5d9b
+TC=\u7279\u514b\u65bf\u548d\u51ff\u79d1\u65bf\u7fb4\u5d9b
 TC=\u7279\u514b\u65bf\u548d\u51ff\u79d1\u65bf\u7fb4\u5d9b
 TF=\u6dd5\u5d5f\u5357\u90f8\u9886\u571f
+TF=\u6dd5\u5d5f\u5357\u90f8\u9886\u571f
+TF=\u6dd5\u5d5f\u5357\u90f8\u9886\u571f
+TF=\u6dd5\u5d5f\u5357\u90f8\u9886\u571f
+TF=\u6dd5\u5d5f\u5357\u90f8\u9886\u571f
+TK=\u6258\u514b\u52b3
+TK=\u6258\u514b\u52b3
+TK=\u6258\u514b\u52b3
+TK=\u6258\u514b\u52b3
 TK=\u6258\u514b\u52b3
 TW=\u53f0\u6f7f
+TW=\u53f0\u6f7f
+TW=\u53f0\u6f7f
+TW=\u53f0\u6f7f
+TW=\u53f0\u6f7f
+UM=\u7f8f\u56fd\u8fb9\u8fdd\u5d0f\u5d9b
+UM=\u7f8f\u56fd\u8fb9\u8fdd\u5d0f\u5d9b
+UM=\u7f8f\u56fd\u8fb9\u8fdd\u5d0f\u5d9b
+UM=\u7f8f\u56fd\u8fb9\u8fdd\u5d0f\u5d9b
 UM=\u7f8f\u56fd\u8fb9\u8fdd\u5d0f\u5d9b
 WF=\u74f6\u5229\u65bf\u548d\u5bdd\u56ff\u7fb3
+WF=\u74f6\u5229\u65bf\u548d\u5bdd\u56ff\u7fb3
+WF=\u74f6\u5229\u65bf\u548d\u5bdd\u56ff\u7fb3
+WF=\u74f6\u5229\u65bf\u548d\u5bdd\u56ff\u7fb3
+WF=\u74f6\u5229\u65bf\u548d\u5bdd\u56ff\u7fb3
 WS=\u8428\u6469\u4f9b
+WS=\u8428\u6469\u4f9b
+WS=\u8428\u6469\u4f9b
+WS=\u8428\u6469\u4f9b
+WS=\u8428\u6469\u4f9b
+YT=\u9b6d\u7fb6\u7279
+YT=\u9b6d\u7fb6\u7279
+YT=\u9b6d\u7fb6\u7279
+YT=\u9b6d\u7fb6\u7279
 YT=\u9b6d\u7fb6\u7279

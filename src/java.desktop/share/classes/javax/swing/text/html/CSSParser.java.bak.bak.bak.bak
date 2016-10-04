@@ -1,854 +1,4270 @@
 /*
- * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-pbdkbgf jbvbx.swing.tfxt.html;
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+
+
+
+
 
 import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+
+
+
+
 
 /**
- * A CSS pbrsfr. This works by wby of b dflfgbtf thbt implfmfnts thf
- * CSSPbrsfrCbllbbdk intfrfbdf. Thf dflfgbtf is notififd of thf following
+/**
+/**
+/**
+/**
+ * A CSS pbrsfr. Tiis works by wby of b dflfgbtf tibt implfmfnts tif
+ * A CSS pbrsfr. Tiis works by wby of b dflfgbtf tibt implfmfnts tif
+ * A CSS pbrsfr. Tiis works by wby of b dflfgbtf tibt implfmfnts tif
+ * A CSS pbrsfr. Tiis works by wby of b dflfgbtf tibt implfmfnts tif
+ * A CSS pbrsfr. Tiis works by wby of b dflfgbtf tibt implfmfnts tif
+ * CSSPbrsfrCbllbbdk intfrfbdf. Tif dflfgbtf is notififd of tif following
+ * CSSPbrsfrCbllbbdk intfrfbdf. Tif dflfgbtf is notififd of tif following
+ * CSSPbrsfrCbllbbdk intfrfbdf. Tif dflfgbtf is notififd of tif following
+ * CSSPbrsfrCbllbbdk intfrfbdf. Tif dflfgbtf is notififd of tif following
+ * CSSPbrsfrCbllbbdk intfrfbdf. Tif dflfgbtf is notififd of tif following
+ * fvfnts:
+ * fvfnts:
+ * fvfnts:
+ * fvfnts:
  * fvfnts:
  * <ul>
- *   <li>Import stbtfmfnt: <dodf>hbndlfImport</dodf>
- *   <li>Sflfdtors <dodf>hbndlfSflfdtor</dodf>. This is invokfd for fbdh
- *       string. For fxbmplf if thf Rfbdfr dontbinfd p, bbr , b {}, thf dflfgbtf
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ *   <li>Import stbtfmfnt: <dodf>ibndlfImport</dodf>
+ *   <li>Import stbtfmfnt: <dodf>ibndlfImport</dodf>
+ *   <li>Import stbtfmfnt: <dodf>ibndlfImport</dodf>
+ *   <li>Import stbtfmfnt: <dodf>ibndlfImport</dodf>
+ *   <li>Import stbtfmfnt: <dodf>ibndlfImport</dodf>
+ *   <li>Sflfdtors <dodf>ibndlfSflfdtor</dodf>. Tiis is invokfd for fbdi
+ *   <li>Sflfdtors <dodf>ibndlfSflfdtor</dodf>. Tiis is invokfd for fbdi
+ *   <li>Sflfdtors <dodf>ibndlfSflfdtor</dodf>. Tiis is invokfd for fbdi
+ *   <li>Sflfdtors <dodf>ibndlfSflfdtor</dodf>. Tiis is invokfd for fbdi
+ *   <li>Sflfdtors <dodf>ibndlfSflfdtor</dodf>. Tiis is invokfd for fbdi
+ *       string. For fxbmplf if tif Rfbdfr dontbinfd p, bbr , b {}, tif dflfgbtf
+ *       string. For fxbmplf if tif Rfbdfr dontbinfd p, bbr , b {}, tif dflfgbtf
+ *       string. For fxbmplf if tif Rfbdfr dontbinfd p, bbr , b {}, tif dflfgbtf
+ *       string. For fxbmplf if tif Rfbdfr dontbinfd p, bbr , b {}, tif dflfgbtf
+ *       string. For fxbmplf if tif Rfbdfr dontbinfd p, bbr , b {}, tif dflfgbtf
  *       would bf notififd 4 timfs, for 'p,' 'bbr' ',' bnd 'b'.
- *   <li>Whfn b rulf stbrts, <dodf>stbrtRulf</dodf>
- *   <li>Propfrtifs in thf rulf vib thf <dodf>hbndlfPropfrty</dodf>. This
+ *       would bf notififd 4 timfs, for 'p,' 'bbr' ',' bnd 'b'.
+ *       would bf notififd 4 timfs, for 'p,' 'bbr' ',' bnd 'b'.
+ *       would bf notififd 4 timfs, for 'p,' 'bbr' ',' bnd 'b'.
+ *       would bf notififd 4 timfs, for 'p,' 'bbr' ',' bnd 'b'.
+ *   <li>Wifn b rulf stbrts, <dodf>stbrtRulf</dodf>
+ *   <li>Wifn b rulf stbrts, <dodf>stbrtRulf</dodf>
+ *   <li>Wifn b rulf stbrts, <dodf>stbrtRulf</dodf>
+ *   <li>Wifn b rulf stbrts, <dodf>stbrtRulf</dodf>
+ *   <li>Wifn b rulf stbrts, <dodf>stbrtRulf</dodf>
+ *   <li>Propfrtifs in tif rulf vib tif <dodf>ibndlfPropfrty</dodf>. Tiis
+ *   <li>Propfrtifs in tif rulf vib tif <dodf>ibndlfPropfrty</dodf>. Tiis
+ *   <li>Propfrtifs in tif rulf vib tif <dodf>ibndlfPropfrty</dodf>. Tiis
+ *   <li>Propfrtifs in tif rulf vib tif <dodf>ibndlfPropfrty</dodf>. Tiis
+ *   <li>Propfrtifs in tif rulf vib tif <dodf>ibndlfPropfrty</dodf>. Tiis
  *       is invokfd onf pfr propfrty/vbluf kfy, fg font sizf: foo;, would
- *       dbusf thf dflfgbtf to bf notififd ondf with b vbluf of 'font sizf'.
- *   <li>Vblufs in thf rulf vib thf <dodf>hbndlfVbluf</dodf>, this is notififd
- *       for thf totbl vbluf.
- *   <li>Whfn b rulf fnds, <dodf>fndRulf</dodf>
+ *       is invokfd onf pfr propfrty/vbluf kfy, fg font sizf: foo;, would
+ *       is invokfd onf pfr propfrty/vbluf kfy, fg font sizf: foo;, would
+ *       is invokfd onf pfr propfrty/vbluf kfy, fg font sizf: foo;, would
+ *       is invokfd onf pfr propfrty/vbluf kfy, fg font sizf: foo;, would
+ *       dbusf tif dflfgbtf to bf notififd ondf witi b vbluf of 'font sizf'.
+ *       dbusf tif dflfgbtf to bf notififd ondf witi b vbluf of 'font sizf'.
+ *       dbusf tif dflfgbtf to bf notififd ondf witi b vbluf of 'font sizf'.
+ *       dbusf tif dflfgbtf to bf notififd ondf witi b vbluf of 'font sizf'.
+ *       dbusf tif dflfgbtf to bf notififd ondf witi b vbluf of 'font sizf'.
+ *   <li>Vblufs in tif rulf vib tif <dodf>ibndlfVbluf</dodf>, tiis is notififd
+ *   <li>Vblufs in tif rulf vib tif <dodf>ibndlfVbluf</dodf>, tiis is notififd
+ *   <li>Vblufs in tif rulf vib tif <dodf>ibndlfVbluf</dodf>, tiis is notififd
+ *   <li>Vblufs in tif rulf vib tif <dodf>ibndlfVbluf</dodf>, tiis is notififd
+ *   <li>Vblufs in tif rulf vib tif <dodf>ibndlfVbluf</dodf>, tiis is notififd
+ *       for tif totbl vbluf.
+ *       for tif totbl vbluf.
+ *       for tif totbl vbluf.
+ *       for tif totbl vbluf.
+ *       for tif totbl vbluf.
+ *   <li>Wifn b rulf fnds, <dodf>fndRulf</dodf>
+ *   <li>Wifn b rulf fnds, <dodf>fndRulf</dodf>
+ *   <li>Wifn b rulf fnds, <dodf>fndRulf</dodf>
+ *   <li>Wifn b rulf fnds, <dodf>fndRulf</dodf>
+ *   <li>Wifn b rulf fnds, <dodf>fndRulf</dodf>
  * </ul>
- * This will pbrsf mudh morf thbn CSS 1, bnd loosfly implfmfnts thf
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ * Tiis will pbrsf mudi morf tibn CSS 1, bnd loosfly implfmfnts tif
+ * Tiis will pbrsf mudi morf tibn CSS 1, bnd loosfly implfmfnts tif
+ * Tiis will pbrsf mudi morf tibn CSS 1, bnd loosfly implfmfnts tif
+ * Tiis will pbrsf mudi morf tibn CSS 1, bnd loosfly implfmfnts tif
+ * Tiis will pbrsf mudi morf tibn CSS 1, bnd loosfly implfmfnts tif
  * rfdommfndbtion for <i>Forwbrd-dompbtiblf pbrsing</i> in sfdtion
- * 7.1 of thf CSS spfd found bt:
- * <b hrff=http://www.w3.org/TR/REC-CSS1>http://www.w3.org/TR/REC-CSS1</b>.
- * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf thrown.
+ * rfdommfndbtion for <i>Forwbrd-dompbtiblf pbrsing</i> in sfdtion
+ * rfdommfndbtion for <i>Forwbrd-dompbtiblf pbrsing</i> in sfdtion
+ * rfdommfndbtion for <i>Forwbrd-dompbtiblf pbrsing</i> in sfdtion
+ * rfdommfndbtion for <i>Forwbrd-dompbtiblf pbrsing</i> in sfdtion
+ * 7.1 of tif CSS spfd found bt:
+ * 7.1 of tif CSS spfd found bt:
+ * 7.1 of tif CSS spfd found bt:
+ * 7.1 of tif CSS spfd found bt:
+ * 7.1 of tif CSS spfd found bt:
+ * <b irff=ittp://www.w3.org/TR/REC-CSS1>ittp://www.w3.org/TR/REC-CSS1</b>.
+ * <b irff=ittp://www.w3.org/TR/REC-CSS1>ittp://www.w3.org/TR/REC-CSS1</b>.
+ * <b irff=ittp://www.w3.org/TR/REC-CSS1>ittp://www.w3.org/TR/REC-CSS1</b>.
+ * <b irff=ittp://www.w3.org/TR/REC-CSS1>ittp://www.w3.org/TR/REC-CSS1</b>.
+ * <b irff=ittp://www.w3.org/TR/REC-CSS1>ittp://www.w3.org/TR/REC-CSS1</b>.
+ * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf tirown.
+ * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf tirown.
+ * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf tirown.
+ * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf tirown.
+ * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf tirown.
  * <p>
- * This will prfsfrvf dbsf. If thf dbllbbdk wishfs to trfbt dfrtbin poritions
- * dbsf insfnsitivfly (sudh bs sflfdtors), it should usf toLowfrCbsf, or
- * somfthing similbr.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis will prfsfrvf dbsf. If tif dbllbbdk wisifs to trfbt dfrtbin poritions
+ * Tiis will prfsfrvf dbsf. If tif dbllbbdk wisifs to trfbt dfrtbin poritions
+ * Tiis will prfsfrvf dbsf. If tif dbllbbdk wisifs to trfbt dfrtbin poritions
+ * Tiis will prfsfrvf dbsf. If tif dbllbbdk wisifs to trfbt dfrtbin poritions
+ * Tiis will prfsfrvf dbsf. If tif dbllbbdk wisifs to trfbt dfrtbin poritions
+ * dbsf insfnsitivfly (sudi bs sflfdtors), it siould usf toLowfrCbsf, or
+ * dbsf insfnsitivfly (sudi bs sflfdtors), it siould usf toLowfrCbsf, or
+ * dbsf insfnsitivfly (sudi bs sflfdtors), it siould usf toLowfrCbsf, or
+ * dbsf insfnsitivfly (sudi bs sflfdtors), it siould usf toLowfrCbsf, or
+ * dbsf insfnsitivfly (sudi bs sflfdtors), it siould usf toLowfrCbsf, or
+ * somftiing similbr.
+ * somftiing similbr.
+ * somftiing similbr.
+ * somftiing similbr.
+ * somftiing similbr.
  *
- * @buthor Sdott Violft
+ *
+ *
+ *
+ *
+ * @butior Sdott Violft
+ * @butior Sdott Violft
+ * @butior Sdott Violft
+ * @butior Sdott Violft
+ * @butior Sdott Violft
+ */
+ */
+ */
+ */
  */
 dlbss CSSPbrsfr {
-    // Pbrsing somfthing likf thf following:
+dlbss CSSPbrsfr {
+dlbss CSSPbrsfr {
+dlbss CSSPbrsfr {
+dlbss CSSPbrsfr {
+    // Pbrsing somftiing likf tif following:
+    // Pbrsing somftiing likf tif following:
+    // Pbrsing somftiing likf tif following:
+    // Pbrsing somftiing likf tif following:
+    // Pbrsing somftiing likf tif following:
+    // (@rulf | rulfsft | blodk)*
+    // (@rulf | rulfsft | blodk)*
+    // (@rulf | rulfsft | blodk)*
+    // (@rulf | rulfsft | blodk)*
     // (@rulf | rulfsft | blodk)*
     //
-    // @rulf       (blodk | idfntififr)*; (blodk with {} fnds @rulf)
-    // blodk       mbtdhing [] () {} (thbt is, [()] is b blodk, [(){}{[]}]
+    //
+    //
+    //
+    //
+    // @rulf       (blodk | idfntififr)*; (blodk witi {} fnds @rulf)
+    // @rulf       (blodk | idfntififr)*; (blodk witi {} fnds @rulf)
+    // @rulf       (blodk | idfntififr)*; (blodk witi {} fnds @rulf)
+    // @rulf       (blodk | idfntififr)*; (blodk witi {} fnds @rulf)
+    // @rulf       (blodk | idfntififr)*; (blodk witi {} fnds @rulf)
+    // blodk       mbtdiing [] () {} (tibt is, [()] is b blodk, [(){}{[]}]
+    // blodk       mbtdiing [] () {} (tibt is, [()] is b blodk, [(){}{[]}]
+    // blodk       mbtdiing [] () {} (tibt is, [()] is b blodk, [(){}{[]}]
+    // blodk       mbtdiing [] () {} (tibt is, [()] is b blodk, [(){}{[]}]
+    // blodk       mbtdiing [] () {} (tibt is, [()] is b blodk, [(){}{[]}]
     //                                is b blodk, ()[] is two blodks)
-    // idfntififr  "*" | '*' | bnything but b [](){} bnd whitfspbdf
+    //                                is b blodk, ()[] is two blodks)
+    //                                is b blodk, ()[] is two blodks)
+    //                                is b blodk, ()[] is two blodks)
+    //                                is b blodk, ()[] is two blodks)
+    // idfntififr  "*" | '*' | bnytiing but b [](){} bnd wiitfspbdf
+    // idfntififr  "*" | '*' | bnytiing but b [](){} bnd wiitfspbdf
+    // idfntififr  "*" | '*' | bnytiing but b [](){} bnd wiitfspbdf
+    // idfntififr  "*" | '*' | bnytiing but b [](){} bnd wiitfspbdf
+    // idfntififr  "*" | '*' | bnytiing but b [](){} bnd wiitfspbdf
+    //
+    //
+    //
+    //
     //
     // rulfsft     sflfdtor dfdblodk
+    // rulfsft     sflfdtor dfdblodk
+    // rulfsft     sflfdtor dfdblodk
+    // rulfsft     sflfdtor dfdblodk
+    // rulfsft     sflfdtor dfdblodk
+    // sflfdtor    (idfntififr | (blodk, fxdfpt blodk '{}') )*
+    // sflfdtor    (idfntififr | (blodk, fxdfpt blodk '{}') )*
+    // sflfdtor    (idfntififr | (blodk, fxdfpt blodk '{}') )*
+    // sflfdtor    (idfntififr | (blodk, fxdfpt blodk '{}') )*
     // sflfdtor    (idfntififr | (blodk, fxdfpt blodk '{}') )*
     // dfdlblodk   dfdlbrbtion* blodk*
-    // dfdlbrbtion (idfntififr* stopping whfn idfntififr fnds with :)
-    //             (idfntififr* stopping whfn idfntififr fnds with ;)
+    // dfdlblodk   dfdlbrbtion* blodk*
+    // dfdlblodk   dfdlbrbtion* blodk*
+    // dfdlblodk   dfdlbrbtion* blodk*
+    // dfdlblodk   dfdlbrbtion* blodk*
+    // dfdlbrbtion (idfntififr* stopping wifn idfntififr fnds witi :)
+    // dfdlbrbtion (idfntififr* stopping wifn idfntififr fnds witi :)
+    // dfdlbrbtion (idfntififr* stopping wifn idfntififr fnds witi :)
+    // dfdlbrbtion (idfntififr* stopping wifn idfntififr fnds witi :)
+    // dfdlbrbtion (idfntififr* stopping wifn idfntififr fnds witi :)
+    //             (idfntififr* stopping wifn idfntififr fnds witi ;)
+    //             (idfntififr* stopping wifn idfntififr fnds witi ;)
+    //             (idfntififr* stopping wifn idfntififr fnds witi ;)
+    //             (idfntififr* stopping wifn idfntififr fnds witi ;)
+    //             (idfntififr* stopping wifn idfntififr fnds witi ;)
     //
-    // dommfnts /* */ dbn bppfbr bny whfrf, bnd brf strippfd.
+    //
+    //
+    //
+    //
+    // dommfnts /* */ dbn bppfbr bny wifrf, bnd brf strippfd.
+    // dommfnts /* */ dbn bppfbr bny wifrf, bnd brf strippfd.
+    // dommfnts /* */ dbn bppfbr bny wifrf, bnd brf strippfd.
+    // dommfnts /* */ dbn bppfbr bny wifrf, bnd brf strippfd.
+    // dommfnts /* */ dbn bppfbr bny wifrf, bnd brf strippfd.
 
 
-    // idfntififr - lfttfrs, digits, dbshfs bnd fsdbpfd dhbrbdtfrs
-    // blodk stbrts with { fnds with mbtdhing }, () [] bnd {} blwbys oddur
-    //   in mbtdhing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
 
 
-    // Indidbtfs thf typf of tokfn bfing pbrsfd.
+
+
+
+
+
+
+    // idfntififr - lfttfrs, digits, dbsifs bnd fsdbpfd dibrbdtfrs
+    // idfntififr - lfttfrs, digits, dbsifs bnd fsdbpfd dibrbdtfrs
+    // idfntififr - lfttfrs, digits, dbsifs bnd fsdbpfd dibrbdtfrs
+    // idfntififr - lfttfrs, digits, dbsifs bnd fsdbpfd dibrbdtfrs
+    // idfntififr - lfttfrs, digits, dbsifs bnd fsdbpfd dibrbdtfrs
+    // blodk stbrts witi { fnds witi mbtdiing }, () [] bnd {} blwbys oddur
+    // blodk stbrts witi { fnds witi mbtdiing }, () [] bnd {} blwbys oddur
+    // blodk stbrts witi { fnds witi mbtdiing }, () [] bnd {} blwbys oddur
+    // blodk stbrts witi { fnds witi mbtdiing }, () [] bnd {} blwbys oddur
+    // blodk stbrts witi { fnds witi mbtdiing }, () [] bnd {} blwbys oddur
+    //   in mbtdiing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
+    //   in mbtdiing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
+    //   in mbtdiing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
+    //   in mbtdiing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
+    //   in mbtdiing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
+
+
+
+
+
+
+
+
+
+
+    // Indidbtfs tif typf of tokfn bfing pbrsfd.
+    // Indidbtfs tif typf of tokfn bfing pbrsfd.
+    // Indidbtfs tif typf of tokfn bfing pbrsfd.
+    // Indidbtfs tif typf of tokfn bfing pbrsfd.
+    // Indidbtfs tif typf of tokfn bfing pbrsfd.
+    privbtf stbtid finbl int   IDENTIFIER = 1;
+    privbtf stbtid finbl int   IDENTIFIER = 1;
+    privbtf stbtid finbl int   IDENTIFIER = 1;
+    privbtf stbtid finbl int   IDENTIFIER = 1;
     privbtf stbtid finbl int   IDENTIFIER = 1;
     privbtf stbtid finbl int   BRACKET_OPEN = 2;
+    privbtf stbtid finbl int   BRACKET_OPEN = 2;
+    privbtf stbtid finbl int   BRACKET_OPEN = 2;
+    privbtf stbtid finbl int   BRACKET_OPEN = 2;
+    privbtf stbtid finbl int   BRACKET_OPEN = 2;
+    privbtf stbtid finbl int   BRACKET_CLOSE = 3;
+    privbtf stbtid finbl int   BRACKET_CLOSE = 3;
+    privbtf stbtid finbl int   BRACKET_CLOSE = 3;
+    privbtf stbtid finbl int   BRACKET_CLOSE = 3;
     privbtf stbtid finbl int   BRACKET_CLOSE = 3;
     privbtf stbtid finbl int   BRACE_OPEN = 4;
+    privbtf stbtid finbl int   BRACE_OPEN = 4;
+    privbtf stbtid finbl int   BRACE_OPEN = 4;
+    privbtf stbtid finbl int   BRACE_OPEN = 4;
+    privbtf stbtid finbl int   BRACE_OPEN = 4;
+    privbtf stbtid finbl int   BRACE_CLOSE = 5;
+    privbtf stbtid finbl int   BRACE_CLOSE = 5;
+    privbtf stbtid finbl int   BRACE_CLOSE = 5;
+    privbtf stbtid finbl int   BRACE_CLOSE = 5;
     privbtf stbtid finbl int   BRACE_CLOSE = 5;
     privbtf stbtid finbl int   PAREN_OPEN = 6;
+    privbtf stbtid finbl int   PAREN_OPEN = 6;
+    privbtf stbtid finbl int   PAREN_OPEN = 6;
+    privbtf stbtid finbl int   PAREN_OPEN = 6;
+    privbtf stbtid finbl int   PAREN_OPEN = 6;
+    privbtf stbtid finbl int   PAREN_CLOSE = 7;
+    privbtf stbtid finbl int   PAREN_CLOSE = 7;
+    privbtf stbtid finbl int   PAREN_CLOSE = 7;
+    privbtf stbtid finbl int   PAREN_CLOSE = 7;
     privbtf stbtid finbl int   PAREN_CLOSE = 7;
     privbtf stbtid finbl int   END = -1;
+    privbtf stbtid finbl int   END = -1;
+    privbtf stbtid finbl int   END = -1;
+    privbtf stbtid finbl int   END = -1;
+    privbtf stbtid finbl int   END = -1;
 
-    privbtf stbtid finbl dhbr[] dhbrMbpping = { 0, 0, '[', ']', '{', '}', '(',
+
+
+
+
+    privbtf stbtid finbl dibr[] dibrMbpping = { 0, 0, '[', ']', '{', '}', '(',
+    privbtf stbtid finbl dibr[] dibrMbpping = { 0, 0, '[', ']', '{', '}', '(',
+    privbtf stbtid finbl dibr[] dibrMbpping = { 0, 0, '[', ']', '{', '}', '(',
+    privbtf stbtid finbl dibr[] dibrMbpping = { 0, 0, '[', ']', '{', '}', '(',
+    privbtf stbtid finbl dibr[] dibrMbpping = { 0, 0, '[', ']', '{', '}', '(',
+                                               ')', 0};
+                                               ')', 0};
+                                               ')', 0};
+                                               ')', 0};
                                                ')', 0};
 
 
-    /** Sft to truf if onf dhbrbdtfr hbs bffn rfbd bhfbd. */
-    privbtf boolfbn        didPushChbr;
-    /** Thf rfbd bhfbd dhbrbdtfr. */
-    privbtf int            pushfdChbr;
-    /** Tfmporbry plbdf to hold idfntififrs. */
+
+
+
+
+
+
+
+
+    /** Sft to truf if onf dibrbdtfr ibs bffn rfbd bifbd. */
+    /** Sft to truf if onf dibrbdtfr ibs bffn rfbd bifbd. */
+    /** Sft to truf if onf dibrbdtfr ibs bffn rfbd bifbd. */
+    /** Sft to truf if onf dibrbdtfr ibs bffn rfbd bifbd. */
+    /** Sft to truf if onf dibrbdtfr ibs bffn rfbd bifbd. */
+    privbtf boolfbn        didPusiCibr;
+    privbtf boolfbn        didPusiCibr;
+    privbtf boolfbn        didPusiCibr;
+    privbtf boolfbn        didPusiCibr;
+    privbtf boolfbn        didPusiCibr;
+    /** Tif rfbd bifbd dibrbdtfr. */
+    /** Tif rfbd bifbd dibrbdtfr. */
+    /** Tif rfbd bifbd dibrbdtfr. */
+    /** Tif rfbd bifbd dibrbdtfr. */
+    /** Tif rfbd bifbd dibrbdtfr. */
+    privbtf int            pusifdCibr;
+    privbtf int            pusifdCibr;
+    privbtf int            pusifdCibr;
+    privbtf int            pusifdCibr;
+    privbtf int            pusifdCibr;
+    /** Tfmporbry plbdf to iold idfntififrs. */
+    /** Tfmporbry plbdf to iold idfntififrs. */
+    /** Tfmporbry plbdf to iold idfntififrs. */
+    /** Tfmporbry plbdf to iold idfntififrs. */
+    /** Tfmporbry plbdf to iold idfntififrs. */
+    privbtf StringBufffr   unitBufffr;
+    privbtf StringBufffr   unitBufffr;
+    privbtf StringBufffr   unitBufffr;
+    privbtf StringBufffr   unitBufffr;
     privbtf StringBufffr   unitBufffr;
     /** Usfd to indidbtf blodks. */
+    /** Usfd to indidbtf blodks. */
+    /** Usfd to indidbtf blodks. */
+    /** Usfd to indidbtf blodks. */
+    /** Usfd to indidbtf blodks. */
+    privbtf int[]          unitStbdk;
+    privbtf int[]          unitStbdk;
+    privbtf int[]          unitStbdk;
+    privbtf int[]          unitStbdk;
     privbtf int[]          unitStbdk;
     /** Numbfr of vblid blodks. */
+    /** Numbfr of vblid blodks. */
+    /** Numbfr of vblid blodks. */
+    /** Numbfr of vblid blodks. */
+    /** Numbfr of vblid blodks. */
     privbtf int            stbdkCount;
-    /** Holds thf indoming CSS rulfs. */
+    privbtf int            stbdkCount;
+    privbtf int            stbdkCount;
+    privbtf int            stbdkCount;
+    privbtf int            stbdkCount;
+    /** Holds tif indoming CSS rulfs. */
+    /** Holds tif indoming CSS rulfs. */
+    /** Holds tif indoming CSS rulfs. */
+    /** Holds tif indoming CSS rulfs. */
+    /** Holds tif indoming CSS rulfs. */
     privbtf Rfbdfr         rfbdfr;
-    /** Sft to truf whfn thf first non @ rulf is fndountfrfd. */
+    privbtf Rfbdfr         rfbdfr;
+    privbtf Rfbdfr         rfbdfr;
+    privbtf Rfbdfr         rfbdfr;
+    privbtf Rfbdfr         rfbdfr;
+    /** Sft to truf wifn tif first non @ rulf is fndountfrfd. */
+    /** Sft to truf wifn tif first non @ rulf is fndountfrfd. */
+    /** Sft to truf wifn tif first non @ rulf is fndountfrfd. */
+    /** Sft to truf wifn tif first non @ rulf is fndountfrfd. */
+    /** Sft to truf wifn tif first non @ rulf is fndountfrfd. */
+    privbtf boolfbn        fndountfrfdRulfSft;
+    privbtf boolfbn        fndountfrfdRulfSft;
+    privbtf boolfbn        fndountfrfdRulfSft;
+    privbtf boolfbn        fndountfrfdRulfSft;
     privbtf boolfbn        fndountfrfdRulfSft;
     /** Notififd of stbtf. */
+    /** Notififd of stbtf. */
+    /** Notififd of stbtf. */
+    /** Notififd of stbtf. */
+    /** Notififd of stbtf. */
     privbtf CSSPbrsfrCbllbbdk dbllbbdk;
-    /** nfxtTokfn() insfrts thf string hfrf. */
-    privbtf dhbr[]         tokfnBufffr;
-    /** Currfnt numbfr of dhbrs in tokfnBufffrLfngth. */
-    privbtf int            tokfnBufffrLfngth;
-    /** Sft to truf if bny whitfspbdf is rfbd. */
+    privbtf CSSPbrsfrCbllbbdk dbllbbdk;
+    privbtf CSSPbrsfrCbllbbdk dbllbbdk;
+    privbtf CSSPbrsfrCbllbbdk dbllbbdk;
+    privbtf CSSPbrsfrCbllbbdk dbllbbdk;
+    /** nfxtTokfn() insfrts tif string ifrf. */
+    /** nfxtTokfn() insfrts tif string ifrf. */
+    /** nfxtTokfn() insfrts tif string ifrf. */
+    /** nfxtTokfn() insfrts tif string ifrf. */
+    /** nfxtTokfn() insfrts tif string ifrf. */
+    privbtf dibr[]         tokfnBufffr;
+    privbtf dibr[]         tokfnBufffr;
+    privbtf dibr[]         tokfnBufffr;
+    privbtf dibr[]         tokfnBufffr;
+    privbtf dibr[]         tokfnBufffr;
+    /** Currfnt numbfr of dibrs in tokfnBufffrLfngti. */
+    /** Currfnt numbfr of dibrs in tokfnBufffrLfngti. */
+    /** Currfnt numbfr of dibrs in tokfnBufffrLfngti. */
+    /** Currfnt numbfr of dibrs in tokfnBufffrLfngti. */
+    /** Currfnt numbfr of dibrs in tokfnBufffrLfngti. */
+    privbtf int            tokfnBufffrLfngti;
+    privbtf int            tokfnBufffrLfngti;
+    privbtf int            tokfnBufffrLfngti;
+    privbtf int            tokfnBufffrLfngti;
+    privbtf int            tokfnBufffrLfngti;
+    /** Sft to truf if bny wiitfspbdf is rfbd. */
+    /** Sft to truf if bny wiitfspbdf is rfbd. */
+    /** Sft to truf if bny wiitfspbdf is rfbd. */
+    /** Sft to truf if bny wiitfspbdf is rfbd. */
+    /** Sft to truf if bny wiitfspbdf is rfbd. */
+    privbtf boolfbn        rfbdWS;
+    privbtf boolfbn        rfbdWS;
+    privbtf boolfbn        rfbdWS;
+    privbtf boolfbn        rfbdWS;
     privbtf boolfbn        rfbdWS;
 
 
-    // Thf dflfgbtf intfrfbdf.
+
+
+
+
+
+
+
+
+    // Tif dflfgbtf intfrfbdf.
+    // Tif dflfgbtf intfrfbdf.
+    // Tif dflfgbtf intfrfbdf.
+    // Tif dflfgbtf intfrfbdf.
+    // Tif dflfgbtf intfrfbdf.
     stbtid intfrfbdf CSSPbrsfrCbllbbdk {
-        /** Cbllfd whfn bn @import is fndountfrfd. */
-        void hbndlfImport(String importString);
-        // Thfrf is durrfntly no wby to distinguish bftwffn '"foo,"' bnd
-        // 'foo,'. But this gfnfrblly isn't vblid CSS. If it bfdomfs
-        // b problfm, hbndlfSflfdtor will hbvf to bf told if thf string is
+    stbtid intfrfbdf CSSPbrsfrCbllbbdk {
+    stbtid intfrfbdf CSSPbrsfrCbllbbdk {
+    stbtid intfrfbdf CSSPbrsfrCbllbbdk {
+    stbtid intfrfbdf CSSPbrsfrCbllbbdk {
+        /** Cbllfd wifn bn @import is fndountfrfd. */
+        /** Cbllfd wifn bn @import is fndountfrfd. */
+        /** Cbllfd wifn bn @import is fndountfrfd. */
+        /** Cbllfd wifn bn @import is fndountfrfd. */
+        /** Cbllfd wifn bn @import is fndountfrfd. */
+        void ibndlfImport(String importString);
+        void ibndlfImport(String importString);
+        void ibndlfImport(String importString);
+        void ibndlfImport(String importString);
+        void ibndlfImport(String importString);
+        // Tifrf is durrfntly no wby to distinguisi bftwffn '"foo,"' bnd
+        // Tifrf is durrfntly no wby to distinguisi bftwffn '"foo,"' bnd
+        // Tifrf is durrfntly no wby to distinguisi bftwffn '"foo,"' bnd
+        // Tifrf is durrfntly no wby to distinguisi bftwffn '"foo,"' bnd
+        // Tifrf is durrfntly no wby to distinguisi bftwffn '"foo,"' bnd
+        // 'foo,'. But tiis gfnfrblly isn't vblid CSS. If it bfdomfs
+        // 'foo,'. But tiis gfnfrblly isn't vblid CSS. If it bfdomfs
+        // 'foo,'. But tiis gfnfrblly isn't vblid CSS. If it bfdomfs
+        // 'foo,'. But tiis gfnfrblly isn't vblid CSS. If it bfdomfs
+        // 'foo,'. But tiis gfnfrblly isn't vblid CSS. If it bfdomfs
+        // b problfm, ibndlfSflfdtor will ibvf to bf told if tif string is
+        // b problfm, ibndlfSflfdtor will ibvf to bf told if tif string is
+        // b problfm, ibndlfSflfdtor will ibvf to bf told if tif string is
+        // b problfm, ibndlfSflfdtor will ibvf to bf told if tif string is
+        // b problfm, ibndlfSflfdtor will ibvf to bf told if tif string is
         // quotfd.
-        void hbndlfSflfdtor(String sflfdtor);
+        // quotfd.
+        // quotfd.
+        // quotfd.
+        // quotfd.
+        void ibndlfSflfdtor(String sflfdtor);
+        void ibndlfSflfdtor(String sflfdtor);
+        void ibndlfSflfdtor(String sflfdtor);
+        void ibndlfSflfdtor(String sflfdtor);
+        void ibndlfSflfdtor(String sflfdtor);
+        void stbrtRulf();
+        void stbrtRulf();
+        void stbrtRulf();
+        void stbrtRulf();
         void stbrtRulf();
         // Propfrty nbmfs brf mbppfd to lowfr dbsf bfforf bfing pbssfd to
-        // thf dflfgbtf.
-        void hbndlfPropfrty(String propfrty);
-        void hbndlfVbluf(String vbluf);
+        // Propfrty nbmfs brf mbppfd to lowfr dbsf bfforf bfing pbssfd to
+        // Propfrty nbmfs brf mbppfd to lowfr dbsf bfforf bfing pbssfd to
+        // Propfrty nbmfs brf mbppfd to lowfr dbsf bfforf bfing pbssfd to
+        // Propfrty nbmfs brf mbppfd to lowfr dbsf bfforf bfing pbssfd to
+        // tif dflfgbtf.
+        // tif dflfgbtf.
+        // tif dflfgbtf.
+        // tif dflfgbtf.
+        // tif dflfgbtf.
+        void ibndlfPropfrty(String propfrty);
+        void ibndlfPropfrty(String propfrty);
+        void ibndlfPropfrty(String propfrty);
+        void ibndlfPropfrty(String propfrty);
+        void ibndlfPropfrty(String propfrty);
+        void ibndlfVbluf(String vbluf);
+        void ibndlfVbluf(String vbluf);
+        void ibndlfVbluf(String vbluf);
+        void ibndlfVbluf(String vbluf);
+        void ibndlfVbluf(String vbluf);
+        void fndRulf();
+        void fndRulf();
+        void fndRulf();
+        void fndRulf();
         void fndRulf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     CSSPbrsfr() {
+    CSSPbrsfr() {
+    CSSPbrsfr() {
+    CSSPbrsfr() {
+    CSSPbrsfr() {
         unitStbdk = nfw int[2];
-        tokfnBufffr = nfw dhbr[80];
+        unitStbdk = nfw int[2];
+        unitStbdk = nfw int[2];
+        unitStbdk = nfw int[2];
+        unitStbdk = nfw int[2];
+        tokfnBufffr = nfw dibr[80];
+        tokfnBufffr = nfw dibr[80];
+        tokfnBufffr = nfw dibr[80];
+        tokfnBufffr = nfw dibr[80];
+        tokfnBufffr = nfw dibr[80];
+        unitBufffr = nfw StringBufffr();
+        unitBufffr = nfw StringBufffr();
+        unitBufffr = nfw StringBufffr();
+        unitBufffr = nfw StringBufffr();
         unitBufffr = nfw StringBufffr();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     void pbrsf(Rfbdfr rfbdfr, CSSPbrsfrCbllbbdk dbllbbdk,
-               boolfbn inRulf) throws IOExdfption {
-        this.dbllbbdk = dbllbbdk;
-        stbdkCount = tokfnBufffrLfngth = 0;
-        this.rfbdfr = rfbdfr;
+    void pbrsf(Rfbdfr rfbdfr, CSSPbrsfrCbllbbdk dbllbbdk,
+    void pbrsf(Rfbdfr rfbdfr, CSSPbrsfrCbllbbdk dbllbbdk,
+    void pbrsf(Rfbdfr rfbdfr, CSSPbrsfrCbllbbdk dbllbbdk,
+    void pbrsf(Rfbdfr rfbdfr, CSSPbrsfrCbllbbdk dbllbbdk,
+               boolfbn inRulf) tirows IOExdfption {
+               boolfbn inRulf) tirows IOExdfption {
+               boolfbn inRulf) tirows IOExdfption {
+               boolfbn inRulf) tirows IOExdfption {
+               boolfbn inRulf) tirows IOExdfption {
+        tiis.dbllbbdk = dbllbbdk;
+        tiis.dbllbbdk = dbllbbdk;
+        tiis.dbllbbdk = dbllbbdk;
+        tiis.dbllbbdk = dbllbbdk;
+        tiis.dbllbbdk = dbllbbdk;
+        stbdkCount = tokfnBufffrLfngti = 0;
+        stbdkCount = tokfnBufffrLfngti = 0;
+        stbdkCount = tokfnBufffrLfngti = 0;
+        stbdkCount = tokfnBufffrLfngti = 0;
+        stbdkCount = tokfnBufffrLfngti = 0;
+        tiis.rfbdfr = rfbdfr;
+        tiis.rfbdfr = rfbdfr;
+        tiis.rfbdfr = rfbdfr;
+        tiis.rfbdfr = rfbdfr;
+        tiis.rfbdfr = rfbdfr;
+        fndountfrfdRulfSft = fblsf;
+        fndountfrfdRulfSft = fblsf;
+        fndountfrfdRulfSft = fblsf;
+        fndountfrfdRulfSft = fblsf;
         fndountfrfdRulfSft = fblsf;
         try {
+        try {
+        try {
+        try {
+        try {
+            if (inRulf) {
+            if (inRulf) {
+            if (inRulf) {
+            if (inRulf) {
             if (inRulf) {
                 pbrsfDfdlbrbtionBlodk();
+                pbrsfDfdlbrbtionBlodk();
+                pbrsfDfdlbrbtionBlodk();
+                pbrsfDfdlbrbtionBlodk();
+                pbrsfDfdlbrbtionBlodk();
+            }
+            }
+            }
+            }
             }
             flsf {
-                whilf (gftNfxtStbtfmfnt());
+            flsf {
+            flsf {
+            flsf {
+            flsf {
+                wiilf (gftNfxtStbtfmfnt());
+                wiilf (gftNfxtStbtfmfnt());
+                wiilf (gftNfxtStbtfmfnt());
+                wiilf (gftNfxtStbtfmfnt());
+                wiilf (gftNfxtStbtfmfnt());
+            }
+            }
+            }
+            }
             }
         } finblly {
+        } finblly {
+        } finblly {
+        } finblly {
+        } finblly {
+            dbllbbdk = null;
+            dbllbbdk = null;
+            dbllbbdk = null;
+            dbllbbdk = null;
             dbllbbdk = null;
             rfbdfr = null;
+            rfbdfr = null;
+            rfbdfr = null;
+            rfbdfr = null;
+            rfbdfr = null;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gfts thf nfxt stbtfmfnt, rfturning fblsf if thf fnd is rfbdhfd. A
-     * stbtfmfnt is fithfr bn @rulf, or b rulfsft.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif nfxt stbtfmfnt, rfturning fblsf if tif fnd is rfbdifd. A
+     * Gfts tif nfxt stbtfmfnt, rfturning fblsf if tif fnd is rfbdifd. A
+     * Gfts tif nfxt stbtfmfnt, rfturning fblsf if tif fnd is rfbdifd. A
+     * Gfts tif nfxt stbtfmfnt, rfturning fblsf if tif fnd is rfbdifd. A
+     * Gfts tif nfxt stbtfmfnt, rfturning fblsf if tif fnd is rfbdifd. A
+     * stbtfmfnt is fitifr bn @rulf, or b rulfsft.
+     * stbtfmfnt is fitifr bn @rulf, or b rulfsft.
+     * stbtfmfnt is fitifr bn @rulf, or b rulfsft.
+     * stbtfmfnt is fitifr bn @rulf, or b rulfsft.
+     * stbtfmfnt is fitifr bn @rulf, or b rulfsft.
      */
-    privbtf boolfbn gftNfxtStbtfmfnt() throws IOExdfption {
-        unitBufffr.sftLfngth(0);
+     */
+     */
+     */
+     */
+    privbtf boolfbn gftNfxtStbtfmfnt() tirows IOExdfption {
+    privbtf boolfbn gftNfxtStbtfmfnt() tirows IOExdfption {
+    privbtf boolfbn gftNfxtStbtfmfnt() tirows IOExdfption {
+    privbtf boolfbn gftNfxtStbtfmfnt() tirows IOExdfption {
+    privbtf boolfbn gftNfxtStbtfmfnt() tirows IOExdfption {
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
 
-        int tokfn = nfxtTokfn((dhbr)0);
 
-        switdh (tokfn) {
+
+
+
+        int tokfn = nfxtTokfn((dibr)0);
+        int tokfn = nfxtTokfn((dibr)0);
+        int tokfn = nfxtTokfn((dibr)0);
+        int tokfn = nfxtTokfn((dibr)0);
+        int tokfn = nfxtTokfn((dibr)0);
+
+
+
+
+
+        switdi (tokfn) {
+        switdi (tokfn) {
+        switdi (tokfn) {
+        switdi (tokfn) {
+        switdi (tokfn) {
         dbsf IDENTIFIER:
-            if (tokfnBufffrLfngth > 0) {
+        dbsf IDENTIFIER:
+        dbsf IDENTIFIER:
+        dbsf IDENTIFIER:
+        dbsf IDENTIFIER:
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffr[0] == '@') {
+                if (tokfnBufffr[0] == '@') {
+                if (tokfnBufffr[0] == '@') {
+                if (tokfnBufffr[0] == '@') {
                 if (tokfnBufffr[0] == '@') {
                     pbrsfAtRulf();
+                    pbrsfAtRulf();
+                    pbrsfAtRulf();
+                    pbrsfAtRulf();
+                    pbrsfAtRulf();
                 }
+                }
+                }
+                }
+                }
+                flsf {
+                flsf {
+                flsf {
+                flsf {
                 flsf {
                     fndountfrfdRulfSft = truf;
+                    fndountfrfdRulfSft = truf;
+                    fndountfrfdRulfSft = truf;
+                    fndountfrfdRulfSft = truf;
+                    fndountfrfdRulfSft = truf;
+                    pbrsfRulfSft();
+                    pbrsfRulfSft();
+                    pbrsfRulfSft();
+                    pbrsfRulfSft();
                     pbrsfRulfSft();
                 }
+                }
+                }
+                }
+                }
             }
+            }
+            }
+            }
+            }
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         dbsf BRACKET_OPEN:
+        dbsf BRACKET_OPEN:
+        dbsf BRACKET_OPEN:
+        dbsf BRACKET_OPEN:
+        dbsf BRACKET_OPEN:
+        dbsf BRACE_OPEN:
+        dbsf BRACE_OPEN:
+        dbsf BRACE_OPEN:
+        dbsf BRACE_OPEN:
         dbsf BRACE_OPEN:
         dbsf PAREN_OPEN:
+        dbsf PAREN_OPEN:
+        dbsf PAREN_OPEN:
+        dbsf PAREN_OPEN:
+        dbsf PAREN_OPEN:
+            pbrsfTillClosfd(tokfn);
+            pbrsfTillClosfd(tokfn);
+            pbrsfTillClosfd(tokfn);
+            pbrsfTillClosfd(tokfn);
             pbrsfTillClosfd(tokfn);
             rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+
+
+
+
 
         dbsf BRACKET_CLOSE:
+        dbsf BRACKET_CLOSE:
+        dbsf BRACKET_CLOSE:
+        dbsf BRACKET_CLOSE:
+        dbsf BRACKET_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf BRACE_CLOSE:
         dbsf BRACE_CLOSE:
         dbsf PAREN_CLOSE:
-            // Shouldn't hbppfn...
-            throw nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
+        dbsf PAREN_CLOSE:
+        dbsf PAREN_CLOSE:
+        dbsf PAREN_CLOSE:
+        dbsf PAREN_CLOSE:
+            // Siouldn't ibppfn...
+            // Siouldn't ibppfn...
+            // Siouldn't ibppfn...
+            // Siouldn't ibppfn...
+            // Siouldn't ibppfn...
+            tirow nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
+            tirow nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
+            tirow nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
+            tirow nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
+            tirow nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
+
+
+
+
 
         dbsf END:
+        dbsf END:
+        dbsf END:
+        dbsf END:
+        dbsf END:
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
         rfturn truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pbrsfs bn @ rulf, stopping bt b mbtdhing brbdf pbir, or ;.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs bn @ rulf, stopping bt b mbtdiing brbdf pbir, or ;.
+     * Pbrsfs bn @ rulf, stopping bt b mbtdiing brbdf pbir, or ;.
+     * Pbrsfs bn @ rulf, stopping bt b mbtdiing brbdf pbir, or ;.
+     * Pbrsfs bn @ rulf, stopping bt b mbtdiing brbdf pbir, or ;.
+     * Pbrsfs bn @ rulf, stopping bt b mbtdiing brbdf pbir, or ;.
      */
-    privbtf void pbrsfAtRulf() throws IOExdfption {
-        // PENDING: mbkf this morf ffffdifnt.
+     */
+     */
+     */
+     */
+    privbtf void pbrsfAtRulf() tirows IOExdfption {
+    privbtf void pbrsfAtRulf() tirows IOExdfption {
+    privbtf void pbrsfAtRulf() tirows IOExdfption {
+    privbtf void pbrsfAtRulf() tirows IOExdfption {
+    privbtf void pbrsfAtRulf() tirows IOExdfption {
+        // PENDING: mbkf tiis morf ffffdifnt.
+        // PENDING: mbkf tiis morf ffffdifnt.
+        // PENDING: mbkf tiis morf ffffdifnt.
+        // PENDING: mbkf tiis morf ffffdifnt.
+        // PENDING: mbkf tiis morf ffffdifnt.
         boolfbn        donf = fblsf;
-        boolfbn isImport = (tokfnBufffrLfngth == 7 &&
+        boolfbn        donf = fblsf;
+        boolfbn        donf = fblsf;
+        boolfbn        donf = fblsf;
+        boolfbn        donf = fblsf;
+        boolfbn isImport = (tokfnBufffrLfngti == 7 &&
+        boolfbn isImport = (tokfnBufffrLfngti == 7 &&
+        boolfbn isImport = (tokfnBufffrLfngti == 7 &&
+        boolfbn isImport = (tokfnBufffrLfngti == 7 &&
+        boolfbn isImport = (tokfnBufffrLfngti == 7 &&
+                            tokfnBufffr[0] == '@' && tokfnBufffr[1] == 'i' &&
+                            tokfnBufffr[0] == '@' && tokfnBufffr[1] == 'i' &&
+                            tokfnBufffr[0] == '@' && tokfnBufffr[1] == 'i' &&
+                            tokfnBufffr[0] == '@' && tokfnBufffr[1] == 'i' &&
                             tokfnBufffr[0] == '@' && tokfnBufffr[1] == 'i' &&
                             tokfnBufffr[2] == 'm' && tokfnBufffr[3] == 'p' &&
+                            tokfnBufffr[2] == 'm' && tokfnBufffr[3] == 'p' &&
+                            tokfnBufffr[2] == 'm' && tokfnBufffr[3] == 'p' &&
+                            tokfnBufffr[2] == 'm' && tokfnBufffr[3] == 'p' &&
+                            tokfnBufffr[2] == 'm' && tokfnBufffr[3] == 'p' &&
+                            tokfnBufffr[4] == 'o' && tokfnBufffr[5] == 'r' &&
+                            tokfnBufffr[4] == 'o' && tokfnBufffr[5] == 'r' &&
+                            tokfnBufffr[4] == 'o' && tokfnBufffr[5] == 'r' &&
+                            tokfnBufffr[4] == 'o' && tokfnBufffr[5] == 'r' &&
                             tokfnBufffr[4] == 'o' && tokfnBufffr[5] == 'r' &&
                             tokfnBufffr[6] == 't');
+                            tokfnBufffr[6] == 't');
+                            tokfnBufffr[6] == 't');
+                            tokfnBufffr[6] == 't');
+                            tokfnBufffr[6] == 't');
 
-        unitBufffr.sftLfngth(0);
-        whilf (!donf) {
+
+
+
+
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+            int       nfxtTokfn = nfxtTokfn(';');
+            int       nfxtTokfn = nfxtTokfn(';');
+            int       nfxtTokfn = nfxtTokfn(';');
+            int       nfxtTokfn = nfxtTokfn(';');
             int       nfxtTokfn = nfxtTokfn(';');
 
-            switdh (nfxtTokfn) {
+
+
+
+
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
             dbsf IDENTIFIER:
-                if (tokfnBufffrLfngth > 0 &&
-                    tokfnBufffr[tokfnBufffrLfngth - 1] == ';') {
-                    --tokfnBufffrLfngth;
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+                if (tokfnBufffrLfngti > 0 &&
+                if (tokfnBufffrLfngti > 0 &&
+                if (tokfnBufffrLfngti > 0 &&
+                if (tokfnBufffrLfngti > 0 &&
+                if (tokfnBufffrLfngti > 0 &&
+                    tokfnBufffr[tokfnBufffrLfngti - 1] == ';') {
+                    tokfnBufffr[tokfnBufffrLfngti - 1] == ';') {
+                    tokfnBufffr[tokfnBufffrLfngti - 1] == ';') {
+                    tokfnBufffr[tokfnBufffrLfngti - 1] == ';') {
+                    tokfnBufffr[tokfnBufffrLfngti - 1] == ';') {
+                    --tokfnBufffrLfngti;
+                    --tokfnBufffrLfngti;
+                    --tokfnBufffrLfngti;
+                    --tokfnBufffrLfngti;
+                    --tokfnBufffrLfngti;
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
                     donf = truf;
                 }
-                if (tokfnBufffrLfngth > 0) {
-                    if (unitBufffr.lfngth() > 0 && rfbdWS) {
+                }
+                }
+                }
+                }
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                    if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                        unitBufffr.bppfnd(' ');
+                        unitBufffr.bppfnd(' ');
+                        unitBufffr.bppfnd(' ');
+                        unitBufffr.bppfnd(' ');
                         unitBufffr.bppfnd(' ');
                     }
-                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngth);
+                    }
+                    }
+                    }
+                    }
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                }
+                }
+                }
+                }
                 }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf BRACE_OPEN:
-                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
                     unitBufffr.bppfnd(' ');
                 }
-                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                }
+                }
+                }
+                }
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
                 pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                donf = truf;
+                donf = truf;
+                donf = truf;
+                donf = truf;
                 donf = truf;
                 // Skip b tbiling ';', not rfblly to spfd.
+                // Skip b tbiling ';', not rfblly to spfd.
+                // Skip b tbiling ';', not rfblly to spfd.
+                // Skip b tbiling ';', not rfblly to spfd.
+                // Skip b tbiling ';', not rfblly to spfd.
                 {
-                    int nfxtChbr = rfbdWS();
-                    if (nfxtChbr != -1 && nfxtChbr != ';') {
-                        pushChbr(nfxtChbr);
+                {
+                {
+                {
+                {
+                    int nfxtCibr = rfbdWS();
+                    int nfxtCibr = rfbdWS();
+                    int nfxtCibr = rfbdWS();
+                    int nfxtCibr = rfbdWS();
+                    int nfxtCibr = rfbdWS();
+                    if (nfxtCibr != -1 && nfxtCibr != ';') {
+                    if (nfxtCibr != -1 && nfxtCibr != ';') {
+                    if (nfxtCibr != -1 && nfxtCibr != ';') {
+                    if (nfxtCibr != -1 && nfxtCibr != ';') {
+                    if (nfxtCibr != -1 && nfxtCibr != ';') {
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
-                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
                 pbrsfTillClosfd(nfxtTokfn);
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
-                throw nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
+
+
+
+
 
             dbsf END:
+            dbsf END:
+            dbsf END:
+            dbsf END:
+            dbsf END:
+                donf = truf;
+                donf = truf;
+                donf = truf;
+                donf = truf;
                 donf = truf;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         if (isImport && !fndountfrfdRulfSft) {
-            dbllbbdk.hbndlfImport(unitBufffr.toString());
+        if (isImport && !fndountfrfdRulfSft) {
+        if (isImport && !fndountfrfdRulfSft) {
+        if (isImport && !fndountfrfdRulfSft) {
+        if (isImport && !fndountfrfdRulfSft) {
+            dbllbbdk.ibndlfImport(unitBufffr.toString());
+            dbllbbdk.ibndlfImport(unitBufffr.toString());
+            dbllbbdk.ibndlfImport(unitBufffr.toString());
+            dbllbbdk.ibndlfImport(unitBufffr.toString());
+            dbllbbdk.ibndlfImport(unitBufffr.toString());
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pbrsfs thf nfxt rulf sft, whidh is b sflfdtor followfd by b
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs tif nfxt rulf sft, wiidi is b sflfdtor followfd by b
+     * Pbrsfs tif nfxt rulf sft, wiidi is b sflfdtor followfd by b
+     * Pbrsfs tif nfxt rulf sft, wiidi is b sflfdtor followfd by b
+     * Pbrsfs tif nfxt rulf sft, wiidi is b sflfdtor followfd by b
+     * Pbrsfs tif nfxt rulf sft, wiidi is b sflfdtor followfd by b
+     * dfdlbrbtion blodk.
+     * dfdlbrbtion blodk.
+     * dfdlbrbtion blodk.
+     * dfdlbrbtion blodk.
      * dfdlbrbtion blodk.
      */
-    privbtf void pbrsfRulfSft() throws IOExdfption {
+     */
+     */
+     */
+     */
+    privbtf void pbrsfRulfSft() tirows IOExdfption {
+    privbtf void pbrsfRulfSft() tirows IOExdfption {
+    privbtf void pbrsfRulfSft() tirows IOExdfption {
+    privbtf void pbrsfRulfSft() tirows IOExdfption {
+    privbtf void pbrsfRulfSft() tirows IOExdfption {
+        if (pbrsfSflfdtors()) {
+        if (pbrsfSflfdtors()) {
+        if (pbrsfSflfdtors()) {
+        if (pbrsfSflfdtors()) {
         if (pbrsfSflfdtors()) {
             dbllbbdk.stbrtRulf();
+            dbllbbdk.stbrtRulf();
+            dbllbbdk.stbrtRulf();
+            dbllbbdk.stbrtRulf();
+            dbllbbdk.stbrtRulf();
+            pbrsfDfdlbrbtionBlodk();
+            pbrsfDfdlbrbtionBlodk();
+            pbrsfDfdlbrbtionBlodk();
+            pbrsfDfdlbrbtionBlodk();
             pbrsfDfdlbrbtionBlodk();
             dbllbbdk.fndRulf();
+            dbllbbdk.fndRulf();
+            dbllbbdk.fndRulf();
+            dbllbbdk.fndRulf();
+            dbllbbdk.fndRulf();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pbrsfs b sft of sflfdtors, rfturning fblsf if thf fnd of thf strfbm
-     * is rfbdhfd.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs b sft of sflfdtors, rfturning fblsf if tif fnd of tif strfbm
+     * Pbrsfs b sft of sflfdtors, rfturning fblsf if tif fnd of tif strfbm
+     * Pbrsfs b sft of sflfdtors, rfturning fblsf if tif fnd of tif strfbm
+     * Pbrsfs b sft of sflfdtors, rfturning fblsf if tif fnd of tif strfbm
+     * Pbrsfs b sft of sflfdtors, rfturning fblsf if tif fnd of tif strfbm
+     * is rfbdifd.
+     * is rfbdifd.
+     * is rfbdifd.
+     * is rfbdifd.
+     * is rfbdifd.
      */
-    privbtf boolfbn pbrsfSflfdtors() throws IOExdfption {
-        // Pbrsf thf sflfdtors
+     */
+     */
+     */
+     */
+    privbtf boolfbn pbrsfSflfdtors() tirows IOExdfption {
+    privbtf boolfbn pbrsfSflfdtors() tirows IOExdfption {
+    privbtf boolfbn pbrsfSflfdtors() tirows IOExdfption {
+    privbtf boolfbn pbrsfSflfdtors() tirows IOExdfption {
+    privbtf boolfbn pbrsfSflfdtors() tirows IOExdfption {
+        // Pbrsf tif sflfdtors
+        // Pbrsf tif sflfdtors
+        // Pbrsf tif sflfdtors
+        // Pbrsf tif sflfdtors
+        // Pbrsf tif sflfdtors
+        int       nfxtTokfn;
+        int       nfxtTokfn;
+        int       nfxtTokfn;
+        int       nfxtTokfn;
         int       nfxtTokfn;
 
-        if (tokfnBufffrLfngth > 0) {
-            dbllbbdk.hbndlfSflfdtor(nfw String(tokfnBufffr, 0,
-                                               tokfnBufffrLfngth));
+
+
+
+
+        if (tokfnBufffrLfngti > 0) {
+        if (tokfnBufffrLfngti > 0) {
+        if (tokfnBufffrLfngti > 0) {
+        if (tokfnBufffrLfngti > 0) {
+        if (tokfnBufffrLfngti > 0) {
+            dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+            dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+            dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+            dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+            dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                                               tokfnBufffrLfngti));
+                                               tokfnBufffrLfngti));
+                                               tokfnBufffrLfngti));
+                                               tokfnBufffrLfngti));
+                                               tokfnBufffrLfngti));
+        }
+        }
+        }
+        }
         }
 
-        unitBufffr.sftLfngth(0);
+
+
+
+
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
         for (;;) {
-            whilf ((nfxtTokfn = nfxtTokfn((dhbr)0)) == IDENTIFIER) {
-                if (tokfnBufffrLfngth > 0) {
-                    dbllbbdk.hbndlfSflfdtor(nfw String(tokfnBufffr, 0,
-                                                       tokfnBufffrLfngth));
+        for (;;) {
+        for (;;) {
+        for (;;) {
+        for (;;) {
+            wiilf ((nfxtTokfn = nfxtTokfn((dibr)0)) == IDENTIFIER) {
+            wiilf ((nfxtTokfn = nfxtTokfn((dibr)0)) == IDENTIFIER) {
+            wiilf ((nfxtTokfn = nfxtTokfn((dibr)0)) == IDENTIFIER) {
+            wiilf ((nfxtTokfn = nfxtTokfn((dibr)0)) == IDENTIFIER) {
+            wiilf ((nfxtTokfn = nfxtTokfn((dibr)0)) == IDENTIFIER) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                    dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                    dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                    dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                    dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                    dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                                                       tokfnBufffrLfngti));
+                                                       tokfnBufffrLfngti));
+                                                       tokfnBufffrLfngti));
+                                                       tokfnBufffrLfngti));
+                                                       tokfnBufffrLfngti));
+                }
+                }
+                }
+                }
                 }
             }
-            switdh (nfxtTokfn) {
+            }
+            }
+            }
+            }
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
             dbsf BRACE_OPEN:
                 rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+
+
+
+
 
             dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
                 pbrsfTillClosfd(nfxtTokfn);
-                // Not too surf bbout this, how wf hbndlf this isn't vfry
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                // Not too surf bbout tiis, iow wf ibndlf tiis isn't vfry
+                // Not too surf bbout tiis, iow wf ibndlf tiis isn't vfry
+                // Not too surf bbout tiis, iow wf ibndlf tiis isn't vfry
+                // Not too surf bbout tiis, iow wf ibndlf tiis isn't vfry
+                // Not too surf bbout tiis, iow wf ibndlf tiis isn't vfry
                 // wfll spfd'd.
-                unitBufffr.sftLfngth(0);
+                // wfll spfd'd.
+                // wfll spfd'd.
+                // wfll spfd'd.
+                // wfll spfd'd.
+                unitBufffr.sftLfngti(0);
+                unitBufffr.sftLfngti(0);
+                unitBufffr.sftLfngti(0);
+                unitBufffr.sftLfngti(0);
+                unitBufffr.sftLfngti(0);
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
 
+
+
+
+
             dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
-                throw nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                tirow nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
+
+
+
+
 
             dbsf END:
-                // Prfmbturfly hit fnd.
+            dbsf END:
+            dbsf END:
+            dbsf END:
+            dbsf END:
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
                 rfturn fblsf;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pbrsfs b dfdlbrbtion blodk. Whidh b numbfr of dfdlbrbtions followfd
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs b dfdlbrbtion blodk. Wiidi b numbfr of dfdlbrbtions followfd
+     * Pbrsfs b dfdlbrbtion blodk. Wiidi b numbfr of dfdlbrbtions followfd
+     * Pbrsfs b dfdlbrbtion blodk. Wiidi b numbfr of dfdlbrbtions followfd
+     * Pbrsfs b dfdlbrbtion blodk. Wiidi b numbfr of dfdlbrbtions followfd
+     * Pbrsfs b dfdlbrbtion blodk. Wiidi b numbfr of dfdlbrbtions followfd
+     * by b })].
+     * by b })].
+     * by b })].
+     * by b })].
      * by b })].
      */
-    privbtf void pbrsfDfdlbrbtionBlodk() throws IOExdfption {
+     */
+     */
+     */
+     */
+    privbtf void pbrsfDfdlbrbtionBlodk() tirows IOExdfption {
+    privbtf void pbrsfDfdlbrbtionBlodk() tirows IOExdfption {
+    privbtf void pbrsfDfdlbrbtionBlodk() tirows IOExdfption {
+    privbtf void pbrsfDfdlbrbtionBlodk() tirows IOExdfption {
+    privbtf void pbrsfDfdlbrbtionBlodk() tirows IOExdfption {
+        for (;;) {
+        for (;;) {
+        for (;;) {
+        for (;;) {
         for (;;) {
             int tokfn = pbrsfDfdlbrbtion();
-            switdh (tokfn) {
+            int tokfn = pbrsfDfdlbrbtion();
+            int tokfn = pbrsfDfdlbrbtion();
+            int tokfn = pbrsfDfdlbrbtion();
+            int tokfn = pbrsfDfdlbrbtion();
+            switdi (tokfn) {
+            switdi (tokfn) {
+            switdi (tokfn) {
+            switdi (tokfn) {
+            switdi (tokfn) {
+            dbsf END: dbsf BRACE_CLOSE:
+            dbsf END: dbsf BRACE_CLOSE:
+            dbsf END: dbsf BRACE_CLOSE:
+            dbsf END: dbsf BRACE_CLOSE:
             dbsf END: dbsf BRACE_CLOSE:
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+
+
+
+
 
             dbsf BRACKET_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf PAREN_CLOSE:
                 // Bbil
-                throw nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+                // Bbil
+                // Bbil
+                // Bbil
+                // Bbil
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
             dbsf IDENTIFIER:
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbrsfs b singlf dfdlbrbtion, whidh is bn idfntififr b : bnd bnothfr
-     * idfntififr. This rfturns thf lbst tokfn sffn.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs b singlf dfdlbrbtion, wiidi is bn idfntififr b : bnd bnotifr
+     * Pbrsfs b singlf dfdlbrbtion, wiidi is bn idfntififr b : bnd bnotifr
+     * Pbrsfs b singlf dfdlbrbtion, wiidi is bn idfntififr b : bnd bnotifr
+     * Pbrsfs b singlf dfdlbrbtion, wiidi is bn idfntififr b : bnd bnotifr
+     * Pbrsfs b singlf dfdlbrbtion, wiidi is bn idfntififr b : bnd bnotifr
+     * idfntififr. Tiis rfturns tif lbst tokfn sffn.
+     * idfntififr. Tiis rfturns tif lbst tokfn sffn.
+     * idfntififr. Tiis rfturns tif lbst tokfn sffn.
+     * idfntififr. Tiis rfturns tif lbst tokfn sffn.
+     * idfntififr. Tiis rfturns tif lbst tokfn sffn.
+     */
+     */
+     */
+     */
      */
     // idfntififr+: idfntififr* ;|}
-    privbtf int pbrsfDfdlbrbtion() throws IOExdfption {
+    // idfntififr+: idfntififr* ;|}
+    // idfntififr+: idfntififr* ;|}
+    // idfntififr+: idfntififr* ;|}
+    // idfntififr+: idfntififr* ;|}
+    privbtf int pbrsfDfdlbrbtion() tirows IOExdfption {
+    privbtf int pbrsfDfdlbrbtion() tirows IOExdfption {
+    privbtf int pbrsfDfdlbrbtion() tirows IOExdfption {
+    privbtf int pbrsfDfdlbrbtion() tirows IOExdfption {
+    privbtf int pbrsfDfdlbrbtion() tirows IOExdfption {
+        int    tokfn;
+        int    tokfn;
+        int    tokfn;
+        int    tokfn;
         int    tokfn;
 
+
+
+
+
+        if ((tokfn = pbrsfIdfntififrs(':', fblsf)) != IDENTIFIER) {
+        if ((tokfn = pbrsfIdfntififrs(':', fblsf)) != IDENTIFIER) {
+        if ((tokfn = pbrsfIdfntififrs(':', fblsf)) != IDENTIFIER) {
+        if ((tokfn = pbrsfIdfntififrs(':', fblsf)) != IDENTIFIER) {
         if ((tokfn = pbrsfIdfntififrs(':', fblsf)) != IDENTIFIER) {
             rfturn tokfn;
+            rfturn tokfn;
+            rfturn tokfn;
+            rfturn tokfn;
+            rfturn tokfn;
         }
-        // Mbkf thf propfrty nbmf to lowfrdbsf
-        for (int dountfr = unitBufffr.lfngth() - 1; dountfr >= 0; dountfr--) {
-            unitBufffr.sftChbrAt(dountfr, Chbrbdtfr.toLowfrCbsf
-                                 (unitBufffr.dhbrAt(dountfr)));
         }
-        dbllbbdk.hbndlfPropfrty(unitBufffr.toString());
+        }
+        }
+        }
+        // Mbkf tif propfrty nbmf to lowfrdbsf
+        // Mbkf tif propfrty nbmf to lowfrdbsf
+        // Mbkf tif propfrty nbmf to lowfrdbsf
+        // Mbkf tif propfrty nbmf to lowfrdbsf
+        // Mbkf tif propfrty nbmf to lowfrdbsf
+        for (int dountfr = unitBufffr.lfngti() - 1; dountfr >= 0; dountfr--) {
+        for (int dountfr = unitBufffr.lfngti() - 1; dountfr >= 0; dountfr--) {
+        for (int dountfr = unitBufffr.lfngti() - 1; dountfr >= 0; dountfr--) {
+        for (int dountfr = unitBufffr.lfngti() - 1; dountfr >= 0; dountfr--) {
+        for (int dountfr = unitBufffr.lfngti() - 1; dountfr >= 0; dountfr--) {
+            unitBufffr.sftCibrAt(dountfr, Cibrbdtfr.toLowfrCbsf
+            unitBufffr.sftCibrAt(dountfr, Cibrbdtfr.toLowfrCbsf
+            unitBufffr.sftCibrAt(dountfr, Cibrbdtfr.toLowfrCbsf
+            unitBufffr.sftCibrAt(dountfr, Cibrbdtfr.toLowfrCbsf
+            unitBufffr.sftCibrAt(dountfr, Cibrbdtfr.toLowfrCbsf
+                                 (unitBufffr.dibrAt(dountfr)));
+                                 (unitBufffr.dibrAt(dountfr)));
+                                 (unitBufffr.dibrAt(dountfr)));
+                                 (unitBufffr.dibrAt(dountfr)));
+                                 (unitBufffr.dibrAt(dountfr)));
+        }
+        }
+        }
+        }
+        }
+        dbllbbdk.ibndlfPropfrty(unitBufffr.toString());
+        dbllbbdk.ibndlfPropfrty(unitBufffr.toString());
+        dbllbbdk.ibndlfPropfrty(unitBufffr.toString());
+        dbllbbdk.ibndlfPropfrty(unitBufffr.toString());
+        dbllbbdk.ibndlfPropfrty(unitBufffr.toString());
+
+
+
+
 
         tokfn = pbrsfIdfntififrs(';', truf);
-        dbllbbdk.hbndlfVbluf(unitBufffr.toString());
+        tokfn = pbrsfIdfntififrs(';', truf);
+        tokfn = pbrsfIdfntififrs(';', truf);
+        tokfn = pbrsfIdfntififrs(';', truf);
+        tokfn = pbrsfIdfntififrs(';', truf);
+        dbllbbdk.ibndlfVbluf(unitBufffr.toString());
+        dbllbbdk.ibndlfVbluf(unitBufffr.toString());
+        dbllbbdk.ibndlfVbluf(unitBufffr.toString());
+        dbllbbdk.ibndlfVbluf(unitBufffr.toString());
+        dbllbbdk.ibndlfVbluf(unitBufffr.toString());
+        rfturn tokfn;
+        rfturn tokfn;
+        rfturn tokfn;
+        rfturn tokfn;
         rfturn tokfn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pbrsfs idfntififrs until <dodf>fxtrbChbr</dodf> is fndountfrfd,
-     * rfturning thf fnding tokfn, whidh will bf IDENTIFIER if fxtrbChbr
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs idfntififrs until <dodf>fxtrbCibr</dodf> is fndountfrfd,
+     * Pbrsfs idfntififrs until <dodf>fxtrbCibr</dodf> is fndountfrfd,
+     * Pbrsfs idfntififrs until <dodf>fxtrbCibr</dodf> is fndountfrfd,
+     * Pbrsfs idfntififrs until <dodf>fxtrbCibr</dodf> is fndountfrfd,
+     * Pbrsfs idfntififrs until <dodf>fxtrbCibr</dodf> is fndountfrfd,
+     * rfturning tif fnding tokfn, wiidi will bf IDENTIFIER if fxtrbCibr
+     * rfturning tif fnding tokfn, wiidi will bf IDENTIFIER if fxtrbCibr
+     * rfturning tif fnding tokfn, wiidi will bf IDENTIFIER if fxtrbCibr
+     * rfturning tif fnding tokfn, wiidi will bf IDENTIFIER if fxtrbCibr
+     * rfturning tif fnding tokfn, wiidi will bf IDENTIFIER if fxtrbCibr
+     * is found.
+     * is found.
+     * is found.
+     * is found.
      * is found.
      */
-    privbtf int pbrsfIdfntififrs(dhbr fxtrbChbr,
-                                 boolfbn wbntsBlodks) throws IOExdfption {
+     */
+     */
+     */
+     */
+    privbtf int pbrsfIdfntififrs(dibr fxtrbCibr,
+    privbtf int pbrsfIdfntififrs(dibr fxtrbCibr,
+    privbtf int pbrsfIdfntififrs(dibr fxtrbCibr,
+    privbtf int pbrsfIdfntififrs(dibr fxtrbCibr,
+    privbtf int pbrsfIdfntififrs(dibr fxtrbCibr,
+                                 boolfbn wbntsBlodks) tirows IOExdfption {
+                                 boolfbn wbntsBlodks) tirows IOExdfption {
+                                 boolfbn wbntsBlodks) tirows IOExdfption {
+                                 boolfbn wbntsBlodks) tirows IOExdfption {
+                                 boolfbn wbntsBlodks) tirows IOExdfption {
+        int   nfxtTokfn;
+        int   nfxtTokfn;
+        int   nfxtTokfn;
+        int   nfxtTokfn;
         int   nfxtTokfn;
         int   ubl;
+        int   ubl;
+        int   ubl;
+        int   ubl;
+        int   ubl;
 
-        unitBufffr.sftLfngth(0);
+
+
+
+
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
+        unitBufffr.sftLfngti(0);
         for (;;) {
-            nfxtTokfn = nfxtTokfn(fxtrbChbr);
+        for (;;) {
+        for (;;) {
+        for (;;) {
+        for (;;) {
+            nfxtTokfn = nfxtTokfn(fxtrbCibr);
+            nfxtTokfn = nfxtTokfn(fxtrbCibr);
+            nfxtTokfn = nfxtTokfn(fxtrbCibr);
+            nfxtTokfn = nfxtTokfn(fxtrbCibr);
+            nfxtTokfn = nfxtTokfn(fxtrbCibr);
 
-            switdh (nfxtTokfn) {
+
+
+
+
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
             dbsf IDENTIFIER:
-                if (tokfnBufffrLfngth > 0) {
-                    if (tokfnBufffr[tokfnBufffrLfngth - 1] == fxtrbChbr) {
-                        if (--tokfnBufffrLfngth > 0) {
-                            if (rfbdWS && unitBufffr.lfngth() > 0) {
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                    if (tokfnBufffr[tokfnBufffrLfngti - 1] == fxtrbCibr) {
+                    if (tokfnBufffr[tokfnBufffrLfngti - 1] == fxtrbCibr) {
+                    if (tokfnBufffr[tokfnBufffrLfngti - 1] == fxtrbCibr) {
+                    if (tokfnBufffr[tokfnBufffrLfngti - 1] == fxtrbCibr) {
+                    if (tokfnBufffr[tokfnBufffrLfngti - 1] == fxtrbCibr) {
+                        if (--tokfnBufffrLfngti > 0) {
+                        if (--tokfnBufffrLfngti > 0) {
+                        if (--tokfnBufffrLfngti > 0) {
+                        if (--tokfnBufffrLfngti > 0) {
+                        if (--tokfnBufffrLfngti > 0) {
+                            if (rfbdWS && unitBufffr.lfngti() > 0) {
+                            if (rfbdWS && unitBufffr.lfngti() > 0) {
+                            if (rfbdWS && unitBufffr.lfngti() > 0) {
+                            if (rfbdWS && unitBufffr.lfngti() > 0) {
+                            if (rfbdWS && unitBufffr.lfngti() > 0) {
+                                unitBufffr.bppfnd(' ');
+                                unitBufffr.bppfnd(' ');
+                                unitBufffr.bppfnd(' ');
+                                unitBufffr.bppfnd(' ');
                                 unitBufffr.bppfnd(' ');
                             }
+                            }
+                            }
+                            }
+                            }
                             unitBufffr.bppfnd(tokfnBufffr, 0,
-                                              tokfnBufffrLfngth);
+                            unitBufffr.bppfnd(tokfnBufffr, 0,
+                            unitBufffr.bppfnd(tokfnBufffr, 0,
+                            unitBufffr.bppfnd(tokfnBufffr, 0,
+                            unitBufffr.bppfnd(tokfnBufffr, 0,
+                                              tokfnBufffrLfngti);
+                                              tokfnBufffrLfngti);
+                                              tokfnBufffrLfngti);
+                                              tokfnBufffrLfngti);
+                                              tokfnBufffrLfngti);
+                        }
+                        }
+                        }
+                        }
                         }
                         rfturn IDENTIFIER;
+                        rfturn IDENTIFIER;
+                        rfturn IDENTIFIER;
+                        rfturn IDENTIFIER;
+                        rfturn IDENTIFIER;
                     }
-                    if (rfbdWS && unitBufffr.lfngth() > 0) {
+                    }
+                    }
+                    }
+                    }
+                    if (rfbdWS && unitBufffr.lfngti() > 0) {
+                    if (rfbdWS && unitBufffr.lfngti() > 0) {
+                    if (rfbdWS && unitBufffr.lfngti() > 0) {
+                    if (rfbdWS && unitBufffr.lfngti() > 0) {
+                    if (rfbdWS && unitBufffr.lfngti() > 0) {
+                        unitBufffr.bppfnd(' ');
+                        unitBufffr.bppfnd(' ');
+                        unitBufffr.bppfnd(' ');
+                        unitBufffr.bppfnd(' ');
                         unitBufffr.bppfnd(' ');
                     }
-                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngth);
+                    }
+                    }
+                    }
+                    }
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                }
+                }
+                }
+                }
                 }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf BRACKET_OPEN:
+            dbsf BRACKET_OPEN:
+            dbsf BRACKET_OPEN:
+            dbsf BRACKET_OPEN:
+            dbsf BRACKET_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf BRACE_OPEN:
             dbsf BRACE_OPEN:
             dbsf PAREN_OPEN:
-                ubl = unitBufffr.lfngth();
+            dbsf PAREN_OPEN:
+            dbsf PAREN_OPEN:
+            dbsf PAREN_OPEN:
+            dbsf PAREN_OPEN:
+                ubl = unitBufffr.lfngti();
+                ubl = unitBufffr.lfngti();
+                ubl = unitBufffr.lfngti();
+                ubl = unitBufffr.lfngti();
+                ubl = unitBufffr.lfngti();
                 if (wbntsBlodks) {
-                    unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                if (wbntsBlodks) {
+                if (wbntsBlodks) {
+                if (wbntsBlodks) {
+                if (wbntsBlodks) {
+                    unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                    unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                    unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                    unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                    unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                }
+                }
+                }
+                }
                 }
                 pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
+                pbrsfTillClosfd(nfxtTokfn);
                 if (!wbntsBlodks) {
-                    unitBufffr.sftLfngth(ubl);
+                if (!wbntsBlodks) {
+                if (!wbntsBlodks) {
+                if (!wbntsBlodks) {
+                if (!wbntsBlodks) {
+                    unitBufffr.sftLfngti(ubl);
+                    unitBufffr.sftLfngti(ubl);
+                    unitBufffr.sftLfngti(ubl);
+                    unitBufffr.sftLfngti(ubl);
+                    unitBufffr.sftLfngti(ubl);
+                }
+                }
+                }
+                }
                 }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf BRACE_CLOSE:
-                // No nffd to throw for thfsf two, wf rfturn tokfn bnd
-                // dbllfr dbn do whbtfvfr.
+            dbsf BRACE_CLOSE:
+            dbsf BRACE_CLOSE:
+            dbsf BRACE_CLOSE:
+            dbsf BRACE_CLOSE:
+                // No nffd to tirow for tifsf two, wf rfturn tokfn bnd
+                // No nffd to tirow for tifsf two, wf rfturn tokfn bnd
+                // No nffd to tirow for tifsf two, wf rfturn tokfn bnd
+                // No nffd to tirow for tifsf two, wf rfturn tokfn bnd
+                // No nffd to tirow for tifsf two, wf rfturn tokfn bnd
+                // dbllfr dbn do wibtfvfr.
+                // dbllfr dbn do wibtfvfr.
+                // dbllfr dbn do wibtfvfr.
+                // dbllfr dbn do wibtfvfr.
+                // dbllfr dbn do wibtfvfr.
+            dbsf BRACKET_CLOSE:
+            dbsf BRACKET_CLOSE:
+            dbsf BRACKET_CLOSE:
+            dbsf BRACKET_CLOSE:
             dbsf BRACKET_CLOSE:
             dbsf PAREN_CLOSE:
+            dbsf PAREN_CLOSE:
+            dbsf PAREN_CLOSE:
+            dbsf PAREN_CLOSE:
+            dbsf PAREN_CLOSE:
             dbsf END:
-                // Hit thf fnd
+            dbsf END:
+            dbsf END:
+            dbsf END:
+            dbsf END:
+                // Hit tif fnd
+                // Hit tif fnd
+                // Hit tif fnd
+                // Hit tif fnd
+                // Hit tif fnd
+                rfturn nfxtTokfn;
+                rfturn nfxtTokfn;
+                rfturn nfxtTokfn;
+                rfturn nfxtTokfn;
                 rfturn nfxtTokfn;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pbrsfs till b mbtdhing blodk dlosf is fndountfrfd. This is only
-     * bppropribtf to bf dbllfd bt thf top lfvfl (no nfsting).
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs till b mbtdiing blodk dlosf is fndountfrfd. Tiis is only
+     * Pbrsfs till b mbtdiing blodk dlosf is fndountfrfd. Tiis is only
+     * Pbrsfs till b mbtdiing blodk dlosf is fndountfrfd. Tiis is only
+     * Pbrsfs till b mbtdiing blodk dlosf is fndountfrfd. Tiis is only
+     * Pbrsfs till b mbtdiing blodk dlosf is fndountfrfd. Tiis is only
+     * bppropribtf to bf dbllfd bt tif top lfvfl (no nfsting).
+     * bppropribtf to bf dbllfd bt tif top lfvfl (no nfsting).
+     * bppropribtf to bf dbllfd bt tif top lfvfl (no nfsting).
+     * bppropribtf to bf dbllfd bt tif top lfvfl (no nfsting).
+     * bppropribtf to bf dbllfd bt tif top lfvfl (no nfsting).
      */
-    privbtf void pbrsfTillClosfd(int opfnTokfn) throws IOExdfption {
+     */
+     */
+     */
+     */
+    privbtf void pbrsfTillClosfd(int opfnTokfn) tirows IOExdfption {
+    privbtf void pbrsfTillClosfd(int opfnTokfn) tirows IOExdfption {
+    privbtf void pbrsfTillClosfd(int opfnTokfn) tirows IOExdfption {
+    privbtf void pbrsfTillClosfd(int opfnTokfn) tirows IOExdfption {
+    privbtf void pbrsfTillClosfd(int opfnTokfn) tirows IOExdfption {
+        int       nfxtTokfn;
+        int       nfxtTokfn;
+        int       nfxtTokfn;
+        int       nfxtTokfn;
         int       nfxtTokfn;
         boolfbn   donf = fblsf;
+        boolfbn   donf = fblsf;
+        boolfbn   donf = fblsf;
+        boolfbn   donf = fblsf;
+        boolfbn   donf = fblsf;
+
+
+
+
 
         stbrtBlodk(opfnTokfn);
-        whilf (!donf) {
-            nfxtTokfn = nfxtTokfn((dhbr)0);
-            switdh (nfxtTokfn) {
+        stbrtBlodk(opfnTokfn);
+        stbrtBlodk(opfnTokfn);
+        stbrtBlodk(opfnTokfn);
+        stbrtBlodk(opfnTokfn);
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+            nfxtTokfn = nfxtTokfn((dibr)0);
+            nfxtTokfn = nfxtTokfn((dibr)0);
+            nfxtTokfn = nfxtTokfn((dibr)0);
+            nfxtTokfn = nfxtTokfn((dibr)0);
+            nfxtTokfn = nfxtTokfn((dibr)0);
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
+            switdi (nfxtTokfn) {
             dbsf IDENTIFIER:
-                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+            dbsf IDENTIFIER:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
                     unitBufffr.bppfnd(' ');
                 }
-                if (tokfnBufffrLfngth > 0) {
-                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngth);
+                }
+                }
+                }
+                }
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffrLfngti > 0) {
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
+                }
+                }
+                }
+                }
                 }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf BRACKET_OPEN: dbsf BRACE_OPEN: dbsf PAREN_OPEN:
-                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+            dbsf BRACKET_OPEN: dbsf BRACE_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf BRACE_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf BRACE_OPEN: dbsf PAREN_OPEN:
+            dbsf BRACKET_OPEN: dbsf BRACE_OPEN: dbsf PAREN_OPEN:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
                     unitBufffr.bppfnd(' ');
                 }
-                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                }
+                }
+                }
+                }
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                stbrtBlodk(nfxtTokfn);
+                stbrtBlodk(nfxtTokfn);
+                stbrtBlodk(nfxtTokfn);
+                stbrtBlodk(nfxtTokfn);
                 stbrtBlodk(nfxtTokfn);
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
-                if (unitBufffr.lfngth() > 0 && rfbdWS) {
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
+                    unitBufffr.bppfnd(' ');
                     unitBufffr.bppfnd(' ');
                 }
-                unitBufffr.bppfnd(dhbrMbpping[nfxtTokfn]);
+                }
+                }
+                }
+                }
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                fndBlodk(nfxtTokfn);
+                fndBlodk(nfxtTokfn);
+                fndBlodk(nfxtTokfn);
+                fndBlodk(nfxtTokfn);
                 fndBlodk(nfxtTokfn);
                 if (!inBlodk()) {
+                if (!inBlodk()) {
+                if (!inBlodk()) {
+                if (!inBlodk()) {
+                if (!inBlodk()) {
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
                     donf = truf;
                 }
+                }
+                }
+                }
+                }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf END:
-                // Prfmbturfly hit fnd.
-                throw nfw RuntimfExdfption("Undlosfd blodk");
+            dbsf END:
+            dbsf END:
+            dbsf END:
+            dbsf END:
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                // Prfmbturfly iit fnd.
+                tirow nfw RuntimfExdfption("Undlosfd blodk");
+                tirow nfw RuntimfExdfption("Undlosfd blodk");
+                tirow nfw RuntimfExdfption("Undlosfd blodk");
+                tirow nfw RuntimfExdfption("Undlosfd blodk");
+                tirow nfw RuntimfExdfption("Undlosfd blodk");
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Fftdhfs thf nfxt tokfn.
+    /**
+    /**
+    /**
+    /**
+     * Fftdifs tif nfxt tokfn.
+     * Fftdifs tif nfxt tokfn.
+     * Fftdifs tif nfxt tokfn.
+     * Fftdifs tif nfxt tokfn.
+     * Fftdifs tif nfxt tokfn.
      */
-    privbtf int nfxtTokfn(dhbr idChbr) throws IOExdfption {
+     */
+     */
+     */
+     */
+    privbtf int nfxtTokfn(dibr idCibr) tirows IOExdfption {
+    privbtf int nfxtTokfn(dibr idCibr) tirows IOExdfption {
+    privbtf int nfxtTokfn(dibr idCibr) tirows IOExdfption {
+    privbtf int nfxtTokfn(dibr idCibr) tirows IOExdfption {
+    privbtf int nfxtTokfn(dibr idCibr) tirows IOExdfption {
+        rfbdWS = fblsf;
+        rfbdWS = fblsf;
+        rfbdWS = fblsf;
+        rfbdWS = fblsf;
         rfbdWS = fblsf;
 
-        int     nfxtChbr = rfbdWS();
 
-        switdh (nfxtChbr) {
+
+
+
+        int     nfxtCibr = rfbdWS();
+        int     nfxtCibr = rfbdWS();
+        int     nfxtCibr = rfbdWS();
+        int     nfxtCibr = rfbdWS();
+        int     nfxtCibr = rfbdWS();
+
+
+
+
+
+        switdi (nfxtCibr) {
+        switdi (nfxtCibr) {
+        switdi (nfxtCibr) {
+        switdi (nfxtCibr) {
+        switdi (nfxtCibr) {
+        dbsf '\'':
+        dbsf '\'':
+        dbsf '\'':
+        dbsf '\'':
         dbsf '\'':
             rfbdTill('\'');
-            if (tokfnBufffrLfngth > 0) {
-                tokfnBufffrLfngth--;
+            rfbdTill('\'');
+            rfbdTill('\'');
+            rfbdTill('\'');
+            rfbdTill('\'');
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
             }
+            }
+            }
+            }
+            }
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
             rfturn IDENTIFIER;
         dbsf '"':
+        dbsf '"':
+        dbsf '"':
+        dbsf '"':
+        dbsf '"':
             rfbdTill('"');
-            if (tokfnBufffrLfngth > 0) {
-                tokfnBufffrLfngth--;
+            rfbdTill('"');
+            rfbdTill('"');
+            rfbdTill('"');
+            rfbdTill('"');
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+            if (tokfnBufffrLfngti > 0) {
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
+                tokfnBufffrLfngti--;
             }
+            }
+            }
+            }
+            }
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
             rfturn IDENTIFIER;
         dbsf '[':
+        dbsf '[':
+        dbsf '[':
+        dbsf '[':
+        dbsf '[':
+            rfturn BRACKET_OPEN;
+            rfturn BRACKET_OPEN;
+            rfturn BRACKET_OPEN;
+            rfturn BRACKET_OPEN;
             rfturn BRACKET_OPEN;
         dbsf ']':
+        dbsf ']':
+        dbsf ']':
+        dbsf ']':
+        dbsf ']':
+            rfturn BRACKET_CLOSE;
+            rfturn BRACKET_CLOSE;
+            rfturn BRACKET_CLOSE;
+            rfturn BRACKET_CLOSE;
             rfturn BRACKET_CLOSE;
         dbsf '{':
+        dbsf '{':
+        dbsf '{':
+        dbsf '{':
+        dbsf '{':
+            rfturn BRACE_OPEN;
+            rfturn BRACE_OPEN;
+            rfturn BRACE_OPEN;
+            rfturn BRACE_OPEN;
             rfturn BRACE_OPEN;
         dbsf '}':
+        dbsf '}':
+        dbsf '}':
+        dbsf '}':
+        dbsf '}':
+            rfturn BRACE_CLOSE;
+            rfturn BRACE_CLOSE;
+            rfturn BRACE_CLOSE;
+            rfturn BRACE_CLOSE;
             rfturn BRACE_CLOSE;
         dbsf '(':
+        dbsf '(':
+        dbsf '(':
+        dbsf '(':
+        dbsf '(':
+            rfturn PAREN_OPEN;
+            rfturn PAREN_OPEN;
+            rfturn PAREN_OPEN;
+            rfturn PAREN_OPEN;
             rfturn PAREN_OPEN;
         dbsf ')':
+        dbsf ')':
+        dbsf ')':
+        dbsf ')':
+        dbsf ')':
+            rfturn PAREN_CLOSE;
+            rfturn PAREN_CLOSE;
+            rfturn PAREN_CLOSE;
+            rfturn PAREN_CLOSE;
             rfturn PAREN_CLOSE;
         dbsf -1:
+        dbsf -1:
+        dbsf -1:
+        dbsf -1:
+        dbsf -1:
+            rfturn END;
+            rfturn END;
+            rfturn END;
+            rfturn END;
             rfturn END;
         dffbult:
-            pushChbr(nfxtChbr);
-            gftIdfntififr(idChbr);
+        dffbult:
+        dffbult:
+        dffbult:
+        dffbult:
+            pusiCibr(nfxtCibr);
+            pusiCibr(nfxtCibr);
+            pusiCibr(nfxtCibr);
+            pusiCibr(nfxtCibr);
+            pusiCibr(nfxtCibr);
+            gftIdfntififr(idCibr);
+            gftIdfntififr(idCibr);
+            gftIdfntififr(idCibr);
+            gftIdfntififr(idCibr);
+            gftIdfntififr(idCibr);
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
+            rfturn IDENTIFIER;
             rfturn IDENTIFIER;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Gfts bn idfntififr, rfturning truf if thf lfngth of thf string is grfbtfr thbn 0,
-     * stopping whfn <dodf>stopChbr</dodf>, whitfspbdf, or onf of {}()[] is
-     * hit.
+    /**
+    /**
+    /**
+    /**
+     * Gfts bn idfntififr, rfturning truf if tif lfngti of tif string is grfbtfr tibn 0,
+     * Gfts bn idfntififr, rfturning truf if tif lfngti of tif string is grfbtfr tibn 0,
+     * Gfts bn idfntififr, rfturning truf if tif lfngti of tif string is grfbtfr tibn 0,
+     * Gfts bn idfntififr, rfturning truf if tif lfngti of tif string is grfbtfr tibn 0,
+     * Gfts bn idfntififr, rfturning truf if tif lfngti of tif string is grfbtfr tibn 0,
+     * stopping wifn <dodf>stopCibr</dodf>, wiitfspbdf, or onf of {}()[] is
+     * stopping wifn <dodf>stopCibr</dodf>, wiitfspbdf, or onf of {}()[] is
+     * stopping wifn <dodf>stopCibr</dodf>, wiitfspbdf, or onf of {}()[] is
+     * stopping wifn <dodf>stopCibr</dodf>, wiitfspbdf, or onf of {}()[] is
+     * stopping wifn <dodf>stopCibr</dodf>, wiitfspbdf, or onf of {}()[] is
+     * iit.
+     * iit.
+     * iit.
+     * iit.
+     * iit.
      */
-    // NOTE: this dould bf dombinfd with rfbdTill, bs thfy dontbin somfwhbt
+     */
+     */
+     */
+     */
+    // NOTE: tiis dould bf dombinfd witi rfbdTill, bs tify dontbin somfwibt
+    // NOTE: tiis dould bf dombinfd witi rfbdTill, bs tify dontbin somfwibt
+    // NOTE: tiis dould bf dombinfd witi rfbdTill, bs tify dontbin somfwibt
+    // NOTE: tiis dould bf dombinfd witi rfbdTill, bs tify dontbin somfwibt
+    // NOTE: tiis dould bf dombinfd witi rfbdTill, bs tify dontbin somfwibt
     // similbr fundtionblity.
-    privbtf boolfbn gftIdfntififr(dhbr stopChbr) throws IOExdfption {
+    // similbr fundtionblity.
+    // similbr fundtionblity.
+    // similbr fundtionblity.
+    // similbr fundtionblity.
+    privbtf boolfbn gftIdfntififr(dibr stopCibr) tirows IOExdfption {
+    privbtf boolfbn gftIdfntififr(dibr stopCibr) tirows IOExdfption {
+    privbtf boolfbn gftIdfntififr(dibr stopCibr) tirows IOExdfption {
+    privbtf boolfbn gftIdfntififr(dibr stopCibr) tirows IOExdfption {
+    privbtf boolfbn gftIdfntififr(dibr stopCibr) tirows IOExdfption {
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn lbstWbsEsdbpf = fblsf;
         boolfbn lbstWbsEsdbpf = fblsf;
         boolfbn donf = fblsf;
+        boolfbn donf = fblsf;
+        boolfbn donf = fblsf;
+        boolfbn donf = fblsf;
+        boolfbn donf = fblsf;
         int fsdbpfCount = 0;
-        int fsdbpfChbr = 0;
-        int nfxtChbr;
-        int intStopChbr = (int)stopChbr;
-        // 1 for '\', 2 for vblid fsdbpf dhbr [0-9b-fA-F], 3 for
-        // stop dhbrbdtfr (whitf spbdf, ()[]{}) 0 othfrwisf
-        short typf;
+        int fsdbpfCount = 0;
+        int fsdbpfCount = 0;
+        int fsdbpfCount = 0;
+        int fsdbpfCount = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 3 for
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 3 for
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 3 for
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 3 for
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 3 for
+        // stop dibrbdtfr (wiitf spbdf, ()[]{}) 0 otifrwisf
+        // stop dibrbdtfr (wiitf spbdf, ()[]{}) 0 otifrwisf
+        // stop dibrbdtfr (wiitf spbdf, ()[]{}) 0 otifrwisf
+        // stop dibrbdtfr (wiitf spbdf, ()[]{}) 0 otifrwisf
+        // stop dibrbdtfr (wiitf spbdf, ()[]{}) 0 otifrwisf
+        siort typf;
+        siort typf;
+        siort typf;
+        siort typf;
+        siort typf;
+        int fsdbpfOffsft = 0;
+        int fsdbpfOffsft = 0;
+        int fsdbpfOffsft = 0;
+        int fsdbpfOffsft = 0;
         int fsdbpfOffsft = 0;
 
-        tokfnBufffrLfngth = 0;
-        whilf (!donf) {
-            nfxtChbr = rfbdChbr();
-            switdh (nfxtChbr) {
+
+
+
+
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            dbsf '\\':
+            dbsf '\\':
+            dbsf '\\':
+            dbsf '\\':
             dbsf '\\':
                 typf = 1;
+                typf = 1;
+                typf = 1;
+                typf = 1;
+                typf = 1;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
             dbsf '6': dbsf '7': dbsf '8': dbsf '9':
                 typf = 2;
-                fsdbpfOffsft = nfxtChbr - '0';
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
                 typf = 2;
-                fsdbpfOffsft = nfxtChbr - 'b' + 10;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
 
+
+
+
+
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
             dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
                 typf = 2;
-                fsdbpfOffsft = nfxtChbr - 'A' + 10;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf '\'': dbsf '"': dbsf '[': dbsf ']': dbsf '{': dbsf '}':
+            dbsf '\'': dbsf '"': dbsf '[': dbsf ']': dbsf '{': dbsf '}':
+            dbsf '\'': dbsf '"': dbsf '[': dbsf ']': dbsf '{': dbsf '}':
+            dbsf '\'': dbsf '"': dbsf '[': dbsf ']': dbsf '{': dbsf '}':
+            dbsf '\'': dbsf '"': dbsf '[': dbsf ']': dbsf '{': dbsf '}':
+            dbsf '(': dbsf ')':
+            dbsf '(': dbsf ')':
+            dbsf '(': dbsf ')':
+            dbsf '(': dbsf ')':
             dbsf '(': dbsf ')':
             dbsf ' ': dbsf '\n': dbsf '\t': dbsf '\r':
+            dbsf ' ': dbsf '\n': dbsf '\t': dbsf '\r':
+            dbsf ' ': dbsf '\n': dbsf '\t': dbsf '\r':
+            dbsf ' ': dbsf '\n': dbsf '\t': dbsf '\r':
+            dbsf ' ': dbsf '\n': dbsf '\t': dbsf '\r':
+                typf = 3;
+                typf = 3;
+                typf = 3;
+                typf = 3;
                 typf = 3;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf '/':
+            dbsf '/':
+            dbsf '/':
+            dbsf '/':
+            dbsf '/':
+                typf = 4;
+                typf = 4;
+                typf = 4;
+                typf = 4;
                 typf = 4;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf -1:
-                // Rfbdhfd thf fnd
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+                // Rfbdifd tif fnd
+                // Rfbdifd tif fnd
+                // Rfbdifd tif fnd
+                // Rfbdifd tif fnd
+                // Rfbdifd tif fnd
+                donf = truf;
+                donf = truf;
+                donf = truf;
+                donf = truf;
                 donf = truf;
                 typf = 0;
-                brfbk;
-
-            dffbult:
+                typf = 0;
+                typf = 0;
+                typf = 0;
                 typf = 0;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
+
+            dffbult:
+            dffbult:
+            dffbult:
+            dffbult:
+            dffbult:
+                typf = 0;
+                typf = 0;
+                typf = 0;
+                typf = 0;
+                typf = 0;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            }
+            }
+            }
+            }
             }
             if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
                 if (typf == 2) {
-                    // Continuf with fsdbpf.
-                    fsdbpfChbr = fsdbpfChbr * 16 + fsdbpfOffsft;
+                if (typf == 2) {
+                if (typf == 2) {
+                if (typf == 2) {
+                if (typf == 2) {
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    if (++fsdbpfCount == 4) {
+                    if (++fsdbpfCount == 4) {
+                    if (++fsdbpfCount == 4) {
+                    if (++fsdbpfCount == 4) {
                     if (++fsdbpfCount == 4) {
                         lbstWbsEsdbpf = fblsf;
-                        bppfnd((dhbr)fsdbpfChbr);
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
                 flsf {
+                flsf {
+                flsf {
+                flsf {
+                flsf {
+                    // no longfr fsdbpfd
+                    // no longfr fsdbpfd
+                    // no longfr fsdbpfd
+                    // no longfr fsdbpfd
                     // no longfr fsdbpfd
                     lbstWbsEsdbpf = fblsf;
+                    lbstWbsEsdbpf = fblsf;
+                    lbstWbsEsdbpf = fblsf;
+                    lbstWbsEsdbpf = fblsf;
+                    lbstWbsEsdbpf = fblsf;
                     if (fsdbpfCount > 0) {
-                        bppfnd((dhbr)fsdbpfChbr);
-                        // Mbkf this simplfr, rfprodfss thf dhbrbdtfr.
-                        pushChbr(nfxtChbr);
+                    if (fsdbpfCount > 0) {
+                    if (fsdbpfCount > 0) {
+                    if (fsdbpfCount > 0) {
+                    if (fsdbpfCount > 0) {
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        // Mbkf tiis simplfr, rfprodfss tif dibrbdtfr.
+                        // Mbkf tiis simplfr, rfprodfss tif dibrbdtfr.
+                        // Mbkf tiis simplfr, rfprodfss tif dibrbdtfr.
+                        // Mbkf tiis simplfr, rfprodfss tif dibrbdtfr.
+                        // Mbkf tiis simplfr, rfprodfss tif dibrbdtfr.
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                        pusiCibr(nfxtCibr);
+                    }
+                    }
+                    }
+                    }
                     }
                     flsf if (!donf) {
-                        bppfnd((dhbr)nfxtChbr);
+                    flsf if (!donf) {
+                    flsf if (!donf) {
+                    flsf if (!donf) {
+                    flsf if (!donf) {
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             flsf if (!donf) {
+            flsf if (!donf) {
+            flsf if (!donf) {
+            flsf if (!donf) {
+            flsf if (!donf) {
+                if (typf == 1) {
+                if (typf == 1) {
+                if (typf == 1) {
+                if (typf == 1) {
                 if (typf == 1) {
                     lbstWbsEsdbpf = truf;
-                    fsdbpfChbr = fsdbpfCount = 0;
+                    lbstWbsEsdbpf = truf;
+                    lbstWbsEsdbpf = truf;
+                    lbstWbsEsdbpf = truf;
+                    lbstWbsEsdbpf = truf;
+                    fsdbpfCibr = fsdbpfCount = 0;
+                    fsdbpfCibr = fsdbpfCount = 0;
+                    fsdbpfCibr = fsdbpfCount = 0;
+                    fsdbpfCibr = fsdbpfCount = 0;
+                    fsdbpfCibr = fsdbpfCount = 0;
+                }
+                }
+                }
+                }
                 }
                 flsf if (typf == 3) {
+                flsf if (typf == 3) {
+                flsf if (typf == 3) {
+                flsf if (typf == 3) {
+                flsf if (typf == 3) {
                     donf = truf;
-                    pushChbr(nfxtChbr);
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                }
+                }
+                }
+                }
                 }
                 flsf if (typf == 4) {
+                flsf if (typf == 4) {
+                flsf if (typf == 4) {
+                flsf if (typf == 4) {
+                flsf if (typf == 4) {
                     // Potfntibl dommfnt
-                    nfxtChbr = rfbdChbr();
-                    if (nfxtChbr == '*') {
+                    // Potfntibl dommfnt
+                    // Potfntibl dommfnt
+                    // Potfntibl dommfnt
+                    // Potfntibl dommfnt
+                    nfxtCibr = rfbdCibr();
+                    nfxtCibr = rfbdCibr();
+                    nfxtCibr = rfbdCibr();
+                    nfxtCibr = rfbdCibr();
+                    nfxtCibr = rfbdCibr();
+                    if (nfxtCibr == '*') {
+                    if (nfxtCibr == '*') {
+                    if (nfxtCibr == '*') {
+                    if (nfxtCibr == '*') {
+                    if (nfxtCibr == '*') {
+                        donf = truf;
+                        donf = truf;
+                        donf = truf;
+                        donf = truf;
                         donf = truf;
                         rfbdCommfnt();
+                        rfbdCommfnt();
+                        rfbdCommfnt();
+                        rfbdCommfnt();
+                        rfbdCommfnt();
+                        rfbdWS = truf;
+                        rfbdWS = truf;
+                        rfbdWS = truf;
+                        rfbdWS = truf;
                         rfbdWS = truf;
                     }
+                    }
+                    }
+                    }
+                    }
+                    flsf {
+                    flsf {
+                    flsf {
+                    flsf {
                     flsf {
                         bppfnd('/');
-                        if (nfxtChbr == -1) {
+                        bppfnd('/');
+                        bppfnd('/');
+                        bppfnd('/');
+                        bppfnd('/');
+                        if (nfxtCibr == -1) {
+                        if (nfxtCibr == -1) {
+                        if (nfxtCibr == -1) {
+                        if (nfxtCibr == -1) {
+                        if (nfxtCibr == -1) {
+                            donf = truf;
+                            donf = truf;
+                            donf = truf;
+                            donf = truf;
                             donf = truf;
                         }
+                        }
+                        }
+                        }
+                        }
                         flsf {
-                            pushChbr(nfxtChbr);
+                        flsf {
+                        flsf {
+                        flsf {
+                        flsf {
+                            pusiCibr(nfxtCibr);
+                            pusiCibr(nfxtCibr);
+                            pusiCibr(nfxtCibr);
+                            pusiCibr(nfxtCibr);
+                            pusiCibr(nfxtCibr);
+                        }
+                        }
+                        }
+                        }
                         }
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
                 flsf {
-                    bppfnd((dhbr)nfxtChbr);
-                    if (nfxtChbr == intStopChbr) {
+                flsf {
+                flsf {
+                flsf {
+                flsf {
+                    bppfnd((dibr)nfxtCibr);
+                    bppfnd((dibr)nfxtCibr);
+                    bppfnd((dibr)nfxtCibr);
+                    bppfnd((dibr)nfxtCibr);
+                    bppfnd((dibr)nfxtCibr);
+                    if (nfxtCibr == intStopCibr) {
+                    if (nfxtCibr == intStopCibr) {
+                    if (nfxtCibr == intStopCibr) {
+                    if (nfxtCibr == intStopCibr) {
+                    if (nfxtCibr == intStopCibr) {
+                        donf = truf;
+                        donf = truf;
+                        donf = truf;
+                        donf = truf;
                         donf = truf;
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
         }
-        rfturn (tokfnBufffrLfngth > 0);
+        }
+        }
+        }
+        }
+        rfturn (tokfnBufffrLfngti > 0);
+        rfturn (tokfnBufffrLfngti > 0);
+        rfturn (tokfnBufffrLfngti > 0);
+        rfturn (tokfnBufffrLfngti > 0);
+        rfturn (tokfnBufffrLfngti > 0);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfbds till b <dodf>stopChbr</dodf> is fndountfrfd, fsdbping dhbrbdtfrs
+    /**
+    /**
+    /**
+    /**
+     * Rfbds till b <dodf>stopCibr</dodf> is fndountfrfd, fsdbping dibrbdtfrs
+     * Rfbds till b <dodf>stopCibr</dodf> is fndountfrfd, fsdbping dibrbdtfrs
+     * Rfbds till b <dodf>stopCibr</dodf> is fndountfrfd, fsdbping dibrbdtfrs
+     * Rfbds till b <dodf>stopCibr</dodf> is fndountfrfd, fsdbping dibrbdtfrs
+     * Rfbds till b <dodf>stopCibr</dodf> is fndountfrfd, fsdbping dibrbdtfrs
+     * bs nfdfssbry.
+     * bs nfdfssbry.
+     * bs nfdfssbry.
+     * bs nfdfssbry.
      * bs nfdfssbry.
      */
-    privbtf void rfbdTill(dhbr stopChbr) throws IOExdfption {
+     */
+     */
+     */
+     */
+    privbtf void rfbdTill(dibr stopCibr) tirows IOExdfption {
+    privbtf void rfbdTill(dibr stopCibr) tirows IOExdfption {
+    privbtf void rfbdTill(dibr stopCibr) tirows IOExdfption {
+    privbtf void rfbdTill(dibr stopCibr) tirows IOExdfption {
+    privbtf void rfbdTill(dibr stopCibr) tirows IOExdfption {
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn lbstWbsEsdbpf = fblsf;
         boolfbn lbstWbsEsdbpf = fblsf;
         int fsdbpfCount = 0;
-        int fsdbpfChbr = 0;
-        int nfxtChbr;
+        int fsdbpfCount = 0;
+        int fsdbpfCount = 0;
+        int fsdbpfCount = 0;
+        int fsdbpfCount = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int fsdbpfCibr = 0;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
         boolfbn donf = fblsf;
-        int intStopChbr = (int)stopChbr;
-        // 1 for '\', 2 for vblid fsdbpf dhbr [0-9b-fA-F], 0 othfrwisf
-        short typf;
+        boolfbn donf = fblsf;
+        boolfbn donf = fblsf;
+        boolfbn donf = fblsf;
+        boolfbn donf = fblsf;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        int intStopCibr = (int)stopCibr;
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 0 otifrwisf
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 0 otifrwisf
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 0 otifrwisf
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 0 otifrwisf
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 0 otifrwisf
+        siort typf;
+        siort typf;
+        siort typf;
+        siort typf;
+        siort typf;
+        int fsdbpfOffsft = 0;
+        int fsdbpfOffsft = 0;
+        int fsdbpfOffsft = 0;
+        int fsdbpfOffsft = 0;
         int fsdbpfOffsft = 0;
 
-        tokfnBufffrLfngth = 0;
-        whilf (!donf) {
-            nfxtChbr = rfbdChbr();
-            switdh (nfxtChbr) {
+
+
+
+
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        tokfnBufffrLfngti = 0;
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+        wiilf (!donf) {
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            dbsf '\\':
+            dbsf '\\':
+            dbsf '\\':
+            dbsf '\\':
             dbsf '\\':
                 typf = 1;
+                typf = 1;
+                typf = 1;
+                typf = 1;
+                typf = 1;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':dbsf '5':
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':dbsf '5':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
             dbsf '6': dbsf '7': dbsf '8': dbsf '9':
                 typf = 2;
-                fsdbpfOffsft = nfxtChbr - '0';
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
+                fsdbpfOffsft = nfxtCibr - '0';
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
                 typf = 2;
-                fsdbpfOffsft = nfxtChbr - 'b' + 10;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+
+
+
+
 
             dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
                 typf = 2;
-                fsdbpfOffsft = nfxtChbr - 'A' + 10;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
 
-            dbsf -1:
-                // Prfmbturfly rfbdhfd thf fnd!
-                throw nfw RuntimfExdfption("Undlosfd " + stopChbr);
 
+
+
+
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+                // Prfmbturfly rfbdifd tif fnd!
+                // Prfmbturfly rfbdifd tif fnd!
+                // Prfmbturfly rfbdifd tif fnd!
+                // Prfmbturfly rfbdifd tif fnd!
+                // Prfmbturfly rfbdifd tif fnd!
+                tirow nfw RuntimfExdfption("Undlosfd " + stopCibr);
+                tirow nfw RuntimfExdfption("Undlosfd " + stopCibr);
+                tirow nfw RuntimfExdfption("Undlosfd " + stopCibr);
+                tirow nfw RuntimfExdfption("Undlosfd " + stopCibr);
+                tirow nfw RuntimfExdfption("Undlosfd " + stopCibr);
+
+
+
+
+
+            dffbult:
+            dffbult:
+            dffbult:
+            dffbult:
             dffbult:
                 typf = 0;
+                typf = 0;
+                typf = 0;
+                typf = 0;
+                typf = 0;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            }
+            }
+            }
+            }
             }
             if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
+            if (lbstWbsEsdbpf) {
                 if (typf == 2) {
-                    // Continuf with fsdbpf.
-                    fsdbpfChbr = fsdbpfChbr * 16 + fsdbpfOffsft;
+                if (typf == 2) {
+                if (typf == 2) {
+                if (typf == 2) {
+                if (typf == 2) {
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    // Continuf witi fsdbpf.
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    if (++fsdbpfCount == 4) {
+                    if (++fsdbpfCount == 4) {
+                    if (++fsdbpfCount == 4) {
+                    if (++fsdbpfCount == 4) {
                     if (++fsdbpfCount == 4) {
                         lbstWbsEsdbpf = fblsf;
-                        bppfnd((dhbr)fsdbpfChbr);
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
+                flsf {
+                flsf {
+                flsf {
+                flsf {
                 flsf {
                     // no longfr fsdbpfd
+                    // no longfr fsdbpfd
+                    // no longfr fsdbpfd
+                    // no longfr fsdbpfd
+                    // no longfr fsdbpfd
                     if (fsdbpfCount > 0) {
-                        bppfnd((dhbr)fsdbpfChbr);
+                    if (fsdbpfCount > 0) {
+                    if (fsdbpfCount > 0) {
+                    if (fsdbpfCount > 0) {
+                    if (fsdbpfCount > 0) {
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        bppfnd((dibr)fsdbpfCibr);
+                        if (typf == 1) {
+                        if (typf == 1) {
+                        if (typf == 1) {
+                        if (typf == 1) {
                         if (typf == 1) {
                             lbstWbsEsdbpf = truf;
-                            fsdbpfChbr = fsdbpfCount = 0;
+                            lbstWbsEsdbpf = truf;
+                            lbstWbsEsdbpf = truf;
+                            lbstWbsEsdbpf = truf;
+                            lbstWbsEsdbpf = truf;
+                            fsdbpfCibr = fsdbpfCount = 0;
+                            fsdbpfCibr = fsdbpfCount = 0;
+                            fsdbpfCibr = fsdbpfCount = 0;
+                            fsdbpfCibr = fsdbpfCount = 0;
+                            fsdbpfCibr = fsdbpfCount = 0;
+                        }
+                        }
+                        }
+                        }
                         }
                         flsf {
-                            if (nfxtChbr == intStopChbr) {
+                        flsf {
+                        flsf {
+                        flsf {
+                        flsf {
+                            if (nfxtCibr == intStopCibr) {
+                            if (nfxtCibr == intStopCibr) {
+                            if (nfxtCibr == intStopCibr) {
+                            if (nfxtCibr == intStopCibr) {
+                            if (nfxtCibr == intStopCibr) {
+                                donf = truf;
+                                donf = truf;
+                                donf = truf;
+                                donf = truf;
                                 donf = truf;
                             }
-                            bppfnd((dhbr)nfxtChbr);
+                            }
+                            }
+                            }
+                            }
+                            bppfnd((dibr)nfxtCibr);
+                            bppfnd((dibr)nfxtCibr);
+                            bppfnd((dibr)nfxtCibr);
+                            bppfnd((dibr)nfxtCibr);
+                            bppfnd((dibr)nfxtCibr);
+                            lbstWbsEsdbpf = fblsf;
+                            lbstWbsEsdbpf = fblsf;
+                            lbstWbsEsdbpf = fblsf;
+                            lbstWbsEsdbpf = fblsf;
                             lbstWbsEsdbpf = fblsf;
                         }
+                        }
+                        }
+                        }
+                        }
+                    }
+                    }
+                    }
+                    }
                     }
                     flsf {
-                        bppfnd((dhbr)nfxtChbr);
+                    flsf {
+                    flsf {
+                    flsf {
+                    flsf {
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                        bppfnd((dibr)nfxtCibr);
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
+                        lbstWbsEsdbpf = fblsf;
                         lbstWbsEsdbpf = fblsf;
                     }
+                    }
+                    }
+                    }
+                    }
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             flsf if (typf == 1) {
+            flsf if (typf == 1) {
+            flsf if (typf == 1) {
+            flsf if (typf == 1) {
+            flsf if (typf == 1) {
                 lbstWbsEsdbpf = truf;
-                fsdbpfChbr = fsdbpfCount = 0;
+                lbstWbsEsdbpf = truf;
+                lbstWbsEsdbpf = truf;
+                lbstWbsEsdbpf = truf;
+                lbstWbsEsdbpf = truf;
+                fsdbpfCibr = fsdbpfCount = 0;
+                fsdbpfCibr = fsdbpfCount = 0;
+                fsdbpfCibr = fsdbpfCount = 0;
+                fsdbpfCibr = fsdbpfCount = 0;
+                fsdbpfCibr = fsdbpfCount = 0;
+            }
+            }
+            }
+            }
             }
             flsf {
-                if (nfxtChbr == intStopChbr) {
+            flsf {
+            flsf {
+            flsf {
+            flsf {
+                if (nfxtCibr == intStopCibr) {
+                if (nfxtCibr == intStopCibr) {
+                if (nfxtCibr == intStopCibr) {
+                if (nfxtCibr == intStopCibr) {
+                if (nfxtCibr == intStopCibr) {
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
                     donf = truf;
                 }
-                bppfnd((dhbr)nfxtChbr);
+                }
+                }
+                }
+                }
+                bppfnd((dibr)nfxtCibr);
+                bppfnd((dibr)nfxtCibr);
+                bppfnd((dibr)nfxtCibr);
+                bppfnd((dibr)nfxtCibr);
+                bppfnd((dibr)nfxtCibr);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    privbtf void bppfnd(dhbr dhbrbdtfr) {
-        if (tokfnBufffrLfngth == tokfnBufffr.lfngth) {
-            dhbr[] nfwBufffr = nfw dhbr[tokfnBufffr.lfngth * 2];
-            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngth);
+
+
+
+
+    privbtf void bppfnd(dibr dibrbdtfr) {
+    privbtf void bppfnd(dibr dibrbdtfr) {
+    privbtf void bppfnd(dibr dibrbdtfr) {
+    privbtf void bppfnd(dibr dibrbdtfr) {
+    privbtf void bppfnd(dibr dibrbdtfr) {
+        if (tokfnBufffrLfngti == tokfnBufffr.lfngti) {
+        if (tokfnBufffrLfngti == tokfnBufffr.lfngti) {
+        if (tokfnBufffrLfngti == tokfnBufffr.lfngti) {
+        if (tokfnBufffrLfngti == tokfnBufffr.lfngti) {
+        if (tokfnBufffrLfngti == tokfnBufffr.lfngti) {
+            dibr[] nfwBufffr = nfw dibr[tokfnBufffr.lfngti * 2];
+            dibr[] nfwBufffr = nfw dibr[tokfnBufffr.lfngti * 2];
+            dibr[] nfwBufffr = nfw dibr[tokfnBufffr.lfngti * 2];
+            dibr[] nfwBufffr = nfw dibr[tokfnBufffr.lfngti * 2];
+            dibr[] nfwBufffr = nfw dibr[tokfnBufffr.lfngti * 2];
+            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngti);
+            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngti);
+            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngti);
+            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngti);
+            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngti);
+            tokfnBufffr = nfwBufffr;
+            tokfnBufffr = nfwBufffr;
+            tokfnBufffr = nfwBufffr;
+            tokfnBufffr = nfwBufffr;
             tokfnBufffr = nfwBufffr;
         }
-        tokfnBufffr[tokfnBufffrLfngth++] = dhbrbdtfr;
+        }
+        }
+        }
+        }
+        tokfnBufffr[tokfnBufffrLfngti++] = dibrbdtfr;
+        tokfnBufffr[tokfnBufffrLfngti++] = dibrbdtfr;
+        tokfnBufffr[tokfnBufffrLfngti++] = dibrbdtfr;
+        tokfnBufffr[tokfnBufffrLfngti++] = dibrbdtfr;
+        tokfnBufffr[tokfnBufffrLfngti++] = dibrbdtfr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Pbrsfs b dommfnt blodk.
+     * Pbrsfs b dommfnt blodk.
+     * Pbrsfs b dommfnt blodk.
+     * Pbrsfs b dommfnt blodk.
+     * Pbrsfs b dommfnt blodk.
      */
-    privbtf void rfbdCommfnt() throws IOExdfption {
-        int nfxtChbr;
+     */
+     */
+     */
+     */
+    privbtf void rfbdCommfnt() tirows IOExdfption {
+    privbtf void rfbdCommfnt() tirows IOExdfption {
+    privbtf void rfbdCommfnt() tirows IOExdfption {
+    privbtf void rfbdCommfnt() tirows IOExdfption {
+    privbtf void rfbdCommfnt() tirows IOExdfption {
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+
+
+
+
 
         for(;;) {
-            nfxtChbr = rfbdChbr();
-            switdh (nfxtChbr) {
+        for(;;) {
+        for(;;) {
+        for(;;) {
+        for(;;) {
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            nfxtCibr = rfbdCibr();
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
+            switdi (nfxtCibr) {
             dbsf -1:
-                throw nfw RuntimfExdfption("Undlosfd dommfnt");
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+                tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                tirow nfw RuntimfExdfption("Undlosfd dommfnt");
             dbsf '*':
-                nfxtChbr = rfbdChbr();
-                if (nfxtChbr == '/') {
+            dbsf '*':
+            dbsf '*':
+            dbsf '*':
+            dbsf '*':
+                nfxtCibr = rfbdCibr();
+                nfxtCibr = rfbdCibr();
+                nfxtCibr = rfbdCibr();
+                nfxtCibr = rfbdCibr();
+                nfxtCibr = rfbdCibr();
+                if (nfxtCibr == '/') {
+                if (nfxtCibr == '/') {
+                if (nfxtCibr == '/') {
+                if (nfxtCibr == '/') {
+                if (nfxtCibr == '/') {
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                    rfturn;
                     rfturn;
                 }
-                flsf if (nfxtChbr == -1) {
-                    throw nfw RuntimfExdfption("Undlosfd dommfnt");
+                }
+                }
+                }
+                }
+                flsf if (nfxtCibr == -1) {
+                flsf if (nfxtCibr == -1) {
+                flsf if (nfxtCibr == -1) {
+                flsf if (nfxtCibr == -1) {
+                flsf if (nfxtCibr == -1) {
+                    tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                    tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                    tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                    tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                    tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+                }
+                }
+                }
+                }
                 }
                 flsf {
-                    pushChbr(nfxtChbr);
+                flsf {
+                flsf {
+                flsf {
+                flsf {
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                    pusiCibr(nfxtCibr);
+                }
+                }
+                }
+                }
                 }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            dffbult:
+            dffbult:
+            dffbult:
+            dffbult:
             dffbult:
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Cbllfd whfn b blodk stbrt is fndountfrfd ({[.
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd wifn b blodk stbrt is fndountfrfd ({[.
+     * Cbllfd wifn b blodk stbrt is fndountfrfd ({[.
+     * Cbllfd wifn b blodk stbrt is fndountfrfd ({[.
+     * Cbllfd wifn b blodk stbrt is fndountfrfd ({[.
+     * Cbllfd wifn b blodk stbrt is fndountfrfd ({[.
+     */
+     */
+     */
+     */
      */
     privbtf void stbrtBlodk(int stbrtTokfn) {
-        if (stbdkCount == unitStbdk.lfngth) {
+    privbtf void stbrtBlodk(int stbrtTokfn) {
+    privbtf void stbrtBlodk(int stbrtTokfn) {
+    privbtf void stbrtBlodk(int stbrtTokfn) {
+    privbtf void stbrtBlodk(int stbrtTokfn) {
+        if (stbdkCount == unitStbdk.lfngti) {
+        if (stbdkCount == unitStbdk.lfngti) {
+        if (stbdkCount == unitStbdk.lfngti) {
+        if (stbdkCount == unitStbdk.lfngti) {
+        if (stbdkCount == unitStbdk.lfngti) {
+            int[]     nfwUS = nfw int[stbdkCount * 2];
+            int[]     nfwUS = nfw int[stbdkCount * 2];
+            int[]     nfwUS = nfw int[stbdkCount * 2];
+            int[]     nfwUS = nfw int[stbdkCount * 2];
             int[]     nfwUS = nfw int[stbdkCount * 2];
 
+
+
+
+
+            Systfm.brrbydopy(unitStbdk, 0, nfwUS, 0, stbdkCount);
+            Systfm.brrbydopy(unitStbdk, 0, nfwUS, 0, stbdkCount);
+            Systfm.brrbydopy(unitStbdk, 0, nfwUS, 0, stbdkCount);
+            Systfm.brrbydopy(unitStbdk, 0, nfwUS, 0, stbdkCount);
             Systfm.brrbydopy(unitStbdk, 0, nfwUS, 0, stbdkCount);
             unitStbdk = nfwUS;
+            unitStbdk = nfwUS;
+            unitStbdk = nfwUS;
+            unitStbdk = nfwUS;
+            unitStbdk = nfwUS;
+        }
+        }
+        }
+        }
         }
         unitStbdk[stbdkCount++] = stbrtTokfn;
+        unitStbdk[stbdkCount++] = stbrtTokfn;
+        unitStbdk[stbdkCount++] = stbrtTokfn;
+        unitStbdk[stbdkCount++] = stbrtTokfn;
+        unitStbdk[stbdkCount++] = stbrtTokfn;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Cbllfd whfn bn fnd blodk is fndountfrfd )]}
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd wifn bn fnd blodk is fndountfrfd )]}
+     * Cbllfd wifn bn fnd blodk is fndountfrfd )]}
+     * Cbllfd wifn bn fnd blodk is fndountfrfd )]}
+     * Cbllfd wifn bn fnd blodk is fndountfrfd )]}
+     * Cbllfd wifn bn fnd blodk is fndountfrfd )]}
+     */
+     */
+     */
+     */
      */
     privbtf void fndBlodk(int fndTokfn) {
+    privbtf void fndBlodk(int fndTokfn) {
+    privbtf void fndBlodk(int fndTokfn) {
+    privbtf void fndBlodk(int fndTokfn) {
+    privbtf void fndBlodk(int fndTokfn) {
+        int    stbrtTokfn;
+        int    stbrtTokfn;
+        int    stbrtTokfn;
+        int    stbrtTokfn;
         int    stbrtTokfn;
 
-        switdh (fndTokfn) {
+
+
+
+
+        switdi (fndTokfn) {
+        switdi (fndTokfn) {
+        switdi (fndTokfn) {
+        switdi (fndTokfn) {
+        switdi (fndTokfn) {
+        dbsf BRACKET_CLOSE:
+        dbsf BRACKET_CLOSE:
+        dbsf BRACKET_CLOSE:
+        dbsf BRACKET_CLOSE:
         dbsf BRACKET_CLOSE:
             stbrtTokfn = BRACKET_OPEN;
+            stbrtTokfn = BRACKET_OPEN;
+            stbrtTokfn = BRACKET_OPEN;
+            stbrtTokfn = BRACKET_OPEN;
+            stbrtTokfn = BRACKET_OPEN;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
         dbsf BRACE_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf BRACE_CLOSE:
+            stbrtTokfn = BRACE_OPEN;
+            stbrtTokfn = BRACE_OPEN;
+            stbrtTokfn = BRACE_OPEN;
+            stbrtTokfn = BRACE_OPEN;
             stbrtTokfn = BRACE_OPEN;
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+        dbsf PAREN_CLOSE:
+        dbsf PAREN_CLOSE:
+        dbsf PAREN_CLOSE:
+        dbsf PAREN_CLOSE:
         dbsf PAREN_CLOSE:
             stbrtTokfn = PAREN_OPEN;
+            stbrtTokfn = PAREN_OPEN;
+            stbrtTokfn = PAREN_OPEN;
+            stbrtTokfn = PAREN_OPEN;
+            stbrtTokfn = PAREN_OPEN;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
         dffbult:
-            // Will nfvfr hbppfn.
+        dffbult:
+        dffbult:
+        dffbult:
+        dffbult:
+            // Will nfvfr ibppfn.
+            // Will nfvfr ibppfn.
+            // Will nfvfr ibppfn.
+            // Will nfvfr ibppfn.
+            // Will nfvfr ibppfn.
+            stbrtTokfn = -1;
+            stbrtTokfn = -1;
+            stbrtTokfn = -1;
+            stbrtTokfn = -1;
             stbrtTokfn = -1;
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+        }
+        }
+        }
+        }
         }
         if (stbdkCount > 0 && unitStbdk[stbdkCount - 1] == stbrtTokfn) {
+        if (stbdkCount > 0 && unitStbdk[stbdkCount - 1] == stbrtTokfn) {
+        if (stbdkCount > 0 && unitStbdk[stbdkCount - 1] == stbrtTokfn) {
+        if (stbdkCount > 0 && unitStbdk[stbdkCount - 1] == stbrtTokfn) {
+        if (stbdkCount > 0 && unitStbdk[stbdkCount - 1] == stbrtTokfn) {
+            stbdkCount--;
+            stbdkCount--;
+            stbdkCount--;
+            stbdkCount--;
             stbdkCount--;
         }
+        }
+        }
+        }
+        }
         flsf {
-            // Invblid stbtf, should do somfthing.
-            throw nfw RuntimfExdfption("Unmbtdhfd blodk");
+        flsf {
+        flsf {
+        flsf {
+        flsf {
+            // Invblid stbtf, siould do somftiing.
+            // Invblid stbtf, siould do somftiing.
+            // Invblid stbtf, siould do somftiing.
+            // Invblid stbtf, siould do somftiing.
+            // Invblid stbtf, siould do somftiing.
+            tirow nfw RuntimfExdfption("Unmbtdifd blodk");
+            tirow nfw RuntimfExdfption("Unmbtdifd blodk");
+            tirow nfw RuntimfExdfption("Unmbtdifd blodk");
+            tirow nfw RuntimfExdfption("Unmbtdifd blodk");
+            tirow nfw RuntimfExdfption("Unmbtdifd blodk");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * @rfturn truf if durrfntly in b blodk.
+     * @rfturn truf if durrfntly in b blodk.
+     * @rfturn truf if durrfntly in b blodk.
+     * @rfturn truf if durrfntly in b blodk.
+     * @rfturn truf if durrfntly in b blodk.
+     */
+     */
+     */
+     */
      */
     privbtf boolfbn inBlodk() {
+    privbtf boolfbn inBlodk() {
+    privbtf boolfbn inBlodk() {
+    privbtf boolfbn inBlodk() {
+    privbtf boolfbn inBlodk() {
+        rfturn (stbdkCount > 0);
+        rfturn (stbdkCount > 0);
+        rfturn (stbdkCount > 0);
+        rfturn (stbdkCount > 0);
         rfturn (stbdkCount > 0);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Skips bny whitf spbdf, rfturning thf dhbrbdtfr bftfr thf whitf spbdf.
+    /**
+    /**
+    /**
+    /**
+     * Skips bny wiitf spbdf, rfturning tif dibrbdtfr bftfr tif wiitf spbdf.
+     * Skips bny wiitf spbdf, rfturning tif dibrbdtfr bftfr tif wiitf spbdf.
+     * Skips bny wiitf spbdf, rfturning tif dibrbdtfr bftfr tif wiitf spbdf.
+     * Skips bny wiitf spbdf, rfturning tif dibrbdtfr bftfr tif wiitf spbdf.
+     * Skips bny wiitf spbdf, rfturning tif dibrbdtfr bftfr tif wiitf spbdf.
      */
-    privbtf int rfbdWS() throws IOExdfption {
-        int nfxtChbr;
-        whilf ((nfxtChbr = rfbdChbr()) != -1 &&
-               Chbrbdtfr.isWhitfspbdf((dhbr)nfxtChbr)) {
+     */
+     */
+     */
+     */
+    privbtf int rfbdWS() tirows IOExdfption {
+    privbtf int rfbdWS() tirows IOExdfption {
+    privbtf int rfbdWS() tirows IOExdfption {
+    privbtf int rfbdWS() tirows IOExdfption {
+    privbtf int rfbdWS() tirows IOExdfption {
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        int nfxtCibr;
+        wiilf ((nfxtCibr = rfbdCibr()) != -1 &&
+        wiilf ((nfxtCibr = rfbdCibr()) != -1 &&
+        wiilf ((nfxtCibr = rfbdCibr()) != -1 &&
+        wiilf ((nfxtCibr = rfbdCibr()) != -1 &&
+        wiilf ((nfxtCibr = rfbdCibr()) != -1 &&
+               Cibrbdtfr.isWiitfspbdf((dibr)nfxtCibr)) {
+               Cibrbdtfr.isWiitfspbdf((dibr)nfxtCibr)) {
+               Cibrbdtfr.isWiitfspbdf((dibr)nfxtCibr)) {
+               Cibrbdtfr.isWiitfspbdf((dibr)nfxtCibr)) {
+               Cibrbdtfr.isWiitfspbdf((dibr)nfxtCibr)) {
+            rfbdWS = truf;
+            rfbdWS = truf;
+            rfbdWS = truf;
+            rfbdWS = truf;
             rfbdWS = truf;
         }
-        rfturn nfxtChbr;
+        }
+        }
+        }
+        }
+        rfturn nfxtCibr;
+        rfturn nfxtCibr;
+        rfturn nfxtCibr;
+        rfturn nfxtCibr;
+        rfturn nfxtCibr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfbds b dhbrbdtfr from thf strfbm.
+    /**
+    /**
+    /**
+    /**
+     * Rfbds b dibrbdtfr from tif strfbm.
+     * Rfbds b dibrbdtfr from tif strfbm.
+     * Rfbds b dibrbdtfr from tif strfbm.
+     * Rfbds b dibrbdtfr from tif strfbm.
+     * Rfbds b dibrbdtfr from tif strfbm.
      */
-    privbtf int rfbdChbr() throws IOExdfption {
-        if (didPushChbr) {
-            didPushChbr = fblsf;
-            rfturn pushfdChbr;
+     */
+     */
+     */
+     */
+    privbtf int rfbdCibr() tirows IOExdfption {
+    privbtf int rfbdCibr() tirows IOExdfption {
+    privbtf int rfbdCibr() tirows IOExdfption {
+    privbtf int rfbdCibr() tirows IOExdfption {
+    privbtf int rfbdCibr() tirows IOExdfption {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+            didPusiCibr = fblsf;
+            didPusiCibr = fblsf;
+            didPusiCibr = fblsf;
+            didPusiCibr = fblsf;
+            didPusiCibr = fblsf;
+            rfturn pusifdCibr;
+            rfturn pusifdCibr;
+            rfturn pusifdCibr;
+            rfturn pusifdCibr;
+            rfturn pusifdCibr;
+        }
+        }
+        }
+        }
         }
         rfturn rfbdfr.rfbd();
-        // Undommfnt thf following to do dbsf insfnsitivf pbrsing.
+        rfturn rfbdfr.rfbd();
+        rfturn rfbdfr.rfbd();
+        rfturn rfbdfr.rfbd();
+        rfturn rfbdfr.rfbd();
+        // Undommfnt tif following to do dbsf insfnsitivf pbrsing.
+        // Undommfnt tif following to do dbsf insfnsitivf pbrsing.
+        // Undommfnt tif following to do dbsf insfnsitivf pbrsing.
+        // Undommfnt tif following to do dbsf insfnsitivf pbrsing.
+        // Undommfnt tif following to do dbsf insfnsitivf pbrsing.
+        /*
+        /*
+        /*
+        /*
         /*
         if (rftVbluf != -1) {
-            rfturn (int)Chbrbdtfr.toLowfrCbsf((dhbr)rftVbluf);
+        if (rftVbluf != -1) {
+        if (rftVbluf != -1) {
+        if (rftVbluf != -1) {
+        if (rftVbluf != -1) {
+            rfturn (int)Cibrbdtfr.toLowfrCbsf((dibr)rftVbluf);
+            rfturn (int)Cibrbdtfr.toLowfrCbsf((dibr)rftVbluf);
+            rfturn (int)Cibrbdtfr.toLowfrCbsf((dibr)rftVbluf);
+            rfturn (int)Cibrbdtfr.toLowfrCbsf((dibr)rftVbluf);
+            rfturn (int)Cibrbdtfr.toLowfrCbsf((dibr)rftVbluf);
+        }
+        }
+        }
+        }
         }
         rfturn rftVbluf;
+        rfturn rftVbluf;
+        rfturn rftVbluf;
+        rfturn rftVbluf;
+        rfturn rftVbluf;
+        */
+        */
+        */
+        */
         */
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Supports onf dhbrbdtfr look bhfbd, this will throw if dbllfd twidf
+    /**
+    /**
+    /**
+    /**
+     * Supports onf dibrbdtfr look bifbd, tiis will tirow if dbllfd twidf
+     * Supports onf dibrbdtfr look bifbd, tiis will tirow if dbllfd twidf
+     * Supports onf dibrbdtfr look bifbd, tiis will tirow if dbllfd twidf
+     * Supports onf dibrbdtfr look bifbd, tiis will tirow if dbllfd twidf
+     * Supports onf dibrbdtfr look bifbd, tiis will tirow if dbllfd twidf
+     * in b row.
+     * in b row.
+     * in b row.
+     * in b row.
      * in b row.
      */
-    privbtf void pushChbr(int tfmpChbr) {
-        if (didPushChbr) {
-            // Should nfvfr hbppfn.
-            throw nfw RuntimfExdfption("Cbn not hbndlf look bhfbd of morf thbn onf dhbrbdtfr");
+     */
+     */
+     */
+     */
+    privbtf void pusiCibr(int tfmpCibr) {
+    privbtf void pusiCibr(int tfmpCibr) {
+    privbtf void pusiCibr(int tfmpCibr) {
+    privbtf void pusiCibr(int tfmpCibr) {
+    privbtf void pusiCibr(int tfmpCibr) {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+        if (didPusiCibr) {
+            // Siould nfvfr ibppfn.
+            // Siould nfvfr ibppfn.
+            // Siould nfvfr ibppfn.
+            // Siould nfvfr ibppfn.
+            // Siould nfvfr ibppfn.
+            tirow nfw RuntimfExdfption("Cbn not ibndlf look bifbd of morf tibn onf dibrbdtfr");
+            tirow nfw RuntimfExdfption("Cbn not ibndlf look bifbd of morf tibn onf dibrbdtfr");
+            tirow nfw RuntimfExdfption("Cbn not ibndlf look bifbd of morf tibn onf dibrbdtfr");
+            tirow nfw RuntimfExdfption("Cbn not ibndlf look bifbd of morf tibn onf dibrbdtfr");
+            tirow nfw RuntimfExdfption("Cbn not ibndlf look bifbd of morf tibn onf dibrbdtfr");
         }
-        didPushChbr = truf;
-        pushfdChbr = tfmpChbr;
+        }
+        }
+        }
+        }
+        didPusiCibr = truf;
+        didPusiCibr = truf;
+        didPusiCibr = truf;
+        didPusiCibr = truf;
+        didPusiCibr = truf;
+        pusifdCibr = tfmpCibr;
+        pusifdCibr = tfmpCibr;
+        pusifdCibr = tfmpCibr;
+        pusifdCibr = tfmpCibr;
+        pusifdCibr = tfmpCibr;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

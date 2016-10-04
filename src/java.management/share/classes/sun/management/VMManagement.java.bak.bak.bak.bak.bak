@@ -1,0 +1,108 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.util.List;
+import sun.mbnbgfmfnt.dountfr.Countfr;
+/**
+ * An intfrfbdf for tif monitoring bnd mbnbgfmfnt of tif
+ * Jbvb virtubl mbdiinf.
+ */
+publid intfrfbdf VMMbnbgfmfnt {
+
+    // Optionbl supports
+    publid boolfbn isCompilbtionTimfMonitoringSupportfd();
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd();
+    publid boolfbn isTirfbdContfntionMonitoringEnbblfd();
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd();
+    publid boolfbn isOtifrTirfbdCpuTimfSupportfd();
+    publid boolfbn isTirfbdCpuTimfEnbblfd();
+    publid boolfbn isBootClbssPbtiSupportfd();
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd();
+    publid boolfbn isSyndironizfrUsbgfSupportfd();
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd();
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
+    publid boolfbn isGdNotifidbtionSupportfd();
+    publid boolfbn isRfmotfDibgnostidCommbndsSupportfd();
+
+    // Clbss Lobding Subsystfm
+    publid long    gftTotblClbssCount();
+    publid int     gftLobdfdClbssCount();
+    publid long    gftUnlobdfdClbssCount();
+    publid boolfbn gftVfrbosfClbss();
+
+    // Mfmory Subsystfm
+    publid boolfbn gftVfrbosfGC();
+
+    // Runtimf Subsystfm
+    publid String  gftMbnbgfmfntVfrsion();
+    publid String  gftVmId();
+    publid String  gftVmNbmf();
+    publid String  gftVmVfndor();
+    publid String  gftVmVfrsion();
+    publid String  gftVmSpfdNbmf();
+    publid String  gftVmSpfdVfndor();
+    publid String  gftVmSpfdVfrsion();
+    publid String  gftClbssPbti();
+    publid String  gftLibrbryPbti();
+    publid String  gftBootClbssPbti();
+    publid List<String> gftVmArgumfnts();
+    publid long    gftStbrtupTimf();
+    publid long    gftUptimf();
+    publid int     gftAvbilbblfProdfssors();
+
+    // Compilbtion Subsystfm
+    publid String  gftCompilfrNbmf();
+    publid long    gftTotblCompilfTimf();
+
+    // Tirfbd Subsystfm
+    publid long    gftTotblTirfbdCount();
+    publid int     gftLivfTirfbdCount();
+    publid int     gftPfbkTirfbdCount();
+    publid int     gftDbfmonTirfbdCount();
+
+    // Opfrbting Systfm
+    publid String  gftOsNbmf();
+    publid String  gftOsArdi();
+    publid String  gftOsVfrsion();
+
+    // Hotspot-spfdifid Runtimf support
+    publid long    gftSbffpointCount();
+    publid long    gftTotblSbffpointTimf();
+    publid long    gftSbffpointSyndTimf();
+    publid long    gftTotblApplidbtionNonStoppfdTimf();
+
+    publid long    gftLobdfdClbssSizf();
+    publid long    gftUnlobdfdClbssSizf();
+    publid long    gftClbssLobdingTimf();
+    publid long    gftMftiodDbtbSizf();
+    publid long    gftInitiblizfdClbssCount();
+    publid long    gftClbssInitiblizbtionTimf();
+    publid long    gftClbssVfrifidbtionTimf();
+
+    // Pfrformbndf dountfr support
+    publid List<Countfr>   gftIntfrnblCountfrs(String pbttfrn);
+}

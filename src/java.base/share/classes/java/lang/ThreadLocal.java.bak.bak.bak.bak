@@ -1,720 +1,3600 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+import jbvb.lbng.rff.*;
+import jbvb.lbng.rff.*;
+import jbvb.lbng.rff.*;
+import jbvb.lbng.rff.*;
 import jbvb.lbng.rff.*;
 import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.Supplifr;
+
+
+
+
 
 /**
- * This dlbss providfs thrfbd-lodbl vbribblfs.  Thfsf vbribblfs difffr from
- * thfir normbl dountfrpbrts in thbt fbdh thrfbd thbt bddfssfs onf (vib its
- * {@dodf gft} or {@dodf sft} mfthod) hbs its own, indfpfndfntly initiblizfd
- * dopy of thf vbribblf.  {@dodf ThrfbdLodbl} instbndfs brf typidblly privbtf
- * stbtid fiflds in dlbssfs thbt wish to bssodibtf stbtf with b thrfbd (f.g.,
+/**
+/**
+/**
+/**
+ * Tiis dlbss providfs tirfbd-lodbl vbribblfs.  Tifsf vbribblfs difffr from
+ * Tiis dlbss providfs tirfbd-lodbl vbribblfs.  Tifsf vbribblfs difffr from
+ * Tiis dlbss providfs tirfbd-lodbl vbribblfs.  Tifsf vbribblfs difffr from
+ * Tiis dlbss providfs tirfbd-lodbl vbribblfs.  Tifsf vbribblfs difffr from
+ * Tiis dlbss providfs tirfbd-lodbl vbribblfs.  Tifsf vbribblfs difffr from
+ * tifir normbl dountfrpbrts in tibt fbdi tirfbd tibt bddfssfs onf (vib its
+ * tifir normbl dountfrpbrts in tibt fbdi tirfbd tibt bddfssfs onf (vib its
+ * tifir normbl dountfrpbrts in tibt fbdi tirfbd tibt bddfssfs onf (vib its
+ * tifir normbl dountfrpbrts in tibt fbdi tirfbd tibt bddfssfs onf (vib its
+ * tifir normbl dountfrpbrts in tibt fbdi tirfbd tibt bddfssfs onf (vib its
+ * {@dodf gft} or {@dodf sft} mftiod) ibs its own, indfpfndfntly initiblizfd
+ * {@dodf gft} or {@dodf sft} mftiod) ibs its own, indfpfndfntly initiblizfd
+ * {@dodf gft} or {@dodf sft} mftiod) ibs its own, indfpfndfntly initiblizfd
+ * {@dodf gft} or {@dodf sft} mftiod) ibs its own, indfpfndfntly initiblizfd
+ * {@dodf gft} or {@dodf sft} mftiod) ibs its own, indfpfndfntly initiblizfd
+ * dopy of tif vbribblf.  {@dodf TirfbdLodbl} instbndfs brf typidblly privbtf
+ * dopy of tif vbribblf.  {@dodf TirfbdLodbl} instbndfs brf typidblly privbtf
+ * dopy of tif vbribblf.  {@dodf TirfbdLodbl} instbndfs brf typidblly privbtf
+ * dopy of tif vbribblf.  {@dodf TirfbdLodbl} instbndfs brf typidblly privbtf
+ * dopy of tif vbribblf.  {@dodf TirfbdLodbl} instbndfs brf typidblly privbtf
+ * stbtid fiflds in dlbssfs tibt wisi to bssodibtf stbtf witi b tirfbd (f.g.,
+ * stbtid fiflds in dlbssfs tibt wisi to bssodibtf stbtf witi b tirfbd (f.g.,
+ * stbtid fiflds in dlbssfs tibt wisi to bssodibtf stbtf witi b tirfbd (f.g.,
+ * stbtid fiflds in dlbssfs tibt wisi to bssodibtf stbtf witi b tirfbd (f.g.,
+ * stbtid fiflds in dlbssfs tibt wisi to bssodibtf stbtf witi b tirfbd (f.g.,
+ * b usfr ID or Trbnsbdtion ID).
+ * b usfr ID or Trbnsbdtion ID).
+ * b usfr ID or Trbnsbdtion ID).
+ * b usfr ID or Trbnsbdtion ID).
  * b usfr ID or Trbnsbdtion ID).
  *
- * <p>For fxbmplf, thf dlbss bflow gfnfrbtfs uniquf idfntififrs lodbl to fbdh
- * thrfbd.
- * A thrfbd's id is bssignfd thf first timf it invokfs {@dodf ThrfbdId.gft()}
- * bnd rfmbins undhbngfd on subsfqufnt dblls.
+ *
+ *
+ *
+ *
+ * <p>For fxbmplf, tif dlbss bflow gfnfrbtfs uniquf idfntififrs lodbl to fbdi
+ * <p>For fxbmplf, tif dlbss bflow gfnfrbtfs uniquf idfntififrs lodbl to fbdi
+ * <p>For fxbmplf, tif dlbss bflow gfnfrbtfs uniquf idfntififrs lodbl to fbdi
+ * <p>For fxbmplf, tif dlbss bflow gfnfrbtfs uniquf idfntififrs lodbl to fbdi
+ * <p>For fxbmplf, tif dlbss bflow gfnfrbtfs uniquf idfntififrs lodbl to fbdi
+ * tirfbd.
+ * tirfbd.
+ * tirfbd.
+ * tirfbd.
+ * tirfbd.
+ * A tirfbd's id is bssignfd tif first timf it invokfs {@dodf TirfbdId.gft()}
+ * A tirfbd's id is bssignfd tif first timf it invokfs {@dodf TirfbdId.gft()}
+ * A tirfbd's id is bssignfd tif first timf it invokfs {@dodf TirfbdId.gft()}
+ * A tirfbd's id is bssignfd tif first timf it invokfs {@dodf TirfbdId.gft()}
+ * A tirfbd's id is bssignfd tif first timf it invokfs {@dodf TirfbdId.gft()}
+ * bnd rfmbins undibngfd on subsfqufnt dblls.
+ * bnd rfmbins undibngfd on subsfqufnt dblls.
+ * bnd rfmbins undibngfd on subsfqufnt dblls.
+ * bnd rfmbins undibngfd on subsfqufnt dblls.
+ * bnd rfmbins undibngfd on subsfqufnt dblls.
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  * import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+ * import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+ * import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+ * import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+ * import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
  *
- * publid dlbss ThrfbdId {
- *     // Atomid intfgfr dontbining thf nfxt thrfbd ID to bf bssignfd
+ *
+ *
+ *
+ *
+ * publid dlbss TirfbdId {
+ * publid dlbss TirfbdId {
+ * publid dlbss TirfbdId {
+ * publid dlbss TirfbdId {
+ * publid dlbss TirfbdId {
+ *     // Atomid intfgfr dontbining tif nfxt tirfbd ID to bf bssignfd
+ *     // Atomid intfgfr dontbining tif nfxt tirfbd ID to bf bssignfd
+ *     // Atomid intfgfr dontbining tif nfxt tirfbd ID to bf bssignfd
+ *     // Atomid intfgfr dontbining tif nfxt tirfbd ID to bf bssignfd
+ *     // Atomid intfgfr dontbining tif nfxt tirfbd ID to bf bssignfd
+ *     privbtf stbtid finbl AtomidIntfgfr nfxtId = nfw AtomidIntfgfr(0);
+ *     privbtf stbtid finbl AtomidIntfgfr nfxtId = nfw AtomidIntfgfr(0);
+ *     privbtf stbtid finbl AtomidIntfgfr nfxtId = nfw AtomidIntfgfr(0);
+ *     privbtf stbtid finbl AtomidIntfgfr nfxtId = nfw AtomidIntfgfr(0);
  *     privbtf stbtid finbl AtomidIntfgfr nfxtId = nfw AtomidIntfgfr(0);
  *
- *     // Thrfbd lodbl vbribblf dontbining fbdh thrfbd's ID
- *     privbtf stbtid finbl ThrfbdLodbl&lt;Intfgfr&gt; thrfbdId =
- *         nfw ThrfbdLodbl&lt;Intfgfr&gt;() {
+ *
+ *
+ *
+ *
+ *     // Tirfbd lodbl vbribblf dontbining fbdi tirfbd's ID
+ *     // Tirfbd lodbl vbribblf dontbining fbdi tirfbd's ID
+ *     // Tirfbd lodbl vbribblf dontbining fbdi tirfbd's ID
+ *     // Tirfbd lodbl vbribblf dontbining fbdi tirfbd's ID
+ *     // Tirfbd lodbl vbribblf dontbining fbdi tirfbd's ID
+ *     privbtf stbtid finbl TirfbdLodbl&lt;Intfgfr&gt; tirfbdId =
+ *     privbtf stbtid finbl TirfbdLodbl&lt;Intfgfr&gt; tirfbdId =
+ *     privbtf stbtid finbl TirfbdLodbl&lt;Intfgfr&gt; tirfbdId =
+ *     privbtf stbtid finbl TirfbdLodbl&lt;Intfgfr&gt; tirfbdId =
+ *     privbtf stbtid finbl TirfbdLodbl&lt;Intfgfr&gt; tirfbdId =
+ *         nfw TirfbdLodbl&lt;Intfgfr&gt;() {
+ *         nfw TirfbdLodbl&lt;Intfgfr&gt;() {
+ *         nfw TirfbdLodbl&lt;Intfgfr&gt;() {
+ *         nfw TirfbdLodbl&lt;Intfgfr&gt;() {
+ *         nfw TirfbdLodbl&lt;Intfgfr&gt;() {
+ *             &#64;Ovfrridf protfdtfd Intfgfr initiblVbluf() {
+ *             &#64;Ovfrridf protfdtfd Intfgfr initiblVbluf() {
+ *             &#64;Ovfrridf protfdtfd Intfgfr initiblVbluf() {
+ *             &#64;Ovfrridf protfdtfd Intfgfr initiblVbluf() {
  *             &#64;Ovfrridf protfdtfd Intfgfr initiblVbluf() {
  *                 rfturn nfxtId.gftAndIndrfmfnt();
+ *                 rfturn nfxtId.gftAndIndrfmfnt();
+ *                 rfturn nfxtId.gftAndIndrfmfnt();
+ *                 rfturn nfxtId.gftAndIndrfmfnt();
+ *                 rfturn nfxtId.gftAndIndrfmfnt();
+ *         }
+ *         }
+ *         }
+ *         }
  *         }
  *     };
+ *     };
+ *     };
+ *     };
+ *     };
  *
- *     // Rfturns thf durrfnt thrfbd's uniquf ID, bssigning it if nfdfssbry
+ *
+ *
+ *
+ *
+ *     // Rfturns tif durrfnt tirfbd's uniquf ID, bssigning it if nfdfssbry
+ *     // Rfturns tif durrfnt tirfbd's uniquf ID, bssigning it if nfdfssbry
+ *     // Rfturns tif durrfnt tirfbd's uniquf ID, bssigning it if nfdfssbry
+ *     // Rfturns tif durrfnt tirfbd's uniquf ID, bssigning it if nfdfssbry
+ *     // Rfturns tif durrfnt tirfbd's uniquf ID, bssigning it if nfdfssbry
  *     publid stbtid int gft() {
- *         rfturn thrfbdId.gft();
+ *     publid stbtid int gft() {
+ *     publid stbtid int gft() {
+ *     publid stbtid int gft() {
+ *     publid stbtid int gft() {
+ *         rfturn tirfbdId.gft();
+ *         rfturn tirfbdId.gft();
+ *         rfturn tirfbdId.gft();
+ *         rfturn tirfbdId.gft();
+ *         rfturn tirfbdId.gft();
+ *     }
+ *     }
+ *     }
+ *     }
  *     }
  * }
+ * }
+ * }
+ * }
+ * }
  * </prf>
- * <p>Ebdh thrfbd holds bn implidit rfffrfndf to its dopy of b thrfbd-lodbl
- * vbribblf bs long bs thf thrfbd is blivf bnd thf {@dodf ThrfbdLodbl}
- * instbndf is bddfssiblf; bftfr b thrfbd gofs bwby, bll of its dopifs of
- * thrfbd-lodbl instbndfs brf subjfdt to gbrbbgf dollfdtion (unlfss othfr
- * rfffrfndfs to thfsf dopifs fxist).
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * <p>Ebdi tirfbd iolds bn implidit rfffrfndf to its dopy of b tirfbd-lodbl
+ * <p>Ebdi tirfbd iolds bn implidit rfffrfndf to its dopy of b tirfbd-lodbl
+ * <p>Ebdi tirfbd iolds bn implidit rfffrfndf to its dopy of b tirfbd-lodbl
+ * <p>Ebdi tirfbd iolds bn implidit rfffrfndf to its dopy of b tirfbd-lodbl
+ * <p>Ebdi tirfbd iolds bn implidit rfffrfndf to its dopy of b tirfbd-lodbl
+ * vbribblf bs long bs tif tirfbd is blivf bnd tif {@dodf TirfbdLodbl}
+ * vbribblf bs long bs tif tirfbd is blivf bnd tif {@dodf TirfbdLodbl}
+ * vbribblf bs long bs tif tirfbd is blivf bnd tif {@dodf TirfbdLodbl}
+ * vbribblf bs long bs tif tirfbd is blivf bnd tif {@dodf TirfbdLodbl}
+ * vbribblf bs long bs tif tirfbd is blivf bnd tif {@dodf TirfbdLodbl}
+ * instbndf is bddfssiblf; bftfr b tirfbd gofs bwby, bll of its dopifs of
+ * instbndf is bddfssiblf; bftfr b tirfbd gofs bwby, bll of its dopifs of
+ * instbndf is bddfssiblf; bftfr b tirfbd gofs bwby, bll of its dopifs of
+ * instbndf is bddfssiblf; bftfr b tirfbd gofs bwby, bll of its dopifs of
+ * instbndf is bddfssiblf; bftfr b tirfbd gofs bwby, bll of its dopifs of
+ * tirfbd-lodbl instbndfs brf subjfdt to gbrbbgf dollfdtion (unlfss otifr
+ * tirfbd-lodbl instbndfs brf subjfdt to gbrbbgf dollfdtion (unlfss otifr
+ * tirfbd-lodbl instbndfs brf subjfdt to gbrbbgf dollfdtion (unlfss otifr
+ * tirfbd-lodbl instbndfs brf subjfdt to gbrbbgf dollfdtion (unlfss otifr
+ * tirfbd-lodbl instbndfs brf subjfdt to gbrbbgf dollfdtion (unlfss otifr
+ * rfffrfndfs to tifsf dopifs fxist).
+ * rfffrfndfs to tifsf dopifs fxist).
+ * rfffrfndfs to tifsf dopifs fxist).
+ * rfffrfndfs to tifsf dopifs fxist).
+ * rfffrfndfs to tifsf dopifs fxist).
  *
- * @buthor  Josh Blodh bnd Doug Lfb
+ *
+ *
+ *
+ *
+ * @butior  Josi Blodi bnd Doug Lfb
+ * @butior  Josi Blodi bnd Doug Lfb
+ * @butior  Josi Blodi bnd Doug Lfb
+ * @butior  Josi Blodi bnd Doug Lfb
+ * @butior  Josi Blodi bnd Doug Lfb
+ * @sindf   1.2
+ * @sindf   1.2
+ * @sindf   1.2
+ * @sindf   1.2
  * @sindf   1.2
  */
-publid dlbss ThrfbdLodbl<T> {
+ */
+ */
+ */
+ */
+publid dlbss TirfbdLodbl<T> {
+publid dlbss TirfbdLodbl<T> {
+publid dlbss TirfbdLodbl<T> {
+publid dlbss TirfbdLodbl<T> {
+publid dlbss TirfbdLodbl<T> {
     /**
-     * ThrfbdLodbls rfly on pfr-thrfbd linfbr-probf hbsh mbps bttbdhfd
-     * to fbdh thrfbd (Thrfbd.thrfbdLodbls bnd
-     * inhfritbblfThrfbdLodbls).  Thf ThrfbdLodbl objfdts bdt bs kfys,
-     * sfbrdhfd vib thrfbdLodblHbshCodf.  This is b dustom hbsh dodf
-     * (usfful only within ThrfbdLodblMbps) thbt fliminbtfs dollisions
-     * in thf dommon dbsf whfrf donsfdutivfly donstrudtfd ThrfbdLodbls
-     * brf usfd by thf sbmf thrfbds, whilf rfmbining wfll-bfhbvfd in
+    /**
+    /**
+    /**
+    /**
+     * TirfbdLodbls rfly on pfr-tirfbd linfbr-probf ibsi mbps bttbdifd
+     * TirfbdLodbls rfly on pfr-tirfbd linfbr-probf ibsi mbps bttbdifd
+     * TirfbdLodbls rfly on pfr-tirfbd linfbr-probf ibsi mbps bttbdifd
+     * TirfbdLodbls rfly on pfr-tirfbd linfbr-probf ibsi mbps bttbdifd
+     * TirfbdLodbls rfly on pfr-tirfbd linfbr-probf ibsi mbps bttbdifd
+     * to fbdi tirfbd (Tirfbd.tirfbdLodbls bnd
+     * to fbdi tirfbd (Tirfbd.tirfbdLodbls bnd
+     * to fbdi tirfbd (Tirfbd.tirfbdLodbls bnd
+     * to fbdi tirfbd (Tirfbd.tirfbdLodbls bnd
+     * to fbdi tirfbd (Tirfbd.tirfbdLodbls bnd
+     * inifritbblfTirfbdLodbls).  Tif TirfbdLodbl objfdts bdt bs kfys,
+     * inifritbblfTirfbdLodbls).  Tif TirfbdLodbl objfdts bdt bs kfys,
+     * inifritbblfTirfbdLodbls).  Tif TirfbdLodbl objfdts bdt bs kfys,
+     * inifritbblfTirfbdLodbls).  Tif TirfbdLodbl objfdts bdt bs kfys,
+     * inifritbblfTirfbdLodbls).  Tif TirfbdLodbl objfdts bdt bs kfys,
+     * sfbrdifd vib tirfbdLodblHbsiCodf.  Tiis is b dustom ibsi dodf
+     * sfbrdifd vib tirfbdLodblHbsiCodf.  Tiis is b dustom ibsi dodf
+     * sfbrdifd vib tirfbdLodblHbsiCodf.  Tiis is b dustom ibsi dodf
+     * sfbrdifd vib tirfbdLodblHbsiCodf.  Tiis is b dustom ibsi dodf
+     * sfbrdifd vib tirfbdLodblHbsiCodf.  Tiis is b dustom ibsi dodf
+     * (usfful only witiin TirfbdLodblMbps) tibt fliminbtfs dollisions
+     * (usfful only witiin TirfbdLodblMbps) tibt fliminbtfs dollisions
+     * (usfful only witiin TirfbdLodblMbps) tibt fliminbtfs dollisions
+     * (usfful only witiin TirfbdLodblMbps) tibt fliminbtfs dollisions
+     * (usfful only witiin TirfbdLodblMbps) tibt fliminbtfs dollisions
+     * in tif dommon dbsf wifrf donsfdutivfly donstrudtfd TirfbdLodbls
+     * in tif dommon dbsf wifrf donsfdutivfly donstrudtfd TirfbdLodbls
+     * in tif dommon dbsf wifrf donsfdutivfly donstrudtfd TirfbdLodbls
+     * in tif dommon dbsf wifrf donsfdutivfly donstrudtfd TirfbdLodbls
+     * in tif dommon dbsf wifrf donsfdutivfly donstrudtfd TirfbdLodbls
+     * brf usfd by tif sbmf tirfbds, wiilf rfmbining wfll-bfibvfd in
+     * brf usfd by tif sbmf tirfbds, wiilf rfmbining wfll-bfibvfd in
+     * brf usfd by tif sbmf tirfbds, wiilf rfmbining wfll-bfibvfd in
+     * brf usfd by tif sbmf tirfbds, wiilf rfmbining wfll-bfibvfd in
+     * brf usfd by tif sbmf tirfbds, wiilf rfmbining wfll-bfibvfd in
+     * lfss dommon dbsfs.
+     * lfss dommon dbsfs.
+     * lfss dommon dbsfs.
+     * lfss dommon dbsfs.
      * lfss dommon dbsfs.
      */
-    privbtf finbl int thrfbdLodblHbshCodf = nfxtHbshCodf();
+     */
+     */
+     */
+     */
+    privbtf finbl int tirfbdLodblHbsiCodf = nfxtHbsiCodf();
+    privbtf finbl int tirfbdLodblHbsiCodf = nfxtHbsiCodf();
+    privbtf finbl int tirfbdLodblHbsiCodf = nfxtHbsiCodf();
+    privbtf finbl int tirfbdLodblHbsiCodf = nfxtHbsiCodf();
+    privbtf finbl int tirfbdLodblHbsiCodf = nfxtHbsiCodf();
+
+
+
+
 
     /**
-     * Thf nfxt hbsh dodf to bf givfn out. Updbtfd btomidblly. Stbrts bt
+    /**
+    /**
+    /**
+    /**
+     * Tif nfxt ibsi dodf to bf givfn out. Updbtfd btomidblly. Stbrts bt
+     * Tif nfxt ibsi dodf to bf givfn out. Updbtfd btomidblly. Stbrts bt
+     * Tif nfxt ibsi dodf to bf givfn out. Updbtfd btomidblly. Stbrts bt
+     * Tif nfxt ibsi dodf to bf givfn out. Updbtfd btomidblly. Stbrts bt
+     * Tif nfxt ibsi dodf to bf givfn out. Updbtfd btomidblly. Stbrts bt
+     * zfro.
+     * zfro.
+     * zfro.
+     * zfro.
      * zfro.
      */
-    privbtf stbtid AtomidIntfgfr nfxtHbshCodf =
+     */
+     */
+     */
+     */
+    privbtf stbtid AtomidIntfgfr nfxtHbsiCodf =
+    privbtf stbtid AtomidIntfgfr nfxtHbsiCodf =
+    privbtf stbtid AtomidIntfgfr nfxtHbsiCodf =
+    privbtf stbtid AtomidIntfgfr nfxtHbsiCodf =
+    privbtf stbtid AtomidIntfgfr nfxtHbsiCodf =
+        nfw AtomidIntfgfr();
+        nfw AtomidIntfgfr();
+        nfw AtomidIntfgfr();
+        nfw AtomidIntfgfr();
         nfw AtomidIntfgfr();
 
+
+
+
+
     /**
-     * Thf difffrfndf bftwffn suddfssivfly gfnfrbtfd hbsh dodfs - turns
-     * implidit sfqufntibl thrfbd-lodbl IDs into nfbr-optimblly sprfbd
-     * multiplidbtivf hbsh vblufs for powfr-of-two-sizfd tbblfs.
+    /**
+    /**
+    /**
+    /**
+     * Tif difffrfndf bftwffn suddfssivfly gfnfrbtfd ibsi dodfs - turns
+     * Tif difffrfndf bftwffn suddfssivfly gfnfrbtfd ibsi dodfs - turns
+     * Tif difffrfndf bftwffn suddfssivfly gfnfrbtfd ibsi dodfs - turns
+     * Tif difffrfndf bftwffn suddfssivfly gfnfrbtfd ibsi dodfs - turns
+     * Tif difffrfndf bftwffn suddfssivfly gfnfrbtfd ibsi dodfs - turns
+     * implidit sfqufntibl tirfbd-lodbl IDs into nfbr-optimblly sprfbd
+     * implidit sfqufntibl tirfbd-lodbl IDs into nfbr-optimblly sprfbd
+     * implidit sfqufntibl tirfbd-lodbl IDs into nfbr-optimblly sprfbd
+     * implidit sfqufntibl tirfbd-lodbl IDs into nfbr-optimblly sprfbd
+     * implidit sfqufntibl tirfbd-lodbl IDs into nfbr-optimblly sprfbd
+     * multiplidbtivf ibsi vblufs for powfr-of-two-sizfd tbblfs.
+     * multiplidbtivf ibsi vblufs for powfr-of-two-sizfd tbblfs.
+     * multiplidbtivf ibsi vblufs for powfr-of-two-sizfd tbblfs.
+     * multiplidbtivf ibsi vblufs for powfr-of-two-sizfd tbblfs.
+     * multiplidbtivf ibsi vblufs for powfr-of-two-sizfd tbblfs.
+     */
+     */
+     */
+     */
      */
     privbtf stbtid finbl int HASH_INCREMENT = 0x61d88647;
+    privbtf stbtid finbl int HASH_INCREMENT = 0x61d88647;
+    privbtf stbtid finbl int HASH_INCREMENT = 0x61d88647;
+    privbtf stbtid finbl int HASH_INCREMENT = 0x61d88647;
+    privbtf stbtid finbl int HASH_INCREMENT = 0x61d88647;
+
+
+
+
 
     /**
-     * Rfturns thf nfxt hbsh dodf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nfxt ibsi dodf.
+     * Rfturns tif nfxt ibsi dodf.
+     * Rfturns tif nfxt ibsi dodf.
+     * Rfturns tif nfxt ibsi dodf.
+     * Rfturns tif nfxt ibsi dodf.
      */
-    privbtf stbtid int nfxtHbshCodf() {
-        rfturn nfxtHbshCodf.gftAndAdd(HASH_INCREMENT);
+     */
+     */
+     */
+     */
+    privbtf stbtid int nfxtHbsiCodf() {
+    privbtf stbtid int nfxtHbsiCodf() {
+    privbtf stbtid int nfxtHbsiCodf() {
+    privbtf stbtid int nfxtHbsiCodf() {
+    privbtf stbtid int nfxtHbsiCodf() {
+        rfturn nfxtHbsiCodf.gftAndAdd(HASH_INCREMENT);
+        rfturn nfxtHbsiCodf.gftAndAdd(HASH_INCREMENT);
+        rfturn nfxtHbsiCodf.gftAndAdd(HASH_INCREMENT);
+        rfturn nfxtHbsiCodf.gftAndAdd(HASH_INCREMENT);
+        rfturn nfxtHbsiCodf.gftAndAdd(HASH_INCREMENT);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf durrfnt thrfbd's "initibl vbluf" for this
-     * thrfbd-lodbl vbribblf.  This mfthod will bf invokfd thf first
-     * timf b thrfbd bddfssfs thf vbribblf with thf {@link #gft}
-     * mfthod, unlfss thf thrfbd prfviously invokfd thf {@link #sft}
-     * mfthod, in whidh dbsf thf {@dodf initiblVbluf} mfthod will not
-     * bf invokfd for thf thrfbd.  Normblly, this mfthod is invokfd bt
-     * most ondf pfr thrfbd, but it mby bf invokfd bgbin in dbsf of
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif durrfnt tirfbd's "initibl vbluf" for tiis
+     * Rfturns tif durrfnt tirfbd's "initibl vbluf" for tiis
+     * Rfturns tif durrfnt tirfbd's "initibl vbluf" for tiis
+     * Rfturns tif durrfnt tirfbd's "initibl vbluf" for tiis
+     * Rfturns tif durrfnt tirfbd's "initibl vbluf" for tiis
+     * tirfbd-lodbl vbribblf.  Tiis mftiod will bf invokfd tif first
+     * tirfbd-lodbl vbribblf.  Tiis mftiod will bf invokfd tif first
+     * tirfbd-lodbl vbribblf.  Tiis mftiod will bf invokfd tif first
+     * tirfbd-lodbl vbribblf.  Tiis mftiod will bf invokfd tif first
+     * tirfbd-lodbl vbribblf.  Tiis mftiod will bf invokfd tif first
+     * timf b tirfbd bddfssfs tif vbribblf witi tif {@link #gft}
+     * timf b tirfbd bddfssfs tif vbribblf witi tif {@link #gft}
+     * timf b tirfbd bddfssfs tif vbribblf witi tif {@link #gft}
+     * timf b tirfbd bddfssfs tif vbribblf witi tif {@link #gft}
+     * timf b tirfbd bddfssfs tif vbribblf witi tif {@link #gft}
+     * mftiod, unlfss tif tirfbd prfviously invokfd tif {@link #sft}
+     * mftiod, unlfss tif tirfbd prfviously invokfd tif {@link #sft}
+     * mftiod, unlfss tif tirfbd prfviously invokfd tif {@link #sft}
+     * mftiod, unlfss tif tirfbd prfviously invokfd tif {@link #sft}
+     * mftiod, unlfss tif tirfbd prfviously invokfd tif {@link #sft}
+     * mftiod, in wiidi dbsf tif {@dodf initiblVbluf} mftiod will not
+     * mftiod, in wiidi dbsf tif {@dodf initiblVbluf} mftiod will not
+     * mftiod, in wiidi dbsf tif {@dodf initiblVbluf} mftiod will not
+     * mftiod, in wiidi dbsf tif {@dodf initiblVbluf} mftiod will not
+     * mftiod, in wiidi dbsf tif {@dodf initiblVbluf} mftiod will not
+     * bf invokfd for tif tirfbd.  Normblly, tiis mftiod is invokfd bt
+     * bf invokfd for tif tirfbd.  Normblly, tiis mftiod is invokfd bt
+     * bf invokfd for tif tirfbd.  Normblly, tiis mftiod is invokfd bt
+     * bf invokfd for tif tirfbd.  Normblly, tiis mftiod is invokfd bt
+     * bf invokfd for tif tirfbd.  Normblly, tiis mftiod is invokfd bt
+     * most ondf pfr tirfbd, but it mby bf invokfd bgbin in dbsf of
+     * most ondf pfr tirfbd, but it mby bf invokfd bgbin in dbsf of
+     * most ondf pfr tirfbd, but it mby bf invokfd bgbin in dbsf of
+     * most ondf pfr tirfbd, but it mby bf invokfd bgbin in dbsf of
+     * most ondf pfr tirfbd, but it mby bf invokfd bgbin in dbsf of
+     * subsfqufnt invodbtions of {@link #rfmovf} followfd by {@link #gft}.
+     * subsfqufnt invodbtions of {@link #rfmovf} followfd by {@link #gft}.
+     * subsfqufnt invodbtions of {@link #rfmovf} followfd by {@link #gft}.
+     * subsfqufnt invodbtions of {@link #rfmovf} followfd by {@link #gft}.
      * subsfqufnt invodbtions of {@link #rfmovf} followfd by {@link #gft}.
      *
-     * <p>This implfmfntbtion simply rfturns {@dodf null}; if thf
-     * progrbmmfr dfsirfs thrfbd-lodbl vbribblfs to hbvf bn initibl
-     * vbluf othfr thbn {@dodf null}, {@dodf ThrfbdLodbl} must bf
-     * subdlbssfd, bnd this mfthod ovfrriddfn.  Typidblly, bn
+     *
+     *
+     *
+     *
+     * <p>Tiis implfmfntbtion simply rfturns {@dodf null}; if tif
+     * <p>Tiis implfmfntbtion simply rfturns {@dodf null}; if tif
+     * <p>Tiis implfmfntbtion simply rfturns {@dodf null}; if tif
+     * <p>Tiis implfmfntbtion simply rfturns {@dodf null}; if tif
+     * <p>Tiis implfmfntbtion simply rfturns {@dodf null}; if tif
+     * progrbmmfr dfsirfs tirfbd-lodbl vbribblfs to ibvf bn initibl
+     * progrbmmfr dfsirfs tirfbd-lodbl vbribblfs to ibvf bn initibl
+     * progrbmmfr dfsirfs tirfbd-lodbl vbribblfs to ibvf bn initibl
+     * progrbmmfr dfsirfs tirfbd-lodbl vbribblfs to ibvf bn initibl
+     * progrbmmfr dfsirfs tirfbd-lodbl vbribblfs to ibvf bn initibl
+     * vbluf otifr tibn {@dodf null}, {@dodf TirfbdLodbl} must bf
+     * vbluf otifr tibn {@dodf null}, {@dodf TirfbdLodbl} must bf
+     * vbluf otifr tibn {@dodf null}, {@dodf TirfbdLodbl} must bf
+     * vbluf otifr tibn {@dodf null}, {@dodf TirfbdLodbl} must bf
+     * vbluf otifr tibn {@dodf null}, {@dodf TirfbdLodbl} must bf
+     * subdlbssfd, bnd tiis mftiod ovfrriddfn.  Typidblly, bn
+     * subdlbssfd, bnd tiis mftiod ovfrriddfn.  Typidblly, bn
+     * subdlbssfd, bnd tiis mftiod ovfrriddfn.  Typidblly, bn
+     * subdlbssfd, bnd tiis mftiod ovfrriddfn.  Typidblly, bn
+     * subdlbssfd, bnd tiis mftiod ovfrriddfn.  Typidblly, bn
+     * bnonymous innfr dlbss will bf usfd.
+     * bnonymous innfr dlbss will bf usfd.
+     * bnonymous innfr dlbss will bf usfd.
+     * bnonymous innfr dlbss will bf usfd.
      * bnonymous innfr dlbss will bf usfd.
      *
-     * @rfturn thf initibl vbluf for this thrfbd-lodbl
+     *
+     *
+     *
+     *
+     * @rfturn tif initibl vbluf for tiis tirfbd-lodbl
+     * @rfturn tif initibl vbluf for tiis tirfbd-lodbl
+     * @rfturn tif initibl vbluf for tiis tirfbd-lodbl
+     * @rfturn tif initibl vbluf for tiis tirfbd-lodbl
+     * @rfturn tif initibl vbluf for tiis tirfbd-lodbl
+     */
+     */
+     */
+     */
      */
     protfdtfd T initiblVbluf() {
+    protfdtfd T initiblVbluf() {
+    protfdtfd T initiblVbluf() {
+    protfdtfd T initiblVbluf() {
+    protfdtfd T initiblVbluf() {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Crfbtfs b thrfbd lodbl vbribblf. Thf initibl vbluf of thf vbribblf is
-     * dftfrminfd by invoking thf {@dodf gft} mfthod on thf {@dodf Supplifr}.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b tirfbd lodbl vbribblf. Tif initibl vbluf of tif vbribblf is
+     * Crfbtfs b tirfbd lodbl vbribblf. Tif initibl vbluf of tif vbribblf is
+     * Crfbtfs b tirfbd lodbl vbribblf. Tif initibl vbluf of tif vbribblf is
+     * Crfbtfs b tirfbd lodbl vbribblf. Tif initibl vbluf of tif vbribblf is
+     * Crfbtfs b tirfbd lodbl vbribblf. Tif initibl vbluf of tif vbribblf is
+     * dftfrminfd by invoking tif {@dodf gft} mftiod on tif {@dodf Supplifr}.
+     * dftfrminfd by invoking tif {@dodf gft} mftiod on tif {@dodf Supplifr}.
+     * dftfrminfd by invoking tif {@dodf gft} mftiod on tif {@dodf Supplifr}.
+     * dftfrminfd by invoking tif {@dodf gft} mftiod on tif {@dodf Supplifr}.
+     * dftfrminfd by invoking tif {@dodf gft} mftiod on tif {@dodf Supplifr}.
      *
-     * @pbrbm <S> thf typf of thf thrfbd lodbl's vbluf
-     * @pbrbm supplifr thf supplifr to bf usfd to dftfrminf thf initibl vbluf
-     * @rfturn b nfw thrfbd lodbl vbribblf
-     * @throws NullPointfrExdfption if thf spfdififd supplifr is null
+     *
+     *
+     *
+     *
+     * @pbrbm <S> tif typf of tif tirfbd lodbl's vbluf
+     * @pbrbm <S> tif typf of tif tirfbd lodbl's vbluf
+     * @pbrbm <S> tif typf of tif tirfbd lodbl's vbluf
+     * @pbrbm <S> tif typf of tif tirfbd lodbl's vbluf
+     * @pbrbm <S> tif typf of tif tirfbd lodbl's vbluf
+     * @pbrbm supplifr tif supplifr to bf usfd to dftfrminf tif initibl vbluf
+     * @pbrbm supplifr tif supplifr to bf usfd to dftfrminf tif initibl vbluf
+     * @pbrbm supplifr tif supplifr to bf usfd to dftfrminf tif initibl vbluf
+     * @pbrbm supplifr tif supplifr to bf usfd to dftfrminf tif initibl vbluf
+     * @pbrbm supplifr tif supplifr to bf usfd to dftfrminf tif initibl vbluf
+     * @rfturn b nfw tirfbd lodbl vbribblf
+     * @rfturn b nfw tirfbd lodbl vbribblf
+     * @rfturn b nfw tirfbd lodbl vbribblf
+     * @rfturn b nfw tirfbd lodbl vbribblf
+     * @rfturn b nfw tirfbd lodbl vbribblf
+     * @tirows NullPointfrExdfption if tif spfdififd supplifr is null
+     * @tirows NullPointfrExdfption if tif spfdififd supplifr is null
+     * @tirows NullPointfrExdfption if tif spfdififd supplifr is null
+     * @tirows NullPointfrExdfption if tif spfdififd supplifr is null
+     * @tirows NullPointfrExdfption if tif spfdififd supplifr is null
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
      * @sindf 1.8
      */
-    publid stbtid <S> ThrfbdLodbl<S> withInitibl(Supplifr<? fxtfnds S> supplifr) {
-        rfturn nfw SupplifdThrfbdLodbl<>(supplifr);
-    }
-
-    /**
-     * Crfbtfs b thrfbd lodbl vbribblf.
-     * @sff #withInitibl(jbvb.util.fundtion.Supplifr)
      */
-    publid ThrfbdLodbl() {
+     */
+     */
+     */
+    publid stbtid <S> TirfbdLodbl<S> witiInitibl(Supplifr<? fxtfnds S> supplifr) {
+    publid stbtid <S> TirfbdLodbl<S> witiInitibl(Supplifr<? fxtfnds S> supplifr) {
+    publid stbtid <S> TirfbdLodbl<S> witiInitibl(Supplifr<? fxtfnds S> supplifr) {
+    publid stbtid <S> TirfbdLodbl<S> witiInitibl(Supplifr<? fxtfnds S> supplifr) {
+    publid stbtid <S> TirfbdLodbl<S> witiInitibl(Supplifr<? fxtfnds S> supplifr) {
+        rfturn nfw SupplifdTirfbdLodbl<>(supplifr);
+        rfturn nfw SupplifdTirfbdLodbl<>(supplifr);
+        rfturn nfw SupplifdTirfbdLodbl<>(supplifr);
+        rfturn nfw SupplifdTirfbdLodbl<>(supplifr);
+        rfturn nfw SupplifdTirfbdLodbl<>(supplifr);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf vbluf in thf durrfnt thrfbd's dopy of this
-     * thrfbd-lodbl vbribblf.  If thf vbribblf hbs no vbluf for thf
-     * durrfnt thrfbd, it is first initiblizfd to thf vbluf rfturnfd
-     * by bn invodbtion of thf {@link #initiblVbluf} mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b tirfbd lodbl vbribblf.
+     * Crfbtfs b tirfbd lodbl vbribblf.
+     * Crfbtfs b tirfbd lodbl vbribblf.
+     * Crfbtfs b tirfbd lodbl vbribblf.
+     * Crfbtfs b tirfbd lodbl vbribblf.
+     * @sff #witiInitibl(jbvb.util.fundtion.Supplifr)
+     * @sff #witiInitibl(jbvb.util.fundtion.Supplifr)
+     * @sff #witiInitibl(jbvb.util.fundtion.Supplifr)
+     * @sff #witiInitibl(jbvb.util.fundtion.Supplifr)
+     * @sff #witiInitibl(jbvb.util.fundtion.Supplifr)
+     */
+     */
+     */
+     */
+     */
+    publid TirfbdLodbl() {
+    publid TirfbdLodbl() {
+    publid TirfbdLodbl() {
+    publid TirfbdLodbl() {
+    publid TirfbdLodbl() {
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif vbluf in tif durrfnt tirfbd's dopy of tiis
+     * Rfturns tif vbluf in tif durrfnt tirfbd's dopy of tiis
+     * Rfturns tif vbluf in tif durrfnt tirfbd's dopy of tiis
+     * Rfturns tif vbluf in tif durrfnt tirfbd's dopy of tiis
+     * Rfturns tif vbluf in tif durrfnt tirfbd's dopy of tiis
+     * tirfbd-lodbl vbribblf.  If tif vbribblf ibs no vbluf for tif
+     * tirfbd-lodbl vbribblf.  If tif vbribblf ibs no vbluf for tif
+     * tirfbd-lodbl vbribblf.  If tif vbribblf ibs no vbluf for tif
+     * tirfbd-lodbl vbribblf.  If tif vbribblf ibs no vbluf for tif
+     * tirfbd-lodbl vbribblf.  If tif vbribblf ibs no vbluf for tif
+     * durrfnt tirfbd, it is first initiblizfd to tif vbluf rfturnfd
+     * durrfnt tirfbd, it is first initiblizfd to tif vbluf rfturnfd
+     * durrfnt tirfbd, it is first initiblizfd to tif vbluf rfturnfd
+     * durrfnt tirfbd, it is first initiblizfd to tif vbluf rfturnfd
+     * durrfnt tirfbd, it is first initiblizfd to tif vbluf rfturnfd
+     * by bn invodbtion of tif {@link #initiblVbluf} mftiod.
+     * by bn invodbtion of tif {@link #initiblVbluf} mftiod.
+     * by bn invodbtion of tif {@link #initiblVbluf} mftiod.
+     * by bn invodbtion of tif {@link #initiblVbluf} mftiod.
+     * by bn invodbtion of tif {@link #initiblVbluf} mftiod.
      *
-     * @rfturn thf durrfnt thrfbd's vbluf of this thrfbd-lodbl
+     *
+     *
+     *
+     *
+     * @rfturn tif durrfnt tirfbd's vbluf of tiis tirfbd-lodbl
+     * @rfturn tif durrfnt tirfbd's vbluf of tiis tirfbd-lodbl
+     * @rfturn tif durrfnt tirfbd's vbluf of tiis tirfbd-lodbl
+     * @rfturn tif durrfnt tirfbd's vbluf of tiis tirfbd-lodbl
+     * @rfturn tif durrfnt tirfbd's vbluf of tiis tirfbd-lodbl
+     */
+     */
+     */
+     */
      */
     publid T gft() {
-        Thrfbd t = Thrfbd.durrfntThrfbd();
-        ThrfbdLodblMbp mbp = gftMbp(t);
+    publid T gft() {
+    publid T gft() {
+    publid T gft() {
+    publid T gft() {
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
         if (mbp != null) {
-            ThrfbdLodblMbp.Entry f = mbp.gftEntry(this);
+        if (mbp != null) {
+        if (mbp != null) {
+        if (mbp != null) {
+        if (mbp != null) {
+            TirfbdLodblMbp.Entry f = mbp.gftEntry(tiis);
+            TirfbdLodblMbp.Entry f = mbp.gftEntry(tiis);
+            TirfbdLodblMbp.Entry f = mbp.gftEntry(tiis);
+            TirfbdLodblMbp.Entry f = mbp.gftEntry(tiis);
+            TirfbdLodblMbp.Entry f = mbp.gftEntry(tiis);
             if (f != null) {
-                @SupprfssWbrnings("undhfdkfd")
+            if (f != null) {
+            if (f != null) {
+            if (f != null) {
+            if (f != null) {
+                @SupprfssWbrnings("undifdkfd")
+                @SupprfssWbrnings("undifdkfd")
+                @SupprfssWbrnings("undifdkfd")
+                @SupprfssWbrnings("undifdkfd")
+                @SupprfssWbrnings("undifdkfd")
+                T rfsult = (T)f.vbluf;
+                T rfsult = (T)f.vbluf;
+                T rfsult = (T)f.vbluf;
+                T rfsult = (T)f.vbluf;
                 T rfsult = (T)f.vbluf;
                 rfturn rfsult;
+                rfturn rfsult;
+                rfturn rfsult;
+                rfturn rfsult;
+                rfturn rfsult;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn sftInitiblVbluf();
+        rfturn sftInitiblVbluf();
+        rfturn sftInitiblVbluf();
+        rfturn sftInitiblVbluf();
+        rfturn sftInitiblVbluf();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Vbribnt of sft() to fstbblish initiblVbluf. Usfd instfbd
-     * of sft() in dbsf usfr hbs ovfrriddfn thf sft() mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Vbribnt of sft() to fstbblisi initiblVbluf. Usfd instfbd
+     * Vbribnt of sft() to fstbblisi initiblVbluf. Usfd instfbd
+     * Vbribnt of sft() to fstbblisi initiblVbluf. Usfd instfbd
+     * Vbribnt of sft() to fstbblisi initiblVbluf. Usfd instfbd
+     * Vbribnt of sft() to fstbblisi initiblVbluf. Usfd instfbd
+     * of sft() in dbsf usfr ibs ovfrriddfn tif sft() mftiod.
+     * of sft() in dbsf usfr ibs ovfrriddfn tif sft() mftiod.
+     * of sft() in dbsf usfr ibs ovfrriddfn tif sft() mftiod.
+     * of sft() in dbsf usfr ibs ovfrriddfn tif sft() mftiod.
+     * of sft() in dbsf usfr ibs ovfrriddfn tif sft() mftiod.
      *
-     * @rfturn thf initibl vbluf
+     *
+     *
+     *
+     *
+     * @rfturn tif initibl vbluf
+     * @rfturn tif initibl vbluf
+     * @rfturn tif initibl vbluf
+     * @rfturn tif initibl vbluf
+     * @rfturn tif initibl vbluf
+     */
+     */
+     */
+     */
      */
     privbtf T sftInitiblVbluf() {
+    privbtf T sftInitiblVbluf() {
+    privbtf T sftInitiblVbluf() {
+    privbtf T sftInitiblVbluf() {
+    privbtf T sftInitiblVbluf() {
         T vbluf = initiblVbluf();
-        Thrfbd t = Thrfbd.durrfntThrfbd();
-        ThrfbdLodblMbp mbp = gftMbp(t);
+        T vbluf = initiblVbluf();
+        T vbluf = initiblVbluf();
+        T vbluf = initiblVbluf();
+        T vbluf = initiblVbluf();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
         if (mbp != null)
-            mbp.sft(this, vbluf);
+        if (mbp != null)
+        if (mbp != null)
+        if (mbp != null)
+        if (mbp != null)
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
         flsf
+        flsf
+        flsf
+        flsf
+        flsf
+            drfbtfMbp(t, vbluf);
+            drfbtfMbp(t, vbluf);
+            drfbtfMbp(t, vbluf);
+            drfbtfMbp(t, vbluf);
             drfbtfMbp(t, vbluf);
         rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sfts thf durrfnt thrfbd's dopy of this thrfbd-lodbl vbribblf
-     * to thf spfdififd vbluf.  Most subdlbssfs will hbvf no nffd to
-     * ovfrridf this mfthod, rflying solfly on thf {@link #initiblVbluf}
-     * mfthod to sft thf vblufs of thrfbd-lodbls.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif durrfnt tirfbd's dopy of tiis tirfbd-lodbl vbribblf
+     * Sfts tif durrfnt tirfbd's dopy of tiis tirfbd-lodbl vbribblf
+     * Sfts tif durrfnt tirfbd's dopy of tiis tirfbd-lodbl vbribblf
+     * Sfts tif durrfnt tirfbd's dopy of tiis tirfbd-lodbl vbribblf
+     * Sfts tif durrfnt tirfbd's dopy of tiis tirfbd-lodbl vbribblf
+     * to tif spfdififd vbluf.  Most subdlbssfs will ibvf no nffd to
+     * to tif spfdififd vbluf.  Most subdlbssfs will ibvf no nffd to
+     * to tif spfdififd vbluf.  Most subdlbssfs will ibvf no nffd to
+     * to tif spfdififd vbluf.  Most subdlbssfs will ibvf no nffd to
+     * to tif spfdififd vbluf.  Most subdlbssfs will ibvf no nffd to
+     * ovfrridf tiis mftiod, rflying solfly on tif {@link #initiblVbluf}
+     * ovfrridf tiis mftiod, rflying solfly on tif {@link #initiblVbluf}
+     * ovfrridf tiis mftiod, rflying solfly on tif {@link #initiblVbluf}
+     * ovfrridf tiis mftiod, rflying solfly on tif {@link #initiblVbluf}
+     * ovfrridf tiis mftiod, rflying solfly on tif {@link #initiblVbluf}
+     * mftiod to sft tif vblufs of tirfbd-lodbls.
+     * mftiod to sft tif vblufs of tirfbd-lodbls.
+     * mftiod to sft tif vblufs of tirfbd-lodbls.
+     * mftiod to sft tif vblufs of tirfbd-lodbls.
+     * mftiod to sft tif vblufs of tirfbd-lodbls.
      *
-     * @pbrbm vbluf thf vbluf to bf storfd in thf durrfnt thrfbd's dopy of
-     *        this thrfbd-lodbl.
+     *
+     *
+     *
+     *
+     * @pbrbm vbluf tif vbluf to bf storfd in tif durrfnt tirfbd's dopy of
+     * @pbrbm vbluf tif vbluf to bf storfd in tif durrfnt tirfbd's dopy of
+     * @pbrbm vbluf tif vbluf to bf storfd in tif durrfnt tirfbd's dopy of
+     * @pbrbm vbluf tif vbluf to bf storfd in tif durrfnt tirfbd's dopy of
+     * @pbrbm vbluf tif vbluf to bf storfd in tif durrfnt tirfbd's dopy of
+     *        tiis tirfbd-lodbl.
+     *        tiis tirfbd-lodbl.
+     *        tiis tirfbd-lodbl.
+     *        tiis tirfbd-lodbl.
+     *        tiis tirfbd-lodbl.
+     */
+     */
+     */
+     */
      */
     publid void sft(T vbluf) {
-        Thrfbd t = Thrfbd.durrfntThrfbd();
-        ThrfbdLodblMbp mbp = gftMbp(t);
+    publid void sft(T vbluf) {
+    publid void sft(T vbluf) {
+    publid void sft(T vbluf) {
+    publid void sft(T vbluf) {
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        Tirfbd t = Tirfbd.durrfntTirfbd();
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
+        TirfbdLodblMbp mbp = gftMbp(t);
         if (mbp != null)
-            mbp.sft(this, vbluf);
+        if (mbp != null)
+        if (mbp != null)
+        if (mbp != null)
+        if (mbp != null)
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
+            mbp.sft(tiis, vbluf);
+        flsf
+        flsf
+        flsf
+        flsf
         flsf
             drfbtfMbp(t, vbluf);
+            drfbtfMbp(t, vbluf);
+            drfbtfMbp(t, vbluf);
+            drfbtfMbp(t, vbluf);
+            drfbtfMbp(t, vbluf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfmovfs thf durrfnt thrfbd's vbluf for this thrfbd-lodbl
-     * vbribblf.  If this thrfbd-lodbl vbribblf is subsfqufntly
-     * {@linkplbin #gft rfbd} by thf durrfnt thrfbd, its vbluf will bf
-     * rfinitiblizfd by invoking its {@link #initiblVbluf} mfthod,
-     * unlfss its vbluf is {@linkplbin #sft sft} by thf durrfnt thrfbd
-     * in thf intfrim.  This mby rfsult in multiplf invodbtions of thf
-     * {@dodf initiblVbluf} mfthod in thf durrfnt thrfbd.
+    /**
+    /**
+    /**
+    /**
+     * Rfmovfs tif durrfnt tirfbd's vbluf for tiis tirfbd-lodbl
+     * Rfmovfs tif durrfnt tirfbd's vbluf for tiis tirfbd-lodbl
+     * Rfmovfs tif durrfnt tirfbd's vbluf for tiis tirfbd-lodbl
+     * Rfmovfs tif durrfnt tirfbd's vbluf for tiis tirfbd-lodbl
+     * Rfmovfs tif durrfnt tirfbd's vbluf for tiis tirfbd-lodbl
+     * vbribblf.  If tiis tirfbd-lodbl vbribblf is subsfqufntly
+     * vbribblf.  If tiis tirfbd-lodbl vbribblf is subsfqufntly
+     * vbribblf.  If tiis tirfbd-lodbl vbribblf is subsfqufntly
+     * vbribblf.  If tiis tirfbd-lodbl vbribblf is subsfqufntly
+     * vbribblf.  If tiis tirfbd-lodbl vbribblf is subsfqufntly
+     * {@linkplbin #gft rfbd} by tif durrfnt tirfbd, its vbluf will bf
+     * {@linkplbin #gft rfbd} by tif durrfnt tirfbd, its vbluf will bf
+     * {@linkplbin #gft rfbd} by tif durrfnt tirfbd, its vbluf will bf
+     * {@linkplbin #gft rfbd} by tif durrfnt tirfbd, its vbluf will bf
+     * {@linkplbin #gft rfbd} by tif durrfnt tirfbd, its vbluf will bf
+     * rfinitiblizfd by invoking its {@link #initiblVbluf} mftiod,
+     * rfinitiblizfd by invoking its {@link #initiblVbluf} mftiod,
+     * rfinitiblizfd by invoking its {@link #initiblVbluf} mftiod,
+     * rfinitiblizfd by invoking its {@link #initiblVbluf} mftiod,
+     * rfinitiblizfd by invoking its {@link #initiblVbluf} mftiod,
+     * unlfss its vbluf is {@linkplbin #sft sft} by tif durrfnt tirfbd
+     * unlfss its vbluf is {@linkplbin #sft sft} by tif durrfnt tirfbd
+     * unlfss its vbluf is {@linkplbin #sft sft} by tif durrfnt tirfbd
+     * unlfss its vbluf is {@linkplbin #sft sft} by tif durrfnt tirfbd
+     * unlfss its vbluf is {@linkplbin #sft sft} by tif durrfnt tirfbd
+     * in tif intfrim.  Tiis mby rfsult in multiplf invodbtions of tif
+     * in tif intfrim.  Tiis mby rfsult in multiplf invodbtions of tif
+     * in tif intfrim.  Tiis mby rfsult in multiplf invodbtions of tif
+     * in tif intfrim.  Tiis mby rfsult in multiplf invodbtions of tif
+     * in tif intfrim.  Tiis mby rfsult in multiplf invodbtions of tif
+     * {@dodf initiblVbluf} mftiod in tif durrfnt tirfbd.
+     * {@dodf initiblVbluf} mftiod in tif durrfnt tirfbd.
+     * {@dodf initiblVbluf} mftiod in tif durrfnt tirfbd.
+     * {@dodf initiblVbluf} mftiod in tif durrfnt tirfbd.
+     * {@dodf initiblVbluf} mftiod in tif durrfnt tirfbd.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
      publid void rfmovf() {
-         ThrfbdLodblMbp m = gftMbp(Thrfbd.durrfntThrfbd());
+     publid void rfmovf() {
+     publid void rfmovf() {
+     publid void rfmovf() {
+     publid void rfmovf() {
+         TirfbdLodblMbp m = gftMbp(Tirfbd.durrfntTirfbd());
+         TirfbdLodblMbp m = gftMbp(Tirfbd.durrfntTirfbd());
+         TirfbdLodblMbp m = gftMbp(Tirfbd.durrfntTirfbd());
+         TirfbdLodblMbp m = gftMbp(Tirfbd.durrfntTirfbd());
+         TirfbdLodblMbp m = gftMbp(Tirfbd.durrfntTirfbd());
          if (m != null)
-             m.rfmovf(this);
+         if (m != null)
+         if (m != null)
+         if (m != null)
+         if (m != null)
+             m.rfmovf(tiis);
+             m.rfmovf(tiis);
+             m.rfmovf(tiis);
+             m.rfmovf(tiis);
+             m.rfmovf(tiis);
+     }
+     }
+     }
+     }
      }
 
+
+
+
+
     /**
-     * Gft thf mbp bssodibtfd with b ThrfbdLodbl. Ovfrriddfn in
-     * InhfritbblfThrfbdLodbl.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Gft tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Gft tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Gft tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Gft tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
      *
-     * @pbrbm  t thf durrfnt thrfbd
-     * @rfturn thf mbp
-     */
-    ThrfbdLodblMbp gftMbp(Thrfbd t) {
-        rfturn t.thrfbdLodbls;
-    }
-
-    /**
-     * Crfbtf thf mbp bssodibtfd with b ThrfbdLodbl. Ovfrriddfn in
-     * InhfritbblfThrfbdLodbl.
      *
-     * @pbrbm t thf durrfnt thrfbd
-     * @pbrbm firstVbluf vbluf for thf initibl fntry of thf mbp
-     */
-    void drfbtfMbp(Thrfbd t, T firstVbluf) {
-        t.thrfbdLodbls = nfw ThrfbdLodblMbp(this, firstVbluf);
-    }
-
-    /**
-     * Fbdtory mfthod to drfbtf mbp of inhfritfd thrfbd lodbls.
-     * Dfsignfd to bf dbllfd only from Thrfbd donstrudtor.
      *
-     * @pbrbm  pbrfntMbp thf mbp bssodibtfd with pbrfnt thrfbd
-     * @rfturn b mbp dontbining thf pbrfnt's inhfritbblf bindings
+     *
+     *
+     * @pbrbm  t tif durrfnt tirfbd
+     * @pbrbm  t tif durrfnt tirfbd
+     * @pbrbm  t tif durrfnt tirfbd
+     * @pbrbm  t tif durrfnt tirfbd
+     * @pbrbm  t tif durrfnt tirfbd
+     * @rfturn tif mbp
+     * @rfturn tif mbp
+     * @rfturn tif mbp
+     * @rfturn tif mbp
+     * @rfturn tif mbp
      */
-    stbtid ThrfbdLodblMbp drfbtfInhfritfdMbp(ThrfbdLodblMbp pbrfntMbp) {
-        rfturn nfw ThrfbdLodblMbp(pbrfntMbp);
+     */
+     */
+     */
+     */
+    TirfbdLodblMbp gftMbp(Tirfbd t) {
+    TirfbdLodblMbp gftMbp(Tirfbd t) {
+    TirfbdLodblMbp gftMbp(Tirfbd t) {
+    TirfbdLodblMbp gftMbp(Tirfbd t) {
+    TirfbdLodblMbp gftMbp(Tirfbd t) {
+        rfturn t.tirfbdLodbls;
+        rfturn t.tirfbdLodbls;
+        rfturn t.tirfbdLodbls;
+        rfturn t.tirfbdLodbls;
+        rfturn t.tirfbdLodbls;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Mfthod dhildVbluf is visibly dffinfd in subdlbss
-     * InhfritbblfThrfbdLodbl, but is intfrnblly dffinfd hfrf for thf
-     * sbkf of providing drfbtfInhfritfdMbp fbdtory mfthod without
-     * nffding to subdlbss thf mbp dlbss in InhfritbblfThrfbdLodbl.
-     * This tfdhniquf is prfffrbblf to thf bltfrnbtivf of fmbfdding
-     * instbndfof tfsts in mfthods.
-     */
-    T dhildVbluf(T pbrfntVbluf) {
-        throw nfw UnsupportfdOpfrbtionExdfption();
-    }
+
+
+
 
     /**
-     * An fxtfnsion of ThrfbdLodbl thbt obtbins its initibl vbluf from
-     * thf spfdififd {@dodf Supplifr}.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtf tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Crfbtf tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Crfbtf tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Crfbtf tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * Crfbtf tif mbp bssodibtfd witi b TirfbdLodbl. Ovfrriddfn in
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
+     * InifritbblfTirfbdLodbl.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm t tif durrfnt tirfbd
+     * @pbrbm t tif durrfnt tirfbd
+     * @pbrbm t tif durrfnt tirfbd
+     * @pbrbm t tif durrfnt tirfbd
+     * @pbrbm t tif durrfnt tirfbd
+     * @pbrbm firstVbluf vbluf for tif initibl fntry of tif mbp
+     * @pbrbm firstVbluf vbluf for tif initibl fntry of tif mbp
+     * @pbrbm firstVbluf vbluf for tif initibl fntry of tif mbp
+     * @pbrbm firstVbluf vbluf for tif initibl fntry of tif mbp
+     * @pbrbm firstVbluf vbluf for tif initibl fntry of tif mbp
      */
-    stbtid finbl dlbss SupplifdThrfbdLodbl<T> fxtfnds ThrfbdLodbl<T> {
+     */
+     */
+     */
+     */
+    void drfbtfMbp(Tirfbd t, T firstVbluf) {
+    void drfbtfMbp(Tirfbd t, T firstVbluf) {
+    void drfbtfMbp(Tirfbd t, T firstVbluf) {
+    void drfbtfMbp(Tirfbd t, T firstVbluf) {
+    void drfbtfMbp(Tirfbd t, T firstVbluf) {
+        t.tirfbdLodbls = nfw TirfbdLodblMbp(tiis, firstVbluf);
+        t.tirfbdLodbls = nfw TirfbdLodblMbp(tiis, firstVbluf);
+        t.tirfbdLodbls = nfw TirfbdLodblMbp(tiis, firstVbluf);
+        t.tirfbdLodbls = nfw TirfbdLodblMbp(tiis, firstVbluf);
+        t.tirfbdLodbls = nfw TirfbdLodblMbp(tiis, firstVbluf);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Fbdtory mftiod to drfbtf mbp of inifritfd tirfbd lodbls.
+     * Fbdtory mftiod to drfbtf mbp of inifritfd tirfbd lodbls.
+     * Fbdtory mftiod to drfbtf mbp of inifritfd tirfbd lodbls.
+     * Fbdtory mftiod to drfbtf mbp of inifritfd tirfbd lodbls.
+     * Fbdtory mftiod to drfbtf mbp of inifritfd tirfbd lodbls.
+     * Dfsignfd to bf dbllfd only from Tirfbd donstrudtor.
+     * Dfsignfd to bf dbllfd only from Tirfbd donstrudtor.
+     * Dfsignfd to bf dbllfd only from Tirfbd donstrudtor.
+     * Dfsignfd to bf dbllfd only from Tirfbd donstrudtor.
+     * Dfsignfd to bf dbllfd only from Tirfbd donstrudtor.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm  pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd
+     * @pbrbm  pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd
+     * @pbrbm  pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd
+     * @pbrbm  pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd
+     * @pbrbm  pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd
+     * @rfturn b mbp dontbining tif pbrfnt's inifritbblf bindings
+     * @rfturn b mbp dontbining tif pbrfnt's inifritbblf bindings
+     * @rfturn b mbp dontbining tif pbrfnt's inifritbblf bindings
+     * @rfturn b mbp dontbining tif pbrfnt's inifritbblf bindings
+     * @rfturn b mbp dontbining tif pbrfnt's inifritbblf bindings
+     */
+     */
+     */
+     */
+     */
+    stbtid TirfbdLodblMbp drfbtfInifritfdMbp(TirfbdLodblMbp pbrfntMbp) {
+    stbtid TirfbdLodblMbp drfbtfInifritfdMbp(TirfbdLodblMbp pbrfntMbp) {
+    stbtid TirfbdLodblMbp drfbtfInifritfdMbp(TirfbdLodblMbp pbrfntMbp) {
+    stbtid TirfbdLodblMbp drfbtfInifritfdMbp(TirfbdLodblMbp pbrfntMbp) {
+    stbtid TirfbdLodblMbp drfbtfInifritfdMbp(TirfbdLodblMbp pbrfntMbp) {
+        rfturn nfw TirfbdLodblMbp(pbrfntMbp);
+        rfturn nfw TirfbdLodblMbp(pbrfntMbp);
+        rfturn nfw TirfbdLodblMbp(pbrfntMbp);
+        rfturn nfw TirfbdLodblMbp(pbrfntMbp);
+        rfturn nfw TirfbdLodblMbp(pbrfntMbp);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Mftiod diildVbluf is visibly dffinfd in subdlbss
+     * Mftiod diildVbluf is visibly dffinfd in subdlbss
+     * Mftiod diildVbluf is visibly dffinfd in subdlbss
+     * Mftiod diildVbluf is visibly dffinfd in subdlbss
+     * Mftiod diildVbluf is visibly dffinfd in subdlbss
+     * InifritbblfTirfbdLodbl, but is intfrnblly dffinfd ifrf for tif
+     * InifritbblfTirfbdLodbl, but is intfrnblly dffinfd ifrf for tif
+     * InifritbblfTirfbdLodbl, but is intfrnblly dffinfd ifrf for tif
+     * InifritbblfTirfbdLodbl, but is intfrnblly dffinfd ifrf for tif
+     * InifritbblfTirfbdLodbl, but is intfrnblly dffinfd ifrf for tif
+     * sbkf of providing drfbtfInifritfdMbp fbdtory mftiod witiout
+     * sbkf of providing drfbtfInifritfdMbp fbdtory mftiod witiout
+     * sbkf of providing drfbtfInifritfdMbp fbdtory mftiod witiout
+     * sbkf of providing drfbtfInifritfdMbp fbdtory mftiod witiout
+     * sbkf of providing drfbtfInifritfdMbp fbdtory mftiod witiout
+     * nffding to subdlbss tif mbp dlbss in InifritbblfTirfbdLodbl.
+     * nffding to subdlbss tif mbp dlbss in InifritbblfTirfbdLodbl.
+     * nffding to subdlbss tif mbp dlbss in InifritbblfTirfbdLodbl.
+     * nffding to subdlbss tif mbp dlbss in InifritbblfTirfbdLodbl.
+     * nffding to subdlbss tif mbp dlbss in InifritbblfTirfbdLodbl.
+     * Tiis tfdiniquf is prfffrbblf to tif bltfrnbtivf of fmbfdding
+     * Tiis tfdiniquf is prfffrbblf to tif bltfrnbtivf of fmbfdding
+     * Tiis tfdiniquf is prfffrbblf to tif bltfrnbtivf of fmbfdding
+     * Tiis tfdiniquf is prfffrbblf to tif bltfrnbtivf of fmbfdding
+     * Tiis tfdiniquf is prfffrbblf to tif bltfrnbtivf of fmbfdding
+     * instbndfof tfsts in mftiods.
+     * instbndfof tfsts in mftiods.
+     * instbndfof tfsts in mftiods.
+     * instbndfof tfsts in mftiods.
+     * instbndfof tfsts in mftiods.
+     */
+     */
+     */
+     */
+     */
+    T diildVbluf(T pbrfntVbluf) {
+    T diildVbluf(T pbrfntVbluf) {
+    T diildVbluf(T pbrfntVbluf) {
+    T diildVbluf(T pbrfntVbluf) {
+    T diildVbluf(T pbrfntVbluf) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * An fxtfnsion of TirfbdLodbl tibt obtbins its initibl vbluf from
+     * An fxtfnsion of TirfbdLodbl tibt obtbins its initibl vbluf from
+     * An fxtfnsion of TirfbdLodbl tibt obtbins its initibl vbluf from
+     * An fxtfnsion of TirfbdLodbl tibt obtbins its initibl vbluf from
+     * An fxtfnsion of TirfbdLodbl tibt obtbins its initibl vbluf from
+     * tif spfdififd {@dodf Supplifr}.
+     * tif spfdififd {@dodf Supplifr}.
+     * tif spfdififd {@dodf Supplifr}.
+     * tif spfdififd {@dodf Supplifr}.
+     * tif spfdififd {@dodf Supplifr}.
+     */
+     */
+     */
+     */
+     */
+    stbtid finbl dlbss SupplifdTirfbdLodbl<T> fxtfnds TirfbdLodbl<T> {
+    stbtid finbl dlbss SupplifdTirfbdLodbl<T> fxtfnds TirfbdLodbl<T> {
+    stbtid finbl dlbss SupplifdTirfbdLodbl<T> fxtfnds TirfbdLodbl<T> {
+    stbtid finbl dlbss SupplifdTirfbdLodbl<T> fxtfnds TirfbdLodbl<T> {
+    stbtid finbl dlbss SupplifdTirfbdLodbl<T> fxtfnds TirfbdLodbl<T> {
+
+
+
+
 
         privbtf finbl Supplifr<? fxtfnds T> supplifr;
+        privbtf finbl Supplifr<? fxtfnds T> supplifr;
+        privbtf finbl Supplifr<? fxtfnds T> supplifr;
+        privbtf finbl Supplifr<? fxtfnds T> supplifr;
+        privbtf finbl Supplifr<? fxtfnds T> supplifr;
 
-        SupplifdThrfbdLodbl(Supplifr<? fxtfnds T> supplifr) {
-            this.supplifr = Objfdts.rfquirfNonNull(supplifr);
+
+
+
+
+        SupplifdTirfbdLodbl(Supplifr<? fxtfnds T> supplifr) {
+        SupplifdTirfbdLodbl(Supplifr<? fxtfnds T> supplifr) {
+        SupplifdTirfbdLodbl(Supplifr<? fxtfnds T> supplifr) {
+        SupplifdTirfbdLodbl(Supplifr<? fxtfnds T> supplifr) {
+        SupplifdTirfbdLodbl(Supplifr<? fxtfnds T> supplifr) {
+            tiis.supplifr = Objfdts.rfquirfNonNull(supplifr);
+            tiis.supplifr = Objfdts.rfquirfNonNull(supplifr);
+            tiis.supplifr = Objfdts.rfquirfNonNull(supplifr);
+            tiis.supplifr = Objfdts.rfquirfNonNull(supplifr);
+            tiis.supplifr = Objfdts.rfquirfNonNull(supplifr);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        protfdtfd T initiblVbluf() {
+        protfdtfd T initiblVbluf() {
+        protfdtfd T initiblVbluf() {
+        protfdtfd T initiblVbluf() {
         protfdtfd T initiblVbluf() {
             rfturn supplifr.gft();
+            rfturn supplifr.gft();
+            rfturn supplifr.gft();
+            rfturn supplifr.gft();
+            rfturn supplifr.gft();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * ThrfbdLodblMbp is b dustomizfd hbsh mbp suitbblf only for
-     * mbintbining thrfbd lodbl vblufs. No opfrbtions brf fxportfd
-     * outsidf of thf ThrfbdLodbl dlbss. Thf dlbss is pbdkbgf privbtf to
-     * bllow dfdlbrbtion of fiflds in dlbss Thrfbd.  To hflp dfbl with
-     * vfry lbrgf bnd long-livfd usbgfs, thf hbsh tbblf fntrifs usf
+    /**
+    /**
+    /**
+    /**
+     * TirfbdLodblMbp is b dustomizfd ibsi mbp suitbblf only for
+     * TirfbdLodblMbp is b dustomizfd ibsi mbp suitbblf only for
+     * TirfbdLodblMbp is b dustomizfd ibsi mbp suitbblf only for
+     * TirfbdLodblMbp is b dustomizfd ibsi mbp suitbblf only for
+     * TirfbdLodblMbp is b dustomizfd ibsi mbp suitbblf only for
+     * mbintbining tirfbd lodbl vblufs. No opfrbtions brf fxportfd
+     * mbintbining tirfbd lodbl vblufs. No opfrbtions brf fxportfd
+     * mbintbining tirfbd lodbl vblufs. No opfrbtions brf fxportfd
+     * mbintbining tirfbd lodbl vblufs. No opfrbtions brf fxportfd
+     * mbintbining tirfbd lodbl vblufs. No opfrbtions brf fxportfd
+     * outsidf of tif TirfbdLodbl dlbss. Tif dlbss is pbdkbgf privbtf to
+     * outsidf of tif TirfbdLodbl dlbss. Tif dlbss is pbdkbgf privbtf to
+     * outsidf of tif TirfbdLodbl dlbss. Tif dlbss is pbdkbgf privbtf to
+     * outsidf of tif TirfbdLodbl dlbss. Tif dlbss is pbdkbgf privbtf to
+     * outsidf of tif TirfbdLodbl dlbss. Tif dlbss is pbdkbgf privbtf to
+     * bllow dfdlbrbtion of fiflds in dlbss Tirfbd.  To iflp dfbl witi
+     * bllow dfdlbrbtion of fiflds in dlbss Tirfbd.  To iflp dfbl witi
+     * bllow dfdlbrbtion of fiflds in dlbss Tirfbd.  To iflp dfbl witi
+     * bllow dfdlbrbtion of fiflds in dlbss Tirfbd.  To iflp dfbl witi
+     * bllow dfdlbrbtion of fiflds in dlbss Tirfbd.  To iflp dfbl witi
+     * vfry lbrgf bnd long-livfd usbgfs, tif ibsi tbblf fntrifs usf
+     * vfry lbrgf bnd long-livfd usbgfs, tif ibsi tbblf fntrifs usf
+     * vfry lbrgf bnd long-livfd usbgfs, tif ibsi tbblf fntrifs usf
+     * vfry lbrgf bnd long-livfd usbgfs, tif ibsi tbblf fntrifs usf
+     * vfry lbrgf bnd long-livfd usbgfs, tif ibsi tbblf fntrifs usf
      * WfbkRfffrfndfs for kfys. Howfvfr, sindf rfffrfndf qufufs brf not
-     * usfd, stblf fntrifs brf gubrbntffd to bf rfmovfd only whfn
-     * thf tbblf stbrts running out of spbdf.
+     * WfbkRfffrfndfs for kfys. Howfvfr, sindf rfffrfndf qufufs brf not
+     * WfbkRfffrfndfs for kfys. Howfvfr, sindf rfffrfndf qufufs brf not
+     * WfbkRfffrfndfs for kfys. Howfvfr, sindf rfffrfndf qufufs brf not
+     * WfbkRfffrfndfs for kfys. Howfvfr, sindf rfffrfndf qufufs brf not
+     * usfd, stblf fntrifs brf gubrbntffd to bf rfmovfd only wifn
+     * usfd, stblf fntrifs brf gubrbntffd to bf rfmovfd only wifn
+     * usfd, stblf fntrifs brf gubrbntffd to bf rfmovfd only wifn
+     * usfd, stblf fntrifs brf gubrbntffd to bf rfmovfd only wifn
+     * usfd, stblf fntrifs brf gubrbntffd to bf rfmovfd only wifn
+     * tif tbblf stbrts running out of spbdf.
+     * tif tbblf stbrts running out of spbdf.
+     * tif tbblf stbrts running out of spbdf.
+     * tif tbblf stbrts running out of spbdf.
+     * tif tbblf stbrts running out of spbdf.
      */
-    stbtid dlbss ThrfbdLodblMbp {
+     */
+     */
+     */
+     */
+    stbtid dlbss TirfbdLodblMbp {
+    stbtid dlbss TirfbdLodblMbp {
+    stbtid dlbss TirfbdLodblMbp {
+    stbtid dlbss TirfbdLodblMbp {
+    stbtid dlbss TirfbdLodblMbp {
+
+
+
+
 
         /**
-         * Thf fntrifs in this hbsh mbp fxtfnd WfbkRfffrfndf, using
-         * its mbin rff fifld bs thf kfy (whidh is blwbys b
-         * ThrfbdLodbl objfdt).  Notf thbt null kfys (i.f. fntry.gft()
-         * == null) mfbn thbt thf kfy is no longfr rfffrfndfd, so thf
-         * fntry dbn bf fxpungfd from tbblf.  Sudh fntrifs brf rfffrrfd to
-         * bs "stblf fntrifs" in thf dodf thbt follows.
+        /**
+        /**
+        /**
+        /**
+         * Tif fntrifs in tiis ibsi mbp fxtfnd WfbkRfffrfndf, using
+         * Tif fntrifs in tiis ibsi mbp fxtfnd WfbkRfffrfndf, using
+         * Tif fntrifs in tiis ibsi mbp fxtfnd WfbkRfffrfndf, using
+         * Tif fntrifs in tiis ibsi mbp fxtfnd WfbkRfffrfndf, using
+         * Tif fntrifs in tiis ibsi mbp fxtfnd WfbkRfffrfndf, using
+         * its mbin rff fifld bs tif kfy (wiidi is blwbys b
+         * its mbin rff fifld bs tif kfy (wiidi is blwbys b
+         * its mbin rff fifld bs tif kfy (wiidi is blwbys b
+         * its mbin rff fifld bs tif kfy (wiidi is blwbys b
+         * its mbin rff fifld bs tif kfy (wiidi is blwbys b
+         * TirfbdLodbl objfdt).  Notf tibt null kfys (i.f. fntry.gft()
+         * TirfbdLodbl objfdt).  Notf tibt null kfys (i.f. fntry.gft()
+         * TirfbdLodbl objfdt).  Notf tibt null kfys (i.f. fntry.gft()
+         * TirfbdLodbl objfdt).  Notf tibt null kfys (i.f. fntry.gft()
+         * TirfbdLodbl objfdt).  Notf tibt null kfys (i.f. fntry.gft()
+         * == null) mfbn tibt tif kfy is no longfr rfffrfndfd, so tif
+         * == null) mfbn tibt tif kfy is no longfr rfffrfndfd, so tif
+         * == null) mfbn tibt tif kfy is no longfr rfffrfndfd, so tif
+         * == null) mfbn tibt tif kfy is no longfr rfffrfndfd, so tif
+         * == null) mfbn tibt tif kfy is no longfr rfffrfndfd, so tif
+         * fntry dbn bf fxpungfd from tbblf.  Sudi fntrifs brf rfffrrfd to
+         * fntry dbn bf fxpungfd from tbblf.  Sudi fntrifs brf rfffrrfd to
+         * fntry dbn bf fxpungfd from tbblf.  Sudi fntrifs brf rfffrrfd to
+         * fntry dbn bf fxpungfd from tbblf.  Sudi fntrifs brf rfffrrfd to
+         * fntry dbn bf fxpungfd from tbblf.  Sudi fntrifs brf rfffrrfd to
+         * bs "stblf fntrifs" in tif dodf tibt follows.
+         * bs "stblf fntrifs" in tif dodf tibt follows.
+         * bs "stblf fntrifs" in tif dodf tibt follows.
+         * bs "stblf fntrifs" in tif dodf tibt follows.
+         * bs "stblf fntrifs" in tif dodf tibt follows.
          */
-        stbtid dlbss Entry fxtfnds WfbkRfffrfndf<ThrfbdLodbl<?>> {
-            /** Thf vbluf bssodibtfd with this ThrfbdLodbl. */
+         */
+         */
+         */
+         */
+        stbtid dlbss Entry fxtfnds WfbkRfffrfndf<TirfbdLodbl<?>> {
+        stbtid dlbss Entry fxtfnds WfbkRfffrfndf<TirfbdLodbl<?>> {
+        stbtid dlbss Entry fxtfnds WfbkRfffrfndf<TirfbdLodbl<?>> {
+        stbtid dlbss Entry fxtfnds WfbkRfffrfndf<TirfbdLodbl<?>> {
+        stbtid dlbss Entry fxtfnds WfbkRfffrfndf<TirfbdLodbl<?>> {
+            /** Tif vbluf bssodibtfd witi tiis TirfbdLodbl. */
+            /** Tif vbluf bssodibtfd witi tiis TirfbdLodbl. */
+            /** Tif vbluf bssodibtfd witi tiis TirfbdLodbl. */
+            /** Tif vbluf bssodibtfd witi tiis TirfbdLodbl. */
+            /** Tif vbluf bssodibtfd witi tiis TirfbdLodbl. */
+            Objfdt vbluf;
+            Objfdt vbluf;
+            Objfdt vbluf;
+            Objfdt vbluf;
             Objfdt vbluf;
 
-            Entry(ThrfbdLodbl<?> k, Objfdt v) {
+
+
+
+
+            Entry(TirfbdLodbl<?> k, Objfdt v) {
+            Entry(TirfbdLodbl<?> k, Objfdt v) {
+            Entry(TirfbdLodbl<?> k, Objfdt v) {
+            Entry(TirfbdLodbl<?> k, Objfdt v) {
+            Entry(TirfbdLodbl<?> k, Objfdt v) {
+                supfr(k);
+                supfr(k);
+                supfr(k);
+                supfr(k);
                 supfr(k);
                 vbluf = v;
+                vbluf = v;
+                vbluf = v;
+                vbluf = v;
+                vbluf = v;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Thf initibl dbpbdity -- MUST bf b powfr of two.
+        /**
+        /**
+        /**
+        /**
+         * Tif initibl dbpbdity -- MUST bf b powfr of two.
+         * Tif initibl dbpbdity -- MUST bf b powfr of two.
+         * Tif initibl dbpbdity -- MUST bf b powfr of two.
+         * Tif initibl dbpbdity -- MUST bf b powfr of two.
+         * Tif initibl dbpbdity -- MUST bf b powfr of two.
+         */
+         */
+         */
+         */
          */
         privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+        privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+        privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+        privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+        privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+
+
+
+
 
         /**
-         * Thf tbblf, rfsizfd bs nfdfssbry.
-         * tbblf.lfngth MUST blwbys bf b powfr of two.
+        /**
+        /**
+        /**
+        /**
+         * Tif tbblf, rfsizfd bs nfdfssbry.
+         * Tif tbblf, rfsizfd bs nfdfssbry.
+         * Tif tbblf, rfsizfd bs nfdfssbry.
+         * Tif tbblf, rfsizfd bs nfdfssbry.
+         * Tif tbblf, rfsizfd bs nfdfssbry.
+         * tbblf.lfngti MUST blwbys bf b powfr of two.
+         * tbblf.lfngti MUST blwbys bf b powfr of two.
+         * tbblf.lfngti MUST blwbys bf b powfr of two.
+         * tbblf.lfngti MUST blwbys bf b powfr of two.
+         * tbblf.lfngti MUST blwbys bf b powfr of two.
+         */
+         */
+         */
+         */
          */
         privbtf Entry[] tbblf;
+        privbtf Entry[] tbblf;
+        privbtf Entry[] tbblf;
+        privbtf Entry[] tbblf;
+        privbtf Entry[] tbblf;
+
+
+
+
 
         /**
-         * Thf numbfr of fntrifs in thf tbblf.
+        /**
+        /**
+        /**
+        /**
+         * Tif numbfr of fntrifs in tif tbblf.
+         * Tif numbfr of fntrifs in tif tbblf.
+         * Tif numbfr of fntrifs in tif tbblf.
+         * Tif numbfr of fntrifs in tif tbblf.
+         * Tif numbfr of fntrifs in tif tbblf.
+         */
+         */
+         */
+         */
          */
         privbtf int sizf = 0;
+        privbtf int sizf = 0;
+        privbtf int sizf = 0;
+        privbtf int sizf = 0;
+        privbtf int sizf = 0;
+
+
+
+
 
         /**
-         * Thf nfxt sizf vbluf bt whidh to rfsizf.
+        /**
+        /**
+        /**
+        /**
+         * Tif nfxt sizf vbluf bt wiidi to rfsizf.
+         * Tif nfxt sizf vbluf bt wiidi to rfsizf.
+         * Tif nfxt sizf vbluf bt wiidi to rfsizf.
+         * Tif nfxt sizf vbluf bt wiidi to rfsizf.
+         * Tif nfxt sizf vbluf bt wiidi to rfsizf.
          */
-        privbtf int thrfshold; // Dffbult to 0
+         */
+         */
+         */
+         */
+        privbtf int tirfsiold; // Dffbult to 0
+        privbtf int tirfsiold; // Dffbult to 0
+        privbtf int tirfsiold; // Dffbult to 0
+        privbtf int tirfsiold; // Dffbult to 0
+        privbtf int tirfsiold; // Dffbult to 0
+
+
+
+
 
         /**
-         * Sft thf rfsizf thrfshold to mbintbin bt worst b 2/3 lobd fbdtor.
+        /**
+        /**
+        /**
+        /**
+         * Sft tif rfsizf tirfsiold to mbintbin bt worst b 2/3 lobd fbdtor.
+         * Sft tif rfsizf tirfsiold to mbintbin bt worst b 2/3 lobd fbdtor.
+         * Sft tif rfsizf tirfsiold to mbintbin bt worst b 2/3 lobd fbdtor.
+         * Sft tif rfsizf tirfsiold to mbintbin bt worst b 2/3 lobd fbdtor.
+         * Sft tif rfsizf tirfsiold to mbintbin bt worst b 2/3 lobd fbdtor.
          */
-        privbtf void sftThrfshold(int lfn) {
-            thrfshold = lfn * 2 / 3;
+         */
+         */
+         */
+         */
+        privbtf void sftTirfsiold(int lfn) {
+        privbtf void sftTirfsiold(int lfn) {
+        privbtf void sftTirfsiold(int lfn) {
+        privbtf void sftTirfsiold(int lfn) {
+        privbtf void sftTirfsiold(int lfn) {
+            tirfsiold = lfn * 2 / 3;
+            tirfsiold = lfn * 2 / 3;
+            tirfsiold = lfn * 2 / 3;
+            tirfsiold = lfn * 2 / 3;
+            tirfsiold = lfn * 2 / 3;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Indrfmfnt i modulo lfn.
+         * Indrfmfnt i modulo lfn.
+         * Indrfmfnt i modulo lfn.
+         * Indrfmfnt i modulo lfn.
+         * Indrfmfnt i modulo lfn.
+         */
+         */
+         */
+         */
          */
         privbtf stbtid int nfxtIndfx(int i, int lfn) {
+        privbtf stbtid int nfxtIndfx(int i, int lfn) {
+        privbtf stbtid int nfxtIndfx(int i, int lfn) {
+        privbtf stbtid int nfxtIndfx(int i, int lfn) {
+        privbtf stbtid int nfxtIndfx(int i, int lfn) {
+            rfturn ((i + 1 < lfn) ? i + 1 : 0);
+            rfturn ((i + 1 < lfn) ? i + 1 : 0);
+            rfturn ((i + 1 < lfn) ? i + 1 : 0);
+            rfturn ((i + 1 < lfn) ? i + 1 : 0);
             rfturn ((i + 1 < lfn) ? i + 1 : 0);
         }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Dfdrfmfnt i modulo lfn.
+         * Dfdrfmfnt i modulo lfn.
+         * Dfdrfmfnt i modulo lfn.
+         * Dfdrfmfnt i modulo lfn.
+         * Dfdrfmfnt i modulo lfn.
+         */
+         */
+         */
+         */
          */
         privbtf stbtid int prfvIndfx(int i, int lfn) {
+        privbtf stbtid int prfvIndfx(int i, int lfn) {
+        privbtf stbtid int prfvIndfx(int i, int lfn) {
+        privbtf stbtid int prfvIndfx(int i, int lfn) {
+        privbtf stbtid int prfvIndfx(int i, int lfn) {
+            rfturn ((i - 1 >= 0) ? i - 1 : lfn - 1);
+            rfturn ((i - 1 >= 0) ? i - 1 : lfn - 1);
+            rfturn ((i - 1 >= 0) ? i - 1 : lfn - 1);
+            rfturn ((i - 1 >= 0) ? i - 1 : lfn - 1);
             rfturn ((i - 1 >= 0) ? i - 1 : lfn - 1);
         }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Construdt b nfw mbp initiblly dontbining (firstKfy, firstVbluf).
-         * ThrfbdLodblMbps brf donstrudtfd lbzily, so wf only drfbtf
-         * onf whfn wf hbvf bt lfbst onf fntry to put in it.
+         * Construdt b nfw mbp initiblly dontbining (firstKfy, firstVbluf).
+         * Construdt b nfw mbp initiblly dontbining (firstKfy, firstVbluf).
+         * Construdt b nfw mbp initiblly dontbining (firstKfy, firstVbluf).
+         * Construdt b nfw mbp initiblly dontbining (firstKfy, firstVbluf).
+         * TirfbdLodblMbps brf donstrudtfd lbzily, so wf only drfbtf
+         * TirfbdLodblMbps brf donstrudtfd lbzily, so wf only drfbtf
+         * TirfbdLodblMbps brf donstrudtfd lbzily, so wf only drfbtf
+         * TirfbdLodblMbps brf donstrudtfd lbzily, so wf only drfbtf
+         * TirfbdLodblMbps brf donstrudtfd lbzily, so wf only drfbtf
+         * onf wifn wf ibvf bt lfbst onf fntry to put in it.
+         * onf wifn wf ibvf bt lfbst onf fntry to put in it.
+         * onf wifn wf ibvf bt lfbst onf fntry to put in it.
+         * onf wifn wf ibvf bt lfbst onf fntry to put in it.
+         * onf wifn wf ibvf bt lfbst onf fntry to put in it.
          */
-        ThrfbdLodblMbp(ThrfbdLodbl<?> firstKfy, Objfdt firstVbluf) {
+         */
+         */
+         */
+         */
+        TirfbdLodblMbp(TirfbdLodbl<?> firstKfy, Objfdt firstVbluf) {
+        TirfbdLodblMbp(TirfbdLodbl<?> firstKfy, Objfdt firstVbluf) {
+        TirfbdLodblMbp(TirfbdLodbl<?> firstKfy, Objfdt firstVbluf) {
+        TirfbdLodblMbp(TirfbdLodbl<?> firstKfy, Objfdt firstVbluf) {
+        TirfbdLodblMbp(TirfbdLodbl<?> firstKfy, Objfdt firstVbluf) {
             tbblf = nfw Entry[INITIAL_CAPACITY];
-            int i = firstKfy.thrfbdLodblHbshCodf & (INITIAL_CAPACITY - 1);
+            tbblf = nfw Entry[INITIAL_CAPACITY];
+            tbblf = nfw Entry[INITIAL_CAPACITY];
+            tbblf = nfw Entry[INITIAL_CAPACITY];
+            tbblf = nfw Entry[INITIAL_CAPACITY];
+            int i = firstKfy.tirfbdLodblHbsiCodf & (INITIAL_CAPACITY - 1);
+            int i = firstKfy.tirfbdLodblHbsiCodf & (INITIAL_CAPACITY - 1);
+            int i = firstKfy.tirfbdLodblHbsiCodf & (INITIAL_CAPACITY - 1);
+            int i = firstKfy.tirfbdLodblHbsiCodf & (INITIAL_CAPACITY - 1);
+            int i = firstKfy.tirfbdLodblHbsiCodf & (INITIAL_CAPACITY - 1);
+            tbblf[i] = nfw Entry(firstKfy, firstVbluf);
+            tbblf[i] = nfw Entry(firstKfy, firstVbluf);
+            tbblf[i] = nfw Entry(firstKfy, firstVbluf);
+            tbblf[i] = nfw Entry(firstKfy, firstVbluf);
             tbblf[i] = nfw Entry(firstKfy, firstVbluf);
             sizf = 1;
-            sftThrfshold(INITIAL_CAPACITY);
+            sizf = 1;
+            sizf = 1;
+            sizf = 1;
+            sizf = 1;
+            sftTirfsiold(INITIAL_CAPACITY);
+            sftTirfsiold(INITIAL_CAPACITY);
+            sftTirfsiold(INITIAL_CAPACITY);
+            sftTirfsiold(INITIAL_CAPACITY);
+            sftTirfsiold(INITIAL_CAPACITY);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
-         * Construdt b nfw mbp indluding bll Inhfritbblf ThrfbdLodbls
-         * from givfn pbrfnt mbp. Cbllfd only by drfbtfInhfritfdMbp.
+        /**
+        /**
+        /**
+        /**
+         * Construdt b nfw mbp indluding bll Inifritbblf TirfbdLodbls
+         * Construdt b nfw mbp indluding bll Inifritbblf TirfbdLodbls
+         * Construdt b nfw mbp indluding bll Inifritbblf TirfbdLodbls
+         * Construdt b nfw mbp indluding bll Inifritbblf TirfbdLodbls
+         * Construdt b nfw mbp indluding bll Inifritbblf TirfbdLodbls
+         * from givfn pbrfnt mbp. Cbllfd only by drfbtfInifritfdMbp.
+         * from givfn pbrfnt mbp. Cbllfd only by drfbtfInifritfdMbp.
+         * from givfn pbrfnt mbp. Cbllfd only by drfbtfInifritfdMbp.
+         * from givfn pbrfnt mbp. Cbllfd only by drfbtfInifritfdMbp.
+         * from givfn pbrfnt mbp. Cbllfd only by drfbtfInifritfdMbp.
          *
-         * @pbrbm pbrfntMbp thf mbp bssodibtfd with pbrfnt thrfbd.
+         *
+         *
+         *
+         *
+         * @pbrbm pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd.
+         * @pbrbm pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd.
+         * @pbrbm pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd.
+         * @pbrbm pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd.
+         * @pbrbm pbrfntMbp tif mbp bssodibtfd witi pbrfnt tirfbd.
          */
-        privbtf ThrfbdLodblMbp(ThrfbdLodblMbp pbrfntMbp) {
+         */
+         */
+         */
+         */
+        privbtf TirfbdLodblMbp(TirfbdLodblMbp pbrfntMbp) {
+        privbtf TirfbdLodblMbp(TirfbdLodblMbp pbrfntMbp) {
+        privbtf TirfbdLodblMbp(TirfbdLodblMbp pbrfntMbp) {
+        privbtf TirfbdLodblMbp(TirfbdLodblMbp pbrfntMbp) {
+        privbtf TirfbdLodblMbp(TirfbdLodblMbp pbrfntMbp) {
             Entry[] pbrfntTbblf = pbrfntMbp.tbblf;
-            int lfn = pbrfntTbblf.lfngth;
-            sftThrfshold(lfn);
+            Entry[] pbrfntTbblf = pbrfntMbp.tbblf;
+            Entry[] pbrfntTbblf = pbrfntMbp.tbblf;
+            Entry[] pbrfntTbblf = pbrfntMbp.tbblf;
+            Entry[] pbrfntTbblf = pbrfntMbp.tbblf;
+            int lfn = pbrfntTbblf.lfngti;
+            int lfn = pbrfntTbblf.lfngti;
+            int lfn = pbrfntTbblf.lfngti;
+            int lfn = pbrfntTbblf.lfngti;
+            int lfn = pbrfntTbblf.lfngti;
+            sftTirfsiold(lfn);
+            sftTirfsiold(lfn);
+            sftTirfsiold(lfn);
+            sftTirfsiold(lfn);
+            sftTirfsiold(lfn);
+            tbblf = nfw Entry[lfn];
+            tbblf = nfw Entry[lfn];
+            tbblf = nfw Entry[lfn];
+            tbblf = nfw Entry[lfn];
             tbblf = nfw Entry[lfn];
 
+
+
+
+
+            for (Entry f : pbrfntTbblf) {
+            for (Entry f : pbrfntTbblf) {
+            for (Entry f : pbrfntTbblf) {
+            for (Entry f : pbrfntTbblf) {
             for (Entry f : pbrfntTbblf) {
                 if (f != null) {
-                    @SupprfssWbrnings("undhfdkfd")
-                    ThrfbdLodbl<Objfdt> kfy = (ThrfbdLodbl<Objfdt>) f.gft();
+                if (f != null) {
+                if (f != null) {
+                if (f != null) {
+                if (f != null) {
+                    @SupprfssWbrnings("undifdkfd")
+                    @SupprfssWbrnings("undifdkfd")
+                    @SupprfssWbrnings("undifdkfd")
+                    @SupprfssWbrnings("undifdkfd")
+                    @SupprfssWbrnings("undifdkfd")
+                    TirfbdLodbl<Objfdt> kfy = (TirfbdLodbl<Objfdt>) f.gft();
+                    TirfbdLodbl<Objfdt> kfy = (TirfbdLodbl<Objfdt>) f.gft();
+                    TirfbdLodbl<Objfdt> kfy = (TirfbdLodbl<Objfdt>) f.gft();
+                    TirfbdLodbl<Objfdt> kfy = (TirfbdLodbl<Objfdt>) f.gft();
+                    TirfbdLodbl<Objfdt> kfy = (TirfbdLodbl<Objfdt>) f.gft();
                     if (kfy != null) {
-                        Objfdt vbluf = kfy.dhildVbluf(f.vbluf);
+                    if (kfy != null) {
+                    if (kfy != null) {
+                    if (kfy != null) {
+                    if (kfy != null) {
+                        Objfdt vbluf = kfy.diildVbluf(f.vbluf);
+                        Objfdt vbluf = kfy.diildVbluf(f.vbluf);
+                        Objfdt vbluf = kfy.diildVbluf(f.vbluf);
+                        Objfdt vbluf = kfy.diildVbluf(f.vbluf);
+                        Objfdt vbluf = kfy.diildVbluf(f.vbluf);
                         Entry d = nfw Entry(kfy, vbluf);
-                        int h = kfy.thrfbdLodblHbshCodf & (lfn - 1);
-                        whilf (tbblf[h] != null)
-                            h = nfxtIndfx(h, lfn);
-                        tbblf[h] = d;
+                        Entry d = nfw Entry(kfy, vbluf);
+                        Entry d = nfw Entry(kfy, vbluf);
+                        Entry d = nfw Entry(kfy, vbluf);
+                        Entry d = nfw Entry(kfy, vbluf);
+                        int i = kfy.tirfbdLodblHbsiCodf & (lfn - 1);
+                        int i = kfy.tirfbdLodblHbsiCodf & (lfn - 1);
+                        int i = kfy.tirfbdLodblHbsiCodf & (lfn - 1);
+                        int i = kfy.tirfbdLodblHbsiCodf & (lfn - 1);
+                        int i = kfy.tirfbdLodblHbsiCodf & (lfn - 1);
+                        wiilf (tbblf[i] != null)
+                        wiilf (tbblf[i] != null)
+                        wiilf (tbblf[i] != null)
+                        wiilf (tbblf[i] != null)
+                        wiilf (tbblf[i] != null)
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                        tbblf[i] = d;
+                        tbblf[i] = d;
+                        tbblf[i] = d;
+                        tbblf[i] = d;
+                        tbblf[i] = d;
+                        sizf++;
+                        sizf++;
+                        sizf++;
+                        sizf++;
                         sizf++;
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
-         * Gft thf fntry bssodibtfd with kfy.  This mfthod
-         * itsflf hbndlfs only thf fbst pbth: b dirfdt hit of fxisting
-         * kfy. It othfrwisf rflbys to gftEntryAftfrMiss.  This is
-         * dfsignfd to mbximizf pfrformbndf for dirfdt hits, in pbrt
-         * by mbking this mfthod rfbdily inlinbblf.
+        /**
+        /**
+        /**
+        /**
+         * Gft tif fntry bssodibtfd witi kfy.  Tiis mftiod
+         * Gft tif fntry bssodibtfd witi kfy.  Tiis mftiod
+         * Gft tif fntry bssodibtfd witi kfy.  Tiis mftiod
+         * Gft tif fntry bssodibtfd witi kfy.  Tiis mftiod
+         * Gft tif fntry bssodibtfd witi kfy.  Tiis mftiod
+         * itsflf ibndlfs only tif fbst pbti: b dirfdt iit of fxisting
+         * itsflf ibndlfs only tif fbst pbti: b dirfdt iit of fxisting
+         * itsflf ibndlfs only tif fbst pbti: b dirfdt iit of fxisting
+         * itsflf ibndlfs only tif fbst pbti: b dirfdt iit of fxisting
+         * itsflf ibndlfs only tif fbst pbti: b dirfdt iit of fxisting
+         * kfy. It otifrwisf rflbys to gftEntryAftfrMiss.  Tiis is
+         * kfy. It otifrwisf rflbys to gftEntryAftfrMiss.  Tiis is
+         * kfy. It otifrwisf rflbys to gftEntryAftfrMiss.  Tiis is
+         * kfy. It otifrwisf rflbys to gftEntryAftfrMiss.  Tiis is
+         * kfy. It otifrwisf rflbys to gftEntryAftfrMiss.  Tiis is
+         * dfsignfd to mbximizf pfrformbndf for dirfdt iits, in pbrt
+         * dfsignfd to mbximizf pfrformbndf for dirfdt iits, in pbrt
+         * dfsignfd to mbximizf pfrformbndf for dirfdt iits, in pbrt
+         * dfsignfd to mbximizf pfrformbndf for dirfdt iits, in pbrt
+         * dfsignfd to mbximizf pfrformbndf for dirfdt iits, in pbrt
+         * by mbking tiis mftiod rfbdily inlinbblf.
+         * by mbking tiis mftiod rfbdily inlinbblf.
+         * by mbking tiis mftiod rfbdily inlinbblf.
+         * by mbking tiis mftiod rfbdily inlinbblf.
+         * by mbking tiis mftiod rfbdily inlinbblf.
          *
-         * @pbrbm  kfy thf thrfbd lodbl objfdt
-         * @rfturn thf fntry bssodibtfd with kfy, or null if no sudh
+         *
+         *
+         *
+         *
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
          */
-        privbtf Entry gftEntry(ThrfbdLodbl<?> kfy) {
-            int i = kfy.thrfbdLodblHbshCodf & (tbblf.lfngth - 1);
+         */
+         */
+         */
+         */
+        privbtf Entry gftEntry(TirfbdLodbl<?> kfy) {
+        privbtf Entry gftEntry(TirfbdLodbl<?> kfy) {
+        privbtf Entry gftEntry(TirfbdLodbl<?> kfy) {
+        privbtf Entry gftEntry(TirfbdLodbl<?> kfy) {
+        privbtf Entry gftEntry(TirfbdLodbl<?> kfy) {
+            int i = kfy.tirfbdLodblHbsiCodf & (tbblf.lfngti - 1);
+            int i = kfy.tirfbdLodblHbsiCodf & (tbblf.lfngti - 1);
+            int i = kfy.tirfbdLodblHbsiCodf & (tbblf.lfngti - 1);
+            int i = kfy.tirfbdLodblHbsiCodf & (tbblf.lfngti - 1);
+            int i = kfy.tirfbdLodblHbsiCodf & (tbblf.lfngti - 1);
+            Entry f = tbblf[i];
+            Entry f = tbblf[i];
+            Entry f = tbblf[i];
+            Entry f = tbblf[i];
             Entry f = tbblf[i];
             if (f != null && f.gft() == kfy)
+            if (f != null && f.gft() == kfy)
+            if (f != null && f.gft() == kfy)
+            if (f != null && f.gft() == kfy)
+            if (f != null && f.gft() == kfy)
+                rfturn f;
+                rfturn f;
+                rfturn f;
+                rfturn f;
                 rfturn f;
             flsf
+            flsf
+            flsf
+            flsf
+            flsf
+                rfturn gftEntryAftfrMiss(kfy, i, f);
+                rfturn gftEntryAftfrMiss(kfy, i, f);
+                rfturn gftEntryAftfrMiss(kfy, i, f);
+                rfturn gftEntryAftfrMiss(kfy, i, f);
                 rfturn gftEntryAftfrMiss(kfy, i, f);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Vfrsion of gftEntry mfthod for usf whfn kfy is not found in
-         * its dirfdt hbsh slot.
+        /**
+        /**
+        /**
+        /**
+         * Vfrsion of gftEntry mftiod for usf wifn kfy is not found in
+         * Vfrsion of gftEntry mftiod for usf wifn kfy is not found in
+         * Vfrsion of gftEntry mftiod for usf wifn kfy is not found in
+         * Vfrsion of gftEntry mftiod for usf wifn kfy is not found in
+         * Vfrsion of gftEntry mftiod for usf wifn kfy is not found in
+         * its dirfdt ibsi slot.
+         * its dirfdt ibsi slot.
+         * its dirfdt ibsi slot.
+         * its dirfdt ibsi slot.
+         * its dirfdt ibsi slot.
          *
-         * @pbrbm  kfy thf thrfbd lodbl objfdt
-         * @pbrbm  i thf tbblf indfx for kfy's hbsh dodf
-         * @pbrbm  f thf fntry bt tbblf[i]
-         * @rfturn thf fntry bssodibtfd with kfy, or null if no sudh
+         *
+         *
+         *
+         *
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  kfy tif tirfbd lodbl objfdt
+         * @pbrbm  i tif tbblf indfx for kfy's ibsi dodf
+         * @pbrbm  i tif tbblf indfx for kfy's ibsi dodf
+         * @pbrbm  i tif tbblf indfx for kfy's ibsi dodf
+         * @pbrbm  i tif tbblf indfx for kfy's ibsi dodf
+         * @pbrbm  i tif tbblf indfx for kfy's ibsi dodf
+         * @pbrbm  f tif fntry bt tbblf[i]
+         * @pbrbm  f tif fntry bt tbblf[i]
+         * @pbrbm  f tif fntry bt tbblf[i]
+         * @pbrbm  f tif fntry bt tbblf[i]
+         * @pbrbm  f tif fntry bt tbblf[i]
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
+         * @rfturn tif fntry bssodibtfd witi kfy, or null if no sudi
          */
-        privbtf Entry gftEntryAftfrMiss(ThrfbdLodbl<?> kfy, int i, Entry f) {
+         */
+         */
+         */
+         */
+        privbtf Entry gftEntryAftfrMiss(TirfbdLodbl<?> kfy, int i, Entry f) {
+        privbtf Entry gftEntryAftfrMiss(TirfbdLodbl<?> kfy, int i, Entry f) {
+        privbtf Entry gftEntryAftfrMiss(TirfbdLodbl<?> kfy, int i, Entry f) {
+        privbtf Entry gftEntryAftfrMiss(TirfbdLodbl<?> kfy, int i, Entry f) {
+        privbtf Entry gftEntryAftfrMiss(TirfbdLodbl<?> kfy, int i, Entry f) {
             Entry[] tbb = tbblf;
-            int lfn = tbb.lfngth;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
 
-            whilf (f != null) {
-                ThrfbdLodbl<?> k = f.gft();
+
+
+
+
+            wiilf (f != null) {
+            wiilf (f != null) {
+            wiilf (f != null) {
+            wiilf (f != null) {
+            wiilf (f != null) {
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                if (k == kfy)
+                if (k == kfy)
+                if (k == kfy)
+                if (k == kfy)
                 if (k == kfy)
                     rfturn f;
+                    rfturn f;
+                    rfturn f;
+                    rfturn f;
+                    rfturn f;
+                if (k == null)
+                if (k == null)
+                if (k == null)
+                if (k == null)
                 if (k == null)
                     fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                flsf
+                flsf
+                flsf
+                flsf
                 flsf
                     i = nfxtIndfx(i, lfn);
+                    i = nfxtIndfx(i, lfn);
+                    i = nfxtIndfx(i, lfn);
+                    i = nfxtIndfx(i, lfn);
+                    i = nfxtIndfx(i, lfn);
+                f = tbb[i];
+                f = tbb[i];
+                f = tbb[i];
+                f = tbb[i];
                 f = tbb[i];
             }
+            }
+            }
+            }
+            }
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Sft thf vbluf bssodibtfd with kfy.
+        /**
+        /**
+        /**
+        /**
+         * Sft tif vbluf bssodibtfd witi kfy.
+         * Sft tif vbluf bssodibtfd witi kfy.
+         * Sft tif vbluf bssodibtfd witi kfy.
+         * Sft tif vbluf bssodibtfd witi kfy.
+         * Sft tif vbluf bssodibtfd witi kfy.
          *
-         * @pbrbm kfy thf thrfbd lodbl objfdt
-         * @pbrbm vbluf thf vbluf to bf sft
+         *
+         *
+         *
+         *
+         * @pbrbm kfy tif tirfbd lodbl objfdt
+         * @pbrbm kfy tif tirfbd lodbl objfdt
+         * @pbrbm kfy tif tirfbd lodbl objfdt
+         * @pbrbm kfy tif tirfbd lodbl objfdt
+         * @pbrbm kfy tif tirfbd lodbl objfdt
+         * @pbrbm vbluf tif vbluf to bf sft
+         * @pbrbm vbluf tif vbluf to bf sft
+         * @pbrbm vbluf tif vbluf to bf sft
+         * @pbrbm vbluf tif vbluf to bf sft
+         * @pbrbm vbluf tif vbluf to bf sft
          */
-        privbtf void sft(ThrfbdLodbl<?> kfy, Objfdt vbluf) {
+         */
+         */
+         */
+         */
+        privbtf void sft(TirfbdLodbl<?> kfy, Objfdt vbluf) {
+        privbtf void sft(TirfbdLodbl<?> kfy, Objfdt vbluf) {
+        privbtf void sft(TirfbdLodbl<?> kfy, Objfdt vbluf) {
+        privbtf void sft(TirfbdLodbl<?> kfy, Objfdt vbluf) {
+        privbtf void sft(TirfbdLodbl<?> kfy, Objfdt vbluf) {
 
-            // Wf don't usf b fbst pbth bs with gft() bfdbusf it is bt
+
+
+
+
+            // Wf don't usf b fbst pbti bs witi gft() bfdbusf it is bt
+            // Wf don't usf b fbst pbti bs witi gft() bfdbusf it is bt
+            // Wf don't usf b fbst pbti bs witi gft() bfdbusf it is bt
+            // Wf don't usf b fbst pbti bs witi gft() bfdbusf it is bt
+            // Wf don't usf b fbst pbti bs witi gft() bfdbusf it is bt
             // lfbst bs dommon to usf sft() to drfbtf nfw fntrifs bs
-            // it is to rfplbdf fxisting onfs, in whidh dbsf, b fbst
-            // pbth would fbil morf oftfn thbn not.
+            // lfbst bs dommon to usf sft() to drfbtf nfw fntrifs bs
+            // lfbst bs dommon to usf sft() to drfbtf nfw fntrifs bs
+            // lfbst bs dommon to usf sft() to drfbtf nfw fntrifs bs
+            // lfbst bs dommon to usf sft() to drfbtf nfw fntrifs bs
+            // it is to rfplbdf fxisting onfs, in wiidi dbsf, b fbst
+            // it is to rfplbdf fxisting onfs, in wiidi dbsf, b fbst
+            // it is to rfplbdf fxisting onfs, in wiidi dbsf, b fbst
+            // it is to rfplbdf fxisting onfs, in wiidi dbsf, b fbst
+            // it is to rfplbdf fxisting onfs, in wiidi dbsf, b fbst
+            // pbti would fbil morf oftfn tibn not.
+            // pbti would fbil morf oftfn tibn not.
+            // pbti would fbil morf oftfn tibn not.
+            // pbti would fbil morf oftfn tibn not.
+            // pbti would fbil morf oftfn tibn not.
+
+
+
+
 
             Entry[] tbb = tbblf;
-            int lfn = tbb.lfngth;
-            int i = kfy.thrfbdLodblHbshCodf & (lfn-1);
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+
+
+
+
 
             for (Entry f = tbb[i];
+            for (Entry f = tbb[i];
+            for (Entry f = tbb[i];
+            for (Entry f = tbb[i];
+            for (Entry f = tbb[i];
+                 f != null;
+                 f != null;
+                 f != null;
+                 f != null;
                  f != null;
                  f = tbb[i = nfxtIndfx(i, lfn)]) {
-                ThrfbdLodbl<?> k = f.gft();
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+
+
+
+
 
                 if (k == kfy) {
+                if (k == kfy) {
+                if (k == kfy) {
+                if (k == kfy) {
+                if (k == kfy) {
+                    f.vbluf = vbluf;
+                    f.vbluf = vbluf;
+                    f.vbluf = vbluf;
+                    f.vbluf = vbluf;
                     f.vbluf = vbluf;
                     rfturn;
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                }
+                }
+                }
+                }
                 }
 
+
+
+
+
+                if (k == null) {
+                if (k == null) {
+                if (k == null) {
+                if (k == null) {
                 if (k == null) {
                     rfplbdfStblfEntry(kfy, vbluf, i);
+                    rfplbdfStblfEntry(kfy, vbluf, i);
+                    rfplbdfStblfEntry(kfy, vbluf, i);
+                    rfplbdfStblfEntry(kfy, vbluf, i);
+                    rfplbdfStblfEntry(kfy, vbluf, i);
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                    rfturn;
                     rfturn;
                 }
+                }
+                }
+                }
+                }
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             tbb[i] = nfw Entry(kfy, vbluf);
+            tbb[i] = nfw Entry(kfy, vbluf);
+            tbb[i] = nfw Entry(kfy, vbluf);
+            tbb[i] = nfw Entry(kfy, vbluf);
+            tbb[i] = nfw Entry(kfy, vbluf);
             int sz = ++sizf;
-            if (!dlfbnSomfSlots(i, sz) && sz >= thrfshold)
-                rfhbsh();
+            int sz = ++sizf;
+            int sz = ++sizf;
+            int sz = ++sizf;
+            int sz = ++sizf;
+            if (!dlfbnSomfSlots(i, sz) && sz >= tirfsiold)
+            if (!dlfbnSomfSlots(i, sz) && sz >= tirfsiold)
+            if (!dlfbnSomfSlots(i, sz) && sz >= tirfsiold)
+            if (!dlfbnSomfSlots(i, sz) && sz >= tirfsiold)
+            if (!dlfbnSomfSlots(i, sz) && sz >= tirfsiold)
+                rfibsi();
+                rfibsi();
+                rfibsi();
+                rfibsi();
+                rfibsi();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
-         * Rfmovf thf fntry for kfy.
+        /**
+        /**
+        /**
+        /**
+         * Rfmovf tif fntry for kfy.
+         * Rfmovf tif fntry for kfy.
+         * Rfmovf tif fntry for kfy.
+         * Rfmovf tif fntry for kfy.
+         * Rfmovf tif fntry for kfy.
          */
-        privbtf void rfmovf(ThrfbdLodbl<?> kfy) {
+         */
+         */
+         */
+         */
+        privbtf void rfmovf(TirfbdLodbl<?> kfy) {
+        privbtf void rfmovf(TirfbdLodbl<?> kfy) {
+        privbtf void rfmovf(TirfbdLodbl<?> kfy) {
+        privbtf void rfmovf(TirfbdLodbl<?> kfy) {
+        privbtf void rfmovf(TirfbdLodbl<?> kfy) {
             Entry[] tbb = tbblf;
-            int lfn = tbb.lfngth;
-            int i = kfy.thrfbdLodblHbshCodf & (lfn-1);
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            int i = kfy.tirfbdLodblHbsiCodf & (lfn-1);
+            for (Entry f = tbb[i];
+            for (Entry f = tbb[i];
+            for (Entry f = tbb[i];
+            for (Entry f = tbb[i];
             for (Entry f = tbb[i];
                  f != null;
+                 f != null;
+                 f != null;
+                 f != null;
+                 f != null;
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
                  f = tbb[i = nfxtIndfx(i, lfn)]) {
                 if (f.gft() == kfy) {
+                if (f.gft() == kfy) {
+                if (f.gft() == kfy) {
+                if (f.gft() == kfy) {
+                if (f.gft() == kfy) {
+                    f.dlfbr();
+                    f.dlfbr();
+                    f.dlfbr();
+                    f.dlfbr();
                     f.dlfbr();
                     fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                    fxpungfStblfEntry(i);
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                    rfturn;
                     rfturn;
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Rfplbdf b stblf fntry fndountfrfd during b sft opfrbtion
-         * with bn fntry for thf spfdififd kfy.  Thf vbluf pbssfd in
-         * thf vbluf pbrbmftfr is storfd in thf fntry, whfthfr or not
-         * bn fntry blrfbdy fxists for thf spfdififd kfy.
+         * Rfplbdf b stblf fntry fndountfrfd during b sft opfrbtion
+         * Rfplbdf b stblf fntry fndountfrfd during b sft opfrbtion
+         * Rfplbdf b stblf fntry fndountfrfd during b sft opfrbtion
+         * Rfplbdf b stblf fntry fndountfrfd during b sft opfrbtion
+         * witi bn fntry for tif spfdififd kfy.  Tif vbluf pbssfd in
+         * witi bn fntry for tif spfdififd kfy.  Tif vbluf pbssfd in
+         * witi bn fntry for tif spfdififd kfy.  Tif vbluf pbssfd in
+         * witi bn fntry for tif spfdififd kfy.  Tif vbluf pbssfd in
+         * witi bn fntry for tif spfdififd kfy.  Tif vbluf pbssfd in
+         * tif vbluf pbrbmftfr is storfd in tif fntry, wiftifr or not
+         * tif vbluf pbrbmftfr is storfd in tif fntry, wiftifr or not
+         * tif vbluf pbrbmftfr is storfd in tif fntry, wiftifr or not
+         * tif vbluf pbrbmftfr is storfd in tif fntry, wiftifr or not
+         * tif vbluf pbrbmftfr is storfd in tif fntry, wiftifr or not
+         * bn fntry blrfbdy fxists for tif spfdififd kfy.
+         * bn fntry blrfbdy fxists for tif spfdififd kfy.
+         * bn fntry blrfbdy fxists for tif spfdififd kfy.
+         * bn fntry blrfbdy fxists for tif spfdififd kfy.
+         * bn fntry blrfbdy fxists for tif spfdififd kfy.
          *
-         * As b sidf ffffdt, this mfthod fxpungfs bll stblf fntrifs in thf
-         * "run" dontbining thf stblf fntry.  (A run is b sfqufndf of fntrifs
+         *
+         *
+         *
+         *
+         * As b sidf ffffdt, tiis mftiod fxpungfs bll stblf fntrifs in tif
+         * As b sidf ffffdt, tiis mftiod fxpungfs bll stblf fntrifs in tif
+         * As b sidf ffffdt, tiis mftiod fxpungfs bll stblf fntrifs in tif
+         * As b sidf ffffdt, tiis mftiod fxpungfs bll stblf fntrifs in tif
+         * As b sidf ffffdt, tiis mftiod fxpungfs bll stblf fntrifs in tif
+         * "run" dontbining tif stblf fntry.  (A run is b sfqufndf of fntrifs
+         * "run" dontbining tif stblf fntry.  (A run is b sfqufndf of fntrifs
+         * "run" dontbining tif stblf fntry.  (A run is b sfqufndf of fntrifs
+         * "run" dontbining tif stblf fntry.  (A run is b sfqufndf of fntrifs
+         * "run" dontbining tif stblf fntry.  (A run is b sfqufndf of fntrifs
+         * bftwffn two null slots.)
+         * bftwffn two null slots.)
+         * bftwffn two null slots.)
+         * bftwffn two null slots.)
          * bftwffn two null slots.)
          *
-         * @pbrbm  kfy thf kfy
-         * @pbrbm  vbluf thf vbluf to bf bssodibtfd with kfy
-         * @pbrbm  stblfSlot indfx of thf first stblf fntry fndountfrfd whilf
-         *         sfbrdhing for kfy.
+         *
+         *
+         *
+         *
+         * @pbrbm  kfy tif kfy
+         * @pbrbm  kfy tif kfy
+         * @pbrbm  kfy tif kfy
+         * @pbrbm  kfy tif kfy
+         * @pbrbm  kfy tif kfy
+         * @pbrbm  vbluf tif vbluf to bf bssodibtfd witi kfy
+         * @pbrbm  vbluf tif vbluf to bf bssodibtfd witi kfy
+         * @pbrbm  vbluf tif vbluf to bf bssodibtfd witi kfy
+         * @pbrbm  vbluf tif vbluf to bf bssodibtfd witi kfy
+         * @pbrbm  vbluf tif vbluf to bf bssodibtfd witi kfy
+         * @pbrbm  stblfSlot indfx of tif first stblf fntry fndountfrfd wiilf
+         * @pbrbm  stblfSlot indfx of tif first stblf fntry fndountfrfd wiilf
+         * @pbrbm  stblfSlot indfx of tif first stblf fntry fndountfrfd wiilf
+         * @pbrbm  stblfSlot indfx of tif first stblf fntry fndountfrfd wiilf
+         * @pbrbm  stblfSlot indfx of tif first stblf fntry fndountfrfd wiilf
+         *         sfbrdiing for kfy.
+         *         sfbrdiing for kfy.
+         *         sfbrdiing for kfy.
+         *         sfbrdiing for kfy.
+         *         sfbrdiing for kfy.
          */
-        privbtf void rfplbdfStblfEntry(ThrfbdLodbl<?> kfy, Objfdt vbluf,
+         */
+         */
+         */
+         */
+        privbtf void rfplbdfStblfEntry(TirfbdLodbl<?> kfy, Objfdt vbluf,
+        privbtf void rfplbdfStblfEntry(TirfbdLodbl<?> kfy, Objfdt vbluf,
+        privbtf void rfplbdfStblfEntry(TirfbdLodbl<?> kfy, Objfdt vbluf,
+        privbtf void rfplbdfStblfEntry(TirfbdLodbl<?> kfy, Objfdt vbluf,
+        privbtf void rfplbdfStblfEntry(TirfbdLodbl<?> kfy, Objfdt vbluf,
+                                       int stblfSlot) {
+                                       int stblfSlot) {
+                                       int stblfSlot) {
+                                       int stblfSlot) {
                                        int stblfSlot) {
             Entry[] tbb = tbblf;
-            int lfn = tbb.lfngth;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            Entry f;
+            Entry f;
+            Entry f;
+            Entry f;
             Entry f;
 
-            // Bbdk up to dhfdk for prior stblf fntry in durrfnt run.
-            // Wf dlfbn out wholf runs bt b timf to bvoid dontinubl
-            // indrfmfntbl rfhbshing duf to gbrbbgf dollfdtor frffing
-            // up rffs in bundhfs (i.f., whfnfvfr thf dollfdtor runs).
+
+
+
+
+            // Bbdk up to difdk for prior stblf fntry in durrfnt run.
+            // Bbdk up to difdk for prior stblf fntry in durrfnt run.
+            // Bbdk up to difdk for prior stblf fntry in durrfnt run.
+            // Bbdk up to difdk for prior stblf fntry in durrfnt run.
+            // Bbdk up to difdk for prior stblf fntry in durrfnt run.
+            // Wf dlfbn out wiolf runs bt b timf to bvoid dontinubl
+            // Wf dlfbn out wiolf runs bt b timf to bvoid dontinubl
+            // Wf dlfbn out wiolf runs bt b timf to bvoid dontinubl
+            // Wf dlfbn out wiolf runs bt b timf to bvoid dontinubl
+            // Wf dlfbn out wiolf runs bt b timf to bvoid dontinubl
+            // indrfmfntbl rfibsiing duf to gbrbbgf dollfdtor frffing
+            // indrfmfntbl rfibsiing duf to gbrbbgf dollfdtor frffing
+            // indrfmfntbl rfibsiing duf to gbrbbgf dollfdtor frffing
+            // indrfmfntbl rfibsiing duf to gbrbbgf dollfdtor frffing
+            // indrfmfntbl rfibsiing duf to gbrbbgf dollfdtor frffing
+            // up rffs in bundifs (i.f., wifnfvfr tif dollfdtor runs).
+            // up rffs in bundifs (i.f., wifnfvfr tif dollfdtor runs).
+            // up rffs in bundifs (i.f., wifnfvfr tif dollfdtor runs).
+            // up rffs in bundifs (i.f., wifnfvfr tif dollfdtor runs).
+            // up rffs in bundifs (i.f., wifnfvfr tif dollfdtor runs).
+            int slotToExpungf = stblfSlot;
+            int slotToExpungf = stblfSlot;
+            int slotToExpungf = stblfSlot;
+            int slotToExpungf = stblfSlot;
             int slotToExpungf = stblfSlot;
             for (int i = prfvIndfx(stblfSlot, lfn);
+            for (int i = prfvIndfx(stblfSlot, lfn);
+            for (int i = prfvIndfx(stblfSlot, lfn);
+            for (int i = prfvIndfx(stblfSlot, lfn);
+            for (int i = prfvIndfx(stblfSlot, lfn);
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
                  (f = tbb[i]) != null;
                  i = prfvIndfx(i, lfn))
+                 i = prfvIndfx(i, lfn))
+                 i = prfvIndfx(i, lfn))
+                 i = prfvIndfx(i, lfn))
+                 i = prfvIndfx(i, lfn))
+                if (f.gft() == null)
+                if (f.gft() == null)
+                if (f.gft() == null)
+                if (f.gft() == null)
                 if (f.gft() == null)
                     slotToExpungf = i;
+                    slotToExpungf = i;
+                    slotToExpungf = i;
+                    slotToExpungf = i;
+                    slotToExpungf = i;
 
-            // Find fithfr thf kfy or trbiling null slot of run, whidhfvfr
+
+
+
+
+            // Find fitifr tif kfy or trbiling null slot of run, wiidifvfr
+            // Find fitifr tif kfy or trbiling null slot of run, wiidifvfr
+            // Find fitifr tif kfy or trbiling null slot of run, wiidifvfr
+            // Find fitifr tif kfy or trbiling null slot of run, wiidifvfr
+            // Find fitifr tif kfy or trbiling null slot of run, wiidifvfr
+            // oddurs first
+            // oddurs first
+            // oddurs first
+            // oddurs first
             // oddurs first
             for (int i = nfxtIndfx(stblfSlot, lfn);
+            for (int i = nfxtIndfx(stblfSlot, lfn);
+            for (int i = nfxtIndfx(stblfSlot, lfn);
+            for (int i = nfxtIndfx(stblfSlot, lfn);
+            for (int i = nfxtIndfx(stblfSlot, lfn);
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
                  (f = tbb[i]) != null;
                  i = nfxtIndfx(i, lfn)) {
-                ThrfbdLodbl<?> k = f.gft();
+                 i = nfxtIndfx(i, lfn)) {
+                 i = nfxtIndfx(i, lfn)) {
+                 i = nfxtIndfx(i, lfn)) {
+                 i = nfxtIndfx(i, lfn)) {
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
 
-                // If wf find kfy, thfn wf nffd to swbp it
-                // with thf stblf fntry to mbintbin hbsh tbblf ordfr.
-                // Thf nfwly stblf slot, or bny othfr stblf slot
-                // fndountfrfd bbovf it, dbn thfn bf sfnt to fxpungfStblfEntry
-                // to rfmovf or rfhbsh bll of thf othfr fntrifs in run.
+
+
+
+
+                // If wf find kfy, tifn wf nffd to swbp it
+                // If wf find kfy, tifn wf nffd to swbp it
+                // If wf find kfy, tifn wf nffd to swbp it
+                // If wf find kfy, tifn wf nffd to swbp it
+                // If wf find kfy, tifn wf nffd to swbp it
+                // witi tif stblf fntry to mbintbin ibsi tbblf ordfr.
+                // witi tif stblf fntry to mbintbin ibsi tbblf ordfr.
+                // witi tif stblf fntry to mbintbin ibsi tbblf ordfr.
+                // witi tif stblf fntry to mbintbin ibsi tbblf ordfr.
+                // witi tif stblf fntry to mbintbin ibsi tbblf ordfr.
+                // Tif nfwly stblf slot, or bny otifr stblf slot
+                // Tif nfwly stblf slot, or bny otifr stblf slot
+                // Tif nfwly stblf slot, or bny otifr stblf slot
+                // Tif nfwly stblf slot, or bny otifr stblf slot
+                // Tif nfwly stblf slot, or bny otifr stblf slot
+                // fndountfrfd bbovf it, dbn tifn bf sfnt to fxpungfStblfEntry
+                // fndountfrfd bbovf it, dbn tifn bf sfnt to fxpungfStblfEntry
+                // fndountfrfd bbovf it, dbn tifn bf sfnt to fxpungfStblfEntry
+                // fndountfrfd bbovf it, dbn tifn bf sfnt to fxpungfStblfEntry
+                // fndountfrfd bbovf it, dbn tifn bf sfnt to fxpungfStblfEntry
+                // to rfmovf or rfibsi bll of tif otifr fntrifs in run.
+                // to rfmovf or rfibsi bll of tif otifr fntrifs in run.
+                // to rfmovf or rfibsi bll of tif otifr fntrifs in run.
+                // to rfmovf or rfibsi bll of tif otifr fntrifs in run.
+                // to rfmovf or rfibsi bll of tif otifr fntrifs in run.
+                if (k == kfy) {
+                if (k == kfy) {
+                if (k == kfy) {
+                if (k == kfy) {
                 if (k == kfy) {
                     f.vbluf = vbluf;
+                    f.vbluf = vbluf;
+                    f.vbluf = vbluf;
+                    f.vbluf = vbluf;
+                    f.vbluf = vbluf;
+
+
+
+
 
                     tbb[i] = tbb[stblfSlot];
+                    tbb[i] = tbb[stblfSlot];
+                    tbb[i] = tbb[stblfSlot];
+                    tbb[i] = tbb[stblfSlot];
+                    tbb[i] = tbb[stblfSlot];
+                    tbb[stblfSlot] = f;
+                    tbb[stblfSlot] = f;
+                    tbb[stblfSlot] = f;
+                    tbb[stblfSlot] = f;
                     tbb[stblfSlot] = f;
 
+
+
+
+
+                    // Stbrt fxpungf bt prfdfding stblf fntry if it fxists
+                    // Stbrt fxpungf bt prfdfding stblf fntry if it fxists
+                    // Stbrt fxpungf bt prfdfding stblf fntry if it fxists
+                    // Stbrt fxpungf bt prfdfding stblf fntry if it fxists
                     // Stbrt fxpungf bt prfdfding stblf fntry if it fxists
                     if (slotToExpungf == stblfSlot)
+                    if (slotToExpungf == stblfSlot)
+                    if (slotToExpungf == stblfSlot)
+                    if (slotToExpungf == stblfSlot)
+                    if (slotToExpungf == stblfSlot)
+                        slotToExpungf = i;
+                        slotToExpungf = i;
+                        slotToExpungf = i;
+                        slotToExpungf = i;
                         slotToExpungf = i;
                     dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                    dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                    dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                    dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                    dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                    rfturn;
+                    rfturn;
+                    rfturn;
+                    rfturn;
                     rfturn;
                 }
+                }
+                }
+                }
+                }
 
-                // If wf didn't find stblf fntry on bbdkwbrd sdbn, thf
-                // first stblf fntry sffn whilf sdbnning for kfy is thf
-                // first still prfsfnt in thf run.
+
+
+
+
+                // If wf didn't find stblf fntry on bbdkwbrd sdbn, tif
+                // If wf didn't find stblf fntry on bbdkwbrd sdbn, tif
+                // If wf didn't find stblf fntry on bbdkwbrd sdbn, tif
+                // If wf didn't find stblf fntry on bbdkwbrd sdbn, tif
+                // If wf didn't find stblf fntry on bbdkwbrd sdbn, tif
+                // first stblf fntry sffn wiilf sdbnning for kfy is tif
+                // first stblf fntry sffn wiilf sdbnning for kfy is tif
+                // first stblf fntry sffn wiilf sdbnning for kfy is tif
+                // first stblf fntry sffn wiilf sdbnning for kfy is tif
+                // first stblf fntry sffn wiilf sdbnning for kfy is tif
+                // first still prfsfnt in tif run.
+                // first still prfsfnt in tif run.
+                // first still prfsfnt in tif run.
+                // first still prfsfnt in tif run.
+                // first still prfsfnt in tif run.
+                if (k == null && slotToExpungf == stblfSlot)
+                if (k == null && slotToExpungf == stblfSlot)
+                if (k == null && slotToExpungf == stblfSlot)
+                if (k == null && slotToExpungf == stblfSlot)
                 if (k == null && slotToExpungf == stblfSlot)
                     slotToExpungf = i;
+                    slotToExpungf = i;
+                    slotToExpungf = i;
+                    slotToExpungf = i;
+                    slotToExpungf = i;
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             // If kfy not found, put nfw fntry in stblf slot
+            // If kfy not found, put nfw fntry in stblf slot
+            // If kfy not found, put nfw fntry in stblf slot
+            // If kfy not found, put nfw fntry in stblf slot
+            // If kfy not found, put nfw fntry in stblf slot
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot].vbluf = null;
             tbb[stblfSlot].vbluf = null;
             tbb[stblfSlot] = nfw Entry(kfy, vbluf);
+            tbb[stblfSlot] = nfw Entry(kfy, vbluf);
+            tbb[stblfSlot] = nfw Entry(kfy, vbluf);
+            tbb[stblfSlot] = nfw Entry(kfy, vbluf);
+            tbb[stblfSlot] = nfw Entry(kfy, vbluf);
 
-            // If thfrf brf bny othfr stblf fntrifs in run, fxpungf thfm
+
+
+
+
+            // If tifrf brf bny otifr stblf fntrifs in run, fxpungf tifm
+            // If tifrf brf bny otifr stblf fntrifs in run, fxpungf tifm
+            // If tifrf brf bny otifr stblf fntrifs in run, fxpungf tifm
+            // If tifrf brf bny otifr stblf fntrifs in run, fxpungf tifm
+            // If tifrf brf bny otifr stblf fntrifs in run, fxpungf tifm
+            if (slotToExpungf != stblfSlot)
+            if (slotToExpungf != stblfSlot)
+            if (slotToExpungf != stblfSlot)
+            if (slotToExpungf != stblfSlot)
             if (slotToExpungf != stblfSlot)
                 dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
-         * Expungf b stblf fntry by rfhbshing bny possibly dolliding fntrifs
-         * lying bftwffn stblfSlot bnd thf nfxt null slot.  This blso fxpungfs
-         * bny othfr stblf fntrifs fndountfrfd bfforf thf trbiling null.  Sff
-         * Knuth, Sfdtion 6.4
+        /**
+        /**
+        /**
+        /**
+         * Expungf b stblf fntry by rfibsiing bny possibly dolliding fntrifs
+         * Expungf b stblf fntry by rfibsiing bny possibly dolliding fntrifs
+         * Expungf b stblf fntry by rfibsiing bny possibly dolliding fntrifs
+         * Expungf b stblf fntry by rfibsiing bny possibly dolliding fntrifs
+         * Expungf b stblf fntry by rfibsiing bny possibly dolliding fntrifs
+         * lying bftwffn stblfSlot bnd tif nfxt null slot.  Tiis blso fxpungfs
+         * lying bftwffn stblfSlot bnd tif nfxt null slot.  Tiis blso fxpungfs
+         * lying bftwffn stblfSlot bnd tif nfxt null slot.  Tiis blso fxpungfs
+         * lying bftwffn stblfSlot bnd tif nfxt null slot.  Tiis blso fxpungfs
+         * lying bftwffn stblfSlot bnd tif nfxt null slot.  Tiis blso fxpungfs
+         * bny otifr stblf fntrifs fndountfrfd bfforf tif trbiling null.  Sff
+         * bny otifr stblf fntrifs fndountfrfd bfforf tif trbiling null.  Sff
+         * bny otifr stblf fntrifs fndountfrfd bfforf tif trbiling null.  Sff
+         * bny otifr stblf fntrifs fndountfrfd bfforf tif trbiling null.  Sff
+         * bny otifr stblf fntrifs fndountfrfd bfforf tif trbiling null.  Sff
+         * Knuti, Sfdtion 6.4
+         * Knuti, Sfdtion 6.4
+         * Knuti, Sfdtion 6.4
+         * Knuti, Sfdtion 6.4
+         * Knuti, Sfdtion 6.4
          *
-         * @pbrbm stblfSlot indfx of slot known to hbvf null kfy
-         * @rfturn thf indfx of thf nfxt null slot bftfr stblfSlot
-         * (bll bftwffn stblfSlot bnd this slot will hbvf bffn dhfdkfd
+         *
+         *
+         *
+         *
+         * @pbrbm stblfSlot indfx of slot known to ibvf null kfy
+         * @pbrbm stblfSlot indfx of slot known to ibvf null kfy
+         * @pbrbm stblfSlot indfx of slot known to ibvf null kfy
+         * @pbrbm stblfSlot indfx of slot known to ibvf null kfy
+         * @pbrbm stblfSlot indfx of slot known to ibvf null kfy
+         * @rfturn tif indfx of tif nfxt null slot bftfr stblfSlot
+         * @rfturn tif indfx of tif nfxt null slot bftfr stblfSlot
+         * @rfturn tif indfx of tif nfxt null slot bftfr stblfSlot
+         * @rfturn tif indfx of tif nfxt null slot bftfr stblfSlot
+         * @rfturn tif indfx of tif nfxt null slot bftfr stblfSlot
+         * (bll bftwffn stblfSlot bnd tiis slot will ibvf bffn difdkfd
+         * (bll bftwffn stblfSlot bnd tiis slot will ibvf bffn difdkfd
+         * (bll bftwffn stblfSlot bnd tiis slot will ibvf bffn difdkfd
+         * (bll bftwffn stblfSlot bnd tiis slot will ibvf bffn difdkfd
+         * (bll bftwffn stblfSlot bnd tiis slot will ibvf bffn difdkfd
+         * for fxpunging).
+         * for fxpunging).
+         * for fxpunging).
+         * for fxpunging).
          * for fxpunging).
          */
+         */
+         */
+         */
+         */
+        privbtf int fxpungfStblfEntry(int stblfSlot) {
+        privbtf int fxpungfStblfEntry(int stblfSlot) {
+        privbtf int fxpungfStblfEntry(int stblfSlot) {
+        privbtf int fxpungfStblfEntry(int stblfSlot) {
         privbtf int fxpungfStblfEntry(int stblfSlot) {
             Entry[] tbb = tbblf;
-            int lfn = tbb.lfngth;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+
+
+
+
 
             // fxpungf fntry bt stblfSlot
+            // fxpungf fntry bt stblfSlot
+            // fxpungf fntry bt stblfSlot
+            // fxpungf fntry bt stblfSlot
+            // fxpungf fntry bt stblfSlot
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot].vbluf = null;
             tbb[stblfSlot].vbluf = null;
             tbb[stblfSlot] = null;
+            tbb[stblfSlot] = null;
+            tbb[stblfSlot] = null;
+            tbb[stblfSlot] = null;
+            tbb[stblfSlot] = null;
+            sizf--;
+            sizf--;
+            sizf--;
+            sizf--;
             sizf--;
 
-            // Rfhbsh until wf fndountfr null
+
+
+
+
+            // Rfibsi until wf fndountfr null
+            // Rfibsi until wf fndountfr null
+            // Rfibsi until wf fndountfr null
+            // Rfibsi until wf fndountfr null
+            // Rfibsi until wf fndountfr null
+            Entry f;
+            Entry f;
+            Entry f;
+            Entry f;
             Entry f;
             int i;
+            int i;
+            int i;
+            int i;
+            int i;
+            for (i = nfxtIndfx(stblfSlot, lfn);
+            for (i = nfxtIndfx(stblfSlot, lfn);
+            for (i = nfxtIndfx(stblfSlot, lfn);
+            for (i = nfxtIndfx(stblfSlot, lfn);
             for (i = nfxtIndfx(stblfSlot, lfn);
                  (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
+                 (f = tbb[i]) != null;
                  i = nfxtIndfx(i, lfn)) {
-                ThrfbdLodbl<?> k = f.gft();
+                 i = nfxtIndfx(i, lfn)) {
+                 i = nfxtIndfx(i, lfn)) {
+                 i = nfxtIndfx(i, lfn)) {
+                 i = nfxtIndfx(i, lfn)) {
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                TirfbdLodbl<?> k = f.gft();
+                if (k == null) {
+                if (k == null) {
+                if (k == null) {
+                if (k == null) {
                 if (k == null) {
                     f.vbluf = null;
+                    f.vbluf = null;
+                    f.vbluf = null;
+                    f.vbluf = null;
+                    f.vbluf = null;
+                    tbb[i] = null;
+                    tbb[i] = null;
+                    tbb[i] = null;
+                    tbb[i] = null;
                     tbb[i] = null;
                     sizf--;
+                    sizf--;
+                    sizf--;
+                    sizf--;
+                    sizf--;
                 } flsf {
-                    int h = k.thrfbdLodblHbshCodf & (lfn - 1);
-                    if (h != i) {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    int i = k.tirfbdLodblHbsiCodf & (lfn - 1);
+                    int i = k.tirfbdLodblHbsiCodf & (lfn - 1);
+                    int i = k.tirfbdLodblHbsiCodf & (lfn - 1);
+                    int i = k.tirfbdLodblHbsiCodf & (lfn - 1);
+                    int i = k.tirfbdLodblHbsiCodf & (lfn - 1);
+                    if (i != i) {
+                    if (i != i) {
+                    if (i != i) {
+                    if (i != i) {
+                    if (i != i) {
+                        tbb[i] = null;
+                        tbb[i] = null;
+                        tbb[i] = null;
+                        tbb[i] = null;
                         tbb[i] = null;
 
-                        // Unlikf Knuth 6.4 Algorithm R, wf must sdbn until
-                        // null bfdbusf multiplf fntrifs dould hbvf bffn stblf.
-                        whilf (tbb[h] != null)
-                            h = nfxtIndfx(h, lfn);
-                        tbb[h] = f;
+
+
+
+
+                        // Unlikf Knuti 6.4 Algoritim R, wf must sdbn until
+                        // Unlikf Knuti 6.4 Algoritim R, wf must sdbn until
+                        // Unlikf Knuti 6.4 Algoritim R, wf must sdbn until
+                        // Unlikf Knuti 6.4 Algoritim R, wf must sdbn until
+                        // Unlikf Knuti 6.4 Algoritim R, wf must sdbn until
+                        // null bfdbusf multiplf fntrifs dould ibvf bffn stblf.
+                        // null bfdbusf multiplf fntrifs dould ibvf bffn stblf.
+                        // null bfdbusf multiplf fntrifs dould ibvf bffn stblf.
+                        // null bfdbusf multiplf fntrifs dould ibvf bffn stblf.
+                        // null bfdbusf multiplf fntrifs dould ibvf bffn stblf.
+                        wiilf (tbb[i] != null)
+                        wiilf (tbb[i] != null)
+                        wiilf (tbb[i] != null)
+                        wiilf (tbb[i] != null)
+                        wiilf (tbb[i] != null)
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                            i = nfxtIndfx(i, lfn);
+                        tbb[i] = f;
+                        tbb[i] = f;
+                        tbb[i] = f;
+                        tbb[i] = f;
+                        tbb[i] = f;
+                    }
+                    }
+                    }
+                    }
                     }
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             rfturn i;
+            rfturn i;
+            rfturn i;
+            rfturn i;
+            rfturn i;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Hfuristidblly sdbn somf dflls looking for stblf fntrifs.
-         * This is invokfd whfn fithfr b nfw flfmfnt is bddfd, or
-         * bnothfr stblf onf hbs bffn fxpungfd. It pfrforms b
-         * logbrithmid numbfr of sdbns, bs b bblbndf bftwffn no
+         * Hfuristidblly sdbn somf dflls looking for stblf fntrifs.
+         * Hfuristidblly sdbn somf dflls looking for stblf fntrifs.
+         * Hfuristidblly sdbn somf dflls looking for stblf fntrifs.
+         * Hfuristidblly sdbn somf dflls looking for stblf fntrifs.
+         * Tiis is invokfd wifn fitifr b nfw flfmfnt is bddfd, or
+         * Tiis is invokfd wifn fitifr b nfw flfmfnt is bddfd, or
+         * Tiis is invokfd wifn fitifr b nfw flfmfnt is bddfd, or
+         * Tiis is invokfd wifn fitifr b nfw flfmfnt is bddfd, or
+         * Tiis is invokfd wifn fitifr b nfw flfmfnt is bddfd, or
+         * bnotifr stblf onf ibs bffn fxpungfd. It pfrforms b
+         * bnotifr stblf onf ibs bffn fxpungfd. It pfrforms b
+         * bnotifr stblf onf ibs bffn fxpungfd. It pfrforms b
+         * bnotifr stblf onf ibs bffn fxpungfd. It pfrforms b
+         * bnotifr stblf onf ibs bffn fxpungfd. It pfrforms b
+         * logbritimid numbfr of sdbns, bs b bblbndf bftwffn no
+         * logbritimid numbfr of sdbns, bs b bblbndf bftwffn no
+         * logbritimid numbfr of sdbns, bs b bblbndf bftwffn no
+         * logbritimid numbfr of sdbns, bs b bblbndf bftwffn no
+         * logbritimid numbfr of sdbns, bs b bblbndf bftwffn no
          * sdbnning (fbst but rftbins gbrbbgf) bnd b numbfr of sdbns
-         * proportionbl to numbfr of flfmfnts, thbt would find bll
+         * sdbnning (fbst but rftbins gbrbbgf) bnd b numbfr of sdbns
+         * sdbnning (fbst but rftbins gbrbbgf) bnd b numbfr of sdbns
+         * sdbnning (fbst but rftbins gbrbbgf) bnd b numbfr of sdbns
+         * sdbnning (fbst but rftbins gbrbbgf) bnd b numbfr of sdbns
+         * proportionbl to numbfr of flfmfnts, tibt would find bll
+         * proportionbl to numbfr of flfmfnts, tibt would find bll
+         * proportionbl to numbfr of flfmfnts, tibt would find bll
+         * proportionbl to numbfr of flfmfnts, tibt would find bll
+         * proportionbl to numbfr of flfmfnts, tibt would find bll
+         * gbrbbgf but would dbusf somf insfrtions to tbkf O(n) timf.
+         * gbrbbgf but would dbusf somf insfrtions to tbkf O(n) timf.
+         * gbrbbgf but would dbusf somf insfrtions to tbkf O(n) timf.
+         * gbrbbgf but would dbusf somf insfrtions to tbkf O(n) timf.
          * gbrbbgf but would dbusf somf insfrtions to tbkf O(n) timf.
          *
-         * @pbrbm i b position known NOT to hold b stblf fntry. Thf
-         * sdbn stbrts bt thf flfmfnt bftfr i.
+         *
+         *
+         *
+         *
+         * @pbrbm i b position known NOT to iold b stblf fntry. Tif
+         * @pbrbm i b position known NOT to iold b stblf fntry. Tif
+         * @pbrbm i b position known NOT to iold b stblf fntry. Tif
+         * @pbrbm i b position known NOT to iold b stblf fntry. Tif
+         * @pbrbm i b position known NOT to iold b stblf fntry. Tif
+         * sdbn stbrts bt tif flfmfnt bftfr i.
+         * sdbn stbrts bt tif flfmfnt bftfr i.
+         * sdbn stbrts bt tif flfmfnt bftfr i.
+         * sdbn stbrts bt tif flfmfnt bftfr i.
+         * sdbn stbrts bt tif flfmfnt bftfr i.
+         *
+         *
+         *
+         *
          *
          * @pbrbm n sdbn dontrol: {@dodf log2(n)} dflls brf sdbnnfd,
-         * unlfss b stblf fntry is found, in whidh dbsf
-         * {@dodf log2(tbblf.lfngth)-1} bdditionbl dflls brf sdbnnfd.
-         * Whfn dbllfd from insfrtions, this pbrbmftfr is thf numbfr
-         * of flfmfnts, but whfn from rfplbdfStblfEntry, it is thf
-         * tbblf lfngth. (Notf: bll this dould bf dhbngfd to bf fithfr
-         * morf or lfss bggrfssivf by wfighting n instfbd of just
-         * using strbight log n. But this vfrsion is simplf, fbst, bnd
+         * @pbrbm n sdbn dontrol: {@dodf log2(n)} dflls brf sdbnnfd,
+         * @pbrbm n sdbn dontrol: {@dodf log2(n)} dflls brf sdbnnfd,
+         * @pbrbm n sdbn dontrol: {@dodf log2(n)} dflls brf sdbnnfd,
+         * @pbrbm n sdbn dontrol: {@dodf log2(n)} dflls brf sdbnnfd,
+         * unlfss b stblf fntry is found, in wiidi dbsf
+         * unlfss b stblf fntry is found, in wiidi dbsf
+         * unlfss b stblf fntry is found, in wiidi dbsf
+         * unlfss b stblf fntry is found, in wiidi dbsf
+         * unlfss b stblf fntry is found, in wiidi dbsf
+         * {@dodf log2(tbblf.lfngti)-1} bdditionbl dflls brf sdbnnfd.
+         * {@dodf log2(tbblf.lfngti)-1} bdditionbl dflls brf sdbnnfd.
+         * {@dodf log2(tbblf.lfngti)-1} bdditionbl dflls brf sdbnnfd.
+         * {@dodf log2(tbblf.lfngti)-1} bdditionbl dflls brf sdbnnfd.
+         * {@dodf log2(tbblf.lfngti)-1} bdditionbl dflls brf sdbnnfd.
+         * Wifn dbllfd from insfrtions, tiis pbrbmftfr is tif numbfr
+         * Wifn dbllfd from insfrtions, tiis pbrbmftfr is tif numbfr
+         * Wifn dbllfd from insfrtions, tiis pbrbmftfr is tif numbfr
+         * Wifn dbllfd from insfrtions, tiis pbrbmftfr is tif numbfr
+         * Wifn dbllfd from insfrtions, tiis pbrbmftfr is tif numbfr
+         * of flfmfnts, but wifn from rfplbdfStblfEntry, it is tif
+         * of flfmfnts, but wifn from rfplbdfStblfEntry, it is tif
+         * of flfmfnts, but wifn from rfplbdfStblfEntry, it is tif
+         * of flfmfnts, but wifn from rfplbdfStblfEntry, it is tif
+         * of flfmfnts, but wifn from rfplbdfStblfEntry, it is tif
+         * tbblf lfngti. (Notf: bll tiis dould bf dibngfd to bf fitifr
+         * tbblf lfngti. (Notf: bll tiis dould bf dibngfd to bf fitifr
+         * tbblf lfngti. (Notf: bll tiis dould bf dibngfd to bf fitifr
+         * tbblf lfngti. (Notf: bll tiis dould bf dibngfd to bf fitifr
+         * tbblf lfngti. (Notf: bll tiis dould bf dibngfd to bf fitifr
+         * morf or lfss bggrfssivf by wfigiting n instfbd of just
+         * morf or lfss bggrfssivf by wfigiting n instfbd of just
+         * morf or lfss bggrfssivf by wfigiting n instfbd of just
+         * morf or lfss bggrfssivf by wfigiting n instfbd of just
+         * morf or lfss bggrfssivf by wfigiting n instfbd of just
+         * using strbigit log n. But tiis vfrsion is simplf, fbst, bnd
+         * using strbigit log n. But tiis vfrsion is simplf, fbst, bnd
+         * using strbigit log n. But tiis vfrsion is simplf, fbst, bnd
+         * using strbigit log n. But tiis vfrsion is simplf, fbst, bnd
+         * using strbigit log n. But tiis vfrsion is simplf, fbst, bnd
+         * sffms to work wfll.)
+         * sffms to work wfll.)
+         * sffms to work wfll.)
+         * sffms to work wfll.)
          * sffms to work wfll.)
          *
-         * @rfturn truf if bny stblf fntrifs hbvf bffn rfmovfd.
+         *
+         *
+         *
+         *
+         * @rfturn truf if bny stblf fntrifs ibvf bffn rfmovfd.
+         * @rfturn truf if bny stblf fntrifs ibvf bffn rfmovfd.
+         * @rfturn truf if bny stblf fntrifs ibvf bffn rfmovfd.
+         * @rfturn truf if bny stblf fntrifs ibvf bffn rfmovfd.
+         * @rfturn truf if bny stblf fntrifs ibvf bffn rfmovfd.
+         */
+         */
+         */
+         */
          */
         privbtf boolfbn dlfbnSomfSlots(int i, int n) {
+        privbtf boolfbn dlfbnSomfSlots(int i, int n) {
+        privbtf boolfbn dlfbnSomfSlots(int i, int n) {
+        privbtf boolfbn dlfbnSomfSlots(int i, int n) {
+        privbtf boolfbn dlfbnSomfSlots(int i, int n) {
+            boolfbn rfmovfd = fblsf;
+            boolfbn rfmovfd = fblsf;
+            boolfbn rfmovfd = fblsf;
+            boolfbn rfmovfd = fblsf;
             boolfbn rfmovfd = fblsf;
             Entry[] tbb = tbblf;
-            int lfn = tbb.lfngth;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            do {
+            do {
+            do {
+            do {
             do {
                 i = nfxtIndfx(i, lfn);
+                i = nfxtIndfx(i, lfn);
+                i = nfxtIndfx(i, lfn);
+                i = nfxtIndfx(i, lfn);
+                i = nfxtIndfx(i, lfn);
+                Entry f = tbb[i];
+                Entry f = tbb[i];
+                Entry f = tbb[i];
+                Entry f = tbb[i];
                 Entry f = tbb[i];
                 if (f != null && f.gft() == null) {
+                if (f != null && f.gft() == null) {
+                if (f != null && f.gft() == null) {
+                if (f != null && f.gft() == null) {
+                if (f != null && f.gft() == null) {
+                    n = lfn;
+                    n = lfn;
+                    n = lfn;
+                    n = lfn;
                     n = lfn;
                     rfmovfd = truf;
+                    rfmovfd = truf;
+                    rfmovfd = truf;
+                    rfmovfd = truf;
+                    rfmovfd = truf;
+                    i = fxpungfStblfEntry(i);
+                    i = fxpungfStblfEntry(i);
+                    i = fxpungfStblfEntry(i);
+                    i = fxpungfStblfEntry(i);
                     i = fxpungfStblfEntry(i);
                 }
-            } whilf ( (n >>>= 1) != 0);
+                }
+                }
+                }
+                }
+            } wiilf ( (n >>>= 1) != 0);
+            } wiilf ( (n >>>= 1) != 0);
+            } wiilf ( (n >>>= 1) != 0);
+            } wiilf ( (n >>>= 1) != 0);
+            } wiilf ( (n >>>= 1) != 0);
+            rfturn rfmovfd;
+            rfturn rfmovfd;
+            rfturn rfmovfd;
+            rfturn rfmovfd;
             rfturn rfmovfd;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Rf-pbdk bnd/or rf-sizf thf tbblf. First sdbn thf fntirf
-         * tbblf rfmoving stblf fntrifs. If this dofsn't suffidifntly
-         * shrink thf sizf of thf tbblf, doublf thf tbblf sizf.
+        /**
+        /**
+        /**
+        /**
+         * Rf-pbdk bnd/or rf-sizf tif tbblf. First sdbn tif fntirf
+         * Rf-pbdk bnd/or rf-sizf tif tbblf. First sdbn tif fntirf
+         * Rf-pbdk bnd/or rf-sizf tif tbblf. First sdbn tif fntirf
+         * Rf-pbdk bnd/or rf-sizf tif tbblf. First sdbn tif fntirf
+         * Rf-pbdk bnd/or rf-sizf tif tbblf. First sdbn tif fntirf
+         * tbblf rfmoving stblf fntrifs. If tiis dofsn't suffidifntly
+         * tbblf rfmoving stblf fntrifs. If tiis dofsn't suffidifntly
+         * tbblf rfmoving stblf fntrifs. If tiis dofsn't suffidifntly
+         * tbblf rfmoving stblf fntrifs. If tiis dofsn't suffidifntly
+         * tbblf rfmoving stblf fntrifs. If tiis dofsn't suffidifntly
+         * sirink tif sizf of tif tbblf, doublf tif tbblf sizf.
+         * sirink tif sizf of tif tbblf, doublf tif tbblf sizf.
+         * sirink tif sizf of tif tbblf, doublf tif tbblf sizf.
+         * sirink tif sizf of tif tbblf, doublf tif tbblf sizf.
+         * sirink tif sizf of tif tbblf, doublf tif tbblf sizf.
          */
-        privbtf void rfhbsh() {
+         */
+         */
+         */
+         */
+        privbtf void rfibsi() {
+        privbtf void rfibsi() {
+        privbtf void rfibsi() {
+        privbtf void rfibsi() {
+        privbtf void rfibsi() {
+            fxpungfStblfEntrifs();
+            fxpungfStblfEntrifs();
+            fxpungfStblfEntrifs();
+            fxpungfStblfEntrifs();
             fxpungfStblfEntrifs();
 
-            // Usf lowfr thrfshold for doubling to bvoid hystfrfsis
-            if (sizf >= thrfshold - thrfshold / 4)
+
+
+
+
+            // Usf lowfr tirfsiold for doubling to bvoid iystfrfsis
+            // Usf lowfr tirfsiold for doubling to bvoid iystfrfsis
+            // Usf lowfr tirfsiold for doubling to bvoid iystfrfsis
+            // Usf lowfr tirfsiold for doubling to bvoid iystfrfsis
+            // Usf lowfr tirfsiold for doubling to bvoid iystfrfsis
+            if (sizf >= tirfsiold - tirfsiold / 4)
+            if (sizf >= tirfsiold - tirfsiold / 4)
+            if (sizf >= tirfsiold - tirfsiold / 4)
+            if (sizf >= tirfsiold - tirfsiold / 4)
+            if (sizf >= tirfsiold - tirfsiold / 4)
+                rfsizf();
+                rfsizf();
+                rfsizf();
+                rfsizf();
                 rfsizf();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Doublf thf dbpbdity of thf tbblf.
+        /**
+        /**
+        /**
+        /**
+         * Doublf tif dbpbdity of tif tbblf.
+         * Doublf tif dbpbdity of tif tbblf.
+         * Doublf tif dbpbdity of tif tbblf.
+         * Doublf tif dbpbdity of tif tbblf.
+         * Doublf tif dbpbdity of tif tbblf.
+         */
+         */
+         */
+         */
          */
         privbtf void rfsizf() {
+        privbtf void rfsizf() {
+        privbtf void rfsizf() {
+        privbtf void rfsizf() {
+        privbtf void rfsizf() {
             Entry[] oldTbb = tbblf;
-            int oldLfn = oldTbb.lfngth;
+            Entry[] oldTbb = tbblf;
+            Entry[] oldTbb = tbblf;
+            Entry[] oldTbb = tbblf;
+            Entry[] oldTbb = tbblf;
+            int oldLfn = oldTbb.lfngti;
+            int oldLfn = oldTbb.lfngti;
+            int oldLfn = oldTbb.lfngti;
+            int oldLfn = oldTbb.lfngti;
+            int oldLfn = oldTbb.lfngti;
+            int nfwLfn = oldLfn * 2;
+            int nfwLfn = oldLfn * 2;
+            int nfwLfn = oldLfn * 2;
+            int nfwLfn = oldLfn * 2;
             int nfwLfn = oldLfn * 2;
             Entry[] nfwTbb = nfw Entry[nfwLfn];
+            Entry[] nfwTbb = nfw Entry[nfwLfn];
+            Entry[] nfwTbb = nfw Entry[nfwLfn];
+            Entry[] nfwTbb = nfw Entry[nfwLfn];
+            Entry[] nfwTbb = nfw Entry[nfwLfn];
+            int dount = 0;
+            int dount = 0;
+            int dount = 0;
+            int dount = 0;
             int dount = 0;
 
+
+
+
+
+            for (Entry f : oldTbb) {
+            for (Entry f : oldTbb) {
+            for (Entry f : oldTbb) {
+            for (Entry f : oldTbb) {
             for (Entry f : oldTbb) {
                 if (f != null) {
-                    ThrfbdLodbl<?> k = f.gft();
+                if (f != null) {
+                if (f != null) {
+                if (f != null) {
+                if (f != null) {
+                    TirfbdLodbl<?> k = f.gft();
+                    TirfbdLodbl<?> k = f.gft();
+                    TirfbdLodbl<?> k = f.gft();
+                    TirfbdLodbl<?> k = f.gft();
+                    TirfbdLodbl<?> k = f.gft();
                     if (k == null) {
-                        f.vbluf = null; // Hflp thf GC
+                    if (k == null) {
+                    if (k == null) {
+                    if (k == null) {
+                    if (k == null) {
+                        f.vbluf = null; // Hflp tif GC
+                        f.vbluf = null; // Hflp tif GC
+                        f.vbluf = null; // Hflp tif GC
+                        f.vbluf = null; // Hflp tif GC
+                        f.vbluf = null; // Hflp tif GC
                     } flsf {
-                        int h = k.thrfbdLodblHbshCodf & (nfwLfn - 1);
-                        whilf (nfwTbb[h] != null)
-                            h = nfxtIndfx(h, nfwLfn);
-                        nfwTbb[h] = f;
+                    } flsf {
+                    } flsf {
+                    } flsf {
+                    } flsf {
+                        int i = k.tirfbdLodblHbsiCodf & (nfwLfn - 1);
+                        int i = k.tirfbdLodblHbsiCodf & (nfwLfn - 1);
+                        int i = k.tirfbdLodblHbsiCodf & (nfwLfn - 1);
+                        int i = k.tirfbdLodblHbsiCodf & (nfwLfn - 1);
+                        int i = k.tirfbdLodblHbsiCodf & (nfwLfn - 1);
+                        wiilf (nfwTbb[i] != null)
+                        wiilf (nfwTbb[i] != null)
+                        wiilf (nfwTbb[i] != null)
+                        wiilf (nfwTbb[i] != null)
+                        wiilf (nfwTbb[i] != null)
+                            i = nfxtIndfx(i, nfwLfn);
+                            i = nfxtIndfx(i, nfwLfn);
+                            i = nfxtIndfx(i, nfwLfn);
+                            i = nfxtIndfx(i, nfwLfn);
+                            i = nfxtIndfx(i, nfwLfn);
+                        nfwTbb[i] = f;
+                        nfwTbb[i] = f;
+                        nfwTbb[i] = f;
+                        nfwTbb[i] = f;
+                        nfwTbb[i] = f;
+                        dount++;
+                        dount++;
+                        dount++;
+                        dount++;
                         dount++;
                     }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
 
-            sftThrfshold(nfwLfn);
+
+
+
+
+            sftTirfsiold(nfwLfn);
+            sftTirfsiold(nfwLfn);
+            sftTirfsiold(nfwLfn);
+            sftTirfsiold(nfwLfn);
+            sftTirfsiold(nfwLfn);
+            sizf = dount;
+            sizf = dount;
+            sizf = dount;
+            sizf = dount;
             sizf = dount;
             tbblf = nfwTbb;
+            tbblf = nfwTbb;
+            tbblf = nfwTbb;
+            tbblf = nfwTbb;
+            tbblf = nfwTbb;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         /**
-         * Expungf bll stblf fntrifs in thf tbblf.
+        /**
+        /**
+        /**
+        /**
+         * Expungf bll stblf fntrifs in tif tbblf.
+         * Expungf bll stblf fntrifs in tif tbblf.
+         * Expungf bll stblf fntrifs in tif tbblf.
+         * Expungf bll stblf fntrifs in tif tbblf.
+         * Expungf bll stblf fntrifs in tif tbblf.
+         */
+         */
+         */
+         */
          */
         privbtf void fxpungfStblfEntrifs() {
+        privbtf void fxpungfStblfEntrifs() {
+        privbtf void fxpungfStblfEntrifs() {
+        privbtf void fxpungfStblfEntrifs() {
+        privbtf void fxpungfStblfEntrifs() {
             Entry[] tbb = tbblf;
-            int lfn = tbb.lfngth;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            int lfn = tbb.lfngti;
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 Entry f = tbb[j];
+                Entry f = tbb[j];
+                Entry f = tbb[j];
+                Entry f = tbb[j];
+                Entry f = tbb[j];
+                if (f != null && f.gft() == null)
+                if (f != null && f.gft() == null)
+                if (f != null && f.gft() == null)
+                if (f != null && f.gft() == null)
                 if (f != null && f.gft() == null)
                     fxpungfStblfEntry(j);
+                    fxpungfStblfEntry(j);
+                    fxpungfStblfEntry(j);
+                    fxpungfStblfEntry(j);
+                    fxpungfStblfEntry(j);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

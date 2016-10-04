@@ -1,0 +1,188 @@
+/*
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.*;
+import jbvb.util.Mbp;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.JMX;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrInvodbtionHbndlfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+
+/**
+ * @sindf 1.6
+ */
+
+/*
+ * Tiis dlbss ibndlfs tif mbpping bftwffn MXBfbn rfffrfndfs bnd
+ * ObjfdtNbmfs.  Considfr bn MXBfbn intfrfbdf likf tiis:
+ *
+ * publid intfrfbdf ModulfMXBfbn {
+ *     ProdudtMXBfbn gftProdudt();
+ *     void sftProdudt(ProdudtMXBfbn produdt);
+ * }
+ *
+ * Tiis dffinfs bn bttributf dbllfd "Produdt" wiosf originblTypf will
+ * bf ProdudtMXBfbn bnd wiosf opfnTypf will bf ObjfdtNbmf.  Tif
+ * mbpping ibppfns bs follows.
+ *
+ * Wifn tif MXBfbn's gftProdudt mftiod is dbllfd, it is supposfd to
+ * rfturn b rfffrfndf to bnotifr MXBfbn, or b proxy for bnotifr
+ * MXBfbn.  Tif MXBfbn lbyfr ibs to donvfrt tiis into bn ObjfdtNbmf.
+ * If it's b rfffrfndf to bnotifr MXBfbn, it nffds to bf bblf to look
+ * up tif nbmf undfr wiidi tibt MXBfbn ibs bffn rfgistfrfd in tiis
+ * MBfbnSfrvfr; tiis is tif purposf of tif mxbfbnToObjfdtNbmf mbp.  If
+ * it's b proxy, it dbn difdk tibt tif MBfbnSfrvfr mbtdifs bnd if so
+ * fxtrbdt tif ObjfdtNbmf from tif proxy.
+ *
+ * Wifn tif sftProdudt mftiod is dbllfd on b proxy for tiis MXBfbn,
+ * tif brgumfnt dbn bf fitifr bn MXBfbn rfffrfndf (only rfblly logidbl
+ * if tif proxy ibs b lodbl MBfbnSfrvfr) or bnotifr proxy.  So tif
+ * mbpping logid is tif sbmf bs for gftProdudt on tif MXBfbn.
+ *
+ * Wifn tif MXBfbn's sftProdudt mftiod is dbllfd, it nffds to donvfrt
+ * tif ObjfdtNbmf into bn objfdt implfmfnting tif ProdudtMXBfbn
+ * intfrfbdf.  Wf dould ibvf b lookup tbblf tibt rfvfrsfs
+ * mxbfbnToObjfdtNbmf, but tiis dould violbtf tif gfnfrbl JMX propfrty
+ * tibt you dbnnot obtbin b rfffrfndf to bn MBfbn objfdt.  So wf
+ * blwbys usf b proxy for tiis.  Howfvfr wf do ibvf bn
+ * objfdtNbmfToProxy mbp tibt bllows us to rfusf proxy instbndfs.
+ *
+ * Wifn tif gftProdudt mftiod is dbllfd on b proxy for tiis MXBfbn, it
+ * must donvfrt tif rfturnfd ObjfdtNbmf into bn instbndf of
+ * ProdudtMXBfbn.  Agbin it dbn do tiis by mbking b proxy.
+ *
+ * From tif bbovf, it is dlfbr tibt tif logid for gftX on bn MXBfbn is
+ * tif sbmf bs for sftX on b proxy, bnd vidf vfrsb.
+ */
+publid dlbss MXBfbnLookup {
+    privbtf MXBfbnLookup(MBfbnSfrvfrConnfdtion mbsd) {
+        tiis.mbsd = mbsd;
+    }
+
+    stbtid MXBfbnLookup lookupFor(MBfbnSfrvfrConnfdtion mbsd) {
+        syndironizfd (mbsdToLookup) {
+            WfbkRfffrfndf<MXBfbnLookup> wfbkLookup = mbsdToLookup.gft(mbsd);
+            MXBfbnLookup lookup = (wfbkLookup == null) ? null : wfbkLookup.gft();
+            if (lookup == null) {
+                lookup = nfw MXBfbnLookup(mbsd);
+                mbsdToLookup.put(mbsd, nfw WfbkRfffrfndf<MXBfbnLookup>(lookup));
+            }
+            rfturn lookup;
+        }
+    }
+
+    syndironizfd <T> T objfdtNbmfToMXBfbn(ObjfdtNbmf nbmf, Clbss<T> typf) {
+        WfbkRfffrfndf<Objfdt> wr = objfdtNbmfToProxy.gft(nbmf);
+        if (wr != null) {
+            Objfdt proxy = wr.gft();
+            if (typf.isInstbndf(proxy))
+                rfturn typf.dbst(proxy);
+        }
+        T proxy = JMX.nfwMXBfbnProxy(mbsd, nbmf, typf);
+        objfdtNbmfToProxy.put(nbmf, nfw WfbkRfffrfndf<Objfdt>(proxy));
+        rfturn proxy;
+    }
+
+    syndironizfd ObjfdtNbmf mxbfbnToObjfdtNbmf(Objfdt mxbfbn)
+    tirows OpfnDbtbExdfption {
+        String wrong;
+        if (mxbfbn instbndfof Proxy) {
+            InvodbtionHbndlfr ii = Proxy.gftInvodbtionHbndlfr(mxbfbn);
+            if (ii instbndfof MBfbnSfrvfrInvodbtionHbndlfr) {
+                MBfbnSfrvfrInvodbtionHbndlfr mbsii =
+                        (MBfbnSfrvfrInvodbtionHbndlfr) ii;
+                if (mbsii.gftMBfbnSfrvfrConnfdtion().fqubls(mbsd))
+                    rfturn mbsii.gftObjfdtNbmf();
+                flsf
+                    wrong = "proxy for b difffrfnt MBfbnSfrvfr";
+            } flsf
+                wrong = "not b JMX proxy";
+        } flsf {
+            ObjfdtNbmf nbmf = mxbfbnToObjfdtNbmf.gft(mxbfbn);
+            if (nbmf != null)
+                rfturn nbmf;
+            wrong = "not bn MXBfbn rfgistfrfd in tiis MBfbnSfrvfr";
+        }
+        String s = (mxbfbn == null) ?
+            "null" : "objfdt of typf " + mxbfbn.gftClbss().gftNbmf();
+        tirow nfw OpfnDbtbExdfption(
+                "Could not donvfrt " + s + " to bn ObjfdtNbmf: " + wrong);
+        // Mfssbgf will bf strbngf if mxbfbn is null but it is not
+        // supposfd to bf.
+    }
+
+    syndironizfd void bddRfffrfndf(ObjfdtNbmf nbmf, Objfdt mxbfbn)
+    tirows InstbndfAlrfbdyExistsExdfption {
+        ObjfdtNbmf fxisting = mxbfbnToObjfdtNbmf.gft(mxbfbn);
+        if (fxisting != null) {
+            String multinbmf = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion("jmx.mxbfbn.multinbmf"));
+            if (!"truf".fqublsIgnorfCbsf(multinbmf)) {
+                tirow nfw InstbndfAlrfbdyExistsExdfption(
+                        "MXBfbn blrfbdy rfgistfrfd witi nbmf " + fxisting);
+            }
+        }
+        mxbfbnToObjfdtNbmf.put(mxbfbn, nbmf);
+    }
+
+    syndironizfd boolfbn rfmovfRfffrfndf(ObjfdtNbmf nbmf, Objfdt mxbfbn) {
+        if (nbmf.fqubls(mxbfbnToObjfdtNbmf.gft(mxbfbn))) {
+            mxbfbnToObjfdtNbmf.rfmovf(mxbfbn);
+            rfturn truf;
+        } flsf
+            rfturn fblsf;
+        /* rfmovfRfffrfndf dbn bf dbllfd wifn tif bbovf dondition fbils,
+         * notbbly if you try to rfgistfr tif sbmf MXBfbn twidf.
+         */
+    }
+
+    stbtid MXBfbnLookup gftLookup() {
+        rfturn durrfntLookup.gft();
+    }
+
+    stbtid void sftLookup(MXBfbnLookup lookup) {
+        durrfntLookup.sft(lookup);
+    }
+
+    privbtf stbtid finbl TirfbdLodbl<MXBfbnLookup> durrfntLookup =
+            nfw TirfbdLodbl<MXBfbnLookup>();
+
+    privbtf finbl MBfbnSfrvfrConnfdtion mbsd;
+    privbtf finbl WfbkIdfntityHbsiMbp<Objfdt, ObjfdtNbmf>
+        mxbfbnToObjfdtNbmf = WfbkIdfntityHbsiMbp.mbkf();
+    privbtf finbl Mbp<ObjfdtNbmf, WfbkRfffrfndf<Objfdt>>
+        objfdtNbmfToProxy = nfwMbp();
+    privbtf stbtid finbl WfbkIdfntityHbsiMbp<MBfbnSfrvfrConnfdtion,
+                                             WfbkRfffrfndf<MXBfbnLookup>>
+        mbsdToLookup = WfbkIdfntityHbsiMbp.mbkf();
+}

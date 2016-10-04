@@ -1,16 +1,80 @@
-# Providfr rfsourdf filf for thf LDAP sfrvidf providfr.
+# Providfr rfsourdf filf for tif LDAP sfrvidf providfr.
+# Providfr rfsourdf filf for tif LDAP sfrvidf providfr.
+# Providfr rfsourdf filf for tif LDAP sfrvidf providfr.
+# Providfr rfsourdf filf for tif LDAP sfrvidf providfr.
+# Providfr rfsourdf filf for tif LDAP sfrvidf providfr.
 
-# Fbdtory for thf rfsponsf dontrols supportfd by this rflfbsf.
+
+
+
+
+# Fbdtory for tif rfsponsf dontrols supportfd by tiis rflfbsf.
+# Fbdtory for tif rfsponsf dontrols supportfd by tiis rflfbsf.
+# Fbdtory for tif rfsponsf dontrols supportfd by tiis rflfbsf.
+# Fbdtory for tif rfsponsf dontrols supportfd by tiis rflfbsf.
+# Fbdtory for tif rfsponsf dontrols supportfd by tiis rflfbsf.
+jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory
+jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory
+jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory
+jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory
 jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory
 
-# AttrsToCorbb: Turn fntry with dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
-# MbrshbllfdToObjfdt: Turn fntry with jbvbMbrshbllfdObjfdt into UnmbrshbllfdObjfdt
-jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrshbllfdToObjfdt
 
-# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrshbllfdObjfdt or
+
+
+
+# AttrsToCorbb: Turn fntry witi dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
+# AttrsToCorbb: Turn fntry witi dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
+# AttrsToCorbb: Turn fntry witi dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
+# AttrsToCorbb: Turn fntry witi dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
+# AttrsToCorbb: Turn fntry witi dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
+# MbrsibllfdToObjfdt: Turn fntry witi jbvbMbrsibllfdObjfdt into UnmbrsibllfdObjfdt
+# MbrsibllfdToObjfdt: Turn fntry witi jbvbMbrsibllfdObjfdt into UnmbrsibllfdObjfdt
+# MbrsibllfdToObjfdt: Turn fntry witi jbvbMbrsibllfdObjfdt into UnmbrsibllfdObjfdt
+# MbrsibllfdToObjfdt: Turn fntry witi jbvbMbrsibllfdObjfdt into UnmbrsibllfdObjfdt
+# MbrsibllfdToObjfdt: Turn fntry witi jbvbMbrsibllfdObjfdt into UnmbrsibllfdObjfdt
+jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrsibllfdToObjfdt
+jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrsibllfdToObjfdt
+jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrsibllfdToObjfdt
+jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrsibllfdToObjfdt
+jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrsibllfdToObjfdt
+
+
+
+
+
+# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrsibllfdObjfdt or
+# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrsibllfdObjfdt or
+# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrsibllfdObjfdt or
+# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrsibllfdObjfdt or
+# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrsibllfdObjfdt or
+# 		dorbbObjfdt LDAP fntry
+# 		dorbbObjfdt LDAP fntry
+# 		dorbbObjfdt LDAP fntry
+# 		dorbbObjfdt LDAP fntry
 # 		dorbbObjfdt LDAP fntry
 # CorbbToAttrs: Turn CORBA objfdt into dorbbObjfdt LDAP fntry
+# CorbbToAttrs: Turn CORBA objfdt into dorbbObjfdt LDAP fntry
+# CorbbToAttrs: Turn CORBA objfdt into dorbbObjfdt LDAP fntry
+# CorbbToAttrs: Turn CORBA objfdt into dorbbObjfdt LDAP fntry
+# CorbbToAttrs: Turn CORBA objfdt into dorbbObjfdt LDAP fntry
 # RfmotfToCorbbToAttrs: Turn RMI/IIOP objfdt into dorbbObjfdt LDAP fntry. 
-#  Notf thbt thfrf is no nffd to spfdify this in list unlfss RfmotfToAttrs is
-#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy hbndlfs this dbsf
+# RfmotfToCorbbToAttrs: Turn RMI/IIOP objfdt into dorbbObjfdt LDAP fntry. 
+# RfmotfToCorbbToAttrs: Turn RMI/IIOP objfdt into dorbbObjfdt LDAP fntry. 
+# RfmotfToCorbbToAttrs: Turn RMI/IIOP objfdt into dorbbObjfdt LDAP fntry. 
+# RfmotfToCorbbToAttrs: Turn RMI/IIOP objfdt into dorbbObjfdt LDAP fntry. 
+#  Notf tibt tifrf is no nffd to spfdify tiis in list unlfss RfmotfToAttrs is
+#  Notf tibt tifrf is no nffd to spfdify tiis in list unlfss RfmotfToAttrs is
+#  Notf tibt tifrf is no nffd to spfdify tiis in list unlfss RfmotfToAttrs is
+#  Notf tibt tifrf is no nffd to spfdify tiis in list unlfss RfmotfToAttrs is
+#  Notf tibt tifrf is no nffd to spfdify tiis in list unlfss RfmotfToAttrs is
+#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy ibndlfs tiis dbsf
+#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy ibndlfs tiis dbsf
+#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy ibndlfs tiis dbsf
+#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy ibndlfs tiis dbsf
+#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy ibndlfs tiis dbsf
+jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.obj.RfmotfToAttrs:dom.sun.jndi.ldbp.obj.CorbbToAttrs
+jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.obj.RfmotfToAttrs:dom.sun.jndi.ldbp.obj.CorbbToAttrs
+jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.obj.RfmotfToAttrs:dom.sun.jndi.ldbp.obj.CorbbToAttrs
+jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.obj.RfmotfToAttrs:dom.sun.jndi.ldbp.obj.CorbbToAttrs
 jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.obj.RfmotfToAttrs:dom.sun.jndi.ldbp.obj.CorbbToAttrs

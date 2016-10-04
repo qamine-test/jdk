@@ -1,0 +1,271 @@
+/*
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.io.IOExdfption;
+
+import jbvb.util.SfrvidfLobdfr;
+
+/* Publid for usf by dom.sun.jdi.Bootstrbp */
+publid dlbss VirtublMbdiinfMbnbgfrImpl implfmfnts VirtublMbdiinfMbnbgfrSfrvidf {
+    privbtf List<Connfdtor> donnfdtors = nfw ArrbyList<Connfdtor>();
+    privbtf LbundiingConnfdtor dffbultConnfdtor = null;
+    privbtf List<VirtublMbdiinf> tbrgfts = nfw ArrbyList<VirtublMbdiinf>();
+    privbtf finbl TirfbdGroup mbinGroupForJDI;
+    privbtf RfsourdfBundlf mfssbgfs = null;
+    privbtf int vmSfqufndfNumbfr = 0;
+    privbtf stbtid finbl int mbjorVfrsion = 1;
+    privbtf stbtid finbl int minorVfrsion = 8;
+
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid VirtublMbdiinfMbnbgfrImpl vmm;
+
+    publid stbtid VirtublMbdiinfMbnbgfr virtublMbdiinfMbnbgfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            JDIPfrmission vmmPfrmission =
+                nfw JDIPfrmission("virtublMbdiinfMbnbgfr");
+            sm.difdkPfrmission(vmmPfrmission);
+        }
+        syndironizfd (lodk) {
+            if (vmm == null) {
+                vmm = nfw VirtublMbdiinfMbnbgfrImpl();
+            }
+        }
+        rfturn vmm;
+    }
+
+    protfdtfd VirtublMbdiinfMbnbgfrImpl() {
+
+        /*
+         * Crfbtf b top-lfvfl tirfbd group
+         */
+        TirfbdGroup top = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+        TirfbdGroup pbrfnt = null;
+        wiilf ((pbrfnt = top.gftPbrfnt()) != null) {
+            top = pbrfnt;
+        }
+        mbinGroupForJDI = nfw TirfbdGroup(top, "JDI mbin");
+
+        /*
+         * Lobd tif donnfdtors
+         */
+        SfrvidfLobdfr<Connfdtor> donnfdtorLobdfr =
+            SfrvidfLobdfr.lobd(Connfdtor.dlbss, Connfdtor.dlbss.gftClbssLobdfr());
+
+        Itfrbtor<Connfdtor> donnfdtors = donnfdtorLobdfr.itfrbtor();
+
+        wiilf (donnfdtors.ibsNfxt()) {
+            Connfdtor donnfdtor;
+
+            try {
+                donnfdtor = donnfdtors.nfxt();
+            } dbtdi (TirfbdDfbti x) {
+                tirow x;
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println(x);
+                dontinuf;
+            } dbtdi (Error x) {
+                Systfm.frr.println(x);
+                dontinuf;
+            }
+
+            bddConnfdtor(donnfdtor);
+        }
+
+        /*
+         * Lobd bny trbnsport sfrvidfs bnd fndbpsulbtf tifm witi
+         * bn bttbdiing bnd listfning donnfdtor.
+         */
+        SfrvidfLobdfr<TrbnsportSfrvidf> trbnsportLobdfr =
+            SfrvidfLobdfr.lobd(TrbnsportSfrvidf.dlbss,
+                               TrbnsportSfrvidf.dlbss.gftClbssLobdfr());
+
+        Itfrbtor<TrbnsportSfrvidf> trbnsportSfrvidfs =
+            trbnsportLobdfr.itfrbtor();
+
+        wiilf (trbnsportSfrvidfs.ibsNfxt()) {
+            TrbnsportSfrvidf trbnsportSfrvidf;
+
+            try {
+                trbnsportSfrvidf = trbnsportSfrvidfs.nfxt();
+            } dbtdi (TirfbdDfbti x) {
+                tirow x;
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println(x);
+                dontinuf;
+            } dbtdi (Error x) {
+                Systfm.frr.println(x);
+                dontinuf;
+            }
+
+            bddConnfdtor(GfnfridAttbdiingConnfdtor.drfbtf(trbnsportSfrvidf));
+            bddConnfdtor(GfnfridListfningConnfdtor.drfbtf(trbnsportSfrvidf));
+        }
+
+        // no donnfdtors found
+        if (bllConnfdtors().sizf() == 0) {
+            tirow nfw Error("no Connfdtors lobdfd");
+        }
+
+        // Sft tif dffbult lbundifr. In ordfr to bf dompbtiblf
+        // 1.2/1.3/1.4 wf try to mbkf tif dffbult lbundifr
+        // "dom.sun.jdi.CommbndLinfLbundi". If tiis donnfdtor
+        // isn't found tifn wf brbitbrly pidk tif first donnfdtor.
+        //
+        boolfbn found = fblsf;
+        List<LbundiingConnfdtor> lbundifrs = lbundiingConnfdtors();
+        for (LbundiingConnfdtor ld: lbundifrs) {
+            if (ld.nbmf().fqubls("dom.sun.jdi.CommbndLinfLbundi")) {
+                sftDffbultConnfdtor(ld);
+                found = truf;
+                brfbk;
+            }
+        }
+        if (!found && lbundifrs.sizf() > 0) {
+            sftDffbultConnfdtor(lbundifrs.gft(0));
+        }
+
+    }
+
+    publid LbundiingConnfdtor dffbultConnfdtor() {
+        if (dffbultConnfdtor == null) {
+            tirow nfw Error("no dffbult LbundiingConnfdtor");
+        }
+        rfturn dffbultConnfdtor;
+    }
+
+    publid void sftDffbultConnfdtor(LbundiingConnfdtor donnfdtor) {
+        dffbultConnfdtor = donnfdtor;
+    }
+
+    publid List<LbundiingConnfdtor> lbundiingConnfdtors() {
+        List<LbundiingConnfdtor> lbundiingConnfdtors = nfw ArrbyList<LbundiingConnfdtor>(donnfdtors.sizf());
+        for (Connfdtor donnfdtor: donnfdtors) {
+            if (donnfdtor instbndfof LbundiingConnfdtor) {
+                lbundiingConnfdtors.bdd((LbundiingConnfdtor)donnfdtor);
+            }
+        }
+        rfturn Collfdtions.unmodifibblfList(lbundiingConnfdtors);
+    }
+
+    publid List<AttbdiingConnfdtor> bttbdiingConnfdtors() {
+        List<AttbdiingConnfdtor> bttbdiingConnfdtors = nfw ArrbyList<AttbdiingConnfdtor>(donnfdtors.sizf());
+        for (Connfdtor donnfdtor: donnfdtors) {
+            if (donnfdtor instbndfof AttbdiingConnfdtor) {
+                bttbdiingConnfdtors.bdd((AttbdiingConnfdtor)donnfdtor);
+            }
+        }
+        rfturn Collfdtions.unmodifibblfList(bttbdiingConnfdtors);
+    }
+
+    publid List<ListfningConnfdtor> listfningConnfdtors() {
+        List<ListfningConnfdtor> listfningConnfdtors = nfw ArrbyList<ListfningConnfdtor>(donnfdtors.sizf());
+        for (Connfdtor donnfdtor: donnfdtors) {
+            if (donnfdtor instbndfof ListfningConnfdtor) {
+                listfningConnfdtors.bdd((ListfningConnfdtor)donnfdtor);
+            }
+        }
+        rfturn Collfdtions.unmodifibblfList(listfningConnfdtors);
+    }
+
+    publid List<Connfdtor> bllConnfdtors() {
+        rfturn Collfdtions.unmodifibblfList(donnfdtors);
+    }
+
+    publid List<VirtublMbdiinf> donnfdtfdVirtublMbdiinfs() {
+        rfturn Collfdtions.unmodifibblfList(tbrgfts);
+    }
+
+    publid void bddConnfdtor(Connfdtor donnfdtor) {
+        donnfdtors.bdd(donnfdtor);
+    }
+
+    publid void rfmovfConnfdtor(Connfdtor donnfdtor) {
+        donnfdtors.rfmovf(donnfdtor);
+    }
+
+    publid syndironizfd VirtublMbdiinf drfbtfVirtublMbdiinf(
+                                        Connfdtion donnfdtion,
+                                        Prodfss prodfss) tirows IOExdfption {
+
+        if (!donnfdtion.isOpfn()) {
+            tirow nfw IllfgblStbtfExdfption("donnfdtion is not opfn");
+        }
+
+        VirtublMbdiinf vm;
+        try {
+            vm = nfw VirtublMbdiinfImpl(tiis, donnfdtion, prodfss,
+                                                   ++vmSfqufndfNumbfr);
+        } dbtdi (VMDisdonnfdtfdExdfption f) {
+            tirow nfw IOExdfption(f.gftMfssbgf());
+        }
+        tbrgfts.bdd(vm);
+        rfturn vm;
+    }
+
+    publid VirtublMbdiinf drfbtfVirtublMbdiinf(Connfdtion donnfdtion) tirows IOExdfption {
+        rfturn drfbtfVirtublMbdiinf(donnfdtion, null);
+    }
+
+    publid void bddVirtublMbdiinf(VirtublMbdiinf vm) {
+        tbrgfts.bdd(vm);
+    }
+
+    void disposfVirtublMbdiinf(VirtublMbdiinf vm) {
+        tbrgfts.rfmovf(vm);
+    }
+
+    publid int mbjorIntfrfbdfVfrsion() {
+        rfturn mbjorVfrsion;
+    }
+
+    publid int minorIntfrfbdfVfrsion() {
+        rfturn minorVfrsion;
+    }
+
+    TirfbdGroup mbinGroupForJDI() {
+        rfturn mbinGroupForJDI;
+    }
+
+    String gftString(String kfy) {
+        if (mfssbgfs == null) {
+            mfssbgfs = RfsourdfBundlf.gftBundlf("dom.sun.tools.jdi.rfsourdfs.jdi");
+        }
+        rfturn mfssbgfs.gftString(kfy);
+    }
+
+}

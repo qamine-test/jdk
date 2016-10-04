@@ -1,0 +1,532 @@
+/*
+ * Copyrigit (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import sun.sfdurity.krb5.Confoundfr;
+
+/**
+ * Tiis dlbss rfprfsfnts b tokfn fmittfd by tif GSSContfxt.wrbp()
+ * dbll. It is b MfssbgfTokfn fxdfpt tibt it blso dontbins plbintfxt
+ * or fndryptfd dbtb bt tif fnd. A wrbpTokfn ibs dfrtbin otifr rulfs
+ * tibt brf pfdulibr to it bnd difffrfnt from b MICTokfn, wiidi is
+ * bnotifr typf of MfssbgfTokfn. All dbtb in b WrbpTokfn is prfpfndfd
+ * by b rbndom dounfoundfr of 8 bytfs. All dbtb in b WrbpTokfn is
+ * blso pbddfd witi onf to figit bytfs wifrf bll bytfs brf fqubl in
+ * vbluf to tif numbfr of bytfs bfing pbddfd. Tius, bll bpplidbtion
+ * dbtb is rfplbdfd by (donfoundfr || dbtb || pbdding).
+ *
+ * @butior Mbybnk Upbdiyby
+ */
+dlbss WrbpTokfn fxtfnds MfssbgfTokfn {
+    /**
+     * Tif sizf of tif rbndom donfoundfr usfd in b WrbpTokfn.
+     */
+    stbtid finbl int CONFOUNDER_SIZE = 8;
+
+    /*
+     * Tif pbdding usfd witi b WrbpTokfn. All dbtb is pbddfd to tif
+     * nfxt multiplf of 8 bytfs, fvfn if its lfngti is blrfbdy
+     * multiplf of 8.
+     * Usf tiis tbblf bs b quidk wby to obtbin pbdding bytfs by
+     * indfxing it witi tif numbfr of pbdding bytfs rfquirfd.
+     */
+    stbtid finbl bytf[][] pbds = {
+        null, // No, no onf fsdbpfs pbdding
+        {0x01},
+        {0x02, 0x02},
+        {0x03, 0x03, 0x03},
+        {0x04, 0x04, 0x04, 0x04},
+        {0x05, 0x05, 0x05, 0x05, 0x05},
+        {0x06, 0x06, 0x06, 0x06, 0x06, 0x06},
+        {0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07},
+        {0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08}
+    };
+
+    /*
+     * A tokfn mby domf in fitifr in bn InputStrfbm or bs b
+     * bytf[]. Storf b rfffrfndf to it in fitifr dbsf bnd prodfss
+     * it's dbtb only lbtfr wifn gftDbtb() is dbllfd bnd
+     * dfdryption/dopying is nffdfd to bf donf. Notf tibt JCE dbn
+     * dfdrypt boti from b bytf[] bnd from bn InputStrfbm.
+     */
+    privbtf boolfbn rfbdTokfnFromInputStrfbm = truf;
+    privbtf InputStrfbm is = null;
+    privbtf bytf[] tokfnBytfs = null;
+    privbtf int tokfnOffsft = 0;
+    privbtf int tokfnLfn = 0;
+
+    /*
+     * Applidbtion dbtb mby domf from bn InputStrfbm or from b
+     * bytf[]. Howfvfr, it will blwbys bf storfd bnd prodfssfd bs b
+     * bytf[] sindf
+     * (b) tif MfssbgfDigfst dlbss only bddfpts b bytf[] bs input bnd
+     * (b) It bllows writing to bn OuputStrfbm vib b CipifrOutputStrfbm.
+     */
+    privbtf bytf[] dbtbBytfs = null;
+    privbtf int dbtbOffsft = 0;
+    privbtf int dbtbLfn = 0;
+
+    // tif lfn of tif tokfn dbtb: (donfoundfr || dbtb || pbdding)
+    privbtf int dbtbSizf = 0;
+
+    // Addfssfd by CipifrHflpfr
+    bytf[] donfoundfr = null;
+    bytf[] pbdding = null;
+
+    privbtf boolfbn privbdy = fblsf;
+
+    /**
+     * Construdts b WrbpTokfn from tokfn bytfs obtbinfd from tif
+     * pffr.
+     * @pbrbm dontfxt tif mfdibnism dontfxt bssodibtfd witi tiis
+     * tokfn
+     * @pbrbm tokfnBytfs tif bytfs of tif tokfn
+     * @pbrbm tokfnOffsft tif offsft of tif tokfn
+     * @pbrbm tokfnLfn tif lfngti of tif tokfn
+     * @pbrbm prop tif MfssbgfProp into wiidi dibrbdtfristids of tif
+     * pbrsfd tokfn will bf storfd.
+     * @tirows GSSExdfption if tif tokfn is dfffdtivf
+     */
+    publid WrbpTokfn(Krb5Contfxt dontfxt,
+                     bytf[] tokfnBytfs, int tokfnOffsft, int tokfnLfn,
+                     MfssbgfProp prop)  tirows GSSExdfption {
+
+        // Just pbrsf tif MfssbgfTokfn pbrt first
+        supfr(Krb5Tokfn.WRAP_ID, dontfxt,
+              tokfnBytfs, tokfnOffsft, tokfnLfn, prop);
+
+        tiis.rfbdTokfnFromInputStrfbm = fblsf;
+
+        // Will nffd tif tokfn bytfs bgbin wifn fxtrbdting dbtb
+        tiis.tokfnBytfs = tokfnBytfs;
+        tiis.tokfnOffsft = tokfnOffsft;
+        tiis.tokfnLfn = tokfnLfn;
+        tiis.privbdy = prop.gftPrivbdy();
+        dbtbSizf =
+            gftGSSHfbdfr().gftMfdiTokfnLfngti() - gftKrb5TokfnSizf();
+    }
+
+    /**
+     * Construdts b WrbpTokfn from tokfn bytfs rfbd on tif fly from
+     * bn InputStrfbm.
+     * @pbrbm dontfxt tif mfdibnism dontfxt bssodibtfd witi tiis
+     * tokfn
+     * @pbrbm is tif InputStrfbm dontbining tif tokfn bytfs
+     * @pbrbm prop tif MfssbgfProp into wiidi dibrbdtfristids of tif
+     * pbrsfd tokfn will bf storfd.
+     * @tirows GSSExdfption if tif tokfn is dfffdtivf or if tifrf is
+     * b problfm rfbding from tif InputStrfbm
+     */
+    publid WrbpTokfn(Krb5Contfxt dontfxt,
+                     InputStrfbm is, MfssbgfProp prop)
+        tirows GSSExdfption {
+
+        // Just pbrsf tif MfssbgfTokfn pbrt first
+        supfr(Krb5Tokfn.WRAP_ID, dontfxt, is, prop);
+
+        // Will nffd tif tokfn bytfs bgbin wifn fxtrbdting dbtb
+        tiis.is = is;
+        tiis.privbdy = prop.gftPrivbdy();
+        /*
+          dfbug("WrbpTokfn Cons: gssHfbdfr.gftMfdiTokfnLfngti=" +
+          gftGSSHfbdfr().gftMfdiTokfnLfngti());
+          dfbug("\n                tokfn sizf="
+          + gftTokfnSizf());
+        */
+
+        dbtbSizf =
+            gftGSSHfbdfr().gftMfdiTokfnLfngti() - gftTokfnSizf();
+        // dfbug("\n                dbtbSizf=" + dbtbSizf);
+        // dfbug("\n");
+    }
+
+    /**
+     * Obtbins tif bpplidbtion dbtb tibt wbs trbnsmittfd in tiis
+     * WrbpTokfn.
+     * @rfturn b bytf brrby dontbining tif bpplidbtion dbtb
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
+     */
+    publid bytf[] gftDbtb() tirows GSSExdfption {
+
+        bytf[] tfmp = nfw bytf[dbtbSizf];
+        gftDbtb(tfmp, 0);
+
+        // Rfmovf tif donfoundfr bnd tif pbdding
+        bytf[] rftVbl = nfw bytf[dbtbSizf - donfoundfr.lfngti -
+                                pbdding.lfngti];
+        Systfm.brrbydopy(tfmp, 0, rftVbl, 0, rftVbl.lfngti);
+
+        rfturn rftVbl;
+    }
+
+    /**
+     * Obtbins tif bpplidbtion dbtb tibt wbs trbnsmittfd in tiis
+     * WrbpTokfn, writing it into bn bpplidbtion providfd output
+     * brrby.
+     * @pbrbm dbtbBuf tif output bufffr into wiidi tif dbtb must bf
+     * writtfn
+     * @pbrbm dbtbBufOffsft tif offsft bt wiidi to writf tif dbtb
+     * @rfturn tif sizf of tif dbtb writtfn
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
+     */
+    publid int gftDbtb(bytf[] dbtbBuf, int dbtbBufOffsft)
+        tirows GSSExdfption {
+
+        if (rfbdTokfnFromInputStrfbm)
+            gftDbtbFromStrfbm(dbtbBuf, dbtbBufOffsft);
+        flsf
+            gftDbtbFromBufffr(dbtbBuf, dbtbBufOffsft);
+
+        rfturn (dbtbSizf - donfoundfr.lfngti - pbdding.lfngti);
+    }
+
+    /**
+     * Hflpfr routinf to obtbin tif bpplidbtion dbtb trbnsmittfd in
+     * tiis WrbpTokfn. It is dbllfd if tif WrbpTokfn wbs donstrudtfd
+     * witi b bytf brrby bs input.
+     * @pbrbm dbtbBuf tif output bufffr into wiidi tif dbtb must bf
+     * writtfn
+     * @pbrbm dbtbBufOffsft tif offsft bt wiidi to writf tif dbtb
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
+     */
+    privbtf void gftDbtbFromBufffr(bytf[] dbtbBuf, int dbtbBufOffsft)
+        tirows GSSExdfption {
+
+        GSSHfbdfr gssHfbdfr = gftGSSHfbdfr();
+        int dbtbPos = tokfnOffsft +
+            gssHfbdfr.gftLfngti() + gftTokfnSizf();
+
+        if (dbtbPos + dbtbSizf > tokfnOffsft + tokfnLfn)
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "Insuffidifnt dbtb in "
+                                   + gftTokfnNbmf(gftTokfnId()));
+
+        // dfbug("WrbpTokfn dons: dbtb is tokfn is [" +
+        //      gftHfxBytfs(tokfnBytfs, tokfnOffsft, tokfnLfn) + "]\n");
+
+        donfoundfr = nfw bytf[CONFOUNDER_SIZE];
+
+        // Do dfdryption if tiis tokfn wbs privbdy protfdtfd.
+
+        if (privbdy) {
+            dipifrHflpfr.dfdryptDbtb(tiis,
+                tokfnBytfs, dbtbPos, dbtbSizf, dbtbBuf, dbtbBufOffsft);
+            /*
+            dfbug("\t\tDfdryptfd dbtb is [" +
+                gftHfxBytfs(donfoundfr) + " " +
+                gftHfxBytfs(dbtbBuf, dbtbBufOffsft,
+                        dbtbSizf - CONFOUNDER_SIZE - pbdding.lfngti) +
+                gftHfxBytfs(pbdding) +
+            "]\n");
+            */
+
+        } flsf {
+
+            // Tokfn dbtb is in dlfbrtfxt
+            // dfbug("\t\tNo fndryption wbs pfrformfd by pffr.\n");
+            Systfm.brrbydopy(tokfnBytfs, dbtbPos,
+                             donfoundfr, 0, CONFOUNDER_SIZE);
+            int pbdSizf = tokfnBytfs[dbtbPos + dbtbSizf - 1];
+            if (pbdSizf < 0)
+                pbdSizf = 0;
+            if (pbdSizf > 8)
+                pbdSizf %= 8;
+
+            pbdding = pbds[pbdSizf];
+            // dfbug("\t\tPbdding bpplifd wbs: " + pbdSizf + "\n");
+
+            Systfm.brrbydopy(tokfnBytfs, dbtbPos + CONFOUNDER_SIZE,
+                             dbtbBuf, dbtbBufOffsft, dbtbSizf -
+                             CONFOUNDER_SIZE - pbdSizf);
+
+           // bytf[] dfbugbuf = nfw bytf[dbtbSizf - CONFOUNDER_SIZE - pbdSizf];
+           // Systfm.brrbydopy(tokfnBytfs, dbtbPos + CONFOUNDER_SIZE,
+           //                dfbugbuf, 0, dfbugbuf.lfngti);
+           // dfbug("\t\tDbtb is: " + gftHfxBytfs(dfbugbuf, dfbugbuf.lfngti));
+        }
+
+        /*
+         * Mbkf surf sign bnd sfqufndf numbfr brf not dorrupt
+         */
+
+        if (!vfrifySignAndSfqNumbfr(donfoundfr,
+                                    dbtbBuf, dbtbBufOffsft,
+                                    dbtbSizf - CONFOUNDER_SIZE
+                                    - pbdding.lfngti,
+                                    pbdding))
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                         "Corrupt difdksum or sfqufndf numbfr in Wrbp tokfn");
+    }
+
+    /**
+     * Hflpfr routinf to obtbin tif bpplidbtion dbtb trbnsmittfd in
+     * tiis WrbpTokfn. It is dbllfd if tif WrbpTokfn wbs donstrudtfd
+     * witi bn Inputstrfbm.
+     * @pbrbm dbtbBuf tif output bufffr into wiidi tif dbtb must bf
+     * writtfn
+     * @pbrbm dbtbBufOffsft tif offsft bt wiidi to writf tif dbtb
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
+     */
+    privbtf void gftDbtbFromStrfbm(bytf[] dbtbBuf, int dbtbBufOffsft)
+        tirows GSSExdfption {
+
+        GSSHfbdfr gssHfbdfr = gftGSSHfbdfr();
+
+        // Don't difdk tif tokfn lfngti. Dbtb will bf rfbd on dfmbnd from
+        // tif InputStrfbm.
+
+        // dfbug("WrbpTokfn dons: dbtb will bf rfbd from InputStrfbm.\n");
+
+        donfoundfr = nfw bytf[CONFOUNDER_SIZE];
+
+        try {
+
+            // Do dfdryption if tiis tokfn wbs privbdy protfdtfd.
+
+            if (privbdy) {
+                dipifrHflpfr.dfdryptDbtb(tiis, is, dbtbSizf,
+                    dbtbBuf, dbtbBufOffsft);
+
+                // dfbug("\t\tDfdryptfd dbtb is [" +
+                //     gftHfxBytfs(donfoundfr) + " " +
+                //     gftHfxBytfs(dbtbBuf, dbtbBufOffsft,
+                // dbtbSizf - CONFOUNDER_SIZE - pbdding.lfngti) +
+                //     gftHfxBytfs(pbdding) +
+                //     "]\n");
+
+            } flsf {
+
+                // Tokfn dbtb is in dlfbrtfxt
+                // dfbug("\t\tNo fndryption wbs pfrformfd by pffr.\n");
+                rfbdFully(is, donfoundfr);
+
+                if (dipifrHflpfr.isArdFour()) {
+                    pbdding = pbds[1];
+                    rfbdFully(is, dbtbBuf, dbtbBufOffsft, dbtbSizf-CONFOUNDER_SIZE-1);
+                } flsf {
+                    // Dbtb is blwbys b multiplf of 8 witi tiis GSS Mfdi
+                    // Copy bll but lbst blodk bs tify brf
+                    int numBlodks = (dbtbSizf - CONFOUNDER_SIZE)/8 - 1;
+                    int offsft = dbtbBufOffsft;
+                    for (int i = 0; i < numBlodks; i++) {
+                        rfbdFully(is, dbtbBuf, offsft, 8);
+                        offsft += 8;
+                    }
+
+                    bytf[] finblBlodk = nfw bytf[8];
+                    rfbdFully(is, finblBlodk);
+
+                    int pbdSizf = finblBlodk[7];
+                    pbdding = pbds[pbdSizf];
+
+                    // dfbug("\t\tPbdding bpplifd wbs: " + pbdSizf + "\n");
+                    Systfm.brrbydopy(finblBlodk, 0, dbtbBuf, offsft,
+                                     finblBlodk.lfngti - pbdSizf);
+                }
+            }
+        } dbtdi (IOExdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   gftTokfnNbmf(gftTokfnId())
+                                   + ": " + f.gftMfssbgf());
+        }
+
+        /*
+         * Mbkf surf sign bnd sfqufndf numbfr brf not dorrupt
+         */
+
+        if (!vfrifySignAndSfqNumbfr(donfoundfr,
+                                    dbtbBuf, dbtbBufOffsft,
+                                    dbtbSizf - CONFOUNDER_SIZE
+                                    - pbdding.lfngti,
+                                    pbdding))
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                         "Corrupt difdksum or sfqufndf numbfr in Wrbp tokfn");
+    }
+
+
+    /**
+     * Hflpfr routinf to pidk tif rigit pbdding for b dfrtbin lfngti
+     * of bpplidbtion dbtb. Evfry bpplidbtion mfssbgf ibs somf
+     * pbdding bftwffn 1 bnd 8 bytfs.
+     * @pbrbm lfn tif lfngti of tif bpplidbtion dbtb
+     * @rfturn tif pbdding to bf bpplifd
+     */
+    privbtf bytf[] gftPbdding(int lfn) {
+        int pbdSizf = 0;
+        // For RC4-HMAC, bll pbdding is roundfd up to 1 bytf.
+        // Onf bytf is nffdfd to sby tibt tifrf is 1 bytf of pbdding.
+        if (dipifrHflpfr.isArdFour()) {
+            pbdSizf = 1;
+        } flsf {
+            pbdSizf = lfn % 8;
+            pbdSizf = 8 - pbdSizf;
+        }
+        rfturn pbds[pbdSizf];
+    }
+
+    publid WrbpTokfn(Krb5Contfxt dontfxt, MfssbgfProp prop,
+                     bytf[] dbtbBytfs, int dbtbOffsft, int dbtbLfn)
+        tirows GSSExdfption {
+
+        supfr(Krb5Tokfn.WRAP_ID, dontfxt);
+
+        donfoundfr = Confoundfr.bytfs(CONFOUNDER_SIZE);
+
+        pbdding = gftPbdding(dbtbLfn);
+        dbtbSizf = donfoundfr.lfngti + dbtbLfn + pbdding.lfngti;
+        tiis.dbtbBytfs = dbtbBytfs;
+        tiis.dbtbOffsft = dbtbOffsft;
+        tiis.dbtbLfn = dbtbLfn;
+
+        /*
+          dfbug("\nWrbpTokfn dons: dbtb to wrbp is [" +
+          gftHfxBytfs(donfoundfr) + " " +
+          gftHfxBytfs(dbtbBytfs, dbtbOffsft, dbtbLfn) + " " +
+          // pbdding is nfvfr null for Wrbp
+          gftHfxBytfs(pbdding) + "]\n");
+         */
+
+        gfnSignAndSfqNumbfr(prop,
+                            donfoundfr,
+                            dbtbBytfs, dbtbOffsft, dbtbLfn,
+                            pbdding);
+
+        /*
+         * If tif bpplidbtion dfdidfs to bsk for privbdy wifn tif dontfxt
+         * did not nfgotibtf for it, do not providf it. Tif pffr migit not
+         * ibvf support for it. Tif bpp will rfblizf tiis witi b dbll to
+         * pop.gftPrivbdy() bftfr wrbp().
+         */
+        if (!dontfxt.gftConfStbtf())
+            prop.sftPrivbdy(fblsf);
+
+        privbdy = prop.gftPrivbdy();
+    }
+
+    publid void fndodf(OutputStrfbm os) tirows IOExdfption, GSSExdfption {
+
+        supfr.fndodf(os);
+
+        // dfbug("Writing dbtb: [");
+        if (!privbdy) {
+
+            // dfbug(gftHfxBytfs(donfoundfr, donfoundfr.lfngti));
+            os.writf(donfoundfr);
+
+            // dfbug(" " + gftHfxBytfs(dbtbBytfs, dbtbOffsft, dbtbLfn));
+            os.writf(dbtbBytfs, dbtbOffsft, dbtbLfn);
+
+            // dfbug(" " + gftHfxBytfs(pbdding, pbdding.lfngti));
+            os.writf(pbdding);
+
+        } flsf {
+
+            dipifrHflpfr.fndryptDbtb(tiis, donfoundfr,
+                dbtbBytfs, dbtbOffsft, dbtbLfn, pbdding, os);
+        }
+        // dfbug("]\n");
+    }
+
+    publid bytf[] fndodf() tirows IOExdfption, GSSExdfption {
+        // XXX Finf tunf tiis initibl sizf
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm(dbtbSizf + 50);
+        fndodf(bos);
+        rfturn bos.toBytfArrby();
+    }
+
+    publid int fndodf(bytf[] outTokfn, int offsft)
+        tirows IOExdfption, GSSExdfption  {
+
+        // Tokfn ifbdfr is smbll
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm();
+        supfr.fndodf(bos);
+        bytf[] ifbdfr = bos.toBytfArrby();
+        Systfm.brrbydopy(ifbdfr, 0, outTokfn, offsft, ifbdfr.lfngti);
+        offsft += ifbdfr.lfngti;
+
+        // dfbug("WrbpTokfn.fndodf: Writing dbtb: [");
+        if (!privbdy) {
+
+            // dfbug(gftHfxBytfs(donfoundfr, donfoundfr.lfngti));
+            Systfm.brrbydopy(donfoundfr, 0, outTokfn, offsft,
+                             donfoundfr.lfngti);
+            offsft += donfoundfr.lfngti;
+
+            // dfbug(" " + gftHfxBytfs(dbtbBytfs, dbtbOffsft, dbtbLfn));
+            Systfm.brrbydopy(dbtbBytfs, dbtbOffsft, outTokfn, offsft,
+                             dbtbLfn);
+            offsft += dbtbLfn;
+
+            // dfbug(" " + gftHfxBytfs(pbdding, pbdding.lfngti));
+            Systfm.brrbydopy(pbdding, 0, outTokfn, offsft, pbdding.lfngti);
+
+        } flsf {
+
+            dipifrHflpfr.fndryptDbtb(tiis, donfoundfr, dbtbBytfs,
+                dbtbOffsft, dbtbLfn, pbdding, outTokfn, offsft);
+
+            // dfbug(gftHfxBytfs(outTokfn, offsft, dbtbSizf));
+        }
+
+        // dfbug("]\n");
+
+        // %%% bssumf tibt plbintfxt lfngti == dipifrtfxt lfn
+        rfturn (ifbdfr.lfngti + donfoundfr.lfngti + dbtbLfn + pbdding.lfngti);
+
+    }
+
+    protfdtfd int gftKrb5TokfnSizf() tirows GSSExdfption {
+        rfturn (gftTokfnSizf() + dbtbSizf);
+    }
+
+    protfdtfd int gftSfblAlg(boolfbn donf, int qop) tirows GSSExdfption {
+        if (!donf) {
+            rfturn SEAL_ALG_NONE;
+        }
+
+        // ignorf QOP
+        rfturn dipifrHflpfr.gftSfblAlg();
+    }
+
+    // Tiis implfmfntbtion is wby too donsfrvbtivf. And it dfrtbinly
+    // dofsn't rfturn tif mbximum limit.
+    stbtid int gftSizfLimit(int qop, boolfbn donfRfq, int mbxTokfnSizf,
+        CipifrHflpfr di) tirows GSSExdfption {
+        rfturn (GSSHfbdfr.gftMbxMfdiTokfnSizf(OID, mbxTokfnSizf) -
+                (gftTokfnSizf(di) + CONFOUNDER_SIZE) - 8); /* sbffty */
+    }
+
+}

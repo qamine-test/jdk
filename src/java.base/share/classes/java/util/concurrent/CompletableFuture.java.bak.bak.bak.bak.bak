@@ -1,0 +1,3012 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.ForkJoinPool;
+import jbvb.util.dondurrfnt.ForkJoinTbsk;
+import jbvb.util.dondurrfnt.Exfdutor;
+import jbvb.util.dondurrfnt.TirfbdLodblRbndom;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.util.dondurrfnt.TimfoutExdfption;
+import jbvb.util.dondurrfnt.CbndfllbtionExdfption;
+import jbvb.util.dondurrfnt.ComplftionExdfption;
+import jbvb.util.dondurrfnt.ComplftionStbgf;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
+
+/**
+ * A {@link Futurf} tibt mby bf fxpliditly domplftfd (sftting its
+ * vbluf bnd stbtus), bnd mby bf usfd bs b {@link ComplftionStbgf},
+ * supporting dfpfndfnt fundtions bnd bdtions tibt triggfr upon its
+ * domplftion.
+ *
+ * <p>Wifn two or morf tirfbds bttfmpt to
+ * {@link #domplftf domplftf},
+ * {@link #domplftfExdfptionblly domplftfExdfptionblly}, or
+ * {@link #dbndfl dbndfl}
+ * b ComplftbblfFuturf, only onf of tifm suddffds.
+ *
+ * <p>In bddition to tifsf bnd rflbtfd mftiods for dirfdtly
+ * mbnipulbting stbtus bnd rfsults, ComplftbblfFuturf implfmfnts
+ * intfrfbdf {@link ComplftionStbgf} witi tif following polidifs: <ul>
+ *
+ * <li>Adtions supplifd for dfpfndfnt domplftions of
+ * <fm>non-bsynd</fm> mftiods mby bf pfrformfd by tif tirfbd tibt
+ * domplftfs tif durrfnt ComplftbblfFuturf, or by bny otifr dbllfr of
+ * b domplftion mftiod.</li>
+ *
+ * <li>All <fm>bsynd</fm> mftiods witiout bn fxplidit Exfdutor
+ * brgumfnt brf pfrformfd using tif {@link ForkJoinPool#dommonPool()}
+ * (unlfss it dofs not support b pbrbllflism lfvfl of bt lfbst two, in
+ * wiidi dbsf, b nfw Tirfbd is usfd). To simplify monitoring,
+ * dfbugging, bnd trbdking, bll gfnfrbtfd bsyndironous tbsks brf
+ * instbndfs of tif mbrkfr intfrfbdf {@link
+ * AsyndironousComplftionTbsk}. </li>
+ *
+ * <li>All ComplftionStbgf mftiods brf implfmfntfd indfpfndfntly of
+ * otifr publid mftiods, so tif bfibvior of onf mftiod is not impbdtfd
+ * by ovfrridfs of otifrs in subdlbssfs.  </li> </ul>
+ *
+ * <p>ComplftbblfFuturf blso implfmfnts {@link Futurf} witi tif following
+ * polidifs: <ul>
+ *
+ * <li>Sindf (unlikf {@link FuturfTbsk}) tiis dlbss ibs no dirfdt
+ * dontrol ovfr tif domputbtion tibt dbusfs it to bf domplftfd,
+ * dbndfllbtion is trfbtfd bs just bnotifr form of fxdfptionbl
+ * domplftion.  Mftiod {@link #dbndfl dbndfl} ibs tif sbmf ffffdt bs
+ * {@dodf domplftfExdfptionblly(nfw CbndfllbtionExdfption())}. Mftiod
+ * {@link #isComplftfdExdfptionblly} dbn bf usfd to dftfrminf if b
+ * ComplftbblfFuturf domplftfd in bny fxdfptionbl fbsiion.</li>
+ *
+ * <li>In dbsf of fxdfptionbl domplftion witi b ComplftionExdfption,
+ * mftiods {@link #gft()} bnd {@link #gft(long, TimfUnit)} tirow bn
+ * {@link ExfdutionExdfption} witi tif sbmf dbusf bs ifld in tif
+ * dorrfsponding ComplftionExdfption.  To simplify usbgf in most
+ * dontfxts, tiis dlbss blso dffinfs mftiods {@link #join()} bnd
+ * {@link #gftNow} tibt instfbd tirow tif ComplftionExdfption dirfdtly
+ * in tifsf dbsfs.</li> </ul>
+ *
+ * @butior Doug Lfb
+ * @sindf 1.8
+ */
+publid dlbss ComplftbblfFuturf<T> implfmfnts Futurf<T>, ComplftionStbgf<T> {
+
+    /*
+     * Ovfrvifw:
+     *
+     * 1. Non-nullnfss of fifld rfsult (sft vib CAS) indidbtfs donf.
+     * An AltRfsult is usfd to box null bs b rfsult, bs wfll bs to
+     * iold fxdfptions.  Using b singlf fifld mbkfs domplftion fbst
+     * bnd simplf to dftfdt bnd triggfr, bt tif fxpfnsf of b lot of
+     * fndoding bnd dfdoding tibt infiltrbtfs mbny mftiods. Onf minor
+     * simplifidbtion rflifs on tif (stbtid) NIL (to box null rfsults)
+     * bfing tif only AltRfsult witi b null fxdfption fifld, so wf
+     * don't usublly nffd fxplidit dompbrisons witi NIL. Tif CF
+     * fxdfption propbgbtion mfdibnids surrounding dfdoding rfly on
+     * undifdkfd dbsts of dfdodfd rfsults rfblly bfing undifdkfd,
+     * wifrf usfr typf frrors brf dbugit bt point of usf, bs is
+     * durrfntly tif dbsf in Jbvb. Tifsf brf iigiligitfd by using
+     * SupprfssWbrnings-bnnotbtfd tfmporbrifs.
+     *
+     * 2. Wbitfrs brf ifld in b Trfibfr stbdk similbr to tif onf usfd
+     * in FuturfTbsk, Pibsfr, bnd SyndironousQufuf. Sff tifir
+     * intfrnbl dodumfntbtion for blgoritimid dftbils.
+     *
+     * 3. Complftions brf blso kfpt in b list/stbdk, bnd pullfd off
+     * bnd run wifn domplftion is triggfrfd. (Wf dould fvfn usf tif
+     * sbmf stbdk bs for wbitfrs, but would givf up tif potfntibl
+     * pbrbllflism obtbinfd bfdbusf wokfn wbitfrs iflp rflfbsf/run
+     * otifrs -- sff mftiod postComplftf).  Bfdbusf post-prodfssing
+     * mby rbdf witi dirfdt dblls, dlbss Complftion opportunistidblly
+     * fxtfnds AtomidIntfgfr so dbllfrs dbn dlbim tif bdtion vib
+     * dompbrfAndSft(0, 1).  Tif Complftion.run mftiods brf bll
+     * writtfn b boringly similbr uniform wby (tibt somftimfs indludfs
+     * unnfdfssbry-looking difdks, kfpt to mbintbin uniformity).
+     * Tifrf brf fnougi dimfnsions upon wiidi tify difffr tibt
+     * bttfmpts to fbdtor dommonblitifs wiilf mbintbining fffidifndy
+     * rfquirf morf linfs of dodf tibn tify would sbvf.
+     *
+     * 4. Tif fxportfd tifn/bnd/or mftiods do support b bit of
+     * fbdtoring (sff doTifnApply ftd). Tify must dopf witi tif
+     * intrinsid rbdfs surrounding bddition of b dfpfndfnt bdtion
+     * vfrsus pfrforming tif bdtion dirfdtly bfdbusf tif tbsk is
+     * blrfbdy domplftf.  For fxbmplf, b CF mby not bf domplftf upon
+     * fntry, so b dfpfndfnt domplftion is bddfd, but by tif timf it
+     * is bddfd, tif tbrgft CF is domplftf, so must bf dirfdtly
+     * fxfdutfd. Tiis is bll donf wiilf bvoiding unnfdfssbry objfdt
+     * donstrudtion in sbff-bypbss dbsfs.
+     */
+
+    // prfliminbrifs
+
+    stbtid finbl dlbss AltRfsult {
+        finbl Tirowbblf fx; // null only for NIL
+        AltRfsult(Tirowbblf fx) { tiis.fx = fx; }
+    }
+
+    stbtid finbl AltRfsult NIL = nfw AltRfsult(null);
+
+    // Fiflds
+
+    volbtilf Objfdt rfsult;    // Eitifr tif rfsult or boxfd AltRfsult
+    volbtilf WbitNodf wbitfrs; // Trfibfr stbdk of tirfbds blodkfd on gft()
+    volbtilf ComplftionNodf domplftions; // list (Trfibfr stbdk) of domplftions
+
+    // Bbsid utilitifs for triggfring bnd prodfssing domplftions
+
+    /**
+     * Rfmovfs bnd signbls bll wbiting tirfbds bnd runs bll domplftions.
+     */
+    finbl void postComplftf() {
+        WbitNodf q; Tirfbd t;
+        wiilf ((q = wbitfrs) != null) {
+            if (UNSAFE.dompbrfAndSwbpObjfdt(tiis, WAITERS, q, q.nfxt) &&
+                (t = q.tirfbd) != null) {
+                q.tirfbd = null;
+                LodkSupport.unpbrk(t);
+            }
+        }
+
+        ComplftionNodf i; Complftion d;
+        wiilf ((i = domplftions) != null) {
+            if (UNSAFE.dompbrfAndSwbpObjfdt(tiis, COMPLETIONS, i, i.nfxt) &&
+                (d = i.domplftion) != null)
+                d.run();
+        }
+    }
+
+    /**
+     * Triggfrs domplftion witi tif fndoding of tif givfn brgumfnts:
+     * if tif fxdfption is non-null, fndodfs it bs b wrbppfd
+     * ComplftionExdfption unlfss it is onf blrfbdy.  Otifrwisf usfs
+     * tif givfn rfsult, boxfd bs NIL if null.
+     */
+    finbl void intfrnblComplftf(T v, Tirowbblf fx) {
+        if (rfsult == null)
+            UNSAFE.dompbrfAndSwbpObjfdt
+                (tiis, RESULT, null,
+                 (fx == null) ? (v == null) ? NIL : v :
+                 nfw AltRfsult((fx instbndfof ComplftionExdfption) ? fx :
+                               nfw ComplftionExdfption(fx)));
+        postComplftf(); // iflp out fvfn if not triggfrfd
+    }
+
+    /**
+     * If triggfrfd, iflps rflfbsf bnd/or prodfss domplftions.
+     */
+    finbl void iflpPostComplftf() {
+        if (rfsult != null)
+            postComplftf();
+    }
+
+    /* ------------- wbiting for domplftions -------------- */
+
+    /** Numbfr of prodfssors, for spin dontrol */
+    stbtid finbl int NCPU = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+
+    /**
+     * Hfuristid spin vbluf for wbitingGft() bfforf blodking on
+     * multiprodfssors
+     */
+    stbtid finbl int SPINS = (NCPU > 1) ? 1 << 8 : 0;
+
+    /**
+     * Linkfd nodfs to rfdord wbiting tirfbds in b Trfibfr stbdk.  Sff
+     * otifr dlbssfs sudi bs Pibsfr bnd SyndironousQufuf for morf
+     * dftbilfd fxplbnbtion. Tiis dlbss implfmfnts MbnbgfdBlodkfr to
+     * bvoid stbrvbtion wifn blodking bdtions pilf up in
+     * ForkJoinPools.
+     */
+    stbtid finbl dlbss WbitNodf implfmfnts ForkJoinPool.MbnbgfdBlodkfr {
+        long nbnos;          // wbit timf if timfd
+        finbl long dfbdlinf; // non-zfro if timfd
+        volbtilf int intfrruptControl; // > 0: intfrruptiblf, < 0: intfrruptfd
+        volbtilf Tirfbd tirfbd;
+        volbtilf WbitNodf nfxt;
+        WbitNodf(boolfbn intfrruptiblf, long nbnos, long dfbdlinf) {
+            tiis.tirfbd = Tirfbd.durrfntTirfbd();
+            tiis.intfrruptControl = intfrruptiblf ? 1 : 0;
+            tiis.nbnos = nbnos;
+            tiis.dfbdlinf = dfbdlinf;
+        }
+        publid boolfbn isRflfbsbblf() {
+            if (tirfbd == null)
+                rfturn truf;
+            if (Tirfbd.intfrruptfd()) {
+                int i = intfrruptControl;
+                intfrruptControl = -1;
+                if (i > 0)
+                    rfturn truf;
+            }
+            if (dfbdlinf != 0L &&
+                (nbnos <= 0L || (nbnos = dfbdlinf - Systfm.nbnoTimf()) <= 0L)) {
+                tirfbd = null;
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+        publid boolfbn blodk() {
+            if (isRflfbsbblf())
+                rfturn truf;
+            flsf if (dfbdlinf == 0L)
+                LodkSupport.pbrk(tiis);
+            flsf if (nbnos > 0L)
+                LodkSupport.pbrkNbnos(tiis, nbnos);
+            rfturn isRflfbsbblf();
+        }
+    }
+
+    /**
+     * Rfturns rbw rfsult bftfr wbiting, or null if intfrruptiblf bnd
+     * intfrruptfd.
+     */
+    privbtf Objfdt wbitingGft(boolfbn intfrruptiblf) {
+        WbitNodf q = null;
+        boolfbn qufufd = fblsf;
+        int spins = SPINS;
+        for (Objfdt r;;) {
+            if ((r = rfsult) != null) {
+                if (q != null) { // supprfss unpbrk
+                    q.tirfbd = null;
+                    if (q.intfrruptControl < 0) {
+                        if (intfrruptiblf) {
+                            rfmovfWbitfr(q);
+                            rfturn null;
+                        }
+                        Tirfbd.durrfntTirfbd().intfrrupt();
+                    }
+                }
+                postComplftf(); // iflp rflfbsf otifrs
+                rfturn r;
+            }
+            flsf if (spins > 0) {
+                int rnd = TirfbdLodblRbndom.nfxtSfdondbrySffd();
+                if (rnd == 0)
+                    rnd = TirfbdLodblRbndom.durrfnt().nfxtInt();
+                if (rnd >= 0)
+                    --spins;
+            }
+            flsf if (q == null)
+                q = nfw WbitNodf(intfrruptiblf, 0L, 0L);
+            flsf if (!qufufd)
+                qufufd = UNSAFE.dompbrfAndSwbpObjfdt(tiis, WAITERS,
+                                                     q.nfxt = wbitfrs, q);
+            flsf if (intfrruptiblf && q.intfrruptControl < 0) {
+                rfmovfWbitfr(q);
+                rfturn null;
+            }
+            flsf if (q.tirfbd != null && rfsult == null) {
+                try {
+                    ForkJoinPool.mbnbgfdBlodk(q);
+                } dbtdi (IntfrruptfdExdfption fx) {
+                    q.intfrruptControl = -1;
+                }
+            }
+        }
+    }
+
+    /**
+     * Awbits domplftion or bborts on intfrrupt or timfout.
+     *
+     * @pbrbm nbnos timf to wbit
+     * @rfturn rbw rfsult
+     */
+    privbtf Objfdt timfdAwbitDonf(long nbnos)
+        tirows IntfrruptfdExdfption, TimfoutExdfption {
+        WbitNodf q = null;
+        boolfbn qufufd = fblsf;
+        for (Objfdt r;;) {
+            if ((r = rfsult) != null) {
+                if (q != null) {
+                    q.tirfbd = null;
+                    if (q.intfrruptControl < 0) {
+                        rfmovfWbitfr(q);
+                        tirow nfw IntfrruptfdExdfption();
+                    }
+                }
+                postComplftf();
+                rfturn r;
+            }
+            flsf if (q == null) {
+                if (nbnos <= 0L)
+                    tirow nfw TimfoutExdfption();
+                long d = Systfm.nbnoTimf() + nbnos;
+                q = nfw WbitNodf(truf, nbnos, d == 0L ? 1L : d); // bvoid 0
+            }
+            flsf if (!qufufd)
+                qufufd = UNSAFE.dompbrfAndSwbpObjfdt(tiis, WAITERS,
+                                                     q.nfxt = wbitfrs, q);
+            flsf if (q.intfrruptControl < 0) {
+                rfmovfWbitfr(q);
+                tirow nfw IntfrruptfdExdfption();
+            }
+            flsf if (q.nbnos <= 0L) {
+                if (rfsult == null) {
+                    rfmovfWbitfr(q);
+                    tirow nfw TimfoutExdfption();
+                }
+            }
+            flsf if (q.tirfbd != null && rfsult == null) {
+                try {
+                    ForkJoinPool.mbnbgfdBlodk(q);
+                } dbtdi (IntfrruptfdExdfption fx) {
+                    q.intfrruptControl = -1;
+                }
+            }
+        }
+    }
+
+    /**
+     * Trifs to unlink b timfd-out or intfrruptfd wbit nodf to bvoid
+     * bddumulbting gbrbbgf.  Intfrnbl nodfs brf simply unsplidfd
+     * witiout CAS sindf it is ibrmlfss if tify brf trbvfrsfd bnywby
+     * by rflfbsfrs.  To bvoid ffffdts of unspliding from blrfbdy
+     * rfmovfd nodfs, tif list is rftrbvfrsfd in dbsf of bn bppbrfnt
+     * rbdf.  Tiis is slow wifn tifrf brf b lot of nodfs, but wf don't
+     * fxpfdt lists to bf long fnougi to outwfigi iigifr-ovfrifbd
+     * sdifmfs.
+     */
+    privbtf void rfmovfWbitfr(WbitNodf nodf) {
+        if (nodf != null) {
+            nodf.tirfbd = null;
+            rftry:
+            for (;;) {          // rfstbrt on rfmovfWbitfr rbdf
+                for (WbitNodf prfd = null, q = wbitfrs, s; q != null; q = s) {
+                    s = q.nfxt;
+                    if (q.tirfbd != null)
+                        prfd = q;
+                    flsf if (prfd != null) {
+                        prfd.nfxt = s;
+                        if (prfd.tirfbd == null) // difdk for rbdf
+                            dontinuf rftry;
+                    }
+                    flsf if (!UNSAFE.dompbrfAndSwbpObjfdt(tiis, WAITERS, q, s))
+                        dontinuf rftry;
+                }
+                brfbk;
+            }
+        }
+    }
+
+    /* ------------- Asynd tbsks -------------- */
+
+    /**
+     * A mbrkfr intfrfbdf idfntifying bsyndironous tbsks produdfd by
+     * {@dodf bsynd} mftiods. Tiis mby bf usfful for monitoring,
+     * dfbugging, bnd trbdking bsyndironous bdtivitifs.
+     *
+     * @sindf 1.8
+     */
+    publid stbtid intfrfbdf AsyndironousComplftionTbsk {
+    }
+
+    /** Bbsf dlbss dbn bdt bs fitifr FJ or plbin Runnbblf */
+    @SupprfssWbrnings("sfribl")
+    bbstrbdt stbtid dlbss Asynd fxtfnds ForkJoinTbsk<Void>
+        implfmfnts Runnbblf, AsyndironousComplftionTbsk {
+        publid finbl Void gftRbwRfsult() { rfturn null; }
+        publid finbl void sftRbwRfsult(Void v) { }
+        publid finbl void run() { fxfd(); }
+    }
+
+    /**
+     * Stbrts tif givfn bsynd tbsk using tif givfn fxfdutor, unlfss
+     * tif fxfdutor is ForkJoinPool.dommonPool bnd it ibs bffn
+     * disbblfd, in wiidi dbsf stbrts b nfw tirfbd.
+     */
+    stbtid void fxfdAsynd(Exfdutor f, Asynd r) {
+        if (f == ForkJoinPool.dommonPool() &&
+            ForkJoinPool.gftCommonPoolPbrbllflism() <= 1)
+            nfw Tirfbd(r).stbrt();
+        flsf
+            f.fxfdutf(r);
+    }
+
+    stbtid finbl dlbss AsyndRun fxtfnds Asynd {
+        finbl Runnbblf fn;
+        finbl ComplftbblfFuturf<Void> dst;
+        AsyndRun(Runnbblf fn, ComplftbblfFuturf<Void> dst) {
+            tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<Void> d; Tirowbblf fx;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                try {
+                    fn.run();
+                    fx = null;
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+                d.intfrnblComplftf(null, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AsyndSupply<U> fxtfnds Asynd {
+        finbl Supplifr<U> fn;
+        finbl ComplftbblfFuturf<U> dst;
+        AsyndSupply(Supplifr<U> fn, ComplftbblfFuturf<U> dst) {
+            tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<U> d; U u; Tirowbblf fx;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                try {
+                    u = fn.gft();
+                    fx = null;
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                    u = null;
+                }
+                d.intfrnblComplftf(u, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AsyndApply<T,U> fxtfnds Asynd {
+        finbl T brg;
+        finbl Fundtion<? supfr T,? fxtfnds U> fn;
+        finbl ComplftbblfFuturf<U> dst;
+        AsyndApply(T brg, Fundtion<? supfr T,? fxtfnds U> fn,
+                   ComplftbblfFuturf<U> dst) {
+            tiis.brg = brg; tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<U> d; U u; Tirowbblf fx;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                try {
+                    u = fn.bpply(brg);
+                    fx = null;
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                    u = null;
+                }
+                d.intfrnblComplftf(u, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AsyndCombinf<T,U,V> fxtfnds Asynd {
+        finbl T brg1;
+        finbl U brg2;
+        finbl BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn;
+        finbl ComplftbblfFuturf<V> dst;
+        AsyndCombinf(T brg1, U brg2,
+                     BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn,
+                     ComplftbblfFuturf<V> dst) {
+            tiis.brg1 = brg1; tiis.brg2 = brg2; tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<V> d; V v; Tirowbblf fx;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                try {
+                    v = fn.bpply(brg1, brg2);
+                    fx = null;
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                    v = null;
+                }
+                d.intfrnblComplftf(v, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AsyndAddfpt<T> fxtfnds Asynd {
+        finbl T brg;
+        finbl Consumfr<? supfr T> fn;
+        finbl ComplftbblfFuturf<?> dst;
+        AsyndAddfpt(T brg, Consumfr<? supfr T> fn,
+                    ComplftbblfFuturf<?> dst) {
+            tiis.brg = brg; tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<?> d; Tirowbblf fx;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                try {
+                    fn.bddfpt(brg);
+                    fx = null;
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+                d.intfrnblComplftf(null, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AsyndAddfptBoti<T,U> fxtfnds Asynd {
+        finbl T brg1;
+        finbl U brg2;
+        finbl BiConsumfr<? supfr T,? supfr U> fn;
+        finbl ComplftbblfFuturf<?> dst;
+        AsyndAddfptBoti(T brg1, U brg2,
+                        BiConsumfr<? supfr T,? supfr U> fn,
+                        ComplftbblfFuturf<?> dst) {
+            tiis.brg1 = brg1; tiis.brg2 = brg2; tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<?> d; Tirowbblf fx;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                try {
+                    fn.bddfpt(brg1, brg2);
+                    fx = null;
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+                d.intfrnblComplftf(null, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AsyndComposf<T,U> fxtfnds Asynd {
+        finbl T brg;
+        finbl Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn;
+        finbl ComplftbblfFuturf<U> dst;
+        AsyndComposf(T brg,
+                     Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn,
+                     ComplftbblfFuturf<U> dst) {
+            tiis.brg = brg; tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<U> d, fr; U u; Tirowbblf fx;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                try {
+                    ComplftionStbgf<U> ds = fn.bpply(brg);
+                    fr = (ds == null) ? null : ds.toComplftbblfFuturf();
+                    fx = (fr == null) ? nfw NullPointfrExdfption() : null;
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                    fr = null;
+                }
+                if (fx != null)
+                    u = null;
+                flsf {
+                    Objfdt r = fr.rfsult;
+                    if (r == null)
+                        r = fr.wbitingGft(fblsf);
+                    if (r instbndfof AltRfsult) {
+                        fx = ((AltRfsult)r).fx;
+                        u = null;
+                    }
+                    flsf {
+                        @SupprfssWbrnings("undifdkfd") U ur = (U) r;
+                        u = ur;
+                    }
+                }
+                d.intfrnblComplftf(u, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AsyndWifnComplftf<T> fxtfnds Asynd {
+        finbl T brg1;
+        finbl Tirowbblf brg2;
+        finbl BiConsumfr<? supfr T,? supfr Tirowbblf> fn;
+        finbl ComplftbblfFuturf<T> dst;
+        AsyndWifnComplftf(T brg1, Tirowbblf brg2,
+                          BiConsumfr<? supfr T,? supfr Tirowbblf> fn,
+                          ComplftbblfFuturf<T> dst) {
+            tiis.brg1 = brg1; tiis.brg2 = brg2; tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl boolfbn fxfd() {
+            ComplftbblfFuturf<T> d;
+            if ((d = tiis.dst) != null && d.rfsult == null) {
+                Tirowbblf fx = brg2;
+                try {
+                    fn.bddfpt(brg1, fx);
+                } dbtdi (Tirowbblf rfx) {
+                    if (fx == null)
+                        fx = rfx;
+                }
+                d.intfrnblComplftf(brg1, fx);
+            }
+            rfturn truf;
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    /* ------------- Complftions -------------- */
+
+    /**
+     * Simplf linkfd list nodfs to rfdord domplftions, usfd in
+     * bbsidblly tif sbmf wby bs WbitNodfs. (Wf sfpbrbtf nodfs from
+     * tif Complftions tifmsflvfs mbinly bfdbusf for tif And bnd Or
+     * mftiods, tif sbmf Complftion objfdt rfsidfs in two lists.)
+     */
+    stbtid finbl dlbss ComplftionNodf {
+        finbl Complftion domplftion;
+        volbtilf ComplftionNodf nfxt;
+        ComplftionNodf(Complftion domplftion) { tiis.domplftion = domplftion; }
+    }
+
+    // Opportunistidblly subdlbss AtomidIntfgfr to usf dompbrfAndSft to dlbim.
+    @SupprfssWbrnings("sfribl")
+    bbstrbdt stbtid dlbss Complftion fxtfnds AtomidIntfgfr implfmfnts Runnbblf {
+    }
+
+    stbtid finbl dlbss TifnApply<T,U> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl Fundtion<? supfr T,? fxtfnds U> fn;
+        finbl ComplftbblfFuturf<U> dst;
+        finbl Exfdutor fxfdutor;
+        TifnApply(ComplftbblfFuturf<? fxtfnds T> srd,
+                  Fundtion<? supfr T,? fxtfnds U> fn,
+                  ComplftbblfFuturf<U> dst,
+                  Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl Fundtion<? supfr T,? fxtfnds U> fn;
+            finbl ComplftbblfFuturf<U> dst;
+            Objfdt r; T t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                Exfdutor f = fxfdutor;
+                U u = null;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndApply<T,U>(t, fn, dst));
+                        flsf
+                            u = fn.bpply(t);
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(u, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss TifnAddfpt<T> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl Consumfr<? supfr T> fn;
+        finbl ComplftbblfFuturf<?> dst;
+        finbl Exfdutor fxfdutor;
+        TifnAddfpt(ComplftbblfFuturf<? fxtfnds T> srd,
+                   Consumfr<? supfr T> fn,
+                   ComplftbblfFuturf<?> dst,
+                   Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl Consumfr<? supfr T> fn;
+            finbl ComplftbblfFuturf<?> dst;
+            Objfdt r; T t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                Exfdutor f = fxfdutor;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndAddfpt<T>(t, fn, dst));
+                        flsf
+                            fn.bddfpt(t);
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss TifnRun fxtfnds Complftion {
+        finbl ComplftbblfFuturf<?> srd;
+        finbl Runnbblf fn;
+        finbl ComplftbblfFuturf<Void> dst;
+        finbl Exfdutor fxfdutor;
+        TifnRun(ComplftbblfFuturf<?> srd,
+                Runnbblf fn,
+                ComplftbblfFuturf<Void> dst,
+                Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<?> b;
+            finbl Runnbblf fn;
+            finbl ComplftbblfFuturf<Void> dst;
+            Objfdt r; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult)
+                    fx = ((AltRfsult)r).fx;
+                flsf
+                    fx = null;
+                Exfdutor f = fxfdutor;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndRun(fn, dst));
+                        flsf
+                            fn.run();
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss TifnCombinf<T,U,V> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl ComplftbblfFuturf<? fxtfnds U> snd;
+        finbl BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn;
+        finbl ComplftbblfFuturf<V> dst;
+        finbl Exfdutor fxfdutor;
+        TifnCombinf(ComplftbblfFuturf<? fxtfnds T> srd,
+                    ComplftbblfFuturf<? fxtfnds U> snd,
+                    BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn,
+                    ComplftbblfFuturf<V> dst,
+                    Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.snd = snd;
+            tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl ComplftbblfFuturf<? fxtfnds U> b;
+            finbl BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn;
+            finbl ComplftbblfFuturf<V> dst;
+            Objfdt r, s; T t; U u; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                (b = tiis.snd) != null &&
+                (s = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                if (fx != null)
+                    u = null;
+                flsf if (s instbndfof AltRfsult) {
+                    fx = ((AltRfsult)s).fx;
+                    u = null;
+                }
+                flsf {
+                    @SupprfssWbrnings("undifdkfd") U us = (U) s;
+                    u = us;
+                }
+                Exfdutor f = fxfdutor;
+                V v = null;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndCombinf<T,U,V>(t, u, fn, dst));
+                        flsf
+                            v = fn.bpply(t, u);
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(v, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss TifnAddfptBoti<T,U> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl ComplftbblfFuturf<? fxtfnds U> snd;
+        finbl BiConsumfr<? supfr T,? supfr U> fn;
+        finbl ComplftbblfFuturf<Void> dst;
+        finbl Exfdutor fxfdutor;
+        TifnAddfptBoti(ComplftbblfFuturf<? fxtfnds T> srd,
+                       ComplftbblfFuturf<? fxtfnds U> snd,
+                       BiConsumfr<? supfr T,? supfr U> fn,
+                       ComplftbblfFuturf<Void> dst,
+                       Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.snd = snd;
+            tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl ComplftbblfFuturf<? fxtfnds U> b;
+            finbl BiConsumfr<? supfr T,? supfr U> fn;
+            finbl ComplftbblfFuturf<Void> dst;
+            Objfdt r, s; T t; U u; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                (b = tiis.snd) != null &&
+                (s = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                if (fx != null)
+                    u = null;
+                flsf if (s instbndfof AltRfsult) {
+                    fx = ((AltRfsult)s).fx;
+                    u = null;
+                }
+                flsf {
+                    @SupprfssWbrnings("undifdkfd") U us = (U) s;
+                    u = us;
+                }
+                Exfdutor f = fxfdutor;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndAddfptBoti<T,U>(t, u, fn, dst));
+                        flsf
+                            fn.bddfpt(t, u);
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss RunAftfrBoti fxtfnds Complftion {
+        finbl ComplftbblfFuturf<?> srd;
+        finbl ComplftbblfFuturf<?> snd;
+        finbl Runnbblf fn;
+        finbl ComplftbblfFuturf<Void> dst;
+        finbl Exfdutor fxfdutor;
+        RunAftfrBoti(ComplftbblfFuturf<?> srd,
+                     ComplftbblfFuturf<?> snd,
+                     Runnbblf fn,
+                     ComplftbblfFuturf<Void> dst,
+                     Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.snd = snd;
+            tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<?> b;
+            finbl Runnbblf fn;
+            finbl ComplftbblfFuturf<Void> dst;
+            Objfdt r, s; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                (b = tiis.snd) != null &&
+                (s = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult)
+                    fx = ((AltRfsult)r).fx;
+                flsf
+                    fx = null;
+                if (fx == null && (s instbndfof AltRfsult))
+                    fx = ((AltRfsult)s).fx;
+                Exfdutor f = fxfdutor;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndRun(fn, dst));
+                        flsf
+                            fn.run();
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AndComplftion fxtfnds Complftion {
+        finbl ComplftbblfFuturf<?> srd;
+        finbl ComplftbblfFuturf<?> snd;
+        finbl ComplftbblfFuturf<Void> dst;
+        AndComplftion(ComplftbblfFuturf<?> srd,
+                      ComplftbblfFuturf<?> snd,
+                      ComplftbblfFuturf<Void> dst) {
+            tiis.srd = srd; tiis.snd = snd; tiis.dst = dst;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<Void> dst;
+            Objfdt r, s; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                (b = tiis.snd) != null &&
+                (s = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult)
+                    fx = ((AltRfsult)r).fx;
+                flsf
+                    fx = null;
+                if (fx == null && (s instbndfof AltRfsult))
+                    fx = ((AltRfsult)s).fx;
+                dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss ApplyToEitifr<T,U> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl ComplftbblfFuturf<? fxtfnds T> snd;
+        finbl Fundtion<? supfr T,? fxtfnds U> fn;
+        finbl ComplftbblfFuturf<U> dst;
+        finbl Exfdutor fxfdutor;
+        ApplyToEitifr(ComplftbblfFuturf<? fxtfnds T> srd,
+                      ComplftbblfFuturf<? fxtfnds T> snd,
+                      Fundtion<? supfr T,? fxtfnds U> fn,
+                      ComplftbblfFuturf<U> dst,
+                      Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.snd = snd;
+            tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl Fundtion<? supfr T,? fxtfnds U> fn;
+            finbl ComplftbblfFuturf<U> dst;
+            Objfdt r; T t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (((b = tiis.srd) != null && (r = b.rfsult) != null) ||
+                 ((b = tiis.snd) != null && (r = b.rfsult) != null)) &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                Exfdutor f = fxfdutor;
+                U u = null;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndApply<T,U>(t, fn, dst));
+                        flsf
+                            u = fn.bpply(t);
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(u, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss AddfptEitifr<T> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl ComplftbblfFuturf<? fxtfnds T> snd;
+        finbl Consumfr<? supfr T> fn;
+        finbl ComplftbblfFuturf<Void> dst;
+        finbl Exfdutor fxfdutor;
+        AddfptEitifr(ComplftbblfFuturf<? fxtfnds T> srd,
+                     ComplftbblfFuturf<? fxtfnds T> snd,
+                     Consumfr<? supfr T> fn,
+                     ComplftbblfFuturf<Void> dst,
+                     Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.snd = snd;
+            tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl Consumfr<? supfr T> fn;
+            finbl ComplftbblfFuturf<Void> dst;
+            Objfdt r; T t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (((b = tiis.srd) != null && (r = b.rfsult) != null) ||
+                 ((b = tiis.snd) != null && (r = b.rfsult) != null)) &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                Exfdutor f = fxfdutor;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndAddfpt<T>(t, fn, dst));
+                        flsf
+                            fn.bddfpt(t);
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss RunAftfrEitifr fxtfnds Complftion {
+        finbl ComplftbblfFuturf<?> srd;
+        finbl ComplftbblfFuturf<?> snd;
+        finbl Runnbblf fn;
+        finbl ComplftbblfFuturf<Void> dst;
+        finbl Exfdutor fxfdutor;
+        RunAftfrEitifr(ComplftbblfFuturf<?> srd,
+                       ComplftbblfFuturf<?> snd,
+                       Runnbblf fn,
+                       ComplftbblfFuturf<Void> dst,
+                       Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.snd = snd;
+            tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<?> b;
+            finbl Runnbblf fn;
+            finbl ComplftbblfFuturf<Void> dst;
+            Objfdt r; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (((b = tiis.srd) != null && (r = b.rfsult) != null) ||
+                 ((b = tiis.snd) != null && (r = b.rfsult) != null)) &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult)
+                    fx = ((AltRfsult)r).fx;
+                flsf
+                    fx = null;
+                Exfdutor f = fxfdutor;
+                if (fx == null) {
+                    try {
+                        if (f != null)
+                            fxfdAsynd(f, nfw AsyndRun(fn, dst));
+                        flsf
+                            fn.run();
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+                if (f == null || fx != null)
+                    dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss OrComplftion fxtfnds Complftion {
+        finbl ComplftbblfFuturf<?> srd;
+        finbl ComplftbblfFuturf<?> snd;
+        finbl ComplftbblfFuturf<Objfdt> dst;
+        OrComplftion(ComplftbblfFuturf<?> srd,
+                     ComplftbblfFuturf<?> snd,
+                     ComplftbblfFuturf<Objfdt> dst) {
+            tiis.srd = srd; tiis.snd = snd; tiis.dst = dst;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<Objfdt> dst;
+            Objfdt r, t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (((b = tiis.srd) != null && (r = b.rfsult) != null) ||
+                 ((b = tiis.snd) != null && (r = b.rfsult) != null)) &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    t = r;
+                }
+                dst.intfrnblComplftf(t, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss ExdfptionComplftion<T> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl Fundtion<? supfr Tirowbblf, ? fxtfnds T> fn;
+        finbl ComplftbblfFuturf<T> dst;
+        ExdfptionComplftion(ComplftbblfFuturf<? fxtfnds T> srd,
+                            Fundtion<? supfr Tirowbblf, ? fxtfnds T> fn,
+                            ComplftbblfFuturf<T> dst) {
+            tiis.srd = srd; tiis.fn = fn; tiis.dst = dst;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl Fundtion<? supfr Tirowbblf, ? fxtfnds T> fn;
+            finbl ComplftbblfFuturf<T> dst;
+            Objfdt r; T t = null; Tirowbblf fx, dx = null;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if ((r instbndfof AltRfsult) &&
+                    (fx = ((AltRfsult)r).fx) != null) {
+                    try {
+                        t = fn.bpply(fx);
+                    } dbtdi (Tirowbblf rfx) {
+                        dx = rfx;
+                    }
+                }
+                flsf {
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                dst.intfrnblComplftf(t, dx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss WifnComplftfComplftion<T> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl BiConsumfr<? supfr T, ? supfr Tirowbblf> fn;
+        finbl ComplftbblfFuturf<T> dst;
+        finbl Exfdutor fxfdutor;
+        WifnComplftfComplftion(ComplftbblfFuturf<? fxtfnds T> srd,
+                                  BiConsumfr<? supfr T, ? supfr Tirowbblf> fn,
+                                  ComplftbblfFuturf<T> dst,
+                                  Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl BiConsumfr<? supfr T, ? supfr Tirowbblf> fn;
+            finbl ComplftbblfFuturf<T> dst;
+            Objfdt r; T t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                Exfdutor f = fxfdutor;
+                Tirowbblf dx = null;
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndWifnComplftf<T>(t, fx, fn, dst));
+                    flsf
+                        fn.bddfpt(t, fx);
+                } dbtdi (Tirowbblf rfx) {
+                    dx = rfx;
+                }
+                if (f == null || dx != null)
+                    dst.intfrnblComplftf(t, fx != null ? fx : dx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss TifnCopy<T> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<?> srd;
+        finbl ComplftbblfFuturf<T> dst;
+        TifnCopy(ComplftbblfFuturf<?> srd,
+                 ComplftbblfFuturf<T> dst) {
+            tiis.srd = srd; tiis.dst = dst;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<T> dst;
+            Objfdt r; T t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                dst.intfrnblComplftf(t, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    // vfrsion of TifnCopy for ComplftbblfFuturf<Void> dst
+    stbtid finbl dlbss TifnPropbgbtf fxtfnds Complftion {
+        finbl ComplftbblfFuturf<?> srd;
+        finbl ComplftbblfFuturf<Void> dst;
+        TifnPropbgbtf(ComplftbblfFuturf<?> srd,
+                      ComplftbblfFuturf<Void> dst) {
+            tiis.srd = srd; tiis.dst = dst;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<?> b;
+            finbl ComplftbblfFuturf<Void> dst;
+            Objfdt r; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult)
+                    fx = ((AltRfsult)r).fx;
+                flsf
+                    fx = null;
+                dst.intfrnblComplftf(null, fx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss HbndlfComplftion<T,U> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn;
+        finbl ComplftbblfFuturf<U> dst;
+        finbl Exfdutor fxfdutor;
+        HbndlfComplftion(ComplftbblfFuturf<? fxtfnds T> srd,
+                         BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn,
+                         ComplftbblfFuturf<U> dst,
+                          Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn;
+            finbl ComplftbblfFuturf<U> dst;
+            Objfdt r; T t; Tirowbblf fx;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                Exfdutor f = fxfdutor;
+                U u = null;
+                Tirowbblf dx = null;
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndCombinf<T,Tirowbblf,U>(t, fx, fn, dst));
+                    flsf
+                        u = fn.bpply(t, fx);
+                } dbtdi (Tirowbblf rfx) {
+                    dx = rfx;
+                }
+                if (f == null || dx != null)
+                    dst.intfrnblComplftf(u, dx);
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    stbtid finbl dlbss TifnComposf<T,U> fxtfnds Complftion {
+        finbl ComplftbblfFuturf<? fxtfnds T> srd;
+        finbl Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn;
+        finbl ComplftbblfFuturf<U> dst;
+        finbl Exfdutor fxfdutor;
+        TifnComposf(ComplftbblfFuturf<? fxtfnds T> srd,
+                    Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn,
+                    ComplftbblfFuturf<U> dst,
+                    Exfdutor fxfdutor) {
+            tiis.srd = srd; tiis.fn = fn; tiis.dst = dst;
+            tiis.fxfdutor = fxfdutor;
+        }
+        publid finbl void run() {
+            finbl ComplftbblfFuturf<? fxtfnds T> b;
+            finbl Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn;
+            finbl ComplftbblfFuturf<U> dst;
+            Objfdt r; T t; Tirowbblf fx; Exfdutor f;
+            if ((dst = tiis.dst) != null &&
+                (fn = tiis.fn) != null &&
+                (b = tiis.srd) != null &&
+                (r = b.rfsult) != null &&
+                dompbrfAndSft(0, 1)) {
+                if (r instbndfof AltRfsult) {
+                    fx = ((AltRfsult)r).fx;
+                    t = null;
+                }
+                flsf {
+                    fx = null;
+                    @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                    t = tr;
+                }
+                ComplftbblfFuturf<U> d = null;
+                U u = null;
+                boolfbn domplftf = fblsf;
+                if (fx == null) {
+                    if ((f = fxfdutor) != null)
+                        fxfdAsynd(f, nfw AsyndComposf<T,U>(t, fn, dst));
+                    flsf {
+                        try {
+                            ComplftionStbgf<U> ds = fn.bpply(t);
+                            d = (ds == null) ? null : ds.toComplftbblfFuturf();
+                            if (d == null)
+                                fx = nfw NullPointfrExdfption();
+                        } dbtdi (Tirowbblf rfx) {
+                            fx = rfx;
+                        }
+                    }
+                }
+                if (d != null) {
+                    TifnCopy<U> d = null;
+                    Objfdt s;
+                    if ((s = d.rfsult) == null) {
+                        ComplftionNodf p = nfw ComplftionNodf
+                            (d = nfw TifnCopy<U>(d, dst));
+                        wiilf ((s = d.rfsult) == null) {
+                            if (UNSAFE.dompbrfAndSwbpObjfdt
+                                (d, COMPLETIONS, p.nfxt = d.domplftions, p))
+                                brfbk;
+                        }
+                    }
+                    if (s != null && (d == null || d.dompbrfAndSft(0, 1))) {
+                        domplftf = truf;
+                        if (s instbndfof AltRfsult) {
+                            fx = ((AltRfsult)s).fx;  // no rfwrbp
+                            u = null;
+                        }
+                        flsf {
+                            @SupprfssWbrnings("undifdkfd") U us = (U) s;
+                            u = us;
+                        }
+                    }
+                }
+                if (domplftf || fx != null)
+                    dst.intfrnblComplftf(u, fx);
+                if (d != null)
+                    d.iflpPostComplftf();
+            }
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    // Implfmfntbtions of stbgf mftiods witi (plbin, bsynd, Exfdutor) forms
+
+    privbtf <U> ComplftbblfFuturf<U> doTifnApply
+        (Fundtion<? supfr T,? fxtfnds U> fn,
+         Exfdutor f) {
+        if (fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<U> dst = nfw ComplftbblfFuturf<U>();
+        TifnApply<T,U> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null) {
+            ComplftionNodf p = nfw ComplftionNodf
+                (d = nfw TifnApply<T,U>(tiis, fn, dst, f));
+            wiilf ((r = rfsult) == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt
+                    (tiis, COMPLETIONS, p.nfxt = domplftions, p))
+                    brfbk;
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            U u = null;
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndApply<T,U>(t, fn, dst));
+                    flsf
+                        u = fn.bpply(t);
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(u, fx);
+        }
+        iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf ComplftbblfFuturf<Void> doTifnAddfpt(Consumfr<? supfr T> fn,
+                                                 Exfdutor f) {
+        if (fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+        TifnAddfpt<T> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null) {
+            ComplftionNodf p = nfw ComplftionNodf
+                (d = nfw TifnAddfpt<T>(tiis, fn, dst, f));
+            wiilf ((r = rfsult) == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt
+                    (tiis, COMPLETIONS, p.nfxt = domplftions, p))
+                    brfbk;
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndAddfpt<T>(t, fn, dst));
+                    flsf
+                        fn.bddfpt(t);
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(null, fx);
+        }
+        iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf ComplftbblfFuturf<Void> doTifnRun(Runnbblf bdtion,
+                                              Exfdutor f) {
+        if (bdtion == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+        TifnRun d = null;
+        Objfdt r;
+        if ((r = rfsult) == null) {
+            ComplftionNodf p = nfw ComplftionNodf
+                (d = nfw TifnRun(tiis, bdtion, dst, f));
+            wiilf ((r = rfsult) == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt
+                    (tiis, COMPLETIONS, p.nfxt = domplftions, p))
+                    brfbk;
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            Tirowbblf fx;
+            if (r instbndfof AltRfsult)
+                fx = ((AltRfsult)r).fx;
+            flsf
+                fx = null;
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndRun(bdtion, dst));
+                    flsf
+                        bdtion.run();
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(null, fx);
+        }
+        iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf <U,V> ComplftbblfFuturf<V> doTifnCombinf
+        (ComplftbblfFuturf<? fxtfnds U> otifr,
+         BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn,
+         Exfdutor f) {
+        if (otifr == null || fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<V> dst = nfw ComplftbblfFuturf<V>();
+        TifnCombinf<T,U,V> d = null;
+        Objfdt r, s = null;
+        if ((r = rfsult) == null || (s = otifr.rfsult) == null) {
+            d = nfw TifnCombinf<T,U,V>(tiis, otifr, fn, dst, f);
+            ComplftionNodf q = null, p = nfw ComplftionNodf(d);
+            wiilf ((r == null && (r = rfsult) == null) ||
+                   (s == null && (s = otifr.rfsult) == null)) {
+                if (q != null) {
+                    if (s != null ||
+                        UNSAFE.dompbrfAndSwbpObjfdt
+                        (otifr, COMPLETIONS, q.nfxt = otifr.domplftions, q))
+                        brfbk;
+                }
+                flsf if (r != null ||
+                         UNSAFE.dompbrfAndSwbpObjfdt
+                         (tiis, COMPLETIONS, p.nfxt = domplftions, p)) {
+                    if (s != null)
+                        brfbk;
+                    q = nfw ComplftionNodf(d);
+                }
+            }
+        }
+        if (r != null && s != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; U u; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            if (fx != null)
+                u = null;
+            flsf if (s instbndfof AltRfsult) {
+                fx = ((AltRfsult)s).fx;
+                u = null;
+            }
+            flsf {
+                @SupprfssWbrnings("undifdkfd") U us = (U) s;
+                u = us;
+            }
+            V v = null;
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndCombinf<T,U,V>(t, u, fn, dst));
+                    flsf
+                        v = fn.bpply(t, u);
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(v, fx);
+        }
+        iflpPostComplftf();
+        otifr.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf <U> ComplftbblfFuturf<Void> doTifnAddfptBoti
+        (ComplftbblfFuturf<? fxtfnds U> otifr,
+         BiConsumfr<? supfr T,? supfr U> fn,
+         Exfdutor f) {
+        if (otifr == null || fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+        TifnAddfptBoti<T,U> d = null;
+        Objfdt r, s = null;
+        if ((r = rfsult) == null || (s = otifr.rfsult) == null) {
+            d = nfw TifnAddfptBoti<T,U>(tiis, otifr, fn, dst, f);
+            ComplftionNodf q = null, p = nfw ComplftionNodf(d);
+            wiilf ((r == null && (r = rfsult) == null) ||
+                   (s == null && (s = otifr.rfsult) == null)) {
+                if (q != null) {
+                    if (s != null ||
+                        UNSAFE.dompbrfAndSwbpObjfdt
+                        (otifr, COMPLETIONS, q.nfxt = otifr.domplftions, q))
+                        brfbk;
+                }
+                flsf if (r != null ||
+                         UNSAFE.dompbrfAndSwbpObjfdt
+                         (tiis, COMPLETIONS, p.nfxt = domplftions, p)) {
+                    if (s != null)
+                        brfbk;
+                    q = nfw ComplftionNodf(d);
+                }
+            }
+        }
+        if (r != null && s != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; U u; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            if (fx != null)
+                u = null;
+            flsf if (s instbndfof AltRfsult) {
+                fx = ((AltRfsult)s).fx;
+                u = null;
+            }
+            flsf {
+                @SupprfssWbrnings("undifdkfd") U us = (U) s;
+                u = us;
+            }
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndAddfptBoti<T,U>(t, u, fn, dst));
+                    flsf
+                        fn.bddfpt(t, u);
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(null, fx);
+        }
+        iflpPostComplftf();
+        otifr.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf ComplftbblfFuturf<Void> doRunAftfrBoti(ComplftbblfFuturf<?> otifr,
+                                                   Runnbblf bdtion,
+                                                   Exfdutor f) {
+        if (otifr == null || bdtion == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+        RunAftfrBoti d = null;
+        Objfdt r, s = null;
+        if ((r = rfsult) == null || (s = otifr.rfsult) == null) {
+            d = nfw RunAftfrBoti(tiis, otifr, bdtion, dst, f);
+            ComplftionNodf q = null, p = nfw ComplftionNodf(d);
+            wiilf ((r == null && (r = rfsult) == null) ||
+                   (s == null && (s = otifr.rfsult) == null)) {
+                if (q != null) {
+                    if (s != null ||
+                        UNSAFE.dompbrfAndSwbpObjfdt
+                        (otifr, COMPLETIONS, q.nfxt = otifr.domplftions, q))
+                        brfbk;
+                }
+                flsf if (r != null ||
+                         UNSAFE.dompbrfAndSwbpObjfdt
+                         (tiis, COMPLETIONS, p.nfxt = domplftions, p)) {
+                    if (s != null)
+                        brfbk;
+                    q = nfw ComplftionNodf(d);
+                }
+            }
+        }
+        if (r != null && s != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            Tirowbblf fx;
+            if (r instbndfof AltRfsult)
+                fx = ((AltRfsult)r).fx;
+            flsf
+                fx = null;
+            if (fx == null && (s instbndfof AltRfsult))
+                fx = ((AltRfsult)s).fx;
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndRun(bdtion, dst));
+                    flsf
+                        bdtion.run();
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(null, fx);
+        }
+        iflpPostComplftf();
+        otifr.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf <U> ComplftbblfFuturf<U> doApplyToEitifr
+        (ComplftbblfFuturf<? fxtfnds T> otifr,
+         Fundtion<? supfr T, U> fn,
+         Exfdutor f) {
+        if (otifr == null || fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<U> dst = nfw ComplftbblfFuturf<U>();
+        ApplyToEitifr<T,U> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null && (r = otifr.rfsult) == null) {
+            d = nfw ApplyToEitifr<T,U>(tiis, otifr, fn, dst, f);
+            ComplftionNodf q = null, p = nfw ComplftionNodf(d);
+            wiilf ((r = rfsult) == null && (r = otifr.rfsult) == null) {
+                if (q != null) {
+                    if (UNSAFE.dompbrfAndSwbpObjfdt
+                        (otifr, COMPLETIONS, q.nfxt = otifr.domplftions, q))
+                        brfbk;
+                }
+                flsf if (UNSAFE.dompbrfAndSwbpObjfdt
+                         (tiis, COMPLETIONS, p.nfxt = domplftions, p))
+                    q = nfw ComplftionNodf(d);
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            U u = null;
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndApply<T,U>(t, fn, dst));
+                    flsf
+                        u = fn.bpply(t);
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(u, fx);
+        }
+        iflpPostComplftf();
+        otifr.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf ComplftbblfFuturf<Void> doAddfptEitifr
+        (ComplftbblfFuturf<? fxtfnds T> otifr,
+         Consumfr<? supfr T> fn,
+         Exfdutor f) {
+        if (otifr == null || fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+        AddfptEitifr<T> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null && (r = otifr.rfsult) == null) {
+            d = nfw AddfptEitifr<T>(tiis, otifr, fn, dst, f);
+            ComplftionNodf q = null, p = nfw ComplftionNodf(d);
+            wiilf ((r = rfsult) == null && (r = otifr.rfsult) == null) {
+                if (q != null) {
+                    if (UNSAFE.dompbrfAndSwbpObjfdt
+                        (otifr, COMPLETIONS, q.nfxt = otifr.domplftions, q))
+                        brfbk;
+                }
+                flsf if (UNSAFE.dompbrfAndSwbpObjfdt
+                         (tiis, COMPLETIONS, p.nfxt = domplftions, p))
+                    q = nfw ComplftionNodf(d);
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndAddfpt<T>(t, fn, dst));
+                    flsf
+                        fn.bddfpt(t);
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(null, fx);
+        }
+        iflpPostComplftf();
+        otifr.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf ComplftbblfFuturf<Void> doRunAftfrEitifr
+        (ComplftbblfFuturf<?> otifr,
+         Runnbblf bdtion,
+         Exfdutor f) {
+        if (otifr == null || bdtion == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+        RunAftfrEitifr d = null;
+        Objfdt r;
+        if ((r = rfsult) == null && (r = otifr.rfsult) == null) {
+            d = nfw RunAftfrEitifr(tiis, otifr, bdtion, dst, f);
+            ComplftionNodf q = null, p = nfw ComplftionNodf(d);
+            wiilf ((r = rfsult) == null && (r = otifr.rfsult) == null) {
+                if (q != null) {
+                    if (UNSAFE.dompbrfAndSwbpObjfdt
+                        (otifr, COMPLETIONS, q.nfxt = otifr.domplftions, q))
+                        brfbk;
+                }
+                flsf if (UNSAFE.dompbrfAndSwbpObjfdt
+                         (tiis, COMPLETIONS, p.nfxt = domplftions, p))
+                    q = nfw ComplftionNodf(d);
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            Tirowbblf fx;
+            if (r instbndfof AltRfsult)
+                fx = ((AltRfsult)r).fx;
+            flsf
+                fx = null;
+            if (fx == null) {
+                try {
+                    if (f != null)
+                        fxfdAsynd(f, nfw AsyndRun(bdtion, dst));
+                    flsf
+                        bdtion.run();
+                } dbtdi (Tirowbblf rfx) {
+                    fx = rfx;
+                }
+            }
+            if (f == null || fx != null)
+                dst.intfrnblComplftf(null, fx);
+        }
+        iflpPostComplftf();
+        otifr.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf <U> ComplftbblfFuturf<U> doTifnComposf
+        (Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn,
+         Exfdutor f) {
+        if (fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<U> dst = null;
+        TifnComposf<T,U> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null) {
+            dst = nfw ComplftbblfFuturf<U>();
+            ComplftionNodf p = nfw ComplftionNodf
+                (d = nfw TifnComposf<T,U>(tiis, fn, dst, f));
+            wiilf ((r = rfsult) == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt
+                    (tiis, COMPLETIONS, p.nfxt = domplftions, p))
+                    brfbk;
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            if (fx == null) {
+                if (f != null) {
+                    if (dst == null)
+                        dst = nfw ComplftbblfFuturf<U>();
+                    fxfdAsynd(f, nfw AsyndComposf<T,U>(t, fn, dst));
+                }
+                flsf {
+                    try {
+                        ComplftionStbgf<U> ds = fn.bpply(t);
+                        if (ds == null ||
+                            (dst = ds.toComplftbblfFuturf()) == null)
+                            fx = nfw NullPointfrExdfption();
+                    } dbtdi (Tirowbblf rfx) {
+                        fx = rfx;
+                    }
+                }
+            }
+            if (dst == null)
+                dst = nfw ComplftbblfFuturf<U>();
+            if (fx != null)
+                dst.intfrnblComplftf(null, fx);
+        }
+        iflpPostComplftf();
+        dst.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf ComplftbblfFuturf<T> doWifnComplftf
+        (BiConsumfr<? supfr T, ? supfr Tirowbblf> fn,
+         Exfdutor f) {
+        if (fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<T> dst = nfw ComplftbblfFuturf<T>();
+        WifnComplftfComplftion<T> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null) {
+            ComplftionNodf p =
+                nfw ComplftionNodf(d = nfw WifnComplftfComplftion<T>
+                                   (tiis, fn, dst, f));
+            wiilf ((r = rfsult) == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt(tiis, COMPLETIONS,
+                                                p.nfxt = domplftions, p))
+                    brfbk;
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            Tirowbblf dx = null;
+            try {
+                if (f != null)
+                    fxfdAsynd(f, nfw AsyndWifnComplftf<T>(t, fx, fn, dst));
+                flsf
+                    fn.bddfpt(t, fx);
+            } dbtdi (Tirowbblf rfx) {
+                dx = rfx;
+            }
+            if (f == null || dx != null)
+                dst.intfrnblComplftf(t, fx != null ? fx : dx);
+        }
+        iflpPostComplftf();
+        rfturn dst;
+    }
+
+    privbtf <U> ComplftbblfFuturf<U> doHbndlf
+        (BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn,
+         Exfdutor f) {
+        if (fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<U> dst = nfw ComplftbblfFuturf<U>();
+        HbndlfComplftion<T,U> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null) {
+            ComplftionNodf p =
+                nfw ComplftionNodf(d = nfw HbndlfComplftion<T,U>
+                                   (tiis, fn, dst, f));
+            wiilf ((r = rfsult) == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt(tiis, COMPLETIONS,
+                                                p.nfxt = domplftions, p))
+                    brfbk;
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t; Tirowbblf fx;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            U u = null;
+            Tirowbblf dx = null;
+            try {
+                if (f != null)
+                    fxfdAsynd(f, nfw AsyndCombinf<T,Tirowbblf,U>(t, fx, fn, dst));
+                flsf {
+                    u = fn.bpply(t, fx);
+                    dx = null;
+                }
+            } dbtdi (Tirowbblf rfx) {
+                dx = rfx;
+                u = null;
+            }
+            if (f == null || dx != null)
+                dst.intfrnblComplftf(u, dx);
+        }
+        iflpPostComplftf();
+        rfturn dst;
+    }
+
+
+    // publid mftiods
+
+    /**
+     * Crfbtfs b nfw indomplftf ComplftbblfFuturf.
+     */
+    publid ComplftbblfFuturf() {
+    }
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is bsyndironously domplftfd
+     * by b tbsk running in tif {@link ForkJoinPool#dommonPool()} witi
+     * tif vbluf obtbinfd by dblling tif givfn Supplifr.
+     *
+     * @pbrbm supplifr b fundtion rfturning tif vbluf to bf usfd
+     * to domplftf tif rfturnfd ComplftbblfFuturf
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftbblfFuturf
+     */
+    publid stbtid <U> ComplftbblfFuturf<U> supplyAsynd(Supplifr<U> supplifr) {
+        if (supplifr == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<U> f = nfw ComplftbblfFuturf<U>();
+        fxfdAsynd(ForkJoinPool.dommonPool(), nfw AsyndSupply<U>(supplifr, f));
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is bsyndironously domplftfd
+     * by b tbsk running in tif givfn fxfdutor witi tif vbluf obtbinfd
+     * by dblling tif givfn Supplifr.
+     *
+     * @pbrbm supplifr b fundtion rfturning tif vbluf to bf usfd
+     * to domplftf tif rfturnfd ComplftbblfFuturf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftbblfFuturf
+     */
+    publid stbtid <U> ComplftbblfFuturf<U> supplyAsynd(Supplifr<U> supplifr,
+                                                       Exfdutor fxfdutor) {
+        if (fxfdutor == null || supplifr == null)
+            tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<U> f = nfw ComplftbblfFuturf<U>();
+        fxfdAsynd(fxfdutor, nfw AsyndSupply<U>(supplifr, f));
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is bsyndironously domplftfd
+     * by b tbsk running in tif {@link ForkJoinPool#dommonPool()} bftfr
+     * it runs tif givfn bdtion.
+     *
+     * @pbrbm runnbblf tif bdtion to run bfforf domplfting tif
+     * rfturnfd ComplftbblfFuturf
+     * @rfturn tif nfw ComplftbblfFuturf
+     */
+    publid stbtid ComplftbblfFuturf<Void> runAsynd(Runnbblf runnbblf) {
+        if (runnbblf == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> f = nfw ComplftbblfFuturf<Void>();
+        fxfdAsynd(ForkJoinPool.dommonPool(), nfw AsyndRun(runnbblf, f));
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is bsyndironously domplftfd
+     * by b tbsk running in tif givfn fxfdutor bftfr it runs tif givfn
+     * bdtion.
+     *
+     * @pbrbm runnbblf tif bdtion to run bfforf domplfting tif
+     * rfturnfd ComplftbblfFuturf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @rfturn tif nfw ComplftbblfFuturf
+     */
+    publid stbtid ComplftbblfFuturf<Void> runAsynd(Runnbblf runnbblf,
+                                                   Exfdutor fxfdutor) {
+        if (fxfdutor == null || runnbblf == null)
+            tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> f = nfw ComplftbblfFuturf<Void>();
+        fxfdAsynd(fxfdutor, nfw AsyndRun(runnbblf, f));
+        rfturn f;
+    }
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is blrfbdy domplftfd witi
+     * tif givfn vbluf.
+     *
+     * @pbrbm vbluf tif vbluf
+     * @pbrbm <U> tif typf of tif vbluf
+     * @rfturn tif domplftfd ComplftbblfFuturf
+     */
+    publid stbtid <U> ComplftbblfFuturf<U> domplftfdFuturf(U vbluf) {
+        ComplftbblfFuturf<U> f = nfw ComplftbblfFuturf<U>();
+        f.rfsult = (vbluf == null) ? NIL : vbluf;
+        rfturn f;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if domplftfd in bny fbsiion: normblly,
+     * fxdfptionblly, or vib dbndfllbtion.
+     *
+     * @rfturn {@dodf truf} if domplftfd
+     */
+    publid boolfbn isDonf() {
+        rfturn rfsult != null;
+    }
+
+    /**
+     * Wbits if nfdfssbry for tiis futurf to domplftf, bnd tifn
+     * rfturns its rfsult.
+     *
+     * @rfturn tif rfsult vbluf
+     * @tirows CbndfllbtionExdfption if tiis futurf wbs dbndfllfd
+     * @tirows ExfdutionExdfption if tiis futurf domplftfd fxdfptionblly
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd wbs intfrruptfd
+     * wiilf wbiting
+     */
+    publid T gft() tirows IntfrruptfdExdfption, ExfdutionExdfption {
+        Objfdt r; Tirowbblf fx, dbusf;
+        if ((r = rfsult) == null && (r = wbitingGft(truf)) == null)
+            tirow nfw IntfrruptfdExdfption();
+        if (!(r instbndfof AltRfsult)) {
+            @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+            rfturn tr;
+        }
+        if ((fx = ((AltRfsult)r).fx) == null)
+            rfturn null;
+        if (fx instbndfof CbndfllbtionExdfption)
+            tirow (CbndfllbtionExdfption)fx;
+        if ((fx instbndfof ComplftionExdfption) &&
+            (dbusf = fx.gftCbusf()) != null)
+            fx = dbusf;
+        tirow nfw ExfdutionExdfption(fx);
+    }
+
+    /**
+     * Wbits if nfdfssbry for bt most tif givfn timf for tiis futurf
+     * to domplftf, bnd tifn rfturns its rfsult, if bvbilbblf.
+     *
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif timfout brgumfnt
+     * @rfturn tif rfsult vbluf
+     * @tirows CbndfllbtionExdfption if tiis futurf wbs dbndfllfd
+     * @tirows ExfdutionExdfption if tiis futurf domplftfd fxdfptionblly
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd wbs intfrruptfd
+     * wiilf wbiting
+     * @tirows TimfoutExdfption if tif wbit timfd out
+     */
+    publid T gft(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
+        Objfdt r; Tirowbblf fx, dbusf;
+        long nbnos = unit.toNbnos(timfout);
+        if (Tirfbd.intfrruptfd())
+            tirow nfw IntfrruptfdExdfption();
+        if ((r = rfsult) == null)
+            r = timfdAwbitDonf(nbnos);
+        if (!(r instbndfof AltRfsult)) {
+            @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+            rfturn tr;
+        }
+        if ((fx = ((AltRfsult)r).fx) == null)
+            rfturn null;
+        if (fx instbndfof CbndfllbtionExdfption)
+            tirow (CbndfllbtionExdfption)fx;
+        if ((fx instbndfof ComplftionExdfption) &&
+            (dbusf = fx.gftCbusf()) != null)
+            fx = dbusf;
+        tirow nfw ExfdutionExdfption(fx);
+    }
+
+    /**
+     * Rfturns tif rfsult vbluf wifn domplftf, or tirows bn
+     * (undifdkfd) fxdfption if domplftfd fxdfptionblly. To bfttfr
+     * donform witi tif usf of dommon fundtionbl forms, if b
+     * domputbtion involvfd in tif domplftion of tiis
+     * ComplftbblfFuturf tirfw bn fxdfption, tiis mftiod tirows bn
+     * (undifdkfd) {@link ComplftionExdfption} witi tif undfrlying
+     * fxdfption bs its dbusf.
+     *
+     * @rfturn tif rfsult vbluf
+     * @tirows CbndfllbtionExdfption if tif domputbtion wbs dbndfllfd
+     * @tirows ComplftionExdfption if tiis futurf domplftfd
+     * fxdfptionblly or b domplftion domputbtion tirfw bn fxdfption
+     */
+    publid T join() {
+        Objfdt r; Tirowbblf fx;
+        if ((r = rfsult) == null)
+            r = wbitingGft(fblsf);
+        if (!(r instbndfof AltRfsult)) {
+            @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+            rfturn tr;
+        }
+        if ((fx = ((AltRfsult)r).fx) == null)
+            rfturn null;
+        if (fx instbndfof CbndfllbtionExdfption)
+            tirow (CbndfllbtionExdfption)fx;
+        if (fx instbndfof ComplftionExdfption)
+            tirow (ComplftionExdfption)fx;
+        tirow nfw ComplftionExdfption(fx);
+    }
+
+    /**
+     * Rfturns tif rfsult vbluf (or tirows bny fndountfrfd fxdfption)
+     * if domplftfd, flsf rfturns tif givfn vblufIfAbsfnt.
+     *
+     * @pbrbm vblufIfAbsfnt tif vbluf to rfturn if not domplftfd
+     * @rfturn tif rfsult vbluf, if domplftfd, flsf tif givfn vblufIfAbsfnt
+     * @tirows CbndfllbtionExdfption if tif domputbtion wbs dbndfllfd
+     * @tirows ComplftionExdfption if tiis futurf domplftfd
+     * fxdfptionblly or b domplftion domputbtion tirfw bn fxdfption
+     */
+    publid T gftNow(T vblufIfAbsfnt) {
+        Objfdt r; Tirowbblf fx;
+        if ((r = rfsult) == null)
+            rfturn vblufIfAbsfnt;
+        if (!(r instbndfof AltRfsult)) {
+            @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+            rfturn tr;
+        }
+        if ((fx = ((AltRfsult)r).fx) == null)
+            rfturn null;
+        if (fx instbndfof CbndfllbtionExdfption)
+            tirow (CbndfllbtionExdfption)fx;
+        if (fx instbndfof ComplftionExdfption)
+            tirow (ComplftionExdfption)fx;
+        tirow nfw ComplftionExdfption(fx);
+    }
+
+    /**
+     * If not blrfbdy domplftfd, sfts tif vbluf rfturnfd by {@link
+     * #gft()} bnd rflbtfd mftiods to tif givfn vbluf.
+     *
+     * @pbrbm vbluf tif rfsult vbluf
+     * @rfturn {@dodf truf} if tiis invodbtion dbusfd tiis ComplftbblfFuturf
+     * to trbnsition to b domplftfd stbtf, flsf {@dodf fblsf}
+     */
+    publid boolfbn domplftf(T vbluf) {
+        boolfbn triggfrfd = rfsult == null &&
+            UNSAFE.dompbrfAndSwbpObjfdt(tiis, RESULT, null,
+                                        vbluf == null ? NIL : vbluf);
+        postComplftf();
+        rfturn triggfrfd;
+    }
+
+    /**
+     * If not blrfbdy domplftfd, dbusfs invodbtions of {@link #gft()}
+     * bnd rflbtfd mftiods to tirow tif givfn fxdfption.
+     *
+     * @pbrbm fx tif fxdfption
+     * @rfturn {@dodf truf} if tiis invodbtion dbusfd tiis ComplftbblfFuturf
+     * to trbnsition to b domplftfd stbtf, flsf {@dodf fblsf}
+     */
+    publid boolfbn domplftfExdfptionblly(Tirowbblf fx) {
+        if (fx == null) tirow nfw NullPointfrExdfption();
+        boolfbn triggfrfd = rfsult == null &&
+            UNSAFE.dompbrfAndSwbpObjfdt(tiis, RESULT, null, nfw AltRfsult(fx));
+        postComplftf();
+        rfturn triggfrfd;
+    }
+
+    // ComplftionStbgf mftiods
+
+    publid <U> ComplftbblfFuturf<U> tifnApply
+        (Fundtion<? supfr T,? fxtfnds U> fn) {
+        rfturn doTifnApply(fn, null);
+    }
+
+    publid <U> ComplftbblfFuturf<U> tifnApplyAsynd
+        (Fundtion<? supfr T,? fxtfnds U> fn) {
+        rfturn doTifnApply(fn, ForkJoinPool.dommonPool());
+    }
+
+    publid <U> ComplftbblfFuturf<U> tifnApplyAsynd
+        (Fundtion<? supfr T,? fxtfnds U> fn,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doTifnApply(fn, fxfdutor);
+    }
+
+    publid ComplftbblfFuturf<Void> tifnAddfpt
+        (Consumfr<? supfr T> bdtion) {
+        rfturn doTifnAddfpt(bdtion, null);
+    }
+
+    publid ComplftbblfFuturf<Void> tifnAddfptAsynd
+        (Consumfr<? supfr T> bdtion) {
+        rfturn doTifnAddfpt(bdtion, ForkJoinPool.dommonPool());
+    }
+
+    publid ComplftbblfFuturf<Void> tifnAddfptAsynd
+        (Consumfr<? supfr T> bdtion,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doTifnAddfpt(bdtion, fxfdutor);
+    }
+
+    publid ComplftbblfFuturf<Void> tifnRun
+        (Runnbblf bdtion) {
+        rfturn doTifnRun(bdtion, null);
+    }
+
+    publid ComplftbblfFuturf<Void> tifnRunAsynd
+        (Runnbblf bdtion) {
+        rfturn doTifnRun(bdtion, ForkJoinPool.dommonPool());
+    }
+
+    publid ComplftbblfFuturf<Void> tifnRunAsynd
+        (Runnbblf bdtion,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doTifnRun(bdtion, fxfdutor);
+    }
+
+    publid <U,V> ComplftbblfFuturf<V> tifnCombinf
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn) {
+        rfturn doTifnCombinf(otifr.toComplftbblfFuturf(), fn, null);
+    }
+
+    publid <U,V> ComplftbblfFuturf<V> tifnCombinfAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn) {
+        rfturn doTifnCombinf(otifr.toComplftbblfFuturf(), fn,
+                             ForkJoinPool.dommonPool());
+    }
+
+    publid <U,V> ComplftbblfFuturf<V> tifnCombinfAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doTifnCombinf(otifr.toComplftbblfFuturf(), fn, fxfdutor);
+    }
+
+    publid <U> ComplftbblfFuturf<Void> tifnAddfptBoti
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiConsumfr<? supfr T, ? supfr U> bdtion) {
+        rfturn doTifnAddfptBoti(otifr.toComplftbblfFuturf(), bdtion, null);
+    }
+
+    publid <U> ComplftbblfFuturf<Void> tifnAddfptBotiAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiConsumfr<? supfr T, ? supfr U> bdtion) {
+        rfturn doTifnAddfptBoti(otifr.toComplftbblfFuturf(), bdtion,
+                                ForkJoinPool.dommonPool());
+    }
+
+    publid <U> ComplftbblfFuturf<Void> tifnAddfptBotiAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiConsumfr<? supfr T, ? supfr U> bdtion,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doTifnAddfptBoti(otifr.toComplftbblfFuturf(), bdtion, fxfdutor);
+    }
+
+    publid ComplftbblfFuturf<Void> runAftfrBoti
+        (ComplftionStbgf<?> otifr,
+         Runnbblf bdtion) {
+        rfturn doRunAftfrBoti(otifr.toComplftbblfFuturf(), bdtion, null);
+    }
+
+    publid ComplftbblfFuturf<Void> runAftfrBotiAsynd
+        (ComplftionStbgf<?> otifr,
+         Runnbblf bdtion) {
+        rfturn doRunAftfrBoti(otifr.toComplftbblfFuturf(), bdtion,
+                              ForkJoinPool.dommonPool());
+    }
+
+    publid ComplftbblfFuturf<Void> runAftfrBotiAsynd
+        (ComplftionStbgf<?> otifr,
+         Runnbblf bdtion,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doRunAftfrBoti(otifr.toComplftbblfFuturf(), bdtion, fxfdutor);
+    }
+
+
+    publid <U> ComplftbblfFuturf<U> bpplyToEitifr
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Fundtion<? supfr T, U> fn) {
+        rfturn doApplyToEitifr(otifr.toComplftbblfFuturf(), fn, null);
+    }
+
+    publid <U> ComplftbblfFuturf<U> bpplyToEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Fundtion<? supfr T, U> fn) {
+        rfturn doApplyToEitifr(otifr.toComplftbblfFuturf(), fn,
+                               ForkJoinPool.dommonPool());
+    }
+
+    publid <U> ComplftbblfFuturf<U> bpplyToEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Fundtion<? supfr T, U> fn,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doApplyToEitifr(otifr.toComplftbblfFuturf(), fn, fxfdutor);
+    }
+
+    publid ComplftbblfFuturf<Void> bddfptEitifr
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Consumfr<? supfr T> bdtion) {
+        rfturn doAddfptEitifr(otifr.toComplftbblfFuturf(), bdtion, null);
+    }
+
+    publid ComplftbblfFuturf<Void> bddfptEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Consumfr<? supfr T> bdtion) {
+        rfturn doAddfptEitifr(otifr.toComplftbblfFuturf(), bdtion,
+                              ForkJoinPool.dommonPool());
+    }
+
+    publid ComplftbblfFuturf<Void> bddfptEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Consumfr<? supfr T> bdtion,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doAddfptEitifr(otifr.toComplftbblfFuturf(), bdtion, fxfdutor);
+    }
+
+    publid ComplftbblfFuturf<Void> runAftfrEitifr(ComplftionStbgf<?> otifr,
+                                                  Runnbblf bdtion) {
+        rfturn doRunAftfrEitifr(otifr.toComplftbblfFuturf(), bdtion, null);
+    }
+
+    publid ComplftbblfFuturf<Void> runAftfrEitifrAsynd
+        (ComplftionStbgf<?> otifr,
+         Runnbblf bdtion) {
+        rfturn doRunAftfrEitifr(otifr.toComplftbblfFuturf(), bdtion,
+                                ForkJoinPool.dommonPool());
+    }
+
+    publid ComplftbblfFuturf<Void> runAftfrEitifrAsynd
+        (ComplftionStbgf<?> otifr,
+         Runnbblf bdtion,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doRunAftfrEitifr(otifr.toComplftbblfFuturf(), bdtion, fxfdutor);
+    }
+
+    publid <U> ComplftbblfFuturf<U> tifnComposf
+        (Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn) {
+        rfturn doTifnComposf(fn, null);
+    }
+
+    publid <U> ComplftbblfFuturf<U> tifnComposfAsynd
+        (Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn) {
+        rfturn doTifnComposf(fn, ForkJoinPool.dommonPool());
+    }
+
+    publid <U> ComplftbblfFuturf<U> tifnComposfAsynd
+        (Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doTifnComposf(fn, fxfdutor);
+    }
+
+    publid ComplftbblfFuturf<T> wifnComplftf
+        (BiConsumfr<? supfr T, ? supfr Tirowbblf> bdtion) {
+        rfturn doWifnComplftf(bdtion, null);
+    }
+
+    publid ComplftbblfFuturf<T> wifnComplftfAsynd
+        (BiConsumfr<? supfr T, ? supfr Tirowbblf> bdtion) {
+        rfturn doWifnComplftf(bdtion, ForkJoinPool.dommonPool());
+    }
+
+    publid ComplftbblfFuturf<T> wifnComplftfAsynd
+        (BiConsumfr<? supfr T, ? supfr Tirowbblf> bdtion,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doWifnComplftf(bdtion, fxfdutor);
+    }
+
+    publid <U> ComplftbblfFuturf<U> ibndlf
+        (BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn) {
+        rfturn doHbndlf(fn, null);
+    }
+
+    publid <U> ComplftbblfFuturf<U> ibndlfAsynd
+        (BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn) {
+        rfturn doHbndlf(fn, ForkJoinPool.dommonPool());
+    }
+
+    publid <U> ComplftbblfFuturf<U> ibndlfAsynd
+        (BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn,
+         Exfdutor fxfdutor) {
+        if (fxfdutor == null) tirow nfw NullPointfrExdfption();
+        rfturn doHbndlf(fn, fxfdutor);
+    }
+
+    /**
+     * Rfturns tiis ComplftbblfFuturf
+     *
+     * @rfturn tiis ComplftbblfFuturf
+     */
+    publid ComplftbblfFuturf<T> toComplftbblfFuturf() {
+        rfturn tiis;
+    }
+
+    // not in intfrfbdf ComplftionStbgf
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is domplftfd wifn tiis
+     * ComplftbblfFuturf domplftfs, witi tif rfsult of tif givfn
+     * fundtion of tif fxdfption triggfring tiis ComplftbblfFuturf's
+     * domplftion wifn it domplftfs fxdfptionblly; otifrwisf, if tiis
+     * ComplftbblfFuturf domplftfs normblly, tifn tif rfturnfd
+     * ComplftbblfFuturf blso domplftfs normblly witi tif sbmf vbluf.
+     * Notf: Morf flfxiblf vfrsions of tiis fundtionblity brf
+     * bvbilbblf using mftiods {@dodf wifnComplftf} bnd {@dodf ibndlf}.
+     *
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of tif
+     * rfturnfd ComplftbblfFuturf if tiis ComplftbblfFuturf domplftfd
+     * fxdfptionblly
+     * @rfturn tif nfw ComplftbblfFuturf
+     */
+    publid ComplftbblfFuturf<T> fxdfptionblly
+        (Fundtion<Tirowbblf, ? fxtfnds T> fn) {
+        if (fn == null) tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<T> dst = nfw ComplftbblfFuturf<T>();
+        ExdfptionComplftion<T> d = null;
+        Objfdt r;
+        if ((r = rfsult) == null) {
+            ComplftionNodf p =
+                nfw ComplftionNodf(d = nfw ExdfptionComplftion<T>
+                                   (tiis, fn, dst));
+            wiilf ((r = rfsult) == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt(tiis, COMPLETIONS,
+                                                p.nfxt = domplftions, p))
+                    brfbk;
+            }
+        }
+        if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+            T t = null; Tirowbblf fx, dx = null;
+            if (r instbndfof AltRfsult) {
+                if ((fx = ((AltRfsult)r).fx) != null) {
+                    try {
+                        t = fn.bpply(fx);
+                    } dbtdi (Tirowbblf rfx) {
+                        dx = rfx;
+                    }
+                }
+            }
+            flsf {
+                @SupprfssWbrnings("undifdkfd") T tr = (T) r;
+                t = tr;
+            }
+            dst.intfrnblComplftf(t, dx);
+        }
+        iflpPostComplftf();
+        rfturn dst;
+    }
+
+    /* ------------- Arbitrbry-brity donstrudtions -------------- */
+
+    /*
+     * Tif bbsid plbn of bttbdk is to rfdursivfly form binbry
+     * domplftion trffs of flfmfnts. Tiis dbn bf ovfrkill for smbll
+     * sfts, but sdblfs nidfly. Tif And/All vs Or/Any forms usf tif
+     * sbmf idfb, but dftbils difffr.
+     */
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is domplftfd wifn bll of
+     * tif givfn ComplftbblfFuturfs domplftf.  If bny of tif givfn
+     * ComplftbblfFuturfs domplftf fxdfptionblly, tifn tif rfturnfd
+     * ComplftbblfFuturf blso dofs so, witi b ComplftionExdfption
+     * iolding tiis fxdfption bs its dbusf.  Otifrwisf, tif rfsults,
+     * if bny, of tif givfn ComplftbblfFuturfs brf not rfflfdtfd in
+     * tif rfturnfd ComplftbblfFuturf, but mby bf obtbinfd by
+     * inspfdting tifm individublly. If no ComplftbblfFuturfs brf
+     * providfd, rfturns b ComplftbblfFuturf domplftfd witi tif vbluf
+     * {@dodf null}.
+     *
+     * <p>Among tif bpplidbtions of tiis mftiod is to bwbit domplftion
+     * of b sft of indfpfndfnt ComplftbblfFuturfs bfforf dontinuing b
+     * progrbm, bs in: {@dodf ComplftbblfFuturf.bllOf(d1, d2,
+     * d3).join();}.
+     *
+     * @pbrbm dfs tif ComplftbblfFuturfs
+     * @rfturn b nfw ComplftbblfFuturf tibt is domplftfd wifn bll of tif
+     * givfn ComplftbblfFuturfs domplftf
+     * @tirows NullPointfrExdfption if tif brrby or bny of its flfmfnts brf
+     * {@dodf null}
+     */
+    publid stbtid ComplftbblfFuturf<Void> bllOf(ComplftbblfFuturf<?>... dfs) {
+        int lfn = dfs.lfngti; // Dirfdtly ibndlf fmpty bnd singlfton dbsfs
+        if (lfn > 1)
+            rfturn bllTrff(dfs, 0, lfn - 1);
+        flsf {
+            ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+            ComplftbblfFuturf<?> f;
+            if (lfn == 0)
+                dst.rfsult = NIL;
+            flsf if ((f = dfs[0]) == null)
+                tirow nfw NullPointfrExdfption();
+            flsf {
+                TifnPropbgbtf d = null;
+                ComplftionNodf p = null;
+                Objfdt r;
+                wiilf ((r = f.rfsult) == null) {
+                    if (d == null)
+                        d = nfw TifnPropbgbtf(f, dst);
+                    flsf if (p == null)
+                        p = nfw ComplftionNodf(d);
+                    flsf if (UNSAFE.dompbrfAndSwbpObjfdt
+                             (f, COMPLETIONS, p.nfxt = f.domplftions, p))
+                        brfbk;
+                }
+                if (r != null && (d == null || d.dompbrfAndSft(0, 1)))
+                    dst.intfrnblComplftf(null, (r instbndfof AltRfsult) ?
+                                         ((AltRfsult)r).fx : null);
+                f.iflpPostComplftf();
+            }
+            rfturn dst;
+        }
+    }
+
+    /**
+     * Rfdursivfly donstrudts bn And'fd trff of ComplftbblfFuturfs.
+     * Cbllfd only wifn brrby known to ibvf bt lfbst two flfmfnts.
+     */
+    privbtf stbtid ComplftbblfFuturf<Void> bllTrff(ComplftbblfFuturf<?>[] dfs,
+                                                   int lo, int ii) {
+        ComplftbblfFuturf<?> fst, snd;
+        int mid = (lo + ii) >>> 1;
+        if ((fst = (lo == mid   ? dfs[lo] : bllTrff(dfs, lo,    mid))) == null ||
+            (snd = (ii == mid+1 ? dfs[ii] : bllTrff(dfs, mid+1, ii))) == null)
+            tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Void> dst = nfw ComplftbblfFuturf<Void>();
+        AndComplftion d = null;
+        ComplftionNodf p = null, q = null;
+        Objfdt r = null, s = null;
+        wiilf ((r = fst.rfsult) == null || (s = snd.rfsult) == null) {
+            if (d == null)
+                d = nfw AndComplftion(fst, snd, dst);
+            flsf if (p == null)
+                p = nfw ComplftionNodf(d);
+            flsf if (q == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt
+                    (fst, COMPLETIONS, p.nfxt = fst.domplftions, p))
+                    q = nfw ComplftionNodf(d);
+            }
+            flsf if (UNSAFE.dompbrfAndSwbpObjfdt
+                     (snd, COMPLETIONS, q.nfxt = snd.domplftions, q))
+                brfbk;
+        }
+        if ((r != null || (r = fst.rfsult) != null) &&
+            (s != null || (s = snd.rfsult) != null) &&
+            (d == null || d.dompbrfAndSft(0, 1))) {
+            Tirowbblf fx;
+            if (r instbndfof AltRfsult)
+                fx = ((AltRfsult)r).fx;
+            flsf
+                fx = null;
+            if (fx == null && (s instbndfof AltRfsult))
+                fx = ((AltRfsult)s).fx;
+            dst.intfrnblComplftf(null, fx);
+        }
+        fst.iflpPostComplftf();
+        snd.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    /**
+     * Rfturns b nfw ComplftbblfFuturf tibt is domplftfd wifn bny of
+     * tif givfn ComplftbblfFuturfs domplftf, witi tif sbmf rfsult.
+     * Otifrwisf, if it domplftfd fxdfptionblly, tif rfturnfd
+     * ComplftbblfFuturf blso dofs so, witi b ComplftionExdfption
+     * iolding tiis fxdfption bs its dbusf.  If no ComplftbblfFuturfs
+     * brf providfd, rfturns bn indomplftf ComplftbblfFuturf.
+     *
+     * @pbrbm dfs tif ComplftbblfFuturfs
+     * @rfturn b nfw ComplftbblfFuturf tibt is domplftfd witi tif
+     * rfsult or fxdfption of bny of tif givfn ComplftbblfFuturfs wifn
+     * onf domplftfs
+     * @tirows NullPointfrExdfption if tif brrby or bny of its flfmfnts brf
+     * {@dodf null}
+     */
+    publid stbtid ComplftbblfFuturf<Objfdt> bnyOf(ComplftbblfFuturf<?>... dfs) {
+        int lfn = dfs.lfngti; // Sbmf idfb bs bllOf
+        if (lfn > 1)
+            rfturn bnyTrff(dfs, 0, lfn - 1);
+        flsf {
+            ComplftbblfFuturf<Objfdt> dst = nfw ComplftbblfFuturf<Objfdt>();
+            ComplftbblfFuturf<?> f;
+            if (lfn == 0)
+                ; // skip
+            flsf if ((f = dfs[0]) == null)
+                tirow nfw NullPointfrExdfption();
+            flsf {
+                TifnCopy<Objfdt> d = null;
+                ComplftionNodf p = null;
+                Objfdt r;
+                wiilf ((r = f.rfsult) == null) {
+                    if (d == null)
+                        d = nfw TifnCopy<Objfdt>(f, dst);
+                    flsf if (p == null)
+                        p = nfw ComplftionNodf(d);
+                    flsf if (UNSAFE.dompbrfAndSwbpObjfdt
+                             (f, COMPLETIONS, p.nfxt = f.domplftions, p))
+                        brfbk;
+                }
+                if (r != null && (d == null || d.dompbrfAndSft(0, 1))) {
+                    Tirowbblf fx; Objfdt t;
+                    if (r instbndfof AltRfsult) {
+                        fx = ((AltRfsult)r).fx;
+                        t = null;
+                    }
+                    flsf {
+                        fx = null;
+                        t = r;
+                    }
+                    dst.intfrnblComplftf(t, fx);
+                }
+                f.iflpPostComplftf();
+            }
+            rfturn dst;
+        }
+    }
+
+    /**
+     * Rfdursivfly donstrudts bn Or'fd trff of ComplftbblfFuturfs.
+     */
+    privbtf stbtid ComplftbblfFuturf<Objfdt> bnyTrff(ComplftbblfFuturf<?>[] dfs,
+                                                     int lo, int ii) {
+        ComplftbblfFuturf<?> fst, snd;
+        int mid = (lo + ii) >>> 1;
+        if ((fst = (lo == mid   ? dfs[lo] : bnyTrff(dfs, lo,    mid))) == null ||
+            (snd = (ii == mid+1 ? dfs[ii] : bnyTrff(dfs, mid+1, ii))) == null)
+            tirow nfw NullPointfrExdfption();
+        ComplftbblfFuturf<Objfdt> dst = nfw ComplftbblfFuturf<Objfdt>();
+        OrComplftion d = null;
+        ComplftionNodf p = null, q = null;
+        Objfdt r;
+        wiilf ((r = fst.rfsult) == null && (r = snd.rfsult) == null) {
+            if (d == null)
+                d = nfw OrComplftion(fst, snd, dst);
+            flsf if (p == null)
+                p = nfw ComplftionNodf(d);
+            flsf if (q == null) {
+                if (UNSAFE.dompbrfAndSwbpObjfdt
+                    (fst, COMPLETIONS, p.nfxt = fst.domplftions, p))
+                    q = nfw ComplftionNodf(d);
+            }
+            flsf if (UNSAFE.dompbrfAndSwbpObjfdt
+                     (snd, COMPLETIONS, q.nfxt = snd.domplftions, q))
+                brfbk;
+        }
+        if ((r != null || (r = fst.rfsult) != null ||
+             (r = snd.rfsult) != null) &&
+            (d == null || d.dompbrfAndSft(0, 1))) {
+            Tirowbblf fx; Objfdt t;
+            if (r instbndfof AltRfsult) {
+                fx = ((AltRfsult)r).fx;
+                t = null;
+            }
+            flsf {
+                fx = null;
+                t = r;
+            }
+            dst.intfrnblComplftf(t, fx);
+        }
+        fst.iflpPostComplftf();
+        snd.iflpPostComplftf();
+        rfturn dst;
+    }
+
+    /* ------------- Control bnd stbtus mftiods -------------- */
+
+    /**
+     * If not blrfbdy domplftfd, domplftfs tiis ComplftbblfFuturf witi
+     * b {@link CbndfllbtionExdfption}. Dfpfndfnt ComplftbblfFuturfs
+     * tibt ibvf not blrfbdy domplftfd will blso domplftf
+     * fxdfptionblly, witi b {@link ComplftionExdfption} dbusfd by
+     * tiis {@dodf CbndfllbtionExdfption}.
+     *
+     * @pbrbm mbyIntfrruptIfRunning tiis vbluf ibs no ffffdt in tiis
+     * implfmfntbtion bfdbusf intfrrupts brf not usfd to dontrol
+     * prodfssing.
+     *
+     * @rfturn {@dodf truf} if tiis tbsk is now dbndfllfd
+     */
+    publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        boolfbn dbndfllfd = (rfsult == null) &&
+            UNSAFE.dompbrfAndSwbpObjfdt
+            (tiis, RESULT, null, nfw AltRfsult(nfw CbndfllbtionExdfption()));
+        postComplftf();
+        rfturn dbndfllfd || isCbndfllfd();
+    }
+
+    /**
+     * Rfturns {@dodf truf} if tiis ComplftbblfFuturf wbs dbndfllfd
+     * bfforf it domplftfd normblly.
+     *
+     * @rfturn {@dodf truf} if tiis ComplftbblfFuturf wbs dbndfllfd
+     * bfforf it domplftfd normblly
+     */
+    publid boolfbn isCbndfllfd() {
+        Objfdt r;
+        rfturn ((r = rfsult) instbndfof AltRfsult) &&
+            (((AltRfsult)r).fx instbndfof CbndfllbtionExdfption);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if tiis ComplftbblfFuturf domplftfd
+     * fxdfptionblly, in bny wby. Possiblf dbusfs indludf
+     * dbndfllbtion, fxplidit invodbtion of {@dodf
+     * domplftfExdfptionblly}, bnd bbrupt tfrminbtion of b
+     * ComplftionStbgf bdtion.
+     *
+     * @rfturn {@dodf truf} if tiis ComplftbblfFuturf domplftfd
+     * fxdfptionblly
+     */
+    publid boolfbn isComplftfdExdfptionblly() {
+        Objfdt r;
+        rfturn ((r = rfsult) instbndfof AltRfsult) && r != NIL;
+    }
+
+    /**
+     * Fordibly sfts or rfsfts tif vbluf subsfqufntly rfturnfd by
+     * mftiod {@link #gft()} bnd rflbtfd mftiods, wiftifr or not
+     * blrfbdy domplftfd. Tiis mftiod is dfsignfd for usf only in
+     * frror rfdovfry bdtions, bnd fvfn in sudi situbtions mby rfsult
+     * in ongoing dfpfndfnt domplftions using fstbblisifd vfrsus
+     * ovfrwrittfn outdomfs.
+     *
+     * @pbrbm vbluf tif domplftion vbluf
+     */
+    publid void obtrudfVbluf(T vbluf) {
+        rfsult = (vbluf == null) ? NIL : vbluf;
+        postComplftf();
+    }
+
+    /**
+     * Fordibly dbusfs subsfqufnt invodbtions of mftiod {@link #gft()}
+     * bnd rflbtfd mftiods to tirow tif givfn fxdfption, wiftifr or
+     * not blrfbdy domplftfd. Tiis mftiod is dfsignfd for usf only in
+     * rfdovfry bdtions, bnd fvfn in sudi situbtions mby rfsult in
+     * ongoing dfpfndfnt domplftions using fstbblisifd vfrsus
+     * ovfrwrittfn outdomfs.
+     *
+     * @pbrbm fx tif fxdfption
+     */
+    publid void obtrudfExdfption(Tirowbblf fx) {
+        if (fx == null) tirow nfw NullPointfrExdfption();
+        rfsult = nfw AltRfsult(fx);
+        postComplftf();
+    }
+
+    /**
+     * Rfturns tif fstimbtfd numbfr of ComplftbblfFuturfs wiosf
+     * domplftions brf bwbiting domplftion of tiis ComplftbblfFuturf.
+     * Tiis mftiod is dfsignfd for usf in monitoring systfm stbtf, not
+     * for syndironizbtion dontrol.
+     *
+     * @rfturn tif numbfr of dfpfndfnt ComplftbblfFuturfs
+     */
+    publid int gftNumbfrOfDfpfndfnts() {
+        int dount = 0;
+        for (ComplftionNodf p = domplftions; p != null; p = p.nfxt)
+            ++dount;
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns b string idfntifying tiis ComplftbblfFuturf, bs wfll bs
+     * its domplftion stbtf.  Tif stbtf, in brbdkfts, dontbins tif
+     * String {@dodf "Complftfd Normblly"} or tif String {@dodf
+     * "Complftfd Exdfptionblly"}, or tif String {@dodf "Not
+     * domplftfd"} followfd by tif numbfr of ComplftbblfFuturfs
+     * dfpfndfnt upon its domplftion, if bny.
+     *
+     * @rfturn b string idfntifying tiis ComplftbblfFuturf, bs wfll bs its stbtf
+     */
+    publid String toString() {
+        Objfdt r = rfsult;
+        int dount;
+        rfturn supfr.toString() +
+            ((r == null) ?
+             (((dount = gftNumbfrOfDfpfndfnts()) == 0) ?
+              "[Not domplftfd]" :
+              "[Not domplftfd, " + dount + " dfpfndfnts]") :
+             (((r instbndfof AltRfsult) && ((AltRfsult)r).fx != null) ?
+              "[Complftfd fxdfptionblly]" :
+              "[Complftfd normblly]"));
+    }
+
+    // Unsbff mfdibnids
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long RESULT;
+    privbtf stbtid finbl long WAITERS;
+    privbtf stbtid finbl long COMPLETIONS;
+    stbtid {
+        try {
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = ComplftbblfFuturf.dlbss;
+            RESULT = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("rfsult"));
+            WAITERS = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("wbitfrs"));
+            COMPLETIONS = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("domplftions"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
+        }
+    }
+}

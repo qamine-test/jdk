@@ -1,214 +1,1070 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvbx.drypto;
-
-import jbvb.io.*;
-
-/**
- * A CiphfrOutputStrfbm is domposfd of bn OutputStrfbm bnd b Ciphfr so
- * thbt writf() mfthods first prodfss thf dbtb bfforf writing thfm out
- * to thf undfrlying OutputStrfbm.  Thf diphfr must bf fully
- * initiblizfd bfforf bfing usfd by b CiphfrOutputStrfbm.
- *
- * <p> For fxbmplf, if thf diphfr is initiblizfd for fndryption, thf
- * CiphfrOutputStrfbm will bttfmpt to fndrypt dbtb bfforf writing out thf
- * fndryptfd dbtb.
- *
- * <p> This dlbss bdhfrfs stridtly to thf sfmbntids, fspfdiblly thf
- * fbilurf sfmbntids, of its bndfstor dlbssfs
- * jbvb.io.OutputStrfbm bnd jbvb.io.FiltfrOutputStrfbm.  This dlbss
- * hbs fxbdtly thosf mfthods spfdififd in its bndfstor dlbssfs, bnd
- * ovfrridfs thfm bll.  Morfovfr, this dlbss dbtdhfs bll fxdfptions
- * thbt brf not thrown by its bndfstor dlbssfs.
- *
- * <p> It is drudibl for b progrbmmfr using this dlbss not to usf
- * mfthods thbt brf not dffinfd or ovfrridfn in this dlbss (sudh bs b
- * nfw mfthod or donstrudtor thbt is lbtfr bddfd to onf of thf supfr
- * dlbssfs), bfdbusf thf dfsign bnd implfmfntbtion of thosf mfthods
- * brf unlikfly to hbvf donsidfrfd sfdurity impbdt with rfgbrd to
- * CiphfrOutputStrfbm.
- *
- * @buthor  Li Gong
- * @sff     jbvb.io.OutputStrfbm
- * @sff     jbvb.io.FiltfrOutputStrfbm
- * @sff     jbvbx.drypto.Ciphfr
- * @sff     jbvbx.drypto.CiphfrInputStrfbm
- *
- * @sindf 1.4
+ */
+ */
+ */
  */
 
-publid dlbss CiphfrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
 
-    // thf diphfr fnginf to usf to prodfss strfbm dbtb
-    privbtf Ciphfr diphfr;
 
-    // thf undfrlying output strfbm
+
+
+pbdkbgf jbvbx.drypto;
+pbdkbgf jbvbx.drypto;
+pbdkbgf jbvbx.drypto;
+pbdkbgf jbvbx.drypto;
+pbdkbgf jbvbx.drypto;
+
+
+
+
+
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * A CipifrOutputStrfbm is domposfd of bn OutputStrfbm bnd b Cipifr so
+ * A CipifrOutputStrfbm is domposfd of bn OutputStrfbm bnd b Cipifr so
+ * A CipifrOutputStrfbm is domposfd of bn OutputStrfbm bnd b Cipifr so
+ * A CipifrOutputStrfbm is domposfd of bn OutputStrfbm bnd b Cipifr so
+ * A CipifrOutputStrfbm is domposfd of bn OutputStrfbm bnd b Cipifr so
+ * tibt writf() mftiods first prodfss tif dbtb bfforf writing tifm out
+ * tibt writf() mftiods first prodfss tif dbtb bfforf writing tifm out
+ * tibt writf() mftiods first prodfss tif dbtb bfforf writing tifm out
+ * tibt writf() mftiods first prodfss tif dbtb bfforf writing tifm out
+ * tibt writf() mftiods first prodfss tif dbtb bfforf writing tifm out
+ * to tif undfrlying OutputStrfbm.  Tif dipifr must bf fully
+ * to tif undfrlying OutputStrfbm.  Tif dipifr must bf fully
+ * to tif undfrlying OutputStrfbm.  Tif dipifr must bf fully
+ * to tif undfrlying OutputStrfbm.  Tif dipifr must bf fully
+ * to tif undfrlying OutputStrfbm.  Tif dipifr must bf fully
+ * initiblizfd bfforf bfing usfd by b CipifrOutputStrfbm.
+ * initiblizfd bfforf bfing usfd by b CipifrOutputStrfbm.
+ * initiblizfd bfforf bfing usfd by b CipifrOutputStrfbm.
+ * initiblizfd bfforf bfing usfd by b CipifrOutputStrfbm.
+ * initiblizfd bfforf bfing usfd by b CipifrOutputStrfbm.
+ *
+ *
+ *
+ *
+ *
+ * <p> For fxbmplf, if tif dipifr is initiblizfd for fndryption, tif
+ * <p> For fxbmplf, if tif dipifr is initiblizfd for fndryption, tif
+ * <p> For fxbmplf, if tif dipifr is initiblizfd for fndryption, tif
+ * <p> For fxbmplf, if tif dipifr is initiblizfd for fndryption, tif
+ * <p> For fxbmplf, if tif dipifr is initiblizfd for fndryption, tif
+ * CipifrOutputStrfbm will bttfmpt to fndrypt dbtb bfforf writing out tif
+ * CipifrOutputStrfbm will bttfmpt to fndrypt dbtb bfforf writing out tif
+ * CipifrOutputStrfbm will bttfmpt to fndrypt dbtb bfforf writing out tif
+ * CipifrOutputStrfbm will bttfmpt to fndrypt dbtb bfforf writing out tif
+ * CipifrOutputStrfbm will bttfmpt to fndrypt dbtb bfforf writing out tif
+ * fndryptfd dbtb.
+ * fndryptfd dbtb.
+ * fndryptfd dbtb.
+ * fndryptfd dbtb.
+ * fndryptfd dbtb.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tiis dlbss bdifrfs stridtly to tif sfmbntids, fspfdiblly tif
+ * <p> Tiis dlbss bdifrfs stridtly to tif sfmbntids, fspfdiblly tif
+ * <p> Tiis dlbss bdifrfs stridtly to tif sfmbntids, fspfdiblly tif
+ * <p> Tiis dlbss bdifrfs stridtly to tif sfmbntids, fspfdiblly tif
+ * <p> Tiis dlbss bdifrfs stridtly to tif sfmbntids, fspfdiblly tif
+ * fbilurf sfmbntids, of its bndfstor dlbssfs
+ * fbilurf sfmbntids, of its bndfstor dlbssfs
+ * fbilurf sfmbntids, of its bndfstor dlbssfs
+ * fbilurf sfmbntids, of its bndfstor dlbssfs
+ * fbilurf sfmbntids, of its bndfstor dlbssfs
+ * jbvb.io.OutputStrfbm bnd jbvb.io.FiltfrOutputStrfbm.  Tiis dlbss
+ * jbvb.io.OutputStrfbm bnd jbvb.io.FiltfrOutputStrfbm.  Tiis dlbss
+ * jbvb.io.OutputStrfbm bnd jbvb.io.FiltfrOutputStrfbm.  Tiis dlbss
+ * jbvb.io.OutputStrfbm bnd jbvb.io.FiltfrOutputStrfbm.  Tiis dlbss
+ * jbvb.io.OutputStrfbm bnd jbvb.io.FiltfrOutputStrfbm.  Tiis dlbss
+ * ibs fxbdtly tiosf mftiods spfdififd in its bndfstor dlbssfs, bnd
+ * ibs fxbdtly tiosf mftiods spfdififd in its bndfstor dlbssfs, bnd
+ * ibs fxbdtly tiosf mftiods spfdififd in its bndfstor dlbssfs, bnd
+ * ibs fxbdtly tiosf mftiods spfdififd in its bndfstor dlbssfs, bnd
+ * ibs fxbdtly tiosf mftiods spfdififd in its bndfstor dlbssfs, bnd
+ * ovfrridfs tifm bll.  Morfovfr, tiis dlbss dbtdifs bll fxdfptions
+ * ovfrridfs tifm bll.  Morfovfr, tiis dlbss dbtdifs bll fxdfptions
+ * ovfrridfs tifm bll.  Morfovfr, tiis dlbss dbtdifs bll fxdfptions
+ * ovfrridfs tifm bll.  Morfovfr, tiis dlbss dbtdifs bll fxdfptions
+ * ovfrridfs tifm bll.  Morfovfr, tiis dlbss dbtdifs bll fxdfptions
+ * tibt brf not tirown by its bndfstor dlbssfs.
+ * tibt brf not tirown by its bndfstor dlbssfs.
+ * tibt brf not tirown by its bndfstor dlbssfs.
+ * tibt brf not tirown by its bndfstor dlbssfs.
+ * tibt brf not tirown by its bndfstor dlbssfs.
+ *
+ *
+ *
+ *
+ *
+ * <p> It is drudibl for b progrbmmfr using tiis dlbss not to usf
+ * <p> It is drudibl for b progrbmmfr using tiis dlbss not to usf
+ * <p> It is drudibl for b progrbmmfr using tiis dlbss not to usf
+ * <p> It is drudibl for b progrbmmfr using tiis dlbss not to usf
+ * <p> It is drudibl for b progrbmmfr using tiis dlbss not to usf
+ * mftiods tibt brf not dffinfd or ovfrridfn in tiis dlbss (sudi bs b
+ * mftiods tibt brf not dffinfd or ovfrridfn in tiis dlbss (sudi bs b
+ * mftiods tibt brf not dffinfd or ovfrridfn in tiis dlbss (sudi bs b
+ * mftiods tibt brf not dffinfd or ovfrridfn in tiis dlbss (sudi bs b
+ * mftiods tibt brf not dffinfd or ovfrridfn in tiis dlbss (sudi bs b
+ * nfw mftiod or donstrudtor tibt is lbtfr bddfd to onf of tif supfr
+ * nfw mftiod or donstrudtor tibt is lbtfr bddfd to onf of tif supfr
+ * nfw mftiod or donstrudtor tibt is lbtfr bddfd to onf of tif supfr
+ * nfw mftiod or donstrudtor tibt is lbtfr bddfd to onf of tif supfr
+ * nfw mftiod or donstrudtor tibt is lbtfr bddfd to onf of tif supfr
+ * dlbssfs), bfdbusf tif dfsign bnd implfmfntbtion of tiosf mftiods
+ * dlbssfs), bfdbusf tif dfsign bnd implfmfntbtion of tiosf mftiods
+ * dlbssfs), bfdbusf tif dfsign bnd implfmfntbtion of tiosf mftiods
+ * dlbssfs), bfdbusf tif dfsign bnd implfmfntbtion of tiosf mftiods
+ * dlbssfs), bfdbusf tif dfsign bnd implfmfntbtion of tiosf mftiods
+ * brf unlikfly to ibvf donsidfrfd sfdurity impbdt witi rfgbrd to
+ * brf unlikfly to ibvf donsidfrfd sfdurity impbdt witi rfgbrd to
+ * brf unlikfly to ibvf donsidfrfd sfdurity impbdt witi rfgbrd to
+ * brf unlikfly to ibvf donsidfrfd sfdurity impbdt witi rfgbrd to
+ * brf unlikfly to ibvf donsidfrfd sfdurity impbdt witi rfgbrd to
+ * CipifrOutputStrfbm.
+ * CipifrOutputStrfbm.
+ * CipifrOutputStrfbm.
+ * CipifrOutputStrfbm.
+ * CipifrOutputStrfbm.
+ *
+ *
+ *
+ *
+ *
+ * @butior  Li Gong
+ * @butior  Li Gong
+ * @butior  Li Gong
+ * @butior  Li Gong
+ * @butior  Li Gong
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvbx.drypto.Cipifr
+ * @sff     jbvbx.drypto.Cipifr
+ * @sff     jbvbx.drypto.Cipifr
+ * @sff     jbvbx.drypto.Cipifr
+ * @sff     jbvbx.drypto.Cipifr
+ * @sff     jbvbx.drypto.CipifrInputStrfbm
+ * @sff     jbvbx.drypto.CipifrInputStrfbm
+ * @sff     jbvbx.drypto.CipifrInputStrfbm
+ * @sff     jbvbx.drypto.CipifrInputStrfbm
+ * @sff     jbvbx.drypto.CipifrInputStrfbm
+ *
+ *
+ *
+ *
+ *
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid dlbss CipifrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss CipifrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss CipifrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss CipifrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss CipifrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+
+
+
+
+
+    // tif dipifr fnginf to usf to prodfss strfbm dbtb
+    // tif dipifr fnginf to usf to prodfss strfbm dbtb
+    // tif dipifr fnginf to usf to prodfss strfbm dbtb
+    // tif dipifr fnginf to usf to prodfss strfbm dbtb
+    // tif dipifr fnginf to usf to prodfss strfbm dbtb
+    privbtf Cipifr dipifr;
+    privbtf Cipifr dipifr;
+    privbtf Cipifr dipifr;
+    privbtf Cipifr dipifr;
+    privbtf Cipifr dipifr;
+
+
+
+
+
+    // tif undfrlying output strfbm
+    // tif undfrlying output strfbm
+    // tif undfrlying output strfbm
+    // tif undfrlying output strfbm
+    // tif undfrlying output strfbm
+    privbtf OutputStrfbm output;
+    privbtf OutputStrfbm output;
+    privbtf OutputStrfbm output;
+    privbtf OutputStrfbm output;
     privbtf OutputStrfbm output;
 
-    /* thf bufffr holding onf bytf of indoming dbtb */
+
+
+
+
+    /* tif bufffr iolding onf bytf of indoming dbtb */
+    /* tif bufffr iolding onf bytf of indoming dbtb */
+    /* tif bufffr iolding onf bytf of indoming dbtb */
+    /* tif bufffr iolding onf bytf of indoming dbtb */
+    /* tif bufffr iolding onf bytf of indoming dbtb */
+    privbtf bytf[] ibufffr = nfw bytf[1];
+    privbtf bytf[] ibufffr = nfw bytf[1];
+    privbtf bytf[] ibufffr = nfw bytf[1];
+    privbtf bytf[] ibufffr = nfw bytf[1];
     privbtf bytf[] ibufffr = nfw bytf[1];
 
-    // thf bufffr holding dbtb rfbdy to bf writtfn out
+
+
+
+
+    // tif bufffr iolding dbtb rfbdy to bf writtfn out
+    // tif bufffr iolding dbtb rfbdy to bf writtfn out
+    // tif bufffr iolding dbtb rfbdy to bf writtfn out
+    // tif bufffr iolding dbtb rfbdy to bf writtfn out
+    // tif bufffr iolding dbtb rfbdy to bf writtfn out
+    privbtf bytf[] obufffr;
+    privbtf bytf[] obufffr;
+    privbtf bytf[] obufffr;
+    privbtf bytf[] obufffr;
     privbtf bytf[] obufffr;
 
+
+
+
+
+    // strfbm stbtus
+    // strfbm stbtus
+    // strfbm stbtus
+    // strfbm stbtus
     // strfbm stbtus
     privbtf boolfbn dlosfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      *
-     * Construdts b CiphfrOutputStrfbm from bn OutputStrfbm bnd b
-     * Ciphfr.
-     * <br>Notf: if thf spfdififd output strfbm or diphfr is
-     * null, b NullPointfrExdfption mby bf thrown lbtfr whfn
-     * thfy brf usfd.
      *
-     * @pbrbm os  thf OutputStrfbm objfdt
-     * @pbrbm d   bn initiblizfd Ciphfr objfdt
+     *
+     *
+     *
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm bnd b
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm bnd b
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm bnd b
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm bnd b
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm bnd b
+     * Cipifr.
+     * Cipifr.
+     * Cipifr.
+     * Cipifr.
+     * Cipifr.
+     * <br>Notf: if tif spfdififd output strfbm or dipifr is
+     * <br>Notf: if tif spfdififd output strfbm or dipifr is
+     * <br>Notf: if tif spfdififd output strfbm or dipifr is
+     * <br>Notf: if tif spfdififd output strfbm or dipifr is
+     * <br>Notf: if tif spfdififd output strfbm or dipifr is
+     * null, b NullPointfrExdfption mby bf tirown lbtfr wifn
+     * null, b NullPointfrExdfption mby bf tirown lbtfr wifn
+     * null, b NullPointfrExdfption mby bf tirown lbtfr wifn
+     * null, b NullPointfrExdfption mby bf tirown lbtfr wifn
+     * null, b NullPointfrExdfption mby bf tirown lbtfr wifn
+     * tify brf usfd.
+     * tify brf usfd.
+     * tify brf usfd.
+     * tify brf usfd.
+     * tify brf usfd.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm d   bn initiblizfd Cipifr objfdt
+     * @pbrbm d   bn initiblizfd Cipifr objfdt
+     * @pbrbm d   bn initiblizfd Cipifr objfdt
+     * @pbrbm d   bn initiblizfd Cipifr objfdt
+     * @pbrbm d   bn initiblizfd Cipifr objfdt
      */
-    publid CiphfrOutputStrfbm(OutputStrfbm os, Ciphfr d) {
+     */
+     */
+     */
+     */
+    publid CipifrOutputStrfbm(OutputStrfbm os, Cipifr d) {
+    publid CipifrOutputStrfbm(OutputStrfbm os, Cipifr d) {
+    publid CipifrOutputStrfbm(OutputStrfbm os, Cipifr d) {
+    publid CipifrOutputStrfbm(OutputStrfbm os, Cipifr d) {
+    publid CipifrOutputStrfbm(OutputStrfbm os, Cipifr d) {
+        supfr(os);
+        supfr(os);
+        supfr(os);
+        supfr(os);
         supfr(os);
         output = os;
-        diphfr = d;
+        output = os;
+        output = os;
+        output = os;
+        output = os;
+        dipifr = d;
+        dipifr = d;
+        dipifr = d;
+        dipifr = d;
+        dipifr = d;
+    };
+    };
+    };
+    };
     };
 
+
+
+
+
     /**
-     * Construdts b CiphfrOutputStrfbm from bn OutputStrfbm without
-     * spfdifying b Ciphfr. This hbs thf ffffdt of donstrudting b
-     * CiphfrOutputStrfbm using b NullCiphfr.
-     * <br>Notf: if thf spfdififd output strfbm is null, b
-     * NullPointfrExdfption mby bf thrown lbtfr whfn it is usfd.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm witiout
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm witiout
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm witiout
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm witiout
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm witiout
+     * spfdifying b Cipifr. Tiis ibs tif ffffdt of donstrudting b
+     * spfdifying b Cipifr. Tiis ibs tif ffffdt of donstrudting b
+     * spfdifying b Cipifr. Tiis ibs tif ffffdt of donstrudting b
+     * spfdifying b Cipifr. Tiis ibs tif ffffdt of donstrudting b
+     * spfdifying b Cipifr. Tiis ibs tif ffffdt of donstrudting b
+     * CipifrOutputStrfbm using b NullCipifr.
+     * CipifrOutputStrfbm using b NullCipifr.
+     * CipifrOutputStrfbm using b NullCipifr.
+     * CipifrOutputStrfbm using b NullCipifr.
+     * CipifrOutputStrfbm using b NullCipifr.
+     * <br>Notf: if tif spfdififd output strfbm is null, b
+     * <br>Notf: if tif spfdififd output strfbm is null, b
+     * <br>Notf: if tif spfdififd output strfbm is null, b
+     * <br>Notf: if tif spfdififd output strfbm is null, b
+     * <br>Notf: if tif spfdififd output strfbm is null, b
+     * NullPointfrExdfption mby bf tirown lbtfr wifn it is usfd.
+     * NullPointfrExdfption mby bf tirown lbtfr wifn it is usfd.
+     * NullPointfrExdfption mby bf tirown lbtfr wifn it is usfd.
+     * NullPointfrExdfption mby bf tirown lbtfr wifn it is usfd.
+     * NullPointfrExdfption mby bf tirown lbtfr wifn it is usfd.
      *
-     * @pbrbm os  thf OutputStrfbm objfdt
+     *
+     *
+     *
+     *
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm os  tif OutputStrfbm objfdt
      */
-    protfdtfd CiphfrOutputStrfbm(OutputStrfbm os) {
+     */
+     */
+     */
+     */
+    protfdtfd CipifrOutputStrfbm(OutputStrfbm os) {
+    protfdtfd CipifrOutputStrfbm(OutputStrfbm os) {
+    protfdtfd CipifrOutputStrfbm(OutputStrfbm os) {
+    protfdtfd CipifrOutputStrfbm(OutputStrfbm os) {
+    protfdtfd CipifrOutputStrfbm(OutputStrfbm os) {
+        supfr(os);
+        supfr(os);
+        supfr(os);
+        supfr(os);
         supfr(os);
         output = os;
-        diphfr = nfw NullCiphfr();
+        output = os;
+        output = os;
+        output = os;
+        output = os;
+        dipifr = nfw NullCipifr();
+        dipifr = nfw NullCipifr();
+        dipifr = nfw NullCipifr();
+        dipifr = nfw NullCipifr();
+        dipifr = nfw NullCipifr();
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Writfs thf spfdififd bytf to this output strfbm.
-     *
-     * @pbrbm      b   thf <dodf>bytf</dodf>.
-     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
-     */
-    publid void writf(int b) throws IOExdfption {
-        ibufffr[0] = (bytf) b;
-        obufffr = diphfr.updbtf(ibufffr, 0, 1);
-        if (obufffr != null) {
-            output.writf(obufffr);
-            obufffr = null;
-        }
-    };
+
+
+
 
     /**
-     * Writfs <dodf>b.lfngth</dodf> bytfs from thf spfdififd bytf brrby
-     * to this output strfbm.
-     * <p>
-     * Thf <dodf>writf</dodf> mfthod of
-     * <dodf>CiphfrOutputStrfbm</dodf> dblls thf <dodf>writf</dodf>
-     * mfthod of thrff brgumfnts with thf thrff brgumfnts
-     * <dodf>b</dodf>, <dodf>0</dodf>, bnd <dodf>b.lfngth</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Writfs tif spfdififd bytf to tiis output strfbm.
+     * Writfs tif spfdififd bytf to tiis output strfbm.
+     * Writfs tif spfdififd bytf to tiis output strfbm.
+     * Writfs tif spfdififd bytf to tiis output strfbm.
+     * Writfs tif spfdififd bytf to tiis output strfbm.
      *
-     * @pbrbm      b   thf dbtb.
+     *
+     *
+     *
+     *
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+     */
+     */
+     */
+     */
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+        ibufffr[0] = (bytf) b;
+        ibufffr[0] = (bytf) b;
+        ibufffr[0] = (bytf) b;
+        ibufffr[0] = (bytf) b;
+        ibufffr[0] = (bytf) b;
+        obufffr = dipifr.updbtf(ibufffr, 0, 1);
+        obufffr = dipifr.updbtf(ibufffr, 0, 1);
+        obufffr = dipifr.updbtf(ibufffr, 0, 1);
+        obufffr = dipifr.updbtf(ibufffr, 0, 1);
+        obufffr = dipifr.updbtf(ibufffr, 0, 1);
+        if (obufffr != null) {
+        if (obufffr != null) {
+        if (obufffr != null) {
+        if (obufffr != null) {
+        if (obufffr != null) {
+            output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
+        }
+        }
+        }
+        }
+        }
+    };
+    };
+    };
+    };
+    };
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * to tiis output strfbm.
+     * to tiis output strfbm.
+     * to tiis output strfbm.
+     * to tiis output strfbm.
+     * to tiis output strfbm.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif <dodf>writf</dodf> mftiod of
+     * Tif <dodf>writf</dodf> mftiod of
+     * Tif <dodf>writf</dodf> mftiod of
+     * Tif <dodf>writf</dodf> mftiod of
+     * Tif <dodf>writf</dodf> mftiod of
+     * <dodf>CipifrOutputStrfbm</dodf> dblls tif <dodf>writf</dodf>
+     * <dodf>CipifrOutputStrfbm</dodf> dblls tif <dodf>writf</dodf>
+     * <dodf>CipifrOutputStrfbm</dodf> dblls tif <dodf>writf</dodf>
+     * <dodf>CipifrOutputStrfbm</dodf> dblls tif <dodf>writf</dodf>
+     * <dodf>CipifrOutputStrfbm</dodf> dblls tif <dodf>writf</dodf>
+     * mftiod of tirff brgumfnts witi tif tirff brgumfnts
+     * mftiod of tirff brgumfnts witi tif tirff brgumfnts
+     * mftiod of tirff brgumfnts witi tif tirff brgumfnts
+     * mftiod of tirff brgumfnts witi tif tirff brgumfnts
+     * mftiod of tirff brgumfnts witi tif tirff brgumfnts
+     * <dodf>b</dodf>, <dodf>0</dodf>, bnd <dodf>b.lfngti</dodf>.
+     * <dodf>b</dodf>, <dodf>0</dodf>, bnd <dodf>b.lfngti</dodf>.
+     * <dodf>b</dodf>, <dodf>0</dodf>, bnd <dodf>b.lfngti</dodf>.
+     * <dodf>b</dodf>, <dodf>0</dodf>, bnd <dodf>b.lfngti</dodf>.
+     * <dodf>b</dodf>, <dodf>0</dodf>, bnd <dodf>b.lfngti</dodf>.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm      b   tif dbtb.
+     * @pbrbm      b   tif dbtb.
+     * @pbrbm      b   tif dbtb.
+     * @pbrbm      b   tif dbtb.
+     * @pbrbm      b   tif dbtb.
+     * @fxdfption  NullPointfrExdfption if <dodf>b</dodf> is null.
+     * @fxdfption  NullPointfrExdfption if <dodf>b</dodf> is null.
+     * @fxdfption  NullPointfrExdfption if <dodf>b</dodf> is null.
+     * @fxdfption  NullPointfrExdfption if <dodf>b</dodf> is null.
      * @fxdfption  NullPointfrExdfption if <dodf>b</dodf> is null.
      * @fxdfption  IOExdfption  if bn I/O frror oddurs.
-     * @sff        jbvbx.drypto.CiphfrOutputStrfbm#writf(bytf[], int, int)
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvbx.drypto.CipifrOutputStrfbm#writf(bytf[], int, int)
+     * @sff        jbvbx.drypto.CipifrOutputStrfbm#writf(bytf[], int, int)
+     * @sff        jbvbx.drypto.CipifrOutputStrfbm#writf(bytf[], int, int)
+     * @sff        jbvbx.drypto.CipifrOutputStrfbm#writf(bytf[], int, int)
+     * @sff        jbvbx.drypto.CipifrOutputStrfbm#writf(bytf[], int, int)
      */
-    publid void writf(bytf b[]) throws IOExdfption {
-        writf(b, 0, b.lfngth);
+     */
+     */
+     */
+     */
+    publid void writf(bytf b[]) tirows IOExdfption {
+    publid void writf(bytf b[]) tirows IOExdfption {
+    publid void writf(bytf b[]) tirows IOExdfption {
+    publid void writf(bytf b[]) tirows IOExdfption {
+    publid void writf(bytf b[]) tirows IOExdfption {
+        writf(b, 0, b.lfngti);
+        writf(b, 0, b.lfngti);
+        writf(b, 0, b.lfngti);
+        writf(b, 0, b.lfngti);
+        writf(b, 0, b.lfngti);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Writfs <dodf>lfn</dodf> bytfs from thf spfdififd bytf brrby
-     * stbrting bt offsft <dodf>off</dodf> to this output strfbm.
+    /**
+    /**
+    /**
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to tiis output strfbm.
+     * stbrting bt offsft <dodf>off</dodf> to tiis output strfbm.
+     * stbrting bt offsft <dodf>off</dodf> to tiis output strfbm.
+     * stbrting bt offsft <dodf>off</dodf> to tiis output strfbm.
+     * stbrting bt offsft <dodf>off</dodf> to tiis output strfbm.
      *
-     * @pbrbm      b     thf dbtb.
-     * @pbrbm      off   thf stbrt offsft in thf dbtb.
-     * @pbrbm      lfn   thf numbfr of bytfs to writf.
+     *
+     *
+     *
+     *
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    publid void writf(bytf b[], int off, int lfn) throws IOExdfption {
-        obufffr = diphfr.updbtf(b, off, lfn);
+     */
+     */
+     */
+     */
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+        obufffr = dipifr.updbtf(b, off, lfn);
+        obufffr = dipifr.updbtf(b, off, lfn);
+        obufffr = dipifr.updbtf(b, off, lfn);
+        obufffr = dipifr.updbtf(b, off, lfn);
+        obufffr = dipifr.updbtf(b, off, lfn);
+        if (obufffr != null) {
+        if (obufffr != null) {
+        if (obufffr != null) {
+        if (obufffr != null) {
         if (obufffr != null) {
             output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
             obufffr = null;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Flushfs this output strfbm by fording bny bufffrfd output bytfs
-     * thbt hbvf blrfbdy bffn prodfssfd by thf fndbpsulbtfd diphfr objfdt
+    /**
+    /**
+    /**
+    /**
+     * Flusifs tiis output strfbm by fording bny bufffrfd output bytfs
+     * Flusifs tiis output strfbm by fording bny bufffrfd output bytfs
+     * Flusifs tiis output strfbm by fording bny bufffrfd output bytfs
+     * Flusifs tiis output strfbm by fording bny bufffrfd output bytfs
+     * Flusifs tiis output strfbm by fording bny bufffrfd output bytfs
+     * tibt ibvf blrfbdy bffn prodfssfd by tif fndbpsulbtfd dipifr objfdt
+     * tibt ibvf blrfbdy bffn prodfssfd by tif fndbpsulbtfd dipifr objfdt
+     * tibt ibvf blrfbdy bffn prodfssfd by tif fndbpsulbtfd dipifr objfdt
+     * tibt ibvf blrfbdy bffn prodfssfd by tif fndbpsulbtfd dipifr objfdt
+     * tibt ibvf blrfbdy bffn prodfssfd by tif fndbpsulbtfd dipifr objfdt
+     * to bf writtfn out.
+     * to bf writtfn out.
+     * to bf writtfn out.
+     * to bf writtfn out.
      * to bf writtfn out.
      *
-     * <p>Any bytfs bufffrfd by thf fndbpsulbtfd diphfr
+     *
+     *
+     *
+     *
+     * <p>Any bytfs bufffrfd by tif fndbpsulbtfd dipifr
+     * <p>Any bytfs bufffrfd by tif fndbpsulbtfd dipifr
+     * <p>Any bytfs bufffrfd by tif fndbpsulbtfd dipifr
+     * <p>Any bytfs bufffrfd by tif fndbpsulbtfd dipifr
+     * <p>Any bytfs bufffrfd by tif fndbpsulbtfd dipifr
      * bnd wbiting to bf prodfssfd by it will not bf writtfn out. For fxbmplf,
-     * if thf fndbpsulbtfd diphfr is b blodk diphfr, bnd thf totbl numbfr of
-     * bytfs writtfn using onf of thf <dodf>writf</dodf> mfthods is lfss thbn
-     * thf diphfr's blodk sizf, no bytfs will bf writtfn out.
+     * bnd wbiting to bf prodfssfd by it will not bf writtfn out. For fxbmplf,
+     * bnd wbiting to bf prodfssfd by it will not bf writtfn out. For fxbmplf,
+     * bnd wbiting to bf prodfssfd by it will not bf writtfn out. For fxbmplf,
+     * bnd wbiting to bf prodfssfd by it will not bf writtfn out. For fxbmplf,
+     * if tif fndbpsulbtfd dipifr is b blodk dipifr, bnd tif totbl numbfr of
+     * if tif fndbpsulbtfd dipifr is b blodk dipifr, bnd tif totbl numbfr of
+     * if tif fndbpsulbtfd dipifr is b blodk dipifr, bnd tif totbl numbfr of
+     * if tif fndbpsulbtfd dipifr is b blodk dipifr, bnd tif totbl numbfr of
+     * if tif fndbpsulbtfd dipifr is b blodk dipifr, bnd tif totbl numbfr of
+     * bytfs writtfn using onf of tif <dodf>writf</dodf> mftiods is lfss tibn
+     * bytfs writtfn using onf of tif <dodf>writf</dodf> mftiods is lfss tibn
+     * bytfs writtfn using onf of tif <dodf>writf</dodf> mftiods is lfss tibn
+     * bytfs writtfn using onf of tif <dodf>writf</dodf> mftiods is lfss tibn
+     * bytfs writtfn using onf of tif <dodf>writf</dodf> mftiods is lfss tibn
+     * tif dipifr's blodk sizf, no bytfs will bf writtfn out.
+     * tif dipifr's blodk sizf, no bytfs will bf writtfn out.
+     * tif dipifr's blodk sizf, no bytfs will bf writtfn out.
+     * tif dipifr's blodk sizf, no bytfs will bf writtfn out.
+     * tif dipifr's blodk sizf, no bytfs will bf writtfn out.
+     *
+     *
+     *
+     *
      *
      * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    publid void flush() throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+        if (obufffr != null) {
+        if (obufffr != null) {
+        if (obufffr != null) {
+        if (obufffr != null) {
         if (obufffr != null) {
             output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            output.writf(obufffr);
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
             obufffr = null;
         }
-        output.flush();
+        }
+        }
+        }
+        }
+        output.flusi();
+        output.flusi();
+        output.flusi();
+        output.flusi();
+        output.flusi();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Closfs this output strfbm bnd rflfbsfs bny systfm rfsourdfs
-     * bssodibtfd with this strfbm.
+    /**
+    /**
+    /**
+    /**
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd witi tiis strfbm.
+     * bssodibtfd witi tiis strfbm.
+     * bssodibtfd witi tiis strfbm.
+     * bssodibtfd witi tiis strfbm.
+     * bssodibtfd witi tiis strfbm.
      * <p>
-     * This mfthod invokfs thf <dodf>doFinbl</dodf> mfthod of thf fndbpsulbtfd
-     * diphfr objfdt, whidh dbusfs bny bytfs bufffrfd by thf fndbpsulbtfd
-     * diphfr to bf prodfssfd. Thf rfsult is writtfn out by dblling thf
-     * <dodf>flush</dodf> mfthod of this output strfbm.
      * <p>
-     * This mfthod rfsfts thf fndbpsulbtfd diphfr objfdt to its initibl stbtf
-     * bnd dblls thf <dodf>dlosf</dodf> mfthod of thf undfrlying output
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod invokfs tif <dodf>doFinbl</dodf> mftiod of tif fndbpsulbtfd
+     * Tiis mftiod invokfs tif <dodf>doFinbl</dodf> mftiod of tif fndbpsulbtfd
+     * Tiis mftiod invokfs tif <dodf>doFinbl</dodf> mftiod of tif fndbpsulbtfd
+     * Tiis mftiod invokfs tif <dodf>doFinbl</dodf> mftiod of tif fndbpsulbtfd
+     * Tiis mftiod invokfs tif <dodf>doFinbl</dodf> mftiod of tif fndbpsulbtfd
+     * dipifr objfdt, wiidi dbusfs bny bytfs bufffrfd by tif fndbpsulbtfd
+     * dipifr objfdt, wiidi dbusfs bny bytfs bufffrfd by tif fndbpsulbtfd
+     * dipifr objfdt, wiidi dbusfs bny bytfs bufffrfd by tif fndbpsulbtfd
+     * dipifr objfdt, wiidi dbusfs bny bytfs bufffrfd by tif fndbpsulbtfd
+     * dipifr objfdt, wiidi dbusfs bny bytfs bufffrfd by tif fndbpsulbtfd
+     * dipifr to bf prodfssfd. Tif rfsult is writtfn out by dblling tif
+     * dipifr to bf prodfssfd. Tif rfsult is writtfn out by dblling tif
+     * dipifr to bf prodfssfd. Tif rfsult is writtfn out by dblling tif
+     * dipifr to bf prodfssfd. Tif rfsult is writtfn out by dblling tif
+     * dipifr to bf prodfssfd. Tif rfsult is writtfn out by dblling tif
+     * <dodf>flusi</dodf> mftiod of tiis output strfbm.
+     * <dodf>flusi</dodf> mftiod of tiis output strfbm.
+     * <dodf>flusi</dodf> mftiod of tiis output strfbm.
+     * <dodf>flusi</dodf> mftiod of tiis output strfbm.
+     * <dodf>flusi</dodf> mftiod of tiis output strfbm.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod rfsfts tif fndbpsulbtfd dipifr objfdt to its initibl stbtf
+     * Tiis mftiod rfsfts tif fndbpsulbtfd dipifr objfdt to its initibl stbtf
+     * Tiis mftiod rfsfts tif fndbpsulbtfd dipifr objfdt to its initibl stbtf
+     * Tiis mftiod rfsfts tif fndbpsulbtfd dipifr objfdt to its initibl stbtf
+     * Tiis mftiod rfsfts tif fndbpsulbtfd dipifr objfdt to its initibl stbtf
+     * bnd dblls tif <dodf>dlosf</dodf> mftiod of tif undfrlying output
+     * bnd dblls tif <dodf>dlosf</dodf> mftiod of tif undfrlying output
+     * bnd dblls tif <dodf>dlosf</dodf> mftiod of tif undfrlying output
+     * bnd dblls tif <dodf>dlosf</dodf> mftiod of tif undfrlying output
+     * bnd dblls tif <dodf>dlosf</dodf> mftiod of tif undfrlying output
+     * strfbm.
+     * strfbm.
+     * strfbm.
+     * strfbm.
      * strfbm.
      *
+     *
+     *
+     *
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    publid void dlosf() throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
         if (dlosfd) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        dlosfd = truf;
+        dlosfd = truf;
+        dlosfd = truf;
+        dlosfd = truf;
         dlosfd = truf;
         try {
-            obufffr = diphfr.doFinbl();
-        } dbtdh (IllfgblBlodkSizfExdfption | BbdPbddingExdfption f) {
+        try {
+        try {
+        try {
+        try {
+            obufffr = dipifr.doFinbl();
+            obufffr = dipifr.doFinbl();
+            obufffr = dipifr.doFinbl();
+            obufffr = dipifr.doFinbl();
+            obufffr = dipifr.doFinbl();
+        } dbtdi (IllfgblBlodkSizfExdfption | BbdPbddingExdfption f) {
+        } dbtdi (IllfgblBlodkSizfExdfption | BbdPbddingExdfption f) {
+        } dbtdi (IllfgblBlodkSizfExdfption | BbdPbddingExdfption f) {
+        } dbtdi (IllfgblBlodkSizfExdfption | BbdPbddingExdfption f) {
+        } dbtdi (IllfgblBlodkSizfExdfption | BbdPbddingExdfption f) {
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
+            obufffr = null;
             obufffr = null;
         }
+        }
+        }
+        }
+        }
         try {
-            flush();
-        } dbtdh (IOExdfption ignorfd) {}
+        try {
+        try {
+        try {
+        try {
+            flusi();
+            flusi();
+            flusi();
+            flusi();
+            flusi();
+        } dbtdi (IOExdfption ignorfd) {}
+        } dbtdi (IOExdfption ignorfd) {}
+        } dbtdi (IOExdfption ignorfd) {}
+        } dbtdi (IOExdfption ignorfd) {}
+        } dbtdi (IOExdfption ignorfd) {}
+        out.dlosf();
+        out.dlosf();
+        out.dlosf();
+        out.dlosf();
         out.dlosf();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

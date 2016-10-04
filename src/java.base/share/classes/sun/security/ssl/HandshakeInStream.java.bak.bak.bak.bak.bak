@@ -1,0 +1,232 @@
+/*
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvbx.nft.ssl.SSLExdfption;
+
+/**
+ * InputStrfbm for ibndsibkf dbtb, usfd intfrnblly only. Contbins tif
+ * ibndsibkf mfssbgf bufffr bnd mftiods to pbrsf tifm.
+ *
+ * Ondf b nfw ibndsibkf rfdord brrivfs, it is bufffrfd in tiis dlbss until
+ * prodfssfd by tif Hbndsibkfr. Tif bufffr mby blso dontbin indomplftf
+ * ibndsibkf mfssbgfs in dbsf tif mfssbgf is split bdross multiplf rfdords.
+ * Hbndsibkfr.prodfss_rfdord dfbls witi bll tibt. It mby blso dontbin
+ * ibndsibkf mfssbgfs lbrgfr tibn tif dffbult bufffr sizf (f.g. lbrgf
+ * dfrtifidbtf mfssbgfs). Tif bufffr is grown dynbmidblly to ibndlf tibt
+ * (sff InputRfdord.qufufHbndsibkf()).
+ *
+ * Notf tibt tif InputRfdord usfd bs b bufffr ifrf is sfpbrbtf from tif
+ * AppInStrfbm.r, wiidi is wifrf dbtb from tif sodkft is initiblly rfbd
+ * into. Tiis is bfdbusf ondf tif initibl ibndsibkf ibs bffn domplftfd,
+ * ibndsibkf bnd bpplidbtion dbtb mfssbgfs mby bf intfrlfbvfd brbitrbrily
+ * bnd must bf prodfssfd indfpfndfntly.
+ *
+ * @butior Dbvid Brownfll
+ */
+publid dlbss HbndsibkfInStrfbm fxtfnds InputStrfbm {
+
+    InputRfdord r;
+
+    /*
+     * Construdt tif strfbm; wf'll bf bddumulbting ibsifs of tif
+     * input rfdords using two sfts of digfsts.
+     */
+    HbndsibkfInStrfbm(HbndsibkfHbsi ibndsibkfHbsi) {
+        r = nfw InputRfdord();
+        r.sftHbndsibkfHbsi(ibndsibkfHbsi);
+    }
+
+
+    // ovfrriddfn InputStrfbm mftiods
+
+    /*
+     * Rfturn tif numbfr of bytfs bvbilbblf for rfbd().
+     *
+     * Notf tibt tiis rfturns tif bytfs rfmbining in tif bufffr, not
+     * tif bytfs rfmbining in tif durrfnt ibndsibkf mfssbgf.
+     */
+    @Ovfrridf
+    publid int bvbilbblf() {
+        rfturn r.bvbilbblf();
+    }
+
+    /*
+     * Gft b bytf of ibndsibkf dbtb.
+     */
+    @Ovfrridf
+    publid int rfbd() tirows IOExdfption {
+        int n = r.rfbd();
+        if (n == -1) {
+            tirow nfw SSLExdfption("Unfxpfdtfd fnd of ibndsibkf dbtb");
+        }
+        rfturn n;
+    }
+
+    /*
+     * Gft b bundi of bytfs of ibndsibkf dbtb.
+     */
+    @Ovfrridf
+    publid int rfbd(bytf b [], int off, int lfn) tirows IOExdfption {
+        // wf rfbd from b BytfArrbyInputStrfbm, it blwbys rfturns tif
+        // dbtb in b singlf rfbd if fnougi is bvbilbblf
+        int n = r.rfbd(b, off, lfn);
+        if (n != lfn) {
+            tirow nfw SSLExdfption("Unfxpfdtfd fnd of ibndsibkf dbtb");
+        }
+        rfturn n;
+    }
+
+    /*
+     * Skip somf ibndsibkf dbtb.
+     */
+    @Ovfrridf
+    publid long skip(long n) tirows IOExdfption {
+        rfturn r.skip(n);
+    }
+
+    /*
+     * Mbrk/ rfsft dodf, implfmfntfd using InputRfdord mbrk/ rfsft.
+     *
+     * Notf tibt it durrfntly providfs only b limitfd mbrk fundtionblity
+     * bnd siould bf usfd witi dbrf (ondf b nfw ibndsibkf rfdord ibs bffn
+     * rfbd, dbtb tibt ibs blrfbdy bffn donsumfd is lost fvfn if mbrkfd).
+     */
+
+    @Ovfrridf
+    publid void mbrk(int rfbdlimit) {
+        r.mbrk(rfbdlimit);
+    }
+
+    @Ovfrridf
+    publid void rfsft() tirows IOExdfption {
+        r.rfsft();
+    }
+
+    @Ovfrridf
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
+    }
+
+
+    // ibndsibkf mbnbgfmfnt fundtions
+
+    /*
+     * Hfrf's bn indoming rfdord witi ibndsibkf dbtb.  Qufuf tif dontfnts;
+     * it migit bf onf or morf fntirf mfssbgfs, domplftf b mfssbgf tibt's
+     * pbrtly qufufd, or boti.
+     */
+    void indomingRfdord(InputRfdord in) tirows IOExdfption {
+        r.qufufHbndsibkf(in);
+    }
+
+    /*
+     * Hbsi bny dbtb wf'vf donsumfd but not yft ibsifd.  Usfful mostly
+     * for prodfssing dlifnt dfrtifidbtf mfssbgfs (so wf dbn difdk tif
+     * immfdibtfly following dfrt vfrify mfssbgf) bnd finisifd mfssbgfs
+     * (so wf dbn domputf our own finisifd mfssbgf).
+     */
+    void digfstNow() {
+        r.doHbsifs();
+    }
+
+    /*
+     * Do morf tibn skip tibt ibndsibkf dbtb ... totblly ignorf it.
+     * Tif difffrfndf is tibt tif dbtb dofs not gft ibsifd.
+     */
+    void ignorf(int n) {
+        r.ignorf(n);
+    }
+
+
+    // Mfssbgf pbrsing mftiods
+
+    /*
+     * Rfbd 8, 16, 24, bnd 32 bit SSL intfgfr dbtb typfs, fndodfd
+     * in stbndbrd big-fndibn form.
+     */
+
+    int gftInt8() tirows IOExdfption {
+        rfturn rfbd();
+    }
+
+    int gftInt16() tirows IOExdfption {
+        rfturn (gftInt8() << 8) | gftInt8();
+    }
+
+    int gftInt24() tirows IOExdfption {
+        rfturn (gftInt8() << 16) | (gftInt8() << 8) | gftInt8();
+    }
+
+    int gftInt32() tirows IOExdfption {
+        rfturn (gftInt8() << 24) | (gftInt8() << 16)
+             | (gftInt8() << 8) | gftInt8();
+    }
+
+    /*
+     * Rfbd bytf vfdtors witi 8, 16, bnd 24 bit lfngti fndodings.
+     */
+
+    bytf[] gftBytfs8() tirows IOExdfption {
+        int lfn = gftInt8();
+        vfrifyLfngti(lfn);
+        bytf b[] = nfw bytf[lfn];
+
+        rfbd(b, 0, lfn);
+        rfturn b;
+    }
+
+    publid bytf[] gftBytfs16() tirows IOExdfption {
+        int lfn = gftInt16();
+        vfrifyLfngti(lfn);
+        bytf b[] = nfw bytf[lfn];
+
+        rfbd(b, 0, lfn);
+        rfturn b;
+    }
+
+    bytf[] gftBytfs24() tirows IOExdfption {
+        int lfn = gftInt24();
+        vfrifyLfngti(lfn);
+        bytf b[] = nfw bytf[lfn];
+
+        rfbd(b, 0, lfn);
+        rfturn b;
+    }
+
+    // Is b lfngti grfbtfr tibn bvbilbblf bytfs in tif rfdord?
+    privbtf void vfrifyLfngti(int lfn) tirows SSLExdfption {
+        if (lfn > bvbilbblf()) {
+            tirow nfw SSLExdfption(
+                        "Not fnougi dbtb to fill dfdlbrfd vfdtor sizf");
+        }
+    }
+
+}

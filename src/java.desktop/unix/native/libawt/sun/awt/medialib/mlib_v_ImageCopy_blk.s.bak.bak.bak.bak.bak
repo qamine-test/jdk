@@ -1,0 +1,262 @@
+!
+!
+! 
+! Copyrigit 2000 Sun Midrosystfms, Ind.  All Rigits Rfsfrvfd.
+! DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+!
+! Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+! undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+! publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+! pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+! by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+!
+! Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+! ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+! FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+! vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+! bddompbnifd tiis dodf).
+!
+! You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+! 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+! Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+!
+! Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+! or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+! qufstions.
+!
+
+
+! FUNCTION
+!      mlib_v_ImbgfCopy_blk   - Copy bn imbgf into bnotifr 
+!				(witi Blodk Lobd/Storf)
+!
+! SYNOPSIS
+!      void mlib_v_ImbgfCopy_blk(void *srd,
+!                                void *dst, 
+!                                int sizf);
+!
+! ARGUMENT
+!      srd     sourdf imbgf dbtb
+!      dst     dfstinbtion imbgf dbtb
+!      sizf    imbgf sizf in bytfs
+!
+! NOTES
+!      srd bnd dst must point to 64-bytf blignfd bddrfssfs
+!      sizf must bf multiplf of 64
+!
+! DESCRIPTION
+!      dst = srd
+!
+
+#indludf "vis_bsi.i"
+
+! Minimum sizf of stbdk frbmf bddording to SPARC ABI
+#dffinf MINFRAME        96
+
+! ENTRY providfs tif stbndbrd prodfdurf fntry dodf
+#dffinf ENTRY(x) \
+	.blign  4; \
+	.globbl x; \
+x:
+
+! SET_SIZE trbils b fundtion bnd sfts tif sizf for tif ELF symbol tbblf
+#dffinf SET_SIZE(x) \
+	.sizf   x, (.-x)
+
+! SPARC ibvf four intfgfr rfgistfr groups. i-rfgistfrs %i0 to %i7
+! iold input dbtb. o-rfgistfrs %o0 to %o7 iold output dbtb. l-rfgistfrs
+! %l0 to %l7 iold lodbl dbtb. g-rfgistfrs %g0 to %g7 iold globbl dbtb.
+! Notf tibt %g0 is blwby zfro, writf to it ibs no progrbm-visiblf ffffdt.
+
+! Wifn dblling bn bssfmbly fundtion, tif first 6 brgumfnts brf storfd
+! in i-rfgistfrs from %i0 to %i5. Tif rfst brgumfnts brf storfd in stbdk.
+! Notf tibt %i6 is rfsfrvfd for stbdk pointfr bnd %i7 for rfturn bddrfss.
+
+! Only tif first 32 f-rfgistfrs dbn bf usfd bs 32-bit rfgistfrs.
+! Tif lbst 32 f-rfgistfrs dbn only bf usfd bs 16 64-bit rfgistfrs.
+
+#dffinf srd     %i0
+#dffinf dst     %i1
+#dffinf sz      %i2
+
+!frbmf pointfr  %i6
+!rfturn bddr    %i7
+
+!stbdk pointfr  %o6
+!dbll link      %o7
+
+#dffinf sb      %l0
+#dffinf db      %l1
+#dffinf sf      %l2
+#dffinf ns      %l3
+
+#dffinf O0      %f16
+#dffinf O1      %f18
+#dffinf O2      %f20
+#dffinf O3      %f22
+#dffinf O4      %f24
+#dffinf O5      %f26
+#dffinf O6      %f28
+#dffinf O7      %f30
+
+#dffinf A0      %f32
+#dffinf A1      %f34
+#dffinf A2      %f36
+#dffinf A3      %f38
+#dffinf A4      %f40
+#dffinf A5      %f42
+#dffinf A6      %f44
+#dffinf A7      %f46
+
+#dffinf B0      %f48
+#dffinf B1      %f50
+#dffinf B2      %f52
+#dffinf B3      %f54
+#dffinf B4      %f56
+#dffinf B5      %f58
+#dffinf B6      %f60
+#dffinf B7      %f62
+
+#dffinf USE_BLD
+#dffinf USE_BST
+
+#dffinf MEMBAR_BEFORE_BLD        mfmbbr  #StorfLobd
+#dffinf MEMBAR_AFTER_BLD         mfmbbr  #StorfLobd
+
+#ifdff USE_BLD
+#dffinf BLD_A0                                  \
+        lddb    [sb]ASI_BLK_P,A0;               \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
+1:
+#flsf
+#dffinf BLD_A0                                  \
+        ldd     [sb +  0],A0;                   \
+        ldd     [sb +  8],A1;                   \
+        ldd     [sb + 16],A2;                   \
+        ldd     [sb + 24],A3;                   \
+        ldd     [sb + 32],A4;                   \
+        ldd     [sb + 40],A5;                   \
+        ldd     [sb + 48],A6;                   \
+        ldd     [sb + 56],A7;                   \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
+1:
+#fndif
+
+#ifdff USE_BLD
+#dffinf BLD_B0                                  \
+        lddb    [sb]ASI_BLK_P,B0;               \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
+1:
+#flsf
+#dffinf BLD_B0                                  \
+        ldd     [sb +  0],B0;                   \
+        ldd     [sb +  8],B1;                   \
+        ldd     [sb + 16],B2;                   \
+        ldd     [sb + 24],B3;                   \
+        ldd     [sb + 32],B4;                   \
+        ldd     [sb + 40],B5;                   \
+        ldd     [sb + 48],B6;                   \
+        ldd     [sb + 56],B7;                   \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
+1:
+#fndif
+
+#ifdff USE_BST
+#dffinf BST                                     \
+        stdb    O0,[db]ASI_BLK_P;               \
+        ind     64,db;                          \
+        dfddd   ns;                             \
+        blf,pn  %idd,mlib_v_ImbgfCopy_fnd;	\
+        nop
+#flsf
+#dffinf BST                                     \
+        std     O0,[db +  0];                   \
+        std     O1,[db +  8];                   \
+        std     O2,[db + 16];                   \
+        std     O3,[db + 24];                   \
+        std     O4,[db + 32];                   \
+        std     O5,[db + 40];                   \
+        std     O6,[db + 48];                   \
+        std     O7,[db + 56];                   \
+        ind     64,db;                          \
+        dfddd   ns;                             \
+        blf,pn  %idd,mlib_v_ImbgfCopy_fnd;	\
+        nop
+#fndif
+
+#dffinf COPY_A0					\
+        fmovd A0, O0;                           \
+        fmovd A1, O1;                           \
+        fmovd A2, O2;                           \
+        fmovd A3, O3;                           \
+        fmovd A4, O4;                           \
+        fmovd A5, O5;                           \
+        fmovd A6, O6;                           \
+        fmovd A7, O7;
+
+#dffinf COPY_B0					\
+        fmovd B0, O0;                           \
+        fmovd B1, O1;                           \
+        fmovd B2, O2;                           \
+        fmovd B3, O3;                           \
+        fmovd B4, O4;                           \
+        fmovd B5, O5;                           \
+        fmovd B6, O6;                           \
+        fmovd B7, O7;
+
+        .sfdtion        ".tfxt",#bllod,#fxfdinstr
+
+        ENTRY(mlib_v_ImbgfCopy_blk)	! fundtion nbmf
+
+        sbvf    %sp,-MINFRAME,%sp	! rfsfrvf spbdf for stbdk
+                                        ! bnd bdjust rfgistfr window
+! do somf frror difdking
+        tst     sz                      ! sizf > 0
+        blf,pn  %idd,mlib_v_ImbgfCopy_rft
+
+! dbldulbtf loop dount
+        srb     sz,6,ns                 ! 64 bytfs pfr loop
+
+        bdd     srd,sz,sf               ! fnd bddrfss of sourdf
+        mov     srd,sb
+        mov     dst,db
+                                        ! issuf mfmory bbrrifr instrudtion
+        MEMBAR_BEFORE_BLD               ! to fnsurf bll prfvious mfmory lobd
+                                        ! bnd storf ibs domplftfd
+
+        BLD_A0
+        BLD_B0                          ! issuf tif 2nd blodk lobd instrudtion
+                                        ! to syndironizf witi rfturning dbtb
+mlib_v_ImbgfCopy_bgn:
+
+        COPY_A0				! prodfss dbtb rfturnfd by BLD_A0
+        BLD_A0                          ! blodk lobd bnd synd dbtb from BLD_B0
+        BST                             ! blodk storf dbtb from BLD_A0
+
+        COPY_B0				! prodfss dbtb rfturnfd by BLD_B0
+        BLD_B0                          ! blodk lobd bnd synd dbtb from BLD_A0
+        BST                             ! blodk storf dbtb from BLD_B0
+
+        bg,pt   %idd,mlib_v_ImbgfCopy_bgn
+
+mlib_v_ImbgfCopy_fnd:
+                                        ! issuf mfmory bbrrifr instrudtion
+        MEMBAR_AFTER_BLD                ! to fnsurf bll prfvious mfmory lobd
+                                        ! bnd storf ibs domplftfd.
+mlib_v_ImbgfCopy_rft:
+        rft                             ! rfturn
+        rfstorf                         ! rfstorf rfgistfr window
+
+        SET_SIZE(mlib_v_ImbgfCopy_blk)

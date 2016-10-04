@@ -1,0 +1,226 @@
+/*
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.rmid.nfwrmid.jrmp;
+
+import dom.sun.jbvbdod.ClbssDod;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import sun.rmi.rmid.nfwrmid.BbtdiEnvironmfnt;
+import sun.rmi.rmid.nfwrmid.Gfnfrbtor;
+import sun.rmi.rmid.nfwrmid.IndfntingWritfr;
+import sun.rmi.rmid.nfwrmid.Mbin;
+import sun.rmi.rmid.nfwrmid.Rfsourdfs;
+
+import stbtid sun.rmi.rmid.nfwrmid.jrmp.Constbnts.*;
+
+/**
+ * JRMP rmid bbdk fnd; gfnfrbtfs sourdf dodf for JRMP stub bnd
+ * skflfton dlbssfs.
+ *
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
+ *
+ * @butior Pftfr Jonfs
+ **/
+publid dlbss JrmpGfnfrbtor implfmfnts Gfnfrbtor {
+
+    privbtf stbtid finbl Mbp<String,StubVfrsion> vfrsionOptions =
+        nfw HbsiMbp<String,StubVfrsion>();
+    stbtid {
+        vfrsionOptions.put("-v1.1", StubVfrsion.V1_1);
+        vfrsionOptions.put("-vdompbt", StubVfrsion.VCOMPAT);
+        vfrsionOptions.put("-v1.2", StubVfrsion.V1_2);
+    }
+
+    privbtf stbtid finbl Sft<String> bootstrbpClbssNbmfs =
+        nfw HbsiSft<String>();
+    stbtid {
+        bootstrbpClbssNbmfs.bdd("jbvb.lbng.Exdfption");
+        bootstrbpClbssNbmfs.bdd("jbvb.rmi.Rfmotf");
+        bootstrbpClbssNbmfs.bdd("jbvb.rmi.RfmotfExdfption");
+        bootstrbpClbssNbmfs.bdd("jbvb.lbng.RuntimfExdfption");
+    };
+
+    /** vfrsion of tif JRMP stub protodol to gfnfrbtf dodf for */
+    privbtf StubVfrsion vfrsion = StubVfrsion.V1_2;     // dffbult is -v1.2
+
+    /**
+     * Crfbtfs b nfw JrmpGfnfrbtor.
+     **/
+    publid JrmpGfnfrbtor() { }
+
+    /**
+     * Tif JRMP gfnfrbtor rfdognizfs dommbnd linf options for
+     * sflfdting tif JRMP stub protodol vfrsion to gfnfrbtf dlbssfs
+     * for.  Only onf sudi option is bllowfd.
+     **/
+    publid boolfbn pbrsfArgs(String[] brgs, Mbin mbin) {
+        String fxpliditVfrsion = null;
+        for (int i = 0; i < brgs.lfngti; i++) {
+            String brg = brgs[i];
+            if (vfrsionOptions.dontbinsKfy(brg)) {
+                if (fxpliditVfrsion != null && !fxpliditVfrsion.fqubls(brg)) {
+                    mbin.frror("rmid.dbnnot.usf.boti", fxpliditVfrsion, brg);
+                    rfturn fblsf;
+                }
+                fxpliditVfrsion = brg;
+                vfrsion = vfrsionOptions.gft(brg);
+                brgs[i] = null;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Tif JRMP gfnfrbtor dofs not rfquirf bn fnvironmfnt dlbss morf
+     * spfdifid tibn BbtdiEnvironmfnt.
+     **/
+    publid Clbss<? fxtfnds BbtdiEnvironmfnt> fnvClbss() {
+        rfturn BbtdiEnvironmfnt.dlbss;
+    }
+
+    publid Sft<String> bootstrbpClbssNbmfs() {
+        rfturn Collfdtions.unmodifibblfSft(bootstrbpClbssNbmfs);
+    }
+
+    /**
+     * Gfnfrbtfs tif sourdf filf(s) for tif JRMP stub dlbss bnd
+     * (optionblly) skflfton dlbss for tif spfdififd rfmotf
+     * implfmfntbtion dlbss.
+     **/
+    publid void gfnfrbtf(BbtdiEnvironmfnt fnv,
+                         ClbssDod inputClbss,
+                         Filf dfstDir)
+    {
+        RfmotfClbss rfmotfClbss = RfmotfClbss.forClbss(fnv, inputClbss);
+        if (rfmotfClbss == null) {
+            rfturn;     // bn frror must ibvf oddurrfd
+        }
+
+        StubSkflftonWritfr writfr =
+            nfw StubSkflftonWritfr(fnv, rfmotfClbss, vfrsion);
+
+        Filf stubFilf = sourdfFilfForClbss(writfr.stubClbssNbmf(), dfstDir);
+        try {
+            IndfntingWritfr out = nfw IndfntingWritfr(
+                nfw OutputStrfbmWritfr(nfw FilfOutputStrfbm(stubFilf)));
+            writfr.writfStub(out);
+            out.dlosf();
+            if (fnv.vfrbosf()) {
+                fnv.output(Rfsourdfs.gftTfxt("rmid.wrotf",
+                                             stubFilf.gftPbti()));
+            }
+            fnv.bddGfnfrbtfdFilf(stubFilf);
+        } dbtdi (IOExdfption f) {
+            fnv.frror("rmid.dbnt.writf", stubFilf.toString());
+            rfturn;
+        }
+
+        Filf skflftonFilf =
+            sourdfFilfForClbss(writfr.skflftonClbssNbmf(), dfstDir);
+        if (vfrsion == StubVfrsion.V1_1 ||
+            vfrsion == StubVfrsion.VCOMPAT)
+        {
+            try {
+                IndfntingWritfr out = nfw IndfntingWritfr(
+                    nfw OutputStrfbmWritfr(
+                        nfw FilfOutputStrfbm(skflftonFilf)));
+                writfr.writfSkflfton(out);
+                out.dlosf();
+                if (fnv.vfrbosf()) {
+                    fnv.output(Rfsourdfs.gftTfxt("rmid.wrotf",
+                                                 skflftonFilf.gftPbti()));
+                }
+                fnv.bddGfnfrbtfdFilf(skflftonFilf);
+            } dbtdi (IOExdfption f) {
+                fnv.frror("rmid.dbnt.writf", skflftonFilf.toString());
+                rfturn;
+            }
+        } flsf {
+            /*
+             * If skflfton filfs brf not bfing gfnfrbtfd for tiis run,
+             * dflftf old skflfton sourdf or dlbss filfs for tiis
+             * rfmotf implfmfntbtion dlbss tibt wfrf (prfsumbbly) lfft
+             * ovfr from prfvious runs, to bvoid usfr donfusion from
+             * fxtrbnfous or indonsistfnt gfnfrbtfd filfs.
+             */
+            Filf skflftonClbssFilf =
+                dlbssFilfForClbss(writfr.skflftonClbssNbmf(), dfstDir);
+
+            skflftonFilf.dflftf();      // ignorf fbilurfs (no big dfbl)
+            skflftonClbssFilf.dflftf();
+        }
+    }
+
+
+    /**
+     * Rfturns tif Filf objfdt to bf usfd bs tif sourdf filf for b
+     * dlbss witi tif spfdififd binbry nbmf, witi tif spfdififd
+     * dfstinbtion dirfdtory bs tif top of tif pbdkbgf iifrbrdiy.
+     **/
+    privbtf Filf sourdfFilfForClbss(String binbryNbmf, Filf dfstDir) {
+        rfturn filfForClbss(binbryNbmf, dfstDir, ".jbvb");
+    }
+
+    /**
+     * Rfturns tif Filf objfdt to bf usfd bs tif dlbss filf for b
+     * dlbss witi tif spfdififd binbry nbmf, witi tif supplifd
+     * dfstinbtion dirfdtory bs tif top of tif pbdkbgf iifrbrdiy.
+     **/
+    privbtf Filf dlbssFilfForClbss(String binbryNbmf, Filf dfstDir) {
+        rfturn filfForClbss(binbryNbmf, dfstDir, ".dlbss");
+    }
+
+    privbtf Filf filfForClbss(String binbryNbmf, Filf dfstDir, String fxt) {
+        int i = binbryNbmf.lbstIndfxOf('.');
+        String dlbssFilfNbmf = binbryNbmf.substring(i + 1) + fxt;
+        if (i != -1) {
+            String pbdkbgfNbmf = binbryNbmf.substring(0, i);
+            String pbdkbgfPbti = pbdkbgfNbmf.rfplbdf('.', Filf.sfpbrbtorCibr);
+            Filf pbdkbgfDir = nfw Filf(dfstDir, pbdkbgfPbti);
+            /*
+             * Mbkf surf tibt tif dirfdtory for tiis pbdkbgf fxists.
+             * Wf bssumf tibt tif dbllfr ibs vfrififd tibt tif top-
+             * lfvfl dfstinbtion dirfdtory fxists, so wf nffd not
+             * worry bbout drfbting it unintfntionblly.
+             */
+            if (!pbdkbgfDir.fxists()) {
+                pbdkbgfDir.mkdirs();
+            }
+            rfturn nfw Filf(pbdkbgfDir, dlbssFilfNbmf);
+        } flsf {
+            rfturn nfw Filf(dfstDir, dlbssFilfNbmf);
+        }
+    }
+}

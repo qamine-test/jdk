@@ -1,303 +1,1515 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="kok"/>
+		<lbngubgf typf="kok"/>
+		<lbngubgf typf="kok"/>
+		<lbngubgf typf="kok"/>
+		<lbngubgf typf="kok"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="bb">अफार</lbngubgf>
+			<lbngubgf typf="bb">अफार</lbngubgf>
+			<lbngubgf typf="bb">अफार</lbngubgf>
+			<lbngubgf typf="bb">अफार</lbngubgf>
+			<lbngubgf typf="bb">अफार</lbngubgf>
+			<lbngubgf typf="bb">अबखेज़ियन</lbngubgf>
+			<lbngubgf typf="bb">अबखेज़ियन</lbngubgf>
+			<lbngubgf typf="bb">अबखेज़ियन</lbngubgf>
+			<lbngubgf typf="bb">अबखेज़ियन</lbngubgf>
 			<lbngubgf typf="bb">अबखेज़ियन</lbngubgf>
 			<lbngubgf typf="bf">अफ्रिकान्स</lbngubgf>
+			<lbngubgf typf="bf">अफ्रिकान्स</lbngubgf>
+			<lbngubgf typf="bf">अफ्रिकान्स</lbngubgf>
+			<lbngubgf typf="bf">अफ्रिकान्स</lbngubgf>
+			<lbngubgf typf="bf">अफ्रिकान्स</lbngubgf>
+			<lbngubgf typf="bm">अमहारिक्</lbngubgf>
+			<lbngubgf typf="bm">अमहारिक्</lbngubgf>
+			<lbngubgf typf="bm">अमहारिक्</lbngubgf>
+			<lbngubgf typf="bm">अमहारिक्</lbngubgf>
 			<lbngubgf typf="bm">अमहारिक्</lbngubgf>
 			<lbngubgf typf="br">अरेबिक्</lbngubgf>
+			<lbngubgf typf="br">अरेबिक्</lbngubgf>
+			<lbngubgf typf="br">अरेबिक्</lbngubgf>
+			<lbngubgf typf="br">अरेबिक्</lbngubgf>
+			<lbngubgf typf="br">अरेबिक्</lbngubgf>
+			<lbngubgf typf="bs">असामी</lbngubgf>
+			<lbngubgf typf="bs">असामी</lbngubgf>
+			<lbngubgf typf="bs">असामी</lbngubgf>
+			<lbngubgf typf="bs">असामी</lbngubgf>
 			<lbngubgf typf="bs">असामी</lbngubgf>
 			<lbngubgf typf="by">ऐमरा</lbngubgf>
+			<lbngubgf typf="by">ऐमरा</lbngubgf>
+			<lbngubgf typf="by">ऐमरा</lbngubgf>
+			<lbngubgf typf="by">ऐमरा</lbngubgf>
+			<lbngubgf typf="by">ऐमरा</lbngubgf>
+			<lbngubgf typf="bz">अज़रबैजानी</lbngubgf>
+			<lbngubgf typf="bz">अज़रबैजानी</lbngubgf>
+			<lbngubgf typf="bz">अज़रबैजानी</lbngubgf>
+			<lbngubgf typf="bz">अज़रबैजानी</lbngubgf>
 			<lbngubgf typf="bz">अज़रबैजानी</lbngubgf>
 			<lbngubgf typf="bb">बष्किर</lbngubgf>
+			<lbngubgf typf="bb">बष्किर</lbngubgf>
+			<lbngubgf typf="bb">बष्किर</lbngubgf>
+			<lbngubgf typf="bb">बष्किर</lbngubgf>
+			<lbngubgf typf="bb">बष्किर</lbngubgf>
+			<lbngubgf typf="bf">बैलोरुसियन्</lbngubgf>
+			<lbngubgf typf="bf">बैलोरुसियन्</lbngubgf>
+			<lbngubgf typf="bf">बैलोरुसियन्</lbngubgf>
+			<lbngubgf typf="bf">बैलोरुसियन्</lbngubgf>
 			<lbngubgf typf="bf">बैलोरुसियन्</lbngubgf>
 			<lbngubgf typf="bg">बल्गेरियन</lbngubgf>
-			<lbngubgf typf="bh">बीहारी</lbngubgf>
+			<lbngubgf typf="bg">बल्गेरियन</lbngubgf>
+			<lbngubgf typf="bg">बल्गेरियन</lbngubgf>
+			<lbngubgf typf="bg">बल्गेरियन</lbngubgf>
+			<lbngubgf typf="bg">बल्गेरियन</lbngubgf>
+			<lbngubgf typf="bi">बीहारी</lbngubgf>
+			<lbngubgf typf="bi">बीहारी</lbngubgf>
+			<lbngubgf typf="bi">बीहारी</lbngubgf>
+			<lbngubgf typf="bi">बीहारी</lbngubgf>
+			<lbngubgf typf="bi">बीहारी</lbngubgf>
+			<lbngubgf typf="bi">बिसलमा</lbngubgf>
+			<lbngubgf typf="bi">बिसलमा</lbngubgf>
+			<lbngubgf typf="bi">बिसलमा</lbngubgf>
+			<lbngubgf typf="bi">बिसलमा</lbngubgf>
 			<lbngubgf typf="bi">बिसलमा</lbngubgf>
 			<lbngubgf typf="bn">बंगाली</lbngubgf>
+			<lbngubgf typf="bn">बंगाली</lbngubgf>
+			<lbngubgf typf="bn">बंगाली</lbngubgf>
+			<lbngubgf typf="bn">बंगाली</lbngubgf>
+			<lbngubgf typf="bn">बंगाली</lbngubgf>
+			<lbngubgf typf="bo">तिबेतियन</lbngubgf>
+			<lbngubgf typf="bo">तिबेतियन</lbngubgf>
+			<lbngubgf typf="bo">तिबेतियन</lbngubgf>
+			<lbngubgf typf="bo">तिबेतियन</lbngubgf>
 			<lbngubgf typf="bo">तिबेतियन</lbngubgf>
 			<lbngubgf typf="br">ब्रेटन</lbngubgf>
+			<lbngubgf typf="br">ब्रेटन</lbngubgf>
+			<lbngubgf typf="br">ब्रेटन</lbngubgf>
+			<lbngubgf typf="br">ब्रेटन</lbngubgf>
+			<lbngubgf typf="br">ब्रेटन</lbngubgf>
+			<lbngubgf typf="db">कटलान</lbngubgf>
+			<lbngubgf typf="db">कटलान</lbngubgf>
+			<lbngubgf typf="db">कटलान</lbngubgf>
+			<lbngubgf typf="db">कटलान</lbngubgf>
 			<lbngubgf typf="db">कटलान</lbngubgf>
 			<lbngubgf typf="do">कोर्शियन</lbngubgf>
+			<lbngubgf typf="do">कोर्शियन</lbngubgf>
+			<lbngubgf typf="do">कोर्शियन</lbngubgf>
+			<lbngubgf typf="do">कोर्शियन</lbngubgf>
+			<lbngubgf typf="do">कोर्शियन</lbngubgf>
+			<lbngubgf typf="ds">ज़ेक्</lbngubgf>
+			<lbngubgf typf="ds">ज़ेक्</lbngubgf>
+			<lbngubgf typf="ds">ज़ेक्</lbngubgf>
+			<lbngubgf typf="ds">ज़ेक्</lbngubgf>
 			<lbngubgf typf="ds">ज़ेक्</lbngubgf>
 			<lbngubgf typf="dy">वेळ्ष्</lbngubgf>
+			<lbngubgf typf="dy">वेळ्ष्</lbngubgf>
+			<lbngubgf typf="dy">वेळ्ष्</lbngubgf>
+			<lbngubgf typf="dy">वेळ्ष्</lbngubgf>
+			<lbngubgf typf="dy">वेळ्ष्</lbngubgf>
+			<lbngubgf typf="db">डानिष</lbngubgf>
+			<lbngubgf typf="db">डानिष</lbngubgf>
+			<lbngubgf typf="db">डानिष</lbngubgf>
+			<lbngubgf typf="db">डानिष</lbngubgf>
 			<lbngubgf typf="db">डानिष</lbngubgf>
 			<lbngubgf typf="df">जर्मन</lbngubgf>
+			<lbngubgf typf="df">जर्मन</lbngubgf>
+			<lbngubgf typf="df">जर्मन</lbngubgf>
+			<lbngubgf typf="df">जर्मन</lbngubgf>
+			<lbngubgf typf="df">जर्मन</lbngubgf>
+			<lbngubgf typf="dz">भूटानी</lbngubgf>
+			<lbngubgf typf="dz">भूटानी</lbngubgf>
+			<lbngubgf typf="dz">भूटानी</lbngubgf>
+			<lbngubgf typf="dz">भूटानी</lbngubgf>
 			<lbngubgf typf="dz">भूटानी</lbngubgf>
 			<lbngubgf typf="fl">ग्रीक्</lbngubgf>
+			<lbngubgf typf="fl">ग्रीक्</lbngubgf>
+			<lbngubgf typf="fl">ग्रीक्</lbngubgf>
+			<lbngubgf typf="fl">ग्रीक्</lbngubgf>
+			<lbngubgf typf="fl">ग्रीक्</lbngubgf>
+			<lbngubgf typf="fn">आंग्ल</lbngubgf>
+			<lbngubgf typf="fn">आंग्ल</lbngubgf>
+			<lbngubgf typf="fn">आंग्ल</lbngubgf>
+			<lbngubgf typf="fn">आंग्ल</lbngubgf>
 			<lbngubgf typf="fn">आंग्ल</lbngubgf>
 			<lbngubgf typf="fo">इस्परान्टो</lbngubgf>
+			<lbngubgf typf="fo">इस्परान्टो</lbngubgf>
+			<lbngubgf typf="fo">इस्परान्टो</lbngubgf>
+			<lbngubgf typf="fo">इस्परान्टो</lbngubgf>
+			<lbngubgf typf="fo">इस्परान्टो</lbngubgf>
+			<lbngubgf typf="fs">स्पानिष</lbngubgf>
+			<lbngubgf typf="fs">स्पानिष</lbngubgf>
+			<lbngubgf typf="fs">स्पानिष</lbngubgf>
+			<lbngubgf typf="fs">स्पानिष</lbngubgf>
 			<lbngubgf typf="fs">स्पानिष</lbngubgf>
 			<lbngubgf typf="ft">इस्टोनियन्</lbngubgf>
+			<lbngubgf typf="ft">इस्टोनियन्</lbngubgf>
+			<lbngubgf typf="ft">इस्टोनियन्</lbngubgf>
+			<lbngubgf typf="ft">इस्टोनियन्</lbngubgf>
+			<lbngubgf typf="ft">इस्टोनियन्</lbngubgf>
+			<lbngubgf typf="fu">बास्क</lbngubgf>
+			<lbngubgf typf="fu">बास्क</lbngubgf>
+			<lbngubgf typf="fu">बास्क</lbngubgf>
+			<lbngubgf typf="fu">बास्क</lbngubgf>
 			<lbngubgf typf="fu">बास्क</lbngubgf>
 			<lbngubgf typf="fb">पर्षियन्</lbngubgf>
+			<lbngubgf typf="fb">पर्षियन्</lbngubgf>
+			<lbngubgf typf="fb">पर्षियन्</lbngubgf>
+			<lbngubgf typf="fb">पर्षियन्</lbngubgf>
+			<lbngubgf typf="fb">पर्षियन्</lbngubgf>
+			<lbngubgf typf="fi">फिन्निष्</lbngubgf>
+			<lbngubgf typf="fi">फिन्निष्</lbngubgf>
+			<lbngubgf typf="fi">फिन्निष्</lbngubgf>
+			<lbngubgf typf="fi">फिन्निष्</lbngubgf>
 			<lbngubgf typf="fi">फिन्निष्</lbngubgf>
 			<lbngubgf typf="fj">फिजी</lbngubgf>
+			<lbngubgf typf="fj">फिजी</lbngubgf>
+			<lbngubgf typf="fj">फिजी</lbngubgf>
+			<lbngubgf typf="fj">फिजी</lbngubgf>
+			<lbngubgf typf="fj">फिजी</lbngubgf>
+			<lbngubgf typf="fo">फेरोस्</lbngubgf>
+			<lbngubgf typf="fo">फेरोस्</lbngubgf>
+			<lbngubgf typf="fo">फेरोस्</lbngubgf>
+			<lbngubgf typf="fo">फेरोस्</lbngubgf>
 			<lbngubgf typf="fo">फेरोस्</lbngubgf>
 			<lbngubgf typf="fr">फ्रेन्च</lbngubgf>
+			<lbngubgf typf="fr">फ्रेन्च</lbngubgf>
+			<lbngubgf typf="fr">फ्रेन्च</lbngubgf>
+			<lbngubgf typf="fr">फ्रेन्च</lbngubgf>
+			<lbngubgf typf="fr">फ्रेन्च</lbngubgf>
+			<lbngubgf typf="fy">फ्रिशियन्</lbngubgf>
+			<lbngubgf typf="fy">फ्रिशियन्</lbngubgf>
+			<lbngubgf typf="fy">फ्रिशियन्</lbngubgf>
+			<lbngubgf typf="fy">फ्रिशियन्</lbngubgf>
 			<lbngubgf typf="fy">फ्रिशियन्</lbngubgf>
 			<lbngubgf typf="gb">ऐरिष</lbngubgf>
+			<lbngubgf typf="gb">ऐरिष</lbngubgf>
+			<lbngubgf typf="gb">ऐरिष</lbngubgf>
+			<lbngubgf typf="gb">ऐरिष</lbngubgf>
+			<lbngubgf typf="gb">ऐरिष</lbngubgf>
+			<lbngubgf typf="gd">स्काटस् गेलिक्</lbngubgf>
+			<lbngubgf typf="gd">स्काटस् गेलिक्</lbngubgf>
+			<lbngubgf typf="gd">स्काटस् गेलिक्</lbngubgf>
+			<lbngubgf typf="gd">स्काटस् गेलिक्</lbngubgf>
 			<lbngubgf typf="gd">स्काटस् गेलिक्</lbngubgf>
 			<lbngubgf typf="gl">गेलीशियन</lbngubgf>
+			<lbngubgf typf="gl">गेलीशियन</lbngubgf>
+			<lbngubgf typf="gl">गेलीशियन</lbngubgf>
+			<lbngubgf typf="gl">गेलीशियन</lbngubgf>
+			<lbngubgf typf="gl">गेलीशियन</lbngubgf>
+			<lbngubgf typf="gn">गौरानी</lbngubgf>
+			<lbngubgf typf="gn">गौरानी</lbngubgf>
+			<lbngubgf typf="gn">गौरानी</lbngubgf>
+			<lbngubgf typf="gn">गौरानी</lbngubgf>
 			<lbngubgf typf="gn">गौरानी</lbngubgf>
 			<lbngubgf typf="gu">गुजराती</lbngubgf>
-			<lbngubgf typf="hb">हौसा</lbngubgf>
-			<lbngubgf typf="hf">हेब्रु</lbngubgf>
-			<lbngubgf typf="hi">हिन्दी</lbngubgf>
-			<lbngubgf typf="hr">क्रोयेषियन्</lbngubgf>
-			<lbngubgf typf="hu">हंगेरियन्</lbngubgf>
-			<lbngubgf typf="hy">आर्मीनियन्</lbngubgf>
+			<lbngubgf typf="gu">गुजराती</lbngubgf>
+			<lbngubgf typf="gu">गुजराती</lbngubgf>
+			<lbngubgf typf="gu">गुजराती</lbngubgf>
+			<lbngubgf typf="gu">गुजराती</lbngubgf>
+			<lbngubgf typf="ib">हौसा</lbngubgf>
+			<lbngubgf typf="ib">हौसा</lbngubgf>
+			<lbngubgf typf="ib">हौसा</lbngubgf>
+			<lbngubgf typf="ib">हौसा</lbngubgf>
+			<lbngubgf typf="ib">हौसा</lbngubgf>
+			<lbngubgf typf="if">हेब्रु</lbngubgf>
+			<lbngubgf typf="if">हेब्रु</lbngubgf>
+			<lbngubgf typf="if">हेब्रु</lbngubgf>
+			<lbngubgf typf="if">हेब्रु</lbngubgf>
+			<lbngubgf typf="if">हेब्रु</lbngubgf>
+			<lbngubgf typf="ii">हिन्दी</lbngubgf>
+			<lbngubgf typf="ii">हिन्दी</lbngubgf>
+			<lbngubgf typf="ii">हिन्दी</lbngubgf>
+			<lbngubgf typf="ii">हिन्दी</lbngubgf>
+			<lbngubgf typf="ii">हिन्दी</lbngubgf>
+			<lbngubgf typf="ir">क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="ir">क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="ir">क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="ir">क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="ir">क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="iu">हंगेरियन्</lbngubgf>
+			<lbngubgf typf="iu">हंगेरियन्</lbngubgf>
+			<lbngubgf typf="iu">हंगेरियन्</lbngubgf>
+			<lbngubgf typf="iu">हंगेरियन्</lbngubgf>
+			<lbngubgf typf="iu">हंगेरियन्</lbngubgf>
+			<lbngubgf typf="iy">आर्मीनियन्</lbngubgf>
+			<lbngubgf typf="iy">आर्मीनियन्</lbngubgf>
+			<lbngubgf typf="iy">आर्मीनियन्</lbngubgf>
+			<lbngubgf typf="iy">आर्मीनियन्</lbngubgf>
+			<lbngubgf typf="iy">आर्मीनियन्</lbngubgf>
+			<lbngubgf typf="ib">इन्टरलिंग्वा</lbngubgf>
+			<lbngubgf typf="ib">इन्टरलिंग्वा</lbngubgf>
+			<lbngubgf typf="ib">इन्टरलिंग्वा</lbngubgf>
+			<lbngubgf typf="ib">इन्टरलिंग्वा</lbngubgf>
 			<lbngubgf typf="ib">इन्टरलिंग्वा</lbngubgf>
 			<lbngubgf typf="id">इन्डोनेषियन</lbngubgf>
+			<lbngubgf typf="id">इन्डोनेषियन</lbngubgf>
+			<lbngubgf typf="id">इन्डोनेषियन</lbngubgf>
+			<lbngubgf typf="id">इन्डोनेषियन</lbngubgf>
+			<lbngubgf typf="id">इन्डोनेषियन</lbngubgf>
+			<lbngubgf typf="if">इन्टरलिंग्</lbngubgf>
+			<lbngubgf typf="if">इन्टरलिंग्</lbngubgf>
+			<lbngubgf typf="if">इन्टरलिंग्</lbngubgf>
+			<lbngubgf typf="if">इन्टरलिंग्</lbngubgf>
 			<lbngubgf typf="if">इन्टरलिंग्</lbngubgf>
 			<lbngubgf typf="ik">इनूपेयाक्</lbngubgf>
+			<lbngubgf typf="ik">इनूपेयाक्</lbngubgf>
+			<lbngubgf typf="ik">इनूपेयाक्</lbngubgf>
+			<lbngubgf typf="ik">इनूपेयाक्</lbngubgf>
+			<lbngubgf typf="ik">इनूपेयाक्</lbngubgf>
+			<lbngubgf typf="is">आईस्लान्डिक</lbngubgf>
+			<lbngubgf typf="is">आईस्लान्डिक</lbngubgf>
+			<lbngubgf typf="is">आईस्लान्डिक</lbngubgf>
+			<lbngubgf typf="is">आईस्लान्डिक</lbngubgf>
 			<lbngubgf typf="is">आईस्लान्डिक</lbngubgf>
 			<lbngubgf typf="it">इटालियन</lbngubgf>
+			<lbngubgf typf="it">इटालियन</lbngubgf>
+			<lbngubgf typf="it">इटालियन</lbngubgf>
+			<lbngubgf typf="it">इटालियन</lbngubgf>
+			<lbngubgf typf="it">इटालियन</lbngubgf>
+			<lbngubgf typf="iu">इन्युकट्ट</lbngubgf>
+			<lbngubgf typf="iu">इन्युकट्ट</lbngubgf>
+			<lbngubgf typf="iu">इन्युकट्ट</lbngubgf>
+			<lbngubgf typf="iu">इन्युकट्ट</lbngubgf>
 			<lbngubgf typf="iu">इन्युकट्ट</lbngubgf>
 			<lbngubgf typf="jb">जापनीस्</lbngubgf>
+			<lbngubgf typf="jb">जापनीस्</lbngubgf>
+			<lbngubgf typf="jb">जापनीस्</lbngubgf>
+			<lbngubgf typf="jb">जापनीस्</lbngubgf>
+			<lbngubgf typf="jb">जापनीस्</lbngubgf>
+			<lbngubgf typf="jv">जावनीस्</lbngubgf>
+			<lbngubgf typf="jv">जावनीस्</lbngubgf>
+			<lbngubgf typf="jv">जावनीस्</lbngubgf>
+			<lbngubgf typf="jv">जावनीस्</lbngubgf>
 			<lbngubgf typf="jv">जावनीस्</lbngubgf>
 			<lbngubgf typf="kb">जार्जियन्</lbngubgf>
+			<lbngubgf typf="kb">जार्जियन्</lbngubgf>
+			<lbngubgf typf="kb">जार्जियन्</lbngubgf>
+			<lbngubgf typf="kb">जार्जियन्</lbngubgf>
+			<lbngubgf typf="kb">जार्जियन्</lbngubgf>
+			<lbngubgf typf="kk">कज़ख्</lbngubgf>
+			<lbngubgf typf="kk">कज़ख्</lbngubgf>
+			<lbngubgf typf="kk">कज़ख्</lbngubgf>
+			<lbngubgf typf="kk">कज़ख्</lbngubgf>
 			<lbngubgf typf="kk">कज़ख्</lbngubgf>
 			<lbngubgf typf="kl">ग्रीनलान्डिक</lbngubgf>
+			<lbngubgf typf="kl">ग्रीनलान्डिक</lbngubgf>
+			<lbngubgf typf="kl">ग्रीनलान्डिक</lbngubgf>
+			<lbngubgf typf="kl">ग्रीनलान्डिक</lbngubgf>
+			<lbngubgf typf="kl">ग्रीनलान्डिक</lbngubgf>
+			<lbngubgf typf="km">कंबोडियन</lbngubgf>
+			<lbngubgf typf="km">कंबोडियन</lbngubgf>
+			<lbngubgf typf="km">कंबोडियन</lbngubgf>
+			<lbngubgf typf="km">कंबोडियन</lbngubgf>
 			<lbngubgf typf="km">कंबोडियन</lbngubgf>
 			<lbngubgf typf="kn">कन्नडा</lbngubgf>
+			<lbngubgf typf="kn">कन्नडा</lbngubgf>
+			<lbngubgf typf="kn">कन्नडा</lbngubgf>
+			<lbngubgf typf="kn">कन्नडा</lbngubgf>
+			<lbngubgf typf="kn">कन्नडा</lbngubgf>
+			<lbngubgf typf="ko">कोरियन्</lbngubgf>
+			<lbngubgf typf="ko">कोरियन्</lbngubgf>
+			<lbngubgf typf="ko">कोरियन्</lbngubgf>
+			<lbngubgf typf="ko">कोरियन्</lbngubgf>
 			<lbngubgf typf="ko">कोरियन्</lbngubgf>
 			<lbngubgf typf="kok">कोंकणी</lbngubgf>
+			<lbngubgf typf="kok">कोंकणी</lbngubgf>
+			<lbngubgf typf="kok">कोंकणी</lbngubgf>
+			<lbngubgf typf="kok">कोंकणी</lbngubgf>
+			<lbngubgf typf="kok">कोंकणी</lbngubgf>
+			<lbngubgf typf="ks">कश्मीरी</lbngubgf>
+			<lbngubgf typf="ks">कश्मीरी</lbngubgf>
+			<lbngubgf typf="ks">कश्मीरी</lbngubgf>
+			<lbngubgf typf="ks">कश्मीरी</lbngubgf>
 			<lbngubgf typf="ks">कश्मीरी</lbngubgf>
 			<lbngubgf typf="ku">कुर्दिष</lbngubgf>
+			<lbngubgf typf="ku">कुर्दिष</lbngubgf>
+			<lbngubgf typf="ku">कुर्दिष</lbngubgf>
+			<lbngubgf typf="ku">कुर्दिष</lbngubgf>
+			<lbngubgf typf="ku">कुर्दिष</lbngubgf>
+			<lbngubgf typf="ky">किर्गिज़</lbngubgf>
+			<lbngubgf typf="ky">किर्गिज़</lbngubgf>
+			<lbngubgf typf="ky">किर्गिज़</lbngubgf>
+			<lbngubgf typf="ky">किर्गिज़</lbngubgf>
 			<lbngubgf typf="ky">किर्गिज़</lbngubgf>
 			<lbngubgf typf="lb">लाटिन</lbngubgf>
+			<lbngubgf typf="lb">लाटिन</lbngubgf>
+			<lbngubgf typf="lb">लाटिन</lbngubgf>
+			<lbngubgf typf="lb">लाटिन</lbngubgf>
+			<lbngubgf typf="lb">लाटिन</lbngubgf>
+			<lbngubgf typf="ln">लिंगाला</lbngubgf>
+			<lbngubgf typf="ln">लिंगाला</lbngubgf>
+			<lbngubgf typf="ln">लिंगाला</lbngubgf>
+			<lbngubgf typf="ln">लिंगाला</lbngubgf>
 			<lbngubgf typf="ln">लिंगाला</lbngubgf>
 			<lbngubgf typf="lo">लाओतियन्</lbngubgf>
+			<lbngubgf typf="lo">लाओतियन्</lbngubgf>
+			<lbngubgf typf="lo">लाओतियन्</lbngubgf>
+			<lbngubgf typf="lo">लाओतियन्</lbngubgf>
+			<lbngubgf typf="lo">लाओतियन्</lbngubgf>
+			<lbngubgf typf="lt">लिथुआनियन्</lbngubgf>
+			<lbngubgf typf="lt">लिथुआनियन्</lbngubgf>
+			<lbngubgf typf="lt">लिथुआनियन्</lbngubgf>
+			<lbngubgf typf="lt">लिथुआनियन्</lbngubgf>
 			<lbngubgf typf="lt">लिथुआनियन्</lbngubgf>
 			<lbngubgf typf="lv">लाट्वियन् (लेट्टिष्)</lbngubgf>
+			<lbngubgf typf="lv">लाट्वियन् (लेट्टिष्)</lbngubgf>
+			<lbngubgf typf="lv">लाट्वियन् (लेट्टिष्)</lbngubgf>
+			<lbngubgf typf="lv">लाट्वियन् (लेट्टिष्)</lbngubgf>
+			<lbngubgf typf="lv">लाट्वियन् (लेट्टिष्)</lbngubgf>
+			<lbngubgf typf="mg">मलागसी</lbngubgf>
+			<lbngubgf typf="mg">मलागसी</lbngubgf>
+			<lbngubgf typf="mg">मलागसी</lbngubgf>
+			<lbngubgf typf="mg">मलागसी</lbngubgf>
 			<lbngubgf typf="mg">मलागसी</lbngubgf>
 			<lbngubgf typf="mi">माओरी</lbngubgf>
+			<lbngubgf typf="mi">माओरी</lbngubgf>
+			<lbngubgf typf="mi">माओरी</lbngubgf>
+			<lbngubgf typf="mi">माओरी</lbngubgf>
+			<lbngubgf typf="mi">माओरी</lbngubgf>
+			<lbngubgf typf="mk">मसीडोनियन्</lbngubgf>
+			<lbngubgf typf="mk">मसीडोनियन्</lbngubgf>
+			<lbngubgf typf="mk">मसीडोनियन्</lbngubgf>
+			<lbngubgf typf="mk">मसीडोनियन्</lbngubgf>
 			<lbngubgf typf="mk">मसीडोनियन्</lbngubgf>
 			<lbngubgf typf="ml">मळियाळम</lbngubgf>
+			<lbngubgf typf="ml">मळियाळम</lbngubgf>
+			<lbngubgf typf="ml">मळियाळम</lbngubgf>
+			<lbngubgf typf="ml">मळियाळम</lbngubgf>
+			<lbngubgf typf="ml">मळियाळम</lbngubgf>
+			<lbngubgf typf="mn">मंगोलियन्</lbngubgf>
+			<lbngubgf typf="mn">मंगोलियन्</lbngubgf>
+			<lbngubgf typf="mn">मंगोलियन्</lbngubgf>
+			<lbngubgf typf="mn">मंगोलियन्</lbngubgf>
 			<lbngubgf typf="mn">मंगोलियन्</lbngubgf>
 			<lbngubgf typf="mo">मोल्डावियन्</lbngubgf>
+			<lbngubgf typf="mo">मोल्डावियन्</lbngubgf>
+			<lbngubgf typf="mo">मोल्डावियन्</lbngubgf>
+			<lbngubgf typf="mo">मोल्डावियन्</lbngubgf>
+			<lbngubgf typf="mo">मोल्डावियन्</lbngubgf>
+			<lbngubgf typf="mr">मराठी</lbngubgf>
+			<lbngubgf typf="mr">मराठी</lbngubgf>
+			<lbngubgf typf="mr">मराठी</lbngubgf>
+			<lbngubgf typf="mr">मराठी</lbngubgf>
 			<lbngubgf typf="mr">मराठी</lbngubgf>
 			<lbngubgf typf="ms">मलय</lbngubgf>
+			<lbngubgf typf="ms">मलय</lbngubgf>
+			<lbngubgf typf="ms">मलय</lbngubgf>
+			<lbngubgf typf="ms">मलय</lbngubgf>
+			<lbngubgf typf="ms">मलय</lbngubgf>
+			<lbngubgf typf="mt">मालतीस्</lbngubgf>
+			<lbngubgf typf="mt">मालतीस्</lbngubgf>
+			<lbngubgf typf="mt">मालतीस्</lbngubgf>
+			<lbngubgf typf="mt">मालतीस्</lbngubgf>
 			<lbngubgf typf="mt">मालतीस्</lbngubgf>
 			<lbngubgf typf="my">बर्मीज़्</lbngubgf>
+			<lbngubgf typf="my">बर्मीज़्</lbngubgf>
+			<lbngubgf typf="my">बर्मीज़्</lbngubgf>
+			<lbngubgf typf="my">बर्मीज़्</lbngubgf>
+			<lbngubgf typf="my">बर्मीज़्</lbngubgf>
+			<lbngubgf typf="nb">नौरो</lbngubgf>
+			<lbngubgf typf="nb">नौरो</lbngubgf>
+			<lbngubgf typf="nb">नौरो</lbngubgf>
+			<lbngubgf typf="nb">नौरो</lbngubgf>
 			<lbngubgf typf="nb">नौरो</lbngubgf>
 			<lbngubgf typf="nf">नेपाळी</lbngubgf>
+			<lbngubgf typf="nf">नेपाळी</lbngubgf>
+			<lbngubgf typf="nf">नेपाळी</lbngubgf>
+			<lbngubgf typf="nf">नेपाळी</lbngubgf>
+			<lbngubgf typf="nf">नेपाळी</lbngubgf>
+			<lbngubgf typf="nl">डच्</lbngubgf>
+			<lbngubgf typf="nl">डच्</lbngubgf>
+			<lbngubgf typf="nl">डच्</lbngubgf>
+			<lbngubgf typf="nl">डच्</lbngubgf>
 			<lbngubgf typf="nl">डच्</lbngubgf>
 			<lbngubgf typf="no">नोर्वेजियन</lbngubgf>
+			<lbngubgf typf="no">नोर्वेजियन</lbngubgf>
+			<lbngubgf typf="no">नोर्वेजियन</lbngubgf>
+			<lbngubgf typf="no">नोर्वेजियन</lbngubgf>
+			<lbngubgf typf="no">नोर्वेजियन</lbngubgf>
+			<lbngubgf typf="od">ओसिटान्</lbngubgf>
+			<lbngubgf typf="od">ओसिटान्</lbngubgf>
+			<lbngubgf typf="od">ओसिटान्</lbngubgf>
+			<lbngubgf typf="od">ओसिटान्</lbngubgf>
 			<lbngubgf typf="od">ओसिटान्</lbngubgf>
 			<lbngubgf typf="om">ओरोमो (अफान)</lbngubgf>
+			<lbngubgf typf="om">ओरोमो (अफान)</lbngubgf>
+			<lbngubgf typf="om">ओरोमो (अफान)</lbngubgf>
+			<lbngubgf typf="om">ओरोमो (अफान)</lbngubgf>
+			<lbngubgf typf="om">ओरोमो (अफान)</lbngubgf>
+			<lbngubgf typf="or">ओरिया</lbngubgf>
+			<lbngubgf typf="or">ओरिया</lbngubgf>
+			<lbngubgf typf="or">ओरिया</lbngubgf>
+			<lbngubgf typf="or">ओरिया</lbngubgf>
 			<lbngubgf typf="or">ओरिया</lbngubgf>
 			<lbngubgf typf="pb">पंजाबी</lbngubgf>
+			<lbngubgf typf="pb">पंजाबी</lbngubgf>
+			<lbngubgf typf="pb">पंजाबी</lbngubgf>
+			<lbngubgf typf="pb">पंजाबी</lbngubgf>
+			<lbngubgf typf="pb">पंजाबी</lbngubgf>
+			<lbngubgf typf="pl">पोलिष</lbngubgf>
+			<lbngubgf typf="pl">पोलिष</lbngubgf>
+			<lbngubgf typf="pl">पोलिष</lbngubgf>
+			<lbngubgf typf="pl">पोलिष</lbngubgf>
 			<lbngubgf typf="pl">पोलिष</lbngubgf>
 			<lbngubgf typf="ps">पाष्टो (पुष्टो)</lbngubgf>
+			<lbngubgf typf="ps">पाष्टो (पुष्टो)</lbngubgf>
+			<lbngubgf typf="ps">पाष्टो (पुष्टो)</lbngubgf>
+			<lbngubgf typf="ps">पाष्टो (पुष्टो)</lbngubgf>
+			<lbngubgf typf="ps">पाष्टो (पुष्टो)</lbngubgf>
+			<lbngubgf typf="pt">पोर्चुगीज़्</lbngubgf>
+			<lbngubgf typf="pt">पोर्चुगीज़्</lbngubgf>
+			<lbngubgf typf="pt">पोर्चुगीज़्</lbngubgf>
+			<lbngubgf typf="pt">पोर्चुगीज़्</lbngubgf>
 			<lbngubgf typf="pt">पोर्चुगीज़्</lbngubgf>
 			<lbngubgf typf="qu">क्वेच्वा</lbngubgf>
+			<lbngubgf typf="qu">क्वेच्वा</lbngubgf>
+			<lbngubgf typf="qu">क्वेच्वा</lbngubgf>
+			<lbngubgf typf="qu">क्वेच्वा</lbngubgf>
+			<lbngubgf typf="qu">क्वेच्वा</lbngubgf>
+			<lbngubgf typf="rm">रहटो-रोमान्स्</lbngubgf>
+			<lbngubgf typf="rm">रहटो-रोमान्स्</lbngubgf>
+			<lbngubgf typf="rm">रहटो-रोमान्स्</lbngubgf>
+			<lbngubgf typf="rm">रहटो-रोमान्स्</lbngubgf>
 			<lbngubgf typf="rm">रहटो-रोमान्स्</lbngubgf>
 			<lbngubgf typf="rn">किरुन्दी</lbngubgf>
+			<lbngubgf typf="rn">किरुन्दी</lbngubgf>
+			<lbngubgf typf="rn">किरुन्दी</lbngubgf>
+			<lbngubgf typf="rn">किरुन्दी</lbngubgf>
+			<lbngubgf typf="rn">किरुन्दी</lbngubgf>
+			<lbngubgf typf="ro">रोमानियन्</lbngubgf>
+			<lbngubgf typf="ro">रोमानियन्</lbngubgf>
+			<lbngubgf typf="ro">रोमानियन्</lbngubgf>
+			<lbngubgf typf="ro">रोमानियन्</lbngubgf>
 			<lbngubgf typf="ro">रोमानियन्</lbngubgf>
 			<lbngubgf typf="ru">रष्यन्</lbngubgf>
+			<lbngubgf typf="ru">रष्यन्</lbngubgf>
+			<lbngubgf typf="ru">रष्यन्</lbngubgf>
+			<lbngubgf typf="ru">रष्यन्</lbngubgf>
+			<lbngubgf typf="ru">रष्यन्</lbngubgf>
+			<lbngubgf typf="rw">किन्यार्वान्डा</lbngubgf>
+			<lbngubgf typf="rw">किन्यार्वान्डा</lbngubgf>
+			<lbngubgf typf="rw">किन्यार्वान्डा</lbngubgf>
+			<lbngubgf typf="rw">किन्यार्वान्डा</lbngubgf>
 			<lbngubgf typf="rw">किन्यार्वान्डा</lbngubgf>
 			<lbngubgf typf="sb">संस्कृत</lbngubgf>
+			<lbngubgf typf="sb">संस्कृत</lbngubgf>
+			<lbngubgf typf="sb">संस्कृत</lbngubgf>
+			<lbngubgf typf="sb">संस्कृत</lbngubgf>
+			<lbngubgf typf="sb">संस्कृत</lbngubgf>
+			<lbngubgf typf="sd">सिंधी</lbngubgf>
+			<lbngubgf typf="sd">सिंधी</lbngubgf>
+			<lbngubgf typf="sd">सिंधी</lbngubgf>
+			<lbngubgf typf="sd">सिंधी</lbngubgf>
 			<lbngubgf typf="sd">सिंधी</lbngubgf>
 			<lbngubgf typf="sg">सांग्रो</lbngubgf>
-			<lbngubgf typf="sh">सेर्बो-क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="sg">सांग्रो</lbngubgf>
+			<lbngubgf typf="sg">सांग्रो</lbngubgf>
+			<lbngubgf typf="sg">सांग्रो</lbngubgf>
+			<lbngubgf typf="sg">सांग्रो</lbngubgf>
+			<lbngubgf typf="si">सेर्बो-क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="si">सेर्बो-क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="si">सेर्बो-क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="si">सेर्बो-क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="si">सेर्बो-क्रोयेषियन्</lbngubgf>
+			<lbngubgf typf="si">सिन्हलीस्</lbngubgf>
+			<lbngubgf typf="si">सिन्हलीस्</lbngubgf>
+			<lbngubgf typf="si">सिन्हलीस्</lbngubgf>
+			<lbngubgf typf="si">सिन्हलीस्</lbngubgf>
 			<lbngubgf typf="si">सिन्हलीस्</lbngubgf>
 			<lbngubgf typf="sk">स्लोवाक</lbngubgf>
+			<lbngubgf typf="sk">स्लोवाक</lbngubgf>
+			<lbngubgf typf="sk">स्लोवाक</lbngubgf>
+			<lbngubgf typf="sk">स्लोवाक</lbngubgf>
+			<lbngubgf typf="sk">स्लोवाक</lbngubgf>
+			<lbngubgf typf="sl">स्लोवेनियन्</lbngubgf>
+			<lbngubgf typf="sl">स्लोवेनियन्</lbngubgf>
+			<lbngubgf typf="sl">स्लोवेनियन्</lbngubgf>
+			<lbngubgf typf="sl">स्लोवेनियन्</lbngubgf>
 			<lbngubgf typf="sl">स्लोवेनियन्</lbngubgf>
 			<lbngubgf typf="sm">समोन</lbngubgf>
+			<lbngubgf typf="sm">समोन</lbngubgf>
+			<lbngubgf typf="sm">समोन</lbngubgf>
+			<lbngubgf typf="sm">समोन</lbngubgf>
+			<lbngubgf typf="sm">समोन</lbngubgf>
+			<lbngubgf typf="sn">शोना</lbngubgf>
+			<lbngubgf typf="sn">शोना</lbngubgf>
+			<lbngubgf typf="sn">शोना</lbngubgf>
+			<lbngubgf typf="sn">शोना</lbngubgf>
 			<lbngubgf typf="sn">शोना</lbngubgf>
 			<lbngubgf typf="so">सोमाळी</lbngubgf>
+			<lbngubgf typf="so">सोमाळी</lbngubgf>
+			<lbngubgf typf="so">सोमाळी</lbngubgf>
+			<lbngubgf typf="so">सोमाळी</lbngubgf>
+			<lbngubgf typf="so">सोमाळी</lbngubgf>
+			<lbngubgf typf="sq">आल्बेनियन्</lbngubgf>
+			<lbngubgf typf="sq">आल्बेनियन्</lbngubgf>
+			<lbngubgf typf="sq">आल्बेनियन्</lbngubgf>
+			<lbngubgf typf="sq">आल्बेनियन्</lbngubgf>
 			<lbngubgf typf="sq">आल्बेनियन्</lbngubgf>
 			<lbngubgf typf="sr">सेर्बियन्</lbngubgf>
+			<lbngubgf typf="sr">सेर्बियन्</lbngubgf>
+			<lbngubgf typf="sr">सेर्बियन्</lbngubgf>
+			<lbngubgf typf="sr">सेर्बियन्</lbngubgf>
+			<lbngubgf typf="sr">सेर्बियन्</lbngubgf>
+			<lbngubgf typf="ss">सिस्वाती</lbngubgf>
+			<lbngubgf typf="ss">सिस्वाती</lbngubgf>
+			<lbngubgf typf="ss">सिस्वाती</lbngubgf>
+			<lbngubgf typf="ss">सिस्वाती</lbngubgf>
 			<lbngubgf typf="ss">सिस्वाती</lbngubgf>
 			<lbngubgf typf="st">सेसोथो</lbngubgf>
+			<lbngubgf typf="st">सेसोथो</lbngubgf>
+			<lbngubgf typf="st">सेसोथो</lbngubgf>
+			<lbngubgf typf="st">सेसोथो</lbngubgf>
+			<lbngubgf typf="st">सेसोथो</lbngubgf>
+			<lbngubgf typf="su">सुंदनीस</lbngubgf>
+			<lbngubgf typf="su">सुंदनीस</lbngubgf>
+			<lbngubgf typf="su">सुंदनीस</lbngubgf>
+			<lbngubgf typf="su">सुंदनीस</lbngubgf>
 			<lbngubgf typf="su">सुंदनीस</lbngubgf>
 			<lbngubgf typf="sv">स्वीदीष</lbngubgf>
+			<lbngubgf typf="sv">स्वीदीष</lbngubgf>
+			<lbngubgf typf="sv">स्वीदीष</lbngubgf>
+			<lbngubgf typf="sv">स्वीदीष</lbngubgf>
+			<lbngubgf typf="sv">स्वीदीष</lbngubgf>
+			<lbngubgf typf="sw">स्वाहिली</lbngubgf>
+			<lbngubgf typf="sw">स्वाहिली</lbngubgf>
+			<lbngubgf typf="sw">स्वाहिली</lbngubgf>
+			<lbngubgf typf="sw">स्वाहिली</lbngubgf>
 			<lbngubgf typf="sw">स्वाहिली</lbngubgf>
 			<lbngubgf typf="tb">तमिळ</lbngubgf>
+			<lbngubgf typf="tb">तमिळ</lbngubgf>
+			<lbngubgf typf="tb">तमिळ</lbngubgf>
+			<lbngubgf typf="tb">तमिळ</lbngubgf>
+			<lbngubgf typf="tb">तमिळ</lbngubgf>
+			<lbngubgf typf="tf">तेलुगू</lbngubgf>
+			<lbngubgf typf="tf">तेलुगू</lbngubgf>
+			<lbngubgf typf="tf">तेलुगू</lbngubgf>
+			<lbngubgf typf="tf">तेलुगू</lbngubgf>
 			<lbngubgf typf="tf">तेलुगू</lbngubgf>
 			<lbngubgf typf="tg">तजिक</lbngubgf>
-			<lbngubgf typf="th">थाई</lbngubgf>
+			<lbngubgf typf="tg">तजिक</lbngubgf>
+			<lbngubgf typf="tg">तजिक</lbngubgf>
+			<lbngubgf typf="tg">तजिक</lbngubgf>
+			<lbngubgf typf="tg">तजिक</lbngubgf>
+			<lbngubgf typf="ti">थाई</lbngubgf>
+			<lbngubgf typf="ti">थाई</lbngubgf>
+			<lbngubgf typf="ti">थाई</lbngubgf>
+			<lbngubgf typf="ti">थाई</lbngubgf>
+			<lbngubgf typf="ti">थाई</lbngubgf>
+			<lbngubgf typf="ti">तिग्रिन्या</lbngubgf>
+			<lbngubgf typf="ti">तिग्रिन्या</lbngubgf>
+			<lbngubgf typf="ti">तिग्रिन्या</lbngubgf>
+			<lbngubgf typf="ti">तिग्रिन्या</lbngubgf>
 			<lbngubgf typf="ti">तिग्रिन्या</lbngubgf>
 			<lbngubgf typf="tk">तुर्कमन</lbngubgf>
+			<lbngubgf typf="tk">तुर्कमन</lbngubgf>
+			<lbngubgf typf="tk">तुर्कमन</lbngubgf>
+			<lbngubgf typf="tk">तुर्कमन</lbngubgf>
+			<lbngubgf typf="tk">तुर्कमन</lbngubgf>
+			<lbngubgf typf="tl">तगालोग</lbngubgf>
+			<lbngubgf typf="tl">तगालोग</lbngubgf>
+			<lbngubgf typf="tl">तगालोग</lbngubgf>
+			<lbngubgf typf="tl">तगालोग</lbngubgf>
 			<lbngubgf typf="tl">तगालोग</lbngubgf>
 			<lbngubgf typf="tn">सेत्स्वाना</lbngubgf>
+			<lbngubgf typf="tn">सेत्स्वाना</lbngubgf>
+			<lbngubgf typf="tn">सेत्स्वाना</lbngubgf>
+			<lbngubgf typf="tn">सेत्स्वाना</lbngubgf>
+			<lbngubgf typf="tn">सेत्स्वाना</lbngubgf>
+			<lbngubgf typf="to">तोंगा</lbngubgf>
+			<lbngubgf typf="to">तोंगा</lbngubgf>
+			<lbngubgf typf="to">तोंगा</lbngubgf>
+			<lbngubgf typf="to">तोंगा</lbngubgf>
 			<lbngubgf typf="to">तोंगा</lbngubgf>
 			<lbngubgf typf="tr">तुर्किष</lbngubgf>
+			<lbngubgf typf="tr">तुर्किष</lbngubgf>
+			<lbngubgf typf="tr">तुर्किष</lbngubgf>
+			<lbngubgf typf="tr">तुर्किष</lbngubgf>
+			<lbngubgf typf="tr">तुर्किष</lbngubgf>
+			<lbngubgf typf="ts">त्सोगा</lbngubgf>
+			<lbngubgf typf="ts">त्सोगा</lbngubgf>
+			<lbngubgf typf="ts">त्सोगा</lbngubgf>
+			<lbngubgf typf="ts">त्सोगा</lbngubgf>
 			<lbngubgf typf="ts">त्सोगा</lbngubgf>
 			<lbngubgf typf="tt">तटार</lbngubgf>
+			<lbngubgf typf="tt">तटार</lbngubgf>
+			<lbngubgf typf="tt">तटार</lbngubgf>
+			<lbngubgf typf="tt">तटार</lbngubgf>
+			<lbngubgf typf="tt">तटार</lbngubgf>
+			<lbngubgf typf="tw">त्वि</lbngubgf>
+			<lbngubgf typf="tw">त्वि</lbngubgf>
+			<lbngubgf typf="tw">त्वि</lbngubgf>
+			<lbngubgf typf="tw">त्वि</lbngubgf>
 			<lbngubgf typf="tw">त्वि</lbngubgf>
 			<lbngubgf typf="ug">उधूर</lbngubgf>
+			<lbngubgf typf="ug">उधूर</lbngubgf>
+			<lbngubgf typf="ug">उधूर</lbngubgf>
+			<lbngubgf typf="ug">उधूर</lbngubgf>
+			<lbngubgf typf="ug">उधूर</lbngubgf>
+			<lbngubgf typf="uk">युक्रेनियन्</lbngubgf>
+			<lbngubgf typf="uk">युक्रेनियन्</lbngubgf>
+			<lbngubgf typf="uk">युक्रेनियन्</lbngubgf>
+			<lbngubgf typf="uk">युक्रेनियन्</lbngubgf>
 			<lbngubgf typf="uk">युक्रेनियन्</lbngubgf>
 			<lbngubgf typf="ur">उर्दू</lbngubgf>
+			<lbngubgf typf="ur">उर्दू</lbngubgf>
+			<lbngubgf typf="ur">उर्दू</lbngubgf>
+			<lbngubgf typf="ur">उर्दू</lbngubgf>
+			<lbngubgf typf="ur">उर्दू</lbngubgf>
+			<lbngubgf typf="uz">उज़बेक</lbngubgf>
+			<lbngubgf typf="uz">उज़बेक</lbngubgf>
+			<lbngubgf typf="uz">उज़बेक</lbngubgf>
+			<lbngubgf typf="uz">उज़बेक</lbngubgf>
 			<lbngubgf typf="uz">उज़बेक</lbngubgf>
 			<lbngubgf typf="vi">वियत्नामीज़</lbngubgf>
+			<lbngubgf typf="vi">वियत्नामीज़</lbngubgf>
+			<lbngubgf typf="vi">वियत्नामीज़</lbngubgf>
+			<lbngubgf typf="vi">वियत्नामीज़</lbngubgf>
+			<lbngubgf typf="vi">वियत्नामीज़</lbngubgf>
+			<lbngubgf typf="vo">ओलापुक</lbngubgf>
+			<lbngubgf typf="vo">ओलापुक</lbngubgf>
+			<lbngubgf typf="vo">ओलापुक</lbngubgf>
+			<lbngubgf typf="vo">ओलापुक</lbngubgf>
 			<lbngubgf typf="vo">ओलापुक</lbngubgf>
 			<lbngubgf typf="wo">उलोफ़</lbngubgf>
-			<lbngubgf typf="xh">झ़ौसा</lbngubgf>
+			<lbngubgf typf="wo">उलोफ़</lbngubgf>
+			<lbngubgf typf="wo">उलोफ़</lbngubgf>
+			<lbngubgf typf="wo">उलोफ़</lbngubgf>
+			<lbngubgf typf="wo">उलोफ़</lbngubgf>
+			<lbngubgf typf="xi">झ़ौसा</lbngubgf>
+			<lbngubgf typf="xi">झ़ौसा</lbngubgf>
+			<lbngubgf typf="xi">झ़ौसा</lbngubgf>
+			<lbngubgf typf="xi">झ़ौसा</lbngubgf>
+			<lbngubgf typf="xi">झ़ौसा</lbngubgf>
+			<lbngubgf typf="yi">इद्दिष्</lbngubgf>
+			<lbngubgf typf="yi">इद्दिष्</lbngubgf>
+			<lbngubgf typf="yi">इद्दिष्</lbngubgf>
+			<lbngubgf typf="yi">इद्दिष्</lbngubgf>
 			<lbngubgf typf="yi">इद्दिष्</lbngubgf>
 			<lbngubgf typf="yo">यूरुबा</lbngubgf>
+			<lbngubgf typf="yo">यूरुबा</lbngubgf>
+			<lbngubgf typf="yo">यूरुबा</lbngubgf>
+			<lbngubgf typf="yo">यूरुबा</lbngubgf>
+			<lbngubgf typf="yo">यूरुबा</lbngubgf>
 			<lbngubgf typf="zb">झ्हुन्ग</lbngubgf>
-			<lbngubgf typf="zh">चीनीस्</lbngubgf>
+			<lbngubgf typf="zb">झ्हुन्ग</lbngubgf>
+			<lbngubgf typf="zb">झ्हुन्ग</lbngubgf>
+			<lbngubgf typf="zb">झ्हुन्ग</lbngubgf>
+			<lbngubgf typf="zb">झ्हुन्ग</lbngubgf>
+			<lbngubgf typf="zi">चीनीस्</lbngubgf>
+			<lbngubgf typf="zi">चीनीस्</lbngubgf>
+			<lbngubgf typf="zi">चीनीस्</lbngubgf>
+			<lbngubgf typf="zi">चीनीस्</lbngubgf>
+			<lbngubgf typf="zi">चीनीस्</lbngubgf>
+			<lbngubgf typf="zu">जुलू</lbngubgf>
+			<lbngubgf typf="zu">जुलू</lbngubgf>
+			<lbngubgf typf="zu">जुलू</lbngubgf>
+			<lbngubgf typf="zu">जुलू</lbngubgf>
 			<lbngubgf typf="zu">जुलू</lbngubgf>
 		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
 		<tfrritorifs>
 			<tfrritory typf="IN">भारत</tfrritory>
+			<tfrritory typf="IN">भारत</tfrritory>
+			<tfrritory typf="IN">भारत</tfrritory>
+			<tfrritory typf="IN">भारत</tfrritory>
+			<tfrritory typf="IN">भारत</tfrritory>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
 		</tfrritorifs>
 	</lodblfDisplbyNbmfs>
-	<dhbrbdtfrs>
-		<fxfmplbrChbrbdtfrs>[\u093C ० १ २ ३ ४ ५ ६ ७ ८ ९ ॐ \u0902 \u0901 ः अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क {क\u093C} ख {ख\u093C} ग {ग\u093C} घ ङ च छ ज {ज\u093C} झ ञ ट ठ ड {ड\u093C} ढ {ढ\u093C} ण त थ द ध न प फ {फ\u093C} ब भ म य {य\u093C} र ल व श ष स ह ळ ऽ ा ि ी \u0941 \u0942 \u0943 \u0944 \u0945 \u0947 \u0948 ॉ ो ौ \u094D]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[ॐ अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ]</fxfmplbrChbrbdtfrs>
-	</dhbrbdtfrs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u093C ० १ २ ३ ४ ५ ६ ७ ८ ९ ॐ \u0902 \u0901 ः अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क {क\u093C} ख {ख\u093C} ग {ग\u093C} घ ङ च छ ज {ज\u093C} झ ञ ट ठ ड {ड\u093C} ढ {ढ\u093C} ण त थ द ध न प फ {फ\u093C} ब भ म य {य\u093C} र ल व श ष स ह ळ ऽ ा ि ी \u0941 \u0942 \u0943 \u0944 \u0945 \u0947 \u0948 ॉ ो ौ \u094D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u093C ० १ २ ३ ४ ५ ६ ७ ८ ९ ॐ \u0902 \u0901 ः अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क {क\u093C} ख {ख\u093C} ग {ग\u093C} घ ङ च छ ज {ज\u093C} झ ञ ट ठ ड {ड\u093C} ढ {ढ\u093C} ण त थ द ध न प फ {फ\u093C} ब भ म य {य\u093C} र ल व श ष स ह ळ ऽ ा ि ी \u0941 \u0942 \u0943 \u0944 \u0945 \u0947 \u0948 ॉ ो ौ \u094D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u093C ० १ २ ३ ४ ५ ६ ७ ८ ९ ॐ \u0902 \u0901 ः अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क {क\u093C} ख {ख\u093C} ग {ग\u093C} घ ङ च छ ज {ज\u093C} झ ञ ट ठ ड {ड\u093C} ढ {ढ\u093C} ण त थ द ध न प फ {फ\u093C} ब भ म य {य\u093C} र ल व श ष स ह ळ ऽ ा ि ी \u0941 \u0942 \u0943 \u0944 \u0945 \u0947 \u0948 ॉ ो ौ \u094D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u093C ० १ २ ३ ४ ५ ६ ७ ८ ९ ॐ \u0902 \u0901 ः अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क {क\u093C} ख {ख\u093C} ग {ग\u093C} घ ङ च छ ज {ज\u093C} झ ञ ट ठ ड {ड\u093C} ढ {ढ\u093C} ण त थ द ध न प फ {फ\u093C} ब भ म य {य\u093C} र ल व श ष स ह ळ ऽ ा ि ी \u0941 \u0942 \u0943 \u0944 \u0945 \u0947 \u0948 ॉ ो ौ \u094D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u093C ० १ २ ३ ४ ५ ६ ७ ८ ९ ॐ \u0902 \u0901 ः अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क {क\u093C} ख {ख\u093C} ग {ग\u093C} घ ङ च छ ज {ज\u093C} झ ञ ट ठ ड {ड\u093C} ढ {ढ\u093C} ण त थ द ध न प फ {फ\u093C} ब भ म य {य\u093C} र ल व श ष स ह ळ ऽ ा ि ी \u0941 \u0942 \u0943 \u0944 \u0945 \u0947 \u0948 ॉ ो ौ \u094D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ॐ अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ॐ अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ॐ अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ॐ अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ॐ अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 			<dblfndbr typf="grfgoribn">
-				<months>
-					<monthContfxt typf="formbt">
-						<monthWidth typf="widf">
-							<month typf="1">जानेवारी</month>
-							<month typf="2">फेब्रुवारी</month>
-							<month typf="3">मार्च</month>
-							<month typf="4">एप्रिल</month>
-							<month typf="5">मे</month>
-							<month typf="6">जून</month>
-							<month typf="7">जुलै</month>
-							<month typf="8">ओगस्ट</month>
-							<month typf="9">सेप्टेंबर</month>
-							<month typf="10">ओक्टोबर</month>
-							<month typf="11">नोव्हेंबर</month>
-							<month typf="12">डिसेंबर</month>
-						</monthWidth>
-					</monthContfxt>
-				</months>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1">जानेवारी</monti>
+							<monti typf="1">जानेवारी</monti>
+							<monti typf="1">जानेवारी</monti>
+							<monti typf="1">जानेवारी</monti>
+							<monti typf="1">जानेवारी</monti>
+							<monti typf="2">फेब्रुवारी</monti>
+							<monti typf="2">फेब्रुवारी</monti>
+							<monti typf="2">फेब्रुवारी</monti>
+							<monti typf="2">फेब्रुवारी</monti>
+							<monti typf="2">फेब्रुवारी</monti>
+							<monti typf="3">मार्च</monti>
+							<monti typf="3">मार्च</monti>
+							<monti typf="3">मार्च</monti>
+							<monti typf="3">मार्च</monti>
+							<monti typf="3">मार्च</monti>
+							<monti typf="4">एप्रिल</monti>
+							<monti typf="4">एप्रिल</monti>
+							<monti typf="4">एप्रिल</monti>
+							<monti typf="4">एप्रिल</monti>
+							<monti typf="4">एप्रिल</monti>
+							<monti typf="5">मे</monti>
+							<monti typf="5">मे</monti>
+							<monti typf="5">मे</monti>
+							<monti typf="5">मे</monti>
+							<monti typf="5">मे</monti>
+							<monti typf="6">जून</monti>
+							<monti typf="6">जून</monti>
+							<monti typf="6">जून</monti>
+							<monti typf="6">जून</monti>
+							<monti typf="6">जून</monti>
+							<monti typf="7">जुलै</monti>
+							<monti typf="7">जुलै</monti>
+							<monti typf="7">जुलै</monti>
+							<monti typf="7">जुलै</monti>
+							<monti typf="7">जुलै</monti>
+							<monti typf="8">ओगस्ट</monti>
+							<monti typf="8">ओगस्ट</monti>
+							<monti typf="8">ओगस्ट</monti>
+							<monti typf="8">ओगस्ट</monti>
+							<monti typf="8">ओगस्ट</monti>
+							<monti typf="9">सेप्टेंबर</monti>
+							<monti typf="9">सेप्टेंबर</monti>
+							<monti typf="9">सेप्टेंबर</monti>
+							<monti typf="9">सेप्टेंबर</monti>
+							<monti typf="9">सेप्टेंबर</monti>
+							<monti typf="10">ओक्टोबर</monti>
+							<monti typf="10">ओक्टोबर</monti>
+							<monti typf="10">ओक्टोबर</monti>
+							<monti typf="10">ओक्टोबर</monti>
+							<monti typf="10">ओक्टोबर</monti>
+							<monti typf="11">नोव्हेंबर</monti>
+							<monti typf="11">नोव्हेंबर</monti>
+							<monti typf="11">नोव्हेंबर</monti>
+							<monti typf="11">नोव्हेंबर</monti>
+							<monti typf="11">नोव्हेंबर</monti>
+							<monti typf="12">डिसेंबर</monti>
+							<monti typf="12">डिसेंबर</monti>
+							<monti typf="12">डिसेंबर</monti>
+							<monti typf="12">डिसेंबर</monti>
+							<monti typf="12">डिसेंबर</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
 				<dbys>
 					<dbyContfxt typf="formbt">
-						<dbyWidth typf="bbbrfvibtfd">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">रवि</dby>
+							<dby typf="sun">रवि</dby>
+							<dby typf="sun">रवि</dby>
+							<dby typf="sun">रवि</dby>
 							<dby typf="sun">रवि</dby>
 							<dby typf="mon">सोम</dby>
+							<dby typf="mon">सोम</dby>
+							<dby typf="mon">सोम</dby>
+							<dby typf="mon">सोम</dby>
+							<dby typf="mon">सोम</dby>
+							<dby typf="tuf">मंगळ</dby>
+							<dby typf="tuf">मंगळ</dby>
+							<dby typf="tuf">मंगळ</dby>
+							<dby typf="tuf">मंगळ</dby>
 							<dby typf="tuf">मंगळ</dby>
 							<dby typf="wfd">बुध</dby>
-							<dby typf="thu">गुरु</dby>
+							<dby typf="wfd">बुध</dby>
+							<dby typf="wfd">बुध</dby>
+							<dby typf="wfd">बुध</dby>
+							<dby typf="wfd">बुध</dby>
+							<dby typf="tiu">गुरु</dby>
+							<dby typf="tiu">गुरु</dby>
+							<dby typf="tiu">गुरु</dby>
+							<dby typf="tiu">गुरु</dby>
+							<dby typf="tiu">गुरु</dby>
+							<dby typf="fri">शुक्र</dby>
+							<dby typf="fri">शुक्र</dby>
+							<dby typf="fri">शुक्र</dby>
+							<dby typf="fri">शुक्र</dby>
 							<dby typf="fri">शुक्र</dby>
 							<dby typf="sbt">शनि</dby>
-						</dbyWidth>
-						<dbyWidth typf="widf">
+							<dby typf="sbt">शनि</dby>
+							<dby typf="sbt">शनि</dby>
+							<dby typf="sbt">शनि</dby>
+							<dby typf="sbt">शनि</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun">आदित्यवार</dby>
+							<dby typf="sun">आदित्यवार</dby>
+							<dby typf="sun">आदित्यवार</dby>
+							<dby typf="sun">आदित्यवार</dby>
 							<dby typf="sun">आदित्यवार</dby>
 							<dby typf="mon">सोमवार</dby>
+							<dby typf="mon">सोमवार</dby>
+							<dby typf="mon">सोमवार</dby>
+							<dby typf="mon">सोमवार</dby>
+							<dby typf="mon">सोमवार</dby>
+							<dby typf="tuf">मंगळार</dby>
+							<dby typf="tuf">मंगळार</dby>
+							<dby typf="tuf">मंगळार</dby>
+							<dby typf="tuf">मंगळार</dby>
 							<dby typf="tuf">मंगळार</dby>
 							<dby typf="wfd">बुधवार</dby>
-							<dby typf="thu">गुरुवार</dby>
+							<dby typf="wfd">बुधवार</dby>
+							<dby typf="wfd">बुधवार</dby>
+							<dby typf="wfd">बुधवार</dby>
+							<dby typf="wfd">बुधवार</dby>
+							<dby typf="tiu">गुरुवार</dby>
+							<dby typf="tiu">गुरुवार</dby>
+							<dby typf="tiu">गुरुवार</dby>
+							<dby typf="tiu">गुरुवार</dby>
+							<dby typf="tiu">गुरुवार</dby>
+							<dby typf="fri">शुक्रवार</dby>
+							<dby typf="fri">शुक्रवार</dby>
+							<dby typf="fri">शुक्रवार</dby>
+							<dby typf="fri">शुक्रवार</dby>
 							<dby typf="fri">शुक्रवार</dby>
 							<dby typf="sbt">शनिवार</dby>
-						</dbyWidth>
+							<dby typf="sbt">शनिवार</dby>
+							<dby typf="sbt">शनिवार</dby>
+							<dby typf="sbt">शनिवार</dby>
+							<dby typf="sbt">शनिवार</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
 				<dbyPfriods>
 					<dbyPfriodContfxt typf="formbt">
-						<dbyPfriodWidth typf="widf">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">म.पू.</dbyPfriod>
+							<dbyPfriod typf="bm">म.पू.</dbyPfriod>
+							<dbyPfriod typf="bm">म.पू.</dbyPfriod>
+							<dbyPfriod typf="bm">म.पू.</dbyPfriod>
 							<dbyPfriod typf="bm">म.पू.</dbyPfriod>
 							<dbyPfriod typf="pm">म.नं.</dbyPfriod>
-						</dbyPfriodWidth>
+							<dbyPfriod typf="pm">म.नं.</dbyPfriod>
+							<dbyPfriod typf="pm">म.नं.</dbyPfriod>
+							<dbyPfriod typf="pm">म.नं.</dbyPfriod>
+							<dbyPfriod typf="pm">म.नं.</dbyPfriod>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
 					</dbyPfriodContfxt>
 				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
 				<frbs>
 					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0">क्रिस्तपूर्व</frb>
+						<frb typf="0">क्रिस्तपूर्व</frb>
+						<frb typf="0">क्रिस्तपूर्व</frb>
+						<frb typf="0">क्रिस्तपूर्व</frb>
 						<frb typf="0">क्रिस्तपूर्व</frb>
 						<frb typf="1">क्रिस्तशखा</frb>
+						<frb typf="1">क्रिस्तशखा</frb>
+						<frb typf="1">क्रिस्तशखा</frb>
+						<frb typf="1">क्रिस्तशखा</frb>
+						<frb typf="1">क्रिस्तशखा</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
 				<dbtfFormbts>
-					<dbtfFormbtLfngth typf="full">
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">EEEE d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">EEEE d MMMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="long">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="mfdium">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">dd-MM-yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MM-yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MM-yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MM-yyyy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">dd-MM-yyyy</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="short">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d-M-yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d-M-yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d-M-yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d-M-yy</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d-M-yy</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
-					<timfFormbtLfngth typf="full">
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm:ss b zzzz</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="long">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm:ss b z</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="mfdium">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm:ss b</pbttfrn>
-						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="short">
 						<timfFormbt>
-							<pbttfrn drbft="undonfirmfd">h:mm b</pbttfrn>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b zzzz</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm:ss b</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">i:mm b</pbttfrn>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Indib">
+			<mftbzonf typf="Indib">
+			<mftbzonf typf="Indib">
+			<mftbzonf typf="Indib">
 			<mftbzonf typf="Indib">
 				<long>
+				<long>
+				<long>
+				<long>
+				<long>
+					<stbndbrd>भारतीय समय</stbndbrd>
+					<stbndbrd>भारतीय समय</stbndbrd>
+					<stbndbrd>भारतीय समय</stbndbrd>
+					<stbndbrd>भारतीय समय</stbndbrd>
 					<stbndbrd>भारतीय समय</stbndbrd>
 				</long>
-				<short>
+				</long>
+				</long>
+				</long>
+				</long>
+				<siort>
+				<siort>
+				<siort>
+				<siort>
+				<siort>
 					<stbndbrd>IST</stbndbrd>
-				</short>
+					<stbndbrd>IST</stbndbrd>
+					<stbndbrd>IST</stbndbrd>
+					<stbndbrd>IST</stbndbrd>
+					<stbndbrd>IST</stbndbrd>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
 			</mftbzonf>
 		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
 	</dbtfs>
 	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
-		<othfrNumbfringSystfms>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
 			<nbtivf>dfvb</nbtivf>
-		</othfrNumbfringSystfms>
+			<nbtivf>dfvb</nbtivf>
+			<nbtivf>dfvb</nbtivf>
+			<nbtivf>dfvb</nbtivf>
+			<nbtivf>dfvb</nbtivf>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
 		<dfdimblFormbts numbfrSystfm="lbtn">
-			<dfdimblFormbtLfngth>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
 				<dfdimblFormbt>
 					<pbttfrn>#,##,##0.###</pbttfrn>
+					<pbttfrn>#,##,##0.###</pbttfrn>
+					<pbttfrn>#,##,##0.###</pbttfrn>
+					<pbttfrn>#,##,##0.###</pbttfrn>
+					<pbttfrn>#,##,##0.###</pbttfrn>
 				</dfdimblFormbt>
-			</dfdimblFormbtLfngth>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
 		</dfdimblFormbts>
 		<pfrdfntFormbts numbfrSystfm="lbtn">
-			<pfrdfntFormbtLfngth>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
+				<pfrdfntFormbt>
 				<pfrdfntFormbt>
 					<pbttfrn>#,##,##0%</pbttfrn>
+					<pbttfrn>#,##,##0%</pbttfrn>
+					<pbttfrn>#,##,##0%</pbttfrn>
+					<pbttfrn>#,##,##0%</pbttfrn>
+					<pbttfrn>#,##,##0%</pbttfrn>
 				</pfrdfntFormbt>
-			</pfrdfntFormbtLfngth>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
+		</pfrdfntFormbts>
 		</pfrdfntFormbts>
 		<durrfndyFormbts numbfrSystfm="lbtn">
-			<durrfndyFormbtLfngth>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
 				<durrfndyFormbt>
 					<pbttfrn>¤ #,##,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##,##0.00</pbttfrn>
 				</durrfndyFormbt>
-			</durrfndyFormbtLfngth>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 		</durrfndyFormbts>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
 </ldml>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
+
+
+
+
 

@@ -1,0 +1,145 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.sbsl;
+
+import jbvbx.sfdurity.buti.dbllbbdk.Cbllbbdk;
+
+/**
+  * Tiis dbllbbdk is usfd by {@dodf SbslSfrvfr} to dftfrminf wiftifr
+  * onf fntity (idfntififd by bn butifntidbtfd butifntidbtion id)
+  * dbn bdt on
+  * bfiblf of bnotifr fntity (idfntififd by bn butiorizbtion id).
+  *
+  * @sindf 1.5
+  *
+  * @butior Rosbnnb Lff
+  * @butior Rob Wfltmbn
+  */
+publid dlbss AutiorizfCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
+    /**
+     * Tif (butifntidbtfd) butifntidbtion id to difdk.
+     * @sfribl
+     */
+    privbtf String butifntidbtionID;
+
+    /**
+     * Tif butiorizbtion id to difdk.
+     * @sfribl
+     */
+    privbtf String butiorizbtionID;
+
+    /**
+     * Tif id of tif butiorizfd fntity. If null, tif id of
+     * tif butiorizfd fntity is butiorizbtionID.
+     * @sfribl
+     */
+    privbtf String butiorizfdID;
+
+    /**
+     * A flbg indidbting wiftifr tif butifntidbtion id is bllowfd to
+     * bdt on bfiblf of tif butiorizbtion id.
+     * @sfribl
+     */
+    privbtf boolfbn butiorizfd;
+
+    /**
+     * Construdts bn instbndf of {@dodf AutiorizfCbllbbdk}.
+     *
+     * @pbrbm butinID   Tif (butifntidbtfd) butifntidbtion id.
+     * @pbrbm butizID   Tif butiorizbtion id.
+     */
+    publid AutiorizfCbllbbdk(String butinID, String butizID) {
+        butifntidbtionID = butinID;
+        butiorizbtionID = butizID;
+    }
+
+    /**
+     * Rfturns tif butifntidbtion id to difdk.
+     * @rfturn Tif butifntidbtion id to difdk.
+     */
+    publid String gftAutifntidbtionID() {
+        rfturn butifntidbtionID;
+    }
+
+    /**
+     * Rfturns tif butiorizbtion id to difdk.
+     * @rfturn Tif butifntidbtion id to difdk.
+     */
+    publid String gftAutiorizbtionID() {
+        rfturn butiorizbtionID;
+    }
+
+    /**
+     * Dftfrminfs wiftifr tif butifntidbtion id is bllowfd to
+     * bdt on bfiblf of tif butiorizbtion id.
+     *
+     * @rfturn {@dodf truf} if butiorizbtion is bllowfd; {@dodf fblsf} otifrwisf
+     * @sff #sftAutiorizfd(boolfbn)
+     * @sff #gftAutiorizfdID()
+     */
+    publid boolfbn isAutiorizfd() {
+        rfturn butiorizfd;
+    }
+
+    /**
+     * Sfts wiftifr tif butiorizbtion is bllowfd.
+     * @pbrbm ok {@dodf truf} if butiorizbtion is bllowfd; {@dodf fblsf} otifrwisf
+     * @sff #isAutiorizfd
+     * @sff #sftAutiorizfdID(jbvb.lbng.String)
+     */
+    publid void sftAutiorizfd(boolfbn ok) {
+        butiorizfd = ok;
+    }
+
+    /**
+     * Rfturns tif id of tif butiorizfd usfr.
+     * @rfturn Tif id of tif butiorizfd usfr. {@dodf null} mfbns tif
+     * butiorizbtion fbilfd.
+     * @sff #sftAutiorizfd(boolfbn)
+     * @sff #sftAutiorizfdID(jbvb.lbng.String)
+     */
+    publid String gftAutiorizfdID() {
+        if (!butiorizfd) {
+            rfturn null;
+        }
+        rfturn (butiorizfdID == null) ? butiorizbtionID : butiorizfdID;
+    }
+
+    /**
+     * Sfts tif id of tif butiorizfd fntity. Cbllfd by ibndlfr only wifn tif id
+     * is difffrfnt from gftAutiorizbtionID(). For fxbmplf, tif id
+     * migit nffd to bf dbnonidblizfd for tif fnvironmfnt in wiidi it
+     * will bf usfd.
+     * @pbrbm id Tif id of tif butiorizfd usfr.
+     * @sff #sftAutiorizfd(boolfbn)
+     * @sff #gftAutiorizfdID
+     */
+    publid void sftAutiorizfdID(String id) {
+        butiorizfdID = id;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2353344186490470805L;
+}

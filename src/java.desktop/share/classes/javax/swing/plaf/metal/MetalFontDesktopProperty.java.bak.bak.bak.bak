@@ -1,99 +1,495 @@
 /*
- * Copyright (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.plbf.mftbl;
+pbdkbgf jbvbx.swing.plbf.mftbl;
+pbdkbgf jbvbx.swing.plbf.mftbl;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 pbdkbgf jbvbx.swing.plbf.mftbl;
 
+
+
+
+
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
 import jbvb.bwt.*;
 
+
+
+
+
 /**
- * DfsktopPropfrty thbt only usfs font hfight in donfiguring font. This
+/**
+/**
+/**
+/**
+ * DfsktopPropfrty tibt only usfs font ifigit in donfiguring font. Tiis
+ * DfsktopPropfrty tibt only usfs font ifigit in donfiguring font. Tiis
+ * DfsktopPropfrty tibt only usfs font ifigit in donfiguring font. Tiis
+ * DfsktopPropfrty tibt only usfs font ifigit in donfiguring font. Tiis
+ * DfsktopPropfrty tibt only usfs font ifigit in donfiguring font. Tiis
+ * is only usfd on Windows.
+ * is only usfd on Windows.
+ * is only usfd on Windows.
+ * is only usfd on Windows.
  * is only usfd on Windows.
  *
+ *
+ *
+ *
+ *
+ */
+ */
+ */
+ */
  */
 dlbss MftblFontDfsktopPropfrty fxtfnds dom.sun.jbvb.swing.plbf.windows.DfsktopPropfrty {
+dlbss MftblFontDfsktopPropfrty fxtfnds dom.sun.jbvb.swing.plbf.windows.DfsktopPropfrty {
+dlbss MftblFontDfsktopPropfrty fxtfnds dom.sun.jbvb.swing.plbf.windows.DfsktopPropfrty {
+dlbss MftblFontDfsktopPropfrty fxtfnds dom.sun.jbvb.swing.plbf.windows.DfsktopPropfrty {
+dlbss MftblFontDfsktopPropfrty fxtfnds dom.sun.jbvb.swing.plbf.windows.DfsktopPropfrty {
     /**
-     * Mbps from mftbl font thfmf typf bs dffinfd in MftblThfmf
-     * to thf dorrfsponding dfsktop propfrty nbmf.
+    /**
+    /**
+    /**
+    /**
+     * Mbps from mftbl font tifmf typf bs dffinfd in MftblTifmf
+     * Mbps from mftbl font tifmf typf bs dffinfd in MftblTifmf
+     * Mbps from mftbl font tifmf typf bs dffinfd in MftblTifmf
+     * Mbps from mftbl font tifmf typf bs dffinfd in MftblTifmf
+     * Mbps from mftbl font tifmf typf bs dffinfd in MftblTifmf
+     * to tif dorrfsponding dfsktop propfrty nbmf.
+     * to tif dorrfsponding dfsktop propfrty nbmf.
+     * to tif dorrfsponding dfsktop propfrty nbmf.
+     * to tif dorrfsponding dfsktop propfrty nbmf.
+     * to tif dorrfsponding dfsktop propfrty nbmf.
+     */
+     */
+     */
+     */
      */
     privbtf stbtid finbl String[] propfrtyMbpping = {
-        "win.bnsiVbr.font.hfight",
-        "win.tooltip.font.hfight",
-        "win.bnsiVbr.font.hfight",
-        "win.mfnu.font.hfight",
-        "win.frbmf.dbptionFont.hfight",
-        "win.mfnu.font.hfight"
+    privbtf stbtid finbl String[] propfrtyMbpping = {
+    privbtf stbtid finbl String[] propfrtyMbpping = {
+    privbtf stbtid finbl String[] propfrtyMbpping = {
+    privbtf stbtid finbl String[] propfrtyMbpping = {
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.tooltip.font.ifigit",
+        "win.tooltip.font.ifigit",
+        "win.tooltip.font.ifigit",
+        "win.tooltip.font.ifigit",
+        "win.tooltip.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.mfnu.font.ifigit",
+        "win.mfnu.font.ifigit",
+        "win.mfnu.font.ifigit",
+        "win.mfnu.font.ifigit",
+        "win.mfnu.font.ifigit",
+        "win.frbmf.dbptionFont.ifigit",
+        "win.frbmf.dbptionFont.ifigit",
+        "win.frbmf.dbptionFont.ifigit",
+        "win.frbmf.dbptionFont.ifigit",
+        "win.frbmf.dbptionFont.ifigit",
+        "win.mfnu.font.ifigit"
+        "win.mfnu.font.ifigit"
+        "win.mfnu.font.ifigit"
+        "win.mfnu.font.ifigit"
+        "win.mfnu.font.ifigit"
+    };
+    };
+    };
+    };
     };
 
+
+
+
+
     /**
-     * Corrfsponds to b MftblThfmf font typf.
+    /**
+    /**
+    /**
+    /**
+     * Corrfsponds to b MftblTifmf font typf.
+     * Corrfsponds to b MftblTifmf font typf.
+     * Corrfsponds to b MftblTifmf font typf.
+     * Corrfsponds to b MftblTifmf font typf.
+     * Corrfsponds to b MftblTifmf font typf.
      */
+     */
+     */
+     */
+     */
+    privbtf int typf;
+    privbtf int typf;
+    privbtf int typf;
+    privbtf int typf;
     privbtf int typf;
 
 
+
+
+
+
+
+
+
+
     /**
-     * Crfbtfs b MftblFontDfsktopPropfrty. Thf kfy usfd to lookup thf
-     * dfsktop propfrty is dftfrminfd from thf typf of font.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b MftblFontDfsktopPropfrty. Tif kfy usfd to lookup tif
+     * Crfbtfs b MftblFontDfsktopPropfrty. Tif kfy usfd to lookup tif
+     * Crfbtfs b MftblFontDfsktopPropfrty. Tif kfy usfd to lookup tif
+     * Crfbtfs b MftblFontDfsktopPropfrty. Tif kfy usfd to lookup tif
+     * Crfbtfs b MftblFontDfsktopPropfrty. Tif kfy usfd to lookup tif
+     * dfsktop propfrty is dftfrminfd from tif typf of font.
+     * dfsktop propfrty is dftfrminfd from tif typf of font.
+     * dfsktop propfrty is dftfrminfd from tif typf of font.
+     * dfsktop propfrty is dftfrminfd from tif typf of font.
+     * dfsktop propfrty is dftfrminfd from tif typf of font.
      *
-     * @pbrbm typf MftblThfmf font typf.
+     *
+     *
+     *
+     *
+     * @pbrbm typf MftblTifmf font typf.
+     * @pbrbm typf MftblTifmf font typf.
+     * @pbrbm typf MftblTifmf font typf.
+     * @pbrbm typf MftblTifmf font typf.
+     * @pbrbm typf MftblTifmf font typf.
+     */
+     */
+     */
+     */
      */
     MftblFontDfsktopPropfrty(int typf) {
-        this(propfrtyMbpping[typf], typf);
+    MftblFontDfsktopPropfrty(int typf) {
+    MftblFontDfsktopPropfrty(int typf) {
+    MftblFontDfsktopPropfrty(int typf) {
+    MftblFontDfsktopPropfrty(int typf) {
+        tiis(propfrtyMbpping[typf], typf);
+        tiis(propfrtyMbpping[typf], typf);
+        tiis(propfrtyMbpping[typf], typf);
+        tiis(propfrtyMbpping[typf], typf);
+        tiis(propfrtyMbpping[typf], typf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b MftblFontDfsktopPropfrty.
+     * Crfbtfs b MftblFontDfsktopPropfrty.
+     * Crfbtfs b MftblFontDfsktopPropfrty.
+     * Crfbtfs b MftblFontDfsktopPropfrty.
+     * Crfbtfs b MftblFontDfsktopPropfrty.
+     *
+     *
+     *
+     *
      *
      * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
-     * @pbrbm toolkit Toolkit usfd to fftdh propfrty from, dbn bf null
-     *        in whidh dffbult will bf usfd.
-     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblThfmf font
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm toolkit Toolkit usfd to fftdi propfrty from, dbn bf null
+     * @pbrbm toolkit Toolkit usfd to fftdi propfrty from, dbn bf null
+     * @pbrbm toolkit Toolkit usfd to fftdi propfrty from, dbn bf null
+     * @pbrbm toolkit Toolkit usfd to fftdi propfrty from, dbn bf null
+     * @pbrbm toolkit Toolkit usfd to fftdi propfrty from, dbn bf null
+     *        in wiidi dffbult will bf usfd.
+     *        in wiidi dffbult will bf usfd.
+     *        in wiidi dffbult will bf usfd.
+     *        in wiidi dffbult will bf usfd.
+     *        in wiidi dffbult will bf usfd.
+     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblTifmf font
+     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblTifmf font
+     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblTifmf font
+     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblTifmf font
+     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblTifmf font
+     *        typf.
+     *        typf.
+     *        typf.
+     *        typf.
      *        typf.
      */
+     */
+     */
+     */
+     */
+    MftblFontDfsktopPropfrty(String kfy, int typf) {
+    MftblFontDfsktopPropfrty(String kfy, int typf) {
+    MftblFontDfsktopPropfrty(String kfy, int typf) {
+    MftblFontDfsktopPropfrty(String kfy, int typf) {
     MftblFontDfsktopPropfrty(String kfy, int typf) {
         supfr(kfy, null);
-        this.typf = typf;
+        supfr(kfy, null);
+        supfr(kfy, null);
+        supfr(kfy, null);
+        supfr(kfy, null);
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Ovfrridfn to drfbtf b Font with thf sizf doming from thf dfsktop
-     * bnd thf stylf bnd nbmf doming from DffbultMftblThfmf.
+    /**
+    /**
+    /**
+    /**
+     * Ovfrridfn to drfbtf b Font witi tif sizf doming from tif dfsktop
+     * Ovfrridfn to drfbtf b Font witi tif sizf doming from tif dfsktop
+     * Ovfrridfn to drfbtf b Font witi tif sizf doming from tif dfsktop
+     * Ovfrridfn to drfbtf b Font witi tif sizf doming from tif dfsktop
+     * Ovfrridfn to drfbtf b Font witi tif sizf doming from tif dfsktop
+     * bnd tif stylf bnd nbmf doming from DffbultMftblTifmf.
+     * bnd tif stylf bnd nbmf doming from DffbultMftblTifmf.
+     * bnd tif stylf bnd nbmf doming from DffbultMftblTifmf.
+     * bnd tif stylf bnd nbmf doming from DffbultMftblTifmf.
+     * bnd tif stylf bnd nbmf doming from DffbultMftblTifmf.
+     */
+     */
+     */
+     */
      */
     protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
         if (vbluf instbndfof Intfgfr) {
-            vbluf = nfw Font(DffbultMftblThfmf.gftDffbultFontNbmf(typf),
-                             DffbultMftblThfmf.gftDffbultFontStylf(typf),
+        if (vbluf instbndfof Intfgfr) {
+        if (vbluf instbndfof Intfgfr) {
+        if (vbluf instbndfof Intfgfr) {
+        if (vbluf instbndfof Intfgfr) {
+            vbluf = nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+            vbluf = nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+            vbluf = nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+            vbluf = nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+            vbluf = nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+                             DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                             DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                             DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                             DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                             DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                             ((Intfgfr)vbluf).intVbluf());
+                             ((Intfgfr)vbluf).intVbluf());
+                             ((Intfgfr)vbluf).intVbluf());
+                             ((Intfgfr)vbluf).intVbluf());
                              ((Intfgfr)vbluf).intVbluf());
         }
+        }
+        }
+        }
+        }
+        rfturn supfr.donfigurfVbluf(vbluf);
+        rfturn supfr.donfigurfVbluf(vbluf);
+        rfturn supfr.donfigurfVbluf(vbluf);
+        rfturn supfr.donfigurfVbluf(vbluf);
         rfturn supfr.donfigurfVbluf(vbluf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf dffbult font.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dffbult font.
+     * Rfturns tif dffbult font.
+     * Rfturns tif dffbult font.
+     * Rfturns tif dffbult font.
+     * Rfturns tif dffbult font.
+     */
+     */
+     */
+     */
      */
     protfdtfd Objfdt gftDffbultVbluf() {
-        rfturn nfw Font(DffbultMftblThfmf.gftDffbultFontNbmf(typf),
-                        DffbultMftblThfmf.gftDffbultFontStylf(typf),
-                        DffbultMftblThfmf.gftDffbultFontSizf(typf));
+    protfdtfd Objfdt gftDffbultVbluf() {
+    protfdtfd Objfdt gftDffbultVbluf() {
+    protfdtfd Objfdt gftDffbultVbluf() {
+    protfdtfd Objfdt gftDffbultVbluf() {
+        rfturn nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+        rfturn nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+        rfturn nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+        rfturn nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+        rfturn nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+                        DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                        DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                        DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                        DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                        DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                        DffbultMftblTifmf.gftDffbultFontSizf(typf));
+                        DffbultMftblTifmf.gftDffbultFontSizf(typf));
+                        DffbultMftblTifmf.gftDffbultFontSizf(typf));
+                        DffbultMftblTifmf.gftDffbultFontSizf(typf));
+                        DffbultMftblTifmf.gftDffbultFontSizf(typf));
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

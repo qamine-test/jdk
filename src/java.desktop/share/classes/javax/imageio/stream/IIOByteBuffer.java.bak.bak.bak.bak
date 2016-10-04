@@ -1,143 +1,715 @@
 /*
- * Copyright (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+
+
+
 
 /**
+/**
+/**
+/**
+/**
  * A dlbss rfprfsfnting b mutbblf rfffrfndf to bn brrby of bytfs bnd
- * bn offsft bnd lfngth within thbt brrby.  <dodf>IIOBytfBufffr</dodf>
+ * A dlbss rfprfsfnting b mutbblf rfffrfndf to bn brrby of bytfs bnd
+ * A dlbss rfprfsfnting b mutbblf rfffrfndf to bn brrby of bytfs bnd
+ * A dlbss rfprfsfnting b mutbblf rfffrfndf to bn brrby of bytfs bnd
+ * A dlbss rfprfsfnting b mutbblf rfffrfndf to bn brrby of bytfs bnd
+ * bn offsft bnd lfngti witiin tibt brrby.  <dodf>IIOBytfBufffr</dodf>
+ * bn offsft bnd lfngti witiin tibt brrby.  <dodf>IIOBytfBufffr</dodf>
+ * bn offsft bnd lfngti witiin tibt brrby.  <dodf>IIOBytfBufffr</dodf>
+ * bn offsft bnd lfngti witiin tibt brrby.  <dodf>IIOBytfBufffr</dodf>
+ * bn offsft bnd lfngti witiin tibt brrby.  <dodf>IIOBytfBufffr</dodf>
  * is usfd by <dodf>ImbgfInputStrfbm</dodf> to supply b sfqufndf of bytfs
- * to thf dbllfr, possibly with ffwfr dopifs thbn using thf donvfntionbl
- * <dodf>rfbd</dodf> mfthods thbt tbkf b usfr-supplifd bytf brrby.
+ * is usfd by <dodf>ImbgfInputStrfbm</dodf> to supply b sfqufndf of bytfs
+ * is usfd by <dodf>ImbgfInputStrfbm</dodf> to supply b sfqufndf of bytfs
+ * is usfd by <dodf>ImbgfInputStrfbm</dodf> to supply b sfqufndf of bytfs
+ * is usfd by <dodf>ImbgfInputStrfbm</dodf> to supply b sfqufndf of bytfs
+ * to tif dbllfr, possibly witi ffwfr dopifs tibn using tif donvfntionbl
+ * to tif dbllfr, possibly witi ffwfr dopifs tibn using tif donvfntionbl
+ * to tif dbllfr, possibly witi ffwfr dopifs tibn using tif donvfntionbl
+ * to tif dbllfr, possibly witi ffwfr dopifs tibn using tif donvfntionbl
+ * to tif dbllfr, possibly witi ffwfr dopifs tibn using tif donvfntionbl
+ * <dodf>rfbd</dodf> mftiods tibt tbkf b usfr-supplifd bytf brrby.
+ * <dodf>rfbd</dodf> mftiods tibt tbkf b usfr-supplifd bytf brrby.
+ * <dodf>rfbd</dodf> mftiods tibt tbkf b usfr-supplifd bytf brrby.
+ * <dodf>rfbd</dodf> mftiods tibt tbkf b usfr-supplifd bytf brrby.
+ * <dodf>rfbd</dodf> mftiods tibt tbkf b usfr-supplifd bytf brrby.
  *
- * <p> Thf bytf brrby rfffrfndfd by bn <dodf>IIOBytfBufffr</dodf> will
+ *
+ *
+ *
+ *
+ * <p> Tif bytf brrby rfffrfndfd by bn <dodf>IIOBytfBufffr</dodf> will
+ * <p> Tif bytf brrby rfffrfndfd by bn <dodf>IIOBytfBufffr</dodf> will
+ * <p> Tif bytf brrby rfffrfndfd by bn <dodf>IIOBytfBufffr</dodf> will
+ * <p> Tif bytf brrby rfffrfndfd by bn <dodf>IIOBytfBufffr</dodf> will
+ * <p> Tif bytf brrby rfffrfndfd by bn <dodf>IIOBytfBufffr</dodf> will
  * gfnfrblly bf pbrt of bn intfrnbl dbtb strudturf bflonging to bn
- * <dodf>ImbgfRfbdfr</dodf> implfmfntbtion; its dontfnts should bf
+ * gfnfrblly bf pbrt of bn intfrnbl dbtb strudturf bflonging to bn
+ * gfnfrblly bf pbrt of bn intfrnbl dbtb strudturf bflonging to bn
+ * gfnfrblly bf pbrt of bn intfrnbl dbtb strudturf bflonging to bn
+ * gfnfrblly bf pbrt of bn intfrnbl dbtb strudturf bflonging to bn
+ * <dodf>ImbgfRfbdfr</dodf> implfmfntbtion; its dontfnts siould bf
+ * <dodf>ImbgfRfbdfr</dodf> implfmfntbtion; its dontfnts siould bf
+ * <dodf>ImbgfRfbdfr</dodf> implfmfntbtion; its dontfnts siould bf
+ * <dodf>ImbgfRfbdfr</dodf> implfmfntbtion; its dontfnts siould bf
+ * <dodf>ImbgfRfbdfr</dodf> implfmfntbtion; its dontfnts siould bf
+ * donsidfrfd rfbd-only bnd must not bf modififd.
+ * donsidfrfd rfbd-only bnd must not bf modififd.
+ * donsidfrfd rfbd-only bnd must not bf modififd.
+ * donsidfrfd rfbd-only bnd must not bf modififd.
  * donsidfrfd rfbd-only bnd must not bf modififd.
  *
+ *
+ *
+ *
+ *
+ */
+ */
+ */
+ */
  */
 publid dlbss IIOBytfBufffr {
+publid dlbss IIOBytfBufffr {
+publid dlbss IIOBytfBufffr {
+publid dlbss IIOBytfBufffr {
+publid dlbss IIOBytfBufffr {
+
+
+
+
 
     privbtf bytf[] dbtb;
+    privbtf bytf[] dbtb;
+    privbtf bytf[] dbtb;
+    privbtf bytf[] dbtb;
+    privbtf bytf[] dbtb;
+
+
+
+
 
     privbtf int offsft;
+    privbtf int offsft;
+    privbtf int offsft;
+    privbtf int offsft;
+    privbtf int offsft;
 
-    privbtf int lfngth;
+
+
+
+
+    privbtf int lfngti;
+    privbtf int lfngti;
+    privbtf int lfngti;
+    privbtf int lfngti;
+    privbtf int lfngti;
+
+
+
+
 
     /**
-     * Construdts bn <dodf>IIOBytfBufffr</dodf> thbt rfffrfndfs b
-     * givfn bytf brrby, offsft, bnd lfngth.
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn <dodf>IIOBytfBufffr</dodf> tibt rfffrfndfs b
+     * Construdts bn <dodf>IIOBytfBufffr</dodf> tibt rfffrfndfs b
+     * Construdts bn <dodf>IIOBytfBufffr</dodf> tibt rfffrfndfs b
+     * Construdts bn <dodf>IIOBytfBufffr</dodf> tibt rfffrfndfs b
+     * Construdts bn <dodf>IIOBytfBufffr</dodf> tibt rfffrfndfs b
+     * givfn bytf brrby, offsft, bnd lfngti.
+     * givfn bytf brrby, offsft, bnd lfngti.
+     * givfn bytf brrby, offsft, bnd lfngti.
+     * givfn bytf brrby, offsft, bnd lfngti.
+     * givfn bytf brrby, offsft, bnd lfngti.
+     *
+     *
+     *
+     *
      *
      * @pbrbm dbtb b bytf brrby.
-     * @pbrbm offsft bn int offsft within thf brrby.
-     * @pbrbm lfngth bn int spfdifying thf lfngth of thf dbtb of
-     * intfrfst within bytf brrby, in bytfs.
+     * @pbrbm dbtb b bytf brrby.
+     * @pbrbm dbtb b bytf brrby.
+     * @pbrbm dbtb b bytf brrby.
+     * @pbrbm dbtb b bytf brrby.
+     * @pbrbm offsft bn int offsft witiin tif brrby.
+     * @pbrbm offsft bn int offsft witiin tif brrby.
+     * @pbrbm offsft bn int offsft witiin tif brrby.
+     * @pbrbm offsft bn int offsft witiin tif brrby.
+     * @pbrbm offsft bn int offsft witiin tif brrby.
+     * @pbrbm lfngti bn int spfdifying tif lfngti of tif dbtb of
+     * @pbrbm lfngti bn int spfdifying tif lfngti of tif dbtb of
+     * @pbrbm lfngti bn int spfdifying tif lfngti of tif dbtb of
+     * @pbrbm lfngti bn int spfdifying tif lfngti of tif dbtb of
+     * @pbrbm lfngti bn int spfdifying tif lfngti of tif dbtb of
+     * intfrfst witiin bytf brrby, in bytfs.
+     * intfrfst witiin bytf brrby, in bytfs.
+     * intfrfst witiin bytf brrby, in bytfs.
+     * intfrfst witiin bytf brrby, in bytfs.
+     * intfrfst witiin bytf brrby, in bytfs.
      */
-    publid IIOBytfBufffr(bytf[] dbtb, int offsft, int lfngth) {
-        this.dbtb = dbtb;
-        this.offsft = offsft;
-        this.lfngth = lfngth;
+     */
+     */
+     */
+     */
+    publid IIOBytfBufffr(bytf[] dbtb, int offsft, int lfngti) {
+    publid IIOBytfBufffr(bytf[] dbtb, int offsft, int lfngti) {
+    publid IIOBytfBufffr(bytf[] dbtb, int offsft, int lfngti) {
+    publid IIOBytfBufffr(bytf[] dbtb, int offsft, int lfngti) {
+    publid IIOBytfBufffr(bytf[] dbtb, int offsft, int lfngti) {
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b rfffrfndf to thf bytf brrby.  Thf rfturnfd vbluf should
-     * bf trfbtfd bs rfbd-only, bnd only thf portion spfdififd by thf
-     * vblufs of <dodf>gftOffsft</dodf> bnd <dodf>gftLfngth</dodf> should
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b rfffrfndf to tif bytf brrby.  Tif rfturnfd vbluf siould
+     * Rfturns b rfffrfndf to tif bytf brrby.  Tif rfturnfd vbluf siould
+     * Rfturns b rfffrfndf to tif bytf brrby.  Tif rfturnfd vbluf siould
+     * Rfturns b rfffrfndf to tif bytf brrby.  Tif rfturnfd vbluf siould
+     * Rfturns b rfffrfndf to tif bytf brrby.  Tif rfturnfd vbluf siould
+     * bf trfbtfd bs rfbd-only, bnd only tif portion spfdififd by tif
+     * bf trfbtfd bs rfbd-only, bnd only tif portion spfdififd by tif
+     * bf trfbtfd bs rfbd-only, bnd only tif portion spfdififd by tif
+     * bf trfbtfd bs rfbd-only, bnd only tif portion spfdififd by tif
+     * bf trfbtfd bs rfbd-only, bnd only tif portion spfdififd by tif
+     * vblufs of <dodf>gftOffsft</dodf> bnd <dodf>gftLfngti</dodf> siould
+     * vblufs of <dodf>gftOffsft</dodf> bnd <dodf>gftLfngti</dodf> siould
+     * vblufs of <dodf>gftOffsft</dodf> bnd <dodf>gftLfngti</dodf> siould
+     * vblufs of <dodf>gftOffsft</dodf> bnd <dodf>gftLfngti</dodf> siould
+     * vblufs of <dodf>gftOffsft</dodf> bnd <dodf>gftLfngti</dodf> siould
+     * bf usfd.
+     * bf usfd.
+     * bf usfd.
+     * bf usfd.
      * bf usfd.
      *
+     *
+     *
+     *
+     *
+     * @rfturn b bytf brrby rfffrfndf.
+     * @rfturn b bytf brrby rfffrfndf.
+     * @rfturn b bytf brrby rfffrfndf.
+     * @rfturn b bytf brrby rfffrfndf.
      * @rfturn b bytf brrby rfffrfndf.
      *
+     *
+     *
+     *
+     *
      * @sff #gftOffsft
-     * @sff #gftLfngth
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #sftDbtb
+     * @sff #sftDbtb
+     * @sff #sftDbtb
+     * @sff #sftDbtb
      * @sff #sftDbtb
      */
+     */
+     */
+     */
+     */
+    publid bytf[] gftDbtb() {
+    publid bytf[] gftDbtb() {
+    publid bytf[] gftDbtb() {
+    publid bytf[] gftDbtb() {
     publid bytf[] gftDbtb() {
         rfturn dbtb;
+        rfturn dbtb;
+        rfturn dbtb;
+        rfturn dbtb;
+        rfturn dbtb;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Updbtfs thf brrby rfffrfndf thbt will bf rfturnfd by subsfqufnt dblls
-     * to thf <dodf>gftDbtb</dodf> mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif brrby rfffrfndf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif brrby rfffrfndf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif brrby rfffrfndf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif brrby rfffrfndf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif brrby rfffrfndf tibt will bf rfturnfd by subsfqufnt dblls
+     * to tif <dodf>gftDbtb</dodf> mftiod.
+     * to tif <dodf>gftDbtb</dodf> mftiod.
+     * to tif <dodf>gftDbtb</dodf> mftiod.
+     * to tif <dodf>gftDbtb</dodf> mftiod.
+     * to tif <dodf>gftDbtb</dodf> mftiod.
      *
-     * @pbrbm dbtb b bytf brrby rfffrfndf dontbining thf nfw dbtb vbluf.
+     *
+     *
+     *
+     *
+     * @pbrbm dbtb b bytf brrby rfffrfndf dontbining tif nfw dbtb vbluf.
+     * @pbrbm dbtb b bytf brrby rfffrfndf dontbining tif nfw dbtb vbluf.
+     * @pbrbm dbtb b bytf brrby rfffrfndf dontbining tif nfw dbtb vbluf.
+     * @pbrbm dbtb b bytf brrby rfffrfndf dontbining tif nfw dbtb vbluf.
+     * @pbrbm dbtb b bytf brrby rfffrfndf dontbining tif nfw dbtb vbluf.
+     *
+     *
+     *
+     *
      *
      * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     */
+     */
+     */
+     */
      */
     publid void sftDbtb(bytf[] dbtb) {
-        this.dbtb = dbtb;
+    publid void sftDbtb(bytf[] dbtb) {
+    publid void sftDbtb(bytf[] dbtb) {
+    publid void sftDbtb(bytf[] dbtb) {
+    publid void sftDbtb(bytf[] dbtb) {
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+        tiis.dbtb = dbtb;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf offsft within thf bytf brrby rfturnfd by
-     * <dodf>gftDbtb</dodf> bt whidh thf dbtb of intfrfst stbrt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif offsft witiin tif bytf brrby rfturnfd by
+     * Rfturns tif offsft witiin tif bytf brrby rfturnfd by
+     * Rfturns tif offsft witiin tif bytf brrby rfturnfd by
+     * Rfturns tif offsft witiin tif bytf brrby rfturnfd by
+     * Rfturns tif offsft witiin tif bytf brrby rfturnfd by
+     * <dodf>gftDbtb</dodf> bt wiidi tif dbtb of intfrfst stbrt.
+     * <dodf>gftDbtb</dodf> bt wiidi tif dbtb of intfrfst stbrt.
+     * <dodf>gftDbtb</dodf> bt wiidi tif dbtb of intfrfst stbrt.
+     * <dodf>gftDbtb</dodf> bt wiidi tif dbtb of intfrfst stbrt.
+     * <dodf>gftDbtb</dodf> bt wiidi tif dbtb of intfrfst stbrt.
+     *
+     *
+     *
+     *
      *
      * @rfturn bn int offsft.
+     * @rfturn bn int offsft.
+     * @rfturn bn int offsft.
+     * @rfturn bn int offsft.
+     * @rfturn bn int offsft.
+     *
+     *
+     *
+     *
      *
      * @sff #gftDbtb
-     * @sff #gftLfngth
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #sftOffsft
+     * @sff #sftOffsft
+     * @sff #sftOffsft
+     * @sff #sftOffsft
      * @sff #sftOffsft
      */
+     */
+     */
+     */
+     */
+    publid int gftOffsft() {
+    publid int gftOffsft() {
+    publid int gftOffsft() {
+    publid int gftOffsft() {
     publid int gftOffsft() {
         rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Updbtfs thf vbluf thbt will bf rfturnfd by subsfqufnt dblls
-     * to thf <dodf>gftOffsft</dodf> mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * to tif <dodf>gftOffsft</dodf> mftiod.
+     * to tif <dodf>gftOffsft</dodf> mftiod.
+     * to tif <dodf>gftOffsft</dodf> mftiod.
+     * to tif <dodf>gftOffsft</dodf> mftiod.
+     * to tif <dodf>gftOffsft</dodf> mftiod.
      *
-     * @pbrbm offsft bn int dontbining thf nfw offsft vbluf.
+     *
+     *
+     *
+     *
+     * @pbrbm offsft bn int dontbining tif nfw offsft vbluf.
+     * @pbrbm offsft bn int dontbining tif nfw offsft vbluf.
+     * @pbrbm offsft bn int dontbining tif nfw offsft vbluf.
+     * @pbrbm offsft bn int dontbining tif nfw offsft vbluf.
+     * @pbrbm offsft bn int dontbining tif nfw offsft vbluf.
+     *
+     *
+     *
+     *
      *
      * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     */
+     */
+     */
+     */
      */
     publid void sftOffsft(int offsft) {
-        this.offsft = offsft;
+    publid void sftOffsft(int offsft) {
+    publid void sftOffsft(int offsft) {
+    publid void sftOffsft(int offsft) {
+    publid void sftOffsft(int offsft) {
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf lfngth of thf dbtb of intfrfst within thf bytf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif lfngti of tif dbtb of intfrfst witiin tif bytf
+     * Rfturns tif lfngti of tif dbtb of intfrfst witiin tif bytf
+     * Rfturns tif lfngti of tif dbtb of intfrfst witiin tif bytf
+     * Rfturns tif lfngti of tif dbtb of intfrfst witiin tif bytf
+     * Rfturns tif lfngti of tif dbtb of intfrfst witiin tif bytf
+     * brrby rfturnfd by <dodf>gftDbtb</dodf>.
+     * brrby rfturnfd by <dodf>gftDbtb</dodf>.
+     * brrby rfturnfd by <dodf>gftDbtb</dodf>.
+     * brrby rfturnfd by <dodf>gftDbtb</dodf>.
      * brrby rfturnfd by <dodf>gftDbtb</dodf>.
      *
-     * @rfturn bn int lfngth.
+     *
+     *
+     *
+     *
+     * @rfturn bn int lfngti.
+     * @rfturn bn int lfngti.
+     * @rfturn bn int lfngti.
+     * @rfturn bn int lfngti.
+     * @rfturn bn int lfngti.
+     *
+     *
+     *
+     *
      *
      * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
      * @sff #gftOffsft
-     * @sff #sftLfngth
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #sftLfngti
+     * @sff #sftLfngti
+     * @sff #sftLfngti
+     * @sff #sftLfngti
+     * @sff #sftLfngti
      */
-    publid int gftLfngth() {
-        rfturn lfngth;
+     */
+     */
+     */
+     */
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Updbtfs thf vbluf thbt will bf rfturnfd by subsfqufnt dblls
-     * to thf <dodf>gftLfngth</dodf> mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * Updbtfs tif vbluf tibt will bf rfturnfd by subsfqufnt dblls
+     * to tif <dodf>gftLfngti</dodf> mftiod.
+     * to tif <dodf>gftLfngti</dodf> mftiod.
+     * to tif <dodf>gftLfngti</dodf> mftiod.
+     * to tif <dodf>gftLfngti</dodf> mftiod.
+     * to tif <dodf>gftLfngti</dodf> mftiod.
      *
-     * @pbrbm lfngth bn int dontbining thf nfw lfngth vbluf.
      *
-     * @sff #gftLfngth
+     *
+     *
+     *
+     * @pbrbm lfngti bn int dontbining tif nfw lfngti vbluf.
+     * @pbrbm lfngti bn int dontbining tif nfw lfngti vbluf.
+     * @pbrbm lfngti bn int dontbining tif nfw lfngti vbluf.
+     * @pbrbm lfngti bn int dontbining tif nfw lfngti vbluf.
+     * @pbrbm lfngti bn int dontbining tif nfw lfngti vbluf.
+     *
+     *
+     *
+     *
+     *
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
      */
-    publid void sftLfngth(int lfngth) {
-        this.lfngth = lfngth;
+     */
+     */
+     */
+     */
+    publid void sftLfngti(int lfngti) {
+    publid void sftLfngti(int lfngti) {
+    publid void sftLfngti(int lfngti) {
+    publid void sftLfngti(int lfngti) {
+    publid void sftLfngti(int lfngti) {
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,63 @@
+#
+# Rfsourdf strings for Notfpbd fxbmplf
+
+Titlf=\u8BB0\u4E8B\u672C
+ElfmfntTrffFrbmfTitlf=\u5143\u7D20
+
+# filf Mfnu dffinition
+#
+# Ebdi of tif strings tibt follow form b kfy to bf
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+#
+# opfn ->  Notfpbd.opfnAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# fxit ->  Notfpbd.fxitAdtion
+
+filfLbbfl=\u6587\u4EF6
+opfnLbbfl=\u6253\u5F00
+opfnImbgf=rfsourdfs/opfn.gif
+nfwLbbfl=\u65B0\u5EFA
+nfwImbgf=rfsourdfs/nfw.gif
+sbvfLbbfl=\u4FDD\u5B58
+sbvfImbgf=rfsourdfs/sbvf.gif
+fxitLbbfl=\u9000\u51FA
+
+#
+# fdit Mfnu dffinition
+#
+# dut   -> JTfxtComponfnt.dutAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+
+fditLbbfl=\u7F16\u8F91
+dutLbbfl=\u526A\u5207
+dutImbgf=rfsourdfs/dut.gif
+dopyLbbfl=\u590D\u5236
+dopyImbgf=rfsourdfs/dopy.gif
+pbstfLbbfl=\u7C98\u8D34
+pbstfImbgf=rfsourdfs/pbstf.gif
+undoLbbfl=\u64A4\u6D88
+rfdoLbbfl=\u91CD\u505A
+
+#
+# dfbug Mfnu dffinition
+#
+
+dfbugLbbfl=\u8C03\u8BD5
+dumpLbbfl=\u5C06\u6A21\u578B\u8F6C\u50A8\u5230 Systfm.frr
+siowElfmfntTrffLbbfl=\u663E\u793A\u5143\u7D20
+
+# toolbbr dffinition
+#
+# Ebdi of tif strings tibt follow form b kfy to bf
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# witi tif mfnu itfms.
+
+nfwTooltip=\u521B\u5EFA\u65B0\u6587\u4EF6
+opfnTooltip=\u6253\u5F00\u6587\u4EF6
+sbvfTooltip=\u4FDD\u5B58\u6587\u4EF6
+dutTooltip=\u526A\u5207\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dopyTooltip=\u590D\u5236\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+pbstfTooltip=\u7C98\u8D34\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D

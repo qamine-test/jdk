@@ -1,0 +1,93 @@
+#
+#
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+
+bgfnt.frr.frror			   = Ffl
+bgfnt.frr.fxdfption                = Agfntfn orsbkbdf ftt undbntbg 
+bgfnt.frr.wbrning		   = Vbrning
+
+bgfnt.frr.donfigfilf.notfound      = Konfigurbtionsfilfn iittbdfs intf
+bgfnt.frr.donfigfilf.fbilfd        = Kundf intf l\u00E4sb konfigurbtionsfilfn
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = Kundf intf st\u00E4ngb konfigurbtionsfilfn
+bgfnt.frr.donfigfilf.bddfss.dfnifd = \u00C5tkomst till konfigurbtionsfilfn nfkbd
+
+bgfnt.frr.fxportbddrfss.fbilfd	   = Kundf intf fxportfrb JMX-bnslutningsbdrfssfn till instrumfntbufffrtfn
+
+bgfnt.frr.bgfntdlbss.notfound      = Administrbtionsbgfntklbssfn iittbdfs intf
+bgfnt.frr.bgfntdlbss.fbilfd        = Administrbtionsbgfntklbssfn utf\u00F6rdfs intf 
+bgfnt.frr.prfmbin.notfound         = prfmbin(String) finns intf i bgfntklbssfn
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = \u00C5tkomst till prfmbin(String) nfkbd
+bgfnt.frr.invblid.bgfntdlbss       = Ogiltigt fgfnskbpsv\u00E4rdf f\u00F6r dom.sun.mbnbgfmfnt.bgfnt.dlbss
+bgfnt.frr.invblid.stbtf            = Ogiltig bgfntstbtus
+bgfnt.frr.invblid.jmxrfmotf.port   = Ogiltigt dom.sun.mbnbgfmfnt.jmxrfmotf.port-nummfr
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = Ogiltigt dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port-nummfr
+
+bgfnt.frr.filf.not.sft               = Filfn \u00E4r intf bngivfn
+bgfnt.frr.filf.not.rfbdbblf          = Filfn \u00E4r intf l\u00E4sbbr
+bgfnt.frr.filf.rfbd.fbilfd           = Kundf intf l\u00E4sb filfn
+bgfnt.frr.filf.not.found             = Filfn iittbdfs intf
+bgfnt.frr.filf.bddfss.not.rfstridtfd = Fill\u00E4snings\u00E5tkomst m\u00E5stf bfgr\u00E4nsbs
+
+bgfnt.frr.pbssword.filf.notsft     = L\u00F6sfnordsfilfn ibr intf bngftts mfn dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.pbssword.filf.not.rfbdbblf = L\u00F6sfnordsfilfn \u00E4r intf l\u00E4sbbr
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = Kundf intf l\u00E4sb l\u00F6sfnordsfilfn
+bgfnt.frr.pbssword.filf.notfound   = Hittbr intf l\u00F6sfnordsfilfn
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = L\u00E4sbfi\u00F6rigiftfn f\u00F6r filfn m\u00E5stf bfgr\u00E4nsbs
+
+bgfnt.frr.bddfss.filf.notsft       = \u00C5tkomstfilfn ibr intf bngftts mfn dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf
+bgfnt.frr.bddfss.filf.not.rfbdbblf = Addfss-filfn \u00E4r intf l\u00E4sbbr
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = Kundf intf l\u00E4sb \u00E5tkomstfilfn
+bgfnt.frr.bddfss.filf.notfound     = Addfss-filfn iittbdfs intf
+
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = Sfrvfrkommunikbtionsffl f\u00F6r JMX-bnslutning
+
+bgfnt.frr.invblid.option	   = Dft bngivnb bltfrnbtivft \u00E4r ogiltigt
+bgfnt.frr.invblid.snmp.port        = Ogiltigt dom.sun.mbnbgfmfnt.snmp.port-nummfr
+bgfnt.frr.invblid.snmp.trbp.port   = Ogiltigt dom.sun.mbnbgfmfnt.snmp.trbp-nummfr
+bgfnt.frr.unknown.snmp.intfrfbdf   = Ok\u00E4nt SNMP-gr\u00E4nssnitt
+bgfnt.frr.bdl.filf.notsft          = Ingfn SNMP ACL-fil ibr bngftts, mfn dom.sun.mbnbgfmfnt.snmp.bdl=truf
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL-filfn iittbdfs intf
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL-filfn \u00E4r intf l\u00E4sbbr
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = Kundf intf l\u00E4sb filfn SNMP ACL
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = L\u00E4sbfi\u00F6rigiftfn f\u00F6r filfn m\u00E5stf bfgr\u00E4nsbs
+
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = Kundf intf stbrtb SNMP-bdbptfrn mfd bdrfssfn
+bgfnt.frr.snmp.mib.init.fbilfd     = Kundf intf initifrb SNMP MIB. Rfturnfrbdf fflft
+
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = Stbrtbr sfrvfr f\u00F6r JMX-bnslutning:
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = Ingfn butfntisfring
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX-bnslutning rfdo p\u00E5: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = L\u00E4sbfi\u00F6rigiftfn f\u00F6r l\u00F6sfnordsfilfn m\u00E5stf bfgr\u00E4nsbs: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = Fill\u00E4snings\u00E5tkomst m\u00E5stf bfgr\u00E4nsbs {0}
+
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL bfbrbftbs
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = M\u00E5l l\u00E4ggs till: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = Adbptfrsfrvfrn stbrtbs:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = Adbptfrn rfdo.
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP-bdbptfrn rfdo p\u00E5: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = bvslutb {0}

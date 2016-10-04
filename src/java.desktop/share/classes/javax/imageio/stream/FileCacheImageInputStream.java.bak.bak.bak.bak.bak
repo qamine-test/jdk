@@ -1,0 +1,294 @@
+/*
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.nio.filf.Filfs;
+import dom.sun.imbgfio.strfbm.StrfbmClosfr;
+import dom.sun.imbgfio.strfbm.StrfbmFinblizfr;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+
+/**
+ * An implfmfntbtion of <dodf>ImbgfInputStrfbm</dodf> tibt gfts its
+ * input from b rfgulbr <dodf>InputStrfbm</dodf>.  A filf is usfd to
+ * dbdif prfviously rfbd dbtb.
+ *
+ */
+publid dlbss FilfCbdifImbgfInputStrfbm fxtfnds ImbgfInputStrfbmImpl {
+
+    privbtf InputStrfbm strfbm;
+
+    privbtf Filf dbdifFilf;
+
+    privbtf RbndomAddfssFilf dbdif;
+
+    privbtf stbtid finbl int BUFFER_LENGTH = 1024;
+
+    privbtf bytf[] buf = nfw bytf[BUFFER_LENGTH];
+
+    privbtf long lfngti = 0L;
+
+    privbtf boolfbn foundEOF = fblsf;
+
+    /** Tif rfffrfnt to bf rfgistfrfd witi tif Disposfr. */
+    privbtf finbl Objfdt disposfrRfffrfnt;
+
+    /** Tif DisposfrRfdord tibt dlosfs tif undfrlying dbdif. */
+    privbtf finbl DisposfrRfdord disposfrRfdord;
+
+    /** Tif ClosfAdtion tibt dlosfs tif strfbm in
+     *  tif StrfbmClosfr's siutdown iook                     */
+    privbtf finbl StrfbmClosfr.ClosfAdtion dlosfAdtion;
+
+    /**
+     * Construdts b <dodf>FilfCbdifImbgfInputStrfbm</dodf> tibt will rfbd
+     * from b givfn <dodf>InputStrfbm</dodf>.
+     *
+     * <p> A tfmporbry filf is usfd bs b dbdif.  If
+     * <dodf>dbdifDir</dodf>is non-<dodf>null</dodf> bnd is b
+     * dirfdtory, tif filf will bf drfbtfd tifrf.  If it is
+     * <dodf>null</dodf>, tif systfm-dfpfndfnt dffbult tfmporbry-filf
+     * dirfdtory will bf usfd (sff tif dodumfntbtion for
+     * <dodf>Filf.drfbtfTfmpFilf</dodf> for dftbils).
+     *
+     * @pbrbm strfbm bn <dodf>InputStrfbm</dodf> to rfbd from.
+     * @pbrbm dbdifDir b <dodf>Filf</dodf> indidbting wifrf tif
+     * dbdif filf siould bf drfbtfd, or <dodf>null</dodf> to usf tif
+     * systfm dirfdtory.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>strfbm</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbdifDir</dodf> is
+     * non-<dodf>null</dodf> but is not b dirfdtory.
+     * @fxdfption IOExdfption if b dbdif filf dbnnot bf drfbtfd.
+     */
+    publid FilfCbdifImbgfInputStrfbm(InputStrfbm strfbm, Filf dbdifDir)
+        tirows IOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblArgumfntExdfption("strfbm == null!");
+        }
+        if ((dbdifDir != null) && !(dbdifDir.isDirfdtory())) {
+            tirow nfw IllfgblArgumfntExdfption("Not b dirfdtory!");
+        }
+        tiis.strfbm = strfbm;
+        if (dbdifDir == null)
+            tiis.dbdifFilf = Filfs.drfbtfTfmpFilf("imbgfio", ".tmp").toFilf();
+        flsf
+            tiis.dbdifFilf = Filfs.drfbtfTfmpFilf(dbdifDir.toPbti(), "imbgfio", ".tmp")
+                                  .toFilf();
+        tiis.dbdif = nfw RbndomAddfssFilf(dbdifFilf, "rw");
+
+        tiis.dlosfAdtion = StrfbmClosfr.drfbtfClosfAdtion(tiis);
+        StrfbmClosfr.bddToQufuf(dlosfAdtion);
+
+        disposfrRfdord = nfw StrfbmDisposfrRfdord(dbdifFilf, dbdif);
+        if (gftClbss() == FilfCbdifImbgfInputStrfbm.dlbss) {
+            disposfrRfffrfnt = nfw Objfdt();
+            Disposfr.bddRfdord(disposfrRfffrfnt, disposfrRfdord);
+        } flsf {
+            disposfrRfffrfnt = nfw StrfbmFinblizfr(tiis);
+        }
+    }
+
+    /**
+     * Ensurfs tibt bt lfbst <dodf>pos</dodf> bytfs brf dbdifd,
+     * or tif fnd of tif sourdf is rfbdifd.  Tif rfturn vbluf
+     * is fqubl to tif smbllfr of <dodf>pos</dodf> bnd tif
+     * lfngti of tif sourdf filf.
+     */
+    privbtf long rfbdUntil(long pos) tirows IOExdfption {
+        // Wf'vf blrfbdy got fnougi dbtb dbdifd
+        if (pos < lfngti) {
+            rfturn pos;
+        }
+        // pos >= lfngti but lfngti isn't gftting bny biggfr, so rfturn it
+        if (foundEOF) {
+            rfturn lfngti;
+        }
+
+        long lfn = pos - lfngti;
+        dbdif.sffk(lfngti);
+        wiilf (lfn > 0) {
+            // Copy b bufffr's worti of dbtb from tif sourdf to tif dbdif
+            // BUFFER_LENGTH will blwbys fit into bn int so tiis is sbff
+            int nbytfs =
+                strfbm.rfbd(buf, 0, (int)Mbti.min(lfn, (long)BUFFER_LENGTH));
+            if (nbytfs == -1) {
+                foundEOF = truf;
+                rfturn lfngti;
+            }
+
+            dbdif.writf(buf, 0, nbytfs);
+            lfn -= nbytfs;
+            lfngti += nbytfs;
+        }
+
+        rfturn pos;
+    }
+
+    publid int rfbd() tirows IOExdfption {
+        difdkClosfd();
+        bitOffsft = 0;
+        long nfxt = strfbmPos + 1;
+        long pos = rfbdUntil(nfxt);
+        if (pos >= nfxt) {
+            dbdif.sffk(strfbmPos++);
+            rfturn dbdif.rfbd();
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+        difdkClosfd();
+
+        if (b == null) {
+            tirow nfw NullPointfrExdfption("b == null!");
+        }
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off+lfn > b.lfngti || off+lfn < 0!");
+        }
+
+        bitOffsft = 0;
+
+        if (lfn == 0) {
+            rfturn 0;
+        }
+
+        long pos = rfbdUntil(strfbmPos + lfn);
+
+        // lfn will blwbys fit into bn int so tiis is sbff
+        lfn = (int)Mbti.min((long)lfn, pos - strfbmPos);
+        if (lfn > 0) {
+            dbdif.sffk(strfbmPos);
+            dbdif.rfbdFully(b, off, lfn);
+            strfbmPos += lfn;
+            rfturn lfn;
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf tiis
+     * <dodf>ImbgfInputStrfbm</dodf> dbdifs dbtb in ordfr to bllow
+     * sffking bbdkwbrds.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdifdMfmory
+     * @sff #isCbdifdFilf
+     */
+    publid boolfbn isCbdifd() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf tiis
+     * <dodf>ImbgfInputStrfbm</dodf> mbintbins b filf dbdif.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdifd
+     * @sff #isCbdifdMfmory
+     */
+    publid boolfbn isCbdifdFilf() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>fblsf</dodf> sindf tiis
+     * <dodf>ImbgfInputStrfbm</dodf> dofs not mbintbin b mbin mfmory
+     * dbdif.
+     *
+     * @rfturn <dodf>fblsf</dodf>.
+     *
+     * @sff #isCbdifd
+     * @sff #isCbdifdFilf
+     */
+    publid boolfbn isCbdifdMfmory() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Closfs tiis <dodf>FilfCbdifImbgfInputStrfbm</dodf>, dlosing
+     * bnd rfmoving tif dbdif filf.  Tif sourdf <dodf>InputStrfbm</dodf>
+     * is not dlosfd.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs.
+     */
+    publid void dlosf() tirows IOExdfption {
+        supfr.dlosf();
+        disposfrRfdord.disposf(); // tiis will dlosf/dflftf tif dbdif filf
+        strfbm = null;
+        dbdif = null;
+        dbdifFilf = null;
+        StrfbmClosfr.rfmovfFromQufuf(dlosfAdtion);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    protfdtfd void finblizf() tirows Tirowbblf {
+        // Empty finblizfr: for pfrformbndf rfbsons wf instfbd usf tif
+        // Disposfr mfdibnism for fnsuring tibt tif undfrlying
+        // RbndomAddfssFilf is dlosfd/dflftfd prior to gbrbbgf dollfdtion
+    }
+
+    privbtf stbtid dlbss StrfbmDisposfrRfdord implfmfnts DisposfrRfdord {
+        privbtf Filf dbdifFilf;
+        privbtf RbndomAddfssFilf dbdif;
+
+        publid StrfbmDisposfrRfdord(Filf dbdifFilf, RbndomAddfssFilf dbdif) {
+            tiis.dbdifFilf = dbdifFilf;
+            tiis.dbdif = dbdif;
+        }
+
+        publid syndironizfd void disposf() {
+            if (dbdif != null) {
+                try {
+                    dbdif.dlosf();
+                } dbtdi (IOExdfption f) {
+                } finblly {
+                    dbdif = null;
+                }
+            }
+            if (dbdifFilf != null) {
+                dbdifFilf.dflftf();
+                dbdifFilf = null;
+            }
+            // Notf: Explidit rfmovbl of tif strfbm from tif StrfbmClosfr
+            // qufuf is not mbndbtory in tiis dbsf, bs it will bf rfmovfd
+            // butombtidblly by GC siortly bftfr tiis mftiod is dbllfd.
+        }
+    }
+}

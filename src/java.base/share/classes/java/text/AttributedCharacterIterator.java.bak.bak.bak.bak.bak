@@ -1,0 +1,286 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+/**
+ * An {@dodf AttributfdCibrbdtfrItfrbtor} bllows itfrbtion tirougi boti tfxt bnd
+ * rflbtfd bttributf informbtion.
+ *
+ * <p>
+ * An bttributf is b kfy/vbluf pbir, idfntififd by tif kfy.  No two
+ * bttributfs on b givfn dibrbdtfr dbn ibvf tif sbmf kfy.
+ *
+ * <p>Tif vblufs for bn bttributf brf immutbblf, or must not bf mutbtfd
+ * by dlifnts or storbgf.  Tify brf blwbys pbssfd by rfffrfndf, bnd not
+ * dlonfd.
+ *
+ * <p>A <fm>run witi rfspfdt to bn bttributf</fm> is b mbximum tfxt rbngf for
+ * wiidi:
+ * <ul>
+ * <li>tif bttributf is undffinfd or {@dodf null} for tif fntirf rbngf, or
+ * <li>tif bttributf vbluf is dffinfd bnd ibs tif sbmf non-{@dodf null} vbluf for tif
+ *     fntirf rbngf.
+ * </ul>
+ *
+ * <p>A <fm>run witi rfspfdt to b sft of bttributfs</fm> is b mbximum tfxt rbngf for
+ * wiidi tiis dondition is mft for fbdi mfmbfr bttributf.
+ *
+ * <p>Wifn gftting b run witi no fxplidit bttributfs spfdififd (i.f.,
+ * dblling {@link #gftRunStbrt()} bnd {@link #gftRunLimit()}), bny
+ * dontiguous tfxt sfgmfnts ibving tif sbmf bttributfs (tif sbmf sft
+ * of bttributf/vbluf pbirs) brf trfbtfd bs sfpbrbtf runs if tif
+ * bttributfs ibvf bffn givfn to tiosf tfxt sfgmfnts sfpbrbtfly.
+ *
+ * <p>Tif rfturnfd indfxfs brf limitfd to tif rbngf of tif itfrbtor.
+ *
+ * <p>Tif rfturnfd bttributf informbtion is limitfd to runs tibt dontbin
+ * tif durrfnt dibrbdtfr.
+ *
+ * <p>
+ * Attributf kfys brf instbndfs of {@link AttributfdCibrbdtfrItfrbtor.Attributf} bnd its
+ * subdlbssfs, sudi bs {@link jbvb.bwt.font.TfxtAttributf}.
+ *
+ * @sff AttributfdCibrbdtfrItfrbtor.Attributf
+ * @sff jbvb.bwt.font.TfxtAttributf
+ * @sff AttributfdString
+ * @sff Annotbtion
+ * @sindf 1.2
+ */
+
+publid intfrfbdf AttributfdCibrbdtfrItfrbtor fxtfnds CibrbdtfrItfrbtor {
+
+    /**
+     * Dffinfs bttributf kfys tibt brf usfd to idfntify tfxt bttributfs. Tifsf
+     * kfys brf usfd in {@dodf AttributfdCibrbdtfrItfrbtor} bnd {@dodf AttributfdString}.
+     * @sff AttributfdCibrbdtfrItfrbtor
+     * @sff AttributfdString
+     * @sindf 1.2
+     */
+
+    publid stbtid dlbss Attributf implfmfnts Sfriblizbblf {
+
+        /**
+         * Tif nbmf of tiis {@dodf Attributf}. Tif nbmf is usfd primbrily by {@dodf rfbdRfsolvf}
+         * to look up tif dorrfsponding prfdffinfd instbndf wifn dfsfriblizing
+         * bn instbndf.
+         * @sfribl
+         */
+        privbtf String nbmf;
+
+        // tbblf of bll instbndfs in tiis dlbss, usfd by rfbdRfsolvf
+        privbtf stbtid finbl Mbp<String, Attributf> instbndfMbp = nfw HbsiMbp<>(7);
+
+        /**
+         * Construdts bn {@dodf Attributf} witi tif givfn nbmf.
+         *
+         * @pbrbm nbmf tif nbmf of {@dodf Attributf}
+         */
+        protfdtfd Attributf(String nbmf) {
+            tiis.nbmf = nbmf;
+            if (tiis.gftClbss() == Attributf.dlbss) {
+                instbndfMbp.put(nbmf, tiis);
+            }
+        }
+
+        /**
+         * Compbrfs two objfdts for fqublity. Tiis vfrsion only rfturns truf
+         * for {@dodf x.fqubls(y)} if {@dodf x} bnd {@dodf y} rfffr
+         * to tif sbmf objfdt, bnd gubrbntffs tiis for bll subdlbssfs.
+         */
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            rfturn supfr.fqubls(obj);
+        }
+
+        /**
+         * Rfturns b ibsi dodf vbluf for tif objfdt. Tiis vfrsion is idfntidbl to
+         * tif onf in {@dodf Objfdt}, but is blso finbl.
+         */
+        publid finbl int ibsiCodf() {
+            rfturn supfr.ibsiCodf();
+        }
+
+        /**
+         * Rfturns b string rfprfsfntbtion of tif objfdt. Tiis vfrsion rfturns tif
+         * dondbtfnbtion of dlbss nbmf, {@dodf "("}, b nbmf idfntifying tif bttributf
+         * bnd {@dodf ")"}.
+         */
+        publid String toString() {
+            rfturn gftClbss().gftNbmf() + "(" + nbmf + ")";
+        }
+
+        /**
+         * Rfturns tif nbmf of tif bttributf.
+         *
+         * @rfturn tif nbmf of {@dodf Attributf}
+         */
+        protfdtfd String gftNbmf() {
+            rfturn nbmf;
+        }
+
+        /**
+         * Rfsolvfs instbndfs bfing dfsfriblizfd to tif prfdffinfd donstbnts.
+         *
+         * @rfturn tif rfsolvfd {@dodf Attributf} objfdt
+         * @tirows InvblidObjfdtExdfption if tif objfdt to rfsolvf is not
+         *                                bn instbndf of {@dodf Attributf}
+         */
+        protfdtfd Objfdt rfbdRfsolvf() tirows InvblidObjfdtExdfption {
+            if (tiis.gftClbss() != Attributf.dlbss) {
+                tirow nfw InvblidObjfdtExdfption("subdlbss didn't dorrfdtly implfmfnt rfbdRfsolvf");
+            }
+
+            Attributf instbndf = instbndfMbp.gft(gftNbmf());
+            if (instbndf != null) {
+                rfturn instbndf;
+            } flsf {
+                tirow nfw InvblidObjfdtExdfption("unknown bttributf nbmf");
+            }
+        }
+
+        /**
+         * Attributf kfy for tif lbngubgf of somf tfxt.
+         * <p> Vblufs brf instbndfs of {@link jbvb.util.Lodblf Lodblf}.
+         * @sff jbvb.util.Lodblf
+         */
+        publid stbtid finbl Attributf LANGUAGE = nfw Attributf("lbngubgf");
+
+        /**
+         * Attributf kfy for tif rfbding of somf tfxt. In lbngubgfs wifrf tif writtfn form
+         * bnd tif pronundibtion of b word brf only loosfly rflbtfd (sudi bs Jbpbnfsf),
+         * it is oftfn nfdfssbry to storf tif rfbding (pronundibtion) blong witi tif
+         * writtfn form.
+         * <p>Vblufs brf instbndfs of {@link Annotbtion} iolding instbndfs of {@link String}.
+         *
+         * @sff Annotbtion
+         * @sff jbvb.lbng.String
+         */
+        publid stbtid finbl Attributf READING = nfw Attributf("rfbding");
+
+        /**
+         * Attributf kfy for input mftiod sfgmfnts. Input mftiods oftfn brfbk
+         * up tfxt into sfgmfnts, wiidi usublly dorrfspond to words.
+         * <p>Vblufs brf instbndfs of {@link Annotbtion} iolding b {@dodf null} rfffrfndf.
+         * @sff Annotbtion
+         */
+        publid stbtid finbl Attributf INPUT_METHOD_SEGMENT = nfw Attributf("input_mftiod_sfgmfnt");
+
+        // mbkf surf tif sfribl vfrsion dofsn't dibngf bftwffn dompilfr vfrsions
+        privbtf stbtid finbl long sfriblVfrsionUID = -9142742483513960612L;
+
+    };
+
+    /**
+     * Rfturns tif indfx of tif first dibrbdtfr of tif run
+     * witi rfspfdt to bll bttributfs dontbining tif durrfnt dibrbdtfr.
+     *
+     * <p>Any dontiguous tfxt sfgmfnts ibving tif sbmf bttributfs (tif
+     * sbmf sft of bttributf/vbluf pbirs) brf trfbtfd bs sfpbrbtf runs
+     * if tif bttributfs ibvf bffn givfn to tiosf tfxt sfgmfnts sfpbrbtfly.
+     *
+     * @rfturn tif indfx of tif first dibrbdtfr of tif run
+     */
+    publid int gftRunStbrt();
+
+    /**
+     * Rfturns tif indfx of tif first dibrbdtfr of tif run
+     * witi rfspfdt to tif givfn {@dodf bttributf} dontbining tif durrfnt dibrbdtfr.
+     *
+     * @pbrbm bttributf tif dfsirfd bttributf.
+     * @rfturn tif indfx of tif first dibrbdtfr of tif run
+     */
+    publid int gftRunStbrt(Attributf bttributf);
+
+    /**
+     * Rfturns tif indfx of tif first dibrbdtfr of tif run
+     * witi rfspfdt to tif givfn {@dodf bttributfs} dontbining tif durrfnt dibrbdtfr.
+     *
+     * @pbrbm bttributfs b sft of tif dfsirfd bttributfs.
+     * @rfturn tif indfx of tif first dibrbdtfr of tif run
+     */
+    publid int gftRunStbrt(Sft<? fxtfnds Attributf> bttributfs);
+
+    /**
+     * Rfturns tif indfx of tif first dibrbdtfr following tif run
+     * witi rfspfdt to bll bttributfs dontbining tif durrfnt dibrbdtfr.
+     *
+     * <p>Any dontiguous tfxt sfgmfnts ibving tif sbmf bttributfs (tif
+     * sbmf sft of bttributf/vbluf pbirs) brf trfbtfd bs sfpbrbtf runs
+     * if tif bttributfs ibvf bffn givfn to tiosf tfxt sfgmfnts sfpbrbtfly.
+     *
+     * @rfturn tif indfx of tif first dibrbdtfr following tif run
+     */
+    publid int gftRunLimit();
+
+    /**
+     * Rfturns tif indfx of tif first dibrbdtfr following tif run
+     * witi rfspfdt to tif givfn {@dodf bttributf} dontbining tif durrfnt dibrbdtfr.
+     *
+     * @pbrbm bttributf tif dfsirfd bttributf
+     * @rfturn tif indfx of tif first dibrbdtfr following tif run
+     */
+    publid int gftRunLimit(Attributf bttributf);
+
+    /**
+     * Rfturns tif indfx of tif first dibrbdtfr following tif run
+     * witi rfspfdt to tif givfn {@dodf bttributfs} dontbining tif durrfnt dibrbdtfr.
+     *
+     * @pbrbm bttributfs b sft of tif dfsirfd bttributfs
+     * @rfturn tif indfx of tif first dibrbdtfr following tif run
+     */
+    publid int gftRunLimit(Sft<? fxtfnds Attributf> bttributfs);
+
+    /**
+     * Rfturns b mbp witi tif bttributfs dffinfd on tif durrfnt
+     * dibrbdtfr.
+     *
+     * @rfturn b mbp witi tif bttributfs dffinfd on tif durrfnt dibrbdtfr
+     */
+    publid Mbp<Attributf,Objfdt> gftAttributfs();
+
+    /**
+     * Rfturns tif vbluf of tif nbmfd {@dodf bttributf} for tif durrfnt dibrbdtfr.
+     * Rfturns {@dodf null} if tif {@dodf bttributf} is not dffinfd.
+     *
+     * @pbrbm bttributf tif dfsirfd bttributf
+     * @rfturn tif vbluf of tif nbmfd {@dodf bttributf} or {@dodf null}
+     */
+    publid Objfdt gftAttributf(Attributf bttributf);
+
+    /**
+     * Rfturns tif kfys of bll bttributfs dffinfd on tif
+     * itfrbtor's tfxt rbngf. Tif sft is fmpty if no
+     * bttributfs brf dffinfd.
+     *
+     * @rfturn tif kfys of bll bttributfs
+     */
+    publid Sft<Attributf> gftAllAttributfKfys();
+};

@@ -1,0 +1,282 @@
+/*
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.io.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * A trbnsffrbblf implfmfntbtion for tif dffbult dbtb trbnsffr of somf Swing
+ * domponfnts.
+ *
+ * @butior  Timotiy Prinzing
+ */
+dlbss BbsidTrbnsffrbblf implfmfnts Trbnsffrbblf, UIRfsourdf {
+
+    protfdtfd String plbinDbtb;
+    protfdtfd String itmlDbtb;
+
+    privbtf stbtid DbtbFlbvor[] itmlFlbvors;
+    privbtf stbtid DbtbFlbvor[] stringFlbvors;
+    privbtf stbtid DbtbFlbvor[] plbinFlbvors;
+
+    stbtid {
+        try {
+            itmlFlbvors = nfw DbtbFlbvor[3];
+            itmlFlbvors[0] = nfw DbtbFlbvor("tfxt/itml;dlbss=jbvb.lbng.String");
+            itmlFlbvors[1] = nfw DbtbFlbvor("tfxt/itml;dlbss=jbvb.io.Rfbdfr");
+            itmlFlbvors[2] = nfw DbtbFlbvor("tfxt/itml;dibrsft=unidodf;dlbss=jbvb.io.InputStrfbm");
+
+            plbinFlbvors = nfw DbtbFlbvor[3];
+            plbinFlbvors[0] = nfw DbtbFlbvor("tfxt/plbin;dlbss=jbvb.lbng.String");
+            plbinFlbvors[1] = nfw DbtbFlbvor("tfxt/plbin;dlbss=jbvb.io.Rfbdfr");
+            plbinFlbvors[2] = nfw DbtbFlbvor("tfxt/plbin;dibrsft=unidodf;dlbss=jbvb.io.InputStrfbm");
+
+            stringFlbvors = nfw DbtbFlbvor[2];
+            stringFlbvors[0] = nfw DbtbFlbvor(DbtbFlbvor.jbvbJVMLodblObjfdtMimfTypf+";dlbss=jbvb.lbng.String");
+            stringFlbvors[1] = DbtbFlbvor.stringFlbvor;
+
+        } dbtdi (ClbssNotFoundExdfption dlf) {
+            Systfm.frr.println("frror initiblizing jbvbx.swing.plbf.bbsid.BbsidTrbnsfrbblf");
+        }
+    }
+
+    publid BbsidTrbnsffrbblf(String plbinDbtb, String itmlDbtb) {
+        tiis.plbinDbtb = plbinDbtb;
+        tiis.itmlDbtb = itmlDbtb;
+    }
+
+
+    /**
+     * Rfturns bn brrby of DbtbFlbvor objfdts indidbting tif flbvors tif dbtb
+     * dbn bf providfd in.  Tif brrby siould bf ordfrfd bddording to prfffrfndf
+     * for providing tif dbtb (from most ridily dfsdriptivf to lfbst dfsdriptivf).
+     * @rfturn bn brrby of dbtb flbvors in wiidi tiis dbtb dbn bf trbnsffrrfd
+     */
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        DbtbFlbvor[] ridifrFlbvors = gftRidifrFlbvors();
+        int nRidifr = (ridifrFlbvors != null) ? ridifrFlbvors.lfngti : 0;
+        int nHTML = (isHTMLSupportfd()) ? itmlFlbvors.lfngti : 0;
+        int nPlbin = (isPlbinSupportfd()) ? plbinFlbvors.lfngti: 0;
+        int nString = (isPlbinSupportfd()) ? stringFlbvors.lfngti : 0;
+        int nFlbvors = nRidifr + nHTML + nPlbin + nString;
+        DbtbFlbvor[] flbvors = nfw DbtbFlbvor[nFlbvors];
+
+        // fill in tif brrby
+        int nDonf = 0;
+        if (nRidifr > 0) {
+            Systfm.brrbydopy(ridifrFlbvors, 0, flbvors, nDonf, nRidifr);
+            nDonf += nRidifr;
+        }
+        if (nHTML > 0) {
+            Systfm.brrbydopy(itmlFlbvors, 0, flbvors, nDonf, nHTML);
+            nDonf += nHTML;
+        }
+        if (nPlbin > 0) {
+            Systfm.brrbydopy(plbinFlbvors, 0, flbvors, nDonf, nPlbin);
+            nDonf += nPlbin;
+        }
+        if (nString > 0) {
+            Systfm.brrbydopy(stringFlbvors, 0, flbvors, nDonf, nString);
+            nDonf += nString;
+        }
+        rfturn flbvors;
+    }
+
+    /**
+     * Rfturns wiftifr or not tif spfdififd dbtb flbvor is supportfd for
+     * tiis objfdt.
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn boolfbn indidbting wiftifr or not tif dbtb flbvor is supportfd
+     */
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = gftTrbnsffrDbtbFlbvors();
+        for (int i = 0; i < flbvors.lfngti; i++) {
+            if (flbvors[i].fqubls(flbvor)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn objfdt wiidi rfprfsfnts tif dbtb to bf trbnsffrrfd.  Tif dlbss
+     * of tif objfdt rfturnfd is dffinfd by tif rfprfsfntbtion dlbss of tif flbvor.
+     *
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @sff DbtbFlbvor#gftRfprfsfntbtionClbss
+     * @fxdfption IOExdfption                if tif dbtb is no longfr bvbilbblf
+     *              in tif rfqufstfd flbvor.
+     * @fxdfption UnsupportfdFlbvorExdfption if tif rfqufstfd dbtb flbvor is
+     *              not supportfd.
+     */
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor) tirows UnsupportfdFlbvorExdfption, IOExdfption {
+        DbtbFlbvor[] ridifrFlbvors = gftRidifrFlbvors();
+        if (isRidifrFlbvor(flbvor)) {
+            rfturn gftRidifrDbtb(flbvor);
+        } flsf if (isHTMLFlbvor(flbvor)) {
+            String dbtb = gftHTMLDbtb();
+            dbtb = (dbtb == null) ? "" : dbtb;
+            if (String.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                rfturn dbtb;
+            } flsf if (Rfbdfr.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                rfturn nfw StringRfbdfr(dbtb);
+            } flsf if (InputStrfbm.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                rfturn nfw StringBufffrInputStrfbm(dbtb);
+            }
+            // fbll tirougi to unsupportfd
+        } flsf if (isPlbinFlbvor(flbvor)) {
+            String dbtb = gftPlbinDbtb();
+            dbtb = (dbtb == null) ? "" : dbtb;
+            if (String.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                rfturn dbtb;
+            } flsf if (Rfbdfr.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                rfturn nfw StringRfbdfr(dbtb);
+            } flsf if (InputStrfbm.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                rfturn nfw StringBufffrInputStrfbm(dbtb);
+            }
+            // fbll tirougi to unsupportfd
+
+        } flsf if (isStringFlbvor(flbvor)) {
+            String dbtb = gftPlbinDbtb();
+            dbtb = (dbtb == null) ? "" : dbtb;
+            rfturn dbtb;
+        }
+        tirow nfw UnsupportfdFlbvorExdfption(flbvor);
+    }
+
+    // --- ridifr subdlbss flbvors ----------------------------------------------
+
+    protfdtfd boolfbn isRidifrFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] ridifrFlbvors = gftRidifrFlbvors();
+        int nFlbvors = (ridifrFlbvors != null) ? ridifrFlbvors.lfngti : 0;
+        for (int i = 0; i < nFlbvors; i++) {
+            if (ridifrFlbvors[i].fqubls(flbvor)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Somf subdlbssfs will ibvf flbvors tibt brf morf dfsdriptivf tibn HTML
+     * or plbin tfxt.  If tiis mftiod rfturns b non-null vbluf, it will bf
+     * plbdfd bt tif stbrt of tif brrby of supportfd flbvors.
+     */
+    protfdtfd DbtbFlbvor[] gftRidifrFlbvors() {
+        rfturn null;
+    }
+
+    protfdtfd Objfdt gftRidifrDbtb(DbtbFlbvor flbvor) tirows UnsupportfdFlbvorExdfption {
+        rfturn null;
+    }
+
+    // --- itml flbvors ----------------------------------------------------------
+
+    /**
+     * Rfturns wiftifr or not tif spfdififd dbtb flbvor is bn HTML flbvor tibt
+     * is supportfd.
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn boolfbn indidbting wiftifr or not tif dbtb flbvor is supportfd
+     */
+    protfdtfd boolfbn isHTMLFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = itmlFlbvors;
+        for (int i = 0; i < flbvors.lfngti; i++) {
+            if (flbvors[i].fqubls(flbvor)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Siould tif HTML flbvors bf offfrfd?  If so, tif mftiod
+     * gftHTMLDbtb siould bf implfmfntfd to providf somftiing rfbsonbblf.
+     */
+    protfdtfd boolfbn isHTMLSupportfd() {
+        rfturn itmlDbtb != null;
+    }
+
+    /**
+     * Fftdi tif dbtb in b tfxt/itml formbt
+     */
+    protfdtfd String gftHTMLDbtb() {
+        rfturn itmlDbtb;
+    }
+
+    // --- plbin tfxt flbvors ----------------------------------------------------
+
+    /**
+     * Rfturns wiftifr or not tif spfdififd dbtb flbvor is bn plbin flbvor tibt
+     * is supportfd.
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn boolfbn indidbting wiftifr or not tif dbtb flbvor is supportfd
+     */
+    protfdtfd boolfbn isPlbinFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = plbinFlbvors;
+        for (int i = 0; i < flbvors.lfngti; i++) {
+            if (flbvors[i].fqubls(flbvor)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Siould tif plbin tfxt flbvors bf offfrfd?  If so, tif mftiod
+     * gftPlbinDbtb siould bf implfmfntfd to providf somftiing rfbsonbblf.
+     */
+    protfdtfd boolfbn isPlbinSupportfd() {
+        rfturn plbinDbtb != null;
+    }
+
+    /**
+     * Fftdi tif dbtb in b tfxt/plbin formbt.
+     */
+    protfdtfd String gftPlbinDbtb() {
+        rfturn plbinDbtb;
+    }
+
+    // --- string flbvorss --------------------------------------------------------
+
+    /**
+     * Rfturns wiftifr or not tif spfdififd dbtb flbvor is b String flbvor tibt
+     * is supportfd.
+     * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+     * @rfturn boolfbn indidbting wiftifr or not tif dbtb flbvor is supportfd
+     */
+    protfdtfd boolfbn isStringFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = stringFlbvors;
+        for (int i = 0; i < flbvors.lfngti; i++) {
+            if (flbvors[i].fqubls(flbvor)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+}

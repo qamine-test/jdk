@@ -1,0 +1,292 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.rmi.MbrsibllfdObjfdt;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.UnmbrsiblExdfption;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfObjfdtInvodbtionHbndlfr;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.rmi.sfrvfr.UID;
+
+/**
+ * Adtivbtion mbkfs usf of spfdibl idfntififrs to dfnotf rfmotf
+ * objfdts tibt dbn bf bdtivbtfd ovfr timf. An bdtivbtion idfntififr
+ * (bn instbndf of tif dlbss <dodf>AdtivbtionID</dodf>) dontbins sfvfrbl
+ * pifdfs of informbtion nffdfd for bdtivbting bn objfdt:
+ * <ul>
+ * <li> b rfmotf rfffrfndf to tif objfdt's bdtivbtor (b {@link
+ * jbvb.rmi.sfrvfr.RfmotfRff RfmotfRff}
+ * instbndf), bnd
+ * <li> b uniquf idfntififr (b {@link jbvb.rmi.sfrvfr.UID UID}
+ * instbndf) for tif objfdt. </ul> <p>
+ *
+ * An bdtivbtion idfntififr for bn objfdt dbn bf obtbinfd by rfgistfring
+ * bn objfdt witi tif bdtivbtion systfm. Rfgistrbtion is bddomplisifd
+ * in b ffw wbys: <ul>
+ * <li>vib tif <dodf>Adtivbtbblf.rfgistfr</dodf> mftiod
+ * <li>vib tif first <dodf>Adtivbtbblf</dodf> donstrudtor (tibt tbkfs
+ * tirff brgumfnts bnd boti rfgistfrs bnd fxports tif objfdt, bnd
+ * <li>vib tif first <dodf>Adtivbtbblf.fxportObjfdt</dodf> mftiod
+ * tibt tbkfs tif bdtivbtion dfsdriptor, objfdt bnd port bs brgumfnts;
+ * tiis mftiod boti rfgistfrs bnd fxports tif objfdt. </ul>
+ *
+ * @butior      Ann Wollrbti
+ * @sff         Adtivbtbblf
+ * @sindf       1.2
+ */
+publid dlbss AdtivbtionID implfmfnts Sfriblizbblf {
+    /**
+     * tif objfdt's bdtivbtor
+     */
+    privbtf trbnsifnt Adtivbtor bdtivbtor;
+
+    /**
+     * tif objfdt's uniquf id
+     */
+    privbtf trbnsifnt UID uid = nfw UID();
+
+    /** indidbtf dompbtibility witi tif Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4608673054848209235L;
+
+    /**
+     * Tif donstrudtor for <dodf>AdtivbtionID</dodf> tbkfs b singlf
+     * brgumfnt, bdtivbtor, tibt spfdififs b rfmotf rfffrfndf to tif
+     * bdtivbtor rfsponsiblf for bdtivbting tif objfdt bssodibtfd witi
+     * tiis idfntififr. An instbndf of <dodf>AdtivbtionID</dodf> is globblly
+     * uniquf.
+     *
+     * @pbrbm bdtivbtor rfffrfndf to tif bdtivbtor rfsponsiblf for
+     * bdtivbting tif objfdt
+     * @tirows UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     *         not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
+     */
+    publid AdtivbtionID(Adtivbtor bdtivbtor) {
+        tiis.bdtivbtor = bdtivbtor;
+    }
+
+    /**
+     * Adtivbtf tif objfdt for tiis id.
+     *
+     * @pbrbm fordf if truf, fordfs tif bdtivbtor to dontbdt tif group
+     * wifn bdtivbting tif objfdt (instfbd of rfturning b dbdifd rfffrfndf);
+     * if fblsf, rfturning b dbdifd vbluf is bddfptbblf.
+     * @rfturn tif rfffrfndf to tif bdtivf rfmotf objfdt
+     * @fxdfption AdtivbtionExdfption if bdtivbtion fbils
+     * @fxdfption UnknownObjfdtExdfption if tif objfdt is unknown
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid Rfmotf bdtivbtf(boolfbn fordf)
+        tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+    {
+        try {
+            MbrsibllfdObjfdt<? fxtfnds Rfmotf> mobj =
+                bdtivbtor.bdtivbtf(tiis, fordf);
+            rfturn mobj.gft();
+        } dbtdi (RfmotfExdfption f) {
+            tirow f;
+        } dbtdi (IOExdfption f) {
+            tirow nfw UnmbrsiblExdfption("bdtivbtion fbilfd", f);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw UnmbrsiblExdfption("bdtivbtion fbilfd", f);
+        }
+
+    }
+
+    /**
+     * Rfturns b ibsidodf for tif bdtivbtion id.  Two idfntififrs tibt
+     * rfffr to tif sbmf rfmotf objfdt will ibvf tif sbmf ibsi dodf.
+     *
+     * @sff jbvb.util.Hbsitbblf
+     * @sindf 1.2
+     */
+    publid int ibsiCodf() {
+        rfturn uid.ibsiCodf();
+    }
+
+    /**
+     * Compbrfs two bdtivbtion ids for dontfnt fqublity.
+     * Rfturns truf if boti of tif following donditions brf truf:
+     * 1) tif uniquf idfntififrs fquivblfnt (by dontfnt), bnd
+     * 2) tif bdtivbtor spfdififd in fbdi idfntififr
+     *    rfffrs to tif sbmf rfmotf objfdt.
+     *
+     * @pbrbm   obj     tif Objfdt to dompbrf witi
+     * @rfturn  truf if tifsf Objfdts brf fqubl; fblsf otifrwisf.
+     * @sff             jbvb.util.Hbsitbblf
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof AdtivbtionID) {
+            AdtivbtionID id = (AdtivbtionID) obj;
+            rfturn (uid.fqubls(id.uid) && bdtivbtor.fqubls(id.bdtivbtor));
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * <dodf>writfObjfdt</dodf> for dustom sfriblizbtion.
+     *
+     * <p>Tiis mftiod writfs tiis objfdt's sfriblizfd form for
+     * tiis dlbss bs follows:
+     *
+     * <p>Tif <dodf>writfObjfdt</dodf> mftiod is invokfd on
+     * <dodf>out</dodf> pbssing tiis objfdt's uniquf idfntififr
+     * (b {@link jbvb.rmi.sfrvfr.UID UID} instbndf) bs tif brgumfnt.
+     *
+     * <p>Nfxt, tif {@link
+     * jbvb.rmi.sfrvfr.RfmotfRff#gftRffClbss(jbvb.io.ObjfdtOutput)
+     * gftRffClbss} mftiod is invokfd on tif bdtivbtor's
+     * <dodf>RfmotfRff</dodf> instbndf to obtbin its fxtfrnbl rff
+     * typf nbmf.  Nfxt, tif <dodf>writfUTF</dodf> mftiod is
+     * invokfd on <dodf>out</dodf> witi tif vbluf rfturnfd by
+     * <dodf>gftRffClbss</dodf>, bnd tifn tif
+     * <dodf>writfExtfrnbl</dodf> mftiod is invokfd on tif
+     * <dodf>RfmotfRff</dodf> instbndf pbssing <dodf>out</dodf>
+     * bs tif brgumfnt.
+     *
+     * @sfriblDbtb Tif sfriblizfd dbtb for tiis dlbss domprisfs b
+     * <dodf>jbvb.rmi.sfrvfr.UID</dodf> (writtfn witi
+     * <dodf>ObjfdtOutput.writfObjfdt</dodf>) followfd by tif
+     * fxtfrnbl rff typf nbmf of tif bdtivbtor's
+     * <dodf>RfmotfRff</dodf> instbndf (b string writtfn witi
+     * <dodf>ObjfdtOutput.writfUTF</dodf>), followfd by tif
+     * fxtfrnbl form of tif <dodf>RfmotfRff</dodf> instbndf bs
+     * writtfn by its <dodf>writfExtfrnbl</dodf> mftiod.
+     *
+     * <p>Tif fxtfrnbl rff typf nbmf of tif
+     * <dodf>RfmotfRff</Codf> instbndf is
+     * dftfrminfd using tif dffinitions of fxtfrnbl rff typf
+     * nbmfs spfdififd in tif {@link jbvb.rmi.sfrvfr.RfmotfObjfdt
+     * RfmotfObjfdt} <dodf>writfObjfdt</dodf> mftiod
+     * <b>sfriblDbtb</b> spfdifidbtion.  Similbrly, tif dbtb
+     * writtfn by tif <dodf>writfExtfrnbl</dodf> mftiod bnd rfbd
+     * by tif <dodf>rfbdExtfrnbl</dodf> mftiod of
+     * <dodf>RfmotfRff</dodf> implfmfntbtion dlbssfs
+     * dorrfsponding to fbdi of tif dffinfd fxtfrnbl rff typf
+     * nbmfs is spfdififd in tif {@link
+     * jbvb.rmi.sfrvfr.RfmotfObjfdt RfmotfObjfdt}
+     * <dodf>writfObjfdt</dodf> mftiod <b>sfriblDbtb</b>
+     * spfdifidbtion.
+     **/
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        out.writfObjfdt(uid);
+
+        RfmotfRff rff;
+        if (bdtivbtor instbndfof RfmotfObjfdt) {
+            rff = ((RfmotfObjfdt) bdtivbtor).gftRff();
+        } flsf if (Proxy.isProxyClbss(bdtivbtor.gftClbss())) {
+            InvodbtionHbndlfr ibndlfr = Proxy.gftInvodbtionHbndlfr(bdtivbtor);
+            if (!(ibndlfr instbndfof RfmotfObjfdtInvodbtionHbndlfr)) {
+                tirow nfw InvblidObjfdtExdfption(
+                    "unfxpfdtfd invodbtion ibndlfr");
+            }
+            rff = ((RfmotfObjfdtInvodbtionHbndlfr) ibndlfr).gftRff();
+
+        } flsf {
+            tirow nfw InvblidObjfdtExdfption("unfxpfdtfd bdtivbtor typf");
+        }
+        out.writfUTF(rff.gftRffClbss(out));
+        rff.writfExtfrnbl(out);
+    }
+
+    /**
+     * <dodf>rfbdObjfdt</dodf> for dustom sfriblizbtion.
+     *
+     * <p>Tiis mftiod rfbds tiis objfdt's sfriblizfd form for tiis
+     * dlbss bs follows:
+     *
+     * <p>Tif <dodf>rfbdObjfdt</dodf> mftiod is invokfd on
+     * <dodf>in</dodf> to rfbd tiis objfdt's uniquf idfntififr
+     * (b {@link jbvb.rmi.sfrvfr.UID UID} instbndf).
+     *
+     * <p>Nfxt, tif <dodf>rfbdUTF</dodf> mftiod is invokfd on
+     * <dodf>in</dodf> to rfbd tif fxtfrnbl rff typf nbmf of tif
+     * <dodf>RfmotfRff</dodf> instbndf for tiis objfdt's
+     * bdtivbtor.  Nfxt, tif <dodf>RfmotfRff</dodf>
+     * instbndf is drfbtfd of bn implfmfntbtion-spfdifid dlbss
+     * dorrfsponding to tif fxtfrnbl rff typf nbmf (rfturnfd by
+     * <dodf>rfbdUTF</dodf>), bnd tif <dodf>rfbdExtfrnbl</dodf>
+     * mftiod is invokfd on tibt <dodf>RfmotfRff</dodf> instbndf
+     * to rfbd tif fxtfrnbl form dorrfsponding to tif fxtfrnbl
+     * rff typf nbmf.
+     *
+     * <p>Notf: If tif fxtfrnbl rff typf nbmf is
+     * <dodf>"UnidbstRff"</dodf>, <dodf>"UnidbstSfrvfrRff"</dodf>,
+     * <dodf>"UnidbstRff2"</dodf>, <dodf>"UnidbstSfrvfrRff2"</dodf>,
+     * or <dodf>"AdtivbtbblfRff"</dodf>, b dorrfsponding
+     * implfmfntbtion-spfdifid dlbss must bf found, bnd its
+     * <dodf>rfbdExtfrnbl</dodf> mftiod must rfbd tif sfribl dbtb
+     * for tibt fxtfrnbl rff typf nbmf bs spfdififd to bf writtfn
+     * in tif <b>sfriblDbtb</b> dodumfntbtion for tiis dlbss.
+     * If tif fxtfrnbl rff typf nbmf is bny otifr string (of non-zfro
+     * lfngti), b <dodf>ClbssNotFoundExdfption</dodf> will bf tirown,
+     * unlfss tif implfmfntbtion providfs bn implfmfntbtion-spfdifid
+     * dlbss dorrfsponding to tibt fxtfrnbl rff typf nbmf, in wiidi
+     * dbsf tif <dodf>RfmotfRff</dodf> will bf bn instbndf of
+     * tibt implfmfntbtion-spfdifid dlbss.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        uid = (UID)in.rfbdObjfdt();
+
+        try {
+            Clbss<? fxtfnds RfmotfRff> rffClbss =
+                Clbss.forNbmf(RfmotfRff.pbdkbgfPrffix + "." + in.rfbdUTF())
+                .bsSubdlbss(RfmotfRff.dlbss);
+            RfmotfRff rff = rffClbss.nfwInstbndf();
+            rff.rfbdExtfrnbl(in);
+            bdtivbtor = (Adtivbtor)
+                Proxy.nfwProxyInstbndf(null,
+                                       nfw Clbss<?>[] { Adtivbtor.dlbss },
+                                       nfw RfmotfObjfdtInvodbtionHbndlfr(rff));
+
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow (IOExdfption)
+                nfw InvblidObjfdtExdfption(
+                    "Unbblf to drfbtf rfmotf rfffrfndf").initCbusf(f);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow (IOExdfption)
+                nfw InvblidObjfdtExdfption(
+                    "Unbblf to drfbtf rfmotf rfffrfndf").initCbusf(f);
+        }
+    }
+}

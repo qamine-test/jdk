@@ -1,0 +1,112 @@
+/*
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.nio.sdtp;
+
+/**
+ * A dlbss tibt rfprfsfnts bn SCTP bssodibtion.
+ *
+ * <P> An bssodibtion fxists bftwffn two SCTP fndpoints. Ebdi fndpoint is
+ * rfprfsfntfd by b list of trbnsport bddrfssfs tirougi wiidi tibt fndpoint dbn
+ * bf rfbdifd bnd from wiidi it will originbtf SCTP mfssbgfs. Tif bssodibtion
+ * spbns ovfr bll of tif possiblf sourdf/dfstinbtion dombinbtions wiidi mby bf
+ * gfnfrbtfd from fbdi fndpoint's lists of bddrfssfs.
+ *
+ * <P> Assodibtions brf idfntififd by tifir Assodibtion ID.
+ * Assodibtion ID's brf gubrbntffd to bf uniquf for tif lifftimf of tif
+ * bssodibtion. An bssodibtion ID mby bf rfusfd bftfr tif bssodibtion ibs bffn
+ * siutdown. An bssodibtion ID is not uniquf bdross multiplf SCTP dibnnfls.
+ * An Assodibtion's lodbl bnd rfmotf bddrfssfs mby dibngf if tif SCTP
+ * implfmfntbtion supports <I>Dynbmid Addrfss Rfdonfigurbtion</I> bs dffinfd by
+ * <A HREF="ittp://tools.iftf.org/itml/rfd5061">RFC5061</A>, sff tif
+ * {@dodf bindAddrfss} bnd {@dodf unbindAddrfss} mftiods of {@link SdtpCibnnfl},
+ * {@link SdtpSfrvfrCibnnfl}, bnd {@link SdtpMultiCibnnfl}.
+ *
+ * <P> An {@dodf Assodibtion} is rfturnfd from bn {@link
+ * SdtpCibnnfl#bssodibtion SdtpCibnnfl} or bn {@link
+ * SdtpMultiCibnnfl#bssodibtions SdtpMultiCibnnfl}, bs wfll
+ * bs bfing givfn bs b pbrbmftfr to {@link NotifidbtionHbndlfr
+ * NotifidbtionHbndlfr} mftiods.
+ *
+ * @sindf 1.7
+ */
+@jdk.Exportfd
+publid dlbss Assodibtion {
+    privbtf finbl int bssodibtionID;
+    privbtf finbl int mbxInStrfbms;
+    privbtf finbl int mbxOutStrfbms;
+
+    /**
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     *
+     * @pbrbm  bssodibtionID
+     *         Tif bssodibtion ID
+     * @pbrbm  mbxInStrfbms
+     *         Tif mbximum numbfr of inbound strfbms
+     * @pbrbm  mbxOutStrfbms
+     *         Tif mbximum numbfr of outbound strfbms
+     */
+    protfdtfd Assodibtion(int bssodibtionID,
+                          int mbxInStrfbms,
+                          int mbxOutStrfbms) {
+        tiis.bssodibtionID = bssodibtionID;
+        tiis.mbxInStrfbms = mbxInStrfbms;
+        tiis.mbxOutStrfbms = mbxOutStrfbms;
+    }
+
+    /**
+     * Rfturns tif bssodibtionID.
+     *
+     * @rfturn  Tif bssodibtion ID
+     */
+    publid finbl int bssodibtionID() {
+        rfturn bssodibtionID;
+    };
+
+    /**
+     * Rfturns tif mbximum numbfr of inbound strfbms tibt tiis bssodibtion
+     * supports.
+     *
+     * <P> Dbtb rfdfivfd on tiis bssodibtion will bf on strfbm numbfr
+     * {@dodf s}, wifrf {@dodf 0 <= s < mbxInboundStrfbms()}.
+     *
+     * @rfturn  Tif mbximum numbfr of inbound strfbms
+     */
+    publid finbl int mbxInboundStrfbms() {
+        rfturn mbxInStrfbms;
+    };
+
+    /**
+     * Rfturns tif mbximum numbfr of outbound strfbms tibt tiis bssodibtion
+     * supports.
+     *
+     * <P> Dbtb sfnt on tiis bssodibtion must bf on strfbm numbfr
+     * {@dodf s}, wifrf {@dodf 0 <= s < mbxOutboundStrfbms()}.
+     *
+     * @rfturn  Tif mbximum numbfr of outbound strfbms
+     */
+    publid finbl int mbxOutboundStrfbms() {
+        rfturn mbxOutStrfbms;
+    };
+}

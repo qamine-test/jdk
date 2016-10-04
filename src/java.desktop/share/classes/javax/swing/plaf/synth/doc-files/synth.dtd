@@ -1,146 +1,730 @@
 <!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<?xml vfrsion="1.0" fndoding="iso-8859-1"?>
+<?xml vfrsion="1.0" fndoding="iso-8859-1"?>
+<?xml vfrsion="1.0" fndoding="iso-8859-1"?>
+<?xml vfrsion="1.0" fndoding="iso-8859-1"?>
 <?xml vfrsion="1.0" fndoding="iso-8859-1"?>
 
+
+
+
+
+<!--
+<!--
+<!--
+<!--
 <!--
  Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
+
+
+
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
  Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
  undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
  publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
  pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
+
+
+
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
  Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
  ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
  FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
  vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
  bddompbnifd tiis dodf).
 
+
+
+
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
  You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
  2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
+
+
+
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
  Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
  or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+-->
+-->
+-->
+-->
 -->
 
 
+
+
+
+
+
+
+
+
+<!ELEMENT synti ((%bfbnsPfrsistbndf;) | stylf | bind | font | dolor |
+<!ELEMENT synti ((%bfbnsPfrsistbndf;) | stylf | bind | font | dolor |
+<!ELEMENT synti ((%bfbnsPfrsistbndf;) | stylf | bind | font | dolor |
+<!ELEMENT synti ((%bfbnsPfrsistbndf;) | stylf | bind | font | dolor |
 <!ELEMENT synti ((%bfbnsPfrsistbndf;) | stylf | bind | font | dolor |
           imbgfPbintfr | imbgfIdon | inputMbp | dffbultsPropfrty)*>
+          imbgfPbintfr | imbgfIdon | inputMbp | dffbultsPropfrty)*>
+          imbgfPbintfr | imbgfIdon | inputMbp | dffbultsPropfrty)*>
+          imbgfPbintfr | imbgfIdon | inputMbp | dffbultsPropfrty)*>
+          imbgfPbintfr | imbgfIdon | inputMbp | dffbultsPropfrty)*>
+<!ATTLIST synti
+<!ATTLIST synti
+<!ATTLIST synti
+<!ATTLIST synti
 <!ATTLIST synti
           vfrsion              CDATA          #IMPLIED
+          vfrsion              CDATA          #IMPLIED
+          vfrsion              CDATA          #IMPLIED
+          vfrsion              CDATA          #IMPLIED
+          vfrsion              CDATA          #IMPLIED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT stylf (propfrty | dffbultsPropfrty | stbtf | font |
+<!ELEMENT stylf (propfrty | dffbultsPropfrty | stbtf | font |
+<!ELEMENT stylf (propfrty | dffbultsPropfrty | stbtf | font |
+<!ELEMENT stylf (propfrty | dffbultsPropfrty | stbtf | font |
+<!ELEMENT stylf (propfrty | dffbultsPropfrty | stbtf | font |
+          grbpiidsUtils | insfts | pbintfr | imbgfPbintfr | opbquf |
+          grbpiidsUtils | insfts | pbintfr | imbgfPbintfr | opbquf |
+          grbpiidsUtils | insfts | pbintfr | imbgfPbintfr | opbquf |
+          grbpiidsUtils | insfts | pbintfr | imbgfPbintfr | opbquf |
           grbpiidsUtils | insfts | pbintfr | imbgfPbintfr | opbquf |
           inputMbp | %bfbnsPfrsistbndf; | imbgfIdon)*>
+          inputMbp | %bfbnsPfrsistbndf; | imbgfIdon)*>
+          inputMbp | %bfbnsPfrsistbndf; | imbgfIdon)*>
+          inputMbp | %bfbnsPfrsistbndf; | imbgfIdon)*>
+          inputMbp | %bfbnsPfrsistbndf; | imbgfIdon)*>
+<!ATTLIST stylf
+<!ATTLIST stylf
+<!ATTLIST stylf
+<!ATTLIST stylf
 <!ATTLIST stylf
           id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
           dlonf                IDREF          #IMPLIED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT stbtf (font | dolor | pbintfr | imbgfPbintfr |
+<!ELEMENT stbtf (font | dolor | pbintfr | imbgfPbintfr |
+<!ELEMENT stbtf (font | dolor | pbintfr | imbgfPbintfr |
+<!ELEMENT stbtf (font | dolor | pbintfr | imbgfPbintfr |
+<!ELEMENT stbtf (font | dolor | pbintfr | imbgfPbintfr |
+          (%bfbnsPfrsistbndf;) | propfrty | imbgfIdon)*>
+          (%bfbnsPfrsistbndf;) | propfrty | imbgfIdon)*>
+          (%bfbnsPfrsistbndf;) | propfrty | imbgfIdon)*>
+          (%bfbnsPfrsistbndf;) | propfrty | imbgfIdon)*>
           (%bfbnsPfrsistbndf;) | propfrty | imbgfIdon)*>
 <!ATTLIST stbtf
+<!ATTLIST stbtf
+<!ATTLIST stbtf
+<!ATTLIST stbtf
+<!ATTLIST stbtf
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
           id                   ID             #IMPLIED
           dlonf                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
           vbluf                CDATA          #IMPLIED
           idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT font EMPTY>
+<!ELEMENT font EMPTY>
+<!ELEMENT font EMPTY>
+<!ELEMENT font EMPTY>
+<!ELEMENT font EMPTY>
+<!ATTLIST font
+<!ATTLIST font
+<!ATTLIST font
+<!ATTLIST font
 <!ATTLIST font
           id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
           idrff                IDREF          #IMPLIED
           nbmf                 CDATA          #IMPLIED
+          nbmf                 CDATA          #IMPLIED
+          nbmf                 CDATA          #IMPLIED
+          nbmf                 CDATA          #IMPLIED
+          nbmf                 CDATA          #IMPLIED
+          stylf                CDATA          #IMPLIED
+          stylf                CDATA          #IMPLIED
+          stylf                CDATA          #IMPLIED
+          stylf                CDATA          #IMPLIED
           stylf                CDATA          #IMPLIED
           sizf                 CDATA          #IMPLIED
+          sizf                 CDATA          #IMPLIED
+          sizf                 CDATA          #IMPLIED
+          sizf                 CDATA          #IMPLIED
+          sizf                 CDATA          #IMPLIED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT dolor EMPTY>
+<!ELEMENT dolor EMPTY>
+<!ELEMENT dolor EMPTY>
+<!ELEMENT dolor EMPTY>
+<!ELEMENT dolor EMPTY>
+<!ATTLIST dolor
+<!ATTLIST dolor
+<!ATTLIST dolor
+<!ATTLIST dolor
 <!ATTLIST dolor
           id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
           idrff                IDREF          #IMPLIED
           typf                 CDATA          #IMPLIED
+          typf                 CDATA          #IMPLIED
+          typf                 CDATA          #IMPLIED
+          typf                 CDATA          #IMPLIED
+          typf                 CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
           vbluf                CDATA          #IMPLIED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT propfrty EMPTY>
+<!ELEMENT propfrty EMPTY>
+<!ELEMENT propfrty EMPTY>
+<!ELEMENT propfrty EMPTY>
+<!ELEMENT propfrty EMPTY>
+<!ATTLIST propfrty
+<!ATTLIST propfrty
+<!ATTLIST propfrty
+<!ATTLIST propfrty
 <!ATTLIST propfrty
           kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string) "idrff"
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string) "idrff"
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string) "idrff"
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string) "idrff"
           typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string) "idrff"
           vbluf       CDATA                                           #REQUIRED
->
-
-<!ELEMENT dffbultsPropfrty EMPTY>
-<!ATTLIST dffbultsPropfrty
-          kfy         CDATA                                           #REQUIRED
-          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          vbluf       CDATA                                           #REQUIRED
+          vbluf       CDATA                                           #REQUIRED
+          vbluf       CDATA                                           #REQUIRED
           vbluf       CDATA                                           #REQUIRED
 >
+>
+>
+>
+>
+
+
+
+
+
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ATTLIST dffbultsPropfrty
+<!ATTLIST dffbultsPropfrty
+<!ATTLIST dffbultsPropfrty
+<!ATTLIST dffbultsPropfrty
+<!ATTLIST dffbultsPropfrty
+          kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          kfy         CDATA                                           #REQUIRED
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          vbluf       CDATA                                           #REQUIRED
+          vbluf       CDATA                                           #REQUIRED
+          vbluf       CDATA                                           #REQUIRED
+          vbluf       CDATA                                           #REQUIRED
+          vbluf       CDATA                                           #REQUIRED
+>
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT grbpiidsUtils EMPTY>
+<!ELEMENT grbpiidsUtils EMPTY>
+<!ELEMENT grbpiidsUtils EMPTY>
+<!ELEMENT grbpiidsUtils EMPTY>
+<!ELEMENT grbpiidsUtils EMPTY>
+<!ATTLIST grbpiidsUtils
+<!ATTLIST grbpiidsUtils
+<!ATTLIST grbpiidsUtils
+<!ATTLIST grbpiidsUtils
 <!ATTLIST grbpiidsUtils
           idrff                IDREF          #REQUIRED
+          idrff                IDREF          #REQUIRED
+          idrff                IDREF          #REQUIRED
+          idrff                IDREF          #REQUIRED
+          idrff                IDREF          #REQUIRED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT insfts EMPTY>
+<!ELEMENT insfts EMPTY>
+<!ELEMENT insfts EMPTY>
+<!ELEMENT insfts EMPTY>
+<!ELEMENT insfts EMPTY>
+<!ATTLIST insfts
+<!ATTLIST insfts
+<!ATTLIST insfts
+<!ATTLIST insfts
 <!ATTLIST insfts
           id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
           idrff                IDREF          #IMPLIED
           top                  CDATA          #IMPLIED
+          top                  CDATA          #IMPLIED
+          top                  CDATA          #IMPLIED
+          top                  CDATA          #IMPLIED
+          top                  CDATA          #IMPLIED
+          bottom               CDATA          #IMPLIED
+          bottom               CDATA          #IMPLIED
+          bottom               CDATA          #IMPLIED
+          bottom               CDATA          #IMPLIED
           bottom               CDATA          #IMPLIED
           lfft                 CDATA          #IMPLIED
+          lfft                 CDATA          #IMPLIED
+          lfft                 CDATA          #IMPLIED
+          lfft                 CDATA          #IMPLIED
+          lfft                 CDATA          #IMPLIED
+          rigit                CDATA          #IMPLIED
+          rigit                CDATA          #IMPLIED
+          rigit                CDATA          #IMPLIED
+          rigit                CDATA          #IMPLIED
           rigit                CDATA          #IMPLIED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT bind EMPTY>
+<!ELEMENT bind EMPTY>
+<!ELEMENT bind EMPTY>
+<!ELEMENT bind EMPTY>
+<!ELEMENT bind EMPTY>
+<!ATTLIST bind
+<!ATTLIST bind
+<!ATTLIST bind
+<!ATTLIST bind
 <!ATTLIST bind
           stylf                IDREF          #REQUIRED
+          stylf                IDREF          #REQUIRED
+          stylf                IDREF          #REQUIRED
+          stylf                IDREF          #REQUIRED
+          stylf                IDREF          #REQUIRED
+          typf                 (NAME|REGION)  "REGION"
+          typf                 (NAME|REGION)  "REGION"
+          typf                 (NAME|REGION)  "REGION"
+          typf                 (NAME|REGION)  "REGION"
           typf                 (NAME|REGION)  "REGION"
           kfy                  CDATA          #REQUIRED
+          kfy                  CDATA          #REQUIRED
+          kfy                  CDATA          #REQUIRED
+          kfy                  CDATA          #REQUIRED
+          kfy                  CDATA          #REQUIRED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT pbintfr EMPTY>
+<!ELEMENT pbintfr EMPTY>
+<!ELEMENT pbintfr EMPTY>
+<!ELEMENT pbintfr EMPTY>
+<!ELEMENT pbintfr EMPTY>
+<!ATTLIST pbintfr
+<!ATTLIST pbintfr
+<!ATTLIST pbintfr
+<!ATTLIST pbintfr
 <!ATTLIST pbintfr
           idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          mftiod               CDATA          #IMPLIED
+          mftiod               CDATA          #IMPLIED
+          mftiod               CDATA          #IMPLIED
+          mftiod               CDATA          #IMPLIED
           mftiod               CDATA          #IMPLIED
           dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT imbgfPbintfr EMPTY>
+<!ELEMENT imbgfPbintfr EMPTY>
+<!ELEMENT imbgfPbintfr EMPTY>
+<!ELEMENT imbgfPbintfr EMPTY>
+<!ELEMENT imbgfPbintfr EMPTY>
+<!ATTLIST imbgfPbintfr
+<!ATTLIST imbgfPbintfr
+<!ATTLIST imbgfPbintfr
+<!ATTLIST imbgfPbintfr
 <!ATTLIST imbgfPbintfr
           id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          id                   ID             #IMPLIED
+          mftiod               CDATA          #IMPLIED
+          mftiod               CDATA          #IMPLIED
+          mftiod               CDATA          #IMPLIED
+          mftiod               CDATA          #IMPLIED
           mftiod               CDATA          #IMPLIED
           dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          pbti                 CDATA          #IMPLIED
+          pbti                 CDATA          #IMPLIED
+          pbti                 CDATA          #IMPLIED
+          pbti                 CDATA          #IMPLIED
           pbti                 CDATA          #IMPLIED
           sourdfInsfts         CDATA          #IMPLIED
+          sourdfInsfts         CDATA          #IMPLIED
+          sourdfInsfts         CDATA          #IMPLIED
+          sourdfInsfts         CDATA          #IMPLIED
+          sourdfInsfts         CDATA          #IMPLIED
+          dfstinbtionInsfts    CDATA          #IMPLIED
+          dfstinbtionInsfts    CDATA          #IMPLIED
+          dfstinbtionInsfts    CDATA          #IMPLIED
+          dfstinbtionInsfts    CDATA          #IMPLIED
           dfstinbtionInsfts    CDATA          #IMPLIED
           pbintCfntfr          (truf|fblsf)   "truf"
+          pbintCfntfr          (truf|fblsf)   "truf"
+          pbintCfntfr          (truf|fblsf)   "truf"
+          pbintCfntfr          (truf|fblsf)   "truf"
+          pbintCfntfr          (truf|fblsf)   "truf"
+          strftdi              (truf|fblsf)   "truf"
+          strftdi              (truf|fblsf)   "truf"
+          strftdi              (truf|fblsf)   "truf"
+          strftdi              (truf|fblsf)   "truf"
           strftdi              (truf|fblsf)   "truf"
           dfntfr               (truf|fblsf)   "fblsf"
+          dfntfr               (truf|fblsf)   "fblsf"
+          dfntfr               (truf|fblsf)   "fblsf"
+          dfntfr               (truf|fblsf)   "fblsf"
+          dfntfr               (truf|fblsf)   "fblsf"
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT imbgfIdon EMPTY>
+<!ELEMENT imbgfIdon EMPTY>
+<!ELEMENT imbgfIdon EMPTY>
+<!ELEMENT imbgfIdon EMPTY>
+<!ELEMENT imbgfIdon EMPTY>
+<!ATTLIST imbgfIdon
+<!ATTLIST imbgfIdon
+<!ATTLIST imbgfIdon
+<!ATTLIST imbgfIdon
 <!ATTLIST imbgfIdon
           id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+          pbti                 CDATA          #REQUIRED
+          pbti                 CDATA          #REQUIRED
+          pbti                 CDATA          #REQUIRED
+          pbti                 CDATA          #REQUIRED
           pbti                 CDATA          #REQUIRED
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT opbquf EMPTY>
+<!ELEMENT opbquf EMPTY>
+<!ELEMENT opbquf EMPTY>
+<!ELEMENT opbquf EMPTY>
+<!ELEMENT opbquf EMPTY>
+<!ATTLIST opbquf
+<!ATTLIST opbquf
+<!ATTLIST opbquf
+<!ATTLIST opbquf
 <!ATTLIST opbquf
           vbluf                (truf|fblsf)   "truf"
+          vbluf                (truf|fblsf)   "truf"
+          vbluf                (truf|fblsf)   "truf"
+          vbluf                (truf|fblsf)   "truf"
+          vbluf                (truf|fblsf)   "truf"
 >
+>
+>
+>
+>
+
+
+
+
 
 <!ELEMENT inputMbp (bindKfy)*>
+<!ELEMENT inputMbp (bindKfy)*>
+<!ELEMENT inputMbp (bindKfy)*>
+<!ELEMENT inputMbp (bindKfy)*>
+<!ELEMENT inputMbp (bindKfy)*>
+<!ATTLIST inputMbp
+<!ATTLIST inputMbp
+<!ATTLIST inputMbp
+<!ATTLIST inputMbp
 <!ATTLIST inputMbp
           id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+          id                   ID             #REQUIRED
+>
+>
+>
+>
 >
 
+
+
+
+
+<!ELEMENT bindKfy EMPTY>
+<!ELEMENT bindKfy EMPTY>
+<!ELEMENT bindKfy EMPTY>
+<!ELEMENT bindKfy EMPTY>
 <!ELEMENT bindKfy EMPTY>
 <!ATTLIST bindKfy
+<!ATTLIST bindKfy
+<!ATTLIST bindKfy
+<!ATTLIST bindKfy
+<!ATTLIST bindKfy
+          kfy                  CDATA          #REQUIRED
+          kfy                  CDATA          #REQUIRED
+          kfy                  CDATA          #REQUIRED
+          kfy                  CDATA          #REQUIRED
           kfy                  CDATA          #REQUIRED
           bdtion               CDATA          #REQUIRED
+          bdtion               CDATA          #REQUIRED
+          bdtion               CDATA          #REQUIRED
+          bdtion               CDATA          #REQUIRED
+          bdtion               CDATA          #REQUIRED
+>
+>
+>
+>
 >

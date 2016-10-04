@@ -1,646 +1,3230 @@
 /*
- * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+
+
+
+
 
 import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Point2D;
 import jbvb.bwt.gfom.Point2D;
 import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
 import jbvb.bwt.imbgf.ColorModfl;
 import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+
+
+
 
 /**
- * Thf {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b shbpf with
- * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Thf usfr mby spfdify 2 or morf
- * grbdifnt dolors, bnd this pbint will providf bn intfrpolbtion bftwffn
- * fbdh dolor.
+/**
+/**
+/**
+/**
+ * Tif {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b sibpf witi
+ * Tif {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b sibpf witi
+ * Tif {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b sibpf witi
+ * Tif {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b sibpf witi
+ * Tif {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b sibpf witi
+ * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Tif usfr mby spfdify 2 or morf
+ * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Tif usfr mby spfdify 2 or morf
+ * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Tif usfr mby spfdify 2 or morf
+ * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Tif usfr mby spfdify 2 or morf
+ * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Tif usfr mby spfdify 2 or morf
+ * grbdifnt dolors, bnd tiis pbint will providf bn intfrpolbtion bftwffn
+ * grbdifnt dolors, bnd tiis pbint will providf bn intfrpolbtion bftwffn
+ * grbdifnt dolors, bnd tiis pbint will providf bn intfrpolbtion bftwffn
+ * grbdifnt dolors, bnd tiis pbint will providf bn intfrpolbtion bftwffn
+ * grbdifnt dolors, bnd tiis pbint will providf bn intfrpolbtion bftwffn
+ * fbdi dolor.
+ * fbdi dolor.
+ * fbdi dolor.
+ * fbdi dolor.
+ * fbdi dolor.
  * <p>
- * Thf usfr must spfdify thf dirdlf dontrolling thf grbdifnt pbttfrn,
- * whidh is dfsdribfd by b dfntfr point bnd b rbdius.  Thf usfr dbn blso
- * spfdify b sfpbrbtf fodus point within thbt dirdlf, whidh dontrols thf
- * lodbtion of thf first dolor of thf grbdifnt.  By dffbult thf fodus is
- * sft to bf thf dfntfr of thf dirdlf.
  * <p>
- * This pbint will mbp thf first dolor of thf grbdifnt to thf fodus point,
- * bnd thf lbst dolor to thf pfrimftfr of thf dirdlf, intfrpolbting
- * smoothly for bny in-bftwffn dolors spfdififd by thf usfr.  Any linf drbwn
- * from thf fodus point to thf dirdumffrfndf will thus spbn bll thf grbdifnt
+ * <p>
+ * <p>
+ * <p>
+ * Tif usfr must spfdify tif dirdlf dontrolling tif grbdifnt pbttfrn,
+ * Tif usfr must spfdify tif dirdlf dontrolling tif grbdifnt pbttfrn,
+ * Tif usfr must spfdify tif dirdlf dontrolling tif grbdifnt pbttfrn,
+ * Tif usfr must spfdify tif dirdlf dontrolling tif grbdifnt pbttfrn,
+ * Tif usfr must spfdify tif dirdlf dontrolling tif grbdifnt pbttfrn,
+ * wiidi is dfsdribfd by b dfntfr point bnd b rbdius.  Tif usfr dbn blso
+ * wiidi is dfsdribfd by b dfntfr point bnd b rbdius.  Tif usfr dbn blso
+ * wiidi is dfsdribfd by b dfntfr point bnd b rbdius.  Tif usfr dbn blso
+ * wiidi is dfsdribfd by b dfntfr point bnd b rbdius.  Tif usfr dbn blso
+ * wiidi is dfsdribfd by b dfntfr point bnd b rbdius.  Tif usfr dbn blso
+ * spfdify b sfpbrbtf fodus point witiin tibt dirdlf, wiidi dontrols tif
+ * spfdify b sfpbrbtf fodus point witiin tibt dirdlf, wiidi dontrols tif
+ * spfdify b sfpbrbtf fodus point witiin tibt dirdlf, wiidi dontrols tif
+ * spfdify b sfpbrbtf fodus point witiin tibt dirdlf, wiidi dontrols tif
+ * spfdify b sfpbrbtf fodus point witiin tibt dirdlf, wiidi dontrols tif
+ * lodbtion of tif first dolor of tif grbdifnt.  By dffbult tif fodus is
+ * lodbtion of tif first dolor of tif grbdifnt.  By dffbult tif fodus is
+ * lodbtion of tif first dolor of tif grbdifnt.  By dffbult tif fodus is
+ * lodbtion of tif first dolor of tif grbdifnt.  By dffbult tif fodus is
+ * lodbtion of tif first dolor of tif grbdifnt.  By dffbult tif fodus is
+ * sft to bf tif dfntfr of tif dirdlf.
+ * sft to bf tif dfntfr of tif dirdlf.
+ * sft to bf tif dfntfr of tif dirdlf.
+ * sft to bf tif dfntfr of tif dirdlf.
+ * sft to bf tif dfntfr of tif dirdlf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis pbint will mbp tif first dolor of tif grbdifnt to tif fodus point,
+ * Tiis pbint will mbp tif first dolor of tif grbdifnt to tif fodus point,
+ * Tiis pbint will mbp tif first dolor of tif grbdifnt to tif fodus point,
+ * Tiis pbint will mbp tif first dolor of tif grbdifnt to tif fodus point,
+ * Tiis pbint will mbp tif first dolor of tif grbdifnt to tif fodus point,
+ * bnd tif lbst dolor to tif pfrimftfr of tif dirdlf, intfrpolbting
+ * bnd tif lbst dolor to tif pfrimftfr of tif dirdlf, intfrpolbting
+ * bnd tif lbst dolor to tif pfrimftfr of tif dirdlf, intfrpolbting
+ * bnd tif lbst dolor to tif pfrimftfr of tif dirdlf, intfrpolbting
+ * bnd tif lbst dolor to tif pfrimftfr of tif dirdlf, intfrpolbting
+ * smootily for bny in-bftwffn dolors spfdififd by tif usfr.  Any linf drbwn
+ * smootily for bny in-bftwffn dolors spfdififd by tif usfr.  Any linf drbwn
+ * smootily for bny in-bftwffn dolors spfdififd by tif usfr.  Any linf drbwn
+ * smootily for bny in-bftwffn dolors spfdififd by tif usfr.  Any linf drbwn
+ * smootily for bny in-bftwffn dolors spfdififd by tif usfr.  Any linf drbwn
+ * from tif fodus point to tif dirdumffrfndf will tius spbn bll tif grbdifnt
+ * from tif fodus point to tif dirdumffrfndf will tius spbn bll tif grbdifnt
+ * from tif fodus point to tif dirdumffrfndf will tius spbn bll tif grbdifnt
+ * from tif fodus point to tif dirdumffrfndf will tius spbn bll tif grbdifnt
+ * from tif fodus point to tif dirdumffrfndf will tius spbn bll tif grbdifnt
+ * dolors.
+ * dolors.
+ * dolors.
+ * dolors.
  * dolors.
  * <p>
- * Spfdifying b fodus point outsidf of thf rbdius of thf dirdlf will dbusf
- * thf rings of thf grbdifnt pbttfrn to bf dfntfrfd on thf point just insidf
- * thf fdgf of thf dirdlf in thf dirfdtion of thf fodus point.
- * Thf rfndfring will intfrnblly usf this modififd lodbtion bs if it wfrf
- * thf spfdififd fodus point.
  * <p>
- * Thf usfr must providf bn brrby of flobts spfdifying how to distributf thf
- * dolors blong thf grbdifnt.  Thfsf vblufs should rbngf from 0.0 to 1.0 bnd
- * bdt likf kfyfrbmfs blong thf grbdifnt (thfy mbrk whfrf thf grbdifnt should
+ * <p>
+ * <p>
+ * <p>
+ * Spfdifying b fodus point outsidf of tif rbdius of tif dirdlf will dbusf
+ * Spfdifying b fodus point outsidf of tif rbdius of tif dirdlf will dbusf
+ * Spfdifying b fodus point outsidf of tif rbdius of tif dirdlf will dbusf
+ * Spfdifying b fodus point outsidf of tif rbdius of tif dirdlf will dbusf
+ * Spfdifying b fodus point outsidf of tif rbdius of tif dirdlf will dbusf
+ * tif rings of tif grbdifnt pbttfrn to bf dfntfrfd on tif point just insidf
+ * tif rings of tif grbdifnt pbttfrn to bf dfntfrfd on tif point just insidf
+ * tif rings of tif grbdifnt pbttfrn to bf dfntfrfd on tif point just insidf
+ * tif rings of tif grbdifnt pbttfrn to bf dfntfrfd on tif point just insidf
+ * tif rings of tif grbdifnt pbttfrn to bf dfntfrfd on tif point just insidf
+ * tif fdgf of tif dirdlf in tif dirfdtion of tif fodus point.
+ * tif fdgf of tif dirdlf in tif dirfdtion of tif fodus point.
+ * tif fdgf of tif dirdlf in tif dirfdtion of tif fodus point.
+ * tif fdgf of tif dirdlf in tif dirfdtion of tif fodus point.
+ * tif fdgf of tif dirdlf in tif dirfdtion of tif fodus point.
+ * Tif rfndfring will intfrnblly usf tiis modififd lodbtion bs if it wfrf
+ * Tif rfndfring will intfrnblly usf tiis modififd lodbtion bs if it wfrf
+ * Tif rfndfring will intfrnblly usf tiis modififd lodbtion bs if it wfrf
+ * Tif rfndfring will intfrnblly usf tiis modififd lodbtion bs if it wfrf
+ * Tif rfndfring will intfrnblly usf tiis modififd lodbtion bs if it wfrf
+ * tif spfdififd fodus point.
+ * tif spfdififd fodus point.
+ * tif spfdififd fodus point.
+ * tif spfdififd fodus point.
+ * tif spfdififd fodus point.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif usfr must providf bn brrby of flobts spfdifying iow to distributf tif
+ * Tif usfr must providf bn brrby of flobts spfdifying iow to distributf tif
+ * Tif usfr must providf bn brrby of flobts spfdifying iow to distributf tif
+ * Tif usfr must providf bn brrby of flobts spfdifying iow to distributf tif
+ * Tif usfr must providf bn brrby of flobts spfdifying iow to distributf tif
+ * dolors blong tif grbdifnt.  Tifsf vblufs siould rbngf from 0.0 to 1.0 bnd
+ * dolors blong tif grbdifnt.  Tifsf vblufs siould rbngf from 0.0 to 1.0 bnd
+ * dolors blong tif grbdifnt.  Tifsf vblufs siould rbngf from 0.0 to 1.0 bnd
+ * dolors blong tif grbdifnt.  Tifsf vblufs siould rbngf from 0.0 to 1.0 bnd
+ * dolors blong tif grbdifnt.  Tifsf vblufs siould rbngf from 0.0 to 1.0 bnd
+ * bdt likf kfyfrbmfs blong tif grbdifnt (tify mbrk wifrf tif grbdifnt siould
+ * bdt likf kfyfrbmfs blong tif grbdifnt (tify mbrk wifrf tif grbdifnt siould
+ * bdt likf kfyfrbmfs blong tif grbdifnt (tify mbrk wifrf tif grbdifnt siould
+ * bdt likf kfyfrbmfs blong tif grbdifnt (tify mbrk wifrf tif grbdifnt siould
+ * bdt likf kfyfrbmfs blong tif grbdifnt (tify mbrk wifrf tif grbdifnt siould
+ * bf fxbdtly b pbrtidulbr dolor).
+ * bf fxbdtly b pbrtidulbr dolor).
+ * bf fxbdtly b pbrtidulbr dolor).
+ * bf fxbdtly b pbrtidulbr dolor).
  * bf fxbdtly b pbrtidulbr dolor).
  * <p>
- * In thf fvfnt thbt thf usfr dofs not sft thf first kfyfrbmf vbluf fqubl
- * to 0 bnd/or thf lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
- * bt thfsf positions bnd thf first bnd lbst dolors will bf rfplidbtfd thfrf.
- * So, if b usfr spfdififs thf following brrbys to donstrudt b grbdifnt:<br>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * In tif fvfnt tibt tif usfr dofs not sft tif first kfyfrbmf vbluf fqubl
+ * In tif fvfnt tibt tif usfr dofs not sft tif first kfyfrbmf vbluf fqubl
+ * In tif fvfnt tibt tif usfr dofs not sft tif first kfyfrbmf vbluf fqubl
+ * In tif fvfnt tibt tif usfr dofs not sft tif first kfyfrbmf vbluf fqubl
+ * In tif fvfnt tibt tif usfr dofs not sft tif first kfyfrbmf vbluf fqubl
+ * to 0 bnd/or tif lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * to 0 bnd/or tif lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * to 0 bnd/or tif lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * to 0 bnd/or tif lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * to 0 bnd/or tif lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * bt tifsf positions bnd tif first bnd lbst dolors will bf rfplidbtfd tifrf.
+ * bt tifsf positions bnd tif first bnd lbst dolors will bf rfplidbtfd tifrf.
+ * bt tifsf positions bnd tif first bnd lbst dolors will bf rfplidbtfd tifrf.
+ * bt tifsf positions bnd tif first bnd lbst dolors will bf rfplidbtfd tifrf.
+ * bt tifsf positions bnd tif first bnd lbst dolors will bf rfplidbtfd tifrf.
+ * So, if b usfr spfdififs tif following brrbys to donstrudt b grbdifnt:<br>
+ * So, if b usfr spfdififs tif following brrbys to donstrudt b grbdifnt:<br>
+ * So, if b usfr spfdififs tif following brrbys to donstrudt b grbdifnt:<br>
+ * So, if b usfr spfdififs tif following brrbys to donstrudt b grbdifnt:<br>
+ * So, if b usfr spfdififs tif following brrbys to donstrudt b grbdifnt:<br>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  *     {Color.BLUE, Color.RED}, {.3f, .7f}
+ *     {Color.BLUE, Color.RED}, {.3f, .7f}
+ *     {Color.BLUE, Color.RED}, {.3f, .7f}
+ *     {Color.BLUE, Color.RED}, {.3f, .7f}
+ *     {Color.BLUE, Color.RED}, {.3f, .7f}
  * </prf>
- * this will bf donvfrtfd to b grbdifnt with thf following kfyfrbmfs:<br>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * tiis will bf donvfrtfd to b grbdifnt witi tif following kfyfrbmfs:<br>
+ * tiis will bf donvfrtfd to b grbdifnt witi tif following kfyfrbmfs:<br>
+ * tiis will bf donvfrtfd to b grbdifnt witi tif following kfyfrbmfs:<br>
+ * tiis will bf donvfrtfd to b grbdifnt witi tif following kfyfrbmfs:<br>
+ * tiis will bf donvfrtfd to b grbdifnt witi tif following kfyfrbmfs:<br>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
+ *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
+ *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
+ *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
+ *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
  * </prf>
  *
+ *
+ *
+ *
+ *
  * <p>
- * Thf usfr mby blso sflfdt whbt bdtion thf {@dodf RbdiblGrbdifntPbint} objfdt
- * tbkfs whfn it is filling thf spbdf outsidf thf dirdlf's rbdius by
- * sftting {@dodf CydlfMfthod} to fithfr {@dodf REFLECTION} or {@dodf REPEAT}.
- * Thf grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
- * from thf fodus point. Thf following figurf shows thbt thf distbndf AB
- * is fqubl to thf distbndf BC, bnd thf distbndf AD is fqubl to thf distbndf DE.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif usfr mby blso sflfdt wibt bdtion tif {@dodf RbdiblGrbdifntPbint} objfdt
+ * Tif usfr mby blso sflfdt wibt bdtion tif {@dodf RbdiblGrbdifntPbint} objfdt
+ * Tif usfr mby blso sflfdt wibt bdtion tif {@dodf RbdiblGrbdifntPbint} objfdt
+ * Tif usfr mby blso sflfdt wibt bdtion tif {@dodf RbdiblGrbdifntPbint} objfdt
+ * Tif usfr mby blso sflfdt wibt bdtion tif {@dodf RbdiblGrbdifntPbint} objfdt
+ * tbkfs wifn it is filling tif spbdf outsidf tif dirdlf's rbdius by
+ * tbkfs wifn it is filling tif spbdf outsidf tif dirdlf's rbdius by
+ * tbkfs wifn it is filling tif spbdf outsidf tif dirdlf's rbdius by
+ * tbkfs wifn it is filling tif spbdf outsidf tif dirdlf's rbdius by
+ * tbkfs wifn it is filling tif spbdf outsidf tif dirdlf's rbdius by
+ * sftting {@dodf CydlfMftiod} to fitifr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * sftting {@dodf CydlfMftiod} to fitifr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * sftting {@dodf CydlfMftiod} to fitifr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * sftting {@dodf CydlfMftiod} to fitifr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * sftting {@dodf CydlfMftiod} to fitifr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * Tif grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
+ * Tif grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
+ * Tif grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
+ * Tif grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
+ * Tif grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
+ * from tif fodus point. Tif following figurf siows tibt tif distbndf AB
+ * from tif fodus point. Tif following figurf siows tibt tif distbndf AB
+ * from tif fodus point. Tif following figurf siows tibt tif distbndf AB
+ * from tif fodus point. Tif following figurf siows tibt tif distbndf AB
+ * from tif fodus point. Tif following figurf siows tibt tif distbndf AB
+ * is fqubl to tif distbndf BC, bnd tif distbndf AD is fqubl to tif distbndf DE.
+ * is fqubl to tif distbndf BC, bnd tif distbndf AD is fqubl to tif distbndf DE.
+ * is fqubl to tif distbndf BC, bnd tif distbndf AD is fqubl to tif distbndf DE.
+ * is fqubl to tif distbndf BC, bnd tif distbndf AD is fqubl to tif distbndf DE.
+ * is fqubl to tif distbndf BC, bnd tif distbndf AD is fqubl to tif distbndf DE.
  * <dfntfr>
- * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf showing thf
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf siowing tif
+ * distbndf AB=BC, bnd AD=DE">
+ * distbndf AB=BC, bnd AD=DE">
+ * distbndf AB=BC, bnd AD=DE">
+ * distbndf AB=BC, bnd AD=DE">
  * distbndf AB=BC, bnd AD=DE">
  * </dfntfr>
- * If thf grbdifnt bnd grbphids rfndfring trbnsforms brf uniformly sdblfd bnd
- * thf usfr sfts thf fodus so thbt it doindidfs with thf dfntfr of thf dirdlf,
- * thf grbdifnt dolor proportions brf fqubl for bny linf drbwn from thf dfntfr.
- * Thf following figurf shows thf distbndfs AB, BC, AD, bnd DE. Thfy brf bll fqubl.
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
+ * If tif grbdifnt bnd grbpiids rfndfring trbnsforms brf uniformly sdblfd bnd
+ * If tif grbdifnt bnd grbpiids rfndfring trbnsforms brf uniformly sdblfd bnd
+ * If tif grbdifnt bnd grbpiids rfndfring trbnsforms brf uniformly sdblfd bnd
+ * If tif grbdifnt bnd grbpiids rfndfring trbnsforms brf uniformly sdblfd bnd
+ * If tif grbdifnt bnd grbpiids rfndfring trbnsforms brf uniformly sdblfd bnd
+ * tif usfr sfts tif fodus so tibt it doindidfs witi tif dfntfr of tif dirdlf,
+ * tif usfr sfts tif fodus so tibt it doindidfs witi tif dfntfr of tif dirdlf,
+ * tif usfr sfts tif fodus so tibt it doindidfs witi tif dfntfr of tif dirdlf,
+ * tif usfr sfts tif fodus so tibt it doindidfs witi tif dfntfr of tif dirdlf,
+ * tif usfr sfts tif fodus so tibt it doindidfs witi tif dfntfr of tif dirdlf,
+ * tif grbdifnt dolor proportions brf fqubl for bny linf drbwn from tif dfntfr.
+ * tif grbdifnt dolor proportions brf fqubl for bny linf drbwn from tif dfntfr.
+ * tif grbdifnt dolor proportions brf fqubl for bny linf drbwn from tif dfntfr.
+ * tif grbdifnt dolor proportions brf fqubl for bny linf drbwn from tif dfntfr.
+ * tif grbdifnt dolor proportions brf fqubl for bny linf drbwn from tif dfntfr.
+ * Tif following figurf siows tif distbndfs AB, BC, AD, bnd DE. Tify brf bll fqubl.
+ * Tif following figurf siows tif distbndfs AB, BC, AD, bnd DE. Tify brf bll fqubl.
+ * Tif following figurf siows tif distbndfs AB, BC, AD, bnd DE. Tify brf bll fqubl.
+ * Tif following figurf siows tif distbndfs AB, BC, AD, bnd DE. Tify brf bll fqubl.
+ * Tif following figurf siows tif distbndfs AB, BC, AD, bnd DE. Tify brf bll fqubl.
  * <dfntfr>
- * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf showing thf
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf siowing tif
+ * distbndf of AB, BC, AD, bnd DE brf bll fqubl">
+ * distbndf of AB, BC, AD, bnd DE brf bll fqubl">
+ * distbndf of AB, BC, AD, bnd DE brf bll fqubl">
+ * distbndf of AB, BC, AD, bnd DE brf bll fqubl">
  * distbndf of AB, BC, AD, bnd DE brf bll fqubl">
  * </dfntfr>
- * Notf thbt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
- * thf grbnulbrity of b pixfl.
- * If no dydlf mfthod is spfdififd, {@dodf NO_CYCLE} will bf dhosfn by
- * dffbult, whidh mfbns thf thf lbst kfyfrbmf dolor will bf usfd to fill thf
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
+ * Notf tibt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * Notf tibt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * Notf tibt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * Notf tibt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * Notf tibt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * tif grbnulbrity of b pixfl.
+ * tif grbnulbrity of b pixfl.
+ * tif grbnulbrity of b pixfl.
+ * tif grbnulbrity of b pixfl.
+ * tif grbnulbrity of b pixfl.
+ * If no dydlf mftiod is spfdififd, {@dodf NO_CYCLE} will bf diosfn by
+ * If no dydlf mftiod is spfdififd, {@dodf NO_CYCLE} will bf diosfn by
+ * If no dydlf mftiod is spfdififd, {@dodf NO_CYCLE} will bf diosfn by
+ * If no dydlf mftiod is spfdififd, {@dodf NO_CYCLE} will bf diosfn by
+ * If no dydlf mftiod is spfdififd, {@dodf NO_CYCLE} will bf diosfn by
+ * dffbult, wiidi mfbns tif tif lbst kfyfrbmf dolor will bf usfd to fill tif
+ * dffbult, wiidi mfbns tif tif lbst kfyfrbmf dolor will bf usfd to fill tif
+ * dffbult, wiidi mfbns tif tif lbst kfyfrbmf dolor will bf usfd to fill tif
+ * dffbult, wiidi mfbns tif tif lbst kfyfrbmf dolor will bf usfd to fill tif
+ * dffbult, wiidi mfbns tif tif lbst kfyfrbmf dolor will bf usfd to fill tif
+ * rfmbining brfb.
+ * rfmbining brfb.
+ * rfmbining brfb.
+ * rfmbining brfb.
  * rfmbining brfb.
  * <p>
- * Thf dolorSpbdf pbrbmftfr bllows thf usfr to spfdify in whidh dolorspbdf
- * thf intfrpolbtion should bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif dolorSpbdf pbrbmftfr bllows tif usfr to spfdify in wiidi dolorspbdf
+ * Tif dolorSpbdf pbrbmftfr bllows tif usfr to spfdify in wiidi dolorspbdf
+ * Tif dolorSpbdf pbrbmftfr bllows tif usfr to spfdify in wiidi dolorspbdf
+ * Tif dolorSpbdf pbrbmftfr bllows tif usfr to spfdify in wiidi dolorspbdf
+ * Tif dolorSpbdf pbrbmftfr bllows tif usfr to spfdify in wiidi dolorspbdf
+ * tif intfrpolbtion siould bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
+ * tif intfrpolbtion siould bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
+ * tif intfrpolbtion siould bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
+ * tif intfrpolbtion siould bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
+ * tif intfrpolbtion siould bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
+ *
+ *
+ *
+ *
  *
  * <p>
- * Thf following dodf dfmonstrbtfs typidbl usbgf of
- * {@dodf RbdiblGrbdifntPbint}, whfrf thf dfntfr bnd fodus points brf
- * thf sbmf:
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif following dodf dfmonstrbtfs typidbl usbgf of
+ * Tif following dodf dfmonstrbtfs typidbl usbgf of
+ * Tif following dodf dfmonstrbtfs typidbl usbgf of
+ * Tif following dodf dfmonstrbtfs typidbl usbgf of
+ * Tif following dodf dfmonstrbtfs typidbl usbgf of
+ * {@dodf RbdiblGrbdifntPbint}, wifrf tif dfntfr bnd fodus points brf
+ * {@dodf RbdiblGrbdifntPbint}, wifrf tif dfntfr bnd fodus points brf
+ * {@dodf RbdiblGrbdifntPbint}, wifrf tif dfntfr bnd fodus points brf
+ * {@dodf RbdiblGrbdifntPbint}, wifrf tif dfntfr bnd fodus points brf
+ * {@dodf RbdiblGrbdifntPbint}, wifrf tif dfntfr bnd fodus points brf
+ * tif sbmf:
+ * tif sbmf:
+ * tif sbmf:
+ * tif sbmf:
+ * tif sbmf:
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     flobt rbdius = 25;
+ *     flobt rbdius = 25;
+ *     flobt rbdius = 25;
  *     flobt rbdius = 25;
  *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
  *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     RbdiblGrbdifntPbint p =
+ *     RbdiblGrbdifntPbint p =
+ *     RbdiblGrbdifntPbint p =
+ *     RbdiblGrbdifntPbint p =
  *     RbdiblGrbdifntPbint p =
  *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, dist, dolors);
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, dist, dolors);
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, dist, dolors);
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, dist, dolors);
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, dist, dolors);
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
  * </prf>
  *
+ *
+ *
+ *
+ *
  * <p>
- * This imbgf dfmonstrbtfs thf fxbmplf dodf bbovf, with dffbult
- * (dfntfrfd) fodus for fbdh of thf thrff dydlf mfthods:
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis imbgf dfmonstrbtfs tif fxbmplf dodf bbovf, witi dffbult
+ * Tiis imbgf dfmonstrbtfs tif fxbmplf dodf bbovf, witi dffbult
+ * Tiis imbgf dfmonstrbtfs tif fxbmplf dodf bbovf, witi dffbult
+ * Tiis imbgf dfmonstrbtfs tif fxbmplf dodf bbovf, witi dffbult
+ * Tiis imbgf dfmonstrbtfs tif fxbmplf dodf bbovf, witi dffbult
+ * (dfntfrfd) fodus for fbdi of tif tirff dydlf mftiods:
+ * (dfntfrfd) fodus for fbdi of tif tirff dydlf mftiods:
+ * (dfntfrfd) fodus for fbdi of tif tirff dydlf mftiods:
+ * (dfntfrfd) fodus for fbdi of tif tirff dydlf mftiods:
+ * (dfntfrfd) fodus for fbdi of tif tirff dydlf mftiods:
  * <dfntfr>
- * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf showing thf
- * output of thf sbmfplf dodf">
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf siowing tif
+ * output of tif sbmfplf dodf">
+ * output of tif sbmfplf dodf">
+ * output of tif sbmfplf dodf">
+ * output of tif sbmfplf dodf">
+ * output of tif sbmfplf dodf">
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
  * </dfntfr>
  *
+ *
+ *
+ *
+ *
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  * It is blso possiblf to spfdify b non-dfntfrfd fodus point, bs
- * in thf following dodf:
+ * It is blso possiblf to spfdify b non-dfntfrfd fodus point, bs
+ * It is blso possiblf to spfdify b non-dfntfrfd fodus point, bs
+ * It is blso possiblf to spfdify b non-dfntfrfd fodus point, bs
+ * It is blso possiblf to spfdify b non-dfntfrfd fodus point, bs
+ * in tif following dodf:
+ * in tif following dodf:
+ * in tif following dodf:
+ * in tif following dodf:
+ * in tif following dodf:
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     flobt rbdius = 25;
+ *     flobt rbdius = 25;
+ *     flobt rbdius = 25;
  *     flobt rbdius = 25;
  *     Point2D fodus = nfw Point2D.Flobt(40, 40);
+ *     Point2D fodus = nfw Point2D.Flobt(40, 40);
+ *     Point2D fodus = nfw Point2D.Flobt(40, 40);
+ *     Point2D fodus = nfw Point2D.Flobt(40, 40);
+ *     Point2D fodus = nfw Point2D.Flobt(40, 40);
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
  *     flobt[] dist = {0.0f, 0.2f, 1.0f};
  *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     RbdiblGrbdifntPbint p =
+ *     RbdiblGrbdifntPbint p =
+ *     RbdiblGrbdifntPbint p =
+ *     RbdiblGrbdifntPbint p =
  *     RbdiblGrbdifntPbint p =
  *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, fodus,
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, fodus,
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, fodus,
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, fodus,
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, fodus,
  *                                 dist, dolors,
- *                                 CydlfMfthod.NO_CYCLE);
+ *                                 dist, dolors,
+ *                                 dist, dolors,
+ *                                 dist, dolors,
+ *                                 dist, dolors,
+ *                                 CydlfMftiod.NO_CYCLE);
+ *                                 CydlfMftiod.NO_CYCLE);
+ *                                 CydlfMftiod.NO_CYCLE);
+ *                                 CydlfMftiod.NO_CYCLE);
+ *                                 CydlfMftiod.NO_CYCLE);
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
  * </prf>
  *
+ *
+ *
+ *
+ *
  * <p>
- * This imbgf dfmonstrbtfs thf prfvious fxbmplf dodf, with non-dfntfrfd
- * fodus for fbdh of thf thrff dydlf mfthods:
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis imbgf dfmonstrbtfs tif prfvious fxbmplf dodf, witi non-dfntfrfd
+ * Tiis imbgf dfmonstrbtfs tif prfvious fxbmplf dodf, witi non-dfntfrfd
+ * Tiis imbgf dfmonstrbtfs tif prfvious fxbmplf dodf, witi non-dfntfrfd
+ * Tiis imbgf dfmonstrbtfs tif prfvious fxbmplf dodf, witi non-dfntfrfd
+ * Tiis imbgf dfmonstrbtfs tif prfvious fxbmplf dodf, witi non-dfntfrfd
+ * fodus for fbdi of tif tirff dydlf mftiods:
+ * fodus for fbdi of tif tirff dydlf mftiods:
+ * fodus for fbdi of tif tirff dydlf mftiods:
+ * fodus for fbdi of tif tirff dydlf mftiods:
+ * fodus for fbdi of tif tirff dydlf mftiods:
  * <dfntfr>
- * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf showing thf
- * output of thf sbmplf dodf">
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf siowing tif
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf siowing tif
+ * output of tif sbmplf dodf">
+ * output of tif sbmplf dodf">
+ * output of tif sbmplf dodf">
+ * output of tif sbmplf dodf">
+ * output of tif sbmplf dodf">
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
+ * </dfntfr>
  * </dfntfr>
  *
+ *
+ *
+ *
+ *
  * @sff jbvb.bwt.Pbint
- * @sff jbvb.bwt.Grbphids2D#sftPbint
- * @buthor Nidholbs Tblibn, Vindfnt Hbrdy, Jim Grbhbm, Jfrry Evbns
+ * @sff jbvb.bwt.Pbint
+ * @sff jbvb.bwt.Pbint
+ * @sff jbvb.bwt.Pbint
+ * @sff jbvb.bwt.Pbint
+ * @sff jbvb.bwt.Grbpiids2D#sftPbint
+ * @sff jbvb.bwt.Grbpiids2D#sftPbint
+ * @sff jbvb.bwt.Grbpiids2D#sftPbint
+ * @sff jbvb.bwt.Grbpiids2D#sftPbint
+ * @sff jbvb.bwt.Grbpiids2D#sftPbint
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
  * @sindf 1.6
  */
+ */
+ */
+ */
+ */
+publid finbl dlbss RbdiblGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
+publid finbl dlbss RbdiblGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
+publid finbl dlbss RbdiblGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
+publid finbl dlbss RbdiblGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
 publid finbl dlbss RbdiblGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
 
-    /** Fodus point whidh dffinfs thf 0% grbdifnt stop X doordinbtf. */
+
+
+
+
+    /** Fodus point wiidi dffinfs tif 0% grbdifnt stop X doordinbtf. */
+    /** Fodus point wiidi dffinfs tif 0% grbdifnt stop X doordinbtf. */
+    /** Fodus point wiidi dffinfs tif 0% grbdifnt stop X doordinbtf. */
+    /** Fodus point wiidi dffinfs tif 0% grbdifnt stop X doordinbtf. */
+    /** Fodus point wiidi dffinfs tif 0% grbdifnt stop X doordinbtf. */
+    privbtf finbl Point2D fodus;
+    privbtf finbl Point2D fodus;
+    privbtf finbl Point2D fodus;
+    privbtf finbl Point2D fodus;
     privbtf finbl Point2D fodus;
 
-    /** Cfntfr of thf dirdlf dffining thf 100% grbdifnt stop X doordinbtf. */
+
+
+
+
+    /** Cfntfr of tif dirdlf dffining tif 100% grbdifnt stop X doordinbtf. */
+    /** Cfntfr of tif dirdlf dffining tif 100% grbdifnt stop X doordinbtf. */
+    /** Cfntfr of tif dirdlf dffining tif 100% grbdifnt stop X doordinbtf. */
+    /** Cfntfr of tif dirdlf dffining tif 100% grbdifnt stop X doordinbtf. */
+    /** Cfntfr of tif dirdlf dffining tif 100% grbdifnt stop X doordinbtf. */
+    privbtf finbl Point2D dfntfr;
+    privbtf finbl Point2D dfntfr;
+    privbtf finbl Point2D dfntfr;
+    privbtf finbl Point2D dfntfr;
     privbtf finbl Point2D dfntfr;
 
-    /** Rbdius of thf outfrmost dirdlf dffining thf 100% grbdifnt stop. */
+
+
+
+
+    /** Rbdius of tif outfrmost dirdlf dffining tif 100% grbdifnt stop. */
+    /** Rbdius of tif outfrmost dirdlf dffining tif 100% grbdifnt stop. */
+    /** Rbdius of tif outfrmost dirdlf dffining tif 100% grbdifnt stop. */
+    /** Rbdius of tif outfrmost dirdlf dffining tif 100% grbdifnt stop. */
+    /** Rbdius of tif outfrmost dirdlf dffining tif 100% grbdifnt stop. */
+    privbtf finbl flobt rbdius;
+    privbtf finbl flobt rbdius;
+    privbtf finbl flobt rbdius;
+    privbtf finbl flobt rbdius;
     privbtf finbl flobt rbdius;
 
+
+
+
+
     /**
-     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
-     * {@dodf NO_CYCLE} rfpfbting mfthod bnd {@dodf SRGB} dolor spbdf,
-     * using thf dfntfr bs thf fodus point.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
      *
-     * @pbrbm dx thf X doordinbtf in usfr spbdf of thf dfntfr point of thf
-     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
-     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
-     * @pbrbm dy thf Y doordinbtf in usfr spbdf of thf dfntfr point of thf
-     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
-     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
-     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *
+     *
+     *
+     *
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
      *               dolor grbdifnt
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
      *
-     * @throws NullPointfrExdfption
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
      * if {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf dolors} brrby is null
+     * or {@dodf dolors} brrby is null
+     * or {@dodf dolors} brrby is null
+     * or {@dodf dolors} brrby is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf rbdius} is non-positivf,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+     */
+     */
+     */
      */
     publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors)
+                               flobt[] frbdtions, Color[] dolors)
+                               flobt[] frbdtions, Color[] dolors)
+                               flobt[] frbdtions, Color[] dolors)
                                flobt[] frbdtions, Color[] dolors)
     {
-        this(dx, dy,
+    {
+    {
+    {
+    {
+        tiis(dx, dy,
+        tiis(dx, dy,
+        tiis(dx, dy,
+        tiis(dx, dy,
+        tiis(dx, dy,
+             rbdius,
+             rbdius,
+             rbdius,
+             rbdius,
              rbdius,
              dx, dy,
+             dx, dy,
+             dx, dy,
+             dx, dy,
+             dx, dy,
+             frbdtions,
+             frbdtions,
+             frbdtions,
+             frbdtions,
              frbdtions,
              dolors,
-             CydlfMfthod.NO_CYCLE);
+             dolors,
+             dolors,
+             dolors,
+             dolors,
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
-     * {@dodf NO_CYCLE} rfpfbting mfthod bnd {@dodf SRGB} dolor spbdf,
-     * using thf dfntfr bs thf fodus point.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
+     * using tif dfntfr bs tif fodus point.
      *
-     * @pbrbm dfntfr thf dfntfr point, in usfr spbdf, of thf dirdlf dffining
-     *               thf grbdifnt
-     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *
+     *
+     *
+     *
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     *               tif grbdifnt
+     *               tif grbdifnt
+     *               tif grbdifnt
+     *               tif grbdifnt
+     *               tif grbdifnt
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
      *               dolor grbdifnt
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
      *
-     * @throws NullPointfrExdfption
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
      * if {@dodf dfntfr} point is null,
+     * if {@dodf dfntfr} point is null,
+     * if {@dodf dfntfr} point is null,
+     * if {@dodf dfntfr} point is null,
+     * if {@dodf dfntfr} point is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
      * or {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf dolors} brrby is null
+     * or {@dodf dolors} brrby is null
+     * or {@dodf dolors} brrby is null
+     * or {@dodf dolors} brrby is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf rbdius} is non-positivf,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
+     */
+     */
+     */
+     */
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
     publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
                                flobt[] frbdtions, Color[] dolors)
+                               flobt[] frbdtions, Color[] dolors)
+                               flobt[] frbdtions, Color[] dolors)
+                               flobt[] frbdtions, Color[] dolors)
+                               flobt[] frbdtions, Color[] dolors)
     {
-        this(dfntfr,
+    {
+    {
+    {
+    {
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+             rbdius,
+             rbdius,
+             rbdius,
+             rbdius,
              rbdius,
              dfntfr,
+             dfntfr,
+             dfntfr,
+             dfntfr,
+             dfntfr,
+             frbdtions,
+             frbdtions,
+             frbdtions,
+             frbdtions,
              frbdtions,
              dolors,
-             CydlfMfthod.NO_CYCLE);
+             dolors,
+             dolors,
+             dolors,
+             dolors,
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+             CydlfMftiod.NO_CYCLE);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
-     * {@dodf SRGB} dolor spbdf, using thf dfntfr bs thf fodus point.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
      *
-     * @pbrbm dx thf X doordinbtf in usfr spbdf of thf dfntfr point of thf
-     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
-     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
-     * @pbrbm dy thf Y doordinbtf in usfr spbdf of thf dfntfr point of thf
-     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
-     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
-     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *
+     *
+     *
+     *
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
      *               dolor grbdifnt
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
-     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
      *                    or {@dodf REPEAT}
      *
-     * @throws NullPointfrExdfption
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
      * if {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null,
-     * or {@dodf dydlfMfthod} is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf rbdius} is non-positivf,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+     */
+     */
+     */
      */
     publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
                                flobt[] frbdtions, Color[] dolors,
-                               CydlfMfthod dydlfMfthod)
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
     {
-        this(dx, dy,
+    {
+    {
+    {
+    {
+        tiis(dx, dy,
+        tiis(dx, dy,
+        tiis(dx, dy,
+        tiis(dx, dy,
+        tiis(dx, dy,
+             rbdius,
+             rbdius,
+             rbdius,
+             rbdius,
              rbdius,
              dx, dy,
+             dx, dy,
+             dx, dy,
+             dx, dy,
+             dx, dy,
+             frbdtions,
+             frbdtions,
+             frbdtions,
+             frbdtions,
              frbdtions,
              dolors,
-             dydlfMfthod);
+             dolors,
+             dolors,
+             dolors,
+             dolors,
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
-     * {@dodf SRGB} dolor spbdf, using thf dfntfr bs thf fodus point.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
      *
-     * @pbrbm dfntfr thf dfntfr point, in usfr spbdf, of thf dirdlf dffining
-     *               thf grbdifnt
-     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *
+     *
+     *
+     *
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     *               tif grbdifnt
+     *               tif grbdifnt
+     *               tif grbdifnt
+     *               tif grbdifnt
+     *               tif grbdifnt
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
      *               dolor grbdifnt
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
-     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
      *                    or {@dodf REPEAT}
      *
-     * @throws NullPointfrExdfption
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * if {@dodf dfntfr} point is null,
+     * if {@dodf dfntfr} point is null,
+     * if {@dodf dfntfr} point is null,
+     * if {@dodf dfntfr} point is null,
      * if {@dodf dfntfr} point is null,
      * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null,
-     * or {@dodf dydlfMfthod} is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf rbdius} is non-positivf,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+     */
+     */
+     */
      */
     publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
                                flobt[] frbdtions, Color[] dolors,
-                               CydlfMfthod dydlfMfthod)
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
     {
-        this(dfntfr,
+    {
+    {
+    {
+    {
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+             rbdius,
+             rbdius,
+             rbdius,
+             rbdius,
              rbdius,
              dfntfr,
+             dfntfr,
+             dfntfr,
+             dfntfr,
+             dfntfr,
+             frbdtions,
+             frbdtions,
+             frbdtions,
+             frbdtions,
              frbdtions,
              dolors,
-             dydlfMfthod);
+             dolors,
+             dolors,
+             dolors,
+             dolors,
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+    /**
+    /**
+    /**
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
      * {@dodf SRGB} dolor spbdf.
      *
-     * @pbrbm dx thf X doordinbtf in usfr spbdf of thf dfntfr point of thf
-     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
-     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
-     * @pbrbm dy thf Y doordinbtf in usfr spbdf of thf dfntfr point of thf
-     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
-     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
-     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *
+     *
+     *
+     *
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
      *               dolor grbdifnt
-     * @pbrbm fx thf X doordinbtf of thf point in usfr spbdf to whidh thf
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     * @pbrbm fx tif X doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fx tif X doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fx tif X doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fx tif X doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fx tif X doordinbtf of tif point in usfr spbdf to wiidi tif
      *           first dolor is mbppfd
-     * @pbrbm fy thf Y doordinbtf of thf point in usfr spbdf to whidh thf
      *           first dolor is mbppfd
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
-     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *           first dolor is mbppfd
+     *           first dolor is mbppfd
+     *           first dolor is mbppfd
+     * @pbrbm fy tif Y doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fy tif Y doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fy tif Y doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fy tif Y doordinbtf of tif point in usfr spbdf to wiidi tif
+     * @pbrbm fy tif Y doordinbtf of tif point in usfr spbdf to wiidi tif
+     *           first dolor is mbppfd
+     *           first dolor is mbppfd
+     *           first dolor is mbppfd
+     *           first dolor is mbppfd
+     *           first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
      *                    or {@dodf REPEAT}
      *
-     * @throws NullPointfrExdfption
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
+     * if {@dodf frbdtions} brrby is null,
      * if {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null,
-     * or {@dodf dydlfMfthod} is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf rbdius} is non-positivf,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
+     */
+     */
+     */
+     */
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
     publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
                                flobt fx, flobt fy,
+                               flobt fx, flobt fy,
+                               flobt fx, flobt fy,
+                               flobt fx, flobt fy,
+                               flobt fx, flobt fy,
                                flobt[] frbdtions, Color[] dolors,
-                               CydlfMfthod dydlfMfthod)
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
     {
-        this(nfw Point2D.Flobt(dx, dy),
+    {
+    {
+    {
+    {
+        tiis(nfw Point2D.Flobt(dx, dy),
+        tiis(nfw Point2D.Flobt(dx, dy),
+        tiis(nfw Point2D.Flobt(dx, dy),
+        tiis(nfw Point2D.Flobt(dx, dy),
+        tiis(nfw Point2D.Flobt(dx, dy),
+             rbdius,
+             rbdius,
+             rbdius,
+             rbdius,
              rbdius,
              nfw Point2D.Flobt(fx, fy),
+             nfw Point2D.Flobt(fx, fy),
+             nfw Point2D.Flobt(fx, fy),
+             nfw Point2D.Flobt(fx, fy),
+             nfw Point2D.Flobt(fx, fy),
+             frbdtions,
+             frbdtions,
+             frbdtions,
+             frbdtions,
              frbdtions,
              dolors,
-             dydlfMfthod);
+             dolors,
+             dolors,
+             dolors,
+             dolors,
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+             dydlfMftiod);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+    /**
+    /**
+    /**
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
      * {@dodf SRGB} dolor spbdf.
      *
-     * @pbrbm dfntfr thf dfntfr point, in usfr spbdf, of thf dirdlf dffining
-     *               thf grbdifnt.  Thf lbst dolor of thf grbdifnt is mbppfd
-     *               to thf pfrimftfr of this dirdlf.
-     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf dolor
+     *
+     *
+     *
+     *
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     *               tif grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd
+     *               tif grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd
+     *               tif grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd
+     *               tif grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd
+     *               tif grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd
+     *               to tif pfrimftfr of tiis dirdlf.
+     *               to tif pfrimftfr of tiis dirdlf.
+     *               to tif pfrimftfr of tiis dirdlf.
+     *               to tif pfrimftfr of tiis dirdlf.
+     *               to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif dolor
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif dolor
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif dolor
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif dolor
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif dolor
      *               grbdifnt
-     * @pbrbm fodus thf point in usfr spbdf to whidh thf first dolor is mbppfd
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt. Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
-     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *               grbdifnt
+     *               grbdifnt
+     *               grbdifnt
+     *               grbdifnt
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt. Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt. Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt. Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt. Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt. Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
      *                    or {@dodf REPEAT}
      *
-     * @throws NullPointfrExdfption
-     * if onf of thf points is null,
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
      * or {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null,
-     * or {@dodf dydlfMfthod} is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf rbdius} is non-positivf,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+     */
+     */
+     */
      */
     publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+                               Point2D fodus,
+                               Point2D fodus,
+                               Point2D fodus,
+                               Point2D fodus,
                                Point2D fodus,
                                flobt[] frbdtions, Color[] dolors,
-                               CydlfMfthod dydlfMfthod)
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
     {
-        this(dfntfr,
+    {
+    {
+    {
+    {
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+        tiis(dfntfr,
+             rbdius,
+             rbdius,
+             rbdius,
+             rbdius,
              rbdius,
              fodus,
+             fodus,
+             fodus,
+             fodus,
+             fodus,
+             frbdtions,
+             frbdtions,
+             frbdtions,
+             frbdtions,
              frbdtions,
              dolors,
-             dydlfMfthod,
+             dolors,
+             dolors,
+             dolors,
+             dolors,
+             dydlfMftiod,
+             dydlfMftiod,
+             dydlfMftiod,
+             dydlfMftiod,
+             dydlfMftiod,
+             ColorSpbdfTypf.SRGB,
+             ColorSpbdfTypf.SRGB,
+             ColorSpbdfTypf.SRGB,
+             ColorSpbdfTypf.SRGB,
              ColorSpbdfTypf.SRGB,
              nfw AffinfTrbnsform());
+             nfw AffinfTrbnsform());
+             nfw AffinfTrbnsform());
+             nfw AffinfTrbnsform());
+             nfw AffinfTrbnsform());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b {@dodf RbdiblGrbdifntPbint}.
+     * Construdts b {@dodf RbdiblGrbdifntPbint}.
+     * Construdts b {@dodf RbdiblGrbdifntPbint}.
+     * Construdts b {@dodf RbdiblGrbdifntPbint}.
+     * Construdts b {@dodf RbdiblGrbdifntPbint}.
      *
-     * @pbrbm dfntfr thf dfntfr point in usfr spbdf of thf dirdlf dffining thf
-     *               grbdifnt.  Thf lbst dolor of thf grbdifnt is mbppfd to
-     *               thf pfrimftfr of this dirdlf.
-     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *
+     *
+     *
+     *
+     * @pbrbm dfntfr tif dfntfr point in usfr spbdf of tif dirdlf dffining tif
+     * @pbrbm dfntfr tif dfntfr point in usfr spbdf of tif dirdlf dffining tif
+     * @pbrbm dfntfr tif dfntfr point in usfr spbdf of tif dirdlf dffining tif
+     * @pbrbm dfntfr tif dfntfr point in usfr spbdf of tif dirdlf dffining tif
+     * @pbrbm dfntfr tif dfntfr point in usfr spbdf of tif dirdlf dffining tif
+     *               grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd to
+     *               grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd to
+     *               grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd to
+     *               grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd to
+     *               grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd to
+     *               tif pfrimftfr of tiis dirdlf.
+     *               tif pfrimftfr of tiis dirdlf.
+     *               tif pfrimftfr of tiis dirdlf.
+     *               tif pfrimftfr of tiis dirdlf.
+     *               tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
      *               dolor grbdifnt
-     * @pbrbm fodus thf point in usfr spbdf to whidh thf first dolor is mbppfd
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
-     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     *               dolor grbdifnt
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
      *                    or {@dodf REPEAT}
-     * @pbrbm dolorSpbdf whidh dolor spbdf to usf for intfrpolbtion,
-     *                   fithfr {@dodf SRGB} or {@dodf LINEAR_RGB}
-     * @pbrbm grbdifntTrbnsform trbnsform to bpply to thf grbdifnt
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
      *
-     * @throws NullPointfrExdfption
-     * if onf of thf points is null,
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * if onf of tif points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
      * or {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null,
-     * or {@dodf dydlfMfthod} is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dolorSpbdf} is null,
+     * or {@dodf dolorSpbdf} is null,
+     * or {@dodf dolorSpbdf} is null,
+     * or {@dodf dolorSpbdf} is null,
      * or {@dodf dolorSpbdf} is null,
      * or {@dodf grbdifntTrbnsform} is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf grbdifntTrbnsform} is null
+     * or {@dodf grbdifntTrbnsform} is null
+     * or {@dodf grbdifntTrbnsform} is null
+     * or {@dodf grbdifntTrbnsform} is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf rbdius} is non-positivf,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMfthod", "dolorSpbdf", "trbnsform" })
+     */
+     */
+     */
+     */
+    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMftiod", "dolorSpbdf", "trbnsform" })
+    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMftiod", "dolorSpbdf", "trbnsform" })
+    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMftiod", "dolorSpbdf", "trbnsform" })
+    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMftiod", "dolorSpbdf", "trbnsform" })
+    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMftiod", "dolorSpbdf", "trbnsform" })
+    publid RbdiblGrbdifntPbint(Point2D dfntfr,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr,
+    publid RbdiblGrbdifntPbint(Point2D dfntfr,
     publid RbdiblGrbdifntPbint(Point2D dfntfr,
                                flobt rbdius,
+                               flobt rbdius,
+                               flobt rbdius,
+                               flobt rbdius,
+                               flobt rbdius,
+                               Point2D fodus,
+                               Point2D fodus,
+                               Point2D fodus,
+                               Point2D fodus,
                                Point2D fodus,
                                flobt[] frbdtions, Color[] dolors,
-                               CydlfMfthod dydlfMfthod,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod,
+                               CydlfMftiod dydlfMftiod,
+                               CydlfMftiod dydlfMftiod,
+                               CydlfMftiod dydlfMftiod,
+                               CydlfMftiod dydlfMftiod,
+                               ColorSpbdfTypf dolorSpbdf,
+                               ColorSpbdfTypf dolorSpbdf,
+                               ColorSpbdfTypf dolorSpbdf,
+                               ColorSpbdfTypf dolorSpbdf,
                                ColorSpbdfTypf dolorSpbdf,
                                AffinfTrbnsform grbdifntTrbnsform)
+                               AffinfTrbnsform grbdifntTrbnsform)
+                               AffinfTrbnsform grbdifntTrbnsform)
+                               AffinfTrbnsform grbdifntTrbnsform)
+                               AffinfTrbnsform grbdifntTrbnsform)
     {
-        supfr(frbdtions, dolors, dydlfMfthod, dolorSpbdf, grbdifntTrbnsform);
+    {
+    {
+    {
+    {
+        supfr(frbdtions, dolors, dydlfMftiod, dolorSpbdf, grbdifntTrbnsform);
+        supfr(frbdtions, dolors, dydlfMftiod, dolorSpbdf, grbdifntTrbnsform);
+        supfr(frbdtions, dolors, dydlfMftiod, dolorSpbdf, grbdifntTrbnsform);
+        supfr(frbdtions, dolors, dydlfMftiod, dolorSpbdf, grbdifntTrbnsform);
+        supfr(frbdtions, dolors, dydlfMftiod, dolorSpbdf, grbdifntTrbnsform);
 
-        // dhfdk input brgumfnts
+
+
+
+
+        // difdk input brgumfnts
+        // difdk input brgumfnts
+        // difdk input brgumfnts
+        // difdk input brgumfnts
+        // difdk input brgumfnts
         if (dfntfr == null) {
-            throw nfw NullPointfrExdfption("Cfntfr point must bf non-null");
+        if (dfntfr == null) {
+        if (dfntfr == null) {
+        if (dfntfr == null) {
+        if (dfntfr == null) {
+            tirow nfw NullPointfrExdfption("Cfntfr point must bf non-null");
+            tirow nfw NullPointfrExdfption("Cfntfr point must bf non-null");
+            tirow nfw NullPointfrExdfption("Cfntfr point must bf non-null");
+            tirow nfw NullPointfrExdfption("Cfntfr point must bf non-null");
+            tirow nfw NullPointfrExdfption("Cfntfr point must bf non-null");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (fodus == null) {
-            throw nfw NullPointfrExdfption("Fodus point must bf non-null");
+        if (fodus == null) {
+        if (fodus == null) {
+        if (fodus == null) {
+        if (fodus == null) {
+            tirow nfw NullPointfrExdfption("Fodus point must bf non-null");
+            tirow nfw NullPointfrExdfption("Fodus point must bf non-null");
+            tirow nfw NullPointfrExdfption("Fodus point must bf non-null");
+            tirow nfw NullPointfrExdfption("Fodus point must bf non-null");
+            tirow nfw NullPointfrExdfption("Fodus point must bf non-null");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (rbdius <= 0) {
-            throw nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
-                                               "thbn zfro");
+        if (rbdius <= 0) {
+        if (rbdius <= 0) {
+        if (rbdius <= 0) {
+        if (rbdius <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
+            tirow nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
+            tirow nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
+            tirow nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
+            tirow nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
+                                               "tibn zfro");
+                                               "tibn zfro");
+                                               "tibn zfro");
+                                               "tibn zfro");
+                                               "tibn zfro");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // dopy pbrbmftfrs
-        this.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
-        this.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
-        this.rbdius = rbdius;
+        // dopy pbrbmftfrs
+        // dopy pbrbmftfrs
+        // dopy pbrbmftfrs
+        // dopy pbrbmftfrs
+        tiis.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        tiis.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        tiis.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        tiis.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        tiis.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        tiis.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        tiis.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        tiis.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        tiis.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        tiis.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        tiis.rbdius = rbdius;
+        tiis.rbdius = rbdius;
+        tiis.rbdius = rbdius;
+        tiis.rbdius = rbdius;
+        tiis.rbdius = rbdius;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+    /**
+    /**
+    /**
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
      * {@dodf SRGB} dolor spbdf.
-     * Thf grbdifnt dirdlf of thf {@dodf RbdiblGrbdifntPbint} is dffinfd
-     * by thf givfn bounding box.
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
+     * {@dodf SRGB} dolor spbdf.
+     * Tif grbdifnt dirdlf of tif {@dodf RbdiblGrbdifntPbint} is dffinfd
+     * Tif grbdifnt dirdlf of tif {@dodf RbdiblGrbdifntPbint} is dffinfd
+     * Tif grbdifnt dirdlf of tif {@dodf RbdiblGrbdifntPbint} is dffinfd
+     * Tif grbdifnt dirdlf of tif {@dodf RbdiblGrbdifntPbint} is dffinfd
+     * Tif grbdifnt dirdlf of tif {@dodf RbdiblGrbdifntPbint} is dffinfd
+     * by tif givfn bounding box.
+     * by tif givfn bounding box.
+     * by tif givfn bounding box.
+     * by tif givfn bounding box.
+     * by tif givfn bounding box.
      * <p>
-     * This donstrudtor is b morf donvfnifnt wby to fxprfss thf
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis donstrudtor is b morf donvfnifnt wby to fxprfss tif
+     * Tiis donstrudtor is b morf donvfnifnt wby to fxprfss tif
+     * Tiis donstrudtor is b morf donvfnifnt wby to fxprfss tif
+     * Tiis donstrudtor is b morf donvfnifnt wby to fxprfss tif
+     * Tiis donstrudtor is b morf donvfnifnt wby to fxprfss tif
+     * following (fquivblfnt) dodf:<br>
+     * following (fquivblfnt) dodf:<br>
+     * following (fquivblfnt) dodf:<br>
+     * following (fquivblfnt) dodf:<br>
      * following (fquivblfnt) dodf:<br>
      *
+     *
+     *
+     *
+     *
      * <prf>
-     *     doublf gw = grbdifntBounds.gftWidth();
-     *     doublf gh = grbdifntBounds.gftHfight();
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *     doublf gw = grbdifntBounds.gftWidti();
+     *     doublf gw = grbdifntBounds.gftWidti();
+     *     doublf gw = grbdifntBounds.gftWidti();
+     *     doublf gw = grbdifntBounds.gftWidti();
+     *     doublf gw = grbdifntBounds.gftWidti();
+     *     doublf gi = grbdifntBounds.gftHfigit();
+     *     doublf gi = grbdifntBounds.gftHfigit();
+     *     doublf gi = grbdifntBounds.gftHfigit();
+     *     doublf gi = grbdifntBounds.gftHfigit();
+     *     doublf gi = grbdifntBounds.gftHfigit();
+     *     doublf dx = grbdifntBounds.gftCfntfrX();
+     *     doublf dx = grbdifntBounds.gftCfntfrX();
+     *     doublf dx = grbdifntBounds.gftCfntfrX();
+     *     doublf dx = grbdifntBounds.gftCfntfrX();
      *     doublf dx = grbdifntBounds.gftCfntfrX();
      *     doublf dy = grbdifntBounds.gftCfntfrY();
+     *     doublf dy = grbdifntBounds.gftCfntfrY();
+     *     doublf dy = grbdifntBounds.gftCfntfrY();
+     *     doublf dy = grbdifntBounds.gftCfntfrY();
+     *     doublf dy = grbdifntBounds.gftCfntfrY();
+     *     Point2D dfntfr = nfw Point2D.Doublf(dx, dy);
+     *     Point2D dfntfr = nfw Point2D.Doublf(dx, dy);
+     *     Point2D dfntfr = nfw Point2D.Doublf(dx, dy);
+     *     Point2D dfntfr = nfw Point2D.Doublf(dx, dy);
      *     Point2D dfntfr = nfw Point2D.Doublf(dx, dy);
      *
+     *
+     *
+     *
+     *
+     *     AffinfTrbnsform grbdifntTrbnsform = nfw AffinfTrbnsform();
+     *     AffinfTrbnsform grbdifntTrbnsform = nfw AffinfTrbnsform();
+     *     AffinfTrbnsform grbdifntTrbnsform = nfw AffinfTrbnsform();
+     *     AffinfTrbnsform grbdifntTrbnsform = nfw AffinfTrbnsform();
      *     AffinfTrbnsform grbdifntTrbnsform = nfw AffinfTrbnsform();
      *     grbdifntTrbnsform.trbnslbtf(dx, dy);
-     *     grbdifntTrbnsform.sdblf(gw / 2, gh / 2);
+     *     grbdifntTrbnsform.trbnslbtf(dx, dy);
+     *     grbdifntTrbnsform.trbnslbtf(dx, dy);
+     *     grbdifntTrbnsform.trbnslbtf(dx, dy);
+     *     grbdifntTrbnsform.trbnslbtf(dx, dy);
+     *     grbdifntTrbnsform.sdblf(gw / 2, gi / 2);
+     *     grbdifntTrbnsform.sdblf(gw / 2, gi / 2);
+     *     grbdifntTrbnsform.sdblf(gw / 2, gi / 2);
+     *     grbdifntTrbnsform.sdblf(gw / 2, gi / 2);
+     *     grbdifntTrbnsform.sdblf(gw / 2, gi / 2);
+     *     grbdifntTrbnsform.trbnslbtf(-dx, -dy);
+     *     grbdifntTrbnsform.trbnslbtf(-dx, -dy);
+     *     grbdifntTrbnsform.trbnslbtf(-dx, -dy);
+     *     grbdifntTrbnsform.trbnslbtf(-dx, -dy);
      *     grbdifntTrbnsform.trbnslbtf(-dx, -dy);
      *
+     *
+     *
+     *
+     *
+     *     RbdiblGrbdifntPbint gp =
+     *     RbdiblGrbdifntPbint gp =
+     *     RbdiblGrbdifntPbint gp =
+     *     RbdiblGrbdifntPbint gp =
      *     RbdiblGrbdifntPbint gp =
      *         nfw RbdiblGrbdifntPbint(dfntfr, 1.0f, dfntfr,
+     *         nfw RbdiblGrbdifntPbint(dfntfr, 1.0f, dfntfr,
+     *         nfw RbdiblGrbdifntPbint(dfntfr, 1.0f, dfntfr,
+     *         nfw RbdiblGrbdifntPbint(dfntfr, 1.0f, dfntfr,
+     *         nfw RbdiblGrbdifntPbint(dfntfr, 1.0f, dfntfr,
      *                                 frbdtions, dolors,
-     *                                 dydlfMfthod,
+     *                                 frbdtions, dolors,
+     *                                 frbdtions, dolors,
+     *                                 frbdtions, dolors,
+     *                                 frbdtions, dolors,
+     *                                 dydlfMftiod,
+     *                                 dydlfMftiod,
+     *                                 dydlfMftiod,
+     *                                 dydlfMftiod,
+     *                                 dydlfMftiod,
+     *                                 ColorSpbdfTypf.SRGB,
+     *                                 ColorSpbdfTypf.SRGB,
+     *                                 ColorSpbdfTypf.SRGB,
+     *                                 ColorSpbdfTypf.SRGB,
      *                                 ColorSpbdfTypf.SRGB,
      *                                 grbdifntTrbnsform);
+     *                                 grbdifntTrbnsform);
+     *                                 grbdifntTrbnsform);
+     *                                 grbdifntTrbnsform);
+     *                                 grbdifntTrbnsform);
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      * </prf>
      *
-     * @pbrbm grbdifntBounds thf bounding box, in usfr spbdf, of thf dirdlf
-     *                       dffining thf outfrmost fxtfnt of thf grbdifnt
-     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
-     *                  distribution of dolors blong thf grbdifnt
-     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
-     *               is usfd bt thf fodus point, thf lbst dolor bround thf
-     *               pfrimftfr of thf dirdlf.
-     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *
+     *
+     *
+     *
+     * @pbrbm grbdifntBounds tif bounding box, in usfr spbdf, of tif dirdlf
+     * @pbrbm grbdifntBounds tif bounding box, in usfr spbdf, of tif dirdlf
+     * @pbrbm grbdifntBounds tif bounding box, in usfr spbdf, of tif dirdlf
+     * @pbrbm grbdifntBounds tif bounding box, in usfr spbdf, of tif dirdlf
+     * @pbrbm grbdifntBounds tif bounding box, in usfr spbdf, of tif dirdlf
+     *                       dffining tif outfrmost fxtfnt of tif grbdifnt
+     *                       dffining tif outfrmost fxtfnt of tif grbdifnt
+     *                       dffining tif outfrmost fxtfnt of tif grbdifnt
+     *                       dffining tif outfrmost fxtfnt of tif grbdifnt
+     *                       dffining tif outfrmost fxtfnt of tif grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
+     *                    or {@dodf REPEAT}
      *                    or {@dodf REPEAT}
      *
-     * @throws NullPointfrExdfption
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * @tirows NullPointfrExdfption
+     * if {@dodf grbdifntBounds} is null,
+     * if {@dodf grbdifntBounds} is null,
+     * if {@dodf grbdifntBounds} is null,
+     * if {@dodf grbdifntBounds} is null,
      * if {@dodf grbdifntBounds} is null,
      * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf frbdtions} brrby is null,
      * or {@dodf dolors} brrby is null,
-     * or {@dodf dydlfMfthod} is null
-     * @throws IllfgblArgumfntExdfption
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
+     * @tirows IllfgblArgumfntExdfption
      * if {@dodf grbdifntBounds} is fmpty,
-     * or {@dodf frbdtions.lfngth != dolors.lfngth},
-     * or {@dodf dolors} is lfss thbn 2 in sizf,
-     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
-     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * if {@dodf grbdifntBounds} is fmpty,
+     * if {@dodf grbdifntBounds} is fmpty,
+     * if {@dodf grbdifntBounds} is fmpty,
+     * if {@dodf grbdifntBounds} is fmpty,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+     */
+     */
+     */
      */
     publid RbdiblGrbdifntPbint(Rfdtbnglf2D grbdifntBounds,
+    publid RbdiblGrbdifntPbint(Rfdtbnglf2D grbdifntBounds,
+    publid RbdiblGrbdifntPbint(Rfdtbnglf2D grbdifntBounds,
+    publid RbdiblGrbdifntPbint(Rfdtbnglf2D grbdifntBounds,
+    publid RbdiblGrbdifntPbint(Rfdtbnglf2D grbdifntBounds,
                                flobt[] frbdtions, Color[] dolors,
-                               CydlfMfthod dydlfMfthod)
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
+                               CydlfMftiod dydlfMftiod)
     {
-        // grbdifnt dfntfr/fodbl point is thf dfntfr of thf bounding box,
-        // rbdius is sft to 1.0, bnd thfn wf sft b sdblf trbnsform
-        // to bdhifvf bn flliptidbl grbdifnt dffinfd by thf bounding box
-        this(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+    {
+    {
+    {
+    {
+        // grbdifnt dfntfr/fodbl point is tif dfntfr of tif bounding box,
+        // grbdifnt dfntfr/fodbl point is tif dfntfr of tif bounding box,
+        // grbdifnt dfntfr/fodbl point is tif dfntfr of tif bounding box,
+        // grbdifnt dfntfr/fodbl point is tif dfntfr of tif bounding box,
+        // grbdifnt dfntfr/fodbl point is tif dfntfr of tif bounding box,
+        // rbdius is sft to 1.0, bnd tifn wf sft b sdblf trbnsform
+        // rbdius is sft to 1.0, bnd tifn wf sft b sdblf trbnsform
+        // rbdius is sft to 1.0, bnd tifn wf sft b sdblf trbnsform
+        // rbdius is sft to 1.0, bnd tifn wf sft b sdblf trbnsform
+        // rbdius is sft to 1.0, bnd tifn wf sft b sdblf trbnsform
+        // to bdiifvf bn flliptidbl grbdifnt dffinfd by tif bounding box
+        // to bdiifvf bn flliptidbl grbdifnt dffinfd by tif bounding box
+        // to bdiifvf bn flliptidbl grbdifnt dffinfd by tif bounding box
+        // to bdiifvf bn flliptidbl grbdifnt dffinfd by tif bounding box
+        // to bdiifvf bn flliptidbl grbdifnt dffinfd by tif bounding box
+        tiis(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+        tiis(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+        tiis(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+        tiis(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+        tiis(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+                                grbdifntBounds.gftCfntfrY()),
+                                grbdifntBounds.gftCfntfrY()),
+                                grbdifntBounds.gftCfntfrY()),
+                                grbdifntBounds.gftCfntfrY()),
                                 grbdifntBounds.gftCfntfrY()),
              1.0f,
+             1.0f,
+             1.0f,
+             1.0f,
+             1.0f,
+             nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+             nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+             nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+             nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
              nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
                                 grbdifntBounds.gftCfntfrY()),
+                                grbdifntBounds.gftCfntfrY()),
+                                grbdifntBounds.gftCfntfrY()),
+                                grbdifntBounds.gftCfntfrY()),
+                                grbdifntBounds.gftCfntfrY()),
+             frbdtions,
+             frbdtions,
+             frbdtions,
+             frbdtions,
              frbdtions,
              dolors,
-             dydlfMfthod,
+             dolors,
+             dolors,
+             dolors,
+             dolors,
+             dydlfMftiod,
+             dydlfMftiod,
+             dydlfMftiod,
+             dydlfMftiod,
+             dydlfMftiod,
+             ColorSpbdfTypf.SRGB,
+             ColorSpbdfTypf.SRGB,
+             ColorSpbdfTypf.SRGB,
+             ColorSpbdfTypf.SRGB,
              ColorSpbdfTypf.SRGB,
              drfbtfGrbdifntTrbnsform(grbdifntBounds));
+             drfbtfGrbdifntTrbnsform(grbdifntBounds));
+             drfbtfGrbdifntTrbnsform(grbdifntBounds));
+             drfbtfGrbdifntTrbnsform(grbdifntBounds));
+             drfbtfGrbdifntTrbnsform(grbdifntBounds));
+
+
+
+
 
         if (grbdifntBounds.isEmpty()) {
-            throw nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+        if (grbdifntBounds.isEmpty()) {
+        if (grbdifntBounds.isEmpty()) {
+        if (grbdifntBounds.isEmpty()) {
+        if (grbdifntBounds.isEmpty()) {
+            tirow nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+            tirow nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+            tirow nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+            tirow nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+            tirow nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+                                               "non-fmpty");
+                                               "non-fmpty");
+                                               "non-fmpty");
+                                               "non-fmpty");
                                                "non-fmpty");
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid AffinfTrbnsform drfbtfGrbdifntTrbnsform(Rfdtbnglf2D r) {
+    privbtf stbtid AffinfTrbnsform drfbtfGrbdifntTrbnsform(Rfdtbnglf2D r) {
+    privbtf stbtid AffinfTrbnsform drfbtfGrbdifntTrbnsform(Rfdtbnglf2D r) {
+    privbtf stbtid AffinfTrbnsform drfbtfGrbdifntTrbnsform(Rfdtbnglf2D r) {
+    privbtf stbtid AffinfTrbnsform drfbtfGrbdifntTrbnsform(Rfdtbnglf2D r) {
+        doublf dx = r.gftCfntfrX();
+        doublf dx = r.gftCfntfrX();
+        doublf dx = r.gftCfntfrX();
+        doublf dx = r.gftCfntfrX();
         doublf dx = r.gftCfntfrX();
         doublf dy = r.gftCfntfrY();
+        doublf dy = r.gftCfntfrY();
+        doublf dy = r.gftCfntfrY();
+        doublf dy = r.gftCfntfrY();
+        doublf dy = r.gftCfntfrY();
         AffinfTrbnsform xform = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
-        xform.sdblf(r.gftWidth()/2, r.gftHfight()/2);
+        AffinfTrbnsform xform = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
+        AffinfTrbnsform xform = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
+        AffinfTrbnsform xform = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
+        AffinfTrbnsform xform = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
+        xform.sdblf(r.gftWidti()/2, r.gftHfigit()/2);
+        xform.sdblf(r.gftWidti()/2, r.gftHfigit()/2);
+        xform.sdblf(r.gftWidti()/2, r.gftHfigit()/2);
+        xform.sdblf(r.gftWidti()/2, r.gftHfigit()/2);
+        xform.sdblf(r.gftWidti()/2, r.gftHfigit()/2);
+        xform.trbnslbtf(-dx, -dy);
+        xform.trbnslbtf(-dx, -dy);
+        xform.trbnslbtf(-dx, -dy);
+        xform.trbnslbtf(-dx, -dy);
         xform.trbnslbtf(-dx, -dy);
         rfturn xform;
+        rfturn xform;
+        rfturn xform;
+        rfturn xform;
+        rfturn xform;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
      * gfnfrbtf b dirdulbr rbdibl dolor grbdifnt pbttfrn.
-     * Sff thf dfsdription of thf {@link Pbint#drfbtfContfxt drfbtfContfxt} mfthod
-     * for informbtion on null pbrbmftfr hbndling.
+     * gfnfrbtf b dirdulbr rbdibl dolor grbdifnt pbttfrn.
+     * gfnfrbtf b dirdulbr rbdibl dolor grbdifnt pbttfrn.
+     * gfnfrbtf b dirdulbr rbdibl dolor grbdifnt pbttfrn.
+     * gfnfrbtf b dirdulbr rbdibl dolor grbdifnt pbttfrn.
+     * Sff tif dfsdription of tif {@link Pbint#drfbtfContfxt drfbtfContfxt} mftiod
+     * Sff tif dfsdription of tif {@link Pbint#drfbtfContfxt drfbtfContfxt} mftiod
+     * Sff tif dfsdription of tif {@link Pbint#drfbtfContfxt drfbtfContfxt} mftiod
+     * Sff tif dfsdription of tif {@link Pbint#drfbtfContfxt drfbtfContfxt} mftiod
+     * Sff tif dfsdription of tif {@link Pbint#drfbtfContfxt drfbtfContfxt} mftiod
+     * for informbtion on null pbrbmftfr ibndling.
+     * for informbtion on null pbrbmftfr ibndling.
+     * for informbtion on null pbrbmftfr ibndling.
+     * for informbtion on null pbrbmftfr ibndling.
+     * for informbtion on null pbrbmftfr ibndling.
      *
-     * @pbrbm dm thf prfffrrfd {@link ColorModfl} whidh rfprfsfnts thf most donvfnifnt
-     *           formbt for thf dbllfr to rfdfivf thf pixfl dbtb, or {@dodf null}
-     *           if thfrf is no prfffrfndf.
-     * @pbrbm dfvidfBounds thf dfvidf spbdf bounding box
-     *                     of thf grbphids primitivf bfing rfndfrfd.
-     * @pbrbm usfrBounds thf usfr spbdf bounding box
-     *                   of thf grbphids primitivf bfing rfndfrfd.
-     * @pbrbm trbnsform thf {@link AffinfTrbnsform} from usfr
+     *
+     *
+     *
+     *
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           if tifrf is no prfffrfndf.
+     *           if tifrf is no prfffrfndf.
+     *           if tifrf is no prfffrfndf.
+     *           if tifrf is no prfffrfndf.
+     *           if tifrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm trbnsform tif {@link AffinfTrbnsform} from usfr
+     * @pbrbm trbnsform tif {@link AffinfTrbnsform} from usfr
+     * @pbrbm trbnsform tif {@link AffinfTrbnsform} from usfr
+     * @pbrbm trbnsform tif {@link AffinfTrbnsform} from usfr
+     * @pbrbm trbnsform tif {@link AffinfTrbnsform} from usfr
      *              spbdf into dfvidf spbdf.
-     * @pbrbm hints thf sft of hints thbt thf dontfxt objfdt dbn usf to
-     *              dhoosf bftwffn rfndfring bltfrnbtivfs.
-     * @rfturn thf {@dodf PbintContfxt} for
+     *              spbdf into dfvidf spbdf.
+     *              spbdf into dfvidf spbdf.
+     *              spbdf into dfvidf spbdf.
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn tif {@dodf PbintContfxt} for
+     * @rfturn tif {@dodf PbintContfxt} for
+     * @rfturn tif {@dodf PbintContfxt} for
+     * @rfturn tif {@dodf PbintContfxt} for
+     * @rfturn tif {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     *         gfnfrbting dolor pbttfrns.
+     *         gfnfrbting dolor pbttfrns.
+     *         gfnfrbting dolor pbttfrns.
      *         gfnfrbting dolor pbttfrns.
      * @sff Pbint
+     * @sff Pbint
+     * @sff Pbint
+     * @sff Pbint
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff PbintContfxt
+     * @sff PbintContfxt
+     * @sff PbintContfxt
      * @sff PbintContfxt
      * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf
      * @sff Rfdtbnglf
      * @sff Rfdtbnglf2D
+     * @sff Rfdtbnglf2D
+     * @sff Rfdtbnglf2D
+     * @sff Rfdtbnglf2D
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff AffinfTrbnsform
+     * @sff AffinfTrbnsform
+     * @sff AffinfTrbnsform
      * @sff AffinfTrbnsform
      * @sff RfndfringHints
+     * @sff RfndfringHints
+     * @sff RfndfringHints
+     * @sff RfndfringHints
+     * @sff RfndfringHints
+     */
+     */
+     */
+     */
      */
     publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf dfvidfBounds,
                                       Rfdtbnglf dfvidfBounds,
                                       Rfdtbnglf2D usfrBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      Rfdtbnglf2D usfrBounds,
                                       AffinfTrbnsform trbnsform,
-                                      RfndfringHints hints)
+                                      AffinfTrbnsform trbnsform,
+                                      AffinfTrbnsform trbnsform,
+                                      AffinfTrbnsform trbnsform,
+                                      AffinfTrbnsform trbnsform,
+                                      RfndfringHints iints)
+                                      RfndfringHints iints)
+                                      RfndfringHints iints)
+                                      RfndfringHints iints)
+                                      RfndfringHints iints)
     {
-        // bvoid modifying thf usfr's trbnsform...
+    {
+    {
+    {
+    {
+        // bvoid modifying tif usfr's trbnsform...
+        // bvoid modifying tif usfr's trbnsform...
+        // bvoid modifying tif usfr's trbnsform...
+        // bvoid modifying tif usfr's trbnsform...
+        // bvoid modifying tif usfr's trbnsform...
         trbnsform = nfw AffinfTrbnsform(trbnsform);
-        // indorporbtf thf grbdifnt trbnsform
+        trbnsform = nfw AffinfTrbnsform(trbnsform);
+        trbnsform = nfw AffinfTrbnsform(trbnsform);
+        trbnsform = nfw AffinfTrbnsform(trbnsform);
+        trbnsform = nfw AffinfTrbnsform(trbnsform);
+        // indorporbtf tif grbdifnt trbnsform
+        // indorporbtf tif grbdifnt trbnsform
+        // indorporbtf tif grbdifnt trbnsform
+        // indorporbtf tif grbdifnt trbnsform
+        // indorporbtf tif grbdifnt trbnsform
+        trbnsform.dondbtfnbtf(grbdifntTrbnsform);
+        trbnsform.dondbtfnbtf(grbdifntTrbnsform);
+        trbnsform.dondbtfnbtf(grbdifntTrbnsform);
+        trbnsform.dondbtfnbtf(grbdifntTrbnsform);
         trbnsform.dondbtfnbtf(grbdifntTrbnsform);
 
-        rfturn nfw RbdiblGrbdifntPbintContfxt(this, dm,
+
+
+
+
+        rfturn nfw RbdiblGrbdifntPbintContfxt(tiis, dm,
+        rfturn nfw RbdiblGrbdifntPbintContfxt(tiis, dm,
+        rfturn nfw RbdiblGrbdifntPbintContfxt(tiis, dm,
+        rfturn nfw RbdiblGrbdifntPbintContfxt(tiis, dm,
+        rfturn nfw RbdiblGrbdifntPbintContfxt(tiis, dm,
                                               dfvidfBounds, usfrBounds,
-                                              trbnsform, hints,
+                                              dfvidfBounds, usfrBounds,
+                                              dfvidfBounds, usfrBounds,
+                                              dfvidfBounds, usfrBounds,
+                                              dfvidfBounds, usfrBounds,
+                                              trbnsform, iints,
+                                              trbnsform, iints,
+                                              trbnsform, iints,
+                                              trbnsform, iints,
+                                              trbnsform, iints,
+                                              (flobt)dfntfr.gftX(),
+                                              (flobt)dfntfr.gftX(),
+                                              (flobt)dfntfr.gftX(),
+                                              (flobt)dfntfr.gftX(),
                                               (flobt)dfntfr.gftX(),
                                               (flobt)dfntfr.gftY(),
+                                              (flobt)dfntfr.gftY(),
+                                              (flobt)dfntfr.gftY(),
+                                              (flobt)dfntfr.gftY(),
+                                              (flobt)dfntfr.gftY(),
+                                              rbdius,
+                                              rbdius,
+                                              rbdius,
+                                              rbdius,
                                               rbdius,
                                               (flobt)fodus.gftX(),
+                                              (flobt)fodus.gftX(),
+                                              (flobt)fodus.gftX(),
+                                              (flobt)fodus.gftX(),
+                                              (flobt)fodus.gftX(),
+                                              (flobt)fodus.gftY(),
+                                              (flobt)fodus.gftY(),
+                                              (flobt)fodus.gftY(),
+                                              (flobt)fodus.gftY(),
                                               (flobt)fodus.gftY(),
                                               frbdtions, dolors,
-                                              dydlfMfthod, dolorSpbdf);
+                                              frbdtions, dolors,
+                                              frbdtions, dolors,
+                                              frbdtions, dolors,
+                                              frbdtions, dolors,
+                                              dydlfMftiod, dolorSpbdf);
+                                              dydlfMftiod, dolorSpbdf);
+                                              dydlfMftiod, dolorSpbdf);
+                                              dydlfMftiod, dolorSpbdf);
+                                              dydlfMftiod, dolorSpbdf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b dopy of thf dfntfr point of thf rbdibl grbdifnt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b dopy of tif dfntfr point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif dfntfr point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif dfntfr point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif dfntfr point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif dfntfr point of tif rbdibl grbdifnt.
      *
-     * @rfturn b {@dodf Point2D} objfdt thbt is b dopy of thf dfntfr point
+     *
+     *
+     *
+     *
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif dfntfr point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif dfntfr point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif dfntfr point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif dfntfr point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif dfntfr point
+     */
+     */
+     */
+     */
      */
     publid Point2D gftCfntfrPoint() {
+    publid Point2D gftCfntfrPoint() {
+    publid Point2D gftCfntfrPoint() {
+    publid Point2D gftCfntfrPoint() {
+    publid Point2D gftCfntfrPoint() {
+        rfturn nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        rfturn nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        rfturn nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        rfturn nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
         rfturn nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b dopy of thf fodus point of thf rbdibl grbdifnt.
-     * Notf thbt if thf fodus point spfdififd whfn thf rbdibl grbdifnt
-     * wbs donstrudtfd lifs outsidf of thf rbdius of thf dirdlf, this
-     * mfthod will still rfturn thf originbl fodus point fvfn though
-     * thf rfndfring mby dfntfr thf rings of dolor on b difffrfnt
-     * point thbt lifs insidf thf rbdius.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b dopy of tif fodus point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif fodus point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif fodus point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif fodus point of tif rbdibl grbdifnt.
+     * Rfturns b dopy of tif fodus point of tif rbdibl grbdifnt.
+     * Notf tibt if tif fodus point spfdififd wifn tif rbdibl grbdifnt
+     * Notf tibt if tif fodus point spfdififd wifn tif rbdibl grbdifnt
+     * Notf tibt if tif fodus point spfdififd wifn tif rbdibl grbdifnt
+     * Notf tibt if tif fodus point spfdififd wifn tif rbdibl grbdifnt
+     * Notf tibt if tif fodus point spfdififd wifn tif rbdibl grbdifnt
+     * wbs donstrudtfd lifs outsidf of tif rbdius of tif dirdlf, tiis
+     * wbs donstrudtfd lifs outsidf of tif rbdius of tif dirdlf, tiis
+     * wbs donstrudtfd lifs outsidf of tif rbdius of tif dirdlf, tiis
+     * wbs donstrudtfd lifs outsidf of tif rbdius of tif dirdlf, tiis
+     * wbs donstrudtfd lifs outsidf of tif rbdius of tif dirdlf, tiis
+     * mftiod will still rfturn tif originbl fodus point fvfn tiougi
+     * mftiod will still rfturn tif originbl fodus point fvfn tiougi
+     * mftiod will still rfturn tif originbl fodus point fvfn tiougi
+     * mftiod will still rfturn tif originbl fodus point fvfn tiougi
+     * mftiod will still rfturn tif originbl fodus point fvfn tiougi
+     * tif rfndfring mby dfntfr tif rings of dolor on b difffrfnt
+     * tif rfndfring mby dfntfr tif rings of dolor on b difffrfnt
+     * tif rfndfring mby dfntfr tif rings of dolor on b difffrfnt
+     * tif rfndfring mby dfntfr tif rings of dolor on b difffrfnt
+     * tif rfndfring mby dfntfr tif rings of dolor on b difffrfnt
+     * point tibt lifs insidf tif rbdius.
+     * point tibt lifs insidf tif rbdius.
+     * point tibt lifs insidf tif rbdius.
+     * point tibt lifs insidf tif rbdius.
+     * point tibt lifs insidf tif rbdius.
      *
-     * @rfturn b {@dodf Point2D} objfdt thbt is b dopy of thf fodus point
+     *
+     *
+     *
+     *
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif fodus point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif fodus point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif fodus point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif fodus point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif fodus point
+     */
+     */
+     */
+     */
      */
     publid Point2D gftFodusPoint() {
+    publid Point2D gftFodusPoint() {
+    publid Point2D gftFodusPoint() {
+    publid Point2D gftFodusPoint() {
+    publid Point2D gftFodusPoint() {
+        rfturn nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        rfturn nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        rfturn nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        rfturn nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
         rfturn nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf rbdius of thf dirdlf dffining thf rbdibl grbdifnt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt.
+     * Rfturns tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt.
+     * Rfturns tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt.
+     * Rfturns tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt.
+     * Rfturns tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt.
      *
-     * @rfturn thf rbdius of thf dirdlf dffining thf rbdibl grbdifnt
+     *
+     *
+     *
+     *
+     * @rfturn tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt
+     * @rfturn tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt
+     * @rfturn tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt
+     * @rfturn tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt
+     * @rfturn tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt
+     */
+     */
+     */
+     */
      */
     publid flobt gftRbdius() {
+    publid flobt gftRbdius() {
+    publid flobt gftRbdius() {
+    publid flobt gftRbdius() {
+    publid flobt gftRbdius() {
+        rfturn rbdius;
+        rfturn rbdius;
+        rfturn rbdius;
+        rfturn rbdius;
         rfturn rbdius;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

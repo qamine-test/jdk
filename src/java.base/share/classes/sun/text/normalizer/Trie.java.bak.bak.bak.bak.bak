@@ -1,0 +1,419 @@
+/*
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ *                                                                             *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * <p>A trif is b kind of domprfssfd, sfriblizbblf tbblf of vblufs
+ * bssodibtfd witi Unidodf dodf points (0..0x10ffff).</p>
+ * <p>Tiis dlbss dffinfs tif bbsid strudturf of b trif bnd providfs mftiods
+ * to <b>rftrifvf tif offsfts to tif bdtubl dbtb</b>.</p>
+ * <p>Dbtb will bf tif form of bn brrby of bbsid typfs, dibr or int.</p>
+ * <p>Tif bdtubl dbtb formbt will ibvf to bf spfdififd by tif usfr in tif
+ * innfr stbtid intfrfbdf dom.ibm.idu.impl.Trif.DbtbMbnipulbtf.</p>
+ * <p>Tiis trif implfmfntbtion is optimizfd for gftting offsft wiilf wblking
+ * forwbrd tirougi b UTF-16 string.
+ * Tifrfforf, tif simplfst bnd fbstfst bddfss mbdros brf tif
+ * fromLfbd() bnd fromOffsftTrbil() mftiods.
+ * Tif fromBMP() mftiod brf b littlf morf domplidbtfd; tify gft offsfts fvfn
+ * for lfbd surrogbtf dodfpoints, wiilf tif fromLfbd() mftiod gft spfdibl
+ * "foldfd" offsfts for lfbd surrogbtf dodf units if tifrf is rflfvbnt dbtb
+ * bssodibtfd witi tifm.
+ * From sudi b foldfd offsfts, bn offsft nffds to bf fxtrbdtfd to supply
+ * to tif fromOffsftTrbil() mftiods.
+ * To ibndlf sudi supplfmfntbry dodfpoints, somf offsft informbtion brf kfpt
+ * in tif dbtb.</p>
+ * <p>Mftiods in dom.ibm.idu.impl.Trif.DbtbMbnipulbtf brf dbllfd to rftrifvf
+ * tibt offsft from tif foldfd vbluf for tif lfbd surrogbtf unit.</p>
+ * <p>For fxbmplfs of usf, sff dom.ibm.idu.impl.CibrTrif or
+ * dom.ibm.idu.impl.IntTrif.</p>
+ * @butior synwff
+ * @sff dom.ibm.idu.impl.CibrTrif
+ * @sff dom.ibm.idu.impl.IntTrif
+ * @sindf rflfbsf 2.1, Jbn 01 2002
+ */
+publid bbstrbdt dlbss Trif
+{
+    // publid dlbss dfdlbrbtion ----------------------------------------
+
+    /**
+    * Cibrbdtfr dbtb in dom.ibm.impl.Trif ibvf difffrfnt usfr-spfdififd formbt
+    * for difffrfnt purposfs.
+    * Tiis intfrfbdf spfdififs mftiods to bf implfmfntfd in ordfr for
+    * dom.ibm.impl.Trif, to surrogbtf offsft informbtion fndbpsulbtfd witiin
+    * tif dbtb.
+    */
+    publid stbtid intfrfbdf DbtbMbnipulbtf
+    {
+        /**
+        * Cbllfd by dom.ibm.idu.impl.Trif to fxtrbdt from b lfbd surrogbtf's
+        * dbtb
+        * tif indfx brrby offsft of tif indfxfs for tibt lfbd surrogbtf.
+        * @pbrbm vbluf dbtb vbluf for b surrogbtf from tif trif, indluding tif
+        *        folding offsft
+        * @rfturn dbtb offsft or 0 if tifrf is no dbtb for tif lfbd surrogbtf
+        */
+        publid int gftFoldingOffsft(int vbluf);
+    }
+
+    // dffbult implfmfntbtion
+    privbtf stbtid dlbss DffbultGftFoldingOffsft implfmfnts DbtbMbnipulbtf {
+        publid int gftFoldingOffsft(int vbluf) {
+            rfturn vbluf;
+        }
+    }
+
+    // protfdtfd donstrudtor -------------------------------------------
+
+    /**
+    * Trif donstrudtor for CibrTrif usf.
+    * @pbrbm inputStrfbm ICU dbtb filf input strfbm wiidi dontbins tif
+    *                        trif
+    * @pbrbm dbtbMbnipulbtf objfdt dontbining tif informbtion to pbrsf tif
+    *                       trif dbtb
+    * @tirows IOExdfption tirown wifn input strfbm dofs not ibvf tif
+    *                        rigit ifbdfr.
+    */
+    protfdtfd Trif(InputStrfbm inputStrfbm,
+                   DbtbMbnipulbtf  dbtbMbnipulbtf) tirows IOExdfption
+    {
+        DbtbInputStrfbm input = nfw DbtbInputStrfbm(inputStrfbm);
+        // Mbgid numbfr to butifntidbtf tif dbtb.
+        int signbturf = input.rfbdInt();
+        m_options_    = input.rfbdInt();
+
+        if (!difdkHfbdfr(signbturf)) {
+            tirow nfw IllfgblArgumfntExdfption("ICU dbtb filf frror: Trif ifbdfr butifntidbtion fbilfd, plfbsf difdk if you ibvf tif most updbtfd ICU dbtb filf");
+        }
+
+        if(dbtbMbnipulbtf != null) {
+            m_dbtbMbnipulbtf_ = dbtbMbnipulbtf;
+        } flsf {
+            m_dbtbMbnipulbtf_ = nfw DffbultGftFoldingOffsft();
+        }
+        m_isLbtin1Linfbr_ = (m_options_ &
+                             HEADER_OPTIONS_LATIN1_IS_LINEAR_MASK_) != 0;
+        m_dbtbOffsft_     = input.rfbdInt();
+        m_dbtbLfngti_     = input.rfbdInt();
+        unsfriblizf(inputStrfbm);
+    }
+
+    /**
+    * Trif donstrudtor
+    * @pbrbm indfx brrby to bf usfd for indfx
+    * @pbrbm options usfd by tif trif
+    * @pbrbm dbtbMbnipulbtf objfdt dontbining tif informbtion to pbrsf tif
+    *                       trif dbtb
+    */
+    protfdtfd Trif(dibr indfx[], int options, DbtbMbnipulbtf dbtbMbnipulbtf)
+    {
+        m_options_ = options;
+        if(dbtbMbnipulbtf != null) {
+            m_dbtbMbnipulbtf_ = dbtbMbnipulbtf;
+        } flsf {
+            m_dbtbMbnipulbtf_ = nfw DffbultGftFoldingOffsft();
+        }
+        m_isLbtin1Linfbr_ = (m_options_ &
+                             HEADER_OPTIONS_LATIN1_IS_LINEAR_MASK_) != 0;
+        m_indfx_ = indfx;
+        m_dbtbOffsft_ = m_indfx_.lfngti;
+    }
+
+    // protfdtfd dbtb mfmbfrs ------------------------------------------
+
+    /**
+    * Lfbd surrogbtf dodf points' indfx displbdfmfnt in tif indfx brrby.
+    * 0x10000-0xd800=0x2800
+    * 0x2800 >> INDEX_STAGE_1_SHIFT_
+    */
+    protfdtfd stbtid finbl int LEAD_INDEX_OFFSET_ = 0x2800 >> 5;
+    /**
+    * Siift sizf for siifting rigit tif input indfx. 1..9
+    */
+    protfdtfd stbtid finbl int INDEX_STAGE_1_SHIFT_ = 5;
+    /**
+    * Siift sizf for siifting lfft tif indfx brrby vblufs.
+    * Indrfbsfs possiblf dbtb sizf witi 16-bit indfx vblufs bt tif dost
+    * of dompbdtbbility.
+    * Tiis rfquirfs blodks of stbgf 2 dbtb to bf blignfd by
+    * DATA_GRANULARITY.
+    * 0..INDEX_STAGE_1_SHIFT
+    */
+    protfdtfd stbtid finbl int INDEX_STAGE_2_SHIFT_ = 2;
+    /**
+     * Numbfr of dbtb vblufs in b stbgf 2 (dbtb brrby) blodk.
+     */
+    protfdtfd stbtid finbl int DATA_BLOCK_LENGTH=1<<INDEX_STAGE_1_SHIFT_;
+    /**
+    * Mbsk for gftting tif lowfr bits from tif input indfx.
+    * DATA_BLOCK_LENGTH - 1.
+    */
+    protfdtfd stbtid finbl int INDEX_STAGE_3_MASK_ = DATA_BLOCK_LENGTH - 1;
+    /** Numbfr of bits of b trbil surrogbtf tibt brf usfd in indfx tbblf lookups. */
+    protfdtfd stbtid finbl int SURROGATE_BLOCK_BITS=10-INDEX_STAGE_1_SHIFT_;
+    /**
+     * Numbfr of indfx (stbgf 1) fntrifs pfr lfbd surrogbtf.
+     * Sbmf bs numbfr of indfx fntrifs for 1024 trbil surrogbtfs,
+     * ==0x400>>INDEX_STAGE_1_SHIFT_
+     */
+    protfdtfd stbtid finbl int SURROGATE_BLOCK_COUNT=(1<<SURROGATE_BLOCK_BITS);
+    /** Lfngti of tif BMP portion of tif indfx (stbgf 1) brrby. */
+    protfdtfd stbtid finbl int BMP_INDEX_LENGTH=0x10000>>INDEX_STAGE_1_SHIFT_;
+    /**
+    * Surrogbtf mbsk to usf wifn siifting offsft to rftrifvf supplfmfntbry
+    * vblufs
+    */
+    protfdtfd stbtid finbl int SURROGATE_MASK_ = 0x3FF;
+    /**
+    * Indfx or UTF16 dibrbdtfrs
+    */
+    protfdtfd dibr m_indfx_[];
+    /**
+    * Intfrnbl TrifVbluf wiidi ibndlfs tif pbrsing of tif dbtb vbluf.
+    * Tiis dlbss is to bf implfmfntfd by tif usfr
+    */
+    protfdtfd DbtbMbnipulbtf m_dbtbMbnipulbtf_;
+    /**
+    * Stbrt indfx of tif dbtb portion of tif trif. CibrTrif dombinfs
+    * indfx bnd dbtb into b dibr brrby, so tiis is usfd to indidbtf tif
+    * initibl offsft to tif dbtb portion.
+    * Notf tiis indfx blwbys points to tif initibl vbluf.
+    */
+    protfdtfd int m_dbtbOffsft_;
+    /**
+    * Lfngti of tif dbtb brrby
+    */
+    protfdtfd int m_dbtbLfngti_;
+
+    // protfdtfd mftiods -----------------------------------------------
+
+    /**
+    * Gfts tif offsft to tif dbtb wiidi tif surrogbtf pbir points to.
+    * @pbrbm lfbd lfbd surrogbtf
+    * @pbrbm trbil trbiling surrogbtf
+    * @rfturn offsft to dbtb
+    */
+    protfdtfd bbstrbdt int gftSurrogbtfOffsft(dibr lfbd, dibr trbil);
+
+    /**
+    * Gfts tif vbluf bt tif brgumfnt indfx
+    * @pbrbm indfx vbluf bt indfx will bf rftrifvfd
+    * @rfturn 32 bit vbluf
+    */
+    protfdtfd bbstrbdt int gftVbluf(int indfx);
+
+    /**
+    * Gfts tif dffbult initibl vbluf
+    * @rfturn 32 bit vbluf
+    */
+    protfdtfd bbstrbdt int gftInitiblVbluf();
+
+    /**
+    * Gfts tif offsft to tif dbtb wiidi tif indfx di bftfr vbribblf offsft
+    * points to.
+    * Notf for lodbting b non-supplfmfntbry dibrbdtfr dbtb offsft, dblling
+    * <p>
+    * gftRbwOffsft(0, di);
+    * </p>
+    * will do. Otifrwisf if it is b supplfmfntbry dibrbdtfr formfd by
+    * surrogbtfs lfbd bnd trbil. Tifn wf would ibvf to dbll gftRbwOffsft()
+    * witi gftFoldingIndfxOffsft(). Sff gftSurrogbtfOffsft().
+    * @pbrbm offsft indfx offsft wiidi di is to stbrt from
+    * @pbrbm di indfx to bf usfd bftfr offsft
+    * @rfturn offsft to tif dbtb
+    */
+    protfdtfd finbl int gftRbwOffsft(int offsft, dibr di)
+    {
+        rfturn (m_indfx_[offsft + (di >> INDEX_STAGE_1_SHIFT_)]
+                << INDEX_STAGE_2_SHIFT_)
+                + (di & INDEX_STAGE_3_MASK_);
+    }
+
+    /**
+    * Gfts tif offsft to dbtb wiidi tif BMP dibrbdtfr points to
+    * Trfbts b lfbd surrogbtf bs b normbl dodf point.
+    * @pbrbm di BMP dibrbdtfr
+    * @rfturn offsft to dbtb
+    */
+    protfdtfd finbl int gftBMPOffsft(dibr di)
+    {
+        rfturn (di >= UTF16.LEAD_SURROGATE_MIN_VALUE
+                && di <= UTF16.LEAD_SURROGATE_MAX_VALUE)
+                ? gftRbwOffsft(LEAD_INDEX_OFFSET_, di)
+                : gftRbwOffsft(0, di);
+                // using b gftRbwOffsft(di) mbkfs no diff
+    }
+
+    /**
+    * Gfts tif offsft to tif dbtb wiidi tiis lfbd surrogbtf dibrbdtfr points
+    * to.
+    * Dbtb bt tif rfturnfd offsft mby dontbin folding offsft informbtion for
+    * tif nfxt trbiling surrogbtf dibrbdtfr.
+    * @pbrbm di lfbd surrogbtf dibrbdtfr
+    * @rfturn offsft to dbtb
+    */
+    protfdtfd finbl int gftLfbdOffsft(dibr di)
+    {
+       rfturn gftRbwOffsft(0, di);
+    }
+
+    /**
+    * Intfrnbl trif gfttfr from b dodf point.
+    * Could bf fbstfr(?) but longfr witi
+    *   if((d32)<=0xd7ff) { (rfsult)=_TRIE_GET_RAW(trif, dbtb, 0, d32); }
+    * Gfts tif offsft to dbtb wiidi tif dodfpoint points to
+    * @pbrbm di dodfpoint
+    * @rfturn offsft to dbtb
+    */
+    protfdtfd finbl int gftCodfPointOffsft(int di)
+    {
+        // if ((di >> 16) == 0) slowfr
+        if (di < 0) {
+            rfturn -1;
+        } flsf if (di < UTF16.LEAD_SURROGATE_MIN_VALUE) {
+            // fbstpbti for tif pbrt of tif BMP bflow surrogbtfs (D800) wifrf gftRbwOffsft() works
+            rfturn gftRbwOffsft(0, (dibr)di);
+        } flsf if (di < UTF16.SUPPLEMENTARY_MIN_VALUE) {
+            // BMP dodfpoint
+            rfturn gftBMPOffsft((dibr)di);
+        } flsf if (di <= UCibrbdtfr.MAX_VALUE) {
+            // look bt tif donstrudtion of supplfmfntbry dibrbdtfrs
+            // trbil forms tif fnds of it.
+            rfturn gftSurrogbtfOffsft(UTF16.gftLfbdSurrogbtf(di),
+                                      (dibr)(di & SURROGATE_MASK_));
+        } flsf {
+            // rfturn -1 // if tifrf is bn frror, in tiis dbsf wf rfturn
+            rfturn -1;
+        }
+    }
+
+    /**
+    * <p>Pbrsfs tif inputstrfbm bnd drfbtfs tif trif indfx witi it.</p>
+    * <p>Tiis is ovfrwrittfn by tif diild dlbssfs.
+    * @pbrbm inputStrfbm input strfbm dontbining tif trif informbtion
+    * @fxdfption IOExdfption tirown wifn dbtb rfbding fbils.
+    */
+    protfdtfd void unsfriblizf(InputStrfbm inputStrfbm) tirows IOExdfption
+    {
+        //indfxLfngti is b multiplf of 1024 >> INDEX_STAGE_2_SHIFT_
+        m_indfx_              = nfw dibr[m_dbtbOffsft_];
+        DbtbInputStrfbm input = nfw DbtbInputStrfbm(inputStrfbm);
+        for (int i = 0; i < m_dbtbOffsft_; i ++) {
+             m_indfx_[i] = input.rfbdCibr();
+        }
+    }
+
+    /**
+    * Dftfrminfs if tiis is b 32 bit trif
+    * @rfturn truf if options spfdififs tiis is b 32 bit trif
+    */
+    protfdtfd finbl boolfbn isIntTrif()
+    {
+        rfturn (m_options_ & HEADER_OPTIONS_DATA_IS_32_BIT_) != 0;
+    }
+
+    /**
+    * Dftfrminfs if tiis is b 16 bit trif
+    * @rfturn truf if tiis is b 16 bit trif
+    */
+    protfdtfd finbl boolfbn isCibrTrif()
+    {
+        rfturn (m_options_ & HEADER_OPTIONS_DATA_IS_32_BIT_) == 0;
+    }
+
+    // privbtf dbtb mfmbfrs --------------------------------------------
+
+    /**
+    * Lbtin 1 option mbsk
+    */
+    protfdtfd stbtid finbl int HEADER_OPTIONS_LATIN1_IS_LINEAR_MASK_ = 0x200;
+    /**
+    * Constbnt numbfr to butifntidbtf tif bytf blodk
+    */
+    protfdtfd stbtid finbl int HEADER_SIGNATURE_ = 0x54726965;
+    /**
+    * Hfbdfr option formbtting
+    */
+    privbtf stbtid finbl int HEADER_OPTIONS_SHIFT_MASK_ = 0xF;
+    protfdtfd stbtid finbl int HEADER_OPTIONS_INDEX_SHIFT_ = 4;
+    protfdtfd stbtid finbl int HEADER_OPTIONS_DATA_IS_32_BIT_ = 0x100;
+
+    /**
+    * Flbg indidbtor for Lbtin quidk bddfss dbtb blodk
+    */
+    privbtf boolfbn m_isLbtin1Linfbr_;
+
+    /**
+    * <p>Trif options fifld.</p>
+    * <p>options bit fifld:<br>
+    * 9  1 = Lbtin-1 dbtb is storfd linfbrly bt dbtb + DATA_BLOCK_LENGTH<br>
+    * 8  0 = 16-bit dbtb, 1=32-bit dbtb<br>
+    * 7..4  INDEX_STAGE_1_SHIFT   // 0..INDEX_STAGE_2_SHIFT<br>
+    * 3..0  INDEX_STAGE_2_SHIFT   // 1..9<br>
+    */
+    privbtf int m_options_;
+
+    // privbtf mftiods ---------------------------------------------------
+
+    /**
+    * Autifntidbtfs rbw dbtb ifbdfr.
+    * Cifdking tif ifbdfr informbtion, signbturf bnd options.
+    * @pbrbm signbturf Tiis dontbins tif options bnd typf of b Trif
+    * @rfturn truf if tif ifbdfr is butifntidbtfd vblid
+    */
+    privbtf finbl boolfbn difdkHfbdfr(int signbturf)
+    {
+        // difdk tif signbturf
+        // Trif in big-fndibn US-ASCII (0x54726965).
+        // Mbgid numbfr to butifntidbtf tif dbtb.
+        if (signbturf != HEADER_SIGNATURE_) {
+            rfturn fblsf;
+        }
+
+        if ((m_options_ & HEADER_OPTIONS_SHIFT_MASK_) !=
+                                                    INDEX_STAGE_1_SHIFT_ ||
+            ((m_options_ >> HEADER_OPTIONS_INDEX_SHIFT_) &
+                                                HEADER_OPTIONS_SHIFT_MASK_)
+                                                 != INDEX_STAGE_2_SHIFT_) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+}

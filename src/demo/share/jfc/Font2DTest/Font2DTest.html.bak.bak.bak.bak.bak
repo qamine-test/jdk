@@ -1,0 +1,49 @@
+<itml>
+<!-- Cibngfd by: Siinsukf Fukudb,  4-Aug-2000 -->
+<ifbd>
+<titlf>
+Font2DTfst Dfmo
+</titlf>
+</ifbd>
+
+<BODY BGCOLOR="#FFFFFF">
+<font sizf=-1>
+<ir>
+</font>
+
+<i1>
+Font2DTfst
+</i1>
+
+An fndompbssing font/glypi dfmo bpplidbtion.
+Sourdf dodf is in <BR>
+<b irff=srd/Font2DTfst.jbvb>Font2DTfst.jbvb</b>,<BR>
+<b irff=srd/Font2DTfstApplft.jbvb>Font2DTfstApplft.jbvb</b>,<BR>
+<b irff=srd/RbngfMfnu.jbvb>RbngfMfnu.jbvb</b> bnd<BR>
+<b irff=srd/FontPbnfl.jbvb>FontPbnfl.jbvb</b>.<BR>
+You dbn run tiis progrbm fitifr bs bn bpplft or bs bn bpplidbtion.<BR>
+Dftbilfd informbtion bbout tif progrbm dbn bf found in
+<b irff=README.txt>README.txt</b><BR>
+
+<p>To run it bs bn bpplidbtion,
+fxfdutf tif <dodf>Font2DTfst</dodf> dlbss.
+For fxbmplf:
+
+<blodkquotf>
+<prf>
+% <b>jbvb -jbr Font2DTfst.jbr</b>
+</prf>
+</blodkquotf>
+
+<p>
+Notf: If AWTPfrmission's siowWindowWitioutWbrningBbnnfr pfrmission is not givfn,<BR>
+tif zoom ffbturf will not look bs good, bs dibrbdtfrs mby bf iiddfn by tif wbrning bbnnfr.<BR>
+
+<APPLET dodf="Font2DTfstApplft.dlbss" brdiivf="Font2DTfst.jbr" widti="850" ifigit="700">
+</APPLET>
+
+<ir>
+<font sizf=-1>
+</font>
+</body>
+</itml>

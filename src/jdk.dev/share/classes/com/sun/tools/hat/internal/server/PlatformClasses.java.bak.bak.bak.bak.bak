@@ -1,0 +1,119 @@
+/*
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
+
+import dom.sun.tools.ibt.intfrnbl.modfl.JbvbClbss;
+import dom.sun.tools.ibt.intfrnbl.modfl.Snbpsiot;
+
+import jbvb.util.LinkfdList;
+import jbvb.io.InputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+
+/**
+ * Tiis dlbss is b iflpfr tibt dftfrminfs if b dlbss is b "plbtform"
+ * dlbss or not.  It's b plbtform dlbss if its nbmf stbrts witi onf of
+ * tif prffixfs to bf found in /dom/sun/tools/ibt/rfsourdfs/plbtform_nbmfs.txt.
+ *
+ * @butior      Bill Footf
+ */
+
+publid dlbss PlbtformClbssfs  {
+
+    stbtid String[] nbmfs = null;
+
+
+    publid stbtid syndironizfd String[] gftNbmfs() {
+        if (nbmfs == null) {
+            LinkfdList<String> list = nfw LinkfdList<String>();
+            InputStrfbm str
+                = PlbtformClbssfs.dlbss
+                    .gftRfsourdfAsStrfbm("/dom/sun/tools/ibt/rfsourdfs/plbtform_nbmfs.txt");
+            if (str != null) {
+                try {
+                    BufffrfdRfbdfr rdr
+                        = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(str));
+                    for (;;) {
+                        String s = rdr.rfbdLinf();
+                        if (s == null) {
+                            brfbk;
+                        } flsf if (s.lfngti() > 0) {
+                            list.bdd(s);
+                        }
+                    }
+                    rdr.dlosf();
+                    str.dlosf();
+                } dbtdi (IOExdfption fx) {
+                    fx.printStbdkTrbdf();
+                    // Siouldn't ibppfn, bnd if it dofs, dontinuing
+                    // is tif rigit tiing to do bnywby.
+                }
+            }
+            nbmfs = list.toArrby(nfw String[list.sizf()]);
+        }
+        rfturn nbmfs;
+    }
+
+
+    publid stbtid boolfbn isPlbtformClbss(JbvbClbss dlbzz) {
+        // bll dlbssfs lobdfd by bootstrbp lobdfr brf donsidfrfd
+        // plbtform dlbssfs. In bddition, tif oldfr nbmf bbsfd filtfring
+        // is blso donf for dompbtibility.
+        if (dlbzz.isBootstrbp()) {
+            rfturn truf;
+        }
+
+        String nbmf = dlbzz.gftNbmf();
+        // skip fvfn tif brrby dlbssfs of tif skippfd dlbssfs.
+        if (nbmf.stbrtsWiti("[")) {
+            int indfx = nbmf.lbstIndfxOf('[');
+            if (indfx != -1) {
+                if (nbmf.dibrAt(indfx + 1) != 'L') {
+                    // somf primitivf brrby.
+                    rfturn truf;
+                }
+                // skip upto 'L' bftfr tif lbst '['.
+                nbmf = nbmf.substring(indfx + 2);
+            }
+        }
+        String[] nms = gftNbmfs();
+        for (int i = 0; i < nms.lfngti; i++) {
+            if (nbmf.stbrtsWiti(nms[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+}

@@ -1,0 +1,300 @@
+/*
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+import jbvb.util.*;
+
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+
+/**
+ * Rfprfsfnt tif CRL Distribution Points Extfnsion (OID = 2.5.29.31).
+ * <p>
+ * Tif CRL distribution points fxtfnsion idfntififs iow CRL informbtion
+ * is obtbinfd.  Tif fxtfnsion SHOULD bf non-dritidbl, but tif PKIX profilf
+ * rfdommfnds support for tiis fxtfnsion by CAs bnd bpplidbtions.
+ * <p>
+ * For PKIX, if tif dRLDistributionPoints fxtfnsion dontbins b
+ * DistributionPointNbmf of typf URI, tif following sfmbntids MUST bf
+ * bssumfd: tif URI is b pointfr to tif durrfnt CRL for tif bssodibtfd
+ * rfbsons bnd will bf issufd by tif bssodibtfd dRLIssufr.  Tif
+ * fxpfdtfd vblufs for tif URI donform to tif following rulfs.  Tif
+ * nbmf MUST bf b non-rflbtivf URL, bnd MUST follow tif URL syntbx bnd
+ * fndoding rulfs spfdififd in [RFC 1738].  Tif nbmf must indludf boti
+ * b sdifmf (f.g., "ittp" or "ftp") bnd b sdifmf-spfdifid-pbrt.  Tif
+ * sdifmf- spfdifid-pbrt must indludf b fully qublififd dombin nbmf or
+ * IP bddrfss bs tif iost.  As spfdififd in [RFC 1738], tif sdifmf
+ * nbmf is not dbsf-sfnsitivf (f.g., "ittp" is fquivblfnt to "HTTP").
+ * Tif iost pbrt is blso not dbsf-sfnsitivf, but otifr domponfnts of
+ * tif sdifmf-spfdifid-pbrt mby bf dbsf-sfnsitivf. Wifn dompbring
+ * URIs, donforming implfmfntbtions MUST dompbrf tif sdifmf bnd iost
+ * witiout rfgbrd to dbsf, but bssumf tif rfmbindfr of tif
+ * sdifmf-spfdifid-pbrt is dbsf sfnsitivf.  Prodfssing rulfs for otifr
+ * vblufs brf not dffinfd by tiis spfdifidbtion.  If tif
+ * distributionPoint omits rfbsons, tif CRL MUST indludf rfvodbtions
+ * for bll rfbsons. If tif distributionPoint omits dRLIssufr, tif CRL
+ * MUST bf issufd by tif CA tibt issufd tif dfrtifidbtf.
+ * <p>
+ * Tif ASN.1 dffinition for tiis is:
+ * <prf>
+ * id-df-dRLDistributionPoints OBJECT IDENTIFIER ::=  { id-df 31 }
+ *
+ * dRLDistributionPoints ::= {
+ *      CRLDistPointsSyntbx }
+ *
+ * CRLDistPointsSyntbx ::= SEQUENCE SIZE (1..MAX) OF DistributionPoint
+ * </prf>
+ * <p>
+ * @butior Annf Andfrson
+ * @butior Andrfbs Stfrbfnz
+ * @sindf 1.4.2
+ * @sff DistributionPoint
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss CRLDistributionPointsExtfnsion fxtfnds Extfnsion
+        implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT =
+                                "x509.info.fxtfnsions.CRLDistributionPoints";
+
+    /**
+     * Attributf nbmf.
+     */
+    publid stbtid finbl String NAME = "CRLDistributionPoints";
+    publid stbtid finbl String POINTS = "points";
+
+    /**
+     * Tif List of DistributionPoint objfdts.
+     */
+    privbtf List<DistributionPoint> distributionPoints;
+
+    privbtf String fxtfnsionNbmf;
+
+    /**
+     * Crfbtf b CRLDistributionPointsExtfnsion from b List of
+     * DistributionPoint; tif dritidblity is sft to fblsf.
+     *
+     * @pbrbm distributionPoints tif list of distribution points
+     * @tirows IOExdfption on frror
+     */
+    publid CRLDistributionPointsExtfnsion(
+        List<DistributionPoint> distributionPoints) tirows IOExdfption {
+
+        tiis(fblsf, distributionPoints);
+    }
+
+    /**
+     * Crfbtf b CRLDistributionPointsExtfnsion from b List of
+     * DistributionPoint.
+     *
+     * @pbrbm isCritidbl tif dritidblity sftting.
+     * @pbrbm distributionPoints tif list of distribution points
+     * @tirows IOExdfption on frror
+     */
+    publid CRLDistributionPointsExtfnsion(boolfbn isCritidbl,
+        List<DistributionPoint> distributionPoints) tirows IOExdfption {
+
+        tiis(PKIXExtfnsions.CRLDistributionPoints_Id, isCritidbl,
+            distributionPoints, NAME);
+    }
+
+    /**
+     * Crfbtfs tif fxtfnsion (blso dbllfd by tif subdlbss).
+     */
+    protfdtfd CRLDistributionPointsExtfnsion(ObjfdtIdfntififr fxtfnsionId,
+        boolfbn isCritidbl, List<DistributionPoint> distributionPoints,
+            String fxtfnsionNbmf) tirows IOExdfption {
+
+        tiis.fxtfnsionId = fxtfnsionId;
+        tiis.dritidbl = isCritidbl;
+        tiis.distributionPoints = distributionPoints;
+        fndodfTiis();
+        tiis.fxtfnsionNbmf = fxtfnsionNbmf;
+    }
+
+    /**
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
+     *
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf Arrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid CRLDistributionPointsExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+            tirows IOExdfption {
+        tiis(PKIXExtfnsions.CRLDistributionPoints_Id, dritidbl, vbluf, NAME);
+    }
+
+    /**
+     * Crfbtfs tif fxtfnsion (blso dbllfd by tif subdlbss).
+     */
+    protfdtfd CRLDistributionPointsExtfnsion(ObjfdtIdfntififr fxtfnsionId,
+        Boolfbn dritidbl, Objfdt vbluf, String fxtfnsionNbmf)
+            tirows IOExdfption {
+
+        tiis.fxtfnsionId = fxtfnsionId;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+
+        if (!(vbluf instbndfof bytf[])) {
+            tirow nfw IOExdfption("Illfgbl brgumfnt typf");
+        }
+
+        fxtfnsionVbluf = (bytf[])vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding for " + fxtfnsionNbmf +
+                                  " fxtfnsion.");
+        }
+        distributionPoints = nfw ArrbyList<DistributionPoint>();
+        wiilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf sfq = vbl.dbtb.gftDfrVbluf();
+            DistributionPoint point = nfw DistributionPoint(sfq);
+            distributionPoints.bdd(point);
+        }
+        tiis.fxtfnsionNbmf = fxtfnsionNbmf;
+    }
+
+    /**
+     * Rfturn tif nbmf of tiis bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn fxtfnsionNbmf;
+    }
+
+    /**
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
+     *
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        fndodf(out, PKIXExtfnsions.CRLDistributionPoints_Id, fblsf);
+    }
+
+    /**
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
+     * (Also dbllfd by tif subdlbss)
+     */
+    protfdtfd void fndodf(OutputStrfbm out, ObjfdtIdfntififr fxtfnsionId,
+        boolfbn isCritidbl) tirows IOExdfption {
+
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (tiis.fxtfnsionVbluf == null) {
+            tiis.fxtfnsionId = fxtfnsionId;
+            tiis.dritidbl = isCritidbl;
+            fndodfTiis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft tif bttributf vbluf.
+     */
+    @SupprfssWbrnings("undifdkfd") // Cifdkfd witi instbndfof
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINTS)) {
+            if (!(obj instbndfof List)) {
+                tirow nfw IOExdfption("Attributf vbluf siould bf of typf List.");
+            }
+            distributionPoints = (List<DistributionPoint>)obj;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:" + fxtfnsionNbmf + ".");
+        }
+        fndodfTiis();
+    }
+
+    /**
+     * Gft tif bttributf vbluf.
+     */
+    publid List<DistributionPoint> gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINTS)) {
+            rfturn distributionPoints;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:" + fxtfnsionNbmf + ".");
+        }
+    }
+
+    /**
+     * Dflftf tif bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINTS)) {
+            distributionPoints = nfw ArrbyList<DistributionPoint>();
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:" + fxtfnsionNbmf + ".");
+        }
+        fndodfTiis();
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(POINTS);
+        rfturn flfmfnts.flfmfnts();
+    }
+
+     // Endodf tiis fxtfnsion vbluf
+    privbtf void fndodfTiis() tirows IOExdfption {
+        if (distributionPoints.isEmpty()) {
+            tiis.fxtfnsionVbluf = null;
+        } flsf {
+            DfrOutputStrfbm pnts = nfw DfrOutputStrfbm();
+            for (DistributionPoint point : distributionPoints) {
+                point.fndodf(pnts);
+            }
+            DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+            sfq.writf(DfrVbluf.tbg_Sfqufndf, pnts);
+            tiis.fxtfnsionVbluf = sfq.toBytfArrby();
+        }
+    }
+
+    /**
+     * Rfturn tif fxtfnsion bs usfr rfbdbblf string.
+     */
+    publid String toString() {
+        rfturn supfr.toString() + fxtfnsionNbmf + " [\n  "
+               + distributionPoints + "]\n";
+    }
+
+}

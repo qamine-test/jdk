@@ -1,264 +1,1320 @@
 /*
- * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+pbdkbgf dom.sun.drypto.providfr;
+
+
+
+
 
 import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+
+
+
+
 
 import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfy;
 import jbvbx.drypto.SfdrftKfy;
 import jbvb.sfdurity.*;
-import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+
+
+
+
 
 import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.gfnPbd;
+import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.gfnPbd;
+import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.gfnPbd;
+import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.gfnPbd;
+import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.gfnPbd;
+
+
+
+
 
 /**
- * This filf dontbins thf dodf for thf SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
- * Thf SSL 3.0 MAC is b vbribtion of thf HMAC blgorithm.
+/**
+/**
+/**
+/**
+ * Tiis filf dontbins tif dodf for tif SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
+ * Tiis filf dontbins tif dodf for tif SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
+ * Tiis filf dontbins tif dodf for tif SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
+ * Tiis filf dontbins tif dodf for tif SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
+ * Tiis filf dontbins tif dodf for tif SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
+ * Tif SSL 3.0 MAC is b vbribtion of tif HMAC blgoritim.
+ * Tif SSL 3.0 MAC is b vbribtion of tif HMAC blgoritim.
+ * Tif SSL 3.0 MAC is b vbribtion of tif HMAC blgoritim.
+ * Tif SSL 3.0 MAC is b vbribtion of tif HMAC blgoritim.
+ * Tif SSL 3.0 MAC is b vbribtion of tif HMAC blgoritim.
  *
- * Notf thbt wf don't implfmfnt Clonfbblf bs thbt is not nffdfd for SSL.
  *
- * @buthor  Andrfbs Stfrbfnz
+ *
+ *
+ *
+ * Notf tibt wf don't implfmfnt Clonfbblf bs tibt is not nffdfd for SSL.
+ * Notf tibt wf don't implfmfnt Clonfbblf bs tibt is not nffdfd for SSL.
+ * Notf tibt wf don't implfmfnt Clonfbblf bs tibt is not nffdfd for SSL.
+ * Notf tibt wf don't implfmfnt Clonfbblf bs tibt is not nffdfd for SSL.
+ * Notf tibt wf don't implfmfnt Clonfbblf bs tibt is not nffdfd for SSL.
+ *
+ *
+ *
+ *
+ *
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.6
+ * @sindf   1.6
+ * @sindf   1.6
+ * @sindf   1.6
  * @sindf   1.6
  */
+ */
+ */
+ */
+ */
+finbl dlbss SslMbdCorf {
+finbl dlbss SslMbdCorf {
+finbl dlbss SslMbdCorf {
+finbl dlbss SslMbdCorf {
 finbl dlbss SslMbdCorf {
 
+
+
+
+
+    privbtf finbl MfssbgfDigfst md;
+    privbtf finbl MfssbgfDigfst md;
+    privbtf finbl MfssbgfDigfst md;
+    privbtf finbl MfssbgfDigfst md;
     privbtf finbl MfssbgfDigfst md;
     privbtf finbl bytf[] pbd1, pbd2;
+    privbtf finbl bytf[] pbd1, pbd2;
+    privbtf finbl bytf[] pbd1, pbd2;
+    privbtf finbl bytf[] pbd1, pbd2;
+    privbtf finbl bytf[] pbd1, pbd2;
 
-    privbtf boolfbn first;       // Is this thf first dbtb to bf prodfssfd?
+
+
+
+
+    privbtf boolfbn first;       // Is tiis tif first dbtb to bf prodfssfd?
+    privbtf boolfbn first;       // Is tiis tif first dbtb to bf prodfssfd?
+    privbtf boolfbn first;       // Is tiis tif first dbtb to bf prodfssfd?
+    privbtf boolfbn first;       // Is tiis tif first dbtb to bf prodfssfd?
+    privbtf boolfbn first;       // Is tiis tif first dbtb to bf prodfssfd?
+    privbtf bytf[] sfdrft;
+    privbtf bytf[] sfdrft;
+    privbtf bytf[] sfdrft;
+    privbtf bytf[] sfdrft;
     privbtf bytf[] sfdrft;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Stbndbrd donstrudtor, drfbtfs b nfw SslMbdCorf instbndf instbntibting
-     * b MfssbgfDigfst of thf spfdififd nbmf.
+     * Stbndbrd donstrudtor, drfbtfs b nfw SslMbdCorf instbndf instbntibting
+     * Stbndbrd donstrudtor, drfbtfs b nfw SslMbdCorf instbndf instbntibting
+     * Stbndbrd donstrudtor, drfbtfs b nfw SslMbdCorf instbndf instbntibting
+     * Stbndbrd donstrudtor, drfbtfs b nfw SslMbdCorf instbndf instbntibting
+     * b MfssbgfDigfst of tif spfdififd nbmf.
+     * b MfssbgfDigfst of tif spfdififd nbmf.
+     * b MfssbgfDigfst of tif spfdififd nbmf.
+     * b MfssbgfDigfst of tif spfdififd nbmf.
+     * b MfssbgfDigfst of tif spfdififd nbmf.
      */
-    SslMbdCorf(String digfstAlgorithm, bytf[] pbd1, bytf[] pbd2)
-            throws NoSudhAlgorithmExdfption {
-        md = MfssbgfDigfst.gftInstbndf(digfstAlgorithm);
-        this.pbd1 = pbd1;
-        this.pbd2 = pbd2;
+     */
+     */
+     */
+     */
+    SslMbdCorf(String digfstAlgoritim, bytf[] pbd1, bytf[] pbd2)
+    SslMbdCorf(String digfstAlgoritim, bytf[] pbd1, bytf[] pbd2)
+    SslMbdCorf(String digfstAlgoritim, bytf[] pbd1, bytf[] pbd2)
+    SslMbdCorf(String digfstAlgoritim, bytf[] pbd1, bytf[] pbd2)
+    SslMbdCorf(String digfstAlgoritim, bytf[] pbd1, bytf[] pbd2)
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+        md = MfssbgfDigfst.gftInstbndf(digfstAlgoritim);
+        md = MfssbgfDigfst.gftInstbndf(digfstAlgoritim);
+        md = MfssbgfDigfst.gftInstbndf(digfstAlgoritim);
+        md = MfssbgfDigfst.gftInstbndf(digfstAlgoritim);
+        md = MfssbgfDigfst.gftInstbndf(digfstAlgoritim);
+        tiis.pbd1 = pbd1;
+        tiis.pbd1 = pbd1;
+        tiis.pbd1 = pbd1;
+        tiis.pbd1 = pbd1;
+        tiis.pbd1 = pbd1;
+        tiis.pbd2 = pbd2;
+        tiis.pbd2 = pbd2;
+        tiis.pbd2 = pbd2;
+        tiis.pbd2 = pbd2;
+        tiis.pbd2 = pbd2;
+        first = truf;
+        first = truf;
+        first = truf;
+        first = truf;
         first = truf;
     }
-
-    /**
-     * Rfturns thf lfngth of thf Mbd in bytfs.
-     *
-     * @rfturn thf Mbd lfngth in bytfs.
-     */
-    int gftDigfstLfngth() {
-        rfturn md.gftDigfstLfngth();
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Initiblizfs thf Mbd with thf givfn sfdrft kfy bnd blgorithm pbrbmftfrs.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif lfngti of tif Mbd in bytfs.
+     * Rfturns tif lfngti of tif Mbd in bytfs.
+     * Rfturns tif lfngti of tif Mbd in bytfs.
+     * Rfturns tif lfngti of tif Mbd in bytfs.
+     * Rfturns tif lfngti of tif Mbd in bytfs.
      *
-     * @pbrbm kfy thf sfdrft kfy.
-     * @pbrbm pbrbms thf blgorithm pbrbmftfrs.
      *
-     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
-     * initiblizing this MAC.
-     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
-     * pbrbmftfrs brf inbppropribtf for this MAC.
+     *
+     *
+     *
+     * @rfturn tif Mbd lfngti in bytfs.
+     * @rfturn tif Mbd lfngti in bytfs.
+     * @rfturn tif Mbd lfngti in bytfs.
+     * @rfturn tif Mbd lfngti in bytfs.
+     * @rfturn tif Mbd lfngti in bytfs.
      */
-    void init(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
-            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+     */
+     */
+     */
+     */
+    int gftDigfstLfngti() {
+    int gftDigfstLfngti() {
+    int gftDigfstLfngti() {
+    int gftDigfstLfngti() {
+    int gftDigfstLfngti() {
+        rfturn md.gftDigfstLfngti();
+        rfturn md.gftDigfstLfngti();
+        rfturn md.gftDigfstLfngti();
+        rfturn md.gftDigfstLfngti();
+        rfturn md.gftDigfstLfngti();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs tif Mbd witi tif givfn sfdrft kfy bnd blgoritim pbrbmftfrs.
+     * Initiblizfs tif Mbd witi tif givfn sfdrft kfy bnd blgoritim pbrbmftfrs.
+     * Initiblizfs tif Mbd witi tif givfn sfdrft kfy bnd blgoritim pbrbmftfrs.
+     * Initiblizfs tif Mbd witi tif givfn sfdrft kfy bnd blgoritim pbrbmftfrs.
+     * Initiblizfs tif Mbd witi tif givfn sfdrft kfy bnd blgoritim pbrbmftfrs.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis MAC.
+     * initiblizing tiis MAC.
+     * initiblizing tiis MAC.
+     * initiblizing tiis MAC.
+     * initiblizing tiis MAC.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
+     */
+     */
+     */
+     */
+     */
+    void init(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+    void init(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+    void init(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+    void init(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+    void init(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+
+
+
+
 
         if (pbrbms != null) {
-            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+        if (pbrbms != null) {
+        if (pbrbms != null) {
+        if (pbrbms != null) {
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("SslMbd dofs not usf pbrbmftfrs");
+                ("SslMbd dofs not usf pbrbmftfrs");
+                ("SslMbd dofs not usf pbrbmftfrs");
+                ("SslMbd dofs not usf pbrbmftfrs");
                 ("SslMbd dofs not usf pbrbmftfrs");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (!(kfy instbndfof SfdrftKfy)) {
-            throw nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
+        if (!(kfy instbndfof SfdrftKfy)) {
+        if (!(kfy instbndfof SfdrftKfy)) {
+        if (!(kfy instbndfof SfdrftKfy)) {
+        if (!(kfy instbndfof SfdrftKfy)) {
+            tirow nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
+            tirow nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
+            tirow nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
+            tirow nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
+            tirow nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         sfdrft = kfy.gftEndodfd();
-        if (sfdrft == null || sfdrft.lfngth == 0) {
-            throw nfw InvblidKfyExdfption("Missing kfy dbtb");
+        sfdrft = kfy.gftEndodfd();
+        sfdrft = kfy.gftEndodfd();
+        sfdrft = kfy.gftEndodfd();
+        sfdrft = kfy.gftEndodfd();
+        if (sfdrft == null || sfdrft.lfngti == 0) {
+        if (sfdrft == null || sfdrft.lfngti == 0) {
+        if (sfdrft == null || sfdrft.lfngti == 0) {
+        if (sfdrft == null || sfdrft.lfngti == 0) {
+        if (sfdrft == null || sfdrft.lfngti == 0) {
+            tirow nfw InvblidKfyExdfption("Missing kfy dbtb");
+            tirow nfw InvblidKfyExdfption("Missing kfy dbtb");
+            tirow nfw InvblidKfyExdfption("Missing kfy dbtb");
+            tirow nfw InvblidKfyExdfption("Missing kfy dbtb");
+            tirow nfw InvblidKfyExdfption("Missing kfy dbtb");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfsft();
+        rfsft();
+        rfsft();
+        rfsft();
+        rfsft();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Prodfssfs thf givfn bytf.
+    /**
+    /**
+    /**
+    /**
+     * Prodfssfs tif givfn bytf.
+     * Prodfssfs tif givfn bytf.
+     * Prodfssfs tif givfn bytf.
+     * Prodfssfs tif givfn bytf.
+     * Prodfssfs tif givfn bytf.
      *
-     * @pbrbm input thf input bytf to bf prodfssfd.
+     *
+     *
+     *
+     *
+     * @pbrbm input tif input bytf to bf prodfssfd.
+     * @pbrbm input tif input bytf to bf prodfssfd.
+     * @pbrbm input tif input bytf to bf prodfssfd.
+     * @pbrbm input tif input bytf to bf prodfssfd.
+     * @pbrbm input tif input bytf to bf prodfssfd.
+     */
+     */
+     */
+     */
      */
     void updbtf(bytf input) {
+    void updbtf(bytf input) {
+    void updbtf(bytf input) {
+    void updbtf(bytf input) {
+    void updbtf(bytf input) {
         if (first == truf) {
-            // domputf digfst for 1st pbss; stbrt with innfr pbd
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
             md.updbtf(sfdrft);
             md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            first = fblsf;
+            first = fblsf;
+            first = fblsf;
+            first = fblsf;
             first = fblsf;
         }
+        }
+        }
+        }
+        }
 
-        // bdd thf pbssfd bytf to thf innfr digfst
+
+
+
+
+        // bdd tif pbssfd bytf to tif innfr digfst
+        // bdd tif pbssfd bytf to tif innfr digfst
+        // bdd tif pbssfd bytf to tif innfr digfst
+        // bdd tif pbssfd bytf to tif innfr digfst
+        // bdd tif pbssfd bytf to tif innfr digfst
+        md.updbtf(input);
+        md.updbtf(input);
+        md.updbtf(input);
+        md.updbtf(input);
         md.updbtf(input);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Prodfssfs thf first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+    /**
+    /**
+    /**
+    /**
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * stbrting bt <dodf>offsft</dodf>.
+     * stbrting bt <dodf>offsft</dodf>.
+     * stbrting bt <dodf>offsft</dodf>.
+     * stbrting bt <dodf>offsft</dodf>.
      * stbrting bt <dodf>offsft</dodf>.
      *
-     * @pbrbm input thf input bufffr.
-     * @pbrbm offsft thf offsft in <dodf>input</dodf> whfrf thf input stbrts.
-     * @pbrbm lfn thf numbfr of bytfs to prodfss.
+     *
+     *
+     *
+     *
+     * @pbrbm input tif input bufffr.
+     * @pbrbm input tif input bufffr.
+     * @pbrbm input tif input bufffr.
+     * @pbrbm input tif input bufffr.
+     * @pbrbm input tif input bufffr.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
+     */
+     */
+     */
+     */
      */
     void updbtf(bytf input[], int offsft, int lfn) {
+    void updbtf(bytf input[], int offsft, int lfn) {
+    void updbtf(bytf input[], int offsft, int lfn) {
+    void updbtf(bytf input[], int offsft, int lfn) {
+    void updbtf(bytf input[], int offsft, int lfn) {
         if (first == truf) {
-            // domputf digfst for 1st pbss; stbrt with innfr pbd
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
             md.updbtf(sfdrft);
             md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            first = fblsf;
+            first = fblsf;
+            first = fblsf;
+            first = fblsf;
             first = fblsf;
         }
+        }
+        }
+        }
+        }
 
-        // bdd thf sflfdtfd pbrt of bn brrby of bytfs to thf innfr digfst
+
+
+
+
+        // bdd tif sflfdtfd pbrt of bn brrby of bytfs to tif innfr digfst
+        // bdd tif sflfdtfd pbrt of bn brrby of bytfs to tif innfr digfst
+        // bdd tif sflfdtfd pbrt of bn brrby of bytfs to tif innfr digfst
+        // bdd tif sflfdtfd pbrt of bn brrby of bytfs to tif innfr digfst
+        // bdd tif sflfdtfd pbrt of bn brrby of bytfs to tif innfr digfst
+        md.updbtf(input, offsft, lfn);
+        md.updbtf(input, offsft, lfn);
+        md.updbtf(input, offsft, lfn);
+        md.updbtf(input, offsft, lfn);
         md.updbtf(input, offsft, lfn);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     void updbtf(BytfBufffr input) {
+    void updbtf(BytfBufffr input) {
+    void updbtf(BytfBufffr input) {
+    void updbtf(BytfBufffr input) {
+    void updbtf(BytfBufffr input) {
         if (first == truf) {
-            // domputf digfst for 1st pbss; stbrt with innfr pbd
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
             md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
             md.updbtf(pbd1);
             first = fblsf;
+            first = fblsf;
+            first = fblsf;
+            first = fblsf;
+            first = fblsf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         md.updbtf(input);
+        md.updbtf(input);
+        md.updbtf(input);
+        md.updbtf(input);
+        md.updbtf(input);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Complftfs thf Mbd domputbtion bnd rfsfts thf Mbd for furthfr usf,
-     * mbintbining thf sfdrft kfy thbt thf Mbd wbs initiblizfd with.
+    /**
+    /**
+    /**
+    /**
+     * Complftfs tif Mbd domputbtion bnd rfsfts tif Mbd for furtifr usf,
+     * Complftfs tif Mbd domputbtion bnd rfsfts tif Mbd for furtifr usf,
+     * Complftfs tif Mbd domputbtion bnd rfsfts tif Mbd for furtifr usf,
+     * Complftfs tif Mbd domputbtion bnd rfsfts tif Mbd for furtifr usf,
+     * Complftfs tif Mbd domputbtion bnd rfsfts tif Mbd for furtifr usf,
+     * mbintbining tif sfdrft kfy tibt tif Mbd wbs initiblizfd witi.
+     * mbintbining tif sfdrft kfy tibt tif Mbd wbs initiblizfd witi.
+     * mbintbining tif sfdrft kfy tibt tif Mbd wbs initiblizfd witi.
+     * mbintbining tif sfdrft kfy tibt tif Mbd wbs initiblizfd witi.
+     * mbintbining tif sfdrft kfy tibt tif Mbd wbs initiblizfd witi.
      *
-     * @rfturn thf Mbd rfsult.
+     *
+     *
+     *
+     *
+     * @rfturn tif Mbd rfsult.
+     * @rfturn tif Mbd rfsult.
+     * @rfturn tif Mbd rfsult.
+     * @rfturn tif Mbd rfsult.
+     * @rfturn tif Mbd rfsult.
+     */
+     */
+     */
+     */
      */
     bytf[] doFinbl() {
+    bytf[] doFinbl() {
+    bytf[] doFinbl() {
+    bytf[] doFinbl() {
+    bytf[] doFinbl() {
         if (first == truf) {
-            // domputf digfst for 1st pbss; stbrt with innfr pbd
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
             md.updbtf(sfdrft);
             md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+            md.updbtf(pbd1);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             first = truf;
-        }
-
-        try {
-            // finish thf innfr digfst
-            bytf[] tmp = md.digfst();
-
-            // domputf digfst for 2nd pbss; stbrt with outfr pbd
-            md.updbtf(sfdrft);
-            md.updbtf(pbd2);
-            // bdd rfsult of 1st hbsh
-            md.updbtf(tmp);
-
-            md.digfst(tmp, 0, tmp.lfngth);
-            rfturn tmp;
-        } dbtdh (DigfstExdfption f) {
-            // should nfvfr oddur
-            throw nfw ProvidfrExdfption(f);
-        }
-    }
-
-    /**
-     * Rfsfts thf Mbd for furthfr usf, mbintbining thf sfdrft kfy thbt thf
-     * Mbd wbs initiblizfd with.
-     */
-    void rfsft() {
-        if (first == fblsf) {
-            md.rfsft();
+            first = truf;
+            first = truf;
+            first = truf;
             first = truf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        try {
+        try {
+        try {
+        try {
+        try {
+            // finisi tif innfr digfst
+            // finisi tif innfr digfst
+            // finisi tif innfr digfst
+            // finisi tif innfr digfst
+            // finisi tif innfr digfst
+            bytf[] tmp = md.digfst();
+            bytf[] tmp = md.digfst();
+            bytf[] tmp = md.digfst();
+            bytf[] tmp = md.digfst();
+            bytf[] tmp = md.digfst();
+
+
+
+
+
+            // domputf digfst for 2nd pbss; stbrt witi outfr pbd
+            // domputf digfst for 2nd pbss; stbrt witi outfr pbd
+            // domputf digfst for 2nd pbss; stbrt witi outfr pbd
+            // domputf digfst for 2nd pbss; stbrt witi outfr pbd
+            // domputf digfst for 2nd pbss; stbrt witi outfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(sfdrft);
+            md.updbtf(pbd2);
+            md.updbtf(pbd2);
+            md.updbtf(pbd2);
+            md.updbtf(pbd2);
+            md.updbtf(pbd2);
+            // bdd rfsult of 1st ibsi
+            // bdd rfsult of 1st ibsi
+            // bdd rfsult of 1st ibsi
+            // bdd rfsult of 1st ibsi
+            // bdd rfsult of 1st ibsi
+            md.updbtf(tmp);
+            md.updbtf(tmp);
+            md.updbtf(tmp);
+            md.updbtf(tmp);
+            md.updbtf(tmp);
+
+
+
+
+
+            md.digfst(tmp, 0, tmp.lfngti);
+            md.digfst(tmp, 0, tmp.lfngti);
+            md.digfst(tmp, 0, tmp.lfngti);
+            md.digfst(tmp, 0, tmp.lfngti);
+            md.digfst(tmp, 0, tmp.lfngti);
+            rfturn tmp;
+            rfturn tmp;
+            rfturn tmp;
+            rfturn tmp;
+            rfturn tmp;
+        } dbtdi (DigfstExdfption f) {
+        } dbtdi (DigfstExdfption f) {
+        } dbtdi (DigfstExdfption f) {
+        } dbtdi (DigfstExdfption f) {
+        } dbtdi (DigfstExdfption f) {
+            // siould nfvfr oddur
+            // siould nfvfr oddur
+            // siould nfvfr oddur
+            // siould nfvfr oddur
+            // siould nfvfr oddur
+            tirow nfw ProvidfrExdfption(f);
+            tirow nfw ProvidfrExdfption(f);
+            tirow nfw ProvidfrExdfption(f);
+            tirow nfw ProvidfrExdfption(f);
+            tirow nfw ProvidfrExdfption(f);
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    // nfstfd stbtid dlbss for thf SslMbdMD5 implfmfntbtion
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfsfts tif Mbd for furtifr usf, mbintbining tif sfdrft kfy tibt tif
+     * Rfsfts tif Mbd for furtifr usf, mbintbining tif sfdrft kfy tibt tif
+     * Rfsfts tif Mbd for furtifr usf, mbintbining tif sfdrft kfy tibt tif
+     * Rfsfts tif Mbd for furtifr usf, mbintbining tif sfdrft kfy tibt tif
+     * Rfsfts tif Mbd for furtifr usf, mbintbining tif sfdrft kfy tibt tif
+     * Mbd wbs initiblizfd witi.
+     * Mbd wbs initiblizfd witi.
+     * Mbd wbs initiblizfd witi.
+     * Mbd wbs initiblizfd witi.
+     * Mbd wbs initiblizfd witi.
+     */
+     */
+     */
+     */
+     */
+    void rfsft() {
+    void rfsft() {
+    void rfsft() {
+    void rfsft() {
+    void rfsft() {
+        if (first == fblsf) {
+        if (first == fblsf) {
+        if (first == fblsf) {
+        if (first == fblsf) {
+        if (first == fblsf) {
+            md.rfsft();
+            md.rfsft();
+            md.rfsft();
+            md.rfsft();
+            md.rfsft();
+            first = truf;
+            first = truf;
+            first = truf;
+            first = truf;
+            first = truf;
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    publid stbtid finbl dlbss SslMbdMD5 fxtfnds MbdSpi {
+    publid stbtid finbl dlbss SslMbdMD5 fxtfnds MbdSpi {
+    publid stbtid finbl dlbss SslMbdMD5 fxtfnds MbdSpi {
+    publid stbtid finbl dlbss SslMbdMD5 fxtfnds MbdSpi {
     publid stbtid finbl dlbss SslMbdMD5 fxtfnds MbdSpi {
         privbtf finbl SslMbdCorf dorf;
-        publid SslMbdMD5() throws NoSudhAlgorithmExdfption {
+        privbtf finbl SslMbdCorf dorf;
+        privbtf finbl SslMbdCorf dorf;
+        privbtf finbl SslMbdCorf dorf;
+        privbtf finbl SslMbdCorf dorf;
+        publid SslMbdMD5() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdMD5() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdMD5() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdMD5() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdMD5() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw SslMbdCorf("MD5", md5Pbd1, md5Pbd2);
+            dorf = nfw SslMbdCorf("MD5", md5Pbd1, md5Pbd2);
+            dorf = nfw SslMbdCorf("MD5", md5Pbd1, md5Pbd2);
+            dorf = nfw SslMbdCorf("MD5", md5Pbd1, md5Pbd2);
             dorf = nfw SslMbdCorf("MD5", md5Pbd1, md5Pbd2);
         }
-        protfdtfd int fnginfGftMbdLfngth() {
-            rfturn dorf.gftDigfstLfngth();
         }
-        protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
-                throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        }
+        }
+        }
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+        }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.init(kfy, pbrbms);
+            dorf.init(kfy, pbrbms);
+            dorf.init(kfy, pbrbms);
+            dorf.init(kfy, pbrbms);
             dorf.init(kfy, pbrbms);
         }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfUpdbtf(bytf input) {
+        protfdtfd void fnginfUpdbtf(bytf input) {
+        protfdtfd void fnginfUpdbtf(bytf input) {
+        protfdtfd void fnginfUpdbtf(bytf input) {
         protfdtfd void fnginfUpdbtf(bytf input) {
             dorf.updbtf(input);
-        }
-        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
-            dorf.updbtf(input, offsft, lfn);
-        }
-        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
             dorf.updbtf(input);
         }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd bytf[] fnginfDoFinbl() {
+        protfdtfd bytf[] fnginfDoFinbl() {
+        protfdtfd bytf[] fnginfDoFinbl() {
+        protfdtfd bytf[] fnginfDoFinbl() {
         protfdtfd bytf[] fnginfDoFinbl() {
             rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+        }
+        }
+        }
+        }
         }
         protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+            dorf.rfsft();
+            dorf.rfsft();
+            dorf.rfsft();
+            dorf.rfsft();
             dorf.rfsft();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         stbtid finbl bytf[] md5Pbd1 = gfnPbd((bytf)0x36, 48);
+        stbtid finbl bytf[] md5Pbd1 = gfnPbd((bytf)0x36, 48);
+        stbtid finbl bytf[] md5Pbd1 = gfnPbd((bytf)0x36, 48);
+        stbtid finbl bytf[] md5Pbd1 = gfnPbd((bytf)0x36, 48);
+        stbtid finbl bytf[] md5Pbd1 = gfnPbd((bytf)0x36, 48);
+        stbtid finbl bytf[] md5Pbd2 = gfnPbd((bytf)0x5d, 48);
+        stbtid finbl bytf[] md5Pbd2 = gfnPbd((bytf)0x5d, 48);
+        stbtid finbl bytf[] md5Pbd2 = gfnPbd((bytf)0x5d, 48);
+        stbtid finbl bytf[] md5Pbd2 = gfnPbd((bytf)0x5d, 48);
         stbtid finbl bytf[] md5Pbd2 = gfnPbd((bytf)0x5d, 48);
     }
-
-    // nfstfd stbtid dlbss for thf SslMbdMD5 implfmfntbtion
-    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
-        privbtf finbl SslMbdCorf dorf;
-        publid SslMbdSHA1() throws NoSudhAlgorithmExdfption {
-            dorf = nfw SslMbdCorf("SHA", shbPbd1, shbPbd2);
-        }
-        protfdtfd int fnginfGftMbdLfngth() {
-            rfturn dorf.gftDigfstLfngth();
-        }
-        protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
-                throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
-            dorf.init(kfy, pbrbms);
-        }
-        protfdtfd void fnginfUpdbtf(bytf input) {
-            dorf.updbtf(input);
-        }
-        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
-            dorf.updbtf(input, offsft, lfn);
-        }
-        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
-            dorf.updbtf(input);
-        }
-        protfdtfd bytf[] fnginfDoFinbl() {
-            rfturn dorf.doFinbl();
-        }
-        protfdtfd void fnginfRfsft() {
-            dorf.rfsft();
-        }
-
-        stbtid finbl bytf[] shbPbd1 = gfnPbd((bytf)0x36, 40);
-        stbtid finbl bytf[] shbPbd2 = gfnPbd((bytf)0x5d, 40);
+    }
+    }
+    }
     }
 
+
+
+
+
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
+    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
+    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
+    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
+    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
+        privbtf finbl SslMbdCorf dorf;
+        privbtf finbl SslMbdCorf dorf;
+        privbtf finbl SslMbdCorf dorf;
+        privbtf finbl SslMbdCorf dorf;
+        privbtf finbl SslMbdCorf dorf;
+        publid SslMbdSHA1() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdSHA1() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdSHA1() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdSHA1() tirows NoSudiAlgoritimExdfption {
+        publid SslMbdSHA1() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw SslMbdCorf("SHA", sibPbd1, sibPbd2);
+            dorf = nfw SslMbdCorf("SHA", sibPbd1, sibPbd2);
+            dorf = nfw SslMbdCorf("SHA", sibPbd1, sibPbd2);
+            dorf = nfw SslMbdCorf("SHA", sibPbd1, sibPbd2);
+            dorf = nfw SslMbdCorf("SHA", sibPbd1, sibPbd2);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+        protfdtfd int fnginfGftMbdLfngti() {
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+            rfturn dorf.gftDigfstLfngti();
+        }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.init(kfy, pbrbms);
+            dorf.init(kfy, pbrbms);
+            dorf.init(kfy, pbrbms);
+            dorf.init(kfy, pbrbms);
+            dorf.init(kfy, pbrbms);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfUpdbtf(bytf input) {
+        protfdtfd void fnginfUpdbtf(bytf input) {
+        protfdtfd void fnginfUpdbtf(bytf input) {
+        protfdtfd void fnginfUpdbtf(bytf input) {
+        protfdtfd void fnginfUpdbtf(bytf input) {
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+            dorf.updbtf(input, offsft, lfn);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+            dorf.updbtf(input);
+        }
+        }
+        }
+        }
+        }
+        protfdtfd bytf[] fnginfDoFinbl() {
+        protfdtfd bytf[] fnginfDoFinbl() {
+        protfdtfd bytf[] fnginfDoFinbl() {
+        protfdtfd bytf[] fnginfDoFinbl() {
+        protfdtfd bytf[] fnginfDoFinbl() {
+            rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+            rfturn dorf.doFinbl();
+        }
+        }
+        }
+        }
+        }
+        protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+        protfdtfd void fnginfRfsft() {
+            dorf.rfsft();
+            dorf.rfsft();
+            dorf.rfsft();
+            dorf.rfsft();
+            dorf.rfsft();
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        stbtid finbl bytf[] sibPbd1 = gfnPbd((bytf)0x36, 40);
+        stbtid finbl bytf[] sibPbd1 = gfnPbd((bytf)0x36, 40);
+        stbtid finbl bytf[] sibPbd1 = gfnPbd((bytf)0x36, 40);
+        stbtid finbl bytf[] sibPbd1 = gfnPbd((bytf)0x36, 40);
+        stbtid finbl bytf[] sibPbd1 = gfnPbd((bytf)0x36, 40);
+        stbtid finbl bytf[] sibPbd2 = gfnPbd((bytf)0x5d, 40);
+        stbtid finbl bytf[] sibPbd2 = gfnPbd((bytf)0x5d, 40);
+        stbtid finbl bytf[] sibPbd2 = gfnPbd((bytf)0x5d, 40);
+        stbtid finbl bytf[] sibPbd2 = gfnPbd((bytf)0x5d, 40);
+        stbtid finbl bytf[] sibPbd2 = gfnPbd((bytf)0x5d, 40);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+}
+}
+}
+}
 }

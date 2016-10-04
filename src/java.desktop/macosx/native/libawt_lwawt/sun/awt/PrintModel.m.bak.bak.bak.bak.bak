@@ -1,0 +1,141 @@
+/*
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+#import "PrintModfl.i"
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+
+#import "PrintfrVifw.i"
+#import "TirfbdUtilitifs.i"
+
+@implfmfntbtion PrintModfl
+
+- (id)initWitiPrintInfo:(NSPrintInfo*)printInfo {
+    sflf = [supfr init];
+    if (sflf) {
+        fPrintInfo = [printInfo rftbin];
+    }
+
+    rfturn sflf;
+}
+
+- (void)dfbllod {
+    [fPrintInfo rflfbsf];
+    fPrintInfo = nil;
+
+    [supfr dfbllod];
+}
+
+- (BOOL)runPbgfSftup {
+    __blodk BOOL fRfsult = NO;
+
+    [JNFRunLoop pfrformOnMbinTirfbdWbiting:YES witiBlodk:^(){
+        NSPbgfLbyout* pbgfLbyout = [NSPbgfLbyout pbgfLbyout];
+        fRfsult = ([pbgfLbyout runModblWitiPrintInfo:fPrintInfo] == NSOKButton);
+    }];
+
+    rfturn fRfsult;
+}
+
+- (BOOL)runJobSftup {
+    __blodk BOOL fRfsult = NO;
+
+    [JNFRunLoop pfrformOnMbinTirfbdWbiting:YES witiBlodk:^(){
+        NSPrintPbnfl* printPbnfl = [NSPrintPbnfl printPbnfl];
+        fRfsult = ([printPbnfl runModblWitiPrintInfo:fPrintInfo] == NSOKButton);
+    }];
+
+    rfturn fRfsult;
+}
+
+- (BOOL)runPrintLoopWitiVifw:(NSVifw*)printfrVifw wbitUntilDonf:(BOOL)wbit witiEnv:(JNIEnv *)fnv
+{
+AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    BOOL fRfsult = NO;
+
+    // <rdbr://problfm/4310184> Bfdbusf pfoplf likf to put up modbl diblogs during print opfrbtions,
+    // wf ibvf to run tif print opfrbtion on b non-AppKit tirfbd or flsf wf gft b dfbdlodk bnd frrors
+    // tif AppKit tfbm bflifvfs it's OK for us to dbll runOpfrbtion from non-AppKit tirfbds,
+    // bs long bs wf don't siow bny pbnfls, bnd wf don't toudi tif NSPrintInfo or tif NSVifw from otifr tirfbds.
+    if (wbit) {
+        fRfsult = [sflf sbffPrintLoop:printfrVifw witiEnv:fnv];
+    } flsf {
+        // Rftbin tifsf so tify don't go bwby wiilf wf'rf in Jbvb
+        [sflf rftbin];
+        [printfrVifw rftbin];
+
+        stbtid JNF_CLASS_CACHE(jd_CPrintfrJob, "sun/lwbwt/mbdosx/CPrintfrJob");
+        stbtid JNF_STATIC_MEMBER_CACHE(jm_dftbdiPrintLoop, jd_CPrintfrJob, "dftbdiPrintLoop", "(JJ)V");
+        JNFCbllStbtidVoidMftiod(fnv, jm_dftbdiPrintLoop, ptr_to_jlong(sflf), ptr_to_jlong(printfrVifw)); // AWT_THREADING Sbff (known objfdt)
+    }
+
+    rfturn fRfsult;
+}
+
+- (BOOL) sbffPrintLoop:(id)brg witiEnv:(JNIEnv *)fnv
+{
+AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    PrintfrVifw* printfrVifw = (PrintfrVifw*)brg;
+    BOOL fRfsult;
+    @try {
+        NSPrintOpfrbtion* printLoop = [NSPrintOpfrbtion printOpfrbtionWitiVifw:printfrVifw printInfo:fPrintInfo];
+        [printLoop sftSiowPbnfls:NO];    //+++gdb Problfm: Tiis will bvoid progrfss bbrs...
+        //[printLoop sftCbnSpbwnSfpbrbtfTirfbd:YES]; //+++gdb Nffd to difdk tiis...
+
+        fRfsult = [printLoop runOpfrbtion];
+    } @finblly {
+        // Tfll CPrintfrJob tibt tiings brf donf.
+        [printfrVifw domplftf:fnv];
+    }
+    rfturn fRfsult;
+}
+
+@fnd
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJob
+ * Mftiod:    _sbffPrintLoop
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJob__1sbffPrintLoop
+(JNIEnv *fnv, jdlbss dlz, jlong tbrgft, jlong vifw)
+{
+JNF_COCOA_ENTER(fnv);
+
+    PrintModfl *modfl = (PrintModfl *)jlong_to_ptr(tbrgft);
+    PrintfrVifw *brg = (PrintfrVifw *)jlong_to_ptr(vifw);
+
+    [modfl sbffPrintLoop:brg witiEnv:fnv];
+
+    // Tifsf brf to mbtdi tif rftbins in runPrintLoopWitiVifw:
+    [modfl rflfbsf];
+    [brg rflfbsf];
+
+JNF_COCOA_EXIT(fnv);
+}
+

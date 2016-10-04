@@ -1,184 +1,920 @@
 
+
+
+
+
 /*
- * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-/* doublf log1p(doublf x)
- *
- * Mfthod :
- *   1. Argumfnt Rfdudtion: find k bnd f sudh thbt
- *                      1+x = 2^k * (1+f),
- *         whfrf  sqrt(2)/2 < 1+f < sqrt(2) .
- *
- *      Notf. If k=0, thfn f=x is fxbdt. Howfvfr, if k!=0, thfn f
- *      mby not bf rfprfsfntbblf fxbdtly. In thbt dbsf, b dorrfdtion
- *      tfrm is nffd. Lft u=1+x roundfd. Lft d = (1+x)-u, thfn
- *      log(1+x) - log(u) ~ d/u. Thus, wf prodffd to domputf log(u),
- *      bnd bdd bbdk thf dorrfdtion tfrm d/u.
- *      (Notf: whfn x > 2**53, onf dbn simply rfturn log(x))
- *
- *   2. Approximbtion of log1p(f).
- *      Lft s = f/(2+f) ; bbsfd on log(1+f) = log(1+s) - log(1-s)
- *               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
- *               = 2s + s*R
- *      Wf usf b spfdibl Rfmf blgorithm on [0,0.1716] to gfnfrbtf
- *      b polynomibl of dfgrff 14 to bpproximbtf R Thf mbximum frror
- *      of this polynomibl bpproximbtion is boundfd by 2**-58.45. In
- *      othfr words,
- *                      2      4      6      8      10      12      14
- *          R(z) ~ Lp1*s +Lp2*s +Lp3*s +Lp4*s +Lp5*s  +Lp6*s  +Lp7*s
- *      (thf vblufs of Lp1 to Lp7 brf listfd in thf progrbm)
- *      bnd
- *          |      2          14          |     -58.45
- *          | Lp1*s +...+Lp7*s    -  R(z) | <= 2
- *          |                             |
- *      Notf thbt 2s = f - s*f = f - hfsq + s*hfsq, whfrf hfsq = f*f/2.
- *      In ordfr to gubrbntff frror in log bflow 1ulp, wf domputf log
- *      by
- *              log1p(f) = f - (hfsq - s*(hfsq+R)).
- *
- *      3. Finblly, log1p(x) = k*ln2 + log1p(f).
- *                           = k*ln2_hi+(f-(hfsq-(s*(hfsq+R)+k*ln2_lo)))
- *         Hfrf ln2 is split into two flobting point numbfr:
- *                      ln2_hi + ln2_lo,
- *         whfrf n*ln2_hi is blwbys fxbdt for |n| < 2000.
- *
- * Spfdibl dbsfs:
- *      log1p(x) is NbN with signbl if x < -1 (indluding -INF) ;
- *      log1p(+INF) is +INF; log1p(-1) is -INF with signbl;
- *      log1p(NbN) is thbt NbN with no signbl.
- *
- * Addurbdy:
- *      bddording to bn frror bnblysis, thf frror is blwbys lfss thbn
- *      1 ulp (unit in thf lbst plbdf).
- *
- * Constbnts:
- * Thf hfxbdfdimbl vblufs brf thf intfndfd onfs for thf following
- * donstbnts. Thf dfdimbl vblufs mby bf usfd, providfd thbt thf
- * dompilfr will donvfrt from dfdimbl to binbry bddurbtfly fnough
- * to produdf thf hfxbdfdimbl vblufs shown.
- *
- * Notf: Assuming log() rfturn bddurbtf bnswfr, thf following
- *       blgorithm dbn bf usfd to domputf log1p(x) to within b ffw ULP:
- *
- *              u = 1+x;
- *              if(u==1.0) rfturn x ; flsf
- *                         rfturn log(u)*(x/(u-1.0));
- *
- *       Sff HP-15C Advbndfd Fundtions Hbndbook, p.193.
+ */
+ */
+ */
  */
 
-#indludf "fdlibm.h"
 
+
+
+
+/* doublf log1p(doublf x)
+/* doublf log1p(doublf x)
+/* doublf log1p(doublf x)
+/* doublf log1p(doublf x)
+/* doublf log1p(doublf x)
+ *
+ *
+ *
+ *
+ *
+ * Mftiod :
+ * Mftiod :
+ * Mftiod :
+ * Mftiod :
+ * Mftiod :
+ *   1. Argumfnt Rfdudtion: find k bnd f sudi tibt
+ *   1. Argumfnt Rfdudtion: find k bnd f sudi tibt
+ *   1. Argumfnt Rfdudtion: find k bnd f sudi tibt
+ *   1. Argumfnt Rfdudtion: find k bnd f sudi tibt
+ *   1. Argumfnt Rfdudtion: find k bnd f sudi tibt
+ *                      1+x = 2^k * (1+f),
+ *                      1+x = 2^k * (1+f),
+ *                      1+x = 2^k * (1+f),
+ *                      1+x = 2^k * (1+f),
+ *                      1+x = 2^k * (1+f),
+ *         wifrf  sqrt(2)/2 < 1+f < sqrt(2) .
+ *         wifrf  sqrt(2)/2 < 1+f < sqrt(2) .
+ *         wifrf  sqrt(2)/2 < 1+f < sqrt(2) .
+ *         wifrf  sqrt(2)/2 < 1+f < sqrt(2) .
+ *         wifrf  sqrt(2)/2 < 1+f < sqrt(2) .
+ *
+ *
+ *
+ *
+ *
+ *      Notf. If k=0, tifn f=x is fxbdt. Howfvfr, if k!=0, tifn f
+ *      Notf. If k=0, tifn f=x is fxbdt. Howfvfr, if k!=0, tifn f
+ *      Notf. If k=0, tifn f=x is fxbdt. Howfvfr, if k!=0, tifn f
+ *      Notf. If k=0, tifn f=x is fxbdt. Howfvfr, if k!=0, tifn f
+ *      Notf. If k=0, tifn f=x is fxbdt. Howfvfr, if k!=0, tifn f
+ *      mby not bf rfprfsfntbblf fxbdtly. In tibt dbsf, b dorrfdtion
+ *      mby not bf rfprfsfntbblf fxbdtly. In tibt dbsf, b dorrfdtion
+ *      mby not bf rfprfsfntbblf fxbdtly. In tibt dbsf, b dorrfdtion
+ *      mby not bf rfprfsfntbblf fxbdtly. In tibt dbsf, b dorrfdtion
+ *      mby not bf rfprfsfntbblf fxbdtly. In tibt dbsf, b dorrfdtion
+ *      tfrm is nffd. Lft u=1+x roundfd. Lft d = (1+x)-u, tifn
+ *      tfrm is nffd. Lft u=1+x roundfd. Lft d = (1+x)-u, tifn
+ *      tfrm is nffd. Lft u=1+x roundfd. Lft d = (1+x)-u, tifn
+ *      tfrm is nffd. Lft u=1+x roundfd. Lft d = (1+x)-u, tifn
+ *      tfrm is nffd. Lft u=1+x roundfd. Lft d = (1+x)-u, tifn
+ *      log(1+x) - log(u) ~ d/u. Tius, wf prodffd to domputf log(u),
+ *      log(1+x) - log(u) ~ d/u. Tius, wf prodffd to domputf log(u),
+ *      log(1+x) - log(u) ~ d/u. Tius, wf prodffd to domputf log(u),
+ *      log(1+x) - log(u) ~ d/u. Tius, wf prodffd to domputf log(u),
+ *      log(1+x) - log(u) ~ d/u. Tius, wf prodffd to domputf log(u),
+ *      bnd bdd bbdk tif dorrfdtion tfrm d/u.
+ *      bnd bdd bbdk tif dorrfdtion tfrm d/u.
+ *      bnd bdd bbdk tif dorrfdtion tfrm d/u.
+ *      bnd bdd bbdk tif dorrfdtion tfrm d/u.
+ *      bnd bdd bbdk tif dorrfdtion tfrm d/u.
+ *      (Notf: wifn x > 2**53, onf dbn simply rfturn log(x))
+ *      (Notf: wifn x > 2**53, onf dbn simply rfturn log(x))
+ *      (Notf: wifn x > 2**53, onf dbn simply rfturn log(x))
+ *      (Notf: wifn x > 2**53, onf dbn simply rfturn log(x))
+ *      (Notf: wifn x > 2**53, onf dbn simply rfturn log(x))
+ *
+ *
+ *
+ *
+ *
+ *   2. Approximbtion of log1p(f).
+ *   2. Approximbtion of log1p(f).
+ *   2. Approximbtion of log1p(f).
+ *   2. Approximbtion of log1p(f).
+ *   2. Approximbtion of log1p(f).
+ *      Lft s = f/(2+f) ; bbsfd on log(1+f) = log(1+s) - log(1-s)
+ *      Lft s = f/(2+f) ; bbsfd on log(1+f) = log(1+s) - log(1-s)
+ *      Lft s = f/(2+f) ; bbsfd on log(1+f) = log(1+s) - log(1-s)
+ *      Lft s = f/(2+f) ; bbsfd on log(1+f) = log(1+s) - log(1-s)
+ *      Lft s = f/(2+f) ; bbsfd on log(1+f) = log(1+s) - log(1-s)
+ *               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
+ *               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
+ *               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
+ *               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
+ *               = 2s + 2/3 s**3 + 2/5 s**5 + .....,
+ *               = 2s + s*R
+ *               = 2s + s*R
+ *               = 2s + s*R
+ *               = 2s + s*R
+ *               = 2s + s*R
+ *      Wf usf b spfdibl Rfmf blgoritim on [0,0.1716] to gfnfrbtf
+ *      Wf usf b spfdibl Rfmf blgoritim on [0,0.1716] to gfnfrbtf
+ *      Wf usf b spfdibl Rfmf blgoritim on [0,0.1716] to gfnfrbtf
+ *      Wf usf b spfdibl Rfmf blgoritim on [0,0.1716] to gfnfrbtf
+ *      Wf usf b spfdibl Rfmf blgoritim on [0,0.1716] to gfnfrbtf
+ *      b polynomibl of dfgrff 14 to bpproximbtf R Tif mbximum frror
+ *      b polynomibl of dfgrff 14 to bpproximbtf R Tif mbximum frror
+ *      b polynomibl of dfgrff 14 to bpproximbtf R Tif mbximum frror
+ *      b polynomibl of dfgrff 14 to bpproximbtf R Tif mbximum frror
+ *      b polynomibl of dfgrff 14 to bpproximbtf R Tif mbximum frror
+ *      of tiis polynomibl bpproximbtion is boundfd by 2**-58.45. In
+ *      of tiis polynomibl bpproximbtion is boundfd by 2**-58.45. In
+ *      of tiis polynomibl bpproximbtion is boundfd by 2**-58.45. In
+ *      of tiis polynomibl bpproximbtion is boundfd by 2**-58.45. In
+ *      of tiis polynomibl bpproximbtion is boundfd by 2**-58.45. In
+ *      otifr words,
+ *      otifr words,
+ *      otifr words,
+ *      otifr words,
+ *      otifr words,
+ *                      2      4      6      8      10      12      14
+ *                      2      4      6      8      10      12      14
+ *                      2      4      6      8      10      12      14
+ *                      2      4      6      8      10      12      14
+ *                      2      4      6      8      10      12      14
+ *          R(z) ~ Lp1*s +Lp2*s +Lp3*s +Lp4*s +Lp5*s  +Lp6*s  +Lp7*s
+ *          R(z) ~ Lp1*s +Lp2*s +Lp3*s +Lp4*s +Lp5*s  +Lp6*s  +Lp7*s
+ *          R(z) ~ Lp1*s +Lp2*s +Lp3*s +Lp4*s +Lp5*s  +Lp6*s  +Lp7*s
+ *          R(z) ~ Lp1*s +Lp2*s +Lp3*s +Lp4*s +Lp5*s  +Lp6*s  +Lp7*s
+ *          R(z) ~ Lp1*s +Lp2*s +Lp3*s +Lp4*s +Lp5*s  +Lp6*s  +Lp7*s
+ *      (tif vblufs of Lp1 to Lp7 brf listfd in tif progrbm)
+ *      (tif vblufs of Lp1 to Lp7 brf listfd in tif progrbm)
+ *      (tif vblufs of Lp1 to Lp7 brf listfd in tif progrbm)
+ *      (tif vblufs of Lp1 to Lp7 brf listfd in tif progrbm)
+ *      (tif vblufs of Lp1 to Lp7 brf listfd in tif progrbm)
+ *      bnd
+ *      bnd
+ *      bnd
+ *      bnd
+ *      bnd
+ *          |      2          14          |     -58.45
+ *          |      2          14          |     -58.45
+ *          |      2          14          |     -58.45
+ *          |      2          14          |     -58.45
+ *          |      2          14          |     -58.45
+ *          | Lp1*s +...+Lp7*s    -  R(z) | <= 2
+ *          | Lp1*s +...+Lp7*s    -  R(z) | <= 2
+ *          | Lp1*s +...+Lp7*s    -  R(z) | <= 2
+ *          | Lp1*s +...+Lp7*s    -  R(z) | <= 2
+ *          | Lp1*s +...+Lp7*s    -  R(z) | <= 2
+ *          |                             |
+ *          |                             |
+ *          |                             |
+ *          |                             |
+ *          |                             |
+ *      Notf tibt 2s = f - s*f = f - ifsq + s*ifsq, wifrf ifsq = f*f/2.
+ *      Notf tibt 2s = f - s*f = f - ifsq + s*ifsq, wifrf ifsq = f*f/2.
+ *      Notf tibt 2s = f - s*f = f - ifsq + s*ifsq, wifrf ifsq = f*f/2.
+ *      Notf tibt 2s = f - s*f = f - ifsq + s*ifsq, wifrf ifsq = f*f/2.
+ *      Notf tibt 2s = f - s*f = f - ifsq + s*ifsq, wifrf ifsq = f*f/2.
+ *      In ordfr to gubrbntff frror in log bflow 1ulp, wf domputf log
+ *      In ordfr to gubrbntff frror in log bflow 1ulp, wf domputf log
+ *      In ordfr to gubrbntff frror in log bflow 1ulp, wf domputf log
+ *      In ordfr to gubrbntff frror in log bflow 1ulp, wf domputf log
+ *      In ordfr to gubrbntff frror in log bflow 1ulp, wf domputf log
+ *      by
+ *      by
+ *      by
+ *      by
+ *      by
+ *              log1p(f) = f - (ifsq - s*(ifsq+R)).
+ *              log1p(f) = f - (ifsq - s*(ifsq+R)).
+ *              log1p(f) = f - (ifsq - s*(ifsq+R)).
+ *              log1p(f) = f - (ifsq - s*(ifsq+R)).
+ *              log1p(f) = f - (ifsq - s*(ifsq+R)).
+ *
+ *
+ *
+ *
+ *
+ *      3. Finblly, log1p(x) = k*ln2 + log1p(f).
+ *      3. Finblly, log1p(x) = k*ln2 + log1p(f).
+ *      3. Finblly, log1p(x) = k*ln2 + log1p(f).
+ *      3. Finblly, log1p(x) = k*ln2 + log1p(f).
+ *      3. Finblly, log1p(x) = k*ln2 + log1p(f).
+ *                           = k*ln2_ii+(f-(ifsq-(s*(ifsq+R)+k*ln2_lo)))
+ *                           = k*ln2_ii+(f-(ifsq-(s*(ifsq+R)+k*ln2_lo)))
+ *                           = k*ln2_ii+(f-(ifsq-(s*(ifsq+R)+k*ln2_lo)))
+ *                           = k*ln2_ii+(f-(ifsq-(s*(ifsq+R)+k*ln2_lo)))
+ *                           = k*ln2_ii+(f-(ifsq-(s*(ifsq+R)+k*ln2_lo)))
+ *         Hfrf ln2 is split into two flobting point numbfr:
+ *         Hfrf ln2 is split into two flobting point numbfr:
+ *         Hfrf ln2 is split into two flobting point numbfr:
+ *         Hfrf ln2 is split into two flobting point numbfr:
+ *         Hfrf ln2 is split into two flobting point numbfr:
+ *                      ln2_ii + ln2_lo,
+ *                      ln2_ii + ln2_lo,
+ *                      ln2_ii + ln2_lo,
+ *                      ln2_ii + ln2_lo,
+ *                      ln2_ii + ln2_lo,
+ *         wifrf n*ln2_ii is blwbys fxbdt for |n| < 2000.
+ *         wifrf n*ln2_ii is blwbys fxbdt for |n| < 2000.
+ *         wifrf n*ln2_ii is blwbys fxbdt for |n| < 2000.
+ *         wifrf n*ln2_ii is blwbys fxbdt for |n| < 2000.
+ *         wifrf n*ln2_ii is blwbys fxbdt for |n| < 2000.
+ *
+ *
+ *
+ *
+ *
+ * Spfdibl dbsfs:
+ * Spfdibl dbsfs:
+ * Spfdibl dbsfs:
+ * Spfdibl dbsfs:
+ * Spfdibl dbsfs:
+ *      log1p(x) is NbN witi signbl if x < -1 (indluding -INF) ;
+ *      log1p(x) is NbN witi signbl if x < -1 (indluding -INF) ;
+ *      log1p(x) is NbN witi signbl if x < -1 (indluding -INF) ;
+ *      log1p(x) is NbN witi signbl if x < -1 (indluding -INF) ;
+ *      log1p(x) is NbN witi signbl if x < -1 (indluding -INF) ;
+ *      log1p(+INF) is +INF; log1p(-1) is -INF witi signbl;
+ *      log1p(+INF) is +INF; log1p(-1) is -INF witi signbl;
+ *      log1p(+INF) is +INF; log1p(-1) is -INF witi signbl;
+ *      log1p(+INF) is +INF; log1p(-1) is -INF witi signbl;
+ *      log1p(+INF) is +INF; log1p(-1) is -INF witi signbl;
+ *      log1p(NbN) is tibt NbN witi no signbl.
+ *      log1p(NbN) is tibt NbN witi no signbl.
+ *      log1p(NbN) is tibt NbN witi no signbl.
+ *      log1p(NbN) is tibt NbN witi no signbl.
+ *      log1p(NbN) is tibt NbN witi no signbl.
+ *
+ *
+ *
+ *
+ *
+ * Addurbdy:
+ * Addurbdy:
+ * Addurbdy:
+ * Addurbdy:
+ * Addurbdy:
+ *      bddording to bn frror bnblysis, tif frror is blwbys lfss tibn
+ *      bddording to bn frror bnblysis, tif frror is blwbys lfss tibn
+ *      bddording to bn frror bnblysis, tif frror is blwbys lfss tibn
+ *      bddording to bn frror bnblysis, tif frror is blwbys lfss tibn
+ *      bddording to bn frror bnblysis, tif frror is blwbys lfss tibn
+ *      1 ulp (unit in tif lbst plbdf).
+ *      1 ulp (unit in tif lbst plbdf).
+ *      1 ulp (unit in tif lbst plbdf).
+ *      1 ulp (unit in tif lbst plbdf).
+ *      1 ulp (unit in tif lbst plbdf).
+ *
+ *
+ *
+ *
+ *
+ * Constbnts:
+ * Constbnts:
+ * Constbnts:
+ * Constbnts:
+ * Constbnts:
+ * Tif ifxbdfdimbl vblufs brf tif intfndfd onfs for tif following
+ * Tif ifxbdfdimbl vblufs brf tif intfndfd onfs for tif following
+ * Tif ifxbdfdimbl vblufs brf tif intfndfd onfs for tif following
+ * Tif ifxbdfdimbl vblufs brf tif intfndfd onfs for tif following
+ * Tif ifxbdfdimbl vblufs brf tif intfndfd onfs for tif following
+ * donstbnts. Tif dfdimbl vblufs mby bf usfd, providfd tibt tif
+ * donstbnts. Tif dfdimbl vblufs mby bf usfd, providfd tibt tif
+ * donstbnts. Tif dfdimbl vblufs mby bf usfd, providfd tibt tif
+ * donstbnts. Tif dfdimbl vblufs mby bf usfd, providfd tibt tif
+ * donstbnts. Tif dfdimbl vblufs mby bf usfd, providfd tibt tif
+ * dompilfr will donvfrt from dfdimbl to binbry bddurbtfly fnougi
+ * dompilfr will donvfrt from dfdimbl to binbry bddurbtfly fnougi
+ * dompilfr will donvfrt from dfdimbl to binbry bddurbtfly fnougi
+ * dompilfr will donvfrt from dfdimbl to binbry bddurbtfly fnougi
+ * dompilfr will donvfrt from dfdimbl to binbry bddurbtfly fnougi
+ * to produdf tif ifxbdfdimbl vblufs siown.
+ * to produdf tif ifxbdfdimbl vblufs siown.
+ * to produdf tif ifxbdfdimbl vblufs siown.
+ * to produdf tif ifxbdfdimbl vblufs siown.
+ * to produdf tif ifxbdfdimbl vblufs siown.
+ *
+ *
+ *
+ *
+ *
+ * Notf: Assuming log() rfturn bddurbtf bnswfr, tif following
+ * Notf: Assuming log() rfturn bddurbtf bnswfr, tif following
+ * Notf: Assuming log() rfturn bddurbtf bnswfr, tif following
+ * Notf: Assuming log() rfturn bddurbtf bnswfr, tif following
+ * Notf: Assuming log() rfturn bddurbtf bnswfr, tif following
+ *       blgoritim dbn bf usfd to domputf log1p(x) to witiin b ffw ULP:
+ *       blgoritim dbn bf usfd to domputf log1p(x) to witiin b ffw ULP:
+ *       blgoritim dbn bf usfd to domputf log1p(x) to witiin b ffw ULP:
+ *       blgoritim dbn bf usfd to domputf log1p(x) to witiin b ffw ULP:
+ *       blgoritim dbn bf usfd to domputf log1p(x) to witiin b ffw ULP:
+ *
+ *
+ *
+ *
+ *
+ *              u = 1+x;
+ *              u = 1+x;
+ *              u = 1+x;
+ *              u = 1+x;
+ *              u = 1+x;
+ *              if(u==1.0) rfturn x ; flsf
+ *              if(u==1.0) rfturn x ; flsf
+ *              if(u==1.0) rfturn x ; flsf
+ *              if(u==1.0) rfturn x ; flsf
+ *              if(u==1.0) rfturn x ; flsf
+ *                         rfturn log(u)*(x/(u-1.0));
+ *                         rfturn log(u)*(x/(u-1.0));
+ *                         rfturn log(u)*(x/(u-1.0));
+ *                         rfturn log(u)*(x/(u-1.0));
+ *                         rfturn log(u)*(x/(u-1.0));
+ *
+ *
+ *
+ *
+ *
+ *       Sff HP-15C Advbndfd Fundtions Hbndbook, p.193.
+ *       Sff HP-15C Advbndfd Fundtions Hbndbook, p.193.
+ *       Sff HP-15C Advbndfd Fundtions Hbndbook, p.193.
+ *       Sff HP-15C Advbndfd Fundtions Hbndbook, p.193.
+ *       Sff HP-15C Advbndfd Fundtions Hbndbook, p.193.
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+#indludf "fdlibm.i"
+#indludf "fdlibm.i"
+#indludf "fdlibm.i"
+#indludf "fdlibm.i"
+#indludf "fdlibm.i"
+
+
+
+
+
+#ifdff __STDC__
+#ifdff __STDC__
+#ifdff __STDC__
+#ifdff __STDC__
 #ifdff __STDC__
 stbtid donst doublf
+stbtid donst doublf
+stbtid donst doublf
+stbtid donst doublf
+stbtid donst doublf
+#flsf
+#flsf
+#flsf
+#flsf
 #flsf
 stbtid doublf
+stbtid doublf
+stbtid doublf
+stbtid doublf
+stbtid doublf
 #fndif
-ln2_hi  =  6.93147180369123816490f-01,  /* 3ff62f42 fff00000 */
+#fndif
+#fndif
+#fndif
+#fndif
+ln2_ii  =  6.93147180369123816490f-01,  /* 3ff62f42 fff00000 */
+ln2_ii  =  6.93147180369123816490f-01,  /* 3ff62f42 fff00000 */
+ln2_ii  =  6.93147180369123816490f-01,  /* 3ff62f42 fff00000 */
+ln2_ii  =  6.93147180369123816490f-01,  /* 3ff62f42 fff00000 */
+ln2_ii  =  6.93147180369123816490f-01,  /* 3ff62f42 fff00000 */
+ln2_lo  =  1.90821492927058770002f-10,  /* 3dfb39ff 35793d76 */
+ln2_lo  =  1.90821492927058770002f-10,  /* 3dfb39ff 35793d76 */
+ln2_lo  =  1.90821492927058770002f-10,  /* 3dfb39ff 35793d76 */
+ln2_lo  =  1.90821492927058770002f-10,  /* 3dfb39ff 35793d76 */
 ln2_lo  =  1.90821492927058770002f-10,  /* 3dfb39ff 35793d76 */
 two54   =  1.80143985094819840000f+16,  /* 43500000 00000000 */
+two54   =  1.80143985094819840000f+16,  /* 43500000 00000000 */
+two54   =  1.80143985094819840000f+16,  /* 43500000 00000000 */
+two54   =  1.80143985094819840000f+16,  /* 43500000 00000000 */
+two54   =  1.80143985094819840000f+16,  /* 43500000 00000000 */
+Lp1 = 6.666666666666735130f-01,  /* 3FE55555 55555593 */
+Lp1 = 6.666666666666735130f-01,  /* 3FE55555 55555593 */
+Lp1 = 6.666666666666735130f-01,  /* 3FE55555 55555593 */
+Lp1 = 6.666666666666735130f-01,  /* 3FE55555 55555593 */
 Lp1 = 6.666666666666735130f-01,  /* 3FE55555 55555593 */
 Lp2 = 3.999999999940941908f-01,  /* 3FD99999 9997FA04 */
+Lp2 = 3.999999999940941908f-01,  /* 3FD99999 9997FA04 */
+Lp2 = 3.999999999940941908f-01,  /* 3FD99999 9997FA04 */
+Lp2 = 3.999999999940941908f-01,  /* 3FD99999 9997FA04 */
+Lp2 = 3.999999999940941908f-01,  /* 3FD99999 9997FA04 */
+Lp3 = 2.857142874366239149f-01,  /* 3FD24924 94229359 */
+Lp3 = 2.857142874366239149f-01,  /* 3FD24924 94229359 */
+Lp3 = 2.857142874366239149f-01,  /* 3FD24924 94229359 */
+Lp3 = 2.857142874366239149f-01,  /* 3FD24924 94229359 */
 Lp3 = 2.857142874366239149f-01,  /* 3FD24924 94229359 */
 Lp4 = 2.222219843214978396f-01,  /* 3FCC71C5 1D8E78AF */
+Lp4 = 2.222219843214978396f-01,  /* 3FCC71C5 1D8E78AF */
+Lp4 = 2.222219843214978396f-01,  /* 3FCC71C5 1D8E78AF */
+Lp4 = 2.222219843214978396f-01,  /* 3FCC71C5 1D8E78AF */
+Lp4 = 2.222219843214978396f-01,  /* 3FCC71C5 1D8E78AF */
+Lp5 = 1.818357216161805012f-01,  /* 3FC74664 96CB03DE */
+Lp5 = 1.818357216161805012f-01,  /* 3FC74664 96CB03DE */
+Lp5 = 1.818357216161805012f-01,  /* 3FC74664 96CB03DE */
+Lp5 = 1.818357216161805012f-01,  /* 3FC74664 96CB03DE */
 Lp5 = 1.818357216161805012f-01,  /* 3FC74664 96CB03DE */
 Lp6 = 1.531383769920937332f-01,  /* 3FC39A09 D078C69F */
+Lp6 = 1.531383769920937332f-01,  /* 3FC39A09 D078C69F */
+Lp6 = 1.531383769920937332f-01,  /* 3FC39A09 D078C69F */
+Lp6 = 1.531383769920937332f-01,  /* 3FC39A09 D078C69F */
+Lp6 = 1.531383769920937332f-01,  /* 3FC39A09 D078C69F */
+Lp7 = 1.479819860511658591f-01;  /* 3FC2F112 DF3E5244 */
+Lp7 = 1.479819860511658591f-01;  /* 3FC2F112 DF3E5244 */
+Lp7 = 1.479819860511658591f-01;  /* 3FC2F112 DF3E5244 */
+Lp7 = 1.479819860511658591f-01;  /* 3FC2F112 DF3E5244 */
 Lp7 = 1.479819860511658591f-01;  /* 3FC2F112 DF3E5244 */
 
+
+
+
+
+stbtid doublf zfro = 0.0;
+stbtid doublf zfro = 0.0;
+stbtid doublf zfro = 0.0;
+stbtid doublf zfro = 0.0;
 stbtid doublf zfro = 0.0;
 
+
+
+
+
+#ifdff __STDC__
+#ifdff __STDC__
+#ifdff __STDC__
+#ifdff __STDC__
 #ifdff __STDC__
         doublf log1p(doublf x)
+        doublf log1p(doublf x)
+        doublf log1p(doublf x)
+        doublf log1p(doublf x)
+        doublf log1p(doublf x)
+#flsf
+#flsf
+#flsf
+#flsf
 #flsf
         doublf log1p(x)
+        doublf log1p(x)
+        doublf log1p(x)
+        doublf log1p(x)
+        doublf log1p(x)
+        doublf x;
+        doublf x;
+        doublf x;
+        doublf x;
         doublf x;
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
 {
-        doublf hfsq,f=0,d=0,s,z,R,u;
-        int k,hx,hu=0,bx;
+{
+{
+{
+{
+        doublf ifsq,f=0,d=0,s,z,R,u;
+        doublf ifsq,f=0,d=0,s,z,R,u;
+        doublf ifsq,f=0,d=0,s,z,R,u;
+        doublf ifsq,f=0,d=0,s,z,R,u;
+        doublf ifsq,f=0,d=0,s,z,R,u;
+        int k,ix,iu=0,bx;
+        int k,ix,iu=0,bx;
+        int k,ix,iu=0,bx;
+        int k,ix,iu=0,bx;
+        int k,ix,iu=0,bx;
 
-        hx = __HI(x);           /* high word of x */
-        bx = hx&0x7fffffff;
+
+
+
+
+        ix = __HI(x);           /* iigi word of x */
+        ix = __HI(x);           /* iigi word of x */
+        ix = __HI(x);           /* iigi word of x */
+        ix = __HI(x);           /* iigi word of x */
+        ix = __HI(x);           /* iigi word of x */
+        bx = ix&0x7fffffff;
+        bx = ix&0x7fffffff;
+        bx = ix&0x7fffffff;
+        bx = ix&0x7fffffff;
+        bx = ix&0x7fffffff;
+
+
+
+
 
         k = 1;
-        if (hx < 0x3FDA827A) {                  /* x < 0.41422  */
+        k = 1;
+        k = 1;
+        k = 1;
+        k = 1;
+        if (ix < 0x3FDA827A) {                  /* x < 0.41422  */
+        if (ix < 0x3FDA827A) {                  /* x < 0.41422  */
+        if (ix < 0x3FDA827A) {                  /* x < 0.41422  */
+        if (ix < 0x3FDA827A) {                  /* x < 0.41422  */
+        if (ix < 0x3FDA827A) {                  /* x < 0.41422  */
+            if(bx>=0x3ff00000) {                /* x <= -1.0 */
+            if(bx>=0x3ff00000) {                /* x <= -1.0 */
+            if(bx>=0x3ff00000) {                /* x <= -1.0 */
+            if(bx>=0x3ff00000) {                /* x <= -1.0 */
             if(bx>=0x3ff00000) {                /* x <= -1.0 */
                 /*
-                 * Addfd rfdundbnt tfst bgbinst hx to work bround VC++
+                /*
+                /*
+                /*
+                /*
+                 * Addfd rfdundbnt tfst bgbinst ix to work bround VC++
+                 * Addfd rfdundbnt tfst bgbinst ix to work bround VC++
+                 * Addfd rfdundbnt tfst bgbinst ix to work bround VC++
+                 * Addfd rfdundbnt tfst bgbinst ix to work bround VC++
+                 * Addfd rfdundbnt tfst bgbinst ix to work bround VC++
+                 * dodf gfnfrbtion problfm.
+                 * dodf gfnfrbtion problfm.
+                 * dodf gfnfrbtion problfm.
+                 * dodf gfnfrbtion problfm.
                  * dodf gfnfrbtion problfm.
                  */
-                if(x==-1.0 && (hx==0xbff00000)) /* log1p(-1)=-inf */
+                 */
+                 */
+                 */
+                 */
+                if(x==-1.0 && (ix==0xbff00000)) /* log1p(-1)=-inf */
+                if(x==-1.0 && (ix==0xbff00000)) /* log1p(-1)=-inf */
+                if(x==-1.0 && (ix==0xbff00000)) /* log1p(-1)=-inf */
+                if(x==-1.0 && (ix==0xbff00000)) /* log1p(-1)=-inf */
+                if(x==-1.0 && (ix==0xbff00000)) /* log1p(-1)=-inf */
+                  rfturn -two54/zfro;
+                  rfturn -two54/zfro;
+                  rfturn -two54/zfro;
+                  rfturn -two54/zfro;
                   rfturn -two54/zfro;
                 flsf
+                flsf
+                flsf
+                flsf
+                flsf
+                  rfturn (x-x)/(x-x);           /* log1p(x<-1)=NbN */
+                  rfturn (x-x)/(x-x);           /* log1p(x<-1)=NbN */
+                  rfturn (x-x)/(x-x);           /* log1p(x<-1)=NbN */
+                  rfturn (x-x)/(x-x);           /* log1p(x<-1)=NbN */
                   rfturn (x-x)/(x-x);           /* log1p(x<-1)=NbN */
             }
+            }
+            }
+            }
+            }
+            if(bx<0x3f200000) {                 /* |x| < 2**-29 */
+            if(bx<0x3f200000) {                 /* |x| < 2**-29 */
+            if(bx<0x3f200000) {                 /* |x| < 2**-29 */
+            if(bx<0x3f200000) {                 /* |x| < 2**-29 */
             if(bx<0x3f200000) {                 /* |x| < 2**-29 */
                 if(two54+x>zfro                 /* rbisf infxbdt */
+                if(two54+x>zfro                 /* rbisf infxbdt */
+                if(two54+x>zfro                 /* rbisf infxbdt */
+                if(two54+x>zfro                 /* rbisf infxbdt */
+                if(two54+x>zfro                 /* rbisf infxbdt */
+                    &&bx<0x3d900000)            /* |x| < 2**-54 */
+                    &&bx<0x3d900000)            /* |x| < 2**-54 */
+                    &&bx<0x3d900000)            /* |x| < 2**-54 */
+                    &&bx<0x3d900000)            /* |x| < 2**-54 */
                     &&bx<0x3d900000)            /* |x| < 2**-54 */
                     rfturn x;
+                    rfturn x;
+                    rfturn x;
+                    rfturn x;
+                    rfturn x;
+                flsf
+                flsf
+                flsf
+                flsf
                 flsf
                     rfturn x - x*x*0.5;
+                    rfturn x - x*x*0.5;
+                    rfturn x - x*x*0.5;
+                    rfturn x - x*x*0.5;
+                    rfturn x - x*x*0.5;
             }
-            if(hx>0||hx<=((int)0xbfd2bfd3)) {
-                k=0;f=x;hu=1;}  /* -0.2929<x<0.41422 */
+            }
+            }
+            }
+            }
+            if(ix>0||ix<=((int)0xbfd2bfd3)) {
+            if(ix>0||ix<=((int)0xbfd2bfd3)) {
+            if(ix>0||ix<=((int)0xbfd2bfd3)) {
+            if(ix>0||ix<=((int)0xbfd2bfd3)) {
+            if(ix>0||ix<=((int)0xbfd2bfd3)) {
+                k=0;f=x;iu=1;}  /* -0.2929<x<0.41422 */
+                k=0;f=x;iu=1;}  /* -0.2929<x<0.41422 */
+                k=0;f=x;iu=1;}  /* -0.2929<x<0.41422 */
+                k=0;f=x;iu=1;}  /* -0.2929<x<0.41422 */
+                k=0;f=x;iu=1;}  /* -0.2929<x<0.41422 */
         }
-        if (hx >= 0x7ff00000) rfturn x+x;
+        }
+        }
+        }
+        }
+        if (ix >= 0x7ff00000) rfturn x+x;
+        if (ix >= 0x7ff00000) rfturn x+x;
+        if (ix >= 0x7ff00000) rfturn x+x;
+        if (ix >= 0x7ff00000) rfturn x+x;
+        if (ix >= 0x7ff00000) rfturn x+x;
         if(k!=0) {
-            if(hx<0x43400000) {
+        if(k!=0) {
+        if(k!=0) {
+        if(k!=0) {
+        if(k!=0) {
+            if(ix<0x43400000) {
+            if(ix<0x43400000) {
+            if(ix<0x43400000) {
+            if(ix<0x43400000) {
+            if(ix<0x43400000) {
                 u  = 1.0+x;
-                hu = __HI(u);           /* high word of u */
-                k  = (hu>>20)-1023;
+                u  = 1.0+x;
+                u  = 1.0+x;
+                u  = 1.0+x;
+                u  = 1.0+x;
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                d  = (k>0)? 1.0-(u-x):x-(u-1.0);/* dorrfdtion tfrm */
+                d  = (k>0)? 1.0-(u-x):x-(u-1.0);/* dorrfdtion tfrm */
+                d  = (k>0)? 1.0-(u-x):x-(u-1.0);/* dorrfdtion tfrm */
+                d  = (k>0)? 1.0-(u-x):x-(u-1.0);/* dorrfdtion tfrm */
                 d  = (k>0)? 1.0-(u-x):x-(u-1.0);/* dorrfdtion tfrm */
                 d /= u;
+                d /= u;
+                d /= u;
+                d /= u;
+                d /= u;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 u  = x;
-                hu = __HI(u);           /* high word of u */
-                k  = (hu>>20)-1023;
+                u  = x;
+                u  = x;
+                u  = x;
+                u  = x;
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                iu = __HI(u);           /* iigi word of u */
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                k  = (iu>>20)-1023;
+                d  = 0;
+                d  = 0;
+                d  = 0;
+                d  = 0;
                 d  = 0;
             }
-            hu &= 0x000fffff;
-            if(hu<0x6b09f) {
-                __HI(u) = hu|0x3ff00000;        /* normblizf u */
+            }
+            }
+            }
+            }
+            iu &= 0x000fffff;
+            iu &= 0x000fffff;
+            iu &= 0x000fffff;
+            iu &= 0x000fffff;
+            iu &= 0x000fffff;
+            if(iu<0x6b09f) {
+            if(iu<0x6b09f) {
+            if(iu<0x6b09f) {
+            if(iu<0x6b09f) {
+            if(iu<0x6b09f) {
+                __HI(u) = iu|0x3ff00000;        /* normblizf u */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u */
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 k += 1;
-                __HI(u) = hu|0x3ff00000;        /* normblizf u/2 */
-                hu = (0x00100000-hu)>>2;
+                k += 1;
+                k += 1;
+                k += 1;
+                k += 1;
+                __HI(u) = iu|0x3ff00000;        /* normblizf u/2 */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u/2 */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u/2 */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u/2 */
+                __HI(u) = iu|0x3ff00000;        /* normblizf u/2 */
+                iu = (0x00100000-iu)>>2;
+                iu = (0x00100000-iu)>>2;
+                iu = (0x00100000-iu)>>2;
+                iu = (0x00100000-iu)>>2;
+                iu = (0x00100000-iu)>>2;
+            }
+            }
+            }
+            }
             }
             f = u-1.0;
+            f = u-1.0;
+            f = u-1.0;
+            f = u-1.0;
+            f = u-1.0;
         }
-        hfsq=0.5*f*f;
-        if(hu==0) {     /* |f| < 2**-20 */
+        }
+        }
+        }
+        }
+        ifsq=0.5*f*f;
+        ifsq=0.5*f*f;
+        ifsq=0.5*f*f;
+        ifsq=0.5*f*f;
+        ifsq=0.5*f*f;
+        if(iu==0) {     /* |f| < 2**-20 */
+        if(iu==0) {     /* |f| < 2**-20 */
+        if(iu==0) {     /* |f| < 2**-20 */
+        if(iu==0) {     /* |f| < 2**-20 */
+        if(iu==0) {     /* |f| < 2**-20 */
             if(f==zfro) { if(k==0) rfturn zfro;
-                          flsf {d += k*ln2_lo; rfturn k*ln2_hi+d;}}
-            R = hfsq*(1.0-0.66666666666666666*f);
+            if(f==zfro) { if(k==0) rfturn zfro;
+            if(f==zfro) { if(k==0) rfturn zfro;
+            if(f==zfro) { if(k==0) rfturn zfro;
+            if(f==zfro) { if(k==0) rfturn zfro;
+                          flsf {d += k*ln2_lo; rfturn k*ln2_ii+d;}}
+                          flsf {d += k*ln2_lo; rfturn k*ln2_ii+d;}}
+                          flsf {d += k*ln2_lo; rfturn k*ln2_ii+d;}}
+                          flsf {d += k*ln2_lo; rfturn k*ln2_ii+d;}}
+                          flsf {d += k*ln2_lo; rfturn k*ln2_ii+d;}}
+            R = ifsq*(1.0-0.66666666666666666*f);
+            R = ifsq*(1.0-0.66666666666666666*f);
+            R = ifsq*(1.0-0.66666666666666666*f);
+            R = ifsq*(1.0-0.66666666666666666*f);
+            R = ifsq*(1.0-0.66666666666666666*f);
             if(k==0) rfturn f-R; flsf
-                     rfturn k*ln2_hi-((R-(k*ln2_lo+d))-f);
+            if(k==0) rfturn f-R; flsf
+            if(k==0) rfturn f-R; flsf
+            if(k==0) rfturn f-R; flsf
+            if(k==0) rfturn f-R; flsf
+                     rfturn k*ln2_ii-((R-(k*ln2_lo+d))-f);
+                     rfturn k*ln2_ii-((R-(k*ln2_lo+d))-f);
+                     rfturn k*ln2_ii-((R-(k*ln2_lo+d))-f);
+                     rfturn k*ln2_ii-((R-(k*ln2_lo+d))-f);
+                     rfturn k*ln2_ii-((R-(k*ln2_lo+d))-f);
+        }
+        }
+        }
+        }
         }
         s = f/(2.0+f);
+        s = f/(2.0+f);
+        s = f/(2.0+f);
+        s = f/(2.0+f);
+        s = f/(2.0+f);
+        z = s*s;
+        z = s*s;
+        z = s*s;
+        z = s*s;
         z = s*s;
         R = z*(Lp1+z*(Lp2+z*(Lp3+z*(Lp4+z*(Lp5+z*(Lp6+z*Lp7))))));
-        if(k==0) rfturn f-(hfsq-s*(hfsq+R)); flsf
-                 rfturn k*ln2_hi-((hfsq-(s*(hfsq+R)+(k*ln2_lo+d)))-f);
+        R = z*(Lp1+z*(Lp2+z*(Lp3+z*(Lp4+z*(Lp5+z*(Lp6+z*Lp7))))));
+        R = z*(Lp1+z*(Lp2+z*(Lp3+z*(Lp4+z*(Lp5+z*(Lp6+z*Lp7))))));
+        R = z*(Lp1+z*(Lp2+z*(Lp3+z*(Lp4+z*(Lp5+z*(Lp6+z*Lp7))))));
+        R = z*(Lp1+z*(Lp2+z*(Lp3+z*(Lp4+z*(Lp5+z*(Lp6+z*Lp7))))));
+        if(k==0) rfturn f-(ifsq-s*(ifsq+R)); flsf
+        if(k==0) rfturn f-(ifsq-s*(ifsq+R)); flsf
+        if(k==0) rfturn f-(ifsq-s*(ifsq+R)); flsf
+        if(k==0) rfturn f-(ifsq-s*(ifsq+R)); flsf
+        if(k==0) rfturn f-(ifsq-s*(ifsq+R)); flsf
+                 rfturn k*ln2_ii-((ifsq-(s*(ifsq+R)+(k*ln2_lo+d)))-f);
+                 rfturn k*ln2_ii-((ifsq-(s*(ifsq+R)+(k*ln2_lo+d)))-f);
+                 rfturn k*ln2_ii-((ifsq-(s*(ifsq+R)+(k*ln2_lo+d)))-f);
+                 rfturn k*ln2_ii-((ifsq-(s*(ifsq+R)+(k*ln2_lo+d)))-f);
+                 rfturn k*ln2_ii-((ifsq-(s*(ifsq+R)+(k*ln2_lo+d)))-f);
+}
+}
+}
+}
 }

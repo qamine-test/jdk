@@ -1,0 +1,2501 @@
+/*
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf "util.i"
+#indludf "fvfntHbndlfr.i"
+#indludf "tirfbdControl.i"
+#indludf "dommonRff.i"
+#indludf "fvfntHflpfr.i"
+#indludf "stfpControl.i"
+#indludf "invokfr.i"
+#indludf "bbg.i"
+
+#dffinf HANDLING_EVENT(nodf) ((nodf)->durrfnt_fi != 0)
+
+/*
+ * Collfdtion of info for propfrly ibndling do-lodbtfd fvfnts.
+ * If tif fi fifld is non-zfro, tifn onf of tif possiblf
+ * do-lodbtfd fvfnts ibs bffn postfd bnd tif otifr fiflds dfsdribf
+ * tif fvfnt's lodbtion.
+ */
+typfdff strudt CoLodbtfdEvfntInfo_ {
+    EvfntIndfx fi;
+    jdlbss    dlbzz;
+    jmftiodID mftiod;
+    jlodbtion lodbtion;
+} CoLodbtfdEvfntInfo;
+
+/**
+ * Tif mbin dbtb strudturf in tirfbdControl is tif TirfbdNodf.
+ * Tiis is b pfr-tirfbd strudturf tibt is bllodbtfd on tif
+ * first fvfnt tibt oddurs in b tirfbd. It is frffd bftfr tif
+ * tirfbd's tirfbd fnd fvfnt ibs domplftfd prodfssing. Tif
+ * strudturf dontbins stbtf informbtion on its tirfbd indluding
+ * suspfnd dounts. It blso bdts bs b rfpository for otifr
+ * pfr-tirfbd stbtf sudi bs tif durrfnt mftiod invodbtion or
+ * durrfnt stfp.
+ *
+ * suspfndCount is tif numbfr of outstbnding suspfnds
+ * from tif dfbuggfr. suspfnds from tif bpp itsflf brf
+ * not indludfd in tiis dount.
+ */
+typfdff strudt TirfbdNodf {
+    jtirfbd tirfbd;
+    unsignfd int toBfRfsumfd : 1;
+    unsignfd int pfndingIntfrrupt : 1;
+    unsignfd int isDfbugTirfbd : 1;
+    unsignfd int suspfndOnStbrt : 1;
+    unsignfd int isStbrtfd : 1;
+    unsignfd int popFrbmfEvfnt : 1;
+    unsignfd int popFrbmfProdffd : 1;
+    unsignfd int popFrbmfTirfbd : 1;
+    EvfntIndfx durrfnt_fi;
+    jobjfdt pfndingStop;
+    jint suspfndCount;
+    jint rfsumfFrbmfDfpti; /* !=0 => Tiis tirfbd is in b dbll to Tirfbd.rfsumf() */
+    jvmtiEvfntModf instrudtionStfpModf;
+    StfpRfqufst durrfntStfp;
+    InvokfRfqufst durrfntInvokf;
+    strudt bbg *fvfntBbg;
+    CoLodbtfdEvfntInfo dlfInfo;
+    strudt TirfbdNodf *nfxt;
+    strudt TirfbdNodf *prfv;
+    jlong frbmfGfnfrbtion;
+    strudt TirfbdList *list;  /* Tflls us wibt list tiis tirfbd is in */
+} TirfbdNodf;
+
+stbtid jint suspfndAllCount;
+
+typfdff strudt TirfbdList {
+    TirfbdNodf *first;
+} TirfbdList;
+
+/*
+ * popFrbmfEvfntLodk is usfd to notify tibt tif fvfnt ibs bffn rfdfivfd
+ */
+stbtid jrbwMonitorID popFrbmfEvfntLodk = NULL;
+
+/*
+ * popFrbmfProdffdLodk is usfd to bssurf tibt tif fvfnt tirfbd is
+ * rf-suspfndfd immfdibtfly bftfr tif fvfnt is bdknowlfdgfd.
+ */
+stbtid jrbwMonitorID popFrbmfProdffdLodk = NULL;
+
+stbtid jrbwMonitorID tirfbdLodk;
+stbtid jlodbtion rfsumfLodbtion;
+stbtid HbndlfrNodf *brfbkpointHbndlfrNodf;
+stbtid HbndlfrNodf *frbmfPopHbndlfrNodf;
+stbtid HbndlfrNodf *dbtdiHbndlfrNodf;
+
+stbtid jvmtiError tirfbdControl_rfmovfDfbugTirfbd(jtirfbd tirfbd);
+
+/*
+ * Tirfbds wiidi ibvf issufd tirfbd stbrt fvfnts bnd not yft issufd tirfbd
+ * fnd fvfnts brf mbintbinfd in tif "runningTirfbds" list. All otifr tirfbds known
+ * to tiis modulf brf kfpt in tif "otifrTirfbds" list.
+ */
+stbtid TirfbdList runningTirfbds;
+stbtid TirfbdList otifrTirfbds;
+
+#dffinf MAX_DEBUG_THREADS 10
+stbtid int dfbugTirfbdCount;
+stbtid jtirfbd dfbugTirfbds[MAX_DEBUG_THREADS];
+
+typfdff strudt DfffrrfdEvfntModf {
+    EvfntIndfx fi;
+    jvmtiEvfntModf modf;
+    jtirfbd tirfbd;
+    strudt DfffrrfdEvfntModf *nfxt;
+} DfffrrfdEvfntModf;
+
+typfdff strudt {
+    DfffrrfdEvfntModf *first;
+    DfffrrfdEvfntModf *lbst;
+} DfffrrfdEvfntModfList;
+
+stbtid DfffrrfdEvfntModfList dfffrrfdEvfntModfs;
+
+stbtid jint
+gftStbdkDfpti(jtirfbd tirfbd)
+{
+    jint dount = 0;
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfCount)
+                        (gdbtb->jvmti, tirfbd, &dount);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "gftting frbmf dount");
+    }
+    rfturn dount;
+}
+
+/* Gft tif stbtf of tif tirfbd dirfdt from JVMTI */
+stbtid jvmtiError
+tirfbdStbtf(jtirfbd tirfbd, jint *pstbtf)
+{
+    *pstbtf = 0;
+    rfturn JVMTI_FUNC_PTR(gdbtb->jvmti,GftTirfbdStbtf)
+                        (gdbtb->jvmti, tirfbd, pstbtf);
+}
+
+/* Sft TLS on b spfdifid jtirfbd to tif TirfbdNodf* */
+stbtid void
+sftTirfbdLodblStorbgf(jtirfbd tirfbd, TirfbdNodf *nodf)
+{
+    jvmtiError  frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftTirfbdLodblStorbgf)
+            (gdbtb->jvmti, tirfbd, (void*)nodf);
+    if ( frror == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
+        /* Just rfturn, tirfbd ibsn't stbrtfd yft */
+        rfturn;
+    } flsf if ( frror != JVMTI_ERROR_NONE ) {
+        /* Tif jtirfbd objfdt must bf vblid, so tiis must bf b fbtbl frror */
+        EXIT_ERROR(frror, "dbnnot sft tirfbd lodbl storbgf");
+    }
+}
+
+/* Gft TLS on b spfdifid jtirfbd, wiidi is tif TirfbdNodf* */
+stbtid TirfbdNodf *
+gftTirfbdLodblStorbgf(jtirfbd tirfbd)
+{
+    jvmtiError  frror;
+    TirfbdNodf *nodf;
+
+    nodf = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftTirfbdLodblStorbgf)
+            (gdbtb->jvmti, tirfbd, (void**)&nodf);
+    if ( frror == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
+        /* Just rfturn NULL, tirfbd ibsn't stbrtfd yft */
+        rfturn NULL;
+    } flsf if ( frror != JVMTI_ERROR_NONE ) {
+        /* Tif jtirfbd objfdt must bf vblid, so tiis must bf b fbtbl frror */
+        EXIT_ERROR(frror, "dbnnot gft tirfbd lodbl storbgf");
+    }
+    rfturn nodf;
+}
+
+/* Sfbrdi list for nodfs tibt don't ibvf TLS sft bnd mbtdi tiis tirfbd.
+ *   It bssumfd tibt tiis logid is nfvfr dfbling witi tfrminbtfd tirfbds,
+ *   sindf tif TirfbdEnd fvfnts blwbys dflftf tif TirfbdNodf wiilf tif
+ *   jtirfbd is still blivf.  So wf dbn only look bt tif TirfbdNodf's tibt
+ *   ibvf nfvfr ibd tifir TLS sft, mbking tif sfbrdi mudi fbstfr.
+ *   But kffp in mind, tiis kind of sfbrdi siould rbrfly bf nffdfd.
+ */
+stbtid TirfbdNodf *
+nonTlsSfbrdi(JNIEnv *fnv, TirfbdList *list, jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+
+    for (nodf = list->first; nodf != NULL; nodf = nodf->nfxt) {
+        if (isSbmfObjfdt(fnv, nodf->tirfbd, tirfbd)) {
+            brfbk;
+        }
+    }
+    rfturn nodf;
+}
+
+/*
+ * Tifsf fundtions mbintbin tif linkfd list of durrfntly running tirfbds.
+ * All bssumf tibt tif tirfbdLodk is ifld bfforf dblling.
+ * If list==NULL, sfbrdi boti lists.
+ */
+stbtid TirfbdNodf *
+findTirfbd(TirfbdList *list, jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+
+    /* Gft tirfbd lodbl storbgf for quidk tirfbd -> nodf bddfss */
+    nodf = gftTirfbdLodblStorbgf(tirfbd);
+
+    /* In somf rbrf dbsfs wf migit gft NULL, so wf difdk tif list mbnublly for
+     *   bny tirfbds tibt wf dould mbtdi.
+     */
+    if ( nodf == NULL ) {
+        JNIEnv *fnv;
+
+        fnv = gftEnv();
+        if ( list != NULL ) {
+            nodf = nonTlsSfbrdi(fnv, list, tirfbd);
+        } flsf {
+            nodf = nonTlsSfbrdi(fnv, &runningTirfbds, tirfbd);
+            if ( nodf == NULL ) {
+                nodf = nonTlsSfbrdi(fnv, &otifrTirfbds, tirfbd);
+            }
+        }
+        if ( nodf != NULL ) {
+            /* Hfrf wf mbkf bnotifr bttfmpt to sft TLS, it's ok if tiis fbils */
+            sftTirfbdLodblStorbgf(tirfbd, (void*)nodf);
+        }
+    }
+
+    /* If b list is supplifd, only rfturn onfs in tiis list */
+    if ( nodf != NULL && list != NULL && nodf->list != list ) {
+        rfturn NULL;
+    }
+    rfturn nodf;
+}
+
+/* Rfmovf b TirfbdNodf from b TirfbdList */
+stbtid void
+rfmovfNodf(TirfbdList *list, TirfbdNodf *nodf)
+{
+    TirfbdNodf *prfv;
+    TirfbdNodf *nfxt;
+
+    prfv = nodf->prfv;
+    nfxt = nodf->nfxt;
+    if ( prfv != NULL ) {
+        prfv->nfxt = nfxt;
+    }
+    if ( nfxt != NULL ) {
+        nfxt->prfv = prfv;
+    }
+    if ( prfv == NULL ) {
+        list->first = nfxt;
+    }
+    nodf->nfxt = NULL;
+    nodf->prfv = NULL;
+    nodf->list = NULL;
+}
+
+/* Add b TirfbdNodf to b TirfbdList */
+stbtid void
+bddNodf(TirfbdList *list, TirfbdNodf *nodf)
+{
+    nodf->nfxt = NULL;
+    nodf->prfv = NULL;
+    nodf->list = NULL;
+    if ( list->first == NULL ) {
+        list->first = nodf;
+    } flsf {
+        list->first->prfv = nodf;
+        nodf->nfxt = list->first;
+        list->first = nodf;
+    }
+    nodf->list = list;
+}
+
+stbtid TirfbdNodf *
+insfrtTirfbd(JNIEnv *fnv, TirfbdList *list, jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+    strudt bbg *fvfntBbg;
+
+    nodf = findTirfbd(list, tirfbd);
+    if (nodf == NULL) {
+        nodf = jvmtiAllodbtf(sizfof(*nodf));
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf fntry");
+            rfturn NULL;
+        }
+        (void)mfmsft(nodf, 0, sizfof(*nodf));
+        fvfntBbg = fvfntHflpfr_drfbtfEvfntBbg();
+        if (fvfntBbg == NULL) {
+            jvmtiDfbllodbtf(nodf);
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf fntry");
+            rfturn NULL;
+        }
+
+        /*
+         * Init bll flbgs fblsf, bll rffs NULL, bll dounts 0
+         */
+
+        sbvfGlobblRff(fnv, tirfbd, &(nodf->tirfbd));
+        if (nodf->tirfbd == NULL) {
+            jvmtiDfbllodbtf(nodf);
+            bbgDfstroyBbg(fvfntBbg);
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf fntry");
+            rfturn NULL;
+        }
+        /*
+         * Rfmfmbfr if it is b dfbug tirfbd
+         */
+        if (tirfbdControl_isDfbugTirfbd(nodf->tirfbd)) {
+            nodf->isDfbugTirfbd = JNI_TRUE;
+        } flsf if (suspfndAllCount > 0){
+            /*
+             * If tifrf is b pfnding suspfndAll, bll nfw tirfbds siould
+             * bf initiblizfd bs if tify wfrf suspfndfd by tif suspfndAll,
+             * bnd tif tirfbd will nffd to bf suspfndfd wifn it stbrts.
+             */
+            nodf->suspfndCount = suspfndAllCount;
+            nodf->suspfndOnStbrt = JNI_TRUE;
+        }
+        nodf->durrfnt_fi = 0;
+        nodf->instrudtionStfpModf = JVMTI_DISABLE;
+        nodf->fvfntBbg = fvfntBbg;
+        bddNodf(list, nodf);
+
+        /* Sft tirfbd lodbl storbgf for quidk tirfbd -> nodf bddfss.
+         *   Somf tirfbds mby not bf in b stbtf tibt bllows sftting of TLS,
+         *   wiidi is ok, sff findTirfbd, it dfbls witi tirfbds witiout TLS sft.
+         */
+        sftTirfbdLodblStorbgf(nodf->tirfbd, (void*)nodf);
+    }
+
+    rfturn nodf;
+}
+
+stbtid void
+dlfbrTirfbd(JNIEnv *fnv, TirfbdNodf *nodf)
+{
+    if (nodf->pfndingStop != NULL) {
+        tossGlobblRff(fnv, &(nodf->pfndingStop));
+    }
+    stfpControl_dlfbrRfqufst(nodf->tirfbd, &nodf->durrfntStfp);
+    if (nodf->isDfbugTirfbd) {
+        (void)tirfbdControl_rfmovfDfbugTirfbd(nodf->tirfbd);
+    }
+    /* Clfbr out TLS on tiis tirfbd (just b dlfbnup bdtion) */
+    sftTirfbdLodblStorbgf(nodf->tirfbd, NULL);
+    tossGlobblRff(fnv, &(nodf->tirfbd));
+    bbgDfstroyBbg(nodf->fvfntBbg);
+    jvmtiDfbllodbtf(nodf);
+}
+
+stbtid void
+rfmovfTirfbd(JNIEnv *fnv, TirfbdList *list, jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+
+    nodf = findTirfbd(list, tirfbd);
+    if (nodf != NULL) {
+        rfmovfNodf(list, nodf);
+        dlfbrTirfbd(fnv, nodf);
+    }
+}
+
+stbtid void
+rfmovfRfsumfd(JNIEnv *fnv, TirfbdList *list)
+{
+    TirfbdNodf *nodf;
+
+    nodf = list->first;
+    wiilf (nodf != NULL) {
+        TirfbdNodf *tfmp = nodf->nfxt;
+        if (nodf->suspfndCount == 0) {
+            rfmovfTirfbd(fnv, list, nodf->tirfbd);
+        }
+        nodf = tfmp;
+    }
+}
+
+stbtid void
+movfNodf(TirfbdList *sourdf, TirfbdList *dfst, TirfbdNodf *nodf)
+{
+    rfmovfNodf(sourdf, nodf);
+    JDI_ASSERT(findTirfbd(dfst, nodf->tirfbd) == NULL);
+    bddNodf(dfst, nodf);
+}
+
+typfdff jvmtiError (*TirfbdEnumfrbtfFundtion)(JNIEnv *, TirfbdNodf *, void *);
+
+stbtid jvmtiError
+fnumfrbtfOvfrTirfbdList(JNIEnv *fnv, TirfbdList *list,
+                        TirfbdEnumfrbtfFundtion fundtion, void *brg)
+{
+    TirfbdNodf *nodf;
+    jvmtiError frror = JVMTI_ERROR_NONE;
+
+    for (nodf = list->first; nodf != NULL; nodf = nodf->nfxt) {
+        frror = (*fundtion)(fnv, nodf, brg);
+        if ( frror != JVMTI_ERROR_NONE ) {
+            brfbk;
+        }
+    }
+    rfturn frror;
+}
+
+stbtid void
+insfrtEvfntModf(DfffrrfdEvfntModfList *list, DfffrrfdEvfntModf *fvfntModf)
+{
+    if (list->lbst != NULL) {
+        list->lbst->nfxt = fvfntModf;
+    } flsf {
+        list->first = fvfntModf;
+    }
+    list->lbst = fvfntModf;
+}
+
+stbtid void
+rfmovfEvfntModf(DfffrrfdEvfntModfList *list, DfffrrfdEvfntModf *fvfntModf, DfffrrfdEvfntModf *prfv)
+{
+    if (prfv == NULL) {
+        list->first = fvfntModf->nfxt;
+    } flsf {
+        prfv->nfxt = fvfntModf->nfxt;
+    }
+    if (fvfntModf->nfxt == NULL) {
+        list->lbst = prfv;
+    }
+}
+
+stbtid jvmtiError
+bddDfffrrfdEvfntModf(JNIEnv *fnv, jvmtiEvfntModf modf, EvfntIndfx fi, jtirfbd tirfbd)
+{
+    DfffrrfdEvfntModf *fvfntModf;
+
+    /*LINTED*/
+    fvfntModf = jvmtiAllodbtf((jint)sizfof(DfffrrfdEvfntModf));
+    if (fvfntModf == NULL) {
+        rfturn AGENT_ERROR_OUT_OF_MEMORY;
+    }
+    fvfntModf->tirfbd = NULL;
+    sbvfGlobblRff(fnv, tirfbd, &(fvfntModf->tirfbd));
+    fvfntModf->modf = modf;
+    fvfntModf->fi = fi;
+    fvfntModf->nfxt = NULL;
+    insfrtEvfntModf(&dfffrrfdEvfntModfs, fvfntModf);
+    rfturn JVMTI_ERROR_NONE;
+}
+
+stbtid void
+frffDfffrrfdEvfntModfs(JNIEnv *fnv)
+{
+    DfffrrfdEvfntModf *fvfntModf;
+    fvfntModf = dfffrrfdEvfntModfs.first;
+    wiilf (fvfntModf != NULL) {
+        DfffrrfdEvfntModf *nfxt;
+        nfxt = fvfntModf->nfxt;
+        tossGlobblRff(fnv, &(fvfntModf->tirfbd));
+        jvmtiDfbllodbtf(fvfntModf);
+        fvfntModf = nfxt;
+    }
+    dfffrrfdEvfntModfs.first = NULL;
+    dfffrrfdEvfntModfs.lbst = NULL;
+}
+
+stbtid jvmtiError
+tirfbdSftEvfntNotifidbtionModf(TirfbdNodf *nodf,
+        jvmtiEvfntModf modf, EvfntIndfx fi, jtirfbd tirfbd)
+{
+    jvmtiError frror;
+
+    /* rfdord singlf stfp modf */
+    if (fi == EI_SINGLE_STEP) {
+        nodf->instrudtionStfpModf = modf;
+    }
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntNotifidbtionModf)
+        (gdbtb->jvmti, modf, fvfntIndfx2jvmti(fi), tirfbd);
+    rfturn frror;
+}
+
+stbtid void
+prodfssDfffrrfdEvfntModfs(JNIEnv *fnv, jtirfbd tirfbd, TirfbdNodf *nodf)
+{
+    jvmtiError frror;
+    DfffrrfdEvfntModf *fvfntModf;
+    DfffrrfdEvfntModf *prfv;
+
+    prfv = NULL;
+    fvfntModf = dfffrrfdEvfntModfs.first;
+    wiilf (fvfntModf != NULL) {
+        DfffrrfdEvfntModf *nfxt = fvfntModf->nfxt;
+        if (isSbmfObjfdt(fnv, tirfbd, fvfntModf->tirfbd)) {
+            frror = tirfbdSftEvfntNotifidbtionModf(nodf,
+                    fvfntModf->modf, fvfntModf->fi, fvfntModf->tirfbd);
+            if (frror != JVMTI_ERROR_NONE) {
+                EXIT_ERROR(frror, "dbnnot prodfss dfffrrfd tirfbd fvfnt notifidbtions bt tirfbd stbrt");
+            }
+            rfmovfEvfntModf(&dfffrrfdEvfntModfs, fvfntModf, prfv);
+            tossGlobblRff(fnv, &(fvfntModf->tirfbd));
+            jvmtiDfbllodbtf(fvfntModf);
+        } flsf {
+            prfv = fvfntModf;
+        }
+        fvfntModf = nfxt;
+    }
+}
+
+stbtid void
+gftLodks(void)
+{
+    /*
+     * Anytiing wiidi migit bf lodkfd bs pbrt of tif ibndling of
+     * b JVMTI fvfnt (wiidi mfbns: migit bf lodkfd by bn bpplidbtion
+     * tirfbd) nffds to bf grbbbfd ifrf. Tiis bllows tirfbd dontrol
+     * dodf to sbffly suspfnd bnd rfsumf tif bpplidbtion tirfbds
+     * wiilf fnsuring tify don't iold b dritidbl lodk.
+     */
+
+    fvfntHbndlfr_lodk();
+    invokfr_lodk();
+    fvfntHflpfr_lodk();
+    stfpControl_lodk();
+    dommonRff_lodk();
+    dfbugMonitorEntfr(tirfbdLodk);
+
+}
+
+stbtid void
+rflfbsfLodks(void)
+{
+    dfbugMonitorExit(tirfbdLodk);
+    dommonRff_unlodk();
+    stfpControl_unlodk();
+    fvfntHflpfr_unlodk();
+    invokfr_unlodk();
+    fvfntHbndlfr_unlodk();
+}
+
+void
+tirfbdControl_initiblizf(void)
+{
+    jlodbtion unusfd;
+    jvmtiError frror;
+
+    suspfndAllCount = 0;
+    runningTirfbds.first = NULL;
+    otifrTirfbds.first = NULL;
+    dfbugTirfbdCount = 0;
+    tirfbdLodk = dfbugMonitorCrfbtf("JDWP Tirfbd Lodk");
+    if (gdbtb->tirfbdClbss==NULL) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "no jbvb.lbng.tirfbd dlbss");
+    }
+    if (gdbtb->tirfbdRfsumf==0) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "dbnnot rfsumf tirfbd");
+    }
+    /* Gft tif jbvb.lbng.Tirfbd.rfsumf() mftiod bfginning lodbtion */
+    frror = mftiodLodbtion(gdbtb->tirfbdRfsumf, &rfsumfLodbtion, &unusfd);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "gftting mftiod lodbtion");
+    }
+}
+
+stbtid jtirfbd
+gftRfsumff(jtirfbd rfsumingTirfbd)
+{
+    jtirfbd rfsumff = NULL;
+    jvmtiError frror;
+    jobjfdt objfdt;
+    FrbmfNumbfr fnum = 0;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblObjfdt)
+                    (gdbtb->jvmti, rfsumingTirfbd, fnum, 0, &objfdt);
+    if (frror == JVMTI_ERROR_NONE) {
+        rfsumff = objfdt;
+    }
+    rfturn rfsumff;
+}
+
+
+stbtid jboolfbn
+pfndingAppRfsumf(jboolfbn indludfSuspfndfd)
+{
+    TirfbdList *list;
+    TirfbdNodf *nodf;
+
+    list = &runningTirfbds;
+    nodf = list->first;
+    wiilf (nodf != NULL) {
+        if (nodf->rfsumfFrbmfDfpti > 0) {
+            if (indludfSuspfndfd) {
+                rfturn JNI_TRUE;
+            } flsf {
+                jvmtiError frror;
+                jint       stbtf;
+
+                frror = tirfbdStbtf(nodf->tirfbd, &stbtf);
+                if (frror != JVMTI_ERROR_NONE) {
+                    EXIT_ERROR(frror, "gftting tirfbd stbtf");
+                }
+                if (!(stbtf & JVMTI_THREAD_STATE_SUSPENDED)) {
+                    rfturn JNI_TRUE;
+                }
+            }
+        }
+        nodf = nodf->nfxt;
+    }
+    rfturn JNI_FALSE;
+}
+
+stbtid void
+notifyAppRfsumfComplftf(void)
+{
+    dfbugMonitorNotifyAll(tirfbdLodk);
+    if (!pfndingAppRfsumf(JNI_TRUE)) {
+        if (frbmfPopHbndlfrNodf != NULL) {
+            (void)fvfntHbndlfr_frff(frbmfPopHbndlfrNodf);
+            frbmfPopHbndlfrNodf = NULL;
+        }
+        if (dbtdiHbndlfrNodf != NULL) {
+            (void)fvfntHbndlfr_frff(dbtdiHbndlfrNodf);
+            dbtdiHbndlfrNodf = NULL;
+        }
+    }
+}
+
+stbtid void
+ibndlfAppRfsumfComplftion(JNIEnv *fnv, EvfntInfo *fvinfo,
+                          HbndlfrNodf *ibndlfrNodf,
+                          strudt bbg *fvfntBbg)
+{
+    TirfbdNodf *nodf;
+    jtirfbd     tirfbd;
+
+    tirfbd = fvinfo->tirfbd;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        if (nodf->rfsumfFrbmfDfpti > 0) {
+            jint dompbrfDfpti = gftStbdkDfpti(tirfbd);
+            if (fvinfo->fi == EI_FRAME_POP) {
+                dompbrfDfpti--;
+            }
+            if (dompbrfDfpti < nodf->rfsumfFrbmfDfpti) {
+                nodf->rfsumfFrbmfDfpti = 0;
+                notifyAppRfsumfComplftf();
+            }
+        }
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+stbtid void
+blodkOnDfbuggfrSuspfnd(jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+
+    nodf = findTirfbd(NULL, tirfbd);
+    if (nodf != NULL) {
+        wiilf (nodf && nodf->suspfndCount > 0) {
+            dfbugMonitorWbit(tirfbdLodk);
+            nodf = findTirfbd(NULL, tirfbd);
+        }
+    }
+}
+
+stbtid void
+trbdkAppRfsumf(jtirfbd tirfbd)
+{
+    jvmtiError  frror;
+    FrbmfNumbfr fnum;
+    TirfbdNodf *nodf;
+
+    fnum = 0;
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        JDI_ASSERT(nodf->rfsumfFrbmfDfpti == 0);
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,NotifyFrbmfPop)
+                        (gdbtb->jvmti, tirfbd, fnum);
+        if (frror == JVMTI_ERROR_NONE) {
+            jint frbmfDfpti = gftStbdkDfpti(tirfbd);
+            if ((frbmfDfpti > 0) && (frbmfPopHbndlfrNodf == NULL)) {
+                frbmfPopHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblTirfbdOnly(
+                                           EI_FRAME_POP,
+                                           ibndlfAppRfsumfComplftion,
+                                           tirfbd);
+                dbtdiHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblTirfbdOnly(
+                                           EI_EXCEPTION_CATCH,
+                                           ibndlfAppRfsumfComplftion,
+                                           tirfbd);
+                if ((frbmfPopHbndlfrNodf == NULL) ||
+                    (dbtdiHbndlfrNodf == NULL)) {
+                    (void)fvfntHbndlfr_frff(frbmfPopHbndlfrNodf);
+                    frbmfPopHbndlfrNodf = NULL;
+                    (void)fvfntHbndlfr_frff(dbtdiHbndlfrNodf);
+                    dbtdiHbndlfrNodf = NULL;
+                }
+            }
+            if ((frbmfPopHbndlfrNodf != NULL) &&
+                (dbtdiHbndlfrNodf != NULL) &&
+                (frbmfDfpti > 0)) {
+                nodf->rfsumfFrbmfDfpti = frbmfDfpti;
+            }
+        }
+    }
+}
+
+stbtid void
+ibndlfAppRfsumfBrfbkpoint(JNIEnv *fnv, EvfntInfo *fvinfo,
+                          HbndlfrNodf *ibndlfrNodf,
+                          strudt bbg *fvfntBbg)
+{
+    jtirfbd rfsumfr = fvinfo->tirfbd;
+    jtirfbd rfsumff = gftRfsumff(rfsumfr);
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    if (rfsumff != NULL) {
+        /*
+         * Hold up bny bttfmpt to rfsumf bs long bs tif dfbuggfr
+         * ibs suspfndfd tif rfsumff.
+         */
+        blodkOnDfbuggfrSuspfnd(rfsumff);
+    }
+
+    if (rfsumfr != NULL) {
+        /*
+         * Trbdk tif rfsuming tirfbd by mbrking it bs bfing witiin
+         * b rfsumf bnd by sftting up for notifidbtion on
+         * b frbmf pop or fxdfption. Wf won't bllow tif dfbuggfr
+         * to suspfnd tirfbds wiilf bny tirfbd is witiin b
+         * dbll to rfsumf. Tiis (blong witi tif blodk bbovf)
+         * fnsurfs tibt wifn tif dfbuggfr
+         * suspfnds b tirfbd it will rfmbin suspfndfd.
+         */
+        trbdkAppRfsumf(rfsumfr);
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+void
+tirfbdControl_onConnfdt(void)
+{
+    brfbkpointHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblBrfbkpoint(
+                 ibndlfAppRfsumfBrfbkpoint, NULL,
+                 gdbtb->tirfbdClbss, gdbtb->tirfbdRfsumf, rfsumfLodbtion);
+}
+
+void
+tirfbdControl_onDisdonnfdt(void)
+{
+    if (brfbkpointHbndlfrNodf != NULL) {
+        (void)fvfntHbndlfr_frff(brfbkpointHbndlfrNodf);
+        brfbkpointHbndlfrNodf = NULL;
+    }
+    if (frbmfPopHbndlfrNodf != NULL) {
+        (void)fvfntHbndlfr_frff(frbmfPopHbndlfrNodf);
+        frbmfPopHbndlfrNodf = NULL;
+    }
+    if (dbtdiHbndlfrNodf != NULL) {
+        (void)fvfntHbndlfr_frff(dbtdiHbndlfrNodf);
+        dbtdiHbndlfrNodf = NULL;
+    }
+}
+
+void
+tirfbdControl_onHook(void)
+{
+    /*
+     * As soon bs tif fvfnt iook is in plbdf, wf nffd to initiblizf
+     * tif tirfbd list witi blrfbdy-fxisting tirfbds. Tif tirfbdLodk
+     * ibs bffn ifld sindf initiblizf, so wf don't nffd to worry bbout
+     * insfrtions or dflftions from tif fvfnt ibndlfrs wiilf wf do tiis
+     */
+    JNIEnv *fnv;
+
+    fnv = gftEnv();
+
+    /*
+     * Prfvfnt bny fvfnt prodfssing until OnHook ibs bffn dbllfd
+     */
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jint tirfbdCount;
+        jtirfbd *tirfbds;
+
+        tirfbds = bllTirfbds(&tirfbdCount);
+        if (tirfbds == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf");
+        } flsf {
+
+            int i;
+
+            for (i = 0; i < tirfbdCount; i++) {
+                TirfbdNodf *nodf;
+                jtirfbd tirfbd = tirfbds[i];
+                nodf = insfrtTirfbd(fnv, &runningTirfbds, tirfbd);
+
+                /*
+                 * Tiis is b tiny bit risky. Wf ibvf to bssumf tibt tif
+                 * prf-fxisting tirfbds ibvf bffn stbrtfd bfdbusf wf
+                 * dbn't rfly on b tirfbd stbrt fvfnt for tifm. Tif dibndfs
+                 * of b problfm rflbtfd to tiis brf prftty slim tiougi, bnd
+                 * tifrf's rfblly no dioidf bfdbusf witiout sftting tiis flbg
+                 * tifrf is no wby to fnbblf stfpping bnd otifr fvfnts on
+                 * tif tirfbds tibt blrfbdy fxist (f.g. tif finblizfr tirfbd).
+                 */
+                nodf->isStbrtfd = JNI_TRUE;
+            }
+        }
+
+    } END_WITH_LOCAL_REFS(fnv)
+
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+stbtid jvmtiError
+dommonSuspfndByNodf(TirfbdNodf *nodf)
+{
+    jvmtiError frror;
+
+    LOG_MISC(("tirfbd=%p suspfndfd", nodf->tirfbd));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspfndTirfbd)
+                (gdbtb->jvmti, nodf->tirfbd);
+
+    /*
+     * Mbrk for rfsumf only if suspfnd suddffdfd
+     */
+    if (frror == JVMTI_ERROR_NONE) {
+        nodf->toBfRfsumfd = JNI_TRUE;
+    }
+
+    /*
+     * If tif tirfbd wbs suspfndfd by bnotifr bpp tirfbd,
+     * do notiing bnd rfport no frror (wf won't rfsumf it lbtfr).
+     */
+     if (frror == JVMTI_ERROR_THREAD_SUSPENDED) {
+        frror = JVMTI_ERROR_NONE;
+     }
+
+     rfturn frror;
+}
+
+/*
+ * Dfffrrfd suspfnds ibppfn wifn tif suspfnd is bttfmptfd on b tirfbd
+ * tibt is not stbrtfd. Bookkffping (suspfndCount,ftd.)
+ * is ibndlfd by tif originbl rfqufst, bnd ondf tif tirfbd bdtublly
+ * stbrts, bn bdtubl suspfnd is bttfmptfd. Tiis fundtion dofs tif
+ * dfffrrfd suspfnd witiout dibnging tif bookkffping tibt is blrfbdy
+ * in plbdf.
+ */
+stbtid jint
+dfffrrfdSuspfndTirfbdByNodf(TirfbdNodf *nodf)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_ERROR_NONE;
+    if (nodf->isDfbugTirfbd) {
+        /* Ignorf rfqufsts for suspfnding dfbuggfr tirfbds */
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    /*
+     * Do tif bdtubl suspfnd only if b subsfqufnt rfsumf ibsn't
+     * mbdf it irrflfvbnt.
+     */
+    if (nodf->suspfndCount > 0) {
+        frror = dommonSuspfndByNodf(nodf);
+
+        /*
+         * Attfmpt to dlfbn up from bny frror by dfdrfmfnting tif
+         * suspfnd dount. Tiis dompfnsbtfs for tif indrfmfnt tibt
+         * ibppfns wifn suspfndOnStbrt is sft to truf.
+         */
+        if (frror != JVMTI_ERROR_NONE) {
+          nodf->suspfndCount--;
+        }
+    }
+
+    nodf->suspfndOnStbrt = JNI_FALSE;
+
+    dfbugMonitorNotifyAll(tirfbdLodk);
+
+    rfturn frror;
+}
+
+stbtid jvmtiError
+suspfndTirfbdByNodf(TirfbdNodf *nodf)
+{
+    jvmtiError frror = JVMTI_ERROR_NONE;
+    if (nodf->isDfbugTirfbd) {
+        /* Ignorf rfqufsts for suspfnding dfbuggfr tirfbds */
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    /*
+     * Just indrfmfnt tif suspfnd dount if wf brf wbiting
+     * for b dfffrrfd suspfnd.
+     */
+    if (nodf->suspfndOnStbrt) {
+        nodf->suspfndCount++;
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    if (nodf->suspfndCount == 0) {
+        frror = dommonSuspfndByNodf(nodf);
+
+        if (frror == JVMTI_ERROR_THREAD_NOT_ALIVE) {
+            /*
+             * Tiis frror mfbns tibt tif tirfbd is fitifr b zombif or not yft
+             * stbrtfd. In fitifr dbsf, wf ignorf tif frror. If tif tirfbd
+             * is b zombif, suspfnd/rfsumf brf no-ops. If tif tirfbd is not
+             * stbrtfd, it will bf suspfndfd for rfbl during tif prodfssing
+             * of its tirfbd stbrt fvfnt.
+             */
+            nodf->suspfndOnStbrt = JNI_TRUE;
+            frror = JVMTI_ERROR_NONE;
+        }
+    }
+
+    if (frror == JVMTI_ERROR_NONE) {
+        nodf->suspfndCount++;
+    }
+
+    dfbugMonitorNotifyAll(tirfbdLodk);
+
+    rfturn frror;
+}
+
+stbtid jvmtiError
+rfsumfTirfbdByNodf(TirfbdNodf *nodf)
+{
+    jvmtiError frror = JVMTI_ERROR_NONE;
+
+    if (nodf->isDfbugTirfbd) {
+        /* nfvfr suspfndfd by dfbuggfr => don't fvfr try to rfsumf */
+        rfturn JVMTI_ERROR_NONE;
+    }
+    if (nodf->suspfndCount > 0) {
+        nodf->suspfndCount--;
+        dfbugMonitorNotifyAll(tirfbdLodk);
+        if ((nodf->suspfndCount == 0) && nodf->toBfRfsumfd &&
+            !nodf->suspfndOnStbrt) {
+            LOG_MISC(("tirfbd=%p rfsumfd", nodf->tirfbd));
+            frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbd)
+                        (gdbtb->jvmti, nodf->tirfbd);
+            nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
+            nodf->toBfRfsumfd = JNI_FALSE;
+            if (frror == JVMTI_ERROR_THREAD_NOT_ALIVE && !nodf->isStbrtfd) {
+                /*
+                 * Wf suddfssfully "suspfndfd" tiis tirfbd, but
+                 * wf nfvfr rfdfivfd b THREAD_START fvfnt for it.
+                 * Sindf tif tirfbd nfvfr rbn, wf dbn ignorf our
+                 * fbilurf to rfsumf tif tirfbd.
+                 */
+                frror = JVMTI_ERROR_NONE;
+            }
+        }
+    }
+
+    rfturn frror;
+}
+
+/*
+ * Fundtions wiidi rfspond to usfr rfqufsts to suspfnd/rfsumf
+ * tirfbds.
+ * Suspfnds bnd rfsumfs bdd bnd subtrbdt from b dount rfspfdtivfly.
+ * Tif tirfbd is only suspfndfd wifn tif dount gofs from 0 to 1 bnd
+ * rfsumfd only wifn tif dount gofs from 1 to 0.
+ *
+ * Tifsf fundtions suspfnd bnd rfsumf bpplidbtion tirfbds
+ * witiout dibnging tif
+ * stbtf of tirfbds tibt wfrf blrfbdy suspfndfd bfforfibnd.
+ * Tify must not bf dbllfd from bn bpplidbtion tirfbd bfdbusf
+ * tibt tirfbd mby bf suspfndfd somfwifrf in tif  middlf of tiings.
+ */
+stbtid void
+prfSuspfnd(void)
+{
+    gftLodks();                     /* Avoid dfbuggfr dfbdlodks */
+
+    /*
+     * Dflby bny suspfnd wiilf b dbll to jbvb.lbng.Tirfbd.rfsumf is in
+     * progrfss (not indluding tiosf in suspfndfd tirfbds). Tif wbit is
+     * timfd bfdbusf tif tirfbds suspfndfd tirougi
+     * jbvb.lbng.Tirfbd.suspfnd won't rfsult in b notify fvfn tiougi
+     * it mby dibngf tif rfsult of pfndingAppRfsumf()
+     */
+    wiilf (pfndingAppRfsumf(JNI_FALSE)) {
+        /*
+         * Tiis is ugly but wf nffd to rflfbsf tif lodks from gftLodks
+         * or flsf tif notify will nfvfr ibppfn. Tif lodks must bf
+         * rflfbsfd bnd rfbdquirfd in tif rigit ordfr. flsf dfbdlodks
+         * dbn ibppfn. It is possiblf tibt, during tiis dbndf, tif
+         * notify will bf missfd, but sindf tif wbit nffds to bf timfd
+         * bnywby, it won't bf b disbstfr. Notf tibt tiis dodf will
+         * fxfdutf only on vfry rbrf oddbsions bnywby.
+         */
+        rflfbsfLodks();
+
+        dfbugMonitorEntfr(tirfbdLodk);
+        dfbugMonitorTimfdWbit(tirfbdLodk, 1000);
+        dfbugMonitorExit(tirfbdLodk);
+
+        gftLodks();
+    }
+}
+
+stbtid void
+postSuspfnd(void)
+{
+    rflfbsfLodks();
+}
+
+/*
+ * Tiis fundtion must bf dbllfd bftfr prfSuspfnd bnd bfforf postSuspfnd.
+ */
+stbtid jvmtiError
+dommonSuspfnd(JNIEnv *fnv, jtirfbd tirfbd, jboolfbn dfffrrfd)
+{
+    TirfbdNodf *nodf;
+
+    /*
+     * If tif tirfbd is not bftwffn its stbrt bnd fnd fvfnts, wf siould
+     * still suspfnd it. To kffp trbdk of tiings, bdd tif tirfbd
+     * to b sfpbrbtf list of tirfbds so tibt wf'll rfsumf it lbtfr.
+     */
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf == NULL) {
+        nodf = insfrtTirfbd(fnv, &otifrTirfbds, tirfbd);
+    }
+
+    if ( dfffrrfd ) {
+        rfturn dfffrrfdSuspfndTirfbdByNodf(nodf);
+    } flsf {
+        rfturn suspfndTirfbdByNodf(nodf);
+    }
+}
+
+
+stbtid jvmtiError
+rfsumfCopyHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
+{
+    if (nodf->isDfbugTirfbd) {
+        /* nfvfr suspfndfd by dfbuggfr => don't fvfr try to rfsumf */
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    if (nodf->suspfndCount > 1) {
+        nodf->suspfndCount--;
+        /* nfstfd suspfnd so just undo onf lfvfl */
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    /*
+     * Tiis tirfbd wbs mbrkfd for suspfnsion sindf its THREAD_START
+     * fvfnt dbmf in during b suspfndAll, but tif iflpfr ibsn't
+     * domplftfd tif job yft. Wf dfdrfmfnt tif dount so tif iflpfr
+     * won't suspfnd tiis tirfbd bftfr wf brf donf witi tif rfsumfAll.
+     * Anotifr dbsf to bf ibndlfd ifrf is wifn tif dfbuggfr suspfnds
+     * tif tirfbd wiilf tif bpp ibs it suspfndfd. In tiis dbsf,
+     * tif toBfRfsumfd flbg ibs bffn dlfbrfd indidbting tibt
+     * tif tirfbd siould not bf rfsumfd wifn tif dfbuggfr dofs b rfsumf.
+     * In tiis dbsf, wf blso ibvf to dfdrfmfnt tif suspfnd dount.
+     * If wf don't tifn wifn tif bpp rfsumfs tif tirfbd bnd our Tirfbd.rfsumf
+     * bkpt ibndlfr is dbllfd, blodkOnDfbuggfrSuspfnd will not rfsumf
+     * tif tirfbd bfdbusf suspfndCount will bf 1 mfbning tibt tif
+     * dfbuggfr ibs tif tirfbd suspfndfd.  Sff bug 6224859.
+     */
+    if (nodf->suspfndCount == 1 && (!nodf->toBfRfsumfd || nodf->suspfndOnStbrt)) {
+        nodf->suspfndCount--;
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    if (brg == NULL) {
+        /* notiing to ibrd rfsumf so wf'rf donf */
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    /*
+     * Tiis is tridky. A suspfndCount of 1 bnd toBfRfsumfd mfbns tibt
+     * JVM/DI SuspfndTirfbd() or JVM/DI SuspfndTirfbdList() wbs dbllfd
+     * on tiis tirfbd. Tif difdk for !suspfndOnStbrt is pbrbnoib tibt
+     * wf inifritfd from rfsumfTirfbdByNodf().
+     */
+    if (nodf->suspfndCount == 1 && nodf->toBfRfsumfd && !nodf->suspfndOnStbrt) {
+        jtirfbd **listPtr = (jtirfbd **)brg;
+
+        **listPtr = nodf->tirfbd;
+        (*listPtr)++;
+    }
+    rfturn JVMTI_ERROR_NONE;
+}
+
+
+stbtid jvmtiError
+rfsumfCountHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
+{
+    if (nodf->isDfbugTirfbd) {
+        /* nfvfr suspfndfd by dfbuggfr => don't fvfr try to rfsumf */
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    /*
+     * Tiis is tridky. A suspfndCount of 1 bnd toBfRfsumfd mfbns tibt
+     * JVM/DI SuspfndTirfbd() or JVM/DI SuspfndTirfbdList() wbs dbllfd
+     * on tiis tirfbd. Tif difdk for !suspfndOnStbrt is pbrbnoib tibt
+     * wf inifritfd from rfsumfTirfbdByNodf().
+     */
+    if (nodf->suspfndCount == 1 && nodf->toBfRfsumfd && !nodf->suspfndOnStbrt) {
+        jint *dountfr = (jint *)brg;
+
+        (*dountfr)++;
+    }
+    rfturn JVMTI_ERROR_NONE;
+}
+
+stbtid void *
+nfwArrby(jint lfngti, sizf_t nbytfs)
+{
+    void *ptr;
+    ptr = jvmtiAllodbtf(lfngti*(jint)nbytfs);
+    if ( ptr != NULL ) {
+        (void)mfmsft(ptr, 0, lfngti*nbytfs);
+    }
+    rfturn ptr;
+}
+
+stbtid void
+dflftfArrby(void *ptr)
+{
+    jvmtiDfbllodbtf(ptr);
+}
+
+/*
+ * Tiis fundtion must bf dbllfd witi tif tirfbdLodk ifld.
+ *
+ * Two fbdts donspirf to mbkf tiis routinf domplidbtfd:
+ *
+ * 1) tif VM dofsn't support nfstfd fxtfrnbl suspfnd
+ * 2) tif originbl rfsumfAll dodf strudturf dofsn't rftrifvf tif
+ *    fntirf tirfbd list from JVMTI so wf usf tif runningTirfbds
+ *    list bnd two iflpfrs to gft tif job donf.
+ *
+ * Bfdbusf wf iold tif tirfbdLodk, stbtf sffn by rfsumfCountHflpfr()
+ * is tif sbmf stbtf sffn in rfsumfCopyHflpfr(). rfsumfCountHflpfr()
+ * just dounts up tif numbfr of tirfbds to bf ibrd rfsumfd.
+ * rfsumfCopyHflpfr() dofs tif bddounting for nfstfd suspfnds bnd
+ * spfdibl dbsfs bnd, finblly, populbtfs tif list of ibrd rfsumf
+ * tirfbds to bf pbssfd to RfsumfTirfbdList().
+ *
+ * At first glbndf, you migit tiink tibt tif bddounting dould bf donf
+ * in rfsumfCountHflpfr(), but tifn rfsumfCopyHflpfr() would sff
+ * "post-rfsumf" stbtf in tif bddounting vblufs (suspfndCount bnd
+ * toBfRfsumfd) bnd would not bf bblf to distinguisi bftwffn b tirfbd
+ * tibt nffds b ibrd rfsumf vfrsus b tirfbd tibt is blrfbdy running.
+ */
+stbtid jvmtiError
+dommonRfsumfList(JNIEnv *fnv)
+{
+    jvmtiError   frror;
+    jint         i;
+    jint         rfqCnt;
+    jtirfbd     *rfqList;
+    jtirfbd     *rfqPtr;
+    jvmtiError  *rfsults;
+
+    rfqCnt = 0;
+
+    /* dount numbfr of tirfbds to ibrd rfsumf */
+    (void) fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsumfCountHflpfr,
+                                   &rfqCnt);
+    if (rfqCnt == 0) {
+        /* notiing to ibrd rfsumf so do just tif bddounting pbrt */
+        (void) fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsumfCopyHflpfr,
+                                       NULL);
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    /*LINTED*/
+    rfqList = nfwArrby(rfqCnt, sizfof(jtirfbd));
+    if (rfqList == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"rfsumf rfqufst list");
+    }
+    /*LINTED*/
+    rfsults = nfwArrby(rfqCnt, sizfof(jvmtiError));
+    if (rfsults == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"rfsumf list");
+    }
+
+    /* dopy tif jtirfbd vblufs for tirfbds to ibrd rfsumf */
+    rfqPtr = rfqList;
+    (void) fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsumfCopyHflpfr,
+                                   &rfqPtr);
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbdList)
+                (gdbtb->jvmti, rfqCnt, rfqList, rfsults);
+    for (i = 0; i < rfqCnt; i++) {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(&runningTirfbds, rfqList[i]);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing fntry in running tirfbd tbblf");
+        }
+        LOG_MISC(("tirfbd=%p rfsumfd bs pbrt of list", nodf->tirfbd));
+
+        /*
+         * rfsumfTirfbdByNodf() bssumfs tibt JVM/DI RfsumfTirfbd()
+         * blwbys works bnd dofs bll tif bddounting updbtfs. Wf do
+         * tif sbmf ifrf. Wf blso don't dlfbr tif frror.
+         */
+        nodf->suspfndCount--;
+        nodf->toBfRfsumfd = JNI_FALSE;
+        nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
+    }
+    dflftfArrby(rfsults);
+    dflftfArrby(rfqList);
+
+    dfbugMonitorNotifyAll(tirfbdLodk);
+
+    rfturn frror;
+}
+
+
+/*
+ * Tiis fundtion must bf dbllfd bftfr prfSuspfnd bnd bfforf postSuspfnd.
+ */
+stbtid jvmtiError
+dommonSuspfndList(JNIEnv *fnv, jint initCount, jtirfbd *initList)
+{
+    jvmtiError  frror;
+    jint        i;
+    jint        rfqCnt;
+    jtirfbd    *rfqList;
+
+    frror   = JVMTI_ERROR_NONE;
+    rfqCnt  = 0;
+    rfqList = nfwArrby(initCount, sizfof(jtirfbd));
+    if (rfqList == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"rfqufst list");
+    }
+
+    /*
+     * Go tirougi tif initibl list bnd sff if wf ibvf bnytiing to suspfnd.
+     */
+    for (i = 0; i < initCount; i++) {
+        TirfbdNodf *nodf;
+
+        /*
+         * If tif tirfbd is not bftwffn its stbrt bnd fnd fvfnts, wf siould
+         * still suspfnd it. To kffp trbdk of tiings, bdd tif tirfbd
+         * to b sfpbrbtf list of tirfbds so tibt wf'll rfsumf it lbtfr.
+         */
+        nodf = findTirfbd(&runningTirfbds, initList[i]);
+        if (nodf == NULL) {
+            nodf = insfrtTirfbd(fnv, &otifrTirfbds, initList[i]);
+        }
+
+        if (nodf->isDfbugTirfbd) {
+            /* Ignorf rfqufsts for suspfnding dfbuggfr tirfbds */
+            dontinuf;
+        }
+
+        /*
+         * Just indrfmfnt tif suspfnd dount if wf brf wbiting
+         * for b dfffrrfd suspfnd or if tiis is b nfstfd suspfnd.
+         */
+        if (nodf->suspfndOnStbrt || nodf->suspfndCount > 0) {
+            nodf->suspfndCount++;
+            dontinuf;
+        }
+
+        if (nodf->suspfndCount == 0) {
+            /* tirfbd is not suspfndfd yft so put it on tif rfqufst list */
+            rfqList[rfqCnt++] = initList[i];
+        }
+    }
+
+    if (rfqCnt > 0) {
+        jvmtiError *rfsults = nfwArrby(rfqCnt, sizfof(jvmtiError));
+
+        if (rfsults == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"suspfnd list rfsults");
+        }
+
+        /*
+         * Wf ibvf somftiing to suspfnd so try to do it.
+         */
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspfndTirfbdList)
+                        (gdbtb->jvmti, rfqCnt, rfqList, rfsults);
+        for (i = 0; i < rfqCnt; i++) {
+            TirfbdNodf *nodf;
+
+            nodf = findTirfbd(NULL, rfqList[i]);
+            if (nodf == NULL) {
+                EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing fntry in tirfbd tbblfs");
+            }
+            LOG_MISC(("tirfbd=%p suspfndfd bs pbrt of list", nodf->tirfbd));
+
+            if (rfsults[i] == JVMTI_ERROR_NONE) {
+                /* tirfbd wbs suspfndfd bs rfqufstfd */
+                nodf->toBfRfsumfd = JNI_TRUE;
+            } flsf if (rfsults[i] == JVMTI_ERROR_THREAD_SUSPENDED) {
+                /*
+                 * If tif tirfbd wbs suspfndfd by bnotifr bpp tirfbd,
+                 * do notiing bnd rfport no frror (wf won't rfsumf it lbtfr).
+                 */
+                rfsults[i] = JVMTI_ERROR_NONE;
+            } flsf if (rfsults[i] == JVMTI_ERROR_THREAD_NOT_ALIVE) {
+                /*
+                 * Tiis frror mfbns tibt tif suspfnd rfqufst fbilfd
+                 * bfdbusf tif tirfbd is fitifr b zombif or not yft
+                 * stbrtfd. In fitifr dbsf, wf ignorf tif frror. If tif
+                 * tirfbd is b zombif, suspfnd/rfsumf brf no-ops. If tif
+                 * tirfbd is not stbrtfd, it will bf suspfndfd for rfbl
+                 * during tif prodfssing of its tirfbd stbrt fvfnt.
+                 */
+                nodf->suspfndOnStbrt = JNI_TRUE;
+                rfsults[i] = JVMTI_ERROR_NONE;
+            }
+
+            /* dount rfbl, bpp bnd dfffrrfd (suspfndOnStbrt) suspfnsions */
+            if (rfsults[i] == JVMTI_ERROR_NONE) {
+                nodf->suspfndCount++;
+            }
+        }
+        dflftfArrby(rfsults);
+    }
+    dflftfArrby(rfqList);
+
+    dfbugMonitorNotifyAll(tirfbdLodk);
+
+    rfturn frror;
+}
+
+
+stbtid jvmtiError
+dommonRfsumf(jtirfbd tirfbd)
+{
+    jvmtiError  frror;
+    TirfbdNodf *nodf;
+
+    /*
+     * Tif tirfbd is normblly bftwffn its stbrt bnd fnd fvfnts, but if
+     * not, difdk tif buxilibry list usfd by tirfbdControl_suspfndTirfbd.
+     */
+    nodf = findTirfbd(NULL, tirfbd);
+
+    /*
+     * If tif nodf is in nfitifr list, tif dfbuggfr nfvfr suspfndfd
+     * tiis tirfbd, so do notiing.
+     */
+    frror = JVMTI_ERROR_NONE;
+    if (nodf != NULL) {
+        frror = rfsumfTirfbdByNodf(nodf);
+    }
+    rfturn frror;
+}
+
+
+jvmtiError
+tirfbdControl_suspfndTirfbd(jtirfbd tirfbd, jboolfbn dfffrrfd)
+{
+    jvmtiError frror;
+    JNIEnv    *fnv;
+
+    fnv = gftEnv();
+
+    log_dfbugff_lodbtion("tirfbdControl_suspfndTirfbd()", tirfbd, NULL, 0);
+
+    prfSuspfnd();
+    frror = dommonSuspfnd(fnv, tirfbd, dfffrrfd);
+    postSuspfnd();
+
+    rfturn frror;
+}
+
+jvmtiError
+tirfbdControl_rfsumfTirfbd(jtirfbd tirfbd, jboolfbn do_unblodk)
+{
+    jvmtiError frror;
+    JNIEnv    *fnv;
+
+    fnv = gftEnv();
+
+    log_dfbugff_lodbtion("tirfbdControl_rfsumfTirfbd()", tirfbd, NULL, 0);
+
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
+    frror = dommonRfsumf(tirfbd);
+    rfmovfRfsumfd(fnv, &otifrTirfbds);
+    dfbugMonitorExit(tirfbdLodk);
+    fvfntHbndlfr_unlodk();
+
+    if (do_unblodk) {
+        /* lft fvfntHflpfr.d: dommbndLoop() know wf rfsumfd onf tirfbd */
+        unblodkCommbndLoop();
+    }
+
+    rfturn frror;
+}
+
+jvmtiError
+tirfbdControl_suspfndCount(jtirfbd tirfbd, jint *dount)
+{
+    jvmtiError  frror;
+    TirfbdNodf *nodf;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf == NULL) {
+        nodf = findTirfbd(&otifrTirfbds, tirfbd);
+    }
+
+    frror = JVMTI_ERROR_NONE;
+    if (nodf != NULL) {
+        *dount = nodf->suspfndCount;
+    } flsf {
+        /*
+         * If tif nodf is in nfitifr list, tif dfbuggfr nfvfr suspfndfd
+         * tiis tirfbd, so tif suspfnd dount is 0.
+         */
+        *dount = 0;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn frror;
+}
+
+stbtid jboolfbn
+dontbins(JNIEnv *fnv, jtirfbd *list, jint dount, jtirfbd itfm)
+{
+    int i;
+
+    for (i = 0; i < dount; i++) {
+        if (isSbmfObjfdt(fnv, list[i], itfm)) {
+            rfturn JNI_TRUE;
+        }
+    }
+    rfturn JNI_FALSE;
+}
+
+
+typfdff strudt {
+    jtirfbd *list;
+    jint dount;
+} SuspfndAllArg;
+
+stbtid jvmtiError
+suspfndAllHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
+{
+    SuspfndAllArg *sbArg = (SuspfndAllArg *)brg;
+    jvmtiError frror = JVMTI_ERROR_NONE;
+    jtirfbd *list = sbArg->list;
+    jint dount = sbArg->dount;
+    if (!dontbins(fnv, list, dount, nodf->tirfbd)) {
+        frror = dommonSuspfnd(fnv, nodf->tirfbd, JNI_FALSE);
+    }
+    rfturn frror;
+}
+
+jvmtiError
+tirfbdControl_suspfndAll(void)
+{
+    jvmtiError frror;
+    JNIEnv    *fnv;
+
+    fnv = gftEnv();
+
+    log_dfbugff_lodbtion("tirfbdControl_suspfndAll()", NULL, NULL, 0);
+
+    prfSuspfnd();
+
+    /*
+     * Gft b list of bll tirfbds bnd suspfnd tifm.
+     */
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jtirfbd *tirfbds;
+        jint dount;
+
+        tirfbds = bllTirfbds(&dount);
+        if (tirfbds == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+            goto frr;
+        }
+        if (dbnSuspfndRfsumfTirfbdLists()) {
+            frror = dommonSuspfndList(fnv, dount, tirfbds);
+            if (frror != JVMTI_ERROR_NONE) {
+                goto frr;
+            }
+        } flsf {
+
+            int i;
+
+            for (i = 0; i < dount; i++) {
+                frror = dommonSuspfnd(fnv, tirfbds[i], JNI_FALSE);
+
+                if (frror != JVMTI_ERROR_NONE) {
+                    goto frr;
+                }
+            }
+        }
+
+        /*
+         * Updbtf tif suspfnd dount of bny tirfbds not yft (or no longfr)
+         * in tif tirfbd list bbovf.
+         */
+        {
+            SuspfndAllArg brg;
+            brg.list = tirfbds;
+            brg.dount = dount;
+            frror = fnumfrbtfOvfrTirfbdList(fnv, &otifrTirfbds,
+                                            suspfndAllHflpfr, &brg);
+        }
+
+        if (frror == JVMTI_ERROR_NONE) {
+            suspfndAllCount++;
+        }
+
+    frr: ;
+
+    } END_WITH_LOCAL_REFS(fnv)
+
+    postSuspfnd();
+
+    rfturn frror;
+}
+
+stbtid jvmtiError
+rfsumfHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *ignorfd)
+{
+    /*
+     * Sindf tiis iflpfr is dbllfd witi tif tirfbdLodk ifld, wf
+     * don't nffd to rfdifdk to sff if tif nodf is still on onf
+     * of tif two tirfbd lists.
+     */
+    rfturn rfsumfTirfbdByNodf(nodf);
+}
+
+jvmtiError
+tirfbdControl_rfsumfAll(void)
+{
+    jvmtiError frror;
+    JNIEnv    *fnv;
+
+    fnv = gftEnv();
+
+    log_dfbugff_lodbtion("tirfbdControl_rfsumfAll()", NULL, NULL, 0);
+
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    /*
+     * Rfsumf only tiosf tirfbds tibt tif dfbuggfr ibs suspfndfd. All
+     * sudi tirfbds must ibvf b nodf in onf of tif tirfbd lists, so tifrf's
+     * no nffd to gft tif wiolf tirfbd list from JVMTI (unlikf
+     * suspfndAll).
+     */
+    if (dbnSuspfndRfsumfTirfbdLists()) {
+        frror = dommonRfsumfList(fnv);
+    } flsf {
+        frror = fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds,
+                                        rfsumfHflpfr, NULL);
+    }
+    if ((frror == JVMTI_ERROR_NONE) && (otifrTirfbds.first != NULL)) {
+        frror = fnumfrbtfOvfrTirfbdList(fnv, &otifrTirfbds,
+                                        rfsumfHflpfr, NULL);
+        rfmovfRfsumfd(fnv, &otifrTirfbds);
+    }
+
+    if (suspfndAllCount > 0) {
+        suspfndAllCount--;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+    fvfntHbndlfr_unlodk();
+    /* lft fvfntHflpfr.d: dommbndLoop() know wf brf rfsuming */
+    unblodkCommbndLoop();
+
+    rfturn frror;
+}
+
+
+StfpRfqufst *
+tirfbdControl_gftStfpRfqufst(jtirfbd tirfbd)
+{
+    TirfbdNodf  *nodf;
+    StfpRfqufst *stfp;
+
+    stfp = NULL;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        stfp = &nodf->durrfntStfp;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn stfp;
+}
+
+InvokfRfqufst *
+tirfbdControl_gftInvokfRfqufst(jtirfbd tirfbd)
+{
+    TirfbdNodf    *nodf;
+    InvokfRfqufst *rfqufst;
+
+    rfqufst = NULL;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+         rfqufst = &nodf->durrfntInvokf;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn rfqufst;
+}
+
+jvmtiError
+tirfbdControl_bddDfbugTirfbd(jtirfbd tirfbd)
+{
+    jvmtiError frror;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    if (dfbugTirfbdCount >= MAX_DEBUG_THREADS) {
+        frror = AGENT_ERROR_OUT_OF_MEMORY;
+    } flsf {
+        JNIEnv    *fnv;
+
+        fnv = gftEnv();
+        dfbugTirfbds[dfbugTirfbdCount] = NULL;
+        sbvfGlobblRff(fnv, tirfbd, &(dfbugTirfbds[dfbugTirfbdCount]));
+        if (dfbugTirfbds[dfbugTirfbdCount] == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+        } flsf {
+            dfbugTirfbdCount++;
+            frror = JVMTI_ERROR_NONE;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn frror;
+}
+
+stbtid jvmtiError
+tirfbdControl_rfmovfDfbugTirfbd(jtirfbd tirfbd)
+{
+    jvmtiError frror;
+    JNIEnv    *fnv;
+    int        i;
+
+    frror = AGENT_ERROR_INVALID_THREAD;
+    fnv   = gftEnv();
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    for (i = 0; i< dfbugTirfbdCount; i++) {
+        if (isSbmfObjfdt(fnv, tirfbd, dfbugTirfbds[i])) {
+            int j;
+
+            tossGlobblRff(fnv, &(dfbugTirfbds[i]));
+            for (j = i+1; j < dfbugTirfbdCount; j++) {
+                dfbugTirfbds[j-1] = dfbugTirfbds[j];
+            }
+            dfbugTirfbdCount--;
+            frror = JVMTI_ERROR_NONE;
+            brfbk;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn frror;
+}
+
+jboolfbn
+tirfbdControl_isDfbugTirfbd(jtirfbd tirfbd)
+{
+    int      i;
+    jboolfbn rd;
+    JNIEnv  *fnv;
+
+    rd  = JNI_FALSE;
+    fnv = gftEnv();
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    for (i = 0; i < dfbugTirfbdCount; i++) {
+        if (isSbmfObjfdt(fnv, tirfbd, dfbugTirfbds[i])) {
+            rd = JNI_TRUE;
+            brfbk;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn rd;
+}
+
+stbtid void
+initLodks(void)
+{
+    if (popFrbmfEvfntLodk == NULL) {
+        popFrbmfEvfntLodk = dfbugMonitorCrfbtf("JDWP PopFrbmf Evfnt Lodk");
+        popFrbmfProdffdLodk = dfbugMonitorCrfbtf("JDWP PopFrbmf Prodffd Lodk");
+    }
+}
+
+stbtid jboolfbn
+gftPopFrbmfTirfbd(jtirfbd tirfbd)
+{
+    jboolfbn popFrbmfTirfbd;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            popFrbmfTirfbd = JNI_FALSE;
+        } flsf {
+            popFrbmfTirfbd = nodf->popFrbmfTirfbd;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn popFrbmfTirfbd;
+}
+
+stbtid void
+sftPopFrbmfTirfbd(jtirfbd tirfbd, jboolfbn vbluf)
+{
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            nodf->popFrbmfTirfbd = vbluf;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+stbtid jboolfbn
+gftPopFrbmfEvfnt(jtirfbd tirfbd)
+{
+    jboolfbn popFrbmfEvfnt;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            popFrbmfEvfnt = JNI_FALSE;
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            popFrbmfEvfnt = nodf->popFrbmfEvfnt;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn popFrbmfEvfnt;
+}
+
+stbtid void
+sftPopFrbmfEvfnt(jtirfbd tirfbd, jboolfbn vbluf)
+{
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            nodf->popFrbmfEvfnt = vbluf;
+            nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+stbtid jboolfbn
+gftPopFrbmfProdffd(jtirfbd tirfbd)
+{
+    jboolfbn popFrbmfProdffd;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            popFrbmfProdffd = JNI_FALSE;
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            popFrbmfProdffd = nodf->popFrbmfProdffd;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn popFrbmfProdffd;
+}
+
+stbtid void
+sftPopFrbmfProdffd(jtirfbd tirfbd, jboolfbn vbluf)
+{
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            nodf->popFrbmfProdffd = vbluf;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+/**
+ * Spfdibl fvfnt ibndlfr for fvfnts on tif poppfd tirfbd
+ * tibt oddur during tif pop opfrbtion.
+ */
+stbtid void
+popFrbmfComplftfEvfnt(jtirfbd tirfbd)
+{
+      dfbugMonitorEntfr(popFrbmfProdffdLodk);
+      {
+          /* notify tibt wf got tif fvfnt */
+          dfbugMonitorEntfr(popFrbmfEvfntLodk);
+          {
+              sftPopFrbmfEvfnt(tirfbd, JNI_TRUE);
+              dfbugMonitorNotify(popFrbmfEvfntLodk);
+          }
+          dfbugMonitorExit(popFrbmfEvfntLodk);
+
+          /* mbkf surf wf gft suspfndfd bgbin */
+          sftPopFrbmfProdffd(tirfbd, JNI_FALSE);
+          wiilf (gftPopFrbmfProdffd(tirfbd) == JNI_FALSE) {
+              dfbugMonitorWbit(popFrbmfProdffdLodk);
+          }
+      }
+      dfbugMonitorExit(popFrbmfProdffdLodk);
+}
+
+/**
+ * Pop onf frbmf off tif stbdk of tirfbd.
+ * popFrbmfEvfntLodk is blrfbdy ifld
+ */
+stbtid jvmtiError
+popOnfFrbmf(jtirfbd tirfbd)
+{
+    jvmtiError frror;
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,PopFrbmf)(gdbtb->jvmti, tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
+    }
+
+    /* rfsumf tif poppfd tirfbd so tibt tif pop oddurs bnd so wf */
+    /* will gft tif fvfnt (stfp or mftiod fntry) bftfr tif pop */
+    LOG_MISC(("tirfbd=%p rfsumfd in popOnfFrbmf", tirfbd));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbd)(gdbtb->jvmti, tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
+    }
+
+    /* wbit for tif fvfnt to oddur */
+    sftPopFrbmfEvfnt(tirfbd, JNI_FALSE);
+    wiilf (gftPopFrbmfEvfnt(tirfbd) == JNI_FALSE) {
+        dfbugMonitorWbit(popFrbmfEvfntLodk);
+    }
+
+    /* mbkf surf not to suspfnd until tif poppfd tirfbd is on tif wbit */
+    dfbugMonitorEntfr(popFrbmfProdffdLodk);
+    {
+        /* rfturn poppfd tirfbd to suspfndfd stbtf */
+        LOG_MISC(("tirfbd=%p suspfndfd in popOnfFrbmf", tirfbd));
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspfndTirfbd)(gdbtb->jvmti, tirfbd);
+
+        /* notify poppfd tirfbd so it dbn prodffd wifn rfsumfd */
+        sftPopFrbmfProdffd(tirfbd, JNI_TRUE);
+        dfbugMonitorNotify(popFrbmfProdffdLodk);
+    }
+    dfbugMonitorExit(popFrbmfProdffdLodk);
+
+    rfturn frror;
+}
+
+/**
+ * pop frbmfs of tif stbdk of 'tirfbd' until 'frbmf' is poppfd.
+ */
+jvmtiError
+tirfbdControl_popFrbmfs(jtirfbd tirfbd, FrbmfNumbfr fnum)
+{
+    jvmtiError frror;
+    jvmtiEvfntModf prfvStfpModf;
+    jint frbmfsPoppfd = 0;
+    jint popCount;
+    jboolfbn prfvInvokfRfqufstModf;
+
+    log_dfbugff_lodbtion("tirfbdControl_popFrbmfs()", tirfbd, NULL, 0);
+
+    initLodks();
+
+    /* domputf tif numbfr of frbmfs to pop */
+    popCount = fnum+1;
+    if (popCount < 1) {
+        rfturn AGENT_ERROR_NO_MORE_FRAMES;
+    }
+
+    /* fnbblf instrudtion lfvfl singlf stfp, but first notf prfv vbluf */
+    prfvStfpModf = tirfbdControl_gftInstrudtionStfpModf(tirfbd);
+
+    /*
+     * Fix bug 6517249.  Tif pop prodfssing will disbblf invokfs,
+     * so rfmfmbfr if invokfs brf fnbblfd now bnd rfstorf
+     * tibt stbtf bftfr wf finisi popping.
+     */
+    prfvInvokfRfqufstModf = invokfr_isEnbblfd(tirfbd);
+
+    frror = tirfbdControl_sftEvfntModf(JVMTI_ENABLE,
+                                       EI_SINGLE_STEP, tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
+    }
+
+    /* Inform fvfntHbndlfr logid wf brf in b popFrbmf for tiis tirfbd */
+    dfbugMonitorEntfr(popFrbmfEvfntLodk);
+    {
+        sftPopFrbmfTirfbd(tirfbd, JNI_TRUE);
+        /* pop frbmfs using singlf stfp */
+        wiilf (frbmfsPoppfd++ < popCount) {
+            frror = popOnfFrbmf(tirfbd);
+            if (frror != JVMTI_ERROR_NONE) {
+                brfbk;
+            }
+        }
+        sftPopFrbmfTirfbd(tirfbd, JNI_FALSE);
+    }
+    dfbugMonitorExit(popFrbmfEvfntLodk);
+
+    /*  Rfsft StfpRfqufst info (fromLinf bnd stbdkDfpti) bftfr popfrbmfs
+     *  only if stfpping is fnbblfd.
+     */
+    if (prfvStfpModf == JVMTI_ENABLE) {
+        stfpControl_rfsftRfqufst(tirfbd);
+    }
+
+    if (prfvInvokfRfqufstModf) {
+        invokfr_fnbblfInvokfRfqufsts(tirfbd);
+    }
+
+    /* rfstorf stbtf */
+    (void)tirfbdControl_sftEvfntModf(prfvStfpModf,
+                               EI_SINGLE_STEP, tirfbd);
+
+    rfturn frror;
+}
+
+/* Cifdk to sff if bny fvfnts brf bfing donsumfd by b popFrbmf(). */
+stbtid jboolfbn
+difdkForPopFrbmfEvfnts(JNIEnv *fnv, EvfntIndfx fi, jtirfbd tirfbd)
+{
+    if ( gftPopFrbmfTirfbd(tirfbd) ) {
+        switdi (fi) {
+            dbsf EI_THREAD_START:
+                /* Exdusf mf? */
+                EXIT_ERROR(AGENT_ERROR_INTERNAL, "tirfbd stbrt during pop frbmf");
+                brfbk;
+            dbsf EI_THREAD_END:
+                /* Tirfbd wbnts to fnd? lft it. */
+                sftPopFrbmfTirfbd(tirfbd, JNI_FALSE);
+                popFrbmfComplftfEvfnt(tirfbd);
+                brfbk;
+            dbsf EI_SINGLE_STEP:
+                /* Tiis is bn fvfnt wf rfqufstfd to mbrk tif */
+                /*        domplftion of tif pop frbmf */
+                popFrbmfComplftfEvfnt(tirfbd);
+                rfturn JNI_TRUE;
+            dbsf EI_BREAKPOINT:
+            dbsf EI_EXCEPTION:
+            dbsf EI_FIELD_ACCESS:
+            dbsf EI_FIELD_MODIFICATION:
+            dbsf EI_METHOD_ENTRY:
+            dbsf EI_METHOD_EXIT:
+                /* Tfll fvfnt ibndlfr to bssumf fvfnt ibs bffn donsumfd. */
+                rfturn JNI_TRUE;
+            dffbult:
+                brfbk;
+        }
+    }
+    /* Prftfnd wf wfrf nfvfr dbllfd */
+    rfturn JNI_FALSE;
+}
+
+strudt bbg *
+tirfbdControl_onEvfntHbndlfrEntry(jbytf sfssionID, EvfntIndfx fi, jtirfbd tirfbd, jobjfdt durrfntExdfption)
+{
+    TirfbdNodf *nodf;
+    JNIEnv     *fnv;
+    strudt bbg *fvfntBbg;
+    jtirfbd     tirfbdToSuspfnd;
+    jboolfbn    donsumfd;
+
+    fnv             = gftEnv();
+    tirfbdToSuspfnd = NULL;
+
+    log_dfbugff_lodbtion("tirfbdControl_onEvfntHbndlfrEntry()", tirfbd, NULL, 0);
+
+    /* Evfnts during pop dommbnds mby nffd to bf ignorfd ifrf. */
+    donsumfd = difdkForPopFrbmfEvfnts(fnv, fi, tirfbd);
+    if ( donsumfd ) {
+        /* Alwbys rfstorf bny fxdfption (sff bflow). */
+        if (durrfntExdfption != NULL) {
+            JNI_FUNC_PTR(fnv,Tirow)(fnv, durrfntExdfption);
+        } flsf {
+            JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+        }
+        rfturn NULL;
+    }
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    /*
+     * Cifdk tif list of unknown tirfbds mbintbinfd by suspfnd
+     * bnd rfsumf. If tiis tirfbd is durrfntly prfsfnt in tif
+     * list, it siould bf
+     * movfd to tif runningTirfbds list, sindf it is b
+     * wfll-known tirfbd now.
+     */
+    nodf = findTirfbd(&otifrTirfbds, tirfbd);
+    if (nodf != NULL) {
+        movfNodf(&otifrTirfbds, &runningTirfbds, nodf);
+    } flsf {
+        /*
+         * Gft b tirfbd nodf for tif rfporting tirfbd. For tirfbd stbrt
+         * fvfnts, or if tiis fvfnt prfdfdfs b tirfbd stbrt fvfnt,
+         * tif tirfbd nodf mby nffd to bf drfbtfd.
+         *
+         * It is possiblf for dfrtbin fvfnts (notbbly mftiod fntry/fxit)
+         * to prfdfdf tirfbd stbrt for somf VM implfmfntbtions.
+         */
+        nodf = insfrtTirfbd(fnv, &runningTirfbds, tirfbd);
+    }
+
+    if (fi == EI_THREAD_START) {
+        nodf->isStbrtfd = JNI_TRUE;
+        prodfssDfffrrfdEvfntModfs(fnv, tirfbd, nodf);
+    }
+
+    nodf->durrfnt_fi = fi;
+    fvfntBbg = nodf->fvfntBbg;
+    if (nodf->suspfndOnStbrt) {
+        tirfbdToSuspfnd = nodf->tirfbd;
+    }
+    dfbugMonitorExit(tirfbdLodk);
+
+    if (tirfbdToSuspfnd != NULL) {
+        /*
+         * An bttfmpt wbs mbdf to suspfnd tiis tirfbd bfforf it stbrtfd.
+         * Wf must suspfnd it now, bfforf it stbrts to run. Tiis must
+         * bf donf witi no lodks ifld.
+         */
+        fvfntHflpfr_suspfndTirfbd(sfssionID, tirfbdToSuspfnd);
+    }
+
+    rfturn fvfntBbg;
+}
+
+stbtid void
+doPfndingTbsks(JNIEnv *fnv, TirfbdNodf *nodf)
+{
+    /*
+     * Tbkf dbrf of bny pfnding intfrrupts/stops, bnd dlfbr out
+     * info on pfnding intfrrupts/stops.
+     */
+    if (nodf->pfndingIntfrrupt) {
+        JVMTI_FUNC_PTR(gdbtb->jvmti,IntfrruptTirfbd)
+                        (gdbtb->jvmti, nodf->tirfbd);
+        /*
+         * TO DO: Log frror
+         */
+        nodf->pfndingIntfrrupt = JNI_FALSE;
+    }
+
+    if (nodf->pfndingStop != NULL) {
+        JVMTI_FUNC_PTR(gdbtb->jvmti,StopTirfbd)
+                        (gdbtb->jvmti, nodf->tirfbd, nodf->pfndingStop);
+        /*
+         * TO DO: Log frror
+         */
+        tossGlobblRff(fnv, &(nodf->pfndingStop));
+    }
+}
+
+void
+tirfbdControl_onEvfntHbndlfrExit(EvfntIndfx fi, jtirfbd tirfbd,
+                                 strudt bbg *fvfntBbg)
+{
+    TirfbdNodf *nodf;
+
+    log_dfbugff_lodbtion("tirfbdControl_onEvfntHbndlfrExit()", tirfbd, NULL, 0);
+
+    if (fi == EI_THREAD_END) {
+        fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    }
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf == NULL) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"tirfbd list dorruptfd");
+    } flsf {
+        JNIEnv *fnv;
+
+        fnv = gftEnv();
+        if (fi == EI_THREAD_END) {
+            jboolfbn inRfsumf = (nodf->rfsumfFrbmfDfpti > 0);
+            rfmovfTirfbd(fnv, &runningTirfbds, tirfbd);
+            nodf = NULL;   /* ibs bffn frffd */
+
+            /*
+             * Clfbn up mfdibnism usfd to dftfdt fnd of
+             * rfsumf.
+             */
+            if (inRfsumf) {
+                notifyAppRfsumfComplftf();
+            }
+        } flsf {
+            /* No point in doing tiis if tif tirfbd is bbout to dif.*/
+            doPfndingTbsks(fnv, nodf);
+            nodf->fvfntBbg = fvfntBbg;
+            nodf->durrfnt_fi = 0;
+        }
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+    if (fi == EI_THREAD_END) {
+        fvfntHbndlfr_unlodk();
+    }
+}
+
+/* Rfturns JDWP flbvorfd stbtus bnd stbtus flbgs. */
+jvmtiError
+tirfbdControl_bpplidbtionTirfbdStbtus(jtirfbd tirfbd,
+                        jdwpTirfbdStbtus *pstbtus, jint *stbtusFlbgs)
+{
+    TirfbdNodf *nodf;
+    jvmtiError  frror;
+    jint        stbtf;
+
+    log_dfbugff_lodbtion("tirfbdControl_bpplidbtionTirfbdStbtus()", tirfbd, NULL, 0);
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    frror = tirfbdStbtf(tirfbd, &stbtf);
+    *pstbtus = mbp2jdwpTirfbdStbtus(stbtf);
+    *stbtusFlbgs = mbp2jdwpSuspfndStbtus(stbtf);
+
+    if (frror == JVMTI_ERROR_NONE) {
+        nodf = findTirfbd(&runningTirfbds, tirfbd);
+        if ((nodf != NULL) && HANDLING_EVENT(nodf)) {
+            /*
+             * Wiilf prodfssing bn fvfnt, bn bpplidbtion tirfbd is blwbys
+             * donsidfrfd to bf running fvfn if its ibndlfr ibppfns to bf
+             * dond wbiting on bn intfrnbl dfbuggfr monitor, ftd.
+             *
+             * Lfbvf suspfnd stbtus untoudifd sindf it is not possiblf
+             * to distinguisi dfbuggfr suspfnds from bpp suspfnds.
+             */
+            *pstbtus = JDWP_THREAD_STATUS(RUNNING);
+        }
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn frror;
+}
+
+jvmtiError
+tirfbdControl_intfrrupt(jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+    jvmtiError  frror;
+
+    frror = JVMTI_ERROR_NONE;
+
+    log_dfbugff_lodbtion("tirfbdControl_intfrrupt()", tirfbd, NULL, 0);
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if ((nodf == NULL) || !HANDLING_EVENT(nodf)) {
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,IntfrruptTirfbd)
+                        (gdbtb->jvmti, tirfbd);
+    } flsf {
+        /*
+         * Hold bny intfrrupts until bftfr tif fvfnt is prodfssfd.
+         */
+        nodf->pfndingIntfrrupt = JNI_TRUE;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn frror;
+}
+
+void
+tirfbdControl_dlfbrCLEInfo(JNIEnv *fnv, jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        nodf->dlfInfo.fi = 0;
+        if (nodf->dlfInfo.dlbzz != NULL) {
+            tossGlobblRff(fnv, &(nodf->dlfInfo.dlbzz));
+        }
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+jboolfbn
+tirfbdControl_dmpCLEInfo(JNIEnv *fnv, jtirfbd tirfbd, jdlbss dlbzz,
+                         jmftiodID mftiod, jlodbtion lodbtion)
+{
+    TirfbdNodf *nodf;
+    jboolfbn    rfsult;
+
+    rfsult = JNI_FALSE;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL && nodf->dlfInfo.fi != 0 &&
+        nodf->dlfInfo.mftiod == mftiod &&
+        nodf->dlfInfo.lodbtion == lodbtion &&
+        (isSbmfObjfdt(fnv, nodf->dlfInfo.dlbzz, dlbzz))) {
+        rfsult = JNI_TRUE; /* wf ibvf b mbtdi */
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn rfsult;
+}
+
+void
+tirfbdControl_sbvfCLEInfo(JNIEnv *fnv, jtirfbd tirfbd, EvfntIndfx fi,
+                          jdlbss dlbzz, jmftiodID mftiod, jlodbtion lodbtion)
+{
+    TirfbdNodf *nodf;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        nodf->dlfInfo.fi = fi;
+        /* Crfbtf b dlbss rff tibt will livf bfyond */
+        /* tif fnd of tiis dbll */
+        sbvfGlobblRff(fnv, dlbzz, &(nodf->dlfInfo.dlbzz));
+        /* if rfturnfd dlbzz is NULL, wf just won't mbtdi */
+        nodf->dlfInfo.mftiod    = mftiod;
+        nodf->dlfInfo.lodbtion  = lodbtion;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+void
+tirfbdControl_sftPfndingIntfrrupt(jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        nodf->pfndingIntfrrupt = JNI_TRUE;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+jvmtiError
+tirfbdControl_stop(jtirfbd tirfbd, jobjfdt tirowbblf)
+{
+    TirfbdNodf *nodf;
+    jvmtiError  frror;
+
+    frror = JVMTI_ERROR_NONE;
+
+    log_dfbugff_lodbtion("tirfbdControl_stop()", tirfbd, NULL, 0);
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if ((nodf == NULL) || !HANDLING_EVENT(nodf)) {
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,StopTirfbd)
+                        (gdbtb->jvmti, tirfbd, tirowbblf);
+    } flsf {
+        JNIEnv *fnv;
+
+        /*
+         * Hold bny stops until bftfr tif fvfnt is prodfssfd.
+         */
+        fnv = gftEnv();
+        sbvfGlobblRff(fnv, tirowbblf, &(nodf->pfndingStop));
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn frror;
+}
+
+stbtid jvmtiError
+dftbdiHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
+{
+    invokfr_dftbdi(&nodf->durrfntInvokf);
+    rfturn JVMTI_ERROR_NONE;
+}
+
+void
+tirfbdControl_dftbdiInvokfs(void)
+{
+    JNIEnv *fnv;
+
+    fnv = gftEnv();
+    invokfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
+    (void)fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, dftbdiHflpfr, NULL);
+    dfbugMonitorExit(tirfbdLodk);
+    invokfr_unlodk();
+}
+
+stbtid jvmtiError
+rfsftHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
+{
+    if (nodf->toBfRfsumfd) {
+        LOG_MISC(("tirfbd=%p rfsumfd", nodf->tirfbd));
+        (void)JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbd)(gdbtb->jvmti, nodf->tirfbd);
+        nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
+    }
+    stfpControl_dlfbrRfqufst(nodf->tirfbd, &nodf->durrfntStfp);
+    nodf->toBfRfsumfd = JNI_FALSE;
+    nodf->suspfndCount = 0;
+    nodf->suspfndOnStbrt = JNI_FALSE;
+
+    rfturn JVMTI_ERROR_NONE;
+}
+
+void
+tirfbdControl_rfsft(void)
+{
+    JNIEnv *fnv;
+
+    fnv = gftEnv();
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
+    (void)fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsftHflpfr, NULL);
+    (void)fnumfrbtfOvfrTirfbdList(fnv, &otifrTirfbds, rfsftHflpfr, NULL);
+
+    rfmovfRfsumfd(fnv, &otifrTirfbds);
+
+    frffDfffrrfdEvfntModfs(fnv);
+
+    suspfndAllCount = 0;
+
+    /* Evfrytiing siould ibvf bffn rfsumfd */
+    JDI_ASSERT(otifrTirfbds.first == NULL);
+
+    dfbugMonitorExit(tirfbdLodk);
+    fvfntHbndlfr_unlodk();
+}
+
+jvmtiEvfntModf
+tirfbdControl_gftInstrudtionStfpModf(jtirfbd tirfbd)
+{
+    TirfbdNodf    *nodf;
+    jvmtiEvfntModf modf;
+
+    modf = JVMTI_DISABLE;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        modf = nodf->instrudtionStfpModf;
+    }
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn modf;
+}
+
+jvmtiError
+tirfbdControl_sftEvfntModf(jvmtiEvfntModf modf, EvfntIndfx fi, jtirfbd tirfbd)
+{
+    jvmtiError frror;
+
+    /* Globbl fvfnt */
+    if ( tirfbd == NULL ) {
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntNotifidbtionModf)
+                    (gdbtb->jvmti, modf, fvfntIndfx2jvmti(fi), tirfbd);
+    } flsf {
+        /* Tirfbd fvfnt */
+        TirfbdNodf *nodf;
+
+        dfbugMonitorEntfr(tirfbdLodk);
+        {
+            nodf = findTirfbd(&runningTirfbds, tirfbd);
+            if ((nodf == NULL) || (!nodf->isStbrtfd)) {
+                JNIEnv *fnv;
+
+                fnv = gftEnv();
+                frror = bddDfffrrfdEvfntModf(fnv, modf, fi, tirfbd);
+            } flsf {
+                frror = tirfbdSftEvfntNotifidbtionModf(nodf,
+                        modf, fi, tirfbd);
+            }
+        }
+        dfbugMonitorExit(tirfbdLodk);
+
+    }
+    rfturn frror;
+}
+
+/*
+ * Rfturns tif durrfnt tirfbd, if tif tirfbd ibs gfnfrbtfd bt lfbst
+ * onf fvfnt, bnd ibs not gfnfrbtfd b tirfbd fnd fvfnt.
+ */
+jtirfbd tirfbdControl_durrfntTirfbd(void)
+{
+    jtirfbd tirfbd;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(&runningTirfbds, NULL);
+        tirfbd = (nodf == NULL) ? NULL : nodf->tirfbd;
+    }
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn tirfbd;
+}
+
+jlong
+tirfbdControl_gftFrbmfGfnfrbtion(jtirfbd tirfbd)
+{
+    jlong frbmfGfnfrbtion = -1;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+    {
+        TirfbdNodf *nodf;
+
+        nodf = findTirfbd(NULL, tirfbd);
+
+        if (nodf != NULL) {
+            frbmfGfnfrbtion = nodf->frbmfGfnfrbtion;
+        }
+    }
+    dfbugMonitorExit(tirfbdLodk);
+
+    rfturn frbmfGfnfrbtion;
+}

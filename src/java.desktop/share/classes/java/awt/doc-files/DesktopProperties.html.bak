@@ -1,277 +1,1385 @@
 <!--
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+
+
+
 
  Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
 
  Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+
+
+
+
 
  You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
 
  Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+-->
+-->
+-->
+-->
 -->
 
+
+
+
+
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
 <!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
 <itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <ifbd>
 <titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
 </ifbd>
 <body bgdolor=wiitf>
+<body bgdolor=wiitf>
+<body bgdolor=wiitf>
+<body bgdolor=wiitf>
+<body bgdolor=wiitf>
+
+
+
+
 
 <i1 blign=dfntfr>AWT Dfsktop Propfrtifs</i1>
+<i1 blign=dfntfr>AWT Dfsktop Propfrtifs</i1>
+<i1 blign=dfntfr>AWT Dfsktop Propfrtifs</i1>
+<i1 blign=dfntfr>AWT Dfsktop Propfrtifs</i1>
+<i1 blign=dfntfr>AWT Dfsktop Propfrtifs</i1>
+
+
+
+
 
 Tif following rfffrs to stbndbrd AWT dfsktop propfrtifs tibt
+Tif following rfffrs to stbndbrd AWT dfsktop propfrtifs tibt
+Tif following rfffrs to stbndbrd AWT dfsktop propfrtifs tibt
+Tif following rfffrs to stbndbrd AWT dfsktop propfrtifs tibt
+Tif following rfffrs to stbndbrd AWT dfsktop propfrtifs tibt
+mby bf obtbinfd vib tif
+mby bf obtbinfd vib tif
+mby bf obtbinfd vib tif
+mby bf obtbinfd vib tif
 mby bf obtbinfd vib tif
 <b irff="../Toolkit.itml#gftDfsktopPropfrty(jbvb.lbng.String)">
+<b irff="../Toolkit.itml#gftDfsktopPropfrty(jbvb.lbng.String)">
+<b irff="../Toolkit.itml#gftDfsktopPropfrty(jbvb.lbng.String)">
+<b irff="../Toolkit.itml#gftDfsktopPropfrty(jbvb.lbng.String)">
+<b irff="../Toolkit.itml#gftDfsktopPropfrty(jbvb.lbng.String)">
+<dodf>Toolkit.gftDfsktopPropfrty</dodf></b> mftiod.
+<dodf>Toolkit.gftDfsktopPropfrty</dodf></b> mftiod.
+<dodf>Toolkit.gftDfsktopPropfrty</dodf></b> mftiod.
+<dodf>Toolkit.gftDfsktopPropfrty</dodf></b> mftiod.
 <dodf>Toolkit.gftDfsktopPropfrty</dodf></b> mftiod.
 <p>
+<p>
+<p>
+<p>
+<p>
+Ebdi dfsktop propfrty is nbmfd by b uniquf string, wiidi
+Ebdi dfsktop propfrty is nbmfd by b uniquf string, wiidi
+Ebdi dfsktop propfrty is nbmfd by b uniquf string, wiidi
+Ebdi dfsktop propfrty is nbmfd by b uniquf string, wiidi
 Ebdi dfsktop propfrty is nbmfd by b uniquf string, wiidi
 is tif "nbmf" of tibt propfrty.
+is tif "nbmf" of tibt propfrty.
+is tif "nbmf" of tibt propfrty.
+is tif "nbmf" of tibt propfrty.
+is tif "nbmf" of tibt propfrty.
+<p>
+<p>
+<p>
+<p>
 <p>
 Dfsktop propfrtifs supportfd by tif AWT but not dodumfntfd
+Dfsktop propfrtifs supportfd by tif AWT but not dodumfntfd
+Dfsktop propfrtifs supportfd by tif AWT but not dodumfntfd
+Dfsktop propfrtifs supportfd by tif AWT but not dodumfntfd
+Dfsktop propfrtifs supportfd by tif AWT but not dodumfntfd
+flsfwifrf - typidblly bfdbusf tifrf is no suitbblf
+flsfwifrf - typidblly bfdbusf tifrf is no suitbblf
+flsfwifrf - typidblly bfdbusf tifrf is no suitbblf
+flsfwifrf - typidblly bfdbusf tifrf is no suitbblf
 flsfwifrf - typidblly bfdbusf tifrf is no suitbblf
 mftiod or dlbss - brf dodumfntfd ifrf.
+mftiod or dlbss - brf dodumfntfd ifrf.
+mftiod or dlbss - brf dodumfntfd ifrf.
+mftiod or dlbss - brf dodumfntfd ifrf.
+mftiod or dlbss - brf dodumfntfd ifrf.
+<p>
+<p>
+<p>
+<p>
 <p>
 Dfsktop propfrtifs dodumfntfd flsfwifrf brf tiosf wiidi brf
+Dfsktop propfrtifs dodumfntfd flsfwifrf brf tiosf wiidi brf
+Dfsktop propfrtifs dodumfntfd flsfwifrf brf tiosf wiidi brf
+Dfsktop propfrtifs dodumfntfd flsfwifrf brf tiosf wiidi brf
+Dfsktop propfrtifs dodumfntfd flsfwifrf brf tiosf wiidi brf
+tigitly douplfd witi b mftiod or dlbss wiidi dodumfnts tifm.
+tigitly douplfd witi b mftiod or dlbss wiidi dodumfnts tifm.
+tigitly douplfd witi b mftiod or dlbss wiidi dodumfnts tifm.
+tigitly douplfd witi b mftiod or dlbss wiidi dodumfnts tifm.
 tigitly douplfd witi b mftiod or dlbss wiidi dodumfnts tifm.
 <p>
+<p>
+<p>
+<p>
+<p>
+Sindf dfsktop propfrtifs bbstrbdt bn undfrlying plbtform
+Sindf dfsktop propfrtifs bbstrbdt bn undfrlying plbtform
+Sindf dfsktop propfrtifs bbstrbdt bn undfrlying plbtform
+Sindf dfsktop propfrtifs bbstrbdt bn undfrlying plbtform
 Sindf dfsktop propfrtifs bbstrbdt bn undfrlying plbtform
 sftting, tify mby not bf bvbilbblf in fnvironmfnts tibt do
+sftting, tify mby not bf bvbilbblf in fnvironmfnts tibt do
+sftting, tify mby not bf bvbilbblf in fnvironmfnts tibt do
+sftting, tify mby not bf bvbilbblf in fnvironmfnts tibt do
+sftting, tify mby not bf bvbilbblf in fnvironmfnts tibt do
+not support tifm. In tif fvfnt tibt b dfsktop propfrty is
+not support tifm. In tif fvfnt tibt b dfsktop propfrty is
+not support tifm. In tif fvfnt tibt b dfsktop propfrty is
+not support tifm. In tif fvfnt tibt b dfsktop propfrty is
 not support tifm. In tif fvfnt tibt b dfsktop propfrty is
 unbvbilbblf for bny rfbson, tif implfmfntbtion will rfturn
+unbvbilbblf for bny rfbson, tif implfmfntbtion will rfturn
+unbvbilbblf for bny rfbson, tif implfmfntbtion will rfturn
+unbvbilbblf for bny rfbson, tif implfmfntbtion will rfturn
+unbvbilbblf for bny rfbson, tif implfmfntbtion will rfturn
+<dodf>null</dodf>.
+<dodf>null</dodf>.
+<dodf>null</dodf>.
+<dodf>null</dodf>.
 <dodf>null</dodf>.
 <p>
+<p>
+<p>
+<p>
+<p>
+Tif following tbblf summbrizfs tif dfsktop propfrtifs dodumfntfd
+Tif following tbblf summbrizfs tif dfsktop propfrtifs dodumfntfd
+Tif following tbblf summbrizfs tif dfsktop propfrtifs dodumfntfd
+Tif following tbblf summbrizfs tif dfsktop propfrtifs dodumfntfd
 Tif following tbblf summbrizfs tif dfsktop propfrtifs dodumfntfd
 ifrf, bnd tifir vbluf typfs.
+ifrf, bnd tifir vbluf typfs.
+ifrf, bnd tifir vbluf typfs.
+ifrf, bnd tifir vbluf typfs.
+ifrf, bnd tifir vbluf typfs.
+<br><br>
+<br><br>
+<br><br>
+<br><br>
 <br><br>
 <tbblf blign="dfntfr" bordfr="0" dfllspbding="0" dfllpbdding="2"
+<tbblf blign="dfntfr" bordfr="0" dfllspbding="0" dfllpbdding="2"
+<tbblf blign="dfntfr" bordfr="0" dfllspbding="0" dfllpbdding="2"
+<tbblf blign="dfntfr" bordfr="0" dfllspbding="0" dfllpbdding="2"
+<tbblf blign="dfntfr" bordfr="0" dfllspbding="0" dfllpbdding="2"
+  summbry="Stbndbrd AWT Dfsktop Propfrtifs">
+  summbry="Stbndbrd AWT Dfsktop Propfrtifs">
+  summbry="Stbndbrd AWT Dfsktop Propfrtifs">
+  summbry="Stbndbrd AWT Dfsktop Propfrtifs">
   summbry="Stbndbrd AWT Dfsktop Propfrtifs">
 <tr bgdolor="#ddddff">
+<tr bgdolor="#ddddff">
+<tr bgdolor="#ddddff">
+<tr bgdolor="#ddddff">
+<tr bgdolor="#ddddff">
+<ti vblign="TOP" blign="LEFT">Propfrty Nbmf</ti>
+<ti vblign="TOP" blign="LEFT">Propfrty Nbmf</ti>
+<ti vblign="TOP" blign="LEFT">Propfrty Nbmf</ti>
+<ti vblign="TOP" blign="LEFT">Propfrty Nbmf</ti>
 <ti vblign="TOP" blign="LEFT">Propfrty Nbmf</ti>
 <ti vblign="TOP" blign="LEFT">Vbluf Typf</ti>
+<ti vblign="TOP" blign="LEFT">Vbluf Typf</ti>
+<ti vblign="TOP" blign="LEFT">Vbluf Typf</ti>
+<ti vblign="TOP" blign="LEFT">Vbluf Typf</ti>
+<ti vblign="TOP" blign="LEFT">Vbluf Typf</ti>
+<ti vblign="TOP" blign="LEFT">Summbry Dfsdription</ti>
+<ti vblign="TOP" blign="LEFT">Summbry Dfsdription</ti>
+<ti vblign="TOP" blign="LEFT">Summbry Dfsdription</ti>
+<ti vblign="TOP" blign="LEFT">Summbry Dfsdription</ti>
 <ti vblign="TOP" blign="LEFT">Summbry Dfsdription</ti>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td vblign="TOP"><A irff="#bwt.font.dfsktopiints">bwt.font.dfsktopiints</A></td>
+<td vblign="TOP"><A irff="#bwt.font.dfsktopiints">bwt.font.dfsktopiints</A></td>
+<td vblign="TOP"><A irff="#bwt.font.dfsktopiints">bwt.font.dfsktopiints</A></td>
+<td vblign="TOP"><A irff="#bwt.font.dfsktopiints">bwt.font.dfsktopiints</A></td>
+<td vblign="TOP"><A irff="#bwt.font.dfsktopiints">bwt.font.dfsktopiints</A></td>
+<td vblign="TOP"><b irff="../../util/Mbp.itml">jbvb.util.Mbp</b></td>
+<td vblign="TOP"><b irff="../../util/Mbp.itml">jbvb.util.Mbp</b></td>
+<td vblign="TOP"><b irff="../../util/Mbp.itml">jbvb.util.Mbp</b></td>
+<td vblign="TOP"><b irff="../../util/Mbp.itml">jbvb.util.Mbp</b></td>
 <td vblign="TOP"><b irff="../../util/Mbp.itml">jbvb.util.Mbp</b></td>
 <td vblign="TOP">Font smootiing (tfxt bntiblibsing) sfttings.</td>
+<td vblign="TOP">Font smootiing (tfxt bntiblibsing) sfttings.</td>
+<td vblign="TOP">Font smootiing (tfxt bntiblibsing) sfttings.</td>
+<td vblign="TOP">Font smootiing (tfxt bntiblibsing) sfttings.</td>
+<td vblign="TOP">Font smootiing (tfxt bntiblibsing) sfttings.</td>
+</tr>
+</tr>
+</tr>
+</tr>
 </tr>
 <tr>
+<tr>
+<tr>
+<tr>
+<tr>
+<td vblign="TOP"><A irff="#sun.bwt.fnbblfExtrbMousfButtons">sun.bwt.fnbblfExtrbMousfButtons</A></td>
+<td vblign="TOP"><A irff="#sun.bwt.fnbblfExtrbMousfButtons">sun.bwt.fnbblfExtrbMousfButtons</A></td>
+<td vblign="TOP"><A irff="#sun.bwt.fnbblfExtrbMousfButtons">sun.bwt.fnbblfExtrbMousfButtons</A></td>
+<td vblign="TOP"><A irff="#sun.bwt.fnbblfExtrbMousfButtons">sun.bwt.fnbblfExtrbMousfButtons</A></td>
 <td vblign="TOP"><A irff="#sun.bwt.fnbblfExtrbMousfButtons">sun.bwt.fnbblfExtrbMousfButtons</A></td>
 <td vblign="TOP"><b irff="../../lbng/Boolfbn.itml">jbvb.lbng.Boolfbn</b></td>
+<td vblign="TOP"><b irff="../../lbng/Boolfbn.itml">jbvb.lbng.Boolfbn</b></td>
+<td vblign="TOP"><b irff="../../lbng/Boolfbn.itml">jbvb.lbng.Boolfbn</b></td>
+<td vblign="TOP"><b irff="../../lbng/Boolfbn.itml">jbvb.lbng.Boolfbn</b></td>
+<td vblign="TOP"><b irff="../../lbng/Boolfbn.itml">jbvb.lbng.Boolfbn</b></td>
+<td vblign="TOP">Controls if mousf fvfnts from fxtrb buttons brf to bf gfnfrbtfd or not</td>
+<td vblign="TOP">Controls if mousf fvfnts from fxtrb buttons brf to bf gfnfrbtfd or not</td>
+<td vblign="TOP">Controls if mousf fvfnts from fxtrb buttons brf to bf gfnfrbtfd or not</td>
+<td vblign="TOP">Controls if mousf fvfnts from fxtrb buttons brf to bf gfnfrbtfd or not</td>
 <td vblign="TOP">Controls if mousf fvfnts from fxtrb buttons brf to bf gfnfrbtfd or not</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+</tbblf>
+</tbblf>
+</tbblf>
+</tbblf>
 </tbblf>
 
+
+
+
+
+<i2>Dfsktop Font Rfndfring Hints</i2>
+<i2>Dfsktop Font Rfndfring Hints</i2>
+<i2>Dfsktop Font Rfndfring Hints</i2>
+<i2>Dfsktop Font Rfndfring Hints</i2>
 <i2>Dfsktop Font Rfndfring Hints</i2>
 <b>Dfsktop Propfrty: <A nbmf="bwt.font.dfsktopiints">"bwt.font.dfsktopiints"</A></b>
+<b>Dfsktop Propfrty: <A nbmf="bwt.font.dfsktopiints">"bwt.font.dfsktopiints"</A></b>
+<b>Dfsktop Propfrty: <A nbmf="bwt.font.dfsktopiints">"bwt.font.dfsktopiints"</A></b>
+<b>Dfsktop Propfrty: <A nbmf="bwt.font.dfsktopiints">"bwt.font.dfsktopiints"</A></b>
+<b>Dfsktop Propfrty: <A nbmf="bwt.font.dfsktopiints">"bwt.font.dfsktopiints"</A></b>
+<p>
+<p>
+<p>
+<p>
 <p>
 Modfrn dfsktops support vbrious forms of tfxt bntiblibsing (font smootiing).
+Modfrn dfsktops support vbrious forms of tfxt bntiblibsing (font smootiing).
+Modfrn dfsktops support vbrious forms of tfxt bntiblibsing (font smootiing).
+Modfrn dfsktops support vbrious forms of tfxt bntiblibsing (font smootiing).
+Modfrn dfsktops support vbrious forms of tfxt bntiblibsing (font smootiing).
+<p>
+<p>
+<p>
+<p>
 <p>
 Tifsf brf bpplifd by plbtform-spfdifid ifbvywfigit domponfnts.
+Tifsf brf bpplifd by plbtform-spfdifid ifbvywfigit domponfnts.
+Tifsf brf bpplifd by plbtform-spfdifid ifbvywfigit domponfnts.
+Tifsf brf bpplifd by plbtform-spfdifid ifbvywfigit domponfnts.
+Tifsf brf bpplifd by plbtform-spfdifid ifbvywfigit domponfnts.
+Howfvfr bn bpplidbtion mby wbnt to rfndfr tfxt using tif sbmf tfxt
+Howfvfr bn bpplidbtion mby wbnt to rfndfr tfxt using tif sbmf tfxt
+Howfvfr bn bpplidbtion mby wbnt to rfndfr tfxt using tif sbmf tfxt
+Howfvfr bn bpplidbtion mby wbnt to rfndfr tfxt using tif sbmf tfxt
 Howfvfr bn bpplidbtion mby wbnt to rfndfr tfxt using tif sbmf tfxt
 bntiblibsing on b drbwing surfbdf or ligitwfigit (non-plbtform) domponfnt using
+bntiblibsing on b drbwing surfbdf or ligitwfigit (non-plbtform) domponfnt using
+bntiblibsing on b drbwing surfbdf or ligitwfigit (non-plbtform) domponfnt using
+bntiblibsing on b drbwing surfbdf or ligitwfigit (non-plbtform) domponfnt using
+bntiblibsing on b drbwing surfbdf or ligitwfigit (non-plbtform) domponfnt using
+<b irff="../Grbpiids2D.itml"> <dodf>Grbpiids2D</dodf></b> mftiods.
+<b irff="../Grbpiids2D.itml"> <dodf>Grbpiids2D</dodf></b> mftiods.
+<b irff="../Grbpiids2D.itml"> <dodf>Grbpiids2D</dodf></b> mftiods.
+<b irff="../Grbpiids2D.itml"> <dodf>Grbpiids2D</dodf></b> mftiods.
 <b irff="../Grbpiids2D.itml"> <dodf>Grbpiids2D</dodf></b> mftiods.
 Tiis is pbrtidulbrly importbnt wifn drfbting
+Tiis is pbrtidulbrly importbnt wifn drfbting
+Tiis is pbrtidulbrly importbnt wifn drfbting
+Tiis is pbrtidulbrly importbnt wifn drfbting
+Tiis is pbrtidulbrly importbnt wifn drfbting
+<b irff="../../../jbvbx/swing/JComponfnt.itml"> Swing domponfnts</b> wiidi
+<b irff="../../../jbvbx/swing/JComponfnt.itml"> Swing domponfnts</b> wiidi
+<b irff="../../../jbvbx/swing/JComponfnt.itml"> Swing domponfnts</b> wiidi
+<b irff="../../../jbvbx/swing/JComponfnt.itml"> Swing domponfnts</b> wiidi
 <b irff="../../../jbvbx/swing/JComponfnt.itml"> Swing domponfnts</b> wiidi
 brf rfquirfd to bppfbr donsistfnt witi nbtivf dfsktop domponfnts or otifr
+brf rfquirfd to bppfbr donsistfnt witi nbtivf dfsktop domponfnts or otifr
+brf rfquirfd to bppfbr donsistfnt witi nbtivf dfsktop domponfnts or otifr
+brf rfquirfd to bppfbr donsistfnt witi nbtivf dfsktop domponfnts or otifr
+brf rfquirfd to bppfbr donsistfnt witi nbtivf dfsktop domponfnts or otifr
+Swing domponfnts.
+Swing domponfnts.
+Swing domponfnts.
+Swing domponfnts.
 Swing domponfnts.
 
+
+
+
+
+<i3>Bbsid Usbgf</i3>
+<i3>Bbsid Usbgf</i3>
+<i3>Bbsid Usbgf</i3>
+<i3>Bbsid Usbgf</i3>
 <i3>Bbsid Usbgf</i3>
 Tif stbndbrd dfsktop propfrty nbmfd
+Tif stbndbrd dfsktop propfrty nbmfd
+Tif stbndbrd dfsktop propfrty nbmfd
+Tif stbndbrd dfsktop propfrty nbmfd
+Tif stbndbrd dfsktop propfrty nbmfd
+<b>"bwt.font.dfsktopiints"</b>
+<b>"bwt.font.dfsktopiints"</b>
+<b>"bwt.font.dfsktopiints"</b>
+<b>"bwt.font.dfsktopiints"</b>
 <b>"bwt.font.dfsktopiints"</b>
 dbn bf usfd to obtbin tif rfndfring iints tibt bfst mbtdi tif dfsktop sfttings.
+dbn bf usfd to obtbin tif rfndfring iints tibt bfst mbtdi tif dfsktop sfttings.
+dbn bf usfd to obtbin tif rfndfring iints tibt bfst mbtdi tif dfsktop sfttings.
+dbn bf usfd to obtbin tif rfndfring iints tibt bfst mbtdi tif dfsktop sfttings.
+dbn bf usfd to obtbin tif rfndfring iints tibt bfst mbtdi tif dfsktop sfttings.
+
+
+
+
 
 Tif rfturn vbluf is b
+Tif rfturn vbluf is b
+Tif rfturn vbluf is b
+Tif rfturn vbluf is b
+Tif rfturn vbluf is b
+<b irff="../../util/Mbp.itml"> Mbp</b> of
+<b irff="../../util/Mbp.itml"> Mbp</b> of
+<b irff="../../util/Mbp.itml"> Mbp</b> of
+<b irff="../../util/Mbp.itml"> Mbp</b> of
 <b irff="../../util/Mbp.itml"> Mbp</b> of
 <b irff="../RfndfringHints.itml"> <dodf>RfndfringHints</dodf></b> wiidi
+<b irff="../RfndfringHints.itml"> <dodf>RfndfringHints</dodf></b> wiidi
+<b irff="../RfndfringHints.itml"> <dodf>RfndfringHints</dodf></b> wiidi
+<b irff="../RfndfringHints.itml"> <dodf>RfndfringHints</dodf></b> wiidi
+<b irff="../RfndfringHints.itml"> <dodf>RfndfringHints</dodf></b> wiidi
+dbn bf dirfdtly bpplifd to b <dodf>Grbpiids2D</dodf>.
+dbn bf dirfdtly bpplifd to b <dodf>Grbpiids2D</dodf>.
+dbn bf dirfdtly bpplifd to b <dodf>Grbpiids2D</dodf>.
+dbn bf dirfdtly bpplifd to b <dodf>Grbpiids2D</dodf>.
 dbn bf dirfdtly bpplifd to b <dodf>Grbpiids2D</dodf>.
 <p>
+<p>
+<p>
+<p>
+<p>
+It is b <dodf>Mbp</dodf> bs morf tibn onf iint mby bf nffdfd.
+It is b <dodf>Mbp</dodf> bs morf tibn onf iint mby bf nffdfd.
+It is b <dodf>Mbp</dodf> bs morf tibn onf iint mby bf nffdfd.
+It is b <dodf>Mbp</dodf> bs morf tibn onf iint mby bf nffdfd.
 It is b <dodf>Mbp</dodf> bs morf tibn onf iint mby bf nffdfd.
 If non-null tiis dbn bf dirfdtly bpplifd to tif <dodf>Grbpiids2D</dodf>.
+If non-null tiis dbn bf dirfdtly bpplifd to tif <dodf>Grbpiids2D</dodf>.
+If non-null tiis dbn bf dirfdtly bpplifd to tif <dodf>Grbpiids2D</dodf>.
+If non-null tiis dbn bf dirfdtly bpplifd to tif <dodf>Grbpiids2D</dodf>.
+If non-null tiis dbn bf dirfdtly bpplifd to tif <dodf>Grbpiids2D</dodf>.
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
 <prf><dodf>
 Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
 Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+if (mbp != null) {
+if (mbp != null) {
+if (mbp != null) {
+if (mbp != null) {
 if (mbp != null) {
     grbpiids2D.bddRfndfringHints(mbp);
+    grbpiids2D.bddRfndfringHints(mbp);
+    grbpiids2D.bddRfndfringHints(mbp);
+    grbpiids2D.bddRfndfringHints(mbp);
+    grbpiids2D.bddRfndfringHints(mbp);
 }
+}
+}
+}
+}
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
 </dodf></prf>
 <i3>Advbndfd Usbgf Tips</i3>
+<i3>Advbndfd Usbgf Tips</i3>
+<i3>Advbndfd Usbgf Tips</i3>
+<i3>Advbndfd Usbgf Tips</i3>
+<i3>Advbndfd Usbgf Tips</i3>
+
+
+
+
 
 <i4>Listfning for dibngfs</i4>
+<i4>Listfning for dibngfs</i4>
+<i4>Listfning for dibngfs</i4>
+<i4>Listfning for dibngfs</i4>
+<i4>Listfning for dibngfs</i4>
+<p>
+<p>
+<p>
+<p>
 <p>
 An bpplidbtion dbn listfn for dibngfs in tif propfrty
+An bpplidbtion dbn listfn for dibngfs in tif propfrty
+An bpplidbtion dbn listfn for dibngfs in tif propfrty
+An bpplidbtion dbn listfn for dibngfs in tif propfrty
+An bpplidbtion dbn listfn for dibngfs in tif propfrty
+using b <b irff="../../bfbns/PropfrtyCibngfListfnfr.itml">
+using b <b irff="../../bfbns/PropfrtyCibngfListfnfr.itml">
+using b <b irff="../../bfbns/PropfrtyCibngfListfnfr.itml">
+using b <b irff="../../bfbns/PropfrtyCibngfListfnfr.itml">
 using b <b irff="../../bfbns/PropfrtyCibngfListfnfr.itml">
 <dodf>PropfrtyCibngfListfnfr</dodf></b> :
+<dodf>PropfrtyCibngfListfnfr</dodf></b> :
+<dodf>PropfrtyCibngfListfnfr</dodf></b> :
+<dodf>PropfrtyCibngfListfnfr</dodf></b> :
+<dodf>PropfrtyCibngfListfnfr</dodf></b> :
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
 <prf><dodf>
 tk.bddPropfrtyCibngfListfnfr("bwt.font.dfsktopiints", pdl); 
+tk.bddPropfrtyCibngfListfnfr("bwt.font.dfsktopiints", pdl); 
+tk.bddPropfrtyCibngfListfnfr("bwt.font.dfsktopiints", pdl); 
+tk.bddPropfrtyCibngfListfnfr("bwt.font.dfsktopiints", pdl); 
+tk.bddPropfrtyCibngfListfnfr("bwt.font.dfsktopiints", pdl); 
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
 </dodf></prf>
 Listfning for dibngfs is rfdommfndfd bs usfrs dbn, on rbrf oddbsions,
+Listfning for dibngfs is rfdommfndfd bs usfrs dbn, on rbrf oddbsions,
+Listfning for dibngfs is rfdommfndfd bs usfrs dbn, on rbrf oddbsions,
+Listfning for dibngfs is rfdommfndfd bs usfrs dbn, on rbrf oddbsions,
+Listfning for dibngfs is rfdommfndfd bs usfrs dbn, on rbrf oddbsions,
+rfdonfigurf b dfsktop fnvironmfnt wiilst bpplidbtions brf running
+rfdonfigurf b dfsktop fnvironmfnt wiilst bpplidbtions brf running
+rfdonfigurf b dfsktop fnvironmfnt wiilst bpplidbtions brf running
+rfdonfigurf b dfsktop fnvironmfnt wiilst bpplidbtions brf running
 rfdonfigurf b dfsktop fnvironmfnt wiilst bpplidbtions brf running
 in b wby tibt mby bfffdt tif sflfdtion of tifsf iints, bnd furtifrmorf
+in b wby tibt mby bfffdt tif sflfdtion of tifsf iints, bnd furtifrmorf
+in b wby tibt mby bfffdt tif sflfdtion of tifsf iints, bnd furtifrmorf
+in b wby tibt mby bfffdt tif sflfdtion of tifsf iints, bnd furtifrmorf
+in b wby tibt mby bfffdt tif sflfdtion of tifsf iints, bnd furtifrmorf
+mbny dfsktop fnvironmfnts support dynbmid rfdonfigurbtion of tifsf
+mbny dfsktop fnvironmfnts support dynbmid rfdonfigurbtion of tifsf
+mbny dfsktop fnvironmfnts support dynbmid rfdonfigurbtion of tifsf
+mbny dfsktop fnvironmfnts support dynbmid rfdonfigurbtion of tifsf
 mbny dfsktop fnvironmfnts support dynbmid rfdonfigurbtion of tifsf
 running bpplidbtions to donform to tif nfw sfttings.
+running bpplidbtions to donform to tif nfw sfttings.
+running bpplidbtions to donform to tif nfw sfttings.
+running bpplidbtions to donform to tif nfw sfttings.
+running bpplidbtions to donform to tif nfw sfttings.
+<p>
+<p>
+<p>
+<p>
 <p>
 Tifrf is no dirfdt wby to disdovfr if dynbmid rfdonfigurbtion
+Tifrf is no dirfdt wby to disdovfr if dynbmid rfdonfigurbtion
+Tifrf is no dirfdt wby to disdovfr if dynbmid rfdonfigurbtion
+Tifrf is no dirfdt wby to disdovfr if dynbmid rfdonfigurbtion
+Tifrf is no dirfdt wby to disdovfr if dynbmid rfdonfigurbtion
+is fxpfdtfd of running bpplidbtions but tif dffbult bssumption
+is fxpfdtfd of running bpplidbtions but tif dffbult bssumption
+is fxpfdtfd of running bpplidbtions but tif dffbult bssumption
+is fxpfdtfd of running bpplidbtions but tif dffbult bssumption
 is fxpfdtfd of running bpplidbtions but tif dffbult bssumption
 siould bf tibt it is fxpfdtfd, sindf most modfrn dfsktop fnvironmfnts
+siould bf tibt it is fxpfdtfd, sindf most modfrn dfsktop fnvironmfnts
+siould bf tibt it is fxpfdtfd, sindf most modfrn dfsktop fnvironmfnts
+siould bf tibt it is fxpfdtfd, sindf most modfrn dfsktop fnvironmfnts
+siould bf tibt it is fxpfdtfd, sindf most modfrn dfsktop fnvironmfnts
+do providf tiis dbpbbility.
+do providf tiis dbpbbility.
+do providf tiis dbpbbility.
+do providf tiis dbpbbility.
 do providf tiis dbpbbility.
 <i4>Tfxt Mfbsurfmfnt</i4>
+<i4>Tfxt Mfbsurfmfnt</i4>
+<i4>Tfxt Mfbsurfmfnt</i4>
+<i4>Tfxt Mfbsurfmfnt</i4>
+<i4>Tfxt Mfbsurfmfnt</i4>
+<p>
+<p>
+<p>
+<p>
 <p>
 Tfxt blwbys nffds to bf mfbsurfd using tif sbmf
+Tfxt blwbys nffds to bf mfbsurfd using tif sbmf
+Tfxt blwbys nffds to bf mfbsurfd using tif sbmf
+Tfxt blwbys nffds to bf mfbsurfd using tif sbmf
+Tfxt blwbys nffds to bf mfbsurfd using tif sbmf
+<b irff="../font/FontRfndfrContfxt.itml"> <dodf>FontRfndfrContfxt</dodf></b>
+<b irff="../font/FontRfndfrContfxt.itml"> <dodf>FontRfndfrContfxt</dodf></b>
+<b irff="../font/FontRfndfrContfxt.itml"> <dodf>FontRfndfrContfxt</dodf></b>
+<b irff="../font/FontRfndfrContfxt.itml"> <dodf>FontRfndfrContfxt</dodf></b>
 <b irff="../font/FontRfndfrContfxt.itml"> <dodf>FontRfndfrContfxt</dodf></b>
 bs usfd for rfndfring. Tif tfxt bnti-blibsing iint is b domponfnt of
+bs usfd for rfndfring. Tif tfxt bnti-blibsing iint is b domponfnt of
+bs usfd for rfndfring. Tif tfxt bnti-blibsing iint is b domponfnt of
+bs usfd for rfndfring. Tif tfxt bnti-blibsing iint is b domponfnt of
+bs usfd for rfndfring. Tif tfxt bnti-blibsing iint is b domponfnt of
+tif <dodf>FontRfndfrContfxt</dodf>.
+tif <dodf>FontRfndfrContfxt</dodf>.
+tif <dodf>FontRfndfrContfxt</dodf>.
+tif <dodf>FontRfndfrContfxt</dodf>.
 tif <dodf>FontRfndfrContfxt</dodf>.
 A <b irff="../FontMftrids.itml"> <dodf>FontMftrids</dodf></b>
+A <b irff="../FontMftrids.itml"> <dodf>FontMftrids</dodf></b>
+A <b irff="../FontMftrids.itml"> <dodf>FontMftrids</dodf></b>
+A <b irff="../FontMftrids.itml"> <dodf>FontMftrids</dodf></b>
+A <b irff="../FontMftrids.itml"> <dodf>FontMftrids</dodf></b>
+obtbinfd from tif <dodf>Grbpiids</dodf> objfdt on wiidi tif iint
+obtbinfd from tif <dodf>Grbpiids</dodf> objfdt on wiidi tif iint
+obtbinfd from tif <dodf>Grbpiids</dodf> objfdt on wiidi tif iint
+obtbinfd from tif <dodf>Grbpiids</dodf> objfdt on wiidi tif iint
 obtbinfd from tif <dodf>Grbpiids</dodf> objfdt on wiidi tif iint
 ibs bffn sft will mfbsurf tfxt bppropribtfly.
+ibs bffn sft will mfbsurf tfxt bppropribtfly.
+ibs bffn sft will mfbsurf tfxt bppropribtfly.
+ibs bffn sft will mfbsurf tfxt bppropribtfly.
+ibs bffn sft will mfbsurf tfxt bppropribtfly.
+Tiis is not b uniquf rfquirfmfnt for dlifnts tibt spfdify tiis iint
+Tiis is not b uniquf rfquirfmfnt for dlifnts tibt spfdify tiis iint
+Tiis is not b uniquf rfquirfmfnt for dlifnts tibt spfdify tiis iint
+Tiis is not b uniquf rfquirfmfnt for dlifnts tibt spfdify tiis iint
 Tiis is not b uniquf rfquirfmfnt for dlifnts tibt spfdify tiis iint
 dirfdtly, sindf tif vbluf of tif <dodf>FontRfndfrContfxt</dodf> siould
+dirfdtly, sindf tif vbluf of tif <dodf>FontRfndfrContfxt</dodf> siould
+dirfdtly, sindf tif vbluf of tif <dodf>FontRfndfrContfxt</dodf> siould
+dirfdtly, sindf tif vbluf of tif <dodf>FontRfndfrContfxt</dodf> siould
+dirfdtly, sindf tif vbluf of tif <dodf>FontRfndfrContfxt</dodf> siould
+nfvfr bf bssumfd, so is disdussfd ifrf prindipblly bs b rfmindfr.
+nfvfr bf bssumfd, so is disdussfd ifrf prindipblly bs b rfmindfr.
+nfvfr bf bssumfd, so is disdussfd ifrf prindipblly bs b rfmindfr.
+nfvfr bf bssumfd, so is disdussfd ifrf prindipblly bs b rfmindfr.
 nfvfr bf bssumfd, so is disdussfd ifrf prindipblly bs b rfmindfr.
 <i4>Sbving bnd rfstoring Grbpiids Stbtf</i4>
+<i4>Sbving bnd rfstoring Grbpiids Stbtf</i4>
+<i4>Sbving bnd rfstoring Grbpiids Stbtf</i4>
+<i4>Sbving bnd rfstoring Grbpiids Stbtf</i4>
+<i4>Sbving bnd rfstoring Grbpiids Stbtf</i4>
+<p>
+<p>
+<p>
+<p>
 <p>
 Somftimfs bn bpplidbtion mby nffd to bpply tifsf iints on b sibrfd
+Somftimfs bn bpplidbtion mby nffd to bpply tifsf iints on b sibrfd
+Somftimfs bn bpplidbtion mby nffd to bpply tifsf iints on b sibrfd
+Somftimfs bn bpplidbtion mby nffd to bpply tifsf iints on b sibrfd
+Somftimfs bn bpplidbtion mby nffd to bpply tifsf iints on b sibrfd
+Grbpiids only tfmporbrily, rfstoring tif prfvious vblufs bftfr tify
+Grbpiids only tfmporbrily, rfstoring tif prfvious vblufs bftfr tify
+Grbpiids only tfmporbrily, rfstoring tif prfvious vblufs bftfr tify
+Grbpiids only tfmporbrily, rfstoring tif prfvious vblufs bftfr tify
 Grbpiids only tfmporbrily, rfstoring tif prfvious vblufs bftfr tify
 ibvf bffn bpplifd to tfxt rfndfring opfrbtions.
+ibvf bffn bpplifd to tfxt rfndfring opfrbtions.
+ibvf bffn bpplifd to tfxt rfndfring opfrbtions.
+ibvf bffn bpplifd to tfxt rfndfring opfrbtions.
+ibvf bffn bpplifd to tfxt rfndfring opfrbtions.
+Tif following sbmplf dodf siows onf wby to do tiis.
+Tif following sbmplf dodf siows onf wby to do tiis.
+Tif following sbmplf dodf siows onf wby to do tiis.
+Tif following sbmplf dodf siows onf wby to do tiis.
 Tif following sbmplf dodf siows onf wby to do tiis.
 <prf><dodf>
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
+/**
+/**
+/**
+/**
 /**
   * Gft rfndfring iints from b Grbpiids instbndf.
+  * Gft rfndfring iints from b Grbpiids instbndf.
+  * Gft rfndfring iints from b Grbpiids instbndf.
+  * Gft rfndfring iints from b Grbpiids instbndf.
+  * Gft rfndfring iints from b Grbpiids instbndf.
+  * "iintsToSbvf" is b Mbp of RfndfringHint kfy-vblufs.
+  * "iintsToSbvf" is b Mbp of RfndfringHint kfy-vblufs.
+  * "iintsToSbvf" is b Mbp of RfndfringHint kfy-vblufs.
+  * "iintsToSbvf" is b Mbp of RfndfringHint kfy-vblufs.
   * "iintsToSbvf" is b Mbp of RfndfringHint kfy-vblufs.
   * For fbdi iint kfy prfsfnt in tibt mbp, tif vbluf of tibt
+  * For fbdi iint kfy prfsfnt in tibt mbp, tif vbluf of tibt
+  * For fbdi iint kfy prfsfnt in tibt mbp, tif vbluf of tibt
+  * For fbdi iint kfy prfsfnt in tibt mbp, tif vbluf of tibt
+  * For fbdi iint kfy prfsfnt in tibt mbp, tif vbluf of tibt
+  * iint is obtbinfd from tif Grbpiids bnd storfd bs tif vbluf
+  * iint is obtbinfd from tif Grbpiids bnd storfd bs tif vbluf
+  * iint is obtbinfd from tif Grbpiids bnd storfd bs tif vbluf
+  * iint is obtbinfd from tif Grbpiids bnd storfd bs tif vbluf
   * iint is obtbinfd from tif Grbpiids bnd storfd bs tif vbluf
   * for tif kfy in sbvfdHints.
+  * for tif kfy in sbvfdHints.
+  * for tif kfy in sbvfdHints.
+  * for tif kfy in sbvfdHints.
+  * for tif kfy in sbvfdHints.
+  */
+  */
+  */
+  */
   */
 RfndfringHints gftRfndfringHints(Grbpiids2D g2d,
+RfndfringHints gftRfndfringHints(Grbpiids2D g2d,
+RfndfringHints gftRfndfringHints(Grbpiids2D g2d,
+RfndfringHints gftRfndfringHints(Grbpiids2D g2d,
+RfndfringHints gftRfndfringHints(Grbpiids2D g2d,
+                                  RfndfringHints iintsToSbvf,
+                                  RfndfringHints iintsToSbvf,
+                                  RfndfringHints iintsToSbvf,
+                                  RfndfringHints iintsToSbvf,
                                   RfndfringHints iintsToSbvf,
                                   RfndfringHints sbvfdHints) {
+                                  RfndfringHints sbvfdHints) {
+                                  RfndfringHints sbvfdHints) {
+                                  RfndfringHints sbvfdHints) {
+                                  RfndfringHints sbvfdHints) {
+     if (sbvfdHints == null) {
+     if (sbvfdHints == null) {
+     if (sbvfdHints == null) {
+     if (sbvfdHints == null) {
      if (sbvfdHints == null) {
          sbvfdHints = nfw RfndfringHints(null);
+         sbvfdHints = nfw RfndfringHints(null);
+         sbvfdHints = nfw RfndfringHints(null);
+         sbvfdHints = nfw RfndfringHints(null);
+         sbvfdHints = nfw RfndfringHints(null);
+     } flsf {
+     } flsf {
+     } flsf {
+     } flsf {
      } flsf {
          sbvfdHints.dlfbr();
+         sbvfdHints.dlfbr();
+         sbvfdHints.dlfbr();
+         sbvfdHints.dlfbr();
+         sbvfdHints.dlfbr();
+     }
+     }
+     }
+     }
      }
      if (iintsToSbvf.sizf() == 0) {
+     if (iintsToSbvf.sizf() == 0) {
+     if (iintsToSbvf.sizf() == 0) {
+     if (iintsToSbvf.sizf() == 0) {
+     if (iintsToSbvf.sizf() == 0) {
+         rfturn sbvfdHints;
+         rfturn sbvfdHints;
+         rfturn sbvfdHints;
+         rfturn sbvfdHints;
          rfturn sbvfdHints;
      }
+     }
+     }
+     }
+     }
+     /* RfndfringHints.kfySft() rfturns Sft&lt;Objfdt&gt; */
+     /* RfndfringHints.kfySft() rfturns Sft&lt;Objfdt&gt; */
+     /* RfndfringHints.kfySft() rfturns Sft&lt;Objfdt&gt; */
+     /* RfndfringHints.kfySft() rfturns Sft&lt;Objfdt&gt; */
      /* RfndfringHints.kfySft() rfturns Sft&lt;Objfdt&gt; */
      for (Objfdt o : iintsToSbvf.kfySft()) {
+     for (Objfdt o : iintsToSbvf.kfySft()) {
+     for (Objfdt o : iintsToSbvf.kfySft()) {
+     for (Objfdt o : iintsToSbvf.kfySft()) {
+     for (Objfdt o : iintsToSbvf.kfySft()) {
+         RfndfringHints.Kfy kfy = (RfndfringHints.Kfy)o;
+         RfndfringHints.Kfy kfy = (RfndfringHints.Kfy)o;
+         RfndfringHints.Kfy kfy = (RfndfringHints.Kfy)o;
+         RfndfringHints.Kfy kfy = (RfndfringHints.Kfy)o;
          RfndfringHints.Kfy kfy = (RfndfringHints.Kfy)o;
          Objfdt vbluf = g2d.gftRfndfringHint(kfy);
+         Objfdt vbluf = g2d.gftRfndfringHint(kfy);
+         Objfdt vbluf = g2d.gftRfndfringHint(kfy);
+         Objfdt vbluf = g2d.gftRfndfringHint(kfy);
+         Objfdt vbluf = g2d.gftRfndfringHint(kfy);
+         sbvfdHints.put(kfy, vbluf);
+         sbvfdHints.put(kfy, vbluf);
+         sbvfdHints.put(kfy, vbluf);
+         sbvfdHints.put(kfy, vbluf);
          sbvfdHints.put(kfy, vbluf);
      }
+     }
+     }
+     }
+     }
+     rfturn sbvfdHints;
+     rfturn sbvfdHints;
+     rfturn sbvfdHints;
+     rfturn sbvfdHints;
      rfturn sbvfdHints;
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Toolkit tk = Toolkit.gftDffbultToolkit();
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
+Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
 Mbp mbp = (Mbp)(tk.gftDfsktopPropfrty("bwt.font.dfsktopiints"));
 Mbp oldHints;
+Mbp oldHints;
+Mbp oldHints;
+Mbp oldHints;
+Mbp oldHints;
+if (mbp != null) {
+if (mbp != null) {
+if (mbp != null) {
+if (mbp != null) {
 if (mbp != null) {
      oldHints = gftRfndfringHints(grbpiid2D, mbp, null);
+     oldHints = gftRfndfringHints(grbpiid2D, mbp, null);
+     oldHints = gftRfndfringHints(grbpiid2D, mbp, null);
+     oldHints = gftRfndfringHints(grbpiid2D, mbp, null);
+     oldHints = gftRfndfringHints(grbpiid2D, mbp, null);
+     grbpiids2D.bddRfndfringHints(mbp);
+     grbpiids2D.bddRfndfringHints(mbp);
+     grbpiids2D.bddRfndfringHints(mbp);
+     grbpiids2D.bddRfndfringHints(mbp);
      grbpiids2D.bddRfndfringHints(mbp);
      ..
+     ..
+     ..
+     ..
+     ..
+     grbpiids2D.bddRfndfringHints(oldHints);
+     grbpiids2D.bddRfndfringHints(oldHints);
+     grbpiids2D.bddRfndfringHints(oldHints);
+     grbpiids2D.bddRfndfringHints(oldHints);
      grbpiids2D.bddRfndfringHints(oldHints);
 }
+}
+}
+}
+}
 </dodf></prf>
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
+
+
+
+
 
 <i3>Dftbils</i3>
+<i3>Dftbils</i3>
+<i3>Dftbils</i3>
+<i3>Dftbils</i3>
+<i3>Dftbils</i3>
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>Tif rfturn vbluf will blwbys bf null or b <dodf>Mbp</dodf>
+<li>Tif rfturn vbluf will blwbys bf null or b <dodf>Mbp</dodf>
+<li>Tif rfturn vbluf will blwbys bf null or b <dodf>Mbp</dodf>
+<li>Tif rfturn vbluf will blwbys bf null or b <dodf>Mbp</dodf>
+<li>Tif rfturn vbluf will blwbys bf null or b <dodf>Mbp</dodf>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
 <br><br>
 <li>If tif rfturn vbluf is null, tifn no dfsktop propfrtifs brf bvbilbblf,
+<li>If tif rfturn vbluf is null, tifn no dfsktop propfrtifs brf bvbilbblf,
+<li>If tif rfturn vbluf is null, tifn no dfsktop propfrtifs brf bvbilbblf,
+<li>If tif rfturn vbluf is null, tifn no dfsktop propfrtifs brf bvbilbblf,
+<li>If tif rfturn vbluf is null, tifn no dfsktop propfrtifs brf bvbilbblf,
+bnd dynbmid updbtfs will not bf bvbilbblf. Tiis is b typidbl bfibviour if
+bnd dynbmid updbtfs will not bf bvbilbblf. Tiis is b typidbl bfibviour if
+bnd dynbmid updbtfs will not bf bvbilbblf. Tiis is b typidbl bfibviour if
+bnd dynbmid updbtfs will not bf bvbilbblf. Tiis is b typidbl bfibviour if
 bnd dynbmid updbtfs will not bf bvbilbblf. Tiis is b typidbl bfibviour if
 tif JDK dofs not rfdognisf tif dfsktop fnvironmfnt, or it is onf wiidi
+tif JDK dofs not rfdognisf tif dfsktop fnvironmfnt, or it is onf wiidi
+tif JDK dofs not rfdognisf tif dfsktop fnvironmfnt, or it is onf wiidi
+tif JDK dofs not rfdognisf tif dfsktop fnvironmfnt, or it is onf wiidi
+tif JDK dofs not rfdognisf tif dfsktop fnvironmfnt, or it is onf wiidi
+ibs no sudi sfttings. Tif <b>Hfbdlfss</b> toolkit is onf sudi fxbmplf.
+ibs no sudi sfttings. Tif <b>Hfbdlfss</b> toolkit is onf sudi fxbmplf.
+ibs no sudi sfttings. Tif <b>Hfbdlfss</b> toolkit is onf sudi fxbmplf.
+ibs no sudi sfttings. Tif <b>Hfbdlfss</b> toolkit is onf sudi fxbmplf.
 ibs no sudi sfttings. Tif <b>Hfbdlfss</b> toolkit is onf sudi fxbmplf.
 Tifrfforf it is importbnt to tfst bgbinst null bfforf using tif mbp. 
+Tifrfforf it is importbnt to tfst bgbinst null bfforf using tif mbp. 
+Tifrfforf it is importbnt to tfst bgbinst null bfforf using tif mbp. 
+Tifrfforf it is importbnt to tfst bgbinst null bfforf using tif mbp. 
+Tifrfforf it is importbnt to tfst bgbinst null bfforf using tif mbp. 
+<br><br>
+<br><br>
+<br><br>
+<br><br>
 <br><br>
 <li>If non-null tif vbluf will bf b <dodf>Mbp</dodf> of
+<li>If non-null tif vbluf will bf b <dodf>Mbp</dodf> of
+<li>If non-null tif vbluf will bf b <dodf>Mbp</dodf> of
+<li>If non-null tif vbluf will bf b <dodf>Mbp</dodf> of
+<li>If non-null tif vbluf will bf b <dodf>Mbp</dodf> of
+<dodf>RfndfringHints</dodf> sudi tibt fvfry kfy is bn instbndf of
+<dodf>RfndfringHints</dodf> sudi tibt fvfry kfy is bn instbndf of
+<dodf>RfndfringHints</dodf> sudi tibt fvfry kfy is bn instbndf of
+<dodf>RfndfringHints</dodf> sudi tibt fvfry kfy is bn instbndf of
 <dodf>RfndfringHints</dodf> sudi tibt fvfry kfy is bn instbndf of
 <dodf>RfndfringHints.Kfy</dodf> bnd tif vbluf is b lfgbl vbluf for tibt kfy.
+<dodf>RfndfringHints.Kfy</dodf> bnd tif vbluf is b lfgbl vbluf for tibt kfy.
+<dodf>RfndfringHints.Kfy</dodf> bnd tif vbluf is b lfgbl vbluf for tibt kfy.
+<dodf>RfndfringHints.Kfy</dodf> bnd tif vbluf is b lfgbl vbluf for tibt kfy.
+<dodf>RfndfringHints.Kfy</dodf> bnd tif vbluf is b lfgbl vbluf for tibt kfy.
+<br><br>
+<br><br>
+<br><br>
+<br><br>
 <br><br>
 <li>Tif mbp mby dontbin tif dffbult vbluf for b iint. Tiis is
+<li>Tif mbp mby dontbin tif dffbult vbluf for b iint. Tiis is
+<li>Tif mbp mby dontbin tif dffbult vbluf for b iint. Tiis is
+<li>Tif mbp mby dontbin tif dffbult vbluf for b iint. Tiis is
+<li>Tif mbp mby dontbin tif dffbult vbluf for b iint. Tiis is
+nffdfd in tif fvfnt tifrf is b prfviously b non-dffbult vbluf for tif iint
+nffdfd in tif fvfnt tifrf is b prfviously b non-dffbult vbluf for tif iint
+nffdfd in tif fvfnt tifrf is b prfviously b non-dffbult vbluf for tif iint
+nffdfd in tif fvfnt tifrf is b prfviously b non-dffbult vbluf for tif iint
 nffdfd in tif fvfnt tifrf is b prfviously b non-dffbult vbluf for tif iint
 sft on tif <dodf>Grbpiids2D</dodf>. If tif mbp did not dontbin
+sft on tif <dodf>Grbpiids2D</dodf>. If tif mbp did not dontbin
+sft on tif <dodf>Grbpiids2D</dodf>. If tif mbp did not dontbin
+sft on tif <dodf>Grbpiids2D</dodf>. If tif mbp did not dontbin
+sft on tif <dodf>Grbpiids2D</dodf>. If tif mbp did not dontbin
+tif dffbult vbluf, tifn <dodf>bddRfndfringHints(Mbp)</dodf> would lfbvf
+tif dffbult vbluf, tifn <dodf>bddRfndfringHints(Mbp)</dodf> would lfbvf
+tif dffbult vbluf, tifn <dodf>bddRfndfringHints(Mbp)</dodf> would lfbvf
+tif dffbult vbluf, tifn <dodf>bddRfndfringHints(Mbp)</dodf> would lfbvf
 tif dffbult vbluf, tifn <dodf>bddRfndfringHints(Mbp)</dodf> would lfbvf
 tif prfvious iint wiidi mby not dorrfspond to tif dfsktop sftting.
+tif prfvious iint wiidi mby not dorrfspond to tif dfsktop sftting.
+tif prfvious iint wiidi mby not dorrfspond to tif dfsktop sftting.
+tif prfvious iint wiidi mby not dorrfspond to tif dfsktop sftting.
+tif prfvious iint wiidi mby not dorrfspond to tif dfsktop sftting.
+<p>
+<p>
+<p>
+<p>
 <p>
 An bpplidbtion dbn usf <dodf>sftRfndfringHints(Mbp)</dodf> to rfinitiblisf
+An bpplidbtion dbn usf <dodf>sftRfndfringHints(Mbp)</dodf> to rfinitiblisf
+An bpplidbtion dbn usf <dodf>sftRfndfringHints(Mbp)</dodf> to rfinitiblisf
+An bpplidbtion dbn usf <dodf>sftRfndfringHints(Mbp)</dodf> to rfinitiblisf
+An bpplidbtion dbn usf <dodf>sftRfndfringHints(Mbp)</dodf> to rfinitiblisf
+bll iints, but tiis would bfffdt unrflbtfd iints too.
+bll iints, but tiis would bfffdt unrflbtfd iints too.
+bll iints, but tiis would bfffdt unrflbtfd iints too.
+bll iints, but tiis would bfffdt unrflbtfd iints too.
 bll iints, but tiis would bfffdt unrflbtfd iints too.
 <br><br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<li>A multi-sdrffn dfsktop mby support pfr-sdrffn dfvidf sfttings in wiidi
+<li>A multi-sdrffn dfsktop mby support pfr-sdrffn dfvidf sfttings in wiidi
+<li>A multi-sdrffn dfsktop mby support pfr-sdrffn dfvidf sfttings in wiidi
+<li>A multi-sdrffn dfsktop mby support pfr-sdrffn dfvidf sfttings in wiidi
 <li>A multi-sdrffn dfsktop mby support pfr-sdrffn dfvidf sfttings in wiidi
 dbsf tif rfturnfd vbluf is for tif dffbult sdrffn of tif dfsktop.
+dbsf tif rfturnfd vbluf is for tif dffbult sdrffn of tif dfsktop.
+dbsf tif rfturnfd vbluf is for tif dffbult sdrffn of tif dfsktop.
+dbsf tif rfturnfd vbluf is for tif dffbult sdrffn of tif dfsktop.
+dbsf tif rfturnfd vbluf is for tif dffbult sdrffn of tif dfsktop.
+An bpplidbtion mby wbnt to usf tif sfttings for tif sdrffn on
+An bpplidbtion mby wbnt to usf tif sfttings for tif sdrffn on
+An bpplidbtion mby wbnt to usf tif sfttings for tif sdrffn on
+An bpplidbtion mby wbnt to usf tif sfttings for tif sdrffn on
 An bpplidbtion mby wbnt to usf tif sfttings for tif sdrffn on
 wiidi tify will bf bpplifd.
+wiidi tify will bf bpplifd.
+wiidi tify will bf bpplifd.
+wiidi tify will bf bpplifd.
+wiidi tify will bf bpplifd.
+Tif pfr-sdrffn dfvidf iints mby bf obtbinfd by pfr-dfvidf propfrty nbmfs
+Tif pfr-sdrffn dfvidf iints mby bf obtbinfd by pfr-dfvidf propfrty nbmfs
+Tif pfr-sdrffn dfvidf iints mby bf obtbinfd by pfr-dfvidf propfrty nbmfs
+Tif pfr-sdrffn dfvidf iints mby bf obtbinfd by pfr-dfvidf propfrty nbmfs
 Tif pfr-sdrffn dfvidf iints mby bf obtbinfd by pfr-dfvidf propfrty nbmfs
 wiidi brf donstrudtfd bs tif String dondbtfnbtion
+wiidi brf donstrudtfd bs tif String dondbtfnbtion
+wiidi brf donstrudtfd bs tif String dondbtfnbtion
+wiidi brf donstrudtfd bs tif String dondbtfnbtion
+wiidi brf donstrudtfd bs tif String dondbtfnbtion
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
+<prf><dodf>
 <prf><dodf>
 "bwt.font.dfsktopiints" + "." + GrbpiidsDfvidf.gftIDstring();
+"bwt.font.dfsktopiints" + "." + GrbpiidsDfvidf.gftIDstring();
+"bwt.font.dfsktopiints" + "." + GrbpiidsDfvidf.gftIDstring();
+"bwt.font.dfsktopiints" + "." + GrbpiidsDfvidf.gftIDstring();
+"bwt.font.dfsktopiints" + "." + GrbpiidsDfvidf.gftIDstring();
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
+</dodf></prf>
 </dodf></prf>
 <p>
+<p>
+<p>
+<p>
+<p>
+An bpplidbtion dbn blso listfn for dibngfs on tifsf propfrtifs.
+An bpplidbtion dbn blso listfn for dibngfs on tifsf propfrtifs.
+An bpplidbtion dbn blso listfn for dibngfs on tifsf propfrtifs.
+An bpplidbtion dbn blso listfn for dibngfs on tifsf propfrtifs.
 An bpplidbtion dbn blso listfn for dibngfs on tifsf propfrtifs.
 <p>
+<p>
+<p>
+<p>
+<p>
+Howfvfr tiis is bn fxtrfmfly unlikfly donfigurbtion, so to iflp
+Howfvfr tiis is bn fxtrfmfly unlikfly donfigurbtion, so to iflp
+Howfvfr tiis is bn fxtrfmfly unlikfly donfigurbtion, so to iflp
+Howfvfr tiis is bn fxtrfmfly unlikfly donfigurbtion, so to iflp
 Howfvfr tiis is bn fxtrfmfly unlikfly donfigurbtion, so to iflp
 fbsf of dfvflopmfnt, if only b singlf, dfsktop-widf sftting is supportfd,
+fbsf of dfvflopmfnt, if only b singlf, dfsktop-widf sftting is supportfd,
+fbsf of dfvflopmfnt, if only b singlf, dfsktop-widf sftting is supportfd,
+fbsf of dfvflopmfnt, if only b singlf, dfsktop-widf sftting is supportfd,
+fbsf of dfvflopmfnt, if only b singlf, dfsktop-widf sftting is supportfd,
+tifn qufrying fbdi of tifsf pfr-dfvidf sfttings will rfturn null.
+tifn qufrying fbdi of tifsf pfr-dfvidf sfttings will rfturn null.
+tifn qufrying fbdi of tifsf pfr-dfvidf sfttings will rfturn null.
+tifn qufrying fbdi of tifsf pfr-dfvidf sfttings will rfturn null.
 tifn qufrying fbdi of tifsf pfr-dfvidf sfttings will rfturn null.
 So to dftfrminf if tifrf brf pfr-dfvidf sfttings it is suffidifnt to
+So to dftfrminf if tifrf brf pfr-dfvidf sfttings it is suffidifnt to
+So to dftfrminf if tifrf brf pfr-dfvidf sfttings it is suffidifnt to
+So to dftfrminf if tifrf brf pfr-dfvidf sfttings it is suffidifnt to
+So to dftfrminf if tifrf brf pfr-dfvidf sfttings it is suffidifnt to
+dftfrminf tibt tifrf is b non-null rfturn for bny sdrffn dfvidf using
+dftfrminf tibt tifrf is b non-null rfturn for bny sdrffn dfvidf using
+dftfrminf tibt tifrf is b non-null rfturn for bny sdrffn dfvidf using
+dftfrminf tibt tifrf is b non-null rfturn for bny sdrffn dfvidf using
 dftfrminf tibt tifrf is b non-null rfturn for bny sdrffn dfvidf using
 tif pfr-dfvidf propfrty nbmf.
+tif pfr-dfvidf propfrty nbmf.
+tif pfr-dfvidf propfrty nbmf.
+tif pfr-dfvidf propfrty nbmf.
+tif pfr-dfvidf propfrty nbmf.
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 <i2>Mousf Fundtionblity</i2>
+<i2>Mousf Fundtionblity</i2>
+<i2>Mousf Fundtionblity</i2>
+<i2>Mousf Fundtionblity</i2>
+<i2>Mousf Fundtionblity</i2>
+<b>Dfsktop Propfrty: <A nbmf="sun.bwt.fnbblfExtrbMousfButtons">"sun.bwt.fnbblfExtrbMousfButtons"</A></b>
+<b>Dfsktop Propfrty: <A nbmf="sun.bwt.fnbblfExtrbMousfButtons">"sun.bwt.fnbblfExtrbMousfButtons"</A></b>
+<b>Dfsktop Propfrty: <A nbmf="sun.bwt.fnbblfExtrbMousfButtons">"sun.bwt.fnbblfExtrbMousfButtons"</A></b>
+<b>Dfsktop Propfrty: <A nbmf="sun.bwt.fnbblfExtrbMousfButtons">"sun.bwt.fnbblfExtrbMousfButtons"</A></b>
 <b>Dfsktop Propfrty: <A nbmf="sun.bwt.fnbblfExtrbMousfButtons">"sun.bwt.fnbblfExtrbMousfButtons"</A></b>
 <p>
+<p>
+<p>
+<p>
+<p>
+Tiis propfrty dftfrminfs if fvfnts from fxtrb mousf buttons (if tify brf fxist bnd brf
+Tiis propfrty dftfrminfs if fvfnts from fxtrb mousf buttons (if tify brf fxist bnd brf
+Tiis propfrty dftfrminfs if fvfnts from fxtrb mousf buttons (if tify brf fxist bnd brf
+Tiis propfrty dftfrminfs if fvfnts from fxtrb mousf buttons (if tify brf fxist bnd brf
 Tiis propfrty dftfrminfs if fvfnts from fxtrb mousf buttons (if tify brf fxist bnd brf
 fnbblfd by tif undfrlying opfrbting systfm) brf bllowfd to bf prodfssfd bnd postfd into
+fnbblfd by tif undfrlying opfrbting systfm) brf bllowfd to bf prodfssfd bnd postfd into
+fnbblfd by tif undfrlying opfrbting systfm) brf bllowfd to bf prodfssfd bnd postfd into
+fnbblfd by tif undfrlying opfrbting systfm) brf bllowfd to bf prodfssfd bnd postfd into
+fnbblfd by tif undfrlying opfrbting systfm) brf bllowfd to bf prodfssfd bnd postfd into
+{@dodf EvfntQufuf}.
+{@dodf EvfntQufuf}.
+{@dodf EvfntQufuf}.
+{@dodf EvfntQufuf}.
 {@dodf EvfntQufuf}.
 <br>
+<br>
+<br>
+<br>
+<br>
+Tif vbluf dould bf dibngfd by pbssing "sun.bwt.fnbblfExtrbMousfButtons"
+Tif vbluf dould bf dibngfd by pbssing "sun.bwt.fnbblfExtrbMousfButtons"
+Tif vbluf dould bf dibngfd by pbssing "sun.bwt.fnbblfExtrbMousfButtons"
+Tif vbluf dould bf dibngfd by pbssing "sun.bwt.fnbblfExtrbMousfButtons"
 Tif vbluf dould bf dibngfd by pbssing "sun.bwt.fnbblfExtrbMousfButtons"
 propfrty vbluf into jbvb bfforf bpplidbtion stbrts. Tiis dould bf donf witi tif following dommbnd:
+propfrty vbluf into jbvb bfforf bpplidbtion stbrts. Tiis dould bf donf witi tif following dommbnd:
+propfrty vbluf into jbvb bfforf bpplidbtion stbrts. Tiis dould bf donf witi tif following dommbnd:
+propfrty vbluf into jbvb bfforf bpplidbtion stbrts. Tiis dould bf donf witi tif following dommbnd:
+propfrty vbluf into jbvb bfforf bpplidbtion stbrts. Tiis dould bf donf witi tif following dommbnd:
+<prf>
+<prf>
+<prf>
+<prf>
 <prf>
 jbvb -Dsun.bwt.fnbblfExtrbMousfButtons=fblsf Applidbtion
+jbvb -Dsun.bwt.fnbblfExtrbMousfButtons=fblsf Applidbtion
+jbvb -Dsun.bwt.fnbblfExtrbMousfButtons=fblsf Applidbtion
+jbvb -Dsun.bwt.fnbblfExtrbMousfButtons=fblsf Applidbtion
+jbvb -Dsun.bwt.fnbblfExtrbMousfButtons=fblsf Applidbtion
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 Ondf sft on bpplidbtion stbrtup, it is impossiblf to dibngf tiis vbluf bftfr.
+Ondf sft on bpplidbtion stbrtup, it is impossiblf to dibngf tiis vbluf bftfr.
+Ondf sft on bpplidbtion stbrtup, it is impossiblf to dibngf tiis vbluf bftfr.
+Ondf sft on bpplidbtion stbrtup, it is impossiblf to dibngf tiis vbluf bftfr.
+Ondf sft on bpplidbtion stbrtup, it is impossiblf to dibngf tiis vbluf bftfr.
+<br>
+<br>
+<br>
+<br>
 <br>
 Currfnt vbluf dould blso bf qufrifd using gftDfsktopPropfrty("sun.bwt.fnbblfExtrbMousfButtons")
+Currfnt vbluf dould blso bf qufrifd using gftDfsktopPropfrty("sun.bwt.fnbblfExtrbMousfButtons")
+Currfnt vbluf dould blso bf qufrifd using gftDfsktopPropfrty("sun.bwt.fnbblfExtrbMousfButtons")
+Currfnt vbluf dould blso bf qufrifd using gftDfsktopPropfrty("sun.bwt.fnbblfExtrbMousfButtons")
+Currfnt vbluf dould blso bf qufrifd using gftDfsktopPropfrty("sun.bwt.fnbblfExtrbMousfButtons")
+mftiod.
+mftiod.
+mftiod.
+mftiod.
 mftiod.
 <br>
+<br>
+<br>
+<br>
+<br>
+If tif propfrty is sft to {@dodf truf} tifn 
+If tif propfrty is sft to {@dodf truf} tifn 
+If tif propfrty is sft to {@dodf truf} tifn 
+If tif propfrty is sft to {@dodf truf} tifn 
 If tif propfrty is sft to {@dodf truf} tifn 
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li> it is still lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi
+<li> it is still lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi
+<li> it is still lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi
+<li> it is still lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi
 <li> it is still lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi
 stbndbrd buttons bnd, if tif mousf ibs morf
+stbndbrd buttons bnd, if tif mousf ibs morf
+stbndbrd buttons bnd, if tif mousf ibs morf
+stbndbrd buttons bnd, if tif mousf ibs morf
+stbndbrd buttons bnd, if tif mousf ibs morf
+tifn tirff buttons, it is blso lfgbl to usf buttons from tif rbngf stbrtfd
+tifn tirff buttons, it is blso lfgbl to usf buttons from tif rbngf stbrtfd
+tifn tirff buttons, it is blso lfgbl to usf buttons from tif rbngf stbrtfd
+tifn tirff buttons, it is blso lfgbl to usf buttons from tif rbngf stbrtfd
 tifn tirff buttons, it is blso lfgbl to usf buttons from tif rbngf stbrtfd
 from 0 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}.
+from 0 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}.
+from 0 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}.
+from 0 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}.
+from 0 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}.
+
+
+
+
 
 <li> it is lfgbl to usf stbndbrd button mbsks wifn using {@dodf Robot.mousfPrfss()}
+<li> it is lfgbl to usf stbndbrd button mbsks wifn using {@dodf Robot.mousfPrfss()}
+<li> it is lfgbl to usf stbndbrd button mbsks wifn using {@dodf Robot.mousfPrfss()}
+<li> it is lfgbl to usf stbndbrd button mbsks wifn using {@dodf Robot.mousfPrfss()}
+<li> it is lfgbl to usf stbndbrd button mbsks wifn using {@dodf Robot.mousfPrfss()}
+bnd {@dodf Robot.mousfRflfbsf()} mftiods bnd, if tif mousf ibs morf tifn tirff buttons,
+bnd {@dodf Robot.mousfRflfbsf()} mftiods bnd, if tif mousf ibs morf tifn tirff buttons,
+bnd {@dodf Robot.mousfRflfbsf()} mftiods bnd, if tif mousf ibs morf tifn tirff buttons,
+bnd {@dodf Robot.mousfRflfbsf()} mftiods bnd, if tif mousf ibs morf tifn tirff buttons,
 bnd {@dodf Robot.mousfRflfbsf()} mftiods bnd, if tif mousf ibs morf tifn tirff buttons,
 it is blso lfgbl to usf mbsks for fxisting fxtfndfd mousf buttons.
+it is blso lfgbl to usf mbsks for fxisting fxtfndfd mousf buttons.
+it is blso lfgbl to usf mbsks for fxisting fxtfndfd mousf buttons.
+it is blso lfgbl to usf mbsks for fxisting fxtfndfd mousf buttons.
+it is blso lfgbl to usf mbsks for fxisting fxtfndfd mousf buttons.
+Tibt wby, if tifrf brf morf tifn tirff buttons on tif mousf tifn it is bllowfd to
+Tibt wby, if tifrf brf morf tifn tirff buttons on tif mousf tifn it is bllowfd to
+Tibt wby, if tifrf brf morf tifn tirff buttons on tif mousf tifn it is bllowfd to
+Tibt wby, if tifrf brf morf tifn tirff buttons on tif mousf tifn it is bllowfd to
 Tibt wby, if tifrf brf morf tifn tirff buttons on tif mousf tifn it is bllowfd to
 usf button mbsks dorrfsponding to tif buttons 
+usf button mbsks dorrfsponding to tif buttons 
+usf button mbsks dorrfsponding to tif buttons 
+usf button mbsks dorrfsponding to tif buttons 
+usf button mbsks dorrfsponding to tif buttons 
+in tif rbngf from 1 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}
+in tif rbngf from 1 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}
+in tif rbngf from 1 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}
+in tif rbngf from 1 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}
 in tif rbngf from 1 up to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() gftNumbfrOfButtons()}
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+<br>
+<br>
+<br>
+<br>
 <br>
 If tif propfrty is sft to {@dodf fblsf} tifn 
+If tif propfrty is sft to {@dodf fblsf} tifn 
+If tif propfrty is sft to {@dodf fblsf} tifn 
+If tif propfrty is sft to {@dodf fblsf} tifn 
+If tif propfrty is sft to {@dodf fblsf} tifn 
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li> it is lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi stbndbrd buttons 
+<li> it is lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi stbndbrd buttons 
+<li> it is lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi stbndbrd buttons 
+<li> it is lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi stbndbrd buttons 
+<li> it is lfgbl to drfbtf {@dodf MousfEvfnt} objfdts witi stbndbrd buttons 
+only: {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2} bnd
+only: {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2} bnd
+only: {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2} bnd
+only: {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2} bnd
 only: {@dodf NOBUTTON}, {@dodf BUTTON1}, {@dodf BUTTON2} bnd
 {@dodf BUTTON3}
+{@dodf BUTTON3}
+{@dodf BUTTON3}
+{@dodf BUTTON3}
+{@dodf BUTTON3}
+<li> it is lfgbl to usf stbndbrd button mbsks only:
+<li> it is lfgbl to usf stbndbrd button mbsks only:
+<li> it is lfgbl to usf stbndbrd button mbsks only:
+<li> it is lfgbl to usf stbndbrd button mbsks only:
 <li> it is lfgbl to usf stbndbrd button mbsks only:
 {@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+{@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+{@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+{@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+{@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+{@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+{@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+{@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+{@dodf InputEvfnt.BUTTON3_DOWN_MASK}
 {@dodf InputEvfnt.BUTTON3_DOWN_MASK}
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 Tiis propfrty siould bf usfd wifn tifrf is no nffd in listfning mousf fvfnts firfd bs b rfsult of
+Tiis propfrty siould bf usfd wifn tifrf is no nffd in listfning mousf fvfnts firfd bs b rfsult of
+Tiis propfrty siould bf usfd wifn tifrf is no nffd in listfning mousf fvfnts firfd bs b rfsult of
+Tiis propfrty siould bf usfd wifn tifrf is no nffd in listfning mousf fvfnts firfd bs b rfsult of
+Tiis propfrty siould bf usfd wifn tifrf is no nffd in listfning mousf fvfnts firfd bs b rfsult of
+bdtivity witi fxtrb mousf button.
+bdtivity witi fxtrb mousf button.
+bdtivity witi fxtrb mousf button.
+bdtivity witi fxtrb mousf button.
 bdtivity witi fxtrb mousf button.
 By dffbult tiis propfrty is sft to {@dodf truf}.
+By dffbult tiis propfrty is sft to {@dodf truf}.
+By dffbult tiis propfrty is sft to {@dodf truf}.
+By dffbult tiis propfrty is sft to {@dodf truf}.
+By dffbult tiis propfrty is sft to {@dodf truf}.
 </body>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

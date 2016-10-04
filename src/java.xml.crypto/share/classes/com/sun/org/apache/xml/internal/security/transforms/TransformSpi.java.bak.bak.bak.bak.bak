@@ -1,0 +1,112 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import org.xml.sbx.SAXExdfption;
+
+/**
+ * Bbsf dlbss wiidi bll Trbnsform blgoritims fxtfnd. Tif dommon mftiods tibt
+ * ibvf to bf ovfrriddfn brf tif
+ * {@link #fnginfPfrformTrbnsform(XMLSignbturfInput, Trbnsform)} mftiod.
+ *
+ * @butior Ciristibn Gfufr-Pollmbnn
+ */
+publid bbstrbdt dlbss TrbnsformSpi {
+
+    /**
+     * Tif mfgb mftiod wiidi MUST bf implfmfntfd by tif Trbnsformbtion Algoritim.
+     *
+     * @pbrbm input {@link XMLSignbturfInput} bs tif input of trbnsformbtion
+     * @pbrbm os wifrf to output tiis trbnsformbtion.
+     * @pbrbm trbnsformObjfdt tif Trbnsform objfdt
+     * @rfturn {@link XMLSignbturfInput} bs tif rfsult of trbnsformbtion
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows IOExdfption
+     * @tirows InvblidCbnonidblizfrExdfption
+     * @tirows PbrsfrConfigurbtionExdfption
+     * @tirows SAXExdfption
+     * @tirows TrbnsformbtionExdfption
+     */
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm os, Trbnsform trbnsformObjfdt
+    ) tirows IOExdfption, CbnonidblizbtionExdfption, InvblidCbnonidblizfrExdfption,
+        TrbnsformbtionExdfption, PbrsfrConfigurbtionExdfption, SAXExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Tif mfgb mftiod wiidi MUST bf implfmfntfd by tif Trbnsformbtion Algoritim.
+     * In ordfr to bf dompbtiblf witi prffxisting Trbnsform implfmfntbtions,
+     * by dffbult tiis implfmfntbtion invokfs tif dfprfdbtfd, tirfbd-unsbff
+     * mftiods. Subdlbssfs siould ovfrridf tiis witi b tirfbd-sbff
+     * implfmfntbtion.
+     *
+     * @pbrbm input {@link XMLSignbturfInput} bs tif input of trbnsformbtion
+     * @pbrbm trbnsformObjfdt tif Trbnsform objfdt
+     * @rfturn {@link XMLSignbturfInput} bs tif rfsult of trbnsformbtion
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows IOExdfption
+     * @tirows InvblidCbnonidblizfrExdfption
+     * @tirows PbrsfrConfigurbtionExdfption
+     * @tirows SAXExdfption
+     * @tirows TrbnsformbtionExdfption
+     */
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, Trbnsform trbnsformObjfdt
+    ) tirows IOExdfption, CbnonidblizbtionExdfption, InvblidCbnonidblizfrExdfption,
+        TrbnsformbtionExdfption, PbrsfrConfigurbtionExdfption, SAXExdfption {
+        rfturn fnginfPfrformTrbnsform(input, null, trbnsformObjfdt);
+    }
+
+    /**
+     * Tif mfgb mftiod wiidi MUST bf implfmfntfd by tif Trbnsformbtion Algoritim.
+     * @pbrbm input {@link XMLSignbturfInput} bs tif input of trbnsformbtion
+     * @rfturn {@link XMLSignbturfInput} bs tif rfsult of trbnsformbtion
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows IOExdfption
+     * @tirows InvblidCbnonidblizfrExdfption
+     * @tirows PbrsfrConfigurbtionExdfption
+     * @tirows SAXExdfption
+     * @tirows TrbnsformbtionExdfption
+     */
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input
+    ) tirows IOExdfption, CbnonidblizbtionExdfption, InvblidCbnonidblizfrExdfption,
+        TrbnsformbtionExdfption, PbrsfrConfigurbtionExdfption, SAXExdfption {
+        rfturn fnginfPfrformTrbnsform(input, null);
+    }
+
+    /**
+     * Rfturns tif URI rfprfsfntbtion of <dodf>Trbnsformbtion blgoritim</dodf>
+     *
+     * @rfturn tif URI rfprfsfntbtion of <dodf>Trbnsformbtion blgoritim</dodf>
+     */
+    protfdtfd bbstrbdt String fnginfGftURI();
+}

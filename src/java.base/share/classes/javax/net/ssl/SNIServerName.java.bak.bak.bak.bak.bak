@@ -1,0 +1,213 @@
+/*
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.util.Arrbys;
+
+/**
+ * Instbndfs of tiis dlbss rfprfsfnt b sfrvfr nbmf in b Sfrvfr Nbmf
+ * Indidbtion (SNI) fxtfnsion.
+ * <P>
+ * Tif SNI fxtfnsion is b ffbturf tibt fxtfnds tif SSL/TLS protodols to
+ * indidbtf wibt sfrvfr nbmf tif dlifnt is bttfmpting to donnfdt to during
+ * ibndsibking.  Sff sfdtion 3, "Sfrvfr Nbmf Indidbtion", of <A
+ * HREF="ittp://www.iftf.org/rfd/rfd6066.txt">TLS Extfnsions (RFC 6066)</A>.
+ * <P>
+ * {@dodf SNISfrvfrNbmf} objfdts brf immutbblf.  Subdlbssfs siould not providf
+ * mftiods tibt dbn dibngf tif stbtf of bn instbndf ondf it ibs bffn drfbtfd.
+ *
+ * @sff SSLPbrbmftfrs#gftSfrvfrNbmfs()
+ * @sff SSLPbrbmftfrs#sftSfrvfrNbmfs(List)
+ *
+ * @sindf 1.8
+ */
+publid bbstrbdt dlbss SNISfrvfrNbmf {
+
+    // tif typf of tif sfrvfr nbmf
+    privbtf finbl int typf;
+
+    // tif fndodfd vbluf of tif sfrvfr nbmf
+    privbtf finbl bytf[] fndodfd;
+
+    // tif ifx digitbls
+    privbtf stbtid finbl dibr[] HEXES = "0123456789ABCDEF".toCibrArrby();
+
+    /**
+     * Crfbtfs bn {@dodf SNISfrvfrNbmf} using tif spfdififd nbmf typf bnd
+     * fndodfd vbluf.
+     * <P>
+     * Notf tibt tif {@dodf fndodfd} bytf brrby is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtion.
+     *
+     * @pbrbm  typf
+     *         tif typf of tif sfrvfr nbmf
+     * @pbrbm  fndodfd
+     *         tif fndodfd vbluf of tif sfrvfr nbmf
+     *
+     * @tirows IllfgblArgumfntExdfption if {@dodf typf} is not in tif rbngf
+     *         of 0 to 255, indlusivf.
+     * @tirows NullPointfrExdfption if {@dodf fndodfd} is null
+     */
+    protfdtfd SNISfrvfrNbmf(int typf, bytf[] fndodfd) {
+        if (typf < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf lfss tibn zfro");
+        } flsf if (typf > 255) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf grfbtfr tibn 255");
+        }
+        tiis.typf = typf;
+
+        if (fndodfd == null) {
+            tirow nfw NullPointfrExdfption(
+                "Sfrvfr nbmf fndodfd vbluf dbnnot bf null");
+        }
+        tiis.fndodfd = fndodfd.dlonf();
+    }
+
+
+    /**
+     * Rfturns tif nbmf typf of tiis sfrvfr nbmf.
+     *
+     * @rfturn tif nbmf typf of tiis sfrvfr nbmf
+     */
+    publid finbl int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns b dopy of tif fndodfd sfrvfr nbmf vbluf of tiis sfrvfr nbmf.
+     *
+     * @rfturn b dopy of tif fndodfd sfrvfr nbmf vbluf of tiis sfrvfr nbmf
+     */
+    publid finbl bytf[] gftEndodfd() {
+        rfturn fndodfd.dlonf();
+    }
+
+    /**
+     * Indidbtfs wiftifr somf otifr objfdt is "fqubl to" tiis sfrvfr nbmf.
+     *
+     * @rfturn truf if, bnd only if, {@dodf otifr} is of tif sbmf dlbss
+     *         of tiis objfdt, bnd ibs tif sbmf nbmf typf bnd
+     *         fndodfd vbluf bs tiis sfrvfr nbmf.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
+        }
+
+        if (tiis.gftClbss() != otifr.gftClbss()) {
+            rfturn fblsf;
+        }
+
+        SNISfrvfrNbmf tibt = (SNISfrvfrNbmf)otifr;
+        rfturn (tiis.typf == tibt.typf) &&
+                    Arrbys.fqubls(tiis.fndodfd, tibt.fndodfd);
+    }
+
+    /**
+     * Rfturns b ibsi dodf vbluf for tiis sfrvfr nbmf.
+     * <P>
+     * Tif ibsi dodf vbluf is gfnfrbtfd using tif nbmf typf bnd fndodfd
+     * vbluf of tiis sfrvfr nbmf.
+     *
+     * @rfturn b ibsi dodf vbluf for tiis sfrvfr nbmf.
+     */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;    // 17/31: primf numbfr to dfdrfbsf dollisions
+        rfsult = 31 * rfsult + typf;
+        rfsult = 31 * rfsult + Arrbys.ibsiCodf(fndodfd);
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis sfrvfr nbmf, indluding tif sfrvfr
+     * nbmf typf bnd tif fndodfd sfrvfr nbmf vbluf in tiis
+     * {@dodf SNISfrvfrNbmf} objfdt.
+     * <P>
+     * Tif fxbdt dftbils of tif rfprfsfntbtion brf unspfdififd bnd subjfdt
+     * to dibngf, but tif following mby bf rfgbrdfd bs typidbl:
+     * <prf>
+     *     "typf={@litfrbl <nbmf typf>}, vbluf={@litfrbl <nbmf vbluf>}"
+     * </prf>
+     * <P>
+     * In tiis dlbss, tif formbt of "{@litfrbl <nbmf typf>}" is
+     * "[LITERAL] (INTEGER)", wifrf tif optionbl "LITERAL" is tif litfrbl
+     * nbmf, bnd INTEGER is tif intfgfr vbluf of tif nbmf typf.  Tif formbt
+     * of "{@litfrbl <nbmf vbluf>}" is "XX:...:XX", wifrf "XX" is tif
+     * ifxbdfdimbl digit rfprfsfntbtion of b bytf vbluf. For fxbmplf, b
+     * rfturnfd vbluf of bn psfudo sfrvfr nbmf mby look likf:
+     * <prf>
+     *     "typf=(31), vbluf=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
+     * </prf>
+     * or
+     * <prf>
+     *     "typf=iost_nbmf (0), vbluf=77:77:77:2E:65:78:61:6D:70:6C:65:2E:63:6E"
+     * </prf>
+     *
+     * <P>
+     * Plfbsf NOTE tibt tif fxbdt dftbils of tif rfprfsfntbtion brf unspfdififd
+     * bnd subjfdt to dibngf, bnd subdlbssfs mby ovfrridf tif mftiod witi
+     * tifir own formbts.
+     *
+     * @rfturn b string rfprfsfntbtion of tiis sfrvfr nbmf
+     */
+    @Ovfrridf
+    publid String toString() {
+        if (typf == StbndbrdConstbnts.SNI_HOST_NAME) {
+            rfturn "typf=iost_nbmf (0), vbluf=" + toHfxString(fndodfd);
+        } flsf {
+            rfturn "typf=(" + typf + "), vbluf=" + toHfxString(fndodfd);
+        }
+    }
+
+    // donvfrt bytf brrby to ifx string
+    privbtf stbtid String toHfxString(bytf[] bytfs) {
+        if (bytfs.lfngti == 0) {
+            rfturn "(fmpty)";
+        }
+
+        StringBuildfr sb = nfw StringBuildfr(bytfs.lfngti * 3 - 1);
+        boolfbn isInitibl = truf;
+        for (bytf b : bytfs) {
+            if (isInitibl) {
+                isInitibl = fblsf;
+            } flsf {
+                sb.bppfnd(':');
+            }
+
+            int k = b & 0xFF;
+            sb.bppfnd(HEXES[k >>> 4]);
+            sb.bppfnd(HEXES[k & 0xF]);
+        }
+
+        rfturn sb.toString();
+    }
+}
+

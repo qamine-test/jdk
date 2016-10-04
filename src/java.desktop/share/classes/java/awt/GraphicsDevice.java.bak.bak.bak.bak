@@ -1,594 +1,2970 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+
+
+
+
 
 import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+
+
+
+
 
 import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.AppContfxt;
+import sun.bwt.AppContfxt;
+import sun.bwt.AppContfxt;
 import sun.bwt.AppContfxt;
 import sun.bwt.SunToolkit;
+import sun.bwt.SunToolkit;
+import sun.bwt.SunToolkit;
+import sun.bwt.SunToolkit;
+import sun.bwt.SunToolkit;
+
+
+
+
 
 /**
- * Thf <dodf>GrbphidsDfvidf</dodf> dlbss dfsdribfs thf grbphids dfvidfs
- * thbt might bf bvbilbblf in b pbrtidulbr grbphids fnvironmfnt.  Thfsf
- * indludf sdrffn bnd printfr dfvidfs. Notf thbt thfrf dbn bf mbny sdrffns
- * bnd mbny printfrs in bn instbndf of {@link GrbphidsEnvironmfnt}. Ebdh
- * grbphids dfvidf hbs onf or morf {@link GrbphidsConfigurbtion} objfdts
- * bssodibtfd with it.  Thfsf objfdts spfdify thf difffrfnt donfigurbtions
- * in whidh thf <dodf>GrbphidsDfvidf</dodf> dbn bf usfd.
+/**
+/**
+/**
+/**
+ * Tif <dodf>GrbpiidsDfvidf</dodf> dlbss dfsdribfs tif grbpiids dfvidfs
+ * Tif <dodf>GrbpiidsDfvidf</dodf> dlbss dfsdribfs tif grbpiids dfvidfs
+ * Tif <dodf>GrbpiidsDfvidf</dodf> dlbss dfsdribfs tif grbpiids dfvidfs
+ * Tif <dodf>GrbpiidsDfvidf</dodf> dlbss dfsdribfs tif grbpiids dfvidfs
+ * Tif <dodf>GrbpiidsDfvidf</dodf> dlbss dfsdribfs tif grbpiids dfvidfs
+ * tibt migit bf bvbilbblf in b pbrtidulbr grbpiids fnvironmfnt.  Tifsf
+ * tibt migit bf bvbilbblf in b pbrtidulbr grbpiids fnvironmfnt.  Tifsf
+ * tibt migit bf bvbilbblf in b pbrtidulbr grbpiids fnvironmfnt.  Tifsf
+ * tibt migit bf bvbilbblf in b pbrtidulbr grbpiids fnvironmfnt.  Tifsf
+ * tibt migit bf bvbilbblf in b pbrtidulbr grbpiids fnvironmfnt.  Tifsf
+ * indludf sdrffn bnd printfr dfvidfs. Notf tibt tifrf dbn bf mbny sdrffns
+ * indludf sdrffn bnd printfr dfvidfs. Notf tibt tifrf dbn bf mbny sdrffns
+ * indludf sdrffn bnd printfr dfvidfs. Notf tibt tifrf dbn bf mbny sdrffns
+ * indludf sdrffn bnd printfr dfvidfs. Notf tibt tifrf dbn bf mbny sdrffns
+ * indludf sdrffn bnd printfr dfvidfs. Notf tibt tifrf dbn bf mbny sdrffns
+ * bnd mbny printfrs in bn instbndf of {@link GrbpiidsEnvironmfnt}. Ebdi
+ * bnd mbny printfrs in bn instbndf of {@link GrbpiidsEnvironmfnt}. Ebdi
+ * bnd mbny printfrs in bn instbndf of {@link GrbpiidsEnvironmfnt}. Ebdi
+ * bnd mbny printfrs in bn instbndf of {@link GrbpiidsEnvironmfnt}. Ebdi
+ * bnd mbny printfrs in bn instbndf of {@link GrbpiidsEnvironmfnt}. Ebdi
+ * grbpiids dfvidf ibs onf or morf {@link GrbpiidsConfigurbtion} objfdts
+ * grbpiids dfvidf ibs onf or morf {@link GrbpiidsConfigurbtion} objfdts
+ * grbpiids dfvidf ibs onf or morf {@link GrbpiidsConfigurbtion} objfdts
+ * grbpiids dfvidf ibs onf or morf {@link GrbpiidsConfigurbtion} objfdts
+ * grbpiids dfvidf ibs onf or morf {@link GrbpiidsConfigurbtion} objfdts
+ * bssodibtfd witi it.  Tifsf objfdts spfdify tif difffrfnt donfigurbtions
+ * bssodibtfd witi it.  Tifsf objfdts spfdify tif difffrfnt donfigurbtions
+ * bssodibtfd witi it.  Tifsf objfdts spfdify tif difffrfnt donfigurbtions
+ * bssodibtfd witi it.  Tifsf objfdts spfdify tif difffrfnt donfigurbtions
+ * bssodibtfd witi it.  Tifsf objfdts spfdify tif difffrfnt donfigurbtions
+ * in wiidi tif <dodf>GrbpiidsDfvidf</dodf> dbn bf usfd.
+ * in wiidi tif <dodf>GrbpiidsDfvidf</dodf> dbn bf usfd.
+ * in wiidi tif <dodf>GrbpiidsDfvidf</dodf> dbn bf usfd.
+ * in wiidi tif <dodf>GrbpiidsDfvidf</dodf> dbn bf usfd.
+ * in wiidi tif <dodf>GrbpiidsDfvidf</dodf> dbn bf usfd.
  * <p>
- * In b multi-sdrffn fnvironmfnt, thf <dodf>GrbphidsConfigurbtion</dodf>
- * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Thf
- * following dodf sbmplf dfmonstrbtfs how to drfbtf b <dodf>JFrbmf</dodf>
- * objfdt for fbdh <dodf>GrbphidsConfigurbtion</dodf> on fbdh sdrffn
- * dfvidf in thf <dodf>GrbphidsEnvironmfnt</dodf>:
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * In b multi-sdrffn fnvironmfnt, tif <dodf>GrbpiidsConfigurbtion</dodf>
+ * In b multi-sdrffn fnvironmfnt, tif <dodf>GrbpiidsConfigurbtion</dodf>
+ * In b multi-sdrffn fnvironmfnt, tif <dodf>GrbpiidsConfigurbtion</dodf>
+ * In b multi-sdrffn fnvironmfnt, tif <dodf>GrbpiidsConfigurbtion</dodf>
+ * In b multi-sdrffn fnvironmfnt, tif <dodf>GrbpiidsConfigurbtion</dodf>
+ * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Tif
+ * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Tif
+ * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Tif
+ * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Tif
+ * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Tif
+ * following dodf sbmplf dfmonstrbtfs iow to drfbtf b <dodf>JFrbmf</dodf>
+ * following dodf sbmplf dfmonstrbtfs iow to drfbtf b <dodf>JFrbmf</dodf>
+ * following dodf sbmplf dfmonstrbtfs iow to drfbtf b <dodf>JFrbmf</dodf>
+ * following dodf sbmplf dfmonstrbtfs iow to drfbtf b <dodf>JFrbmf</dodf>
+ * following dodf sbmplf dfmonstrbtfs iow to drfbtf b <dodf>JFrbmf</dodf>
+ * objfdt for fbdi <dodf>GrbpiidsConfigurbtion</dodf> on fbdi sdrffn
+ * objfdt for fbdi <dodf>GrbpiidsConfigurbtion</dodf> on fbdi sdrffn
+ * objfdt for fbdi <dodf>GrbpiidsConfigurbtion</dodf> on fbdi sdrffn
+ * objfdt for fbdi <dodf>GrbpiidsConfigurbtion</dodf> on fbdi sdrffn
+ * objfdt for fbdi <dodf>GrbpiidsConfigurbtion</dodf> on fbdi sdrffn
+ * dfvidf in tif <dodf>GrbpiidsEnvironmfnt</dodf>:
+ * dfvidf in tif <dodf>GrbpiidsEnvironmfnt</dodf>:
+ * dfvidf in tif <dodf>GrbpiidsEnvironmfnt</dodf>:
+ * dfvidf in tif <dodf>GrbpiidsEnvironmfnt</dodf>:
+ * dfvidf in tif <dodf>GrbpiidsEnvironmfnt</dodf>:
  * <prf>{@dodf
- *   GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.
- *   gftLodblGrbphidsEnvironmfnt();
- *   GrbphidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
- *   for (int j = 0; j < gs.lfngth; j++) {
- *      GrbphidsDfvidf gd = gs[j];
- *      GrbphidsConfigurbtion[] gd =
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ *   GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.
+ *   GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.
+ *   GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.
+ *   GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.
+ *   GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.
+ *   gftLodblGrbpiidsEnvironmfnt();
+ *   gftLodblGrbpiidsEnvironmfnt();
+ *   gftLodblGrbpiidsEnvironmfnt();
+ *   gftLodblGrbpiidsEnvironmfnt();
+ *   gftLodblGrbpiidsEnvironmfnt();
+ *   GrbpiidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+ *   GrbpiidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+ *   GrbpiidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+ *   GrbpiidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+ *   GrbpiidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+ *   for (int j = 0; j < gs.lfngti; j++) {
+ *   for (int j = 0; j < gs.lfngti; j++) {
+ *   for (int j = 0; j < gs.lfngti; j++) {
+ *   for (int j = 0; j < gs.lfngti; j++) {
+ *   for (int j = 0; j < gs.lfngti; j++) {
+ *      GrbpiidsDfvidf gd = gs[j];
+ *      GrbpiidsDfvidf gd = gs[j];
+ *      GrbpiidsDfvidf gd = gs[j];
+ *      GrbpiidsDfvidf gd = gs[j];
+ *      GrbpiidsDfvidf gd = gs[j];
+ *      GrbpiidsConfigurbtion[] gd =
+ *      GrbpiidsConfigurbtion[] gd =
+ *      GrbpiidsConfigurbtion[] gd =
+ *      GrbpiidsConfigurbtion[] gd =
+ *      GrbpiidsConfigurbtion[] gd =
  *      gd.gftConfigurbtions();
- *      for (int i=0; i < gd.lfngth; i++) {
+ *      gd.gftConfigurbtions();
+ *      gd.gftConfigurbtions();
+ *      gd.gftConfigurbtions();
+ *      gd.gftConfigurbtions();
+ *      for (int i=0; i < gd.lfngti; i++) {
+ *      for (int i=0; i < gd.lfngti; i++) {
+ *      for (int i=0; i < gd.lfngti; i++) {
+ *      for (int i=0; i < gd.lfngti; i++) {
+ *      for (int i=0; i < gd.lfngti; i++) {
+ *         JFrbmf f = nfw
+ *         JFrbmf f = nfw
+ *         JFrbmf f = nfw
+ *         JFrbmf f = nfw
  *         JFrbmf f = nfw
  *         JFrbmf(gs[j].gftDffbultConfigurbtion());
+ *         JFrbmf(gs[j].gftDffbultConfigurbtion());
+ *         JFrbmf(gs[j].gftDffbultConfigurbtion());
+ *         JFrbmf(gs[j].gftDffbultConfigurbtion());
+ *         JFrbmf(gs[j].gftDffbultConfigurbtion());
+ *         Cbnvbs d = nfw Cbnvbs(gd[i]);
+ *         Cbnvbs d = nfw Cbnvbs(gd[i]);
+ *         Cbnvbs d = nfw Cbnvbs(gd[i]);
+ *         Cbnvbs d = nfw Cbnvbs(gd[i]);
  *         Cbnvbs d = nfw Cbnvbs(gd[i]);
  *         Rfdtbnglf gdBounds = gd[i].gftBounds();
+ *         Rfdtbnglf gdBounds = gd[i].gftBounds();
+ *         Rfdtbnglf gdBounds = gd[i].gftBounds();
+ *         Rfdtbnglf gdBounds = gd[i].gftBounds();
+ *         Rfdtbnglf gdBounds = gd[i].gftBounds();
+ *         int xoffs = gdBounds.x;
+ *         int xoffs = gdBounds.x;
+ *         int xoffs = gdBounds.x;
+ *         int xoffs = gdBounds.x;
  *         int xoffs = gdBounds.x;
  *         int yoffs = gdBounds.y;
+ *         int yoffs = gdBounds.y;
+ *         int yoffs = gdBounds.y;
+ *         int yoffs = gdBounds.y;
+ *         int yoffs = gdBounds.y;
+ *         f.gftContfntPbnf().bdd(d);
+ *         f.gftContfntPbnf().bdd(d);
+ *         f.gftContfntPbnf().bdd(d);
+ *         f.gftContfntPbnf().bdd(d);
  *         f.gftContfntPbnf().bdd(d);
  *         f.sftLodbtion((i*50)+xoffs, (i*60)+yoffs);
- *         f.show();
+ *         f.sftLodbtion((i*50)+xoffs, (i*60)+yoffs);
+ *         f.sftLodbtion((i*50)+xoffs, (i*60)+yoffs);
+ *         f.sftLodbtion((i*50)+xoffs, (i*60)+yoffs);
+ *         f.sftLodbtion((i*50)+xoffs, (i*60)+yoffs);
+ *         f.siow();
+ *         f.siow();
+ *         f.siow();
+ *         f.siow();
+ *         f.siow();
+ *      }
+ *      }
+ *      }
+ *      }
  *      }
  *   }
+ *   }
+ *   }
+ *   }
+ *   }
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ * }</prf>
  * }</prf>
  * <p>
- * For morf informbtion on full-sdrffn fxdlusivf modf API, sff thf
- * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.html">
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff tif
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff tif
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff tif
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff tif
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff tif
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.itml">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.itml">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.itml">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.itml">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.itml">
+ * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
+ * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
+ * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
+ * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
  * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
  *
- * @sff GrbphidsEnvironmfnt
- * @sff GrbphidsConfigurbtion
+ *
+ *
+ *
+ *
+ * @sff GrbpiidsEnvironmfnt
+ * @sff GrbpiidsEnvironmfnt
+ * @sff GrbpiidsEnvironmfnt
+ * @sff GrbpiidsEnvironmfnt
+ * @sff GrbpiidsEnvironmfnt
+ * @sff GrbpiidsConfigurbtion
+ * @sff GrbpiidsConfigurbtion
+ * @sff GrbpiidsConfigurbtion
+ * @sff GrbpiidsConfigurbtion
+ * @sff GrbpiidsConfigurbtion
  */
-publid bbstrbdt dlbss GrbphidsDfvidf {
+ */
+ */
+ */
+ */
+publid bbstrbdt dlbss GrbpiidsDfvidf {
+publid bbstrbdt dlbss GrbpiidsDfvidf {
+publid bbstrbdt dlbss GrbpiidsDfvidf {
+publid bbstrbdt dlbss GrbpiidsDfvidf {
+publid bbstrbdt dlbss GrbpiidsDfvidf {
+
+
+
+
 
     privbtf Window fullSdrffnWindow;
-    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks whidh AppContfxt
-                                             // drfbtfd thf FS window
-    // this lodk is usfd for mbking syndhronous dhbngfs to thf AppContfxt's
+    privbtf Window fullSdrffnWindow;
+    privbtf Window fullSdrffnWindow;
+    privbtf Window fullSdrffnWindow;
+    privbtf Window fullSdrffnWindow;
+    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks wiidi AppContfxt
+    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks wiidi AppContfxt
+    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks wiidi AppContfxt
+    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks wiidi AppContfxt
+    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks wiidi AppContfxt
+                                             // drfbtfd tif FS window
+                                             // drfbtfd tif FS window
+                                             // drfbtfd tif FS window
+                                             // drfbtfd tif FS window
+                                             // drfbtfd tif FS window
+    // tiis lodk is usfd for mbking syndironous dibngfs to tif AppContfxt's
+    // tiis lodk is usfd for mbking syndironous dibngfs to tif AppContfxt's
+    // tiis lodk is usfd for mbking syndironous dibngfs to tif AppContfxt's
+    // tiis lodk is usfd for mbking syndironous dibngfs to tif AppContfxt's
+    // tiis lodk is usfd for mbking syndironous dibngfs to tif AppContfxt's
+    // durrfnt full sdrffn window
+    // durrfnt full sdrffn window
+    // durrfnt full sdrffn window
+    // durrfnt full sdrffn window
     // durrfnt full sdrffn window
     privbtf finbl Objfdt fsAppContfxtLodk = nfw Objfdt();
+    privbtf finbl Objfdt fsAppContfxtLodk = nfw Objfdt();
+    privbtf finbl Objfdt fsAppContfxtLodk = nfw Objfdt();
+    privbtf finbl Objfdt fsAppContfxtLodk = nfw Objfdt();
+    privbtf finbl Objfdt fsAppContfxtLodk = nfw Objfdt();
+
+
+
+
 
     privbtf Rfdtbnglf windowfdModfBounds;
+    privbtf Rfdtbnglf windowfdModfBounds;
+    privbtf Rfdtbnglf windowfdModfBounds;
+    privbtf Rfdtbnglf windowfdModfBounds;
+    privbtf Rfdtbnglf windowfdModfBounds;
+
+
+
+
 
     /**
-     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
-     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mfthod.
-     * @sff GrbphidsEnvironmfnt#gftSdrffnDfvidfs
-     * @sff GrbphidsEnvironmfnt#gftDffbultSdrffnDfvidf
-     * @sff GrbphidsConfigurbtion#gftDfvidf
+    /**
+    /**
+    /**
+    /**
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mftiod.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mftiod.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mftiod.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mftiod.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mftiod.
+     * @sff GrbpiidsEnvironmfnt#gftSdrffnDfvidfs
+     * @sff GrbpiidsEnvironmfnt#gftSdrffnDfvidfs
+     * @sff GrbpiidsEnvironmfnt#gftSdrffnDfvidfs
+     * @sff GrbpiidsEnvironmfnt#gftSdrffnDfvidfs
+     * @sff GrbpiidsEnvironmfnt#gftSdrffnDfvidfs
+     * @sff GrbpiidsEnvironmfnt#gftDffbultSdrffnDfvidf
+     * @sff GrbpiidsEnvironmfnt#gftDffbultSdrffnDfvidf
+     * @sff GrbpiidsEnvironmfnt#gftDffbultSdrffnDfvidf
+     * @sff GrbpiidsEnvironmfnt#gftDffbultSdrffnDfvidf
+     * @sff GrbpiidsEnvironmfnt#gftDffbultSdrffnDfvidf
+     * @sff GrbpiidsConfigurbtion#gftDfvidf
+     * @sff GrbpiidsConfigurbtion#gftDfvidf
+     * @sff GrbpiidsConfigurbtion#gftDfvidf
+     * @sff GrbpiidsConfigurbtion#gftDfvidf
+     * @sff GrbpiidsConfigurbtion#gftDfvidf
      */
-    protfdtfd GrbphidsDfvidf() {
+     */
+     */
+     */
+     */
+    protfdtfd GrbpiidsDfvidf() {
+    protfdtfd GrbpiidsDfvidf() {
+    protfdtfd GrbpiidsDfvidf() {
+    protfdtfd GrbpiidsDfvidf() {
+    protfdtfd GrbpiidsDfvidf() {
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Dfvidf is b rbstfr sdrffn.
+     * Dfvidf is b rbstfr sdrffn.
+     * Dfvidf is b rbstfr sdrffn.
+     * Dfvidf is b rbstfr sdrffn.
+     * Dfvidf is b rbstfr sdrffn.
+     */
+     */
+     */
+     */
      */
     publid finbl stbtid int TYPE_RASTER_SCREEN          = 0;
+    publid finbl stbtid int TYPE_RASTER_SCREEN          = 0;
+    publid finbl stbtid int TYPE_RASTER_SCREEN          = 0;
+    publid finbl stbtid int TYPE_RASTER_SCREEN          = 0;
+    publid finbl stbtid int TYPE_RASTER_SCREEN          = 0;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Dfvidf is b printfr.
+     * Dfvidf is b printfr.
+     * Dfvidf is b printfr.
+     * Dfvidf is b printfr.
+     * Dfvidf is b printfr.
+     */
+     */
+     */
+     */
      */
     publid finbl stbtid int TYPE_PRINTER                = 1;
+    publid finbl stbtid int TYPE_PRINTER                = 1;
+    publid finbl stbtid int TYPE_PRINTER                = 1;
+    publid finbl stbtid int TYPE_PRINTER                = 1;
+    publid finbl stbtid int TYPE_PRINTER                = 1;
+
+
+
+
 
     /**
-     * Dfvidf is bn imbgf bufffr.  This bufffr dbn rfsidf in dfvidf
-     * or systfm mfmory but it is not physidblly vifwbblf by thf usfr.
+    /**
+    /**
+    /**
+    /**
+     * Dfvidf is bn imbgf bufffr.  Tiis bufffr dbn rfsidf in dfvidf
+     * Dfvidf is bn imbgf bufffr.  Tiis bufffr dbn rfsidf in dfvidf
+     * Dfvidf is bn imbgf bufffr.  Tiis bufffr dbn rfsidf in dfvidf
+     * Dfvidf is bn imbgf bufffr.  Tiis bufffr dbn rfsidf in dfvidf
+     * Dfvidf is bn imbgf bufffr.  Tiis bufffr dbn rfsidf in dfvidf
+     * or systfm mfmory but it is not piysidblly vifwbblf by tif usfr.
+     * or systfm mfmory but it is not piysidblly vifwbblf by tif usfr.
+     * or systfm mfmory but it is not piysidblly vifwbblf by tif usfr.
+     * or systfm mfmory but it is not piysidblly vifwbblf by tif usfr.
+     * or systfm mfmory but it is not piysidblly vifwbblf by tif usfr.
+     */
+     */
+     */
+     */
      */
     publid finbl stbtid int TYPE_IMAGE_BUFFER           = 2;
+    publid finbl stbtid int TYPE_IMAGE_BUFFER           = 2;
+    publid finbl stbtid int TYPE_IMAGE_BUFFER           = 2;
+    publid finbl stbtid int TYPE_IMAGE_BUFFER           = 2;
+    publid finbl stbtid int TYPE_IMAGE_BUFFER           = 2;
+
+
+
+
 
     /**
-     * Kinds of trbnsludfndy supportfd by thf undfrlying systfm.
+    /**
+    /**
+    /**
+    /**
+     * Kinds of trbnsludfndy supportfd by tif undfrlying systfm.
+     * Kinds of trbnsludfndy supportfd by tif undfrlying systfm.
+     * Kinds of trbnsludfndy supportfd by tif undfrlying systfm.
+     * Kinds of trbnsludfndy supportfd by tif undfrlying systfm.
+     * Kinds of trbnsludfndy supportfd by tif undfrlying systfm.
+     *
+     *
+     *
+     *
      *
      * @sff #isWindowTrbnsludfndySupportfd
+     * @sff #isWindowTrbnsludfndySupportfd
+     * @sff #isWindowTrbnsludfndySupportfd
+     * @sff #isWindowTrbnsludfndySupportfd
+     * @sff #isWindowTrbnsludfndySupportfd
+     *
+     *
+     *
+     *
      *
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     publid stbtid fnum WindowTrbnsludfndy {
+    publid stbtid fnum WindowTrbnsludfndy {
+    publid stbtid fnum WindowTrbnsludfndy {
+    publid stbtid fnum WindowTrbnsludfndy {
+    publid stbtid fnum WindowTrbnsludfndy {
         /**
-         * Rfprfsfnts support in thf undfrlying systfm for windows fbdh pixfl
-         * of whidh is gubrbntffd to bf fithfr domplftfly opbquf, with
-         * bn blphb vbluf of 1.0, or domplftfly trbnspbrfnt, with bn blphb
+        /**
+        /**
+        /**
+        /**
+         * Rfprfsfnts support in tif undfrlying systfm for windows fbdi pixfl
+         * Rfprfsfnts support in tif undfrlying systfm for windows fbdi pixfl
+         * Rfprfsfnts support in tif undfrlying systfm for windows fbdi pixfl
+         * Rfprfsfnts support in tif undfrlying systfm for windows fbdi pixfl
+         * Rfprfsfnts support in tif undfrlying systfm for windows fbdi pixfl
+         * of wiidi is gubrbntffd to bf fitifr domplftfly opbquf, witi
+         * of wiidi is gubrbntffd to bf fitifr domplftfly opbquf, witi
+         * of wiidi is gubrbntffd to bf fitifr domplftfly opbquf, witi
+         * of wiidi is gubrbntffd to bf fitifr domplftfly opbquf, witi
+         * of wiidi is gubrbntffd to bf fitifr domplftfly opbquf, witi
+         * bn blpib vbluf of 1.0, or domplftfly trbnspbrfnt, witi bn blpib
+         * bn blpib vbluf of 1.0, or domplftfly trbnspbrfnt, witi bn blpib
+         * bn blpib vbluf of 1.0, or domplftfly trbnspbrfnt, witi bn blpib
+         * bn blpib vbluf of 1.0, or domplftfly trbnspbrfnt, witi bn blpib
+         * bn blpib vbluf of 1.0, or domplftfly trbnspbrfnt, witi bn blpib
+         * vbluf of 0.0.
+         * vbluf of 0.0.
+         * vbluf of 0.0.
+         * vbluf of 0.0.
          * vbluf of 0.0.
          */
+         */
+         */
+         */
+         */
+        PERPIXEL_TRANSPARENT,
+        PERPIXEL_TRANSPARENT,
+        PERPIXEL_TRANSPARENT,
+        PERPIXEL_TRANSPARENT,
         PERPIXEL_TRANSPARENT,
         /**
-         * Rfprfsfnts support in thf undfrlying systfm for windows bll of
-         * thf pixfls of whidh hbvf thf sbmf blphb vbluf bftwffn or indluding
+        /**
+        /**
+        /**
+        /**
+         * Rfprfsfnts support in tif undfrlying systfm for windows bll of
+         * Rfprfsfnts support in tif undfrlying systfm for windows bll of
+         * Rfprfsfnts support in tif undfrlying systfm for windows bll of
+         * Rfprfsfnts support in tif undfrlying systfm for windows bll of
+         * Rfprfsfnts support in tif undfrlying systfm for windows bll of
+         * tif pixfls of wiidi ibvf tif sbmf blpib vbluf bftwffn or indluding
+         * tif pixfls of wiidi ibvf tif sbmf blpib vbluf bftwffn or indluding
+         * tif pixfls of wiidi ibvf tif sbmf blpib vbluf bftwffn or indluding
+         * tif pixfls of wiidi ibvf tif sbmf blpib vbluf bftwffn or indluding
+         * tif pixfls of wiidi ibvf tif sbmf blpib vbluf bftwffn or indluding
+         * 0.0 bnd 1.0.
+         * 0.0 bnd 1.0.
+         * 0.0 bnd 1.0.
+         * 0.0 bnd 1.0.
          * 0.0 bnd 1.0.
          */
+         */
+         */
+         */
+         */
+        TRANSLUCENT,
+        TRANSLUCENT,
+        TRANSLUCENT,
+        TRANSLUCENT,
         TRANSLUCENT,
         /**
-         * Rfprfsfnts support in thf undfrlying systfm for windows thbt
-         * dontbin or might dontbin pixfls with brbitrbry blphb vblufs
+        /**
+        /**
+        /**
+        /**
+         * Rfprfsfnts support in tif undfrlying systfm for windows tibt
+         * Rfprfsfnts support in tif undfrlying systfm for windows tibt
+         * Rfprfsfnts support in tif undfrlying systfm for windows tibt
+         * Rfprfsfnts support in tif undfrlying systfm for windows tibt
+         * Rfprfsfnts support in tif undfrlying systfm for windows tibt
+         * dontbin or migit dontbin pixfls witi brbitrbry blpib vblufs
+         * dontbin or migit dontbin pixfls witi brbitrbry blpib vblufs
+         * dontbin or migit dontbin pixfls witi brbitrbry blpib vblufs
+         * dontbin or migit dontbin pixfls witi brbitrbry blpib vblufs
+         * dontbin or migit dontbin pixfls witi brbitrbry blpib vblufs
+         * bftwffn bnd indluding 0.0 bnd 1.0.
+         * bftwffn bnd indluding 0.0 bnd 1.0.
+         * bftwffn bnd indluding 0.0 bnd 1.0.
+         * bftwffn bnd indluding 0.0 bnd 1.0.
          * bftwffn bnd indluding 0.0 bnd 1.0.
          */
+         */
+         */
+         */
+         */
+        PERPIXEL_TRANSLUCENT;
+        PERPIXEL_TRANSLUCENT;
+        PERPIXEL_TRANSLUCENT;
+        PERPIXEL_TRANSLUCENT;
         PERPIXEL_TRANSLUCENT;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf typf of this <dodf>GrbphidsDfvidf</dodf>.
-     * @rfturn thf typf of this <dodf>GrbphidsDfvidf</dodf>, whidh dbn
-     * fithfr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * Rfturns tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * Rfturns tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * Rfturns tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * Rfturns tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>, wiidi dbn
+     * @rfturn tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>, wiidi dbn
+     * @rfturn tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>, wiidi dbn
+     * @rfturn tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>, wiidi dbn
+     * @rfturn tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>, wiidi dbn
+     * fitifr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * fitifr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * fitifr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * fitifr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * fitifr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_RASTER_SCREEN
      * @sff #TYPE_RASTER_SCREEN
      * @sff #TYPE_PRINTER
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
+     * @sff #TYPE_IMAGE_BUFFER
+     * @sff #TYPE_IMAGE_BUFFER
+     * @sff #TYPE_IMAGE_BUFFER
      * @sff #TYPE_IMAGE_BUFFER
      */
+     */
+     */
+     */
+     */
+    publid bbstrbdt int gftTypf();
+    publid bbstrbdt int gftTypf();
+    publid bbstrbdt int gftTypf();
+    publid bbstrbdt int gftTypf();
     publid bbstrbdt int gftTypf();
 
+
+
+
+
     /**
-     * Rfturns thf idfntifidbtion string bssodibtfd with this
-     * <dodf>GrbphidsDfvidf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
      * <p>
-     * A pbrtidulbr progrbm might usf morf thbn onf
-     * <dodf>GrbphidsDfvidf</dodf> in b <dodf>GrbphidsEnvironmfnt</dodf>.
-     * This mfthod rfturns b <dodf>String</dodf> idfntifying b
-     * pbrtidulbr <dodf>GrbphidsDfvidf</dodf> in thf lodbl
-     * <dodf>GrbphidsEnvironmfnt</dodf>.  Although thfrf is
-     * no publid mfthod to sft this <dodf>String</dodf>, b progrbmmfr dbn
-     * usf thf <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
-     * thf Jbvb&trbdf; Runtimf Environmfnt dbn
-     * formbt thf rfturn vbluf of thf <dodf>String</dodf>.  To dftfrminf
-     * how to intfrprft thf vbluf of thf <dodf>String</dodf>, dontbdt thf
-     * vfndor of your Jbvb Runtimf.  To find out who thf vfndor is, from
-     * your progrbm, dbll thf
-     * {@link Systfm#gftPropfrty(String) gftPropfrty} mfthod of thf
-     * Systfm dlbss with "jbvb.vfndor".
-     * @rfturn b <dodf>String</dodf> thbt is thf idfntifidbtion
-     * of this <dodf>GrbphidsDfvidf</dodf>.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * A pbrtidulbr progrbm migit usf morf tibn onf
+     * A pbrtidulbr progrbm migit usf morf tibn onf
+     * A pbrtidulbr progrbm migit usf morf tibn onf
+     * A pbrtidulbr progrbm migit usf morf tibn onf
+     * A pbrtidulbr progrbm migit usf morf tibn onf
+     * <dodf>GrbpiidsDfvidf</dodf> in b <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf> in b <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf> in b <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf> in b <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf> in b <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * Tiis mftiod rfturns b <dodf>String</dodf> idfntifying b
+     * Tiis mftiod rfturns b <dodf>String</dodf> idfntifying b
+     * Tiis mftiod rfturns b <dodf>String</dodf> idfntifying b
+     * Tiis mftiod rfturns b <dodf>String</dodf> idfntifying b
+     * Tiis mftiod rfturns b <dodf>String</dodf> idfntifying b
+     * pbrtidulbr <dodf>GrbpiidsDfvidf</dodf> in tif lodbl
+     * pbrtidulbr <dodf>GrbpiidsDfvidf</dodf> in tif lodbl
+     * pbrtidulbr <dodf>GrbpiidsDfvidf</dodf> in tif lodbl
+     * pbrtidulbr <dodf>GrbpiidsDfvidf</dodf> in tif lodbl
+     * pbrtidulbr <dodf>GrbpiidsDfvidf</dodf> in tif lodbl
+     * <dodf>GrbpiidsEnvironmfnt</dodf>.  Altiougi tifrf is
+     * <dodf>GrbpiidsEnvironmfnt</dodf>.  Altiougi tifrf is
+     * <dodf>GrbpiidsEnvironmfnt</dodf>.  Altiougi tifrf is
+     * <dodf>GrbpiidsEnvironmfnt</dodf>.  Altiougi tifrf is
+     * <dodf>GrbpiidsEnvironmfnt</dodf>.  Altiougi tifrf is
+     * no publid mftiod to sft tiis <dodf>String</dodf>, b progrbmmfr dbn
+     * no publid mftiod to sft tiis <dodf>String</dodf>, b progrbmmfr dbn
+     * no publid mftiod to sft tiis <dodf>String</dodf>, b progrbmmfr dbn
+     * no publid mftiod to sft tiis <dodf>String</dodf>, b progrbmmfr dbn
+     * no publid mftiod to sft tiis <dodf>String</dodf>, b progrbmmfr dbn
+     * usf tif <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
+     * usf tif <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
+     * usf tif <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
+     * usf tif <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
+     * usf tif <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
+     * tif Jbvb&trbdf; Runtimf Environmfnt dbn
+     * tif Jbvb&trbdf; Runtimf Environmfnt dbn
+     * tif Jbvb&trbdf; Runtimf Environmfnt dbn
+     * tif Jbvb&trbdf; Runtimf Environmfnt dbn
+     * tif Jbvb&trbdf; Runtimf Environmfnt dbn
+     * formbt tif rfturn vbluf of tif <dodf>String</dodf>.  To dftfrminf
+     * formbt tif rfturn vbluf of tif <dodf>String</dodf>.  To dftfrminf
+     * formbt tif rfturn vbluf of tif <dodf>String</dodf>.  To dftfrminf
+     * formbt tif rfturn vbluf of tif <dodf>String</dodf>.  To dftfrminf
+     * formbt tif rfturn vbluf of tif <dodf>String</dodf>.  To dftfrminf
+     * iow to intfrprft tif vbluf of tif <dodf>String</dodf>, dontbdt tif
+     * iow to intfrprft tif vbluf of tif <dodf>String</dodf>, dontbdt tif
+     * iow to intfrprft tif vbluf of tif <dodf>String</dodf>, dontbdt tif
+     * iow to intfrprft tif vbluf of tif <dodf>String</dodf>, dontbdt tif
+     * iow to intfrprft tif vbluf of tif <dodf>String</dodf>, dontbdt tif
+     * vfndor of your Jbvb Runtimf.  To find out wio tif vfndor is, from
+     * vfndor of your Jbvb Runtimf.  To find out wio tif vfndor is, from
+     * vfndor of your Jbvb Runtimf.  To find out wio tif vfndor is, from
+     * vfndor of your Jbvb Runtimf.  To find out wio tif vfndor is, from
+     * vfndor of your Jbvb Runtimf.  To find out wio tif vfndor is, from
+     * your progrbm, dbll tif
+     * your progrbm, dbll tif
+     * your progrbm, dbll tif
+     * your progrbm, dbll tif
+     * your progrbm, dbll tif
+     * {@link Systfm#gftPropfrty(String) gftPropfrty} mftiod of tif
+     * {@link Systfm#gftPropfrty(String) gftPropfrty} mftiod of tif
+     * {@link Systfm#gftPropfrty(String) gftPropfrty} mftiod of tif
+     * {@link Systfm#gftPropfrty(String) gftPropfrty} mftiod of tif
+     * {@link Systfm#gftPropfrty(String) gftPropfrty} mftiod of tif
+     * Systfm dlbss witi "jbvb.vfndor".
+     * Systfm dlbss witi "jbvb.vfndor".
+     * Systfm dlbss witi "jbvb.vfndor".
+     * Systfm dlbss witi "jbvb.vfndor".
+     * Systfm dlbss witi "jbvb.vfndor".
+     * @rfturn b <dodf>String</dodf> tibt is tif idfntifidbtion
+     * @rfturn b <dodf>String</dodf> tibt is tif idfntifidbtion
+     * @rfturn b <dodf>String</dodf> tibt is tif idfntifidbtion
+     * @rfturn b <dodf>String</dodf> tibt is tif idfntifidbtion
+     * @rfturn b <dodf>String</dodf> tibt is tif idfntifidbtion
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt String gftIDstring();
+    publid bbstrbdt String gftIDstring();
+    publid bbstrbdt String gftIDstring();
+    publid bbstrbdt String gftIDstring();
+    publid bbstrbdt String gftIDstring();
+
+
+
+
 
     /**
-     * Rfturns bll of thf <dodf>GrbphidsConfigurbtion</dodf>
-     * objfdts bssodibtfd with this <dodf>GrbphidsDfvidf</dodf>.
-     * @rfturn bn brrby of <dodf>GrbphidsConfigurbtion</dodf>
-     * objfdts thbt brf bssodibtfd with this
-     * <dodf>GrbphidsDfvidf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns bll of tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns bll of tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns bll of tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns bll of tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns bll of tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * objfdts bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * objfdts bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * objfdts bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * objfdts bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * objfdts bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn bn brrby of <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn bn brrby of <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn bn brrby of <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn bn brrby of <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn bn brrby of <dodf>GrbpiidsConfigurbtion</dodf>
+     * objfdts tibt brf bssodibtfd witi tiis
+     * objfdts tibt brf bssodibtfd witi tiis
+     * objfdts tibt brf bssodibtfd witi tiis
+     * objfdts tibt brf bssodibtfd witi tiis
+     * objfdts tibt brf bssodibtfd witi tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
      */
-    publid bbstrbdt GrbphidsConfigurbtion[] gftConfigurbtions();
+     */
+     */
+     */
+     */
+    publid bbstrbdt GrbpiidsConfigurbtion[] gftConfigurbtions();
+    publid bbstrbdt GrbpiidsConfigurbtion[] gftConfigurbtions();
+    publid bbstrbdt GrbpiidsConfigurbtion[] gftConfigurbtions();
+    publid bbstrbdt GrbpiidsConfigurbtion[] gftConfigurbtions();
+    publid bbstrbdt GrbpiidsConfigurbtion[] gftConfigurbtions();
+
+
+
+
 
     /**
-     * Rfturns thf dffbult <dodf>GrbphidsConfigurbtion</dodf>
-     * bssodibtfd with this <dodf>GrbphidsDfvidf</dodf>.
-     * @rfturn thf dffbult <dodf>GrbphidsConfigurbtion</dodf>
-     * of this <dodf>GrbphidsDfvidf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * Rfturns tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
      */
-    publid bbstrbdt GrbphidsConfigurbtion gftDffbultConfigurbtion();
+     */
+     */
+     */
+     */
+    publid bbstrbdt GrbpiidsConfigurbtion gftDffbultConfigurbtion();
+    publid bbstrbdt GrbpiidsConfigurbtion gftDffbultConfigurbtion();
+    publid bbstrbdt GrbpiidsConfigurbtion gftDffbultConfigurbtion();
+    publid bbstrbdt GrbpiidsConfigurbtion gftDffbultConfigurbtion();
+    publid bbstrbdt GrbpiidsConfigurbtion gftDffbultConfigurbtion();
+
+
+
+
 
     /**
-     * Rfturns thf "bfst" donfigurbtion possiblf thbt pbssfs thf
-     * dritfrib dffinfd in thf {@link GrbphidsConfigTfmplbtf}.
-     * @pbrbm gdt thf <dodf>GrbphidsConfigTfmplbtf</dodf> objfdt
-     * usfd to obtbin b vblid <dodf>GrbphidsConfigurbtion</dodf>
-     * @rfturn b <dodf>GrbphidsConfigurbtion</dodf> thbt pbssfs
-     * thf dritfrib dffinfd in thf spfdififd
-     * <dodf>GrbphidsConfigTfmplbtf</dodf>.
-     * @sff GrbphidsConfigTfmplbtf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif "bfst" donfigurbtion possiblf tibt pbssfs tif
+     * Rfturns tif "bfst" donfigurbtion possiblf tibt pbssfs tif
+     * Rfturns tif "bfst" donfigurbtion possiblf tibt pbssfs tif
+     * Rfturns tif "bfst" donfigurbtion possiblf tibt pbssfs tif
+     * Rfturns tif "bfst" donfigurbtion possiblf tibt pbssfs tif
+     * dritfrib dffinfd in tif {@link GrbpiidsConfigTfmplbtf}.
+     * dritfrib dffinfd in tif {@link GrbpiidsConfigTfmplbtf}.
+     * dritfrib dffinfd in tif {@link GrbpiidsConfigTfmplbtf}.
+     * dritfrib dffinfd in tif {@link GrbpiidsConfigTfmplbtf}.
+     * dritfrib dffinfd in tif {@link GrbpiidsConfigTfmplbtf}.
+     * @pbrbm gdt tif <dodf>GrbpiidsConfigTfmplbtf</dodf> objfdt
+     * @pbrbm gdt tif <dodf>GrbpiidsConfigTfmplbtf</dodf> objfdt
+     * @pbrbm gdt tif <dodf>GrbpiidsConfigTfmplbtf</dodf> objfdt
+     * @pbrbm gdt tif <dodf>GrbpiidsConfigTfmplbtf</dodf> objfdt
+     * @pbrbm gdt tif <dodf>GrbpiidsConfigTfmplbtf</dodf> objfdt
+     * usfd to obtbin b vblid <dodf>GrbpiidsConfigurbtion</dodf>
+     * usfd to obtbin b vblid <dodf>GrbpiidsConfigurbtion</dodf>
+     * usfd to obtbin b vblid <dodf>GrbpiidsConfigurbtion</dodf>
+     * usfd to obtbin b vblid <dodf>GrbpiidsConfigurbtion</dodf>
+     * usfd to obtbin b vblid <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn b <dodf>GrbpiidsConfigurbtion</dodf> tibt pbssfs
+     * @rfturn b <dodf>GrbpiidsConfigurbtion</dodf> tibt pbssfs
+     * @rfturn b <dodf>GrbpiidsConfigurbtion</dodf> tibt pbssfs
+     * @rfturn b <dodf>GrbpiidsConfigurbtion</dodf> tibt pbssfs
+     * @rfturn b <dodf>GrbpiidsConfigurbtion</dodf> tibt pbssfs
+     * tif dritfrib dffinfd in tif spfdififd
+     * tif dritfrib dffinfd in tif spfdififd
+     * tif dritfrib dffinfd in tif spfdififd
+     * tif dritfrib dffinfd in tif spfdififd
+     * tif dritfrib dffinfd in tif spfdififd
+     * <dodf>GrbpiidsConfigTfmplbtf</dodf>.
+     * <dodf>GrbpiidsConfigTfmplbtf</dodf>.
+     * <dodf>GrbpiidsConfigTfmplbtf</dodf>.
+     * <dodf>GrbpiidsConfigTfmplbtf</dodf>.
+     * <dodf>GrbpiidsConfigTfmplbtf</dodf>.
+     * @sff GrbpiidsConfigTfmplbtf
+     * @sff GrbpiidsConfigTfmplbtf
+     * @sff GrbpiidsConfigTfmplbtf
+     * @sff GrbpiidsConfigTfmplbtf
+     * @sff GrbpiidsConfigTfmplbtf
      */
-    publid GrbphidsConfigurbtion
-           gftBfstConfigurbtion(GrbphidsConfigTfmplbtf gdt) {
-        GrbphidsConfigurbtion[] donfigs = gftConfigurbtions();
+     */
+     */
+     */
+     */
+    publid GrbpiidsConfigurbtion
+    publid GrbpiidsConfigurbtion
+    publid GrbpiidsConfigurbtion
+    publid GrbpiidsConfigurbtion
+    publid GrbpiidsConfigurbtion
+           gftBfstConfigurbtion(GrbpiidsConfigTfmplbtf gdt) {
+           gftBfstConfigurbtion(GrbpiidsConfigTfmplbtf gdt) {
+           gftBfstConfigurbtion(GrbpiidsConfigTfmplbtf gdt) {
+           gftBfstConfigurbtion(GrbpiidsConfigTfmplbtf gdt) {
+           gftBfstConfigurbtion(GrbpiidsConfigTfmplbtf gdt) {
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        rfturn gdt.gftBfstConfigurbtion(donfigs);
+        rfturn gdt.gftBfstConfigurbtion(donfigs);
+        rfturn gdt.gftBfstConfigurbtion(donfigs);
+        rfturn gdt.gftBfstConfigurbtion(donfigs);
         rfturn gdt.gftBfstConfigurbtion(donfigs);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns <dodf>truf</dodf> if this <dodf>GrbphidsDfvidf</dodf>
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * supports full-sdrffn fxdlusivf modf.
+     * supports full-sdrffn fxdlusivf modf.
+     * supports full-sdrffn fxdlusivf modf.
+     * supports full-sdrffn fxdlusivf modf.
      * supports full-sdrffn fxdlusivf modf.
      * If b SfdurityMbnbgfr is instbllfd, its
-     * <dodf>dhfdkPfrmission</dodf> mfthod will bf dbllfd
-     * with <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
+     * If b SfdurityMbnbgfr is instbllfd, its
+     * If b SfdurityMbnbgfr is instbllfd, its
+     * If b SfdurityMbnbgfr is instbllfd, its
+     * If b SfdurityMbnbgfr is instbllfd, its
+     * <dodf>difdkPfrmission</dodf> mftiod will bf dbllfd
+     * <dodf>difdkPfrmission</dodf> mftiod will bf dbllfd
+     * <dodf>difdkPfrmission</dodf> mftiod will bf dbllfd
+     * <dodf>difdkPfrmission</dodf> mftiod will bf dbllfd
+     * <dodf>difdkPfrmission</dodf> mftiod will bf dbllfd
+     * witi <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
+     * witi <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
+     * witi <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
+     * witi <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
+     * witi <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
      * <dodf>isFullSdrffnSupportfd</dodf> rfturns truf only if
-     * thbt pfrmission is grbntfd.
-     * @rfturn whfthfr full-sdrffn fxdlusivf modf is bvbilbblf for
-     * this grbphids dfvidf
+     * <dodf>isFullSdrffnSupportfd</dodf> rfturns truf only if
+     * <dodf>isFullSdrffnSupportfd</dodf> rfturns truf only if
+     * <dodf>isFullSdrffnSupportfd</dodf> rfturns truf only if
+     * <dodf>isFullSdrffnSupportfd</dodf> rfturns truf only if
+     * tibt pfrmission is grbntfd.
+     * tibt pfrmission is grbntfd.
+     * tibt pfrmission is grbntfd.
+     * tibt pfrmission is grbntfd.
+     * tibt pfrmission is grbntfd.
+     * @rfturn wiftifr full-sdrffn fxdlusivf modf is bvbilbblf for
+     * @rfturn wiftifr full-sdrffn fxdlusivf modf is bvbilbblf for
+     * @rfturn wiftifr full-sdrffn fxdlusivf modf is bvbilbblf for
+     * @rfturn wiftifr full-sdrffn fxdlusivf modf is bvbilbblf for
+     * @rfturn wiftifr full-sdrffn fxdlusivf modf is bvbilbblf for
+     * tiis grbpiids dfvidf
+     * tiis grbpiids dfvidf
+     * tiis grbpiids dfvidf
+     * tiis grbpiids dfvidf
+     * tiis grbpiids dfvidf
+     * @sff jbvb.bwt.AWTPfrmission
+     * @sff jbvb.bwt.AWTPfrmission
+     * @sff jbvb.bwt.AWTPfrmission
+     * @sff jbvb.bwt.AWTPfrmission
      * @sff jbvb.bwt.AWTPfrmission
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     */
+     */
+     */
+     */
      */
     publid boolfbn isFullSdrffnSupportfd() {
+    publid boolfbn isFullSdrffnSupportfd() {
+    publid boolfbn isFullSdrffnSupportfd() {
+    publid boolfbn isFullSdrffnSupportfd() {
+    publid boolfbn isFullSdrffnSupportfd() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Thf fntfrfd
-     * full-sdrffn modf mby bf fithfr fxdlusivf or simulbtfd.  Exdlusivf
+    /**
+    /**
+    /**
+    /**
+     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Tif fntfrfd
+     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Tif fntfrfd
+     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Tif fntfrfd
+     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Tif fntfrfd
+     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Tif fntfrfd
+     * full-sdrffn modf mby bf fitifr fxdlusivf or simulbtfd.  Exdlusivf
+     * full-sdrffn modf mby bf fitifr fxdlusivf or simulbtfd.  Exdlusivf
+     * full-sdrffn modf mby bf fitifr fxdlusivf or simulbtfd.  Exdlusivf
+     * full-sdrffn modf mby bf fitifr fxdlusivf or simulbtfd.  Exdlusivf
+     * full-sdrffn modf mby bf fitifr fxdlusivf or simulbtfd.  Exdlusivf
+     * modf is only bvbilbblf if <dodf>isFullSdrffnSupportfd</dodf>
+     * modf is only bvbilbblf if <dodf>isFullSdrffnSupportfd</dodf>
+     * modf is only bvbilbblf if <dodf>isFullSdrffnSupportfd</dodf>
+     * modf is only bvbilbblf if <dodf>isFullSdrffnSupportfd</dodf>
      * modf is only bvbilbblf if <dodf>isFullSdrffnSupportfd</dodf>
      * rfturns <dodf>truf</dodf>.
+     * rfturns <dodf>truf</dodf>.
+     * rfturns <dodf>truf</dodf>.
+     * rfturns <dodf>truf</dodf>.
+     * rfturns <dodf>truf</dodf>.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * Exdlusivf modf implifs:
+     * Exdlusivf modf implifs:
+     * Exdlusivf modf implifs:
+     * Exdlusivf modf implifs:
+     * Exdlusivf modf implifs:
      * <ul>
-     * <li>Windows dbnnot ovfrlbp thf full-sdrffn window.  All othfr bpplidbtion
-     * windows will blwbys bppfbr bfnfbth thf full-sdrffn window in thf Z-ordfr.
-     * <li>Thfrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
-     * so dblling this mfthod whilf thfrf is bn fxisting full-sdrffn Window
-     * will dbusf thf fxisting full-sdrffn window to
+     * <ul>
+     * <ul>
+     * <ul>
+     * <ul>
+     * <li>Windows dbnnot ovfrlbp tif full-sdrffn window.  All otifr bpplidbtion
+     * <li>Windows dbnnot ovfrlbp tif full-sdrffn window.  All otifr bpplidbtion
+     * <li>Windows dbnnot ovfrlbp tif full-sdrffn window.  All otifr bpplidbtion
+     * <li>Windows dbnnot ovfrlbp tif full-sdrffn window.  All otifr bpplidbtion
+     * <li>Windows dbnnot ovfrlbp tif full-sdrffn window.  All otifr bpplidbtion
+     * windows will blwbys bppfbr bfnfbti tif full-sdrffn window in tif Z-ordfr.
+     * windows will blwbys bppfbr bfnfbti tif full-sdrffn window in tif Z-ordfr.
+     * windows will blwbys bppfbr bfnfbti tif full-sdrffn window in tif Z-ordfr.
+     * windows will blwbys bppfbr bfnfbti tif full-sdrffn window in tif Z-ordfr.
+     * windows will blwbys bppfbr bfnfbti tif full-sdrffn window in tif Z-ordfr.
+     * <li>Tifrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
+     * <li>Tifrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
+     * <li>Tifrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
+     * <li>Tifrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
+     * <li>Tifrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
+     * so dblling tiis mftiod wiilf tifrf is bn fxisting full-sdrffn Window
+     * so dblling tiis mftiod wiilf tifrf is bn fxisting full-sdrffn Window
+     * so dblling tiis mftiod wiilf tifrf is bn fxisting full-sdrffn Window
+     * so dblling tiis mftiod wiilf tifrf is bn fxisting full-sdrffn Window
+     * so dblling tiis mftiod wiilf tifrf is bn fxisting full-sdrffn Window
+     * will dbusf tif fxisting full-sdrffn window to
+     * will dbusf tif fxisting full-sdrffn window to
+     * will dbusf tif fxisting full-sdrffn window to
+     * will dbusf tif fxisting full-sdrffn window to
+     * will dbusf tif fxisting full-sdrffn window to
      * rfturn to windowfd modf.
-     * <li>Input mfthod windows brf disbblfd.  It is bdvisbblf to dbll
-     * <dodf>Componfnt.fnbblfInputMfthods(fblsf)</dodf> to mbkf b domponfnt
-     * b non-dlifnt of thf input mfthod frbmfwork.
+     * rfturn to windowfd modf.
+     * rfturn to windowfd modf.
+     * rfturn to windowfd modf.
+     * rfturn to windowfd modf.
+     * <li>Input mftiod windows brf disbblfd.  It is bdvisbblf to dbll
+     * <li>Input mftiod windows brf disbblfd.  It is bdvisbblf to dbll
+     * <li>Input mftiod windows brf disbblfd.  It is bdvisbblf to dbll
+     * <li>Input mftiod windows brf disbblfd.  It is bdvisbblf to dbll
+     * <li>Input mftiod windows brf disbblfd.  It is bdvisbblf to dbll
+     * <dodf>Componfnt.fnbblfInputMftiods(fblsf)</dodf> to mbkf b domponfnt
+     * <dodf>Componfnt.fnbblfInputMftiods(fblsf)</dodf> to mbkf b domponfnt
+     * <dodf>Componfnt.fnbblfInputMftiods(fblsf)</dodf> to mbkf b domponfnt
+     * <dodf>Componfnt.fnbblfInputMftiods(fblsf)</dodf> to mbkf b domponfnt
+     * <dodf>Componfnt.fnbblfInputMftiods(fblsf)</dodf> to mbkf b domponfnt
+     * b non-dlifnt of tif input mftiod frbmfwork.
+     * b non-dlifnt of tif input mftiod frbmfwork.
+     * b non-dlifnt of tif input mftiod frbmfwork.
+     * b non-dlifnt of tif input mftiod frbmfwork.
+     * b non-dlifnt of tif input mftiod frbmfwork.
+     * </ul>
+     * </ul>
+     * </ul>
+     * </ul>
      * </ul>
      * <p>
-     * Thf simulbtfd full-sdrffn modf plbdfs bnd rfsizfs thf window to thf mbximum
-     * possiblf visiblf brfb of thf sdrffn. Howfvfr, thf nbtivf windowing systfm
-     * mby modify thf rfqufstfd gfomftry-rflbtfd dbtb, so thbt thf {@dodf Window} objfdt
-     * is plbdfd bnd sizfd in b wby thbt dorrfsponds dlosfly to thf dfsktop sfttings.
      * <p>
-     * Whfn fntfring full-sdrffn modf, if thf window to bf usfd bs b
-     * full-sdrffn window is not visiblf, this mfthod will mbkf it visiblf.
-     * It will rfmbin visiblf whfn rfturning to windowfd modf.
      * <p>
-     * Whfn fntfring full-sdrffn modf, bll thf trbnsludfndy ffffdts brf rfsft for
-     * thf window. Its shbpf is sft to {@dodf null}, thf opbdity vbluf is sft to
-     * 1.0f, bnd thf bbdkground dolor blphb is sft to 255 (domplftfly opbquf).
-     * Thfsf vblufs brf not rfstorfd whfn rfturning to windowfd modf.
      * <p>
-     * It is unspfdififd bnd plbtform-dfpfndfnt how dfdorbtfd windows opfrbtf
-     * in full-sdrffn modf. For this rfbson, it is rfdommfndfd to turn off
-     * thf dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using thf
-     * {@dodf sftUndfdorbtfd} mfthod.
      * <p>
-     * Whfn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
-     * bny displby dhbngfs mbdf by dblling {@dodf sftDisplbyModf} brf
-     * butombtidblly rfstorfd to thfir originbl stbtf.
+     * Tif simulbtfd full-sdrffn modf plbdfs bnd rfsizfs tif window to tif mbximum
+     * Tif simulbtfd full-sdrffn modf plbdfs bnd rfsizfs tif window to tif mbximum
+     * Tif simulbtfd full-sdrffn modf plbdfs bnd rfsizfs tif window to tif mbximum
+     * Tif simulbtfd full-sdrffn modf plbdfs bnd rfsizfs tif window to tif mbximum
+     * Tif simulbtfd full-sdrffn modf plbdfs bnd rfsizfs tif window to tif mbximum
+     * possiblf visiblf brfb of tif sdrffn. Howfvfr, tif nbtivf windowing systfm
+     * possiblf visiblf brfb of tif sdrffn. Howfvfr, tif nbtivf windowing systfm
+     * possiblf visiblf brfb of tif sdrffn. Howfvfr, tif nbtivf windowing systfm
+     * possiblf visiblf brfb of tif sdrffn. Howfvfr, tif nbtivf windowing systfm
+     * possiblf visiblf brfb of tif sdrffn. Howfvfr, tif nbtivf windowing systfm
+     * mby modify tif rfqufstfd gfomftry-rflbtfd dbtb, so tibt tif {@dodf Window} objfdt
+     * mby modify tif rfqufstfd gfomftry-rflbtfd dbtb, so tibt tif {@dodf Window} objfdt
+     * mby modify tif rfqufstfd gfomftry-rflbtfd dbtb, so tibt tif {@dodf Window} objfdt
+     * mby modify tif rfqufstfd gfomftry-rflbtfd dbtb, so tibt tif {@dodf Window} objfdt
+     * mby modify tif rfqufstfd gfomftry-rflbtfd dbtb, so tibt tif {@dodf Window} objfdt
+     * is plbdfd bnd sizfd in b wby tibt dorrfsponds dlosfly to tif dfsktop sfttings.
+     * is plbdfd bnd sizfd in b wby tibt dorrfsponds dlosfly to tif dfsktop sfttings.
+     * is plbdfd bnd sizfd in b wby tibt dorrfsponds dlosfly to tif dfsktop sfttings.
+     * is plbdfd bnd sizfd in b wby tibt dorrfsponds dlosfly to tif dfsktop sfttings.
+     * is plbdfd bnd sizfd in b wby tibt dorrfsponds dlosfly to tif dfsktop sfttings.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Wifn fntfring full-sdrffn modf, if tif window to bf usfd bs b
+     * Wifn fntfring full-sdrffn modf, if tif window to bf usfd bs b
+     * Wifn fntfring full-sdrffn modf, if tif window to bf usfd bs b
+     * Wifn fntfring full-sdrffn modf, if tif window to bf usfd bs b
+     * Wifn fntfring full-sdrffn modf, if tif window to bf usfd bs b
+     * full-sdrffn window is not visiblf, tiis mftiod will mbkf it visiblf.
+     * full-sdrffn window is not visiblf, tiis mftiod will mbkf it visiblf.
+     * full-sdrffn window is not visiblf, tiis mftiod will mbkf it visiblf.
+     * full-sdrffn window is not visiblf, tiis mftiod will mbkf it visiblf.
+     * full-sdrffn window is not visiblf, tiis mftiod will mbkf it visiblf.
+     * It will rfmbin visiblf wifn rfturning to windowfd modf.
+     * It will rfmbin visiblf wifn rfturning to windowfd modf.
+     * It will rfmbin visiblf wifn rfturning to windowfd modf.
+     * It will rfmbin visiblf wifn rfturning to windowfd modf.
+     * It will rfmbin visiblf wifn rfturning to windowfd modf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Wifn fntfring full-sdrffn modf, bll tif trbnsludfndy ffffdts brf rfsft for
+     * Wifn fntfring full-sdrffn modf, bll tif trbnsludfndy ffffdts brf rfsft for
+     * Wifn fntfring full-sdrffn modf, bll tif trbnsludfndy ffffdts brf rfsft for
+     * Wifn fntfring full-sdrffn modf, bll tif trbnsludfndy ffffdts brf rfsft for
+     * Wifn fntfring full-sdrffn modf, bll tif trbnsludfndy ffffdts brf rfsft for
+     * tif window. Its sibpf is sft to {@dodf null}, tif opbdity vbluf is sft to
+     * tif window. Its sibpf is sft to {@dodf null}, tif opbdity vbluf is sft to
+     * tif window. Its sibpf is sft to {@dodf null}, tif opbdity vbluf is sft to
+     * tif window. Its sibpf is sft to {@dodf null}, tif opbdity vbluf is sft to
+     * tif window. Its sibpf is sft to {@dodf null}, tif opbdity vbluf is sft to
+     * 1.0f, bnd tif bbdkground dolor blpib is sft to 255 (domplftfly opbquf).
+     * 1.0f, bnd tif bbdkground dolor blpib is sft to 255 (domplftfly opbquf).
+     * 1.0f, bnd tif bbdkground dolor blpib is sft to 255 (domplftfly opbquf).
+     * 1.0f, bnd tif bbdkground dolor blpib is sft to 255 (domplftfly opbquf).
+     * 1.0f, bnd tif bbdkground dolor blpib is sft to 255 (domplftfly opbquf).
+     * Tifsf vblufs brf not rfstorfd wifn rfturning to windowfd modf.
+     * Tifsf vblufs brf not rfstorfd wifn rfturning to windowfd modf.
+     * Tifsf vblufs brf not rfstorfd wifn rfturning to windowfd modf.
+     * Tifsf vblufs brf not rfstorfd wifn rfturning to windowfd modf.
+     * Tifsf vblufs brf not rfstorfd wifn rfturning to windowfd modf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * It is unspfdififd bnd plbtform-dfpfndfnt iow dfdorbtfd windows opfrbtf
+     * It is unspfdififd bnd plbtform-dfpfndfnt iow dfdorbtfd windows opfrbtf
+     * It is unspfdififd bnd plbtform-dfpfndfnt iow dfdorbtfd windows opfrbtf
+     * It is unspfdififd bnd plbtform-dfpfndfnt iow dfdorbtfd windows opfrbtf
+     * It is unspfdififd bnd plbtform-dfpfndfnt iow dfdorbtfd windows opfrbtf
+     * in full-sdrffn modf. For tiis rfbson, it is rfdommfndfd to turn off
+     * in full-sdrffn modf. For tiis rfbson, it is rfdommfndfd to turn off
+     * in full-sdrffn modf. For tiis rfbson, it is rfdommfndfd to turn off
+     * in full-sdrffn modf. For tiis rfbson, it is rfdommfndfd to turn off
+     * in full-sdrffn modf. For tiis rfbson, it is rfdommfndfd to turn off
+     * tif dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using tif
+     * tif dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using tif
+     * tif dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using tif
+     * tif dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using tif
+     * tif dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using tif
+     * {@dodf sftUndfdorbtfd} mftiod.
+     * {@dodf sftUndfdorbtfd} mftiod.
+     * {@dodf sftUndfdorbtfd} mftiod.
+     * {@dodf sftUndfdorbtfd} mftiod.
+     * {@dodf sftUndfdorbtfd} mftiod.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Wifn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
+     * Wifn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
+     * Wifn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
+     * Wifn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
+     * Wifn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
+     * bny displby dibngfs mbdf by dblling {@dodf sftDisplbyModf} brf
+     * bny displby dibngfs mbdf by dblling {@dodf sftDisplbyModf} brf
+     * bny displby dibngfs mbdf by dblling {@dodf sftDisplbyModf} brf
+     * bny displby dibngfs mbdf by dblling {@dodf sftDisplbyModf} brf
+     * bny displby dibngfs mbdf by dblling {@dodf sftDisplbyModf} brf
+     * butombtidblly rfstorfd to tifir originbl stbtf.
+     * butombtidblly rfstorfd to tifir originbl stbtf.
+     * butombtidblly rfstorfd to tifir originbl stbtf.
+     * butombtidblly rfstorfd to tifir originbl stbtf.
+     * butombtidblly rfstorfd to tifir originbl stbtf.
      *
-     * @pbrbm w b window to usf bs thf full-sdrffn window; {@dodf null}
-     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt thf
+     *
+     *
+     *
+     *
+     * @pbrbm w b window to usf bs tif full-sdrffn window; {@dodf null}
+     * @pbrbm w b window to usf bs tif full-sdrffn window; {@dodf null}
+     * @pbrbm w b window to usf bs tif full-sdrffn window; {@dodf null}
+     * @pbrbm w b window to usf bs tif full-sdrffn window; {@dodf null}
+     * @pbrbm w b window to usf bs tif full-sdrffn window; {@dodf null}
+     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt tif
+     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt tif
+     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt tif
+     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt tif
+     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt tif
      * fullsdrffn window to bf b top-lfvfl domponfnt (i.f., b {@dodf Frbmf});
-     * thfrfforf it is prfffrbblf to usf b {@dodf Frbmf} hfrf rbthfr thbn b
+     * fullsdrffn window to bf b top-lfvfl domponfnt (i.f., b {@dodf Frbmf});
+     * fullsdrffn window to bf b top-lfvfl domponfnt (i.f., b {@dodf Frbmf});
+     * fullsdrffn window to bf b top-lfvfl domponfnt (i.f., b {@dodf Frbmf});
+     * fullsdrffn window to bf b top-lfvfl domponfnt (i.f., b {@dodf Frbmf});
+     * tifrfforf it is prfffrbblf to usf b {@dodf Frbmf} ifrf rbtifr tibn b
+     * tifrfforf it is prfffrbblf to usf b {@dodf Frbmf} ifrf rbtifr tibn b
+     * tifrfforf it is prfffrbblf to usf b {@dodf Frbmf} ifrf rbtifr tibn b
+     * tifrfforf it is prfffrbblf to usf b {@dodf Frbmf} ifrf rbtifr tibn b
+     * tifrfforf it is prfffrbblf to usf b {@dodf Frbmf} ifrf rbtifr tibn b
+     * {@dodf Window}.
+     * {@dodf Window}.
+     * {@dodf Window}.
+     * {@dodf Window}.
      * {@dodf Window}.
      *
+     *
+     *
+     *
+     *
+     * @sff #isFullSdrffnSupportfd
+     * @sff #isFullSdrffnSupportfd
+     * @sff #isFullSdrffnSupportfd
+     * @sff #isFullSdrffnSupportfd
      * @sff #isFullSdrffnSupportfd
      * @sff #gftFullSdrffnWindow
+     * @sff #gftFullSdrffnWindow
+     * @sff #gftFullSdrffnWindow
+     * @sff #gftFullSdrffnWindow
+     * @sff #gftFullSdrffnWindow
      * @sff #sftDisplbyModf
-     * @sff Componfnt#fnbblfInputMfthods
+     * @sff #sftDisplbyModf
+     * @sff #sftDisplbyModf
+     * @sff #sftDisplbyModf
+     * @sff #sftDisplbyModf
+     * @sff Componfnt#fnbblfInputMftiods
+     * @sff Componfnt#fnbblfInputMftiods
+     * @sff Componfnt#fnbblfInputMftiods
+     * @sff Componfnt#fnbblfInputMftiods
+     * @sff Componfnt#fnbblfInputMftiods
+     * @sff Componfnt#sftVisiblf
+     * @sff Componfnt#sftVisiblf
+     * @sff Componfnt#sftVisiblf
+     * @sff Componfnt#sftVisiblf
      * @sff Componfnt#sftVisiblf
      * @sff Frbmf#sftUndfdorbtfd
+     * @sff Frbmf#sftUndfdorbtfd
+     * @sff Frbmf#sftUndfdorbtfd
+     * @sff Frbmf#sftUndfdorbtfd
+     * @sff Frbmf#sftUndfdorbtfd
+     * @sff Diblog#sftUndfdorbtfd
+     * @sff Diblog#sftUndfdorbtfd
+     * @sff Diblog#sftUndfdorbtfd
+     * @sff Diblog#sftUndfdorbtfd
      * @sff Diblog#sftUndfdorbtfd
      *
+     *
+     *
+     *
+     *
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     */
+     */
+     */
+     */
      */
     publid void sftFullSdrffnWindow(Window w) {
+    publid void sftFullSdrffnWindow(Window w) {
+    publid void sftFullSdrffnWindow(Window w) {
+    publid void sftFullSdrffnWindow(Window w) {
+    publid void sftFullSdrffnWindow(Window w) {
         if (w != null) {
-            if (w.gftShbpf() != null) {
-                w.sftShbpf(null);
+        if (w != null) {
+        if (w != null) {
+        if (w != null) {
+        if (w != null) {
+            if (w.gftSibpf() != null) {
+            if (w.gftSibpf() != null) {
+            if (w.gftSibpf() != null) {
+            if (w.gftSibpf() != null) {
+            if (w.gftSibpf() != null) {
+                w.sftSibpf(null);
+                w.sftSibpf(null);
+                w.sftSibpf(null);
+                w.sftSibpf(null);
+                w.sftSibpf(null);
+            }
+            }
+            }
+            }
             }
             if (w.gftOpbdity() < 1.0f) {
+            if (w.gftOpbdity() < 1.0f) {
+            if (w.gftOpbdity() < 1.0f) {
+            if (w.gftOpbdity() < 1.0f) {
+            if (w.gftOpbdity() < 1.0f) {
+                w.sftOpbdity(1.0f);
+                w.sftOpbdity(1.0f);
+                w.sftOpbdity(1.0f);
+                w.sftOpbdity(1.0f);
                 w.sftOpbdity(1.0f);
             }
+            }
+            }
+            }
+            }
+            if (!w.isOpbquf()) {
+            if (!w.isOpbquf()) {
+            if (!w.isOpbquf()) {
+            if (!w.isOpbquf()) {
             if (!w.isOpbquf()) {
                 Color bgColor = w.gftBbdkground();
+                Color bgColor = w.gftBbdkground();
+                Color bgColor = w.gftBbdkground();
+                Color bgColor = w.gftBbdkground();
+                Color bgColor = w.gftBbdkground();
+                bgColor = nfw Color(bgColor.gftRfd(), bgColor.gftGrffn(),
+                bgColor = nfw Color(bgColor.gftRfd(), bgColor.gftGrffn(),
+                bgColor = nfw Color(bgColor.gftRfd(), bgColor.gftGrffn(),
+                bgColor = nfw Color(bgColor.gftRfd(), bgColor.gftGrffn(),
                 bgColor = nfw Color(bgColor.gftRfd(), bgColor.gftGrffn(),
                                     bgColor.gftBluf(), 255);
+                                    bgColor.gftBluf(), 255);
+                                    bgColor.gftBluf(), 255);
+                                    bgColor.gftBluf(), 255);
+                                    bgColor.gftBluf(), 255);
+                w.sftBbdkground(bgColor);
+                w.sftBbdkground(bgColor);
+                w.sftBbdkground(bgColor);
+                w.sftBbdkground(bgColor);
                 w.sftBbdkground(bgColor);
             }
-            // Chfdk if this window is in fullsdrffn modf on bnothfr dfvidf.
-            finbl GrbphidsConfigurbtion gd = w.gftGrbphidsConfigurbtion();
-            if (gd != null && gd.gftDfvidf() != this
+            }
+            }
+            }
+            }
+            // Cifdk if tiis window is in fullsdrffn modf on bnotifr dfvidf.
+            // Cifdk if tiis window is in fullsdrffn modf on bnotifr dfvidf.
+            // Cifdk if tiis window is in fullsdrffn modf on bnotifr dfvidf.
+            // Cifdk if tiis window is in fullsdrffn modf on bnotifr dfvidf.
+            // Cifdk if tiis window is in fullsdrffn modf on bnotifr dfvidf.
+            finbl GrbpiidsConfigurbtion gd = w.gftGrbpiidsConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = w.gftGrbpiidsConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = w.gftGrbpiidsConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = w.gftGrbpiidsConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = w.gftGrbpiidsConfigurbtion();
+            if (gd != null && gd.gftDfvidf() != tiis
+            if (gd != null && gd.gftDfvidf() != tiis
+            if (gd != null && gd.gftDfvidf() != tiis
+            if (gd != null && gd.gftDfvidf() != tiis
+            if (gd != null && gd.gftDfvidf() != tiis
+                    && gd.gftDfvidf().gftFullSdrffnWindow() == w) {
+                    && gd.gftDfvidf().gftFullSdrffnWindow() == w) {
+                    && gd.gftDfvidf().gftFullSdrffnWindow() == w) {
+                    && gd.gftDfvidf().gftFullSdrffnWindow() == w) {
                     && gd.gftDfvidf().gftFullSdrffnWindow() == w) {
                 gd.gftDfvidf().sftFullSdrffnWindow(null);
+                gd.gftDfvidf().sftFullSdrffnWindow(null);
+                gd.gftDfvidf().sftFullSdrffnWindow(null);
+                gd.gftDfvidf().sftFullSdrffnWindow(null);
+                gd.gftDfvidf().sftFullSdrffnWindow(null);
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         if (fullSdrffnWindow != null && windowfdModfBounds != null) {
-            // if thf window wfnt into fs modf bfforf it wbs rfblizfd it mby
-            // hbvf (0,0) dimfnsions
-            if (windowfdModfBounds.width  == 0) windowfdModfBounds.width  = 1;
-            if (windowfdModfBounds.hfight == 0) windowfdModfBounds.hfight = 1;
+        if (fullSdrffnWindow != null && windowfdModfBounds != null) {
+        if (fullSdrffnWindow != null && windowfdModfBounds != null) {
+        if (fullSdrffnWindow != null && windowfdModfBounds != null) {
+        if (fullSdrffnWindow != null && windowfdModfBounds != null) {
+            // if tif window wfnt into fs modf bfforf it wbs rfblizfd it mby
+            // if tif window wfnt into fs modf bfforf it wbs rfblizfd it mby
+            // if tif window wfnt into fs modf bfforf it wbs rfblizfd it mby
+            // if tif window wfnt into fs modf bfforf it wbs rfblizfd it mby
+            // if tif window wfnt into fs modf bfforf it wbs rfblizfd it mby
+            // ibvf (0,0) dimfnsions
+            // ibvf (0,0) dimfnsions
+            // ibvf (0,0) dimfnsions
+            // ibvf (0,0) dimfnsions
+            // ibvf (0,0) dimfnsions
+            if (windowfdModfBounds.widti  == 0) windowfdModfBounds.widti  = 1;
+            if (windowfdModfBounds.widti  == 0) windowfdModfBounds.widti  = 1;
+            if (windowfdModfBounds.widti  == 0) windowfdModfBounds.widti  = 1;
+            if (windowfdModfBounds.widti  == 0) windowfdModfBounds.widti  = 1;
+            if (windowfdModfBounds.widti  == 0) windowfdModfBounds.widti  = 1;
+            if (windowfdModfBounds.ifigit == 0) windowfdModfBounds.ifigit = 1;
+            if (windowfdModfBounds.ifigit == 0) windowfdModfBounds.ifigit = 1;
+            if (windowfdModfBounds.ifigit == 0) windowfdModfBounds.ifigit = 1;
+            if (windowfdModfBounds.ifigit == 0) windowfdModfBounds.ifigit = 1;
+            if (windowfdModfBounds.ifigit == 0) windowfdModfBounds.ifigit = 1;
+            fullSdrffnWindow.sftBounds(windowfdModfBounds);
+            fullSdrffnWindow.sftBounds(windowfdModfBounds);
+            fullSdrffnWindow.sftBounds(windowfdModfBounds);
+            fullSdrffnWindow.sftBounds(windowfdModfBounds);
             fullSdrffnWindow.sftBounds(windowfdModfBounds);
         }
-        // Sft thf full sdrffn window
-        syndhronizfd (fsAppContfxtLodk) {
-            // Assodibtf fullsdrffn window with durrfnt AppContfxt
+        }
+        }
+        }
+        }
+        // Sft tif full sdrffn window
+        // Sft tif full sdrffn window
+        // Sft tif full sdrffn window
+        // Sft tif full sdrffn window
+        // Sft tif full sdrffn window
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+            // Assodibtf fullsdrffn window witi durrfnt AppContfxt
+            // Assodibtf fullsdrffn window witi durrfnt AppContfxt
+            // Assodibtf fullsdrffn window witi durrfnt AppContfxt
+            // Assodibtf fullsdrffn window witi durrfnt AppContfxt
+            // Assodibtf fullsdrffn window witi durrfnt AppContfxt
+            if (w == null) {
+            if (w == null) {
+            if (w == null) {
+            if (w == null) {
             if (w == null) {
                 fullSdrffnAppContfxt = null;
+                fullSdrffnAppContfxt = null;
+                fullSdrffnAppContfxt = null;
+                fullSdrffnAppContfxt = null;
+                fullSdrffnAppContfxt = null;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 fullSdrffnAppContfxt = AppContfxt.gftAppContfxt();
+                fullSdrffnAppContfxt = AppContfxt.gftAppContfxt();
+                fullSdrffnAppContfxt = AppContfxt.gftAppContfxt();
+                fullSdrffnAppContfxt = AppContfxt.gftAppContfxt();
+                fullSdrffnAppContfxt = AppContfxt.gftAppContfxt();
+            }
+            }
+            }
+            }
             }
             fullSdrffnWindow = w;
+            fullSdrffnWindow = w;
+            fullSdrffnWindow = w;
+            fullSdrffnWindow = w;
+            fullSdrffnWindow = w;
+        }
+        }
+        }
+        }
         }
         if (fullSdrffnWindow != null) {
+        if (fullSdrffnWindow != null) {
+        if (fullSdrffnWindow != null) {
+        if (fullSdrffnWindow != null) {
+        if (fullSdrffnWindow != null) {
             windowfdModfBounds = fullSdrffnWindow.gftBounds();
-            // Notf thbt wf usf thf grbphids donfigurbtion of thf dfvidf,
-            // not thf window's, bfdbusf wf'rf sftting thf fs window for
-            // this dfvidf.
-            finbl GrbphidsConfigurbtion gd = gftDffbultConfigurbtion();
+            windowfdModfBounds = fullSdrffnWindow.gftBounds();
+            windowfdModfBounds = fullSdrffnWindow.gftBounds();
+            windowfdModfBounds = fullSdrffnWindow.gftBounds();
+            windowfdModfBounds = fullSdrffnWindow.gftBounds();
+            // Notf tibt wf usf tif grbpiids donfigurbtion of tif dfvidf,
+            // Notf tibt wf usf tif grbpiids donfigurbtion of tif dfvidf,
+            // Notf tibt wf usf tif grbpiids donfigurbtion of tif dfvidf,
+            // Notf tibt wf usf tif grbpiids donfigurbtion of tif dfvidf,
+            // Notf tibt wf usf tif grbpiids donfigurbtion of tif dfvidf,
+            // not tif window's, bfdbusf wf'rf sftting tif fs window for
+            // not tif window's, bfdbusf wf'rf sftting tif fs window for
+            // not tif window's, bfdbusf wf'rf sftting tif fs window for
+            // not tif window's, bfdbusf wf'rf sftting tif fs window for
+            // not tif window's, bfdbusf wf'rf sftting tif fs window for
+            // tiis dfvidf.
+            // tiis dfvidf.
+            // tiis dfvidf.
+            // tiis dfvidf.
+            // tiis dfvidf.
+            finbl GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+            finbl GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
             finbl Rfdtbnglf sdrffnBounds = gd.gftBounds();
-            if (SunToolkit.isDispbtdhThrfbdForAppContfxt(fullSdrffnWindow)) {
-                // Updbtf grbphids donfigurbtion hfrf dirfdtly bnd do not wbit
-                // bsyndhronous notifidbtion from thf pffr. Notf thbt
+            finbl Rfdtbnglf sdrffnBounds = gd.gftBounds();
+            finbl Rfdtbnglf sdrffnBounds = gd.gftBounds();
+            finbl Rfdtbnglf sdrffnBounds = gd.gftBounds();
+            finbl Rfdtbnglf sdrffnBounds = gd.gftBounds();
+            if (SunToolkit.isDispbtdiTirfbdForAppContfxt(fullSdrffnWindow)) {
+            if (SunToolkit.isDispbtdiTirfbdForAppContfxt(fullSdrffnWindow)) {
+            if (SunToolkit.isDispbtdiTirfbdForAppContfxt(fullSdrffnWindow)) {
+            if (SunToolkit.isDispbtdiTirfbdForAppContfxt(fullSdrffnWindow)) {
+            if (SunToolkit.isDispbtdiTirfbdForAppContfxt(fullSdrffnWindow)) {
+                // Updbtf grbpiids donfigurbtion ifrf dirfdtly bnd do not wbit
+                // Updbtf grbpiids donfigurbtion ifrf dirfdtly bnd do not wbit
+                // Updbtf grbpiids donfigurbtion ifrf dirfdtly bnd do not wbit
+                // Updbtf grbpiids donfigurbtion ifrf dirfdtly bnd do not wbit
+                // Updbtf grbpiids donfigurbtion ifrf dirfdtly bnd do not wbit
+                // bsyndironous notifidbtion from tif pffr. Notf tibt
+                // bsyndironous notifidbtion from tif pffr. Notf tibt
+                // bsyndironous notifidbtion from tif pffr. Notf tibt
+                // bsyndironous notifidbtion from tif pffr. Notf tibt
+                // bsyndironous notifidbtion from tif pffr. Notf tibt
                 // sftBounds() will rfsft b GC, if it wbs sft indorrfdtly.
-                fullSdrffnWindow.sftGrbphidsConfigurbtion(gd);
+                // sftBounds() will rfsft b GC, if it wbs sft indorrfdtly.
+                // sftBounds() will rfsft b GC, if it wbs sft indorrfdtly.
+                // sftBounds() will rfsft b GC, if it wbs sft indorrfdtly.
+                // sftBounds() will rfsft b GC, if it wbs sft indorrfdtly.
+                fullSdrffnWindow.sftGrbpiidsConfigurbtion(gd);
+                fullSdrffnWindow.sftGrbpiidsConfigurbtion(gd);
+                fullSdrffnWindow.sftGrbpiidsConfigurbtion(gd);
+                fullSdrffnWindow.sftGrbpiidsConfigurbtion(gd);
+                fullSdrffnWindow.sftGrbpiidsConfigurbtion(gd);
+            }
+            }
+            }
+            }
             }
             fullSdrffnWindow.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
-                                       sdrffnBounds.width, sdrffnBounds.hfight);
+            fullSdrffnWindow.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+            fullSdrffnWindow.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+            fullSdrffnWindow.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+            fullSdrffnWindow.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+                                       sdrffnBounds.widti, sdrffnBounds.ifigit);
+                                       sdrffnBounds.widti, sdrffnBounds.ifigit);
+                                       sdrffnBounds.widti, sdrffnBounds.ifigit);
+                                       sdrffnBounds.widti, sdrffnBounds.ifigit);
+                                       sdrffnBounds.widti, sdrffnBounds.ifigit);
+            fullSdrffnWindow.sftVisiblf(truf);
+            fullSdrffnWindow.sftVisiblf(truf);
+            fullSdrffnWindow.sftVisiblf(truf);
+            fullSdrffnWindow.sftVisiblf(truf);
             fullSdrffnWindow.sftVisiblf(truf);
             fullSdrffnWindow.toFront();
+            fullSdrffnWindow.toFront();
+            fullSdrffnWindow.toFront();
+            fullSdrffnWindow.toFront();
+            fullSdrffnWindow.toFront();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf <dodf>Window</dodf> objfdt rfprfsfnting thf
-     * full-sdrffn window if thf dfvidf is in full-sdrffn modf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <dodf>Window</dodf> objfdt rfprfsfnting tif
+     * Rfturns tif <dodf>Window</dodf> objfdt rfprfsfnting tif
+     * Rfturns tif <dodf>Window</dodf> objfdt rfprfsfnting tif
+     * Rfturns tif <dodf>Window</dodf> objfdt rfprfsfnting tif
+     * Rfturns tif <dodf>Window</dodf> objfdt rfprfsfnting tif
+     * full-sdrffn window if tif dfvidf is in full-sdrffn modf.
+     * full-sdrffn window if tif dfvidf is in full-sdrffn modf.
+     * full-sdrffn window if tif dfvidf is in full-sdrffn modf.
+     * full-sdrffn window if tif dfvidf is in full-sdrffn modf.
+     * full-sdrffn window if tif dfvidf is in full-sdrffn modf.
      *
-     * @rfturn thf full-sdrffn window, or <dodf>null</dodf> if thf dfvidf is
+     *
+     *
+     *
+     *
+     * @rfturn tif full-sdrffn window, or <dodf>null</dodf> if tif dfvidf is
+     * @rfturn tif full-sdrffn window, or <dodf>null</dodf> if tif dfvidf is
+     * @rfturn tif full-sdrffn window, or <dodf>null</dodf> if tif dfvidf is
+     * @rfturn tif full-sdrffn window, or <dodf>null</dodf> if tif dfvidf is
+     * @rfturn tif full-sdrffn window, or <dodf>null</dodf> if tif dfvidf is
+     * not in full-sdrffn modf.
+     * not in full-sdrffn modf.
+     * not in full-sdrffn modf.
+     * not in full-sdrffn modf.
      * not in full-sdrffn modf.
      * @sff #sftFullSdrffnWindow(Window)
+     * @sff #sftFullSdrffnWindow(Window)
+     * @sff #sftFullSdrffnWindow(Window)
+     * @sff #sftFullSdrffnWindow(Window)
+     * @sff #sftFullSdrffnWindow(Window)
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     */
+     */
+     */
+     */
      */
     publid Window gftFullSdrffnWindow() {
+    publid Window gftFullSdrffnWindow() {
+    publid Window gftFullSdrffnWindow() {
+    publid Window gftFullSdrffnWindow() {
+    publid Window gftFullSdrffnWindow() {
         Window rfturnWindow = null;
-        syndhronizfd (fsAppContfxtLodk) {
-            // Only rfturn b hbndlf to thf durrfnt fs window if wf brf in thf
-            // sbmf AppContfxt thbt sft thf fs window
+        Window rfturnWindow = null;
+        Window rfturnWindow = null;
+        Window rfturnWindow = null;
+        Window rfturnWindow = null;
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+        syndironizfd (fsAppContfxtLodk) {
+            // Only rfturn b ibndlf to tif durrfnt fs window if wf brf in tif
+            // Only rfturn b ibndlf to tif durrfnt fs window if wf brf in tif
+            // Only rfturn b ibndlf to tif durrfnt fs window if wf brf in tif
+            // Only rfturn b ibndlf to tif durrfnt fs window if wf brf in tif
+            // Only rfturn b ibndlf to tif durrfnt fs window if wf brf in tif
+            // sbmf AppContfxt tibt sft tif fs window
+            // sbmf AppContfxt tibt sft tif fs window
+            // sbmf AppContfxt tibt sft tif fs window
+            // sbmf AppContfxt tibt sft tif fs window
+            // sbmf AppContfxt tibt sft tif fs window
+            if (fullSdrffnAppContfxt == AppContfxt.gftAppContfxt()) {
+            if (fullSdrffnAppContfxt == AppContfxt.gftAppContfxt()) {
+            if (fullSdrffnAppContfxt == AppContfxt.gftAppContfxt()) {
+            if (fullSdrffnAppContfxt == AppContfxt.gftAppContfxt()) {
             if (fullSdrffnAppContfxt == AppContfxt.gftAppContfxt()) {
                 rfturnWindow = fullSdrffnWindow;
+                rfturnWindow = fullSdrffnWindow;
+                rfturnWindow = fullSdrffnWindow;
+                rfturnWindow = fullSdrffnWindow;
+                rfturnWindow = fullSdrffnWindow;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn rfturnWindow;
+        rfturn rfturnWindow;
+        rfturn rfturnWindow;
+        rfturn rfturnWindow;
+        rfturn rfturnWindow;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns <dodf>truf</dodf> if this <dodf>GrbphidsDfvidf</dodf>
-     * supports low-lfvfl displby dhbngfs.
-     * On somf plbtforms low-lfvfl displby dhbngfs mby only bf bllowfd in
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * supports low-lfvfl displby dibngfs.
+     * supports low-lfvfl displby dibngfs.
+     * supports low-lfvfl displby dibngfs.
+     * supports low-lfvfl displby dibngfs.
+     * supports low-lfvfl displby dibngfs.
+     * On somf plbtforms low-lfvfl displby dibngfs mby only bf bllowfd in
+     * On somf plbtforms low-lfvfl displby dibngfs mby only bf bllowfd in
+     * On somf plbtforms low-lfvfl displby dibngfs mby only bf bllowfd in
+     * On somf plbtforms low-lfvfl displby dibngfs mby only bf bllowfd in
+     * On somf plbtforms low-lfvfl displby dibngfs mby only bf bllowfd in
      * full-sdrffn fxdlusivf modf (i.f., if {@link #isFullSdrffnSupportfd()}
-     * rfturns {@dodf truf} bnd thf bpplidbtion hbs blrfbdy fntfrfd
+     * full-sdrffn fxdlusivf modf (i.f., if {@link #isFullSdrffnSupportfd()}
+     * full-sdrffn fxdlusivf modf (i.f., if {@link #isFullSdrffnSupportfd()}
+     * full-sdrffn fxdlusivf modf (i.f., if {@link #isFullSdrffnSupportfd()}
+     * full-sdrffn fxdlusivf modf (i.f., if {@link #isFullSdrffnSupportfd()}
+     * rfturns {@dodf truf} bnd tif bpplidbtion ibs blrfbdy fntfrfd
+     * rfturns {@dodf truf} bnd tif bpplidbtion ibs blrfbdy fntfrfd
+     * rfturns {@dodf truf} bnd tif bpplidbtion ibs blrfbdy fntfrfd
+     * rfturns {@dodf truf} bnd tif bpplidbtion ibs blrfbdy fntfrfd
+     * rfturns {@dodf truf} bnd tif bpplidbtion ibs blrfbdy fntfrfd
      * full-sdrffn modf using {@link #sftFullSdrffnWindow}).
-     * @rfturn whfthfr low-lfvfl displby dhbngfs brf supportfd for this
-     * grbphids dfvidf.
+     * full-sdrffn modf using {@link #sftFullSdrffnWindow}).
+     * full-sdrffn modf using {@link #sftFullSdrffnWindow}).
+     * full-sdrffn modf using {@link #sftFullSdrffnWindow}).
+     * full-sdrffn modf using {@link #sftFullSdrffnWindow}).
+     * @rfturn wiftifr low-lfvfl displby dibngfs brf supportfd for tiis
+     * @rfturn wiftifr low-lfvfl displby dibngfs brf supportfd for tiis
+     * @rfturn wiftifr low-lfvfl displby dibngfs brf supportfd for tiis
+     * @rfturn wiftifr low-lfvfl displby dibngfs brf supportfd for tiis
+     * @rfturn wiftifr low-lfvfl displby dibngfs brf supportfd for tiis
+     * grbpiids dfvidf.
+     * grbpiids dfvidf.
+     * grbpiids dfvidf.
+     * grbpiids dfvidf.
+     * grbpiids dfvidf.
+     * @sff #isFullSdrffnSupportfd
+     * @sff #isFullSdrffnSupportfd
+     * @sff #isFullSdrffnSupportfd
+     * @sff #isFullSdrffnSupportfd
      * @sff #isFullSdrffnSupportfd
      * @sff #sftDisplbyModf
+     * @sff #sftDisplbyModf
+     * @sff #sftDisplbyModf
+     * @sff #sftDisplbyModf
+     * @sff #sftDisplbyModf
+     * @sff #sftFullSdrffnWindow
+     * @sff #sftFullSdrffnWindow
+     * @sff #sftFullSdrffnWindow
+     * @sff #sftFullSdrffnWindow
      * @sff #sftFullSdrffnWindow
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      */
-    publid boolfbn isDisplbyChbngfSupportfd() {
+     */
+     */
+     */
+     */
+    publid boolfbn isDisplbyCibngfSupportfd() {
+    publid boolfbn isDisplbyCibngfSupportfd() {
+    publid boolfbn isDisplbyCibngfSupportfd() {
+    publid boolfbn isDisplbyCibngfSupportfd() {
+    publid boolfbn isDisplbyCibngfSupportfd() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Sfts thf displby modf of this grbphids dfvidf. This is only bllowfd
-     * if {@link #isDisplbyChbngfSupportfd()} rfturns {@dodf truf} bnd mby
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif displby modf of tiis grbpiids dfvidf. Tiis is only bllowfd
+     * Sfts tif displby modf of tiis grbpiids dfvidf. Tiis is only bllowfd
+     * Sfts tif displby modf of tiis grbpiids dfvidf. Tiis is only bllowfd
+     * Sfts tif displby modf of tiis grbpiids dfvidf. Tiis is only bllowfd
+     * Sfts tif displby modf of tiis grbpiids dfvidf. Tiis is only bllowfd
+     * if {@link #isDisplbyCibngfSupportfd()} rfturns {@dodf truf} bnd mby
+     * if {@link #isDisplbyCibngfSupportfd()} rfturns {@dodf truf} bnd mby
+     * if {@link #isDisplbyCibngfSupportfd()} rfturns {@dodf truf} bnd mby
+     * if {@link #isDisplbyCibngfSupportfd()} rfturns {@dodf truf} bnd mby
+     * if {@link #isDisplbyCibngfSupportfd()} rfturns {@dodf truf} bnd mby
      * rfquirf first fntfring full-sdrffn fxdlusivf modf using
-     * {@link #sftFullSdrffnWindow} providing thbt full-sdrffn fxdlusivf modf is
+     * rfquirf first fntfring full-sdrffn fxdlusivf modf using
+     * rfquirf first fntfring full-sdrffn fxdlusivf modf using
+     * rfquirf first fntfring full-sdrffn fxdlusivf modf using
+     * rfquirf first fntfring full-sdrffn fxdlusivf modf using
+     * {@link #sftFullSdrffnWindow} providing tibt full-sdrffn fxdlusivf modf is
+     * {@link #sftFullSdrffnWindow} providing tibt full-sdrffn fxdlusivf modf is
+     * {@link #sftFullSdrffnWindow} providing tibt full-sdrffn fxdlusivf modf is
+     * {@link #sftFullSdrffnWindow} providing tibt full-sdrffn fxdlusivf modf is
+     * {@link #sftFullSdrffnWindow} providing tibt full-sdrffn fxdlusivf modf is
+     * supportfd (i.f., {@link #isFullSdrffnSupportfd()} rfturns
+     * supportfd (i.f., {@link #isFullSdrffnSupportfd()} rfturns
+     * supportfd (i.f., {@link #isFullSdrffnSupportfd()} rfturns
+     * supportfd (i.f., {@link #isFullSdrffnSupportfd()} rfturns
      * supportfd (i.f., {@link #isFullSdrffnSupportfd()} rfturns
      * {@dodf truf}).
+     * {@dodf truf}).
+     * {@dodf truf}).
+     * {@dodf truf}).
+     * {@dodf truf}).
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      *
-     * Thf displby modf must bf onf of thf displby modfs rfturnfd by
-     * {@link #gftDisplbyModfs()}, with onf fxdfption: pbssing b displby modf
-     * with {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsh rbtf will rfsult in
-     * sflfdting b displby modf from thf list of bvbilbblf displby modfs with
-     * mbtdhing width, hfight bnd bit dfpth.
-     * Howfvfr, pbssing b displby modf with {@link DisplbyModf#BIT_DEPTH_MULTI}
-     * for bit dfpth is only bllowfd if sudh modf fxists in thf list rfturnfd by
+     *
+     *
+     *
+     *
+     * Tif displby modf must bf onf of tif displby modfs rfturnfd by
+     * Tif displby modf must bf onf of tif displby modfs rfturnfd by
+     * Tif displby modf must bf onf of tif displby modfs rfturnfd by
+     * Tif displby modf must bf onf of tif displby modfs rfturnfd by
+     * Tif displby modf must bf onf of tif displby modfs rfturnfd by
+     * {@link #gftDisplbyModfs()}, witi onf fxdfption: pbssing b displby modf
+     * {@link #gftDisplbyModfs()}, witi onf fxdfption: pbssing b displby modf
+     * {@link #gftDisplbyModfs()}, witi onf fxdfption: pbssing b displby modf
+     * {@link #gftDisplbyModfs()}, witi onf fxdfption: pbssing b displby modf
+     * {@link #gftDisplbyModfs()}, witi onf fxdfption: pbssing b displby modf
+     * witi {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsi rbtf will rfsult in
+     * witi {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsi rbtf will rfsult in
+     * witi {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsi rbtf will rfsult in
+     * witi {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsi rbtf will rfsult in
+     * witi {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsi rbtf will rfsult in
+     * sflfdting b displby modf from tif list of bvbilbblf displby modfs witi
+     * sflfdting b displby modf from tif list of bvbilbblf displby modfs witi
+     * sflfdting b displby modf from tif list of bvbilbblf displby modfs witi
+     * sflfdting b displby modf from tif list of bvbilbblf displby modfs witi
+     * sflfdting b displby modf from tif list of bvbilbblf displby modfs witi
+     * mbtdiing widti, ifigit bnd bit dfpti.
+     * mbtdiing widti, ifigit bnd bit dfpti.
+     * mbtdiing widti, ifigit bnd bit dfpti.
+     * mbtdiing widti, ifigit bnd bit dfpti.
+     * mbtdiing widti, ifigit bnd bit dfpti.
+     * Howfvfr, pbssing b displby modf witi {@link DisplbyModf#BIT_DEPTH_MULTI}
+     * Howfvfr, pbssing b displby modf witi {@link DisplbyModf#BIT_DEPTH_MULTI}
+     * Howfvfr, pbssing b displby modf witi {@link DisplbyModf#BIT_DEPTH_MULTI}
+     * Howfvfr, pbssing b displby modf witi {@link DisplbyModf#BIT_DEPTH_MULTI}
+     * Howfvfr, pbssing b displby modf witi {@link DisplbyModf#BIT_DEPTH_MULTI}
+     * for bit dfpti is only bllowfd if sudi modf fxists in tif list rfturnfd by
+     * for bit dfpti is only bllowfd if sudi modf fxists in tif list rfturnfd by
+     * for bit dfpti is only bllowfd if sudi modf fxists in tif list rfturnfd by
+     * for bit dfpti is only bllowfd if sudi modf fxists in tif list rfturnfd by
+     * for bit dfpti is only bllowfd if sudi modf fxists in tif list rfturnfd by
+     * {@link #gftDisplbyModfs()}.
+     * {@link #gftDisplbyModfs()}.
+     * {@link #gftDisplbyModfs()}.
+     * {@link #gftDisplbyModfs()}.
      * {@link #gftDisplbyModfs()}.
      * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Exbmplf dodf:
+     * Exbmplf dodf:
+     * Exbmplf dodf:
+     * Exbmplf dodf:
      * Exbmplf dodf:
      * <prf><dodf>
+     * <prf><dodf>
+     * <prf><dodf>
+     * <prf><dodf>
+     * <prf><dodf>
+     * Frbmf frbmf;
+     * Frbmf frbmf;
+     * Frbmf frbmf;
+     * Frbmf frbmf;
      * Frbmf frbmf;
      * DisplbyModf nfwDisplbyModf;
-     * GrbphidsDfvidf gd;
-     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from thf list of modfs
+     * DisplbyModf nfwDisplbyModf;
+     * DisplbyModf nfwDisplbyModf;
+     * DisplbyModf nfwDisplbyModf;
+     * DisplbyModf nfwDisplbyModf;
+     * GrbpiidsDfvidf gd;
+     * GrbpiidsDfvidf gd;
+     * GrbpiidsDfvidf gd;
+     * GrbpiidsDfvidf gd;
+     * GrbpiidsDfvidf gd;
+     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from tif list of modfs
+     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from tif list of modfs
+     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from tif list of modfs
+     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from tif list of modfs
+     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from tif list of modfs
+     * // rfturnfd by gd.gftDisplbyModfs() ...
+     * // rfturnfd by gd.gftDisplbyModfs() ...
+     * // rfturnfd by gd.gftDisplbyModfs() ...
+     * // rfturnfd by gd.gftDisplbyModfs() ...
      * // rfturnfd by gd.gftDisplbyModfs() ...
      *
+     *
+     *
+     *
+     *
+     * if (gd.isFullSdrffnSupportfd()) {
+     * if (gd.isFullSdrffnSupportfd()) {
+     * if (gd.isFullSdrffnSupportfd()) {
+     * if (gd.isFullSdrffnSupportfd()) {
      * if (gd.isFullSdrffnSupportfd()) {
      *     gd.sftFullSdrffnWindow(frbmf);
+     *     gd.sftFullSdrffnWindow(frbmf);
+     *     gd.sftFullSdrffnWindow(frbmf);
+     *     gd.sftFullSdrffnWindow(frbmf);
+     *     gd.sftFullSdrffnWindow(frbmf);
+     * } flsf {
+     * } flsf {
+     * } flsf {
+     * } flsf {
      * } flsf {
      *    // prodffd in non-full-sdrffn modf
+     *    // prodffd in non-full-sdrffn modf
+     *    // prodffd in non-full-sdrffn modf
+     *    // prodffd in non-full-sdrffn modf
+     *    // prodffd in non-full-sdrffn modf
+     *    frbmf.sftSizf(...);
+     *    frbmf.sftSizf(...);
+     *    frbmf.sftSizf(...);
+     *    frbmf.sftSizf(...);
      *    frbmf.sftSizf(...);
      *    frbmf.sftLodbtion(...);
+     *    frbmf.sftLodbtion(...);
+     *    frbmf.sftLodbtion(...);
+     *    frbmf.sftLodbtion(...);
+     *    frbmf.sftLodbtion(...);
+     *    frbmf.sftVisiblf(truf);
+     *    frbmf.sftVisiblf(truf);
+     *    frbmf.sftVisiblf(truf);
+     *    frbmf.sftVisiblf(truf);
      *    frbmf.sftVisiblf(truf);
      * }
+     * }
+     * }
+     * }
+     * }
      *
-     * if (gd.isDisplbyChbngfSupportfd()) {
+     *
+     *
+     *
+     *
+     * if (gd.isDisplbyCibngfSupportfd()) {
+     * if (gd.isDisplbyCibngfSupportfd()) {
+     * if (gd.isDisplbyCibngfSupportfd()) {
+     * if (gd.isDisplbyCibngfSupportfd()) {
+     * if (gd.isDisplbyCibngfSupportfd()) {
+     *     gd.sftDisplbyModf(nfwDisplbyModf);
+     *     gd.sftDisplbyModf(nfwDisplbyModf);
+     *     gd.sftDisplbyModf(nfwDisplbyModf);
+     *     gd.sftDisplbyModf(nfwDisplbyModf);
      *     gd.sftDisplbyModf(nfwDisplbyModf);
      * }
+     * }
+     * }
+     * }
+     * }
+     * </dodf></prf>
+     * </dodf></prf>
+     * </dodf></prf>
+     * </dodf></prf>
      * </dodf></prf>
      *
-     * @pbrbm dm Thf nfw displby modf of this grbphids dfvidf.
-     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>DisplbyModf</dodf>
-     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in thf brrby rfturnfd
+     *
+     *
+     *
+     *
+     * @pbrbm dm Tif nfw displby modf of tiis grbpiids dfvidf.
+     * @pbrbm dm Tif nfw displby modf of tiis grbpiids dfvidf.
+     * @pbrbm dm Tif nfw displby modf of tiis grbpiids dfvidf.
+     * @pbrbm dm Tif nfw displby modf of tiis grbpiids dfvidf.
+     * @pbrbm dm Tif nfw displby modf of tiis grbpiids dfvidf.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>DisplbyModf</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>DisplbyModf</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>DisplbyModf</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>DisplbyModf</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>DisplbyModf</dodf>
+     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in tif brrby rfturnfd
+     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in tif brrby rfturnfd
+     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in tif brrby rfturnfd
+     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in tif brrby rfturnfd
+     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in tif brrby rfturnfd
+     * by <dodf>gftDisplbyModfs</dodf>
+     * by <dodf>gftDisplbyModfs</dodf>
+     * by <dodf>gftDisplbyModfs</dodf>
+     * by <dodf>gftDisplbyModfs</dodf>
      * by <dodf>gftDisplbyModfs</dodf>
      * @fxdfption UnsupportfdOpfrbtionExdfption if
-     * <dodf>isDisplbyChbngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>isDisplbyCibngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * <dodf>isDisplbyCibngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * <dodf>isDisplbyCibngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * <dodf>isDisplbyCibngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * <dodf>isDisplbyCibngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * @sff #gftDisplbyModf
+     * @sff #gftDisplbyModf
+     * @sff #gftDisplbyModf
+     * @sff #gftDisplbyModf
      * @sff #gftDisplbyModf
      * @sff #gftDisplbyModfs
-     * @sff #isDisplbyChbngfSupportfd
+     * @sff #gftDisplbyModfs
+     * @sff #gftDisplbyModfs
+     * @sff #gftDisplbyModfs
+     * @sff #gftDisplbyModfs
+     * @sff #isDisplbyCibngfSupportfd
+     * @sff #isDisplbyCibngfSupportfd
+     * @sff #isDisplbyCibngfSupportfd
+     * @sff #isDisplbyCibngfSupportfd
+     * @sff #isDisplbyCibngfSupportfd
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     */
+     */
+     */
+     */
      */
     publid void sftDisplbyModf(DisplbyModf dm) {
-        throw nfw UnsupportfdOpfrbtionExdfption("Cbnnot dhbngf displby modf");
+    publid void sftDisplbyModf(DisplbyModf dm) {
+    publid void sftDisplbyModf(DisplbyModf dm) {
+    publid void sftDisplbyModf(DisplbyModf dm) {
+    publid void sftDisplbyModf(DisplbyModf dm) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbnnot dibngf displby modf");
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbnnot dibngf displby modf");
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbnnot dibngf displby modf");
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbnnot dibngf displby modf");
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbnnot dibngf displby modf");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf durrfnt displby modf of this
-     * <dodf>GrbphidsDfvidf</dodf>.
-     * Thf rfturnfd displby modf is bllowfd to hbvf b rffrfsh rbtf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif durrfnt displby modf of tiis
+     * Rfturns tif durrfnt displby modf of tiis
+     * Rfturns tif durrfnt displby modf of tiis
+     * Rfturns tif durrfnt displby modf of tiis
+     * Rfturns tif durrfnt displby modf of tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * Tif rfturnfd displby modf is bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modf is bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modf is bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modf is bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modf is bllowfd to ibvf b rffrfsi rbtf
      * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
-     * Likfwisf, thf rfturnfd displby modf is bllowfd to hbvf b bit dfpth
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * Likfwisf, tif rfturnfd displby modf is bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modf is bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modf is bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modf is bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modf is bllowfd to ibvf b bit dfpti
      * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
-     * bit dfpths brf supportfd.
-     * @rfturn thf durrfnt displby modf of this grbphids dfvidf.
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * @rfturn tif durrfnt displby modf of tiis grbpiids dfvidf.
+     * @rfturn tif durrfnt displby modf of tiis grbpiids dfvidf.
+     * @rfturn tif durrfnt displby modf of tiis grbpiids dfvidf.
+     * @rfturn tif durrfnt displby modf of tiis grbpiids dfvidf.
+     * @rfturn tif durrfnt displby modf of tiis grbpiids dfvidf.
+     * @sff #sftDisplbyModf(DisplbyModf)
+     * @sff #sftDisplbyModf(DisplbyModf)
+     * @sff #sftDisplbyModf(DisplbyModf)
+     * @sff #sftDisplbyModf(DisplbyModf)
      * @sff #sftDisplbyModf(DisplbyModf)
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     */
+     */
+     */
+     */
      */
     publid DisplbyModf gftDisplbyModf() {
-        GrbphidsConfigurbtion gd = gftDffbultConfigurbtion();
+    publid DisplbyModf gftDisplbyModf() {
+    publid DisplbyModf gftDisplbyModf() {
+    publid DisplbyModf gftDisplbyModf() {
+    publid DisplbyModf gftDisplbyModf() {
+        GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+        Rfdtbnglf r = gd.gftBounds();
+        Rfdtbnglf r = gd.gftBounds();
+        Rfdtbnglf r = gd.gftBounds();
+        Rfdtbnglf r = gd.gftBounds();
         Rfdtbnglf r = gd.gftBounds();
         ColorModfl dm = gd.gftColorModfl();
-        rfturn nfw DisplbyModf(r.width, r.hfight, dm.gftPixflSizf(), 0);
+        ColorModfl dm = gd.gftColorModfl();
+        ColorModfl dm = gd.gftColorModfl();
+        ColorModfl dm = gd.gftColorModfl();
+        ColorModfl dm = gd.gftColorModfl();
+        rfturn nfw DisplbyModf(r.widti, r.ifigit, dm.gftPixflSizf(), 0);
+        rfturn nfw DisplbyModf(r.widti, r.ifigit, dm.gftPixflSizf(), 0);
+        rfturn nfw DisplbyModf(r.widti, r.ifigit, dm.gftPixflSizf(), 0);
+        rfturn nfw DisplbyModf(r.widti, r.ifigit, dm.gftPixflSizf(), 0);
+        rfturn nfw DisplbyModf(r.widti, r.ifigit, dm.gftPixflSizf(), 0);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns bll displby modfs bvbilbblf for this
-     * <dodf>GrbphidsDfvidf</dodf>.
-     * Thf rfturnfd displby modfs brf bllowfd to hbvf b rffrfsh rbtf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns bll displby modfs bvbilbblf for tiis
+     * Rfturns bll displby modfs bvbilbblf for tiis
+     * Rfturns bll displby modfs bvbilbblf for tiis
+     * Rfturns bll displby modfs bvbilbblf for tiis
+     * Rfturns bll displby modfs bvbilbblf for tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * Tif rfturnfd displby modfs brf bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modfs brf bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modfs brf bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modfs brf bllowfd to ibvf b rffrfsi rbtf
+     * Tif rfturnfd displby modfs brf bllowfd to ibvf b rffrfsi rbtf
      * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
-     * Likfwisf, thf rfturnfd displby modfs brf bllowfd to hbvf b bit dfpth
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * Likfwisf, tif rfturnfd displby modfs brf bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modfs brf bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modfs brf bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modfs brf bllowfd to ibvf b bit dfpti
+     * Likfwisf, tif rfturnfd displby modfs brf bllowfd to ibvf b bit dfpti
      * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
-     * bit dfpths brf supportfd.
-     * @rfturn bll of thf displby modfs bvbilbblf for this grbphids dfvidf.
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * bit dfptis brf supportfd.
+     * @rfturn bll of tif displby modfs bvbilbblf for tiis grbpiids dfvidf.
+     * @rfturn bll of tif displby modfs bvbilbblf for tiis grbpiids dfvidf.
+     * @rfturn bll of tif displby modfs bvbilbblf for tiis grbpiids dfvidf.
+     * @rfturn bll of tif displby modfs bvbilbblf for tiis grbpiids dfvidf.
+     * @rfturn bll of tif displby modfs bvbilbblf for tiis grbpiids dfvidf.
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     */
+     */
+     */
+     */
      */
     publid DisplbyModf[] gftDisplbyModfs() {
+    publid DisplbyModf[] gftDisplbyModfs() {
+    publid DisplbyModf[] gftDisplbyModfs() {
+    publid DisplbyModf[] gftDisplbyModfs() {
+    publid DisplbyModf[] gftDisplbyModfs() {
+        rfturn nfw DisplbyModf[] { gftDisplbyModf() };
+        rfturn nfw DisplbyModf[] { gftDisplbyModf() };
+        rfturn nfw DisplbyModf[] { gftDisplbyModf() };
+        rfturn nfw DisplbyModf[] { gftDisplbyModf() };
         rfturn nfw DisplbyModf[] { gftDisplbyModf() };
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * This mfthod rfturns thf numbfr of bytfs bvbilbblf in
-     * bddflfrbtfd mfmory on this dfvidf.
-     * Somf imbgfs brf drfbtfd or dbdhfd
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfturns tif numbfr of bytfs bvbilbblf in
+     * Tiis mftiod rfturns tif numbfr of bytfs bvbilbblf in
+     * Tiis mftiod rfturns tif numbfr of bytfs bvbilbblf in
+     * Tiis mftiod rfturns tif numbfr of bytfs bvbilbblf in
+     * Tiis mftiod rfturns tif numbfr of bytfs bvbilbblf in
+     * bddflfrbtfd mfmory on tiis dfvidf.
+     * bddflfrbtfd mfmory on tiis dfvidf.
+     * bddflfrbtfd mfmory on tiis dfvidf.
+     * bddflfrbtfd mfmory on tiis dfvidf.
+     * bddflfrbtfd mfmory on tiis dfvidf.
+     * Somf imbgfs brf drfbtfd or dbdifd
+     * Somf imbgfs brf drfbtfd or dbdifd
+     * Somf imbgfs brf drfbtfd or dbdifd
+     * Somf imbgfs brf drfbtfd or dbdifd
+     * Somf imbgfs brf drfbtfd or dbdifd
+     * in bddflfrbtfd mfmory on b first-domf,
+     * in bddflfrbtfd mfmory on b first-domf,
+     * in bddflfrbtfd mfmory on b first-domf,
+     * in bddflfrbtfd mfmory on b first-domf,
      * in bddflfrbtfd mfmory on b first-domf,
      * first-sfrvfd bbsis.  On somf opfrbting systfms,
-     * this mfmory is b finitf rfsourdf.  Cblling this mfthod
-     * bnd sdhfduling thf drfbtion bnd flushing of imbgfs dbrffully mby
-     * fnbblf bpplidbtions to mbkf thf most fffidifnt usf of
-     * thbt finitf rfsourdf.
+     * first-sfrvfd bbsis.  On somf opfrbting systfms,
+     * first-sfrvfd bbsis.  On somf opfrbting systfms,
+     * first-sfrvfd bbsis.  On somf opfrbting systfms,
+     * first-sfrvfd bbsis.  On somf opfrbting systfms,
+     * tiis mfmory is b finitf rfsourdf.  Cblling tiis mftiod
+     * tiis mfmory is b finitf rfsourdf.  Cblling tiis mftiod
+     * tiis mfmory is b finitf rfsourdf.  Cblling tiis mftiod
+     * tiis mfmory is b finitf rfsourdf.  Cblling tiis mftiod
+     * tiis mfmory is b finitf rfsourdf.  Cblling tiis mftiod
+     * bnd sdifduling tif drfbtion bnd flusiing of imbgfs dbrffully mby
+     * bnd sdifduling tif drfbtion bnd flusiing of imbgfs dbrffully mby
+     * bnd sdifduling tif drfbtion bnd flusiing of imbgfs dbrffully mby
+     * bnd sdifduling tif drfbtion bnd flusiing of imbgfs dbrffully mby
+     * bnd sdifduling tif drfbtion bnd flusiing of imbgfs dbrffully mby
+     * fnbblf bpplidbtions to mbkf tif most fffidifnt usf of
+     * fnbblf bpplidbtions to mbkf tif most fffidifnt usf of
+     * fnbblf bpplidbtions to mbkf tif most fffidifnt usf of
+     * fnbblf bpplidbtions to mbkf tif most fffidifnt usf of
+     * fnbblf bpplidbtions to mbkf tif most fffidifnt usf of
+     * tibt finitf rfsourdf.
+     * tibt finitf rfsourdf.
+     * tibt finitf rfsourdf.
+     * tibt finitf rfsourdf.
+     * tibt finitf rfsourdf.
      * <br>
-     * Notf thbt thf numbfr rfturnfd is b snbpshot of how mudh
-     * mfmory is bvbilbblf; somf imbgfs mby still hbvf problfms
-     * bfing bllodbtfd into thbt mfmory.  For fxbmplf, dfpfnding
+     * <br>
+     * <br>
+     * <br>
+     * <br>
+     * Notf tibt tif numbfr rfturnfd is b snbpsiot of iow mudi
+     * Notf tibt tif numbfr rfturnfd is b snbpsiot of iow mudi
+     * Notf tibt tif numbfr rfturnfd is b snbpsiot of iow mudi
+     * Notf tibt tif numbfr rfturnfd is b snbpsiot of iow mudi
+     * Notf tibt tif numbfr rfturnfd is b snbpsiot of iow mudi
+     * mfmory is bvbilbblf; somf imbgfs mby still ibvf problfms
+     * mfmory is bvbilbblf; somf imbgfs mby still ibvf problfms
+     * mfmory is bvbilbblf; somf imbgfs mby still ibvf problfms
+     * mfmory is bvbilbblf; somf imbgfs mby still ibvf problfms
+     * mfmory is bvbilbblf; somf imbgfs mby still ibvf problfms
+     * bfing bllodbtfd into tibt mfmory.  For fxbmplf, dfpfnding
+     * bfing bllodbtfd into tibt mfmory.  For fxbmplf, dfpfnding
+     * bfing bllodbtfd into tibt mfmory.  For fxbmplf, dfpfnding
+     * bfing bllodbtfd into tibt mfmory.  For fxbmplf, dfpfnding
+     * bfing bllodbtfd into tibt mfmory.  For fxbmplf, dfpfnding
      * on opfrbting systfm, drivfr, mfmory donfigurbtion, bnd
-     * thrfbd situbtions, thf full fxtfnt of thf sizf rfportfd
-     * mby not bf bvbilbblf for b givfn imbgf.  Thfrf brf furthfr
-     * inquiry mfthods on thf {@link ImbgfCbpbbilitifs} objfdt
-     * bssodibtfd with b VolbtilfImbgf thbt dbn bf usfd to dftfrminf
-     * whfthfr b pbrtidulbr VolbtilfImbgf hbs bffn drfbtfd in bddflfrbtfd
+     * on opfrbting systfm, drivfr, mfmory donfigurbtion, bnd
+     * on opfrbting systfm, drivfr, mfmory donfigurbtion, bnd
+     * on opfrbting systfm, drivfr, mfmory donfigurbtion, bnd
+     * on opfrbting systfm, drivfr, mfmory donfigurbtion, bnd
+     * tirfbd situbtions, tif full fxtfnt of tif sizf rfportfd
+     * tirfbd situbtions, tif full fxtfnt of tif sizf rfportfd
+     * tirfbd situbtions, tif full fxtfnt of tif sizf rfportfd
+     * tirfbd situbtions, tif full fxtfnt of tif sizf rfportfd
+     * tirfbd situbtions, tif full fxtfnt of tif sizf rfportfd
+     * mby not bf bvbilbblf for b givfn imbgf.  Tifrf brf furtifr
+     * mby not bf bvbilbblf for b givfn imbgf.  Tifrf brf furtifr
+     * mby not bf bvbilbblf for b givfn imbgf.  Tifrf brf furtifr
+     * mby not bf bvbilbblf for b givfn imbgf.  Tifrf brf furtifr
+     * mby not bf bvbilbblf for b givfn imbgf.  Tifrf brf furtifr
+     * inquiry mftiods on tif {@link ImbgfCbpbbilitifs} objfdt
+     * inquiry mftiods on tif {@link ImbgfCbpbbilitifs} objfdt
+     * inquiry mftiods on tif {@link ImbgfCbpbbilitifs} objfdt
+     * inquiry mftiods on tif {@link ImbgfCbpbbilitifs} objfdt
+     * inquiry mftiods on tif {@link ImbgfCbpbbilitifs} objfdt
+     * bssodibtfd witi b VolbtilfImbgf tibt dbn bf usfd to dftfrminf
+     * bssodibtfd witi b VolbtilfImbgf tibt dbn bf usfd to dftfrminf
+     * bssodibtfd witi b VolbtilfImbgf tibt dbn bf usfd to dftfrminf
+     * bssodibtfd witi b VolbtilfImbgf tibt dbn bf usfd to dftfrminf
+     * bssodibtfd witi b VolbtilfImbgf tibt dbn bf usfd to dftfrminf
+     * wiftifr b pbrtidulbr VolbtilfImbgf ibs bffn drfbtfd in bddflfrbtfd
+     * wiftifr b pbrtidulbr VolbtilfImbgf ibs bffn drfbtfd in bddflfrbtfd
+     * wiftifr b pbrtidulbr VolbtilfImbgf ibs bffn drfbtfd in bddflfrbtfd
+     * wiftifr b pbrtidulbr VolbtilfImbgf ibs bffn drfbtfd in bddflfrbtfd
+     * wiftifr b pbrtidulbr VolbtilfImbgf ibs bffn drfbtfd in bddflfrbtfd
+     * mfmory.
+     * mfmory.
+     * mfmory.
+     * mfmory.
      * mfmory.
      * @rfturn numbfr of bytfs bvbilbblf in bddflfrbtfd mfmory.
-     * A nfgbtivf rfturn vbluf indidbtfs thbt thf bmount of bddflfrbtfd mfmory
-     * on this GrbphidsDfvidf is indftfrminbtf.
-     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flush
+     * @rfturn numbfr of bytfs bvbilbblf in bddflfrbtfd mfmory.
+     * @rfturn numbfr of bytfs bvbilbblf in bddflfrbtfd mfmory.
+     * @rfturn numbfr of bytfs bvbilbblf in bddflfrbtfd mfmory.
+     * @rfturn numbfr of bytfs bvbilbblf in bddflfrbtfd mfmory.
+     * A nfgbtivf rfturn vbluf indidbtfs tibt tif bmount of bddflfrbtfd mfmory
+     * A nfgbtivf rfturn vbluf indidbtfs tibt tif bmount of bddflfrbtfd mfmory
+     * A nfgbtivf rfturn vbluf indidbtfs tibt tif bmount of bddflfrbtfd mfmory
+     * A nfgbtivf rfturn vbluf indidbtfs tibt tif bmount of bddflfrbtfd mfmory
+     * A nfgbtivf rfturn vbluf indidbtfs tibt tif bmount of bddflfrbtfd mfmory
+     * on tiis GrbpiidsDfvidf is indftfrminbtf.
+     * on tiis GrbpiidsDfvidf is indftfrminbtf.
+     * on tiis GrbpiidsDfvidf is indftfrminbtf.
+     * on tiis GrbpiidsDfvidf is indftfrminbtf.
+     * on tiis GrbpiidsDfvidf is indftfrminbtf.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flusi
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flusi
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flusi
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flusi
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flusi
+     * @sff ImbgfCbpbbilitifs#isAddflfrbtfd
+     * @sff ImbgfCbpbbilitifs#isAddflfrbtfd
+     * @sff ImbgfCbpbbilitifs#isAddflfrbtfd
+     * @sff ImbgfCbpbbilitifs#isAddflfrbtfd
      * @sff ImbgfCbpbbilitifs#isAddflfrbtfd
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     */
+     */
+     */
+     */
      */
     publid int gftAvbilbblfAddflfrbtfdMfmory() {
+    publid int gftAvbilbblfAddflfrbtfdMfmory() {
+    publid int gftAvbilbblfAddflfrbtfdMfmory() {
+    publid int gftAvbilbblfAddflfrbtfdMfmory() {
+    publid int gftAvbilbblfAddflfrbtfdMfmory() {
+        rfturn -1;
+        rfturn -1;
+        rfturn -1;
+        rfturn -1;
         rfturn -1;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns whfthfr thf givfn lfvfl of trbnsludfndy is supportfd by
-     * this grbphids dfvidf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr tif givfn lfvfl of trbnsludfndy is supportfd by
+     * Rfturns wiftifr tif givfn lfvfl of trbnsludfndy is supportfd by
+     * Rfturns wiftifr tif givfn lfvfl of trbnsludfndy is supportfd by
+     * Rfturns wiftifr tif givfn lfvfl of trbnsludfndy is supportfd by
+     * Rfturns wiftifr tif givfn lfvfl of trbnsludfndy is supportfd by
+     * tiis grbpiids dfvidf.
+     * tiis grbpiids dfvidf.
+     * tiis grbpiids dfvidf.
+     * tiis grbpiids dfvidf.
+     * tiis grbpiids dfvidf.
+     *
+     *
+     *
+     *
      *
      * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
-     * @rfturn whfthfr thf givfn trbnsludfndy kind is supportfd
+     * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
+     * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
+     * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
+     * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
+     * @rfturn wiftifr tif givfn trbnsludfndy kind is supportfd
+     * @rfturn wiftifr tif givfn trbnsludfndy kind is supportfd
+     * @rfturn wiftifr tif givfn trbnsludfndy kind is supportfd
+     * @rfturn wiftifr tif givfn trbnsludfndy kind is supportfd
+     * @rfturn wiftifr tif givfn trbnsludfndy kind is supportfd
+     *
+     *
+     *
+     *
      *
      * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     * @sindf 1.7
+     */
+     */
+     */
+     */
      */
     publid boolfbn isWindowTrbnsludfndySupportfd(WindowTrbnsludfndy trbnsludfndyKind) {
-        switdh (trbnsludfndyKind) {
+    publid boolfbn isWindowTrbnsludfndySupportfd(WindowTrbnsludfndy trbnsludfndyKind) {
+    publid boolfbn isWindowTrbnsludfndySupportfd(WindowTrbnsludfndy trbnsludfndyKind) {
+    publid boolfbn isWindowTrbnsludfndySupportfd(WindowTrbnsludfndy trbnsludfndyKind) {
+    publid boolfbn isWindowTrbnsludfndySupportfd(WindowTrbnsludfndy trbnsludfndyKind) {
+        switdi (trbnsludfndyKind) {
+        switdi (trbnsludfndyKind) {
+        switdi (trbnsludfndyKind) {
+        switdi (trbnsludfndyKind) {
+        switdi (trbnsludfndyKind) {
             dbsf PERPIXEL_TRANSPARENT:
-                rfturn isWindowShbpingSupportfd();
+            dbsf PERPIXEL_TRANSPARENT:
+            dbsf PERPIXEL_TRANSPARENT:
+            dbsf PERPIXEL_TRANSPARENT:
+            dbsf PERPIXEL_TRANSPARENT:
+                rfturn isWindowSibpingSupportfd();
+                rfturn isWindowSibpingSupportfd();
+                rfturn isWindowSibpingSupportfd();
+                rfturn isWindowSibpingSupportfd();
+                rfturn isWindowSibpingSupportfd();
+            dbsf TRANSLUCENT:
+            dbsf TRANSLUCENT:
+            dbsf TRANSLUCENT:
+            dbsf TRANSLUCENT:
             dbsf TRANSLUCENT:
                 rfturn isWindowOpbditySupportfd();
+                rfturn isWindowOpbditySupportfd();
+                rfturn isWindowOpbditySupportfd();
+                rfturn isWindowOpbditySupportfd();
+                rfturn isWindowOpbditySupportfd();
+            dbsf PERPIXEL_TRANSLUCENT:
+            dbsf PERPIXEL_TRANSLUCENT:
+            dbsf PERPIXEL_TRANSLUCENT:
+            dbsf PERPIXEL_TRANSLUCENT:
             dbsf PERPIXEL_TRANSLUCENT:
                 rfturn isWindowPfrpixflTrbnsludfndySupportfd();
+                rfturn isWindowPfrpixflTrbnsludfndySupportfd();
+                rfturn isWindowPfrpixflTrbnsludfndySupportfd();
+                rfturn isWindowPfrpixflTrbnsludfndySupportfd();
+                rfturn isWindowPfrpixflTrbnsludfndySupportfd();
+        }
+        }
+        }
+        }
         }
         rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns whfthfr thf windowing systfm supports dhbnging thf shbpf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif sibpf
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif sibpf
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif sibpf
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif sibpf
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif sibpf
      * of top-lfvfl windows.
-     * Notf thbt this mfthod mby somftimfs rfturn truf, but thf nbtivf
-     * windowing systfm mby still not support thf dondfpt of
-     * shbping (duf to thf bugs in thf windowing systfm).
+     * of top-lfvfl windows.
+     * of top-lfvfl windows.
+     * of top-lfvfl windows.
+     * of top-lfvfl windows.
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * sibping (duf to tif bugs in tif windowing systfm).
+     * sibping (duf to tif bugs in tif windowing systfm).
+     * sibping (duf to tif bugs in tif windowing systfm).
+     * sibping (duf to tif bugs in tif windowing systfm).
+     * sibping (duf to tif bugs in tif windowing systfm).
      */
-    stbtid boolfbn isWindowShbpingSupportfd() {
+     */
+     */
+     */
+     */
+    stbtid boolfbn isWindowSibpingSupportfd() {
+    stbtid boolfbn isWindowSibpingSupportfd() {
+    stbtid boolfbn isWindowSibpingSupportfd() {
+    stbtid boolfbn isWindowSibpingSupportfd() {
+    stbtid boolfbn isWindowSibpingSupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
         Toolkit durToolkit = Toolkit.gftDffbultToolkit();
         if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
-        rfturn ((SunToolkit)durToolkit).isWindowShbpingSupportfd();
+        }
+        }
+        }
+        }
+        rfturn ((SunToolkit)durToolkit).isWindowSibpingSupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowSibpingSupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowSibpingSupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowSibpingSupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowSibpingSupportfd();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns whfthfr thf windowing systfm supports dhbnging thf opbdity
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif opbdity
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif opbdity
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif opbdity
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif opbdity
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif opbdity
      * vbluf of top-lfvfl windows.
-     * Notf thbt this mfthod mby somftimfs rfturn truf, but thf nbtivf
-     * windowing systfm mby still not support thf dondfpt of
-     * trbnsludfndy (duf to thf bugs in thf windowing systfm).
+     * vbluf of top-lfvfl windows.
+     * vbluf of top-lfvfl windows.
+     * vbluf of top-lfvfl windows.
+     * vbluf of top-lfvfl windows.
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * windowing systfm mby still not support tif dondfpt of
+     * trbnsludfndy (duf to tif bugs in tif windowing systfm).
+     * trbnsludfndy (duf to tif bugs in tif windowing systfm).
+     * trbnsludfndy (duf to tif bugs in tif windowing systfm).
+     * trbnsludfndy (duf to tif bugs in tif windowing systfm).
+     * trbnsludfndy (duf to tif bugs in tif windowing systfm).
+     */
+     */
+     */
+     */
      */
     stbtid boolfbn isWindowOpbditySupportfd() {
+    stbtid boolfbn isWindowOpbditySupportfd() {
+    stbtid boolfbn isWindowOpbditySupportfd() {
+    stbtid boolfbn isWindowOpbditySupportfd() {
+    stbtid boolfbn isWindowOpbditySupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
         Toolkit durToolkit = Toolkit.gftDffbultToolkit();
         if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        }
+        }
+        }
+        }
         }
         rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
+        rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     boolfbn isWindowPfrpixflTrbnsludfndySupportfd() {
+    boolfbn isWindowPfrpixflTrbnsludfndySupportfd() {
+    boolfbn isWindowPfrpixflTrbnsludfndySupportfd() {
+    boolfbn isWindowPfrpixflTrbnsludfndySupportfd() {
+    boolfbn isWindowPfrpixflTrbnsludfndySupportfd() {
         /*
-         * Pfr-pixfl blphb is supportfd if bll thf donditions brf TRUE:
-         *    1. Thf toolkit is b sort of SunToolkit
-         *    2. Thf toolkit supports trbnsludfndy in gfnfrbl
+        /*
+        /*
+        /*
+        /*
+         * Pfr-pixfl blpib is supportfd if bll tif donditions brf TRUE:
+         * Pfr-pixfl blpib is supportfd if bll tif donditions brf TRUE:
+         * Pfr-pixfl blpib is supportfd if bll tif donditions brf TRUE:
+         * Pfr-pixfl blpib is supportfd if bll tif donditions brf TRUE:
+         * Pfr-pixfl blpib is supportfd if bll tif donditions brf TRUE:
+         *    1. Tif toolkit is b sort of SunToolkit
+         *    1. Tif toolkit is b sort of SunToolkit
+         *    1. Tif toolkit is b sort of SunToolkit
+         *    1. Tif toolkit is b sort of SunToolkit
+         *    1. Tif toolkit is b sort of SunToolkit
+         *    2. Tif toolkit supports trbnsludfndy in gfnfrbl
+         *    2. Tif toolkit supports trbnsludfndy in gfnfrbl
+         *    2. Tif toolkit supports trbnsludfndy in gfnfrbl
+         *    2. Tif toolkit supports trbnsludfndy in gfnfrbl
+         *    2. Tif toolkit supports trbnsludfndy in gfnfrbl
          *        (isWindowTrbnsludfndySupportfd())
-         *    3. Thfrf's bt lfbst onf trbnsludfndy-dbpbblf
-         *        GrbphidsConfigurbtion
+         *        (isWindowTrbnsludfndySupportfd())
+         *        (isWindowTrbnsludfndySupportfd())
+         *        (isWindowTrbnsludfndySupportfd())
+         *        (isWindowTrbnsludfndySupportfd())
+         *    3. Tifrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *    3. Tifrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *    3. Tifrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *    3. Tifrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *    3. Tifrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *        GrbpiidsConfigurbtion
+         *        GrbpiidsConfigurbtion
+         *        GrbpiidsConfigurbtion
+         *        GrbpiidsConfigurbtion
+         *        GrbpiidsConfigurbtion
+         */
+         */
+         */
+         */
          */
         Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
+        if (!(durToolkit instbndfof SunToolkit)) {
         if (!(durToolkit instbndfof SunToolkit)) {
             rfturn fblsf;
-        }
-        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        }
+        }
+        }
+        }
+        }
 
-        // TODO: dbdhf trbnsludfndy dbpbblf GC
+
+
+
+
+        // TODO: dbdif trbnsludfndy dbpbblf GC
+        // TODO: dbdif trbnsludfndy dbpbblf GC
+        // TODO: dbdif trbnsludfndy dbpbblf GC
+        // TODO: dbdif trbnsludfndy dbpbblf GC
+        // TODO: dbdif trbnsludfndy dbpbblf GC
+        rfturn gftTrbnsludfndyCbpbblfGC() != null;
+        rfturn gftTrbnsludfndyCbpbblfGC() != null;
+        rfturn gftTrbnsludfndyCbpbblfGC() != null;
+        rfturn gftTrbnsludfndyCbpbblfGC() != null;
         rfturn gftTrbnsludfndyCbpbblfGC() != null;
     }
+    }
+    }
+    }
+    }
 
-    GrbphidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
-        // If thf dffbult GC supports trbnsludfndy rfturn truf.
-        // It is importbnt to optimizf thf vfrifidbtion this wby,
+
+
+
+
+    GrbpiidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
+    GrbpiidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
+    GrbpiidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
+    GrbpiidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
+    GrbpiidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
+        // If tif dffbult GC supports trbnsludfndy rfturn truf.
+        // If tif dffbult GC supports trbnsludfndy rfturn truf.
+        // If tif dffbult GC supports trbnsludfndy rfturn truf.
+        // If tif dffbult GC supports trbnsludfndy rfturn truf.
+        // If tif dffbult GC supports trbnsludfndy rfturn truf.
+        // It is importbnt to optimizf tif vfrifidbtion tiis wby,
+        // It is importbnt to optimizf tif vfrifidbtion tiis wby,
+        // It is importbnt to optimizf tif vfrifidbtion tiis wby,
+        // It is importbnt to optimizf tif vfrifidbtion tiis wby,
+        // It is importbnt to optimizf tif vfrifidbtion tiis wby,
         // sff CR 6661196 for morf dftbils.
-        GrbphidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        // sff CR 6661196 for morf dftbils.
+        // sff CR 6661196 for morf dftbils.
+        // sff CR 6661196 for morf dftbils.
+        // sff CR 6661196 for morf dftbils.
+        GrbpiidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        GrbpiidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        if (dffbultGC.isTrbnsludfndyCbpbblf()) {
+        if (dffbultGC.isTrbnsludfndyCbpbblf()) {
+        if (dffbultGC.isTrbnsludfndyCbpbblf()) {
+        if (dffbultGC.isTrbnsludfndyCbpbblf()) {
         if (dffbultGC.isTrbnsludfndyCbpbblf()) {
             rfturn dffbultGC;
+            rfturn dffbultGC;
+            rfturn dffbultGC;
+            rfturn dffbultGC;
+            rfturn dffbultGC;
+        }
+        }
+        }
+        }
         }
 
-        // ... othfrwisf itfrbtf through bll thf GCs.
-        GrbphidsConfigurbtion[] donfigs = gftConfigurbtions();
-        for (int j = 0; j < donfigs.lfngth; j++) {
+
+
+
+
+        // ... otifrwisf itfrbtf tirougi bll tif GCs.
+        // ... otifrwisf itfrbtf tirougi bll tif GCs.
+        // ... otifrwisf itfrbtf tirougi bll tif GCs.
+        // ... otifrwisf itfrbtf tirougi bll tif GCs.
+        // ... otifrwisf itfrbtf tirougi bll tif GCs.
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        for (int j = 0; j < donfigs.lfngti; j++) {
+        for (int j = 0; j < donfigs.lfngti; j++) {
+        for (int j = 0; j < donfigs.lfngti; j++) {
+        for (int j = 0; j < donfigs.lfngti; j++) {
+        for (int j = 0; j < donfigs.lfngti; j++) {
+            if (donfigs[j].isTrbnsludfndyCbpbblf()) {
+            if (donfigs[j].isTrbnsludfndyCbpbblf()) {
+            if (donfigs[j].isTrbnsludfndyCbpbblf()) {
+            if (donfigs[j].isTrbnsludfndyCbpbblf()) {
             if (donfigs[j].isTrbnsludfndyCbpbblf()) {
                 rfturn donfigs[j];
+                rfturn donfigs[j];
+                rfturn donfigs[j];
+                rfturn donfigs[j];
+                rfturn donfigs[j];
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

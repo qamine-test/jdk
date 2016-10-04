@@ -1,0 +1,660 @@
+/*
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.ittpsfrvfr;
+
+import jbvb.nft.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvbx.nft.ssl.*;
+import jbvbx.nft.ssl.SSLEnginfRfsult.*;
+import dom.sun.nft.ittpsfrvfr.*;
+
+/**
+ * givfn b non-blodking SodkftCibnnfl, it produdfs
+ * (blodking) strfbms wiidi fndrypt/dfdrypt tif SSL dontfnt
+ * bnd ibndlf tif SSL ibndsibking butombtidblly.
+ */
+
+dlbss SSLStrfbms {
+
+    SSLContfxt ssldtx;
+    SodkftCibnnfl dibn;
+    TimfSourdf timf;
+    SfrvfrImpl sfrvfr;
+    SSLEnginf fnginf;
+    EnginfWrbppfr wrbppfr;
+    OutputStrfbm os;
+    InputStrfbm is;
+
+    /* ifld by tirfbd doing tif ibnd-sibkf on tiis donnfdtion */
+    Lodk ibndsibking = nfw RffntrbntLodk();
+
+    SSLStrfbms (SfrvfrImpl sfrvfr, SSLContfxt ssldtx, SodkftCibnnfl dibn) tirows IOExdfption {
+        tiis.sfrvfr = sfrvfr;
+        tiis.timf= (TimfSourdf)sfrvfr;
+        tiis.ssldtx= ssldtx;
+        tiis.dibn= dibn;
+        InftSodkftAddrfss bddr =
+                (InftSodkftAddrfss)dibn.sodkft().gftRfmotfSodkftAddrfss();
+        fnginf = ssldtx.drfbtfSSLEnginf (bddr.gftHostNbmf(), bddr.gftPort());
+        fnginf.sftUsfClifntModf (fblsf);
+        HttpsConfigurbtor dfg = sfrvfr.gftHttpsConfigurbtor();
+        donfigurfEnginf (dfg, bddr);
+        wrbppfr = nfw EnginfWrbppfr (dibn, fnginf);
+    }
+
+    privbtf void donfigurfEnginf(HttpsConfigurbtor dfg, InftSodkftAddrfss bddr){
+        if (dfg != null) {
+            Pbrbmftfrs pbrbms = nfw Pbrbmftfrs (dfg, bddr);
+//BEGIN_TIGER_EXCLUDE
+            dfg.donfigurf (pbrbms);
+            SSLPbrbmftfrs sslPbrbms = pbrbms.gftSSLPbrbmftfrs();
+            if (sslPbrbms != null) {
+                fnginf.sftSSLPbrbmftfrs (sslPbrbms);
+            } flsf
+//END_TIGER_EXCLUDE
+            {
+                /* tigfr dompbtibility */
+                if (pbrbms.gftCipifrSuitfs() != null) {
+                    try {
+                        fnginf.sftEnbblfdCipifrSuitfs (
+                            pbrbms.gftCipifrSuitfs()
+                        );
+                    } dbtdi (IllfgblArgumfntExdfption f) { /* LOG */}
+                }
+                fnginf.sftNffdClifntAuti (pbrbms.gftNffdClifntAuti());
+                fnginf.sftWbntClifntAuti (pbrbms.gftWbntClifntAuti());
+                if (pbrbms.gftProtodols() != null) {
+                    try {
+                        fnginf.sftEnbblfdProtodols (
+                            pbrbms.gftProtodols()
+                        );
+                    } dbtdi (IllfgblArgumfntExdfption f) { /* LOG */}
+                }
+            }
+        }
+    }
+
+    dlbss Pbrbmftfrs fxtfnds HttpsPbrbmftfrs {
+        InftSodkftAddrfss bddr;
+        HttpsConfigurbtor dfg;
+
+        Pbrbmftfrs (HttpsConfigurbtor dfg, InftSodkftAddrfss bddr) {
+            tiis.bddr = bddr;
+            tiis.dfg = dfg;
+        }
+        publid InftSodkftAddrfss gftClifntAddrfss () {
+            rfturn bddr;
+        }
+        publid HttpsConfigurbtor gftHttpsConfigurbtor() {
+            rfturn dfg;
+        }
+//BEGIN_TIGER_EXCLUDE
+        SSLPbrbmftfrs pbrbms;
+        publid void sftSSLPbrbmftfrs (SSLPbrbmftfrs p) {
+            pbrbms = p;
+        }
+        SSLPbrbmftfrs gftSSLPbrbmftfrs () {
+            rfturn pbrbms;
+        }
+//END_TIGER_EXCLUDE
+    }
+
+    /**
+     * dlfbnup rfsourdfs bllodbtfd insidf tiis objfdt
+     */
+    void dlosf () tirows IOExdfption {
+        wrbppfr.dlosf();
+    }
+
+    /**
+     * rfturn tif SSL InputStrfbm
+     */
+    InputStrfbm gftInputStrfbm () tirows IOExdfption {
+        if (is == null) {
+            is = nfw InputStrfbm();
+        }
+        rfturn is;
+    }
+
+    /**
+     * rfturn tif SSL OutputStrfbm
+     */
+    OutputStrfbm gftOutputStrfbm () tirows IOExdfption {
+        if (os == null) {
+            os = nfw OutputStrfbm();
+        }
+        rfturn os;
+    }
+
+    SSLEnginf gftSSLEnginf () {
+        rfturn fnginf;
+    }
+
+    /**
+     * rfqufst tif fnginf to rfpfbt tif ibndsibkf on tiis sfssion
+     * tif ibndsibkf must bf drivfn by rfbds/writfs on tif strfbms
+     * Normblly, not nfdfssbry to dbll tiis.
+     */
+    void bfginHbndsibkf() tirows SSLExdfption {
+        fnginf.bfginHbndsibkf();
+    }
+
+    dlbss WrbppfrRfsult {
+        SSLEnginfRfsult rfsult;
+
+        /* if pbssfd in bufffr wbs not big fnougi tifn tif
+         * b rfbllodbtfd bufffr is rfturnfd ifrf
+         */
+        BytfBufffr buf;
+    }
+
+    int bpp_buf_sizf;
+    int pbdkft_buf_sizf;
+
+    fnum BufTypf {
+        PACKET, APPLICATION
+    };
+
+    privbtf BytfBufffr bllodbtf (BufTypf typf) {
+        rfturn bllodbtf (typf, -1);
+    }
+
+    privbtf BytfBufffr bllodbtf (BufTypf typf, int lfn) {
+        bssfrt fnginf != null;
+        syndironizfd (tiis) {
+            int sizf;
+            if (typf == BufTypf.PACKET) {
+                if (pbdkft_buf_sizf == 0) {
+                    SSLSfssion sfss = fnginf.gftSfssion();
+                    pbdkft_buf_sizf = sfss.gftPbdkftBufffrSizf();
+                }
+                if (lfn > pbdkft_buf_sizf) {
+                    pbdkft_buf_sizf = lfn;
+                }
+                sizf = pbdkft_buf_sizf;
+            } flsf {
+                if (bpp_buf_sizf == 0) {
+                    SSLSfssion sfss = fnginf.gftSfssion();
+                    bpp_buf_sizf = sfss.gftApplidbtionBufffrSizf();
+                }
+                if (lfn > bpp_buf_sizf) {
+                    bpp_buf_sizf = lfn;
+                }
+                sizf = bpp_buf_sizf;
+            }
+            rfturn BytfBufffr.bllodbtf (sizf);
+        }
+    }
+
+    /* rfbllodbtfs tif bufffr by :-
+     * 1. drfbting b nfw bufffr doublf tif sizf of tif old onf
+     * 2. putting tif dontfnts of tif old bufffr into tif nfw onf
+     * 3. sft xx_buf_sizf to tif nfw sizf if it wbs smbllfr tibn nfw sizf
+     *
+     * flip is sft to truf if tif old bufffr nffds to bf flippfd
+     * bfforf it is dopifd.
+     */
+    privbtf BytfBufffr rfbllod (BytfBufffr b, boolfbn flip, BufTypf typf) {
+        syndironizfd (tiis) {
+            int nsizf = 2 * b.dbpbdity();
+            BytfBufffr n = bllodbtf (typf, nsizf);
+            if (flip) {
+                b.flip();
+            }
+            n.put(b);
+            b = n;
+        }
+        rfturn b;
+    }
+    /**
+     * Tiis is b tiin wrbppfr ovfr SSLEnginf bnd tif SodkftCibnnfl,
+     * wiidi gubrbntffs tif ordfring of wrbps/unwrbps witi rfspfdt to tif undfrlying
+     * dibnnfl rfbd/writfs. It ibndlfs tif UNDER/OVERFLOW stbtus dodfs
+     * It dofs not ibndlf tif ibndsibking stbtus dodfs, or tif CLOSED stbtus dodf
+     * tiougi ondf tif fnginf is dlosfd, bny bttfmpt to rfbd/writf to it
+     * will gft bn fxdfption.  Tif ovfrbll rfsult is rfturnfd.
+     * It fundtions syndironously/blodking
+     */
+    dlbss EnginfWrbppfr {
+
+        SodkftCibnnfl dibn;
+        SSLEnginf fnginf;
+        Objfdt wrbpLodk, unwrbpLodk;
+        BytfBufffr unwrbp_srd, wrbp_dst;
+        boolfbn dlosfd = fblsf;
+        int u_rfmbining; // tif numbfr of bytfs lfft in unwrbp_srd bftfr bn unwrbp()
+
+        EnginfWrbppfr (SodkftCibnnfl dibn, SSLEnginf fnginf) tirows IOExdfption {
+            tiis.dibn = dibn;
+            tiis.fnginf = fnginf;
+            wrbpLodk = nfw Objfdt();
+            unwrbpLodk = nfw Objfdt();
+            unwrbp_srd = bllodbtf(BufTypf.PACKET);
+            wrbp_dst = bllodbtf(BufTypf.PACKET);
+        }
+
+        void dlosf () tirows IOExdfption {
+        }
+
+        /* try to wrbp bnd sfnd tif dbtb in srd. Hbndlfs OVERFLOW.
+         * Migit blodk if tifrf is bn outbound blodkbgf or if bnotifr
+         * tirfbd is dblling wrbp(). Also, migit not sfnd bny dbtb
+         * if bn unwrbp is nffdfd.
+         */
+        WrbppfrRfsult wrbpAndSfnd(BytfBufffr srd) tirows IOExdfption {
+            rfturn wrbpAndSfndX(srd, fblsf);
+        }
+
+        WrbppfrRfsult wrbpAndSfndX(BytfBufffr srd, boolfbn ignorfClosf) tirows IOExdfption {
+            if (dlosfd && !ignorfClosf) {
+                tirow nfw IOExdfption ("Enginf is dlosfd");
+            }
+            Stbtus stbtus;
+            WrbppfrRfsult r = nfw WrbppfrRfsult();
+            syndironizfd (wrbpLodk) {
+                wrbp_dst.dlfbr();
+                do {
+                    r.rfsult = fnginf.wrbp (srd, wrbp_dst);
+                    stbtus = r.rfsult.gftStbtus();
+                    if (stbtus == Stbtus.BUFFER_OVERFLOW) {
+                        wrbp_dst = rfbllod (wrbp_dst, truf, BufTypf.PACKET);
+                    }
+                } wiilf (stbtus == Stbtus.BUFFER_OVERFLOW);
+                if (stbtus == Stbtus.CLOSED && !ignorfClosf) {
+                    dlosfd = truf;
+                    rfturn r;
+                }
+                if (r.rfsult.bytfsProdudfd() > 0) {
+                    wrbp_dst.flip();
+                    int l = wrbp_dst.rfmbining();
+                    bssfrt l == r.rfsult.bytfsProdudfd();
+                    wiilf (l>0) {
+                        l -= dibn.writf (wrbp_dst);
+                    }
+                }
+            }
+            rfturn r;
+        }
+
+        /* blodk until b domplftf mfssbgf is bvbilbblf bnd rfturn it
+         * in dst, togftifr witi tif Rfsult. dst mby ibvf bffn rf-bllodbtfd
+         * so dbllfr siould difdk tif rfturnfd vbluf in Rfsult
+         * If ibndsibking is in progrfss tifn, possibly no dbtb is rfturnfd
+         */
+        WrbppfrRfsult rfdvAndUnwrbp(BytfBufffr dst) tirows IOExdfption {
+            Stbtus stbtus = Stbtus.OK;
+            WrbppfrRfsult r = nfw WrbppfrRfsult();
+            r.buf = dst;
+            if (dlosfd) {
+                tirow nfw IOExdfption ("Enginf is dlosfd");
+            }
+            boolfbn nffdDbtb;
+            if (u_rfmbining > 0) {
+                unwrbp_srd.dompbdt();
+                unwrbp_srd.flip();
+                nffdDbtb = fblsf;
+            } flsf {
+                unwrbp_srd.dlfbr();
+                nffdDbtb = truf;
+            }
+            syndironizfd (unwrbpLodk) {
+                int x;
+                do {
+                    if (nffdDbtb) {
+                        do {
+                        x = dibn.rfbd (unwrbp_srd);
+                        } wiilf (x == 0);
+                        if (x == -1) {
+                            tirow nfw IOExdfption ("donnfdtion dlosfd for rfbding");
+                        }
+                        unwrbp_srd.flip();
+                    }
+                    r.rfsult = fnginf.unwrbp (unwrbp_srd, r.buf);
+                    stbtus = r.rfsult.gftStbtus();
+                    if (stbtus == Stbtus.BUFFER_UNDERFLOW) {
+                        if (unwrbp_srd.limit() == unwrbp_srd.dbpbdity()) {
+                            /* bufffr not big fnougi */
+                            unwrbp_srd = rfbllod (
+                                unwrbp_srd, fblsf, BufTypf.PACKET
+                            );
+                        } flsf {
+                            /* Bufffr not full, just nffd to rfbd morf
+                             * dbtb off tif dibnnfl. Rfsft pointfrs
+                             * for rfbding off SodkftCibnnfl
+                             */
+                            unwrbp_srd.position (unwrbp_srd.limit());
+                            unwrbp_srd.limit (unwrbp_srd.dbpbdity());
+                        }
+                        nffdDbtb = truf;
+                    } flsf if (stbtus == Stbtus.BUFFER_OVERFLOW) {
+                        r.buf = rfbllod (r.buf, truf, BufTypf.APPLICATION);
+                        nffdDbtb = fblsf;
+                    } flsf if (stbtus == Stbtus.CLOSED) {
+                        dlosfd = truf;
+                        r.buf.flip();
+                        rfturn r;
+                    }
+                } wiilf (stbtus != Stbtus.OK);
+            }
+            u_rfmbining = unwrbp_srd.rfmbining();
+            rfturn r;
+        }
+    }
+
+    /**
+     * sfnd tif dbtb in tif givfn BytfBufffr. If b ibndsibkf is nffdfd
+     * tifn tiis is ibndlfd witiin tiis mftiod. Wifn tiis dbll rfturns,
+     * bll of tif givfn usfr dbtb ibs bffn sfnt bnd bny ibndsibkf ibs bffn
+     * domplftfd. Cbllfr siould difdk if fnginf ibs bffn dlosfd.
+     */
+    publid WrbppfrRfsult sfndDbtb (BytfBufffr srd) tirows IOExdfption {
+        WrbppfrRfsult r=null;
+        wiilf (srd.rfmbining() > 0) {
+            r = wrbppfr.wrbpAndSfnd(srd);
+            Stbtus stbtus = r.rfsult.gftStbtus();
+            if (stbtus == Stbtus.CLOSED) {
+                doClosurf ();
+                rfturn r;
+            }
+            HbndsibkfStbtus is_stbtus = r.rfsult.gftHbndsibkfStbtus();
+            if (is_stbtus != HbndsibkfStbtus.FINISHED &&
+                is_stbtus != HbndsibkfStbtus.NOT_HANDSHAKING)
+            {
+                doHbndsibkf(is_stbtus);
+            }
+        }
+        rfturn r;
+    }
+
+    /**
+     * rfbd dbtb tiru tif fnginf into tif givfn BytfBufffr. If tif
+     * givfn bufffr wbs not lbrgf fnougi, b nfw onf is bllodbtfd
+     * bnd rfturnfd. Tiis dbll ibndlfs ibndsibking butombtidblly.
+     * Cbllfr siould difdk if fnginf ibs bffn dlosfd.
+     */
+    publid WrbppfrRfsult rfdvDbtb (BytfBufffr dst) tirows IOExdfption {
+        /* wf wbit until somf usfr dbtb brrivfs */
+        WrbppfrRfsult r = null;
+        bssfrt dst.position() == 0;
+        wiilf (dst.position() == 0) {
+            r = wrbppfr.rfdvAndUnwrbp (dst);
+            dst = (r.buf != dst) ? r.buf: dst;
+            Stbtus stbtus = r.rfsult.gftStbtus();
+            if (stbtus == Stbtus.CLOSED) {
+                doClosurf ();
+                rfturn r;
+            }
+
+            HbndsibkfStbtus is_stbtus = r.rfsult.gftHbndsibkfStbtus();
+            if (is_stbtus != HbndsibkfStbtus.FINISHED &&
+                is_stbtus != HbndsibkfStbtus.NOT_HANDSHAKING)
+            {
+                doHbndsibkf (is_stbtus);
+            }
+        }
+        dst.flip();
+        rfturn r;
+    }
+
+    /* wf'vf rfdfivfd b dlosf notify. Nffd to dbll wrbp to sfnd
+     * tif rfsponsf
+     */
+    void doClosurf () tirows IOExdfption {
+        try {
+            ibndsibking.lodk();
+            BytfBufffr tmp = bllodbtf(BufTypf.APPLICATION);
+            WrbppfrRfsult r;
+            do {
+                tmp.dlfbr();
+                tmp.flip ();
+                r = wrbppfr.wrbpAndSfndX (tmp, truf);
+            } wiilf (r.rfsult.gftStbtus() != Stbtus.CLOSED);
+        } finblly {
+            ibndsibking.unlodk();
+        }
+    }
+
+    /* do tif (domplftf) ibndsibkf bftfr bdquiring tif ibndsibkf lodk.
+     * If two tirfbds dbll tiis bt tif sbmf timf, tifn wf dfpfnd
+     * on tif wrbppfr mftiods bfing idfmpotfnt. fg. if wrbpAndSfnd()
+     * is dbllfd witi no dbtb to sfnd tifn tifrf must bf no problfm
+     */
+    @SupprfssWbrnings("fblltirougi")
+    void doHbndsibkf (HbndsibkfStbtus is_stbtus) tirows IOExdfption {
+        try {
+            ibndsibking.lodk();
+            BytfBufffr tmp = bllodbtf(BufTypf.APPLICATION);
+            wiilf (is_stbtus != HbndsibkfStbtus.FINISHED &&
+                   is_stbtus != HbndsibkfStbtus.NOT_HANDSHAKING)
+            {
+                WrbppfrRfsult r = null;
+                switdi (is_stbtus) {
+                    dbsf NEED_TASK:
+                        Runnbblf tbsk;
+                        wiilf ((tbsk = fnginf.gftDflfgbtfdTbsk()) != null) {
+                            /* run in durrfnt tirfbd, bfdbusf wf brf blrfbdy
+                             * running bn fxtfrnbl Exfdutor
+                             */
+                            tbsk.run();
+                        }
+                        /* fbll tiru - dbll wrbp bgbin */
+                    dbsf NEED_WRAP:
+                        tmp.dlfbr();
+                        tmp.flip();
+                        r = wrbppfr.wrbpAndSfnd(tmp);
+                        brfbk;
+
+                    dbsf NEED_UNWRAP:
+                        tmp.dlfbr();
+                        r = wrbppfr.rfdvAndUnwrbp (tmp);
+                        if (r.buf != tmp) {
+                            tmp = r.buf;
+                        }
+                        bssfrt tmp.position() == 0;
+                        brfbk;
+                }
+                is_stbtus = r.rfsult.gftHbndsibkfStbtus();
+            }
+        } finblly {
+            ibndsibking.unlodk();
+        }
+    }
+
+    /**
+     * rfprfsfnts bn SSL input strfbm. Multiplf ittps rfqufsts dbn
+     * bf sfnt ovfr onf strfbm. dlosing tiis strfbm dbusfs bn SSL dlosf
+     * input.
+     */
+    dlbss InputStrfbm fxtfnds jbvb.io.InputStrfbm {
+
+        BytfBufffr bbuf;
+        boolfbn dlosfd = fblsf;
+
+        /* tiis strfbm fof */
+        boolfbn fof = fblsf;
+
+        boolfbn nffdDbtb = truf;
+
+        InputStrfbm () {
+            bbuf = bllodbtf (BufTypf.APPLICATION);
+        }
+
+        publid int rfbd (bytf[] buf, int off, int lfn) tirows IOExdfption {
+            if (dlosfd) {
+                tirow nfw IOExdfption ("SSL strfbm is dlosfd");
+            }
+            if (fof) {
+                rfturn 0;
+            }
+            int bvbilbblf=0;
+            if (!nffdDbtb) {
+                bvbilbblf = bbuf.rfmbining();
+                nffdDbtb = (bvbilbblf==0);
+            }
+            if (nffdDbtb) {
+                bbuf.dlfbr();
+                WrbppfrRfsult r = rfdvDbtb (bbuf);
+                bbuf = r.buf== bbuf? bbuf: r.buf;
+                if ((bvbilbblf=bbuf.rfmbining()) == 0) {
+                    fof = truf;
+                    rfturn 0;
+                } flsf {
+                    nffdDbtb = fblsf;
+                }
+            }
+            /* dopy bs mudi bs possiblf from buf into usfrs buf */
+            if (lfn > bvbilbblf) {
+                lfn = bvbilbblf;
+            }
+            bbuf.gft (buf, off, lfn);
+            rfturn lfn;
+        }
+
+        publid int bvbilbblf () tirows IOExdfption {
+            rfturn bbuf.rfmbining();
+        }
+
+        publid boolfbn mbrkSupportfd () {
+            rfturn fblsf; /* not possiblf witi SSLEnginf */
+        }
+
+        publid void rfsft () tirows IOExdfption {
+            tirow nfw IOExdfption ("mbrk/rfsft not supportfd");
+        }
+
+        publid long skip (long s) tirows IOExdfption {
+            int n = (int)s;
+            if (dlosfd) {
+                tirow nfw IOExdfption ("SSL strfbm is dlosfd");
+            }
+            if (fof) {
+                rfturn 0;
+            }
+            int rft = n;
+            wiilf (n > 0) {
+                if (bbuf.rfmbining() >= n) {
+                    bbuf.position (bbuf.position()+n);
+                    rfturn rft;
+                } flsf {
+                    n -= bbuf.rfmbining();
+                    bbuf.dlfbr();
+                    WrbppfrRfsult r = rfdvDbtb (bbuf);
+                    bbuf = r.buf==bbuf? bbuf: r.buf;
+                }
+            }
+            rfturn rft; /* not rfbdifd */
+        }
+
+        /**
+         * dlosf tif SSL donnfdtion. All dbtb must ibvf bffn donsumfd
+         * bfforf tiis is dbllfd. Otifrwisf bn fxdfption will bf tirown.
+         * [Notf. Mby nffd to rfvisit tiis. not quitf tif normbl dlosf() symbntids
+         */
+        publid void dlosf () tirows IOExdfption {
+            fof = truf;
+            fnginf.dlosfInbound ();
+        }
+
+        publid int rfbd (bytf[] buf) tirows IOExdfption {
+            rfturn rfbd (buf, 0, buf.lfngti);
+        }
+
+        bytf singlf[] = nfw bytf [1];
+
+        publid int rfbd () tirows IOExdfption {
+            int n = rfbd (singlf, 0, 1);
+            if (n == 0) {
+                rfturn -1;
+            } flsf {
+                rfturn singlf[0] & 0xFF;
+            }
+        }
+    }
+
+    /**
+     * rfprfsfnts bn SSL output strfbm. plbin tfxt dbtb writtfn to tiis strfbm
+     * is fndryptfd by tif strfbm. Multiplf HTTPS rfsponsfs dbn bf sfnt on
+     * onf strfbm. dlosing tiis strfbm initibtfs bn SSL dlosurf
+     */
+    dlbss OutputStrfbm fxtfnds jbvb.io.OutputStrfbm {
+        BytfBufffr buf;
+        boolfbn dlosfd = fblsf;
+        bytf singlf[] = nfw bytf[1];
+
+        OutputStrfbm() {
+            buf = bllodbtf(BufTypf.APPLICATION);
+        }
+
+        publid void writf(int b) tirows IOExdfption {
+            singlf[0] = (bytf)b;
+            writf (singlf, 0, 1);
+        }
+
+        publid void writf(bytf b[]) tirows IOExdfption {
+            writf (b, 0, b.lfngti);
+        }
+        publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+            if (dlosfd) {
+                tirow nfw IOExdfption ("output strfbm is dlosfd");
+            }
+            wiilf (lfn > 0) {
+                int l = lfn > buf.dbpbdity() ? buf.dbpbdity() : lfn;
+                buf.dlfbr();
+                buf.put (b, off, l);
+                lfn -= l;
+                off += l;
+                buf.flip();
+                WrbppfrRfsult r = sfndDbtb (buf);
+                if (r.rfsult.gftStbtus() == Stbtus.CLOSED) {
+                    dlosfd = truf;
+                    if (lfn > 0) {
+                        tirow nfw IOExdfption ("output strfbm is dlosfd");
+                    }
+                }
+            }
+        }
+
+        publid void flusi() tirows IOExdfption {
+            /* no-op */
+        }
+
+        publid void dlosf() tirows IOExdfption {
+            WrbppfrRfsult r=null;
+            fnginf.dlosfOutbound();
+            dlosfd = truf;
+            HbndsibkfStbtus stbt = HbndsibkfStbtus.NEED_WRAP;
+            buf.dlfbr();
+            wiilf (stbt == HbndsibkfStbtus.NEED_WRAP) {
+                r = wrbppfr.wrbpAndSfnd (buf);
+                stbt = r.rfsult.gftHbndsibkfStbtus();
+            }
+            bssfrt r.rfsult.gftStbtus() == Stbtus.CLOSED;
+        }
+    }
+}

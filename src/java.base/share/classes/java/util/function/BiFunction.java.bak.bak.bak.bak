@@ -1,72 +1,360 @@
 /*
- * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.util.fundtion;
+pbdkbgf jbvb.util.fundtion;
+pbdkbgf jbvb.util.fundtion;
+pbdkbgf jbvb.util.fundtion;
 pbdkbgf jbvb.util.fundtion;
 
+
+
+
+
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
+import jbvb.util.Objfdts;
 import jbvb.util.Objfdts;
 
+
+
+
+
 /**
- * Rfprfsfnts b fundtion thbt bddfpts two brgumfnts bnd produdfs b rfsult.
- * This is thf two-brity spfdiblizbtion of {@link Fundtion}.
+/**
+/**
+/**
+/**
+ * Rfprfsfnts b fundtion tibt bddfpts two brgumfnts bnd produdfs b rfsult.
+ * Rfprfsfnts b fundtion tibt bddfpts two brgumfnts bnd produdfs b rfsult.
+ * Rfprfsfnts b fundtion tibt bddfpts two brgumfnts bnd produdfs b rfsult.
+ * Rfprfsfnts b fundtion tibt bddfpts two brgumfnts bnd produdfs b rfsult.
+ * Rfprfsfnts b fundtion tibt bddfpts two brgumfnts bnd produdfs b rfsult.
+ * Tiis is tif two-brity spfdiblizbtion of {@link Fundtion}.
+ * Tiis is tif two-brity spfdiblizbtion of {@link Fundtion}.
+ * Tiis is tif two-brity spfdiblizbtion of {@link Fundtion}.
+ * Tiis is tif two-brity spfdiblizbtion of {@link Fundtion}.
+ * Tiis is tif two-brity spfdiblizbtion of {@link Fundtion}.
  *
- * <p>This is b <b hrff="pbdkbgf-summbry.html">fundtionbl intfrfbdf</b>
- * whosf fundtionbl mfthod is {@link #bpply(Objfdt, Objfdt)}.
  *
- * @pbrbm <T> thf typf of thf first brgumfnt to thf fundtion
- * @pbrbm <U> thf typf of thf sfdond brgumfnt to thf fundtion
- * @pbrbm <R> thf typf of thf rfsult of thf fundtion
+ *
+ *
+ *
+ * <p>Tiis is b <b irff="pbdkbgf-summbry.itml">fundtionbl intfrfbdf</b>
+ * <p>Tiis is b <b irff="pbdkbgf-summbry.itml">fundtionbl intfrfbdf</b>
+ * <p>Tiis is b <b irff="pbdkbgf-summbry.itml">fundtionbl intfrfbdf</b>
+ * <p>Tiis is b <b irff="pbdkbgf-summbry.itml">fundtionbl intfrfbdf</b>
+ * <p>Tiis is b <b irff="pbdkbgf-summbry.itml">fundtionbl intfrfbdf</b>
+ * wiosf fundtionbl mftiod is {@link #bpply(Objfdt, Objfdt)}.
+ * wiosf fundtionbl mftiod is {@link #bpply(Objfdt, Objfdt)}.
+ * wiosf fundtionbl mftiod is {@link #bpply(Objfdt, Objfdt)}.
+ * wiosf fundtionbl mftiod is {@link #bpply(Objfdt, Objfdt)}.
+ * wiosf fundtionbl mftiod is {@link #bpply(Objfdt, Objfdt)}.
+ *
+ *
+ *
+ *
+ *
+ * @pbrbm <T> tif typf of tif first brgumfnt to tif fundtion
+ * @pbrbm <T> tif typf of tif first brgumfnt to tif fundtion
+ * @pbrbm <T> tif typf of tif first brgumfnt to tif fundtion
+ * @pbrbm <T> tif typf of tif first brgumfnt to tif fundtion
+ * @pbrbm <T> tif typf of tif first brgumfnt to tif fundtion
+ * @pbrbm <U> tif typf of tif sfdond brgumfnt to tif fundtion
+ * @pbrbm <U> tif typf of tif sfdond brgumfnt to tif fundtion
+ * @pbrbm <U> tif typf of tif sfdond brgumfnt to tif fundtion
+ * @pbrbm <U> tif typf of tif sfdond brgumfnt to tif fundtion
+ * @pbrbm <U> tif typf of tif sfdond brgumfnt to tif fundtion
+ * @pbrbm <R> tif typf of tif rfsult of tif fundtion
+ * @pbrbm <R> tif typf of tif rfsult of tif fundtion
+ * @pbrbm <R> tif typf of tif rfsult of tif fundtion
+ * @pbrbm <R> tif typf of tif rfsult of tif fundtion
+ * @pbrbm <R> tif typf of tif rfsult of tif fundtion
+ *
+ *
+ *
+ *
  *
  * @sff Fundtion
+ * @sff Fundtion
+ * @sff Fundtion
+ * @sff Fundtion
+ * @sff Fundtion
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
  * @sindf 1.8
  */
+ */
+ */
+ */
+ */
+@FundtionblIntfrfbdf
+@FundtionblIntfrfbdf
+@FundtionblIntfrfbdf
+@FundtionblIntfrfbdf
 @FundtionblIntfrfbdf
 publid intfrfbdf BiFundtion<T, U, R> {
+publid intfrfbdf BiFundtion<T, U, R> {
+publid intfrfbdf BiFundtion<T, U, R> {
+publid intfrfbdf BiFundtion<T, U, R> {
+publid intfrfbdf BiFundtion<T, U, R> {
+
+
+
+
 
     /**
-     * Applifs this fundtion to thf givfn brgumfnts.
+    /**
+    /**
+    /**
+    /**
+     * Applifs tiis fundtion to tif givfn brgumfnts.
+     * Applifs tiis fundtion to tif givfn brgumfnts.
+     * Applifs tiis fundtion to tif givfn brgumfnts.
+     * Applifs tiis fundtion to tif givfn brgumfnts.
+     * Applifs tiis fundtion to tif givfn brgumfnts.
      *
-     * @pbrbm t thf first fundtion brgumfnt
-     * @pbrbm u thf sfdond fundtion brgumfnt
-     * @rfturn thf fundtion rfsult
+     *
+     *
+     *
+     *
+     * @pbrbm t tif first fundtion brgumfnt
+     * @pbrbm t tif first fundtion brgumfnt
+     * @pbrbm t tif first fundtion brgumfnt
+     * @pbrbm t tif first fundtion brgumfnt
+     * @pbrbm t tif first fundtion brgumfnt
+     * @pbrbm u tif sfdond fundtion brgumfnt
+     * @pbrbm u tif sfdond fundtion brgumfnt
+     * @pbrbm u tif sfdond fundtion brgumfnt
+     * @pbrbm u tif sfdond fundtion brgumfnt
+     * @pbrbm u tif sfdond fundtion brgumfnt
+     * @rfturn tif fundtion rfsult
+     * @rfturn tif fundtion rfsult
+     * @rfturn tif fundtion rfsult
+     * @rfturn tif fundtion rfsult
+     * @rfturn tif fundtion rfsult
+     */
+     */
+     */
+     */
      */
     R bpply(T t, U u);
+    R bpply(T t, U u);
+    R bpply(T t, U u);
+    R bpply(T t, U u);
+    R bpply(T t, U u);
+
+
+
+
 
     /**
-     * Rfturns b domposfd fundtion thbt first bpplifs this fundtion to
-     * its input, bnd thfn bpplifs thf {@dodf bftfr} fundtion to thf rfsult.
-     * If fvblubtion of fithfr fundtion throws bn fxdfption, it is rflbyfd to
-     * thf dbllfr of thf domposfd fundtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b domposfd fundtion tibt first bpplifs tiis fundtion to
+     * Rfturns b domposfd fundtion tibt first bpplifs tiis fundtion to
+     * Rfturns b domposfd fundtion tibt first bpplifs tiis fundtion to
+     * Rfturns b domposfd fundtion tibt first bpplifs tiis fundtion to
+     * Rfturns b domposfd fundtion tibt first bpplifs tiis fundtion to
+     * its input, bnd tifn bpplifs tif {@dodf bftfr} fundtion to tif rfsult.
+     * its input, bnd tifn bpplifs tif {@dodf bftfr} fundtion to tif rfsult.
+     * its input, bnd tifn bpplifs tif {@dodf bftfr} fundtion to tif rfsult.
+     * its input, bnd tifn bpplifs tif {@dodf bftfr} fundtion to tif rfsult.
+     * its input, bnd tifn bpplifs tif {@dodf bftfr} fundtion to tif rfsult.
+     * If fvblubtion of fitifr fundtion tirows bn fxdfption, it is rflbyfd to
+     * If fvblubtion of fitifr fundtion tirows bn fxdfption, it is rflbyfd to
+     * If fvblubtion of fitifr fundtion tirows bn fxdfption, it is rflbyfd to
+     * If fvblubtion of fitifr fundtion tirows bn fxdfption, it is rflbyfd to
+     * If fvblubtion of fitifr fundtion tirows bn fxdfption, it is rflbyfd to
+     * tif dbllfr of tif domposfd fundtion.
+     * tif dbllfr of tif domposfd fundtion.
+     * tif dbllfr of tif domposfd fundtion.
+     * tif dbllfr of tif domposfd fundtion.
+     * tif dbllfr of tif domposfd fundtion.
      *
-     * @pbrbm <V> thf typf of output of thf {@dodf bftfr} fundtion, bnd of thf
+     *
+     *
+     *
+     *
+     * @pbrbm <V> tif typf of output of tif {@dodf bftfr} fundtion, bnd of tif
+     * @pbrbm <V> tif typf of output of tif {@dodf bftfr} fundtion, bnd of tif
+     * @pbrbm <V> tif typf of output of tif {@dodf bftfr} fundtion, bnd of tif
+     * @pbrbm <V> tif typf of output of tif {@dodf bftfr} fundtion, bnd of tif
+     * @pbrbm <V> tif typf of output of tif {@dodf bftfr} fundtion, bnd of tif
      *           domposfd fundtion
-     * @pbrbm bftfr thf fundtion to bpply bftfr this fundtion is bpplifd
-     * @rfturn b domposfd fundtion thbt first bpplifs this fundtion bnd thfn
-     * bpplifs thf {@dodf bftfr} fundtion
-     * @throws NullPointfrExdfption if bftfr is null
+     *           domposfd fundtion
+     *           domposfd fundtion
+     *           domposfd fundtion
+     *           domposfd fundtion
+     * @pbrbm bftfr tif fundtion to bpply bftfr tiis fundtion is bpplifd
+     * @pbrbm bftfr tif fundtion to bpply bftfr tiis fundtion is bpplifd
+     * @pbrbm bftfr tif fundtion to bpply bftfr tiis fundtion is bpplifd
+     * @pbrbm bftfr tif fundtion to bpply bftfr tiis fundtion is bpplifd
+     * @pbrbm bftfr tif fundtion to bpply bftfr tiis fundtion is bpplifd
+     * @rfturn b domposfd fundtion tibt first bpplifs tiis fundtion bnd tifn
+     * @rfturn b domposfd fundtion tibt first bpplifs tiis fundtion bnd tifn
+     * @rfturn b domposfd fundtion tibt first bpplifs tiis fundtion bnd tifn
+     * @rfturn b domposfd fundtion tibt first bpplifs tiis fundtion bnd tifn
+     * @rfturn b domposfd fundtion tibt first bpplifs tiis fundtion bnd tifn
+     * bpplifs tif {@dodf bftfr} fundtion
+     * bpplifs tif {@dodf bftfr} fundtion
+     * bpplifs tif {@dodf bftfr} fundtion
+     * bpplifs tif {@dodf bftfr} fundtion
+     * bpplifs tif {@dodf bftfr} fundtion
+     * @tirows NullPointfrExdfption if bftfr is null
+     * @tirows NullPointfrExdfption if bftfr is null
+     * @tirows NullPointfrExdfption if bftfr is null
+     * @tirows NullPointfrExdfption if bftfr is null
+     * @tirows NullPointfrExdfption if bftfr is null
      */
-    dffbult <V> BiFundtion<T, U, V> bndThfn(Fundtion<? supfr R, ? fxtfnds V> bftfr) {
+     */
+     */
+     */
+     */
+    dffbult <V> BiFundtion<T, U, V> bndTifn(Fundtion<? supfr R, ? fxtfnds V> bftfr) {
+    dffbult <V> BiFundtion<T, U, V> bndTifn(Fundtion<? supfr R, ? fxtfnds V> bftfr) {
+    dffbult <V> BiFundtion<T, U, V> bndTifn(Fundtion<? supfr R, ? fxtfnds V> bftfr) {
+    dffbult <V> BiFundtion<T, U, V> bndTifn(Fundtion<? supfr R, ? fxtfnds V> bftfr) {
+    dffbult <V> BiFundtion<T, U, V> bndTifn(Fundtion<? supfr R, ? fxtfnds V> bftfr) {
+        Objfdts.rfquirfNonNull(bftfr);
+        Objfdts.rfquirfNonNull(bftfr);
+        Objfdts.rfquirfNonNull(bftfr);
+        Objfdts.rfquirfNonNull(bftfr);
         Objfdts.rfquirfNonNull(bftfr);
         rfturn (T t, U u) -> bftfr.bpply(bpply(t, u));
+        rfturn (T t, U u) -> bftfr.bpply(bpply(t, u));
+        rfturn (T t, U u) -> bftfr.bpply(bpply(t, u));
+        rfturn (T t, U u) -> bftfr.bpply(bpply(t, u));
+        rfturn (T t, U u) -> bftfr.bpply(bpply(t, u));
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

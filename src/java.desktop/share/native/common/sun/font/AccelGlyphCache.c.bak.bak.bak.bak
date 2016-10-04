@@ -1,415 +1,2075 @@
 /*
- * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-#indludf <stdlib.h>
-#indludf "jni.h"
-#indludf "AddflGlyphCbdhf.h"
-#indludf "Trbdf.h"
+
+
+
+
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf <stdlib.i>
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "jni.i"
+#indludf "AddflGlypiCbdif.i"
+#indludf "AddflGlypiCbdif.i"
+#indludf "AddflGlypiCbdif.i"
+#indludf "AddflGlypiCbdif.i"
+#indludf "AddflGlypiCbdif.i"
+#indludf "Trbdf.i"
+#indludf "Trbdf.i"
+#indludf "Trbdf.i"
+#indludf "Trbdf.i"
+#indludf "Trbdf.i"
+
+
+
+
 
 /**
- * Whfn thf dbdhf is full, wf will try to rfusf thf dbdhf dflls thbt hbvf
- * bffn usfd rflbtivfly lfss thbn thf othfrs (bnd wf will sbvf thf dflls thbt
- * hbvf bffn rfndfrfd morf thbn thf thrfshold dffinfd hfrf).
+/**
+/**
+/**
+/**
+ * Wifn tif dbdif is full, wf will try to rfusf tif dbdif dflls tibt ibvf
+ * Wifn tif dbdif is full, wf will try to rfusf tif dbdif dflls tibt ibvf
+ * Wifn tif dbdif is full, wf will try to rfusf tif dbdif dflls tibt ibvf
+ * Wifn tif dbdif is full, wf will try to rfusf tif dbdif dflls tibt ibvf
+ * Wifn tif dbdif is full, wf will try to rfusf tif dbdif dflls tibt ibvf
+ * bffn usfd rflbtivfly lfss tibn tif otifrs (bnd wf will sbvf tif dflls tibt
+ * bffn usfd rflbtivfly lfss tibn tif otifrs (bnd wf will sbvf tif dflls tibt
+ * bffn usfd rflbtivfly lfss tibn tif otifrs (bnd wf will sbvf tif dflls tibt
+ * bffn usfd rflbtivfly lfss tibn tif otifrs (bnd wf will sbvf tif dflls tibt
+ * bffn usfd rflbtivfly lfss tibn tif otifrs (bnd wf will sbvf tif dflls tibt
+ * ibvf bffn rfndfrfd morf tibn tif tirfsiold dffinfd ifrf).
+ * ibvf bffn rfndfrfd morf tibn tif tirfsiold dffinfd ifrf).
+ * ibvf bffn rfndfrfd morf tibn tif tirfsiold dffinfd ifrf).
+ * ibvf bffn rfndfrfd morf tibn tif tirfsiold dffinfd ifrf).
+ * ibvf bffn rfndfrfd morf tibn tif tirfsiold dffinfd ifrf).
+ */
+ */
+ */
+ */
  */
 #dffinf TIMES_RENDERED_THRESHOLD 5
+#dffinf TIMES_RENDERED_THRESHOLD 5
+#dffinf TIMES_RENDERED_THRESHOLD 5
+#dffinf TIMES_RENDERED_THRESHOLD 5
+#dffinf TIMES_RENDERED_THRESHOLD 5
+
+
+
+
 
 /**
- * Crfbtfs b nfw GlyphCbdhfInfo strudturf, fills in thf initibl vblufs, bnd
- * thfn rfturns b pointfr to thf GlyphCbdhfInfo rfdord.
+/**
+/**
+/**
+/**
+ * Crfbtfs b nfw GlypiCbdifInfo strudturf, fills in tif initibl vblufs, bnd
+ * Crfbtfs b nfw GlypiCbdifInfo strudturf, fills in tif initibl vblufs, bnd
+ * Crfbtfs b nfw GlypiCbdifInfo strudturf, fills in tif initibl vblufs, bnd
+ * Crfbtfs b nfw GlypiCbdifInfo strudturf, fills in tif initibl vblufs, bnd
+ * Crfbtfs b nfw GlypiCbdifInfo strudturf, fills in tif initibl vblufs, bnd
+ * tifn rfturns b pointfr to tif GlypiCbdifInfo rfdord.
+ * tifn rfturns b pointfr to tif GlypiCbdifInfo rfdord.
+ * tifn rfturns b pointfr to tif GlypiCbdifInfo rfdord.
+ * tifn rfturns b pointfr to tif GlypiCbdifInfo rfdord.
+ * tifn rfturns b pointfr to tif GlypiCbdifInfo rfdord.
  *
- * Notf thbt this mfthod only sfts up b dbtb strudturf dfsdribing b
+ *
+ *
+ *
+ *
+ * Notf tibt tiis mftiod only sfts up b dbtb strudturf dfsdribing b
+ * Notf tibt tiis mftiod only sfts up b dbtb strudturf dfsdribing b
+ * Notf tibt tiis mftiod only sfts up b dbtb strudturf dfsdribing b
+ * Notf tibt tiis mftiod only sfts up b dbtb strudturf dfsdribing b
+ * Notf tibt tiis mftiod only sfts up b dbtb strudturf dfsdribing b
  * rfdtbngulbr rfgion of bddflfrbtfd mfmory, dontbining "virtubl" dflls of
- * thf rfqufstfd sizf.  Thf dfll informbtion is bddfd lbzily to thf linkfd
- * list dfsdribing thf dbdhf bs nfw glyphs brf bddfd.  Plbtform spfdifid
- * glyph dbdhing dodf is rfsponsiblf for bdtublly drfbting thf bddflfrbtfd
- * mfmory surfbdf thbt will dontbin thf individubl glyph imbgfs.
+ * rfdtbngulbr rfgion of bddflfrbtfd mfmory, dontbining "virtubl" dflls of
+ * rfdtbngulbr rfgion of bddflfrbtfd mfmory, dontbining "virtubl" dflls of
+ * rfdtbngulbr rfgion of bddflfrbtfd mfmory, dontbining "virtubl" dflls of
+ * rfdtbngulbr rfgion of bddflfrbtfd mfmory, dontbining "virtubl" dflls of
+ * tif rfqufstfd sizf.  Tif dfll informbtion is bddfd lbzily to tif linkfd
+ * tif rfqufstfd sizf.  Tif dfll informbtion is bddfd lbzily to tif linkfd
+ * tif rfqufstfd sizf.  Tif dfll informbtion is bddfd lbzily to tif linkfd
+ * tif rfqufstfd sizf.  Tif dfll informbtion is bddfd lbzily to tif linkfd
+ * tif rfqufstfd sizf.  Tif dfll informbtion is bddfd lbzily to tif linkfd
+ * list dfsdribing tif dbdif bs nfw glypis brf bddfd.  Plbtform spfdifid
+ * list dfsdribing tif dbdif bs nfw glypis brf bddfd.  Plbtform spfdifid
+ * list dfsdribing tif dbdif bs nfw glypis brf bddfd.  Plbtform spfdifid
+ * list dfsdribing tif dbdif bs nfw glypis brf bddfd.  Plbtform spfdifid
+ * list dfsdribing tif dbdif bs nfw glypis brf bddfd.  Plbtform spfdifid
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly drfbting tif bddflfrbtfd
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly drfbting tif bddflfrbtfd
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly drfbting tif bddflfrbtfd
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly drfbting tif bddflfrbtfd
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly drfbting tif bddflfrbtfd
+ * mfmory surfbdf tibt will dontbin tif individubl glypi imbgfs.
+ * mfmory surfbdf tibt will dontbin tif individubl glypi imbgfs.
+ * mfmory surfbdf tibt will dontbin tif individubl glypi imbgfs.
+ * mfmory surfbdf tibt will dontbin tif individubl glypi imbgfs.
+ * mfmory surfbdf tibt will dontbin tif individubl glypi imbgfs.
  *
- * Ebdh glyph dontbins b rfffrfndf to b list of dfll infos - onf pfr glyph
- * dbdhf. Thfrf mby bf multiplf glyph dbdhfs (for fxbmplf, onf pfr grbphids
- * bdbptfr), so if thf glyph is dbdhfd on two dfvidfs its dfll list will
- * donsists of two flfmfnts dorrfsponding to difffrfnt glyph dbdhfs.
  *
- * Thf plbtform-spfdifid glyph dbdhing dodf is supposfd to usf
- * GftCfllInfoForCbdhf mfthod for rftrifving dbdhf infos from thf glyph's list.
  *
- * Notf thbt if it is gubrbntffd thbt thfrf will bf only onf globbl glyph
- * dbdhf thfn it onf dofs not hbvf to usf AddflGlyphCbdhf_GftCfllInfoForCbdhf
- * for rftrifving dfll info for thf glyph, but instfbd just usf thf strudt's
+ *
+ *
+ * Ebdi glypi dontbins b rfffrfndf to b list of dfll infos - onf pfr glypi
+ * Ebdi glypi dontbins b rfffrfndf to b list of dfll infos - onf pfr glypi
+ * Ebdi glypi dontbins b rfffrfndf to b list of dfll infos - onf pfr glypi
+ * Ebdi glypi dontbins b rfffrfndf to b list of dfll infos - onf pfr glypi
+ * Ebdi glypi dontbins b rfffrfndf to b list of dfll infos - onf pfr glypi
+ * dbdif. Tifrf mby bf multiplf glypi dbdifs (for fxbmplf, onf pfr grbpiids
+ * dbdif. Tifrf mby bf multiplf glypi dbdifs (for fxbmplf, onf pfr grbpiids
+ * dbdif. Tifrf mby bf multiplf glypi dbdifs (for fxbmplf, onf pfr grbpiids
+ * dbdif. Tifrf mby bf multiplf glypi dbdifs (for fxbmplf, onf pfr grbpiids
+ * dbdif. Tifrf mby bf multiplf glypi dbdifs (for fxbmplf, onf pfr grbpiids
+ * bdbptfr), so if tif glypi is dbdifd on two dfvidfs its dfll list will
+ * bdbptfr), so if tif glypi is dbdifd on two dfvidfs its dfll list will
+ * bdbptfr), so if tif glypi is dbdifd on two dfvidfs its dfll list will
+ * bdbptfr), so if tif glypi is dbdifd on two dfvidfs its dfll list will
+ * bdbptfr), so if tif glypi is dbdifd on two dfvidfs its dfll list will
+ * donsists of two flfmfnts dorrfsponding to difffrfnt glypi dbdifs.
+ * donsists of two flfmfnts dorrfsponding to difffrfnt glypi dbdifs.
+ * donsists of two flfmfnts dorrfsponding to difffrfnt glypi dbdifs.
+ * donsists of two flfmfnts dorrfsponding to difffrfnt glypi dbdifs.
+ * donsists of two flfmfnts dorrfsponding to difffrfnt glypi dbdifs.
+ *
+ *
+ *
+ *
+ *
+ * Tif plbtform-spfdifid glypi dbdiing dodf is supposfd to usf
+ * Tif plbtform-spfdifid glypi dbdiing dodf is supposfd to usf
+ * Tif plbtform-spfdifid glypi dbdiing dodf is supposfd to usf
+ * Tif plbtform-spfdifid glypi dbdiing dodf is supposfd to usf
+ * Tif plbtform-spfdifid glypi dbdiing dodf is supposfd to usf
+ * GftCfllInfoForCbdif mftiod for rftrifving dbdif infos from tif glypi's list.
+ * GftCfllInfoForCbdif mftiod for rftrifving dbdif infos from tif glypi's list.
+ * GftCfllInfoForCbdif mftiod for rftrifving dbdif infos from tif glypi's list.
+ * GftCfllInfoForCbdif mftiod for rftrifving dbdif infos from tif glypi's list.
+ * GftCfllInfoForCbdif mftiod for rftrifving dbdif infos from tif glypi's list.
+ *
+ *
+ *
+ *
+ *
+ * Notf tibt if it is gubrbntffd tibt tifrf will bf only onf globbl glypi
+ * Notf tibt if it is gubrbntffd tibt tifrf will bf only onf globbl glypi
+ * Notf tibt if it is gubrbntffd tibt tifrf will bf only onf globbl glypi
+ * Notf tibt if it is gubrbntffd tibt tifrf will bf only onf globbl glypi
+ * Notf tibt if it is gubrbntffd tibt tifrf will bf only onf globbl glypi
+ * dbdif tifn it onf dofs not ibvf to usf AddflGlypiCbdif_GftCfllInfoForCbdif
+ * dbdif tifn it onf dofs not ibvf to usf AddflGlypiCbdif_GftCfllInfoForCbdif
+ * dbdif tifn it onf dofs not ibvf to usf AddflGlypiCbdif_GftCfllInfoForCbdif
+ * dbdif tifn it onf dofs not ibvf to usf AddflGlypiCbdif_GftCfllInfoForCbdif
+ * dbdif tifn it onf dofs not ibvf to usf AddflGlypiCbdif_GftCfllInfoForCbdif
+ * for rftrifving dfll info for tif glypi, but instfbd just usf tif strudt's
+ * for rftrifving dfll info for tif glypi, but instfbd just usf tif strudt's
+ * for rftrifving dfll info for tif glypi, but instfbd just usf tif strudt's
+ * for rftrifving dfll info for tif glypi, but instfbd just usf tif strudt's
+ * for rftrifving dfll info for tif glypi, but instfbd just usf tif strudt's
+ * fifld dirfdtly.
+ * fifld dirfdtly.
+ * fifld dirfdtly.
+ * fifld dirfdtly.
  * fifld dirfdtly.
  */
-GlyphCbdhfInfo *
-AddflGlyphCbdhf_Init(jint width, jint hfight,
-                     jint dfllWidth, jint dfllHfight,
-                     FlushFund *fund)
+ */
+ */
+ */
+ */
+GlypiCbdifInfo *
+GlypiCbdifInfo *
+GlypiCbdifInfo *
+GlypiCbdifInfo *
+GlypiCbdifInfo *
+AddflGlypiCbdif_Init(jint widti, jint ifigit,
+AddflGlypiCbdif_Init(jint widti, jint ifigit,
+AddflGlypiCbdif_Init(jint widti, jint ifigit,
+AddflGlypiCbdif_Init(jint widti, jint ifigit,
+AddflGlypiCbdif_Init(jint widti, jint ifigit,
+                     jint dfllWidti, jint dfllHfigit,
+                     jint dfllWidti, jint dfllHfigit,
+                     jint dfllWidti, jint dfllHfigit,
+                     jint dfllWidti, jint dfllHfigit,
+                     jint dfllWidti, jint dfllHfigit,
+                     FlusiFund *fund)
+                     FlusiFund *fund)
+                     FlusiFund *fund)
+                     FlusiFund *fund)
+                     FlusiFund *fund)
 {
-    GlyphCbdhfInfo *gdinfo;
+{
+{
+{
+{
+    GlypiCbdifInfo *gdinfo;
+    GlypiCbdifInfo *gdinfo;
+    GlypiCbdifInfo *gdinfo;
+    GlypiCbdifInfo *gdinfo;
+    GlypiCbdifInfo *gdinfo;
 
-    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_Init");
 
-    gdinfo = (GlyphCbdhfInfo *)mbllod(sizfof(GlyphCbdhfInfo));
+
+
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Init");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Init");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Init");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Init");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Init");
+
+
+
+
+
+    gdinfo = (GlypiCbdifInfo *)mbllod(sizfof(GlypiCbdifInfo));
+    gdinfo = (GlypiCbdifInfo *)mbllod(sizfof(GlypiCbdifInfo));
+    gdinfo = (GlypiCbdifInfo *)mbllod(sizfof(GlypiCbdifInfo));
+    gdinfo = (GlypiCbdifInfo *)mbllod(sizfof(GlypiCbdifInfo));
+    gdinfo = (GlypiCbdifInfo *)mbllod(sizfof(GlypiCbdifInfo));
+    if (gdinfo == NULL) {
+    if (gdinfo == NULL) {
+    if (gdinfo == NULL) {
+    if (gdinfo == NULL) {
     if (gdinfo == NULL) {
         J2dRlsTrbdfLn(J2D_TRACE_ERROR,
-            "AddflGlyphCbdhf_Init: dould not bllodbtf GlyphCbdhfInfo");
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "AddflGlypiCbdif_Init: dould not bllodbtf GlypiCbdifInfo");
+            "AddflGlypiCbdif_Init: dould not bllodbtf GlypiCbdifInfo");
+            "AddflGlypiCbdif_Init: dould not bllodbtf GlypiCbdifInfo");
+            "AddflGlypiCbdif_Init: dould not bllodbtf GlypiCbdifInfo");
+            "AddflGlypiCbdif_Init: dould not bllodbtf GlypiCbdifInfo");
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
         rfturn NULL;
     }
+    }
+    }
+    }
+    }
 
-    gdinfo->hfbd = NULL;
+
+
+
+
+    gdinfo->ifbd = NULL;
+    gdinfo->ifbd = NULL;
+    gdinfo->ifbd = NULL;
+    gdinfo->ifbd = NULL;
+    gdinfo->ifbd = NULL;
     gdinfo->tbil = NULL;
-    gdinfo->width = width;
-    gdinfo->hfight = hfight;
-    gdinfo->dfllWidth = dfllWidth;
-    gdinfo->dfllHfight = dfllHfight;
+    gdinfo->tbil = NULL;
+    gdinfo->tbil = NULL;
+    gdinfo->tbil = NULL;
+    gdinfo->tbil = NULL;
+    gdinfo->widti = widti;
+    gdinfo->widti = widti;
+    gdinfo->widti = widti;
+    gdinfo->widti = widti;
+    gdinfo->widti = widti;
+    gdinfo->ifigit = ifigit;
+    gdinfo->ifigit = ifigit;
+    gdinfo->ifigit = ifigit;
+    gdinfo->ifigit = ifigit;
+    gdinfo->ifigit = ifigit;
+    gdinfo->dfllWidti = dfllWidti;
+    gdinfo->dfllWidti = dfllWidti;
+    gdinfo->dfllWidti = dfllWidti;
+    gdinfo->dfllWidti = dfllWidti;
+    gdinfo->dfllWidti = dfllWidti;
+    gdinfo->dfllHfigit = dfllHfigit;
+    gdinfo->dfllHfigit = dfllHfigit;
+    gdinfo->dfllHfigit = dfllHfigit;
+    gdinfo->dfllHfigit = dfllHfigit;
+    gdinfo->dfllHfigit = dfllHfigit;
     gdinfo->isFull = JNI_FALSE;
-    gdinfo->Flush = fund;
+    gdinfo->isFull = JNI_FALSE;
+    gdinfo->isFull = JNI_FALSE;
+    gdinfo->isFull = JNI_FALSE;
+    gdinfo->isFull = JNI_FALSE;
+    gdinfo->Flusi = fund;
+    gdinfo->Flusi = fund;
+    gdinfo->Flusi = fund;
+    gdinfo->Flusi = fund;
+    gdinfo->Flusi = fund;
+
+
+
+
 
     rfturn gdinfo;
+    rfturn gdinfo;
+    rfturn gdinfo;
+    rfturn gdinfo;
+    rfturn gdinfo;
+}
+}
+}
+}
 }
 
+
+
+
+
 /**
- * Attfmpts to bdd thf providfd glyph to thf spfdififd dbdhf.  If thf
- * opfrbtion is suddfssful, b pointfr to thf nfwly oddupifd dbdhf dfll is
- * storfd in thf glyph's dfllInfo fifld; othfrwisf, its dfllInfo fifld is
- * sft to NULL, indidbting thbt thf glyph's originbl bits should bf rfndfrfd
- * instfbd.  If thf dbdhf is full, thf lfbst-rfdfntly-usfd glyph is
- * invblidbtfd bnd its dbdhf dfll is rfbssignfd to thf nfw glyph bfing bddfd.
+/**
+/**
+/**
+/**
+ * Attfmpts to bdd tif providfd glypi to tif spfdififd dbdif.  If tif
+ * Attfmpts to bdd tif providfd glypi to tif spfdififd dbdif.  If tif
+ * Attfmpts to bdd tif providfd glypi to tif spfdififd dbdif.  If tif
+ * Attfmpts to bdd tif providfd glypi to tif spfdififd dbdif.  If tif
+ * Attfmpts to bdd tif providfd glypi to tif spfdififd dbdif.  If tif
+ * opfrbtion is suddfssful, b pointfr to tif nfwly oddupifd dbdif dfll is
+ * opfrbtion is suddfssful, b pointfr to tif nfwly oddupifd dbdif dfll is
+ * opfrbtion is suddfssful, b pointfr to tif nfwly oddupifd dbdif dfll is
+ * opfrbtion is suddfssful, b pointfr to tif nfwly oddupifd dbdif dfll is
+ * opfrbtion is suddfssful, b pointfr to tif nfwly oddupifd dbdif dfll is
+ * storfd in tif glypi's dfllInfo fifld; otifrwisf, its dfllInfo fifld is
+ * storfd in tif glypi's dfllInfo fifld; otifrwisf, its dfllInfo fifld is
+ * storfd in tif glypi's dfllInfo fifld; otifrwisf, its dfllInfo fifld is
+ * storfd in tif glypi's dfllInfo fifld; otifrwisf, its dfllInfo fifld is
+ * storfd in tif glypi's dfllInfo fifld; otifrwisf, its dfllInfo fifld is
+ * sft to NULL, indidbting tibt tif glypi's originbl bits siould bf rfndfrfd
+ * sft to NULL, indidbting tibt tif glypi's originbl bits siould bf rfndfrfd
+ * sft to NULL, indidbting tibt tif glypi's originbl bits siould bf rfndfrfd
+ * sft to NULL, indidbting tibt tif glypi's originbl bits siould bf rfndfrfd
+ * sft to NULL, indidbting tibt tif glypi's originbl bits siould bf rfndfrfd
+ * instfbd.  If tif dbdif is full, tif lfbst-rfdfntly-usfd glypi is
+ * instfbd.  If tif dbdif is full, tif lfbst-rfdfntly-usfd glypi is
+ * instfbd.  If tif dbdif is full, tif lfbst-rfdfntly-usfd glypi is
+ * instfbd.  If tif dbdif is full, tif lfbst-rfdfntly-usfd glypi is
+ * instfbd.  If tif dbdif is full, tif lfbst-rfdfntly-usfd glypi is
+ * invblidbtfd bnd its dbdif dfll is rfbssignfd to tif nfw glypi bfing bddfd.
+ * invblidbtfd bnd its dbdif dfll is rfbssignfd to tif nfw glypi bfing bddfd.
+ * invblidbtfd bnd its dbdif dfll is rfbssignfd to tif nfw glypi bfing bddfd.
+ * invblidbtfd bnd its dbdif dfll is rfbssignfd to tif nfw glypi bfing bddfd.
+ * invblidbtfd bnd its dbdif dfll is rfbssignfd to tif nfw glypi bfing bddfd.
  *
- * Notf thbt this mfthod only fnsurfs thbt b rfdtbngulbr rfgion in thf
- * "virtubl" glyph dbdhf is bvbilbblf for thf glyph imbgf.  Plbtform spfdifid
- * glyph dbdhing dodf is rfsponsiblf for bdtublly dbdhing thf glyph imbgf
- * in thf bssodibtfd bddflfrbtfd mfmory surfbdf.
  *
- * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to thf
- * dbdhf bnd glyph's dfll lists, NULL othfrwisf.
+ *
+ *
+ *
+ * Notf tibt tiis mftiod only fnsurfs tibt b rfdtbngulbr rfgion in tif
+ * Notf tibt tiis mftiod only fnsurfs tibt b rfdtbngulbr rfgion in tif
+ * Notf tibt tiis mftiod only fnsurfs tibt b rfdtbngulbr rfgion in tif
+ * Notf tibt tiis mftiod only fnsurfs tibt b rfdtbngulbr rfgion in tif
+ * Notf tibt tiis mftiod only fnsurfs tibt b rfdtbngulbr rfgion in tif
+ * "virtubl" glypi dbdif is bvbilbblf for tif glypi imbgf.  Plbtform spfdifid
+ * "virtubl" glypi dbdif is bvbilbblf for tif glypi imbgf.  Plbtform spfdifid
+ * "virtubl" glypi dbdif is bvbilbblf for tif glypi imbgf.  Plbtform spfdifid
+ * "virtubl" glypi dbdif is bvbilbblf for tif glypi imbgf.  Plbtform spfdifid
+ * "virtubl" glypi dbdif is bvbilbblf for tif glypi imbgf.  Plbtform spfdifid
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly dbdiing tif glypi imbgf
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly dbdiing tif glypi imbgf
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly dbdiing tif glypi imbgf
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly dbdiing tif glypi imbgf
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly dbdiing tif glypi imbgf
+ * in tif bssodibtfd bddflfrbtfd mfmory surfbdf.
+ * in tif bssodibtfd bddflfrbtfd mfmory surfbdf.
+ * in tif bssodibtfd bddflfrbtfd mfmory surfbdf.
+ * in tif bssodibtfd bddflfrbtfd mfmory surfbdf.
+ * in tif bssodibtfd bddflfrbtfd mfmory surfbdf.
+ *
+ *
+ *
+ *
+ *
+ * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to tif
+ * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to tif
+ * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to tif
+ * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to tif
+ * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to tif
+ * dbdif bnd glypi's dfll lists, NULL otifrwisf.
+ * dbdif bnd glypi's dfll lists, NULL otifrwisf.
+ * dbdif bnd glypi's dfll lists, NULL otifrwisf.
+ * dbdif bnd glypi's dfll lists, NULL otifrwisf.
+ * dbdif bnd glypi's dfll lists, NULL otifrwisf.
  */
-CbdhfCfllInfo *
-AddflGlyphCbdhf_AddGlyph(GlyphCbdhfInfo *dbdhf, GlyphInfo *glyph)
+ */
+ */
+ */
+ */
+CbdifCfllInfo *
+CbdifCfllInfo *
+CbdifCfllInfo *
+CbdifCfllInfo *
+CbdifCfllInfo *
+AddflGlypiCbdif_AddGlypi(GlypiCbdifInfo *dbdif, GlypiInfo *glypi)
+AddflGlypiCbdif_AddGlypi(GlypiCbdifInfo *dbdif, GlypiInfo *glypi)
+AddflGlypiCbdif_AddGlypi(GlypiCbdifInfo *dbdif, GlypiInfo *glypi)
+AddflGlypiCbdif_AddGlypi(GlypiCbdifInfo *dbdif, GlypiInfo *glypi)
+AddflGlypiCbdif_AddGlypi(GlypiCbdifInfo *dbdif, GlypiInfo *glypi)
 {
-    CbdhfCfllInfo *dfllinfo = NULL;
-    jint w = glyph->width;
-    jint h = glyph->hfight;
+{
+{
+{
+{
+    CbdifCfllInfo *dfllinfo = NULL;
+    CbdifCfllInfo *dfllinfo = NULL;
+    CbdifCfllInfo *dfllinfo = NULL;
+    CbdifCfllInfo *dfllinfo = NULL;
+    CbdifCfllInfo *dfllinfo = NULL;
+    jint w = glypi->widti;
+    jint w = glypi->widti;
+    jint w = glypi->widti;
+    jint w = glypi->widti;
+    jint w = glypi->widti;
+    jint i = glypi->ifigit;
+    jint i = glypi->ifigit;
+    jint i = glypi->ifigit;
+    jint i = glypi->ifigit;
+    jint i = glypi->ifigit;
 
-    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_AddGlyph");
 
-    if ((glyph->width > dbdhf->dfllWidth) ||
-        (glyph->hfight > dbdhf->dfllHfight))
+
+
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddGlypi");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddGlypi");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddGlypi");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddGlypi");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddGlypi");
+
+
+
+
+
+    if ((glypi->widti > dbdif->dfllWidti) ||
+    if ((glypi->widti > dbdif->dfllWidti) ||
+    if ((glypi->widti > dbdif->dfllWidti) ||
+    if ((glypi->widti > dbdif->dfllWidti) ||
+    if ((glypi->widti > dbdif->dfllWidti) ||
+        (glypi->ifigit > dbdif->dfllHfigit))
+        (glypi->ifigit > dbdif->dfllHfigit))
+        (glypi->ifigit > dbdif->dfllHfigit))
+        (glypi->ifigit > dbdif->dfllHfigit))
+        (glypi->ifigit > dbdif->dfllHfigit))
+    {
+    {
+    {
+    {
     {
         rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
+    }
+    }
+    }
+    }
     }
 
-    if (!dbdhf->isFull) {
+
+
+
+
+    if (!dbdif->isFull) {
+    if (!dbdif->isFull) {
+    if (!dbdif->isFull) {
+    if (!dbdif->isFull) {
+    if (!dbdif->isFull) {
+        jint x, y;
+        jint x, y;
+        jint x, y;
+        jint x, y;
         jint x, y;
 
-        if (dbdhf->hfbd == NULL) {
+
+
+
+
+        if (dbdif->ifbd == NULL) {
+        if (dbdif->ifbd == NULL) {
+        if (dbdif->ifbd == NULL) {
+        if (dbdif->ifbd == NULL) {
+        if (dbdif->ifbd == NULL) {
+            x = 0;
+            x = 0;
+            x = 0;
+            x = 0;
             x = 0;
             y = 0;
+            y = 0;
+            y = 0;
+            y = 0;
+            y = 0;
         } flsf {
-            x = dbdhf->tbil->x + dbdhf->dfllWidth;
-            y = dbdhf->tbil->y;
-            if ((x + dbdhf->dfllWidth) > dbdhf->width) {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            x = dbdif->tbil->x + dbdif->dfllWidti;
+            x = dbdif->tbil->x + dbdif->dfllWidti;
+            x = dbdif->tbil->x + dbdif->dfllWidti;
+            x = dbdif->tbil->x + dbdif->dfllWidti;
+            x = dbdif->tbil->x + dbdif->dfllWidti;
+            y = dbdif->tbil->y;
+            y = dbdif->tbil->y;
+            y = dbdif->tbil->y;
+            y = dbdif->tbil->y;
+            y = dbdif->tbil->y;
+            if ((x + dbdif->dfllWidti) > dbdif->widti) {
+            if ((x + dbdif->dfllWidti) > dbdif->widti) {
+            if ((x + dbdif->dfllWidti) > dbdif->widti) {
+            if ((x + dbdif->dfllWidti) > dbdif->widti) {
+            if ((x + dbdif->dfllWidti) > dbdif->widti) {
                 x = 0;
-                y += dbdhf->dfllHfight;
-                if ((y + dbdhf->dfllHfight) > dbdhf->hfight) {
-                    // no room lfft for b nfw dfll; wf'll go through thf
-                    // isFull pbth bflow
-                    dbdhf->isFull = JNI_TRUE;
+                x = 0;
+                x = 0;
+                x = 0;
+                x = 0;
+                y += dbdif->dfllHfigit;
+                y += dbdif->dfllHfigit;
+                y += dbdif->dfllHfigit;
+                y += dbdif->dfllHfigit;
+                y += dbdif->dfllHfigit;
+                if ((y + dbdif->dfllHfigit) > dbdif->ifigit) {
+                if ((y + dbdif->dfllHfigit) > dbdif->ifigit) {
+                if ((y + dbdif->dfllHfigit) > dbdif->ifigit) {
+                if ((y + dbdif->dfllHfigit) > dbdif->ifigit) {
+                if ((y + dbdif->dfllHfigit) > dbdif->ifigit) {
+                    // no room lfft for b nfw dfll; wf'll go tirougi tif
+                    // no room lfft for b nfw dfll; wf'll go tirougi tif
+                    // no room lfft for b nfw dfll; wf'll go tirougi tif
+                    // no room lfft for b nfw dfll; wf'll go tirougi tif
+                    // no room lfft for b nfw dfll; wf'll go tirougi tif
+                    // isFull pbti bflow
+                    // isFull pbti bflow
+                    // isFull pbti bflow
+                    // isFull pbti bflow
+                    // isFull pbti bflow
+                    dbdif->isFull = JNI_TRUE;
+                    dbdif->isFull = JNI_TRUE;
+                    dbdif->isFull = JNI_TRUE;
+                    dbdif->isFull = JNI_TRUE;
+                    dbdif->isFull = JNI_TRUE;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
 
-        if (!dbdhf->isFull) {
-            // drfbtf nfw CbdhfCfllInfo
-            dfllinfo = (CbdhfCfllInfo *)mbllod(sizfof(CbdhfCfllInfo));
+
+
+
+
+        if (!dbdif->isFull) {
+        if (!dbdif->isFull) {
+        if (!dbdif->isFull) {
+        if (!dbdif->isFull) {
+        if (!dbdif->isFull) {
+            // drfbtf nfw CbdifCfllInfo
+            // drfbtf nfw CbdifCfllInfo
+            // drfbtf nfw CbdifCfllInfo
+            // drfbtf nfw CbdifCfllInfo
+            // drfbtf nfw CbdifCfllInfo
+            dfllinfo = (CbdifCfllInfo *)mbllod(sizfof(CbdifCfllInfo));
+            dfllinfo = (CbdifCfllInfo *)mbllod(sizfof(CbdifCfllInfo));
+            dfllinfo = (CbdifCfllInfo *)mbllod(sizfof(CbdifCfllInfo));
+            dfllinfo = (CbdifCfllInfo *)mbllod(sizfof(CbdifCfllInfo));
+            dfllinfo = (CbdifCfllInfo *)mbllod(sizfof(CbdifCfllInfo));
+            if (dfllinfo == NULL) {
+            if (dfllinfo == NULL) {
+            if (dfllinfo == NULL) {
+            if (dfllinfo == NULL) {
             if (dfllinfo == NULL) {
                 J2dTrbdfLn(J2D_TRACE_ERROR, "dould not bllodbtf CfllInfo");
+                J2dTrbdfLn(J2D_TRACE_ERROR, "dould not bllodbtf CfllInfo");
+                J2dTrbdfLn(J2D_TRACE_ERROR, "dould not bllodbtf CfllInfo");
+                J2dTrbdfLn(J2D_TRACE_ERROR, "dould not bllodbtf CfllInfo");
+                J2dTrbdfLn(J2D_TRACE_ERROR, "dould not bllodbtf CfllInfo");
+                rfturn NULL;
+                rfturn NULL;
+                rfturn NULL;
+                rfturn NULL;
                 rfturn NULL;
             }
+            }
+            }
+            }
+            }
 
-            dfllinfo->dbdhfInfo = dbdhf;
-            dfllinfo->glyphInfo = glyph;
+
+
+
+
+            dfllinfo->dbdifInfo = dbdif;
+            dfllinfo->dbdifInfo = dbdif;
+            dfllinfo->dbdifInfo = dbdif;
+            dfllinfo->dbdifInfo = dbdif;
+            dfllinfo->dbdifInfo = dbdif;
+            dfllinfo->glypiInfo = glypi;
+            dfllinfo->glypiInfo = glypi;
+            dfllinfo->glypiInfo = glypi;
+            dfllinfo->glypiInfo = glypi;
+            dfllinfo->glypiInfo = glypi;
+            dfllinfo->timfsRfndfrfd = 0;
+            dfllinfo->timfsRfndfrfd = 0;
+            dfllinfo->timfsRfndfrfd = 0;
+            dfllinfo->timfsRfndfrfd = 0;
             dfllinfo->timfsRfndfrfd = 0;
             dfllinfo->x = x;
+            dfllinfo->x = x;
+            dfllinfo->x = x;
+            dfllinfo->x = x;
+            dfllinfo->x = x;
+            dfllinfo->y = y;
+            dfllinfo->y = y;
+            dfllinfo->y = y;
+            dfllinfo->y = y;
             dfllinfo->y = y;
             dfllinfo->lfftOff = 0;
-            dfllinfo->rightOff = 0;
-            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdhf->width;
-            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdhf->hfight;
-            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdhf->width);
-            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)h / dbdhf->hfight);
+            dfllinfo->lfftOff = 0;
+            dfllinfo->lfftOff = 0;
+            dfllinfo->lfftOff = 0;
+            dfllinfo->lfftOff = 0;
+            dfllinfo->rigitOff = 0;
+            dfllinfo->rigitOff = 0;
+            dfllinfo->rigitOff = 0;
+            dfllinfo->rigitOff = 0;
+            dfllinfo->rigitOff = 0;
+            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdif->widti;
+            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdif->widti;
+            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdif->widti;
+            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdif->widti;
+            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdif->widti;
+            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdif->ifigit;
+            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdif->ifigit;
+            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdif->ifigit;
+            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdif->ifigit;
+            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdif->ifigit;
+            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
 
-            if (dbdhf->hfbd == NULL) {
-                // initiblizf thf hfbd dfll
-                dbdhf->hfbd = dfllinfo;
+
+
+
+
+            if (dbdif->ifbd == NULL) {
+            if (dbdif->ifbd == NULL) {
+            if (dbdif->ifbd == NULL) {
+            if (dbdif->ifbd == NULL) {
+            if (dbdif->ifbd == NULL) {
+                // initiblizf tif ifbd dfll
+                // initiblizf tif ifbd dfll
+                // initiblizf tif ifbd dfll
+                // initiblizf tif ifbd dfll
+                // initiblizf tif ifbd dfll
+                dbdif->ifbd = dfllinfo;
+                dbdif->ifbd = dfllinfo;
+                dbdif->ifbd = dfllinfo;
+                dbdif->ifbd = dfllinfo;
+                dbdif->ifbd = dfllinfo;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 // updbtf fxisting tbil dfll
-                dbdhf->tbil->nfxt = dfllinfo;
+                // updbtf fxisting tbil dfll
+                // updbtf fxisting tbil dfll
+                // updbtf fxisting tbil dfll
+                // updbtf fxisting tbil dfll
+                dbdif->tbil->nfxt = dfllinfo;
+                dbdif->tbil->nfxt = dfllinfo;
+                dbdif->tbil->nfxt = dfllinfo;
+                dbdif->tbil->nfxt = dfllinfo;
+                dbdif->tbil->nfxt = dfllinfo;
+            }
+            }
+            }
+            }
             }
 
-            // bdd thf nfw dfll to thf fnd of thf list
-            dbdhf->tbil = dfllinfo;
+
+
+
+
+            // bdd tif nfw dfll to tif fnd of tif list
+            // bdd tif nfw dfll to tif fnd of tif list
+            // bdd tif nfw dfll to tif fnd of tif list
+            // bdd tif nfw dfll to tif fnd of tif list
+            // bdd tif nfw dfll to tif fnd of tif list
+            dbdif->tbil = dfllinfo;
+            dbdif->tbil = dfllinfo;
+            dbdif->tbil = dfllinfo;
+            dbdif->tbil = dfllinfo;
+            dbdif->tbil = dfllinfo;
+            dfllinfo->nfxt = NULL;
+            dfllinfo->nfxt = NULL;
+            dfllinfo->nfxt = NULL;
+            dfllinfo->nfxt = NULL;
             dfllinfo->nfxt = NULL;
             dfllinfo->nfxtGCI = NULL;
+            dfllinfo->nfxtGCI = NULL;
+            dfllinfo->nfxtGCI = NULL;
+            dfllinfo->nfxtGCI = NULL;
+            dfllinfo->nfxtGCI = NULL;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    if (dbdhf->isFull) {
+
+
+
+
+    if (dbdif->isFull) {
+    if (dbdif->isFull) {
+    if (dbdif->isFull) {
+    if (dbdif->isFull) {
+    if (dbdif->isFull) {
         /**
-         * Sfbrdh through thf dflls, bnd for fbdh dfll:
+        /**
+        /**
+        /**
+        /**
+         * Sfbrdi tirougi tif dflls, bnd for fbdi dfll:
+         * Sfbrdi tirougi tif dflls, bnd for fbdi dfll:
+         * Sfbrdi tirougi tif dflls, bnd for fbdi dfll:
+         * Sfbrdi tirougi tif dflls, bnd for fbdi dfll:
+         * Sfbrdi tirougi tif dflls, bnd for fbdi dfll:
          *   - rfsft its timfsRfndfrfd dountfr to zfro
-         *   - toss it to thf fnd of thf list
-         * Evfntublly wf will find b dfll thbt fithfr:
+         *   - rfsft its timfsRfndfrfd dountfr to zfro
+         *   - rfsft its timfsRfndfrfd dountfr to zfro
+         *   - rfsft its timfsRfndfrfd dountfr to zfro
+         *   - rfsft its timfsRfndfrfd dountfr to zfro
+         *   - toss it to tif fnd of tif list
+         *   - toss it to tif fnd of tif list
+         *   - toss it to tif fnd of tif list
+         *   - toss it to tif fnd of tif list
+         *   - toss it to tif fnd of tif list
+         * Evfntublly wf will find b dfll tibt fitifr:
+         * Evfntublly wf will find b dfll tibt fitifr:
+         * Evfntublly wf will find b dfll tibt fitifr:
+         * Evfntublly wf will find b dfll tibt fitifr:
+         * Evfntublly wf will find b dfll tibt fitifr:
          *   - is fmpty, or
-         *   - hbs bffn usfd lfss thbn thf thrfshold
-         * Whfn wf find sudh b dfll, wf will:
-         *   - brfbk out of thf loop
-         *   - invblidbtf bny glyph thbt mby bf rfsiding in thbt dfll
-         *   - updbtf thf dfll with thf nfw rfsidfnt glyph's informbtion
+         *   - is fmpty, or
+         *   - is fmpty, or
+         *   - is fmpty, or
+         *   - is fmpty, or
+         *   - ibs bffn usfd lfss tibn tif tirfsiold
+         *   - ibs bffn usfd lfss tibn tif tirfsiold
+         *   - ibs bffn usfd lfss tibn tif tirfsiold
+         *   - ibs bffn usfd lfss tibn tif tirfsiold
+         *   - ibs bffn usfd lfss tibn tif tirfsiold
+         * Wifn wf find sudi b dfll, wf will:
+         * Wifn wf find sudi b dfll, wf will:
+         * Wifn wf find sudi b dfll, wf will:
+         * Wifn wf find sudi b dfll, wf will:
+         * Wifn wf find sudi b dfll, wf will:
+         *   - brfbk out of tif loop
+         *   - brfbk out of tif loop
+         *   - brfbk out of tif loop
+         *   - brfbk out of tif loop
+         *   - brfbk out of tif loop
+         *   - invblidbtf bny glypi tibt mby bf rfsiding in tibt dfll
+         *   - invblidbtf bny glypi tibt mby bf rfsiding in tibt dfll
+         *   - invblidbtf bny glypi tibt mby bf rfsiding in tibt dfll
+         *   - invblidbtf bny glypi tibt mby bf rfsiding in tibt dfll
+         *   - invblidbtf bny glypi tibt mby bf rfsiding in tibt dfll
+         *   - updbtf tif dfll witi tif nfw rfsidfnt glypi's informbtion
+         *   - updbtf tif dfll witi tif nfw rfsidfnt glypi's informbtion
+         *   - updbtf tif dfll witi tif nfw rfsidfnt glypi's informbtion
+         *   - updbtf tif dfll witi tif nfw rfsidfnt glypi's informbtion
+         *   - updbtf tif dfll witi tif nfw rfsidfnt glypi's informbtion
          *
-         * Thf gobl hfrf is to kffp thf glyphs rfndfrfd most oftfn in thf
-         * dbdhf, whilf youngfr glyphs hbng out nfbr thf fnd of thf list.
-         * Thosf young glyphs thbt hbvf only bffn usfd b ffw timfs will movf
-         * towbrds thf hfbd of thf list bnd will fvfntublly bf kidkfd to
-         * thf durb.
          *
-         * In thf worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd thfy
-         * will bll hbvf timfsRfndfrfd dounts bbovf thf thrfshold, so wf will
-         * fnd up itfrbting through bll thf dflls fxbdtly ondf.  Sindf wf brf
-         * rfsftting thfir dountfrs blong thf wby, wf brf gubrbntffd to
-         * fvfntublly hit thf originbl "hfbd" dfll, whosf dountfr is now zfro.
-         * This bvoids thf possibility of bn infinitf loop.
+         *
+         *
+         *
+         * Tif gobl ifrf is to kffp tif glypis rfndfrfd most oftfn in tif
+         * Tif gobl ifrf is to kffp tif glypis rfndfrfd most oftfn in tif
+         * Tif gobl ifrf is to kffp tif glypis rfndfrfd most oftfn in tif
+         * Tif gobl ifrf is to kffp tif glypis rfndfrfd most oftfn in tif
+         * Tif gobl ifrf is to kffp tif glypis rfndfrfd most oftfn in tif
+         * dbdif, wiilf youngfr glypis ibng out nfbr tif fnd of tif list.
+         * dbdif, wiilf youngfr glypis ibng out nfbr tif fnd of tif list.
+         * dbdif, wiilf youngfr glypis ibng out nfbr tif fnd of tif list.
+         * dbdif, wiilf youngfr glypis ibng out nfbr tif fnd of tif list.
+         * dbdif, wiilf youngfr glypis ibng out nfbr tif fnd of tif list.
+         * Tiosf young glypis tibt ibvf only bffn usfd b ffw timfs will movf
+         * Tiosf young glypis tibt ibvf only bffn usfd b ffw timfs will movf
+         * Tiosf young glypis tibt ibvf only bffn usfd b ffw timfs will movf
+         * Tiosf young glypis tibt ibvf only bffn usfd b ffw timfs will movf
+         * Tiosf young glypis tibt ibvf only bffn usfd b ffw timfs will movf
+         * towbrds tif ifbd of tif list bnd will fvfntublly bf kidkfd to
+         * towbrds tif ifbd of tif list bnd will fvfntublly bf kidkfd to
+         * towbrds tif ifbd of tif list bnd will fvfntublly bf kidkfd to
+         * towbrds tif ifbd of tif list bnd will fvfntublly bf kidkfd to
+         * towbrds tif ifbd of tif list bnd will fvfntublly bf kidkfd to
+         * tif durb.
+         * tif durb.
+         * tif durb.
+         * tif durb.
+         * tif durb.
+         *
+         *
+         *
+         *
+         *
+         * In tif worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd tify
+         * In tif worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd tify
+         * In tif worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd tify
+         * In tif worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd tify
+         * In tif worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd tify
+         * will bll ibvf timfsRfndfrfd dounts bbovf tif tirfsiold, so wf will
+         * will bll ibvf timfsRfndfrfd dounts bbovf tif tirfsiold, so wf will
+         * will bll ibvf timfsRfndfrfd dounts bbovf tif tirfsiold, so wf will
+         * will bll ibvf timfsRfndfrfd dounts bbovf tif tirfsiold, so wf will
+         * will bll ibvf timfsRfndfrfd dounts bbovf tif tirfsiold, so wf will
+         * fnd up itfrbting tirougi bll tif dflls fxbdtly ondf.  Sindf wf brf
+         * fnd up itfrbting tirougi bll tif dflls fxbdtly ondf.  Sindf wf brf
+         * fnd up itfrbting tirougi bll tif dflls fxbdtly ondf.  Sindf wf brf
+         * fnd up itfrbting tirougi bll tif dflls fxbdtly ondf.  Sindf wf brf
+         * fnd up itfrbting tirougi bll tif dflls fxbdtly ondf.  Sindf wf brf
+         * rfsftting tifir dountfrs blong tif wby, wf brf gubrbntffd to
+         * rfsftting tifir dountfrs blong tif wby, wf brf gubrbntffd to
+         * rfsftting tifir dountfrs blong tif wby, wf brf gubrbntffd to
+         * rfsftting tifir dountfrs blong tif wby, wf brf gubrbntffd to
+         * rfsftting tifir dountfrs blong tif wby, wf brf gubrbntffd to
+         * fvfntublly iit tif originbl "ifbd" dfll, wiosf dountfr is now zfro.
+         * fvfntublly iit tif originbl "ifbd" dfll, wiosf dountfr is now zfro.
+         * fvfntublly iit tif originbl "ifbd" dfll, wiosf dountfr is now zfro.
+         * fvfntublly iit tif originbl "ifbd" dfll, wiosf dountfr is now zfro.
+         * fvfntublly iit tif originbl "ifbd" dfll, wiosf dountfr is now zfro.
+         * Tiis bvoids tif possibility of bn infinitf loop.
+         * Tiis bvoids tif possibility of bn infinitf loop.
+         * Tiis bvoids tif possibility of bn infinitf loop.
+         * Tiis bvoids tif possibility of bn infinitf loop.
+         * Tiis bvoids tif possibility of bn infinitf loop.
+         */
+         */
+         */
+         */
          */
 
-        do {
-            // thf hfbd dfll will bf updbtfd on fbdh itfrbtion
-            CbdhfCfllInfo *durrfnt = dbdhf->hfbd;
 
-            if ((durrfnt->glyphInfo == NULL) ||
+
+
+
+        do {
+        do {
+        do {
+        do {
+        do {
+            // tif ifbd dfll will bf updbtfd on fbdi itfrbtion
+            // tif ifbd dfll will bf updbtfd on fbdi itfrbtion
+            // tif ifbd dfll will bf updbtfd on fbdi itfrbtion
+            // tif ifbd dfll will bf updbtfd on fbdi itfrbtion
+            // tif ifbd dfll will bf updbtfd on fbdi itfrbtion
+            CbdifCfllInfo *durrfnt = dbdif->ifbd;
+            CbdifCfllInfo *durrfnt = dbdif->ifbd;
+            CbdifCfllInfo *durrfnt = dbdif->ifbd;
+            CbdifCfllInfo *durrfnt = dbdif->ifbd;
+            CbdifCfllInfo *durrfnt = dbdif->ifbd;
+
+
+
+
+
+            if ((durrfnt->glypiInfo == NULL) ||
+            if ((durrfnt->glypiInfo == NULL) ||
+            if ((durrfnt->glypiInfo == NULL) ||
+            if ((durrfnt->glypiInfo == NULL) ||
+            if ((durrfnt->glypiInfo == NULL) ||
+                (durrfnt->timfsRfndfrfd < TIMES_RENDERED_THRESHOLD))
+                (durrfnt->timfsRfndfrfd < TIMES_RENDERED_THRESHOLD))
+                (durrfnt->timfsRfndfrfd < TIMES_RENDERED_THRESHOLD))
+                (durrfnt->timfsRfndfrfd < TIMES_RENDERED_THRESHOLD))
                 (durrfnt->timfsRfndfrfd < TIMES_RENDERED_THRESHOLD))
             {
-                // bll bow bfforf thf dhosfn onf (wf will brfbk out of thf
-                // loop now thbt wf'vf found bn bppropribtf dfll)
+            {
+            {
+            {
+            {
+                // bll bow bfforf tif diosfn onf (wf will brfbk out of tif
+                // bll bow bfforf tif diosfn onf (wf will brfbk out of tif
+                // bll bow bfforf tif diosfn onf (wf will brfbk out of tif
+                // bll bow bfforf tif diosfn onf (wf will brfbk out of tif
+                // bll bow bfforf tif diosfn onf (wf will brfbk out of tif
+                // loop now tibt wf'vf found bn bppropribtf dfll)
+                // loop now tibt wf'vf found bn bppropribtf dfll)
+                // loop now tibt wf'vf found bn bppropribtf dfll)
+                // loop now tibt wf'vf found bn bppropribtf dfll)
+                // loop now tibt wf'vf found bn bppropribtf dfll)
+                dfllinfo = durrfnt;
+                dfllinfo = durrfnt;
+                dfllinfo = durrfnt;
+                dfllinfo = durrfnt;
                 dfllinfo = durrfnt;
             }
+            }
+            }
+            }
+            }
 
-            // movf dfll to thf fnd of thf list; updbtf fxisting hfbd bnd
+
+
+
+
+            // movf dfll to tif fnd of tif list; updbtf fxisting ifbd bnd
+            // movf dfll to tif fnd of tif list; updbtf fxisting ifbd bnd
+            // movf dfll to tif fnd of tif list; updbtf fxisting ifbd bnd
+            // movf dfll to tif fnd of tif list; updbtf fxisting ifbd bnd
+            // movf dfll to tif fnd of tif list; updbtf fxisting ifbd bnd
             // tbil pointfrs
-            dbdhf->hfbd = durrfnt->nfxt;
-            dbdhf->tbil->nfxt = durrfnt;
-            dbdhf->tbil = durrfnt;
+            // tbil pointfrs
+            // tbil pointfrs
+            // tbil pointfrs
+            // tbil pointfrs
+            dbdif->ifbd = durrfnt->nfxt;
+            dbdif->ifbd = durrfnt->nfxt;
+            dbdif->ifbd = durrfnt->nfxt;
+            dbdif->ifbd = durrfnt->nfxt;
+            dbdif->ifbd = durrfnt->nfxt;
+            dbdif->tbil->nfxt = durrfnt;
+            dbdif->tbil->nfxt = durrfnt;
+            dbdif->tbil->nfxt = durrfnt;
+            dbdif->tbil->nfxt = durrfnt;
+            dbdif->tbil->nfxt = durrfnt;
+            dbdif->tbil = durrfnt;
+            dbdif->tbil = durrfnt;
+            dbdif->tbil = durrfnt;
+            dbdif->tbil = durrfnt;
+            dbdif->tbil = durrfnt;
+            durrfnt->nfxt = NULL;
+            durrfnt->nfxt = NULL;
+            durrfnt->nfxt = NULL;
+            durrfnt->nfxt = NULL;
             durrfnt->nfxt = NULL;
             durrfnt->timfsRfndfrfd = 0;
-        } whilf (dfllinfo == NULL);
+            durrfnt->timfsRfndfrfd = 0;
+            durrfnt->timfsRfndfrfd = 0;
+            durrfnt->timfsRfndfrfd = 0;
+            durrfnt->timfsRfndfrfd = 0;
+        } wiilf (dfllinfo == NULL);
+        } wiilf (dfllinfo == NULL);
+        } wiilf (dfllinfo == NULL);
+        } wiilf (dfllinfo == NULL);
+        } wiilf (dfllinfo == NULL);
 
-        if (dfllinfo->glyphInfo != NULL) {
-            // flush in dbsf bny pfnding vfrtidfs brf dfpfnding on thf
-            // glyph thbt is bbout to bf kidkfd out
-            if (dbdhf->Flush != NULL) {
-                dbdhf->Flush();
+
+
+
+
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+            // flusi in dbsf bny pfnding vfrtidfs brf dfpfnding on tif
+            // flusi in dbsf bny pfnding vfrtidfs brf dfpfnding on tif
+            // flusi in dbsf bny pfnding vfrtidfs brf dfpfnding on tif
+            // flusi in dbsf bny pfnding vfrtidfs brf dfpfnding on tif
+            // flusi in dbsf bny pfnding vfrtidfs brf dfpfnding on tif
+            // glypi tibt is bbout to bf kidkfd out
+            // glypi tibt is bbout to bf kidkfd out
+            // glypi tibt is bbout to bf kidkfd out
+            // glypi tibt is bbout to bf kidkfd out
+            // glypi tibt is bbout to bf kidkfd out
+            if (dbdif->Flusi != NULL) {
+            if (dbdif->Flusi != NULL) {
+            if (dbdif->Flusi != NULL) {
+            if (dbdif->Flusi != NULL) {
+            if (dbdif->Flusi != NULL) {
+                dbdif->Flusi();
+                dbdif->Flusi();
+                dbdif->Flusi();
+                dbdif->Flusi();
+                dbdif->Flusi();
+            }
+            }
+            }
+            }
             }
 
-            // if thf dfll is oddupifd, notify thf bbsf glyph thbt thf
-            // dbdhfd vfrsion for this dbdhf is bbout to bf kidkfd out
-            AddflGlyphCbdhf_RfmovfCfllInfo(dfllinfo->glyphInfo, dfllinfo);
+
+
+
+
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt tif
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt tif
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt tif
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt tif
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt tif
+            // dbdifd vfrsion for tiis dbdif is bbout to bf kidkfd out
+            // dbdifd vfrsion for tiis dbdif is bbout to bf kidkfd out
+            // dbdifd vfrsion for tiis dbdif is bbout to bf kidkfd out
+            // dbdifd vfrsion for tiis dbdif is bbout to bf kidkfd out
+            // dbdifd vfrsion for tiis dbdif is bbout to bf kidkfd out
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+        }
+        }
+        }
+        }
         }
 
-        // updbtf dfllinfo with glyph's oddupifd rfgion informbtion
-        dfllinfo->glyphInfo = glyph;
-        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdhf->width);
-        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)h / dbdhf->hfight);
+
+
+
+
+        // updbtf dfllinfo witi glypi's oddupifd rfgion informbtion
+        // updbtf dfllinfo witi glypi's oddupifd rfgion informbtion
+        // updbtf dfllinfo witi glypi's oddupifd rfgion informbtion
+        // updbtf dfllinfo witi glypi's oddupifd rfgion informbtion
+        // updbtf dfllinfo witi glypi's oddupifd rfgion informbtion
+        dfllinfo->glypiInfo = glypi;
+        dfllinfo->glypiInfo = glypi;
+        dfllinfo->glypiInfo = glypi;
+        dfllinfo->glypiInfo = glypi;
+        dfllinfo->glypiInfo = glypi;
+        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
+    }
+    }
+    }
+    }
     }
 
-    // bdd dbdhf dfll to thf glyph's dflls list
-    AddflGlyphCbdhf_AddCfllInfo(glyph, dfllinfo);
+
+
+
+
+    // bdd dbdif dfll to tif glypi's dflls list
+    // bdd dbdif dfll to tif glypi's dflls list
+    // bdd dbdif dfll to tif glypi's dflls list
+    // bdd dbdif dfll to tif glypi's dflls list
+    // bdd dbdif dfll to tif glypi's dflls list
+    AddflGlypiCbdif_AddCfllInfo(glypi, dfllinfo);
+    AddflGlypiCbdif_AddCfllInfo(glypi, dfllinfo);
+    AddflGlypiCbdif_AddCfllInfo(glypi, dfllinfo);
+    AddflGlypiCbdif_AddCfllInfo(glypi, dfllinfo);
+    AddflGlypiCbdif_AddCfllInfo(glypi, dfllinfo);
+    rfturn dfllinfo;
+    rfturn dfllinfo;
+    rfturn dfllinfo;
+    rfturn dfllinfo;
     rfturn dfllinfo;
 }
+}
+}
+}
+}
+
+
+
+
 
 /**
- * Invblidbtfs bll dflls in thf dbdhf.  Notf thbt this mfthod dofs not
- * bttfmpt to dompbdt thf dbdhf in bny wby; it just invblidbtfs bny dflls
- * thbt blrfbdy fxist.
+/**
+/**
+/**
+/**
+ * Invblidbtfs bll dflls in tif dbdif.  Notf tibt tiis mftiod dofs not
+ * Invblidbtfs bll dflls in tif dbdif.  Notf tibt tiis mftiod dofs not
+ * Invblidbtfs bll dflls in tif dbdif.  Notf tibt tiis mftiod dofs not
+ * Invblidbtfs bll dflls in tif dbdif.  Notf tibt tiis mftiod dofs not
+ * Invblidbtfs bll dflls in tif dbdif.  Notf tibt tiis mftiod dofs not
+ * bttfmpt to dompbdt tif dbdif in bny wby; it just invblidbtfs bny dflls
+ * bttfmpt to dompbdt tif dbdif in bny wby; it just invblidbtfs bny dflls
+ * bttfmpt to dompbdt tif dbdif in bny wby; it just invblidbtfs bny dflls
+ * bttfmpt to dompbdt tif dbdif in bny wby; it just invblidbtfs bny dflls
+ * bttfmpt to dompbdt tif dbdif in bny wby; it just invblidbtfs bny dflls
+ * tibt blrfbdy fxist.
+ * tibt blrfbdy fxist.
+ * tibt blrfbdy fxist.
+ * tibt blrfbdy fxist.
+ * tibt blrfbdy fxist.
+ */
+ */
+ */
+ */
  */
 void
-AddflGlyphCbdhf_Invblidbtf(GlyphCbdhfInfo *dbdhf)
+void
+void
+void
+void
+AddflGlypiCbdif_Invblidbtf(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Invblidbtf(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Invblidbtf(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Invblidbtf(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Invblidbtf(GlypiCbdifInfo *dbdif)
 {
-    CbdhfCfllInfo *dfllinfo;
+{
+{
+{
+{
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
 
-    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_Invblidbtf");
 
-    if (dbdhf == NULL) {
+
+
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Invblidbtf");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Invblidbtf");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Invblidbtf");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Invblidbtf");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Invblidbtf");
+
+
+
+
+
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
-
-    // flush bny pfnding vfrtidfs thbt mby bf dfpfnding on thf durrfnt
-    // glyph dbdhf lbyout
-    if (dbdhf->Flush != NULL) {
-        dbdhf->Flush();
+    }
+    }
+    }
     }
 
-    dfllinfo = dbdhf->hfbd;
-    whilf (dfllinfo != NULL) {
-        if (dfllinfo->glyphInfo != NULL) {
-            // if thf dfll is oddupifd, notify thf bbsf glyph thbt its
-            // dbdhfd vfrsion for this dbdhf is bbout to bf invblidbtfd
-            AddflGlyphCbdhf_RfmovfCfllInfo(dfllinfo->glyphInfo, dfllinfo);
+
+
+
+
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // glypi dbdif lbyout
+    // glypi dbdif lbyout
+    // glypi dbdif lbyout
+    // glypi dbdif lbyout
+    // glypi dbdif lbyout
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+        dbdif->Flusi();
+        dbdif->Flusi();
+        dbdif->Flusi();
+        dbdif->Flusi();
+        dbdif->Flusi();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    dfllinfo = dbdif->ifbd;
+    dfllinfo = dbdif->ifbd;
+    dfllinfo = dbdif->ifbd;
+    dfllinfo = dbdif->ifbd;
+    dfllinfo = dbdif->ifbd;
+    wiilf (dfllinfo != NULL) {
+    wiilf (dfllinfo != NULL) {
+    wiilf (dfllinfo != NULL) {
+    wiilf (dfllinfo != NULL) {
+    wiilf (dfllinfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+        }
+        }
+        }
+        }
         }
         dfllinfo = dfllinfo->nfxt;
+        dfllinfo = dfllinfo->nfxt;
+        dfllinfo = dfllinfo->nfxt;
+        dfllinfo = dfllinfo->nfxt;
+        dfllinfo = dfllinfo->nfxt;
+    }
+    }
+    }
+    }
     }
 }
+}
+}
+}
+}
+
+
+
+
 
 /**
- * Invblidbtfs bnd frffs bll dflls bnd thf dbdhf itsflf. Thf "dbdhf" pointfr
- * bfdomfs invblid bftfr this fundtion rfturns.
+/**
+/**
+/**
+/**
+ * Invblidbtfs bnd frffs bll dflls bnd tif dbdif itsflf. Tif "dbdif" pointfr
+ * Invblidbtfs bnd frffs bll dflls bnd tif dbdif itsflf. Tif "dbdif" pointfr
+ * Invblidbtfs bnd frffs bll dflls bnd tif dbdif itsflf. Tif "dbdif" pointfr
+ * Invblidbtfs bnd frffs bll dflls bnd tif dbdif itsflf. Tif "dbdif" pointfr
+ * Invblidbtfs bnd frffs bll dflls bnd tif dbdif itsflf. Tif "dbdif" pointfr
+ * bfdomfs invblid bftfr tiis fundtion rfturns.
+ * bfdomfs invblid bftfr tiis fundtion rfturns.
+ * bfdomfs invblid bftfr tiis fundtion rfturns.
+ * bfdomfs invblid bftfr tiis fundtion rfturns.
+ * bfdomfs invblid bftfr tiis fundtion rfturns.
+ */
+ */
+ */
+ */
  */
 void
-AddflGlyphCbdhf_Frff(GlyphCbdhfInfo *dbdhf)
+void
+void
+void
+void
+AddflGlypiCbdif_Frff(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Frff(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Frff(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Frff(GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_Frff(GlypiCbdifInfo *dbdif)
 {
-    CbdhfCfllInfo *dfllinfo;
+{
+{
+{
+{
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
+    CbdifCfllInfo *dfllinfo;
 
-    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_Frff");
 
-    if (dbdhf == NULL) {
+
+
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Frff");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Frff");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Frff");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Frff");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Frff");
+
+
+
+
+
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+    if (dbdif == NULL) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
-
-    // flush bny pfnding vfrtidfs thbt mby bf dfpfnding on thf durrfnt
-    // glyph dbdhf
-    if (dbdhf->Flush != NULL) {
-        dbdhf->Flush();
+    }
+    }
+    }
     }
 
-    whilf (dbdhf->hfbd != NULL) {
-        dfllinfo = dbdhf->hfbd;
-        if (dfllinfo->glyphInfo != NULL) {
-            // if thf dfll is oddupifd, notify thf bbsf glyph thbt its
-            // dbdhfd vfrsion for this dbdhf is bbout to bf invblidbtfd
-            AddflGlyphCbdhf_RfmovfCfllInfo(dfllinfo->glyphInfo, dfllinfo);
+
+
+
+
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // glypi dbdif
+    // glypi dbdif
+    // glypi dbdif
+    // glypi dbdif
+    // glypi dbdif
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+    if (dbdif->Flusi != NULL) {
+        dbdif->Flusi();
+        dbdif->Flusi();
+        dbdif->Flusi();
+        dbdif->Flusi();
+        dbdif->Flusi();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    wiilf (dbdif->ifbd != NULL) {
+    wiilf (dbdif->ifbd != NULL) {
+    wiilf (dbdif->ifbd != NULL) {
+    wiilf (dbdif->ifbd != NULL) {
+    wiilf (dbdif->ifbd != NULL) {
+        dfllinfo = dbdif->ifbd;
+        dfllinfo = dbdif->ifbd;
+        dfllinfo = dbdif->ifbd;
+        dfllinfo = dbdif->ifbd;
+        dfllinfo = dbdif->ifbd;
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
         }
-        dbdhf->hfbd = dfllinfo->nfxt;
+        }
+        }
+        }
+        }
+        dbdif->ifbd = dfllinfo->nfxt;
+        dbdif->ifbd = dfllinfo->nfxt;
+        dbdif->ifbd = dfllinfo->nfxt;
+        dbdif->ifbd = dfllinfo->nfxt;
+        dbdif->ifbd = dfllinfo->nfxt;
+        frff(dfllinfo);
+        frff(dfllinfo);
+        frff(dfllinfo);
+        frff(dfllinfo);
         frff(dfllinfo);
     }
-    frff(dbdhf);
+    }
+    }
+    }
+    }
+    frff(dbdif);
+    frff(dbdif);
+    frff(dbdif);
+    frff(dbdif);
+    frff(dbdif);
+}
+}
+}
+}
 }
 
+
+
+
+
 /**
- * Add dfll info to thf hfbd of thf glyph's list of dbdhfd dflls.
+/**
+/**
+/**
+/**
+ * Add dfll info to tif ifbd of tif glypi's list of dbdifd dflls.
+ * Add dfll info to tif ifbd of tif glypi's list of dbdifd dflls.
+ * Add dfll info to tif ifbd of tif glypi's list of dbdifd dflls.
+ * Add dfll info to tif ifbd of tif glypi's list of dbdifd dflls.
+ * Add dfll info to tif ifbd of tif glypi's list of dbdifd dflls.
+ */
+ */
+ */
+ */
  */
 void
-AddflGlyphCbdhf_AddCfllInfo(GlyphInfo *glyph, CbdhfCfllInfo *dfllInfo)
+void
+void
+void
+void
+AddflGlypiCbdif_AddCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_AddCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_AddCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_AddCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_AddCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
 {
-    // bssfrt (glyph != NULL && dfllInfo != NULL)
-    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_AddCfllInfo");
-    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glyph 0x%x: bdding dfll 0x%x to thf list",
-                glyph, dfllInfo);
+{
+{
+{
+{
+    // bssfrt (glypi != NULL && dfllInfo != NULL)
+    // bssfrt (glypi != NULL && dfllInfo != NULL)
+    // bssfrt (glypi != NULL && dfllInfo != NULL)
+    // bssfrt (glypi != NULL && dfllInfo != NULL)
+    // bssfrt (glypi != NULL && dfllInfo != NULL)
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddCfllInfo");
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glypi 0x%x: bdding dfll 0x%x to tif list",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glypi 0x%x: bdding dfll 0x%x to tif list",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glypi 0x%x: bdding dfll 0x%x to tif list",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glypi 0x%x: bdding dfll 0x%x to tif list",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glypi 0x%x: bdding dfll 0x%x to tif list",
+                glypi, dfllInfo);
+                glypi, dfllInfo);
+                glypi, dfllInfo);
+                glypi, dfllInfo);
+                glypi, dfllInfo);
 
-    dfllInfo->glyphInfo = glyph;
-    dfllInfo->nfxtGCI = glyph->dfllInfo;
-    glyph->dfllInfo = dfllInfo;
-    glyph->mbnbgfd = MANAGED_GLYPH;
+
+
+
+
+    dfllInfo->glypiInfo = glypi;
+    dfllInfo->glypiInfo = glypi;
+    dfllInfo->glypiInfo = glypi;
+    dfllInfo->glypiInfo = glypi;
+    dfllInfo->glypiInfo = glypi;
+    dfllInfo->nfxtGCI = glypi->dfllInfo;
+    dfllInfo->nfxtGCI = glypi->dfllInfo;
+    dfllInfo->nfxtGCI = glypi->dfllInfo;
+    dfllInfo->nfxtGCI = glypi->dfllInfo;
+    dfllInfo->nfxtGCI = glypi->dfllInfo;
+    glypi->dfllInfo = dfllInfo;
+    glypi->dfllInfo = dfllInfo;
+    glypi->dfllInfo = dfllInfo;
+    glypi->dfllInfo = dfllInfo;
+    glypi->dfllInfo = dfllInfo;
+    glypi->mbnbgfd = MANAGED_GLYPH;
+    glypi->mbnbgfd = MANAGED_GLYPH;
+    glypi->mbnbgfd = MANAGED_GLYPH;
+    glypi->mbnbgfd = MANAGED_GLYPH;
+    glypi->mbnbgfd = MANAGED_GLYPH;
+}
+}
+}
+}
 }
 
+
+
+
+
 /**
- * Rfmovfs dfll info from thf glyph's list of dbdhfd dflls.
+/**
+/**
+/**
+/**
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ */
+ */
+ */
+ */
  */
 void
-AddflGlyphCbdhf_RfmovfCfllInfo(GlyphInfo *glyph, CbdhfCfllInfo *dfllInfo)
+void
+void
+void
+void
+AddflGlypiCbdif_RfmovfCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_RfmovfCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_RfmovfCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_RfmovfCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
+AddflGlypiCbdif_RfmovfCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
 {
-    CbdhfCfllInfo *durrCfllInfo = glyph->dfllInfo;
-    CbdhfCfllInfo *prfvInfo = NULL;
-    // bssfrt (glyph!= NULL && glyph->dfllInfo != NULL && dfllInfo != NULL)
-    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_RfmovfCfllInfo");
+{
+{
+{
+{
+    CbdifCfllInfo *durrCfllInfo = glypi->dfllInfo;
+    CbdifCfllInfo *durrCfllInfo = glypi->dfllInfo;
+    CbdifCfllInfo *durrCfllInfo = glypi->dfllInfo;
+    CbdifCfllInfo *durrCfllInfo = glypi->dfllInfo;
+    CbdifCfllInfo *durrCfllInfo = glypi->dfllInfo;
+    CbdifCfllInfo *prfvInfo = NULL;
+    CbdifCfllInfo *prfvInfo = NULL;
+    CbdifCfllInfo *prfvInfo = NULL;
+    CbdifCfllInfo *prfvInfo = NULL;
+    CbdifCfllInfo *prfvInfo = NULL;
+    // bssfrt (glypi!= NULL && glypi->dfllInfo != NULL && dfllInfo != NULL)
+    // bssfrt (glypi!= NULL && glypi->dfllInfo != NULL && dfllInfo != NULL)
+    // bssfrt (glypi!= NULL && glypi->dfllInfo != NULL && dfllInfo != NULL)
+    // bssfrt (glypi!= NULL && glypi->dfllInfo != NULL && dfllInfo != NULL)
+    // bssfrt (glypi!= NULL && glypi->dfllInfo != NULL && dfllInfo != NULL)
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfCfllInfo");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfCfllInfo");
+    do {
+    do {
+    do {
+    do {
     do {
         if (durrCfllInfo == dfllInfo) {
+        if (durrCfllInfo == dfllInfo) {
+        if (durrCfllInfo == dfllInfo) {
+        if (durrCfllInfo == dfllInfo) {
+        if (durrCfllInfo == dfllInfo) {
             J2dTrbdfLn2(J2D_TRACE_VERBOSE,
-                        "  glyph 0x%x: rfmoving dfll 0x%x from glyph's list",
-                        glyph, durrCfllInfo);
-            if (prfvInfo == NULL) { // it's thf hfbd, dhop-dhop
-                glyph->dfllInfo = durrCfllInfo->nfxtGCI;
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                        "  glypi 0x%x: rfmoving dfll 0x%x from glypi's list",
+                        "  glypi 0x%x: rfmoving dfll 0x%x from glypi's list",
+                        "  glypi 0x%x: rfmoving dfll 0x%x from glypi's list",
+                        "  glypi 0x%x: rfmoving dfll 0x%x from glypi's list",
+                        "  glypi 0x%x: rfmoving dfll 0x%x from glypi's list",
+                        glypi, durrCfllInfo);
+                        glypi, durrCfllInfo);
+                        glypi, durrCfllInfo);
+                        glypi, durrCfllInfo);
+                        glypi, durrCfllInfo);
+            if (prfvInfo == NULL) { // it's tif ifbd, diop-diop
+            if (prfvInfo == NULL) { // it's tif ifbd, diop-diop
+            if (prfvInfo == NULL) { // it's tif ifbd, diop-diop
+            if (prfvInfo == NULL) { // it's tif ifbd, diop-diop
+            if (prfvInfo == NULL) { // it's tif ifbd, diop-diop
+                glypi->dfllInfo = durrCfllInfo->nfxtGCI;
+                glypi->dfllInfo = durrCfllInfo->nfxtGCI;
+                glypi->dfllInfo = durrCfllInfo->nfxtGCI;
+                glypi->dfllInfo = durrCfllInfo->nfxtGCI;
+                glypi->dfllInfo = durrCfllInfo->nfxtGCI;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 prfvInfo->nfxtGCI = durrCfllInfo->nfxtGCI;
+                prfvInfo->nfxtGCI = durrCfllInfo->nfxtGCI;
+                prfvInfo->nfxtGCI = durrCfllInfo->nfxtGCI;
+                prfvInfo->nfxtGCI = durrCfllInfo->nfxtGCI;
+                prfvInfo->nfxtGCI = durrCfllInfo->nfxtGCI;
             }
-            durrCfllInfo->glyphInfo = NULL;
+            }
+            }
+            }
+            }
+            durrCfllInfo->glypiInfo = NULL;
+            durrCfllInfo->glypiInfo = NULL;
+            durrCfllInfo->glypiInfo = NULL;
+            durrCfllInfo->glypiInfo = NULL;
+            durrCfllInfo->glypiInfo = NULL;
+            durrCfllInfo->nfxtGCI = NULL;
+            durrCfllInfo->nfxtGCI = NULL;
+            durrCfllInfo->nfxtGCI = NULL;
+            durrCfllInfo->nfxtGCI = NULL;
             durrCfllInfo->nfxtGCI = NULL;
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
         }
         prfvInfo = durrCfllInfo;
+        prfvInfo = durrCfllInfo;
+        prfvInfo = durrCfllInfo;
+        prfvInfo = durrCfllInfo;
+        prfvInfo = durrCfllInfo;
         durrCfllInfo = durrCfllInfo->nfxtGCI;
-    } whilf (durrCfllInfo != NULL);
-    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlyphCbdhf_RfmovfCfllInfo: "\
-                "no dfll 0x%x in glyph 0x%x's dfll list",
-                dfllInfo, glyph);
+        durrCfllInfo = durrCfllInfo->nfxtGCI;
+        durrCfllInfo = durrCfllInfo->nfxtGCI;
+        durrCfllInfo = durrCfllInfo->nfxtGCI;
+        durrCfllInfo = durrCfllInfo->nfxtGCI;
+    } wiilf (durrCfllInfo != NULL);
+    } wiilf (durrCfllInfo != NULL);
+    } wiilf (durrCfllInfo != NULL);
+    } wiilf (durrCfllInfo != NULL);
+    } wiilf (durrCfllInfo != NULL);
+    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlypiCbdif_RfmovfCfllInfo: "\
+    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlypiCbdif_RfmovfCfllInfo: "\
+    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlypiCbdif_RfmovfCfllInfo: "\
+    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlypiCbdif_RfmovfCfllInfo: "\
+    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlypiCbdif_RfmovfCfllInfo: "\
+                "no dfll 0x%x in glypi 0x%x's dfll list",
+                "no dfll 0x%x in glypi 0x%x's dfll list",
+                "no dfll 0x%x in glypi 0x%x's dfll list",
+                "no dfll 0x%x in glypi 0x%x's dfll list",
+                "no dfll 0x%x in glypi 0x%x's dfll list",
+                dfllInfo, glypi);
+                dfllInfo, glypi);
+                dfllInfo, glypi);
+                dfllInfo, glypi);
+                dfllInfo, glypi);
+}
+}
+}
+}
 }
 
+
+
+
+
 /**
- * Rfmovfs dfll info from thf glyph's list of dbdhfd dflls.
+/**
+/**
+/**
+/**
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
+ */
+ */
+ */
+ */
  */
 JNIEXPORT void
-AddflGlyphCbdhf_RfmovfAllCfllInfos(GlyphInfo *glyph)
+JNIEXPORT void
+JNIEXPORT void
+JNIEXPORT void
+JNIEXPORT void
+AddflGlypiCbdif_RfmovfAllCfllInfos(GlypiInfo *glypi)
+AddflGlypiCbdif_RfmovfAllCfllInfos(GlypiInfo *glypi)
+AddflGlypiCbdif_RfmovfAllCfllInfos(GlypiInfo *glypi)
+AddflGlypiCbdif_RfmovfAllCfllInfos(GlypiInfo *glypi)
+AddflGlypiCbdif_RfmovfAllCfllInfos(GlypiInfo *glypi)
 {
-    CbdhfCfllInfo *durrCfll, *prfvCfll;
+{
+{
+{
+{
+    CbdifCfllInfo *durrCfll, *prfvCfll;
+    CbdifCfllInfo *durrCfll, *prfvCfll;
+    CbdifCfllInfo *durrCfll, *prfvCfll;
+    CbdifCfllInfo *durrCfll, *prfvCfll;
+    CbdifCfllInfo *durrCfll, *prfvCfll;
 
-    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlyphCbdhf_RfmovfAllCfllInfos");
 
-    if (glyph == NULL || glyph->dfllInfo == NULL) {
+
+
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfAllCfllInfos");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfAllCfllInfos");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfAllCfllInfos");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfAllCfllInfos");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfAllCfllInfos");
+
+
+
+
+
+    if (glypi == NULL || glypi->dfllInfo == NULL) {
+    if (glypi == NULL || glypi->dfllInfo == NULL) {
+    if (glypi == NULL || glypi->dfllInfo == NULL) {
+    if (glypi == NULL || glypi->dfllInfo == NULL) {
+    if (glypi == NULL || glypi->dfllInfo == NULL) {
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
 
-    // invblidbtf bll of this glyph's bddflfrbtfd dbdhf dflls
-    durrCfll = glyph->dfllInfo;
+
+
+
+
+    // invblidbtf bll of tiis glypi's bddflfrbtfd dbdif dflls
+    // invblidbtf bll of tiis glypi's bddflfrbtfd dbdif dflls
+    // invblidbtf bll of tiis glypi's bddflfrbtfd dbdif dflls
+    // invblidbtf bll of tiis glypi's bddflfrbtfd dbdif dflls
+    // invblidbtf bll of tiis glypi's bddflfrbtfd dbdif dflls
+    durrCfll = glypi->dfllInfo;
+    durrCfll = glypi->dfllInfo;
+    durrCfll = glypi->dfllInfo;
+    durrCfll = glypi->dfllInfo;
+    durrCfll = glypi->dfllInfo;
     do {
-        durrCfll->glyphInfo = NULL;
+    do {
+    do {
+    do {
+    do {
+        durrCfll->glypiInfo = NULL;
+        durrCfll->glypiInfo = NULL;
+        durrCfll->glypiInfo = NULL;
+        durrCfll->glypiInfo = NULL;
+        durrCfll->glypiInfo = NULL;
+        prfvCfll = durrCfll;
+        prfvCfll = durrCfll;
+        prfvCfll = durrCfll;
+        prfvCfll = durrCfll;
         prfvCfll = durrCfll;
         durrCfll = durrCfll->nfxtGCI;
+        durrCfll = durrCfll->nfxtGCI;
+        durrCfll = durrCfll->nfxtGCI;
+        durrCfll = durrCfll->nfxtGCI;
+        durrCfll = durrCfll->nfxtGCI;
         prfvCfll->nfxtGCI = NULL;
-    } whilf (durrCfll != NULL);
+        prfvCfll->nfxtGCI = NULL;
+        prfvCfll->nfxtGCI = NULL;
+        prfvCfll->nfxtGCI = NULL;
+        prfvCfll->nfxtGCI = NULL;
+    } wiilf (durrCfll != NULL);
+    } wiilf (durrCfll != NULL);
+    } wiilf (durrCfll != NULL);
+    } wiilf (durrCfll != NULL);
+    } wiilf (durrCfll != NULL);
 
-    glyph->dfllInfo = NULL;
+
+
+
+
+    glypi->dfllInfo = NULL;
+    glypi->dfllInfo = NULL;
+    glypi->dfllInfo = NULL;
+    glypi->dfllInfo = NULL;
+    glypi->dfllInfo = NULL;
 }
+}
+}
+}
+}
+
+
+
+
 
 /**
- * Rfturns dfll info bssodibtfd with pbrtidulbr dbdhf from thf glyph's list of
- * dbdhfd dflls.
+/**
+/**
+/**
+/**
+ * Rfturns dfll info bssodibtfd witi pbrtidulbr dbdif from tif glypi's list of
+ * Rfturns dfll info bssodibtfd witi pbrtidulbr dbdif from tif glypi's list of
+ * Rfturns dfll info bssodibtfd witi pbrtidulbr dbdif from tif glypi's list of
+ * Rfturns dfll info bssodibtfd witi pbrtidulbr dbdif from tif glypi's list of
+ * Rfturns dfll info bssodibtfd witi pbrtidulbr dbdif from tif glypi's list of
+ * dbdifd dflls.
+ * dbdifd dflls.
+ * dbdifd dflls.
+ * dbdifd dflls.
+ * dbdifd dflls.
  */
-CbdhfCfllInfo *
-AddflGlyphCbdhf_GftCfllInfoForCbdhf(GlyphInfo *glyph, GlyphCbdhfInfo *dbdhf)
+ */
+ */
+ */
+ */
+CbdifCfllInfo *
+CbdifCfllInfo *
+CbdifCfllInfo *
+CbdifCfllInfo *
+CbdifCfllInfo *
+AddflGlypiCbdif_GftCfllInfoForCbdif(GlypiInfo *glypi, GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_GftCfllInfoForCbdif(GlypiInfo *glypi, GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_GftCfllInfoForCbdif(GlypiInfo *glypi, GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_GftCfllInfoForCbdif(GlypiInfo *glypi, GlypiCbdifInfo *dbdif)
+AddflGlypiCbdif_GftCfllInfoForCbdif(GlypiInfo *glypi, GlypiCbdifInfo *dbdif)
 {
-    // bssfrt (glyph != NULL && dbdhf != NULL)
-    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlyphCbdhf_GftCfllInfoForCbdhf");
+{
+{
+{
+{
+    // bssfrt (glypi != NULL && dbdif != NULL)
+    // bssfrt (glypi != NULL && dbdif != NULL)
+    // bssfrt (glypi != NULL && dbdif != NULL)
+    // bssfrt (glypi != NULL && dbdif != NULL)
+    // bssfrt (glypi != NULL && dbdif != NULL)
+    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlypiCbdif_GftCfllInfoForCbdif");
+    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlypiCbdif_GftCfllInfoForCbdif");
+    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlypiCbdif_GftCfllInfoForCbdif");
+    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlypiCbdif_GftCfllInfoForCbdif");
+    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlypiCbdif_GftCfllInfoForCbdif");
 
-    if (glyph->dfllInfo != NULL) {
-        CbdhfCfllInfo *dfllInfo = glyph->dfllInfo;
+
+
+
+
+    if (glypi->dfllInfo != NULL) {
+    if (glypi->dfllInfo != NULL) {
+    if (glypi->dfllInfo != NULL) {
+    if (glypi->dfllInfo != NULL) {
+    if (glypi->dfllInfo != NULL) {
+        CbdifCfllInfo *dfllInfo = glypi->dfllInfo;
+        CbdifCfllInfo *dfllInfo = glypi->dfllInfo;
+        CbdifCfllInfo *dfllInfo = glypi->dfllInfo;
+        CbdifCfllInfo *dfllInfo = glypi->dfllInfo;
+        CbdifCfllInfo *dfllInfo = glypi->dfllInfo;
         do {
-            if (dfllInfo->dbdhfInfo == dbdhf) {
+        do {
+        do {
+        do {
+        do {
+            if (dfllInfo->dbdifInfo == dbdif) {
+            if (dfllInfo->dbdifInfo == dbdif) {
+            if (dfllInfo->dbdifInfo == dbdif) {
+            if (dfllInfo->dbdifInfo == dbdif) {
+            if (dfllInfo->dbdifInfo == dbdif) {
                 J2dTrbdfLn3(J2D_TRACE_VERBOSE2,
-                            "  glyph 0x%x: found dfll 0x%x for dbdhf 0x%x",
-                            glyph, dfllInfo, dbdhf);
+                J2dTrbdfLn3(J2D_TRACE_VERBOSE2,
+                J2dTrbdfLn3(J2D_TRACE_VERBOSE2,
+                J2dTrbdfLn3(J2D_TRACE_VERBOSE2,
+                J2dTrbdfLn3(J2D_TRACE_VERBOSE2,
+                            "  glypi 0x%x: found dfll 0x%x for dbdif 0x%x",
+                            "  glypi 0x%x: found dfll 0x%x for dbdif 0x%x",
+                            "  glypi 0x%x: found dfll 0x%x for dbdif 0x%x",
+                            "  glypi 0x%x: found dfll 0x%x for dbdif 0x%x",
+                            "  glypi 0x%x: found dfll 0x%x for dbdif 0x%x",
+                            glypi, dfllInfo, dbdif);
+                            glypi, dfllInfo, dbdif);
+                            glypi, dfllInfo, dbdif);
+                            glypi, dfllInfo, dbdif);
+                            glypi, dfllInfo, dbdif);
+                rfturn dfllInfo;
+                rfturn dfllInfo;
+                rfturn dfllInfo;
+                rfturn dfllInfo;
                 rfturn dfllInfo;
             }
+            }
+            }
+            }
+            }
             dfllInfo = dfllInfo->nfxtGCI;
-        } whilf (dfllInfo != NULL);
+            dfllInfo = dfllInfo->nfxtGCI;
+            dfllInfo = dfllInfo->nfxtGCI;
+            dfllInfo = dfllInfo->nfxtGCI;
+            dfllInfo = dfllInfo->nfxtGCI;
+        } wiilf (dfllInfo != NULL);
+        } wiilf (dfllInfo != NULL);
+        } wiilf (dfllInfo != NULL);
+        } wiilf (dfllInfo != NULL);
+        } wiilf (dfllInfo != NULL);
     }
-    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glyph 0x%x: no dfll for dbdhf 0x%x",
-                glyph, dbdhf);
+    }
+    }
+    }
+    }
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glypi 0x%x: no dfll for dbdif 0x%x",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glypi 0x%x: no dfll for dbdif 0x%x",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glypi 0x%x: no dfll for dbdif 0x%x",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glypi 0x%x: no dfll for dbdif 0x%x",
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glypi 0x%x: no dfll for dbdif 0x%x",
+                glypi, dbdif);
+                glypi, dbdif);
+                glypi, dbdif);
+                glypi, dbdif);
+                glypi, dbdif);
+    rfturn NULL;
+    rfturn NULL;
+    rfturn NULL;
+    rfturn NULL;
     rfturn NULL;
 }
+}
+}
+}
+}
+
+
+
+
 

@@ -1,256 +1,1280 @@
 /*
- * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+
+
+
+
 
 import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
 import jbvb.bwt.imbgf.ColorModfl;
-import jbvb.util.Hbshtbblf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
 import jbvb.bwt.Rfdtbnglf;
 
+
+
+
+
 /**
- * An ImbgfFiltfr dlbss for sdbling imbgfs using thf simplfst blgorithm.
- * This dlbss fxtfnds thf bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
- * imbgf bnd providf b sourdf for b nfw imbgf dontbining thf rfsbmplfd
- * imbgf.  Thf pixfls in thf sourdf imbgf brf sbmplfd to produdf pixfls
- * for bn imbgf of thf spfdififd sizf by rfplidbting rows bnd dolumns of
+/**
+/**
+/**
+/**
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using tif simplfst blgoritim.
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using tif simplfst blgoritim.
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using tif simplfst blgoritim.
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using tif simplfst blgoritim.
+ * An ImbgfFiltfr dlbss for sdbling imbgfs using tif simplfst blgoritim.
+ * Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * Tiis dlbss fxtfnds tif bbsid ImbgfFiltfr Clbss to sdblf bn fxisting
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining tif rfsbmplfd
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining tif rfsbmplfd
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining tif rfsbmplfd
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining tif rfsbmplfd
+ * imbgf bnd providf b sourdf for b nfw imbgf dontbining tif rfsbmplfd
+ * imbgf.  Tif pixfls in tif sourdf imbgf brf sbmplfd to produdf pixfls
+ * imbgf.  Tif pixfls in tif sourdf imbgf brf sbmplfd to produdf pixfls
+ * imbgf.  Tif pixfls in tif sourdf imbgf brf sbmplfd to produdf pixfls
+ * imbgf.  Tif pixfls in tif sourdf imbgf brf sbmplfd to produdf pixfls
+ * imbgf.  Tif pixfls in tif sourdf imbgf brf sbmplfd to produdf pixfls
+ * for bn imbgf of tif spfdififd sizf by rfplidbting rows bnd dolumns of
+ * for bn imbgf of tif spfdififd sizf by rfplidbting rows bnd dolumns of
+ * for bn imbgf of tif spfdififd sizf by rfplidbting rows bnd dolumns of
+ * for bn imbgf of tif spfdififd sizf by rfplidbting rows bnd dolumns of
+ * for bn imbgf of tif spfdififd sizf by rfplidbting rows bnd dolumns of
+ * pixfls to sdblf up or omitting rows bnd dolumns of pixfls to sdblf
+ * pixfls to sdblf up or omitting rows bnd dolumns of pixfls to sdblf
+ * pixfls to sdblf up or omitting rows bnd dolumns of pixfls to sdblf
+ * pixfls to sdblf up or omitting rows bnd dolumns of pixfls to sdblf
  * pixfls to sdblf up or omitting rows bnd dolumns of pixfls to sdblf
  * down.
- * <p>It is mfbnt to bf usfd in donjundtion with b FiltfrfdImbgfSourdf
+ * down.
+ * down.
+ * down.
+ * down.
+ * <p>It is mfbnt to bf usfd in donjundtion witi b FiltfrfdImbgfSourdf
+ * <p>It is mfbnt to bf usfd in donjundtion witi b FiltfrfdImbgfSourdf
+ * <p>It is mfbnt to bf usfd in donjundtion witi b FiltfrfdImbgfSourdf
+ * <p>It is mfbnt to bf usfd in donjundtion witi b FiltfrfdImbgfSourdf
+ * <p>It is mfbnt to bf usfd in donjundtion witi b FiltfrfdImbgfSourdf
  * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
- * implfmfntbtion dfpfndfndifs, thfrf mby bf difffrfndfs in pixfl vblufs
+ * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
+ * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
+ * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
+ * objfdt to produdf sdblfd vfrsions of fxisting imbgfs.  Duf to
+ * implfmfntbtion dfpfndfndifs, tifrf mby bf difffrfndfs in pixfl vblufs
+ * implfmfntbtion dfpfndfndifs, tifrf mby bf difffrfndfs in pixfl vblufs
+ * implfmfntbtion dfpfndfndifs, tifrf mby bf difffrfndfs in pixfl vblufs
+ * implfmfntbtion dfpfndfndifs, tifrf mby bf difffrfndfs in pixfl vblufs
+ * implfmfntbtion dfpfndfndifs, tifrf mby bf difffrfndfs in pixfl vblufs
+ * of bn imbgf filtfrfd on difffrfnt plbtforms.
+ * of bn imbgf filtfrfd on difffrfnt plbtforms.
+ * of bn imbgf filtfrfd on difffrfnt plbtforms.
+ * of bn imbgf filtfrfd on difffrfnt plbtforms.
  * of bn imbgf filtfrfd on difffrfnt plbtforms.
  *
+ *
+ *
+ *
+ *
+ * @sff FiltfrfdImbgfSourdf
+ * @sff FiltfrfdImbgfSourdf
+ * @sff FiltfrfdImbgfSourdf
+ * @sff FiltfrfdImbgfSourdf
  * @sff FiltfrfdImbgfSourdf
  * @sff ImbgfFiltfr
+ * @sff ImbgfFiltfr
+ * @sff ImbgfFiltfr
+ * @sff ImbgfFiltfr
+ * @sff ImbgfFiltfr
  *
- * @buthor      Jim Grbhbm
+ *
+ *
+ *
+ *
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ * @butior      Jim Grbibm
+ */
+ */
+ */
+ */
  */
 publid dlbss RfplidbtfSdblfFiltfr fxtfnds ImbgfFiltfr {
+publid dlbss RfplidbtfSdblfFiltfr fxtfnds ImbgfFiltfr {
+publid dlbss RfplidbtfSdblfFiltfr fxtfnds ImbgfFiltfr {
+publid dlbss RfplidbtfSdblfFiltfr fxtfnds ImbgfFiltfr {
+publid dlbss RfplidbtfSdblfFiltfr fxtfnds ImbgfFiltfr {
+
+
+
+
 
     /**
-     * Thf width of thf sourdf imbgf.
+    /**
+    /**
+    /**
+    /**
+     * Tif widti of tif sourdf imbgf.
+     * Tif widti of tif sourdf imbgf.
+     * Tif widti of tif sourdf imbgf.
+     * Tif widti of tif sourdf imbgf.
+     * Tif widti of tif sourdf imbgf.
      */
-    protfdtfd int srdWidth;
-
-    /**
-     * Thf hfight of thf sourdf imbgf.
      */
-    protfdtfd int srdHfight;
-
-    /**
-     * Thf tbrgft width to sdblf thf imbgf.
      */
-    protfdtfd int dfstWidth;
-
-    /**
-     * Thf tbrgft hfight to sdblf thf imbgf.
      */
-    protfdtfd int dfstHfight;
+     */
+    protfdtfd int srdWidti;
+    protfdtfd int srdWidti;
+    protfdtfd int srdWidti;
+    protfdtfd int srdWidti;
+    protfdtfd int srdWidti;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Tif ifigit of tif sourdf imbgf.
+     * Tif ifigit of tif sourdf imbgf.
+     * Tif ifigit of tif sourdf imbgf.
+     * Tif ifigit of tif sourdf imbgf.
+     * Tif ifigit of tif sourdf imbgf.
+     */
+     */
+     */
+     */
+     */
+    protfdtfd int srdHfigit;
+    protfdtfd int srdHfigit;
+    protfdtfd int srdHfigit;
+    protfdtfd int srdHfigit;
+    protfdtfd int srdHfigit;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif tbrgft widti to sdblf tif imbgf.
+     * Tif tbrgft widti to sdblf tif imbgf.
+     * Tif tbrgft widti to sdblf tif imbgf.
+     * Tif tbrgft widti to sdblf tif imbgf.
+     * Tif tbrgft widti to sdblf tif imbgf.
+     */
+     */
+     */
+     */
+     */
+    protfdtfd int dfstWidti;
+    protfdtfd int dfstWidti;
+    protfdtfd int dfstWidti;
+    protfdtfd int dfstWidti;
+    protfdtfd int dfstWidti;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif tbrgft ifigit to sdblf tif imbgf.
+     * Tif tbrgft ifigit to sdblf tif imbgf.
+     * Tif tbrgft ifigit to sdblf tif imbgf.
+     * Tif tbrgft ifigit to sdblf tif imbgf.
+     * Tif tbrgft ifigit to sdblf tif imbgf.
+     */
+     */
+     */
+     */
+     */
+    protfdtfd int dfstHfigit;
+    protfdtfd int dfstHfigit;
+    protfdtfd int dfstHfigit;
+    protfdtfd int dfstHfigit;
+    protfdtfd int dfstHfigit;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
      * An <dodf>int</dodf> brrby dontbining informbtion bbout b
      * row of pixfls.
+     * row of pixfls.
+     * row of pixfls.
+     * row of pixfls.
+     * row of pixfls.
+     */
+     */
+     */
+     */
      */
     protfdtfd int srdrows[];
+    protfdtfd int srdrows[];
+    protfdtfd int srdrows[];
+    protfdtfd int srdrows[];
+    protfdtfd int srdrows[];
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * An <dodf>int</dodf> brrby dontbining informbtion bbout b
+     * dolumn of pixfls.
+     * dolumn of pixfls.
+     * dolumn of pixfls.
+     * dolumn of pixfls.
      * dolumn of pixfls.
      */
+     */
+     */
+     */
+     */
+    protfdtfd int srddols[];
+    protfdtfd int srddols[];
+    protfdtfd int srddols[];
+    protfdtfd int srddols[];
     protfdtfd int srddols[];
 
+
+
+
+
     /**
-     * A <dodf>bytf</dodf> brrby initiblizfd with b sizf of
-     * {@link #dfstWidth} bnd usfd to dflivfr b row of pixfl
-     * dbtb to thf {@link ImbgfConsumfr}.
+    /**
+    /**
+    /**
+    /**
+     * A <dodf>bytf</dodf> brrby initiblizfd witi b sizf of
+     * A <dodf>bytf</dodf> brrby initiblizfd witi b sizf of
+     * A <dodf>bytf</dodf> brrby initiblizfd witi b sizf of
+     * A <dodf>bytf</dodf> brrby initiblizfd witi b sizf of
+     * A <dodf>bytf</dodf> brrby initiblizfd witi b sizf of
+     * {@link #dfstWidti} bnd usfd to dflivfr b row of pixfl
+     * {@link #dfstWidti} bnd usfd to dflivfr b row of pixfl
+     * {@link #dfstWidti} bnd usfd to dflivfr b row of pixfl
+     * {@link #dfstWidti} bnd usfd to dflivfr b row of pixfl
+     * {@link #dfstWidti} bnd usfd to dflivfr b row of pixfl
+     * dbtb to tif {@link ImbgfConsumfr}.
+     * dbtb to tif {@link ImbgfConsumfr}.
+     * dbtb to tif {@link ImbgfConsumfr}.
+     * dbtb to tif {@link ImbgfConsumfr}.
+     * dbtb to tif {@link ImbgfConsumfr}.
+     */
+     */
+     */
+     */
      */
     protfdtfd Objfdt outpixbuf;
+    protfdtfd Objfdt outpixbuf;
+    protfdtfd Objfdt outpixbuf;
+    protfdtfd Objfdt outpixbuf;
+    protfdtfd Objfdt outpixbuf;
+
+
+
+
 
     /**
-     * Construdts b RfplidbtfSdblfFiltfr thbt sdblfs thf pixfls from
-     * its sourdf Imbgf bs spfdififd by thf width bnd hfight pbrbmftfrs.
-     * @pbrbm width thf tbrgft width to sdblf thf imbgf
-     * @pbrbm hfight thf tbrgft hfight to sdblf thf imbgf
-     * @throws IllfgblArgumfntExdfption if <dodf>width</dodf> fqubls
-     *         zfro or <dodf>hfight</dodf> fqubls zfro
+    /**
+    /**
+    /**
+    /**
+     * Construdts b RfplidbtfSdblfFiltfr tibt sdblfs tif pixfls from
+     * Construdts b RfplidbtfSdblfFiltfr tibt sdblfs tif pixfls from
+     * Construdts b RfplidbtfSdblfFiltfr tibt sdblfs tif pixfls from
+     * Construdts b RfplidbtfSdblfFiltfr tibt sdblfs tif pixfls from
+     * Construdts b RfplidbtfSdblfFiltfr tibt sdblfs tif pixfls from
+     * its sourdf Imbgf bs spfdififd by tif widti bnd ifigit pbrbmftfrs.
+     * its sourdf Imbgf bs spfdififd by tif widti bnd ifigit pbrbmftfrs.
+     * its sourdf Imbgf bs spfdififd by tif widti bnd ifigit pbrbmftfrs.
+     * its sourdf Imbgf bs spfdififd by tif widti bnd ifigit pbrbmftfrs.
+     * its sourdf Imbgf bs spfdififd by tif widti bnd ifigit pbrbmftfrs.
+     * @pbrbm widti tif tbrgft widti to sdblf tif imbgf
+     * @pbrbm widti tif tbrgft widti to sdblf tif imbgf
+     * @pbrbm widti tif tbrgft widti to sdblf tif imbgf
+     * @pbrbm widti tif tbrgft widti to sdblf tif imbgf
+     * @pbrbm widti tif tbrgft widti to sdblf tif imbgf
+     * @pbrbm ifigit tif tbrgft ifigit to sdblf tif imbgf
+     * @pbrbm ifigit tif tbrgft ifigit to sdblf tif imbgf
+     * @pbrbm ifigit tif tbrgft ifigit to sdblf tif imbgf
+     * @pbrbm ifigit tif tbrgft ifigit to sdblf tif imbgf
+     * @pbrbm ifigit tif tbrgft ifigit to sdblf tif imbgf
+     * @tirows IllfgblArgumfntExdfption if <dodf>widti</dodf> fqubls
+     * @tirows IllfgblArgumfntExdfption if <dodf>widti</dodf> fqubls
+     * @tirows IllfgblArgumfntExdfption if <dodf>widti</dodf> fqubls
+     * @tirows IllfgblArgumfntExdfption if <dodf>widti</dodf> fqubls
+     * @tirows IllfgblArgumfntExdfption if <dodf>widti</dodf> fqubls
+     *         zfro or <dodf>ifigit</dodf> fqubls zfro
+     *         zfro or <dodf>ifigit</dodf> fqubls zfro
+     *         zfro or <dodf>ifigit</dodf> fqubls zfro
+     *         zfro or <dodf>ifigit</dodf> fqubls zfro
+     *         zfro or <dodf>ifigit</dodf> fqubls zfro
      */
-    publid RfplidbtfSdblfFiltfr(int width, int hfight) {
-        if (width == 0 || hfight == 0) {
-            throw nfw IllfgblArgumfntExdfption("Width ("+width+
-                                                ") bnd hfight ("+hfight+
+     */
+     */
+     */
+     */
+    publid RfplidbtfSdblfFiltfr(int widti, int ifigit) {
+    publid RfplidbtfSdblfFiltfr(int widti, int ifigit) {
+    publid RfplidbtfSdblfFiltfr(int widti, int ifigit) {
+    publid RfplidbtfSdblfFiltfr(int widti, int ifigit) {
+    publid RfplidbtfSdblfFiltfr(int widti, int ifigit) {
+        if (widti == 0 || ifigit == 0) {
+        if (widti == 0 || ifigit == 0) {
+        if (widti == 0 || ifigit == 0) {
+        if (widti == 0 || ifigit == 0) {
+        if (widti == 0 || ifigit == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+widti+
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+widti+
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+widti+
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+widti+
+            tirow nfw IllfgblArgumfntExdfption("Widti ("+widti+
+                                                ") bnd ifigit ("+ifigit+
+                                                ") bnd ifigit ("+ifigit+
+                                                ") bnd ifigit ("+ifigit+
+                                                ") bnd ifigit ("+ifigit+
+                                                ") bnd ifigit ("+ifigit+
+                                                ") must bf non-zfro");
+                                                ") must bf non-zfro");
+                                                ") must bf non-zfro");
+                                                ") must bf non-zfro");
                                                 ") must bf non-zfro");
         }
-        dfstWidth = width;
-        dfstHfight = hfight;
+        }
+        }
+        }
+        }
+        dfstWidti = widti;
+        dfstWidti = widti;
+        dfstWidti = widti;
+        dfstWidti = widti;
+        dfstWidti = widti;
+        dfstHfigit = ifigit;
+        dfstHfigit = ifigit;
+        dfstHfigit = ifigit;
+        dfstHfigit = ifigit;
+        dfstHfigit = ifigit;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbssfs blong thf propfrtifs from thf sourdf objfdt bftfr bdding b
-     * propfrty indidbting thf sdblf bpplifd.
-     * This mfthod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
-     * whidh might rfsult in bdditionbl propfrtifs bfing bddfd.
+    /**
+    /**
+    /**
+    /**
+     * Pbssfs blong tif propfrtifs from tif sourdf objfdt bftfr bdding b
+     * Pbssfs blong tif propfrtifs from tif sourdf objfdt bftfr bdding b
+     * Pbssfs blong tif propfrtifs from tif sourdf objfdt bftfr bdding b
+     * Pbssfs blong tif propfrtifs from tif sourdf objfdt bftfr bdding b
+     * Pbssfs blong tif propfrtifs from tif sourdf objfdt bftfr bdding b
+     * propfrty indidbting tif sdblf bpplifd.
+     * propfrty indidbting tif sdblf bpplifd.
+     * propfrty indidbting tif sdblf bpplifd.
+     * propfrty indidbting tif sdblf bpplifd.
+     * propfrty indidbting tif sdblf bpplifd.
+     * Tiis mftiod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * Tiis mftiod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * Tiis mftiod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * Tiis mftiod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * Tiis mftiod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * wiidi migit rfsult in bdditionbl propfrtifs bfing bddfd.
+     * wiidi migit rfsult in bdditionbl propfrtifs bfing bddfd.
+     * wiidi migit rfsult in bdditionbl propfrtifs bfing bddfd.
+     * wiidi migit rfsult in bdditionbl propfrtifs bfing bddfd.
+     * wiidi migit rfsult in bdditionbl propfrtifs bfing bddfd.
      * <p>
-     * Notf: This mfthod is intfndfd to bf dbllfd by thf
-     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
      * brf bfing filtfrfd. Dfvflopfrs using
-     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
-     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
-     * with thf filtfring opfrbtion.
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
      */
-    publid void sftPropfrtifs(Hbshtbblf<?,?> props) {
-        @SupprfssWbrnings("undhfdkfd")
-        Hbshtbblf<Objfdt,Objfdt> p = (Hbshtbblf<Objfdt,Objfdt>)props.dlonf();
+     */
+     */
+     */
+     */
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<Objfdt,Objfdt> p = (Hbsitbblf<Objfdt,Objfdt>)props.dlonf();
+        Hbsitbblf<Objfdt,Objfdt> p = (Hbsitbblf<Objfdt,Objfdt>)props.dlonf();
+        Hbsitbblf<Objfdt,Objfdt> p = (Hbsitbblf<Objfdt,Objfdt>)props.dlonf();
+        Hbsitbblf<Objfdt,Objfdt> p = (Hbsitbblf<Objfdt,Objfdt>)props.dlonf();
+        Hbsitbblf<Objfdt,Objfdt> p = (Hbsitbblf<Objfdt,Objfdt>)props.dlonf();
         String kfy = "rfsdblf";
-        String vbl = dfstWidth + "x" + dfstHfight;
+        String kfy = "rfsdblf";
+        String kfy = "rfsdblf";
+        String kfy = "rfsdblf";
+        String kfy = "rfsdblf";
+        String vbl = dfstWidti + "x" + dfstHfigit;
+        String vbl = dfstWidti + "x" + dfstHfigit;
+        String vbl = dfstWidti + "x" + dfstHfigit;
+        String vbl = dfstWidti + "x" + dfstHfigit;
+        String vbl = dfstWidti + "x" + dfstHfigit;
+        Objfdt o = p.gft(kfy);
+        Objfdt o = p.gft(kfy);
+        Objfdt o = p.gft(kfy);
+        Objfdt o = p.gft(kfy);
         Objfdt o = p.gft(kfy);
         if (o != null && o instbndfof String) {
+        if (o != null && o instbndfof String) {
+        if (o != null && o instbndfof String) {
+        if (o != null && o instbndfof String) {
+        if (o != null && o instbndfof String) {
+            vbl = ((String) o) + ", " + vbl;
+            vbl = ((String) o) + ", " + vbl;
+            vbl = ((String) o) + ", " + vbl;
+            vbl = ((String) o) + ", " + vbl;
             vbl = ((String) o) + ", " + vbl;
         }
+        }
+        }
+        }
+        }
+        p.put(kfy, vbl);
+        p.put(kfy, vbl);
+        p.put(kfy, vbl);
+        p.put(kfy, vbl);
         p.put(kfy, vbl);
         supfr.sftPropfrtifs(p);
+        supfr.sftPropfrtifs(p);
+        supfr.sftPropfrtifs(p);
+        supfr.sftPropfrtifs(p);
+        supfr.sftPropfrtifs(p);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Ovfrridf thf dimfnsions of thf sourdf imbgf bnd pbss thf dimfnsions
-     * of thf nfw sdblfd sizf to thf ImbgfConsumfr.
+    /**
+    /**
+    /**
+    /**
+     * Ovfrridf tif dimfnsions of tif sourdf imbgf bnd pbss tif dimfnsions
+     * Ovfrridf tif dimfnsions of tif sourdf imbgf bnd pbss tif dimfnsions
+     * Ovfrridf tif dimfnsions of tif sourdf imbgf bnd pbss tif dimfnsions
+     * Ovfrridf tif dimfnsions of tif sourdf imbgf bnd pbss tif dimfnsions
+     * Ovfrridf tif dimfnsions of tif sourdf imbgf bnd pbss tif dimfnsions
+     * of tif nfw sdblfd sizf to tif ImbgfConsumfr.
+     * of tif nfw sdblfd sizf to tif ImbgfConsumfr.
+     * of tif nfw sdblfd sizf to tif ImbgfConsumfr.
+     * of tif nfw sdblfd sizf to tif ImbgfConsumfr.
+     * of tif nfw sdblfd sizf to tif ImbgfConsumfr.
      * <p>
-     * Notf: This mfthod is intfndfd to bf dbllfd by thf
-     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
      * brf bfing filtfrfd. Dfvflopfrs using
-     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
-     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
-     * with thf filtfring opfrbtion.
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * @sff ImbgfConsumfr
+     * @sff ImbgfConsumfr
+     * @sff ImbgfConsumfr
+     * @sff ImbgfConsumfr
      * @sff ImbgfConsumfr
      */
-    publid void sftDimfnsions(int w, int h) {
-        srdWidth = w;
-        srdHfight = h;
-        if (dfstWidth < 0) {
-            if (dfstHfight < 0) {
-                dfstWidth = srdWidth;
-                dfstHfight = srdHfight;
+     */
+     */
+     */
+     */
+    publid void sftDimfnsions(int w, int i) {
+    publid void sftDimfnsions(int w, int i) {
+    publid void sftDimfnsions(int w, int i) {
+    publid void sftDimfnsions(int w, int i) {
+    publid void sftDimfnsions(int w, int i) {
+        srdWidti = w;
+        srdWidti = w;
+        srdWidti = w;
+        srdWidti = w;
+        srdWidti = w;
+        srdHfigit = i;
+        srdHfigit = i;
+        srdHfigit = i;
+        srdHfigit = i;
+        srdHfigit = i;
+        if (dfstWidti < 0) {
+        if (dfstWidti < 0) {
+        if (dfstWidti < 0) {
+        if (dfstWidti < 0) {
+        if (dfstWidti < 0) {
+            if (dfstHfigit < 0) {
+            if (dfstHfigit < 0) {
+            if (dfstHfigit < 0) {
+            if (dfstHfigit < 0) {
+            if (dfstHfigit < 0) {
+                dfstWidti = srdWidti;
+                dfstWidti = srdWidti;
+                dfstWidti = srdWidti;
+                dfstWidti = srdWidti;
+                dfstWidti = srdWidti;
+                dfstHfigit = srdHfigit;
+                dfstHfigit = srdHfigit;
+                dfstHfigit = srdHfigit;
+                dfstHfigit = srdHfigit;
+                dfstHfigit = srdHfigit;
             } flsf {
-                dfstWidth = srdWidth * dfstHfight / srdHfight;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                dfstWidti = srdWidti * dfstHfigit / srdHfigit;
+                dfstWidti = srdWidti * dfstHfigit / srdHfigit;
+                dfstWidti = srdWidti * dfstHfigit / srdHfigit;
+                dfstWidti = srdWidti * dfstHfigit / srdHfigit;
+                dfstWidti = srdWidti * dfstHfigit / srdHfigit;
             }
-        } flsf if (dfstHfight < 0) {
-            dfstHfight = srdHfight * dfstWidth / srdWidth;
+            }
+            }
+            }
+            }
+        } flsf if (dfstHfigit < 0) {
+        } flsf if (dfstHfigit < 0) {
+        } flsf if (dfstHfigit < 0) {
+        } flsf if (dfstHfigit < 0) {
+        } flsf if (dfstHfigit < 0) {
+            dfstHfigit = srdHfigit * dfstWidti / srdWidti;
+            dfstHfigit = srdHfigit * dfstWidti / srdWidti;
+            dfstHfigit = srdHfigit * dfstWidti / srdWidti;
+            dfstHfigit = srdHfigit * dfstWidti / srdWidti;
+            dfstHfigit = srdHfigit * dfstWidti / srdWidti;
         }
-        donsumfr.sftDimfnsions(dfstWidth, dfstHfight);
+        }
+        }
+        }
+        }
+        donsumfr.sftDimfnsions(dfstWidti, dfstHfigit);
+        donsumfr.sftDimfnsions(dfstWidti, dfstHfigit);
+        donsumfr.sftDimfnsions(dfstWidti, dfstHfigit);
+        donsumfr.sftDimfnsions(dfstWidti, dfstHfigit);
+        donsumfr.sftDimfnsions(dfstWidti, dfstHfigit);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void dbldulbtfMbps() {
-        srdrows = nfw int[dfstHfight + 1];
-        for (int y = 0; y <= dfstHfight; y++) {
-            srdrows[y] = (2 * y * srdHfight + srdHfight) / (2 * dfstHfight);
+    privbtf void dbldulbtfMbps() {
+    privbtf void dbldulbtfMbps() {
+    privbtf void dbldulbtfMbps() {
+    privbtf void dbldulbtfMbps() {
+        srdrows = nfw int[dfstHfigit + 1];
+        srdrows = nfw int[dfstHfigit + 1];
+        srdrows = nfw int[dfstHfigit + 1];
+        srdrows = nfw int[dfstHfigit + 1];
+        srdrows = nfw int[dfstHfigit + 1];
+        for (int y = 0; y <= dfstHfigit; y++) {
+        for (int y = 0; y <= dfstHfigit; y++) {
+        for (int y = 0; y <= dfstHfigit; y++) {
+        for (int y = 0; y <= dfstHfigit; y++) {
+        for (int y = 0; y <= dfstHfigit; y++) {
+            srdrows[y] = (2 * y * srdHfigit + srdHfigit) / (2 * dfstHfigit);
+            srdrows[y] = (2 * y * srdHfigit + srdHfigit) / (2 * dfstHfigit);
+            srdrows[y] = (2 * y * srdHfigit + srdHfigit) / (2 * dfstHfigit);
+            srdrows[y] = (2 * y * srdHfigit + srdHfigit) / (2 * dfstHfigit);
+            srdrows[y] = (2 * y * srdHfigit + srdHfigit) / (2 * dfstHfigit);
         }
-        srddols = nfw int[dfstWidth + 1];
-        for (int x = 0; x <= dfstWidth; x++) {
-            srddols[x] = (2 * x * srdWidth + srdWidth) / (2 * dfstWidth);
+        }
+        }
+        }
+        }
+        srddols = nfw int[dfstWidti + 1];
+        srddols = nfw int[dfstWidti + 1];
+        srddols = nfw int[dfstWidti + 1];
+        srddols = nfw int[dfstWidti + 1];
+        srddols = nfw int[dfstWidti + 1];
+        for (int x = 0; x <= dfstWidti; x++) {
+        for (int x = 0; x <= dfstWidti; x++) {
+        for (int x = 0; x <= dfstWidti; x++) {
+        for (int x = 0; x <= dfstWidti; x++) {
+        for (int x = 0; x <= dfstWidti; x++) {
+            srddols[x] = (2 * x * srdWidti + srdWidti) / (2 * dfstWidti);
+            srddols[x] = (2 * x * srdWidti + srdWidti) / (2 * dfstWidti);
+            srddols[x] = (2 * x * srdWidti + srdWidti) / (2 * dfstWidti);
+            srddols[x] = (2 * x * srdWidti + srdWidti) / (2 * dfstWidti);
+            srddols[x] = (2 * x * srdWidti + srdWidti) / (2 * dfstWidti);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Choosf whidh rows bnd dolumns of thf dflivfrfd bytf pixfls brf
-     * nffdfd for thf dfstinbtion sdblfd imbgf bnd pbss through just
-     * thosf rows bnd dolumns thbt brf nffdfd, rfplidbtfd bs nfdfssbry.
+    /**
+    /**
+    /**
+    /**
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd bytf pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd bytf pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd bytf pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd bytf pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd bytf pixfls brf
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
      * <p>
-     * Notf: This mfthod is intfndfd to bf dbllfd by thf
-     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
      * brf bfing filtfrfd. Dfvflopfrs using
-     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
-     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
-     * with thf filtfring opfrbtion.
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
      */
-    publid void sftPixfls(int x, int y, int w, int h,
+     */
+     */
+     */
+     */
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          ColorModfl modfl, bytf pixfls[], int off,
                           ColorModfl modfl, bytf pixfls[], int off,
                           int sdbnsizf) {
-        if (srdrows == null || srddols == null) {
-            dbldulbtfMbps();
-        }
-        int sx, sy;
-        int dx1 = (2 * x * dfstWidth + srdWidth - 1) / (2 * srdWidth);
-        int dy1 = (2 * y * dfstHfight + srdHfight - 1) / (2 * srdHfight);
-        bytf outpix[];
-        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
-            outpix = (bytf[]) outpixbuf;
-        } flsf {
-            outpix = nfw bytf[dfstWidth];
-            outpixbuf = outpix;
-        }
-        for (int dy = dy1; (sy = srdrows[dy]) < y + h; dy++) {
-            int srdoff = off + sdbnsizf * (sy - y);
-            int dx;
-            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
-                outpix[dx] = pixfls[srdoff + sx - x];
-            }
-            if (dx > dx1) {
-                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
-                                   modfl, outpix, dx1, dfstWidth);
-            }
-        }
-    }
-
-    /**
-     * Choosf whidh rows bnd dolumns of thf dflivfrfd int pixfls brf
-     * nffdfd for thf dfstinbtion sdblfd imbgf bnd pbss through just
-     * thosf rows bnd dolumns thbt brf nffdfd, rfplidbtfd bs nfdfssbry.
-     * <p>
-     * Notf: This mfthod is intfndfd to bf dbllfd by thf
-     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
-     * brf bfing filtfrfd. Dfvflopfrs using
-     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
-     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
-     * with thf filtfring opfrbtion.
-     */
-    publid void sftPixfls(int x, int y, int w, int h,
-                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+                          int sdbnsizf) {
+                          int sdbnsizf) {
                           int sdbnsizf) {
         if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+            dbldulbtfMbps();
+            dbldulbtfMbps();
+            dbldulbtfMbps();
+            dbldulbtfMbps();
             dbldulbtfMbps();
         }
+        }
+        }
+        }
+        }
         int sx, sy;
-        int dx1 = (2 * x * dfstWidth + srdWidth - 1) / (2 * srdWidth);
-        int dy1 = (2 * y * dfstHfight + srdHfight - 1) / (2 * srdHfight);
-        int outpix[];
-        if (outpixbuf != null && outpixbuf instbndfof int[]) {
-            outpix = (int[]) outpixbuf;
+        int sx, sy;
+        int sx, sy;
+        int sx, sy;
+        int sx, sy;
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        bytf outpix[];
+        bytf outpix[];
+        bytf outpix[];
+        bytf outpix[];
+        bytf outpix[];
+        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
+        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
+        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
+        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
+        if (outpixbuf != null && outpixbuf instbndfof bytf[]) {
+            outpix = (bytf[]) outpixbuf;
+            outpix = (bytf[]) outpixbuf;
+            outpix = (bytf[]) outpixbuf;
+            outpix = (bytf[]) outpixbuf;
+            outpix = (bytf[]) outpixbuf;
         } flsf {
-            outpix = nfw int[dfstWidth];
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            outpix = nfw bytf[dfstWidti];
+            outpix = nfw bytf[dfstWidti];
+            outpix = nfw bytf[dfstWidti];
+            outpix = nfw bytf[dfstWidti];
+            outpix = nfw bytf[dfstWidti];
+            outpixbuf = outpix;
+            outpixbuf = outpix;
+            outpixbuf = outpix;
+            outpixbuf = outpix;
             outpixbuf = outpix;
         }
-        for (int dy = dy1; (sy = srdrows[dy]) < y + h; dy++) {
+        }
+        }
+        }
+        }
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+            int srdoff = off + sdbnsizf * (sy - y);
+            int srdoff = off + sdbnsizf * (sy - y);
+            int srdoff = off + sdbnsizf * (sy - y);
+            int srdoff = off + sdbnsizf * (sy - y);
             int srdoff = off + sdbnsizf * (sy - y);
             int dx;
+            int dx;
+            int dx;
+            int dx;
+            int dx;
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
             for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
                 outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+            }
+            }
+            }
+            }
             }
             if (dx > dx1) {
+            if (dx > dx1) {
+            if (dx > dx1) {
+            if (dx > dx1) {
+            if (dx > dx1) {
                 donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
-                                   modfl, outpix, dx1, dfstWidth);
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd int pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd int pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd int pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd int pixfls brf
+     * Cioosf wiidi rows bnd dolumns of tif dflivfrfd int pixfls brf
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * nffdfd for tif dfstinbtion sdblfd imbgf bnd pbss tirougi just
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * tiosf rows bnd dolumns tibt brf nffdfd, rfplidbtfd bs nfdfssbry.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * <dodf>ImbgfProdudfr</dodf> of tif <dodf>Imbgf</dodf> wiosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis dlbss to filtfr pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould intfrffrf
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     * witi tif filtfring opfrbtion.
+     */
+     */
+     */
+     */
+     */
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl, int pixfls[], int off,
+                          ColorModfl modfl, int pixfls[], int off,
+                          ColorModfl modfl, int pixfls[], int off,
+                          ColorModfl modfl, int pixfls[], int off,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+                          int sdbnsizf) {
+                          int sdbnsizf) {
+                          int sdbnsizf) {
+                          int sdbnsizf) {
+        if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+        if (srdrows == null || srddols == null) {
+            dbldulbtfMbps();
+            dbldulbtfMbps();
+            dbldulbtfMbps();
+            dbldulbtfMbps();
+            dbldulbtfMbps();
+        }
+        }
+        }
+        }
+        }
+        int sx, sy;
+        int sx, sy;
+        int sx, sy;
+        int sx, sy;
+        int sx, sy;
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dx1 = (2 * x * dfstWidti + srdWidti - 1) / (2 * srdWidti);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int dy1 = (2 * y * dfstHfigit + srdHfigit - 1) / (2 * srdHfigit);
+        int outpix[];
+        int outpix[];
+        int outpix[];
+        int outpix[];
+        int outpix[];
+        if (outpixbuf != null && outpixbuf instbndfof int[]) {
+        if (outpixbuf != null && outpixbuf instbndfof int[]) {
+        if (outpixbuf != null && outpixbuf instbndfof int[]) {
+        if (outpixbuf != null && outpixbuf instbndfof int[]) {
+        if (outpixbuf != null && outpixbuf instbndfof int[]) {
+            outpix = (int[]) outpixbuf;
+            outpix = (int[]) outpixbuf;
+            outpix = (int[]) outpixbuf;
+            outpix = (int[]) outpixbuf;
+            outpix = (int[]) outpixbuf;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            outpix = nfw int[dfstWidti];
+            outpix = nfw int[dfstWidti];
+            outpix = nfw int[dfstWidti];
+            outpix = nfw int[dfstWidti];
+            outpix = nfw int[dfstWidti];
+            outpixbuf = outpix;
+            outpixbuf = outpix;
+            outpixbuf = outpix;
+            outpixbuf = outpix;
+            outpixbuf = outpix;
+        }
+        }
+        }
+        }
+        }
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+        for (int dy = dy1; (sy = srdrows[dy]) < y + i; dy++) {
+            int srdoff = off + sdbnsizf * (sy - y);
+            int srdoff = off + sdbnsizf * (sy - y);
+            int srdoff = off + sdbnsizf * (sy - y);
+            int srdoff = off + sdbnsizf * (sy - y);
+            int srdoff = off + sdbnsizf * (sy - y);
+            int dx;
+            int dx;
+            int dx;
+            int dx;
+            int dx;
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+            for (dx = dx1; (sx = srddols[dx]) < x + w; dx++) {
+                outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+                outpix[dx] = pixfls[srdoff + sx - x];
+            }
+            }
+            }
+            }
+            }
+            if (dx > dx1) {
+            if (dx > dx1) {
+            if (dx > dx1) {
+            if (dx > dx1) {
+            if (dx > dx1) {
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                donsumfr.sftPixfls(dx1, dy, dx - dx1, 1,
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+                                   modfl, outpix, dx1, dfstWidti);
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

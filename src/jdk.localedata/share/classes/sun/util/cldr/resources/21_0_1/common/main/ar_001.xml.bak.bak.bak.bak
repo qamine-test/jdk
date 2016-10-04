@@ -1,10 +1,50 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6228 $"/>
+		<vfrsion numbfr="$Rfvision: 6228 $"/>
+		<vfrsion numbfr="$Rfvision: 6228 $"/>
+		<vfrsion numbfr="$Rfvision: 6228 $"/>
+		<vfrsion numbfr="$Rfvision: 6228 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-11-05 16:00:00 -0700 (Sbt, 05 Nov 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-11-05 16:00:00 -0700 (Sbt, 05 Nov 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-11-05 16:00:00 -0700 (Sbt, 05 Nov 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-11-05 16:00:00 -0700 (Sbt, 05 Nov 2011) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2011-11-05 16:00:00 -0700 (Sbt, 05 Nov 2011) $"/>
 		<lbngubgf typf="br"/>
+		<lbngubgf typf="br"/>
+		<lbngubgf typf="br"/>
+		<lbngubgf typf="br"/>
+		<lbngubgf typf="br"/>
+		<tfrritory typf="001"/>
+		<tfrritory typf="001"/>
+		<tfrritory typf="001"/>
+		<tfrritory typf="001"/>
 		<tfrritory typf="001"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

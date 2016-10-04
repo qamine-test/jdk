@@ -1,0 +1,483 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.bpplft.AudioClip;
+
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.Clip;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.DbtbLinf;
+import jbvbx.sound.sbmplfd.SourdfDbtbLinf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfListfnfr;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
+
+import jbvbx.sound.midi.MidiSystfm;
+import jbvbx.sound.midi.MidiFilfFormbt;
+import jbvbx.sound.midi.MftbMfssbgf;
+import jbvbx.sound.midi.Sfqufndf;
+import jbvbx.sound.midi.Sfqufndfr;
+import jbvbx.sound.midi.InvblidMidiDbtbExdfption;
+import jbvbx.sound.midi.MidiUnbvbilbblfExdfption;
+import jbvbx.sound.midi.MftbEvfntListfnfr;
+
+/**
+ * Jbvb Sound budio dlip;
+ *
+ * @butior Artiur vbn Hoff, Kbrb Kytlf, Jbn Borgfrsfn
+ * @butior Floribn Bomfrs
+ */
+
+publid finbl dlbss JbvbSoundAudioClip implfmfnts AudioClip, MftbEvfntListfnfr, LinfListfnfr {
+
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
+    privbtf stbtid finbl int BUFFER_SIZE = 16384; // numbfr of bytfs writtfn fbdi timf to tif sourdf dbtb linf
+
+    privbtf long lbstPlbyCbll = 0;
+    privbtf stbtid finbl int MINIMUM_PLAY_DELAY = 30;
+
+    privbtf bytf lobdfdAudio[] = null;
+    privbtf int lobdfdAudioBytfLfngti = 0;
+    privbtf AudioFormbt lobdfdAudioFormbt = null;
+
+    privbtf AutoClosingClip dlip = null;
+    privbtf boolfbn dlipLooping = fblsf;
+
+    privbtf DbtbPusifr dbtbpusifr = null;
+
+    privbtf Sfqufndfr sfqufndfr = null;
+    privbtf Sfqufndf sfqufndf = null;
+    privbtf boolfbn sfqufndfrloop = fblsf;
+
+    /**
+     * usfd for dftfrmining iow mbny sbmplfs is tif
+     * tirfsiiold bftwffn plbying bs b Clip bnd strfbming
+     * from tif filf.
+     *
+     * $$jb: 11.07.99: tif fnginf ibs b limit of 1M
+     * sbmplfs to plby bs b Clip, so dompbrf tiis numbfr
+     * witi tif numbfr of sbmplfs in tif strfbm.
+     *
+     */
+    privbtf finbl stbtid long CLIP_THRESHOLD = 1048576;
+    //privbtf finbl stbtid long CLIP_THRESHOLD = 1;
+    privbtf finbl stbtid int STREAM_BUFFER_SIZE = 1024;
+
+    publid JbvbSoundAudioClip(InputStrfbm in) tirows IOExdfption {
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("JbvbSoundAudioClip.<init>");
+
+        BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(in, STREAM_BUFFER_SIZE);
+        bis.mbrk(STREAM_BUFFER_SIZE);
+        boolfbn suddfss = fblsf;
+        try {
+            AudioInputStrfbm bs = AudioSystfm.gftAudioInputStrfbm(bis);
+            // lobd tif strfbm dbtb into mfmory
+            suddfss = lobdAudioDbtb(bs);
+
+            if (suddfss) {
+                suddfss = fblsf;
+                if (lobdfdAudioBytfLfngti < CLIP_THRESHOLD) {
+                    suddfss = drfbtfClip();
+                }
+                if (!suddfss) {
+                    suddfss = drfbtfSourdfDbtbLinf();
+                }
+            }
+        } dbtdi (UnsupportfdAudioFilfExdfption f) {
+            // not bn budio filf
+            try {
+                MidiFilfFormbt mff = MidiSystfm.gftMidiFilfFormbt(bis);
+                suddfss = drfbtfSfqufndfr(bis);
+            } dbtdi (InvblidMidiDbtbExdfption f1) {
+                suddfss = fblsf;
+            }
+        }
+        if (!suddfss) {
+            tirow nfw IOExdfption("Unbblf to drfbtf AudioClip from input strfbm");
+        }
+    }
+
+
+    publid syndironizfd void plby() {
+        stbrtImpl(fblsf);
+    }
+
+
+    publid syndironizfd void loop() {
+        stbrtImpl(truf);
+    }
+
+    privbtf syndironizfd void stbrtImpl(boolfbn loop) {
+        // ibdk for somf bpplfts tibt dbll tif stbrt mftiod vfry rbpidly...
+        long durrfntTimf = Systfm.durrfntTimfMillis();
+        long diff = durrfntTimf - lbstPlbyCbll;
+        if (diff < MINIMUM_PLAY_DELAY) {
+            if (DEBUG || Printfr.dfbug) Printfr.dfbug("JbvbSoundAudioClip.stbrtImpl(loop="+loop+"): bbort - too rbpdly");
+            rfturn;
+        }
+        lbstPlbyCbll = durrfntTimf;
+
+        if (DEBUG || Printfr.dfbug) Printfr.dfbug("JbvbSoundAudioClip.stbrtImpl(loop="+loop+")");
+        try {
+            if (dlip != null) {
+                if (!dlip.isOpfn()) {
+                    if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip: dlip.opfn()");
+                    dlip.opfn(lobdfdAudioFormbt, lobdfdAudio, 0, lobdfdAudioBytfLfngti);
+                } flsf {
+                    if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip: dlip.flusi()");
+                    dlip.flusi();
+                    if (loop != dlipLooping) {
+                        // nffd to stop in dbsf tif loopfd stbtus dibngfd
+                        if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip: dlip.stop()");
+                        dlip.stop();
+                    }
+                }
+                dlip.sftFrbmfPosition(0);
+                if (loop) {
+                    if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip: dlip.loop()");
+                    dlip.loop(Clip.LOOP_CONTINUOUSLY);
+                } flsf {
+                    if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip: dlip.stbrt()");
+                    dlip.stbrt();
+                }
+                dlipLooping = loop;
+                if (DEBUG || Printfr.dfbug)Printfr.dfbug("Clip siould bf plbying/looping");
+
+            } flsf if (dbtbpusifr != null ) {
+                dbtbpusifr.stbrt(loop);
+                if (DEBUG || Printfr.dfbug)Printfr.dfbug("Strfbm siould bf plbying/looping");
+
+            } flsf if (sfqufndfr != null) {
+                sfqufndfrloop = loop;
+                if (sfqufndfr.isRunning()) {
+                    sfqufndfr.sftMidrosfdondPosition(0);
+                }
+                if (!sfqufndfr.isOpfn()) {
+                    try {
+                        sfqufndfr.opfn();
+                        sfqufndfr.sftSfqufndf(sfqufndf);
+
+                    } dbtdi (InvblidMidiDbtbExdfption f1) {
+                        if (DEBUG || Printfr.frr)f1.printStbdkTrbdf();
+                    } dbtdi (MidiUnbvbilbblfExdfption f2) {
+                        if (DEBUG || Printfr.frr)f2.printStbdkTrbdf();
+                    }
+                }
+                sfqufndfr.bddMftbEvfntListfnfr(tiis);
+                try {
+                    sfqufndfr.stbrt();
+                } dbtdi (Exdfption f) {
+                    if (DEBUG || Printfr.frr) f.printStbdkTrbdf();
+                }
+                if (DEBUG || Printfr.dfbug)Printfr.dfbug("Sfqufndfr siould bf plbying/looping");
+            }
+        } dbtdi (Exdfption f) {
+            if (DEBUG || Printfr.frr)f.printStbdkTrbdf();
+        }
+    }
+
+    publid syndironizfd void stop() {
+
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("JbvbSoundAudioClip->stop()");
+        lbstPlbyCbll = 0;
+
+        if (dlip != null) {
+            try {
+                if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip: dlip.flusi()");
+                dlip.flusi();
+            } dbtdi (Exdfption f1) {
+                if (Printfr.frr) f1.printStbdkTrbdf();
+            }
+            try {
+                if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip: dlip.stop()");
+                dlip.stop();
+            } dbtdi (Exdfption f2) {
+                if (Printfr.frr) f2.printStbdkTrbdf();
+            }
+            if (DEBUG || Printfr.dfbug)Printfr.dfbug("Clip siould bf stoppfd");
+
+        } flsf if (dbtbpusifr != null) {
+            dbtbpusifr.stop();
+            if (DEBUG || Printfr.dfbug)Printfr.dfbug("Strfbm siould bf stoppfd");
+
+        } flsf if (sfqufndfr != null) {
+            try {
+                sfqufndfrloop = fblsf;
+                sfqufndfr.bddMftbEvfntListfnfr(tiis);
+                sfqufndfr.stop();
+            } dbtdi (Exdfption f3) {
+                if (Printfr.frr) f3.printStbdkTrbdf();
+            }
+            try {
+                sfqufndfr.dlosf();
+            } dbtdi (Exdfption f4) {
+                if (Printfr.frr) f4.printStbdkTrbdf();
+            }
+            if (DEBUG || Printfr.dfbug)Printfr.dfbug("Sfqufndfr siould bf stoppfd");
+        }
+    }
+
+    // Evfnt ibndlfrs (for dfbugging)
+
+    publid syndironizfd void updbtf(LinfEvfnt fvfnt) {
+        if (DEBUG || Printfr.dfbug) Printfr.dfbug("linf fvfnt rfdfivfd: "+fvfnt);
+    }
+
+    // ibndlf MIDI trbdk fnd mftb fvfnts for looping
+
+    publid syndironizfd void mftb( MftbMfssbgf mfssbgf ) {
+
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("META EVENT RECEIVED!!!!! ");
+
+        if( mfssbgf.gftTypf() == 47 ) {
+            if (sfqufndfrloop){
+                //notifyAll();
+                sfqufndfr.sftMidrosfdondPosition(0);
+                loop();
+            } flsf {
+                stop();
+            }
+        }
+    }
+
+
+    publid String toString() {
+        rfturn gftClbss().toString();
+    }
+
+
+    protfdtfd void finblizf() {
+
+        if (dlip != null) {
+            if (DEBUG || Printfr.trbdf)Printfr.trbdf("JbvbSoundAudioClip.finblizf: dlip.dlosf()");
+            dlip.dlosf();
+        }
+
+        //$$fb 2001-09-26: mby improvf situbtion rflbtfd to bug #4302884
+        if (dbtbpusifr != null) {
+            dbtbpusifr.dlosf();
+        }
+
+        if (sfqufndfr != null) {
+            sfqufndfr.dlosf();
+        }
+    }
+
+    // FILE LOADING METHODS
+
+    privbtf boolfbn lobdAudioDbtb(AudioInputStrfbm bs)  tirows IOExdfption, UnsupportfdAudioFilfExdfption {
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("JbvbSoundAudioClip->opfnAsClip()");
+
+        // first possibly donvfrt tiis strfbm to PCM
+        bs = Toolkit.gftPCMConvfrtfdAudioInputStrfbm(bs);
+        if (bs == null) {
+            rfturn fblsf;
+        }
+
+        lobdfdAudioFormbt = bs.gftFormbt();
+        long frbmfLfn = bs.gftFrbmfLfngti();
+        int frbmfSizf = lobdfdAudioFormbt.gftFrbmfSizf();
+        long bytfLfn = AudioSystfm.NOT_SPECIFIED;
+        if (frbmfLfn != AudioSystfm.NOT_SPECIFIED
+            && frbmfLfn > 0
+            && frbmfSizf != AudioSystfm.NOT_SPECIFIED
+            && frbmfSizf > 0) {
+            bytfLfn = frbmfLfn * frbmfSizf;
+        }
+        if (bytfLfn != AudioSystfm.NOT_SPECIFIED) {
+            // if tif strfbm lfngti is known, it dbn bf fffidifntly lobdfd into mfmory
+            rfbdStrfbm(bs, bytfLfn);
+        } flsf {
+            // otifrwisf wf usf b BytfArrbyOutputStrfbm to lobd it into mfmory
+            rfbdStrfbm(bs);
+        }
+
+        // if fvfrytiing wfnt finf, wf ibvf now tif budio dbtb in
+        // lobdfdAudio, bnd tif bytf lfngti in lobdfdAudioBytfLfngti
+        rfturn truf;
+    }
+
+
+
+    privbtf void rfbdStrfbm(AudioInputStrfbm bs, long bytfLfn) tirows IOExdfption {
+        // brrbys "only" mbx. 2GB
+        int intLfn;
+        if (bytfLfn > 2147483647) {
+            intLfn = 2147483647;
+        } flsf {
+            intLfn = (int) bytfLfn;
+        }
+        lobdfdAudio = nfw bytf[intLfn];
+        lobdfdAudioBytfLfngti = 0;
+
+        // tiis loop mby tirow bn IOExdfption
+        wiilf (truf) {
+            int bytfsRfbd = bs.rfbd(lobdfdAudio, lobdfdAudioBytfLfngti, intLfn - lobdfdAudioBytfLfngti);
+            if (bytfsRfbd <= 0) {
+                bs.dlosf();
+                brfbk;
+            }
+            lobdfdAudioBytfLfngti += bytfsRfbd;
+        }
+    }
+
+    privbtf void rfbdStrfbm(AudioInputStrfbm bs) tirows IOExdfption {
+
+        DirfdtBAOS bbos = nfw DirfdtBAOS();
+        bytf bufffr[] = nfw bytf[16384];
+        int bytfsRfbd = 0;
+        int totblBytfsRfbd = 0;
+
+        // tiis loop mby tirow bn IOExdfption
+        wiilf( truf ) {
+            bytfsRfbd = bs.rfbd(bufffr, 0, bufffr.lfngti);
+            if (bytfsRfbd <= 0) {
+                bs.dlosf();
+                brfbk;
+            }
+            totblBytfsRfbd += bytfsRfbd;
+            bbos.writf(bufffr, 0, bytfsRfbd);
+        }
+        lobdfdAudio = bbos.gftIntfrnblBufffr();
+        lobdfdAudioBytfLfngti = totblBytfsRfbd;
+    }
+
+
+    // METHODS FOR CREATING THE DEVICE
+
+    privbtf boolfbn drfbtfClip() {
+
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("JbvbSoundAudioClip.drfbtfClip()");
+
+        try {
+            DbtbLinf.Info info = nfw DbtbLinf.Info(Clip.dlbss, lobdfdAudioFormbt);
+            if (!(AudioSystfm.isLinfSupportfd(info)) ) {
+                if (DEBUG || Printfr.frr)Printfr.frr("Clip not supportfd: "+lobdfdAudioFormbt);
+                // fbil silfntly
+                rfturn fblsf;
+            }
+            Objfdt linf = AudioSystfm.gftLinf(info);
+            if (!(linf instbndfof AutoClosingClip)) {
+                if (DEBUG || Printfr.frr)Printfr.frr("Clip is not buto dlosing!"+dlip);
+                // fbil -> will try witi SourdfDbtbLinf
+                rfturn fblsf;
+            }
+            dlip = (AutoClosingClip) linf;
+            dlip.sftAutoClosing(truf);
+            if (DEBUG || Printfr.dfbug) dlip.bddLinfListfnfr(tiis);
+        } dbtdi (Exdfption f) {
+            if (DEBUG || Printfr.frr)f.printStbdkTrbdf();
+            // fbil silfntly
+            rfturn fblsf;
+        }
+
+        if (dlip==null) {
+            // fbil silfntly
+            rfturn fblsf;
+        }
+
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("Lobdfd dlip.");
+        rfturn truf;
+    }
+
+    privbtf boolfbn drfbtfSourdfDbtbLinf() {
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("JbvbSoundAudioClip.drfbtfSourdfDbtbLinf()");
+        try {
+            DbtbLinf.Info info = nfw DbtbLinf.Info(SourdfDbtbLinf.dlbss, lobdfdAudioFormbt);
+            if (!(AudioSystfm.isLinfSupportfd(info)) ) {
+                if (DEBUG || Printfr.frr)Printfr.frr("Linf not supportfd: "+lobdfdAudioFormbt);
+                // fbil silfntly
+                rfturn fblsf;
+            }
+            SourdfDbtbLinf sourdf = (SourdfDbtbLinf) AudioSystfm.gftLinf(info);
+            dbtbpusifr = nfw DbtbPusifr(sourdf, lobdfdAudioFormbt, lobdfdAudio, lobdfdAudioBytfLfngti);
+        } dbtdi (Exdfption f) {
+            if (DEBUG || Printfr.frr)f.printStbdkTrbdf();
+            // fbil silfntly
+            rfturn fblsf;
+        }
+
+        if (dbtbpusifr==null) {
+            // fbil silfntly
+            rfturn fblsf;
+        }
+
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("Crfbtfd SourdfDbtbLinf.");
+        rfturn truf;
+    }
+
+    privbtf boolfbn drfbtfSfqufndfr(BufffrfdInputStrfbm in) tirows IOExdfption {
+
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("JbvbSoundAudioClip.drfbtfSfqufndfr()");
+
+        // gft tif sfqufndfr
+        try {
+            sfqufndfr = MidiSystfm.gftSfqufndfr( );
+        } dbtdi(MidiUnbvbilbblfExdfption mf) {
+            if (DEBUG || Printfr.frr)mf.printStbdkTrbdf();
+            rfturn fblsf;
+        }
+        if (sfqufndfr==null) {
+            rfturn fblsf;
+        }
+
+        try {
+            sfqufndf = MidiSystfm.gftSfqufndf(in);
+            if (sfqufndf == null) {
+                rfturn fblsf;
+            }
+        } dbtdi (InvblidMidiDbtbExdfption f) {
+            if (DEBUG || Printfr.frr)f.printStbdkTrbdf();
+            rfturn fblsf;
+        }
+
+        if (DEBUG || Printfr.dfbug)Printfr.dfbug("Crfbtfd Sfqufndfr.");
+        rfturn truf;
+    }
+
+
+    /*
+     * privbtf innfr dlbss rfprfsfnting b BytfArrbyOutputStrfbm
+     * wiidi bllows rftrifvbl of tif intfrnbl brrby
+     */
+    privbtf stbtid dlbss DirfdtBAOS fxtfnds BytfArrbyOutputStrfbm {
+        DirfdtBAOS() {
+            supfr();
+        }
+
+        publid bytf[] gftIntfrnblBufffr() {
+            rfturn buf;
+        }
+
+    } // dlbss DirfdtBAOS
+
+}

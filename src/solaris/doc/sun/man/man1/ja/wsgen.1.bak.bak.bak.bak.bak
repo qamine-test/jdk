@@ -1,0 +1,228 @@
+'\" t
+.\" Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: wsgfn
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "wsgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+wsgfn \- Wfbサービスのエンドポイント実装(SEI)クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIwsgfn\fR [ \fIoptions\fR ] \fISEI\fR
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fISEI\fR
+.RS 4
+読み取るWfbサービスのエンドポイント実装クラス(SEI)です。
+.RE
+.SH "説明"
+.PP
+\fIwsgfn\fRコマンドは、JAX\-WS Wfbサービスで使用されるJAX\-WSポータブル・アーティファクトを生成します。このツールは、Wfbサービスのエンドポイント・クラスを読取り、Wfbサービスのデプロイメントと呼出しに必要なすべてのアーティファクトを生成します。JAXWS 2\&.1\&.1 RIでは\fIwsgfn\fR
+Antタスクも提供されます。
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlのJAX\-WS (wsgfn)ページのToolsタブを参照してください。
+.PP
+\fIwsgfn\fRコマンドを起動するには、次を行います。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+fxport JAXWS_HOME=/pbtito/jbxws\-ri
+$JAXWS_HOME/bin/wsgfn\&.si \-iflp
+.fi
+.if n \{\
+.RE
+.\}
+.SH "オプション"
+.PP
+\-dlbsspbti \fIpbti\fR
+.RS 4
+入力クラス・ファイルの場所。
+.RE
+.PP
+\-dp \fIpbti\fR
+.RS 4
+入力クラス・ファイルの場所。
+.RE
+.PP
+\-d \fIdirfdtory\fR
+.RS 4
+生成された出力ファイルを格納する場所。
+.RE
+.PP
+\-fxtfnsion
+.RS 4
+ベンダー拡張を使用可能にします。拡張を使用すると、アプリケーションの移植性が失われたり、他の実装と連携できなくなる可能性があります。
+.RE
+.PP
+\-iflp
+.RS 4
+\fIwsgfn\fRコマンドに関するヘルプ・メッセージを表示します。
+.RE
+.PP
+\-kffp
+.RS 4
+生成されたファイルを保存します。
+.RE
+.PP
+\-r \fIdirfdtory\fR
+.RS 4
+このオプションを\fI\-wsdl\fRオプションとともに使用して、WSDLなど生成されたリソース・ファイルを配置する場所を指定します。
+.RE
+.PP
+\-s \fIdirfdtory\fR
+.RS 4
+生成されたソース・ファイルを格納する場所。
+.RE
+.PP
+\-vfrbosf
+.RS 4
+コンパイラ・メッセージを表示します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+リリース情報を出力します。
+.RE
+.PP
+\-wsdl [ :protodol ]
+.RS 4
+エンドポイントをデプロイする前に確認するWSDLファイルを生成するオプション・コマンド。WSDLファイルには、サービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれます。
+.sp
+デフォルトでは\fIwsgfn\fRコマンドはWSDLファイルを生成しません。\fIprotodol\fR値は省略可能であり、WSDLバインディング(\fIwsdl:binding\fR)で使用するプロトコルを指定するために使用されます。有効なプロトコルは、\fIsobp1\&.1\fRと\fIXsobp1\&.2\fRです。デフォルトは\fIsobp1\&.1\fRです。\fIXsobp1\&.2\fRプロトコルは標準ではないため、\fI\-fxtfnsion\fRオプションとともにのみ使用可能です。
+.RE
+.PP
+\-sfrvidfnbmf \fInbmf\fR
+.RS 4
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLサービス(\fIwsdl:sfrvidf\fR)名を指定します。例:
+\fI\-sfrvidfnbmf "{ittp://mynbmfspbdf/}MySfrvidf"\fR。
+.RE
+.PP
+\-portnbmf \fInbmf\fR
+.RS 4
+\fI\-wsdl\fRオプションとともにのみ使用して、WSDLで生成される特定のWSDLポート(\fIwsdl:port\fR)名を指定します。例:
+\fI\-portnbmf "{ittp://mynbmfspbdf/}MyPort"\fR。
+.RE
+.SH "例"
+.PP
+次の例では、Stodkディレクトリ内に\fI@WfbSfrvidf\fR注釈を持つ\fIStodkSfrvidf\fRのラッパー・クラスを生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wsgfn \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+次の例では、SOAP 1\&.1 WSDLおよび\fI@WfbSfrvidf\fR注釈を持つ\fIstodk\&.StodkSfrvidf\fRクラスのスキーマを生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wsgfn \-wsdl \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+次の例では、SOAP 1\&.2 WSDLを生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wsgfn \-wsdl:Xsobp1\&.2 \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf 
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fB注意:\fR
+サービスのデプロイ時にJAXWS実行時環境でWSDLが生成されるため、開発時にWSDLを生成する必要はありません。
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+wsimport(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+ittp://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itmlの
+JAX\-WS (wsgfn)ページのToolsタブを参照してください。
+.RE
+.br
+'pl 8.5i
+'bp

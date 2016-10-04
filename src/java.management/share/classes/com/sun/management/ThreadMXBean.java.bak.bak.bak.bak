@@ -1,222 +1,1110 @@
 /*
- * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf dom.sun.mbnbgfmfnt;
-
-import jbvb.util.Mbp;
-
-/**
- * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for thf thrfbd systfm
- * of thf Jbvb virtubl mbdhinf.
- * <p>
- * This plbtform fxtfnsion is only bvbilbblf to b thrfbd
- * implfmfntbtion thbt supports this fxtfnsion.
- *
- * @buthor  Pbul Hohfnsff
- * @sindf   6u25
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf dom.sun.mbnbgfmfnt;
+pbdkbgf dom.sun.mbnbgfmfnt;
+pbdkbgf dom.sun.mbnbgfmfnt;
+pbdkbgf dom.sun.mbnbgfmfnt;
+pbdkbgf dom.sun.mbnbgfmfnt;
+
+
+
+
+
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for tif tirfbd systfm
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for tif tirfbd systfm
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for tif tirfbd systfm
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for tif tirfbd systfm
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for tif tirfbd systfm
+ * of tif Jbvb virtubl mbdiinf.
+ * of tif Jbvb virtubl mbdiinf.
+ * of tif Jbvb virtubl mbdiinf.
+ * of tif Jbvb virtubl mbdiinf.
+ * of tif Jbvb virtubl mbdiinf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis plbtform fxtfnsion is only bvbilbblf to b tirfbd
+ * Tiis plbtform fxtfnsion is only bvbilbblf to b tirfbd
+ * Tiis plbtform fxtfnsion is only bvbilbblf to b tirfbd
+ * Tiis plbtform fxtfnsion is only bvbilbblf to b tirfbd
+ * Tiis plbtform fxtfnsion is only bvbilbblf to b tirfbd
+ * implfmfntbtion tibt supports tiis fxtfnsion.
+ * implfmfntbtion tibt supports tiis fxtfnsion.
+ * implfmfntbtion tibt supports tiis fxtfnsion.
+ * implfmfntbtion tibt supports tiis fxtfnsion.
+ * implfmfntbtion tibt supports tiis fxtfnsion.
+ *
+ *
+ *
+ *
+ *
+ * @butior  Pbul Hoifnsff
+ * @butior  Pbul Hoifnsff
+ * @butior  Pbul Hoifnsff
+ * @butior  Pbul Hoifnsff
+ * @butior  Pbul Hoifnsff
+ * @sindf   6u25
+ * @sindf   6u25
+ * @sindf   6u25
+ * @sindf   6u25
+ * @sindf   6u25
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
 @jdk.Exportfd
-publid intfrfbdf ThrfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn {
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+publid intfrfbdf TirfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn {
+publid intfrfbdf TirfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn {
+publid intfrfbdf TirfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn {
+publid intfrfbdf TirfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn {
+publid intfrfbdf TirfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn {
     /**
-     * Rfturns thf totbl CPU timf for fbdh thrfbd whosf ID is
-     * in thf input brrby {@dodf ids} in nbnosfdonds.
-     * Thf rfturnfd vblufs brf of nbnosfdonds prfdision but
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif totbl CPU timf for fbdi tirfbd wiosf ID is
+     * Rfturns tif totbl CPU timf for fbdi tirfbd wiosf ID is
+     * Rfturns tif totbl CPU timf for fbdi tirfbd wiosf ID is
+     * Rfturns tif totbl CPU timf for fbdi tirfbd wiosf ID is
+     * Rfturns tif totbl CPU timf for fbdi tirfbd wiosf ID is
+     * in tif input brrby {@dodf ids} in nbnosfdonds.
+     * in tif input brrby {@dodf ids} in nbnosfdonds.
+     * in tif input brrby {@dodf ids} in nbnosfdonds.
+     * in tif input brrby {@dodf ids} in nbnosfdonds.
+     * in tif input brrby {@dodf ids} in nbnosfdonds.
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * not nfdfssbrily nbnosfdonds bddurbdy.
      * not nfdfssbrily nbnosfdonds bddurbdy.
      * <p>
-     * This mfthod is fquivblfnt to dblling thf
-     * {@link ThrfbdMXBfbn#gftThrfbdCpuTimf(long)}
-     * mfthod for fbdh thrfbd ID in thf input brrby {@dodf ids} bnd sftting thf
-     * rfturnfd vbluf in thf dorrfsponding flfmfnt of thf rfturnfd brrby.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * {@link TirfbdMXBfbn#gftTirfbdCpuTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdCpuTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdCpuTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdCpuTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdCpuTimf(long)}
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
      *
-     * @pbrbm ids bn brrby of thrfbd IDs.
-     * @rfturn bn brrby of long vblufs, fbdh of whidh is thf bmount of CPU
-     * timf thf thrfbd whosf ID is in thf dorrfsponding flfmfnt of thf input
-     * brrby of IDs hbs usfd,
-     * if thf thrfbd of b spfdififd ID fxists, thf thrfbd is blivf,
+     *
+     *
+     *
+     *
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of CPU
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of CPU
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of CPU
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of CPU
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of CPU
+     * timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of tif input
+     * timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of tif input
+     * timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of tif input
+     * timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of tif input
+     * timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of tif input
+     * brrby of IDs ibs usfd,
+     * brrby of IDs ibs usfd,
+     * brrby of IDs ibs usfd,
+     * brrby of IDs ibs usfd,
+     * brrby of IDs ibs usfd,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
      * bnd CPU timf mfbsurfmfnt is fnbblfd;
-     * {@dodf -1} othfrwisf.
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
      *
-     * @throws NullPointfrExdfption if {@dodf ids} is {@dodf null}
-     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
      *         {@dodf ids} is {@dodf <=} {@dodf 0}.
-     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
-     *         virtubl mbdhinf implfmfntbtion dofs not support CPU timf
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
      *         mfbsurfmfnt.
      *
-     * @sff ThrfbdMXBfbn#gftThrfbdCpuTimf(long)
-     * @sff #gftThrfbdUsfrTimf
-     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfSupportfd
-     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfEnbblfd
-     * @sff ThrfbdMXBfbn#sftThrfbdCpuTimfEnbblfd
+     *
+     *
+     *
+     *
+     * @sff TirfbdMXBfbn#gftTirfbdCpuTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdCpuTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdCpuTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdCpuTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdCpuTimf(long)
+     * @sff #gftTirfbdUsfrTimf
+     * @sff #gftTirfbdUsfrTimf
+     * @sff #gftTirfbdUsfrTimf
+     * @sff #gftTirfbdUsfrTimf
+     * @sff #gftTirfbdUsfrTimf
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
      */
-    publid long[] gftThrfbdCpuTimf(long[] ids);
+     */
+     */
+     */
+     */
+    publid long[] gftTirfbdCpuTimf(long[] ids);
+    publid long[] gftTirfbdCpuTimf(long[] ids);
+    publid long[] gftTirfbdCpuTimf(long[] ids);
+    publid long[] gftTirfbdCpuTimf(long[] ids);
+    publid long[] gftTirfbdCpuTimf(long[] ids);
+
+
+
+
 
     /**
-     * Rfturns thf CPU timf thbt fbdh thrfbd whosf ID is in thf input brrby
-     * {@dodf ids} hbs fxfdutfd in usfr modf in nbnosfdonds.
-     * Thf rfturnfd vblufs brf of nbnosfdonds prfdision but
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif CPU timf tibt fbdi tirfbd wiosf ID is in tif input brrby
+     * Rfturns tif CPU timf tibt fbdi tirfbd wiosf ID is in tif input brrby
+     * Rfturns tif CPU timf tibt fbdi tirfbd wiosf ID is in tif input brrby
+     * Rfturns tif CPU timf tibt fbdi tirfbd wiosf ID is in tif input brrby
+     * Rfturns tif CPU timf tibt fbdi tirfbd wiosf ID is in tif input brrby
+     * {@dodf ids} ibs fxfdutfd in usfr modf in nbnosfdonds.
+     * {@dodf ids} ibs fxfdutfd in usfr modf in nbnosfdonds.
+     * {@dodf ids} ibs fxfdutfd in usfr modf in nbnosfdonds.
+     * {@dodf ids} ibs fxfdutfd in usfr modf in nbnosfdonds.
+     * {@dodf ids} ibs fxfdutfd in usfr modf in nbnosfdonds.
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * not nfdfssbrily nbnosfdonds bddurbdy.
+     * not nfdfssbrily nbnosfdonds bddurbdy.
      * not nfdfssbrily nbnosfdonds bddurbdy.
      * <p>
-     * This mfthod is fquivblfnt to dblling thf
-     * {@link ThrfbdMXBfbn#gftThrfbdUsfrTimf(long)}
-     * mfthod for fbdh thrfbd ID in thf input brrby {@dodf ids} bnd sftting thf
-     * rfturnfd vbluf in thf dorrfsponding flfmfnt of thf rfturnfd brrby.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * {@link TirfbdMXBfbn#gftTirfbdUsfrTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdUsfrTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdUsfrTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdUsfrTimf(long)}
+     * {@link TirfbdMXBfbn#gftTirfbdUsfrTimf(long)}
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
      *
-     * @pbrbm ids bn brrby of thrfbd IDs.
-     * @rfturn bn brrby of long vblufs, fbdh of whidh is thf bmount of usfr
-     * modf CPU timf thf thrfbd whosf ID is in thf dorrfsponding flfmfnt of
-     * thf input brrby of IDs hbs usfd,
-     * if thf thrfbd of b spfdififd ID fxists, thf thrfbd is blivf,
+     *
+     *
+     *
+     *
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of usfr
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of usfr
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of usfr
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of usfr
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of usfr
+     * modf CPU timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of
+     * modf CPU timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of
+     * modf CPU timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of
+     * modf CPU timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of
+     * modf CPU timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of
+     * tif input brrby of IDs ibs usfd,
+     * tif input brrby of IDs ibs usfd,
+     * tif input brrby of IDs ibs usfd,
+     * tif input brrby of IDs ibs usfd,
+     * tif input brrby of IDs ibs usfd,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
      * bnd CPU timf mfbsurfmfnt is fnbblfd;
-     * {@dodf -1} othfrwisf.
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
      *
-     * @throws NullPointfrExdfption if {@dodf ids} is {@dodf null}
-     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
      *         {@dodf ids} is {@dodf <=} {@dodf 0}.
-     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
-     *         virtubl mbdhinf implfmfntbtion dofs not support CPU timf
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
      *         mfbsurfmfnt.
      *
-     * @sff ThrfbdMXBfbn#gftThrfbdUsfrTimf(long)
-     * @sff #gftThrfbdCpuTimf
-     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfSupportfd
-     * @sff ThrfbdMXBfbn#isThrfbdCpuTimfEnbblfd
-     * @sff ThrfbdMXBfbn#sftThrfbdCpuTimfEnbblfd
+     *
+     *
+     *
+     *
+     * @sff TirfbdMXBfbn#gftTirfbdUsfrTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdUsfrTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdUsfrTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdUsfrTimf(long)
+     * @sff TirfbdMXBfbn#gftTirfbdUsfrTimf(long)
+     * @sff #gftTirfbdCpuTimf
+     * @sff #gftTirfbdCpuTimf
+     * @sff #gftTirfbdCpuTimf
+     * @sff #gftTirfbdCpuTimf
+     * @sff #gftTirfbdCpuTimf
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
      */
-    publid long[] gftThrfbdUsfrTimf(long[] ids);
+     */
+     */
+     */
+     */
+    publid long[] gftTirfbdUsfrTimf(long[] ids);
+    publid long[] gftTirfbdUsfrTimf(long[] ids);
+    publid long[] gftTirfbdUsfrTimf(long[] ids);
+    publid long[] gftTirfbdUsfrTimf(long[] ids);
+    publid long[] gftTirfbdUsfrTimf(long[] ids);
+
+
+
+
 
     /**
-     * Rfturns bn bpproximbtion of thf totbl bmount of mfmory, in bytfs,
-     * bllodbtfd in hfbp mfmory for thf thrfbd of thf spfdififd ID.
-     * Thf rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdhinf
-     * implfmfntbtions mby usf objfdt bllodbtion mfdhbnisms thbt rfsult in b
-     * dflby bftwffn thf timf bn objfdt is bllodbtfd bnd thf timf its sizf is
+    /**
+    /**
+    /**
+    /**
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * bllodbtfd in ifbp mfmory for tif tirfbd of tif spfdififd ID.
+     * bllodbtfd in ifbp mfmory for tif tirfbd of tif spfdififd ID.
+     * bllodbtfd in ifbp mfmory for tif tirfbd of tif spfdififd ID.
+     * bllodbtfd in ifbp mfmory for tif tirfbd of tif spfdififd ID.
+     * bllodbtfd in ifbp mfmory for tif tirfbd of tif spfdififd ID.
+     * Tif rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdiinf
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
      * rfdordfd.
      * <p>
-     * If thf thrfbd of thf spfdififd ID is not blivf or dofs not fxist,
-     * this mfthod rfturns {@dodf -1}. If thrfbd mfmory bllodbtion mfbsurfmfnt
-     * is disbblfd, this mfthod rfturns {@dodf -1}.
-     * A thrfbd is blivf if it hbs bffn stbrtfd bnd hbs not yft difd.
      * <p>
-     * If thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr thf thrfbd hbs
-     * stbrtfd, thf Jbvb virtubl mbdhinf implfmfntbtion mby dhoosf bny timf up
-     * to bnd indluding thf timf thbt thf dbpbbility is fnbblfd bs thf point
-     * whfrf thrfbd mfmory bllodbtion mfbsurfmfnt stbrts.
+     * <p>
+     * <p>
+     * <p>
+     * If tif tirfbd of tif spfdififd ID is not blivf or dofs not fxist,
+     * If tif tirfbd of tif spfdififd ID is not blivf or dofs not fxist,
+     * If tif tirfbd of tif spfdififd ID is not blivf or dofs not fxist,
+     * If tif tirfbd of tif spfdififd ID is not blivf or dofs not fxist,
+     * If tif tirfbd of tif spfdififd ID is not blivf or dofs not fxist,
+     * tiis mftiod rfturns {@dodf -1}. If tirfbd mfmory bllodbtion mfbsurfmfnt
+     * tiis mftiod rfturns {@dodf -1}. If tirfbd mfmory bllodbtion mfbsurfmfnt
+     * tiis mftiod rfturns {@dodf -1}. If tirfbd mfmory bllodbtion mfbsurfmfnt
+     * tiis mftiod rfturns {@dodf -1}. If tirfbd mfmory bllodbtion mfbsurfmfnt
+     * tiis mftiod rfturns {@dodf -1}. If tirfbd mfmory bllodbtion mfbsurfmfnt
+     * is disbblfd, tiis mftiod rfturns {@dodf -1}.
+     * is disbblfd, tiis mftiod rfturns {@dodf -1}.
+     * is disbblfd, tiis mftiod rfturns {@dodf -1}.
+     * is disbblfd, tiis mftiod rfturns {@dodf -1}.
+     * is disbblfd, tiis mftiod rfturns {@dodf -1}.
+     * A tirfbd is blivf if it ibs bffn stbrtfd bnd ibs not yft difd.
+     * A tirfbd is blivf if it ibs bffn stbrtfd bnd ibs not yft difd.
+     * A tirfbd is blivf if it ibs bffn stbrtfd bnd ibs not yft difd.
+     * A tirfbd is blivf if it ibs bffn stbrtfd bnd ibs not yft difd.
+     * A tirfbd is blivf if it ibs bffn stbrtfd bnd ibs not yft difd.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr tif tirfbd ibs
+     * If tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr tif tirfbd ibs
+     * If tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr tif tirfbd ibs
+     * If tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr tif tirfbd ibs
+     * If tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr tif tirfbd ibs
+     * stbrtfd, tif Jbvb virtubl mbdiinf implfmfntbtion mby dioosf bny timf up
+     * stbrtfd, tif Jbvb virtubl mbdiinf implfmfntbtion mby dioosf bny timf up
+     * stbrtfd, tif Jbvb virtubl mbdiinf implfmfntbtion mby dioosf bny timf up
+     * stbrtfd, tif Jbvb virtubl mbdiinf implfmfntbtion mby dioosf bny timf up
+     * stbrtfd, tif Jbvb virtubl mbdiinf implfmfntbtion mby dioosf bny timf up
+     * to bnd indluding tif timf tibt tif dbpbbility is fnbblfd bs tif point
+     * to bnd indluding tif timf tibt tif dbpbbility is fnbblfd bs tif point
+     * to bnd indluding tif timf tibt tif dbpbbility is fnbblfd bs tif point
+     * to bnd indluding tif timf tibt tif dbpbbility is fnbblfd bs tif point
+     * to bnd indluding tif timf tibt tif dbpbbility is fnbblfd bs tif point
+     * wifrf tirfbd mfmory bllodbtion mfbsurfmfnt stbrts.
+     * wifrf tirfbd mfmory bllodbtion mfbsurfmfnt stbrts.
+     * wifrf tirfbd mfmory bllodbtion mfbsurfmfnt stbrts.
+     * wifrf tirfbd mfmory bllodbtion mfbsurfmfnt stbrts.
+     * wifrf tirfbd mfmory bllodbtion mfbsurfmfnt stbrts.
      *
-     * @pbrbm id thf thrfbd ID of b thrfbd
-     * @rfturn bn bpproximbtion of thf totbl mfmory bllodbtfd, in bytfs, in
-     * hfbp mfmory for b thrfbd of thf spfdififd ID
-     * if thf thrfbd of thf spfdififd ID fxists, thf thrfbd is blivf,
-     * bnd thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
-     * {@dodf -1} othfrwisf.
      *
-     * @throws IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
-     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
-     *         mbdhinf implfmfntbtion dofs not support thrfbd mfmory bllodbtion
+     *
+     *
+     *
+     * @pbrbm id tif tirfbd ID of b tirfbd
+     * @pbrbm id tif tirfbd ID of b tirfbd
+     * @pbrbm id tif tirfbd ID of b tirfbd
+     * @pbrbm id tif tirfbd ID of b tirfbd
+     * @pbrbm id tif tirfbd ID of b tirfbd
+     * @rfturn bn bpproximbtion of tif totbl mfmory bllodbtfd, in bytfs, in
+     * @rfturn bn bpproximbtion of tif totbl mfmory bllodbtfd, in bytfs, in
+     * @rfturn bn bpproximbtion of tif totbl mfmory bllodbtfd, in bytfs, in
+     * @rfturn bn bpproximbtion of tif totbl mfmory bllodbtfd, in bytfs, in
+     * @rfturn bn bpproximbtion of tif totbl mfmory bllodbtfd, in bytfs, in
+     * ifbp mfmory for b tirfbd of tif spfdififd ID
+     * ifbp mfmory for b tirfbd of tif spfdififd ID
+     * ifbp mfmory for b tirfbd of tif spfdififd ID
+     * ifbp mfmory for b tirfbd of tif spfdififd ID
+     * ifbp mfmory for b tirfbd of tif spfdififd ID
+     * if tif tirfbd of tif spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of tif spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of tif spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of tif spfdififd ID fxists, tif tirfbd is blivf,
+     * if tif tirfbd of tif spfdififd ID fxists, tif tirfbd is blivf,
+     * bnd tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * bnd tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * bnd tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * bnd tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * bnd tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     * {@dodf -1} otifrwisf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
      *         mfbsurfmfnt.
      *
-     * @sff #isThrfbdAllodbtfdMfmorySupportfd
-     * @sff #isThrfbdAllodbtfdMfmoryEnbblfd
-     * @sff #sftThrfbdAllodbtfdMfmoryEnbblfd
+     *
+     *
+     *
+     *
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
      */
-    publid long gftThrfbdAllodbtfdBytfs(long id);
+     */
+     */
+     */
+     */
+    publid long gftTirfbdAllodbtfdBytfs(long id);
+    publid long gftTirfbdAllodbtfdBytfs(long id);
+    publid long gftTirfbdAllodbtfdBytfs(long id);
+    publid long gftTirfbdAllodbtfdBytfs(long id);
+    publid long gftTirfbdAllodbtfdBytfs(long id);
+
+
+
+
 
     /**
-     * Rfturns bn bpproximbtion of thf totbl bmount of mfmory, in bytfs,
-     * bllodbtfd in hfbp mfmory for fbdh thrfbd whosf ID is in thf input
+    /**
+    /**
+    /**
+    /**
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * bllodbtfd in ifbp mfmory for fbdi tirfbd wiosf ID is in tif input
+     * bllodbtfd in ifbp mfmory for fbdi tirfbd wiosf ID is in tif input
+     * bllodbtfd in ifbp mfmory for fbdi tirfbd wiosf ID is in tif input
+     * bllodbtfd in ifbp mfmory for fbdi tirfbd wiosf ID is in tif input
+     * bllodbtfd in ifbp mfmory for fbdi tirfbd wiosf ID is in tif input
      * brrby {@dodf ids}.
-     * Thf rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdhinf
-     * implfmfntbtions mby usf objfdt bllodbtion mfdhbnisms thbt rfsult in b
-     * dflby bftwffn thf timf bn objfdt is bllodbtfd bnd thf timf its sizf is
+     * brrby {@dodf ids}.
+     * brrby {@dodf ids}.
+     * brrby {@dodf ids}.
+     * brrby {@dodf ids}.
+     * Tif rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdiinf
+     * Tif rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdiinf
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
+     * rfdordfd.
      * rfdordfd.
      * <p>
-     * This mfthod is fquivblfnt to dblling thf
-     * {@link #gftThrfbdAllodbtfdBytfs(long)}
-     * mfthod for fbdh thrfbd ID in thf input brrby {@dodf ids} bnd sftting thf
-     * rfturnfd vbluf in thf dorrfsponding flfmfnt of thf rfturnfd brrby.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * {@link #gftTirfbdAllodbtfdBytfs(long)}
+     * {@link #gftTirfbdAllodbtfdBytfs(long)}
+     * {@link #gftTirfbdAllodbtfdBytfs(long)}
+     * {@link #gftTirfbdAllodbtfdBytfs(long)}
+     * {@link #gftTirfbdAllodbtfdBytfs(long)}
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
      *
-     * @pbrbm ids bn brrby of thrfbd IDs.
-     * @rfturn bn brrby of long vblufs, fbdh of whidh is bn bpproximbtion of
-     * thf totbl mfmory bllodbtfd, in bytfs, in hfbp mfmory for thf thrfbd
-     * whosf ID is in thf dorrfsponding flfmfnt of thf input brrby of IDs.
      *
-     * @throws NullPointfrExdfption if {@dodf ids} is {@dodf null}
-     * @throws IllfgblArgumfntExdfption if bny flfmfnt in thf input brrby
+     *
+     *
+     *
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is bn bpproximbtion of
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is bn bpproximbtion of
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is bn bpproximbtion of
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is bn bpproximbtion of
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is bn bpproximbtion of
+     * tif totbl mfmory bllodbtfd, in bytfs, in ifbp mfmory for tif tirfbd
+     * tif totbl mfmory bllodbtfd, in bytfs, in ifbp mfmory for tif tirfbd
+     * tif totbl mfmory bllodbtfd, in bytfs, in ifbp mfmory for tif tirfbd
+     * tif totbl mfmory bllodbtfd, in bytfs, in ifbp mfmory for tif tirfbd
+     * tif totbl mfmory bllodbtfd, in bytfs, in ifbp mfmory for tif tirfbd
+     * wiosf ID is in tif dorrfsponding flfmfnt of tif input brrby of IDs.
+     * wiosf ID is in tif dorrfsponding flfmfnt of tif input brrby of IDs.
+     * wiosf ID is in tif dorrfsponding flfmfnt of tif input brrby of IDs.
+     * wiosf ID is in tif dorrfsponding flfmfnt of tif input brrby of IDs.
+     * wiosf ID is in tif dorrfsponding flfmfnt of tif input brrby of IDs.
+     *
+     *
+     *
+     *
+     *
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
      *         {@dodf ids} is {@dodf <=} {@dodf 0}.
-     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
-     *         mbdhinf implfmfntbtion dofs not support thrfbd mfmory bllodbtion
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
+     *         mfbsurfmfnt.
      *         mfbsurfmfnt.
      *
-     * @sff #gftThrfbdAllodbtfdBytfs(long)
-     * @sff #isThrfbdAllodbtfdMfmorySupportfd
-     * @sff #isThrfbdAllodbtfdMfmoryEnbblfd
-     * @sff #sftThrfbdAllodbtfdMfmoryEnbblfd
+     *
+     *
+     *
+     *
+     * @sff #gftTirfbdAllodbtfdBytfs(long)
+     * @sff #gftTirfbdAllodbtfdBytfs(long)
+     * @sff #gftTirfbdAllodbtfdBytfs(long)
+     * @sff #gftTirfbdAllodbtfdBytfs(long)
+     * @sff #gftTirfbdAllodbtfdBytfs(long)
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
      */
-    publid long[] gftThrfbdAllodbtfdBytfs(long[] ids);
+     */
+     */
+     */
+     */
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids);
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids);
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids);
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids);
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids);
+
+
+
+
 
     /**
-     * Tfsts if thf Jbvb virtubl mbdhinf implfmfntbtion supports thrfbd mfmory
+    /**
+    /**
+    /**
+    /**
+     * Tfsts if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     * Tfsts if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     * Tfsts if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     * Tfsts if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     * Tfsts if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     * bllodbtion mfbsurfmfnt.
+     * bllodbtion mfbsurfmfnt.
+     * bllodbtion mfbsurfmfnt.
+     * bllodbtion mfbsurfmfnt.
      * bllodbtion mfbsurfmfnt.
      *
+     *
+     *
+     *
+     *
+     * @rfturn
+     * @rfturn
+     * @rfturn
+     * @rfturn
      * @rfturn
      *   {@dodf truf}
-     *     if thf Jbvb virtubl mbdhinf implfmfntbtion supports thrfbd mfmory
+     *   {@dodf truf}
+     *   {@dodf truf}
+     *   {@dodf truf}
+     *   {@dodf truf}
+     *     if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     *     if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     *     if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     *     if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     *     if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
      *     bllodbtion mfbsurfmfnt;
-     *   {@dodf fblsf} othfrwisf.
+     *     bllodbtion mfbsurfmfnt;
+     *     bllodbtion mfbsurfmfnt;
+     *     bllodbtion mfbsurfmfnt;
+     *     bllodbtion mfbsurfmfnt;
+     *   {@dodf fblsf} otifrwisf.
+     *   {@dodf fblsf} otifrwisf.
+     *   {@dodf fblsf} otifrwisf.
+     *   {@dodf fblsf} otifrwisf.
+     *   {@dodf fblsf} otifrwisf.
      */
-    publid boolfbn isThrfbdAllodbtfdMfmorySupportfd();
+     */
+     */
+     */
+     */
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd();
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd();
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd();
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd();
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd();
+
+
+
+
 
     /**
-     * Tfsts if thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
+    /**
+    /**
+    /**
+    /**
+     * Tfsts if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
+     * Tfsts if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
+     * Tfsts if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
+     * Tfsts if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
+     * Tfsts if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
      *
-     * @rfturn {@dodf truf} if thrfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
-     *         {@dodf fblsf} othfrwisf.
      *
-     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
-     *         mbdhinf dofs not support thrfbd mfmory bllodbtion mfbsurfmfnt.
      *
-     * @sff #isThrfbdAllodbtfdMfmorySupportfd
+     *
+     *
+     * @rfturn {@dodf truf} if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * @rfturn {@dodf truf} if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * @rfturn {@dodf truf} if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * @rfturn {@dodf truf} if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * @rfturn {@dodf truf} if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     *         {@dodf fblsf} otifrwisf.
+     *         {@dodf fblsf} otifrwisf.
+     *         {@dodf fblsf} otifrwisf.
+     *         {@dodf fblsf} otifrwisf.
+     *         {@dodf fblsf} otifrwisf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *
+     *
+     *
+     *
+     *
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
      */
-    publid boolfbn isThrfbdAllodbtfdMfmoryEnbblfd();
+     */
+     */
+     */
+     */
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
+
+
+
+
 
     /**
-     * Enbblfs or disbblfs thrfbd mfmory bllodbtion mfbsurfmfnt.  Thf dffbult
+    /**
+    /**
+    /**
+    /**
+     * Enbblfs or disbblfs tirfbd mfmory bllodbtion mfbsurfmfnt.  Tif dffbult
+     * Enbblfs or disbblfs tirfbd mfmory bllodbtion mfbsurfmfnt.  Tif dffbult
+     * Enbblfs or disbblfs tirfbd mfmory bllodbtion mfbsurfmfnt.  Tif dffbult
+     * Enbblfs or disbblfs tirfbd mfmory bllodbtion mfbsurfmfnt.  Tif dffbult
+     * Enbblfs or disbblfs tirfbd mfmory bllodbtion mfbsurfmfnt.  Tif dffbult
+     * is plbtform dfpfndfnt.
+     * is plbtform dfpfndfnt.
+     * is plbtform dfpfndfnt.
+     * is plbtform dfpfndfnt.
      * is plbtform dfpfndfnt.
      *
+     *
+     *
+     *
+     *
+     * @pbrbm fnbblf {@dodf truf} to fnbblf;
+     * @pbrbm fnbblf {@dodf truf} to fnbblf;
+     * @pbrbm fnbblf {@dodf truf} to fnbblf;
+     * @pbrbm fnbblf {@dodf truf} to fnbblf;
      * @pbrbm fnbblf {@dodf truf} to fnbblf;
      *               {@dodf fblsf} to disbblf.
+     *               {@dodf fblsf} to disbblf.
+     *               {@dodf fblsf} to disbblf.
+     *               {@dodf fblsf} to disbblf.
+     *               {@dodf fblsf} to disbblf.
      *
-     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb virtubl
-     *         mbdhinf dofs not support thrfbd mfmory bllodbtion mfbsurfmfnt.
      *
-     * @throws jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
-     *         fxists bnd thf dbllfr dofs not hbvf
+     *
+     *
+     *
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
+     *
+     *
+     *
+     *
+     *
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *         MbnbgfmfntPfrmission("dontrol").
+     *         MbnbgfmfntPfrmission("dontrol").
+     *         MbnbgfmfntPfrmission("dontrol").
      *         MbnbgfmfntPfrmission("dontrol").
      *
-     * @sff #isThrfbdAllodbtfdMfmorySupportfd
+     *
+     *
+     *
+     *
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
      */
-    publid void sftThrfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
+     */
+     */
+     */
+     */
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
+}
+}
+}
+}
 }

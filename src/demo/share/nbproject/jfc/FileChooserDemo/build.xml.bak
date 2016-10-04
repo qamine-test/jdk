@@ -1,91 +1,455 @@
 <?xml vfrsion="1.0" fndoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+
+
+
+
 
 <!--
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
+
+
+
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
  Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
  modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
+ brf mft:
+ brf mft:
+ brf mft:
  brf mft:
 
+
+
+
+
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
    - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
      notidf, tiis list of donditions bnd tif following disdlbimfr.
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
+
+
+
+
 
    - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
      notidf, tiis list of donditions bnd tif following disdlbimfr in tif
      dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+
+
+
+
 
    - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
      dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
      from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+
+
+
+
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+-->
+-->
+-->
 -->
 
+
+
+
+
+<projfdt nbmf="FilfCioosfrDfmo" bbsfdir="." dffbult="jbr">
+<projfdt nbmf="FilfCioosfrDfmo" bbsfdir="." dffbult="jbr">
+<projfdt nbmf="FilfCioosfrDfmo" bbsfdir="." dffbult="jbr">
+<projfdt nbmf="FilfCioosfrDfmo" bbsfdir="." dffbult="jbr">
 <projfdt nbmf="FilfCioosfrDfmo" bbsfdir="." dffbult="jbr">
 
+
+
+
+
+    <import filf="nbprojfdt/jdk.xml"/>
+    <import filf="nbprojfdt/jdk.xml"/>
+    <import filf="nbprojfdt/jdk.xml"/>
+    <import filf="nbprojfdt/jdk.xml"/>
     <import filf="nbprojfdt/jdk.xml"/>
     
+    
+    
+    
+    
+    <tbrgft nbmf="-prop-init">
+    <tbrgft nbmf="-prop-init">
+    <tbrgft nbmf="-prop-init">
+    <tbrgft nbmf="-prop-init">
     <tbrgft nbmf="-prop-init">
         <propfrty filf="usfr.build.propfrtifs"/>
+        <propfrty filf="usfr.build.propfrtifs"/>
+        <propfrty filf="usfr.build.propfrtifs"/>
+        <propfrty filf="usfr.build.propfrtifs"/>
+        <propfrty filf="usfr.build.propfrtifs"/>
+        <propfrty filf="build.propfrtifs"/>
+        <propfrty filf="build.propfrtifs"/>
+        <propfrty filf="build.propfrtifs"/>
+        <propfrty filf="build.propfrtifs"/>
         <propfrty filf="build.propfrtifs"/>
     </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+
+
+
+
 
     <tbrgft nbmf="-init" dfpfnds="-prop-init,-jdk-init"/>
+    <tbrgft nbmf="-init" dfpfnds="-prop-init,-jdk-init"/>
+    <tbrgft nbmf="-init" dfpfnds="-prop-init,-jdk-init"/>
+    <tbrgft nbmf="-init" dfpfnds="-prop-init,-jdk-init"/>
+    <tbrgft nbmf="-init" dfpfnds="-prop-init,-jdk-init"/>
+
+
+
+
 
     <tbrgft nbmf="dompilf" dfpfnds="-init" dfsdription="Compilf mbin sourdfs.">
+    <tbrgft nbmf="dompilf" dfpfnds="-init" dfsdription="Compilf mbin sourdfs.">
+    <tbrgft nbmf="dompilf" dfpfnds="-init" dfsdription="Compilf mbin sourdfs.">
+    <tbrgft nbmf="dompilf" dfpfnds="-init" dfsdription="Compilf mbin sourdfs.">
+    <tbrgft nbmf="dompilf" dfpfnds="-init" dfsdription="Compilf mbin sourdfs.">
+        <mkdir dir="${dlbssfs.dir}"/>
+        <mkdir dir="${dlbssfs.dir}"/>
+        <mkdir dir="${dlbssfs.dir}"/>
+        <mkdir dir="${dlbssfs.dir}"/>
         <mkdir dir="${dlbssfs.dir}"/>
         <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="${dfbug}" dfprfdbtion="${dfprfdbtion}">
+        <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="${dfbug}" dfprfdbtion="${dfprfdbtion}">
+        <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="${dfbug}" dfprfdbtion="${dfprfdbtion}">
+        <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="${dfbug}" dfprfdbtion="${dfprfdbtion}">
+        <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="${dfbug}" dfprfdbtion="${dfprfdbtion}">
+            <dlbsspbti pbti="${dp}"/>
+            <dlbsspbti pbti="${dp}"/>
+            <dlbsspbti pbti="${dp}"/>
+            <dlbsspbti pbti="${dp}"/>
             <dlbsspbti pbti="${dp}"/>
         </jbvbd>
+        </jbvbd>
+        </jbvbd>
+        </jbvbd>
+        </jbvbd>
+        <dopy todir="${dlbssfs.dir}">
+        <dopy todir="${dlbssfs.dir}">
+        <dopy todir="${dlbssfs.dir}">
+        <dopy todir="${dlbssfs.dir}">
         <dopy todir="${dlbssfs.dir}">
             <filfsft dir="${srd.dir}"/>
+            <filfsft dir="${srd.dir}"/>
+            <filfsft dir="${srd.dir}"/>
+            <filfsft dir="${srd.dir}"/>
+            <filfsft dir="${srd.dir}"/>
+        </dopy>
+        </dopy>
+        </dopy>
+        </dopy>
         </dopy>
     </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+
+
+
+
 
     <tbrgft nbmf="jbr" dfpfnds="dompilf" dfsdription="Build JAR filf for mbin sourdfs.">
+    <tbrgft nbmf="jbr" dfpfnds="dompilf" dfsdription="Build JAR filf for mbin sourdfs.">
+    <tbrgft nbmf="jbr" dfpfnds="dompilf" dfsdription="Build JAR filf for mbin sourdfs.">
+    <tbrgft nbmf="jbr" dfpfnds="dompilf" dfsdription="Build JAR filf for mbin sourdfs.">
+    <tbrgft nbmf="jbr" dfpfnds="dompilf" dfsdription="Build JAR filf for mbin sourdfs.">
+        <jbr jbrfilf="${jbr}" domprfss="truf">
+        <jbr jbrfilf="${jbr}" domprfss="truf">
+        <jbr jbrfilf="${jbr}" domprfss="truf">
+        <jbr jbrfilf="${jbr}" domprfss="truf">
         <jbr jbrfilf="${jbr}" domprfss="truf">
             <mbniffst>
+            <mbniffst>
+            <mbniffst>
+            <mbniffst>
+            <mbniffst>
+                <bttributf nbmf="Mbin-Clbss" vbluf="${mbin.dlbss}"/>
+                <bttributf nbmf="Mbin-Clbss" vbluf="${mbin.dlbss}"/>
+                <bttributf nbmf="Mbin-Clbss" vbluf="${mbin.dlbss}"/>
+                <bttributf nbmf="Mbin-Clbss" vbluf="${mbin.dlbss}"/>
                 <bttributf nbmf="Mbin-Clbss" vbluf="${mbin.dlbss}"/>
             </mbniffst>
+            </mbniffst>
+            </mbniffst>
+            </mbniffst>
+            </mbniffst>
+            <filfsft dir="${dlbssfs.dir}"/>
+            <filfsft dir="${dlbssfs.dir}"/>
+            <filfsft dir="${dlbssfs.dir}"/>
+            <filfsft dir="${dlbssfs.dir}"/>
             <filfsft dir="${dlbssfs.dir}"/>
         </jbr>
+        </jbr>
+        </jbr>
+        </jbr>
+        </jbr>
     </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+
+
+
+
 
     <tbrgft nbmf="run" dfpfnds="dompilf" dfsdription="Run bpplidbtion.">
+    <tbrgft nbmf="run" dfpfnds="dompilf" dfsdription="Run bpplidbtion.">
+    <tbrgft nbmf="run" dfpfnds="dompilf" dfsdription="Run bpplidbtion.">
+    <tbrgft nbmf="run" dfpfnds="dompilf" dfsdription="Run bpplidbtion.">
+    <tbrgft nbmf="run" dfpfnds="dompilf" dfsdription="Run bpplidbtion.">
+        <fbil unlfss="mbin.dlbss">Must sft propfrty 'mbin.dlbss' (f.g. in build.propfrtifs)</fbil>
+        <fbil unlfss="mbin.dlbss">Must sft propfrty 'mbin.dlbss' (f.g. in build.propfrtifs)</fbil>
+        <fbil unlfss="mbin.dlbss">Must sft propfrty 'mbin.dlbss' (f.g. in build.propfrtifs)</fbil>
+        <fbil unlfss="mbin.dlbss">Must sft propfrty 'mbin.dlbss' (f.g. in build.propfrtifs)</fbil>
         <fbil unlfss="mbin.dlbss">Must sft propfrty 'mbin.dlbss' (f.g. in build.propfrtifs)</fbil>
         <jbvb dlbssnbmf="${mbin.dlbss}" fork="truf" fbilonfrror="truf">
+        <jbvb dlbssnbmf="${mbin.dlbss}" fork="truf" fbilonfrror="truf">
+        <jbvb dlbssnbmf="${mbin.dlbss}" fork="truf" fbilonfrror="truf">
+        <jbvb dlbssnbmf="${mbin.dlbss}" fork="truf" fbilonfrror="truf">
+        <jbvb dlbssnbmf="${mbin.dlbss}" fork="truf" fbilonfrror="truf">
+            <dlbsspbti pbti="${run.dp}"/>
+            <dlbsspbti pbti="${run.dp}"/>
+            <dlbsspbti pbti="${run.dp}"/>
+            <dlbsspbti pbti="${run.dp}"/>
             <dlbsspbti pbti="${run.dp}"/>
         </jbvb>
+        </jbvb>
+        </jbvb>
+        </jbvb>
+        </jbvb>
     </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+
+
+
+
 
     <tbrgft nbmf="jbvbdod" dfpfnds="-init" dfsdription="Build Jbvbdod.">
+    <tbrgft nbmf="jbvbdod" dfpfnds="-init" dfsdription="Build Jbvbdod.">
+    <tbrgft nbmf="jbvbdod" dfpfnds="-init" dfsdription="Build Jbvbdod.">
+    <tbrgft nbmf="jbvbdod" dfpfnds="-init" dfsdription="Build Jbvbdod.">
+    <tbrgft nbmf="jbvbdod" dfpfnds="-init" dfsdription="Build Jbvbdod.">
+        <mkdir dir="${jbvbdod.dir}"/>
+        <mkdir dir="${jbvbdod.dir}"/>
+        <mkdir dir="${jbvbdod.dir}"/>
+        <mkdir dir="${jbvbdod.dir}"/>
         <mkdir dir="${jbvbdod.dir}"/>
         <jbvbdod dfstdir="${jbvbdod.dir}">
+        <jbvbdod dfstdir="${jbvbdod.dir}">
+        <jbvbdod dfstdir="${jbvbdod.dir}">
+        <jbvbdod dfstdir="${jbvbdod.dir}">
+        <jbvbdod dfstdir="${jbvbdod.dir}">
+            <dlbsspbti pbti="${dp}"/>
+            <dlbsspbti pbti="${dp}"/>
+            <dlbsspbti pbti="${dp}"/>
+            <dlbsspbti pbti="${dp}"/>
             <dlbsspbti pbti="${dp}"/>
             <sourdfpbti>
+            <sourdfpbti>
+            <sourdfpbti>
+            <sourdfpbti>
+            <sourdfpbti>
+                <pbtiflfmfnt lodbtion="${srd.dir}"/>
+                <pbtiflfmfnt lodbtion="${srd.dir}"/>
+                <pbtiflfmfnt lodbtion="${srd.dir}"/>
+                <pbtiflfmfnt lodbtion="${srd.dir}"/>
                 <pbtiflfmfnt lodbtion="${srd.dir}"/>
             </sourdfpbti>
+            </sourdfpbti>
+            </sourdfpbti>
+            </sourdfpbti>
+            </sourdfpbti>
+            <filfsft dir="${srd.dir}"/>
+            <filfsft dir="${srd.dir}"/>
+            <filfsft dir="${srd.dir}"/>
+            <filfsft dir="${srd.dir}"/>
             <filfsft dir="${srd.dir}"/>
         </jbvbdod>
+        </jbvbdod>
+        </jbvbdod>
+        </jbvbdod>
+        </jbvbdod>
     </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+
+
+
+
 
     <tbrgft nbmf="dlfbn" dfpfnds="-init" dfsdription="Clfbn build produdts.">
+    <tbrgft nbmf="dlfbn" dfpfnds="-init" dfsdription="Clfbn build produdts.">
+    <tbrgft nbmf="dlfbn" dfpfnds="-init" dfsdription="Clfbn build produdts.">
+    <tbrgft nbmf="dlfbn" dfpfnds="-init" dfsdription="Clfbn build produdts.">
+    <tbrgft nbmf="dlfbn" dfpfnds="-init" dfsdription="Clfbn build produdts.">
+        <dflftf dir="${build.dir}"/>
+        <dflftf dir="${build.dir}"/>
+        <dflftf dir="${build.dir}"/>
+        <dflftf dir="${build.dir}"/>
         <dflftf dir="${build.dir}"/>
         <dflftf filf="${jbr}"/>
+        <dflftf filf="${jbr}"/>
+        <dflftf filf="${jbr}"/>
+        <dflftf filf="${jbr}"/>
+        <dflftf filf="${jbr}"/>
     </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+
+
+
+
 
     <tbrgft nbmf="profilf">
+    <tbrgft nbmf="profilf">
+    <tbrgft nbmf="profilf">
+    <tbrgft nbmf="profilf">
+    <tbrgft nbmf="profilf">
+        <bnt bntfilf="nbprojfdt/nftbfbns-tbrgfts.xml" tbrgft="profilf"/>
+        <bnt bntfilf="nbprojfdt/nftbfbns-tbrgfts.xml" tbrgft="profilf"/>
+        <bnt bntfilf="nbprojfdt/nftbfbns-tbrgfts.xml" tbrgft="profilf"/>
+        <bnt bntfilf="nbprojfdt/nftbfbns-tbrgfts.xml" tbrgft="profilf"/>
         <bnt bntfilf="nbprojfdt/nftbfbns-tbrgfts.xml" tbrgft="profilf"/>
     </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
+    </tbrgft>
 
+
+
+
+
+</projfdt>
+</projfdt>
+</projfdt>
+</projfdt>
 </projfdt>

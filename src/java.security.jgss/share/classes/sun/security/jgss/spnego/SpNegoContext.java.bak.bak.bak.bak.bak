@@ -1,0 +1,1234 @@
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.spnfgo;
+
+import dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt;
+import dom.sun.sfdurity.jgss.InquirfTypf;
+import jbvb.io.*;
+import jbvb.sfdurity.Providfr;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import sun.sfdurity.jgss.spi.*;
+import sun.sfdurity.util.*;
+
+/**
+ * Implfmfnts tif mfdibnism spfdifid dontfxt dlbss for SPNEGO
+ * GSS-API mfdibnism
+ *
+ * @butior Sffmb Mblkbni
+ * @sindf 1.6
+ */
+publid dlbss SpNfgoContfxt implfmfnts GSSContfxtSpi {
+
+    /*
+     * Tif difffrfnt stbtfs tibt tiis dontfxt dbn bf in.
+     */
+    privbtf stbtid finbl int STATE_NEW = 1;
+    privbtf stbtid finbl int STATE_IN_PROCESS = 2;
+    privbtf stbtid finbl int STATE_DONE = 3;
+    privbtf stbtid finbl int STATE_DELETED = 4;
+
+    privbtf int stbtf = STATE_NEW;
+
+    /*
+     * Optionbl ffbturfs tibt tif bpplidbtion dbn sft bnd tifir dffbult
+     * vblufs.
+     */
+    privbtf boolfbn drfdDflfgStbtf = fblsf;
+    privbtf boolfbn mutublAutiStbtf = truf;
+    privbtf boolfbn rfplbyDftStbtf = truf;
+    privbtf boolfbn sfqufndfDftStbtf = truf;
+    privbtf boolfbn donfStbtf = truf;
+    privbtf boolfbn intfgStbtf = truf;
+    privbtf boolfbn dflfgPolidyStbtf = fblsf;
+
+    privbtf GSSNbmfSpi pffrNbmf = null;
+    privbtf GSSNbmfSpi myNbmf = null;
+    privbtf SpNfgoCrfdElfmfnt myCrfd = null;
+
+    privbtf GSSContfxt mfdiContfxt = null;
+    privbtf bytf[] DER_mfdiTypfs = null;
+
+    privbtf int lifftimf;
+    privbtf CibnnflBinding dibnnflBinding;
+    privbtf boolfbn initibtor;
+
+    // tif undfrlying nfgotibtfd mfdibnism
+    privbtf Oid intfrnbl_mfdi = null;
+
+    // tif SpNfgoMfdiFbdtory tibt drfbtfs tiis dontfxt
+    finbl privbtf SpNfgoMfdiFbdtory fbdtory;
+
+    // dfbug propfrty
+    stbtid finbl boolfbn DEBUG =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftBoolfbnAdtion
+            ("sun.sfdurity.spnfgo.dfbug")).boolfbnVbluf();
+
+    /**
+     * Construdtor for SpNfgoContfxt to bf dbllfd on tif dontfxt initibtor's
+     * sidf.
+     */
+    publid SpNfgoContfxt(SpNfgoMfdiFbdtory fbdtory, GSSNbmfSpi pffrNbmf,
+                        GSSCrfdfntiblSpi myCrfd,
+                        int lifftimf) tirows GSSExdfption {
+
+        if (pffrNbmf == null)
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibvf null pffr nbmf");
+        if ((myCrfd != null) && !(myCrfd instbndfof SpNfgoCrfdElfmfnt)) {
+            tirow nfw IllfgblArgumfntExdfption("Wrong drfd flfmfnt typf");
+        }
+        tiis.pffrNbmf = pffrNbmf;
+        tiis.myCrfd = (SpNfgoCrfdElfmfnt) myCrfd;
+        tiis.lifftimf = lifftimf;
+        tiis.initibtor = truf;
+        tiis.fbdtory = fbdtory;
+    }
+
+    /**
+     * Construdtor for SpNfgoContfxt to bf dbllfd on tif dontfxt bddfptor's
+     * sidf.
+     */
+    publid SpNfgoContfxt(SpNfgoMfdiFbdtory fbdtory, GSSCrfdfntiblSpi myCrfd)
+            tirows GSSExdfption {
+        if ((myCrfd != null) && !(myCrfd instbndfof SpNfgoCrfdElfmfnt)) {
+            tirow nfw IllfgblArgumfntExdfption("Wrong drfd flfmfnt typf");
+        }
+        tiis.myCrfd = (SpNfgoCrfdElfmfnt) myCrfd;
+        tiis.initibtor = fblsf;
+        tiis.fbdtory = fbdtory;
+    }
+
+    /**
+     * Construdtor for SpNfgoContfxt to import b prfviously fxportfd dontfxt.
+     */
+    publid SpNfgoContfxt(SpNfgoMfdiFbdtory fbdtory, bytf [] intfrProdfssTokfn)
+        tirows GSSExdfption {
+        tirow nfw GSSExdfption(GSSExdfption.UNAVAILABLE,
+                               -1, "GSS Import Contfxt not bvbilbblf");
+    }
+
+    /**
+     * Rfqufsts tibt donfidfntiblity bf bvbilbblf.
+     */
+    publid finbl void rfqufstConf(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            donfStbtf  = vbluf;
+    }
+
+    /**
+     * Is donfidfntiblity bvbilbblf?
+     */
+    publid finbl boolfbn gftConfStbtf() {
+        rfturn donfStbtf;
+    }
+
+    /**
+     * Rfqufsts tibt intfgrity bf bvbilbblf.
+     */
+    publid finbl void rfqufstIntfg(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            intfgStbtf  = vbluf;
+    }
+
+    /**
+     * Rfqufsts tibt dflfg polidy bf rfspfdtfd.
+     */
+    publid finbl void rfqufstDflfgPolidy(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            dflfgPolidyStbtf = vbluf;
+    }
+
+    /**
+     * Is intfgrity bvbilbblf?
+     */
+    publid finbl boolfbn gftIntfgStbtf() {
+        rfturn intfgStbtf;
+    }
+
+    /**
+     * Is dflfg polidy rfspfdtfd?
+     */
+    publid finbl boolfbn gftDflfgPolidyStbtf() {
+        if (isInitibtor() && mfdiContfxt != null &&
+                mfdiContfxt instbndfof ExtfndfdGSSContfxt &&
+                (stbtf == STATE_IN_PROCESS || stbtf == STATE_DONE)) {
+            rfturn ((ExtfndfdGSSContfxt)mfdiContfxt).gftDflfgPolidyStbtf();
+        } flsf {
+            rfturn dflfgPolidyStbtf;
+        }
+    }
+
+    /**
+     * Rfqufsts tibt drfdfntibl dflfgbtion bf donf during dontfxt
+     * fstbblisimfnt.
+     */
+    publid finbl void rfqufstCrfdDflfg(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            drfdDflfgStbtf  = vbluf;
+    }
+
+    /**
+     * Is drfdfntibl dflfgbtion fnbblfd?
+     */
+    publid finbl boolfbn gftCrfdDflfgStbtf() {
+        if (isInitibtor() && mfdiContfxt != null &&
+                (stbtf == STATE_IN_PROCESS || stbtf == STATE_DONE)) {
+            rfturn mfdiContfxt.gftCrfdDflfgStbtf();
+        } flsf {
+            rfturn drfdDflfgStbtf;
+        }
+    }
+
+    /**
+     * Rfqufsts tibt mutubl butifntidbtion bf donf during dontfxt
+     * fstbblisimfnt. Sindf tiis is fromm tif dlifnt's pfrspfdtivf, it
+     * fssfntiblly rfqufsts tibt tif sfrvfr bf butifntidbtfd.
+     */
+    publid finbl void rfqufstMutublAuti(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor()) {
+            mutublAutiStbtf  = vbluf;
+        }
+    }
+
+    /**
+     * Is mutubl butifntidbtion fnbblfd? Sindf tiis is from tif dlifnt's
+     * pfrspfdtivf, it fssfntiblly mfbs tibt tif sfrvfr is bfing
+     * butifntidbtfd.
+     */
+    publid finbl boolfbn gftMutublAutiStbtf() {
+        rfturn mutublAutiStbtf;
+    }
+
+    /**
+     * Rfturns tif mfdibnism oid.
+     *
+     * @rfturn tif Oid of tiis dontfxt
+     */
+    publid finbl Oid gftMfdi() {
+        if (isEstbblisifd()) {
+            rfturn gftNfgotibtfdMfdi();
+        }
+        rfturn (SpNfgoMfdiFbdtory.GSS_SPNEGO_MECH_OID);
+    }
+
+    publid finbl Oid gftNfgotibtfdMfdi() {
+        rfturn (intfrnbl_mfdi);
+    }
+
+    publid finbl Providfr gftProvidfr() {
+        rfturn SpNfgoMfdiFbdtory.PROVIDER;
+    }
+
+    publid finbl void disposf() tirows GSSExdfption {
+        mfdiContfxt = null;
+        stbtf = STATE_DELETED;
+    }
+
+    /**
+     * Tfsts if tiis is tif initibtor sidf of tif dontfxt.
+     *
+     * @rfturn boolfbn indidbting if tiis is initibtor (truf)
+     *  or tbrgft (fblsf)
+     */
+    publid finbl boolfbn isInitibtor() {
+        rfturn initibtor;
+    }
+
+    /**
+     * Tfsts if tif dontfxt dbn bf usfd for pfr-mfssbgf sfrvidf.
+     * Contfxt mby bllow tif dblls to tif pfr-mfssbgf sfrvidf
+     * fundtions bfforf bfing fully fstbblisifd.
+     *
+     * @rfturn boolfbn indidbting if pfr-mfssbgf mftiods dbn
+     *  bf dbllfd.
+     */
+    publid finbl boolfbn isProtRfbdy() {
+        rfturn (stbtf == STATE_DONE);
+    }
+
+    /**
+     * Initibtor dontfxt fstbblisimfnt dbll. Tiis mftiod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs tibt morf dblls brf nffdfd bftfr tif nfxt tokfn
+     * is rfdfivfd from tif pffr.
+     *
+     * @pbrbm is dontbins tif tokfn rfdfivfd from tif pffr. On tif
+     *        first dbll it will bf ignorfd.
+     * @rfturn bny tokfn rfquirfd to bf sfnt to tif pffr
+     * It is rfsponsibility of tif dbllfr to sfnd tif tokfn
+     * to its pffr for prodfssing.
+     * @fxdfption GSSExdfption
+     */
+    publid finbl bytf[] initSfdContfxt(InputStrfbm is, int mfdiTokfnSizf)
+        tirows GSSExdfption {
+
+        bytf[] rftVbl = null;
+        NfgTokfnInit initTokfn = null;
+        bytf[] mfdiTokfn = null;
+        int frrorCodf = GSSExdfption.FAILURE;
+
+        if (DEBUG) {
+            Systfm.out.println("Entfrfd SpNfgo.initSfdContfxt witi " +
+                                "stbtf=" + printStbtf(stbtf));
+        }
+        if (!isInitibtor()) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "initSfdContfxt on bn bddfptor GSSContfxt");
+        }
+
+        try {
+            if (stbtf == STATE_NEW) {
+                stbtf = STATE_IN_PROCESS;
+
+                frrorCodf = GSSExdfption.NO_CRED;
+
+                // dftfrminf bvbilbblf mfdi sft
+                Oid[] mfdiList = gftAvbilbblfMfdis();
+                DER_mfdiTypfs = gftEndodfdMfdis(mfdiList);
+
+                // pull out first mfdibnism
+                intfrnbl_mfdi = mfdiList[0];
+
+                // gft tif tokfn for first mfdibnism
+                mfdiTokfn = GSS_initSfdContfxt(null);
+
+                frrorCodf = GSSExdfption.DEFECTIVE_TOKEN;
+                // gfnfrbtf SPNEGO tokfn
+                initTokfn = nfw NfgTokfnInit(DER_mfdiTypfs, gftContfxtFlbgs(),
+                                        mfdiTokfn, null);
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.initSfdContfxt: " +
+                                "sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(initTokfn.gftTypf()));
+                }
+                // gft tif fndodfd tokfn
+                rftVbl = initTokfn.gftEndodfd();
+
+            } flsf if (stbtf == STATE_IN_PROCESS) {
+
+                frrorCodf = GSSExdfption.FAILURE;
+                if (is == null) {
+                    tirow nfw GSSExdfption(frrorCodf, -1,
+                                "No tokfn rfdfivfd from pffr!");
+                }
+
+                frrorCodf = GSSExdfption.DEFECTIVE_TOKEN;
+                bytf[] sfrvfr_tokfn = nfw bytf[is.bvbilbblf()];
+                SpNfgoTokfn.rfbdFully(is, sfrvfr_tokfn);
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.initSfdContfxt: " +
+                                        "prodfss rfdfivfd tokfn = " +
+                                        SpNfgoTokfn.gftHfxBytfs(sfrvfr_tokfn));
+                }
+
+                // rfbd tif SPNEGO tokfn
+                // tokfn will bf vblidbtfd wifn pbrsing
+                NfgTokfnTbrg tbrgTokfn = nfw NfgTokfnTbrg(sfrvfr_tokfn);
+
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.initSfdContfxt: " +
+                                "rfdfivfd tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(tbrgTokfn.gftTypf()));
+                }
+
+                // pull out mfdibnism
+                intfrnbl_mfdi = tbrgTokfn.gftSupportfdMfdi();
+                if (intfrnbl_mfdi == null) {
+                    // rfturn wti fbilurf
+                    tirow nfw GSSExdfption(frrorCodf, -1,
+                                "supportfd mfdibnism from sfrvfr is null");
+                }
+
+                // gft tif nfgotibtfd rfsult
+                SpNfgoTokfn.NfgoRfsult nfgoRfsult = null;
+                int rfsult = tbrgTokfn.gftNfgotibtfdRfsult();
+                switdi (rfsult) {
+                    dbsf 0:
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE;
+                        stbtf = STATE_DONE;
+                        brfbk;
+                    dbsf 1:
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE;
+                        stbtf = STATE_IN_PROCESS;
+                        brfbk;
+                    dbsf 2:
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.REJECT;
+                        stbtf = STATE_DELETED;
+                        brfbk;
+                    dffbult:
+                        stbtf = STATE_DONE;
+                        brfbk;
+                }
+
+                frrorCodf = GSSExdfption.BAD_MECH;
+
+                if (nfgoRfsult == SpNfgoTokfn.NfgoRfsult.REJECT) {
+                    tirow nfw GSSExdfption(frrorCodf, -1,
+                                        intfrnbl_mfdi.toString());
+                }
+
+                frrorCodf = GSSExdfption.DEFECTIVE_TOKEN;
+
+                if ((nfgoRfsult == SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE) ||
+                    (nfgoRfsult == SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE)) {
+
+                    // pull out tif mfdibnism tokfn
+                    bytf[] bddfpt_tokfn = tbrgTokfn.gftRfsponsfTokfn();
+                    if (bddfpt_tokfn == null) {
+                        if (!isMfdiContfxtEstbblisifd()) {
+                            // rfturn witi fbilurf
+                            tirow nfw GSSExdfption(frrorCodf, -1,
+                                    "mfdibnism tokfn from sfrvfr is null");
+                        }
+                    } flsf {
+                        mfdiTokfn = GSS_initSfdContfxt(bddfpt_tokfn);
+                    }
+                    // vfrify MIC
+                    if (!GSSUtil.usfMSIntfrop()) {
+                        bytf[] midTokfn = tbrgTokfn.gftMfdiListMIC();
+                        if (!vfrifyMfdiListMIC(DER_mfdiTypfs, midTokfn)) {
+                            tirow nfw GSSExdfption(frrorCodf, -1,
+                                "vfrifidbtion of MIC on MfdiList Fbilfd!");
+                        }
+                    }
+                    if (isMfdiContfxtEstbblisifd()) {
+                        stbtf = STATE_DONE;
+                        rftVbl = mfdiTokfn;
+                        if (DEBUG) {
+                            Systfm.out.println("SPNEGO Nfgotibtfd Mfdibnism = "
+                                + intfrnbl_mfdi + " " +
+                                GSSUtil.gftMfdiStr(intfrnbl_mfdi));
+                        }
+                    } flsf {
+                        // gfnfrbtf SPNEGO tokfn
+                        initTokfn = nfw NfgTokfnInit(null, null,
+                                                mfdiTokfn, null);
+                        if (DEBUG) {
+                            Systfm.out.println("SpNfgoContfxt.initSfdContfxt:" +
+                                " dontinuf sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(initTokfn.gftTypf()));
+                        }
+                        // gft tif fndodfd tokfn
+                        rftVbl = initTokfn.gftEndodfd();
+                    }
+                }
+
+            } flsf {
+                // XXX Usf logging API
+                if (DEBUG) {
+                    Systfm.out.println(stbtf);
+                }
+            }
+            if (DEBUG) {
+                if (rftVbl != null) {
+                    Systfm.out.println("SNfgoContfxt.initSfdContfxt: " +
+                        "sfnding tokfn = " + SpNfgoTokfn.gftHfxBytfs(rftVbl));
+                }
+            }
+        } dbtdi (GSSExdfption f) {
+            GSSExdfption gssExdfption =
+                        nfw GSSExdfption(frrorCodf, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            tirow gssExdfption;
+        } dbtdi (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            tirow gssExdfption;
+        }
+
+        rfturn rftVbl;
+    }
+
+
+    /**
+     * Addfptor's dontfxt fstbblisimfnt dbll. Tiis mftiod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs tibt morf dblls brf nffdfd bftfr tif nfxt tokfn
+     * is rfdfivfd from tif pffr.
+     *
+     * @pbrbm is dontbins tif tokfn rfdfivfd from tif pffr.
+     * @rfturn bny tokfn rfquirfd to bf sfnt to tif pffr
+     * It is rfsponsibility of tif dbllfr to sfnd tif tokfn
+     * to its pffr for prodfssing.
+     * @fxdfption GSSExdfption
+     */
+    publid finbl bytf[] bddfptSfdContfxt(InputStrfbm is, int mfdiTokfnSizf)
+        tirows GSSExdfption {
+
+        bytf[] rftVbl = null;
+        SpNfgoTokfn.NfgoRfsult nfgoRfsult;
+        boolfbn vblid = truf;
+
+        if (DEBUG) {
+            Systfm.out.println("Entfrfd SpNfgoContfxt.bddfptSfdContfxt witi " +
+                               "stbtf=" +  printStbtf(stbtf));
+        }
+
+        if (isInitibtor()) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                   "bddfptSfdContfxt on bn initibtor " +
+                                   "GSSContfxt");
+        }
+        try {
+            if (stbtf == STATE_NEW) {
+                stbtf = STATE_IN_PROCESS;
+
+                // rfbd dbtb
+                bytf[] tokfn = nfw bytf[is.bvbilbblf()];
+                SpNfgoTokfn.rfbdFully(is, tokfn);
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                        "rfdfiving tokfn = " +
+                                        SpNfgoTokfn.gftHfxBytfs(tokfn));
+                }
+
+                // rfbd tif SPNEGO tokfn
+                // tokfn will bf vblidbtfd wifn pbrsing
+                NfgTokfnInit initTokfn = nfw NfgTokfnInit(tokfn);
+
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "rfdfivfd tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(initTokfn.gftTypf()));
+                }
+
+                Oid[] mfdiList = initTokfn.gftMfdiTypfList();
+                DER_mfdiTypfs = initTokfn.gftMfdiTypfs();
+                if (DER_mfdiTypfs == null) {
+                    vblid = fblsf;
+                }
+
+                /*
+                 * Sflfdt tif bfst mbtdi bftwffn tif list of mfdis
+                 * tibt tif initibtor rfqufstfd bnd tif list tibt
+                 * tif bddfptor will support.
+                 */
+                Oid[] supportfd_mfdiSft = gftAvbilbblfMfdis();
+                Oid mfdi_wbntfd =
+                        nfgotibtf_mfdi_typf(supportfd_mfdiSft, mfdiList);
+                if (mfdi_wbntfd == null) {
+                    vblid = fblsf;
+                }
+                // sbvf tif dfsirfd mfdibnism
+                intfrnbl_mfdi = mfdi_wbntfd;
+
+                // gft tif tokfn for mfdibnism
+                bytf[] bddfpt_tokfn;
+
+                if (mfdiList[0].fqubls(mfdi_wbntfd)) {
+                    // gft tif mfdibnism tokfn
+                    bytf[] mfdiTokfn = initTokfn.gftMfdiTokfn();
+                    if (mfdiTokfn == null) {
+                        tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                "mfdiTokfn is missing");
+                    }
+                    bddfpt_tokfn = GSS_bddfptSfdContfxt(mfdiTokfn);
+                } flsf {
+                    bddfpt_tokfn = null;
+                }
+
+                // vfrify MIC
+                if (!GSSUtil.usfMSIntfrop() && vblid) {
+                    vblid = vfrifyMfdiListMIC(DER_mfdiTypfs,
+                                                initTokfn.gftMfdiListMIC());
+                }
+
+                // dftfrminf nfgotibtfd rfsult stbtus
+                if (vblid) {
+                    if (isMfdiContfxtEstbblisifd()) {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE;
+                        stbtf = STATE_DONE;
+                        // now sft tif dontfxt flbgs for bddfptor
+                        sftContfxtFlbgs();
+                        // print tif nfgotibtfd mfdi info
+                        if (DEBUG) {
+                            Systfm.out.println("SPNEGO Nfgotibtfd Mfdibnism = "
+                                + intfrnbl_mfdi + " " +
+                                GSSUtil.gftMfdiStr(intfrnbl_mfdi));
+                        }
+                    } flsf {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE;
+                        stbtf = STATE_IN_PROCESS;
+                    }
+                } flsf {
+                    nfgoRfsult = SpNfgoTokfn.NfgoRfsult.REJECT;
+                    stbtf = STATE_DONE;
+                }
+
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "mfdibnism wbntfd = " + mfdi_wbntfd);
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "nfgotibtfd rfsult = " + nfgoRfsult);
+                }
+
+                // gfnfrbtf SPNEGO tokfn
+                NfgTokfnTbrg tbrgTokfn = nfw NfgTokfnTbrg(nfgoRfsult.ordinbl(),
+                                mfdi_wbntfd, bddfpt_tokfn, null);
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(tbrgTokfn.gftTypf()));
+                }
+                // gft tif fndodfd tokfn
+                rftVbl = tbrgTokfn.gftEndodfd();
+
+            } flsf if (stbtf == STATE_IN_PROCESS) {
+                // rfbd dbtb
+                bytf[] tokfn = nfw bytf[is.bvbilbblf()];
+                SpNfgoTokfn.rfbdFully(is, tokfn);
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                            "rfdfiving tokfn = " +
+                            SpNfgoTokfn.gftHfxBytfs(tokfn));
+                }
+
+                // rfbd tif SPNEGO tokfn
+                // tokfn will bf vblidbtfd wifn pbrsing
+                NfgTokfnTbrg inputTokfn = nfw NfgTokfnTbrg(tokfn);
+
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                            "rfdfivfd tokfn of typf = " +
+                            SpNfgoTokfn.gftTokfnNbmf(inputTokfn.gftTypf()));
+                }
+
+                // rfbd tif tokfn
+                bytf[] dlifnt_tokfn = inputTokfn.gftRfsponsfTokfn();
+                bytf[] bddfpt_tokfn = GSS_bddfptSfdContfxt(dlifnt_tokfn);
+                if (bddfpt_tokfn == null) {
+                    vblid = fblsf;
+                }
+
+                // dftfrminf nfgotibtfd rfsult stbtus
+                if (vblid) {
+                    if (isMfdiContfxtEstbblisifd()) {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE;
+                        stbtf = STATE_DONE;
+                    } flsf {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE;
+                        stbtf = STATE_IN_PROCESS;
+                    }
+                } flsf {
+                    nfgoRfsult = SpNfgoTokfn.NfgoRfsult.REJECT;
+                    stbtf = STATE_DONE;
+                }
+
+                // gfnfrbtf SPNEGO tokfn
+                NfgTokfnTbrg tbrgTokfn = nfw NfgTokfnTbrg(nfgoRfsult.ordinbl(),
+                                null, bddfpt_tokfn, null);
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(tbrgTokfn.gftTypf()));
+                }
+                // gft tif fndodfd tokfn
+                rftVbl = tbrgTokfn.gftEndodfd();
+
+            } flsf {
+                // XXX Usf logging API
+                if (DEBUG) {
+                    Systfm.out.println("AddfptSfdContfxt: stbtf = " + stbtf);
+                }
+            }
+            if (DEBUG) {
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                        "sfnding tokfn = " + SpNfgoTokfn.gftHfxBytfs(rftVbl));
+            }
+        } dbtdi (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            tirow gssExdfption;
+        }
+
+        if (stbtf == STATE_DONE) {
+            // now sft tif dontfxt flbgs for bddfptor
+            sftContfxtFlbgs();
+        }
+        rfturn rftVbl;
+    }
+
+    /**
+     * obtbin tif bvbilbblf mfdibnisms
+     */
+    privbtf Oid[] gftAvbilbblfMfdis() {
+        if (myCrfd != null) {
+            Oid[] mfdis = nfw Oid[1];
+            mfdis[0] = myCrfd.gftIntfrnblMfdi();
+            rfturn mfdis;
+        } flsf {
+            rfturn fbdtory.bvbilbblfMfdis;
+        }
+    }
+
+    /**
+     * gft tifr DER fndodfd MfdiList
+     */
+    privbtf bytf[] gftEndodfdMfdis(Oid[] mfdiSft)
+        tirows IOExdfption, GSSExdfption {
+
+        DfrOutputStrfbm mfdi = nfw DfrOutputStrfbm();
+        for (int i = 0; i < mfdiSft.lfngti; i++) {
+            bytf[] mfdiTypf = mfdiSft[i].gftDER();
+            mfdi.writf(mfdiTypf);
+        }
+        // insfrt in SEQUENCE
+        DfrOutputStrfbm mfdiTypfList = nfw DfrOutputStrfbm();
+        mfdiTypfList.writf(DfrVbluf.tbg_Sfqufndf, mfdi);
+        bytf[] fndodfd = mfdiTypfList.toBytfArrby();
+        rfturn fndodfd;
+    }
+
+    /**
+     * gft tif dontfxt flbgs
+     */
+    privbtf BitArrby gftContfxtFlbgs() {
+        BitArrby out = nfw BitArrby(7);
+
+        if (gftCrfdDflfgStbtf()) out.sft(0, truf);
+        if (gftMutublAutiStbtf()) out.sft(1, truf);
+        if (gftRfplbyDftStbtf()) out.sft(2, truf);
+        if (gftSfqufndfDftStbtf()) out.sft(3, truf);
+        if (gftConfStbtf()) out.sft(5, truf);
+        if (gftIntfgStbtf()) out.sft(6, truf);
+
+        rfturn out;
+    }
+
+    // Only dbllfd on bddfptor sidf. On tif initibtor sidf, most flbgs
+    // brf blrfbdy sft bt rfqufst. For tiosf tibt migit gft dibnfgd,
+    // stbtf from mfdi bflow is usfd.
+    privbtf void sftContfxtFlbgs() {
+
+        if (mfdiContfxt != null) {
+            // dffbult for drfd dflfgbtion is fblsf
+            if (mfdiContfxt.gftCrfdDflfgStbtf()) {
+                drfdDflfgStbtf = truf;
+            }
+            // dffbult for tif following brf truf
+            if (!mfdiContfxt.gftMutublAutiStbtf()) {
+                mutublAutiStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftRfplbyDftStbtf()) {
+                rfplbyDftStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftSfqufndfDftStbtf()) {
+                sfqufndfDftStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftIntfgStbtf()) {
+                intfgStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftConfStbtf()) {
+                donfStbtf = fblsf;
+            }
+        }
+    }
+
+    /**
+     * gfnfrbtf MIC on mfdiList. Not usfd bt tif momfnt.
+     */
+    /*privbtf bytf[] gfnfrbtfMfdiListMIC(bytf[] mfdiTypfs)
+        tirows GSSExdfption {
+
+        // sbnity difdk tif rfquirfd input
+        if (mfdiTypfs == null) {
+            if (DEBUG) {
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn indludfd");
+            }
+            rfturn null;
+        }
+
+        // difdk if mfdibnism supports intfgrity
+        if (!mfdiContfxt.gftIntfgStbtf()) {
+            if (DEBUG) {
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn indludfd" +
+                        " - mfdibnism dofs not support intfgrity");
+            }
+            rfturn null;
+        }
+
+        // domputf MIC on DER fndodfd mfdibnism list
+        bytf[] mid = null;
+        try {
+            MfssbgfProp prop = nfw MfssbgfProp(0, truf);
+            mid = gftMIC(mfdiTypfs, 0, mfdiTypfs.lfngti, prop);
+            if (DEBUG) {
+                Systfm.out.println("SpNfgoContfxt: gftMIC = " +
+                                        SpNfgoTokfn.gftHfxBytfs(mid));
+            }
+        } dbtdi (GSSExdfption f) {
+            mid = null;
+            if (DEBUG) {
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn indludfd" +
+                        " - gftMIC fbilfd : " + f.gftMfssbgf());
+            }
+        }
+        rfturn mid;
+    }*/
+
+    /**
+     * vfrify MIC on MfdiList
+     */
+    privbtf boolfbn vfrifyMfdiListMIC(bytf[] mfdiTypfs, bytf[] tokfn)
+        tirows GSSExdfption {
+
+        // sbnity difdk tif input
+        if (tokfn == null) {
+            if (DEBUG) {
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn vblidbtion");
+            }
+            rfturn truf;
+        }
+
+        // difdk if mfdibnism supports intfgrity
+        if (!mfdiContfxt.gftIntfgStbtf()) {
+            if (DEBUG) {
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn vblidbtion" +
+                        " - mfdibnism dofs not support intfgrity");
+            }
+            rfturn truf;
+        }
+
+        // now vfrify tif tokfn
+        boolfbn vblid = fblsf;
+        try {
+            MfssbgfProp prop = nfw MfssbgfProp(0, truf);
+            vfrifyMIC(tokfn, 0, tokfn.lfngti, mfdiTypfs,
+                        0, mfdiTypfs.lfngti, prop);
+            vblid = truf;
+        } dbtdi (GSSExdfption f) {
+            vblid = fblsf;
+            if (DEBUG) {
+                Systfm.out.println("SpNfgoContfxt: MIC vblidbtion fbilfd! " +
+                                        f.gftMfssbgf());
+            }
+        }
+        rfturn vblid;
+    }
+
+    /**
+     * dbll gss_init_sfd_dontfxt for tif dorrfsponding undfrlying mfdibnism
+     */
+    privbtf bytf[] GSS_initSfdContfxt(bytf[] tokfn) tirows GSSExdfption {
+        bytf[] tok = null;
+
+        if (mfdiContfxt == null) {
+            // initiblizf mfdi dontfxt
+            GSSNbmf sfrvfrNbmf =
+                fbdtory.mbnbgfr.drfbtfNbmf(pffrNbmf.toString(),
+                    pffrNbmf.gftStringNbmfTypf(), intfrnbl_mfdi);
+            GSSCrfdfntibl drfd = null;
+            if (myCrfd != null) {
+                // drfbtf dontfxt witi providfd drfdfntibl
+                drfd = nfw GSSCrfdfntiblImpl(fbdtory.mbnbgfr,
+                    myCrfd.gftIntfrnblCrfd());
+            }
+            mfdiContfxt =
+                fbdtory.mbnbgfr.drfbtfContfxt(sfrvfrNbmf,
+                    intfrnbl_mfdi, drfd, GSSContfxt.DEFAULT_LIFETIME);
+            mfdiContfxt.rfqufstConf(donfStbtf);
+            mfdiContfxt.rfqufstIntfg(intfgStbtf);
+            mfdiContfxt.rfqufstCrfdDflfg(drfdDflfgStbtf);
+            mfdiContfxt.rfqufstMutublAuti(mutublAutiStbtf);
+            mfdiContfxt.rfqufstRfplbyDft(rfplbyDftStbtf);
+            mfdiContfxt.rfqufstSfqufndfDft(sfqufndfDftStbtf);
+            if (mfdiContfxt instbndfof ExtfndfdGSSContfxt) {
+                ((ExtfndfdGSSContfxt)mfdiContfxt).rfqufstDflfgPolidy(
+                        dflfgPolidyStbtf);
+            }
+        }
+
+        // pbss tokfn
+        if (tokfn != null) {
+            tok = tokfn;
+        } flsf {
+            tok = nfw bytf[0];
+        }
+
+        // pbss tokfn to mfdibnism initSfdContfxt
+        bytf[] init_tokfn = mfdiContfxt.initSfdContfxt(tok, 0, tok.lfngti);
+
+        rfturn init_tokfn;
+    }
+
+    /**
+     * dbll gss_bddfpt_sfd_dontfxt for tif dorrfsponding undfrlying mfdibnism
+     */
+    privbtf bytf[] GSS_bddfptSfdContfxt(bytf[] tokfn) tirows GSSExdfption {
+
+        if (mfdiContfxt == null) {
+            // initiblizf mfdi dontfxt
+            GSSCrfdfntibl drfd = null;
+            if (myCrfd != null) {
+                // drfbtf dontfxt witi providfd drfdfntibl
+                drfd = nfw GSSCrfdfntiblImpl(fbdtory.mbnbgfr,
+                myCrfd.gftIntfrnblCrfd());
+            }
+            mfdiContfxt =
+                fbdtory.mbnbgfr.drfbtfContfxt(drfd);
+        }
+
+        // pbss tokfn to mfdibnism bddfptSfdContfxt
+        bytf[] bddfpt_tokfn =
+                mfdiContfxt.bddfptSfdContfxt(tokfn, 0, tokfn.lfngti);
+
+        rfturn bddfpt_tokfn;
+    }
+
+    /**
+     * Tiis routinf dompbrfs tif rfdifvfd mfdisft to tif mfdisft tibt
+     * tiis sfrvfr dbn support. It looks sfqufntiblly tirougi tif mfdisft
+     * bnd tif first onf tibt mbtdifs wibt tif sfrvfr dbn support is
+     * diosfn bs tif nfgotibtfd mfdibnism. If onf is found, nfgRfsult
+     * is sft to ACCEPT_COMPLETE, otifrwisf wf rfturn NULL bnd nfgRfsult
+     * is sft to REJECT.
+     */
+    privbtf stbtid Oid nfgotibtf_mfdi_typf(Oid[] supportfd_mfdiSft,
+                                        Oid[] mfdiSft) {
+        for (int i = 0; i < supportfd_mfdiSft.lfngti; i++) {
+            for (int j = 0; j < mfdiSft.lfngti; j++) {
+                if (mfdiSft[j].fqubls(supportfd_mfdiSft[i])) {
+                    if (DEBUG) {
+                        Systfm.out.println("SpNfgoContfxt: " +
+                                "nfgotibtfd mfdibnism = " + mfdiSft[j]);
+                    }
+                    rfturn (mfdiSft[j]);
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    publid finbl boolfbn isEstbblisifd() {
+        rfturn (stbtf == STATE_DONE);
+    }
+
+    publid finbl boolfbn isMfdiContfxtEstbblisifd() {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.isEstbblisifd();
+        } flsf {
+            if (DEBUG) {
+                Systfm.out.println("Tif undfrlying mfdibnism dontfxt ibs " +
+                                        "not bffn initiblizfd");
+            }
+            rfturn fblsf;
+        }
+    }
+
+    publid finbl bytf [] fxport() tirows GSSExdfption {
+        tirow nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                               "GSS Export Contfxt not bvbilbblf");
+    }
+
+    /**
+     * Sfts tif dibnnfl bindings to bf usfd during dontfxt
+     * fstbblisimfnt.
+     */
+    publid finbl void sftCibnnflBinding(CibnnflBinding dibnnflBinding)
+        tirows GSSExdfption {
+        tiis.dibnnflBinding = dibnnflBinding;
+    }
+
+    finbl CibnnflBinding gftCibnnflBinding() {
+        rfturn dibnnflBinding;
+    }
+
+    /*
+     * Anonymity is b littlf difffrfnt in tibt bftfr bn bpplidbtion
+     * rfqufsts bnonymity it will wbnt to know wiftifr tif mfdibnism
+     * dbn support it or not, prior to sfnding bny tokfns bdross for
+     * dontfxt fstbblisimfnt. Sindf tiis is from tif initibtor's
+     * pfrspfdtivf, it fssfntiblly rfqufsts tibt tif initibtor bf
+     * bnonymous.
+     */
+    publid finbl void rfqufstAnonymity(boolfbn vbluf) tirows GSSExdfption {
+        // Ignorf silfntly. Applidbtion will difdk bbdk witi
+        // gftAnonymityStbtf.
+    }
+
+    // RFC 2853 bdtublly dblls for tiis to bf dbllfd bftfr dontfxt
+    // fstbblisimfnt to gft tif rigit bnswfr, but tibt is
+    // indorrfdt. Tif bpplidbtion mby not wbnt to sfnd ovfr bny
+    // tokfns if bnonymity is not bvbilbblf.
+    publid finbl boolfbn gftAnonymityStbtf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfqufsts tif dfsirfd lifftimf. Cbn only bf usfd on tif dontfxt
+     * initibtor's sidf.
+     */
+    publid void rfqufstLifftimf(int lifftimf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            tiis.lifftimf = lifftimf;
+    }
+
+    /**
+     * Tif lifftimf rfmbining for tiis dontfxt.
+     */
+    publid finbl int gftLifftimf() {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.gftLifftimf();
+        } flsf {
+            rfturn GSSContfxt.INDEFINITE_LIFETIME;
+        }
+    }
+
+    publid finbl boolfbn isTrbnsffrbblf() tirows GSSExdfption {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfqufsts tibt sfqufndf difdking bf donf on tif GSS wrbp bnd MIC
+     * tokfns.
+     */
+    publid finbl void rfqufstSfqufndfDft(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            sfqufndfDftStbtf  = vbluf;
+    }
+
+    /**
+     * Is sfqufndf difdking fnbblfd on tif GSS Wrbp bnd MIC tokfns?
+     * Wf fnbblf sfqufndf difdking if rfplby dftfdtion is fnbblfd.
+     */
+    publid finbl boolfbn gftSfqufndfDftStbtf() {
+        rfturn sfqufndfDftStbtf || rfplbyDftStbtf;
+    }
+
+    /**
+     * Rfqufsts tibt rfplby dftfdtion bf donf on tif GSS wrbp bnd MIC
+     * tokfns.
+     */
+    publid finbl void rfqufstRfplbyDft(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            rfplbyDftStbtf  = vbluf;
+    }
+
+    /**
+     * Is rfplby dftfdtion fnbblfd on tif GSS wrbp bnd MIC tokfns?
+     * Wf fnbblf rfplby dftfdtion if sfqufndf difdking is fnbblfd.
+     */
+    publid finbl boolfbn gftRfplbyDftStbtf() {
+        rfturn rfplbyDftStbtf || sfqufndfDftStbtf;
+    }
+
+    publid finbl GSSNbmfSpi gftTbrgNbmf() tirows GSSExdfption {
+        // fill-in tif GSSNbmf
+        // gft tif pffr nbmf for tif mfdibnism
+        if (mfdiContfxt != null) {
+            GSSNbmfImpl tbrgNbmf = (GSSNbmfImpl)mfdiContfxt.gftTbrgNbmf();
+            pffrNbmf = tbrgNbmf.gftElfmfnt(intfrnbl_mfdi);
+            rfturn pffrNbmf;
+        } flsf {
+            if (DEBUG) {
+                Systfm.out.println("Tif undfrlying mfdibnism dontfxt ibs " +
+                                        "not bffn initiblizfd");
+            }
+            rfturn null;
+        }
+    }
+
+    publid finbl GSSNbmfSpi gftSrdNbmf() tirows GSSExdfption {
+        // fill-in tif GSSNbmf
+        // gft tif srd nbmf for tif mfdibnism
+        if (mfdiContfxt != null) {
+            GSSNbmfImpl srdNbmf = (GSSNbmfImpl)mfdiContfxt.gftSrdNbmf();
+            myNbmf = srdNbmf.gftElfmfnt(intfrnbl_mfdi);
+            rfturn myNbmf;
+        } flsf {
+            if (DEBUG) {
+                Systfm.out.println("Tif undfrlying mfdibnism dontfxt ibs " +
+                                        "not bffn initiblizfd");
+            }
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns tif dflfgbtfd drfdfntibl for tif dontfxt. Tiis
+     * is bn optionbl ffbturf of dontfxts wiidi not bll
+     * mfdibnisms will support. A dontfxt dbn bf rfqufstfd to
+     * support drfdfntibl dflfgbtion by using tif <b>CRED_DELEG</b>.
+     * Tiis is only vblid on tif bddfptor sidf of tif dontfxt.
+     * @rfturn GSSCrfdfntiblSpi objfdt for tif dflfgbtfd drfdfntibl
+     * @fxdfption GSSExdfption
+     * @sff GSSContfxt#gftCrfdDflfgStbtf
+     */
+    publid finbl GSSCrfdfntiblSpi gftDflfgCrfd() tirows GSSExdfption {
+        if (stbtf != STATE_IN_PROCESS && stbtf != STATE_DONE)
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT);
+        if (mfdiContfxt != null) {
+            GSSCrfdfntiblImpl dflfgCrfd =
+                        (GSSCrfdfntiblImpl)mfdiContfxt.gftDflfgCrfd();
+            if (dflfgCrfd == null) {
+                rfturn null;
+            }
+            // dftfrminf dflfgbtfd drfd flfmfnt usbgf
+            boolfbn initibtf = fblsf;
+            if (dflfgCrfd.gftUsbgf() == GSSCrfdfntibl.INITIATE_ONLY) {
+                initibtf = truf;
+            }
+            GSSCrfdfntiblSpi mfdiCrfd =
+                    dflfgCrfd.gftElfmfnt(intfrnbl_mfdi, initibtf);
+            SpNfgoCrfdElfmfnt drfd = nfw SpNfgoCrfdElfmfnt(mfdiCrfd);
+            rfturn drfd.gftIntfrnblCrfd();
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftDflfgCrfd dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl int gftWrbpSizfLimit(int qop, boolfbn donfRfq,
+                                       int mbxTokSizf) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.gftWrbpSizfLimit(qop, donfRfq, mbxTokSizf);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftWrbpSizfLimit dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl bytf[] wrbp(bytf inBuf[], int offsft, int lfn,
+                             MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.wrbp(inBuf, offsft, lfn, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "Wrbp dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl void wrbp(InputStrfbm is, OutputStrfbm os,
+                            MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.wrbp(is, os, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "Wrbp dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl bytf[] unwrbp(bytf inBuf[], int offsft, int lfn,
+                               MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.unwrbp(inBuf, offsft, lfn, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "UnWrbp dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl void unwrbp(InputStrfbm is, OutputStrfbm os,
+                             MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.unwrbp(is, os, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "UnWrbp dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl bytf[] gftMIC(bytf []inMsg, int offsft, int lfn,
+                               MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.gftMIC(inMsg, offsft, lfn, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftMIC dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl void gftMIC(InputStrfbm is, OutputStrfbm os,
+                              MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.gftMIC(is, os, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftMIC dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl void vfrifyMIC(bytf []inTok, int tokOffsft, int tokLfn,
+                                bytf[] inMsg, int msgOffsft, int msgLfn,
+                                MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.vfrifyMIC(inTok, tokOffsft, tokLfn, inMsg, msgOffsft,
+                                msgLfn,  msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "vfrifyMIC dbllfd in invblid stbtf!");
+        }
+    }
+
+    publid finbl void vfrifyMIC(InputStrfbm is, InputStrfbm msgStr,
+                                 MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.vfrifyMIC(is, msgStr, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "vfrifyMIC dbllfd in invblid stbtf!");
+        }
+    }
+
+    privbtf stbtid String printStbtf(int stbtf) {
+        switdi (stbtf) {
+          dbsf STATE_NEW:
+                rfturn ("STATE_NEW");
+          dbsf STATE_IN_PROCESS:
+                rfturn ("STATE_IN_PROCESS");
+          dbsf STATE_DONE:
+                rfturn ("STATE_DONE");
+          dbsf STATE_DELETED:
+                rfturn ("STATE_DELETED");
+          dffbult:
+                rfturn ("Unknown stbtf " + stbtf);
+        }
+    }
+
+    /**
+     * Rftrifvf bttributf of tif dontfxt for {@dodf typf}.
+     */
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            tirows GSSExdfption {
+        if (mfdiContfxt == null) {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                    "Undfrlying mfdi not fstbblisifd.");
+        }
+        if (mfdiContfxt instbndfof ExtfndfdGSSContfxt) {
+            rfturn ((ExtfndfdGSSContfxt)mfdiContfxt).inquirfSfdContfxt(typf);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MECH, -1,
+                    "inquirfSfdContfxt not supportfd by undfrlying mfdi.");
+        }
+    }
+}
+

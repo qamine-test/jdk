@@ -1,0 +1,159 @@
+'\" t
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbi.1
+.\"
+.if n .pl 99999
+.TH jbvbi 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbvbi \- Gfnfrbtfs C ifbdfr bnd sourdf filfs from b Jbvb dlbss\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIfully-qublififd-dlbss-nbmf\fR
+Tif fully qublififd lodbtion of tif dlbssfs to bf donvfrtfd to C ifbdfr bnd sourdf filfs\&.
+.SH DESCRIPTION    
+Tif \f3jbvbi\fR dommbnd gfnfrbtfs C ifbdfr bnd sourdf filfs tibt brf nffdfd to implfmfnt nbtivf mftiods\&. Tif gfnfrbtfd ifbdfr bnd sourdf filfs brf usfd by C progrbms to rfffrfndf bn objfdt\&'s instbndf vbribblfs from nbtivf sourdf dodf\&. Tif \f3\&.i\fR filf dontbins b \f3strudt\fR dffinition witi b lbyout tibt pbrbllfls tif lbyout of tif dorrfsponding dlbss\&. Tif fiflds in tif \f3strudt\fR dorrfspond to instbndf vbribblfs in tif dlbss\&.
+.PP
+Tif nbmf of tif ifbdfr filf bnd tif strudturf dfdlbrfd witiin it brf dfrivfd from tif nbmf of tif dlbss\&. Wifn tif dlbss pbssfd to tif \f3jbvbi\fR dommbnd is insidf b pbdkbgf, tif pbdkbgf nbmf is bddfd to tif bfginning of boti tif ifbdfr filf nbmf bnd tif strudturf nbmf\&. Undfrsdorfs (_) brf usfd bs nbmf dflimitfrs\&.
+.PP
+By dffbult tif \f3jbvbi\fR dommbnd drfbtfs b ifbdfr filf for fbdi dlbss listfd on tif dommbnd linf bnd puts tif filfs in tif durrfnt dirfdtory\&. Usf tif \f3-stubs\fR option to drfbtf sourdf filfs\&. Usf tif \f3-o\fR option to dondbtfnbtf tif rfsults for bll listfd dlbssfs into b singlf filf\&.
+.PP
+Tif Jbvb Nbtivf Intfrfbdf (JNI) dofs not rfquirf ifbdfr informbtion or stub filfs\&. Tif \f3jbvbi\fR dommbnd dbn still bf usfd to gfnfrbtf nbtivf mftiod fundtion prototypfs nffdfd for JNI-stylf nbtivf mftiods\&. Tif \f3jbvbi\fR dommbnd produdfs JNI-stylf output by dffbult bnd plbdfs tif rfsult in tif \f3\&.i\fR filf\&.
+.SH OPTIONS    
+.TP
+-o \fIoutputfilf\fR
+.br
+Condbtfnbtfs tif rfsulting ifbdfr or sourdf filfs for bll tif dlbssfs listfd on tif dommbnd linf into bn output filf\&. Only onf of \f3-o\fR or \f3-d\fR dbn bf usfd\&.
+.TP
+-d \fIdirfdtory\fR
+.br
+Sfts tif dirfdtory wifrf tif \f3jbvbi\fR dommbnd sbvfs tif ifbdfr filfs or tif stub filfs\&. Only onf of \f3-d\fR or \f3-o\fR dbn bf usfd\&.
+.TP
+-stubs
+.br
+Cbusfs tif \f3jbvbi\fR dommbnd to gfnfrbtf C dfdlbrbtions from tif Jbvb objfdt filf\&.
+.TP
+-vfrbosf
+.br
+Indidbtfs vfrbosf output bnd dbusfs tif \f3jbvbi\fR dommbnd to print b mfssbgf to \f3stdout\fR bbout tif stbtus of tif gfnfrbtfd filfs\&.
+.TP
+-iflp
+.br
+Prints b iflp mfssbgf for \f3jbvbi\fR usbgf\&.
+.TP
+-vfrsion
+.br
+Prints \f3jbvbi\fR dommbnd rflfbsf informbtion\&.
+.TP
+-jni
+.br
+Cbusfs tif \f3jbvbi\fR dommbnd to drfbtf bn output filf dontbining JNI-stylf nbtivf mftiod fundtion prototypfs\&. Tiis is tif dffbult output; usf of \f3-jni\fR is optionbl\&.
+.TP
+-dlbsspbti \fIpbti\fR
+.br
+Spfdififs tif pbti tif \f3jbvbi\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons on Orbdlf Solbris bnd sfmidolons on Windows\&. Tif gfnfrbl formbt for pbti is:
+
+\fIOrbdlf Solbris\fR:
+
+\&.:\fIyour-pbti\fR
+
+Exbmplf: \f3\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
+
+\fIWindows\fR:
+
+\&.;\fIyour-pbti\fR
+
+Exbmplf: \f3\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
+
+As b spfdibl donvfnifndf, b dlbss pbti flfmfnt tibt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll tif filfs in tif dirfdtory witi tif fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JAR\fR, tifn tif dlbss pbti flfmfnt \f3mydir/*\fR is fxpbndfd to b \f3A\fR\f3\&.jbr:b\&.JAR\fR, fxdfpt tibt tif ordfr of jbr filfs is unspfdififd\&. All JAR filfs in tif spfdififd dirfdtory, indluding iiddfn onfs, brf indludfd in tif list\&. A dlbss pbti fntry tibt donsists of * fxpbnds to b list of bll tif JAR filfs in tif durrfnt dirfdtory\&. Tif \f3CLASSPATH\fR fnvironmfnt vbribblf, wifrf dffinfd, is similbrly fxpbndfd\&. Any dlbss pbti wild dbrd fxpbnsion oddurs bfforf tif Jbvb Virtubl Mbdiinf (JVM) is stbrtfd\&. A Jbvb progrbm will nfvfr sff unfxpbndfd wild dbrds fxdfpt by qufrying tif fnvironmfnt\&. For fxbmplf, by dblling \f3Systfm\&.gftfnv("CLASSPATH")\fR\&.
+.TP
+-bootdlbsspbti \fIpbti\fR
+.br
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf\flib\frt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+.TP
+-old
+.br
+Spfdififs tibt old JDK 1\&.0-stylf ifbdfr filfs siould bf gfnfrbtfd\&.
+.TP
+-fordf
+.br
+Spfdififs tibt output filfs siould blwbys bf writtfn\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvbi(1)
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jdb(1)
+.TP 0.2i    
+\(bu
+jbvbp(1)
+.TP 0.2i    
+\(bu
+jbvbdod(1)
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,50 +1,250 @@
 /*
- * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.jdi;
+pbdkbgf dom.sun.jdi;
+pbdkbgf dom.sun.jdi;
+pbdkbgf dom.sun.jdi;
+pbdkbgf dom.sun.jdi;
+
+
+
+
 
 /**
- * A mirror thbt hbs b {@link Lodbtion}.
+/**
+/**
+/**
+/**
+ * A mirror tibt ibs b {@link Lodbtion}.
+ * A mirror tibt ibs b {@link Lodbtion}.
+ * A mirror tibt ibs b {@link Lodbtion}.
+ * A mirror tibt ibs b {@link Lodbtion}.
+ * A mirror tibt ibs b {@link Lodbtion}.
  *
- * @buthor Robfrt Fifld
- * @buthor Gordon Hirsdh
- * @buthor Jbmfs MdIlrff
+ *
+ *
+ *
+ *
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Gordon Hirsdi
+ * @butior Gordon Hirsdi
+ * @butior Gordon Hirsdi
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @butior Jbmfs MdIlrff
+ * @butior Jbmfs MdIlrff
+ * @butior Jbmfs MdIlrff
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
+ * @sindf  1.3
+ * @sindf  1.3
+ * @sindf  1.3
  * @sindf  1.3
  */
+ */
+ */
+ */
+ */
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
 @jdk.Exportfd
 publid intfrfbdf Lodbtbblf {
+publid intfrfbdf Lodbtbblf {
+publid intfrfbdf Lodbtbblf {
+publid intfrfbdf Lodbtbblf {
+publid intfrfbdf Lodbtbblf {
     /**
-     * Rfturns thf {@link Lodbtion} of this mirror, if thfrf
-     * is fxfdutbblf dodf bssodibtfd with it. Notf thbt both
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif {@link Lodbtion} of tiis mirror, if tifrf
+     * Rfturns tif {@link Lodbtion} of tiis mirror, if tifrf
+     * Rfturns tif {@link Lodbtion} of tiis mirror, if tifrf
+     * Rfturns tif {@link Lodbtion} of tiis mirror, if tifrf
+     * Rfturns tif {@link Lodbtion} of tiis mirror, if tifrf
+     * is fxfdutbblf dodf bssodibtfd witi it. Notf tibt boti
+     * is fxfdutbblf dodf bssodibtfd witi it. Notf tibt boti
+     * is fxfdutbblf dodf bssodibtfd witi it. Notf tibt boti
+     * is fxfdutbblf dodf bssodibtfd witi it. Notf tibt boti
+     * is fxfdutbblf dodf bssodibtfd witi it. Notf tibt boti
      * Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> progrbmming
-     * lbngubgf mfthods bnd nbtivf mfthods hbvf fxfdutbblf dodf.
-     * Rfturns null for bbstrbdt mfthods, sindf bbstrbdt mfthods
-     * hbvf no fxfdutbblf dodf.
+     * Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> progrbmming
+     * Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> progrbmming
+     * Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> progrbmming
+     * Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> progrbmming
+     * lbngubgf mftiods bnd nbtivf mftiods ibvf fxfdutbblf dodf.
+     * lbngubgf mftiods bnd nbtivf mftiods ibvf fxfdutbblf dodf.
+     * lbngubgf mftiods bnd nbtivf mftiods ibvf fxfdutbblf dodf.
+     * lbngubgf mftiods bnd nbtivf mftiods ibvf fxfdutbblf dodf.
+     * lbngubgf mftiods bnd nbtivf mftiods ibvf fxfdutbblf dodf.
+     * Rfturns null for bbstrbdt mftiods, sindf bbstrbdt mftiods
+     * Rfturns null for bbstrbdt mftiods, sindf bbstrbdt mftiods
+     * Rfturns null for bbstrbdt mftiods, sindf bbstrbdt mftiods
+     * Rfturns null for bbstrbdt mftiods, sindf bbstrbdt mftiods
+     * Rfturns null for bbstrbdt mftiods, sindf bbstrbdt mftiods
+     * ibvf no fxfdutbblf dodf.
+     * ibvf no fxfdutbblf dodf.
+     * ibvf no fxfdutbblf dodf.
+     * ibvf no fxfdutbblf dodf.
+     * ibvf no fxfdutbblf dodf.
      *
-     * @rfturn thf {@link Lodbtion} of this mirror, or null if
-     * thfrf is no fxfdutbblf dodf bssodibtfd with it.
+     *
+     *
+     *
+     *
+     * @rfturn tif {@link Lodbtion} of tiis mirror, or null if
+     * @rfturn tif {@link Lodbtion} of tiis mirror, or null if
+     * @rfturn tif {@link Lodbtion} of tiis mirror, or null if
+     * @rfturn tif {@link Lodbtion} of tiis mirror, or null if
+     * @rfturn tif {@link Lodbtion} of tiis mirror, or null if
+     * tifrf is no fxfdutbblf dodf bssodibtfd witi it.
+     * tifrf is no fxfdutbblf dodf bssodibtfd witi it.
+     * tifrf is no fxfdutbblf dodf bssodibtfd witi it.
+     * tifrf is no fxfdutbblf dodf bssodibtfd witi it.
+     * tifrf is no fxfdutbblf dodf bssodibtfd witi it.
+     */
+     */
+     */
+     */
      */
     Lodbtion lodbtion();
+    Lodbtion lodbtion();
+    Lodbtion lodbtion();
+    Lodbtion lodbtion();
+    Lodbtion lodbtion();
+}
+}
+}
+}
 }

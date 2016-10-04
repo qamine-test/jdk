@@ -1,173 +1,865 @@
 /*
- * Copyright (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-pbdkbgf jbvbx.swing.tfxt.html;
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+pbdkbgf jbvbx.swing.tfxt.itml;
+
+
+
+
 
 import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
 import jbvb.bwt.*;
 
+
+
+
+
 /**
- * This is thf vifw bssodibtfd with thf html tbg NOFRAMES.
- * This vifw hbs bffn writtfn to ignorf thf dontfnts of thf
- * NOFRAMES tbg.  Thf dontfnts of thf tbg will only bf visiblf
- * whfn thf JTfxtComponfnt thf vifw is dontbinfd in is fditbblf.
+/**
+/**
+/**
+/**
+ * Tiis is tif vifw bssodibtfd witi tif itml tbg NOFRAMES.
+ * Tiis is tif vifw bssodibtfd witi tif itml tbg NOFRAMES.
+ * Tiis is tif vifw bssodibtfd witi tif itml tbg NOFRAMES.
+ * Tiis is tif vifw bssodibtfd witi tif itml tbg NOFRAMES.
+ * Tiis is tif vifw bssodibtfd witi tif itml tbg NOFRAMES.
+ * Tiis vifw ibs bffn writtfn to ignorf tif dontfnts of tif
+ * Tiis vifw ibs bffn writtfn to ignorf tif dontfnts of tif
+ * Tiis vifw ibs bffn writtfn to ignorf tif dontfnts of tif
+ * Tiis vifw ibs bffn writtfn to ignorf tif dontfnts of tif
+ * Tiis vifw ibs bffn writtfn to ignorf tif dontfnts of tif
+ * NOFRAMES tbg.  Tif dontfnts of tif tbg will only bf visiblf
+ * NOFRAMES tbg.  Tif dontfnts of tif tbg will only bf visiblf
+ * NOFRAMES tbg.  Tif dontfnts of tif tbg will only bf visiblf
+ * NOFRAMES tbg.  Tif dontfnts of tif tbg will only bf visiblf
+ * NOFRAMES tbg.  Tif dontfnts of tif tbg will only bf visiblf
+ * wifn tif JTfxtComponfnt tif vifw is dontbinfd in is fditbblf.
+ * wifn tif JTfxtComponfnt tif vifw is dontbinfd in is fditbblf.
+ * wifn tif JTfxtComponfnt tif vifw is dontbinfd in is fditbblf.
+ * wifn tif JTfxtComponfnt tif vifw is dontbinfd in is fditbblf.
+ * wifn tif JTfxtComponfnt tif vifw is dontbinfd in is fditbblf.
  *
- * @buthor  Sunitb Mbni
+ *
+ *
+ *
+ *
+ * @butior  Sunitb Mbni
+ * @butior  Sunitb Mbni
+ * @butior  Sunitb Mbni
+ * @butior  Sunitb Mbni
+ * @butior  Sunitb Mbni
+ */
+ */
+ */
+ */
  */
 dlbss NoFrbmfsVifw fxtfnds BlodkVifw {
+dlbss NoFrbmfsVifw fxtfnds BlodkVifw {
+dlbss NoFrbmfsVifw fxtfnds BlodkVifw {
+dlbss NoFrbmfsVifw fxtfnds BlodkVifw {
+dlbss NoFrbmfsVifw fxtfnds BlodkVifw {
+
+
+
+
 
     /**
-     * Crfbtfs b nfw vifw thbt rfprfsfnts bn
-     * html box.  This dbn bf usfd for b numbfr
-     * of flfmfnts.  By dffbult this vifw is not
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw vifw tibt rfprfsfnts bn
+     * Crfbtfs b nfw vifw tibt rfprfsfnts bn
+     * Crfbtfs b nfw vifw tibt rfprfsfnts bn
+     * Crfbtfs b nfw vifw tibt rfprfsfnts bn
+     * Crfbtfs b nfw vifw tibt rfprfsfnts bn
+     * itml box.  Tiis dbn bf usfd for b numbfr
+     * itml box.  Tiis dbn bf usfd for b numbfr
+     * itml box.  Tiis dbn bf usfd for b numbfr
+     * itml box.  Tiis dbn bf usfd for b numbfr
+     * itml box.  Tiis dbn bf usfd for b numbfr
+     * of flfmfnts.  By dffbult tiis vifw is not
+     * of flfmfnts.  By dffbult tiis vifw is not
+     * of flfmfnts.  By dffbult tiis vifw is not
+     * of flfmfnts.  By dffbult tiis vifw is not
+     * of flfmfnts.  By dffbult tiis vifw is not
+     * visiblf.
+     * visiblf.
+     * visiblf.
+     * visiblf.
      * visiblf.
      *
-     * @pbrbm flfm thf flfmfnt to drfbtf b vifw for
-     * @pbrbm bxis fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     *
+     *
+     *
+     *
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
+     * @pbrbm bxis fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     */
+     */
+     */
+     */
      */
     publid NoFrbmfsVifw(Elfmfnt flfm, int bxis) {
+    publid NoFrbmfsVifw(Elfmfnt flfm, int bxis) {
+    publid NoFrbmfsVifw(Elfmfnt flfm, int bxis) {
+    publid NoFrbmfsVifw(Elfmfnt flfm, int bxis) {
+    publid NoFrbmfsVifw(Elfmfnt flfm, int bxis) {
+        supfr(flfm, bxis);
+        supfr(flfm, bxis);
+        supfr(flfm, bxis);
+        supfr(flfm, bxis);
         supfr(flfm, bxis);
         visiblf = fblsf;
+        visiblf = fblsf;
+        visiblf = fblsf;
+        visiblf = fblsf;
+        visiblf = fblsf;
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * If this vifw is not visiblf, thfn it rfturns.
-     * Othfrwisf it invokfs thf supfrdlbss.
+    /**
+    /**
+    /**
+    /**
+     * If tiis vifw is not visiblf, tifn it rfturns.
+     * If tiis vifw is not visiblf, tifn it rfturns.
+     * If tiis vifw is not visiblf, tifn it rfturns.
+     * If tiis vifw is not visiblf, tifn it rfturns.
+     * If tiis vifw is not visiblf, tifn it rfturns.
+     * Otifrwisf it invokfs tif supfrdlbss.
+     * Otifrwisf it invokfs tif supfrdlbss.
+     * Otifrwisf it invokfs tif supfrdlbss.
+     * Otifrwisf it invokfs tif supfrdlbss.
+     * Otifrwisf it invokfs tif supfrdlbss.
      *
-     * @pbrbm g thf rfndfring surfbdf to usf
-     * @pbrbm bllodbtion thf bllodbtfd rfgion to rfndfr into
+     *
+     *
+     *
+     *
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
      * @sff #isVisiblf
-     * @sff tfxt.PbrbgrbphVifw#pbint
+     * @sff #isVisiblf
+     * @sff #isVisiblf
+     * @sff #isVisiblf
+     * @sff #isVisiblf
+     * @sff tfxt.PbrbgrbpiVifw#pbint
+     * @sff tfxt.PbrbgrbpiVifw#pbint
+     * @sff tfxt.PbrbgrbpiVifw#pbint
+     * @sff tfxt.PbrbgrbpiVifw#pbint
+     * @sff tfxt.PbrbgrbpiVifw#pbint
      */
-    publid void pbint(Grbphids g, Shbpf bllodbtion) {
-        Contbinfr host = gftContbinfr();
-        if (host != null &&
-            visiblf != ((JTfxtComponfnt)host).isEditbblf()) {
-            visiblf = ((JTfxtComponfnt)host).isEditbblf();
+     */
+     */
+     */
+     */
+    publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+    publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+    publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+    publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+    publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+        Contbinfr iost = gftContbinfr();
+        Contbinfr iost = gftContbinfr();
+        Contbinfr iost = gftContbinfr();
+        Contbinfr iost = gftContbinfr();
+        Contbinfr iost = gftContbinfr();
+        if (iost != null &&
+        if (iost != null &&
+        if (iost != null &&
+        if (iost != null &&
+        if (iost != null &&
+            visiblf != ((JTfxtComponfnt)iost).isEditbblf()) {
+            visiblf != ((JTfxtComponfnt)iost).isEditbblf()) {
+            visiblf != ((JTfxtComponfnt)iost).isEditbblf()) {
+            visiblf != ((JTfxtComponfnt)iost).isEditbblf()) {
+            visiblf != ((JTfxtComponfnt)iost).isEditbblf()) {
+            visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+            visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+            visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+            visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+            visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        if (!isVisiblf()) {
+        if (!isVisiblf()) {
+        if (!isVisiblf()) {
+        if (!isVisiblf()) {
         if (!isVisiblf()) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
         }
         supfr.pbint(g, bllodbtion);
+        supfr.pbint(g, bllodbtion);
+        supfr.pbint(g, bllodbtion);
+        supfr.pbint(g, bllodbtion);
+        supfr.pbint(g, bllodbtion);
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * Dftfrminfs if thf JTfxtComponfnt thbt thf vifw
-     * is dontbinfd in is fditbblf. If so, thfn this
-     * vifw bnd bll its dhild vifws brf visiblf.
-     * Ondf this hbs bffn dftfrminfd, thf supfrdlbss
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs if tif JTfxtComponfnt tibt tif vifw
+     * Dftfrminfs if tif JTfxtComponfnt tibt tif vifw
+     * Dftfrminfs if tif JTfxtComponfnt tibt tif vifw
+     * Dftfrminfs if tif JTfxtComponfnt tibt tif vifw
+     * Dftfrminfs if tif JTfxtComponfnt tibt tif vifw
+     * is dontbinfd in is fditbblf. If so, tifn tiis
+     * is dontbinfd in is fditbblf. If so, tifn tiis
+     * is dontbinfd in is fditbblf. If so, tifn tiis
+     * is dontbinfd in is fditbblf. If so, tifn tiis
+     * is dontbinfd in is fditbblf. If so, tifn tiis
+     * vifw bnd bll its diild vifws brf visiblf.
+     * vifw bnd bll its diild vifws brf visiblf.
+     * vifw bnd bll its diild vifws brf visiblf.
+     * vifw bnd bll its diild vifws brf visiblf.
+     * vifw bnd bll its diild vifws brf visiblf.
+     * Ondf tiis ibs bffn dftfrminfd, tif supfrdlbss
+     * Ondf tiis ibs bffn dftfrminfd, tif supfrdlbss
+     * Ondf tiis ibs bffn dftfrminfd, tif supfrdlbss
+     * Ondf tiis ibs bffn dftfrminfd, tif supfrdlbss
+     * Ondf tiis ibs bffn dftfrminfd, tif supfrdlbss
+     * is invokfd to dontinuf prodfssing.
+     * is invokfd to dontinuf prodfssing.
+     * is invokfd to dontinuf prodfssing.
+     * is invokfd to dontinuf prodfssing.
      * is invokfd to dontinuf prodfssing.
      *
-     * @pbrbm p thf pbrfnt Vifw.
+     *
+     *
+     *
+     *
+     * @pbrbm p tif pbrfnt Vifw.
+     * @pbrbm p tif pbrfnt Vifw.
+     * @pbrbm p tif pbrfnt Vifw.
+     * @pbrbm p tif pbrfnt Vifw.
+     * @pbrbm p tif pbrfnt Vifw.
+     * @sff BlodkVifw#sftPbrfnt
+     * @sff BlodkVifw#sftPbrfnt
+     * @sff BlodkVifw#sftPbrfnt
+     * @sff BlodkVifw#sftPbrfnt
      * @sff BlodkVifw#sftPbrfnt
      */
+     */
+     */
+     */
+     */
+    publid void sftPbrfnt(Vifw p) {
+    publid void sftPbrfnt(Vifw p) {
+    publid void sftPbrfnt(Vifw p) {
+    publid void sftPbrfnt(Vifw p) {
     publid void sftPbrfnt(Vifw p) {
         if (p != null) {
-            Contbinfr host = p.gftContbinfr();
-            if (host != null) {
-                visiblf = ((JTfxtComponfnt)host).isEditbblf();
+        if (p != null) {
+        if (p != null) {
+        if (p != null) {
+        if (p != null) {
+            Contbinfr iost = p.gftContbinfr();
+            Contbinfr iost = p.gftContbinfr();
+            Contbinfr iost = p.gftContbinfr();
+            Contbinfr iost = p.gftContbinfr();
+            Contbinfr iost = p.gftContbinfr();
+            if (iost != null) {
+            if (iost != null) {
+            if (iost != null) {
+            if (iost != null) {
+            if (iost != null) {
+                visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+                visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+                visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+                visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+                visiblf = ((JTfxtComponfnt)iost).isEditbblf();
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+        supfr.sftPbrfnt(p);
+        supfr.sftPbrfnt(p);
+        supfr.sftPbrfnt(p);
+        supfr.sftPbrfnt(p);
         supfr.sftPbrfnt(p);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b truf/fblsf vbluf thbt rfprfsfnts
-     * whfthfr thf vifw is visiblf or not.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b truf/fblsf vbluf tibt rfprfsfnts
+     * Rfturns b truf/fblsf vbluf tibt rfprfsfnts
+     * Rfturns b truf/fblsf vbluf tibt rfprfsfnts
+     * Rfturns b truf/fblsf vbluf tibt rfprfsfnts
+     * Rfturns b truf/fblsf vbluf tibt rfprfsfnts
+     * wiftifr tif vifw is visiblf or not.
+     * wiftifr tif vifw is visiblf or not.
+     * wiftifr tif vifw is visiblf or not.
+     * wiftifr tif vifw is visiblf or not.
+     * wiftifr tif vifw is visiblf or not.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isVisiblf() {
+    publid boolfbn isVisiblf() {
+    publid boolfbn isVisiblf() {
+    publid boolfbn isVisiblf() {
+    publid boolfbn isVisiblf() {
+        rfturn visiblf;
+        rfturn visiblf;
+        rfturn visiblf;
+        rfturn visiblf;
         rfturn visiblf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
-     * Do nothing if thf vifw is not visiblf, othfrwisf
-     * invokf thf supfrdlbss to pfrform lbyout.
+    /**
+    /**
+    /**
+    /**
+     * Do notiing if tif vifw is not visiblf, otifrwisf
+     * Do notiing if tif vifw is not visiblf, otifrwisf
+     * Do notiing if tif vifw is not visiblf, otifrwisf
+     * Do notiing if tif vifw is not visiblf, otifrwisf
+     * Do notiing if tif vifw is not visiblf, otifrwisf
+     * invokf tif supfrdlbss to pfrform lbyout.
+     * invokf tif supfrdlbss to pfrform lbyout.
+     * invokf tif supfrdlbss to pfrform lbyout.
+     * invokf tif supfrdlbss to pfrform lbyout.
+     * invokf tif supfrdlbss to pfrform lbyout.
      */
-    protfdtfd void lbyout(int width, int hfight) {
+     */
+     */
+     */
+     */
+    protfdtfd void lbyout(int widti, int ifigit) {
+    protfdtfd void lbyout(int widti, int ifigit) {
+    protfdtfd void lbyout(int widti, int ifigit) {
+    protfdtfd void lbyout(int widti, int ifigit) {
+    protfdtfd void lbyout(int widti, int ifigit) {
+        if (!isVisiblf()) {
+        if (!isVisiblf()) {
+        if (!isVisiblf()) {
+        if (!isVisiblf()) {
         if (!isVisiblf()) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
         }
-        supfr.lbyout(width, hfight);
+        }
+        }
+        }
+        }
+        supfr.lbyout(widti, ifigit);
+        supfr.lbyout(widti, ifigit);
+        supfr.lbyout(widti, ifigit);
+        supfr.lbyout(widti, ifigit);
+        supfr.lbyout(widti, ifigit);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Dftfrminfs thf prfffrrfd spbn for this vifw.  Rfturns
-     * 0 if thf vifw is not visiblf, othfrwisf it dblls thf
-     * supfrdlbss mfthod to gft thf prfffrrfd spbn.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw.  Rfturns
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw.  Rfturns
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw.  Rfturns
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw.  Rfturns
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw.  Rfturns
+     * 0 if tif vifw is not visiblf, otifrwisf it dblls tif
+     * 0 if tif vifw is not visiblf, otifrwisf it dblls tif
+     * 0 if tif vifw is not visiblf, otifrwisf it dblls tif
+     * 0 if tif vifw is not visiblf, otifrwisf it dblls tif
+     * 0 if tif vifw is not visiblf, otifrwisf it dblls tif
+     * supfrdlbss mftiod to gft tif prfffrrfd spbn.
+     * supfrdlbss mftiod to gft tif prfffrrfd spbn.
+     * supfrdlbss mftiod to gft tif prfffrrfd spbn.
+     * supfrdlbss mftiod to gft tif prfffrrfd spbn.
+     * supfrdlbss mftiod to gft tif prfffrrfd spbn.
+     * bxis.
+     * bxis.
+     * bxis.
+     * bxis.
      * bxis.
      *
-     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
-     * @rfturn   thf spbn thf vifw would likf to bf rfndfrfd into;
-     *           typidblly thf vifw is told to rfndfr into thf spbn
-     *           thbt is rfturnfd, blthough thfrf is no gubrbntff;
-     *           thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw
-     * @sff tfxt.PbrbgrbphVifw#gftPrfffrrfdSpbn
+     *
+     *
+     *
+     *
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into;
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into;
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into;
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into;
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into;
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     * @sff tfxt.PbrbgrbpiVifw#gftPrfffrrfdSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftPrfffrrfdSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftPrfffrrfdSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftPrfffrrfdSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftPrfffrrfdSpbn
+     */
+     */
+     */
+     */
      */
     publid flobt gftPrfffrrfdSpbn(int bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        if (!visiblf) {
+        if (!visiblf) {
+        if (!visiblf) {
+        if (!visiblf) {
         if (!visiblf) {
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
         rfturn supfr.gftPrfffrrfdSpbn(bxis);
+        rfturn supfr.gftPrfffrrfdSpbn(bxis);
+        rfturn supfr.gftPrfffrrfdSpbn(bxis);
+        rfturn supfr.gftPrfffrrfdSpbn(bxis);
+        rfturn supfr.gftPrfffrrfdSpbn(bxis);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Dftfrminfs thf minimum spbn for this vifw blong bn
-     * bxis.  Rfturns 0 if thf vifw is not visiblf, othfrwisf
-     * it dblls thf supfrdlbss mfthod to gft thf minimum spbn.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * it dblls tif supfrdlbss mftiod to gft tif minimum spbn.
+     * it dblls tif supfrdlbss mftiod to gft tif minimum spbn.
+     * it dblls tif supfrdlbss mftiod to gft tif minimum spbn.
+     * it dblls tif supfrdlbss mftiod to gft tif minimum spbn.
+     * it dblls tif supfrdlbss mftiod to gft tif minimum spbn.
      *
-     * @pbrbm bxis mby bf fithfr <dodf>Vifw.X_AXIS</dodf> or
+     *
+     *
+     *
+     *
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
      *          <dodf>Vifw.Y_AXIS</dodf>
-     * @rfturn  thf minimum spbn thf vifw dbn bf rfndfrfd into
-     * @sff tfxt.PbrbgrbphVifw#gftMinimumSpbn
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  tif minimum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif minimum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif minimum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif minimum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif minimum spbn tif vifw dbn bf rfndfrfd into
+     * @sff tfxt.PbrbgrbpiVifw#gftMinimumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMinimumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMinimumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMinimumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMinimumSpbn
+     */
+     */
+     */
+     */
      */
     publid flobt gftMinimumSpbn(int bxis) {
+    publid flobt gftMinimumSpbn(int bxis) {
+    publid flobt gftMinimumSpbn(int bxis) {
+    publid flobt gftMinimumSpbn(int bxis) {
+    publid flobt gftMinimumSpbn(int bxis) {
+        if (!visiblf) {
+        if (!visiblf) {
+        if (!visiblf) {
+        if (!visiblf) {
         if (!visiblf) {
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
         rfturn supfr.gftMinimumSpbn(bxis);
+        rfturn supfr.gftMinimumSpbn(bxis);
+        rfturn supfr.gftMinimumSpbn(bxis);
+        rfturn supfr.gftMinimumSpbn(bxis);
+        rfturn supfr.gftMinimumSpbn(bxis);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dftfrminfs thf mbximum spbn for this vifw blong bn
-     * bxis.  Rfturns 0 if thf vifw is not visiblf, othfrwisf
-     * it dblls thf supfrdlbss mfthod ot gft thf mbximum spbn.
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * bxis.  Rfturns 0 if tif vifw is not visiblf, otifrwisf
+     * it dblls tif supfrdlbss mftiod ot gft tif mbximum spbn.
+     * it dblls tif supfrdlbss mftiod ot gft tif mbximum spbn.
+     * it dblls tif supfrdlbss mftiod ot gft tif mbximum spbn.
+     * it dblls tif supfrdlbss mftiod ot gft tif mbximum spbn.
+     * it dblls tif supfrdlbss mftiod ot gft tif mbximum spbn.
      *
-     * @pbrbm bxis mby bf fithfr <dodf>Vifw.X_AXIS</dodf> or
+     *
+     *
+     *
+     *
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
      *  <dodf>Vifw.Y_AXIS</dodf>
-     * @rfturn  thf mbximum spbn thf vifw dbn bf rfndfrfd into
-     * @sff tfxt.PbrbgrbphVifw#gftMbximumSpbn
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  tif mbximum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif mbximum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif mbximum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif mbximum spbn tif vifw dbn bf rfndfrfd into
+     * @rfturn  tif mbximum spbn tif vifw dbn bf rfndfrfd into
+     * @sff tfxt.PbrbgrbpiVifw#gftMbximumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMbximumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMbximumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMbximumSpbn
+     * @sff tfxt.PbrbgrbpiVifw#gftMbximumSpbn
+     */
+     */
+     */
+     */
      */
     publid flobt gftMbximumSpbn(int bxis) {
+    publid flobt gftMbximumSpbn(int bxis) {
+    publid flobt gftMbximumSpbn(int bxis) {
+    publid flobt gftMbximumSpbn(int bxis) {
+    publid flobt gftMbximumSpbn(int bxis) {
+        if (!visiblf) {
+        if (!visiblf) {
+        if (!visiblf) {
+        if (!visiblf) {
         if (!visiblf) {
             rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+            rfturn 0;
+        }
+        }
+        }
+        }
         }
         rfturn supfr.gftMbximumSpbn(bxis);
+        rfturn supfr.gftMbximumSpbn(bxis);
+        rfturn supfr.gftMbximumSpbn(bxis);
+        rfturn supfr.gftMbximumSpbn(bxis);
+        rfturn supfr.gftMbximumSpbn(bxis);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     boolfbn visiblf;
+    boolfbn visiblf;
+    boolfbn visiblf;
+    boolfbn visiblf;
+    boolfbn visiblf;
+}
+}
+}
+}
 }

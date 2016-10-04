@@ -1,40 +1,200 @@
-# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
-# It dontbins Lodblf spfdifid strings usfd bf thf Motif Look bnd Fffl.
-# Currfntly, thf following domponfnts nffd this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FilfChoosfr
 #
-# Whfn this filf is rfbd in, thf strings brf put into thf 
-# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+#
+#
+#
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#
+#
+#
+#
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.  
-# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+# support.
+# support.
+# support.
 # support.
 #
-# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
-# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
 #
-# @buthor Stfvf Wilson
+#
+#
+#
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+#
+#
+#
+#
+#
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+
+
+
+
+
+
+
+
 
 
 ############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
 
-FilfChoosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
-FilfChoosfr.dbndflButton.tfxtAndMnfmonid=Cbndflbr
-FilfChoosfr.sbvfButton.tfxtAndMnfmonid=Sblvbr
-FilfChoosfr.opfnButton.tfxtAndMnfmonid=OK
-FilfChoosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvbr
-FilfChoosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
-FilfChoosfr.updbtfButton.tfxtAndMnfmonid=Atublizbr
-FilfChoosfr.hflpButton.tfxtAndMnfmonid=Ajudb
-FilfChoosfr.pbthLbbfl.tfxtAndMnfmonid=Informbr &dbminho ou nomf db pbstb:
-FilfChoosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
-FilfChoosfr.foldfrsLbbfl.tfxtAndMnfmonid=Pb&stbs
-FilfChoosfr.filfsLbbfl.tfxtAndMnfmonid=Arqu&ivos
-FilfChoosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=I&nformf o nomf do brquivo:
-FilfChoosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Informbr nomf db pbstb:
 
-FilfChoosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dbixb df di\u00E1logo do sflftor df brquivos.
-FilfChoosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvbr brquivo sflfdionbdo.
-FilfChoosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brquivo sflfdionbdo.
-FilfChoosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Atublizbr listb df dirft\u00F3rios.
-FilfChoosfr.hflpButtonToolTip.tfxtAndMnfmonid=Ajudb do FilfChoosfr.
+
+
+
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Cbndflbr
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Cbndflbr
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Cbndflbr
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Cbndflbr
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Cbndflbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=OK
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Atublizbr
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Atublizbr
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Atublizbr
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Atublizbr
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Atublizbr
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=Ajudb
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=Ajudb
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=Ajudb
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=Ajudb
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=Ajudb
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=Informbr &dbminio ou nomf db pbstb:
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=Informbr &dbminio ou nomf db pbstb:
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=Informbr &dbminio ou nomf db pbstb:
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=Informbr &dbminio ou nomf db pbstb:
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=Informbr &dbminio ou nomf db pbstb:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Pb&stbs
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Pb&stbs
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Pb&stbs
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Pb&stbs
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Pb&stbs
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=Arqu&ivos
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=Arqu&ivos
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=Arqu&ivos
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=Arqu&ivos
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=Arqu&ivos
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=I&nformf o nomf do brquivo:
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=I&nformf o nomf do brquivo:
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=I&nformf o nomf do brquivo:
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=I&nformf o nomf do brquivo:
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=I&nformf o nomf do brquivo:
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Informbr nomf db pbstb:
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Informbr nomf db pbstb:
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Informbr nomf db pbstb:
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Informbr nomf db pbstb:
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Informbr nomf db pbstb:
+
+
+
+
+
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dbixb df di\u00E1logo do sflftor df brquivos.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dbixb df di\u00E1logo do sflftor df brquivos.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dbixb df di\u00E1logo do sflftor df brquivos.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dbixb df di\u00E1logo do sflftor df brquivos.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dbixb df di\u00E1logo do sflftor df brquivos.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvbr brquivo sflfdionbdo.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvbr brquivo sflfdionbdo.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvbr brquivo sflfdionbdo.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvbr brquivo sflfdionbdo.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvbr brquivo sflfdionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brquivo sflfdionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brquivo sflfdionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brquivo sflfdionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brquivo sflfdionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brquivo sflfdionbdo.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Atublizbr listb df dirft\u00F3rios.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Atublizbr listb df dirft\u00F3rios.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Atublizbr listb df dirft\u00F3rios.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Atublizbr listb df dirft\u00F3rios.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Atublizbr listb df dirft\u00F3rios.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Ajudb do FilfCioosfr.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Ajudb do FilfCioosfr.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Ajudb do FilfCioosfr.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Ajudb do FilfCioosfr.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Ajudb do FilfCioosfr.

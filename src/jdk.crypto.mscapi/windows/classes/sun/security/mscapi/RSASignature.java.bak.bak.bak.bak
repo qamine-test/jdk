@@ -1,524 +1,2620 @@
 /*
- * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.sfdurity.msdbpi;
+pbdkbgf sun.sfdurity.msdbpi;
+pbdkbgf sun.sfdurity.msdbpi;
+pbdkbgf sun.sfdurity.msdbpi;
+pbdkbgf sun.sfdurity.msdbpi;
+
+
+
+
 
 import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PublidKfy;
 import jbvb.sfdurity.PublidKfy;
 import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
 import jbvb.sfdurity.InvblidKfyExdfption;
 import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
 import jbvb.sfdurity.KfyStorfExdfption;
-import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
 import jbvb.sfdurity.ProvidfrExdfption;
 import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.MfssbgfDigfst;
 import jbvb.sfdurity.SignbturfExdfption;
-import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.mbti.BigIntfgfr;
+
+
+
+
 
 import sun.sfdurity.rsb.RSAKfyFbdtory;
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+
+
+
+
 
 /**
+/**
+/**
+/**
+/**
+ * RSA signbturf implfmfntbtion. Supports RSA signing using PKCS#1 v1.5 pbdding.
+ * RSA signbturf implfmfntbtion. Supports RSA signing using PKCS#1 v1.5 pbdding.
+ * RSA signbturf implfmfntbtion. Supports RSA signing using PKCS#1 v1.5 pbdding.
+ * RSA signbturf implfmfntbtion. Supports RSA signing using PKCS#1 v1.5 pbdding.
  * RSA signbturf implfmfntbtion. Supports RSA signing using PKCS#1 v1.5 pbdding.
  *
- * Objfdts should bf instbntibtfd by dblling Signbturf.gftInstbndf() using thf
- * following blgorithm nbmfs:
  *
- *  . "NONEwithRSA"
- *  . "SHA1withRSA"
- *  . "SHA256withRSA"
- *  . "SHA384withRSA"
- *  . "SHA512withRSA"
- *  . "MD5withRSA"
- *  . "MD2withRSA"
+ *
+ *
+ *
+ * Objfdts siould bf instbntibtfd by dblling Signbturf.gftInstbndf() using tif
+ * Objfdts siould bf instbntibtfd by dblling Signbturf.gftInstbndf() using tif
+ * Objfdts siould bf instbntibtfd by dblling Signbturf.gftInstbndf() using tif
+ * Objfdts siould bf instbntibtfd by dblling Signbturf.gftInstbndf() using tif
+ * Objfdts siould bf instbntibtfd by dblling Signbturf.gftInstbndf() using tif
+ * following blgoritim nbmfs:
+ * following blgoritim nbmfs:
+ * following blgoritim nbmfs:
+ * following blgoritim nbmfs:
+ * following blgoritim nbmfs:
+ *
+ *
+ *
+ *
+ *
+ *  . "NONEwitiRSA"
+ *  . "NONEwitiRSA"
+ *  . "NONEwitiRSA"
+ *  . "NONEwitiRSA"
+ *  . "NONEwitiRSA"
+ *  . "SHA1witiRSA"
+ *  . "SHA1witiRSA"
+ *  . "SHA1witiRSA"
+ *  . "SHA1witiRSA"
+ *  . "SHA1witiRSA"
+ *  . "SHA256witiRSA"
+ *  . "SHA256witiRSA"
+ *  . "SHA256witiRSA"
+ *  . "SHA256witiRSA"
+ *  . "SHA256witiRSA"
+ *  . "SHA384witiRSA"
+ *  . "SHA384witiRSA"
+ *  . "SHA384witiRSA"
+ *  . "SHA384witiRSA"
+ *  . "SHA384witiRSA"
+ *  . "SHA512witiRSA"
+ *  . "SHA512witiRSA"
+ *  . "SHA512witiRSA"
+ *  . "SHA512witiRSA"
+ *  . "SHA512witiRSA"
+ *  . "MD5witiRSA"
+ *  . "MD5witiRSA"
+ *  . "MD5witiRSA"
+ *  . "MD5witiRSA"
+ *  . "MD5witiRSA"
+ *  . "MD2witiRSA"
+ *  . "MD2witiRSA"
+ *  . "MD2witiRSA"
+ *  . "MD2witiRSA"
+ *  . "MD2witiRSA"
+ *
+ *
+ *
+ *
  *
  * NOTE: RSA kfys must bf bt lfbst 512 bits long.
+ * NOTE: RSA kfys must bf bt lfbst 512 bits long.
+ * NOTE: RSA kfys must bf bt lfbst 512 bits long.
+ * NOTE: RSA kfys must bf bt lfbst 512 bits long.
+ * NOTE: RSA kfys must bf bt lfbst 512 bits long.
  *
- * NOTE: NONEwithRSA must bf supplifd with b prf-domputfd mfssbgf digfst.
- *       Only thf following digfst blgorithms brf supportfd: MD5, SHA-1,
+ *
+ *
+ *
+ *
+ * NOTE: NONEwitiRSA must bf supplifd witi b prf-domputfd mfssbgf digfst.
+ * NOTE: NONEwitiRSA must bf supplifd witi b prf-domputfd mfssbgf digfst.
+ * NOTE: NONEwitiRSA must bf supplifd witi b prf-domputfd mfssbgf digfst.
+ * NOTE: NONEwitiRSA must bf supplifd witi b prf-domputfd mfssbgf digfst.
+ * NOTE: NONEwitiRSA must bf supplifd witi b prf-domputfd mfssbgf digfst.
+ *       Only tif following digfst blgoritims brf supportfd: MD5, SHA-1,
+ *       Only tif following digfst blgoritims brf supportfd: MD5, SHA-1,
+ *       Only tif following digfst blgoritims brf supportfd: MD5, SHA-1,
+ *       Only tif following digfst blgoritims brf supportfd: MD5, SHA-1,
+ *       Only tif following digfst blgoritims brf supportfd: MD5, SHA-1,
  *       SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
- *       blgorithm whidh is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+ *       SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
+ *       SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
+ *       SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
+ *       SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
+ *       blgoritim wiidi is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+ *       blgoritim wiidi is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+ *       blgoritim wiidi is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+ *       blgoritim wiidi is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+ *       blgoritim wiidi is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+ *
+ *
+ *
+ *
  *
  * @sindf   1.6
- * @buthor  Stbnlfy Mbn-Kit Ho
+ * @sindf   1.6
+ * @sindf   1.6
+ * @sindf   1.6
+ * @sindf   1.6
+ * @butior  Stbnlfy Mbn-Kit Ho
+ * @butior  Stbnlfy Mbn-Kit Ho
+ * @butior  Stbnlfy Mbn-Kit Ho
+ * @butior  Stbnlfy Mbn-Kit Ho
+ * @butior  Stbnlfy Mbn-Kit Ho
+ */
+ */
+ */
+ */
  */
 bbstrbdt dlbss RSASignbturf fxtfnds jbvb.sfdurity.SignbturfSpi
+bbstrbdt dlbss RSASignbturf fxtfnds jbvb.sfdurity.SignbturfSpi
+bbstrbdt dlbss RSASignbturf fxtfnds jbvb.sfdurity.SignbturfSpi
+bbstrbdt dlbss RSASignbturf fxtfnds jbvb.sfdurity.SignbturfSpi
+bbstrbdt dlbss RSASignbturf fxtfnds jbvb.sfdurity.SignbturfSpi
+{
+{
+{
+{
 {
     // mfssbgf digfst implfmfntbtion wf usf
+    // mfssbgf digfst implfmfntbtion wf usf
+    // mfssbgf digfst implfmfntbtion wf usf
+    // mfssbgf digfst implfmfntbtion wf usf
+    // mfssbgf digfst implfmfntbtion wf usf
+    privbtf finbl MfssbgfDigfst mfssbgfDigfst;
+    privbtf finbl MfssbgfDigfst mfssbgfDigfst;
+    privbtf finbl MfssbgfDigfst mfssbgfDigfst;
+    privbtf finbl MfssbgfDigfst mfssbgfDigfst;
     privbtf finbl MfssbgfDigfst mfssbgfDigfst;
 
-    // mfssbgf digfst nbmf
-    privbtf String mfssbgfDigfstAlgorithm;
 
-    // flbg indidbting whfthfr thf digfst hbs bffn rfsft
+
+
+
+    // mfssbgf digfst nbmf
+    // mfssbgf digfst nbmf
+    // mfssbgf digfst nbmf
+    // mfssbgf digfst nbmf
+    // mfssbgf digfst nbmf
+    privbtf String mfssbgfDigfstAlgoritim;
+    privbtf String mfssbgfDigfstAlgoritim;
+    privbtf String mfssbgfDigfstAlgoritim;
+    privbtf String mfssbgfDigfstAlgoritim;
+    privbtf String mfssbgfDigfstAlgoritim;
+
+
+
+
+
+    // flbg indidbting wiftifr tif digfst ibs bffn rfsft
+    // flbg indidbting wiftifr tif digfst ibs bffn rfsft
+    // flbg indidbting wiftifr tif digfst ibs bffn rfsft
+    // flbg indidbting wiftifr tif digfst ibs bffn rfsft
+    // flbg indidbting wiftifr tif digfst ibs bffn rfsft
+    privbtf boolfbn nffdsRfsft;
+    privbtf boolfbn nffdsRfsft;
+    privbtf boolfbn nffdsRfsft;
+    privbtf boolfbn nffdsRfsft;
     privbtf boolfbn nffdsRfsft;
 
-    // thf signing kfy
+
+
+
+
+    // tif signing kfy
+    // tif signing kfy
+    // tif signing kfy
+    // tif signing kfy
+    // tif signing kfy
+    privbtf Kfy privbtfKfy = null;
+    privbtf Kfy privbtfKfy = null;
+    privbtf Kfy privbtfKfy = null;
+    privbtf Kfy privbtfKfy = null;
     privbtf Kfy privbtfKfy = null;
 
-    // thf vfrifidbtion kfy
+
+
+
+
+    // tif vfrifidbtion kfy
+    // tif vfrifidbtion kfy
+    // tif vfrifidbtion kfy
+    // tif vfrifidbtion kfy
+    // tif vfrifidbtion kfy
+    privbtf Kfy publidKfy = null;
+    privbtf Kfy publidKfy = null;
+    privbtf Kfy publidKfy = null;
+    privbtf Kfy publidKfy = null;
     privbtf Kfy publidKfy = null;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b nfw RSASignbturf. Usfd by Rbw subdlbss.
+     * Construdts b nfw RSASignbturf. Usfd by Rbw subdlbss.
+     * Construdts b nfw RSASignbturf. Usfd by Rbw subdlbss.
+     * Construdts b nfw RSASignbturf. Usfd by Rbw subdlbss.
+     * Construdts b nfw RSASignbturf. Usfd by Rbw subdlbss.
+     */
+     */
+     */
+     */
      */
     RSASignbturf() {
+    RSASignbturf() {
+    RSASignbturf() {
+    RSASignbturf() {
+    RSASignbturf() {
         mfssbgfDigfst = null;
-        mfssbgfDigfstAlgorithm = null;
+        mfssbgfDigfst = null;
+        mfssbgfDigfst = null;
+        mfssbgfDigfst = null;
+        mfssbgfDigfst = null;
+        mfssbgfDigfstAlgoritim = null;
+        mfssbgfDigfstAlgoritim = null;
+        mfssbgfDigfstAlgoritim = null;
+        mfssbgfDigfstAlgoritim = null;
+        mfssbgfDigfstAlgoritim = null;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b nfw RSASignbturf. Usfd by subdlbssfs.
+     * Construdts b nfw RSASignbturf. Usfd by subdlbssfs.
+     * Construdts b nfw RSASignbturf. Usfd by subdlbssfs.
+     * Construdts b nfw RSASignbturf. Usfd by subdlbssfs.
+     * Construdts b nfw RSASignbturf. Usfd by subdlbssfs.
+     */
+     */
+     */
+     */
      */
     RSASignbturf(String digfstNbmf) {
+    RSASignbturf(String digfstNbmf) {
+    RSASignbturf(String digfstNbmf) {
+    RSASignbturf(String digfstNbmf) {
+    RSASignbturf(String digfstNbmf) {
+
+
+
+
 
         try {
+        try {
+        try {
+        try {
+        try {
             mfssbgfDigfst = MfssbgfDigfst.gftInstbndf(digfstNbmf);
-            // Gft thf digfst's dbnonidbl nbmf
-            mfssbgfDigfstAlgorithm = mfssbgfDigfst.gftAlgorithm();
+            mfssbgfDigfst = MfssbgfDigfst.gftInstbndf(digfstNbmf);
+            mfssbgfDigfst = MfssbgfDigfst.gftInstbndf(digfstNbmf);
+            mfssbgfDigfst = MfssbgfDigfst.gftInstbndf(digfstNbmf);
+            mfssbgfDigfst = MfssbgfDigfst.gftInstbndf(digfstNbmf);
+            // Gft tif digfst's dbnonidbl nbmf
+            // Gft tif digfst's dbnonidbl nbmf
+            // Gft tif digfst's dbnonidbl nbmf
+            // Gft tif digfst's dbnonidbl nbmf
+            // Gft tif digfst's dbnonidbl nbmf
+            mfssbgfDigfstAlgoritim = mfssbgfDigfst.gftAlgoritim();
+            mfssbgfDigfstAlgoritim = mfssbgfDigfst.gftAlgoritim();
+            mfssbgfDigfstAlgoritim = mfssbgfDigfst.gftAlgoritim();
+            mfssbgfDigfstAlgoritim = mfssbgfDigfst.gftAlgoritim();
+            mfssbgfDigfstAlgoritim = mfssbgfDigfst.gftAlgoritim();
 
-        } dbtdh (NoSudhAlgorithmExdfption f) {
-           throw nfw ProvidfrExdfption(f);
+
+
+
+
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+           tirow nfw ProvidfrExdfption(f);
+           tirow nfw ProvidfrExdfption(f);
+           tirow nfw ProvidfrExdfption(f);
+           tirow nfw ProvidfrExdfption(f);
+           tirow nfw ProvidfrExdfption(f);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        nffdsRfsft = fblsf;
+        nffdsRfsft = fblsf;
+        nffdsRfsft = fblsf;
+        nffdsRfsft = fblsf;
         nffdsRfsft = fblsf;
     }
+    }
+    }
+    }
+    }
 
-    // Nfstfd dlbss for NONEwithRSA signbturfs
+
+
+
+
+    // Nfstfd dlbss for NONEwitiRSA signbturfs
+    // Nfstfd dlbss for NONEwitiRSA signbturfs
+    // Nfstfd dlbss for NONEwitiRSA signbturfs
+    // Nfstfd dlbss for NONEwitiRSA signbturfs
+    // Nfstfd dlbss for NONEwitiRSA signbturfs
+    publid stbtid finbl dlbss Rbw fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss Rbw fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss Rbw fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss Rbw fxtfnds RSASignbturf {
     publid stbtid finbl dlbss Rbw fxtfnds RSASignbturf {
 
-        // thf longfst supportfd digfst is 512 bits (SHA-512)
+
+
+
+
+        // tif longfst supportfd digfst is 512 bits (SHA-512)
+        // tif longfst supportfd digfst is 512 bits (SHA-512)
+        // tif longfst supportfd digfst is 512 bits (SHA-512)
+        // tif longfst supportfd digfst is 512 bits (SHA-512)
+        // tif longfst supportfd digfst is 512 bits (SHA-512)
+        privbtf stbtid finbl int RAW_RSA_MAX = 64;
+        privbtf stbtid finbl int RAW_RSA_MAX = 64;
+        privbtf stbtid finbl int RAW_RSA_MAX = 64;
+        privbtf stbtid finbl int RAW_RSA_MAX = 64;
         privbtf stbtid finbl int RAW_RSA_MAX = 64;
 
+
+
+
+
+        privbtf finbl bytf[] prfdomputfdDigfst;
+        privbtf finbl bytf[] prfdomputfdDigfst;
+        privbtf finbl bytf[] prfdomputfdDigfst;
+        privbtf finbl bytf[] prfdomputfdDigfst;
         privbtf finbl bytf[] prfdomputfdDigfst;
         privbtf int offsft = 0;
+        privbtf int offsft = 0;
+        privbtf int offsft = 0;
+        privbtf int offsft = 0;
+        privbtf int offsft = 0;
+
+
+
+
 
         publid Rbw() {
+        publid Rbw() {
+        publid Rbw() {
+        publid Rbw() {
+        publid Rbw() {
+            prfdomputfdDigfst = nfw bytf[RAW_RSA_MAX];
+            prfdomputfdDigfst = nfw bytf[RAW_RSA_MAX];
+            prfdomputfdDigfst = nfw bytf[RAW_RSA_MAX];
+            prfdomputfdDigfst = nfw bytf[RAW_RSA_MAX];
             prfdomputfdDigfst = nfw bytf[RAW_RSA_MAX];
         }
+        }
+        }
+        }
+        }
 
-        // Storfs thf prfdomputfd mfssbgf digfst vbluf.
+
+
+
+
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
         @Ovfrridf
-        protfdtfd void fnginfUpdbtf(bytf b) throws SignbturfExdfption {
-            if (offsft >= prfdomputfdDigfst.lfngth) {
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+            if (offsft >= prfdomputfdDigfst.lfngti) {
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
                 offsft = RAW_RSA_MAX + 1;
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+            }
+            }
+            }
+            }
             }
             prfdomputfdDigfst[offsft++] = b;
+            prfdomputfdDigfst[offsft++] = b;
+            prfdomputfdDigfst[offsft++] = b;
+            prfdomputfdDigfst[offsft++] = b;
+            prfdomputfdDigfst[offsft++] = b;
+        }
+        }
+        }
+        }
         }
 
-        // Storfs thf prfdomputfd mfssbgf digfst vbluf.
+
+
+
+
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
         @Ovfrridf
         protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
-                throws SignbturfExdfption {
-            if (offsft + lfn > prfdomputfdDigfst.lfngth) {
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+                tirows SignbturfExdfption {
+                tirows SignbturfExdfption {
+                tirows SignbturfExdfption {
+                tirows SignbturfExdfption {
+                tirows SignbturfExdfption {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
                 offsft = RAW_RSA_MAX + 1;
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+            }
+            }
+            }
+            }
             }
             Systfm.brrbydopy(b, off, prfdomputfdDigfst, offsft, lfn);
+            Systfm.brrbydopy(b, off, prfdomputfdDigfst, offsft, lfn);
+            Systfm.brrbydopy(b, off, prfdomputfdDigfst, offsft, lfn);
+            Systfm.brrbydopy(b, off, prfdomputfdDigfst, offsft, lfn);
+            Systfm.brrbydopy(b, off, prfdomputfdDigfst, offsft, lfn);
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
             offsft += lfn;
         }
+        }
+        }
+        }
+        }
 
-        // Storfs thf prfdomputfd mfssbgf digfst vbluf.
+
+
+
+
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        // Storfs tif prfdomputfd mfssbgf digfst vbluf.
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
         @Ovfrridf
         protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+        protfdtfd void fnginfUpdbtf(BytfBufffr bytfBufffr) {
+            int lfn = bytfBufffr.rfmbining();
+            int lfn = bytfBufffr.rfmbining();
+            int lfn = bytfBufffr.rfmbining();
+            int lfn = bytfBufffr.rfmbining();
             int lfn = bytfBufffr.rfmbining();
             if (lfn <= 0) {
+            if (lfn <= 0) {
+            if (lfn <= 0) {
+            if (lfn <= 0) {
+            if (lfn <= 0) {
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
                 rfturn;
             }
-            if (offsft + lfn > prfdomputfdDigfst.lfngth) {
+            }
+            }
+            }
+            }
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+            if (offsft + lfn > prfdomputfdDigfst.lfngti) {
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
+                offsft = RAW_RSA_MAX + 1;
                 offsft = RAW_RSA_MAX + 1;
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+            }
+            }
+            }
+            }
             }
             bytfBufffr.gft(prfdomputfdDigfst, offsft, lfn);
+            bytfBufffr.gft(prfdomputfdDigfst, offsft, lfn);
+            bytfBufffr.gft(prfdomputfdDigfst, offsft, lfn);
+            bytfBufffr.gft(prfdomputfdDigfst, offsft, lfn);
+            bytfBufffr.gft(prfdomputfdDigfst, offsft, lfn);
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
             offsft += lfn;
         }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
         @Ovfrridf
         protfdtfd void rfsftDigfst(){
+        protfdtfd void rfsftDigfst(){
+        protfdtfd void rfsftDigfst(){
+        protfdtfd void rfsftDigfst(){
+        protfdtfd void rfsftDigfst(){
+            offsft = 0;
+            offsft = 0;
+            offsft = 0;
+            offsft = 0;
             offsft = 0;
         }
+        }
+        }
+        }
+        }
 
-        // Rfturns thf prfdomputfd mfssbgf digfst vbluf.
+
+
+
+
+        // Rfturns tif prfdomputfd mfssbgf digfst vbluf.
+        // Rfturns tif prfdomputfd mfssbgf digfst vbluf.
+        // Rfturns tif prfdomputfd mfssbgf digfst vbluf.
+        // Rfturns tif prfdomputfd mfssbgf digfst vbluf.
+        // Rfturns tif prfdomputfd mfssbgf digfst vbluf.
         @Ovfrridf
-        protfdtfd bytf[] gftDigfstVbluf() throws SignbturfExdfption {
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        @Ovfrridf
+        protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+        protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+        protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+        protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+        protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
             if (offsft > RAW_RSA_MAX) {
-                throw nfw SignbturfExdfption("Mfssbgf digfst is too long");
+            if (offsft > RAW_RSA_MAX) {
+            if (offsft > RAW_RSA_MAX) {
+            if (offsft > RAW_RSA_MAX) {
+            if (offsft > RAW_RSA_MAX) {
+                tirow nfw SignbturfExdfption("Mfssbgf digfst is too long");
+                tirow nfw SignbturfExdfption("Mfssbgf digfst is too long");
+                tirow nfw SignbturfExdfption("Mfssbgf digfst is too long");
+                tirow nfw SignbturfExdfption("Mfssbgf digfst is too long");
+                tirow nfw SignbturfExdfption("Mfssbgf digfst is too long");
+            }
+            }
+            }
+            }
             }
 
-            // Dftfrminf thf digfst blgorithm from thf digfst lfngth
+
+
+
+
+            // Dftfrminf tif digfst blgoritim from tif digfst lfngti
+            // Dftfrminf tif digfst blgoritim from tif digfst lfngti
+            // Dftfrminf tif digfst blgoritim from tif digfst lfngti
+            // Dftfrminf tif digfst blgoritim from tif digfst lfngti
+            // Dftfrminf tif digfst blgoritim from tif digfst lfngti
+            if (offsft == 20) {
+            if (offsft == 20) {
+            if (offsft == 20) {
+            if (offsft == 20) {
             if (offsft == 20) {
                 sftDigfstNbmf("SHA1");
+                sftDigfstNbmf("SHA1");
+                sftDigfstNbmf("SHA1");
+                sftDigfstNbmf("SHA1");
+                sftDigfstNbmf("SHA1");
+            } flsf if (offsft == 36) {
+            } flsf if (offsft == 36) {
+            } flsf if (offsft == 36) {
+            } flsf if (offsft == 36) {
             } flsf if (offsft == 36) {
                 sftDigfstNbmf("SHA1+MD5");
+                sftDigfstNbmf("SHA1+MD5");
+                sftDigfstNbmf("SHA1+MD5");
+                sftDigfstNbmf("SHA1+MD5");
+                sftDigfstNbmf("SHA1+MD5");
+            } flsf if (offsft == 32) {
+            } flsf if (offsft == 32) {
+            } flsf if (offsft == 32) {
+            } flsf if (offsft == 32) {
             } flsf if (offsft == 32) {
                 sftDigfstNbmf("SHA-256");
+                sftDigfstNbmf("SHA-256");
+                sftDigfstNbmf("SHA-256");
+                sftDigfstNbmf("SHA-256");
+                sftDigfstNbmf("SHA-256");
+            } flsf if (offsft == 48) {
+            } flsf if (offsft == 48) {
+            } flsf if (offsft == 48) {
+            } flsf if (offsft == 48) {
             } flsf if (offsft == 48) {
                 sftDigfstNbmf("SHA-384");
+                sftDigfstNbmf("SHA-384");
+                sftDigfstNbmf("SHA-384");
+                sftDigfstNbmf("SHA-384");
+                sftDigfstNbmf("SHA-384");
+            } flsf if (offsft == 64) {
+            } flsf if (offsft == 64) {
+            } flsf if (offsft == 64) {
+            } flsf if (offsft == 64) {
             } flsf if (offsft == 64) {
                 sftDigfstNbmf("SHA-512");
+                sftDigfstNbmf("SHA-512");
+                sftDigfstNbmf("SHA-512");
+                sftDigfstNbmf("SHA-512");
+                sftDigfstNbmf("SHA-512");
+            } flsf if (offsft == 16) {
+            } flsf if (offsft == 16) {
+            } flsf if (offsft == 16) {
+            } flsf if (offsft == 16) {
             } flsf if (offsft == 16) {
                 sftDigfstNbmf("MD5");
+                sftDigfstNbmf("MD5");
+                sftDigfstNbmf("MD5");
+                sftDigfstNbmf("MD5");
+                sftDigfstNbmf("MD5");
             } flsf {
-                throw nfw SignbturfExdfption(
-                    "Mfssbgf digfst lfngth is not supportfd");
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                tirow nfw SignbturfExdfption(
+                tirow nfw SignbturfExdfption(
+                tirow nfw SignbturfExdfption(
+                tirow nfw SignbturfExdfption(
+                tirow nfw SignbturfExdfption(
+                    "Mfssbgf digfst lfngti is not supportfd");
+                    "Mfssbgf digfst lfngti is not supportfd");
+                    "Mfssbgf digfst lfngti is not supportfd");
+                    "Mfssbgf digfst lfngti is not supportfd");
+                    "Mfssbgf digfst lfngti is not supportfd");
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             bytf[] rfsult = nfw bytf[offsft];
+            bytf[] rfsult = nfw bytf[offsft];
+            bytf[] rfsult = nfw bytf[offsft];
+            bytf[] rfsult = nfw bytf[offsft];
+            bytf[] rfsult = nfw bytf[offsft];
+            Systfm.brrbydopy(prfdomputfdDigfst, 0, rfsult, 0, offsft);
+            Systfm.brrbydopy(prfdomputfdDigfst, 0, rfsult, 0, offsft);
+            Systfm.brrbydopy(prfdomputfdDigfst, 0, rfsult, 0, offsft);
+            Systfm.brrbydopy(prfdomputfdDigfst, 0, rfsult, 0, offsft);
             Systfm.brrbydopy(prfdomputfdDigfst, 0, rfsult, 0, offsft);
             offsft = 0;
+            offsft = 0;
+            offsft = 0;
+            offsft = 0;
+            offsft = 0;
+
+
+
+
 
             rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid stbtid finbl dlbss SHA1 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA1 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA1 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA1 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA1 fxtfnds RSASignbturf {
+        publid SHA1() {
+        publid SHA1() {
+        publid SHA1() {
+        publid SHA1() {
         publid SHA1() {
             supfr("SHA1");
+            supfr("SHA1");
+            supfr("SHA1");
+            supfr("SHA1");
+            supfr("SHA1");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid stbtid finbl dlbss SHA256 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA256 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA256 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA256 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA256 fxtfnds RSASignbturf {
+        publid SHA256() {
+        publid SHA256() {
+        publid SHA256() {
+        publid SHA256() {
         publid SHA256() {
             supfr("SHA-256");
+            supfr("SHA-256");
+            supfr("SHA-256");
+            supfr("SHA-256");
+            supfr("SHA-256");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid stbtid finbl dlbss SHA384 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA384 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA384 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA384 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA384 fxtfnds RSASignbturf {
+        publid SHA384() {
+        publid SHA384() {
+        publid SHA384() {
+        publid SHA384() {
         publid SHA384() {
             supfr("SHA-384");
+            supfr("SHA-384");
+            supfr("SHA-384");
+            supfr("SHA-384");
+            supfr("SHA-384");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid stbtid finbl dlbss SHA512 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA512 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA512 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA512 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss SHA512 fxtfnds RSASignbturf {
+        publid SHA512() {
+        publid SHA512() {
+        publid SHA512() {
+        publid SHA512() {
         publid SHA512() {
             supfr("SHA-512");
+            supfr("SHA-512");
+            supfr("SHA-512");
+            supfr("SHA-512");
+            supfr("SHA-512");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid stbtid finbl dlbss MD5 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD5 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD5 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD5 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD5 fxtfnds RSASignbturf {
+        publid MD5() {
+        publid MD5() {
+        publid MD5() {
+        publid MD5() {
         publid MD5() {
             supfr("MD5");
+            supfr("MD5");
+            supfr("MD5");
+            supfr("MD5");
+            supfr("MD5");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid stbtid finbl dlbss MD2 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD2 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD2 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD2 fxtfnds RSASignbturf {
+    publid stbtid finbl dlbss MD2 fxtfnds RSASignbturf {
+        publid MD2() {
+        publid MD2() {
+        publid MD2() {
+        publid MD2() {
         publid MD2() {
             supfr("MD2");
+            supfr("MD2");
+            supfr("MD2");
+            supfr("MD2");
+            supfr("MD2");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    // initiblizf for signing. Sff JCA dod
+    // initiblizf for signing. Sff JCA dod
+    // initiblizf for signing. Sff JCA dod
+    // initiblizf for signing. Sff JCA dod
     // initiblizf for signing. Sff JCA dod
     protfdtfd void fnginfInitVfrify(PublidKfy kfy)
-        throws InvblidKfyExdfption
+    protfdtfd void fnginfInitVfrify(PublidKfy kfy)
+    protfdtfd void fnginfInitVfrify(PublidKfy kfy)
+    protfdtfd void fnginfInitVfrify(PublidKfy kfy)
+    protfdtfd void fnginfInitVfrify(PublidKfy kfy)
+        tirows InvblidKfyExdfption
+        tirows InvblidKfyExdfption
+        tirows InvblidKfyExdfption
+        tirows InvblidKfyExdfption
+        tirows InvblidKfyExdfption
     {
-        // This signbturf bddfpts only RSAPublidKfy
+    {
+    {
+    {
+    {
+        // Tiis signbturf bddfpts only RSAPublidKfy
+        // Tiis signbturf bddfpts only RSAPublidKfy
+        // Tiis signbturf bddfpts only RSAPublidKfy
+        // Tiis signbturf bddfpts only RSAPublidKfy
+        // Tiis signbturf bddfpts only RSAPublidKfy
         if ((kfy instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) == fblsf) {
-            throw nfw InvblidKfyExdfption("Kfy typf not supportfd");
+        if ((kfy instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) == fblsf) {
+        if ((kfy instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) == fblsf) {
+        if ((kfy instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) == fblsf) {
+        if ((kfy instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) == fblsf) {
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         jbvb.sfdurity.intfrfbdfs.RSAPublidKfy rsbKfy =
+        jbvb.sfdurity.intfrfbdfs.RSAPublidKfy rsbKfy =
+        jbvb.sfdurity.intfrfbdfs.RSAPublidKfy rsbKfy =
+        jbvb.sfdurity.intfrfbdfs.RSAPublidKfy rsbKfy =
+        jbvb.sfdurity.intfrfbdfs.RSAPublidKfy rsbKfy =
+            (jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) kfy;
+            (jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) kfy;
+            (jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) kfy;
+            (jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) kfy;
             (jbvb.sfdurity.intfrfbdfs.RSAPublidKfy) kfy;
 
+
+
+
+
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPublidKfy) == fblsf) {
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPublidKfy) == fblsf) {
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPublidKfy) == fblsf) {
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPublidKfy) == fblsf) {
         if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPublidKfy) == fblsf) {
 
+
+
+
+
+            // donvfrt kfy to MSCAPI formbt
+            // donvfrt kfy to MSCAPI formbt
+            // donvfrt kfy to MSCAPI formbt
+            // donvfrt kfy to MSCAPI formbt
             // donvfrt kfy to MSCAPI formbt
 
+
+
+
+
+            BigIntfgfr modulus = rsbKfy.gftModulus();
+            BigIntfgfr modulus = rsbKfy.gftModulus();
+            BigIntfgfr modulus = rsbKfy.gftModulus();
+            BigIntfgfr modulus = rsbKfy.gftModulus();
             BigIntfgfr modulus = rsbKfy.gftModulus();
             BigIntfgfr fxponfnt =  rsbKfy.gftPublidExponfnt();
+            BigIntfgfr fxponfnt =  rsbKfy.gftPublidExponfnt();
+            BigIntfgfr fxponfnt =  rsbKfy.gftPublidExponfnt();
+            BigIntfgfr fxponfnt =  rsbKfy.gftPublidExponfnt();
+            BigIntfgfr fxponfnt =  rsbKfy.gftPublidExponfnt();
 
-            // Chfdk bgbinst thf lodbl bnd globbl vblufs to mbkf surf
-            // thf sizfs brf ok.  Round up to thf nfbrfst bytf.
-            RSAKfyFbdtory.dhfdkKfyLfngths(((modulus.bitLfngth() + 7) & ~7),
+
+
+
+
+            // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+            // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+            // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+            // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+            // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+            // tif sizfs brf ok.  Round up to tif nfbrfst bytf.
+            // tif sizfs brf ok.  Round up to tif nfbrfst bytf.
+            // tif sizfs brf ok.  Round up to tif nfbrfst bytf.
+            // tif sizfs brf ok.  Round up to tif nfbrfst bytf.
+            // tif sizfs brf ok.  Round up to tif nfbrfst bytf.
+            RSAKfyFbdtory.difdkKfyLfngtis(((modulus.bitLfngti() + 7) & ~7),
+            RSAKfyFbdtory.difdkKfyLfngtis(((modulus.bitLfngti() + 7) & ~7),
+            RSAKfyFbdtory.difdkKfyLfngtis(((modulus.bitLfngti() + 7) & ~7),
+            RSAKfyFbdtory.difdkKfyLfngtis(((modulus.bitLfngti() + 7) & ~7),
+            RSAKfyFbdtory.difdkKfyLfngtis(((modulus.bitLfngti() + 7) & ~7),
+                fxponfnt, -1, RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+                fxponfnt, -1, RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+                fxponfnt, -1, RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+                fxponfnt, -1, RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
                 fxponfnt, -1, RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
 
+
+
+
+
+            bytf[] modulusBytfs = modulus.toBytfArrby();
+            bytf[] modulusBytfs = modulus.toBytfArrby();
+            bytf[] modulusBytfs = modulus.toBytfArrby();
+            bytf[] modulusBytfs = modulus.toBytfArrby();
             bytf[] modulusBytfs = modulus.toBytfArrby();
             bytf[] fxponfntBytfs = fxponfnt.toBytfArrby();
+            bytf[] fxponfntBytfs = fxponfnt.toBytfArrby();
+            bytf[] fxponfntBytfs = fxponfnt.toBytfArrby();
+            bytf[] fxponfntBytfs = fxponfnt.toBytfArrby();
+            bytf[] fxponfntBytfs = fxponfnt.toBytfArrby();
 
-            // Adjust kfy lfngth duf to sign bit
-            int kfyBitLfngth = (modulusBytfs[0] == 0)
-                ? (modulusBytfs.lfngth - 1) * 8
-                : modulusBytfs.lfngth * 8;
+
+
+
+
+            // Adjust kfy lfngti duf to sign bit
+            // Adjust kfy lfngti duf to sign bit
+            // Adjust kfy lfngti duf to sign bit
+            // Adjust kfy lfngti duf to sign bit
+            // Adjust kfy lfngti duf to sign bit
+            int kfyBitLfngti = (modulusBytfs[0] == 0)
+            int kfyBitLfngti = (modulusBytfs[0] == 0)
+            int kfyBitLfngti = (modulusBytfs[0] == 0)
+            int kfyBitLfngti = (modulusBytfs[0] == 0)
+            int kfyBitLfngti = (modulusBytfs[0] == 0)
+                ? (modulusBytfs.lfngti - 1) * 8
+                ? (modulusBytfs.lfngti - 1) * 8
+                ? (modulusBytfs.lfngti - 1) * 8
+                ? (modulusBytfs.lfngti - 1) * 8
+                ? (modulusBytfs.lfngti - 1) * 8
+                : modulusBytfs.lfngti * 8;
+                : modulusBytfs.lfngti * 8;
+                : modulusBytfs.lfngti * 8;
+                : modulusBytfs.lfngti * 8;
+                : modulusBytfs.lfngti * 8;
+
+
+
+
 
             bytf[] kfyBlob = gfnfrbtfPublidKfyBlob(
-                kfyBitLfngth, modulusBytfs, fxponfntBytfs);
+            bytf[] kfyBlob = gfnfrbtfPublidKfyBlob(
+            bytf[] kfyBlob = gfnfrbtfPublidKfyBlob(
+            bytf[] kfyBlob = gfnfrbtfPublidKfyBlob(
+            bytf[] kfyBlob = gfnfrbtfPublidKfyBlob(
+                kfyBitLfngti, modulusBytfs, fxponfntBytfs);
+                kfyBitLfngti, modulusBytfs, fxponfntBytfs);
+                kfyBitLfngti, modulusBytfs, fxponfntBytfs);
+                kfyBitLfngti, modulusBytfs, fxponfntBytfs);
+                kfyBitLfngti, modulusBytfs, fxponfntBytfs);
+
+
+
+
 
             try {
-                publidKfy = importPublidKfy(kfyBlob, kfyBitLfngth);
+            try {
+            try {
+            try {
+            try {
+                publidKfy = importPublidKfy(kfyBlob, kfyBitLfngti);
+                publidKfy = importPublidKfy(kfyBlob, kfyBitLfngti);
+                publidKfy = importPublidKfy(kfyBlob, kfyBitLfngti);
+                publidKfy = importPublidKfy(kfyBlob, kfyBitLfngti);
+                publidKfy = importPublidKfy(kfyBlob, kfyBitLfngti);
 
-            } dbtdh (KfyStorfExdfption f) {
-                throw nfw InvblidKfyExdfption(f);
+
+
+
+
+            } dbtdi (KfyStorfExdfption f) {
+            } dbtdi (KfyStorfExdfption f) {
+            } dbtdi (KfyStorfExdfption f) {
+            } dbtdi (KfyStorfExdfption f) {
+            } dbtdi (KfyStorfExdfption f) {
+                tirow nfw InvblidKfyExdfption(f);
+                tirow nfw InvblidKfyExdfption(f);
+                tirow nfw InvblidKfyExdfption(f);
+                tirow nfw InvblidKfyExdfption(f);
+                tirow nfw InvblidKfyExdfption(f);
+            }
+            }
+            }
+            }
             }
 
+
+
+
+
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             publidKfy = (sun.sfdurity.msdbpi.RSAPublidKfy) kfy;
+            publidKfy = (sun.sfdurity.msdbpi.RSAPublidKfy) kfy;
+            publidKfy = (sun.sfdurity.msdbpi.RSAPublidKfy) kfy;
+            publidKfy = (sun.sfdurity.msdbpi.RSAPublidKfy) kfy;
+            publidKfy = (sun.sfdurity.msdbpi.RSAPublidKfy) kfy;
+        }
+        }
+        }
+        }
         }
 
-        this.privbtfKfy = null;
+
+
+
+
+        tiis.privbtfKfy = null;
+        tiis.privbtfKfy = null;
+        tiis.privbtfKfy = null;
+        tiis.privbtfKfy = null;
+        tiis.privbtfKfy = null;
+        rfsftDigfst();
+        rfsftDigfst();
+        rfsftDigfst();
+        rfsftDigfst();
         rfsftDigfst();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     // initiblizf for signing. Sff JCA dod
-    protfdtfd void fnginfInitSign(PrivbtfKfy kfy) throws InvblidKfyExdfption
+    // initiblizf for signing. Sff JCA dod
+    // initiblizf for signing. Sff JCA dod
+    // initiblizf for signing. Sff JCA dod
+    // initiblizf for signing. Sff JCA dod
+    protfdtfd void fnginfInitSign(PrivbtfKfy kfy) tirows InvblidKfyExdfption
+    protfdtfd void fnginfInitSign(PrivbtfKfy kfy) tirows InvblidKfyExdfption
+    protfdtfd void fnginfInitSign(PrivbtfKfy kfy) tirows InvblidKfyExdfption
+    protfdtfd void fnginfInitSign(PrivbtfKfy kfy) tirows InvblidKfyExdfption
+    protfdtfd void fnginfInitSign(PrivbtfKfy kfy) tirows InvblidKfyExdfption
     {
-        // This signbturf bddfpts only RSAPrivbtfKfy
+    {
+    {
+    {
+    {
+        // Tiis signbturf bddfpts only RSAPrivbtfKfy
+        // Tiis signbturf bddfpts only RSAPrivbtfKfy
+        // Tiis signbturf bddfpts only RSAPrivbtfKfy
+        // Tiis signbturf bddfpts only RSAPrivbtfKfy
+        // Tiis signbturf bddfpts only RSAPrivbtfKfy
         if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPrivbtfKfy) == fblsf) {
-            throw nfw InvblidKfyExdfption("Kfy typf not supportfd");
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPrivbtfKfy) == fblsf) {
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPrivbtfKfy) == fblsf) {
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPrivbtfKfy) == fblsf) {
+        if ((kfy instbndfof sun.sfdurity.msdbpi.RSAPrivbtfKfy) == fblsf) {
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+            tirow nfw InvblidKfyExdfption("Kfy typf not supportfd");
+        }
+        }
+        }
+        }
         }
         privbtfKfy = (sun.sfdurity.msdbpi.RSAPrivbtfKfy) kfy;
+        privbtfKfy = (sun.sfdurity.msdbpi.RSAPrivbtfKfy) kfy;
+        privbtfKfy = (sun.sfdurity.msdbpi.RSAPrivbtfKfy) kfy;
+        privbtfKfy = (sun.sfdurity.msdbpi.RSAPrivbtfKfy) kfy;
+        privbtfKfy = (sun.sfdurity.msdbpi.RSAPrivbtfKfy) kfy;
 
-        // Chfdk bgbinst thf lodbl bnd globbl vblufs to mbkf surf
-        // thf sizfs brf ok.  Round up to nfbrfst bytf.
-        RSAKfyFbdtory.dhfdkKfyLfngths(((privbtfKfy.lfngth() + 7) & ~7),
+
+
+
+
+        // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+        // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+        // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+        // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+        // Cifdk bgbinst tif lodbl bnd globbl vblufs to mbkf surf
+        // tif sizfs brf ok.  Round up to nfbrfst bytf.
+        // tif sizfs brf ok.  Round up to nfbrfst bytf.
+        // tif sizfs brf ok.  Round up to nfbrfst bytf.
+        // tif sizfs brf ok.  Round up to nfbrfst bytf.
+        // tif sizfs brf ok.  Round up to nfbrfst bytf.
+        RSAKfyFbdtory.difdkKfyLfngtis(((privbtfKfy.lfngti() + 7) & ~7),
+        RSAKfyFbdtory.difdkKfyLfngtis(((privbtfKfy.lfngti() + 7) & ~7),
+        RSAKfyFbdtory.difdkKfyLfngtis(((privbtfKfy.lfngti() + 7) & ~7),
+        RSAKfyFbdtory.difdkKfyLfngtis(((privbtfKfy.lfngti() + 7) & ~7),
+        RSAKfyFbdtory.difdkKfyLfngtis(((privbtfKfy.lfngti() + 7) & ~7),
+            null, RSAKfyPbirGfnfrbtor.KEY_SIZE_MIN,
+            null, RSAKfyPbirGfnfrbtor.KEY_SIZE_MIN,
+            null, RSAKfyPbirGfnfrbtor.KEY_SIZE_MIN,
+            null, RSAKfyPbirGfnfrbtor.KEY_SIZE_MIN,
             null, RSAKfyPbirGfnfrbtor.KEY_SIZE_MIN,
             RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+            RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+            RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+            RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
+            RSAKfyPbirGfnfrbtor.KEY_SIZE_MAX);
 
-        this.publidKfy = null;
+
+
+
+
+        tiis.publidKfy = null;
+        tiis.publidKfy = null;
+        tiis.publidKfy = null;
+        tiis.publidKfy = null;
+        tiis.publidKfy = null;
+        rfsftDigfst();
+        rfsftDigfst();
+        rfsftDigfst();
+        rfsftDigfst();
         rfsftDigfst();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfsfts thf mfssbgf digfst if nffdfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfsfts tif mfssbgf digfst if nffdfd.
+     * Rfsfts tif mfssbgf digfst if nffdfd.
+     * Rfsfts tif mfssbgf digfst if nffdfd.
+     * Rfsfts tif mfssbgf digfst if nffdfd.
+     * Rfsfts tif mfssbgf digfst if nffdfd.
+     */
+     */
+     */
+     */
      */
     protfdtfd void rfsftDigfst() {
+    protfdtfd void rfsftDigfst() {
+    protfdtfd void rfsftDigfst() {
+    protfdtfd void rfsftDigfst() {
+    protfdtfd void rfsftDigfst() {
+        if (nffdsRfsft) {
+        if (nffdsRfsft) {
+        if (nffdsRfsft) {
+        if (nffdsRfsft) {
         if (nffdsRfsft) {
             mfssbgfDigfst.rfsft();
+            mfssbgfDigfst.rfsft();
+            mfssbgfDigfst.rfsft();
+            mfssbgfDigfst.rfsft();
+            mfssbgfDigfst.rfsft();
+            nffdsRfsft = fblsf;
+            nffdsRfsft = fblsf;
+            nffdsRfsft = fblsf;
+            nffdsRfsft = fblsf;
             nffdsRfsft = fblsf;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    protfdtfd bytf[] gftDigfstVbluf() throws SignbturfExdfption {
+
+
+
+
+    protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+    protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+    protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+    protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+    protfdtfd bytf[] gftDigfstVbluf() tirows SignbturfExdfption {
+        nffdsRfsft = fblsf;
+        nffdsRfsft = fblsf;
+        nffdsRfsft = fblsf;
+        nffdsRfsft = fblsf;
         nffdsRfsft = fblsf;
         rfturn mfssbgfDigfst.digfst();
+        rfturn mfssbgfDigfst.digfst();
+        rfturn mfssbgfDigfst.digfst();
+        rfturn mfssbgfDigfst.digfst();
+        rfturn mfssbgfDigfst.digfst();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     protfdtfd void sftDigfstNbmf(String nbmf) {
-        mfssbgfDigfstAlgorithm = nbmf;
+    protfdtfd void sftDigfstNbmf(String nbmf) {
+    protfdtfd void sftDigfstNbmf(String nbmf) {
+    protfdtfd void sftDigfstNbmf(String nbmf) {
+    protfdtfd void sftDigfstNbmf(String nbmf) {
+        mfssbgfDigfstAlgoritim = nbmf;
+        mfssbgfDigfstAlgoritim = nbmf;
+        mfssbgfDigfstAlgoritim = nbmf;
+        mfssbgfDigfstAlgoritim = nbmf;
+        mfssbgfDigfstAlgoritim = nbmf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Updbtfs thf dbtb to bf signfd or vfrififd
-     * using thf spfdififd bytf.
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd
+     * Updbtfs tif dbtb to bf signfd or vfrififd
+     * Updbtfs tif dbtb to bf signfd or vfrififd
+     * Updbtfs tif dbtb to bf signfd or vfrififd
+     * Updbtfs tif dbtb to bf signfd or vfrififd
+     * using tif spfdififd bytf.
+     * using tif spfdififd bytf.
+     * using tif spfdififd bytf.
+     * using tif spfdififd bytf.
+     * using tif spfdififd bytf.
      *
-     * @pbrbm b thf bytf to usf for thf updbtf.
      *
-     * @fxdfption SignbturfExdfption if thf fnginf is not initiblizfd
+     *
+     *
+     *
+     * @pbrbm b tif bytf to usf for tif updbtf.
+     * @pbrbm b tif bytf to usf for tif updbtf.
+     * @pbrbm b tif bytf to usf for tif updbtf.
+     * @pbrbm b tif bytf to usf for tif updbtf.
+     * @pbrbm b tif bytf to usf for tif updbtf.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * propfrly.
+     * propfrly.
+     * propfrly.
+     * propfrly.
      * propfrly.
      */
-    protfdtfd void fnginfUpdbtf(bytf b) throws SignbturfExdfption
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption
+    protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption
+    {
+    {
+    {
+    {
     {
         mfssbgfDigfst.updbtf(b);
+        mfssbgfDigfst.updbtf(b);
+        mfssbgfDigfst.updbtf(b);
+        mfssbgfDigfst.updbtf(b);
+        mfssbgfDigfst.updbtf(b);
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
         nffdsRfsft = truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Updbtfs thf dbtb to bf signfd or vfrififd, using thf
-     * spfdififd brrby of bytfs, stbrting bt thf spfdififd offsft.
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * spfdififd brrby of bytfs, stbrting bt tif spfdififd offsft.
+     * spfdififd brrby of bytfs, stbrting bt tif spfdififd offsft.
+     * spfdififd brrby of bytfs, stbrting bt tif spfdififd offsft.
+     * spfdififd brrby of bytfs, stbrting bt tif spfdififd offsft.
+     * spfdififd brrby of bytfs, stbrting bt tif spfdififd offsft.
      *
-     * @pbrbm b thf brrby of bytfs
-     * @pbrbm off thf offsft to stbrt from in thf brrby of bytfs
-     * @pbrbm lfn thf numbfr of bytfs to usf, stbrting bt offsft
      *
-     * @fxdfption SignbturfExdfption if thf fnginf is not initiblizfd
+     *
+     *
+     *
+     * @pbrbm b tif brrby of bytfs
+     * @pbrbm b tif brrby of bytfs
+     * @pbrbm b tif brrby of bytfs
+     * @pbrbm b tif brrby of bytfs
+     * @pbrbm b tif brrby of bytfs
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * @fxdfption SignbturfExdfption if tif fnginf is not initiblizfd
+     * propfrly
+     * propfrly
+     * propfrly
+     * propfrly
      * propfrly
      */
+     */
+     */
+     */
+     */
     protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
-        throws SignbturfExdfption
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
+    {
+    {
+    {
+    {
     {
         mfssbgfDigfst.updbtf(b, off, lfn);
+        mfssbgfDigfst.updbtf(b, off, lfn);
+        mfssbgfDigfst.updbtf(b, off, lfn);
+        mfssbgfDigfst.updbtf(b, off, lfn);
+        mfssbgfDigfst.updbtf(b, off, lfn);
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
         nffdsRfsft = truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Updbtfs thf dbtb to bf signfd or vfrififd, using thf
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif
+     * spfdififd BytfBufffr.
+     * spfdififd BytfBufffr.
+     * spfdififd BytfBufffr.
+     * spfdififd BytfBufffr.
      * spfdififd BytfBufffr.
      *
-     * @pbrbm input thf BytfBufffr
+     *
+     *
+     *
+     *
+     * @pbrbm input tif BytfBufffr
+     * @pbrbm input tif BytfBufffr
+     * @pbrbm input tif BytfBufffr
+     * @pbrbm input tif BytfBufffr
+     * @pbrbm input tif BytfBufffr
+     */
+     */
+     */
+     */
      */
     protfdtfd void fnginfUpdbtf(BytfBufffr input)
+    protfdtfd void fnginfUpdbtf(BytfBufffr input)
+    protfdtfd void fnginfUpdbtf(BytfBufffr input)
+    protfdtfd void fnginfUpdbtf(BytfBufffr input)
+    protfdtfd void fnginfUpdbtf(BytfBufffr input)
+    {
+    {
+    {
+    {
     {
         mfssbgfDigfst.updbtf(input);
+        mfssbgfDigfst.updbtf(input);
+        mfssbgfDigfst.updbtf(input);
+        mfssbgfDigfst.updbtf(input);
+        mfssbgfDigfst.updbtf(input);
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
+        nffdsRfsft = truf;
         nffdsRfsft = truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf signbturf bytfs of bll thf dbtb
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif signbturf bytfs of bll tif dbtb
+     * Rfturns tif signbturf bytfs of bll tif dbtb
+     * Rfturns tif signbturf bytfs of bll tif dbtb
+     * Rfturns tif signbturf bytfs of bll tif dbtb
+     * Rfturns tif signbturf bytfs of bll tif dbtb
      * updbtfd so fbr.
-     * Thf formbt of thf signbturf dfpfnds on thf undfrlying
-     * signbturf sdhfmf.
+     * updbtfd so fbr.
+     * updbtfd so fbr.
+     * updbtfd so fbr.
+     * updbtfd so fbr.
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * signbturf sdifmf.
+     * signbturf sdifmf.
+     * signbturf sdifmf.
+     * signbturf sdifmf.
+     * signbturf sdifmf.
      *
-     * @rfturn thf signbturf bytfs of thf signing opfrbtion's rfsult.
      *
-     * @fxdfption SignbturfExdfption if thf fnginf is not
-     * initiblizfd propfrly or if this signbturf blgorithm is unbblf to
-     * prodfss thf input dbtb providfd.
+     *
+     *
+     *
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd.
+     * prodfss tif input dbtb providfd.
+     * prodfss tif input dbtb providfd.
+     * prodfss tif input dbtb providfd.
+     * prodfss tif input dbtb providfd.
      */
-    protfdtfd bytf[] fnginfSign() throws SignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
 
-        bytf[] hbsh = gftDigfstVbluf();
 
-        // Omit thf hbsh OID whfn gfnfrbting b Rbw signbturf
-        boolfbn noHbshOID = this instbndfof Rbw;
 
-        // Sign hbsh using MS Crypto APIs
 
-        bytf[] rfsult = signHbsh(noHbshOID, hbsh, hbsh.lfngth,
-            mfssbgfDigfstAlgorithm, privbtfKfy.gftHCryptProvidfr(),
+
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
+
+
+
+
+
+        // Omit tif ibsi OID wifn gfnfrbting b Rbw signbturf
+        // Omit tif ibsi OID wifn gfnfrbting b Rbw signbturf
+        // Omit tif ibsi OID wifn gfnfrbting b Rbw signbturf
+        // Omit tif ibsi OID wifn gfnfrbting b Rbw signbturf
+        // Omit tif ibsi OID wifn gfnfrbting b Rbw signbturf
+        boolfbn noHbsiOID = tiis instbndfof Rbw;
+        boolfbn noHbsiOID = tiis instbndfof Rbw;
+        boolfbn noHbsiOID = tiis instbndfof Rbw;
+        boolfbn noHbsiOID = tiis instbndfof Rbw;
+        boolfbn noHbsiOID = tiis instbndfof Rbw;
+
+
+
+
+
+        // Sign ibsi using MS Crypto APIs
+        // Sign ibsi using MS Crypto APIs
+        // Sign ibsi using MS Crypto APIs
+        // Sign ibsi using MS Crypto APIs
+        // Sign ibsi using MS Crypto APIs
+
+
+
+
+
+        bytf[] rfsult = signHbsi(noHbsiOID, ibsi, ibsi.lfngti,
+        bytf[] rfsult = signHbsi(noHbsiOID, ibsi, ibsi.lfngti,
+        bytf[] rfsult = signHbsi(noHbsiOID, ibsi, ibsi.lfngti,
+        bytf[] rfsult = signHbsi(noHbsiOID, ibsi, ibsi.lfngti,
+        bytf[] rfsult = signHbsi(noHbsiOID, ibsi, ibsi.lfngti,
+            mfssbgfDigfstAlgoritim, privbtfKfy.gftHCryptProvidfr(),
+            mfssbgfDigfstAlgoritim, privbtfKfy.gftHCryptProvidfr(),
+            mfssbgfDigfstAlgoritim, privbtfKfy.gftHCryptProvidfr(),
+            mfssbgfDigfstAlgoritim, privbtfKfy.gftHCryptProvidfr(),
+            mfssbgfDigfstAlgoritim, privbtfKfy.gftHCryptProvidfr(),
+            privbtfKfy.gftHCryptKfy());
+            privbtfKfy.gftHCryptKfy());
+            privbtfKfy.gftHCryptKfy());
+            privbtfKfy.gftHCryptKfy());
             privbtfKfy.gftHCryptKfy());
 
+
+
+
+
+        // Convfrt signbturf brrby from littlf fndibn to big fndibn
+        // Convfrt signbturf brrby from littlf fndibn to big fndibn
+        // Convfrt signbturf brrby from littlf fndibn to big fndibn
+        // Convfrt signbturf brrby from littlf fndibn to big fndibn
         // Convfrt signbturf brrby from littlf fndibn to big fndibn
         rfturn donvfrtEndibnArrby(rfsult);
+        rfturn donvfrtEndibnArrby(rfsult);
+        rfturn donvfrtEndibnArrby(rfsult);
+        rfturn donvfrtEndibnArrby(rfsult);
+        rfturn donvfrtEndibnArrby(rfsult);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Convfrt brrby from big fndibn to littlf fndibn, or vidf vfrsb.
+     * Convfrt brrby from big fndibn to littlf fndibn, or vidf vfrsb.
+     * Convfrt brrby from big fndibn to littlf fndibn, or vidf vfrsb.
+     * Convfrt brrby from big fndibn to littlf fndibn, or vidf vfrsb.
+     * Convfrt brrby from big fndibn to littlf fndibn, or vidf vfrsb.
+     */
+     */
+     */
+     */
      */
     privbtf bytf[] donvfrtEndibnArrby(bytf[] bytfArrby)
+    privbtf bytf[] donvfrtEndibnArrby(bytf[] bytfArrby)
+    privbtf bytf[] donvfrtEndibnArrby(bytf[] bytfArrby)
+    privbtf bytf[] donvfrtEndibnArrby(bytf[] bytfArrby)
+    privbtf bytf[] donvfrtEndibnArrby(bytf[] bytfArrby)
     {
-        if (bytfArrby == null || bytfArrby.lfngth == 0)
+    {
+    {
+    {
+    {
+        if (bytfArrby == null || bytfArrby.lfngti == 0)
+        if (bytfArrby == null || bytfArrby.lfngti == 0)
+        if (bytfArrby == null || bytfArrby.lfngti == 0)
+        if (bytfArrby == null || bytfArrby.lfngti == 0)
+        if (bytfArrby == null || bytfArrby.lfngti == 0)
+            rfturn bytfArrby;
+            rfturn bytfArrby;
+            rfturn bytfArrby;
+            rfturn bytfArrby;
             rfturn bytfArrby;
 
-        bytf [] rftvbl = nfw bytf[bytfArrby.lfngth];
+
+
+
+
+        bytf [] rftvbl = nfw bytf[bytfArrby.lfngti];
+        bytf [] rftvbl = nfw bytf[bytfArrby.lfngti];
+        bytf [] rftvbl = nfw bytf[bytfArrby.lfngti];
+        bytf [] rftvbl = nfw bytf[bytfArrby.lfngti];
+        bytf [] rftvbl = nfw bytf[bytfArrby.lfngti];
+
+
+
+
 
         // mbkf it big fndibn
-        for (int i=0;i < bytfArrby.lfngth;i++)
-            rftvbl[i] = bytfArrby[bytfArrby.lfngth - i - 1];
+        // mbkf it big fndibn
+        // mbkf it big fndibn
+        // mbkf it big fndibn
+        // mbkf it big fndibn
+        for (int i=0;i < bytfArrby.lfngti;i++)
+        for (int i=0;i < bytfArrby.lfngti;i++)
+        for (int i=0;i < bytfArrby.lfngti;i++)
+        for (int i=0;i < bytfArrby.lfngti;i++)
+        for (int i=0;i < bytfArrby.lfngti;i++)
+            rftvbl[i] = bytfArrby[bytfArrby.lfngti - i - 1];
+            rftvbl[i] = bytfArrby[bytfArrby.lfngti - i - 1];
+            rftvbl[i] = bytfArrby[bytfArrby.lfngti - i - 1];
+            rftvbl[i] = bytfArrby[bytfArrby.lfngti - i - 1];
+            rftvbl[i] = bytfArrby[bytfArrby.lfngti - i - 1];
+
+
+
+
 
         rfturn rftvbl;
+        rfturn rftvbl;
+        rfturn rftvbl;
+        rfturn rftvbl;
+        rfturn rftvbl;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Sign hbsh using Midrosoft Crypto API with HCRYPTKEY.
-     * Thf rfturnfd dbtb is in littlf-fndibn.
-     */
-    privbtf nbtivf stbtid bytf[] signHbsh(boolfbn noHbshOID, bytf[] hbsh,
-        int hbshSizf, String hbshAlgorithm, long hCryptProv, long hCryptKfy)
-            throws SignbturfExdfption;
+
+
+
 
     /**
-     * Vfrify b signfd hbsh using Midrosoft Crypto API with HCRYPTKEY.
+    /**
+    /**
+    /**
+    /**
+     * Sign ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Sign ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Sign ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Sign ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Sign ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Tif rfturnfd dbtb is in littlf-fndibn.
+     * Tif rfturnfd dbtb is in littlf-fndibn.
+     * Tif rfturnfd dbtb is in littlf-fndibn.
+     * Tif rfturnfd dbtb is in littlf-fndibn.
+     * Tif rfturnfd dbtb is in littlf-fndibn.
      */
-    privbtf nbtivf stbtid boolfbn vfrifySignfdHbsh(bytf[] hbsh, int hbshSizf,
-        String hbshAlgorithm, bytf[] signbturf, int signbturfSizf,
-        long hCryptProv, long hCryptKfy) throws SignbturfExdfption;
+     */
+     */
+     */
+     */
+    privbtf nbtivf stbtid bytf[] signHbsi(boolfbn noHbsiOID, bytf[] ibsi,
+    privbtf nbtivf stbtid bytf[] signHbsi(boolfbn noHbsiOID, bytf[] ibsi,
+    privbtf nbtivf stbtid bytf[] signHbsi(boolfbn noHbsiOID, bytf[] ibsi,
+    privbtf nbtivf stbtid bytf[] signHbsi(boolfbn noHbsiOID, bytf[] ibsi,
+    privbtf nbtivf stbtid bytf[] signHbsi(boolfbn noHbsiOID, bytf[] ibsi,
+        int ibsiSizf, String ibsiAlgoritim, long iCryptProv, long iCryptKfy)
+        int ibsiSizf, String ibsiAlgoritim, long iCryptProv, long iCryptKfy)
+        int ibsiSizf, String ibsiAlgoritim, long iCryptProv, long iCryptKfy)
+        int ibsiSizf, String ibsiAlgoritim, long iCryptProv, long iCryptKfy)
+        int ibsiSizf, String ibsiAlgoritim, long iCryptProv, long iCryptKfy)
+            tirows SignbturfExdfption;
+            tirows SignbturfExdfption;
+            tirows SignbturfExdfption;
+            tirows SignbturfExdfption;
+            tirows SignbturfExdfption;
+
+
+
+
 
     /**
-     * Vfrififs thf pbssfd-in signbturf.
+    /**
+    /**
+    /**
+    /**
+     * Vfrify b signfd ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Vfrify b signfd ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Vfrify b signfd ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Vfrify b signfd ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     * Vfrify b signfd ibsi using Midrosoft Crypto API witi HCRYPTKEY.
+     */
+     */
+     */
+     */
+     */
+    privbtf nbtivf stbtid boolfbn vfrifySignfdHbsi(bytf[] ibsi, int ibsiSizf,
+    privbtf nbtivf stbtid boolfbn vfrifySignfdHbsi(bytf[] ibsi, int ibsiSizf,
+    privbtf nbtivf stbtid boolfbn vfrifySignfdHbsi(bytf[] ibsi, int ibsiSizf,
+    privbtf nbtivf stbtid boolfbn vfrifySignfdHbsi(bytf[] ibsi, int ibsiSizf,
+    privbtf nbtivf stbtid boolfbn vfrifySignfdHbsi(bytf[] ibsi, int ibsiSizf,
+        String ibsiAlgoritim, bytf[] signbturf, int signbturfSizf,
+        String ibsiAlgoritim, bytf[] signbturf, int signbturfSizf,
+        String ibsiAlgoritim, bytf[] signbturf, int signbturfSizf,
+        String ibsiAlgoritim, bytf[] signbturf, int signbturfSizf,
+        String ibsiAlgoritim, bytf[] signbturf, int signbturfSizf,
+        long iCryptProv, long iCryptKfy) tirows SignbturfExdfption;
+        long iCryptProv, long iCryptKfy) tirows SignbturfExdfption;
+        long iCryptProv, long iCryptKfy) tirows SignbturfExdfption;
+        long iCryptProv, long iCryptKfy) tirows SignbturfExdfption;
+        long iCryptProv, long iCryptKfy) tirows SignbturfExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Vfrififs tif pbssfd-in signbturf.
+     * Vfrififs tif pbssfd-in signbturf.
+     * Vfrififs tif pbssfd-in signbturf.
+     * Vfrififs tif pbssfd-in signbturf.
+     * Vfrififs tif pbssfd-in signbturf.
      *
-     * @pbrbm sigBytfs thf signbturf bytfs to bf vfrififd.
      *
-     * @rfturn truf if thf signbturf wbs vfrififd, fblsf if not.
      *
-     * @fxdfption SignbturfExdfption if thf fnginf is not
-     * initiblizfd propfrly, thf pbssfd-in signbturf is impropfrly
-     * fndodfd or of thf wrong typf, if this signbturf blgorithm is unbblf to
-     * prodfss thf input dbtb providfd, ftd.
+     *
+     *
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
+     * @pbrbm sigBytfs tif signbturf bytfs to bf vfrififd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * @fxdfption SignbturfExdfption if tif fnginf is not
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, ftd.
+     * prodfss tif input dbtb providfd, ftd.
+     * prodfss tif input dbtb providfd, ftd.
+     * prodfss tif input dbtb providfd, ftd.
+     * prodfss tif input dbtb providfd, ftd.
+     */
+     */
+     */
+     */
      */
     protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
-        throws SignbturfExdfption
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
+        tirows SignbturfExdfption
     {
-        bytf[] hbsh = gftDigfstVbluf();
+    {
+    {
+    {
+    {
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
+        bytf[] ibsi = gftDigfstVbluf();
 
-        rfturn vfrifySignfdHbsh(hbsh, hbsh.lfngth,
-            mfssbgfDigfstAlgorithm, donvfrtEndibnArrby(sigBytfs),
-            sigBytfs.lfngth, publidKfy.gftHCryptProvidfr(),
+
+
+
+
+        rfturn vfrifySignfdHbsi(ibsi, ibsi.lfngti,
+        rfturn vfrifySignfdHbsi(ibsi, ibsi.lfngti,
+        rfturn vfrifySignfdHbsi(ibsi, ibsi.lfngti,
+        rfturn vfrifySignfdHbsi(ibsi, ibsi.lfngti,
+        rfturn vfrifySignfdHbsi(ibsi, ibsi.lfngti,
+            mfssbgfDigfstAlgoritim, donvfrtEndibnArrby(sigBytfs),
+            mfssbgfDigfstAlgoritim, donvfrtEndibnArrby(sigBytfs),
+            mfssbgfDigfstAlgoritim, donvfrtEndibnArrby(sigBytfs),
+            mfssbgfDigfstAlgoritim, donvfrtEndibnArrby(sigBytfs),
+            mfssbgfDigfstAlgoritim, donvfrtEndibnArrby(sigBytfs),
+            sigBytfs.lfngti, publidKfy.gftHCryptProvidfr(),
+            sigBytfs.lfngti, publidKfy.gftHCryptProvidfr(),
+            sigBytfs.lfngti, publidKfy.gftHCryptProvidfr(),
+            sigBytfs.lfngti, publidKfy.gftHCryptProvidfr(),
+            sigBytfs.lfngti, publidKfy.gftHCryptProvidfr(),
+            publidKfy.gftHCryptKfy());
+            publidKfy.gftHCryptKfy());
+            publidKfy.gftHCryptKfy());
+            publidKfy.gftHCryptKfy());
             publidKfy.gftHCryptKfy());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Sfts thf spfdififd blgorithm pbrbmftfr to thf spfdififd
-     * vbluf. This mfthod supplifs b gfnfrbl-purposf mfdhbnism through
-     * whidh it is possiblf to sft thf vbrious pbrbmftfrs of this objfdt.
-     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for thf blgorithm, sudh bs
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd
+     * vbluf. Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * vbluf. Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * vbluf. Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * vbluf. Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * vbluf. Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
      * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
-     * (if bppropribtf), or bn indidbtion of whfthfr or not to pfrform
-     * b spfdifid but optionbl domputbtion. A uniform blgorithm-spfdifid
-     * nbming sdhfmf for fbdh pbrbmftfr is dfsirbblf but lfft unspfdififd
-     * bt this timf.
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt tiis timf.
+     * bt tiis timf.
+     * bt tiis timf.
+     * bt tiis timf.
+     * bt tiis timf.
      *
-     * @pbrbm pbrbm thf string idfntififr of thf pbrbmftfr.
      *
-     * @pbrbm vbluf thf pbrbmftfr vbluf.
+     *
+     *
+     *
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
+     *
+     *
+     *
+     *
      *
      * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
-     * invblid pbrbmftfr for this signbturf blgorithm fnginf,
-     * thf pbrbmftfr is blrfbdy sft
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * tif pbrbmftfr is blrfbdy sft
+     * tif pbrbmftfr is blrfbdy sft
+     * tif pbrbmftfr is blrfbdy sft
+     * tif pbrbmftfr is blrfbdy sft
+     * tif pbrbmftfr is blrfbdy sft
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
      * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
      *
+     *
+     *
+     *
+     *
      * @dfprfdbtfd Rfplbdfd by {@link
-     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd)
+     * @dfprfdbtfd Rfplbdfd by {@link
+     * @dfprfdbtfd Rfplbdfd by {@link
+     * @dfprfdbtfd Rfplbdfd by {@link
+     * @dfprfdbtfd Rfplbdfd by {@link
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * fnginfSftPbrbmftfr}.
+     * fnginfSftPbrbmftfr}.
+     * fnginfSftPbrbmftfr}.
+     * fnginfSftPbrbmftfr}.
      * fnginfSftPbrbmftfr}.
      */
+     */
+     */
+     */
+     */
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
     @Dfprfdbtfd
     protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
-        throws InvblidPbrbmftfrExdfption
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
     {
-        throw nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+    {
+    {
+    {
+    {
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * Gfts thf vbluf of thf spfdififd blgorithm pbrbmftfr.
-     * This mfthod supplifs b gfnfrbl-purposf mfdhbnism through whidh it
-     * is possiblf to gft thf vbrious pbrbmftfrs of this objfdt. A pbrbmftfr
-     * mby bf bny sfttbblf pbrbmftfr for thf blgorithm, sudh bs b pbrbmftfr
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr.
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr.
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr.
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr.
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr.
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it
+     * is possiblf to gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr
+     * is possiblf to gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr
+     * is possiblf to gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr
+     * is possiblf to gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr
+     * is possiblf to gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr
      * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
-     * bppropribtf), or bn indidbtion of whfthfr or not to pfrform b
-     * spfdifid but optionbl domputbtion. A uniform blgorithm-spfdifid
-     * nbming sdhfmf for fbdh pbrbmftfr is dfsirbblf but lfft unspfdififd
-     * bt this timf.
+     * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
+     * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
+     * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
+     * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
+     * bppropribtf), or bn indidbtion of wiftifr or not to pfrform b
+     * bppropribtf), or bn indidbtion of wiftifr or not to pfrform b
+     * bppropribtf), or bn indidbtion of wiftifr or not to pfrform b
+     * bppropribtf), or bn indidbtion of wiftifr or not to pfrform b
+     * bppropribtf), or bn indidbtion of wiftifr or not to pfrform b
+     * spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt tiis timf.
+     * bt tiis timf.
+     * bt tiis timf.
+     * bt tiis timf.
+     * bt tiis timf.
      *
-     * @pbrbm pbrbm thf string nbmf of thf pbrbmftfr.
      *
-     * @rfturn thf objfdt thbt rfprfsfnts thf pbrbmftfr vbluf, or null if
-     * thfrf is nonf.
+     *
+     *
+     *
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * tifrf is nonf.
+     * tifrf is nonf.
+     * tifrf is nonf.
+     * tifrf is nonf.
+     * tifrf is nonf.
+     *
+     *
+     *
+     *
      *
      * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
-     * invblid pbrbmftfr for this fnginf, or bnothfr fxdfption oddurs whilf
-     * trying to gft this pbrbmftfr.
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * @fxdfption InvblidPbrbmftfrExdfption if <dodf>pbrbm</dodf> is bn
+     * invblid pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * invblid pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * invblid pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * invblid pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * invblid pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * trying to gft tiis pbrbmftfr.
+     * trying to gft tiis pbrbmftfr.
+     * trying to gft tiis pbrbmftfr.
+     * trying to gft tiis pbrbmftfr.
+     * trying to gft tiis pbrbmftfr.
+     *
+     *
+     *
+     *
      *
      * @dfprfdbtfd
+     * @dfprfdbtfd
+     * @dfprfdbtfd
+     * @dfprfdbtfd
+     * @dfprfdbtfd
+     */
+     */
+     */
+     */
      */
     @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
     protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
-        throws InvblidPbrbmftfrExdfption
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
+        tirows InvblidPbrbmftfrExdfption
     {
-        throw nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+    {
+    {
+    {
+    {
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+        tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfr not supportfd");
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Gfnfrbtfs b publid-kfy BLOB from b kfy's domponfnts.
-     */
-    // usfd by RSACiphfr
-    stbtid nbtivf bytf[] gfnfrbtfPublidKfyBlob(
-        int kfyBitLfngth, bytf[] modulus, bytf[] publidExponfnt)
-            throws InvblidKfyExdfption;
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrbtfs b publid-kfy BLOB from b kfy's domponfnts.
+     * Gfnfrbtfs b publid-kfy BLOB from b kfy's domponfnts.
+     * Gfnfrbtfs b publid-kfy BLOB from b kfy's domponfnts.
+     * Gfnfrbtfs b publid-kfy BLOB from b kfy's domponfnts.
+     * Gfnfrbtfs b publid-kfy BLOB from b kfy's domponfnts.
+     */
+     */
+     */
+     */
+     */
+    // usfd by RSACipifr
+    // usfd by RSACipifr
+    // usfd by RSACipifr
+    // usfd by RSACipifr
+    // usfd by RSACipifr
+    stbtid nbtivf bytf[] gfnfrbtfPublidKfyBlob(
+    stbtid nbtivf bytf[] gfnfrbtfPublidKfyBlob(
+    stbtid nbtivf bytf[] gfnfrbtfPublidKfyBlob(
+    stbtid nbtivf bytf[] gfnfrbtfPublidKfyBlob(
+    stbtid nbtivf bytf[] gfnfrbtfPublidKfyBlob(
+        int kfyBitLfngti, bytf[] modulus, bytf[] publidExponfnt)
+        int kfyBitLfngti, bytf[] modulus, bytf[] publidExponfnt)
+        int kfyBitLfngti, bytf[] modulus, bytf[] publidExponfnt)
+        int kfyBitLfngti, bytf[] modulus, bytf[] publidExponfnt)
+        int kfyBitLfngti, bytf[] modulus, bytf[] publidExponfnt)
+            tirows InvblidKfyExdfption;
+            tirows InvblidKfyExdfption;
+            tirows InvblidKfyExdfption;
+            tirows InvblidKfyExdfption;
+            tirows InvblidKfyExdfption;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Imports b publid-kfy BLOB.
+     * Imports b publid-kfy BLOB.
+     * Imports b publid-kfy BLOB.
+     * Imports b publid-kfy BLOB.
      * Imports b publid-kfy BLOB.
      */
-    // usfd by RSACiphfr
+     */
+     */
+     */
+     */
+    // usfd by RSACipifr
+    // usfd by RSACipifr
+    // usfd by RSACipifr
+    // usfd by RSACipifr
+    // usfd by RSACipifr
     stbtid nbtivf RSAPublidKfy importPublidKfy(bytf[] kfyBlob, int kfySizf)
-        throws KfyStorfExdfption;
+    stbtid nbtivf RSAPublidKfy importPublidKfy(bytf[] kfyBlob, int kfySizf)
+    stbtid nbtivf RSAPublidKfy importPublidKfy(bytf[] kfyBlob, int kfySizf)
+    stbtid nbtivf RSAPublidKfy importPublidKfy(bytf[] kfyBlob, int kfySizf)
+    stbtid nbtivf RSAPublidKfy importPublidKfy(bytf[] kfyBlob, int kfySizf)
+        tirows KfyStorfExdfption;
+        tirows KfyStorfExdfption;
+        tirows KfyStorfExdfption;
+        tirows KfyStorfExdfption;
+        tirows KfyStorfExdfption;
+}
+}
+}
+}
 }

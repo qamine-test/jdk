@@ -1,165 +1,825 @@
 /*
- * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+
+
+
+
 
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
 import jbvb.util.List;
 import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+
+
+
 
 /**
- * Sflfdts thf proxy sfrvfr to usf, if bny, whfn donnfdting to thf
+/**
+/**
+/**
+/**
+ * Sflfdts tif proxy sfrvfr to usf, if bny, wifn donnfdting to tif
+ * Sflfdts tif proxy sfrvfr to usf, if bny, wifn donnfdting to tif
+ * Sflfdts tif proxy sfrvfr to usf, if bny, wifn donnfdting to tif
+ * Sflfdts tif proxy sfrvfr to usf, if bny, wifn donnfdting to tif
+ * Sflfdts tif proxy sfrvfr to usf, if bny, wifn donnfdting to tif
  * nftwork rfsourdf rfffrfndfd by b URL. A proxy sflfdtor is b
- * dondrftf sub-dlbss of this dlbss bnd is rfgistfrfd by invoking thf
- * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mfthod. Thf
+ * nftwork rfsourdf rfffrfndfd by b URL. A proxy sflfdtor is b
+ * nftwork rfsourdf rfffrfndfd by b URL. A proxy sflfdtor is b
+ * nftwork rfsourdf rfffrfndfd by b URL. A proxy sflfdtor is b
+ * nftwork rfsourdf rfffrfndfd by b URL. A proxy sflfdtor is b
+ * dondrftf sub-dlbss of tiis dlbss bnd is rfgistfrfd by invoking tif
+ * dondrftf sub-dlbss of tiis dlbss bnd is rfgistfrfd by invoking tif
+ * dondrftf sub-dlbss of tiis dlbss bnd is rfgistfrfd by invoking tif
+ * dondrftf sub-dlbss of tiis dlbss bnd is rfgistfrfd by invoking tif
+ * dondrftf sub-dlbss of tiis dlbss bnd is rfgistfrfd by invoking tif
+ * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mftiod. Tif
+ * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mftiod. Tif
+ * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mftiod. Tif
+ * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mftiod. Tif
+ * {@link jbvb.nft.ProxySflfdtor#sftDffbult sftDffbult} mftiod. Tif
  * durrfntly rfgistfrfd proxy sflfdtor dbn bf rftrifvfd by dblling
- * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mfthod.
+ * durrfntly rfgistfrfd proxy sflfdtor dbn bf rftrifvfd by dblling
+ * durrfntly rfgistfrfd proxy sflfdtor dbn bf rftrifvfd by dblling
+ * durrfntly rfgistfrfd proxy sflfdtor dbn bf rftrifvfd by dblling
+ * durrfntly rfgistfrfd proxy sflfdtor dbn bf rftrifvfd by dblling
+ * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mftiod.
+ * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mftiod.
+ * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mftiod.
+ * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mftiod.
+ * {@link jbvb.nft.ProxySflfdtor#gftDffbult gftDffbult} mftiod.
  *
- * <p> Whfn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
- * of URLConnfdtion dlbss should dbll thf {@link #sflfdt sflfdt}
- * mfthod for fbdh URL rfqufst so thbt thf proxy sflfdtor dbn dfdidf
- * if b dirfdt, or proxifd donnfdtion should bf usfd. Thf {@link
- * #sflfdt sflfdt} mfthod rfturns bn itfrbtor ovfr b dollfdtion with
- * thf prfffrrfd donnfdtion bpprobdh.
  *
- * <p> If b donnfdtion dbnnot bf fstbblishfd to b proxy (PROXY or
- * SOCKS) sfrvfrs thfn thf dbllfr should dbll thf proxy sflfdtor's
- * {@link #donnfdtFbilfd donnfdtFbilfd} mfthod to notify thf proxy
- * sflfdtor thbt thf proxy sfrvfr is unbvbilbblf. </p>
  *
- * <P>Thf dffbult proxy sflfdtor dofs fnfordf b
- * <b hrff="dod-filfs/nft-propfrtifs.html#Proxifs">sft of Systfm Propfrtifs</b>
+ *
+ *
+ * <p> Wifn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
+ * <p> Wifn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
+ * <p> Wifn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
+ * <p> Wifn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
+ * <p> Wifn b proxy sflfdtor is rfgistfrfd, for instbndf, b subdlbss
+ * of URLConnfdtion dlbss siould dbll tif {@link #sflfdt sflfdt}
+ * of URLConnfdtion dlbss siould dbll tif {@link #sflfdt sflfdt}
+ * of URLConnfdtion dlbss siould dbll tif {@link #sflfdt sflfdt}
+ * of URLConnfdtion dlbss siould dbll tif {@link #sflfdt sflfdt}
+ * of URLConnfdtion dlbss siould dbll tif {@link #sflfdt sflfdt}
+ * mftiod for fbdi URL rfqufst so tibt tif proxy sflfdtor dbn dfdidf
+ * mftiod for fbdi URL rfqufst so tibt tif proxy sflfdtor dbn dfdidf
+ * mftiod for fbdi URL rfqufst so tibt tif proxy sflfdtor dbn dfdidf
+ * mftiod for fbdi URL rfqufst so tibt tif proxy sflfdtor dbn dfdidf
+ * mftiod for fbdi URL rfqufst so tibt tif proxy sflfdtor dbn dfdidf
+ * if b dirfdt, or proxifd donnfdtion siould bf usfd. Tif {@link
+ * if b dirfdt, or proxifd donnfdtion siould bf usfd. Tif {@link
+ * if b dirfdt, or proxifd donnfdtion siould bf usfd. Tif {@link
+ * if b dirfdt, or proxifd donnfdtion siould bf usfd. Tif {@link
+ * if b dirfdt, or proxifd donnfdtion siould bf usfd. Tif {@link
+ * #sflfdt sflfdt} mftiod rfturns bn itfrbtor ovfr b dollfdtion witi
+ * #sflfdt sflfdt} mftiod rfturns bn itfrbtor ovfr b dollfdtion witi
+ * #sflfdt sflfdt} mftiod rfturns bn itfrbtor ovfr b dollfdtion witi
+ * #sflfdt sflfdt} mftiod rfturns bn itfrbtor ovfr b dollfdtion witi
+ * #sflfdt sflfdt} mftiod rfturns bn itfrbtor ovfr b dollfdtion witi
+ * tif prfffrrfd donnfdtion bpprobdi.
+ * tif prfffrrfd donnfdtion bpprobdi.
+ * tif prfffrrfd donnfdtion bpprobdi.
+ * tif prfffrrfd donnfdtion bpprobdi.
+ * tif prfffrrfd donnfdtion bpprobdi.
+ *
+ *
+ *
+ *
+ *
+ * <p> If b donnfdtion dbnnot bf fstbblisifd to b proxy (PROXY or
+ * <p> If b donnfdtion dbnnot bf fstbblisifd to b proxy (PROXY or
+ * <p> If b donnfdtion dbnnot bf fstbblisifd to b proxy (PROXY or
+ * <p> If b donnfdtion dbnnot bf fstbblisifd to b proxy (PROXY or
+ * <p> If b donnfdtion dbnnot bf fstbblisifd to b proxy (PROXY or
+ * SOCKS) sfrvfrs tifn tif dbllfr siould dbll tif proxy sflfdtor's
+ * SOCKS) sfrvfrs tifn tif dbllfr siould dbll tif proxy sflfdtor's
+ * SOCKS) sfrvfrs tifn tif dbllfr siould dbll tif proxy sflfdtor's
+ * SOCKS) sfrvfrs tifn tif dbllfr siould dbll tif proxy sflfdtor's
+ * SOCKS) sfrvfrs tifn tif dbllfr siould dbll tif proxy sflfdtor's
+ * {@link #donnfdtFbilfd donnfdtFbilfd} mftiod to notify tif proxy
+ * {@link #donnfdtFbilfd donnfdtFbilfd} mftiod to notify tif proxy
+ * {@link #donnfdtFbilfd donnfdtFbilfd} mftiod to notify tif proxy
+ * {@link #donnfdtFbilfd donnfdtFbilfd} mftiod to notify tif proxy
+ * {@link #donnfdtFbilfd donnfdtFbilfd} mftiod to notify tif proxy
+ * sflfdtor tibt tif proxy sfrvfr is unbvbilbblf. </p>
+ * sflfdtor tibt tif proxy sfrvfr is unbvbilbblf. </p>
+ * sflfdtor tibt tif proxy sfrvfr is unbvbilbblf. </p>
+ * sflfdtor tibt tif proxy sfrvfr is unbvbilbblf. </p>
+ * sflfdtor tibt tif proxy sfrvfr is unbvbilbblf. </p>
+ *
+ *
+ *
+ *
+ *
+ * <P>Tif dffbult proxy sflfdtor dofs fnfordf b
+ * <P>Tif dffbult proxy sflfdtor dofs fnfordf b
+ * <P>Tif dffbult proxy sflfdtor dofs fnfordf b
+ * <P>Tif dffbult proxy sflfdtor dofs fnfordf b
+ * <P>Tif dffbult proxy sflfdtor dofs fnfordf b
+ * <b irff="dod-filfs/nft-propfrtifs.itml#Proxifs">sft of Systfm Propfrtifs</b>
+ * <b irff="dod-filfs/nft-propfrtifs.itml#Proxifs">sft of Systfm Propfrtifs</b>
+ * <b irff="dod-filfs/nft-propfrtifs.itml#Proxifs">sft of Systfm Propfrtifs</b>
+ * <b irff="dod-filfs/nft-propfrtifs.itml#Proxifs">sft of Systfm Propfrtifs</b>
+ * <b irff="dod-filfs/nft-propfrtifs.itml#Proxifs">sft of Systfm Propfrtifs</b>
+ * rflbtfd to proxy sfttings.</P>
+ * rflbtfd to proxy sfttings.</P>
+ * rflbtfd to proxy sfttings.</P>
+ * rflbtfd to proxy sfttings.</P>
  * rflbtfd to proxy sfttings.</P>
  *
- * @buthor Yingxibn Wbng
- * @buthor Jfbn-Christophf Collft
+ *
+ *
+ *
+ *
+ * @butior Yingxibn Wbng
+ * @butior Yingxibn Wbng
+ * @butior Yingxibn Wbng
+ * @butior Yingxibn Wbng
+ * @butior Yingxibn Wbng
+ * @butior Jfbn-Ciristopif Collft
+ * @butior Jfbn-Ciristopif Collft
+ * @butior Jfbn-Ciristopif Collft
+ * @butior Jfbn-Ciristopif Collft
+ * @butior Jfbn-Ciristopif Collft
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  */
+ */
+ */
+ */
+ */
+publid bbstrbdt dlbss ProxySflfdtor {
+publid bbstrbdt dlbss ProxySflfdtor {
+publid bbstrbdt dlbss ProxySflfdtor {
+publid bbstrbdt dlbss ProxySflfdtor {
 publid bbstrbdt dlbss ProxySflfdtor {
     /**
-     * Thf systfm widf proxy sflfdtor thbt sflfdts thf proxy sfrvfr to
-     * usf, if bny, whfn donnfdting to b rfmotf objfdt rfffrfndfd by
+    /**
+    /**
+    /**
+    /**
+     * Tif systfm widf proxy sflfdtor tibt sflfdts tif proxy sfrvfr to
+     * Tif systfm widf proxy sflfdtor tibt sflfdts tif proxy sfrvfr to
+     * Tif systfm widf proxy sflfdtor tibt sflfdts tif proxy sfrvfr to
+     * Tif systfm widf proxy sflfdtor tibt sflfdts tif proxy sfrvfr to
+     * Tif systfm widf proxy sflfdtor tibt sflfdts tif proxy sfrvfr to
+     * usf, if bny, wifn donnfdting to b rfmotf objfdt rfffrfndfd by
+     * usf, if bny, wifn donnfdting to b rfmotf objfdt rfffrfndfd by
+     * usf, if bny, wifn donnfdting to b rfmotf objfdt rfffrfndfd by
+     * usf, if bny, wifn donnfdting to b rfmotf objfdt rfffrfndfd by
+     * usf, if bny, wifn donnfdting to b rfmotf objfdt rfffrfndfd by
+     * bn URL.
+     * bn URL.
+     * bn URL.
+     * bn URL.
      * bn URL.
      *
+     *
+     *
+     *
+     *
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @sff #sftDffbult(ProxySflfdtor)
      * @sff #sftDffbult(ProxySflfdtor)
      */
-    privbtf stbtid ProxySflfdtor thfProxySflfdtor;
+     */
+     */
+     */
+     */
+    privbtf stbtid ProxySflfdtor tifProxySflfdtor;
+    privbtf stbtid ProxySflfdtor tifProxySflfdtor;
+    privbtf stbtid ProxySflfdtor tifProxySflfdtor;
+    privbtf stbtid ProxySflfdtor tifProxySflfdtor;
+    privbtf stbtid ProxySflfdtor tifProxySflfdtor;
+
+
+
+
 
     stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+        try {
+        try {
+        try {
+        try {
         try {
             Clbss<?> d = Clbss.forNbmf("sun.nft.spi.DffbultProxySflfdtor");
+            Clbss<?> d = Clbss.forNbmf("sun.nft.spi.DffbultProxySflfdtor");
+            Clbss<?> d = Clbss.forNbmf("sun.nft.spi.DffbultProxySflfdtor");
+            Clbss<?> d = Clbss.forNbmf("sun.nft.spi.DffbultProxySflfdtor");
+            Clbss<?> d = Clbss.forNbmf("sun.nft.spi.DffbultProxySflfdtor");
             if (d != null && ProxySflfdtor.dlbss.isAssignbblfFrom(d)) {
-                thfProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
+            if (d != null && ProxySflfdtor.dlbss.isAssignbblfFrom(d)) {
+            if (d != null && ProxySflfdtor.dlbss.isAssignbblfFrom(d)) {
+            if (d != null && ProxySflfdtor.dlbss.isAssignbblfFrom(d)) {
+            if (d != null && ProxySflfdtor.dlbss.isAssignbblfFrom(d)) {
+                tifProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
+                tifProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
+                tifProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
+                tifProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
+                tifProxySflfdtor = (ProxySflfdtor) d.nfwInstbndf();
             }
-        } dbtdh (Exdfption f) {
-            thfProxySflfdtor = null;
+            }
+            }
+            }
+            }
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+            tifProxySflfdtor = null;
+            tifProxySflfdtor = null;
+            tifProxySflfdtor = null;
+            tifProxySflfdtor = null;
+            tifProxySflfdtor = null;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gfts thf systfm-widf proxy sflfdtor.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif systfm-widf proxy sflfdtor.
+     * Gfts tif systfm-widf proxy sflfdtor.
+     * Gfts tif systfm-widf proxy sflfdtor.
+     * Gfts tif systfm-widf proxy sflfdtor.
+     * Gfts tif systfm-widf proxy sflfdtor.
      *
-     * @throws  SfdurityExdfption
-     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *
+     *
+     *
+     *
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("gftProxySflfdtor")}
+     * {@link NftPfrmission}{@dodf ("gftProxySflfdtor")}
+     * {@link NftPfrmission}{@dodf ("gftProxySflfdtor")}
+     * {@link NftPfrmission}{@dodf ("gftProxySflfdtor")}
      * {@link NftPfrmission}{@dodf ("gftProxySflfdtor")}
      * @sff #sftDffbult(ProxySflfdtor)
-     * @rfturn thf systfm-widf {@dodf ProxySflfdtor}
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @sff #sftDffbult(ProxySflfdtor)
+     * @rfturn tif systfm-widf {@dodf ProxySflfdtor}
+     * @rfturn tif systfm-widf {@dodf ProxySflfdtor}
+     * @rfturn tif systfm-widf {@dodf ProxySflfdtor}
+     * @rfturn tif systfm-widf {@dodf ProxySflfdtor}
+     * @rfturn tif systfm-widf {@dodf ProxySflfdtor}
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid stbtid ProxySflfdtor gftDffbult() {
+    publid stbtid ProxySflfdtor gftDffbult() {
+    publid stbtid ProxySflfdtor gftDffbult() {
+    publid stbtid ProxySflfdtor gftDffbult() {
+    publid stbtid ProxySflfdtor gftDffbult() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.dhfdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
+        if (sm != null) {
+        if (sm != null) {
+        if (sm != null) {
+        if (sm != null) {
+            sm.difdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_PROXYSELECTOR_PERMISSION);
         }
-        rfturn thfProxySflfdtor;
+        }
+        }
+        }
+        }
+        rfturn tifProxySflfdtor;
+        rfturn tifProxySflfdtor;
+        rfturn tifProxySflfdtor;
+        rfturn tifProxySflfdtor;
+        rfturn tifProxySflfdtor;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sfts (or unsfts) thf systfm-widf proxy sflfdtor.
+    /**
+    /**
+    /**
+    /**
+     * Sfts (or unsfts) tif systfm-widf proxy sflfdtor.
+     * Sfts (or unsfts) tif systfm-widf proxy sflfdtor.
+     * Sfts (or unsfts) tif systfm-widf proxy sflfdtor.
+     * Sfts (or unsfts) tif systfm-widf proxy sflfdtor.
+     * Sfts (or unsfts) tif systfm-widf proxy sflfdtor.
      *
-     * Notf: non-stbndbrd protodol hbndlfrs mby ignorf this sftting.
      *
-     * @pbrbm ps Thf HTTP proxy sflfdtor, or
-     *          {@dodf null} to unsft thf proxy sflfdtor.
      *
-     * @throws  SfdurityExdfption
-     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *
+     *
+     * Notf: non-stbndbrd protodol ibndlfrs mby ignorf tiis sftting.
+     * Notf: non-stbndbrd protodol ibndlfrs mby ignorf tiis sftting.
+     * Notf: non-stbndbrd protodol ibndlfrs mby ignorf tiis sftting.
+     * Notf: non-stbndbrd protodol ibndlfrs mby ignorf tiis sftting.
+     * Notf: non-stbndbrd protodol ibndlfrs mby ignorf tiis sftting.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm ps Tif HTTP proxy sflfdtor, or
+     * @pbrbm ps Tif HTTP proxy sflfdtor, or
+     * @pbrbm ps Tif HTTP proxy sflfdtor, or
+     * @pbrbm ps Tif HTTP proxy sflfdtor, or
+     * @pbrbm ps Tif HTTP proxy sflfdtor, or
+     *          {@dodf null} to unsft tif proxy sflfdtor.
+     *          {@dodf null} to unsft tif proxy sflfdtor.
+     *          {@dodf null} to unsft tif proxy sflfdtor.
+     *          {@dodf null} to unsft tif proxy sflfdtor.
+     *          {@dodf null} to unsft tif proxy sflfdtor.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("sftProxySflfdtor")}
+     * {@link NftPfrmission}{@dodf ("sftProxySflfdtor")}
+     * {@link NftPfrmission}{@dodf ("sftProxySflfdtor")}
+     * {@link NftPfrmission}{@dodf ("sftProxySflfdtor")}
      * {@link NftPfrmission}{@dodf ("sftProxySflfdtor")}
      *
+     *
+     *
+     *
+     *
+     * @sff #gftDffbult()
+     * @sff #gftDffbult()
+     * @sff #gftDffbult()
+     * @sff #gftDffbult()
      * @sff #gftDffbult()
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid stbtid void sftDffbult(ProxySflfdtor ps) {
+    publid stbtid void sftDffbult(ProxySflfdtor ps) {
+    publid stbtid void sftDffbult(ProxySflfdtor ps) {
+    publid stbtid void sftDffbult(ProxySflfdtor ps) {
+    publid stbtid void sftDffbult(ProxySflfdtor ps) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.dhfdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
+        if (sm != null) {
+        if (sm != null) {
+        if (sm != null) {
+        if (sm != null) {
+            sm.difdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.SET_PROXYSELECTOR_PERMISSION);
         }
-        thfProxySflfdtor = ps;
+        }
+        }
+        }
+        }
+        tifProxySflfdtor = ps;
+        tifProxySflfdtor = ps;
+        tifProxySflfdtor = ps;
+        tifProxySflfdtor = ps;
+        tifProxySflfdtor = ps;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Sflfdts bll thf bpplidbblf proxifs bbsfd on thf protodol to
-     * bddfss thf rfsourdf with bnd b dfstinbtion bddrfss to bddfss
-     * thf rfsourdf bt.
-     * Thf formbt of thf URI is dffinfd bs follow:
-     * <UL>
-     * <LI>http URI for http donnfdtions</LI>
-     * <LI>https URI for https donnfdtions
-     * <LI>{@dodf sodkft://host:port}<br>
-     *     for tdp dlifnt sodkfts donnfdtions</LI>
-     * </UL>
-     *
-     * @pbrbm   uri
-     *          Thf URI thbt b donnfdtion is rfquirfd to
-     *
-     * @rfturn  b List of Proxifs. Ebdh flfmfnt in thf
-     *          thf List is of typf
-     *          {@link jbvb.nft.Proxy Proxy};
-     *          whfn no proxy is bvbilbblf, thf list will
-     *          dontbin onf flfmfnt of typf
-     *          {@link jbvb.nft.Proxy Proxy}
-     *          thbt rfprfsfnts b dirfdt donnfdtion.
-     * @throws IllfgblArgumfntExdfption if thf brgumfnt is null
-     */
-    publid bbstrbdt List<Proxy> sflfdt(URI uri);
+
+
+
 
     /**
-     * Cbllfd to indidbtf thbt b donnfdtion dould not bf fstbblishfd
-     * to b proxy/sodks sfrvfr. An implfmfntbtion of this mfthod dbn
-     * tfmporbrily rfmovf thf proxifs or rfordfr thf sfqufndf of
-     * proxifs rfturnfd by {@link #sflfdt(URI)}, using thf bddrfss
-     * bnd thf IOExdfption dbught whfn trying to donnfdt.
+    /**
+    /**
+    /**
+    /**
+     * Sflfdts bll tif bpplidbblf proxifs bbsfd on tif protodol to
+     * Sflfdts bll tif bpplidbblf proxifs bbsfd on tif protodol to
+     * Sflfdts bll tif bpplidbblf proxifs bbsfd on tif protodol to
+     * Sflfdts bll tif bpplidbblf proxifs bbsfd on tif protodol to
+     * Sflfdts bll tif bpplidbblf proxifs bbsfd on tif protodol to
+     * bddfss tif rfsourdf witi bnd b dfstinbtion bddrfss to bddfss
+     * bddfss tif rfsourdf witi bnd b dfstinbtion bddrfss to bddfss
+     * bddfss tif rfsourdf witi bnd b dfstinbtion bddrfss to bddfss
+     * bddfss tif rfsourdf witi bnd b dfstinbtion bddrfss to bddfss
+     * bddfss tif rfsourdf witi bnd b dfstinbtion bddrfss to bddfss
+     * tif rfsourdf bt.
+     * tif rfsourdf bt.
+     * tif rfsourdf bt.
+     * tif rfsourdf bt.
+     * tif rfsourdf bt.
+     * Tif formbt of tif URI is dffinfd bs follow:
+     * Tif formbt of tif URI is dffinfd bs follow:
+     * Tif formbt of tif URI is dffinfd bs follow:
+     * Tif formbt of tif URI is dffinfd bs follow:
+     * Tif formbt of tif URI is dffinfd bs follow:
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <UL>
+     * <LI>ittp URI for ittp donnfdtions</LI>
+     * <LI>ittp URI for ittp donnfdtions</LI>
+     * <LI>ittp URI for ittp donnfdtions</LI>
+     * <LI>ittp URI for ittp donnfdtions</LI>
+     * <LI>ittp URI for ittp donnfdtions</LI>
+     * <LI>ittps URI for ittps donnfdtions
+     * <LI>ittps URI for ittps donnfdtions
+     * <LI>ittps URI for ittps donnfdtions
+     * <LI>ittps URI for ittps donnfdtions
+     * <LI>ittps URI for ittps donnfdtions
+     * <LI>{@dodf sodkft://iost:port}<br>
+     * <LI>{@dodf sodkft://iost:port}<br>
+     * <LI>{@dodf sodkft://iost:port}<br>
+     * <LI>{@dodf sodkft://iost:port}<br>
+     * <LI>{@dodf sodkft://iost:port}<br>
+     *     for tdp dlifnt sodkfts donnfdtions</LI>
+     *     for tdp dlifnt sodkfts donnfdtions</LI>
+     *     for tdp dlifnt sodkfts donnfdtions</LI>
+     *     for tdp dlifnt sodkfts donnfdtions</LI>
+     *     for tdp dlifnt sodkfts donnfdtions</LI>
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
+     * </UL>
+     *
+     *
+     *
+     *
      *
      * @pbrbm   uri
-     *          Thf URI thbt thf proxy bt sb fbilfd to sfrvf.
+     * @pbrbm   uri
+     * @pbrbm   uri
+     * @pbrbm   uri
+     * @pbrbm   uri
+     *          Tif URI tibt b donnfdtion is rfquirfd to
+     *          Tif URI tibt b donnfdtion is rfquirfd to
+     *          Tif URI tibt b donnfdtion is rfquirfd to
+     *          Tif URI tibt b donnfdtion is rfquirfd to
+     *          Tif URI tibt b donnfdtion is rfquirfd to
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  b List of Proxifs. Ebdi flfmfnt in tif
+     * @rfturn  b List of Proxifs. Ebdi flfmfnt in tif
+     * @rfturn  b List of Proxifs. Ebdi flfmfnt in tif
+     * @rfturn  b List of Proxifs. Ebdi flfmfnt in tif
+     * @rfturn  b List of Proxifs. Ebdi flfmfnt in tif
+     *          tif List is of typf
+     *          tif List is of typf
+     *          tif List is of typf
+     *          tif List is of typf
+     *          tif List is of typf
+     *          {@link jbvb.nft.Proxy Proxy};
+     *          {@link jbvb.nft.Proxy Proxy};
+     *          {@link jbvb.nft.Proxy Proxy};
+     *          {@link jbvb.nft.Proxy Proxy};
+     *          {@link jbvb.nft.Proxy Proxy};
+     *          wifn no proxy is bvbilbblf, tif list will
+     *          wifn no proxy is bvbilbblf, tif list will
+     *          wifn no proxy is bvbilbblf, tif list will
+     *          wifn no proxy is bvbilbblf, tif list will
+     *          wifn no proxy is bvbilbblf, tif list will
+     *          dontbin onf flfmfnt of typf
+     *          dontbin onf flfmfnt of typf
+     *          dontbin onf flfmfnt of typf
+     *          dontbin onf flfmfnt of typf
+     *          dontbin onf flfmfnt of typf
+     *          {@link jbvb.nft.Proxy Proxy}
+     *          {@link jbvb.nft.Proxy Proxy}
+     *          {@link jbvb.nft.Proxy Proxy}
+     *          {@link jbvb.nft.Proxy Proxy}
+     *          {@link jbvb.nft.Proxy Proxy}
+     *          tibt rfprfsfnts b dirfdt donnfdtion.
+     *          tibt rfprfsfnts b dirfdt donnfdtion.
+     *          tibt rfprfsfnts b dirfdt donnfdtion.
+     *          tibt rfprfsfnts b dirfdt donnfdtion.
+     *          tibt rfprfsfnts b dirfdt donnfdtion.
+     * @tirows IllfgblArgumfntExdfption if tif brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif brgumfnt is null
+     */
+     */
+     */
+     */
+     */
+    publid bbstrbdt List<Proxy> sflfdt(URI uri);
+    publid bbstrbdt List<Proxy> sflfdt(URI uri);
+    publid bbstrbdt List<Proxy> sflfdt(URI uri);
+    publid bbstrbdt List<Proxy> sflfdt(URI uri);
+    publid bbstrbdt List<Proxy> sflfdt(URI uri);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd to indidbtf tibt b donnfdtion dould not bf fstbblisifd
+     * Cbllfd to indidbtf tibt b donnfdtion dould not bf fstbblisifd
+     * Cbllfd to indidbtf tibt b donnfdtion dould not bf fstbblisifd
+     * Cbllfd to indidbtf tibt b donnfdtion dould not bf fstbblisifd
+     * Cbllfd to indidbtf tibt b donnfdtion dould not bf fstbblisifd
+     * to b proxy/sodks sfrvfr. An implfmfntbtion of tiis mftiod dbn
+     * to b proxy/sodks sfrvfr. An implfmfntbtion of tiis mftiod dbn
+     * to b proxy/sodks sfrvfr. An implfmfntbtion of tiis mftiod dbn
+     * to b proxy/sodks sfrvfr. An implfmfntbtion of tiis mftiod dbn
+     * to b proxy/sodks sfrvfr. An implfmfntbtion of tiis mftiod dbn
+     * tfmporbrily rfmovf tif proxifs or rfordfr tif sfqufndf of
+     * tfmporbrily rfmovf tif proxifs or rfordfr tif sfqufndf of
+     * tfmporbrily rfmovf tif proxifs or rfordfr tif sfqufndf of
+     * tfmporbrily rfmovf tif proxifs or rfordfr tif sfqufndf of
+     * tfmporbrily rfmovf tif proxifs or rfordfr tif sfqufndf of
+     * proxifs rfturnfd by {@link #sflfdt(URI)}, using tif bddrfss
+     * proxifs rfturnfd by {@link #sflfdt(URI)}, using tif bddrfss
+     * proxifs rfturnfd by {@link #sflfdt(URI)}, using tif bddrfss
+     * proxifs rfturnfd by {@link #sflfdt(URI)}, using tif bddrfss
+     * proxifs rfturnfd by {@link #sflfdt(URI)}, using tif bddrfss
+     * bnd tif IOExdfption dbugit wifn trying to donnfdt.
+     * bnd tif IOExdfption dbugit wifn trying to donnfdt.
+     * bnd tif IOExdfption dbugit wifn trying to donnfdt.
+     * bnd tif IOExdfption dbugit wifn trying to donnfdt.
+     * bnd tif IOExdfption dbugit wifn trying to donnfdt.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   uri
+     * @pbrbm   uri
+     * @pbrbm   uri
+     * @pbrbm   uri
+     * @pbrbm   uri
+     *          Tif URI tibt tif proxy bt sb fbilfd to sfrvf.
+     *          Tif URI tibt tif proxy bt sb fbilfd to sfrvf.
+     *          Tif URI tibt tif proxy bt sb fbilfd to sfrvf.
+     *          Tif URI tibt tif proxy bt sb fbilfd to sfrvf.
+     *          Tif URI tibt tif proxy bt sb fbilfd to sfrvf.
      * @pbrbm   sb
-     *          Thf sodkft bddrfss of thf proxy/SOCKS sfrvfr
+     * @pbrbm   sb
+     * @pbrbm   sb
+     * @pbrbm   sb
+     * @pbrbm   sb
+     *          Tif sodkft bddrfss of tif proxy/SOCKS sfrvfr
+     *          Tif sodkft bddrfss of tif proxy/SOCKS sfrvfr
+     *          Tif sodkft bddrfss of tif proxy/SOCKS sfrvfr
+     *          Tif sodkft bddrfss of tif proxy/SOCKS sfrvfr
+     *          Tif sodkft bddrfss of tif proxy/SOCKS sfrvfr
+     *
+     *
+     *
+     *
      *
      * @pbrbm   iof
-     *          Thf I/O fxdfption thrown whfn thf donnfdt fbilfd.
-     * @throws IllfgblArgumfntExdfption if fithfr brgumfnt is null
+     * @pbrbm   iof
+     * @pbrbm   iof
+     * @pbrbm   iof
+     * @pbrbm   iof
+     *          Tif I/O fxdfption tirown wifn tif donnfdt fbilfd.
+     *          Tif I/O fxdfption tirown wifn tif donnfdt fbilfd.
+     *          Tif I/O fxdfption tirown wifn tif donnfdt fbilfd.
+     *          Tif I/O fxdfption tirown wifn tif donnfdt fbilfd.
+     *          Tif I/O fxdfption tirown wifn tif donnfdt fbilfd.
+     * @tirows IllfgblArgumfntExdfption if fitifr brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if fitifr brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if fitifr brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if fitifr brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if fitifr brgumfnt is null
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof);
+    publid bbstrbdt void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof);
+    publid bbstrbdt void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof);
+    publid bbstrbdt void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof);
+    publid bbstrbdt void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof);
+}
+}
+}
+}
 }

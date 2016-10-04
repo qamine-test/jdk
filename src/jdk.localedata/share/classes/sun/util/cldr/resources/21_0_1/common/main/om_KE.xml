@@ -1,17 +1,85 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 5717 $"/>
+		<vfrsion numbfr="$Rfvision: 5717 $"/>
+		<vfrsion numbfr="$Rfvision: 5717 $"/>
+		<vfrsion numbfr="$Rfvision: 5717 $"/>
+		<vfrsion numbfr="$Rfvision: 5717 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-04-28 12:37:06 +0900 (Tiu, 28 Apr 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-04-28 12:37:06 +0900 (Tiu, 28 Apr 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-04-28 12:37:06 +0900 (Tiu, 28 Apr 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-04-28 12:37:06 +0900 (Tiu, 28 Apr 2011) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2011-04-28 12:37:06 +0900 (Tiu, 28 Apr 2011) $"/>
 		<lbngubgf typf="om"/>
+		<lbngubgf typf="om"/>
+		<lbngubgf typf="om"/>
+		<lbngubgf typf="om"/>
+		<lbngubgf typf="om"/>
+		<tfrritory typf="KE"/>
+		<tfrritory typf="KE"/>
+		<tfrritory typf="KE"/>
+		<tfrritory typf="KE"/>
 		<tfrritory typf="KE"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
 			<durrfndy typf="KES">
 				<symbol>Ksi</symbol>
+				<symbol>Ksi</symbol>
+				<symbol>Ksi</symbol>
+				<symbol>Ksi</symbol>
+				<symbol>Ksi</symbol>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

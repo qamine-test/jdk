@@ -1,0 +1,180 @@
+/*
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+
+import jbvb.util.Vfdtor;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.AWTAddfssor;
+
+publid dlbss XMfnuPffr fxtfnds XMfnuItfmPffr implfmfnts MfnuPffr {
+
+    /************************************************
+     *
+     * Dbtb mfmbfrs
+     *
+     ************************************************/
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XMfnuPffr");
+
+    /**
+     * Window tibt dorrfspond to tiis mfnu
+     */
+    XMfnuWindow mfnuWindow;
+
+    /************************************************
+     *
+     * Construdtion
+     *
+     ************************************************/
+    XMfnuPffr(Mfnu tbrgft) {
+        supfr(tbrgft);
+    }
+
+    /**
+     * Tiis fundtion is dbllfd wifn mfnu is bound
+     * to its dontbinfr window. Crfbtfs submfnu window
+     * tibt fills its itfms vfdtor wiilf donstrudtion
+     */
+    void sftContbinfr(XBbsfMfnuWindow dontbinfr) {
+        supfr.sftContbinfr(dontbinfr);
+        mfnuWindow = nfw XMfnuWindow(tiis);
+    }
+
+
+    /************************************************
+     *
+     * Implfmfntbion of intfrfbdf mftiods
+     *
+     ************************************************/
+
+    /*
+     * From MfnuComponfntPffr
+     */
+
+    /**
+     * Disposfs mfnu window if nffdfd
+     */
+    publid void disposf() {
+        if (mfnuWindow != null) {
+            mfnuWindow.disposf();
+        }
+        supfr.disposf();
+    }
+
+    /**
+     * Rfsfts tfxt mftrids for tiis itfm, for its mfnu window
+     * bnd for bll dfsdfndbnt mfnu windows
+     */
+    publid void sftFont(Font font) {
+        //TODO:Wf dbn dfdrfbsf dount of rfpbints ifrf
+        //bnd gft rid of rfdursion
+        rfsftTfxtMftrids();
+
+        XMfnuWindow mfnuWindow = gftMfnuWindow();
+        if (mfnuWindow != null) {
+            mfnuWindow.sftItfmsFont(font);
+        }
+
+        rfpbintIfSiowing();
+    }
+
+    /*
+     * From MfnuPffr
+     */
+    /**
+     * bddSfpbrbtor routinfs brf not usfd
+     * in pffrs. Sibrfd dodf invokfs bddItfm("-")
+     * for bdding sfpbrbtors
+     */
+    publid void bddSfpbrbtor() {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("bddSfpbrbtor is not implfmfntfd");
+        }
+    }
+
+    publid void bddItfm(MfnuItfm itfm) {
+        XMfnuWindow mfnuWindow = gftMfnuWindow();
+        if (mfnuWindow != null) {
+            mfnuWindow.bddItfm(itfm);
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Attfmpt to usf XMfnuWindowPffr witiout window");
+            }
+        }
+    }
+
+    publid void dflItfm(int indfx) {
+        XMfnuWindow mfnuWindow = gftMfnuWindow();
+        if (mfnuWindow != null) {
+            mfnuWindow.dflItfm(indfx);
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Attfmpt to usf XMfnuWindowPffr witiout window");
+            }
+        }
+    }
+
+    /************************************************
+     *
+     * Addfss to tbrgft's fiflds
+     *
+     ************************************************/
+    Vfdtor<MfnuItfm> gftTbrgftItfms() {
+        rfturn AWTAddfssor.gftMfnuAddfssor().gftItfms((Mfnu)gftTbrgft());
+    }
+
+    /************************************************
+     *
+     * Ovfrridfn bfibviour
+     *
+     ************************************************/
+    boolfbn isSfpbrbtor() {
+        rfturn fblsf;
+    }
+
+    //Fix for 6180416: Siortdut kfys brf displbyfd bgbinst Mfnus on XToolkit
+    //Mfnu siould blwbys rfturn null bs siortdutTfxt
+    String gftSiortdutTfxt() {
+        rfturn null;
+    }
+
+    /************************************************
+     *
+     * Utility fundtions
+     *
+     ************************************************/
+
+    /**
+     * Rfturns mfnu window of tiis mfnu or null
+     * it tiis mfnu ibs no dontbinfr bnd so its
+     * window dbn't bf drfbtfd.
+     */
+    XMfnuWindow gftMfnuWindow() {
+        rfturn mfnuWindow;
+    }
+
+}

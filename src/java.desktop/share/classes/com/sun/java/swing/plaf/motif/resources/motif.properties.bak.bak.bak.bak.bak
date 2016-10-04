@@ -1,0 +1,40 @@
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
+#
+#    FilfCioosfr
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+#
+# @butior Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Cbndfl
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sbvf
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=OK
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sbvf
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Opfn
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Updbtf
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=Hflp
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=Entfr &pbti or foldfr nbmf:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtf&r
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Fo&ldfrs
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=F&ilfs
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=E&ntfr filf nbmf:
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Entfr foldfr nbmf:
+
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abort filf dioosfr diblog.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sbvf sflfdtfd filf.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Opfn sflfdtfd filf.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Updbtf dirfdtory listing.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=FilfCioosfr iflp.

@@ -1,48 +1,240 @@
 #
-# Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
+
+
+
+
 
 frror.dbnt.opfn=\u7121\u6CD5\u958B\u555F: {0} 
+frror.dbnt.opfn=\u7121\u6CD5\u958B\u555F: {0} 
+frror.dbnt.opfn=\u7121\u6CD5\u958B\u555F: {0} 
+frror.dbnt.opfn=\u7121\u6CD5\u958B\u555F: {0} 
+frror.dbnt.opfn=\u7121\u6CD5\u958B\u555F: {0} 
+frror.illfgbl.option=\u7121\u6548\u7684\u9078\u9805: {0}
+frror.illfgbl.option=\u7121\u6548\u7684\u9078\u9805: {0}
+frror.illfgbl.option=\u7121\u6548\u7684\u9078\u9805: {0}
+frror.illfgbl.option=\u7121\u6548\u7684\u9078\u9805: {0}
 frror.illfgbl.option=\u7121\u6548\u7684\u9078\u9805: {0}
 frror.bbd.option=\u5176\u4E2D\u4E00\u500B\u9078\u9805 -{dtxu} \u5FC5\u9808\u52A0\u4EE5\u6307\u5B9A\u3002
+frror.bbd.option=\u5176\u4E2D\u4E00\u500B\u9078\u9805 -{dtxu} \u5FC5\u9808\u52A0\u4EE5\u6307\u5B9A\u3002
+frror.bbd.option=\u5176\u4E2D\u4E00\u500B\u9078\u9805 -{dtxu} \u5FC5\u9808\u52A0\u4EE5\u6307\u5B9A\u3002
+frror.bbd.option=\u5176\u4E2D\u4E00\u500B\u9078\u9805 -{dtxu} \u5FC5\u9808\u52A0\u4EE5\u6307\u5B9A\u3002
+frror.bbd.option=\u5176\u4E2D\u4E00\u500B\u9078\u9805 -{dtxu} \u5FC5\u9808\u52A0\u4EE5\u6307\u5B9A\u3002
+frror.bbd.dflbg='d' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u6216\u8F38\u5165\u6A94\u6848\uFF01
+frror.bbd.dflbg='d' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u6216\u8F38\u5165\u6A94\u6848\uFF01
+frror.bbd.dflbg='d' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u6216\u8F38\u5165\u6A94\u6848\uFF01
+frror.bbd.dflbg='d' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u6216\u8F38\u5165\u6A94\u6848\uFF01
 frror.bbd.dflbg='d' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u6216\u8F38\u5165\u6A94\u6848\uFF01
 frror.bbd.uflbg='u' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u3001'f' \u65D7\u6A19\u6216\u8F38\u5165\u6A94\u6848\uFF01
+frror.bbd.uflbg='u' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u3001'f' \u65D7\u6A19\u6216\u8F38\u5165\u6A94\u6848\uFF01
+frror.bbd.uflbg='u' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u3001'f' \u65D7\u6A19\u6216\u8F38\u5165\u6A94\u6848\uFF01
+frror.bbd.uflbg='u' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u3001'f' \u65D7\u6A19\u6216\u8F38\u5165\u6A94\u6848\uFF01
+frror.bbd.uflbg='u' \u65D7\u6A19\u8981\u6C42\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u3001'f' \u65D7\u6A19\u6216\u8F38\u5165\u6A94\u6848\uFF01
 frror.bbd.fflbg=\u7121\u6CD5\u540C\u6642\u6307\u5B9A 'f' \u65D7\u6A19\u548C\u5177\u6709 'Mbin-Clbss' \u5C6C\u6027\u7684\n\u8CC7\u8A0A\u6E05\u55AE\uFF01
-frror.nosudh.filfordir={0} : \u6C92\u6709\u9019\u985E\u6A94\u6848\u6216\u76EE\u9304
+frror.bbd.fflbg=\u7121\u6CD5\u540C\u6642\u6307\u5B9A 'f' \u65D7\u6A19\u548C\u5177\u6709 'Mbin-Clbss' \u5C6C\u6027\u7684\n\u8CC7\u8A0A\u6E05\u55AE\uFF01
+frror.bbd.fflbg=\u7121\u6CD5\u540C\u6642\u6307\u5B9A 'f' \u65D7\u6A19\u548C\u5177\u6709 'Mbin-Clbss' \u5C6C\u6027\u7684\n\u8CC7\u8A0A\u6E05\u55AE\uFF01
+frror.bbd.fflbg=\u7121\u6CD5\u540C\u6642\u6307\u5B9A 'f' \u65D7\u6A19\u548C\u5177\u6709 'Mbin-Clbss' \u5C6C\u6027\u7684\n\u8CC7\u8A0A\u6E05\u55AE\uFF01
+frror.bbd.fflbg=\u7121\u6CD5\u540C\u6642\u6307\u5B9A 'f' \u65D7\u6A19\u548C\u5177\u6709 'Mbin-Clbss' \u5C6C\u6027\u7684\n\u8CC7\u8A0A\u6E05\u55AE\uFF01
+frror.nosudi.filfordir={0} : \u6C92\u6709\u9019\u985E\u6A94\u6848\u6216\u76EE\u9304
+frror.nosudi.filfordir={0} : \u6C92\u6709\u9019\u985E\u6A94\u6848\u6216\u76EE\u9304
+frror.nosudi.filfordir={0} : \u6C92\u6709\u9019\u985E\u6A94\u6848\u6216\u76EE\u9304
+frror.nosudi.filfordir={0} : \u6C92\u6709\u9019\u985E\u6A94\u6848\u6216\u76EE\u9304
+frror.nosudi.filfordir={0} : \u6C92\u6709\u9019\u985E\u6A94\u6848\u6216\u76EE\u9304
+frror.writf.filf=\u5BEB\u5165\u73FE\u6709\u7684 jbr \u6A94\u6848\u6642\u767C\u751F\u932F\u8AA4
+frror.writf.filf=\u5BEB\u5165\u73FE\u6709\u7684 jbr \u6A94\u6848\u6642\u767C\u751F\u932F\u8AA4
+frror.writf.filf=\u5BEB\u5165\u73FE\u6709\u7684 jbr \u6A94\u6848\u6642\u767C\u751F\u932F\u8AA4
+frror.writf.filf=\u5BEB\u5165\u73FE\u6709\u7684 jbr \u6A94\u6848\u6642\u767C\u751F\u932F\u8AA4
 frror.writf.filf=\u5BEB\u5165\u73FE\u6709\u7684 jbr \u6A94\u6848\u6642\u767C\u751F\u932F\u8AA4
 frror.drfbtf.dir={0} : \u7121\u6CD5\u5EFA\u7ACB\u76EE\u9304
-frror.indorrfdt.lfngth=\u8655\u7406 {0} \u6642\u9577\u5EA6\u4E0D\u6B63\u78BA
+frror.drfbtf.dir={0} : \u7121\u6CD5\u5EFA\u7ACB\u76EE\u9304
+frror.drfbtf.dir={0} : \u7121\u6CD5\u5EFA\u7ACB\u76EE\u9304
+frror.drfbtf.dir={0} : \u7121\u6CD5\u5EFA\u7ACB\u76EE\u9304
+frror.drfbtf.dir={0} : \u7121\u6CD5\u5EFA\u7ACB\u76EE\u9304
+frror.indorrfdt.lfngti=\u8655\u7406 {0} \u6642\u9577\u5EA6\u4E0D\u6B63\u78BA
+frror.indorrfdt.lfngti=\u8655\u7406 {0} \u6642\u9577\u5EA6\u4E0D\u6B63\u78BA
+frror.indorrfdt.lfngti=\u8655\u7406 {0} \u6642\u9577\u5EA6\u4E0D\u6B63\u78BA
+frror.indorrfdt.lfngti=\u8655\u7406 {0} \u6642\u9577\u5EA6\u4E0D\u6B63\u78BA
+frror.indorrfdt.lfngti=\u8655\u7406 {0} \u6642\u9577\u5EA6\u4E0D\u6B63\u78BA
+frror.drfbtf.tfmpfilf=\u7121\u6CD5\u5EFA\u7ACB\u66AB\u5B58\u6A94\u6848
+frror.drfbtf.tfmpfilf=\u7121\u6CD5\u5EFA\u7ACB\u66AB\u5B58\u6A94\u6848
+frror.drfbtf.tfmpfilf=\u7121\u6CD5\u5EFA\u7ACB\u66AB\u5B58\u6A94\u6848
+frror.drfbtf.tfmpfilf=\u7121\u6CD5\u5EFA\u7ACB\u66AB\u5B58\u6A94\u6848
 frror.drfbtf.tfmpfilf=\u7121\u6CD5\u5EFA\u7ACB\u66AB\u5B58\u6A94\u6848
 out.bddfd.mbniffst=\u5DF2\u65B0\u589E\u8CC7\u8A0A\u6E05\u55AE
+out.bddfd.mbniffst=\u5DF2\u65B0\u589E\u8CC7\u8A0A\u6E05\u55AE
+out.bddfd.mbniffst=\u5DF2\u65B0\u589E\u8CC7\u8A0A\u6E05\u55AE
+out.bddfd.mbniffst=\u5DF2\u65B0\u589E\u8CC7\u8A0A\u6E05\u55AE
+out.bddfd.mbniffst=\u5DF2\u65B0\u589E\u8CC7\u8A0A\u6E05\u55AE
+out.updbtf.mbniffst=\u5DF2\u66F4\u65B0\u8CC7\u8A0A\u6E05\u55AE
+out.updbtf.mbniffst=\u5DF2\u66F4\u65B0\u8CC7\u8A0A\u6E05\u55AE
+out.updbtf.mbniffst=\u5DF2\u66F4\u65B0\u8CC7\u8A0A\u6E05\u55AE
+out.updbtf.mbniffst=\u5DF2\u66F4\u65B0\u8CC7\u8A0A\u6E05\u55AE
 out.updbtf.mbniffst=\u5DF2\u66F4\u65B0\u8CC7\u8A0A\u6E05\u55AE
 out.ignorf.fntry=\u5FFD\u7565\u9805\u76EE {0}
+out.ignorf.fntry=\u5FFD\u7565\u9805\u76EE {0}
+out.ignorf.fntry=\u5FFD\u7565\u9805\u76EE {0}
+out.ignorf.fntry=\u5FFD\u7565\u9805\u76EE {0}
+out.ignorf.fntry=\u5FFD\u7565\u9805\u76EE {0}
+out.bdding=\u65B0\u589E: {0}
+out.bdding=\u65B0\u589E: {0}
+out.bdding=\u65B0\u589E: {0}
+out.bdding=\u65B0\u589E: {0}
 out.bdding=\u65B0\u589E: {0}
 out.dfflbtfd=(\u58D3\u7E2E {0}%)
+out.dfflbtfd=(\u58D3\u7E2E {0}%)
+out.dfflbtfd=(\u58D3\u7E2E {0}%)
+out.dfflbtfd=(\u58D3\u7E2E {0}%)
+out.dfflbtfd=(\u58D3\u7E2E {0}%)
+out.storfd=(\u5132\u5B58 0%)
+out.storfd=(\u5132\u5B58 0%)
+out.storfd=(\u5132\u5B58 0%)
+out.storfd=(\u5132\u5B58 0%)
 out.storfd=(\u5132\u5B58 0%)
 out.drfbtf=\  \u5EFA\u7ACB: {0}
+out.drfbtf=\  \u5EFA\u7ACB: {0}
+out.drfbtf=\  \u5EFA\u7ACB: {0}
+out.drfbtf=\  \u5EFA\u7ACB: {0}
+out.drfbtf=\  \u5EFA\u7ACB: {0}
+out.fxtrbdtfd=\u64F7\u53D6: {0}
+out.fxtrbdtfd=\u64F7\u53D6: {0}
+out.fxtrbdtfd=\u64F7\u53D6: {0}
+out.fxtrbdtfd=\u64F7\u53D6: {0}
 out.fxtrbdtfd=\u64F7\u53D6: {0}
 out.inflbtfd=\ \u64F4\u5C55: {0}
+out.inflbtfd=\ \u64F4\u5C55: {0}
+out.inflbtfd=\ \u64F4\u5C55: {0}
+out.inflbtfd=\ \u64F4\u5C55: {0}
+out.inflbtfd=\ \u64F4\u5C55: {0}
+out.sizf=\ (\u8B80={0})(\u5BEB={1})
+out.sizf=\ (\u8B80={0})(\u5BEB={1})
+out.sizf=\ (\u8B80={0})(\u5BEB={1})
+out.sizf=\ (\u8B80={0})(\u5BEB={1})
 out.sizf=\ (\u8B80={0})(\u5BEB={1})
 
+
+
+
+
+usbgf=\u7528\u6CD5: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] \u6A94\u6848 ...\n\u9078\u9805:\n    -d  \u5EFA\u7ACB\u65B0\u7684\u6B78\u6A94\n    -t  \u5217\u51FA\u6B78\u6A94\u7684\u76EE\u9304\n    -x  \u5F9E\u6B78\u6A94\u4E2D\u64F7\u53D6\u5DF2\u547D\u540D\u7684 (\u6216\u6240\u6709) \u6A94\u6848\n    -u  \u66F4\u65B0\u73FE\u6709\u6B78\u6A94\n    -v  \u5728\u6A19\u6E96\u8F38\u51FA\u4E2D\u7522\u751F\u8A73\u7D30\u8F38\u51FA\n    -f  \u6307\u5B9A\u6B78\u6A94\u6A94\u6848\u540D\u7A31\n    -m  \u5305\u542B\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u4E2D\u7684\u8CC7\u8A0A\u6E05\u55AE\u8CC7\u8A0A\n    -n  \u5728\u5EFA\u7ACB\u65B0\u6B78\u6A94\u4E4B\u5F8C\u57F7\u884C Pbdk200 \u6B63\u898F\u5316\n    -f  \u70BA\u5DF2\u96A8\u9644\u65BC\u53EF\u57F7\u884C jbr \u6A94\u6848\u4E2D\u7684\u7368\u7ACB\u61C9\u7528\u7A0B\u5F0F\n        \u6307\u5B9A\u61C9\u7528\u7A0B\u5F0F\u9032\u5165\u9EDE\n    -0  \u50C5\u5132\u5B58; \u4E0D\u4F7F\u7528 ZIP \u58D3\u7E2E\u65B9\u5F0F\n    -M  \u4E0D\u70BA\u9805\u76EE\u5EFA\u7ACB\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848\n    -i  \u70BA\u6307\u5B9A\u7684 jbr \u6A94\u6848\u7522\u751F\u7D22\u5F15\u8CC7\u8A0A\n    -C  \u8B8A\u66F4\u81F3\u6307\u5B9A\u76EE\u9304\u4E26\u5305\u542B\u5F8C\u9762\u6240\u5217\u7684\u6A94\u6848\n\u5982\u679C\u6709\u4EFB\u4F55\u6A94\u6848\u662F\u76EE\u9304\uFF0C\u5247\u6703\u5C0D\u5176\u9032\u884C\u905E\u8FF4\u8655\u7406\u3002\n\u6E05\u55AE\u6A94\u6848\u540D\u7A31\u3001\u6B78\u6A94\u6A94\u6848\u540D\u7A31\u548C\u9032\u5165\u9EDE\u540D\u7A31\n\u7684\u6307\u5B9A\u9806\u5E8F\u8207\u6307\u5B9A 'm' \u65D7\u6A19\u3001'f' \u65D7\u6A19\u548C 'f' \u65D7\u6A19\u7684\u9806\u5E8F\u76F8\u540C\u3002\n\n\u7BC4\u4F8B 1: \u5C07\u5169\u500B\u985E\u5225\u6A94\u6848\u6B78\u6A94\u81F3\u540D\u70BA dlbssfs.jbr \u7684\u6B78\u6A94\u4E2D: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss\n\u7BC4\u4F8B 2: \u4F7F\u7528\u73FE\u6709\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848 'mymbniffst' \u4E26\u5C07\n           foo/ \u76EE\u9304\u4E2D\u7684\u6240\u6709\u6A94\u6848\u6B78\u6A94\u81F3 'dlbssfs.jbr' \u4E2D: \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=\u7528\u6CD5: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] \u6A94\u6848 ...\n\u9078\u9805:\n    -d  \u5EFA\u7ACB\u65B0\u7684\u6B78\u6A94\n    -t  \u5217\u51FA\u6B78\u6A94\u7684\u76EE\u9304\n    -x  \u5F9E\u6B78\u6A94\u4E2D\u64F7\u53D6\u5DF2\u547D\u540D\u7684 (\u6216\u6240\u6709) \u6A94\u6848\n    -u  \u66F4\u65B0\u73FE\u6709\u6B78\u6A94\n    -v  \u5728\u6A19\u6E96\u8F38\u51FA\u4E2D\u7522\u751F\u8A73\u7D30\u8F38\u51FA\n    -f  \u6307\u5B9A\u6B78\u6A94\u6A94\u6848\u540D\u7A31\n    -m  \u5305\u542B\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u4E2D\u7684\u8CC7\u8A0A\u6E05\u55AE\u8CC7\u8A0A\n    -n  \u5728\u5EFA\u7ACB\u65B0\u6B78\u6A94\u4E4B\u5F8C\u57F7\u884C Pbdk200 \u6B63\u898F\u5316\n    -f  \u70BA\u5DF2\u96A8\u9644\u65BC\u53EF\u57F7\u884C jbr \u6A94\u6848\u4E2D\u7684\u7368\u7ACB\u61C9\u7528\u7A0B\u5F0F\n        \u6307\u5B9A\u61C9\u7528\u7A0B\u5F0F\u9032\u5165\u9EDE\n    -0  \u50C5\u5132\u5B58; \u4E0D\u4F7F\u7528 ZIP \u58D3\u7E2E\u65B9\u5F0F\n    -M  \u4E0D\u70BA\u9805\u76EE\u5EFA\u7ACB\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848\n    -i  \u70BA\u6307\u5B9A\u7684 jbr \u6A94\u6848\u7522\u751F\u7D22\u5F15\u8CC7\u8A0A\n    -C  \u8B8A\u66F4\u81F3\u6307\u5B9A\u76EE\u9304\u4E26\u5305\u542B\u5F8C\u9762\u6240\u5217\u7684\u6A94\u6848\n\u5982\u679C\u6709\u4EFB\u4F55\u6A94\u6848\u662F\u76EE\u9304\uFF0C\u5247\u6703\u5C0D\u5176\u9032\u884C\u905E\u8FF4\u8655\u7406\u3002\n\u6E05\u55AE\u6A94\u6848\u540D\u7A31\u3001\u6B78\u6A94\u6A94\u6848\u540D\u7A31\u548C\u9032\u5165\u9EDE\u540D\u7A31\n\u7684\u6307\u5B9A\u9806\u5E8F\u8207\u6307\u5B9A 'm' \u65D7\u6A19\u3001'f' \u65D7\u6A19\u548C 'f' \u65D7\u6A19\u7684\u9806\u5E8F\u76F8\u540C\u3002\n\n\u7BC4\u4F8B 1: \u5C07\u5169\u500B\u985E\u5225\u6A94\u6848\u6B78\u6A94\u81F3\u540D\u70BA dlbssfs.jbr \u7684\u6B78\u6A94\u4E2D: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss\n\u7BC4\u4F8B 2: \u4F7F\u7528\u73FE\u6709\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848 'mymbniffst' \u4E26\u5C07\n           foo/ \u76EE\u9304\u4E2D\u7684\u6240\u6709\u6A94\u6848\u6B78\u6A94\u81F3 'dlbssfs.jbr' \u4E2D: \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=\u7528\u6CD5: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] \u6A94\u6848 ...\n\u9078\u9805:\n    -d  \u5EFA\u7ACB\u65B0\u7684\u6B78\u6A94\n    -t  \u5217\u51FA\u6B78\u6A94\u7684\u76EE\u9304\n    -x  \u5F9E\u6B78\u6A94\u4E2D\u64F7\u53D6\u5DF2\u547D\u540D\u7684 (\u6216\u6240\u6709) \u6A94\u6848\n    -u  \u66F4\u65B0\u73FE\u6709\u6B78\u6A94\n    -v  \u5728\u6A19\u6E96\u8F38\u51FA\u4E2D\u7522\u751F\u8A73\u7D30\u8F38\u51FA\n    -f  \u6307\u5B9A\u6B78\u6A94\u6A94\u6848\u540D\u7A31\n    -m  \u5305\u542B\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u4E2D\u7684\u8CC7\u8A0A\u6E05\u55AE\u8CC7\u8A0A\n    -n  \u5728\u5EFA\u7ACB\u65B0\u6B78\u6A94\u4E4B\u5F8C\u57F7\u884C Pbdk200 \u6B63\u898F\u5316\n    -f  \u70BA\u5DF2\u96A8\u9644\u65BC\u53EF\u57F7\u884C jbr \u6A94\u6848\u4E2D\u7684\u7368\u7ACB\u61C9\u7528\u7A0B\u5F0F\n        \u6307\u5B9A\u61C9\u7528\u7A0B\u5F0F\u9032\u5165\u9EDE\n    -0  \u50C5\u5132\u5B58; \u4E0D\u4F7F\u7528 ZIP \u58D3\u7E2E\u65B9\u5F0F\n    -M  \u4E0D\u70BA\u9805\u76EE\u5EFA\u7ACB\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848\n    -i  \u70BA\u6307\u5B9A\u7684 jbr \u6A94\u6848\u7522\u751F\u7D22\u5F15\u8CC7\u8A0A\n    -C  \u8B8A\u66F4\u81F3\u6307\u5B9A\u76EE\u9304\u4E26\u5305\u542B\u5F8C\u9762\u6240\u5217\u7684\u6A94\u6848\n\u5982\u679C\u6709\u4EFB\u4F55\u6A94\u6848\u662F\u76EE\u9304\uFF0C\u5247\u6703\u5C0D\u5176\u9032\u884C\u905E\u8FF4\u8655\u7406\u3002\n\u6E05\u55AE\u6A94\u6848\u540D\u7A31\u3001\u6B78\u6A94\u6A94\u6848\u540D\u7A31\u548C\u9032\u5165\u9EDE\u540D\u7A31\n\u7684\u6307\u5B9A\u9806\u5E8F\u8207\u6307\u5B9A 'm' \u65D7\u6A19\u3001'f' \u65D7\u6A19\u548C 'f' \u65D7\u6A19\u7684\u9806\u5E8F\u76F8\u540C\u3002\n\n\u7BC4\u4F8B 1: \u5C07\u5169\u500B\u985E\u5225\u6A94\u6848\u6B78\u6A94\u81F3\u540D\u70BA dlbssfs.jbr \u7684\u6B78\u6A94\u4E2D: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss\n\u7BC4\u4F8B 2: \u4F7F\u7528\u73FE\u6709\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848 'mymbniffst' \u4E26\u5C07\n           foo/ \u76EE\u9304\u4E2D\u7684\u6240\u6709\u6A94\u6848\u6B78\u6A94\u81F3 'dlbssfs.jbr' \u4E2D: \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
+usbgf=\u7528\u6CD5: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] \u6A94\u6848 ...\n\u9078\u9805:\n    -d  \u5EFA\u7ACB\u65B0\u7684\u6B78\u6A94\n    -t  \u5217\u51FA\u6B78\u6A94\u7684\u76EE\u9304\n    -x  \u5F9E\u6B78\u6A94\u4E2D\u64F7\u53D6\u5DF2\u547D\u540D\u7684 (\u6216\u6240\u6709) \u6A94\u6848\n    -u  \u66F4\u65B0\u73FE\u6709\u6B78\u6A94\n    -v  \u5728\u6A19\u6E96\u8F38\u51FA\u4E2D\u7522\u751F\u8A73\u7D30\u8F38\u51FA\n    -f  \u6307\u5B9A\u6B78\u6A94\u6A94\u6848\u540D\u7A31\n    -m  \u5305\u542B\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u4E2D\u7684\u8CC7\u8A0A\u6E05\u55AE\u8CC7\u8A0A\n    -n  \u5728\u5EFA\u7ACB\u65B0\u6B78\u6A94\u4E4B\u5F8C\u57F7\u884C Pbdk200 \u6B63\u898F\u5316\n    -f  \u70BA\u5DF2\u96A8\u9644\u65BC\u53EF\u57F7\u884C jbr \u6A94\u6848\u4E2D\u7684\u7368\u7ACB\u61C9\u7528\u7A0B\u5F0F\n        \u6307\u5B9A\u61C9\u7528\u7A0B\u5F0F\u9032\u5165\u9EDE\n    -0  \u50C5\u5132\u5B58; \u4E0D\u4F7F\u7528 ZIP \u58D3\u7E2E\u65B9\u5F0F\n    -M  \u4E0D\u70BA\u9805\u76EE\u5EFA\u7ACB\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848\n    -i  \u70BA\u6307\u5B9A\u7684 jbr \u6A94\u6848\u7522\u751F\u7D22\u5F15\u8CC7\u8A0A\n    -C  \u8B8A\u66F4\u81F3\u6307\u5B9A\u76EE\u9304\u4E26\u5305\u542B\u5F8C\u9762\u6240\u5217\u7684\u6A94\u6848\n\u5982\u679C\u6709\u4EFB\u4F55\u6A94\u6848\u662F\u76EE\u9304\uFF0C\u5247\u6703\u5C0D\u5176\u9032\u884C\u905E\u8FF4\u8655\u7406\u3002\n\u6E05\u55AE\u6A94\u6848\u540D\u7A31\u3001\u6B78\u6A94\u6A94\u6848\u540D\u7A31\u548C\u9032\u5165\u9EDE\u540D\u7A31\n\u7684\u6307\u5B9A\u9806\u5E8F\u8207\u6307\u5B9A 'm' \u65D7\u6A19\u3001'f' \u65D7\u6A19\u548C 'f' \u65D7\u6A19\u7684\u9806\u5E8F\u76F8\u540C\u3002\n\n\u7BC4\u4F8B 1: \u5C07\u5169\u500B\u985E\u5225\u6A94\u6848\u6B78\u6A94\u81F3\u540D\u70BA dlbssfs.jbr \u7684\u6B78\u6A94\u4E2D: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss\n\u7BC4\u4F8B 2: \u4F7F\u7528\u73FE\u6709\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848 'mymbniffst' \u4E26\u5C07\n           foo/ \u76EE\u9304\u4E2D\u7684\u6240\u6709\u6A94\u6848\u6B78\u6A94\u81F3 'dlbssfs.jbr' \u4E2D: \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n
 usbgf=\u7528\u6CD5: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] \u6A94\u6848 ...\n\u9078\u9805:\n    -d  \u5EFA\u7ACB\u65B0\u7684\u6B78\u6A94\n    -t  \u5217\u51FA\u6B78\u6A94\u7684\u76EE\u9304\n    -x  \u5F9E\u6B78\u6A94\u4E2D\u64F7\u53D6\u5DF2\u547D\u540D\u7684 (\u6216\u6240\u6709) \u6A94\u6848\n    -u  \u66F4\u65B0\u73FE\u6709\u6B78\u6A94\n    -v  \u5728\u6A19\u6E96\u8F38\u51FA\u4E2D\u7522\u751F\u8A73\u7D30\u8F38\u51FA\n    -f  \u6307\u5B9A\u6B78\u6A94\u6A94\u6848\u540D\u7A31\n    -m  \u5305\u542B\u6307\u5B9A\u8CC7\u8A0A\u6E05\u55AE\u4E2D\u7684\u8CC7\u8A0A\u6E05\u55AE\u8CC7\u8A0A\n    -n  \u5728\u5EFA\u7ACB\u65B0\u6B78\u6A94\u4E4B\u5F8C\u57F7\u884C Pbdk200 \u6B63\u898F\u5316\n    -f  \u70BA\u5DF2\u96A8\u9644\u65BC\u53EF\u57F7\u884C jbr \u6A94\u6848\u4E2D\u7684\u7368\u7ACB\u61C9\u7528\u7A0B\u5F0F\n        \u6307\u5B9A\u61C9\u7528\u7A0B\u5F0F\u9032\u5165\u9EDE\n    -0  \u50C5\u5132\u5B58; \u4E0D\u4F7F\u7528 ZIP \u58D3\u7E2E\u65B9\u5F0F\n    -M  \u4E0D\u70BA\u9805\u76EE\u5EFA\u7ACB\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848\n    -i  \u70BA\u6307\u5B9A\u7684 jbr \u6A94\u6848\u7522\u751F\u7D22\u5F15\u8CC7\u8A0A\n    -C  \u8B8A\u66F4\u81F3\u6307\u5B9A\u76EE\u9304\u4E26\u5305\u542B\u5F8C\u9762\u6240\u5217\u7684\u6A94\u6848\n\u5982\u679C\u6709\u4EFB\u4F55\u6A94\u6848\u662F\u76EE\u9304\uFF0C\u5247\u6703\u5C0D\u5176\u9032\u884C\u905E\u8FF4\u8655\u7406\u3002\n\u6E05\u55AE\u6A94\u6848\u540D\u7A31\u3001\u6B78\u6A94\u6A94\u6848\u540D\u7A31\u548C\u9032\u5165\u9EDE\u540D\u7A31\n\u7684\u6307\u5B9A\u9806\u5E8F\u8207\u6307\u5B9A 'm' \u65D7\u6A19\u3001'f' \u65D7\u6A19\u548C 'f' \u65D7\u6A19\u7684\u9806\u5E8F\u76F8\u540C\u3002\n\n\u7BC4\u4F8B 1: \u5C07\u5169\u500B\u985E\u5225\u6A94\u6848\u6B78\u6A94\u81F3\u540D\u70BA dlbssfs.jbr \u7684\u6B78\u6A94\u4E2D: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss\n\u7BC4\u4F8B 2: \u4F7F\u7528\u73FE\u6709\u8CC7\u8A0A\u6E05\u55AE\u6A94\u6848 'mymbniffst' \u4E26\u5C07\n           foo/ \u76EE\u9304\u4E2D\u7684\u6240\u6709\u6A94\u6848\u6B78\u6A94\u81F3 'dlbssfs.jbr' \u4E2D: \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

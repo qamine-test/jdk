@@ -1,93 +1,465 @@
 #
 #
-# Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+#
+#
+#
+#
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
-# Lodblizbtions for Lfvfl nbmfs.  For thf US lodblf
-# thfsf brf thf sbmf bs thf non-lodblizfd lfvfl nbmf.
+
+
+
+
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# Lodblizbtions for Lfvfl nbmfs.  For tif US lodblf
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+# tifsf brf tif sbmf bs tif non-lodblizfd lfvfl nbmf.
+
+
+
+
 
 bgfnt.frr.frror			   = \u30A8\u30E9\u30FC
+bgfnt.frr.frror			   = \u30A8\u30E9\u30FC
+bgfnt.frr.frror			   = \u30A8\u30E9\u30FC
+bgfnt.frr.frror			   = \u30A8\u30E9\u30FC
+bgfnt.frr.frror			   = \u30A8\u30E9\u30FC
+bgfnt.frr.fxdfption                = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u304C\u4F8B\u5916\u3092\u30B9\u30ED\u30FC\u3057\u307E\u3057\u305F 
+bgfnt.frr.fxdfption                = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u304C\u4F8B\u5916\u3092\u30B9\u30ED\u30FC\u3057\u307E\u3057\u305F 
+bgfnt.frr.fxdfption                = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u304C\u4F8B\u5916\u3092\u30B9\u30ED\u30FC\u3057\u307E\u3057\u305F 
+bgfnt.frr.fxdfption                = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u304C\u4F8B\u5916\u3092\u30B9\u30ED\u30FC\u3057\u307E\u3057\u305F 
 bgfnt.frr.fxdfption                = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u304C\u4F8B\u5916\u3092\u30B9\u30ED\u30FC\u3057\u307E\u3057\u305F 
 bgfnt.frr.wbrning		   = \u8B66\u544A
+bgfnt.frr.wbrning		   = \u8B66\u544A
+bgfnt.frr.wbrning		   = \u8B66\u544A
+bgfnt.frr.wbrning		   = \u8B66\u544A
+bgfnt.frr.wbrning		   = \u8B66\u544A
+
+
+
+
 
 bgfnt.frr.donfigfilf.notfound      = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.donfigfilf.notfound      = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.donfigfilf.notfound      = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.donfigfilf.notfound      = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.donfigfilf.notfound      = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.donfigfilf.fbilfd        = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.donfigfilf.fbilfd        = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.donfigfilf.fbilfd        = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.donfigfilf.fbilfd        = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
 bgfnt.frr.donfigfilf.fbilfd        = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
 bgfnt.frr.donfigfilf.dlosfd.fbilfd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3092\u9589\u3058\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3092\u9589\u3058\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3092\u9589\u3058\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3092\u9589\u3058\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.donfigfilf.dlosfd.fbilfd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3092\u9589\u3058\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.donfigfilf.bddfss.dfnifd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.donfigfilf.bddfss.dfnifd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.donfigfilf.bddfss.dfnifd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.donfigfilf.bddfss.dfnifd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
 bgfnt.frr.donfigfilf.bddfss.dfnifd = \u69CB\u6210\u30D5\u30A1\u30A4\u30EB\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
 
+
+
+
+
+bgfnt.frr.fxportbddrfss.fbilfd	   = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30A2\u30C9\u30EC\u30B9\u306E\u8A08\u6E2C\u30D0\u30C3\u30D5\u30A1\u3078\u306E\u30A8\u30AF\u30B9\u30DD\u30FC\u30C8\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.fxportbddrfss.fbilfd	   = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30A2\u30C9\u30EC\u30B9\u306E\u8A08\u6E2C\u30D0\u30C3\u30D5\u30A1\u3078\u306E\u30A8\u30AF\u30B9\u30DD\u30FC\u30C8\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.fxportbddrfss.fbilfd	   = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30A2\u30C9\u30EC\u30B9\u306E\u8A08\u6E2C\u30D0\u30C3\u30D5\u30A1\u3078\u306E\u30A8\u30AF\u30B9\u30DD\u30FC\u30C8\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.fxportbddrfss.fbilfd	   = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30A2\u30C9\u30EC\u30B9\u306E\u8A08\u6E2C\u30D0\u30C3\u30D5\u30A1\u3078\u306E\u30A8\u30AF\u30B9\u30DD\u30FC\u30C8\u306B\u5931\u6557\u3057\u307E\u3057\u305F
 bgfnt.frr.fxportbddrfss.fbilfd	   = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30A2\u30C9\u30EC\u30B9\u306E\u8A08\u6E2C\u30D0\u30C3\u30D5\u30A1\u3078\u306E\u30A8\u30AF\u30B9\u30DD\u30FC\u30C8\u306B\u5931\u6557\u3057\u307E\u3057\u305F
 
+
+
+
+
+bgfnt.frr.bgfntdlbss.notfound      = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bgfntdlbss.notfound      = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bgfntdlbss.notfound      = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bgfntdlbss.notfound      = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
 bgfnt.frr.bgfntdlbss.notfound      = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
 bgfnt.frr.bgfntdlbss.fbilfd        = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u5931\u6557\u3057\u307E\u3057\u305F 
+bgfnt.frr.bgfntdlbss.fbilfd        = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u5931\u6557\u3057\u307E\u3057\u305F 
+bgfnt.frr.bgfntdlbss.fbilfd        = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u5931\u6557\u3057\u307E\u3057\u305F 
+bgfnt.frr.bgfntdlbss.fbilfd        = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u5931\u6557\u3057\u307E\u3057\u305F 
+bgfnt.frr.bgfntdlbss.fbilfd        = \u7BA1\u7406\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u304C\u5931\u6557\u3057\u307E\u3057\u305F 
+bgfnt.frr.prfmbin.notfound         = prfmbin(String)\u304C\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u306B\u5B58\u5728\u3057\u307E\u305B\u3093
+bgfnt.frr.prfmbin.notfound         = prfmbin(String)\u304C\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u306B\u5B58\u5728\u3057\u307E\u305B\u3093
+bgfnt.frr.prfmbin.notfound         = prfmbin(String)\u304C\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u306B\u5B58\u5728\u3057\u307E\u305B\u3093
+bgfnt.frr.prfmbin.notfound         = prfmbin(String)\u304C\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u306B\u5B58\u5728\u3057\u307E\u305B\u3093
 bgfnt.frr.prfmbin.notfound         = prfmbin(String)\u304C\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u30FB\u30AF\u30E9\u30B9\u306B\u5B58\u5728\u3057\u307E\u305B\u3093
 bgfnt.frr.bgfntdlbss.bddfss.dfnifd = prfmbin(String)\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = prfmbin(String)\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = prfmbin(String)\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = prfmbin(String)\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.bgfntdlbss.bddfss.dfnifd = prfmbin(String)\u3078\u306E\u30A2\u30AF\u30BB\u30B9\u304C\u62D2\u5426\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.invblid.bgfntdlbss       = dom.sun.mbnbgfmfnt.bgfnt.dlbss\u30D7\u30ED\u30D1\u30C6\u30A3\u306E\u5024\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.bgfntdlbss       = dom.sun.mbnbgfmfnt.bgfnt.dlbss\u30D7\u30ED\u30D1\u30C6\u30A3\u306E\u5024\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.bgfntdlbss       = dom.sun.mbnbgfmfnt.bgfnt.dlbss\u30D7\u30ED\u30D1\u30C6\u30A3\u306E\u5024\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.bgfntdlbss       = dom.sun.mbnbgfmfnt.bgfnt.dlbss\u30D7\u30ED\u30D1\u30C6\u30A3\u306E\u5024\u304C\u7121\u52B9\u3067\u3059
 bgfnt.frr.invblid.bgfntdlbss       = dom.sun.mbnbgfmfnt.bgfnt.dlbss\u30D7\u30ED\u30D1\u30C6\u30A3\u306E\u5024\u304C\u7121\u52B9\u3067\u3059
 bgfnt.frr.invblid.stbtf            = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u306E\u72B6\u614B\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.stbtf            = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u306E\u72B6\u614B\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.stbtf            = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u306E\u72B6\u614B\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.stbtf            = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u306E\u72B6\u614B\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.stbtf            = \u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u306E\u72B6\u614B\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.port   = dom.sun.mbnbgfmfnt.jmxrfmotf.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.port   = dom.sun.mbnbgfmfnt.jmxrfmotf.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.port   = dom.sun.mbnbgfmfnt.jmxrfmotf.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.port   = dom.sun.mbnbgfmfnt.jmxrfmotf.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
 bgfnt.frr.invblid.jmxrfmotf.port   = dom.sun.mbnbgfmfnt.jmxrfmotf.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
 bgfnt.frr.invblid.jmxrfmotf.rmi.port = dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.jmxrfmotf.rmi.port = dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+
+
+
+
 
 bgfnt.frr.filf.not.sft               = \u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093
+bgfnt.frr.filf.not.sft               = \u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093
+bgfnt.frr.filf.not.sft               = \u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093
+bgfnt.frr.filf.not.sft               = \u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093
+bgfnt.frr.filf.not.sft               = \u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093
+bgfnt.frr.filf.not.rfbdbblf          = \u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.filf.not.rfbdbblf          = \u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.filf.not.rfbdbblf          = \u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.filf.not.rfbdbblf          = \u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.filf.not.rfbdbblf          = \u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.filf.rfbd.fbilfd           = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.filf.rfbd.fbilfd           = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.filf.rfbd.fbilfd           = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.filf.rfbd.fbilfd           = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.filf.rfbd.fbilfd           = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.filf.not.found             = \u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.filf.not.found             = \u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.filf.not.found             = \u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.filf.not.found             = \u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F
 bgfnt.frr.filf.not.found             = \u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3067\u3057\u305F
 bgfnt.frr.filf.bddfss.not.rfstridtfd = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.filf.bddfss.not.rfstridtfd = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.filf.bddfss.not.rfstridtfd = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.filf.bddfss.not.rfstridtfd = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.filf.bddfss.not.rfstridtfd = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
 
-bgfnt.frr.pbssword.filf.notsft     = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+
+
+
+
+bgfnt.frr.pbssword.filf.notsft     = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.pbssword.filf.notsft     = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.pbssword.filf.notsft     = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.pbssword.filf.notsft     = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.pbssword.filf.notsft     = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.pbssword.filf.not.rfbdbblf = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.pbssword.filf.not.rfbdbblf = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.pbssword.filf.not.rfbdbblf = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.pbssword.filf.not.rfbdbblf = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.pbssword.filf.not.rfbdbblf = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.pbssword.filf.rfbd.fbilfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.pbssword.filf.rfbd.fbilfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.pbssword.filf.notfound   = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.pbssword.filf.notfound   = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.pbssword.filf.notfound   = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.pbssword.filf.notfound   = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
 bgfnt.frr.pbssword.filf.notfound   = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
 bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.pbssword.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
 
-bgfnt.frr.bddfss.filf.notsft       = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+
+
+
+
+bgfnt.frr.bddfss.filf.notsft       = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bddfss.filf.notsft       = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bddfss.filf.notsft       = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bddfss.filf.notsft       = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bddfss.filf.notsft       = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bddfss.filf.not.rfbdbblf = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.bddfss.filf.not.rfbdbblf = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.bddfss.filf.not.rfbdbblf = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.bddfss.filf.not.rfbdbblf = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.bddfss.filf.not.rfbdbblf = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.bddfss.filf.rfbd.fbilfd  = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bddfss.filf.rfbd.fbilfd  = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bddfss.filf.notfound     = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bddfss.filf.notfound     = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bddfss.filf.notfound     = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bddfss.filf.notfound     = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
 bgfnt.frr.bddfss.filf.notfound     = \u30A2\u30AF\u30BB\u30B9\u30FB\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
 
+
+
+
+
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u306E\u901A\u4FE1\u30A8\u30E9\u30FC
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u306E\u901A\u4FE1\u30A8\u30E9\u30FC
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u306E\u901A\u4FE1\u30A8\u30E9\u30FC
+bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u306E\u901A\u4FE1\u30A8\u30E9\u30FC
 bgfnt.frr.donnfdtor.sfrvfr.io.frror = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u306E\u901A\u4FE1\u30A8\u30E9\u30FC
 
+
+
+
+
+bgfnt.frr.invblid.option	   = \u7121\u52B9\u306A\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u6307\u5B9A\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.invblid.option	   = \u7121\u52B9\u306A\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u6307\u5B9A\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.invblid.option	   = \u7121\u52B9\u306A\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u6307\u5B9A\u3055\u308C\u307E\u3057\u305F
+bgfnt.frr.invblid.option	   = \u7121\u52B9\u306A\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u6307\u5B9A\u3055\u308C\u307E\u3057\u305F
 bgfnt.frr.invblid.option	   = \u7121\u52B9\u306A\u30AA\u30D7\u30B7\u30E7\u30F3\u304C\u6307\u5B9A\u3055\u308C\u307E\u3057\u305F
 bgfnt.frr.invblid.snmp.port        = dom.sun.mbnbgfmfnt.snmp.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.port        = dom.sun.mbnbgfmfnt.snmp.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.port        = dom.sun.mbnbgfmfnt.snmp.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.port        = dom.sun.mbnbgfmfnt.snmp.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.port        = dom.sun.mbnbgfmfnt.snmp.port\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.trbp.port   = dom.sun.mbnbgfmfnt.snmp.trbp\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.trbp.port   = dom.sun.mbnbgfmfnt.snmp.trbp\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.trbp.port   = dom.sun.mbnbgfmfnt.snmp.trbp\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
+bgfnt.frr.invblid.snmp.trbp.port   = dom.sun.mbnbgfmfnt.snmp.trbp\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
 bgfnt.frr.invblid.snmp.trbp.port   = dom.sun.mbnbgfmfnt.snmp.trbp\u306E\u756A\u53F7\u304C\u7121\u52B9\u3067\u3059
 bgfnt.frr.unknown.snmp.intfrfbdf   = \u4E0D\u660E\u306ASNMP\u30A4\u30F3\u30BF\u30D5\u30A7\u30FC\u30B9\u3067\u3059
+bgfnt.frr.unknown.snmp.intfrfbdf   = \u4E0D\u660E\u306ASNMP\u30A4\u30F3\u30BF\u30D5\u30A7\u30FC\u30B9\u3067\u3059
+bgfnt.frr.unknown.snmp.intfrfbdf   = \u4E0D\u660E\u306ASNMP\u30A4\u30F3\u30BF\u30D5\u30A7\u30FC\u30B9\u3067\u3059
+bgfnt.frr.unknown.snmp.intfrfbdf   = \u4E0D\u660E\u306ASNMP\u30A4\u30F3\u30BF\u30D5\u30A7\u30FC\u30B9\u3067\u3059
+bgfnt.frr.unknown.snmp.intfrfbdf   = \u4E0D\u660E\u306ASNMP\u30A4\u30F3\u30BF\u30D5\u30A7\u30FC\u30B9\u3067\u3059
+bgfnt.frr.bdl.filf.notsft          = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.snmp.bdl=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bdl.filf.notsft          = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.snmp.bdl=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bdl.filf.notsft          = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.snmp.bdl=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
+bgfnt.frr.bdl.filf.notsft          = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.snmp.bdl=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
 bgfnt.frr.bdl.filf.notsft          = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093\u304C\u3001dom.sun.mbnbgfmfnt.snmp.bdl=truf\u304C\u8A2D\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059
 bgfnt.frr.bdl.filf.notfound        = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.notfound        = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
+bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.bdl.filf.not.rfbdbblf    = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u3092\u8AAD\u307F\u53D6\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u305B\u3093
 bgfnt.frr.bdl.filf.rfbd.fbilfd     = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bdl.filf.rfbd.fbilfd     = SNMP ACL\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u306B\u5931\u6557\u3057\u307E\u3057\u305F
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
+bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
 bgfnt.frr.bdl.filf.bddfss.notrfstridtfd = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059
 
+
+
+
+
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = \u3053\u306E\u30A2\u30C9\u30EC\u30B9\u3067SNMP\u30A2\u30C0\u30D7\u30BF\u3092\u958B\u59CB\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = \u3053\u306E\u30A2\u30C9\u30EC\u30B9\u3067SNMP\u30A2\u30C0\u30D7\u30BF\u3092\u958B\u59CB\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = \u3053\u306E\u30A2\u30C9\u30EC\u30B9\u3067SNMP\u30A2\u30C0\u30D7\u30BF\u3092\u958B\u59CB\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = \u3053\u306E\u30A2\u30C9\u30EC\u30B9\u3067SNMP\u30A2\u30C0\u30D7\u30BF\u3092\u958B\u59CB\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
 bgfnt.frr.snmp.bdbptor.stbrt.fbilfd = \u3053\u306E\u30A2\u30C9\u30EC\u30B9\u3067SNMP\u30A2\u30C0\u30D7\u30BF\u3092\u958B\u59CB\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
 bgfnt.frr.snmp.mib.init.fbilfd     = \u30A8\u30E9\u30FC\u3067SNMP MIB\u3092\u521D\u671F\u5316\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.snmp.mib.init.fbilfd     = \u30A8\u30E9\u30FC\u3067SNMP MIB\u3092\u521D\u671F\u5316\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.snmp.mib.init.fbilfd     = \u30A8\u30E9\u30FC\u3067SNMP MIB\u3092\u521D\u671F\u5316\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.snmp.mib.init.fbilfd     = \u30A8\u30E9\u30FC\u3067SNMP MIB\u3092\u521D\u671F\u5316\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+bgfnt.frr.snmp.mib.init.fbilfd     = \u30A8\u30E9\u30FC\u3067SNMP MIB\u3092\u521D\u671F\u5316\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F
+
+
+
+
 
 jmxrfmotf.ConnfdtorBootstrbp.stbrting = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
-jmxrfmotf.ConnfdtorBootstrbp.noAuthfntidbtion = \u8A8D\u8A3C\u306A\u3057
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
+jmxrfmotf.ConnfdtorBootstrbp.stbrting = JMX\u30B3\u30CD\u30AF\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = \u8A8D\u8A3C\u306A\u3057
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = \u8A8D\u8A3C\u306A\u3057
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = \u8A8D\u8A3C\u306A\u3057
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = \u8A8D\u8A3C\u306A\u3057
+jmxrfmotf.ConnfdtorBootstrbp.noAutifntidbtion = \u8A8D\u8A3C\u306A\u3057
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX\u30B3\u30CD\u30AF\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX\u30B3\u30CD\u30AF\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX\u30B3\u30CD\u30AF\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}
+jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX\u30B3\u30CD\u30AF\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}
 jmxrfmotf.ConnfdtorBootstrbp.rfbdy = JMX\u30B3\u30CD\u30AF\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}
 jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.pbssword.rfbdonly = \u30D1\u30B9\u30EF\u30FC\u30C9\u30FB\u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
+jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
 jmxrfmotf.ConnfdtorBootstrbp.filf.rfbdonly = \u30D5\u30A1\u30A4\u30EB\u306E\u8AAD\u53D6\u308A\u30A2\u30AF\u30BB\u30B9\u306F\u5236\u9650\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059: {0}
 
+
+
+
+
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL\u3092\u51E6\u7406\u3057\u3066\u3044\u307E\u3059
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL\u3092\u51E6\u7406\u3057\u3066\u3044\u307E\u3059
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL\u3092\u51E6\u7406\u3057\u3066\u3044\u307E\u3059
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL\u3092\u51E6\u7406\u3057\u3066\u3044\u307E\u3059
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing = ACL\u3092\u51E6\u7406\u3057\u3066\u3044\u307E\u3059
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = \u30BF\u30FC\u30B2\u30C3\u30C8\u3092\u8FFD\u52A0\u3057\u3066\u3044\u307E\u3059: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = \u30BF\u30FC\u30B2\u30C3\u30C8\u3092\u8FFD\u52A0\u3057\u3066\u3044\u307E\u3059: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = \u30BF\u30FC\u30B2\u30C3\u30C8\u3092\u8FFD\u52A0\u3057\u3066\u3044\u307E\u3059: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = \u30BF\u30FC\u30B2\u30C3\u30C8\u3092\u8FFD\u52A0\u3057\u3066\u3044\u307E\u3059: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding = \u30BF\u30FC\u30B2\u30C3\u30C8\u3092\u8FFD\u52A0\u3057\u3066\u3044\u307E\u3059: {0}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = \u30A2\u30C0\u30D7\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = \u30A2\u30C0\u30D7\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = \u30A2\u30C0\u30D7\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = \u30A2\u30C0\u30D7\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting = \u30A2\u30C0\u30D7\u30BF\u30FB\u30B5\u30FC\u30D0\u30FC\u3092\u8D77\u52D5\u3057\u3066\u3044\u307E\u3059:
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = \u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F\u3002
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = \u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F\u3002
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = \u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F\u3002
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = \u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F\u3002
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1 = \u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F\u3002
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP\u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP\u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP\u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP\u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2 = SNMP\u30A2\u30C0\u30D7\u30BF\u306E\u6E96\u5099\u304C\u3067\u304D\u307E\u3057\u305F: {0}:{1}
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = {0}\u3092\u7D42\u4E86\u3057\u307E\u3059
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = {0}\u3092\u7D42\u4E86\u3057\u307E\u3059
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = {0}\u3092\u7D42\u4E86\u3057\u307E\u3059
+jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = {0}\u3092\u7D42\u4E86\u3057\u307E\u3059
 jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf = {0}\u3092\u7D42\u4E86\u3057\u307E\u3059

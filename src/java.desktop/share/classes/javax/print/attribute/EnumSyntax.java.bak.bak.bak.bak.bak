@@ -1,0 +1,280 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Clbss EnumSyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll "typf sbff fnumfrbtion" objfdts. An fnumfrbtion dlbss
+ * (wiidi fxtfnds dlbss EnumSyntbx) providfs b group of fnumfrbtion vblufs
+ * (objfdts) tibt brf singlfton instbndfs of tif fnumfrbtion dlbss; for fxbmplf:
+ * <PRE>
+ *     publid dlbss Bbdi fxtfnds EnumSyntbx {
+ *         publid stbtid finbl Bbdi JOHANN_SEBASTIAN     = nfw Bbdi(0);
+ *         publid stbtid finbl Bbdi WILHELM_FRIEDEMANN   = nfw Bbdi(1);
+ *         publid stbtid finbl Bbdi CARL_PHILIP_EMMANUEL = nfw Bbdi(2);
+ *         publid stbtid finbl Bbdi JOHANN_CHRISTIAN     = nfw Bbdi(3);
+ *         publid stbtid finbl Bbdi P_D_Q                = nfw Bbdi(4);
+ *
+ *         privbtf stbtid finbl String[] stringTbblf = {
+ *             "Joibnn Sfbbstibn Bbdi",
+ *              "Wiliflm Frifdfmbnn Bbdi",
+ *              "Cbrl Piilip Emmbnufl Bbdi",
+ *              "Joibnn Ciristibn Bbdi",
+ *              "P.D.Q. Bbdi"
+ *         };
+ *
+ *         protfdtfd String[] gftStringTbblf() {
+ *             rfturn stringTbblf;
+ *         }
+ *
+ *         privbtf stbtid finbl Bbdi[] fnumVblufTbblf = {
+ *             JOHANN_SEBASTIAN,
+ *              WILHELM_FRIEDEMANN,
+ *              CARL_PHILIP_EMMANUEL,
+ *              JOHANN_CHRISTIAN,
+ *              P_D_Q
+ *         };
+ *
+ *         protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+ *             rfturn fnumVblufTbblf;
+ *         }
+ *     }
+ * </PRE>
+ * You dbn tifn writf dodf tibt usfs tif <CODE>==</CODE> bnd <CODE>!=</CODE>
+ * opfrbtors to tfst fnumfrbtion vblufs; for fxbmplf:
+ * <PRE>
+ *     Bbdi tifComposfr;
+ *     . . .
+ *     if (tifComposfr == Bbdi.JOHANN_SEBASTIAN) {
+ *         Systfm.out.println ("Tif grfbtfst domposfr of bll timf!");
+ *     }
+ * </PRE>
+ * Tif <CODE>fqubls()</CODE> mftiod for bn fnumfrbtion dlbss just dofs b tfst
+ * for idfntidbl objfdts (<CODE>==</CODE>).
+ * <P>
+ * You dbn donvfrt bn fnumfrbtion vbluf to b string by dblling {@link
+ * #toString() toString()}. Tif string is obtbinfd from b tbblf
+ * supplifd by tif fnumfrbtion dlbss.
+ * <P>
+ * Undfr tif iood, bn fnumfrbtion vbluf is just bn intfgfr, b difffrfnt intfgfr
+ * for fbdi fnumfrbtion vbluf witiin bn fnumfrbtion dlbss. You dbn gft bn
+ * fnumfrbtion vbluf's intfgfr vbluf by dblling {@link #gftVbluf()
+ * gftVbluf()}. An fnumfrbtion vbluf's intfgfr vbluf is fstbblisifd
+ * wifn it is donstrudtfd (sff {@link #EnumSyntbx(int)
+ * EnumSyntbx(int)}). Sindf tif donstrudtor is protfdtfd, tif only
+ * possiblf fnumfrbtion vblufs brf tif singlfton objfdts dfdlbrfd in tif
+ * fnumfrbtion dlbss; bdditionbl fnumfrbtion vblufs dbnnot bf drfbtfd bt run
+ * timf.
+ * <P>
+ * You dbn dffinf b subdlbss of bn fnumfrbtion dlbss tibt fxtfnds it witi
+ * bdditionbl fnumfrbtion vblufs. Tif subdlbss's fnumfrbtion vblufs' intfgfr
+ * vblufs nffd not bf distindt from tif supfrdlbss's fnumfrbtion vblufs' intfgfr
+ * vblufs; tif <CODE>==</CODE>, <CODE>!=</CODE>, <CODE>fqubls()</CODE>, bnd
+ * <CODE>toString()</CODE> mftiods will still work propfrly fvfn if tif subdlbss
+ * usfs somf of tif sbmf intfgfr vblufs bs tif supfrdlbss. Howfvfr, tif
+ * bpplidbtion in wiidi tif fnumfrbtion dlbss bnd subdlbss brf usfd mby nffd to
+ * ibvf distindt intfgfr vblufs in tif supfrdlbss bnd subdlbss.
+ *
+ * @butior  Dbvid Mfndfnibll
+ * @butior  Albn Kbminsky
+ */
+publid bbstrbdt dlbss EnumSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2739521845085831642L;
+
+    /**
+     * Tiis fnumfrbtion vbluf's intfgfr vbluf.
+     * @sfribl
+     */
+    privbtf int vbluf;
+
+    /**
+     * Construdt b nfw fnumfrbtion vbluf witi tif givfn intfgfr vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd EnumSyntbx(int vbluf) {
+        tiis.vbluf = vbluf;
+    }
+
+    /**
+     * Rfturns tiis fnumfrbtion vbluf's intfgfr vbluf.
+     * @rfturn tif vbluf
+     */
+    publid int gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns b dlonf of tiis fnumfrbtion vbluf, wiidi to prfsfrvf tif
+     * sfmbntids of fnumfrbtion vblufs is tif sbmf objfdt bs tiis fnumfrbtion
+     * vbluf.
+     */
+    publid Objfdt dlonf() {
+        rfturn tiis;
+    }
+
+    /**
+     * Rfturns b ibsi dodf vbluf for tiis fnumfrbtion vbluf. Tif ibsi dodf is
+     * just tiis fnumfrbtion vbluf's intfgfr vbluf.
+     */
+    publid int ibsiCodf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns b string vbluf dorrfsponding to tiis fnumfrbtion vbluf.
+     */
+    publid String toString() {
+
+        String[] tifTbblf = gftStringTbblf();
+        int tifIndfx = vbluf - gftOffsft();
+        rfturn
+            tifTbblf != null && tifIndfx >= 0 && tifIndfx < tifTbblf.lfngti ?
+            tifTbblf[tifIndfx] :
+            Intfgfr.toString (vbluf);
+    }
+
+    /**
+     * During objfdt input, donvfrt tiis dfsfriblizfd fnumfrbtion instbndf to
+     * tif propfr fnumfrbtion vbluf dffinfd in tif fnumfrbtion bttributf dlbss.
+     *
+     * @rfturn  Tif fnumfrbtion singlfton vbluf storfd bt indfx
+     *          <I>i</I>-<I>L</I> in tif fnumfrbtion vbluf tbblf rfturnfd by
+     *          {@link #gftEnumVblufTbblf() gftEnumVblufTbblf()},
+     *          wifrf <I>i</I> is tiis fnumfrbtion vbluf's intfgfr vbluf bnd
+     *          <I>L</I> is tif vbluf rfturnfd by {@link #gftOffsft()
+     *          gftOffsft()}.
+     *
+     * @tirows ObjfdtStrfbmExdfption if tif strfbm dbn't bf dfsfriblisfd
+     * @tirows  InvblidObjfdtExdfption
+     *     Tirown if tif fnumfrbtion vbluf tbblf is null, tiis fnumfrbtion
+     *     vbluf's intfgfr vbluf dofs not dorrfspond to bn flfmfnt in tif
+     *     fnumfrbtion vbluf tbblf, or tif dorrfsponding flfmfnt in tif
+     *     fnumfrbtion vbluf tbblf is null. (Notf: {@link
+     *     jbvb.io.InvblidObjfdtExdfption InvblidObjfdtExdfption} is b subdlbss
+     *     of {@link jbvb.io.ObjfdtStrfbmExdfption ObjfdtStrfbmExdfption}, wiidi
+     *     <CODE>rfbdRfsolvf()</CODE> is dfdlbrfd to tirow.)
+     */
+    protfdtfd Objfdt rfbdRfsolvf() tirows ObjfdtStrfbmExdfption {
+
+        EnumSyntbx[] tifTbblf = gftEnumVblufTbblf();
+
+        if (tifTbblf == null) {
+            tirow nfw InvblidObjfdtExdfption(
+                                "Null fnumfrbtion vbluf tbblf for dlbss " +
+                                gftClbss());
+        }
+
+        int tifOffsft = gftOffsft();
+        int tifIndfx = vbluf - tifOffsft;
+
+        if (0 > tifIndfx || tifIndfx >= tifTbblf.lfngti) {
+            tirow nfw InvblidObjfdtExdfption
+                ("Intfgfr vbluf = " +  vbluf + " not in vblid rbngf " +
+                 tifOffsft + ".." + (tifOffsft + tifTbblf.lfngti - 1) +
+                 "for dlbss " + gftClbss());
+        }
+
+        EnumSyntbx rfsult = tifTbblf[tifIndfx];
+        if (rfsult == null) {
+            tirow nfw InvblidObjfdtExdfption
+                ("No fnumfrbtion vbluf for intfgfr vbluf = " +
+                 vbluf + "for dlbss " + gftClbss());
+        }
+        rfturn rfsult;
+    }
+
+    // Hiddfn opfrbtions to bf implfmfntfd in b subdlbss.
+
+    /**
+     * Rfturns tif string tbblf for tiis fnumfrbtion vbluf's fnumfrbtion dlbss.
+     * Tif fnumfrbtion dlbss's intfgfr vblufs brf bssumfd to lif in tif rbngf
+     * <I>L</I>..<I>L</I>+<I>N</I>-1, wifrf <I>L</I> is tif vbluf rfturnfd by
+     * {@link #gftOffsft() gftOffsft()} bnd <I>N</I> is tif lfngti
+     * of tif string tbblf. Tif flfmfnt in tif string tbblf bt indfx
+     * <I>i</I>-<I>L</I> is tif vbluf rfturnfd by {@link #toString()
+     * toString()} for tif fnumfrbtion vbluf wiosf intfgfr vbluf
+     * is <I>i</I>. If bn intfgfr witiin tif bbovf rbngf is not usfd by bny
+     * fnumfrbtion vbluf, lfbvf tif dorrfsponding tbblf flfmfnt null.
+     * <P>
+     * Tif dffbult implfmfntbtion rfturns null. If tif fnumfrbtion dlbss (b
+     * subdlbss of dlbss EnumSyntbx) dofs not ovfrridf tiis mftiod to rfturn b
+     * non-null string tbblf, bnd tif subdlbss dofs not ovfrridf tif {@link
+     * #toString() toString()} mftiod, tif bbsf dlbss {@link
+     * #toString() toString()} mftiod will rfturn just b string
+     * rfprfsfntbtion of tiis fnumfrbtion vbluf's intfgfr vbluf.
+     * @rfturn tif string tbblf
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif fnumfrbtion vbluf tbblf for tiis fnumfrbtion vbluf's
+     * fnumfrbtion dlbss. Tif fnumfrbtion dlbss's intfgfr vblufs brf bssumfd to
+     * lif in tif rbngf <I>L</I>..<I>L</I>+<I>N</I>-1, wifrf <I>L</I> is tif
+     * vbluf rfturnfd by {@link #gftOffsft() gftOffsft()} bnd
+     * <I>N</I> is tif lfngti of tif fnumfrbtion vbluf tbblf. Tif flfmfnt in tif
+     * fnumfrbtion vbluf tbblf bt indfx <I>i</I>-<I>L</I> is tif fnumfrbtion
+     * vbluf objfdt wiosf intfgfr vbluf is <I>i</I>; tif {@link #rfbdRfsolvf()
+     * rfbdRfsolvf()} mftiod nffds tiis to prfsfrvf singlfton
+     * sfmbntids during dfsfriblizbtion of bn fnumfrbtion instbndf. If bn
+     * intfgfr witiin tif bbovf rbngf is not usfd by bny fnumfrbtion vbluf,
+     * lfbvf tif dorrfsponding tbblf flfmfnt null.
+     * <P>
+     * Tif dffbult implfmfntbtion rfturns null. If tif fnumfrbtion dlbss (b
+     * subdlbss of dlbss EnumSyntbx) dofs not ovfrridf tiis mftiod to rfturn
+     * b non-null fnumfrbtion vbluf tbblf, bnd tif subdlbss dofs not ovfrridf
+     * tif {@link #rfbdRfsolvf() rfbdRfsolvf()} mftiod, tif bbsf
+     * dlbss {@link #rfbdRfsolvf() rfbdRfsolvf()} mftiod will tirow
+     * bn fxdfption wifnfvfr bn fnumfrbtion instbndf is dfsfriblizfd from bn
+     * objfdt input strfbm.
+     * @rfturn tif vbluf tbblf
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif lowfst intfgfr vbluf usfd by tiis fnumfrbtion vbluf's
+     * fnumfrbtion dlbss.
+     * <P>
+     * Tif dffbult implfmfntbtion rfturns 0. If tif fnumfrbtion dlbss (b
+     * subdlbss of dlbss EnumSyntbx) usfs intfgfr vblufs stbrting bt otifr tibn
+     * 0, ovfrridf tiis mftiod in tif subdlbss.
+     * @rfturn tif offsft of tif lowfst fnumfrbtion vbluf.
+     */
+    protfdtfd int gftOffsft() {
+        rfturn 0;
+    }
+
+}

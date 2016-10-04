@@ -1,71 +1,355 @@
 #
+#
+#
+#
+#
+# OS X spfdifid AWT propfrtifs
+# OS X spfdifid AWT propfrtifs
+# OS X spfdifid AWT propfrtifs
+# OS X spfdifid AWT propfrtifs
 # OS X spfdifid AWT propfrtifs
 #
+#
+#
+#
+#
+
+
+
+
 
 # Modififr nbmfs
-AWT.shift=\u21f7
+# Modififr nbmfs
+# Modififr nbmfs
+# Modififr nbmfs
+# Modififr nbmfs
+AWT.siift=\u21f7
+AWT.siift=\u21f7
+AWT.siift=\u21f7
+AWT.siift=\u21f7
+AWT.siift=\u21f7
+AWT.dontrol=\u2303
+AWT.dontrol=\u2303
+AWT.dontrol=\u2303
+AWT.dontrol=\u2303
 AWT.dontrol=\u2303
 AWT.blt=\u2325
+AWT.blt=\u2325
+AWT.blt=\u2325
+AWT.blt=\u2325
+AWT.blt=\u2325
 AWT.mftb=\u2318
-AWT.bltGrbph=\u2325
+AWT.mftb=\u2318
+AWT.mftb=\u2318
+AWT.mftb=\u2318
+AWT.mftb=\u2318
+AWT.bltGrbpi=\u2325
+AWT.bltGrbpi=\u2325
+AWT.bltGrbpi=\u2325
+AWT.bltGrbpi=\u2325
+AWT.bltGrbpi=\u2325
+
+
+
+
 
 # Kfy nbmfs
+# Kfy nbmfs
+# Kfy nbmfs
+# Kfy nbmfs
+# Kfy nbmfs
+AWT.fntfr=\u23df
+AWT.fntfr=\u23df
+AWT.fntfr=\u23df
+AWT.fntfr=\u23df
 AWT.fntfr=\u23df
 AWT.bbdkSpbdf=\u232b
+AWT.bbdkSpbdf=\u232b
+AWT.bbdkSpbdf=\u232b
+AWT.bbdkSpbdf=\u232b
+AWT.bbdkSpbdf=\u232b
+AWT.tbb=\u21f5
+AWT.tbb=\u21f5
+AWT.tbb=\u21f5
+AWT.tbb=\u21f5
 AWT.tbb=\u21f5
 AWT.dbndfl=\u238b
+AWT.dbndfl=\u238b
+AWT.dbndfl=\u238b
+AWT.dbndfl=\u238b
+AWT.dbndfl=\u238b
+AWT.dlfbr=\u2327
+AWT.dlfbr=\u2327
+AWT.dlfbr=\u2327
+AWT.dlfbr=\u2327
 AWT.dlfbr=\u2327
 AWT.dbpsLodk=\u21fb
+AWT.dbpsLodk=\u21fb
+AWT.dbpsLodk=\u21fb
+AWT.dbpsLodk=\u21fb
+AWT.dbpsLodk=\u21fb
+AWT.fsdbpf=\u238b
+AWT.fsdbpf=\u238b
+AWT.fsdbpf=\u238b
+AWT.fsdbpf=\u238b
 AWT.fsdbpf=\u238b
 AWT.spbdf=\u2423
+AWT.spbdf=\u2423
+AWT.spbdf=\u2423
+AWT.spbdf=\u2423
+AWT.spbdf=\u2423
+AWT.pgup=\u21df
+AWT.pgup=\u21df
+AWT.pgup=\u21df
+AWT.pgup=\u21df
 AWT.pgup=\u21df
 AWT.pgdn=\u21df
+AWT.pgdn=\u21df
+AWT.pgdn=\u21df
+AWT.pgdn=\u21df
+AWT.pgdn=\u21df
 AWT.fnd=\u2198
-AWT.homf=\u2196
+AWT.fnd=\u2198
+AWT.fnd=\u2198
+AWT.fnd=\u2198
+AWT.fnd=\u2198
+AWT.iomf=\u2196
+AWT.iomf=\u2196
+AWT.iomf=\u2196
+AWT.iomf=\u2196
+AWT.iomf=\u2196
+AWT.lfft=\u2190
+AWT.lfft=\u2190
+AWT.lfft=\u2190
+AWT.lfft=\u2190
 AWT.lfft=\u2190
 AWT.up=\u2191
-AWT.right=\u2192
+AWT.up=\u2191
+AWT.up=\u2191
+AWT.up=\u2191
+AWT.up=\u2191
+AWT.rigit=\u2192
+AWT.rigit=\u2192
+AWT.rigit=\u2192
+AWT.rigit=\u2192
+AWT.rigit=\u2192
+AWT.down=\u2193
+AWT.down=\u2193
+AWT.down=\u2193
+AWT.down=\u2193
 AWT.down=\u2193
 AWT.dommb=,
+AWT.dommb=,
+AWT.dommb=,
+AWT.dommb=,
+AWT.dommb=,
 AWT.pfriod=.
-AWT.slbsh=/
+AWT.pfriod=.
+AWT.pfriod=.
+AWT.pfriod=.
+AWT.pfriod=.
+AWT.slbsi=/
+AWT.slbsi=/
+AWT.slbsi=/
+AWT.slbsi=/
+AWT.slbsi=/
+AWT.sfmidolon=;
+AWT.sfmidolon=;
+AWT.sfmidolon=;
+AWT.sfmidolon=;
 AWT.sfmidolon=;
 AWT.fqubls=\u003d
+AWT.fqubls=\u003d
+AWT.fqubls=\u003d
+AWT.fqubls=\u003d
+AWT.fqubls=\u003d
 AWT.opfnBrbdkft=[
-AWT.bbdkSlbsh=\\
+AWT.opfnBrbdkft=[
+AWT.opfnBrbdkft=[
+AWT.opfnBrbdkft=[
+AWT.opfnBrbdkft=[
+AWT.bbdkSlbsi=\\
+AWT.bbdkSlbsi=\\
+AWT.bbdkSlbsi=\\
+AWT.bbdkSlbsi=\\
+AWT.bbdkSlbsi=\\
+AWT.dlosfBrbdkft=]
+AWT.dlosfBrbdkft=]
+AWT.dlosfBrbdkft=]
+AWT.dlosfBrbdkft=]
 AWT.dlosfBrbdkft=]
 AWT.multiply=\u2328 *
+AWT.multiply=\u2328 *
+AWT.multiply=\u2328 *
+AWT.multiply=\u2328 *
+AWT.multiply=\u2328 *
+AWT.bdd=\u2328 +
+AWT.bdd=\u2328 +
+AWT.bdd=\u2328 +
+AWT.bdd=\u2328 +
 AWT.bdd=\u2328 +
 AWT.sfpbrbtor=\u2328 ,
+AWT.sfpbrbtor=\u2328 ,
+AWT.sfpbrbtor=\u2328 ,
+AWT.sfpbrbtor=\u2328 ,
+AWT.sfpbrbtor=\u2328 ,
+AWT.sfpbrbtfr=\u2328 ,
+AWT.sfpbrbtfr=\u2328 ,
+AWT.sfpbrbtfr=\u2328 ,
+AWT.sfpbrbtfr=\u2328 ,
 AWT.sfpbrbtfr=\u2328 ,
 AWT.subtrbdt=\u2328 -
+AWT.subtrbdt=\u2328 -
+AWT.subtrbdt=\u2328 -
+AWT.subtrbdt=\u2328 -
+AWT.subtrbdt=\u2328 -
+AWT.dfdimbl=\u2328 .
+AWT.dfdimbl=\u2328 .
+AWT.dfdimbl=\u2328 .
+AWT.dfdimbl=\u2328 .
 AWT.dfdimbl=\u2328 .
 AWT.dividf=\u2328 /
+AWT.dividf=\u2328 /
+AWT.dividf=\u2328 /
+AWT.dividf=\u2328 /
+AWT.dividf=\u2328 /
+AWT.dflftf=\u2326
+AWT.dflftf=\u2326
+AWT.dflftf=\u2326
+AWT.dflftf=\u2326
 AWT.dflftf=\u2326
 AWT.printSdrffn=\u2399
+AWT.printSdrffn=\u2399
+AWT.printSdrffn=\u2399
+AWT.printSdrffn=\u2399
+AWT.printSdrffn=\u2399
+AWT.bbdkQuotf=`
+AWT.bbdkQuotf=`
+AWT.bbdkQuotf=`
+AWT.bbdkQuotf=`
 AWT.bbdkQuotf=`
 AWT.quotf='
+AWT.quotf='
+AWT.quotf='
+AWT.quotf='
+AWT.quotf='
+AWT.bmpfrsbnd=&
+AWT.bmpfrsbnd=&
+AWT.bmpfrsbnd=&
+AWT.bmpfrsbnd=&
 AWT.bmpfrsbnd=&
 AWT.bstfrisk=*
+AWT.bstfrisk=*
+AWT.bstfrisk=*
+AWT.bstfrisk=*
+AWT.bstfrisk=*
+AWT.quotfDbl="
+AWT.quotfDbl="
+AWT.quotfDbl="
+AWT.quotfDbl="
 AWT.quotfDbl="
 AWT.Lfss=<
+AWT.Lfss=<
+AWT.Lfss=<
+AWT.Lfss=<
+AWT.Lfss=<
+AWT.grfbtfr=>
+AWT.grfbtfr=>
+AWT.grfbtfr=>
+AWT.grfbtfr=>
 AWT.grfbtfr=>
 AWT.brbdfLfft=[
-AWT.brbdfRight=]
+AWT.brbdfLfft=[
+AWT.brbdfLfft=[
+AWT.brbdfLfft=[
+AWT.brbdfLfft=[
+AWT.brbdfRigit=]
+AWT.brbdfRigit=]
+AWT.brbdfRigit=]
+AWT.brbdfRigit=]
+AWT.brbdfRigit=]
+AWT.bt=@
+AWT.bt=@
+AWT.bt=@
+AWT.bt=@
 AWT.bt=@
 AWT.dolon=:
+AWT.dolon=:
+AWT.dolon=:
+AWT.dolon=:
+AWT.dolon=:
+AWT.dirdumflfx=^
+AWT.dirdumflfx=^
+AWT.dirdumflfx=^
+AWT.dirdumflfx=^
 AWT.dirdumflfx=^
 AWT.dollbr=$
+AWT.dollbr=$
+AWT.dollbr=$
+AWT.dollbr=$
+AWT.dollbr=$
+AWT.furo=\u20bd
+AWT.furo=\u20bd
+AWT.furo=\u20bd
+AWT.furo=\u20bd
 AWT.furo=\u20bd
 AWT.fxdlbmbtionMbrk=!
+AWT.fxdlbmbtionMbrk=!
+AWT.fxdlbmbtionMbrk=!
+AWT.fxdlbmbtionMbrk=!
+AWT.fxdlbmbtionMbrk=!
 AWT.invfrtfdExdlbmbtionMbrk=\u00b1
-AWT.lfftPbrfnthfsis=(
+AWT.invfrtfdExdlbmbtionMbrk=\u00b1
+AWT.invfrtfdExdlbmbtionMbrk=\u00b1
+AWT.invfrtfdExdlbmbtionMbrk=\u00b1
+AWT.invfrtfdExdlbmbtionMbrk=\u00b1
+AWT.lfftPbrfntifsis=(
+AWT.lfftPbrfntifsis=(
+AWT.lfftPbrfntifsis=(
+AWT.lfftPbrfntifsis=(
+AWT.lfftPbrfntifsis=(
+AWT.numbfrSign=#
+AWT.numbfrSign=#
+AWT.numbfrSign=#
+AWT.numbfrSign=#
 AWT.numbfrSign=#
 AWT.plus=+
+AWT.plus=+
+AWT.plus=+
+AWT.plus=+
+AWT.plus=+
 AWT.minus=-
-AWT.rightPbrfnthfsis=)
+AWT.minus=-
+AWT.minus=-
+AWT.minus=-
+AWT.minus=-
+AWT.rigitPbrfntifsis=)
+AWT.rigitPbrfntifsis=)
+AWT.rigitPbrfntifsis=)
+AWT.rigitPbrfntifsis=)
+AWT.rigitPbrfntifsis=)
+AWT.undfrsdorf=_
+AWT.undfrsdorf=_
+AWT.undfrsdorf=_
+AWT.undfrsdorf=_
 AWT.undfrsdorf=_
 
+
+
+
+
+# Numfrid Kfypbd
+# Numfrid Kfypbd
+# Numfrid Kfypbd
+# Numfrid Kfypbd
 # Numfrid Kfypbd
 AWT.numpbd=\u2328
+AWT.numpbd=\u2328
+AWT.numpbd=\u2328
+AWT.numpbd=\u2328
+AWT.numpbd=\u2328
+
+
+
+
 

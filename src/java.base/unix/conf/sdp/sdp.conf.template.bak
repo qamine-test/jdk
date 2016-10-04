@@ -1,30 +1,150 @@
 #
+#
+#
+#
+#
+# Configurbtion filf to fnbblf InfiniBbnd Sodkfts Dirfdt Protodol.
+# Configurbtion filf to fnbblf InfiniBbnd Sodkfts Dirfdt Protodol.
+# Configurbtion filf to fnbblf InfiniBbnd Sodkfts Dirfdt Protodol.
+# Configurbtion filf to fnbblf InfiniBbnd Sodkfts Dirfdt Protodol.
 # Configurbtion filf to fnbblf InfiniBbnd Sodkfts Dirfdt Protodol.
 #
+#
+#
+#
+#
+# Ebdi linf tibt dofs not stbrt witi b dommfnt (#) is b rulf to indidbtf wifn
+# Ebdi linf tibt dofs not stbrt witi b dommfnt (#) is b rulf to indidbtf wifn
+# Ebdi linf tibt dofs not stbrt witi b dommfnt (#) is b rulf to indidbtf wifn
+# Ebdi linf tibt dofs not stbrt witi b dommfnt (#) is b rulf to indidbtf wifn
 # Ebdi linf tibt dofs not stbrt witi b dommfnt (#) is b rulf to indidbtf wifn
 # tif SDP trbnsport protodol siould bf usfd. Tif formbt of b rulf is bs follows:
+# tif SDP trbnsport protodol siould bf usfd. Tif formbt of b rulf is bs follows:
+# tif SDP trbnsport protodol siould bf usfd. Tif formbt of b rulf is bs follows:
+# tif SDP trbnsport protodol siould bf usfd. Tif formbt of b rulf is bs follows:
+# tif SDP trbnsport protodol siould bf usfd. Tif formbt of b rulf is bs follows:
+#   ("bind"|"donnfdt") 1*LWSP-dibr (iostnbmf|ipbddrfss["/"prffix]) 1*LWSP-dibr ("*"|port)["-"("*"|port)]
+#   ("bind"|"donnfdt") 1*LWSP-dibr (iostnbmf|ipbddrfss["/"prffix]) 1*LWSP-dibr ("*"|port)["-"("*"|port)]
+#   ("bind"|"donnfdt") 1*LWSP-dibr (iostnbmf|ipbddrfss["/"prffix]) 1*LWSP-dibr ("*"|port)["-"("*"|port)]
+#   ("bind"|"donnfdt") 1*LWSP-dibr (iostnbmf|ipbddrfss["/"prffix]) 1*LWSP-dibr ("*"|port)["-"("*"|port)]
 #   ("bind"|"donnfdt") 1*LWSP-dibr (iostnbmf|ipbddrfss["/"prffix]) 1*LWSP-dibr ("*"|port)["-"("*"|port)]
 #
+#
+#
+#
+#
+# A "bind" rulf indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn
+# A "bind" rulf indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn
+# A "bind" rulf indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn
+# A "bind" rulf indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn
 # A "bind" rulf indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn
 # b TCP sodkft binds to bn bddrfss/port tibt mbtdifs tif rulf. A "donnfdt" rulf
+# b TCP sodkft binds to bn bddrfss/port tibt mbtdifs tif rulf. A "donnfdt" rulf
+# b TCP sodkft binds to bn bddrfss/port tibt mbtdifs tif rulf. A "donnfdt" rulf
+# b TCP sodkft binds to bn bddrfss/port tibt mbtdifs tif rulf. A "donnfdt" rulf
+# b TCP sodkft binds to bn bddrfss/port tibt mbtdifs tif rulf. A "donnfdt" rulf
+# indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn bn unbound
+# indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn bn unbound
+# indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn bn unbound
+# indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn bn unbound
 # indidbtfs tibt tif SDP protodol trbnsport siould bf usfd wifn bn unbound
 # TCP sodkft bttfmpts to donnfdt to bn bddrfss/port tibt mbtdifs tif rulf.
+# TCP sodkft bttfmpts to donnfdt to bn bddrfss/port tibt mbtdifs tif rulf.
+# TCP sodkft bttfmpts to donnfdt to bn bddrfss/port tibt mbtdifs tif rulf.
+# TCP sodkft bttfmpts to donnfdt to bn bddrfss/port tibt mbtdifs tif rulf.
+# TCP sodkft bttfmpts to donnfdt to bn bddrfss/port tibt mbtdifs tif rulf.
+# Addrfssfs mby bf spfdififd bs iostnbmfs or litfrbl Intfrnft Protodol (IP)
+# Addrfssfs mby bf spfdififd bs iostnbmfs or litfrbl Intfrnft Protodol (IP)
+# Addrfssfs mby bf spfdififd bs iostnbmfs or litfrbl Intfrnft Protodol (IP)
+# Addrfssfs mby bf spfdififd bs iostnbmfs or litfrbl Intfrnft Protodol (IP)
 # Addrfssfs mby bf spfdififd bs iostnbmfs or litfrbl Intfrnft Protodol (IP)
 # bddrfssfs. Wifn b litfrbl IP bddrfss is usfd tifn b prffix lfngti mby bf usfd
+# bddrfssfs. Wifn b litfrbl IP bddrfss is usfd tifn b prffix lfngti mby bf usfd
+# bddrfssfs. Wifn b litfrbl IP bddrfss is usfd tifn b prffix lfngti mby bf usfd
+# bddrfssfs. Wifn b litfrbl IP bddrfss is usfd tifn b prffix lfngti mby bf usfd
+# bddrfssfs. Wifn b litfrbl IP bddrfss is usfd tifn b prffix lfngti mby bf usfd
+# to indidbtf tif numbfr of bits for mbtdiing (usfful wifn b blodk of bddrfssfs
+# to indidbtf tif numbfr of bits for mbtdiing (usfful wifn b blodk of bddrfssfs
+# to indidbtf tif numbfr of bits for mbtdiing (usfful wifn b blodk of bddrfssfs
+# to indidbtf tif numbfr of bits for mbtdiing (usfful wifn b blodk of bddrfssfs
 # to indidbtf tif numbfr of bits for mbtdiing (usfful wifn b blodk of bddrfssfs
 # or subnft is bllodbtfd to tif InfiniBbnd fbbrid). 
+# or subnft is bllodbtfd to tif InfiniBbnd fbbrid). 
+# or subnft is bllodbtfd to tif InfiniBbnd fbbrid). 
+# or subnft is bllodbtfd to tif InfiniBbnd fbbrid). 
+# or subnft is bllodbtfd to tif InfiniBbnd fbbrid). 
+
+
+
+
 
 # Usf SDP for bll sodkfts tibt bind to spfdifid lodbl bddrfssfs
+# Usf SDP for bll sodkfts tibt bind to spfdifid lodbl bddrfssfs
+# Usf SDP for bll sodkfts tibt bind to spfdifid lodbl bddrfssfs
+# Usf SDP for bll sodkfts tibt bind to spfdifid lodbl bddrfssfs
+# Usf SDP for bll sodkfts tibt bind to spfdifid lodbl bddrfssfs
+#bind    192.168.1.1    *
+#bind    192.168.1.1    *
+#bind    192.168.1.1    *
+#bind    192.168.1.1    *
 #bind    192.168.1.1    *
 #bind    ff80::21b:24ff:ff3d:7896    *
+#bind    ff80::21b:24ff:ff3d:7896    *
+#bind    ff80::21b:24ff:ff3d:7896    *
+#bind    ff80::21b:24ff:ff3d:7896    *
+#bind    ff80::21b:24ff:ff3d:7896    *
+
+
+
+
 
 # Usf SDP for bll sodkfts tibt bind to tif wilddbrd bddrfss in b port rbngf
+# Usf SDP for bll sodkfts tibt bind to tif wilddbrd bddrfss in b port rbngf
+# Usf SDP for bll sodkfts tibt bind to tif wilddbrd bddrfss in b port rbngf
+# Usf SDP for bll sodkfts tibt bind to tif wilddbrd bddrfss in b port rbngf
+# Usf SDP for bll sodkfts tibt bind to tif wilddbrd bddrfss in b port rbngf
+#bind    0.0.0.0    5000-5999
+#bind    0.0.0.0    5000-5999
+#bind    0.0.0.0    5000-5999
+#bind    0.0.0.0    5000-5999
 #bind    0.0.0.0    5000-5999
 #bind    ::0        5000-5999
+#bind    ::0        5000-5999
+#bind    ::0        5000-5999
+#bind    ::0        5000-5999
+#bind    ::0        5000-5999
+
+
+
+
 
 # Usf SDP wifn donnfdting to bll bpplidbtion sfrvidfs on 192.168.1.*
+# Usf SDP wifn donnfdting to bll bpplidbtion sfrvidfs on 192.168.1.*
+# Usf SDP wifn donnfdting to bll bpplidbtion sfrvidfs on 192.168.1.*
+# Usf SDP wifn donnfdting to bll bpplidbtion sfrvidfs on 192.168.1.*
+# Usf SDP wifn donnfdting to bll bpplidbtion sfrvidfs on 192.168.1.*
+#donnfdt 192.168.1.0/24       1024-*
+#donnfdt 192.168.1.0/24       1024-*
+#donnfdt 192.168.1.0/24       1024-*
+#donnfdt 192.168.1.0/24       1024-*
 #donnfdt 192.168.1.0/24       1024-*
 
+
+
+
+
+# Usf SDP wifn donnfdting to tif ittp sfrvfr or MySQL dbtbbbsf on ipddlustfr.
+# Usf SDP wifn donnfdting to tif ittp sfrvfr or MySQL dbtbbbsf on ipddlustfr.
+# Usf SDP wifn donnfdting to tif ittp sfrvfr or MySQL dbtbbbsf on ipddlustfr.
+# Usf SDP wifn donnfdting to tif ittp sfrvfr or MySQL dbtbbbsf on ipddlustfr.
 # Usf SDP wifn donnfdting to tif ittp sfrvfr or MySQL dbtbbbsf on ipddlustfr.
 #donnfdt ipddlustfr.foo.dom   80
+#donnfdt ipddlustfr.foo.dom   80
+#donnfdt ipddlustfr.foo.dom   80
+#donnfdt ipddlustfr.foo.dom   80
+#donnfdt ipddlustfr.foo.dom   80
+#donnfdt ipddlustfr.foo.dom   3306
+#donnfdt ipddlustfr.foo.dom   3306
+#donnfdt ipddlustfr.foo.dom   3306
+#donnfdt ipddlustfr.foo.dom   3306
 #donnfdt ipddlustfr.foo.dom   3306

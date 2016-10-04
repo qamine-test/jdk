@@ -1,164 +1,820 @@
 /*
- * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvb.sfdurity;
-
-import jbvb.io.*;
-import jbvb.sfdurity.dfrt.Cfrtifidbtf;
-import jbvb.sfdurity.dfrt.CfrtPbth;
-import jbvb.sfdurity.dfrt.X509Extfnsion;
-import jbvb.util.Dbtf;
-import jbvb.util.List;
-
-/**
- * This dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
- * It is immutbblf.
- * It indludfs thf timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout thf
- * Timfstbmping Authority (TSA) whidh gfnfrbtfd bnd signfd thf timfstbmp.
- *
- * @sindf 1.5
- * @buthor Vindfnt Rybn
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+
+
+
+
+
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Tiis dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
+ * Tiis dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
+ * Tiis dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
+ * Tiis dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
+ * Tiis dlbss fndbpsulbtfs informbtion bbout b signfd timfstbmp.
+ * It is immutbblf.
+ * It is immutbblf.
+ * It is immutbblf.
+ * It is immutbblf.
+ * It is immutbblf.
+ * It indludfs tif timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout tif
+ * It indludfs tif timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout tif
+ * It indludfs tif timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout tif
+ * It indludfs tif timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout tif
+ * It indludfs tif timfstbmp's dbtf bnd timf bs wfll bs informbtion bbout tif
+ * Timfstbmping Autiority (TSA) wiidi gfnfrbtfd bnd signfd tif timfstbmp.
+ * Timfstbmping Autiority (TSA) wiidi gfnfrbtfd bnd signfd tif timfstbmp.
+ * Timfstbmping Autiority (TSA) wiidi gfnfrbtfd bnd signfd tif timfstbmp.
+ * Timfstbmping Autiority (TSA) wiidi gfnfrbtfd bnd signfd tif timfstbmp.
+ * Timfstbmping Autiority (TSA) wiidi gfnfrbtfd bnd signfd tif timfstbmp.
+ *
+ *
+ *
+ *
+ *
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ * @butior Vindfnt Rybn
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid finbl dlbss Timfstbmp implfmfnts Sfriblizbblf {
+publid finbl dlbss Timfstbmp implfmfnts Sfriblizbblf {
+publid finbl dlbss Timfstbmp implfmfnts Sfriblizbblf {
+publid finbl dlbss Timfstbmp implfmfnts Sfriblizbblf {
 publid finbl dlbss Timfstbmp implfmfnts Sfriblizbblf {
 
+
+
+
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5502683707821851294L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5502683707821851294L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5502683707821851294L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5502683707821851294L;
     privbtf stbtid finbl long sfriblVfrsionUID = -5502683707821851294L;
 
+
+
+
+
     /**
-     * Thf timfstbmp's dbtf bnd timf
+    /**
+    /**
+    /**
+    /**
+     * Tif timfstbmp's dbtf bnd timf
+     * Tif timfstbmp's dbtf bnd timf
+     * Tif timfstbmp's dbtf bnd timf
+     * Tif timfstbmp's dbtf bnd timf
+     * Tif timfstbmp's dbtf bnd timf
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf Dbtf timfstbmp;
+    privbtf Dbtf timfstbmp;
+    privbtf Dbtf timfstbmp;
+    privbtf Dbtf timfstbmp;
+    privbtf Dbtf timfstbmp;
+
+
+
+
 
     /**
-     * Thf TSA's dfrtifidbtf pbth.
+    /**
+    /**
+    /**
+    /**
+     * Tif TSA's dfrtifidbtf pbti.
+     * Tif TSA's dfrtifidbtf pbti.
+     * Tif TSA's dfrtifidbtf pbti.
+     * Tif TSA's dfrtifidbtf pbti.
+     * Tif TSA's dfrtifidbtf pbti.
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      */
-    privbtf CfrtPbth signfrCfrtPbth;
+     */
+     */
+     */
+     */
+    privbtf CfrtPbti signfrCfrtPbti;
+    privbtf CfrtPbti signfrCfrtPbti;
+    privbtf CfrtPbti signfrCfrtPbti;
+    privbtf CfrtPbti signfrCfrtPbti;
+    privbtf CfrtPbti signfrCfrtPbti;
+
+
+
+
 
     /*
-     * Hbsh dodf for this timfstbmp.
+    /*
+    /*
+    /*
+    /*
+     * Hbsi dodf for tiis timfstbmp.
+     * Hbsi dodf for tiis timfstbmp.
+     * Hbsi dodf for tiis timfstbmp.
+     * Hbsi dodf for tiis timfstbmp.
+     * Hbsi dodf for tiis timfstbmp.
      */
-    privbtf trbnsifnt int myhbsh = -1;
+     */
+     */
+     */
+     */
+    privbtf trbnsifnt int myibsi = -1;
+    privbtf trbnsifnt int myibsi = -1;
+    privbtf trbnsifnt int myibsi = -1;
+    privbtf trbnsifnt int myibsi = -1;
+    privbtf trbnsifnt int myibsi = -1;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b Timfstbmp.
+     * Construdts b Timfstbmp.
+     * Construdts b Timfstbmp.
+     * Construdts b Timfstbmp.
+     * Construdts b Timfstbmp.
      *
-     * @pbrbm timfstbmp is thf timfstbmp's dbtf bnd timf. It must not bf null.
-     * @pbrbm signfrCfrtPbth is thf TSA's dfrtifidbtf pbth. It must not bf null.
-     * @throws NullPointfrExdfption if timfstbmp or signfrCfrtPbth is null.
+     *
+     *
+     *
+     *
+     * @pbrbm timfstbmp is tif timfstbmp's dbtf bnd timf. It must not bf null.
+     * @pbrbm timfstbmp is tif timfstbmp's dbtf bnd timf. It must not bf null.
+     * @pbrbm timfstbmp is tif timfstbmp's dbtf bnd timf. It must not bf null.
+     * @pbrbm timfstbmp is tif timfstbmp's dbtf bnd timf. It must not bf null.
+     * @pbrbm timfstbmp is tif timfstbmp's dbtf bnd timf. It must not bf null.
+     * @pbrbm signfrCfrtPbti is tif TSA's dfrtifidbtf pbti. It must not bf null.
+     * @pbrbm signfrCfrtPbti is tif TSA's dfrtifidbtf pbti. It must not bf null.
+     * @pbrbm signfrCfrtPbti is tif TSA's dfrtifidbtf pbti. It must not bf null.
+     * @pbrbm signfrCfrtPbti is tif TSA's dfrtifidbtf pbti. It must not bf null.
+     * @pbrbm signfrCfrtPbti is tif TSA's dfrtifidbtf pbti. It must not bf null.
+     * @tirows NullPointfrExdfption if timfstbmp or signfrCfrtPbti is null.
+     * @tirows NullPointfrExdfption if timfstbmp or signfrCfrtPbti is null.
+     * @tirows NullPointfrExdfption if timfstbmp or signfrCfrtPbti is null.
+     * @tirows NullPointfrExdfption if timfstbmp or signfrCfrtPbti is null.
+     * @tirows NullPointfrExdfption if timfstbmp or signfrCfrtPbti is null.
      */
-    publid Timfstbmp(Dbtf timfstbmp, CfrtPbth signfrCfrtPbth) {
-        if (timfstbmp == null || signfrCfrtPbth == null) {
-            throw nfw NullPointfrExdfption();
+     */
+     */
+     */
+     */
+    publid Timfstbmp(Dbtf timfstbmp, CfrtPbti signfrCfrtPbti) {
+    publid Timfstbmp(Dbtf timfstbmp, CfrtPbti signfrCfrtPbti) {
+    publid Timfstbmp(Dbtf timfstbmp, CfrtPbti signfrCfrtPbti) {
+    publid Timfstbmp(Dbtf timfstbmp, CfrtPbti signfrCfrtPbti) {
+    publid Timfstbmp(Dbtf timfstbmp, CfrtPbti signfrCfrtPbti) {
+        if (timfstbmp == null || signfrCfrtPbti == null) {
+        if (timfstbmp == null || signfrCfrtPbti == null) {
+        if (timfstbmp == null || signfrCfrtPbti == null) {
+        if (timfstbmp == null || signfrCfrtPbti == null) {
+        if (timfstbmp == null || signfrCfrtPbti == null) {
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
+            tirow nfw NullPointfrExdfption();
         }
-        this.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
-        this.signfrCfrtPbth = signfrCfrtPbth;
+        }
+        }
+        }
+        }
+        tiis.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        tiis.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        tiis.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        tiis.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        tiis.timfstbmp = nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        tiis.signfrCfrtPbti = signfrCfrtPbti;
+        tiis.signfrCfrtPbti = signfrCfrtPbti;
+        tiis.signfrCfrtPbti = signfrCfrtPbti;
+        tiis.signfrCfrtPbti = signfrCfrtPbti;
+        tiis.signfrCfrtPbti = signfrCfrtPbti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf dbtf bnd timf whfn thf timfstbmp wbs gfnfrbtfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dbtf bnd timf wifn tif timfstbmp wbs gfnfrbtfd.
+     * Rfturns tif dbtf bnd timf wifn tif timfstbmp wbs gfnfrbtfd.
+     * Rfturns tif dbtf bnd timf wifn tif timfstbmp wbs gfnfrbtfd.
+     * Rfturns tif dbtf bnd timf wifn tif timfstbmp wbs gfnfrbtfd.
+     * Rfturns tif dbtf bnd timf wifn tif timfstbmp wbs gfnfrbtfd.
      *
-     * @rfturn Thf timfstbmp's dbtf bnd timf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif timfstbmp's dbtf bnd timf.
+     * @rfturn Tif timfstbmp's dbtf bnd timf.
+     * @rfturn Tif timfstbmp's dbtf bnd timf.
+     * @rfturn Tif timfstbmp's dbtf bnd timf.
+     * @rfturn Tif timfstbmp's dbtf bnd timf.
+     */
+     */
+     */
+     */
      */
     publid Dbtf gftTimfstbmp() {
+    publid Dbtf gftTimfstbmp() {
+    publid Dbtf gftTimfstbmp() {
+    publid Dbtf gftTimfstbmp() {
+    publid Dbtf gftTimfstbmp() {
+        rfturn nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        rfturn nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        rfturn nfw Dbtf(timfstbmp.gftTimf()); // dlonf
+        rfturn nfw Dbtf(timfstbmp.gftTimf()); // dlonf
         rfturn nfw Dbtf(timfstbmp.gftTimf()); // dlonf
     }
-
-    /**
-     * Rfturns thf dfrtifidbtf pbth for thf Timfstbmping Authority.
-     *
-     * @rfturn Thf TSA's dfrtifidbtf pbth.
-     */
-    publid CfrtPbth gftSignfrCfrtPbth() {
-        rfturn signfrCfrtPbth;
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf hbsh dodf vbluf for this timfstbmp.
-     * Thf hbsh dodf is gfnfrbtfd using thf dbtf bnd timf of thf timfstbmp
-     * bnd thf TSA's dfrtifidbtf pbth.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dfrtifidbtf pbti for tif Timfstbmping Autiority.
+     * Rfturns tif dfrtifidbtf pbti for tif Timfstbmping Autiority.
+     * Rfturns tif dfrtifidbtf pbti for tif Timfstbmping Autiority.
+     * Rfturns tif dfrtifidbtf pbti for tif Timfstbmping Autiority.
+     * Rfturns tif dfrtifidbtf pbti for tif Timfstbmping Autiority.
      *
-     * @rfturn b hbsh dodf vbluf for this timfstbmp.
+     *
+     *
+     *
+     *
+     * @rfturn Tif TSA's dfrtifidbtf pbti.
+     * @rfturn Tif TSA's dfrtifidbtf pbti.
+     * @rfturn Tif TSA's dfrtifidbtf pbti.
+     * @rfturn Tif TSA's dfrtifidbtf pbti.
+     * @rfturn Tif TSA's dfrtifidbtf pbti.
      */
-    publid int hbshCodf() {
-        if (myhbsh == -1) {
-            myhbsh = timfstbmp.hbshCodf() + signfrCfrtPbth.hbshCodf();
+     */
+     */
+     */
+     */
+    publid CfrtPbti gftSignfrCfrtPbti() {
+    publid CfrtPbti gftSignfrCfrtPbti() {
+    publid CfrtPbti gftSignfrCfrtPbti() {
+    publid CfrtPbti gftSignfrCfrtPbti() {
+    publid CfrtPbti gftSignfrCfrtPbti() {
+        rfturn signfrCfrtPbti;
+        rfturn signfrCfrtPbti;
+        rfturn signfrCfrtPbti;
+        rfturn signfrCfrtPbti;
+        rfturn signfrCfrtPbti;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif ibsi dodf vbluf for tiis timfstbmp.
+     * Rfturns tif ibsi dodf vbluf for tiis timfstbmp.
+     * Rfturns tif ibsi dodf vbluf for tiis timfstbmp.
+     * Rfturns tif ibsi dodf vbluf for tiis timfstbmp.
+     * Rfturns tif ibsi dodf vbluf for tiis timfstbmp.
+     * Tif ibsi dodf is gfnfrbtfd using tif dbtf bnd timf of tif timfstbmp
+     * Tif ibsi dodf is gfnfrbtfd using tif dbtf bnd timf of tif timfstbmp
+     * Tif ibsi dodf is gfnfrbtfd using tif dbtf bnd timf of tif timfstbmp
+     * Tif ibsi dodf is gfnfrbtfd using tif dbtf bnd timf of tif timfstbmp
+     * Tif ibsi dodf is gfnfrbtfd using tif dbtf bnd timf of tif timfstbmp
+     * bnd tif TSA's dfrtifidbtf pbti.
+     * bnd tif TSA's dfrtifidbtf pbti.
+     * bnd tif TSA's dfrtifidbtf pbti.
+     * bnd tif TSA's dfrtifidbtf pbti.
+     * bnd tif TSA's dfrtifidbtf pbti.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b ibsi dodf vbluf for tiis timfstbmp.
+     * @rfturn b ibsi dodf vbluf for tiis timfstbmp.
+     * @rfturn b ibsi dodf vbluf for tiis timfstbmp.
+     * @rfturn b ibsi dodf vbluf for tiis timfstbmp.
+     * @rfturn b ibsi dodf vbluf for tiis timfstbmp.
+     */
+     */
+     */
+     */
+     */
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+        if (myibsi == -1) {
+        if (myibsi == -1) {
+        if (myibsi == -1) {
+        if (myibsi == -1) {
+        if (myibsi == -1) {
+            myibsi = timfstbmp.ibsiCodf() + signfrCfrtPbti.ibsiCodf();
+            myibsi = timfstbmp.ibsiCodf() + signfrCfrtPbti.ibsiCodf();
+            myibsi = timfstbmp.ibsiCodf() + signfrCfrtPbti.ibsiCodf();
+            myibsi = timfstbmp.ibsiCodf() + signfrCfrtPbti.ibsiCodf();
+            myibsi = timfstbmp.ibsiCodf() + signfrCfrtPbti.ibsiCodf();
         }
-        rfturn myhbsh;
+        }
+        }
+        }
+        }
+        rfturn myibsi;
+        rfturn myibsi;
+        rfturn myibsi;
+        rfturn myibsi;
+        rfturn myibsi;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Tfsts for fqublity bftwffn thf spfdififd objfdt bnd this
-     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if thf dbtf bnd timf of
-     * thfir timfstbmp's bnd thfir signfr's dfrtifidbtf pbths brf fqubl.
+    /**
+    /**
+    /**
+    /**
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if tif dbtf bnd timf of
+     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if tif dbtf bnd timf of
+     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if tif dbtf bnd timf of
+     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if tif dbtf bnd timf of
+     * timfstbmp. Two timfstbmps brf donsidfrfd fqubl if tif dbtf bnd timf of
+     * tifir timfstbmp's bnd tifir signfr's dfrtifidbtf pbtis brf fqubl.
+     * tifir timfstbmp's bnd tifir signfr's dfrtifidbtf pbtis brf fqubl.
+     * tifir timfstbmp's bnd tifir signfr's dfrtifidbtf pbtis brf fqubl.
+     * tifir timfstbmp's bnd tifir signfr's dfrtifidbtf pbtis brf fqubl.
+     * tifir timfstbmp's bnd tifir signfr's dfrtifidbtf pbtis brf fqubl.
      *
-     * @pbrbm obj thf objfdt to tfst for fqublity with this timfstbmp.
      *
-     * @rfturn truf if thf timfstbmp brf donsidfrfd fqubl, fblsf othfrwisf.
+     *
+     *
+     *
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis timfstbmp.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis timfstbmp.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis timfstbmp.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis timfstbmp.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis timfstbmp.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn truf if tif timfstbmp brf donsidfrfd fqubl, fblsf otifrwisf.
+     * @rfturn truf if tif timfstbmp brf donsidfrfd fqubl, fblsf otifrwisf.
+     * @rfturn truf if tif timfstbmp brf donsidfrfd fqubl, fblsf otifrwisf.
+     * @rfturn truf if tif timfstbmp brf donsidfrfd fqubl, fblsf otifrwisf.
+     * @rfturn truf if tif timfstbmp brf donsidfrfd fqubl, fblsf otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null || (!(obj instbndfof Timfstbmp))) {
+        if (obj == null || (!(obj instbndfof Timfstbmp))) {
+        if (obj == null || (!(obj instbndfof Timfstbmp))) {
+        if (obj == null || (!(obj instbndfof Timfstbmp))) {
         if (obj == null || (!(obj instbndfof Timfstbmp))) {
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
         }
-        Timfstbmp thbt = (Timfstbmp)obj;
+        }
+        }
+        }
+        }
+        Timfstbmp tibt = (Timfstbmp)obj;
+        Timfstbmp tibt = (Timfstbmp)obj;
+        Timfstbmp tibt = (Timfstbmp)obj;
+        Timfstbmp tibt = (Timfstbmp)obj;
+        Timfstbmp tibt = (Timfstbmp)obj;
 
-        if (this == thbt) {
+
+
+
+
+        if (tiis == tibt) {
+        if (tiis == tibt) {
+        if (tiis == tibt) {
+        if (tiis == tibt) {
+        if (tiis == tibt) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         }
-        rfturn (timfstbmp.fqubls(thbt.gftTimfstbmp()) &&
-            signfrCfrtPbth.fqubls(thbt.gftSignfrCfrtPbth()));
+        }
+        }
+        }
+        }
+        rfturn (timfstbmp.fqubls(tibt.gftTimfstbmp()) &&
+        rfturn (timfstbmp.fqubls(tibt.gftTimfstbmp()) &&
+        rfturn (timfstbmp.fqubls(tibt.gftTimfstbmp()) &&
+        rfturn (timfstbmp.fqubls(tibt.gftTimfstbmp()) &&
+        rfturn (timfstbmp.fqubls(tibt.gftTimfstbmp()) &&
+            signfrCfrtPbti.fqubls(tibt.gftSignfrCfrtPbti()));
+            signfrCfrtPbti.fqubls(tibt.gftSignfrCfrtPbti()));
+            signfrCfrtPbti.fqubls(tibt.gftSignfrCfrtPbti()));
+            signfrCfrtPbti.fqubls(tibt.gftSignfrCfrtPbti()));
+            signfrCfrtPbti.fqubls(tibt.gftSignfrCfrtPbti()));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b string dfsdribing this timfstbmp.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b string dfsdribing tiis timfstbmp.
+     * Rfturns b string dfsdribing tiis timfstbmp.
+     * Rfturns b string dfsdribing tiis timfstbmp.
+     * Rfturns b string dfsdribing tiis timfstbmp.
+     * Rfturns b string dfsdribing tiis timfstbmp.
      *
-     * @rfturn A string domprising thf dbtf bnd timf of thf timfstbmp bnd
+     *
+     *
+     *
+     *
+     * @rfturn A string domprising tif dbtf bnd timf of tif timfstbmp bnd
+     * @rfturn A string domprising tif dbtf bnd timf of tif timfstbmp bnd
+     * @rfturn A string domprising tif dbtf bnd timf of tif timfstbmp bnd
+     * @rfturn A string domprising tif dbtf bnd timf of tif timfstbmp bnd
+     * @rfturn A string domprising tif dbtf bnd timf of tif timfstbmp bnd
+     *         its signfr's dfrtifidbtf.
+     *         its signfr's dfrtifidbtf.
+     *         its signfr's dfrtifidbtf.
+     *         its signfr's dfrtifidbtf.
      *         its signfr's dfrtifidbtf.
      */
+     */
+     */
+     */
+     */
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
     publid String toString() {
         StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(");
+        sb.bppfnd("(");
+        sb.bppfnd("(");
+        sb.bppfnd("(");
         sb.bppfnd("(");
         sb.bppfnd("timfstbmp: " + timfstbmp);
-        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbth.gftCfrtifidbtfs();
+        sb.bppfnd("timfstbmp: " + timfstbmp);
+        sb.bppfnd("timfstbmp: " + timfstbmp);
+        sb.bppfnd("timfstbmp: " + timfstbmp);
+        sb.bppfnd("timfstbmp: " + timfstbmp);
+        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbti.gftCfrtifidbtfs();
+        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbti.gftCfrtifidbtfs();
+        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbti.gftCfrtifidbtfs();
+        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbti.gftCfrtifidbtfs();
+        List<? fxtfnds Cfrtifidbtf> dfrts = signfrCfrtPbti.gftCfrtifidbtfs();
+        if (!dfrts.isEmpty()) {
+        if (!dfrts.isEmpty()) {
+        if (!dfrts.isEmpty()) {
+        if (!dfrts.isEmpty()) {
         if (!dfrts.isEmpty()) {
             sb.bppfnd("TSA: " + dfrts.gft(0));
+            sb.bppfnd("TSA: " + dfrts.gft(0));
+            sb.bppfnd("TSA: " + dfrts.gft(0));
+            sb.bppfnd("TSA: " + dfrts.gft(0));
+            sb.bppfnd("TSA: " + dfrts.gft(0));
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             sb.bppfnd("TSA: <fmpty>");
+            sb.bppfnd("TSA: <fmpty>");
+            sb.bppfnd("TSA: <fmpty>");
+            sb.bppfnd("TSA: <fmpty>");
+            sb.bppfnd("TSA: <fmpty>");
+        }
+        }
+        }
+        }
         }
         sb.bppfnd(")");
+        sb.bppfnd(")");
+        sb.bppfnd(")");
+        sb.bppfnd(")");
+        sb.bppfnd(")");
+        rfturn sb.toString();
+        rfturn sb.toString();
+        rfturn sb.toString();
+        rfturn sb.toString();
         rfturn sb.toString();
     }
+    }
+    }
+    }
+    }
 
-    // Expliditly rfsft hbsh dodf vbluf to -1
+
+
+
+
+    // Expliditly rfsft ibsi dodf vbluf to -1
+    // Expliditly rfsft ibsi dodf vbluf to -1
+    // Expliditly rfsft ibsi dodf vbluf to -1
+    // Expliditly rfsft ibsi dodf vbluf to -1
+    // Expliditly rfsft ibsi dodf vbluf to -1
     privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
-        throws IOExdfption, ClbssNotFoundExdfption {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        tirows IOExdfption, ClbssNotFoundExdfption {
         ois.dffbultRfbdObjfdt();
-        myhbsh = -1;
+        ois.dffbultRfbdObjfdt();
+        ois.dffbultRfbdObjfdt();
+        ois.dffbultRfbdObjfdt();
+        ois.dffbultRfbdObjfdt();
+        myibsi = -1;
+        myibsi = -1;
+        myibsi = -1;
+        myibsi = -1;
+        myibsi = -1;
+        timfstbmp = nfw Dbtf(timfstbmp.gftTimf());
+        timfstbmp = nfw Dbtf(timfstbmp.gftTimf());
+        timfstbmp = nfw Dbtf(timfstbmp.gftTimf());
+        timfstbmp = nfw Dbtf(timfstbmp.gftTimf());
         timfstbmp = nfw Dbtf(timfstbmp.gftTimf());
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

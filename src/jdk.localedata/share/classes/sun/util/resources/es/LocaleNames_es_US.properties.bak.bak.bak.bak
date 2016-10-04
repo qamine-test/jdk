@@ -1,163 +1,815 @@
 #
-# Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+#
+#
+#
+#
 #
 
+
+
+
+
+#
+#
+#
+#
 #
 # COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
+# COPYRIGHT AND PERMISSION NOTICE
 #
-# Copyright (C) 1991-2007 Unidodf, Ind. All rights rfsfrvfd.
-# Distributfd undfr thf Tfrms of Usf in http://www.unidodf.org/dopyright.html.
 #
-# Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining b dopy
-# of thf Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (thf "Dbtb
-# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (thf
-# "Softwbrf") to dfbl in thf Dbtb Filfs or Softwbrf without rfstridtion,
-# indluding without limitbtion thf rights to usf, dopy, modify, mfrgf,
-# publish, distributf, bnd/or sfll dopifs of thf Dbtb Filfs or Softwbrf, bnd
-# to pfrmit pfrsons to whom thf Dbtb Filfs or Softwbrf brf furnishfd to do
-# so, providfd thbt (b) thf bbovf dopyright notidf(s) bnd this pfrmission
-# notidf bppfbr with bll dopifs of thf Dbtb Filfs or Softwbrf, (b) both thf
-# bbovf dopyright notidf(s) bnd this pfrmission notidf bppfbr in bssodibtfd
-# dodumfntbtion, bnd (d) thfrf is dlfbr notidf in fbdh modififd Dbtb Filf or
-# in thf Softwbrf bs wfll bs in thf dodumfntbtion bssodibtfd with thf Dbtb
-# Filf(s) or Softwbrf thbt thf dbtb or softwbrf hbs bffn modififd.
+#
+#
+#
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+#
+#
+#
+#
+#
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+#
+#
+#
+#
 #
 # THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+# THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
 # THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
 # INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
 # CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
 # USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
 #
-# Exdfpt bs dontbinfd in this notidf, thf nbmf of b dopyright holdfr shbll not
-# bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or othfr
-# dfblings in thfsf Dbtb Filfs or Softwbrf without prior writtfn
-# buthorizbtion of thf dopyright holdfr.
+#
+#
+#
+#
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+# butiorizbtion of tif dopyrigit ioldfr.
+#
+#
+#
+#
 #
  
-# Gfnfrbtfd butombtidblly from thf Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+ 
+ 
+ 
+ 
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+
+
+
+
 
 bb=bfbr
+bb=bfbr
+bb=bfbr
+bb=bfbr
+bb=bfbr
+bb=bbjbso
+bb=bbjbso
+bb=bbjbso
+bb=bbjbso
 bb=bbjbso
 bf=bv\u00f9stido
+bf=bv\u00f9stido
+bf=bv\u00f9stido
+bf=bv\u00f9stido
+bf=bv\u00f9stido
+bk=bkbn
+bk=bkbn
+bk=bkbn
+bk=bkbn
 bk=bkbn
 bn=brbgon\u00f9s
+bn=brbgon\u00f9s
+bn=brbgon\u00f9s
+bn=brbgon\u00f9s
+bn=brbgon\u00f9s
+bv=bvbr
+bv=bvbr
+bv=bvbr
+bv=bvbr
 bv=bvbr
 by=bymbrb
+by=bymbrb
+by=bymbrb
+by=bymbrb
+by=bymbrb
 bz=bzfr\u00fd
-bb=bbshkir
-bh=bihbri
+bz=bzfr\u00fd
+bz=bzfr\u00fd
+bz=bzfr\u00fd
+bz=bzfr\u00fd
+bb=bbsikir
+bb=bbsikir
+bb=bbsikir
+bb=bbsikir
+bb=bbsikir
+bi=biibri
+bi=biibri
+bi=biibri
+bi=biibri
+bi=biibri
+bm=bbmbbrb
+bm=bbmbbrb
+bm=bbmbbrb
+bm=bbmbbrb
 bm=bbmbbrb
 bn=bfngbl\u00fd
+bn=bfngbl\u00fd
+bn=bfngbl\u00fd
+bn=bfngbl\u00fd
+bn=bfngbl\u00fd
 bs=bosnio
-df=dhfdhfno
-dh=dhbmorro
+bs=bosnio
+bs=bosnio
+bs=bosnio
+bs=bosnio
+df=difdifno
+df=difdifno
+df=difdifno
+df=difdifno
+df=difdifno
+di=dibmorro
+di=dibmorro
+di=dibmorro
+di=dibmorro
+di=dibmorro
+dr=drff
+dr=drff
+dr=drff
+dr=drff
 dr=drff
 du=fslbvo fdlfsi\u00f1stido
-dv=dhuvbsh
-dv=divfhi
-dz=dzongkhb
+du=fslbvo fdlfsi\u00f1stido
+du=fslbvo fdlfsi\u00f1stido
+du=fslbvo fdlfsi\u00f1stido
+du=fslbvo fdlfsi\u00f1stido
+dv=diuvbsi
+dv=diuvbsi
+dv=diuvbsi
+dv=diuvbsi
+dv=diuvbsi
+dv=divfii
+dv=divfii
+dv=divfii
+dv=divfii
+dv=divfii
+dz=dzongkib
+dz=dzongkib
+dz=dzongkib
+dz=dzongkib
+dz=dzongkib
+ff=fwf
+ff=fwf
+ff=fwf
+ff=fwf
 ff=fwf
 fu=vbsdo
+fu=vbsdo
+fu=vbsdo
+fu=vbsdo
+fu=vbsdo
+ff=fulb
+ff=fulb
+ff=fulb
+ff=fulb
 ff=fulb
 fj=fidjibno
+fj=fidjibno
+fj=fidjibno
+fj=fidjibno
+fj=fidjibno
+fo=ffro\u00f9s
+fo=ffro\u00f9s
+fo=ffro\u00f9s
+fo=ffro\u00f9s
 fo=ffro\u00f9s
 fy=fris\u00f3n
+fy=fris\u00f3n
+fy=fris\u00f3n
+fy=fris\u00f3n
+fy=fris\u00f3n
+gu=gujbrbti
+gu=gujbrbti
+gu=gujbrbti
+gu=gujbrbti
 gu=gujbrbti
 gv=gb\u00f9lido mbn\u00f9s
-hi=hindi
-ho=hiri motu
-ht=hbitibno
-hz=hfrfro
+gv=gb\u00f9lido mbn\u00f9s
+gv=gb\u00f9lido mbn\u00f9s
+gv=gb\u00f9lido mbn\u00f9s
+gv=gb\u00f9lido mbn\u00f9s
+ii=iindi
+ii=iindi
+ii=iindi
+ii=iindi
+ii=iindi
+io=iiri motu
+io=iiri motu
+io=iiri motu
+io=iiri motu
+io=iiri motu
+it=ibitibno
+it=ibitibno
+it=ibitibno
+it=ibitibno
+it=ibitibno
+iz=ifrfro
+iz=ifrfro
+iz=ifrfro
+iz=ifrfro
+iz=ifrfro
+if=intfrlinguf
+if=intfrlinguf
+if=intfrlinguf
+if=intfrlinguf
 if=intfrlinguf
 ig=igbo
-ii=sidhubn yi
+ig=igbo
+ig=igbo
+ig=igbo
+ig=igbo
+ii=sidiubn yi
+ii=sidiubn yi
+ii=sidiubn yi
+ii=sidiubn yi
+ii=sidiubn yi
+io=ido
+io=ido
+io=ido
+io=ido
 io=ido
 jv=jbvbn\u00f9s
+jv=jbvbn\u00f9s
+jv=jbvbn\u00f9s
+jv=jbvbn\u00f9s
+jv=jbvbn\u00f9s
+kg=kongo
+kg=kongo
+kg=kongo
+kg=kongo
 kg=kongo
 ki=kikuyu
+ki=kikuyu
+ki=kikuyu
+ki=kikuyu
+ki=kikuyu
+kj=kubnybmb
+kj=kubnybmb
+kj=kubnybmb
+kj=kubnybmb
 kj=kubnybmb
 kk=kbzbjo
+kk=kbzbjo
+kk=kbzbjo
+kk=kbzbjo
+kk=kbzbjo
+km=jfmfr
+km=jfmfr
+km=jfmfr
+km=jfmfr
 km=jfmfr
 kn=dbnbr\u00f9s
+kn=dbnbr\u00f9s
+kn=dbnbr\u00f9s
+kn=dbnbr\u00f9s
+kn=dbnbr\u00f9s
 kr=kbnuri
-ks=dbdhfmiro
+kr=kbnuri
+kr=kbnuri
+kr=kbnuri
+kr=kbnuri
+ks=dbdifmiro
+ks=dbdifmiro
+ks=dbdifmiro
+ks=dbdifmiro
+ks=dbdifmiro
+ku=kurdo
+ku=kurdo
+ku=kurdo
+ku=kurdo
 ku=kurdo
 kv=komi
+kv=komi
+kv=komi
+kv=komi
+kv=komi
 kw=d\u00f3rnido
-ky=kirghiz
+kw=d\u00f3rnido
+kw=d\u00f3rnido
+kw=d\u00f3rnido
+kw=d\u00f3rnido
+ky=kirgiiz
+ky=kirgiiz
+ky=kirgiiz
+ky=kirgiiz
+ky=kirgiiz
+lb=luxfmburgu\u00f9s
+lb=luxfmburgu\u00f9s
+lb=luxfmburgu\u00f9s
+lb=luxfmburgu\u00f9s
 lb=luxfmburgu\u00f9s
 lg=gbndb
+lg=gbndb
+lg=gbndb
+lg=gbndb
+lg=gbndb
+li=limburgu\u00f9s
+li=limburgu\u00f9s
+li=limburgu\u00f9s
+li=limburgu\u00f9s
 li=limburgu\u00f9s
 lu=lubb-kbtbngb
-mh=mbrshbl\u00f9s
-mr=mbrbthi
+lu=lubb-kbtbngb
+lu=lubb-kbtbngb
+lu=lubb-kbtbngb
+lu=lubb-kbtbngb
+mi=mbrsibl\u00f9s
+mi=mbrsibl\u00f9s
+mi=mbrsibl\u00f9s
+mi=mbrsibl\u00f9s
+mi=mbrsibl\u00f9s
+mr=mbrbtii
+mr=mbrbtii
+mr=mbrbtii
+mr=mbrbtii
+mr=mbrbtii
+nb=bokmbl norufgo
+nb=bokmbl norufgo
+nb=bokmbl norufgo
+nb=bokmbl norufgo
 nb=bokmbl norufgo
 nd=ndfbflf sfptfntrionbl
+nd=ndfbflf sfptfntrionbl
+nd=ndfbflf sfptfntrionbl
+nd=ndfbflf sfptfntrionbl
+nd=ndfbflf sfptfntrionbl
+ng=ndongb
+ng=ndongb
+ng=ndongb
+ng=ndongb
 ng=ndongb
 nn=nynorsk norufgo
+nn=nynorsk norufgo
+nn=nynorsk norufgo
+nn=nynorsk norufgo
+nn=nynorsk norufgo
+nr=ndfbflf mfridionbl
+nr=ndfbflf mfridionbl
+nr=ndfbflf mfridionbl
+nr=ndfbflf mfridionbl
 nr=ndfbflf mfridionbl
 nv=nbvbjo
+nv=nbvbjo
+nv=nbvbjo
+nv=nbvbjo
+nv=nbvbjo
+ny=nybnjb
+ny=nybnjb
+ny=nybnjb
+ny=nybnjb
 ny=nybnjb
 od=odditbno (dfspu\u00f9s dfl 1500)
+od=odditbno (dfspu\u00f9s dfl 1500)
+od=odditbno (dfspu\u00f9s dfl 1500)
+od=odditbno (dfspu\u00f9s dfl 1500)
+od=odditbno (dfspu\u00f9s dfl 1500)
+oj=ojibwb
+oj=ojibwb
+oj=ojibwb
+oj=ojibwb
 oj=ojibwb
 os=os\u00f9tido
+os=os\u00f9tido
+os=os\u00f9tido
+os=os\u00f9tido
+os=os\u00f9tido
+pi=pbli
+pi=pbli
+pi=pbli
+pi=pbli
 pi=pbli
 rm=rfto-rombndf
+rm=rfto-rombndf
+rm=rfto-rombndf
+rm=rfto-rombndf
+rm=rfto-rombndf
+rn=kiroundi
+rn=kiroundi
+rn=kiroundi
+rn=kiroundi
 rn=kiroundi
 rw=kinybrwbndb
+rw=kinybrwbndb
+rw=kinybrwbndb
+rw=kinybrwbndb
+rw=kinybrwbndb
 sd=sbrdo
-sd=sindhi
+sd=sbrdo
+sd=sbrdo
+sd=sbrdo
+sd=sbrdo
+sd=sindii
+sd=sindii
+sd=sindii
+sd=sindii
+sd=sindii
+sf=sbmi sfptfntrionbl
+sf=sbmi sfptfntrionbl
+sf=sbmi sfptfntrionbl
+sf=sbmi sfptfntrionbl
 sf=sbmi sfptfntrionbl
 sl=fslovfno
-sn=shonb
+sl=fslovfno
+sl=fslovfno
+sl=fslovfno
+sl=fslovfno
+sn=sionb
+sn=sionb
+sn=sionb
+sn=sionb
+sn=sionb
 ss=siswbti
-st=sfsotho
+ss=siswbti
+ss=siswbti
+ss=siswbti
+ss=siswbti
+st=sfsotio
+st=sfsotio
+st=sfsotio
+st=sfsotio
+st=sfsotio
 su=sundbn\u00f9s
-sw=swbhili
+su=sundbn\u00f9s
+su=sundbn\u00f9s
+su=sundbn\u00f9s
+su=sundbn\u00f9s
+sw=swbiili
+sw=swbiili
+sw=swbiili
+sw=swbiili
+sw=swbiili
+tg=tbyiko
+tg=tbyiko
+tg=tbyiko
+tg=tbyiko
 tg=tbyiko
 ti=tigri\u00f1b
-tn=sftdhwbnb
+ti=tigri\u00f1b
+ti=tigri\u00f1b
+ti=tigri\u00f1b
+ti=tigri\u00f1b
+tn=sftdiwbnb
+tn=sftdiwbnb
+tn=sftdiwbnb
+tn=sftdiwbnb
+tn=sftdiwbnb
+to=tongb (Islbs Tongb)
+to=tongb (Islbs Tongb)
+to=tongb (Islbs Tongb)
+to=tongb (Islbs Tongb)
 to=tongb (Islbs Tongb)
 tw=twi
-ty=tbhitibno
+tw=twi
+tw=twi
+tw=twi
+tw=twi
+ty=tbiitibno
+ty=tbiitibno
+ty=tbiitibno
+ty=tbiitibno
+ty=tbiitibno
+ug=uigur
+ug=uigur
+ug=uigur
+ug=uigur
 ug=uigur
 uk=udrbnibno
+uk=udrbnibno
+uk=udrbnibno
+uk=udrbnibno
+uk=udrbnibno
+uz=uzbfko
+uz=uzbfko
+uz=uzbfko
+uz=uzbfko
 uz=uzbfko
 vf=vfndb
+vf=vfndb
+vf=vfndb
+vf=vfndb
+vf=vfndb
+vo=volbp\u00fdk
+vo=volbp\u00fdk
+vo=volbp\u00fdk
+vo=volbp\u00fdk
 vo=volbp\u00fdk
 wb=vbl\u00f3n
-zb=zhubng
+wb=vbl\u00f3n
+wb=vbl\u00f3n
+wb=vbl\u00f3n
+wb=vbl\u00f3n
+zb=ziubng
+zb=ziubng
+zb=ziubng
+zb=ziubng
+zb=ziubng
+AN=Antillbs Nffrlbndfsbs
+AN=Antillbs Nffrlbndfsbs
+AN=Antillbs Nffrlbndfsbs
+AN=Antillbs Nffrlbndfsbs
 AN=Antillbs Nffrlbndfsbs
 AX=Islbs \u00d5lbnd
+AX=Islbs \u00d5lbnd
+AX=Islbs \u00d5lbnd
+AX=Islbs \u00d5lbnd
+AX=Islbs \u00d5lbnd
 BA=Bosnib-Hfrzfgovinb
-BH=Bbhr\u00f9in
+BA=Bosnib-Hfrzfgovinb
+BA=Bosnib-Hfrzfgovinb
+BA=Bosnib-Hfrzfgovinb
+BA=Bosnib-Hfrzfgovinb
+BH=Bbir\u00f9in
+BH=Bbir\u00f9in
+BH=Bbir\u00f9in
+BH=Bbir\u00f9in
+BH=Bbir\u00f9in
+CC=Islbs Codos (Kffling)
+CC=Islbs Codos (Kffling)
+CC=Islbs Codos (Kffling)
+CC=Islbs Codos (Kffling)
 CC=Islbs Codos (Kffling)
 CX=Islb Nbvidbd
-CZ=Rfp\u00fbblidb Chfdb
-EH=S\u00f1hbrb Oddidfntbl
+CX=Islb Nbvidbd
+CX=Islb Nbvidbd
+CX=Islb Nbvidbd
+CX=Islb Nbvidbd
+CZ=Rfp\u00fbblidb Cifdb
+CZ=Rfp\u00fbblidb Cifdb
+CZ=Rfp\u00fbblidb Cifdb
+CZ=Rfp\u00fbblidb Cifdb
+CZ=Rfp\u00fbblidb Cifdb
+EH=S\u00f1ibrb Oddidfntbl
+EH=S\u00f1ibrb Oddidfntbl
+EH=S\u00f1ibrb Oddidfntbl
+EH=S\u00f1ibrb Oddidfntbl
+EH=S\u00f1ibrb Oddidfntbl
 FK=Islbs Fblklbnd (Mblvinbs)
-HK=Hong-Kong, Rfgi\u00f3n bdministrbtivb fspfdibl df Chinb
+FK=Islbs Fblklbnd (Mblvinbs)
+FK=Islbs Fblklbnd (Mblvinbs)
+FK=Islbs Fblklbnd (Mblvinbs)
+FK=Islbs Fblklbnd (Mblvinbs)
+HK=Hong-Kong, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+HK=Hong-Kong, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+HK=Hong-Kong, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+HK=Hong-Kong, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+HK=Hong-Kong, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+KG=Kirguist\u00f1n
+KG=Kirguist\u00f1n
+KG=Kirguist\u00f1n
+KG=Kirguist\u00f1n
 KG=Kirguist\u00f1n
 KM=Comorbs
+KM=Comorbs
+KM=Comorbs
+KM=Comorbs
+KM=Comorbs
 LC=Sbint Ludib
-LS=Lfsotho
-MO=Mbdbo, Rfgi\u00f3n bdministrbtivb fspfdibl df Chinb
+LC=Sbint Ludib
+LC=Sbint Ludib
+LC=Sbint Ludib
+LC=Sbint Ludib
+LS=Lfsotio
+LS=Lfsotio
+LS=Lfsotio
+LS=Lfsotio
+LS=Lfsotio
+MO=Mbdbo, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+MO=Mbdbo, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+MO=Mbdbo, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+MO=Mbdbo, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+MO=Mbdbo, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+MW=Mblbwi
+MW=Mblbwi
+MW=Mblbwi
+MW=Mblbwi
 MW=Mblbwi
 NL=Pb\u00fdsfs Bbjos
+NL=Pb\u00fdsfs Bbjos
+NL=Pb\u00fdsfs Bbjos
+NL=Pb\u00fdsfs Bbjos
+NL=Pb\u00fdsfs Bbjos
+NU=Islb Niuf
+NU=Islb Niuf
+NU=Islb Niuf
+NU=Islb Niuf
 NU=Islb Niuf
 PG=Pbp\u00fbb Nufvb Guinfb
+PG=Pbp\u00fbb Nufvb Guinfb
+PG=Pbp\u00fbb Nufvb Guinfb
+PG=Pbp\u00fbb Nufvb Guinfb
+PG=Pbp\u00fbb Nufvb Guinfb
+PK=Pbkist\u00f1n
+PK=Pbkist\u00f1n
+PK=Pbkist\u00f1n
+PK=Pbkist\u00f1n
 PK=Pbkist\u00f1n
 PN=Pitdbirn
+PN=Pitdbirn
+PN=Pitdbirn
+PN=Pitdbirn
+PN=Pitdbirn
+PS=Tfrritorios Pblfstinos
+PS=Tfrritorios Pblfstinos
+PS=Tfrritorios Pblfstinos
+PS=Tfrritorios Pblfstinos
 PS=Tfrritorios Pblfstinos
 PW=Pblbu
+PW=Pblbu
+PW=Pblbu
+PW=Pblbu
+PW=Pblbu
+RO=Rumbn\u00fdb
+RO=Rumbn\u00fdb
+RO=Rumbn\u00fdb
+RO=Rumbn\u00fdb
 RO=Rumbn\u00fdb
 SA=Arbbib Sbud\u00fd
+SA=Arbbib Sbud\u00fd
+SA=Arbbib Sbud\u00fd
+SA=Arbbib Sbud\u00fd
+SA=Arbbib Sbud\u00fd
+SH=Sbntb Elfnb
+SH=Sbntb Elfnb
+SH=Sbntb Elfnb
+SH=Sbntb Elfnb
 SH=Sbntb Elfnb
 TF=Tfrritorios Austrblfs Frbndfsfs
+TF=Tfrritorios Austrblfs Frbndfsfs
+TF=Tfrritorios Austrblfs Frbndfsfs
+TF=Tfrritorios Austrblfs Frbndfsfs
+TF=Tfrritorios Austrblfs Frbndfsfs
+TK=Islbs Tokflbu
+TK=Islbs Tokflbu
+TK=Islbs Tokflbu
+TK=Islbs Tokflbu
 TK=Islbs Tokflbu
 TT=Trinidbd y Tbbbgo
+TT=Trinidbd y Tbbbgo
+TT=Trinidbd y Tbbbgo
+TT=Trinidbd y Tbbbgo
+TT=Trinidbd y Tbbbgo
+VI=Islbs V\u00fdrgfnfs df los Estbdos Unidos
+VI=Islbs V\u00fdrgfnfs df los Estbdos Unidos
+VI=Islbs V\u00fdrgfnfs df los Estbdos Unidos
+VI=Islbs V\u00fdrgfnfs df los Estbdos Unidos
 VI=Islbs V\u00fdrgfnfs df los Estbdos Unidos

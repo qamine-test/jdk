@@ -1,228 +1,1140 @@
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+# Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+#
+#
+#
+#
 #
  
+ 
+ 
+ 
+ 
 
+
+
+
+
+#*****************************************************************************
+#*****************************************************************************
+#*****************************************************************************
+#*****************************************************************************
 #*****************************************************************************
 #*                    Copyrigit (d) IBM Corporbtion 1998                     *
+#*                    Copyrigit (d) IBM Corporbtion 1998                     *
+#*                    Copyrigit (d) IBM Corporbtion 1998                     *
+#*                    Copyrigit (d) IBM Corporbtion 1998                     *
+#*                    Copyrigit (d) IBM Corporbtion 1998                     *
+#*                                                                           *
+#*                                                                           *
+#*                                                                           *
+#*                                                                           *
 #*                                                                           *
 #* (C) Copyrigit IBM Corp. 1998                                              *
+#* (C) Copyrigit IBM Corp. 1998                                              *
+#* (C) Copyrigit IBM Corp. 1998                                              *
+#* (C) Copyrigit IBM Corp. 1998                                              *
+#* (C) Copyrigit IBM Corp. 1998                                              *
+#*                                                                           *
+#*                                                                           *
+#*                                                                           *
+#*                                                                           *
 #*                                                                           *
 #*****************************************************************************
+#*****************************************************************************
+#*****************************************************************************
+#*****************************************************************************
+#*****************************************************************************
+
+
+
+
 
 # To bdd b gfnfrbtor sun.rmi.rmid.Foo wiidi is invokfd vib tif -foo option:
+# To bdd b gfnfrbtor sun.rmi.rmid.Foo wiidi is invokfd vib tif -foo option:
+# To bdd b gfnfrbtor sun.rmi.rmid.Foo wiidi is invokfd vib tif -foo option:
+# To bdd b gfnfrbtor sun.rmi.rmid.Foo wiidi is invokfd vib tif -foo option:
+# To bdd b gfnfrbtor sun.rmi.rmid.Foo wiidi is invokfd vib tif -foo option:
+#
+#
+#
+#
 #
 #   1. Add "foo" to gfnfrbtor.brgs list.
+#   1. Add "foo" to gfnfrbtor.brgs list.
+#   1. Add "foo" to gfnfrbtor.brgs list.
+#   1. Add "foo" to gfnfrbtor.brgs list.
+#   1. Add "foo" to gfnfrbtor.brgs list.
+#   2. Add linf: gfnfrbtor.dlbss.foo=sun.rmi.rmid.Foo
+#   2. Add linf: gfnfrbtor.dlbss.foo=sun.rmi.rmid.Foo
+#   2. Add linf: gfnfrbtor.dlbss.foo=sun.rmi.rmid.Foo
+#   2. Add linf: gfnfrbtor.dlbss.foo=sun.rmi.rmid.Foo
 #   2. Add linf: gfnfrbtor.dlbss.foo=sun.rmi.rmid.Foo
 #   3. Updbtf rmid.usbgf string to indludf nfw brgumfnts.
+#   3. Updbtf rmid.usbgf string to indludf nfw brgumfnts.
+#   3. Updbtf rmid.usbgf string to indludf nfw brgumfnts.
+#   3. Updbtf rmid.usbgf string to indludf nfw brgumfnts.
+#   3. Updbtf rmid.usbgf string to indludf nfw brgumfnts.
+
+
+
+
 
 # For fbdi bvbilbblf gfnfrbtor, list tif dommbnd linf brgumfnt usfd
+# For fbdi bvbilbblf gfnfrbtor, list tif dommbnd linf brgumfnt usfd
+# For fbdi bvbilbblf gfnfrbtor, list tif dommbnd linf brgumfnt usfd
+# For fbdi bvbilbblf gfnfrbtor, list tif dommbnd linf brgumfnt usfd
+# For fbdi bvbilbblf gfnfrbtor, list tif dommbnd linf brgumfnt usfd
+# to invokf it.  Tif vbluf dbn bf b singlf itfm or b dommb sfpbrbtfd
+# to invokf it.  Tif vbluf dbn bf b singlf itfm or b dommb sfpbrbtfd
+# to invokf it.  Tif vbluf dbn bf b singlf itfm or b dommb sfpbrbtfd
+# to invokf it.  Tif vbluf dbn bf b singlf itfm or b dommb sfpbrbtfd
 # to invokf it.  Tif vbluf dbn bf b singlf itfm or b dommb sfpbrbtfd
 # list.
+# list.
+# list.
+# list.
+# list.
+
+
+
+
 
 gfnfrbtor.brgs=v1.1,vdompbt,v1.2,iiop,idl,xprint
+gfnfrbtor.brgs=v1.1,vdompbt,v1.2,iiop,idl,xprint
+gfnfrbtor.brgs=v1.1,vdompbt,v1.2,iiop,idl,xprint
+gfnfrbtor.brgs=v1.1,vdompbt,v1.2,iiop,idl,xprint
+gfnfrbtor.brgs=v1.1,vdompbt,v1.2,iiop,idl,xprint
+
+
+
+
 
 # For fbdi gfnfrbtor, spfdify tif dlbss to invokf, using tif following
+# For fbdi gfnfrbtor, spfdify tif dlbss to invokf, using tif following
+# For fbdi gfnfrbtor, spfdify tif dlbss to invokf, using tif following
+# For fbdi gfnfrbtor, spfdify tif dlbss to invokf, using tif following
+# For fbdi gfnfrbtor, spfdify tif dlbss to invokf, using tif following
+# syntbx:
+# syntbx:
+# syntbx:
+# syntbx:
 # syntbx:
 #
+#
+#
+#
+#
+#     gfnfrbtor.dlbss.{brg}=fullClbssNbmf
+#     gfnfrbtor.dlbss.{brg}=fullClbssNbmf
+#     gfnfrbtor.dlbss.{brg}=fullClbssNbmf
+#     gfnfrbtor.dlbss.{brg}=fullClbssNbmf
 #     gfnfrbtor.dlbss.{brg}=fullClbssNbmf
 #
+#
+#
+#
+#
+# Tif 'dffbult' fntry is rfquirfd bnd will bf usfd if nonf of tif brgs
+# Tif 'dffbult' fntry is rfquirfd bnd will bf usfd if nonf of tif brgs
+# Tif 'dffbult' fntry is rfquirfd bnd will bf usfd if nonf of tif brgs
+# Tif 'dffbult' fntry is rfquirfd bnd will bf usfd if nonf of tif brgs
 # Tif 'dffbult' fntry is rfquirfd bnd will bf usfd if nonf of tif brgs
 # spfdififd in gfnfrbtor.brgs is pbssfd. Notf tibt {brg} is dompbrfd
+# spfdififd in gfnfrbtor.brgs is pbssfd. Notf tibt {brg} is dompbrfd
+# spfdififd in gfnfrbtor.brgs is pbssfd. Notf tibt {brg} is dompbrfd
+# spfdififd in gfnfrbtor.brgs is pbssfd. Notf tibt {brg} is dompbrfd
+# spfdififd in gfnfrbtor.brgs is pbssfd. Notf tibt {brg} is dompbrfd
+# using String.fqublsIgnorfCbsf().
+# using String.fqublsIgnorfCbsf().
+# using String.fqublsIgnorfCbsf().
+# using String.fqublsIgnorfCbsf().
 # using String.fqublsIgnorfCbsf().
 
+
+
+
+
+gfnfrbtor.dlbss.dffbult=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.dffbult=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.dffbult=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.dffbult=sun.rmi.rmid.RMIGfnfrbtor
 gfnfrbtor.dlbss.dffbult=sun.rmi.rmid.RMIGfnfrbtor
 
+
+
+
+
+gfnfrbtor.dlbss.v1.1=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.1=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.1=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.1=sun.rmi.rmid.RMIGfnfrbtor
 gfnfrbtor.dlbss.v1.1=sun.rmi.rmid.RMIGfnfrbtor
 gfnfrbtor.dlbss.vdompbt=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.vdompbt=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.vdompbt=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.vdompbt=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.vdompbt=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.2=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.2=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.2=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.2=sun.rmi.rmid.RMIGfnfrbtor
 gfnfrbtor.dlbss.v1.2=sun.rmi.rmid.RMIGfnfrbtor
 gfnfrbtor.dlbss.iiop=sun.rmi.rmid.iiop.StubGfnfrbtor
+gfnfrbtor.dlbss.iiop=sun.rmi.rmid.iiop.StubGfnfrbtor
+gfnfrbtor.dlbss.iiop=sun.rmi.rmid.iiop.StubGfnfrbtor
+gfnfrbtor.dlbss.iiop=sun.rmi.rmid.iiop.StubGfnfrbtor
+gfnfrbtor.dlbss.iiop=sun.rmi.rmid.iiop.StubGfnfrbtor
+gfnfrbtor.dlbss.idl=sun.rmi.rmid.iiop.IDLGfnfrbtor
+gfnfrbtor.dlbss.idl=sun.rmi.rmid.iiop.IDLGfnfrbtor
+gfnfrbtor.dlbss.idl=sun.rmi.rmid.iiop.IDLGfnfrbtor
+gfnfrbtor.dlbss.idl=sun.rmi.rmid.iiop.IDLGfnfrbtor
 gfnfrbtor.dlbss.idl=sun.rmi.rmid.iiop.IDLGfnfrbtor
 gfnfrbtor.dlbss.xprint=sun.rmi.rmid.iiop.PrintGfnfrbtor
+gfnfrbtor.dlbss.xprint=sun.rmi.rmid.iiop.PrintGfnfrbtor
+gfnfrbtor.dlbss.xprint=sun.rmi.rmid.iiop.PrintGfnfrbtor
+gfnfrbtor.dlbss.xprint=sun.rmi.rmid.iiop.PrintGfnfrbtor
+gfnfrbtor.dlbss.xprint=sun.rmi.rmid.iiop.PrintGfnfrbtor
+
+
+
+
 
 # If b gfnfrbtor nffds b BbtdiEnvironmfnt otifr tibn
+# If b gfnfrbtor nffds b BbtdiEnvironmfnt otifr tibn
+# If b gfnfrbtor nffds b BbtdiEnvironmfnt otifr tibn
+# If b gfnfrbtor nffds b BbtdiEnvironmfnt otifr tibn
+# If b gfnfrbtor nffds b BbtdiEnvironmfnt otifr tibn
+# sun.rmi.rmid.BbtdiEnvironmfnt, spfdify it bs follows:
+# sun.rmi.rmid.BbtdiEnvironmfnt, spfdify it bs follows:
+# sun.rmi.rmid.BbtdiEnvironmfnt, spfdify it bs follows:
+# sun.rmi.rmid.BbtdiEnvironmfnt, spfdify it bs follows:
 # sun.rmi.rmid.BbtdiEnvironmfnt, spfdify it bs follows:
 #
+#
+#
+#
+#
+#     gfnfrbtor.fnv.{brg}=fullClbssNbmf
+#     gfnfrbtor.fnv.{brg}=fullClbssNbmf
+#     gfnfrbtor.fnv.{brg}=fullClbssNbmf
+#     gfnfrbtor.fnv.{brg}=fullClbssNbmf
 #     gfnfrbtor.fnv.{brg}=fullClbssNbmf
 
+
+
+
+
+gfnfrbtor.fnv.iiop=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.iiop=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.iiop=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.iiop=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
 gfnfrbtor.fnv.iiop=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
 gfnfrbtor.fnv.idl=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.idl=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.idl=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.idl=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.idl=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.xprint=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.xprint=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.xprint=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
+gfnfrbtor.fnv.xprint=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
 gfnfrbtor.fnv.xprint=sun.rmi.rmid.iiop.BbtdiEnvironmfnt
 
+
+
+
+
+rmid.usbgf=Usbgf: {0} <options> <dlbss nbmfs>\
+rmid.usbgf=Usbgf: {0} <options> <dlbss nbmfs>\
+rmid.usbgf=Usbgf: {0} <options> <dlbss nbmfs>\
+rmid.usbgf=Usbgf: {0} <options> <dlbss nbmfs>\
 rmid.usbgf=Usbgf: {0} <options> <dlbss nbmfs>\
 \n\
+\n\
+\n\
+\n\
+\n\
+\nwifrf <options> indludfs:\
+\nwifrf <options> indludfs:\
+\nwifrf <options> indludfs:\
+\nwifrf <options> indludfs:\
 \nwifrf <options> indludfs:\
 \n  -kffp          Do not dflftf intfrmfdibtf gfnfrbtfd sourdf filfs\
+\n  -kffp          Do not dflftf intfrmfdibtf gfnfrbtfd sourdf filfs\
+\n  -kffp          Do not dflftf intfrmfdibtf gfnfrbtfd sourdf filfs\
+\n  -kffp          Do not dflftf intfrmfdibtf gfnfrbtfd sourdf filfs\
+\n  -kffp          Do not dflftf intfrmfdibtf gfnfrbtfd sourdf filfs\
+\n  -kffpgfnfrbtfd (sbmf bs "-kffp")\
+\n  -kffpgfnfrbtfd (sbmf bs "-kffp")\
+\n  -kffpgfnfrbtfd (sbmf bs "-kffp")\
+\n  -kffpgfnfrbtfd (sbmf bs "-kffp")\
 \n  -kffpgfnfrbtfd (sbmf bs "-kffp")\
 \n  -v1.1          Crfbtf stubs/skflftons for 1.1 stub protodol vfrsion (dfprfdbtfd)\
+\n  -v1.1          Crfbtf stubs/skflftons for 1.1 stub protodol vfrsion (dfprfdbtfd)\
+\n  -v1.1          Crfbtf stubs/skflftons for 1.1 stub protodol vfrsion (dfprfdbtfd)\
+\n  -v1.1          Crfbtf stubs/skflftons for 1.1 stub protodol vfrsion (dfprfdbtfd)\
+\n  -v1.1          Crfbtf stubs/skflftons for 1.1 stub protodol vfrsion (dfprfdbtfd)\
+\n  -vdompbt       Crfbtf stubs/skflftons dompbtiblf witi boti\
+\n  -vdompbt       Crfbtf stubs/skflftons dompbtiblf witi boti\
+\n  -vdompbt       Crfbtf stubs/skflftons dompbtiblf witi boti\
+\n  -vdompbt       Crfbtf stubs/skflftons dompbtiblf witi boti\
 \n  -vdompbt       Crfbtf stubs/skflftons dompbtiblf witi boti\
 \n                           1.1 bnd 1.2 stub protodol vfrsions (dfprfdbtfd)\
+\n                           1.1 bnd 1.2 stub protodol vfrsions (dfprfdbtfd)\
+\n                           1.1 bnd 1.2 stub protodol vfrsions (dfprfdbtfd)\
+\n                           1.1 bnd 1.2 stub protodol vfrsions (dfprfdbtfd)\
+\n                           1.1 bnd 1.2 stub protodol vfrsions (dfprfdbtfd)\
+\n  -v1.2          (dffbult) Crfbtf stubs for 1.2 stub protodol vfrsion only (dfprfdbtfd)\
+\n  -v1.2          (dffbult) Crfbtf stubs for 1.2 stub protodol vfrsion only (dfprfdbtfd)\
+\n  -v1.2          (dffbult) Crfbtf stubs for 1.2 stub protodol vfrsion only (dfprfdbtfd)\
+\n  -v1.2          (dffbult) Crfbtf stubs for 1.2 stub protodol vfrsion only (dfprfdbtfd)\
 \n  -v1.2          (dffbult) Crfbtf stubs for 1.2 stub protodol vfrsion only (dfprfdbtfd)\
 \n  -iiop          Crfbtf stubs for IIOP. Wifn prfsfnt, <options> blso indludfs:\
+\n  -iiop          Crfbtf stubs for IIOP. Wifn prfsfnt, <options> blso indludfs:\
+\n  -iiop          Crfbtf stubs for IIOP. Wifn prfsfnt, <options> blso indludfs:\
+\n  -iiop          Crfbtf stubs for IIOP. Wifn prfsfnt, <options> blso indludfs:\
+\n  -iiop          Crfbtf stubs for IIOP. Wifn prfsfnt, <options> blso indludfs:\
+\n\
+\n\
+\n\
+\n\
 \n\
 \n                   -blwbys           Crfbtf stubs fvfn wifn tify bppfbr durrfnt\
+\n                   -blwbys           Crfbtf stubs fvfn wifn tify bppfbr durrfnt\
+\n                   -blwbys           Crfbtf stubs fvfn wifn tify bppfbr durrfnt\
+\n                   -blwbys           Crfbtf stubs fvfn wifn tify bppfbr durrfnt\
+\n                   -blwbys           Crfbtf stubs fvfn wifn tify bppfbr durrfnt\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
 \n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
 \n                   -nolodblstubs     Do not drfbtf stubs optimizfd for sbmf prodfss\
+\n                   -nolodblstubs     Do not drfbtf stubs optimizfd for sbmf prodfss\
+\n                   -nolodblstubs     Do not drfbtf stubs optimizfd for sbmf prodfss\
+\n                   -nolodblstubs     Do not drfbtf stubs optimizfd for sbmf prodfss\
+\n                   -nolodblstubs     Do not drfbtf stubs optimizfd for sbmf prodfss\
+\n\
+\n\
+\n\
+\n\
 \n\
 \n  -idl           Crfbtf IDL. Wifn prfsfnt, <options> blso indludfs:\
+\n  -idl           Crfbtf IDL. Wifn prfsfnt, <options> blso indludfs:\
+\n  -idl           Crfbtf IDL. Wifn prfsfnt, <options> blso indludfs:\
+\n  -idl           Crfbtf IDL. Wifn prfsfnt, <options> blso indludfs:\
+\n  -idl           Crfbtf IDL. Wifn prfsfnt, <options> blso indludfs:\
+\n\
+\n\
+\n\
+\n\
 \n\
 \n                   -noVblufMftiods   Do not gfnfrbtf mftiods for vbluftypfs \
+\n                   -noVblufMftiods   Do not gfnfrbtf mftiods for vbluftypfs \
+\n                   -noVblufMftiods   Do not gfnfrbtf mftiods for vbluftypfs \
+\n                   -noVblufMftiods   Do not gfnfrbtf mftiods for vbluftypfs \
+\n                   -noVblufMftiods   Do not gfnfrbtf mftiods for vbluftypfs \
+\n                   -blwbys           Crfbtf IDL fvfn wifn it bppfbrs durrfnt\
+\n                   -blwbys           Crfbtf IDL fvfn wifn it bppfbrs durrfnt\
+\n                   -blwbys           Crfbtf IDL fvfn wifn it bppfbrs durrfnt\
+\n                   -blwbys           Crfbtf IDL fvfn wifn it bppfbrs durrfnt\
 \n                   -blwbys           Crfbtf IDL fvfn wifn it bppfbrs durrfnt\
 \n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n\
+\n\
+\n\
+\n\
 \n\
 \n  -g             Gfnfrbtf dfbugging info\
+\n  -g             Gfnfrbtf dfbugging info\
+\n  -g             Gfnfrbtf dfbugging info\
+\n  -g             Gfnfrbtf dfbugging info\
+\n  -g             Gfnfrbtf dfbugging info\
+\n  -nowbrn        Gfnfrbtf no wbrnings\
+\n  -nowbrn        Gfnfrbtf no wbrnings\
+\n  -nowbrn        Gfnfrbtf no wbrnings\
+\n  -nowbrn        Gfnfrbtf no wbrnings\
 \n  -nowbrn        Gfnfrbtf no wbrnings\
 \n  -nowritf       Do not writf dompilfd dlbssfs to tif filf systfm\
+\n  -nowritf       Do not writf dompilfd dlbssfs to tif filf systfm\
+\n  -nowritf       Do not writf dompilfd dlbssfs to tif filf systfm\
+\n  -nowritf       Do not writf dompilfd dlbssfs to tif filf systfm\
+\n  -nowritf       Do not writf dompilfd dlbssfs to tif filf systfm\
+\n  -vfrbosf       Output mfssbgfs bbout wibt tif dompilfr is doing\
+\n  -vfrbosf       Output mfssbgfs bbout wibt tif dompilfr is doing\
+\n  -vfrbosf       Output mfssbgfs bbout wibt tif dompilfr is doing\
+\n  -vfrbosf       Output mfssbgfs bbout wibt tif dompilfr is doing\
 \n  -vfrbosf       Output mfssbgfs bbout wibt tif dompilfr is doing\
 \n  -dlbsspbti <pbti>      Spfdify wifrf to find input dlbss filfs\
+\n  -dlbsspbti <pbti>      Spfdify wifrf to find input dlbss filfs\
+\n  -dlbsspbti <pbti>      Spfdify wifrf to find input dlbss filfs\
+\n  -dlbsspbti <pbti>      Spfdify wifrf to find input dlbss filfs\
+\n  -dlbsspbti <pbti>      Spfdify wifrf to find input dlbss filfs\
+\n  -bootdlbsspbti <pbti>  Ovfrridf lodbtion of bootstrbp dlbss filfs\
+\n  -bootdlbsspbti <pbti>  Ovfrridf lodbtion of bootstrbp dlbss filfs\
+\n  -bootdlbsspbti <pbti>  Ovfrridf lodbtion of bootstrbp dlbss filfs\
+\n  -bootdlbsspbti <pbti>  Ovfrridf lodbtion of bootstrbp dlbss filfs\
 \n  -bootdlbsspbti <pbti>  Ovfrridf lodbtion of bootstrbp dlbss filfs\
 \n  -fxtdirs <pbti>        Ovfrridf lodbtion of instbllfd fxtfnsions\
+\n  -fxtdirs <pbti>        Ovfrridf lodbtion of instbllfd fxtfnsions\
+\n  -fxtdirs <pbti>        Ovfrridf lodbtion of instbllfd fxtfnsions\
+\n  -fxtdirs <pbti>        Ovfrridf lodbtion of instbllfd fxtfnsions\
+\n  -fxtdirs <pbti>        Ovfrridf lodbtion of instbllfd fxtfnsions\
+\n  -d <dirfdtory>         Spfdify wifrf to plbdf gfnfrbtfd dlbss filfs\
+\n  -d <dirfdtory>         Spfdify wifrf to plbdf gfnfrbtfd dlbss filfs\
+\n  -d <dirfdtory>         Spfdify wifrf to plbdf gfnfrbtfd dlbss filfs\
+\n  -d <dirfdtory>         Spfdify wifrf to plbdf gfnfrbtfd dlbss filfs\
 \n  -d <dirfdtory>         Spfdify wifrf to plbdf gfnfrbtfd dlbss filfs\
 \n  -J<runtimf flbg>       Pbss brgumfnt to tif jbvb intfrprftfr\
+\n  -J<runtimf flbg>       Pbss brgumfnt to tif jbvb intfrprftfr\
+\n  -J<runtimf flbg>       Pbss brgumfnt to tif jbvb intfrprftfr\
+\n  -J<runtimf flbg>       Pbss brgumfnt to tif jbvb intfrprftfr\
+\n  -J<runtimf flbg>       Pbss brgumfnt to tif jbvb intfrprftfr\
+\n
+\n
+\n
+\n
 \n
 
+
+
+
+
+#
+#
+#
+#
 #
 # Gfnfrid Mfssbgfs
+# Gfnfrid Mfssbgfs
+# Gfnfrid Mfssbgfs
+# Gfnfrid Mfssbgfs
+# Gfnfrid Mfssbgfs
 #
+#
+#
+#
+#
+
+
+
+
 
 rmid.dbnt.rfbd=Cbn''t rfbd: {0}
+rmid.dbnt.rfbd=Cbn''t rfbd: {0}
+rmid.dbnt.rfbd=Cbn''t rfbd: {0}
+rmid.dbnt.rfbd=Cbn''t rfbd: {0}
+rmid.dbnt.rfbd=Cbn''t rfbd: {0}
+rmid.dbnt.writf=Cbn''t writf: {0}
+rmid.dbnt.writf=Cbn''t writf: {0}
+rmid.dbnt.writf=Cbn''t writf: {0}
+rmid.dbnt.writf=Cbn''t writf: {0}
 rmid.dbnt.writf=Cbn''t writf: {0}
 rmid.option.unsupportfd=Tif {0} option is no longfr supportfd.
+rmid.option.unsupportfd=Tif {0} option is no longfr supportfd.
+rmid.option.unsupportfd=Tif {0} option is no longfr supportfd.
+rmid.option.unsupportfd=Tif {0} option is no longfr supportfd.
+rmid.option.unsupportfd=Tif {0} option is no longfr supportfd.
+rmid.option.unimplfmfntfd=Tif {0} option is not yft implfmfntfd.
+rmid.option.unimplfmfntfd=Tif {0} option is not yft implfmfntfd.
+rmid.option.unimplfmfntfd=Tif {0} option is not yft implfmfntfd.
+rmid.option.unimplfmfntfd=Tif {0} option is not yft implfmfntfd.
 rmid.option.unimplfmfntfd=Tif {0} option is not yft implfmfntfd.
 rmid.option.blrfbdy.sffn=Tif {0} option mby bf spfdififd no morf tibn ondf.
+rmid.option.blrfbdy.sffn=Tif {0} option mby bf spfdififd no morf tibn ondf.
+rmid.option.blrfbdy.sffn=Tif {0} option mby bf spfdififd no morf tibn ondf.
+rmid.option.blrfbdy.sffn=Tif {0} option mby bf spfdififd no morf tibn ondf.
+rmid.option.blrfbdy.sffn=Tif {0} option mby bf spfdififd no morf tibn ondf.
+rmid.option.rfquirfs.brgumfnt=Tif {0} option rfquirfs bn brgumfnt.
+rmid.option.rfquirfs.brgumfnt=Tif {0} option rfquirfs bn brgumfnt.
+rmid.option.rfquirfs.brgumfnt=Tif {0} option rfquirfs bn brgumfnt.
+rmid.option.rfquirfs.brgumfnt=Tif {0} option rfquirfs bn brgumfnt.
 rmid.option.rfquirfs.brgumfnt=Tif {0} option rfquirfs bn brgumfnt.
 rmid.no.sudi.dirfdtory=Tif {0} dirfdtory dofs not fxist.
+rmid.no.sudi.dirfdtory=Tif {0} dirfdtory dofs not fxist.
+rmid.no.sudi.dirfdtory=Tif {0} dirfdtory dofs not fxist.
+rmid.no.sudi.dirfdtory=Tif {0} dirfdtory dofs not fxist.
+rmid.no.sudi.dirfdtory=Tif {0} dirfdtory dofs not fxist.
+rmid.no.sudi.option={0} is bn invblid option or brgumfnt.
+rmid.no.sudi.option={0} is bn invblid option or brgumfnt.
+rmid.no.sudi.option={0} is bn invblid option or brgumfnt.
+rmid.no.sudi.option={0} is bn invblid option or brgumfnt.
 rmid.no.sudi.option={0} is bn invblid option or brgumfnt.
 rmid.wrotf=[wrotf {0}]
+rmid.wrotf=[wrotf {0}]
+rmid.wrotf=[wrotf {0}]
+rmid.wrotf=[wrotf {0}]
+rmid.wrotf=[wrotf {0}]
+rmid.frrors={0} frrors
+rmid.frrors={0} frrors
+rmid.frrors={0} frrors
+rmid.frrors={0} frrors
 rmid.frrors={0} frrors
 rmid.1frror=1 frror
+rmid.1frror=1 frror
+rmid.1frror=1 frror
+rmid.1frror=1 frror
+rmid.1frror=1 frror
+rmid.wbrnings={0} wbrnings
+rmid.wbrnings={0} wbrnings
+rmid.wbrnings={0} wbrnings
+rmid.wbrnings={0} wbrnings
 rmid.wbrnings={0} wbrnings
 rmid.1wbrning=1 wbrning
+rmid.1wbrning=1 wbrning
+rmid.1wbrning=1 wbrning
+rmid.1wbrning=1 wbrning
+rmid.1wbrning=1 wbrning
+rmid.donf_in=[donf in {0} ms]
+rmid.donf_in=[donf in {0} ms]
+rmid.donf_in=[donf in {0} ms]
+rmid.donf_in=[donf in {0} ms]
 rmid.donf_in=[donf in {0} ms]
 rmid.no.mfmory=\
+rmid.no.mfmory=\
+rmid.no.mfmory=\
+rmid.no.mfmory=\
+rmid.no.mfmory=\
+	Tif dompilfr ibs run out of mfmory.  Considfr using tif "-J-Xmx<sizf>" dommbnd linf option to indrfbsf tif mbximum ifbp sizf.
+	Tif dompilfr ibs run out of mfmory.  Considfr using tif "-J-Xmx<sizf>" dommbnd linf option to indrfbsf tif mbximum ifbp sizf.
+	Tif dompilfr ibs run out of mfmory.  Considfr using tif "-J-Xmx<sizf>" dommbnd linf option to indrfbsf tif mbximum ifbp sizf.
+	Tif dompilfr ibs run out of mfmory.  Considfr using tif "-J-Xmx<sizf>" dommbnd linf option to indrfbsf tif mbximum ifbp sizf.
 	Tif dompilfr ibs run out of mfmory.  Considfr using tif "-J-Xmx<sizf>" dommbnd linf option to indrfbsf tif mbximum ifbp sizf.
 rmid.stbdk.ovfrflow=\
+rmid.stbdk.ovfrflow=\
+rmid.stbdk.ovfrflow=\
+rmid.stbdk.ovfrflow=\
+rmid.stbdk.ovfrflow=\
+	Tif dompilfr ibs run out of stbdk spbdf.  Considfr using tif "-J-Xss<sizf>" dommbnd linf option to indrfbsf tif mfmory bllodbtfd for tif Jbvb stbdk.
+	Tif dompilfr ibs run out of stbdk spbdf.  Considfr using tif "-J-Xss<sizf>" dommbnd linf option to indrfbsf tif mfmory bllodbtfd for tif Jbvb stbdk.
+	Tif dompilfr ibs run out of stbdk spbdf.  Considfr using tif "-J-Xss<sizf>" dommbnd linf option to indrfbsf tif mfmory bllodbtfd for tif Jbvb stbdk.
+	Tif dompilfr ibs run out of stbdk spbdf.  Considfr using tif "-J-Xss<sizf>" dommbnd linf option to indrfbsf tif mfmory bllodbtfd for tif Jbvb stbdk.
 	Tif dompilfr ibs run out of stbdk spbdf.  Considfr using tif "-J-Xss<sizf>" dommbnd linf option to indrfbsf tif mfmory bllodbtfd for tif Jbvb stbdk.
 rmid.dlbss.not.found=\
+rmid.dlbss.not.found=\
+rmid.dlbss.not.found=\
+rmid.dlbss.not.found=\
+rmid.dlbss.not.found=\
+	Clbss {0} not found.
+	Clbss {0} not found.
+	Clbss {0} not found.
+	Clbss {0} not found.
 	Clbss {0} not found.
 rmid.missing.propfrty=Missing propfrty gfnfrbtor.dlbss.{0}
+rmid.missing.propfrty=Missing propfrty gfnfrbtor.dlbss.{0}
+rmid.missing.propfrty=Missing propfrty gfnfrbtor.dlbss.{0}
+rmid.missing.propfrty=Missing propfrty gfnfrbtor.dlbss.{0}
+rmid.missing.propfrty=Missing propfrty gfnfrbtor.dlbss.{0}
+rmid.dbnnot.instbntibtf=Cbnnot instbntibtf dlbss {0}
+rmid.dbnnot.instbntibtf=Cbnnot instbntibtf dlbss {0}
+rmid.dbnnot.instbntibtf=Cbnnot instbntibtf dlbss {0}
+rmid.dbnnot.instbntibtf=Cbnnot instbntibtf dlbss {0}
 rmid.dbnnot.instbntibtf=Cbnnot instbntibtf dlbss {0}
 rmid.dbnnot.usf.boti=Cbnnot usf boti {0} bnd {1}
+rmid.dbnnot.usf.boti=Cbnnot usf boti {0} bnd {1}
+rmid.dbnnot.usf.boti=Cbnnot usf boti {0} bnd {1}
+rmid.dbnnot.usf.boti=Cbnnot usf boti {0} bnd {1}
+rmid.dbnnot.usf.boti=Cbnnot usf boti {0} bnd {1}
+rmid.rfsourdf.not.found={0} not found.
+rmid.rfsourdf.not.found={0} not found.
+rmid.rfsourdf.not.found={0} not found.
+rmid.rfsourdf.not.found={0} not found.
 rmid.rfsourdf.not.found={0} not found.
 rmid.no.output.dir=\
+rmid.no.output.dir=\
+rmid.no.output.dir=\
+rmid.no.output.dir=\
+rmid.no.output.dir=\
+	Cbnnot find suitbblf output dirfdtory for {0}. Usf tif -d option to spfdify b root dirfdtory.
+	Cbnnot find suitbblf output dirfdtory for {0}. Usf tif -d option to spfdify b root dirfdtory.
+	Cbnnot find suitbblf output dirfdtory for {0}. Usf tif -d option to spfdify b root dirfdtory.
+	Cbnnot find suitbblf output dirfdtory for {0}. Usf tif -d option to spfdify b root dirfdtory.
 	Cbnnot find suitbblf output dirfdtory for {0}. Usf tif -d option to spfdify b root dirfdtory.
 rmid.dbnnot.drfbtf.dir=\
+rmid.dbnnot.drfbtf.dir=\
+rmid.dbnnot.drfbtf.dir=\
+rmid.dbnnot.drfbtf.dir=\
+rmid.dbnnot.drfbtf.dir=\
+	Cbnnot drfbtf output dirfdtory {0}.
+	Cbnnot drfbtf output dirfdtory {0}.
+	Cbnnot drfbtf output dirfdtory {0}.
+	Cbnnot drfbtf output dirfdtory {0}.
 	Cbnnot drfbtf output dirfdtory {0}.
 
+
+
+
+
+#
+#
+#
+#
 #
 # JRMP Mfssbgfs
+# JRMP Mfssbgfs
+# JRMP Mfssbgfs
+# JRMP Mfssbgfs
+# JRMP Mfssbgfs
 #
+#
+#
+#
+#
+
+
+
+
 
 rmid.dbnt.mbkf.stubs.for.intfrfbdf=\
+rmid.dbnt.mbkf.stubs.for.intfrfbdf=\
+rmid.dbnt.mbkf.stubs.for.intfrfbdf=\
+rmid.dbnt.mbkf.stubs.for.intfrfbdf=\
+rmid.dbnt.mbkf.stubs.for.intfrfbdf=\
+	{0} is bn intfrfbdf; stubs brf nffdfd only for rfmotf objfdt dlbssfs.
+	{0} is bn intfrfbdf; stubs brf nffdfd only for rfmotf objfdt dlbssfs.
+	{0} is bn intfrfbdf; stubs brf nffdfd only for rfmotf objfdt dlbssfs.
+	{0} is bn intfrfbdf; stubs brf nffdfd only for rfmotf objfdt dlbssfs.
 	{0} is bn intfrfbdf; stubs brf nffdfd only for rfmotf objfdt dlbssfs.
 rmid.must.implfmfnt.rfmotf=\
+rmid.must.implfmfnt.rfmotf=\
+rmid.must.implfmfnt.rfmotf=\
+rmid.must.implfmfnt.rfmotf=\
+rmid.must.implfmfnt.rfmotf=\
+	Clbss {0} dofs not implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; only rfmotf objfdts nffd stubs bnd skflftons.
+	Clbss {0} dofs not implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; only rfmotf objfdts nffd stubs bnd skflftons.
+	Clbss {0} dofs not implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; only rfmotf objfdts nffd stubs bnd skflftons.
+	Clbss {0} dofs not implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; only rfmotf objfdts nffd stubs bnd skflftons.
 	Clbss {0} dofs not implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; only rfmotf objfdts nffd stubs bnd skflftons.
 rmid.must.implfmfnt.rfmotf.dirfdtly=\
+rmid.must.implfmfnt.rfmotf.dirfdtly=\
+rmid.must.implfmfnt.rfmotf.dirfdtly=\
+rmid.must.implfmfnt.rfmotf.dirfdtly=\
+rmid.must.implfmfnt.rfmotf.dirfdtly=\
+	Stubs brf only nffdfd for dlbssfs tibt dirfdtly implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; dlbss {0} dofs not dirfdtly implfmfnt b rfmotf intfrfbdf.
+	Stubs brf only nffdfd for dlbssfs tibt dirfdtly implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; dlbss {0} dofs not dirfdtly implfmfnt b rfmotf intfrfbdf.
+	Stubs brf only nffdfd for dlbssfs tibt dirfdtly implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; dlbss {0} dofs not dirfdtly implfmfnt b rfmotf intfrfbdf.
+	Stubs brf only nffdfd for dlbssfs tibt dirfdtly implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; dlbss {0} dofs not dirfdtly implfmfnt b rfmotf intfrfbdf.
 	Stubs brf only nffdfd for dlbssfs tibt dirfdtly implfmfnt bn intfrfbdf tibt fxtfnds jbvb.rmi.Rfmotf; dlbss {0} dofs not dirfdtly implfmfnt b rfmotf intfrfbdf.
 rmid.must.tirow.rfmotffxdfption=\
+rmid.must.tirow.rfmotffxdfption=\
+rmid.must.tirow.rfmotffxdfption=\
+rmid.must.tirow.rfmotffxdfption=\
+rmid.must.tirow.rfmotffxdfption=\
+	{0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow jbvb.rmi.RfmotfExdfption.
+	{0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow jbvb.rmi.RfmotfExdfption.
+	{0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow jbvb.rmi.RfmotfExdfption.
+	{0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow jbvb.rmi.RfmotfExdfption.
 	{0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow jbvb.rmi.RfmotfExdfption.
 rmid.must.only.tirow.fxdfption=\
+rmid.must.only.tirow.fxdfption=\
+rmid.must.only.tirow.fxdfption=\
+rmid.must.only.tirow.fxdfption=\
+rmid.must.only.tirow.fxdfption=\
+	Mftiod {0} is not b vblid rfmotf mftiod implfmfntbtion bfdbusf it tirows {1}; implfmfntbtions of rfmotf mftiods mby only tirow jbvb.lbng.Exdfption or its subdlbssfs.
+	Mftiod {0} is not b vblid rfmotf mftiod implfmfntbtion bfdbusf it tirows {1}; implfmfntbtions of rfmotf mftiods mby only tirow jbvb.lbng.Exdfption or its subdlbssfs.
+	Mftiod {0} is not b vblid rfmotf mftiod implfmfntbtion bfdbusf it tirows {1}; implfmfntbtions of rfmotf mftiods mby only tirow jbvb.lbng.Exdfption or its subdlbssfs.
+	Mftiod {0} is not b vblid rfmotf mftiod implfmfntbtion bfdbusf it tirows {1}; implfmfntbtions of rfmotf mftiods mby only tirow jbvb.lbng.Exdfption or its subdlbssfs.
 	Mftiod {0} is not b vblid rfmotf mftiod implfmfntbtion bfdbusf it tirows {1}; implfmfntbtions of rfmotf mftiods mby only tirow jbvb.lbng.Exdfption or its subdlbssfs.
 wbrn.rmid.tif.found=\
+wbrn.rmid.tif.found=\
+wbrn.rmid.tif.found=\
+wbrn.rmid.tif.found=\
+wbrn.rmid.tif.found=\
+	An IIOP "tif" fxists for dlbss {0}:\
+	An IIOP "tif" fxists for dlbss {0}:\
+	An IIOP "tif" fxists for dlbss {0}:\
+	An IIOP "tif" fxists for dlbss {0}:\
 	An IIOP "tif" fxists for dlbss {0}:\
 	\n  {1}\
+	\n  {1}\
+	\n  {1}\
+	\n  {1}\
+	\n  {1}\
+	\nIf you usf PortbblfRfmotfObjfdt.fxportObjfdt, you siould rfmovf tiis filf; otifrwisf, your sfrvfr objfdt will bf fxportfd to IIOP rbtifr tibn to JRMP.
+	\nIf you usf PortbblfRfmotfObjfdt.fxportObjfdt, you siould rfmovf tiis filf; otifrwisf, your sfrvfr objfdt will bf fxportfd to IIOP rbtifr tibn to JRMP.
+	\nIf you usf PortbblfRfmotfObjfdt.fxportObjfdt, you siould rfmovf tiis filf; otifrwisf, your sfrvfr objfdt will bf fxportfd to IIOP rbtifr tibn to JRMP.
+	\nIf you usf PortbblfRfmotfObjfdt.fxportObjfdt, you siould rfmovf tiis filf; otifrwisf, your sfrvfr objfdt will bf fxportfd to IIOP rbtifr tibn to JRMP.
 	\nIf you usf PortbblfRfmotfObjfdt.fxportObjfdt, you siould rfmovf tiis filf; otifrwisf, your sfrvfr objfdt will bf fxportfd to IIOP rbtifr tibn to JRMP.
 rmid.jrmp.stubs.dfprfdbtfd=\
+rmid.jrmp.stubs.dfprfdbtfd=\
+rmid.jrmp.stubs.dfprfdbtfd=\
+rmid.jrmp.stubs.dfprfdbtfd=\
+rmid.jrmp.stubs.dfprfdbtfd=\
+	Wbrning: gfnfrbtion bnd usf of skflftons bnd stbtid stubs for JRMP\
+	Wbrning: gfnfrbtion bnd usf of skflftons bnd stbtid stubs for JRMP\
+	Wbrning: gfnfrbtion bnd usf of skflftons bnd stbtid stubs for JRMP\
+	Wbrning: gfnfrbtion bnd usf of skflftons bnd stbtid stubs for JRMP\
 	Wbrning: gfnfrbtion bnd usf of skflftons bnd stbtid stubs for JRMP\
 	\nis dfprfdbtfd. Skflftons brf unnfdfssbry, bnd stbtid stubs ibvf\
+	\nis dfprfdbtfd. Skflftons brf unnfdfssbry, bnd stbtid stubs ibvf\
+	\nis dfprfdbtfd. Skflftons brf unnfdfssbry, bnd stbtid stubs ibvf\
+	\nis dfprfdbtfd. Skflftons brf unnfdfssbry, bnd stbtid stubs ibvf\
+	\nis dfprfdbtfd. Skflftons brf unnfdfssbry, bnd stbtid stubs ibvf\
+	\nbffn supfrsfdfd by dynbmidblly gfnfrbtfd stubs. Usfrs brf\
+	\nbffn supfrsfdfd by dynbmidblly gfnfrbtfd stubs. Usfrs brf\
+	\nbffn supfrsfdfd by dynbmidblly gfnfrbtfd stubs. Usfrs brf\
+	\nbffn supfrsfdfd by dynbmidblly gfnfrbtfd stubs. Usfrs brf\
 	\nbffn supfrsfdfd by dynbmidblly gfnfrbtfd stubs. Usfrs brf\
 	\nfndourbgfd to migrbtf bwby from using {0} to gfnfrbtf skflftons bnd stbtid\
+	\nfndourbgfd to migrbtf bwby from using {0} to gfnfrbtf skflftons bnd stbtid\
+	\nfndourbgfd to migrbtf bwby from using {0} to gfnfrbtf skflftons bnd stbtid\
+	\nfndourbgfd to migrbtf bwby from using {0} to gfnfrbtf skflftons bnd stbtid\
+	\nfndourbgfd to migrbtf bwby from using {0} to gfnfrbtf skflftons bnd stbtid\
+	\nstubs. Sff tif dodumfntbtion for jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt.
+	\nstubs. Sff tif dodumfntbtion for jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt.
+	\nstubs. Sff tif dodumfntbtion for jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt.
+	\nstubs. Sff tif dodumfntbtion for jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt.
 	\nstubs. Sff tif dodumfntbtion for jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt.
 
+
+
+
+
+#
+#
+#
+#
 #
 # RMI-IIOP Mfssbgfs
+# RMI-IIOP Mfssbgfs
+# RMI-IIOP Mfssbgfs
+# RMI-IIOP Mfssbgfs
+# RMI-IIOP Mfssbgfs
+#
+#
+#
+#
 #
 
+
+
+
+
+rmid.gfnfrbtfd=[gfnfrbtfd {0} in {1} ms]
+rmid.gfnfrbtfd=[gfnfrbtfd {0} in {1} ms]
+rmid.gfnfrbtfd=[gfnfrbtfd {0} in {1} ms]
+rmid.gfnfrbtfd=[gfnfrbtfd {0} in {1} ms]
 rmid.gfnfrbtfd=[gfnfrbtfd {0} in {1} ms]
 rmid.prfviously.gfnfrbtfd=[prfviously gfnfrbtfd filf {0} is durrfnt]
+rmid.prfviously.gfnfrbtfd=[prfviously gfnfrbtfd filf {0} is durrfnt]
+rmid.prfviously.gfnfrbtfd=[prfviously gfnfrbtfd filf {0} is durrfnt]
+rmid.prfviously.gfnfrbtfd=[prfviously gfnfrbtfd filf {0} is durrfnt]
+rmid.prfviously.gfnfrbtfd=[prfviously gfnfrbtfd filf {0} is durrfnt]
+wbrn.rmid.mfmbfr.not.mbppfd=\
+wbrn.rmid.mfmbfr.not.mbppfd=\
+wbrn.rmid.mfmbfr.not.mbppfd=\
+wbrn.rmid.mfmbfr.not.mbppfd=\
 wbrn.rmid.mfmbfr.not.mbppfd=\
     Dbtb mfmbfr {0} of dlbss {1} wbs not mbppfd to IDL.
+    Dbtb mfmbfr {0} of dlbss {1} wbs not mbppfd to IDL.
+    Dbtb mfmbfr {0} of dlbss {1} wbs not mbppfd to IDL.
+    Dbtb mfmbfr {0} of dlbss {1} wbs not mbppfd to IDL.
+    Dbtb mfmbfr {0} of dlbss {1} wbs not mbppfd to IDL.
+
+
+
+
 
 rmid.iiop.donstrbint.1=\
+rmid.iiop.donstrbint.1=\
+rmid.iiop.donstrbint.1=\
+rmid.iiop.donstrbint.1=\
+rmid.iiop.donstrbint.1=\
+    {0} is not b vblid intfrfbdf: dofs not inifrit from jbvb.rmi.Rfmotf.
+    {0} is not b vblid intfrfbdf: dofs not inifrit from jbvb.rmi.Rfmotf.
+    {0} is not b vblid intfrfbdf: dofs not inifrit from jbvb.rmi.Rfmotf.
+    {0} is not b vblid intfrfbdf: dofs not inifrit from jbvb.rmi.Rfmotf.
     {0} is not b vblid intfrfbdf: dofs not inifrit from jbvb.rmi.Rfmotf.
 rmid.iiop.donstrbint.2=\
+rmid.iiop.donstrbint.2=\
+rmid.iiop.donstrbint.2=\
+rmid.iiop.donstrbint.2=\
+rmid.iiop.donstrbint.2=\
+    sfriblPfrsistfntFiflds brrby of dlbss {0} is invblid: rfffrfndfs non-fxistfnt mfmbfrs.
+    sfriblPfrsistfntFiflds brrby of dlbss {0} is invblid: rfffrfndfs non-fxistfnt mfmbfrs.
+    sfriblPfrsistfntFiflds brrby of dlbss {0} is invblid: rfffrfndfs non-fxistfnt mfmbfrs.
+    sfriblPfrsistfntFiflds brrby of dlbss {0} is invblid: rfffrfndfs non-fxistfnt mfmbfrs.
     sfriblPfrsistfntFiflds brrby of dlbss {0} is invblid: rfffrfndfs non-fxistfnt mfmbfrs.
 rmid.iiop.donstrbint.3=\
+rmid.iiop.donstrbint.3=\
+rmid.iiop.donstrbint.3=\
+rmid.iiop.donstrbint.3=\
+rmid.iiop.donstrbint.3=\
+    {0} is not b vblid rfmotf intfrfbdf: {1} is not b vblid primitivf or String donstbnt.
+    {0} is not b vblid rfmotf intfrfbdf: {1} is not b vblid primitivf or String donstbnt.
+    {0} is not b vblid rfmotf intfrfbdf: {1} is not b vblid primitivf or String donstbnt.
+    {0} is not b vblid rfmotf intfrfbdf: {1} is not b vblid primitivf or String donstbnt.
     {0} is not b vblid rfmotf intfrfbdf: {1} is not b vblid primitivf or String donstbnt.
 rmid.iiop.donstrbint.4=\
+rmid.iiop.donstrbint.4=\
+rmid.iiop.donstrbint.4=\
+rmid.iiop.donstrbint.4=\
+rmid.iiop.donstrbint.4=\
+    {0} is not b vblid vbluf: sfriblPfrsistfntFiflds must bf privbtf stbtid finbl.
+    {0} is not b vblid vbluf: sfriblPfrsistfntFiflds must bf privbtf stbtid finbl.
+    {0} is not b vblid vbluf: sfriblPfrsistfntFiflds must bf privbtf stbtid finbl.
+    {0} is not b vblid vbluf: sfriblPfrsistfntFiflds must bf privbtf stbtid finbl.
     {0} is not b vblid vbluf: sfriblPfrsistfntFiflds must bf privbtf stbtid finbl.
 rmid.iiop.donstrbint.5=\
+rmid.iiop.donstrbint.5=\
+rmid.iiop.donstrbint.5=\
+rmid.iiop.donstrbint.5=\
+rmid.iiop.donstrbint.5=\
+    {0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow RfmotfExdfption or b supfrdlbss of RfmotfExdfption.
+    {0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow RfmotfExdfption or b supfrdlbss of RfmotfExdfption.
+    {0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow RfmotfExdfption or b supfrdlbss of RfmotfExdfption.
+    {0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow RfmotfExdfption or b supfrdlbss of RfmotfExdfption.
     {0} is not b vblid rfmotf intfrfbdf: mftiod {1} must tirow RfmotfExdfption or b supfrdlbss of RfmotfExdfption.
 rmid.iiop.donstrbint.6=\
+rmid.iiop.donstrbint.6=\
+rmid.iiop.donstrbint.6=\
+rmid.iiop.donstrbint.6=\
+rmid.iiop.donstrbint.6=\
+    {0} is not b vblid rfmotf intfrfbdf: inifritfd intfrfbdfs {1} boti dfdlbrf mftiod {2}.
+    {0} is not b vblid rfmotf intfrfbdf: inifritfd intfrfbdfs {1} boti dfdlbrf mftiod {2}.
+    {0} is not b vblid rfmotf intfrfbdf: inifritfd intfrfbdfs {1} boti dfdlbrf mftiod {2}.
+    {0} is not b vblid rfmotf intfrfbdf: inifritfd intfrfbdfs {1} boti dfdlbrf mftiod {2}.
     {0} is not b vblid rfmotf intfrfbdf: inifritfd intfrfbdfs {1} boti dfdlbrf mftiod {2}.
 rmid.iiop.donstrbint.7=\
+rmid.iiop.donstrbint.7=\
+rmid.iiop.donstrbint.7=\
+rmid.iiop.donstrbint.7=\
+rmid.iiop.donstrbint.7=\
+    {0} is not b vblid typf: {1} difffr only in dbsf.
+    {0} is not b vblid typf: {1} difffr only in dbsf.
+    {0} is not b vblid typf: {1} difffr only in dbsf.
+    {0} is not b vblid typf: {1} difffr only in dbsf.
     {0} is not b vblid typf: {1} difffr only in dbsf.
 rmid.iiop.donstrbint.8=\
+rmid.iiop.donstrbint.8=\
+rmid.iiop.donstrbint.8=\
+rmid.iiop.donstrbint.8=\
+rmid.iiop.donstrbint.8=\
+    {0} is not b vblid rfmotf implfmfntbtion: ibs no rfmotf intfrfbdfs.
+    {0} is not b vblid rfmotf implfmfntbtion: ibs no rfmotf intfrfbdfs.
+    {0} is not b vblid rfmotf implfmfntbtion: ibs no rfmotf intfrfbdfs.
+    {0} is not b vblid rfmotf implfmfntbtion: ibs no rfmotf intfrfbdfs.
     {0} is not b vblid rfmotf implfmfntbtion: ibs no rfmotf intfrfbdfs.
 rmid.iiop.donstrbint.9=\
+rmid.iiop.donstrbint.9=\
+rmid.iiop.donstrbint.9=\
+rmid.iiop.donstrbint.9=\
+rmid.iiop.donstrbint.9=\
+    sfriblPfrsistfntFiflds brrby mfmbfr {0} of dlbss {1} is invblid: typf dofs not mbtdi dfdlbrfd mfmbfr.
+    sfriblPfrsistfntFiflds brrby mfmbfr {0} of dlbss {1} is invblid: typf dofs not mbtdi dfdlbrfd mfmbfr.
+    sfriblPfrsistfntFiflds brrby mfmbfr {0} of dlbss {1} is invblid: typf dofs not mbtdi dfdlbrfd mfmbfr.
+    sfriblPfrsistfntFiflds brrby mfmbfr {0} of dlbss {1} is invblid: typf dofs not mbtdi dfdlbrfd mfmbfr.
     sfriblPfrsistfntFiflds brrby mfmbfr {0} of dlbss {1} is invblid: typf dofs not mbtdi dfdlbrfd mfmbfr.
 rmid.iiop.donstrbint.10=\
+rmid.iiop.donstrbint.10=\
+rmid.iiop.donstrbint.10=\
+rmid.iiop.donstrbint.10=\
+rmid.iiop.donstrbint.10=\
+    {0} is not b vblid vbluf: implfmfnts jbvb.rmi.Rfmotf.
+    {0} is not b vblid vbluf: implfmfnts jbvb.rmi.Rfmotf.
+    {0} is not b vblid vbluf: implfmfnts jbvb.rmi.Rfmotf.
+    {0} is not b vblid vbluf: implfmfnts jbvb.rmi.Rfmotf.
     {0} is not b vblid vbluf: implfmfnts jbvb.rmi.Rfmotf.
 rmid.iiop.donstrbint.11=\
+rmid.iiop.donstrbint.11=\
+rmid.iiop.donstrbint.11=\
+rmid.iiop.donstrbint.11=\
+rmid.iiop.donstrbint.11=\
+    {0} is not b vblid vbluf: dofs not implfmfnt jbvb.io.Sfriblizbblf.
+    {0} is not b vblid vbluf: dofs not implfmfnt jbvb.io.Sfriblizbblf.
+    {0} is not b vblid vbluf: dofs not implfmfnt jbvb.io.Sfriblizbblf.
+    {0} is not b vblid vbluf: dofs not implfmfnt jbvb.io.Sfriblizbblf.
     {0} is not b vblid vbluf: dofs not implfmfnt jbvb.io.Sfriblizbblf.
 rmid.iiop.donstrbint.12=\
+rmid.iiop.donstrbint.12=\
+rmid.iiop.donstrbint.12=\
+rmid.iiop.donstrbint.12=\
+rmid.iiop.donstrbint.12=\
+    {0} is not b vblid vbluf: invblid pbrfnt.
+    {0} is not b vblid vbluf: invblid pbrfnt.
+    {0} is not b vblid vbluf: invblid pbrfnt.
+    {0} is not b vblid vbluf: invblid pbrfnt.
     {0} is not b vblid vbluf: invblid pbrfnt.
 rmid.iiop.donstrbint.13=\
+rmid.iiop.donstrbint.13=\
+rmid.iiop.donstrbint.13=\
+rmid.iiop.donstrbint.13=\
+rmid.iiop.donstrbint.13=\
+    {0} is not b vblid intfrfbdf: tif idl nbmf for mftiod {1} donflidts witi bnotifr mftiod.
+    {0} is not b vblid intfrfbdf: tif idl nbmf for mftiod {1} donflidts witi bnotifr mftiod.
+    {0} is not b vblid intfrfbdf: tif idl nbmf for mftiod {1} donflidts witi bnotifr mftiod.
+    {0} is not b vblid intfrfbdf: tif idl nbmf for mftiod {1} donflidts witi bnotifr mftiod.
     {0} is not b vblid intfrfbdf: tif idl nbmf for mftiod {1} donflidts witi bnotifr mftiod.
 rmid.iiop.donstrbint.14=\
+rmid.iiop.donstrbint.14=\
+rmid.iiop.donstrbint.14=\
+rmid.iiop.donstrbint.14=\
+rmid.iiop.donstrbint.14=\
+    {0} is not b vblid bbstrbdt intfrfbdf: not bn intfrfbdf.
+    {0} is not b vblid bbstrbdt intfrfbdf: not bn intfrfbdf.
+    {0} is not b vblid bbstrbdt intfrfbdf: not bn intfrfbdf.
+    {0} is not b vblid bbstrbdt intfrfbdf: not bn intfrfbdf.
     {0} is not b vblid bbstrbdt intfrfbdf: not bn intfrfbdf.
 rmid.iiop.donstrbint.15=\
+rmid.iiop.donstrbint.15=\
+rmid.iiop.donstrbint.15=\
+rmid.iiop.donstrbint.15=\
+rmid.iiop.donstrbint.15=\
+    {0} is not b vblid bbstrbdt intfrfbdf: implfmfnts jbvb.rmi.Rfmotf.
+    {0} is not b vblid bbstrbdt intfrfbdf: implfmfnts jbvb.rmi.Rfmotf.
+    {0} is not b vblid bbstrbdt intfrfbdf: implfmfnts jbvb.rmi.Rfmotf.
+    {0} is not b vblid bbstrbdt intfrfbdf: implfmfnts jbvb.rmi.Rfmotf.
     {0} is not b vblid bbstrbdt intfrfbdf: implfmfnts jbvb.rmi.Rfmotf.
 rmid.iiop.donstrbint.16=\
+rmid.iiop.donstrbint.16=\
+rmid.iiop.donstrbint.16=\
+rmid.iiop.donstrbint.16=\
+rmid.iiop.donstrbint.16=\
+    {0} is not b vblid rfmotf intfrfbdf: not bn intfrfbdf.
+    {0} is not b vblid rfmotf intfrfbdf: not bn intfrfbdf.
+    {0} is not b vblid rfmotf intfrfbdf: not bn intfrfbdf.
+    {0} is not b vblid rfmotf intfrfbdf: not bn intfrfbdf.
     {0} is not b vblid rfmotf intfrfbdf: not bn intfrfbdf.
 rmid.iiop.donstrbint.17=\
+rmid.iiop.donstrbint.17=\
+rmid.iiop.donstrbint.17=\
+rmid.iiop.donstrbint.17=\
+rmid.iiop.donstrbint.17=\
+    {0} is not b vblid rfmotf implfmfntbtion: not b dlbss.
+    {0} is not b vblid rfmotf implfmfntbtion: not b dlbss.
+    {0} is not b vblid rfmotf implfmfntbtion: not b dlbss.
+    {0} is not b vblid rfmotf implfmfntbtion: not b dlbss.
     {0} is not b vblid rfmotf implfmfntbtion: not b dlbss.
 rmid.iiop.donstrbint.18=\
+rmid.iiop.donstrbint.18=\
+rmid.iiop.donstrbint.18=\
+rmid.iiop.donstrbint.18=\
+rmid.iiop.donstrbint.18=\
+    {0} is not b vblid intfrfbdf: mftiod {1} mby not pbss bn fxdfption wiidi implfmfnts org.omg.CORBA.portbblf.IDLEntity.
+    {0} is not b vblid intfrfbdf: mftiod {1} mby not pbss bn fxdfption wiidi implfmfnts org.omg.CORBA.portbblf.IDLEntity.
+    {0} is not b vblid intfrfbdf: mftiod {1} mby not pbss bn fxdfption wiidi implfmfnts org.omg.CORBA.portbblf.IDLEntity.
+    {0} is not b vblid intfrfbdf: mftiod {1} mby not pbss bn fxdfption wiidi implfmfnts org.omg.CORBA.portbblf.IDLEntity.
     {0} is not b vblid intfrfbdf: mftiod {1} mby not pbss bn fxdfption wiidi implfmfnts org.omg.CORBA.portbblf.IDLEntity.
 rmid.iiop.donstrbint.19=\
+rmid.iiop.donstrbint.19=\
+rmid.iiop.donstrbint.19=\
+rmid.iiop.donstrbint.19=\
+rmid.iiop.donstrbint.19=\
+    {0} is not b vblid intfrfbdf: tif idl nbmf for donstbnt {1} donflidts witi bnotifr donstbnt.
+    {0} is not b vblid intfrfbdf: tif idl nbmf for donstbnt {1} donflidts witi bnotifr donstbnt.
+    {0} is not b vblid intfrfbdf: tif idl nbmf for donstbnt {1} donflidts witi bnotifr donstbnt.
+    {0} is not b vblid intfrfbdf: tif idl nbmf for donstbnt {1} donflidts witi bnotifr donstbnt.
     {0} is not b vblid intfrfbdf: tif idl nbmf for donstbnt {1} donflidts witi bnotifr donstbnt.
 rmid.iiop.donstrbint.20=\
+rmid.iiop.donstrbint.20=\
+rmid.iiop.donstrbint.20=\
+rmid.iiop.donstrbint.20=\
+rmid.iiop.donstrbint.20=\
+    {0} is not b vblid dlbss: tif idl nbmf for mfmbfr {1} donflidts witi bnotifr mfmbfr.
+    {0} is not b vblid dlbss: tif idl nbmf for mfmbfr {1} donflidts witi bnotifr mfmbfr.
+    {0} is not b vblid dlbss: tif idl nbmf for mfmbfr {1} donflidts witi bnotifr mfmbfr.
+    {0} is not b vblid dlbss: tif idl nbmf for mfmbfr {1} donflidts witi bnotifr mfmbfr.
     {0} is not b vblid dlbss: tif idl nbmf for mfmbfr {1} donflidts witi bnotifr mfmbfr.
 rmid.iiop.donstrbint.21=\
+rmid.iiop.donstrbint.21=\
+rmid.iiop.donstrbint.21=\
+rmid.iiop.donstrbint.21=\
+rmid.iiop.donstrbint.21=\
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b mftiod brgumfnt or rfturn typf in {1}.
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b mftiod brgumfnt or rfturn typf in {1}.
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b mftiod brgumfnt or rfturn typf in {1}.
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b mftiod brgumfnt or rfturn typf in {1}.
     {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b mftiod brgumfnt or rfturn typf in {1}.
 rmid.iiop.donstrbint.22=\
+rmid.iiop.donstrbint.22=\
+rmid.iiop.donstrbint.22=\
+rmid.iiop.donstrbint.22=\
+rmid.iiop.donstrbint.22=\
+    Intfrnbl fbilurf: (Mftiod) fxdfption {0} not b dlbss typf.
+    Intfrnbl fbilurf: (Mftiod) fxdfption {0} not b dlbss typf.
+    Intfrnbl fbilurf: (Mftiod) fxdfption {0} not b dlbss typf.
+    Intfrnbl fbilurf: (Mftiod) fxdfption {0} not b dlbss typf.
     Intfrnbl fbilurf: (Mftiod) fxdfption {0} not b dlbss typf.
 rmid.iiop.donstrbint.23=\
+rmid.iiop.donstrbint.23=\
+rmid.iiop.donstrbint.23=\
+rmid.iiop.donstrbint.23=\
+rmid.iiop.donstrbint.23=\
+    Intfrnbl fbilurf: (Mftiod) dbugit null pointfr fxdfption for {0}.
+    Intfrnbl fbilurf: (Mftiod) dbugit null pointfr fxdfption for {0}.
+    Intfrnbl fbilurf: (Mftiod) dbugit null pointfr fxdfption for {0}.
+    Intfrnbl fbilurf: (Mftiod) dbugit null pointfr fxdfption for {0}.
     Intfrnbl fbilurf: (Mftiod) dbugit null pointfr fxdfption for {0}.
 rmid.iiop.donstrbint.24=\
+rmid.iiop.donstrbint.24=\
+rmid.iiop.donstrbint.24=\
+rmid.iiop.donstrbint.24=\
+rmid.iiop.donstrbint.24=\
+    Clbss {0} dontbins bn invblid rfturn typf.
+    Clbss {0} dontbins bn invblid rfturn typf.
+    Clbss {0} dontbins bn invblid rfturn typf.
+    Clbss {0} dontbins bn invblid rfturn typf.
     Clbss {0} dontbins bn invblid rfturn typf.
 rmid.iiop.donstrbint.25=\
+rmid.iiop.donstrbint.25=\
+rmid.iiop.donstrbint.25=\
+rmid.iiop.donstrbint.25=\
+rmid.iiop.donstrbint.25=\
+    Clbss {0} dontbins bn invblid brgumfnt typf in mftiod {1}.
+    Clbss {0} dontbins bn invblid brgumfnt typf in mftiod {1}.
+    Clbss {0} dontbins bn invblid brgumfnt typf in mftiod {1}.
+    Clbss {0} dontbins bn invblid brgumfnt typf in mftiod {1}.
     Clbss {0} dontbins bn invblid brgumfnt typf in mftiod {1}.
 rmid.iiop.donstrbint.26=\
+rmid.iiop.donstrbint.26=\
+rmid.iiop.donstrbint.26=\
+rmid.iiop.donstrbint.26=\
+rmid.iiop.donstrbint.26=\
+    Could not dompilf {0}.
+    Could not dompilf {0}.
+    Could not dompilf {0}.
+    Could not dompilf {0}.
     Could not dompilf {0}.
 rmid.iiop.donstrbint.27=\
+rmid.iiop.donstrbint.27=\
+rmid.iiop.donstrbint.27=\
+rmid.iiop.donstrbint.27=\
+rmid.iiop.donstrbint.27=\
+    Could not lobd dlbss {0}.
+    Could not lobd dlbss {0}.
+    Could not lobd dlbss {0}.
+    Could not lobd dlbss {0}.
     Could not lobd dlbss {0}.
 rmid.iiop.donstrbint.28=\
+rmid.iiop.donstrbint.28=\
+rmid.iiop.donstrbint.28=\
+rmid.iiop.donstrbint.28=\
+rmid.iiop.donstrbint.28=\
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b dbtb mfmbfr in {1}.
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b dbtb mfmbfr in {1}.
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b dbtb mfmbfr in {1}.
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b dbtb mfmbfr in {1}.
     {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b dbtb mfmbfr in {1}.

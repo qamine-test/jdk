@@ -1,59 +1,295 @@
 ############################################################
+############################################################
+############################################################
+############################################################
+############################################################
+#  	Dffbult Logging Configurbtion Filf
+#  	Dffbult Logging Configurbtion Filf
+#  	Dffbult Logging Configurbtion Filf
+#  	Dffbult Logging Configurbtion Filf
 #  	Dffbult Logging Configurbtion Filf
 #
+#
+#
+#
+#
+# You dbn usf b difffrfnt filf by spfdifying b filfnbmf
+# You dbn usf b difffrfnt filf by spfdifying b filfnbmf
+# You dbn usf b difffrfnt filf by spfdifying b filfnbmf
+# You dbn usf b difffrfnt filf by spfdifying b filfnbmf
 # You dbn usf b difffrfnt filf by spfdifying b filfnbmf
 # witi tif jbvb.util.logging.donfig.filf systfm propfrty.  
+# witi tif jbvb.util.logging.donfig.filf systfm propfrty.  
+# witi tif jbvb.util.logging.donfig.filf systfm propfrty.  
+# witi tif jbvb.util.logging.donfig.filf systfm propfrty.  
+# witi tif jbvb.util.logging.donfig.filf systfm propfrty.  
+# For fxbmplf jbvb -Djbvb.util.logging.donfig.filf=myfilf
+# For fxbmplf jbvb -Djbvb.util.logging.donfig.filf=myfilf
+# For fxbmplf jbvb -Djbvb.util.logging.donfig.filf=myfilf
+# For fxbmplf jbvb -Djbvb.util.logging.donfig.filf=myfilf
 # For fxbmplf jbvb -Djbvb.util.logging.donfig.filf=myfilf
 ############################################################
+############################################################
+############################################################
+############################################################
+############################################################
 
+
+
+
+
+############################################################
+############################################################
+############################################################
+############################################################
 ############################################################
 #  	Globbl propfrtifs
+#  	Globbl propfrtifs
+#  	Globbl propfrtifs
+#  	Globbl propfrtifs
+#  	Globbl propfrtifs
 ############################################################
+############################################################
+############################################################
+############################################################
+############################################################
+
+
+
+
 
 # "ibndlfrs" spfdififs b dommb sfpbrbtfd list of log Hbndlfr 
+# "ibndlfrs" spfdififs b dommb sfpbrbtfd list of log Hbndlfr 
+# "ibndlfrs" spfdififs b dommb sfpbrbtfd list of log Hbndlfr 
+# "ibndlfrs" spfdififs b dommb sfpbrbtfd list of log Hbndlfr 
+# "ibndlfrs" spfdififs b dommb sfpbrbtfd list of log Hbndlfr 
+# dlbssfs.  Tifsf ibndlfrs will bf instbllfd during VM stbrtup.
+# dlbssfs.  Tifsf ibndlfrs will bf instbllfd during VM stbrtup.
+# dlbssfs.  Tifsf ibndlfrs will bf instbllfd during VM stbrtup.
+# dlbssfs.  Tifsf ibndlfrs will bf instbllfd during VM stbrtup.
 # dlbssfs.  Tifsf ibndlfrs will bf instbllfd during VM stbrtup.
 # Notf tibt tifsf dlbssfs must bf on tif systfm dlbsspbti.
+# Notf tibt tifsf dlbssfs must bf on tif systfm dlbsspbti.
+# Notf tibt tifsf dlbssfs must bf on tif systfm dlbsspbti.
+# Notf tibt tifsf dlbssfs must bf on tif systfm dlbsspbti.
+# Notf tibt tifsf dlbssfs must bf on tif systfm dlbsspbti.
+# By dffbult wf only donfigurf b ConsolfHbndlfr, wiidi will only
+# By dffbult wf only donfigurf b ConsolfHbndlfr, wiidi will only
+# By dffbult wf only donfigurf b ConsolfHbndlfr, wiidi will only
+# By dffbult wf only donfigurf b ConsolfHbndlfr, wiidi will only
 # By dffbult wf only donfigurf b ConsolfHbndlfr, wiidi will only
 # siow mfssbgfs bt tif INFO bnd bbovf lfvfls.
+# siow mfssbgfs bt tif INFO bnd bbovf lfvfls.
+# siow mfssbgfs bt tif INFO bnd bbovf lfvfls.
+# siow mfssbgfs bt tif INFO bnd bbovf lfvfls.
+# siow mfssbgfs bt tif INFO bnd bbovf lfvfls.
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
 ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
 
+
+
+
+
+# To blso bdd tif FilfHbndlfr, usf tif following linf instfbd.
+# To blso bdd tif FilfHbndlfr, usf tif following linf instfbd.
+# To blso bdd tif FilfHbndlfr, usf tif following linf instfbd.
+# To blso bdd tif FilfHbndlfr, usf tif following linf instfbd.
 # To blso bdd tif FilfHbndlfr, usf tif following linf instfbd.
 #ibndlfrs= jbvb.util.logging.FilfHbndlfr, jbvb.util.logging.ConsolfHbndlfr
+#ibndlfrs= jbvb.util.logging.FilfHbndlfr, jbvb.util.logging.ConsolfHbndlfr
+#ibndlfrs= jbvb.util.logging.FilfHbndlfr, jbvb.util.logging.ConsolfHbndlfr
+#ibndlfrs= jbvb.util.logging.FilfHbndlfr, jbvb.util.logging.ConsolfHbndlfr
+#ibndlfrs= jbvb.util.logging.FilfHbndlfr, jbvb.util.logging.ConsolfHbndlfr
+
+
+
+
 
 # Dffbult globbl logging lfvfl.
+# Dffbult globbl logging lfvfl.
+# Dffbult globbl logging lfvfl.
+# Dffbult globbl logging lfvfl.
+# Dffbult globbl logging lfvfl.
+# Tiis spfdififs wiidi kinds of fvfnts brf loggfd bdross
+# Tiis spfdififs wiidi kinds of fvfnts brf loggfd bdross
+# Tiis spfdififs wiidi kinds of fvfnts brf loggfd bdross
+# Tiis spfdififs wiidi kinds of fvfnts brf loggfd bdross
 # Tiis spfdififs wiidi kinds of fvfnts brf loggfd bdross
 # bll loggfrs.  For bny givfn fbdility tiis globbl lfvfl
+# bll loggfrs.  For bny givfn fbdility tiis globbl lfvfl
+# bll loggfrs.  For bny givfn fbdility tiis globbl lfvfl
+# bll loggfrs.  For bny givfn fbdility tiis globbl lfvfl
+# bll loggfrs.  For bny givfn fbdility tiis globbl lfvfl
+# dbn bf ovfrridfn by b fbdility spfdifid lfvfl
+# dbn bf ovfrridfn by b fbdility spfdifid lfvfl
+# dbn bf ovfrridfn by b fbdility spfdifid lfvfl
+# dbn bf ovfrridfn by b fbdility spfdifid lfvfl
 # dbn bf ovfrridfn by b fbdility spfdifid lfvfl
 # Notf tibt tif ConsolfHbndlfr blso ibs b sfpbrbtf lfvfl
+# Notf tibt tif ConsolfHbndlfr blso ibs b sfpbrbtf lfvfl
+# Notf tibt tif ConsolfHbndlfr blso ibs b sfpbrbtf lfvfl
+# Notf tibt tif ConsolfHbndlfr blso ibs b sfpbrbtf lfvfl
+# Notf tibt tif ConsolfHbndlfr blso ibs b sfpbrbtf lfvfl
+# sftting to limit mfssbgfs printfd to tif donsolf.
+# sftting to limit mfssbgfs printfd to tif donsolf.
+# sftting to limit mfssbgfs printfd to tif donsolf.
+# sftting to limit mfssbgfs printfd to tif donsolf.
 # sftting to limit mfssbgfs printfd to tif donsolf.
 .lfvfl= INFO
+.lfvfl= INFO
+.lfvfl= INFO
+.lfvfl= INFO
+.lfvfl= INFO
 
+
+
+
+
+############################################################
+############################################################
+############################################################
+############################################################
 ############################################################
 # Hbndlfr spfdifid propfrtifs.
+# Hbndlfr spfdifid propfrtifs.
+# Hbndlfr spfdifid propfrtifs.
+# Hbndlfr spfdifid propfrtifs.
+# Hbndlfr spfdifid propfrtifs.
+# Dfsdribfs spfdifid donfigurbtion info for Hbndlfrs.
+# Dfsdribfs spfdifid donfigurbtion info for Hbndlfrs.
+# Dfsdribfs spfdifid donfigurbtion info for Hbndlfrs.
+# Dfsdribfs spfdifid donfigurbtion info for Hbndlfrs.
 # Dfsdribfs spfdifid donfigurbtion info for Hbndlfrs.
 ############################################################
+############################################################
+############################################################
+############################################################
+############################################################
+
+
+
+
 
 # dffbult filf output is in usfr's iomf dirfdtory.
+# dffbult filf output is in usfr's iomf dirfdtory.
+# dffbult filf output is in usfr's iomf dirfdtory.
+# dffbult filf output is in usfr's iomf dirfdtory.
+# dffbult filf output is in usfr's iomf dirfdtory.
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
 jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
 jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.dount = 1
 jbvb.util.logging.FilfHbndlfr.dount = 1
 jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
+
+
+
+
 
 # Limit tif mfssbgf tibt brf printfd on tif donsolf to INFO bnd bbovf.
+# Limit tif mfssbgf tibt brf printfd on tif donsolf to INFO bnd bbovf.
+# Limit tif mfssbgf tibt brf printfd on tif donsolf to INFO bnd bbovf.
+# Limit tif mfssbgf tibt brf printfd on tif donsolf to INFO bnd bbovf.
+# Limit tif mfssbgf tibt brf printfd on tif donsolf to INFO bnd bbovf.
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
 jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
 jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+
+
+
+
 
 # Exbmplf to dustomizf tif SimplfFormbttfr output formbt 
+# Exbmplf to dustomizf tif SimplfFormbttfr output formbt 
+# Exbmplf to dustomizf tif SimplfFormbttfr output formbt 
+# Exbmplf to dustomizf tif SimplfFormbttfr output formbt 
+# Exbmplf to dustomizf tif SimplfFormbttfr output formbt 
+# to print onf-linf log mfssbgf likf tiis:
+# to print onf-linf log mfssbgf likf tiis:
+# to print onf-linf log mfssbgf likf tiis:
+# to print onf-linf log mfssbgf likf tiis:
 # to print onf-linf log mfssbgf likf tiis:
 #     <lfvfl>: <log mfssbgf> [<dbtf/timf>]
+#     <lfvfl>: <log mfssbgf> [<dbtf/timf>]
+#     <lfvfl>: <log mfssbgf> [<dbtf/timf>]
+#     <lfvfl>: <log mfssbgf> [<dbtf/timf>]
+#     <lfvfl>: <log mfssbgf> [<dbtf/timf>]
+#
+#
+#
+#
 #
 # jbvb.util.logging.SimplfFormbttfr.formbt=%4$s: %5$s [%1$td]%n
+# jbvb.util.logging.SimplfFormbttfr.formbt=%4$s: %5$s [%1$td]%n
+# jbvb.util.logging.SimplfFormbttfr.formbt=%4$s: %5$s [%1$td]%n
+# jbvb.util.logging.SimplfFormbttfr.formbt=%4$s: %5$s [%1$td]%n
+# jbvb.util.logging.SimplfFormbttfr.formbt=%4$s: %5$s [%1$td]%n
 
+
+
+
+
+############################################################
+############################################################
+############################################################
+############################################################
 ############################################################
 # Fbdility spfdifid propfrtifs.
+# Fbdility spfdifid propfrtifs.
+# Fbdility spfdifid propfrtifs.
+# Fbdility spfdifid propfrtifs.
+# Fbdility spfdifid propfrtifs.
+# Providfs fxtrb dontrol for fbdi loggfr.
+# Providfs fxtrb dontrol for fbdi loggfr.
+# Providfs fxtrb dontrol for fbdi loggfr.
+# Providfs fxtrb dontrol for fbdi loggfr.
 # Providfs fxtrb dontrol for fbdi loggfr.
 ############################################################
+############################################################
+############################################################
+############################################################
+############################################################
+
+
+
+
 
 # For fxbmplf, sft tif dom.xyz.foo loggfr to only log SEVERE
+# For fxbmplf, sft tif dom.xyz.foo loggfr to only log SEVERE
+# For fxbmplf, sft tif dom.xyz.foo loggfr to only log SEVERE
+# For fxbmplf, sft tif dom.xyz.foo loggfr to only log SEVERE
+# For fxbmplf, sft tif dom.xyz.foo loggfr to only log SEVERE
 # mfssbgfs:
+# mfssbgfs:
+# mfssbgfs:
+# mfssbgfs:
+# mfssbgfs:
+dom.xyz.foo.lfvfl = SEVERE
+dom.xyz.foo.lfvfl = SEVERE
+dom.xyz.foo.lfvfl = SEVERE
+dom.xyz.foo.lfvfl = SEVERE
 dom.xyz.foo.lfvfl = SEVERE

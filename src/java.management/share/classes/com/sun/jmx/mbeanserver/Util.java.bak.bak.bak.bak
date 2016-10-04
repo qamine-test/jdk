@@ -1,241 +1,1205 @@
 /*
- * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+
+
+
 
 import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
 import jbvb.util.Arrbys;
 import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
+import jbvb.util.Collfdtions;
 import jbvb.util.Collfdtions;
 import jbvb.util.Compbrbtor;
-import jbvb.util.HbshMbp;
-import jbvb.util.HbshSft;
-import jbvb.util.IdfntityHbshMbp;
-import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiSft;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
 import jbvb.util.List;
 import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
 import jbvb.util.Sft;
 import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffMbp;
 import jbvb.util.TrffMbp;
 import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
+
+
+
+
+publid dlbss Util {
+publid dlbss Util {
+publid dlbss Util {
+publid dlbss Util {
 publid dlbss Util {
     publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String string) {
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String string) {
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String string) {
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String string) {
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String string) {
+        try {
+        try {
+        try {
+        try {
         try {
             rfturn nfw ObjfdtNbmf(string);
-        } dbtdh (MblformfdObjfdtNbmfExdfption f) {
-            throw nfw IllfgblArgumfntExdfption(f);
+            rfturn nfw ObjfdtNbmf(string);
+            rfturn nfw ObjfdtNbmf(string);
+            rfturn nfw ObjfdtNbmf(string);
+            rfturn nfw ObjfdtNbmf(string);
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
+            tirow nfw IllfgblArgumfntExdfption(f);
+            tirow nfw IllfgblArgumfntExdfption(f);
+            tirow nfw IllfgblArgumfntExdfption(f);
+            tirow nfw IllfgblArgumfntExdfption(f);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <K, V> Mbp<K, V> nfwMbp() {
-        rfturn nfw HbshMbp<K, V>();
+    stbtid <K, V> Mbp<K, V> nfwMbp() {
+    stbtid <K, V> Mbp<K, V> nfwMbp() {
+    stbtid <K, V> Mbp<K, V> nfwMbp() {
+    stbtid <K, V> Mbp<K, V> nfwMbp() {
+        rfturn nfw HbsiMbp<K, V>();
+        rfturn nfw HbsiMbp<K, V>();
+        rfturn nfw HbsiMbp<K, V>();
+        rfturn nfw HbsiMbp<K, V>();
+        rfturn nfw HbsiMbp<K, V>();
+    }
+    }
+    }
+    }
     }
 
-    stbtid <K, V> Mbp<K, V> nfwSyndhronizfdMbp() {
-        rfturn Collfdtions.syndhronizfdMbp(Util.<K, V>nfwMbp());
+
+
+
+
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdMbp() {
+        rfturn Collfdtions.syndironizfdMbp(Util.<K, V>nfwMbp());
+        rfturn Collfdtions.syndironizfdMbp(Util.<K, V>nfwMbp());
+        rfturn Collfdtions.syndironizfdMbp(Util.<K, V>nfwMbp());
+        rfturn Collfdtions.syndironizfdMbp(Util.<K, V>nfwMbp());
+        rfturn Collfdtions.syndironizfdMbp(Util.<K, V>nfwMbp());
+    }
+    }
+    }
+    }
     }
 
-    stbtid <K, V> IdfntityHbshMbp<K, V> nfwIdfntityHbshMbp() {
-        rfturn nfw IdfntityHbshMbp<K, V>();
+
+
+
+
+    stbtid <K, V> IdfntityHbsiMbp<K, V> nfwIdfntityHbsiMbp() {
+    stbtid <K, V> IdfntityHbsiMbp<K, V> nfwIdfntityHbsiMbp() {
+    stbtid <K, V> IdfntityHbsiMbp<K, V> nfwIdfntityHbsiMbp() {
+    stbtid <K, V> IdfntityHbsiMbp<K, V> nfwIdfntityHbsiMbp() {
+    stbtid <K, V> IdfntityHbsiMbp<K, V> nfwIdfntityHbsiMbp() {
+        rfturn nfw IdfntityHbsiMbp<K, V>();
+        rfturn nfw IdfntityHbsiMbp<K, V>();
+        rfturn nfw IdfntityHbsiMbp<K, V>();
+        rfturn nfw IdfntityHbsiMbp<K, V>();
+        rfturn nfw IdfntityHbsiMbp<K, V>();
+    }
+    }
+    }
+    }
     }
 
-    stbtid <K, V> Mbp<K, V> nfwSyndhronizfdIdfntityHbshMbp() {
-        Mbp<K, V> mbp = nfwIdfntityHbshMbp();
-        rfturn Collfdtions.syndhronizfdMbp(mbp);
+
+
+
+
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdIdfntityHbsiMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdIdfntityHbsiMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdIdfntityHbsiMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdIdfntityHbsiMbp() {
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdIdfntityHbsiMbp() {
+        Mbp<K, V> mbp = nfwIdfntityHbsiMbp();
+        Mbp<K, V> mbp = nfwIdfntityHbsiMbp();
+        Mbp<K, V> mbp = nfwIdfntityHbsiMbp();
+        Mbp<K, V> mbp = nfwIdfntityHbsiMbp();
+        Mbp<K, V> mbp = nfwIdfntityHbsiMbp();
+        rfturn Collfdtions.syndironizfdMbp(mbp);
+        rfturn Collfdtions.syndironizfdMbp(mbp);
+        rfturn Collfdtions.syndironizfdMbp(mbp);
+        rfturn Collfdtions.syndironizfdMbp(mbp);
+        rfturn Collfdtions.syndironizfdMbp(mbp);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp() {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp() {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp() {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp() {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp() {
+        rfturn nfw TrffMbp<K, V>();
+        rfturn nfw TrffMbp<K, V>();
+        rfturn nfw TrffMbp<K, V>();
+        rfturn nfw TrffMbp<K, V>();
         rfturn nfw TrffMbp<K, V>();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp(Compbrbtor<? supfr K> domp) {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp(Compbrbtor<? supfr K> domp) {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp(Compbrbtor<? supfr K> domp) {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp(Compbrbtor<? supfr K> domp) {
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp(Compbrbtor<? supfr K> domp) {
+        rfturn nfw TrffMbp<K, V>(domp);
+        rfturn nfw TrffMbp<K, V>(domp);
+        rfturn nfw TrffMbp<K, V>(domp);
+        rfturn nfw TrffMbp<K, V>(domp);
         rfturn nfw TrffMbp<K, V>(domp);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <K, V> Mbp<K, V> nfwInsfrtionOrdfrMbp() {
-        rfturn nfw LinkfdHbshMbp<K, V>();
+    stbtid <K, V> Mbp<K, V> nfwInsfrtionOrdfrMbp() {
+    stbtid <K, V> Mbp<K, V> nfwInsfrtionOrdfrMbp() {
+    stbtid <K, V> Mbp<K, V> nfwInsfrtionOrdfrMbp() {
+    stbtid <K, V> Mbp<K, V> nfwInsfrtionOrdfrMbp() {
+        rfturn nfw LinkfdHbsiMbp<K, V>();
+        rfturn nfw LinkfdHbsiMbp<K, V>();
+        rfturn nfw LinkfdHbsiMbp<K, V>();
+        rfturn nfw LinkfdHbsiMbp<K, V>();
+        rfturn nfw LinkfdHbsiMbp<K, V>();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <E> Sft<E> nfwSft() {
-        rfturn nfw HbshSft<E>();
+    stbtid <E> Sft<E> nfwSft() {
+    stbtid <E> Sft<E> nfwSft() {
+    stbtid <E> Sft<E> nfwSft() {
+    stbtid <E> Sft<E> nfwSft() {
+        rfturn nfw HbsiSft<E>();
+        rfturn nfw HbsiSft<E>();
+        rfturn nfw HbsiSft<E>();
+        rfturn nfw HbsiSft<E>();
+        rfturn nfw HbsiSft<E>();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <E> Sft<E> nfwSft(Collfdtion<E> d) {
-        rfturn nfw HbshSft<E>(d);
+    stbtid <E> Sft<E> nfwSft(Collfdtion<E> d) {
+    stbtid <E> Sft<E> nfwSft(Collfdtion<E> d) {
+    stbtid <E> Sft<E> nfwSft(Collfdtion<E> d) {
+    stbtid <E> Sft<E> nfwSft(Collfdtion<E> d) {
+        rfturn nfw HbsiSft<E>(d);
+        rfturn nfw HbsiSft<E>(d);
+        rfturn nfw HbsiSft<E>(d);
+        rfturn nfw HbsiSft<E>(d);
+        rfturn nfw HbsiSft<E>(d);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <E> List<E> nfwList() {
+    stbtid <E> List<E> nfwList() {
+    stbtid <E> List<E> nfwList() {
+    stbtid <E> List<E> nfwList() {
+    stbtid <E> List<E> nfwList() {
+        rfturn nfw ArrbyList<E>();
+        rfturn nfw ArrbyList<E>();
+        rfturn nfw ArrbyList<E>();
+        rfturn nfw ArrbyList<E>();
         rfturn nfw ArrbyList<E>();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     stbtid <E> List<E> nfwList(Collfdtion<E> d) {
+    stbtid <E> List<E> nfwList(Collfdtion<E> d) {
+    stbtid <E> List<E> nfwList(Collfdtion<E> d) {
+    stbtid <E> List<E> nfwList(Collfdtion<E> d) {
+    stbtid <E> List<E> nfwList(Collfdtion<E> d) {
+        rfturn nfw ArrbyList<E>(d);
+        rfturn nfw ArrbyList<E>(d);
+        rfturn nfw ArrbyList<E>(d);
+        rfturn nfw ArrbyList<E>(d);
         rfturn nfw ArrbyList<E>(d);
     }
+    }
+    }
+    }
+    }
 
-    /* This mfthod dbn bf usfd by dodf thbt is dflibfrbtfly violbting thf
-     * bllowfd dhfdkfd dbsts.  Rbthfr thbn mbrking thf wholf mfthod dontbining
-     * thf dodf with @SupprfssWbrnings, you dbn usf b dbll to this mfthod for
-     * thf fxbdt plbdf whfrf you nffd to fsdbpf thf donstrbints.  Typidblly
-     * you will "import stbtid" this mfthod bnd thfn writf fithfr
+
+
+
+
+    /* Tiis mftiod dbn bf usfd by dodf tibt is dflibfrbtfly violbting tif
+    /* Tiis mftiod dbn bf usfd by dodf tibt is dflibfrbtfly violbting tif
+    /* Tiis mftiod dbn bf usfd by dodf tibt is dflibfrbtfly violbting tif
+    /* Tiis mftiod dbn bf usfd by dodf tibt is dflibfrbtfly violbting tif
+    /* Tiis mftiod dbn bf usfd by dodf tibt is dflibfrbtfly violbting tif
+     * bllowfd difdkfd dbsts.  Rbtifr tibn mbrking tif wiolf mftiod dontbining
+     * bllowfd difdkfd dbsts.  Rbtifr tibn mbrking tif wiolf mftiod dontbining
+     * bllowfd difdkfd dbsts.  Rbtifr tibn mbrking tif wiolf mftiod dontbining
+     * bllowfd difdkfd dbsts.  Rbtifr tibn mbrking tif wiolf mftiod dontbining
+     * bllowfd difdkfd dbsts.  Rbtifr tibn mbrking tif wiolf mftiod dontbining
+     * tif dodf witi @SupprfssWbrnings, you dbn usf b dbll to tiis mftiod for
+     * tif dodf witi @SupprfssWbrnings, you dbn usf b dbll to tiis mftiod for
+     * tif dodf witi @SupprfssWbrnings, you dbn usf b dbll to tiis mftiod for
+     * tif dodf witi @SupprfssWbrnings, you dbn usf b dbll to tiis mftiod for
+     * tif dodf witi @SupprfssWbrnings, you dbn usf b dbll to tiis mftiod for
+     * tif fxbdt plbdf wifrf you nffd to fsdbpf tif donstrbints.  Typidblly
+     * tif fxbdt plbdf wifrf you nffd to fsdbpf tif donstrbints.  Typidblly
+     * tif fxbdt plbdf wifrf you nffd to fsdbpf tif donstrbints.  Typidblly
+     * tif fxbdt plbdf wifrf you nffd to fsdbpf tif donstrbints.  Typidblly
+     * tif fxbdt plbdf wifrf you nffd to fsdbpf tif donstrbints.  Typidblly
+     * you will "import stbtid" tiis mftiod bnd tifn writf fitifr
+     * you will "import stbtid" tiis mftiod bnd tifn writf fitifr
+     * you will "import stbtid" tiis mftiod bnd tifn writf fitifr
+     * you will "import stbtid" tiis mftiod bnd tifn writf fitifr
+     * you will "import stbtid" tiis mftiod bnd tifn writf fitifr
      *    X x = dbst(y);
-     * or, if thbt dofsn't work (f.g. X is b typf vbribblf)
+     *    X x = dbst(y);
+     *    X x = dbst(y);
+     *    X x = dbst(y);
+     *    X x = dbst(y);
+     * or, if tibt dofsn't work (f.g. X is b typf vbribblf)
+     * or, if tibt dofsn't work (f.g. X is b typf vbribblf)
+     * or, if tibt dofsn't work (f.g. X is b typf vbribblf)
+     * or, if tibt dofsn't work (f.g. X is b typf vbribblf)
+     * or, if tibt dofsn't work (f.g. X is b typf vbribblf)
+     *    Util.<X>dbst(y);
+     *    Util.<X>dbst(y);
+     *    Util.<X>dbst(y);
+     *    Util.<X>dbst(y);
      *    Util.<X>dbst(y);
      */
-    @SupprfssWbrnings("undhfdkfd")
+     */
+     */
+     */
+     */
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T> T dbst(Objfdt x) {
+    publid stbtid <T> T dbst(Objfdt x) {
+    publid stbtid <T> T dbst(Objfdt x) {
+    publid stbtid <T> T dbst(Objfdt x) {
     publid stbtid <T> T dbst(Objfdt x) {
         rfturn (T) x;
+        rfturn (T) x;
+        rfturn (T) x;
+        rfturn (T) x;
+        rfturn (T) x;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Computfs b dfsdriptor hbshdodf from its nbmfs bnd vblufs.
-     * @pbrbm nbmfs  thf sortfd brrby of dfsdriptor nbmfs.
-     * @pbrbm vblufs thf brrby of dfsdriptor vblufs.
-     * @rfturn b hbsh dodf vbluf, bs dfsdribfd in {@link #hbshCodf(Dfsdriptor)}
+    /**
+    /**
+    /**
+    /**
+     * Computfs b dfsdriptor ibsidodf from its nbmfs bnd vblufs.
+     * Computfs b dfsdriptor ibsidodf from its nbmfs bnd vblufs.
+     * Computfs b dfsdriptor ibsidodf from its nbmfs bnd vblufs.
+     * Computfs b dfsdriptor ibsidodf from its nbmfs bnd vblufs.
+     * Computfs b dfsdriptor ibsidodf from its nbmfs bnd vblufs.
+     * @pbrbm nbmfs  tif sortfd brrby of dfsdriptor nbmfs.
+     * @pbrbm nbmfs  tif sortfd brrby of dfsdriptor nbmfs.
+     * @pbrbm nbmfs  tif sortfd brrby of dfsdriptor nbmfs.
+     * @pbrbm nbmfs  tif sortfd brrby of dfsdriptor nbmfs.
+     * @pbrbm nbmfs  tif sortfd brrby of dfsdriptor nbmfs.
+     * @pbrbm vblufs tif brrby of dfsdriptor vblufs.
+     * @pbrbm vblufs tif brrby of dfsdriptor vblufs.
+     * @pbrbm vblufs tif brrby of dfsdriptor vblufs.
+     * @pbrbm vblufs tif brrby of dfsdriptor vblufs.
+     * @pbrbm vblufs tif brrby of dfsdriptor vblufs.
+     * @rfturn b ibsi dodf vbluf, bs dfsdribfd in {@link #ibsiCodf(Dfsdriptor)}
+     * @rfturn b ibsi dodf vbluf, bs dfsdribfd in {@link #ibsiCodf(Dfsdriptor)}
+     * @rfturn b ibsi dodf vbluf, bs dfsdribfd in {@link #ibsiCodf(Dfsdriptor)}
+     * @rfturn b ibsi dodf vbluf, bs dfsdribfd in {@link #ibsiCodf(Dfsdriptor)}
+     * @rfturn b ibsi dodf vbluf, bs dfsdribfd in {@link #ibsiCodf(Dfsdriptor)}
      */
-    publid stbtid int hbshCodf(String[] nbmfs, Objfdt[] vblufs) {
-        int hbsh = 0;
-        for (int i = 0; i < nbmfs.lfngth; i++) {
+     */
+     */
+     */
+     */
+    publid stbtid int ibsiCodf(String[] nbmfs, Objfdt[] vblufs) {
+    publid stbtid int ibsiCodf(String[] nbmfs, Objfdt[] vblufs) {
+    publid stbtid int ibsiCodf(String[] nbmfs, Objfdt[] vblufs) {
+    publid stbtid int ibsiCodf(String[] nbmfs, Objfdt[] vblufs) {
+    publid stbtid int ibsiCodf(String[] nbmfs, Objfdt[] vblufs) {
+        int ibsi = 0;
+        int ibsi = 0;
+        int ibsi = 0;
+        int ibsi = 0;
+        int ibsi = 0;
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+        for (int i = 0; i < nbmfs.lfngti; i++) {
             Objfdt v = vblufs[i];
-            int h;
+            Objfdt v = vblufs[i];
+            Objfdt v = vblufs[i];
+            Objfdt v = vblufs[i];
+            Objfdt v = vblufs[i];
+            int i;
+            int i;
+            int i;
+            int i;
+            int i;
             if (v == null) {
-                h = 0;
+            if (v == null) {
+            if (v == null) {
+            if (v == null) {
+            if (v == null) {
+                i = 0;
+                i = 0;
+                i = 0;
+                i = 0;
+                i = 0;
             } flsf if (v instbndfof Objfdt[]) {
-                h = Arrbys.dffpHbshCodf((Objfdt[]) v);
+            } flsf if (v instbndfof Objfdt[]) {
+            } flsf if (v instbndfof Objfdt[]) {
+            } flsf if (v instbndfof Objfdt[]) {
+            } flsf if (v instbndfof Objfdt[]) {
+                i = Arrbys.dffpHbsiCodf((Objfdt[]) v);
+                i = Arrbys.dffpHbsiCodf((Objfdt[]) v);
+                i = Arrbys.dffpHbsiCodf((Objfdt[]) v);
+                i = Arrbys.dffpHbsiCodf((Objfdt[]) v);
+                i = Arrbys.dffpHbsiCodf((Objfdt[]) v);
             } flsf if (v.gftClbss().isArrby()) {
-                h = Arrbys.dffpHbshCodf(nfw Objfdt[]{v}) - 31;
-            // hbshdodf of b list dontbining just v is
-            // v.hbshCodf() + 31, sff List.hbshCodf()
+            } flsf if (v.gftClbss().isArrby()) {
+            } flsf if (v.gftClbss().isArrby()) {
+            } flsf if (v.gftClbss().isArrby()) {
+            } flsf if (v.gftClbss().isArrby()) {
+                i = Arrbys.dffpHbsiCodf(nfw Objfdt[]{v}) - 31;
+                i = Arrbys.dffpHbsiCodf(nfw Objfdt[]{v}) - 31;
+                i = Arrbys.dffpHbsiCodf(nfw Objfdt[]{v}) - 31;
+                i = Arrbys.dffpHbsiCodf(nfw Objfdt[]{v}) - 31;
+                i = Arrbys.dffpHbsiCodf(nfw Objfdt[]{v}) - 31;
+            // ibsidodf of b list dontbining just v is
+            // ibsidodf of b list dontbining just v is
+            // ibsidodf of b list dontbining just v is
+            // ibsidodf of b list dontbining just v is
+            // ibsidodf of b list dontbining just v is
+            // v.ibsiCodf() + 31, sff List.ibsiCodf()
+            // v.ibsiCodf() + 31, sff List.ibsiCodf()
+            // v.ibsiCodf() + 31, sff List.ibsiCodf()
+            // v.ibsiCodf() + 31, sff List.ibsiCodf()
+            // v.ibsiCodf() + 31, sff List.ibsiCodf()
             } flsf {
-                h = v.hbshCodf();
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                i = v.ibsiCodf();
+                i = v.ibsiCodf();
+                i = v.ibsiCodf();
+                i = v.ibsiCodf();
+                i = v.ibsiCodf();
             }
-            hbsh += nbmfs[i].toLowfrCbsf().hbshCodf() ^ h;
+            }
+            }
+            }
+            }
+            ibsi += nbmfs[i].toLowfrCbsf().ibsiCodf() ^ i;
+            ibsi += nbmfs[i].toLowfrCbsf().ibsiCodf() ^ i;
+            ibsi += nbmfs[i].toLowfrCbsf().ibsiCodf() ^ i;
+            ibsi += nbmfs[i].toLowfrCbsf().ibsiCodf() ^ i;
+            ibsi += nbmfs[i].toLowfrCbsf().ibsiCodf() ^ i;
         }
-        rfturn hbsh;
+        }
+        }
+        }
+        }
+        rfturn ibsi;
+        rfturn ibsi;
+        rfturn ibsi;
+        rfturn ibsi;
+        rfturn ibsi;
+    }
+    }
+    }
+    }
     }
 
-    /** Mbtdh b pbrt of b string bgbinst b shfll-stylf pbttfrn.
-        Thf only pbttfrn dhbrbdtfrs rfdognizfd brf <dodf>?</dodf>,
-        stbnding for bny onf dhbrbdtfr,
+
+
+
+
+    /** Mbtdi b pbrt of b string bgbinst b sifll-stylf pbttfrn.
+    /** Mbtdi b pbrt of b string bgbinst b sifll-stylf pbttfrn.
+    /** Mbtdi b pbrt of b string bgbinst b sifll-stylf pbttfrn.
+    /** Mbtdi b pbrt of b string bgbinst b sifll-stylf pbttfrn.
+    /** Mbtdi b pbrt of b string bgbinst b sifll-stylf pbttfrn.
+        Tif only pbttfrn dibrbdtfrs rfdognizfd brf <dodf>?</dodf>,
+        Tif only pbttfrn dibrbdtfrs rfdognizfd brf <dodf>?</dodf>,
+        Tif only pbttfrn dibrbdtfrs rfdognizfd brf <dodf>?</dodf>,
+        Tif only pbttfrn dibrbdtfrs rfdognizfd brf <dodf>?</dodf>,
+        Tif only pbttfrn dibrbdtfrs rfdognizfd brf <dodf>?</dodf>,
+        stbnding for bny onf dibrbdtfr,
+        stbnding for bny onf dibrbdtfr,
+        stbnding for bny onf dibrbdtfr,
+        stbnding for bny onf dibrbdtfr,
+        stbnding for bny onf dibrbdtfr,
         bnd <dodf>*</dodf>, stbnding for bny string of
-        dhbrbdtfrs, indluding thf fmpty string. For instbndf,
-        {@dodf wildmbtdh("sbndwidh","sb?d*dh",1,4,1,4)} will mbtdh
+        bnd <dodf>*</dodf>, stbnding for bny string of
+        bnd <dodf>*</dodf>, stbnding for bny string of
+        bnd <dodf>*</dodf>, stbnding for bny string of
+        bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfrs, indluding tif fmpty string. For instbndf,
+        dibrbdtfrs, indluding tif fmpty string. For instbndf,
+        dibrbdtfrs, indluding tif fmpty string. For instbndf,
+        dibrbdtfrs, indluding tif fmpty string. For instbndf,
+        dibrbdtfrs, indluding tif fmpty string. For instbndf,
+        {@dodf wildmbtdi("sbndwidi","sb?d*di",1,4,1,4)} will mbtdi
+        {@dodf wildmbtdi("sbndwidi","sb?d*di",1,4,1,4)} will mbtdi
+        {@dodf wildmbtdi("sbndwidi","sb?d*di",1,4,1,4)} will mbtdi
+        {@dodf wildmbtdi("sbndwidi","sb?d*di",1,4,1,4)} will mbtdi
+        {@dodf wildmbtdi("sbndwidi","sb?d*di",1,4,1,4)} will mbtdi
+        {@dodf "bnd"} bgbinst {@dodf "b?d"}.
+        {@dodf "bnd"} bgbinst {@dodf "b?d"}.
+        {@dodf "bnd"} bgbinst {@dodf "b?d"}.
+        {@dodf "bnd"} bgbinst {@dodf "b?d"}.
         {@dodf "bnd"} bgbinst {@dodf "b?d"}.
 
-        @pbrbm str  thf string dontbining thf sfqufndf to mbtdh.
-        @pbrbm pbt  b string dontbining b pbttfrn to mbtdh thf sub string
+
+
+
+
+        @pbrbm str  tif string dontbining tif sfqufndf to mbtdi.
+        @pbrbm str  tif string dontbining tif sfqufndf to mbtdi.
+        @pbrbm str  tif string dontbining tif sfqufndf to mbtdi.
+        @pbrbm str  tif string dontbining tif sfqufndf to mbtdi.
+        @pbrbm str  tif string dontbining tif sfqufndf to mbtdi.
+        @pbrbm pbt  b string dontbining b pbttfrn to mbtdi tif sub string
+        @pbrbm pbt  b string dontbining b pbttfrn to mbtdi tif sub string
+        @pbrbm pbt  b string dontbining b pbttfrn to mbtdi tif sub string
+        @pbrbm pbt  b string dontbining b pbttfrn to mbtdi tif sub string
+        @pbrbm pbt  b string dontbining b pbttfrn to mbtdi tif sub string
                     bgbinst.
-        @pbrbm stri   thf indfx in thf string bt whidh mbtdhing should bfgin.
-        @pbrbm strfnd thf indfx in thf string bt whidh thf mbtdhing should
+                    bgbinst.
+                    bgbinst.
+                    bgbinst.
+                    bgbinst.
+        @pbrbm stri   tif indfx in tif string bt wiidi mbtdiing siould bfgin.
+        @pbrbm stri   tif indfx in tif string bt wiidi mbtdiing siould bfgin.
+        @pbrbm stri   tif indfx in tif string bt wiidi mbtdiing siould bfgin.
+        @pbrbm stri   tif indfx in tif string bt wiidi mbtdiing siould bfgin.
+        @pbrbm stri   tif indfx in tif string bt wiidi mbtdiing siould bfgin.
+        @pbrbm strfnd tif indfx in tif string bt wiidi tif mbtdiing siould
+        @pbrbm strfnd tif indfx in tif string bt wiidi tif mbtdiing siould
+        @pbrbm strfnd tif indfx in tif string bt wiidi tif mbtdiing siould
+        @pbrbm strfnd tif indfx in tif string bt wiidi tif mbtdiing siould
+        @pbrbm strfnd tif indfx in tif string bt wiidi tif mbtdiing siould
                       fnd.
-        @pbrbm pbti   thf indfx in thf pbttfrn bt whidh mbtdhing should bfgin.
-        @pbrbm pbtfnd thf indfx in thf pbttfrn bt whidh thf mbtdhing should
+                      fnd.
+                      fnd.
+                      fnd.
+                      fnd.
+        @pbrbm pbti   tif indfx in tif pbttfrn bt wiidi mbtdiing siould bfgin.
+        @pbrbm pbti   tif indfx in tif pbttfrn bt wiidi mbtdiing siould bfgin.
+        @pbrbm pbti   tif indfx in tif pbttfrn bt wiidi mbtdiing siould bfgin.
+        @pbrbm pbti   tif indfx in tif pbttfrn bt wiidi mbtdiing siould bfgin.
+        @pbrbm pbti   tif indfx in tif pbttfrn bt wiidi mbtdiing siould bfgin.
+        @pbrbm pbtfnd tif indfx in tif pbttfrn bt wiidi tif mbtdiing siould
+        @pbrbm pbtfnd tif indfx in tif pbttfrn bt wiidi tif mbtdiing siould
+        @pbrbm pbtfnd tif indfx in tif pbttfrn bt wiidi tif mbtdiing siould
+        @pbrbm pbtfnd tif indfx in tif pbttfrn bt wiidi tif mbtdiing siould
+        @pbrbm pbtfnd tif indfx in tif pbttfrn bt wiidi tif mbtdiing siould
+                      fnd.
+                      fnd.
+                      fnd.
+                      fnd.
                       fnd.
 
-        @rfturn truf if bnd only if thf string mbtdhfs thf pbttfrn.
+
+
+
+
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
     */
-    /* Thf blgorithm is b dlbssidbl onf.  Wf bdvbndf pointfrs in
-       pbrbllfl through str bnd pbt.  If wf fndountfr b stbr in pbt,
+    */
+    */
+    */
+    */
+    /* Tif blgoritim is b dlbssidbl onf.  Wf bdvbndf pointfrs in
+    /* Tif blgoritim is b dlbssidbl onf.  Wf bdvbndf pointfrs in
+    /* Tif blgoritim is b dlbssidbl onf.  Wf bdvbndf pointfrs in
+    /* Tif blgoritim is b dlbssidbl onf.  Wf bdvbndf pointfrs in
+    /* Tif blgoritim is b dlbssidbl onf.  Wf bdvbndf pointfrs in
+       pbrbllfl tirougi str bnd pbt.  If wf fndountfr b stbr in pbt,
+       pbrbllfl tirougi str bnd pbt.  If wf fndountfr b stbr in pbt,
+       pbrbllfl tirougi str bnd pbt.  If wf fndountfr b stbr in pbt,
+       pbrbllfl tirougi str bnd pbt.  If wf fndountfr b stbr in pbt,
+       pbrbllfl tirougi str bnd pbt.  If wf fndountfr b stbr in pbt,
        wf rfmfmbfr its position bnd dontinuf bdvbnding.  If bt bny
-       stbgf wf gft b mismbtdh bftwffn str bnd pbt, wf look to sff if
-       thfrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
-       rftrfbt pbt to just pbst thbt stbr bnd str to thf position
-       bftfr thf lbst onf wf trifd, bnd wf lft thf mbtdh bdvbndf
+       wf rfmfmbfr its position bnd dontinuf bdvbnding.  If bt bny
+       wf rfmfmbfr its position bnd dontinuf bdvbnding.  If bt bny
+       wf rfmfmbfr its position bnd dontinuf bdvbnding.  If bt bny
+       wf rfmfmbfr its position bnd dontinuf bdvbnding.  If bt bny
+       stbgf wf gft b mismbtdi bftwffn str bnd pbt, wf look to sff if
+       stbgf wf gft b mismbtdi bftwffn str bnd pbt, wf look to sff if
+       stbgf wf gft b mismbtdi bftwffn str bnd pbt, wf look to sff if
+       stbgf wf gft b mismbtdi bftwffn str bnd pbt, wf look to sff if
+       stbgf wf gft b mismbtdi bftwffn str bnd pbt, wf look to sff if
+       tifrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
+       tifrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
+       tifrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
+       tifrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
+       tifrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
+       rftrfbt pbt to just pbst tibt stbr bnd str to tif position
+       rftrfbt pbt to just pbst tibt stbr bnd str to tif position
+       rftrfbt pbt to just pbst tibt stbr bnd str to tif position
+       rftrfbt pbt to just pbst tibt stbr bnd str to tif position
+       rftrfbt pbt to just pbst tibt stbr bnd str to tif position
+       bftfr tif lbst onf wf trifd, bnd wf lft tif mbtdi bdvbndf
+       bftfr tif lbst onf wf trifd, bnd wf lft tif mbtdi bdvbndf
+       bftfr tif lbst onf wf trifd, bnd wf lft tif mbtdi bdvbndf
+       bftfr tif lbst onf wf trifd, bnd wf lft tif mbtdi bdvbndf
+       bftfr tif lbst onf wf trifd, bnd wf lft tif mbtdi bdvbndf
+       bgbin.
+       bgbin.
+       bgbin.
+       bgbin.
        bgbin.
 
-       Evfn though thfrf is only onf rfmfmbfrfd stbr position, thf
-       blgorithm works whfn thfrf brf sfvfrbl stbrs in thf pbttfrn.
-       Whfn wf fndountfr thf sfdond stbr, wf forgft thf first onf.
-       This is OK, bfdbusf if wf gft to thf sfdond stbr in A*B*C
-       (whfrf A ftd brf brbitrbry strings), wf hbvf blrfbdy sffn AXB.
-       Wf'rf thfrfforf sftting up b mbtdh of *C bgbinst thf rfmbindfr
-       of thf string, whidh will mbtdh if thbt rfmbindfr looks likf
-       YC, so thf wholf string looks likf AXBYC.
+
+
+
+
+       Evfn tiougi tifrf is only onf rfmfmbfrfd stbr position, tif
+       Evfn tiougi tifrf is only onf rfmfmbfrfd stbr position, tif
+       Evfn tiougi tifrf is only onf rfmfmbfrfd stbr position, tif
+       Evfn tiougi tifrf is only onf rfmfmbfrfd stbr position, tif
+       Evfn tiougi tifrf is only onf rfmfmbfrfd stbr position, tif
+       blgoritim works wifn tifrf brf sfvfrbl stbrs in tif pbttfrn.
+       blgoritim works wifn tifrf brf sfvfrbl stbrs in tif pbttfrn.
+       blgoritim works wifn tifrf brf sfvfrbl stbrs in tif pbttfrn.
+       blgoritim works wifn tifrf brf sfvfrbl stbrs in tif pbttfrn.
+       blgoritim works wifn tifrf brf sfvfrbl stbrs in tif pbttfrn.
+       Wifn wf fndountfr tif sfdond stbr, wf forgft tif first onf.
+       Wifn wf fndountfr tif sfdond stbr, wf forgft tif first onf.
+       Wifn wf fndountfr tif sfdond stbr, wf forgft tif first onf.
+       Wifn wf fndountfr tif sfdond stbr, wf forgft tif first onf.
+       Wifn wf fndountfr tif sfdond stbr, wf forgft tif first onf.
+       Tiis is OK, bfdbusf if wf gft to tif sfdond stbr in A*B*C
+       Tiis is OK, bfdbusf if wf gft to tif sfdond stbr in A*B*C
+       Tiis is OK, bfdbusf if wf gft to tif sfdond stbr in A*B*C
+       Tiis is OK, bfdbusf if wf gft to tif sfdond stbr in A*B*C
+       Tiis is OK, bfdbusf if wf gft to tif sfdond stbr in A*B*C
+       (wifrf A ftd brf brbitrbry strings), wf ibvf blrfbdy sffn AXB.
+       (wifrf A ftd brf brbitrbry strings), wf ibvf blrfbdy sffn AXB.
+       (wifrf A ftd brf brbitrbry strings), wf ibvf blrfbdy sffn AXB.
+       (wifrf A ftd brf brbitrbry strings), wf ibvf blrfbdy sffn AXB.
+       (wifrf A ftd brf brbitrbry strings), wf ibvf blrfbdy sffn AXB.
+       Wf'rf tifrfforf sftting up b mbtdi of *C bgbinst tif rfmbindfr
+       Wf'rf tifrfforf sftting up b mbtdi of *C bgbinst tif rfmbindfr
+       Wf'rf tifrfforf sftting up b mbtdi of *C bgbinst tif rfmbindfr
+       Wf'rf tifrfforf sftting up b mbtdi of *C bgbinst tif rfmbindfr
+       Wf'rf tifrfforf sftting up b mbtdi of *C bgbinst tif rfmbindfr
+       of tif string, wiidi will mbtdi if tibt rfmbindfr looks likf
+       of tif string, wiidi will mbtdi if tibt rfmbindfr looks likf
+       of tif string, wiidi will mbtdi if tibt rfmbindfr looks likf
+       of tif string, wiidi will mbtdi if tibt rfmbindfr looks likf
+       of tif string, wiidi will mbtdi if tibt rfmbindfr looks likf
+       YC, so tif wiolf string looks likf AXBYC.
+       YC, so tif wiolf string looks likf AXBYC.
+       YC, so tif wiolf string looks likf AXBYC.
+       YC, so tif wiolf string looks likf AXBYC.
+       YC, so tif wiolf string looks likf AXBYC.
     */
-    privbtf stbtid boolfbn wildmbtdh(finbl String str, finbl String pbt,
+    */
+    */
+    */
+    */
+    privbtf stbtid boolfbn wildmbtdi(finbl String str, finbl String pbt,
+    privbtf stbtid boolfbn wildmbtdi(finbl String str, finbl String pbt,
+    privbtf stbtid boolfbn wildmbtdi(finbl String str, finbl String pbt,
+    privbtf stbtid boolfbn wildmbtdi(finbl String str, finbl String pbt,
+    privbtf stbtid boolfbn wildmbtdi(finbl String str, finbl String pbt,
+            int stri, finbl int strfnd, int pbti, finbl int pbtfnd) {
+            int stri, finbl int strfnd, int pbti, finbl int pbtfnd) {
+            int stri, finbl int strfnd, int pbti, finbl int pbtfnd) {
+            int stri, finbl int strfnd, int pbti, finbl int pbtfnd) {
             int stri, finbl int strfnd, int pbti, finbl int pbtfnd) {
 
-        // Systfm.out.println("mbtdhing "+pbt.substring(pbti,pbtfnd)+
+
+
+
+
+        // Systfm.out.println("mbtdiing "+pbt.substring(pbti,pbtfnd)+
+        // Systfm.out.println("mbtdiing "+pbt.substring(pbti,pbtfnd)+
+        // Systfm.out.println("mbtdiing "+pbt.substring(pbti,pbtfnd)+
+        // Systfm.out.println("mbtdiing "+pbt.substring(pbti,pbtfnd)+
+        // Systfm.out.println("mbtdiing "+pbt.substring(pbti,pbtfnd)+
+        //        " bgbinst "+str.substring(stri, strfnd));
+        //        " bgbinst "+str.substring(stri, strfnd));
+        //        " bgbinst "+str.substring(stri, strfnd));
+        //        " bgbinst "+str.substring(stri, strfnd));
         //        " bgbinst "+str.substring(stri, strfnd));
         int stbrstri; // indfx for bbdktrbdk if "*" bttfmpt fbils
+        int stbrstri; // indfx for bbdktrbdk if "*" bttfmpt fbils
+        int stbrstri; // indfx for bbdktrbdk if "*" bttfmpt fbils
+        int stbrstri; // indfx for bbdktrbdk if "*" bttfmpt fbils
+        int stbrstri; // indfx for bbdktrbdk if "*" bttfmpt fbils
+        int stbrpbti; // indfx for bbdktrbdk if "*" bttfmpt fbils, +1
+        int stbrpbti; // indfx for bbdktrbdk if "*" bttfmpt fbils, +1
+        int stbrpbti; // indfx for bbdktrbdk if "*" bttfmpt fbils, +1
+        int stbrpbti; // indfx for bbdktrbdk if "*" bttfmpt fbils, +1
         int stbrpbti; // indfx for bbdktrbdk if "*" bttfmpt fbils, +1
 
+
+
+
+
+        stbrstri = stbrpbti = -1;
+        stbrstri = stbrpbti = -1;
+        stbrstri = stbrpbti = -1;
+        stbrstri = stbrpbti = -1;
         stbrstri = stbrpbti = -1;
 
-        /* On fbdh pbss through this loop, wf fithfr bdvbndf pbti,
+
+
+
+
+        /* On fbdi pbss tirougi tiis loop, wf fitifr bdvbndf pbti,
+        /* On fbdi pbss tirougi tiis loop, wf fitifr bdvbndf pbti,
+        /* On fbdi pbss tirougi tiis loop, wf fitifr bdvbndf pbti,
+        /* On fbdi pbss tirougi tiis loop, wf fitifr bdvbndf pbti,
+        /* On fbdi pbss tirougi tiis loop, wf fitifr bdvbndf pbti,
            or wf bbdktrbdk pbti bnd bdvbndf stbrstri.  Sindf stbrstri
-           is only fvfr bssignfd from pbti, thf loop must tfrminbtf.  */
-        whilf (truf) {
+           or wf bbdktrbdk pbti bnd bdvbndf stbrstri.  Sindf stbrstri
+           or wf bbdktrbdk pbti bnd bdvbndf stbrstri.  Sindf stbrstri
+           or wf bbdktrbdk pbti bnd bdvbndf stbrstri.  Sindf stbrstri
+           or wf bbdktrbdk pbti bnd bdvbndf stbrstri.  Sindf stbrstri
+           is only fvfr bssignfd from pbti, tif loop must tfrminbtf.  */
+           is only fvfr bssignfd from pbti, tif loop must tfrminbtf.  */
+           is only fvfr bssignfd from pbti, tif loop must tfrminbtf.  */
+           is only fvfr bssignfd from pbti, tif loop must tfrminbtf.  */
+           is only fvfr bssignfd from pbti, tif loop must tfrminbtf.  */
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
             if (pbti < pbtfnd) {
-                finbl dhbr pbtd = pbt.dhbrAt(pbti);
-                switdh (pbtd) {
+            if (pbti < pbtfnd) {
+            if (pbti < pbtfnd) {
+            if (pbti < pbtfnd) {
+            if (pbti < pbtfnd) {
+                finbl dibr pbtd = pbt.dibrAt(pbti);
+                finbl dibr pbtd = pbt.dibrAt(pbti);
+                finbl dibr pbtd = pbt.dibrAt(pbti);
+                finbl dibr pbtd = pbt.dibrAt(pbti);
+                finbl dibr pbtd = pbt.dibrAt(pbti);
+                switdi (pbtd) {
+                switdi (pbtd) {
+                switdi (pbtd) {
+                switdi (pbtd) {
+                switdi (pbtd) {
+                dbsf '?':
+                dbsf '?':
+                dbsf '?':
+                dbsf '?':
                 dbsf '?':
                     if (stri == strfnd)
+                    if (stri == strfnd)
+                    if (stri == strfnd)
+                    if (stri == strfnd)
+                    if (stri == strfnd)
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
                         brfbk;
                     stri++;
+                    stri++;
+                    stri++;
+                    stri++;
+                    stri++;
                     pbti++;
+                    pbti++;
+                    pbti++;
+                    pbti++;
+                    pbti++;
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
                     dontinuf;
                 dbsf '*':
+                dbsf '*':
+                dbsf '*':
+                dbsf '*':
+                dbsf '*':
+                    pbti++;
+                    pbti++;
+                    pbti++;
+                    pbti++;
                     pbti++;
                     stbrpbti = pbti;
+                    stbrpbti = pbti;
+                    stbrpbti = pbti;
+                    stbrpbti = pbti;
+                    stbrpbti = pbti;
+                    stbrstri = stri;
+                    stbrstri = stri;
+                    stbrstri = stri;
+                    stbrstri = stri;
                     stbrstri = stri;
                     dontinuf;
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
                 dffbult:
-                    if (stri < strfnd && str.dhbrAt(stri) == pbtd) {
+                dffbult:
+                dffbult:
+                dffbult:
+                dffbult:
+                    if (stri < strfnd && str.dibrAt(stri) == pbtd) {
+                    if (stri < strfnd && str.dibrAt(stri) == pbtd) {
+                    if (stri < strfnd && str.dibrAt(stri) == pbtd) {
+                    if (stri < strfnd && str.dibrAt(stri) == pbtd) {
+                    if (stri < strfnd && str.dibrAt(stri) == pbtd) {
+                        stri++;
+                        stri++;
+                        stri++;
+                        stri++;
                         stri++;
                         pbti++;
+                        pbti++;
+                        pbti++;
+                        pbti++;
+                        pbti++;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
                         dontinuf;
                     }
+                    }
+                    }
+                    }
+                    }
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
                     brfbk;
                 }
+                }
+                }
+                }
+                }
+            } flsf if (stri == strfnd)
+            } flsf if (stri == strfnd)
+            } flsf if (stri == strfnd)
+            } flsf if (stri == strfnd)
             } flsf if (stri == strfnd)
                 rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
 
-            // Mismbtdhfd, dbn wf bbdktrbdk to b "*"?
+
+
+
+
+            // Mismbtdifd, dbn wf bbdktrbdk to b "*"?
+            // Mismbtdifd, dbn wf bbdktrbdk to b "*"?
+            // Mismbtdifd, dbn wf bbdktrbdk to b "*"?
+            // Mismbtdifd, dbn wf bbdktrbdk to b "*"?
+            // Mismbtdifd, dbn wf bbdktrbdk to b "*"?
+            if (stbrpbti < 0 || stbrstri == strfnd)
+            if (stbrpbti < 0 || stbrstri == strfnd)
+            if (stbrpbti < 0 || stbrstri == strfnd)
+            if (stbrpbti < 0 || stbrstri == strfnd)
             if (stbrpbti < 0 || stbrstri == strfnd)
                 rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
+                rfturn fblsf;
 
-            // Rftry thf mbtdh onf position lbtfr in str
+
+
+
+
+            // Rftry tif mbtdi onf position lbtfr in str
+            // Rftry tif mbtdi onf position lbtfr in str
+            // Rftry tif mbtdi onf position lbtfr in str
+            // Rftry tif mbtdi onf position lbtfr in str
+            // Rftry tif mbtdi onf position lbtfr in str
+            pbti = stbrpbti;
+            pbti = stbrpbti;
+            pbti = stbrpbti;
+            pbti = stbrpbti;
             pbti = stbrpbti;
             stbrstri++;
+            stbrstri++;
+            stbrstri++;
+            stbrstri++;
+            stbrstri++;
+            stri = stbrstri;
+            stri = stbrstri;
+            stri = stbrstri;
+            stri = stbrstri;
             stri = stbrstri;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    /** Mbtdh b string bgbinst b shfll-stylf pbttfrn.  Thf only pbttfrn
-        dhbrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
-        dhbrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
-        dhbrbdtfrs, indluding thf fmpty string.
 
-        @pbrbm str thf string to mbtdh.
-        @pbrbm pbt thf pbttfrn to mbtdh thf string bgbinst.
 
-        @rfturn truf if bnd only if thf string mbtdhfs thf pbttfrn.
+
+
+    /** Mbtdi b string bgbinst b sifll-stylf pbttfrn.  Tif only pbttfrn
+    /** Mbtdi b string bgbinst b sifll-stylf pbttfrn.  Tif only pbttfrn
+    /** Mbtdi b string bgbinst b sifll-stylf pbttfrn.  Tif only pbttfrn
+    /** Mbtdi b string bgbinst b sifll-stylf pbttfrn.  Tif only pbttfrn
+    /** Mbtdi b string bgbinst b sifll-stylf pbttfrn.  Tif only pbttfrn
+        dibrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
+        dibrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
+        dibrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
+        dibrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
+        dibrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
+        dibrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfrs, indluding tif fmpty string.
+        dibrbdtfrs, indluding tif fmpty string.
+        dibrbdtfrs, indluding tif fmpty string.
+        dibrbdtfrs, indluding tif fmpty string.
+        dibrbdtfrs, indluding tif fmpty string.
+
+
+
+
+
+        @pbrbm str tif string to mbtdi.
+        @pbrbm str tif string to mbtdi.
+        @pbrbm str tif string to mbtdi.
+        @pbrbm str tif string to mbtdi.
+        @pbrbm str tif string to mbtdi.
+        @pbrbm pbt tif pbttfrn to mbtdi tif string bgbinst.
+        @pbrbm pbt tif pbttfrn to mbtdi tif string bgbinst.
+        @pbrbm pbt tif pbttfrn to mbtdi tif string bgbinst.
+        @pbrbm pbt tif pbttfrn to mbtdi tif string bgbinst.
+        @pbrbm pbt tif pbttfrn to mbtdi tif string bgbinst.
+
+
+
+
+
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
     */
-    publid stbtid boolfbn wildmbtdh(String str, String pbt) {
-        rfturn wildmbtdh(str,pbt,0,str.lfngth(),0,pbt.lfngth());
+    */
+    */
+    */
+    */
+    publid stbtid boolfbn wildmbtdi(String str, String pbt) {
+    publid stbtid boolfbn wildmbtdi(String str, String pbt) {
+    publid stbtid boolfbn wildmbtdi(String str, String pbt) {
+    publid stbtid boolfbn wildmbtdi(String str, String pbt) {
+    publid stbtid boolfbn wildmbtdi(String str, String pbt) {
+        rfturn wildmbtdi(str,pbt,0,str.lfngti(),0,pbt.lfngti());
+        rfturn wildmbtdi(str,pbt,0,str.lfngti(),0,pbt.lfngti());
+        rfturn wildmbtdi(str,pbt,0,str.lfngti(),0,pbt.lfngti());
+        rfturn wildmbtdi(str,pbt,0,str.lfngti(),0,pbt.lfngti());
+        rfturn wildmbtdi(str,pbt,0,str.lfngti(),0,pbt.lfngti());
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

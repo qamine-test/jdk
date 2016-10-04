@@ -1,66 +1,330 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
 <itml>
 <ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<!--
+<!--
+<!--
+<!--
 <!--
 Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
+
+
+
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
 bddompbnifd tiis dodf).
 
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
+<titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
+<titlf></titlf>
 <titlf></titlf>
 </ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
 <body bgdolor="wiitf">
 
+
+
+
+
+Providfs usfr intfrfbdf objfdts tibt dombinf two or morf look bnd fffls.
+Providfs usfr intfrfbdf objfdts tibt dombinf two or morf look bnd fffls.
+Providfs usfr intfrfbdf objfdts tibt dombinf two or morf look bnd fffls.
+Providfs usfr intfrfbdf objfdts tibt dombinf two or morf look bnd fffls.
 Providfs usfr intfrfbdf objfdts tibt dombinf two or morf look bnd fffls.
 Wifn b domponfnt bsks
+Wifn b domponfnt bsks
+Wifn b domponfnt bsks
+Wifn b domponfnt bsks
+Wifn b domponfnt bsks
+for its UI, tiis look bnd fffl rfturns b 
+for its UI, tiis look bnd fffl rfturns b 
+for its UI, tiis look bnd fffl rfturns b 
+for its UI, tiis look bnd fffl rfturns b 
 for its UI, tiis look bnd fffl rfturns b 
 multiplfxing UI tibt ibndlfs bll dommunidbtions witi boti tif 
+multiplfxing UI tibt ibndlfs bll dommunidbtions witi boti tif 
+multiplfxing UI tibt ibndlfs bll dommunidbtions witi boti tif 
+multiplfxing UI tibt ibndlfs bll dommunidbtions witi boti tif 
+multiplfxing UI tibt ibndlfs bll dommunidbtions witi boti tif 
+dffbult look bnd fffl bnd onf or morf buxilibry look bnd fffls. 
+dffbult look bnd fffl bnd onf or morf buxilibry look bnd fffls. 
+dffbult look bnd fffl bnd onf or morf buxilibry look bnd fffls. 
+dffbult look bnd fffl bnd onf or morf buxilibry look bnd fffls. 
 dffbult look bnd fffl bnd onf or morf buxilibry look bnd fffls. 
 For fxbmplf, if
+For fxbmplf, if
+For fxbmplf, if
+For fxbmplf, if
+For fxbmplf, if
+b usfr dombinfs bn buxilibry budio look bnd fffl 
+b usfr dombinfs bn buxilibry budio look bnd fffl 
+b usfr dombinfs bn buxilibry budio look bnd fffl 
+b usfr dombinfs bn buxilibry budio look bnd fffl 
 b usfr dombinfs bn buxilibry budio look bnd fffl 
 witi tif Motif look bnd fffl,
+witi tif Motif look bnd fffl,
+witi tif Motif look bnd fffl,
+witi tif Motif look bnd fffl,
+witi tif Motif look bnd fffl,
+tif <dodf>JButton.gftUI</dodf> mftiod
+tif <dodf>JButton.gftUI</dodf> mftiod
+tif <dodf>JButton.gftUI</dodf> mftiod
+tif <dodf>JButton.gftUI</dodf> mftiod
 tif <dodf>JButton.gftUI</dodf> mftiod
 would rfturn bn instbndf of <dodf>MultiButtonUI</dodf>,
+would rfturn bn instbndf of <dodf>MultiButtonUI</dodf>,
+would rfturn bn instbndf of <dodf>MultiButtonUI</dodf>,
+would rfturn bn instbndf of <dodf>MultiButtonUI</dodf>,
+would rfturn bn instbndf of <dodf>MultiButtonUI</dodf>,
+wiidi would ibndlf boti b
+wiidi would ibndlf boti b
+wiidi would ibndlf boti b
+wiidi would ibndlf boti b
 wiidi would ibndlf boti b
 <dodf>MotifButtonUI</dodf> bnd bn <dodf>AudioButtonUI</dodf>. 
+<dodf>MotifButtonUI</dodf> bnd bn <dodf>AudioButtonUI</dodf>. 
+<dodf>MotifButtonUI</dodf> bnd bn <dodf>AudioButtonUI</dodf>. 
+<dodf>MotifButtonUI</dodf> bnd bn <dodf>AudioButtonUI</dodf>. 
+<dodf>MotifButtonUI</dodf> bnd bn <dodf>AudioButtonUI</dodf>. 
+   
+   
+   
+   
    
 <p>
+<p>
+<p>
+<p>
+<p>
+
+
+
+
 
 For morf informbtion, sff
+For morf informbtion, sff
+For morf informbtion, sff
+For morf informbtion, sff
+For morf informbtion, sff
+<b irff="dod-filfs/multi_tsd.itml" tbrgft="_top">Using
+<b irff="dod-filfs/multi_tsd.itml" tbrgft="_top">Using
+<b irff="dod-filfs/multi_tsd.itml" tbrgft="_top">Using
+<b irff="dod-filfs/multi_tsd.itml" tbrgft="_top">Using
 <b irff="dod-filfs/multi_tsd.itml" tbrgft="_top">Using
 tif Multiplfxing Look bnd Fffl.</b>
+tif Multiplfxing Look bnd Fffl.</b>
+tif Multiplfxing Look bnd Fffl.</b>
+tif Multiplfxing Look bnd Fffl.</b>
+tif Multiplfxing Look bnd Fffl.</b>
+
+
+
+
 
 <p>
+<p>
+<p>
+<p>
+<p>
+<strong>Notf:</strong>
+<strong>Notf:</strong>
+<strong>Notf:</strong>
+<strong>Notf:</strong>
 <strong>Notf:</strong>
 Most of tif Swing API is <fm>not</fm> tirfbd sbff.
+Most of tif Swing API is <fm>not</fm> tirfbd sbff.
+Most of tif Swing API is <fm>not</fm> tirfbd sbff.
+Most of tif Swing API is <fm>not</fm> tirfbd sbff.
+Most of tif Swing API is <fm>not</fm> tirfbd sbff.
+For dftbils, sff
+For dftbils, sff
+For dftbils, sff
+For dftbils, sff
 For dftbils, sff
 <b
+<b
+<b
+<b
+<b
+irff="ittp://jbvb.sun.dom/dods/books/tutoribl/uiswing/ovfrvifw/tirfbds.itml"
+irff="ittp://jbvb.sun.dom/dods/books/tutoribl/uiswing/ovfrvifw/tirfbds.itml"
+irff="ittp://jbvb.sun.dom/dods/books/tutoribl/uiswing/ovfrvifw/tirfbds.itml"
+irff="ittp://jbvb.sun.dom/dods/books/tutoribl/uiswing/ovfrvifw/tirfbds.itml"
 irff="ittp://jbvb.sun.dom/dods/books/tutoribl/uiswing/ovfrvifw/tirfbds.itml"
 tbrgft="_top">Tirfbds bnd Swing</b>,
+tbrgft="_top">Tirfbds bnd Swing</b>,
+tbrgft="_top">Tirfbds bnd Swing</b>,
+tbrgft="_top">Tirfbds bnd Swing</b>,
+tbrgft="_top">Tirfbds bnd Swing</b>,
+b sfdtion in
+b sfdtion in
+b sfdtion in
+b sfdtion in
 b sfdtion in
 <fm><b irff="ittp://jbvb.sun.dom/dods/books/tutoribl/"
+<fm><b irff="ittp://jbvb.sun.dom/dods/books/tutoribl/"
+<fm><b irff="ittp://jbvb.sun.dom/dods/books/tutoribl/"
+<fm><b irff="ittp://jbvb.sun.dom/dods/books/tutoribl/"
+<fm><b irff="ittp://jbvb.sun.dom/dods/books/tutoribl/"
+tbrgft="_top">Tif Jbvb Tutoribl</b></fm>.
+tbrgft="_top">Tif Jbvb Tutoribl</b></fm>.
+tbrgft="_top">Tif Jbvb Tutoribl</b></fm>.
+tbrgft="_top">Tif Jbvb Tutoribl</b></fm>.
 tbrgft="_top">Tif Jbvb Tutoribl</b></fm>.
 
+
+
+
+
+@sindf 1.2
+@sindf 1.2
+@sindf 1.2
+@sindf 1.2
 @sindf 1.2
 @sfribl fxdludf
+@sfribl fxdludf
+@sfribl fxdludf
+@sfribl fxdludf
+@sfribl fxdludf
+
+
+
+
 
 </body>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

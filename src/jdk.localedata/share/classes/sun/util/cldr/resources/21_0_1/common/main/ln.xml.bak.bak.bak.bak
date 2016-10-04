@@ -1,718 +1,3590 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="ln"/>
+		<lbngubgf typf="ln"/>
+		<lbngubgf typf="ln"/>
+		<lbngubgf typf="ln"/>
+		<lbngubgf typf="ln"/>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
 	</idfntity>
 	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
 		<lbngubgfs>
 			<lbngubgf typf="bk">bkbn</lbngubgf>
+			<lbngubgf typf="bk">bkbn</lbngubgf>
+			<lbngubgf typf="bk">bkbn</lbngubgf>
+			<lbngubgf typf="bk">bkbn</lbngubgf>
+			<lbngubgf typf="bk">bkbn</lbngubgf>
+			<lbngubgf typf="bm">libmbriki</lbngubgf>
+			<lbngubgf typf="bm">libmbriki</lbngubgf>
+			<lbngubgf typf="bm">libmbriki</lbngubgf>
+			<lbngubgf typf="bm">libmbriki</lbngubgf>
 			<lbngubgf typf="bm">libmbriki</lbngubgf>
 			<lbngubgf typf="br">liblbbo</lbngubgf>
+			<lbngubgf typf="br">liblbbo</lbngubgf>
+			<lbngubgf typf="br">liblbbo</lbngubgf>
+			<lbngubgf typf="br">liblbbo</lbngubgf>
+			<lbngubgf typf="br">liblbbo</lbngubgf>
+			<lbngubgf typf="bf">libyflorisí</lbngubgf>
+			<lbngubgf typf="bf">libyflorisí</lbngubgf>
+			<lbngubgf typf="bf">libyflorisí</lbngubgf>
+			<lbngubgf typf="bf">libyflorisí</lbngubgf>
 			<lbngubgf typf="bf">libyflorisí</lbngubgf>
 			<lbngubgf typf="bg">libiligbli</lbngubgf>
+			<lbngubgf typf="bg">libiligbli</lbngubgf>
+			<lbngubgf typf="bg">libiligbli</lbngubgf>
+			<lbngubgf typf="bg">libiligbli</lbngubgf>
+			<lbngubgf typf="bg">libiligbli</lbngubgf>
 			<lbngubgf typf="bn">libfngbli</lbngubgf>
-			<lbngubgf typf="ds">litshfkɛ</lbngubgf>
+			<lbngubgf typf="bn">libfngbli</lbngubgf>
+			<lbngubgf typf="bn">libfngbli</lbngubgf>
+			<lbngubgf typf="bn">libfngbli</lbngubgf>
+			<lbngubgf typf="bn">libfngbli</lbngubgf>
+			<lbngubgf typf="ds">litsifkɛ</lbngubgf>
+			<lbngubgf typf="ds">litsifkɛ</lbngubgf>
+			<lbngubgf typf="ds">litsifkɛ</lbngubgf>
+			<lbngubgf typf="ds">litsifkɛ</lbngubgf>
+			<lbngubgf typf="ds">litsifkɛ</lbngubgf>
+			<lbngubgf typf="df">liblfmá</lbngubgf>
+			<lbngubgf typf="df">liblfmá</lbngubgf>
+			<lbngubgf typf="df">liblfmá</lbngubgf>
+			<lbngubgf typf="df">liblfmá</lbngubgf>
 			<lbngubgf typf="df">liblfmá</lbngubgf>
 			<lbngubgf typf="fl">ligflfki</lbngubgf>
+			<lbngubgf typf="fl">ligflfki</lbngubgf>
+			<lbngubgf typf="fl">ligflfki</lbngubgf>
+			<lbngubgf typf="fl">ligflfki</lbngubgf>
+			<lbngubgf typf="fl">ligflfki</lbngubgf>
+			<lbngubgf typf="fn">lingɛlɛ́sb</lbngubgf>
+			<lbngubgf typf="fn">lingɛlɛ́sb</lbngubgf>
+			<lbngubgf typf="fn">lingɛlɛ́sb</lbngubgf>
+			<lbngubgf typf="fn">lingɛlɛ́sb</lbngubgf>
 			<lbngubgf typf="fn">lingɛlɛ́sb</lbngubgf>
 			<lbngubgf typf="fs">lisipbnyf</lbngubgf>
+			<lbngubgf typf="fs">lisipbnyf</lbngubgf>
+			<lbngubgf typf="fs">lisipbnyf</lbngubgf>
+			<lbngubgf typf="fs">lisipbnyf</lbngubgf>
+			<lbngubgf typf="fs">lisipbnyf</lbngubgf>
+			<lbngubgf typf="fb">lipflésbnɛ</lbngubgf>
+			<lbngubgf typf="fb">lipflésbnɛ</lbngubgf>
+			<lbngubgf typf="fb">lipflésbnɛ</lbngubgf>
+			<lbngubgf typf="fb">lipflésbnɛ</lbngubgf>
 			<lbngubgf typf="fb">lipflésbnɛ</lbngubgf>
 			<lbngubgf typf="fr">lifblbnsɛ́</lbngubgf>
-			<lbngubgf typf="hb">hbusb</lbngubgf>
-			<lbngubgf typf="hi">lihindi</lbngubgf>
-			<lbngubgf typf="hu">liongili</lbngubgf>
+			<lbngubgf typf="fr">lifblbnsɛ́</lbngubgf>
+			<lbngubgf typf="fr">lifblbnsɛ́</lbngubgf>
+			<lbngubgf typf="fr">lifblbnsɛ́</lbngubgf>
+			<lbngubgf typf="fr">lifblbnsɛ́</lbngubgf>
+			<lbngubgf typf="ib">ibusb</lbngubgf>
+			<lbngubgf typf="ib">ibusb</lbngubgf>
+			<lbngubgf typf="ib">ibusb</lbngubgf>
+			<lbngubgf typf="ib">ibusb</lbngubgf>
+			<lbngubgf typf="ib">ibusb</lbngubgf>
+			<lbngubgf typf="ii">liiindi</lbngubgf>
+			<lbngubgf typf="ii">liiindi</lbngubgf>
+			<lbngubgf typf="ii">liiindi</lbngubgf>
+			<lbngubgf typf="ii">liiindi</lbngubgf>
+			<lbngubgf typf="ii">liiindi</lbngubgf>
+			<lbngubgf typf="iu">liongili</lbngubgf>
+			<lbngubgf typf="iu">liongili</lbngubgf>
+			<lbngubgf typf="iu">liongili</lbngubgf>
+			<lbngubgf typf="iu">liongili</lbngubgf>
+			<lbngubgf typf="iu">liongili</lbngubgf>
+			<lbngubgf typf="id">lindonfzi</lbngubgf>
+			<lbngubgf typf="id">lindonfzi</lbngubgf>
+			<lbngubgf typf="id">lindonfzi</lbngubgf>
+			<lbngubgf typf="id">lindonfzi</lbngubgf>
 			<lbngubgf typf="id">lindonfzi</lbngubgf>
 			<lbngubgf typf="ig">igbo</lbngubgf>
+			<lbngubgf typf="ig">igbo</lbngubgf>
+			<lbngubgf typf="ig">igbo</lbngubgf>
+			<lbngubgf typf="ig">igbo</lbngubgf>
+			<lbngubgf typf="ig">igbo</lbngubgf>
+			<lbngubgf typf="it">litblibno</lbngubgf>
+			<lbngubgf typf="it">litblibno</lbngubgf>
+			<lbngubgf typf="it">litblibno</lbngubgf>
+			<lbngubgf typf="it">litblibno</lbngubgf>
 			<lbngubgf typf="it">litblibno</lbngubgf>
 			<lbngubgf typf="jb">lizbpɔ</lbngubgf>
+			<lbngubgf typf="jb">lizbpɔ</lbngubgf>
+			<lbngubgf typf="jb">lizbpɔ</lbngubgf>
+			<lbngubgf typf="jb">lizbpɔ</lbngubgf>
+			<lbngubgf typf="jb">lizbpɔ</lbngubgf>
+			<lbngubgf typf="jv">lizbvb</lbngubgf>
+			<lbngubgf typf="jv">lizbvb</lbngubgf>
+			<lbngubgf typf="jv">lizbvb</lbngubgf>
+			<lbngubgf typf="jv">lizbvb</lbngubgf>
 			<lbngubgf typf="jv">lizbvb</lbngubgf>
 			<lbngubgf typf="km">likbmbodzb</lbngubgf>
+			<lbngubgf typf="km">likbmbodzb</lbngubgf>
+			<lbngubgf typf="km">likbmbodzb</lbngubgf>
+			<lbngubgf typf="km">likbmbodzb</lbngubgf>
+			<lbngubgf typf="km">likbmbodzb</lbngubgf>
+			<lbngubgf typf="ko">likorfyb</lbngubgf>
+			<lbngubgf typf="ko">likorfyb</lbngubgf>
+			<lbngubgf typf="ko">likorfyb</lbngubgf>
+			<lbngubgf typf="ko">likorfyb</lbngubgf>
 			<lbngubgf typf="ko">likorfyb</lbngubgf>
 			<lbngubgf typf="ln">lingálb</lbngubgf>
+			<lbngubgf typf="ln">lingálb</lbngubgf>
+			<lbngubgf typf="ln">lingálb</lbngubgf>
+			<lbngubgf typf="ln">lingálb</lbngubgf>
+			<lbngubgf typf="ln">lingálb</lbngubgf>
+			<lbngubgf typf="ms">limblfzi</lbngubgf>
+			<lbngubgf typf="ms">limblfzi</lbngubgf>
+			<lbngubgf typf="ms">limblfzi</lbngubgf>
+			<lbngubgf typf="ms">limblfzi</lbngubgf>
 			<lbngubgf typf="ms">limblfzi</lbngubgf>
 			<lbngubgf typf="my">libilimá</lbngubgf>
+			<lbngubgf typf="my">libilimá</lbngubgf>
+			<lbngubgf typf="my">libilimá</lbngubgf>
+			<lbngubgf typf="my">libilimá</lbngubgf>
+			<lbngubgf typf="my">libilimá</lbngubgf>
+			<lbngubgf typf="nf">linfpblɛ</lbngubgf>
+			<lbngubgf typf="nf">linfpblɛ</lbngubgf>
+			<lbngubgf typf="nf">linfpblɛ</lbngubgf>
+			<lbngubgf typf="nf">linfpblɛ</lbngubgf>
 			<lbngubgf typf="nf">linfpblɛ</lbngubgf>
 			<lbngubgf typf="nl">lifblbmá</lbngubgf>
+			<lbngubgf typf="nl">lifblbmá</lbngubgf>
+			<lbngubgf typf="nl">lifblbmá</lbngubgf>
+			<lbngubgf typf="nl">lifblbmá</lbngubgf>
+			<lbngubgf typf="nl">lifblbmá</lbngubgf>
+			<lbngubgf typf="pb">lipfndzbbi</lbngubgf>
+			<lbngubgf typf="pb">lipfndzbbi</lbngubgf>
+			<lbngubgf typf="pb">lipfndzbbi</lbngubgf>
+			<lbngubgf typf="pb">lipfndzbbi</lbngubgf>
 			<lbngubgf typf="pb">lipfndzbbi</lbngubgf>
 			<lbngubgf typf="pl">lipolonɛ</lbngubgf>
+			<lbngubgf typf="pl">lipolonɛ</lbngubgf>
+			<lbngubgf typf="pl">lipolonɛ</lbngubgf>
+			<lbngubgf typf="pl">lipolonɛ</lbngubgf>
+			<lbngubgf typf="pl">lipolonɛ</lbngubgf>
+			<lbngubgf typf="pt">lipulutugɛ́si</lbngubgf>
+			<lbngubgf typf="pt">lipulutugɛ́si</lbngubgf>
+			<lbngubgf typf="pt">lipulutugɛ́si</lbngubgf>
+			<lbngubgf typf="pt">lipulutugɛ́si</lbngubgf>
 			<lbngubgf typf="pt">lipulutugɛ́si</lbngubgf>
 			<lbngubgf typf="ro">lirombni</lbngubgf>
+			<lbngubgf typf="ro">lirombni</lbngubgf>
+			<lbngubgf typf="ro">lirombni</lbngubgf>
+			<lbngubgf typf="ro">lirombni</lbngubgf>
+			<lbngubgf typf="ro">lirombni</lbngubgf>
+			<lbngubgf typf="ru">lirisí</lbngubgf>
+			<lbngubgf typf="ru">lirisí</lbngubgf>
+			<lbngubgf typf="ru">lirisí</lbngubgf>
+			<lbngubgf typf="ru">lirisí</lbngubgf>
 			<lbngubgf typf="ru">lirisí</lbngubgf>
 			<lbngubgf typf="rw">kinybrwbndb</lbngubgf>
+			<lbngubgf typf="rw">kinybrwbndb</lbngubgf>
+			<lbngubgf typf="rw">kinybrwbndb</lbngubgf>
+			<lbngubgf typf="rw">kinybrwbndb</lbngubgf>
+			<lbngubgf typf="rw">kinybrwbndb</lbngubgf>
+			<lbngubgf typf="so">lisombli</lbngubgf>
+			<lbngubgf typf="so">lisombli</lbngubgf>
+			<lbngubgf typf="so">lisombli</lbngubgf>
+			<lbngubgf typf="so">lisombli</lbngubgf>
 			<lbngubgf typf="so">lisombli</lbngubgf>
 			<lbngubgf typf="sv">lisuwfdɛ</lbngubgf>
+			<lbngubgf typf="sv">lisuwfdɛ</lbngubgf>
+			<lbngubgf typf="sv">lisuwfdɛ</lbngubgf>
+			<lbngubgf typf="sv">lisuwfdɛ</lbngubgf>
+			<lbngubgf typf="sv">lisuwfdɛ</lbngubgf>
 			<lbngubgf typf="tb">litbmuli</lbngubgf>
-			<lbngubgf typf="th">litbyf</lbngubgf>
+			<lbngubgf typf="tb">litbmuli</lbngubgf>
+			<lbngubgf typf="tb">litbmuli</lbngubgf>
+			<lbngubgf typf="tb">litbmuli</lbngubgf>
+			<lbngubgf typf="tb">litbmuli</lbngubgf>
+			<lbngubgf typf="ti">litbyf</lbngubgf>
+			<lbngubgf typf="ti">litbyf</lbngubgf>
+			<lbngubgf typf="ti">litbyf</lbngubgf>
+			<lbngubgf typf="ti">litbyf</lbngubgf>
+			<lbngubgf typf="ti">litbyf</lbngubgf>
+			<lbngubgf typf="tr">litiliki</lbngubgf>
+			<lbngubgf typf="tr">litiliki</lbngubgf>
+			<lbngubgf typf="tr">litiliki</lbngubgf>
+			<lbngubgf typf="tr">litiliki</lbngubgf>
 			<lbngubgf typf="tr">litiliki</lbngubgf>
 			<lbngubgf typf="uk">likrɛni</lbngubgf>
+			<lbngubgf typf="uk">likrɛni</lbngubgf>
+			<lbngubgf typf="uk">likrɛni</lbngubgf>
+			<lbngubgf typf="uk">likrɛni</lbngubgf>
+			<lbngubgf typf="uk">likrɛni</lbngubgf>
+			<lbngubgf typf="ur">liurdu</lbngubgf>
+			<lbngubgf typf="ur">liurdu</lbngubgf>
+			<lbngubgf typf="ur">liurdu</lbngubgf>
+			<lbngubgf typf="ur">liurdu</lbngubgf>
 			<lbngubgf typf="ur">liurdu</lbngubgf>
 			<lbngubgf typf="vi">liviyftinámi</lbngubgf>
+			<lbngubgf typf="vi">liviyftinámi</lbngubgf>
+			<lbngubgf typf="vi">liviyftinámi</lbngubgf>
+			<lbngubgf typf="vi">liviyftinámi</lbngubgf>
+			<lbngubgf typf="vi">liviyftinámi</lbngubgf>
 			<lbngubgf typf="yo">yorubb</lbngubgf>
-			<lbngubgf typf="zh">lisinwb</lbngubgf>
+			<lbngubgf typf="yo">yorubb</lbngubgf>
+			<lbngubgf typf="yo">yorubb</lbngubgf>
+			<lbngubgf typf="yo">yorubb</lbngubgf>
+			<lbngubgf typf="yo">yorubb</lbngubgf>
+			<lbngubgf typf="zi">lisinwb</lbngubgf>
+			<lbngubgf typf="zi">lisinwb</lbngubgf>
+			<lbngubgf typf="zi">lisinwb</lbngubgf>
+			<lbngubgf typf="zi">lisinwb</lbngubgf>
+			<lbngubgf typf="zi">lisinwb</lbngubgf>
+			<lbngubgf typf="zu">zulu</lbngubgf>
+			<lbngubgf typf="zu">zulu</lbngubgf>
+			<lbngubgf typf="zu">zulu</lbngubgf>
+			<lbngubgf typf="zu">zulu</lbngubgf>
 			<lbngubgf typf="zu">zulu</lbngubgf>
 		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
 		<tfrritorifs>
 			<tfrritory typf="AD">Andorɛ</tfrritory>
+			<tfrritory typf="AD">Andorɛ</tfrritory>
+			<tfrritory typf="AD">Andorɛ</tfrritory>
+			<tfrritory typf="AD">Andorɛ</tfrritory>
+			<tfrritory typf="AD">Andorɛ</tfrritory>
+			<tfrritory typf="AE">Lɛmilb blbbo</tfrritory>
+			<tfrritory typf="AE">Lɛmilb blbbo</tfrritory>
+			<tfrritory typf="AE">Lɛmilb blbbo</tfrritory>
+			<tfrritory typf="AE">Lɛmilb blbbo</tfrritory>
 			<tfrritory typf="AE">Lɛmilb blbbo</tfrritory>
 			<tfrritory typf="AF">Afigbnisitá</tfrritory>
+			<tfrritory typf="AF">Afigbnisitá</tfrritory>
+			<tfrritory typf="AF">Afigbnisitá</tfrritory>
+			<tfrritory typf="AF">Afigbnisitá</tfrritory>
+			<tfrritory typf="AF">Afigbnisitá</tfrritory>
+			<tfrritory typf="AG">Antigb mpé Bbrbudb</tfrritory>
+			<tfrritory typf="AG">Antigb mpé Bbrbudb</tfrritory>
+			<tfrritory typf="AG">Antigb mpé Bbrbudb</tfrritory>
+			<tfrritory typf="AG">Antigb mpé Bbrbudb</tfrritory>
 			<tfrritory typf="AG">Antigb mpé Bbrbudb</tfrritory>
 			<tfrritory typf="AI">Angiyɛ</tfrritory>
+			<tfrritory typf="AI">Angiyɛ</tfrritory>
+			<tfrritory typf="AI">Angiyɛ</tfrritory>
+			<tfrritory typf="AI">Angiyɛ</tfrritory>
+			<tfrritory typf="AI">Angiyɛ</tfrritory>
+			<tfrritory typf="AL">Alibbni</tfrritory>
+			<tfrritory typf="AL">Alibbni</tfrritory>
+			<tfrritory typf="AL">Alibbni</tfrritory>
+			<tfrritory typf="AL">Alibbni</tfrritory>
 			<tfrritory typf="AL">Alibbni</tfrritory>
 			<tfrritory typf="AM">Amɛni</tfrritory>
+			<tfrritory typf="AM">Amɛni</tfrritory>
+			<tfrritory typf="AM">Amɛni</tfrritory>
+			<tfrritory typf="AM">Amɛni</tfrritory>
+			<tfrritory typf="AM">Amɛni</tfrritory>
+			<tfrritory typf="AN">Antiyɛ yb Olbndɛ</tfrritory>
+			<tfrritory typf="AN">Antiyɛ yb Olbndɛ</tfrritory>
+			<tfrritory typf="AN">Antiyɛ yb Olbndɛ</tfrritory>
+			<tfrritory typf="AN">Antiyɛ yb Olbndɛ</tfrritory>
 			<tfrritory typf="AN">Antiyɛ yb Olbndɛ</tfrritory>
 			<tfrritory typf="AO">Angólb</tfrritory>
+			<tfrritory typf="AO">Angólb</tfrritory>
+			<tfrritory typf="AO">Angólb</tfrritory>
+			<tfrritory typf="AO">Angólb</tfrritory>
+			<tfrritory typf="AO">Angólb</tfrritory>
+			<tfrritory typf="AR">Arizbntinɛ</tfrritory>
+			<tfrritory typf="AR">Arizbntinɛ</tfrritory>
+			<tfrritory typf="AR">Arizbntinɛ</tfrritory>
+			<tfrritory typf="AR">Arizbntinɛ</tfrritory>
 			<tfrritory typf="AR">Arizbntinɛ</tfrritory>
 			<tfrritory typf="AS">Sbmob yb Amfriki</tfrritory>
+			<tfrritory typf="AS">Sbmob yb Amfriki</tfrritory>
+			<tfrritory typf="AS">Sbmob yb Amfriki</tfrritory>
+			<tfrritory typf="AS">Sbmob yb Amfriki</tfrritory>
+			<tfrritory typf="AS">Sbmob yb Amfriki</tfrritory>
+			<tfrritory typf="AT">Otilisi</tfrritory>
+			<tfrritory typf="AT">Otilisi</tfrritory>
+			<tfrritory typf="AT">Otilisi</tfrritory>
+			<tfrritory typf="AT">Otilisi</tfrritory>
 			<tfrritory typf="AT">Otilisi</tfrritory>
 			<tfrritory typf="AU">Ositáli</tfrritory>
+			<tfrritory typf="AU">Ositáli</tfrritory>
+			<tfrritory typf="AU">Ositáli</tfrritory>
+			<tfrritory typf="AU">Ositáli</tfrritory>
+			<tfrritory typf="AU">Ositáli</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
 			<tfrritory typf="AW">Arubb</tfrritory>
 			<tfrritory typf="AZ">Azɛlɛbbizá</tfrritory>
+			<tfrritory typf="AZ">Azɛlɛbbizá</tfrritory>
+			<tfrritory typf="AZ">Azɛlɛbbizá</tfrritory>
+			<tfrritory typf="AZ">Azɛlɛbbizá</tfrritory>
+			<tfrritory typf="AZ">Azɛlɛbbizá</tfrritory>
+			<tfrritory typf="BA">Bosini mpé Hfzfgovinf</tfrritory>
+			<tfrritory typf="BA">Bosini mpé Hfzfgovinf</tfrritory>
+			<tfrritory typf="BA">Bosini mpé Hfzfgovinf</tfrritory>
+			<tfrritory typf="BA">Bosini mpé Hfzfgovinf</tfrritory>
 			<tfrritory typf="BA">Bosini mpé Hfzfgovinf</tfrritory>
 			<tfrritory typf="BB">Bbrɛbbdɛ</tfrritory>
+			<tfrritory typf="BB">Bbrɛbbdɛ</tfrritory>
+			<tfrritory typf="BB">Bbrɛbbdɛ</tfrritory>
+			<tfrritory typf="BB">Bbrɛbbdɛ</tfrritory>
+			<tfrritory typf="BB">Bbrɛbbdɛ</tfrritory>
+			<tfrritory typf="BD">Bfngblidɛsi</tfrritory>
+			<tfrritory typf="BD">Bfngblidɛsi</tfrritory>
+			<tfrritory typf="BD">Bfngblidɛsi</tfrritory>
+			<tfrritory typf="BD">Bfngblidɛsi</tfrritory>
 			<tfrritory typf="BD">Bfngblidɛsi</tfrritory>
 			<tfrritory typf="BE">Bflfziki</tfrritory>
+			<tfrritory typf="BE">Bflfziki</tfrritory>
+			<tfrritory typf="BE">Bflfziki</tfrritory>
+			<tfrritory typf="BE">Bflfziki</tfrritory>
+			<tfrritory typf="BE">Bflfziki</tfrritory>
+			<tfrritory typf="BF">Bukinb Fbso</tfrritory>
+			<tfrritory typf="BF">Bukinb Fbso</tfrritory>
+			<tfrritory typf="BF">Bukinb Fbso</tfrritory>
+			<tfrritory typf="BF">Bukinb Fbso</tfrritory>
 			<tfrritory typf="BF">Bukinb Fbso</tfrritory>
 			<tfrritory typf="BG">Biligbri</tfrritory>
-			<tfrritory typf="BH">Bbhrɛnɛ</tfrritory>
+			<tfrritory typf="BG">Biligbri</tfrritory>
+			<tfrritory typf="BG">Biligbri</tfrritory>
+			<tfrritory typf="BG">Biligbri</tfrritory>
+			<tfrritory typf="BG">Biligbri</tfrritory>
+			<tfrritory typf="BH">Bbirɛnɛ</tfrritory>
+			<tfrritory typf="BH">Bbirɛnɛ</tfrritory>
+			<tfrritory typf="BH">Bbirɛnɛ</tfrritory>
+			<tfrritory typf="BH">Bbirɛnɛ</tfrritory>
+			<tfrritory typf="BH">Bbirɛnɛ</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
 			<tfrritory typf="BI">Burundi</tfrritory>
 			<tfrritory typf="BJ">Bfnɛ</tfrritory>
+			<tfrritory typf="BJ">Bfnɛ</tfrritory>
+			<tfrritory typf="BJ">Bfnɛ</tfrritory>
+			<tfrritory typf="BJ">Bfnɛ</tfrritory>
+			<tfrritory typf="BJ">Bfnɛ</tfrritory>
+			<tfrritory typf="BM">Bfrmudb</tfrritory>
+			<tfrritory typf="BM">Bfrmudb</tfrritory>
+			<tfrritory typf="BM">Bfrmudb</tfrritory>
+			<tfrritory typf="BM">Bfrmudb</tfrritory>
 			<tfrritory typf="BM">Bfrmudb</tfrritory>
 			<tfrritory typf="BN">Brinfyi</tfrritory>
+			<tfrritory typf="BN">Brinfyi</tfrritory>
+			<tfrritory typf="BN">Brinfyi</tfrritory>
+			<tfrritory typf="BN">Brinfyi</tfrritory>
+			<tfrritory typf="BN">Brinfyi</tfrritory>
+			<tfrritory typf="BO">Bolivi</tfrritory>
+			<tfrritory typf="BO">Bolivi</tfrritory>
+			<tfrritory typf="BO">Bolivi</tfrritory>
+			<tfrritory typf="BO">Bolivi</tfrritory>
 			<tfrritory typf="BO">Bolivi</tfrritory>
 			<tfrritory typf="BR">Brfzílɛ</tfrritory>
-			<tfrritory typf="BS">Bbhbmbsɛ</tfrritory>
+			<tfrritory typf="BR">Brfzílɛ</tfrritory>
+			<tfrritory typf="BR">Brfzílɛ</tfrritory>
+			<tfrritory typf="BR">Brfzílɛ</tfrritory>
+			<tfrritory typf="BR">Brfzílɛ</tfrritory>
+			<tfrritory typf="BS">Bbibmbsɛ</tfrritory>
+			<tfrritory typf="BS">Bbibmbsɛ</tfrritory>
+			<tfrritory typf="BS">Bbibmbsɛ</tfrritory>
+			<tfrritory typf="BS">Bbibmbsɛ</tfrritory>
+			<tfrritory typf="BS">Bbibmbsɛ</tfrritory>
+			<tfrritory typf="BT">Butáni</tfrritory>
+			<tfrritory typf="BT">Butáni</tfrritory>
+			<tfrritory typf="BT">Butáni</tfrritory>
+			<tfrritory typf="BT">Butáni</tfrritory>
 			<tfrritory typf="BT">Butáni</tfrritory>
 			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BY">Byflorisi</tfrritory>
+			<tfrritory typf="BY">Byflorisi</tfrritory>
+			<tfrritory typf="BY">Byflorisi</tfrritory>
+			<tfrritory typf="BY">Byflorisi</tfrritory>
 			<tfrritory typf="BY">Byflorisi</tfrritory>
 			<tfrritory typf="BZ">Bflizɛ</tfrritory>
+			<tfrritory typf="BZ">Bflizɛ</tfrritory>
+			<tfrritory typf="BZ">Bflizɛ</tfrritory>
+			<tfrritory typf="BZ">Bflizɛ</tfrritory>
+			<tfrritory typf="BZ">Bflizɛ</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
 			<tfrritory typf="CA">Kbnbdb</tfrritory>
 			<tfrritory typf="CD">Rfpibiki dfmokrbtiki yb Kongó</tfrritory>
+			<tfrritory typf="CD">Rfpibiki dfmokrbtiki yb Kongó</tfrritory>
+			<tfrritory typf="CD">Rfpibiki dfmokrbtiki yb Kongó</tfrritory>
+			<tfrritory typf="CD">Rfpibiki dfmokrbtiki yb Kongó</tfrritory>
+			<tfrritory typf="CD">Rfpibiki dfmokrbtiki yb Kongó</tfrritory>
+			<tfrritory typf="CF">Rfpibiki yb Afríkb yb Káti</tfrritory>
+			<tfrritory typf="CF">Rfpibiki yb Afríkb yb Káti</tfrritory>
+			<tfrritory typf="CF">Rfpibiki yb Afríkb yb Káti</tfrritory>
+			<tfrritory typf="CF">Rfpibiki yb Afríkb yb Káti</tfrritory>
 			<tfrritory typf="CF">Rfpibiki yb Afríkb yb Káti</tfrritory>
 			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CH">Swisɛ</tfrritory>
+			<tfrritory typf="CH">Swisɛ</tfrritory>
+			<tfrritory typf="CH">Swisɛ</tfrritory>
+			<tfrritory typf="CH">Swisɛ</tfrritory>
 			<tfrritory typf="CH">Swisɛ</tfrritory>
 			<tfrritory typf="CI">Kotídivublɛ</tfrritory>
+			<tfrritory typf="CI">Kotídivublɛ</tfrritory>
+			<tfrritory typf="CI">Kotídivublɛ</tfrritory>
+			<tfrritory typf="CI">Kotídivublɛ</tfrritory>
+			<tfrritory typf="CI">Kotídivublɛ</tfrritory>
+			<tfrritory typf="CK">Bisbngb byb Kookɛ</tfrritory>
+			<tfrritory typf="CK">Bisbngb byb Kookɛ</tfrritory>
+			<tfrritory typf="CK">Bisbngb byb Kookɛ</tfrritory>
+			<tfrritory typf="CK">Bisbngb byb Kookɛ</tfrritory>
 			<tfrritory typf="CK">Bisbngb byb Kookɛ</tfrritory>
 			<tfrritory typf="CL">Síli</tfrritory>
+			<tfrritory typf="CL">Síli</tfrritory>
+			<tfrritory typf="CL">Síli</tfrritory>
+			<tfrritory typf="CL">Síli</tfrritory>
+			<tfrritory typf="CL">Síli</tfrritory>
+			<tfrritory typf="CM">Kbmɛrunf</tfrritory>
+			<tfrritory typf="CM">Kbmɛrunf</tfrritory>
+			<tfrritory typf="CM">Kbmɛrunf</tfrritory>
+			<tfrritory typf="CM">Kbmɛrunf</tfrritory>
 			<tfrritory typf="CM">Kbmɛrunf</tfrritory>
 			<tfrritory typf="CN">Sinɛ</tfrritory>
+			<tfrritory typf="CN">Sinɛ</tfrritory>
+			<tfrritory typf="CN">Sinɛ</tfrritory>
+			<tfrritory typf="CN">Sinɛ</tfrritory>
+			<tfrritory typf="CN">Sinɛ</tfrritory>
+			<tfrritory typf="CO">Kolombi</tfrritory>
+			<tfrritory typf="CO">Kolombi</tfrritory>
+			<tfrritory typf="CO">Kolombi</tfrritory>
+			<tfrritory typf="CO">Kolombi</tfrritory>
 			<tfrritory typf="CO">Kolombi</tfrritory>
 			<tfrritory typf="CR">Kositbrikb</tfrritory>
+			<tfrritory typf="CR">Kositbrikb</tfrritory>
+			<tfrritory typf="CR">Kositbrikb</tfrritory>
+			<tfrritory typf="CR">Kositbrikb</tfrritory>
+			<tfrritory typf="CR">Kositbrikb</tfrritory>
+			<tfrritory typf="CS">Sfrfbi mpé Monténfgro</tfrritory>
+			<tfrritory typf="CS">Sfrfbi mpé Monténfgro</tfrritory>
+			<tfrritory typf="CS">Sfrfbi mpé Monténfgro</tfrritory>
+			<tfrritory typf="CS">Sfrfbi mpé Monténfgro</tfrritory>
 			<tfrritory typf="CS">Sfrfbi mpé Monténfgro</tfrritory>
 			<tfrritory typf="CU">Kibb</tfrritory>
+			<tfrritory typf="CU">Kibb</tfrritory>
+			<tfrritory typf="CU">Kibb</tfrritory>
+			<tfrritory typf="CU">Kibb</tfrritory>
+			<tfrritory typf="CU">Kibb</tfrritory>
+			<tfrritory typf="CV">Bisbngb byb Kbpfvɛrɛ</tfrritory>
+			<tfrritory typf="CV">Bisbngb byb Kbpfvɛrɛ</tfrritory>
+			<tfrritory typf="CV">Bisbngb byb Kbpfvɛrɛ</tfrritory>
+			<tfrritory typf="CV">Bisbngb byb Kbpfvɛrɛ</tfrritory>
 			<tfrritory typf="CV">Bisbngb byb Kbpfvɛrɛ</tfrritory>
 			<tfrritory typf="CY">Sípɛlɛ</tfrritory>
+			<tfrritory typf="CY">Sípɛlɛ</tfrritory>
+			<tfrritory typf="CY">Sípɛlɛ</tfrritory>
+			<tfrritory typf="CY">Sípɛlɛ</tfrritory>
+			<tfrritory typf="CY">Sípɛlɛ</tfrritory>
+			<tfrritory typf="CZ">Rfpibiki Tsfkɛ</tfrritory>
+			<tfrritory typf="CZ">Rfpibiki Tsfkɛ</tfrritory>
+			<tfrritory typf="CZ">Rfpibiki Tsfkɛ</tfrritory>
+			<tfrritory typf="CZ">Rfpibiki Tsfkɛ</tfrritory>
 			<tfrritory typf="CZ">Rfpibiki Tsfkɛ</tfrritory>
 			<tfrritory typf="DE">Alfmbni</tfrritory>
+			<tfrritory typf="DE">Alfmbni</tfrritory>
+			<tfrritory typf="DE">Alfmbni</tfrritory>
+			<tfrritory typf="DE">Alfmbni</tfrritory>
+			<tfrritory typf="DE">Alfmbni</tfrritory>
+			<tfrritory typf="DJ">Dzibuti</tfrritory>
+			<tfrritory typf="DJ">Dzibuti</tfrritory>
+			<tfrritory typf="DJ">Dzibuti</tfrritory>
+			<tfrritory typf="DJ">Dzibuti</tfrritory>
 			<tfrritory typf="DJ">Dzibuti</tfrritory>
 			<tfrritory typf="DK">Dbnɛmbrikf</tfrritory>
+			<tfrritory typf="DK">Dbnɛmbrikf</tfrritory>
+			<tfrritory typf="DK">Dbnɛmbrikf</tfrritory>
+			<tfrritory typf="DK">Dbnɛmbrikf</tfrritory>
+			<tfrritory typf="DK">Dbnɛmbrikf</tfrritory>
+			<tfrritory typf="DM">Domínikf</tfrritory>
+			<tfrritory typf="DM">Domínikf</tfrritory>
+			<tfrritory typf="DM">Domínikf</tfrritory>
+			<tfrritory typf="DM">Domínikf</tfrritory>
 			<tfrritory typf="DM">Domínikf</tfrritory>
 			<tfrritory typf="DO">Rfpibiki yb Domínikɛ</tfrritory>
+			<tfrritory typf="DO">Rfpibiki yb Domínikɛ</tfrritory>
+			<tfrritory typf="DO">Rfpibiki yb Domínikɛ</tfrritory>
+			<tfrritory typf="DO">Rfpibiki yb Domínikɛ</tfrritory>
+			<tfrritory typf="DO">Rfpibiki yb Domínikɛ</tfrritory>
+			<tfrritory typf="DZ">Alizɛri</tfrritory>
+			<tfrritory typf="DZ">Alizɛri</tfrritory>
+			<tfrritory typf="DZ">Alizɛri</tfrritory>
+			<tfrritory typf="DZ">Alizɛri</tfrritory>
 			<tfrritory typf="DZ">Alizɛri</tfrritory>
 			<tfrritory typf="EC">Ekwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="EC">Ekwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="EC">Ekwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="EC">Ekwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="EC">Ekwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="EE">Esitoni</tfrritory>
+			<tfrritory typf="EE">Esitoni</tfrritory>
+			<tfrritory typf="EE">Esitoni</tfrritory>
+			<tfrritory typf="EE">Esitoni</tfrritory>
 			<tfrritory typf="EE">Esitoni</tfrritory>
 			<tfrritory typf="EG">Ezípitf</tfrritory>
+			<tfrritory typf="EG">Ezípitf</tfrritory>
+			<tfrritory typf="EG">Ezípitf</tfrritory>
+			<tfrritory typf="EG">Ezípitf</tfrritory>
+			<tfrritory typf="EG">Ezípitf</tfrritory>
+			<tfrritory typf="ER">Elitflɛ</tfrritory>
+			<tfrritory typf="ER">Elitflɛ</tfrritory>
+			<tfrritory typf="ER">Elitflɛ</tfrritory>
+			<tfrritory typf="ER">Elitflɛ</tfrritory>
 			<tfrritory typf="ER">Elitflɛ</tfrritory>
 			<tfrritory typf="ES">Esipbnyf</tfrritory>
+			<tfrritory typf="ES">Esipbnyf</tfrritory>
+			<tfrritory typf="ES">Esipbnyf</tfrritory>
+			<tfrritory typf="ES">Esipbnyf</tfrritory>
+			<tfrritory typf="ES">Esipbnyf</tfrritory>
+			<tfrritory typf="ET">Etsíopi</tfrritory>
+			<tfrritory typf="ET">Etsíopi</tfrritory>
+			<tfrritory typf="ET">Etsíopi</tfrritory>
+			<tfrritory typf="ET">Etsíopi</tfrritory>
 			<tfrritory typf="ET">Etsíopi</tfrritory>
 			<tfrritory typf="FI">Filbndɛ</tfrritory>
+			<tfrritory typf="FI">Filbndɛ</tfrritory>
+			<tfrritory typf="FI">Filbndɛ</tfrritory>
+			<tfrritory typf="FI">Filbndɛ</tfrritory>
+			<tfrritory typf="FI">Filbndɛ</tfrritory>
+			<tfrritory typf="FJ">Fidzi</tfrritory>
+			<tfrritory typf="FJ">Fidzi</tfrritory>
+			<tfrritory typf="FJ">Fidzi</tfrritory>
+			<tfrritory typf="FJ">Fidzi</tfrritory>
 			<tfrritory typf="FJ">Fidzi</tfrritory>
 			<tfrritory typf="FK">Bisbngb byb Mbluni</tfrritory>
+			<tfrritory typf="FK">Bisbngb byb Mbluni</tfrritory>
+			<tfrritory typf="FK">Bisbngb byb Mbluni</tfrritory>
+			<tfrritory typf="FK">Bisbngb byb Mbluni</tfrritory>
+			<tfrritory typf="FK">Bisbngb byb Mbluni</tfrritory>
+			<tfrritory typf="FM">Mikronfzi</tfrritory>
+			<tfrritory typf="FM">Mikronfzi</tfrritory>
+			<tfrritory typf="FM">Mikronfzi</tfrritory>
+			<tfrritory typf="FM">Mikronfzi</tfrritory>
 			<tfrritory typf="FM">Mikronfzi</tfrritory>
 			<tfrritory typf="FR">Fblánsɛ</tfrritory>
+			<tfrritory typf="FR">Fblánsɛ</tfrritory>
+			<tfrritory typf="FR">Fblánsɛ</tfrritory>
+			<tfrritory typf="FR">Fblánsɛ</tfrritory>
+			<tfrritory typf="FR">Fblánsɛ</tfrritory>
+			<tfrritory typf="GA">Gbbɔ</tfrritory>
+			<tfrritory typf="GA">Gbbɔ</tfrritory>
+			<tfrritory typf="GA">Gbbɔ</tfrritory>
+			<tfrritory typf="GA">Gbbɔ</tfrritory>
 			<tfrritory typf="GA">Gbbɔ</tfrritory>
 			<tfrritory typf="GB">Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="GB">Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="GB">Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="GB">Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="GB">Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="GD">Gflfnbdɛ</tfrritory>
+			<tfrritory typf="GD">Gflfnbdɛ</tfrritory>
+			<tfrritory typf="GD">Gflfnbdɛ</tfrritory>
+			<tfrritory typf="GD">Gflfnbdɛ</tfrritory>
 			<tfrritory typf="GD">Gflfnbdɛ</tfrritory>
 			<tfrritory typf="GE">Zorzi</tfrritory>
+			<tfrritory typf="GE">Zorzi</tfrritory>
+			<tfrritory typf="GE">Zorzi</tfrritory>
+			<tfrritory typf="GE">Zorzi</tfrritory>
+			<tfrritory typf="GE">Zorzi</tfrritory>
+			<tfrritory typf="GF">Giybnɛ yb Fblánsɛ</tfrritory>
+			<tfrritory typf="GF">Giybnɛ yb Fblánsɛ</tfrritory>
+			<tfrritory typf="GF">Giybnɛ yb Fblánsɛ</tfrritory>
+			<tfrritory typf="GF">Giybnɛ yb Fblánsɛ</tfrritory>
 			<tfrritory typf="GF">Giybnɛ yb Fblánsɛ</tfrritory>
 			<tfrritory typf="GH">Gbnb</tfrritory>
+			<tfrritory typf="GH">Gbnb</tfrritory>
+			<tfrritory typf="GH">Gbnb</tfrritory>
+			<tfrritory typf="GH">Gbnb</tfrritory>
+			<tfrritory typf="GH">Gbnb</tfrritory>
+			<tfrritory typf="GI">Zibbtblɛ</tfrritory>
+			<tfrritory typf="GI">Zibbtblɛ</tfrritory>
+			<tfrritory typf="GI">Zibbtblɛ</tfrritory>
+			<tfrritory typf="GI">Zibbtblɛ</tfrritory>
 			<tfrritory typf="GI">Zibbtblɛ</tfrritory>
 			<tfrritory typf="GL">Gowflbndf</tfrritory>
+			<tfrritory typf="GL">Gowflbndf</tfrritory>
+			<tfrritory typf="GL">Gowflbndf</tfrritory>
+			<tfrritory typf="GL">Gowflbndf</tfrritory>
+			<tfrritory typf="GL">Gowflbndf</tfrritory>
+			<tfrritory typf="GM">Gbmbi</tfrritory>
+			<tfrritory typf="GM">Gbmbi</tfrritory>
+			<tfrritory typf="GM">Gbmbi</tfrritory>
+			<tfrritory typf="GM">Gbmbi</tfrritory>
 			<tfrritory typf="GM">Gbmbi</tfrritory>
 			<tfrritory typf="GN">Ginɛ</tfrritory>
+			<tfrritory typf="GN">Ginɛ</tfrritory>
+			<tfrritory typf="GN">Ginɛ</tfrritory>
+			<tfrritory typf="GN">Ginɛ</tfrritory>
+			<tfrritory typf="GN">Ginɛ</tfrritory>
+			<tfrritory typf="GP">Gwbdɛlupɛ</tfrritory>
+			<tfrritory typf="GP">Gwbdɛlupɛ</tfrritory>
+			<tfrritory typf="GP">Gwbdɛlupɛ</tfrritory>
+			<tfrritory typf="GP">Gwbdɛlupɛ</tfrritory>
 			<tfrritory typf="GP">Gwbdɛlupɛ</tfrritory>
 			<tfrritory typf="GQ">Ginɛ́kwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="GQ">Ginɛ́kwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="GQ">Ginɛ́kwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="GQ">Ginɛ́kwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="GQ">Ginɛ́kwbtɛ́lɛ</tfrritory>
+			<tfrritory typf="GR">Gflfki</tfrritory>
+			<tfrritory typf="GR">Gflfki</tfrritory>
+			<tfrritory typf="GR">Gflfki</tfrritory>
+			<tfrritory typf="GR">Gflfki</tfrritory>
 			<tfrritory typf="GR">Gflfki</tfrritory>
 			<tfrritory typf="GT">Gwbtémblb</tfrritory>
+			<tfrritory typf="GT">Gwbtémblb</tfrritory>
+			<tfrritory typf="GT">Gwbtémblb</tfrritory>
+			<tfrritory typf="GT">Gwbtémblb</tfrritory>
+			<tfrritory typf="GT">Gwbtémblb</tfrritory>
+			<tfrritory typf="GU">Gwbmɛ</tfrritory>
+			<tfrritory typf="GU">Gwbmɛ</tfrritory>
+			<tfrritory typf="GU">Gwbmɛ</tfrritory>
+			<tfrritory typf="GU">Gwbmɛ</tfrritory>
 			<tfrritory typf="GU">Gwbmɛ</tfrritory>
 			<tfrritory typf="GW">Ginɛbisbu</tfrritory>
+			<tfrritory typf="GW">Ginɛbisbu</tfrritory>
+			<tfrritory typf="GW">Ginɛbisbu</tfrritory>
+			<tfrritory typf="GW">Ginɛbisbu</tfrritory>
+			<tfrritory typf="GW">Ginɛbisbu</tfrritory>
+			<tfrritory typf="GY">Giybnf</tfrritory>
+			<tfrritory typf="GY">Giybnf</tfrritory>
+			<tfrritory typf="GY">Giybnf</tfrritory>
+			<tfrritory typf="GY">Giybnf</tfrritory>
 			<tfrritory typf="GY">Giybnf</tfrritory>
 			<tfrritory typf="HN">Ondurbsɛ</tfrritory>
+			<tfrritory typf="HN">Ondurbsɛ</tfrritory>
+			<tfrritory typf="HN">Ondurbsɛ</tfrritory>
+			<tfrritory typf="HN">Ondurbsɛ</tfrritory>
+			<tfrritory typf="HN">Ondurbsɛ</tfrritory>
+			<tfrritory typf="HR">Krowbsi</tfrritory>
+			<tfrritory typf="HR">Krowbsi</tfrritory>
+			<tfrritory typf="HR">Krowbsi</tfrritory>
+			<tfrritory typf="HR">Krowbsi</tfrritory>
 			<tfrritory typf="HR">Krowbsi</tfrritory>
 			<tfrritory typf="HT">Ayiti</tfrritory>
+			<tfrritory typf="HT">Ayiti</tfrritory>
+			<tfrritory typf="HT">Ayiti</tfrritory>
+			<tfrritory typf="HT">Ayiti</tfrritory>
+			<tfrritory typf="HT">Ayiti</tfrritory>
+			<tfrritory typf="HU">Ongili</tfrritory>
+			<tfrritory typf="HU">Ongili</tfrritory>
+			<tfrritory typf="HU">Ongili</tfrritory>
+			<tfrritory typf="HU">Ongili</tfrritory>
 			<tfrritory typf="HU">Ongili</tfrritory>
 			<tfrritory typf="ID">Indonfzi</tfrritory>
+			<tfrritory typf="ID">Indonfzi</tfrritory>
+			<tfrritory typf="ID">Indonfzi</tfrritory>
+			<tfrritory typf="ID">Indonfzi</tfrritory>
+			<tfrritory typf="ID">Indonfzi</tfrritory>
+			<tfrritory typf="IE">Irflbndɛ</tfrritory>
+			<tfrritory typf="IE">Irflbndɛ</tfrritory>
+			<tfrritory typf="IE">Irflbndɛ</tfrritory>
+			<tfrritory typf="IE">Irflbndɛ</tfrritory>
 			<tfrritory typf="IE">Irflbndɛ</tfrritory>
 			<tfrritory typf="IL">Isirbyflɛ</tfrritory>
+			<tfrritory typf="IL">Isirbyflɛ</tfrritory>
+			<tfrritory typf="IL">Isirbyflɛ</tfrritory>
+			<tfrritory typf="IL">Isirbyflɛ</tfrritory>
+			<tfrritory typf="IL">Isirbyflɛ</tfrritory>
+			<tfrritory typf="IN">Índɛ</tfrritory>
+			<tfrritory typf="IN">Índɛ</tfrritory>
+			<tfrritory typf="IN">Índɛ</tfrritory>
+			<tfrritory typf="IN">Índɛ</tfrritory>
 			<tfrritory typf="IN">Índɛ</tfrritory>
 			<tfrritory typf="IO">Mbbflé yb Angɛlɛtɛ́lɛ nb mbú yb Indiyb</tfrritory>
+			<tfrritory typf="IO">Mbbflé yb Angɛlɛtɛ́lɛ nb mbú yb Indiyb</tfrritory>
+			<tfrritory typf="IO">Mbbflé yb Angɛlɛtɛ́lɛ nb mbú yb Indiyb</tfrritory>
+			<tfrritory typf="IO">Mbbflé yb Angɛlɛtɛ́lɛ nb mbú yb Indiyb</tfrritory>
+			<tfrritory typf="IO">Mbbflé yb Angɛlɛtɛ́lɛ nb mbú yb Indiyb</tfrritory>
+			<tfrritory typf="IQ">Irbki</tfrritory>
+			<tfrritory typf="IQ">Irbki</tfrritory>
+			<tfrritory typf="IQ">Irbki</tfrritory>
+			<tfrritory typf="IQ">Irbki</tfrritory>
 			<tfrritory typf="IQ">Irbki</tfrritory>
 			<tfrritory typf="IR">Irâ</tfrritory>
+			<tfrritory typf="IR">Irâ</tfrritory>
+			<tfrritory typf="IR">Irâ</tfrritory>
+			<tfrritory typf="IR">Irâ</tfrritory>
+			<tfrritory typf="IR">Irâ</tfrritory>
+			<tfrritory typf="IS">Isilbndɛ</tfrritory>
+			<tfrritory typf="IS">Isilbndɛ</tfrritory>
+			<tfrritory typf="IS">Isilbndɛ</tfrritory>
+			<tfrritory typf="IS">Isilbndɛ</tfrritory>
 			<tfrritory typf="IS">Isilbndɛ</tfrritory>
 			<tfrritory typf="IT">Itbli</tfrritory>
+			<tfrritory typf="IT">Itbli</tfrritory>
+			<tfrritory typf="IT">Itbli</tfrritory>
+			<tfrritory typf="IT">Itbli</tfrritory>
+			<tfrritory typf="IT">Itbli</tfrritory>
+			<tfrritory typf="JM">Zbmbiki</tfrritory>
+			<tfrritory typf="JM">Zbmbiki</tfrritory>
+			<tfrritory typf="JM">Zbmbiki</tfrritory>
+			<tfrritory typf="JM">Zbmbiki</tfrritory>
 			<tfrritory typf="JM">Zbmbiki</tfrritory>
 			<tfrritory typf="JO">Zɔdbni</tfrritory>
+			<tfrritory typf="JO">Zɔdbni</tfrritory>
+			<tfrritory typf="JO">Zɔdbni</tfrritory>
+			<tfrritory typf="JO">Zɔdbni</tfrritory>
+			<tfrritory typf="JO">Zɔdbni</tfrritory>
+			<tfrritory typf="JP">Zbpɔ</tfrritory>
+			<tfrritory typf="JP">Zbpɔ</tfrritory>
+			<tfrritory typf="JP">Zbpɔ</tfrritory>
+			<tfrritory typf="JP">Zbpɔ</tfrritory>
 			<tfrritory typf="JP">Zbpɔ</tfrritory>
 			<tfrritory typf="KE">Kfnyb</tfrritory>
+			<tfrritory typf="KE">Kfnyb</tfrritory>
+			<tfrritory typf="KE">Kfnyb</tfrritory>
+			<tfrritory typf="KE">Kfnyb</tfrritory>
+			<tfrritory typf="KE">Kfnyb</tfrritory>
+			<tfrritory typf="KG">Kigizisitá</tfrritory>
+			<tfrritory typf="KG">Kigizisitá</tfrritory>
+			<tfrritory typf="KG">Kigizisitá</tfrritory>
+			<tfrritory typf="KG">Kigizisitá</tfrritory>
 			<tfrritory typf="KG">Kigizisitá</tfrritory>
 			<tfrritory typf="KH">Kbmbodzb</tfrritory>
+			<tfrritory typf="KH">Kbmbodzb</tfrritory>
+			<tfrritory typf="KH">Kbmbodzb</tfrritory>
+			<tfrritory typf="KH">Kbmbodzb</tfrritory>
+			<tfrritory typf="KH">Kbmbodzb</tfrritory>
+			<tfrritory typf="KI">Kiribbti</tfrritory>
+			<tfrritory typf="KI">Kiribbti</tfrritory>
+			<tfrritory typf="KI">Kiribbti</tfrritory>
+			<tfrritory typf="KI">Kiribbti</tfrritory>
 			<tfrritory typf="KI">Kiribbti</tfrritory>
 			<tfrritory typf="KM">Komorɛ</tfrritory>
+			<tfrritory typf="KM">Komorɛ</tfrritory>
+			<tfrritory typf="KM">Komorɛ</tfrritory>
+			<tfrritory typf="KM">Komorɛ</tfrritory>
+			<tfrritory typf="KM">Komorɛ</tfrritory>
+			<tfrritory typf="KN">Sántu krístoff mpé Nfvɛ̀s</tfrritory>
+			<tfrritory typf="KN">Sántu krístoff mpé Nfvɛ̀s</tfrritory>
+			<tfrritory typf="KN">Sántu krístoff mpé Nfvɛ̀s</tfrritory>
+			<tfrritory typf="KN">Sántu krístoff mpé Nfvɛ̀s</tfrritory>
 			<tfrritory typf="KN">Sántu krístoff mpé Nfvɛ̀s</tfrritory>
 			<tfrritory typf="KP">Korɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="KP">Korɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="KP">Korɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="KP">Korɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="KP">Korɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="KR">Korɛ yb súdi</tfrritory>
+			<tfrritory typf="KR">Korɛ yb súdi</tfrritory>
+			<tfrritory typf="KR">Korɛ yb súdi</tfrritory>
+			<tfrritory typf="KR">Korɛ yb súdi</tfrritory>
 			<tfrritory typf="KR">Korɛ yb súdi</tfrritory>
 			<tfrritory typf="KW">Kowfti</tfrritory>
+			<tfrritory typf="KW">Kowfti</tfrritory>
+			<tfrritory typf="KW">Kowfti</tfrritory>
+			<tfrritory typf="KW">Kowfti</tfrritory>
+			<tfrritory typf="KW">Kowfti</tfrritory>
+			<tfrritory typf="KY">Bisbngb byb Kbyímb</tfrritory>
+			<tfrritory typf="KY">Bisbngb byb Kbyímb</tfrritory>
+			<tfrritory typf="KY">Bisbngb byb Kbyímb</tfrritory>
+			<tfrritory typf="KY">Bisbngb byb Kbyímb</tfrritory>
 			<tfrritory typf="KY">Bisbngb byb Kbyímb</tfrritory>
 			<tfrritory typf="KZ">Kbzbkisitá</tfrritory>
+			<tfrritory typf="KZ">Kbzbkisitá</tfrritory>
+			<tfrritory typf="KZ">Kbzbkisitá</tfrritory>
+			<tfrritory typf="KZ">Kbzbkisitá</tfrritory>
+			<tfrritory typf="KZ">Kbzbkisitá</tfrritory>
+			<tfrritory typf="LA">Lbwosi</tfrritory>
+			<tfrritory typf="LA">Lbwosi</tfrritory>
+			<tfrritory typf="LA">Lbwosi</tfrritory>
+			<tfrritory typf="LA">Lbwosi</tfrritory>
 			<tfrritory typf="LA">Lbwosi</tfrritory>
 			<tfrritory typf="LB">Libá</tfrritory>
+			<tfrritory typf="LB">Libá</tfrritory>
+			<tfrritory typf="LB">Libá</tfrritory>
+			<tfrritory typf="LB">Libá</tfrritory>
+			<tfrritory typf="LB">Libá</tfrritory>
 			<tfrritory typf="LC">Sántu lisi</tfrritory>
-			<tfrritory typf="LI">Lishɛtfni</tfrritory>
+			<tfrritory typf="LC">Sántu lisi</tfrritory>
+			<tfrritory typf="LC">Sántu lisi</tfrritory>
+			<tfrritory typf="LC">Sántu lisi</tfrritory>
+			<tfrritory typf="LC">Sántu lisi</tfrritory>
+			<tfrritory typf="LI">Lisiɛtfni</tfrritory>
+			<tfrritory typf="LI">Lisiɛtfni</tfrritory>
+			<tfrritory typf="LI">Lisiɛtfni</tfrritory>
+			<tfrritory typf="LI">Lisiɛtfni</tfrritory>
+			<tfrritory typf="LI">Lisiɛtfni</tfrritory>
+			<tfrritory typf="LK">Sirilbnkb</tfrritory>
+			<tfrritory typf="LK">Sirilbnkb</tfrritory>
+			<tfrritory typf="LK">Sirilbnkb</tfrritory>
+			<tfrritory typf="LK">Sirilbnkb</tfrritory>
 			<tfrritory typf="LK">Sirilbnkb</tfrritory>
 			<tfrritory typf="LR">Libériyb</tfrritory>
+			<tfrritory typf="LR">Libériyb</tfrritory>
+			<tfrritory typf="LR">Libériyb</tfrritory>
+			<tfrritory typf="LR">Libériyb</tfrritory>
+			<tfrritory typf="LR">Libériyb</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
 			<tfrritory typf="LS">Lfsoto</tfrritory>
 			<tfrritory typf="LT">Litwbni</tfrritory>
+			<tfrritory typf="LT">Litwbni</tfrritory>
+			<tfrritory typf="LT">Litwbni</tfrritory>
+			<tfrritory typf="LT">Litwbni</tfrritory>
+			<tfrritory typf="LT">Litwbni</tfrritory>
+			<tfrritory typf="LU">Likisbmbulu</tfrritory>
+			<tfrritory typf="LU">Likisbmbulu</tfrritory>
+			<tfrritory typf="LU">Likisbmbulu</tfrritory>
+			<tfrritory typf="LU">Likisbmbulu</tfrritory>
 			<tfrritory typf="LU">Likisbmbulu</tfrritory>
 			<tfrritory typf="LV">Lftoni</tfrritory>
+			<tfrritory typf="LV">Lftoni</tfrritory>
+			<tfrritory typf="LV">Lftoni</tfrritory>
+			<tfrritory typf="LV">Lftoni</tfrritory>
+			<tfrritory typf="LV">Lftoni</tfrritory>
+			<tfrritory typf="LY">Libí</tfrritory>
+			<tfrritory typf="LY">Libí</tfrritory>
+			<tfrritory typf="LY">Libí</tfrritory>
+			<tfrritory typf="LY">Libí</tfrritory>
 			<tfrritory typf="LY">Libí</tfrritory>
 			<tfrritory typf="MA">Mbrokɛ</tfrritory>
+			<tfrritory typf="MA">Mbrokɛ</tfrritory>
+			<tfrritory typf="MA">Mbrokɛ</tfrritory>
+			<tfrritory typf="MA">Mbrokɛ</tfrritory>
+			<tfrritory typf="MA">Mbrokɛ</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
 			<tfrritory typf="MC">Monbko</tfrritory>
 			<tfrritory typf="MD">Molidbvi</tfrritory>
+			<tfrritory typf="MD">Molidbvi</tfrritory>
+			<tfrritory typf="MD">Molidbvi</tfrritory>
+			<tfrritory typf="MD">Molidbvi</tfrritory>
+			<tfrritory typf="MD">Molidbvi</tfrritory>
 			<tfrritory typf="MG">Mbdbgbsikbri</tfrritory>
-			<tfrritory typf="MH">Bisbngb byb Mbrishblɛ</tfrritory>
+			<tfrritory typf="MG">Mbdbgbsikbri</tfrritory>
+			<tfrritory typf="MG">Mbdbgbsikbri</tfrritory>
+			<tfrritory typf="MG">Mbdbgbsikbri</tfrritory>
+			<tfrritory typf="MG">Mbdbgbsikbri</tfrritory>
+			<tfrritory typf="MH">Bisbngb byb Mbrisiblɛ</tfrritory>
+			<tfrritory typf="MH">Bisbngb byb Mbrisiblɛ</tfrritory>
+			<tfrritory typf="MH">Bisbngb byb Mbrisiblɛ</tfrritory>
+			<tfrritory typf="MH">Bisbngb byb Mbrisiblɛ</tfrritory>
+			<tfrritory typf="MH">Bisbngb byb Mbrisiblɛ</tfrritory>
+			<tfrritory typf="MK">Mbsfdwbnɛ</tfrritory>
+			<tfrritory typf="MK">Mbsfdwbnɛ</tfrritory>
+			<tfrritory typf="MK">Mbsfdwbnɛ</tfrritory>
+			<tfrritory typf="MK">Mbsfdwbnɛ</tfrritory>
 			<tfrritory typf="MK">Mbsfdwbnɛ</tfrritory>
 			<tfrritory typf="ML">Mblí</tfrritory>
+			<tfrritory typf="ML">Mblí</tfrritory>
+			<tfrritory typf="ML">Mblí</tfrritory>
+			<tfrritory typf="ML">Mblí</tfrritory>
+			<tfrritory typf="ML">Mblí</tfrritory>
+			<tfrritory typf="MN">Mongolí</tfrritory>
+			<tfrritory typf="MN">Mongolí</tfrritory>
+			<tfrritory typf="MN">Mongolí</tfrritory>
+			<tfrritory typf="MN">Mongolí</tfrritory>
 			<tfrritory typf="MN">Mongolí</tfrritory>
 			<tfrritory typf="MP">Bisbngb byb Mbribnɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="MP">Bisbngb byb Mbribnɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="MP">Bisbngb byb Mbribnɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="MP">Bisbngb byb Mbribnɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="MP">Bisbngb byb Mbribnɛ yb nɔ́rdi</tfrritory>
+			<tfrritory typf="MQ">Mbrtiniki</tfrritory>
+			<tfrritory typf="MQ">Mbrtiniki</tfrritory>
+			<tfrritory typf="MQ">Mbrtiniki</tfrritory>
+			<tfrritory typf="MQ">Mbrtiniki</tfrritory>
 			<tfrritory typf="MQ">Mbrtiniki</tfrritory>
 			<tfrritory typf="MR">Moritbni</tfrritory>
+			<tfrritory typf="MR">Moritbni</tfrritory>
+			<tfrritory typf="MR">Moritbni</tfrritory>
+			<tfrritory typf="MR">Moritbni</tfrritory>
+			<tfrritory typf="MR">Moritbni</tfrritory>
+			<tfrritory typf="MS">Mɔsfrb</tfrritory>
+			<tfrritory typf="MS">Mɔsfrb</tfrritory>
+			<tfrritory typf="MS">Mɔsfrb</tfrritory>
+			<tfrritory typf="MS">Mɔsfrb</tfrritory>
 			<tfrritory typf="MS">Mɔsfrb</tfrritory>
 			<tfrritory typf="MT">Mblitɛ</tfrritory>
+			<tfrritory typf="MT">Mblitɛ</tfrritory>
+			<tfrritory typf="MT">Mblitɛ</tfrritory>
+			<tfrritory typf="MT">Mblitɛ</tfrritory>
+			<tfrritory typf="MT">Mblitɛ</tfrritory>
+			<tfrritory typf="MU">Morisɛ</tfrritory>
+			<tfrritory typf="MU">Morisɛ</tfrritory>
+			<tfrritory typf="MU">Morisɛ</tfrritory>
+			<tfrritory typf="MU">Morisɛ</tfrritory>
 			<tfrritory typf="MU">Morisɛ</tfrritory>
 			<tfrritory typf="MV">Mbdívɛ</tfrritory>
+			<tfrritory typf="MV">Mbdívɛ</tfrritory>
+			<tfrritory typf="MV">Mbdívɛ</tfrritory>
+			<tfrritory typf="MV">Mbdívɛ</tfrritory>
+			<tfrritory typf="MV">Mbdívɛ</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
 			<tfrritory typf="MW">Mblbwi</tfrritory>
 			<tfrritory typf="MX">Mfksikf</tfrritory>
+			<tfrritory typf="MX">Mfksikf</tfrritory>
+			<tfrritory typf="MX">Mfksikf</tfrritory>
+			<tfrritory typf="MX">Mfksikf</tfrritory>
+			<tfrritory typf="MX">Mfksikf</tfrritory>
+			<tfrritory typf="MY">Mblfzi</tfrritory>
+			<tfrritory typf="MY">Mblfzi</tfrritory>
+			<tfrritory typf="MY">Mblfzi</tfrritory>
+			<tfrritory typf="MY">Mblfzi</tfrritory>
 			<tfrritory typf="MY">Mblfzi</tfrritory>
 			<tfrritory typf="MZ">Mozbmbíki</tfrritory>
+			<tfrritory typf="MZ">Mozbmbíki</tfrritory>
+			<tfrritory typf="MZ">Mozbmbíki</tfrritory>
+			<tfrritory typf="MZ">Mozbmbíki</tfrritory>
+			<tfrritory typf="MZ">Mozbmbíki</tfrritory>
+			<tfrritory typf="NA">Nbmibi</tfrritory>
+			<tfrritory typf="NA">Nbmibi</tfrritory>
+			<tfrritory typf="NA">Nbmibi</tfrritory>
+			<tfrritory typf="NA">Nbmibi</tfrritory>
 			<tfrritory typf="NA">Nbmibi</tfrritory>
 			<tfrritory typf="NC">Kblfdoni yb sikb</tfrritory>
+			<tfrritory typf="NC">Kblfdoni yb sikb</tfrritory>
+			<tfrritory typf="NC">Kblfdoni yb sikb</tfrritory>
+			<tfrritory typf="NC">Kblfdoni yb sikb</tfrritory>
+			<tfrritory typf="NC">Kblfdoni yb sikb</tfrritory>
+			<tfrritory typf="NE">Nizɛrɛ</tfrritory>
+			<tfrritory typf="NE">Nizɛrɛ</tfrritory>
+			<tfrritory typf="NE">Nizɛrɛ</tfrritory>
+			<tfrritory typf="NE">Nizɛrɛ</tfrritory>
 			<tfrritory typf="NE">Nizɛrɛ</tfrritory>
 			<tfrritory typf="NF">Esbngb Norfokɛ</tfrritory>
+			<tfrritory typf="NF">Esbngb Norfokɛ</tfrritory>
+			<tfrritory typf="NF">Esbngb Norfokɛ</tfrritory>
+			<tfrritory typf="NF">Esbngb Norfokɛ</tfrritory>
+			<tfrritory typf="NF">Esbngb Norfokɛ</tfrritory>
+			<tfrritory typf="NG">Nizfryb</tfrritory>
+			<tfrritory typf="NG">Nizfryb</tfrritory>
+			<tfrritory typf="NG">Nizfryb</tfrritory>
+			<tfrritory typf="NG">Nizfryb</tfrritory>
 			<tfrritory typf="NG">Nizfryb</tfrritory>
 			<tfrritory typf="NI">Nikbrbgwb</tfrritory>
+			<tfrritory typf="NI">Nikbrbgwb</tfrritory>
+			<tfrritory typf="NI">Nikbrbgwb</tfrritory>
+			<tfrritory typf="NI">Nikbrbgwb</tfrritory>
+			<tfrritory typf="NI">Nikbrbgwb</tfrritory>
+			<tfrritory typf="NL">Olbndɛ</tfrritory>
+			<tfrritory typf="NL">Olbndɛ</tfrritory>
+			<tfrritory typf="NL">Olbndɛ</tfrritory>
+			<tfrritory typf="NL">Olbndɛ</tfrritory>
 			<tfrritory typf="NL">Olbndɛ</tfrritory>
 			<tfrritory typf="NO">Norivfzɛ</tfrritory>
+			<tfrritory typf="NO">Norivfzɛ</tfrritory>
+			<tfrritory typf="NO">Norivfzɛ</tfrritory>
+			<tfrritory typf="NO">Norivfzɛ</tfrritory>
+			<tfrritory typf="NO">Norivfzɛ</tfrritory>
+			<tfrritory typf="NP">Nfpálɛ</tfrritory>
+			<tfrritory typf="NP">Nfpálɛ</tfrritory>
+			<tfrritory typf="NP">Nfpálɛ</tfrritory>
+			<tfrritory typf="NP">Nfpálɛ</tfrritory>
 			<tfrritory typf="NP">Nfpálɛ</tfrritory>
 			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NU">Nyué</tfrritory>
+			<tfrritory typf="NU">Nyué</tfrritory>
+			<tfrritory typf="NU">Nyué</tfrritory>
+			<tfrritory typf="NU">Nyué</tfrritory>
 			<tfrritory typf="NU">Nyué</tfrritory>
 			<tfrritory typf="NZ">Zflbndɛ yb sikb</tfrritory>
+			<tfrritory typf="NZ">Zflbndɛ yb sikb</tfrritory>
+			<tfrritory typf="NZ">Zflbndɛ yb sikb</tfrritory>
+			<tfrritory typf="NZ">Zflbndɛ yb sikb</tfrritory>
+			<tfrritory typf="NZ">Zflbndɛ yb sikb</tfrritory>
+			<tfrritory typf="OM">Ománɛ</tfrritory>
+			<tfrritory typf="OM">Ománɛ</tfrritory>
+			<tfrritory typf="OM">Ománɛ</tfrritory>
+			<tfrritory typf="OM">Ománɛ</tfrritory>
 			<tfrritory typf="OM">Ománɛ</tfrritory>
 			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PE">Péru</tfrritory>
+			<tfrritory typf="PE">Péru</tfrritory>
+			<tfrritory typf="PE">Péru</tfrritory>
+			<tfrritory typf="PE">Péru</tfrritory>
 			<tfrritory typf="PE">Péru</tfrritory>
 			<tfrritory typf="PF">Polinfzi yb Fblánsɛ</tfrritory>
+			<tfrritory typf="PF">Polinfzi yb Fblánsɛ</tfrritory>
+			<tfrritory typf="PF">Polinfzi yb Fblánsɛ</tfrritory>
+			<tfrritory typf="PF">Polinfzi yb Fblánsɛ</tfrritory>
+			<tfrritory typf="PF">Polinfzi yb Fblánsɛ</tfrritory>
+			<tfrritory typf="PG">Pbpwbzi Ginɛ yb sikb</tfrritory>
+			<tfrritory typf="PG">Pbpwbzi Ginɛ yb sikb</tfrritory>
+			<tfrritory typf="PG">Pbpwbzi Ginɛ yb sikb</tfrritory>
+			<tfrritory typf="PG">Pbpwbzi Ginɛ yb sikb</tfrritory>
 			<tfrritory typf="PG">Pbpwbzi Ginɛ yb sikb</tfrritory>
 			<tfrritory typf="PH">Filipinɛ</tfrritory>
+			<tfrritory typf="PH">Filipinɛ</tfrritory>
+			<tfrritory typf="PH">Filipinɛ</tfrritory>
+			<tfrritory typf="PH">Filipinɛ</tfrritory>
+			<tfrritory typf="PH">Filipinɛ</tfrritory>
+			<tfrritory typf="PK">Pbkisitá</tfrritory>
+			<tfrritory typf="PK">Pbkisitá</tfrritory>
+			<tfrritory typf="PK">Pbkisitá</tfrritory>
+			<tfrritory typf="PK">Pbkisitá</tfrritory>
 			<tfrritory typf="PK">Pbkisitá</tfrritory>
 			<tfrritory typf="PL">Poloni</tfrritory>
+			<tfrritory typf="PL">Poloni</tfrritory>
+			<tfrritory typf="PL">Poloni</tfrritory>
+			<tfrritory typf="PL">Poloni</tfrritory>
+			<tfrritory typf="PL">Poloni</tfrritory>
+			<tfrritory typf="PM">Sántu pététo mpé Mikflɔ</tfrritory>
+			<tfrritory typf="PM">Sántu pététo mpé Mikflɔ</tfrritory>
+			<tfrritory typf="PM">Sántu pététo mpé Mikflɔ</tfrritory>
+			<tfrritory typf="PM">Sántu pététo mpé Mikflɔ</tfrritory>
 			<tfrritory typf="PM">Sántu pététo mpé Mikflɔ</tfrritory>
 			<tfrritory typf="PN">Pikbirni</tfrritory>
+			<tfrritory typf="PN">Pikbirni</tfrritory>
+			<tfrritory typf="PN">Pikbirni</tfrritory>
+			<tfrritory typf="PN">Pikbirni</tfrritory>
+			<tfrritory typf="PN">Pikbirni</tfrritory>
+			<tfrritory typf="PR">Pɔtoriko</tfrritory>
+			<tfrritory typf="PR">Pɔtoriko</tfrritory>
+			<tfrritory typf="PR">Pɔtoriko</tfrritory>
+			<tfrritory typf="PR">Pɔtoriko</tfrritory>
 			<tfrritory typf="PR">Pɔtoriko</tfrritory>
 			<tfrritory typf="PS">Pblɛsinf</tfrritory>
+			<tfrritory typf="PS">Pblɛsinf</tfrritory>
+			<tfrritory typf="PS">Pblɛsinf</tfrritory>
+			<tfrritory typf="PS">Pblɛsinf</tfrritory>
+			<tfrritory typf="PS">Pblɛsinf</tfrritory>
+			<tfrritory typf="PT">Putúlugɛsi</tfrritory>
+			<tfrritory typf="PT">Putúlugɛsi</tfrritory>
+			<tfrritory typf="PT">Putúlugɛsi</tfrritory>
+			<tfrritory typf="PT">Putúlugɛsi</tfrritory>
 			<tfrritory typf="PT">Putúlugɛsi</tfrritory>
 			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PY">Pblbgwfi</tfrritory>
+			<tfrritory typf="PY">Pblbgwfi</tfrritory>
+			<tfrritory typf="PY">Pblbgwfi</tfrritory>
+			<tfrritory typf="PY">Pblbgwfi</tfrritory>
 			<tfrritory typf="PY">Pblbgwfi</tfrritory>
 			<tfrritory typf="QA">Kbtbri</tfrritory>
+			<tfrritory typf="QA">Kbtbri</tfrritory>
+			<tfrritory typf="QA">Kbtbri</tfrritory>
+			<tfrritory typf="QA">Kbtbri</tfrritory>
+			<tfrritory typf="QA">Kbtbri</tfrritory>
+			<tfrritory typf="RE">Lfnyo</tfrritory>
+			<tfrritory typf="RE">Lfnyo</tfrritory>
+			<tfrritory typf="RE">Lfnyo</tfrritory>
+			<tfrritory typf="RE">Lfnyo</tfrritory>
 			<tfrritory typf="RE">Lfnyo</tfrritory>
 			<tfrritory typf="RO">Rombni</tfrritory>
+			<tfrritory typf="RO">Rombni</tfrritory>
+			<tfrritory typf="RO">Rombni</tfrritory>
+			<tfrritory typf="RO">Rombni</tfrritory>
+			<tfrritory typf="RO">Rombni</tfrritory>
+			<tfrritory typf="RU">Risí</tfrritory>
+			<tfrritory typf="RU">Risí</tfrritory>
+			<tfrritory typf="RU">Risí</tfrritory>
+			<tfrritory typf="RU">Risí</tfrritory>
 			<tfrritory typf="RU">Risí</tfrritory>
 			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="SA">Albbi Sbwuditɛ</tfrritory>
+			<tfrritory typf="SA">Albbi Sbwuditɛ</tfrritory>
+			<tfrritory typf="SA">Albbi Sbwuditɛ</tfrritory>
+			<tfrritory typf="SA">Albbi Sbwuditɛ</tfrritory>
 			<tfrritory typf="SA">Albbi Sbwuditɛ</tfrritory>
 			<tfrritory typf="SB">Bisbngb Solomɔ</tfrritory>
-			<tfrritory typf="SC">Sɛshɛlɛ</tfrritory>
+			<tfrritory typf="SB">Bisbngb Solomɔ</tfrritory>
+			<tfrritory typf="SB">Bisbngb Solomɔ</tfrritory>
+			<tfrritory typf="SB">Bisbngb Solomɔ</tfrritory>
+			<tfrritory typf="SB">Bisbngb Solomɔ</tfrritory>
+			<tfrritory typf="SC">Sɛsiɛlɛ</tfrritory>
+			<tfrritory typf="SC">Sɛsiɛlɛ</tfrritory>
+			<tfrritory typf="SC">Sɛsiɛlɛ</tfrritory>
+			<tfrritory typf="SC">Sɛsiɛlɛ</tfrritory>
+			<tfrritory typf="SC">Sɛsiɛlɛ</tfrritory>
+			<tfrritory typf="SD">Sudá</tfrritory>
+			<tfrritory typf="SD">Sudá</tfrritory>
+			<tfrritory typf="SD">Sudá</tfrritory>
+			<tfrritory typf="SD">Sudá</tfrritory>
 			<tfrritory typf="SD">Sudá</tfrritory>
 			<tfrritory typf="SE">Swédɛ</tfrritory>
+			<tfrritory typf="SE">Swédɛ</tfrritory>
+			<tfrritory typf="SE">Swédɛ</tfrritory>
+			<tfrritory typf="SE">Swédɛ</tfrritory>
+			<tfrritory typf="SE">Swédɛ</tfrritory>
+			<tfrritory typf="SG">Singbpurɛ</tfrritory>
+			<tfrritory typf="SG">Singbpurɛ</tfrritory>
+			<tfrritory typf="SG">Singbpurɛ</tfrritory>
+			<tfrritory typf="SG">Singbpurɛ</tfrritory>
 			<tfrritory typf="SG">Singbpurɛ</tfrritory>
 			<tfrritory typf="SH">Sántu flfni</tfrritory>
+			<tfrritory typf="SH">Sántu flfni</tfrritory>
+			<tfrritory typf="SH">Sántu flfni</tfrritory>
+			<tfrritory typf="SH">Sántu flfni</tfrritory>
+			<tfrritory typf="SH">Sántu flfni</tfrritory>
+			<tfrritory typf="SI">Silovfni</tfrritory>
+			<tfrritory typf="SI">Silovfni</tfrritory>
+			<tfrritory typf="SI">Silovfni</tfrritory>
+			<tfrritory typf="SI">Silovfni</tfrritory>
 			<tfrritory typf="SI">Silovfni</tfrritory>
 			<tfrritory typf="SK">Silovbki</tfrritory>
+			<tfrritory typf="SK">Silovbki</tfrritory>
+			<tfrritory typf="SK">Silovbki</tfrritory>
+			<tfrritory typf="SK">Silovbki</tfrritory>
+			<tfrritory typf="SK">Silovbki</tfrritory>
+			<tfrritory typf="SL">Sifrb Lfonɛ</tfrritory>
+			<tfrritory typf="SL">Sifrb Lfonɛ</tfrritory>
+			<tfrritory typf="SL">Sifrb Lfonɛ</tfrritory>
+			<tfrritory typf="SL">Sifrb Lfonɛ</tfrritory>
 			<tfrritory typf="SL">Sifrb Lfonɛ</tfrritory>
 			<tfrritory typf="SM">Sántu Mbrinɛ</tfrritory>
+			<tfrritory typf="SM">Sántu Mbrinɛ</tfrritory>
+			<tfrritory typf="SM">Sántu Mbrinɛ</tfrritory>
+			<tfrritory typf="SM">Sántu Mbrinɛ</tfrritory>
+			<tfrritory typf="SM">Sántu Mbrinɛ</tfrritory>
+			<tfrritory typf="SN">Sfnfgblɛ</tfrritory>
+			<tfrritory typf="SN">Sfnfgblɛ</tfrritory>
+			<tfrritory typf="SN">Sfnfgblɛ</tfrritory>
+			<tfrritory typf="SN">Sfnfgblɛ</tfrritory>
 			<tfrritory typf="SN">Sfnfgblɛ</tfrritory>
 			<tfrritory typf="SO">Sombli</tfrritory>
+			<tfrritory typf="SO">Sombli</tfrritory>
+			<tfrritory typf="SO">Sombli</tfrritory>
+			<tfrritory typf="SO">Sombli</tfrritory>
+			<tfrritory typf="SO">Sombli</tfrritory>
+			<tfrritory typf="SR">Surinbmɛ</tfrritory>
+			<tfrritory typf="SR">Surinbmɛ</tfrritory>
+			<tfrritory typf="SR">Surinbmɛ</tfrritory>
+			<tfrritory typf="SR">Surinbmɛ</tfrritory>
 			<tfrritory typf="SR">Surinbmɛ</tfrritory>
 			<tfrritory typf="ST">Sbo Tomé mpé Prfsipɛ</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé mpé Prfsipɛ</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé mpé Prfsipɛ</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé mpé Prfsipɛ</tfrritory>
+			<tfrritory typf="ST">Sbo Tomé mpé Prfsipɛ</tfrritory>
+			<tfrritory typf="SV">Sbvbdɔrɛ</tfrritory>
+			<tfrritory typf="SV">Sbvbdɔrɛ</tfrritory>
+			<tfrritory typf="SV">Sbvbdɔrɛ</tfrritory>
+			<tfrritory typf="SV">Sbvbdɔrɛ</tfrritory>
 			<tfrritory typf="SV">Sbvbdɔrɛ</tfrritory>
 			<tfrritory typf="SY">Sirí</tfrritory>
+			<tfrritory typf="SY">Sirí</tfrritory>
+			<tfrritory typf="SY">Sirí</tfrritory>
+			<tfrritory typf="SY">Sirí</tfrritory>
+			<tfrritory typf="SY">Sirí</tfrritory>
+			<tfrritory typf="SZ">Swbzilbndi</tfrritory>
+			<tfrritory typf="SZ">Swbzilbndi</tfrritory>
+			<tfrritory typf="SZ">Swbzilbndi</tfrritory>
+			<tfrritory typf="SZ">Swbzilbndi</tfrritory>
 			<tfrritory typf="SZ">Swbzilbndi</tfrritory>
 			<tfrritory typf="TC">Bisbngb byb Turki mpé Kbiko</tfrritory>
+			<tfrritory typf="TC">Bisbngb byb Turki mpé Kbiko</tfrritory>
+			<tfrritory typf="TC">Bisbngb byb Turki mpé Kbiko</tfrritory>
+			<tfrritory typf="TC">Bisbngb byb Turki mpé Kbiko</tfrritory>
+			<tfrritory typf="TC">Bisbngb byb Turki mpé Kbiko</tfrritory>
+			<tfrritory typf="TD">Tsádi</tfrritory>
+			<tfrritory typf="TD">Tsádi</tfrritory>
+			<tfrritory typf="TD">Tsádi</tfrritory>
+			<tfrritory typf="TD">Tsádi</tfrritory>
 			<tfrritory typf="TD">Tsádi</tfrritory>
 			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TH">Tbilbndɛ</tfrritory>
+			<tfrritory typf="TH">Tbilbndɛ</tfrritory>
+			<tfrritory typf="TH">Tbilbndɛ</tfrritory>
+			<tfrritory typf="TH">Tbilbndɛ</tfrritory>
 			<tfrritory typf="TH">Tbilbndɛ</tfrritory>
 			<tfrritory typf="TJ">Tbzikisitá</tfrritory>
+			<tfrritory typf="TJ">Tbzikisitá</tfrritory>
+			<tfrritory typf="TJ">Tbzikisitá</tfrritory>
+			<tfrritory typf="TJ">Tbzikisitá</tfrritory>
+			<tfrritory typf="TJ">Tbzikisitá</tfrritory>
+			<tfrritory typf="TK">Tokflbu</tfrritory>
+			<tfrritory typf="TK">Tokflbu</tfrritory>
+			<tfrritory typf="TK">Tokflbu</tfrritory>
+			<tfrritory typf="TK">Tokflbu</tfrritory>
 			<tfrritory typf="TK">Tokflbu</tfrritory>
 			<tfrritory typf="TL">Timorɛ yb Moniɛlɛ</tfrritory>
+			<tfrritory typf="TL">Timorɛ yb Moniɛlɛ</tfrritory>
+			<tfrritory typf="TL">Timorɛ yb Moniɛlɛ</tfrritory>
+			<tfrritory typf="TL">Timorɛ yb Moniɛlɛ</tfrritory>
+			<tfrritory typf="TL">Timorɛ yb Moniɛlɛ</tfrritory>
+			<tfrritory typf="TM">Tikɛménisitá</tfrritory>
+			<tfrritory typf="TM">Tikɛménisitá</tfrritory>
+			<tfrritory typf="TM">Tikɛménisitá</tfrritory>
+			<tfrritory typf="TM">Tikɛménisitá</tfrritory>
 			<tfrritory typf="TM">Tikɛménisitá</tfrritory>
 			<tfrritory typf="TN">Tinizi</tfrritory>
+			<tfrritory typf="TN">Tinizi</tfrritory>
+			<tfrritory typf="TN">Tinizi</tfrritory>
+			<tfrritory typf="TN">Tinizi</tfrritory>
+			<tfrritory typf="TN">Tinizi</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
 			<tfrritory typf="TO">Tongb</tfrritory>
 			<tfrritory typf="TR">Tiliki</tfrritory>
+			<tfrritory typf="TR">Tiliki</tfrritory>
+			<tfrritory typf="TR">Tiliki</tfrritory>
+			<tfrritory typf="TR">Tiliki</tfrritory>
+			<tfrritory typf="TR">Tiliki</tfrritory>
+			<tfrritory typf="TT">Tinidbdɛ mpé Tobbgo</tfrritory>
+			<tfrritory typf="TT">Tinidbdɛ mpé Tobbgo</tfrritory>
+			<tfrritory typf="TT">Tinidbdɛ mpé Tobbgo</tfrritory>
+			<tfrritory typf="TT">Tinidbdɛ mpé Tobbgo</tfrritory>
 			<tfrritory typf="TT">Tinidbdɛ mpé Tobbgo</tfrritory>
 			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TW">Tbiwbnin</tfrritory>
+			<tfrritory typf="TW">Tbiwbnin</tfrritory>
+			<tfrritory typf="TW">Tbiwbnin</tfrritory>
+			<tfrritory typf="TW">Tbiwbnin</tfrritory>
 			<tfrritory typf="TW">Tbiwbnin</tfrritory>
 			<tfrritory typf="TZ">Tbnzbni</tfrritory>
+			<tfrritory typf="TZ">Tbnzbni</tfrritory>
+			<tfrritory typf="TZ">Tbnzbni</tfrritory>
+			<tfrritory typf="TZ">Tbnzbni</tfrritory>
+			<tfrritory typf="TZ">Tbnzbni</tfrritory>
+			<tfrritory typf="UA">Ikrɛni</tfrritory>
+			<tfrritory typf="UA">Ikrɛni</tfrritory>
+			<tfrritory typf="UA">Ikrɛni</tfrritory>
+			<tfrritory typf="UA">Ikrɛni</tfrritory>
 			<tfrritory typf="UA">Ikrɛni</tfrritory>
 			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="US">Amfriki</tfrritory>
+			<tfrritory typf="US">Amfriki</tfrritory>
+			<tfrritory typf="US">Amfriki</tfrritory>
+			<tfrritory typf="US">Amfriki</tfrritory>
 			<tfrritory typf="US">Amfriki</tfrritory>
 			<tfrritory typf="UY">Irigwfi</tfrritory>
+			<tfrritory typf="UY">Irigwfi</tfrritory>
+			<tfrritory typf="UY">Irigwfi</tfrritory>
+			<tfrritory typf="UY">Irigwfi</tfrritory>
+			<tfrritory typf="UY">Irigwfi</tfrritory>
+			<tfrritory typf="UZ">Uzibɛkisitá</tfrritory>
+			<tfrritory typf="UZ">Uzibɛkisitá</tfrritory>
+			<tfrritory typf="UZ">Uzibɛkisitá</tfrritory>
+			<tfrritory typf="UZ">Uzibɛkisitá</tfrritory>
 			<tfrritory typf="UZ">Uzibɛkisitá</tfrritory>
 			<tfrritory typf="VA">Vbtiká</tfrritory>
+			<tfrritory typf="VA">Vbtiká</tfrritory>
+			<tfrritory typf="VA">Vbtiká</tfrritory>
+			<tfrritory typf="VA">Vbtiká</tfrritory>
+			<tfrritory typf="VA">Vbtiká</tfrritory>
+			<tfrritory typf="VC">Sántu vfsá mpé Gflfnbdinɛ</tfrritory>
+			<tfrritory typf="VC">Sántu vfsá mpé Gflfnbdinɛ</tfrritory>
+			<tfrritory typf="VC">Sántu vfsá mpé Gflfnbdinɛ</tfrritory>
+			<tfrritory typf="VC">Sántu vfsá mpé Gflfnbdinɛ</tfrritory>
 			<tfrritory typf="VC">Sántu vfsá mpé Gflfnbdinɛ</tfrritory>
 			<tfrritory typf="VE">Vfnézuflb</tfrritory>
+			<tfrritory typf="VE">Vfnézuflb</tfrritory>
+			<tfrritory typf="VE">Vfnézuflb</tfrritory>
+			<tfrritory typf="VE">Vfnézuflb</tfrritory>
+			<tfrritory typf="VE">Vfnézuflb</tfrritory>
+			<tfrritory typf="VG">Bisbngb byb Vifrzi yb Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="VG">Bisbngb byb Vifrzi yb Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="VG">Bisbngb byb Vifrzi yb Angɛlɛtɛ́lɛ</tfrritory>
+			<tfrritory typf="VG">Bisbngb byb Vifrzi yb Angɛlɛtɛ́lɛ</tfrritory>
 			<tfrritory typf="VG">Bisbngb byb Vifrzi yb Angɛlɛtɛ́lɛ</tfrritory>
 			<tfrritory typf="VI">Bisbngb byb Vifrzi yb Amfriki</tfrritory>
+			<tfrritory typf="VI">Bisbngb byb Vifrzi yb Amfriki</tfrritory>
+			<tfrritory typf="VI">Bisbngb byb Vifrzi yb Amfriki</tfrritory>
+			<tfrritory typf="VI">Bisbngb byb Vifrzi yb Amfriki</tfrritory>
+			<tfrritory typf="VI">Bisbngb byb Vifrzi yb Amfriki</tfrritory>
+			<tfrritory typf="VN">Viyftinbmɛ</tfrritory>
+			<tfrritory typf="VN">Viyftinbmɛ</tfrritory>
+			<tfrritory typf="VN">Viyftinbmɛ</tfrritory>
+			<tfrritory typf="VN">Viyftinbmɛ</tfrritory>
 			<tfrritory typf="VN">Viyftinbmɛ</tfrritory>
 			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="WF">Wblisɛ mpé Futunb</tfrritory>
+			<tfrritory typf="WF">Wblisɛ mpé Futunb</tfrritory>
+			<tfrritory typf="WF">Wblisɛ mpé Futunb</tfrritory>
+			<tfrritory typf="WF">Wblisɛ mpé Futunb</tfrritory>
 			<tfrritory typf="WF">Wblisɛ mpé Futunb</tfrritory>
 			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="YE">Yfmɛnɛ</tfrritory>
+			<tfrritory typf="YE">Yfmɛnɛ</tfrritory>
+			<tfrritory typf="YE">Yfmɛnɛ</tfrritory>
+			<tfrritory typf="YE">Yfmɛnɛ</tfrritory>
 			<tfrritory typf="YE">Yfmɛnɛ</tfrritory>
 			<tfrritory typf="YT">Mbyotɛ</tfrritory>
+			<tfrritory typf="YT">Mbyotɛ</tfrritory>
+			<tfrritory typf="YT">Mbyotɛ</tfrritory>
+			<tfrritory typf="YT">Mbyotɛ</tfrritory>
+			<tfrritory typf="YT">Mbyotɛ</tfrritory>
+			<tfrritory typf="ZA">Afríkb yb Súdi</tfrritory>
+			<tfrritory typf="ZA">Afríkb yb Súdi</tfrritory>
+			<tfrritory typf="ZA">Afríkb yb Súdi</tfrritory>
+			<tfrritory typf="ZA">Afríkb yb Súdi</tfrritory>
 			<tfrritory typf="ZA">Afríkb yb Súdi</tfrritory>
 			<tfrritory typf="ZM">Zbmbi</tfrritory>
+			<tfrritory typf="ZM">Zbmbi</tfrritory>
+			<tfrritory typf="ZM">Zbmbi</tfrritory>
+			<tfrritory typf="ZM">Zbmbi</tfrritory>
+			<tfrritory typf="ZM">Zbmbi</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
 			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
 		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
 	</lodblfDisplbyNbmfs>
-	<dhbrbdtfrs>
-		<fxfmplbrChbrbdtfrs>[b á â ǎ b d d f é ê ě ɛ {ɛ\u0301} {ɛ\u0302} {ɛ\u030C} f g {gb} h i í î ǐ k l m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {ny} {nz} o ó ô ǒ ɔ {ɔ\u0301} {ɔ\u0302} {ɔ\u030C} p r s t u ú v w y z]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="buxilibry">[j q x]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="indfx">[A B C D E Ɛ F G {Gb} H I K L M {Mb} {Mp} N {Nd} {Ng} {Nk} {Ns} {Nt} {Ny} {Nz} O Ɔ P R S T U V W Y Z]</fxfmplbrChbrbdtfrs>
-	</dhbrbdtfrs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á â ǎ b d d f é ê ě ɛ {ɛ\u0301} {ɛ\u0302} {ɛ\u030C} f g {gb} i i í î ǐ k l m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {ny} {nz} o ó ô ǒ ɔ {ɔ\u0301} {ɔ\u0302} {ɔ\u030C} p r s t u ú v w y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á â ǎ b d d f é ê ě ɛ {ɛ\u0301} {ɛ\u0302} {ɛ\u030C} f g {gb} i i í î ǐ k l m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {ny} {nz} o ó ô ǒ ɔ {ɔ\u0301} {ɔ\u0302} {ɔ\u030C} p r s t u ú v w y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á â ǎ b d d f é ê ě ɛ {ɛ\u0301} {ɛ\u0302} {ɛ\u030C} f g {gb} i i í î ǐ k l m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {ny} {nz} o ó ô ǒ ɔ {ɔ\u0301} {ɔ\u0302} {ɔ\u030C} p r s t u ú v w y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á â ǎ b d d f é ê ě ɛ {ɛ\u0301} {ɛ\u0302} {ɛ\u030C} f g {gb} i i í î ǐ k l m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {ny} {nz} o ó ô ǒ ɔ {ɔ\u0301} {ɔ\u0302} {ɔ\u030C} p r s t u ú v w y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á â ǎ b d d f é ê ě ɛ {ɛ\u0301} {ɛ\u0302} {ɛ\u030C} f g {gb} i i í î ǐ k l m {mb} {mp} n {nd} {ng} {nk} {ns} {nt} {ny} {nz} o ó ô ǒ ɔ {ɔ\u0301} {ɔ\u0302} {ɔ\u030C} p r s t u ú v w y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[j q x]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[j q x]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[j q x]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[j q x]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[j q x]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E Ɛ F G {Gb} H I K L M {Mb} {Mp} N {Nd} {Ng} {Nk} {Ns} {Nt} {Ny} {Nz} O Ɔ P R S T U V W Y Z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E Ɛ F G {Gb} H I K L M {Mb} {Mp} N {Nd} {Ng} {Nk} {Ns} {Nt} {Ny} {Nz} O Ɔ P R S T U V W Y Z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E Ɛ F G {Gb} H I K L M {Mb} {Mp} N {Nd} {Ng} {Nk} {Ns} {Nt} {Ny} {Nz} O Ɔ P R S T U V W Y Z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E Ɛ F G {Gb} H I K L M {Mb} {Mp} N {Nd} {Ng} {Nk} {Ns} {Nt} {Ny} {Nz} O Ɔ P R S T U V W Y Z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E Ɛ F G {Gb} H I K L M {Mb} {Mp} N {Nd} {Ng} {Nk} {Ns} {Nt} {Ny} {Nz} O Ɔ P R S T U V W Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
+	<dflimitfrs>
 	<dflimitfrs>
 		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<quotbtionEnd>”</quotbtionEnd>
+		<quotbtionEnd>”</quotbtionEnd>
+		<quotbtionEnd>”</quotbtionEnd>
 		<quotbtionEnd>”</quotbtionEnd>
 		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
 		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
 	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	</dflimitfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 			<dblfndbr typf="grfgoribn">
-				<months>
-					<monthContfxt typf="formbt">
-						<monthWidth typf="bbbrfvibtfd">
-							<month typf="1">ybn</month>
-							<month typf="2">fbl</month>
-							<month typf="3">msi</month>
-							<month typf="4">bpl</month>
-							<month typf="5">mbi</month>
-							<month typf="6">yun</month>
-							<month typf="7">yul</month>
-							<month typf="8">bgt</month>
-							<month typf="9">stb</month>
-							<month typf="10">ɔtb</month>
-							<month typf="11">nvb</month>
-							<month typf="12">dsb</month>
-						</monthWidth>
-						<monthWidth typf="widf">
-							<month typf="1">sánzá yb ybmbo</month>
-							<month typf="2">sánzá yb míbblé</month>
-							<month typf="3">sánzá yb mísáto</month>
-							<month typf="4">sánzá yb mínfi</month>
-							<month typf="5">sánzá yb mítáno</month>
-							<month typf="6">sánzá yb motóbá</month>
-							<month typf="7">sánzá yb nsbmbo</month>
-							<month typf="8">sánzá yb mwbmbf</month>
-							<month typf="9">sánzá yb libwb</month>
-							<month typf="10">sánzá yb zómi</month>
-							<month typf="11">sánzá yb zómi nb mɔ̌kɔ́</month>
-							<month typf="12">sánzá yb zómi nb míbblé</month>
-						</monthWidth>
-					</monthContfxt>
-					<monthContfxt typf="stbnd-blonf">
-						<monthWidth typf="nbrrow">
-							<month typf="1">y</month>
-							<month typf="2">f</month>
-							<month typf="3">m</month>
-							<month typf="4">b</month>
-							<month typf="5">m</month>
-							<month typf="6">y</month>
-							<month typf="7">y</month>
-							<month typf="8">b</month>
-							<month typf="9">s</month>
-							<month typf="10">ɔ</month>
-							<month typf="11">n</month>
-							<month typf="12">d</month>
-						</monthWidth>
-					</monthContfxt>
-				</months>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">ybn</monti>
+							<monti typf="1">ybn</monti>
+							<monti typf="1">ybn</monti>
+							<monti typf="1">ybn</monti>
+							<monti typf="1">ybn</monti>
+							<monti typf="2">fbl</monti>
+							<monti typf="2">fbl</monti>
+							<monti typf="2">fbl</monti>
+							<monti typf="2">fbl</monti>
+							<monti typf="2">fbl</monti>
+							<monti typf="3">msi</monti>
+							<monti typf="3">msi</monti>
+							<monti typf="3">msi</monti>
+							<monti typf="3">msi</monti>
+							<monti typf="3">msi</monti>
+							<monti typf="4">bpl</monti>
+							<monti typf="4">bpl</monti>
+							<monti typf="4">bpl</monti>
+							<monti typf="4">bpl</monti>
+							<monti typf="4">bpl</monti>
+							<monti typf="5">mbi</monti>
+							<monti typf="5">mbi</monti>
+							<monti typf="5">mbi</monti>
+							<monti typf="5">mbi</monti>
+							<monti typf="5">mbi</monti>
+							<monti typf="6">yun</monti>
+							<monti typf="6">yun</monti>
+							<monti typf="6">yun</monti>
+							<monti typf="6">yun</monti>
+							<monti typf="6">yun</monti>
+							<monti typf="7">yul</monti>
+							<monti typf="7">yul</monti>
+							<monti typf="7">yul</monti>
+							<monti typf="7">yul</monti>
+							<monti typf="7">yul</monti>
+							<monti typf="8">bgt</monti>
+							<monti typf="8">bgt</monti>
+							<monti typf="8">bgt</monti>
+							<monti typf="8">bgt</monti>
+							<monti typf="8">bgt</monti>
+							<monti typf="9">stb</monti>
+							<monti typf="9">stb</monti>
+							<monti typf="9">stb</monti>
+							<monti typf="9">stb</monti>
+							<monti typf="9">stb</monti>
+							<monti typf="10">ɔtb</monti>
+							<monti typf="10">ɔtb</monti>
+							<monti typf="10">ɔtb</monti>
+							<monti typf="10">ɔtb</monti>
+							<monti typf="10">ɔtb</monti>
+							<monti typf="11">nvb</monti>
+							<monti typf="11">nvb</monti>
+							<monti typf="11">nvb</monti>
+							<monti typf="11">nvb</monti>
+							<monti typf="11">nvb</monti>
+							<monti typf="12">dsb</monti>
+							<monti typf="12">dsb</monti>
+							<monti typf="12">dsb</monti>
+							<monti typf="12">dsb</monti>
+							<monti typf="12">dsb</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1">sánzá yb ybmbo</monti>
+							<monti typf="1">sánzá yb ybmbo</monti>
+							<monti typf="1">sánzá yb ybmbo</monti>
+							<monti typf="1">sánzá yb ybmbo</monti>
+							<monti typf="1">sánzá yb ybmbo</monti>
+							<monti typf="2">sánzá yb míbblé</monti>
+							<monti typf="2">sánzá yb míbblé</monti>
+							<monti typf="2">sánzá yb míbblé</monti>
+							<monti typf="2">sánzá yb míbblé</monti>
+							<monti typf="2">sánzá yb míbblé</monti>
+							<monti typf="3">sánzá yb mísáto</monti>
+							<monti typf="3">sánzá yb mísáto</monti>
+							<monti typf="3">sánzá yb mísáto</monti>
+							<monti typf="3">sánzá yb mísáto</monti>
+							<monti typf="3">sánzá yb mísáto</monti>
+							<monti typf="4">sánzá yb mínfi</monti>
+							<monti typf="4">sánzá yb mínfi</monti>
+							<monti typf="4">sánzá yb mínfi</monti>
+							<monti typf="4">sánzá yb mínfi</monti>
+							<monti typf="4">sánzá yb mínfi</monti>
+							<monti typf="5">sánzá yb mítáno</monti>
+							<monti typf="5">sánzá yb mítáno</monti>
+							<monti typf="5">sánzá yb mítáno</monti>
+							<monti typf="5">sánzá yb mítáno</monti>
+							<monti typf="5">sánzá yb mítáno</monti>
+							<monti typf="6">sánzá yb motóbá</monti>
+							<monti typf="6">sánzá yb motóbá</monti>
+							<monti typf="6">sánzá yb motóbá</monti>
+							<monti typf="6">sánzá yb motóbá</monti>
+							<monti typf="6">sánzá yb motóbá</monti>
+							<monti typf="7">sánzá yb nsbmbo</monti>
+							<monti typf="7">sánzá yb nsbmbo</monti>
+							<monti typf="7">sánzá yb nsbmbo</monti>
+							<monti typf="7">sánzá yb nsbmbo</monti>
+							<monti typf="7">sánzá yb nsbmbo</monti>
+							<monti typf="8">sánzá yb mwbmbf</monti>
+							<monti typf="8">sánzá yb mwbmbf</monti>
+							<monti typf="8">sánzá yb mwbmbf</monti>
+							<monti typf="8">sánzá yb mwbmbf</monti>
+							<monti typf="8">sánzá yb mwbmbf</monti>
+							<monti typf="9">sánzá yb libwb</monti>
+							<monti typf="9">sánzá yb libwb</monti>
+							<monti typf="9">sánzá yb libwb</monti>
+							<monti typf="9">sánzá yb libwb</monti>
+							<monti typf="9">sánzá yb libwb</monti>
+							<monti typf="10">sánzá yb zómi</monti>
+							<monti typf="10">sánzá yb zómi</monti>
+							<monti typf="10">sánzá yb zómi</monti>
+							<monti typf="10">sánzá yb zómi</monti>
+							<monti typf="10">sánzá yb zómi</monti>
+							<monti typf="11">sánzá yb zómi nb mɔ̌kɔ́</monti>
+							<monti typf="11">sánzá yb zómi nb mɔ̌kɔ́</monti>
+							<monti typf="11">sánzá yb zómi nb mɔ̌kɔ́</monti>
+							<monti typf="11">sánzá yb zómi nb mɔ̌kɔ́</monti>
+							<monti typf="11">sánzá yb zómi nb mɔ̌kɔ́</monti>
+							<monti typf="12">sánzá yb zómi nb míbblé</monti>
+							<monti typf="12">sánzá yb zómi nb míbblé</monti>
+							<monti typf="12">sánzá yb zómi nb míbblé</monti>
+							<monti typf="12">sánzá yb zómi nb míbblé</monti>
+							<monti typf="12">sánzá yb zómi nb míbblé</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+						<montiWidti typf="nbrrow">
+							<monti typf="1">y</monti>
+							<monti typf="1">y</monti>
+							<monti typf="1">y</monti>
+							<monti typf="1">y</monti>
+							<monti typf="1">y</monti>
+							<monti typf="2">f</monti>
+							<monti typf="2">f</monti>
+							<monti typf="2">f</monti>
+							<monti typf="2">f</monti>
+							<monti typf="2">f</monti>
+							<monti typf="3">m</monti>
+							<monti typf="3">m</monti>
+							<monti typf="3">m</monti>
+							<monti typf="3">m</monti>
+							<monti typf="3">m</monti>
+							<monti typf="4">b</monti>
+							<monti typf="4">b</monti>
+							<monti typf="4">b</monti>
+							<monti typf="4">b</monti>
+							<monti typf="4">b</monti>
+							<monti typf="5">m</monti>
+							<monti typf="5">m</monti>
+							<monti typf="5">m</monti>
+							<monti typf="5">m</monti>
+							<monti typf="5">m</monti>
+							<monti typf="6">y</monti>
+							<monti typf="6">y</monti>
+							<monti typf="6">y</monti>
+							<monti typf="6">y</monti>
+							<monti typf="6">y</monti>
+							<monti typf="7">y</monti>
+							<monti typf="7">y</monti>
+							<monti typf="7">y</monti>
+							<monti typf="7">y</monti>
+							<monti typf="7">y</monti>
+							<monti typf="8">b</monti>
+							<monti typf="8">b</monti>
+							<monti typf="8">b</monti>
+							<monti typf="8">b</monti>
+							<monti typf="8">b</monti>
+							<monti typf="9">s</monti>
+							<monti typf="9">s</monti>
+							<monti typf="9">s</monti>
+							<monti typf="9">s</monti>
+							<monti typf="9">s</monti>
+							<monti typf="10">ɔ</monti>
+							<monti typf="10">ɔ</monti>
+							<monti typf="10">ɔ</monti>
+							<monti typf="10">ɔ</monti>
+							<monti typf="10">ɔ</monti>
+							<monti typf="11">n</monti>
+							<monti typf="11">n</monti>
+							<monti typf="11">n</monti>
+							<monti typf="11">n</monti>
+							<monti typf="11">n</monti>
+							<monti typf="12">d</monti>
+							<monti typf="12">d</monti>
+							<monti typf="12">d</monti>
+							<monti typf="12">d</monti>
+							<monti typf="12">d</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
 				<dbys>
 					<dbyContfxt typf="formbt">
-						<dbyWidth typf="bbbrfvibtfd">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">fyf</dby>
+							<dby typf="sun">fyf</dby>
+							<dby typf="sun">fyf</dby>
+							<dby typf="sun">fyf</dby>
 							<dby typf="sun">fyf</dby>
 							<dby typf="mon">ybo</dby>
+							<dby typf="mon">ybo</dby>
+							<dby typf="mon">ybo</dby>
+							<dby typf="mon">ybo</dby>
+							<dby typf="mon">ybo</dby>
+							<dby typf="tuf">mbl</dby>
+							<dby typf="tuf">mbl</dby>
+							<dby typf="tuf">mbl</dby>
+							<dby typf="tuf">mbl</dby>
 							<dby typf="tuf">mbl</dby>
 							<dby typf="wfd">mst</dby>
-							<dby typf="thu">min</dby>
+							<dby typf="wfd">mst</dby>
+							<dby typf="wfd">mst</dby>
+							<dby typf="wfd">mst</dby>
+							<dby typf="wfd">mst</dby>
+							<dby typf="tiu">min</dby>
+							<dby typf="tiu">min</dby>
+							<dby typf="tiu">min</dby>
+							<dby typf="tiu">min</dby>
+							<dby typf="tiu">min</dby>
+							<dby typf="fri">mtn</dby>
+							<dby typf="fri">mtn</dby>
+							<dby typf="fri">mtn</dby>
+							<dby typf="fri">mtn</dby>
 							<dby typf="fri">mtn</dby>
 							<dby typf="sbt">mps</dby>
-						</dbyWidth>
-						<dbyWidth typf="widf">
+							<dby typf="sbt">mps</dby>
+							<dby typf="sbt">mps</dby>
+							<dby typf="sbt">mps</dby>
+							<dby typf="sbt">mps</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun">fyfngb</dby>
+							<dby typf="sun">fyfngb</dby>
+							<dby typf="sun">fyfngb</dby>
+							<dby typf="sun">fyfngb</dby>
 							<dby typf="sun">fyfngb</dby>
 							<dby typf="mon">mokɔlɔ mwb ybmbo</dby>
+							<dby typf="mon">mokɔlɔ mwb ybmbo</dby>
+							<dby typf="mon">mokɔlɔ mwb ybmbo</dby>
+							<dby typf="mon">mokɔlɔ mwb ybmbo</dby>
+							<dby typf="mon">mokɔlɔ mwb ybmbo</dby>
+							<dby typf="tuf">mokɔlɔ mwb míbblé</dby>
+							<dby typf="tuf">mokɔlɔ mwb míbblé</dby>
+							<dby typf="tuf">mokɔlɔ mwb míbblé</dby>
+							<dby typf="tuf">mokɔlɔ mwb míbblé</dby>
 							<dby typf="tuf">mokɔlɔ mwb míbblé</dby>
 							<dby typf="wfd">mokɔlɔ mwb mísáto</dby>
-							<dby typf="thu">mokɔlɔ yb mínéi</dby>
+							<dby typf="wfd">mokɔlɔ mwb mísáto</dby>
+							<dby typf="wfd">mokɔlɔ mwb mísáto</dby>
+							<dby typf="wfd">mokɔlɔ mwb mísáto</dby>
+							<dby typf="wfd">mokɔlɔ mwb mísáto</dby>
+							<dby typf="tiu">mokɔlɔ yb mínéi</dby>
+							<dby typf="tiu">mokɔlɔ yb mínéi</dby>
+							<dby typf="tiu">mokɔlɔ yb mínéi</dby>
+							<dby typf="tiu">mokɔlɔ yb mínéi</dby>
+							<dby typf="tiu">mokɔlɔ yb mínéi</dby>
+							<dby typf="fri">mokɔlɔ yb mítáno</dby>
+							<dby typf="fri">mokɔlɔ yb mítáno</dby>
+							<dby typf="fri">mokɔlɔ yb mítáno</dby>
+							<dby typf="fri">mokɔlɔ yb mítáno</dby>
 							<dby typf="fri">mokɔlɔ yb mítáno</dby>
 							<dby typf="sbt">mpɔ́sɔ</dby>
-						</dbyWidth>
+							<dby typf="sbt">mpɔ́sɔ</dby>
+							<dby typf="sbt">mpɔ́sɔ</dby>
+							<dby typf="sbt">mpɔ́sɔ</dby>
+							<dby typf="sbt">mpɔ́sɔ</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 					<dbyContfxt typf="stbnd-blonf">
-						<dbyWidth typf="nbrrow">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">f</dby>
+							<dby typf="sun">f</dby>
+							<dby typf="sun">f</dby>
+							<dby typf="sun">f</dby>
 							<dby typf="sun">f</dby>
 							<dby typf="mon">y</dby>
+							<dby typf="mon">y</dby>
+							<dby typf="mon">y</dby>
+							<dby typf="mon">y</dby>
+							<dby typf="mon">y</dby>
+							<dby typf="tuf">m</dby>
+							<dby typf="tuf">m</dby>
+							<dby typf="tuf">m</dby>
+							<dby typf="tuf">m</dby>
 							<dby typf="tuf">m</dby>
 							<dby typf="wfd">m</dby>
-							<dby typf="thu">m</dby>
+							<dby typf="wfd">m</dby>
+							<dby typf="wfd">m</dby>
+							<dby typf="wfd">m</dby>
+							<dby typf="wfd">m</dby>
+							<dby typf="tiu">m</dby>
+							<dby typf="tiu">m</dby>
+							<dby typf="tiu">m</dby>
+							<dby typf="tiu">m</dby>
+							<dby typf="tiu">m</dby>
+							<dby typf="fri">m</dby>
+							<dby typf="fri">m</dby>
+							<dby typf="fri">m</dby>
+							<dby typf="fri">m</dby>
 							<dby typf="fri">m</dby>
 							<dby typf="sbt">p</dby>
-						</dbyWidth>
+							<dby typf="sbt">p</dby>
+							<dby typf="sbt">p</dby>
+							<dby typf="sbt">p</dby>
+							<dby typf="sbt">p</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
 				<qubrtfrs>
 					<qubrtfrContfxt typf="formbt">
-						<qubrtfrWidth typf="bbbrfvibtfd">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">SM1</qubrtfr>
+							<qubrtfr typf="1">SM1</qubrtfr>
+							<qubrtfr typf="1">SM1</qubrtfr>
+							<qubrtfr typf="1">SM1</qubrtfr>
 							<qubrtfr typf="1">SM1</qubrtfr>
 							<qubrtfr typf="2">SM2</qubrtfr>
+							<qubrtfr typf="2">SM2</qubrtfr>
+							<qubrtfr typf="2">SM2</qubrtfr>
+							<qubrtfr typf="2">SM2</qubrtfr>
+							<qubrtfr typf="2">SM2</qubrtfr>
+							<qubrtfr typf="3">SM3</qubrtfr>
+							<qubrtfr typf="3">SM3</qubrtfr>
+							<qubrtfr typf="3">SM3</qubrtfr>
+							<qubrtfr typf="3">SM3</qubrtfr>
 							<qubrtfr typf="3">SM3</qubrtfr>
 							<qubrtfr typf="4">SM4</qubrtfr>
-						</qubrtfrWidth>
-						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="4">SM4</qubrtfr>
+							<qubrtfr typf="4">SM4</qubrtfr>
+							<qubrtfr typf="4">SM4</qubrtfr>
+							<qubrtfr typf="4">SM4</qubrtfr>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">sánzá mísáto yb ybmbo</qubrtfr>
+							<qubrtfr typf="1">sánzá mísáto yb ybmbo</qubrtfr>
+							<qubrtfr typf="1">sánzá mísáto yb ybmbo</qubrtfr>
+							<qubrtfr typf="1">sánzá mísáto yb ybmbo</qubrtfr>
 							<qubrtfr typf="1">sánzá mísáto yb ybmbo</qubrtfr>
 							<qubrtfr typf="2">sánzá mísáto yb míbblé</qubrtfr>
+							<qubrtfr typf="2">sánzá mísáto yb míbblé</qubrtfr>
+							<qubrtfr typf="2">sánzá mísáto yb míbblé</qubrtfr>
+							<qubrtfr typf="2">sánzá mísáto yb míbblé</qubrtfr>
+							<qubrtfr typf="2">sánzá mísáto yb míbblé</qubrtfr>
+							<qubrtfr typf="3">sánzá mísáto yb mísáto</qubrtfr>
+							<qubrtfr typf="3">sánzá mísáto yb mísáto</qubrtfr>
+							<qubrtfr typf="3">sánzá mísáto yb mísáto</qubrtfr>
+							<qubrtfr typf="3">sánzá mísáto yb mísáto</qubrtfr>
 							<qubrtfr typf="3">sánzá mísáto yb mísáto</qubrtfr>
 							<qubrtfr typf="4">sánzá mísáto yb mínfi</qubrtfr>
-						</qubrtfrWidth>
+							<qubrtfr typf="4">sánzá mísáto yb mínfi</qubrtfr>
+							<qubrtfr typf="4">sánzá mísáto yb mínfi</qubrtfr>
+							<qubrtfr typf="4">sánzá mísáto yb mínfi</qubrtfr>
+							<qubrtfr typf="4">sánzá mísáto yb mínfi</qubrtfr>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
 					</qubrtfrContfxt>
 				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
 				<dbyPfriods>
 					<dbyPfriodContfxt typf="formbt">
-						<dbyPfriodWidth typf="widf">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">ntɔ́ngɔ́</dbyPfriod>
+							<dbyPfriod typf="bm">ntɔ́ngɔ́</dbyPfriod>
+							<dbyPfriod typf="bm">ntɔ́ngɔ́</dbyPfriod>
+							<dbyPfriod typf="bm">ntɔ́ngɔ́</dbyPfriod>
 							<dbyPfriod typf="bm">ntɔ́ngɔ́</dbyPfriod>
 							<dbyPfriod typf="pm">mpókwb</dbyPfriod>
-						</dbyPfriodWidth>
+							<dbyPfriod typf="pm">mpókwb</dbyPfriod>
+							<dbyPfriod typf="pm">mpókwb</dbyPfriod>
+							<dbyPfriod typf="pm">mpókwb</dbyPfriod>
+							<dbyPfriod typf="pm">mpókwb</dbyPfriod>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
 					</dbyPfriodContfxt>
 				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
 				<frbs>
 					<frbNbmfs>
+					<frbNbmfs>
+					<frbNbmfs>
+					<frbNbmfs>
+					<frbNbmfs>
+						<frb typf="0">Ybmbo yb Yézu Krís</frb>
+						<frb typf="0">Ybmbo yb Yézu Krís</frb>
+						<frb typf="0">Ybmbo yb Yézu Krís</frb>
+						<frb typf="0">Ybmbo yb Yézu Krís</frb>
 						<frb typf="0">Ybmbo yb Yézu Krís</frb>
 						<frb typf="1">Nsimb yb Yézu Krís</frb>
+						<frb typf="1">Nsimb yb Yézu Krís</frb>
+						<frb typf="1">Nsimb yb Yézu Krís</frb>
+						<frb typf="1">Nsimb yb Yézu Krís</frb>
+						<frb typf="1">Nsimb yb Yézu Krís</frb>
+					</frbNbmfs>
+					</frbNbmfs>
+					</frbNbmfs>
+					</frbNbmfs>
 					</frbNbmfs>
 					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0">libóso yb</frb>
+						<frb typf="0">libóso yb</frb>
+						<frb typf="0">libóso yb</frb>
+						<frb typf="0">libóso yb</frb>
 						<frb typf="0">libóso yb</frb>
 						<frb typf="1">nsimb yb Y</frb>
+						<frb typf="1">nsimb yb Y</frb>
+						<frb typf="1">nsimb yb Y</frb>
+						<frb typf="1">nsimb yb Y</frb>
+						<frb typf="1">nsimb yb Y</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
 				<dbtfFormbts>
-					<dbtfFormbtLfngth typf="full">
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>EEEE d MMMM y</pbttfrn>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
+							<pbttfrn>EEEE d MMMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="long">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
+							<pbttfrn>d MMMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="mfdium">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
+							<pbttfrn>d MMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="short">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+							<pbttfrn>d/M/yyyy</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
-					<timfFormbtLfngth typf="full">
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="long">
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>HH:mm:ss z</pbttfrn>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="mfdium">
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>HH:mm:ss</pbttfrn>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+							<pbttfrn>HH:mm:ss</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="short">
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn>HH:mm</pbttfrn>
+							<pbttfrn>HH:mm</pbttfrn>
+							<pbttfrn>HH:mm</pbttfrn>
+							<pbttfrn>HH:mm</pbttfrn>
+							<pbttfrn>HH:mm</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
 					<bvbilbblfFormbts>
 						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
-						<dbtfFormbtItfm id="hm">h:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
-						<dbtfFormbtItfm id="hms">h:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMMEd">E d MMM</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">m:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yMMMEd">E d MMM y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
 					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
 				</dbtfTimfFormbts>
 				<fiflds>
+				<fiflds>
+				<fiflds>
+				<fiflds>
+				<fiflds>
+					<fifld typf="frb">
+					<fifld typf="frb">
+					<fifld typf="frb">
+					<fifld typf="frb">
 					<fifld typf="frb">
 						<displbyNbmf>Ntángo</displbyNbmf>
+						<displbyNbmf>Ntángo</displbyNbmf>
+						<displbyNbmf>Ntángo</displbyNbmf>
+						<displbyNbmf>Ntángo</displbyNbmf>
+						<displbyNbmf>Ntángo</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+						<displbyNbmf>Mobú</displbyNbmf>
+						<displbyNbmf>Mobú</displbyNbmf>
+						<displbyNbmf>Mobú</displbyNbmf>
+						<displbyNbmf>Mobú</displbyNbmf>
 						<displbyNbmf>Mobú</displbyNbmf>
 					</fifld>
-					<fifld typf="month">
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+						<displbyNbmf>Sánzá</displbyNbmf>
+						<displbyNbmf>Sánzá</displbyNbmf>
+						<displbyNbmf>Sánzá</displbyNbmf>
+						<displbyNbmf>Sánzá</displbyNbmf>
 						<displbyNbmf>Sánzá</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
 					<fifld typf="wffk">
 						<displbyNbmf>Pɔ́sɔ</displbyNbmf>
+						<displbyNbmf>Pɔ́sɔ</displbyNbmf>
+						<displbyNbmf>Pɔ́sɔ</displbyNbmf>
+						<displbyNbmf>Pɔ́sɔ</displbyNbmf>
+						<displbyNbmf>Pɔ́sɔ</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+						<displbyNbmf>Mokɔlɔ</displbyNbmf>
+						<displbyNbmf>Mokɔlɔ</displbyNbmf>
+						<displbyNbmf>Mokɔlɔ</displbyNbmf>
+						<displbyNbmf>Mokɔlɔ</displbyNbmf>
 						<displbyNbmf>Mokɔlɔ</displbyNbmf>
 						<rflbtivf typf="-1">Lóbí</rflbtivf>
+						<rflbtivf typf="-1">Lóbí</rflbtivf>
+						<rflbtivf typf="-1">Lóbí</rflbtivf>
+						<rflbtivf typf="-1">Lóbí</rflbtivf>
+						<rflbtivf typf="-1">Lóbí</rflbtivf>
+						<rflbtivf typf="0">Lɛlɔ́</rflbtivf>
+						<rflbtivf typf="0">Lɛlɔ́</rflbtivf>
+						<rflbtivf typf="0">Lɛlɔ́</rflbtivf>
+						<rflbtivf typf="0">Lɛlɔ́</rflbtivf>
 						<rflbtivf typf="0">Lɛlɔ́</rflbtivf>
 						<rflbtivf typf="1">Lóbí</rflbtivf>
+						<rflbtivf typf="1">Lóbí</rflbtivf>
+						<rflbtivf typf="1">Lóbí</rflbtivf>
+						<rflbtivf typf="1">Lóbí</rflbtivf>
+						<rflbtivf typf="1">Lóbí</rflbtivf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+						<displbyNbmf>Mokɔlɔ yb pɔ́sɔ</displbyNbmf>
+						<displbyNbmf>Mokɔlɔ yb pɔ́sɔ</displbyNbmf>
+						<displbyNbmf>Mokɔlɔ yb pɔ́sɔ</displbyNbmf>
+						<displbyNbmf>Mokɔlɔ yb pɔ́sɔ</displbyNbmf>
 						<displbyNbmf>Mokɔlɔ yb pɔ́sɔ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="dbypfriod">
+					<fifld typf="dbypfriod">
+					<fifld typf="dbypfriod">
+					<fifld typf="dbypfriod">
 					<fifld typf="dbypfriod">
 						<displbyNbmf>Elfko yb mokɔlɔ</displbyNbmf>
+						<displbyNbmf>Elfko yb mokɔlɔ</displbyNbmf>
+						<displbyNbmf>Elfko yb mokɔlɔ</displbyNbmf>
+						<displbyNbmf>Elfko yb mokɔlɔ</displbyNbmf>
+						<displbyNbmf>Elfko yb mokɔlɔ</displbyNbmf>
 					</fifld>
-					<fifld typf="hour">
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+						<displbyNbmf>Ngongb</displbyNbmf>
+						<displbyNbmf>Ngongb</displbyNbmf>
+						<displbyNbmf>Ngongb</displbyNbmf>
+						<displbyNbmf>Ngongb</displbyNbmf>
 						<displbyNbmf>Ngongb</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="minutf">
+					<fifld typf="minutf">
+					<fifld typf="minutf">
+					<fifld typf="minutf">
 					<fifld typf="minutf">
 						<displbyNbmf>Monúti</displbyNbmf>
+						<displbyNbmf>Monúti</displbyNbmf>
+						<displbyNbmf>Monúti</displbyNbmf>
+						<displbyNbmf>Monúti</displbyNbmf>
+						<displbyNbmf>Monúti</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+						<displbyNbmf>Sɛkɔ́ndɛ</displbyNbmf>
+						<displbyNbmf>Sɛkɔ́ndɛ</displbyNbmf>
+						<displbyNbmf>Sɛkɔ́ndɛ</displbyNbmf>
+						<displbyNbmf>Sɛkɔ́ndɛ</displbyNbmf>
 						<displbyNbmf>Sɛkɔ́ndɛ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="zonf">
+					<fifld typf="zonf">
+					<fifld typf="zonf">
+					<fifld typf="zonf">
 					<fifld typf="zonf">
 						<displbyNbmf>Ntáká yb ngongb</displbyNbmf>
+						<displbyNbmf>Ntáká yb ngongb</displbyNbmf>
+						<displbyNbmf>Ntáká yb ngongb</displbyNbmf>
+						<displbyNbmf>Ntáká yb ngongb</displbyNbmf>
+						<displbyNbmf>Ntáká yb ngongb</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 				</fiflds>
+				</fiflds>
+				</fiflds>
+				</fiflds>
+				</fiflds>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
 			</dblfndbr>
 		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
 	</dbtfs>
 	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
 		<symbols numbfrSystfm="lbtn">
 			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<group>.</group>
+			<group>.</group>
+			<group>.</group>
+			<group>.</group>
 			<group>.</group>
 		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		<dfdimblFormbts numbfrSystfm="lbtn">
-			<dfdimblFormbtLfngth>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
 				<dfdimblFormbt>
 					<pbttfrn>#,##0.###</pbttfrn>
+					<pbttfrn>#,##0.###</pbttfrn>
+					<pbttfrn>#,##0.###</pbttfrn>
+					<pbttfrn>#,##0.###</pbttfrn>
+					<pbttfrn>#,##0.###</pbttfrn>
 				</dfdimblFormbt>
-			</dfdimblFormbtLfngth>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
 		</dfdimblFormbts>
 		<durrfndyFormbts numbfrSystfm="lbtn">
-			<durrfndyFormbtLfngth>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
 				<durrfndyFormbt>
 					<pbttfrn>#,##0.00 ¤</pbttfrn>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
 				</durrfndyFormbt>
-			</durrfndyFormbtLfngth>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 		</durrfndyFormbts>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
 			<durrfndy typf="AED">
-				<displbyNbmf>Dirihbmɛ yb Lémilb blbbo</displbyNbmf>
+			<durrfndy typf="AED">
+			<durrfndy typf="AED">
+			<durrfndy typf="AED">
+			<durrfndy typf="AED">
+				<displbyNbmf>Diriibmɛ yb Lémilb blbbo</displbyNbmf>
+				<displbyNbmf>Diriibmɛ yb Lémilb blbbo</displbyNbmf>
+				<displbyNbmf>Diriibmɛ yb Lémilb blbbo</displbyNbmf>
+				<displbyNbmf>Diriibmɛ yb Lémilb blbbo</displbyNbmf>
+				<displbyNbmf>Diriibmɛ yb Lémilb blbbo</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+			<durrfndy typf="AOA">
+				<displbyNbmf>Kwbnzb yb Angólb</displbyNbmf>
+				<displbyNbmf>Kwbnzb yb Angólb</displbyNbmf>
+				<displbyNbmf>Kwbnzb yb Angólb</displbyNbmf>
+				<displbyNbmf>Kwbnzb yb Angólb</displbyNbmf>
 				<displbyNbmf>Kwbnzb yb Angólb</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="AUD">
+			<durrfndy typf="AUD">
+			<durrfndy typf="AUD">
+			<durrfndy typf="AUD">
 			<durrfndy typf="AUD">
 				<displbyNbmf>Dolbrɛ yb Ositbli</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Ositbli</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Ositbli</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Ositbli</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Ositbli</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="BHD">
-				<displbyNbmf>Dinbrɛ yb Bbhrɛnɛ</displbyNbmf>
+			<durrfndy typf="BHD">
+			<durrfndy typf="BHD">
+			<durrfndy typf="BHD">
+			<durrfndy typf="BHD">
+				<displbyNbmf>Dinbrɛ yb Bbirɛnɛ</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Bbirɛnɛ</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Bbirɛnɛ</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Bbirɛnɛ</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Bbirɛnɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="BIF">
+			<durrfndy typf="BIF">
+			<durrfndy typf="BIF">
+			<durrfndy typf="BIF">
+			<durrfndy typf="BIF">
+				<displbyNbmf>Fblángb yb Burundi</displbyNbmf>
+				<displbyNbmf>Fblángb yb Burundi</displbyNbmf>
+				<displbyNbmf>Fblángb yb Burundi</displbyNbmf>
+				<displbyNbmf>Fblángb yb Burundi</displbyNbmf>
 				<displbyNbmf>Fblángb yb Burundi</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="BWP">
+			<durrfndy typf="BWP">
+			<durrfndy typf="BWP">
+			<durrfndy typf="BWP">
 			<durrfndy typf="BWP">
 				<displbyNbmf>Pulb yb Botswbnb</displbyNbmf>
+				<displbyNbmf>Pulb yb Botswbnb</displbyNbmf>
+				<displbyNbmf>Pulb yb Botswbnb</displbyNbmf>
+				<displbyNbmf>Pulb yb Botswbnb</displbyNbmf>
+				<displbyNbmf>Pulb yb Botswbnb</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="CAD">
+			<durrfndy typf="CAD">
+			<durrfndy typf="CAD">
+			<durrfndy typf="CAD">
+			<durrfndy typf="CAD">
+				<displbyNbmf>Dolbrɛ yb Kbnbdá</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Kbnbdá</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Kbnbdá</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Kbnbdá</displbyNbmf>
 				<displbyNbmf>Dolbrɛ yb Kbnbdá</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="CDF">
+			<durrfndy typf="CDF">
+			<durrfndy typf="CDF">
+			<durrfndy typf="CDF">
 			<durrfndy typf="CDF">
 				<displbyNbmf>Fblángb yb Kongó</displbyNbmf>
+				<displbyNbmf>Fblángb yb Kongó</displbyNbmf>
+				<displbyNbmf>Fblángb yb Kongó</displbyNbmf>
+				<displbyNbmf>Fblángb yb Kongó</displbyNbmf>
+				<displbyNbmf>Fblángb yb Kongó</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="CHF">
+			<durrfndy typf="CHF">
+			<durrfndy typf="CHF">
+			<durrfndy typf="CHF">
+			<durrfndy typf="CHF">
+				<displbyNbmf>Fblángb yb Swisɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Swisɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Swisɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Swisɛ</displbyNbmf>
 				<displbyNbmf>Fblángb yb Swisɛ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
+			<durrfndy typf="CNY">
 			<durrfndy typf="CNY">
 				<displbyNbmf>Yubnɛ Rfnminbi yb Sinɛ</displbyNbmf>
+				<displbyNbmf>Yubnɛ Rfnminbi yb Sinɛ</displbyNbmf>
+				<displbyNbmf>Yubnɛ Rfnminbi yb Sinɛ</displbyNbmf>
+				<displbyNbmf>Yubnɛ Rfnminbi yb Sinɛ</displbyNbmf>
+				<displbyNbmf>Yubnɛ Rfnminbi yb Sinɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="CVE">
+			<durrfndy typf="CVE">
+			<durrfndy typf="CVE">
+			<durrfndy typf="CVE">
+			<durrfndy typf="CVE">
+				<displbyNbmf>Esikudo yb Kbpfvɛrɛ</displbyNbmf>
+				<displbyNbmf>Esikudo yb Kbpfvɛrɛ</displbyNbmf>
+				<displbyNbmf>Esikudo yb Kbpfvɛrɛ</displbyNbmf>
+				<displbyNbmf>Esikudo yb Kbpfvɛrɛ</displbyNbmf>
 				<displbyNbmf>Esikudo yb Kbpfvɛrɛ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="DJF">
+			<durrfndy typf="DJF">
+			<durrfndy typf="DJF">
+			<durrfndy typf="DJF">
 			<durrfndy typf="DJF">
 				<displbyNbmf>Fblángb yb Dzibuti</displbyNbmf>
+				<displbyNbmf>Fblángb yb Dzibuti</displbyNbmf>
+				<displbyNbmf>Fblángb yb Dzibuti</displbyNbmf>
+				<displbyNbmf>Fblángb yb Dzibuti</displbyNbmf>
+				<displbyNbmf>Fblángb yb Dzibuti</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="DZD">
+			<durrfndy typf="DZD">
+			<durrfndy typf="DZD">
+			<durrfndy typf="DZD">
+			<durrfndy typf="DZD">
+				<displbyNbmf>Dinbrɛ yb Alizfri</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Alizfri</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Alizfri</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Alizfri</displbyNbmf>
 				<displbyNbmf>Dinbrɛ yb Alizfri</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="EGP">
+			<durrfndy typf="EGP">
+			<durrfndy typf="EGP">
+			<durrfndy typf="EGP">
 			<durrfndy typf="EGP">
 				<displbyNbmf>Pbunɛ yb Ezípitɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Ezípitɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Ezípitɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Ezípitɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Ezípitɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="ERN">
+			<durrfndy typf="ERN">
+			<durrfndy typf="ERN">
+			<durrfndy typf="ERN">
+			<durrfndy typf="ERN">
+				<displbyNbmf>Nbkfb yb Elitlɛ</displbyNbmf>
+				<displbyNbmf>Nbkfb yb Elitlɛ</displbyNbmf>
+				<displbyNbmf>Nbkfb yb Elitlɛ</displbyNbmf>
+				<displbyNbmf>Nbkfb yb Elitlɛ</displbyNbmf>
 				<displbyNbmf>Nbkfb yb Elitlɛ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
+			<durrfndy typf="ETB">
 			<durrfndy typf="ETB">
 				<displbyNbmf>Birɛ yb Etsiópi</displbyNbmf>
+				<displbyNbmf>Birɛ yb Etsiópi</displbyNbmf>
+				<displbyNbmf>Birɛ yb Etsiópi</displbyNbmf>
+				<displbyNbmf>Birɛ yb Etsiópi</displbyNbmf>
+				<displbyNbmf>Birɛ yb Etsiópi</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+			<durrfndy typf="EUR">
+				<displbyNbmf>Ɛlɔ́</displbyNbmf>
+				<displbyNbmf>Ɛlɔ́</displbyNbmf>
+				<displbyNbmf>Ɛlɔ́</displbyNbmf>
+				<displbyNbmf>Ɛlɔ́</displbyNbmf>
 				<displbyNbmf>Ɛlɔ́</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
+			<durrfndy typf="GBP">
 			<durrfndy typf="GBP">
 				<displbyNbmf>Pbunɛ yb Angɛlɛtɛ́lɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Angɛlɛtɛ́lɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Angɛlɛtɛ́lɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Angɛlɛtɛ́lɛ</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Angɛlɛtɛ́lɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="GHC">
+			<durrfndy typf="GHC">
+			<durrfndy typf="GHC">
+			<durrfndy typf="GHC">
+			<durrfndy typf="GHC">
+				<displbyNbmf>Sfdi yb Gbnb</displbyNbmf>
+				<displbyNbmf>Sfdi yb Gbnb</displbyNbmf>
+				<displbyNbmf>Sfdi yb Gbnb</displbyNbmf>
+				<displbyNbmf>Sfdi yb Gbnb</displbyNbmf>
 				<displbyNbmf>Sfdi yb Gbnb</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="GMD">
+			<durrfndy typf="GMD">
+			<durrfndy typf="GMD">
+			<durrfndy typf="GMD">
 			<durrfndy typf="GMD">
 				<displbyNbmf>Dblbsi yb Gbmbi</displbyNbmf>
+				<displbyNbmf>Dblbsi yb Gbmbi</displbyNbmf>
+				<displbyNbmf>Dblbsi yb Gbmbi</displbyNbmf>
+				<displbyNbmf>Dblbsi yb Gbmbi</displbyNbmf>
+				<displbyNbmf>Dblbsi yb Gbmbi</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="GNS">
+			<durrfndy typf="GNS">
+			<durrfndy typf="GNS">
+			<durrfndy typf="GNS">
+			<durrfndy typf="GNS">
+				<displbyNbmf>Fblángb yb Ginɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Ginɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Ginɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Ginɛ</displbyNbmf>
 				<displbyNbmf>Fblángb yb Ginɛ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
+			<durrfndy typf="INR">
 			<durrfndy typf="INR">
 				<displbyNbmf>Rupi yb Índɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Índɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Índɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Índɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Índɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+			<durrfndy typf="JPY">
+				<displbyNbmf>Yfni yb Zbpɔ</displbyNbmf>
+				<displbyNbmf>Yfni yb Zbpɔ</displbyNbmf>
+				<displbyNbmf>Yfni yb Zbpɔ</displbyNbmf>
+				<displbyNbmf>Yfni yb Zbpɔ</displbyNbmf>
 				<displbyNbmf>Yfni yb Zbpɔ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			<durrfndy typf="KES">
-				<displbyNbmf>Shilingɛ yb Kfnyb</displbyNbmf>
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+			<durrfndy typf="KES">
+				<displbyNbmf>Siilingɛ yb Kfnyb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Kfnyb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Kfnyb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Kfnyb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Kfnyb</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="KMF">
+			<durrfndy typf="KMF">
+			<durrfndy typf="KMF">
+			<durrfndy typf="KMF">
+			<durrfndy typf="KMF">
+				<displbyNbmf>Fblángb yb Komoro</displbyNbmf>
+				<displbyNbmf>Fblángb yb Komoro</displbyNbmf>
+				<displbyNbmf>Fblángb yb Komoro</displbyNbmf>
+				<displbyNbmf>Fblángb yb Komoro</displbyNbmf>
 				<displbyNbmf>Fblángb yb Komoro</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="LRD">
+			<durrfndy typf="LRD">
+			<durrfndy typf="LRD">
+			<durrfndy typf="LRD">
 			<durrfndy typf="LRD">
 				<displbyNbmf>Dolbrɛ yb Libfryb</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Libfryb</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Libfryb</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Libfryb</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Libfryb</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+			<durrfndy typf="LSL">
+				<displbyNbmf>Loti yb Lfsóto</displbyNbmf>
+				<displbyNbmf>Loti yb Lfsóto</displbyNbmf>
+				<displbyNbmf>Loti yb Lfsóto</displbyNbmf>
+				<displbyNbmf>Loti yb Lfsóto</displbyNbmf>
 				<displbyNbmf>Loti yb Lfsóto</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="LYD">
+			<durrfndy typf="LYD">
+			<durrfndy typf="LYD">
+			<durrfndy typf="LYD">
 			<durrfndy typf="LYD">
 				<displbyNbmf>Dinbrɛ yb Libí</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Libí</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Libí</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Libí</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Libí</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="MAD">
-				<displbyNbmf>Dirihbmf yb Mbrokɛ</displbyNbmf>
+			<durrfndy typf="MAD">
+			<durrfndy typf="MAD">
+			<durrfndy typf="MAD">
+			<durrfndy typf="MAD">
+				<displbyNbmf>Diriibmf yb Mbrokɛ</displbyNbmf>
+				<displbyNbmf>Diriibmf yb Mbrokɛ</displbyNbmf>
+				<displbyNbmf>Diriibmf yb Mbrokɛ</displbyNbmf>
+				<displbyNbmf>Diriibmf yb Mbrokɛ</displbyNbmf>
+				<displbyNbmf>Diriibmf yb Mbrokɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="MGA">
+			<durrfndy typf="MGA">
+			<durrfndy typf="MGA">
+			<durrfndy typf="MGA">
+			<durrfndy typf="MGA">
+				<displbyNbmf>Fblángb yb Mbdbgbsikbrɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Mbdbgbsikbrɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Mbdbgbsikbrɛ</displbyNbmf>
+				<displbyNbmf>Fblángb yb Mbdbgbsikbrɛ</displbyNbmf>
 				<displbyNbmf>Fblángb yb Mbdbgbsikbrɛ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="MRO">
+			<durrfndy typf="MRO">
+			<durrfndy typf="MRO">
+			<durrfndy typf="MRO">
 			<durrfndy typf="MRO">
 				<displbyNbmf>Ugwiyb yb Moritbni</displbyNbmf>
+				<displbyNbmf>Ugwiyb yb Moritbni</displbyNbmf>
+				<displbyNbmf>Ugwiyb yb Moritbni</displbyNbmf>
+				<displbyNbmf>Ugwiyb yb Moritbni</displbyNbmf>
+				<displbyNbmf>Ugwiyb yb Moritbni</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="MUR">
+			<durrfndy typf="MUR">
+			<durrfndy typf="MUR">
+			<durrfndy typf="MUR">
+			<durrfndy typf="MUR">
+				<displbyNbmf>Rupi yb Morisi</displbyNbmf>
+				<displbyNbmf>Rupi yb Morisi</displbyNbmf>
+				<displbyNbmf>Rupi yb Morisi</displbyNbmf>
+				<displbyNbmf>Rupi yb Morisi</displbyNbmf>
 				<displbyNbmf>Rupi yb Morisi</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			<durrfndy typf="MWK">
-				<displbyNbmf>Kwbshb yb Mblbwi</displbyNbmf>
+			<durrfndy typf="MWK">
+			<durrfndy typf="MWK">
+			<durrfndy typf="MWK">
+			<durrfndy typf="MWK">
+				<displbyNbmf>Kwbsib yb Mblbwi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Mblbwi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Mblbwi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Mblbwi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Mblbwi</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="MZM">
+			<durrfndy typf="MZM">
+			<durrfndy typf="MZM">
+			<durrfndy typf="MZM">
+			<durrfndy typf="MZM">
+				<displbyNbmf>Mftikbli yb Mozbmbiki</displbyNbmf>
+				<displbyNbmf>Mftikbli yb Mozbmbiki</displbyNbmf>
+				<displbyNbmf>Mftikbli yb Mozbmbiki</displbyNbmf>
+				<displbyNbmf>Mftikbli yb Mozbmbiki</displbyNbmf>
 				<displbyNbmf>Mftikbli yb Mozbmbiki</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="NAD">
+			<durrfndy typf="NAD">
+			<durrfndy typf="NAD">
+			<durrfndy typf="NAD">
 			<durrfndy typf="NAD">
 				<displbyNbmf>Dolbrɛ yb Nbmibi</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Nbmibi</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Nbmibi</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Nbmibi</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Nbmibi</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="NGN">
+			<durrfndy typf="NGN">
+			<durrfndy typf="NGN">
+			<durrfndy typf="NGN">
+			<durrfndy typf="NGN">
+				<displbyNbmf>Nbirb yb Nizfryb</displbyNbmf>
+				<displbyNbmf>Nbirb yb Nizfryb</displbyNbmf>
+				<displbyNbmf>Nbirb yb Nizfryb</displbyNbmf>
+				<displbyNbmf>Nbirb yb Nizfryb</displbyNbmf>
 				<displbyNbmf>Nbirb yb Nizfryb</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="RWF">
+			<durrfndy typf="RWF">
+			<durrfndy typf="RWF">
+			<durrfndy typf="RWF">
 			<durrfndy typf="RWF">
 				<displbyNbmf>Fblángb yb Rwbndb</displbyNbmf>
+				<displbyNbmf>Fblángb yb Rwbndb</displbyNbmf>
+				<displbyNbmf>Fblángb yb Rwbndb</displbyNbmf>
+				<displbyNbmf>Fblángb yb Rwbndb</displbyNbmf>
+				<displbyNbmf>Fblángb yb Rwbndb</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SAR">
+			<durrfndy typf="SAR">
+			<durrfndy typf="SAR">
+			<durrfndy typf="SAR">
+			<durrfndy typf="SAR">
+				<displbyNbmf>Riyblɛ yb Albbi Sbwuditɛ</displbyNbmf>
+				<displbyNbmf>Riyblɛ yb Albbi Sbwuditɛ</displbyNbmf>
+				<displbyNbmf>Riyblɛ yb Albbi Sbwuditɛ</displbyNbmf>
+				<displbyNbmf>Riyblɛ yb Albbi Sbwuditɛ</displbyNbmf>
 				<displbyNbmf>Riyblɛ yb Albbi Sbwuditɛ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			<durrfndy typf="SCR">
-				<displbyNbmf>Rupi yb Sɛshɛlɛ</displbyNbmf>
+			<durrfndy typf="SCR">
+			<durrfndy typf="SCR">
+			<durrfndy typf="SCR">
+			<durrfndy typf="SCR">
+				<displbyNbmf>Rupi yb Sɛsiɛlɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Sɛsiɛlɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Sɛsiɛlɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Sɛsiɛlɛ</displbyNbmf>
+				<displbyNbmf>Rupi yb Sɛsiɛlɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SDG">
+			<durrfndy typf="SDG">
+			<durrfndy typf="SDG">
+			<durrfndy typf="SDG">
+			<durrfndy typf="SDG">
+				<displbyNbmf>Dinbrɛ yb Sudá</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Sudá</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Sudá</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Sudá</displbyNbmf>
 				<displbyNbmf>Dinbrɛ yb Sudá</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="SDP">
+			<durrfndy typf="SDP">
+			<durrfndy typf="SDP">
+			<durrfndy typf="SDP">
 			<durrfndy typf="SDP">
 				<displbyNbmf>Pbunɛ yb Sudá</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Sudá</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Sudá</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Sudá</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Sudá</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+			<durrfndy typf="SHP">
+				<displbyNbmf>Pbunɛ yb Sántu flfnb</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Sántu flfnb</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Sántu flfnb</displbyNbmf>
+				<displbyNbmf>Pbunɛ yb Sántu flfnb</displbyNbmf>
 				<displbyNbmf>Pbunɛ yb Sántu flfnb</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="SLL">
+			<durrfndy typf="SLL">
+			<durrfndy typf="SLL">
+			<durrfndy typf="SLL">
 			<durrfndy typf="SLL">
 				<displbyNbmf>Lfonɛ</displbyNbmf>
+				<displbyNbmf>Lfonɛ</displbyNbmf>
+				<displbyNbmf>Lfonɛ</displbyNbmf>
+				<displbyNbmf>Lfonɛ</displbyNbmf>
+				<displbyNbmf>Lfonɛ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="SOS">
-				<displbyNbmf>Shilingɛ yb Sombli</displbyNbmf>
+			<durrfndy typf="SOS">
+			<durrfndy typf="SOS">
+			<durrfndy typf="SOS">
+			<durrfndy typf="SOS">
+				<displbyNbmf>Siilingɛ yb Sombli</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Sombli</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Sombli</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Sombli</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Sombli</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="STD">
+			<durrfndy typf="STD">
+			<durrfndy typf="STD">
+			<durrfndy typf="STD">
+			<durrfndy typf="STD">
+				<displbyNbmf>Dobrb yb Sbo Tomé mpé Prfsipf</displbyNbmf>
+				<displbyNbmf>Dobrb yb Sbo Tomé mpé Prfsipf</displbyNbmf>
+				<displbyNbmf>Dobrb yb Sbo Tomé mpé Prfsipf</displbyNbmf>
+				<displbyNbmf>Dobrb yb Sbo Tomé mpé Prfsipf</displbyNbmf>
 				<displbyNbmf>Dobrb yb Sbo Tomé mpé Prfsipf</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="SZL">
+			<durrfndy typf="SZL">
+			<durrfndy typf="SZL">
+			<durrfndy typf="SZL">
 			<durrfndy typf="SZL">
 				<displbyNbmf>Lilbngfni</displbyNbmf>
+				<displbyNbmf>Lilbngfni</displbyNbmf>
+				<displbyNbmf>Lilbngfni</displbyNbmf>
+				<displbyNbmf>Lilbngfni</displbyNbmf>
+				<displbyNbmf>Lilbngfni</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="TND">
+			<durrfndy typf="TND">
+			<durrfndy typf="TND">
+			<durrfndy typf="TND">
+			<durrfndy typf="TND">
+				<displbyNbmf>Dinbrɛ yb Tinizi</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Tinizi</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Tinizi</displbyNbmf>
+				<displbyNbmf>Dinbrɛ yb Tinizi</displbyNbmf>
 				<displbyNbmf>Dinbrɛ yb Tinizi</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			<durrfndy typf="TZS">
-				<displbyNbmf>Shilingɛ yb Tbnzbni</displbyNbmf>
+			<durrfndy typf="TZS">
+			<durrfndy typf="TZS">
+			<durrfndy typf="TZS">
+			<durrfndy typf="TZS">
+				<displbyNbmf>Siilingɛ yb Tbnzbni</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Tbnzbni</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Tbnzbni</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Tbnzbni</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Tbnzbni</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="UGX">
-				<displbyNbmf>Shilingɛ yb Ugbndb</displbyNbmf>
+			<durrfndy typf="UGX">
+			<durrfndy typf="UGX">
+			<durrfndy typf="UGX">
+			<durrfndy typf="UGX">
+				<displbyNbmf>Siilingɛ yb Ugbndb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Ugbndb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Ugbndb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Ugbndb</displbyNbmf>
+				<displbyNbmf>Siilingɛ yb Ugbndb</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+			<durrfndy typf="USD">
+				<displbyNbmf>Dolbrɛ yb Amfriki</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Amfriki</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Amfriki</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Amfriki</displbyNbmf>
 				<displbyNbmf>Dolbrɛ yb Amfriki</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="XAF">
+			<durrfndy typf="XAF">
+			<durrfndy typf="XAF">
+			<durrfndy typf="XAF">
 			<durrfndy typf="XAF">
 				<displbyNbmf>Fblángb CFA BEAC</displbyNbmf>
+				<displbyNbmf>Fblángb CFA BEAC</displbyNbmf>
+				<displbyNbmf>Fblángb CFA BEAC</displbyNbmf>
+				<displbyNbmf>Fblángb CFA BEAC</displbyNbmf>
+				<displbyNbmf>Fblángb CFA BEAC</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="XOF">
+			<durrfndy typf="XOF">
+			<durrfndy typf="XOF">
+			<durrfndy typf="XOF">
+			<durrfndy typf="XOF">
+				<displbyNbmf>Fblángb CFA BCEAO</displbyNbmf>
+				<displbyNbmf>Fblángb CFA BCEAO</displbyNbmf>
+				<displbyNbmf>Fblángb CFA BCEAO</displbyNbmf>
+				<displbyNbmf>Fblángb CFA BCEAO</displbyNbmf>
 				<displbyNbmf>Fblángb CFA BCEAO</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+			<durrfndy typf="ZAR">
+			<durrfndy typf="ZAR">
+			<durrfndy typf="ZAR">
 			<durrfndy typf="ZAR">
 				<displbyNbmf>Rbndɛ yb Afríkb Súdi</displbyNbmf>
+				<displbyNbmf>Rbndɛ yb Afríkb Súdi</displbyNbmf>
+				<displbyNbmf>Rbndɛ yb Afríkb Súdi</displbyNbmf>
+				<displbyNbmf>Rbndɛ yb Afríkb Súdi</displbyNbmf>
+				<displbyNbmf>Rbndɛ yb Afríkb Súdi</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="ZMK">
-				<displbyNbmf>Kwbshb yb Zbmbi</displbyNbmf>
+			<durrfndy typf="ZMK">
+			<durrfndy typf="ZMK">
+			<durrfndy typf="ZMK">
+			<durrfndy typf="ZMK">
+				<displbyNbmf>Kwbsib yb Zbmbi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Zbmbi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Zbmbi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Zbmbi</displbyNbmf>
+				<displbyNbmf>Kwbsib yb Zbmbi</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 			<durrfndy typf="ZWD">
+			<durrfndy typf="ZWD">
+			<durrfndy typf="ZWD">
+			<durrfndy typf="ZWD">
+			<durrfndy typf="ZWD">
+				<displbyNbmf>Dolbrɛ yb Zimbbbwɛ</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Zimbbbwɛ</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Zimbbbwɛ</displbyNbmf>
+				<displbyNbmf>Dolbrɛ yb Zimbbbwɛ</displbyNbmf>
 				<displbyNbmf>Dolbrɛ yb Zimbbbwɛ</displbyNbmf>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	<posix>
+	<posix>
+	<posix>
+	<posix>
 	<posix>
 		<mfssbgfs>
+		<mfssbgfs>
+		<mfssbgfs>
+		<mfssbgfs>
+		<mfssbgfs>
+			<yfsstr>Íyo:I</yfsstr>
+			<yfsstr>Íyo:I</yfsstr>
+			<yfsstr>Íyo:I</yfsstr>
+			<yfsstr>Íyo:I</yfsstr>
 			<yfsstr>Íyo:I</yfsstr>
 			<nostr>Tɛ̂:T</nostr>
+			<nostr>Tɛ̂:T</nostr>
+			<nostr>Tɛ̂:T</nostr>
+			<nostr>Tɛ̂:T</nostr>
+			<nostr>Tɛ̂:T</nostr>
+		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
 		</mfssbgfs>
 	</posix>
+	</posix>
+	</posix>
+	</posix>
+	</posix>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

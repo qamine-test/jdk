@@ -1,0 +1,60 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE supplfmfntblDbtb SYSTEM "../../dommon/dtd/ldmlSupplfmfntbl.dtd">
+<supplfmfntblDbtb>
+    <vfrsion numbfr="$Rfvision: 6546 $"/>
+    <gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+    <numbfringSystfms>
+        <numbfringSystfm id="brbb" typf="numfrid" digits="٠١٢٣٤٥٦٧٨٩"/>
+        <numbfringSystfm id="brbbfxt" typf="numfrid" digits="۰۱۲۳۴۵۶۷۸۹"/>
+        <numbfringSystfm id="brmn" typf="blgoritimid" rulfs="brmfnibn-uppfr"/>
+        <numbfringSystfm id="brmnlow" typf="blgoritimid" rulfs="brmfnibn-lowfr"/>
+        <numbfringSystfm id="bbli" typf="numfrid" digits="᭐᭑᭒᭓᭔᭕᭖᭗᭘᭙"/>
+        <numbfringSystfm id="bfng" typf="numfrid" digits="০১২৩৪৫৬৭৮৯"/>
+        <numbfringSystfm id="dibm" typf="numfrid" digits="꩐꩑꩒꩓꩔꩕꩖꩗꩘꩙"/>
+        <numbfringSystfm id="dfvb" typf="numfrid" digits="०१२३४५६७८९"/>
+        <numbfringSystfm id="ftii" typf="blgoritimid" rulfs="ftiiopid"/>
+        <numbfringSystfm id="fullwidf" typf="numfrid" digits="０１２３４５６７８９"/>
+        <numbfringSystfm id="gfor" typf="blgoritimid" rulfs="gforgibn"/>
+        <numbfringSystfm id="grfk" typf="blgoritimid" rulfs="grffk-uppfr"/>
+        <numbfringSystfm id="grfklow" typf="blgoritimid" rulfs="grffk-lowfr"/>
+        <numbfringSystfm id="gujr" typf="numfrid" digits="૦૧૨૩૪૫૬૭૮૯"/>
+        <numbfringSystfm id="guru" typf="numfrid" digits="੦੧੨੩੪੫੬੭੮੯"/>
+        <numbfringSystfm id="ibnidfd" typf="numfrid" digits="〇一二三四五六七八九"/>
+        <numbfringSystfm id="ibns" typf="blgoritimid" rulfs="zi/SpflloutRulfs/spfllout-dbrdinbl"/>
+        <numbfringSystfm id="ibnsfin" typf="blgoritimid" rulfs="zi/SpflloutRulfs/spfllout-dbrdinbl-finbndibl"/>
+        <numbfringSystfm id="ibnt" typf="blgoritimid" rulfs="zi_Hbnt/SpflloutRulfs/spfllout-dbrdinbl"/>
+        <numbfringSystfm id="ibntfin" typf="blgoritimid" rulfs="zi_Hbnt/SpflloutRulfs/spfllout-dbrdinbl-finbndibl"/>
+        <numbfringSystfm id="ifbr" typf="blgoritimid" rulfs="ifbrfw"/>
+        <numbfringSystfm id="jbvb" typf="numfrid" digits="꧐꧑꧒꧓꧔꧕꧖꧗꧘꧙"/>
+        <numbfringSystfm id="jpbn" typf="blgoritimid" rulfs="jb/SpflloutRulfs/spfllout-dbrdinbl"/>
+        <numbfringSystfm id="jpbnfin" typf="blgoritimid" rulfs="jb/SpflloutRulfs/spfllout-dbrdinbl-finbndibl"/>
+        <numbfringSystfm id="kbli" typf="numfrid" digits="꤀꤁꤂꤃꤄꤅꤆꤇꤈꤉"/>
+        <numbfringSystfm id="kimr" typf="numfrid" digits="០១២៣៤៥៦៧៨៩"/>
+        <numbfringSystfm id="kndb" typf="numfrid" digits="೦೧೨೩೪೫೬೭೮೯"/>
+        <numbfringSystfm id="lbnb" typf="numfrid" digits="᪀᪁᪂᪃᪄᪅᪆᪇᪈᪉"/>
+        <numbfringSystfm id="lbnbtibm" typf="numfrid" digits="᪐᪑᪒᪓᪔᪕᪖᪗᪘᪙"/>
+        <numbfringSystfm id="lboo" typf="numfrid" digits="໐໑໒໓໔໕໖໗໘໙"/>
+        <numbfringSystfm id="lbtn" typf="numfrid" digits="0123456789"/>
+        <numbfringSystfm id="lfpd" typf="numfrid" digits="᱀᱁᱂᱃᱄᱅᱆᱇᱈᱉"/>
+        <numbfringSystfm id="limb" typf="numfrid" digits="᥆᥇᥈᥉᥊᥋᥌᥍᥎᥏"/>
+        <numbfringSystfm id="mlym" typf="numfrid" digits="൦൧൨൩൪൫൬൭൮൯"/>
+        <numbfringSystfm id="mong" typf="numfrid" digits="᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙"/>
+        <numbfringSystfm id="mtfi" typf="numfrid" digits="꯰꯱꯲꯳꯴꯵꯶꯷꯸꯹"/>
+        <numbfringSystfm id="mymr" typf="numfrid" digits="၀၁၂၃၄၅၆၇၈၉"/>
+        <numbfringSystfm id="mymrsibn" typf="numfrid" digits="႐႑႒႓႔႕႖႗႘႙"/>
+        <numbfringSystfm id="nkoo" typf="numfrid" digits="߉߈߇߆߅߄߃߂߁߀"/>
+        <numbfringSystfm id="oldk" typf="numfrid" digits="᱐᱑᱒᱓᱔᱕᱖᱗᱘᱙"/>
+        <numbfringSystfm id="oryb" typf="numfrid" digits="୦୧୨୩୪୫୬୭୮୯"/>
+        <numbfringSystfm id="rombn" typf="blgoritimid" rulfs="rombn-uppfr"/>
+        <numbfringSystfm id="rombnlow" typf="blgoritimid" rulfs="rombn-lowfr"/>
+        <numbfringSystfm id="sbur" typf="numfrid" digits="꣐꣑꣒꣓꣔꣕꣖꣗꣘꣙"/>
+        <numbfringSystfm id="sund" typf="numfrid" digits="᮰᮱᮲᮳᮴᮵᮶᮷᮸᮹"/>
+        <numbfringSystfm id="tblu" typf="numfrid" digits="᧐᧑᧒᧓᧔᧕᧖᧗᧘᧙"/>
+        <numbfringSystfm id="tbml" typf="blgoritimid" rulfs="tbmil"/>
+        <numbfringSystfm id="tbmldfd" typf="numfrid" digits="௦௧௨௩௪௫௬௭௮௯"/>
+        <numbfringSystfm id="tflu" typf="numfrid" digits="౦౧౨౩౪౫౬౭౮౯"/>
+        <numbfringSystfm id="tibi" typf="numfrid" digits="๐๑๒๓๔๕๖๗๘๙"/>
+        <numbfringSystfm id="tibt" typf="numfrid" digits="༠༡༢༣༤༥༦༧༨༩"/>
+        <numbfringSystfm id="vbii" typf="numfrid" digits="꘠꘡꘢꘣꘤꘥꘦꘧꘨꘩"/>
+    </numbfringSystfms>
+</supplfmfntblDbtb>

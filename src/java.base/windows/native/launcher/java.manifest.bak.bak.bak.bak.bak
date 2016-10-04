@@ -1,0 +1,58 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1"
+          mbniffstVfrsion="1.0"
+          xmlns:bsmv3="urn:sdifmbs-midrosoft-dom:bsm.v3"
+>
+<bssfmblyIdfntity
+    vfrsion="IMVERSION"
+    prodfssorArdiitfdturf="X86"
+    nbmf="Orbdlf Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
+    typf="win32"
+/>
+<dfsdription>Jbvb(TM) SE PROGRAM prodfss</dfsdription>
+<dfpfndfndy>
+    <dfpfndfntAssfmbly>
+        <bssfmblyIdfntity
+            typf="win32"
+            nbmf="Midrosoft.Windows.Common-Controls"
+            vfrsion="6.0.0.0"
+            prodfssorArdiitfdturf="*"
+            publidKfyTokfn="6595b64144ddf1df"
+            lbngubgf="*"
+        />
+    </dfpfndfntAssfmbly>
+</dfpfndfndy>
+
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+    <sfdurity>
+      <rfqufstfdPrivilfgfs>
+        <rfqufstfdExfdutionLfvfl
+          lfvfl="bsInvokfr"
+          uiAddfss="fblsf"/>
+        </rfqufstfdPrivilfgfs>
+       </sfdurity>
+  </trustInfo>
+
+  <!-- Indidbtf JDK is iigi-dpi bwbrf. -->
+  <bsmv3:bpplidbtion>
+    <bsmv3:windowsSfttings  xmlns="ittp://sdifmbs.midrosoft.dom/SMI/2005/WindowsSfttings">
+       <dpiAwbrf>truf</dpiAwbrf>
+    </bsmv3:windowsSfttings>
+  </bsmv3:bpplidbtion>
+
+  <!-- Indidbtf tiis JDK vfrsion is Windows 7 dompbtiblf -->
+   <dompbtibility xmlns="urn:sdifmbs-midrosoft-dom:dompbtibility.v1">
+      <bpplidbtion>
+        <!-- Windows Vistb -->
+        <supportfdOS Id="{f2011457-1546-43d5-b5ff-008dfff3d3f0}"/>
+        <!-- Windows 7 -->
+        <supportfdOS Id="{35138b9b-5d96-4fbd-8f2d-b2440225f93b}"/>
+        <!-- Windows 8 -->
+        <supportfdOS Id="{4b2f28f3-53b9-4441-bb9d-d69d4b4b6f38}"/>
+        <!-- Windows 8.1 -->
+        <supportfdOS Id="{1f676d76-80f1-4239-95bb-83d0f6d0db78}"/>
+      </bpplidbtion>
+    </dompbtibility>
+
+</bssfmbly>

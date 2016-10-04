@@ -1,337 +1,1685 @@
 /*
- * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+
+
+
+
 
 import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
 import jbvb.bwt.Componfnt;
 import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Contbinfr;
+
+
+
+
 
 /**
- * An fvfnt whidh indidbtfs b dhbngf to thf <dodf>Componfnt</dodf>
- * hifrbrdhy to whidh <dodf>Componfnt</dodf> bflongs.
+/**
+/**
+/**
+/**
+ * An fvfnt wiidi indidbtfs b dibngf to tif <dodf>Componfnt</dodf>
+ * An fvfnt wiidi indidbtfs b dibngf to tif <dodf>Componfnt</dodf>
+ * An fvfnt wiidi indidbtfs b dibngf to tif <dodf>Componfnt</dodf>
+ * An fvfnt wiidi indidbtfs b dibngf to tif <dodf>Componfnt</dodf>
+ * An fvfnt wiidi indidbtfs b dibngf to tif <dodf>Componfnt</dodf>
+ * iifrbrdiy to wiidi <dodf>Componfnt</dodf> bflongs.
+ * iifrbrdiy to wiidi <dodf>Componfnt</dodf> bflongs.
+ * iifrbrdiy to wiidi <dodf>Componfnt</dodf> bflongs.
+ * iifrbrdiy to wiidi <dodf>Componfnt</dodf> bflongs.
+ * iifrbrdiy to wiidi <dodf>Componfnt</dodf> bflongs.
  * <ul>
- * <li>Hifrbrdhy Chbngf Evfnts (HifrbrdhyListfnfr)
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li>Hifrbrdiy Cibngf Evfnts (HifrbrdiyListfnfr)
+ * <li>Hifrbrdiy Cibngf Evfnts (HifrbrdiyListfnfr)
+ * <li>Hifrbrdiy Cibngf Evfnts (HifrbrdiyListfnfr)
+ * <li>Hifrbrdiy Cibngf Evfnts (HifrbrdiyListfnfr)
+ * <li>Hifrbrdiy Cibngf Evfnts (HifrbrdiyListfnfr)
+ *     <ul>
+ *     <ul>
+ *     <ul>
+ *     <ul>
  *     <ul>
  *     <li> bddition of bn bndfstor
+ *     <li> bddition of bn bndfstor
+ *     <li> bddition of bn bndfstor
+ *     <li> bddition of bn bndfstor
+ *     <li> bddition of bn bndfstor
  *     <li> rfmovbl of bn bndfstor
- *     <li> hifrbrdhy mbdf displbybblf
- *     <li> hifrbrdhy mbdf undisplbybblf
- *     <li> hifrbrdhy shown on thf sdrffn (both visiblf bnd displbybblf)
- *     <li> hifrbrdhy hiddfn on thf sdrffn (fithfr invisiblf or undisplbybblf)
+ *     <li> rfmovbl of bn bndfstor
+ *     <li> rfmovbl of bn bndfstor
+ *     <li> rfmovbl of bn bndfstor
+ *     <li> rfmovbl of bn bndfstor
+ *     <li> iifrbrdiy mbdf displbybblf
+ *     <li> iifrbrdiy mbdf displbybblf
+ *     <li> iifrbrdiy mbdf displbybblf
+ *     <li> iifrbrdiy mbdf displbybblf
+ *     <li> iifrbrdiy mbdf displbybblf
+ *     <li> iifrbrdiy mbdf undisplbybblf
+ *     <li> iifrbrdiy mbdf undisplbybblf
+ *     <li> iifrbrdiy mbdf undisplbybblf
+ *     <li> iifrbrdiy mbdf undisplbybblf
+ *     <li> iifrbrdiy mbdf undisplbybblf
+ *     <li> iifrbrdiy siown on tif sdrffn (boti visiblf bnd displbybblf)
+ *     <li> iifrbrdiy siown on tif sdrffn (boti visiblf bnd displbybblf)
+ *     <li> iifrbrdiy siown on tif sdrffn (boti visiblf bnd displbybblf)
+ *     <li> iifrbrdiy siown on tif sdrffn (boti visiblf bnd displbybblf)
+ *     <li> iifrbrdiy siown on tif sdrffn (boti visiblf bnd displbybblf)
+ *     <li> iifrbrdiy iiddfn on tif sdrffn (fitifr invisiblf or undisplbybblf)
+ *     <li> iifrbrdiy iiddfn on tif sdrffn (fitifr invisiblf or undisplbybblf)
+ *     <li> iifrbrdiy iiddfn on tif sdrffn (fitifr invisiblf or undisplbybblf)
+ *     <li> iifrbrdiy iiddfn on tif sdrffn (fitifr invisiblf or undisplbybblf)
+ *     <li> iifrbrdiy iiddfn on tif sdrffn (fitifr invisiblf or undisplbybblf)
  *     </ul>
- * <li>Andfstor Rfshbpf Evfnts (HifrbrdhyBoundsListfnfr)
+ *     </ul>
+ *     </ul>
+ *     </ul>
+ *     </ul>
+ * <li>Andfstor Rfsibpf Evfnts (HifrbrdiyBoundsListfnfr)
+ * <li>Andfstor Rfsibpf Evfnts (HifrbrdiyBoundsListfnfr)
+ * <li>Andfstor Rfsibpf Evfnts (HifrbrdiyBoundsListfnfr)
+ * <li>Andfstor Rfsibpf Evfnts (HifrbrdiyBoundsListfnfr)
+ * <li>Andfstor Rfsibpf Evfnts (HifrbrdiyBoundsListfnfr)
+ *     <ul>
+ *     <ul>
+ *     <ul>
+ *     <ul>
  *     <ul>
  *     <li> bn bndfstor wbs rfsizfd
+ *     <li> bn bndfstor wbs rfsizfd
+ *     <li> bn bndfstor wbs rfsizfd
+ *     <li> bn bndfstor wbs rfsizfd
+ *     <li> bn bndfstor wbs rfsizfd
+ *     <li> bn bndfstor wbs movfd
+ *     <li> bn bndfstor wbs movfd
+ *     <li> bn bndfstor wbs movfd
+ *     <li> bn bndfstor wbs movfd
  *     <li> bn bndfstor wbs movfd
  *     </ul>
+ *     </ul>
+ *     </ul>
+ *     </ul>
+ *     </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  * </ul>
  * <p>
- * Hifrbrdhy fvfnts brf providfd for notifidbtion purposfs ONLY.
- * Thf AWT will butombtidblly hbndlf dhbngfs to thf hifrbrdhy intfrnblly so
- * thbt GUI lbyout bnd displbybbility works propfrly rfgbrdlfss of whfthfr b
- * progrbm is rfdfiving thfsf fvfnts or not.
  * <p>
- * This fvfnt is gfnfrbtfd by b Contbinfr objfdt (sudh bs b Pbnfl) whfn thf
- * Contbinfr is bddfd, rfmovfd, movfd, or rfsizfd, bnd pbssfd down thf
- * hifrbrdhy. It is blso gfnfrbtfd by b Componfnt objfdt whfn thbt objfdt's
- * <dodf>bddNotify</dodf>, <dodf>rfmovfNotify</dodf>, <dodf>show</dodf>, or
- * <dodf>hidf</dodf> mfthod is dbllfd. Thf {@dodf ANCESTOR_MOVED} bnd
+ * <p>
+ * <p>
+ * <p>
+ * Hifrbrdiy fvfnts brf providfd for notifidbtion purposfs ONLY.
+ * Hifrbrdiy fvfnts brf providfd for notifidbtion purposfs ONLY.
+ * Hifrbrdiy fvfnts brf providfd for notifidbtion purposfs ONLY.
+ * Hifrbrdiy fvfnts brf providfd for notifidbtion purposfs ONLY.
+ * Hifrbrdiy fvfnts brf providfd for notifidbtion purposfs ONLY.
+ * Tif AWT will butombtidblly ibndlf dibngfs to tif iifrbrdiy intfrnblly so
+ * Tif AWT will butombtidblly ibndlf dibngfs to tif iifrbrdiy intfrnblly so
+ * Tif AWT will butombtidblly ibndlf dibngfs to tif iifrbrdiy intfrnblly so
+ * Tif AWT will butombtidblly ibndlf dibngfs to tif iifrbrdiy intfrnblly so
+ * Tif AWT will butombtidblly ibndlf dibngfs to tif iifrbrdiy intfrnblly so
+ * tibt GUI lbyout bnd displbybbility works propfrly rfgbrdlfss of wiftifr b
+ * tibt GUI lbyout bnd displbybbility works propfrly rfgbrdlfss of wiftifr b
+ * tibt GUI lbyout bnd displbybbility works propfrly rfgbrdlfss of wiftifr b
+ * tibt GUI lbyout bnd displbybbility works propfrly rfgbrdlfss of wiftifr b
+ * tibt GUI lbyout bnd displbybbility works propfrly rfgbrdlfss of wiftifr b
+ * progrbm is rfdfiving tifsf fvfnts or not.
+ * progrbm is rfdfiving tifsf fvfnts or not.
+ * progrbm is rfdfiving tifsf fvfnts or not.
+ * progrbm is rfdfiving tifsf fvfnts or not.
+ * progrbm is rfdfiving tifsf fvfnts or not.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tiis fvfnt is gfnfrbtfd by b Contbinfr objfdt (sudi bs b Pbnfl) wifn tif
+ * Tiis fvfnt is gfnfrbtfd by b Contbinfr objfdt (sudi bs b Pbnfl) wifn tif
+ * Tiis fvfnt is gfnfrbtfd by b Contbinfr objfdt (sudi bs b Pbnfl) wifn tif
+ * Tiis fvfnt is gfnfrbtfd by b Contbinfr objfdt (sudi bs b Pbnfl) wifn tif
+ * Tiis fvfnt is gfnfrbtfd by b Contbinfr objfdt (sudi bs b Pbnfl) wifn tif
+ * Contbinfr is bddfd, rfmovfd, movfd, or rfsizfd, bnd pbssfd down tif
+ * Contbinfr is bddfd, rfmovfd, movfd, or rfsizfd, bnd pbssfd down tif
+ * Contbinfr is bddfd, rfmovfd, movfd, or rfsizfd, bnd pbssfd down tif
+ * Contbinfr is bddfd, rfmovfd, movfd, or rfsizfd, bnd pbssfd down tif
+ * Contbinfr is bddfd, rfmovfd, movfd, or rfsizfd, bnd pbssfd down tif
+ * iifrbrdiy. It is blso gfnfrbtfd by b Componfnt objfdt wifn tibt objfdt's
+ * iifrbrdiy. It is blso gfnfrbtfd by b Componfnt objfdt wifn tibt objfdt's
+ * iifrbrdiy. It is blso gfnfrbtfd by b Componfnt objfdt wifn tibt objfdt's
+ * iifrbrdiy. It is blso gfnfrbtfd by b Componfnt objfdt wifn tibt objfdt's
+ * iifrbrdiy. It is blso gfnfrbtfd by b Componfnt objfdt wifn tibt objfdt's
+ * <dodf>bddNotify</dodf>, <dodf>rfmovfNotify</dodf>, <dodf>siow</dodf>, or
+ * <dodf>bddNotify</dodf>, <dodf>rfmovfNotify</dodf>, <dodf>siow</dodf>, or
+ * <dodf>bddNotify</dodf>, <dodf>rfmovfNotify</dodf>, <dodf>siow</dodf>, or
+ * <dodf>bddNotify</dodf>, <dodf>rfmovfNotify</dodf>, <dodf>siow</dodf>, or
+ * <dodf>bddNotify</dodf>, <dodf>rfmovfNotify</dodf>, <dodf>siow</dodf>, or
+ * <dodf>iidf</dodf> mftiod is dbllfd. Tif {@dodf ANCESTOR_MOVED} bnd
+ * <dodf>iidf</dodf> mftiod is dbllfd. Tif {@dodf ANCESTOR_MOVED} bnd
+ * <dodf>iidf</dodf> mftiod is dbllfd. Tif {@dodf ANCESTOR_MOVED} bnd
+ * <dodf>iidf</dodf> mftiod is dbllfd. Tif {@dodf ANCESTOR_MOVED} bnd
+ * <dodf>iidf</dodf> mftiod is dbllfd. Tif {@dodf ANCESTOR_MOVED} bnd
  * {@dodf ANCESTOR_RESIZED}
- * fvfnts brf dispbtdhfd to fvfry <dodf>HifrbrdhyBoundsListfnfr</dodf> or
- * <dodf>HifrbrdhyBoundsAdbptfr</dodf> objfdt whidh rfgistfrfd to rfdfivf
- * sudh fvfnts using thf Componfnt's <dodf>bddHifrbrdhyBoundsListfnfr</dodf>
- * mfthod. (<dodf>HifrbrdhyBoundsAdbptfr</dodf> objfdts implfmfnt thf <dodf>
- * HifrbrdhyBoundsListfnfr</dodf> intfrfbdf.) Thf {@dodf HIERARCHY_CHANGED} fvfnts brf
- * dispbtdhfd to fvfry <dodf>HifrbrdhyListfnfr</dodf> objfdt whidh rfgistfrfd
- * to rfdfivf sudh fvfnts using thf Componfnt's <dodf>bddHifrbrdhyListfnfr
- * </dodf> mfthod. Ebdh sudh listfnfr objfdt gfts this <dodf>HifrbrdhyEvfnt
- * </dodf> whfn thf fvfnt oddurs.
+ * {@dodf ANCESTOR_RESIZED}
+ * {@dodf ANCESTOR_RESIZED}
+ * {@dodf ANCESTOR_RESIZED}
+ * {@dodf ANCESTOR_RESIZED}
+ * fvfnts brf dispbtdifd to fvfry <dodf>HifrbrdiyBoundsListfnfr</dodf> or
+ * fvfnts brf dispbtdifd to fvfry <dodf>HifrbrdiyBoundsListfnfr</dodf> or
+ * fvfnts brf dispbtdifd to fvfry <dodf>HifrbrdiyBoundsListfnfr</dodf> or
+ * fvfnts brf dispbtdifd to fvfry <dodf>HifrbrdiyBoundsListfnfr</dodf> or
+ * fvfnts brf dispbtdifd to fvfry <dodf>HifrbrdiyBoundsListfnfr</dodf> or
+ * <dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdt wiidi rfgistfrfd to rfdfivf
+ * <dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdt wiidi rfgistfrfd to rfdfivf
+ * <dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdt wiidi rfgistfrfd to rfdfivf
+ * <dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdt wiidi rfgistfrfd to rfdfivf
+ * <dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdt wiidi rfgistfrfd to rfdfivf
+ * sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyBoundsListfnfr</dodf>
+ * sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyBoundsListfnfr</dodf>
+ * sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyBoundsListfnfr</dodf>
+ * sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyBoundsListfnfr</dodf>
+ * sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyBoundsListfnfr</dodf>
+ * mftiod. (<dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdts implfmfnt tif <dodf>
+ * mftiod. (<dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdts implfmfnt tif <dodf>
+ * mftiod. (<dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdts implfmfnt tif <dodf>
+ * mftiod. (<dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdts implfmfnt tif <dodf>
+ * mftiod. (<dodf>HifrbrdiyBoundsAdbptfr</dodf> objfdts implfmfnt tif <dodf>
+ * HifrbrdiyBoundsListfnfr</dodf> intfrfbdf.) Tif {@dodf HIERARCHY_CHANGED} fvfnts brf
+ * HifrbrdiyBoundsListfnfr</dodf> intfrfbdf.) Tif {@dodf HIERARCHY_CHANGED} fvfnts brf
+ * HifrbrdiyBoundsListfnfr</dodf> intfrfbdf.) Tif {@dodf HIERARCHY_CHANGED} fvfnts brf
+ * HifrbrdiyBoundsListfnfr</dodf> intfrfbdf.) Tif {@dodf HIERARCHY_CHANGED} fvfnts brf
+ * HifrbrdiyBoundsListfnfr</dodf> intfrfbdf.) Tif {@dodf HIERARCHY_CHANGED} fvfnts brf
+ * dispbtdifd to fvfry <dodf>HifrbrdiyListfnfr</dodf> objfdt wiidi rfgistfrfd
+ * dispbtdifd to fvfry <dodf>HifrbrdiyListfnfr</dodf> objfdt wiidi rfgistfrfd
+ * dispbtdifd to fvfry <dodf>HifrbrdiyListfnfr</dodf> objfdt wiidi rfgistfrfd
+ * dispbtdifd to fvfry <dodf>HifrbrdiyListfnfr</dodf> objfdt wiidi rfgistfrfd
+ * dispbtdifd to fvfry <dodf>HifrbrdiyListfnfr</dodf> objfdt wiidi rfgistfrfd
+ * to rfdfivf sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyListfnfr
+ * to rfdfivf sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyListfnfr
+ * to rfdfivf sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyListfnfr
+ * to rfdfivf sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyListfnfr
+ * to rfdfivf sudi fvfnts using tif Componfnt's <dodf>bddHifrbrdiyListfnfr
+ * </dodf> mftiod. Ebdi sudi listfnfr objfdt gfts tiis <dodf>HifrbrdiyEvfnt
+ * </dodf> mftiod. Ebdi sudi listfnfr objfdt gfts tiis <dodf>HifrbrdiyEvfnt
+ * </dodf> mftiod. Ebdi sudi listfnfr objfdt gfts tiis <dodf>HifrbrdiyEvfnt
+ * </dodf> mftiod. Ebdi sudi listfnfr objfdt gfts tiis <dodf>HifrbrdiyEvfnt
+ * </dodf> mftiod. Ebdi sudi listfnfr objfdt gfts tiis <dodf>HifrbrdiyEvfnt
+ * </dodf> wifn tif fvfnt oddurs.
+ * </dodf> wifn tif fvfnt oddurs.
+ * </dodf> wifn tif fvfnt oddurs.
+ * </dodf> wifn tif fvfnt oddurs.
+ * </dodf> wifn tif fvfnt oddurs.
  * <p>
- * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
- * of bny pbrtidulbr {@dodf HifrbrdhyEvfnt} instbndf is not
- * in thf rbngf from {@dodf HIERARCHY_FIRST} to {@dodf HIERARCHY_LAST}.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf HifrbrdiyEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf HifrbrdiyEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf HifrbrdiyEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf HifrbrdiyEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf HifrbrdiyEvfnt} instbndf is not
+ * in tif rbngf from {@dodf HIERARCHY_FIRST} to {@dodf HIERARCHY_LAST}.
+ * in tif rbngf from {@dodf HIERARCHY_FIRST} to {@dodf HIERARCHY_LAST}.
+ * in tif rbngf from {@dodf HIERARCHY_FIRST} to {@dodf HIERARCHY_LAST}.
+ * in tif rbngf from {@dodf HIERARCHY_FIRST} to {@dodf HIERARCHY_LAST}.
+ * in tif rbngf from {@dodf HIERARCHY_FIRST} to {@dodf HIERARCHY_LAST}.
  * <br>
- * Thf {@dodf dhbngfFlbgs} pbrbmftfr of bny {@dodf HifrbrdhyEvfnt} instbndf tbkfs onf of thf following
+ * <br>
+ * <br>
+ * <br>
+ * <br>
+ * Tif {@dodf dibngfFlbgs} pbrbmftfr of bny {@dodf HifrbrdiyEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf dibngfFlbgs} pbrbmftfr of bny {@dodf HifrbrdiyEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf dibngfFlbgs} pbrbmftfr of bny {@dodf HifrbrdiyEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf dibngfFlbgs} pbrbmftfr of bny {@dodf HifrbrdiyEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf dibngfFlbgs} pbrbmftfr of bny {@dodf HifrbrdiyEvfnt} instbndf tbkfs onf of tif following
+ * vblufs:
+ * vblufs:
+ * vblufs:
+ * vblufs:
  * vblufs:
  * <ul>
- * <li> {@dodf HifrbrdhyEvfnt.PARENT_CHANGED}
- * <li> {@dodf HifrbrdhyEvfnt.DISPLAYABILITY_CHANGED}
- * <li> {@dodf HifrbrdhyEvfnt.SHOWING_CHANGED}
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li> {@dodf HifrbrdiyEvfnt.PARENT_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.PARENT_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.PARENT_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.PARENT_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.PARENT_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.DISPLAYABILITY_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.DISPLAYABILITY_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.DISPLAYABILITY_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.DISPLAYABILITY_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.DISPLAYABILITY_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.SHOWING_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.SHOWING_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.SHOWING_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.SHOWING_CHANGED}
+ * <li> {@dodf HifrbrdiyEvfnt.SHOWING_CHANGED}
  * </ul>
- * Assigning thf vbluf difffrfnt from listfd bbovf will dbusf unspfdififd bfhbvior.
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf unspfdififd bfibvior.
  *
- * @buthor      Dbvid Mfndfnhbll
- * @sff         HifrbrdhyListfnfr
- * @sff         HifrbrdhyBoundsAdbptfr
- * @sff         HifrbrdhyBoundsListfnfr
+ *
+ *
+ *
+ *
+ * @butior      Dbvid Mfndfnibll
+ * @butior      Dbvid Mfndfnibll
+ * @butior      Dbvid Mfndfnibll
+ * @butior      Dbvid Mfndfnibll
+ * @butior      Dbvid Mfndfnibll
+ * @sff         HifrbrdiyListfnfr
+ * @sff         HifrbrdiyListfnfr
+ * @sff         HifrbrdiyListfnfr
+ * @sff         HifrbrdiyListfnfr
+ * @sff         HifrbrdiyListfnfr
+ * @sff         HifrbrdiyBoundsAdbptfr
+ * @sff         HifrbrdiyBoundsAdbptfr
+ * @sff         HifrbrdiyBoundsAdbptfr
+ * @sff         HifrbrdiyBoundsAdbptfr
+ * @sff         HifrbrdiyBoundsAdbptfr
+ * @sff         HifrbrdiyBoundsListfnfr
+ * @sff         HifrbrdiyBoundsListfnfr
+ * @sff         HifrbrdiyBoundsListfnfr
+ * @sff         HifrbrdiyBoundsListfnfr
+ * @sff         HifrbrdiyBoundsListfnfr
+ * @sindf       1.3
+ * @sindf       1.3
+ * @sindf       1.3
+ * @sindf       1.3
  * @sindf       1.3
  */
-publid dlbss HifrbrdhyEvfnt fxtfnds AWTEvfnt {
+ */
+ */
+ */
+ */
+publid dlbss HifrbrdiyEvfnt fxtfnds AWTEvfnt {
+publid dlbss HifrbrdiyEvfnt fxtfnds AWTEvfnt {
+publid dlbss HifrbrdiyEvfnt fxtfnds AWTEvfnt {
+publid dlbss HifrbrdiyEvfnt fxtfnds AWTEvfnt {
+publid dlbss HifrbrdiyEvfnt fxtfnds AWTEvfnt {
+    /*
+    /*
+    /*
+    /*
     /*
      * sfriblVfrsionUID
+     * sfriblVfrsionUID
+     * sfriblVfrsionUID
+     * sfriblVfrsionUID
+     * sfriblVfrsionUID
+     */
+     */
+     */
+     */
      */
     privbtf stbtid finbl long sfriblVfrsionUID = -5337576970038043990L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5337576970038043990L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5337576970038043990L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5337576970038043990L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5337576970038043990L;
+
+
+
+
 
     /**
-     * Mbrks thf first intfgfr id for thf rbngf of hifrbrdhy fvfnt ids.
+    /**
+    /**
+    /**
+    /**
+     * Mbrks tif first intfgfr id for tif rbngf of iifrbrdiy fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of iifrbrdiy fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of iifrbrdiy fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of iifrbrdiy fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of iifrbrdiy fvfnt ids.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int HIERARCHY_FIRST = 1400; // 1300 usfd by sun.bwt.windows.ModblityEvfnt
+    publid stbtid finbl int HIERARCHY_FIRST = 1400; // 1300 usfd by sun.bwt.windows.ModblityEvfnt
+    publid stbtid finbl int HIERARCHY_FIRST = 1400; // 1300 usfd by sun.bwt.windows.ModblityEvfnt
+    publid stbtid finbl int HIERARCHY_FIRST = 1400; // 1300 usfd by sun.bwt.windows.ModblityEvfnt
+    publid stbtid finbl int HIERARCHY_FIRST = 1400; // 1300 usfd by sun.bwt.windows.ModblityEvfnt
+
+
+
+
 
     /**
-     * Thf fvfnt id indidbting thbt modifidbtion wbs mbdf to thf
-     * fntirf hifrbrdhy trff.
+    /**
+    /**
+    /**
+    /**
+     * Tif fvfnt id indidbting tibt modifidbtion wbs mbdf to tif
+     * Tif fvfnt id indidbting tibt modifidbtion wbs mbdf to tif
+     * Tif fvfnt id indidbting tibt modifidbtion wbs mbdf to tif
+     * Tif fvfnt id indidbting tibt modifidbtion wbs mbdf to tif
+     * Tif fvfnt id indidbting tibt modifidbtion wbs mbdf to tif
+     * fntirf iifrbrdiy trff.
+     * fntirf iifrbrdiy trff.
+     * fntirf iifrbrdiy trff.
+     * fntirf iifrbrdiy trff.
+     * fntirf iifrbrdiy trff.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int HIERARCHY_CHANGED = HIERARCHY_FIRST;
+    publid stbtid finbl int HIERARCHY_CHANGED = HIERARCHY_FIRST;
+    publid stbtid finbl int HIERARCHY_CHANGED = HIERARCHY_FIRST;
+    publid stbtid finbl int HIERARCHY_CHANGED = HIERARCHY_FIRST;
+    publid stbtid finbl int HIERARCHY_CHANGED = HIERARCHY_FIRST;
+
+
+
+
 
     /**
-     * Thf fvfnt id indidbting bn bndfstor-Contbinfr wbs movfd.
+    /**
+    /**
+    /**
+    /**
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs movfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs movfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs movfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs movfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs movfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int ANCESTOR_MOVED = 1 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_MOVED = 1 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_MOVED = 1 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_MOVED = 1 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_MOVED = 1 + HIERARCHY_FIRST;
+
+
+
+
 
     /**
-     * Thf fvfnt id indidbting bn bndfstor-Contbinfr wbs rfsizfd.
+    /**
+    /**
+    /**
+    /**
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs rfsizfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs rfsizfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs rfsizfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs rfsizfd.
+     * Tif fvfnt id indidbting bn bndfstor-Contbinfr wbs rfsizfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int ANCESTOR_RESIZED = 2 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_RESIZED = 2 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_RESIZED = 2 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_RESIZED = 2 + HIERARCHY_FIRST;
+    publid stbtid finbl int ANCESTOR_RESIZED = 2 + HIERARCHY_FIRST;
+
+
+
+
 
     /**
-     * Mbrks thf lbst intfgfr id for thf rbngf of bndfstor fvfnt ids.
+    /**
+    /**
+    /**
+    /**
+     * Mbrks tif lbst intfgfr id for tif rbngf of bndfstor fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bndfstor fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bndfstor fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bndfstor fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bndfstor fvfnt ids.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int HIERARCHY_LAST = ANCESTOR_RESIZED;
+    publid stbtid finbl int HIERARCHY_LAST = ANCESTOR_RESIZED;
+    publid stbtid finbl int HIERARCHY_LAST = ANCESTOR_RESIZED;
+    publid stbtid finbl int HIERARCHY_LAST = ANCESTOR_RESIZED;
+    publid stbtid finbl int HIERARCHY_LAST = ANCESTOR_RESIZED;
+
+
+
+
 
     /**
-     * A dhbngf flbg indidbtfs thbt thf <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+    /**
+    /**
+    /**
+    /**
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * wbs gfnfrbtfd by b rfpbrfnting opfrbtion.
+     * wbs gfnfrbtfd by b rfpbrfnting opfrbtion.
+     * wbs gfnfrbtfd by b rfpbrfnting opfrbtion.
+     * wbs gfnfrbtfd by b rfpbrfnting opfrbtion.
      * wbs gfnfrbtfd by b rfpbrfnting opfrbtion.
      */
+     */
+     */
+     */
+     */
+    publid stbtid finbl int PARENT_CHANGED = 0x1;
+    publid stbtid finbl int PARENT_CHANGED = 0x1;
+    publid stbtid finbl int PARENT_CHANGED = 0x1;
+    publid stbtid finbl int PARENT_CHANGED = 0x1;
     publid stbtid finbl int PARENT_CHANGED = 0x1;
 
+
+
+
+
     /**
-     * A dhbngf flbg indidbtfs thbt thf <dodf>HIERARCHY_CHANGED</dodf> fvfnt
-     * wbs gfnfrbtfd duf to thf dhbnging of thf hifrbrdhy displbybbility.
-     * To disdfrn thf
-     * durrfnt displbybbility of thf hifrbrdhy, dbll thf
-     * <dodf>Componfnt.isDisplbybblf</dodf> mfthod. Displbybbility dhbngfs oddur
-     * in rfsponsf to fxplidit or implidit dblls of thf
+    /**
+    /**
+    /**
+    /**
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy displbybbility.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy displbybbility.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy displbybbility.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy displbybbility.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy displbybbility.
+     * To disdfrn tif
+     * To disdfrn tif
+     * To disdfrn tif
+     * To disdfrn tif
+     * To disdfrn tif
+     * durrfnt displbybbility of tif iifrbrdiy, dbll tif
+     * durrfnt displbybbility of tif iifrbrdiy, dbll tif
+     * durrfnt displbybbility of tif iifrbrdiy, dbll tif
+     * durrfnt displbybbility of tif iifrbrdiy, dbll tif
+     * durrfnt displbybbility of tif iifrbrdiy, dbll tif
+     * <dodf>Componfnt.isDisplbybblf</dodf> mftiod. Displbybbility dibngfs oddur
+     * <dodf>Componfnt.isDisplbybblf</dodf> mftiod. Displbybbility dibngfs oddur
+     * <dodf>Componfnt.isDisplbybblf</dodf> mftiod. Displbybbility dibngfs oddur
+     * <dodf>Componfnt.isDisplbybblf</dodf> mftiod. Displbybbility dibngfs oddur
+     * <dodf>Componfnt.isDisplbybblf</dodf> mftiod. Displbybbility dibngfs oddur
+     * in rfsponsf to fxplidit or implidit dblls of tif
+     * in rfsponsf to fxplidit or implidit dblls of tif
+     * in rfsponsf to fxplidit or implidit dblls of tif
+     * in rfsponsf to fxplidit or implidit dblls of tif
+     * in rfsponsf to fxplidit or implidit dblls of tif
      * <dodf>Componfnt.bddNotify</dodf> bnd
-     * <dodf>Componfnt.rfmovfNotify</dodf> mfthods.
+     * <dodf>Componfnt.bddNotify</dodf> bnd
+     * <dodf>Componfnt.bddNotify</dodf> bnd
+     * <dodf>Componfnt.bddNotify</dodf> bnd
+     * <dodf>Componfnt.bddNotify</dodf> bnd
+     * <dodf>Componfnt.rfmovfNotify</dodf> mftiods.
+     * <dodf>Componfnt.rfmovfNotify</dodf> mftiods.
+     * <dodf>Componfnt.rfmovfNotify</dodf> mftiods.
+     * <dodf>Componfnt.rfmovfNotify</dodf> mftiods.
+     * <dodf>Componfnt.rfmovfNotify</dodf> mftiods.
+     *
+     *
+     *
+     *
      *
      * @sff jbvb.bwt.Componfnt#isDisplbybblf()
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf()
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf()
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf()
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
      * @sff jbvb.bwt.Componfnt#bddNotify()
      * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int DISPLAYABILITY_CHANGED = 0x2;
+    publid stbtid finbl int DISPLAYABILITY_CHANGED = 0x2;
+    publid stbtid finbl int DISPLAYABILITY_CHANGED = 0x2;
+    publid stbtid finbl int DISPLAYABILITY_CHANGED = 0x2;
+    publid stbtid finbl int DISPLAYABILITY_CHANGED = 0x2;
+
+
+
+
 
     /**
-     * A dhbngf flbg indidbtfs thbt thf <dodf>HIERARCHY_CHANGED</dodf> fvfnt
-     * wbs gfnfrbtfd duf to thf dhbnging of thf hifrbrdhy showing stbtf.
-     * To disdfrn thf
-     * durrfnt showing stbtf of thf hifrbrdhy, dbll thf
-     * <dodf>Componfnt.isShowing</dodf> mfthod. Showing stbtf dhbngfs oddur
-     * whfn fithfr thf displbybbility or visibility of thf
-     * hifrbrdhy oddurs. Visibility dhbngfs oddur in rfsponsf to fxplidit
-     * or implidit dblls of thf <dodf>Componfnt.show</dodf> bnd
-     * <dodf>Componfnt.hidf</dodf> mfthods.
+    /**
+    /**
+    /**
+    /**
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * A dibngf flbg indidbtfs tibt tif <dodf>HIERARCHY_CHANGED</dodf> fvfnt
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy siowing stbtf.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy siowing stbtf.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy siowing stbtf.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy siowing stbtf.
+     * wbs gfnfrbtfd duf to tif dibnging of tif iifrbrdiy siowing stbtf.
+     * To disdfrn tif
+     * To disdfrn tif
+     * To disdfrn tif
+     * To disdfrn tif
+     * To disdfrn tif
+     * durrfnt siowing stbtf of tif iifrbrdiy, dbll tif
+     * durrfnt siowing stbtf of tif iifrbrdiy, dbll tif
+     * durrfnt siowing stbtf of tif iifrbrdiy, dbll tif
+     * durrfnt siowing stbtf of tif iifrbrdiy, dbll tif
+     * durrfnt siowing stbtf of tif iifrbrdiy, dbll tif
+     * <dodf>Componfnt.isSiowing</dodf> mftiod. Siowing stbtf dibngfs oddur
+     * <dodf>Componfnt.isSiowing</dodf> mftiod. Siowing stbtf dibngfs oddur
+     * <dodf>Componfnt.isSiowing</dodf> mftiod. Siowing stbtf dibngfs oddur
+     * <dodf>Componfnt.isSiowing</dodf> mftiod. Siowing stbtf dibngfs oddur
+     * <dodf>Componfnt.isSiowing</dodf> mftiod. Siowing stbtf dibngfs oddur
+     * wifn fitifr tif displbybbility or visibility of tif
+     * wifn fitifr tif displbybbility or visibility of tif
+     * wifn fitifr tif displbybbility or visibility of tif
+     * wifn fitifr tif displbybbility or visibility of tif
+     * wifn fitifr tif displbybbility or visibility of tif
+     * iifrbrdiy oddurs. Visibility dibngfs oddur in rfsponsf to fxplidit
+     * iifrbrdiy oddurs. Visibility dibngfs oddur in rfsponsf to fxplidit
+     * iifrbrdiy oddurs. Visibility dibngfs oddur in rfsponsf to fxplidit
+     * iifrbrdiy oddurs. Visibility dibngfs oddur in rfsponsf to fxplidit
+     * iifrbrdiy oddurs. Visibility dibngfs oddur in rfsponsf to fxplidit
+     * or implidit dblls of tif <dodf>Componfnt.siow</dodf> bnd
+     * or implidit dblls of tif <dodf>Componfnt.siow</dodf> bnd
+     * or implidit dblls of tif <dodf>Componfnt.siow</dodf> bnd
+     * or implidit dblls of tif <dodf>Componfnt.siow</dodf> bnd
+     * or implidit dblls of tif <dodf>Componfnt.siow</dodf> bnd
+     * <dodf>Componfnt.iidf</dodf> mftiods.
+     * <dodf>Componfnt.iidf</dodf> mftiods.
+     * <dodf>Componfnt.iidf</dodf> mftiods.
+     * <dodf>Componfnt.iidf</dodf> mftiods.
+     * <dodf>Componfnt.iidf</dodf> mftiods.
      *
-     * @sff jbvb.bwt.Componfnt#isShowing()
+     *
+     *
+     *
+     *
+     * @sff jbvb.bwt.Componfnt#isSiowing()
+     * @sff jbvb.bwt.Componfnt#isSiowing()
+     * @sff jbvb.bwt.Componfnt#isSiowing()
+     * @sff jbvb.bwt.Componfnt#isSiowing()
+     * @sff jbvb.bwt.Componfnt#isSiowing()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
+     * @sff jbvb.bwt.Componfnt#bddNotify()
      * @sff jbvb.bwt.Componfnt#bddNotify()
      * @sff jbvb.bwt.Componfnt#rfmovfNotify()
-     * @sff jbvb.bwt.Componfnt#show()
-     * @sff jbvb.bwt.Componfnt#hidf()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#rfmovfNotify()
+     * @sff jbvb.bwt.Componfnt#siow()
+     * @sff jbvb.bwt.Componfnt#siow()
+     * @sff jbvb.bwt.Componfnt#siow()
+     * @sff jbvb.bwt.Componfnt#siow()
+     * @sff jbvb.bwt.Componfnt#siow()
+     * @sff jbvb.bwt.Componfnt#iidf()
+     * @sff jbvb.bwt.Componfnt#iidf()
+     * @sff jbvb.bwt.Componfnt#iidf()
+     * @sff jbvb.bwt.Componfnt#iidf()
+     * @sff jbvb.bwt.Componfnt#iidf()
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int SHOWING_CHANGED = 0x4;
+    publid stbtid finbl int SHOWING_CHANGED = 0x4;
+    publid stbtid finbl int SHOWING_CHANGED = 0x4;
+    publid stbtid finbl int SHOWING_CHANGED = 0x4;
+    publid stbtid finbl int SHOWING_CHANGED = 0x4;
 
-    Componfnt dhbngfd;
-    Contbinfr dhbngfdPbrfnt;
-    long      dhbngfFlbgs;
+
+
+
+
+    Componfnt dibngfd;
+    Componfnt dibngfd;
+    Componfnt dibngfd;
+    Componfnt dibngfd;
+    Componfnt dibngfd;
+    Contbinfr dibngfdPbrfnt;
+    Contbinfr dibngfdPbrfnt;
+    Contbinfr dibngfdPbrfnt;
+    Contbinfr dibngfdPbrfnt;
+    Contbinfr dibngfdPbrfnt;
+    long      dibngfFlbgs;
+    long      dibngfFlbgs;
+    long      dibngfFlbgs;
+    long      dibngfFlbgs;
+    long      dibngfFlbgs;
+
+
+
+
 
     /**
-     * Construdts bn <dodf>HifrbrdhyEvfnt</dodf> objfdt to idfntify b
-     * dhbngf in thf <dodf>Componfnt</dodf> hifrbrdhy.
-     * <p>This mfthod throws bn
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify b
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify b
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify b
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify b
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify b
+     * dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * <p>Tiis mftiod tirows bn
+     * <p>Tiis mftiod tirows bn
+     * <p>Tiis mftiod tirows bn
+     * <p>Tiis mftiod tirows bn
+     * <p>Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
      * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
      * is <dodf>null</dodf>.
-     *
-     * @pbrbm sourdf          Thf <dodf>Componfnt</dodf> objfdt thbt
-     *                        originbtfd thf fvfnt
-     * @pbrbm id              An intfgfr indidbting thf typf of fvfnt.
-     *                        For informbtion on bllowbblf vblufs, sff
-     *                        thf dlbss dfsdription for {@link HifrbrdhyEvfnt}
-     * @pbrbm dhbngfd         Thf <dodf>Componfnt</dodf> bt thf top of
-     *                        thf hifrbrdhy whidh wbs dhbngfd
-     * @pbrbm dhbngfdPbrfnt   Thf pbrfnt of thf <dodf>dhbngfd</dodf> domponfnt.
-     *                        This
-     *                        mby bf thf pbrfnt bfforf or bftfr thf
-     *                        dhbngf, dfpfnding on thf typf of dhbngf
-     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is {@dodf null}
-     * @sff #gftSourdf()
-     * @sff #gftID()
-     * @sff #gftChbngfd()
-     * @sff #gftChbngfdPbrfnt()
-     */
-    publid HifrbrdhyEvfnt(Componfnt sourdf, int id, Componfnt dhbngfd,
-                          Contbinfr dhbngfdPbrfnt) {
-        supfr(sourdf, id);
-        this.dhbngfd = dhbngfd;
-        this.dhbngfdPbrfnt = dhbngfdPbrfnt;
-    }
-
-    /**
-     * Construdts bn <dodf>HifrbrdhyEvfnt</dodf> objfdt to idfntify
-     * b dhbngf in thf <dodf>Componfnt</dodf> hifrbrdhy.
-     * <p> This mfthod throws bn
-     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
      * is <dodf>null</dodf>.
      *
-     * @pbrbm sourdf          Thf <dodf>Componfnt</dodf> objfdt thbt
-     *                        originbtfd thf fvfnt
-     * @pbrbm id              An intfgfr indidbting thf typf of fvfnt.
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
      *                        For informbtion on bllowbblf vblufs, sff
-     *                        thf dlbss dfsdription for {@link HifrbrdhyEvfnt}
-     * @pbrbm dhbngfd         Thf <dodf>Componfnt</dodf> bt thf top
-     *                        of thf hifrbrdhy whidh wbs dhbngfd
-     * @pbrbm dhbngfdPbrfnt   Thf pbrfnt of thf <dodf>dhbngfd</dodf> domponfnt.
-     *                        This
-     *                        mby bf thf pbrfnt bfforf or bftfr thf
-     *                        dhbngf, dfpfnding on thf typf of dhbngf
-     * @pbrbm dhbngfFlbgs     A bitmbsk whidh indidbtfs thf typf(s) of
-     *                        thf <dodf>HIERARCHY_CHANGED</dodf> fvfnts
-     *                        rfprfsfntfd in this fvfnt objfdt.
      *                        For informbtion on bllowbblf vblufs, sff
-     *                        thf dlbss dfsdription for {@link HifrbrdhyEvfnt}
-     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top of
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top of
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top of
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top of
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top of
+     *                        tif iifrbrdiy wiidi wbs dibngfd
+     *                        tif iifrbrdiy wiidi wbs dibngfd
+     *                        tif iifrbrdiy wiidi wbs dibngfd
+     *                        tif iifrbrdiy wiidi wbs dibngfd
+     *                        tif iifrbrdiy wiidi wbs dibngfd
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     *                        Tiis
+     *                        Tiis
+     *                        Tiis
+     *                        Tiis
+     *                        Tiis
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is {@dodf null}
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
      * @sff #gftSourdf()
      * @sff #gftID()
-     * @sff #gftChbngfd()
-     * @sff #gftChbngfdPbrfnt()
-     * @sff #gftChbngfFlbgs()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
      */
-    publid HifrbrdhyEvfnt(Componfnt sourdf, int id, Componfnt dhbngfd,
-                          Contbinfr dhbngfdPbrfnt, long dhbngfFlbgs) {
+     */
+     */
+     */
+     */
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+                          Contbinfr dibngfdPbrfnt) {
+                          Contbinfr dibngfdPbrfnt) {
+                          Contbinfr dibngfdPbrfnt) {
+                          Contbinfr dibngfdPbrfnt) {
+                          Contbinfr dibngfdPbrfnt) {
         supfr(sourdf, id);
-        this.dhbngfd = dhbngfd;
-        this.dhbngfdPbrfnt = dhbngfdPbrfnt;
-        this.dhbngfFlbgs = dhbngfFlbgs;
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf originbtor of thf fvfnt.
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify
+     * Construdts bn <dodf>HifrbrdiyEvfnt</dodf> objfdt to idfntify
+     * b dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * b dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * b dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * b dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * b dibngf in tif <dodf>Componfnt</dodf> iifrbrdiy.
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
      *
-     * @rfturn thf <dodf>Componfnt</dodf> objfdt thbt originbtfd
-     * thf fvfnt, or <dodf>null</dodf> if thf objfdt is not b
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     * @pbrbm sourdf          Tif <dodf>Componfnt</dodf> objfdt tibt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     *                        originbtfd tif fvfnt
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id              An intfgfr indidbting tif typf of fvfnt.
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top
+     * @pbrbm dibngfd         Tif <dodf>Componfnt</dodf> bt tif top
+     *                        of tif iifrbrdiy wiidi wbs dibngfd
+     *                        of tif iifrbrdiy wiidi wbs dibngfd
+     *                        of tif iifrbrdiy wiidi wbs dibngfd
+     *                        of tif iifrbrdiy wiidi wbs dibngfd
+     *                        of tif iifrbrdiy wiidi wbs dibngfd
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     * @pbrbm dibngfdPbrfnt   Tif pbrfnt of tif <dodf>dibngfd</dodf> domponfnt.
+     *                        Tiis
+     *                        Tiis
+     *                        Tiis
+     *                        Tiis
+     *                        Tiis
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        mby bf tif pbrfnt bfforf or bftfr tif
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     *                        dibngf, dfpfnding on tif typf of dibngf
+     * @pbrbm dibngfFlbgs     A bitmbsk wiidi indidbtfs tif typf(s) of
+     * @pbrbm dibngfFlbgs     A bitmbsk wiidi indidbtfs tif typf(s) of
+     * @pbrbm dibngfFlbgs     A bitmbsk wiidi indidbtfs tif typf(s) of
+     * @pbrbm dibngfFlbgs     A bitmbsk wiidi indidbtfs tif typf(s) of
+     * @pbrbm dibngfFlbgs     A bitmbsk wiidi indidbtfs tif typf(s) of
+     *                        tif <dodf>HIERARCHY_CHANGED</dodf> fvfnts
+     *                        tif <dodf>HIERARCHY_CHANGED</dodf> fvfnts
+     *                        tif <dodf>HIERARCHY_CHANGED</dodf> fvfnts
+     *                        tif <dodf>HIERARCHY_CHANGED</dodf> fvfnts
+     *                        tif <dodf>HIERARCHY_CHANGED</dodf> fvfnts
+     *                        rfprfsfntfd in tiis fvfnt objfdt.
+     *                        rfprfsfntfd in tiis fvfnt objfdt.
+     *                        rfprfsfntfd in tiis fvfnt objfdt.
+     *                        rfprfsfntfd in tiis fvfnt objfdt.
+     *                        rfprfsfntfd in tiis fvfnt objfdt.
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        For informbtion on bllowbblf vblufs, sff
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     *                        tif dlbss dfsdription for {@link HifrbrdiyEvfnt}
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfd()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfdPbrfnt()
+     * @sff #gftCibngfFlbgs()
+     * @sff #gftCibngfFlbgs()
+     * @sff #gftCibngfFlbgs()
+     * @sff #gftCibngfFlbgs()
+     * @sff #gftCibngfFlbgs()
+     */
+     */
+     */
+     */
+     */
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+    publid HifrbrdiyEvfnt(Componfnt sourdf, int id, Componfnt dibngfd,
+                          Contbinfr dibngfdPbrfnt, long dibngfFlbgs) {
+                          Contbinfr dibngfdPbrfnt, long dibngfFlbgs) {
+                          Contbinfr dibngfdPbrfnt, long dibngfFlbgs) {
+                          Contbinfr dibngfdPbrfnt, long dibngfFlbgs) {
+                          Contbinfr dibngfdPbrfnt, long dibngfFlbgs) {
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfd = dibngfd;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfdPbrfnt = dibngfdPbrfnt;
+        tiis.dibngfFlbgs = dibngfFlbgs;
+        tiis.dibngfFlbgs = dibngfFlbgs;
+        tiis.dibngfFlbgs = dibngfFlbgs;
+        tiis.dibngfFlbgs = dibngfFlbgs;
+        tiis.dibngfFlbgs = dibngfFlbgs;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif originbtor of tif fvfnt.
+     * Rfturns tif originbtor of tif fvfnt.
+     * Rfturns tif originbtor of tif fvfnt.
+     * Rfturns tif originbtor of tif fvfnt.
+     * Rfturns tif originbtor of tif fvfnt.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif <dodf>Componfnt</dodf> objfdt tibt originbtfd
+     * @rfturn tif <dodf>Componfnt</dodf> objfdt tibt originbtfd
+     * @rfturn tif <dodf>Componfnt</dodf> objfdt tibt originbtfd
+     * @rfturn tif <dodf>Componfnt</dodf> objfdt tibt originbtfd
+     * @rfturn tif <dodf>Componfnt</dodf> objfdt tibt originbtfd
+     * tif fvfnt, or <dodf>null</dodf> if tif objfdt is not b
+     * tif fvfnt, or <dodf>null</dodf> if tif objfdt is not b
+     * tif fvfnt, or <dodf>null</dodf> if tif objfdt is not b
+     * tif fvfnt, or <dodf>null</dodf> if tif objfdt is not b
+     * tif fvfnt, or <dodf>null</dodf> if tif objfdt is not b
+     * <dodf>Componfnt</dodf>.
+     * <dodf>Componfnt</dodf>.
+     * <dodf>Componfnt</dodf>.
+     * <dodf>Componfnt</dodf>.
      * <dodf>Componfnt</dodf>.
      */
+     */
+     */
+     */
+     */
+    publid Componfnt gftComponfnt() {
+    publid Componfnt gftComponfnt() {
+    publid Componfnt gftComponfnt() {
+    publid Componfnt gftComponfnt() {
     publid Componfnt gftComponfnt() {
         rfturn (sourdf instbndfof Componfnt) ? (Componfnt)sourdf : null;
+        rfturn (sourdf instbndfof Componfnt) ? (Componfnt)sourdf : null;
+        rfturn (sourdf instbndfof Componfnt) ? (Componfnt)sourdf : null;
+        rfturn (sourdf instbndfof Componfnt) ? (Componfnt)sourdf : null;
+        rfturn (sourdf instbndfof Componfnt) ? (Componfnt)sourdf : null;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf Componfnt bt thf top of thf hifrbrdhy whidh wbs
-     * dhbngfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Componfnt bt tif top of tif iifrbrdiy wiidi wbs
+     * Rfturns tif Componfnt bt tif top of tif iifrbrdiy wiidi wbs
+     * Rfturns tif Componfnt bt tif top of tif iifrbrdiy wiidi wbs
+     * Rfturns tif Componfnt bt tif top of tif iifrbrdiy wiidi wbs
+     * Rfturns tif Componfnt bt tif top of tif iifrbrdiy wiidi wbs
+     * dibngfd.
+     * dibngfd.
+     * dibngfd.
+     * dibngfd.
+     * dibngfd.
      *
-     * @rfturn thf dhbngfd Componfnt
+     *
+     *
+     *
+     *
+     * @rfturn tif dibngfd Componfnt
+     * @rfturn tif dibngfd Componfnt
+     * @rfturn tif dibngfd Componfnt
+     * @rfturn tif dibngfd Componfnt
+     * @rfturn tif dibngfd Componfnt
      */
-    publid Componfnt gftChbngfd() {
-        rfturn dhbngfd;
-    }
-
-    /**
-     * Rfturns thf pbrfnt of thf Componfnt rfturnfd by <dodf>
-     * gftChbngfd()</dodf>. For b HIERARCHY_CHANGED fvfnt whfrf thf
-     * dhbngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
-     * Contbinfr.bdd</dodf>, thf pbrfnt rfturnfd is thf pbrfnt
-     * bftfr thf bdd opfrbtion. For b HIERARCHY_CHANGED fvfnt whfrf
-     * thf dhbngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
-     * Contbinfr.rfmovf</dodf>, thf pbrfnt rfturnfd is thf pbrfnt
-     * bfforf thf rfmovf opfrbtion. For bll othfr fvfnts bnd typfs,
-     * thf pbrfnt rfturnfd is thf pbrfnt during thf opfrbtion.
-     *
-     * @rfturn thf pbrfnt of thf dhbngfd Componfnt
      */
-    publid Contbinfr gftChbngfdPbrfnt() {
-        rfturn dhbngfdPbrfnt;
+     */
+     */
+     */
+    publid Componfnt gftCibngfd() {
+    publid Componfnt gftCibngfd() {
+    publid Componfnt gftCibngfd() {
+    publid Componfnt gftCibngfd() {
+    publid Componfnt gftCibngfd() {
+        rfturn dibngfd;
+        rfturn dibngfd;
+        rfturn dibngfd;
+        rfturn dibngfd;
+        rfturn dibngfd;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b bitmbsk whidh indidbtfs thf typf(s) of
-     * HIERARCHY_CHANGED fvfnts rfprfsfntfd in this fvfnt objfdt.
-     * Thf bits hbvf bffn bitwisf-orfd togfthfr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif pbrfnt of tif Componfnt rfturnfd by <dodf>
+     * Rfturns tif pbrfnt of tif Componfnt rfturnfd by <dodf>
+     * Rfturns tif pbrfnt of tif Componfnt rfturnfd by <dodf>
+     * Rfturns tif pbrfnt of tif Componfnt rfturnfd by <dodf>
+     * Rfturns tif pbrfnt of tif Componfnt rfturnfd by <dodf>
+     * gftCibngfd()</dodf>. For b HIERARCHY_CHANGED fvfnt wifrf tif
+     * gftCibngfd()</dodf>. For b HIERARCHY_CHANGED fvfnt wifrf tif
+     * gftCibngfd()</dodf>. For b HIERARCHY_CHANGED fvfnt wifrf tif
+     * gftCibngfd()</dodf>. For b HIERARCHY_CHANGED fvfnt wifrf tif
+     * gftCibngfd()</dodf>. For b HIERARCHY_CHANGED fvfnt wifrf tif
+     * dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * Contbinfr.bdd</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.bdd</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.bdd</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.bdd</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.bdd</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * bftfr tif bdd opfrbtion. For b HIERARCHY_CHANGED fvfnt wifrf
+     * bftfr tif bdd opfrbtion. For b HIERARCHY_CHANGED fvfnt wifrf
+     * bftfr tif bdd opfrbtion. For b HIERARCHY_CHANGED fvfnt wifrf
+     * bftfr tif bdd opfrbtion. For b HIERARCHY_CHANGED fvfnt wifrf
+     * bftfr tif bdd opfrbtion. For b HIERARCHY_CHANGED fvfnt wifrf
+     * tif dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * tif dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * tif dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * tif dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * tif dibngf wbs of typf PARENT_CHANGED vib b dbll to <dodf>
+     * Contbinfr.rfmovf</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.rfmovf</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.rfmovf</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.rfmovf</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * Contbinfr.rfmovf</dodf>, tif pbrfnt rfturnfd is tif pbrfnt
+     * bfforf tif rfmovf opfrbtion. For bll otifr fvfnts bnd typfs,
+     * bfforf tif rfmovf opfrbtion. For bll otifr fvfnts bnd typfs,
+     * bfforf tif rfmovf opfrbtion. For bll otifr fvfnts bnd typfs,
+     * bfforf tif rfmovf opfrbtion. For bll otifr fvfnts bnd typfs,
+     * bfforf tif rfmovf opfrbtion. For bll otifr fvfnts bnd typfs,
+     * tif pbrfnt rfturnfd is tif pbrfnt during tif opfrbtion.
+     * tif pbrfnt rfturnfd is tif pbrfnt during tif opfrbtion.
+     * tif pbrfnt rfturnfd is tif pbrfnt during tif opfrbtion.
+     * tif pbrfnt rfturnfd is tif pbrfnt during tif opfrbtion.
+     * tif pbrfnt rfturnfd is tif pbrfnt during tif opfrbtion.
      *
-     * @rfturn thf bitmbsk, or 0 if this is not bn HIERARCHY_CHANGED
+     *
+     *
+     *
+     *
+     * @rfturn tif pbrfnt of tif dibngfd Componfnt
+     * @rfturn tif pbrfnt of tif dibngfd Componfnt
+     * @rfturn tif pbrfnt of tif dibngfd Componfnt
+     * @rfturn tif pbrfnt of tif dibngfd Componfnt
+     * @rfturn tif pbrfnt of tif dibngfd Componfnt
+     */
+     */
+     */
+     */
+     */
+    publid Contbinfr gftCibngfdPbrfnt() {
+    publid Contbinfr gftCibngfdPbrfnt() {
+    publid Contbinfr gftCibngfdPbrfnt() {
+    publid Contbinfr gftCibngfdPbrfnt() {
+    publid Contbinfr gftCibngfdPbrfnt() {
+        rfturn dibngfdPbrfnt;
+        rfturn dibngfdPbrfnt;
+        rfturn dibngfdPbrfnt;
+        rfturn dibngfdPbrfnt;
+        rfturn dibngfdPbrfnt;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b bitmbsk wiidi indidbtfs tif typf(s) of
+     * Rfturns b bitmbsk wiidi indidbtfs tif typf(s) of
+     * Rfturns b bitmbsk wiidi indidbtfs tif typf(s) of
+     * Rfturns b bitmbsk wiidi indidbtfs tif typf(s) of
+     * Rfturns b bitmbsk wiidi indidbtfs tif typf(s) of
+     * HIERARCHY_CHANGED fvfnts rfprfsfntfd in tiis fvfnt objfdt.
+     * HIERARCHY_CHANGED fvfnts rfprfsfntfd in tiis fvfnt objfdt.
+     * HIERARCHY_CHANGED fvfnts rfprfsfntfd in tiis fvfnt objfdt.
+     * HIERARCHY_CHANGED fvfnts rfprfsfntfd in tiis fvfnt objfdt.
+     * HIERARCHY_CHANGED fvfnts rfprfsfntfd in tiis fvfnt objfdt.
+     * Tif bits ibvf bffn bitwisf-orfd togftifr.
+     * Tif bits ibvf bffn bitwisf-orfd togftifr.
+     * Tif bits ibvf bffn bitwisf-orfd togftifr.
+     * Tif bits ibvf bffn bitwisf-orfd togftifr.
+     * Tif bits ibvf bffn bitwisf-orfd togftifr.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif bitmbsk, or 0 if tiis is not bn HIERARCHY_CHANGED
+     * @rfturn tif bitmbsk, or 0 if tiis is not bn HIERARCHY_CHANGED
+     * @rfturn tif bitmbsk, or 0 if tiis is not bn HIERARCHY_CHANGED
+     * @rfturn tif bitmbsk, or 0 if tiis is not bn HIERARCHY_CHANGED
+     * @rfturn tif bitmbsk, or 0 if tiis is not bn HIERARCHY_CHANGED
+     * fvfnt
+     * fvfnt
+     * fvfnt
+     * fvfnt
      * fvfnt
      */
-    publid long gftChbngfFlbgs() {
-        rfturn dhbngfFlbgs;
+     */
+     */
+     */
+     */
+    publid long gftCibngfFlbgs() {
+    publid long gftCibngfFlbgs() {
+    publid long gftCibngfFlbgs() {
+    publid long gftCibngfFlbgs() {
+    publid long gftCibngfFlbgs() {
+        rfturn dibngfFlbgs;
+        rfturn dibngfFlbgs;
+        rfturn dibngfFlbgs;
+        rfturn dibngfFlbgs;
+        rfturn dibngfFlbgs;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
-     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
      *
-     * @rfturn b string idfntifying thf fvfnt bnd its bttributfs
+     *
+     *
+     *
+     *
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
+     */
+     */
+     */
+     */
      */
     publid String pbrbmString() {
+    publid String pbrbmString() {
+    publid String pbrbmString() {
+    publid String pbrbmString() {
+    publid String pbrbmString() {
         String typfStr;
-        switdh(id) {
+        String typfStr;
+        String typfStr;
+        String typfStr;
+        String typfStr;
+        switdi(id) {
+        switdi(id) {
+        switdi(id) {
+        switdi(id) {
+        switdi(id) {
           dbsf ANCESTOR_MOVED:
-              typfStr = "ANCESTOR_MOVED ("+dhbngfd+","+dhbngfdPbrfnt+")";
+          dbsf ANCESTOR_MOVED:
+          dbsf ANCESTOR_MOVED:
+          dbsf ANCESTOR_MOVED:
+          dbsf ANCESTOR_MOVED:
+              typfStr = "ANCESTOR_MOVED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_MOVED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_MOVED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_MOVED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_MOVED ("+dibngfd+","+dibngfdPbrfnt+")";
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
               brfbk;
           dbsf ANCESTOR_RESIZED:
-              typfStr = "ANCESTOR_RESIZED ("+dhbngfd+","+dhbngfdPbrfnt+")";
+          dbsf ANCESTOR_RESIZED:
+          dbsf ANCESTOR_RESIZED:
+          dbsf ANCESTOR_RESIZED:
+          dbsf ANCESTOR_RESIZED:
+              typfStr = "ANCESTOR_RESIZED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_RESIZED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_RESIZED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_RESIZED ("+dibngfd+","+dibngfdPbrfnt+")";
+              typfStr = "ANCESTOR_RESIZED ("+dibngfd+","+dibngfdPbrfnt+")";
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
               brfbk;
           dbsf HIERARCHY_CHANGED: {
+          dbsf HIERARCHY_CHANGED: {
+          dbsf HIERARCHY_CHANGED: {
+          dbsf HIERARCHY_CHANGED: {
+          dbsf HIERARCHY_CHANGED: {
+              typfStr = "HIERARCHY_CHANGED (";
+              typfStr = "HIERARCHY_CHANGED (";
+              typfStr = "HIERARCHY_CHANGED (";
+              typfStr = "HIERARCHY_CHANGED (";
               typfStr = "HIERARCHY_CHANGED (";
               boolfbn first = truf;
-              if ((dhbngfFlbgs & PARENT_CHANGED) != 0) {
+              boolfbn first = truf;
+              boolfbn first = truf;
+              boolfbn first = truf;
+              boolfbn first = truf;
+              if ((dibngfFlbgs & PARENT_CHANGED) != 0) {
+              if ((dibngfFlbgs & PARENT_CHANGED) != 0) {
+              if ((dibngfFlbgs & PARENT_CHANGED) != 0) {
+              if ((dibngfFlbgs & PARENT_CHANGED) != 0) {
+              if ((dibngfFlbgs & PARENT_CHANGED) != 0) {
+                  first = fblsf;
+                  first = fblsf;
+                  first = fblsf;
+                  first = fblsf;
                   first = fblsf;
                   typfStr += "PARENT_CHANGED";
+                  typfStr += "PARENT_CHANGED";
+                  typfStr += "PARENT_CHANGED";
+                  typfStr += "PARENT_CHANGED";
+                  typfStr += "PARENT_CHANGED";
               }
-              if ((dhbngfFlbgs & DISPLAYABILITY_CHANGED) != 0) {
+              }
+              }
+              }
+              }
+              if ((dibngfFlbgs & DISPLAYABILITY_CHANGED) != 0) {
+              if ((dibngfFlbgs & DISPLAYABILITY_CHANGED) != 0) {
+              if ((dibngfFlbgs & DISPLAYABILITY_CHANGED) != 0) {
+              if ((dibngfFlbgs & DISPLAYABILITY_CHANGED) != 0) {
+              if ((dibngfFlbgs & DISPLAYABILITY_CHANGED) != 0) {
+                  if (first) {
+                  if (first) {
+                  if (first) {
+                  if (first) {
                   if (first) {
                       first = fblsf;
+                      first = fblsf;
+                      first = fblsf;
+                      first = fblsf;
+                      first = fblsf;
+                  } flsf {
+                  } flsf {
+                  } flsf {
+                  } flsf {
                   } flsf {
                       typfStr += ",";
+                      typfStr += ",";
+                      typfStr += ",";
+                      typfStr += ",";
+                      typfStr += ",";
+                  }
+                  }
+                  }
+                  }
                   }
                   typfStr += "DISPLAYABILITY_CHANGED";
+                  typfStr += "DISPLAYABILITY_CHANGED";
+                  typfStr += "DISPLAYABILITY_CHANGED";
+                  typfStr += "DISPLAYABILITY_CHANGED";
+                  typfStr += "DISPLAYABILITY_CHANGED";
               }
-              if ((dhbngfFlbgs & SHOWING_CHANGED) != 0) {
+              }
+              }
+              }
+              }
+              if ((dibngfFlbgs & SHOWING_CHANGED) != 0) {
+              if ((dibngfFlbgs & SHOWING_CHANGED) != 0) {
+              if ((dibngfFlbgs & SHOWING_CHANGED) != 0) {
+              if ((dibngfFlbgs & SHOWING_CHANGED) != 0) {
+              if ((dibngfFlbgs & SHOWING_CHANGED) != 0) {
+                  if (first) {
+                  if (first) {
+                  if (first) {
+                  if (first) {
                   if (first) {
                       first = fblsf;
+                      first = fblsf;
+                      first = fblsf;
+                      first = fblsf;
+                      first = fblsf;
+                  } flsf {
+                  } flsf {
+                  } flsf {
+                  } flsf {
                   } flsf {
                       typfStr += ",";
+                      typfStr += ",";
+                      typfStr += ",";
+                      typfStr += ",";
+                      typfStr += ",";
+                  }
+                  }
+                  }
+                  }
                   }
                   typfStr += "SHOWING_CHANGED";
+                  typfStr += "SHOWING_CHANGED";
+                  typfStr += "SHOWING_CHANGED";
+                  typfStr += "SHOWING_CHANGED";
+                  typfStr += "SHOWING_CHANGED";
+              }
+              }
+              }
+              }
               }
               if (!first) {
+              if (!first) {
+              if (!first) {
+              if (!first) {
+              if (!first) {
+                  typfStr += ",";
+                  typfStr += ",";
+                  typfStr += ",";
+                  typfStr += ",";
                   typfStr += ",";
               }
-              typfStr += dhbngfd + "," + dhbngfdPbrfnt + ")";
+              }
+              }
+              }
+              }
+              typfStr += dibngfd + "," + dibngfdPbrfnt + ")";
+              typfStr += dibngfd + "," + dibngfdPbrfnt + ")";
+              typfStr += dibngfd + "," + dibngfdPbrfnt + ")";
+              typfStr += dibngfd + "," + dibngfdPbrfnt + ")";
+              typfStr += dibngfd + "," + dibngfdPbrfnt + ")";
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
               brfbk;
           }
+          }
+          }
+          }
+          }
+          dffbult:
+          dffbult:
+          dffbult:
+          dffbult:
           dffbult:
               typfStr = "unknown typf";
+              typfStr = "unknown typf";
+              typfStr = "unknown typf";
+              typfStr = "unknown typf";
+              typfStr = "unknown typf";
+        }
+        }
+        }
+        }
         }
         rfturn typfStr;
+        rfturn typfStr;
+        rfturn typfStr;
+        rfturn typfStr;
+        rfturn typfStr;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

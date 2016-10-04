@@ -1,170 +1,850 @@
 #
+#
+#
+#
+#
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+#
+#
+#
+#
 #
 
+
+
+
+
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
 # CbdifRowSftImpl fxdfptions
 dbdifdrowsftimpl.populbtf = Ung\u00FCltigfs RfsultSft-Objfkt zum Auff\u00FCllfn dfr Mftiodf bngfgfbfn
+dbdifdrowsftimpl.populbtf = Ung\u00FCltigfs RfsultSft-Objfkt zum Auff\u00FCllfn dfr Mftiodf bngfgfbfn
+dbdifdrowsftimpl.populbtf = Ung\u00FCltigfs RfsultSft-Objfkt zum Auff\u00FCllfn dfr Mftiodf bngfgfbfn
+dbdifdrowsftimpl.populbtf = Ung\u00FCltigfs RfsultSft-Objfkt zum Auff\u00FCllfn dfr Mftiodf bngfgfbfn
+dbdifdrowsftimpl.populbtf = Ung\u00FCltigfs RfsultSft-Objfkt zum Auff\u00FCllfn dfr Mftiodf bngfgfbfn
+dbdifdrowsftimpl.invblidp = Ung\u00FCltigfr Pfrsistfndf-Providfr gfnfrifrt
+dbdifdrowsftimpl.invblidp = Ung\u00FCltigfr Pfrsistfndf-Providfr gfnfrifrt
+dbdifdrowsftimpl.invblidp = Ung\u00FCltigfr Pfrsistfndf-Providfr gfnfrifrt
+dbdifdrowsftimpl.invblidp = Ung\u00FCltigfr Pfrsistfndf-Providfr gfnfrifrt
 dbdifdrowsftimpl.invblidp = Ung\u00FCltigfr Pfrsistfndf-Providfr gfnfrifrt
 dbdifdrowsftimpl.nullibsi = CbdifdRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+dbdifdrowsftimpl.nullibsi = CbdifdRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+dbdifdrowsftimpl.nullibsi = CbdifdRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+dbdifdrowsftimpl.nullibsi = CbdifdRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+dbdifdrowsftimpl.nullibsi = CbdifdRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+dbdifdrowsftimpl.invblidop = Ung\u00FCltigfr Vorgbng bfim Zfilfnfinf\u00FCgfn
+dbdifdrowsftimpl.invblidop = Ung\u00FCltigfr Vorgbng bfim Zfilfnfinf\u00FCgfn
+dbdifdrowsftimpl.invblidop = Ung\u00FCltigfr Vorgbng bfim Zfilfnfinf\u00FCgfn
+dbdifdrowsftimpl.invblidop = Ung\u00FCltigfr Vorgbng bfim Zfilfnfinf\u00FCgfn
 dbdifdrowsftimpl.invblidop = Ung\u00FCltigfr Vorgbng bfim Zfilfnfinf\u00FCgfn
 dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs nidit frfolgrfidi
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs nidit frfolgrfidi
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs nidit frfolgrfidi
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs nidit frfolgrfidi
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs nidit frfolgrfidi
+dbdifdrowsftimpl.invbliddp = Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.invbliddp = Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.invbliddp = Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.invbliddp = Ung\u00FCltigf Cursorposition
 dbdifdrowsftimpl.invbliddp = Ung\u00FCltigf Cursorposition
 dbdifdrowsftimpl.illfgblop = Ung\u00FCltigfr Vorgbng bfi nidit fingff\u00FCgtfr Zfilf
+dbdifdrowsftimpl.illfgblop = Ung\u00FCltigfr Vorgbng bfi nidit fingff\u00FCgtfr Zfilf
+dbdifdrowsftimpl.illfgblop = Ung\u00FCltigfr Vorgbng bfi nidit fingff\u00FCgtfr Zfilf
+dbdifdrowsftimpl.illfgblop = Ung\u00FCltigfr Vorgbng bfi nidit fingff\u00FCgtfr Zfilf
+dbdifdrowsftimpl.illfgblop = Ung\u00FCltigfr Vorgbng bfi nidit fingff\u00FCgtfr Zfilf
+dbdifdrowsftimpl.dlonffbil = Clonfn nidit frfolgrfidi: {0}
+dbdifdrowsftimpl.dlonffbil = Clonfn nidit frfolgrfidi: {0}
+dbdifdrowsftimpl.dlonffbil = Clonfn nidit frfolgrfidi: {0}
+dbdifdrowsftimpl.dlonffbil = Clonfn nidit frfolgrfidi: {0}
 dbdifdrowsftimpl.dlonffbil = Clonfn nidit frfolgrfidi: {0}
 dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbldolnm = Ung\u00FCltigfr Spbltfnnbmf
+dbdifdrowsftimpl.invbldolnm = Ung\u00FCltigfr Spbltfnnbmf
+dbdifdrowsftimpl.invbldolnm = Ung\u00FCltigfr Spbltfnnbmf
+dbdifdrowsftimpl.invbldolnm = Ung\u00FCltigfr Spbltfnnbmf
 dbdifdrowsftimpl.invbldolnm = Ung\u00FCltigfr Spbltfnnbmf
 dbdifdrowsftimpl.boolfbil = gftBoolfn bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.boolfbil = gftBoolfn bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.boolfbil = gftBoolfn bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.boolfbil = gftBoolfn bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.boolfbil = gftBoolfn bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.bytffbil = gftBytf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.bytffbil = gftBytf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.bytffbil = gftBytf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.bytffbil = gftBytf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
 dbdifdrowsftimpl.bytffbil = gftBytf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
 dbdifdrowsftimpl.siortfbil = gftSiort bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.siortfbil = gftSiort bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.siortfbil = gftSiort bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.siortfbil = gftSiort bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.siortfbil = gftSiort bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.intfbil = gftInt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.intfbil = gftInt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.intfbil = gftInt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.intfbil = gftInt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
 dbdifdrowsftimpl.intfbil = gftInt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
 dbdifdrowsftimpl.longfbil = gftLong bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.longfbil = gftLong bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.longfbil = gftLong bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.longfbil = gftLong bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.longfbil = gftLong bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.flobtfbil = gftFlobt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.flobtfbil = gftFlobt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.flobtfbil = gftFlobt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.flobtfbil = gftFlobt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
 dbdifdrowsftimpl.flobtfbil = gftFlobt bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
 dbdifdrowsftimpl.doublffbil = gftDoublf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.doublffbil = gftDoublf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.doublffbil = gftDoublf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.doublffbil = gftDoublf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.doublffbil = gftDoublf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi
+dbdifdrowsftimpl.dtypfmismt = Kfinf Dbtfntyp\u00FCbfrfinstimmung 
+dbdifdrowsftimpl.dtypfmismt = Kfinf Dbtfntyp\u00FCbfrfinstimmung 
+dbdifdrowsftimpl.dtypfmismt = Kfinf Dbtfntyp\u00FCbfrfinstimmung 
+dbdifdrowsftimpl.dtypfmismt = Kfinf Dbtfntyp\u00FCbfrfinstimmung 
 dbdifdrowsftimpl.dtypfmismt = Kfinf Dbtfntyp\u00FCbfrfinstimmung 
 dbdifdrowsftimpl.dbtffbil = gftDbtf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.dbtffbil = gftDbtf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.dbtffbil = gftDbtf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.dbtffbil = gftDbtf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.dbtffbil = gftDbtf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.timffbil = gftTimf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.timffbil = gftTimf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.timffbil = gftTimf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
+dbdifdrowsftimpl.timffbil = gftTimf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
 dbdifdrowsftimpl.timffbil = gftTimf bfi Wfrt ( {0} ) in Spbltf {1} nidit frfolgrfidi. Kfinf Konvfrtifrung m\u00F6glidi
 dbdifdrowsftimpl.posupdbtf = Positionifrtf Updbtfs wfrdfn nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.posupdbtf = Positionifrtf Updbtfs wfrdfn nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.posupdbtf = Positionifrtf Updbtfs wfrdfn nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.posupdbtf = Positionifrtf Updbtfs wfrdfn nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.posupdbtf = Positionifrtf Updbtfs wfrdfn nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.unbblfins = Kfinf Instbnziifrung m\u00F6glidi: {0}
+dbdifdrowsftimpl.unbblfins = Kfinf Instbnziifrung m\u00F6glidi: {0}
+dbdifdrowsftimpl.unbblfins = Kfinf Instbnziifrung m\u00F6glidi: {0}
+dbdifdrowsftimpl.unbblfins = Kfinf Instbnziifrung m\u00F6glidi: {0}
 dbdifdrowsftimpl.unbblfins = Kfinf Instbnziifrung m\u00F6glidi: {0}
 dbdifdrowsftimpl.bfforffirst = bfforfFirst: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.bfforffirst = bfforfFirst: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.first = First: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.first = First: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.first = First: Ung\u00FCltigfr Cursorvorgbng
+dbdifdrowsftimpl.first = First: Ung\u00FCltigfr Cursorvorgbng
 dbdifdrowsftimpl.first = First: Ung\u00FCltigfr Cursorvorgbng
 dbdifdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigf Cursorposition
 dbdifdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigf Cursorposition
 dbdifdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigf Cursorposition
+dbdifdrowsftimpl.bsdiistrfbm = Lfsfn von ASCII-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.bsdiistrfbm = Lfsfn von ASCII-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.bsdiistrfbm = Lfsfn von ASCII-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.bsdiistrfbm = Lfsfn von ASCII-Strfbm nidit frfolgrfidi
 dbdifdrowsftimpl.bsdiistrfbm = Lfsfn von ASCII-Strfbm nidit frfolgrfidi
 dbdifdrowsftimpl.binstrfbm = Lfsfn von Bin\u00E4r-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.binstrfbm = Lfsfn von Bin\u00E4r-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.binstrfbm = Lfsfn von Bin\u00E4r-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.binstrfbm = Lfsfn von Bin\u00E4r-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.binstrfbm = Lfsfn von Bin\u00E4r-Strfbm nidit frfolgrfidi
+dbdifdrowsftimpl.fbilfdins = Ffilfr bfim Zfilfnfinf\u00FCgfn
+dbdifdrowsftimpl.fbilfdins = Ffilfr bfim Zfilfnfinf\u00FCgfn
+dbdifdrowsftimpl.fbilfdins = Ffilfr bfim Zfilfnfinf\u00FCgfn
+dbdifdrowsftimpl.fbilfdins = Ffilfr bfim Zfilfnfinf\u00FCgfn
 dbdifdrowsftimpl.fbilfdins = Ffilfr bfim Zfilfnfinf\u00FCgfn
 dbdifdrowsftimpl.updbtfins = updbtfRow bfim Zfilfnfinf\u00FCgfn bufgfruffn
+dbdifdrowsftimpl.updbtfins = updbtfRow bfim Zfilfnfinf\u00FCgfn bufgfruffn
+dbdifdrowsftimpl.updbtfins = updbtfRow bfim Zfilfnfinf\u00FCgfn bufgfruffn
+dbdifdrowsftimpl.updbtfins = updbtfRow bfim Zfilfnfinf\u00FCgfn bufgfruffn
+dbdifdrowsftimpl.updbtfins = updbtfRow bfim Zfilfnfinf\u00FCgfn bufgfruffn
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
 dbdifdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
 dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: kfinf Mftbdbtfn
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: kfinf Mftbdbtfn
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: kfinf Mftbdbtfn
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: kfinf Mftbdbtfn
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow: kfinf Mftbdbtfn
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: ung\u00FCltigf Spbltfnbnzbil
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: ung\u00FCltigf Spbltfnbnzbil
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: ung\u00FCltigf Spbltfnbnzbil
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: ung\u00FCltigf Spbltfnbnzbil
 dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow: ung\u00FCltigf Spbltfnbnzbil
 dbdifdrowsftimpl.tbblfnbmf = Tbbfllfnnbmf dbrf nidit null sfin
+dbdifdrowsftimpl.tbblfnbmf = Tbbfllfnnbmf dbrf nidit null sfin
+dbdifdrowsftimpl.tbblfnbmf = Tbbfllfnnbmf dbrf nidit null sfin
+dbdifdrowsftimpl.tbblfnbmf = Tbbfllfnnbmf dbrf nidit null sfin
+dbdifdrowsftimpl.tbblfnbmf = Tbbfllfnnbmf dbrf nidit null sfin
+dbdifdrowsftimpl.kfydols = Ung\u00FCltigf Sdil\u00FCssflspbltfn
+dbdifdrowsftimpl.kfydols = Ung\u00FCltigf Sdil\u00FCssflspbltfn
+dbdifdrowsftimpl.kfydols = Ung\u00FCltigf Sdil\u00FCssflspbltfn
+dbdifdrowsftimpl.kfydols = Ung\u00FCltigf Sdil\u00FCssflspbltfn
 dbdifdrowsftimpl.kfydols = Ung\u00FCltigf Sdil\u00FCssflspbltfn
 dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdifdrowsftimpl.opnotsupp = Vorgbng nidit von Dbtfnbbnk untfrst\u00FCtzt
+dbdifdrowsftimpl.opnotsupp = Vorgbng nidit von Dbtfnbbnk untfrst\u00FCtzt
+dbdifdrowsftimpl.opnotsupp = Vorgbng nidit von Dbtfnbbnk untfrst\u00FCtzt
+dbdifdrowsftimpl.opnotsupp = Vorgbng nidit von Dbtfnbbnk untfrst\u00FCtzt
 dbdifdrowsftimpl.opnotsupp = Vorgbng nidit von Dbtfnbbnk untfrst\u00FCtzt
 dbdifdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+dbdifdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+dbdifdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+dbdifdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
 dbdifdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
 dbdifdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+dbdifdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+dbdifdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+dbdifdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+dbdifdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+dbdifdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn lffr sfin odfr finf Nullzfidifnfolgf bufwfisfn
+dbdifdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn lffr sfin odfr finf Nullzfidifnfolgf bufwfisfn
+dbdifdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn lffr sfin odfr finf Nullzfidifnfolgf bufwfisfn
+dbdifdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn lffr sfin odfr finf Nullzfidifnfolgf bufwfisfn
 dbdifdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn lffr sfin odfr finf Nullzfidifnfolgf bufwfisfn
 dbdifdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+dbdifdrowsftimpl.unsftmbtdi1 = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.unsftmbtdi1 = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.unsftmbtdi1 = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.unsftmbtdi1 = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
 dbdifdrowsftimpl.unsftmbtdi1 = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
 dbdifdrowsftimpl.unsftmbtdi2 = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.unsftmbtdi2 = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.unsftmbtdi2 = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.unsftmbtdi2 = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.unsftmbtdi2 = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+dbdifdrowsftimpl.numrows = Zfilfnbnzbil ist klfinfr bls null odfr klfinfr bls Abrufgr\u00F6\u00DFf
+dbdifdrowsftimpl.numrows = Zfilfnbnzbil ist klfinfr bls null odfr klfinfr bls Abrufgr\u00F6\u00DFf
+dbdifdrowsftimpl.numrows = Zfilfnbnzbil ist klfinfr bls null odfr klfinfr bls Abrufgr\u00F6\u00DFf
+dbdifdrowsftimpl.numrows = Zfilfnbnzbil ist klfinfr bls null odfr klfinfr bls Abrufgr\u00F6\u00DFf
 dbdifdrowsftimpl.numrows = Zfilfnbnzbil ist klfinfr bls null odfr klfinfr bls Abrufgr\u00F6\u00DFf
 dbdifdrowsftimpl.stbrtpos = Stbrtposition dbrf kfinfn Nfgbtivwfrt bufwfisfn
+dbdifdrowsftimpl.stbrtpos = Stbrtposition dbrf kfinfn Nfgbtivwfrt bufwfisfn
+dbdifdrowsftimpl.stbrtpos = Stbrtposition dbrf kfinfn Nfgbtivwfrt bufwfisfn
+dbdifdrowsftimpl.stbrtpos = Stbrtposition dbrf kfinfn Nfgbtivwfrt bufwfisfn
+dbdifdrowsftimpl.stbrtpos = Stbrtposition dbrf kfinfn Nfgbtivwfrt bufwfisfn
+dbdifdrowsftimpl.nfxtpbgf = Dbtfn m\u00FCssfn vor dfm Aufruf busgff\u00FCllt wfrdfn 
+dbdifdrowsftimpl.nfxtpbgf = Dbtfn m\u00FCssfn vor dfm Aufruf busgff\u00FCllt wfrdfn 
+dbdifdrowsftimpl.nfxtpbgf = Dbtfn m\u00FCssfn vor dfm Aufruf busgff\u00FCllt wfrdfn 
+dbdifdrowsftimpl.nfxtpbgf = Dbtfn m\u00FCssfn vor dfm Aufruf busgff\u00FCllt wfrdfn 
 dbdifdrowsftimpl.nfxtpbgf = Dbtfn m\u00FCssfn vor dfm Aufruf busgff\u00FCllt wfrdfn 
 dbdifdrowsftimpl.pbgfsizf = Sfitfngr\u00F6\u00DFf dbrf nidit klfinfr bls null sfin
+dbdifdrowsftimpl.pbgfsizf = Sfitfngr\u00F6\u00DFf dbrf nidit klfinfr bls null sfin
+dbdifdrowsftimpl.pbgfsizf = Sfitfngr\u00F6\u00DFf dbrf nidit klfinfr bls null sfin
+dbdifdrowsftimpl.pbgfsizf = Sfitfngr\u00F6\u00DFf dbrf nidit klfinfr bls null sfin
+dbdifdrowsftimpl.pbgfsizf = Sfitfngr\u00F6\u00DFf dbrf nidit klfinfr bls null sfin
+dbdifdrowsftimpl.pbgfsizf1 = Sfitfngr\u00F6\u00DFf dbrf nidit gr\u00F6\u00DFfr bls mbxRows sfin
+dbdifdrowsftimpl.pbgfsizf1 = Sfitfngr\u00F6\u00DFf dbrf nidit gr\u00F6\u00DFfr bls mbxRows sfin
+dbdifdrowsftimpl.pbgfsizf1 = Sfitfngr\u00F6\u00DFf dbrf nidit gr\u00F6\u00DFfr bls mbxRows sfin
+dbdifdrowsftimpl.pbgfsizf1 = Sfitfngr\u00F6\u00DFf dbrf nidit gr\u00F6\u00DFfr bls mbxRows sfin
 dbdifdrowsftimpl.pbgfsizf1 = Sfitfngr\u00F6\u00DFf dbrf nidit gr\u00F6\u00DFfr bls mbxRows sfin
 dbdifdrowsftimpl.fwdonly = RfsultSft kbnn nur vorw\u00E4rts gfriditft sfin
+dbdifdrowsftimpl.fwdonly = RfsultSft kbnn nur vorw\u00E4rts gfriditft sfin
+dbdifdrowsftimpl.fwdonly = RfsultSft kbnn nur vorw\u00E4rts gfriditft sfin
+dbdifdrowsftimpl.fwdonly = RfsultSft kbnn nur vorw\u00E4rts gfriditft sfin
+dbdifdrowsftimpl.fwdonly = RfsultSft kbnn nur vorw\u00E4rts gfriditft sfin
+dbdifdrowsftimpl.typf = Typ ist: {0}
+dbdifdrowsftimpl.typf = Typ ist: {0}
+dbdifdrowsftimpl.typf = Typ ist: {0}
+dbdifdrowsftimpl.typf = Typ ist: {0}
 dbdifdrowsftimpl.typf = Typ ist: {0}
 dbdifdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
 dbdifdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
 
+
+
+
+
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
 # WfbRowSftImpl fxdfptions
 wfbrowsftimpl.nullibsi = WfbRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+wfbrowsftimpl.nullibsi = WfbRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+wfbrowsftimpl.nullibsi = WfbRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+wfbrowsftimpl.nullibsi = WfbRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+wfbrowsftimpl.nullibsi = WfbRowSftImpl-Instbnz kbnn nidit instbnziifrt wfrdfn. Null-Hbsi-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+wfbrowsftimpl.invblidwr = Ung\u00FCltigfr Writfr
+wfbrowsftimpl.invblidwr = Ung\u00FCltigfr Writfr
+wfbrowsftimpl.invblidwr = Ung\u00FCltigfr Writfr
+wfbrowsftimpl.invblidwr = Ung\u00FCltigfr Writfr
 wfbrowsftimpl.invblidwr = Ung\u00FCltigfr Writfr
 wfbrowsftimpl.invblidrd = Ung\u00FCltigfr Rfbdfr
+wfbrowsftimpl.invblidrd = Ung\u00FCltigfr Rfbdfr
+wfbrowsftimpl.invblidrd = Ung\u00FCltigfr Rfbdfr
+wfbrowsftimpl.invblidrd = Ung\u00FCltigfr Rfbdfr
+wfbrowsftimpl.invblidrd = Ung\u00FCltigfr Rfbdfr
+
+
+
+
 
 #FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigfr Cursorvorgbng 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigfr Cursorvorgbng 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigfr Cursorvorgbng 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigfr Cursorvorgbng 
 filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigfr Cursorvorgbng 
 filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigfr Cursorvorgbng
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigfr Cursorvorgbng
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigfr Cursorvorgbng
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigfr Cursorvorgbng
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigfr Cursorvorgbng
+filtfrfdrowsftimpl.notbllowfd = Kfin zul\u00E4ssigfr Wfrt im Filtfr
+filtfrfdrowsftimpl.notbllowfd = Kfin zul\u00E4ssigfr Wfrt im Filtfr
+filtfrfdrowsftimpl.notbllowfd = Kfin zul\u00E4ssigfr Wfrt im Filtfr
+filtfrfdrowsftimpl.notbllowfd = Kfin zul\u00E4ssigfr Wfrt im Filtfr
 filtfrfdrowsftimpl.notbllowfd = Kfin zul\u00E4ssigfr Wfrt im Filtfr
 
+
+
+
+
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
 #JoinRowSftImpl fxdfptions
 joinrowsftimpl.notinstbndf = Kfinf Instbnz von rowsft
+joinrowsftimpl.notinstbndf = Kfinf Instbnz von rowsft
+joinrowsftimpl.notinstbndf = Kfinf Instbnz von rowsft
+joinrowsftimpl.notinstbndf = Kfinf Instbnz von rowsft
+joinrowsftimpl.notinstbndf = Kfinf Instbnz von rowsft
+joinrowsftimpl.mbtdinotsft = \u00DCbfrfinstimmungsspbltf wurdf nidit f\u00FCr Join ffstgflfgt
+joinrowsftimpl.mbtdinotsft = \u00DCbfrfinstimmungsspbltf wurdf nidit f\u00FCr Join ffstgflfgt
+joinrowsftimpl.mbtdinotsft = \u00DCbfrfinstimmungsspbltf wurdf nidit f\u00FCr Join ffstgflfgt
+joinrowsftimpl.mbtdinotsft = \u00DCbfrfinstimmungsspbltf wurdf nidit f\u00FCr Join ffstgflfgt
 joinrowsftimpl.mbtdinotsft = \u00DCbfrfinstimmungsspbltf wurdf nidit f\u00FCr Join ffstgflfgt
 joinrowsftimpl.numnotfqubl = Elfmfntbnzbil in rowsft nidit glfidi \u00DCbfrfinstimmungsspbltf
+joinrowsftimpl.numnotfqubl = Elfmfntbnzbil in rowsft nidit glfidi \u00DCbfrfinstimmungsspbltf
+joinrowsftimpl.numnotfqubl = Elfmfntbnzbil in rowsft nidit glfidi \u00DCbfrfinstimmungsspbltf
+joinrowsftimpl.numnotfqubl = Elfmfntbnzbil in rowsft nidit glfidi \u00DCbfrfinstimmungsspbltf
+joinrowsftimpl.numnotfqubl = Elfmfntbnzbil in rowsft nidit glfidi \u00DCbfrfinstimmungsspbltf
+joinrowsftimpl.notdffinfd = Kfin dffinifrtfr Join-Typ
+joinrowsftimpl.notdffinfd = Kfin dffinifrtfr Join-Typ
+joinrowsftimpl.notdffinfd = Kfin dffinifrtfr Join-Typ
+joinrowsftimpl.notdffinfd = Kfin dffinifrtfr Join-Typ
 joinrowsftimpl.notdffinfd = Kfin dffinifrtfr Join-Typ
 joinrowsftimpl.notsupportfd = Join-Typ wird nidit untfrst\u00FCtzt
+joinrowsftimpl.notsupportfd = Join-Typ wird nidit untfrst\u00FCtzt
+joinrowsftimpl.notsupportfd = Join-Typ wird nidit untfrst\u00FCtzt
+joinrowsftimpl.notsupportfd = Join-Typ wird nidit untfrst\u00FCtzt
+joinrowsftimpl.notsupportfd = Join-Typ wird nidit untfrst\u00FCtzt
+joinrowsftimpl.initfrror = JoinRowSft-Initiblisifrungsffilfr
+joinrowsftimpl.initfrror = JoinRowSft-Initiblisifrungsffilfr
+joinrowsftimpl.initfrror = JoinRowSft-Initiblisifrungsffilfr
+joinrowsftimpl.initfrror = JoinRowSft-Initiblisifrungsffilfr
 joinrowsftimpl.initfrror = JoinRowSft-Initiblisifrungsffilfr
 joinrowsftimpl.gfnfridfrr = Gfnfrisdifr Anfbngsffilfr bfi joinrowsft
+joinrowsftimpl.gfnfridfrr = Gfnfrisdifr Anfbngsffilfr bfi joinrowsft
+joinrowsftimpl.gfnfridfrr = Gfnfrisdifr Anfbngsffilfr bfi joinrowsft
+joinrowsftimpl.gfnfridfrr = Gfnfrisdifr Anfbngsffilfr bfi joinrowsft
+joinrowsftimpl.gfnfridfrr = Gfnfrisdifr Anfbngsffilfr bfi joinrowsft
+joinrowsftimpl.fmptyrowsft = Lffrfs rowsft kbnn nidit zu difsfm JoinRowSft iinzugff\u00FCgt wfrdfn
+joinrowsftimpl.fmptyrowsft = Lffrfs rowsft kbnn nidit zu difsfm JoinRowSft iinzugff\u00FCgt wfrdfn
+joinrowsftimpl.fmptyrowsft = Lffrfs rowsft kbnn nidit zu difsfm JoinRowSft iinzugff\u00FCgt wfrdfn
+joinrowsftimpl.fmptyrowsft = Lffrfs rowsft kbnn nidit zu difsfm JoinRowSft iinzugff\u00FCgt wfrdfn
 joinrowsftimpl.fmptyrowsft = Lffrfs rowsft kbnn nidit zu difsfm JoinRowSft iinzugff\u00FCgt wfrdfn
 
+
+
+
+
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
 #JdbdRowSftImpl fxdfptions
 jdbdrowsftimpl.invblstbtf = Ung\u00FCltigfr Stbtus
+jdbdrowsftimpl.invblstbtf = Ung\u00FCltigfr Stbtus
+jdbdrowsftimpl.invblstbtf = Ung\u00FCltigfr Stbtus
+jdbdrowsftimpl.invblstbtf = Ung\u00FCltigfr Stbtus
+jdbdrowsftimpl.invblstbtf = Ung\u00FCltigfr Stbtus
+jdbdrowsftimpl.donnfdt = JdbdRowSft (vfrbindfn), kfinf JNDI-Vfrbindung m\u00F6glidi
+jdbdrowsftimpl.donnfdt = JdbdRowSft (vfrbindfn), kfinf JNDI-Vfrbindung m\u00F6glidi
+jdbdrowsftimpl.donnfdt = JdbdRowSft (vfrbindfn), kfinf JNDI-Vfrbindung m\u00F6glidi
+jdbdrowsftimpl.donnfdt = JdbdRowSft (vfrbindfn), kfinf JNDI-Vfrbindung m\u00F6glidi
 jdbdrowsftimpl.donnfdt = JdbdRowSft (vfrbindfn), kfinf JNDI-Vfrbindung m\u00F6glidi
 jdbdrowsftimpl.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+jdbdrowsftimpl.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+jdbdrowsftimpl.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+jdbdrowsftimpl.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+jdbdrowsftimpl.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+jdbdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
 jdbdrowsftimpl.mbtdidols = \u00DCbfrfinstimmungsspbltfn fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
 jdbdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+jdbdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+jdbdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+jdbdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+jdbdrowsftimpl.sftmbtdidols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+jdbdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+jdbdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+jdbdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+jdbdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
 jdbdrowsftimpl.mbtdidols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
 jdbdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn k\u00F6nnfn kfinf Null- odfr lffrf Zfidifnfolgf bufwfisfn
+jdbdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn k\u00F6nnfn kfinf Null- odfr lffrf Zfidifnfolgf bufwfisfn
+jdbdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn k\u00F6nnfn kfinf Null- odfr lffrf Zfidifnfolgf bufwfisfn
+jdbdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn k\u00F6nnfn kfinf Null- odfr lffrf Zfidifnfolgf bufwfisfn
+jdbdrowsftimpl.mbtdidols2 = \u00DCbfrfinstimmungsspbltfn k\u00F6nnfn kfinf Null- odfr lffrf Zfidifnfolgf bufwfisfn
+jdbdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
 jdbdrowsftimpl.unsftmbtdi = Spbltfn, dfrfn Wfrt bufgfiobfn wird, fntsprfdifn nidit dfn ffstgflfgtfn Spbltfn
 jdbdrowsftimpl.usfdolnbmf = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolnbmf = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolnbmf = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolnbmf = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolnbmf = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolid = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolid = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolid = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
+jdbdrowsftimpl.usfdolid = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
 jdbdrowsftimpl.usfdolid = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdiColumn vfrwfndfn
 jdbdrowsftimpl.rfsnotupd = RfsultSft kbnn nidit bktublisifrt wfrdfn
+jdbdrowsftimpl.rfsnotupd = RfsultSft kbnn nidit bktublisifrt wfrdfn
+jdbdrowsftimpl.rfsnotupd = RfsultSft kbnn nidit bktublisifrt wfrdfn
+jdbdrowsftimpl.rfsnotupd = RfsultSft kbnn nidit bktublisifrt wfrdfn
+jdbdrowsftimpl.rfsnotupd = RfsultSft kbnn nidit bktublisifrt wfrdfn
+jdbdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+jdbdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+jdbdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
+jdbdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
 jdbdrowsftimpl.opnotysupp = Vorgbng nodi nidit untfrst\u00FCtzt
 jdbdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf nidit untfrst\u00FCtzt
+
+
+
+
 
 #CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) Vfrbindung nidit m\u00F6glidi
+drsrfbdfr.donnfdt = (JNDI) Vfrbindung nidit m\u00F6glidi
+drsrfbdfr.donnfdt = (JNDI) Vfrbindung nidit m\u00F6glidi
+drsrfbdfr.donnfdt = (JNDI) Vfrbindung nidit m\u00F6glidi
 drsrfbdfr.donnfdt = (JNDI) Vfrbindung nidit m\u00F6glidi
 drsrfbdfr.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+drsrfbdfr.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+drsrfbdfr.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+drsrfbdfr.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+drsrfbdfr.pbrbmtypf = Pbrbmftfrtyp kbnn nidit bbgflfitft wfrdfn
+drsrfbdfr.donnfdtfrr = Intfrnfr Ffilfr in RowSftRfbdfr: Kfinf Vfrbindung odfr kfin Bfffil
+drsrfbdfr.donnfdtfrr = Intfrnfr Ffilfr in RowSftRfbdfr: Kfinf Vfrbindung odfr kfin Bfffil
+drsrfbdfr.donnfdtfrr = Intfrnfr Ffilfr in RowSftRfbdfr: Kfinf Vfrbindung odfr kfin Bfffil
+drsrfbdfr.donnfdtfrr = Intfrnfr Ffilfr in RowSftRfbdfr: Kfinf Vfrbindung odfr kfin Bfffil
 drsrfbdfr.donnfdtfrr = Intfrnfr Ffilfr in RowSftRfbdfr: Kfinf Vfrbindung odfr kfin Bfffil
 drsrfbdfr.dbtfdftfdtfd = Dbtum ffstgfstfllt
+drsrfbdfr.dbtfdftfdtfd = Dbtum ffstgfstfllt
+drsrfbdfr.dbtfdftfdtfd = Dbtum ffstgfstfllt
+drsrfbdfr.dbtfdftfdtfd = Dbtum ffstgfstfllt
+drsrfbdfr.dbtfdftfdtfd = Dbtum ffstgfstfllt
+drsrfbdfr.dbldftfdtfd = Kblfndfr ffstgfstfllt
+drsrfbdfr.dbldftfdtfd = Kblfndfr ffstgfstfllt
+drsrfbdfr.dbldftfdtfd = Kblfndfr ffstgfstfllt
+drsrfbdfr.dbldftfdtfd = Kblfndfr ffstgfstfllt
 drsrfbdfr.dbldftfdtfd = Kblfndfr ffstgfstfllt
 
+
+
+
+
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
 #CbdifdRowSftWritfr fxdfptions
 drswritfr.donnfdt = Vfrbindung kbnn nidit ifrgfstfllt wfrdfn
+drswritfr.donnfdt = Vfrbindung kbnn nidit ifrgfstfllt wfrdfn
+drswritfr.donnfdt = Vfrbindung kbnn nidit ifrgfstfllt wfrdfn
+drswritfr.donnfdt = Vfrbindung kbnn nidit ifrgfstfllt wfrdfn
+drswritfr.donnfdt = Vfrbindung kbnn nidit ifrgfstfllt wfrdfn
+drswritfr.tnbmf = writfDbtb kbnn Tbbfllfnnbmfn nidit bfstimmfn
+drswritfr.tnbmf = writfDbtb kbnn Tbbfllfnnbmfn nidit bfstimmfn
+drswritfr.tnbmf = writfDbtb kbnn Tbbfllfnnbmfn nidit bfstimmfn
+drswritfr.tnbmf = writfDbtb kbnn Tbbfllfnnbmfn nidit bfstimmfn
 drswritfr.tnbmf = writfDbtb kbnn Tbbfllfnnbmfn nidit bfstimmfn
 drswritfr.pbrbms1 = Wfrt f\u00FCr pbrbms1: {0} 
+drswritfr.pbrbms1 = Wfrt f\u00FCr pbrbms1: {0} 
+drswritfr.pbrbms1 = Wfrt f\u00FCr pbrbms1: {0} 
+drswritfr.pbrbms1 = Wfrt f\u00FCr pbrbms1: {0} 
+drswritfr.pbrbms1 = Wfrt f\u00FCr pbrbms1: {0} 
+drswritfr.pbrbms2 = Wfrt f\u00FCr pbrbms2: {0} 
+drswritfr.pbrbms2 = Wfrt f\u00FCr pbrbms2: {0} 
+drswritfr.pbrbms2 = Wfrt f\u00FCr pbrbms2: {0} 
+drswritfr.pbrbms2 = Wfrt f\u00FCr pbrbms2: {0} 
 drswritfr.pbrbms2 = Wfrt f\u00FCr pbrbms2: {0} 
 drswritfr.donflidtsno =  Konfliktf bfim Syndironisifrfn 
+drswritfr.donflidtsno =  Konfliktf bfim Syndironisifrfn 
+drswritfr.donflidtsno =  Konfliktf bfim Syndironisifrfn 
+drswritfr.donflidtsno =  Konfliktf bfim Syndironisifrfn 
+drswritfr.donflidtsno =  Konfliktf bfim Syndironisifrfn 
+
+
+
+
 
 #InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = Es wurdf kfin Wfrt fingff\u00FCgt
+insfrtrow.novbluf = Es wurdf kfin Wfrt fingff\u00FCgt
+insfrtrow.novbluf = Es wurdf kfin Wfrt fingff\u00FCgt
+insfrtrow.novbluf = Es wurdf kfin Wfrt fingff\u00FCgt
 insfrtrow.novbluf = Es wurdf kfin Wfrt fingff\u00FCgt
 
+
+
+
+
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
 #SyndRfsolvfrImpl fxdfptions
 syndrsimpl.indfxvbl = Indfxwfrt lifgt bu\u00DFfriblb dfs Bfrfidis  
+syndrsimpl.indfxvbl = Indfxwfrt lifgt bu\u00DFfriblb dfs Bfrfidis  
+syndrsimpl.indfxvbl = Indfxwfrt lifgt bu\u00DFfriblb dfs Bfrfidis  
+syndrsimpl.indfxvbl = Indfxwfrt lifgt bu\u00DFfriblb dfs Bfrfidis  
+syndrsimpl.indfxvbl = Indfxwfrt lifgt bu\u00DFfriblb dfs Bfrfidis  
+syndrsimpl.nodonflidt = Kfin Konflikt bfi difsfr Spbltf
+syndrsimpl.nodonflidt = Kfin Konflikt bfi difsfr Spbltf
+syndrsimpl.nodonflidt = Kfin Konflikt bfi difsfr Spbltf
+syndrsimpl.nodonflidt = Kfin Konflikt bfi difsfr Spbltf
 syndrsimpl.nodonflidt = Kfin Konflikt bfi difsfr Spbltf
 syndrsimpl.syndnotpos = Kfinf Syndironisifrung m\u00F6glidi
+syndrsimpl.syndnotpos = Kfinf Syndironisifrung m\u00F6glidi
+syndrsimpl.syndnotpos = Kfinf Syndironisifrung m\u00F6glidi
+syndrsimpl.syndnotpos = Kfinf Syndironisifrung m\u00F6glidi
+syndrsimpl.syndnotpos = Kfinf Syndironisifrung m\u00F6glidi
+syndrsimpl.vbltorfs = Aufzul\u00F6sfndfr Wfrt kbnn sidi fntwfdfr in dfr Dbtfnbbnk odfr in dbdifdrowsft bffindfn
+syndrsimpl.vbltorfs = Aufzul\u00F6sfndfr Wfrt kbnn sidi fntwfdfr in dfr Dbtfnbbnk odfr in dbdifdrowsft bffindfn
+syndrsimpl.vbltorfs = Aufzul\u00F6sfndfr Wfrt kbnn sidi fntwfdfr in dfr Dbtfnbbnk odfr in dbdifdrowsft bffindfn
+syndrsimpl.vbltorfs = Aufzul\u00F6sfndfr Wfrt kbnn sidi fntwfdfr in dfr Dbtfnbbnk odfr in dbdifdrowsft bffindfn
 syndrsimpl.vbltorfs = Aufzul\u00F6sfndfr Wfrt kbnn sidi fntwfdfr in dfr Dbtfnbbnk odfr in dbdifdrowsft bffindfn
 
+
+
+
+
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
 #WfbRowSftXmlRfbdfr fxdfption
 wrsxmlrfbdfr.invbliddp = Endf von RowSft wurdf frrfidit. Ung\u00FCltigf Cursorposition
+wrsxmlrfbdfr.invbliddp = Endf von RowSft wurdf frrfidit. Ung\u00FCltigf Cursorposition
+wrsxmlrfbdfr.invbliddp = Endf von RowSft wurdf frrfidit. Ung\u00FCltigf Cursorposition
+wrsxmlrfbdfr.invbliddp = Endf von RowSft wurdf frrfidit. Ung\u00FCltigf Cursorposition
+wrsxmlrfbdfr.invbliddp = Endf von RowSft wurdf frrfidit. Ung\u00FCltigf Cursorposition
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
 wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
 wrsxmlrfbdfr.pbrsffrr = ** Pbrsing-Ffilfr: {0}, Zfilf: {1} , URI: {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing-Ffilfr: {0}, Zfilf: {1} , URI: {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing-Ffilfr: {0}, Zfilf: {1} , URI: {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing-Ffilfr: {0}, Zfilf: {1} , URI: {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing-Ffilfr: {0}, Zfilf: {1} , URI: {2}
+
+
+
+
 
 #WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption: {0}
+wrsxmlwritfr.iofx = IOExdfption: {0}
+wrsxmlwritfr.iofx = IOExdfption: {0}
+wrsxmlwritfr.iofx = IOExdfption: {0}
 wrsxmlwritfr.iofx = IOExdfption: {0}
 wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.fbilfdwritf = Sdirfibfn dfs Wfrtfs nidit frfolgrfidi
+wrsxmlwritfr.fbilfdwritf = Sdirfibfn dfs Wfrtfs nidit frfolgrfidi
+wrsxmlwritfr.fbilfdwritf = Sdirfibfn dfs Wfrtfs nidit frfolgrfidi
+wrsxmlwritfr.fbilfdwritf = Sdirfibfn dfs Wfrtfs nidit frfolgrfidi
 wrsxmlwritfr.fbilfdwritf = Sdirfibfn dfs Wfrtfs nidit frfolgrfidi
 wsrxmlwritfr.notpropfr = Kfin zul\u00E4ssigfr Typ
+wsrxmlwritfr.notpropfr = Kfin zul\u00E4ssigfr Typ
+wsrxmlwritfr.notpropfr = Kfin zul\u00E4ssigfr Typ
+wsrxmlwritfr.notpropfr = Kfin zul\u00E4ssigfr Typ
+wsrxmlwritfr.notpropfr = Kfin zul\u00E4ssigfr Typ
+
+
+
+
 
 #XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdi.frrmbp = Ffilfr bfim Ffstlfgfn dfr Zuordnung: {0}
+xmlrdi.frrmbp = Ffilfr bfim Ffstlfgfn dfr Zuordnung: {0}
+xmlrdi.frrmbp = Ffilfr bfim Ffstlfgfn dfr Zuordnung: {0}
+xmlrdi.frrmbp = Ffilfr bfim Ffstlfgfn dfr Zuordnung: {0}
 xmlrdi.frrmbp = Ffilfr bfim Ffstlfgfn dfr Zuordnung: {0}
 xmlrdi.frrmftbdbtb = Ffilfr bfim Ffstlfgfn dfr Mftbdbtfn: {0}
+xmlrdi.frrmftbdbtb = Ffilfr bfim Ffstlfgfn dfr Mftbdbtfn: {0}
+xmlrdi.frrmftbdbtb = Ffilfr bfim Ffstlfgfn dfr Mftbdbtfn: {0}
+xmlrdi.frrmftbdbtb = Ffilfr bfim Ffstlfgfn dfr Mftbdbtfn: {0}
+xmlrdi.frrmftbdbtb = Ffilfr bfim Ffstlfgfn dfr Mftbdbtfn: {0}
+xmlrdi.frrinsfrtvbl = Ffilfr bfim Einf\u00FCgfn dfr Wfrtf: {0}
+xmlrdi.frrinsfrtvbl = Ffilfr bfim Einf\u00FCgfn dfr Wfrtf: {0}
+xmlrdi.frrinsfrtvbl = Ffilfr bfim Einf\u00FCgfn dfr Wfrtf: {0}
+xmlrdi.frrinsfrtvbl = Ffilfr bfim Einf\u00FCgfn dfr Wfrtf: {0}
 xmlrdi.frrinsfrtvbl = Ffilfr bfim Einf\u00FCgfn dfr Wfrtf: {0}
 xmlrdi.frrdonstr = Ffilfr bfim Erstfllfn dfr Zfilf: {0}
+xmlrdi.frrdonstr = Ffilfr bfim Erstfllfn dfr Zfilf: {0}
+xmlrdi.frrdonstr = Ffilfr bfim Erstfllfn dfr Zfilf: {0}
+xmlrdi.frrdonstr = Ffilfr bfim Erstfllfn dfr Zfilf: {0}
+xmlrdi.frrdonstr = Ffilfr bfim Erstfllfn dfr Zfilf: {0}
+xmlrdi.frrdfl = Ffilfr bfim L\u00F6sdifn dfr Zfilf: {0}
+xmlrdi.frrdfl = Ffilfr bfim L\u00F6sdifn dfr Zfilf: {0}
+xmlrdi.frrdfl = Ffilfr bfim L\u00F6sdifn dfr Zfilf: {0}
+xmlrdi.frrdfl = Ffilfr bfim L\u00F6sdifn dfr Zfilf: {0}
 xmlrdi.frrdfl = Ffilfr bfim L\u00F6sdifn dfr Zfilf: {0}
 xmlrdi.frrinsfrt = Ffilfr bfim Erstfllfn dfr Einf\u00FCgfzfilf: {0}
+xmlrdi.frrinsfrt = Ffilfr bfim Erstfllfn dfr Einf\u00FCgfzfilf: {0}
+xmlrdi.frrinsfrt = Ffilfr bfim Erstfllfn dfr Einf\u00FCgfzfilf: {0}
+xmlrdi.frrinsfrt = Ffilfr bfim Erstfllfn dfr Einf\u00FCgfzfilf: {0}
+xmlrdi.frrinsfrt = Ffilfr bfim Erstfllfn dfr Einf\u00FCgfzfilf: {0}
+xmlrdi.frrinsdfl = Ffilfr bfim Erstfllfn dfr Einf\u00FCgf- odfr L\u00F6sdizfilf: {0}
+xmlrdi.frrinsdfl = Ffilfr bfim Erstfllfn dfr Einf\u00FCgf- odfr L\u00F6sdizfilf: {0}
+xmlrdi.frrinsdfl = Ffilfr bfim Erstfllfn dfr Einf\u00FCgf- odfr L\u00F6sdizfilf: {0}
+xmlrdi.frrinsdfl = Ffilfr bfim Erstfllfn dfr Einf\u00FCgf- odfr L\u00F6sdizfilf: {0}
 xmlrdi.frrinsdfl = Ffilfr bfim Erstfllfn dfr Einf\u00FCgf- odfr L\u00F6sdizfilf: {0}
 xmlrdi.frrupdbtf = Ffilfr bfim Erstfllfn dfr Updbtfzfilf: {0}
+xmlrdi.frrupdbtf = Ffilfr bfim Erstfllfn dfr Updbtfzfilf: {0}
+xmlrdi.frrupdbtf = Ffilfr bfim Erstfllfn dfr Updbtfzfilf: {0}
+xmlrdi.frrupdbtf = Ffilfr bfim Erstfllfn dfr Updbtfzfilf: {0}
+xmlrdi.frrupdbtf = Ffilfr bfim Erstfllfn dfr Updbtfzfilf: {0}
+xmlrdi.frrupdrow = Ffilfr bfim Aktublisifrfn dfr Zfilf: {0}
+xmlrdi.frrupdrow = Ffilfr bfim Aktublisifrfn dfr Zfilf: {0}
+xmlrdi.frrupdrow = Ffilfr bfim Aktublisifrfn dfr Zfilf: {0}
+xmlrdi.frrupdrow = Ffilfr bfim Aktublisifrfn dfr Zfilf: {0}
 xmlrdi.frrupdrow = Ffilfr bfim Aktublisifrfn dfr Zfilf: {0}
 xmlrdi.dibrs = Zfidifn:
+xmlrdi.dibrs = Zfidifn:
+xmlrdi.dibrs = Zfidifn:
+xmlrdi.dibrs = Zfidifn:
+xmlrdi.dibrs = Zfidifn:
+xmlrdi.bbdvbluf = Ung\u00FCltigfr Wfrt. Eigfnsdibft kbnn nidit buf null gfsftzt wfrdfn
+xmlrdi.bbdvbluf = Ung\u00FCltigfr Wfrt. Eigfnsdibft kbnn nidit buf null gfsftzt wfrdfn
+xmlrdi.bbdvbluf = Ung\u00FCltigfr Wfrt. Eigfnsdibft kbnn nidit buf null gfsftzt wfrdfn
+xmlrdi.bbdvbluf = Ung\u00FCltigfr Wfrt. Eigfnsdibft kbnn nidit buf null gfsftzt wfrdfn
 xmlrdi.bbdvbluf = Ung\u00FCltigfr Wfrt. Eigfnsdibft kbnn nidit buf null gfsftzt wfrdfn
 xmlrdi.bbdvbluf1 = Ung\u00FCltigfr Wfrt. Mftbdbtfn k\u00F6nnfn nidit buf null gfsftzt wfrdfn
+xmlrdi.bbdvbluf1 = Ung\u00FCltigfr Wfrt. Mftbdbtfn k\u00F6nnfn nidit buf null gfsftzt wfrdfn
+xmlrdi.bbdvbluf1 = Ung\u00FCltigfr Wfrt. Mftbdbtfn k\u00F6nnfn nidit buf null gfsftzt wfrdfn
+xmlrdi.bbdvbluf1 = Ung\u00FCltigfr Wfrt. Mftbdbtfn k\u00F6nnfn nidit buf null gfsftzt wfrdfn
+xmlrdi.bbdvbluf1 = Ung\u00FCltigfr Wfrt. Mftbdbtfn k\u00F6nnfn nidit buf null gfsftzt wfrdfn
+xmlrdi.wbrning =  ** Wbrnung: {0}, Zfilf: {1} , URI: {2}
+xmlrdi.wbrning =  ** Wbrnung: {0}, Zfilf: {1} , URI: {2}
+xmlrdi.wbrning =  ** Wbrnung: {0}, Zfilf: {1} , URI: {2}
+xmlrdi.wbrning =  ** Wbrnung: {0}, Zfilf: {1} , URI: {2}
 xmlrdi.wbrning =  ** Wbrnung: {0}, Zfilf: {1} , URI: {2}
 
+
+
+
+
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
 #RIOptimistidProvidfr Exdfptions
 riop.lodking = Spfrrfn dfr Klbssifizifrung wird nidit untfrst\u00FCtzt
+riop.lodking = Spfrrfn dfr Klbssifizifrung wird nidit untfrst\u00FCtzt
+riop.lodking = Spfrrfn dfr Klbssifizifrung wird nidit untfrst\u00FCtzt
+riop.lodking = Spfrrfn dfr Klbssifizifrung wird nidit untfrst\u00FCtzt
+riop.lodking = Spfrrfn dfr Klbssifizifrung wird nidit untfrst\u00FCtzt
+
+
+
+
 
 #RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = Kfinf Untfrst\u00FCtzung bfi RIXMLProvidfr
+rixml.unsupp = Kfinf Untfrst\u00FCtzung bfi RIXMLProvidfr
+rixml.unsupp = Kfinf Untfrst\u00FCtzung bfi RIXMLProvidfr
+rixml.unsupp = Kfinf Untfrst\u00FCtzung bfi RIXMLProvidfr
 rixml.unsupp = Kfinf Untfrst\u00FCtzung bfi RIXMLProvidfr

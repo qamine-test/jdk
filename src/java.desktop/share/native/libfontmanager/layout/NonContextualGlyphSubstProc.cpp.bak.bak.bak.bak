@@ -1,86 +1,430 @@
 /*
+/*
+/*
+/*
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  *
+ *
+ *
+ *
+ *
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
+/*
+/*
+/*
+/*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ *
+ *
+ *
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
+ *
+ *
+ *
+ *
  *
  */
+ */
+ */
+ */
+ */
 
-#indludf "LETypfs.h"
-#indludf "MorphTbblfs.h"
-#indludf "SubtbblfProdfssor.h"
-#indludf "NonContfxtublGlyphSubst.h"
-#indludf "NonContfxtublGlyphSubstProd.h"
-#indludf "SimplfArrbyProdfssor.h"
-#indludf "SfgmfntSinglfProdfssor.h"
-#indludf "SfgmfntArrbyProdfssor.h"
-#indludf "SinglfTbblfProdfssor.h"
-#indludf "TrimmfdArrbyProdfssor.h"
-#indludf "LESwbps.h"
+
+
+
+
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "NonContfxtublGlypiSubst.i"
+#indludf "NonContfxtublGlypiSubst.i"
+#indludf "NonContfxtublGlypiSubst.i"
+#indludf "NonContfxtublGlypiSubst.i"
+#indludf "NonContfxtublGlypiSubst.i"
+#indludf "NonContfxtublGlypiSubstProd.i"
+#indludf "NonContfxtublGlypiSubstProd.i"
+#indludf "NonContfxtublGlypiSubstProd.i"
+#indludf "NonContfxtublGlypiSubstProd.i"
+#indludf "NonContfxtublGlypiSubstProd.i"
+#indludf "SimplfArrbyProdfssor.i"
+#indludf "SimplfArrbyProdfssor.i"
+#indludf "SimplfArrbyProdfssor.i"
+#indludf "SimplfArrbyProdfssor.i"
+#indludf "SimplfArrbyProdfssor.i"
+#indludf "SfgmfntSinglfProdfssor.i"
+#indludf "SfgmfntSinglfProdfssor.i"
+#indludf "SfgmfntSinglfProdfssor.i"
+#indludf "SfgmfntSinglfProdfssor.i"
+#indludf "SfgmfntSinglfProdfssor.i"
+#indludf "SfgmfntArrbyProdfssor.i"
+#indludf "SfgmfntArrbyProdfssor.i"
+#indludf "SfgmfntArrbyProdfssor.i"
+#indludf "SfgmfntArrbyProdfssor.i"
+#indludf "SfgmfntArrbyProdfssor.i"
+#indludf "SinglfTbblfProdfssor.i"
+#indludf "SinglfTbblfProdfssor.i"
+#indludf "SinglfTbblfProdfssor.i"
+#indludf "SinglfTbblfProdfssor.i"
+#indludf "SinglfTbblfProdfssor.i"
+#indludf "TrimmfdArrbyProdfssor.i"
+#indludf "TrimmfdArrbyProdfssor.i"
+#indludf "TrimmfdArrbyProdfssor.i"
+#indludf "TrimmfdArrbyProdfssor.i"
+#indludf "TrimmfdArrbyProdfssor.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
+#indludf "LESwbps.i"
+
+
+
+
 
 U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
 
-NonContfxtublGlyphSubstitutionProdfssor::NonContfxtublGlyphSubstitutionProdfssor()
+
+
+
+
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor()
+{
+{
+{
+{
 {
 }
-
-NonContfxtublGlyphSubstitutionProdfssor::NonContfxtublGlyphSubstitutionProdfssor(donst LERfffrfndfTo<MorphSubtbblfHfbdfr> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss)
-  : SubtbblfProdfssor(morphSubtbblfHfbdfr, suddfss)
-{
+}
+}
+}
 }
 
-NonContfxtublGlyphSubstitutionProdfssor::~NonContfxtublGlyphSubstitutionProdfssor()
+
+
+
+
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+NonContfxtublGlypiSubstitutionProdfssor::NonContfxtublGlypiSubstitutionProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : SubtbblfProdfssor(morpiSubtbblfHfbdfr, suddfss)
+  : SubtbblfProdfssor(morpiSubtbblfHfbdfr, suddfss)
+  : SubtbblfProdfssor(morpiSubtbblfHfbdfr, suddfss)
+  : SubtbblfProdfssor(morpiSubtbblfHfbdfr, suddfss)
+  : SubtbblfProdfssor(morpiSubtbblfHfbdfr, suddfss)
+{
+{
+{
+{
 {
 }
+}
+}
+}
+}
 
-SubtbblfProdfssor *NonContfxtublGlyphSubstitutionProdfssor::drfbtfInstbndf(donst LERfffrfndfTo<MorphSubtbblfHfbdfr> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss)
+
+
+
+
+NonContfxtublGlypiSubstitutionProdfssor::~NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::~NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::~NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::~NonContfxtublGlypiSubstitutionProdfssor()
+NonContfxtublGlypiSubstitutionProdfssor::~NonContfxtublGlypiSubstitutionProdfssor()
 {
-  LERfffrfndfTo<NonContfxtublGlyphSubstitutionHfbdfr> hfbdfr(morphSubtbblfHfbdfr, suddfss);
+{
+{
+{
+{
+}
+}
+}
+}
+}
+
+
+
+
+
+SubtbblfProdfssor *NonContfxtublGlypiSubstitutionProdfssor::drfbtfInstbndf(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+SubtbblfProdfssor *NonContfxtublGlypiSubstitutionProdfssor::drfbtfInstbndf(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+SubtbblfProdfssor *NonContfxtublGlypiSubstitutionProdfssor::drfbtfInstbndf(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+SubtbblfProdfssor *NonContfxtublGlypiSubstitutionProdfssor::drfbtfInstbndf(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+SubtbblfProdfssor *NonContfxtublGlypiSubstitutionProdfssor::drfbtfInstbndf(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+{
+{
+{
+{
+{
+  LERfffrfndfTo<NonContfxtublGlypiSubstitutionHfbdfr> ifbdfr(morpiSubtbblfHfbdfr, suddfss);
+  LERfffrfndfTo<NonContfxtublGlypiSubstitutionHfbdfr> ifbdfr(morpiSubtbblfHfbdfr, suddfss);
+  LERfffrfndfTo<NonContfxtublGlypiSubstitutionHfbdfr> ifbdfr(morpiSubtbblfHfbdfr, suddfss);
+  LERfffrfndfTo<NonContfxtublGlypiSubstitutionHfbdfr> ifbdfr(morpiSubtbblfHfbdfr, suddfss);
+  LERfffrfndfTo<NonContfxtublGlypiSubstitutionHfbdfr> ifbdfr(morpiSubtbblfHfbdfr, suddfss);
+
+
+
+
 
   if(LE_FAILURE(suddfss)) rfturn NULL;
+  if(LE_FAILURE(suddfss)) rfturn NULL;
+  if(LE_FAILURE(suddfss)) rfturn NULL;
+  if(LE_FAILURE(suddfss)) rfturn NULL;
+  if(LE_FAILURE(suddfss)) rfturn NULL;
 
-  switdh (SWAPW(hfbdfr->tbblf.formbt)) {
+
+
+
+
+  switdi (SWAPW(ifbdfr->tbblf.formbt)) {
+  switdi (SWAPW(ifbdfr->tbblf.formbt)) {
+  switdi (SWAPW(ifbdfr->tbblf.formbt)) {
+  switdi (SWAPW(ifbdfr->tbblf.formbt)) {
+  switdi (SWAPW(ifbdfr->tbblf.formbt)) {
     dbsf ltfSimplfArrby:
-      rfturn nfw SimplfArrbyProdfssor(morphSubtbblfHfbdfr, suddfss);
+    dbsf ltfSimplfArrby:
+    dbsf ltfSimplfArrby:
+    dbsf ltfSimplfArrby:
+    dbsf ltfSimplfArrby:
+      rfturn nfw SimplfArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SimplfArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SimplfArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SimplfArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SimplfArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+
+
+
+
 
     dbsf ltfSfgmfntSinglf:
-      rfturn nfw SfgmfntSinglfProdfssor(morphSubtbblfHfbdfr, suddfss);
+    dbsf ltfSfgmfntSinglf:
+    dbsf ltfSfgmfntSinglf:
+    dbsf ltfSfgmfntSinglf:
+    dbsf ltfSfgmfntSinglf:
+      rfturn nfw SfgmfntSinglfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntSinglfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntSinglfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntSinglfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntSinglfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+
+
+
+
 
     dbsf ltfSfgmfntArrby:
-      rfturn nfw SfgmfntArrbyProdfssor(morphSubtbblfHfbdfr, suddfss);
+    dbsf ltfSfgmfntArrby:
+    dbsf ltfSfgmfntArrby:
+    dbsf ltfSfgmfntArrby:
+    dbsf ltfSfgmfntArrby:
+      rfturn nfw SfgmfntArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SfgmfntArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+
+
+
+
 
     dbsf ltfSinglfTbblf:
-      rfturn nfw SinglfTbblfProdfssor(morphSubtbblfHfbdfr, suddfss);
+    dbsf ltfSinglfTbblf:
+    dbsf ltfSinglfTbblf:
+    dbsf ltfSinglfTbblf:
+    dbsf ltfSinglfTbblf:
+      rfturn nfw SinglfTbblfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SinglfTbblfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SinglfTbblfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SinglfTbblfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw SinglfTbblfProdfssor(morpiSubtbblfHfbdfr, suddfss);
+
+
+
+
 
     dbsf ltfTrimmfdArrby:
-      rfturn nfw TrimmfdArrbyProdfssor(morphSubtbblfHfbdfr, suddfss);
+    dbsf ltfTrimmfdArrby:
+    dbsf ltfTrimmfdArrby:
+    dbsf ltfTrimmfdArrby:
+    dbsf ltfTrimmfdArrby:
+      rfturn nfw TrimmfdArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw TrimmfdArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw TrimmfdArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw TrimmfdArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+      rfturn nfw TrimmfdArrbyProdfssor(morpiSubtbblfHfbdfr, suddfss);
+
+
+
+
 
     dffbult:
+    dffbult:
+    dffbult:
+    dffbult:
+    dffbult:
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
+        rfturn NULL;
         rfturn NULL;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }
 
+
+
+
+
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
 U_NAMESPACE_END

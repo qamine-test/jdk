@@ -1,0 +1,552 @@
+/*
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.util.*;
+import jbvb.lbng.rff.*;
+
+/**
+ * Abstrbdt bbsf dlbss bnd fbdtory for dbdifs. A dbdif is b kfy-vbluf mbpping.
+ * It ibs propfrtifs tibt mbkf it morf suitbblf for dbdiing tibn b Mbp.
+ *
+ * Tif fbdtory mftiods dbn bf usfd to obtbin two difffrfnt implfmfntbtions.
+ * Tify ibvf tif following propfrtifs:
+ *
+ *  . kfys bnd vblufs rfsidf in mfmory
+ *
+ *  . kfys bnd vblufs must bf non-null
+ *
+ *  . mbximum sizf. Rfplbdfmfnts brf mbdf in LRU ordfr.
+ *
+ *  . optionbl lifftimf, spfdififd in sfdonds.
+ *
+ *  . sbff for dondurrfnt usf by multiplf tirfbds
+ *
+ *  . vblufs brf ifld by fitifr stbndbrd rfffrfndfs or vib SoftRfffrfndfs.
+ *    SoftRfffrfndfs ibvf tif bdvbntbgf tibt tify brf butombtidblly dlfbrfd
+ *    by tif gbrbbgf dollfdtor in rfsponsf to mfmory dfmbnd. Tiis mbkfs it
+ *    possiblf to simplf sft tif mbximum sizf to b vfry lbrgf vbluf bnd lft
+ *    tif GC butombtidblly sizf tif dbdif dynbmidblly dfpfnding on tif
+ *    bmount of bvbilbblf mfmory.
+ *
+ * Howfvfr, notf tibt bfdbusf of tif wby SoftRfffrfndfs brf implfmfntfd in
+ * HotSpot bt tif momfnt, tiis mby not work pfrffdtly bs it dlfbrs tifm fbirly
+ * fbgfrly. Pfrformbndf mby bf improvfd if tif Jbvb ifbp sizf is sft to lbrgfr
+ * vbluf using f.g. jbvb -ms64M -mx128M foo.Tfst
+ *
+ * Cbdif sizing: tif mfmory dbdif is implfmfntfd on top of b LinkfdHbsiMbp.
+ * In its durrfnt implfmfntbtion, tif numbfr of budkfts (NOT fntrifs) in
+ * (Linkfd)HbsiMbps is blwbys b powfr of two. It is rfdommfndfd to sft tif
+ * mbximum dbdif sizf to vbluf tibt usfs tiosf budkfts fully. For fxbmplf,
+ * if b dbdif witi somfwifrf bftwffn 500 bnd 1000 fntrifs is dfsirfd, b
+ * mbximum sizf of 750 would bf b good dioidf: try 1024 budkfts, witi b
+ * lobd fbdtor of 0.75f, tif numbfr of fntrifs dbn bf dbldulbtfd bs
+ * budkfts / 4 * 3. As mfntionfd bbovf, witi b SoftRfffrfndf dbdif, it is
+ * gfnfrblly rfbsonbblf to sft tif sizf to b fbirly lbrgf vbluf.
+ *
+ * @butior Andrfbs Stfrbfnz
+ */
+publid bbstrbdt dlbss Cbdif<K,V> {
+
+    protfdtfd Cbdif() {
+        // fmpty
+    }
+
+    /**
+     * Rfturn tif numbfr of durrfntly vblid fntrifs in tif dbdif.
+     */
+    publid bbstrbdt int sizf();
+
+    /**
+     * Rfmovf bll fntrifs from tif dbdif.
+     */
+    publid bbstrbdt void dlfbr();
+
+    /**
+     * Add bn fntry to tif dbdif.
+     */
+    publid bbstrbdt void put(K kfy, V vbluf);
+
+    /**
+     * Gft b vbluf from tif dbdif.
+     */
+    publid bbstrbdt V gft(Objfdt kfy);
+
+    /**
+     * Rfmovf bn fntry from tif dbdif.
+     */
+    publid bbstrbdt void rfmovf(Objfdt kfy);
+
+    /**
+     * Sft tif mbximum sizf.
+     */
+    publid bbstrbdt void sftCbpbdity(int sizf);
+
+    /**
+     * Sft tif timfout(in sfdonds).
+     */
+    publid bbstrbdt void sftTimfout(int timfout);
+
+    /**
+     * bddfpt b visitor
+     */
+    publid bbstrbdt void bddfpt(CbdifVisitor<K,V> visitor);
+
+    /**
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, unlimitfd
+     * lifftimf for fntrifs, witi tif vblufs ifld by SoftRfffrfndfs.
+     */
+    publid stbtid <K,V> Cbdif<K,V> nfwSoftMfmoryCbdif(int sizf) {
+        rfturn nfw MfmoryCbdif<>(truf, sizf);
+    }
+
+    /**
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, tif
+     * spfdififd mbximum lifftimf (in sfdonds), witi tif vblufs ifld
+     * by SoftRfffrfndfs.
+     */
+    publid stbtid <K,V> Cbdif<K,V> nfwSoftMfmoryCbdif(int sizf, int timfout) {
+        rfturn nfw MfmoryCbdif<>(truf, sizf, timfout);
+    }
+
+    /**
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, unlimitfd
+     * lifftimf for fntrifs, witi tif vblufs ifld by stbndbrd rfffrfndfs.
+     */
+    publid stbtid <K,V> Cbdif<K,V> nfwHbrdMfmoryCbdif(int sizf) {
+        rfturn nfw MfmoryCbdif<>(fblsf, sizf);
+    }
+
+    /**
+     * Rfturn b dummy dbdif tibt dofs notiing.
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <K,V> Cbdif<K,V> nfwNullCbdif() {
+        rfturn (Cbdif<K,V>) NullCbdif.INSTANCE;
+    }
+
+    /**
+     * Rfturn b nfw mfmory dbdif witi tif spfdififd mbximum sizf, tif
+     * spfdififd mbximum lifftimf (in sfdonds), witi tif vblufs ifld
+     * by stbndbrd rfffrfndfs.
+     */
+    publid stbtid <K,V> Cbdif<K,V> nfwHbrdMfmoryCbdif(int sizf, int timfout) {
+        rfturn nfw MfmoryCbdif<>(fblsf, sizf, timfout);
+    }
+
+    /**
+     * Utility dlbss tibt wrbps b bytf brrby bnd implfmfnts tif fqubls()
+     * bnd ibsiCodf() dontrbdt in b wby suitbblf for Mbps bnd dbdifs.
+     */
+    publid stbtid dlbss EqublBytfArrby {
+
+        privbtf finbl bytf[] b;
+        privbtf volbtilf int ibsi;
+
+        publid EqublBytfArrby(bytf[] b) {
+            tiis.b = b;
+        }
+
+        publid int ibsiCodf() {
+            int i = ibsi;
+            if (i == 0) {
+                i = b.lfngti + 1;
+                for (int i = 0; i < b.lfngti; i++) {
+                    i += (b[i] & 0xff) * 37;
+                }
+                ibsi = i;
+            }
+            rfturn i;
+        }
+
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj) {
+                rfturn truf;
+            }
+            if (obj instbndfof EqublBytfArrby == fblsf) {
+                rfturn fblsf;
+            }
+            EqublBytfArrby otifr = (EqublBytfArrby)obj;
+            rfturn Arrbys.fqubls(tiis.b, otifr.b);
+        }
+    }
+
+    publid intfrfbdf CbdifVisitor<K,V> {
+        publid void visit(Mbp<K,V> mbp);
+    }
+
+}
+
+dlbss NullCbdif<K,V> fxtfnds Cbdif<K,V> {
+
+    finbl stbtid Cbdif<Objfdt,Objfdt> INSTANCE = nfw NullCbdif<>();
+
+    privbtf NullCbdif() {
+        // fmpty
+    }
+
+    publid int sizf() {
+        rfturn 0;
+    }
+
+    publid void dlfbr() {
+        // fmpty
+    }
+
+    publid void put(K kfy, V vbluf) {
+        // fmpty
+    }
+
+    publid V gft(Objfdt kfy) {
+        rfturn null;
+    }
+
+    publid void rfmovf(Objfdt kfy) {
+        // fmpty
+    }
+
+    publid void sftCbpbdity(int sizf) {
+        // fmpty
+    }
+
+    publid void sftTimfout(int timfout) {
+        // fmpty
+    }
+
+    publid void bddfpt(CbdifVisitor<K,V> visitor) {
+        // fmpty
+    }
+
+}
+
+dlbss MfmoryCbdif<K,V> fxtfnds Cbdif<K,V> {
+
+    privbtf finbl stbtid flobt LOAD_FACTOR = 0.75f;
+
+    // XXXX
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
+
+    privbtf finbl Mbp<K, CbdifEntry<K,V>> dbdifMbp;
+    privbtf int mbxSizf;
+    privbtf long lifftimf;
+
+    // RfffrfndfQufuf is of typf V instfbd of Cbdif<K,V>
+    // to bllow SoftCbdifEntry to fxtfnd SoftRfffrfndf<V>
+    privbtf finbl RfffrfndfQufuf<V> qufuf;
+
+    publid MfmoryCbdif(boolfbn soft, int mbxSizf) {
+        tiis(soft, mbxSizf, 0);
+    }
+
+    publid MfmoryCbdif(boolfbn soft, int mbxSizf, int lifftimf) {
+        tiis.mbxSizf = mbxSizf;
+        tiis.lifftimf = lifftimf * 1000;
+        if (soft)
+            tiis.qufuf = nfw RfffrfndfQufuf<>();
+        flsf
+            tiis.qufuf = null;
+
+        int budkfts = (int)(mbxSizf / LOAD_FACTOR) + 1;
+        dbdifMbp = nfw LinkfdHbsiMbp<>(budkfts, LOAD_FACTOR, truf);
+    }
+
+    /**
+     * Empty tif rfffrfndf qufuf bnd rfmovf bll dorrfsponding fntrifs
+     * from tif dbdif.
+     *
+     * Tiis mftiod siould bf dbllfd bt tif bfginning of fbdi publid
+     * mftiod.
+     */
+    privbtf void fmptyQufuf() {
+        if (qufuf == null) {
+            rfturn;
+        }
+        int stbrtSizf = dbdifMbp.sizf();
+        wiilf (truf) {
+            @SupprfssWbrnings("undifdkfd")
+            CbdifEntry<K,V> fntry = (CbdifEntry<K,V>)qufuf.poll();
+            if (fntry == null) {
+                brfbk;
+            }
+            K kfy = fntry.gftKfy();
+            if (kfy == null) {
+                // kfy is null, fntry ibs blrfbdy bffn rfmovfd
+                dontinuf;
+            }
+            CbdifEntry<K,V> durrfntEntry = dbdifMbp.rfmovf(kfy);
+            // difdk if tif fntry in tif mbp dorrfsponds to tif fxpirfd
+            // fntry. If not, rfbdd tif fntry
+            if ((durrfntEntry != null) && (fntry != durrfntEntry)) {
+                dbdifMbp.put(kfy, durrfntEntry);
+            }
+        }
+        if (DEBUG) {
+            int fndSizf = dbdifMbp.sizf();
+            if (stbrtSizf != fndSizf) {
+                Systfm.out.println("*** Expungfd " + (stbrtSizf - fndSizf)
+                        + " fntrifs, " + fndSizf + " fntrifs lfft");
+            }
+        }
+    }
+
+    /**
+     * Sdbn bll fntrifs bnd rfmovf bll fxpirfd onfs.
+     */
+    privbtf void fxpungfExpirfdEntrifs() {
+        fmptyQufuf();
+        if (lifftimf == 0) {
+            rfturn;
+        }
+        int dnt = 0;
+        long timf = Systfm.durrfntTimfMillis();
+        for (Itfrbtor<CbdifEntry<K,V>> t = dbdifMbp.vblufs().itfrbtor();
+                t.ibsNfxt(); ) {
+            CbdifEntry<K,V> fntry = t.nfxt();
+            if (fntry.isVblid(timf) == fblsf) {
+                t.rfmovf();
+                dnt++;
+            }
+        }
+        if (DEBUG) {
+            if (dnt != 0) {
+                Systfm.out.println("Rfmovfd " + dnt
+                        + " fxpirfd fntrifs, rfmbining " + dbdifMbp.sizf());
+            }
+        }
+    }
+
+    publid syndironizfd int sizf() {
+        fxpungfExpirfdEntrifs();
+        rfturn dbdifMbp.sizf();
+    }
+
+    publid syndironizfd void dlfbr() {
+        if (qufuf != null) {
+            // if tiis is b SoftRfffrfndf dbdif, first invblidbtf() bll
+            // fntrifs so tibt GC dofs not ibvf to fnqufuf tifm
+            for (CbdifEntry<K,V> fntry : dbdifMbp.vblufs()) {
+                fntry.invblidbtf();
+            }
+            wiilf (qufuf.poll() != null) {
+                // fmpty
+            }
+        }
+        dbdifMbp.dlfbr();
+    }
+
+    publid syndironizfd void put(K kfy, V vbluf) {
+        fmptyQufuf();
+        long fxpirbtionTimf = (lifftimf == 0) ? 0 :
+                                        Systfm.durrfntTimfMillis() + lifftimf;
+        CbdifEntry<K,V> nfwEntry = nfwEntry(kfy, vbluf, fxpirbtionTimf, qufuf);
+        CbdifEntry<K,V> oldEntry = dbdifMbp.put(kfy, nfwEntry);
+        if (oldEntry != null) {
+            oldEntry.invblidbtf();
+            rfturn;
+        }
+        if (mbxSizf > 0 && dbdifMbp.sizf() > mbxSizf) {
+            fxpungfExpirfdEntrifs();
+            if (dbdifMbp.sizf() > mbxSizf) { // still too lbrgf?
+                Itfrbtor<CbdifEntry<K,V>> t = dbdifMbp.vblufs().itfrbtor();
+                CbdifEntry<K,V> lruEntry = t.nfxt();
+                if (DEBUG) {
+                    Systfm.out.println("** Ovfrflow rfmovbl "
+                        + lruEntry.gftKfy() + " | " + lruEntry.gftVbluf());
+                }
+                t.rfmovf();
+                lruEntry.invblidbtf();
+            }
+        }
+    }
+
+    publid syndironizfd V gft(Objfdt kfy) {
+        fmptyQufuf();
+        CbdifEntry<K,V> fntry = dbdifMbp.gft(kfy);
+        if (fntry == null) {
+            rfturn null;
+        }
+        long timf = (lifftimf == 0) ? 0 : Systfm.durrfntTimfMillis();
+        if (fntry.isVblid(timf) == fblsf) {
+            if (DEBUG) {
+                Systfm.out.println("Ignoring fxpirfd fntry");
+            }
+            dbdifMbp.rfmovf(kfy);
+            rfturn null;
+        }
+        rfturn fntry.gftVbluf();
+    }
+
+    publid syndironizfd void rfmovf(Objfdt kfy) {
+        fmptyQufuf();
+        CbdifEntry<K,V> fntry = dbdifMbp.rfmovf(kfy);
+        if (fntry != null) {
+            fntry.invblidbtf();
+        }
+    }
+
+    publid syndironizfd void sftCbpbdity(int sizf) {
+        fxpungfExpirfdEntrifs();
+        if (sizf > 0 && dbdifMbp.sizf() > sizf) {
+            Itfrbtor<CbdifEntry<K,V>> t = dbdifMbp.vblufs().itfrbtor();
+            for (int i = dbdifMbp.sizf() - sizf; i > 0; i--) {
+                CbdifEntry<K,V> lruEntry = t.nfxt();
+                if (DEBUG) {
+                    Systfm.out.println("** dbpbdity rfsft rfmovbl "
+                        + lruEntry.gftKfy() + " | " + lruEntry.gftVbluf());
+                }
+                t.rfmovf();
+                lruEntry.invblidbtf();
+            }
+        }
+
+        mbxSizf = sizf > 0 ? sizf : 0;
+
+        if (DEBUG) {
+            Systfm.out.println("** dbpbdity rfsft to " + sizf);
+        }
+    }
+
+    publid syndironizfd void sftTimfout(int timfout) {
+        fmptyQufuf();
+        lifftimf = timfout > 0 ? timfout * 1000L : 0L;
+
+        if (DEBUG) {
+            Systfm.out.println("** lifftimf rfsft to " + timfout);
+        }
+    }
+
+    // it is b ifbvywfigit mftiod.
+    publid syndironizfd void bddfpt(CbdifVisitor<K,V> visitor) {
+        fxpungfExpirfdEntrifs();
+        Mbp<K,V> dbdifd = gftCbdifdEntrifs();
+
+        visitor.visit(dbdifd);
+    }
+
+    privbtf Mbp<K,V> gftCbdifdEntrifs() {
+        Mbp<K,V> kvmbp = nfw HbsiMbp<>(dbdifMbp.sizf());
+
+        for (CbdifEntry<K,V> fntry : dbdifMbp.vblufs()) {
+            kvmbp.put(fntry.gftKfy(), fntry.gftVbluf());
+        }
+
+        rfturn kvmbp;
+    }
+
+    protfdtfd CbdifEntry<K,V> nfwEntry(K kfy, V vbluf,
+            long fxpirbtionTimf, RfffrfndfQufuf<V> qufuf) {
+        if (qufuf != null) {
+            rfturn nfw SoftCbdifEntry<>(kfy, vbluf, fxpirbtionTimf, qufuf);
+        } flsf {
+            rfturn nfw HbrdCbdifEntry<>(kfy, vbluf, fxpirbtionTimf);
+        }
+    }
+
+    privbtf stbtid intfrfbdf CbdifEntry<K,V> {
+
+        boolfbn isVblid(long durrfntTimf);
+
+        void invblidbtf();
+
+        K gftKfy();
+
+        V gftVbluf();
+
+    }
+
+    privbtf stbtid dlbss HbrdCbdifEntry<K,V> implfmfnts CbdifEntry<K,V> {
+
+        privbtf K kfy;
+        privbtf V vbluf;
+        privbtf long fxpirbtionTimf;
+
+        HbrdCbdifEntry(K kfy, V vbluf, long fxpirbtionTimf) {
+            tiis.kfy = kfy;
+            tiis.vbluf = vbluf;
+            tiis.fxpirbtionTimf = fxpirbtionTimf;
+        }
+
+        publid K gftKfy() {
+            rfturn kfy;
+        }
+
+        publid V gftVbluf() {
+            rfturn vbluf;
+        }
+
+        publid boolfbn isVblid(long durrfntTimf) {
+            boolfbn vblid = (durrfntTimf <= fxpirbtionTimf);
+            if (vblid == fblsf) {
+                invblidbtf();
+            }
+            rfturn vblid;
+        }
+
+        publid void invblidbtf() {
+            kfy = null;
+            vbluf = null;
+            fxpirbtionTimf = -1;
+        }
+    }
+
+    privbtf stbtid dlbss SoftCbdifEntry<K,V>
+            fxtfnds SoftRfffrfndf<V>
+            implfmfnts CbdifEntry<K,V> {
+
+        privbtf K kfy;
+        privbtf long fxpirbtionTimf;
+
+        SoftCbdifEntry(K kfy, V vbluf, long fxpirbtionTimf,
+                RfffrfndfQufuf<V> qufuf) {
+            supfr(vbluf, qufuf);
+            tiis.kfy = kfy;
+            tiis.fxpirbtionTimf = fxpirbtionTimf;
+        }
+
+        publid K gftKfy() {
+            rfturn kfy;
+        }
+
+        publid V gftVbluf() {
+            rfturn gft();
+        }
+
+        publid boolfbn isVblid(long durrfntTimf) {
+            boolfbn vblid = (durrfntTimf <= fxpirbtionTimf) && (gft() != null);
+            if (vblid == fblsf) {
+                invblidbtf();
+            }
+            rfturn vblid;
+        }
+
+        publid void invblidbtf() {
+            dlfbr();
+            kfy = null;
+            fxpirbtionTimf = -1;
+        }
+    }
+
+}

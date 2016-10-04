@@ -1,108 +1,540 @@
 '\" t
-.\" Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
-.\" Titlf: fxtdhfdk
-.\" Lbngubgf: English
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: fxtdifdk
+.\" Titlf: fxtdifdk
+.\" Titlf: fxtdifdk
+.\" Titlf: fxtdifdk
+.\" Titlf: fxtdifdk
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
 .\" Dbtf: 2013年11月21日
 .\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
 .\" Softwbrf: JDK 8
-.\" Ardh: 汎用
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
 .pl 99999
-.TH "fxtdhfdk" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
+.TH "fxtdifdk" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "fxtdifdk" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "fxtdifdk" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "fxtdifdk" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "fxtdifdk" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fxtdhfdk \- ターゲットのJbvbアーカイブ(JAR)ファイルと現在インストールされている拡張機能のJARファイル間のバージョンの競合を検出します。
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+fxtdifdk \- ターゲットのJbvbアーカイブ(JAR)ファイルと現在インストールされている拡張機能のJARファイル間のバージョンの競合を検出します。
+fxtdifdk \- ターゲットのJbvbアーカイブ(JAR)ファイルと現在インストールされている拡張機能のJARファイル間のバージョンの競合を検出します。
+fxtdifdk \- ターゲットのJbvbアーカイブ(JAR)ファイルと現在インストールされている拡張機能のJARファイル間のバージョンの競合を検出します。
+fxtdifdk \- ターゲットのJbvbアーカイブ(JAR)ファイルと現在インストールされている拡張機能のJARファイル間のバージョンの競合を検出します。
+fxtdifdk \- ターゲットのJbvbアーカイブ(JAR)ファイルと現在インストールされている拡張機能のJARファイル間のバージョンの競合を検出します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIfxtdhfdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+.nf
+.nf
+.nf
+.nf
+\fIfxtdifdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+\fIfxtdifdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+\fIfxtdifdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+\fIfxtdifdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+\fIfxtdifdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fItbrgftfilf\&.jbr\fR
+\fItbrgftfilf\&.jbr\fR
+\fItbrgftfilf\&.jbr\fR
+\fItbrgftfilf\&.jbr\fR
+\fItbrgftfilf\&.jbr\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 バージョンの競合を検出するために、現在インストールされている拡張機能JARファイルと比較するターゲットJARファイル。
+バージョンの競合を検出するために、現在インストールされている拡張機能JARファイルと比較するターゲットJARファイル。
+バージョンの競合を検出するために、現在インストールされている拡張機能JARファイルと比較するターゲットJARファイル。
+バージョンの競合を検出するために、現在インストールされている拡張機能JARファイルと比較するターゲットJARファイル。
+バージョンの競合を検出するために、現在インストールされている拡張機能JARファイルと比較するターゲットJARファイル。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fIfxtdhfdk\fRコマンドは、指定されたJARファイルのタイトルおよびバージョンがJbvb SE SDKにインストールされている拡張機能と競合していないかをチェックします。拡張機能をインストールする前に、このユーティリティを使用して、同じバージョンまたはより新しいバージョンの拡張機能がすでにインストールされていないかどうかを調べることができます。
 .PP
-\fIfxtdhfdk\fRコマンドは、\fItbrgftfilf\&.jbr\fRファイルのマニフェスト内のヘッダーSpfdifidbtion\-titlfおよびSpfdifidbtion\-vfrsionを、拡張機能ディレクトリ内に現在インストールされているすべてのJARファイル内の対応するヘッダーと比較します。デフォルトでは、拡張機能ディレクトリは、Orbdlf Solbrisの場合は\fIjrf/lib/fxt\fR、Windowsの場合は\fI\fjrf\flib\ffxt\fRです。\fIfxtdhfdk\fRコマンドは、\fIjbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWith\fRメソッドと同様の方法でバージョン番号を比較します。
+.PP
+.PP
+.PP
+\fIfxtdifdk\fRコマンドは、指定されたJARファイルのタイトルおよびバージョンがJbvb SE SDKにインストールされている拡張機能と競合していないかをチェックします。拡張機能をインストールする前に、このユーティリティを使用して、同じバージョンまたはより新しいバージョンの拡張機能がすでにインストールされていないかどうかを調べることができます。
+\fIfxtdifdk\fRコマンドは、指定されたJARファイルのタイトルおよびバージョンがJbvb SE SDKにインストールされている拡張機能と競合していないかをチェックします。拡張機能をインストールする前に、このユーティリティを使用して、同じバージョンまたはより新しいバージョンの拡張機能がすでにインストールされていないかどうかを調べることができます。
+\fIfxtdifdk\fRコマンドは、指定されたJARファイルのタイトルおよびバージョンがJbvb SE SDKにインストールされている拡張機能と競合していないかをチェックします。拡張機能をインストールする前に、このユーティリティを使用して、同じバージョンまたはより新しいバージョンの拡張機能がすでにインストールされていないかどうかを調べることができます。
+\fIfxtdifdk\fRコマンドは、指定されたJARファイルのタイトルおよびバージョンがJbvb SE SDKにインストールされている拡張機能と競合していないかをチェックします。拡張機能をインストールする前に、このユーティリティを使用して、同じバージョンまたはより新しいバージョンの拡張機能がすでにインストールされていないかどうかを調べることができます。
+\fIfxtdifdk\fRコマンドは、指定されたJARファイルのタイトルおよびバージョンがJbvb SE SDKにインストールされている拡張機能と競合していないかをチェックします。拡張機能をインストールする前に、このユーティリティを使用して、同じバージョンまたはより新しいバージョンの拡張機能がすでにインストールされていないかどうかを調べることができます。
+.PP
+.PP
+.PP
+.PP
+.PP
+\fIfxtdifdk\fRコマンドは、\fItbrgftfilf\&.jbr\fRファイルのマニフェスト内のヘッダーSpfdifidbtion\-titlfおよびSpfdifidbtion\-vfrsionを、拡張機能ディレクトリ内に現在インストールされているすべてのJARファイル内の対応するヘッダーと比較します。デフォルトでは、拡張機能ディレクトリは、Orbdlf Solbrisの場合は\fIjrf/lib/fxt\fR、Windowsの場合は\fI\fjrf\flib\ffxt\fRです。\fIfxtdifdk\fRコマンドは、\fIjbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWiti\fRメソッドと同様の方法でバージョン番号を比較します。
+\fIfxtdifdk\fRコマンドは、\fItbrgftfilf\&.jbr\fRファイルのマニフェスト内のヘッダーSpfdifidbtion\-titlfおよびSpfdifidbtion\-vfrsionを、拡張機能ディレクトリ内に現在インストールされているすべてのJARファイル内の対応するヘッダーと比較します。デフォルトでは、拡張機能ディレクトリは、Orbdlf Solbrisの場合は\fIjrf/lib/fxt\fR、Windowsの場合は\fI\fjrf\flib\ffxt\fRです。\fIfxtdifdk\fRコマンドは、\fIjbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWiti\fRメソッドと同様の方法でバージョン番号を比較します。
+\fIfxtdifdk\fRコマンドは、\fItbrgftfilf\&.jbr\fRファイルのマニフェスト内のヘッダーSpfdifidbtion\-titlfおよびSpfdifidbtion\-vfrsionを、拡張機能ディレクトリ内に現在インストールされているすべてのJARファイル内の対応するヘッダーと比較します。デフォルトでは、拡張機能ディレクトリは、Orbdlf Solbrisの場合は\fIjrf/lib/fxt\fR、Windowsの場合は\fI\fjrf\flib\ffxt\fRです。\fIfxtdifdk\fRコマンドは、\fIjbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWiti\fRメソッドと同様の方法でバージョン番号を比較します。
+\fIfxtdifdk\fRコマンドは、\fItbrgftfilf\&.jbr\fRファイルのマニフェスト内のヘッダーSpfdifidbtion\-titlfおよびSpfdifidbtion\-vfrsionを、拡張機能ディレクトリ内に現在インストールされているすべてのJARファイル内の対応するヘッダーと比較します。デフォルトでは、拡張機能ディレクトリは、Orbdlf Solbrisの場合は\fIjrf/lib/fxt\fR、Windowsの場合は\fI\fjrf\flib\ffxt\fRです。\fIfxtdifdk\fRコマンドは、\fIjbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWiti\fRメソッドと同様の方法でバージョン番号を比較します。
+\fIfxtdifdk\fRコマンドは、\fItbrgftfilf\&.jbr\fRファイルのマニフェスト内のヘッダーSpfdifidbtion\-titlfおよびSpfdifidbtion\-vfrsionを、拡張機能ディレクトリ内に現在インストールされているすべてのJARファイル内の対応するヘッダーと比較します。デフォルトでは、拡張機能ディレクトリは、Orbdlf Solbrisの場合は\fIjrf/lib/fxt\fR、Windowsの場合は\fI\fjrf\flib\ffxt\fRです。\fIfxtdifdk\fRコマンドは、\fIjbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWiti\fRメソッドと同様の方法でバージョン番号を比較します。
+.PP
+.PP
+.PP
+.PP
 .PP
 競合が検出されない場合、リターン・コードは0です。
+競合が検出されない場合、リターン・コードは0です。
+競合が検出されない場合、リターン・コードは0です。
+競合が検出されない場合、リターン・コードは0です。
+競合が検出されない場合、リターン・コードは0です。
+.PP
+.PP
+.PP
+.PP
 .PP
 拡張機能ディレクトリ内のいずれかのJARファイルのマニフェストに、同一の\fISpfdifidbtion\-titlf\fR、および同一またはより新しい\fISpfdifidbtion\-vfrsion\fR番号がある場合は、ゼロでないエラー・コードが返されます。\fItbrgftfilf\&.jbr\fRのマニフェスト・ファイルに\fISpfdifidbtion\-titlf\fRまたは\fISpfdifidbtion\-vfrsion\fR属性がない場合も、ゼロでないエラー・コードが返されます。
+拡張機能ディレクトリ内のいずれかのJARファイルのマニフェストに、同一の\fISpfdifidbtion\-titlf\fR、および同一またはより新しい\fISpfdifidbtion\-vfrsion\fR番号がある場合は、ゼロでないエラー・コードが返されます。\fItbrgftfilf\&.jbr\fRのマニフェスト・ファイルに\fISpfdifidbtion\-titlf\fRまたは\fISpfdifidbtion\-vfrsion\fR属性がない場合も、ゼロでないエラー・コードが返されます。
+拡張機能ディレクトリ内のいずれかのJARファイルのマニフェストに、同一の\fISpfdifidbtion\-titlf\fR、および同一またはより新しい\fISpfdifidbtion\-vfrsion\fR番号がある場合は、ゼロでないエラー・コードが返されます。\fItbrgftfilf\&.jbr\fRのマニフェスト・ファイルに\fISpfdifidbtion\-titlf\fRまたは\fISpfdifidbtion\-vfrsion\fR属性がない場合も、ゼロでないエラー・コードが返されます。
+拡張機能ディレクトリ内のいずれかのJARファイルのマニフェストに、同一の\fISpfdifidbtion\-titlf\fR、および同一またはより新しい\fISpfdifidbtion\-vfrsion\fR番号がある場合は、ゼロでないエラー・コードが返されます。\fItbrgftfilf\&.jbr\fRのマニフェスト・ファイルに\fISpfdifidbtion\-titlf\fRまたは\fISpfdifidbtion\-vfrsion\fR属性がない場合も、ゼロでないエラー・コードが返されます。
+拡張機能ディレクトリ内のいずれかのJARファイルのマニフェストに、同一の\fISpfdifidbtion\-titlf\fR、および同一またはより新しい\fISpfdifidbtion\-vfrsion\fR番号がある場合は、ゼロでないエラー・コードが返されます。\fItbrgftfilf\&.jbr\fRのマニフェスト・ファイルに\fISpfdifidbtion\-titlf\fRまたは\fISpfdifidbtion\-vfrsion\fR属性がない場合も、ゼロでないエラー・コードが返されます。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
 \-vfrbosf
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+拡張機能ディレクトリ内のJARファイルを、チェック時に一覧表示します。また、ターゲットJARファイルのマニフェストの属性、および競合するJARファイルについても報告します。
+拡張機能ディレクトリ内のJARファイルを、チェック時に一覧表示します。また、ターゲットJARファイルのマニフェストの属性、および競合するJARファイルについても報告します。
+拡張機能ディレクトリ内のJARファイルを、チェック時に一覧表示します。また、ターゲットJARファイルのマニフェストの属性、および競合するJARファイルについても報告します。
+拡張機能ディレクトリ内のJARファイルを、チェック時に一覧表示します。また、ターゲットJARファイルのマニフェストの属性、および競合するJARファイルについても報告します。
 拡張機能ディレクトリ内のJARファイルを、チェック時に一覧表示します。また、ターゲットJARファイルのマニフェストの属性、および競合するJARファイルについても報告します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvb起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvb起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvb起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvb起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvb起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jbr(1)
+jbr(1)
+jbr(1)
+jbr(1)
+jbr(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

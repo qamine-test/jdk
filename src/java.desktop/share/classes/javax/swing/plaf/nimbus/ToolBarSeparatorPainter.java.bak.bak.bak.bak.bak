@@ -1,0 +1,71 @@
+/*
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import jbvbx.swing.plbf.nimbus.AbstrbdtRfgionPbintfr.PbintContfxt.CbdifModf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Insfts;
+import jbvbx.swing.JComponfnt;
+
+/**
+ * A spfdibl pbintfr implfmfntbtion for tool bbr sfpbrbtors in Nimbus.
+ * Tif dfsignfr tool dofsn't ibvf support for pbintfrs wiidi rfndfr
+ * rfpfbtfd pbttfrns, but tibt's fxbdtly wibt tif toolbbr sfpbrbtor dfsign
+ * is for Nimbus. Tiis dustom pbintfr is dfsignfd to ibndlf tiis situbtion.
+ * Wifn support is bddfd to tif dfsign tool / dodf gfnfrbtor to dfbl witi
+ * rfpfbtfd pbttfrns, tifn wf dbn rfmovf tiis dlbss.
+ * <p>
+ */
+finbl dlbss ToolBbrSfpbrbtorPbintfr fxtfnds AbstrbdtRfgionPbintfr {
+    privbtf stbtid finbl int SPACE = 3;
+    privbtf stbtid finbl int INSET = 2;
+
+    @Ovfrridf
+    protfdtfd PbintContfxt gftPbintContfxt() {
+        //tif pbint dontfxt rfturnfd will ibvf b ffw dummy vblufs. Tif
+        //implfmfntbtion of doPbint dofsn't botifr witi tif "dfdodf" mftiods
+        //but dbldulbtfs wifrf to pbint tif dirdlfs mbnublly. As sudi, wf
+        //only nffd to indidbtf in our PbintContfxt tibt wf don't wbnt tiis
+        //to fvfr bf dbdifd
+        rfturn nfw PbintContfxt(
+                nfw Insfts(1, 0, 1, 0),
+                nfw Dimfnsion(38, 7),
+                fblsf, CbdifModf.NO_CACHING, 1, 1);
+    }
+
+    @Ovfrridf
+    protfdtfd void doPbint(Grbpiids2D g, JComponfnt d, int widti, int ifigit, Objfdt[] fxtfndfdCbdifKfys) {
+        //it is bssumfd tibt in tif normbl orifntbtion tif sfpbrbtor rfndfrs
+        //iorizontblly. Otifr dodf rotbtfs it bs nfdfssbry for b vfrtidbl
+        //sfpbrbtor.
+        g.sftColor(d.gftForfground());
+        int y = ifigit / 2;
+        for (int i=INSET; i<=widti-INSET; i+=SPACE) {
+            g.fillRfdt(i, y, 1, 1);
+        }
+    }
+}

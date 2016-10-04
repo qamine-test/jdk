@@ -1,186 +1,930 @@
 /*
- * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
 pbdkbgf jbvbx.swing.tfxt;
 
+
+
+
+
 /**
- * <dodf>DodumfntFiltfr</dodf>, bs thf nbmf implifs, is b filtfr for thf
- * <dodf>Dodumfnt</dodf> mutbtion mfthods. Whfn b <dodf>Dodumfnt</dodf>
- * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fithfr through
- * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds thf bppropribtf
- * mfthod invodbtion to thf <dodf>DodumfntFiltfr</dodf>. Thf
- * dffbult implfmfntbtion bllows thf modifidbtion to
- * oddur. Subdlbssfs dbn filtfr thf modifidbtions by donditionblly invoking
- * mfthods on thf supfrdlbss, or invoking thf nfdfssbry mfthods on
- * thf pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs should NOT dbll bbdk
- * into thf Dodumfnt for thf modifidbtion
- * instfbd dbll into thf supfrdlbss or thf <dodf>FiltfrBypbss</dodf>.
+/**
+/**
+/**
+/**
+ * <dodf>DodumfntFiltfr</dodf>, bs tif nbmf implifs, is b filtfr for tif
+ * <dodf>DodumfntFiltfr</dodf>, bs tif nbmf implifs, is b filtfr for tif
+ * <dodf>DodumfntFiltfr</dodf>, bs tif nbmf implifs, is b filtfr for tif
+ * <dodf>DodumfntFiltfr</dodf>, bs tif nbmf implifs, is b filtfr for tif
+ * <dodf>DodumfntFiltfr</dodf>, bs tif nbmf implifs, is b filtfr for tif
+ * <dodf>Dodumfnt</dodf> mutbtion mftiods. Wifn b <dodf>Dodumfnt</dodf>
+ * <dodf>Dodumfnt</dodf> mutbtion mftiods. Wifn b <dodf>Dodumfnt</dodf>
+ * <dodf>Dodumfnt</dodf> mutbtion mftiods. Wifn b <dodf>Dodumfnt</dodf>
+ * <dodf>Dodumfnt</dodf> mutbtion mftiods. Wifn b <dodf>Dodumfnt</dodf>
+ * <dodf>Dodumfnt</dodf> mutbtion mftiods. Wifn b <dodf>Dodumfnt</dodf>
+ * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fitifr tirougi
+ * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fitifr tirougi
+ * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fitifr tirougi
+ * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fitifr tirougi
+ * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fitifr tirougi
+ * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds tif bppropribtf
+ * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds tif bppropribtf
+ * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds tif bppropribtf
+ * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds tif bppropribtf
+ * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds tif bppropribtf
+ * mftiod invodbtion to tif <dodf>DodumfntFiltfr</dodf>. Tif
+ * mftiod invodbtion to tif <dodf>DodumfntFiltfr</dodf>. Tif
+ * mftiod invodbtion to tif <dodf>DodumfntFiltfr</dodf>. Tif
+ * mftiod invodbtion to tif <dodf>DodumfntFiltfr</dodf>. Tif
+ * mftiod invodbtion to tif <dodf>DodumfntFiltfr</dodf>. Tif
+ * dffbult implfmfntbtion bllows tif modifidbtion to
+ * dffbult implfmfntbtion bllows tif modifidbtion to
+ * dffbult implfmfntbtion bllows tif modifidbtion to
+ * dffbult implfmfntbtion bllows tif modifidbtion to
+ * dffbult implfmfntbtion bllows tif modifidbtion to
+ * oddur. Subdlbssfs dbn filtfr tif modifidbtions by donditionblly invoking
+ * oddur. Subdlbssfs dbn filtfr tif modifidbtions by donditionblly invoking
+ * oddur. Subdlbssfs dbn filtfr tif modifidbtions by donditionblly invoking
+ * oddur. Subdlbssfs dbn filtfr tif modifidbtions by donditionblly invoking
+ * oddur. Subdlbssfs dbn filtfr tif modifidbtions by donditionblly invoking
+ * mftiods on tif supfrdlbss, or invoking tif nfdfssbry mftiods on
+ * mftiods on tif supfrdlbss, or invoking tif nfdfssbry mftiods on
+ * mftiods on tif supfrdlbss, or invoking tif nfdfssbry mftiods on
+ * mftiods on tif supfrdlbss, or invoking tif nfdfssbry mftiods on
+ * mftiods on tif supfrdlbss, or invoking tif nfdfssbry mftiods on
+ * tif pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs siould NOT dbll bbdk
+ * tif pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs siould NOT dbll bbdk
+ * tif pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs siould NOT dbll bbdk
+ * tif pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs siould NOT dbll bbdk
+ * tif pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs siould NOT dbll bbdk
+ * into tif Dodumfnt for tif modifidbtion
+ * into tif Dodumfnt for tif modifidbtion
+ * into tif Dodumfnt for tif modifidbtion
+ * into tif Dodumfnt for tif modifidbtion
+ * into tif Dodumfnt for tif modifidbtion
+ * instfbd dbll into tif supfrdlbss or tif <dodf>FiltfrBypbss</dodf>.
+ * instfbd dbll into tif supfrdlbss or tif <dodf>FiltfrBypbss</dodf>.
+ * instfbd dbll into tif supfrdlbss or tif <dodf>FiltfrBypbss</dodf>.
+ * instfbd dbll into tif supfrdlbss or tif <dodf>FiltfrBypbss</dodf>.
+ * instfbd dbll into tif supfrdlbss or tif <dodf>FiltfrBypbss</dodf>.
  * <p>
- * Whfn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
- * on thf <dodf>DodumfntFiltfr</dodf>, thf <dodf>DodumfntFiltfr</dodf>
- * mby dbllbbdk into thf
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Wifn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
+ * Wifn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
+ * Wifn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
+ * Wifn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
+ * Wifn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
+ * on tif <dodf>DodumfntFiltfr</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+ * on tif <dodf>DodumfntFiltfr</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+ * on tif <dodf>DodumfntFiltfr</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+ * on tif <dodf>DodumfntFiltfr</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+ * on tif <dodf>DodumfntFiltfr</dodf>, tif <dodf>DodumfntFiltfr</dodf>
+ * mby dbllbbdk into tif
+ * mby dbllbbdk into tif
+ * mby dbllbbdk into tif
+ * mby dbllbbdk into tif
+ * mby dbllbbdk into tif
  * <dodf>FiltfrBypbss</dodf> multiplf timfs, or for difffrfnt rfgions, but
- * it should not dbllbbdk into thf <dodf>FiltfrBypbss</dodf> bftfr rfturning
- * from thf <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mfthod.
+ * <dodf>FiltfrBypbss</dodf> multiplf timfs, or for difffrfnt rfgions, but
+ * <dodf>FiltfrBypbss</dodf> multiplf timfs, or for difffrfnt rfgions, but
+ * <dodf>FiltfrBypbss</dodf> multiplf timfs, or for difffrfnt rfgions, but
+ * <dodf>FiltfrBypbss</dodf> multiplf timfs, or for difffrfnt rfgions, but
+ * it siould not dbllbbdk into tif <dodf>FiltfrBypbss</dodf> bftfr rfturning
+ * it siould not dbllbbdk into tif <dodf>FiltfrBypbss</dodf> bftfr rfturning
+ * it siould not dbllbbdk into tif <dodf>FiltfrBypbss</dodf> bftfr rfturning
+ * it siould not dbllbbdk into tif <dodf>FiltfrBypbss</dodf> bftfr rfturning
+ * it siould not dbllbbdk into tif <dodf>FiltfrBypbss</dodf> bftfr rfturning
+ * from tif <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mftiod.
+ * from tif <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mftiod.
+ * from tif <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mftiod.
+ * from tif <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mftiod.
+ * from tif <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mftiod.
  * <p>
- * By dffbult, tfxt rflbtfd dodumfnt mutbtion mfthods sudh bs
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * By dffbult, tfxt rflbtfd dodumfnt mutbtion mftiods sudi bs
+ * By dffbult, tfxt rflbtfd dodumfnt mutbtion mftiods sudi bs
+ * By dffbult, tfxt rflbtfd dodumfnt mutbtion mftiods sudi bs
+ * By dffbult, tfxt rflbtfd dodumfnt mutbtion mftiods sudi bs
+ * By dffbult, tfxt rflbtfd dodumfnt mutbtion mftiods sudi bs
  * <dodf>insfrtString</dodf>, <dodf>rfplbdf</dodf> bnd <dodf>rfmovf</dodf>
- * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> whfn
- * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mfthods sudh bs
+ * <dodf>insfrtString</dodf>, <dodf>rfplbdf</dodf> bnd <dodf>rfmovf</dodf>
+ * <dodf>insfrtString</dodf>, <dodf>rfplbdf</dodf> bnd <dodf>rfmovf</dodf>
+ * <dodf>insfrtString</dodf>, <dodf>rfplbdf</dodf> bnd <dodf>rfmovf</dodf>
+ * <dodf>insfrtString</dodf>, <dodf>rfplbdf</dodf> bnd <dodf>rfmovf</dodf>
+ * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> wifn
+ * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> wifn
+ * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> wifn
+ * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> wifn
+ * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> wifn
+ * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mftiods sudi bs
+ * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mftiods sudi bs
+ * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mftiods sudi bs
+ * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mftiods sudi bs
+ * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mftiods sudi bs
+ * <dodf>drfbtf</dodf>, <dodf>insfrt</dodf> bnd <dodf>rfmovfElfmfnt</dodf> in
+ * <dodf>drfbtf</dodf>, <dodf>insfrt</dodf> bnd <dodf>rfmovfElfmfnt</dodf> in
+ * <dodf>drfbtf</dodf>, <dodf>insfrt</dodf> bnd <dodf>rfmovfElfmfnt</dodf> in
+ * <dodf>drfbtf</dodf>, <dodf>insfrt</dodf> bnd <dodf>rfmovfElfmfnt</dodf> in
  * <dodf>drfbtf</dodf>, <dodf>insfrt</dodf> bnd <dodf>rfmovfElfmfnt</dodf> in
  * <dodf>DffbultStylfdDodumfnt</dodf> do not usf <dodf>DodumfntFiltfr</dodf>.
- * If b mfthod dofsn't follow thfsf dffbults, this must bf fxpliditly stbtfd
- * in thf mfthod dodumfntbtion.
+ * <dodf>DffbultStylfdDodumfnt</dodf> do not usf <dodf>DodumfntFiltfr</dodf>.
+ * <dodf>DffbultStylfdDodumfnt</dodf> do not usf <dodf>DodumfntFiltfr</dodf>.
+ * <dodf>DffbultStylfdDodumfnt</dodf> do not usf <dodf>DodumfntFiltfr</dodf>.
+ * <dodf>DffbultStylfdDodumfnt</dodf> do not usf <dodf>DodumfntFiltfr</dodf>.
+ * If b mftiod dofsn't follow tifsf dffbults, tiis must bf fxpliditly stbtfd
+ * If b mftiod dofsn't follow tifsf dffbults, tiis must bf fxpliditly stbtfd
+ * If b mftiod dofsn't follow tifsf dffbults, tiis must bf fxpliditly stbtfd
+ * If b mftiod dofsn't follow tifsf dffbults, tiis must bf fxpliditly stbtfd
+ * If b mftiod dofsn't follow tifsf dffbults, tiis must bf fxpliditly stbtfd
+ * in tif mftiod dodumfntbtion.
+ * in tif mftiod dodumfntbtion.
+ * in tif mftiod dodumfntbtion.
+ * in tif mftiod dodumfntbtion.
+ * in tif mftiod dodumfntbtion.
+ *
+ *
+ *
+ *
  *
  * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.AbstrbdtDodumfnt
+ * @sff jbvbx.swing.tfxt.AbstrbdtDodumfnt
+ * @sff jbvbx.swing.tfxt.AbstrbdtDodumfnt
+ * @sff jbvbx.swing.tfxt.AbstrbdtDodumfnt
  * @sff jbvbx.swing.tfxt.AbstrbdtDodumfnt
  * @sff jbvbx.swing.tfxt.DffbultStylfdDodumfnt
+ * @sff jbvbx.swing.tfxt.DffbultStylfdDodumfnt
+ * @sff jbvbx.swing.tfxt.DffbultStylfdDodumfnt
+ * @sff jbvbx.swing.tfxt.DffbultStylfdDodumfnt
+ * @sff jbvbx.swing.tfxt.DffbultStylfdDodumfnt
+ *
+ *
+ *
+ *
  *
  * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ */
+ */
+ */
+ */
  */
 publid dlbss DodumfntFiltfr {
+publid dlbss DodumfntFiltfr {
+publid dlbss DodumfntFiltfr {
+publid dlbss DodumfntFiltfr {
+publid dlbss DodumfntFiltfr {
     /**
-     * Invokfd prior to rfmovbl of thf spfdififd rfgion in thf
-     * spfdififd Dodumfnt. Subdlbssfs thbt wbnt to donditionblly bllow
-     * rfmovbl should ovfrridf this bnd only dbll supfrs implfmfntbtion bs
-     * nfdfssbry, or dbll dirfdtly into thf <dodf>FiltfrBypbss</dodf> bs
+    /**
+    /**
+    /**
+    /**
+     * Invokfd prior to rfmovbl of tif spfdififd rfgion in tif
+     * Invokfd prior to rfmovbl of tif spfdififd rfgion in tif
+     * Invokfd prior to rfmovbl of tif spfdififd rfgion in tif
+     * Invokfd prior to rfmovbl of tif spfdififd rfgion in tif
+     * Invokfd prior to rfmovbl of tif spfdififd rfgion in tif
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * rfmovbl siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfmovbl siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfmovbl siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfmovbl siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfmovbl siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into tif <dodf>FiltfrBypbss</dodf> bs
+     * nfdfssbry, or dbll dirfdtly into tif <dodf>FiltfrBypbss</dodf> bs
+     * nfdfssbry, or dbll dirfdtly into tif <dodf>FiltfrBypbss</dodf> bs
+     * nfdfssbry, or dbll dirfdtly into tif <dodf>FiltfrBypbss</dodf> bs
+     * nfdfssbry, or dbll dirfdtly into tif <dodf>FiltfrBypbss</dodf> bs
+     * nfdfssbry.
+     * nfdfssbry.
+     * nfdfssbry.
+     * nfdfssbry.
      * nfdfssbry.
      *
-     * @pbrbm fb FiltfrBypbss thbt dbn bf usfd to mutbtf Dodumfnt
-     * @pbrbm offsft thf offsft from thf bfginning &gt;= 0
-     * @pbrbm lfngth thf numbfr of dhbrbdtfrs to rfmovf &gt;= 0
-     * @fxdfption BbdLodbtionExdfption  somf portion of thf rfmovbl rbngf
-     *   wbs not b vblid pbrt of thf dodumfnt.  Thf lodbtion in thf fxdfption
-     *   is thf first bbd position fndountfrfd.
+     *
+     *
+     *
+     *
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+     * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+     * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+     * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+     * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @fxdfption BbdLodbtionExdfption  somf portion of tif rfmovbl rbngf
+     * @fxdfption BbdLodbtionExdfption  somf portion of tif rfmovbl rbngf
+     * @fxdfption BbdLodbtionExdfption  somf portion of tif rfmovbl rbngf
+     * @fxdfption BbdLodbtionExdfption  somf portion of tif rfmovbl rbngf
+     * @fxdfption BbdLodbtionExdfption  somf portion of tif rfmovbl rbngf
+     *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif fxdfption
+     *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif fxdfption
+     *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif fxdfption
+     *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif fxdfption
+     *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif fxdfption
+     *   is tif first bbd position fndountfrfd.
+     *   is tif first bbd position fndountfrfd.
+     *   is tif first bbd position fndountfrfd.
+     *   is tif first bbd position fndountfrfd.
+     *   is tif first bbd position fndountfrfd.
      */
-    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngth) throws
+     */
+     */
+     */
+     */
+    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngti) tirows
+    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngti) tirows
+    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngti) tirows
+    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngti) tirows
+    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngti) tirows
                        BbdLodbtionExdfption {
-        fb.rfmovf(offsft, lfngth);
+                       BbdLodbtionExdfption {
+                       BbdLodbtionExdfption {
+                       BbdLodbtionExdfption {
+                       BbdLodbtionExdfption {
+        fb.rfmovf(offsft, lfngti);
+        fb.rfmovf(offsft, lfngti);
+        fb.rfmovf(offsft, lfngti);
+        fb.rfmovf(offsft, lfngti);
+        fb.rfmovf(offsft, lfngti);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Invokfd prior to insfrtion of tfxt into thf
-     * spfdififd Dodumfnt. Subdlbssfs thbt wbnt to donditionblly bllow
-     * insfrtion should ovfrridf this bnd only dbll supfrs implfmfntbtion bs
-     * nfdfssbry, or dbll dirfdtly into thf FiltfrBypbss.
+    /**
+    /**
+    /**
+    /**
+     * Invokfd prior to insfrtion of tfxt into tif
+     * Invokfd prior to insfrtion of tfxt into tif
+     * Invokfd prior to insfrtion of tfxt into tif
+     * Invokfd prior to insfrtion of tfxt into tif
+     * Invokfd prior to insfrtion of tfxt into tif
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * insfrtion siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * insfrtion siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * insfrtion siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * insfrtion siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * insfrtion siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
      *
-     * @pbrbm fb FiltfrBypbss thbt dbn bf usfd to mutbtf Dodumfnt
-     * @pbrbm offsft  thf offsft into thf dodumfnt to insfrt thf dontfnt &gt;= 0.
-     *    All positions thbt trbdk dhbngf bt or bftfr thf givfn lodbtion
+     *
+     *
+     *
+     *
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif dontfnt &gt;= 0.
+     * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif dontfnt &gt;= 0.
+     * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif dontfnt &gt;= 0.
+     * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif dontfnt &gt;= 0.
+     * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif dontfnt &gt;= 0.
+     *    All positions tibt trbdk dibngf bt or bftfr tif givfn lodbtion
+     *    All positions tibt trbdk dibngf bt or bftfr tif givfn lodbtion
+     *    All positions tibt trbdk dibngf bt or bftfr tif givfn lodbtion
+     *    All positions tibt trbdk dibngf bt or bftfr tif givfn lodbtion
+     *    All positions tibt trbdk dibngf bt or bftfr tif givfn lodbtion
      *    will movf.
-     * @pbrbm string thf string to insfrt
-     * @pbrbm bttr      thf bttributfs to bssodibtf with thf insfrtfd
-     *   dontfnt.  This mby bf null if thfrf brf no bttributfs.
-     * @fxdfption BbdLodbtionExdfption  thf givfn insfrt position is not b
-     *   vblid position within thf dodumfnt
+     *    will movf.
+     *    will movf.
+     *    will movf.
+     *    will movf.
+     * @pbrbm string tif string to insfrt
+     * @pbrbm string tif string to insfrt
+     * @pbrbm string tif string to insfrt
+     * @pbrbm string tif string to insfrt
+     * @pbrbm string tif string to insfrt
+     * @pbrbm bttr      tif bttributfs to bssodibtf witi tif insfrtfd
+     * @pbrbm bttr      tif bttributfs to bssodibtf witi tif insfrtfd
+     * @pbrbm bttr      tif bttributfs to bssodibtf witi tif insfrtfd
+     * @pbrbm bttr      tif bttributfs to bssodibtf witi tif insfrtfd
+     * @pbrbm bttr      tif bttributfs to bssodibtf witi tif insfrtfd
+     *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+     *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+     *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+     *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+     *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
+     */
+     */
+     */
+     */
      */
     publid void insfrtString(FiltfrBypbss fb, int offsft, String string,
-                             AttributfSft bttr) throws BbdLodbtionExdfption {
+    publid void insfrtString(FiltfrBypbss fb, int offsft, String string,
+    publid void insfrtString(FiltfrBypbss fb, int offsft, String string,
+    publid void insfrtString(FiltfrBypbss fb, int offsft, String string,
+    publid void insfrtString(FiltfrBypbss fb, int offsft, String string,
+                             AttributfSft bttr) tirows BbdLodbtionExdfption {
+                             AttributfSft bttr) tirows BbdLodbtionExdfption {
+                             AttributfSft bttr) tirows BbdLodbtionExdfption {
+                             AttributfSft bttr) tirows BbdLodbtionExdfption {
+                             AttributfSft bttr) tirows BbdLodbtionExdfption {
+        fb.insfrtString(offsft, string, bttr);
+        fb.insfrtString(offsft, string, bttr);
+        fb.insfrtString(offsft, string, bttr);
+        fb.insfrtString(offsft, string, bttr);
         fb.insfrtString(offsft, string, bttr);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Invokfd prior to rfplbding b rfgion of tfxt in thf
-     * spfdififd Dodumfnt. Subdlbssfs thbt wbnt to donditionblly bllow
-     * rfplbdf should ovfrridf this bnd only dbll supfrs implfmfntbtion bs
-     * nfdfssbry, or dbll dirfdtly into thf FiltfrBypbss.
+    /**
+    /**
+    /**
+    /**
+     * Invokfd prior to rfplbding b rfgion of tfxt in tif
+     * Invokfd prior to rfplbding b rfgion of tfxt in tif
+     * Invokfd prior to rfplbding b rfgion of tfxt in tif
+     * Invokfd prior to rfplbding b rfgion of tfxt in tif
+     * Invokfd prior to rfplbding b rfgion of tfxt in tif
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * spfdififd Dodumfnt. Subdlbssfs tibt wbnt to donditionblly bllow
+     * rfplbdf siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfplbdf siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfplbdf siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfplbdf siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * rfplbdf siould ovfrridf tiis bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
+     * nfdfssbry, or dbll dirfdtly into tif FiltfrBypbss.
      *
-     * @pbrbm fb FiltfrBypbss thbt dbn bf usfd to mutbtf Dodumfnt
+     *
+     *
+     *
+     *
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm fb FiltfrBypbss tibt dbn bf usfd to mutbtf Dodumfnt
      * @pbrbm offsft Lodbtion in Dodumfnt
-     * @pbrbm lfngth Lfngth of tfxt to dflftf
+     * @pbrbm offsft Lodbtion in Dodumfnt
+     * @pbrbm offsft Lodbtion in Dodumfnt
+     * @pbrbm offsft Lodbtion in Dodumfnt
+     * @pbrbm offsft Lodbtion in Dodumfnt
+     * @pbrbm lfngti Lfngti of tfxt to dflftf
+     * @pbrbm lfngti Lfngti of tfxt to dflftf
+     * @pbrbm lfngti Lfngti of tfxt to dflftf
+     * @pbrbm lfngti Lfngti of tfxt to dflftf
+     * @pbrbm lfngti Lfngti of tfxt to dflftf
+     * @pbrbm tfxt Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+     * @pbrbm tfxt Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+     * @pbrbm tfxt Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+     * @pbrbm tfxt Tfxt to insfrt, null indidbtfs no tfxt to insfrt
      * @pbrbm tfxt Tfxt to insfrt, null indidbtfs no tfxt to insfrt
      * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+     * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+     * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+     * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+     * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
      *              null is lfgbl.
-     * @fxdfption BbdLodbtionExdfption  thf givfn insfrt position is not b
-     *   vblid position within thf dodumfnt
+     *              null is lfgbl.
+     *              null is lfgbl.
+     *              null is lfgbl.
+     *              null is lfgbl.
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
+     *   vblid position witiin tif dodumfnt
      */
-    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngth, String tfxt,
-                        AttributfSft bttrs) throws BbdLodbtionExdfption {
-        fb.rfplbdf(offsft, lfngth, tfxt, bttrs);
+     */
+     */
+     */
+     */
+    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti, String tfxt,
+    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti, String tfxt,
+    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti, String tfxt,
+    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti, String tfxt,
+    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti, String tfxt,
+                        AttributfSft bttrs) tirows BbdLodbtionExdfption {
+                        AttributfSft bttrs) tirows BbdLodbtionExdfption {
+                        AttributfSft bttrs) tirows BbdLodbtionExdfption {
+                        AttributfSft bttrs) tirows BbdLodbtionExdfption {
+                        AttributfSft bttrs) tirows BbdLodbtionExdfption {
+        fb.rfplbdf(offsft, lfngti, tfxt, bttrs);
+        fb.rfplbdf(offsft, lfngti, tfxt, bttrs);
+        fb.rfplbdf(offsft, lfngti, tfxt, bttrs);
+        fb.rfplbdf(offsft, lfngti, tfxt, bttrs);
+        fb.rfplbdf(offsft, lfngti, tfxt, bttrs);
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
-     * Usfd bs b wby to dirdumvfnt dblling bbdk into thf Dodumfnt to
-     * dhbngf it. Dodumfnt implfmfntbtions thbt wish to support
-     * b DodumfntFiltfr must providf bn implfmfntbtion thbt will
-     * not dbllbbdk into thf DodumfntFiltfr whfn thf following mfthods
-     * brf invokfd from thf DodumfntFiltfr.
+    /**
+    /**
+    /**
+    /**
+     * Usfd bs b wby to dirdumvfnt dblling bbdk into tif Dodumfnt to
+     * Usfd bs b wby to dirdumvfnt dblling bbdk into tif Dodumfnt to
+     * Usfd bs b wby to dirdumvfnt dblling bbdk into tif Dodumfnt to
+     * Usfd bs b wby to dirdumvfnt dblling bbdk into tif Dodumfnt to
+     * Usfd bs b wby to dirdumvfnt dblling bbdk into tif Dodumfnt to
+     * dibngf it. Dodumfnt implfmfntbtions tibt wisi to support
+     * dibngf it. Dodumfnt implfmfntbtions tibt wisi to support
+     * dibngf it. Dodumfnt implfmfntbtions tibt wisi to support
+     * dibngf it. Dodumfnt implfmfntbtions tibt wisi to support
+     * dibngf it. Dodumfnt implfmfntbtions tibt wisi to support
+     * b DodumfntFiltfr must providf bn implfmfntbtion tibt will
+     * b DodumfntFiltfr must providf bn implfmfntbtion tibt will
+     * b DodumfntFiltfr must providf bn implfmfntbtion tibt will
+     * b DodumfntFiltfr must providf bn implfmfntbtion tibt will
+     * b DodumfntFiltfr must providf bn implfmfntbtion tibt will
+     * not dbllbbdk into tif DodumfntFiltfr wifn tif following mftiods
+     * not dbllbbdk into tif DodumfntFiltfr wifn tif following mftiods
+     * not dbllbbdk into tif DodumfntFiltfr wifn tif following mftiods
+     * not dbllbbdk into tif DodumfntFiltfr wifn tif following mftiods
+     * not dbllbbdk into tif DodumfntFiltfr wifn tif following mftiods
+     * brf invokfd from tif DodumfntFiltfr.
+     * brf invokfd from tif DodumfntFiltfr.
+     * brf invokfd from tif DodumfntFiltfr.
+     * brf invokfd from tif DodumfntFiltfr.
+     * brf invokfd from tif DodumfntFiltfr.
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      * @sindf 1.4
      */
+     */
+     */
+     */
+     */
+    publid stbtid bbstrbdt dlbss FiltfrBypbss {
+    publid stbtid bbstrbdt dlbss FiltfrBypbss {
+    publid stbtid bbstrbdt dlbss FiltfrBypbss {
+    publid stbtid bbstrbdt dlbss FiltfrBypbss {
     publid stbtid bbstrbdt dlbss FiltfrBypbss {
         /**
-         * Rfturns thf Dodumfnt thf mutbtion is oddurring on.
+        /**
+        /**
+        /**
+        /**
+         * Rfturns tif Dodumfnt tif mutbtion is oddurring on.
+         * Rfturns tif Dodumfnt tif mutbtion is oddurring on.
+         * Rfturns tif Dodumfnt tif mutbtion is oddurring on.
+         * Rfturns tif Dodumfnt tif mutbtion is oddurring on.
+         * Rfturns tif Dodumfnt tif mutbtion is oddurring on.
          *
-         * @rfturn Dodumfnt thbt rfmovf/insfrtString will opfrbtf on
+         *
+         *
+         *
+         *
+         * @rfturn Dodumfnt tibt rfmovf/insfrtString will opfrbtf on
+         * @rfturn Dodumfnt tibt rfmovf/insfrtString will opfrbtf on
+         * @rfturn Dodumfnt tibt rfmovf/insfrtString will opfrbtf on
+         * @rfturn Dodumfnt tibt rfmovf/insfrtString will opfrbtf on
+         * @rfturn Dodumfnt tibt rfmovf/insfrtString will opfrbtf on
+         */
+         */
+         */
+         */
          */
         publid bbstrbdt Dodumfnt gftDodumfnt();
+        publid bbstrbdt Dodumfnt gftDodumfnt();
+        publid bbstrbdt Dodumfnt gftDodumfnt();
+        publid bbstrbdt Dodumfnt gftDodumfnt();
+        publid bbstrbdt Dodumfnt gftDodumfnt();
+
+
+
+
 
         /**
-         * Rfmovfs thf spfdififd rfgion of tfxt, bypbssing thf
+        /**
+        /**
+        /**
+        /**
+         * Rfmovfs tif spfdififd rfgion of tfxt, bypbssing tif
+         * Rfmovfs tif spfdififd rfgion of tfxt, bypbssing tif
+         * Rfmovfs tif spfdififd rfgion of tfxt, bypbssing tif
+         * Rfmovfs tif spfdififd rfgion of tfxt, bypbssing tif
+         * Rfmovfs tif spfdififd rfgion of tfxt, bypbssing tif
+         * DodumfntFiltfr.
+         * DodumfntFiltfr.
+         * DodumfntFiltfr.
+         * DodumfntFiltfr.
          * DodumfntFiltfr.
          *
-         * @pbrbm offsft thf offsft from thf bfginning &gt;= 0
-         * @pbrbm lfngth thf numbfr of dhbrbdtfrs to rfmovf &gt;= 0
-         * @fxdfption BbdLodbtionExdfption somf portion of thf rfmovbl rbngf
-         *   wbs not b vblid pbrt of thf dodumfnt.  Thf lodbtion in thf
-         *   fxdfption is thf first bbd position fndountfrfd.
+         *
+         *
+         *
+         *
+         * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+         * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+         * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+         * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+         * @pbrbm offsft tif offsft from tif bfginning &gt;= 0
+         * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+         * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+         * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+         * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+         * @pbrbm lfngti tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+         * @fxdfption BbdLodbtionExdfption somf portion of tif rfmovbl rbngf
+         * @fxdfption BbdLodbtionExdfption somf portion of tif rfmovbl rbngf
+         * @fxdfption BbdLodbtionExdfption somf portion of tif rfmovbl rbngf
+         * @fxdfption BbdLodbtionExdfption somf portion of tif rfmovbl rbngf
+         * @fxdfption BbdLodbtionExdfption somf portion of tif rfmovbl rbngf
+         *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif
+         *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif
+         *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif
+         *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif
+         *   wbs not b vblid pbrt of tif dodumfnt.  Tif lodbtion in tif
+         *   fxdfption is tif first bbd position fndountfrfd.
+         *   fxdfption is tif first bbd position fndountfrfd.
+         *   fxdfption is tif first bbd position fndountfrfd.
+         *   fxdfption is tif first bbd position fndountfrfd.
+         *   fxdfption is tif first bbd position fndountfrfd.
          */
-        publid bbstrbdt void rfmovf(int offsft, int lfngth) throws
+         */
+         */
+         */
+         */
+        publid bbstrbdt void rfmovf(int offsft, int lfngti) tirows
+        publid bbstrbdt void rfmovf(int offsft, int lfngti) tirows
+        publid bbstrbdt void rfmovf(int offsft, int lfngti) tirows
+        publid bbstrbdt void rfmovf(int offsft, int lfngti) tirows
+        publid bbstrbdt void rfmovf(int offsft, int lfngti) tirows
+                             BbdLodbtionExdfption;
+                             BbdLodbtionExdfption;
+                             BbdLodbtionExdfption;
+                             BbdLodbtionExdfption;
                              BbdLodbtionExdfption;
 
-        /**
-         * Insfrts thf spfdififd tfxt, bypbssing thf
-         * DodumfntFiltfr.
-         * @pbrbm offsft  thf offsft into thf dodumfnt to insfrt thf
-         *   dontfnt &gt;= 0. All positions thbt trbdk dhbngf bt or bftfr thf
-         *   givfn lodbtion will movf.
-         * @pbrbm string thf string to insfrt
-         * @pbrbm bttr thf bttributfs to bssodibtf with thf insfrtfd
-         *   dontfnt.  This mby bf null if thfrf brf no bttributfs.
-         * @fxdfption BbdLodbtionExdfption  thf givfn insfrt position is not b
-         *   vblid position within thf dodumfnt
-         */
-        publid bbstrbdt void insfrtString(int offsft, String string,
-                                          AttributfSft bttr) throws
-                                   BbdLodbtionExdfption;
+
+
+
 
         /**
-         * Dflftfs thf rfgion of tfxt from <dodf>offsft</dodf> to
-         * <dodf>offsft + lfngth</dodf>, bnd rfplbdfs it with
+        /**
+        /**
+        /**
+        /**
+         * Insfrts tif spfdififd tfxt, bypbssing tif
+         * Insfrts tif spfdififd tfxt, bypbssing tif
+         * Insfrts tif spfdififd tfxt, bypbssing tif
+         * Insfrts tif spfdififd tfxt, bypbssing tif
+         * Insfrts tif spfdififd tfxt, bypbssing tif
+         * DodumfntFiltfr.
+         * DodumfntFiltfr.
+         * DodumfntFiltfr.
+         * DodumfntFiltfr.
+         * DodumfntFiltfr.
+         * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif
+         * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif
+         * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif
+         * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif
+         * @pbrbm offsft  tif offsft into tif dodumfnt to insfrt tif
+         *   dontfnt &gt;= 0. All positions tibt trbdk dibngf bt or bftfr tif
+         *   dontfnt &gt;= 0. All positions tibt trbdk dibngf bt or bftfr tif
+         *   dontfnt &gt;= 0. All positions tibt trbdk dibngf bt or bftfr tif
+         *   dontfnt &gt;= 0. All positions tibt trbdk dibngf bt or bftfr tif
+         *   dontfnt &gt;= 0. All positions tibt trbdk dibngf bt or bftfr tif
+         *   givfn lodbtion will movf.
+         *   givfn lodbtion will movf.
+         *   givfn lodbtion will movf.
+         *   givfn lodbtion will movf.
+         *   givfn lodbtion will movf.
+         * @pbrbm string tif string to insfrt
+         * @pbrbm string tif string to insfrt
+         * @pbrbm string tif string to insfrt
+         * @pbrbm string tif string to insfrt
+         * @pbrbm string tif string to insfrt
+         * @pbrbm bttr tif bttributfs to bssodibtf witi tif insfrtfd
+         * @pbrbm bttr tif bttributfs to bssodibtf witi tif insfrtfd
+         * @pbrbm bttr tif bttributfs to bssodibtf witi tif insfrtfd
+         * @pbrbm bttr tif bttributfs to bssodibtf witi tif insfrtfd
+         * @pbrbm bttr tif bttributfs to bssodibtf witi tif insfrtfd
+         *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+         *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+         *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+         *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+         *   dontfnt.  Tiis mby bf null if tifrf brf no bttributfs.
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt position is not b
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
+         */
+         */
+         */
+         */
+         */
+        publid bbstrbdt void insfrtString(int offsft, String string,
+        publid bbstrbdt void insfrtString(int offsft, String string,
+        publid bbstrbdt void insfrtString(int offsft, String string,
+        publid bbstrbdt void insfrtString(int offsft, String string,
+        publid bbstrbdt void insfrtString(int offsft, String string,
+                                          AttributfSft bttr) tirows
+                                          AttributfSft bttr) tirows
+                                          AttributfSft bttr) tirows
+                                          AttributfSft bttr) tirows
+                                          AttributfSft bttr) tirows
+                                   BbdLodbtionExdfption;
+                                   BbdLodbtionExdfption;
+                                   BbdLodbtionExdfption;
+                                   BbdLodbtionExdfption;
+                                   BbdLodbtionExdfption;
+
+
+
+
+
+        /**
+        /**
+        /**
+        /**
+        /**
+         * Dflftfs tif rfgion of tfxt from <dodf>offsft</dodf> to
+         * Dflftfs tif rfgion of tfxt from <dodf>offsft</dodf> to
+         * Dflftfs tif rfgion of tfxt from <dodf>offsft</dodf> to
+         * Dflftfs tif rfgion of tfxt from <dodf>offsft</dodf> to
+         * Dflftfs tif rfgion of tfxt from <dodf>offsft</dodf> to
+         * <dodf>offsft + lfngti</dodf>, bnd rfplbdfs it witi
+         * <dodf>offsft + lfngti</dodf>, bnd rfplbdfs it witi
+         * <dodf>offsft + lfngti</dodf>, bnd rfplbdfs it witi
+         * <dodf>offsft + lfngti</dodf>, bnd rfplbdfs it witi
+         * <dodf>offsft + lfngti</dodf>, bnd rfplbdfs it witi
+         *  <dodf>tfxt</dodf>.
+         *  <dodf>tfxt</dodf>.
+         *  <dodf>tfxt</dodf>.
+         *  <dodf>tfxt</dodf>.
          *  <dodf>tfxt</dodf>.
          *
+         *
+         *
+         *
+         *
          * @pbrbm offsft Lodbtion in Dodumfnt
-         * @pbrbm lfngth Lfngth of tfxt to dflftf
+         * @pbrbm offsft Lodbtion in Dodumfnt
+         * @pbrbm offsft Lodbtion in Dodumfnt
+         * @pbrbm offsft Lodbtion in Dodumfnt
+         * @pbrbm offsft Lodbtion in Dodumfnt
+         * @pbrbm lfngti Lfngti of tfxt to dflftf
+         * @pbrbm lfngti Lfngti of tfxt to dflftf
+         * @pbrbm lfngti Lfngti of tfxt to dflftf
+         * @pbrbm lfngti Lfngti of tfxt to dflftf
+         * @pbrbm lfngti Lfngti of tfxt to dflftf
+         * @pbrbm string Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+         * @pbrbm string Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+         * @pbrbm string Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+         * @pbrbm string Tfxt to insfrt, null indidbtfs no tfxt to insfrt
          * @pbrbm string Tfxt to insfrt, null indidbtfs no tfxt to insfrt
          * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+         * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+         * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+         * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+         * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
          *              null is lfgbl.
-         * @fxdfption BbdLodbtionExdfption  thf givfn insfrt is not b
-         *   vblid position within thf dodumfnt
+         *              null is lfgbl.
+         *              null is lfgbl.
+         *              null is lfgbl.
+         *              null is lfgbl.
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt is not b
+         * @fxdfption BbdLodbtionExdfption  tif givfn insfrt is not b
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
+         *   vblid position witiin tif dodumfnt
          */
-        publid bbstrbdt void rfplbdf(int offsft, int lfngth, String string,
-                                          AttributfSft bttrs) throws
+         */
+         */
+         */
+         */
+        publid bbstrbdt void rfplbdf(int offsft, int lfngti, String string,
+        publid bbstrbdt void rfplbdf(int offsft, int lfngti, String string,
+        publid bbstrbdt void rfplbdf(int offsft, int lfngti, String string,
+        publid bbstrbdt void rfplbdf(int offsft, int lfngti, String string,
+        publid bbstrbdt void rfplbdf(int offsft, int lfngti, String string,
+                                          AttributfSft bttrs) tirows
+                                          AttributfSft bttrs) tirows
+                                          AttributfSft bttrs) tirows
+                                          AttributfSft bttrs) tirows
+                                          AttributfSft bttrs) tirows
+                                   BbdLodbtionExdfption;
+                                   BbdLodbtionExdfption;
+                                   BbdLodbtionExdfption;
+                                   BbdLodbtionExdfption;
                                    BbdLodbtionExdfption;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

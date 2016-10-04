@@ -1,183 +1,915 @@
 /*
- * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-#indludf <mbth.h>
-#indludf <flobt.h>
-#indludf "jni_util.h"
 
-#indludf "GrbphidsPrimitivfMgr.h"
-#indludf "LinfUtils.h"
-#indludf "ProdfssPbth.h"
-#indludf "DrbwPbth.h"
 
-#indludf "sun_jbvb2d_loops_FillPbth.h"
 
-stbtid void drbwSdbnlinf(DrbwHbndlfr* hnd, jint x0, jint x1, jint y0) {
-    DHND(hnd)->pPrim->funds.drbwlinf(
-        DHND(hnd)->pRbsInfo, x0, y0, DHND(hnd)->pixfl, x1 - x0 + 1, 0,
+
+#indludf <mbti.i>
+#indludf <mbti.i>
+#indludf <mbti.i>
+#indludf <mbti.i>
+#indludf <mbti.i>
+#indludf <flobt.i>
+#indludf <flobt.i>
+#indludf <flobt.i>
+#indludf <flobt.i>
+#indludf <flobt.i>
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+#indludf "jni_util.i"
+
+
+
+
+
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "LinfUtils.i"
+#indludf "LinfUtils.i"
+#indludf "LinfUtils.i"
+#indludf "LinfUtils.i"
+#indludf "LinfUtils.i"
+#indludf "ProdfssPbti.i"
+#indludf "ProdfssPbti.i"
+#indludf "ProdfssPbti.i"
+#indludf "ProdfssPbti.i"
+#indludf "ProdfssPbti.i"
+#indludf "DrbwPbti.i"
+#indludf "DrbwPbti.i"
+#indludf "DrbwPbti.i"
+#indludf "DrbwPbti.i"
+#indludf "DrbwPbti.i"
+
+
+
+
+
+#indludf "sun_jbvb2d_loops_FillPbti.i"
+#indludf "sun_jbvb2d_loops_FillPbti.i"
+#indludf "sun_jbvb2d_loops_FillPbti.i"
+#indludf "sun_jbvb2d_loops_FillPbti.i"
+#indludf "sun_jbvb2d_loops_FillPbti.i"
+
+
+
+
+
+stbtid void drbwSdbnlinf(DrbwHbndlfr* ind, jint x0, jint x1, jint y0) {
+stbtid void drbwSdbnlinf(DrbwHbndlfr* ind, jint x0, jint x1, jint y0) {
+stbtid void drbwSdbnlinf(DrbwHbndlfr* ind, jint x0, jint x1, jint y0) {
+stbtid void drbwSdbnlinf(DrbwHbndlfr* ind, jint x0, jint x1, jint y0) {
+stbtid void drbwSdbnlinf(DrbwHbndlfr* ind, jint x0, jint x1, jint y0) {
+    DHND(ind)->pPrim->funds.drbwlinf(
+    DHND(ind)->pPrim->funds.drbwlinf(
+    DHND(ind)->pPrim->funds.drbwlinf(
+    DHND(ind)->pPrim->funds.drbwlinf(
+    DHND(ind)->pPrim->funds.drbwlinf(
+        DHND(ind)->pRbsInfo, x0, y0, DHND(ind)->pixfl, x1 - x0 + 1, 0,
+        DHND(ind)->pRbsInfo, x0, y0, DHND(ind)->pixfl, x1 - x0 + 1, 0,
+        DHND(ind)->pRbsInfo, x0, y0, DHND(ind)->pixfl, x1 - x0 + 1, 0,
+        DHND(ind)->pRbsInfo, x0, y0, DHND(ind)->pixfl, x1 - x0 + 1, 0,
+        DHND(ind)->pRbsInfo, x0, y0, DHND(ind)->pixfl, x1 - x0 + 1, 0,
         BUMP_POS_PIXEL, 0, BUMP_NOOP, 0,
-        DHND(hnd)->pPrim, DHND(hnd)->pCompInfo);
+        BUMP_POS_PIXEL, 0, BUMP_NOOP, 0,
+        BUMP_POS_PIXEL, 0, BUMP_NOOP, 0,
+        BUMP_POS_PIXEL, 0, BUMP_NOOP, 0,
+        BUMP_POS_PIXEL, 0, BUMP_NOOP, 0,
+        DHND(ind)->pPrim, DHND(ind)->pCompInfo);
+        DHND(ind)->pPrim, DHND(ind)->pCompInfo);
+        DHND(ind)->pPrim, DHND(ind)->pCompInfo);
+        DHND(ind)->pPrim, DHND(ind)->pCompInfo);
+        DHND(ind)->pPrim, DHND(ind)->pCompInfo);
+}
+}
+}
+}
 }
 
+
+
+
+
 /*
- * Clbss:     sun_jbvb2d_loops_FillPbth
- * Mfthod:    FillPbth
- * Signbturf: (Lsun/jbvb2d/SunGrbphids2D;Lsun/jbvb2d/SurfbdfDbtb;IILjbvb/bwt/gfom/Pbth2D.Flobt;)V
+/*
+/*
+/*
+/*
+ * Clbss:     sun_jbvb2d_loops_FillPbti
+ * Clbss:     sun_jbvb2d_loops_FillPbti
+ * Clbss:     sun_jbvb2d_loops_FillPbti
+ * Clbss:     sun_jbvb2d_loops_FillPbti
+ * Clbss:     sun_jbvb2d_loops_FillPbti
+ * Mftiod:    FillPbti
+ * Mftiod:    FillPbti
+ * Mftiod:    FillPbti
+ * Mftiod:    FillPbti
+ * Mftiod:    FillPbti
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;IILjbvb/bwt/gfom/Pbti2D.Flobt;)V
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;IILjbvb/bwt/gfom/Pbti2D.Flobt;)V
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;IILjbvb/bwt/gfom/Pbti2D.Flobt;)V
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;IILjbvb/bwt/gfom/Pbti2D.Flobt;)V
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;IILjbvb/bwt/gfom/Pbti2D.Flobt;)V
  */
-JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_FillPbth_FillPbth
+ */
+ */
+ */
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_FillPbti_FillPbti
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_FillPbti_FillPbti
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_FillPbti_FillPbti
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_FillPbti_FillPbti
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_FillPbti_FillPbti
+    (JNIEnv *fnv, jobjfdt sflf,
+    (JNIEnv *fnv, jobjfdt sflf,
+    (JNIEnv *fnv, jobjfdt sflf,
+    (JNIEnv *fnv, jobjfdt sflf,
     (JNIEnv *fnv, jobjfdt sflf,
      jobjfdt sg2d, jobjfdt sDbtb,
+     jobjfdt sg2d, jobjfdt sDbtb,
+     jobjfdt sg2d, jobjfdt sDbtb,
+     jobjfdt sg2d, jobjfdt sDbtb,
+     jobjfdt sg2d, jobjfdt sDbtb,
+     jint trbnsX, jint trbnsY, jobjfdt p2df)
+     jint trbnsX, jint trbnsY, jobjfdt p2df)
+     jint trbnsX, jint trbnsY, jobjfdt p2df)
+     jint trbnsX, jint trbnsY, jobjfdt p2df)
      jint trbnsX, jint trbnsY, jobjfdt p2df)
 {
+{
+{
+{
+{
+    jbrrby typfsArrby;
+    jbrrby typfsArrby;
+    jbrrby typfsArrby;
+    jbrrby typfsArrby;
     jbrrby typfsArrby;
     jbrrby doordsArrby;
+    jbrrby doordsArrby;
+    jbrrby doordsArrby;
+    jbrrby doordsArrby;
+    jbrrby doordsArrby;
+    jint numTypfs;
+    jint numTypfs;
+    jint numTypfs;
+    jint numTypfs;
     jint numTypfs;
     jint fillRulf;
+    jint fillRulf;
+    jint fillRulf;
+    jint fillRulf;
+    jint fillRulf;
+    jboolfbn ok = JNI_TRUE;
+    jboolfbn ok = JNI_TRUE;
+    jboolfbn ok = JNI_TRUE;
+    jboolfbn ok = JNI_TRUE;
     jboolfbn ok = JNI_TRUE;
     jint pixfl = GrPrim_Sg2dGftPixfl(fnv, sg2d);
+    jint pixfl = GrPrim_Sg2dGftPixfl(fnv, sg2d);
+    jint pixfl = GrPrim_Sg2dGftPixfl(fnv, sg2d);
+    jint pixfl = GrPrim_Sg2dGftPixfl(fnv, sg2d);
+    jint pixfl = GrPrim_Sg2dGftPixfl(fnv, sg2d);
+    jint mbxCoords;
+    jint mbxCoords;
+    jint mbxCoords;
+    jint mbxCoords;
     jint mbxCoords;
     jflobt *doords;
+    jflobt *doords;
+    jflobt *doords;
+    jflobt *doords;
+    jflobt *doords;
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbOps *sdOps;
     SurfbdfDbtbOps *sdOps;
     SurfbdfDbtbRbsInfo rbsInfo;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    CompositfInfo dompInfo;
+    CompositfInfo dompInfo;
+    CompositfInfo dompInfo;
+    CompositfInfo dompInfo;
     CompositfInfo dompInfo;
     jint rft;
+    jint rft;
+    jint rft;
+    jint rft;
+    jint rft;
+    NbtivfPrimitivf *pPrim = GftNbtivfPrim(fnv, sflf);
+    NbtivfPrimitivf *pPrim = GftNbtivfPrim(fnv, sflf);
+    NbtivfPrimitivf *pPrim = GftNbtivfPrim(fnv, sflf);
+    NbtivfPrimitivf *pPrim = GftNbtivfPrim(fnv, sflf);
     NbtivfPrimitivf *pPrim = GftNbtivfPrim(fnv, sflf);
     jint strokf;
-    jboolfbn throwExd = JNI_FALSE;
+    jint strokf;
+    jint strokf;
+    jint strokf;
+    jint strokf;
+    jboolfbn tirowExd = JNI_FALSE;
+    jboolfbn tirowExd = JNI_FALSE;
+    jboolfbn tirowExd = JNI_FALSE;
+    jboolfbn tirowExd = JNI_FALSE;
+    jboolfbn tirowExd = JNI_FALSE;
+
+
+
+
 
     if (pPrim == NULL) {
+    if (pPrim == NULL) {
+    if (pPrim == NULL) {
+    if (pPrim == NULL) {
+    if (pPrim == NULL) {
         rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
     }
     if (pPrim->pCompTypf->gftCompInfo != NULL) {
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        GrPrim_Sg2dGftCompInfo(fnv, sg2d, pPrim, &dompInfo);
+        GrPrim_Sg2dGftCompInfo(fnv, sg2d, pPrim, &dompInfo);
+        GrPrim_Sg2dGftCompInfo(fnv, sg2d, pPrim, &dompInfo);
+        GrPrim_Sg2dGftCompInfo(fnv, sg2d, pPrim, &dompInfo);
         GrPrim_Sg2dGftCompInfo(fnv, sg2d, pPrim, &dompInfo);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     strokf = (*fnv)->GftIntFifld(fnv, sg2d, sg2dStrokfHintID);
+    strokf = (*fnv)->GftIntFifld(fnv, sg2d, sg2dStrokfHintID);
+    strokf = (*fnv)->GftIntFifld(fnv, sg2d, sg2dStrokfHintID);
+    strokf = (*fnv)->GftIntFifld(fnv, sg2d, sg2dStrokfHintID);
+    strokf = (*fnv)->GftIntFifld(fnv, sg2d, sg2dStrokfHintID);
+
+
+
+
 
     sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (sdOps == 0) {
+    if (sdOps == 0) {
+    if (sdOps == 0) {
+    if (sdOps == 0) {
     if (sdOps == 0) {
         rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
     }
 
-    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbth2DTypfsID);
+
+
+
+
+    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbti2DTypfsID);
+    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbti2DTypfsID);
+    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbti2DTypfsID);
+    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbti2DTypfsID);
+    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbti2DTypfsID);
     doordsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df,
-                                                 pbth2DFlobtCoordsID);
+    doordsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df,
+    doordsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df,
+    doordsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df,
+    doordsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df,
+                                                 pbti2DFlobtCoordsID);
+                                                 pbti2DFlobtCoordsID);
+                                                 pbti2DFlobtCoordsID);
+                                                 pbti2DFlobtCoordsID);
+                                                 pbti2DFlobtCoordsID);
     if (doordsArrby == NULL) {
-        JNU_ThrowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+    if (doordsArrby == NULL) {
+    if (doordsArrby == NULL) {
+    if (doordsArrby == NULL) {
+    if (doordsArrby == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        JNU_TirowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        JNU_TirowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        JNU_TirowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        JNU_TirowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
-    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbth2DNumTypfsID);
-    fillRulf = (*fnv)->GftIntFifld(fnv, p2df, pbth2DWindingRulfID);
-    if ((*fnv)->GftArrbyLfngth(fnv, typfsArrby) < numTypfs) {
-        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+    }
+    }
+    }
+    }
+    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbti2DNumTypfsID);
+    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbti2DNumTypfsID);
+    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbti2DNumTypfsID);
+    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbti2DNumTypfsID);
+    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbti2DNumTypfsID);
+    fillRulf = (*fnv)->GftIntFifld(fnv, p2df, pbti2DWindingRulfID);
+    fillRulf = (*fnv)->GftIntFifld(fnv, p2df, pbti2DWindingRulfID);
+    fillRulf = (*fnv)->GftIntFifld(fnv, p2df, pbti2DWindingRulfID);
+    fillRulf = (*fnv)->GftIntFifld(fnv, p2df, pbti2DWindingRulfID);
+    fillRulf = (*fnv)->GftIntFifld(fnv, p2df, pbti2DWindingRulfID);
+    if ((*fnv)->GftArrbyLfngti(fnv, typfsArrby) < numTypfs) {
+    if ((*fnv)->GftArrbyLfngti(fnv, typfsArrby) < numTypfs) {
+    if ((*fnv)->GftArrbyLfngti(fnv, typfsArrby) < numTypfs) {
+    if ((*fnv)->GftArrbyLfngti(fnv, typfsArrby) < numTypfs) {
+    if ((*fnv)->GftArrbyLfngti(fnv, typfsArrby) < numTypfs) {
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+
+
+
+
 
     rft = sdOps->Lodk(fnv, sdOps, &rbsInfo, SD_LOCK_FASTEST | pPrim->dstflbgs);
+    rft = sdOps->Lodk(fnv, sdOps, &rbsInfo, SD_LOCK_FASTEST | pPrim->dstflbgs);
+    rft = sdOps->Lodk(fnv, sdOps, &rbsInfo, SD_LOCK_FASTEST | pPrim->dstflbgs);
+    rft = sdOps->Lodk(fnv, sdOps, &rbsInfo, SD_LOCK_FASTEST | pPrim->dstflbgs);
+    rft = sdOps->Lodk(fnv, sdOps, &rbsInfo, SD_LOCK_FASTEST | pPrim->dstflbgs);
+    if (rft == SD_FAILURE) {
+    if (rft == SD_FAILURE) {
+    if (rft == SD_FAILURE) {
+    if (rft == SD_FAILURE) {
     if (rft == SD_FAILURE) {
         rfturn;
-    }
-
-    mbxCoords = (*fnv)->GftArrbyLfngth(fnv, doordsArrby);
-    doords = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(
-            fnv, doordsArrby, NULL);
-    if (doords == NULL) {
-        SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+        rfturn;
+        rfturn;
+        rfturn;
         rfturn;
     }
-
-    if (rft == SD_SLOWLOCK) {
-        GrPrim_RffinfBounds(&rbsInfo.bounds, trbnsX, trbnsY,
-                     doords, mbxCoords);
-        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
-              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
+    }
+    }
+    }
     }
 
+
+
+
+
+    mbxCoords = (*fnv)->GftArrbyLfngti(fnv, doordsArrby);
+    mbxCoords = (*fnv)->GftArrbyLfngti(fnv, doordsArrby);
+    mbxCoords = (*fnv)->GftArrbyLfngti(fnv, doordsArrby);
+    mbxCoords = (*fnv)->GftArrbyLfngti(fnv, doordsArrby);
+    mbxCoords = (*fnv)->GftArrbyLfngti(fnv, doordsArrby);
+    doords = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(
+    doords = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(
+    doords = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(
+    doords = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(
+    doords = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(
+            fnv, doordsArrby, NULL);
+            fnv, doordsArrby, NULL);
+            fnv, doordsArrby, NULL);
+            fnv, doordsArrby, NULL);
+            fnv, doordsArrby, NULL);
+    if (doords == NULL) {
+    if (doords == NULL) {
+    if (doords == NULL) {
+    if (doords == NULL) {
+    if (doords == NULL) {
+        SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    if (rft == SD_SLOWLOCK) {
+    if (rft == SD_SLOWLOCK) {
+    if (rft == SD_SLOWLOCK) {
+    if (rft == SD_SLOWLOCK) {
+    if (rft == SD_SLOWLOCK) {
+        GrPrim_RffinfBounds(&rbsInfo.bounds, trbnsX, trbnsY,
+        GrPrim_RffinfBounds(&rbsInfo.bounds, trbnsX, trbnsY,
+        GrPrim_RffinfBounds(&rbsInfo.bounds, trbnsX, trbnsY,
+        GrPrim_RffinfBounds(&rbsInfo.bounds, trbnsX, trbnsY,
+        GrPrim_RffinfBounds(&rbsInfo.bounds, trbnsX, trbnsY,
+                     doords, mbxCoords);
+                     doords, mbxCoords);
+                     doords, mbxCoords);
+                     doords, mbxCoords);
+                     doords, mbxCoords);
+        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
+              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
+              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
+              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
+              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    if (ok) {
+    if (ok) {
+    if (ok) {
+    if (ok) {
     if (ok) {
         sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf) {
+        if (rbsInfo.rbsBbsf) {
+        if (rbsInfo.rbsBbsf) {
+        if (rbsInfo.rbsBbsf) {
         if (rbsInfo.rbsBbsf) {
             if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+            if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+            if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+            if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+            if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+                rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
+                rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
+                rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
+                rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
                 rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
             {
+            {
+            {
+            {
+            {
                 DrbwHbndlfrDbtb dHDbtb;
+                DrbwHbndlfrDbtb dHDbtb;
+                DrbwHbndlfrDbtb dHDbtb;
+                DrbwHbndlfrDbtb dHDbtb;
+                DrbwHbndlfrDbtb dHDbtb;
+                DrbwHbndlfr drbwHbndlfr = {
+                DrbwHbndlfr drbwHbndlfr = {
+                DrbwHbndlfr drbwHbndlfr = {
+                DrbwHbndlfr drbwHbndlfr = {
                 DrbwHbndlfr drbwHbndlfr = {
                     NULL,
                     NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    &drbwSdbnlinf,
+                    &drbwSdbnlinf,
+                    &drbwSdbnlinf,
+                    &drbwSdbnlinf,
                     &drbwSdbnlinf,
                     0, 0, 0, 0,
                     0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    NULL
+                    NULL
+                    NULL
+                    NULL
                     NULL
                 };
+                };
+                };
+                };
+                };
+
+
+
+
 
                 jbytf *typfs = (jbytf*)(*fnv)->GftPrimitivfArrbyCritidbl(
+                jbytf *typfs = (jbytf*)(*fnv)->GftPrimitivfArrbyCritidbl(
+                jbytf *typfs = (jbytf*)(*fnv)->GftPrimitivfArrbyCritidbl(
+                jbytf *typfs = (jbytf*)(*fnv)->GftPrimitivfArrbyCritidbl(
+                jbytf *typfs = (jbytf*)(*fnv)->GftPrimitivfArrbyCritidbl(
+                    fnv, typfsArrby, NULL);
+                    fnv, typfsArrby, NULL);
+                    fnv, typfsArrby, NULL);
+                    fnv, typfsArrby, NULL);
                     fnv, typfsArrby, NULL);
 
-                /* Initiblizbtion of thf following fiflds in thf dfdlbrbtion of
-                 * thf dHDbtb bnd drbwHbndlfr bbovf dbusfs wbrnings on sun
-                 * studio dompilfr with
-                 * -xd99=%nonf option bpplifd (this option mfbns domplibndf
-                 *  with C90 stbndbrd instfbd of C99)
+
+
+
+
+                /* Initiblizbtion of tif following fiflds in tif dfdlbrbtion of
+                /* Initiblizbtion of tif following fiflds in tif dfdlbrbtion of
+                /* Initiblizbtion of tif following fiflds in tif dfdlbrbtion of
+                /* Initiblizbtion of tif following fiflds in tif dfdlbrbtion of
+                /* Initiblizbtion of tif following fiflds in tif dfdlbrbtion of
+                 * tif dHDbtb bnd drbwHbndlfr bbovf dbusfs wbrnings on sun
+                 * tif dHDbtb bnd drbwHbndlfr bbovf dbusfs wbrnings on sun
+                 * tif dHDbtb bnd drbwHbndlfr bbovf dbusfs wbrnings on sun
+                 * tif dHDbtb bnd drbwHbndlfr bbovf dbusfs wbrnings on sun
+                 * tif dHDbtb bnd drbwHbndlfr bbovf dbusfs wbrnings on sun
+                 * studio dompilfr witi
+                 * studio dompilfr witi
+                 * studio dompilfr witi
+                 * studio dompilfr witi
+                 * studio dompilfr witi
+                 * -xd99=%nonf option bpplifd (tiis option mfbns domplibndf
+                 * -xd99=%nonf option bpplifd (tiis option mfbns domplibndf
+                 * -xd99=%nonf option bpplifd (tiis option mfbns domplibndf
+                 * -xd99=%nonf option bpplifd (tiis option mfbns domplibndf
+                 * -xd99=%nonf option bpplifd (tiis option mfbns domplibndf
+                 *  witi C90 stbndbrd instfbd of C99)
+                 *  witi C90 stbndbrd instfbd of C99)
+                 *  witi C90 stbndbrd instfbd of C99)
+                 *  witi C90 stbndbrd instfbd of C99)
+                 *  witi C90 stbndbrd instfbd of C99)
+                 */
+                 */
+                 */
+                 */
                  */
                 dHDbtb.pRbsInfo = &rbsInfo;
+                dHDbtb.pRbsInfo = &rbsInfo;
+                dHDbtb.pRbsInfo = &rbsInfo;
+                dHDbtb.pRbsInfo = &rbsInfo;
+                dHDbtb.pRbsInfo = &rbsInfo;
+                dHDbtb.pixfl = pixfl;
+                dHDbtb.pixfl = pixfl;
+                dHDbtb.pixfl = pixfl;
+                dHDbtb.pixfl = pixfl;
                 dHDbtb.pixfl = pixfl;
                 dHDbtb.pPrim = pPrim;
+                dHDbtb.pPrim = pPrim;
+                dHDbtb.pPrim = pPrim;
+                dHDbtb.pPrim = pPrim;
+                dHDbtb.pPrim = pPrim;
+                dHDbtb.pCompInfo = &dompInfo;
+                dHDbtb.pCompInfo = &dompInfo;
+                dHDbtb.pCompInfo = &dompInfo;
+                dHDbtb.pCompInfo = &dompInfo;
                 dHDbtb.pCompInfo = &dompInfo;
 
+
+
+
+
+                drbwHbndlfr.xMin = rbsInfo.bounds.x1;
+                drbwHbndlfr.xMin = rbsInfo.bounds.x1;
+                drbwHbndlfr.xMin = rbsInfo.bounds.x1;
+                drbwHbndlfr.xMin = rbsInfo.bounds.x1;
                 drbwHbndlfr.xMin = rbsInfo.bounds.x1;
                 drbwHbndlfr.yMin = rbsInfo.bounds.y1;
+                drbwHbndlfr.yMin = rbsInfo.bounds.y1;
+                drbwHbndlfr.yMin = rbsInfo.bounds.y1;
+                drbwHbndlfr.yMin = rbsInfo.bounds.y1;
+                drbwHbndlfr.yMin = rbsInfo.bounds.y1;
+                drbwHbndlfr.xMbx = rbsInfo.bounds.x2;
+                drbwHbndlfr.xMbx = rbsInfo.bounds.x2;
+                drbwHbndlfr.xMbx = rbsInfo.bounds.x2;
+                drbwHbndlfr.xMbx = rbsInfo.bounds.x2;
                 drbwHbndlfr.xMbx = rbsInfo.bounds.x2;
                 drbwHbndlfr.yMbx = rbsInfo.bounds.y2;
+                drbwHbndlfr.yMbx = rbsInfo.bounds.y2;
+                drbwHbndlfr.yMbx = rbsInfo.bounds.y2;
+                drbwHbndlfr.yMbx = rbsInfo.bounds.y2;
+                drbwHbndlfr.yMbx = rbsInfo.bounds.y2;
+                drbwHbndlfr.pDbtb = &dHDbtb;
+                drbwHbndlfr.pDbtb = &dHDbtb;
+                drbwHbndlfr.pDbtb = &dHDbtb;
+                drbwHbndlfr.pDbtb = &dHDbtb;
                 drbwHbndlfr.pDbtb = &dHDbtb;
 
+
+
+
+
                 if (typfs != NULL) {
-                    if (!doFillPbth(&drbwHbndlfr,
+                if (typfs != NULL) {
+                if (typfs != NULL) {
+                if (typfs != NULL) {
+                if (typfs != NULL) {
+                    if (!doFillPbti(&drbwHbndlfr,
+                    if (!doFillPbti(&drbwHbndlfr,
+                    if (!doFillPbti(&drbwHbndlfr,
+                    if (!doFillPbti(&drbwHbndlfr,
+                    if (!doFillPbti(&drbwHbndlfr,
+                                    trbnsX, trbnsY, doords,
+                                    trbnsX, trbnsY, doords,
+                                    trbnsX, trbnsY, doords,
+                                    trbnsX, trbnsY, doords,
                                     trbnsX, trbnsY, doords,
                                     mbxCoords, typfs, numTypfs,
+                                    mbxCoords, typfs, numTypfs,
+                                    mbxCoords, typfs, numTypfs,
+                                    mbxCoords, typfs, numTypfs,
+                                    mbxCoords, typfs, numTypfs,
+                                    (strokf == sunHints_INTVAL_STROKE_PURE)?
+                                    (strokf == sunHints_INTVAL_STROKE_PURE)?
+                                    (strokf == sunHints_INTVAL_STROKE_PURE)?
+                                    (strokf == sunHints_INTVAL_STROKE_PURE)?
                                     (strokf == sunHints_INTVAL_STROKE_PURE)?
                                             PH_STROKE_PURE : PH_STROKE_DEFAULT,
+                                            PH_STROKE_PURE : PH_STROKE_DEFAULT,
+                                            PH_STROKE_PURE : PH_STROKE_DEFAULT,
+                                            PH_STROKE_PURE : PH_STROKE_DEFAULT,
+                                            PH_STROKE_PURE : PH_STROKE_DEFAULT,
+                                    fillRulf))
+                                    fillRulf))
+                                    fillRulf))
+                                    fillRulf))
                                     fillRulf))
                     {
-                        throwExd = JNI_TRUE;
+                    {
+                    {
+                    {
+                    {
+                        tirowExd = JNI_TRUE;
+                        tirowExd = JNI_TRUE;
+                        tirowExd = JNI_TRUE;
+                        tirowExd = JNI_TRUE;
+                        tirowExd = JNI_TRUE;
+                    }
+                    }
+                    }
+                    }
                     }
 
+
+
+
+
+                    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, typfsArrby, typfs,
+                    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, typfsArrby, typfs,
+                    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, typfsArrby, typfs,
+                    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, typfsArrby, typfs,
                     (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, typfsArrby, typfs,
                                                       JNI_ABORT);
+                                                      JNI_ABORT);
+                                                      JNI_ABORT);
+                                                      JNI_ABORT);
+                                                      JNI_ABORT);
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+    }
+    }
+    }
+    }
     }
     (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, doordsArrby, doords,
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, doordsArrby, doords,
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, doordsArrby, doords,
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, doordsArrby, doords,
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, doordsArrby, doords,
+                                          JNI_ABORT);
+                                          JNI_ABORT);
+                                          JNI_ABORT);
+                                          JNI_ABORT);
                                           JNI_ABORT);
 
-    if (throwExd) {
-        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv,
+
+
+
+
+    if (tirowExd) {
+    if (tirowExd) {
+    if (tirowExd) {
+    if (tirowExd) {
+    if (tirowExd) {
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv,
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv,
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv,
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv,
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv,
+                                                "doords brrby");
+                                                "doords brrby");
+                                                "doords brrby");
+                                                "doords brrby");
                                                 "doords brrby");
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+}
+}
+}
+}
 }

@@ -1,0 +1,561 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jdmbstfr.d
+ *
+ * Copyrigit (C) 1991-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
+ *
+ * Tiis filf dontbins mbstfr dontrol logid for tif JPEG dfdomprfssor.
+ * Tifsf routinfs brf dondfrnfd witi sflfdting tif modulfs to bf fxfdutfd
+ * bnd witi dftfrmining tif numbfr of pbssfs bnd tif work to bf donf in fbdi
+ * pbss.
+ */
+
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
+
+
+/* Privbtf stbtf */
+
+typfdff strudt {
+  strudt jpfg_dfdomp_mbstfr pub; /* publid fiflds */
+
+  int pbss_numbfr;              /* # of pbssfs domplftfd */
+
+  boolfbn using_mfrgfd_upsbmplf; /* TRUE if using mfrgfd upsbmplf/ddonvfrt */
+
+  /* Sbvfd rfffrfndfs to initiblizfd qubntizfr modulfs,
+   * in dbsf wf nffd to switdi modfs.
+   */
+  strudt jpfg_dolor_qubntizfr * qubntizfr_1pbss;
+  strudt jpfg_dolor_qubntizfr * qubntizfr_2pbss;
+} my_dfdomp_mbstfr;
+
+typfdff my_dfdomp_mbstfr * my_mbstfr_ptr;
+
+
+/*
+ * Dftfrminf wiftifr mfrgfd upsbmplf/dolor donvfrsion siould bf usfd.
+ * CRUCIAL: tiis must mbtdi tif bdtubl dbpbbilitifs of jdmfrgf.d!
+ */
+
+LOCAL(boolfbn)
+usf_mfrgfd_upsbmplf (j_dfdomprfss_ptr dinfo)
+{
+#ifdff UPSAMPLE_MERGING_SUPPORTED
+  /* Mfrging is tif fquivblfnt of plbin box-filtfr upsbmpling */
+  if (dinfo->do_fbndy_upsbmpling || dinfo->CCIR601_sbmpling)
+    rfturn FALSE;
+  /* jdmfrgf.d only supports YCC=>RGB dolor donvfrsion */
+  if (dinfo->jpfg_dolor_spbdf != JCS_YCbCr || dinfo->num_domponfnts != 3 ||
+      dinfo->out_dolor_spbdf != JCS_RGB ||
+      dinfo->out_dolor_domponfnts != RGB_PIXELSIZE)
+    rfturn FALSE;
+  /* bnd it only ibndlfs 2i1v or 2i2v sbmpling rbtios */
+  if (dinfo->domp_info[0].i_sbmp_fbdtor != 2 ||
+      dinfo->domp_info[1].i_sbmp_fbdtor != 1 ||
+      dinfo->domp_info[2].i_sbmp_fbdtor != 1 ||
+      dinfo->domp_info[0].v_sbmp_fbdtor >  2 ||
+      dinfo->domp_info[1].v_sbmp_fbdtor != 1 ||
+      dinfo->domp_info[2].v_sbmp_fbdtor != 1)
+    rfturn FALSE;
+  /* furtifrmorf, it dofsn't work if wf'vf sdblfd tif IDCTs difffrfntly */
+  if (dinfo->domp_info[0].DCT_sdblfd_sizf != dinfo->min_DCT_sdblfd_sizf ||
+      dinfo->domp_info[1].DCT_sdblfd_sizf != dinfo->min_DCT_sdblfd_sizf ||
+      dinfo->domp_info[2].DCT_sdblfd_sizf != dinfo->min_DCT_sdblfd_sizf)
+    rfturn FALSE;
+  /* ??? blso nffd to tfst for upsbmplf-timf rfsdbling, wifn & if supportfd */
+  rfturn TRUE;                  /* by golly, it'll work... */
+#flsf
+  rfturn FALSE;
+#fndif
+}
+
+
+/*
+ * Computf output imbgf dimfnsions bnd rflbtfd vblufs.
+ * NOTE: tiis is fxportfd for possiblf usf by bpplidbtion.
+ * Hfndf it mustn't do bnytiing tibt dbn't bf donf twidf.
+ * Also notf tibt it mby bf dbllfd bfforf tif mbstfr modulf is initiblizfd!
+ */
+
+GLOBAL(void)
+jpfg_dbld_output_dimfnsions (j_dfdomprfss_ptr dinfo)
+/* Do domputbtions tibt brf nffdfd bfforf mbstfr sflfdtion pibsf */
+{
+#ifdff IDCT_SCALING_SUPPORTED
+  int di;
+  jpfg_domponfnt_info *dompptr;
+#fndif
+
+  /* Prfvfnt bpplidbtion from dblling mf bt wrong timfs */
+  if (dinfo->globbl_stbtf != DSTATE_READY)
+    ERREXIT1(dinfo, JERR_BAD_STATE, dinfo->globbl_stbtf);
+
+#ifdff IDCT_SCALING_SUPPORTED
+
+  /* Computf bdtubl output imbgf dimfnsions bnd DCT sdbling dioidfs. */
+  if (dinfo->sdblf_num * 8 <= dinfo->sdblf_dfnom) {
+    /* Providf 1/8 sdbling */
+    dinfo->output_widti = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_widti, 8L);
+    dinfo->output_ifigit = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_ifigit, 8L);
+    dinfo->min_DCT_sdblfd_sizf = 1;
+  } flsf if (dinfo->sdblf_num * 4 <= dinfo->sdblf_dfnom) {
+    /* Providf 1/4 sdbling */
+    dinfo->output_widti = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_widti, 4L);
+    dinfo->output_ifigit = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_ifigit, 4L);
+    dinfo->min_DCT_sdblfd_sizf = 2;
+  } flsf if (dinfo->sdblf_num * 2 <= dinfo->sdblf_dfnom) {
+    /* Providf 1/2 sdbling */
+    dinfo->output_widti = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_widti, 2L);
+    dinfo->output_ifigit = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_ifigit, 2L);
+    dinfo->min_DCT_sdblfd_sizf = 4;
+  } flsf {
+    /* Providf 1/1 sdbling */
+    dinfo->output_widti = dinfo->imbgf_widti;
+    dinfo->output_ifigit = dinfo->imbgf_ifigit;
+    dinfo->min_DCT_sdblfd_sizf = DCTSIZE;
+  }
+  /* In sflfdting tif bdtubl DCT sdbling for fbdi domponfnt, wf try to
+   * sdblf up tif diromb domponfnts vib IDCT sdbling rbtifr tibn upsbmpling.
+   * Tiis sbvfs timf if tif upsbmplfr gfts to usf 1:1 sdbling.
+   * Notf tiis dodf bssumfs tibt tif supportfd DCT sdblings brf powfrs of 2.
+   */
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    int ssizf = dinfo->min_DCT_sdblfd_sizf;
+    wiilf (ssizf < DCTSIZE &&
+           (dompptr->i_sbmp_fbdtor * ssizf * 2 <=
+            dinfo->mbx_i_sbmp_fbdtor * dinfo->min_DCT_sdblfd_sizf) &&
+           (dompptr->v_sbmp_fbdtor * ssizf * 2 <=
+            dinfo->mbx_v_sbmp_fbdtor * dinfo->min_DCT_sdblfd_sizf)) {
+      ssizf = ssizf * 2;
+    }
+    dompptr->DCT_sdblfd_sizf = ssizf;
+  }
+
+  /* Rfdomputf downsbmplfd dimfnsions of domponfnts;
+   * bpplidbtion nffds to know tifsf if using rbw downsbmplfd dbtb.
+   */
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Sizf in sbmplfs, bftfr IDCT sdbling */
+    dompptr->downsbmplfd_widti = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_widti *
+                    (long) (dompptr->i_sbmp_fbdtor * dompptr->DCT_sdblfd_sizf),
+                    (long) (dinfo->mbx_i_sbmp_fbdtor * DCTSIZE));
+    dompptr->downsbmplfd_ifigit = (JDIMENSION)
+      jdiv_round_up((long) dinfo->imbgf_ifigit *
+                    (long) (dompptr->v_sbmp_fbdtor * dompptr->DCT_sdblfd_sizf),
+                    (long) (dinfo->mbx_v_sbmp_fbdtor * DCTSIZE));
+  }
+
+#flsf /* !IDCT_SCALING_SUPPORTED */
+
+  /* Hbrdwirf it to "no sdbling" */
+  dinfo->output_widti = dinfo->imbgf_widti;
+  dinfo->output_ifigit = dinfo->imbgf_ifigit;
+  /* jdinput.d ibs blrfbdy initiblizfd DCT_sdblfd_sizf to DCTSIZE,
+   * bnd ibs domputfd unsdblfd downsbmplfd_widti bnd downsbmplfd_ifigit.
+   */
+
+#fndif /* IDCT_SCALING_SUPPORTED */
+
+  /* Rfport numbfr of domponfnts in sflfdtfd dolorspbdf. */
+  /* Probbbly tiis siould bf in tif dolor donvfrsion modulf... */
+  switdi (dinfo->out_dolor_spbdf) {
+  dbsf JCS_GRAYSCALE:
+    dinfo->out_dolor_domponfnts = 1;
+    brfbk;
+  dbsf JCS_RGB:
+#if RGB_PIXELSIZE != 3
+    dinfo->out_dolor_domponfnts = RGB_PIXELSIZE;
+    brfbk;
+#fndif /* flsf sibrf dodf witi YCbCr */
+  dbsf JCS_YCbCr:
+    dinfo->out_dolor_domponfnts = 3;
+    brfbk;
+  dbsf JCS_CMYK:
+  dbsf JCS_YCCK:
+    dinfo->out_dolor_domponfnts = 4;
+    brfbk;
+  dffbult:                      /* flsf must bf sbmf dolorspbdf bs in filf */
+    dinfo->out_dolor_domponfnts = dinfo->num_domponfnts;
+    brfbk;
+  }
+  dinfo->output_domponfnts = (dinfo->qubntizf_dolors ? 1 :
+                              dinfo->out_dolor_domponfnts);
+
+  /* Sff if upsbmplfr will wbnt to fmit morf tibn onf row bt b timf */
+  if (usf_mfrgfd_upsbmplf(dinfo))
+    dinfo->rfd_outbuf_ifigit = dinfo->mbx_v_sbmp_fbdtor;
+  flsf
+    dinfo->rfd_outbuf_ifigit = 1;
+}
+
+
+/*
+ * Sfvfrbl dfdomprfssion prodfssfs nffd to rbngf-limit vblufs to tif rbngf
+ * 0..MAXJSAMPLE; tif input vbluf mby fbll somfwibt outsidf tiis rbngf
+ * duf to noisf introdudfd by qubntizbtion, roundoff frror, ftd.  Tifsf
+ * prodfssfs brf innfr loops bnd nffd to bf bs fbst bs possiblf.  On most
+ * mbdiinfs, pbrtidulbrly CPUs witi pipflinfs or instrudtion prffftdi,
+ * b (subsdript-difdk-lfss) C tbblf lookup
+ *              x = sbmplf_rbngf_limit[x];
+ * is fbstfr tibn fxplidit tfsts
+ *              if (x < 0)  x = 0;
+ *              flsf if (x > MAXJSAMPLE)  x = MAXJSAMPLE;
+ * Tifsf prodfssfs bll usf b dommon tbblf prfpbrfd by tif routinf bflow.
+ *
+ * For most stfps wf dbn mbtifmbtidblly gubrbntff tibt tif initibl vbluf
+ * of x is witiin MAXJSAMPLE+1 of tif lfgbl rbngf, so b tbblf running from
+ * -(MAXJSAMPLE+1) to 2*MAXJSAMPLE+1 is suffidifnt.  But for tif initibl
+ * limiting stfp (just bftfr tif IDCT), b wildly out-of-rbngf vbluf is
+ * possiblf if tif input dbtb is dorrupt.  To bvoid bny dibndf of indfxing
+ * off tif fnd of mfmory bnd gftting b bbd-pointfr trbp, wf pfrform tif
+ * post-IDCT limiting tius:
+ *              x = rbngf_limit[x & MASK];
+ * wifrf MASK is 2 bits widfr tibn lfgbl sbmplf dbtb, if 10 bits for 8-bit
+ * sbmplfs.  Undfr normbl dirdumstbndfs tiis is morf tibn fnougi rbngf bnd
+ * b dorrfdt output will bf gfnfrbtfd; witi bogus input dbtb tif mbsk will
+ * dbusf wrbpbround, bnd wf will sbffly gfnfrbtf b bogus-but-in-rbngf output.
+ * For tif post-IDCT stfp, wf wbnt to donvfrt tif dbtb from signfd to unsignfd
+ * rfprfsfntbtion by bdding CENTERJSAMPLE bt tif sbmf timf tibt wf limit it.
+ * So tif post-IDCT limiting tbblf fnds up looking likf tiis:
+ *   CENTERJSAMPLE,CENTERJSAMPLE+1,...,MAXJSAMPLE,
+ *   MAXJSAMPLE (rfpfbt 2*(MAXJSAMPLE+1)-CENTERJSAMPLE timfs),
+ *   0          (rfpfbt 2*(MAXJSAMPLE+1)-CENTERJSAMPLE timfs),
+ *   0,1,...,CENTERJSAMPLE-1
+ * Nfgbtivf inputs sflfdt vblufs from tif uppfr iblf of tif tbblf bftfr
+ * mbsking.
+ *
+ * Wf dbn sbvf somf spbdf by ovfrlbpping tif stbrt of tif post-IDCT tbblf
+ * witi tif simplfr rbngf limiting tbblf.  Tif post-IDCT tbblf bfgins bt
+ * sbmplf_rbngf_limit + CENTERJSAMPLE.
+ *
+ * Notf tibt tif tbblf is bllodbtfd in nfbr dbtb spbdf on PCs; it's smbll
+ * fnougi bnd usfd oftfn fnougi to justify tiis.
+ */
+
+LOCAL(void)
+prfpbrf_rbngf_limit_tbblf (j_dfdomprfss_ptr dinfo)
+/* Allodbtf bnd fill in tif sbmplf_rbngf_limit tbblf */
+{
+  JSAMPLE * tbblf;
+  int i;
+
+  tbblf = (JSAMPLE *)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                (5 * (MAXJSAMPLE+1) + CENTERJSAMPLE) * SIZEOF(JSAMPLE));
+  tbblf += (MAXJSAMPLE+1);      /* bllow nfgbtivf subsdripts of simplf tbblf */
+  dinfo->sbmplf_rbngf_limit = tbblf;
+  /* First sfgmfnt of "simplf" tbblf: limit[x] = 0 for x < 0 */
+  MEMZERO(tbblf - (MAXJSAMPLE+1), (MAXJSAMPLE+1) * SIZEOF(JSAMPLE));
+  /* Mbin pbrt of "simplf" tbblf: limit[x] = x */
+  for (i = 0; i <= MAXJSAMPLE; i++)
+    tbblf[i] = (JSAMPLE) i;
+  tbblf += CENTERJSAMPLE;       /* Point to wifrf post-IDCT tbblf stbrts */
+  /* End of simplf tbblf, rfst of first iblf of post-IDCT tbblf */
+  for (i = CENTERJSAMPLE; i < 2*(MAXJSAMPLE+1); i++)
+    tbblf[i] = MAXJSAMPLE;
+  /* Sfdond iblf of post-IDCT tbblf */
+  MEMZERO(tbblf + (2 * (MAXJSAMPLE+1)),
+          (2 * (MAXJSAMPLE+1) - CENTERJSAMPLE) * SIZEOF(JSAMPLE));
+  MEMCOPY(tbblf + (4 * (MAXJSAMPLE+1) - CENTERJSAMPLE),
+          dinfo->sbmplf_rbngf_limit, CENTERJSAMPLE * SIZEOF(JSAMPLE));
+}
+
+
+/*
+ * Mbstfr sflfdtion of dfdomprfssion modulfs.
+ * Tiis is donf ondf bt jpfg_stbrt_dfdomprfss timf.  Wf dftfrminf
+ * wiidi modulfs will bf usfd bnd givf tifm bppropribtf initiblizbtion dblls.
+ * Wf blso initiblizf tif dfdomprfssor input sidf to bfgin donsuming dbtb.
+ *
+ * Sindf jpfg_rfbd_ifbdfr ibs finisifd, wf know wibt is in tif SOF
+ * bnd (first) SOS mbrkfrs.  Wf blso ibvf bll tif bpplidbtion pbrbmftfr
+ * sfttings.
+ */
+
+LOCAL(void)
+mbstfr_sflfdtion (j_dfdomprfss_ptr dinfo)
+{
+  my_mbstfr_ptr mbstfr = (my_mbstfr_ptr) dinfo->mbstfr;
+  boolfbn usf_d_bufffr;
+  long sbmplfspfrrow;
+  JDIMENSION jd_sbmplfspfrrow;
+
+  /* Initiblizf dimfnsions bnd otifr stuff */
+  jpfg_dbld_output_dimfnsions(dinfo);
+  prfpbrf_rbngf_limit_tbblf(dinfo);
+
+  /* Widti of bn output sdbnlinf must bf rfprfsfntbblf bs JDIMENSION. */
+  sbmplfspfrrow = (long) dinfo->output_widti * (long) dinfo->out_dolor_domponfnts;
+  jd_sbmplfspfrrow = (JDIMENSION) sbmplfspfrrow;
+  if ((long) jd_sbmplfspfrrow != sbmplfspfrrow)
+    ERREXIT(dinfo, JERR_WIDTH_OVERFLOW);
+
+  /* Initiblizf my privbtf stbtf */
+  mbstfr->pbss_numbfr = 0;
+  mbstfr->using_mfrgfd_upsbmplf = usf_mfrgfd_upsbmplf(dinfo);
+
+  /* Color qubntizfr sflfdtion */
+  mbstfr->qubntizfr_1pbss = NULL;
+  mbstfr->qubntizfr_2pbss = NULL;
+  /* No modf dibngfs if not using bufffrfd-imbgf modf. */
+  if (! dinfo->qubntizf_dolors || ! dinfo->bufffrfd_imbgf) {
+    dinfo->fnbblf_1pbss_qubnt = FALSE;
+    dinfo->fnbblf_fxtfrnbl_qubnt = FALSE;
+    dinfo->fnbblf_2pbss_qubnt = FALSE;
+  }
+  if (dinfo->qubntizf_dolors) {
+    if (dinfo->rbw_dbtb_out)
+      ERREXIT(dinfo, JERR_NOTIMPL);
+    /* 2-pbss qubntizfr only works in 3-domponfnt dolor spbdf. */
+    if (dinfo->out_dolor_domponfnts != 3) {
+      dinfo->fnbblf_1pbss_qubnt = TRUE;
+      dinfo->fnbblf_fxtfrnbl_qubnt = FALSE;
+      dinfo->fnbblf_2pbss_qubnt = FALSE;
+      dinfo->dolormbp = NULL;
+    } flsf if (dinfo->dolormbp != NULL) {
+      dinfo->fnbblf_fxtfrnbl_qubnt = TRUE;
+    } flsf if (dinfo->two_pbss_qubntizf) {
+      dinfo->fnbblf_2pbss_qubnt = TRUE;
+    } flsf {
+      dinfo->fnbblf_1pbss_qubnt = TRUE;
+    }
+
+    if (dinfo->fnbblf_1pbss_qubnt) {
+#ifdff QUANT_1PASS_SUPPORTED
+      jinit_1pbss_qubntizfr(dinfo);
+      mbstfr->qubntizfr_1pbss = dinfo->dqubntizf;
+#flsf
+      ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+    }
+
+    /* Wf usf tif 2-pbss dodf to mbp to fxtfrnbl dolormbps. */
+    if (dinfo->fnbblf_2pbss_qubnt || dinfo->fnbblf_fxtfrnbl_qubnt) {
+#ifdff QUANT_2PASS_SUPPORTED
+      jinit_2pbss_qubntizfr(dinfo);
+      mbstfr->qubntizfr_2pbss = dinfo->dqubntizf;
+#flsf
+      ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+    }
+    /* If boti qubntizfrs brf initiblizfd, tif 2-pbss onf is lfft bdtivf;
+     * tiis is nfdfssbry for stbrting witi qubntizbtion to bn fxtfrnbl mbp.
+     */
+  }
+
+  /* Post-prodfssing: in pbrtidulbr, dolor donvfrsion first */
+  if (! dinfo->rbw_dbtb_out) {
+    if (mbstfr->using_mfrgfd_upsbmplf) {
+#ifdff UPSAMPLE_MERGING_SUPPORTED
+      jinit_mfrgfd_upsbmplfr(dinfo); /* dofs dolor donvfrsion too */
+#flsf
+      ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+    } flsf {
+      jinit_dolor_dfdonvfrtfr(dinfo);
+      jinit_upsbmplfr(dinfo);
+    }
+    jinit_d_post_dontrollfr(dinfo, dinfo->fnbblf_2pbss_qubnt);
+  }
+  /* Invfrsf DCT */
+  jinit_invfrsf_ddt(dinfo);
+  /* Entropy dfdoding: fitifr Huffmbn or britimftid doding. */
+  if (dinfo->briti_dodf) {
+    ERREXIT(dinfo, JERR_ARITH_NOTIMPL);
+  } flsf {
+    if (dinfo->progrfssivf_modf) {
+#ifdff D_PROGRESSIVE_SUPPORTED
+      jinit_piuff_dfdodfr(dinfo);
+#flsf
+      ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+    } flsf
+      jinit_iuff_dfdodfr(dinfo);
+  }
+
+  /* Initiblizf prindipbl bufffr dontrollfrs. */
+  usf_d_bufffr = dinfo->inputdtl->ibs_multiplf_sdbns || dinfo->bufffrfd_imbgf;
+  jinit_d_doff_dontrollfr(dinfo, usf_d_bufffr);
+
+  if (! dinfo->rbw_dbtb_out)
+    jinit_d_mbin_dontrollfr(dinfo, FALSE /* nfvfr nffd full bufffr ifrf */);
+
+  /* Wf dbn now tfll tif mfmory mbnbgfr to bllodbtf virtubl brrbys. */
+  (*dinfo->mfm->rfblizf_virt_brrbys) ((j_dommon_ptr) dinfo);
+
+  /* Initiblizf input sidf of dfdomprfssor to donsumf first sdbn. */
+  (*dinfo->inputdtl->stbrt_input_pbss) (dinfo);
+
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+  /* If jpfg_stbrt_dfdomprfss will rfbd tif wiolf filf, initiblizf
+   * progrfss monitoring bppropribtfly.  Tif input stfp is dountfd
+   * bs onf pbss.
+   */
+  if (dinfo->progrfss != NULL && ! dinfo->bufffrfd_imbgf &&
+      dinfo->inputdtl->ibs_multiplf_sdbns) {
+    int nsdbns;
+    /* Estimbtf numbfr of sdbns to sft pbss_limit. */
+    if (dinfo->progrfssivf_modf) {
+      /* Arbitrbrily fstimbtf 2 intfrlfbvfd DC sdbns + 3 AC sdbns/domponfnt. */
+      nsdbns = 2 + 3 * dinfo->num_domponfnts;
+    } flsf {
+      /* For b nonprogrfssivf multisdbn filf, fstimbtf 1 sdbn pfr domponfnt. */
+      nsdbns = dinfo->num_domponfnts;
+    }
+    dinfo->progrfss->pbss_dountfr = 0L;
+    dinfo->progrfss->pbss_limit = (long) dinfo->totbl_iMCU_rows * nsdbns;
+    dinfo->progrfss->domplftfd_pbssfs = 0;
+    dinfo->progrfss->totbl_pbssfs = (dinfo->fnbblf_2pbss_qubnt ? 3 : 2);
+    /* Count tif input pbss bs donf */
+    mbstfr->pbss_numbfr++;
+  }
+#fndif /* D_MULTISCAN_FILES_SUPPORTED */
+}
+
+
+/*
+ * Pfr-pbss sftup.
+ * Tiis is dbllfd bt tif bfginning of fbdi output pbss.  Wf dftfrminf wiidi
+ * modulfs will bf bdtivf during tiis pbss bnd givf tifm bppropribtf
+ * stbrt_pbss dblls.  Wf blso sft is_dummy_pbss to indidbtf wiftifr tiis
+ * is b "rfbl" output pbss or b dummy pbss for dolor qubntizbtion.
+ * (In tif lbttfr dbsf, jdbpistd.d will drbnk tif pbss to domplftion.)
+ */
+
+METHODDEF(void)
+prfpbrf_for_output_pbss (j_dfdomprfss_ptr dinfo)
+{
+  my_mbstfr_ptr mbstfr = (my_mbstfr_ptr) dinfo->mbstfr;
+
+  if (mbstfr->pub.is_dummy_pbss) {
+#ifdff QUANT_2PASS_SUPPORTED
+    /* Finbl pbss of 2-pbss qubntizbtion */
+    mbstfr->pub.is_dummy_pbss = FALSE;
+    (*dinfo->dqubntizf->stbrt_pbss) (dinfo, FALSE);
+    (*dinfo->post->stbrt_pbss) (dinfo, JBUF_CRANK_DEST);
+    (*dinfo->mbin->stbrt_pbss) (dinfo, JBUF_CRANK_DEST);
+#flsf
+    ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif /* QUANT_2PASS_SUPPORTED */
+  } flsf {
+    if (dinfo->qubntizf_dolors && dinfo->dolormbp == NULL) {
+      /* Sflfdt nfw qubntizbtion mftiod */
+      if (dinfo->two_pbss_qubntizf && dinfo->fnbblf_2pbss_qubnt) {
+        dinfo->dqubntizf = mbstfr->qubntizfr_2pbss;
+        mbstfr->pub.is_dummy_pbss = TRUE;
+      } flsf if (dinfo->fnbblf_1pbss_qubnt) {
+        dinfo->dqubntizf = mbstfr->qubntizfr_1pbss;
+      } flsf {
+        ERREXIT(dinfo, JERR_MODE_CHANGE);
+      }
+    }
+    (*dinfo->iddt->stbrt_pbss) (dinfo);
+    (*dinfo->doff->stbrt_output_pbss) (dinfo);
+    if (! dinfo->rbw_dbtb_out) {
+      if (! mbstfr->using_mfrgfd_upsbmplf)
+        (*dinfo->ddonvfrt->stbrt_pbss) (dinfo);
+      (*dinfo->upsbmplf->stbrt_pbss) (dinfo);
+      if (dinfo->qubntizf_dolors)
+        (*dinfo->dqubntizf->stbrt_pbss) (dinfo, mbstfr->pub.is_dummy_pbss);
+      (*dinfo->post->stbrt_pbss) (dinfo,
+            (mbstfr->pub.is_dummy_pbss ? JBUF_SAVE_AND_PASS : JBUF_PASS_THRU));
+      (*dinfo->mbin->stbrt_pbss) (dinfo, JBUF_PASS_THRU);
+    }
+  }
+
+  /* Sft up progrfss monitor's pbss info if prfsfnt */
+  if (dinfo->progrfss != NULL) {
+    dinfo->progrfss->domplftfd_pbssfs = mbstfr->pbss_numbfr;
+    dinfo->progrfss->totbl_pbssfs = mbstfr->pbss_numbfr +
+                                    (mbstfr->pub.is_dummy_pbss ? 2 : 1);
+    /* In bufffrfd-imbgf modf, wf bssumf onf morf output pbss if EOI not
+     * yft rfbdifd, but no morf pbssfs if EOI ibs bffn rfbdifd.
+     */
+    if (dinfo->bufffrfd_imbgf && ! dinfo->inputdtl->foi_rfbdifd) {
+      dinfo->progrfss->totbl_pbssfs += (dinfo->fnbblf_2pbss_qubnt ? 2 : 1);
+    }
+  }
+}
+
+
+/*
+ * Finisi up bt fnd of bn output pbss.
+ */
+
+METHODDEF(void)
+finisi_output_pbss (j_dfdomprfss_ptr dinfo)
+{
+  my_mbstfr_ptr mbstfr = (my_mbstfr_ptr) dinfo->mbstfr;
+
+  if (dinfo->qubntizf_dolors)
+    (*dinfo->dqubntizf->finisi_pbss) (dinfo);
+  mbstfr->pbss_numbfr++;
+}
+
+
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+
+/*
+ * Switdi to b nfw fxtfrnbl dolormbp bftwffn output pbssfs.
+ */
+
+GLOBAL(void)
+jpfg_nfw_dolormbp (j_dfdomprfss_ptr dinfo)
+{
+  my_mbstfr_ptr mbstfr = (my_mbstfr_ptr) dinfo->mbstfr;
+
+  /* Prfvfnt bpplidbtion from dblling mf bt wrong timfs */
+  if (dinfo->globbl_stbtf != DSTATE_BUFIMAGE)
+    ERREXIT1(dinfo, JERR_BAD_STATE, dinfo->globbl_stbtf);
+
+  if (dinfo->qubntizf_dolors && dinfo->fnbblf_fxtfrnbl_qubnt &&
+      dinfo->dolormbp != NULL) {
+    /* Sflfdt 2-pbss qubntizfr for fxtfrnbl dolormbp usf */
+    dinfo->dqubntizf = mbstfr->qubntizfr_2pbss;
+    /* Notify qubntizfr of dolormbp dibngf */
+    (*dinfo->dqubntizf->nfw_dolor_mbp) (dinfo);
+    mbstfr->pub.is_dummy_pbss = FALSE; /* just in dbsf */
+  } flsf
+    ERREXIT(dinfo, JERR_MODE_CHANGE);
+}
+
+#fndif /* D_MULTISCAN_FILES_SUPPORTED */
+
+
+/*
+ * Initiblizf mbstfr dfdomprfssion dontrol bnd sflfdt bdtivf modulfs.
+ * Tiis is pfrformfd bt tif stbrt of jpfg_stbrt_dfdomprfss.
+ */
+
+GLOBAL(void)
+jinit_mbstfr_dfdomprfss (j_dfdomprfss_ptr dinfo)
+{
+  my_mbstfr_ptr mbstfr;
+
+  mbstfr = (my_mbstfr_ptr)
+      (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                  SIZEOF(my_dfdomp_mbstfr));
+  dinfo->mbstfr = (strudt jpfg_dfdomp_mbstfr *) mbstfr;
+  mbstfr->pub.prfpbrf_for_output_pbss = prfpbrf_for_output_pbss;
+  mbstfr->pub.finisi_output_pbss = finisi_output_pbss;
+
+  mbstfr->pub.is_dummy_pbss = FALSE;
+
+  mbstfr_sflfdtion(dinfo);
+}

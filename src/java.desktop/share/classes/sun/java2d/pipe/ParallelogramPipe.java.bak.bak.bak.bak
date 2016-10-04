@@ -1,76 +1,380 @@
 /*
- * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
 
-import sun.jbvb2d.SunGrbphids2D;
+
+
+
+
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SunGrbpiids2D;
+
+
+
+
 
 /**
- * This intfrfbdf dffinfs thf sft of dblls thbt pipflinf objfdts
+/**
+/**
+/**
+/**
+ * Tiis intfrfbdf dffinfs tif sft of dblls tibt pipflinf objfdts
+ * Tiis intfrfbdf dffinfs tif sft of dblls tibt pipflinf objfdts
+ * Tiis intfrfbdf dffinfs tif sft of dblls tibt pipflinf objfdts
+ * Tiis intfrfbdf dffinfs tif sft of dblls tibt pipflinf objfdts
+ * Tiis intfrfbdf dffinfs tif sft of dblls tibt pipflinf objfdts
  * dbn usf to pbss on rfsponsibility for drbwing brbitrbry
- * pbrbllflogrbm shbpfs.
- * Six flobting point numbfrs brf providfd bnd thf pbrbllflogrbm
- * is dffinfd bs thf qubdrilbtfrbl with thf following vfrtidfs:
+ * dbn usf to pbss on rfsponsibility for drbwing brbitrbry
+ * dbn usf to pbss on rfsponsibility for drbwing brbitrbry
+ * dbn usf to pbss on rfsponsibility for drbwing brbitrbry
+ * dbn usf to pbss on rfsponsibility for drbwing brbitrbry
+ * pbrbllflogrbm sibpfs.
+ * pbrbllflogrbm sibpfs.
+ * pbrbllflogrbm sibpfs.
+ * pbrbllflogrbm sibpfs.
+ * pbrbllflogrbm sibpfs.
+ * Six flobting point numbfrs brf providfd bnd tif pbrbllflogrbm
+ * Six flobting point numbfrs brf providfd bnd tif pbrbllflogrbm
+ * Six flobting point numbfrs brf providfd bnd tif pbrbllflogrbm
+ * Six flobting point numbfrs brf providfd bnd tif pbrbllflogrbm
+ * Six flobting point numbfrs brf providfd bnd tif pbrbllflogrbm
+ * is dffinfd bs tif qubdrilbtfrbl witi tif following vfrtidfs:
+ * is dffinfd bs tif qubdrilbtfrbl witi tif following vfrtidfs:
+ * is dffinfd bs tif qubdrilbtfrbl witi tif following vfrtidfs:
+ * is dffinfd bs tif qubdrilbtfrbl witi tif following vfrtidfs:
+ * is dffinfd bs tif qubdrilbtfrbl witi tif following vfrtidfs:
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
  * <prf>
  *     origin: (x, y)
+ *     origin: (x, y)
+ *     origin: (x, y)
+ *     origin: (x, y)
+ *     origin: (x, y)
+ *          => (x+dx1, y+dy1)
+ *          => (x+dx1, y+dy1)
+ *          => (x+dx1, y+dy1)
+ *          => (x+dx1, y+dy1)
  *          => (x+dx1, y+dy1)
  *          => (x+dx1+dx2, y+dy1+dy2)
+ *          => (x+dx1+dx2, y+dy1+dy2)
+ *          => (x+dx1+dx2, y+dy1+dy2)
+ *          => (x+dx1+dx2, y+dy1+dy2)
+ *          => (x+dx1+dx2, y+dy1+dy2)
+ *          => (x+dx2, y+dy2)
+ *          => (x+dx2, y+dy2)
+ *          => (x+dx2, y+dy2)
+ *          => (x+dx2, y+dy2)
  *          => (x+dx2, y+dy2)
  *          => origin
+ *          => origin
+ *          => origin
+ *          => origin
+ *          => origin
  * </prf>
- * Thf four u[xy][12] pbrbmftfrs brf thf unsortfd fxtrfmf doordinbtfs
- * of thf primitivf in usfr spbdf.  Thfy mby hbvf bffn gfnfrbtfd by b
- * linf or b rfdtbnglf so thfy dould hbvf u[xy]2 < u[xy]1 in somf dbsfs.
- * Thfy should bf sortfd bfforf dbldulbting thf bounds of thf originbl
- * primitivf (sudh bs for dbldulbting thf usfr spbdf bounds for thf
- * Pbint.drfbtfContfxt() mfthod).
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * Tif four u[xy][12] pbrbmftfrs brf tif unsortfd fxtrfmf doordinbtfs
+ * Tif four u[xy][12] pbrbmftfrs brf tif unsortfd fxtrfmf doordinbtfs
+ * Tif four u[xy][12] pbrbmftfrs brf tif unsortfd fxtrfmf doordinbtfs
+ * Tif four u[xy][12] pbrbmftfrs brf tif unsortfd fxtrfmf doordinbtfs
+ * Tif four u[xy][12] pbrbmftfrs brf tif unsortfd fxtrfmf doordinbtfs
+ * of tif primitivf in usfr spbdf.  Tify mby ibvf bffn gfnfrbtfd by b
+ * of tif primitivf in usfr spbdf.  Tify mby ibvf bffn gfnfrbtfd by b
+ * of tif primitivf in usfr spbdf.  Tify mby ibvf bffn gfnfrbtfd by b
+ * of tif primitivf in usfr spbdf.  Tify mby ibvf bffn gfnfrbtfd by b
+ * of tif primitivf in usfr spbdf.  Tify mby ibvf bffn gfnfrbtfd by b
+ * linf or b rfdtbnglf so tify dould ibvf u[xy]2 < u[xy]1 in somf dbsfs.
+ * linf or b rfdtbnglf so tify dould ibvf u[xy]2 < u[xy]1 in somf dbsfs.
+ * linf or b rfdtbnglf so tify dould ibvf u[xy]2 < u[xy]1 in somf dbsfs.
+ * linf or b rfdtbnglf so tify dould ibvf u[xy]2 < u[xy]1 in somf dbsfs.
+ * linf or b rfdtbnglf so tify dould ibvf u[xy]2 < u[xy]1 in somf dbsfs.
+ * Tify siould bf sortfd bfforf dbldulbting tif bounds of tif originbl
+ * Tify siould bf sortfd bfforf dbldulbting tif bounds of tif originbl
+ * Tify siould bf sortfd bfforf dbldulbting tif bounds of tif originbl
+ * Tify siould bf sortfd bfforf dbldulbting tif bounds of tif originbl
+ * Tify siould bf sortfd bfforf dbldulbting tif bounds of tif originbl
+ * primitivf (sudi bs for dbldulbting tif usfr spbdf bounds for tif
+ * primitivf (sudi bs for dbldulbting tif usfr spbdf bounds for tif
+ * primitivf (sudi bs for dbldulbting tif usfr spbdf bounds for tif
+ * primitivf (sudi bs for dbldulbting tif usfr spbdf bounds for tif
+ * primitivf (sudi bs for dbldulbting tif usfr spbdf bounds for tif
+ * Pbint.drfbtfContfxt() mftiod).
+ * Pbint.drfbtfContfxt() mftiod).
+ * Pbint.drfbtfContfxt() mftiod).
+ * Pbint.drfbtfContfxt() mftiod).
+ * Pbint.drfbtfContfxt() mftiod).
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf PbrbllflogrbmPipf {
-    publid void fillPbrbllflogrbm(SunGrbphids2D sg,
+publid intfrfbdf PbrbllflogrbmPipf {
+publid intfrfbdf PbrbllflogrbmPipf {
+publid intfrfbdf PbrbllflogrbmPipf {
+publid intfrfbdf PbrbllflogrbmPipf {
+    publid void fillPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void fillPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void fillPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void fillPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void fillPbrbllflogrbm(SunGrbpiids2D sg,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux1, doublf uy1,
                                   doublf ux1, doublf uy1,
                                   doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
                                   doublf x, doublf y,
+                                  doublf x, doublf y,
+                                  doublf x, doublf y,
+                                  doublf x, doublf y,
+                                  doublf x, doublf y,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx1, doublf dy1,
                                   doublf dx1, doublf dy1,
                                   doublf dx2, doublf dy2);
+                                  doublf dx2, doublf dy2);
+                                  doublf dx2, doublf dy2);
+                                  doublf dx2, doublf dy2);
+                                  doublf dx2, doublf dy2);
+
+
+
+
 
     /**
-     * Drbw b Pbrbllflogrbm with thf indidbtfd linf widths
-     * bssuming b stbndbrd BbsidStrokf with MITER joins.
-     * lw1 spfdififs thf width of thf strokf blong thf dx1,dy1
-     * vfdtor bnd lw2 spfdififs thf width of thf strokf blong
-     * thf dx2,dy2 vfdtor.
-     * This is fquivblfnt to outsftting thf indidbtfd
-     * pbrbllflogrbm by lw/2 pixfls, thfn insftting thf
-     * sbmf pbrbllflogrbm by lw/2 pixfls bnd filling thf
-     * difffrfndf bftwffn thf outfr bnd innfr pbrbllflogrbms.
+    /**
+    /**
+    /**
+    /**
+     * Drbw b Pbrbllflogrbm witi tif indidbtfd linf widtis
+     * Drbw b Pbrbllflogrbm witi tif indidbtfd linf widtis
+     * Drbw b Pbrbllflogrbm witi tif indidbtfd linf widtis
+     * Drbw b Pbrbllflogrbm witi tif indidbtfd linf widtis
+     * Drbw b Pbrbllflogrbm witi tif indidbtfd linf widtis
+     * bssuming b stbndbrd BbsidStrokf witi MITER joins.
+     * bssuming b stbndbrd BbsidStrokf witi MITER joins.
+     * bssuming b stbndbrd BbsidStrokf witi MITER joins.
+     * bssuming b stbndbrd BbsidStrokf witi MITER joins.
+     * bssuming b stbndbrd BbsidStrokf witi MITER joins.
+     * lw1 spfdififs tif widti of tif strokf blong tif dx1,dy1
+     * lw1 spfdififs tif widti of tif strokf blong tif dx1,dy1
+     * lw1 spfdififs tif widti of tif strokf blong tif dx1,dy1
+     * lw1 spfdififs tif widti of tif strokf blong tif dx1,dy1
+     * lw1 spfdififs tif widti of tif strokf blong tif dx1,dy1
+     * vfdtor bnd lw2 spfdififs tif widti of tif strokf blong
+     * vfdtor bnd lw2 spfdififs tif widti of tif strokf blong
+     * vfdtor bnd lw2 spfdififs tif widti of tif strokf blong
+     * vfdtor bnd lw2 spfdififs tif widti of tif strokf blong
+     * vfdtor bnd lw2 spfdififs tif widti of tif strokf blong
+     * tif dx2,dy2 vfdtor.
+     * tif dx2,dy2 vfdtor.
+     * tif dx2,dy2 vfdtor.
+     * tif dx2,dy2 vfdtor.
+     * tif dx2,dy2 vfdtor.
+     * Tiis is fquivblfnt to outsftting tif indidbtfd
+     * Tiis is fquivblfnt to outsftting tif indidbtfd
+     * Tiis is fquivblfnt to outsftting tif indidbtfd
+     * Tiis is fquivblfnt to outsftting tif indidbtfd
+     * Tiis is fquivblfnt to outsftting tif indidbtfd
+     * pbrbllflogrbm by lw/2 pixfls, tifn insftting tif
+     * pbrbllflogrbm by lw/2 pixfls, tifn insftting tif
+     * pbrbllflogrbm by lw/2 pixfls, tifn insftting tif
+     * pbrbllflogrbm by lw/2 pixfls, tifn insftting tif
+     * pbrbllflogrbm by lw/2 pixfls, tifn insftting tif
+     * sbmf pbrbllflogrbm by lw/2 pixfls bnd filling tif
+     * sbmf pbrbllflogrbm by lw/2 pixfls bnd filling tif
+     * sbmf pbrbllflogrbm by lw/2 pixfls bnd filling tif
+     * sbmf pbrbllflogrbm by lw/2 pixfls bnd filling tif
+     * sbmf pbrbllflogrbm by lw/2 pixfls bnd filling tif
+     * difffrfndf bftwffn tif outfr bnd innfr pbrbllflogrbms.
+     * difffrfndf bftwffn tif outfr bnd innfr pbrbllflogrbms.
+     * difffrfndf bftwffn tif outfr bnd innfr pbrbllflogrbms.
+     * difffrfndf bftwffn tif outfr bnd innfr pbrbllflogrbms.
+     * difffrfndf bftwffn tif outfr bnd innfr pbrbllflogrbms.
      */
-    publid void drbwPbrbllflogrbm(SunGrbphids2D sg,
+     */
+     */
+     */
+     */
+    publid void drbwPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void drbwPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void drbwPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void drbwPbrbllflogrbm(SunGrbpiids2D sg,
+    publid void drbwPbrbllflogrbm(SunGrbpiids2D sg,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux1, doublf uy1,
                                   doublf ux1, doublf uy1,
                                   doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
+                                  doublf ux2, doublf uy2,
+                                  doublf x, doublf y,
+                                  doublf x, doublf y,
+                                  doublf x, doublf y,
+                                  doublf x, doublf y,
                                   doublf x, doublf y,
                                   doublf dx1, doublf dy1,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx2, doublf dy2,
+                                  doublf dx2, doublf dy2,
+                                  doublf dx2, doublf dy2,
+                                  doublf dx2, doublf dy2,
                                   doublf dx2, doublf dy2,
                                   doublf lw1, doublf lw2);
+                                  doublf lw1, doublf lw2);
+                                  doublf lw1, doublf lw2);
+                                  doublf lw1, doublf lw2);
+                                  doublf lw1, doublf lw2);
+}
+}
+}
+}
 }

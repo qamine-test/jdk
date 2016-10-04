@@ -1,0 +1,534 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.ToIntFundtion;
+import jbvb.util.fundtion.ToLongFundtion;
+import jbvb.util.fundtion.ToDoublfFundtion;
+import jbvb.util.Compbrbtors;
+
+/**
+ * A dompbrison fundtion, wiidi imposfs b <i>totbl ordfring</i> on somf
+ * dollfdtion of objfdts.  Compbrbtors dbn bf pbssfd to b sort mftiod (sudi
+ * bs {@link Collfdtions#sort(List,Compbrbtor) Collfdtions.sort} or {@link
+ * Arrbys#sort(Objfdt[],Compbrbtor) Arrbys.sort}) to bllow prfdisf dontrol
+ * ovfr tif sort ordfr.  Compbrbtors dbn blso bf usfd to dontrol tif ordfr of
+ * dfrtbin dbtb strudturfs (sudi bs {@link SortfdSft sortfd sfts} or {@link
+ * SortfdMbp sortfd mbps}), or to providf bn ordfring for dollfdtions of
+ * objfdts tibt don't ibvf b {@link Compbrbblf nbturbl ordfring}.<p>
+ *
+ * Tif ordfring imposfd by b dompbrbtor <tt>d</tt> on b sft of flfmfnts
+ * <tt>S</tt> is sbid to bf <i>donsistfnt witi fqubls</i> if bnd only if
+ * <tt>d.dompbrf(f1, f2)==0</tt> ibs tif sbmf boolfbn vbluf bs
+ * <tt>f1.fqubls(f2)</tt> for fvfry <tt>f1</tt> bnd <tt>f2</tt> in
+ * <tt>S</tt>.<p>
+ *
+ * Cbution siould bf fxfrdisfd wifn using b dompbrbtor dbpbblf of imposing bn
+ * ordfring indonsistfnt witi fqubls to ordfr b sortfd sft (or sortfd mbp).
+ * Supposf b sortfd sft (or sortfd mbp) witi bn fxplidit dompbrbtor <tt>d</tt>
+ * is usfd witi flfmfnts (or kfys) drbwn from b sft <tt>S</tt>.  If tif
+ * ordfring imposfd by <tt>d</tt> on <tt>S</tt> is indonsistfnt witi fqubls,
+ * tif sortfd sft (or sortfd mbp) will bfibvf "strbngfly."  In pbrtidulbr tif
+ * sortfd sft (or sortfd mbp) will violbtf tif gfnfrbl dontrbdt for sft (or
+ * mbp), wiidi is dffinfd in tfrms of <tt>fqubls</tt>.<p>
+ *
+ * For fxbmplf, supposf onf bdds two flfmfnts {@dodf b} bnd {@dodf b} sudi tibt
+ * {@dodf (b.fqubls(b) && d.dompbrf(b, b) != 0)}
+ * to bn fmpty {@dodf TrffSft} witi dompbrbtor {@dodf d}.
+ * Tif sfdond {@dodf bdd} opfrbtion will rfturn
+ * truf (bnd tif sizf of tif trff sft will indrfbsf) bfdbusf {@dodf b} bnd
+ * {@dodf b} brf not fquivblfnt from tif trff sft's pfrspfdtivf, fvfn tiougi
+ * tiis is dontrbry to tif spfdifidbtion of tif
+ * {@link Sft#bdd Sft.bdd} mftiod.<p>
+ *
+ * Notf: It is gfnfrblly b good idfb for dompbrbtors to blso implfmfnt
+ * <tt>jbvb.io.Sfriblizbblf</tt>, bs tify mby bf usfd bs ordfring mftiods in
+ * sfriblizbblf dbtb strudturfs (likf {@link TrffSft}, {@link TrffMbp}).  In
+ * ordfr for tif dbtb strudturf to sfriblizf suddfssfully, tif dompbrbtor (if
+ * providfd) must implfmfnt <tt>Sfriblizbblf</tt>.<p>
+ *
+ * For tif mbtifmbtidblly indlinfd, tif <i>rflbtion</i> tibt dffinfs tif
+ * <i>imposfd ordfring</i> tibt b givfn dompbrbtor <tt>d</tt> imposfs on b
+ * givfn sft of objfdts <tt>S</tt> is:<prf>
+ *       {(x, y) sudi tibt d.dompbrf(x, y) &lt;= 0}.
+ * </prf> Tif <i>quotifnt</i> for tiis totbl ordfr is:<prf>
+ *       {(x, y) sudi tibt d.dompbrf(x, y) == 0}.
+ * </prf>
+ *
+ * It follows immfdibtfly from tif dontrbdt for <tt>dompbrf</tt> tibt tif
+ * quotifnt is bn <i>fquivblfndf rflbtion</i> on <tt>S</tt>, bnd tibt tif
+ * imposfd ordfring is b <i>totbl ordfr</i> on <tt>S</tt>.  Wifn wf sby tibt
+ * tif ordfring imposfd by <tt>d</tt> on <tt>S</tt> is <i>donsistfnt witi
+ * fqubls</i>, wf mfbn tibt tif quotifnt for tif ordfring is tif fquivblfndf
+ * rflbtion dffinfd by tif objfdts' {@link Objfdt#fqubls(Objfdt)
+ * fqubls(Objfdt)} mftiod(s):<prf>
+ *     {(x, y) sudi tibt x.fqubls(y)}. </prf>
+ *
+ * <p>Unlikf {@dodf Compbrbblf}, b dompbrbtor mby optionblly pfrmit
+ * dompbrison of null brgumfnts, wiilf mbintbining tif rfquirfmfnts for
+ * bn fquivblfndf rflbtion.
+ *
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <T> tif typf of objfdts tibt mby bf dompbrfd by tiis dompbrbtor
+ *
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @sff Compbrbblf
+ * @sff jbvb.io.Sfriblizbblf
+ * @sindf 1.2
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf Compbrbtor<T> {
+    /**
+     * Compbrfs its two brgumfnts for ordfr.  Rfturns b nfgbtivf intfgfr,
+     * zfro, or b positivf intfgfr bs tif first brgumfnt is lfss tibn, fqubl
+     * to, or grfbtfr tibn tif sfdond.<p>
+     *
+     * In tif forfgoing dfsdription, tif notbtion
+     * <tt>sgn(</tt><i>fxprfssion</i><tt>)</tt> dfsignbtfs tif mbtifmbtidbl
+     * <i>signum</i> fundtion, wiidi is dffinfd to rfturn onf of <tt>-1</tt>,
+     * <tt>0</tt>, or <tt>1</tt> bddording to wiftifr tif vbluf of
+     * <i>fxprfssion</i> is nfgbtivf, zfro or positivf.<p>
+     *
+     * Tif implfmfntor must fnsurf tibt <tt>sgn(dompbrf(x, y)) ==
+     * -sgn(dompbrf(y, x))</tt> for bll <tt>x</tt> bnd <tt>y</tt>.  (Tiis
+     * implifs tibt <tt>dompbrf(x, y)</tt> must tirow bn fxdfption if bnd only
+     * if <tt>dompbrf(y, x)</tt> tirows bn fxdfption.)<p>
+     *
+     * Tif implfmfntor must blso fnsurf tibt tif rflbtion is trbnsitivf:
+     * <tt>((dompbrf(x, y)&gt;0) &bmp;&bmp; (dompbrf(y, z)&gt;0))</tt> implifs
+     * <tt>dompbrf(x, z)&gt;0</tt>.<p>
+     *
+     * Finblly, tif implfmfntor must fnsurf tibt <tt>dompbrf(x, y)==0</tt>
+     * implifs tibt <tt>sgn(dompbrf(x, z))==sgn(dompbrf(y, z))</tt> for bll
+     * <tt>z</tt>.<p>
+     *
+     * It is gfnfrblly tif dbsf, but <i>not</i> stridtly rfquirfd tibt
+     * <tt>(dompbrf(x, y)==0) == (x.fqubls(y))</tt>.  Gfnfrblly spfbking,
+     * bny dompbrbtor tibt violbtfs tiis dondition siould dlfbrly indidbtf
+     * tiis fbdt.  Tif rfdommfndfd lbngubgf is "Notf: tiis dompbrbtor
+     * imposfs ordfrings tibt brf indonsistfnt witi fqubls."
+     *
+     * @pbrbm o1 tif first objfdt to bf dompbrfd.
+     * @pbrbm o2 tif sfdond objfdt to bf dompbrfd.
+     * @rfturn b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tif
+     *         first brgumfnt is lfss tibn, fqubl to, or grfbtfr tibn tif
+     *         sfdond.
+     * @tirows NullPointfrExdfption if bn brgumfnt is null bnd tiis
+     *         dompbrbtor dofs not pfrmit null brgumfnts
+     * @tirows ClbssCbstExdfption if tif brgumfnts' typfs prfvfnt tifm from
+     *         bfing dompbrfd by tiis dompbrbtor.
+     */
+    int dompbrf(T o1, T o2);
+
+    /**
+     * Indidbtfs wiftifr somf otifr objfdt is &quot;fqubl to&quot; tiis
+     * dompbrbtor.  Tiis mftiod must obfy tif gfnfrbl dontrbdt of
+     * {@link Objfdt#fqubls(Objfdt)}.  Additionblly, tiis mftiod dbn rfturn
+     * <tt>truf</tt> <i>only</i> if tif spfdififd objfdt is blso b dompbrbtor
+     * bnd it imposfs tif sbmf ordfring bs tiis dompbrbtor.  Tius,
+     * <dodf>domp1.fqubls(domp2)</dodf> implifs tibt <tt>sgn(domp1.dompbrf(o1,
+     * o2))==sgn(domp2.dompbrf(o1, o2))</tt> for fvfry objfdt rfffrfndf
+     * <tt>o1</tt> bnd <tt>o2</tt>.<p>
+     *
+     * Notf tibt it is <i>blwbys</i> sbff <i>not</i> to ovfrridf
+     * <tt>Objfdt.fqubls(Objfdt)</tt>.  Howfvfr, ovfrriding tiis mftiod mby,
+     * in somf dbsfs, improvf pfrformbndf by bllowing progrbms to dftfrminf
+     * tibt two distindt dompbrbtors imposf tif sbmf ordfr.
+     *
+     * @pbrbm   obj   tif rfffrfndf objfdt witi wiidi to dompbrf.
+     * @rfturn  <dodf>truf</dodf> only if tif spfdififd objfdt is blso
+     *          b dompbrbtor bnd it imposfs tif sbmf ordfring bs tiis
+     *          dompbrbtor.
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff Objfdt#ibsiCodf()
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns b dompbrbtor tibt imposfs tif rfvfrsf ordfring of tiis
+     * dompbrbtor.
+     *
+     * @rfturn b dompbrbtor tibt imposfs tif rfvfrsf ordfring of tiis
+     *         dompbrbtor.
+     * @sindf 1.8
+     */
+    dffbult Compbrbtor<T> rfvfrsfd() {
+        rfturn Collfdtions.rfvfrsfOrdfr(tiis);
+    }
+
+    /**
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi bnotifr dompbrbtor.
+     * If tiis {@dodf Compbrbtor} donsidfrs two flfmfnts fqubl, i.f.
+     * {@dodf dompbrf(b, b) == 0}, {@dodf otifr} is usfd to dftfrminf tif ordfr.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd dompbrbtor
+     * is blso sfriblizbblf.
+     *
+     * @bpiNotf
+     * For fxbmplf, to sort b dollfdtion of {@dodf String} bbsfd on tif lfngti
+     * bnd tifn dbsf-insfnsitivf nbturbl ordfring, tif dompbrbtor dbn bf
+     * domposfd using following dodf,
+     *
+     * <prf>{@dodf
+     *     Compbrbtor<String> dmp = Compbrbtor.dompbringInt(String::lfngti)
+     *             .tifnCompbring(String.CASE_INSENSITIVE_ORDER);
+     * }</prf>
+     *
+     * @pbrbm  otifr tif otifr dompbrbtor to bf usfd wifn tiis dompbrbtor
+     *         dompbrfs two objfdts tibt brf fqubl.
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         otifr dompbrbtor
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sindf 1.8
+     */
+    dffbult Compbrbtor<T> tifnCompbring(Compbrbtor<? supfr T> otifr) {
+        Objfdts.rfquirfNonNull(otifr);
+        rfturn (Compbrbtor<T> & Sfriblizbblf) (d1, d2) -> {
+            int rfs = dompbrf(d1, d2);
+            rfturn (rfs != 0) ? rfs : otifr.dompbrf(d1, d2);
+        };
+    }
+
+    /**
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b kfy to bf dompbrfd witi tif givfn {@dodf Compbrbtor}.
+     *
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbring(kfyExtrbdtor, dmp))}.
+     *
+     * @pbrbm  <U>  tif typf of tif sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif sort kfy
+     * @pbrbm  kfyCompbrbtor tif {@dodf Compbrbtor} usfd to dompbrf tif sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis dompbrbtor
+     *         bnd tifn dompbring on tif kfy fxtrbdtfd by tif kfyExtrbdtor fundtion
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null.
+     * @sff #dompbring(Fundtion, Compbrbtor)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
+     */
+    dffbult <U> Compbrbtor<T> tifnCompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor,
+            Compbrbtor<? supfr U> kfyCompbrbtor)
+    {
+        rfturn tifnCompbring(dompbring(kfyExtrbdtor, kfyCompbrbtor));
+    }
+
+    /**
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf Compbrbblf} sort kfy.
+     *
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbring(kfyExtrbdtor))}.
+     *
+     * @pbrbm  <U>  tif typf of tif {@link Compbrbblf} sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif {@link
+     *         Compbrbblf} sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@link Compbrbblf} sort kfy.
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbring(Fundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
+     */
+    dffbult <U fxtfnds Compbrbblf<? supfr U>> Compbrbtor<T> tifnCompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor)
+    {
+        rfturn tifnCompbring(dompbring(kfyExtrbdtor));
+    }
+
+    /**
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf int} sort kfy.
+     *
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbringInt(kfyExtrbdtor))}.
+     *
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif intfgfr sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@dodf int} sort kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbringInt(ToIntFundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
+     */
+    dffbult Compbrbtor<T> tifnCompbringInt(ToIntFundtion<? supfr T> kfyExtrbdtor) {
+        rfturn tifnCompbring(dompbringInt(kfyExtrbdtor));
+    }
+
+    /**
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf long} sort kfy.
+     *
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbringLong(kfyExtrbdtor))}.
+     *
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif long sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@dodf long} sort kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbringLong(ToLongFundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
+     */
+    dffbult Compbrbtor<T> tifnCompbringLong(ToLongFundtion<? supfr T> kfyExtrbdtor) {
+        rfturn tifnCompbring(dompbringLong(kfyExtrbdtor));
+    }
+
+    /**
+     * Rfturns b lfxidogrbpiid-ordfr dompbrbtor witi b fundtion tibt
+     * fxtrbdts b {@dodf doublf} sort kfy.
+     *
+     * @implSpfd Tiis dffbult implfmfntbtion bfibvfs bs if {@dodf
+     *           tifnCompbring(dompbringDoublf(kfyExtrbdtor))}.
+     *
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif doublf sort kfy
+     * @rfturn b lfxidogrbpiid-ordfr dompbrbtor domposfd of tiis bnd tifn tif
+     *         {@dodf doublf} sort kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null.
+     * @sff #dompbringDoublf(ToDoublfFundtion)
+     * @sff #tifnCompbring(Compbrbtor)
+     * @sindf 1.8
+     */
+    dffbult Compbrbtor<T> tifnCompbringDoublf(ToDoublfFundtion<? supfr T> kfyExtrbdtor) {
+        rfturn tifnCompbring(dompbringDoublf(kfyExtrbdtor));
+    }
+
+    /**
+     * Rfturns b dompbrbtor tibt imposfs tif rfvfrsf of tif <fm>nbturbl
+     * ordfring</fm>.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf bnd tirows {@link
+     * NullPointfrExdfption} wifn dompbring {@dodf null}.
+     *
+     * @pbrbm  <T> tif {@link Compbrbblf} typf of flfmfnt to bf dompbrfd
+     * @rfturn b dompbrbtor tibt imposfs tif rfvfrsf of tif <i>nbturbl
+     *         ordfring</i> on {@dodf Compbrbblf} objfdts.
+     * @sff Compbrbblf
+     * @sindf 1.8
+     */
+    publid stbtid <T fxtfnds Compbrbblf<? supfr T>> Compbrbtor<T> rfvfrsfOrdfr() {
+        rfturn Collfdtions.rfvfrsfOrdfr();
+    }
+
+    /**
+     * Rfturns b dompbrbtor tibt dompbrfs {@link Compbrbblf} objfdts in nbturbl
+     * ordfr.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf bnd tirows {@link
+     * NullPointfrExdfption} wifn dompbring {@dodf null}.
+     *
+     * @pbrbm  <T> tif {@link Compbrbblf} typf of flfmfnt to bf dompbrfd
+     * @rfturn b dompbrbtor tibt imposfs tif <i>nbturbl ordfring</i> on {@dodf
+     *         Compbrbblf} objfdts.
+     * @sff Compbrbblf
+     * @sindf 1.8
+     */
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T fxtfnds Compbrbblf<? supfr T>> Compbrbtor<T> nbturblOrdfr() {
+        rfturn (Compbrbtor<T>) Compbrbtors.NbturblOrdfrCompbrbtor.INSTANCE;
+    }
+
+    /**
+     * Rfturns b null-frifndly dompbrbtor tibt donsidfrs {@dodf null} to bf
+     * lfss tibn non-null. Wifn boti brf {@dodf null}, tify brf donsidfrfd
+     * fqubl. If boti brf non-null, tif spfdififd {@dodf Compbrbtor} is usfd
+     * to dftfrminf tif ordfr. If tif spfdififd dompbrbtor is {@dodf null},
+     * tifn tif rfturnfd dompbrbtor donsidfrs bll non-null vblufs to bf fqubl.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd dompbrbtor
+     * is sfriblizbblf.
+     *
+     * @pbrbm  <T> tif typf of tif flfmfnts to bf dompbrfd
+     * @pbrbm  dompbrbtor b {@dodf Compbrbtor} for dompbring non-null vblufs
+     * @rfturn b dompbrbtor tibt donsidfrs {@dodf null} to bf lfss tibn
+     *         non-null, bnd dompbrfs non-null objfdts witi tif supplifd
+     *         {@dodf Compbrbtor}.
+     * @sindf 1.8
+     */
+    publid stbtid <T> Compbrbtor<T> nullsFirst(Compbrbtor<? supfr T> dompbrbtor) {
+        rfturn nfw Compbrbtors.NullCompbrbtor<>(truf, dompbrbtor);
+    }
+
+    /**
+     * Rfturns b null-frifndly dompbrbtor tibt donsidfrs {@dodf null} to bf
+     * grfbtfr tibn non-null. Wifn boti brf {@dodf null}, tify brf donsidfrfd
+     * fqubl. If boti brf non-null, tif spfdififd {@dodf Compbrbtor} is usfd
+     * to dftfrminf tif ordfr. If tif spfdififd dompbrbtor is {@dodf null},
+     * tifn tif rfturnfd dompbrbtor donsidfrs bll non-null vblufs to bf fqubl.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd dompbrbtor
+     * is sfriblizbblf.
+     *
+     * @pbrbm  <T> tif typf of tif flfmfnts to bf dompbrfd
+     * @pbrbm  dompbrbtor b {@dodf Compbrbtor} for dompbring non-null vblufs
+     * @rfturn b dompbrbtor tibt donsidfrs {@dodf null} to bf grfbtfr tibn
+     *         non-null, bnd dompbrfs non-null objfdts witi tif supplifd
+     *         {@dodf Compbrbtor}.
+     * @sindf 1.8
+     */
+    publid stbtid <T> Compbrbtor<T> nullsLbst(Compbrbtor<? supfr T> dompbrbtor) {
+        rfturn nfw Compbrbtors.NullCompbrbtor<>(fblsf, dompbrbtor);
+    }
+
+    /**
+     * Addfpts b fundtion tibt fxtrbdts b sort kfy from b typf {@dodf T}, bnd
+     * rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt sort kfy using
+     * tif spfdififd {@link Compbrbtor}.
+      *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * bnd dompbrbtor brf boti sfriblizbblf.
+     *
+     * @bpiNotf
+     * For fxbmplf, to obtbin b {@dodf Compbrbtor} tibt dompbrfs {@dodf
+     * Pfrson} objfdts by tifir lbst nbmf ignoring dbsf difffrfndfs,
+     *
+     * <prf>{@dodf
+     *     Compbrbtor<Pfrson> dmp = Compbrbtor.dompbring(
+     *             Pfrson::gftLbstNbmf,
+     *             String.CASE_INSENSITIVE_ORDER);
+     * }</prf>
+     *
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  <U> tif typf of tif sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif sort kfy
+     * @pbrbm  kfyCompbrbtor tif {@dodf Compbrbtor} usfd to dompbrf tif sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy using tif
+     *         spfdififd {@dodf Compbrbtor}
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null
+     * @sindf 1.8
+     */
+    publid stbtid <T, U> Compbrbtor<T> dompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor,
+            Compbrbtor<? supfr U> kfyCompbrbtor)
+    {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        Objfdts.rfquirfNonNull(kfyCompbrbtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> kfyCompbrbtor.dompbrf(kfyExtrbdtor.bpply(d1),
+                                              kfyExtrbdtor.bpply(d2));
+    }
+
+    /**
+     * Addfpts b fundtion tibt fxtrbdts b {@link jbvb.lbng.Compbrbblf
+     * Compbrbblf} sort kfy from b typf {@dodf T}, bnd rfturns b {@dodf
+     * Compbrbtor<T>} tibt dompbrfs by tibt sort kfy.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * is blso sfriblizbblf.
+     *
+     * @bpiNotf
+     * For fxbmplf, to obtbin b {@dodf Compbrbtor} tibt dompbrfs {@dodf
+     * Pfrson} objfdts by tifir lbst nbmf,
+     *
+     * <prf>{@dodf
+     *     Compbrbtor<Pfrson> byLbstNbmf = Compbrbtor.dompbring(Pfrson::gftLbstNbmf);
+     * }</prf>
+     *
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  <U> tif typf of tif {@dodf Compbrbblf} sort kfy
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif {@link
+     *         Compbrbblf} sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
+     */
+    publid stbtid <T, U fxtfnds Compbrbblf<? supfr U>> Compbrbtor<T> dompbring(
+            Fundtion<? supfr T, ? fxtfnds U> kfyExtrbdtor)
+    {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> kfyExtrbdtor.bpply(d1).dompbrfTo(kfyExtrbdtor.bpply(d2));
+    }
+
+    /**
+     * Addfpts b fundtion tibt fxtrbdts bn {@dodf int} sort kfy from b typf
+     * {@dodf T}, bnd rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt
+     * sort kfy.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * is blso sfriblizbblf.
+     *
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif intfgfr sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @sff #dompbring(Fundtion)
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
+     */
+    publid stbtid <T> Compbrbtor<T> dompbringInt(ToIntFundtion<? supfr T> kfyExtrbdtor) {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> Intfgfr.dompbrf(kfyExtrbdtor.bpplyAsInt(d1), kfyExtrbdtor.bpplyAsInt(d2));
+    }
+
+    /**
+     * Addfpts b fundtion tibt fxtrbdts b {@dodf long} sort kfy from b typf
+     * {@dodf T}, bnd rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt
+     * sort kfy.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion is
+     * blso sfriblizbblf.
+     *
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif long sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @sff #dompbring(Fundtion)
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
+     */
+    publid stbtid <T> Compbrbtor<T> dompbringLong(ToLongFundtion<? supfr T> kfyExtrbdtor) {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> Long.dompbrf(kfyExtrbdtor.bpplyAsLong(d1), kfyExtrbdtor.bpplyAsLong(d2));
+    }
+
+    /**
+     * Addfpts b fundtion tibt fxtrbdts b {@dodf doublf} sort kfy from b typf
+     * {@dodf T}, bnd rfturns b {@dodf Compbrbtor<T>} tibt dompbrfs by tibt
+     * sort kfy.
+     *
+     * <p>Tif rfturnfd dompbrbtor is sfriblizbblf if tif spfdififd fundtion
+     * is blso sfriblizbblf.
+     *
+     * @pbrbm  <T> tif typf of flfmfnt to bf dompbrfd
+     * @pbrbm  kfyExtrbdtor tif fundtion usfd to fxtrbdt tif doublf sort kfy
+     * @rfturn b dompbrbtor tibt dompbrfs by bn fxtrbdtfd kfy
+     * @sff #dompbring(Fundtion)
+     * @tirows NullPointfrExdfption if tif brgumfnt is null
+     * @sindf 1.8
+     */
+    publid stbtid<T> Compbrbtor<T> dompbringDoublf(ToDoublfFundtion<? supfr T> kfyExtrbdtor) {
+        Objfdts.rfquirfNonNull(kfyExtrbdtor);
+        rfturn (Compbrbtor<T> & Sfriblizbblf)
+            (d1, d2) -> Doublf.dompbrf(kfyExtrbdtor.bpplyAsDoublf(d1), kfyExtrbdtor.bpplyAsDoublf(d2));
+    }
+}

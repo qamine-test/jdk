@@ -1,880 +1,4400 @@
 /*
- * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+
+
+
 
 import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.EOFExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.EOFExdfption;
 import jbvb.io.EOFExdfption;
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.BytfOrdfr;
 import jbvb.nio.BytfOrdfr;
 import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOExdfption;
 import jbvbx.imbgfio.IIOExdfption;
 
+
+
+
+
 /**
- * An bbstrbdt dlbss implfmfnting thf <dodf>ImbgfInputStrfbm</dodf> intfrfbdf.
- * This dlbss is dfsignfd to rfdudf thf numbfr of mfthods thbt must
+/**
+/**
+/**
+/**
+ * An bbstrbdt dlbss implfmfnting tif <dodf>ImbgfInputStrfbm</dodf> intfrfbdf.
+ * An bbstrbdt dlbss implfmfnting tif <dodf>ImbgfInputStrfbm</dodf> intfrfbdf.
+ * An bbstrbdt dlbss implfmfnting tif <dodf>ImbgfInputStrfbm</dodf> intfrfbdf.
+ * An bbstrbdt dlbss implfmfnting tif <dodf>ImbgfInputStrfbm</dodf> intfrfbdf.
+ * An bbstrbdt dlbss implfmfnting tif <dodf>ImbgfInputStrfbm</dodf> intfrfbdf.
+ * Tiis dlbss is dfsignfd to rfdudf tif numbfr of mftiods tibt must
+ * Tiis dlbss is dfsignfd to rfdudf tif numbfr of mftiods tibt must
+ * Tiis dlbss is dfsignfd to rfdudf tif numbfr of mftiods tibt must
+ * Tiis dlbss is dfsignfd to rfdudf tif numbfr of mftiods tibt must
+ * Tiis dlbss is dfsignfd to rfdudf tif numbfr of mftiods tibt must
+ * bf implfmfntfd by subdlbssfs.
+ * bf implfmfntfd by subdlbssfs.
+ * bf implfmfntfd by subdlbssfs.
+ * bf implfmfntfd by subdlbssfs.
  * bf implfmfntfd by subdlbssfs.
  *
- * <p> In pbrtidulbr, this dlbss hbndlfs most or bll of thf dftbils of
+ *
+ *
+ *
+ *
+ * <p> In pbrtidulbr, tiis dlbss ibndlfs most or bll of tif dftbils of
+ * <p> In pbrtidulbr, tiis dlbss ibndlfs most or bll of tif dftbils of
+ * <p> In pbrtidulbr, tiis dlbss ibndlfs most or bll of tif dftbils of
+ * <p> In pbrtidulbr, tiis dlbss ibndlfs most or bll of tif dftbils of
+ * <p> In pbrtidulbr, tiis dlbss ibndlfs most or bll of tif dftbils of
+ * bytf ordfr intfrprftbtion, bufffring, mbrk/rfsft, disdbrding,
+ * bytf ordfr intfrprftbtion, bufffring, mbrk/rfsft, disdbrding,
+ * bytf ordfr intfrprftbtion, bufffring, mbrk/rfsft, disdbrding,
+ * bytf ordfr intfrprftbtion, bufffring, mbrk/rfsft, disdbrding,
  * bytf ordfr intfrprftbtion, bufffring, mbrk/rfsft, disdbrding,
  * dlosing, bnd disposing.
+ * dlosing, bnd disposing.
+ * dlosing, bnd disposing.
+ * dlosing, bnd disposing.
+ * dlosing, bnd disposing.
+ */
+ */
+ */
+ */
  */
 publid bbstrbdt dlbss ImbgfInputStrfbmImpl implfmfnts ImbgfInputStrfbm {
+publid bbstrbdt dlbss ImbgfInputStrfbmImpl implfmfnts ImbgfInputStrfbm {
+publid bbstrbdt dlbss ImbgfInputStrfbmImpl implfmfnts ImbgfInputStrfbm {
+publid bbstrbdt dlbss ImbgfInputStrfbmImpl implfmfnts ImbgfInputStrfbm {
+publid bbstrbdt dlbss ImbgfInputStrfbmImpl implfmfnts ImbgfInputStrfbm {
+
+
+
+
 
     privbtf Stbdk<Long> mbrkBytfStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Long> mbrkBytfStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Long> mbrkBytfStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Long> mbrkBytfStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Long> mbrkBytfStbdk = nfw Stbdk<>();
+
+
+
+
 
     privbtf Stbdk<Intfgfr> mbrkBitStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Intfgfr> mbrkBitStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Intfgfr> mbrkBitStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Intfgfr> mbrkBitStbdk = nfw Stbdk<>();
+    privbtf Stbdk<Intfgfr> mbrkBitStbdk = nfw Stbdk<>();
+
+
+
+
 
     privbtf boolfbn isClosfd = fblsf;
+    privbtf boolfbn isClosfd = fblsf;
+    privbtf boolfbn isClosfd = fblsf;
+    privbtf boolfbn isClosfd = fblsf;
+    privbtf boolfbn isClosfd = fblsf;
 
-    // Lfngth of thf bufffr usfd for rfbdFully(typf[], int, int)
+
+
+
+
+    // Lfngti of tif bufffr usfd for rfbdFully(typf[], int, int)
+    // Lfngti of tif bufffr usfd for rfbdFully(typf[], int, int)
+    // Lfngti of tif bufffr usfd for rfbdFully(typf[], int, int)
+    // Lfngti of tif bufffr usfd for rfbdFully(typf[], int, int)
+    // Lfngti of tif bufffr usfd for rfbdFully(typf[], int, int)
+    privbtf stbtid finbl int BYTE_BUF_LENGTH = 8192;
+    privbtf stbtid finbl int BYTE_BUF_LENGTH = 8192;
+    privbtf stbtid finbl int BYTE_BUF_LENGTH = 8192;
+    privbtf stbtid finbl int BYTE_BUF_LENGTH = 8192;
     privbtf stbtid finbl int BYTE_BUF_LENGTH = 8192;
 
+
+
+
+
     /**
-     * Bytf bufffr usfd for rfbdFully(typf[], int, int).  Notf thbt this
-     * brrby is blso usfd for bulk rfbds in rfbdShort(), rfbdInt(), ftd, so
-     * it should bf lbrgf fnough to hold b primitivf vbluf (i.f. >= 8 bytfs).
-     * Also notf thbt this brrby is pbdkbgf protfdtfd, so thbt it dbn bf
+    /**
+    /**
+    /**
+    /**
+     * Bytf bufffr usfd for rfbdFully(typf[], int, int).  Notf tibt tiis
+     * Bytf bufffr usfd for rfbdFully(typf[], int, int).  Notf tibt tiis
+     * Bytf bufffr usfd for rfbdFully(typf[], int, int).  Notf tibt tiis
+     * Bytf bufffr usfd for rfbdFully(typf[], int, int).  Notf tibt tiis
+     * Bytf bufffr usfd for rfbdFully(typf[], int, int).  Notf tibt tiis
+     * brrby is blso usfd for bulk rfbds in rfbdSiort(), rfbdInt(), ftd, so
+     * brrby is blso usfd for bulk rfbds in rfbdSiort(), rfbdInt(), ftd, so
+     * brrby is blso usfd for bulk rfbds in rfbdSiort(), rfbdInt(), ftd, so
+     * brrby is blso usfd for bulk rfbds in rfbdSiort(), rfbdInt(), ftd, so
+     * brrby is blso usfd for bulk rfbds in rfbdSiort(), rfbdInt(), ftd, so
+     * it siould bf lbrgf fnougi to iold b primitivf vbluf (i.f. >= 8 bytfs).
+     * it siould bf lbrgf fnougi to iold b primitivf vbluf (i.f. >= 8 bytfs).
+     * it siould bf lbrgf fnougi to iold b primitivf vbluf (i.f. >= 8 bytfs).
+     * it siould bf lbrgf fnougi to iold b primitivf vbluf (i.f. >= 8 bytfs).
+     * it siould bf lbrgf fnougi to iold b primitivf vbluf (i.f. >= 8 bytfs).
+     * Also notf tibt tiis brrby is pbdkbgf protfdtfd, so tibt it dbn bf
+     * Also notf tibt tiis brrby is pbdkbgf protfdtfd, so tibt it dbn bf
+     * Also notf tibt tiis brrby is pbdkbgf protfdtfd, so tibt it dbn bf
+     * Also notf tibt tiis brrby is pbdkbgf protfdtfd, so tibt it dbn bf
+     * Also notf tibt tiis brrby is pbdkbgf protfdtfd, so tibt it dbn bf
+     * usfd by ImbgfOutputStrfbmImpl in b similbr mbnnfr.
+     * usfd by ImbgfOutputStrfbmImpl in b similbr mbnnfr.
+     * usfd by ImbgfOutputStrfbmImpl in b similbr mbnnfr.
+     * usfd by ImbgfOutputStrfbmImpl in b similbr mbnnfr.
      * usfd by ImbgfOutputStrfbmImpl in b similbr mbnnfr.
      */
+     */
+     */
+     */
+     */
+    bytf[] bytfBuf = nfw bytf[BYTE_BUF_LENGTH];
+    bytf[] bytfBuf = nfw bytf[BYTE_BUF_LENGTH];
+    bytf[] bytfBuf = nfw bytf[BYTE_BUF_LENGTH];
+    bytf[] bytfBuf = nfw bytf[BYTE_BUF_LENGTH];
     bytf[] bytfBuf = nfw bytf[BYTE_BUF_LENGTH];
 
+
+
+
+
     /**
-     * Thf bytf ordfr of thf strfbm bs bn instbndf of thf fnumfrbtion
-     * dlbss <dodf>jbvb.nio.BytfOrdfr</dodf>, whfrf
+    /**
+    /**
+    /**
+    /**
+     * Tif bytf ordfr of tif strfbm bs bn instbndf of tif fnumfrbtion
+     * Tif bytf ordfr of tif strfbm bs bn instbndf of tif fnumfrbtion
+     * Tif bytf ordfr of tif strfbm bs bn instbndf of tif fnumfrbtion
+     * Tif bytf ordfr of tif strfbm bs bn instbndf of tif fnumfrbtion
+     * Tif bytf ordfr of tif strfbm bs bn instbndf of tif fnumfrbtion
+     * dlbss <dodf>jbvb.nio.BytfOrdfr</dodf>, wifrf
+     * dlbss <dodf>jbvb.nio.BytfOrdfr</dodf>, wifrf
+     * dlbss <dodf>jbvb.nio.BytfOrdfr</dodf>, wifrf
+     * dlbss <dodf>jbvb.nio.BytfOrdfr</dodf>, wifrf
+     * dlbss <dodf>jbvb.nio.BytfOrdfr</dodf>, wifrf
      * <dodf>BytfOrdfr.BIG_ENDIAN</dodf> indidbtfs nftwork bytf ordfr
-     * bnd <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf> indidbtfs thf rfvfrsf
-     * ordfr.  By dffbult, thf vbluf is
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf> indidbtfs nftwork bytf ordfr
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf> indidbtfs nftwork bytf ordfr
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf> indidbtfs nftwork bytf ordfr
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf> indidbtfs nftwork bytf ordfr
+     * bnd <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf> indidbtfs tif rfvfrsf
+     * bnd <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf> indidbtfs tif rfvfrsf
+     * bnd <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf> indidbtfs tif rfvfrsf
+     * bnd <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf> indidbtfs tif rfvfrsf
+     * bnd <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf> indidbtfs tif rfvfrsf
+     * ordfr.  By dffbult, tif vbluf is
+     * ordfr.  By dffbult, tif vbluf is
+     * ordfr.  By dffbult, tif vbluf is
+     * ordfr.  By dffbult, tif vbluf is
+     * ordfr.  By dffbult, tif vbluf is
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf>.
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf>.
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf>.
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf>.
      * <dodf>BytfOrdfr.BIG_ENDIAN</dodf>.
      */
+     */
+     */
+     */
+     */
+    protfdtfd BytfOrdfr bytfOrdfr = BytfOrdfr.BIG_ENDIAN;
+    protfdtfd BytfOrdfr bytfOrdfr = BytfOrdfr.BIG_ENDIAN;
+    protfdtfd BytfOrdfr bytfOrdfr = BytfOrdfr.BIG_ENDIAN;
+    protfdtfd BytfOrdfr bytfOrdfr = BytfOrdfr.BIG_ENDIAN;
     protfdtfd BytfOrdfr bytfOrdfr = BytfOrdfr.BIG_ENDIAN;
 
+
+
+
+
     /**
-     * Thf durrfnt rfbd position within thf strfbm.  Subdlbssfs brf
-     * rfsponsiblf for kffping this vbluf durrfnt from bny mfthod thfy
-     * ovfrridf thbt bltfrs thf rfbd position.
+    /**
+    /**
+    /**
+    /**
+     * Tif durrfnt rfbd position witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt rfbd position witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt rfbd position witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt rfbd position witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt rfbd position witiin tif strfbm.  Subdlbssfs brf
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * ovfrridf tibt bltfrs tif rfbd position.
+     * ovfrridf tibt bltfrs tif rfbd position.
+     * ovfrridf tibt bltfrs tif rfbd position.
+     * ovfrridf tibt bltfrs tif rfbd position.
+     * ovfrridf tibt bltfrs tif rfbd position.
+     */
+     */
+     */
+     */
      */
     protfdtfd long strfbmPos;
+    protfdtfd long strfbmPos;
+    protfdtfd long strfbmPos;
+    protfdtfd long strfbmPos;
+    protfdtfd long strfbmPos;
+
+
+
+
 
     /**
-     * Thf durrfnt bit offsft within thf strfbm.  Subdlbssfs brf
-     * rfsponsiblf for kffping this vbluf durrfnt from bny mfthod thfy
-     * ovfrridf thbt bltfrs thf bit offsft.
+    /**
+    /**
+    /**
+    /**
+     * Tif durrfnt bit offsft witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt bit offsft witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt bit offsft witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt bit offsft witiin tif strfbm.  Subdlbssfs brf
+     * Tif durrfnt bit offsft witiin tif strfbm.  Subdlbssfs brf
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * rfsponsiblf for kffping tiis vbluf durrfnt from bny mftiod tify
+     * ovfrridf tibt bltfrs tif bit offsft.
+     * ovfrridf tibt bltfrs tif bit offsft.
+     * ovfrridf tibt bltfrs tif bit offsft.
+     * ovfrridf tibt bltfrs tif bit offsft.
+     * ovfrridf tibt bltfrs tif bit offsft.
+     */
+     */
+     */
+     */
      */
     protfdtfd int bitOffsft;
+    protfdtfd int bitOffsft;
+    protfdtfd int bitOffsft;
+    protfdtfd int bitOffsft;
+    protfdtfd int bitOffsft;
+
+
+
+
 
     /**
-     * Thf position prior to whidh dbtb mby bf disdbrdfd.  Sffking
-     * to b smbllfr position is not bllowfd.  <dodf>flushfdPos</dodf>
+    /**
+    /**
+    /**
+    /**
+     * Tif position prior to wiidi dbtb mby bf disdbrdfd.  Sffking
+     * Tif position prior to wiidi dbtb mby bf disdbrdfd.  Sffking
+     * Tif position prior to wiidi dbtb mby bf disdbrdfd.  Sffking
+     * Tif position prior to wiidi dbtb mby bf disdbrdfd.  Sffking
+     * Tif position prior to wiidi dbtb mby bf disdbrdfd.  Sffking
+     * to b smbllfr position is not bllowfd.  <dodf>flusifdPos</dodf>
+     * to b smbllfr position is not bllowfd.  <dodf>flusifdPos</dodf>
+     * to b smbllfr position is not bllowfd.  <dodf>flusifdPos</dodf>
+     * to b smbllfr position is not bllowfd.  <dodf>flusifdPos</dodf>
+     * to b smbllfr position is not bllowfd.  <dodf>flusifdPos</dodf>
+     * will blwbys bf {@litfrbl >= 0}.
+     * will blwbys bf {@litfrbl >= 0}.
+     * will blwbys bf {@litfrbl >= 0}.
+     * will blwbys bf {@litfrbl >= 0}.
      * will blwbys bf {@litfrbl >= 0}.
      */
-    protfdtfd long flushfdPos = 0;
+     */
+     */
+     */
+     */
+    protfdtfd long flusifdPos = 0;
+    protfdtfd long flusifdPos = 0;
+    protfdtfd long flusifdPos = 0;
+    protfdtfd long flusifdPos = 0;
+    protfdtfd long flusifdPos = 0;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts bn <dodf>ImbgfInputStrfbmImpl</dodf>.
+     * Construdts bn <dodf>ImbgfInputStrfbmImpl</dodf>.
+     * Construdts bn <dodf>ImbgfInputStrfbmImpl</dodf>.
+     * Construdts bn <dodf>ImbgfInputStrfbmImpl</dodf>.
+     * Construdts bn <dodf>ImbgfInputStrfbmImpl</dodf>.
+     */
+     */
+     */
+     */
      */
     publid ImbgfInputStrfbmImpl() {
+    publid ImbgfInputStrfbmImpl() {
+    publid ImbgfInputStrfbmImpl() {
+    publid ImbgfInputStrfbmImpl() {
+    publid ImbgfInputStrfbmImpl() {
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Throws bn <dodf>IOExdfption</dodf> if thf strfbm hbs bffn dlosfd.
-     * Subdlbssfs mby dbll this mfthod from bny of thfir mfthods thbt
-     * rfquirf thf strfbm not to bf dlosfd.
+    /**
+    /**
+    /**
+    /**
+     * Tirows bn <dodf>IOExdfption</dodf> if tif strfbm ibs bffn dlosfd.
+     * Tirows bn <dodf>IOExdfption</dodf> if tif strfbm ibs bffn dlosfd.
+     * Tirows bn <dodf>IOExdfption</dodf> if tif strfbm ibs bffn dlosfd.
+     * Tirows bn <dodf>IOExdfption</dodf> if tif strfbm ibs bffn dlosfd.
+     * Tirows bn <dodf>IOExdfption</dodf> if tif strfbm ibs bffn dlosfd.
+     * Subdlbssfs mby dbll tiis mftiod from bny of tifir mftiods tibt
+     * Subdlbssfs mby dbll tiis mftiod from bny of tifir mftiods tibt
+     * Subdlbssfs mby dbll tiis mftiod from bny of tifir mftiods tibt
+     * Subdlbssfs mby dbll tiis mftiod from bny of tifir mftiods tibt
+     * Subdlbssfs mby dbll tiis mftiod from bny of tifir mftiods tibt
+     * rfquirf tif strfbm not to bf dlosfd.
+     * rfquirf tif strfbm not to bf dlosfd.
+     * rfquirf tif strfbm not to bf dlosfd.
+     * rfquirf tif strfbm not to bf dlosfd.
+     * rfquirf tif strfbm not to bf dlosfd.
      *
-     * @fxdfption IOExdfption if thf strfbm is dlosfd.
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption if tif strfbm is dlosfd.
+     * @fxdfption IOExdfption if tif strfbm is dlosfd.
+     * @fxdfption IOExdfption if tif strfbm is dlosfd.
+     * @fxdfption IOExdfption if tif strfbm is dlosfd.
+     * @fxdfption IOExdfption if tif strfbm is dlosfd.
      */
-    protfdtfd finbl void dhfdkClosfd() throws IOExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd finbl void difdkClosfd() tirows IOExdfption {
+    protfdtfd finbl void difdkClosfd() tirows IOExdfption {
+    protfdtfd finbl void difdkClosfd() tirows IOExdfption {
+    protfdtfd finbl void difdkClosfd() tirows IOExdfption {
+    protfdtfd finbl void difdkClosfd() tirows IOExdfption {
         if (isClosfd) {
-            throw nfw IOExdfption("dlosfd");
+        if (isClosfd) {
+        if (isClosfd) {
+        if (isClosfd) {
+        if (isClosfd) {
+            tirow nfw IOExdfption("dlosfd");
+            tirow nfw IOExdfption("dlosfd");
+            tirow nfw IOExdfption("dlosfd");
+            tirow nfw IOExdfption("dlosfd");
+            tirow nfw IOExdfption("dlosfd");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid void sftBytfOrdfr(BytfOrdfr bytfOrdfr) {
-        this.bytfOrdfr = bytfOrdfr;
+    publid void sftBytfOrdfr(BytfOrdfr bytfOrdfr) {
+    publid void sftBytfOrdfr(BytfOrdfr bytfOrdfr) {
+    publid void sftBytfOrdfr(BytfOrdfr bytfOrdfr) {
+    publid void sftBytfOrdfr(BytfOrdfr bytfOrdfr) {
+        tiis.bytfOrdfr = bytfOrdfr;
+        tiis.bytfOrdfr = bytfOrdfr;
+        tiis.bytfOrdfr = bytfOrdfr;
+        tiis.bytfOrdfr = bytfOrdfr;
+        tiis.bytfOrdfr = bytfOrdfr;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid BytfOrdfr gftBytfOrdfr() {
+    publid BytfOrdfr gftBytfOrdfr() {
+    publid BytfOrdfr gftBytfOrdfr() {
+    publid BytfOrdfr gftBytfOrdfr() {
+    publid BytfOrdfr gftBytfOrdfr() {
+        rfturn bytfOrdfr;
+        rfturn bytfOrdfr;
+        rfturn bytfOrdfr;
+        rfturn bytfOrdfr;
         rfturn bytfOrdfr;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfbds b singlf bytf from thf strfbm bnd rfturns it bs bn
-     * <dodf>int</dodf> bftwffn 0 bnd 255.  If EOF is rfbdhfd,
+    /**
+    /**
+    /**
+    /**
+     * Rfbds b singlf bytf from tif strfbm bnd rfturns it bs bn
+     * Rfbds b singlf bytf from tif strfbm bnd rfturns it bs bn
+     * Rfbds b singlf bytf from tif strfbm bnd rfturns it bs bn
+     * Rfbds b singlf bytf from tif strfbm bnd rfturns it bs bn
+     * Rfbds b singlf bytf from tif strfbm bnd rfturns it bs bn
+     * <dodf>int</dodf> bftwffn 0 bnd 255.  If EOF is rfbdifd,
+     * <dodf>int</dodf> bftwffn 0 bnd 255.  If EOF is rfbdifd,
+     * <dodf>int</dodf> bftwffn 0 bnd 255.  If EOF is rfbdifd,
+     * <dodf>int</dodf> bftwffn 0 bnd 255.  If EOF is rfbdifd,
+     * <dodf>int</dodf> bftwffn 0 bnd 255.  If EOF is rfbdifd,
+     * <dodf>-1</dodf> is rfturnfd.
+     * <dodf>-1</dodf> is rfturnfd.
+     * <dodf>-1</dodf> is rfturnfd.
+     * <dodf>-1</dodf> is rfturnfd.
      * <dodf>-1</dodf> is rfturnfd.
      *
-     * <p> Subdlbssfs must providf bn implfmfntbtion for this mfthod.
-     * Thf subdlbss implfmfntbtion should updbtf thf strfbm position
+     *
+     *
+     *
+     *
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * bfforf fxiting.
+     * bfforf fxiting.
+     * bfforf fxiting.
+     * bfforf fxiting.
      * bfforf fxiting.
      *
-     * <p> Thf bit offsft within thf strfbm must bf rfsft to zfro bfforf
-     * thf rfbd oddurs.
      *
-     * @rfturn thf vbluf of thf nfxt bytf in thf strfbm, or <dodf>-1</dodf>
-     * if EOF is rfbdhfd.
      *
-     * @fxdfption IOExdfption if thf strfbm hbs bffn dlosfd.
+     *
+     *
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif vbluf of tif nfxt bytf in tif strfbm, or <dodf>-1</dodf>
+     * @rfturn tif vbluf of tif nfxt bytf in tif strfbm, or <dodf>-1</dodf>
+     * @rfturn tif vbluf of tif nfxt bytf in tif strfbm, or <dodf>-1</dodf>
+     * @rfturn tif vbluf of tif nfxt bytf in tif strfbm, or <dodf>-1</dodf>
+     * @rfturn tif vbluf of tif nfxt bytf in tif strfbm, or <dodf>-1</dodf>
+     * if EOF is rfbdifd.
+     * if EOF is rfbdifd.
+     * if EOF is rfbdifd.
+     * if EOF is rfbdifd.
+     * if EOF is rfbdifd.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption if tif strfbm ibs bffn dlosfd.
+     * @fxdfption IOExdfption if tif strfbm ibs bffn dlosfd.
+     * @fxdfption IOExdfption if tif strfbm ibs bffn dlosfd.
+     * @fxdfption IOExdfption if tif strfbm ibs bffn dlosfd.
+     * @fxdfption IOExdfption if tif strfbm ibs bffn dlosfd.
      */
-    publid bbstrbdt int rfbd() throws IOExdfption;
+     */
+     */
+     */
+     */
+    publid bbstrbdt int rfbd() tirows IOExdfption;
+    publid bbstrbdt int rfbd() tirows IOExdfption;
+    publid bbstrbdt int rfbd() tirows IOExdfption;
+    publid bbstrbdt int rfbd() tirows IOExdfption;
+    publid bbstrbdt int rfbd() tirows IOExdfption;
+
+
+
+
 
     /**
-     * A donvfnifndf mfthod thbt dblls <dodf>rfbd(b, 0, b.lfngth)</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * A donvfnifndf mftiod tibt dblls <dodf>rfbd(b, 0, b.lfngti)</dodf>.
+     * A donvfnifndf mftiod tibt dblls <dodf>rfbd(b, 0, b.lfngti)</dodf>.
+     * A donvfnifndf mftiod tibt dblls <dodf>rfbd(b, 0, b.lfngti)</dodf>.
+     * A donvfnifndf mftiod tibt dblls <dodf>rfbd(b, 0, b.lfngti)</dodf>.
+     * A donvfnifndf mftiod tibt dblls <dodf>rfbd(b, 0, b.lfngti)</dodf>.
      *
-     * <p> Thf bit offsft within thf strfbm is rfsft to zfro bfforf
-     * thf rfbd oddurs.
      *
-     * @rfturn thf numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     *
+     *
+     *
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * to indidbtf EOF.
+     * to indidbtf EOF.
+     * to indidbtf EOF.
+     * to indidbtf EOF.
      * to indidbtf EOF.
      *
+     *
+     *
+     *
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
      * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
      * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    publid int rfbd(bytf[] b) throws IOExdfption {
-        rfturn rfbd(b, 0, b.lfngth);
+     */
+     */
+     */
+     */
+    publid int rfbd(bytf[] b) tirows IOExdfption {
+    publid int rfbd(bytf[] b) tirows IOExdfption {
+    publid int rfbd(bytf[] b) tirows IOExdfption {
+    publid int rfbd(bytf[] b) tirows IOExdfption {
+    publid int rfbd(bytf[] b) tirows IOExdfption {
+        rfturn rfbd(b, 0, b.lfngti);
+        rfturn rfbd(b, 0, b.lfngti);
+        rfturn rfbd(b, 0, b.lfngti);
+        rfturn rfbd(b, 0, b.lfngti);
+        rfturn rfbd(b, 0, b.lfngti);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfbds up to <dodf>lfn</dodf> bytfs from thf strfbm, bnd storfs
-     * thfm into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
-     * If no bytfs dbn bf rfbd bfdbusf thf fnd of thf strfbm hbs bffn
-     * rfbdhfd, <dodf>-1</dodf> is rfturnfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfbds up to <dodf>lfn</dodf> bytfs from tif strfbm, bnd storfs
+     * Rfbds up to <dodf>lfn</dodf> bytfs from tif strfbm, bnd storfs
+     * Rfbds up to <dodf>lfn</dodf> bytfs from tif strfbm, bnd storfs
+     * Rfbds up to <dodf>lfn</dodf> bytfs from tif strfbm, bnd storfs
+     * Rfbds up to <dodf>lfn</dodf> bytfs from tif strfbm, bnd storfs
+     * tifm into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
+     * tifm into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
+     * tifm into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
+     * tifm into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
+     * tifm into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
+     * If no bytfs dbn bf rfbd bfdbusf tif fnd of tif strfbm ibs bffn
+     * If no bytfs dbn bf rfbd bfdbusf tif fnd of tif strfbm ibs bffn
+     * If no bytfs dbn bf rfbd bfdbusf tif fnd of tif strfbm ibs bffn
+     * If no bytfs dbn bf rfbd bfdbusf tif fnd of tif strfbm ibs bffn
+     * If no bytfs dbn bf rfbd bfdbusf tif fnd of tif strfbm ibs bffn
+     * rfbdifd, <dodf>-1</dodf> is rfturnfd.
+     * rfbdifd, <dodf>-1</dodf> is rfturnfd.
+     * rfbdifd, <dodf>-1</dodf> is rfturnfd.
+     * rfbdifd, <dodf>-1</dodf> is rfturnfd.
+     * rfbdifd, <dodf>-1</dodf> is rfturnfd.
      *
-     * <p> Thf bit offsft within thf strfbm must bf rfsft to zfro bfforf
-     * thf rfbd oddurs.
      *
-     * <p> Subdlbssfs must providf bn implfmfntbtion for this mfthod.
-     * Thf subdlbss implfmfntbtion should updbtf thf strfbm position
+     *
+     *
+     *
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * <p> Tif bit offsft witiin tif strfbm must bf rfsft to zfro bfforf
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     * tif rfbd oddurs.
+     *
+     *
+     *
+     *
+     *
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * <p> Subdlbssfs must providf bn implfmfntbtion for tiis mftiod.
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
+     * Tif subdlbss implfmfntbtion siould updbtf tif strfbm position
      * bfforf fxiting.
+     * bfforf fxiting.
+     * bfforf fxiting.
+     * bfforf fxiting.
+     * bfforf fxiting.
+     *
+     *
+     *
+     *
      *
      * @pbrbm b bn brrby of bytfs to bf writtfn to.
-     * @pbrbm off thf stbrting position within <dodf>b</dodf> to writf to.
-     * @pbrbm lfn thf mbximum numbfr of bytfs to rfbd.
+     * @pbrbm b bn brrby of bytfs to bf writtfn to.
+     * @pbrbm b bn brrby of bytfs to bf writtfn to.
+     * @pbrbm b bn brrby of bytfs to bf writtfn to.
+     * @pbrbm b bn brrby of bytfs to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>b</dodf> to writf to.
+     * @pbrbm off tif stbrting position witiin <dodf>b</dodf> to writf to.
+     * @pbrbm off tif stbrting position witiin <dodf>b</dodf> to writf to.
+     * @pbrbm off tif stbrting position witiin <dodf>b</dodf> to writf to.
+     * @pbrbm off tif stbrting position witiin <dodf>b</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of bytfs to rfbd.
+     * @pbrbm lfn tif mbximum numbfr of bytfs to rfbd.
+     * @pbrbm lfn tif mbximum numbfr of bytfs to rfbd.
+     * @pbrbm lfn tif mbximum numbfr of bytfs to rfbd.
+     * @pbrbm lfn tif mbximum numbfr of bytfs to rfbd.
      *
-     * @rfturn thf numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     *
+     *
+     *
+     *
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * to indidbtf EOF.
+     * to indidbtf EOF.
+     * to indidbtf EOF.
+     * to indidbtf EOF.
      * to indidbtf EOF.
      *
+     *
+     *
+     *
+     *
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
      * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
      * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
-     * lfn</dodf> is grfbtfr thbn <dodf>b.lfngth</dodf>.
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>b.lfngti</dodf>.
+     * lfn</dodf> is grfbtfr tibn <dodf>b.lfngti</dodf>.
+     * lfn</dodf> is grfbtfr tibn <dodf>b.lfngti</dodf>.
+     * lfn</dodf> is grfbtfr tibn <dodf>b.lfngti</dodf>.
+     * lfn</dodf> is grfbtfr tibn <dodf>b.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
      * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
      * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    publid bbstrbdt int rfbd(bytf[] b, int off, int lfn) throws IOExdfption;
+     */
+     */
+     */
+     */
+    publid bbstrbdt int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption;
+    publid bbstrbdt int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption;
+    publid bbstrbdt int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption;
+    publid bbstrbdt int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption;
+    publid bbstrbdt int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption;
 
-    publid void rfbdBytfs(IIOBytfBufffr buf, int lfn) throws IOExdfption {
+
+
+
+
+    publid void rfbdBytfs(IIOBytfBufffr buf, int lfn) tirows IOExdfption {
+    publid void rfbdBytfs(IIOBytfBufffr buf, int lfn) tirows IOExdfption {
+    publid void rfbdBytfs(IIOBytfBufffr buf, int lfn) tirows IOExdfption {
+    publid void rfbdBytfs(IIOBytfBufffr buf, int lfn) tirows IOExdfption {
+    publid void rfbdBytfs(IIOBytfBufffr buf, int lfn) tirows IOExdfption {
         if (lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption("lfn < 0!");
+        if (lfn < 0) {
+        if (lfn < 0) {
+        if (lfn < 0) {
+        if (lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption("lfn < 0!");
+            tirow nfw IndfxOutOfBoundsExdfption("lfn < 0!");
+            tirow nfw IndfxOutOfBoundsExdfption("lfn < 0!");
+            tirow nfw IndfxOutOfBoundsExdfption("lfn < 0!");
+            tirow nfw IndfxOutOfBoundsExdfption("lfn < 0!");
+        }
+        }
+        }
+        }
         }
         if (buf == null) {
-            throw nfw NullPointfrExdfption("buf == null!");
+        if (buf == null) {
+        if (buf == null) {
+        if (buf == null) {
+        if (buf == null) {
+            tirow nfw NullPointfrExdfption("buf == null!");
+            tirow nfw NullPointfrExdfption("buf == null!");
+            tirow nfw NullPointfrExdfption("buf == null!");
+            tirow nfw NullPointfrExdfption("buf == null!");
+            tirow nfw NullPointfrExdfption("buf == null!");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         bytf[] dbtb = nfw bytf[lfn];
+        bytf[] dbtb = nfw bytf[lfn];
+        bytf[] dbtb = nfw bytf[lfn];
+        bytf[] dbtb = nfw bytf[lfn];
+        bytf[] dbtb = nfw bytf[lfn];
+        lfn = rfbd(dbtb, 0, lfn);
+        lfn = rfbd(dbtb, 0, lfn);
+        lfn = rfbd(dbtb, 0, lfn);
+        lfn = rfbd(dbtb, 0, lfn);
         lfn = rfbd(dbtb, 0, lfn);
 
+
+
+
+
+        buf.sftDbtb(dbtb);
+        buf.sftDbtb(dbtb);
+        buf.sftDbtb(dbtb);
+        buf.sftDbtb(dbtb);
         buf.sftDbtb(dbtb);
         buf.sftOffsft(0);
-        buf.sftLfngth(lfn);
+        buf.sftOffsft(0);
+        buf.sftOffsft(0);
+        buf.sftOffsft(0);
+        buf.sftOffsft(0);
+        buf.sftLfngti(lfn);
+        buf.sftLfngti(lfn);
+        buf.sftLfngti(lfn);
+        buf.sftLfngti(lfn);
+        buf.sftLfngti(lfn);
+    }
+    }
+    }
+    }
     }
 
-    publid boolfbn rfbdBoolfbn() throws IOExdfption {
-        int dh = this.rfbd();
-        if (dh < 0) {
-            throw nfw EOFExdfption();
+
+
+
+
+    publid boolfbn rfbdBoolfbn() tirows IOExdfption {
+    publid boolfbn rfbdBoolfbn() tirows IOExdfption {
+    publid boolfbn rfbdBoolfbn() tirows IOExdfption {
+    publid boolfbn rfbdBoolfbn() tirows IOExdfption {
+    publid boolfbn rfbdBoolfbn() tirows IOExdfption {
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
         }
-        rfturn (dh != 0);
-    }
-
-    publid bytf rfbdBytf() throws IOExdfption {
-        int dh = this.rfbd();
-        if (dh < 0) {
-            throw nfw EOFExdfption();
         }
-        rfturn (bytf)dh;
-    }
-
-    publid int rfbdUnsignfdBytf() throws IOExdfption {
-        int dh = this.rfbd();
-        if (dh < 0) {
-            throw nfw EOFExdfption();
         }
-        rfturn dh;
+        }
+        }
+        rfturn (di != 0);
+        rfturn (di != 0);
+        rfturn (di != 0);
+        rfturn (di != 0);
+        rfturn (di != 0);
+    }
+    }
+    }
+    }
     }
 
-    publid short rfbdShort() throws IOExdfption {
+
+
+
+
+    publid bytf rfbdBytf() tirows IOExdfption {
+    publid bytf rfbdBytf() tirows IOExdfption {
+    publid bytf rfbdBytf() tirows IOExdfption {
+    publid bytf rfbdBytf() tirows IOExdfption {
+    publid bytf rfbdBytf() tirows IOExdfption {
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+        }
+        }
+        }
+        }
+        }
+        rfturn (bytf)di;
+        rfturn (bytf)di;
+        rfturn (bytf)di;
+        rfturn (bytf)di;
+        rfturn (bytf)di;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid int rfbdUnsignfdBytf() tirows IOExdfption {
+    publid int rfbdUnsignfdBytf() tirows IOExdfption {
+    publid int rfbdUnsignfdBytf() tirows IOExdfption {
+    publid int rfbdUnsignfdBytf() tirows IOExdfption {
+    publid int rfbdUnsignfdBytf() tirows IOExdfption {
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        int di = tiis.rfbd();
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+        if (di < 0) {
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+        }
+        }
+        }
+        }
+        }
+        rfturn di;
+        rfturn di;
+        rfturn di;
+        rfturn di;
+        rfturn di;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid siort rfbdSiort() tirows IOExdfption {
+    publid siort rfbdSiort() tirows IOExdfption {
+    publid siort rfbdSiort() tirows IOExdfption {
+    publid siort rfbdSiort() tirows IOExdfption {
+    publid siort rfbdSiort() tirows IOExdfption {
         if (rfbd(bytfBuf, 0, 2) < 0) {
-            throw nfw EOFExdfption();
+        if (rfbd(bytfBuf, 0, 2) < 0) {
+        if (rfbd(bytfBuf, 0, 2) < 0) {
+        if (rfbd(bytfBuf, 0, 2) < 0) {
+        if (rfbd(bytfBuf, 0, 2) < 0) {
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
-            rfturn (short)
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            rfturn (siort)
+            rfturn (siort)
+            rfturn (siort)
+            rfturn (siort)
+            rfturn (siort)
+                (((bytfBuf[0] & 0xff) << 8) | ((bytfBuf[1] & 0xff) << 0));
+                (((bytfBuf[0] & 0xff) << 8) | ((bytfBuf[1] & 0xff) << 0));
+                (((bytfBuf[0] & 0xff) << 8) | ((bytfBuf[1] & 0xff) << 0));
+                (((bytfBuf[0] & 0xff) << 8) | ((bytfBuf[1] & 0xff) << 0));
                 (((bytfBuf[0] & 0xff) << 8) | ((bytfBuf[1] & 0xff) << 0));
         } flsf {
-            rfturn (short)
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn (siort)
+            rfturn (siort)
+            rfturn (siort)
+            rfturn (siort)
+            rfturn (siort)
+                (((bytfBuf[1] & 0xff) << 8) | ((bytfBuf[0] & 0xff) << 0));
+                (((bytfBuf[1] & 0xff) << 8) | ((bytfBuf[0] & 0xff) << 0));
+                (((bytfBuf[1] & 0xff) << 8) | ((bytfBuf[0] & 0xff) << 0));
+                (((bytfBuf[1] & 0xff) << 8) | ((bytfBuf[0] & 0xff) << 0));
                 (((bytfBuf[1] & 0xff) << 8) | ((bytfBuf[0] & 0xff) << 0));
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid int rfbdUnsignfdShort() throws IOExdfption {
-        rfturn ((int)rfbdShort()) & 0xffff;
+
+
+
+
+    publid int rfbdUnsignfdSiort() tirows IOExdfption {
+    publid int rfbdUnsignfdSiort() tirows IOExdfption {
+    publid int rfbdUnsignfdSiort() tirows IOExdfption {
+    publid int rfbdUnsignfdSiort() tirows IOExdfption {
+    publid int rfbdUnsignfdSiort() tirows IOExdfption {
+        rfturn ((int)rfbdSiort()) & 0xffff;
+        rfturn ((int)rfbdSiort()) & 0xffff;
+        rfturn ((int)rfbdSiort()) & 0xffff;
+        rfturn ((int)rfbdSiort()) & 0xffff;
+        rfturn ((int)rfbdSiort()) & 0xffff;
+    }
+    }
+    }
+    }
     }
 
-    publid dhbr rfbdChbr() throws IOExdfption {
-        rfturn (dhbr)rfbdShort();
+
+
+
+
+    publid dibr rfbdCibr() tirows IOExdfption {
+    publid dibr rfbdCibr() tirows IOExdfption {
+    publid dibr rfbdCibr() tirows IOExdfption {
+    publid dibr rfbdCibr() tirows IOExdfption {
+    publid dibr rfbdCibr() tirows IOExdfption {
+        rfturn (dibr)rfbdSiort();
+        rfturn (dibr)rfbdSiort();
+        rfturn (dibr)rfbdSiort();
+        rfturn (dibr)rfbdSiort();
+        rfturn (dibr)rfbdSiort();
+    }
+    }
+    }
+    }
     }
 
-    publid int rfbdInt() throws IOExdfption {
+
+
+
+
+    publid int rfbdInt() tirows IOExdfption {
+    publid int rfbdInt() tirows IOExdfption {
+    publid int rfbdInt() tirows IOExdfption {
+    publid int rfbdInt() tirows IOExdfption {
+    publid int rfbdInt() tirows IOExdfption {
         if (rfbd(bytfBuf, 0, 4) < 0) {
-            throw nfw EOFExdfption();
+        if (rfbd(bytfBuf, 0, 4) < 0) {
+        if (rfbd(bytfBuf, 0, 4) < 0) {
+        if (rfbd(bytfBuf, 0, 4) < 0) {
+        if (rfbd(bytfBuf, 0, 4) < 0) {
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            rfturn
+            rfturn
+            rfturn
+            rfturn
             rfturn
                 (((bytfBuf[0] & 0xff) << 24) | ((bytfBuf[1] & 0xff) << 16) |
+                (((bytfBuf[0] & 0xff) << 24) | ((bytfBuf[1] & 0xff) << 16) |
+                (((bytfBuf[0] & 0xff) << 24) | ((bytfBuf[1] & 0xff) << 16) |
+                (((bytfBuf[0] & 0xff) << 24) | ((bytfBuf[1] & 0xff) << 16) |
+                (((bytfBuf[0] & 0xff) << 24) | ((bytfBuf[1] & 0xff) << 16) |
+                 ((bytfBuf[2] & 0xff) <<  8) | ((bytfBuf[3] & 0xff) <<  0));
+                 ((bytfBuf[2] & 0xff) <<  8) | ((bytfBuf[3] & 0xff) <<  0));
+                 ((bytfBuf[2] & 0xff) <<  8) | ((bytfBuf[3] & 0xff) <<  0));
+                 ((bytfBuf[2] & 0xff) <<  8) | ((bytfBuf[3] & 0xff) <<  0));
                  ((bytfBuf[2] & 0xff) <<  8) | ((bytfBuf[3] & 0xff) <<  0));
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn
+            rfturn
+            rfturn
+            rfturn
             rfturn
                 (((bytfBuf[3] & 0xff) << 24) | ((bytfBuf[2] & 0xff) << 16) |
+                (((bytfBuf[3] & 0xff) << 24) | ((bytfBuf[2] & 0xff) << 16) |
+                (((bytfBuf[3] & 0xff) << 24) | ((bytfBuf[2] & 0xff) << 16) |
+                (((bytfBuf[3] & 0xff) << 24) | ((bytfBuf[2] & 0xff) << 16) |
+                (((bytfBuf[3] & 0xff) << 24) | ((bytfBuf[2] & 0xff) << 16) |
+                 ((bytfBuf[1] & 0xff) <<  8) | ((bytfBuf[0] & 0xff) <<  0));
+                 ((bytfBuf[1] & 0xff) <<  8) | ((bytfBuf[0] & 0xff) <<  0));
+                 ((bytfBuf[1] & 0xff) <<  8) | ((bytfBuf[0] & 0xff) <<  0));
+                 ((bytfBuf[1] & 0xff) <<  8) | ((bytfBuf[0] & 0xff) <<  0));
                  ((bytfBuf[1] & 0xff) <<  8) | ((bytfBuf[0] & 0xff) <<  0));
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid long rfbdUnsignfdInt() throws IOExdfption {
+
+
+
+
+    publid long rfbdUnsignfdInt() tirows IOExdfption {
+    publid long rfbdUnsignfdInt() tirows IOExdfption {
+    publid long rfbdUnsignfdInt() tirows IOExdfption {
+    publid long rfbdUnsignfdInt() tirows IOExdfption {
+    publid long rfbdUnsignfdInt() tirows IOExdfption {
+        rfturn ((long)rfbdInt()) & 0xffffffffL;
+        rfturn ((long)rfbdInt()) & 0xffffffffL;
+        rfturn ((long)rfbdInt()) & 0xffffffffL;
+        rfturn ((long)rfbdInt()) & 0xffffffffL;
         rfturn ((long)rfbdInt()) & 0xffffffffL;
     }
+    }
+    }
+    }
+    }
 
-    publid long rfbdLong() throws IOExdfption {
-        // REMIND: Ondf 6277756 is fixfd, wf should do b bulk rfbd of bll 8
-        // bytfs hfrf bs wf do in rfbdShort() bnd rfbdInt() for fvfn bfttfr
+
+
+
+
+    publid long rfbdLong() tirows IOExdfption {
+    publid long rfbdLong() tirows IOExdfption {
+    publid long rfbdLong() tirows IOExdfption {
+    publid long rfbdLong() tirows IOExdfption {
+    publid long rfbdLong() tirows IOExdfption {
+        // REMIND: Ondf 6277756 is fixfd, wf siould do b bulk rfbd of bll 8
+        // REMIND: Ondf 6277756 is fixfd, wf siould do b bulk rfbd of bll 8
+        // REMIND: Ondf 6277756 is fixfd, wf siould do b bulk rfbd of bll 8
+        // REMIND: Ondf 6277756 is fixfd, wf siould do b bulk rfbd of bll 8
+        // REMIND: Ondf 6277756 is fixfd, wf siould do b bulk rfbd of bll 8
+        // bytfs ifrf bs wf do in rfbdSiort() bnd rfbdInt() for fvfn bfttfr
+        // bytfs ifrf bs wf do in rfbdSiort() bnd rfbdInt() for fvfn bfttfr
+        // bytfs ifrf bs wf do in rfbdSiort() bnd rfbdInt() for fvfn bfttfr
+        // bytfs ifrf bs wf do in rfbdSiort() bnd rfbdInt() for fvfn bfttfr
+        // bytfs ifrf bs wf do in rfbdSiort() bnd rfbdInt() for fvfn bfttfr
+        // pfrformbndf (sff 6347575 for dftbils).
+        // pfrformbndf (sff 6347575 for dftbils).
+        // pfrformbndf (sff 6347575 for dftbils).
+        // pfrformbndf (sff 6347575 for dftbils).
         // pfrformbndf (sff 6347575 for dftbils).
         int i1 = rfbdInt();
+        int i1 = rfbdInt();
+        int i1 = rfbdInt();
+        int i1 = rfbdInt();
+        int i1 = rfbdInt();
+        int i2 = rfbdInt();
+        int i2 = rfbdInt();
+        int i2 = rfbdInt();
+        int i2 = rfbdInt();
         int i2 = rfbdInt();
 
+
+
+
+
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
             rfturn ((long)i1 << 32) + (i2 & 0xFFFFFFFFL);
+            rfturn ((long)i1 << 32) + (i2 & 0xFFFFFFFFL);
+            rfturn ((long)i1 << 32) + (i2 & 0xFFFFFFFFL);
+            rfturn ((long)i1 << 32) + (i2 & 0xFFFFFFFFL);
+            rfturn ((long)i1 << 32) + (i2 & 0xFFFFFFFFL);
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             rfturn ((long)i2 << 32) + (i1 & 0xFFFFFFFFL);
+            rfturn ((long)i2 << 32) + (i1 & 0xFFFFFFFFL);
+            rfturn ((long)i2 << 32) + (i1 & 0xFFFFFFFFL);
+            rfturn ((long)i2 << 32) + (i1 & 0xFFFFFFFFL);
+            rfturn ((long)i2 << 32) + (i1 & 0xFFFFFFFFL);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    publid flobt rfbdFlobt() throws IOExdfption {
+
+
+
+
+    publid flobt rfbdFlobt() tirows IOExdfption {
+    publid flobt rfbdFlobt() tirows IOExdfption {
+    publid flobt rfbdFlobt() tirows IOExdfption {
+    publid flobt rfbdFlobt() tirows IOExdfption {
+    publid flobt rfbdFlobt() tirows IOExdfption {
+        rfturn Flobt.intBitsToFlobt(rfbdInt());
+        rfturn Flobt.intBitsToFlobt(rfbdInt());
+        rfturn Flobt.intBitsToFlobt(rfbdInt());
+        rfturn Flobt.intBitsToFlobt(rfbdInt());
         rfturn Flobt.intBitsToFlobt(rfbdInt());
     }
+    }
+    }
+    }
+    }
 
-    publid doublf rfbdDoublf() throws IOExdfption {
+
+
+
+
+    publid doublf rfbdDoublf() tirows IOExdfption {
+    publid doublf rfbdDoublf() tirows IOExdfption {
+    publid doublf rfbdDoublf() tirows IOExdfption {
+    publid doublf rfbdDoublf() tirows IOExdfption {
+    publid doublf rfbdDoublf() tirows IOExdfption {
+        rfturn Doublf.longBitsToDoublf(rfbdLong());
+        rfturn Doublf.longBitsToDoublf(rfbdLong());
+        rfturn Doublf.longBitsToDoublf(rfbdLong());
+        rfturn Doublf.longBitsToDoublf(rfbdLong());
         rfturn Doublf.longBitsToDoublf(rfbdLong());
     }
+    }
+    }
+    }
+    }
 
-    publid String rfbdLinf() throws IOExdfption {
+
+
+
+
+    publid String rfbdLinf() tirows IOExdfption {
+    publid String rfbdLinf() tirows IOExdfption {
+    publid String rfbdLinf() tirows IOExdfption {
+    publid String rfbdLinf() tirows IOExdfption {
+    publid String rfbdLinf() tirows IOExdfption {
+        StringBuildfr input = nfw StringBuildfr();
+        StringBuildfr input = nfw StringBuildfr();
+        StringBuildfr input = nfw StringBuildfr();
+        StringBuildfr input = nfw StringBuildfr();
         StringBuildfr input = nfw StringBuildfr();
         int d = -1;
+        int d = -1;
+        int d = -1;
+        int d = -1;
+        int d = -1;
+        boolfbn fol = fblsf;
+        boolfbn fol = fblsf;
+        boolfbn fol = fblsf;
+        boolfbn fol = fblsf;
         boolfbn fol = fblsf;
 
-        whilf (!fol) {
-            switdh (d = rfbd()) {
+
+
+
+
+        wiilf (!fol) {
+        wiilf (!fol) {
+        wiilf (!fol) {
+        wiilf (!fol) {
+        wiilf (!fol) {
+            switdi (d = rfbd()) {
+            switdi (d = rfbd()) {
+            switdi (d = rfbd()) {
+            switdi (d = rfbd()) {
+            switdi (d = rfbd()) {
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
+            dbsf -1:
             dbsf -1:
             dbsf '\n':
+            dbsf '\n':
+            dbsf '\n':
+            dbsf '\n':
+            dbsf '\n':
                 fol = truf;
+                fol = truf;
+                fol = truf;
+                fol = truf;
+                fol = truf;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             dbsf '\r':
+            dbsf '\r':
+            dbsf '\r':
+            dbsf '\r':
+            dbsf '\r':
+                fol = truf;
+                fol = truf;
+                fol = truf;
+                fol = truf;
                 fol = truf;
                 long dur = gftStrfbmPosition();
+                long dur = gftStrfbmPosition();
+                long dur = gftStrfbmPosition();
+                long dur = gftStrfbmPosition();
+                long dur = gftStrfbmPosition();
+                if ((rfbd()) != '\n') {
+                if ((rfbd()) != '\n') {
+                if ((rfbd()) != '\n') {
+                if ((rfbd()) != '\n') {
                 if ((rfbd()) != '\n') {
                     sffk(dur);
+                    sffk(dur);
+                    sffk(dur);
+                    sffk(dur);
+                    sffk(dur);
+                }
+                }
+                }
+                }
                 }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
             dffbult:
-                input.bppfnd((dhbr)d);
+            dffbult:
+            dffbult:
+            dffbult:
+            dffbult:
+                input.bppfnd((dibr)d);
+                input.bppfnd((dibr)d);
+                input.bppfnd((dibr)d);
+                input.bppfnd((dibr)d);
+                input.bppfnd((dibr)d);
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
 
-        if ((d == -1) && (input.lfngth() == 0)) {
+
+
+
+
+        if ((d == -1) && (input.lfngti() == 0)) {
+        if ((d == -1) && (input.lfngti() == 0)) {
+        if ((d == -1) && (input.lfngti() == 0)) {
+        if ((d == -1) && (input.lfngti() == 0)) {
+        if ((d == -1) && (input.lfngti() == 0)) {
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
+        }
+        }
+        }
+        }
+        rfturn input.toString();
+        rfturn input.toString();
+        rfturn input.toString();
+        rfturn input.toString();
         rfturn input.toString();
     }
+    }
+    }
+    }
+    }
 
-    publid String rfbdUTF() throws IOExdfption {
-        this.bitOffsft = 0;
 
-        // Fix 4494369: mfthod ImbgfInputStrfbmImpl.rfbdUTF()
-        // dofs not work bs spfdififd (it should blwbys bssumf
+
+
+
+    publid String rfbdUTF() tirows IOExdfption {
+    publid String rfbdUTF() tirows IOExdfption {
+    publid String rfbdUTF() tirows IOExdfption {
+    publid String rfbdUTF() tirows IOExdfption {
+    publid String rfbdUTF() tirows IOExdfption {
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+
+
+
+
+
+        // Fix 4494369: mftiod ImbgfInputStrfbmImpl.rfbdUTF()
+        // Fix 4494369: mftiod ImbgfInputStrfbmImpl.rfbdUTF()
+        // Fix 4494369: mftiod ImbgfInputStrfbmImpl.rfbdUTF()
+        // Fix 4494369: mftiod ImbgfInputStrfbmImpl.rfbdUTF()
+        // Fix 4494369: mftiod ImbgfInputStrfbmImpl.rfbdUTF()
+        // dofs not work bs spfdififd (it siould blwbys bssumf
+        // dofs not work bs spfdififd (it siould blwbys bssumf
+        // dofs not work bs spfdififd (it siould blwbys bssumf
+        // dofs not work bs spfdififd (it siould blwbys bssumf
+        // dofs not work bs spfdififd (it siould blwbys bssumf
+        // nftwork bytf ordfr).
+        // nftwork bytf ordfr).
+        // nftwork bytf ordfr).
+        // nftwork bytf ordfr).
         // nftwork bytf ordfr).
         BytfOrdfr oldBytfOrdfr = gftBytfOrdfr();
+        BytfOrdfr oldBytfOrdfr = gftBytfOrdfr();
+        BytfOrdfr oldBytfOrdfr = gftBytfOrdfr();
+        BytfOrdfr oldBytfOrdfr = gftBytfOrdfr();
+        BytfOrdfr oldBytfOrdfr = gftBytfOrdfr();
+        sftBytfOrdfr(BytfOrdfr.BIG_ENDIAN);
+        sftBytfOrdfr(BytfOrdfr.BIG_ENDIAN);
+        sftBytfOrdfr(BytfOrdfr.BIG_ENDIAN);
+        sftBytfOrdfr(BytfOrdfr.BIG_ENDIAN);
         sftBytfOrdfr(BytfOrdfr.BIG_ENDIAN);
 
+
+
+
+
+        String rft;
+        String rft;
+        String rft;
+        String rft;
         String rft;
         try {
-            rft = DbtbInputStrfbm.rfbdUTF(this);
-        } dbtdh (IOExdfption f) {
-            // Rfstorf thf old bytf ordfr fvfn if bn fxdfption oddurs
+        try {
+        try {
+        try {
+        try {
+            rft = DbtbInputStrfbm.rfbdUTF(tiis);
+            rft = DbtbInputStrfbm.rfbdUTF(tiis);
+            rft = DbtbInputStrfbm.rfbdUTF(tiis);
+            rft = DbtbInputStrfbm.rfbdUTF(tiis);
+            rft = DbtbInputStrfbm.rfbdUTF(tiis);
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+            // Rfstorf tif old bytf ordfr fvfn if bn fxdfption oddurs
+            // Rfstorf tif old bytf ordfr fvfn if bn fxdfption oddurs
+            // Rfstorf tif old bytf ordfr fvfn if bn fxdfption oddurs
+            // Rfstorf tif old bytf ordfr fvfn if bn fxdfption oddurs
+            // Rfstorf tif old bytf ordfr fvfn if bn fxdfption oddurs
             sftBytfOrdfr(oldBytfOrdfr);
-            throw f;
+            sftBytfOrdfr(oldBytfOrdfr);
+            sftBytfOrdfr(oldBytfOrdfr);
+            sftBytfOrdfr(oldBytfOrdfr);
+            sftBytfOrdfr(oldBytfOrdfr);
+            tirow f;
+            tirow f;
+            tirow f;
+            tirow f;
+            tirow f;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         sftBytfOrdfr(oldBytfOrdfr);
+        sftBytfOrdfr(oldBytfOrdfr);
+        sftBytfOrdfr(oldBytfOrdfr);
+        sftBytfOrdfr(oldBytfOrdfr);
+        sftBytfOrdfr(oldBytfOrdfr);
+        rfturn rft;
+        rfturn rft;
+        rfturn rft;
+        rfturn rft;
         rfturn rft;
     }
+    }
+    }
+    }
+    }
 
-    publid void rfbdFully(bytf[] b, int off, int lfn) throws IOExdfption {
+
+
+
+
+    publid void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption {
         // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
-        if (off < 0 || lfn < 0 || off + lfn > b.lfngth || off + lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption
-                ("off < 0 || lfn < 0 || off + lfn > b.lfngth!");
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > b.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > b.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > b.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > b.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > b.lfngti!");
+        }
+        }
+        }
+        }
         }
 
-        whilf (lfn > 0) {
+
+
+
+
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+            int nbytfs = rfbd(b, off, lfn);
+            int nbytfs = rfbd(b, off, lfn);
+            int nbytfs = rfbd(b, off, lfn);
+            int nbytfs = rfbd(b, off, lfn);
             int nbytfs = rfbd(b, off, lfn);
             if (nbytfs == -1) {
-                throw nfw EOFExdfption();
+            if (nbytfs == -1) {
+            if (nbytfs == -1) {
+            if (nbytfs == -1) {
+            if (nbytfs == -1) {
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
+            }
+            }
+            }
+            }
             }
             off += nbytfs;
+            off += nbytfs;
+            off += nbytfs;
+            off += nbytfs;
+            off += nbytfs;
+            lfn -= nbytfs;
+            lfn -= nbytfs;
+            lfn -= nbytfs;
+            lfn -= nbytfs;
             lfn -= nbytfs;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid void rfbdFully(bytf[] b) throws IOExdfption {
-        rfbdFully(b, 0, b.lfngth);
+
+
+
+
+    publid void rfbdFully(bytf[] b) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b) tirows IOExdfption {
+    publid void rfbdFully(bytf[] b) tirows IOExdfption {
+        rfbdFully(b, 0, b.lfngti);
+        rfbdFully(b, 0, b.lfngti);
+        rfbdFully(b, 0, b.lfngti);
+        rfbdFully(b, 0, b.lfngti);
+        rfbdFully(b, 0, b.lfngti);
+    }
+    }
+    }
+    }
     }
 
-    publid void rfbdFully(short[] s, int off, int lfn) throws IOExdfption {
+
+
+
+
+    publid void rfbdFully(siort[] s, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(siort[] s, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(siort[] s, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(siort[] s, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(siort[] s, int off, int lfn) tirows IOExdfption {
         // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
-        if (off < 0 || lfn < 0 || off + lfn > s.lfngth || off + lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption
-                ("off < 0 || lfn < 0 || off + lfn > s.lfngth!");
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > s.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > s.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > s.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > s.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > s.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > s.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > s.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > s.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > s.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > s.lfngti!");
+        }
+        }
+        }
+        }
         }
 
-        whilf (lfn > 0) {
-            int nflts = Mbth.min(lfn, bytfBuf.lfngth/2);
+
+
+
+
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
             rfbdFully(bytfBuf, 0, nflts*2);
-            toShorts(bytfBuf, s, off, nflts);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            toSiorts(bytfBuf, s, off, nflts);
+            toSiorts(bytfBuf, s, off, nflts);
+            toSiorts(bytfBuf, s, off, nflts);
+            toSiorts(bytfBuf, s, off, nflts);
+            toSiorts(bytfBuf, s, off, nflts);
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            off += nflts;
             off += nflts;
             lfn -= nflts;
-        }
-    }
-
-    publid void rfbdFully(dhbr[] d, int off, int lfn) throws IOExdfption {
-        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
-        if (off < 0 || lfn < 0 || off + lfn > d.lfngth || off + lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption
-                ("off < 0 || lfn < 0 || off + lfn > d.lfngth!");
-        }
-
-        whilf (lfn > 0) {
-            int nflts = Mbth.min(lfn, bytfBuf.lfngth/2);
-            rfbdFully(bytfBuf, 0, nflts*2);
-            toChbrs(bytfBuf, d, off, nflts);
-            off += nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
             lfn -= nflts;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid void rfbdFully(int[] i, int off, int lfn) throws IOExdfption {
+
+
+
+
+    publid void rfbdFully(dibr[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(dibr[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(dibr[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(dibr[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(dibr[] d, int off, int lfn) tirows IOExdfption {
         // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
-        if (off < 0 || lfn < 0 || off + lfn > i.lfngth || off + lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption
-                ("off < 0 || lfn < 0 || off + lfn > i.lfngth!");
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+        }
+        }
+        }
+        }
         }
 
-        whilf (lfn > 0) {
-            int nflts = Mbth.min(lfn, bytfBuf.lfngth/4);
+
+
+
+
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            rfbdFully(bytfBuf, 0, nflts*2);
+            toCibrs(bytfBuf, d, off, nflts);
+            toCibrs(bytfBuf, d, off, nflts);
+            toCibrs(bytfBuf, d, off, nflts);
+            toCibrs(bytfBuf, d, off, nflts);
+            toCibrs(bytfBuf, d, off, nflts);
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid void rfbdFully(int[] i, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(int[] i, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(int[] i, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(int[] i, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(int[] i, int off, int lfn) tirows IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > i.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > i.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > i.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > i.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > i.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > i.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > i.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > i.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > i.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > i.lfngti!");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            rfbdFully(bytfBuf, 0, nflts*4);
+            rfbdFully(bytfBuf, 0, nflts*4);
+            rfbdFully(bytfBuf, 0, nflts*4);
+            rfbdFully(bytfBuf, 0, nflts*4);
             rfbdFully(bytfBuf, 0, nflts*4);
             toInts(bytfBuf, i, off, nflts);
+            toInts(bytfBuf, i, off, nflts);
+            toInts(bytfBuf, i, off, nflts);
+            toInts(bytfBuf, i, off, nflts);
+            toInts(bytfBuf, i, off, nflts);
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            off += nflts;
             off += nflts;
             lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    publid void rfbdFully(long[] l, int off, int lfn) throws IOExdfption {
+
+
+
+
+    publid void rfbdFully(long[] l, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(long[] l, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(long[] l, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(long[] l, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(long[] l, int off, int lfn) tirows IOExdfption {
         // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
-        if (off < 0 || lfn < 0 || off + lfn > l.lfngth || off + lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption
-                ("off < 0 || lfn < 0 || off + lfn > l.lfngth!");
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > l.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > l.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > l.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > l.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > l.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > l.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > l.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > l.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > l.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > l.lfngti!");
+        }
+        }
+        }
+        }
         }
 
-        whilf (lfn > 0) {
-            int nflts = Mbth.min(lfn, bytfBuf.lfngth/8);
+
+
+
+
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            rfbdFully(bytfBuf, 0, nflts*8);
+            rfbdFully(bytfBuf, 0, nflts*8);
+            rfbdFully(bytfBuf, 0, nflts*8);
+            rfbdFully(bytfBuf, 0, nflts*8);
             rfbdFully(bytfBuf, 0, nflts*8);
             toLongs(bytfBuf, l, off, nflts);
+            toLongs(bytfBuf, l, off, nflts);
+            toLongs(bytfBuf, l, off, nflts);
+            toLongs(bytfBuf, l, off, nflts);
+            toLongs(bytfBuf, l, off, nflts);
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            off += nflts;
             off += nflts;
             lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    publid void rfbdFully(flobt[] f, int off, int lfn) throws IOExdfption {
+
+
+
+
+    publid void rfbdFully(flobt[] f, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(flobt[] f, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(flobt[] f, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(flobt[] f, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(flobt[] f, int off, int lfn) tirows IOExdfption {
         // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
-        if (off < 0 || lfn < 0 || off + lfn > f.lfngth || off + lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption
-                ("off < 0 || lfn < 0 || off + lfn > f.lfngth!");
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > f.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > f.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > f.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > f.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > f.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > f.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > f.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > f.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > f.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > f.lfngti!");
+        }
+        }
+        }
+        }
         }
 
-        whilf (lfn > 0) {
-            int nflts = Mbth.min(lfn, bytfBuf.lfngth/4);
+
+
+
+
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/4);
+            rfbdFully(bytfBuf, 0, nflts*4);
+            rfbdFully(bytfBuf, 0, nflts*4);
+            rfbdFully(bytfBuf, 0, nflts*4);
+            rfbdFully(bytfBuf, 0, nflts*4);
             rfbdFully(bytfBuf, 0, nflts*4);
             toFlobts(bytfBuf, f, off, nflts);
+            toFlobts(bytfBuf, f, off, nflts);
+            toFlobts(bytfBuf, f, off, nflts);
+            toFlobts(bytfBuf, f, off, nflts);
+            toFlobts(bytfBuf, f, off, nflts);
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            off += nflts;
             off += nflts;
             lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    publid void rfbdFully(doublf[] d, int off, int lfn) throws IOExdfption {
+
+
+
+
+    publid void rfbdFully(doublf[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(doublf[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(doublf[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(doublf[] d, int off, int lfn) tirows IOExdfption {
+    publid void rfbdFully(doublf[] d, int off, int lfn) tirows IOExdfption {
         // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
-        if (off < 0 || lfn < 0 || off + lfn > d.lfngth || off + lfn < 0) {
-            throw nfw IndfxOutOfBoundsExdfption
-                ("off < 0 || lfn < 0 || off + lfn > d.lfngth!");
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
+        }
+        }
+        }
+        }
         }
 
-        whilf (lfn > 0) {
-            int nflts = Mbth.min(lfn, bytfBuf.lfngth/8);
+
+
+
+
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+        wiilf (lfn > 0) {
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            int nflts = Mbti.min(lfn, bytfBuf.lfngti/8);
+            rfbdFully(bytfBuf, 0, nflts*8);
+            rfbdFully(bytfBuf, 0, nflts*8);
+            rfbdFully(bytfBuf, 0, nflts*8);
+            rfbdFully(bytfBuf, 0, nflts*8);
             rfbdFully(bytfBuf, 0, nflts*8);
             toDoublfs(bytfBuf, d, off, nflts);
+            toDoublfs(bytfBuf, d, off, nflts);
+            toDoublfs(bytfBuf, d, off, nflts);
+            toDoublfs(bytfBuf, d, off, nflts);
+            toDoublfs(bytfBuf, d, off, nflts);
+            off += nflts;
+            off += nflts;
+            off += nflts;
+            off += nflts;
             off += nflts;
             lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
+            lfn -= nflts;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    privbtf void toShorts(bytf[] b, short[] s, int off, int lfn) {
+
+
+
+
+    privbtf void toSiorts(bytf[] b, siort[] s, int off, int lfn) {
+    privbtf void toSiorts(bytf[] b, siort[] s, int off, int lfn) {
+    privbtf void toSiorts(bytf[] b, siort[] s, int off, int lfn) {
+    privbtf void toSiorts(bytf[] b, siort[] s, int off, int lfn) {
+    privbtf void toSiorts(bytf[] b, siort[] s, int off, int lfn) {
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
         int boff = 0;
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
                 int b1 = b[boff + 1] & 0xff;
-                s[off + j] = (short)((b0 << 8) | b1);
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
                 boff += 2;
+                boff += 2;
+                boff += 2;
+                boff += 2;
+                boff += 2;
+            }
+            }
+            }
+            }
             }
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
                 int b1 = b[boff] & 0xff;
-                s[off + j] = (short)((b0 << 8) | b1);
+                int b1 = b[boff] & 0xff;
+                int b1 = b[boff] & 0xff;
+                int b1 = b[boff] & 0xff;
+                int b1 = b[boff] & 0xff;
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
+                s[off + j] = (siort)((b0 << 8) | b1);
+                boff += 2;
+                boff += 2;
+                boff += 2;
+                boff += 2;
                 boff += 2;
             }
+            }
+            }
+            }
+            }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    privbtf void toChbrs(bytf[] b, dhbr[] d, int off, int lfn) {
+
+
+
+
+    privbtf void toCibrs(bytf[] b, dibr[] d, int off, int lfn) {
+    privbtf void toCibrs(bytf[] b, dibr[] d, int off, int lfn) {
+    privbtf void toCibrs(bytf[] b, dibr[] d, int off, int lfn) {
+    privbtf void toCibrs(bytf[] b, dibr[] d, int off, int lfn) {
+    privbtf void toCibrs(bytf[] b, dibr[] d, int off, int lfn) {
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
         int boff = 0;
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
                 int b1 = b[boff + 1] & 0xff;
-                d[off + j] = (dhbr)((b0 << 8) | b1);
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
                 boff += 2;
+                boff += 2;
+                boff += 2;
+                boff += 2;
+                boff += 2;
+            }
+            }
+            }
+            }
             }
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
+                int b0 = b[boff + 1];
                 int b1 = b[boff] & 0xff;
-                d[off + j] = (dhbr)((b0 << 8) | b1);
+                int b1 = b[boff] & 0xff;
+                int b1 = b[boff] & 0xff;
+                int b1 = b[boff] & 0xff;
+                int b1 = b[boff] & 0xff;
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                d[off + j] = (dibr)((b0 << 8) | b1);
+                boff += 2;
+                boff += 2;
+                boff += 2;
+                boff += 2;
                 boff += 2;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void toInts(bytf[] b, int[] i, int off, int lfn) {
+    privbtf void toInts(bytf[] b, int[] i, int off, int lfn) {
+    privbtf void toInts(bytf[] b, int[] i, int off, int lfn) {
+    privbtf void toInts(bytf[] b, int[] i, int off, int lfn) {
+    privbtf void toInts(bytf[] b, int[] i, int off, int lfn) {
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
         int boff = 0;
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
                 int b1 = b[boff + 1] & 0xff;
                 int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
                 int b3 = b[boff + 3] & 0xff;
                 i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                boff += 4;
+                boff += 4;
+                boff += 4;
+                boff += 4;
                 boff += 4;
             }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+                int b0 = b[boff + 3];
+                int b0 = b[boff + 3];
+                int b0 = b[boff + 3];
+                int b0 = b[boff + 3];
                 int b0 = b[boff + 3];
                 int b1 = b[boff + 2] & 0xff;
+                int b1 = b[boff + 2] & 0xff;
+                int b1 = b[boff + 2] & 0xff;
+                int b1 = b[boff + 2] & 0xff;
+                int b1 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
                 int b2 = b[boff + 1] & 0xff;
                 int b3 = b[boff] & 0xff;
+                int b3 = b[boff] & 0xff;
+                int b3 = b[boff] & 0xff;
+                int b3 = b[boff] & 0xff;
+                int b3 = b[boff] & 0xff;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 i[off + j] = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 boff += 4;
+                boff += 4;
+                boff += 4;
+                boff += 4;
+                boff += 4;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void toLongs(bytf[] b, long[] l, int off, int lfn) {
+    privbtf void toLongs(bytf[] b, long[] l, int off, int lfn) {
+    privbtf void toLongs(bytf[] b, long[] l, int off, int lfn) {
+    privbtf void toLongs(bytf[] b, long[] l, int off, int lfn) {
+    privbtf void toLongs(bytf[] b, long[] l, int off, int lfn) {
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
         int boff = 0;
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
                 int b1 = b[boff + 1] & 0xff;
                 int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
                 int b3 = b[boff + 3] & 0xff;
                 int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b5 = b[boff + 5] & 0xff;
+                int b5 = b[boff + 5] & 0xff;
+                int b5 = b[boff + 5] & 0xff;
+                int b5 = b[boff + 5] & 0xff;
                 int b5 = b[boff + 5] & 0xff;
                 int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
                 int b7 = b[boff + 7] & 0xff;
 
+
+
+
+
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+
+
+
+
 
                 l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                boff += 8;
+                boff += 8;
+                boff += 8;
+                boff += 8;
                 boff += 8;
             }
+            }
+            }
+            }
+            }
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+                int b0 = b[boff + 7];
+                int b0 = b[boff + 7];
+                int b0 = b[boff + 7];
+                int b0 = b[boff + 7];
                 int b0 = b[boff + 7];
                 int b1 = b[boff + 6] & 0xff;
+                int b1 = b[boff + 6] & 0xff;
+                int b1 = b[boff + 6] & 0xff;
+                int b1 = b[boff + 6] & 0xff;
+                int b1 = b[boff + 6] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
                 int b2 = b[boff + 5] & 0xff;
                 int b3 = b[boff + 4] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
+                int b4 = b[boff + 3];
+                int b4 = b[boff + 3];
+                int b4 = b[boff + 3];
+                int b4 = b[boff + 3];
                 int b4 = b[boff + 3];
                 int b5 = b[boff + 2] & 0xff;
+                int b5 = b[boff + 2] & 0xff;
+                int b5 = b[boff + 2] & 0xff;
+                int b5 = b[boff + 2] & 0xff;
+                int b5 = b[boff + 2] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
                 int b6 = b[boff + 1] & 0xff;
                 int b7 = b[boff]     & 0xff;
+                int b7 = b[boff]     & 0xff;
+                int b7 = b[boff]     & 0xff;
+                int b7 = b[boff]     & 0xff;
+                int b7 = b[boff]     & 0xff;
+
+
+
+
 
                 int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+
+
+
+
 
                 l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                l[off + j] = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                boff += 8;
+                boff += 8;
+                boff += 8;
+                boff += 8;
                 boff += 8;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void toFlobts(bytf[] b, flobt[] f, int off, int lfn) {
+    privbtf void toFlobts(bytf[] b, flobt[] f, int off, int lfn) {
+    privbtf void toFlobts(bytf[] b, flobt[] f, int off, int lfn) {
+    privbtf void toFlobts(bytf[] b, flobt[] f, int off, int lfn) {
+    privbtf void toFlobts(bytf[] b, flobt[] f, int off, int lfn) {
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
         int boff = 0;
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
                 int b1 = b[boff + 1] & 0xff;
                 int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
                 int b3 = b[boff + 3] & 0xff;
                 int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                f[off + j] = Flobt.intBitsToFlobt(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
                 f[off + j] = Flobt.intBitsToFlobt(i);
                 boff += 4;
+                boff += 4;
+                boff += 4;
+                boff += 4;
+                boff += 4;
+            }
+            }
+            }
+            }
             }
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff + 3];
+                int b0 = b[boff + 3];
+                int b0 = b[boff + 3];
+                int b0 = b[boff + 3];
+                int b0 = b[boff + 3];
+                int b1 = b[boff + 2] & 0xff;
+                int b1 = b[boff + 2] & 0xff;
+                int b1 = b[boff + 2] & 0xff;
+                int b1 = b[boff + 2] & 0xff;
                 int b1 = b[boff + 2] & 0xff;
                 int b2 = b[boff + 1] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
+                int b2 = b[boff + 1] & 0xff;
+                int b3 = b[boff + 0] & 0xff;
+                int b3 = b[boff + 0] & 0xff;
+                int b3 = b[boff + 0] & 0xff;
+                int b3 = b[boff + 0] & 0xff;
                 int b3 = b[boff + 0] & 0xff;
                 int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                f[off + j] = Flobt.intBitsToFlobt(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
                 f[off + j] = Flobt.intBitsToFlobt(i);
                 boff += 4;
+                boff += 4;
+                boff += 4;
+                boff += 4;
+                boff += 4;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void toDoublfs(bytf[] b, doublf[] d, int off, int lfn) {
+    privbtf void toDoublfs(bytf[] b, doublf[] d, int off, int lfn) {
+    privbtf void toDoublfs(bytf[] b, doublf[] d, int off, int lfn) {
+    privbtf void toDoublfs(bytf[] b, doublf[] d, int off, int lfn) {
+    privbtf void toDoublfs(bytf[] b, doublf[] d, int off, int lfn) {
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
+        int boff = 0;
         int boff = 0;
         if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b0 = b[boff];
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
+                int b1 = b[boff + 1] & 0xff;
                 int b1 = b[boff + 1] & 0xff;
                 int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b2 = b[boff + 2] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
+                int b3 = b[boff + 3] & 0xff;
                 int b3 = b[boff + 3] & 0xff;
                 int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b4 = b[boff + 4];
+                int b5 = b[boff + 5] & 0xff;
+                int b5 = b[boff + 5] & 0xff;
+                int b5 = b[boff + 5] & 0xff;
+                int b5 = b[boff + 5] & 0xff;
                 int b5 = b[boff + 5] & 0xff;
                 int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b6 = b[boff + 6] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
+                int b7 = b[boff + 7] & 0xff;
                 int b7 = b[boff + 7] & 0xff;
 
+
+
+
+
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
                 long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
 
+
+
+
+
+                d[off + j] = Doublf.longBitsToDoublf(l);
+                d[off + j] = Doublf.longBitsToDoublf(l);
+                d[off + j] = Doublf.longBitsToDoublf(l);
+                d[off + j] = Doublf.longBitsToDoublf(l);
                 d[off + j] = Doublf.longBitsToDoublf(l);
                 boff += 8;
+                boff += 8;
+                boff += 8;
+                boff += 8;
+                boff += 8;
+            }
+            }
+            }
+            }
             }
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
+            for (int j = 0; j < lfn; j++) {
             for (int j = 0; j < lfn; j++) {
                 int b0 = b[boff + 7];
+                int b0 = b[boff + 7];
+                int b0 = b[boff + 7];
+                int b0 = b[boff + 7];
+                int b0 = b[boff + 7];
+                int b1 = b[boff + 6] & 0xff;
+                int b1 = b[boff + 6] & 0xff;
+                int b1 = b[boff + 6] & 0xff;
+                int b1 = b[boff + 6] & 0xff;
                 int b1 = b[boff + 6] & 0xff;
                 int b2 = b[boff + 5] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
+                int b2 = b[boff + 5] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
+                int b3 = b[boff + 4] & 0xff;
                 int b3 = b[boff + 4] & 0xff;
                 int b4 = b[boff + 3];
+                int b4 = b[boff + 3];
+                int b4 = b[boff + 3];
+                int b4 = b[boff + 3];
+                int b4 = b[boff + 3];
+                int b5 = b[boff + 2] & 0xff;
+                int b5 = b[boff + 2] & 0xff;
+                int b5 = b[boff + 2] & 0xff;
+                int b5 = b[boff + 2] & 0xff;
                 int b5 = b[boff + 2] & 0xff;
                 int b6 = b[boff + 1] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
+                int b6 = b[boff + 1] & 0xff;
+                int b7 = b[boff] & 0xff;
+                int b7 = b[boff] & 0xff;
+                int b7 = b[boff] & 0xff;
+                int b7 = b[boff] & 0xff;
                 int b7 = b[boff] & 0xff;
 
+
+
+
+
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
+                int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 int i0 = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
                 int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                int i1 = (b4 << 24) | (b5 << 16) | (b6 << 8) | b7;
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
+                long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
                 long l = ((long)i0 << 32) | (i1 & 0xffffffffL);
 
+
+
+
+
+                d[off + j] = Doublf.longBitsToDoublf(l);
+                d[off + j] = Doublf.longBitsToDoublf(l);
+                d[off + j] = Doublf.longBitsToDoublf(l);
+                d[off + j] = Doublf.longBitsToDoublf(l);
                 d[off + j] = Doublf.longBitsToDoublf(l);
                 boff += 8;
+                boff += 8;
+                boff += 8;
+                boff += 8;
+                boff += 8;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid long gftStrfbmPosition() throws IOExdfption {
-        dhfdkClosfd();
+
+
+
+
+    publid long gftStrfbmPosition() tirows IOExdfption {
+    publid long gftStrfbmPosition() tirows IOExdfption {
+    publid long gftStrfbmPosition() tirows IOExdfption {
+    publid long gftStrfbmPosition() tirows IOExdfption {
+    publid long gftStrfbmPosition() tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        rfturn strfbmPos;
+        rfturn strfbmPos;
+        rfturn strfbmPos;
+        rfturn strfbmPos;
         rfturn strfbmPos;
     }
+    }
+    }
+    }
+    }
 
-    publid int gftBitOffsft() throws IOExdfption {
-        dhfdkClosfd();
+
+
+
+
+    publid int gftBitOffsft() tirows IOExdfption {
+    publid int gftBitOffsft() tirows IOExdfption {
+    publid int gftBitOffsft() tirows IOExdfption {
+    publid int gftBitOffsft() tirows IOExdfption {
+    publid int gftBitOffsft() tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        rfturn bitOffsft;
+        rfturn bitOffsft;
+        rfturn bitOffsft;
+        rfturn bitOffsft;
         rfturn bitOffsft;
     }
-
-    publid void sftBitOffsft(int bitOffsft) throws IOExdfption {
-        dhfdkClosfd();
-        if (bitOffsft < 0 || bitOffsft > 7) {
-            throw nfw IllfgblArgumfntExdfption("bitOffsft must bf bftwwfn 0 bnd 7!");
-        }
-        this.bitOffsft = bitOffsft;
+    }
+    }
+    }
     }
 
-    publid int rfbdBit() throws IOExdfption {
-        dhfdkClosfd();
+
+
+
+
+    publid void sftBitOffsft(int bitOffsft) tirows IOExdfption {
+    publid void sftBitOffsft(int bitOffsft) tirows IOExdfption {
+    publid void sftBitOffsft(int bitOffsft) tirows IOExdfption {
+    publid void sftBitOffsft(int bitOffsft) tirows IOExdfption {
+    publid void sftBitOffsft(int bitOffsft) tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        if (bitOffsft < 0 || bitOffsft > 7) {
+        if (bitOffsft < 0 || bitOffsft > 7) {
+        if (bitOffsft < 0 || bitOffsft > 7) {
+        if (bitOffsft < 0 || bitOffsft > 7) {
+        if (bitOffsft < 0 || bitOffsft > 7) {
+            tirow nfw IllfgblArgumfntExdfption("bitOffsft must bf bftwwfn 0 bnd 7!");
+            tirow nfw IllfgblArgumfntExdfption("bitOffsft must bf bftwwfn 0 bnd 7!");
+            tirow nfw IllfgblArgumfntExdfption("bitOffsft must bf bftwwfn 0 bnd 7!");
+            tirow nfw IllfgblArgumfntExdfption("bitOffsft must bf bftwwfn 0 bnd 7!");
+            tirow nfw IllfgblArgumfntExdfption("bitOffsft must bf bftwwfn 0 bnd 7!");
+        }
+        }
+        }
+        }
+        }
+        tiis.bitOffsft = bitOffsft;
+        tiis.bitOffsft = bitOffsft;
+        tiis.bitOffsft = bitOffsft;
+        tiis.bitOffsft = bitOffsft;
+        tiis.bitOffsft = bitOffsft;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    publid int rfbdBit() tirows IOExdfption {
+    publid int rfbdBit() tirows IOExdfption {
+    publid int rfbdBit() tirows IOExdfption {
+    publid int rfbdBit() tirows IOExdfption {
+    publid int rfbdBit() tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+
+
+
+
 
         // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
-        int nfwBitOffsft = (this.bitOffsft + 1) & 0x7;
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        int nfwBitOffsft = (tiis.bitOffsft + 1) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + 1) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + 1) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + 1) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + 1) & 0x7;
+
+
+
+
 
         int vbl = rfbd();
+        int vbl = rfbd();
+        int vbl = rfbd();
+        int vbl = rfbd();
+        int vbl = rfbd();
         if (vbl == -1) {
-            throw nfw EOFExdfption();
+        if (vbl == -1) {
+        if (vbl == -1) {
+        if (vbl == -1) {
+        if (vbl == -1) {
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+            tirow nfw EOFExdfption();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         if (nfwBitOffsft != 0) {
-            // Movf bytf position bbdk if in thf middlf of b bytf
+        if (nfwBitOffsft != 0) {
+        if (nfwBitOffsft != 0) {
+        if (nfwBitOffsft != 0) {
+        if (nfwBitOffsft != 0) {
+            // Movf bytf position bbdk if in tif middlf of b bytf
+            // Movf bytf position bbdk if in tif middlf of b bytf
+            // Movf bytf position bbdk if in tif middlf of b bytf
+            // Movf bytf position bbdk if in tif middlf of b bytf
+            // Movf bytf position bbdk if in tif middlf of b bytf
             sffk(gftStrfbmPosition() - 1);
-            // Shift thf bit to bf rfbd to thf rightmost position
+            sffk(gftStrfbmPosition() - 1);
+            sffk(gftStrfbmPosition() - 1);
+            sffk(gftStrfbmPosition() - 1);
+            sffk(gftStrfbmPosition() - 1);
+            // Siift tif bit to bf rfbd to tif rigitmost position
+            // Siift tif bit to bf rfbd to tif rigitmost position
+            // Siift tif bit to bf rfbd to tif rigitmost position
+            // Siift tif bit to bf rfbd to tif rigitmost position
+            // Siift tif bit to bf rfbd to tif rigitmost position
+            vbl >>= 8 - nfwBitOffsft;
+            vbl >>= 8 - nfwBitOffsft;
+            vbl >>= 8 - nfwBitOffsft;
+            vbl >>= 8 - nfwBitOffsft;
             vbl >>= 8 - nfwBitOffsft;
         }
-        this.bitOffsft = nfwBitOffsft;
+        }
+        }
+        }
+        }
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
+
+
+
+
 
         rfturn vbl & 0x1;
+        rfturn vbl & 0x1;
+        rfturn vbl & 0x1;
+        rfturn vbl & 0x1;
+        rfturn vbl & 0x1;
+    }
+    }
+    }
+    }
     }
 
-    publid long rfbdBits(int numBits) throws IOExdfption {
-        dhfdkClosfd();
+
+
+
+
+    publid long rfbdBits(int numBits) tirows IOExdfption {
+    publid long rfbdBits(int numBits) tirows IOExdfption {
+    publid long rfbdBits(int numBits) tirows IOExdfption {
+    publid long rfbdBits(int numBits) tirows IOExdfption {
+    publid long rfbdBits(int numBits) tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+
+
+
+
 
         if (numBits < 0 || numBits > 64) {
-            throw nfw IllfgblArgumfntExdfption();
+        if (numBits < 0 || numBits > 64) {
+        if (numBits < 0 || numBits > 64) {
+        if (numBits < 0 || numBits > 64) {
+        if (numBits < 0 || numBits > 64) {
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+        }
+        }
+        }
         }
         if (numBits == 0) {
+        if (numBits == 0) {
+        if (numBits == 0) {
+        if (numBits == 0) {
+        if (numBits == 0) {
+            rfturn 0L;
+            rfturn 0L;
+            rfturn 0L;
+            rfturn 0L;
             rfturn 0L;
         }
+        }
+        }
+        }
+        }
 
-        // Hbvf to rfbd bdditionbl bits on thf lfft fqubl to thf bit offsft
+
+
+
+
+        // Hbvf to rfbd bdditionbl bits on tif lfft fqubl to tif bit offsft
+        // Hbvf to rfbd bdditionbl bits on tif lfft fqubl to tif bit offsft
+        // Hbvf to rfbd bdditionbl bits on tif lfft fqubl to tif bit offsft
+        // Hbvf to rfbd bdditionbl bits on tif lfft fqubl to tif bit offsft
+        // Hbvf to rfbd bdditionbl bits on tif lfft fqubl to tif bit offsft
+        int bitsToRfbd = numBits + bitOffsft;
+        int bitsToRfbd = numBits + bitOffsft;
+        int bitsToRfbd = numBits + bitOffsft;
+        int bitsToRfbd = numBits + bitOffsft;
         int bitsToRfbd = numBits + bitOffsft;
 
+
+
+
+
         // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
-        int nfwBitOffsft = (this.bitOffsft + numBits) & 0x7;
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        // Computf finbl bit offsft bfforf wf dbll rfbd() bnd sffk()
+        int nfwBitOffsft = (tiis.bitOffsft + numBits) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + numBits) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + numBits) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + numBits) & 0x7;
+        int nfwBitOffsft = (tiis.bitOffsft + numBits) & 0x7;
+
+
+
+
 
         // Rfbd b bytf bt b timf, bddumulbtf
+        // Rfbd b bytf bt b timf, bddumulbtf
+        // Rfbd b bytf bt b timf, bddumulbtf
+        // Rfbd b bytf bt b timf, bddumulbtf
+        // Rfbd b bytf bt b timf, bddumulbtf
         long bddum = 0L;
-        whilf (bitsToRfbd > 0) {
+        long bddum = 0L;
+        long bddum = 0L;
+        long bddum = 0L;
+        long bddum = 0L;
+        wiilf (bitsToRfbd > 0) {
+        wiilf (bitsToRfbd > 0) {
+        wiilf (bitsToRfbd > 0) {
+        wiilf (bitsToRfbd > 0) {
+        wiilf (bitsToRfbd > 0) {
+            int vbl = rfbd();
+            int vbl = rfbd();
+            int vbl = rfbd();
+            int vbl = rfbd();
             int vbl = rfbd();
             if (vbl == -1) {
-                throw nfw EOFExdfption();
+            if (vbl == -1) {
+            if (vbl == -1) {
+            if (vbl == -1) {
+            if (vbl == -1) {
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
+                tirow nfw EOFExdfption();
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             bddum <<= 8;
+            bddum <<= 8;
+            bddum <<= 8;
+            bddum <<= 8;
+            bddum <<= 8;
+            bddum |= vbl;
+            bddum |= vbl;
+            bddum |= vbl;
+            bddum |= vbl;
             bddum |= vbl;
             bitsToRfbd -= 8;
+            bitsToRfbd -= 8;
+            bitsToRfbd -= 8;
+            bitsToRfbd -= 8;
+            bitsToRfbd -= 8;
+        }
+        }
+        }
+        }
         }
 
-        // Movf bytf position bbdk if in thf middlf of b bytf
+
+
+
+
+        // Movf bytf position bbdk if in tif middlf of b bytf
+        // Movf bytf position bbdk if in tif middlf of b bytf
+        // Movf bytf position bbdk if in tif middlf of b bytf
+        // Movf bytf position bbdk if in tif middlf of b bytf
+        // Movf bytf position bbdk if in tif middlf of b bytf
+        if (nfwBitOffsft != 0) {
+        if (nfwBitOffsft != 0) {
+        if (nfwBitOffsft != 0) {
+        if (nfwBitOffsft != 0) {
         if (nfwBitOffsft != 0) {
             sffk(gftStrfbmPosition() - 1);
+            sffk(gftStrfbmPosition() - 1);
+            sffk(gftStrfbmPosition() - 1);
+            sffk(gftStrfbmPosition() - 1);
+            sffk(gftStrfbmPosition() - 1);
         }
-        this.bitOffsft = nfwBitOffsft;
+        }
+        }
+        }
+        }
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
+        tiis.bitOffsft = nfwBitOffsft;
 
-        // Shift bwby unwbntfd bits on thf right.
+
+
+
+
+        // Siift bwby unwbntfd bits on tif rigit.
+        // Siift bwby unwbntfd bits on tif rigit.
+        // Siift bwby unwbntfd bits on tif rigit.
+        // Siift bwby unwbntfd bits on tif rigit.
+        // Siift bwby unwbntfd bits on tif rigit.
+        bddum >>>= (-bitsToRfbd); // Nfgbtivf of bitsToRfbd == fxtrb bits rfbd
+        bddum >>>= (-bitsToRfbd); // Nfgbtivf of bitsToRfbd == fxtrb bits rfbd
+        bddum >>>= (-bitsToRfbd); // Nfgbtivf of bitsToRfbd == fxtrb bits rfbd
+        bddum >>>= (-bitsToRfbd); // Nfgbtivf of bitsToRfbd == fxtrb bits rfbd
         bddum >>>= (-bitsToRfbd); // Nfgbtivf of bitsToRfbd == fxtrb bits rfbd
 
-        // Mbsk out unwbntfd bits on thf lfft
+
+
+
+
+        // Mbsk out unwbntfd bits on tif lfft
+        // Mbsk out unwbntfd bits on tif lfft
+        // Mbsk out unwbntfd bits on tif lfft
+        // Mbsk out unwbntfd bits on tif lfft
+        // Mbsk out unwbntfd bits on tif lfft
+        bddum &= (-1L >>> (64 - numBits));
+        bddum &= (-1L >>> (64 - numBits));
+        bddum &= (-1L >>> (64 - numBits));
+        bddum &= (-1L >>> (64 - numBits));
         bddum &= (-1L >>> (64 - numBits));
 
+
+
+
+
+        rfturn bddum;
+        rfturn bddum;
+        rfturn bddum;
+        rfturn bddum;
         rfturn bddum;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns <dodf>-1L</dodf> to indidbtf thbt thf strfbm hbs unknown
-     * lfngth.  Subdlbssfs must ovfrridf this mfthod to providf bdtubl
-     * lfngth informbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>-1L</dodf> to indidbtf tibt tif strfbm ibs unknown
+     * Rfturns <dodf>-1L</dodf> to indidbtf tibt tif strfbm ibs unknown
+     * Rfturns <dodf>-1L</dodf> to indidbtf tibt tif strfbm ibs unknown
+     * Rfturns <dodf>-1L</dodf> to indidbtf tibt tif strfbm ibs unknown
+     * Rfturns <dodf>-1L</dodf> to indidbtf tibt tif strfbm ibs unknown
+     * lfngti.  Subdlbssfs must ovfrridf tiis mftiod to providf bdtubl
+     * lfngti.  Subdlbssfs must ovfrridf tiis mftiod to providf bdtubl
+     * lfngti.  Subdlbssfs must ovfrridf tiis mftiod to providf bdtubl
+     * lfngti.  Subdlbssfs must ovfrridf tiis mftiod to providf bdtubl
+     * lfngti.  Subdlbssfs must ovfrridf tiis mftiod to providf bdtubl
+     * lfngti informbtion.
+     * lfngti informbtion.
+     * lfngti informbtion.
+     * lfngti informbtion.
+     * lfngti informbtion.
      *
-     * @rfturn -1L to indidbtf unknown lfngth.
+     *
+     *
+     *
+     *
+     * @rfturn -1L to indidbtf unknown lfngti.
+     * @rfturn -1L to indidbtf unknown lfngti.
+     * @rfturn -1L to indidbtf unknown lfngti.
+     * @rfturn -1L to indidbtf unknown lfngti.
+     * @rfturn -1L to indidbtf unknown lfngti.
      */
-    publid long lfngth() {
+     */
+     */
+     */
+     */
+    publid long lfngti() {
+    publid long lfngti() {
+    publid long lfngti() {
+    publid long lfngti() {
+    publid long lfngti() {
+        rfturn -1L;
+        rfturn -1L;
+        rfturn -1L;
+        rfturn -1L;
         rfturn -1L;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Advbndfs thf durrfnt strfbm position by dblling
+    /**
+    /**
+    /**
+    /**
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
      * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
      *
-     * <p> Thf bit offsft is rfsft to zfro.
      *
-     * @pbrbm n thf numbfr of bytfs to sffk forwbrd.
      *
-     * @rfturn bn <dodf>int</dodf> rfprfsfnting thf numbfr of bytfs
+     *
+     *
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting tif numbfr of bytfs
+     * skippfd.
+     * skippfd.
+     * skippfd.
+     * skippfd.
      * skippfd.
      *
+     *
+     *
+     *
+     *
      * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
-     * throws bn <dodf>IOExdfption</dodf> whfn domputing fithfr
-     * thf stbrting or fnding position.
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
      */
-    publid int skipBytfs(int n) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid int skipBytfs(int n) tirows IOExdfption {
+    publid int skipBytfs(int n) tirows IOExdfption {
+    publid int skipBytfs(int n) tirows IOExdfption {
+    publid int skipBytfs(int n) tirows IOExdfption {
+    publid int skipBytfs(int n) tirows IOExdfption {
         long pos = gftStrfbmPosition();
+        long pos = gftStrfbmPosition();
+        long pos = gftStrfbmPosition();
+        long pos = gftStrfbmPosition();
+        long pos = gftStrfbmPosition();
+        sffk(pos + n);
+        sffk(pos + n);
+        sffk(pos + n);
+        sffk(pos + n);
         sffk(pos + n);
         rfturn (int)(gftStrfbmPosition() - pos);
+        rfturn (int)(gftStrfbmPosition() - pos);
+        rfturn (int)(gftStrfbmPosition() - pos);
+        rfturn (int)(gftStrfbmPosition() - pos);
+        rfturn (int)(gftStrfbmPosition() - pos);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Advbndfs thf durrfnt strfbm position by dblling
+    /**
+    /**
+    /**
+    /**
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * Advbndfs tif durrfnt strfbm position by dblling
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
+     * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
      * <dodf>sffk(gftStrfbmPosition() + n)</dodf>.
      *
-     * <p> Thf bit offsft is rfsft to zfro.
      *
-     * @pbrbm n thf numbfr of bytfs to sffk forwbrd.
      *
-     * @rfturn b <dodf>long</dodf> rfprfsfnting thf numbfr of bytfs
+     *
+     *
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     * <p> Tif bit offsft is rfsft to zfro.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     * @pbrbm n tif numbfr of bytfs to sffk forwbrd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b <dodf>long</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn b <dodf>long</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn b <dodf>long</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn b <dodf>long</dodf> rfprfsfnting tif numbfr of bytfs
+     * @rfturn b <dodf>long</dodf> rfprfsfnting tif numbfr of bytfs
+     * skippfd.
+     * skippfd.
+     * skippfd.
+     * skippfd.
      * skippfd.
      *
+     *
+     *
+     *
+     *
      * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
-     * throws bn <dodf>IOExdfption</dodf> whfn domputing fithfr
-     * thf stbrting or fnding position.
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * @fxdfption IOExdfption if <dodf>gftStrfbmPosition</dodf>
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tirows bn <dodf>IOExdfption</dodf> wifn domputing fitifr
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
+     * tif stbrting or fnding position.
      */
-    publid long skipBytfs(long n) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid long skipBytfs(long n) tirows IOExdfption {
+    publid long skipBytfs(long n) tirows IOExdfption {
+    publid long skipBytfs(long n) tirows IOExdfption {
+    publid long skipBytfs(long n) tirows IOExdfption {
+    publid long skipBytfs(long n) tirows IOExdfption {
+        long pos = gftStrfbmPosition();
+        long pos = gftStrfbmPosition();
+        long pos = gftStrfbmPosition();
+        long pos = gftStrfbmPosition();
         long pos = gftStrfbmPosition();
         sffk(pos + n);
+        sffk(pos + n);
+        sffk(pos + n);
+        sffk(pos + n);
+        sffk(pos + n);
+        rfturn gftStrfbmPosition() - pos;
+        rfturn gftStrfbmPosition() - pos;
+        rfturn gftStrfbmPosition() - pos;
+        rfturn gftStrfbmPosition() - pos;
         rfturn gftStrfbmPosition() - pos;
     }
-
-    publid void sffk(long pos) throws IOExdfption {
-        dhfdkClosfd();
-
-        // This tfst blso dovfrs pos < 0
-        if (pos < flushfdPos) {
-            throw nfw IndfxOutOfBoundsExdfption("pos < flushfdPos!");
-        }
-
-        this.strfbmPos = pos;
-        this.bitOffsft = 0;
+    }
+    }
+    }
     }
 
+
+
+
+
+    publid void sffk(long pos) tirows IOExdfption {
+    publid void sffk(long pos) tirows IOExdfption {
+    publid void sffk(long pos) tirows IOExdfption {
+    publid void sffk(long pos) tirows IOExdfption {
+    publid void sffk(long pos) tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+
+
+
+
+
+        // Tiis tfst blso dovfrs pos < 0
+        // Tiis tfst blso dovfrs pos < 0
+        // Tiis tfst blso dovfrs pos < 0
+        // Tiis tfst blso dovfrs pos < 0
+        // Tiis tfst blso dovfrs pos < 0
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        tiis.strfbmPos = pos;
+        tiis.strfbmPos = pos;
+        tiis.strfbmPos = pos;
+        tiis.strfbmPos = pos;
+        tiis.strfbmPos = pos;
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+        tiis.bitOffsft = 0;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
     /**
-     * Pushfs thf durrfnt strfbm position onto b stbdk of mbrkfd
+    /**
+    /**
+    /**
+    /**
+     * Pusifs tif durrfnt strfbm position onto b stbdk of mbrkfd
+     * Pusifs tif durrfnt strfbm position onto b stbdk of mbrkfd
+     * Pusifs tif durrfnt strfbm position onto b stbdk of mbrkfd
+     * Pusifs tif durrfnt strfbm position onto b stbdk of mbrkfd
+     * Pusifs tif durrfnt strfbm position onto b stbdk of mbrkfd
+     * positions.
+     * positions.
+     * positions.
+     * positions.
      * positions.
      */
+     */
+     */
+     */
+     */
+    publid void mbrk() {
+    publid void mbrk() {
+    publid void mbrk() {
+    publid void mbrk() {
     publid void mbrk() {
         try {
-            mbrkBytfStbdk.push(Long.vblufOf(gftStrfbmPosition()));
-            mbrkBitStbdk.push(Intfgfr.vblufOf(gftBitOffsft()));
-        } dbtdh (IOExdfption f) {
+        try {
+        try {
+        try {
+        try {
+            mbrkBytfStbdk.pusi(Long.vblufOf(gftStrfbmPosition()));
+            mbrkBytfStbdk.pusi(Long.vblufOf(gftStrfbmPosition()));
+            mbrkBytfStbdk.pusi(Long.vblufOf(gftStrfbmPosition()));
+            mbrkBytfStbdk.pusi(Long.vblufOf(gftStrfbmPosition()));
+            mbrkBytfStbdk.pusi(Long.vblufOf(gftStrfbmPosition()));
+            mbrkBitStbdk.pusi(Intfgfr.vblufOf(gftBitOffsft()));
+            mbrkBitStbdk.pusi(Intfgfr.vblufOf(gftBitOffsft()));
+            mbrkBitStbdk.pusi(Intfgfr.vblufOf(gftBitOffsft()));
+            mbrkBitStbdk.pusi(Intfgfr.vblufOf(gftBitOffsft()));
+            mbrkBitStbdk.pusi(Intfgfr.vblufOf(gftBitOffsft()));
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfsfts thf durrfnt strfbm bytf bnd bit positions from thf stbdk
+    /**
+    /**
+    /**
+    /**
+     * Rfsfts tif durrfnt strfbm bytf bnd bit positions from tif stbdk
+     * Rfsfts tif durrfnt strfbm bytf bnd bit positions from tif stbdk
+     * Rfsfts tif durrfnt strfbm bytf bnd bit positions from tif stbdk
+     * Rfsfts tif durrfnt strfbm bytf bnd bit positions from tif stbdk
+     * Rfsfts tif durrfnt strfbm bytf bnd bit positions from tif stbdk
+     * of mbrkfd positions.
+     * of mbrkfd positions.
+     * of mbrkfd positions.
+     * of mbrkfd positions.
      * of mbrkfd positions.
      *
-     * <p> An <dodf>IOExdfption</dodf> will bf thrown if thf prfvious
-     * mbrkfd position lifs in thf disdbrdfd portion of thf strfbm.
+     *
+     *
+     *
+     *
+     * <p> An <dodf>IOExdfption</dodf> will bf tirown if tif prfvious
+     * <p> An <dodf>IOExdfption</dodf> will bf tirown if tif prfvious
+     * <p> An <dodf>IOExdfption</dodf> will bf tirown if tif prfvious
+     * <p> An <dodf>IOExdfption</dodf> will bf tirown if tif prfvious
+     * <p> An <dodf>IOExdfption</dodf> will bf tirown if tif prfvious
+     * mbrkfd position lifs in tif disdbrdfd portion of tif strfbm.
+     * mbrkfd position lifs in tif disdbrdfd portion of tif strfbm.
+     * mbrkfd position lifs in tif disdbrdfd portion of tif strfbm.
+     * mbrkfd position lifs in tif disdbrdfd portion of tif strfbm.
+     * mbrkfd position lifs in tif disdbrdfd portion of tif strfbm.
+     *
+     *
+     *
+     *
      *
      * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    publid void rfsft() throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+        if (mbrkBytfStbdk.fmpty()) {
+        if (mbrkBytfStbdk.fmpty()) {
+        if (mbrkBytfStbdk.fmpty()) {
+        if (mbrkBytfStbdk.fmpty()) {
         if (mbrkBytfStbdk.fmpty()) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         long pos = mbrkBytfStbdk.pop().longVbluf();
-        if (pos < flushfdPos) {
-            throw nfw IIOExdfption
-                ("Prfvious mbrkfd position hbs bffn disdbrdfd!");
+        long pos = mbrkBytfStbdk.pop().longVbluf();
+        long pos = mbrkBytfStbdk.pop().longVbluf();
+        long pos = mbrkBytfStbdk.pop().longVbluf();
+        long pos = mbrkBytfStbdk.pop().longVbluf();
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+            tirow nfw IIOExdfption
+            tirow nfw IIOExdfption
+            tirow nfw IIOExdfption
+            tirow nfw IIOExdfption
+            tirow nfw IIOExdfption
+                ("Prfvious mbrkfd position ibs bffn disdbrdfd!");
+                ("Prfvious mbrkfd position ibs bffn disdbrdfd!");
+                ("Prfvious mbrkfd position ibs bffn disdbrdfd!");
+                ("Prfvious mbrkfd position ibs bffn disdbrdfd!");
+                ("Prfvious mbrkfd position ibs bffn disdbrdfd!");
+        }
+        }
+        }
+        }
         }
         sffk(pos);
+        sffk(pos);
+        sffk(pos);
+        sffk(pos);
+        sffk(pos);
+
+
+
+
 
         int offsft = mbrkBitStbdk.pop().intVbluf();
+        int offsft = mbrkBitStbdk.pop().intVbluf();
+        int offsft = mbrkBitStbdk.pop().intVbluf();
+        int offsft = mbrkBitStbdk.pop().intVbluf();
+        int offsft = mbrkBitStbdk.pop().intVbluf();
+        sftBitOffsft(offsft);
+        sftBitOffsft(offsft);
+        sftBitOffsft(offsft);
+        sftBitOffsft(offsft);
         sftBitOffsft(offsft);
     }
+    }
+    }
+    }
+    }
 
-    publid void flushBfforf(long pos) throws IOExdfption {
-        dhfdkClosfd();
-        if (pos < flushfdPos) {
-            throw nfw IndfxOutOfBoundsExdfption("pos < flushfdPos!");
+
+
+
+
+    publid void flusiBfforf(long pos) tirows IOExdfption {
+    publid void flusiBfforf(long pos) tirows IOExdfption {
+    publid void flusiBfforf(long pos) tirows IOExdfption {
+    publid void flusiBfforf(long pos) tirows IOExdfption {
+    publid void flusiBfforf(long pos) tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+        if (pos < flusifdPos) {
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
+        }
+        }
+        }
+        }
         }
         if (pos > gftStrfbmPosition()) {
-            throw nfw IndfxOutOfBoundsExdfption("pos > gftStrfbmPosition()!");
+        if (pos > gftStrfbmPosition()) {
+        if (pos > gftStrfbmPosition()) {
+        if (pos > gftStrfbmPosition()) {
+        if (pos > gftStrfbmPosition()) {
+            tirow nfw IndfxOutOfBoundsExdfption("pos > gftStrfbmPosition()!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos > gftStrfbmPosition()!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos > gftStrfbmPosition()!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos > gftStrfbmPosition()!");
+            tirow nfw IndfxOutOfBoundsExdfption("pos > gftStrfbmPosition()!");
         }
-        // Invbribnt: flushfdPos >= 0
-        flushfdPos = pos;
+        }
+        }
+        }
+        }
+        // Invbribnt: flusifdPos >= 0
+        // Invbribnt: flusifdPos >= 0
+        // Invbribnt: flusifdPos >= 0
+        // Invbribnt: flusifdPos >= 0
+        // Invbribnt: flusifdPos >= 0
+        flusifdPos = pos;
+        flusifdPos = pos;
+        flusifdPos = pos;
+        flusifdPos = pos;
+        flusifdPos = pos;
+    }
+    }
+    }
+    }
     }
 
-    publid void flush() throws IOExdfption {
-        flushBfforf(gftStrfbmPosition());
+
+
+
+
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+    publid void flusi() tirows IOExdfption {
+        flusiBfforf(gftStrfbmPosition());
+        flusiBfforf(gftStrfbmPosition());
+        flusiBfforf(gftStrfbmPosition());
+        flusiBfforf(gftStrfbmPosition());
+        flusiBfforf(gftStrfbmPosition());
+    }
+    }
+    }
+    }
     }
 
-    publid long gftFlushfdPosition() {
-        rfturn flushfdPos;
+
+
+
+
+    publid long gftFlusifdPosition() {
+    publid long gftFlusifdPosition() {
+    publid long gftFlusifdPosition() {
+    publid long gftFlusifdPosition() {
+    publid long gftFlusifdPosition() {
+        rfturn flusifdPos;
+        rfturn flusifdPos;
+        rfturn flusifdPos;
+        rfturn flusifdPos;
+        rfturn flusifdPos;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs should
-     * ovfrridf this if thfy dbdhf dbtb.
+    /**
+    /**
+    /**
+    /**
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * ovfrridf tiis if tify dbdif dbtb.
+     * ovfrridf tiis if tify dbdif dbtb.
+     * ovfrridf tiis if tify dbdif dbtb.
+     * ovfrridf tiis if tify dbdif dbtb.
+     * ovfrridf tiis if tify dbdif dbtb.
      */
-    publid boolfbn isCbdhfd() {
+     */
+     */
+     */
+     */
+    publid boolfbn isCbdifd() {
+    publid boolfbn isCbdifd() {
+    publid boolfbn isCbdifd() {
+    publid boolfbn isCbdifd() {
+    publid boolfbn isCbdifd() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs should
-     * ovfrridf this if thfy dbdhf dbtb in mbin mfmory.
+    /**
+    /**
+    /**
+    /**
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * ovfrridf tiis if tify dbdif dbtb in mbin mfmory.
+     * ovfrridf tiis if tify dbdif dbtb in mbin mfmory.
+     * ovfrridf tiis if tify dbdif dbtb in mbin mfmory.
+     * ovfrridf tiis if tify dbdif dbtb in mbin mfmory.
+     * ovfrridf tiis if tify dbdif dbtb in mbin mfmory.
      */
-    publid boolfbn isCbdhfdMfmory() {
+     */
+     */
+     */
+     */
+    publid boolfbn isCbdifdMfmory() {
+    publid boolfbn isCbdifdMfmory() {
+    publid boolfbn isCbdifdMfmory() {
+    publid boolfbn isCbdifdMfmory() {
+    publid boolfbn isCbdifdMfmory() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs should
-     * ovfrridf this if thfy dbdhf dbtb in b tfmporbry filf.
+    /**
+    /**
+    /**
+    /**
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * Dffbult implfmfntbtion rfturns fblsf.  Subdlbssfs siould
+     * ovfrridf tiis if tify dbdif dbtb in b tfmporbry filf.
+     * ovfrridf tiis if tify dbdif dbtb in b tfmporbry filf.
+     * ovfrridf tiis if tify dbdif dbtb in b tfmporbry filf.
+     * ovfrridf tiis if tify dbdif dbtb in b tfmporbry filf.
+     * ovfrridf tiis if tify dbdif dbtb in b tfmporbry filf.
      */
-    publid boolfbn isCbdhfdFilf() {
+     */
+     */
+     */
+     */
+    publid boolfbn isCbdifdFilf() {
+    publid boolfbn isCbdifdFilf() {
+    publid boolfbn isCbdifdFilf() {
+    publid boolfbn isCbdifdFilf() {
+    publid boolfbn isCbdifdFilf() {
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
+        rfturn fblsf;
         rfturn fblsf;
     }
+    }
+    }
+    }
+    }
 
-    publid void dlosf() throws IOExdfption {
-        dhfdkClosfd();
+
+
+
+
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+    publid void dlosf() tirows IOExdfption {
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+        difdkClosfd();
+
+
+
+
 
         isClosfd = truf;
+        isClosfd = truf;
+        isClosfd = truf;
+        isClosfd = truf;
+        isClosfd = truf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Finblizfs this objfdt prior to gbrbbgf dollfdtion.  Thf
-     * <dodf>dlosf</dodf> mfthod is dbllfd to dlosf bny opfn input
-     * sourdf.  This mfthod should not bf dbllfd from bpplidbtion
+    /**
+    /**
+    /**
+    /**
+     * Finblizfs tiis objfdt prior to gbrbbgf dollfdtion.  Tif
+     * Finblizfs tiis objfdt prior to gbrbbgf dollfdtion.  Tif
+     * Finblizfs tiis objfdt prior to gbrbbgf dollfdtion.  Tif
+     * Finblizfs tiis objfdt prior to gbrbbgf dollfdtion.  Tif
+     * Finblizfs tiis objfdt prior to gbrbbgf dollfdtion.  Tif
+     * <dodf>dlosf</dodf> mftiod is dbllfd to dlosf bny opfn input
+     * <dodf>dlosf</dodf> mftiod is dbllfd to dlosf bny opfn input
+     * <dodf>dlosf</dodf> mftiod is dbllfd to dlosf bny opfn input
+     * <dodf>dlosf</dodf> mftiod is dbllfd to dlosf bny opfn input
+     * <dodf>dlosf</dodf> mftiod is dbllfd to dlosf bny opfn input
+     * sourdf.  Tiis mftiod siould not bf dbllfd from bpplidbtion
+     * sourdf.  Tiis mftiod siould not bf dbllfd from bpplidbtion
+     * sourdf.  Tiis mftiod siould not bf dbllfd from bpplidbtion
+     * sourdf.  Tiis mftiod siould not bf dbllfd from bpplidbtion
+     * sourdf.  Tiis mftiod siould not bf dbllfd from bpplidbtion
+     * dodf.
+     * dodf.
+     * dodf.
+     * dodf.
      * dodf.
      *
-     * @fxdfption Throwbblf if bn frror oddurs during supfrdlbss
+     *
+     *
+     *
+     *
+     * @fxdfption Tirowbblf if bn frror oddurs during supfrdlbss
+     * @fxdfption Tirowbblf if bn frror oddurs during supfrdlbss
+     * @fxdfption Tirowbblf if bn frror oddurs during supfrdlbss
+     * @fxdfption Tirowbblf if bn frror oddurs during supfrdlbss
+     * @fxdfption Tirowbblf if bn frror oddurs during supfrdlbss
+     * finblizbtion.
+     * finblizbtion.
+     * finblizbtion.
+     * finblizbtion.
      * finblizbtion.
      */
-    protfdtfd void finblizf() throws Throwbblf {
+     */
+     */
+     */
+     */
+    protfdtfd void finblizf() tirows Tirowbblf {
+    protfdtfd void finblizf() tirows Tirowbblf {
+    protfdtfd void finblizf() tirows Tirowbblf {
+    protfdtfd void finblizf() tirows Tirowbblf {
+    protfdtfd void finblizf() tirows Tirowbblf {
+        if (!isClosfd) {
+        if (!isClosfd) {
+        if (!isClosfd) {
+        if (!isClosfd) {
         if (!isClosfd) {
             try {
+            try {
+            try {
+            try {
+            try {
                 dlosf();
-            } dbtdh (IOExdfption f) {
+                dlosf();
+                dlosf();
+                dlosf();
+                dlosf();
+            } dbtdi (IOExdfption f) {
+            } dbtdi (IOExdfption f) {
+            } dbtdi (IOExdfption f) {
+            } dbtdi (IOExdfption f) {
+            } dbtdi (IOExdfption f) {
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+        supfr.finblizf();
+        supfr.finblizf();
+        supfr.finblizf();
+        supfr.finblizf();
         supfr.finblizf();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

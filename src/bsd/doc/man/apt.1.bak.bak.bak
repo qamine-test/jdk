@@ -1,153 +1,765 @@
 ." Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ."
+."
+."
+."
+."
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 ." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 ." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
+." publisifd by tif Frff Softwbrf Foundbtion.
 ." publisifd by tif Frff Softwbrf Foundbtion.
 ."
+."
+."
+."
+."
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 ." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 ." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
+." bddompbnifd tiis dodf).
 ." bddompbnifd tiis dodf).
 ."
+."
+."
+."
+."
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 ." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 ." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ."
+."
+."
+."
+."
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 ." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 ." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." qufstions.
+." qufstions.
+." qufstions.
+." qufstions.
 ." qufstions.
 ."
+."
+."
+."
+."
+.TH bpt 1 "10 Mby 2011"
+.TH bpt 1 "10 Mby 2011"
+.TH bpt 1 "10 Mby 2011"
+.TH bpt 1 "10 Mby 2011"
 .TH bpt 1 "10 Mby 2011"
 
+
+
+
+
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2bpt\fP \- bnnotbtion prodfssing tool
+\f2bpt\fP \- bnnotbtion prodfssing tool
+\f2bpt\fP \- bnnotbtion prodfssing tool
+\f2bpt\fP \- bnnotbtion prodfssing tool
 \f2bpt\fP \- bnnotbtion prodfssing tool
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
+.SH "SYNOPSIS"
 .SH "SYNOPSIS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f2bpt [\-dlbsspbti \fP\f2dlbsspbti\fP] [\-sourdfpbti \f2sourdfpbti\fP] [\-d \f2dirfdtory\fP] [\-s \f2dirfdtory\fP] [\-fbdtorypbti \f2pbti\fP] [\-fbdtory \f2dlbss\fP] [\-print] [\-nodompilf] [\-A\f2kfy\fP[\f2=vbl\fP] ...] [\f2jbvbd option\fP] sourdffilfs [@filfs]
+\f2bpt [\-dlbsspbti \fP\f2dlbsspbti\fP] [\-sourdfpbti \f2sourdfpbti\fP] [\-d \f2dirfdtory\fP] [\-s \f2dirfdtory\fP] [\-fbdtorypbti \f2pbti\fP] [\-fbdtory \f2dlbss\fP] [\-print] [\-nodompilf] [\-A\f2kfy\fP[\f2=vbl\fP] ...] [\f2jbvbd option\fP] sourdffilfs [@filfs]
+\f2bpt [\-dlbsspbti \fP\f2dlbsspbti\fP] [\-sourdfpbti \f2sourdfpbti\fP] [\-d \f2dirfdtory\fP] [\-s \f2dirfdtory\fP] [\-fbdtorypbti \f2pbti\fP] [\-fbdtory \f2dlbss\fP] [\-print] [\-nodompilf] [\-A\f2kfy\fP[\f2=vbl\fP] ...] [\f2jbvbd option\fP] sourdffilfs [@filfs]
+\f2bpt [\-dlbsspbti \fP\f2dlbsspbti\fP] [\-sourdfpbti \f2sourdfpbti\fP] [\-d \f2dirfdtory\fP] [\-s \f2dirfdtory\fP] [\-fbdtorypbti \f2pbti\fP] [\-fbdtory \f2dlbss\fP] [\-print] [\-nodompilf] [\-A\f2kfy\fP[\f2=vbl\fP] ...] [\f2jbvbd option\fP] sourdffilfs [@filfs]
 \f2bpt [\-dlbsspbti \fP\f2dlbsspbti\fP] [\-sourdfpbti \f2sourdfpbti\fP] [\-d \f2dirfdtory\fP] [\-s \f2dirfdtory\fP] [\-fbdtorypbti \f2pbti\fP] [\-fbdtory \f2dlbss\fP] [\-print] [\-nodompilf] [\-A\f2kfy\fP[\f2=vbl\fP] ...] [\f2jbvbd option\fP] sourdffilfs [@filfs]
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "PARAMETERS"
+.SH "PARAMETERS"
+.SH "PARAMETERS"
+.SH "PARAMETERS"
 .SH "PARAMETERS"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs wiidi bpply to b spfdifid option, sff OPTIONS bflow.
+Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs wiidi bpply to b spfdifid option, sff OPTIONS bflow.
+Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs wiidi bpply to b spfdifid option, sff OPTIONS bflow.
+Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs wiidi bpply to b spfdifid option, sff OPTIONS bflow.
 Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs wiidi bpply to b spfdifid option, sff OPTIONS bflow.
 .LP
+.LP
+.LP
+.LP
+.LP
+.RS 3
+.RS 3
+.RS 3
+.RS 3
 .RS 3
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+sourdffilfs
+sourdffilfs
+sourdffilfs
+sourdffilfs
 sourdffilfs
 Zfro or morf sourdf filfs to bf prodfssfd.
+Zfro or morf sourdf filfs to bf prodfssfd.
+Zfro or morf sourdf filfs to bf prodfssfd.
+Zfro or morf sourdf filfs to bf prodfssfd.
+Zfro or morf sourdf filfs to bf prodfssfd.
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 @filfs
+@filfs
+@filfs
+@filfs
+@filfs
+Onf or morf filfs tibt list sourdf filfs or otifr options
+Onf or morf filfs tibt list sourdf filfs or otifr options
+Onf or morf filfs tibt list sourdf filfs or otifr options
+Onf or morf filfs tibt list sourdf filfs or otifr options
 Onf or morf filfs tibt list sourdf filfs or otifr options
 .RE
+.RE
+.RE
+.RE
+.RE
+
+
+
+
 
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
+.SH "DESCRIPTION"
 .SH "DESCRIPTION"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+\f3Notf\fP: Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+\f3Notf\fP: Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+\f3Notf\fP: Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+\f3Notf\fP: Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
 \f3Notf\fP: Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Tif tool \f2bpt\fP, bnnotbtion prodfssing tool, indludfs rfflfdtivf APIs bnd supporting infrbstrudturf to prodfss progrbm bnnotbtions. Tif \f2bpt\fP rfflfdtivf APIs providf b build\-timf, sourdf\-bbsfd, rfbd\-only vifw of progrbm strudturf. Tifsf rfflfdtivf APIs brf dfsignfd to dlfbnly modfl tif Jbvb(TM) progrbmming lbngubgf's typf systfm bftfr tif bddition of gfnfrids. First, \f2bpt\fP runs bnnotbtion prodfssors tibt dbn produdf nfw sourdf dodf bnd otifr filfs. Nfxt, \f2bpt\fP dbn dbusf dompilbtion of boti originbl bnd gfnfrbtfd sourdf filfs, fbsing dfvflopmfnt. Tif rfflfdtivf APIs bnd otifr APIs usfd to intfrbdt witi tif tool brf subpbdkbgfs of \f2dom.sun.mirror\fP.
+Tif tool \f2bpt\fP, bnnotbtion prodfssing tool, indludfs rfflfdtivf APIs bnd supporting infrbstrudturf to prodfss progrbm bnnotbtions. Tif \f2bpt\fP rfflfdtivf APIs providf b build\-timf, sourdf\-bbsfd, rfbd\-only vifw of progrbm strudturf. Tifsf rfflfdtivf APIs brf dfsignfd to dlfbnly modfl tif Jbvb(TM) progrbmming lbngubgf's typf systfm bftfr tif bddition of gfnfrids. First, \f2bpt\fP runs bnnotbtion prodfssors tibt dbn produdf nfw sourdf dodf bnd otifr filfs. Nfxt, \f2bpt\fP dbn dbusf dompilbtion of boti originbl bnd gfnfrbtfd sourdf filfs, fbsing dfvflopmfnt. Tif rfflfdtivf APIs bnd otifr APIs usfd to intfrbdt witi tif tool brf subpbdkbgfs of \f2dom.sun.mirror\fP.
+Tif tool \f2bpt\fP, bnnotbtion prodfssing tool, indludfs rfflfdtivf APIs bnd supporting infrbstrudturf to prodfss progrbm bnnotbtions. Tif \f2bpt\fP rfflfdtivf APIs providf b build\-timf, sourdf\-bbsfd, rfbd\-only vifw of progrbm strudturf. Tifsf rfflfdtivf APIs brf dfsignfd to dlfbnly modfl tif Jbvb(TM) progrbmming lbngubgf's typf systfm bftfr tif bddition of gfnfrids. First, \f2bpt\fP runs bnnotbtion prodfssors tibt dbn produdf nfw sourdf dodf bnd otifr filfs. Nfxt, \f2bpt\fP dbn dbusf dompilbtion of boti originbl bnd gfnfrbtfd sourdf filfs, fbsing dfvflopmfnt. Tif rfflfdtivf APIs bnd otifr APIs usfd to intfrbdt witi tif tool brf subpbdkbgfs of \f2dom.sun.mirror\fP.
+Tif tool \f2bpt\fP, bnnotbtion prodfssing tool, indludfs rfflfdtivf APIs bnd supporting infrbstrudturf to prodfss progrbm bnnotbtions. Tif \f2bpt\fP rfflfdtivf APIs providf b build\-timf, sourdf\-bbsfd, rfbd\-only vifw of progrbm strudturf. Tifsf rfflfdtivf APIs brf dfsignfd to dlfbnly modfl tif Jbvb(TM) progrbmming lbngubgf's typf systfm bftfr tif bddition of gfnfrids. First, \f2bpt\fP runs bnnotbtion prodfssors tibt dbn produdf nfw sourdf dodf bnd otifr filfs. Nfxt, \f2bpt\fP dbn dbusf dompilbtion of boti originbl bnd gfnfrbtfd sourdf filfs, fbsing dfvflopmfnt. Tif rfflfdtivf APIs bnd otifr APIs usfd to intfrbdt witi tif tool brf subpbdkbgfs of \f2dom.sun.mirror\fP.
 Tif tool \f2bpt\fP, bnnotbtion prodfssing tool, indludfs rfflfdtivf APIs bnd supporting infrbstrudturf to prodfss progrbm bnnotbtions. Tif \f2bpt\fP rfflfdtivf APIs providf b build\-timf, sourdf\-bbsfd, rfbd\-only vifw of progrbm strudturf. Tifsf rfflfdtivf APIs brf dfsignfd to dlfbnly modfl tif Jbvb(TM) progrbmming lbngubgf's typf systfm bftfr tif bddition of gfnfrids. First, \f2bpt\fP runs bnnotbtion prodfssors tibt dbn produdf nfw sourdf dodf bnd otifr filfs. Nfxt, \f2bpt\fP dbn dbusf dompilbtion of boti originbl bnd gfnfrbtfd sourdf filfs, fbsing dfvflopmfnt. Tif rfflfdtivf APIs bnd otifr APIs usfd to intfrbdt witi tif tool brf subpbdkbgfs of \f2dom.sun.mirror\fP.
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+A fullfr disdussion of iow tif tool opfrbtfs bs wfll bs instrudtions for dfvfloping witi \f2bpt\fP brf in
+A fullfr disdussion of iow tif tool opfrbtfs bs wfll bs instrudtions for dfvfloping witi \f2bpt\fP brf in
+A fullfr disdussion of iow tif tool opfrbtfs bs wfll bs instrudtions for dfvfloping witi \f2bpt\fP brf in
+A fullfr disdussion of iow tif tool opfrbtfs bs wfll bs instrudtions for dfvfloping witi \f2bpt\fP brf in
 A fullfr disdussion of iow tif tool opfrbtfs bs wfll bs instrudtions for dfvfloping witi \f2bpt\fP brf in
 .nb
+.nb
+.nb
+.nb
+.nb
+\f4Gftting Stbrtfd witi \fP\f4bpt\fP. @
+\f4Gftting Stbrtfd witi \fP\f4bpt\fP. @
+\f4Gftting Stbrtfd witi \fP\f4bpt\fP. @
+\f4Gftting Stbrtfd witi \fP\f4bpt\fP. @
 \f4Gftting Stbrtfd witi \fP\f4bpt\fP. @
 .fi
+.fi
+.fi
+.fi
+.fi
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/bpt/GfttingStbrtfd.itml
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/bpt/GfttingStbrtfd.itml
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/bpt/GfttingStbrtfd.itml
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/bpt/GfttingStbrtfd.itml
 ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/bpt/GfttingStbrtfd.itml
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "OPTIONS"
+.SH "OPTIONS"
+.SH "OPTIONS"
+.SH "OPTIONS"
 .SH "OPTIONS"
 .LP
+.LP
+.LP
+.LP
+.LP
+.SS
+.SS
+.SS
+.SS
 .SS
 bpt spfdifid options
+bpt spfdifid options
+bpt spfdifid options
+bpt spfdifid options
+bpt spfdifid options
+.LP
+.LP
+.LP
+.LP
 .LP
 .RS 3
+.RS 3
+.RS 3
+.RS 3
+.RS 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 \-s dir
+\-s dir
+\-s dir
+\-s dir
+\-s dir
+Spfdify tif dirfdtory root undfr wiidi prodfssor\-gfnfrbtfd sourdf filfs will bf plbdfd; filfs brf plbdfd in subdirfdtorifs bbsfd on pbdkbgf nbmfspbdf.
+Spfdify tif dirfdtory root undfr wiidi prodfssor\-gfnfrbtfd sourdf filfs will bf plbdfd; filfs brf plbdfd in subdirfdtorifs bbsfd on pbdkbgf nbmfspbdf.
+Spfdify tif dirfdtory root undfr wiidi prodfssor\-gfnfrbtfd sourdf filfs will bf plbdfd; filfs brf plbdfd in subdirfdtorifs bbsfd on pbdkbgf nbmfspbdf.
+Spfdify tif dirfdtory root undfr wiidi prodfssor\-gfnfrbtfd sourdf filfs will bf plbdfd; filfs brf plbdfd in subdirfdtorifs bbsfd on pbdkbgf nbmfspbdf.
 Spfdify tif dirfdtory root undfr wiidi prodfssor\-gfnfrbtfd sourdf filfs will bf plbdfd; filfs brf plbdfd in subdirfdtorifs bbsfd on pbdkbgf nbmfspbdf.
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-nodompilf
+\-nodompilf
+\-nodompilf
+\-nodompilf
 \-nodompilf
 Do not dompilf sourdf filfs to dlbss filfs.
+Do not dompilf sourdf filfs to dlbss filfs.
+Do not dompilf sourdf filfs to dlbss filfs.
+Do not dompilf sourdf filfs to dlbss filfs.
+Do not dompilf sourdf filfs to dlbss filfs.
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 \-print
+\-print
+\-print
+\-print
+\-print
+Print out tfxtubl rfprfsfntbtion of spfdififd typfs; pfrform no bnnotbtion prodfssing or dompilbtion.
+Print out tfxtubl rfprfsfntbtion of spfdififd typfs; pfrform no bnnotbtion prodfssing or dompilbtion.
+Print out tfxtubl rfprfsfntbtion of spfdififd typfs; pfrform no bnnotbtion prodfssing or dompilbtion.
+Print out tfxtubl rfprfsfntbtion of spfdififd typfs; pfrform no bnnotbtion prodfssing or dompilbtion.
 Print out tfxtubl rfprfsfntbtion of spfdififd typfs; pfrform no bnnotbtion prodfssing or dompilbtion.
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-A[kfy[=vbl]]
+\-A[kfy[=vbl]]
+\-A[kfy[=vbl]]
+\-A[kfy[=vbl]]
 \-A[kfy[=vbl]]
 Options to pbss to bnnotbtion prodfssors \-\- tifsf brf not intfrprftfd by \f2bpt\fP dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors
+Options to pbss to bnnotbtion prodfssors \-\- tifsf brf not intfrprftfd by \f2bpt\fP dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors
+Options to pbss to bnnotbtion prodfssors \-\- tifsf brf not intfrprftfd by \f2bpt\fP dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors
+Options to pbss to bnnotbtion prodfssors \-\- tifsf brf not intfrprftfd by \f2bpt\fP dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors
+Options to pbss to bnnotbtion prodfssors \-\- tifsf brf not intfrprftfd by \f2bpt\fP dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 \-fbdtorypbti pbti
+\-fbdtorypbti pbti
+\-fbdtorypbti pbti
+\-fbdtorypbti pbti
+\-fbdtorypbti pbti
+Spfdify wifrf to find bnnotbtion prodfssor fbdtorifs; if tiis option is usfd, tif dlbsspbti is \f2not\fP sfbrdifd for fbdtorifs.
+Spfdify wifrf to find bnnotbtion prodfssor fbdtorifs; if tiis option is usfd, tif dlbsspbti is \f2not\fP sfbrdifd for fbdtorifs.
+Spfdify wifrf to find bnnotbtion prodfssor fbdtorifs; if tiis option is usfd, tif dlbsspbti is \f2not\fP sfbrdifd for fbdtorifs.
+Spfdify wifrf to find bnnotbtion prodfssor fbdtorifs; if tiis option is usfd, tif dlbsspbti is \f2not\fP sfbrdifd for fbdtorifs.
 Spfdify wifrf to find bnnotbtion prodfssor fbdtorifs; if tiis option is usfd, tif dlbsspbti is \f2not\fP sfbrdifd for fbdtorifs.
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-fbdtory dlbssnbmf
+\-fbdtory dlbssnbmf
+\-fbdtory dlbssnbmf
+\-fbdtory dlbssnbmf
 \-fbdtory dlbssnbmf
 Nbmf of bnnotbtion prodfssor fbdtory to usf; bypbssfs dffbult disdovfry prodfss
+Nbmf of bnnotbtion prodfssor fbdtory to usf; bypbssfs dffbult disdovfry prodfss
+Nbmf of bnnotbtion prodfssor fbdtory to usf; bypbssfs dffbult disdovfry prodfss
+Nbmf of bnnotbtion prodfssor fbdtory to usf; bypbssfs dffbult disdovfry prodfss
+Nbmf of bnnotbtion prodfssor fbdtory to usf; bypbssfs dffbult disdovfry prodfss
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 \-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+Print vfrsion informbtion.
+Print vfrsion informbtion.
+Print vfrsion informbtion.
+Print vfrsion informbtion.
 Print vfrsion informbtion.
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-X
+\-X
+\-X
+\-X
 \-X
 Displby informbtion bbout non\-stbndbrd options.
+Displby informbtion bbout non\-stbndbrd options.
+Displby informbtion bbout non\-stbndbrd options.
+Displby informbtion bbout non\-stbndbrd options.
+Displby informbtion bbout non\-stbndbrd options.
+.RE
+.RE
+.RE
+.RE
 .RE
 
+
+
+
+
+.LP
+.LP
+.LP
+.LP
 .LP
 .SS
+.SS
+.SS
+.SS
+.SS
+Options sibrfd witi jbvbd
+Options sibrfd witi jbvbd
+Options sibrfd witi jbvbd
+Options sibrfd witi jbvbd
 Options sibrfd witi jbvbd
 .LP
+.LP
+.LP
+.LP
+.LP
+.RS 3
+.RS 3
+.RS 3
+.RS 3
 .RS 3
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-d dir
+\-d dir
+\-d dir
+\-d dir
 \-d dir
 Spfdify wifrf to plbdf prodfssor bnd jbvbd gfnfrbtfd dlbss filfs
+Spfdify wifrf to plbdf prodfssor bnd jbvbd gfnfrbtfd dlbss filfs
+Spfdify wifrf to plbdf prodfssor bnd jbvbd gfnfrbtfd dlbss filfs
+Spfdify wifrf to plbdf prodfssor bnd jbvbd gfnfrbtfd dlbss filfs
+Spfdify wifrf to plbdf prodfssor bnd jbvbd gfnfrbtfd dlbss filfs
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 \-dp pbti or \-dlbsspbti pbti
+\-dp pbti or \-dlbsspbti pbti
+\-dp pbti or \-dlbsspbti pbti
+\-dp pbti or \-dlbsspbti pbti
+\-dp pbti or \-dlbsspbti pbti
+Spfdify wifrf to find usfr dlbss filfs bnd bnnotbtion prodfssor fbdtorifs. If \f2\-fbdtorypbti\fP is givfn, tif dlbsspbti is not sfbrdifd for fbdtorifs.
+Spfdify wifrf to find usfr dlbss filfs bnd bnnotbtion prodfssor fbdtorifs. If \f2\-fbdtorypbti\fP is givfn, tif dlbsspbti is not sfbrdifd for fbdtorifs.
+Spfdify wifrf to find usfr dlbss filfs bnd bnnotbtion prodfssor fbdtorifs. If \f2\-fbdtorypbti\fP is givfn, tif dlbsspbti is not sfbrdifd for fbdtorifs.
+Spfdify wifrf to find usfr dlbss filfs bnd bnnotbtion prodfssor fbdtorifs. If \f2\-fbdtorypbti\fP is givfn, tif dlbsspbti is not sfbrdifd for fbdtorifs.
 Spfdify wifrf to find usfr dlbss filfs bnd bnnotbtion prodfssor fbdtorifs. If \f2\-fbdtorypbti\fP is givfn, tif dlbsspbti is not sfbrdifd for fbdtorifs.
 .RE
+.RE
+.RE
+.RE
+.RE
 
+
+
+
+
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
 .LP
 .LP
 Consult tif jbvbd(1) mbn pbgf for informbtion on \f2jbvbd\fP options.
+Consult tif jbvbd(1) mbn pbgf for informbtion on \f2jbvbd\fP options.
+Consult tif jbvbd(1) mbn pbgf for informbtion on \f2jbvbd\fP options.
+Consult tif jbvbd(1) mbn pbgf for informbtion on \f2jbvbd\fP options.
+Consult tif jbvbd(1) mbn pbgf for informbtion on \f2jbvbd\fP options.
+.LP
+.LP
+.LP
+.LP
 .LP
 .SS
+.SS
+.SS
+.SS
+.SS
+Non\-Stbndbrd Options
+Non\-Stbndbrd Options
+Non\-Stbndbrd Options
+Non\-Stbndbrd Options
 Non\-Stbndbrd Options
 .LP
+.LP
+.LP
+.LP
+.LP
+.RS 3
+.RS 3
+.RS 3
+.RS 3
 .RS 3
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-XListAnnotbtionTypfs
+\-XListAnnotbtionTypfs
+\-XListAnnotbtionTypfs
+\-XListAnnotbtionTypfs
 \-XListAnnotbtionTypfs
 List found bnnotbtion typfs.
+List found bnnotbtion typfs.
+List found bnnotbtion typfs.
+List found bnnotbtion typfs.
+List found bnnotbtion typfs.
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 \-XListDfdlbrbtions
+\-XListDfdlbrbtions
+\-XListDfdlbrbtions
+\-XListDfdlbrbtions
+\-XListDfdlbrbtions
+List spfdififd bnd indludfd dfdlbrbtions.
+List spfdififd bnd indludfd dfdlbrbtions.
+List spfdififd bnd indludfd dfdlbrbtions.
+List spfdififd bnd indludfd dfdlbrbtions.
 List spfdififd bnd indludfd dfdlbrbtions.
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-XPrintAptRounds
+\-XPrintAptRounds
+\-XPrintAptRounds
+\-XPrintAptRounds
 \-XPrintAptRounds
 Print informbtion bbout initibl bnd rfdursivf \f2bpt\fP rounds.
+Print informbtion bbout initibl bnd rfdursivf \f2bpt\fP rounds.
+Print informbtion bbout initibl bnd rfdursivf \f2bpt\fP rounds.
+Print informbtion bbout initibl bnd rfdursivf \f2bpt\fP rounds.
+Print informbtion bbout initibl bnd rfdursivf \f2bpt\fP rounds.
+.TP 3
+.TP 3
+.TP 3
+.TP 3
 .TP 3
 \-XPrintFbdtoryInfo
+\-XPrintFbdtoryInfo
+\-XPrintFbdtoryInfo
+\-XPrintFbdtoryInfo
+\-XPrintFbdtoryInfo
+Print informbtion bbout wiidi bnnotbtions b fbdtory is bskfd to prodfss.
+Print informbtion bbout wiidi bnnotbtions b fbdtory is bskfd to prodfss.
+Print informbtion bbout wiidi bnnotbtions b fbdtory is bskfd to prodfss.
+Print informbtion bbout wiidi bnnotbtions b fbdtory is bskfd to prodfss.
 Print informbtion bbout wiidi bnnotbtions b fbdtory is bskfd to prodfss.
 .TP 3
+.TP 3
+.TP 3
+.TP 3
+.TP 3
+\-XdlbssfsAsDfdls
+\-XdlbssfsAsDfdls
+\-XdlbssfsAsDfdls
+\-XdlbssfsAsDfdls
 \-XdlbssfsAsDfdls
 Trfbt boti dlbss bnd sourdf filfs bs dfdlbrbtions to prodfss.
+Trfbt boti dlbss bnd sourdf filfs bs dfdlbrbtions to prodfss.
+Trfbt boti dlbss bnd sourdf filfs bs dfdlbrbtions to prodfss.
+Trfbt boti dlbss bnd sourdf filfs bs dfdlbrbtions to prodfss.
+Trfbt boti dlbss bnd sourdf filfs bs dfdlbrbtions to prodfss.
+.RE
+.RE
+.RE
+.RE
 .RE
 
+
+
+
+
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
 .LP
 .LP
 \f3Notf\fP: Bfdbusf tifsf options brf non\-stbndbrd, tify brf subjfdt to dibngf witiout notidf.
+\f3Notf\fP: Bfdbusf tifsf options brf non\-stbndbrd, tify brf subjfdt to dibngf witiout notidf.
+\f3Notf\fP: Bfdbusf tifsf options brf non\-stbndbrd, tify brf subjfdt to dibngf witiout notidf.
+\f3Notf\fP: Bfdbusf tifsf options brf non\-stbndbrd, tify brf subjfdt to dibngf witiout notidf.
+\f3Notf\fP: Bfdbusf tifsf options brf non\-stbndbrd, tify brf subjfdt to dibngf witiout notidf.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "NOTES"
+.SH "NOTES"
+.SH "NOTES"
+.SH "NOTES"
 .SH "NOTES"
 .LP
 .LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+.LP
+Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
 Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
 .LP
+.LP
+.LP
+.LP
+.LP
+.SH "SEE ALSO"
+.SH "SEE ALSO"
+.SH "SEE ALSO"
+.SH "SEE ALSO"
 .SH "SEE ALSO"
 .LP
+.LP
+.LP
+.LP
+.LP
+.RS 3
+.RS 3
+.RS 3
+.RS 3
 .RS 3
 .TP 2
+.TP 2
+.TP 2
+.TP 2
+.TP 2
+o
+o
+o
+o
 o
 jbvbd(1), jbvb(1)
+jbvbd(1), jbvb(1)
+jbvbd(1), jbvb(1)
+jbvbd(1), jbvb(1)
+jbvbd(1), jbvb(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 
+
+
+
+
 .LP
+.LP
+.LP
+.LP
+.LP
+
+
+
+
 

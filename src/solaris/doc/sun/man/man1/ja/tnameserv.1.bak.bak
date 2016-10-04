@@ -1,425 +1,2125 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: tnbmfsfrv
+.\" Titlf: tnbmfsfrv
+.\" Titlf: tnbmfsfrv
+.\" Titlf: tnbmfsfrv
+.\" Titlf: tnbmfsfrv
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
 .\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "tnbmfsfrv" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "tnbmfsfrv" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "tnbmfsfrv" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "tnbmfsfrv" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "tnbmfsfrv" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 tnbmfsfrv \- インタフェース定義言語(IDL)。
+tnbmfsfrv \- インタフェース定義言語(IDL)。
+tnbmfsfrv \- インタフェース定義言語(IDL)。
+tnbmfsfrv \- インタフェース定義言語(IDL)。
+tnbmfsfrv \- インタフェース定義言語(IDL)。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fItnbmfsfrvf\fR \fI\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+\fItnbmfsfrvf\fR \fI\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+\fItnbmfsfrvf\fR \fI\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+\fItnbmfsfrvf\fR \fI\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+\fItnbmfsfrvf\fR \fI\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \-ORBInitiblPort \fInbmfsfrvfrport\fR
+\-ORBInitiblPort \fInbmfsfrvfrport\fR
+\-ORBInitiblPort \fInbmfsfrvfrport\fR
+\-ORBInitiblPort \fInbmfsfrvfrport\fR
+\-ORBInitiblPort \fInbmfsfrvfrport\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ネーミング・サービスがORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs\fRメソッドの実装に使用するブートストラップ・プロトコルをリスニングする初期ポートです。
+ネーミング・サービスがORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs\fRメソッドの実装に使用するブートストラップ・プロトコルをリスニングする初期ポートです。
+ネーミング・サービスがORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs\fRメソッドの実装に使用するブートストラップ・プロトコルをリスニングする初期ポートです。
+ネーミング・サービスがORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs\fRメソッドの実装に使用するブートストラップ・プロトコルをリスニングする初期ポートです。
+ネーミング・サービスがORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs\fRメソッドの実装に使用するブートストラップ・プロトコルをリスニングする初期ポートです。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 Jbvb IDLには、Objfdt Rfqufst Brokfr Dbfmon (ORBD)が含まれます。ORBDは、ブートストラップ・サービス、一時ネーミング・サービス、永続ネーミング・サービスおよびサーバー・マネージャを含むデーモン・プロセスです。Jbvb IDLのすべてのチュートリアルではORBDを使用していますが、一時ネーミング・サービスを使用する例では、\fIorbd\fRのかわりに\fItnbmfsfrv\fRを使用できます。
+Jbvb IDLには、Objfdt Rfqufst Brokfr Dbfmon (ORBD)が含まれます。ORBDは、ブートストラップ・サービス、一時ネーミング・サービス、永続ネーミング・サービスおよびサーバー・マネージャを含むデーモン・プロセスです。Jbvb IDLのすべてのチュートリアルではORBDを使用していますが、一時ネーミング・サービスを使用する例では、\fIorbd\fRのかわりに\fItnbmfsfrv\fRを使用できます。
+Jbvb IDLには、Objfdt Rfqufst Brokfr Dbfmon (ORBD)が含まれます。ORBDは、ブートストラップ・サービス、一時ネーミング・サービス、永続ネーミング・サービスおよびサーバー・マネージャを含むデーモン・プロセスです。Jbvb IDLのすべてのチュートリアルではORBDを使用していますが、一時ネーミング・サービスを使用する例では、\fIorbd\fRのかわりに\fItnbmfsfrv\fRを使用できます。
+Jbvb IDLには、Objfdt Rfqufst Brokfr Dbfmon (ORBD)が含まれます。ORBDは、ブートストラップ・サービス、一時ネーミング・サービス、永続ネーミング・サービスおよびサーバー・マネージャを含むデーモン・プロセスです。Jbvb IDLのすべてのチュートリアルではORBDを使用していますが、一時ネーミング・サービスを使用する例では、\fIorbd\fRのかわりに\fItnbmfsfrv\fRを使用できます。
+Jbvb IDLには、Objfdt Rfqufst Brokfr Dbfmon (ORBD)が含まれます。ORBDは、ブートストラップ・サービス、一時ネーミング・サービス、永続ネーミング・サービスおよびサーバー・マネージャを含むデーモン・プロセスです。Jbvb IDLのすべてのチュートリアルではORBDを使用していますが、一時ネーミング・サービスを使用する例では、\fIorbd\fRのかわりに\fItnbmfsfrv\fRを使用できます。
+.PP
+.PP
+.PP
+.PP
 .PP
 ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itmlにある
+orbd(1)または「Nbming Sfrvidf」を参照してください。
+orbd(1)または「Nbming Sfrvidf」を参照してください。
+orbd(1)または「Nbming Sfrvidf」を参照してください。
+orbd(1)または「Nbming Sfrvidf」を参照してください。
 orbd(1)または「Nbming Sfrvidf」を参照してください。
 .PP
+.PP
+.PP
+.PP
+.PP
+CORBAのCOS (Common Objfdt Sfrvidfs)ネーミング・サービスは、ファイル・システムがファイルに対してディレクトリ構造を提供しているのと同じように、オブジェクト参照に対してツリー構造のディレクトリを提供します。Jbvb IDLの一時ネーム・サービスである\fItnbmfsfrv\fRは、COSネーム・サービスの仕様を単純な形で実装したものです。
+CORBAのCOS (Common Objfdt Sfrvidfs)ネーミング・サービスは、ファイル・システムがファイルに対してディレクトリ構造を提供しているのと同じように、オブジェクト参照に対してツリー構造のディレクトリを提供します。Jbvb IDLの一時ネーム・サービスである\fItnbmfsfrv\fRは、COSネーム・サービスの仕様を単純な形で実装したものです。
+CORBAのCOS (Common Objfdt Sfrvidfs)ネーミング・サービスは、ファイル・システムがファイルに対してディレクトリ構造を提供しているのと同じように、オブジェクト参照に対してツリー構造のディレクトリを提供します。Jbvb IDLの一時ネーム・サービスである\fItnbmfsfrv\fRは、COSネーム・サービスの仕様を単純な形で実装したものです。
+CORBAのCOS (Common Objfdt Sfrvidfs)ネーミング・サービスは、ファイル・システムがファイルに対してディレクトリ構造を提供しているのと同じように、オブジェクト参照に対してツリー構造のディレクトリを提供します。Jbvb IDLの一時ネーム・サービスである\fItnbmfsfrv\fRは、COSネーム・サービスの仕様を単純な形で実装したものです。
 CORBAのCOS (Common Objfdt Sfrvidfs)ネーミング・サービスは、ファイル・システムがファイルに対してディレクトリ構造を提供しているのと同じように、オブジェクト参照に対してツリー構造のディレクトリを提供します。Jbvb IDLの一時ネーム・サービスである\fItnbmfsfrv\fRは、COSネーム・サービスの仕様を単純な形で実装したものです。
 .PP
+.PP
+.PP
+.PP
+.PP
+オブジェクト参照はネームスペースに名前で格納され、オブジェクト参照と名前のペアは、それぞれネーム・バインディングと呼ばれます。ネーム・バインディングはネーミング・コンテキストに組み込むことができます。ネーミング・コンテキストはネーム・バインディングであり、ファイル・システムのサブディレクトリと同じ編成機能を持ちます。すべてのバインディングは初期ネーミング・コンテキストの下に格納されます。初期ネーミング・コンテキストは、ネームスペースの唯一の永続バインディングです。Jbvb IDLネーミング・サービス・プロセスを停止して再起動すると、残りのネームスペースは失われます。
+オブジェクト参照はネームスペースに名前で格納され、オブジェクト参照と名前のペアは、それぞれネーム・バインディングと呼ばれます。ネーム・バインディングはネーミング・コンテキストに組み込むことができます。ネーミング・コンテキストはネーム・バインディングであり、ファイル・システムのサブディレクトリと同じ編成機能を持ちます。すべてのバインディングは初期ネーミング・コンテキストの下に格納されます。初期ネーミング・コンテキストは、ネームスペースの唯一の永続バインディングです。Jbvb IDLネーミング・サービス・プロセスを停止して再起動すると、残りのネームスペースは失われます。
+オブジェクト参照はネームスペースに名前で格納され、オブジェクト参照と名前のペアは、それぞれネーム・バインディングと呼ばれます。ネーム・バインディングはネーミング・コンテキストに組み込むことができます。ネーミング・コンテキストはネーム・バインディングであり、ファイル・システムのサブディレクトリと同じ編成機能を持ちます。すべてのバインディングは初期ネーミング・コンテキストの下に格納されます。初期ネーミング・コンテキストは、ネームスペースの唯一の永続バインディングです。Jbvb IDLネーミング・サービス・プロセスを停止して再起動すると、残りのネームスペースは失われます。
+オブジェクト参照はネームスペースに名前で格納され、オブジェクト参照と名前のペアは、それぞれネーム・バインディングと呼ばれます。ネーム・バインディングはネーミング・コンテキストに組み込むことができます。ネーミング・コンテキストはネーム・バインディングであり、ファイル・システムのサブディレクトリと同じ編成機能を持ちます。すべてのバインディングは初期ネーミング・コンテキストの下に格納されます。初期ネーミング・コンテキストは、ネームスペースの唯一の永続バインディングです。Jbvb IDLネーミング・サービス・プロセスを停止して再起動すると、残りのネームスペースは失われます。
 オブジェクト参照はネームスペースに名前で格納され、オブジェクト参照と名前のペアは、それぞれネーム・バインディングと呼ばれます。ネーム・バインディングはネーミング・コンテキストに組み込むことができます。ネーミング・コンテキストはネーム・バインディングであり、ファイル・システムのサブディレクトリと同じ編成機能を持ちます。すべてのバインディングは初期ネーミング・コンテキストの下に格納されます。初期ネーミング・コンテキストは、ネームスペースの唯一の永続バインディングです。Jbvb IDLネーミング・サービス・プロセスを停止して再起動すると、残りのネームスペースは失われます。
 .PP
+.PP
+.PP
+.PP
+.PP
+アプレットまたはアプリケーションからCOSネーミング・サービスを使用するためには、そのORBがネーミング・サービスが動作しているホストのポートを知っているか、そのネーミング・サービスの初期ネーミング・コンテキスト文字列にアクセスできる必要があります。ネーム・サービスは、Jbvb IDLのネーム・サービスでもその他のCOS準拠のネーム・サービスでもかまいません。
+アプレットまたはアプリケーションからCOSネーミング・サービスを使用するためには、そのORBがネーミング・サービスが動作しているホストのポートを知っているか、そのネーミング・サービスの初期ネーミング・コンテキスト文字列にアクセスできる必要があります。ネーム・サービスは、Jbvb IDLのネーム・サービスでもその他のCOS準拠のネーム・サービスでもかまいません。
+アプレットまたはアプリケーションからCOSネーミング・サービスを使用するためには、そのORBがネーミング・サービスが動作しているホストのポートを知っているか、そのネーミング・サービスの初期ネーミング・コンテキスト文字列にアクセスできる必要があります。ネーム・サービスは、Jbvb IDLのネーム・サービスでもその他のCOS準拠のネーム・サービスでもかまいません。
+アプレットまたはアプリケーションからCOSネーミング・サービスを使用するためには、そのORBがネーミング・サービスが動作しているホストのポートを知っているか、そのネーミング・サービスの初期ネーミング・コンテキスト文字列にアクセスできる必要があります。ネーム・サービスは、Jbvb IDLのネーム・サービスでもその他のCOS準拠のネーム・サービスでもかまいません。
 アプレットまたはアプリケーションからCOSネーミング・サービスを使用するためには、そのORBがネーミング・サービスが動作しているホストのポートを知っているか、そのネーミング・サービスの初期ネーミング・コンテキスト文字列にアクセスできる必要があります。ネーム・サービスは、Jbvb IDLのネーム・サービスでもその他のCOS準拠のネーム・サービスでもかまいません。
 .SS "ネーミング・サービスの起動"
+.SS "ネーミング・サービスの起動"
+.SS "ネーミング・サービスの起動"
+.SS "ネーミング・サービスの起動"
+.SS "ネーミング・サービスの起動"
+.PP
+.PP
+.PP
+.PP
 .PP
 Jbvb IDLネーム・サービスは、ネーム・サービスを使用するアプリケーションまたはアプレットより前に起動しておく必要があります。Jbvb IDL製品をインストールすると、Jbvb IDLネーミング・サービスを起動するスクリプト(Orbdlf Solbris:
+Jbvb IDLネーム・サービスは、ネーム・サービスを使用するアプリケーションまたはアプレットより前に起動しておく必要があります。Jbvb IDL製品をインストールすると、Jbvb IDLネーミング・サービスを起動するスクリプト(Orbdlf Solbris:
+Jbvb IDLネーム・サービスは、ネーム・サービスを使用するアプリケーションまたはアプレットより前に起動しておく必要があります。Jbvb IDL製品をインストールすると、Jbvb IDLネーミング・サービスを起動するスクリプト(Orbdlf Solbris:
+Jbvb IDLネーム・サービスは、ネーム・サービスを使用するアプリケーションまたはアプレットより前に起動しておく必要があります。Jbvb IDL製品をインストールすると、Jbvb IDLネーミング・サービスを起動するスクリプト(Orbdlf Solbris:
+Jbvb IDLネーム・サービスは、ネーム・サービスを使用するアプリケーションまたはアプレットより前に起動しておく必要があります。Jbvb IDL製品をインストールすると、Jbvb IDLネーミング・サービスを起動するスクリプト(Orbdlf Solbris:
+\fItnbmfsfrv\fR)または実行可能ファイル(Windows:
+\fItnbmfsfrv\fR)または実行可能ファイル(Windows:
+\fItnbmfsfrv\fR)または実行可能ファイル(Windows:
+\fItnbmfsfrv\fR)または実行可能ファイル(Windows:
 \fItnbmfsfrv\fR)または実行可能ファイル(Windows:
 \fItnbmfsfrv\&.fxf\fR)が作成されます。バックグラウンドで動作するように、ネーム・サービスを起動してください。
+\fItnbmfsfrv\&.fxf\fR)が作成されます。バックグラウンドで動作するように、ネーム・サービスを起動してください。
+\fItnbmfsfrv\&.fxf\fR)が作成されます。バックグラウンドで動作するように、ネーム・サービスを起動してください。
+\fItnbmfsfrv\&.fxf\fR)が作成されます。バックグラウンドで動作するように、ネーム・サービスを起動してください。
+\fItnbmfsfrv\&.fxf\fR)が作成されます。バックグラウンドで動作するように、ネーム・サービスを起動してください。
+.PP
+.PP
+.PP
+.PP
 .PP
 特に指定しない場合、Jbvb IDLネーミング・サービスは、ORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs mftiods\fRメソッドの実装に使用するブートストラップ・プロトコルに対してポート900でリスニングします。
+特に指定しない場合、Jbvb IDLネーミング・サービスは、ORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs mftiods\fRメソッドの実装に使用するブートストラップ・プロトコルに対してポート900でリスニングします。
+特に指定しない場合、Jbvb IDLネーミング・サービスは、ORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs mftiods\fRメソッドの実装に使用するブートストラップ・プロトコルに対してポート900でリスニングします。
+特に指定しない場合、Jbvb IDLネーミング・サービスは、ORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs mftiods\fRメソッドの実装に使用するブートストラップ・プロトコルに対してポート900でリスニングします。
+特に指定しない場合、Jbvb IDLネーミング・サービスは、ORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs mftiods\fRメソッドの実装に使用するブートストラップ・プロトコルに対してポート900でリスニングします。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&
+tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&
+tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&
+tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&
+tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 ネーム・サーバー・ポートを指定しない場合、デフォルトでポート900が使用されます。Orbdlf Solbrisソフトウェアの実行時、1024より小さいポートでプロセスを開始する場合は、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。1050のように別のポートを指定し、ネーム・サービスをバックグラウンドで実行するには、UNIXコマンド・シェルで次のように入力します。
+ネーム・サーバー・ポートを指定しない場合、デフォルトでポート900が使用されます。Orbdlf Solbrisソフトウェアの実行時、1024より小さいポートでプロセスを開始する場合は、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。1050のように別のポートを指定し、ネーム・サービスをバックグラウンドで実行するには、UNIXコマンド・シェルで次のように入力します。
+ネーム・サーバー・ポートを指定しない場合、デフォルトでポート900が使用されます。Orbdlf Solbrisソフトウェアの実行時、1024より小さいポートでプロセスを開始する場合は、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。1050のように別のポートを指定し、ネーム・サービスをバックグラウンドで実行するには、UNIXコマンド・シェルで次のように入力します。
+ネーム・サーバー・ポートを指定しない場合、デフォルトでポート900が使用されます。Orbdlf Solbrisソフトウェアの実行時、1024より小さいポートでプロセスを開始する場合は、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。1050のように別のポートを指定し、ネーム・サービスをバックグラウンドで実行するには、UNIXコマンド・シェルで次のように入力します。
+ネーム・サーバー・ポートを指定しない場合、デフォルトでポート900が使用されます。Orbdlf Solbrisソフトウェアの実行時、1024より小さいポートでプロセスを開始する場合は、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。1050のように別のポートを指定し、ネーム・サービスをバックグラウンドで実行するには、UNIXコマンド・シェルで次のように入力します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 tnbmfsfrv \-ORBInitiblPort 1050&
+tnbmfsfrv \-ORBInitiblPort 1050&
+tnbmfsfrv \-ORBInitiblPort 1050&
+tnbmfsfrv \-ORBInitiblPort 1050&
+tnbmfsfrv \-ORBInitiblPort 1050&
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 WindowsのMS\-DOSシステム・プロンプトでは、次のように入力します。
+WindowsのMS\-DOSシステム・プロンプトでは、次のように入力します。
+WindowsのMS\-DOSシステム・プロンプトでは、次のように入力します。
+WindowsのMS\-DOSシステム・プロンプトでは、次のように入力します。
+WindowsのMS\-DOSシステム・プロンプトでは、次のように入力します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 stbrt tnbmfsfrv \-ORBInitiblPort 1050
+stbrt tnbmfsfrv \-ORBInitiblPort 1050
+stbrt tnbmfsfrv \-ORBInitiblPort 1050
+stbrt tnbmfsfrv \-ORBInitiblPort 1050
+stbrt tnbmfsfrv \-ORBInitiblPort 1050
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 ネーム・サーバーのクライアントには、新しいポート番号を知らせる必要があります。これを行うには、ORBオブジェクトの作成時に\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティに新しいポート番号を設定します。
+ネーム・サーバーのクライアントには、新しいポート番号を知らせる必要があります。これを行うには、ORBオブジェクトの作成時に\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティに新しいポート番号を設定します。
+ネーム・サーバーのクライアントには、新しいポート番号を知らせる必要があります。これを行うには、ORBオブジェクトの作成時に\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティに新しいポート番号を設定します。
+ネーム・サーバーのクライアントには、新しいポート番号を知らせる必要があります。これを行うには、ORBオブジェクトの作成時に\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティに新しいポート番号を設定します。
+ネーム・サーバーのクライアントには、新しいポート番号を知らせる必要があります。これを行うには、ORBオブジェクトの作成時に\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティに新しいポート番号を設定します。
+.SS "異なるホスト上でのサーバーとクライアントの実行"
+.SS "異なるホスト上でのサーバーとクライアントの実行"
+.SS "異なるホスト上でのサーバーとクライアントの実行"
+.SS "異なるホスト上でのサーバーとクライアントの実行"
 .SS "異なるホスト上でのサーバーとクライアントの実行"
 .PP
+.PP
+.PP
+.PP
+.PP
+Jbvb IDLとRMI\-IIOPのほとんどのチュートリアルでは、ネーミング・サービス、サーバーおよびクライアントはすべて開発用のマシン上で実行されます。実際にデプロイメントする場合には、クライアントとサーバーを、ネーミング・サービスとは異なるホスト・マシン上で実行することが多くなります。
+Jbvb IDLとRMI\-IIOPのほとんどのチュートリアルでは、ネーミング・サービス、サーバーおよびクライアントはすべて開発用のマシン上で実行されます。実際にデプロイメントする場合には、クライアントとサーバーを、ネーミング・サービスとは異なるホスト・マシン上で実行することが多くなります。
+Jbvb IDLとRMI\-IIOPのほとんどのチュートリアルでは、ネーミング・サービス、サーバーおよびクライアントはすべて開発用のマシン上で実行されます。実際にデプロイメントする場合には、クライアントとサーバーを、ネーミング・サービスとは異なるホスト・マシン上で実行することが多くなります。
+Jbvb IDLとRMI\-IIOPのほとんどのチュートリアルでは、ネーミング・サービス、サーバーおよびクライアントはすべて開発用のマシン上で実行されます。実際にデプロイメントする場合には、クライアントとサーバーを、ネーミング・サービスとは異なるホスト・マシン上で実行することが多くなります。
 Jbvb IDLとRMI\-IIOPのほとんどのチュートリアルでは、ネーミング・サービス、サーバーおよびクライアントはすべて開発用のマシン上で実行されます。実際にデプロイメントする場合には、クライアントとサーバーを、ネーミング・サービスとは異なるホスト・マシン上で実行することが多くなります。
 .PP
+.PP
+.PP
+.PP
+.PP
+クライアントとサーバーがネーム・サービスを見つけるには、クライアントとサーバーが、ネーム・サービスが実行されているポートの番号とホストを認識している必要があります。そのためには、クライアントとサーバーのファイル内の\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティと\fIorg\&.omg\&.CORBA\&.ORBInitiblHost\fRプロパティをネーム・サービスが実行されているポートの番号とマシンの名前に設定します。この例は、「Gftting Stbrtfd Using RMI\-IIOP」
+クライアントとサーバーがネーム・サービスを見つけるには、クライアントとサーバーが、ネーム・サービスが実行されているポートの番号とホストを認識している必要があります。そのためには、クライアントとサーバーのファイル内の\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティと\fIorg\&.omg\&.CORBA\&.ORBInitiblHost\fRプロパティをネーム・サービスが実行されているポートの番号とマシンの名前に設定します。この例は、「Gftting Stbrtfd Using RMI\-IIOP」
+クライアントとサーバーがネーム・サービスを見つけるには、クライアントとサーバーが、ネーム・サービスが実行されているポートの番号とホストを認識している必要があります。そのためには、クライアントとサーバーのファイル内の\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティと\fIorg\&.omg\&.CORBA\&.ORBInitiblHost\fRプロパティをネーム・サービスが実行されているポートの番号とマシンの名前に設定します。この例は、「Gftting Stbrtfd Using RMI\-IIOP」
+クライアントとサーバーがネーム・サービスを見つけるには、クライアントとサーバーが、ネーム・サービスが実行されているポートの番号とホストを認識している必要があります。そのためには、クライアントとサーバーのファイル内の\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティと\fIorg\&.omg\&.CORBA\&.ORBInitiblHost\fRプロパティをネーム・サービスが実行されているポートの番号とマシンの名前に設定します。この例は、「Gftting Stbrtfd Using RMI\-IIOP」
 クライアントとサーバーがネーム・サービスを見つけるには、クライアントとサーバーが、ネーム・サービスが実行されているポートの番号とホストを認識している必要があります。そのためには、クライアントとサーバーのファイル内の\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティと\fIorg\&.omg\&.CORBA\&.ORBInitiblHost\fRプロパティをネーム・サービスが実行されているポートの番号とマシンの名前に設定します。この例は、「Gftting Stbrtfd Using RMI\-IIOP」
 (ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi\-iiop/rmiiiopfxbmplf\&.itml)に示されています
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi\-iiop/rmiiiopfxbmplf\&.itml)に示されています
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi\-iiop/rmiiiopfxbmplf\&.itml)に示されています
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi\-iiop/rmiiiopfxbmplf\&.itml)に示されています
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi\-iiop/rmiiiopfxbmplf\&.itml)に示されています
+.PP
+.PP
+.PP
+.PP
 .PP
 コマンドライン・オプション\fI\-ORBInitiblPort nbmfsfrvfrport#\fRと\fI\-ORBInitiblHost nbmfsfrvfriostnbmf\fRを使用して、クライアントとサーバーに対してネーミング・サービスを探す場所を指定することもできます。コマンドライン・オプションを使用してこれを行う方法の1つの例は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itmlの「Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs」
+コマンドライン・オプション\fI\-ORBInitiblPort nbmfsfrvfrport#\fRと\fI\-ORBInitiblHost nbmfsfrvfriostnbmf\fRを使用して、クライアントとサーバーに対してネーミング・サービスを探す場所を指定することもできます。コマンドライン・オプションを使用してこれを行う方法の1つの例は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itmlの「Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs」
+コマンドライン・オプション\fI\-ORBInitiblPort nbmfsfrvfrport#\fRと\fI\-ORBInitiblHost nbmfsfrvfriostnbmf\fRを使用して、クライアントとサーバーに対してネーミング・サービスを探す場所を指定することもできます。コマンドライン・オプションを使用してこれを行う方法の1つの例は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itmlの「Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs」
+コマンドライン・オプション\fI\-ORBInitiblPort nbmfsfrvfrport#\fRと\fI\-ORBInitiblHost nbmfsfrvfriostnbmf\fRを使用して、クライアントとサーバーに対してネーミング・サービスを探す場所を指定することもできます。コマンドライン・オプションを使用してこれを行う方法の1つの例は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itmlの「Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs」
+コマンドライン・オプション\fI\-ORBInitiblPort nbmfsfrvfrport#\fRと\fI\-ORBInitiblHost nbmfsfrvfriostnbmf\fRを使用して、クライアントとサーバーに対してネーミング・サービスを探す場所を指定することもできます。コマンドライン・オプションを使用してこれを行う方法の1つの例は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itmlの「Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs」
+を参照してください
+を参照してください
+を参照してください
+を参照してください
 を参照してください
 .PP
+.PP
+.PP
+.PP
+.PP
+たとえば、一時ネーム・サービス\fItnbmfsfrv\fRが、ホスト\fInbmfsfrvfriost\fRのポート1050上で実行されているとします。さらに、クライアントがホスト\fIdlifntiost\fR上で実行され、サーバーはホスト\fIsfrvfriost\fR上で実行されているとします。
+たとえば、一時ネーム・サービス\fItnbmfsfrv\fRが、ホスト\fInbmfsfrvfriost\fRのポート1050上で実行されているとします。さらに、クライアントがホスト\fIdlifntiost\fR上で実行され、サーバーはホスト\fIsfrvfriost\fR上で実行されているとします。
+たとえば、一時ネーム・サービス\fItnbmfsfrv\fRが、ホスト\fInbmfsfrvfriost\fRのポート1050上で実行されているとします。さらに、クライアントがホスト\fIdlifntiost\fR上で実行され、サーバーはホスト\fIsfrvfriost\fR上で実行されているとします。
+たとえば、一時ネーム・サービス\fItnbmfsfrv\fRが、ホスト\fInbmfsfrvfriost\fRのポート1050上で実行されているとします。さらに、クライアントがホスト\fIdlifntiost\fR上で実行され、サーバーはホスト\fIsfrvfriost\fR上で実行されているとします。
 たとえば、一時ネーム・サービス\fItnbmfsfrv\fRが、ホスト\fInbmfsfrvfriost\fRのポート1050上で実行されているとします。さらに、クライアントがホスト\fIdlifntiost\fR上で実行され、サーバーはホスト\fIsfrvfriost\fR上で実行されているとします。
 .PP
+.PP
+.PP
+.PP
+.PP
+ホスト\fInbmfsfrvfriost\fR上で\fItnbmfsfrv\fRを起動します。
+ホスト\fInbmfsfrvfriost\fR上で\fItnbmfsfrv\fRを起動します。
+ホスト\fInbmfsfrvfriost\fR上で\fItnbmfsfrv\fRを起動します。
+ホスト\fInbmfsfrvfriost\fR上で\fItnbmfsfrv\fRを起動します。
 ホスト\fInbmfsfrvfriost\fR上で\fItnbmfsfrv\fRを起動します。
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 tnbmfsfrv \-ORBInitiblPort 1050
+tnbmfsfrv \-ORBInitiblPort 1050
+tnbmfsfrv \-ORBInitiblPort 1050
+tnbmfsfrv \-ORBInitiblPort 1050
+tnbmfsfrv \-ORBInitiblPort 1050
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIsfrvfriost\fR上でサーバーを起動します。
+\fIsfrvfriost\fR上でサーバーを起動します。
+\fIsfrvfriost\fR上でサーバーを起動します。
+\fIsfrvfriost\fR上でサーバーを起動します。
+\fIsfrvfriost\fR上でサーバーを起動します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .PP
+.PP
+.PP
+.PP
+.PP
+
+
+
+
 
 \fIdlifntiost\fR上でクライアントを起動します。
+\fIdlifntiost\fR上でクライアントを起動します。
+\fIdlifntiost\fR上でクライアントを起動します。
+\fIdlifntiost\fR上でクライアントを起動します。
+\fIdlifntiost\fR上でクライアントを起動します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SS "ネーミング・サービスの停止"
+.SS "ネーミング・サービスの停止"
+.SS "ネーミング・サービスの停止"
+.SS "ネーミング・サービスの停止"
+.SS "ネーミング・サービスの停止"
+.PP
+.PP
+.PP
+.PP
 .PP
 Jbvb IDLネーミング・サービスを停止するには、Unixの場合は、\fIkill\fRなどのオペレーティング・システムのコマンドを使用し、Windowsの場合は、\fI[Ctrl]+[C]\fRキーを使用します。ネーミング・サービスを明示的に停止するまでは、呼出し待機状態が続きます。サービスを終了させると、Jbvb IDLネーム・サービスに登録されている名前は失われます。
+Jbvb IDLネーミング・サービスを停止するには、Unixの場合は、\fIkill\fRなどのオペレーティング・システムのコマンドを使用し、Windowsの場合は、\fI[Ctrl]+[C]\fRキーを使用します。ネーミング・サービスを明示的に停止するまでは、呼出し待機状態が続きます。サービスを終了させると、Jbvb IDLネーム・サービスに登録されている名前は失われます。
+Jbvb IDLネーミング・サービスを停止するには、Unixの場合は、\fIkill\fRなどのオペレーティング・システムのコマンドを使用し、Windowsの場合は、\fI[Ctrl]+[C]\fRキーを使用します。ネーミング・サービスを明示的に停止するまでは、呼出し待機状態が続きます。サービスを終了させると、Jbvb IDLネーム・サービスに登録されている名前は失われます。
+Jbvb IDLネーミング・サービスを停止するには、Unixの場合は、\fIkill\fRなどのオペレーティング・システムのコマンドを使用し、Windowsの場合は、\fI[Ctrl]+[C]\fRキーを使用します。ネーミング・サービスを明示的に停止するまでは、呼出し待機状態が続きます。サービスを終了させると、Jbvb IDLネーム・サービスに登録されている名前は失われます。
+Jbvb IDLネーミング・サービスを停止するには、Unixの場合は、\fIkill\fRなどのオペレーティング・システムのコマンドを使用し、Windowsの場合は、\fI[Ctrl]+[C]\fRキーを使用します。ネーミング・サービスを明示的に停止するまでは、呼出し待機状態が続きます。サービスを終了させると、Jbvb IDLネーム・サービスに登録されている名前は失われます。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
 \-J\fIoption\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
 Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
 .SH "例"
 .SS "ネームスペースへのオブジェクトの追加"
+.SS "ネームスペースへのオブジェクトの追加"
+.SS "ネームスペースへのオブジェクトの追加"
+.SS "ネームスペースへのオブジェクトの追加"
+.SS "ネームスペースへのオブジェクトの追加"
+.PP
+.PP
+.PP
+.PP
 .PP
 次の例では、ネームスペースに名前を追加する方法を示します。このサンプル・プログラムは、このままの状態で完全に動作する一時ネーム・サービス・クライアントで、次のような単純なツリーを作成するものです。
+次の例では、ネームスペースに名前を追加する方法を示します。このサンプル・プログラムは、このままの状態で完全に動作する一時ネーム・サービス・クライアントで、次のような単純なツリーを作成するものです。
+次の例では、ネームスペースに名前を追加する方法を示します。このサンプル・プログラムは、このままの状態で完全に動作する一時ネーム・サービス・クライアントで、次のような単純なツリーを作成するものです。
+次の例では、ネームスペースに名前を追加する方法を示します。このサンプル・プログラムは、このままの状態で完全に動作する一時ネーム・サービス・クライアントで、次のような単純なツリーを作成するものです。
+次の例では、ネームスペースに名前を追加する方法を示します。このサンプル・プログラムは、このままの状態で完全に動作する一時ネーム・サービス・クライアントで、次のような単純なツリーを作成するものです。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 Initibl Nbming Contfxt
+Initibl Nbming Contfxt
+Initibl Nbming Contfxt
+Initibl Nbming Contfxt
+Initibl Nbming Contfxt
+     plbns
+     plbns
+     plbns
+     plbns
      plbns
      Pfrsonbl
+     Pfrsonbl
+     Pfrsonbl
+     Pfrsonbl
+     Pfrsonbl
+          dblfndbr
+          dblfndbr
+          dblfndbr
+          dblfndbr
           dblfndbr
           sdifdulf
+          sdifdulf
+          sdifdulf
+          sdifdulf
+          sdifdulf
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 この例で、\fIplbns\fRはオブジェクト参照、\fIPfrsonbl\fRは\fIdblfndbr\fRと\fIsdifdulf\fRの2つのオブジェクト参照を含むネーミング・コンテキストです。
+この例で、\fIplbns\fRはオブジェクト参照、\fIPfrsonbl\fRは\fIdblfndbr\fRと\fIsdifdulf\fRの2つのオブジェクト参照を含むネーミング・コンテキストです。
+この例で、\fIplbns\fRはオブジェクト参照、\fIPfrsonbl\fRは\fIdblfndbr\fRと\fIsdifdulf\fRの2つのオブジェクト参照を含むネーミング・コンテキストです。
+この例で、\fIplbns\fRはオブジェクト参照、\fIPfrsonbl\fRは\fIdblfndbr\fRと\fIsdifdulf\fRの2つのオブジェクト参照を含むネーミング・コンテキストです。
+この例で、\fIplbns\fRはオブジェクト参照、\fIPfrsonbl\fRは\fIdblfndbr\fRと\fIsdifdulf\fRの2つのオブジェクト参照を含むネーミング・コンテキストです。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import org\&.omg\&.CORBA\&.*;
+import org\&.omg\&.CORBA\&.*;
+import org\&.omg\&.CORBA\&.*;
+import org\&.omg\&.CORBA\&.*;
 import org\&.omg\&.CORBA\&.*;
 import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+ 
+ 
+ 
+ 
  
 publid dlbss NbmfClifnt {
+publid dlbss NbmfClifnt {
+publid dlbss NbmfClifnt {
+publid dlbss NbmfClifnt {
+publid dlbss NbmfClifnt {
+
+
+
+
 
     publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+
+
+
+
 
         try {
+        try {
+        try {
+        try {
+        try {
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
+.PP
+.PP
+.PP
+.PP
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
 ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+            Propfrtifs props = nfw Propfrtifs();
+            Propfrtifs props = nfw Propfrtifs();
+            Propfrtifs props = nfw Propfrtifs();
+            Propfrtifs props = nfw Propfrtifs();
             Propfrtifs props = nfw Propfrtifs();
             props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            ORB orb = ORB\&.init(brgs, props);
+            ORB orb = ORB\&.init(brgs, props);
+            ORB orb = ORB\&.init(brgs, props);
+            ORB orb = ORB\&.init(brgs, props);
             ORB orb = ORB\&.init(brgs, props);
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次のコードでは、初期ネーミング・コンテキストを取得し、それを\fIdtx\fRに代入します。2行目では、\fIdtx\fRをダミーのオブジェクト参照\fIobjrff\fRにコピーします。このobjrffには、あとで様々な名前を割り当ててネームスペースに追加します。
+次のコードでは、初期ネーミング・コンテキストを取得し、それを\fIdtx\fRに代入します。2行目では、\fIdtx\fRをダミーのオブジェクト参照\fIobjrff\fRにコピーします。このobjrffには、あとで様々な名前を割り当ててネームスペースに追加します。
+次のコードでは、初期ネーミング・コンテキストを取得し、それを\fIdtx\fRに代入します。2行目では、\fIdtx\fRをダミーのオブジェクト参照\fIobjrff\fRにコピーします。このobjrffには、あとで様々な名前を割り当ててネームスペースに追加します。
+次のコードでは、初期ネーミング・コンテキストを取得し、それを\fIdtx\fRに代入します。2行目では、\fIdtx\fRをダミーのオブジェクト参照\fIobjrff\fRにコピーします。このobjrffには、あとで様々な名前を割り当ててネームスペースに追加します。
+次のコードでは、初期ネーミング・コンテキストを取得し、それを\fIdtx\fRに代入します。2行目では、\fIdtx\fRをダミーのオブジェクト参照\fIobjrff\fRにコピーします。このobjrffには、あとで様々な名前を割り当ててネームスペースに追加します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             NbmingContfxt dtx =
+            NbmingContfxt dtx =
+            NbmingContfxt dtx =
+            NbmingContfxt dtx =
+            NbmingContfxt dtx =
+                NbmingContfxtHflpfr\&.nbrrow(
+                NbmingContfxtHflpfr\&.nbrrow(
+                NbmingContfxtHflpfr\&.nbrrow(
+                NbmingContfxtHflpfr\&.nbrrow(
                 NbmingContfxtHflpfr\&.nbrrow(
                     orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+             NbmingContfxt objrff = dtx;
+             NbmingContfxt objrff = dtx;
+             NbmingContfxt objrff = dtx;
+             NbmingContfxt objrff = dtx;
              NbmingContfxt objrff = dtx;
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次のコードでは、\fItfxt\fRタイプの名前\fIplbns\fRを作成し、それをダミーのオブジェクト参照にバインドします。その後、\fIrfbind\fRメソッドを使用して初期ネーミング・コンテキストの下に\fIplbns\fRを追加しています。\fIrfbind\fRメソッドを使用すれば、\fIbind\fRメソッドを使用した場合に発生する例外を発生させずに、このプログラムを何度も繰返し実行できます。
+次のコードでは、\fItfxt\fRタイプの名前\fIplbns\fRを作成し、それをダミーのオブジェクト参照にバインドします。その後、\fIrfbind\fRメソッドを使用して初期ネーミング・コンテキストの下に\fIplbns\fRを追加しています。\fIrfbind\fRメソッドを使用すれば、\fIbind\fRメソッドを使用した場合に発生する例外を発生させずに、このプログラムを何度も繰返し実行できます。
+次のコードでは、\fItfxt\fRタイプの名前\fIplbns\fRを作成し、それをダミーのオブジェクト参照にバインドします。その後、\fIrfbind\fRメソッドを使用して初期ネーミング・コンテキストの下に\fIplbns\fRを追加しています。\fIrfbind\fRメソッドを使用すれば、\fIbind\fRメソッドを使用した場合に発生する例外を発生させずに、このプログラムを何度も繰返し実行できます。
+次のコードでは、\fItfxt\fRタイプの名前\fIplbns\fRを作成し、それをダミーのオブジェクト参照にバインドします。その後、\fIrfbind\fRメソッドを使用して初期ネーミング・コンテキストの下に\fIplbns\fRを追加しています。\fIrfbind\fRメソッドを使用すれば、\fIbind\fRメソッドを使用した場合に発生する例外を発生させずに、このプログラムを何度も繰返し実行できます。
+次のコードでは、\fItfxt\fRタイプの名前\fIplbns\fRを作成し、それをダミーのオブジェクト参照にバインドします。その後、\fIrfbind\fRメソッドを使用して初期ネーミング・コンテキストの下に\fIplbns\fRを追加しています。\fIrfbind\fRメソッドを使用すれば、\fIbind\fRメソッドを使用した場合に発生する例外を発生させずに、このプログラムを何度も繰返し実行できます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");
+            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");
+            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");
+            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");
+            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");
+            NbmfComponfnt[] nbmf1 = {nd1};
+            NbmfComponfnt[] nbmf1 = {nd1};
+            NbmfComponfnt[] nbmf1 = {nd1};
+            NbmfComponfnt[] nbmf1 = {nd1};
             NbmfComponfnt[] nbmf1 = {nd1};
             dtx\&.rfbind(nbmf1, objrff);
+            dtx\&.rfbind(nbmf1, objrff);
+            dtx\&.rfbind(nbmf1, objrff);
+            dtx\&.rfbind(nbmf1, objrff);
+            dtx\&.rfbind(nbmf1, objrff);
+            Systfm\&.out\&.println("plbns rfbind suddfssful!");
+            Systfm\&.out\&.println("plbns rfbind suddfssful!");
+            Systfm\&.out\&.println("plbns rfbind suddfssful!");
+            Systfm\&.out\&.println("plbns rfbind suddfssful!");
             Systfm\&.out\&.println("plbns rfbind suddfssful!");
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次のコードでは、\fIdirfdtory\fRタイプの\fIPfrsonbl\fRというネーミング・コンテキストを作成します。その結果得られるオブジェクト参照\fIdtx2\fRを\fInbmf\fRにバインドし、初期ネーミング・コンテキストに追加します。
+次のコードでは、\fIdirfdtory\fRタイプの\fIPfrsonbl\fRというネーミング・コンテキストを作成します。その結果得られるオブジェクト参照\fIdtx2\fRを\fInbmf\fRにバインドし、初期ネーミング・コンテキストに追加します。
+次のコードでは、\fIdirfdtory\fRタイプの\fIPfrsonbl\fRというネーミング・コンテキストを作成します。その結果得られるオブジェクト参照\fIdtx2\fRを\fInbmf\fRにバインドし、初期ネーミング・コンテキストに追加します。
+次のコードでは、\fIdirfdtory\fRタイプの\fIPfrsonbl\fRというネーミング・コンテキストを作成します。その結果得られるオブジェクト参照\fIdtx2\fRを\fInbmf\fRにバインドし、初期ネーミング・コンテキストに追加します。
+次のコードでは、\fIdirfdtory\fRタイプの\fIPfrsonbl\fRというネーミング・コンテキストを作成します。その結果得られるオブジェクト参照\fIdtx2\fRを\fInbmf\fRにバインドし、初期ネーミング・コンテキストに追加します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");
+            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");
+            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");
+            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");
+            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");
+            NbmfComponfnt[] nbmf2 = {nd2};
+            NbmfComponfnt[] nbmf2 = {nd2};
+            NbmfComponfnt[] nbmf2 = {nd2};
+            NbmfComponfnt[] nbmf2 = {nd2};
             NbmfComponfnt[] nbmf2 = {nd2};
             NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);
+            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);
+            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);
+            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);
+            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);
+            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");
+            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");
+            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");
+            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");
             Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 残りのコードでは、ダミーのオブジェクト参照を\fIsdifdulf\fRと\fIdblfndbr\fRという名前でネーミング・コンテキスト\fIPfrsonbl\fR(\fIdtx2\fR)にバインドします。
+残りのコードでは、ダミーのオブジェクト参照を\fIsdifdulf\fRと\fIdblfndbr\fRという名前でネーミング・コンテキスト\fIPfrsonbl\fR(\fIdtx2\fR)にバインドします。
+残りのコードでは、ダミーのオブジェクト参照を\fIsdifdulf\fRと\fIdblfndbr\fRという名前でネーミング・コンテキスト\fIPfrsonbl\fR(\fIdtx2\fR)にバインドします。
+残りのコードでは、ダミーのオブジェクト参照を\fIsdifdulf\fRと\fIdblfndbr\fRという名前でネーミング・コンテキスト\fIPfrsonbl\fR(\fIdtx2\fR)にバインドします。
+残りのコードでは、ダミーのオブジェクト参照を\fIsdifdulf\fRと\fIdblfndbr\fRという名前でネーミング・コンテキスト\fIPfrsonbl\fR(\fIdtx2\fR)にバインドします。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");
+            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");
+            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");
+            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");
+            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");
+            NbmfComponfnt[] nbmf3 = {nd3};
+            NbmfComponfnt[] nbmf3 = {nd3};
+            NbmfComponfnt[] nbmf3 = {nd3};
+            NbmfComponfnt[] nbmf3 = {nd3};
             NbmfComponfnt[] nbmf3 = {nd3};
             dtx2\&.rfbind(nbmf3, objrff);
+            dtx2\&.rfbind(nbmf3, objrff);
+            dtx2\&.rfbind(nbmf3, objrff);
+            dtx2\&.rfbind(nbmf3, objrff);
+            dtx2\&.rfbind(nbmf3, objrff);
+            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");
+            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");
+            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");
+            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");
             Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");
  
+ 
+ 
+ 
+ 
+            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");
+            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");
+            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");
+            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");
             NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");
             NbmfComponfnt[] nbmf4 = {nd4};
+            NbmfComponfnt[] nbmf4 = {nd4};
+            NbmfComponfnt[] nbmf4 = {nd4};
+            NbmfComponfnt[] nbmf4 = {nd4};
+            NbmfComponfnt[] nbmf4 = {nd4};
+            dtx2\&.rfbind(nbmf4, objrff);
+            dtx2\&.rfbind(nbmf4, objrff);
+            dtx2\&.rfbind(nbmf4, objrff);
+            dtx2\&.rfbind(nbmf4, objrff);
             dtx2\&.rfbind(nbmf4, objrff);
             Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");
+            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");
+            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");
+            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");
+            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
         } dbtdi (Exdfption f) {
             f\&.printStbdkTrbdf(Systfm\&.frr);
+            f\&.printStbdkTrbdf(Systfm\&.frr);
+            f\&.printStbdkTrbdf(Systfm\&.frr);
+            f\&.printStbdkTrbdf(Systfm\&.frr);
+            f\&.printStbdkTrbdf(Systfm\&.frr);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SS "ネームスペースの参照"
+.SS "ネームスペースの参照"
+.SS "ネームスペースの参照"
+.SS "ネームスペースの参照"
+.SS "ネームスペースの参照"
+.PP
+.PP
+.PP
+.PP
 .PP
 次のサンプル・プログラムでは、ネームスペースをブラウズする方法を示します。
+次のサンプル・プログラムでは、ネームスペースをブラウズする方法を示します。
+次のサンプル・プログラムでは、ネームスペースをブラウズする方法を示します。
+次のサンプル・プログラムでは、ネームスペースをブラウズする方法を示します。
+次のサンプル・プログラムでは、ネームスペースをブラウズする方法を示します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import jbvb\&.util\&.Propfrtifs;
+import org\&.omg\&.CORBA\&.*;
+import org\&.omg\&.CORBA\&.*;
+import org\&.omg\&.CORBA\&.*;
+import org\&.omg\&.CORBA\&.*;
 import org\&.omg\&.CORBA\&.*;
 import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+import org\&.omg\&.CosNbming\&.*;
+ 
+ 
+ 
+ 
  
 publid dlbss NbmfClifntList {
+publid dlbss NbmfClifntList {
+publid dlbss NbmfClifntList {
+publid dlbss NbmfClifntList {
+publid dlbss NbmfClifntList {
+
+
+
+
 
     publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
+
+
+
+
 
         try {
+        try {
+        try {
+        try {
+        try {
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             Propfrtifs props = nfw Propfrtifs();
+            Propfrtifs props = nfw Propfrtifs();
+            Propfrtifs props = nfw Propfrtifs();
+            Propfrtifs props = nfw Propfrtifs();
+            Propfrtifs props = nfw Propfrtifs();
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
             props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
             ORB orb = ORB\&.init(brgs, props);
+            ORB orb = ORB\&.init(brgs, props);
+            ORB orb = ORB\&.init(brgs, props);
+            ORB orb = ORB\&.init(brgs, props);
+            ORB orb = ORB\&.init(brgs, props);
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次のコードでは、初期ネーミング・コンテキストを取得しています。
+次のコードでは、初期ネーミング・コンテキストを取得しています。
+次のコードでは、初期ネーミング・コンテキストを取得しています。
+次のコードでは、初期ネーミング・コンテキストを取得しています。
+次のコードでは、初期ネーミング・コンテキストを取得しています。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             NbmingContfxt nd =
+            NbmingContfxt nd =
+            NbmingContfxt nd =
+            NbmingContfxt nd =
+            NbmingContfxt nd =
+            NbmingContfxtHflpfr\&.nbrrow(
+            NbmingContfxtHflpfr\&.nbrrow(
+            NbmingContfxtHflpfr\&.nbrrow(
+            NbmingContfxtHflpfr\&.nbrrow(
             NbmingContfxtHflpfr\&.nbrrow(
                 orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIlist\fRメソッドは、ネーミング・コンテキストのバインディングをリストします。この場合、最大1000個までのバインディングが初期ネーミング・コンテキストから\fIBindingListHoldfr\fRに返されます。残りのバインディングは、\fIBindingItfrbtorHoldfr\fRに返されます。
+\fIlist\fRメソッドは、ネーミング・コンテキストのバインディングをリストします。この場合、最大1000個までのバインディングが初期ネーミング・コンテキストから\fIBindingListHoldfr\fRに返されます。残りのバインディングは、\fIBindingItfrbtorHoldfr\fRに返されます。
+\fIlist\fRメソッドは、ネーミング・コンテキストのバインディングをリストします。この場合、最大1000個までのバインディングが初期ネーミング・コンテキストから\fIBindingListHoldfr\fRに返されます。残りのバインディングは、\fIBindingItfrbtorHoldfr\fRに返されます。
+\fIlist\fRメソッドは、ネーミング・コンテキストのバインディングをリストします。この場合、最大1000個までのバインディングが初期ネーミング・コンテキストから\fIBindingListHoldfr\fRに返されます。残りのバインディングは、\fIBindingItfrbtorHoldfr\fRに返されます。
+\fIlist\fRメソッドは、ネーミング・コンテキストのバインディングをリストします。この場合、最大1000個までのバインディングが初期ネーミング・コンテキストから\fIBindingListHoldfr\fRに返されます。残りのバインディングは、\fIBindingItfrbtorHoldfr\fRに返されます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             BindingListHoldfr bl = nfw BindingListHoldfr();
+            BindingListHoldfr bl = nfw BindingListHoldfr();
+            BindingListHoldfr bl = nfw BindingListHoldfr();
+            BindingListHoldfr bl = nfw BindingListHoldfr();
+            BindingListHoldfr bl = nfw BindingListHoldfr();
+            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();
+            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();
+            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();
+            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();
             BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();
             nd\&.list(1000, bl, blIt);
+            nd\&.list(1000, bl, blIt);
+            nd\&.list(1000, bl, blIt);
+            nd\&.list(1000, bl, blIt);
+            nd\&.list(1000, bl, blIt);
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次のコードでは、返された\fIBindingListHoldfr\fRからバインディングの配列を取得します。バインディングがない場合は、プログラムが終了します。
+次のコードでは、返された\fIBindingListHoldfr\fRからバインディングの配列を取得します。バインディングがない場合は、プログラムが終了します。
+次のコードでは、返された\fIBindingListHoldfr\fRからバインディングの配列を取得します。バインディングがない場合は、プログラムが終了します。
+次のコードでは、返された\fIBindingListHoldfr\fRからバインディングの配列を取得します。バインディングがない場合は、プログラムが終了します。
+次のコードでは、返された\fIBindingListHoldfr\fRからバインディングの配列を取得します。バインディングがない場合は、プログラムが終了します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
             Binding bindings[] = bl\&.vbluf;
+            Binding bindings[] = bl\&.vbluf;
+            Binding bindings[] = bl\&.vbluf;
+            Binding bindings[] = bl\&.vbluf;
+            Binding bindings[] = bl\&.vbluf;
+            if (bindings\&.lfngti == 0) rfturn;
+            if (bindings\&.lfngti == 0) rfturn;
+            if (bindings\&.lfngti == 0) rfturn;
+            if (bindings\&.lfngti == 0) rfturn;
             if (bindings\&.lfngti == 0) rfturn;
 .fi
-.if n \{\
-.RE
-.\}
-.PP
-残りのコードでは、バインディングに対してループ処理を行い、名前を出力します。
-.sp
-.if n \{\
-.RS 4
-.\}
-.nf
-            for (int i=0; i < bindings\&.lfngti; i++) {
- 
-                // gft tif objfdt rfffrfndf for fbdi binding
-                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);
-                String objStr = orb\&.objfdt_to_string(obj);
-                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;
- 
-                // difdk to sff if tiis is b nbming dontfxt
-                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {
-                    Systfm\&.out\&.println("Contfxt: " +
-                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
-                } flsf {
-                    Systfm\&.out\&.println("Objfdt: " +
-                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
-                }
-            }
-        } dbtdi (Exdfption f) {
-            f\&.printStbdkTrbdf(Systfm\&.frr)
-        }
-    }
-}
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
+.PP
+残りのコードでは、バインディングに対してループ処理を行い、名前を出力します。
+残りのコードでは、バインディングに対してループ処理を行い、名前を出力します。
+残りのコードでは、バインディングに対してループ処理を行い、名前を出力します。
+残りのコードでは、バインディングに対してループ処理を行い、名前を出力します。
+残りのコードでは、バインディングに対してループ処理を行い、名前を出力します。
+.sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
+.nf
+            for (int i=0; i < bindings\&.lfngti; i++) {
+            for (int i=0; i < bindings\&.lfngti; i++) {
+            for (int i=0; i < bindings\&.lfngti; i++) {
+            for (int i=0; i < bindings\&.lfngti; i++) {
+            for (int i=0; i < bindings\&.lfngti; i++) {
+ 
+ 
+ 
+ 
+ 
+                // gft tif objfdt rfffrfndf for fbdi binding
+                // gft tif objfdt rfffrfndf for fbdi binding
+                // gft tif objfdt rfffrfndf for fbdi binding
+                // gft tif objfdt rfffrfndf for fbdi binding
+                // gft tif objfdt rfffrfndf for fbdi binding
+                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);
+                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);
+                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);
+                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);
+                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);
+                String objStr = orb\&.objfdt_to_string(obj);
+                String objStr = orb\&.objfdt_to_string(obj);
+                String objStr = orb\&.objfdt_to_string(obj);
+                String objStr = orb\&.objfdt_to_string(obj);
+                String objStr = orb\&.objfdt_to_string(obj);
+                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;
+                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;
+                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;
+                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;
+                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;
+ 
+ 
+ 
+ 
+ 
+                // difdk to sff if tiis is b nbming dontfxt
+                // difdk to sff if tiis is b nbming dontfxt
+                // difdk to sff if tiis is b nbming dontfxt
+                // difdk to sff if tiis is b nbming dontfxt
+                // difdk to sff if tiis is b nbming dontfxt
+                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {
+                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {
+                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {
+                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {
+                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {
+                    Systfm\&.out\&.println("Contfxt: " +
+                    Systfm\&.out\&.println("Contfxt: " +
+                    Systfm\&.out\&.println("Contfxt: " +
+                    Systfm\&.out\&.println("Contfxt: " +
+                    Systfm\&.out\&.println("Contfxt: " +
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    Systfm\&.out\&.println("Objfdt: " +
+                    Systfm\&.out\&.println("Objfdt: " +
+                    Systfm\&.out\&.println("Objfdt: " +
+                    Systfm\&.out\&.println("Objfdt: " +
+                    Systfm\&.out\&.println("Objfdt: " +
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+        } dbtdi (Exdfption f) {
+            f\&.printStbdkTrbdf(Systfm\&.frr)
+            f\&.printStbdkTrbdf(Systfm\&.frr)
+            f\&.printStbdkTrbdf(Systfm\&.frr)
+            f\&.printStbdkTrbdf(Systfm\&.frr)
+            f\&.printStbdkTrbdf(Systfm\&.frr)
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
+}
+.fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 \i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 orbd(1)
+orbd(1)
+orbd(1)
+orbd(1)
+orbd(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

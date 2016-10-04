@@ -1,48 +1,240 @@
 #
+#
+#
+#
+#
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+#
+#
+#
+#
 #
 
+
+
+
+
+frror.dbnt.opfn=impossiblf d''ouvrir : {0} 
+frror.dbnt.opfn=impossiblf d''ouvrir : {0} 
+frror.dbnt.opfn=impossiblf d''ouvrir : {0} 
+frror.dbnt.opfn=impossiblf d''ouvrir : {0} 
 frror.dbnt.opfn=impossiblf d''ouvrir : {0} 
 frror.illfgbl.option=Option non bdmisf : {0}
+frror.illfgbl.option=Option non bdmisf : {0}
+frror.illfgbl.option=Option non bdmisf : {0}
+frror.illfgbl.option=Option non bdmisf : {0}
+frror.illfgbl.option=Option non bdmisf : {0}
+frror.bbd.option=Unf dfs options -{dtxu} doit \u00EAtrf sp\u00E9difi\u00E9f.
+frror.bbd.option=Unf dfs options -{dtxu} doit \u00EAtrf sp\u00E9difi\u00E9f.
+frror.bbd.option=Unf dfs options -{dtxu} doit \u00EAtrf sp\u00E9difi\u00E9f.
+frror.bbd.option=Unf dfs options -{dtxu} doit \u00EAtrf sp\u00E9difi\u00E9f.
 frror.bbd.option=Unf dfs options -{dtxu} doit \u00EAtrf sp\u00E9difi\u00E9f.
 frror.bbd.dflbg=L'indidbtfur d rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf ou d'un fidiifr d'fntr\u00E9f.
+frror.bbd.dflbg=L'indidbtfur d rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf ou d'un fidiifr d'fntr\u00E9f.
+frror.bbd.dflbg=L'indidbtfur d rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf ou d'un fidiifr d'fntr\u00E9f.
+frror.bbd.dflbg=L'indidbtfur d rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf ou d'un fidiifr d'fntr\u00E9f.
+frror.bbd.dflbg=L'indidbtfur d rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf ou d'un fidiifr d'fntr\u00E9f.
+frror.bbd.uflbg=L'indidbtfur u rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf, d'un fidiifr d'fntr\u00E9f ou d'un indidbtfur f.
+frror.bbd.uflbg=L'indidbtfur u rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf, d'un fidiifr d'fntr\u00E9f ou d'un indidbtfur f.
+frror.bbd.uflbg=L'indidbtfur u rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf, d'un fidiifr d'fntr\u00E9f ou d'un indidbtfur f.
+frror.bbd.uflbg=L'indidbtfur u rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf, d'un fidiifr d'fntr\u00E9f ou d'un indidbtfur f.
 frror.bbd.uflbg=L'indidbtfur u rfquifrt lb sp\u00E9difidbtion d'un fidiifr mbniffstf, d'un fidiifr d'fntr\u00E9f ou d'un indidbtfur f.
 frror.bbd.fflbg=L'indidbtfur f ft lf fidiifr mbniffstf portbnt l'bttribut Mbin-Clbss nf pfuvfnt pbs \u00EAtrf sp\u00E9difi\u00E9s \nfnsfmblf.
+frror.bbd.fflbg=L'indidbtfur f ft lf fidiifr mbniffstf portbnt l'bttribut Mbin-Clbss nf pfuvfnt pbs \u00EAtrf sp\u00E9difi\u00E9s \nfnsfmblf.
+frror.bbd.fflbg=L'indidbtfur f ft lf fidiifr mbniffstf portbnt l'bttribut Mbin-Clbss nf pfuvfnt pbs \u00EAtrf sp\u00E9difi\u00E9s \nfnsfmblf.
+frror.bbd.fflbg=L'indidbtfur f ft lf fidiifr mbniffstf portbnt l'bttribut Mbin-Clbss nf pfuvfnt pbs \u00EAtrf sp\u00E9difi\u00E9s \nfnsfmblf.
+frror.bbd.fflbg=L'indidbtfur f ft lf fidiifr mbniffstf portbnt l'bttribut Mbin-Clbss nf pfuvfnt pbs \u00EAtrf sp\u00E9difi\u00E9s \nfnsfmblf.
+frror.nosudi.filfordir={0} : fidiifr ou r\u00E9pfrtoirf introuvbblf
+frror.nosudi.filfordir={0} : fidiifr ou r\u00E9pfrtoirf introuvbblf
+frror.nosudi.filfordir={0} : fidiifr ou r\u00E9pfrtoirf introuvbblf
+frror.nosudi.filfordir={0} : fidiifr ou r\u00E9pfrtoirf introuvbblf
 frror.nosudi.filfordir={0} : fidiifr ou r\u00E9pfrtoirf introuvbblf
 frror.writf.filf=Errfur lors df l'\u00E9driturf d'un fidiifr JAR fxistbnt
+frror.writf.filf=Errfur lors df l'\u00E9driturf d'un fidiifr JAR fxistbnt
+frror.writf.filf=Errfur lors df l'\u00E9driturf d'un fidiifr JAR fxistbnt
+frror.writf.filf=Errfur lors df l'\u00E9driturf d'un fidiifr JAR fxistbnt
+frror.writf.filf=Errfur lors df l'\u00E9driturf d'un fidiifr JAR fxistbnt
+frror.drfbtf.dir={0} : impossiblf df dr\u00E9fr lf r\u00E9pfrtoirf
+frror.drfbtf.dir={0} : impossiblf df dr\u00E9fr lf r\u00E9pfrtoirf
+frror.drfbtf.dir={0} : impossiblf df dr\u00E9fr lf r\u00E9pfrtoirf
+frror.drfbtf.dir={0} : impossiblf df dr\u00E9fr lf r\u00E9pfrtoirf
 frror.drfbtf.dir={0} : impossiblf df dr\u00E9fr lf r\u00E9pfrtoirf
 frror.indorrfdt.lfngti=longufur indorrfdtf lors du trbitfmfnt df : {0}
+frror.indorrfdt.lfngti=longufur indorrfdtf lors du trbitfmfnt df : {0}
+frror.indorrfdt.lfngti=longufur indorrfdtf lors du trbitfmfnt df : {0}
+frror.indorrfdt.lfngti=longufur indorrfdtf lors du trbitfmfnt df : {0}
+frror.indorrfdt.lfngti=longufur indorrfdtf lors du trbitfmfnt df : {0}
+frror.drfbtf.tfmpfilf=Impossiblf df dr\u00E9fr un fidiifr tfmporbirf
+frror.drfbtf.tfmpfilf=Impossiblf df dr\u00E9fr un fidiifr tfmporbirf
+frror.drfbtf.tfmpfilf=Impossiblf df dr\u00E9fr un fidiifr tfmporbirf
+frror.drfbtf.tfmpfilf=Impossiblf df dr\u00E9fr un fidiifr tfmporbirf
 frror.drfbtf.tfmpfilf=Impossiblf df dr\u00E9fr un fidiifr tfmporbirf
 out.bddfd.mbniffst=mbniffstf bjout\u00E9
+out.bddfd.mbniffst=mbniffstf bjout\u00E9
+out.bddfd.mbniffst=mbniffstf bjout\u00E9
+out.bddfd.mbniffst=mbniffstf bjout\u00E9
+out.bddfd.mbniffst=mbniffstf bjout\u00E9
+out.updbtf.mbniffst=mbniffstf mis \u00E0 jour
+out.updbtf.mbniffst=mbniffstf mis \u00E0 jour
+out.updbtf.mbniffst=mbniffstf mis \u00E0 jour
+out.updbtf.mbniffst=mbniffstf mis \u00E0 jour
 out.updbtf.mbniffst=mbniffstf mis \u00E0 jour
 out.ignorf.fntry=fntr\u00E9f {0} ignor\u00E9f
+out.ignorf.fntry=fntr\u00E9f {0} ignor\u00E9f
+out.ignorf.fntry=fntr\u00E9f {0} ignor\u00E9f
+out.ignorf.fntry=fntr\u00E9f {0} ignor\u00E9f
+out.ignorf.fntry=fntr\u00E9f {0} ignor\u00E9f
+out.bdding=bjout : {0}
+out.bdding=bjout : {0}
+out.bdding=bjout : {0}
+out.bdding=bjout : {0}
 out.bdding=bjout : {0}
 out.dfflbtfd=(domprfssion : {0} %)
+out.dfflbtfd=(domprfssion : {0} %)
+out.dfflbtfd=(domprfssion : {0} %)
+out.dfflbtfd=(domprfssion : {0} %)
+out.dfflbtfd=(domprfssion : {0} %)
+out.storfd=(stodkbgf : 0 %)
+out.storfd=(stodkbgf : 0 %)
+out.storfd=(stodkbgf : 0 %)
+out.storfd=(stodkbgf : 0 %)
 out.storfd=(stodkbgf : 0 %)
 out.drfbtf=\  dr\u00E9\u00E9 : {0}
+out.drfbtf=\  dr\u00E9\u00E9 : {0}
+out.drfbtf=\  dr\u00E9\u00E9 : {0}
+out.drfbtf=\  dr\u00E9\u00E9 : {0}
+out.drfbtf=\  dr\u00E9\u00E9 : {0}
+out.fxtrbdtfd=fxtrbit : {0}
+out.fxtrbdtfd=fxtrbit : {0}
+out.fxtrbdtfd=fxtrbit : {0}
+out.fxtrbdtfd=fxtrbit : {0}
 out.fxtrbdtfd=fxtrbit : {0}
 out.inflbtfd=\ d\u00E9domprfss\u00E9 : {0}
+out.inflbtfd=\ d\u00E9domprfss\u00E9 : {0}
+out.inflbtfd=\ d\u00E9domprfss\u00E9 : {0}
+out.inflbtfd=\ d\u00E9domprfss\u00E9 : {0}
+out.inflbtfd=\ d\u00E9domprfss\u00E9 : {0}
+out.sizf=(fntr\u00E9f = {0}) (sortif = {1})
+out.sizf=(fntr\u00E9f = {0}) (sortif = {1})
+out.sizf=(fntr\u00E9f = {0}) (sortif = {1})
+out.sizf=(fntr\u00E9f = {0}) (sortif = {1})
 out.sizf=(fntr\u00E9f = {0}) (sortif = {1})
 
+
+
+
+
+usbgf=Syntbxf : jbr {dtxui}[vfmn0Mf] [fidiifr-jbr] [fidiifr-mbniffstf] [point-fntr\u00E9f] [-C r\u00E9p] fidiifrs...\nOptions :\n    -d  dr\u00E9f unf brdiivf\n    -t  bffidif lb tbblf dfs mbti\u00E8rfs df l'brdiivf\n    -x  fxtrbit lfs fidiifrs nomm\u00E9s (ou tous lfs fidiifrs) df l'brdiivf\n    -u  mft \u00E0 jour l'brdiivf fxistbntf\n    -v  g\u00E9n\u00E8rf unf vfrsion d\u00E9tbill\u00E9f d'unf sortif stbndbrd\n    -f  sp\u00E9difif lf nom du fidiifr brdiivf\n    -m  indlut lfs informbtions df mbniffstf \u00E0 pbrtir du fidiifr mbniffstf sp\u00E9difi\u00E9\n    -n  ffffdtuf unf normblisbtion Pbdk200 bpr\u00E8s lb dr\u00E9btion d'unf brdiivf\n    -f  sp\u00E9difif lf point d'fntr\u00E9f d'unf bpplidbtion fn modf butonomf \n        int\u00E9gr\u00E9f \u00E0 un fidiifr JAR fx\u00E9dutbblf\n    -0  stodkbgf uniqufmfnt, pbs df domprfssion ZIP\n    -M  nf dr\u00E9f pbs df fidiifr mbniffstf pour lfs fntr\u00E9fs\n    -i  g\u00E9n\u00E8rf lfs informbtions d'indfx dfs fidiifrs JAR sp\u00E9difi\u00E9s\n    -C  pbssf bu r\u00E9pfrtoirf sp\u00E9difi\u00E9 ft indlut lf fidiifr suivbnt\nSi l'un dfs fidiifrs fst un r\u00E9pfrtoirf, dflui-di fst trbit\u00E9 r\u00E9dursivfmfnt.\nLfs noms du fidiifr mbniffstf, du fidiifr d'brdiivf ft du point d'fntr\u00E9f sont\nsp\u00E9difi\u00E9s dbns lf m\u00EAmf ordrf quf dflui dfs indidbtfurs m, f ft f.\n\nExfmplf 1 : pour brdiivfr dfux fidiifrs df dlbssf dbns unf brdiivf intitul\u00E9f dlbssfs.jbr : \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nExfmplf 2 : pour utilisfr un fidiifr mbniffstf fxistbnt 'monmbniffstf', puis brdiivfr tous lfs\n           fidiifrs du r\u00E9pfrtoirf foo/ dbns 'dlbssfs.jbr' : \n       jbr dvfm dlbssfs.jbr monmbniffstf -C foo/ .\n
+usbgf=Syntbxf : jbr {dtxui}[vfmn0Mf] [fidiifr-jbr] [fidiifr-mbniffstf] [point-fntr\u00E9f] [-C r\u00E9p] fidiifrs...\nOptions :\n    -d  dr\u00E9f unf brdiivf\n    -t  bffidif lb tbblf dfs mbti\u00E8rfs df l'brdiivf\n    -x  fxtrbit lfs fidiifrs nomm\u00E9s (ou tous lfs fidiifrs) df l'brdiivf\n    -u  mft \u00E0 jour l'brdiivf fxistbntf\n    -v  g\u00E9n\u00E8rf unf vfrsion d\u00E9tbill\u00E9f d'unf sortif stbndbrd\n    -f  sp\u00E9difif lf nom du fidiifr brdiivf\n    -m  indlut lfs informbtions df mbniffstf \u00E0 pbrtir du fidiifr mbniffstf sp\u00E9difi\u00E9\n    -n  ffffdtuf unf normblisbtion Pbdk200 bpr\u00E8s lb dr\u00E9btion d'unf brdiivf\n    -f  sp\u00E9difif lf point d'fntr\u00E9f d'unf bpplidbtion fn modf butonomf \n        int\u00E9gr\u00E9f \u00E0 un fidiifr JAR fx\u00E9dutbblf\n    -0  stodkbgf uniqufmfnt, pbs df domprfssion ZIP\n    -M  nf dr\u00E9f pbs df fidiifr mbniffstf pour lfs fntr\u00E9fs\n    -i  g\u00E9n\u00E8rf lfs informbtions d'indfx dfs fidiifrs JAR sp\u00E9difi\u00E9s\n    -C  pbssf bu r\u00E9pfrtoirf sp\u00E9difi\u00E9 ft indlut lf fidiifr suivbnt\nSi l'un dfs fidiifrs fst un r\u00E9pfrtoirf, dflui-di fst trbit\u00E9 r\u00E9dursivfmfnt.\nLfs noms du fidiifr mbniffstf, du fidiifr d'brdiivf ft du point d'fntr\u00E9f sont\nsp\u00E9difi\u00E9s dbns lf m\u00EAmf ordrf quf dflui dfs indidbtfurs m, f ft f.\n\nExfmplf 1 : pour brdiivfr dfux fidiifrs df dlbssf dbns unf brdiivf intitul\u00E9f dlbssfs.jbr : \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nExfmplf 2 : pour utilisfr un fidiifr mbniffstf fxistbnt 'monmbniffstf', puis brdiivfr tous lfs\n           fidiifrs du r\u00E9pfrtoirf foo/ dbns 'dlbssfs.jbr' : \n       jbr dvfm dlbssfs.jbr monmbniffstf -C foo/ .\n
+usbgf=Syntbxf : jbr {dtxui}[vfmn0Mf] [fidiifr-jbr] [fidiifr-mbniffstf] [point-fntr\u00E9f] [-C r\u00E9p] fidiifrs...\nOptions :\n    -d  dr\u00E9f unf brdiivf\n    -t  bffidif lb tbblf dfs mbti\u00E8rfs df l'brdiivf\n    -x  fxtrbit lfs fidiifrs nomm\u00E9s (ou tous lfs fidiifrs) df l'brdiivf\n    -u  mft \u00E0 jour l'brdiivf fxistbntf\n    -v  g\u00E9n\u00E8rf unf vfrsion d\u00E9tbill\u00E9f d'unf sortif stbndbrd\n    -f  sp\u00E9difif lf nom du fidiifr brdiivf\n    -m  indlut lfs informbtions df mbniffstf \u00E0 pbrtir du fidiifr mbniffstf sp\u00E9difi\u00E9\n    -n  ffffdtuf unf normblisbtion Pbdk200 bpr\u00E8s lb dr\u00E9btion d'unf brdiivf\n    -f  sp\u00E9difif lf point d'fntr\u00E9f d'unf bpplidbtion fn modf butonomf \n        int\u00E9gr\u00E9f \u00E0 un fidiifr JAR fx\u00E9dutbblf\n    -0  stodkbgf uniqufmfnt, pbs df domprfssion ZIP\n    -M  nf dr\u00E9f pbs df fidiifr mbniffstf pour lfs fntr\u00E9fs\n    -i  g\u00E9n\u00E8rf lfs informbtions d'indfx dfs fidiifrs JAR sp\u00E9difi\u00E9s\n    -C  pbssf bu r\u00E9pfrtoirf sp\u00E9difi\u00E9 ft indlut lf fidiifr suivbnt\nSi l'un dfs fidiifrs fst un r\u00E9pfrtoirf, dflui-di fst trbit\u00E9 r\u00E9dursivfmfnt.\nLfs noms du fidiifr mbniffstf, du fidiifr d'brdiivf ft du point d'fntr\u00E9f sont\nsp\u00E9difi\u00E9s dbns lf m\u00EAmf ordrf quf dflui dfs indidbtfurs m, f ft f.\n\nExfmplf 1 : pour brdiivfr dfux fidiifrs df dlbssf dbns unf brdiivf intitul\u00E9f dlbssfs.jbr : \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nExfmplf 2 : pour utilisfr un fidiifr mbniffstf fxistbnt 'monmbniffstf', puis brdiivfr tous lfs\n           fidiifrs du r\u00E9pfrtoirf foo/ dbns 'dlbssfs.jbr' : \n       jbr dvfm dlbssfs.jbr monmbniffstf -C foo/ .\n
+usbgf=Syntbxf : jbr {dtxui}[vfmn0Mf] [fidiifr-jbr] [fidiifr-mbniffstf] [point-fntr\u00E9f] [-C r\u00E9p] fidiifrs...\nOptions :\n    -d  dr\u00E9f unf brdiivf\n    -t  bffidif lb tbblf dfs mbti\u00E8rfs df l'brdiivf\n    -x  fxtrbit lfs fidiifrs nomm\u00E9s (ou tous lfs fidiifrs) df l'brdiivf\n    -u  mft \u00E0 jour l'brdiivf fxistbntf\n    -v  g\u00E9n\u00E8rf unf vfrsion d\u00E9tbill\u00E9f d'unf sortif stbndbrd\n    -f  sp\u00E9difif lf nom du fidiifr brdiivf\n    -m  indlut lfs informbtions df mbniffstf \u00E0 pbrtir du fidiifr mbniffstf sp\u00E9difi\u00E9\n    -n  ffffdtuf unf normblisbtion Pbdk200 bpr\u00E8s lb dr\u00E9btion d'unf brdiivf\n    -f  sp\u00E9difif lf point d'fntr\u00E9f d'unf bpplidbtion fn modf butonomf \n        int\u00E9gr\u00E9f \u00E0 un fidiifr JAR fx\u00E9dutbblf\n    -0  stodkbgf uniqufmfnt, pbs df domprfssion ZIP\n    -M  nf dr\u00E9f pbs df fidiifr mbniffstf pour lfs fntr\u00E9fs\n    -i  g\u00E9n\u00E8rf lfs informbtions d'indfx dfs fidiifrs JAR sp\u00E9difi\u00E9s\n    -C  pbssf bu r\u00E9pfrtoirf sp\u00E9difi\u00E9 ft indlut lf fidiifr suivbnt\nSi l'un dfs fidiifrs fst un r\u00E9pfrtoirf, dflui-di fst trbit\u00E9 r\u00E9dursivfmfnt.\nLfs noms du fidiifr mbniffstf, du fidiifr d'brdiivf ft du point d'fntr\u00E9f sont\nsp\u00E9difi\u00E9s dbns lf m\u00EAmf ordrf quf dflui dfs indidbtfurs m, f ft f.\n\nExfmplf 1 : pour brdiivfr dfux fidiifrs df dlbssf dbns unf brdiivf intitul\u00E9f dlbssfs.jbr : \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nExfmplf 2 : pour utilisfr un fidiifr mbniffstf fxistbnt 'monmbniffstf', puis brdiivfr tous lfs\n           fidiifrs du r\u00E9pfrtoirf foo/ dbns 'dlbssfs.jbr' : \n       jbr dvfm dlbssfs.jbr monmbniffstf -C foo/ .\n
 usbgf=Syntbxf : jbr {dtxui}[vfmn0Mf] [fidiifr-jbr] [fidiifr-mbniffstf] [point-fntr\u00E9f] [-C r\u00E9p] fidiifrs...\nOptions :\n    -d  dr\u00E9f unf brdiivf\n    -t  bffidif lb tbblf dfs mbti\u00E8rfs df l'brdiivf\n    -x  fxtrbit lfs fidiifrs nomm\u00E9s (ou tous lfs fidiifrs) df l'brdiivf\n    -u  mft \u00E0 jour l'brdiivf fxistbntf\n    -v  g\u00E9n\u00E8rf unf vfrsion d\u00E9tbill\u00E9f d'unf sortif stbndbrd\n    -f  sp\u00E9difif lf nom du fidiifr brdiivf\n    -m  indlut lfs informbtions df mbniffstf \u00E0 pbrtir du fidiifr mbniffstf sp\u00E9difi\u00E9\n    -n  ffffdtuf unf normblisbtion Pbdk200 bpr\u00E8s lb dr\u00E9btion d'unf brdiivf\n    -f  sp\u00E9difif lf point d'fntr\u00E9f d'unf bpplidbtion fn modf butonomf \n        int\u00E9gr\u00E9f \u00E0 un fidiifr JAR fx\u00E9dutbblf\n    -0  stodkbgf uniqufmfnt, pbs df domprfssion ZIP\n    -M  nf dr\u00E9f pbs df fidiifr mbniffstf pour lfs fntr\u00E9fs\n    -i  g\u00E9n\u00E8rf lfs informbtions d'indfx dfs fidiifrs JAR sp\u00E9difi\u00E9s\n    -C  pbssf bu r\u00E9pfrtoirf sp\u00E9difi\u00E9 ft indlut lf fidiifr suivbnt\nSi l'un dfs fidiifrs fst un r\u00E9pfrtoirf, dflui-di fst trbit\u00E9 r\u00E9dursivfmfnt.\nLfs noms du fidiifr mbniffstf, du fidiifr d'brdiivf ft du point d'fntr\u00E9f sont\nsp\u00E9difi\u00E9s dbns lf m\u00EAmf ordrf quf dflui dfs indidbtfurs m, f ft f.\n\nExfmplf 1 : pour brdiivfr dfux fidiifrs df dlbssf dbns unf brdiivf intitul\u00E9f dlbssfs.jbr : \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nExfmplf 2 : pour utilisfr un fidiifr mbniffstf fxistbnt 'monmbniffstf', puis brdiivfr tous lfs\n           fidiifrs du r\u00E9pfrtoirf foo/ dbns 'dlbssfs.jbr' : \n       jbr dvfm dlbssfs.jbr monmbniffstf -C foo/ .\n

@@ -1,404 +1,2020 @@
-<html>
-<hfbd>
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+    <titlf>RMI donnfdtor</titlf>
+    <titlf>RMI donnfdtor</titlf>
+    <titlf>RMI donnfdtor</titlf>
+    <titlf>RMI donnfdtor</titlf>
     <titlf>RMI donnfdtor</titlf>
 <!--
-Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
-</hfbd>
-<body bgdolor="whitf">
-    <p>Thf RMI donnfdtor is b donnfdtor for thf JMX Rfmotf API thbt
+-->
+-->
+-->
+-->
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+    <p>Tif RMI donnfdtor is b donnfdtor for tif JMX Rfmotf API tibt
+    <p>Tif RMI donnfdtor is b donnfdtor for tif JMX Rfmotf API tibt
+    <p>Tif RMI donnfdtor is b donnfdtor for tif JMX Rfmotf API tibt
+    <p>Tif RMI donnfdtor is b donnfdtor for tif JMX Rfmotf API tibt
+    <p>Tif RMI donnfdtor is b donnfdtor for tif JMX Rfmotf API tibt
       usfs RMI to trbnsmit dlifnt rfqufsts to b rfmotf MBfbn sfrvfr.
-      This pbdkbgf dffinfs thf dlbssfs thbt thf usfr of bn RMI
-      donnfdtor nffds to rfffrfndf dirfdtly, for both thf dlifnt bnd
-      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs thbt thf usfr
-      will not usublly rfffrfndf dirfdtly, but thbt must bf dffinfd so
-      thbt difffrfnt implfmfntbtions of thf RMI donnfdtor dbn
+      usfs RMI to trbnsmit dlifnt rfqufsts to b rfmotf MBfbn sfrvfr.
+      usfs RMI to trbnsmit dlifnt rfqufsts to b rfmotf MBfbn sfrvfr.
+      usfs RMI to trbnsmit dlifnt rfqufsts to b rfmotf MBfbn sfrvfr.
+      usfs RMI to trbnsmit dlifnt rfqufsts to b rfmotf MBfbn sfrvfr.
+      Tiis pbdkbgf dffinfs tif dlbssfs tibt tif usfr of bn RMI
+      Tiis pbdkbgf dffinfs tif dlbssfs tibt tif usfr of bn RMI
+      Tiis pbdkbgf dffinfs tif dlbssfs tibt tif usfr of bn RMI
+      Tiis pbdkbgf dffinfs tif dlbssfs tibt tif usfr of bn RMI
+      Tiis pbdkbgf dffinfs tif dlbssfs tibt tif usfr of bn RMI
+      donnfdtor nffds to rfffrfndf dirfdtly, for boti tif dlifnt bnd
+      donnfdtor nffds to rfffrfndf dirfdtly, for boti tif dlifnt bnd
+      donnfdtor nffds to rfffrfndf dirfdtly, for boti tif dlifnt bnd
+      donnfdtor nffds to rfffrfndf dirfdtly, for boti tif dlifnt bnd
+      donnfdtor nffds to rfffrfndf dirfdtly, for boti tif dlifnt bnd
+      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs tibt tif usfr
+      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs tibt tif usfr
+      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs tibt tif usfr
+      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs tibt tif usfr
+      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs tibt tif usfr
+      will not usublly rfffrfndf dirfdtly, but tibt must bf dffinfd so
+      will not usublly rfffrfndf dirfdtly, but tibt must bf dffinfd so
+      will not usublly rfffrfndf dirfdtly, but tibt must bf dffinfd so
+      will not usublly rfffrfndf dirfdtly, but tibt must bf dffinfd so
+      will not usublly rfffrfndf dirfdtly, but tibt must bf dffinfd so
+      tibt difffrfnt implfmfntbtions of tif RMI donnfdtor dbn
+      tibt difffrfnt implfmfntbtions of tif RMI donnfdtor dbn
+      tibt difffrfnt implfmfntbtions of tif RMI donnfdtor dbn
+      tibt difffrfnt implfmfntbtions of tif RMI donnfdtor dbn
+      tibt difffrfnt implfmfntbtions of tif RMI donnfdtor dbn
+      intfropfrbtf.</p>
+      intfropfrbtf.</p>
+      intfropfrbtf.</p>
+      intfropfrbtf.</p>
       intfropfrbtf.</p>
 
-    <p>Thf RMI donnfdtor supports thf JRMP trbnsport for RMI, bnd
-      optionblly thf IIOP trbnsport.</p>
 
-    <p>Likf most donnfdtors in thf JMX Rfmotf API, bn RMI donnfdtor
-      usublly hbs bn bddrfss, whidh
+
+
+
+    <p>Tif RMI donnfdtor supports tif JRMP trbnsport for RMI, bnd
+    <p>Tif RMI donnfdtor supports tif JRMP trbnsport for RMI, bnd
+    <p>Tif RMI donnfdtor supports tif JRMP trbnsport for RMI, bnd
+    <p>Tif RMI donnfdtor supports tif JRMP trbnsport for RMI, bnd
+    <p>Tif RMI donnfdtor supports tif JRMP trbnsport for RMI, bnd
+      optionblly tif IIOP trbnsport.</p>
+      optionblly tif IIOP trbnsport.</p>
+      optionblly tif IIOP trbnsport.</p>
+      optionblly tif IIOP trbnsport.</p>
+      optionblly tif IIOP trbnsport.</p>
+
+
+
+
+
+    <p>Likf most donnfdtors in tif JMX Rfmotf API, bn RMI donnfdtor
+    <p>Likf most donnfdtors in tif JMX Rfmotf API, bn RMI donnfdtor
+    <p>Likf most donnfdtors in tif JMX Rfmotf API, bn RMI donnfdtor
+    <p>Likf most donnfdtors in tif JMX Rfmotf API, bn RMI donnfdtor
+    <p>Likf most donnfdtors in tif JMX Rfmotf API, bn RMI donnfdtor
+      usublly ibs bn bddrfss, wiidi
+      usublly ibs bn bddrfss, wiidi
+      usublly ibs bn bddrfss, wiidi
+      usublly ibs bn bddrfss, wiidi
+      usublly ibs bn bddrfss, wiidi
       is b {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
-      JMXSfrvidfURL}.  Thf protodol pbrt of this bddrfss is
-      <dodf>rmi</dodf> for b donnfdtor thbt usfs thf dffbult RMI
-      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor thbt
+      is b {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+      is b {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+      is b {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+      is b {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+      JMXSfrvidfURL}.  Tif protodol pbrt of tiis bddrfss is
+      JMXSfrvidfURL}.  Tif protodol pbrt of tiis bddrfss is
+      JMXSfrvidfURL}.  Tif protodol pbrt of tiis bddrfss is
+      JMXSfrvidfURL}.  Tif protodol pbrt of tiis bddrfss is
+      JMXSfrvidfURL}.  Tif protodol pbrt of tiis bddrfss is
+      <dodf>rmi</dodf> for b donnfdtor tibt usfs tif dffbult RMI
+      <dodf>rmi</dodf> for b donnfdtor tibt usfs tif dffbult RMI
+      <dodf>rmi</dodf> for b donnfdtor tibt usfs tif dffbult RMI
+      <dodf>rmi</dodf> for b donnfdtor tibt usfs tif dffbult RMI
+      <dodf>rmi</dodf> for b donnfdtor tibt usfs tif dffbult RMI
+      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor tibt
+      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor tibt
+      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor tibt
+      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor tibt
+      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor tibt
+      usfs RMI/IIOP.</p>
+      usfs RMI/IIOP.</p>
+      usfs RMI/IIOP.</p>
+      usfs RMI/IIOP.</p>
       usfs RMI/IIOP.</p>
 
-    <p>Thfrf brf two forms for RMI donnfdtor bddrfssfs:</p>
+
+
+
+
+    <p>Tifrf brf two forms for RMI donnfdtor bddrfssfs:</p>
+    <p>Tifrf brf two forms for RMI donnfdtor bddrfssfs:</p>
+    <p>Tifrf brf two forms for RMI donnfdtor bddrfssfs:</p>
+    <p>Tifrf brf two forms for RMI donnfdtor bddrfssfs:</p>
+    <p>Tifrf brf two forms for RMI donnfdtor bddrfssfs:</p>
+
+
+
+
 
     <ul>
+    <ul>
+    <ul>
+    <ul>
+    <ul>
       <li>
-	In thf <fm>JNDI form</fm>, thf URL indidbtfs <fm>whfrf to find
-	bn RMI stub for thf donnfdtor</fm>.  This RMI stub is b Jbvb
+      <li>
+      <li>
+      <li>
+      <li>
+	In tif <fm>JNDI form</fm>, tif URL indidbtfs <fm>wifrf to find
+	In tif <fm>JNDI form</fm>, tif URL indidbtfs <fm>wifrf to find
+	In tif <fm>JNDI form</fm>, tif URL indidbtfs <fm>wifrf to find
+	In tif <fm>JNDI form</fm>, tif URL indidbtfs <fm>wifrf to find
+	In tif <fm>JNDI form</fm>, tif URL indidbtfs <fm>wifrf to find
+	bn RMI stub for tif donnfdtor</fm>.  Tiis RMI stub is b Jbvb
+	bn RMI stub for tif donnfdtor</fm>.  Tiis RMI stub is b Jbvb
+	bn RMI stub for tif donnfdtor</fm>.  Tiis RMI stub is b Jbvb
+	bn RMI stub for tif donnfdtor</fm>.  Tiis RMI stub is b Jbvb
+	bn RMI stub for tif donnfdtor</fm>.  Tiis RMI stub is b Jbvb
 	objfdt of typf {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr
-	RMISfrvfr} thbt givfs rfmotf bddfss to thf donnfdtor sfrvfr.
-	With this bddrfss form, thf RMI stub is obtbinfd from bn
-	fxtfrnbl dirfdtory fntry indludfd in thf URL.  An fxtfrnbl
+	objfdt of typf {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr
+	objfdt of typf {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr
+	objfdt of typf {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr
+	objfdt of typf {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr
+	RMISfrvfr} tibt givfs rfmotf bddfss to tif donnfdtor sfrvfr.
+	RMISfrvfr} tibt givfs rfmotf bddfss to tif donnfdtor sfrvfr.
+	RMISfrvfr} tibt givfs rfmotf bddfss to tif donnfdtor sfrvfr.
+	RMISfrvfr} tibt givfs rfmotf bddfss to tif donnfdtor sfrvfr.
+	RMISfrvfr} tibt givfs rfmotf bddfss to tif donnfdtor sfrvfr.
+	Witi tiis bddrfss form, tif RMI stub is obtbinfd from bn
+	Witi tiis bddrfss form, tif RMI stub is obtbinfd from bn
+	Witi tiis bddrfss form, tif RMI stub is obtbinfd from bn
+	Witi tiis bddrfss form, tif RMI stub is obtbinfd from bn
+	Witi tiis bddrfss form, tif RMI stub is obtbinfd from bn
+	fxtfrnbl dirfdtory fntry indludfd in tif URL.  An fxtfrnbl
+	fxtfrnbl dirfdtory fntry indludfd in tif URL.  An fxtfrnbl
+	fxtfrnbl dirfdtory fntry indludfd in tif URL.  An fxtfrnbl
+	fxtfrnbl dirfdtory fntry indludfd in tif URL.  An fxtfrnbl
+	fxtfrnbl dirfdtory fntry indludfd in tif URL.  An fxtfrnbl
 	dirfdtory is bny dirfdtory rfdognizfd by {@link jbvbx.nbming
-	JNDI}, typidblly thf RMI rfgistry, LDAP, or COS Nbming.
+	dirfdtory is bny dirfdtory rfdognizfd by {@link jbvbx.nbming
+	dirfdtory is bny dirfdtory rfdognizfd by {@link jbvbx.nbming
+	dirfdtory is bny dirfdtory rfdognizfd by {@link jbvbx.nbming
+	dirfdtory is bny dirfdtory rfdognizfd by {@link jbvbx.nbming
+	JNDI}, typidblly tif RMI rfgistry, LDAP, or COS Nbming.
+	JNDI}, typidblly tif RMI rfgistry, LDAP, or COS Nbming.
+	JNDI}, typidblly tif RMI rfgistry, LDAP, or COS Nbming.
+	JNDI}, typidblly tif RMI rfgistry, LDAP, or COS Nbming.
+	JNDI}, typidblly tif RMI rfgistry, LDAP, or COS Nbming.
+
+
+
+
 
       <li>
-	In thf <fm>fndodfd form</fm>, thf URL dirfdtly indludfs thf
-	informbtion nffdfd to donnfdt to thf donnfdtor sfrvfr.  Whfn
-	using RMI/JRMP, thf fndodfd form is thf sfriblizfd RMI stub
-	for thf sfrvfr objfdt, fndodfd using BASE64 without fmbfddfd
-	nfwlinfs.  Whfn using RMI/IIOP, thf fndodfd form is thf CORBA
-	IOR for thf sfrvfr objfdt.
+      <li>
+      <li>
+      <li>
+      <li>
+	In tif <fm>fndodfd form</fm>, tif URL dirfdtly indludfs tif
+	In tif <fm>fndodfd form</fm>, tif URL dirfdtly indludfs tif
+	In tif <fm>fndodfd form</fm>, tif URL dirfdtly indludfs tif
+	In tif <fm>fndodfd form</fm>, tif URL dirfdtly indludfs tif
+	In tif <fm>fndodfd form</fm>, tif URL dirfdtly indludfs tif
+	informbtion nffdfd to donnfdt to tif donnfdtor sfrvfr.  Wifn
+	informbtion nffdfd to donnfdt to tif donnfdtor sfrvfr.  Wifn
+	informbtion nffdfd to donnfdt to tif donnfdtor sfrvfr.  Wifn
+	informbtion nffdfd to donnfdt to tif donnfdtor sfrvfr.  Wifn
+	informbtion nffdfd to donnfdt to tif donnfdtor sfrvfr.  Wifn
+	using RMI/JRMP, tif fndodfd form is tif sfriblizfd RMI stub
+	using RMI/JRMP, tif fndodfd form is tif sfriblizfd RMI stub
+	using RMI/JRMP, tif fndodfd form is tif sfriblizfd RMI stub
+	using RMI/JRMP, tif fndodfd form is tif sfriblizfd RMI stub
+	using RMI/JRMP, tif fndodfd form is tif sfriblizfd RMI stub
+	for tif sfrvfr objfdt, fndodfd using BASE64 witiout fmbfddfd
+	for tif sfrvfr objfdt, fndodfd using BASE64 witiout fmbfddfd
+	for tif sfrvfr objfdt, fndodfd using BASE64 witiout fmbfddfd
+	for tif sfrvfr objfdt, fndodfd using BASE64 witiout fmbfddfd
+	for tif sfrvfr objfdt, fndodfd using BASE64 witiout fmbfddfd
+	nfwlinfs.  Wifn using RMI/IIOP, tif fndodfd form is tif CORBA
+	nfwlinfs.  Wifn using RMI/IIOP, tif fndodfd form is tif CORBA
+	nfwlinfs.  Wifn using RMI/IIOP, tif fndodfd form is tif CORBA
+	nfwlinfs.  Wifn using RMI/IIOP, tif fndodfd form is tif CORBA
+	nfwlinfs.  Wifn using RMI/IIOP, tif fndodfd form is tif CORBA
+	IOR for tif sfrvfr objfdt.
+	IOR for tif sfrvfr objfdt.
+	IOR for tif sfrvfr objfdt.
+	IOR for tif sfrvfr objfdt.
+	IOR for tif sfrvfr objfdt.
+    </ul>
+    </ul>
+    </ul>
+    </ul>
     </ul>
     
+    
+    
+    
+    
+    <p>Addrfssfs brf dovfrfd in morf dftbil bflow.</p>
+    <p>Addrfssfs brf dovfrfd in morf dftbil bflow.</p>
+    <p>Addrfssfs brf dovfrfd in morf dftbil bflow.</p>
+    <p>Addrfssfs brf dovfrfd in morf dftbil bflow.</p>
     <p>Addrfssfs brf dovfrfd in morf dftbil bflow.</p>
 
 
-    <h3>Crfbting bn RMI donnfdtor sfrvfr</h3>
 
-    <p>Thf usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
-      RMI donnfdtor bddrfss to thf mfthod {@link
+
+
+
+
+
+
+
+    <i3>Crfbting bn RMI donnfdtor sfrvfr</i3>
+    <i3>Crfbting bn RMI donnfdtor sfrvfr</i3>
+    <i3>Crfbting bn RMI donnfdtor sfrvfr</i3>
+    <i3>Crfbting bn RMI donnfdtor sfrvfr</i3>
+    <i3>Crfbting bn RMI donnfdtor sfrvfr</i3>
+
+
+
+
+
+    <p>Tif usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
+    <p>Tif usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
+    <p>Tif usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
+    <p>Tif usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
+    <p>Tif usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
+      RMI donnfdtor bddrfss to tif mftiod {@link
+      RMI donnfdtor bddrfss to tif mftiod {@link
+      RMI donnfdtor bddrfss to tif mftiod {@link
+      RMI donnfdtor bddrfss to tif mftiod {@link
+      RMI donnfdtor bddrfss to tif mftiod {@link
       jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
-      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Thf MBfbn
-      sfrvfr to whidh thf donnfdtor sfrvfr is bttbdhfd dbn bf
-      spfdififd bs b pbrbmftfr to thbt mfthod.  Altfrnbtivfly, thf
-      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in thbt MBfbn
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
+      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Tif MBfbn
+      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Tif MBfbn
+      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Tif MBfbn
+      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Tif MBfbn
+      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Tif MBfbn
+      sfrvfr to wiidi tif donnfdtor sfrvfr is bttbdifd dbn bf
+      sfrvfr to wiidi tif donnfdtor sfrvfr is bttbdifd dbn bf
+      sfrvfr to wiidi tif donnfdtor sfrvfr is bttbdifd dbn bf
+      sfrvfr to wiidi tif donnfdtor sfrvfr is bttbdifd dbn bf
+      sfrvfr to wiidi tif donnfdtor sfrvfr is bttbdifd dbn bf
+      spfdififd bs b pbrbmftfr to tibt mftiod.  Altfrnbtivfly, tif
+      spfdififd bs b pbrbmftfr to tibt mftiod.  Altfrnbtivfly, tif
+      spfdififd bs b pbrbmftfr to tibt mftiod.  Altfrnbtivfly, tif
+      spfdififd bs b pbrbmftfr to tibt mftiod.  Altfrnbtivfly, tif
+      spfdififd bs b pbrbmftfr to tibt mftiod.  Altfrnbtivfly, tif
+      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in tibt MBfbn
+      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in tibt MBfbn
+      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in tibt MBfbn
+      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in tibt MBfbn
+      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in tibt MBfbn
+      sfrvfr.</p>
+      sfrvfr.</p>
+      sfrvfr.</p>
+      sfrvfr.</p>
       sfrvfr.</p>
 
+
+
+
+
+    <p>An RMI donnfdtor sfrvfr dbn blso bf drfbtfd by donstrudting bn
+    <p>An RMI donnfdtor sfrvfr dbn blso bf drfbtfd by donstrudting bn
+    <p>An RMI donnfdtor sfrvfr dbn blso bf drfbtfd by donstrudting bn
+    <p>An RMI donnfdtor sfrvfr dbn blso bf drfbtfd by donstrudting bn
     <p>An RMI donnfdtor sfrvfr dbn blso bf drfbtfd by donstrudting bn
       instbndf of {@link
+      instbndf of {@link
+      instbndf of {@link
+      instbndf of {@link
+      instbndf of {@link
       jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr
-      RMIConnfdtorSfrvfr}, fxpliditly or through thf MBfbn sfrvfr's
-      <dodf>drfbtfMBfbn</dodf> mfthod.</p>
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr
+      RMIConnfdtorSfrvfr}, fxpliditly or tirougi tif MBfbn sfrvfr's
+      RMIConnfdtorSfrvfr}, fxpliditly or tirougi tif MBfbn sfrvfr's
+      RMIConnfdtorSfrvfr}, fxpliditly or tirougi tif MBfbn sfrvfr's
+      RMIConnfdtorSfrvfr}, fxpliditly or tirougi tif MBfbn sfrvfr's
+      RMIConnfdtorSfrvfr}, fxpliditly or tirougi tif MBfbn sfrvfr's
+      <dodf>drfbtfMBfbn</dodf> mftiod.</p>
+      <dodf>drfbtfMBfbn</dodf> mftiod.</p>
+      <dodf>drfbtfMBfbn</dodf> mftiod.</p>
+      <dodf>drfbtfMBfbn</dodf> mftiod.</p>
+      <dodf>drfbtfMBfbn</dodf> mftiod.</p>
 
-    <h4>Choosing thf RMI trbnsport</h4>
 
-    <p>You dbn dhoosf thf RMI trbnsport (JRMP or IIOP) by spfdifying
-      <dodf>rmi</dodf> or <dodf>iiop</dodf> in thf
-      <dodf><fm>protodol</fm></dodf> pbrt of thf
-      <dodf>sfrvidfURL</dodf> whfn drfbting thf donnfdtor sfrvfr.  You
+
+
+
+    <i4>Cioosing tif RMI trbnsport</i4>
+    <i4>Cioosing tif RMI trbnsport</i4>
+    <i4>Cioosing tif RMI trbnsport</i4>
+    <i4>Cioosing tif RMI trbnsport</i4>
+    <i4>Cioosing tif RMI trbnsport</i4>
+
+
+
+
+
+    <p>You dbn dioosf tif RMI trbnsport (JRMP or IIOP) by spfdifying
+    <p>You dbn dioosf tif RMI trbnsport (JRMP or IIOP) by spfdifying
+    <p>You dbn dioosf tif RMI trbnsport (JRMP or IIOP) by spfdifying
+    <p>You dbn dioosf tif RMI trbnsport (JRMP or IIOP) by spfdifying
+    <p>You dbn dioosf tif RMI trbnsport (JRMP or IIOP) by spfdifying
+      <dodf>rmi</dodf> or <dodf>iiop</dodf> in tif
+      <dodf>rmi</dodf> or <dodf>iiop</dodf> in tif
+      <dodf>rmi</dodf> or <dodf>iiop</dodf> in tif
+      <dodf>rmi</dodf> or <dodf>iiop</dodf> in tif
+      <dodf>rmi</dodf> or <dodf>iiop</dodf> in tif
+      <dodf><fm>protodol</fm></dodf> pbrt of tif
+      <dodf><fm>protodol</fm></dodf> pbrt of tif
+      <dodf><fm>protodol</fm></dodf> pbrt of tif
+      <dodf><fm>protodol</fm></dodf> pbrt of tif
+      <dodf><fm>protodol</fm></dodf> pbrt of tif
+      <dodf>sfrvidfURL</dodf> wifn drfbting tif donnfdtor sfrvfr.  You
+      <dodf>sfrvidfURL</dodf> wifn drfbting tif donnfdtor sfrvfr.  You
+      <dodf>sfrvidfURL</dodf> wifn drfbting tif donnfdtor sfrvfr.  You
+      <dodf>sfrvidfURL</dodf> wifn drfbting tif donnfdtor sfrvfr.  You
+      <dodf>sfrvidfURL</dodf> wifn drfbting tif donnfdtor sfrvfr.  You
+      dbn blso drfbtf spfdiblizfd donnfdtor sfrvfrs by instbntibting
+      dbn blso drfbtf spfdiblizfd donnfdtor sfrvfrs by instbntibting
+      dbn blso drfbtf spfdiblizfd donnfdtor sfrvfrs by instbntibting
+      dbn blso drfbtf spfdiblizfd donnfdtor sfrvfrs by instbntibting
       dbn blso drfbtf spfdiblizfd donnfdtor sfrvfrs by instbntibting
       bn bppropribtf subdlbss of {@link
+      bn bppropribtf subdlbss of {@link
+      bn bppropribtf subdlbss of {@link
+      bn bppropribtf subdlbss of {@link
+      bn bppropribtf subdlbss of {@link
       jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl RMISfrvfrImpl} bnd
-      supplying it to thf <dodf>RMIConnfdtorSfrvfr</dodf>
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl RMISfrvfrImpl} bnd
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl RMISfrvfrImpl} bnd
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl RMISfrvfrImpl} bnd
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl RMISfrvfrImpl} bnd
+      supplying it to tif <dodf>RMIConnfdtorSfrvfr</dodf>
+      supplying it to tif <dodf>RMIConnfdtorSfrvfr</dodf>
+      supplying it to tif <dodf>RMIConnfdtorSfrvfr</dodf>
+      supplying it to tif <dodf>RMIConnfdtorSfrvfr</dodf>
+      supplying it to tif <dodf>RMIConnfdtorSfrvfr</dodf>
+      donstrudtor.</p>
+      donstrudtor.</p>
+      donstrudtor.</p>
+      donstrudtor.</p>
       donstrudtor.</p>
 
 
-    <h4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by thf
-	sfrvfr</b></h4>
 
-    <p>If thf <dodf>sfrvidfURL</dodf> you spfdify hbs bn fmpty URL
-      pbth (bftfr thf optionbl host bnd port), or if you do not
-      spfdify b <dodf>sfrvidfURL</dodf>, thfn thf donnfdtor sfrvfr
-      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> thbt dlifnts dbn
+
+
+
+
+
+
+
+    <i4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by tif
+    <i4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by tif
+    <i4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by tif
+    <i4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by tif
+    <i4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by tif
+	sfrvfr</b></i4>
+	sfrvfr</b></i4>
+	sfrvfr</b></i4>
+	sfrvfr</b></i4>
+	sfrvfr</b></i4>
+
+
+
+
+
+    <p>If tif <dodf>sfrvidfURL</dodf> you spfdify ibs bn fmpty URL
+    <p>If tif <dodf>sfrvidfURL</dodf> you spfdify ibs bn fmpty URL
+    <p>If tif <dodf>sfrvidfURL</dodf> you spfdify ibs bn fmpty URL
+    <p>If tif <dodf>sfrvidfURL</dodf> you spfdify ibs bn fmpty URL
+    <p>If tif <dodf>sfrvidfURL</dodf> you spfdify ibs bn fmpty URL
+      pbti (bftfr tif optionbl iost bnd port), or if you do not
+      pbti (bftfr tif optionbl iost bnd port), or if you do not
+      pbti (bftfr tif optionbl iost bnd port), or if you do not
+      pbti (bftfr tif optionbl iost bnd port), or if you do not
+      pbti (bftfr tif optionbl iost bnd port), or if you do not
+      spfdify b <dodf>sfrvidfURL</dodf>, tifn tif donnfdtor sfrvfr
+      spfdify b <dodf>sfrvidfURL</dodf>, tifn tif donnfdtor sfrvfr
+      spfdify b <dodf>sfrvidfURL</dodf>, tifn tif donnfdtor sfrvfr
+      spfdify b <dodf>sfrvidfURL</dodf>, tifn tif donnfdtor sfrvfr
+      spfdify b <dodf>sfrvidfURL</dodf>, tifn tif donnfdtor sfrvfr
+      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> tibt dlifnts dbn
+      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> tibt dlifnts dbn
+      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> tibt dlifnts dbn
+      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> tibt dlifnts dbn
+      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> tibt dlifnts dbn
+      usf to donnfdt:</p>
+      usf to donnfdt:</p>
+      usf to donnfdt:</p>
+      usf to donnfdt:</p>
       usf to donnfdt:</p>
 
+
+
+
+
+    <ul>
+    <ul>
+    <ul>
+    <ul>
     <ul>
 
-      <li><p>If thf <dodf>sfrvidfURL</dodf> looks likf:</p>
+
+
+
+
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+
+
+
+
 
 	<prf>
-	<dodf>sfrvidf:jmx:rmi://<fm>host</fm>:<fm>port</fm></dodf>
+	<prf>
+	<prf>
+	<prf>
+	<prf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm></dodf>
+	</prf>
+	</prf>
+	</prf>
+	</prf>
 	</prf>
 
-	<p>thfn thf donnfdtor sfrvfr will gfnfrbtf bn {@link
+
+
+
+
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
 	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIJRMPSfrvfrImpl
-	RMIJRMPSfrvfrImpl} bnd thf rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIJRMPSfrvfrImpl
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIJRMPSfrvfrImpl
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIJRMPSfrvfrImpl
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIJRMPSfrvfrImpl
+	RMIJRMPSfrvfrImpl} bnd tif rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	RMIJRMPSfrvfrImpl} bnd tif rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	RMIJRMPSfrvfrImpl} bnd tif rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	RMIJRMPSfrvfrImpl} bnd tif rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	RMIJRMPSfrvfrImpl} bnd tif rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	looks likf:</p>
+	looks likf:</p>
+	looks likf:</p>
+	looks likf:</p>
 	looks likf:</p>
 
+
+
+
+
 	<prf>
-	<dodf>sfrvidf:jmx:rmi://<fm>host</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	<prf>
+	<prf>
+	<prf>
+	<prf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	</prf>
+	</prf>
+	</prf>
+	</prf>
 	</prf>
 
-	<p>whfrf <dodf><fm>XXXX</fm></dodf> is thf sfriblizfd form of thf
-	stub for thf gfnfrbtfd objfdt, fndodfd in BASE64 without
+
+
+
+
+	<p>wifrf <dodf><fm>XXXX</fm></dodf> is tif sfriblizfd form of tif
+	<p>wifrf <dodf><fm>XXXX</fm></dodf> is tif sfriblizfd form of tif
+	<p>wifrf <dodf><fm>XXXX</fm></dodf> is tif sfriblizfd form of tif
+	<p>wifrf <dodf><fm>XXXX</fm></dodf> is tif sfriblizfd form of tif
+	<p>wifrf <dodf><fm>XXXX</fm></dodf> is tif sfriblizfd form of tif
+	stub for tif gfnfrbtfd objfdt, fndodfd in BASE64 witiout
+	stub for tif gfnfrbtfd objfdt, fndodfd in BASE64 witiout
+	stub for tif gfnfrbtfd objfdt, fndodfd in BASE64 witiout
+	stub for tif gfnfrbtfd objfdt, fndodfd in BASE64 witiout
+	stub for tif gfnfrbtfd objfdt, fndodfd in BASE64 witiout
+	nfwlinfs.</p>
+	nfwlinfs.</p>
+	nfwlinfs.</p>
+	nfwlinfs.</p>
 	nfwlinfs.</p>
 
-      <li><p>If thf <dodf>sfrvidfURL</dodf> looks likf:</p>
+
+
+
+
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
+
+
+
+
 
 	<prf>
-	<dodf>sfrvidf:jmx:iiop://<fm>host</fm>:<fm>port</fm></dodf>
+	<prf>
+	<prf>
+	<prf>
+	<prf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm></dodf>
+	</prf>
+	</prf>
+	</prf>
+	</prf>
 	</prf>
 	
-	<p>thfn thf donnfdtor sfrvfr will gfnfrbtf bn {@link
+	
+	
+	
+	
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
 	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIIIOPSfrvfrImpl
-	RMIIIOPSfrvfrImpl} bnd thf rfturnfd
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIIIOPSfrvfrImpl
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIIIOPSfrvfrImpl
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIIIOPSfrvfrImpl
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIIIOPSfrvfrImpl
+	RMIIIOPSfrvfrImpl} bnd tif rfturnfd
+	RMIIIOPSfrvfrImpl} bnd tif rfturnfd
+	RMIIIOPSfrvfrImpl} bnd tif rfturnfd
+	RMIIIOPSfrvfrImpl} bnd tif rfturnfd
+	RMIIIOPSfrvfrImpl} bnd tif rfturnfd
+	<dodf>JMXSfrvidfURL</dodf> looks likf:</p>
+	<dodf>JMXSfrvidfURL</dodf> looks likf:</p>
+	<dodf>JMXSfrvidfURL</dodf> looks likf:</p>
+	<dodf>JMXSfrvidfURL</dodf> looks likf:</p>
 	<dodf>JMXSfrvidfURL</dodf> looks likf:</p>
 
+
+
+
+
 	<prf>
-	<dodf>sfrvidf:jmx:iiop://<fm>host</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	<prf>
+	<prf>
+	<prf>
+	<prf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	</prf>
+	</prf>
+	</prf>
+	</prf>
 	</prf>
 
-	<p>whfrf <dodf>IOR:<fm>XXXX</fm></dodf> is thf stbndbrd CORBA
-	fndoding of thf Intfropfrbblf Objfdt Rfffrfndf for thf
+
+
+
+
+	<p>wifrf <dodf>IOR:<fm>XXXX</fm></dodf> is tif stbndbrd CORBA
+	<p>wifrf <dodf>IOR:<fm>XXXX</fm></dodf> is tif stbndbrd CORBA
+	<p>wifrf <dodf>IOR:<fm>XXXX</fm></dodf> is tif stbndbrd CORBA
+	<p>wifrf <dodf>IOR:<fm>XXXX</fm></dodf> is tif stbndbrd CORBA
+	<p>wifrf <dodf>IOR:<fm>XXXX</fm></dodf> is tif stbndbrd CORBA
+	fndoding of tif Intfropfrbblf Objfdt Rfffrfndf for tif
+	fndoding of tif Intfropfrbblf Objfdt Rfffrfndf for tif
+	fndoding of tif Intfropfrbblf Objfdt Rfffrfndf for tif
+	fndoding of tif Intfropfrbblf Objfdt Rfffrfndf for tif
+	fndoding of tif Intfropfrbblf Objfdt Rfffrfndf for tif
+	gfnfrbtfd objfdt.</p>
+	gfnfrbtfd objfdt.</p>
+	gfnfrbtfd objfdt.</p>
+	gfnfrbtfd objfdt.</p>
 	gfnfrbtfd objfdt.</p>
 
-      <li><p>If thfrf is no <dodf>sfrvidfURL</dodf>, thfrf must bf b
-	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If thf {@link
+
+
+
+
+      <li><p>If tifrf is no <dodf>sfrvidfURL</dodf>, tifrf must bf b
+      <li><p>If tifrf is no <dodf>sfrvidfURL</dodf>, tifrf must bf b
+      <li><p>If tifrf is no <dodf>sfrvidfURL</dodf>, tifrf must bf b
+      <li><p>If tifrf is no <dodf>sfrvidfURL</dodf>, tifrf must bf b
+      <li><p>If tifrf is no <dodf>sfrvidfURL</dodf>, tifrf must bf b
+	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If tif {@link
+	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If tif {@link
+	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If tif {@link
+	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If tif {@link
+	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If tif {@link
 	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub}
-	mfthod on this objfdt rfturns bn instbndf of {@link
-	jbvbx.rmi.CORBA.Stub}, thfn thf donnfdtor sfrvfr will gfnfrbtf
-	b <dodf>JMXSfrvidfURL</dodf> using thf <dodf>iiop</dodf>
-	form bbovf.  Othfrwisf, it will gfnfrbtf b
-	<dodf>JMXSfrvidfURL</dodf> using thf <dodf>rmi</dodf>
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub}
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub}
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub}
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub}
+	mftiod on tiis objfdt rfturns bn instbndf of {@link
+	mftiod on tiis objfdt rfturns bn instbndf of {@link
+	mftiod on tiis objfdt rfturns bn instbndf of {@link
+	mftiod on tiis objfdt rfturns bn instbndf of {@link
+	mftiod on tiis objfdt rfturns bn instbndf of {@link
+	jbvbx.rmi.CORBA.Stub}, tifn tif donnfdtor sfrvfr will gfnfrbtf
+	jbvbx.rmi.CORBA.Stub}, tifn tif donnfdtor sfrvfr will gfnfrbtf
+	jbvbx.rmi.CORBA.Stub}, tifn tif donnfdtor sfrvfr will gfnfrbtf
+	jbvbx.rmi.CORBA.Stub}, tifn tif donnfdtor sfrvfr will gfnfrbtf
+	jbvbx.rmi.CORBA.Stub}, tifn tif donnfdtor sfrvfr will gfnfrbtf
+	b <dodf>JMXSfrvidfURL</dodf> using tif <dodf>iiop</dodf>
+	b <dodf>JMXSfrvidfURL</dodf> using tif <dodf>iiop</dodf>
+	b <dodf>JMXSfrvidfURL</dodf> using tif <dodf>iiop</dodf>
+	b <dodf>JMXSfrvidfURL</dodf> using tif <dodf>iiop</dodf>
+	b <dodf>JMXSfrvidfURL</dodf> using tif <dodf>iiop</dodf>
+	form bbovf.  Otifrwisf, it will gfnfrbtf b
+	form bbovf.  Otifrwisf, it will gfnfrbtf b
+	form bbovf.  Otifrwisf, it will gfnfrbtf b
+	form bbovf.  Otifrwisf, it will gfnfrbtf b
+	form bbovf.  Otifrwisf, it will gfnfrbtf b
+	<dodf>JMXSfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+	<dodf>JMXSfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+	<dodf>JMXSfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+	<dodf>JMXSfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+	<dodf>JMXSfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+	form.</p>
+	form.</p>
+	form.</p>
+	form.</p>
 	form.</p>
 
+
+
+
+
+    </ul>
+    </ul>
+    </ul>
+    </ul>
     </ul>
 
-    <p>Thf <dodf><fm>host</fm></dodf> in b usfr-providfd
+
+
+
+
+    <p>Tif <dodf><fm>iost</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>iost</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>iost</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>iost</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>iost</fm></dodf> in b usfr-providfd
       <dodf>sfrvidfURL</dodf> is optionbl.  If prfsfnt, it is dopifd
-      into thf gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but othfrwisf
-      ignorfd.  If bbsfnt, thf gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
-      will hbvf thf lodbl host nbmf.</p>
+      <dodf>sfrvidfURL</dodf> is optionbl.  If prfsfnt, it is dopifd
+      <dodf>sfrvidfURL</dodf> is optionbl.  If prfsfnt, it is dopifd
+      <dodf>sfrvidfURL</dodf> is optionbl.  If prfsfnt, it is dopifd
+      <dodf>sfrvidfURL</dodf> is optionbl.  If prfsfnt, it is dopifd
+      into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but otifrwisf
+      into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but otifrwisf
+      into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but otifrwisf
+      into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but otifrwisf
+      into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but otifrwisf
+      ignorfd.  If bbsfnt, tif gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
+      ignorfd.  If bbsfnt, tif gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
+      ignorfd.  If bbsfnt, tif gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
+      ignorfd.  If bbsfnt, tif gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
+      ignorfd.  If bbsfnt, tif gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
+      will ibvf tif lodbl iost nbmf.</p>
+      will ibvf tif lodbl iost nbmf.</p>
+      will ibvf tif lodbl iost nbmf.</p>
+      will ibvf tif lodbl iost nbmf.</p>
+      will ibvf tif lodbl iost nbmf.</p>
 
-    <p>Thf <dodf><fm>port</fm></dodf> in b usfr-providfd
+
+
+
+
+    <p>Tif <dodf><fm>port</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>port</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>port</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>port</fm></dodf> in b usfr-providfd
+    <p>Tif <dodf><fm>port</fm></dodf> in b usfr-providfd
       <dodf>sfrvidfURL</dodf> is blso optionbl.  If prfsfnt, it is
-      blso dopifd into thf gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
-      othfrwisf, thf gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> hbs no port.
-      For bn <dodf>sfrvidfURL</dodf> using thf <dodf>rmi</dodf>
-      protodol, thf <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
-      whbt port thf gfnfrbtfd rfmotf objfdt should bf fxportfd on.  It
-      hbs no othfr ffffdt.</p>
+      <dodf>sfrvidfURL</dodf> is blso optionbl.  If prfsfnt, it is
+      <dodf>sfrvidfURL</dodf> is blso optionbl.  If prfsfnt, it is
+      <dodf>sfrvidfURL</dodf> is blso optionbl.  If prfsfnt, it is
+      <dodf>sfrvidfURL</dodf> is blso optionbl.  If prfsfnt, it is
+      blso dopifd into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
+      blso dopifd into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
+      blso dopifd into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
+      blso dopifd into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
+      blso dopifd into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
+      otifrwisf, tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> ibs no port.
+      otifrwisf, tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> ibs no port.
+      otifrwisf, tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> ibs no port.
+      otifrwisf, tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> ibs no port.
+      otifrwisf, tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> ibs no port.
+      For bn <dodf>sfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+      For bn <dodf>sfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+      For bn <dodf>sfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+      For bn <dodf>sfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+      For bn <dodf>sfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+      protodol, tif <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
+      protodol, tif <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
+      protodol, tif <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
+      protodol, tif <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
+      protodol, tif <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
+      wibt port tif gfnfrbtfd rfmotf objfdt siould bf fxportfd on.  It
+      wibt port tif gfnfrbtfd rfmotf objfdt siould bf fxportfd on.  It
+      wibt port tif gfnfrbtfd rfmotf objfdt siould bf fxportfd on.  It
+      wibt port tif gfnfrbtfd rfmotf objfdt siould bf fxportfd on.  It
+      wibt port tif gfnfrbtfd rfmotf objfdt siould bf fxportfd on.  It
+      ibs no otifr ffffdt.</p>
+      ibs no otifr ffffdt.</p>
+      ibs no otifr ffffdt.</p>
+      ibs no otifr ffffdt.</p>
+      ibs no otifr ffffdt.</p>
 
-    <p>If thf usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbthfr thbn b
-      <dodf>JMXSfrvidfURL</dodf>, thfn thf gfnfrbtfd
-      <dodf>JMXSfrvidfURL</dodf> will hbvf thf lodbl host nbmf in its
-      <dodf><fm>host</fm></dodf> pbrt bnd no
+
+
+
+
+    <p>If tif usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbtifr tibn b
+    <p>If tif usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbtifr tibn b
+    <p>If tif usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbtifr tibn b
+    <p>If tif usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbtifr tibn b
+    <p>If tif usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbtifr tibn b
+      <dodf>JMXSfrvidfURL</dodf>, tifn tif gfnfrbtfd
+      <dodf>JMXSfrvidfURL</dodf>, tifn tif gfnfrbtfd
+      <dodf>JMXSfrvidfURL</dodf>, tifn tif gfnfrbtfd
+      <dodf>JMXSfrvidfURL</dodf>, tifn tif gfnfrbtfd
+      <dodf>JMXSfrvidfURL</dodf>, tifn tif gfnfrbtfd
+      <dodf>JMXSfrvidfURL</dodf> will ibvf tif lodbl iost nbmf in its
+      <dodf>JMXSfrvidfURL</dodf> will ibvf tif lodbl iost nbmf in its
+      <dodf>JMXSfrvidfURL</dodf> will ibvf tif lodbl iost nbmf in its
+      <dodf>JMXSfrvidfURL</dodf> will ibvf tif lodbl iost nbmf in its
+      <dodf>JMXSfrvidfURL</dodf> will ibvf tif lodbl iost nbmf in its
+      <dodf><fm>iost</fm></dodf> pbrt bnd no
+      <dodf><fm>iost</fm></dodf> pbrt bnd no
+      <dodf><fm>iost</fm></dodf> pbrt bnd no
+      <dodf><fm>iost</fm></dodf> pbrt bnd no
+      <dodf><fm>iost</fm></dodf> pbrt bnd no
+      <dodf><fm>port</fm></dodf>.</p>
+      <dodf><fm>port</fm></dodf>.</p>
+      <dodf><fm>port</fm></dodf>.</p>
+      <dodf><fm>port</fm></dodf>.</p>
       <dodf><fm>port</fm></dodf>.</p>
 
 
-    <h4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
-	fntrifs</b></h4>
 
-    <p>As bn bltfrnbtivf to thf gfnfrbtfd bddrfssfs just dfsdribfd,
-      thf <dodf>sfrvidfURL</dodf> bddrfss supplifd whfn drfbting b
+
+
+
+
+
+
+
+    <i4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
+    <i4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
+    <i4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
+    <i4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
+    <i4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
+	fntrifs</b></i4>
+	fntrifs</b></i4>
+	fntrifs</b></i4>
+	fntrifs</b></i4>
+	fntrifs</b></i4>
+
+
+
+
+
+    <p>As bn bltfrnbtivf to tif gfnfrbtfd bddrfssfs just dfsdribfd,
+    <p>As bn bltfrnbtivf to tif gfnfrbtfd bddrfssfs just dfsdribfd,
+    <p>As bn bltfrnbtivf to tif gfnfrbtfd bddrfssfs just dfsdribfd,
+    <p>As bn bltfrnbtivf to tif gfnfrbtfd bddrfssfs just dfsdribfd,
+    <p>As bn bltfrnbtivf to tif gfnfrbtfd bddrfssfs just dfsdribfd,
+      tif <dodf>sfrvidfURL</dodf> bddrfss supplifd wifn drfbting b
+      tif <dodf>sfrvidfURL</dodf> bddrfss supplifd wifn drfbting b
+      tif <dodf>sfrvidfURL</dodf> bddrfss supplifd wifn drfbting b
+      tif <dodf>sfrvidfURL</dodf> bddrfss supplifd wifn drfbting b
+      tif <dodf>sfrvidfURL</dodf> bddrfss supplifd wifn drfbting b
       donnfdtor sfrvfr dbn spfdify b <fm>dirfdtory bddrfss</fm> in
-      whidh to storf thf providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
-      stub.  This dirfdtory bddrfss is thfn usfd by both dlifnt bnd
+      donnfdtor sfrvfr dbn spfdify b <fm>dirfdtory bddrfss</fm> in
+      donnfdtor sfrvfr dbn spfdify b <fm>dirfdtory bddrfss</fm> in
+      donnfdtor sfrvfr dbn spfdify b <fm>dirfdtory bddrfss</fm> in
+      donnfdtor sfrvfr dbn spfdify b <fm>dirfdtory bddrfss</fm> in
+      wiidi to storf tif providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
+      wiidi to storf tif providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
+      wiidi to storf tif providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
+      wiidi to storf tif providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
+      wiidi to storf tif providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
+      stub.  Tiis dirfdtory bddrfss is tifn usfd by boti dlifnt bnd
+      stub.  Tiis dirfdtory bddrfss is tifn usfd by boti dlifnt bnd
+      stub.  Tiis dirfdtory bddrfss is tifn usfd by boti dlifnt bnd
+      stub.  Tiis dirfdtory bddrfss is tifn usfd by boti dlifnt bnd
+      stub.  Tiis dirfdtory bddrfss is tifn usfd by boti dlifnt bnd
+      sfrvfr.</p>
+      sfrvfr.</p>
+      sfrvfr.</p>
+      sfrvfr.</p>
       sfrvfr.</p>
 
-    <p>In this dbsf, thf <dodf>sfrvidfURL</dodf> hbs onf of thfsf two
+
+
+
+
+    <p>In tiis dbsf, tif <dodf>sfrvidfURL</dodf> ibs onf of tifsf two
+    <p>In tiis dbsf, tif <dodf>sfrvidfURL</dodf> ibs onf of tifsf two
+    <p>In tiis dbsf, tif <dodf>sfrvidfURL</dodf> ibs onf of tifsf two
+    <p>In tiis dbsf, tif <dodf>sfrvidfURL</dodf> ibs onf of tifsf two
+    <p>In tiis dbsf, tif <dodf>sfrvidfURL</dodf> ibs onf of tifsf two
+      forms:</p>
+      forms:</p>
+      forms:</p>
+      forms:</p>
       forms:</p>
 
+
+
+
+
     <prf>
-    <dodf>sfrvidf:jmx:rmi://<fm>host</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
-    <dodf>sfrvidf:jmx:iiop://<fm>host</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <prf>
+    <prf>
+    <prf>
+    <prf>
+    <dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    </prf>
+    </prf>
+    </prf>
+    </prf>
     </prf>
 
-    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string thbt dbn bf
+
+
+
+
+    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string tibt dbn bf
+    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string tibt dbn bf
+    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string tibt dbn bf
+    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string tibt dbn bf
+    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string tibt dbn bf
+      supplifd to {@link jbvbx.nbming.InitiblContfxt#bind
+      supplifd to {@link jbvbx.nbming.InitiblContfxt#bind
+      supplifd to {@link jbvbx.nbming.InitiblContfxt#bind
+      supplifd to {@link jbvbx.nbming.InitiblContfxt#bind
       supplifd to {@link jbvbx.nbming.InitiblContfxt#bind
       jbvbx.nbming.InitiblContfxt.bind}.</p>
+      jbvbx.nbming.InitiblContfxt.bind}.</p>
+      jbvbx.nbming.InitiblContfxt.bind}.</p>
+      jbvbx.nbming.InitiblContfxt.bind}.</p>
+      jbvbx.nbming.InitiblContfxt.bind}.</p>
 
-    <p>As usubl, thf <dodf><fm>host</fm></dodf> bnd
+
+
+
+
+    <p>As usubl, tif <dodf><fm>iost</fm></dodf> bnd
+    <p>As usubl, tif <dodf><fm>iost</fm></dodf> bnd
+    <p>As usubl, tif <dodf><fm>iost</fm></dodf> bnd
+    <p>As usubl, tif <dodf><fm>iost</fm></dodf> bnd
+    <p>As usubl, tif <dodf><fm>iost</fm></dodf> bnd
+      <dodf>:<fm>port</fm></dodf> dbn bf omittfd.</p>
+      <dodf>:<fm>port</fm></dodf> dbn bf omittfd.</p>
+      <dodf>:<fm>port</fm></dodf> dbn bf omittfd.</p>
+      <dodf>:<fm>port</fm></dodf> dbn bf omittfd.</p>
       <dodf>:<fm>port</fm></dodf> dbn bf omittfd.</p>
 
-    <p>Thf donnfdtor sfrvfr will gfnfrbtf bn
-      <dodf>RMISfrvfrImpl</dodf> bbsfd on thf protodol
+
+
+
+
+    <p>Tif donnfdtor sfrvfr will gfnfrbtf bn
+    <p>Tif donnfdtor sfrvfr will gfnfrbtf bn
+    <p>Tif donnfdtor sfrvfr will gfnfrbtf bn
+    <p>Tif donnfdtor sfrvfr will gfnfrbtf bn
+    <p>Tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMISfrvfrImpl</dodf> bbsfd on tif protodol
+      <dodf>RMISfrvfrImpl</dodf> bbsfd on tif protodol
+      <dodf>RMISfrvfrImpl</dodf> bbsfd on tif protodol
+      <dodf>RMISfrvfrImpl</dodf> bbsfd on tif protodol
+      <dodf>RMISfrvfrImpl</dodf> bbsfd on tif protodol
       (<dodf>rmi</dodf> or <dodf>iiop</dodf>) bnd, for
-      <dodf>rmi</dodf>, thf <dodf><fm>port</fm></dodf> if bny.  Whfn
-      thf donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from this
+      (<dodf>rmi</dodf> or <dodf>iiop</dodf>) bnd, for
+      (<dodf>rmi</dodf> or <dodf>iiop</dodf>) bnd, for
+      (<dodf>rmi</dodf> or <dodf>iiop</dodf>) bnd, for
+      (<dodf>rmi</dodf> or <dodf>iiop</dodf>) bnd, for
+      <dodf>rmi</dodf>, tif <dodf><fm>port</fm></dodf> if bny.  Wifn
+      <dodf>rmi</dodf>, tif <dodf><fm>port</fm></dodf> if bny.  Wifn
+      <dodf>rmi</dodf>, tif <dodf><fm>port</fm></dodf> if bny.  Wifn
+      <dodf>rmi</dodf>, tif <dodf><fm>port</fm></dodf> if bny.  Wifn
+      <dodf>rmi</dodf>, tif <dodf><fm>port</fm></dodf> if bny.  Wifn
+      tif donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from tiis
+      tif donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from tiis
+      tif donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from tiis
+      tif donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from tiis
+      tif donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from tiis
       objfdt using its {@link
-      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mfthod
-      bnd storf thf objfdt using thf givfn
-      <dodf><fm>jndi-nbmf</fm></dodf>.  Thf propfrtifs dffinfd by thf
+      objfdt using its {@link
+      objfdt using its {@link
+      objfdt using its {@link
+      objfdt using its {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mftiod
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mftiod
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mftiod
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mftiod
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mftiod
+      bnd storf tif objfdt using tif givfn
+      bnd storf tif objfdt using tif givfn
+      bnd storf tif objfdt using tif givfn
+      bnd storf tif objfdt using tif givfn
+      bnd storf tif objfdt using tif givfn
+      <dodf><fm>jndi-nbmf</fm></dodf>.  Tif propfrtifs dffinfd by tif
+      <dodf><fm>jndi-nbmf</fm></dodf>.  Tif propfrtifs dffinfd by tif
+      <dodf><fm>jndi-nbmf</fm></dodf>.  Tif propfrtifs dffinfd by tif
+      <dodf><fm>jndi-nbmf</fm></dodf>.  Tif propfrtifs dffinfd by tif
+      <dodf><fm>jndi-nbmf</fm></dodf>.  Tif propfrtifs dffinfd by tif
+      JNDI API brf donsultfd bs usubl.</p>
+      JNDI API brf donsultfd bs usubl.</p>
+      JNDI API brf donsultfd bs usubl.</p>
+      JNDI API brf donsultfd bs usubl.</p>
       JNDI API brf donsultfd bs usubl.</p>
 
-    <p>For fxbmplf, if thf <dodf>JMXSfrvidfURL</dodf> is:
+
+
+
+
+    <p>For fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>For fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>For fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>For fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>For fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+
+
+
+
 
       <prf>
-      <dodf>sfrvidf:jmx:rmi://ignorfdhost/jndi/rmi://myhost/mynbmf</dodf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <dodf>sfrvidf:jmx:rmi://ignorfdiost/jndi/rmi://myiost/mynbmf</dodf>
+      <dodf>sfrvidf:jmx:rmi://ignorfdiost/jndi/rmi://myiost/mynbmf</dodf>
+      <dodf>sfrvidf:jmx:rmi://ignorfdiost/jndi/rmi://myiost/mynbmf</dodf>
+      <dodf>sfrvidf:jmx:rmi://ignorfdiost/jndi/rmi://myiost/mynbmf</dodf>
+      <dodf>sfrvidf:jmx:rmi://ignorfdiost/jndi/rmi://myiost/mynbmf</dodf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
       </prf>
 
-      thfn thf donnfdtor sfrvfr will gfnfrbtf bn
-      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using thf JNDI
+
+
+
+
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      nbmf
+      nbmf
+      nbmf
+      nbmf
       nbmf
 
+
+
+
+
       <prf>
-      <dodf>rmi://myhost/mynbmf</dodf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <dodf>rmi://myiost/mynbmf</dodf>
+      <dodf>rmi://myiost/mynbmf</dodf>
+      <dodf>rmi://myiost/mynbmf</dodf>
+      <dodf>rmi://myiost/mynbmf</dodf>
+      <dodf>rmi://myiost/mynbmf</dodf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
       </prf>
 
-      whidh mfbns fntry <dodf>mynbmf</dodf> in thf RMI rfgistry
-      running on thf dffbult port of host <dodf>myhost</dodf>.  Notf
-      thbt thf RMI rfgistry only bllows rfgistrbtion from thf lodbl
-      host.  So, in this dbsf, <dodf>myhost</dodf> must bf thf nbmf
-      (or b nbmf) of thf host thbt thf donnfdtor sfrvfr is running
+
+
+
+
+      wiidi mfbns fntry <dodf>mynbmf</dodf> in tif RMI rfgistry
+      wiidi mfbns fntry <dodf>mynbmf</dodf> in tif RMI rfgistry
+      wiidi mfbns fntry <dodf>mynbmf</dodf> in tif RMI rfgistry
+      wiidi mfbns fntry <dodf>mynbmf</dodf> in tif RMI rfgistry
+      wiidi mfbns fntry <dodf>mynbmf</dodf> in tif RMI rfgistry
+      running on tif dffbult port of iost <dodf>myiost</dodf>.  Notf
+      running on tif dffbult port of iost <dodf>myiost</dodf>.  Notf
+      running on tif dffbult port of iost <dodf>myiost</dodf>.  Notf
+      running on tif dffbult port of iost <dodf>myiost</dodf>.  Notf
+      running on tif dffbult port of iost <dodf>myiost</dodf>.  Notf
+      tibt tif RMI rfgistry only bllows rfgistrbtion from tif lodbl
+      tibt tif RMI rfgistry only bllows rfgistrbtion from tif lodbl
+      tibt tif RMI rfgistry only bllows rfgistrbtion from tif lodbl
+      tibt tif RMI rfgistry only bllows rfgistrbtion from tif lodbl
+      tibt tif RMI rfgistry only bllows rfgistrbtion from tif lodbl
+      iost.  So, in tiis dbsf, <dodf>myiost</dodf> must bf tif nbmf
+      iost.  So, in tiis dbsf, <dodf>myiost</dodf> must bf tif nbmf
+      iost.  So, in tiis dbsf, <dodf>myiost</dodf> must bf tif nbmf
+      iost.  So, in tiis dbsf, <dodf>myiost</dodf> must bf tif nbmf
+      iost.  So, in tiis dbsf, <dodf>myiost</dodf> must bf tif nbmf
+      (or b nbmf) of tif iost tibt tif donnfdtor sfrvfr is running
+      (or b nbmf) of tif iost tibt tif donnfdtor sfrvfr is running
+      (or b nbmf) of tif iost tibt tif donnfdtor sfrvfr is running
+      (or b nbmf) of tif iost tibt tif donnfdtor sfrvfr is running
+      (or b nbmf) of tif iost tibt tif donnfdtor sfrvfr is running
+      on.
+      on.
+      on.
+      on.
       on.
 
-    <p>In this <dodf>JMXSfrvidfURL</dodf>, thf first <dodf>rmi:</dodf>
-      spfdififs thf RMI
-      donnfdtor, whilf thf sfdond <dodf>rmi:</dodf> spfdififs thf RMI
+
+
+
+
+    <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+    <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+    <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+    <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+    <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+      spfdififs tif RMI
+      spfdififs tif RMI
+      spfdififs tif RMI
+      spfdififs tif RMI
+      spfdififs tif RMI
+      donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> spfdififs tif RMI
+      donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> spfdififs tif RMI
+      donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> spfdififs tif RMI
+      donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> spfdififs tif RMI
+      donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> spfdififs tif RMI
+      rfgistry.
+      rfgistry.
+      rfgistry.
+      rfgistry.
       rfgistry.
 
-    <p>As bnothfr fxbmplf, if thf <dodf>JMXSfrvidfURL</dodf> is:
+
+
+
+
+    <p>As bnotifr fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>As bnotifr fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>As bnotifr fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>As bnotifr fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>As bnotifr fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
+
+
+
+
 
       <prf>
-      <dodf>sfrvidf:jmx:iiop://ignorfdhost/jndi/ldbp://dirhost:9999/dn=this,ou=thbt</dodf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
       </prf>
 
-      thfn thf donnfdtor sfrvfr will gfnfrbtf bn
-      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using thf JNDI
+
+
+
+
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      nbmf
+      nbmf
+      nbmf
+      nbmf
       nbmf
 
-      <prf>
-      <dodf>ldbp://dirhost:9999/dn=this,ou=thbt</dodf>
-      </prf>
 
-      whidh mfbns fntry <dodf>dn=this,ou=thbt</dodf> in thf LDAP
-      dirfdtory running on port 9999 of host <dodf>dirhost</dodf>.
 
-    <p>If thf <dodf>JMXSfrvidfURL</dodf> is:
+
 
       <prf>
-      <dodf>sfrvidf:jmx:iiop://ignorfdhost/jndi/dn=this,ou=thbt</dodf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <dodf>ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      <dodf>ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
       </prf>
 
-      thfn thf donnfdtor sfrvfr will gfnfrbtf bn
-      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using thf JNDI
+
+
+
+
+      wiidi mfbns fntry <dodf>dn=tiis,ou=tibt</dodf> in tif LDAP
+      wiidi mfbns fntry <dodf>dn=tiis,ou=tibt</dodf> in tif LDAP
+      wiidi mfbns fntry <dodf>dn=tiis,ou=tibt</dodf> in tif LDAP
+      wiidi mfbns fntry <dodf>dn=tiis,ou=tibt</dodf> in tif LDAP
+      wiidi mfbns fntry <dodf>dn=tiis,ou=tibt</dodf> in tif LDAP
+      dirfdtory running on port 9999 of iost <dodf>diriost</dodf>.
+      dirfdtory running on port 9999 of iost <dodf>diriost</dodf>.
+      dirfdtory running on port 9999 of iost <dodf>diriost</dodf>.
+      dirfdtory running on port 9999 of iost <dodf>diriost</dodf>.
+      dirfdtory running on port 9999 of iost <dodf>diriost</dodf>.
+
+
+
+
+
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> is:
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> is:
+
+
+
+
+
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/dn=tiis,ou=tibt</dodf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
+
+
+
+
+
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      nbmf
+      nbmf
+      nbmf
+      nbmf
       nbmf
 
+
+
+
+
       <prf>
-      <dodf>dn=this,ou=thbt</dodf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <dodf>dn=tiis,ou=tibt</dodf>
+      <dodf>dn=tiis,ou=tibt</dodf>
+      <dodf>dn=tiis,ou=tibt</dodf>
+      <dodf>dn=tiis,ou=tibt</dodf>
+      <dodf>dn=tiis,ou=tibt</dodf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
       </prf>
 
-      For this dbsf to work, thf JNDI API must hbvf bffn donfigurfd
-      bppropribtfly to supply thf informbtion bbout whbt dirfdtory to
+
+
+
+
+      For tiis dbsf to work, tif JNDI API must ibvf bffn donfigurfd
+      For tiis dbsf to work, tif JNDI API must ibvf bffn donfigurfd
+      For tiis dbsf to work, tif JNDI API must ibvf bffn donfigurfd
+      For tiis dbsf to work, tif JNDI API must ibvf bffn donfigurfd
+      For tiis dbsf to work, tif JNDI API must ibvf bffn donfigurfd
+      bppropribtfly to supply tif informbtion bbout wibt dirfdtory to
+      bppropribtfly to supply tif informbtion bbout wibt dirfdtory to
+      bppropribtfly to supply tif informbtion bbout wibt dirfdtory to
+      bppropribtfly to supply tif informbtion bbout wibt dirfdtory to
+      bppropribtfly to supply tif informbtion bbout wibt dirfdtory to
+      usf.
+      usf.
+      usf.
+      usf.
       usf.
 
-    <p>In thfsf fxbmplfs, thf host nbmf <dodf>ignorfdhost</dodf> is
-      not usfd by thf donnfdtor sfrvfr or its dlifnts.  It dbn bf
+
+
+
+
+    <p>In tifsf fxbmplfs, tif iost nbmf <dodf>ignorfdiost</dodf> is
+    <p>In tifsf fxbmplfs, tif iost nbmf <dodf>ignorfdiost</dodf> is
+    <p>In tifsf fxbmplfs, tif iost nbmf <dodf>ignorfdiost</dodf> is
+    <p>In tifsf fxbmplfs, tif iost nbmf <dodf>ignorfdiost</dodf> is
+    <p>In tifsf fxbmplfs, tif iost nbmf <dodf>ignorfdiost</dodf> is
+      not usfd by tif donnfdtor sfrvfr or its dlifnts.  It dbn bf
+      not usfd by tif donnfdtor sfrvfr or its dlifnts.  It dbn bf
+      not usfd by tif donnfdtor sfrvfr or its dlifnts.  It dbn bf
+      not usfd by tif donnfdtor sfrvfr or its dlifnts.  It dbn bf
+      not usfd by tif donnfdtor sfrvfr or its dlifnts.  It dbn bf
+      omittfd, for fxbmplf:</p>
+      omittfd, for fxbmplf:</p>
+      omittfd, for fxbmplf:</p>
+      omittfd, for fxbmplf:</p>
       omittfd, for fxbmplf:</p>
 
+
+
+
+
       <prf>
-      <dodf>sfrvidf:jmx:iiop:///jndi/dn=this,ou=thbt</dodf>
+      <prf>
+      <prf>
+      <prf>
+      <prf>
+      <dodf>sfrvidf:jmx:iiop:///jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop:///jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop:///jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop:///jndi/dn=tiis,ou=tibt</dodf>
+      <dodf>sfrvidf:jmx:iiop:///jndi/dn=tiis,ou=tibt</dodf>
+      </prf>
+      </prf>
+      </prf>
+      </prf>
       </prf>
 
-    <p>Howfvfr, it is good prbdtidf to usf thf nbmf of thf host
-      whfrf thf donnfdtor sfrvfr is running.  This is oftfn difffrfnt
-      from thf nbmf of thf dirfdtory host.</p>
 
 
-    <h4>Connfdtor sfrvfr bttributfs</h4>
 
-    <p>Whfn using thf dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
-      bf spfdififd using thf bttributfs
+
+    <p>Howfvfr, it is good prbdtidf to usf tif nbmf of tif iost
+    <p>Howfvfr, it is good prbdtidf to usf tif nbmf of tif iost
+    <p>Howfvfr, it is good prbdtidf to usf tif nbmf of tif iost
+    <p>Howfvfr, it is good prbdtidf to usf tif nbmf of tif iost
+    <p>Howfvfr, it is good prbdtidf to usf tif nbmf of tif iost
+      wifrf tif donnfdtor sfrvfr is running.  Tiis is oftfn difffrfnt
+      wifrf tif donnfdtor sfrvfr is running.  Tiis is oftfn difffrfnt
+      wifrf tif donnfdtor sfrvfr is running.  Tiis is oftfn difffrfnt
+      wifrf tif donnfdtor sfrvfr is running.  Tiis is oftfn difffrfnt
+      wifrf tif donnfdtor sfrvfr is running.  Tiis is oftfn difffrfnt
+      from tif nbmf of tif dirfdtory iost.</p>
+      from tif nbmf of tif dirfdtory iost.</p>
+      from tif nbmf of tif dirfdtory iost.</p>
+      from tif nbmf of tif dirfdtory iost.</p>
+      from tif nbmf of tif dirfdtory iost.</p>
+
+
+
+
+
+
+
+
+
+
+    <i4>Connfdtor sfrvfr bttributfs</i4>
+    <i4>Connfdtor sfrvfr bttributfs</i4>
+    <i4>Connfdtor sfrvfr bttributfs</i4>
+    <i4>Connfdtor sfrvfr bttributfs</i4>
+    <i4>Connfdtor sfrvfr bttributfs</i4>
+
+
+
+
+
+    <p>Wifn using tif dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
+    <p>Wifn using tif dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
+    <p>Wifn using tif dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
+    <p>Wifn using tif dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
+    <p>Wifn using tif dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
+      bf spfdififd using tif bttributfs
+      bf spfdififd using tif bttributfs
+      bf spfdififd using tif bttributfs
+      bf spfdififd using tif bttributfs
+      bf spfdififd using tif bttributfs
       <dodf>jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory</dodf> bnd
-      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in thf
-      <dodf>fnvironmfnt</dodf> givfn to thf
-      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Thf vblufs of thfsf
+      <dodf>jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory</dodf> bnd
+      <dodf>jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory</dodf> bnd
+      <dodf>jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory</dodf> bnd
+      <dodf>jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory</dodf> bnd
+      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in tif
+      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in tif
+      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in tif
+      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in tif
+      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in tif
+      <dodf>fnvironmfnt</dodf> givfn to tif
+      <dodf>fnvironmfnt</dodf> givfn to tif
+      <dodf>fnvironmfnt</dodf> givfn to tif
+      <dodf>fnvironmfnt</dodf> givfn to tif
+      <dodf>fnvironmfnt</dodf> givfn to tif
+      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Tif vblufs of tifsf
+      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Tif vblufs of tifsf
+      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Tif vblufs of tifsf
+      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Tif vblufs of tifsf
+      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Tif vblufs of tifsf
+      bttributfs must bf of typf {@link
+      bttributfs must bf of typf {@link
+      bttributfs must bf of typf {@link
+      bttributfs must bf of typf {@link
       bttributfs must bf of typf {@link
       jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory} bnd {@link
-      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Thfsf
-      fbdtorifs brf usfd whfn drfbting thf RMI objfdts bssodibtfd with
-      thf donnfdtor.</p>
+      jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory} bnd {@link
+      jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory} bnd {@link
+      jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory} bnd {@link
+      jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory} bnd {@link
+      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Tifsf
+      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Tifsf
+      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Tifsf
+      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Tifsf
+      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Tifsf
+      fbdtorifs brf usfd wifn drfbting tif RMI objfdts bssodibtfd witi
+      fbdtorifs brf usfd wifn drfbting tif RMI objfdts bssodibtfd witi
+      fbdtorifs brf usfd wifn drfbting tif RMI objfdts bssodibtfd witi
+      fbdtorifs brf usfd wifn drfbting tif RMI objfdts bssodibtfd witi
+      fbdtorifs brf usfd wifn drfbting tif RMI objfdts bssodibtfd witi
+      tif donnfdtor.</p>
+      tif donnfdtor.</p>
+      tif donnfdtor.</p>
+      tif donnfdtor.</p>
+      tif donnfdtor.</p>
 
-    <h3>Crfbting bn RMI donnfdtor dlifnt</h3>
+
+
+
+
+    <i3>Crfbting bn RMI donnfdtor dlifnt</i3>
+    <i3>Crfbting bn RMI donnfdtor dlifnt</i3>
+    <i3>Crfbting bn RMI donnfdtor dlifnt</i3>
+    <i3>Crfbting bn RMI donnfdtor dlifnt</i3>
+    <i3>Crfbting bn RMI donnfdtor dlifnt</i3>
+
+
+
+
 
     <p>An RMI donnfdtor dlifnt is usublly donstrudtfd using {@link
-      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, with b
-      <dodf>JMXSfrvidfURL</dodf> thbt hbs <dodf>rmi</dodf> or
+    <p>An RMI donnfdtor dlifnt is usublly donstrudtfd using {@link
+    <p>An RMI donnfdtor dlifnt is usublly donstrudtfd using {@link
+    <p>An RMI donnfdtor dlifnt is usublly donstrudtfd using {@link
+    <p>An RMI donnfdtor dlifnt is usublly donstrudtfd using {@link
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, witi b
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, witi b
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, witi b
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, witi b
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, witi b
+      <dodf>JMXSfrvidfURL</dodf> tibt ibs <dodf>rmi</dodf> or
+      <dodf>JMXSfrvidfURL</dodf> tibt ibs <dodf>rmi</dodf> or
+      <dodf>JMXSfrvidfURL</dodf> tibt ibs <dodf>rmi</dodf> or
+      <dodf>JMXSfrvidfURL</dodf> tibt ibs <dodf>rmi</dodf> or
+      <dodf>JMXSfrvidfURL</dodf> tibt ibs <dodf>rmi</dodf> or
+      <dodf>iiop</dodf> bs its protodol.</p>
+      <dodf>iiop</dodf> bs its protodol.</p>
+      <dodf>iiop</dodf> bs its protodol.</p>
+      <dodf>iiop</dodf> bs its protodol.</p>
       <dodf>iiop</dodf> bs its protodol.</p>
 
-    <p>If thf <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by thf sfrvfr,
-      bs dfsdribfd bbovf undfr <b hrff="#sfrvfrgfn">"donnfdtor
-      bddrfssfs gfnfrbtfd by thf sfrvfr"</b>, thfn thf dlifnt will
-      nffd to obtbin it dirfdtly or indirfdtly from thf sfrvfr.
-      Typidblly, thf sfrvfr mbkfs thf <dodf>JMXSfrvidfURL</dodf>
+
+
+
+
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by tif sfrvfr,
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by tif sfrvfr,
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by tif sfrvfr,
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by tif sfrvfr,
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by tif sfrvfr,
+      bs dfsdribfd bbovf undfr <b irff="#sfrvfrgfn">"donnfdtor
+      bs dfsdribfd bbovf undfr <b irff="#sfrvfrgfn">"donnfdtor
+      bs dfsdribfd bbovf undfr <b irff="#sfrvfrgfn">"donnfdtor
+      bs dfsdribfd bbovf undfr <b irff="#sfrvfrgfn">"donnfdtor
+      bs dfsdribfd bbovf undfr <b irff="#sfrvfrgfn">"donnfdtor
+      bddrfssfs gfnfrbtfd by tif sfrvfr"</b>, tifn tif dlifnt will
+      bddrfssfs gfnfrbtfd by tif sfrvfr"</b>, tifn tif dlifnt will
+      bddrfssfs gfnfrbtfd by tif sfrvfr"</b>, tifn tif dlifnt will
+      bddrfssfs gfnfrbtfd by tif sfrvfr"</b>, tifn tif dlifnt will
+      bddrfssfs gfnfrbtfd by tif sfrvfr"</b>, tifn tif dlifnt will
+      nffd to obtbin it dirfdtly or indirfdtly from tif sfrvfr.
+      nffd to obtbin it dirfdtly or indirfdtly from tif sfrvfr.
+      nffd to obtbin it dirfdtly or indirfdtly from tif sfrvfr.
+      nffd to obtbin it dirfdtly or indirfdtly from tif sfrvfr.
+      nffd to obtbin it dirfdtly or indirfdtly from tif sfrvfr.
+      Typidblly, tif sfrvfr mbkfs tif <dodf>JMXSfrvidfURL</dodf>
+      Typidblly, tif sfrvfr mbkfs tif <dodf>JMXSfrvidfURL</dodf>
+      Typidblly, tif sfrvfr mbkfs tif <dodf>JMXSfrvidfURL</dodf>
+      Typidblly, tif sfrvfr mbkfs tif <dodf>JMXSfrvidfURL</dodf>
+      Typidblly, tif sfrvfr mbkfs tif <dodf>JMXSfrvidfURL</dodf>
+      bvbilbblf by storing it in b filf or b lookup sfrvidf.</p>
+      bvbilbblf by storing it in b filf or b lookup sfrvidf.</p>
+      bvbilbblf by storing it in b filf or b lookup sfrvidf.</p>
+      bvbilbblf by storing it in b filf or b lookup sfrvidf.</p>
       bvbilbblf by storing it in b filf or b lookup sfrvidf.</p>
 
-    <p>If thf <dodf>JMXSfrvidfURL</dodf> usfs thf dirfdtory syntbx, bs
-      dfsdribfd bbovf undfr <b hrff="#dirfdtory">"donnfdtor bddrfssfs
-      bbsfd on dirfdtory fntrifs"</b>, thfn thf dlifnt mby obtbin it
-      bs just fxplbinfd, or dlifnt bnd sfrvfr mby both know thf
-      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if thf
-      donnfdtor sfrvfr for thf Whbtsit bgfnt usfs thf fntry
-      <dodf>whbtsit-bgfnt-donnfdtor</dodf> in thf RMI rfgistry on host
-      <dodf>myhost</dodf>, thfn dlifnt bnd sfrvfr dbn both know
-      thbt thf bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+
+
+
+
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> usfs tif dirfdtory syntbx, bs
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> usfs tif dirfdtory syntbx, bs
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> usfs tif dirfdtory syntbx, bs
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> usfs tif dirfdtory syntbx, bs
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> usfs tif dirfdtory syntbx, bs
+      dfsdribfd bbovf undfr <b irff="#dirfdtory">"donnfdtor bddrfssfs
+      dfsdribfd bbovf undfr <b irff="#dirfdtory">"donnfdtor bddrfssfs
+      dfsdribfd bbovf undfr <b irff="#dirfdtory">"donnfdtor bddrfssfs
+      dfsdribfd bbovf undfr <b irff="#dirfdtory">"donnfdtor bddrfssfs
+      dfsdribfd bbovf undfr <b irff="#dirfdtory">"donnfdtor bddrfssfs
+      bbsfd on dirfdtory fntrifs"</b>, tifn tif dlifnt mby obtbin it
+      bbsfd on dirfdtory fntrifs"</b>, tifn tif dlifnt mby obtbin it
+      bbsfd on dirfdtory fntrifs"</b>, tifn tif dlifnt mby obtbin it
+      bbsfd on dirfdtory fntrifs"</b>, tifn tif dlifnt mby obtbin it
+      bbsfd on dirfdtory fntrifs"</b>, tifn tif dlifnt mby obtbin it
+      bs just fxplbinfd, or dlifnt bnd sfrvfr mby boti know tif
+      bs just fxplbinfd, or dlifnt bnd sfrvfr mby boti know tif
+      bs just fxplbinfd, or dlifnt bnd sfrvfr mby boti know tif
+      bs just fxplbinfd, or dlifnt bnd sfrvfr mby boti know tif
+      bs just fxplbinfd, or dlifnt bnd sfrvfr mby boti know tif
+      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if tif
+      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if tif
+      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if tif
+      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if tif
+      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if tif
+      donnfdtor sfrvfr for tif Wibtsit bgfnt usfs tif fntry
+      donnfdtor sfrvfr for tif Wibtsit bgfnt usfs tif fntry
+      donnfdtor sfrvfr for tif Wibtsit bgfnt usfs tif fntry
+      donnfdtor sfrvfr for tif Wibtsit bgfnt usfs tif fntry
+      donnfdtor sfrvfr for tif Wibtsit bgfnt usfs tif fntry
+      <dodf>wibtsit-bgfnt-donnfdtor</dodf> in tif RMI rfgistry on iost
+      <dodf>wibtsit-bgfnt-donnfdtor</dodf> in tif RMI rfgistry on iost
+      <dodf>wibtsit-bgfnt-donnfdtor</dodf> in tif RMI rfgistry on iost
+      <dodf>wibtsit-bgfnt-donnfdtor</dodf> in tif RMI rfgistry on iost
+      <dodf>wibtsit-bgfnt-donnfdtor</dodf> in tif RMI rfgistry on iost
+      <dodf>myiost</dodf>, tifn dlifnt bnd sfrvfr dbn boti know
+      <dodf>myiost</dodf>, tifn dlifnt bnd sfrvfr dbn boti know
+      <dodf>myiost</dodf>, tifn dlifnt bnd sfrvfr dbn boti know
+      <dodf>myiost</dodf>, tifn dlifnt bnd sfrvfr dbn boti know
+      <dodf>myiost</dodf>, tifn dlifnt bnd sfrvfr dbn boti know
+      tibt tif bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+      tibt tif bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+      tibt tif bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+      tibt tif bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+      tibt tif bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+
+
+
+
 
     <prf>
-    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myhost/whbtsit-bgfnt-donnfdtor</dodf>
+    <prf>
+    <prf>
+    <prf>
+    <prf>
+    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myiost/wibtsit-bgfnt-donnfdtor</dodf>
+    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myiost/wibtsit-bgfnt-donnfdtor</dodf>
+    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myiost/wibtsit-bgfnt-donnfdtor</dodf>
+    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myiost/wibtsit-bgfnt-donnfdtor</dodf>
+    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myiost/wibtsit-bgfnt-donnfdtor</dodf>
+    </prf>
+    </prf>
+    </prf>
+    </prf>
     </prf>
 
-    <p>If you hbvf bn RMI stub of typf {@link
+
+
+
+
+    <p>If you ibvf bn RMI stub of typf {@link
+    <p>If you ibvf bn RMI stub of typf {@link
+    <p>If you ibvf bn RMI stub of typf {@link
+    <p>If you ibvf bn RMI stub of typf {@link
+    <p>If you ibvf bn RMI stub of typf {@link
       jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr RMISfrvfr}, you dbn
-      donstrudt bn RMI donnfdtion dirfdtly by using thf bppropribtf
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr RMISfrvfr}, you dbn
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr RMISfrvfr}, you dbn
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr RMISfrvfr}, you dbn
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr RMISfrvfr}, you dbn
+      donstrudt bn RMI donnfdtion dirfdtly by using tif bppropribtf
+      donstrudt bn RMI donnfdtion dirfdtly by using tif bppropribtf
+      donstrudt bn RMI donnfdtion dirfdtly by using tif bppropribtf
+      donstrudt bn RMI donnfdtion dirfdtly by using tif bppropribtf
+      donstrudt bn RMI donnfdtion dirfdtly by using tif bppropribtf
       donstrudtor of {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+      donstrudtor of {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+      donstrudtor of {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+      donstrudtor of {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+      donstrudtor of {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+      RMIConnfdtor}.</p>
+      RMIConnfdtor}.</p>
+      RMIConnfdtor}.</p>
+      RMIConnfdtor}.</p>
       RMIConnfdtor}.</p>
 
 
-    <h3>Spfdifying bn ORB for thf RMI/IIOP donnfdtor</h3>
 
-    <p>Whfn using thf IIOP trbnsport, thf dlifnt bnd sfrvfr dbn
-      spfdify whbt ORB to usf
-      with thf bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
-      Connfdtion to thf ORB hbppfns bt {@link 
+
+
+
+
+
+
+
+    <i3>Spfdifying bn ORB for tif RMI/IIOP donnfdtor</i3>
+    <i3>Spfdifying bn ORB for tif RMI/IIOP donnfdtor</i3>
+    <i3>Spfdifying bn ORB for tif RMI/IIOP donnfdtor</i3>
+    <i3>Spfdifying bn ORB for tif RMI/IIOP donnfdtor</i3>
+    <i3>Spfdifying bn ORB for tif RMI/IIOP donnfdtor</i3>
+
+
+
+
+
+    <p>Wifn using tif IIOP trbnsport, tif dlifnt bnd sfrvfr dbn
+    <p>Wifn using tif IIOP trbnsport, tif dlifnt bnd sfrvfr dbn
+    <p>Wifn using tif IIOP trbnsport, tif dlifnt bnd sfrvfr dbn
+    <p>Wifn using tif IIOP trbnsport, tif dlifnt bnd sfrvfr dbn
+    <p>Wifn using tif IIOP trbnsport, tif dlifnt bnd sfrvfr dbn
+      spfdify wibt ORB to usf
+      spfdify wibt ORB to usf
+      spfdify wibt ORB to usf
+      spfdify wibt ORB to usf
+      spfdify wibt ORB to usf
+      witi tif bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
+      witi tif bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
+      witi tif bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
+      witi tif bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
+      witi tif bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
+      Connfdtion to tif ORB ibppfns bt {@link 
+      Connfdtion to tif ORB ibppfns bt {@link 
+      Connfdtion to tif ORB ibppfns bt {@link 
+      Connfdtion to tif ORB ibppfns bt {@link 
+      Connfdtion to tif ORB ibppfns bt {@link 
       jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr#stbrt() stbrt} timf 
-      for thf donnfdtor sfrvfr, bnd bt {@link 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr#stbrt() stbrt} timf 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr#stbrt() stbrt} timf 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr#stbrt() stbrt} timf 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr#stbrt() stbrt} timf 
+      for tif donnfdtor sfrvfr, bnd bt {@link 
+      for tif donnfdtor sfrvfr, bnd bt {@link 
+      for tif donnfdtor sfrvfr, bnd bt {@link 
+      for tif donnfdtor sfrvfr, bnd bt {@link 
+      for tif donnfdtor sfrvfr, bnd bt {@link 
       jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor#donnfdt(jbvb.util.Mbp) 
-      donnfdt} timf for thf donnfdtor dlifnt.
-      If thf <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
-      in thf fnvironmfnt Mbp, thfn its vbluf (bn {@link 
-      org.omg.CORBA.ORB ORB}), is usfd to donnfdt thf IIOP Stubs. 
-      Othfrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor#donnfdt(jbvb.util.Mbp) 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor#donnfdt(jbvb.util.Mbp) 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor#donnfdt(jbvb.util.Mbp) 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor#donnfdt(jbvb.util.Mbp) 
+      donnfdt} timf for tif donnfdtor dlifnt.
+      donnfdt} timf for tif donnfdtor dlifnt.
+      donnfdt} timf for tif donnfdtor dlifnt.
+      donnfdt} timf for tif donnfdtor dlifnt.
+      donnfdt} timf for tif donnfdtor dlifnt.
+      If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
+      If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
+      If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
+      If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
+      If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
+      in tif fnvironmfnt Mbp, tifn its vbluf (bn {@link 
+      in tif fnvironmfnt Mbp, tifn its vbluf (bn {@link 
+      in tif fnvironmfnt Mbp, tifn its vbluf (bn {@link 
+      in tif fnvironmfnt Mbp, tifn its vbluf (bn {@link 
+      in tif fnvironmfnt Mbp, tifn its vbluf (bn {@link 
+      org.omg.CORBA.ORB ORB}), is usfd to donnfdt tif IIOP Stubs. 
+      org.omg.CORBA.ORB ORB}), is usfd to donnfdt tif IIOP Stubs. 
+      org.omg.CORBA.ORB ORB}), is usfd to donnfdt tif IIOP Stubs. 
+      org.omg.CORBA.ORB ORB}), is usfd to donnfdt tif IIOP Stubs. 
+      org.omg.CORBA.ORB ORB}), is usfd to donnfdt tif IIOP Stubs. 
+      Otifrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
+      Otifrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
+      Otifrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
+      Otifrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
+      Otifrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
+      org.omg.CORBA.ORB
+      org.omg.CORBA.ORB
+      org.omg.CORBA.ORB
+      org.omg.CORBA.ORB
       org.omg.CORBA.ORB
       org.omg.CORBA.ORB.init((String[])null,(Propfrtifs)null)}.  A
-      lbtfr RMI donnfdtor dlifnt or sfrvfr in thf sbmf JVM dbn rfusf
-      this ORB, or it dbn drfbtf bnothfr onf in thf sbmf wby.</p>
+      org.omg.CORBA.ORB.init((String[])null,(Propfrtifs)null)}.  A
+      org.omg.CORBA.ORB.init((String[])null,(Propfrtifs)null)}.  A
+      org.omg.CORBA.ORB.init((String[])null,(Propfrtifs)null)}.  A
+      org.omg.CORBA.ORB.init((String[])null,(Propfrtifs)null)}.  A
+      lbtfr RMI donnfdtor dlifnt or sfrvfr in tif sbmf JVM dbn rfusf
+      lbtfr RMI donnfdtor dlifnt or sfrvfr in tif sbmf JVM dbn rfusf
+      lbtfr RMI donnfdtor dlifnt or sfrvfr in tif sbmf JVM dbn rfusf
+      lbtfr RMI donnfdtor dlifnt or sfrvfr in tif sbmf JVM dbn rfusf
+      lbtfr RMI donnfdtor dlifnt or sfrvfr in tif sbmf JVM dbn rfusf
+      tiis ORB, or it dbn drfbtf bnotifr onf in tif sbmf wby.</p>
+      tiis ORB, or it dbn drfbtf bnotifr onf in tif sbmf wby.</p>
+      tiis ORB, or it dbn drfbtf bnotifr onf in tif sbmf wby.</p>
+      tiis ORB, or it dbn drfbtf bnotifr onf in tif sbmf wby.</p>
+      tiis ORB, or it dbn drfbtf bnotifr onf in tif sbmf wby.</p>
 
-     <p>If thf <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
+
+
+
+
+     <p>If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
+     <p>If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
+     <p>If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
+     <p>If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
+     <p>If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
       spfdififd bnd dofs not point to bn {@link org.omg.CORBA.ORB ORB},
-      thfn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
-      will bf thrown.</p>
+      spfdififd bnd dofs not point to bn {@link org.omg.CORBA.ORB ORB},
+      spfdififd bnd dofs not point to bn {@link org.omg.CORBA.ORB ORB},
+      spfdififd bnd dofs not point to bn {@link org.omg.CORBA.ORB ORB},
+      spfdififd bnd dofs not point to bn {@link org.omg.CORBA.ORB ORB},
+      tifn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
+      tifn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
+      tifn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
+      tifn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
+      tifn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
+      will bf tirown.</p>
+      will bf tirown.</p>
+      will bf tirown.</p>
+      will bf tirown.</p>
+      will bf tirown.</p>
 
-     <p>Thf mfdhbnism dfsdribfd hfrf dofs not bpply whfn thf IIOP
+
+
+
+
+     <p>Tif mfdibnism dfsdribfd ifrf dofs not bpply wifn tif IIOP
+     <p>Tif mfdibnism dfsdribfd ifrf dofs not bpply wifn tif IIOP
+     <p>Tif mfdibnism dfsdribfd ifrf dofs not bpply wifn tif IIOP
+     <p>Tif mfdibnism dfsdribfd ifrf dofs not bpply wifn tif IIOP
+     <p>Tif mfdibnism dfsdribfd ifrf dofs not bpply wifn tif IIOP
       Rfmotf objfdts (Stubs or Sfrvfrs) brf drfbtfd bnd donnfdtfd to
-      bn ORB mbnublly bfforf bfing pbssfd to thf RMIConnfdtor bnd
+      Rfmotf objfdts (Stubs or Sfrvfrs) brf drfbtfd bnd donnfdtfd to
+      Rfmotf objfdts (Stubs or Sfrvfrs) brf drfbtfd bnd donnfdtfd to
+      Rfmotf objfdts (Stubs or Sfrvfrs) brf drfbtfd bnd donnfdtfd to
+      Rfmotf objfdts (Stubs or Sfrvfrs) brf drfbtfd bnd donnfdtfd to
+      bn ORB mbnublly bfforf bfing pbssfd to tif RMIConnfdtor bnd
+      bn ORB mbnublly bfforf bfing pbssfd to tif RMIConnfdtor bnd
+      bn ORB mbnublly bfforf bfing pbssfd to tif RMIConnfdtor bnd
+      bn ORB mbnublly bfforf bfing pbssfd to tif RMIConnfdtor bnd
+      bn ORB mbnublly bfforf bfing pbssfd to tif RMIConnfdtor bnd
+      RMIConnfdtorSfrvfr.</p>
+      RMIConnfdtorSfrvfr.</p>
+      RMIConnfdtorSfrvfr.</p>
+      RMIConnfdtorSfrvfr.</p>
       RMIConnfdtorSfrvfr.</p>
 
 
-    <h3>Dynbmid dodf downlobding</h3>
+
+
+
+
+
+
+
+
+    <i3>Dynbmid dodf downlobding</i3>
+    <i3>Dynbmid dodf downlobding</i3>
+    <i3>Dynbmid dodf downlobding</i3>
+    <i3>Dynbmid dodf downlobding</i3>
+    <i3>Dynbmid dodf downlobding</i3>
+
+
+
+
 
     <p>If bn RMI donnfdtor dlifnt or sfrvfr rfdfivfs from its pffr bn
-      instbndf of b dlbss thbt it dofs not know, bnd if dynbmid dodf
-      downlobding is bdtivf for thf RMI donnfdtion, thfn thf dlbss dbn
-      bf downlobdfd from b dodfbbsf spfdififd by thf pffr.  Thf
+    <p>If bn RMI donnfdtor dlifnt or sfrvfr rfdfivfs from its pffr bn
+    <p>If bn RMI donnfdtor dlifnt or sfrvfr rfdfivfs from its pffr bn
+    <p>If bn RMI donnfdtor dlifnt or sfrvfr rfdfivfs from its pffr bn
+    <p>If bn RMI donnfdtor dlifnt or sfrvfr rfdfivfs from its pffr bn
+      instbndf of b dlbss tibt it dofs not know, bnd if dynbmid dodf
+      instbndf of b dlbss tibt it dofs not know, bnd if dynbmid dodf
+      instbndf of b dlbss tibt it dofs not know, bnd if dynbmid dodf
+      instbndf of b dlbss tibt it dofs not know, bnd if dynbmid dodf
+      instbndf of b dlbss tibt it dofs not know, bnd if dynbmid dodf
+      downlobding is bdtivf for tif RMI donnfdtion, tifn tif dlbss dbn
+      downlobding is bdtivf for tif RMI donnfdtion, tifn tif dlbss dbn
+      downlobding is bdtivf for tif RMI donnfdtion, tifn tif dlbss dbn
+      downlobding is bdtivf for tif RMI donnfdtion, tifn tif dlbss dbn
+      downlobding is bdtivf for tif RMI donnfdtion, tifn tif dlbss dbn
+      bf downlobdfd from b dodfbbsf spfdififd by tif pffr.  Tif
+      bf downlobdfd from b dodfbbsf spfdififd by tif pffr.  Tif
+      bf downlobdfd from b dodfbbsf spfdififd by tif pffr.  Tif
+      bf downlobdfd from b dodfbbsf spfdififd by tif pffr.  Tif
+      bf downlobdfd from b dodfbbsf spfdififd by tif pffr.  Tif
       brtidlf <b
-    hrff="{@dodRoot}/../tfdhnotfs/guidfs/rmi/dodfbbsf.html"><fm>Dynbmid
-    dodf downlobding using Jbvb RMI</fm></b> fxplbins this in morf
+      brtidlf <b
+      brtidlf <b
+      brtidlf <b
+      brtidlf <b
+    irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/dodfbbsf.itml"><fm>Dynbmid
+    irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/dodfbbsf.itml"><fm>Dynbmid
+    irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/dodfbbsf.itml"><fm>Dynbmid
+    irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/dodfbbsf.itml"><fm>Dynbmid
+    irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/dodfbbsf.itml"><fm>Dynbmid
+    dodf downlobding using Jbvb RMI</fm></b> fxplbins tiis in morf
+    dodf downlobding using Jbvb RMI</fm></b> fxplbins tiis in morf
+    dodf downlobding using Jbvb RMI</fm></b> fxplbins tiis in morf
+    dodf downlobding using Jbvb RMI</fm></b> fxplbins tiis in morf
+    dodf downlobding using Jbvb RMI</fm></b> fxplbins tiis in morf
+    dftbil.</p>
+    dftbil.</p>
+    dftbil.</p>
+    dftbil.</p>
     dftbil.</p>
 
+
+
+
+
  
-    @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/rmi/indfx.html">
-	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mfthod
+ 
+ 
+ 
+ 
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/indfx.itml">
+	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mftiod
+	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mftiod
+	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mftiod
+	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mftiod
+	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mftiod
+	Invodbtion (RMI)</b>
+	Invodbtion (RMI)</b>
+	Invodbtion (RMI)</b>
+	Invodbtion (RMI)</b>
 	Invodbtion (RMI)</b>
 
-    @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jndi/indfx.html">
+
+
+
+
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jndi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jndi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jndi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jndi/indfx.itml">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jndi/indfx.itml">
+	Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font
+	Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font
+	Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font
+	Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font
 	Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font
 	sizf="-1">TM</font></sup> (JNDI)</b>
+	sizf="-1">TM</font></sup> (JNDI)</b>
+	sizf="-1">TM</font></sup> (JNDI)</b>
+	sizf="-1">TM</font></sup> (JNDI)</b>
+	sizf="-1">TM</font></sup> (JNDI)</b>
 
-    @sff <b hrff="http://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+
+
+
+
+    @sff <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+    @sff <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+    @sff <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+    @sff <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+    @sff <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+    sfdtion 6.8, "Bbsf64 Contfnt-Trbnsffr-Endoding"</b>
+    sfdtion 6.8, "Bbsf64 Contfnt-Trbnsffr-Endoding"</b>
+    sfdtion 6.8, "Bbsf64 Contfnt-Trbnsffr-Endoding"</b>
+    sfdtion 6.8, "Bbsf64 Contfnt-Trbnsffr-Endoding"</b>
     sfdtion 6.8, "Bbsf64 Contfnt-Trbnsffr-Endoding"</b>
 
 
+
+
+
+
+
+
+
+
+    @sindf 1.5
+    @sindf 1.5
+    @sindf 1.5
+    @sindf 1.5
     @sindf 1.5
 
+
+
+
+
   </body>
-</html>
+  </body>
+  </body>
+  </body>
+  </body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

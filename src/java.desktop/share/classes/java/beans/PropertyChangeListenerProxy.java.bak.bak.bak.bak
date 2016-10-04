@@ -1,81 +1,405 @@
 /*
- * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bfbns;
+pbdkbgf jbvb.bfbns;
+pbdkbgf jbvb.bfbns;
+pbdkbgf jbvb.bfbns;
+pbdkbgf jbvb.bfbns;
+
+
+
+
 
 import jbvb.util.EvfntListfnfrProxy;
+import jbvb.util.EvfntListfnfrProxy;
+import jbvb.util.EvfntListfnfrProxy;
+import jbvb.util.EvfntListfnfrProxy;
+import jbvb.util.EvfntListfnfrProxy;
+
+
+
+
 
 /**
- * A dlbss whidh fxtfnds thf {@dodf EvfntListfnfrProxy}
- * spfdifidblly for bdding b {@dodf PropfrtyChbngfListfnfr}
- * with b "bound" propfrty.
- * Instbndfs of this dlbss dbn bf bddfd
- * bs {@dodf PropfrtyChbngfListfnfr}s to b bfbn
- * whidh supports firing propfrty dhbngf fvfnts.
+/**
+/**
+/**
+/**
+ * A dlbss wiidi fxtfnds tif {@dodf EvfntListfnfrProxy}
+ * A dlbss wiidi fxtfnds tif {@dodf EvfntListfnfrProxy}
+ * A dlbss wiidi fxtfnds tif {@dodf EvfntListfnfrProxy}
+ * A dlbss wiidi fxtfnds tif {@dodf EvfntListfnfrProxy}
+ * A dlbss wiidi fxtfnds tif {@dodf EvfntListfnfrProxy}
+ * spfdifidblly for bdding b {@dodf PropfrtyCibngfListfnfr}
+ * spfdifidblly for bdding b {@dodf PropfrtyCibngfListfnfr}
+ * spfdifidblly for bdding b {@dodf PropfrtyCibngfListfnfr}
+ * spfdifidblly for bdding b {@dodf PropfrtyCibngfListfnfr}
+ * spfdifidblly for bdding b {@dodf PropfrtyCibngfListfnfr}
+ * witi b "bound" propfrty.
+ * witi b "bound" propfrty.
+ * witi b "bound" propfrty.
+ * witi b "bound" propfrty.
+ * witi b "bound" propfrty.
+ * Instbndfs of tiis dlbss dbn bf bddfd
+ * Instbndfs of tiis dlbss dbn bf bddfd
+ * Instbndfs of tiis dlbss dbn bf bddfd
+ * Instbndfs of tiis dlbss dbn bf bddfd
+ * Instbndfs of tiis dlbss dbn bf bddfd
+ * bs {@dodf PropfrtyCibngfListfnfr}s to b bfbn
+ * bs {@dodf PropfrtyCibngfListfnfr}s to b bfbn
+ * bs {@dodf PropfrtyCibngfListfnfr}s to b bfbn
+ * bs {@dodf PropfrtyCibngfListfnfr}s to b bfbn
+ * bs {@dodf PropfrtyCibngfListfnfr}s to b bfbn
+ * wiidi supports firing propfrty dibngf fvfnts.
+ * wiidi supports firing propfrty dibngf fvfnts.
+ * wiidi supports firing propfrty dibngf fvfnts.
+ * wiidi supports firing propfrty dibngf fvfnts.
+ * wiidi supports firing propfrty dibngf fvfnts.
  * <p>
- * If thf objfdt hbs b {@dodf gftPropfrtyChbngfListfnfrs} mfthod
- * thfn thf brrby rfturnfd dould bf b mixturf of {@dodf PropfrtyChbngfListfnfr}
- * bnd {@dodf PropfrtyChbngfListfnfrProxy} objfdts.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * If tif objfdt ibs b {@dodf gftPropfrtyCibngfListfnfrs} mftiod
+ * If tif objfdt ibs b {@dodf gftPropfrtyCibngfListfnfrs} mftiod
+ * If tif objfdt ibs b {@dodf gftPropfrtyCibngfListfnfrs} mftiod
+ * If tif objfdt ibs b {@dodf gftPropfrtyCibngfListfnfrs} mftiod
+ * If tif objfdt ibs b {@dodf gftPropfrtyCibngfListfnfrs} mftiod
+ * tifn tif brrby rfturnfd dould bf b mixturf of {@dodf PropfrtyCibngfListfnfr}
+ * tifn tif brrby rfturnfd dould bf b mixturf of {@dodf PropfrtyCibngfListfnfr}
+ * tifn tif brrby rfturnfd dould bf b mixturf of {@dodf PropfrtyCibngfListfnfr}
+ * tifn tif brrby rfturnfd dould bf b mixturf of {@dodf PropfrtyCibngfListfnfr}
+ * tifn tif brrby rfturnfd dould bf b mixturf of {@dodf PropfrtyCibngfListfnfr}
+ * bnd {@dodf PropfrtyCibngfListfnfrProxy} objfdts.
+ * bnd {@dodf PropfrtyCibngfListfnfrProxy} objfdts.
+ * bnd {@dodf PropfrtyCibngfListfnfrProxy} objfdts.
+ * bnd {@dodf PropfrtyCibngfListfnfrProxy} objfdts.
+ * bnd {@dodf PropfrtyCibngfListfnfrProxy} objfdts.
+ *
+ *
+ *
+ *
  *
  * @sff jbvb.util.EvfntListfnfrProxy
- * @sff PropfrtyChbngfSupport#gftPropfrtyChbngfListfnfrs
+ * @sff jbvb.util.EvfntListfnfrProxy
+ * @sff jbvb.util.EvfntListfnfrProxy
+ * @sff jbvb.util.EvfntListfnfrProxy
+ * @sff jbvb.util.EvfntListfnfrProxy
+ * @sff PropfrtyCibngfSupport#gftPropfrtyCibngfListfnfrs
+ * @sff PropfrtyCibngfSupport#gftPropfrtyCibngfListfnfrs
+ * @sff PropfrtyCibngfSupport#gftPropfrtyCibngfListfnfrs
+ * @sff PropfrtyCibngfSupport#gftPropfrtyCibngfListfnfrs
+ * @sff PropfrtyCibngfSupport#gftPropfrtyCibngfListfnfrs
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
  * @sindf 1.4
  */
-publid dlbss PropfrtyChbngfListfnfrProxy
-        fxtfnds EvfntListfnfrProxy<PropfrtyChbngfListfnfr>
-        implfmfnts PropfrtyChbngfListfnfr {
+ */
+ */
+ */
+ */
+publid dlbss PropfrtyCibngfListfnfrProxy
+publid dlbss PropfrtyCibngfListfnfrProxy
+publid dlbss PropfrtyCibngfListfnfrProxy
+publid dlbss PropfrtyCibngfListfnfrProxy
+publid dlbss PropfrtyCibngfListfnfrProxy
+        fxtfnds EvfntListfnfrProxy<PropfrtyCibngfListfnfr>
+        fxtfnds EvfntListfnfrProxy<PropfrtyCibngfListfnfr>
+        fxtfnds EvfntListfnfrProxy<PropfrtyCibngfListfnfr>
+        fxtfnds EvfntListfnfrProxy<PropfrtyCibngfListfnfr>
+        fxtfnds EvfntListfnfrProxy<PropfrtyCibngfListfnfr>
+        implfmfnts PropfrtyCibngfListfnfr {
+        implfmfnts PropfrtyCibngfListfnfr {
+        implfmfnts PropfrtyCibngfListfnfr {
+        implfmfnts PropfrtyCibngfListfnfr {
+        implfmfnts PropfrtyCibngfListfnfr {
+
+
+
+
 
     privbtf finbl String propfrtyNbmf;
+    privbtf finbl String propfrtyNbmf;
+    privbtf finbl String propfrtyNbmf;
+    privbtf finbl String propfrtyNbmf;
+    privbtf finbl String propfrtyNbmf;
+
+
+
+
 
     /**
-     * Construdtor whidh binds thf {@dodf PropfrtyChbngfListfnfr}
+    /**
+    /**
+    /**
+    /**
+     * Construdtor wiidi binds tif {@dodf PropfrtyCibngfListfnfr}
+     * Construdtor wiidi binds tif {@dodf PropfrtyCibngfListfnfr}
+     * Construdtor wiidi binds tif {@dodf PropfrtyCibngfListfnfr}
+     * Construdtor wiidi binds tif {@dodf PropfrtyCibngfListfnfr}
+     * Construdtor wiidi binds tif {@dodf PropfrtyCibngfListfnfr}
+     * to b spfdifid propfrty.
+     * to b spfdifid propfrty.
+     * to b spfdifid propfrty.
+     * to b spfdifid propfrty.
      * to b spfdifid propfrty.
      *
-     * @pbrbm propfrtyNbmf  thf nbmf of thf propfrty to listfn on
-     * @pbrbm listfnfr      thf listfnfr objfdt
+     *
+     *
+     *
+     *
+     * @pbrbm propfrtyNbmf  tif nbmf of tif propfrty to listfn on
+     * @pbrbm propfrtyNbmf  tif nbmf of tif propfrty to listfn on
+     * @pbrbm propfrtyNbmf  tif nbmf of tif propfrty to listfn on
+     * @pbrbm propfrtyNbmf  tif nbmf of tif propfrty to listfn on
+     * @pbrbm propfrtyNbmf  tif nbmf of tif propfrty to listfn on
+     * @pbrbm listfnfr      tif listfnfr objfdt
+     * @pbrbm listfnfr      tif listfnfr objfdt
+     * @pbrbm listfnfr      tif listfnfr objfdt
+     * @pbrbm listfnfr      tif listfnfr objfdt
+     * @pbrbm listfnfr      tif listfnfr objfdt
      */
-    publid PropfrtyChbngfListfnfrProxy(String propfrtyNbmf, PropfrtyChbngfListfnfr listfnfr) {
+     */
+     */
+     */
+     */
+    publid PropfrtyCibngfListfnfrProxy(String propfrtyNbmf, PropfrtyCibngfListfnfr listfnfr) {
+    publid PropfrtyCibngfListfnfrProxy(String propfrtyNbmf, PropfrtyCibngfListfnfr listfnfr) {
+    publid PropfrtyCibngfListfnfrProxy(String propfrtyNbmf, PropfrtyCibngfListfnfr listfnfr) {
+    publid PropfrtyCibngfListfnfrProxy(String propfrtyNbmf, PropfrtyCibngfListfnfr listfnfr) {
+    publid PropfrtyCibngfListfnfrProxy(String propfrtyNbmf, PropfrtyCibngfListfnfr listfnfr) {
         supfr(listfnfr);
-        this.propfrtyNbmf = propfrtyNbmf;
+        supfr(listfnfr);
+        supfr(listfnfr);
+        supfr(listfnfr);
+        supfr(listfnfr);
+        tiis.propfrtyNbmf = propfrtyNbmf;
+        tiis.propfrtyNbmf = propfrtyNbmf;
+        tiis.propfrtyNbmf = propfrtyNbmf;
+        tiis.propfrtyNbmf = propfrtyNbmf;
+        tiis.propfrtyNbmf = propfrtyNbmf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Forwbrds thf propfrty dhbngf fvfnt to thf listfnfr dflfgbtf.
+    /**
+    /**
+    /**
+    /**
+     * Forwbrds tif propfrty dibngf fvfnt to tif listfnfr dflfgbtf.
+     * Forwbrds tif propfrty dibngf fvfnt to tif listfnfr dflfgbtf.
+     * Forwbrds tif propfrty dibngf fvfnt to tif listfnfr dflfgbtf.
+     * Forwbrds tif propfrty dibngf fvfnt to tif listfnfr dflfgbtf.
+     * Forwbrds tif propfrty dibngf fvfnt to tif listfnfr dflfgbtf.
      *
-     * @pbrbm fvfnt  thf propfrty dhbngf fvfnt
+     *
+     *
+     *
+     *
+     * @pbrbm fvfnt  tif propfrty dibngf fvfnt
+     * @pbrbm fvfnt  tif propfrty dibngf fvfnt
+     * @pbrbm fvfnt  tif propfrty dibngf fvfnt
+     * @pbrbm fvfnt  tif propfrty dibngf fvfnt
+     * @pbrbm fvfnt  tif propfrty dibngf fvfnt
      */
-    publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvfnt) {
-        gftListfnfr().propfrtyChbngf(fvfnt);
+     */
+     */
+     */
+     */
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+        gftListfnfr().propfrtyCibngf(fvfnt);
+        gftListfnfr().propfrtyCibngf(fvfnt);
+        gftListfnfr().propfrtyCibngf(fvfnt);
+        gftListfnfr().propfrtyCibngf(fvfnt);
+        gftListfnfr().propfrtyCibngf(fvfnt);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf nbmf of thf nbmfd propfrty bssodibtfd with thf listfnfr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr.
+     * Rfturns tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr.
+     * Rfturns tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr.
+     * Rfturns tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr.
+     * Rfturns tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr.
      *
-     * @rfturn thf nbmf of thf nbmfd propfrty bssodibtfd with thf listfnfr
+     *
+     *
+     *
+     *
+     * @rfturn tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr
+     * @rfturn tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr
+     * @rfturn tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr
+     * @rfturn tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr
+     * @rfturn tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr
+     */
+     */
+     */
+     */
      */
     publid String gftPropfrtyNbmf() {
-        rfturn this.propfrtyNbmf;
+    publid String gftPropfrtyNbmf() {
+    publid String gftPropfrtyNbmf() {
+    publid String gftPropfrtyNbmf() {
+    publid String gftPropfrtyNbmf() {
+        rfturn tiis.propfrtyNbmf;
+        rfturn tiis.propfrtyNbmf;
+        rfturn tiis.propfrtyNbmf;
+        rfturn tiis.propfrtyNbmf;
+        rfturn tiis.propfrtyNbmf;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

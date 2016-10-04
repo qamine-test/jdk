@@ -1,0 +1,534 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ *
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dirono;
+
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ERA;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR_OF_ERA;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.MONTHS;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.Yfbr;
+import jbvb.timf.ZonfId;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfrs;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Arrbys;
+import jbvb.util.Cblfndbr;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+
+import sun.util.dblfndbr.CblfndbrSystfm;
+import sun.util.dblfndbr.LodblGrfgoribnCblfndbr;
+
+/**
+ * Tif Jbpbnfsf Impfribl dblfndbr systfm.
+ * <p>
+ * Tiis dironology dffinfs tif rulfs of tif Jbpbnfsf Impfribl dblfndbr systfm.
+ * Tiis dblfndbr systfm is primbrily usfd in Jbpbn.
+ * Tif Jbpbnfsf Impfribl dblfndbr systfm is tif sbmf bs tif ISO dblfndbr systfm
+ * bpbrt from tif frb-bbsfd yfbr numbfring.
+ * <p>
+ * Jbpbn introdudfd tif Grfgoribn dblfndbr stbrting witi Mfiji 6.
+ * Only Mfiji bnd lbtfr frbs brf supportfd;
+ * dbtfs bfforf Mfiji 6, Jbnubry 1 brf not supportfd.
+ * <p>
+ * Tif supportfd {@dodf CironoFifld} instbndfs brf:
+ * <ul>
+ * <li>{@dodf DAY_OF_WEEK}
+ * <li>{@dodf DAY_OF_MONTH}
+ * <li>{@dodf DAY_OF_YEAR}
+ * <li>{@dodf EPOCH_DAY}
+ * <li>{@dodf MONTH_OF_YEAR}
+ * <li>{@dodf PROLEPTIC_MONTH}
+ * <li>{@dodf YEAR_OF_ERA}
+ * <li>{@dodf YEAR}
+ * <li>{@dodf ERA}
+ * </ul>
+ *
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss JbpbnfsfCironology fxtfnds AbstrbdtCironology implfmfnts Sfriblizbblf {
+
+    stbtid finbl LodblGrfgoribnCblfndbr JCAL =
+        (LodblGrfgoribnCblfndbr) CblfndbrSystfm.forNbmf("jbpbnfsf");
+
+    // Lodblf for drfbting b JbpbnfsfImpfridblCblfndbr.
+    stbtid finbl Lodblf LOCALE = Lodblf.forLbngubgfTbg("jb-JP-u-db-jbpbnfsf");
+
+    /**
+     * Singlfton instbndf for Jbpbnfsf dironology.
+     */
+    publid stbtid finbl JbpbnfsfCironology INSTANCE = nfw JbpbnfsfCironology();
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 459996390165777884L;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfstridtfd donstrudtor.
+     */
+    privbtf JbpbnfsfCironology() {
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif ID of tif dironology - 'Jbpbnfsf'.
+     * <p>
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     *
+     * @rfturn tif dironology ID - 'Jbpbnfsf'
+     * @sff #gftCblfndbrTypf()
+     */
+    @Ovfrridf
+    publid String gftId() {
+        rfturn "Jbpbnfsf";
+    }
+
+    /**
+     * Gfts tif dblfndbr typf of tif undfrlying dblfndbr systfm - 'jbpbnfsf'.
+     * <p>
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtion.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link Cironology#of(String)}.
+     * It dbn blso bf usfd bs pbrt of b lodblf, bddfssiblf vib
+     * {@link Lodblf#gftUnidodfLodblfTypf(String)} witi tif kfy 'db'.
+     *
+     * @rfturn tif dblfndbr systfm typf - 'jbpbnfsf'
+     * @sff #gftId()
+     */
+    @Ovfrridf
+    publid String gftCblfndbrTypf() {
+        rfturn "jbpbnfsf";
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b lodbl dbtf in Jbpbnfsf dblfndbr systfm from tif
+     * frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     * <p>
+     * Tif Jbpbnfsf monti bnd dby-of-monti brf tif sbmf bs tiosf in tif
+     * ISO dblfndbr systfm. Tify brf not rfsft wifn tif frb dibngfs.
+     * For fxbmplf:
+     * <prf>
+     *  6ti Jbn Siowb 64 = ISO 1989-01-06
+     *  7ti Jbn Siowb 64 = ISO 1989-01-07
+     *  8ti Jbn Hfisfi 1 = ISO 1989-01-08
+     *  9ti Jbn Hfisfi 1 = ISO 1989-01-09
+     * </prf>
+     *
+     * @pbrbm frb  tif Jbpbnfsf frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Jbpbnfsf lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf JbpbnfsfErb}
+     */
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+        if (frb instbndfof JbpbnfsfErb == fblsf) {
+            tirow nfw ClbssCbstExdfption("Erb must bf JbpbnfsfErb");
+        }
+        rfturn JbpbnfsfDbtf.of((JbpbnfsfErb) frb, yfbrOfErb, monti, dbyOfMonti);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Jbpbnfsf dblfndbr systfm from tif
+     * prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * <p>
+     * Tif Jbpbnfsf prolfptid yfbr, monti bnd dby-of-monti brf tif sbmf bs tiosf
+     * in tif ISO dblfndbr systfm. Tify brf not rfsft wifn tif frb dibngfs.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm monti  tif monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dby-of-monti
+     * @rfturn tif Jbpbnfsf lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.of(prolfptidYfbr, monti, dbyOfMonti));
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Jbpbnfsf dblfndbr systfm from tif
+     * frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     * <p>
+     * Tif dby-of-yfbr in tiis fbdtory is fxprfssfd rflbtivf to tif stbrt of tif yfbr-of-frb.
+     * Tiis dffinition dibngfs tif normbl mfbning of dby-of-yfbr only in tiosf yfbrs
+     * wifrf tif yfbr-of-frb is rfsft to onf duf to b dibngf in tif frb.
+     * For fxbmplf:
+     * <prf>
+     *  6ti Jbn Siowb 64 = dby-of-yfbr 6
+     *  7ti Jbn Siowb 64 = dby-of-yfbr 7
+     *  8ti Jbn Hfisfi 1 = dby-of-yfbr 1
+     *  9ti Jbn Hfisfi 1 = dby-of-yfbr 2
+     * </prf>
+     *
+     * @pbrbm frb  tif Jbpbnfsf frb, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Jbpbnfsf lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not b {@dodf JbpbnfsfErb}
+     */
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+        rfturn JbpbnfsfDbtf.ofYfbrDby((JbpbnfsfErb) frb, yfbrOfErb, dbyOfYfbr);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in Jbpbnfsf dblfndbr systfm from tif
+     * prolfptid-yfbr bnd dby-of-yfbr fiflds.
+     * <p>
+     * Tif dby-of-yfbr in tiis fbdtory is fxprfssfd rflbtivf to tif stbrt of tif prolfptid yfbr.
+     * Tif Jbpbnfsf prolfptid yfbr bnd dby-of-yfbr brf tif sbmf bs tiosf in tif ISO dblfndbr systfm.
+     * Tify brf not rfsft wifn tif frb dibngfs.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr
+     * @pbrbm dbyOfYfbr  tif dby-of-yfbr
+     * @rfturn tif Jbpbnfsf lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr) {
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.ofYfbrDby(prolfptidYfbr, dbyOfYfbr));
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in tif Jbpbnfsf dblfndbr systfm from tif fpodi-dby.
+     *
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @rfturn tif Jbpbnfsf lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    @Ovfrridf  // ovfrridf witi dovbribnt rfturn typf
+    publid JbpbnfsfDbtf dbtfEpodiDby(long fpodiDby) {
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.ofEpodiDby(fpodiDby));
+    }
+
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtfNow() {
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
+    }
+
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtfNow(ZonfId zonf) {
+        rfturn dbtfNow(Clodk.systfm(zonf));
+    }
+
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtfNow(Clodk dlodk) {
+        rfturn dbtf(LodblDbtf.now(dlodk));
+    }
+
+    @Ovfrridf
+    publid JbpbnfsfDbtf dbtf(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof JbpbnfsfDbtf) {
+            rfturn (JbpbnfsfDbtf) tfmporbl;
+        }
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.from(tfmporbl));
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoLodblDbtfTimf<JbpbnfsfDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoLodblDbtfTimf<JbpbnfsfDbtf>)supfr.lodblDbtfTimf(tfmporbl);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<JbpbnfsfDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
+        rfturn (CironoZonfdDbtfTimf<JbpbnfsfDbtf>)supfr.zonfdDbtfTimf(tfmporbl);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid CironoZonfdDbtfTimf<JbpbnfsfDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+        rfturn (CironoZonfdDbtfTimf<JbpbnfsfDbtf>)supfr.zonfdDbtfTimf(instbnt, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
+     * <p>
+     * Jbpbnfsf dblfndbr lfbp yfbrs oddur fxbdtly in linf witi ISO lfbp yfbrs.
+     * Tiis mftiod dofs not vblidbtf tif yfbr pbssfd in, bnd only ibs b
+     * wfll-dffinfd rfsult for yfbrs in tif supportfd rbngf.
+     *
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @rfturn truf if tif yfbr is b lfbp yfbr
+     */
+    @Ovfrridf
+    publid boolfbn isLfbpYfbr(long prolfptidYfbr) {
+        rfturn IsoCironology.INSTANCE.isLfbpYfbr(prolfptidYfbr);
+    }
+
+    @Ovfrridf
+    publid int prolfptidYfbr(Erb frb, int yfbrOfErb) {
+        if (frb instbndfof JbpbnfsfErb == fblsf) {
+            tirow nfw ClbssCbstExdfption("Erb must bf JbpbnfsfErb");
+        }
+
+        JbpbnfsfErb jfrb = (JbpbnfsfErb) frb;
+        int grfgoribnYfbr = jfrb.gftPrivbtfErb().gftSindfDbtf().gftYfbr() + yfbrOfErb - 1;
+        if (yfbrOfErb == 1) {
+            rfturn grfgoribnYfbr;
+        }
+        if (grfgoribnYfbr >= Yfbr.MIN_VALUE && grfgoribnYfbr <= Yfbr.MAX_VALUE) {
+            LodblGrfgoribnCblfndbr.Dbtf jdbtf = JCAL.nfwCblfndbrDbtf(null);
+            jdbtf.sftErb(jfrb.gftPrivbtfErb()).sftDbtf(yfbrOfErb, 1, 1);
+            if (JbpbnfsfCironology.JCAL.vblidbtf(jdbtf)) {
+                rfturn grfgoribnYfbr;
+            }
+        }
+        tirow nfw DbtfTimfExdfption("Invblid yfbrOfErb vbluf");
+    }
+
+    /**
+     * Rfturns tif dblfndbr systfm frb objfdt from tif givfn numfrid vbluf.
+     *
+     * Sff tif dfsdription of fbdi Erb for tif numfrid vblufs of:
+     * {@link JbpbnfsfErb#HEISEI}, {@link JbpbnfsfErb#SHOWA},{@link JbpbnfsfErb#TAISHO},
+     * {@link JbpbnfsfErb#MEIJI}), only Mfiji bnd lbtfr frbs brf supportfd.
+     *
+     * @pbrbm frbVbluf  tif frb vbluf
+     * @rfturn tif Jbpbnfsf {@dodf Erb} for tif givfn numfrid frb vbluf
+     * @tirows DbtfTimfExdfption if {@dodf frbVbluf} is invblid
+     */
+    @Ovfrridf
+    publid JbpbnfsfErb frbOf(int frbVbluf) {
+        rfturn JbpbnfsfErb.of(frbVbluf);
+    }
+
+    @Ovfrridf
+    publid List<Erb> frbs() {
+        rfturn Arrbys.<Erb>bsList(JbpbnfsfErb.vblufs());
+    }
+
+    JbpbnfsfErb gftCurrfntErb() {
+        // Assumf tibt tif lbst JbpbnfsfErb is tif durrfnt onf.
+        JbpbnfsfErb[] frbs = JbpbnfsfErb.vblufs();
+        rfturn frbs[frbs.lfngti - 1];
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid VblufRbngf rbngf(CironoFifld fifld) {
+        switdi (fifld) {
+            dbsf ALIGNED_DAY_OF_WEEK_IN_MONTH:
+            dbsf ALIGNED_DAY_OF_WEEK_IN_YEAR:
+            dbsf ALIGNED_WEEK_OF_MONTH:
+            dbsf ALIGNED_WEEK_OF_YEAR:
+                tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+            dbsf YEAR_OF_ERA: {
+                Cblfndbr jdbl = Cblfndbr.gftInstbndf(LOCALE);
+                int stbrtYfbr = gftCurrfntErb().gftPrivbtfErb().gftSindfDbtf().gftYfbr();
+                rfturn VblufRbngf.of(1, jdbl.gftGrfbtfstMinimum(Cblfndbr.YEAR),
+                        jdbl.gftLfbstMbximum(Cblfndbr.YEAR) + 1, // +1 duf to tif difffrfnt dffinitions
+                        Yfbr.MAX_VALUE - stbrtYfbr);
+            }
+            dbsf DAY_OF_YEAR: {
+                Cblfndbr jdbl = Cblfndbr.gftInstbndf(LOCALE);
+                int fifldIndfx = Cblfndbr.DAY_OF_YEAR;
+                rfturn VblufRbngf.of(jdbl.gftMinimum(fifldIndfx), jdbl.gftGrfbtfstMinimum(fifldIndfx),
+                        jdbl.gftLfbstMbximum(fifldIndfx), jdbl.gftMbximum(fifldIndfx));
+            }
+            dbsf YEAR:
+                rfturn VblufRbngf.of(JbpbnfsfDbtf.MEIJI_6_ISODATE.gftYfbr(), Yfbr.MAX_VALUE);
+            dbsf ERA:
+                rfturn VblufRbngf.of(JbpbnfsfErb.MEIJI.gftVbluf(), gftCurrfntErb().gftVbluf());
+            dffbult:
+                rfturn fifld.rbngf();
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf  // ovfrridf for rfturn typf
+    publid JbpbnfsfDbtf rfsolvfDbtf(Mbp <TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        rfturn (JbpbnfsfDbtf) supfr.rfsolvfDbtf(fifldVblufs, rfsolvfrStylf);
+    }
+
+    @Ovfrridf  // ovfrridf for spfdibl Jbpbnfsf bfibvior
+    CironoLodblDbtf rfsolvfYfbrOfErb(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        // vblidbtf frb bnd yfbr-of-frb
+        Long frbLong = fifldVblufs.gft(ERA);
+        JbpbnfsfErb frb = null;
+        if (frbLong != null) {
+            frb = frbOf(rbngf(ERA).difdkVblidIntVbluf(frbLong, ERA));  // blwbys vblidbtfd
+        }
+        Long yofLong = fifldVblufs.gft(YEAR_OF_ERA);
+        int yof = 0;
+        if (yofLong != null) {
+            yof = rbngf(YEAR_OF_ERA).difdkVblidIntVbluf(yofLong, YEAR_OF_ERA);  // blwbys vblidbtfd
+        }
+        // if only yfbr-of-frb bnd no yfbr tifn invfnt frb unlfss stridt
+        if (frb == null && yofLong != null && fifldVblufs.dontbinsKfy(YEAR) == fblsf && rfsolvfrStylf != RfsolvfrStylf.STRICT) {
+            frb = JbpbnfsfErb.vblufs()[JbpbnfsfErb.vblufs().lfngti - 1];
+        }
+        // if boti prfsfnt, tifn try to drfbtf dbtf
+        if (yofLong != null && frb != null) {
+            if (fifldVblufs.dontbinsKfy(MONTH_OF_YEAR)) {
+                if (fifldVblufs.dontbinsKfy(DAY_OF_MONTH)) {
+                    rfturn rfsolvfYMD(frb, yof, fifldVblufs, rfsolvfrStylf);
+                }
+            }
+            if (fifldVblufs.dontbinsKfy(DAY_OF_YEAR)) {
+                rfturn rfsolvfYD(frb, yof, fifldVblufs, rfsolvfrStylf);
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf int prolfptidYfbrLfnifnt(JbpbnfsfErb frb, int yfbrOfErb) {
+        rfturn frb.gftPrivbtfErb().gftSindfDbtf().gftYfbr() + yfbrOfErb - 1;
+    }
+
+     privbtf CironoLodblDbtf rfsolvfYMD(JbpbnfsfErb frb, int yof, Mbp<TfmporblFifld,Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+         fifldVblufs.rfmovf(ERA);
+         fifldVblufs.rfmovf(YEAR_OF_ERA);
+         if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+             int y = prolfptidYfbrLfnifnt(frb, yof);
+             long montis = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(MONTH_OF_YEAR), 1);
+             long dbys = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(DAY_OF_MONTH), 1);
+             rfturn dbtf(y, 1, 1).plus(montis, MONTHS).plus(dbys, DAYS);
+         }
+         int moy = rbngf(MONTH_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(MONTH_OF_YEAR), MONTH_OF_YEAR);
+         int dom = rbngf(DAY_OF_MONTH).difdkVblidIntVbluf(fifldVblufs.rfmovf(DAY_OF_MONTH), DAY_OF_MONTH);
+         if (rfsolvfrStylf == RfsolvfrStylf.SMART) {  // prfvious vblid
+             if (yof < 1) {
+                 tirow nfw DbtfTimfExdfption("Invblid YfbrOfErb: " + yof);
+             }
+             int y = prolfptidYfbrLfnifnt(frb, yof);
+             JbpbnfsfDbtf rfsult;
+             try {
+                 rfsult = dbtf(y, moy, dom);
+             } dbtdi (DbtfTimfExdfption fx) {
+                 rfsult = dbtf(y, moy, 1).witi(TfmporblAdjustfrs.lbstDbyOfMonti());
+             }
+             // ibndlf tif frb bfing dibngfd
+             // only bllow if tif nfw dbtf is in tif sbmf Jbn-Dfd bs tif frb dibngf
+             // dftfrminf by fnsuring fitifr originbl yof or rfsult yof is 1
+             if (rfsult.gftErb() != frb && rfsult.gft(YEAR_OF_ERA) > 1 && yof > 1) {
+                 tirow nfw DbtfTimfExdfption("Invblid YfbrOfErb for Erb: " + frb + " " + yof);
+             }
+             rfturn rfsult;
+         }
+         rfturn dbtf(frb, yof, moy, dom);
+     }
+
+    privbtf CironoLodblDbtf rfsolvfYD(JbpbnfsfErb frb, int yof, Mbp <TfmporblFifld,Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf) {
+        fifldVblufs.rfmovf(ERA);
+        fifldVblufs.rfmovf(YEAR_OF_ERA);
+        if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+            int y = prolfptidYfbrLfnifnt(frb, yof);
+            long dbys = Mbti.subtrbdtExbdt(fifldVblufs.rfmovf(DAY_OF_YEAR), 1);
+            rfturn dbtfYfbrDby(y, 1).plus(dbys, DAYS);
+        }
+        int doy = rbngf(DAY_OF_YEAR).difdkVblidIntVbluf(fifldVblufs.rfmovf(DAY_OF_YEAR), DAY_OF_YEAR);
+        rfturn dbtfYfbrDby(frb, yof, doy);  // smbrt is sbmf bs stridt
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs tif Cironology using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(1);     // idfntififs b Cironology
+     *  out.writfUTF(gftId());
+     * </prf>
+     *
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
+     */
+    @Ovfrridf
+    Objfdt writfRfplbdf() {
+        rfturn supfr.writfRfplbdf();
+    }
+
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+}

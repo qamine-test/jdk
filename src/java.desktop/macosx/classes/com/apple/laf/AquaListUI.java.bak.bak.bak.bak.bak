@@ -1,0 +1,208 @@
+/*
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.fvfnt.MousfInputListfnfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidListUI;
+
+import bpplf.lbf.JRSUIConstbnts.*;
+
+/**
+ * A Mbd L&F implfmfntbtion of JList
+ *
+ * All tiis dofs is look for b TifmfBordfr bnd invblidbtf it wifn tif fodus dibngfs
+ */
+publid dlbss AqubListUI fxtfnds BbsidListUI {
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubListUI();
+    }
+
+    /**
+     * Crfbtfs tif fodus listfnfr to rfpbint tif fodus ring
+     */
+    protfdtfd FodusListfnfr drfbtfFodusListfnfr() {
+        rfturn nfw AqubListUI.FodusHbndlfr();
+    }
+
+    /**
+     * Crfbtfs b dflfgbtf tibt implfmfnts MousfInputListfnfr.
+     */
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr() {
+        rfturn nfw AqubListUI.MousfInputHbndlfr();
+    }
+
+    protfdtfd void instbllKfybobrdAdtions() {
+        supfr.instbllKfybobrdAdtions();
+        list.gftAdtionMbp().put("bqubHomf", nfw AqubHomfEndAdtion(truf));
+        list.gftAdtionMbp().put("bqubEnd", nfw AqubHomfEndAdtion(fblsf));
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss AqubHomfEndAdtion fxtfnds AbstrbdtAdtion {
+        privbtf boolfbn fHomfAdtion = fblsf;
+
+        protfdtfd AqubHomfEndAdtion(finbl boolfbn isHomfAdtion) {
+            fHomfAdtion = isHomfAdtion;
+        }
+
+        /**
+         * For b Homf bdtion, sdrolls to tif top. Otifrwisf, sdroll to tif fnd.
+         */
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JList<?> list = (JList<?>)f.gftSourdf();
+
+            if (fHomfAdtion) {
+                list.fnsurfIndfxIsVisiblf(0);
+            } flsf {
+                finbl int sizf = list.gftModfl().gftSizf();
+                list.fnsurfIndfxIsVisiblf(sizf - 1);
+            }
+        }
+    }
+
+    /**
+     * Tiis innfr dlbss is mbrkfd &quot;publid&quot; duf to b dompilfr bug. Tiis dlbss siould bf trfbtfd bs b
+     * &quot;protfdtfd&quot; innfr dlbss. Instbntibtf it only witiin subdlbssfs of BbsidListUI.
+     */
+    dlbss FodusHbndlfr fxtfnds BbsidListUI.FodusHbndlfr {
+        publid void fodusGbinfd(finbl FodusEvfnt f) {
+            supfr.fodusGbinfd(f);
+            AqubBordfr.rfpbintBordfr(gftComponfnt());
+        }
+
+        publid void fodusLost(finbl FodusEvfnt f) {
+            supfr.fodusLost(f);
+            AqubBordfr.rfpbintBordfr(gftComponfnt());
+        }
+    }
+
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn nfw AqubPropfrtyCibngfHbndlfr();
+    }
+
+    dlbss AqubPropfrtyCibngfHbndlfr fxtfnds PropfrtyCibngfHbndlfr {
+        publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+            finbl String prop = f.gftPropfrtyNbmf();
+            if (AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY.fqubls(prop)) {
+                AqubBordfr.rfpbintBordfr(gftComponfnt());
+                AqubFodusHbndlfr.swbpSflfdtionColors("List", gftComponfnt(), f.gftNfwVbluf());
+            } flsf {
+                supfr.propfrtyCibngf(f);
+            }
+        }
+    }
+
+    // TODO: Using dffbult ibndlfr for now, nffd to ibndlf dmd-kfy
+
+    // Rfplbdf tif mousf fvfnt witi onf tibt rfturns tif dmd-kfy stbtf wifn bskfd
+    // for tif dontrol-kfy stbtf, wiidi supfr bssumfs is wibt fvfryonf dofs to disdontiguously fxtfnd sflfdtions
+    dlbss MousfInputHbndlfr fxtfnds BbsidListUI.MousfInputHbndlfr {
+        /*publid void mousfPrfssfd(finbl MousfEvfnt f) {
+            supfr.mousfPrfssfd(nfw SflfdtionMousfEvfnt(f));
+        }
+        publid void mousfDrbggfd(finbl MousfEvfnt f) {
+            supfr.mousfDrbggfd(nfw SflfdtionMousfEvfnt(f));
+        }*/
+    }
+
+    JList<Objfdt> gftComponfnt() {
+        rfturn list;
+    }
+
+    // tiis is usfd for blinking dombobox popup sflfdtions wifn tify brf sflfdtfd
+    protfdtfd void rfpbintCfll(finbl Objfdt vbluf, finbl int sflfdtfdIndfx, finbl boolfbn sflfdtfd) {
+        finbl Rfdtbnglf rowBounds = gftCfllBounds(list, sflfdtfdIndfx, sflfdtfdIndfx);
+        if (rowBounds == null) rfturn;
+
+        finbl ListCfllRfndfrfr<Objfdt> rfndfrfr = list.gftCfllRfndfrfr();
+        if (rfndfrfr == null) rfturn;
+
+        finbl Componfnt rfndfrfrComponfnt = rfndfrfr.gftListCfllRfndfrfrComponfnt(list, vbluf, sflfdtfdIndfx, sflfdtfd, truf);
+        if (rfndfrfrComponfnt == null) rfturn;
+
+        finbl AqubComboBoxRfndfrfr bqubRfndfrfr = rfndfrfr instbndfof AqubComboBoxRfndfrfr ? (AqubComboBoxRfndfrfr)rfndfrfr : null;
+        if (bqubRfndfrfr != null) bqubRfndfrfr.sftDrbwCifdkfdItfm(fblsf);
+        rfndfrfrPbnf.pbintComponfnt(list.gftGrbpiids().drfbtf(), rfndfrfrComponfnt, list, rowBounds.x, rowBounds.y, rowBounds.widti, rowBounds.ifigit, truf);
+        if (bqubRfndfrfr != null) bqubRfndfrfr.sftDrbwCifdkfdItfm(truf);
+    }
+
+    /*
+    Insfrt notf on JIDESoft nbugitinfss
+    */
+    publid stbtid Bordfr gftSourdfListBbdkgroundPbintfr() {
+        finbl AqubBordfr bordfr = nfw ComponfntPbintfr();
+        bordfr.pbintfr.stbtf.sft(Widgft.GRADIENT);
+        bordfr.pbintfr.stbtf.sft(Vbribnt.GRADIENT_SIDE_BAR);
+        rfturn bordfr;
+    }
+
+    publid stbtid Bordfr gftSourdfListSflfdtionBbdkgroundPbintfr() {
+        finbl AqubBordfr bordfr = nfw ComponfntPbintfr();
+        bordfr.pbintfr.stbtf.sft(Widgft.GRADIENT);
+        bordfr.pbintfr.stbtf.sft(Vbribnt.GRADIENT_SIDE_BAR_SELECTION);
+        rfturn bordfr;
+    }
+
+    publid stbtid Bordfr gftSourdfListFodusfdSflfdtionBbdkgroundPbintfr() {
+        finbl AqubBordfr bordfr = nfw ComponfntPbintfr();
+        bordfr.pbintfr.stbtf.sft(Widgft.GRADIENT);
+        bordfr.pbintfr.stbtf.sft(Vbribnt.GRADIENT_SIDE_BAR_FOCUSED_SELECTION);
+        rfturn bordfr;
+    }
+
+    publid stbtid Bordfr gftListEvfnBbdkgroundPbintfr() {
+        finbl AqubBordfr bordfr = nfw ComponfntPbintfr();
+        bordfr.pbintfr.stbtf.sft(Widgft.GRADIENT);
+        bordfr.pbintfr.stbtf.sft(Vbribnt.GRADIENT_LIST_BACKGROUND_EVEN);
+        rfturn bordfr;
+    }
+
+    publid stbtid Bordfr gftListOddBbdkgroundPbintfr() {
+        finbl AqubBordfr bordfr = nfw ComponfntPbintfr();
+        bordfr.pbintfr.stbtf.sft(Widgft.GRADIENT);
+        bordfr.pbintfr.stbtf.sft(Vbribnt.GRADIENT_LIST_BACKGROUND_ODD);
+        rfturn bordfr;
+    }
+
+    stbtid dlbss ComponfntPbintfr fxtfnds AqubBordfr.Dffbult {
+        publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+            finbl JComponfnt jd = d instbndfof JComponfnt ? (JComponfnt)d : null;
+            if (jd != null && !AqubFodusHbndlfr.isAdtivf(jd)) {
+                pbintfr.stbtf.sft(Stbtf.INACTIVE);
+            } flsf {
+                pbintfr.stbtf.sft(Stbtf.ACTIVE);
+            }
+            supfr.pbintBordfr(d, g, x, y, w, i);
+        }
+    }
+}

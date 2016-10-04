@@ -1,388 +1,1940 @@
 /*
- * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+pbdkbgf jbvb.nft;
+
+
+
+
 
 /**
- * This dlbss rfprfsfnts b dbtbgrbm pbdkft.
+/**
+/**
+/**
+/**
+ * Tiis dlbss rfprfsfnts b dbtbgrbm pbdkft.
+ * Tiis dlbss rfprfsfnts b dbtbgrbm pbdkft.
+ * Tiis dlbss rfprfsfnts b dbtbgrbm pbdkft.
+ * Tiis dlbss rfprfsfnts b dbtbgrbm pbdkft.
+ * Tiis dlbss rfprfsfnts b dbtbgrbm pbdkft.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  * Dbtbgrbm pbdkfts brf usfd to implfmfnt b donnfdtionlfss pbdkft
- * dflivfry sfrvidf. Ebdh mfssbgf is routfd from onf mbdhinf to
- * bnothfr bbsfd solfly on informbtion dontbinfd within thbt pbdkft.
- * Multiplf pbdkfts sfnt from onf mbdhinf to bnothfr might bf routfd
- * difffrfntly, bnd might brrivf in bny ordfr. Pbdkft dflivfry is
+ * Dbtbgrbm pbdkfts brf usfd to implfmfnt b donnfdtionlfss pbdkft
+ * Dbtbgrbm pbdkfts brf usfd to implfmfnt b donnfdtionlfss pbdkft
+ * Dbtbgrbm pbdkfts brf usfd to implfmfnt b donnfdtionlfss pbdkft
+ * Dbtbgrbm pbdkfts brf usfd to implfmfnt b donnfdtionlfss pbdkft
+ * dflivfry sfrvidf. Ebdi mfssbgf is routfd from onf mbdiinf to
+ * dflivfry sfrvidf. Ebdi mfssbgf is routfd from onf mbdiinf to
+ * dflivfry sfrvidf. Ebdi mfssbgf is routfd from onf mbdiinf to
+ * dflivfry sfrvidf. Ebdi mfssbgf is routfd from onf mbdiinf to
+ * dflivfry sfrvidf. Ebdi mfssbgf is routfd from onf mbdiinf to
+ * bnotifr bbsfd solfly on informbtion dontbinfd witiin tibt pbdkft.
+ * bnotifr bbsfd solfly on informbtion dontbinfd witiin tibt pbdkft.
+ * bnotifr bbsfd solfly on informbtion dontbinfd witiin tibt pbdkft.
+ * bnotifr bbsfd solfly on informbtion dontbinfd witiin tibt pbdkft.
+ * bnotifr bbsfd solfly on informbtion dontbinfd witiin tibt pbdkft.
+ * Multiplf pbdkfts sfnt from onf mbdiinf to bnotifr migit bf routfd
+ * Multiplf pbdkfts sfnt from onf mbdiinf to bnotifr migit bf routfd
+ * Multiplf pbdkfts sfnt from onf mbdiinf to bnotifr migit bf routfd
+ * Multiplf pbdkfts sfnt from onf mbdiinf to bnotifr migit bf routfd
+ * Multiplf pbdkfts sfnt from onf mbdiinf to bnotifr migit bf routfd
+ * difffrfntly, bnd migit brrivf in bny ordfr. Pbdkft dflivfry is
+ * difffrfntly, bnd migit brrivf in bny ordfr. Pbdkft dflivfry is
+ * difffrfntly, bnd migit brrivf in bny ordfr. Pbdkft dflivfry is
+ * difffrfntly, bnd migit brrivf in bny ordfr. Pbdkft dflivfry is
+ * difffrfntly, bnd migit brrivf in bny ordfr. Pbdkft dflivfry is
+ * not gubrbntffd.
+ * not gubrbntffd.
+ * not gubrbntffd.
+ * not gubrbntffd.
  * not gubrbntffd.
  *
- * @buthor  Pbvbni Diwbnji
- * @buthor  Bfnjbmin Rfnbud
+ *
+ *
+ *
+ *
+ * @butior  Pbvbni Diwbnji
+ * @butior  Pbvbni Diwbnji
+ * @butior  Pbvbni Diwbnji
+ * @butior  Pbvbni Diwbnji
+ * @butior  Pbvbni Diwbnji
+ * @butior  Bfnjbmin Rfnbud
+ * @butior  Bfnjbmin Rfnbud
+ * @butior  Bfnjbmin Rfnbud
+ * @butior  Bfnjbmin Rfnbud
+ * @butior  Bfnjbmin Rfnbud
+ * @sindf   1.0
+ * @sindf   1.0
+ * @sindf   1.0
+ * @sindf   1.0
  * @sindf   1.0
  */
+ */
+ */
+ */
+ */
+publid finbl
+publid finbl
+publid finbl
+publid finbl
 publid finbl
 dlbss DbtbgrbmPbdkft {
+dlbss DbtbgrbmPbdkft {
+dlbss DbtbgrbmPbdkft {
+dlbss DbtbgrbmPbdkft {
+dlbss DbtbgrbmPbdkft {
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Pfrform dlbss initiblizbtion
+     * Pfrform dlbss initiblizbtion
+     * Pfrform dlbss initiblizbtion
+     * Pfrform dlbss initiblizbtion
+     * Pfrform dlbss initiblizbtion
+     */
+     */
+     */
+     */
      */
     stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
         jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
             nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                publid Void run() {
+                publid Void run() {
+                publid Void run() {
                 publid Void run() {
                     Systfm.lobdLibrbry("nft");
+                    Systfm.lobdLibrbry("nft");
+                    Systfm.lobdLibrbry("nft");
+                    Systfm.lobdLibrbry("nft");
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
+                    rfturn null;
+                    rfturn null;
+                    rfturn null;
                     rfturn null;
                 }
+                }
+                }
+                }
+                }
+            });
+            });
+            });
+            });
             });
         init();
+        init();
+        init();
+        init();
+        init();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Thf fiflds of this dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
-     * dlbssfs nffds to bddfss thfm.
+    /*
+    /*
+    /*
+    /*
+     * Tif fiflds of tiis dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
+     * Tif fiflds of tiis dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
+     * Tif fiflds of tiis dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
+     * Tif fiflds of tiis dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
+     * Tif fiflds of tiis dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
+     * dlbssfs nffds to bddfss tifm.
+     * dlbssfs nffds to bddfss tifm.
+     * dlbssfs nffds to bddfss tifm.
+     * dlbssfs nffds to bddfss tifm.
+     * dlbssfs nffds to bddfss tifm.
+     */
+     */
+     */
+     */
      */
     bytf[] buf;
+    bytf[] buf;
+    bytf[] buf;
+    bytf[] buf;
+    bytf[] buf;
     int offsft;
-    int lfngth;
-    int bufLfngth;
+    int offsft;
+    int offsft;
+    int offsft;
+    int offsft;
+    int lfngti;
+    int lfngti;
+    int lfngti;
+    int lfngti;
+    int lfngti;
+    int bufLfngti;
+    int bufLfngti;
+    int bufLfngti;
+    int bufLfngti;
+    int bufLfngti;
+    InftAddrfss bddrfss;
+    InftAddrfss bddrfss;
+    InftAddrfss bddrfss;
+    InftAddrfss bddrfss;
     InftAddrfss bddrfss;
     int port;
+    int port;
+    int port;
+    int port;
+    int port;
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
-     * lfngth {@dodf lfngth}, spfdifying bn offsft into thf bufffr.
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * lfngti {@dodf lfngti}, spfdifying bn offsft into tif bufffr.
+     * lfngti {@dodf lfngti}, spfdifying bn offsft into tif bufffr.
+     * lfngti {@dodf lfngti}, spfdifying bn offsft into tif bufffr.
+     * lfngti {@dodf lfngti}, spfdifying bn offsft into tif bufffr.
+     * lfngti {@dodf lfngti}, spfdifying bn offsft into tif bufffr.
      * <p>
-     * Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
-     * {@dodf buf.lfngth}.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
      *
-     * @pbrbm   buf      bufffr for holding thf indoming dbtbgrbm.
-     * @pbrbm   offsft   thf offsft for thf bufffr
-     * @pbrbm   lfngth   thf numbfr of bytfs to rfbd.
+     *
+     *
+     *
+     *
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   offsft   tif offsft for tif bufffr
+     * @pbrbm   offsft   tif offsft for tif bufffr
+     * @pbrbm   offsft   tif offsft for tif bufffr
+     * @pbrbm   offsft   tif offsft for tif bufffr
+     * @pbrbm   offsft   tif offsft for tif bufffr
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      */
-    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngth) {
-        sftDbtb(buf, offsft, lfngth);
-        this.bddrfss = null;
-        this.port = -1;
+     */
+     */
+     */
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti) {
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        tiis.bddrfss = null;
+        tiis.bddrfss = null;
+        tiis.bddrfss = null;
+        tiis.bddrfss = null;
+        tiis.bddrfss = null;
+        tiis.port = -1;
+        tiis.port = -1;
+        tiis.port = -1;
+        tiis.port = -1;
+        tiis.port = -1;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
-     * lfngth {@dodf lfngth}.
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * lfngti {@dodf lfngti}.
+     * lfngti {@dodf lfngti}.
+     * lfngti {@dodf lfngti}.
+     * lfngti {@dodf lfngti}.
+     * lfngti {@dodf lfngti}.
      * <p>
-     * Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
-     * {@dodf buf.lfngth}.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
      *
-     * @pbrbm   buf      bufffr for holding thf indoming dbtbgrbm.
-     * @pbrbm   lfngth   thf numbfr of bytfs to rfbd.
+     *
+     *
+     *
+     *
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
      */
-    publid DbtbgrbmPbdkft(bytf buf[], int lfngth) {
-        this (buf, 0, lfngth);
+     */
+     */
+     */
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti) {
+        tiis (buf, 0, lfngti);
+        tiis (buf, 0, lfngti);
+        tiis (buf, 0, lfngti);
+        tiis (buf, 0, lfngti);
+        tiis (buf, 0, lfngti);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
-     * {@dodf lfngth} with offsft {@dodf ioffsft}to thf
-     * spfdififd port numbfr on thf spfdififd host. Thf
-     * {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
-     * {@dodf buf.lfngth}.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
      *
-     * @pbrbm   buf      thf pbdkft dbtb.
-     * @pbrbm   offsft   thf pbdkft dbtb offsft.
-     * @pbrbm   lfngth   thf pbdkft dbtb lfngth.
-     * @pbrbm   bddrfss  thf dfstinbtion bddrfss.
-     * @pbrbm   port     thf dfstinbtion port numbfr.
+     *
+     *
+     *
+     *
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @sff jbvb.nft.InftAddrfss
+     * @sff jbvb.nft.InftAddrfss
+     * @sff jbvb.nft.InftAddrfss
+     * @sff jbvb.nft.InftAddrfss
      * @sff jbvb.nft.InftAddrfss
      *
+     *
+     *
+     *
+     *
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      * @sindf 1.2
      */
-    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngth,
+     */
+     */
+     */
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti,
                           InftAddrfss bddrfss, int port) {
-        sftDbtb(buf, offsft, lfngth);
+                          InftAddrfss bddrfss, int port) {
+                          InftAddrfss bddrfss, int port) {
+                          InftAddrfss bddrfss, int port) {
+                          InftAddrfss bddrfss, int port) {
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftAddrfss(bddrfss);
+        sftAddrfss(bddrfss);
+        sftAddrfss(bddrfss);
+        sftAddrfss(bddrfss);
         sftAddrfss(bddrfss);
         sftPort(port);
+        sftPort(port);
+        sftPort(port);
+        sftPort(port);
+        sftPort(port);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
-     * {@dodf lfngth} with offsft {@dodf ioffsft}to thf
-     * spfdififd port numbfr on thf spfdififd host. Thf
-     * {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl to
-     * {@dodf buf.lfngth}.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
+     * {@dodf buf.lfngti}.
      *
-     * @pbrbm   buf      thf pbdkft dbtb.
-     * @pbrbm   offsft   thf pbdkft dbtb offsft.
-     * @pbrbm   lfngth   thf pbdkft dbtb lfngth.
-     * @pbrbm   bddrfss  thf dfstinbtion sodkft bddrfss.
-     * @throws  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     *
+     *
+     *
+     *
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion sodkft bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion sodkft bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion sodkft bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion sodkft bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion sodkft bddrfss.
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @sff jbvb.nft.InftAddrfss
+     * @sff jbvb.nft.InftAddrfss
+     * @sff jbvb.nft.InftAddrfss
+     * @sff jbvb.nft.InftAddrfss
      * @sff jbvb.nft.InftAddrfss
      *
+     *
+     *
+     *
+     *
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      * @sindf 1.4
      */
-    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngth, SodkftAddrfss bddrfss) {
-        sftDbtb(buf, offsft, lfngth);
+     */
+     */
+     */
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti, SodkftAddrfss bddrfss) {
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftDbtb(buf, offsft, lfngti);
+        sftSodkftAddrfss(bddrfss);
+        sftSodkftAddrfss(bddrfss);
+        sftSodkftAddrfss(bddrfss);
+        sftSodkftAddrfss(bddrfss);
         sftSodkftAddrfss(bddrfss);
     }
-
-    /**
-     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
-     * {@dodf lfngth} to thf spfdififd port numbfr on thf spfdififd
-     * host. Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl
-     * to {@dodf buf.lfngth}.
-     *
-     * @pbrbm   buf      thf pbdkft dbtb.
-     * @pbrbm   lfngth   thf pbdkft lfngth.
-     * @pbrbm   bddrfss  thf dfstinbtion bddrfss.
-     * @pbrbm   port     thf dfstinbtion port numbfr.
-     * @sff     jbvb.nft.InftAddrfss
-     */
-    publid DbtbgrbmPbdkft(bytf buf[], int lfngth,
-                          InftAddrfss bddrfss, int port) {
-        this(buf, 0, lfngth, bddrfss, port);
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngth
-     * {@dodf lfngth} to thf spfdififd port numbfr on thf spfdififd
-     * host. Thf {@dodf lfngth} brgumfnt must bf lfss thbn or fqubl
-     * to {@dodf buf.lfngth}.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
      *
-     * @pbrbm   buf      thf pbdkft dbtb.
-     * @pbrbm   lfngth   thf pbdkft lfngth.
-     * @pbrbm   bddrfss  thf dfstinbtion bddrfss.
-     * @throws  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     *
+     *
+     *
+     *
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     */
+     */
+     */
+     */
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti,
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti,
+                          InftAddrfss bddrfss, int port) {
+                          InftAddrfss bddrfss, int port) {
+                          InftAddrfss bddrfss, int port) {
+                          InftAddrfss bddrfss, int port) {
+                          InftAddrfss bddrfss, int port) {
+        tiis(buf, 0, lfngti, bddrfss, port);
+        tiis(buf, 0, lfngti, bddrfss, port);
+        tiis(buf, 0, lfngti, bddrfss, port);
+        tiis(buf, 0, lfngti, bddrfss, port);
+        tiis(buf, 0, lfngti, bddrfss, port);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
+     * to {@dodf buf.lfngti}.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      * @sindf 1.4
      * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
      */
-    publid DbtbgrbmPbdkft(bytf buf[], int lfngth, SodkftAddrfss bddrfss) {
-        this(buf, 0, lfngth, bddrfss);
+     */
+     */
+     */
+     */
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti, SodkftAddrfss bddrfss) {
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti, SodkftAddrfss bddrfss) {
+        tiis(buf, 0, lfngti, bddrfss);
+        tiis(buf, 0, lfngti, bddrfss);
+        tiis(buf, 0, lfngti, bddrfss);
+        tiis(buf, 0, lfngti, bddrfss);
+        tiis(buf, 0, lfngti, bddrfss);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf IP bddrfss of thf mbdhinf to whidh this dbtbgrbm is bfing
-     * sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * Rfturns tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * Rfturns tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * Rfturns tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * Rfturns tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
      *
-     * @rfturn  thf IP bddrfss of thf mbdhinf to whidh this dbtbgrbm is bfing
-     *          sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+     *
+     *
+     *
+     *
+     * @rfturn  tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * @rfturn  tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * @rfturn  tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * @rfturn  tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * @rfturn  tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     *          sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff     jbvb.nft.InftAddrfss
      * @sff     jbvb.nft.InftAddrfss
      * @sff #sftAddrfss(jbvb.nft.InftAddrfss)
+     * @sff #sftAddrfss(jbvb.nft.InftAddrfss)
+     * @sff #sftAddrfss(jbvb.nft.InftAddrfss)
+     * @sff #sftAddrfss(jbvb.nft.InftAddrfss)
+     * @sff #sftAddrfss(jbvb.nft.InftAddrfss)
      */
-    publid syndhronizfd InftAddrfss gftAddrfss() {
+     */
+     */
+     */
+     */
+    publid syndironizfd InftAddrfss gftAddrfss() {
+    publid syndironizfd InftAddrfss gftAddrfss() {
+    publid syndironizfd InftAddrfss gftAddrfss() {
+    publid syndironizfd InftAddrfss gftAddrfss() {
+    publid syndironizfd InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
+        rfturn bddrfss;
+        rfturn bddrfss;
+        rfturn bddrfss;
         rfturn bddrfss;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf port numbfr on thf rfmotf host to whidh this dbtbgrbm is
-     * bfing sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * Rfturns tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * Rfturns tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * Rfturns tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * Rfturns tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
      *
-     * @rfturn  thf port numbfr on thf rfmotf host to whidh this dbtbgrbm is
-     *          bfing sfnt or from whidh thf dbtbgrbm wbs rfdfivfd.
+     *
+     *
+     *
+     *
+     * @rfturn  tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * @rfturn  tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * @rfturn  tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * @rfturn  tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * @rfturn  tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     *          bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     *          bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * @sff #sftPort(int)
+     * @sff #sftPort(int)
+     * @sff #sftPort(int)
+     * @sff #sftPort(int)
      * @sff #sftPort(int)
      */
-    publid syndhronizfd int gftPort() {
+     */
+     */
+     */
+     */
+    publid syndironizfd int gftPort() {
+    publid syndironizfd int gftPort() {
+    publid syndironizfd int gftPort() {
+    publid syndironizfd int gftPort() {
+    publid syndironizfd int gftPort() {
+        rfturn port;
+        rfturn port;
+        rfturn port;
+        rfturn port;
         rfturn port;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf dbtb bufffr. Thf dbtb rfdfivfd or thf dbtb to bf sfnt
-     * stbrts from thf {@dodf offsft} in thf bufffr,
-     * bnd runs for {@dodf lfngth} long.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dbtb bufffr. Tif dbtb rfdfivfd or tif dbtb to bf sfnt
+     * Rfturns tif dbtb bufffr. Tif dbtb rfdfivfd or tif dbtb to bf sfnt
+     * Rfturns tif dbtb bufffr. Tif dbtb rfdfivfd or tif dbtb to bf sfnt
+     * Rfturns tif dbtb bufffr. Tif dbtb rfdfivfd or tif dbtb to bf sfnt
+     * Rfturns tif dbtb bufffr. Tif dbtb rfdfivfd or tif dbtb to bf sfnt
+     * stbrts from tif {@dodf offsft} in tif bufffr,
+     * stbrts from tif {@dodf offsft} in tif bufffr,
+     * stbrts from tif {@dodf offsft} in tif bufffr,
+     * stbrts from tif {@dodf offsft} in tif bufffr,
+     * stbrts from tif {@dodf offsft} in tif bufffr,
+     * bnd runs for {@dodf lfngti} long.
+     * bnd runs for {@dodf lfngti} long.
+     * bnd runs for {@dodf lfngti} long.
+     * bnd runs for {@dodf lfngti} long.
+     * bnd runs for {@dodf lfngti} long.
      *
-     * @rfturn  thf bufffr usfd to rfdfivf or  sfnd dbtb
+     *
+     *
+     *
+     *
+     * @rfturn  tif bufffr usfd to rfdfivf or  sfnd dbtb
+     * @rfturn  tif bufffr usfd to rfdfivf or  sfnd dbtb
+     * @rfturn  tif bufffr usfd to rfdfivf or  sfnd dbtb
+     * @rfturn  tif bufffr usfd to rfdfivf or  sfnd dbtb
+     * @rfturn  tif bufffr usfd to rfdfivf or  sfnd dbtb
+     * @sff #sftDbtb(bytf[], int, int)
+     * @sff #sftDbtb(bytf[], int, int)
+     * @sff #sftDbtb(bytf[], int, int)
+     * @sff #sftDbtb(bytf[], int, int)
      * @sff #sftDbtb(bytf[], int, int)
      */
-    publid syndhronizfd bytf[] gftDbtb() {
+     */
+     */
+     */
+     */
+    publid syndironizfd bytf[] gftDbtb() {
+    publid syndironizfd bytf[] gftDbtb() {
+    publid syndironizfd bytf[] gftDbtb() {
+    publid syndironizfd bytf[] gftDbtb() {
+    publid syndironizfd bytf[] gftDbtb() {
+        rfturn buf;
+        rfturn buf;
+        rfturn buf;
+        rfturn buf;
         rfturn buf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf offsft of thf dbtb to bf sfnt or thf offsft of thf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * Rfturns tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * Rfturns tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * Rfturns tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * Rfturns tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * dbtb rfdfivfd.
+     * dbtb rfdfivfd.
+     * dbtb rfdfivfd.
+     * dbtb rfdfivfd.
      * dbtb rfdfivfd.
      *
-     * @rfturn  thf offsft of thf dbtb to bf sfnt or thf offsft of thf
+     *
+     *
+     *
+     *
+     * @rfturn  tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * @rfturn  tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * @rfturn  tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * @rfturn  tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * @rfturn  tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     *          dbtb rfdfivfd.
+     *          dbtb rfdfivfd.
+     *          dbtb rfdfivfd.
+     *          dbtb rfdfivfd.
      *          dbtb rfdfivfd.
      *
+     *
+     *
+     *
+     *
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      * @sindf 1.2
      */
-    publid syndhronizfd int gftOffsft() {
+     */
+     */
+     */
+     */
+    publid syndironizfd int gftOffsft() {
+    publid syndironizfd int gftOffsft() {
+    publid syndironizfd int gftOffsft() {
+    publid syndironizfd int gftOffsft() {
+    publid syndironizfd int gftOffsft() {
+        rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
         rfturn offsft;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf lfngth of thf dbtb to bf sfnt or thf lfngth of thf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * Rfturns tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * Rfturns tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * Rfturns tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * Rfturns tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * dbtb rfdfivfd.
+     * dbtb rfdfivfd.
+     * dbtb rfdfivfd.
+     * dbtb rfdfivfd.
      * dbtb rfdfivfd.
      *
-     * @rfturn  thf lfngth of thf dbtb to bf sfnt or thf lfngth of thf
+     *
+     *
+     *
+     *
+     * @rfturn  tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * @rfturn  tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * @rfturn  tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * @rfturn  tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * @rfturn  tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
      *          dbtb rfdfivfd.
-     * @sff #sftLfngth(int)
+     *          dbtb rfdfivfd.
+     *          dbtb rfdfivfd.
+     *          dbtb rfdfivfd.
+     *          dbtb rfdfivfd.
+     * @sff #sftLfngti(int)
+     * @sff #sftLfngti(int)
+     * @sff #sftLfngti(int)
+     * @sff #sftLfngti(int)
+     * @sff #sftLfngti(int)
      */
-    publid syndhronizfd int gftLfngth() {
-        rfturn lfngth;
+     */
+     */
+     */
+     */
+    publid syndironizfd int gftLfngti() {
+    publid syndironizfd int gftLfngti() {
+    publid syndironizfd int gftLfngti() {
+    publid syndironizfd int gftLfngti() {
+    publid syndironizfd int gftLfngti() {
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sft thf dbtb bufffr for this pbdkft. This sfts thf
-     * dbtb, lfngth bnd offsft of thf pbdkft.
+    /**
+    /**
+    /**
+    /**
+     * Sft tif dbtb bufffr for tiis pbdkft. Tiis sfts tif
+     * Sft tif dbtb bufffr for tiis pbdkft. Tiis sfts tif
+     * Sft tif dbtb bufffr for tiis pbdkft. Tiis sfts tif
+     * Sft tif dbtb bufffr for tiis pbdkft. Tiis sfts tif
+     * Sft tif dbtb bufffr for tiis pbdkft. Tiis sfts tif
+     * dbtb, lfngti bnd offsft of tif pbdkft.
+     * dbtb, lfngti bnd offsft of tif pbdkft.
+     * dbtb, lfngti bnd offsft of tif pbdkft.
+     * dbtb, lfngti bnd offsft of tif pbdkft.
+     * dbtb, lfngti bnd offsft of tif pbdkft.
      *
-     * @pbrbm buf thf bufffr to sft for this pbdkft
      *
-     * @pbrbm offsft thf offsft into thf dbtb
      *
-     * @pbrbm lfngth thf lfngth of thf dbtb
-     *       bnd/or thf lfngth of thf bufffr usfd to rfdfivf dbtb
      *
-     * @fxdfption NullPointfrExdfption if thf brgumfnt is null
      *
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm offsft tif offsft into tif dbtb
+     * @pbrbm offsft tif offsft into tif dbtb
+     * @pbrbm offsft tif offsft into tif dbtb
+     * @pbrbm offsft tif offsft into tif dbtb
+     * @pbrbm offsft tif offsft into tif dbtb
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm lfngti tif lfngti of tif dbtb
+     * @pbrbm lfngti tif lfngti of tif dbtb
+     * @pbrbm lfngti tif lfngti of tif dbtb
+     * @pbrbm lfngti tif lfngti of tif dbtb
+     * @pbrbm lfngti tif lfngti of tif dbtb
+     *       bnd/or tif lfngti of tif bufffr usfd to rfdfivf dbtb
+     *       bnd/or tif lfngti of tif bufffr usfd to rfdfivf dbtb
+     *       bnd/or tif lfngti of tif bufffr usfd to rfdfivf dbtb
+     *       bnd/or tif lfngti of tif bufffr usfd to rfdfivf dbtb
+     *       bnd/or tif lfngti of tif bufffr usfd to rfdfivf dbtb
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null
+     *
+     *
+     *
+     *
+     *
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
      * @sff #gftDbtb
      * @sff #gftOffsft
-     * @sff #gftLfngth
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftOffsft
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     *
+     *
+     *
+     *
      *
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      */
-    publid syndhronizfd void sftDbtb(bytf[] buf, int offsft, int lfngth) {
-        /* this will dhfdk to sff if buf is null */
-        if (lfngth < 0 || offsft < 0 ||
-            (lfngth + offsft) < 0 ||
-            ((lfngth + offsft) > buf.lfngth)) {
-            throw nfw IllfgblArgumfntExdfption("illfgbl lfngth or offsft");
+     */
+     */
+     */
+     */
+    publid syndironizfd void sftDbtb(bytf[] buf, int offsft, int lfngti) {
+    publid syndironizfd void sftDbtb(bytf[] buf, int offsft, int lfngti) {
+    publid syndironizfd void sftDbtb(bytf[] buf, int offsft, int lfngti) {
+    publid syndironizfd void sftDbtb(bytf[] buf, int offsft, int lfngti) {
+    publid syndironizfd void sftDbtb(bytf[] buf, int offsft, int lfngti) {
+        /* tiis will difdk to sff if buf is null */
+        /* tiis will difdk to sff if buf is null */
+        /* tiis will difdk to sff if buf is null */
+        /* tiis will difdk to sff if buf is null */
+        /* tiis will difdk to sff if buf is null */
+        if (lfngti < 0 || offsft < 0 ||
+        if (lfngti < 0 || offsft < 0 ||
+        if (lfngti < 0 || offsft < 0 ||
+        if (lfngti < 0 || offsft < 0 ||
+        if (lfngti < 0 || offsft < 0 ||
+            (lfngti + offsft) < 0 ||
+            (lfngti + offsft) < 0 ||
+            (lfngti + offsft) < 0 ||
+            (lfngti + offsft) < 0 ||
+            (lfngti + offsft) < 0 ||
+            ((lfngti + offsft) > buf.lfngti)) {
+            ((lfngti + offsft) > buf.lfngti)) {
+            ((lfngti + offsft) > buf.lfngti)) {
+            ((lfngti + offsft) > buf.lfngti)) {
+            ((lfngti + offsft) > buf.lfngti)) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti or offsft");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti or offsft");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti or offsft");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti or offsft");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti or offsft");
         }
-        this.buf = buf;
-        this.lfngth = lfngth;
-        this.bufLfngth = lfngth;
-        this.offsft = offsft;
+        }
+        }
+        }
+        }
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.bufLfngti = lfngti;
+        tiis.bufLfngti = lfngti;
+        tiis.bufLfngti = lfngti;
+        tiis.bufLfngti = lfngti;
+        tiis.bufLfngti = lfngti;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+        tiis.offsft = offsft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sfts thf IP bddrfss of thf mbdhinf to whidh this dbtbgrbm
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm
+     * Sfts tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm
+     * Sfts tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm
+     * Sfts tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm
+     * Sfts tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm
      * is bfing sfnt.
-     * @pbrbm ibddr thf {@dodf InftAddrfss}
+     * is bfing sfnt.
+     * is bfing sfnt.
+     * is bfing sfnt.
+     * is bfing sfnt.
+     * @pbrbm ibddr tif {@dodf InftAddrfss}
+     * @pbrbm ibddr tif {@dodf InftAddrfss}
+     * @pbrbm ibddr tif {@dodf InftAddrfss}
+     * @pbrbm ibddr tif {@dodf InftAddrfss}
+     * @pbrbm ibddr tif {@dodf InftAddrfss}
+     * @sindf   1.1
+     * @sindf   1.1
+     * @sindf   1.1
+     * @sindf   1.1
      * @sindf   1.1
      * @sff #gftAddrfss()
+     * @sff #gftAddrfss()
+     * @sff #gftAddrfss()
+     * @sff #gftAddrfss()
+     * @sff #gftAddrfss()
      */
-    publid syndhronizfd void sftAddrfss(InftAddrfss ibddr) {
+     */
+     */
+     */
+     */
+    publid syndironizfd void sftAddrfss(InftAddrfss ibddr) {
+    publid syndironizfd void sftAddrfss(InftAddrfss ibddr) {
+    publid syndironizfd void sftAddrfss(InftAddrfss ibddr) {
+    publid syndironizfd void sftAddrfss(InftAddrfss ibddr) {
+    publid syndironizfd void sftAddrfss(InftAddrfss ibddr) {
+        bddrfss = ibddr;
+        bddrfss = ibddr;
+        bddrfss = ibddr;
+        bddrfss = ibddr;
         bddrfss = ibddr;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Sfts thf port numbfr on thf rfmotf host to whidh this dbtbgrbm
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm
+     * Sfts tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm
+     * Sfts tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm
+     * Sfts tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm
+     * Sfts tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm
      * is bfing sfnt.
-     * @pbrbm iport thf port numbfr
+     * is bfing sfnt.
+     * is bfing sfnt.
+     * is bfing sfnt.
+     * is bfing sfnt.
+     * @pbrbm iport tif port numbfr
+     * @pbrbm iport tif port numbfr
+     * @pbrbm iport tif port numbfr
+     * @pbrbm iport tif port numbfr
+     * @pbrbm iport tif port numbfr
+     * @sindf   1.1
+     * @sindf   1.1
+     * @sindf   1.1
+     * @sindf   1.1
      * @sindf   1.1
      * @sff #gftPort()
+     * @sff #gftPort()
+     * @sff #gftPort()
+     * @sff #gftPort()
+     * @sff #gftPort()
      */
-    publid syndhronizfd void sftPort(int iport) {
+     */
+     */
+     */
+     */
+    publid syndironizfd void sftPort(int iport) {
+    publid syndironizfd void sftPort(int iport) {
+    publid syndironizfd void sftPort(int iport) {
+    publid syndironizfd void sftPort(int iport) {
+    publid syndironizfd void sftPort(int iport) {
         if (iport < 0 || iport > 0xFFFF) {
-            throw nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
+        if (iport < 0 || iport > 0xFFFF) {
+        if (iport < 0 || iport > 0xFFFF) {
+        if (iport < 0 || iport > 0xFFFF) {
+        if (iport < 0 || iport > 0xFFFF) {
+            tirow nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
+            tirow nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
+            tirow nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
+            tirow nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
+            tirow nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
+        }
+        }
+        }
+        }
         }
         port = iport;
+        port = iport;
+        port = iport;
+        port = iport;
+        port = iport;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sfts thf SodkftAddrfss (usublly IP bddrfss + port numbfr) of thf rfmotf
-     * host to whidh this dbtbgrbm is bfing sfnt.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Sfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Sfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Sfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Sfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * iost to wiidi tiis dbtbgrbm is bfing sfnt.
+     * iost to wiidi tiis dbtbgrbm is bfing sfnt.
+     * iost to wiidi tiis dbtbgrbm is bfing sfnt.
+     * iost to wiidi tiis dbtbgrbm is bfing sfnt.
+     * iost to wiidi tiis dbtbgrbm is bfing sfnt.
      *
-     * @pbrbm bddrfss thf {@dodf SodkftAddrfss}
-     * @throws  IllfgblArgumfntExdfption if bddrfss is null or is b
-     *          SodkftAddrfss subdlbss not supportfd by this sodkft
      *
+     *
+     *
+     *
+     * @pbrbm bddrfss tif {@dodf SodkftAddrfss}
+     * @pbrbm bddrfss tif {@dodf SodkftAddrfss}
+     * @pbrbm bddrfss tif {@dodf SodkftAddrfss}
+     * @pbrbm bddrfss tif {@dodf SodkftAddrfss}
+     * @pbrbm bddrfss tif {@dodf SodkftAddrfss}
+     * @tirows  IllfgblArgumfntExdfption if bddrfss is null or is b
+     * @tirows  IllfgblArgumfntExdfption if bddrfss is null or is b
+     * @tirows  IllfgblArgumfntExdfption if bddrfss is null or is b
+     * @tirows  IllfgblArgumfntExdfption if bddrfss is null or is b
+     * @tirows  IllfgblArgumfntExdfption if bddrfss is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     *
+     *
+     *
+     *
+     *
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      * @sindf 1.4
      * @sff #gftSodkftAddrfss
+     * @sff #gftSodkftAddrfss
+     * @sff #gftSodkftAddrfss
+     * @sff #gftSodkftAddrfss
+     * @sff #gftSodkftAddrfss
      */
-    publid syndhronizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
+     */
+     */
+     */
+     */
+    publid syndironizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
+    publid syndironizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
+    publid syndironizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
+    publid syndironizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
+    publid syndironizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
         if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
-            throw nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+        if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
+        if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
+        if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
+        if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+            tirow nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+            tirow nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+            tirow nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+            tirow nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+        InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
+        InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
+        InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
+        InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
         InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
         if (bddr.isUnrfsolvfd())
-            throw nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+        if (bddr.isUnrfsolvfd())
+        if (bddr.isUnrfsolvfd())
+        if (bddr.isUnrfsolvfd())
+        if (bddr.isUnrfsolvfd())
+            tirow nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+            tirow nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+            tirow nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+            tirow nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+            tirow nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+        sftAddrfss(bddr.gftAddrfss());
+        sftAddrfss(bddr.gftAddrfss());
+        sftAddrfss(bddr.gftAddrfss());
+        sftAddrfss(bddr.gftAddrfss());
         sftAddrfss(bddr.gftAddrfss());
         sftPort(bddr.gftPort());
+        sftPort(bddr.gftPort());
+        sftPort(bddr.gftPort());
+        sftPort(bddr.gftPort());
+        sftPort(bddr.gftPort());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Gfts thf SodkftAddrfss (usublly IP bddrfss + port numbfr) of thf rfmotf
-     * host thbt this pbdkft is bfing sfnt to or is doming from.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Gfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Gfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Gfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * Gfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * iost tibt tiis pbdkft is bfing sfnt to or is doming from.
+     * iost tibt tiis pbdkft is bfing sfnt to or is doming from.
+     * iost tibt tiis pbdkft is bfing sfnt to or is doming from.
+     * iost tibt tiis pbdkft is bfing sfnt to or is doming from.
+     * iost tibt tiis pbdkft is bfing sfnt to or is doming from.
      *
-     * @rfturn thf {@dodf SodkftAddrfss}
+     *
+     *
+     *
+     *
+     * @rfturn tif {@dodf SodkftAddrfss}
+     * @rfturn tif {@dodf SodkftAddrfss}
+     * @rfturn tif {@dodf SodkftAddrfss}
+     * @rfturn tif {@dodf SodkftAddrfss}
+     * @rfturn tif {@dodf SodkftAddrfss}
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      * @sindf 1.4
      * @sff #sftSodkftAddrfss
+     * @sff #sftSodkftAddrfss
+     * @sff #sftSodkftAddrfss
+     * @sff #sftSodkftAddrfss
+     * @sff #sftSodkftAddrfss
      */
-    publid syndhronizfd SodkftAddrfss gftSodkftAddrfss() {
+     */
+     */
+     */
+     */
+    publid syndironizfd SodkftAddrfss gftSodkftAddrfss() {
+    publid syndironizfd SodkftAddrfss gftSodkftAddrfss() {
+    publid syndironizfd SodkftAddrfss gftSodkftAddrfss() {
+    publid syndironizfd SodkftAddrfss gftSodkftAddrfss() {
+    publid syndironizfd SodkftAddrfss gftSodkftAddrfss() {
+        rfturn nfw InftSodkftAddrfss(gftAddrfss(), gftPort());
+        rfturn nfw InftSodkftAddrfss(gftAddrfss(), gftPort());
+        rfturn nfw InftSodkftAddrfss(gftAddrfss(), gftPort());
+        rfturn nfw InftSodkftAddrfss(gftAddrfss(), gftPort());
         rfturn nfw InftSodkftAddrfss(gftAddrfss(), gftPort());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Sft thf dbtb bufffr for this pbdkft. With thf offsft of
-     * this DbtbgrbmPbdkft sft to 0, bnd thf lfngth sft to
-     * thf lfngth of {@dodf buf}.
+    /**
+    /**
+    /**
+    /**
+     * Sft tif dbtb bufffr for tiis pbdkft. Witi tif offsft of
+     * Sft tif dbtb bufffr for tiis pbdkft. Witi tif offsft of
+     * Sft tif dbtb bufffr for tiis pbdkft. Witi tif offsft of
+     * Sft tif dbtb bufffr for tiis pbdkft. Witi tif offsft of
+     * Sft tif dbtb bufffr for tiis pbdkft. Witi tif offsft of
+     * tiis DbtbgrbmPbdkft sft to 0, bnd tif lfngti sft to
+     * tiis DbtbgrbmPbdkft sft to 0, bnd tif lfngti sft to
+     * tiis DbtbgrbmPbdkft sft to 0, bnd tif lfngti sft to
+     * tiis DbtbgrbmPbdkft sft to 0, bnd tif lfngti sft to
+     * tiis DbtbgrbmPbdkft sft to 0, bnd tif lfngti sft to
+     * tif lfngti of {@dodf buf}.
+     * tif lfngti of {@dodf buf}.
+     * tif lfngti of {@dodf buf}.
+     * tif lfngti of {@dodf buf}.
+     * tif lfngti of {@dodf buf}.
      *
-     * @pbrbm buf thf bufffr to sft for this pbdkft.
      *
-     * @fxdfption NullPointfrExdfption if thf brgumfnt is null.
      *
-     * @sff #gftLfngth
+     *
+     *
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft.
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft.
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft.
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft.
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null.
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null.
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null.
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null.
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null.
+     *
+     *
+     *
+     *
+     *
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
+     * @sff #gftDbtb
      * @sff #gftDbtb
      *
+     *
+     *
+     *
+     *
+     * @sindf 1.1
+     * @sindf 1.1
+     * @sindf 1.1
+     * @sindf 1.1
      * @sindf 1.1
      */
-    publid syndhronizfd void sftDbtb(bytf[] buf) {
+     */
+     */
+     */
+     */
+    publid syndironizfd void sftDbtb(bytf[] buf) {
+    publid syndironizfd void sftDbtb(bytf[] buf) {
+    publid syndironizfd void sftDbtb(bytf[] buf) {
+    publid syndironizfd void sftDbtb(bytf[] buf) {
+    publid syndironizfd void sftDbtb(bytf[] buf) {
         if (buf == null) {
-            throw nfw NullPointfrExdfption("null pbdkft bufffr");
+        if (buf == null) {
+        if (buf == null) {
+        if (buf == null) {
+        if (buf == null) {
+            tirow nfw NullPointfrExdfption("null pbdkft bufffr");
+            tirow nfw NullPointfrExdfption("null pbdkft bufffr");
+            tirow nfw NullPointfrExdfption("null pbdkft bufffr");
+            tirow nfw NullPointfrExdfption("null pbdkft bufffr");
+            tirow nfw NullPointfrExdfption("null pbdkft bufffr");
         }
-        this.buf = buf;
-        this.offsft = 0;
-        this.lfngth = buf.lfngth;
-        this.bufLfngth = buf.lfngth;
+        }
+        }
+        }
+        }
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.buf = buf;
+        tiis.offsft = 0;
+        tiis.offsft = 0;
+        tiis.offsft = 0;
+        tiis.offsft = 0;
+        tiis.offsft = 0;
+        tiis.lfngti = buf.lfngti;
+        tiis.lfngti = buf.lfngti;
+        tiis.lfngti = buf.lfngti;
+        tiis.lfngti = buf.lfngti;
+        tiis.lfngti = buf.lfngti;
+        tiis.bufLfngti = buf.lfngti;
+        tiis.bufLfngti = buf.lfngti;
+        tiis.bufLfngti = buf.lfngti;
+        tiis.bufLfngti = buf.lfngti;
+        tiis.bufLfngti = buf.lfngti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sft thf lfngth for this pbdkft. Thf lfngth of thf pbdkft is
-     * thf numbfr of bytfs from thf pbdkft's dbtb bufffr thbt will bf
-     * sfnt, or thf numbfr of bytfs of thf pbdkft's dbtb bufffr thbt
-     * will bf usfd for rfdfiving dbtb. Thf lfngth must bf lfssfr or
-     * fqubl to thf offsft plus thf lfngth of thf pbdkft's bufffr.
+    /**
+    /**
+    /**
+    /**
+     * Sft tif lfngti for tiis pbdkft. Tif lfngti of tif pbdkft is
+     * Sft tif lfngti for tiis pbdkft. Tif lfngti of tif pbdkft is
+     * Sft tif lfngti for tiis pbdkft. Tif lfngti of tif pbdkft is
+     * Sft tif lfngti for tiis pbdkft. Tif lfngti of tif pbdkft is
+     * Sft tif lfngti for tiis pbdkft. Tif lfngti of tif pbdkft is
+     * tif numbfr of bytfs from tif pbdkft's dbtb bufffr tibt will bf
+     * tif numbfr of bytfs from tif pbdkft's dbtb bufffr tibt will bf
+     * tif numbfr of bytfs from tif pbdkft's dbtb bufffr tibt will bf
+     * tif numbfr of bytfs from tif pbdkft's dbtb bufffr tibt will bf
+     * tif numbfr of bytfs from tif pbdkft's dbtb bufffr tibt will bf
+     * sfnt, or tif numbfr of bytfs of tif pbdkft's dbtb bufffr tibt
+     * sfnt, or tif numbfr of bytfs of tif pbdkft's dbtb bufffr tibt
+     * sfnt, or tif numbfr of bytfs of tif pbdkft's dbtb bufffr tibt
+     * sfnt, or tif numbfr of bytfs of tif pbdkft's dbtb bufffr tibt
+     * sfnt, or tif numbfr of bytfs of tif pbdkft's dbtb bufffr tibt
+     * will bf usfd for rfdfiving dbtb. Tif lfngti must bf lfssfr or
+     * will bf usfd for rfdfiving dbtb. Tif lfngti must bf lfssfr or
+     * will bf usfd for rfdfiving dbtb. Tif lfngti must bf lfssfr or
+     * will bf usfd for rfdfiving dbtb. Tif lfngti must bf lfssfr or
+     * will bf usfd for rfdfiving dbtb. Tif lfngti must bf lfssfr or
+     * fqubl to tif offsft plus tif lfngti of tif pbdkft's bufffr.
+     * fqubl to tif offsft plus tif lfngti of tif pbdkft's bufffr.
+     * fqubl to tif offsft plus tif lfngti of tif pbdkft's bufffr.
+     * fqubl to tif offsft plus tif lfngti of tif pbdkft's bufffr.
+     * fqubl to tif offsft plus tif lfngti of tif pbdkft's bufffr.
      *
-     * @pbrbm lfngth thf lfngth to sft for this pbdkft.
      *
-     * @fxdfption IllfgblArgumfntExdfption if thf lfngth is nfgbtivf
-     * of if thf lfngth is grfbtfr thbn thf pbdkft's dbtb bufffr
-     * lfngth.
      *
-     * @sff #gftLfngth
+     *
+     *
+     * @pbrbm lfngti tif lfngti to sft for tiis pbdkft.
+     * @pbrbm lfngti tif lfngti to sft for tiis pbdkft.
+     * @pbrbm lfngti tif lfngti to sft for tiis pbdkft.
+     * @pbrbm lfngti tif lfngti to sft for tiis pbdkft.
+     * @pbrbm lfngti tif lfngti to sft for tiis pbdkft.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti is nfgbtivf
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti is nfgbtivf
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti is nfgbtivf
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti is nfgbtivf
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti is nfgbtivf
+     * of if tif lfngti is grfbtfr tibn tif pbdkft's dbtb bufffr
+     * of if tif lfngti is grfbtfr tibn tif pbdkft's dbtb bufffr
+     * of if tif lfngti is grfbtfr tibn tif pbdkft's dbtb bufffr
+     * of if tif lfngti is grfbtfr tibn tif pbdkft's dbtb bufffr
+     * of if tif lfngti is grfbtfr tibn tif pbdkft's dbtb bufffr
+     * lfngti.
+     * lfngti.
+     * lfngti.
+     * lfngti.
+     * lfngti.
+     *
+     *
+     *
+     *
+     *
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #gftLfngti
+     * @sff #sftDbtb
+     * @sff #sftDbtb
+     * @sff #sftDbtb
+     * @sff #sftDbtb
      * @sff #sftDbtb
      *
+     *
+     *
+     *
+     *
+     * @sindf 1.1
+     * @sindf 1.1
+     * @sindf 1.1
+     * @sindf 1.1
      * @sindf 1.1
      */
-    publid syndhronizfd void sftLfngth(int lfngth) {
-        if ((lfngth + offsft) > buf.lfngth || lfngth < 0 ||
-            (lfngth + offsft) < 0) {
-            throw nfw IllfgblArgumfntExdfption("illfgbl lfngth");
+     */
+     */
+     */
+     */
+    publid syndironizfd void sftLfngti(int lfngti) {
+    publid syndironizfd void sftLfngti(int lfngti) {
+    publid syndironizfd void sftLfngti(int lfngti) {
+    publid syndironizfd void sftLfngti(int lfngti) {
+    publid syndironizfd void sftLfngti(int lfngti) {
+        if ((lfngti + offsft) > buf.lfngti || lfngti < 0 ||
+        if ((lfngti + offsft) > buf.lfngti || lfngti < 0 ||
+        if ((lfngti + offsft) > buf.lfngti || lfngti < 0 ||
+        if ((lfngti + offsft) > buf.lfngti || lfngti < 0 ||
+        if ((lfngti + offsft) > buf.lfngti || lfngti < 0 ||
+            (lfngti + offsft) < 0) {
+            (lfngti + offsft) < 0) {
+            (lfngti + offsft) < 0) {
+            (lfngti + offsft) < 0) {
+            (lfngti + offsft) < 0) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti");
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti");
         }
-        this.lfngth = lfngth;
-        this.bufLfngth = this.lfngth;
+        }
+        }
+        }
+        }
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.bufLfngti = tiis.lfngti;
+        tiis.bufLfngti = tiis.lfngti;
+        tiis.bufLfngti = tiis.lfngti;
+        tiis.bufLfngti = tiis.lfngti;
+        tiis.bufLfngti = tiis.lfngti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Pfrform dlbss lobd-timf initiblizbtions.
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+     */
+     */
+     */
      */
     privbtf nbtivf stbtid void init();
+    privbtf nbtivf stbtid void init();
+    privbtf nbtivf stbtid void init();
+    privbtf nbtivf stbtid void init();
+    privbtf nbtivf stbtid void init();
+}
+}
+}
+}
 }

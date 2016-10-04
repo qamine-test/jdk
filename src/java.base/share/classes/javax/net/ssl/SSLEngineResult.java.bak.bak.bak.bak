@@ -1,240 +1,1200 @@
 /*
- * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvbx.nft.ssl;
-
-/**
- * An fndbpsulbtion of thf rfsult stbtf produdfd by
- * <dodf>SSLEnginf</dodf> I/O dblls.
- *
- * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblishing
- * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
- * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
- * bytfs in bn output bufffr.  This dlbss providfs opfrbtionbl rfsult
- * vblufs dfsdribing thf stbtf of thf <dodf>SSLEnginf</dodf>, indluding
- * indidbtions of whbt opfrbtions brf nffdfd to finish bn
- * ongoing hbndshbkf.  Lbstly, it rfports thf numbfr of bytfs donsumfd
- * bnd produdfd bs b rfsult of this opfrbtion.
- *
- * @sff SSLEnginf
- * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
- * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
- *
- * @buthor Brbd R. Wftmorf
- * @sindf 1.5
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * An fndbpsulbtion of tif rfsult stbtf produdfd by
+ * An fndbpsulbtion of tif rfsult stbtf produdfd by
+ * An fndbpsulbtion of tif rfsult stbtf produdfd by
+ * An fndbpsulbtion of tif rfsult stbtf produdfd by
+ * An fndbpsulbtion of tif rfsult stbtf produdfd by
+ * <dodf>SSLEnginf</dodf> I/O dblls.
+ * <dodf>SSLEnginf</dodf> I/O dblls.
+ * <dodf>SSLEnginf</dodf> I/O dblls.
+ * <dodf>SSLEnginf</dodf> I/O dblls.
+ * <dodf>SSLEnginf</dodf> I/O dblls.
+ *
+ *
+ *
+ *
+ *
+ * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblisiing
+ * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblisiing
+ * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblisiing
+ * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblisiing
+ * <p> A <dodf>SSLEnginf</dodf> providfs b mfbns for fstbblisiing
+ * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
+ * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
+ * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
+ * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
+ * sfdurf dommunidbtion sfssions bftwffn two pffrs.  <dodf>SSLEnginf</dodf>
+ * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
+ * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
+ * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
+ * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
+ * opfrbtions typidblly donsumf bytfs from bn input bufffr bnd produdf
+ * bytfs in bn output bufffr.  Tiis dlbss providfs opfrbtionbl rfsult
+ * bytfs in bn output bufffr.  Tiis dlbss providfs opfrbtionbl rfsult
+ * bytfs in bn output bufffr.  Tiis dlbss providfs opfrbtionbl rfsult
+ * bytfs in bn output bufffr.  Tiis dlbss providfs opfrbtionbl rfsult
+ * bytfs in bn output bufffr.  Tiis dlbss providfs opfrbtionbl rfsult
+ * vblufs dfsdribing tif stbtf of tif <dodf>SSLEnginf</dodf>, indluding
+ * vblufs dfsdribing tif stbtf of tif <dodf>SSLEnginf</dodf>, indluding
+ * vblufs dfsdribing tif stbtf of tif <dodf>SSLEnginf</dodf>, indluding
+ * vblufs dfsdribing tif stbtf of tif <dodf>SSLEnginf</dodf>, indluding
+ * vblufs dfsdribing tif stbtf of tif <dodf>SSLEnginf</dodf>, indluding
+ * indidbtions of wibt opfrbtions brf nffdfd to finisi bn
+ * indidbtions of wibt opfrbtions brf nffdfd to finisi bn
+ * indidbtions of wibt opfrbtions brf nffdfd to finisi bn
+ * indidbtions of wibt opfrbtions brf nffdfd to finisi bn
+ * indidbtions of wibt opfrbtions brf nffdfd to finisi bn
+ * ongoing ibndsibkf.  Lbstly, it rfports tif numbfr of bytfs donsumfd
+ * ongoing ibndsibkf.  Lbstly, it rfports tif numbfr of bytfs donsumfd
+ * ongoing ibndsibkf.  Lbstly, it rfports tif numbfr of bytfs donsumfd
+ * ongoing ibndsibkf.  Lbstly, it rfports tif numbfr of bytfs donsumfd
+ * ongoing ibndsibkf.  Lbstly, it rfports tif numbfr of bytfs donsumfd
+ * bnd produdfd bs b rfsult of tiis opfrbtion.
+ * bnd produdfd bs b rfsult of tiis opfrbtion.
+ * bnd produdfd bs b rfsult of tiis opfrbtion.
+ * bnd produdfd bs b rfsult of tiis opfrbtion.
+ * bnd produdfd bs b rfsult of tiis opfrbtion.
+ *
+ *
+ *
+ *
+ *
+ * @sff SSLEnginf
+ * @sff SSLEnginf
+ * @sff SSLEnginf
+ * @sff SSLEnginf
+ * @sff SSLEnginf
+ * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+ * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+ *
+ *
+ *
+ *
+ *
+ * @butior Brbd R. Wftmorf
+ * @butior Brbd R. Wftmorf
+ * @butior Brbd R. Wftmorf
+ * @butior Brbd R. Wftmorf
+ * @butior Brbd R. Wftmorf
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid dlbss SSLEnginfRfsult {
+publid dlbss SSLEnginfRfsult {
+publid dlbss SSLEnginfRfsult {
+publid dlbss SSLEnginfRfsult {
 publid dlbss SSLEnginfRfsult {
 
+
+
+
+
     /**
-     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing thf ovfrbll rfsult
-     * of thf <dodf>SSLEnginf</dodf> opfrbtion.
+    /**
+    /**
+    /**
+    /**
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif ovfrbll rfsult
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif ovfrbll rfsult
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif ovfrbll rfsult
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif ovfrbll rfsult
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif ovfrbll rfsult
+     * of tif <dodf>SSLEnginf</dodf> opfrbtion.
+     * of tif <dodf>SSLEnginf</dodf> opfrbtion.
+     * of tif <dodf>SSLEnginf</dodf> opfrbtion.
+     * of tif <dodf>SSLEnginf</dodf> opfrbtion.
+     * of tif <dodf>SSLEnginf</dodf> opfrbtion.
      *
-     * Thf <dodf>Stbtus</dodf> vbluf dofs not rfflfdt thf
-     * stbtf of b <dodf>SSLEnginf</dodf> hbndshbkf durrfntly
-     * in progrfss.  Thf <dodf>SSLEnginfRfsult's HbndshbkfStbtus</dodf>
-     * should bf donsultfd for thbt informbtion.
      *
-     * @buthor Brbd R. Wftmorf
+     *
+     *
+     *
+     * Tif <dodf>Stbtus</dodf> vbluf dofs not rfflfdt tif
+     * Tif <dodf>Stbtus</dodf> vbluf dofs not rfflfdt tif
+     * Tif <dodf>Stbtus</dodf> vbluf dofs not rfflfdt tif
+     * Tif <dodf>Stbtus</dodf> vbluf dofs not rfflfdt tif
+     * Tif <dodf>Stbtus</dodf> vbluf dofs not rfflfdt tif
+     * stbtf of b <dodf>SSLEnginf</dodf> ibndsibkf durrfntly
+     * stbtf of b <dodf>SSLEnginf</dodf> ibndsibkf durrfntly
+     * stbtf of b <dodf>SSLEnginf</dodf> ibndsibkf durrfntly
+     * stbtf of b <dodf>SSLEnginf</dodf> ibndsibkf durrfntly
+     * stbtf of b <dodf>SSLEnginf</dodf> ibndsibkf durrfntly
+     * in progrfss.  Tif <dodf>SSLEnginfRfsult's HbndsibkfStbtus</dodf>
+     * in progrfss.  Tif <dodf>SSLEnginfRfsult's HbndsibkfStbtus</dodf>
+     * in progrfss.  Tif <dodf>SSLEnginfRfsult's HbndsibkfStbtus</dodf>
+     * in progrfss.  Tif <dodf>SSLEnginfRfsult's HbndsibkfStbtus</dodf>
+     * in progrfss.  Tif <dodf>SSLEnginfRfsult's HbndsibkfStbtus</dodf>
+     * siould bf donsultfd for tibt informbtion.
+     * siould bf donsultfd for tibt informbtion.
+     * siould bf donsultfd for tibt informbtion.
+     * siould bf donsultfd for tibt informbtion.
+     * siould bf donsultfd for tibt informbtion.
+     *
+     *
+     *
+     *
+     *
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid stbtid fnum Stbtus {
+    publid stbtid fnum Stbtus {
+    publid stbtid fnum Stbtus {
+    publid stbtid fnum Stbtus {
+    publid stbtid fnum Stbtus {
+
+
+
+
 
         /**
-         * Thf <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp thf
-         * indoming dbtb bfdbusf thfrf wfrf not fnough sourdf bytfs
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to unwrbp tif
+         * indoming dbtb bfdbusf tifrf wfrf not fnougi sourdf bytfs
+         * indoming dbtb bfdbusf tifrf wfrf not fnougi sourdf bytfs
+         * indoming dbtb bfdbusf tifrf wfrf not fnougi sourdf bytfs
+         * indoming dbtb bfdbusf tifrf wfrf not fnougi sourdf bytfs
+         * indoming dbtb bfdbusf tifrf wfrf not fnougi sourdf bytfs
+         * bvbilbblf to mbkf b domplftf pbdkft.
+         * bvbilbblf to mbkf b domplftf pbdkft.
+         * bvbilbblf to mbkf b domplftf pbdkft.
+         * bvbilbblf to mbkf b domplftf pbdkft.
          * bvbilbblf to mbkf b domplftf pbdkft.
          *
+         *
+         *
+         *
+         *
          * <P>
-         * Rfpfbt thf dbll ondf morf bytfs brf bvbilbblf.
+         * <P>
+         * <P>
+         * <P>
+         * <P>
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         */
+         */
+         */
+         */
          */
         BUFFER_UNDERFLOW,
+        BUFFER_UNDERFLOW,
+        BUFFER_UNDERFLOW,
+        BUFFER_UNDERFLOW,
+        BUFFER_UNDERFLOW,
+
+
+
+
 
         /**
-         * Thf <dodf>SSLEnginf</dodf> wbs not bblf to prodfss thf
-         * opfrbtion bfdbusf thfrf brf not fnough bytfs bvbilbblf in thf
-         * dfstinbtion bufffr to hold thf rfsult.
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to prodfss tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to prodfss tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to prodfss tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to prodfss tif
+         * Tif <dodf>SSLEnginf</dodf> wbs not bblf to prodfss tif
+         * opfrbtion bfdbusf tifrf brf not fnougi bytfs bvbilbblf in tif
+         * opfrbtion bfdbusf tifrf brf not fnougi bytfs bvbilbblf in tif
+         * opfrbtion bfdbusf tifrf brf not fnougi bytfs bvbilbblf in tif
+         * opfrbtion bfdbusf tifrf brf not fnougi bytfs bvbilbblf in tif
+         * opfrbtion bfdbusf tifrf brf not fnougi bytfs bvbilbblf in tif
+         * dfstinbtion bufffr to iold tif rfsult.
+         * dfstinbtion bufffr to iold tif rfsult.
+         * dfstinbtion bufffr to iold tif rfsult.
+         * dfstinbtion bufffr to iold tif rfsult.
+         * dfstinbtion bufffr to iold tif rfsult.
          * <P>
-         * Rfpfbt thf dbll ondf morf bytfs brf bvbilbblf.
+         * <P>
+         * <P>
+         * <P>
+         * <P>
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         * Rfpfbt tif dbll ondf morf bytfs brf bvbilbblf.
+         *
+         *
+         *
+         *
          *
          * @sff SSLSfssion#gftPbdkftBufffrSizf()
+         * @sff SSLSfssion#gftPbdkftBufffrSizf()
+         * @sff SSLSfssion#gftPbdkftBufffrSizf()
+         * @sff SSLSfssion#gftPbdkftBufffrSizf()
+         * @sff SSLSfssion#gftPbdkftBufffrSizf()
+         * @sff SSLSfssion#gftApplidbtionBufffrSizf()
+         * @sff SSLSfssion#gftApplidbtionBufffrSizf()
+         * @sff SSLSfssion#gftApplidbtionBufffrSizf()
+         * @sff SSLSfssion#gftApplidbtionBufffrSizf()
          * @sff SSLSfssion#gftApplidbtionBufffrSizf()
          */
+         */
+         */
+         */
+         */
+        BUFFER_OVERFLOW,
+        BUFFER_OVERFLOW,
+        BUFFER_OVERFLOW,
+        BUFFER_OVERFLOW,
         BUFFER_OVERFLOW,
 
+
+
+
+
         /**
-         * Thf <dodf>SSLEnginf</dodf> domplftfd thf opfrbtion, bnd
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> domplftfd tif opfrbtion, bnd
+         * Tif <dodf>SSLEnginf</dodf> domplftfd tif opfrbtion, bnd
+         * Tif <dodf>SSLEnginf</dodf> domplftfd tif opfrbtion, bnd
+         * Tif <dodf>SSLEnginf</dodf> domplftfd tif opfrbtion, bnd
+         * Tif <dodf>SSLEnginf</dodf> domplftfd tif opfrbtion, bnd
+         * is bvbilbblf to prodfss similbr dblls.
+         * is bvbilbblf to prodfss similbr dblls.
+         * is bvbilbblf to prodfss similbr dblls.
+         * is bvbilbblf to prodfss similbr dblls.
          * is bvbilbblf to prodfss similbr dblls.
          */
+         */
+         */
+         */
+         */
+        OK,
+        OK,
+        OK,
+        OK,
         OK,
 
+
+
+
+
         /**
-         * Thf opfrbtion just dlosfd this sidf of thf
-         * <dodf>SSLEnginf</dodf>, or thf opfrbtion
+        /**
+        /**
+        /**
+        /**
+         * Tif opfrbtion just dlosfd tiis sidf of tif
+         * Tif opfrbtion just dlosfd tiis sidf of tif
+         * Tif opfrbtion just dlosfd tiis sidf of tif
+         * Tif opfrbtion just dlosfd tiis sidf of tif
+         * Tif opfrbtion just dlosfd tiis sidf of tif
+         * <dodf>SSLEnginf</dodf>, or tif opfrbtion
+         * <dodf>SSLEnginf</dodf>, or tif opfrbtion
+         * <dodf>SSLEnginf</dodf>, or tif opfrbtion
+         * <dodf>SSLEnginf</dodf>, or tif opfrbtion
+         * <dodf>SSLEnginf</dodf>, or tif opfrbtion
+         * dould not bf domplftfd bfdbusf it wbs blrfbdy dlosfd.
+         * dould not bf domplftfd bfdbusf it wbs blrfbdy dlosfd.
+         * dould not bf domplftfd bfdbusf it wbs blrfbdy dlosfd.
+         * dould not bf domplftfd bfdbusf it wbs blrfbdy dlosfd.
          * dould not bf domplftfd bfdbusf it wbs blrfbdy dlosfd.
          */
+         */
+         */
+         */
+         */
+        CLOSED;
+        CLOSED;
+        CLOSED;
+        CLOSED;
         CLOSED;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing thf durrfnt
-     * hbndshbking stbtf of this <dodf>SSLEnginf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif durrfnt
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif durrfnt
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif durrfnt
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif durrfnt
+     * An <dodf>SSLEnginfRfsult</dodf> fnum dfsdribing tif durrfnt
+     * ibndsibking stbtf of tiis <dodf>SSLEnginf</dodf>.
+     * ibndsibking stbtf of tiis <dodf>SSLEnginf</dodf>.
+     * ibndsibking stbtf of tiis <dodf>SSLEnginf</dodf>.
+     * ibndsibking stbtf of tiis <dodf>SSLEnginf</dodf>.
+     * ibndsibking stbtf of tiis <dodf>SSLEnginf</dodf>.
      *
-     * @buthor Brbd R. Wftmorf
+     *
+     *
+     *
+     *
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
+     * @butior Brbd R. Wftmorf
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
      * @sindf 1.5
      */
-    publid stbtid fnum HbndshbkfStbtus {
+     */
+     */
+     */
+     */
+    publid stbtid fnum HbndsibkfStbtus {
+    publid stbtid fnum HbndsibkfStbtus {
+    publid stbtid fnum HbndsibkfStbtus {
+    publid stbtid fnum HbndsibkfStbtus {
+    publid stbtid fnum HbndsibkfStbtus {
+
+
+
+
 
         /**
-         * Thf <dodf>SSLEnginf</dodf> is not durrfntly hbndshbking.
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> is not durrfntly ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> is not durrfntly ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> is not durrfntly ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> is not durrfntly ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> is not durrfntly ibndsibking.
+         */
+         */
+         */
+         */
          */
         NOT_HANDSHAKING,
+        NOT_HANDSHAKING,
+        NOT_HANDSHAKING,
+        NOT_HANDSHAKING,
+        NOT_HANDSHAKING,
+
+
+
+
 
         /**
-         * Thf <dodf>SSLEnginf</dodf> hbs just finishfd hbndshbking.
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> ibs just finisifd ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> ibs just finisifd ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> ibs just finisifd ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> ibs just finisifd ibndsibking.
+         * Tif <dodf>SSLEnginf</dodf> ibs just finisifd ibndsibking.
          * <P>
-         * This vbluf is only gfnfrbtfd by b dbll to
-         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> whfn thbt dbll
-         * finishfs b hbndshbkf.  It is nfvfr gfnfrbtfd by
-         * <dodf>SSLEnginf.gftHbndshbkfStbtus()</dodf>.
+         * <P>
+         * <P>
+         * <P>
+         * <P>
+         * Tiis vbluf is only gfnfrbtfd by b dbll to
+         * Tiis vbluf is only gfnfrbtfd by b dbll to
+         * Tiis vbluf is only gfnfrbtfd by b dbll to
+         * Tiis vbluf is only gfnfrbtfd by b dbll to
+         * Tiis vbluf is only gfnfrbtfd by b dbll to
+         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> wifn tibt dbll
+         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> wifn tibt dbll
+         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> wifn tibt dbll
+         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> wifn tibt dbll
+         * <dodf>SSLEnginf.wrbp()/unwrbp()</dodf> wifn tibt dbll
+         * finisifs b ibndsibkf.  It is nfvfr gfnfrbtfd by
+         * finisifs b ibndsibkf.  It is nfvfr gfnfrbtfd by
+         * finisifs b ibndsibkf.  It is nfvfr gfnfrbtfd by
+         * finisifs b ibndsibkf.  It is nfvfr gfnfrbtfd by
+         * finisifs b ibndsibkf.  It is nfvfr gfnfrbtfd by
+         * <dodf>SSLEnginf.gftHbndsibkfStbtus()</dodf>.
+         * <dodf>SSLEnginf.gftHbndsibkfStbtus()</dodf>.
+         * <dodf>SSLEnginf.gftHbndsibkfStbtus()</dodf>.
+         * <dodf>SSLEnginf.gftHbndsibkfStbtus()</dodf>.
+         * <dodf>SSLEnginf.gftHbndsibkfStbtus()</dodf>.
          *
+         *
+         *
+         *
+         *
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
          * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
          * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
-         * @sff SSLEnginf#gftHbndshbkfStbtus()
+         * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#unwrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#gftHbndsibkfStbtus()
+         * @sff SSLEnginf#gftHbndsibkfStbtus()
+         * @sff SSLEnginf#gftHbndsibkfStbtus()
+         * @sff SSLEnginf#gftHbndsibkfStbtus()
+         * @sff SSLEnginf#gftHbndsibkfStbtus()
+         */
+         */
+         */
+         */
          */
         FINISHED,
+        FINISHED,
+        FINISHED,
+        FINISHED,
+        FINISHED,
+
+
+
+
 
         /**
-         * Thf <dodf>SSLEnginf</dodf> nffds thf rfsults of onf (or morf)
-         * dflfgbtfd tbsks bfforf hbndshbking dbn dontinuf.
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> nffds tif rfsults of onf (or morf)
+         * Tif <dodf>SSLEnginf</dodf> nffds tif rfsults of onf (or morf)
+         * Tif <dodf>SSLEnginf</dodf> nffds tif rfsults of onf (or morf)
+         * Tif <dodf>SSLEnginf</dodf> nffds tif rfsults of onf (or morf)
+         * Tif <dodf>SSLEnginf</dodf> nffds tif rfsults of onf (or morf)
+         * dflfgbtfd tbsks bfforf ibndsibking dbn dontinuf.
+         * dflfgbtfd tbsks bfforf ibndsibking dbn dontinuf.
+         * dflfgbtfd tbsks bfforf ibndsibking dbn dontinuf.
+         * dflfgbtfd tbsks bfforf ibndsibking dbn dontinuf.
+         * dflfgbtfd tbsks bfforf ibndsibking dbn dontinuf.
+         *
+         *
+         *
+         *
          *
          * @sff SSLEnginf#gftDflfgbtfdTbsk()
+         * @sff SSLEnginf#gftDflfgbtfdTbsk()
+         * @sff SSLEnginf#gftDflfgbtfdTbsk()
+         * @sff SSLEnginf#gftDflfgbtfdTbsk()
+         * @sff SSLEnginf#gftDflfgbtfdTbsk()
+         */
+         */
+         */
+         */
          */
         NEED_TASK,
+        NEED_TASK,
+        NEED_TASK,
+        NEED_TASK,
+        NEED_TASK,
+
+
+
+
 
         /**
-         * Thf <dodf>SSLEnginf</dodf> must sfnd dbtb to thf rfmotf sidf
-         * bfforf hbndshbking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
-         * should bf dbllfd.
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> must sfnd dbtb to tif rfmotf sidf
+         * Tif <dodf>SSLEnginf</dodf> must sfnd dbtb to tif rfmotf sidf
+         * Tif <dodf>SSLEnginf</dodf> must sfnd dbtb to tif rfmotf sidf
+         * Tif <dodf>SSLEnginf</dodf> must sfnd dbtb to tif rfmotf sidf
+         * Tif <dodf>SSLEnginf</dodf> must sfnd dbtb to tif rfmotf sidf
+         * bfforf ibndsibking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
+         * bfforf ibndsibking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
+         * bfforf ibndsibking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
+         * bfforf ibndsibking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
+         * bfforf ibndsibking dbn dontinuf, so <dodf>SSLEnginf.wrbp()</dodf>
+         * siould bf dbllfd.
+         * siould bf dbllfd.
+         * siould bf dbllfd.
+         * siould bf dbllfd.
+         * siould bf dbllfd.
+         *
+         *
+         *
+         *
          *
          * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         * @sff SSLEnginf#wrbp(BytfBufffr, BytfBufffr)
+         */
+         */
+         */
+         */
          */
         NEED_WRAP,
+        NEED_WRAP,
+        NEED_WRAP,
+        NEED_WRAP,
+        NEED_WRAP,
+
+
+
+
 
         /**
-         * Thf <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from thf
-         * rfmotf sidf bfforf hbndshbking dbn dontinuf.
+        /**
+        /**
+        /**
+        /**
+         * Tif <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from tif
+         * Tif <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from tif
+         * Tif <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from tif
+         * Tif <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from tif
+         * Tif <dodf>SSLEnginf</dodf> nffds to rfdfivf dbtb from tif
+         * rfmotf sidf bfforf ibndsibking dbn dontinuf.
+         * rfmotf sidf bfforf ibndsibking dbn dontinuf.
+         * rfmotf sidf bfforf ibndsibking dbn dontinuf.
+         * rfmotf sidf bfforf ibndsibking dbn dontinuf.
+         * rfmotf sidf bfforf ibndsibking dbn dontinuf.
+         */
+         */
+         */
+         */
          */
         NEED_UNWRAP;
+        NEED_UNWRAP;
+        NEED_UNWRAP;
+        NEED_UNWRAP;
+        NEED_UNWRAP;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     privbtf finbl Stbtus stbtus;
-    privbtf finbl HbndshbkfStbtus hbndshbkfStbtus;
+    privbtf finbl Stbtus stbtus;
+    privbtf finbl Stbtus stbtus;
+    privbtf finbl Stbtus stbtus;
+    privbtf finbl Stbtus stbtus;
+    privbtf finbl HbndsibkfStbtus ibndsibkfStbtus;
+    privbtf finbl HbndsibkfStbtus ibndsibkfStbtus;
+    privbtf finbl HbndsibkfStbtus ibndsibkfStbtus;
+    privbtf finbl HbndsibkfStbtus ibndsibkfStbtus;
+    privbtf finbl HbndsibkfStbtus ibndsibkfStbtus;
+    privbtf finbl int bytfsConsumfd;
+    privbtf finbl int bytfsConsumfd;
+    privbtf finbl int bytfsConsumfd;
+    privbtf finbl int bytfsConsumfd;
     privbtf finbl int bytfsConsumfd;
     privbtf finbl int bytfsProdudfd;
+    privbtf finbl int bytfsProdudfd;
+    privbtf finbl int bytfsProdudfd;
+    privbtf finbl int bytfsProdudfd;
+    privbtf finbl int bytfsProdudfd;
+
+
+
+
 
     /**
-     * Initiblizfs b nfw instbndf of this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
+     *
+     *
+     *
+     *
      *
      * @pbrbm   stbtus
-     *          thf rfturn vbluf of thf opfrbtion.
+     * @pbrbm   stbtus
+     * @pbrbm   stbtus
+     * @pbrbm   stbtus
+     * @pbrbm   stbtus
+     *          tif rfturn vbluf of tif opfrbtion.
+     *          tif rfturn vbluf of tif opfrbtion.
+     *          tif rfturn vbluf of tif opfrbtion.
+     *          tif rfturn vbluf of tif opfrbtion.
+     *          tif rfturn vbluf of tif opfrbtion.
      *
-     * @pbrbm   hbndshbkfStbtus
-     *          thf durrfnt hbndshbking stbtus.
+     *
+     *
+     *
+     *
+     * @pbrbm   ibndsibkfStbtus
+     * @pbrbm   ibndsibkfStbtus
+     * @pbrbm   ibndsibkfStbtus
+     * @pbrbm   ibndsibkfStbtus
+     * @pbrbm   ibndsibkfStbtus
+     *          tif durrfnt ibndsibking stbtus.
+     *          tif durrfnt ibndsibking stbtus.
+     *          tif durrfnt ibndsibking stbtus.
+     *          tif durrfnt ibndsibking stbtus.
+     *          tif durrfnt ibndsibking stbtus.
+     *
+     *
+     *
+     *
      *
      * @pbrbm   bytfsConsumfd
-     *          thf numbfr of bytfs donsumfd from thf sourdf BytfBufffr
+     * @pbrbm   bytfsConsumfd
+     * @pbrbm   bytfsConsumfd
+     * @pbrbm   bytfsConsumfd
+     * @pbrbm   bytfsConsumfd
+     *          tif numbfr of bytfs donsumfd from tif sourdf BytfBufffr
+     *          tif numbfr of bytfs donsumfd from tif sourdf BytfBufffr
+     *          tif numbfr of bytfs donsumfd from tif sourdf BytfBufffr
+     *          tif numbfr of bytfs donsumfd from tif sourdf BytfBufffr
+     *          tif numbfr of bytfs donsumfd from tif sourdf BytfBufffr
+     *
+     *
+     *
+     *
      *
      * @pbrbm   bytfsProdudfd
-     *          thf numbfr of bytfs plbdfd into thf dfstinbtion BytfBufffr
+     * @pbrbm   bytfsProdudfd
+     * @pbrbm   bytfsProdudfd
+     * @pbrbm   bytfsProdudfd
+     * @pbrbm   bytfsProdudfd
+     *          tif numbfr of bytfs plbdfd into tif dfstinbtion BytfBufffr
+     *          tif numbfr of bytfs plbdfd into tif dfstinbtion BytfBufffr
+     *          tif numbfr of bytfs plbdfd into tif dfstinbtion BytfBufffr
+     *          tif numbfr of bytfs plbdfd into tif dfstinbtion BytfBufffr
+     *          tif numbfr of bytfs plbdfd into tif dfstinbtion BytfBufffr
      *
-     * @throws  IllfgblArgumfntExdfption
-     *          if thf <dodf>stbtus</dodf> or <dodf>hbndshbkfStbtus</dodf>
+     *
+     *
+     *
+     *
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     *          if tif <dodf>stbtus</dodf> or <dodf>ibndsibkfStbtus</dodf>
+     *          if tif <dodf>stbtus</dodf> or <dodf>ibndsibkfStbtus</dodf>
+     *          if tif <dodf>stbtus</dodf> or <dodf>ibndsibkfStbtus</dodf>
+     *          if tif <dodf>stbtus</dodf> or <dodf>ibndsibkfStbtus</dodf>
+     *          if tif <dodf>stbtus</dodf> or <dodf>ibndsibkfStbtus</dodf>
+     *          brgumfnts brf null, or if <dodf>bytfsConsumfd</dodf> or
+     *          brgumfnts brf null, or if <dodf>bytfsConsumfd</dodf> or
+     *          brgumfnts brf null, or if <dodf>bytfsConsumfd</dodf> or
+     *          brgumfnts brf null, or if <dodf>bytfsConsumfd</dodf> or
      *          brgumfnts brf null, or if <dodf>bytfsConsumfd</dodf> or
      *          <dodf>bytfsProdudfd</dodf> is nfgbtivf.
+     *          <dodf>bytfsProdudfd</dodf> is nfgbtivf.
+     *          <dodf>bytfsProdudfd</dodf> is nfgbtivf.
+     *          <dodf>bytfsProdudfd</dodf> is nfgbtivf.
+     *          <dodf>bytfsProdudfd</dodf> is nfgbtivf.
      */
-    publid SSLEnginfRfsult(Stbtus stbtus, HbndshbkfStbtus hbndshbkfStbtus,
+     */
+     */
+     */
+     */
+    publid SSLEnginfRfsult(Stbtus stbtus, HbndsibkfStbtus ibndsibkfStbtus,
+    publid SSLEnginfRfsult(Stbtus stbtus, HbndsibkfStbtus ibndsibkfStbtus,
+    publid SSLEnginfRfsult(Stbtus stbtus, HbndsibkfStbtus ibndsibkfStbtus,
+    publid SSLEnginfRfsult(Stbtus stbtus, HbndsibkfStbtus ibndsibkfStbtus,
+    publid SSLEnginfRfsult(Stbtus stbtus, HbndsibkfStbtus ibndsibkfStbtus,
+            int bytfsConsumfd, int bytfsProdudfd) {
+            int bytfsConsumfd, int bytfsProdudfd) {
+            int bytfsConsumfd, int bytfsProdudfd) {
+            int bytfsConsumfd, int bytfsProdudfd) {
             int bytfsConsumfd, int bytfsProdudfd) {
 
-        if ((stbtus == null) || (hbndshbkfStbtus == null) ||
+
+
+
+
+        if ((stbtus == null) || (ibndsibkfStbtus == null) ||
+        if ((stbtus == null) || (ibndsibkfStbtus == null) ||
+        if ((stbtus == null) || (ibndsibkfStbtus == null) ||
+        if ((stbtus == null) || (ibndsibkfStbtus == null) ||
+        if ((stbtus == null) || (ibndsibkfStbtus == null) ||
                 (bytfsConsumfd < 0) || (bytfsProdudfd < 0)) {
-            throw nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
+                (bytfsConsumfd < 0) || (bytfsProdudfd < 0)) {
+                (bytfsConsumfd < 0) || (bytfsProdudfd < 0)) {
+                (bytfsConsumfd < 0) || (bytfsProdudfd < 0)) {
+                (bytfsConsumfd < 0) || (bytfsProdudfd < 0)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
+            tirow nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
+            tirow nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
+            tirow nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
+            tirow nfw IllfgblArgumfntExdfption("Invblid Pbrbmftfr(s)");
+        }
+        }
+        }
+        }
         }
 
-        this.stbtus = stbtus;
-        this.hbndshbkfStbtus = hbndshbkfStbtus;
-        this.bytfsConsumfd = bytfsConsumfd;
-        this.bytfsProdudfd = bytfsProdudfd;
+
+
+
+
+        tiis.stbtus = stbtus;
+        tiis.stbtus = stbtus;
+        tiis.stbtus = stbtus;
+        tiis.stbtus = stbtus;
+        tiis.stbtus = stbtus;
+        tiis.ibndsibkfStbtus = ibndsibkfStbtus;
+        tiis.ibndsibkfStbtus = ibndsibkfStbtus;
+        tiis.ibndsibkfStbtus = ibndsibkfStbtus;
+        tiis.ibndsibkfStbtus = ibndsibkfStbtus;
+        tiis.ibndsibkfStbtus = ibndsibkfStbtus;
+        tiis.bytfsConsumfd = bytfsConsumfd;
+        tiis.bytfsConsumfd = bytfsConsumfd;
+        tiis.bytfsConsumfd = bytfsConsumfd;
+        tiis.bytfsConsumfd = bytfsConsumfd;
+        tiis.bytfsConsumfd = bytfsConsumfd;
+        tiis.bytfsProdudfd = bytfsProdudfd;
+        tiis.bytfsProdudfd = bytfsProdudfd;
+        tiis.bytfsProdudfd = bytfsProdudfd;
+        tiis.bytfsProdudfd = bytfsProdudfd;
+        tiis.bytfsProdudfd = bytfsProdudfd;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Gfts thf rfturn vbluf of this <dodf>SSLEnginf</dodf> opfrbtion.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif rfturn vbluf of tiis <dodf>SSLEnginf</dodf> opfrbtion.
+     * Gfts tif rfturn vbluf of tiis <dodf>SSLEnginf</dodf> opfrbtion.
+     * Gfts tif rfturn vbluf of tiis <dodf>SSLEnginf</dodf> opfrbtion.
+     * Gfts tif rfturn vbluf of tiis <dodf>SSLEnginf</dodf> opfrbtion.
+     * Gfts tif rfturn vbluf of tiis <dodf>SSLEnginf</dodf> opfrbtion.
      *
-     * @rfturn  thf rfturn vbluf
+     *
+     *
+     *
+     *
+     * @rfturn  tif rfturn vbluf
+     * @rfturn  tif rfturn vbluf
+     * @rfturn  tif rfturn vbluf
+     * @rfturn  tif rfturn vbluf
+     * @rfturn  tif rfturn vbluf
+     */
+     */
+     */
+     */
      */
     finbl publid Stbtus gftStbtus() {
+    finbl publid Stbtus gftStbtus() {
+    finbl publid Stbtus gftStbtus() {
+    finbl publid Stbtus gftStbtus() {
+    finbl publid Stbtus gftStbtus() {
+        rfturn stbtus;
+        rfturn stbtus;
+        rfturn stbtus;
+        rfturn stbtus;
         rfturn stbtus;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gfts thf hbndshbkf stbtus of this <dodf>SSLEnginf</dodf>
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif ibndsibkf stbtus of tiis <dodf>SSLEnginf</dodf>
+     * Gfts tif ibndsibkf stbtus of tiis <dodf>SSLEnginf</dodf>
+     * Gfts tif ibndsibkf stbtus of tiis <dodf>SSLEnginf</dodf>
+     * Gfts tif ibndsibkf stbtus of tiis <dodf>SSLEnginf</dodf>
+     * Gfts tif ibndsibkf stbtus of tiis <dodf>SSLEnginf</dodf>
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
      * opfrbtion.
      *
-     * @rfturn  thf hbndshbkf stbtus
+     *
+     *
+     *
+     *
+     * @rfturn  tif ibndsibkf stbtus
+     * @rfturn  tif ibndsibkf stbtus
+     * @rfturn  tif ibndsibkf stbtus
+     * @rfturn  tif ibndsibkf stbtus
+     * @rfturn  tif ibndsibkf stbtus
      */
-    finbl publid HbndshbkfStbtus gftHbndshbkfStbtus() {
-        rfturn hbndshbkfStbtus;
+     */
+     */
+     */
+     */
+    finbl publid HbndsibkfStbtus gftHbndsibkfStbtus() {
+    finbl publid HbndsibkfStbtus gftHbndsibkfStbtus() {
+    finbl publid HbndsibkfStbtus gftHbndsibkfStbtus() {
+    finbl publid HbndsibkfStbtus gftHbndsibkfStbtus() {
+    finbl publid HbndsibkfStbtus gftHbndsibkfStbtus() {
+        rfturn ibndsibkfStbtus;
+        rfturn ibndsibkfStbtus;
+        rfturn ibndsibkfStbtus;
+        rfturn ibndsibkfStbtus;
+        rfturn ibndsibkfStbtus;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf numbfr of bytfs donsumfd from thf input bufffr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif numbfr of bytfs donsumfd from tif input bufffr.
+     * Rfturns tif numbfr of bytfs donsumfd from tif input bufffr.
+     * Rfturns tif numbfr of bytfs donsumfd from tif input bufffr.
+     * Rfturns tif numbfr of bytfs donsumfd from tif input bufffr.
+     * Rfturns tif numbfr of bytfs donsumfd from tif input bufffr.
      *
-     * @rfturn  thf numbfr of bytfs donsumfd.
+     *
+     *
+     *
+     *
+     * @rfturn  tif numbfr of bytfs donsumfd.
+     * @rfturn  tif numbfr of bytfs donsumfd.
+     * @rfturn  tif numbfr of bytfs donsumfd.
+     * @rfturn  tif numbfr of bytfs donsumfd.
+     * @rfturn  tif numbfr of bytfs donsumfd.
+     */
+     */
+     */
+     */
      */
     finbl publid int bytfsConsumfd() {
+    finbl publid int bytfsConsumfd() {
+    finbl publid int bytfsConsumfd() {
+    finbl publid int bytfsConsumfd() {
+    finbl publid int bytfsConsumfd() {
+        rfturn bytfsConsumfd;
+        rfturn bytfsConsumfd;
+        rfturn bytfsConsumfd;
+        rfturn bytfsConsumfd;
         rfturn bytfsConsumfd;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf numbfr of bytfs writtfn to thf output bufffr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif numbfr of bytfs writtfn to tif output bufffr.
+     * Rfturns tif numbfr of bytfs writtfn to tif output bufffr.
+     * Rfturns tif numbfr of bytfs writtfn to tif output bufffr.
+     * Rfturns tif numbfr of bytfs writtfn to tif output bufffr.
+     * Rfturns tif numbfr of bytfs writtfn to tif output bufffr.
      *
-     * @rfturn  thf numbfr of bytfs produdfd
+     *
+     *
+     *
+     *
+     * @rfturn  tif numbfr of bytfs produdfd
+     * @rfturn  tif numbfr of bytfs produdfd
+     * @rfturn  tif numbfr of bytfs produdfd
+     * @rfturn  tif numbfr of bytfs produdfd
+     * @rfturn  tif numbfr of bytfs produdfd
+     */
+     */
+     */
+     */
      */
     finbl publid int bytfsProdudfd() {
+    finbl publid int bytfsProdudfd() {
+    finbl publid int bytfsProdudfd() {
+    finbl publid int bytfsProdudfd() {
+    finbl publid int bytfsProdudfd() {
+        rfturn bytfsProdudfd;
+        rfturn bytfsProdudfd;
+        rfturn bytfsProdudfd;
+        rfturn bytfsProdudfd;
         rfturn bytfsProdudfd;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b String rfprfsfntbtion of this objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b String rfprfsfntbtion of tiis objfdt.
+     * Rfturns b String rfprfsfntbtion of tiis objfdt.
+     * Rfturns b String rfprfsfntbtion of tiis objfdt.
+     * Rfturns b String rfprfsfntbtion of tiis objfdt.
+     * Rfturns b String rfprfsfntbtion of tiis objfdt.
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
     publid String toString() {
         rfturn ("Stbtus = " + stbtus +
-            " HbndshbkfStbtus = " + hbndshbkfStbtus +
+        rfturn ("Stbtus = " + stbtus +
+        rfturn ("Stbtus = " + stbtus +
+        rfturn ("Stbtus = " + stbtus +
+        rfturn ("Stbtus = " + stbtus +
+            " HbndsibkfStbtus = " + ibndsibkfStbtus +
+            " HbndsibkfStbtus = " + ibndsibkfStbtus +
+            " HbndsibkfStbtus = " + ibndsibkfStbtus +
+            " HbndsibkfStbtus = " + ibndsibkfStbtus +
+            " HbndsibkfStbtus = " + ibndsibkfStbtus +
+            "\nbytfsConsumfd = " + bytfsConsumfd +
+            "\nbytfsConsumfd = " + bytfsConsumfd +
+            "\nbytfsConsumfd = " + bytfsConsumfd +
+            "\nbytfsConsumfd = " + bytfsConsumfd +
             "\nbytfsConsumfd = " + bytfsConsumfd +
             " bytfsProdudfd = " + bytfsProdudfd);
+            " bytfsProdudfd = " + bytfsProdudfd);
+            " bytfsProdudfd = " + bytfsProdudfd);
+            " bytfsProdudfd = " + bytfsProdudfd);
+            " bytfsProdudfd = " + bytfsProdudfd);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

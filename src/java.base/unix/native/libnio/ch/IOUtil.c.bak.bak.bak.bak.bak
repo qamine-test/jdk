@@ -1,0 +1,204 @@
+/*
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#indludf <sys/typfs.i>
+#indludf <string.i>
+#indludf <sys/rfsourdf.i>
+
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "sun_nio_di_IOUtil.i"
+#indludf "jbvb_lbng_Intfgfr.i"
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "nft_util.i"
+
+stbtid jfifldID fd_fdID;        /* for jint 'fd' in jbvb.io.FilfDfsdriptor */
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_di_IOUtil_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    CHECK_NULL(dlbzz = (*fnv)->FindClbss(fnv, "jbvb/io/FilfDfsdriptor"));
+    CHECK_NULL(fd_fdID = (*fnv)->GftFifldID(fnv, dlbzz, "fd", "I"));
+    initInftAddrfssIDs(fnv);
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_IOUtil_rbndomBytfs(JNIEnv *fnv, jdlbss dlbzz,
+                                  jbytfArrby rbndArrby)
+{
+    JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption", NULL);
+    rfturn JNI_FALSE;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_di_IOUtil_fdVbl(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
+{
+    rfturn (*fnv)->GftIntFifld(fnv, fdo, fd_fdID);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_di_IOUtil_sftfdVbl(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo, jint vbl)
+{
+    (*fnv)->SftIntFifld(fnv, fdo, fd_fdID, vbl);
+}
+
+stbtid int
+donfigurfBlodking(int fd, jboolfbn blodking)
+{
+    int flbgs = fdntl(fd, F_GETFL);
+    int nfwflbgs = blodking ? (flbgs & ~O_NONBLOCK) : (flbgs | O_NONBLOCK);
+
+    rfturn (flbgs == nfwflbgs) ? 0 : fdntl(fd, F_SETFL, nfwflbgs);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_di_IOUtil_donfigurfBlodking(JNIEnv *fnv, jdlbss dlbzz,
+                                         jobjfdt fdo, jboolfbn blodking)
+{
+    if (donfigurfBlodking(fdvbl(fnv, fdo), blodking) < 0)
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Configurf blodking fbilfd");
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_di_IOUtil_mbkfPipf(JNIEnv *fnv, jobjfdt tiis, jboolfbn blodking)
+{
+    int fd[2];
+
+    if (pipf(fd) < 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Pipf fbilfd");
+        rfturn 0;
+    }
+    if (blodking == JNI_FALSE) {
+        if ((donfigurfBlodking(fd[0], JNI_FALSE) < 0)
+            || (donfigurfBlodking(fd[1], JNI_FALSE) < 0)) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Configurf blodking fbilfd");
+            dlosf(fd[0]);
+            dlosf(fd[1]);
+            rfturn 0;
+        }
+    }
+    rfturn ((jlong) fd[0] << 32) | (jlong) fd[1];
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_IOUtil_drbin(JNIEnv *fnv, jdlbss dl, jint fd)
+{
+    dibr buf[128];
+    int tn = 0;
+
+    for (;;) {
+        int n = rfbd(fd, buf, sizfof(buf));
+        tn += n;
+        if ((n < 0) && (frrno != EAGAIN))
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Drbin");
+        if (n == (int)sizfof(buf))
+            dontinuf;
+        rfturn (tn > 0) ? JNI_TRUE : JNI_FALSE;
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_di_IOUtil_fdLimit(JNIEnv *fnv, jdlbss tiis)
+{
+    strudt rlimit rlp;
+    if (gftrlimit(RLIMIT_NOFILE, &rlp) < 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "gftrlimit fbilfd");
+        rfturn -1;
+    }
+    if (rlp.rlim_mbx < 0 || rlp.rlim_mbx > jbvb_lbng_Intfgfr_MAX_VALUE) {
+        rfturn jbvb_lbng_Intfgfr_MAX_VALUE;
+    } flsf {
+        rfturn (jint)rlp.rlim_mbx;
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_di_IOUtil_iovMbx(JNIEnv *fnv, jdlbss tiis)
+{
+    jlong iov_mbx = sysdonf(_SC_IOV_MAX);
+    if (iov_mbx == -1)
+        iov_mbx = 16;
+    rfturn (jint)iov_mbx;
+}
+
+/* Dfdlbrfd in nio_util.i for usf flsfwifrf in NIO */
+
+jint
+donvfrtRfturnVbl(JNIEnv *fnv, jint n, jboolfbn rfbding)
+{
+    if (n > 0) /* Numbfr of bytfs writtfn */
+        rfturn n;
+    flsf if (n == 0) {
+        if (rfbding) {
+            rfturn IOS_EOF; /* EOF is -1 in jbvblbnd */
+        } flsf {
+            rfturn 0;
+        }
+    }
+    flsf if (frrno == EAGAIN)
+        rfturn IOS_UNAVAILABLE;
+    flsf if (frrno == EINTR)
+        rfturn IOS_INTERRUPTED;
+    flsf {
+        donst dibr *msg = rfbding ? "Rfbd fbilfd" : "Writf fbilfd";
+        JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
+        rfturn IOS_THROWN;
+    }
+}
+
+/* Dfdlbrfd in nio_util.i for usf flsfwifrf in NIO */
+
+jlong
+donvfrtLongRfturnVbl(JNIEnv *fnv, jlong n, jboolfbn rfbding)
+{
+    if (n > 0) /* Numbfr of bytfs writtfn */
+        rfturn n;
+    flsf if (n == 0) {
+        if (rfbding) {
+            rfturn IOS_EOF; /* EOF is -1 in jbvblbnd */
+        } flsf {
+            rfturn 0;
+        }
+    }
+    flsf if (frrno == EAGAIN)
+        rfturn IOS_UNAVAILABLE;
+    flsf if (frrno == EINTR)
+        rfturn IOS_INTERRUPTED;
+    flsf {
+        donst dibr *msg = rfbding ? "Rfbd fbilfd" : "Writf fbilfd";
+        JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
+        rfturn IOS_THROWN;
+    }
+}
+
+jint
+fdvbl(JNIEnv *fnv, jobjfdt fdo)
+{
+    rfturn (*fnv)->GftIntFifld(fnv, fdo, fd_fdID);
+}

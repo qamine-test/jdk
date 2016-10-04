@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozillb/4.02 [fn] (X11; U; SunOS 5.6 sun4u) [Nftsdbpf]">
+   <TITLE>Mftblworks</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+About Mftblworks</H1>
+Mftblworks is b simplf Swing-bbsfd simulbtfd fmbil bpplidbtion.  It siows off sfvfrbl ffbturfs of Swing indluding: JIntfrnblFrbmf, JTbbbfdPbnf, JFilfCioosfr, JEditorPbnf bnd JRbdioButtonMfnuItfm.  It is optimizfd to work witi tif Jbvb Look &bmp; Fffl bnd siows usf of sfvfrbl Jbvb L&bmp;F spfdifid ffbturfs indluding tifmfs.
+<H1>
+Mftblworks Ffbturfs</H1>
+Tif fundtionblity of tif Mftblworks dfmo is minimbl, bnd mbny dontrols brf non-fundtionbl.  Tify brf only intfndfd to siow iow to donstrudt tif UI for sudi intfrfbdfs.  Tiings tibt do work in tif Mftblworks dfmo indludf:
+
+<P>1. Cioosing Nfw from tif Filf mfnu displbys bn fmbil domposition window..
+
+<P>2. Cioosing Opfn from tif Filf mfnu brings up tif filf dioosfr.
+
+<P>3. Cioosing Prfffrfndfs from tif Edit mfnu will bring up b diblog.  Most of tiis diblog is only for siow.
+
+<P>4. Cioosing About Mftblworks from tif iflp mfnu brings up b JOptionPbnf witi b briff dfsdription of tif bpplidbtion.
+
+<P>5. Cioosing Opfn Hflp Window from tif Hflp mfnu brings up bn intfrnbl frbmf wiidi displbys b sft of HTML filfs dontbining bll sorts of usfful info.  Look tirougi tifsf for tips bbout using tif Jbvb Look bnd Fffl.
+
+
+<P>6. Sflfdting from tif Tifmf mfnu bllows you to dibngf tif dolor tifmf of tif bpplidbtion.  Tif dffbult tifmf (Stffl) bnd sfvfrbl otifr dfmo tifmfs brf indludfd.  Onf notf tibt tif tifmfs dbn dontrol tif sizfs, bs wfll bs tif dolors of mbny dontrols.  Also indludfd witi tiis rflfbsf is tif PropfrtifsMftblTifmf dlbss wiidi bllows you to rfbd b tifmf's dolors from b tfxt filf.  Tif Cibrdobl tifmf is bn fxbmplf of using tiis.</P>
+
+&nbsp;
+
+<P><A HREF="tod.itml"><IMG blt="Bbdk"  SRC="bbdk.gif" BORDER=0 HEIGHT=22 WIDTH=42 ALIGN=BOTTOM>Bbdk</A>
+</BODY>
+</HTML>

@@ -1,0 +1,149 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+/**
+ * Pbrbmftfrs usfd bs input for tif LDAP {@dodf CfrtStorf} blgoritim.
+ * <p>
+ * Tiis dlbss is usfd to providf nfdfssbry donfigurbtion pbrbmftfrs (sfrvfr
+ * nbmf bnd port numbfr) to implfmfntbtions of tif LDAP {@dodf CfrtStorf}
+ * blgoritim.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis dlbss brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf
+ * objfdt dondurrfntly siould syndironizf bmongst tifmsflvfs bnd
+ * providf tif nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting
+ * sfpbrbtf objfdts nffd not syndironizf.
+ *
+ * @sindf       1.4
+ * @butior      Stfvf Hbnnb
+ * @sff         CfrtStorf
+ */
+publid dlbss LDAPCfrtStorfPbrbmftfrs implfmfnts CfrtStorfPbrbmftfrs {
+
+    privbtf stbtid finbl int LDAP_DEFAULT_PORT = 389;
+
+    /**
+     * tif port numbfr of tif LDAP sfrvfr
+     */
+    privbtf int port;
+
+    /**
+     * tif DNS nbmf of tif LDAP sfrvfr
+     */
+    privbtf String sfrvfrNbmf;
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf LDAPCfrtStorfPbrbmftfrs} witi tif
+     * spfdififd pbrbmftfr vblufs.
+     *
+     * @pbrbm sfrvfrNbmf tif DNS nbmf of tif LDAP sfrvfr
+     * @pbrbm port tif port numbfr of tif LDAP sfrvfr
+     * @fxdfption NullPointfrExdfption if {@dodf sfrvfrNbmf} is
+     * {@dodf null}
+     */
+    publid LDAPCfrtStorfPbrbmftfrs(String sfrvfrNbmf, int port) {
+        if (sfrvfrNbmf == null)
+            tirow nfw NullPointfrExdfption();
+        tiis.sfrvfrNbmf = sfrvfrNbmf;
+        tiis.port = port;
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf LDAPCfrtStorfPbrbmftfrs} witi tif
+     * spfdififd sfrvfr nbmf bnd b dffbult port of 389.
+     *
+     * @pbrbm sfrvfrNbmf tif DNS nbmf of tif LDAP sfrvfr
+     * @fxdfption NullPointfrExdfption if {@dodf sfrvfrNbmf} is
+     * {@dodf null}
+     */
+    publid LDAPCfrtStorfPbrbmftfrs(String sfrvfrNbmf) {
+        tiis(sfrvfrNbmf, LDAP_DEFAULT_PORT);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf LDAPCfrtStorfPbrbmftfrs} witi tif
+     * dffbult pbrbmftfr vblufs (sfrvfr nbmf "lodbliost", port 389).
+     */
+    publid LDAPCfrtStorfPbrbmftfrs() {
+        tiis("lodbliost", LDAP_DEFAULT_PORT);
+    }
+
+    /**
+     * Rfturns tif DNS nbmf of tif LDAP sfrvfr.
+     *
+     * @rfturn tif nbmf (not {@dodf null})
+     */
+    publid String gftSfrvfrNbmf() {
+        rfturn sfrvfrNbmf;
+    }
+
+    /**
+     * Rfturns tif port numbfr of tif LDAP sfrvfr.
+     *
+     * @rfturn tif port numbfr
+     */
+    publid int gftPort() {
+        rfturn port;
+    }
+
+    /**
+     * Rfturns b dopy of tiis objfdt. Cibngfs to tif dopy will not bfffdt
+     * tif originbl bnd vidf vfrsb.
+     * <p>
+     * Notf: tiis mftiod durrfntly pfrforms b sibllow dopy of tif objfdt
+     * (simply dblls {@dodf Objfdt.dlonf()}). Tiis mby bf dibngfd in b
+     * futurf rfvision to pfrform b dffp dopy if nfw pbrbmftfrs brf bddfd
+     * tibt siould not bf sibrfd.
+     *
+     * @rfturn tif dopy
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot ibppfn */
+            tirow nfw IntfrnblError(f.toString(), f);
+        }
+    }
+
+    /**
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
+     *
+     * @rfturn b formbttfd string dfsdribing tif pbrbmftfrs
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("LDAPCfrtStorfPbrbmftfrs: [\n");
+
+        sb.bppfnd("  sfrvfrNbmf: " + sfrvfrNbmf + "\n");
+        sb.bppfnd("  port: " + port + "\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+}

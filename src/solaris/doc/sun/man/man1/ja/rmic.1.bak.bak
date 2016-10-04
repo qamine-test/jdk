@@ -1,360 +1,1800 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: rmid
+.\" Titlf: rmid
+.\" Titlf: rmid
+.\" Titlf: rmid
+.\" Titlf: rmid
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
 .\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "rmid" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmid" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmid" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmid" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmid" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 rmid \- Jbvb Rfmotf Mftiod Protodol (JRMP)またはIntfrnft Intfr\-Orb protodol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTifクラスを生成します。Objfdt Mbnbgfmfnt Group (OMG)インタフェース定義言語(IDL)も生成します
+rmid \- Jbvb Rfmotf Mftiod Protodol (JRMP)またはIntfrnft Intfr\-Orb protodol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTifクラスを生成します。Objfdt Mbnbgfmfnt Group (OMG)インタフェース定義言語(IDL)も生成します
+rmid \- Jbvb Rfmotf Mftiod Protodol (JRMP)またはIntfrnft Intfr\-Orb protodol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTifクラスを生成します。Objfdt Mbnbgfmfnt Group (OMG)インタフェース定義言語(IDL)も生成します
+rmid \- Jbvb Rfmotf Mftiod Protodol (JRMP)またはIntfrnft Intfr\-Orb protodol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTifクラスを生成します。Objfdt Mbnbgfmfnt Group (OMG)インタフェース定義言語(IDL)も生成します
+rmid \- Jbvb Rfmotf Mftiod Protodol (JRMP)またはIntfrnft Intfr\-Orb protodol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTifクラスを生成します。Objfdt Mbnbgfmfnt Group (OMG)インタフェース定義言語(IDL)も生成します
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・\fIオプション\fR。オプションを参照してください。
+コマンドライン・\fIオプション\fR。オプションを参照してください。
+コマンドライン・\fIオプション\fR。オプションを参照してください。
+コマンドライン・\fIオプション\fR。オプションを参照してください。
+コマンドライン・\fIオプション\fR。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+\fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 パッケージを含むクラス名。例:
+パッケージを含むクラス名。例:
+パッケージを含むクラス名。例:
+パッケージを含むクラス名。例:
+パッケージを含むクラス名。例:
+\fIjbvb\&.bwt\&.Color\fR。
+\fIjbvb\&.bwt\&.Color\fR。
+\fIjbvb\&.bwt\&.Color\fR。
+\fIjbvb\&.bwt\&.Color\fR。
 \fIjbvb\&.bwt\&.Color\fR。
 .RE
+.RE
+.RE
+.RE
+.RE
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .SH "説明"
 .PP
+.PP
+.PP
+.PP
+.PP
+\fB非推奨に関する注意:\fR
+\fB非推奨に関する注意:\fR
+\fB非推奨に関する注意:\fR
+\fB非推奨に関する注意:\fR
 \fB非推奨に関する注意:\fR
 Jbvb Rfmotf Mftiod Protodol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR仕様(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml)を参照してください。
+Jbvb Rfmotf Mftiod Protodol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR仕様(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml)を参照してください。
+Jbvb Rfmotf Mftiod Protodol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR仕様(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml)を参照してください。
+Jbvb Rfmotf Mftiod Protodol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR仕様(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml)を参照してください。
+Jbvb Rfmotf Mftiod Protodol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR仕様(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml)を参照してください。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIrmid\fRコンパイラは、Jbvb Rfmotf Mftiod Protodol (JRMP)とスタブおよびTifクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Rfmotf\fRインタフェースを実装するクラスです。\fIrmid\fRコマンドでのクラス名は、そのクラスが\fIjbvbd\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHflloImpl\fRで\fIrmid\fRコマンドを実行すると、iflloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHflloImpl_Stub\&.dlbss \fRファイルが作成されます。
+\fIrmid\fRコンパイラは、Jbvb Rfmotf Mftiod Protodol (JRMP)とスタブおよびTifクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Rfmotf\fRインタフェースを実装するクラスです。\fIrmid\fRコマンドでのクラス名は、そのクラスが\fIjbvbd\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHflloImpl\fRで\fIrmid\fRコマンドを実行すると、iflloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHflloImpl_Stub\&.dlbss \fRファイルが作成されます。
+\fIrmid\fRコンパイラは、Jbvb Rfmotf Mftiod Protodol (JRMP)とスタブおよびTifクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Rfmotf\fRインタフェースを実装するクラスです。\fIrmid\fRコマンドでのクラス名は、そのクラスが\fIjbvbd\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHflloImpl\fRで\fIrmid\fRコマンドを実行すると、iflloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHflloImpl_Stub\&.dlbss \fRファイルが作成されます。
+\fIrmid\fRコンパイラは、Jbvb Rfmotf Mftiod Protodol (JRMP)とスタブおよびTifクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Rfmotf\fRインタフェースを実装するクラスです。\fIrmid\fRコマンドでのクラス名は、そのクラスが\fIjbvbd\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHflloImpl\fRで\fIrmid\fRコマンドを実行すると、iflloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHflloImpl_Stub\&.dlbss \fRファイルが作成されます。
+\fIrmid\fRコンパイラは、Jbvb Rfmotf Mftiod Protodol (JRMP)とスタブおよびTifクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Rfmotf\fRインタフェースを実装するクラスです。\fIrmid\fRコマンドでのクラス名は、そのクラスが\fIjbvbd\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHflloImpl\fRで\fIrmid\fRコマンドを実行すると、iflloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHflloImpl_Stub\&.dlbss \fRファイルが作成されます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 rmid ifllo\&.HflloImpl
+rmid ifllo\&.HflloImpl
+rmid ifllo\&.HflloImpl
+rmid ifllo\&.HflloImpl
+rmid ifllo\&.HflloImpl
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 リモート・オブジェクトのスケルトンはJRMPプロトコル・サーバー側のエンティティで、リモート・オブジェクト実装を呼び出すメソッドを含みます。
+リモート・オブジェクトのスケルトンはJRMPプロトコル・サーバー側のエンティティで、リモート・オブジェクト実装を呼び出すメソッドを含みます。
+リモート・オブジェクトのスケルトンはJRMPプロトコル・サーバー側のエンティティで、リモート・オブジェクト実装を呼び出すメソッドを含みます。
+リモート・オブジェクトのスケルトンはJRMPプロトコル・サーバー側のエンティティで、リモート・オブジェクト実装を呼び出すメソッドを含みます。
+リモート・オブジェクトのスケルトンはJRMPプロトコル・サーバー側のエンティティで、リモート・オブジェクト実装を呼び出すメソッドを含みます。
+.PP
+.PP
+.PP
+.PP
 .PP
 リモート・オブジェクトのTifは、スケルトンと同様にサーバー側のエンティティですが、IIOPプロトコルを使用してクライアントと通信します。
+リモート・オブジェクトのTifは、スケルトンと同様にサーバー側のエンティティですが、IIOPプロトコルを使用してクライアントと通信します。
+リモート・オブジェクトのTifは、スケルトンと同様にサーバー側のエンティティですが、IIOPプロトコルを使用してクライアントと通信します。
+リモート・オブジェクトのTifは、スケルトンと同様にサーバー側のエンティティですが、IIOPプロトコルを使用してクライアントと通信します。
+リモート・オブジェクトのTifは、スケルトンと同様にサーバー側のエンティティですが、IIOPプロトコルを使用してクライアントと通信します。
+.PP
+.PP
+.PP
+.PP
 .PP
 スタブとは、リモート・オブジェクトのクライアント側での代理です。スタブは、リモート・オブジェクトのメソッド呼出しを、実物のリモート・オブジェクトが常駐するサーバーと通信する役割を持ちます。したがって、クライアントのリモート・オブジェクトへの参照は、実際はローカル・スタブへの参照となります。
+スタブとは、リモート・オブジェクトのクライアント側での代理です。スタブは、リモート・オブジェクトのメソッド呼出しを、実物のリモート・オブジェクトが常駐するサーバーと通信する役割を持ちます。したがって、クライアントのリモート・オブジェクトへの参照は、実際はローカル・スタブへの参照となります。
+スタブとは、リモート・オブジェクトのクライアント側での代理です。スタブは、リモート・オブジェクトのメソッド呼出しを、実物のリモート・オブジェクトが常駐するサーバーと通信する役割を持ちます。したがって、クライアントのリモート・オブジェクトへの参照は、実際はローカル・スタブへの参照となります。
+スタブとは、リモート・オブジェクトのクライアント側での代理です。スタブは、リモート・オブジェクトのメソッド呼出しを、実物のリモート・オブジェクトが常駐するサーバーと通信する役割を持ちます。したがって、クライアントのリモート・オブジェクトへの参照は、実際はローカル・スタブへの参照となります。
+スタブとは、リモート・オブジェクトのクライアント側での代理です。スタブは、リモート・オブジェクトのメソッド呼出しを、実物のリモート・オブジェクトが常駐するサーバーと通信する役割を持ちます。したがって、クライアントのリモート・オブジェクトへの参照は、実際はローカル・スタブへの参照となります。
+.PP
+.PP
+.PP
+.PP
 .PP
 デフォルトで\fIrmid\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vdompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTifクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
+デフォルトで\fIrmid\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vdompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTifクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
+デフォルトで\fIrmid\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vdompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTifクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
+デフォルトで\fIrmid\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vdompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTifクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
+デフォルトで\fIrmid\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vdompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTifクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
+.PP
+.PP
+.PP
+.PP
 .PP
 スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbblfRfmotfObjfdt\&.nbrrow\fRメソッドを使用する必要があります。
+スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbblfRfmotfObjfdt\&.nbrrow\fRメソッドを使用する必要があります。
+スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbblfRfmotfObjfdt\&.nbrrow\fRメソッドを使用する必要があります。
+スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbblfRfmotfObjfdt\&.nbrrow\fRメソッドを使用する必要があります。
+スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbblfRfmotfObjfdt\&.nbrrow\fRメソッドを使用する必要があります。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-bootdlbsspbti \fIpbti\fR
+\-bootdlbsspbti \fIpbti\fR
+\-bootdlbsspbti \fIpbti\fR
+\-bootdlbsspbti \fIpbti\fR
 \-bootdlbsspbti \fIpbti\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+ブートストラップ・クラス・ファイルの位置をオーバーライドします。
+ブートストラップ・クラス・ファイルの位置をオーバーライドします。
+ブートストラップ・クラス・ファイルの位置をオーバーライドします。
+ブートストラップ・クラス・ファイルの位置をオーバーライドします。
 ブートストラップ・クラス・ファイルの位置をオーバーライドします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-dlbsspbti pbti
+\-dlbsspbti pbti
+\-dlbsspbti pbti
+\-dlbsspbti pbti
+\-dlbsspbti pbti
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIrmid\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbti>\fRです。例:
+\fIrmid\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbti>\fRです。例:
+\fIrmid\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbti>\fRです。例:
+\fIrmid\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbti>\fRです。例:
+\fIrmid\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbti>\fRです。例:
+\fI\&.;/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.;/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.;/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.;/usr/lodbl/jbvb/dlbssfs\fR
 \fI\&.;/usr/lodbl/jbvb/dlbssfs\fR
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+\-d \fIdirfdtory\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTifファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/dlbssfs/fxbmplfdlbssに格納します。
+生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTifファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/dlbssfs/fxbmplfdlbssに格納します。
+生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTifファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/dlbssfs/fxbmplfdlbssに格納します。
+生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTifファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/dlbssfs/fxbmplfdlbssに格納します。
+生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTifファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/dlbssfs/fxbmplfdlbssに格納します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss
+rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss
+rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss
+rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss
 rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 \fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tif/skflftonファイルが格納されます。以前のリリースの\fIrmid\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
+\fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tif/skflftonファイルが格納されます。以前のリリースの\fIrmid\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
+\fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tif/skflftonファイルが格納されます。以前のリリースの\fIrmid\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
+\fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tif/skflftonファイルが格納されます。以前のリリースの\fIrmid\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
+\fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tif/skflftonファイルが格納されます。以前のリリースの\fIrmid\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-fxtdirs \fIpbti\fR
+\-fxtdirs \fIpbti\fR
+\-fxtdirs \fIpbti\fR
+\-fxtdirs \fIpbti\fR
+\-fxtdirs \fIpbti\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 インストール済拡張機能の位置をオーバーライドします。
+インストール済拡張機能の位置をオーバーライドします。
+インストール済拡張機能の位置をオーバーライドします。
+インストール済拡張機能の位置をオーバーライドします。
+インストール済拡張機能の位置をオーバーライドします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-g
+\-g
+\-g
+\-g
+\-g
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ローカル変数を含むすべてのデバッグ情報を生成します。デフォルトでは、行番号情報のみ生成されます。
+ローカル変数を含むすべてのデバッグ情報を生成します。デフォルトでは、行番号情報のみ生成されます。
+ローカル変数を含むすべてのデバッグ情報を生成します。デフォルトでは、行番号情報のみ生成されます。
+ローカル変数を含むすべてのデバッグ情報を生成します。デフォルトでは、行番号情報のみ生成されます。
+ローカル変数を含むすべてのデバッグ情報を生成します。デフォルトでは、行番号情報のみ生成されます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
+.PP
+.PP
+.PP
+.PP
+\-idl
+\-idl
+\-idl
+\-idl
 \-idl
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIrmid\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlの
+\fIrmid\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlの
+\fIrmid\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlの
+\fIrmid\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlの
 \fIrmid\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlの
 「Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping」を参照してください
+「Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping」を参照してください
+「Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping」を参照してください
+「Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping」を参照してください
+「Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping」を参照してください
+.sp
+.sp
+.sp
+.sp
 .sp
 \fI\-idl\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-idl\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-idl\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-idl\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-idl\fRオプションを使用するときには、他のオプションも指定できます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 \i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 \fI\-fbdtory\fRオプションは、生成されたIDLで\fIfbdtory\fRキーワードを使用します。
+\fI\-fbdtory\fRオプションは、生成されたIDLで\fIfbdtory\fRキーワードを使用します。
+\fI\-fbdtory\fRオプションは、生成されたIDLで\fIfbdtory\fRキーワードを使用します。
+\fI\-fbdtory\fRオプションは、生成されたIDLで\fIfbdtory\fRキーワードを使用します。
+\fI\-fbdtory\fRオプションは、生成されたIDLで\fIfbdtory\fRキーワードを使用します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 Tif
+Tif
+Tif
+Tif
+Tif
+\fI\-idlModulf\fR
+\fI\-idlModulf\fR
+\fI\-idlModulf\fR
+\fI\-idlModulf\fR
 \fI\-idlModulf\fR
 from J\fIbvbPbdkbgf[\&.dlbss]\fR
+from J\fIbvbPbdkbgf[\&.dlbss]\fR
+from J\fIbvbPbdkbgf[\&.dlbss]\fR
+from J\fIbvbPbdkbgf[\&.dlbss]\fR
+from J\fIbvbPbdkbgf[\&.dlbss]\fR
+\fItoIDLModulf\fR
+\fItoIDLModulf\fR
+\fItoIDLModulf\fR
+\fItoIDLModulf\fR
 \fItoIDLModulf\fR
 spfdififs
-\fIIDLEntity\fR
-pbdkbgf mbpping, for fxbmplf:
-\fI\-idlModulf\fR
-\fImy\&.modulf my::rfbl::idlmod\fR\&.
-.RE
-.sp
-.RS 4
-.if n \{\
-\i'-04'\(bu\i'+03'\d
-.\}
-.fl \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-\fI\-idlFilf\fR
-\fIfromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR
+spfdififs
+spfdififs
+spfdififs
 spfdififs
 \fIIDLEntity\fR
+\fIIDLEntity\fR
+\fIIDLEntity\fR
+\fIIDLEntity\fR
+\fIIDLEntity\fR
+pbdkbgf mbpping, for fxbmplf:
+pbdkbgf mbpping, for fxbmplf:
+pbdkbgf mbpping, for fxbmplf:
+pbdkbgf mbpping, for fxbmplf:
+pbdkbgf mbpping, for fxbmplf:
+\fI\-idlModulf\fR
+\fI\-idlModulf\fR
+\fI\-idlModulf\fR
+\fI\-idlModulf\fR
+\fI\-idlModulf\fR
+\fImy\&.modulf my::rfbl::idlmod\fR\&.
+\fImy\&.modulf my::rfbl::idlmod\fR\&.
+\fImy\&.modulf my::rfbl::idlmod\fR\&.
+\fImy\&.modulf my::rfbl::idlmod\fR\&.
+\fImy\&.modulf my::rfbl::idlmod\fR\&.
+.RE
+.RE
+.RE
+.RE
+.RE
+.sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
+.\}
+\fI\-idlFilf\fR
+\fI\-idlFilf\fR
+\fI\-idlFilf\fR
+\fI\-idlFilf\fR
+\fI\-idlFilf\fR
+\fIfromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR
+\fIfromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR
+\fIfromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR
+\fIfromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR
+\fIfromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR
+spfdififs
+spfdififs
+spfdififs
+spfdififs
+spfdififs
+\fIIDLEntity\fR
+\fIIDLEntity\fR
+\fIIDLEntity\fR
+\fIIDLEntity\fR
+\fIIDLEntity\fR
 filf mbpping, for fxbmplf:
+filf mbpping, for fxbmplf:
+filf mbpping, for fxbmplf:
+filf mbpping, for fxbmplf:
+filf mbpping, for fxbmplf:
+\fI\-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
+\fI\-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
+\fI\-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
+\fI\-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
 \fI\-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
 .RE
 .RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-iiop
+\-iiop
+\-iiop
+\-iiop
+\-iiop
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIrmid\fRコマンドによって、JRMPのスタブとスケルトン・クラスのかわりに、IIOPのスタブとTifクラスが生成されます。スタブ・クラスは、リモート・オブジェクトのローカル・プロキシで、クライアントからサーバーに呼出しを送信するときに使用されます。各リモート・インタフェースにはスタブ・クラスが必要です。スタブ・クラスによってリモート・インタフェースが実装されます。クライアントでリモート・オブジェクトを参照するときは、スタブを参照することになります。タイ・クラスは、サーバー側で着呼を処理し、その呼出しを適切な実装クラスにディスパッチするときに使用されます。各実装クラスには、タイ・クラスが必要です。
+\fIrmid\fRコマンドによって、JRMPのスタブとスケルトン・クラスのかわりに、IIOPのスタブとTifクラスが生成されます。スタブ・クラスは、リモート・オブジェクトのローカル・プロキシで、クライアントからサーバーに呼出しを送信するときに使用されます。各リモート・インタフェースにはスタブ・クラスが必要です。スタブ・クラスによってリモート・インタフェースが実装されます。クライアントでリモート・オブジェクトを参照するときは、スタブを参照することになります。タイ・クラスは、サーバー側で着呼を処理し、その呼出しを適切な実装クラスにディスパッチするときに使用されます。各実装クラスには、タイ・クラスが必要です。
+\fIrmid\fRコマンドによって、JRMPのスタブとスケルトン・クラスのかわりに、IIOPのスタブとTifクラスが生成されます。スタブ・クラスは、リモート・オブジェクトのローカル・プロキシで、クライアントからサーバーに呼出しを送信するときに使用されます。各リモート・インタフェースにはスタブ・クラスが必要です。スタブ・クラスによってリモート・インタフェースが実装されます。クライアントでリモート・オブジェクトを参照するときは、スタブを参照することになります。タイ・クラスは、サーバー側で着呼を処理し、その呼出しを適切な実装クラスにディスパッチするときに使用されます。各実装クラスには、タイ・クラスが必要です。
+\fIrmid\fRコマンドによって、JRMPのスタブとスケルトン・クラスのかわりに、IIOPのスタブとTifクラスが生成されます。スタブ・クラスは、リモート・オブジェクトのローカル・プロキシで、クライアントからサーバーに呼出しを送信するときに使用されます。各リモート・インタフェースにはスタブ・クラスが必要です。スタブ・クラスによってリモート・インタフェースが実装されます。クライアントでリモート・オブジェクトを参照するときは、スタブを参照することになります。タイ・クラスは、サーバー側で着呼を処理し、その呼出しを適切な実装クラスにディスパッチするときに使用されます。各実装クラスには、タイ・クラスが必要です。
+\fIrmid\fRコマンドによって、JRMPのスタブとスケルトン・クラスのかわりに、IIOPのスタブとTifクラスが生成されます。スタブ・クラスは、リモート・オブジェクトのローカル・プロキシで、クライアントからサーバーに呼出しを送信するときに使用されます。各リモート・インタフェースにはスタブ・クラスが必要です。スタブ・クラスによってリモート・インタフェースが実装されます。クライアントでリモート・オブジェクトを参照するときは、スタブを参照することになります。タイ・クラスは、サーバー側で着呼を処理し、その呼出しを適切な実装クラスにディスパッチするときに使用されます。各実装クラスには、タイ・クラスが必要です。
+.sp
+.sp
+.sp
+.sp
 .sp
 \fI\-iiop\fRを使用して\fIrmid\fRコマンドを呼び出すと、次の命名規則に準拠したスタブとTifが生成されます。
+\fI\-iiop\fRを使用して\fIrmid\fRコマンドを呼び出すと、次の命名規則に準拠したスタブとTifが生成されます。
+\fI\-iiop\fRを使用して\fIrmid\fRコマンドを呼び出すと、次の命名規則に準拠したスタブとTifが生成されます。
+\fI\-iiop\fRを使用して\fIrmid\fRコマンドを呼び出すと、次の命名規則に準拠したスタブとTifが生成されます。
+\fI\-iiop\fRを使用して\fIrmid\fRコマンドを呼び出すと、次の命名規則に準拠したスタブとTifが生成されます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+_<implfmfntbtionNbmf>_stub\&.dlbss
+_<implfmfntbtionNbmf>_stub\&.dlbss
+_<implfmfntbtionNbmf>_stub\&.dlbss
+_<implfmfntbtionNbmf>_stub\&.dlbss
 _<implfmfntbtionNbmf>_stub\&.dlbss
 _<intfrfbdfNbmf>_tif\&.dlbss
+_<intfrfbdfNbmf>_tif\&.dlbss
+_<intfrfbdfNbmf>_tif\&.dlbss
+_<intfrfbdfNbmf>_tif\&.dlbss
+_<intfrfbdfNbmf>_tif\&.dlbss
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 \i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 \fI\-iiop\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-iiop\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-iiop\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-iiop\fRオプションを使用するときには、他のオプションも指定できます。
+\fI\-iiop\fRオプションを使用するときには、他のオプションも指定できます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 \fI\-nolodblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
+\fI\-nolodblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
+\fI\-nolodblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
+\fI\-nolodblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
+\fI\-nolodblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 \fI\-noVblufMftiods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblufMftiods\fRオプションは、送信されるIDLに\fIvbluftypf\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluftypfの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblufMftiods\fRオプションを指定しないかぎり生成されます。
+\fI\-noVblufMftiods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblufMftiods\fRオプションは、送信されるIDLに\fIvbluftypf\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluftypfの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblufMftiods\fRオプションを指定しないかぎり生成されます。
+\fI\-noVblufMftiods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblufMftiods\fRオプションは、送信されるIDLに\fIvbluftypf\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluftypfの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblufMftiods\fRオプションを指定しないかぎり生成されます。
+\fI\-noVblufMftiods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblufMftiods\fRオプションは、送信されるIDLに\fIvbluftypf\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluftypfの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblufMftiods\fRオプションを指定しないかぎり生成されます。
+\fI\-noVblufMftiods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblufMftiods\fRオプションは、送信されるIDLに\fIvbluftypf\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluftypfの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblufMftiods\fRオプションを指定しないかぎり生成されます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .IP \(bu 2.3
 .\}
+.\}
+.\}
+.\}
+.\}
+\fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fRから\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion、CORBA V 2\&.3\&.1 ptd/00\-01\-08\&.pdfに準拠しています。
+\fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fRから\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion、CORBA V 2\&.3\&.1 ptd/00\-01\-08\&.pdfに準拠しています。
+\fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fRから\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion、CORBA V 2\&.3\&.1 ptd/00\-01\-08\&.pdfに準拠しています。
+\fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fRから\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion、CORBA V 2\&.3\&.1 ptd/00\-01\-08\&.pdfに準拠しています。
 \fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fRから\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion、CORBA V 2\&.3\&.1 ptd/00\-01\-08\&.pdfに準拠しています。
 .RE
 .RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J
+\-J
+\-J
+\-J
+\-J
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJbvbインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
+Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJbvbインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
+Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJbvbインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
+Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJbvbインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
+Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJbvbインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-kffp or \-kffpgfnfrbtfd
+\-kffp or \-kffpgfnfrbtfd
+\-kffp or \-kffpgfnfrbtfd
+\-kffp or \-kffpgfnfrbtfd
+\-kffp or \-kffpgfnfrbtfd
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 スタブ、スケルトン、またはTifクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.dlbss\fRファイルと同じディレクトリに書き込みます。
+スタブ、スケルトン、またはTifクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.dlbss\fRファイルと同じディレクトリに書き込みます。
+スタブ、スケルトン、またはTifクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.dlbss\fRファイルと同じディレクトリに書き込みます。
+スタブ、スケルトン、またはTifクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.dlbss\fRファイルと同じディレクトリに書き込みます。
+スタブ、スケルトン、またはTifクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.dlbss\fRファイルと同じディレクトリに書き込みます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-nowbrn
+\-nowbrn
+\-nowbrn
+\-nowbrn
+\-nowbrn
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 警告をオフにします。\fI\-nowbrn\fRオプションが使用される場合。コンパイラは警告を表示しません。
+警告をオフにします。\fI\-nowbrn\fRオプションが使用される場合。コンパイラは警告を表示しません。
+警告をオフにします。\fI\-nowbrn\fRオプションが使用される場合。コンパイラは警告を表示しません。
+警告をオフにします。\fI\-nowbrn\fRオプションが使用される場合。コンパイラは警告を表示しません。
+警告をオフにします。\fI\-nowbrn\fRオプションが使用される場合。コンパイラは警告を表示しません。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-nowritf
+\-nowritf
+\-nowritf
+\-nowritf
+\-nowritf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コンパイルしたクラスをファイル・システムに書き込みません。
+コンパイルしたクラスをファイル・システムに書き込みません。
+コンパイルしたクラスをファイル・システムに書き込みません。
+コンパイルしたクラスをファイル・システムに書き込みません。
+コンパイルしたクラスをファイル・システムに書き込みません。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-vdompbt (非推奨)
+\-vdompbt (非推奨)
+\-vdompbt (非推奨)
+\-vdompbt (非推奨)
+\-vdompbt (非推奨)
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 1\&.1と1\&.2の両方のJRMPスタブ・プロトコル・バージョンと互換性のあるスタブおよびスケルトン・クラスを作成します。5\&.0以前のリリースではこのオプションがデフォルトでした。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされると1\&.1スタブ・プロトコル・バージョンを使用し、JDK 1\&.2以降の仮想マシンにロードされると1\&.2スタブ・プロトコル・バージョンを使用します。生成されたスケルトン・クラスでは、1\&.1と1\&.2の両方のスタブ・プロトコル・バージョンをサポートします。生成されたクラスは両方の操作モードをサポートするために、サイズが大きくなります。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1と1\&.2の両方のJRMPスタブ・プロトコル・バージョンと互換性のあるスタブおよびスケルトン・クラスを作成します。5\&.0以前のリリースではこのオプションがデフォルトでした。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされると1\&.1スタブ・プロトコル・バージョンを使用し、JDK 1\&.2以降の仮想マシンにロードされると1\&.2スタブ・プロトコル・バージョンを使用します。生成されたスケルトン・クラスでは、1\&.1と1\&.2の両方のスタブ・プロトコル・バージョンをサポートします。生成されたクラスは両方の操作モードをサポートするために、サイズが大きくなります。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1と1\&.2の両方のJRMPスタブ・プロトコル・バージョンと互換性のあるスタブおよびスケルトン・クラスを作成します。5\&.0以前のリリースではこのオプションがデフォルトでした。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされると1\&.1スタブ・プロトコル・バージョンを使用し、JDK 1\&.2以降の仮想マシンにロードされると1\&.2スタブ・プロトコル・バージョンを使用します。生成されたスケルトン・クラスでは、1\&.1と1\&.2の両方のスタブ・プロトコル・バージョンをサポートします。生成されたクラスは両方の操作モードをサポートするために、サイズが大きくなります。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1と1\&.2の両方のJRMPスタブ・プロトコル・バージョンと互換性のあるスタブおよびスケルトン・クラスを作成します。5\&.0以前のリリースではこのオプションがデフォルトでした。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされると1\&.1スタブ・プロトコル・バージョンを使用し、JDK 1\&.2以降の仮想マシンにロードされると1\&.2スタブ・プロトコル・バージョンを使用します。生成されたスケルトン・クラスでは、1\&.1と1\&.2の両方のスタブ・プロトコル・バージョンをサポートします。生成されたクラスは両方の操作モードをサポートするために、サイズが大きくなります。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1と1\&.2の両方のJRMPスタブ・プロトコル・バージョンと互換性のあるスタブおよびスケルトン・クラスを作成します。5\&.0以前のリリースではこのオプションがデフォルトでした。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされると1\&.1スタブ・プロトコル・バージョンを使用し、JDK 1\&.2以降の仮想マシンにロードされると1\&.2スタブ・プロトコル・バージョンを使用します。生成されたスケルトン・クラスでは、1\&.1と1\&.2の両方のスタブ・プロトコル・バージョンをサポートします。生成されたクラスは両方の操作モードをサポートするために、サイズが大きくなります。注意:このオプションは非推奨になりました。説明を参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-vfrbosf
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+\-vfrbosf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コンパイラやリンカーが、コンパイルされているクラスやロードされているクラス・ファイルについてのメッセージを表示するようにします。
+コンパイラやリンカーが、コンパイルされているクラスやロードされているクラス・ファイルについてのメッセージを表示するようにします。
+コンパイラやリンカーが、コンパイルされているクラスやロードされているクラス・ファイルについてのメッセージを表示するようにします。
+コンパイラやリンカーが、コンパイルされているクラスやロードされているクラス・ファイルについてのメッセージを表示するようにします。
+コンパイラやリンカーが、コンパイルされているクラスやロードされているクラス・ファイルについてのメッセージを表示するようにします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-v1\&.1 (非推奨)
+\-v1\&.1 (非推奨)
+\-v1\&.1 (非推奨)
+\-v1\&.1 (非推奨)
+\-v1\&.1 (非推奨)
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 1\&.1 JRMPスタブ・プロトコル・バージョンのみのスタブおよびスケルトン・クラスを生成します。\fI\-v1\&.1\fRオプションを使用できるのは、JDK 1\&.1から\fIrmid\fRコマンドで生成され、アップグレードできない(さらにダイナミック・クラス・ローディングを使用していない)、既存の静的デプロイされたスタブ・クラスに対し、直列化互換性のあるスタブ・クラスを生成する場合のみです。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1 JRMPスタブ・プロトコル・バージョンのみのスタブおよびスケルトン・クラスを生成します。\fI\-v1\&.1\fRオプションを使用できるのは、JDK 1\&.1から\fIrmid\fRコマンドで生成され、アップグレードできない(さらにダイナミック・クラス・ローディングを使用していない)、既存の静的デプロイされたスタブ・クラスに対し、直列化互換性のあるスタブ・クラスを生成する場合のみです。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1 JRMPスタブ・プロトコル・バージョンのみのスタブおよびスケルトン・クラスを生成します。\fI\-v1\&.1\fRオプションを使用できるのは、JDK 1\&.1から\fIrmid\fRコマンドで生成され、アップグレードできない(さらにダイナミック・クラス・ローディングを使用していない)、既存の静的デプロイされたスタブ・クラスに対し、直列化互換性のあるスタブ・クラスを生成する場合のみです。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1 JRMPスタブ・プロトコル・バージョンのみのスタブおよびスケルトン・クラスを生成します。\fI\-v1\&.1\fRオプションを使用できるのは、JDK 1\&.1から\fIrmid\fRコマンドで生成され、アップグレードできない(さらにダイナミック・クラス・ローディングを使用していない)、既存の静的デプロイされたスタブ・クラスに対し、直列化互換性のあるスタブ・クラスを生成する場合のみです。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1 JRMPスタブ・プロトコル・バージョンのみのスタブおよびスケルトン・クラスを生成します。\fI\-v1\&.1\fRオプションを使用できるのは、JDK 1\&.1から\fIrmid\fRコマンドで生成され、アップグレードできない(さらにダイナミック・クラス・ローディングを使用していない)、既存の静的デプロイされたスタブ・クラスに対し、直列化互換性のあるスタブ・クラスを生成する場合のみです。注意:このオプションは非推奨になりました。説明を参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-v1\&.2 (非推奨)
+\-v1\&.2 (非推奨)
+\-v1\&.2 (非推奨)
+\-v1\&.2 (非推奨)
+\-v1\&.2 (非推奨)
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 (デフォルト)1\&.2 JRMPスタブ・プロトコル・バージョンのみのスタブ・クラスを生成します。スケルトン・クラスは1\&.2スタブ・プロトコル・バージョンで使用できないため、スケルトン・クラスは生成されません。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされても動作しません。注意:このオプションは非推奨になりました。説明を参照してください。
+(デフォルト)1\&.2 JRMPスタブ・プロトコル・バージョンのみのスタブ・クラスを生成します。スケルトン・クラスは1\&.2スタブ・プロトコル・バージョンで使用できないため、スケルトン・クラスは生成されません。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされても動作しません。注意:このオプションは非推奨になりました。説明を参照してください。
+(デフォルト)1\&.2 JRMPスタブ・プロトコル・バージョンのみのスタブ・クラスを生成します。スケルトン・クラスは1\&.2スタブ・プロトコル・バージョンで使用できないため、スケルトン・クラスは生成されません。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされても動作しません。注意:このオプションは非推奨になりました。説明を参照してください。
+(デフォルト)1\&.2 JRMPスタブ・プロトコル・バージョンのみのスタブ・クラスを生成します。スケルトン・クラスは1\&.2スタブ・プロトコル・バージョンで使用できないため、スケルトン・クラスは生成されません。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされても動作しません。注意:このオプションは非推奨になりました。説明を参照してください。
+(デフォルト)1\&.2 JRMPスタブ・プロトコル・バージョンのみのスタブ・クラスを生成します。スケルトン・クラスは1\&.2スタブ・プロトコル・バージョンで使用できないため、スケルトン・クラスは生成されません。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされても動作しません。注意:このオプションは非推奨になりました。説明を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "環境変数"
+.SH "環境変数"
+.SH "環境変数"
+.SH "環境変数"
+.SH "環境変数"
+.PP
+.PP
+.PP
+.PP
 .PP
 CLASSPATH
+CLASSPATH
+CLASSPATH
+CLASSPATH
+CLASSPATH
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ユーザー定義クラスへのパスをシステムに指定します。ディレクトリはコロンで区切られます。例:
+ユーザー定義クラスへのパスをシステムに指定します。ディレクトリはコロンで区切られます。例:
+ユーザー定義クラスへのパスをシステムに指定します。ディレクトリはコロンで区切られます。例:
+ユーザー定義クラスへのパスをシステムに指定します。ディレクトリはコロンで区切られます。例:
+ユーザー定義クラスへのパスをシステムに指定します。ディレクトリはコロンで区切られます。例:
+\fI\&.:/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.:/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.:/usr/lodbl/jbvb/dlbssfs\fR
+\fI\&.:/usr/lodbl/jbvb/dlbssfs\fR
 \fI\&.:/usr/lodbl/jbvb/dlbssfs\fR
 .RE
+.RE
+.RE
+.RE
+.RE
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
 .SH "関連項目"
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jbvbd(1)
+jbvbd(1)
+jbvbd(1)
+jbvbd(1)
+jbvbd(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .IP \(bu 2.3
 .\}
+.\}
+.\}
+.\}
+.\}
+Sftting tif Clbss Pbti
+Sftting tif Clbss Pbti
+Sftting tif Clbss Pbti
+Sftting tif Clbss Pbti
 Sftting tif Clbss Pbti
 .RE
+.RE
+.RE
+.RE
+.RE
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

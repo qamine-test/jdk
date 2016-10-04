@@ -1,0 +1,397 @@
+/*
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.util.EvfntObjfdt;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+/**
+ * <p>Tif Notifidbtion dlbss rfprfsfnts b notifidbtion fmittfd by bn
+ * MBfbn.  It dontbins b rfffrfndf to tif sourdf MBfbn: if tif
+ * notifidbtion ibs bffn forwbrdfd tirougi tif MBfbn sfrvfr, bnd tif
+ * originbl sourdf of tif notifidbtion wbs b rfffrfndf to tif fmitting
+ * MBfbn objfdt, tifn tif MBfbn sfrvfr rfplbdfs it by tif MBfbn's
+ * ObjfdtNbmf.  If tif listfnfr ibs rfgistfrfd dirfdtly witi tif
+ * MBfbn, tiis is fitifr tif objfdt nbmf or b dirfdt rfffrfndf to tif
+ * MBfbn.</p>
+ *
+ * <p>It is strongly rfdommfndfd tibt notifidbtion sfndfrs usf tif
+ * objfdt nbmf rbtifr tibn b rfffrfndf to tif MBfbn objfdt bs tif
+ * sourdf.</p>
+ *
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-7516092053498031989L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID is not donstbnt
+publid dlbss Notifidbtion fxtfnds EvfntObjfdt {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 1716977971058914352L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -7516092053498031989L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+        nfw ObjfdtStrfbmFifld("mfssbgf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("sfqufndfNumbfr", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("sourdf", Objfdt.dlbss),
+        nfw ObjfdtStrfbmFifld("sourdfObjfdtNbmf", ObjfdtNbmf.dlbss),
+        nfw ObjfdtStrfbmFifld("timfStbmp", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("typf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("usfrDbtb", Objfdt.dlbss)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+        nfw ObjfdtStrfbmFifld("mfssbgf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("sfqufndfNumbfr", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("sourdf", Objfdt.dlbss),
+        nfw ObjfdtStrfbmFifld("timfStbmp", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("typf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("usfrDbtb", Objfdt.dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /**
+     * @sfriblFifld typf String Tif notifidbtion typf.
+     *              A string fxprfssfd in b dot notbtion similbr to Jbvb propfrtifs.
+     *              An fxbmplf of b notifidbtion typf is nftwork.blbrm.routfr
+     * @sfriblFifld sfqufndfNumbfr long Tif notifidbtion sfqufndf numbfr.
+     *              A sfribl numbfr wiidi idfntify pbrtidulbr instbndf
+     *              of notifidbtion in tif dontfxt of tif notifidbtion sourdf.
+     * @sfriblFifld timfStbmp long Tif notifidbtion timfstbmp.
+     *              Indidbting wifn tif notifidbtion wbs gfnfrbtfd
+     * @sfriblFifld usfrDbtb Objfdt Tif notifidbtion usfr dbtb.
+     *              Usfd for wibtfvfr otifr dbtb tif notifidbtion
+     *              sourdf wisifs to dommunidbtf to its donsumfrs
+     * @sfriblFifld mfssbgf String Tif notifidbtion mfssbgf.
+     * @sfriblFifld sourdf Objfdt Tif objfdt on wiidi tif notifidbtion initiblly oddurrfd.
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt witi 1.0, too bbd
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+    /**
+     * @sfribl Tif notifidbtion typf.
+     *         A string fxprfssfd in b dot notbtion similbr to Jbvb propfrtifs.
+     *         An fxbmplf of b notifidbtion typf is nftwork.blbrm.routfr
+     */
+    privbtf String typf;
+
+    /**
+     * @sfribl Tif notifidbtion sfqufndf numbfr.
+     *         A sfribl numbfr wiidi idfntify pbrtidulbr instbndf
+     *         of notifidbtion in tif dontfxt of tif notifidbtion sourdf.
+     */
+    privbtf long sfqufndfNumbfr;
+
+    /**
+     * @sfribl Tif notifidbtion timfstbmp.
+     *         Indidbting wifn tif notifidbtion wbs gfnfrbtfd
+     */
+    privbtf long timfStbmp;
+
+    /**
+     * @sfribl Tif notifidbtion usfr dbtb.
+     *         Usfd for wibtfvfr otifr dbtb tif notifidbtion
+     *         sourdf wisifs to dommunidbtf to its donsumfrs
+     */
+    privbtf Objfdt usfrDbtb = null;
+
+    /**
+     * @sfribl Tif notifidbtion mfssbgf.
+     */
+    privbtf String mfssbgf  = "";
+
+    /**
+     * <p>Tiis fifld iidfs tif {@link EvfntObjfdt#sourdf} fifld in tif
+     * pbrfnt dlbss to mbkf it non-trbnsifnt bnd tifrfforf pbrt of tif
+     * sfriblizfd form.</p>
+     *
+     * @sfribl Tif objfdt on wiidi tif notifidbtion initiblly oddurrfd.
+     */
+    protfdtfd Objfdt sourdf = null;
+
+
+    /**
+     * Crfbtfs b Notifidbtion objfdt.
+     * Tif notifidbtion timfStbmp is sft to tif durrfnt dbtf.
+     *
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     *
+     */
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = (nfw jbvb.util.Dbtf()).gftTimf() ;
+    }
+
+    /**
+     * Crfbtfs b Notifidbtion objfdt.
+     * Tif notifidbtion timfStbmp is sft to tif durrfnt dbtf.
+     *
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm mfssbgf Tif dftbilfd mfssbgf.
+     *
+     */
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, String mfssbgf) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = (nfw jbvb.util.Dbtf()).gftTimf() ;
+        tiis.mfssbgf = mfssbgf ;
+    }
+
+    /**
+     * Crfbtfs b Notifidbtion objfdt.
+     *
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
+     *
+     */
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf ;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = timfStbmp ;
+    }
+
+    /**
+     * Crfbtfs b Notifidbtion objfdt.
+     *
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion sourdf.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
+     * @pbrbm mfssbgf Tif dftbilfd mfssbgf.
+     *
+     */
+    publid Notifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp, String mfssbgf) {
+        supfr (sourdf) ;
+        tiis.sourdf = sourdf;
+        tiis.typf = typf ;
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr ;
+        tiis.timfStbmp = timfStbmp ;
+        tiis.mfssbgf = mfssbgf ;
+    }
+
+    /**
+     * Sfts tif sourdf.
+     *
+     * @pbrbm sourdf tif nfw sourdf for tiis objfdt.
+     *
+     * @sff EvfntObjfdt#gftSourdf
+     */
+    publid void sftSourdf(Objfdt sourdf) {
+        supfr.sourdf = sourdf;
+        tiis.sourdf = sourdf;
+    }
+
+    /**
+     * Gft tif notifidbtion sfqufndf numbfr.
+     *
+     * @rfturn Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt. It's b sfribl numbfr
+     * idfntifying b pbrtidulbr instbndf of notifidbtion in tif dontfxt of tif notifidbtion sourdf.
+     * Tif notifidbtion modfl dofs not bssumf tibt notifidbtions will bf rfdfivfd in tif sbmf ordfr
+     * tibt tify brf sfnt. Tif sfqufndf numbfr iflps listfnfrs to sort rfdfivfd notifidbtions.
+     *
+     * @sff #sftSfqufndfNumbfr
+     */
+    publid long gftSfqufndfNumbfr() {
+        rfturn sfqufndfNumbfr ;
+    }
+
+    /**
+     * Sft tif notifidbtion sfqufndf numbfr.
+     *
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt. It is
+     * b sfribl numbfr idfntifying b pbrtidulbr instbndf of notifidbtion in tif
+     * dontfxt of tif notifidbtion sourdf.
+     *
+     * @sff #gftSfqufndfNumbfr
+     */
+    publid void sftSfqufndfNumbfr(long sfqufndfNumbfr) {
+        tiis.sfqufndfNumbfr = sfqufndfNumbfr;
+    }
+
+    /**
+     * Gft tif notifidbtion typf.
+     *
+     * @rfturn Tif notifidbtion typf. It's b string fxprfssfd in b dot notbtion
+     * similbr to Jbvb propfrtifs. It is rfdommfndfd tibt tif notifidbtion typf
+     * siould follow tif rfvfrsf-dombin-nbmf donvfntion usfd by Jbvb pbdkbgf
+     * nbmfs.  An fxbmplf of b notifidbtion typf is dom.fxbmplf.blbrm.routfr.
+     */
+    publid String gftTypf() {
+        rfturn typf ;
+    }
+
+    /**
+     * Gft tif notifidbtion timfstbmp.
+     *
+     * @rfturn Tif notifidbtion timfstbmp.
+     *
+     * @sff #sftTimfStbmp
+     */
+    publid long gftTimfStbmp() {
+        rfturn timfStbmp ;
+    }
+
+    /**
+     * Sft tif notifidbtion timfstbmp.
+     *
+     * @pbrbm timfStbmp Tif notifidbtion timfstbmp. It indidbtfs wifn tif notifidbtion wbs gfnfrbtfd.
+     *
+     * @sff #gftTimfStbmp
+     */
+    publid void sftTimfStbmp(long timfStbmp) {
+        tiis.timfStbmp = timfStbmp;
+    }
+
+    /**
+     * Gft tif notifidbtion mfssbgf.
+     *
+     * @rfturn Tif mfssbgf string of tiis notifidbtion objfdt.
+     *
+     */
+    publid String gftMfssbgf() {
+        rfturn mfssbgf ;
+    }
+
+    /**
+     * Gft tif usfr dbtb.
+     *
+     * @rfturn Tif usfr dbtb objfdt. It is usfd for wibtfvfr dbtb
+     * tif notifidbtion sourdf wisifs to dommunidbtf to its donsumfrs.
+     *
+     * @sff #sftUsfrDbtb
+     */
+    publid Objfdt gftUsfrDbtb() {
+        rfturn usfrDbtb ;
+    }
+
+    /**
+     * Sft tif usfr dbtb.
+     *
+     * @pbrbm usfrDbtb Tif usfr dbtb objfdt. It is usfd for wibtfvfr dbtb
+     * tif notifidbtion sourdf wisifs to dommunidbtf to its donsumfrs.
+     *
+     * @sff #gftUsfrDbtb
+     */
+    publid void sftUsfrDbtb(Objfdt usfrDbtb) {
+
+        tiis.usfrDbtb = usfrDbtb ;
+    }
+
+    /**
+     * Rfturns b String rfprfsfntbtion of tiis notifidbtion.
+     *
+     * @rfturn A String rfprfsfntbtion of tiis notifidbtion.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn supfr.toString()+"[typf="+typf+"][mfssbgf="+mfssbgf+"]";
+    }
+
+    /**
+     * Dfsfriblizfs b {@link Notifidbtion} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      // Nfw sfribl form ignorfs fxtrb fifld "sourdfObjfdtNbmf"
+      in.dffbultRfbdObjfdt();
+      supfr.sourdf = sourdf;
+    }
+
+
+    /**
+     * Sfriblizfs b {@link Notifidbtion} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+        if (dompbt) {
+            // Sfriblizfs tiis instbndf in tif old sfribl form
+            //
+            ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+            fiflds.put("typf", typf);
+            fiflds.put("sfqufndfNumbfr", sfqufndfNumbfr);
+            fiflds.put("timfStbmp", timfStbmp);
+            fiflds.put("usfrDbtb", usfrDbtb);
+            fiflds.put("mfssbgf", mfssbgf);
+            fiflds.put("sourdf", sourdf);
+            out.writfFiflds();
+        } flsf {
+            // Sfriblizfs tiis instbndf in tif nfw sfribl form
+            //
+            out.dffbultWritfObjfdt();
+        }
+    }
+}

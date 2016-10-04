@@ -1,0 +1,3544 @@
+/*
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#if 0
+libpng_dibngfs(){ /*
+CHANGES - dibngfs for libpng
+
+Vfrsion 0.2
+  bddfd rfbdfr into png.i
+  fixfd smbll problfms in stub filf
+
+Vfrsion 0.3
+  bddfd pull rfbdfr
+  split up pngwritf.d to sfvfrbl filfs
+  bddfd pnglib.txt
+  bddfd fxbmplf.d
+  dlfbnfd up writfr, bdding b ffw nfw trbnsformbtions
+  fixfd somf bugs in writfr
+  intfrfbdfd witi zlib 0.5
+  bddfd K&R support
+  bddfd difdk for 64 KB blodks for 16-bit mbdiinfs
+
+Vfrsion 0.4
+  dlfbnfd up dodf bnd dommfntfd dodf
+  simplififd timf ibndling into png_timf
+  drfbtfd png_dolor_16 bnd png_dolor_8 to ibndlf dolor nffds
+  dlfbnfd up dolor typf dffinfs
+  fixfd vbrious bugs
+  mbdf vbrious nbmfs morf donsistfnt
+  intfrfbdfd witi zlib 0.71
+  dlfbnfd up zTXt rfbdfr bnd writfr (using zlib's Rfsft fundtions)
+  split trbnsformbtions into pngrtrbn.d bnd pngwtrbn.d
+
+Vfrsion 0.5
+  intfrfbdfd witi zlib 0.8
+  fixfd mbny rfbding bnd writing bugs
+  sbvfd using 3 spbdfs instfbd of tbbs
+
+Vfrsion 0.6
+  bddfd png_lbrgf_mbllod() bnd png_lbrgf_frff()
+  bddfd png_sizf_t
+  dlfbnfd up somf dompilfr wbrnings
+  bddfd png_stbrt_rfbd_imbgf()
+
+Vfrsion 0.7
+  dlfbnfd up lots of bugs
+  finisifd ditifring bnd otifr stuff
+  bddfd tfst progrbm
+  dibngfd nbmf from pnglib to libpng
+
+Vfrsion 0.71 [Junf, 1995]
+  dibngfd pngtfst.png for zlib 0.93
+  fixfd frror in libpng.txt bnd fxbmplf.d
+
+Vfrsion 0.8
+  dlfbnfd up somf bugs
+  bddfd png_sft_fillfr()
+  split up pngstub.d into pngmfm.d, pngio.d, bnd pngfrror.d
+  bddfd #dffinf's to rfmovf unwbntfd dodf
+  movfd png_info_init() to png.d
+  bddfd old_sizf into png_rfbllod()
+  bddfd fundtions to mbnublly sft filtfring bnd domprfssion info
+  dibngfd domprfssion pbrbmftfrs bbsfd on imbgf typf
+  optimizfd filtfr sflfdtion dodf
+  bddfd vfrsion info
+  dibngfd fxtfrnbl fundtions pbssing flobts to doublfs (k&r problfms?)
+  put bll tif donfigurbblf stuff in pngdonf.i
+  fnbblfd png_sft_siift to work witi pblfttfd imbgfs on rfbd
+  bddfd png_rfbd_updbtf_info() - updbtfs info strudturf witi trbnsformbtions
+
+Vfrsion 0.81 [August, 1995]
+  indorporbtfd Tim Wfgnfr's mfdium modfl dodf (tibnks, Tim)
+
+Vfrsion 0.82 [Sfptfmbfr, 1995]
+  [unspfdififd dibngfs]
+
+Vfrsion 0.85 [Dfdfmbfr, 1995]
+  bddfd morf mfdium modfl dodf (blmost fvfrytiing's b fbr)
+  bddfd i/o, frror, bnd mfmory dbllbbdk fundtions
+  fixfd somf bugs (16-bit, 4-bit intfrlbdfd, ftd.)
+  bddfd first run progrfssivf rfbdfr (bbrfly tfstfd)
+
+Vfrsion 0.86 [Jbnubry, 1996]
+  fixfd bugs
+  improvfd dodumfntbtion
+
+Vfrsion 0.87 [Jbnubry, 1996]
+  fixfd mfdium modfl bugs
+  fixfd otifr bugs introdudfd in 0.85 bnd 0.86
+  bddfd somf minor dodumfntbtion
+
+Vfrsion 0.88 [Jbnubry, 1996]
+  fixfd progrfssivf bugs
+  rfplbdfd tbbs witi spbdfs
+  dlfbnfd up dodumfntbtion
+  bddfd dbllbbdks for rfbd/writf bnd wbrning/frror fundtions
+
+Vfrsion 0.89 [July, 1996]
+  Addfd nfw initiblizbtion API to mbkf libpng work bfttfr witi sibrfd libs
+    wf now ibvf png_drfbtf_rfbd_strudt(), png_drfbtf_writf_strudt(),
+    png_drfbtf_info_strudt(), png_dfstroy_rfbd_strudt(), bnd
+    png_dfstroy_writf_strudt() instfbd of tif sfpbrbtf dblls to
+    mbllod bnd png_rfbd_init(), png_info_init(), bnd png_writf_init()
+  Cibngfd wbrning/frror dbllbbdk fundtions to fix bug - tiis mfbns you
+    siould usf tif nfw initiblizbtion API if you wfrf using tif old
+    png_sft_mfssbgf_fn() dblls, bnd tibt tif old API no longfr fxists
+    so tibt pfoplf brf bwbrf tibt tify nffd to dibngf tifir dodf
+  Cibngfd filtfr sflfdtion API to bllow sflfdtion of multiplf filtfrs
+    sindf it didn't work in prfvious vfrsions of libpng bnywbys
+  Optimizfd filtfr sflfdtion dodf
+  Fixfd png_sft_bbdkground() to bllow using bn brbitrbry RGB dolor for
+    pblfttfd imbgfs
+  Fixfd gbmmb bnd bbdkground dorrfdtion for pblfttfd imbgfs, so
+    png_dorrfdt_pblfttf is not nffdfd unlfss you brf dorrfdting bn
+    fxtfrnbl pblfttf (you will nffd to #dffinf PNG_CORRECT_PALETTE_SUPPORTED
+    in pngdonf.i) - if nobody usfs tiis, it mby disbppfbr in tif futurf.
+  Fixfd bug witi Borlbnd 64K mfmory bllodbtion (Alfxbndfr Lfimbnn)
+  Fixfd bug in intfrlbdf ibndling (Smbrbsdfrbgd, I tiink)
+  Addfd morf frror difdking for writing bnd imbgf to rfdudf invblid filfs
+  Sfpbrbtfd rfbd bnd writf fundtions so tibt tify won't boti bf linkfd
+    into b binbry wifn only rfbding or writing fundtionblity is usfd
+  Nfw pngtfst imbgf blso ibs intfrlbding bnd zTXt
+  Updbtfd dodumfntbtion to rfflfdt nfw API
+
+Vfrsion 0.90 [Jbnubry, 1997]
+  Mbdf CRC frrors/wbrnings on dritidbl bnd bndillbry diunks donfigurbblf
+  libpng will usf tif zlib CRC routinfs by (dompilf-timf) dffbult
+  Cibngfd DOS smbll/mfdium modfl mfmory support - nffds zlib 1.04 (Tim Wfgnfr)
+  Addfd fxtfrnbl C++ wrbppfr stbtfmfnts to png.i (Gillfs Dbupiin)
+  Allow PNG filf to bf rfbd wifn somf or bll of filf signbturf ibs blrfbdy
+    bffn rfbd from tif bfginning of tif strfbm.  ****Tiis bfffdts tif sizf
+    of info_strudt bnd invblidbtfs bll progrbms tibt usf b sibrfd libpng****
+  Fixfd png_fillfr() dfdlbrbtions
+  Fixfd? bbdkground dolor donvfrsions
+  Fixfd ordfr of frror fundtion pointfrs to mbtdi dodumfntbtion
+  Currfnt diunk nbmf is now bvbilbblf in png_strudt to rfdudf tif numbfr
+    of nfbrly idfntidbl frror mfssbgfs (will simplify multi-lingubl
+    support wifn bvbilbblf)
+  Try to gft rfbdy for unknown-diunk dbllbbdk fundtions:
+    - prfviously rfbd dritidbl diunks brf flbggfd, so tif diunk ibndling
+      routinfs dbn dftfrminf if tif diunk is in tif rigit plbdf
+    - bll diunk ibndling routinfs ibvf tif sbmf prototypfs, so wf will
+      bf bblf to ibndlf bll diunks vib b dbllbbdk mfdibnism
+  Try to fix Linux "sftjmp" bufffr sizf problfms
+  Rfmovfd png_lbrgf_mbllod, png_lbrgf_frff, bnd png_rfbllod fundtions.
+
+Vfrsion 0.95 [Mbrdi, 1997]
+  Fixfd bug in pngwutil.d bllodbting "up_row" twidf bnd "bvg_row" nfvfr
+  Fixfd bug in PNG filf signbturf dompbrfs wifn stbrt != 0
+  Cibngfd pbrbmftfr typf of png_sft_fillfr(...fillfr...) from png_bytf
+    to png_uint_32
+  Addfd tfst for MACOS to fnsurf tibt boti mbti.i bnd fp.i brf not #indludfd
+  Addfd mbdros for libpng to bf dompilfd bs b Windows DLL (Andrfbs Kuprifs)
+  Addfd "pbdkswbp" trbnsformbtion, wiidi dibngfs tif fndibnnfss of
+    pbdkfd-pixfl bytfs (Kfvin Brbdfy)
+  Addfd "strip_blpib" trbnsformbtion, wiidi rfmovfs tif blpib dibnnfl of
+    input imbgfs witiout using it (not nfdfssbrily b good idfb)
+  Addfd "swbp_blpib" trbnsformbtion, wiidi puts tif blpib dibnnfl in front
+    of tif dolor bytfs instfbd of bftfr
+  Rfmovfd bll implidit vbribblf tfsts wiidi bssumf NULL == 0 (I tiink)
+  Cibngfd sfvfrbl vbribblfs to "png_sizf_t" to siow 16/32-bit limitbtions
+  Addfd nfw pCAL diunk rfbd/writf support
+  Addfd fxpfrimfntbl filtfr sflfdtion wfigiting (Grfg Roflofs)
+  Rfmovfd old png_sft_rgbx() bnd png_sft_xrgb() fundtions tibt ibvf bffn
+     obsolftf for bbout 2 yfbrs now (usf png_sft_fillfr() instfbd)
+  Addfd mbdros to rfbd 16- bnd 32-bit ints dirfdtly from bufffr, to bf
+    usfd only on tiosf systfms tibt support it (nbmfly PowfrPC bnd 680x0)
+    Witi somf tfsting, tiis mby bfdomf tif dffbult for MACOS/PPC systfms.
+  Only dbldulbtf CRC on dbtb if wf brf going to usf it
+  Addfd mbdros for zTXt domprfssion typf PNG_zTXt_COMPRESSION_???
+  Addfd mbdros for simplf libpng dfbugging output sflfdtbblf bt dompilf timf
+  Rfmovfd PNG_READ_END_MODE in progrfssivf rfbdfr (Smbrbsdfrbgd)
+  Morf dfsdription of info_strudt in libpng.txt bnd png.i
+  Morf instrudtions in fxbmplf.d
+  Morf diunk typfs tfstfd in pngtfst.d
+  Rfnbmfd pngrdb.d to pngsft.d, bnd bll png_rfbd_<diunk> fundtions to bf
+    png_sft_<diunk>.  Wf now ibvf dorrfsponding png_gft_<diunk>
+    fundtions in pnggft.d to gft informbtion in info_ptr.  Tiis isolbtfs
+    tif bpplidbtion from tif intfrnbl orgbnizbtion of png_info_strudt
+    (good for sibrfd librbry implfmfntbtions).
+
+Vfrsion 0.96 [Mby, 1997]
+  Fixfd sfrious bug witi < 8bpp imbgfs introdudfd in 0.95
+  Fixfd 256-dolor trbnspbrfndy bug (Grfg Roflofs)
+  Fixfd up dodumfntbtion (Grfg Roflofs, Lbszlo Nyul)
+  Fixfd "frror" in pngdonf.i for Linux sftjmp() bfibviour
+  Fixfd DOS mfdium modfl support (Tim Wfgnfr)
+  Fixfd png_difdk_kfyword() for dbsf witi frror in stbtid string tfxt
+  Addfd rfbd of CRC bftfr IEND diunk for fmbfddfd PNGs (Lbszlo Nyul)
+  Addfd typfdbsts to quift dompilfr frrors
+  Addfd morf dfbugging info
+
+Vfrsion 0.97 [Jbnubry, 1998]
+  Rfmovfd PNG_USE_OWN_CRC dbpbbility
+  Rflodbtfd png_sft_drd_bdtion from pngrutil.d to pngrtrbn.d
+  Fixfd typfdbsts of "nfw_kfy", ftd. (Andrfbs Dilgfr)
+  Addfd RFC 1152 [sid] dbtf support
+  Fixfd bug in gbmmb ibndling of 4-bit grbysdblf
+  Addfd 2-bit grbysdblf gbmmb ibndling (Glfnn R-P)
+  Addfd morf typfdbsts. 65536L bfdomfs (png_uint_32)65536L, ftd. (Glfnn R-P)
+  Minor dorrfdtions in libpng.txt
+  Addfd simplf sRGB support (Glfnn R-P)
+  Ebsifr donditionbl dompiling, f.g. dffinf PNG_READ/WRITE_NOT_FULLY_SUPPORTED;
+    bll donfigurbblf options dbn bf sflfdtfd from dommbnd-linf instfbd
+    of ibving to fdit pngdonf.i (Glfnn R-P)
+  Fixfd mfmory lfbk in pngwritf.d (frff info_ptr->tfxt) (Glfnn R-P)
+  Addfd morf donditions for png_do_bbdkground, to bvoid dibnging
+    blbdk pixfls to bbdkground wifn b bbdkground is supplifd bnd
+    no pixfls brf trbnspbrfnt
+  Rfpbirfd PNG_NO_STDIO bfibviour
+  Tfstfd NODIV support bnd mbdf it dffbult bfibviour (Grfg Roflofs)
+  Addfd "-m" option bnd PNGTEST_DEBUG_MEMORY to pngtfst (Join Bowlfr)
+  Rfgulbrizfd vfrsion numbfring sdifmf bnd bumpfd sibrfd-librbry mbjor
+     vfrsion numbfr to 2 to bvoid problfms witi libpng 0.89 bpps (Grfg Roflofs)
+
+Vfrsion 0.98 [Jbnubry, 1998]
+  Clfbnfd up somf typos in libpng.txt bnd in dodf dodumfntbtion
+  Fixfd mfmory lfbks in pCAL diunk prodfssing (Glfnn R-P bnd Join Bowlfr)
+  Cosmftid dibngf "displby_gbmmb" to "sdrffn_gbmmb" in pngrtrbn.d
+  Cibngfd rfdommfndbtion bbout filf_gbmmb for PC imbgfs to .51 from .45,
+    in fxbmplf.d bnd libpng.txt, bddfd dommfnts to distinguisi bftwffn
+    sdrffn_gbmmb, vifwing_gbmmb, bnd displby_gbmmb.
+  Cibngfd bll rfffrfndfs to RFC1152 to rfbd RFC1123 bnd dibngfd tif
+    PNG_TIME_RFC1152_SUPPORTED mbdro to PNG_TIME_RFC1123_SUPPORTED
+  Addfd png_invfrt_blpib dbpbbility (Glfnn R-P -- suggfstion by Jon Vindfnt)
+  Cibngfd srgb_intfnt from png_bytf to int to bvoid dompilfr bugs
+
+Vfrsion 0.99 [Jbnubry 30, 1998]
+  Frff info_ptr->tfxt instfbd of fnd_info_ptr->tfxt in pngrfbd.d (Join Bowlfr)
+  Fixfd b longstbnding "pbdkswbp" bug in pngtrbns.d
+  Fixfd somf indonsistfndifs in pngdonf.i tibt prfvfntfd dompiling witi
+    PNG_READ_GAMMA_SUPPORTED bnd PNG_READ_iIST_SUPPORTED undffinfd
+  Fixfd somf typos bnd mbdf otifr minor rfbrrbngfmfnt of libpng.txt (Andrfbs)
+  Cibngfd rfdommfndbtion bbout filf_gbmmb for PC imbgfs to .50 from .51 in
+    fxbmplf.d bnd libpng.txt, bnd dibngfd filf_gbmmb for sRGB imbgfs to .45
+  Addfd b numbfr of fundtions to bddfss informbtion from tif png strudturf
+    png_gft_imbgf_ifigit(), ftd. (Glfnn R-P, suggfstion by Brbd Pfttit)
+  Addfd TARGET_MACOS similbr to zlib-1.0.8
+  Dffinf PNG_ALWAYS_EXTERN wifn __MWERKS__ && WIN32 brf dffinfd
+  Addfd typf dbsting to bll png_mbllod() fundtion dblls
+
+Vfrsion 0.99b [Jbnubry 31, 1998]
+  Addfd typf dbsts bnd pbrfntifsfs to bll rfturns tibt rfturn b vbluf.(Tim W.)
+
+Vfrsion 0.99b [Ffbrubry 4, 1998]
+  Addfd typf dbst png_uint_32 on mbllod fundtion dblls wifrf nffdfd.
+  Cibngfd typf of num_iist from png_uint_32 to int (sbmf bs num_pblfttf).
+  Addfd difdks for rowbytfs ovfrflow, in dbsf png_sizf_t is lfss tibn 32 bits.
+  Rfnbmfd mbkffilf.flf to mbkffilf.lnx.
+
+Vfrsion 0.99d [Ffbrubry 7, 1998]
+  Morf typf dbsting.  Rfmovfd frronfous ovfrflow tfst in pngmfm.d.
+  Addfd png_bufffrfd_mfmdpy() bnd png_bufffrfd_mfmsft(), bpply tifm to rowbytfs.
+  Addfd UNIX mbnubl pbgfs libpng.3 (indorporbting libpng.txt) bnd  png.5.
+
+Vfrsion 0.99d [Ffbrubry 11, 1998]
+  Rfnbmfd "fbr_to_nfbr()" "png_fbr_to_nfbr()"
+  Rfvisfd libpng.3
+  Vfrsion 99d "bufffrfd" opfrbtions didn't work bs intfndfd.  Rfplbdfd tifm
+    witi png_mfmdpy_difdk() bnd png_mfmsft_difdk().
+  Addfd mbny "if (png_ptr == NULL) rfturn" to qufll dompilfr wbrnings bbout
+    unusfd png_ptr, mostly in pnggft.d bnd pngsft.d.
+  Cifdk for ovfrlfngti tRNS diunk prfsfnt wifn indfxfd-dolor PLTE is rfbd.
+  Clfbnfd up spflling frrors in libpng.3/libpng.txt
+  Corrfdtfd b problfm witi png_gft_tRNS() wiidi rfturnfd undffinfd trbns brrby
+
+Vfrsion 0.99f [Ffbrubry 28, 1998]
+  Corrfdtfd png_gft_tRNS() bgbin.
+  Add pbrfntifsfs for fbsifr rfbding of pnggft.d, fixfd "||" siould bf "&&".
+  Toudifd up fxbmplf.d to mbkf morf of it dompilfbblf, bltiougi tif fntirf
+    filf still dbn't bf dompilfd (Willfm vbn Sdibik)
+  Fixfd b bug in png_do_siift() (Brybn Tsbi)
+  Addfd b spbdf in png.i prototypf for png_writf_diunk_stbrt()
+  Rfplbdfd pngtfst.png witi onf drfbtfd witi zlib 1.1.1
+  Cibngfd pngtfst to rfport PASS fvfn wifn filf sizf is difffrfnt (Jfbn-loup G.)
+  Corrfdtfd somf logid frrors in png_do_invfrt_blpib() (Ciris Pbttfrson)
+
+Vfrsion 0.99f [Mbrdi 5, 1998]
+  Corrfdtfd b bug in pngprfbd() introdudfd in vfrsion 99d (Kfvin Brbdfy)
+  Movfd mbkffilfs into b "sdripts" dirfdtory, bnd bddfd INSTALL instrudtion filf
+  Addfd mbkffilf.os2 bnd pngos2.dff (A. Zbbolotny) bnd mbkffilf.s2x (W. Sfbok)
+  Addfd pointfrs to "notf on libpng vfrsions" in mbkffilf.lnx bnd README
+  Addfd row dbllbbdk ffbturf wifn rfbding bnd writing nonprogrfssivf rows
+    bnd bddfd b tfst of tiis ffbturf in pngtfst.d
+  Addfd usfr trbnsform dbllbbdks, witi tfst of tif ffbturf in pngtfst.d
+
+Vfrsion 0.99g [Mbrdi 6, 1998, morning]
+  Minor dibngfs to pngtfst.d to supprfss dompilfr wbrnings.
+  Rfmovfd "bftb" lbngubgf from dodumfntbtion.
+
+Vfrsion 0.99i [Mbrdi 6, 1998, fvfning]
+  Minor dibngfs to prfvious minor dibngfs to pngtfst.d
+  Cibngfd PNG_READ_NOT_FULLY_SUPPORTED to PNG_READ_TRANSFORMS_NOT_SUPPORTED
+    bnd bddfd PNG_PROGRESSIVE_READ_NOT_SUPPORTED mbdro
+  Addfd usfr trbnsform dbpbbility
+
+Vfrsion 1.00 [Mbrdi 7, 1998]
+  Cibngfd sfvfrbl typfdffs in pngrutil.d
+  Addfd mbkffilf.wbt (Pbwfl Mrodifn), updbtfd mbkffilf.td3 (Willfm vbn Sdibik)
+  Rfplbdfd "wiilf(1)" witi "for(;;)"
+  Addfd PNGARG() to prototypfs in pngtfst.d bnd rfmovfd somf prototypfs
+  Updbtfd somf of tif mbkffilfs (Tom Lbnf)
+  Cibngfd somf typfdffs (s_stbrt, ftd.) in pngrutil.d
+  Fixfd dimfnsions of "siort_montis" brrby in pngwritf.d
+  Rfplbdfd bnsi2knr.d witi tif onf from jpfg-v6
+
+Vfrsion 1.0.0 [Mbrdi 8, 1998]
+  Cibngfd nbmf from 1.00 to 1.0.0 (Adbm Costfllo)
+  Addfd smbkffilf.ppd (witi SCOPTIONS.ppd) for Amigb PPC (Andrfbs Klfinfrt)
+
+Vfrsion 1.0.0b [Mbrdi 9, 1998]
+  Fixfd tirff bugs in pngrtrbn.d to mbkf gbmmb+bbdkground ibndling donsistfnt
+    (Grfg Roflofs)
+  Cibngfd formbt of tif PNG_LIBPNG_VER intfgfr to xyyzz instfbd of xyz
+    for mbjor, minor, bnd bugfix rflfbsfs.  Tiis is 10001. (Adbm Costfllo,
+    Tom Lbnf)
+  Mbkf montis rbngf from 1-12 in png_donvfrt_to_rfd1123
+
+Vfrsion 1.0.0b [Mbrdi 13, 1998]
+  Quiftfd dompilfr domplbints bbout two fmpty "for" loops in pngrutil.d
+  Minor dibngfs to mbkffilf.s2x
+  Rfmovfd #ifdff/#fndif bround b png_frff() in pngrfbd.d
+
+Vfrsion 1.0.1 [Mbrdi 14, 1998]
+  Cibngfd mbkffilf.s2x to rfdudf sfdurity risk of using b rflbtivf pbtinbmf
+  Fixfd somf typos in tif dodumfntbtion (Grfg).
+  Fixfd b problfm witi vbluf of "dibnnfls" rfturnfd by png_rfbd_updbtf_info()
+
+Vfrsion 1.0.1b [April 21, 1998]
+  Optimizfd Pbfti dbldulbtions by rfplbding bbs() fundtion dblls witi intrinsids
+  plus otifr loop optimizbtions. Improvfs bvg dfdoding spffd by bbout 20%.
+  Commfntfd out i386istid "blign" dompilfr flbgs in mbkffilf.lnx.
+  Rfdudfd tif dffbult wbrning lfvfl in somf mbkffilfs, to mbkf tifm donsistfnt.
+  Rfmovfd rfffrfndfs to IJG bnd JPEG in tif bnsi2knr.d dopyrigit stbtfmfnt.
+  Fixfd b bug in png_do_strip_fillfr witi XXRRGGBB => RRGGBB trbnsformbtion.
+  Addfd grbysdblf bnd 16-bit dbpbbility to png_do_rfbd_fillfr().
+  Fixfd b bug in pngsft.d, introdudfd in vfrsion 0.99d, tibt sfts rowbytfs
+    too lbrgf wifn writing bn imbgf witi bit_dfpti < 8 (Bob Dfllbdb).
+  Corrfdtfd somf bugs in tif fxpfrimfntbl wfigitfd filtfring ifuristids.
+  Movfd b misplbdfd pngrutil dodf blodk tibt trundbtfs tRNS if it ibs morf
+    tibn num_pblfttf fntrifs -- tfst wbs donf bfforf num_pblfttf wbs dffinfd.
+  Fixfd b png_donvfrt_to_rfd1123() bug tibt donvfrts dby 31 to 0 (Stfvf Eddins).
+  Cibngfd dompilfr flbgs in mbkffilf.wbt for bfttfr optimizbtion
+    (Pbwfl Mrodifn).
+
+Vfrsion 1.0.1b [Mby 2, 1998]
+  Rflodbtfd png_do_grby_to_rgb() witiin png_do_rfbd_trbnsformbtions() (Grfg).
+  Rflodbtfd tif png_dompositf mbdros from pngrtrbn.d to png.i (Grfg).
+  Addfd mbkffilf.sdo (dontributfd by Mikf Hopkirk).
+  Fixfd two bugs (missing dffinitions of "istop") introdudfd in libpng-1.0.1b.
+  Fixfd b bug in pngrtrbn.d tibt would sft dibnnfls=5 undfr somf dirdumstbndfs.
+  Morf work on tif Pbfti-filtfring, bdiifving impfrdfptiblf spffdup
+    (A Klfinfrt).
+  Morf work on loop optimizbtion wiidi mby iflp wifn dompilfd witi C++
+    dompilfrs.
+  Addfd wbrnings wifn pfoplf try to usf trbnsforms tify'vf dffinfd out.
+  Collbpsfd 4 "i" bnd "d" loops into singlf "i" loops in pngrtrbn bnd pngwtrbn.
+  Rfvisfd pbrbgrbpi bbout png_sft_fxpbnd() in libpng.txt bnd libpng.3 (Grfg)
+
+Vfrsion 1.0.1d [Mby 11, 1998]
+  Fixfd b bug in pngrtrbn.d (introdudfd in libpng-1.0.1b) wifrf tif mbsks for
+    fillfr bytfs siould ibvf bffn 0xff instfbd of 0xf.
+  Addfd mbx_pixfl_dfpti=32 in pngrutil.d wifn using FILLER witi pblfttf imbgfs.
+  Movfd PNG_WRITE_WEIGHTED_FILTER_SUPPORTED bnd PNG_WRITE_FLUSH_SUPPORTED
+    out of tif PNG_WRITE_TRANSFORMS_NOT_SUPPORTED blodk of pngdonf.i
+  Addfd "PNG_NO_WRITE_TRANSFORMS" ftd., bs bltfrnbtivfs for *_NOT_SUPPORTED,
+    for donsistfndy, in pngdonf.i
+  Addfd individubl "ifndff PNG_NO_[CAPABILITY]" in pngdonf.i to mbkf it fbsifr
+    to rfmovf unwbntfd dbpbbilitifs vib tif dompilf linf
+  Mbdf somf dorrfdtions to grbmmbr (wiidi, it's) in dodumfntbtion (Grfg).
+  Corrfdtfd fxbmplf.d, usf of row_pointfrs in png_writf_imbgf().
+
+Vfrsion 1.0.1d [Mby 24, 1998]
+  Corrfdtfd sfvfrbl stbtfmfnts tibt usfd sidf ffffdts illfgblly in pngrutil.d
+    bnd pngtrbns.d, tibt wfrf introdudfd in vfrsion 1.0.1b
+  Rfvisfd png_rfbd_rows() to bvoid rfpfbtfd if-tfsting for NULL (A Klfinfrt)
+  Morf dorrfdtions to fxbmplf.d, usf of row_pointfrs in png_writf_imbgf()
+    bnd png_rfbd_rows().
+  Addfd pngdll.mbk bnd pngdff.pbs to sdripts dirfdtory, dontributfd by
+    Bob Dfllbdb, to mbkf b png32bd.dll witi Borlbnd C++ 4.5
+  Fixfd frror in fxbmplf.d witi png_sft_tfxt: num_tfxt is 3, not 2 (Guido V.)
+  Cibngfd sfvfrbl loops from dount-down to dount-up, for donsistfndy.
+
+Vfrsion 1.0.1f [Junf 6, 1998]
+  Rfvisfd libpng.txt bnd libpng.3 dfsdription of png_sft_rfbd|writf_fn(), bnd
+    bddfd wbrnings wifn pfoplf try to sft png_rfbd_fn bnd png_writf_fn in
+    tif sbmf strudturf.
+  Addfd b tfst sudi tibt png_do_gbmmb will bf donf wifn num_trbns==0
+    for trufdolor imbgfs tibt ibvf dffinfd b bbdkground.  Tiis dorrfdts bn
+    frror tibt wbs introdudfd in libpng-0.90 tibt dbn dbusf gbmmb prodfssing
+    to bf skippfd.
+  Addfd tfsts in png.i to indludf "trbns" bnd "trbns_vblufs" in strudturfs
+    wifn PNG_READ_BACKGROUND_SUPPORTED or PNG_READ_EXPAND_SUPPORTED is dffinfd.
+  Add png_frff(png_ptr->timf_bufffr) in png_dfstroy_rfbd_strudt()
+  Movfd png_donvfrt_to_rfd_1123() from pngwritf.d to png.d
+  Addfd dbpbbility for usfr-providfd mbllod_fn() bnd frff_fn() fundtions,
+    bnd rfvisfd pngtfst.d to dfmonstrbtf tifir usf, rfplbding tif
+    PNGTEST_DEBUG_MEM ffbturf.
+  Addfd mbkffilf.w32, for Midrosoft C++ 4.0 bnd lbtfr (Tim Wfgnfr).
+
+Vfrsion 1.0.2 [Junf 14, 1998]
+  Fixfd two bugs in mbkffilf.bor .
+
+Vfrsion 1.0.2b [Dfdfmbfr 30, 1998]
+  Rfplbdfd bnd fxtfndfd dodf tibt wbs rfmovfd from png_sft_fillfr() in 1.0.1b.
+  Fixfd b bug in png_do_fillfr() tibt mbdf it fbil to writf fillfr bytfs in
+    tif lfft-most pixfl of fbdi row (Kfvin Brbdfy).
+  Cibngfd "stbtid pngdibrp tIME_string" to "stbtid dibr tIME_string[30]"
+    in pngtfst.d (Dundbn Simpson).
+  Fixfd b bug in pngtfst.d tibt dbusfd pngtfst to try to writf b tIME diunk
+    fvfn wifn no tIME diunk wbs prfsfnt in tif sourdf filf.
+  Fixfd b problfm in pngrutil.d: grby_to_rgb didn't blwbys work witi 16-bit.
+  Fixfd b problfm in png_rfbd_pusi_finisi_row(), wiidi would not skip somf
+    pbssfs tibt it siould skip, for imbgfs tibt brf lfss tibn 3 pixfls iigi.
+  Intfrdibngfd tif ordfr of dblls to png_do_swbp() bnd png_do_siift()
+    in pngwtrbn.d (Join Cromfr).
+  Addfd #ifdff PNG_DEBUG/#fndif surrounding usf of PNG_DEBUG in png.i .
+  Cibngfd "bbd bdbptivf filtfr typf" from frror to wbrning in pngrutil.d .
+  Fixfd b dodumfntbtion frror bbout dffbult filtfring witi 8-bit indfxfd-dolor.
+  Sfpbrbtfd tif PNG_NO_STDIO mbdro into PNG_NO_STDIO bnd PNG_NO_CONSOLE_IO
+    (L. Pftfr Dfutsdi).
+  Addfd png_sft_rgb_to_grby() bnd png_gft_rgb_to_grby_stbtus() fundtions.
+  Addfd png_gft_dopyrigit() bnd png_gft_ifbdfr_vfrsion() fundtions.
+  Rfvisfd dommfnts on png_sft_progrfssivf_rfbd_fn() in libpng.txt bnd fxbmplf.d
+  Addfd informbtion bbout dfbugging in libpng.txt bnd libpng.3 .
+  Cibngfd "ln -sf" to "ln -s -f" in mbkffilf.s2x, mbkffilf.lnx, bnd
+    mbkffilf.sdo.
+  Rfmovfd linfs bftfr Dynbmid Dfpfndfndifs" in mbkffilf.bdo .
+  Rfvisfd mbkffilf.dfd to mbkf b sibrfd librbry (Jfrfmif Pftit).
+  Rfmovfd trbiling blbnks from bll filfs.
+
+Vfrsion 1.0.2b [Jbnubry 6, 1999]
+  Rfmovfd misplbdfd #fndif bnd #ifdff PNG_NO_EXTERN nfbr tif fnd of png.i
+  Addfd "if" tfsts to silfndf domplbints bbout unusfd png_ptr in png.i bnd png.d
+  Cibngfd "difdk_if_png" fundtion in fxbmplf.d to rfturn truf (nonzfro) if PNG.
+  Cibngfd libpng.txt to dfmonstrbtf png_sig_dmp() instfbd of png_difdk_sig()
+    wiidi is obsolftf.
+
+Vfrsion 1.0.3 [Jbnubry 14, 1999]
+  Addfd mbkffilf.iux, for Hfwlftt Pbdkbrd HPUX 10.20 bnd 11.00 (Jim Ridf)
+  Addfd b stbtfmfnt of Y2K domplibndf in png.i, libpng.3, bnd Y2KINFO.
+
+Vfrsion 1.0.3b [August 12, 1999]
+  Addfd difdk for PNG_READ_INTERLACE_SUPPORTED in pngrfbd.d; issuf b wbrning
+     if bn bttfmpt is mbdf to rfbd bn intfrlbdfd imbgf wifn it's not supportfd.
+  Addfd difdk if png_ptr->trbns is dffinfd bfforf frffing it in pngrfbd.d
+  Modififd tif Y2K stbtfmfnt to indludf vfrsions bbdk to vfrsion 0.71
+  Fixfd b bug in tif difdk for vblid IHDR bit_dfpti/dolor_typfs in pngrutil.d
+  Modififd mbkffilf.wbt (bddfd -zp8 flbg, ".symbolid", dibngfd somf dommfnts)
+  Rfplbdfd lfbding blbnks witi tbb dibrbdtfrs in mbkffilf.iux
+  Cibngfd "dworkin.wustl.fdu" to "ddrd.wustl.fdu" in vbrious dodumfnts.
+  Cibngfd (flobt)rfd bnd (flobt)grffn to (doublf)rfd, (doublf)grffn
+     in png_sft_rgb_to_grby() to bvoid "promotion" problfms in AIX.
+  Fixfd b bug in pngdonf.i tibt omittfd <stdio.i> wifn PNG_DEBUG==0 (K Brbdfy).
+  Rfformbttfd libpng.3 bnd libpngpf.3 witi propfr fonts (sdript by J. vbnZbndt).
+  Updbtfd dodumfntbtion to rfffr to tif PNG-1.2 spfdifidbtion.
+  Rfmovfd bnsi2knr.d bnd lfft pointfrs to tif lbtfst sourdf for bnsi2knr.d
+    in mbkffilf.knr, INSTALL, bnd README (L. Pftfr Dfutsdi)
+  Fixfd bugs in dbldulbtion of tif lfngti of rowbytfs wifn bdding blpib
+    dibnnfls to 16-bit imbgfs, in pngrtrbn.d (Ciris Noklfbfrg)
+  Addfd fundtion png_sft_usfr_trbnsform_info() to storf usfr_trbnsform_ptr,
+    usfr_dfpti, bnd usfr_dibnnfls into tif png_strudt, bnd b fundtion
+    png_gft_usfr_trbnsform_ptr() to rftrifvf tif pointfr (Ciris Noklfbfrg)
+  Addfd fundtion png_sft_fmpty_pltf_pfrmittfd() to mbkf libpng usfbblf
+    in MNG bpplidbtions.
+  Corrfdtfd tif typfdff for png_frff_ptr in png.i (Jfssf Jonfs).
+  Corrfdt gbmmb witi srgb is 45455 instfbd of 45000 in pngrutil.d, to bf
+    donsistfnt witi PNG-1.2, bnd bllow vbribndf of 500 bfforf domplbining.
+  Addfd bssfmblfr dodf dontributfd by Intfl in filf pngvdrd.d bnd modififd
+    mbkffilf.w32 to usf it (Nirbv Ciibtrbpbti, INTEL Corporbtion,
+    Gillfs Vollbnt)
+  Cibngfd "ln -s -f" to "ln -f -s" in tif mbkffilfs to mbkf Solbris ibppy.
+  Addfd somf blibsfs for png_sft_fxpbnd() in pngrtrbn.d, nbmfly
+    png_sft_fxpbnd_PLTE(), png_sft_fxpbnd_dfpti(), bnd png_sft_fxpbnd_tRNS()
+    (Grfg Roflofs, in "PNG: Tif Dffinitivf Guidf").
+  Addfd mbkffilf.bfo for BEOS on X86, dontributfd by Sbndfr Stok.
+
+Vfrsion 1.0.3b [August 26, 1999]
+  Rfplbdfd 2147483647L sfvfrbl plbdfs witi PNG_MAX_UINT mbdro, dffinfd in png.i
+  Cibngfd lfbding blbnks to tbbs in bll mbkffilfs.
+  Dffinf PNG_USE_PNGVCRD in mbkffilf.w32, to gft MMX bssfmblfr dodf.
+  Mbdf bltfrnbtf vfrsions of  png_sft_fxpbnd() in pngrtrbn.d, nbmfly
+    png_sft_grby_1_2_4_to_8, png_sft_pblfttf_to_rgb, bnd png_sft_tRNS_to_blpib
+    (Grfg Roflofs, in "PNG: Tif Dffinitivf Guidf").  Dflftfd tif 1.0.3b blibsfs.
+  Rflodbtfd stbrt of 'fxtfrn "C"' blodk in png.i so it dofsn't indludf pngdonf.i
+  Rfvisfd dbldulbtion of num_blodks in pngmfm.d to bvoid b potfntiblly
+    nfgbtivf siift distbndf, wiosf rfsults brf undffinfd in tif C lbngubgf.
+  Addfd b difdk in pngsft.d to prfvfnt writing multiplf tIME diunks.
+  Addfd b difdk in pngwritf.d to dftfdt invblid smbll window_bits sizfs.
+
+Vfrsion 1.0.3d [Sfptfmbfr 4, 1999]
+  Fixfd typf dbsting of igbmmb in pngrutil.d
+  Addfd nfw png_fxpbnd fundtions to sdripts/pngdff.pbs bnd pngos2.dff
+  Addfd b dfmo rfbd_usfr_trbnsform_fn tibt fxbminfs tif row filtfrs in pngtfst.d
+
+Vfrsion 1.0.4 [Sfptfmbfr 24, 1999]
+  Dffinf PNG_ALWAYS_EXTERN in pngdonf.i if __STDC__ is dffinfd
+  Dflftf #dffinf PNG_INTERNAL bnd indludf "png.i" from pngbsmrd.i
+  Mbdf sfvfrbl minor dorrfdtions to pngtfst.d
+  Rfnbmfd tif mbkffilfs witi longfr but morf usfr frifndly fxtfnsions.
+  Copifd tif PNG dopyrigit bnd lidfnsf to b sfpbrbtf LICENSE filf.
+  Rfvisfd dodumfntbtion, png.i, bnd fxbmplf.d to rfmovf rfffrfndf to
+    "vifwing_gbmmb" wiidi no longfr bppfbrs in tif PNG spfdifidbtion.
+  Rfvisfd pngvdrd.d to usf MMX dodf for intfrlbding only on tif finbl pbss.
+  Updbtfd pngvdrd.d to usf tif fbstfr C filtfr blgoritims from libpng-1.0.1b
+  Split mbkffilf.win32vd into two vfrsions, mbkffilf.vdbwin32 (usfs MMX
+    bssfmblfr dodf) bnd mbkffilf.vdwin32 (dofsn't).
+  Addfd b CPU timing rfport to pngtfst.d (fnbblfd by dffining PNGTEST_TIMING)
+  Addfd b dopy of pngnow.png to tif distribution.
+
+Vfrsion 1.0.4b [Sfptfmbfr 25, 1999]
+  Indrfbsf mbx_pixfl_dfpti in pngrutil.d if b usfr trbnsform nffds it.
+  Cibngfd sfvfrbl division opfrbtions to rigit-siifts in pngvdrd.d
+
+Vfrsion 1.0.4b [Sfptfmbfr 30, 1999]
+  Addfd pbrfntifsfs in linf 3732 of pngvdrd.d
+  Addfd b dommfnt in mbkffilf.linux wbrning bbout buggy -O3 in pgdd 2.95.1
+
+Vfrsion 1.0.4d [Odtobfr 1, 1999]
+  Addfd b "png_difdk_vfrsion" fundtion in png.d bnd pngtfst.d tibt will gfnfrbtf
+    b iflpful dompilfr frror if bn old png.i is found in tif sfbrdi pbti.
+  Cibngfd typf of png_usfr_trbnsform_dfpti|dibnnfls from int to png_bytf.
+
+Vfrsion 1.0.4d [Odtobfr 6, 1999]
+  Cibngfd 0.45 to 0.45455 in png_sft_sRGB()
+  Rfmovfd unusfd PLTE fntrifs from pngnow.png
+  Rf-fnbblfd somf pbrts of pngvdrd.d (png_dombinf_row) tibt work propfrly.
+
+Vfrsion 1.0.4f [Odtobfr 10, 1999]
+  Fixfd sign frror in pngvdrd.d (Grfg Roflofs)
+  Rfplbdfd somf instbndfs of mfmdpy witi simplf bssignmfnts in pngvdrd (GR-P)
+
+Vfrsion 1.0.4f [Odtobfr 15, 1999]
+  Surroundfd fxbmplf.d dodf witi #if 0 .. #fndif to prfvfnt pfoplf from
+    inbdvfrtfntly trying to dompilf it.
+  Cibngfd png_gft_ifbdfr_vfrsion() from b fundtion to b mbdro in png.i
+  Addfd typf dbsting mostly in pngrtrbn.d bnd pngwtrbn.d
+  Rfmovfd somf pointlfss "ptr = NULL" in pngmfm.d
+  Addfd b "dontrib" dirfdtory dontbining tif sourdf dodf from Grfg's book.
+
+Vfrsion 1.0.5 [Odtobfr 15, 1999]
+  Minor fditing of tif INSTALL bnd README filfs.
+
+Vfrsion 1.0.5b [Odtobfr 23, 1999]
+  Addfd dontrib/pngsuitf bnd dontrib/pngminus (Willfm vbn Sdibik)
+  Fixfd b typo in tif png_sft_sRGB() fundtion dbll in fxbmplf.d (Jbn Nijtmbns)
+  Furtifr optimizbtion bnd bugfix of pngvdrd.d
+  Rfvisfd pngsft.d so tibt it dofs not bllodbtf or frff mfmory in tif usfr's
+    tfxt_ptr strudturf.  Instfbd, it mbkfs its own dopy.
+  Crfbtfd sfpbrbtf writf_fnd_info_strudt in pngtfst.d for b morf sfvfrf tfst.
+  Addfd dodf in pngwritf.d to frff info_ptr->tfxt[i].kfy to stop b mfmory lfbk.
+
+Vfrsion 1.0.5b [Novfmbfr 23, 1999]
+  Movfd PNG_FLAG_HAVE_CHUNK_HEADER, PNG_FLAG_BACKGROUND_IS_GRAY bnd
+    PNG_FLAG_WROTE_tIME from flbgs to modf.
+  Addfd png_writf_info_bfforf_PLTE() fundtion.
+  Fixfd somf typfdbsting in dontrib/grfgbook/*.d
+  Updbtfd sdripts/mbkfvms.dom bnd bddfd mbkfvms.dom to dontrib/grfgbook
+    bnd dontrib/pngminus (Mbrtin Zinsfr)
+
+Vfrsion 1.0.5d [Novfmbfr 26, 1999]
+  Movfd png_gft_ifbdfr_vfrsion from png.i to png.d, to bddommodbtf bnsi2knr.
+  Rfmovfd bll globbl brrbys (bddording to PNG_NO_GLOBAL_ARRAYS mbdro), to
+    bddommodbtf mbking DLL's: Movfd usr_png_vfr from globbl vbribblf to fundtion
+    png_gft_ifbdfr_vfr() in png.d.  Movfd png_sig to png_sig_bytfs in png.d bnd
+    fliminbtfd usf of png_sig in pngwutil.d.  Movfd tif vbrious png_CHNK brrbys
+    into pngtypfs.i.  Eliminbtfd usf of globbl png_pbss brrbys.  Dfdlbrfd tif
+    png_CHNK bnd png_pbss brrbys to bf "donst".  Mbdf tif globbl brrbys
+    bvbilbblf to bpplidbtions (bltiougi nonf brf usfd in libpng itsflf) wifn
+    PNG_NO_GLOBAL_ARRAYS is not dffinfd or wifn PNG_GLOBAL_ARRAYS is dffinfd.
+  Rfmovfd somf fxtrbnfous "-I" from dontrib/pngminus/mbkffilf.std
+  Cibngfd tif PNG_sRGB_INTENT mbdros in png.i to bf donsistfnt witi PNG-1.2.
+  Cibngf PNG_SRGB_INTENT to PNG_sRGB_INTENT in libpng.txt bnd libpng.3
+
+Vfrsion 1.0.5d [Novfmbfr 29, 1999]
+  Add typf dbst (png_donst_dibrp) two plbdfs in png.d
+  Eliminbtfd pngtypfs.i; usf mbdros instfbd to dfdlbrf PNG_CHNK brrbys.
+  Rfnbmfd "PNG_GLOBAL_ARRAYS" to "PNG_USE_GLOBAL_ARRAYS" bnd mbdf bvbilbblf
+    to bpplidbtions b mbdro "PNG_USE_LOCAL_ARRAYS".
+  dommfnt out (witi #ifdff) bll tif nfw dfdlbrbtions wifn
+    PNG_USE_GLOBAL_ARRAYS is dffinfd.
+  Addfd PNG_EXPORT_VAR mbdro to bddommodbtf mbking DLL's.
+
+Vfrsion 1.0.5f [Novfmbfr 30, 1999]
+  Addfd iCCP, iTXt, bnd sPLT support; bddfd "lbng" mfmbfr to tif png_tfxt
+    strudturf; rffbdtorfd tif inflbtf/dfflbtf support to mbkf bdding nfw diunks
+    witi trbiling domprfssfd pbrts fbsifr in tif futurf, bnd bddfd nfw fundtions
+    png_frff_iCCP, png_frff_pCAL, png_frff_sPLT, png_frff_tfxt, png_gft_iCCP,
+    png_gft_spblfttfs, png_sft_iCCP, png_sft_spblfttfs (Erid S. Rbymond).
+  NOTE: Applidbtions tibt writf tfxt diunks MUST dffinf png_tfxt->lbng
+    bfforf dblling png_sft_tfxt(). It must bf sft to NULL if you wbnt to
+    writf tEXt or zTXt diunks.  If you wbnt your bpplidbtion to bf bblf to
+    run witi oldfr vfrsions of libpng, usf
+
+      #ifdff PNG_iTXt_SUPPORTED
+         png_tfxt[i].lbng = NULL;
+      #fndif
+
+  Cibngfd png_gft_oFFs() bnd png_sft_oFFs() to usf signfd rbtifr tibn unsignfd
+    offsfts (Erid S. Rbymond).
+  Combinfd PNG_READ_dHNK_SUPPORTED bnd PNG_WRITE_dHNK_SUPPORTED mbdros into
+    PNG_dHNK_SUPPORTED bnd dombinfd tif tirff typfs of PNG_tfxt_SUPPORTED
+    mbdros, lfbving tif sfpbrbtf mbdros blso bvbilbblf.
+  Rfmovfd dommfnts on #fndifs bt tif fnd of mbny siort, non-nfstfd #if-blodks.
+
+Vfrsion 1.0.5f [Dfdfmbfr 6, 1999]
+  Cibngfd mbkffilf.solbris to issuf b wbrning bbout potfntibl problfms wifn
+    tif udb "ld" is in tif pbti bifbd of tif dds "ld".
+  Rfmovfd "- [dbtf]" from tif "synopsis" linf in libpng.3 bnd libpngpf.3.
+  Addfd sCAL diunk support (Erid S. Rbymond).
+
+Vfrsion 1.0.5g [Dfdfmbfr 7, 1999]
+  Fixfd "png_frff_spbllfttfs" typo in png.i
+  Addfd dodf to ibndlf nfw diunks in pngprfbd.d
+  Movfd PNG_CHNK string mbdro dffinitions outsidf of PNG_NO_EXTERN blodk
+  Addfd "trbnslbtfd_kfy" to png_tfxt strudturf bnd png_writf_iTXt().
+  Addfd dodf in pngwritf.d to work bround b nfwly disdovfrfd zlib bug.
+
+Vfrsion 1.0.5i [Dfdfmbfr 10, 1999]
+  NOTE: rfgbrding tif notf for vfrsion 1.0.5f, tif following must blso
+    bf indludfd in your dodf:
+        png_tfxt[i].trbnslbtfd_kfy = NULL;
+  Unknown diunk ibndling is now supportfd.
+  Option to fliminbtf bll flobting point support wbs bddfd.  Somf nfw
+    fixfd-point fundtions sudi bs png_sft_gAMA_fixfd() wfrf bddfd.
+  Expbndfd tbbs bnd rfmovfd trbiling blbnks in sourdf filfs.
+
+Vfrsion 1.0.5i [Dfdfmbfr 13, 1999]
+  Addfd somf typf dbsts to silfndf dompilfr wbrnings.
+  Rfnbmfd "png_frff_spblfttf" to "png_frff_spblfttfs" for donsistfndy.
+  Rfmovfd lfbding blbnks from b #dffinf in pngvdrd.d
+  Addfd somf pbrbmftfrs to tif nfw png_sft_kffp_unknown_diunks() fundtion.
+  Addfd b tfst for up->lodbtion != 0 in tif first instbndf of writing
+    unknown diunks in pngwritf.d
+  Cibngfd "num" to "i" in png_frff_spblfttfs() bnd png_frff_unknowns() to
+    prfvfnt rfdursion.
+  Addfd png_frff_iIST() fundtion.
+  Vbrious pbtdifs to fix bugs in tif sCAL bnd intfgfr dHRM prodfssing,
+    bnd to bdd somf donvfnifndf mbdros for usf witi sCAL.
+
+Vfrsion 1.0.5j [Dfdfmbfr 21, 1999]
+  Cibngfd "unit" pbrbmftfr of png_writf_sCAL from png_bytf to int, to work
+    bround buggy dompilfrs.
+  Addfd nfw typf "png_fixfd_point" for intfgfrs tibt iold flobt*100000 vblufs
+  Rfstorfd bbdkwbrd dompbtibility of tEXt/zTXt diunk prodfssing:
+    Rfstorfd tif first four mfmbfrs of png_tfxt to tif sbmf ordfr bs v.1.0.5d.
+    Addfd mfmbfrs "lbng_kfy" bnd "itxt_lfngti" to png_tfxt strudt.  Sft
+    tfxt_lfngti=0 wifn "tfxt" dontbins iTXt dbtb.  Usf tif "domprfssion"
+    mfmbfr to distinguisi bmong tEXt/zTXt/iTXt typfs.  Addfd
+    PNG_ITXT_COMPRESSION_NONE (1) bnd PNG_ITXT_COMPRESSION_zTXt(2) mbdros.
+    Tif "Notf" bbovf, bbout bbdkwbrd indompbtibility of libpng-1.0.5f, no
+    longfr bpplifs.
+  Fixfd png_rfbd|writf_iTXt() to rfbd|writf pbrbmftfrs in tif rigit ordfr,
+    bnd to writf tif iTXt diunk bftfr IDAT if it bppfbrs in tif fnd_ptr.
+  Addfd pnggddrd.d, vfrsion of pngvdrd.d Intfl bssfmblfr for gdd (Grfg Roflofs)
+  Rfvfrsfd tif ordfr of trying to writf flobting-point bnd fixfd-point gAMA.
+
+Vfrsion 1.0.5k [Dfdfmbfr 27, 1999]
+  Addfd mbny pbrfntifsfs, f.g., "if (b && b & d)" bfdomfs "if (b && (b & d))"
+  Addfd png_ibndlf_bs_unknown() fundtion (Glfnn)
+  Addfd png_frff_diunk_list() fundtion bnd diunk_list bnd num_diunk_list mfmbfrs
+    of png_ptr.
+  Eliminbtfd frronfous wbrnings bbout multiplf sPLT diunks bnd sPLT-bftfr-PLTE.
+  Fixfd b libpng-1.0.5i bug in pngrutil.d tibt wbs issuing frronfous wbrnings
+    bbout ignoring indorrfdt gAMA witi sRGB (gAMA wbs in fbdt not ignorfd)
+  Addfd png_frff_tRNS(); png_sft_tRNS() now mbllod's its own trbns brrby (ESR).
+  Dffinf png_gft_int_32 wifn oFFs diunk is supportfd bs wfll bs wifn pCAL is.
+  Cibngfd typf of proflfn from png_int_32 to png_uint_32 in png_gft_iCCP().
+
+Vfrsion 1.0.5l [Jbnubry 1, 2000]
+  Addfd fundtions png_sft_rfbd_usfr_diunk_fn() bnd png_gft_usfr_diunk_ptr()
+    for sftting b dbllbbdk fundtion to ibndlf unknown diunks bnd for
+    rftrifving tif bssodibtfd usfr pointfr (Glfnn).
+
+Vfrsion 1.0.5m [Jbnubry 7, 2000]
+  Addfd iigi-lfvfl fundtions png_rfbd_png(), png_writf_png(), png_frff_pixfls().
+
+Vfrsion 1.0.5n [Jbnubry 9, 2000]
+  Addfd png_frff_PLTE() fundtion, bnd modififd png_sft_PLTE() to mbllod its
+    own mfmory for info_ptr->pblfttf.  Tiis mbkfs it sbff for tif dblling
+    bpplidbtion to frff its dopy of tif pblfttf bny timf bftfr it dblls
+    png_sft_PLTE().
+
+Vfrsion 1.0.5o [Jbnubry 20, 2000]
+  Cosmftid dibngfs only (rfmovfd somf trbiling blbnks bnd TABs)
+
+Vfrsion 1.0.5p [Jbnubry 31, 2000]
+  Rfnbmfd pngdll.mbk to mbkffilf.bd32
+  Cosmftid dibngfs in pngtfst.d
+
+Vfrsion 1.0.5q [Ffbrubry 5, 2000]
+  Rflodbtfd tif mbkffilf.solbris wbrning bbout PATH problfms.
+  Fixfd pngvdrd.d bug by pusiing/popping rfgistfrs in mmxsupport (Brudf Obfrg)
+  Rfvisfd mbkffilf.gdmmx
+  Addfd PNG_SETJMP_SUPPORTED, PNG_SETJMP_NOT_SUPPORTED, bnd PNG_ABORT() mbdros
+
+Vfrsion 1.0.5r [Ffbrubry 7, 2000]
+  Rfmovfd supfrfluous prototypf for png_gft_itxt from png.i
+  Fixfd b bug in pngrtrbn.d tibt impropfrly fxpbndfd tif bbdkground dolor.
+  Rfturn *num_tfxt=0 from png_gft_tfxt() wifn bppropribtf, bnd fix dodumfntbtion
+    of png_gft_tfxt() in libpng.txt/libpng.3.
+
+Vfrsion 1.0.5s [Ffbrubry 18, 2000]
+  Addfd "png_jmp_fnv()" mbdro to pngdonf.i, to iflp pfoplf migrbtf to tif
+    nfw frror ibndlfr tibt's plbnnfd for tif nfxt libpng rflfbsf, bnd dibngfd
+    fxbmplf.d, pngtfst.d, bnd dontrib progrbms to usf tiis mbdro.
+  Rfvisfd somf of tif DLL-fxport mbdros in pngdonf.i (Grfg Roflofs)
+  Fixfd b bug in png_rfbd_png() tibt dbusfd it to fbil to fxpbnd somf imbgfs
+    tibt it siould ibvf fxpbndfd.
+  Fixfd somf mistbkfs in tif unusfd bnd undodumfntfd INCH_CONVERSIONS fundtions
+    in pnggft.d
+  Cibngfd tif bllodbtion of pblfttf, iistory, bnd trbns brrbys bbdk to
+    tif vfrsion 1.0.5 mftiod (linking instfbd of dopying) wiidi rfstorfs
+    bbdkwbrd dompbtibility witi vfrsion 1.0.5.  Addfd somf rfmbrks bbout
+    tibt in fxbmplf.d.  Addfd "frff_mf" mfmbfr to info_ptr bnd png_ptr
+    bnd bddfd png_frff_dbtb() fundtion.
+  Updbtfd mbkffilf.linux bnd mbkffilf.gddmmx to mbkf dirfdtorifs donditionblly.
+  Mbdf dosmftid dibngfs to pngbsmrd.i
+  Addfd png_sft_rows() bnd png_gft_rows(), for usf witi png_rfbd|writf_png().
+  Modififd png_rfbd_png() to bllodbtf info_ptr->row_pointfrs only if it
+    ibsn't blrfbdy bffn bllodbtfd.
+
+Vfrsion 1.0.5t [Mbrdi 4, 2000]
+  Cibngfd png_jmp_fnv() migrbtion biding mbdro to png_jmpbuf().
+  Fixfd "intfrlbdf" typo (siould bf "intfrlbdfd") in dontrib/grfgbook/rfbd2-x.d
+  Fixfd bug witi usf of PNG_BEFORE_IHDR bit in png_ptr->modf, introdudfd wifn
+    PNG_FLAG_HAVE_CHUNK_HEADER wbs movfd into png_ptr->modf in vfrsion 1.0.5b
+  Filfs in dontrib/grfgbook wfrf rfvisfd to usf png_jmpbuf() bnd to sflfdt
+    b 24-bit visubl if onf is bvbilbblf, bnd to bllow bbbrfvibtfd options.
+  Filfs in dontrib/pngminus wfrf rfvisfd to usf tif png_jmpbuf() mbdro.
+  Rfmovfd spbdfs in mbkffilf.linux bnd mbkffilf.gdmmx, introdudfd in 1.0.5s
+
+Vfrsion 1.0.5u [Mbrdi 5, 2000]
+  Simplififd tif dodf tibt dftfdts old png.i in png.d bnd pngtfst.d
+  Rfnbmfd png_spblfttf (_p, _pp) to png_sPLT_t (_tp, _tpp)
+  Indrfbsfd prfdision of rgb_to_grby dbldulbtions from 8 to 15 bits bnd
+    bddfd png_sft_rgb_to_grby_fixfd() fundtion.
+  Addfd mbkffilf.bd32 (32-bit Borlbnd C++, C modf)
+
+Vfrsion 1.0.5v [Mbrdi 11, 2000]
+  Addfd somf pbrfntifsfs to tif png_jmpbuf mbdro dffinition.
+  Updbtfd rfffrfndfs to tif zlib iomf pbgf, wiidi ibs movfd to frffsoftwbrf.dom.
+  Corrfdtfd bugs in dodumfntbtion rfgbrding png_rfbd_row() bnd png_writf_row().
+  Updbtfd dodumfntbtion of png_rgb_to_grby dbldulbtions in libpng.3/libpng.txt.
+  Rfnbmfd mbkffilf.borlbnd,turbod3 bbdk to mbkffilf.bor,td3 bs in vfrsion 1.0.3,
+    rfvisfd borlbnd mbkffilfs; bddfd mbkffilf.ibmvbd3 bnd mbkffilf.gdd (Cosmin)
+
+Vfrsion 1.0.6 [Mbrdi 20, 2000]
+  Minor rfvisions of mbkffilf.bor, libpng.txt, bnd grfgbook/rpng2-win.d
+  Addfd mbkffilf.sggdd (SGI IRIX witi gdd)
+
+Vfrsion 1.0.6d [April 7, 2000]
+  Cibngfd sprintf() to strdpy() in png_writf_sCAL_s() to work witiout STDIO
+  Addfd dbtb_lfngti pbrbmftfr to png_dfdomprfss_diunk() fundtion
+  Rfvisfd dodumfntbtion to rfmovf rfffrfndf to bbbndonfd png_frff_dink fundtions
+  Fixfd bn frror in png_rgb_to_grby_fixfd()
+  Rfvisfd fxbmplf.d, usbgf of png_dfstroy_writf_strudt().
+  Rfnbmfd mbkffilf.ibmvbd3 to mbkffilf.ibmd, bddfd libpng.idd IBM projfdt filf
+  Addfd b difdk for info_ptr->frff_mf&PNG_FREE_TEXT wifn frffing tfxt in png.d
+  Simplify png_sig_bytfs() fundtion to rfmovf usf of non-ISO-C strdup().
+
+Vfrsion 1.0.6f [April 9, 2000]
+  Addfd png_dbtb_frffr() fundtion.
+  In tif dodf tibt difdks for ovfr-lfngti tRNS diunks, bddfd difdk of
+    info_ptr->num_trbns bs wfll bs png_ptr->num_trbns (Mbttiibs Bfndkmbnn)
+  Minor rfvisions of libpng.txt/libpng.3.
+  Cifdk for fxisting dbtb bnd frff it if tif frff_mf flbg is sft, in png_sft_*()
+    bnd png_ibndlf_*().
+  Only dffinf PNG_WEIGHTED_FILTERS_SUPPORTED wifn PNG_FLOATING_POINT_SUPPORTED
+    is dffinfd.
+  Cibngfd sfvfrbl instbndfs of PNG_NO_CONSOLE_ID to PNG_NO_STDIO in pngrutil.d
+    bnd mfntionfd tif purposfs of tif two mbdros in libpng.txt/libpng.3.
+
+Vfrsion 1.0.6f [April 14, 2000]
+  Rfvisfd png_sft_iCCP() bnd png_sft_rows() to bvoid prfmbturfly frffing dbtb.
+  Add difdks in png_sft_tfxt() for NULL mfmbfrs of tif input tfxt strudturf.
+  Rfvisfd libpng.txt/libpng.3.
+  Rfmovfd supfrfluous prototypf for png_sft_iTXt from png.i
+  Rfmovfd "flsf" from pngrfbd.d, bftfr png_frror(), bnd dibngfd "0" to "lfngti".
+  Cibngfd sfvfrbl png_frrors bbout mblformfd bndillbry diunks to png_wbrnings.
+
+Vfrsion 1.0.6g [April 24, 2000]
+  Addfd png_pbss-* brrbys to pnggddrd.d wifn PNG_USE_LOCAL_ARRAYS is dffinfd.
+  Rflodbtfd pbrbgrbpi bbout png_sft_bbdkground() in libpng.3/libpng.txt
+    bnd otifr rfvisions (Mbttiibs Bfndkmbnn)
+  Rflodbtfd info_ptr->frff_mf, png_ptr->frff_mf, bnd otifr info_ptr bnd
+    png_ptr mfmbfrs to rfstorf binbry dompbtibility witi libpng-1.0.5
+    (brfbks dompbtibility witi libpng-1.0.6).
+
+Vfrsion 1.0.6i [April 24, 2000]
+  Cibngfd sibrfd librbry so-numbfr pbttfrn from 2.x.y.z to xy.z (tiis builds
+    libpng.so.10 & libpng.so.10.6i instfbd of libpng.so.2 & libpng.so.2.1.0.6i)
+    Tiis is b tfmporbry dibngf for tfst purposfs.
+
+Vfrsion 1.0.6i [Mby 2, 2000]
+  Rfbrrbngfd somf mfmbfrs bt tif fnd of png_info bnd png_strudt, to put
+    unknown_diunks_num bnd frff_mf witiin tif originbl sizf of tif png_strudts
+    bnd frff_mf, png_rfbd_usfr_fn, bnd png_frff_fn witiin tif originbl png_info,
+    bfdbusf somf old bpplidbtions bllodbtf tif strudts dirfdtly instfbd of
+    using png_drfbtf_*().
+  Addfd dodumfntbtion of usfr mfmory fundtions in libpng.txt/libpng.3
+  Modififd png_rfbd_png so tibt it will usf usfr_bllodbtfd row_pointfrs
+    if prfsfnt, unlfss frff_mf dirfdts tibt it bf frffd, bnd bddfd dfsdription
+    of tif usf of png_sft_rows() bnd png_gft_rows() in libpng.txt/libpng.3.
+  Addfd PNG_LEGACY_SUPPORTED mbdro, bnd #ifdff out bll nfw (sindf vfrsion
+    1.00) mfmbfrs of png_strudt bnd png_info, to rfgbin binbry dompbtibility
+    wifn you dffinf tiis mbdro.  Cbpbbilitifs lost in tiis fvfnt
+    brf usfr trbnsforms (nfw in vfrsion 1.0.0),tif usfr trbnsform pointfr
+    (nfw in vfrsion 1.0.2), rgb_to_grby (nfw in 1.0.5), iCCP, sCAL, sPLT,
+    tif iigi-lfvfl intfrfbdf, bnd unknown diunks support (bll nfw in 1.0.6).
+    Tiis wbs nfdfssbry bfdbusf of old bpplidbtions tibt bllodbtf tif strudts
+    dirfdtly bs butiors wfrf instrudtfd to do in libpng-0.88 bnd fbrlifr,
+    instfbd of using png_drfbtf_*().
+  Addfd modfs PNG_CREATED_READ_STRUCT bnd PNG_CREATED_WRITE_STRUCT wiidi
+    dbn bf usfd to dftfdt dodfs tibt dirfdtly bllodbtf tif strudts, bnd
+    dodf to difdk tifsf modfs in png_rfbd_init() bnd png_writf_init() bnd
+    gfnfrbtf b libpng frror if tif modfs brfn't sft bnd PNG_LEGACY_SUPPORTED
+    wbs not dffinfd.
+  Addfd mbkffilf.intfl bnd updbtfd mbkffilf.wbtdom (Pbwfl Mrodifn)
+
+Vfrsion 1.0.6j [Mby 3, 2000]
+  Ovfrlobdfd png_rfbd_init() bnd png_writf_init() witi mbdros tibt donvfrt
+    dblls to png_rfbd_init_2() or png_writf_init_2() tibt difdk tif vfrsion
+    bnd strudturf sizfs.
+
+Vfrsion 1.0.7bftb11 [Mby 7, 2000]
+  Rfmovfd tif nfw PNG_CREATED_READ_STRUCT bnd PNG_CREATED_WRITE_STRUCT modfs
+    wiidi brf no longfr usfd.
+  Eliminbtfd tif tirff nfw mfmbfrs of png_tfxt wifn PNG_LEGACY_SUPPORTED is
+    dffinfd or wifn nfitifr PNG_READ_iTXt_SUPPORTED nor PNG_WRITE_iTXT_SUPPORTED
+    is dffinfd.
+  Mbdf PNG_NO_READ|WRITE_iTXt tif dffbult sftting, to bvoid mfmory
+    ovfrrun wifn old bpplidbtions fill tif info_ptr->tfxt strudturf dirfdtly.
+  Addfd PNGAPI mbdro, bnd bddfd it to tif dffinitions of bll fxportfd fundtions.
+  Rflodbtfd vfrsion mbdro dffinitions bifbd of tif indludfs of zlib.i bnd
+    pngdonf.i in png.i.
+
+Vfrsion 1.0.7bftb12 [Mby 12, 2000]
+  Rfvisfd pngsft.d to bvoid b problfm witi fxpbnding tif png_dfbug mbdro.
+  Dflftfd somf fxtrbnfous dffinfs from pngdonf.i
+  Mbdf PNG_NO_CONSOLE_IO tif dffbult dondition wifn PNG_BUILD_DLL is dffinfd.
+  Usf MSC _RPTn dfbugging instfbd of fprintf if _MSC_VER is dffinfd.
+  Addfd png_bddfss_vfrsion_numbfr() fundtion.
+  Cifdk for mbsk&PNG_FREE_CHNK (for TEXT, SCAL, PCAL) in png_frff_dbtb().
+  Expbndfd libpng.3/libpng.txt informbtion bbout png_dbtb_frffr().
+
+Vfrsion 1.0.7bftb14 [Mby 17, 2000] (bftb13 wbs not publisifd)
+  Cibngfd pnggddrd.d bnd pngvdrd.d to ibndlf bbd bdbptivf filtfr typfs bs
+    wbrnings instfbd of frrors, bs pngrutil.d dofs.
+  Sft tif PNG_INFO_IDAT vblid flbg in png_sft_rows() so png_writf_png()
+    will bdtublly writf IDATs.
+  Mbdf tif dffbult PNG_USE_LOCAL_ARRAYS dfpfnd on PNG_DLL instfbd of WIN32.
+  Mbkf png_frff_dbtb() ignorf its finbl pbrbmftfr fxdfpt wifn frffing dbtb
+    tibt dbn ibvf multiplf instbndfs (tfxt, sPLT, unknowns).
+  Fixfd b nfw bug in png_sft_rows().
+  Rfmovfd info_ptr->vblid tfsts from png_frff_dbtb(), bs in vfrsion 1.0.5.
+  Addfd png_sft_invblid() fundtion.
+  Fixfd indorrfdt illustrbtions of png_dfstroy_writf_strudt() in fxbmplf.d.
+
+Vfrsion 1.0.7bftb15 [Mby 30, 2000]
+  Rfvisfd tif dflibfrbtfly frronfous Linux sftjmp dodf in pngdonf.i to produdf
+    ffwfr frror mfssbgfs.
+  Rfbrrbngfd difdks for Z_OK to difdk tif most likfly pbti first in pngprfbd.d
+    bnd pngwutil.d.
+  Addfd difdks in pngtfst.d for png_drfbtf_*() rfturning NULL, bnd mfntionfd
+    in libpng.txt/libpng.3 tif nffd for bpplidbtions to difdk tiis.
+  Cibngfd nbmfs of png_dffbult_*() fundtions in pngtfst to pngtfst_*().
+  Cibngfd rfturn typf of png_gft_x|y_offsft_*() from png_uint_32 to png_int_32.
+  Fixfd somf bugs in tif unusfd PNG_INCH_CONVERSIONS fundtions in pnggft.d
+  Sft fbdi pointfr to NULL bftfr frffing it in png_frff_dbtb().
+  Workfd bround b problfm in pngdonf.i; AIX's strings.i dffinfs bn "indfx"
+    mbdro tibt donflidts witi libpng's png_dolor_16.indfx. (Dimitri
+    Pbpbdbpoulos)
+  Addfd "msvd" dirfdtory witi MSVC++ projfdt filfs (Simon-Pifrrf Cbdifux).
+
+Vfrsion 1.0.7bftb16 [Junf 4, 2000]
+  Rfvisfd tif workbround of AIX string.i "indfx" bug.
+  Addfd b difdk for ovfrlfngti PLTE diunk in pngrutil.d.
+  Addfd PNG_NO_POINTER_INDEXING mbdro to usf brrby-indfxing instfbd of pointfr
+    indfxing in pngrutil.d bnd pngwutil.d to bddommodbtf b buggy dompilfr.
+  Addfd b wbrning in png_dfdomprfss_diunk() wifn it runs out of dbtb, f.g.
+    wifn it trifs to rfbd bn frronfous PiotoSiop iCCP diunk.
+  Addfd PNG_USE_DLL mbdro.
+  Rfvisfd tif dopyrigit/disdlbimfr/lidfnsf notidf.
+  Addfd dontrib/msvdtfst dirfdtory
+
+Vfrsion 1.0.7rd1 [Junf 9, 2000]
+  Corrfdtfd tif dffinition of PNG_TRANSFORM_INVERT_ALPHA  (0x0400 not 0x0200)
+  Addfd dontrib/visupng dirfdtory (Willfm vbn Sdibik)
+
+Vfrsion 1.0.7bftb18 [Junf 23, 2000]
+  Rfvisfd PNGAPI dffinition, bnd pngvdrd.d to work witi __GCC__
+    bnd do not rfdffinf PNGAPI if it is pbssfd in vib b dompilfr dirfdtivf.
+  Rfvisfd visupng/PngFilf.d to rfmovf rfturns from witiin tif Try blodk.
+  Rfmovfd lfbding undfrsdorfs from "_PNG_H" bnd "_PNG_SAVE_BSD_SOURCE" mbdros.
+  Updbtfd dontrib/visupng/dfxdfpt.i to vfrsion 1.0.0.
+  Fixfd bugs in pngwritf.d bnd pngwutil.d tibt prfvfntfd writing iCCP diunks.
+
+Vfrsion 1.0.7rd2 [Junf 28, 2000]
+  Updbtfd lidfnsf to indludf disdlbimfrs rfquirfd by UCITA.
+  Fixfd "DJBPP" typo in pnggddrd.d introdudfd in bftb18.
+
+Vfrsion 1.0.7 [July 1, 2000]
+  Rfvisfd tif dffinition of "trbns_vblufs" in libpng.3/libpng.txt
+
+Vfrsion 1.0.8bftb1 [July 8, 2000]
+  Addfd png_frff(png_ptr, kfy) two plbdfs in pngprfbd.d to stop mfmory lfbks.
+  Cibngfd PNG_NO_STDIO to PNG_NO_CONSOLE_IO, sfvfrbl plbdfs in pngrutil.d bnd
+     pngwutil.d.
+  Cibngfd PNG_EXPORT_VAR to usf PNG_IMPEXP, in pngdonf.i.
+  Rfmovfd unusfd "#indludf <bssfrt.i>" from png.d
+  Addfd WindowsCE support.
+  Rfvisfd pnggddrd.d to work witi gdd-2.95.2 bnd in tif Cygwin fnvironmfnt.
+
+Vfrsion 1.0.8bftb2 [July 10, 2000]
+  Addfd projfdt filfs to tif windf dirfdtory bnd mbdf furtifr rfvisions
+     of pngtfst.d, pngrio.d, bnd pngwio.d in support of WindowsCE.
+
+Vfrsion 1.0.8bftb3 [July 11, 2000]
+  Only sft tif PNG_FLAG_FREE_TRNS or PNG_FREE_TRNS flbg in png_ibndlf_tRNS()
+     for indfxfd-dolor input filfs to bvoid potfntibl doublf-frffing trbns brrby
+     undfr somf unusubl donditions; problfm wbs introdudfd in vfrsion 1.0.6f.
+  Furtifr rfvisions to pngtfst.d bnd filfs in tif windf subdirfdtory.
+
+Vfrsion 1.0.8bftb4 [July 14, 2000]
+  Addfd tif filfs pngbbr.png bnd pngbbr.jpg to tif distribution.
+  Addfd mbkffilf.dygwin, bnd dygwin support in pngdonf.i
+  Addfd PNG_NO_ZALLOC_ZERO mbdro (mbkfs png_zbllod skip zfroing mfmory)
+
+Vfrsion 1.0.8rd1 [July 16, 2000]
+  Rfvisfd png_dfbug() mbdros bnd stbtfmfnts to fliminbtf dompilfr wbrnings.
+
+Vfrsion 1.0.8 [July 24, 2000]
+  Addfd png_flusi() in pngwritf.d, bftfr png_writf_IEND().
+  Updbtfd mbkffilf.ipux to build b sibrfd librbry.
+
+Vfrsion 1.0.9bftb1 [Novfmbfr 10, 2000]
+  Fixfd typo in sdripts/mbkffilf.ipux
+  Updbtfd mbkfvms.dom in sdripts bnd dontrib/* bnd dontrib/* (Mbrtin Zinsfr)
+  Fixfd sfqfndf-point bug in dontrib/pngminus/png2pnm (Mbrtin Zinsfr)
+  Cibngfd "ddrom.dom" in dodumfntbtion to "libpng.org"
+  Rfvisfd pnggddrd.d to gft it bll working, bnd updbtfd mbkffilf.gdmmx (Grfg).
+  Cibngfd typf of "pbrbms" from voidp to png_voidp in png_rfbd|writf_png().
+  Mbkf surf PNGAPI bnd PNG_IMPEXP brf dffinfd in pngdonf.i.
+  Rfvisfd tif 3 instbndfs of WRITEFILE in pngtfst.d.
+  Rflodbtfd "msvd" bnd "windf" projfdt subdirfdtorifs into "dll" subdirfdtory.
+  Updbtfd png.rd in dll/msvd projfdt
+  Rfvisfd mbkffilf.dfd to dffinf bnd usf LIBPATH bnd INCPATH
+  Indrfbsfd sizf of globbl png_libpng_vfr[] brrby from 12 to 18 dibrs.
+  Mbdf globbl png_libpng_vfr[], png_sig[] bnd png_pbss_*[] brrbys donst.
+  Rfmovfd duplidbtf png_drd_finisi() from png_ibndlf_bKGD() fundtion.
+  Addfd b wbrning wifn bpplidbtion dblls png_rfbd_updbtf_info() multiplf timfs.
+  Rfvisfd mbkffilf.dygwin
+  Fixfd bugs in iCCP support in pngrutil.d bnd pngwutil.d.
+  Rfplbdfd png_sft_fmpty_pltf_pfrmittfd() witi png_pfrmit_mng_ffbturfs().
+
+Vfrsion 1.0.9bftb2 [Novfmbfr 19, 2000]
+  Rfnbmfd tif "dll" subdirfdtory "projfdts".
+  Addfd borlbnd projfdt filfs to "projfdts" subdirfdtory.
+  Sft VS_FF_PRERELEASE bnd VS_FF_PATCHED flbgs in msvd/png.rd wifn bppropribtf.
+  Add frror mfssbgf in png_sft_domprfssion_bufffr_sizf() wifn mbllod fbils.
+
+Vfrsion 1.0.9bftb3 [Novfmbfr 23, 2000]
+  Rfvisfd PNG_LIBPNG_BUILD_TYPE mbdro in png.i, usfd in tif msvd projfdt.
+  Rfmovfd tif png_flusi() in pngwritf.d tibt drbsifs somf bpplidbtions
+    tibt don't sft png_output_flusi_fn.
+  Addfd mbkffilf.mbdosx bnd mbkffilf.bix to sdripts dirfdtory.
+
+Vfrsion 1.0.9bftb4 [Dfdfmbfr 1, 2000]
+  Cibngf png_diunk_wbrning to png_wbrning in png_difdk_kfyword().
+  Indrfbsfd tif first pbrt of msg bufffr from 16 to 18 in png_diunk_frror().
+
+Vfrsion 1.0.9bftb5 [Dfdfmbfr 15, 2000]
+  Addfd support for filtfr mftiod 64 (for PNG dbtbstrfbms fmbfddfd in MNG).
+
+Vfrsion 1.0.9bftb6 [Dfdfmbfr 18, 2000]
+  Rfvisfd png_sft_filtfr() to bddfpt filtfr mftiod 64 wifn bppropribtf.
+  Addfd nfw PNG_HAVE_PNG_SIGNATURE bit to png_ptr->modf bnd usf it to
+    iflp prfvfnt bpplidbtions from using MNG ffbturfs in PNG dbtbstrfbms.
+  Addfd png_pfrmit_mng_ffbturfs() fundtion.
+  Rfvisfd libpng.3/libpng.txt.  Cibngfd "filtfr typf" to "filtfr mftiod".
+
+Vfrsion 1.0.9rd1 [Dfdfmbfr 23, 2000]
+  Rfvisfd tfst for PNG_HAVE_PNG_SIGNATURE in pngrutil.d
+  Fixfd frror ibndling of unknown domprfssion typf in png_dfdomprfss_diunk().
+  In pngdonf.i, dffinf __ddfdl wifn _MSC_VER is dffinfd.
+
+Vfrsion 1.0.9bftb7 [Dfdfmbfr 28, 2000]
+  Cibngfd PNG_TEXT_COMPRESSION_zTXt to PNG_COMPRESSION_TYPE_BASE sfvfrbl plbdfs.
+  Rfvisfd mfmory mbnbgfmfnt in png_sft_iIST bnd png_ibndlf_iIST in b bbdkwbrd
+    dompbtiblf mbnnfr.  PLTE bnd tRNS wfrf rfvisfd similbrly.
+  Rfvisfd tif iCCP diunk rfbdfr to ignorf trbiling gbrbbgf.
+
+Vfrsion 1.0.9bftb8 [Jbnubry 12, 2001]
+  Movfd pngbsmrd.i into pngdonf.i.
+  Improvfd ibndling of out-of-spfd gbrbbgf iCCP diunks gfnfrbtfd by PiotoSiop.
+
+Vfrsion 1.0.9bftb9 [Jbnubry 15, 2001]
+  Addfd png_sft_invblid, png_pfrmit_mng_ffbturfs, bnd png_mmx_supportfd to
+    windf bnd msvd projfdt modulf dffinition filfs.
+  Minor rfvision of mbkffilf.dygwin.
+  Fixfd bug witi progrfssivf rfbding of nbrrow intfrlbdfd imbgfs in pngprfbd.d
+
+Vfrsion 1.0.9bftb10 [Jbnubry 16, 2001]
+  Do not typfdff png_FILE_p in pngdonf.i wifn PNG_NO_STDIO is dffinfd.
+  Fixfd "png_mmx_supportfd" typo in projfdt dffinition filfs.
+
+Vfrsion 1.0.9bftb11 [Jbnubry 19, 2001]
+  Updbtfd mbkffilf.sgi to mbkf sibrfd librbry.
+  Rfmovfd png_mmx_support() fundtion bnd disbblfd PNG_MNG_FEATURES_SUPPORTED
+    by dffbult, for tif bfnffit of DLL forwbrd dompbtibility.  Tifsf will
+    bf rf-fnbblfd in vfrsion 1.2.0.
+
+Vfrsion 1.0.9rd2 [Jbnubry 22, 2001]
+  Rfvisfd dygwin support.
+
+Vfrsion 1.0.9 [Jbnubry 31, 2001]
+  Addfd difdk of dygwin's ALL_STATIC in pngdonf.i
+  Addfd "-nommx" pbrbmftfr to dontrib/grfgbook/rpng2-win bnd rpng2-x dfmos.
+
+Vfrsion 1.0.10bftb1 [Mbrdi 14, 2001]
+  Rfvisfd mbkffilf.dfd, mbkffilf.sgi, bnd mbkffilf.sggdd; bddfd mbkffilf.ipgdd.
+  Rfformbttfd libpng.3 to fliminbtf bbd linf brfbks.
+  Addfd difdks for _mmx_supportfd in tif rfbd_filtfr_row fundtion of pnggddrd.d
+  Addfd prototypf for png_mmx_support() nfbr tif top of pnggddrd.d
+  Movfd somf frror difdking from png_ibndlf_IHDR to png_sft_IHDR.
+  Addfd PNG_NO_READ_SUPPORTED bnd PNG_NO_WRITE_SUPPORTED mbdros.
+  Rfvisfd png_mmx_support() fundtion in pnggddrd.d
+  Rfstorfd vfrsion 1.0.8 PNG_WRITE_EMPTY_PLTE_SUPPORTED bfibvior in pngwutil.d
+  Fixfd mfmory lfbk in dontrib/visupng/PngFilf.d
+  Fixfd bugs in png_dombinf_row() in pnggddrd.d bnd pngvdrd.d (C vfrsion)
+  Addfd wbrnings wifn rftrifving or sftting gbmmb=0.
+  Indrfbsfd tif first pbrt of msg bufffr from 16 to 18 in png_diunk_wbrning().
+
+Vfrsion 1.0.10rd1 [Mbrdi 23, 2001]
+  Cibngfd bll instbndfs of mfmdpy, strdpy, bnd strlfn to png_mfmdpy, png_strdpy,
+    bnd png_strlfn.
+  Rfvisfd png_mmx_supportfd() fundtion in pnggddrd.d to rfturn propfr vbluf.
+  Fixfd bug in progrfssivf rfbding (pngprfbd.d) witi smbll imbgfs (ifigit < 8).
+
+Vfrsion 1.0.10 [Mbrdi 30, 2001]
+  Dflftfd fxtrbnfous spbdf (introdudfd in 1.0.9) from linf 42 of mbkffilf.dygwin
+  Addfd bfos projfdt filfs (Ciris Hfrborti)
+
+Vfrsion 1.0.11bftb1 [April 3, 2001]
+  Addfd typf dbsts on sfvfrbl png_mbllod() dblls (Dimitri Pbpbdbpoulos).
+  Rfmovfd b no-longfr nffdfd AIX work-bround from pngdonf.i
+  Cibngfd sfvfrbl "//" singlf-linf dommfnts to C-stylf in pnggddrd.d
+
+Vfrsion 1.0.11bftb2 [April 11, 2001]
+  Rfmovfd PNGAPI from sfvfrbl fundtions wiosf prototypfs did not ibvf PNGAPI.
+  Updbtfd sdripts/pngos2.dff
+
+Vfrsion 1.0.11bftb3 [April 14, 2001]
+  Addfd difdking tif rfsults of mbny instbndfs of png_mbllod() for NULL
+
+Vfrsion 1.0.11bftb4 [April 20, 2001]
+  Undid tif dibngfs from vfrsion 1.0.11bftb3.  Addfd b difdk for NULL rfturn
+    from usfr's mbllod_fn().
+  Rfmovfd somf usflfss typf dbsts of tif NULL pointfr.
+  Addfd mbkffilf.nftbsd
+
+Vfrsion 1.0.11 [April 27, 2001]
+  Rfvisfd mbkffilf.nftbsd
+
+Vfrsion 1.0.12bftb1 [Mby 14, 2001]
+  Tfst for Windows plbtform in pngdonf.i wifn indluding mbllod.i (Emmbnufl Blot)
+  Updbtfd mbkffilf.dygwin bnd ibndling of Cygwin's ALL_STATIC in pngdonf.i
+  Addfd somf nfvfr-to-bf-fxfdutfd dodf in pnggddrd.d to quift dompilfr wbrnings.
+  Eliminbtfd tif png_frror bbout bpps using png_rfbd|writf_init().  Instfbd,
+    libpng will rfbllodbtf tif png_strudt bnd info_strudt if tify brf too smbll.
+    Tiis rftbins futurf binbry dompbtibility for old bpplidbtions writtfn for
+    libpng-0.88 bnd fbrlifr.
+
+Vfrsion 1.2.0bftb1 [Mby 6, 2001]
+  Bumpfd DLLNUM to 2.
+  Rf-fnbblfd PNG_MNG_FEATURES_SUPPORTED bnd fnbblfd PNG_ASSEMBLER_CODE_SUPPORTED
+    by dffbult.
+  Addfd runtimf sflfdtion of MMX ffbturfs.
+  Addfd png_sft_strip_frror_numbfrs fundtion bnd rflbtfd mbdros.
+
+Vfrsion 1.2.0bftb2 [Mby 7, 2001]
+  Finisifd mfrging 1.2.0bftb1 witi vfrsion 1.0.11
+  Addfd b difdk for bttfmpts to rfbd or writf PLTE in grbysdblf PNG dbtbstrfbms.
+
+Vfrsion 1.2.0bftb3 [Mby 17, 2001]
+  Enbblfd usfr mfmory fundtion by dffbult.
+  Modififd png_drfbtf_strudt so it pbssfs usfr mfm_ptr to usfr mfmory bllodbtor.
+  Indrfbsfd png_mng_ffbturfs flbg from png_bytf to png_uint_32.
+  Bumpfd sibrfd-librbry (so-numbfr) bnd dll-numbfr to 3.
+
+Vfrsion 1.2.0bftb4 [Junf 23, 2001]
+  Cifdk for missing profilf lfngti fifld in iCCP diunk bnd frff diunk_dbtb
+     in dbsf of trundbtfd iCCP diunk.
+  Bumpfd sibrfd-librbry numbfr to 3 in mbkffilf.sgi bnd mbkffilf.sggdd
+  Bumpfd dll-numbfr from 2 to 3 in mbkffilf.dygwin
+  Rfvisfd dontrib/grfgbook/rpng*-x.d to bvoid b mfmory lfbk bnd to fxit dlfbnly
+     if usfr bttfmpts to run it on bn 8-bit displby.
+  Updbtfd dontrib/grfgbook
+  Usf png_mbllod instfbd of png_zbllod to bllodbtf pblfttf in pngsft.d
+  Updbtfd mbkffilf.ibmd
+  Addfd somf typfdbsts to fliminbtf gdd 3.0 wbrnings.  Cibngfd prototypfs
+     of png_writf_oFFS widti bnd ifigit from png_uint_32 to png_int_32.
+  Updbtfd fxbmplf.d
+  Rfvisfd prototypfs for png_dfbug_mbllod bnd png_dfbug_frff in pngtfst.d
+
+Vfrsion 1.2.0bftb5 [August 8, 2001]
+  Rfvisfd dontrib/grfgbook
+  Rfvisfd mbkffilf.gdmmx
+  Rfvisfd pnggddrd.d to donditionblly dompilf somf tirfbd-unsbff dodf only
+     wifn PNG_THREAD_UNSAFE_OK is dffinfd.
+  Addfd tfsts to prfvfnt pngwutil.d from writing b bKGD or tRNS diunk witi
+     vbluf fxdffding 2^bit_dfpti-1
+  Rfvisfd mbkffilf.sgi bnd mbkffilf.sggdd
+  Rfplbdfd dblls to fprintf(stdfrr,...) witi png_wbrning() in pnggddrd.d
+  Rfmovfd rfstridtion tibt do_invfrt_mono only opfrbtf on 1-bit opbquf filfs
+
+Vfrsion 1.2.0 [Sfptfmbfr 1, 2001]
+  Cibngfd b png_wbrning() to png_dfbug() in pnggddrd.d
+  Fixfd dontrib/grfgbook/rpng-x.d, rpng2-x.d to bvoid drbsi witi XFrffGC().
+
+Vfrsion 1.2.1bftb1 [Odtobfr 19, 2001]
+  Rfvisfd mbkffilf.std in dontrib/pngminus
+  Indludf bbdkground_1 in png_strudt rfgbrdlfss of gbmmb support.
+  Rfvisfd mbkffilf.nftbsd bnd mbkffilf.mbdosx, bddfd mbkffilf.dbrwin.
+  Rfvisfd fxbmplf.d to providf morf dftbils bbout using row_dbllbbdk().
+
+Vfrsion 1.2.1bftb2 [Odtobfr 25, 2001]
+  Addfd typf dbst to fbdi NULL bppfbring in b fundtion dbll, fxdfpt for
+    WINCE fundtions.
+  Addfd mbkffilf.so9.
+
+Vfrsion 1.2.1bftb3 [Odtobfr 27, 2001]
+  Rfmovfd typf dbsts from bll NULLs.
+  Simplififd png_drfbtf_strudt_2().
+
+Vfrsion 1.2.1bftb4 [Novfmbfr 7, 2001]
+  Rfvisfd png_drfbtf_info_strudt() bnd png_drfbt_strudt_2().
+  Addfd frror mfssbgf if png_writf_info() wbs omittfd.
+  Typf dbst NULLs bppfbring in fundtion dblls wifn _NO_PROTO or
+    PNG_TYPECAST_NULL is dffinfd.
+
+Vfrsion 1.2.1rd1 [Novfmbfr 24, 2001]
+  Typf dbst NULLs bppfbring in fundtion dblls fxdfpt wifn PNG_NO_TYPECAST_NULL
+    is dffinfd.
+  Cibngfd typfdbst of "sizf" brgumfnt to png_sizf_t in pngmfm.d dblls to
+    tif usfr mbllod_fn, to bgrff witi tif prototypf in png.i
+  Addfd b pop/pusi opfrbtion to pnggddrd.d, to prfsfrvf Eflbg (Mbxim Sobolfv)
+  Updbtfd mbkffilf.sgi to rfdognizf LIBPATH bnd INCPATH.
+  Updbtfd vbrious mbkffilfs so "mbkf dlfbn" dofs not rfmovf prfvious mbjor
+    vfrsion of tif sibrfd librbry.
+
+Vfrsion 1.2.1rd2 [Dfdfmbfr 4, 2001]
+  Alwbys bllodbtf 256-fntry intfrnbl pblfttf, iist, bnd trbns brrbys, to
+    bvoid out-of-bounds mfmory rfffrfndf dbusfd by invblid PNG dbtbstrfbms.
+  Addfd b difdk for prffix_lfngti > dbtb_lfngti in iCCP diunk ibndlfr.
+
+Vfrsion 1.2.1 [Dfdfmbfr 7, 2001]
+  Nonf.
+
+Vfrsion 1.2.2bftb1 [Ffbrubry 22, 2002]
+  Fixfd b bug witi rfbding tif lfngti of iCCP profilfs (Lbrry Rffvfs).
+  Rfvisfd mbkffilf.linux, mbkffilf.gdmmx, bnd mbkffilf.sgi to gfnfrbtf
+    libpng.b, libpng12.so (not libpng.so.3), bnd libpng12/png.i
+  Rfvisfd mbkffilf.dbrwin to rfmovf "-undffinfd supprfss" option.
+  Addfd difdks for gbmmb bnd dirombtidity vblufs ovfr 21474.83, wiidi fxdffd
+    tif limit for PNG unsignfd 32-bit intfgfrs wifn fndodfd.
+  Rfvisfd dblls to png_drfbtf_rfbd_strudt() bnd png_drfbtf_writf_strudt()
+    for simplfr dfbugging.
+  Rfvisfd png_zbllod() so zlib ibndlfs frrors (usfs PNG_FLAG_MALLOC_NULL_MEM_OK)
+
+Vfrsion 1.2.2bftb2 [Ffbrubry 23, 2002]
+  Cifdk diunk_lfngti bnd idbt_sizf for invblid (ovfr PNG_MAX_UINT) lfngtis.
+  Cifdk for invblid imbgf dimfnsions in png_gft_IHDR.
+  Addfd missing "fi;" in tif instbll tbrgft of tif SGI mbkffilfs.
+  Addfd instbll-stbtid to bll mbkffilfs tibt mbkf sibrfd librbrifs.
+  Alwbys do gbmmb dompfnsbtion wifn imbgf is pbrtiblly trbnspbrfnt.
+
+Vfrsion 1.2.2bftb3 [Mbrdi 7, 2002]
+  Computf bbdkground.grby bnd bbdkground_1.grby fvfn wifn dolor_typf is RGB
+    in dbsf imbgf gfts rfdudfd to grby lbtfr.
+  Modififd sibrfd-librbry mbkffilfs to instbll pkgdonfig/libpngNN.pd.
+  Export (witi PNGAPI) png_zbllod, png_zfrff, bnd png_ibndlf_bs_unknown
+  Rfmovfd unusfd png_writf_dfstroy_info prototypf from png.i
+  Eliminbtfd indorrfdt usf of widti_mmx from pnggddrd.d in pixfl_bytfs == 8 dbsf
+  Addfd instbll-sibrfd tbrgft to bll mbkffilfs tibt mbkf sibrfd librbrifs.
+  Stoppfd b doublf frff of pblfttf, iist, bnd trbns wifn not using frff_mf.
+  Addfd mbkffilf.32sunu for Sun Ultrb 32 bnd mbkffilf.64sunu for Sun Ultrb 64.
+
+Vfrsion 1.2.2bftb4 [Mbrdi 8, 2002]
+  Computf bbdkground.grby bnd bbdkground_1.grby fvfn wifn dolor_typf is RGB
+    in dbsf imbgf gfts rfdudfd to grby lbtfr (Jbson Summfrs).
+  Rflodbtfd b misplbdfd /bin/rm in tif "instbll-sibrfd" mbkffilf tbrgfts
+  Addfd PNG_1_0_X mbdro wiidi dbn bf usfd to build b 1.0.x-dompbtiblf librbry.
+
+Vfrsion 1.2.2bftb5 [Mbrdi 26, 2002]
+  Addfd missing PNGAPI to sfvfrbl fundtion dffinitions.
+  Cifdk for invblid bit_dfpti or dolor_typf in png_gft_IHDR(), bnd
+    difdk for missing PLTE or IHDR in png_pusi_rfbd_diunk() (Mbttiibs Clbsfn).
+  Rfvisfd iTXt support to bddfpt NULL for lbng bnd lbng_kfy.
+  Computf gbmmb for dolor domponfnts of bbdkground fvfn wifn dolor_typf is grby.
+  Cibngfd "()" to "{}" in sdripts/libpng.pd.in.
+  Rfvisfd mbkffilfs to put png.i bnd pngdonf.i only in $prffix/indludf/libpngNN
+  Rfvisfd mbkffilfs to mbkf symlink to libpng.so.NN in bddition to libpngNN.so
+
+Vfrsion 1.2.2bftb6 [Mbrdi 31, 2002]
+
+Vfrsion 1.0.13bftb1 [Mbrdi 31, 2002]
+  Prfvfnt png_zbllod() from trying to mfmsft mfmory tibt it fbilfd to bdquirf.
+  Add typfdbsts of PNG_MAX_UINT in pngsft_dHRM_fixfd() (Mbtt Holgbtf).
+  Ensurf tibt tif rigit fundtion (usfr or dffbult) is usfd to frff tif
+    png_strudt bftfr bn frror in png_drfbtf_rfbd_strudt_2().
+
+Vfrsion 1.2.2rd1 [April 7, 2002]
+
+Vfrsion 1.0.13rd1 [April 7, 2002]
+  Sbvf tif fbx rfgistfr in pnggddrd.d (Sbmi Fbrin)
+  Add "mfm_ptr = png_ptr->mfm_ptr" in png_dfstroy_writf_strudt() (Pbul Gbrdnfr).
+  Updbtfd mbkffilfs to put ifbdfrs in indludf/libpng bnd rfmovf old indludf/*.i.
+
+Vfrsion 1.2.2 [April 15, 2002]
+
+Vfrsion 1.0.13 [April 15, 2002]
+  Rfvisfd dfsdription of png_sft_filtfr() in libpng.3/libpng.txt.
+  Rfvisfd mbkffilf.nftbsd bnd bddfd mbkffilf.nfNNbsd bnd mbkffilf.frffbsd
+
+Vfrsion 1.0.13pbtdi01 [April 17, 2002]
+
+Vfrsion 1.2.2pbtdi01 [April 17, 2002]
+  Cibngfd ${PNGMAJ}.${PNGVER} bug to ${PNGVER} in mbkffilf.sgi bnd
+    mbkffilf.sggdd
+  Fixfd VER -> PNGVER typo in mbkffilf.mbdosx bnd bddfd instbll-stbtid to
+    instbll
+  Addfd instbll: tbrgft to mbkffilf.32sunu bnd mbkffilf.64sunu
+
+Vfrsion 1.0.13pbtdi03 [April 18, 2002]
+
+Vfrsion 1.2.2pbtdi03 [April 18, 2002]
+  Rfvisfd 15 mbkffilfs to link libpng.b to libpngNN.b bnd tif indludf libpng
+  subdirfdtory to libpngNN subdirfdtory witiout tif full pbtinbmf.
+  Movfd gfnfrbtion of libpng.pd from "instbll" to "bll" in 15 mbkffilfs.
+
+Vfrsion 1.2.3rd1 [April 28, 2002]
+  Addfd instbll-mbn tbrgft to 15 mbkffilfs (Dimitri Pbpbdopolous-Orfbnos).
+  Addfd $(DESTDIR) ffbturf to 24 mbkffilfs (Tim Moonfy)
+  Fixfd bug witi $prffix, siould bf $(prffix) in mbkffilf.ipux.
+  Updbtfd dygwin-spfdifid portion of pngdonf.i bnd rfvisfd mbkffilf.dygwin
+  Addfd b link from libpngNN.pd to libpng.pd in 15 mbkffilfs.
+  Addfd links from indludf/libpngNN/*.i to indludf/*.i in 24 mbkffilfs.
+  Rfvisfd mbkffilf.dbrwin to mbkf rflbtivf links witiout full pbtinbmf.
+  Addfd sftjmp() bt tif fnd of png_drfbtf_*_strudt_2() in dbsf usfr forgfts
+    to put onf in tifir bpplidbtion.
+  Rfstorfd png_zbllod() bnd png_zfrff() prototypfs to vfrsion 1.2.1 bnd
+    rfmovfd tifm from modulf dffinition filfs.
+
+Vfrsion 1.2.3rd2 [Mby 1, 2002]
+  Fixfd bug in rfporting numbfr of dibnnfls in pnggft.d bnd pngsft.d,
+    tibt wbs introdudfd in vfrsion 1.2.2bftb5.
+  Exportfd png_zbllod(), png_zfrff(), png_dffbult_rfbd(), png_dffbult_writf(),
+    png_dffbult_flusi(), bnd png_pusi_fill_bufffr() bnd indludfd tifm in
+    modulf dffinition filfs.
+  Addfd "libpng.pd" dfpfndfndy to tif "instbll-sibrfd" tbrgft in 15 mbkffilfs.
+
+Vfrsion 1.2.3rd3 [Mby 1, 2002]
+  Rfvisfd prototypf for png_dffbult_flusi()
+  Rfmovf old libpng.pd bnd libpngNN.pd bfforf instblling nfw onfs.
+
+Vfrsion 1.2.3rd4 [Mby 2, 2002]
+  Typos in *.dff filfs (png_dffbult_rfbd|writf -> png_dffbult_rfbd|writf_dbtb)
+  In mbkffilfs, dibngfd rm libpng.NN.pd to rm libpngNN.pd
+  Addfd libpng-donfig bnd libpngNN-donfig bnd modififd mbkffilfs to instbll
+    tifm.
+  Cibngfd $(MANPATH) to $(DESTDIR)$(MANPATH) in mbkffilfs
+  Addfd "Win32 DLL VB" donfigurbtion to projfdts/msvd/libpng.dsp
+
+Vfrsion 1.2.3rd5 [Mby 11, 2002]
+  Cibngfd "frror" bnd "mfssbgf" in prototypfs to "frror_mfssbgf" bnd
+    "wbrning_mfssbgf" to bvoid nbmfspbdf donflidt.
+  Rfvisfd 15 mbkffilfs to build libpng-donfig from libpng-donfig-*.in
+  Ondf morf rfstorfd png_zbllod bnd png_zfrff to rfgulbr nonfxportfd form.
+  Rfstorfd png_dffbult_rfbd|writf_dbtb, png_dffbult_flusi, png_rfbd_fill_bufffr
+    to nonfxportfd form, but witi PNGAPI, bnd rfmovfd tifm from modulf dff
+    filfs.
+
+Vfrsion 1.2.3rd6 [Mby 14, 2002]
+  Rfmovfd "PNGAPI" from png_zbllod() bnd png_zfrff() in png.d
+  Cibngfd "Gz" to "Gd" in projfdts/msvd/libpng.dsp bnd zlib.dsp.
+  Rfmovfd lfftovfr libpng-donfig "sfd" sdript from four mbkffilfs.
+  Rfvisfd libpng-donfig drfbting sdript in 16 mbkffilfs.
+
+Vfrsion 1.2.3 [Mby 22, 2002]
+  Rfvisfd libpng-donfig tbrgft in mbkffilf.dygwin.
+  Rfmovfd dfsdription of png_sft_mfm_fn() from dodumfntbtion.
+  Rfvisfd mbkffilf.frffbsd.
+  Minor dosmftid dibngfs to 15 mbkffilfs, f.g., $(DI) = $(DESTDIR)/$(INCDIR).
+  Rfvisfd projfdts/msvd/README.txt
+  Cibngfd -lpng to -lpngNN in LDFLAGS in sfvfrbl mbkffilfs.
+
+Vfrsion 1.2.4bftb1 [Mby 24, 2002]
+  Addfd libpng.pd bnd libpng-donfig to "bll:" tbrgft in 16 mbkffilfs.
+  Fixfd bug in 16 mbkffilfs: $(DESTDIR)/$(LIBPATH) to $(DESTDIR)$(LIBPATH)
+  Addfd missing "\" bfforf dlosing doublf quotf in mbkffilf.gdmmx.
+  Pluggfd vbrious mfmory lfbks; bddfd png_mbllod_wbrn() bnd png_sft_tfxt_2()
+    fundtions.
+
+Vfrsion 1.2.4bftb2 [Junf 25, 2002]
+  Pluggfd mfmory lfbk of png_ptr->durrfnt_tfxt (Mbtt Holgbtf).
+  Cifdk for bufffr ovfrflow bfforf rfbding CRC in pngprfbd.d (Wbrwidk Allison)
+  Addfd -sonbmf to tif lobdfr flbgs in mbkffilf.dfd, mbkffilf.sgi, bnd
+    mbkffilf.sggdd.
+  Addfd "tfst-instbllfd" tbrgft to mbkffilf.linux, mbkffilf.gdmmx,
+    mbkffilf.sgi, bnd mbkffilf.sggdd.
+
+Vfrsion 1.2.4bftb3 [Junf 28, 2002]
+  Pluggfd mfmory lfbk of row_buf in pngtfst.d wifn tifrf is b png_frror().
+  Dftfdt bufffr ovfrflow in pngprfbd.d wifn IDAT is dorruptfd witi fxtrb dbtb.
+  Addfd "tfst-instbllfd" tbrgft to mbkffilf.32sunu, mbkffilf.64sunu,
+    mbkffilf.bfos, mbkffilf.dbrwin, mbkffilf.dfd, mbkffilf.mbdosx,
+    mbkffilf.solbris, mbkffilf.ipux, mbkffilf.ipgdd, bnd mbkffilf.so9.
+
+Vfrsion 1.2.4rd1 bnd 1.0.14rd1 [July 2, 2002]
+  Addfd "tfst-instbllfd" tbrgft to mbkffilf.dygwin bnd mbkffilf.sdo.
+  Rfvisfd pnggddrd.d to bf bblf to bbdk out vfrsion 1.0.x vib PNG_1_0_X mbdro.
+
+Vfrsion 1.2.4 bnd 1.0.14 [July 8, 2002]
+  Cibngfd png_wbrning() to png_frror() wifn widti is too lbrgf to prodfss.
+
+Vfrsion 1.2.4pbtdi01 [July 20, 2002]
+  Rfvisfd mbkffilf.dygwin to usf DLL numbfr 12 instfbd of 13.
+
+Vfrsion 1.2.5bftb1 [August 6, 2002]
+  Addfd dodf to dontrib/grfgbook/rfbdpng2.d to ignorf unusfd diunks.
+  Rfplbdfd toudbn.png in dontrib/grfgbook (it ibs bffn dorrupt sindf 1.0.11)
+  Rfmovfd somf strby *.o filfs from dontrib/grfgbook.
+  Cibngfd png_frror() to png_wbrning() bbout "Too mudi dbtb" in pngprfbd.d
+    bnd bbout "Extrb domprfssfd dbtb" in pngrutil.d.
+  Prfvfnt png_ptr->pbss from fxdffding 7 in png_pusi_finisi_row().
+  Updbtfd mbkffilf.ipgdd
+  Updbtfd png.d bnd pnggddrd.d ibndling of rfturn from png_mmx_support()
+
+Vfrsion 1.2.5bftb2 [August 15, 2002]
+  Only issuf png_wbrning() bbout "Too mudi dbtb" in pngprfbd.d wifn bvbil_in
+    is nonzfro.
+  Updbtfd mbkffilfs to instbll b sfpbrbtf libpng.so.3 witi its own rpbti.
+
+Vfrsion 1.2.5rd1 bnd 1.0.15rd1 [August 24, 2002]
+  Rfvisfd mbkffilfs to not rfmovf prfvious minor vfrsions of sibrfd librbrifs.
+
+Vfrsion 1.2.5rd2 bnd 1.0.15rd2 [Sfptfmbfr 16, 2002]
+  Rfvisfd 13 mbkffilfs to rfmovf "-lz" bnd "-L$(ZLIBLIB)", ftd., from sibrfd
+    librbry lobdfr dirfdtivf.
+  Addfd missing "$OBJSDLL" linf to mbkffilf.gdmmx.
+  Addfd missing "; fi" to mbkffilf.32sunu.
+
+Vfrsion 1.2.5rd3 bnd 1.0.15rd3 [Sfptfmbfr 18, 2002]
+  Rfvisfd libpng-donfig sdript.
+
+Vfrsion 1.2.5 bnd 1.0.15 [Odtobfr 3, 2002]
+  Rfvisfd mbkffilf.mbdosx, mbkffilf.dbrwin, mbkffilf.ipgdd, bnd mbkffilf.ipux,
+    bnd mbkffilf.bix.
+  Rflodbtfd two misplbdfd PNGAPI linfs in pngtfst.d
+
+Vfrsion 1.2.6bftb1 [Odtobfr 22, 2002]
+  Commfntfd out wbrning bbout uninitiblizfd mmx_support in pnggddrd.d.
+  Cibngfd "IBMCPP__" flbg to "__IBMCPP__" in pngdonf.i.
+  Rflodbtfd two morf misplbdfd PNGAPI linfs in pngtfst.d
+  Fixfd mfmory ovfrrun bug in png_do_rfbd_fillfr() witi 16-bit dbtbstrfbms,
+    introdudfd in vfrsion 1.0.2.
+  Rfvisfd mbkffilf.mbdosx, mbkffilf.dfd, mbkffilf.bix, bnd mbkffilf.32sunu.
+
+Vfrsion 1.2.6bftb2 [Novfmbfr 1, 2002]
+  Addfd libpng-donfig "--ldopts" output.
+  Addfd "AR=br" bnd "ARFLAGS=rd" bnd dibngfd "br rd" to "$(AR) $(ARFLAGS)"
+    in mbkffilfs.
+
+Vfrsion 1.2.6bftb3 [July 18, 2004]
+  Rfvfrtfd mbkffilf dibngfs from vfrsion 1.2.6bftb2 bnd somf of tif dibngfs
+    from vfrsion 1.2.6bftb1; tifsf will bf postponfd until vfrsion 1.2.7.
+    Vfrsion 1.2.6 is going to bf b simplf bugfix rflfbsf.
+  Cibngfd tif onf instbndf of "ln -sf" to "ln -f -s" in fbdi Sun mbkffilf.
+  Fixfd potfntibl ovfrrun in pngfrror.d by using strndpy instfbd of mfmdpy.
+  Addfd "#!/bin/si" bt tif top of donfigurf, for rfdognition of tif
+    'x' flbg undfr Cygwin (Cosmin).
+  Optimizfd vbduous tfsts tibt silfndf dompilfr wbrnings, in png.d (Cosmin).
+  Addfd support for PNG_USER_CONFIG, in pngdonf.i (Cosmin).
+  Fixfd tif spfdibl mfmory ibndlfr for Borlbnd C undfr DOS, in pngmfm.d
+    (Cosmin).
+  Rfmovfd somf spurious bssignmfnts in pngrutil.d (Cosmin).
+  Rfplbdfd 65536 witi 65536L, bnd 0xffff witi 0xffffL, to silfndf wbrnings
+    on 16-bit plbtforms (Cosmin).
+  Endlosfd siift op fxprfssions in pbrfntifsfs, to silfndf wbrnings (Cosmin).
+  Usfd propfr typf png_fixfd_point, to bvoid problfms on 16-bit plbtforms,
+    in png_ibndlf_sRGB() (Cosmin).
+  Addfd domprfssion_typf to png_strudt, bnd optimizfd tif window sizf
+    insidf tif dfflbtf strfbm (Cosmin).
+  Fixfd dffinition of isnonblpib(), in pngfrror.d bnd pngrutil.d (Cosmin).
+  Fixfd ibndling of unknown diunks tibt domf bftfr IDAT (Cosmin).
+  Allowfd png_frror() bnd png_wbrning() to work fvfn if png_ptr == NULL
+    (Cosmin).
+  Rfplbdfd row_info->rowbytfs witi row_bytfs in png_writf_find_filtfr()
+    (Cosmin).
+  Fixfd dffinition of PNG_LIBPNG_VER_DLLNUM (Simon-Pifrrf).
+  Usfd PNG_LIBPNG_VER bnd PNG_LIBPNG_VER_STRING instfbd of tif ibrddodfd
+    vblufs in png.d (Simon-Pifrrf, Cosmin).
+  Initiblizfd png_libpng_vfr[] witi PNG_LIBPNG_VER_STRING (Simon-Pifrrf).
+  Rfplbdfd PNG_LIBPNG_VER_MAJOR witi PNG_LIBPNG_VER_DLLNUM in png.rd
+    (Simon-Pifrrf).
+  Movfd tif dffinition of PNG_HEADER_VERSION_STRING nfbr tif dffinitions
+    of tif otifr PNG_LIBPNG_VER_... symbols in png.i (Cosmin).
+  Rflodbtfd #ifndff PNGAPI gubrds in pngdonf.i (Simon-Pifrrf, Cosmin).
+  Updbtfd sdripts/mbkffilf.vd(b)win32 (Cosmin).
+  Updbtfd tif MSVC projfdt (Simon-Pifrrf, Cosmin).
+  Updbtfd tif Borlbnd C++ Buildfr projfdt (Cosmin).
+  Avoidfd bddfss to bsm_flbgs in pngvdrd.d, if PNG_1_0_X is dffinfd (Cosmin).
+  Commfntfd out wbrning bbout uninitiblizfd mmx_support in pngvdrd.d (Cosmin).
+  Rfmovfd sdripts/mbkffilf.bd32 bnd sdripts/pngdff.pbs (Cosmin).
+  Addfd fxtrb gubrd bround indlusion of Turbo C mfmory ifbdfrs, in pngdonf.i
+    (Cosmin).
+  Rfnbmfd projfdts/msvd/ to projfdts/visubld6/, bnd projfdts/borlbnd/ to
+    projfdts/dbuildfr5/ (Cosmin).
+  Movfd projfdts/visubld6/png32ms.dff to sdripts/pngw32.dff,
+    bnd projfdts/visubld6/png.rd to sdripts/pngw32.rd (Cosmin).
+  Addfd projfdts/visubld6/pngtfst.dsp; rfmovfd dontrib/msvdtfst/ (Cosmin).
+  Cibngfd linf fndings to DOS stylf in dbuildfr5 bnd visubld6 filfs, fvfn
+    in tif tbr.* distributions (Cosmin).
+  Updbtfd dontrib/visupng/VisublPng.dsp (Cosmin).
+  Updbtfd dontrib/visupng/dfxdfpt.i to vfrsion 2.0.0 (Cosmin).
+  Addfd b sfpbrbtf distribution witi "donfigurf" bnd supporting filfs (Junidii).
+
+Vfrsion 1.2.6bftb4 [July 28, 2004]
+  Addfd usfr bbility to dibngf png_sizf_t vib b PNG_SIZE_T mbdro.
+  Addfd png_sizfof() bnd png_donvfrt_sizf() fundtions.
+  Addfd PNG_SIZE_MAX (mbximum vbluf of b png_sizf_t vbribblf.
+  Addfd difdk in png_mbllod_dffbult() for (sizf_t)sizf != (png_uint_32)sizf
+    wiidi would indidbtf bn ovfrflow.
+  Cibngfd sPLT fbilurf bdtion from png_frror to png_wbrning bnd bbbndon diunk.
+  Cibngfd sCAL bnd iCCP fbilurfs from png_frror to png_wbrning bnd bbbndon.
+  Addfd png_gft_uint_31(png_ptr, buf) fundtion.
+  Addfd PNG_UINT_32_MAX mbdro.
+  Rfnbmfd PNG_MAX_UINT to PNG_UINT_31_MAX.
+  Mbdf png_zbllod() issuf b png_wbrning bnd rfturn NULL on potfntibl
+    ovfrflow.
+  Turn on PNG_NO_ZALLOC_ZERO by dffbult in vfrsion 1.2.x
+  Rfvisfd "dlobbfr list" in pnggddrd.d so it will dompilf undfr gdd-3.4.
+  Rfvisfd Borlbnd portion of png_mbllod() to rfturn NULL or issuf
+    png_frror() bddording to sftting of PNG_FLAG_MALLOC_NULL_MEM_OK.
+  Addfd PNG_NO_SEQUENTIAL_READ_SUPPORTED mbdro to donditionblly rfmovf
+    sfqufntibl rfbd support.
+  Addfd somf "#if PNG_WRITE_SUPPORTED" blodks.
+  Addfd #ifdff to rfmovf somf rfdundbndy in png_mbllod_dffbult().
+  Usf png_mbllod instfbd of png_zbllod to bllodbtf tif pbllftf.
+
+Vfrsion 1.0.16rd1 bnd 1.2.6rd1 [August 4, 2004]
+  Fixfd bufffr ovfrflow vulnfrbbility in png_ibndlf_tRNS()
+  Fixfd intfgfr britimftid ovfrflow vulnfrbbility in png_rfbd_png().
+  Fixfd somf ibrmlfss bugs in png_ibndlf_sBIT, ftd, tibt would dbusf
+    duplidbtf diunk typfs to go undftfdtfd.
+  Fixfd somf timfstbmps in tif -donfig vfrsion
+  Rfbrrbngfd ordfr of prodfssing of dolor typfs in png_ibndlf_tRNS().
+  Addfd ROWBYTES mbdro to dbldulbtf rowbytfs witiout intfgfr ovfrflow.
+  Updbtfd mbkffilf.dbrwin bnd rfmovfd mbkffilf.mbdosx from sdripts dirfdtory.
+  Imposfd dffbult onf million dolumn, onf-million row limits on tif imbgf
+    dimfnsions, bnd bddfd png_sft_usfr_limits() fundtion to ovfrridf tifm.
+  Rfvisfd usf of PNG_SET_USER_LIMITS_SUPPORTED mbdro.
+  Fixfd wrong dbst of rfturns from png_gft_usfr_widti|ifigit_mbx().
+  Cibngfd somf "kffp tif dompilfr ibppy" from fmpty stbtfmfnts to rfturns,
+  Rfvisfd libpng.txt to rfmovf 1.2.x stuff from tif 1.0.x distribution
+
+Vfrsion 1.0.16rd2 bnd 1.2.6rd2 [August 7, 2004]
+  Rfvisfd mbkffilf.dbrwin bnd mbkffilf.solbris.  Rfmovfd mbkffilf.mbdosx.
+  Rfvisfd pngtfst's png_dfbug_mbllod() to usf png_mbllod() instfbd of
+    png_mbllod_dffbult() wiidi is not supposfd to bf fxportfd.
+  Fixfd off-by-onf frror in onf of tif donvfrsions to PNG_ROWBYTES() in
+    pngprfbd.d.  Bug wbs introdudfd in 1.2.6rd1.
+  Fixfd bug in RGB to RGBX trbnsformbtion introdudfd in 1.2.6rd1.
+  Fixfd old bug in RGB to Grby trbnsformbtion.
+  Fixfd problfm witi 64-bit dompilfrs by dbsting brgumfnts to bbs()
+    to png_int_32.
+  Cibngfd "ln -sf" to "ln -f -s" in tirff mbkffilfs (solbris, sdo, so9).
+  Cibngfd "HANDLE_CHUNK_*" to "PNG_HANDLE_CHUNK_*" (Cosmin)
+  Addfd "-@/bin/rm -f $(DL)/$(LIBNAME).so.$(PNGMAJ)" to 15 *NIX mbkffilfs.
+  Addfd dodf to updbtf tif row_info->dolortypf in png_do_rfbd_fillfr() (MSB).
+
+Vfrsion 1.0.16rd3 bnd 1.2.6rd3 [August 9, 2004]
+  Eliminbtfd usf of "bbs()" in tfsting dHRM bnd gAMA vblufs, to bvoid
+    troublf witi somf 64-bit dompilfrs.  Crfbtfd PNG_OUT_OF_RANGE() mbdro.
+  Rfvisfd dodumfntbtion of png_sft_kffp_unknown_diunks().
+  Cifdk ibndlf_bs_unknown stbtus in pngprfbd.d, bs in pngrfbd.d prfviously.
+  Movfd  "PNG_HANDLE_CHUNK_*" mbdros out of PNG_INTERNAL sfdtion of png.i
+  Addfd "rim" dffinitions for CONST4 bnd CONST6 in pnggddrd.d
+
+Vfrsion 1.0.16rd4 bnd 1.2.6rd4 [August 10, 2004]
+  Fixfd mistbkf in pngtfst.d introdudfd in 1.2.6rd2 (dfdlbrbtion of
+    "pinfo" wbs out of plbdf).
+
+Vfrsion 1.0.16rd5 bnd 1.2.6rd5 [August 10, 2004]
+  Movfd  "PNG_HANDLE_CHUNK_*" mbdros out of PNG_ASSEMBLER_CODE_SUPPORTED
+     sfdtion of png.i wifrf tify wfrf inbdvfrtfntly plbdfd in vfrsion rd3.
+
+Vfrsion 1.2.6 bnd 1.0.16 [August 15, 2004]
+  Rfvisfd pngtfst so mfmory bllodbtion tfsting is only donf wifn PNG_DEBUG==1.
+
+Vfrsion 1.2.7bftb1 [August 26, 2004]
+  Rfmovfd unusfd pngbsmrd.i filf.
+  Rfmovfd rfffrfndfs to uu.nft for brdiivfd filfs.  Addfd rfffrfndfs to
+    PNG Spfd (sfdond fdition) bnd tif PNG ISO/IEC Stbndbrd.
+  Addfd "tfst-dd" tbrgft in 15 mbkffilfs, to run pngtfst in DESTDIR.
+  Fixfd bug witi "optimizfd window sizf" in tif IDAT dbtbstrfbm, tibt
+    dbusfs libpng to writf PNG filfs witi indorrfdt zlib ifbdfr bytfs.
+
+Vfrsion 1.2.7bftb2 [August 28, 2004]
+  Fixfd bug witi sCAL diunk bnd big-fndibn mbdiinfs (Dbvid Munro).
+  Undid nfw dodf bddfd in 1.2.6rd2 to updbtf tif dolor_typf in
+    png_sft_fillfr().
+  Addfd png_sft_bdd_blpib() tibt updbtfs dolor typf.
+
+Vfrsion 1.0.17rd1 bnd 1.2.7rd1 [Sfptfmbfr 4, 2004]
+  Rfvisfd png_sft_strip_fillfr() to not rfmovf blpib if dolor_typf ibs blpib.
+
+Vfrsion 1.2.7 bnd 1.0.17 [Sfptfmbfr 12, 2004]
+  Addfd mbkffilf.ip64
+  Cibngfd projfdts/msvd/png32ms.dff to sdripts/png32ms.dff in mbkffilf.dygwin
+
+Vfrsion 1.2.8bftb1 [Novfmbfr 1, 2004]
+  Fixfd bug in png_tfxt_domprfss() tibt would fbil to domplftf b lbrgf blodk.
+  Fixfd bug, introdudfd in libpng-1.2.7, tibt ovfrruns b bufffr during
+    strip blpib opfrbtion in png_do_strip_fillfr().
+  Addfd PNG_1_2_X dffinition in pngdonf.i
+  Usf #ifdff to dommfnt out png_info_init in png.d bnd png_rfbd_init in
+    pngrfbd.d (bs of 1.3.0)
+
+Vfrsion 1.2.8bftb2 [Novfmbfr 2, 2004]
+  Rfdudf dolor_typf to b nonblpib typf bftfr strip blpib opfrbtion in
+    png_do_strip_fillfr().
+
+Vfrsion 1.2.8bftb3 [Novfmbfr 3, 2004]
+  Rfvisfd dffinitions of PNG_MAX_UINT_32, PNG_MAX_SIZE, bnd PNG_MAXSUM
+
+Vfrsion 1.2.8bftb4 [Novfmbfr 12, 2004]
+  Fixfd (bgbin) dffinition of PNG_LIBPNG_VER_DLLNUM in png.i (Cosmin).
+  Addfd PNG_LIBPNG_BUILD_PRIVATE in png.i (Cosmin).
+  Sft png_ptr->zstrfbm.dbtb_typf to Z_BINARY, to bvoid unnfdfssbry dftfdtion
+    of dbtb typf in dfflbtf (Cosmin).
+  Dfprfdbtfd but dontinuf to support SPECIALBUILD bnd PRIVATEBUILD in fbvor of
+    PNG_LIBPNG_BUILD_SPECIAL_STRING bnd PNG_LIBPNG_BUILD_PRIVATE_STRING.
+
+Vfrsion 1.2.8bftb5 [Novfmbfr 20, 2004]
+  Usf png_ptr->flbgs instfbd of png_ptr->trbnsformbtions to pbss
+    PNG_STRIP_ALPHA info to png_do_strip_fillfr(), to prfsfrvf ABI
+    dompbtibility.
+  Rfvisfd ibndling of SPECIALBUILD, PRIVATEBUILD,
+    PNG_LIBPNG_BUILD_SPECIAL_STRING bnd PNG_LIBPNG_BUILD_PRIVATE_STRING.
+
+Vfrsion 1.2.8rd1 [Novfmbfr 24, 2004]
+  Movfd ibndling of BUILD mbdros from pngdonf.i to png.i
+  Addfd dffinition of PNG_LIBPNG_BASE_TYPE in png.i, inbdvfrtfntly
+    omittfd from bftb5.
+  Rfvisfd sdripts/pngw32.rd
+  Dfspbmmfd mbiling bddrfssfs by mbsking "@" witi "bt".
+  Inbdvfrtfntly instbllfd b supposfdly fbstfr tfst vfrsion of pngrutil.d
+
+Vfrsion 1.2.8rd2 [Novfmbfr 26, 2004]
+  Addfd two missing "\" in png.i
+  Cibngf tfsts in pngrfbd.d bnd pngprfbd.d to
+    if (png_ptr->trbnsformbtions || (png_ptr->flbgs&PNG_FLAG_STRIP_ALPHA))
+       png_do_rfbd_trbnsformbtions(png_ptr);
+
+Vfrsion 1.2.8rd3 [Novfmbfr 28, 2004]
+  Rfvfrtfd pngrutil.d to vfrsion libpng-1.2.8bftb5.
+  Addfd sdripts/mbkffilf.flf witi supporting dodf in pngdonf.i for symbol
+    vfrsioning (Join Bowlfr).
+
+Vfrsion 1.2.8rd4 [Novfmbfr 29, 2004]
+  Addfd projfdts/visubld7 (Simon-pifrrf).
+
+Vfrsion 1.2.8rd5 [Novfmbfr 29, 2004]
+  Fixfd nfw typo in sdripts/pngw32.rd
+
+Vfrsion 1.2.8 [Dfdfmbfr 3, 2004]
+  Rfmovfd projfdts/visubld7, bddfd projfdts/visubld71.
+
+Vfrsion 1.2.9bftb1 [Ffbrubry 21, 2006]
+  Initiblizfd somf strudturf mfmbfrs in pngwutil.d to bvoid gdd-4.0.0 domplbints
+  Rfvisfd mbn pbgf bnd libpng.txt to mbkf it dlfbr tibt onf siould not dbll
+    png_rfbd_fnd or png_writf_fnd bftfr png_rfbd_png or png_writf_png.
+  Updbtfd rfffrfndfs to png-mng-implfmfnt mbiling list.
+  Fixfd bn indorrfdt typfdbst in pngrutil.d
+  Addfd PNG_NO_READ_SUPPORTED donditionbl for mbking b writf-only librbry.
+  Addfd PNG_NO_WRITE_INTERLACING_SUPPORTED donditionbl.
+  Optimizfd blpib-invfrsion loops in pngwtrbn.d
+  Movfd tfst for nonzfro gbmmb outsidf of png_build_gbmmb_tbblf() in pngrtrbn.d
+  Mbkf surf num_trbns is <= 256 bfforf dopying dbtb in png_sft_tRNS().
+  Mbkf surf num_pblfttf is <= 256 bfforf dopying dbtb in png_sft_PLTE().
+  Intfrdibngfd ordfr of writf_swbp_blpib bnd writf_invfrt_blpib trbnsforms.
+  Addfd pbrfntifsfs in tif dffinition of PNG_LIBPNG_BUILD_TYPE (Cosmin).
+  Optimizfd zlib window flbg (CINFO) in dontrib/pngsuitf/*.png (Cosmin).
+  Updbtfd sdripts/mbkffilf.bd32 for Borlbnd C++ 5.6 (Cosmin).
+  Exportfd png_gft_uint_32, png_sbvf_uint_32, png_gft_uint_16, png_sbvf_uint_16,
+    png_gft_int_32, png_sbvf_int_32, png_gft_uint_31 (Cosmin).
+  Addfd typf dbst (png_bytf) in png_writf_sCAL() (Cosmin).
+  Fixfd sdripts/mbkffilf.dygwin (Ciristibn Bifsingfr, Cosmin).
+  Dffbult iTXt support wbs inbdvfrtfntly fnbblfd.
+
+Vfrsion 1.2.9bftb2 [Ffbrubry 21, 2006]
+  Cifdk for png_rgb_to_grby bnd png_grby_to_rgb rfbd trbnsformbtions bfforf
+    difdking for png_rfbd_ditifr in pngrtrbn.d
+  Rfvisfd difdking of dirombtidity limits to bddommodbtf fxtfndfd RGB
+    dolorspbdf (Join Dfnkfr).
+  Cibngfd linf fndings in somf of tif projfdt filfs to CRLF, fvfn in tif
+    "Unix" tbr distributions (Cosmin).
+  Mbdf png_gft_int_32 bnd png_sbvf_int_32 blwbys bvbilbblf (Cosmin).
+  Updbtfd sdripts/pngos2.dff, sdripts/pngw32.dff bnd projfdts/windf/png32df.dff
+    witi tif nfwly fxportfd fundtions.
+  Eliminbtfd distributions witiout tif "donfigurf" sdript.
+  Updbtfd INSTALL instrudtions.
+
+Vfrsion 1.2.9bftb3 [Ffbrubry 24, 2006]
+  Fixfd CRCRLF linf fndings in dontrib/visupng/VisublPng.dsp
+  Mbdf libpng.pd rfspfdt EXEC_PREFIX (D. P. Krfil, J. Bowlfr)
+  Rfmovfd rfffrfndf to pngbsmrd.i from Mbkffilf.bm
+  Rfnbmfd CHANGES to CibngfLog.
+  Rfnbmfd LICENSE to COPYING.
+  Rfnbmfd ANNOUNCE to NEWS.
+  Crfbtfd AUTHORS filf.
+
+Vfrsion 1.2.9bftb4 [Mbrdi 3, 2006]
+  Cibngfd dffinition of PKGCONFIG from $prffix/lib to $libdir in donfigurf.bd
+  Rfvfrtfd to filfnbmfs LICENSE bnd ANNOUNCE; rfmovfd AUTHORS bnd COPYING.
+  Rfmovfd nfwlinf from tif fnd of somf frror bnd wbrning mfssbgfs.
+  Rfmovfd tfst for sqrt() from donfigurf.bd bnd donfigurf.
+  Mbdf swbp tbblfs in pngtrbns.d PNG_CONST (Cbrlo Brbmix).
+  Disbblfd dffbult iTXt support tibt wbs inbdvfrtfntly fnbblfd in
+    libpng-1.2.9bftb1.
+  Addfd "OS2" to list of systfms tibt don't nffd undfrsdorfs, in pnggddrd.d
+  Rfmovfd libpng vfrsion bnd dbtf from *.d filfs.
+
+Vfrsion 1.2.9bftb5 [Mbrdi 4, 2006]
+  Rfmovfd trbiling blbnks from sourdf filfs.
+  Put vfrsion bnd dbtf of lbtfst dibngf in fbdi sourdf filf, bnd dibngfd
+    dopyrigit yfbr bddordingly.
+  Morf dlfbnup of donfigurf.bd, Mbkffilf.bm, bnd bssodibtfd sdripts.
+  Rfstorfd sdripts/mbkffilf.flf wiidi wbs inbdvfrtfntly dflftfd.
+
+Vfrsion 1.2.9bftb6 [Mbrdi 6, 2006]
+  Fixfd typo (RELEASE) in donfigurbtion filfs.
+
+Vfrsion 1.2.9bftb7 [Mbrdi 7, 2006]
+  Rfmovfd libpng.vfrs bnd libpng.sym from libpng12_lb_SOURCES in Mbkffilf.bm
+  Fixfd indonsistfnt #ifdff's bround png_sig_bytfs() bnd png_sft_sCAL_s()
+    in png.i.
+  Updbtfd mbkffilf.flf bs suggfstfd by dfbibn.
+  Mbdf dosmftid dibngfs to somf mbkffilfs, bdding LN_SF bnd otifr mbdros.
+  Mbdf somf mbkffilfs bddfpt "fxfd_prffix".
+
+Vfrsion 1.2.9bftb8 [Mbrdi 9, 2006]
+  Fixfd somf "#if dffinfd (..." wiidi siould bf "#if dffinfd(..."
+    Bug introdudfd in libpng-1.2.8.
+  Fixfd indonsistfndy in dffinition of png_dffbult_rfbd_dbtb()
+  Rfstorfd blbnk tibt wbs lost from mbkffilf.sggdd "dlfbn" tbrgft in bftb7.
+  Rfvisfd dbldulbtion of "durrfnt" bnd "mbjor" for irix in ltmbin.si
+  Cibngfd "mkdir" to "MKDIR_P" in somf mbkffilfs.
+  Sfpbrbtfd PNG_EXPAND bnd PNG_EXPAND_tRNS.
+  Addfd png_sft_fxpbnd_grby_1_2_4_to_8() bnd dfprfdbtfd
+    png_sft_grby_1_2_4_to_8() wiidi blso fxpbnds tRNS to blpib.
+
+Vfrsion 1.2.9bftb9 [Mbrdi 10, 2006]
+  Indludf "donfig.i" in pngdonf.i wifn bvbilbblf.
+  Addfd somf difdks for NULL png_ptr or NULL info_ptr (timflfss)
+
+Vfrsion 1.2.9bftb10 [Mbrdi 20, 2006]
+  Rfmovfd fxtrb CR from dontrib/visublpng/VisublPng.dsw (Cosmin)
+  Mbdf pnggddrd.d PIC-domplibnt (Ciristibn Aidiingfr).
+  Addfd mbkffilf.mingw (Wolfgbng Glbs).
+  Rfvisfd pngdonf.i MMX difdking.
+
+Vfrsion 1.2.9bftb11 [Mbrdi 22, 2006]
+  Fixfd out-of-ordfr dfdlbrbtion in pngwritf.d tibt wbs introdudfd in bftb9
+  Simplififd somf mbkffilfs by using LIBSO, LIBSOMAJ, bnd LIBSOVER mbdros.
+
+Vfrsion 1.2.9rd1 [Mbrdi 31, 2006]
+  Dffinfd PNG_USER_PRIVATEBUILD wifn indluding "pngusr.i" (Cosmin).
+  Rfmovfd nonsfnsidbl bssfrtion difdk from pngtfst.d (Cosmin).
+
+Vfrsion 1.2.9 [April 14, 2006]
+  Rfvisfd mbkffilf.bfos bnd bddfd "nonf" sflfdtor in ltmbin.si
+
+Vfrsion 1.2.10bftb1 [April 15, 2006]
+  Rfnbmfd "donfig.i" to "png_donf.i" bnd rfvisfd Mbkffilf.bm to bdd
+    -DPNG_BUILDING_LIBPNG to dompilf dirfdtivf, bnd modififd pngdonf.i
+    to indludf png_donf.i only wifn PNG_BUILDING_LIBPNG is dffinfd.
+
+Vfrsion 1.2.10bftb2 [April 15, 2006]
+  Mbnublly updbtfd Mbkffilf.in bnd donfigurf.  Cibngfd png_donf.i.in
+    bbdk to donfig.i.
+
+Vfrsion 1.2.10bftb3 [April 15, 2006]
+  Cibngf png_donf.i bbdk to donfig.i in pngdonf.i.
+
+Vfrsion 1.2.10bftb4 [April 16, 2006]
+  Cibngf PNG_BUILDING_LIBPNG to PNG_CONFIGURE_LIBPNG in donfig/Mbkffilf*.
+
+Vfrsion 1.2.10bftb5 [April 16, 2006]
+  Addfd b donfigurf difdk for dompiling bssfmblfr dodf in pnggddrd.d
+
+Vfrsion 1.2.10bftb6 [April 17, 2006]
+  Rfvisfd tif donfigurf difdk for pnggddrd.d
+  Movfd -DPNG_CONFIGURE_LIBPNG into @LIBPNG_DEFINES@
+  Addfd @LIBPNG_DEFINES@ to brgumfnts wifn building libpng.sym
+
+Vfrsion 1.2.10bftb7 [April 18, 2006]
+  Cibngf "fxfd_prffix=$prffix" to "fxfd_prffix=$(prffix)" in mbkffilfs.
+
+Vfrsion 1.2.10rd1 [April 19, 2006]
+  Ensurf pngdonf.i dofsn't dffinf boti PNG_USE_PNGGCCRD bnd PNG_USE_PNGVCRD
+  Fixfd "LN_FS" typo in mbkffilf.sdo bnd mbkffilf.solbris.
+
+Vfrsion 1.2.10rd2 [April 20, 2006]
+  Addfd b bbdkslbsi bftwffn -DPNG_CONFIGURE_LIBPNG bnd -DPNG_NO_ASSEMBLER_CODE
+   in donfigurf.bd bnd donfigurf
+  Mbdf tif donfigurf wbrning bbout vfrsionfd symbols lfss brrogbnt.
+
+Vfrsion 1.2.10rd3 [April 21, 2006]
+  Addfd b notf in libpng.txt tibt png_sft_sig_bytfs(8) dbn bf usfd wifn
+    writing bn fmbfddfd PNG witiout tif 8-bytf signbturf.
+  Rfvisfd mbkffilfs bnd donfigurf to bvoid mbking links to libpng.so.*
+
+Vfrsion 1.2.10 [April 23, 2006]
+  Rfvfrtfd donfigurf to "rd2" stbtf.
+
+Vfrsion 1.2.11bftb1 [Mby 31, 2006]
+  sdripts/libpng.pd.in dontbinfd "donfigurf" stylf vfrsion info bnd would
+    not work witi mbkffilfs.
+  Tif sibrfd-librbry mbkffilfs wfrf linking to libpng.so.0 instfbd of
+    libpng.so.3 dompbtibility bs tif librbry.
+
+Vfrsion 1.2.11bftb2 [Junf 2, 2006]
+  Indrfbsfd sprintf bufffr from 50 to 52 dibrs in pngrutil.d to bvoid
+    bufffr ovfrflow.
+  Fixfd bug in fxbmplf.d (png_sft_pblfttf_rgb -> png_sft_pblfttf_to_rgb)
+
+Vfrsion 1.2.11bftb3 [Junf 5, 2006]
+  Prfpfndfd "#! /bin/si" to ltmbil.si bnd dontrib/pngminus/*.si (Cosmin).
+  Rfmovfd tif bddidfntbl lfftovfr Mbkffilf.in~ (Cosmin).
+  Avoidfd potfntibl bufffr ovfrflow bnd optimizfd bufffr in
+    png_writf_sCAL(), png_writf_sCAL_s() (Cosmin).
+  Rfmovfd tif indludf dirfdtorifs bnd librbrifs from CFLAGS bnd LDFLAGS
+    in sdripts/mbkffilf.gdd (Nflson A. df Olivfirb, Cosmin).
+
+Vfrsion 1.2.11bftb4 [Junf 6, 2006]
+  Allow zfro-lfngti IDAT diunks bftfr tif fntirf zlib dbtbstrfbm, but not
+    bftfr bnotifr intfrvfning diunk typf.
+
+Vfrsion 1.0.19rd1, 1.2.11rd1 [Junf 13, 2006]
+  Dflftfd fxtrbnfous squbrf brbdkfts from [donfig.i] in donfigurf.bd
+
+Vfrsion 1.0.19rd2, 1.2.11rd2 [Junf 14, 2006]
+  Addfd prototypfs for PNG_INCH_CONVERSIONS fundtions to png.i
+  Rfvisfd INSTALL bnd butogfn.si
+  Fixfd typo in sfvfrbl mbkffilfs (-W1 siould bf -Wl)
+  Addfd typfdff for png_int_32 bnd png_uint_32 on 64-bit systfms.
+
+Vfrsion 1.0.19rd3, 1.2.11rd3 [Junf 15, 2006]
+  Rfmovfd tif nfw typfdffs for 64-bit systfms (dflby until vfrsion 1.4.0)
+  Addfd onf zfro flfmfnt to png_gbmmb_siift[] brrby in pngrtrbn.d to bvoid
+    rfbding out of bounds.
+
+Vfrsion 1.0.19rd4, 1.2.11rd4 [Junf 15, 2006]
+  Rfblly rfmovfd tif nfw typfdffs for 64-bit systfms.
+
+Vfrsion 1.0.19rd5, 1.2.11rd5 [Junf 22, 2006]
+  Rfmovfd png_sig_bytfs fntry from sdripts/pngw32.dff
+
+Vfrsion 1.0.19, 1.2.11 [Junf 26, 2006]
+  Nonf.
+
+Vfrsion 1.0.20, 1.2.12 [Junf 27, 2006]
+  Rfblly indrfbsfd sprintf bufffr from 50 to 52 dibrs in pngrutil.d to bvoid
+    bufffr ovfrflow.
+
+Vfrsion 1.2.13bftb1 [Odtobfr 2, 2006]
+  Rfmovfd AC_FUNC_MALLOC from donfigurf.bd
+  Work bround Intfl-Mbd dompilfr bug by sftting PNG_NO_MMX_CODE in pngdonf.i
+  Cibngf "logidbl" to "bitwisf" tirougiout dodumfntbtion.
+  Dftfdt bnd fix bttfmpt to writf wrong iCCP profilf lfngti.
+
+Vfrsion 1.0.21, 1.2.13 [Novfmbfr 14, 2006]
+  Fix potfntibl bufffr ovfrflow in sPLT diunk ibndlfr.
+  Fix Mbkffilf.bm to not try to link to nofxistfnt filfs.
+  Cifdk bll fxportfd fundtions for NULL png_ptr.
+
+Vfrsion 1.2.14bftb1 [Novfmbfr 17, 2006]
+  Rflodbtfd tirff misplbdfd tfsts for NULL png_ptr.
+  Built Mbkffilf.in witi butombkf-1.9.6 instfbd of 1.9.2.
+  Build donfigurf witi butodonf-2.60 instfbd of 2.59
+
+Vfrsion 1.2.14bftb2 [Novfmbfr 17, 2006]
+  Addfd somf typfdbsts in png_zbllod().
+
+Vfrsion 1.2.14rd1 [Novfmbfr 20, 2006]
+  Cibngfd "strtod" to "png_strtod" in pngrutil.d
+
+Vfrsion 1.0.22, 1.2.14    [Novfmbfr 27, 2006]
+  Addfd missing "$(srddir)" in Mbkffilf.bm bnd Mbkffilf.in
+
+Vfrsion 1.2.15bftb1 [Dfdfmbfr 3, 2006]
+  Gfnfrbtfd donfigurf witi butodonf-2.61 instfbd of 2.60
+  Rfvisfd donfigurf.bd to updbtf libpng.pd bnd libpng-donfig.
+
+Vfrsion 1.2.15bftb2 [Dfdfmbfr 3, 2006]
+  Alwbys fxport MMX bsm fundtions, just stubs if not building pnggddrd.d
+
+Vfrsion 1.2.15bftb3 [Dfdfmbfr 4, 2006]
+  Add "png_bytfp" typfdbst to profilf wiilf dbldulbting lfngti in pngwutil.d
+
+Vfrsion 1.2.15bftb4 [Dfdfmbfr 7, 2006]
+  Addfd sdripts/CMbkfLists.txt
+  Cibngfd PNG_NO_ASSEMBLER_CODE to PNG_NO_MMX_CODE in sdripts, likf 1.4.0bftb
+
+Vfrsion 1.2.15bftb5 [Dfdfmbfr 7, 2006]
+  Cibngfd somf instbndfs of PNG_ASSEMBLER_* to PNG_MMX_* in pnggddrd.d
+  Rfvisfd sdripts/CMbkfLists.txt
+
+Vfrsion 1.2.15bftb6 [Dfdfmbfr 13, 2006]
+  Rfvisfd sdripts/CMbkfLists.txt bnd donfigurf.bd
+
+Vfrsion 1.2.15rd1 [Dfdfmbfr 18, 2006]
+  Rfvisfd sdripts/CMbkfLists.txt
+
+Vfrsion 1.2.15rd2 [Dfdfmbfr 21, 2006]
+  Addfd donditionbl #undff jmpbuf in pngtfst.d to undo #dffinf in AIX ifbdfrs.
+  Addfd sdripts/mbkffilf.nommx
+
+Vfrsion 1.2.15rd3 [Dfdfmbfr 25, 2006]
+  Fixfd sibrfd librbry numbfring frror tibt wbs introdudfd in 1.2.15bftb6.
+
+Vfrsion 1.2.15rd4 [Dfdfmbfr 27, 2006]
+  Fixfd ibndling of rgb_to_grby wifn png_ptr->dolor.grby isn't sft.
+
+Vfrsion 1.2.15rd5 [Dfdfmbfr 31, 2006]
+  Rfvisfd ibndling of rgb_to_grby.
+
+Vfrsion 1.2.15 [Jbnubry 5, 2007]
+  Addfd somf (unsignfd long) typfdbsts in pngtfst.d to bvoid printing frrors.
+
+Vfrsion 1.2.16bftb1 [Jbnubry 6, 2007]
+  Fix bugs in mbkffilf.nommx
+
+Vfrsion 1.2.16bftb2 [Jbnubry 16, 2007]
+  Rfvisfd sdripts/CMbkfLists.txt
+
+Vfrsion 1.2.16 [Jbnubry 31, 2007]
+  No dibngfs.
+
+Vfrsion 1.2.17bftb1 [Mbrdi 6, 2007]
+  Rfvisfd sdripts/CMbkfLists.txt to instbll boti sibrfd bnd stbtid librbrifs.
+  Dflftfd b rfdundbnt linf from pngsft.d.
+
+Vfrsion 1.2.17bftb2 [April 26, 2007]
+  Rflodbtfd misplbdfd tfst for png_ptr == NULL in pngprfbd.d
+  Cibngf "==" to "&" for tfsting PNG_RGB_TO_GRAY_ERR & PNG_RGB_TO_GRAY_WARN
+    flbgs.
+  Cibngfd rfmbining instbndfs of PNG_ASSEMBLER_* to PNG_MMX_*
+  Addfd pngfrror() wifn writf_IHDR fbils in dfflbtfInit2().
+  Addfd "donst" to somf brrby dfdlbrbtions.
+  Mfntion fxbmplfs of libpng usbgf in tif libpng*.txt bnd libpng.3 dodumfnts.
+
+Vfrsion 1.2.17rd1 [Mby 4, 2007]
+  No dibngfs.
+
+Vfrsion 1.2.17rd2 [Mby 8, 2007]
+  Movfd sfvfrbl PNG_HAVE_* mbdros out of PNG_INTERNAL bfdbusf bpplidbtions
+    dblling sft_unknown_diunk_lodbtion() nffd tifm.
+  Cibngfd trbnsformbtion flbg from PNG_EXPAND_tRNS to PNG_EXPAND in
+    png_sft_fxpbnd_grby_1_2_4_to_8().
+  Addfd png_ptr->unknown_diunk to iold working unknown diunk dbtb, so it
+    dbn bf frff'fd in dbsf of frror.  Rfvisfd unknown diunk ibndling in
+    pngrutil.d bnd pngprfbd.d to usf tiis strudturf.
+
+Vfrsion 1.2.17rd3 [Mby 8, 2007]
+  Rfvisfd symbol-ibndling in donfigurf sdript.
+
+Vfrsion 1.2.17rd4 [Mby 10, 2007]
+  Rfvisfd unknown diunk ibndling to bvoid storing unknown dritidbl diunks.
+
+Vfrsion 1.0.25 [Mby 15, 2007]
+Vfrsion 1.2.17 [Mby 15, 2007]
+  Addfd "png_ptr->num_trbns=0" bfforf frror rfturn in png_ibndlf_tRNS,
+    to fliminbtf b vulnfrbbility (CVE-2007-2445, CERT VU#684664)
+
+Vfrsion 1.0.26 [Mby 15, 2007]
+Vfrsion 1.2.18 [Mby 15, 2007]
+  Rfvfrtfd tif libpng-1.2.17rd3 dibngf to symbol-ibndling in donfigurf sdript
+
+Vfrsion 1.2.19bftb1 [Mby 18, 2007]
+  Cibngfd "donst stbtid" to "stbtid PNG_CONST" fvfrywifrf, mostly undoing
+    dibngf of libpng-1.2.17bftb2.  Cibngfd otifr "donst" to "PNG_CONST"
+  Cibngfd somf ibndling of unusfd pbrbmftfrs, to bvoid dompilfr wbrnings.
+    "if (unusfd == NULL) rfturn;" bfdomfs "unusfd = unusfd".
+
+Vfrsion 1.2.19bftb2 [Mby 18, 2007]
+  Only usf tif vblid bits of tRNS vbluf in png_do_fxpbnd() (Bribn Cbrtifr)
+
+Vfrsion 1.2.19bftb3 [Mby 19, 2007]
+  Add somf "png_bytf" typfdbsts in png_difdk_kfyword() bnd writf nfw_kfy
+  instfbd of kfy in zTXt diunk (Kfvin Rydf).
+
+Vfrsion 1.2.19bftb4 [Mby 21, 2007]
+  Add png_snprintf() fundtion bnd usf it in plbdf of sprint() for improvfd
+    dfffnsf bgbinst bufffr ovfrflows.
+
+Vfrsion 1.2.19bftb5 [Mby 21, 2007]
+  Fixfd png_ibndlf_tRNS() to only usf tif vblid bits of tRNS vbluf.
+  Cibngfd ibndling of morf unusfd pbrbmftfrs, to bvoid dompilfr wbrnings.
+  Rfmovfd somf PNG_CONST in pngwutil.d to bvoid dompilfr wbrnings.
+
+Vfrsion 1.2.19bftb6 [Mby 22, 2007]
+  Addfd somf #ifdff PNG_MMX_CODE_SUPPORTED wifrf nffdfd in pngvdrd.d
+  Addfd b spfdibl "_MSC_VER" dbsf tibt dffinfs png_snprintf to _snprintf
+
+Vfrsion 1.2.19bftb7 [Mby 22, 2007]
+  Squfldifd png_squfldi_wbrnings() in pnggddrd.d bnd bddfd
+    bn #ifdff PNG_MMX_CODE_SUPPORTED blodk bround tif dfdlbrbtions tibt dbusfd
+    tif wbrnings tibt png_squfldi_wbrnings wbs squfldiing.
+
+Vfrsion 1.2.19bftb8 [Mby 22, 2007]
+  Rfmovfd __MMX__ from tfst in pngdonf.i.
+
+Vfrsion 1.2.19bftb9 [Mby 23, 2007]
+  Mbdf png_squfldi_wbrnings() bvbilbblf vib PNG_SQUELCH_WARNINGS mbdro.
+  Rfvisfd png_squfldi_wbrnings() so it migit work.
+  Updbtfd mbkffilf.sgdd bnd mbkffilf.solbris; bddfd mbkffilf.solbris-x86.
+
+Vfrsion 1.2.19bftb10 [Mby 24, 2007]
+  Rfsqufldifd png_squfldi_wbrnings(), usf "__bttributf__((usfd))" instfbd.
+
+Vfrsion 1.4.0bftb1 [April 20, 2006]
+  Enbblfd iTXt support (dibngfs png_strudt, tius rfquirfs so-numbfr dibngf).
+  Clfbnfd up PNG_ASSEMBLER_CODE_SUPPORTED vs PNG_MMX_CODE_SUPPORTED
+  Eliminbtfd PNG_1_0_X bnd PNG_1_2_X mbdros.
+  Rfmovfd dfprfdbtfd fundtions png_rfbd_init, png_writf_init, png_info_init,
+    png_pfrmit_fmpty_pltf, png_sft_grby_1_2_4_to_8, png_difdk_sig, bnd
+    rfmovfd tif dfprfdbtfd mbdro PNG_MAX_UINT.
+  Movfd "PNG_INTERNAL" pbrts of png.i bnd pngdonf.i into pngintrn.i
+  Rfmovfd mbny WIN32_WCE #ifdffs (Cosmin).
+  Rfdudfd dfpfndfndy on C-runtimf librbry wifn on Windows (Simon-Pifrrf)
+  Rfplbdfd sprintf() witi png_sprintf() (Simon-Pifrrf)
+
+Vfrsion 1.4.0bftb2 [April 20, 2006]
+  Rfvisfd mbkffilfs bnd donfigurf to bvoid mbking links to libpng.so.*
+  Movfd somf lfftovfr MMX-rflbtfd dffinfs from pngdonf.i to pngintrn.i
+  Updbtfd sdripts/pngos2.dff, pngw32.dff, bnd projfdts/windf/png32df.dff
+
+Vfrsion 1.4.0bftb3 [Mby 10, 2006]
+  Updbtfd sdripts/pngw32.dff to dommfnt out MMX fundtions.
+  Addfd PNG_NO_GET_INT_32 bnd PNG_NO_SAVE_INT_32 mbdros.
+  Sdripts/libpng.pd.in dontbinfd "donfigurf" stylf vfrsion info bnd would
+    not work witi mbkffilfs.
+  Rfvisfd pngdonf.i bnd bddfd pngdonf.i.in, so mbkffilfs bnd donfigurf dbn
+    pbss dffinfs to libpng bnd bpplidbtions.
+
+Vfrsion 1.4.0bftb4 [Mby 11, 2006]
+  Rfvisfd donfigurf.bd, Mbkffilf.bm, bnd mbny of tif mbkffilfs to writf
+    tifir dffinfs in pngdonf.i.
+
+Vfrsion 1.4.0bftb5 [Mby 15, 2006]
+  Addfd b missing sfmidolon in Mbkffilf.bm bnd Mbkffilf.in
+  Dflftfd fxtrbnfous squbrf brbdkfts from donfigurf.bd
+
+Vfrsion 1.4.0bftb6 [Junf 2, 2006]
+  Indrfbsfd sprintf bufffr from 50 to 52 dibrs in pngrutil.d to bvoid
+    bufffr ovfrflow.
+  Cibngfd sonum from 0 to 1.
+  Rfmovfd unusfd prototypf for png_difdk_sig() from png.i
+
+Vfrsion 1.4.0bftb7 [Junf 16, 2006]
+  Exportfd png_writf_sig (Cosmin).
+  Optimizfd bufffr in png_ibndlf_dHRM() (Cosmin).
+  Sft pHYs = 2835 x 2835 pixfls pfr mftfr, bnd bddfd
+    sCAL = 0.352778f-3 x 0.352778f-3 mftfrs, in pngtfst.png (Cosmin).
+  Addfd png_sft_bfnign_frrors(), png_bfnign_frror(), png_diunk_bfnign_frror().
+  Addfd typfdff for png_int_32 bnd png_uint_32 on 64-bit systfms.
+  Addfd "(unsignfd long)" typfdbst on png_uint_32 vbribblfs in printf lists.
+
+Vfrsion 1.4.0bftb8 [Junf 22, 2006]
+  Addfd dfmonstrbtion of usfr diunk support in pngtfst.d, to support tif
+    publid sTER diunk bnd b privbtf vpAg diunk.
+
+Vfrsion 1.4.0bftb9 [July 3, 2006]
+  Rfmovfd ordinbls from sdripts/pngw32.dff bnd rfmovfd png_info_int bnd
+    png_sft_grby_1_2_4_to_8 fntrifs.
+  Inlinf dbll of png_gft_uint_32() in png_gft_uint_31().
+  Usf png_gft_uint_31() to gft vpAg widti bnd ifigit in pngtfst.d
+  Rfmovfd WINCE bnd Nftwbrf projfdts.
+  Rfmovfd stbndblonf Y2KINFO filf.
+
+Vfrsion 1.4.0bftb10 [July 12, 2006]
+  Eliminbtfd butombtid dopy of pngdonf.i to pngdonf.i.in from donfigurf bnd
+    somf mbkffilfs, bfdbusf it wbs not working rflibbly.  Instfbd, distributf
+    pngdonf.i.in blong witi pngdonf.i bnd dbusf donfigurf bnd somf of tif
+    mbkffilfs to updbtf pngdonf.i from pngdonf.i.in.
+  Addfd pngdonf.i to DEPENDENCIES in Mbkffilf.bm
+
+Vfrsion 1.4.0bftb11 [August 19, 2006]
+  Rfmovfd AC_FUNC_MALLOC from donfigurf.bd.
+  Addfd b wbrning wifn writing iCCP profilf witi mismbtdifd profilf lfngti.
+  Pbtdifd pnggddrd.d to bssfmblf on x86_64 plbtforms.
+  Movfd diunk ifbdfr rfbding into b sfpbrbtf fundtion png_rfbd_diunk_ifbdfr()
+    in pngrutil.d.  Tif diunk ifbdfr (lfn+sig) is now sfriblizfd in b singlf
+    opfrbtion (Cosmin).
+  Implfmfntfd support for I/O stbtfs. Addfd png_ptr mfmbfr io_stbtf, bnd
+    fundtions png_gft_io_diunk_nbmf() bnd png_gft_io_stbtf() in pnggft.d
+    (Cosmin).
+  Addfd png_gft_io_diunk_nbmf bnd png_gft_io_stbtf to sdripts/*.dff (Cosmin).
+  Rfnbmfd sdripts/pngw32.* to sdripts/pngwin.* (Cosmin).
+  Rfmovfd tif indludf dirfdtorifs bnd librbrifs from CFLAGS bnd LDFLAGS
+    in sdripts/mbkffilf.gdd (Cosmin).
+  Usfd png_sbvf_uint_32() to sft vpAg widti bnd ifigit in pngtfst.d (Cosmin).
+  Cbst to propfr typf wifn gftting/sftting vpAg units in pngtfst.d (Cosmin).
+  Addfd pngintrn.i to tif Visubl C++ projfdts (Cosmin).
+  Rfmovfd sdripts/list (Cosmin).
+  Updbtfd dopyrigit yfbr in sdripts/pngwin.dff (Cosmin).
+  Rfmovfd PNG_TYPECAST_NULL bnd usfd stbndbrd NULL donsistfntly (Cosmin).
+  Disbllowfd tif usfr to rfdffinf png_sizf_t, bnd fnfordfd b donsistfnt usf
+    of png_sizf_t bdross libpng (Cosmin).
+  Cibngfd tif typf of png_ptr->rowbytfs, PNG_ROWBYTES() bnd frifnds
+    to png_sizf_t (Cosmin).
+  Rfmovfd png_donvfrt_sizf() bnd rfplbdfd png_sizfof witi sizfof (Cosmin).
+  Rfmovfd somf unnfdfssbry typf dbsts (Cosmin).
+  Cibngfd prototypf of png_gft_domprfssion_bufffr_sizf() bnd
+    png_sft_domprfssion_bufffr_sizf() to work witi png_sizf_t instfbd of
+    png_uint_32 (Cosmin).
+  Rfmovfd png_mfmdpy_difdk() bnd png_mfmsft_difdk() (Cosmin).
+  Fixfd b typo (png_bytf --> png_bytfp) in libpng.3 bnd libpng.txt (Cosmin).
+  Clbrififd tibt png_zbllod() dofs not dlfbr tif bllodbtfd mfmory,
+    bnd png_zbllod() bnd png_zfrff() dbnnot bf PNGAPI (Cosmin).
+  Rfnbmfd png_mfm_sizf_t to png_bllod_sizf_t, fixfd its dffinition in
+    pngdonf.i, bnd usfd it in bll mfmory bllodbtion fundtions (Cosmin).
+  Rfnbmfd pngintrn.i to pngpriv.i, bddfd b dommfnt bt tif top of tif filf
+    mfntioning tibt tif symbols dfdlbrfd in tibt filf brf privbtf, bnd
+    updbtfd tif sdripts bnd tif Visubl C++ projfdts bddordingly (Cosmin).
+  Rfmovfd dirdulbr rfffrfndfs bftwffn pngdonf.i bnd pngdonf.i.in in
+    sdripts/mbkffilf.vd*win32 (Cosmin).
+  Rfmoving trbiling '.' from tif wbrning bnd frror mfssbgfs (Cosmin).
+  Addfd pngdffs.i tibt is built by mbkffilf or donfigurf, instfbd of
+    pngdonf.i.in (Glfnn).
+  Dftfdt bnd fix bttfmpt to writf wrong iCCP profilf lfngti.
+
+Vfrsion 1.4.0bftb12 [Odtobfr 19, 2006]
+  Cibngfd "logidbl" to "bitwisf" in tif dodumfntbtion.
+  Work bround Intfl-Mbd dompilfr bug by sftting PNG_NO_MMX_CODE in pngdonf.i
+  Add b typfdbst to stiflf dompilfr wbrning in pngrutil.d
+
+Vfrsion 1.4.0bftb13 [Novfmbfr 10, 2006]
+  Fix potfntibl bufffr ovfrflow in sPLT diunk ibndlfr.
+  Fix Mbkffilf.bm to not try to link to nofxistfnt filfs.
+
+Vfrsion 1.4.0bftb14 [Novfmbfr 15, 2006]
+  Cifdk bll fxportfd fundtions for NULL png_ptr.
+
+Vfrsion 1.4.0bftb15 [Novfmbfr 17, 2006]
+  Rflodbtfd two misplbdfd tfsts for NULL png_ptr.
+  Built Mbkffilf.in witi butombkf-1.9.6 instfbd of 1.9.2.
+  Build donfigurf witi butodonf-2.60 instfbd of 2.59
+  Add "instbll: bll" in Mbkffilf.bm so "donfigurf; mbkf instbll" will work.
+
+Vfrsion 1.4.0bftb16 [Novfmbfr 17, 2006]
+  Addfd b typfdbst in png_zbllod().
+
+Vfrsion 1.4.0bftb17 [Dfdfmbfr 4, 2006]
+  Cibngfd "nfw_kfy[79] = '\0';" to "(*nfw_kfy)[79] = '\0';" in pngwutil.d
+  Add "png_bytfp" typfdbst to profilf wiilf dbldulbting lfngti in pngwutil.d
+
+Vfrsion 1.4.0bftb18 [Dfdfmbfr 7, 2006]
+  Addfd sdripts/CMbkfLists.txt
+
+Vfrsion 1.4.0bftb19 [Mby 16, 2007]
+  Rfvisfd sdripts/CMbkfLists.txt
+  Rfbuilt donfigurf bnd Mbkffilf.in witi nfwfr tools.
+  Addfd donditionbl #undff jmpbuf in pngtfst.d to undo #dffinf in AIX ifbdfrs.
+  Addfd sdripts/mbkffilf.nommx
+
+Vfrsion 1.4.0bftb20 [July 9, 2008]
+  Movfd sfvfrbl PNG_HAVE_* mbdros from pngpriv.i to png.i bfdbusf bpplidbtions
+    dblling sft_unknown_diunk_lodbtion() nffd tifm.
+  Movfd sfvfrbl mbdro dffinitions from pngpriv.i to pngdonf.i
+  Mfrgf witi dibngfs to tif 1.2.X brbndi, bs of 1.2.30bftb04.
+  Dflftfd bll usf of tif MMX bssfmblfr dodf bnd Intfl-lidfnsfd optimizbtions.
+  Rfvisfd mbkffilf.mingw
+
+Vfrsion 1.4.0bftb21 [July 21, 2008]
+  Movfd lodbl brrby "diunkdbtb" from pngrutil.d to tif png_strudt, so
+    it will bf frffd by png_rfbd_dfstroy() in dbsf of b rfbd frror (Kurt
+    Ciristfnsfn).
+
+Vfrsion 1.4.0bftb22 [July 21, 2008]
+  Cibngf "purposf" bnd "bufffr" to png_ptr->diunkdbtb to bvoid mfmory lfbking.
+
+Vfrsion 1.4.0bftb23 [July 22, 2008]
+  Cibngf "diunkdbtb = NULL" to "png_ptr->diunkdbtb = NULL" sfvfrbl plbdfs in
+    png_dfdomprfss_diunk().
+
+Vfrsion 1.4.0bftb24 [July 25, 2008]
+  Cibngf bll rfmbining "diunkdbtb" to "png_ptr->diunkdbtb" in
+    png_dfdomprfss_diunk(), bnd rfmovf "diunkdbtb" from pbrbmftfr list.
+  Put b dbll to png_difdk_diunk_nbmf() in png_rfbd_diunk_ifbdfr().
+  Rfvisfd png_difdk_diunk_nbmf() to rfjfdt b nbmf witi b lowfrdbsf 3rd bytf.
+  Rfmovfd two dblls to png_difdk_diunk_nbmf() oddurring lbtfr in tif prodfss.
+  Dffinf PNG_NO_ERROR_NUMBERS by dffbult in pngdonf.i
+
+Vfrsion 1.4.0bftb25 [July 30, 2008]
+  Addfd b dbll to png_difdk_diunk_nbmf() in pngprfbd.d
+  Rfvfrtfd png_difdk_diunk_nbmf() to bddfpt b nbmf witi b lowfrdbsf 3rd bytf.
+  Addfd png_pusi_ibvf_bufffr() fundtion to pngprfbd.d
+  Eliminbtfd PNG_BIG_ENDIAN_SUPPORTED bnd bssodibtfd png_gft_* mbdros.
+  Mbdf inlinf fxpbnsion of png_gft_*() optionbl witi PNG_USE_READ_MACROS.
+  Eliminbtfd bll PNG_USELESS_TESTS bnd PNG_CORRECT_PALETTE_SUPPORTED dodf.
+  Syndfd dontrib dirfdtory bnd donfigurf filfs witi libpng-1.2.30bftb06.
+  Eliminbtfd no-longfr-usfd pngdffs.i (but it's still built in tif mbkffilfs)
+  Rflodbtfd b misplbdfd "#fndif /* PNG_NO_WRITE_FILTER */" in pngwutil.d
+
+Vfrsion 1.4.0bftb26 [August 4, 2008]
+  Rfmovfd png_pusi_ibvf_bufffr() fundtion in pngprfbd.d.  It indrfbsfd tif
+    dompilfd librbry sizf sligitly.
+  Cibngfd "-Wbll" to "-W -Wbll" in tif CFLAGS in bll mbkffilfs (Cosmin Trutb)
+  Dfdlbrfd png_ptr "volbtilf" in pngrfbd.d bnd pngwritf.d to bvoid wbrnings.
+  Updbtfd dontrib/visupng/dfxdfpt.i to vfrsion 2.0.1
+  Addfd PNG_LITERAL_CHARACTER mbdros for #, [, bnd ].
+
+Vfrsion 1.4.0bftb27 [August 5, 2008]
+  Rfvisfd usbgf of PNG_LITERAL_SHARP in pngfrror.d.
+  Movfd nfwlinf dibrbdtfr from individubl png_dfbug mfssbgfs into tif
+    png_dfbug mbdros.
+  Allow usfr to #dffinf tifir own png_dfbug, png_dfbug1, bnd png_dfbug2.
+
+Vfrsion 1.4.0bftb28 [August 5, 2008]
+  Rfvisfd usbgf of PNG_LITERAL_SHARP in pngfrror.d.
+  Addfd PNG_STRING_NEWLINE mbdro
+
+Vfrsion 1.4.0bftb29 [August 9, 2008]
+  Rfvisfd usbgf of PNG_STRING_NEWLINE to work on non-ISO dompilfrs.
+  Addfd PNG_STRING_COPYRIGHT mbdro.
+  Addfd non-ISO vfrsions of png_dfbug mbdros.
+
+Vfrsion 1.4.0bftb30 [August 14, 2008]
+  Addfd prfmultiplifd blpib ffbturf (Volkfr Wifndl).
+
+Vfrsion 1.4.0bftb31 [August 18, 2008]
+  Movfd png_sft_prfmultiply_blpib from pngtrbns.d to pngrtrbn.d
+  Rfmovfd fxtrb drd difdk bt tif fnd of png_ibndlf_dHRM().  Bug introdudfd
+    in libpng-1.4.0bftb20.
+
+Vfrsion 1.4.0bftb32 [August 19, 2008]
+  Addfd PNG_WRITE_FLUSH_SUPPORTED blodk bround nfw png_flusi() dbll.
+  Rfvisfd PNG_NO_STDIO vfrsion of png_writf_flusi()
+
+Vfrsion 1.4.0bftb33 [August 20, 2008]
+  Addfd png_gft|sft_diunk_dbdif_mbx() to limit tif totbl numbfr of sPLT,
+    tfxt, bnd unknown diunks tibt dbn bf storfd.
+
+Vfrsion 1.4.0bftb34 [Sfptfmbfr 6, 2008]
+  Siortfnfd tIME_string to 29 bytfs in pngtfst.d
+  Fixfd off-by-onf frror introdudfd in png_pusi_rfbd_zTXt() fundtion in
+    libpng-1.2.30bftb04/pngprfbd.d (Hbrbld vbn Dijk)
+
+Vfrsion 1.4.0bftb35 [Odtobfr 6, 2008]
+  Cibngfd "trbns_vblufs" to "trbns_dolor".
+  Cibngfd so-numbfr from 0 to 14.  Somf OS do not likf 0.
+  Rfvisfd mbkffilf.dbrwin to fix sibrfd librbry numbfring.
+  Cibngf png_sft_grby_1_2_4_to_8() to png_sft_fxpbnd_grby_1_2_4_to_8()
+    in fxbmplf.d (dfbibn bug rfport)
+
+Vfrsion 1.4.0bftb36 [Odtobfr 25, 2008]
+  Synd witi tEXt vulnfrbbility fix in libpng-1.2.33rd02.
+
+Vfrsion 1.4.0bftb37 [Novfmbfr 13, 2008]
+  Addfd png_difdk_dHRM in png.d bnd movfd difdking from pnggft.d, pngrutil.d,
+    bnd pngwritf.d
+
+Vfrsion 1.4.0bftb38 [Novfmbfr 22, 2008]
+  Addfd difdk for zfro-brfb RGB dHRM tribnglf in png_difdk_dHRM() bnd
+    png_difdk_dHRM_fixfd().
+
+Vfrsion 1.4.0bftb39 [Novfmbfr 23, 2008]
+  Rfvisfd png_wbrning() to writf its mfssbgf on stbndbrd output by dffbult
+    wifn wbrning_fn is NULL.
+
+Vfrsion 1.4.0bftb40 [Novfmbfr 24, 2008]
+  Eliminbtfd png_difdk_dHRM().  Instfbd, blwbys usf png_difdk_dHRM_fixfd().
+  In png_difdk_dHRM_fixfd(), fnsurf wiitf_y is > 0, bnd rfmovfd rfdundbnt
+    difdk for bll-zfro doordinbtfs tibt is dftfdtfd by tif tribnglf difdk.
+
+Vfrsion 1.4.0bftb41 [Novfmbfr 26, 2008]
+  Fixfd string vs pointfr-to-string frror in png_difdk_kfyword().
+  Rfbrrbngfd tfst fxprfssions in png_difdk_dHRM_fixfd() to bvoid intfrnbl
+    ovfrflows.
+  Addfd PNG_NO_CHECK_dHRM donditionbl.
+
+Vfrsion 1.4.0bftb42, 43 [Dfdfmbfr 1, 2008]
+  Mfrgf png_dfbug witi vfrsion 1.2.34bftb04.
+
+Vfrsion 1.4.0bftb44 [Dfdfmbfr 6, 2008]
+  Rfmovfd rfdundbnt difdk for kfy==NULL bfforf dblling png_difdk_kfyword()
+    to fnsurf tibt nfw_kfy gfts initiblizfd bnd rfmovfd fxtrb wbrning
+    (Mfrgf witi vfrsion 1.2.34bftb05 -- Arvbn Pritdibrd).
+
+Vfrsion 1.4.0bftb45 [Dfdfmbfr 9, 2008]
+  In png_writf_png(), rfspfdt tif plbdfmfnt of tif fillfr bytfs in bn fbrlifr
+    dbll to png_sft_fillfr() (Jim Bbrry).
+
+Vfrsion 1.4.0bftb46 [Dfdfmbfr 10, 2008]
+  Undid prfvious dibngf bnd bddfd PNG_TRANSFORM_STRIP_FILLER_BEFORE bnd
+    PNG_TRANSFORM_STRIP_FILLER_AFTER donditionbls bnd dfprfdbtfd
+    PNG_TRANSFORM_STRIP_FILLER (Jim Bbrry).
+
+Vfrsion 1.4.0bftb47 [Dfdfmbfr 15, 2008]
+  Support for ditifring wbs disbblfd by dffbult, bfdbusf it ibs nfvfr
+    bffn wfll tfstfd bnd dofsn't work vfry wfll.  Tif dodf ibs not
+    bffn rfmovfd, iowfvfr, bnd dbn bf fnbblfd by building libpng witi
+    PNG_READ_DITHER_SUPPORTED dffinfd.
+
+Vfrsion 1.4.0bftb48 [Ffbrubry 14, 2009]
+  Addfd nfw fxportfd fundtion png_dbllod().
+  Combinfd sfvfrbl instbndfs of png_mbllod(); png_mfmsft() into png_dbllod().
+  Rfmovfd prototypf for png_frffptr() tibt wbs bddfd in libpng-1.4.0bftb24
+    but wbs nfvfr dffinfd.
+
+Vfrsion 1.4.0bftb49 [Ffbrubry 28, 2009]
+  Addfd png_filfno() mbdro to pngdonf.i, usfd in pngwio.d
+  Corrfdtfd ordfr of #ifdff's in png_dfbug dffinition in png.i
+  Fixfd bug introdudfd in libpng-1.4.0bftb48 witi tif mfmsft brgumfnts
+    for pdbl_pbrbms.
+  Fixfd ordfr of #ifdff dirfdtivfs in tif png_dfbug dffinfs in png.i
+    (bug introdudfd in libpng-1.2.34/1.4.0bftb29).
+  Rfvisfd dommfnts in png_sft_rfbd_fn() bnd png_sft_writf_fn().
+
+Vfrsion 1.4.0bftb50 [Mbrdi 18, 2009]
+  Usf png_dbllod() instfbd of png_mbllod() to bllodbtf big_row_buf wifn
+    rfbding bn intfrlbdfd filf, to bvoid b possiblf UMR.
+  Undid rfvision of PNG_NO_STDIO vfrsion of png_writf_flusi().  Usfrs
+    ibving troublf witi fflusi() dbn build witi PNG_NO_WRITE_FLUSH dffinfd
+    or supply tifir own flusi_fn() rfplbdfmfnt.
+  Rfvisfd libpng*.txt bnd png.i dodumfntbtion bbout usf of png_writf_flusi()
+    bnd png_sft_writf_fn().
+  Rfmovfd fflusi() from pngtfst.d.
+  Addfd "#dffinf PNG_NO_WRITE_FLUSH" to dontrib/pngminim/fndodfr/pngusr.i
+
+Vfrsion 1.4.0bftb51 [Mbrdi 21, 2009]
+  Rfmovfd nfw png_filfno() mbdro from pngdonf.i .
+
+Vfrsion 1.4.0bftb52 [Mbrdi 27, 2009]
+  Rflodbtfd png_do_diop() bifbd of building gbmmb tbblfs in pngrtrbn.d
+    Tiis bvoids building 16-bit gbmmb tbblfs unnfdfssbrily.
+  Rfmovfd fflusi() from pngtfst.d.
+  Addfd "#dffinf PNG_NO_WRITE_FLUSH" to dontrib/pngminim/fndodfr/pngusr.i
+  Addfd b sfdtion on difffrfndfs bftwffn 1.0.x bnd 1.2.x to libpng.3/libpng.txt
+
+Vfrsion 1.4.0bftb53 [April 1, 2009]
+  Rfmovfd somf rfmbining MMX mbdros from pngpriv.i
+  Fixfd potfntibl mfmory lfbk of "nfw_nbmf" in png_writf_iCCP() (Rblpi Gilfs)
+
+Vfrsion 1.4.0bftb54 [April 13, 2009]
+  Addfd "ifndff PNG_SKIP_SETJMP_CHECK" blodk in pngdonf.i to bllow
+    bpplidbtion dodf writfrs to bypbss tif difdk for multiplf indlusion
+    of sftjmp.i wifn tify know tibt it is sbff to ignorf tif situbtion.
+  Eliminbtfd intfrnbl usf of sftjmp() in pngrfbd.d bnd pngwritf.d
+  Rfordfrfd bndillbry diunks in pngtfst.png to bf tif sbmf bs wibt
+    pngtfst now produdfs, bnd mbdf somf dosmftid dibngfs to pngtfst output.
+  Eliminbtfd dfprfdbtfd png_rfbd_init_3() bnd png_writf_init_3() fundtions.
+
+Vfrsion 1.4.0bftb55 [April 15, 2009]
+  Simplififd frror ibndling in pngrfbd.d bnd pngwritf.d by putting
+    tif nfw png_rfbd_dlfbnup() bnd png_writf_dlfbnup() fundtions inlinf.
+
+Vfrsion 1.4.0bftb56 [April 25, 2009]
+  Rfnbmfd "usfr_diunk_dbtb" to "my_usfr_diunk_dbtb" in pngtfst.d to supprfss
+    "sibdowfd dfdlbrbtion" wbrning from gdd-4.3.3.
+  Rfnbmfd "gbmmb" to "png_gbmmb" in pngsft.d to bvoid "sibdowfd dfdlbrbtion"
+    wbrning bbout b globbl "gbmmb" vbribblf in mbti.i on somf plbtforms.
+
+Vfrsion 1.4.0bftb57 [Mby 2, 2009]
+  Rfmovfd prototypf for png_frffptr() tibt wbs bddfd in libpng-1.4.0bftb24
+    but wbs nfvfr dffinfd (bgbin).
+  Rfbuilt donfigurf sdripts witi butodonf-2.63 instfbd of 2.62
+  Rfmovfd pngprffs.i bnd MMX from mbkffilfs
+
+Vfrsion 1.4.0bftb58 [Mby 14, 2009]
+  Cibngfd pngw32.dff to pngwin.dff in mbkffilf.mingw (typo wbs introdudfd
+    in bftb57).
+  Clbrififd usbgf of sig_bit vfrsus sig_bit_p in fxbmplf.d (Vindfnt Torri)
+
+Vfrsion 1.4.0bftb59 [Mby 15, 2009]
+  Rfformbtfd sourdfs in libpng stylf (3-spbdf intfntbtion, dommfnt formbt)
+  Fixfd typo in libpng dods (PNG_FILTER_AVE siould bf PNG_FILTER_AVG)
+  Addfd sfdtions bbout tif git rfpository bnd our doding stylf to tif
+    dodumfntbtion
+  Rflodbtfd misplbdfd #fndif in pngwritf.d, sCAL diunk ibndlfr.
+
+Vfrsion 1.4.0bftb60 [Mby 19, 2009]
+  Conditionblly dompilf png_rfbd_finisi_row() wiidi is not usfd by
+    progrfssivf rfbdfrs.
+  Addfd dontrib/pngminim/prfbdfr to dfmonstrbtf building minimbl progrfssivf
+    dfdodfr, bbsfd on dontrib/grfgbook witi fmbfddfd libpng bnd zlib.
+
+Vfrsion 1.4.0bftb61 [Mby 20, 2009]
+  In dontrib/pngminim/*, rfnbmfd "mbkffilf.std" to "mbkffilf", sindf tifrf
+    is only onf mbkffilf in tiosf dirfdtorifs, bnd rfvisfd tif README filfs
+    bddordingly.
+  Morf rfformbtting of dommfnts, mostly to dbpitblizf sfntfndfs.
+
+Vfrsion 1.4.0bftb62 [Junf 2, 2009]
+  Addfd "#dffinf PNG_NO_WRITE_SWAP" to dontrib/pngminim/fndodfr/pngusr.i
+    bnd "dffinf PNG_NO_READ_SWAP" to dfdodfr/pngusr.i bnd prfbdfr/pngusr.i
+  Rfformbttfd sfvfrbl rfmbining "flsf stbtfmfnt" into two linfs.
+  Addfd b sfdtion to tif libpng dodumfntbtion bbout using png_gft_io_ptr()
+    in donfigurf sdripts to dftfdt tif prfsfndf of libpng.
+
+Vfrsion 1.4.0bftb63 [Junf 15, 2009]
+  Rfvisfd libpng*.txt bnd libpng.3 to mfntion dblling png_sft_IHDR()
+    multiplf timfs bnd to spfdify tif sbmplf ordfr in tif tRNS diunk,
+    bfdbusf tif ISO PNG spfdifidbtion ibs b typo in tif tRNS tbblf.
+  Cibngfd sfvfrbl PNG_UNKNOWN_CHUNK_SUPPORTED to
+    PNG_HANDLE_AS_UNKNOWN_SUPPORTED, to mbkf tif png_sft_kffp mfdibnism
+    bvbilbblf for ignoring known diunks fvfn wifn not sbving unknown diunks.
+  Adoptfd prfffrfndf for donsistfnt usf of "#ifdff" bnd "#ifndff" vfrsus
+    "#if dffinfd()" bnd "if !dffinfd()" wifrf possiblf.
+
+Vfrsion 1.4.0bftb64 [Junf 24, 2009]
+  Eliminbtfd PNG_LEGACY_SUPPORTED dodf.
+  Movfd tif vbrious unknown diunk mbdro dffinitions outsidf of tif
+     PNG_READ|WRITE_ANCILLARY_CHUNK_SUPPORTED blodks.
+
+Vfrsion 1.4.0bftb65 [Junf 26, 2009]
+  Addfd b rfffrfndf to tif libpng lidfnsf in fbdi filf.
+
+Vfrsion 1.4.0bftb66 [Junf 27, 2009]
+  Rfffr to tif libpng lidfnsf instfbd of tif libpng lidfnsf in fbdi filf.
+
+Vfrsion 1.4.0bftb67 [July 6, 2009]
+  Rflodbtfd INVERT_ALPHA witiin png_rfbd_png() bnd png_writf_png().
+  Addfd iigi-lfvfl API trbnsform PNG_TRANSFORM_GRAY_TO_RGB.
+  Addfd bn "xdodf" projfdt to tif projfdts dirfdtory (Albm Aribs).
+
+Vfrsion 1.4.0bftb68 [July 19, 2009]
+  Avoid somf tfsts in filtfr sflfdtion in pngwutil.d
+
+Vfrsion 1.4.0bftb69 [July 25, 2009]
+  Simplififd tif nfw filtfr-sflfdtion tfst.  Tiis runs fbstfr in tif
+    dommon "PNG_ALL_FILTERS" bnd PNG_FILTER_NONE dbsfs.
+  Rfmovfd fxtrbnfous dfdlbrbtion from tif nfw dbll to png_rfbd_grby_to_rgb()
+    (bug introdudfd in libpng-1.4.0bftb67).
+  Fixfd up xdodf projfdt (Albm Aribs)
+  Addfd b prototypf for png_64bit_produdt() in png.d
+
+Vfrsion 1.4.0bftb70 [July 27, 2009]
+  Avoid b possiblf NULL dfrfffrfndf in dfbug build, in png_sft_tfxt_2().
+    (bug introdudfd in libpng-0.95, disdovfrfd by Evbn Roubult)
+
+Vfrsion 1.4.0bftb71 [July 29, 2009]
+  Rfbuilt donfigurf sdripts witi butodonf-2.64.
+
+Vfrsion 1.4.0bftb72 [August 1, 2009]
+  Rfplbdfd *.tbr.lzmb witi *.tbr.xz in distribution.  Gft tif xz dodfd
+    from <ittp://tukbbni.org/xz>.
+
+Vfrsion 1.4.0bftb73 [August 1, 2009]
+  Rfjfdt bttfmpt to writf iCCP diunk witi nfgbtivf fmbfddfd profilf lfngti
+    (JD Cifn)
+
+Vfrsion 1.4.0bftb74 [August 8, 2009]
+  Cibngfd png_ptr bnd info_ptr mfmbfr "trbns" to "trbns_blpib".
+
+Vfrsion 1.4.0bftb75 [August 21, 2009]
+  Rfmovfd bn fxtrb png_dfbug() rfdfntly bddfd to png_writf_find_filtfr().
+  Fixfd indorrfdt #ifdff in pngsft.d rfgbrding unknown diunk support.
+
+Vfrsion 1.4.0bftb76 [August 22, 2009]
+  Movfd bn indorrfdtly lodbtfd tfst in png_rfbd_row() in pngrfbd.d
+
+Vfrsion 1.4.0bftb77 [August 27, 2009]
+  Rfmovfd lpXYZ.tbr.bz2 (witi CRLF), KNOWNBUG, libpng-x.y.z-KNOWNBUG.txt,
+    bnd tif "nodonfig" filfs from tif distribution.
+  Movfd CMbkfLists.txt from sdripts into tif mbin libpng dirfdtory.
+  Vbrious bugfixfs bnd improvfmfnts to CMbkfLists.txt (Piilip Lowmbn)
+
+Vfrsion 1.4.0bftb78 [August 31, 2009]
+  Convfrtfd bll PNG_NO_* tfsts to PNG_*_SUPPORTED fvfrywifrf fxdfpt pngdonf.i
+  Eliminbtfd PNG_NO_FREE_ME bnd PNG_FREE_ME_SUPPORTED mbdros.
+  Usf png_mbllod plus b loop instfbd of png_dbllod() to initiblizf
+    row_pointfrs in png_rfbd_png().
+
+Vfrsion 1.4.0bftb79 [Sfptfmbfr 1, 2009]
+  Eliminbtfd PNG_GLOBAL_ARRAYS bnd PNG_LOCAL_ARRAYS; blwbys usf lodbl brrbys.
+  Eliminbtfd PNG_CALLOC_SUPPORTED mbdro bnd blwbys providf png_dbllod().
+
+Vfrsion 1.4.0bftb80 [Sfptfmbfr 17, 2009]
+  Rfmovfd sdripts/libpng.idd
+  Cibngfd typfdbst of fillfr from png_bytf to png_uint_16 in png_sft_fillfr().
+    (Dfnnis Gustbfsson)
+  Fixfd typo introdudfd in bftb78 in pngtfst.d ("#if dff " siould bf "#ifdff ")
+
+Vfrsion 1.4.0bftb81 [Sfptfmbfr 23, 2009]
+  Eliminbtfd unusfd PNG_FLAG_FREE_* dffinfs from pngpriv.i
+  Expbndfd TAB dibrbdtfrs in pngrtrbn.d
+  Rfmovfd PNG_CONST from bll "PNG_CONST PNG_CHNK" dfdlbrbtions to bvoid
+    dompilfr domplbints bbout doubly dfdlbring tiings "donst".
+  Cibngfd bll "#if [!]dffinfd(X)" to "if[n]dff X" wifrf possiblf.
+  Eliminbtfd unusfd png_ptr->row_buf_sizf
+
+Vfrsion 1.4.0bftb82 [Sfptfmbfr 25, 2009]
+  Movfd rfdundbnt IHDR difdking into nfw png_difdk_IHDR() in png.d
+    bnd rfport bll frrors found in tif IHDR dbtb.
+  Eliminbtfd usflfss dbll to png_difdk_dHRM() from pngsft.d
+
+Vfrsion 1.4.0bftb83 [Sfptfmbfr 25, 2009]
+  Rfvisfd png_difdk_IHDR() to fliminbtf bogus domplbint bbout filtfr_typf.
+
+Vfrsion 1.4.0bftb84 [Sfptfmbfr 30, 2009]
+  Fixfd somf indonsistfnt indfntbtion in pngdonf.i
+  Rfvisfd png_difdk_IHDR() to bdd b tfst for widti vbribblf lfss tibn 32-bit.
+
+Vfrsion 1.4.0bftb85 [Odtobfr 1, 2009]
+  Rfvisfd png_difdk_IHDR() bgbin, to difdk info_ptr mfmbfrs instfbd of
+    tif dontfnts of tif rfturnfd pbrbmftfrs.
+
+Vfrsion 1.4.0bftb86 [Odtobfr 9, 2009]
+  Updbtfd tif "xdodf" projfdt (Albm Aribs).
+  Eliminbtfd b sibdowfd dfdlbrbtion of "pp" in png_ibndlf_sPLT().
+
+Vfrsion 1.4.0rd01 [Odtobfr 19, 2009]
+  Trivibl dosmftid dibngfs.
+
+Vfrsion 1.4.0bftb87 [Odtobfr 30, 2009]
+  Movfd vfrsion 1.4.0 bbdk into bftb.
+
+Vfrsion 1.4.0bftb88 [Odtobfr 30, 2009]
+  Rfvisfd libpng*.txt sfdtion bbout difffrfndfs bftwffn 1.2.x bnd 1.4.0
+    bfdbusf most of tif nfw ffbturfs ibvf now bffn portfd bbdk to 1.2.41
+
+Vfrsion 1.4.0bftb89 [Novfmbfr 1, 2009]
+  Morf bugfixfs bnd improvfmfnts to CMbkfLists.txt (Piilip Lowmbn)
+  Rfmovfd b ibrmlfss fxtrb png_sft_invfrt_blpib() from pngwritf.d
+  Apply png_usfr_diunk_dbdif_mbx witiin png_dfdomprfss_diunk().
+  Mfrgfd libpng-1.2.41.txt witi libpng-1.4.0.txt wifrf bppropribtf.
+
+Vfrsion 1.4.0bftb90 [Novfmbfr 2, 2009]
+  Rfmovfd bll rfmbining WIN32_WCE #ifdffs fxdfpt tiosf involving tif
+    timf.i "tm" strudturf
+
+Vfrsion 1.4.0bftb91 [Novfmbfr 3, 2009]
+  Updbtfd sdripts/pngw32.dff bnd projfdts/windf/png32df.dff
+  Copifd projfdts/windf/png32df.dff to tif sdripts dirfdtory.
+  Addfd sdripts/mbkffilf.wdf
+  Pbtdifd ltmbin.si for windf support.
+  Addfd PNG_CONVERT_tIME_SUPPORTED mbdro.
+
+Vfrsion 1.4.0bftb92 [Novfmbfr 4, 2009]
+  Mbkf indlusion of timf.i in pngdonf.i dfpfnd on PNG_CONVERT_tIME_SUPPORTED
+  Mbkf #dffinf PNG_CONVERT_tIME_SUPPORTED dfpfnd on PNG_WRITE_tIME_SUPPORTED
+  Rfvisfd libpng*.txt to dfsdribf difffrfndfs from 1.2.40 to 1.4.0 (instfbd
+    of difffrfndfs from 1.2.41 to 1.4.0)
+
+Vfrsion 1.4.0bftb93 [Novfmbfr 7, 2009]
+  Addfd PNG_DEPSTRUCT, PNG_DEPRECATED, PNG_USE_RESULT, PNG_NORETURN, bnd
+    PNG_ALLOCATED mbdros to dftfdt dfprfdbtfd dirfdt bddfss to tif
+    png_strudt or info_strudt mfmbfrs bnd otifr dfprfdbtfd usbgf in
+    bpplidbtions (Join Bowlfr).
+  Updbtfd sdripts/mbkffilf* to bdd "-DPNG_CONFIGURE_LIBPNG" to CFLAGS,
+    to prfvfnt wbrnings bbout dirfdt bddfss to png strudts by libpng
+    fundtions wiilf building libpng.  Tify nffd to bf tfstfd, fspfdiblly
+    tiosf using dompilfrs otifr tibn gdd.
+  Updbtfd projfdts/visubld6 bnd visubld71 witi "/d PNG_CONFIGURE_LIBPNG".
+    Tify siould work but still nffd to bf updbtfd to rfmovf
+    rfffrfndfs to pnggddrd.d or pngvdrd.d bnd ASM building.
+  Addfd README.txt to tif bfos, dbuildfr5, nftwbrf, bnd xdodf projfdts wbrning
+    tibt tify nffd to bf updbtfd, to rfmovf rfffrfndfs to pnggddrd.d bnd
+    pngvdrd.d bnd to dfpfnd on pngpriv.i
+  Rfmovfd tirff dirfdt rfffrfndfs to rfbd_info_ptr mfmbfrs in pngtfst.d
+    tibt wfrf dftfdtfd by tif nfw PNG_DEPSTRUCT mbdro.
+  Movfd tif png_dfbug mbdro dffinitions bnd tif png_rfbd_dfstroy(),
+    png_writf_dfstroy() bnd png_fbr_to_nfbr() prototypfs from png.i
+    to pngpriv.i (Join Bowlfr)
+  Movfd tif synopsis linfs for png_rfbd_dfstroy(), png_writf_dfstroy()
+    png_dfbug(), png_dfbug1(), bnd png_dfbug2() from libpng.3 to libpngpf.3.
+
+Vfrsion 1.4.0bftb94 [Novfmbfr 9, 2009]
+  Rfmovfd tif obsolftf, unusfd pnggddrd.d bnd pngvdrd.d filfs.
+  Updbtfd CMbkfLists.txt to bdd "-DPNG_CONFIGURE_LIBPNG" to tif dffinitions.
+  Rfmovfd dfpfndfndy of pngtfst.o on pngpriv.i in tif mbkffilfs.
+  Only #dffinf PNG_DEPSTRUCT, ftd. in pngdonf.i if not blrfbdy dffinfd.
+
+Vfrsion 1.4.0bftb95 [Novfmbfr 10, 2009]
+  Cibngfd png_difdk_sig() to !png_sig_dmp() in dontrib progrbms.
+  Addfd -DPNG_CONFIGURE_LIBPNG to dontrib/pngminm/*/mbkffilf
+  Cibngfd png_difdk_sig() to !png_sig_dmp() in dontrib progrbms.
+  Corrfdtfd tif png_gft_IHDR() dbll in dontrib/grfgbook/rfbdpng2.d
+  Cibngfd pngminim/*/gbtifr.si to stop trying to rfmovf pnggddrd.d bnd pngvdrd.d
+  Addfd dfpfndfndy on pngpriv.i in dontrib/pngminim/*/mbkffilf
+
+Vfrsion 1.4.0bftb96 [Novfmbfr 12, 2009]
+  Rfnbmfd sdripts/mbkffilf.wdf to sdripts/mbkffilf.dfgdd
+  Rfvisfd Mbkffilf.bm to usf libpng.sys wiilf building libpng.so
+    so tibt only PNG_EXPORT fundtions brf fxportfd.
+  Rfmovfd tif dfprfdbtfd png_difdk_sig() fundtion/mbdro.
+  Rfmovfd rfdfntly rfmovfd fundtion nbmfs from sdripts/*.dff
+  Rfvisfd pngtfst.png to put diunks in tif sbmf ordfr writtfn by pngtfst
+    (fvidfntly tif sbmf dibngf mbdf in libpng-1.0bftb54 wbs lost).
+  Addfd PNG_PRIVATE mbdro dffinition in pngdonf.i for possiblf futurf usf.
+
+Vfrsion 1.4.0bftb97 [Novfmbfr 13, 2009]
+  Rfstorfd pngtfst.png to tif libpng-1.4.0bftb7 vfrsion.
+  Rfmovfd projfdts/bfos bnd nftwbrf.txt; no onf sffms to bf supporting tifm.
+  Rfvisfd Mbkffilf.in
+
+Vfrsion 1.4.0bftb98 [Novfmbfr 13, 2009]
+  Addfd tif "xdodf" projfdt to zip distributions,
+  Fixfd b typo in sdripts/pngwin.dff introdudfd in bftb97.
+
+Vfrsion 1.4.0bftb99 [Novfmbfr 14, 2009]
+  Movfd libpng-donfig.in bnd libpng.pd-donfigurf.in out of tif sdripts
+    dirfdtory, to libpng-donfig.in bnd libpng-pd.in, rfspfdtivfly, bnd
+    modififd Mbkffilf.bm bnd donfigurf.bd bddordingly.  Now "donfigurf"
+    nffds notiing from tif "sdripts" dirfdtory.
+  Avoid rfdffining PNG_CONST in pngdonf.i
+
+Vfrsion 1.4.0bftb100 [Novfmbfr 14, 2009]
+  Rfmovfd ASM builds from projfdts/visubld6 bnd projfdts/visubld71
+  Rfmovfd sdripts/mbkffilf.nommx bnd mbkffilf.vdbwin32
+  Rfvisfd CMbkfLists.txt to bddount for nfw lodbtion of libpng-donfig.in
+    bnd libpng-pd.in
+  Updbtfd INSTALL to rfflfdt rfmovbl bnd rflodbtion of filfs.
+
+Vfrsion 1.4.0bftb101 [Novfmbfr 14, 2009]
+  Rfstorfd tif binbry filfs (*.jpg, *.png, somf projfdt filfs) tibt wfrf
+    bddidfntblly dflftfd from tif zip bnd 7z distributions wifn tif xdodf
+    projfdt wbs bddfd.
+
+Vfrsion 1.4.0bftb102 [Novfmbfr 18, 2009]
+  Addfd libpng-donfig.in bnd libpng-pd.in to tif zip bnd 7z distributions.
+  Fixfd b typo in projfdts/visubld6/pngtfst.dsp, introdudfd in bftb100.
+  Movfd dfsdriptions of mbkffilfs bnd otifr sdripts out of INSTALL into
+    sdripts/README.txt
+  Updbtfd tif dopyrigit yfbr in sdripts/pngwin.rd from 2006 to 2009.
+
+Vfrsion 1.4.0bftb103 [Novfmbfr 21, 2009]
+  Rfmovfd obsolftf dommfnts bbout ASM from projfdts/visubld71/README_zlib.txt
+  Align row_buf on 16-bytf boundbry in mfmory.
+  Rfstorfd tif PNG_WRITE_FLUSH_AFTER_IEND_SUPPORTED gubrd bround tif dbll
+    to png_flusi() bftfr png_writf_IEND().  Sff 1.4.0bftb32, 1.4.0bftb50
+    dibngfs bbovf bnd 1.2.30, 1.2.30rd01 bnd rd03 in 1.2.41 CHANGES.  Somfonf
+    nffds tiis ffbturf.
+  Mbkf tif 'png_jmpbuf' mbdro fxpbnd to b dbll tibt rfdords tif dorrfdt
+    longjmp fundtion bs wfll bs rfturning b pointfr to tif sftjmp
+    jmp_buf bufffr, bnd mbrkfd dirfdt bddfss to jmpbuf 'dfprfdbtfd'.
+    (Join Bowlfr)
+
+Vfrsion 1.4.0bftb104 [Novfmbfr 22, 2009]
+  Rfmovfd png_longjmp_ptr from sdripts/*.dff bnd libpng.3
+  Rfbuilt donfigurf sdripts witi butodonf-2.65
+
+Vfrsion 1.4.0bftb105 [Novfmbfr 25, 2009]
+  Usf fbst intfgfr PNG_DIVIDE_BY_255() or PNG_DIVIDE_BY_65535()
+    to bddomplisi blpib prfmultiplidbtion wifn
+    PNG_READ_COMPOSITE_NODIV_SUPPORTED is dffinfd.
+  Cibngfd "/255" to "/255.0" in bbdkground dbldulbtions to mbkf it dlfbr
+    tibt tif 255 is usfd bs b doublf.
+
+Vfrsion 1.4.0bftb106 [Novfmbfr 27, 2009]
+  Rfmovfd prfmultiplifd blpib ffbturf.
+
+Vfrsion 1.4.0bftb107 [Dfdfmbfr 4, 2009]
+  Updbtfd README
+  Addfd "#dffinf PNG_NO_PEDANTIC_WARNINGS" in tif libpng sourdf filfs.
+  Rfmovfd "-DPNG_CONFIGURE_LIBPNG" from tif mbkffilfs bnd projfdts.
+  Rfvisfd sdripts/mbkffilf.nftbsd, mbkffilf.opfnbsd, bnd mbkffilf.sdo
+    to put png.i bnd pngdonf.i in $prffix/indludf, likf tif otifr sdripts,
+    instfbd of in $prffix/indludf/libpng.  Also rfvisfd mbkffilf.sdo
+    to put tifm in $prffix/indludf/libpng15 instfbd of in
+    $prffix/indludf/libpng/libpng15.
+
+Vfrsion 1.4.0bftb108 [Dfdfmbfr 11, 2009]
+  Rfmovfd lfftovfr "-DPNG_CONFIGURE_LIBPNG" from dontrib/pngminim/*/mbkffilf
+  Rflodbtfd png_do_diop() to its originbl position in pngrtrbn.d; tif
+    dibngf in vfrsion 1.2.41bftb08 dbusfd trbnspbrfndy to bf ibndlfd wrong
+    in somf 16-bit dbtbstrfbms (Yusbku Sugbi).
+
+Vfrsion 1.4.0bftb109 [Dfdfmbfr 13, 2009]
+  Addfd "bit_dfpti" pbrbmftfr to tif privbtf png_build_gbmmb_tbblf() fundtion.
+  Pbss bit_dfpti=8 to png_build_gbmmb_tbblf() wifn bit_dfpti is 16 but tif
+    PNG_16_TO_8 trbnsform ibs bffn sft, to bvoid unnfdfssbry build of 16-bit
+    tbblfs.
+
+Vfrsion 1.4.0rd02 [Dfdfmbfr 20, 2009]
+  Dfdlbrfd png_dlfbnup_nffdfd "volbtilf" in pngrfbd.d bnd pngwritf.d
+
+Vfrsion 1.4.0rd03 [Dfdfmbfr 22, 2009]
+  Rfnbmfd libpng-pd.in bbdk to libpng.pd.in bnd rfvisfd CMbkfLists.txt
+    (rfvising tif dibngf in 1.4.0bftb99)
+
+Vfrsion 1.4.0rd04 [Dfdfmbfr 25, 2009]
+  Swbppfd PNG_UNKNOWN_CHUNKS_SUPPORTED bnd PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+    in pngsft.d to bf donsistfnt witi otifr dibngfs in vfrsion 1.2.38.
+
+Vfrsion 1.4.0rd05 [Dfdfmbfr 25, 2009]
+  Cibngfd "libpng-pd.in" to "libpng.pd.in" in donfigurf.bd, donfigurf, bnd
+    Mbkffilf.in to bf donsistfnt witi dibngfs in libpng-1.4.0rd03
+
+Vfrsion 1.4.0rd06 [Dfdfmbfr 29, 2009]
+  Rfvfrtfd tif gbmmb_tbblf dibngfs from libpng-1.4.0bftb109.
+  Fixfd somf indfntbtion frrors.
+
+Vfrsion 1.4.0rd07 [Jbnubry 1, 2010]
+  Rfvisfd libpng*.txt bnd libpng.3 bbout 1.2.x->1.4.x difffrfndfs.
+  Usf png_dbllod() instfbd of png_mbllod(); png_mfmsft() in pngrutil.d
+  Updbtf dopyrigit yfbr to 2010.
+
+Vfrsion 1.4.0rd08 [Jbnubry 2, 2010]
+  Avoid dfprfdbtfd rfffrfndfs to png_ptr-io_ptr bnd png_ptr->frror_ptr
+    in pngtfst.d
+
+Vfrsion 1.4.0 [Jbnubry 3, 2010]
+  No dibngfs.
+
+Vfrsion 1.4.1bftb01 [Jbnubry 8, 2010]
+  Updbtfd CMbkfLists.txt for donsistfnt indfntbtion bnd to bvoid bn
+    undlosfd if-stbtfmfnt wbrning (Piilip Lowmbn).
+  Rfvisfd Mbkffilf.bm bnd Mbkffilf.in to rfmovf rfffrfndfs to Y2KINFO,
+    KNOWNBUG, bnd libpng.lb (Robfrt Sdiwfbfl).
+  Rfvisfd tif mbkffilfs to instbll tif sbmf filfs bnd symbolid
+    links bs donfigurf, fxdfpt for libpng.lb bnd libpng14.lb.
+  Mbkf png_sft|gft_domprfssion_bufffr_sizf() bvbilbblf fvfn wifn
+    PNG_WRITE_SUPPORTED is not fnbblfd.
+  Rfvisfd Mbkffilf.bm bnd Mbkffilf.in to simplify tifir mbintfnbndf.
+  Rfvisfd sdripts/mbkffilf.linux to instbll b link to libpng14.so.14.1
+
+Vfrsion 1.4.1bftb02 [Jbnubry 9, 2010]
+  Rfvisfd tif rfst of tif mbkffilfs to instbll b link to libpng14.so.14.1
+
+Vfrsion 1.4.1bftb03 [Jbnubry 10, 2010]
+  Rfmovfd png_sft_prfmultiply_blpib() from sdripts/*.dff
+
+Vfrsion 1.4.1rd01 [Jbnubry 16, 2010]
+  No dibngfs.
+
+Vfrsion 1.4.1bftb04 [Jbnubry 23, 2010]
+  Rfvisfd png_dfdomprfss_diunk() to improvf spffd bnd mfmory usbgf wifn
+    dfdoding lbrgf diunks.
+  Addfd png_sft|gft_diunk_mbllod_mbx() fundtions.
+
+Vfrsion 1.4.1bftb05 [Jbnubry 26, 2010]
+  Rflodbtfd "int k" dfdlbrbtion in pngtfst.d to minimizf its sdopf.
+
+Vfrsion 1.4.1bftb06 [Jbnubry 28, 2010]
+  Rfvisfd png_dfdomprfss_diunk() to usf b two-pbss mftiod suggfstfd by
+    Join Bowlfr.
+
+Vfrsion 1.4.1bftb07 [Ffbrubry 6, 2010]
+  Foldfd somf long linfs in tif sourdf filfs.
+  Addfd dffinfbblf PNG_USER_CHUNK_CACHE_MAX, PNG_USER_CHUNK_MALLOC_MAX,
+    bnd b PNG_USER_LIMITS_SUPPORTED flbg.
+  Eliminbtfd usf of png_ptr->irowbytfs bnd rfusfd tif slot in png_ptr bs
+    png_ptr->png_usfr_diunk_mbllod_mbx.
+  Rfvisfd png_pusi_sbvf_bufffr() to do ffwfr but lbrgfr png_mbllod() dblls.
+
+Vfrsion 1.4.1bftb08 [Ffbrubry 6, 2010]
+  Minor dlfbnup bnd updbting of dbtfs bnd dopyrigit yfbr.
+
+Vfrsion 1.5.0bftb01 [Ffbrubry 7, 2010]
+  Movfd dfdlbrbtion of png_strudt into privbtf pngstrudt.i bnd png_info
+    into pnginfo.i
+
+Vfrsion 1.4.1bftb09 bnd 1.5.0bftb02 [Ffbrubry 7, 2010]
+  Rfvfrtfd to originbl png_pusi_sbvf_bufffr() dodf.
+
+Vfrsion 1.4.1bftb10 bnd 1.5.0bftb03 [Ffbrubry 8, 2010]
+  Rfturn bllodbtfd "old_bufffr" in png_pusi_sbvf_bufffr() bfforf
+    dblling png_frror(), to bvoid b potfntibl mfmory lfbk.
+  Updbtfd donfigurf sdript to usf SO numbfr 15.
+
+Vfrsion 1.5.0bftb04 [Ffbrubry 9, 2010]
+  Rfmovfd mblformfd "indomplftf strudt dfdlbrbtion" of png_info from png.i
+
+Vfrsion 1.5.0bftb05 [Ffbrubry 12, 2010]
+  Rfmovfd PNG_DEPSTRUCT mbrkup in pngstrudt.i bnd pnginfo.i, bnd undid tif
+    linfwrbpping tibt it fntbilfd.
+  Rfvisfd dommfnts in pngstrudt.i bnd pnginfo.i bnd bddfd pointfrs to
+    tif libpng lidfnsf.
+  Cibngfd PNG_INTERNAL to PNG_EXPOSE_INTERNAL_STRUCTURES
+  Rfmovfd tif dbuildfr5 projfdt, wiidi ibs not bffn updbtfd to 1.4.0.
+
+Vfrsion 1.4.1bftb12 bnd 1.5.0bftb06 [Ffbrubry 14, 2010]
+  Fixfd typf dfdlbrbtion of png_gft_diunk_mbllod_mbx() in pnggft.d (Dbisukf
+    Nisiikbwb)
+
+Vfrsion 1.5.0bftb07 [omittfd]
+
+Vfrsion 1.5.0bftb08 [Ffbrubry 19, 2010]
+  Cibngfd #ifdff PNG_NO_STDIO_SUPPORTED to #ifdff PNG_NO_CONSOLE_IO_SUPPORTED
+    wifrfvfr png_snprintf() is usfd to donstrudt frror bnd wbrning mfssbgfs.
+  Notfd in sdripts/mbkffilf.mingw tibt it fxpfdts to bf run undfr MSYS.
+  Rfmovfd obsolftf unusfd MMX-qufrying support from dontrib/grfgbook
+  Addfd fxportfd png_longjmp() fundtion.
+  Rfmovfd tif AIX rfdffinition of jmpbuf in png.i
+  Addfd -D_ALLSOURCE in donfigurf.bd, mbkffilf.bix, bnd CMbkfLists.txt
+    wifn building on AIX.
+
+Vfrsion 1.5.0bftb09 [Ffbrubry 19, 2010]
+  Rfmovfd -D_ALLSOURCE from donfigurf.bd, mbkffilf.bix, bnd CMbkfLists.txt.
+  Cibngfd tif nbmf of png_ptr->jmpbuf to png_ptr->png_jmpbuf in pngstrudt.i
+
+Vfrsion 1.5.0bftb10 [Ffbrubry 25, 2010]
+  Rfmovfd unusfd gzio.d from dontrib/pngminim gbtifr bnd mbkffilf sdripts
+  Rfmovfd rfplbdfmfnt frror ibndlfrs from dontrib/grfgbook.  Bfdbusf of
+    tif nfw png_longjmp() fundtion tify brf no longfr nffdfd.
+
+Vfrsion 1.5.0bftb11 [Mbrdi 6, 2010]
+  Rfmovfd difdking for blrfbdy-indludfd sftjmp.i from pngdonf.i
+  Fixfd indonsistfnt indfntbtions bnd mbdf numfrous dosmftid dibngfs.
+  Rfvisfd tif "SEE ALSO" stylf of libpng.3, libpngpf.3, bnd png.5
+
+Vfrsion 1.5.0bftb12 [Mbrdi 9, 2010]
+  Movfd "#indludf png.i" insidf pngpriv.i bnd rfmovfd "#indludf png.i" from
+    tif sourdf filfs, blong witi "#dffinf PNG_EXPOSE_INTERNAL_STRUCTURES"
+    bnd "#dffinf PNG_NO_PEDANTIC_WARNINGS" (Join Bowlfr).
+  Crfbtfd nfw pngdfbug.i bnd movfd dfbug dffinitions tifrf.
+
+Vfrsion 1.5.0bftb13 [Mbrdi 10, 2010]
+  Protfdt pngstrudt.i, pnginfo.i, bnd pngdfbug.i from bfing indludfd twidf.
+  Rfvisf tif "#ifdff" blodks in png_inflbtf() so it will dompilf wifn nfitifr
+    PNG_USER_CHUNK_MALLOC_MAX nor PNG_SET_CHUNK_MALLOC_LIMIT_SUPPORTED
+    is dffinfd.
+  Rfmovfd unusfd png_mfbsurf_domprfssfd_diunk() from pngpriv.i bnd libpngpf.3
+  Movfd tif 'donfig.i' support from pngdonf.i to pngpriv.i
+  Rfmovfd PNGAPI from tif png_longjmp_ptr typfdff.
+  Eliminbtfd dfpfndfndf of pngtfst.d on tif privbtf pngdfbug.i filf.
+  Mbkf bll png_dfbug mbdros into *untfrminbtfd* stbtfmfnts or
+    fxprfssions (i.f. b trbiling ';' must blwbys bf bddfd) bnd dorrfdt
+    tif formbt stbtfmfnts in vbrious png_dfbug mfssbgfs.
+
+Vfrsion 1.5.0bftb14 [Mbrdi 14, 2010]
+  Rfmovfd dirfdt bddfss to png_ptr->io_ptr from tif Windows dodf in pngtfst.d
+  Rfvisfd Mbkffilf.bm to bddount for rfdfnt bdditions bnd rfplbdfmfnts.
+  Corrfdtfd CE bnd OS/2 DEF filfs (sdripts/png*dff) for symbols rfmovfd bnd
+    bddfd ordinbl numbfrs to tif Windows DEF filf bnd dorrfdtfd tif duplidbtfd
+    ordinbl numbfrs on CE symbols tibt brf dommfntfd out.
+  Addfd bbdk in fxport symbols tibt dbn bf prfsfnt in tif Windows build but
+    brf disbblfd by dffbult.
+  PNG_EXPORT dibngfd to indludf bn 'ordinbl' fifld for DEF filf gfnfrbtion.
+    PNG_CALLBACK bddfd to mbkf dbllbbdk dffinitions uniform.  PNGAPI split
+    into PNGCAPI (bbsf C form), PNGAPI (fxports) bnd PNGCBAPI (dbllbbdks),
+    bnd bppropribtf dibngfs mbdf to bll filfs.  Cygwin builds rf-iingfd to
+    bllow prodfdurf dbll stbndbrd dibngfs bnd to rfmovf tif nffd for tif DEF
+    filf (fixfs build on Cygwin).
+  Enbblfd 'bttributf' wbrnings tibt brf rflfvbnt to librbry APIs bnd dbllbbdks.
+  Cibngfd rulfs for gfnfrbtion of tif vbrious symbol filfs bnd bddfd b nfw
+    rulf for b DEF filf (wiidi is blso bddfd to tif distribution).
+  Updbtfd tif symbol filf gfnfrbtion to stop it bdding spurious spbdfs
+    to EOL (doming from prfprodfssor mbdro fxpbnsion).  Addfd b fbdility
+    to join tokfns in tif output bnd rfwritf *.dfn to usf tiis.
+  Eliminbtfd sdripts/*.dff in fbvor of libpng.dff; updbtfd projfdts/visubld71
+    bnd rfmovfd sdripts/mbkffilf.dygwin.
+  Mbdf PNG_BUILD_DLL sbff: it dbn bf sft wifnfvfr b DLL is bfing built.
+  Rfmovfd tif indludf of sys/typfs.i - bppbrfntly unnfdfssbry now on tif
+    plbtforms on wiidi it ibppfnfd (bll but Mbd OS bnd RISC OS).
+  Movfd tif Mbd OS tfst into pngpriv.i (tif only plbdf it is usfd.)
+
+Vfrsion 1.5.0bftb15 [Mbrdi 17, 2010]
+  Addfd symbols.dik tbrgft to Mbkffilf.bm to vblidbtf tif symbols in png.i
+    bgbinst tif nfw DEF filf sdripts/symbols.dff.
+  Cibngfd tif dffbult DEF filf bbdk to pngwin.dff.
+  Rfmovfd mbkffilf.mingw.
+  Eliminbtfd PNG_NO_EXTERN bnd PNG_ALL_EXTERN
+
+Vfrsion 1.5.0bftb16 [April 1, 2010]
+  Mbkf png_tfxt_strudt indfpfndfnt of PNG_iTXt_SUPPORTED, so tibt
+    fiflds brf initiblizfd in bll donfigurbtions.  Tif READ/WRITE
+    mbdros (PNG_(READ|WRITE)_iTXt_SUPPORTED) still fundtion bs
+    bfforf to disbblf dodf to bdtublly rfbd or writf iTXt diunks
+    bnd iTXt_SUPPORTED dbn bf usfd to dftfdt prfsfndf of fitifr
+    rfbd or writf support (but it is probbbly bfttfr to difdk for
+    tif onf bdtublly rfquirfd - rfbd or writf.)
+  Combinfd multiplf png_wbrning() dblls for b singlf frror.
+  Rfstorfd tif mbdro dffinition of png_difdk_sig().
+
+Vfrsion 1.5.0bftb17 [April 17, 2010]
+  Addfd somf "(long)" typfdbsts to printf dblls in png_ibndlf_dHRM().
+  Dodumfntfd tif fbdt tibt png_sft_ditifr() wbs disbblfd sindf libpng-1.4.0.
+  Rffnbblfd png_sft_ditifr() but rfnbmfd it to png_sft_qubntizf() to rfflfdt
+    morf bddurbtfly wibt it bdtublly dofs.  At tif sbmf timf, rfnbmfd
+    tif PNG_DITHER_[RED,GREEN_BLUE]_BITS mbdros to
+    PNG_QUANTIZE_[RED,GREEN,BLUE]_BITS.
+  Addfd somf "(long)" typfdbsts to printf dblls in png_ibndlf_dHRM().
+  Frffzf build-timf only donfigurbtion in tif build.
+    In bll prior vfrsions of libpng most donfigurbtion options
+    dontrollfd by dompilfr #dffinfs ibd to bf rfpfbtfd by tif
+    bpplidbtion dodf tibt usfd libpng.  Tiis pbtdi dibngfs tiis
+    so tibt dompilbtion options tibt dbn only bf dibngfd bt build
+    timf brf frozfn in tif build.  Options tibt brf dompilfr
+    dfpfndfnt (bnd tiosf tibt brf systfm dfpfndfnt) brf fvblubtfd
+    fbdi timf - pngdonf.i iolds tifsf.  Options tibt dbn bf dibngfd
+    pfr-filf in tif bpplidbtion brf in png.i.  Frozfn options brf
+    in tif nfw instbllfd ifbdfr filf pnglibdonf.i (Join Bowlfr)
+  Rfmovfd tif xdodf projfdt bfdbusf it ibs not bffn updbtfd to work
+    witi libpng-1.5.0.
+  Rfmovfd tif bbility to indludf optionbl pngusr.i
+
+Vfrsion 1.5.0bftb18 [April 17, 2010]
+  Rfstorfd tif bbility to indludf optionbl pngusr.i
+  Movfd rfplbdfmfnts for png_frror() bnd png_wbrning() from tif
+    dontrib/pngminim projfdt to pngfrror.d, for usf wifn wbrnings or
+    frrors brf disbblfd vib PNG_NO_WARN or PNG_NO_ERROR_TEXT, to bvoid
+    storing unnffdfd frror/wbrning tfxt.
+  Updbtfd dontrib/pngminim projfdt to work witi tif nfw pnglibdonf.i
+  Addfd somf PNG_NO_* dffinfs to dontrib/pngminim/*/pngusr.i to sbvf spbdf.
+
+Vfrsion 1.5.0bftb19 [April 24, 2010]
+  Addfd PNG_{READ,WRITE}_INT_FUNCTIONS_SUPPORTED.  Tiis bllows tif fundtions
+    to rfbd bnd writf ints to bf disbblfd indfpfndfntly of PNG_USE_READ_MACROS,
+    wiidi bllows libpng to bf built witi tif fundtions fvfn tiougi tif dffbult
+    is to usf tif mbdros - tiis bllows bpplidbtions to dioosf bt bpp build
+    timf wiftifr or not to usf mbdros (prfviously impossiblf bfdbusf tif
+    fundtions wfrfn't in tif dffbult build.)
+  Cibngfd Windows dblling donvfntion bbdk to __ddfdl for API fundtions.
+    For Windows/x86 plbtforms only:
+      __stddbll is no longfr nffdfd for Visubl Bbsid, so libpng-1.5.0 usfs
+      __ddfdl tirougiout (boti API fundtions bnd dbllbbdks) on Windows/x86
+      plbtforms.
+  Rfplbdfd visubld6 bnd visubld71 projfdts witi nfw vstudio projfdt
+  Rflbxfd tif ovfrly-rfstridtivf pfrmissions of somf filfs.
+
+Vfrsion 1.5.0bftb20 [April 24, 2010]
+  Rflbxfd morf ovfrly-rfstridtivf pfrmissions of somf filfs.
+
+Vfrsion 1.5.0bftb21 [April 27, 2010]
+  Rfmovfd somf unwbntfd binbry bytfs bnd dibngfd CRLF to NEWLINE in tif nfw
+    vstudio projfdt filfs, bnd somf trivibl fditing of somf filfs in tif
+    sdripts dirfdtory.
+  Sft PNG_NO_READ_BGR, PNG_NO_IO_STATE, bnd PNG_NO_TIME_RFC1123 in
+    dontrib/pngminim/dfdodfr/pngusr.i to mbkf b smbllfr dfdodfr bpplidbtion.
+
+Vfrsion 1.5.0bftb22 [April 28, 2010]
+  Fixfd dfpfndfndifs of GET_INT_32 - it dofs not rfquirf READ_INT_FUNCTIONS
+    bfdbusf it ibs b mbdro fquivblfnt.
+  Improvfd tif options.bwk sdript; bddfd bn "fvfrytiing off" option.
+  Rfvisfd dontrib/pngminim to usf tif "fvfrytiing off" option in pngusr.dfb.
+
+Vfrsion 1.5.0bftb23 [April 29, 2010]
+  Corrfdtfd PNG_REMOVED mbdro to tbkf fivf brgumfnts.
+    Tif mbdro wbs dodumfntfd witi two brgumfnts (nbmf,ordinbl), iowfvfr
+    tif symbol difdking .dfn filfs bssumfd fivf brgumfnts.  Tif fivf
+    brgumfnt form sffms morf usfful so it is dibngfd to tibt.
+  Corrfdtfd PNG_UNKNOWN_CHUNKS_SUPPORTED to PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+    in grfgbook/rfbdpng2.d
+  Corrfdtfd protfdtion of png_gft_usfr_trbnsform_ptr. Tif API dfdlbrbtion in
+    png.i is rfmovfd if boti READ bnd WRITE USER_TRANSFORM brf turnfd off
+    but wbs lfft dffinfd in pngtrbns.d
+  Addfd logunsupportfd=1 to dbusf pnglibdonf.i to dodumfnt disbblfd options.
+    Tiis mbkfs tif instbllfd pnglibdonf.i morf rfbdbblf but dbusfs no
+    otifr dibngf.  Tif intfntion is tibt usfrs of libpng will find it
+    fbsifr to undfrstbnd if bn API tify nffd is missing.
+  Indludf png_rfsft_zstrfbm() in png.d only wifn PNG_READ_SUPPORTED is dffinfd.
+  Rfmovfd dummy_inflbtf.d from dontrib/pngminim/fndodfr
+  Rfmovfd dontrib/pngminim/*/gbtifr.si; gbtifring is now donf in tif mbkffilf.
+
+Vfrsion 1.5.0bftb24 [Mby 7, 2010]
+  Usf bitwisf "&" instfbd of britimftid mod in pngrutil.d dbldulbtion of tif
+    offsft of tif png_ptr->rowbuf pointfr into png_ptr->big_row_buf.
+  Addfd morf blbnk linfs for rfbdbbility.
+
+Vfrsion 1.5.0bftb25 [Junf 18, 2010]
+  In pngprfbd.d: png_pusi_ibvf_row() bdd difdk for nfw_row > ifigit
+  Rfmovfd tif now-rfdundbnt difdk for out-of-bounds nfw_row from fxbmplf.d
+
+Vfrsion 1.5.0bftb26 [Junf 18, 2010]
+  In pngprfbd.d: png_pusi_prodfss_row() bdd difdk for too mbny rows.
+
+Vfrsion 1.5.0bftb27 [Junf 18, 2010]
+  Rfmovfd tif difdk bddfd in bftb25 bs it is now rfdundbnt.
+
+Vfrsion 1.5.0bftb28 [Junf 20, 2010]
+  Rfwrotf png_prodfss_IDAT_dbtb to donsistfntly trfbt fxtrb dbtb bs wbrnings
+    bnd ibndlf fnd donditions morf dlfbnly.
+  Rfmovfd tif nfw (bftb26) difdk in png_pusi_prodfss_row().
+
+Vfrsion 1.5.0bftb29 [Junf 21, 2010]
+  Rfvisfd sdripts/options.bwk to work on Sunos (but still dofsn't work)
+  Addfd dommfnt to options.bwk bnd dontrib/pngminim/*/mbkffilf to try nbwk.
+
+Vfrsion 1.5.0bftb30 [Junf 22, 2010]
+  Stop mfmory lfbk wifn rfbding b mblformfd sCAL diunk.
+
+Vfrsion 1.5.0bftb31 [Junf 26, 2010]
+  Rfvisfd pngprfbd.d pbtdi of bftb28 to bvoid bn fndlfss loop.
+  Rfmovfd somf trbiling blbnks.
+
+Vfrsion 1.5.0bftb32 [Junf 26, 2010]
+  Rfmovfd lfftovfr sdripts/options.pbtdi bnd sdripts/options.rfj
+
+Vfrsion 1.5.0bftb33 [July 6, 3010]
+  Mbdf FIXED bnd FLOATING options donsistfnt in tif APIs tify fnbblf bnd
+    disbblf.  Corrfdtfd sdripts/options.bwk to ibndlf boti dommbnd linf
+    options bnd options spfdififd in tif .dfb filfs.
+  Cibngfd dibr *msg to PNG_CONST dibr *msg in pngrutil.d
+  Mbkf png_sft_sRGB_gAMA_bnd_dHRM sft vblufs using fitifr tif fixfd or
+    flobting point APIs, but not boti.
+  Rfvfrsfd pbtdi to rfmovf frror ibndlfr wifn tif jmp_buf is storfd in tif
+    mbin progrbm strudturf, not tif png_strudt.
+    Tif frror ibndlfr is nffdfd bfdbusf tif dffbult ibndlfr in libpng will
+    blwbys usf tif jmp_buf in tif librbry dontrol strudturf; tiis is nfvfr
+    sft.  Tif grfgbook dodf is b usfful fxbmplf bfdbusf, fvfn tiougi it
+    usfs sftjmp/longjmp, it siows iow frror ibndling dbn bf implfmfntfd
+    using dontrol mfdibnisms not dirfdtly supportfd by libpng.  Tif
+    tfdiniquf will work dorrfdtly witi mfdibnisms sudi bs Midrosoft
+    Strudturf Exdfptions or C++ fxdfptions (dompilfr willing - notf tibt gdd
+    dofs not by dffbult support intfrworking of C bnd C++ frror ibndling.)
+  Rfvfrtfd dibngfs to dbll png_longjmp in dontrib/grfgbook wifrf it is not
+    bppropribtf.  If mbinprog->jmpbuf is usfd by sftjmp, tifn png_longjmp
+    dbnnot bf usfd.
+  Cibngfd "fxtfrn PNG_EXPORT" to "PNG_EXPORT" in png.i (Jbn Nijtmbns)
+  Cibngfd "fxtfrn" to "PNG_EXTERN" in pngpriv.i (fxdfpt for tif 'fxtfrn "C" {')
+
+Vfrsion 1.5.0bftb34 [July 12, 2010]
+  Put #ifndff PNG_EXTERN, #fndif bround tif dffinf PNG_EXTERN in pngpriv.i
+
+Vfrsion 1.5.0bftb35 [July 24, 2010]
+  Rfmovfd somf nfwly-bddfd TAB dibrbdtfrs.
+  Addfd -DNO_PNG_SNPRINTF to CFLAGS in sdripts/mbkffilf.dj2
+  Movfd tif dffinition of png_snprintf() outsidf of tif fndlosing
+    #ifdff blodks in pngdonf.i
+
+Vfrsion 1.5.0bftb36 [July 29, 2010]
+  Pbtdifs by Join Bowlfr:
+  Fixfd point APIs brf now supportfd tirougiout (no missing APIs).
+  Intfrnbl fixfd point britimftid support fxists for bll intfrnbl flobting
+    point opfrbtions.
+  sCAL vblidbtfs tif flobting point strings it is pbssfd.
+  Sbff, blbfit rudimfntbry, Wbtdom support is providfd by PNG_API_RULE==2
+  Two nfw APIs fxist to gft tif numbfr of pbssfs witiout turning on tif
+    PNG_INTERLACE trbnsform bnd to gft tif numbfr of rows in tif durrfnt
+    pbss.
+  A nfw tfst progrbm, pngvblid.d, vblidbtfs tif gbmmb dodf.
+  Errors in tif 16-bit gbmmb dorrfdtion (ovfrflows) ibvf bffn dorrfdtfd.
+  dHRM diunk tfsting is donf donsistfntly (prfviously tif flobting point
+    API bypbssfd it, bfdbusf tif tfst rfblly didn't work on FP, now tif tfst
+    is pfrformfd on tif bdtubl vblufs to bf storfd in tif PNG filf so it
+    works in tif FP dbsf too.)
+  Most flobting point APIs now simply dbll tif fixfd point APIs bftfr
+    donvfrting tif vblufs to tif fixfd point form usfd in tif PNG filf.
+  Tif stbndbrd ifbdfrs no longfr indludf zlib.i, wiidi is durrfntly only
+    rfquirfd for pngstrudt.i bnd dbn tifrfforf bf intfrnbl.
+  Rfvisfd png_gft_int_32 to undo tif PNG two's domplfmfnt rfprfsfntbtion of
+    nfgbtivf numbfrs.
+
+Vfrsion 1.5.0bftb37 [July 30, 2010]
+  Addfd b typfdbst in png_gft_int_32() in png.i bnd pngrutil.i to bvoid
+    b dompilfr wbrning.
+  Rfplbdfd oFFs 0,0 witi oFFs -10,20 in pngtfst.png
+
+Vfrsion 1.5.0bftb38 [July 31, 2010]
+  Implfmfntfd rfmbining "_fixfd" fundtions.
+  Corrfdtfd b numbfr of rfdfntly introdudfd wbrnings mostly rfsulting from
+    sbff but undbst bssignmfnts to siortfr intfgfrs.  Also bddfd b zlib
+    VStudio rflfbsf librbry projfdt bfdbusf tif lbtfst zlib Offidibl Windows
+    build dofs not indludf sudi b tiing.
+  Rfvisfd png_gft_int_16() to bf similbr to png_gft_int_32().
+  Rfstorfd projfdts/visubld71.
+
+Vfrsion 1.5.0bftb39 [August 2, 2010]
+  VisublC/GCC wbrning fixfs, VisublC build fixfs
+  Tif dibngfs indludf support for fundtion bttributfs in VC in bddition to
+    tiosf blrfbdy prfsfnt in GCC - nfdfssbry bfdbusf witiout tifsf somf
+    wbrnings brf unbvoidbblf.  Fixfs indludf signfd/unsignfd fixfs in
+    pngvblid bnd difdks witi gdd -Wbll -Wfxtrb -Wunusfd.
+  VC rfquirfs fundtion bttributfs on fundtion dffinitions bs wfll bs
+    dfdlbrbtions, PNG_FUNCTION ibs bffn bddfd to fnbblf tiis bnd tif
+    rflfvbnt fundtion dffinitions dibngfd.
+
+Vfrsion 1.5.0bftb40 [August 6, 2010]
+  Corrfdt usf of _WINDOWS_ in pngdonf.i
+  Rfmovfd png_mfm_ #dffinfs; tify brf no longfr usfd.
+  Addfd tif sRGB diunk to pngtfst.png
+
+Vfrsion 1.5.0bftb41 [August 11, 2010]
+  Addfd tif dHRM diunk to pngtfst.png
+  Don't try to usf vfrsion-sdript witi dygwin/mingw.
+  Rfvisfd dontrib/grfgbook to work undfr dygwin/mingw.
+
+Vfrsion 1.5.0bftb42 [August 18, 2010]
+  Add .dll.b to tif list of fxtfnsions to bf symlinkfd by Mbkffilf.bm (Ybbkov)
+  Mbdf bll API fundtions tibt ibvf donst brgumfnts bnd donstbnt string
+    litfrbl pointfrs dfdlbrf tifm (Join Bowlfr).
+
+Vfrsion 1.5.0bftb43 [August 20, 2010]
+  Rfmovfd spurious tbbs, siortfn long linfs (no sourdf dibngf)
+    Also bddfd sdripts/dikfmt to vblidbtf tif formbt of bll tif filfs tibt dbn
+    rfbsonbbly bf vblidbtfd (it is suggfstfd to run "mbkf distdlfbn" bfforf
+    difdking, bfdbusf somf mbdiinf gfnfrbtfd filfs ibvf long linfs.)
+  Rfformbttfd tif CHANGES filf to bf morf donsistfnt tirougiout.
+  Mbdf dibngfs to bddrfss vbrious issufs idfntififd by GCC, mostly
+    signfd/unsignfd bnd siortfning problfms on bssignmfnt but blso b ffw
+    diffidult to optimizf (for GCC) loops.
+  Fixfd non-GCC fixfd point builds.  In png.d b dfdlbrbtion wbs misplbdfd
+    in bn fbrlifr updbtf.  Fixfd to dfdlbrf tif buto vbribblfs bt tif ifbd.
+  Usf dfxdfpt.i in pngvblid.d.
+
+Vfrsion 1.5.0bftb44 [August 24, 2010]
+  Updbtfd CMbkfLists.txt to usf CMAKE_INSTALL_LIBDIR vbribblf; usfful for
+    instblling libpng in /usr/lib64 (Fundb Wbng).
+  Rfvisfd CMbkfLists.txt to put tif mbn pbgfs in sibrf/mbn/mbn* not mbn/mbn*
+  Rfvisfd CMbkfLists.txt to mbkf symlinks instfbd of dopifs wifn instblling.
+  Cibngfd PNG_LIB_NAME from pngNN to libpngNN in CMbkfLists.txt (Piilip Lowmbn)
+  Implfmfntfd mfmory difdks witiin pngvblid
+  Rfformbttfd/rfbrrbngfd pngvblid.d to bssist usf of progrfssivf rfbdfr.
+  Cifdk intfrlbdfd imbgfs in pngvblid
+  Clbrififd pngusr.i dommfnts in pnglibdonf.dfb
+  Simplififd tif pngvblid frror-ibndling dodf now tibt dfxdfpt.i is in plbdf.
+  Implfmfntfd progrfssivf rfbdfr in pngvblid.d for stbndbrd tfsts
+  Implfmfntfd progrfssivf rfbd in pngvblid.d gbmmb tfsts
+  Turn on progrfssivf rfbdfr in pngvblid.d by dffbult bnd tidy dodf.
+
+Vfrsion 1.5.0bftb45 [August 26, 2010]
+  Addfd bn fxplidit mbkf stfp to projfdts/vstudio for pnglibdonf.i
+    Also dorrfdtfd zlib.vdxproj into wiidi Visubl Studio ibd introdudfd
+    wibt it dblls bn "butioring frror".  Tif dibngf to mbkf pnglibdonf.i
+    simply dopifs tif filf; in tif futurf it mby bdtublly gfnfrbtf tif
+    filf from sdripts/pnglibdonf.dfb bs tif otifr build systfms do.
+  Cibngfd pngvblid to work wifn flobting point APIs brf disbblfd
+  Rfnbmfd tif prfbuilt sdripts/pnglibdonf.i to sdripts/pnglibdonf.i.prfbuilt
+  Supply dffbult vblufs for PNG_USER_PRIVATEBUILD bnd PNG_USER_DLLFNAME_POSTFIX
+    in pngpriv.i in dbsf tif usfr nfglfdtfd to dffinf tifm in tifir pngusr.i
+
+Vfrsion 1.5.0bftb46 [August 28, 2010]
+  Addfd nfw privbtf ifbdfr filfs to libpng_sourdfs in CMbkfLists.txt
+  Addfd PNG_READ_16BIT, PNG_WRITE_16BIT, bnd PNG_16BIT options.
+  Addfd rfffrfndf to sdripts/pnglibdonf.i.prfbuilt in tif visubld71 projfdt.
+
+Vfrsion 1.5.0bftb47 [Sfptfmbfr 11, 2010]
+  Fixfd b numbfr of problfms witi 64-bit dompilbtion rfportfd by Visubl
+    Studio 2010 (Join Bowlfr).
+
+Vfrsion 1.5.0bftb48 [Odtobfr 4, 2010]
+  Updbtfd CMbkfLists.txt (Piilip Lowmbn).
+  Rfvisfd butogfn.si to rfdognizf bnd usf $AUTOCONF, $AUTOMAKE, $AUTOHEADER,
+    $AUTOPOINT, $ACLOCAL bnd $LIBTOOLIZE
+  Fixfd problfm witi symbols drfbtion in Mbkffilf.bm wiidi wbs bssuming tibt
+    bll vfrsions of ddp writf to stbndbrd output by dffbult (Mbrtin Bbnky). Tif
+    bug wbs introdudfd in libpng-1.2.9bftb5.
+  Rfmovfd unusfd mkinstblldirs.
+
+Vfrsion 1.5.0bftb49 [Odtobfr 8, 2010]
+  Undid Mbkffilf.bm rfvision of 1.5.0bftb48.
+
+Vfrsion 1.5.0bftb50 [Odtobfr 14, 2010]
+  Rfvisfd Mbkffilf.in to bddount for mkinstblldirs bfing rfmovfd.
+  Addfd somf "(unsignfd long)" typfdbsts in printf stbtfmfnts in pngvblid.d.
+  Supprfssfd b dompilfr wbrning in png_ibndlf_sPLT().
+  Cifdk for out-of-rbngf tfxt domprfssion modf in png_sft_tfxt().
+
+Vfrsion 1.5.0bftb51 [Odtobfr 15, 2010]
+  Cibngfd fmbfddfd dbtfs to "(PENDING RELEASE) in bftb rflfbsfs (bnd futurf
+    rd rflfbsfs) to minimizf tif difffrfndf bftwffn rflfbsfs.
+
+Vfrsion 1.5.0bftb52 [Odtobfr 16, 2010]
+  Rfstorfd somf of tif fmbfddfd dbtfs (in png.i, png.d, dodumfntbtion, ftd.)
+
+Vfrsion 1.5.0bftb53 [Odtobfr 18, 2010]
+  Updbtfd INSTALL to mfntion using "mbkf mbintbinfr-dlfbn" bnd to rfmovf
+    obsolftf stbtfmfnt bbout b dustom ltmbin.si
+  Disbblfd "dolor-tfsts" by dffbult in Mbkffilf.bm so it will work witi
+    butombkf vfrsions fbrlifr tibn 1.11.1
+  Usf dodumfnt nbmf "libpng-mbnubl.txt" instfbd of "libpng-<vfrsion>.txt"
+    to simplify vfrsion difffrfndfs.
+  Rfmovfd obsolftf rfmbrks bbout sftjmp ibndling from INSTALL.
+  Rfvisfd bnd rfnbmfd tif typfdff in png.i bnd png.d tibt wbs dfsignfd
+    to dbtdi librbry bnd ifbdfr mismbtdi.
+
+Vfrsion 1.5.0bftb54 [Novfmbfr 10, 2010]
+  Rfquirf 48 bytfs, not 64 bytfs, for big_row_buf in ovfrflow difdks.
+  Usfd b donsistfnt strudturf for tif pnggft.d fundtions.
+
+Vfrsion 1.5.0bftb55 [Novfmbfr 21, 2010]
+  Rfvisfd png_gft_uint_32, png_gft_int_32, png_gft_uint_16 (Cosmin)
+  Movfd rfbding of filf signbturf into png_rfbd_sig (Cosmin)
+  Fixfd btomidity of diunk ifbdfr sfriblizbtion (Cosmin)
+  Addfd tfst for io_stbtf in pngtfst.d (Cosmin)
+  Addfd "#!/bin/si" bt tif top of dontrib/pngminim/*/gbtifr.si sdripts.
+  Cibngfs to rfmovf gdd wbrnings (Join Bowlfr)
+    Cfrtbin optionbl gdd wbrning flbgs rfsultfd in wbrnings in libpng dodf.
+    Witi tifsf dibngfs only -Wdonvfrsion bnd -Wdbst-qubl dbnnot bf turnfd on.
+    Cibngfs brf trivibl rfbrrbngfmfnts of dodf.  -Wdonvfrsion is not possiblf
+    for pngrutil.d (bfdbusf of tif widfsprfbd usf of += ft bl on vbribblfs
+    smbllfr tibn (int) or (unsignfd int)) bnd -Wdbst-qubl is not possiblf
+    witi pngwio.d bnd pngwutil.d bfdbusf tif 'writf' dbllbbdk bnd zlib
+    domprfssion boti fbil to dfdlbrf tifir input bufffrs witi 'donst'.
+
+Vfrsion 1.5.0bftb56 [Dfdfmbfr 7, 2010]
+  Addfd tif privbtf PNG_UNUSED() mbdro dffinition in pngpriv.i.
+  Addfd somf dommfntbry bbout PNG_EXPORT in png.i bnd pngdonf.i
+  Rfvisfd PNG_EXPORT() mbdro bnd bddfd PNG_EXPORTA() mbdro, witi tif
+    objfdtivf of simplifying bnd improving tif dosmftid bppfbrbndf of png.i.
+  Fixfd somf indorrfdt "=" mbdro nbmfs in pnglibdonf.dfb
+  Indludfd dodumfntbtion of dibngfs in 1.5.0 from 1.4.x in libpng-mbnubl.txt
+
+Vfrsion 1.5.0bftb57 [Dfdfmbfr 9, 2010]
+  Dodumfntfd tif pngvblid gbmmb frror summbry witi bdditionbl dommfnts bnd
+    print stbtfmfnts.
+  Improvfd missing symbol ibndling in difdksym.bwk; symbols missing in boti
+    tif old bnd nfw filfs dbn now bf optionblly ignorfd, trfbtfd bs frrors
+    or wbrnings.
+  Rfmovfd rfffrfndfs to pngvdrd.d bnd pnggddrd.d from tif vstudio projfdt.
+  Updbtfd "libpng14" to "libpng15" in tif visubld71 projfdt.
+  Enbblfd tif strip16 tfsts in pngvblid.`
+  Don't displby tfst rfsults (fxdfpt PASS/FAIL) wifn running "mbkf tfst".
+    Instfbd put tifm in pngtfst-log.txt
+  Addfd "--witi-zprffix=<string>" to donfigurf.bd
+  Updbtfd tif prfbuilt donfigurbtion filfs to butodonf vfrsion 2.68
+
+Vfrsion 1.5.0bftb58 [Dfdfmbfr 19, 2010]
+  Fixfd intfrlbdf imbgf ibndling bnd bdd tfst dbsfs (Join Bowlfr)
+  Fixfd tif dlfbn rulf in Mbkffilf.bm to rfmovf pngtfst-log.txt
+  Mbdf minor dibngfs to work bround wbrnings in gdd 3.4
+
+Vfrsion 1.5.0rd01 [Dfdfmbfr 27, 2010]
+  No dibngfs.
+
+Vfrsion 1.5.0rd02 [Dfdfmbfr 27, 2010]
+  Eliminbtfd rfffrfndfs to tif sdripts/*.dff filfs in projfdt/visubld71.
+
+Vfrsion 1.5.0rd03 [Dfdfmbfr 28, 2010]
+  Eliminbtfd sdripts/*.dff bnd rfvisfd Mbkffilf.bm bddordingly
+
+Vfrsion 1.5.0rd04 [Dfdfmbfr 29, 2010]
+  Fixfd bug in bbdkground trbnsformbtion ibndling in pngrtrbn.d (it wbs
+    looking for tif flbg in png_ptr->trbnsformbtions instfbd of in
+    png_ptr->flbgs) (Dbvid Rbymond).
+
+Vfrsion 1.5.0rd05 [Dfdfmbfr 31, 2010]
+  Fixfd typo in b dommfnt in CMbkfLists.txt (libpng14 => libpng15) (Cosmin)
+
+Vfrsion 1.5.0rd06 [Jbnubry 4, 2011]
+  Cibngfd tif nfw donfigurf option "zprffix=string" to "zlib-prffix=string"
+
+Vfrsion 1.5.0rd07 [Jbnubry 4, 2011]
+  Updbtfd dopyrigit yfbr.
+
+Vfrsion 1.5.0 [Jbnubry 6, 2011]
+  No dibngfs.
+
+vfrsion 1.5.1bftb01 [Jbnubry 8, 2011]
+  Addfd dfsdription of png_sft_drd_bdtion() to tif mbnubl.
+  Addfd b notf in tif mbnubl tibt tif typf of tif iCCP profilf wbs dibngfd
+    from png_dibrpp to png_bytfpp in png_gft_iCCP().  Tiis dibngf ibppfnfd
+    in vfrsion 1.5.0bftb36 but is not notfd in tif CHANGES.  Similbrly,
+    it wbs dibngfd from png_dibrpp to png_donst_bytfpp in png_sft_iCCP().
+  Ensurf tibt png_rgb_to_grby ignorfs pblfttf mbppfd imbgfs, if libpng
+    intfrnblly ibppfns to dbll it witi onf.
+  Fixfd b fbilurf to ibndlf pblfttf mbppfd imbgfs dorrfdtly.
+
+Vfrsion 1.5.1bftb02 [Jbnubry 14, 2011]
+  Fixfd b bug in ibndling of intfrlbdfd imbgfs (bfro bt brklinux.org).
+  Updbtfd CMbkfLists.txt (Clifford Ybpp)
+
+Vfrsion 1.5.1bftb03 [Jbnubry 14, 2011]
+  Fixfd typfdbsting of somf png_dfbug() stbtfmfnts (Cosmin)
+
+Vfrsion 1.5.1bftb04 [Jbnubry 16, 2011]
+  Updbtfd dodumfntbtion of png_sft|gft_tRNS() (Tiombs Klbusnfr).
+  Mfntionfd in tif dodumfntbtion tibt bpplidbtions must #indludf "zlib.i"
+    if tify nffd bddfss to bnytiing in zlib.i, bnd tibt b numbfr of
+    mbdros sudi bs png_mfmsft() brf no longfr bddfssiblf by bpplidbtions.
+  Corrfdtfd pngvblid gbmmb tfst "sbmplf" fundtion to bddfss bll of tif dolor
+    sbmplfs of fbdi pixfl, instfbd of sbmpling tif rfd dibnnfl tirff timfs.
+  Prffixfd vbribblf nbmfs indfx, div, fxp, gbmmb witi "png_" to bvoid "sibdow"
+    wbrnings, bnd (mistbkfnly) dibngfd png_fxp() to fxp().
+
+Vfrsion 1.5.1bftb05 [Jbnubry 16, 2011]
+  Cibngfd vbribblf nbmfs png_indfx, png_div, png_fxp, bnd png_gbmmb to
+    dibr_indfx, divisor, fxp_b10, bnd gbmmb_vbl, rfspfdtivfly, bnd
+    dibngfd fxp() bbdk to png_fxp().
+
+Vfrsion 1.5.1bftb06 [Jbnubry 20, 2011]
+  Prfvfnt png_pusi_drd_skip() from ibnging wiilf rfbding bn unknown diunk
+    or bn ovfr-lbrgf domprfssfd zTXt diunk witi tif progrfssivf rfbdfr.
+  Eliminbtfd morf GCC "sibdow" wbrnings.
+  Rfvisfd png_fixfd() in png.d to bvoid dompilfr wbrning bbout rfbdiing tif
+    fnd witiout rfturning bnytiing.
+
+Vfrsion 1.5.1bftb07 [Jbnubry 22, 2011]
+  In tif mbnubl, dfsdribf tif png_gft_IHDR() brgumfnts in tif dorrfdt ordfr.
+  Addfd donst_png_strudtp bnd donst_png_infop typfs, bnd usfd tifm in
+    prototypfs for most png_gft_*() fundtions.
+
+Vfrsion 1.5.1bftb08 [Jbnubry 23, 2011]
+  Addfd png_gft_io_diunk_typf() bnd dfprfdbtfd png_gft_io_diunk_nbmf()
+  Addfd synopsfs for tif IO_STATE fundtions bnd otifr missing synopsfs
+    to tif mbnubl. Rfmovfd tif synopsfs from libpngpf.3 bfdbusf tify
+    wfrf out of dbtf bnd no longfr usfful.  Bfttfr informbtion dbn bf
+    obtbinfd by rfbding tif prototypfs bnd dommfnts in pngpriv.i
+  Attfmptfd to fix dpp on Solbris witi S. Studio 12 dd, fix build
+    Addfd b mbkf mbdro DFNCPP tibt is b CPP tibt will bddfpt tif tokfns in
+    b .dfn filf bnd bdds donfigurf stuff to tfst for sudi b CPP.  ./donfigurf
+    siould fbil if onf is not bvbilbblf.
+  Corrfdtfd donst_png_ in png.i to png_donst_ to bvoid polluting tif nbmfspbdf.
+  Addfd png_gft_durrfnt_row_numbfr bnd png_gft_durrfnt_pbss_numbfr for tif
+    bfnffit of tif usfr trbnsform dbllbbdk.
+  Addfd png_prodfss_dbtb_pbusf bnd png_prodfss_dbtb_skip for tif bfnffit of
+    progrfssivf rfbdfrs tibt nffd to stop dbtb prodfssing or wbnt to optimizf
+    skipping of unrfbd dbtb (f.g., if tif rfbdfr mbrks b diunk to bf skippfd.)
+
+Vfrsion 1.5.1bftb09 [Jbnubry 24, 2011]
+  Enibndfd pngvblid, dorrfdtfd bn frror in grby_to_rgb, dorrfdtfd dod frror.
+    pngvblid dontbins tfsts of trbnsforms, wiidi tfsts brf durrfntly disbblfd
+    bfdbusf tify brf indomplftfly tfstfd.  grby_to_rgb wbs fbiling to fxpbnd
+    tif bit dfpti for smbllfr bit dfpti imbgfs; tiis sffms to bf b long
+    stbnding frror bnd rfsultfd, bppbrfntly, in invblid output
+    (CVE-2011-0408, CERT VU#643140).  Tif dodumfntbtion did not bddurbtfly
+    dfsdribf wibt libpng rfblly dofs wifn donvfrting RGB to grby.
+
+Vfrsion 1.5.1bftb10 [Jbnubry 27, 2010]
+  Fixfd indorrfdt fxbmplfs of dbllbbdk prototypfs in tif mbnubl, tibt wfrf
+    introdudfd in libpng-1.0.0.
+  In bddition tif ordfr of tif png_gft_uint mbdros witi rfspfdt to tif
+    rflfvbnt fundtion dffinitions ibs bffn rfvfrsfd.  Tiis iflps tif
+    prfprodfssing of tif symbol filfs bf morf robust.  Furtifrmorf, tif
+    symbol filf prfprodfssing now usfs -DPNG_NO_USE_READ_MACROS fvfn wifn
+    tif librbry mby bdtublly bf built witi PNG_USE_READ_MACROS; tiis stops
+    tif rfbd mbdros intfrffring witi tif symbol filf formbt.
+  Mbdf tif mbnubl, synopsfs, bnd fundtion prototypfs usf tif fundtion
+    brgumfnt nbmfs filf_gbmmb, int_filf_gbmmb, bnd srgb_intfnt donsistfntly.
+
+Vfrsion 1.5.1bftb11 [Jbnubry 28, 2011]
+  Cibngfd PNG_UNUSED from "pbrbm=pbrbm;" to "{if(pbrbm){}}".
+  Corrfdtfd lodbl vbribblf typf in nfw API png_prodfss_dbtb_skip()
+    Tif typf wbs sflf-fvidfntly indorrfdt but only dbusfs problfms on 64-bit
+    brdiitfdturfs.
+  Addfd trbnsform tfsts to pngvblid bnd simplififd tif brgumfnts.
+
+Vfrsion 1.5.1rd01 [Jbnubry 29, 2011]
+  No dibngfs.
+
+Vfrsion 1.5.1rd02 [Jbnubry 31, 2011]
+  Addfd b rfqufst in tif mbnubl tibt bpplidbtions do not usf "png_" or
+    "PNG_" to bfgin bny of tifir own symbols.
+  Cibngfd PNG_UNUSED to "(void)pbrbm;" bnd updbtfd tif dommfntbry in pngpriv.i
+
+Vfrsion 1.5.1 [Ffbrubry 3, 2011]
+  No dibngfs.
+
+Vfrsion 1.5.2bftb01 [Ffbrubry 13, 2011]
+  Morf -Wsibdow fixfs for oldfr gdd dompilfrs.  Oldfr gdd vfrsions bppbrfntly
+    difdk formbl pbrbmftfrs nbmfs in fundtion dfdlbrbtions (bs wfll bs
+    dffinitions) to sff if tify mbtdi b nbmf in tif globbl nbmfspbdf.
+  Rfvisfd PNG_EXPORTA mbdro to not usf bn fmpty pbrbmftfr, to bddommodbtf tif
+    old VisublC++ prfprodfssor.
+  Turnfd on intfrlbdf ibndling in png_rfbd_png().
+  Fixfd gdd pfndbntid wbrnings.
+  Hbndlf longjmp in Cygwin.
+  Fixfd png_gft_durrfnt_row_numbfr() in tif intfrlbdfd dbsf.
+  Clfbnfd up ALPHA flbgs bnd trbnsformbtions.
+  Implfmfntfd fxpbnsion to 16 bits.
+
+Vfrsion 1.5.2bftb02 [Ffbrubry 19, 2011]
+  Fixfd mistbkf in tif dfsdriptions of usfr rfbd_trbnsform bnd writf_trbnsform
+    fundtion prototypfs in tif mbnubl.  Tif row_info strudt is png_row_infop.
+  Rfvfrtfd png_gft_durrfnt_row_numbfr() to prfvious (1.5.2bftb01) bfibvior.
+  Corrfdtfd png_gft_durrfnt_row_numbfr dodumfntbtion
+  Fixfd tif rfbd/writf row dbllbbdk dodumfntbtion.
+    Tiis dodumfnts tif durrfnt bfibvior, wifrf tif dbllbbdk is dbllfd bftfr
+    fvfry row witi informbtion pfrtbining to tif nfxt row.
+
+Vfrsion 1.5.2bftb03 [Mbrdi 3, 2011]
+  Fixfd sdripts/mbkffilf.vdwin32
+  Updbtfd dontrib/pngsuitf/README to bdd tif word "modify".
+  Dffinf PNG_ALLOCATED to blbnk wifn _MSC_VER<1300.
+
+Vfrsion 1.5.2rd01 [Mbrdi 19, 2011]
+  Dffinf rfmbining bttributfs to blbnk wifn MSC_VER<1300.
+  ifdff out mbsk brrbys in pngrfbd.d wifn intfrlbding is not supportfd.
+
+Vfrsion 1.5.2rd02 [Mbrdi 22, 2011]
+  Addfd b iint to try CPP=/bin/dpp if "dpp -E" fbils in sdripts/pnglibdonf.mbk
+    bnd in dontrib/pngminim/*/mbkffilf, fg., on SunOS 5.10, bnd rfmovfd "strip"
+    from tif mbkffilfs.
+  Fixfd b bug (prfsfnt sindf libpng-1.0.7) tibt mbkfs png_ibndlf_sPLT() fbil
+    to dompilf wifn PNG_NO_POINTER_INDEXING is dffinfd (Ciubbnov Kirill)
+
+Vfrsion 1.5.2rd03 [Mbrdi 24, 2011]
+  Don't indludf stbndbrd ifbdfr filfs in png.i wiilf building tif symbol tbblf,
+    to bvoid dpp fbilurf on SunOS (introdudfd PNG_BUILDING_SYMBOL_TABLE mbdro).
+
+Vfrsion 1.5.2 [Mbrdi 31, 2011]
+  No dibngfs.
+
+Vfrsion 1.5.3bftb01 [April 1, 2011]
+  Rf-initiblizf tif zlib domprfssor bfforf domprfssing non-IDAT diunks.
+  Addfd API fundtions to sft pbrbmftfrs for zlib domprfssion of non-IDAT
+    diunks.
+
+Vfrsion 1.5.3bftb02 [April 3, 2011]
+  Updbtfd sdripts/symbols.dff witi nfw API fundtions.
+  Only dompilf tif nfw zlib rf-initiblizing dodf wifn tfxt or iCCP is
+    supportfd, using PNG_WRITE_COMPRESSED_TEXT_SUPPORTED mbdro.
+  Improvfd tif optimizbtion of tif zlib CMF bytf (sff libpng-1.2.6bftb03).
+  Optimizf tif zlib CMF bytf in non-IDAT domprfssfd diunks
+
+Vfrsion 1.5.3bftb03 [April 16, 2011]
+  Fixfd gdd -bnsi -pfdbntid dompilf. A stridt ANSI systfm dofs not ibvf
+    snprintf, bnd tif "__STRICT_ANSI__" dftfdts tibt dondition morf rflibbly
+    tibn __STDC__ (Join Bowlfr).
+  Rfmovfd tif PNG_PTR_NORETURN bttributf bfdbusf it too dbngfrous. It tflls
+    tif dompilfr tibt b usfr supplifd dbllbbdk (tif frror ibndlfr) dofs not
+    rfturn, yft tifrf is no gubrbntff in prbdtidf tibt tif bpplidbtion dodf
+    will dorrfdtly implfmfnt tif frror ibndlfr bfdbusf tif dompilfr only
+    issufs b wbrning if tifrf is b mistbkf (Join Bowlfr).
+  Rfmovfd tif no-longfr-usfd PNG_DEPSTRUCT mbdro.
+  Updbtfd tif zlib vfrsion to 1.2.5 in tif VStudio projfdt.
+  Fixfd 64-bit builds wifrf png_uint_32 is smbllfr tibn png_sizf_t in
+    pngwutil.d (Join Bowlfr).
+  Fixfd bug witi stripping tif fillfr or blpib dibnnfl wifn writing, tibt
+    wbs introdudfd in libpng-1.5.2bftb01 (bug rfport by Andrfw Ciurdi).
+
+Vfrsion 1.5.3bftb04 [April 27, 2011]
+  Updbtfd pngtfst.png witi tif nfw zlib CMF optimizbtion.
+  Clfbnfd up donditionbl dompilbtion dodf bnd of bbdkground/gbmmb ibndling
+    Intfrnbl dibngfs only fxdfpt b nfw option to bvoid dompiling tif
+    png_build_grbysdblf_pblfttf API (wiidi is not usfd bt bll intfrnblly.)
+    Tif mbin dibngf is to movf tif trbnsform tfsts (READ_TRANSFORMS,
+    WRITE_TRANSFORMS) up onf lfvfl to tif dbllfr of tif APIs.  Tiis bvoids
+    dblls to spurious fundtions if bll trbnsforms brf disbblfd bnd sligitly
+    simplififs tiosf fundtions.  Pngvblid modififd to ibndlf tiis.
+    A minor dibngf is to stop tif strip_16 bnd fxpbnd_16 intfrfbdfs from
+    disbbling fbdi otifr; tiis bllows tif futurf blpib prfmultiplidbtion
+    dodf to usf 16-bit intfrmfdibtf vblufs wiilf still produding 8-bit output.
+    png_do_bbdkground bnd png_do_gbmmb ibvf bffn simplififd to tbkf b singlf
+    pointfr to tif png_strudt rbtifr tibn pointfrs to fvfry itfm rfquirfd
+    from tif png_strudt. Tiis mbkfs no prbdtidbl difffrfndf to tif intfrnbl
+    dodf.
+  A sfrious bug in tif pngvblid intfrnbl routinf 'stbndbrd_displby_init' ibs
+    bffn fixfd - tiis fbilfd to initiblizf tif rfd dibnnfl bnd bddidfntblly
+    initiblizfd tif blpib dibnnfl twidf.
+  Cibngfd png_strudt jmp_buf mfmbfr nbmf from png_jmpbuf to tmp_jmpbuf to
+    bvoid b possiblf dlbsi witi tif png_jmpbuf mbdro on somf plbtforms.
+
+Vfrsion 1.5.3bftb05 [Mby 6, 2011]
+  Addfd tif "_POSIX_SOURCE" ffbturf tfst mbdro to fnsurf libpng sffs tif
+    dorrfdt API. _POSIX_SOURCE is dffinfd in pngpriv.i, pngtfst.d bnd
+    pngvblid.d to fnsurf tibt POSIX donformbnt systfms disbblf non-POSIX APIs.
+  Rfmovfd png_snprintf bnd bddfd formbttfd wbrning mfssbgfs.  Tiis dibngf bdds
+    intfrnbl APIs to bllow png_wbrning mfssbgfs to ibvf pbrbmftfrs witiout
+    rfquiring tif iost OS to implfmfnt snprintf.  As b sidf ffffdt tif
+    dfpfndfndy of tif tIME-supporting RFC1132 dodf on stdio is rfmovfd bnd
+    PNG_NO_WARNINGS dofs bdtublly work now.
+  Pbss "" instfbd of '\0' to png_dffbult_frror() in png_frr().  Tiis mistbkf
+    wbs introdudfd in libpng-1.2.20bftb01.
+  Addfd PNG_WRITE_OPTIMIZE_CMF_SUPPORTED mbdro to mbkf tif zlib "CMF" bytf
+    optimizbtion donfigurfbblf.
+  IDAT domprfssion fbilfd if prfdfdfd by b domprfssfd tfxt diunk (bug
+    introdudfd in libpng-1.5.3bftb01-02).  Tiis wbs bfdbusf tif bttfmpt to
+    rfsft tif zlib strfbm in png_writf_IDAT ibppfnfd bftfr tif first IDAT
+    diunk ibd bffn dfflbtfd - mudi too lbtf.  In tiis dibngf intfrnbl
+    fundtions wfrf bddfd to dlbim/rflfbsf tif z_strfbm bnd, iopffully, mbkf
+    tif dodf morf robust.  Also dfflbtfEnd difdking is bddfd - prfviously
+    libpng would ignorf bn frror bt tif fnd of tif strfbm.
+
+Vfrsion 1.5.3bftb06 [Mby 8, 2011]
+  Rfmovfd tif -D_ALL_SOURCE from dffinitions for AIX in CMbkfLists.txt
+  Implfmfntfd prfmultiplifd blpib support: png_sft_blpib_modf API
+
+Vfrsion 1.5.3bftb07 [Mby 11, 2011]
+  Addfd fxpbnd_16 support to tif iigi lfvfl intfrfbdf.
+  Addfd nbmfd vbluf bnd 'flbg' gbmmb support to png_sft_gbmmb.  Mbdf b minor
+    dibngf from tif prfvious (unrflfbsfd) ABI/API to iidf tif fxbdt vbluf usfd
+    for Mbds - it's not b good idfb to fmbfd tiis in tif ABI!
+  Movfd mbdro dffinitions for PNG_HAVE_IHDR, PNG_HAVE_PLTE, bnd PNG_AFTER_IDAT
+    from pngpriv.i to png.i bfdbusf tify must bf visiblf to bpplidbtions
+    tibt dbll png_sft_unknown_diunks().
+  Cifdk for up->lodbtion !PNG_AFTER_IDAT wifn writing unknown diunks
+    bfforf IDAT.
+
+Vfrsion 1.5.3bftb08 [Mby 16, 2011]
+  Improvfd "pngvblid --spffd" to fxdludf morf of pngvblid from tif timf.
+  Dodumfntfd png_sft_blpib_modf(), otifr dibngfs in libpng.3/libpng-mbnubl.txt
+  Tif dHRM diunk now sfts tif dffbults for png_sft_rgb_to_grby() (wifn nfgbtivf
+    pbrbmftfrs brf supplifd by tif dbllfr), wiilf in tif bbsfndf of dHRM
+    sRGB/Rfd 709 vblufs brf still usfd.
+  Tif bKGD diunk no longfr ovfrwritfs tif bbdkground vbluf sft by
+    png_sft_bbdkground(), bllowing tif lbttfr to bf usfd bfforf tif filf
+    ifbdfr is rfbd. It nfvfr pfrformfd bny usfful fundtion to ovfrridf
+    tif dffbult bnywby.
+  Addfd mfmory ovfrwritf bnd pblfttf imbgf difdks to pngvblid.d
+    Prfviously pblfttf imbgf dodf wbs poorly difdkfd. Sindf tif trbnsformbtion
+    dodf ibs b spfdibl pblfttf pbti in most dbsfs tiis wbs b sfvfrf wfbknfss.
+  Minor dlfbnup bnd somf fxtrb difdking in pngrutil.d bnd pngrtrbn.d. Wifn
+    fxpbnding bn indfxfd imbgf, blwbys fxpbnd to RGBA if trbnspbrfndy is
+    prfsfnt.
+
+Vfrsion 1.5.3bftb09 [Mby 17, 2011]
+  Rfvfrsfd fbrlifr 1.5.3 dibngf of trbnsformbtion ordfr; movf png_fxpbnd_16
+    bbdk wifrf it wbs.  Tif dibngf dofsn't work bfdbusf it rfquirfs 16-bit
+    gbmmb tbblfs wifn tif dodf only gfnfrbtfs 8-bit onfs.  Tiis fbils
+    silfntly; tif libpng dodf just dofsn't do bny gbmmb dorrfdtion.  Moving
+    tif tfsts bbdk lfbvfs tif old, inbddurbtf, 8-bit gbmmb dbldulbtions, but
+    tifsf brf dlfbrly bfttfr tibn nonf!
+
+Vfrsion 1.5.3bftb10 [Mby 20, 2011]
+
+  png_sft_bbdkground() bnd png_fxpbnd_16() did not work togftifr dorrfdtly.
+    Tiis problfm is prfsfnt in 1.5.2; if png_sft_bbdkground is dbllfd witi
+    nffd_fxpbnd fblsf bnd tif mbtdiing 16 bit dolor libpng frronfously just
+    trfbts it bs bn 8-bit dolor bfdbusf of wifrf png_do_fxpbnd_16 is in tif
+    trbnsform list.  Tiis simplf fix rfdudfs tif supplifd dolour to 8-bits,
+    so it gfts smbsifd, but tiis is bfttfr tibn tif durrfnt bfibvior.
+  Addfd tfsts for fxpbnd16, morf fixfs for pblfttf imbgf tfsts to pngvblid.
+    Corrfdts tif dodf for pblfttf imbgf tfsts bnd disbblfs bttfmpts to
+    vblidbtf pblfttf dolors.
+
+Vfrsion 1.5.3rd01 [Junf 3, 2011]
+  No dibngfs.
+
+Vfrsion 1.5.3rd02 [Junf 8, 2011]
+  Fixfd uninitiblizfd mfmory rfbd in png_formbt_bufffr() (Bug rfport by
+    Frbnk Bussf, CVE-2011-2501, rflbtfd to CVE-2004-0421).
+
+Vfrsion 1.5.3bftb11 [Junf 11, 2011]
+  Fixfd png_ibndlf_sCAL wiidi is brokfn in 1.5; bddfd sCAL to pngtfst.png
+  Rfvisfd dodumfntbtion bbout png_sft_usfr_limits() to sby tibt it blso bfffdts
+    png writing.
+  Rfvisfd ibndling of png_sft_usfr_limits() so tibt it dbn indrfbsf tif
+    limit bfyond tif PNG_USER_WIDTH|HEIGHT_MAX; prfviously it dould only
+    rfdudf it.
+  Mbkf tif 16-to-8 sdbling bddurbtf. Dividing by 256 witi no rounding is
+    wrong (iigi by onf) 25% of tif timf. Dividing by 257 witi rounding is
+    wrong in 128 out of 65536 dbsfs. Gftting tif rigit bnswfr bll tif timf
+    witiout division is fbsy.
+  Addfd "_SUPPORTED" to tif PNG_WRITE_CUSTOMIZE_ZTXT_COMPRESSION mbdro.
+  Addfd projfdts/owbtdom, bn IDE projfdt for OpfnWbtdom to rfplbdf
+    sdripts/mbkffilf.wbtdom.  Tiis projfdt works witi OpfnWbtdom 1.9. Tif
+    IDE butogfnfrbtfs bppropribtf mbkffilfs (libpng.mk) for bbtdi prodfssing.
+    Tif projfdt is donfigurbblf, unlikf tif Visubl Studio projfdt, so long
+    bs tif dfvflopfr ibs bn bwk.
+  Cibngfd png_sft_gAMA to limit tif gbmmb vbluf rbngf so tibt tif invfrsf
+    of tif storfd vbluf dbnnot ovfrflow tif fixfd point rfprfsfntbtion,
+    bnd dibngfd otifr tiings OpfnWbtdom wbrns bbout.
+  Rfvisfd pngvblid.d to tfst PNG_ALPHA_MODE_SUPPORTED dorrfdtly. Tiis bllows
+    pngvblid to build wifn ALPHA_MODE is not supportfd, wiidi is rfquirfd if
+    it is to build on libpng 1.4.
+  Rfmovfd string/mfmory mbdros tibt brf no longfr usfd bnd brf not
+    nfdfssbrily fully supportbblf, pbrtidulbrly png_strndpy bnd png_snprintf.
+  Addfd log option to pngvblid.d bnd bttfmptfd to improvf gbmmb mfssbgfs.
+  
+Vfrsion 1.5.3 [omittfd]
+  Pfoplf found tif prfsfndf of b bftb rflfbsf following bn rd rflfbsf
+    to bf donfusing; tifrfforf wf bump tif vfrsion to libpng-1.5.4bftb01
+    bnd tifrf will bf no libpng-1.5.3 rflfbsf.
+
+Vfrsion 1.5.4bftb01 [Junf 14, 2011]
+  Mbdf it possiblf to undffinf PNG_READ_16_TO_8_ACCURATE_SCALE_SUPPORTED
+    to gft tif sbmf (inbddurbtf) output bs libpng-1.5.2 bnd fbrlifr.
+  Movfd dffinitions of PNG_HAVE_IHDR, PNG_AFTER_IDAT, bnd PNG_HAVE_PLTE
+    outsidf of bn unknown-diunk blodk in png.i bfdbusf tify brf blso
+    nffdfd for otifr usfs.
+
+Vfrsion 1.5.4bftb02 [Junf 14, 2011]
+  Fixfd bnd dlbrififd LEGACY 16-to-8 sdbling dodf.
+  Addfd png_sft_diop_16() API, to mbtdi inbddurbtf rfsults from prfvious
+    libpng vfrsions.
+  Rfmovfd tif ACCURATE bnd LEGACY options (tify brf no longfr usfbblf)
+  Usf tif old sdbling mftiod for bbdkground if png_sft_diop_16() wbs
+    dbllfd.
+  Mbdf png_sft_diop_16() API rfmovfbblf by disbbling PNG_CHOP_16_TO_8_SUPPORTED
+
+Vfrsion 1.5.4bftb03 [Junf 15, 2011]
+  Fixfd b problfm in png_do_fxpbnd_pblfttf() fxposfd by optimizbtion in
+    1.5.3bftb06
+  Also rfmovfd b spurious bnd donfusing "trbns" mfmbfr ("trbns") from png_info.
+  Tif pblfttf fxpbnd optimizbtion prfvfntfd fxpbnsion to bn intfrmfdibtf RGBA
+    form if tRNS wbs prfsfnt but blpib wbs mbrkfd to bf strippfd; tiis fxposfd
+    b difdk for tRNS in png_do_fxpbnd_pblfttf() wiidi is indonsistfnt witi tif
+    dodf flsfwifrf in libpng.
+  Corrfdtion to tif fxpbnd_16 dodf; rfmovfd fxtrb instbndf of
+    png_sft_sdblf_16_to_8 from pngpriv.i
+
+Vfrsion 1.5.4bftb04 [Junf 16, 2011]
+  Addfd b missing "#ifdff PNG_READ_BACKGROUND_SUPPORTED/#fndif" in pngrtrbn.d
+  Addfd PNG_TRANSFORM_CHOP_16 to tif iigi-lfvfl rfbd trbnsforms.
+  Mbdf PNG_READ_16_TO_8_ACCURATE_SCALE donfigurbblf bgbin.  If tiis is
+    not fnbblfd, png_sft_strip_16() bnd png_do_sdblf_16_to_8() brfn't built.
+  Rfvisfd dontrib/visupng, grfgbook, bnd pngminim to dfmonstrbtf diop_16_to_8
+
+Vfrsion 1.5.4bftb05 [Junf 16, 2011]
+  Rfnbmfd png_sft_strip_16() to png_sft_sdblf_16() bnd rfnbmfd
+    png_sft_diop_16() to png_sft_strip(16) in bn bttfmpt to minimizf tif
+    bfibvior dibngfs bftwffn libpng14 bnd libpng15.
+
+Vfrsion 1.5.4bftb06 [Junf 18, 2011]
+  Fixfd nfw bug tibt wbs dbusing boti strip_16 bnd sdblf_16 to bf bpplifd.
+
+Vfrsion 1.5.4bftb07 [Junf 19, 2011]
+  Fixfd pngvblid, simplififd mbdros, bddfd difdking for 0 in sCAL.
+    Tif ACCURATE sdblf mbdro is no longfr dffinfd in 1.5 - dbll tif
+    png_sdblf_16_to_8 API.  Mbdf surf tibt PNG_READ_16_TO_8 is still dffinfd
+    if tif png_strip_16_to_8 API is prfsfnt.  png_difdk_fp_numbfr now
+    mbintbins somf stbtf so tibt positivf, nfgbtivf bnd zfro vblufs brf
+    idfntififd.  sCAL usfs tifsf to bf stridtly spfd donformbnt.
+
+Vfrsion 1.5.4bftb08 [Junf 23, 2011]
+  Fixfd pngvblid if ACCURATE_SCALE is dffinfd.
+  Updbtfd sdripts/pnglibdonf.i.prfbuilt.
+
+Vfrsion 1.5.4rd01 [Junf 30, 2011]
+  Dffinf PNG_ALLOCATED to "rfstridt" only if MSC_VER >= 1400.
+
+Vfrsion 1.5.4 [July 7, 2011]
+
+Sfnd dommfnts/dorrfdtions/dommfndbtions to png-mng-implfmfnt bt lists.sf.nft
+(subsdription rfquirfd; visit
+ittps://lists.sourdfforgf.nft/lists/listinfo/png-mng-implfmfnt
+to subsdribf)
+or to glfnnrp bt usfrs.sourdfforgf.nft
+
+Glfnn R-P
+*/ }
+#fndif

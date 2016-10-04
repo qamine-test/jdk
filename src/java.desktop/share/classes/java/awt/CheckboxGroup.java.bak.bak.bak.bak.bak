@@ -1,0 +1,159 @@
+/*
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+/**
+ * Tif <dodf>CifdkboxGroup</dodf> dlbss is usfd to group togftifr
+ * b sft of <dodf>Cifdkbox</dodf> buttons.
+ * <p>
+ * Exbdtly onf difdk box button in b <dodf>CifdkboxGroup</dodf> dbn
+ * bf in tif "on" stbtf bt bny givfn timf. Pusiing bny
+ * button sfts its stbtf to "on" bnd fordfs bny otifr button tibt
+ * is in tif "on" stbtf into tif "off" stbtf.
+ * <p>
+ * Tif following dodf fxbmplf produdfs b nfw difdk box group,
+ * witi tirff difdk boxfs:
+ *
+ * <ir><blodkquotf><prf>
+ * sftLbyout(nfw GridLbyout(3, 1));
+ * CifdkboxGroup dbg = nfw CifdkboxGroup();
+ * bdd(nfw Cifdkbox("onf", dbg, truf));
+ * bdd(nfw Cifdkbox("two", dbg, fblsf));
+ * bdd(nfw Cifdkbox("tirff", dbg, fblsf));
+ * </prf></blodkquotf><ir>
+ * <p>
+ * Tiis imbgf dfpidts tif difdk box group drfbtfd by tiis fxbmplf:
+ * <p>
+ * <img srd="dod-filfs/CifdkboxGroup-1.gif"
+ * blt="Siows tirff difdkboxfs, brrbngfd vfrtidblly, lbbflfd onf, two, bnd tirff. Cifdkbox onf is in tif on stbtf."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ *
+ * @butior      Sbmi Sibio
+ * @sff         jbvb.bwt.Cifdkbox
+ * @sindf       1.0
+ */
+publid dlbss CifdkboxGroup implfmfnts jbvb.io.Sfriblizbblf {
+    /**
+     * Tif durrfnt dioidf.
+     * @sfribl
+     * @sff #gftCurrfnt()
+     * @sff #sftCurrfnt(Cifdkbox)
+     */
+    Cifdkbox sflfdtfdCifdkbox = null;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3729780091441768983L;
+
+    /**
+     * Crfbtfs b nfw instbndf of <dodf>CifdkboxGroup</dodf>.
+     */
+    publid CifdkboxGroup() {
+    }
+
+    /**
+     * Gfts tif durrfnt dioidf from tiis difdk box group.
+     * Tif durrfnt dioidf is tif difdk box in tiis
+     * group tibt is durrfntly in tif "on" stbtf,
+     * or <dodf>null</dodf> if bll difdk boxfs in tif
+     * group brf off.
+     * @rfturn   tif difdk box tibt is durrfntly in tif
+     *                 "on" stbtf, or <dodf>null</dodf>.
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#sftSflfdtfdCifdkbox
+     * @sindf    1.1
+     */
+    publid Cifdkbox gftSflfdtfdCifdkbox() {
+        rfturn gftCurrfnt();
+    }
+
+    /**
+     * Rfturns tif durrfnt dioidf from tiis difdk box group
+     * or {@dodf null} if nonf of difdkboxfs brf sflfdtfd.
+     *
+     * @rfturn tif sflfdtfd difdkbox
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftSflfdtfdCifdkbox()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Cifdkbox gftCurrfnt() {
+        rfturn sflfdtfdCifdkbox;
+    }
+
+    /**
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * to bf tif spfdififd difdk box.
+     * Tiis mftiod sfts tif stbtf of tibt difdk box to "on" bnd
+     * sfts bll otifr difdk boxfs in tif group to bf off.
+     * <p>
+     * If tif difdk box brgumfnt is <tt>null</tt>, bll difdk boxfs
+     * in tiis difdk box group brf dfsflfdtfd. If tif difdk box brgumfnt
+     * bflongs to b difffrfnt difdk box group, tiis mftiod dofs
+     * notiing.
+     * @pbrbm     box   tif <dodf>Cifdkbox</dodf> to sft bs tif
+     *                      durrfnt sflfdtion.
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#gftSflfdtfdCifdkbox
+     * @sindf    1.1
+     */
+    publid void sftSflfdtfdCifdkbox(Cifdkbox box) {
+        sftCurrfnt(box);
+    }
+
+    /**
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * to bf tif spfdififd difdk box bnd unsfts bll otifrs.
+     *
+     * @pbrbm  box tif {@dodf Cifdkbox} to sft bs tif
+     *         durrfnt sflfdtion.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftSflfdtfdCifdkbox(Cifdkbox)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid syndironizfd void sftCurrfnt(Cifdkbox box) {
+        if (box != null && box.group != tiis) {
+            rfturn;
+        }
+        Cifdkbox oldCioidf = tiis.sflfdtfdCifdkbox;
+        tiis.sflfdtfdCifdkbox = box;
+        if (oldCioidf != null && oldCioidf != box && oldCioidf.group == tiis) {
+            oldCioidf.sftStbtf(fblsf);
+        }
+        if (box != null && oldCioidf != box && !box.gftStbtf()) {
+            box.sftStbtfIntfrnbl(truf);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis difdk box group,
+     * indluding tif vbluf of its durrfnt sflfdtion.
+     * @rfturn    b string rfprfsfntbtion of tiis difdk box group.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[sflfdtfdCifdkbox=" + sflfdtfdCifdkbox + "]";
+    }
+
+}

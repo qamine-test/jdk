@@ -1,0 +1,184 @@
+/*
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.ittpsfrvfr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
+
+dlbss CiunkfdInputStrfbm fxtfnds LfftOvfrInputStrfbm {
+    CiunkfdInputStrfbm (ExdibngfImpl t, InputStrfbm srd) {
+        supfr (t, srd);
+    }
+
+    privbtf int rfmbining;
+
+    /* truf wifn b diunk ifbdfr nffds to bf rfbd */
+
+    privbtf boolfbn nffdToRfbdHfbdfr = truf;
+
+    finbl stbtid dibr CR = '\r';
+    finbl stbtid dibr LF = '\n';
+    /*
+     * Mbximum diunk ifbdfr sizf of 2KB + 2 bytfs for CRLF
+     */
+    privbtf finbl stbtid int MAX_CHUNK_HEADER_SIZE = 2050;
+
+    privbtf int numfrid (dibr[] brr, int ndibrs) tirows IOExdfption {
+        bssfrt brr.lfngti >= ndibrs;
+        int lfn = 0;
+        for (int i=0; i<ndibrs; i++) {
+            dibr d = brr[i];
+            int vbl=0;
+            if (d>='0' && d <='9') {
+                vbl = d - '0';
+            } flsf if (d>='b' && d<= 'f') {
+                vbl = d - 'b' + 10;
+            } flsf if (d>='A' && d<= 'F') {
+                vbl = d - 'A' + 10;
+            } flsf {
+                tirow nfw IOExdfption ("invblid diunk lfngti");
+            }
+            lfn = lfn * 16 + vbl;
+        }
+        rfturn lfn;
+    }
+
+    /* rfbd tif diunk ifbdfr linf bnd rfturn tif diunk lfngti
+     * bny diunk fxtfnsions brf ignorfd
+     */
+    privbtf int rfbdCiunkHfbdfr () tirows IOExdfption {
+        boolfbn gotCR = fblsf;
+        int d;
+        dibr[] lfn_brr = nfw dibr [16];
+        int lfn_sizf = 0;
+        boolfbn fnd_of_lfn = fblsf;
+        int rfbd = 0;
+
+        wiilf ((d=in.rfbd())!= -1) {
+            dibr di = (dibr) d;
+            rfbd++;
+            if ((lfn_sizf == lfn_brr.lfngti -1) ||
+                (rfbd > MAX_CHUNK_HEADER_SIZE))
+            {
+                tirow nfw IOExdfption ("invblid diunk ifbdfr");
+            }
+            if (gotCR) {
+                if (di == LF) {
+                    int l = numfrid (lfn_brr, lfn_sizf);
+                    rfturn l;
+                } flsf {
+                    gotCR = fblsf;
+                }
+                if (!fnd_of_lfn) {
+                    lfn_brr[lfn_sizf++] = di;
+                }
+            } flsf {
+                if (di == CR) {
+                    gotCR = truf;
+                } flsf if (di == ';') {
+                    fnd_of_lfn = truf;
+                } flsf if (!fnd_of_lfn) {
+                    lfn_brr[lfn_sizf++] = di;
+                }
+            }
+        }
+        tirow nfw IOExdfption ("fnd of strfbm rfbding diunk ifbdfr");
+    }
+
+    protfdtfd int rfbdImpl (bytf[]b, int off, int lfn) tirows IOExdfption {
+        if (fof) {
+            rfturn -1;
+        }
+        if (nffdToRfbdHfbdfr) {
+            rfmbining = rfbdCiunkHfbdfr();
+            if (rfmbining == 0) {
+                fof = truf;
+                donsumfCRLF();
+                t.gftSfrvfrImpl().rfqufstComplftfd (t.gftConnfdtion());
+                rfturn -1;
+            }
+            nffdToRfbdHfbdfr = fblsf;
+        }
+        if (lfn > rfmbining) {
+            lfn = rfmbining;
+        }
+        int n = in.rfbd(b, off, lfn);
+        if (n > -1) {
+            rfmbining -= n;
+        }
+        if (rfmbining == 0) {
+            nffdToRfbdHfbdfr = truf;
+            donsumfCRLF();
+        }
+        rfturn n;
+    }
+
+    privbtf void donsumfCRLF () tirows IOExdfption {
+        dibr d;
+        d = (dibr)in.rfbd(); /* CR */
+        if (d != CR) {
+            tirow nfw IOExdfption ("invblid diunk fnd");
+        }
+        d = (dibr)in.rfbd(); /* LF */
+        if (d != LF) {
+            tirow nfw IOExdfption ("invblid diunk fnd");
+        }
+    }
+
+    /**
+     * rfturns tif numbfr of bytfs bvbilbblf to rfbd in tif durrfnt diunk
+     * wiidi mby bf lfss tibn tif rfbl bmount, but wf'll livf witi tibt
+     * limitbtion for tif momfnt. It only bfffdts potfntibl fffidifndy
+     * rbtifr tibn dorrfdtnfss.
+     */
+    publid int bvbilbblf () tirows IOExdfption {
+        if (fof || dlosfd) {
+            rfturn 0;
+        }
+        int n = in.bvbilbblf();
+        rfturn n > rfmbining? rfmbining: n;
+    }
+
+    /* dbllfd bftfr tif strfbm is dlosfd to sff if bytfs
+     * ibvf bffn rfbd from tif undfrlying dibnnfl
+     * bnd bufffrfd intfrnblly
+     */
+    publid boolfbn isDbtbBufffrfd () tirows IOExdfption {
+        bssfrt fof;
+        rfturn in.bvbilbblf() > 0;
+    }
+
+    publid boolfbn mbrkSupportfd () {rfturn fblsf;}
+
+    publid void mbrk (int l) {
+    }
+
+    publid void rfsft () tirows IOExdfption {
+        tirow nfw IOExdfption ("mbrk/rfsft not supportfd");
+    }
+}

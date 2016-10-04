@@ -1,110 +1,550 @@
 /*
- * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.util.spi;
+pbdkbgf jbvb.util.spi;
+pbdkbgf jbvb.util.spi;
+pbdkbgf jbvb.util.spi;
+pbdkbgf jbvb.util.spi;
+
+
+
+
 
 import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf;
+
+
+
+
 
 /**
- * An bbstrbdt dlbss for sfrvidf providfrs thbt
- * providf lodblizfd timf zonf nbmfs for thf
+/**
+/**
+/**
+/**
+ * An bbstrbdt dlbss for sfrvidf providfrs tibt
+ * An bbstrbdt dlbss for sfrvidf providfrs tibt
+ * An bbstrbdt dlbss for sfrvidf providfrs tibt
+ * An bbstrbdt dlbss for sfrvidf providfrs tibt
+ * An bbstrbdt dlbss for sfrvidf providfrs tibt
+ * providf lodblizfd timf zonf nbmfs for tif
+ * providf lodblizfd timf zonf nbmfs for tif
+ * providf lodblizfd timf zonf nbmfs for tif
+ * providf lodblizfd timf zonf nbmfs for tif
+ * providf lodblizfd timf zonf nbmfs for tif
  * {@link jbvb.util.TimfZonf TimfZonf} dlbss.
- * Thf lodblizfd timf zonf nbmfs bvbilbblf from thf implfmfntbtions of
- * this dlbss brf blso thf sourdf for thf
+ * {@link jbvb.util.TimfZonf TimfZonf} dlbss.
+ * {@link jbvb.util.TimfZonf TimfZonf} dlbss.
+ * {@link jbvb.util.TimfZonf TimfZonf} dlbss.
+ * {@link jbvb.util.TimfZonf TimfZonf} dlbss.
+ * Tif lodblizfd timf zonf nbmfs bvbilbblf from tif implfmfntbtions of
+ * Tif lodblizfd timf zonf nbmfs bvbilbblf from tif implfmfntbtions of
+ * Tif lodblizfd timf zonf nbmfs bvbilbblf from tif implfmfntbtions of
+ * Tif lodblizfd timf zonf nbmfs bvbilbblf from tif implfmfntbtions of
+ * Tif lodblizfd timf zonf nbmfs bvbilbblf from tif implfmfntbtions of
+ * tiis dlbss brf blso tif sourdf for tif
+ * tiis dlbss brf blso tif sourdf for tif
+ * tiis dlbss brf blso tif sourdf for tif
+ * tiis dlbss brf blso tif sourdf for tif
+ * tiis dlbss brf blso tif sourdf for tif
  * {@link jbvb.tfxt.DbtfFormbtSymbols#gftZonfStrings()
- * DbtfFormbtSymbols.gftZonfStrings()} mfthod.
+ * {@link jbvb.tfxt.DbtfFormbtSymbols#gftZonfStrings()
+ * {@link jbvb.tfxt.DbtfFormbtSymbols#gftZonfStrings()
+ * {@link jbvb.tfxt.DbtfFormbtSymbols#gftZonfStrings()
+ * {@link jbvb.tfxt.DbtfFormbtSymbols#gftZonfStrings()
+ * DbtfFormbtSymbols.gftZonfStrings()} mftiod.
+ * DbtfFormbtSymbols.gftZonfStrings()} mftiod.
+ * DbtfFormbtSymbols.gftZonfStrings()} mftiod.
+ * DbtfFormbtSymbols.gftZonfStrings()} mftiod.
+ * DbtfFormbtSymbols.gftZonfStrings()} mftiod.
+ *
+ *
+ *
+ *
  *
  * @sindf        1.6
+ * @sindf        1.6
+ * @sindf        1.6
+ * @sindf        1.6
+ * @sindf        1.6
+ */
+ */
+ */
+ */
  */
 publid bbstrbdt dlbss TimfZonfNbmfProvidfr fxtfnds LodblfSfrvidfProvidfr {
+publid bbstrbdt dlbss TimfZonfNbmfProvidfr fxtfnds LodblfSfrvidfProvidfr {
+publid bbstrbdt dlbss TimfZonfNbmfProvidfr fxtfnds LodblfSfrvidfProvidfr {
+publid bbstrbdt dlbss TimfZonfNbmfProvidfr fxtfnds LodblfSfrvidfProvidfr {
+publid bbstrbdt dlbss TimfZonfNbmfProvidfr fxtfnds LodblfSfrvidfProvidfr {
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     * implidit.)
+     * implidit.)
+     * implidit.)
      * implidit.)
      */
+     */
+     */
+     */
+     */
+    protfdtfd TimfZonfNbmfProvidfr() {
+    protfdtfd TimfZonfNbmfProvidfr() {
+    protfdtfd TimfZonfNbmfProvidfr() {
+    protfdtfd TimfZonfNbmfProvidfr() {
     protfdtfd TimfZonfNbmfProvidfr() {
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b nbmf for thf givfn timf zonf ID thbt's suitbblf for
-     * prfsfntbtion to thf usfr in thf spfdififd lodblf. Thf givfn timf
-     * zonf ID is "GMT" or onf of thf nbmfs dffinfd using "Zonf" fntrifs
-     * in thf "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
-     * <b hrff="ftp://flsif.ndi.nih.gov/pub/">ftp://flsif.ndi.nih.gov/pub/</b>.
-     * Thf dbtb of this dbtbbbsf is dontbinfd in b filf whosf nbmf stbrts with
-     * "tzdbtb", bnd thf spfdifidbtion of thf dbtb formbt is pbrt of thf zid.8
-     * mbn pbgf, whidh is dontbinfd in b filf whosf nbmf stbrts with "tzdodf".
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b nbmf for tif givfn timf zonf ID tibt's suitbblf for
+     * Rfturns b nbmf for tif givfn timf zonf ID tibt's suitbblf for
+     * Rfturns b nbmf for tif givfn timf zonf ID tibt's suitbblf for
+     * Rfturns b nbmf for tif givfn timf zonf ID tibt's suitbblf for
+     * Rfturns b nbmf for tif givfn timf zonf ID tibt's suitbblf for
+     * prfsfntbtion to tif usfr in tif spfdififd lodblf. Tif givfn timf
+     * prfsfntbtion to tif usfr in tif spfdififd lodblf. Tif givfn timf
+     * prfsfntbtion to tif usfr in tif spfdififd lodblf. Tif givfn timf
+     * prfsfntbtion to tif usfr in tif spfdififd lodblf. Tif givfn timf
+     * prfsfntbtion to tif usfr in tif spfdififd lodblf. Tif givfn timf
+     * zonf ID is "GMT" or onf of tif nbmfs dffinfd using "Zonf" fntrifs
+     * zonf ID is "GMT" or onf of tif nbmfs dffinfd using "Zonf" fntrifs
+     * zonf ID is "GMT" or onf of tif nbmfs dffinfd using "Zonf" fntrifs
+     * zonf ID is "GMT" or onf of tif nbmfs dffinfd using "Zonf" fntrifs
+     * zonf ID is "GMT" or onf of tif nbmfs dffinfd using "Zonf" fntrifs
+     * in tif "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
+     * in tif "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
+     * in tif "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
+     * in tif "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
+     * in tif "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
+     * <b irff="ftp://flsif.ndi.nii.gov/pub/">ftp://flsif.ndi.nii.gov/pub/</b>.
+     * <b irff="ftp://flsif.ndi.nii.gov/pub/">ftp://flsif.ndi.nii.gov/pub/</b>.
+     * <b irff="ftp://flsif.ndi.nii.gov/pub/">ftp://flsif.ndi.nii.gov/pub/</b>.
+     * <b irff="ftp://flsif.ndi.nii.gov/pub/">ftp://flsif.ndi.nii.gov/pub/</b>.
+     * <b irff="ftp://flsif.ndi.nii.gov/pub/">ftp://flsif.ndi.nii.gov/pub/</b>.
+     * Tif dbtb of tiis dbtbbbsf is dontbinfd in b filf wiosf nbmf stbrts witi
+     * Tif dbtb of tiis dbtbbbsf is dontbinfd in b filf wiosf nbmf stbrts witi
+     * Tif dbtb of tiis dbtbbbsf is dontbinfd in b filf wiosf nbmf stbrts witi
+     * Tif dbtb of tiis dbtbbbsf is dontbinfd in b filf wiosf nbmf stbrts witi
+     * Tif dbtb of tiis dbtbbbsf is dontbinfd in b filf wiosf nbmf stbrts witi
+     * "tzdbtb", bnd tif spfdifidbtion of tif dbtb formbt is pbrt of tif zid.8
+     * "tzdbtb", bnd tif spfdifidbtion of tif dbtb formbt is pbrt of tif zid.8
+     * "tzdbtb", bnd tif spfdifidbtion of tif dbtb formbt is pbrt of tif zid.8
+     * "tzdbtb", bnd tif spfdifidbtion of tif dbtb formbt is pbrt of tif zid.8
+     * "tzdbtb", bnd tif spfdifidbtion of tif dbtb formbt is pbrt of tif zid.8
+     * mbn pbgf, wiidi is dontbinfd in b filf wiosf nbmf stbrts witi "tzdodf".
+     * mbn pbgf, wiidi is dontbinfd in b filf wiosf nbmf stbrts witi "tzdodf".
+     * mbn pbgf, wiidi is dontbinfd in b filf wiosf nbmf stbrts witi "tzdodf".
+     * mbn pbgf, wiidi is dontbinfd in b filf wiosf nbmf stbrts witi "tzdodf".
+     * mbn pbgf, wiidi is dontbinfd in b filf wiosf nbmf stbrts witi "tzdodf".
      * <p>
-     * If <dodf>dbylight</dodf> is truf, thf mfthod should rfturn b nbmf
-     * bppropribtf for dbylight sbving timf fvfn if thf spfdififd timf zonf
-     * hbs not obsfrvfd dbylight sbving timf in thf pbst.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If <dodf>dbyligit</dodf> is truf, tif mftiod siould rfturn b nbmf
+     * If <dodf>dbyligit</dodf> is truf, tif mftiod siould rfturn b nbmf
+     * If <dodf>dbyligit</dodf> is truf, tif mftiod siould rfturn b nbmf
+     * If <dodf>dbyligit</dodf> is truf, tif mftiod siould rfturn b nbmf
+     * If <dodf>dbyligit</dodf> is truf, tif mftiod siould rfturn b nbmf
+     * bppropribtf for dbyligit sbving timf fvfn if tif spfdififd timf zonf
+     * bppropribtf for dbyligit sbving timf fvfn if tif spfdififd timf zonf
+     * bppropribtf for dbyligit sbving timf fvfn if tif spfdififd timf zonf
+     * bppropribtf for dbyligit sbving timf fvfn if tif spfdififd timf zonf
+     * bppropribtf for dbyligit sbving timf fvfn if tif spfdififd timf zonf
+     * ibs not obsfrvfd dbyligit sbving timf in tif pbst.
+     * ibs not obsfrvfd dbyligit sbving timf in tif pbst.
+     * ibs not obsfrvfd dbyligit sbving timf in tif pbst.
+     * ibs not obsfrvfd dbyligit sbving timf in tif pbst.
+     * ibs not obsfrvfd dbyligit sbving timf in tif pbst.
+     *
+     *
+     *
+     *
      *
      * @pbrbm ID b timf zonf ID string
-     * @pbrbm dbylight if truf, rfturn thf dbylight sbving nbmf.
-     * @pbrbm stylf fithfr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm dbyligit if truf, rfturn tif dbyligit sbving nbmf.
+     * @pbrbm dbyligit if truf, rfturn tif dbyligit sbving nbmf.
+     * @pbrbm dbyligit if truf, rfturn tif dbyligit sbving nbmf.
+     * @pbrbm dbyligit if truf, rfturn tif dbyligit sbving nbmf.
+     * @pbrbm dbyligit if truf, rfturn tif dbyligit sbving nbmf.
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
      *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
-     * @pbrbm lodblf thf dfsirfd lodblf
-     * @rfturn thf humbn-rfbdbblf nbmf of thf givfn timf zonf in thf
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn tif iumbn-rfbdbblf nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf nbmf of tif givfn timf zonf in tif
+     *     givfn lodblf, or null if it's not bvbilbblf.
+     *     givfn lodblf, or null if it's not bvbilbblf.
+     *     givfn lodblf, or null if it's not bvbilbblf.
+     *     givfn lodblf, or null if it's not bvbilbblf.
      *     givfn lodblf, or null if it's not bvbilbblf.
      * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
-     *     or <dodf>lodblf</dodf> isn't onf of thf lodblfs rfturnfd from
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
      *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
      *     gftAvbilbblfLodblfs()}.
-     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
-     *     is null
-     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
-     */
-    publid bbstrbdt String gftDisplbyNbmf(String ID, boolfbn dbylight, int stylf, Lodblf lodblf);
-
-    /**
-     * Rfturns b gfnfrid nbmf for thf givfn timf zonf {@dodf ID} thbt's suitbblf
-     * for prfsfntbtion to thf usfr in thf spfdififd {@dodf lodblf}. Gfnfrid
-     * timf zonf nbmfs brf nfutrbl from stbndbrd timf bnd dbylight sbving
-     * timf. For fxbmplf, "PT" is thf short gfnfrid nbmf of timf zonf ID {@dodf
-     * Amfridb/Los_Angflfs}, whilf its short stbndbrd timf bnd dbylight sbving
-     * timf nbmfs brf "PST" bnd "PDT", rfspfdtivfly. Rfffr to
-     * {@link #gftDisplbyNbmf(String, boolfbn, int, Lodblf) gftDisplbyNbmf}
-     * for vblid timf zonf IDs.
-     *
-     * <p>Thf dffbult implfmfntbtion of this mfthod rfturns {@dodf null}.
-     *
-     * @pbrbm ID b timf zonf ID string
-     * @pbrbm stylf fithfr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
-     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
-     * @pbrbm lodblf thf dfsirfd lodblf
-     * @rfturn thf humbn-rfbdbblf gfnfrid nbmf of thf givfn timf zonf in thf
-     *     givfn lodblf, or {@dodf null} if it's not bvbilbblf.
-     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
-     *     or <dodf>lodblf</dodf> isn't onf of thf lodblfs rfturnfd from
-     *     {@link LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     *     gftAvbilbblfLodblfs()}.
+     *     gftAvbilbblfLodblfs()}.
      *     gftAvbilbblfLodblfs()}.
      * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     *     is null
+     *     is null
+     *     is null
+     *     is null
+     *     is null
+     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
+     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
+     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
+     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
+     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
+     */
+     */
+     */
+     */
+     */
+    publid bbstrbdt String gftDisplbyNbmf(String ID, boolfbn dbyligit, int stylf, Lodblf lodblf);
+    publid bbstrbdt String gftDisplbyNbmf(String ID, boolfbn dbyligit, int stylf, Lodblf lodblf);
+    publid bbstrbdt String gftDisplbyNbmf(String ID, boolfbn dbyligit, int stylf, Lodblf lodblf);
+    publid bbstrbdt String gftDisplbyNbmf(String ID, boolfbn dbyligit, int stylf, Lodblf lodblf);
+    publid bbstrbdt String gftDisplbyNbmf(String ID, boolfbn dbyligit, int stylf, Lodblf lodblf);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b gfnfrid nbmf for tif givfn timf zonf {@dodf ID} tibt's suitbblf
+     * Rfturns b gfnfrid nbmf for tif givfn timf zonf {@dodf ID} tibt's suitbblf
+     * Rfturns b gfnfrid nbmf for tif givfn timf zonf {@dodf ID} tibt's suitbblf
+     * Rfturns b gfnfrid nbmf for tif givfn timf zonf {@dodf ID} tibt's suitbblf
+     * Rfturns b gfnfrid nbmf for tif givfn timf zonf {@dodf ID} tibt's suitbblf
+     * for prfsfntbtion to tif usfr in tif spfdififd {@dodf lodblf}. Gfnfrid
+     * for prfsfntbtion to tif usfr in tif spfdififd {@dodf lodblf}. Gfnfrid
+     * for prfsfntbtion to tif usfr in tif spfdififd {@dodf lodblf}. Gfnfrid
+     * for prfsfntbtion to tif usfr in tif spfdififd {@dodf lodblf}. Gfnfrid
+     * for prfsfntbtion to tif usfr in tif spfdififd {@dodf lodblf}. Gfnfrid
+     * timf zonf nbmfs brf nfutrbl from stbndbrd timf bnd dbyligit sbving
+     * timf zonf nbmfs brf nfutrbl from stbndbrd timf bnd dbyligit sbving
+     * timf zonf nbmfs brf nfutrbl from stbndbrd timf bnd dbyligit sbving
+     * timf zonf nbmfs brf nfutrbl from stbndbrd timf bnd dbyligit sbving
+     * timf zonf nbmfs brf nfutrbl from stbndbrd timf bnd dbyligit sbving
+     * timf. For fxbmplf, "PT" is tif siort gfnfrid nbmf of timf zonf ID {@dodf
+     * timf. For fxbmplf, "PT" is tif siort gfnfrid nbmf of timf zonf ID {@dodf
+     * timf. For fxbmplf, "PT" is tif siort gfnfrid nbmf of timf zonf ID {@dodf
+     * timf. For fxbmplf, "PT" is tif siort gfnfrid nbmf of timf zonf ID {@dodf
+     * timf. For fxbmplf, "PT" is tif siort gfnfrid nbmf of timf zonf ID {@dodf
+     * Amfridb/Los_Angflfs}, wiilf its siort stbndbrd timf bnd dbyligit sbving
+     * Amfridb/Los_Angflfs}, wiilf its siort stbndbrd timf bnd dbyligit sbving
+     * Amfridb/Los_Angflfs}, wiilf its siort stbndbrd timf bnd dbyligit sbving
+     * Amfridb/Los_Angflfs}, wiilf its siort stbndbrd timf bnd dbyligit sbving
+     * Amfridb/Los_Angflfs}, wiilf its siort stbndbrd timf bnd dbyligit sbving
+     * timf nbmfs brf "PST" bnd "PDT", rfspfdtivfly. Rfffr to
+     * timf nbmfs brf "PST" bnd "PDT", rfspfdtivfly. Rfffr to
+     * timf nbmfs brf "PST" bnd "PDT", rfspfdtivfly. Rfffr to
+     * timf nbmfs brf "PST" bnd "PDT", rfspfdtivfly. Rfffr to
+     * timf nbmfs brf "PST" bnd "PDT", rfspfdtivfly. Rfffr to
+     * {@link #gftDisplbyNbmf(String, boolfbn, int, Lodblf) gftDisplbyNbmf}
+     * {@link #gftDisplbyNbmf(String, boolfbn, int, Lodblf) gftDisplbyNbmf}
+     * {@link #gftDisplbyNbmf(String, boolfbn, int, Lodblf) gftDisplbyNbmf}
+     * {@link #gftDisplbyNbmf(String, boolfbn, int, Lodblf) gftDisplbyNbmf}
+     * {@link #gftDisplbyNbmf(String, boolfbn, int, Lodblf) gftDisplbyNbmf}
+     * for vblid timf zonf IDs.
+     * for vblid timf zonf IDs.
+     * for vblid timf zonf IDs.
+     * for vblid timf zonf IDs.
+     * for vblid timf zonf IDs.
+     *
+     *
+     *
+     *
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns {@dodf null}.
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns {@dodf null}.
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns {@dodf null}.
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns {@dodf null}.
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns {@dodf null}.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn tif iumbn-rfbdbblf gfnfrid nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf gfnfrid nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf gfnfrid nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf gfnfrid nbmf of tif givfn timf zonf in tif
+     * @rfturn tif iumbn-rfbdbblf gfnfrid nbmf of tif givfn timf zonf in tif
+     *     givfn lodblf, or {@dodf null} if it's not bvbilbblf.
+     *     givfn lodblf, or {@dodf null} if it's not bvbilbblf.
+     *     givfn lodblf, or {@dodf null} if it's not bvbilbblf.
+     *     givfn lodblf, or {@dodf null} if it's not bvbilbblf.
+     *     givfn lodblf, or {@dodf null} if it's not bvbilbblf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     {@link LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     {@link LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     {@link LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     {@link LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     {@link LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     *     gftAvbilbblfLodblfs()}.
+     *     gftAvbilbblfLodblfs()}.
+     *     gftAvbilbblfLodblfs()}.
+     *     gftAvbilbblfLodblfs()}.
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
+     *     is {@dodf null}
+     *     is {@dodf null}
+     *     is {@dodf null}
+     *     is {@dodf null}
      *     is {@dodf null}
      * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     */
+     */
+     */
+     */
      */
     publid String gftGfnfridDisplbyNbmf(String ID, int stylf, Lodblf lodblf) {
+    publid String gftGfnfridDisplbyNbmf(String ID, int stylf, Lodblf lodblf) {
+    publid String gftGfnfridDisplbyNbmf(String ID, int stylf, Lodblf lodblf) {
+    publid String gftGfnfridDisplbyNbmf(String ID, int stylf, Lodblf lodblf) {
+    publid String gftGfnfridDisplbyNbmf(String ID, int stylf, Lodblf lodblf) {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

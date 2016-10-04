@@ -1,395 +1,1975 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+pbdkbgf jbvb.bwt.gfom;
+
+
+
+
 
 import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+
+
+
+
 
 /**
- * Thf <dodf>FlbttfningPbthItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
- * bnothfr {@link PbthItfrbtor} objfdt.  Othfr {@link jbvb.bwt.Shbpf Shbpf}
- * dlbssfs dbn usf this dlbss to providf flbttfning bfhbvior for thfir pbths
- * without hbving to pfrform thf intfrpolbtion dbldulbtions thfmsflvfs.
+/**
+/**
+/**
+/**
+ * Tif <dodf>FlbttfningPbtiItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
+ * Tif <dodf>FlbttfningPbtiItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
+ * Tif <dodf>FlbttfningPbtiItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
+ * Tif <dodf>FlbttfningPbtiItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
+ * Tif <dodf>FlbttfningPbtiItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
+ * bnotifr {@link PbtiItfrbtor} objfdt.  Otifr {@link jbvb.bwt.Sibpf Sibpf}
+ * bnotifr {@link PbtiItfrbtor} objfdt.  Otifr {@link jbvb.bwt.Sibpf Sibpf}
+ * bnotifr {@link PbtiItfrbtor} objfdt.  Otifr {@link jbvb.bwt.Sibpf Sibpf}
+ * bnotifr {@link PbtiItfrbtor} objfdt.  Otifr {@link jbvb.bwt.Sibpf Sibpf}
+ * bnotifr {@link PbtiItfrbtor} objfdt.  Otifr {@link jbvb.bwt.Sibpf Sibpf}
+ * dlbssfs dbn usf tiis dlbss to providf flbttfning bfibvior for tifir pbtis
+ * dlbssfs dbn usf tiis dlbss to providf flbttfning bfibvior for tifir pbtis
+ * dlbssfs dbn usf tiis dlbss to providf flbttfning bfibvior for tifir pbtis
+ * dlbssfs dbn usf tiis dlbss to providf flbttfning bfibvior for tifir pbtis
+ * dlbssfs dbn usf tiis dlbss to providf flbttfning bfibvior for tifir pbtis
+ * witiout ibving to pfrform tif intfrpolbtion dbldulbtions tifmsflvfs.
+ * witiout ibving to pfrform tif intfrpolbtion dbldulbtions tifmsflvfs.
+ * witiout ibving to pfrform tif intfrpolbtion dbldulbtions tifmsflvfs.
+ * witiout ibving to pfrform tif intfrpolbtion dbldulbtions tifmsflvfs.
+ * witiout ibving to pfrform tif intfrpolbtion dbldulbtions tifmsflvfs.
  *
- * @buthor Jim Grbhbm
+ *
+ *
+ *
+ *
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
+ * @butior Jim Grbibm
  */
-publid dlbss FlbttfningPbthItfrbtor implfmfnts PbthItfrbtor {
+ */
+ */
+ */
+ */
+publid dlbss FlbttfningPbtiItfrbtor implfmfnts PbtiItfrbtor {
+publid dlbss FlbttfningPbtiItfrbtor implfmfnts PbtiItfrbtor {
+publid dlbss FlbttfningPbtiItfrbtor implfmfnts PbtiItfrbtor {
+publid dlbss FlbttfningPbtiItfrbtor implfmfnts PbtiItfrbtor {
+publid dlbss FlbttfningPbtiItfrbtor implfmfnts PbtiItfrbtor {
+    stbtid finbl int GROW_SIZE = 24;    // Multiplf of dubid & qubd durvf sizf
+    stbtid finbl int GROW_SIZE = 24;    // Multiplf of dubid & qubd durvf sizf
+    stbtid finbl int GROW_SIZE = 24;    // Multiplf of dubid & qubd durvf sizf
+    stbtid finbl int GROW_SIZE = 24;    // Multiplf of dubid & qubd durvf sizf
     stbtid finbl int GROW_SIZE = 24;    // Multiplf of dubid & qubd durvf sizf
 
-    PbthItfrbtor srd;                   // Thf sourdf itfrbtor
 
-    doublf squbrfflbt;                  // Squbrf of thf flbtnfss pbrbmftfr
-                                        // for tfsting bgbinst squbrfd lfngths
+
+
+
+    PbtiItfrbtor srd;                   // Tif sourdf itfrbtor
+    PbtiItfrbtor srd;                   // Tif sourdf itfrbtor
+    PbtiItfrbtor srd;                   // Tif sourdf itfrbtor
+    PbtiItfrbtor srd;                   // Tif sourdf itfrbtor
+    PbtiItfrbtor srd;                   // Tif sourdf itfrbtor
+
+
+
+
+
+    doublf squbrfflbt;                  // Squbrf of tif flbtnfss pbrbmftfr
+    doublf squbrfflbt;                  // Squbrf of tif flbtnfss pbrbmftfr
+    doublf squbrfflbt;                  // Squbrf of tif flbtnfss pbrbmftfr
+    doublf squbrfflbt;                  // Squbrf of tif flbtnfss pbrbmftfr
+    doublf squbrfflbt;                  // Squbrf of tif flbtnfss pbrbmftfr
+                                        // for tfsting bgbinst squbrfd lfngtis
+                                        // for tfsting bgbinst squbrfd lfngtis
+                                        // for tfsting bgbinst squbrfd lfngtis
+                                        // for tfsting bgbinst squbrfd lfngtis
+                                        // for tfsting bgbinst squbrfd lfngtis
+
+
+
+
 
     int limit;                          // Mbximum numbfr of rfdursion lfvfls
+    int limit;                          // Mbximum numbfr of rfdursion lfvfls
+    int limit;                          // Mbximum numbfr of rfdursion lfvfls
+    int limit;                          // Mbximum numbfr of rfdursion lfvfls
+    int limit;                          // Mbximum numbfr of rfdursion lfvfls
 
-    doublf hold[] = nfw doublf[14];     // Thf dbdhf of intfrpolbtfd doords
-                                        // Notf thbt this must bf long fnough
+
+
+
+
+    doublf iold[] = nfw doublf[14];     // Tif dbdif of intfrpolbtfd doords
+    doublf iold[] = nfw doublf[14];     // Tif dbdif of intfrpolbtfd doords
+    doublf iold[] = nfw doublf[14];     // Tif dbdif of intfrpolbtfd doords
+    doublf iold[] = nfw doublf[14];     // Tif dbdif of intfrpolbtfd doords
+    doublf iold[] = nfw doublf[14];     // Tif dbdif of intfrpolbtfd doords
+                                        // Notf tibt tiis must bf long fnougi
+                                        // Notf tibt tiis must bf long fnougi
+                                        // Notf tibt tiis must bf long fnougi
+                                        // Notf tibt tiis must bf long fnougi
+                                        // Notf tibt tiis must bf long fnougi
+                                        // to storf b full dubid sfgmfnt bnd
+                                        // to storf b full dubid sfgmfnt bnd
+                                        // to storf b full dubid sfgmfnt bnd
+                                        // to storf b full dubid sfgmfnt bnd
                                         // to storf b full dubid sfgmfnt bnd
                                         // b rflbtivf dubid sfgmfnt to bvoid
-                                        // blibsing whfn dopying thf doords
-                                        // of b durvf to thf fnd of thf brrby.
-                                        // This is blso sfrfndipitously fqubl
-                                        // to thf sizf of b full qubd sfgmfnt
+                                        // b rflbtivf dubid sfgmfnt to bvoid
+                                        // b rflbtivf dubid sfgmfnt to bvoid
+                                        // b rflbtivf dubid sfgmfnt to bvoid
+                                        // b rflbtivf dubid sfgmfnt to bvoid
+                                        // blibsing wifn dopying tif doords
+                                        // blibsing wifn dopying tif doords
+                                        // blibsing wifn dopying tif doords
+                                        // blibsing wifn dopying tif doords
+                                        // blibsing wifn dopying tif doords
+                                        // of b durvf to tif fnd of tif brrby.
+                                        // of b durvf to tif fnd of tif brrby.
+                                        // of b durvf to tif fnd of tif brrby.
+                                        // of b durvf to tif fnd of tif brrby.
+                                        // of b durvf to tif fnd of tif brrby.
+                                        // Tiis is blso sfrfndipitously fqubl
+                                        // Tiis is blso sfrfndipitously fqubl
+                                        // Tiis is blso sfrfndipitously fqubl
+                                        // Tiis is blso sfrfndipitously fqubl
+                                        // Tiis is blso sfrfndipitously fqubl
+                                        // to tif sizf of b full qubd sfgmfnt
+                                        // to tif sizf of b full qubd sfgmfnt
+                                        // to tif sizf of b full qubd sfgmfnt
+                                        // to tif sizf of b full qubd sfgmfnt
+                                        // to tif sizf of b full qubd sfgmfnt
+                                        // bnd 2 rflbtivf qubd sfgmfnts.
+                                        // bnd 2 rflbtivf qubd sfgmfnts.
+                                        // bnd 2 rflbtivf qubd sfgmfnts.
+                                        // bnd 2 rflbtivf qubd sfgmfnts.
                                         // bnd 2 rflbtivf qubd sfgmfnts.
 
-    doublf durx, dury;                  // Thf fnding x,y of thf lbst sfgmfnt
 
-    doublf movx, movy;                  // Thf x,y of thf lbst movf sfgmfnt
 
-    int holdTypf;                       // Thf typf of thf durvf bfing hfld
+
+
+    doublf durx, dury;                  // Tif fnding x,y of tif lbst sfgmfnt
+    doublf durx, dury;                  // Tif fnding x,y of tif lbst sfgmfnt
+    doublf durx, dury;                  // Tif fnding x,y of tif lbst sfgmfnt
+    doublf durx, dury;                  // Tif fnding x,y of tif lbst sfgmfnt
+    doublf durx, dury;                  // Tif fnding x,y of tif lbst sfgmfnt
+
+
+
+
+
+    doublf movx, movy;                  // Tif x,y of tif lbst movf sfgmfnt
+    doublf movx, movy;                  // Tif x,y of tif lbst movf sfgmfnt
+    doublf movx, movy;                  // Tif x,y of tif lbst movf sfgmfnt
+    doublf movx, movy;                  // Tif x,y of tif lbst movf sfgmfnt
+    doublf movx, movy;                  // Tif x,y of tif lbst movf sfgmfnt
+
+
+
+
+
+    int ioldTypf;                       // Tif typf of tif durvf bfing ifld
+    int ioldTypf;                       // Tif typf of tif durvf bfing ifld
+    int ioldTypf;                       // Tif typf of tif durvf bfing ifld
+    int ioldTypf;                       // Tif typf of tif durvf bfing ifld
+    int ioldTypf;                       // Tif typf of tif durvf bfing ifld
+                                        // for intfrpolbtion
+                                        // for intfrpolbtion
+                                        // for intfrpolbtion
+                                        // for intfrpolbtion
                                         // for intfrpolbtion
 
-    int holdEnd;                        // Thf indfx of thf lbst durvf sfgmfnt
-                                        // bfing hfld for intfrpolbtion
 
-    int holdIndfx;                      // Thf indfx of thf durvf sfgmfnt
-                                        // thbt wbs lbst intfrpolbtfd.  This
-                                        // is thf durvf sfgmfnt rfbdy to bf
-                                        // rfturnfd in thf nfxt dbll to
+
+
+
+    int ioldEnd;                        // Tif indfx of tif lbst durvf sfgmfnt
+    int ioldEnd;                        // Tif indfx of tif lbst durvf sfgmfnt
+    int ioldEnd;                        // Tif indfx of tif lbst durvf sfgmfnt
+    int ioldEnd;                        // Tif indfx of tif lbst durvf sfgmfnt
+    int ioldEnd;                        // Tif indfx of tif lbst durvf sfgmfnt
+                                        // bfing ifld for intfrpolbtion
+                                        // bfing ifld for intfrpolbtion
+                                        // bfing ifld for intfrpolbtion
+                                        // bfing ifld for intfrpolbtion
+                                        // bfing ifld for intfrpolbtion
+
+
+
+
+
+    int ioldIndfx;                      // Tif indfx of tif durvf sfgmfnt
+    int ioldIndfx;                      // Tif indfx of tif durvf sfgmfnt
+    int ioldIndfx;                      // Tif indfx of tif durvf sfgmfnt
+    int ioldIndfx;                      // Tif indfx of tif durvf sfgmfnt
+    int ioldIndfx;                      // Tif indfx of tif durvf sfgmfnt
+                                        // tibt wbs lbst intfrpolbtfd.  Tiis
+                                        // tibt wbs lbst intfrpolbtfd.  Tiis
+                                        // tibt wbs lbst intfrpolbtfd.  Tiis
+                                        // tibt wbs lbst intfrpolbtfd.  Tiis
+                                        // tibt wbs lbst intfrpolbtfd.  Tiis
+                                        // is tif durvf sfgmfnt rfbdy to bf
+                                        // is tif durvf sfgmfnt rfbdy to bf
+                                        // is tif durvf sfgmfnt rfbdy to bf
+                                        // is tif durvf sfgmfnt rfbdy to bf
+                                        // is tif durvf sfgmfnt rfbdy to bf
+                                        // rfturnfd in tif nfxt dbll to
+                                        // rfturnfd in tif nfxt dbll to
+                                        // rfturnfd in tif nfxt dbll to
+                                        // rfturnfd in tif nfxt dbll to
+                                        // rfturnfd in tif nfxt dbll to
+                                        // durrfntSfgmfnt().
+                                        // durrfntSfgmfnt().
+                                        // durrfntSfgmfnt().
+                                        // durrfntSfgmfnt().
                                         // durrfntSfgmfnt().
 
-    int lfvfls[];                       // Thf rfdursion lfvfl bt whidh
-                                        // fbdh durvf bfing hfld in storbgf
+
+
+
+
+    int lfvfls[];                       // Tif rfdursion lfvfl bt wiidi
+    int lfvfls[];                       // Tif rfdursion lfvfl bt wiidi
+    int lfvfls[];                       // Tif rfdursion lfvfl bt wiidi
+    int lfvfls[];                       // Tif rfdursion lfvfl bt wiidi
+    int lfvfls[];                       // Tif rfdursion lfvfl bt wiidi
+                                        // fbdi durvf bfing ifld in storbgf
+                                        // fbdi durvf bfing ifld in storbgf
+                                        // fbdi durvf bfing ifld in storbgf
+                                        // fbdi durvf bfing ifld in storbgf
+                                        // fbdi durvf bfing ifld in storbgf
+                                        // wbs gfnfrbtfd.
+                                        // wbs gfnfrbtfd.
+                                        // wbs gfnfrbtfd.
+                                        // wbs gfnfrbtfd.
                                         // wbs gfnfrbtfd.
 
-    int lfvflIndfx;                     // Thf indfx of thf fntry in thf
-                                        // lfvfls brrby of thf durvf sfgmfnt
-                                        // bt thf holdIndfx
 
-    boolfbn donf;                       // Truf whfn itfrbtion is donf
+
+
+
+    int lfvflIndfx;                     // Tif indfx of tif fntry in tif
+    int lfvflIndfx;                     // Tif indfx of tif fntry in tif
+    int lfvflIndfx;                     // Tif indfx of tif fntry in tif
+    int lfvflIndfx;                     // Tif indfx of tif fntry in tif
+    int lfvflIndfx;                     // Tif indfx of tif fntry in tif
+                                        // lfvfls brrby of tif durvf sfgmfnt
+                                        // lfvfls brrby of tif durvf sfgmfnt
+                                        // lfvfls brrby of tif durvf sfgmfnt
+                                        // lfvfls brrby of tif durvf sfgmfnt
+                                        // lfvfls brrby of tif durvf sfgmfnt
+                                        // bt tif ioldIndfx
+                                        // bt tif ioldIndfx
+                                        // bt tif ioldIndfx
+                                        // bt tif ioldIndfx
+                                        // bt tif ioldIndfx
+
+
+
+
+
+    boolfbn donf;                       // Truf wifn itfrbtion is donf
+    boolfbn donf;                       // Truf wifn itfrbtion is donf
+    boolfbn donf;                       // Truf wifn itfrbtion is donf
+    boolfbn donf;                       // Truf wifn itfrbtion is donf
+    boolfbn donf;                       // Truf wifn itfrbtion is donf
+
+
+
+
 
     /**
-     * Construdts b nfw <dodf>FlbttfningPbthItfrbtor</dodf> objfdt thbt
-     * flbttfns b pbth bs it itfrbtfs ovfr it.  Thf itfrbtor dofs not
-     * subdividf bny durvf rfbd from thf sourdf itfrbtor to morf thbn
-     * 10 lfvfls of subdivision whidh yiflds b mbximum of 1024 linf
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt tibt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt tibt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt tibt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt tibt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt tibt
+     * flbttfns b pbti bs it itfrbtfs ovfr it.  Tif itfrbtor dofs not
+     * flbttfns b pbti bs it itfrbtfs ovfr it.  Tif itfrbtor dofs not
+     * flbttfns b pbti bs it itfrbtfs ovfr it.  Tif itfrbtor dofs not
+     * flbttfns b pbti bs it itfrbtfs ovfr it.  Tif itfrbtor dofs not
+     * flbttfns b pbti bs it itfrbtfs ovfr it.  Tif itfrbtor dofs not
+     * subdividf bny durvf rfbd from tif sourdf itfrbtor to morf tibn
+     * subdividf bny durvf rfbd from tif sourdf itfrbtor to morf tibn
+     * subdividf bny durvf rfbd from tif sourdf itfrbtor to morf tibn
+     * subdividf bny durvf rfbd from tif sourdf itfrbtor to morf tibn
+     * subdividf bny durvf rfbd from tif sourdf itfrbtor to morf tibn
+     * 10 lfvfls of subdivision wiidi yiflds b mbximum of 1024 linf
+     * 10 lfvfls of subdivision wiidi yiflds b mbximum of 1024 linf
+     * 10 lfvfls of subdivision wiidi yiflds b mbximum of 1024 linf
+     * 10 lfvfls of subdivision wiidi yiflds b mbximum of 1024 linf
+     * 10 lfvfls of subdivision wiidi yiflds b mbximum of 1024 linf
      * sfgmfnts pfr durvf.
-     * @pbrbm srd thf originbl unflbttfnfd pbth bfing itfrbtfd ovfr
-     * @pbrbm flbtnfss thf mbximum bllowbblf distbndf bftwffn thf
-     * dontrol points bnd thf flbttfnfd durvf
+     * sfgmfnts pfr durvf.
+     * sfgmfnts pfr durvf.
+     * sfgmfnts pfr durvf.
+     * sfgmfnts pfr durvf.
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
      */
-    publid FlbttfningPbthItfrbtor(PbthItfrbtor srd, doublf flbtnfss) {
-        this(srd, flbtnfss, 10);
+     */
+     */
+     */
+     */
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss) {
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss) {
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss) {
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss) {
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss) {
+        tiis(srd, flbtnfss, 10);
+        tiis(srd, flbtnfss, 10);
+        tiis(srd, flbtnfss, 10);
+        tiis(srd, flbtnfss, 10);
+        tiis(srd, flbtnfss, 10);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b nfw <dodf>FlbttfningPbthItfrbtor</dodf> objfdt
-     * thbt flbttfns b pbth bs it itfrbtfs ovfr it.
-     * Thf <dodf>limit</dodf> pbrbmftfr bllows you to dontrol thf
-     * mbximum numbfr of rfdursivf subdivisions thbt thf itfrbtor
-     * dbn mbkf bfforf it bssumfs thbt thf durvf is flbt fnough
-     * without mfbsuring bgbinst thf <dodf>flbtnfss</dodf> pbrbmftfr.
-     * Thf flbttfnfd itfrbtion thfrfforf nfvfr gfnfrbtfs morf thbn
+    /**
+    /**
+    /**
+    /**
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt
+     * tibt flbttfns b pbti bs it itfrbtfs ovfr it.
+     * tibt flbttfns b pbti bs it itfrbtfs ovfr it.
+     * tibt flbttfns b pbti bs it itfrbtfs ovfr it.
+     * tibt flbttfns b pbti bs it itfrbtfs ovfr it.
+     * tibt flbttfns b pbti bs it itfrbtfs ovfr it.
+     * Tif <dodf>limit</dodf> pbrbmftfr bllows you to dontrol tif
+     * Tif <dodf>limit</dodf> pbrbmftfr bllows you to dontrol tif
+     * Tif <dodf>limit</dodf> pbrbmftfr bllows you to dontrol tif
+     * Tif <dodf>limit</dodf> pbrbmftfr bllows you to dontrol tif
+     * Tif <dodf>limit</dodf> pbrbmftfr bllows you to dontrol tif
+     * mbximum numbfr of rfdursivf subdivisions tibt tif itfrbtor
+     * mbximum numbfr of rfdursivf subdivisions tibt tif itfrbtor
+     * mbximum numbfr of rfdursivf subdivisions tibt tif itfrbtor
+     * mbximum numbfr of rfdursivf subdivisions tibt tif itfrbtor
+     * mbximum numbfr of rfdursivf subdivisions tibt tif itfrbtor
+     * dbn mbkf bfforf it bssumfs tibt tif durvf is flbt fnougi
+     * dbn mbkf bfforf it bssumfs tibt tif durvf is flbt fnougi
+     * dbn mbkf bfforf it bssumfs tibt tif durvf is flbt fnougi
+     * dbn mbkf bfforf it bssumfs tibt tif durvf is flbt fnougi
+     * dbn mbkf bfforf it bssumfs tibt tif durvf is flbt fnougi
+     * witiout mfbsuring bgbinst tif <dodf>flbtnfss</dodf> pbrbmftfr.
+     * witiout mfbsuring bgbinst tif <dodf>flbtnfss</dodf> pbrbmftfr.
+     * witiout mfbsuring bgbinst tif <dodf>flbtnfss</dodf> pbrbmftfr.
+     * witiout mfbsuring bgbinst tif <dodf>flbtnfss</dodf> pbrbmftfr.
+     * witiout mfbsuring bgbinst tif <dodf>flbtnfss</dodf> pbrbmftfr.
+     * Tif flbttfnfd itfrbtion tifrfforf nfvfr gfnfrbtfs morf tibn
+     * Tif flbttfnfd itfrbtion tifrfforf nfvfr gfnfrbtfs morf tibn
+     * Tif flbttfnfd itfrbtion tifrfforf nfvfr gfnfrbtfs morf tibn
+     * Tif flbttfnfd itfrbtion tifrfforf nfvfr gfnfrbtfs morf tibn
+     * Tif flbttfnfd itfrbtion tifrfforf nfvfr gfnfrbtfs morf tibn
      * b mbximum of <dodf>(2^limit)</dodf> linf sfgmfnts pfr durvf.
-     * @pbrbm srd thf originbl unflbttfnfd pbth bfing itfrbtfd ovfr
-     * @pbrbm flbtnfss thf mbximum bllowbblf distbndf bftwffn thf
-     * dontrol points bnd thf flbttfnfd durvf
-     * @pbrbm limit thf mbximum numbfr of rfdursivf subdivisions
+     * b mbximum of <dodf>(2^limit)</dodf> linf sfgmfnts pfr durvf.
+     * b mbximum of <dodf>(2^limit)</dodf> linf sfgmfnts pfr durvf.
+     * b mbximum of <dodf>(2^limit)</dodf> linf sfgmfnts pfr durvf.
+     * b mbximum of <dodf>(2^limit)</dodf> linf sfgmfnts pfr durvf.
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
+     * dontrol points bnd tif flbttfnfd durvf
+     * @pbrbm limit tif mbximum numbfr of rfdursivf subdivisions
+     * @pbrbm limit tif mbximum numbfr of rfdursivf subdivisions
+     * @pbrbm limit tif mbximum numbfr of rfdursivf subdivisions
+     * @pbrbm limit tif mbximum numbfr of rfdursivf subdivisions
+     * @pbrbm limit tif mbximum numbfr of rfdursivf subdivisions
+     * bllowfd for bny durvfd sfgmfnt
+     * bllowfd for bny durvfd sfgmfnt
+     * bllowfd for bny durvfd sfgmfnt
+     * bllowfd for bny durvfd sfgmfnt
      * bllowfd for bny durvfd sfgmfnt
      * @fxdfption IllfgblArgumfntExdfption if
+     * @fxdfption IllfgblArgumfntExdfption if
+     * @fxdfption IllfgblArgumfntExdfption if
+     * @fxdfption IllfgblArgumfntExdfption if
+     * @fxdfption IllfgblArgumfntExdfption if
      *          <dodf>flbtnfss</dodf> or <dodf>limit</dodf>
-     *          is lfss thbn zfro
+     *          <dodf>flbtnfss</dodf> or <dodf>limit</dodf>
+     *          <dodf>flbtnfss</dodf> or <dodf>limit</dodf>
+     *          <dodf>flbtnfss</dodf> or <dodf>limit</dodf>
+     *          <dodf>flbtnfss</dodf> or <dodf>limit</dodf>
+     *          is lfss tibn zfro
+     *          is lfss tibn zfro
+     *          is lfss tibn zfro
+     *          is lfss tibn zfro
+     *          is lfss tibn zfro
      */
-    publid FlbttfningPbthItfrbtor(PbthItfrbtor srd, doublf flbtnfss,
+     */
+     */
+     */
+     */
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss,
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss,
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss,
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss,
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss,
+                                  int limit) {
+                                  int limit) {
+                                  int limit) {
+                                  int limit) {
                                   int limit) {
         if (flbtnfss < 0.0) {
-            throw nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
+        if (flbtnfss < 0.0) {
+        if (flbtnfss < 0.0) {
+        if (flbtnfss < 0.0) {
+        if (flbtnfss < 0.0) {
+            tirow nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
+        }
+        }
+        }
+        }
         }
         if (limit < 0) {
-            throw nfw IllfgblArgumfntExdfption("limit must bf >= 0");
+        if (limit < 0) {
+        if (limit < 0) {
+        if (limit < 0) {
+        if (limit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("limit must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("limit must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("limit must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("limit must bf >= 0");
+            tirow nfw IllfgblArgumfntExdfption("limit must bf >= 0");
         }
-        this.srd = srd;
-        this.squbrfflbt = flbtnfss * flbtnfss;
-        this.limit = limit;
-        this.lfvfls = nfw int[limit + 1];
-        // primf thf first pbth sfgmfnt
+        }
+        }
+        }
+        }
+        tiis.srd = srd;
+        tiis.srd = srd;
+        tiis.srd = srd;
+        tiis.srd = srd;
+        tiis.srd = srd;
+        tiis.squbrfflbt = flbtnfss * flbtnfss;
+        tiis.squbrfflbt = flbtnfss * flbtnfss;
+        tiis.squbrfflbt = flbtnfss * flbtnfss;
+        tiis.squbrfflbt = flbtnfss * flbtnfss;
+        tiis.squbrfflbt = flbtnfss * flbtnfss;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.lfvfls = nfw int[limit + 1];
+        tiis.lfvfls = nfw int[limit + 1];
+        tiis.lfvfls = nfw int[limit + 1];
+        tiis.lfvfls = nfw int[limit + 1];
+        tiis.lfvfls = nfw int[limit + 1];
+        // primf tif first pbti sfgmfnt
+        // primf tif first pbti sfgmfnt
+        // primf tif first pbti sfgmfnt
+        // primf tif first pbti sfgmfnt
+        // primf tif first pbti sfgmfnt
+        nfxt(fblsf);
+        nfxt(fblsf);
+        nfxt(fblsf);
+        nfxt(fblsf);
         nfxt(fblsf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf flbtnfss of this itfrbtor.
-     * @rfturn thf flbtnfss of this <dodf>FlbttfningPbthItfrbtor</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif flbtnfss of tiis itfrbtor.
+     * Rfturns tif flbtnfss of tiis itfrbtor.
+     * Rfturns tif flbtnfss of tiis itfrbtor.
+     * Rfturns tif flbtnfss of tiis itfrbtor.
+     * Rfturns tif flbtnfss of tiis itfrbtor.
+     * @rfturn tif flbtnfss of tiis <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * @rfturn tif flbtnfss of tiis <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * @rfturn tif flbtnfss of tiis <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * @rfturn tif flbtnfss of tiis <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * @rfturn tif flbtnfss of tiis <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     */
+     */
+     */
+     */
      */
     publid doublf gftFlbtnfss() {
-        rfturn Mbth.sqrt(squbrfflbt);
+    publid doublf gftFlbtnfss() {
+    publid doublf gftFlbtnfss() {
+    publid doublf gftFlbtnfss() {
+    publid doublf gftFlbtnfss() {
+        rfturn Mbti.sqrt(squbrfflbt);
+        rfturn Mbti.sqrt(squbrfflbt);
+        rfturn Mbti.sqrt(squbrfflbt);
+        rfturn Mbti.sqrt(squbrfflbt);
+        rfturn Mbti.sqrt(squbrfflbt);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf rfdursion limit of this itfrbtor.
-     * @rfturn thf rfdursion limit of this
-     * <dodf>FlbttfningPbthItfrbtor</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif rfdursion limit of tiis itfrbtor.
+     * Rfturns tif rfdursion limit of tiis itfrbtor.
+     * Rfturns tif rfdursion limit of tiis itfrbtor.
+     * Rfturns tif rfdursion limit of tiis itfrbtor.
+     * Rfturns tif rfdursion limit of tiis itfrbtor.
+     * @rfturn tif rfdursion limit of tiis
+     * @rfturn tif rfdursion limit of tiis
+     * @rfturn tif rfdursion limit of tiis
+     * @rfturn tif rfdursion limit of tiis
+     * @rfturn tif rfdursion limit of tiis
+     * <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     * <dodf>FlbttfningPbtiItfrbtor</dodf>.
+     */
+     */
+     */
+     */
      */
     publid int gftRfdursionLimit() {
+    publid int gftRfdursionLimit() {
+    publid int gftRfdursionLimit() {
+    publid int gftRfdursionLimit() {
+    publid int gftRfdursionLimit() {
+        rfturn limit;
+        rfturn limit;
+        rfturn limit;
+        rfturn limit;
         rfturn limit;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf winding rulf for dftfrmining thf intfrior of thf
-     * pbth.
-     * @rfturn thf winding rulf of thf originbl unflbttfnfd pbth bfing
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * pbti.
+     * pbti.
+     * pbti.
+     * pbti.
+     * pbti.
+     * @rfturn tif winding rulf of tif originbl unflbttfnfd pbti bfing
+     * @rfturn tif winding rulf of tif originbl unflbttfnfd pbti bfing
+     * @rfturn tif winding rulf of tif originbl unflbttfnfd pbti bfing
+     * @rfturn tif winding rulf of tif originbl unflbttfnfd pbti bfing
+     * @rfturn tif winding rulf of tif originbl unflbttfnfd pbti bfing
      * itfrbtfd ovfr.
-     * @sff PbthItfrbtor#WIND_EVEN_ODD
-     * @sff PbthItfrbtor#WIND_NON_ZERO
+     * itfrbtfd ovfr.
+     * itfrbtfd ovfr.
+     * itfrbtfd ovfr.
+     * itfrbtfd ovfr.
+     * @sff PbtiItfrbtor#WIND_EVEN_ODD
+     * @sff PbtiItfrbtor#WIND_EVEN_ODD
+     * @sff PbtiItfrbtor#WIND_EVEN_ODD
+     * @sff PbtiItfrbtor#WIND_EVEN_ODD
+     * @sff PbtiItfrbtor#WIND_EVEN_ODD
+     * @sff PbtiItfrbtor#WIND_NON_ZERO
+     * @sff PbtiItfrbtor#WIND_NON_ZERO
+     * @sff PbtiItfrbtor#WIND_NON_ZERO
+     * @sff PbtiItfrbtor#WIND_NON_ZERO
+     * @sff PbtiItfrbtor#WIND_NON_ZERO
+     */
+     */
+     */
+     */
      */
     publid int gftWindingRulf() {
+    publid int gftWindingRulf() {
+    publid int gftWindingRulf() {
+    publid int gftWindingRulf() {
+    publid int gftWindingRulf() {
+        rfturn srd.gftWindingRulf();
+        rfturn srd.gftWindingRulf();
+        rfturn srd.gftWindingRulf();
+        rfturn srd.gftWindingRulf();
         rfturn srd.gftWindingRulf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tfsts if thf itfrbtion is domplftf.
-     * @rfturn <dodf>truf</dodf> if bll thf sfgmfnts hbvf
-     * bffn rfbd; <dodf>fblsf</dodf> othfrwisf.
+    /**
+    /**
+    /**
+    /**
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * Tfsts if tif itfrbtion is domplftf.
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isDonf() {
+    publid boolfbn isDonf() {
+    publid boolfbn isDonf() {
+    publid boolfbn isDonf() {
+    publid boolfbn isDonf() {
+        rfturn donf;
+        rfturn donf;
+        rfturn donf;
+        rfturn donf;
         rfturn donf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Ensurfs thbt thf hold brrby dbn hold up to (wbnt) morf vblufs.
-     * It is durrfntly holding (hold.lfngth - holdIndfx) vblufs.
+    /*
+    /*
+    /*
+    /*
+     * Ensurfs tibt tif iold brrby dbn iold up to (wbnt) morf vblufs.
+     * Ensurfs tibt tif iold brrby dbn iold up to (wbnt) morf vblufs.
+     * Ensurfs tibt tif iold brrby dbn iold up to (wbnt) morf vblufs.
+     * Ensurfs tibt tif iold brrby dbn iold up to (wbnt) morf vblufs.
+     * Ensurfs tibt tif iold brrby dbn iold up to (wbnt) morf vblufs.
+     * It is durrfntly iolding (iold.lfngti - ioldIndfx) vblufs.
+     * It is durrfntly iolding (iold.lfngti - ioldIndfx) vblufs.
+     * It is durrfntly iolding (iold.lfngti - ioldIndfx) vblufs.
+     * It is durrfntly iolding (iold.lfngti - ioldIndfx) vblufs.
+     * It is durrfntly iolding (iold.lfngti - ioldIndfx) vblufs.
+     */
+     */
+     */
+     */
      */
     void fnsurfHoldCbpbdity(int wbnt) {
-        if (holdIndfx - wbnt < 0) {
-            int hbvf = hold.lfngth - holdIndfx;
-            int nfwsizf = hold.lfngth + GROW_SIZE;
-            doublf nfwhold[] = nfw doublf[nfwsizf];
-            Systfm.brrbydopy(hold, holdIndfx,
-                             nfwhold, holdIndfx + GROW_SIZE,
-                             hbvf);
-            hold = nfwhold;
-            holdIndfx += GROW_SIZE;
-            holdEnd += GROW_SIZE;
+    void fnsurfHoldCbpbdity(int wbnt) {
+    void fnsurfHoldCbpbdity(int wbnt) {
+    void fnsurfHoldCbpbdity(int wbnt) {
+    void fnsurfHoldCbpbdity(int wbnt) {
+        if (ioldIndfx - wbnt < 0) {
+        if (ioldIndfx - wbnt < 0) {
+        if (ioldIndfx - wbnt < 0) {
+        if (ioldIndfx - wbnt < 0) {
+        if (ioldIndfx - wbnt < 0) {
+            int ibvf = iold.lfngti - ioldIndfx;
+            int ibvf = iold.lfngti - ioldIndfx;
+            int ibvf = iold.lfngti - ioldIndfx;
+            int ibvf = iold.lfngti - ioldIndfx;
+            int ibvf = iold.lfngti - ioldIndfx;
+            int nfwsizf = iold.lfngti + GROW_SIZE;
+            int nfwsizf = iold.lfngti + GROW_SIZE;
+            int nfwsizf = iold.lfngti + GROW_SIZE;
+            int nfwsizf = iold.lfngti + GROW_SIZE;
+            int nfwsizf = iold.lfngti + GROW_SIZE;
+            doublf nfwiold[] = nfw doublf[nfwsizf];
+            doublf nfwiold[] = nfw doublf[nfwsizf];
+            doublf nfwiold[] = nfw doublf[nfwsizf];
+            doublf nfwiold[] = nfw doublf[nfwsizf];
+            doublf nfwiold[] = nfw doublf[nfwsizf];
+            Systfm.brrbydopy(iold, ioldIndfx,
+            Systfm.brrbydopy(iold, ioldIndfx,
+            Systfm.brrbydopy(iold, ioldIndfx,
+            Systfm.brrbydopy(iold, ioldIndfx,
+            Systfm.brrbydopy(iold, ioldIndfx,
+                             nfwiold, ioldIndfx + GROW_SIZE,
+                             nfwiold, ioldIndfx + GROW_SIZE,
+                             nfwiold, ioldIndfx + GROW_SIZE,
+                             nfwiold, ioldIndfx + GROW_SIZE,
+                             nfwiold, ioldIndfx + GROW_SIZE,
+                             ibvf);
+                             ibvf);
+                             ibvf);
+                             ibvf);
+                             ibvf);
+            iold = nfwiold;
+            iold = nfwiold;
+            iold = nfwiold;
+            iold = nfwiold;
+            iold = nfwiold;
+            ioldIndfx += GROW_SIZE;
+            ioldIndfx += GROW_SIZE;
+            ioldIndfx += GROW_SIZE;
+            ioldIndfx += GROW_SIZE;
+            ioldIndfx += GROW_SIZE;
+            ioldEnd += GROW_SIZE;
+            ioldEnd += GROW_SIZE;
+            ioldEnd += GROW_SIZE;
+            ioldEnd += GROW_SIZE;
+            ioldEnd += GROW_SIZE;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Movfs thf itfrbtor to thf nfxt sfgmfnt of thf pbth forwbrds
-     * blong thf primbry dirfdtion of trbvfrsbl bs long bs thfrf brf
-     * morf points in thbt dirfdtion.
+    /**
+    /**
+    /**
+    /**
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     * morf points in tibt dirfdtion.
+     */
+     */
+     */
+     */
      */
     publid void nfxt() {
+    publid void nfxt() {
+    publid void nfxt() {
+    publid void nfxt() {
+    publid void nfxt() {
+        nfxt(truf);
+        nfxt(truf);
+        nfxt(truf);
+        nfxt(truf);
         nfxt(truf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void nfxt(boolfbn doNfxt) {
+    privbtf void nfxt(boolfbn doNfxt) {
+    privbtf void nfxt(boolfbn doNfxt) {
+    privbtf void nfxt(boolfbn doNfxt) {
+    privbtf void nfxt(boolfbn doNfxt) {
+        int lfvfl;
+        int lfvfl;
+        int lfvfl;
+        int lfvfl;
         int lfvfl;
 
-        if (holdIndfx >= holdEnd) {
+
+
+
+
+        if (ioldIndfx >= ioldEnd) {
+        if (ioldIndfx >= ioldEnd) {
+        if (ioldIndfx >= ioldEnd) {
+        if (ioldIndfx >= ioldEnd) {
+        if (ioldIndfx >= ioldEnd) {
+            if (doNfxt) {
+            if (doNfxt) {
+            if (doNfxt) {
+            if (doNfxt) {
             if (doNfxt) {
                 srd.nfxt();
+                srd.nfxt();
+                srd.nfxt();
+                srd.nfxt();
+                srd.nfxt();
+            }
+            }
+            }
+            }
             }
             if (srd.isDonf()) {
+            if (srd.isDonf()) {
+            if (srd.isDonf()) {
+            if (srd.isDonf()) {
+            if (srd.isDonf()) {
+                donf = truf;
+                donf = truf;
+                donf = truf;
+                donf = truf;
                 donf = truf;
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
             }
-            holdTypf = srd.durrfntSfgmfnt(hold);
+            }
+            }
+            }
+            }
+            ioldTypf = srd.durrfntSfgmfnt(iold);
+            ioldTypf = srd.durrfntSfgmfnt(iold);
+            ioldTypf = srd.durrfntSfgmfnt(iold);
+            ioldTypf = srd.durrfntSfgmfnt(iold);
+            ioldTypf = srd.durrfntSfgmfnt(iold);
+            lfvflIndfx = 0;
+            lfvflIndfx = 0;
+            lfvflIndfx = 0;
+            lfvflIndfx = 0;
             lfvflIndfx = 0;
             lfvfls[0] = 0;
+            lfvfls[0] = 0;
+            lfvfls[0] = 0;
+            lfvfls[0] = 0;
+            lfvfls[0] = 0;
+        }
+        }
+        }
+        }
         }
 
-        switdh (holdTypf) {
+
+
+
+
+        switdi (ioldTypf) {
+        switdi (ioldTypf) {
+        switdi (ioldTypf) {
+        switdi (ioldTypf) {
+        switdi (ioldTypf) {
+        dbsf SEG_MOVETO:
+        dbsf SEG_MOVETO:
+        dbsf SEG_MOVETO:
+        dbsf SEG_MOVETO:
         dbsf SEG_MOVETO:
         dbsf SEG_LINETO:
-            durx = hold[0];
-            dury = hold[1];
-            if (holdTypf == SEG_MOVETO) {
+        dbsf SEG_LINETO:
+        dbsf SEG_LINETO:
+        dbsf SEG_LINETO:
+        dbsf SEG_LINETO:
+            durx = iold[0];
+            durx = iold[0];
+            durx = iold[0];
+            durx = iold[0];
+            durx = iold[0];
+            dury = iold[1];
+            dury = iold[1];
+            dury = iold[1];
+            dury = iold[1];
+            dury = iold[1];
+            if (ioldTypf == SEG_MOVETO) {
+            if (ioldTypf == SEG_MOVETO) {
+            if (ioldTypf == SEG_MOVETO) {
+            if (ioldTypf == SEG_MOVETO) {
+            if (ioldTypf == SEG_MOVETO) {
+                movx = durx;
+                movx = durx;
+                movx = durx;
+                movx = durx;
                 movx = durx;
                 movy = dury;
+                movy = dury;
+                movy = dury;
+                movy = dury;
+                movy = dury;
             }
-            holdIndfx = 0;
-            holdEnd = 0;
+            }
+            }
+            }
+            }
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
         dbsf SEG_CLOSE:
+        dbsf SEG_CLOSE:
+        dbsf SEG_CLOSE:
+        dbsf SEG_CLOSE:
+        dbsf SEG_CLOSE:
+            durx = movx;
+            durx = movx;
+            durx = movx;
+            durx = movx;
             durx = movx;
             dury = movy;
-            holdIndfx = 0;
-            holdEnd = 0;
+            dury = movy;
+            dury = movy;
+            dury = movy;
+            dury = movy;
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldIndfx = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            ioldEnd = 0;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
         dbsf SEG_QUADTO:
-            if (holdIndfx >= holdEnd) {
-                // Movf thf doordinbtfs to thf fnd of thf brrby.
-                holdIndfx = hold.lfngth - 6;
-                holdEnd = hold.lfngth - 2;
-                hold[holdIndfx + 0] = durx;
-                hold[holdIndfx + 1] = dury;
-                hold[holdIndfx + 2] = hold[0];
-                hold[holdIndfx + 3] = hold[1];
-                hold[holdIndfx + 4] = durx = hold[2];
-                hold[holdIndfx + 5] = dury = hold[3];
+        dbsf SEG_QUADTO:
+        dbsf SEG_QUADTO:
+        dbsf SEG_QUADTO:
+        dbsf SEG_QUADTO:
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                ioldIndfx = iold.lfngti - 6;
+                ioldIndfx = iold.lfngti - 6;
+                ioldIndfx = iold.lfngti - 6;
+                ioldIndfx = iold.lfngti - 6;
+                ioldIndfx = iold.lfngti - 6;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 4] = durx = iold[2];
+                iold[ioldIndfx + 4] = durx = iold[2];
+                iold[ioldIndfx + 4] = durx = iold[2];
+                iold[ioldIndfx + 4] = durx = iold[2];
+                iold[ioldIndfx + 4] = durx = iold[2];
+                iold[ioldIndfx + 5] = dury = iold[3];
+                iold[ioldIndfx + 5] = dury = iold[3];
+                iold[ioldIndfx + 5] = dury = iold[3];
+                iold[ioldIndfx + 5] = dury = iold[3];
+                iold[ioldIndfx + 5] = dury = iold[3];
+            }
+            }
+            }
+            }
             }
 
+
+
+
+
             lfvfl = lfvfls[lfvflIndfx];
-            whilf (lfvfl < limit) {
-                if (QubdCurvf2D.gftFlbtnfssSq(hold, holdIndfx) < squbrfflbt) {
+            lfvfl = lfvfls[lfvflIndfx];
+            lfvfl = lfvfls[lfvflIndfx];
+            lfvfl = lfvfls[lfvflIndfx];
+            lfvfl = lfvfls[lfvflIndfx];
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+                if (QubdCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (QubdCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (QubdCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (QubdCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (QubdCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
                     brfbk;
                 }
+                }
+                }
+                }
+                }
+
+
+
+
 
                 fnsurfHoldCbpbdity(4);
-                QubdCurvf2D.subdividf(hold, holdIndfx,
-                                      hold, holdIndfx - 4,
-                                      hold, holdIndfx);
-                holdIndfx -= 4;
+                fnsurfHoldCbpbdity(4);
+                fnsurfHoldCbpbdity(4);
+                fnsurfHoldCbpbdity(4);
+                fnsurfHoldCbpbdity(4);
+                QubdCurvf2D.subdividf(iold, ioldIndfx,
+                QubdCurvf2D.subdividf(iold, ioldIndfx,
+                QubdCurvf2D.subdividf(iold, ioldIndfx,
+                QubdCurvf2D.subdividf(iold, ioldIndfx,
+                QubdCurvf2D.subdividf(iold, ioldIndfx,
+                                      iold, ioldIndfx - 4,
+                                      iold, ioldIndfx - 4,
+                                      iold, ioldIndfx - 4,
+                                      iold, ioldIndfx - 4,
+                                      iold, ioldIndfx - 4,
+                                      iold, ioldIndfx);
+                                      iold, ioldIndfx);
+                                      iold, ioldIndfx);
+                                      iold, ioldIndfx);
+                                      iold, ioldIndfx);
+                ioldIndfx -= 4;
+                ioldIndfx -= 4;
+                ioldIndfx -= 4;
+                ioldIndfx -= 4;
+                ioldIndfx -= 4;
 
-                // Now thbt wf hbvf subdividfd, wf hbvf donstrudtfd
-                // two durvfs of onf dfpth lowfr thbn thf originbl
-                // durvf.  Onf of thosf durvfs is in thf plbdf of
-                // thf formfr durvf bnd onf of thfm is in thf nfxt
-                // sft of hfld doordinbtf slots.  Wf now sft both
-                // durvfs lfvfl vblufs to thf nfxt highfr lfvfl.
+
+
+
+
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                lfvfl++;
+                lfvfl++;
+                lfvfl++;
+                lfvfl++;
                 lfvfl++;
                 lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvflIndfx++;
+                lfvflIndfx++;
+                lfvflIndfx++;
+                lfvflIndfx++;
                 lfvflIndfx++;
                 lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+            }
+            }
+            }
+            }
             }
 
-            // This durvf sfgmfnt is flbt fnough, or it is too dffp
-            // in rfdursion lfvfls to try to flbttfn bny morf.  Thf
-            // two doordinbtfs bt holdIndfx+4 bnd holdIndfx+5 now
-            // dontbin thf fndpoint of thf durvf whidh dbn bf thf
+
+
+
+
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // two doordinbtfs bt ioldIndfx+4 bnd ioldIndfx+5 now
+            // two doordinbtfs bt ioldIndfx+4 bnd ioldIndfx+5 now
+            // two doordinbtfs bt ioldIndfx+4 bnd ioldIndfx+5 now
+            // two doordinbtfs bt ioldIndfx+4 bnd ioldIndfx+5 now
+            // two doordinbtfs bt ioldIndfx+4 bnd ioldIndfx+5 now
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
             // fndpoint of bn bpproximbting linf sfgmfnt.
-            holdIndfx += 4;
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            ioldIndfx += 4;
+            ioldIndfx += 4;
+            ioldIndfx += 4;
+            ioldIndfx += 4;
+            ioldIndfx += 4;
             lfvflIndfx--;
+            lfvflIndfx--;
+            lfvflIndfx--;
+            lfvflIndfx--;
+            lfvflIndfx--;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
             brfbk;
         dbsf SEG_CUBICTO:
-            if (holdIndfx >= holdEnd) {
-                // Movf thf doordinbtfs to thf fnd of thf brrby.
-                holdIndfx = hold.lfngth - 8;
-                holdEnd = hold.lfngth - 2;
-                hold[holdIndfx + 0] = durx;
-                hold[holdIndfx + 1] = dury;
-                hold[holdIndfx + 2] = hold[0];
-                hold[holdIndfx + 3] = hold[1];
-                hold[holdIndfx + 4] = hold[2];
-                hold[holdIndfx + 5] = hold[3];
-                hold[holdIndfx + 6] = durx = hold[4];
-                hold[holdIndfx + 7] = dury = hold[5];
+        dbsf SEG_CUBICTO:
+        dbsf SEG_CUBICTO:
+        dbsf SEG_CUBICTO:
+        dbsf SEG_CUBICTO:
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+            if (ioldIndfx >= ioldEnd) {
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                ioldIndfx = iold.lfngti - 8;
+                ioldIndfx = iold.lfngti - 8;
+                ioldIndfx = iold.lfngti - 8;
+                ioldIndfx = iold.lfngti - 8;
+                ioldIndfx = iold.lfngti - 8;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                ioldEnd = iold.lfngti - 2;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 4] = iold[2];
+                iold[ioldIndfx + 4] = iold[2];
+                iold[ioldIndfx + 4] = iold[2];
+                iold[ioldIndfx + 4] = iold[2];
+                iold[ioldIndfx + 4] = iold[2];
+                iold[ioldIndfx + 5] = iold[3];
+                iold[ioldIndfx + 5] = iold[3];
+                iold[ioldIndfx + 5] = iold[3];
+                iold[ioldIndfx + 5] = iold[3];
+                iold[ioldIndfx + 5] = iold[3];
+                iold[ioldIndfx + 6] = durx = iold[4];
+                iold[ioldIndfx + 6] = durx = iold[4];
+                iold[ioldIndfx + 6] = durx = iold[4];
+                iold[ioldIndfx + 6] = durx = iold[4];
+                iold[ioldIndfx + 6] = durx = iold[4];
+                iold[ioldIndfx + 7] = dury = iold[5];
+                iold[ioldIndfx + 7] = dury = iold[5];
+                iold[ioldIndfx + 7] = dury = iold[5];
+                iold[ioldIndfx + 7] = dury = iold[5];
+                iold[ioldIndfx + 7] = dury = iold[5];
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             lfvfl = lfvfls[lfvflIndfx];
-            whilf (lfvfl < limit) {
-                if (CubidCurvf2D.gftFlbtnfssSq(hold, holdIndfx) < squbrfflbt) {
+            lfvfl = lfvfls[lfvflIndfx];
+            lfvfl = lfvfls[lfvflIndfx];
+            lfvfl = lfvfls[lfvflIndfx];
+            lfvfl = lfvfls[lfvflIndfx];
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+            wiilf (lfvfl < limit) {
+                if (CubidCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (CubidCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (CubidCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (CubidCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                if (CubidCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
                     brfbk;
                 }
+                }
+                }
+                }
+                }
+
+
+
+
 
                 fnsurfHoldCbpbdity(6);
-                CubidCurvf2D.subdividf(hold, holdIndfx,
-                                       hold, holdIndfx - 6,
-                                       hold, holdIndfx);
-                holdIndfx -= 6;
+                fnsurfHoldCbpbdity(6);
+                fnsurfHoldCbpbdity(6);
+                fnsurfHoldCbpbdity(6);
+                fnsurfHoldCbpbdity(6);
+                CubidCurvf2D.subdividf(iold, ioldIndfx,
+                CubidCurvf2D.subdividf(iold, ioldIndfx,
+                CubidCurvf2D.subdividf(iold, ioldIndfx,
+                CubidCurvf2D.subdividf(iold, ioldIndfx,
+                CubidCurvf2D.subdividf(iold, ioldIndfx,
+                                       iold, ioldIndfx - 6,
+                                       iold, ioldIndfx - 6,
+                                       iold, ioldIndfx - 6,
+                                       iold, ioldIndfx - 6,
+                                       iold, ioldIndfx - 6,
+                                       iold, ioldIndfx);
+                                       iold, ioldIndfx);
+                                       iold, ioldIndfx);
+                                       iold, ioldIndfx);
+                                       iold, ioldIndfx);
+                ioldIndfx -= 6;
+                ioldIndfx -= 6;
+                ioldIndfx -= 6;
+                ioldIndfx -= 6;
+                ioldIndfx -= 6;
 
-                // Now thbt wf hbvf subdividfd, wf hbvf donstrudtfd
-                // two durvfs of onf dfpth lowfr thbn thf originbl
-                // durvf.  Onf of thosf durvfs is in thf plbdf of
-                // thf formfr durvf bnd onf of thfm is in thf nfxt
-                // sft of hfld doordinbtf slots.  Wf now sft both
-                // durvfs lfvfl vblufs to thf nfxt highfr lfvfl.
+
+
+
+
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                lfvfl++;
+                lfvfl++;
+                lfvfl++;
+                lfvfl++;
                 lfvfl++;
                 lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvflIndfx++;
+                lfvflIndfx++;
+                lfvflIndfx++;
+                lfvflIndfx++;
                 lfvflIndfx++;
                 lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvfls[lfvflIndfx] = lfvfl;
+            }
+            }
+            }
+            }
             }
 
-            // This durvf sfgmfnt is flbt fnough, or it is too dffp
-            // in rfdursion lfvfls to try to flbttfn bny morf.  Thf
-            // two doordinbtfs bt holdIndfx+6 bnd holdIndfx+7 now
-            // dontbin thf fndpoint of thf durvf whidh dbn bf thf
+
+
+
+
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // two doordinbtfs bt ioldIndfx+6 bnd ioldIndfx+7 now
+            // two doordinbtfs bt ioldIndfx+6 bnd ioldIndfx+7 now
+            // two doordinbtfs bt ioldIndfx+6 bnd ioldIndfx+7 now
+            // two doordinbtfs bt ioldIndfx+6 bnd ioldIndfx+7 now
+            // two doordinbtfs bt ioldIndfx+6 bnd ioldIndfx+7 now
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
             // fndpoint of bn bpproximbting linf sfgmfnt.
-            holdIndfx += 6;
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            ioldIndfx += 6;
+            ioldIndfx += 6;
+            ioldIndfx += 6;
+            ioldIndfx += 6;
+            ioldIndfx += 6;
+            lfvflIndfx--;
+            lfvflIndfx--;
+            lfvflIndfx--;
+            lfvflIndfx--;
             lfvflIndfx--;
             brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+            brfbk;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
-     * thf itfrbtion.
-     * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
-     * A flobt brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
-     * storf thf doordinbtfs of thf point(s).
-     * Ebdh point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
      * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
      * bnd SEG_CLOSE dofs not rfturn bny points.
-     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
-     * this mfthod
-     * @rfturn thf pbth sfgmfnt typf of thf durrfnt pbth sfgmfnt.
-     * @fxdfption NoSudhElfmfntExdfption if thfrf
-     *          brf no morf flfmfnts in thf flbttfning pbth to bf
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
      *          rfturnfd.
-     * @sff PbthItfrbtor#SEG_MOVETO
-     * @sff PbthItfrbtor#SEG_LINETO
-     * @sff PbthItfrbtor#SEG_CLOSE
+     *          rfturnfd.
+     *          rfturnfd.
+     *          rfturnfd.
+     *          rfturnfd.
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     */
+     */
+     */
+     */
      */
     publid int durrfntSfgmfnt(flobt[] doords) {
+    publid int durrfntSfgmfnt(flobt[] doords) {
+    publid int durrfntSfgmfnt(flobt[] doords) {
+    publid int durrfntSfgmfnt(flobt[] doords) {
+    publid int durrfntSfgmfnt(flobt[] doords) {
         if (isDonf()) {
-            throw nfw NoSudhElfmfntExdfption("flbttfning itfrbtor out of bounds");
+        if (isDonf()) {
+        if (isDonf()) {
+        if (isDonf()) {
+        if (isDonf()) {
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
         }
-        int typf = holdTypf;
+        }
+        }
+        }
+        }
+        int typf = ioldTypf;
+        int typf = ioldTypf;
+        int typf = ioldTypf;
+        int typf = ioldTypf;
+        int typf = ioldTypf;
         if (typf != SEG_CLOSE) {
-            doords[0] = (flobt) hold[holdIndfx + 0];
-            doords[1] = (flobt) hold[holdIndfx + 1];
+        if (typf != SEG_CLOSE) {
+        if (typf != SEG_CLOSE) {
+        if (typf != SEG_CLOSE) {
+        if (typf != SEG_CLOSE) {
+            doords[0] = (flobt) iold[ioldIndfx + 0];
+            doords[0] = (flobt) iold[ioldIndfx + 0];
+            doords[0] = (flobt) iold[ioldIndfx + 0];
+            doords[0] = (flobt) iold[ioldIndfx + 0];
+            doords[0] = (flobt) iold[ioldIndfx + 0];
+            doords[1] = (flobt) iold[ioldIndfx + 1];
+            doords[1] = (flobt) iold[ioldIndfx + 1];
+            doords[1] = (flobt) iold[ioldIndfx + 1];
+            doords[1] = (flobt) iold[ioldIndfx + 1];
+            doords[1] = (flobt) iold[ioldIndfx + 1];
+            if (typf != SEG_MOVETO) {
+            if (typf != SEG_MOVETO) {
+            if (typf != SEG_MOVETO) {
+            if (typf != SEG_MOVETO) {
             if (typf != SEG_MOVETO) {
                 typf = SEG_LINETO;
+                typf = SEG_LINETO;
+                typf = SEG_LINETO;
+                typf = SEG_LINETO;
+                typf = SEG_LINETO;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
         rfturn typf;
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
-     * thf itfrbtion.
-     * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
-     * A doublf brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
-     * storf thf doordinbtfs of thf point(s).
-     * Ebdh point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
      * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
      * bnd SEG_CLOSE dofs not rfturn bny points.
-     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
-     * this mfthod
-     * @rfturn thf pbth sfgmfnt typf of thf durrfnt pbth sfgmfnt.
-     * @fxdfption NoSudhElfmfntExdfption if thfrf
-     *          brf no morf flfmfnts in thf flbttfning pbth to bf
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * tiis mftiod
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
      *          rfturnfd.
-     * @sff PbthItfrbtor#SEG_MOVETO
-     * @sff PbthItfrbtor#SEG_LINETO
-     * @sff PbthItfrbtor#SEG_CLOSE
+     *          rfturnfd.
+     *          rfturnfd.
+     *          rfturnfd.
+     *          rfturnfd.
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     * @sff PbtiItfrbtor#SEG_CLOSE
+     */
+     */
+     */
+     */
      */
     publid int durrfntSfgmfnt(doublf[] doords) {
+    publid int durrfntSfgmfnt(doublf[] doords) {
+    publid int durrfntSfgmfnt(doublf[] doords) {
+    publid int durrfntSfgmfnt(doublf[] doords) {
+    publid int durrfntSfgmfnt(doublf[] doords) {
         if (isDonf()) {
-            throw nfw NoSudhElfmfntExdfption("flbttfning itfrbtor out of bounds");
+        if (isDonf()) {
+        if (isDonf()) {
+        if (isDonf()) {
+        if (isDonf()) {
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
         }
-        int typf = holdTypf;
+        }
+        }
+        }
+        }
+        int typf = ioldTypf;
+        int typf = ioldTypf;
+        int typf = ioldTypf;
+        int typf = ioldTypf;
+        int typf = ioldTypf;
         if (typf != SEG_CLOSE) {
-            doords[0] = hold[holdIndfx + 0];
-            doords[1] = hold[holdIndfx + 1];
+        if (typf != SEG_CLOSE) {
+        if (typf != SEG_CLOSE) {
+        if (typf != SEG_CLOSE) {
+        if (typf != SEG_CLOSE) {
+            doords[0] = iold[ioldIndfx + 0];
+            doords[0] = iold[ioldIndfx + 0];
+            doords[0] = iold[ioldIndfx + 0];
+            doords[0] = iold[ioldIndfx + 0];
+            doords[0] = iold[ioldIndfx + 0];
+            doords[1] = iold[ioldIndfx + 1];
+            doords[1] = iold[ioldIndfx + 1];
+            doords[1] = iold[ioldIndfx + 1];
+            doords[1] = iold[ioldIndfx + 1];
+            doords[1] = iold[ioldIndfx + 1];
+            if (typf != SEG_MOVETO) {
+            if (typf != SEG_MOVETO) {
+            if (typf != SEG_MOVETO) {
+            if (typf != SEG_MOVETO) {
             if (typf != SEG_MOVETO) {
                 typf = SEG_LINETO;
+                typf = SEG_LINETO;
+                typf = SEG_LINETO;
+                typf = SEG_LINETO;
+                typf = SEG_LINETO;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
         rfturn typf;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

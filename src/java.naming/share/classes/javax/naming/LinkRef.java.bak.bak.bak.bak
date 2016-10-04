@@ -1,116 +1,580 @@
 /*
- * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.nbming;
+pbdkbgf jbvbx.nbming;
+pbdkbgf jbvbx.nbming;
+pbdkbgf jbvbx.nbming;
+pbdkbgf jbvbx.nbming;
+
+
+
+
 
 /**
-  * This dlbss rfprfsfnts b Rfffrfndf whosf dontfnts is b nbmf, dbllfd thf link nbmf,
-  * thbt is bound to bn btomid nbmf in b dontfxt.
+/**
+/**
+/**
+/**
+  * Tiis dlbss rfprfsfnts b Rfffrfndf wiosf dontfnts is b nbmf, dbllfd tif link nbmf,
+  * Tiis dlbss rfprfsfnts b Rfffrfndf wiosf dontfnts is b nbmf, dbllfd tif link nbmf,
+  * Tiis dlbss rfprfsfnts b Rfffrfndf wiosf dontfnts is b nbmf, dbllfd tif link nbmf,
+  * Tiis dlbss rfprfsfnts b Rfffrfndf wiosf dontfnts is b nbmf, dbllfd tif link nbmf,
+  * Tiis dlbss rfprfsfnts b Rfffrfndf wiosf dontfnts is b nbmf, dbllfd tif link nbmf,
+  * tibt is bound to bn btomid nbmf in b dontfxt.
+  * tibt is bound to bn btomid nbmf in b dontfxt.
+  * tibt is bound to bn btomid nbmf in b dontfxt.
+  * tibt is bound to bn btomid nbmf in b dontfxt.
+  * tibt is bound to bn btomid nbmf in b dontfxt.
   *<p>
-  * Thf nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to thf initibl
-  * dontfxt, or if thf first dhbrbdtfr of thf nbmf is ".", thf nbmf
-  * is rflbtivf to thf dontfxt in whidh thf link is bound.
+  *<p>
+  *<p>
+  *<p>
+  *<p>
+  * Tif nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to tif initibl
+  * Tif nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to tif initibl
+  * Tif nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to tif initibl
+  * Tif nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to tif initibl
+  * Tif nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to tif initibl
+  * dontfxt, or if tif first dibrbdtfr of tif nbmf is ".", tif nbmf
+  * dontfxt, or if tif first dibrbdtfr of tif nbmf is ".", tif nbmf
+  * dontfxt, or if tif first dibrbdtfr of tif nbmf is ".", tif nbmf
+  * dontfxt, or if tif first dibrbdtfr of tif nbmf is ".", tif nbmf
+  * dontfxt, or if tif first dibrbdtfr of tif nbmf is ".", tif nbmf
+  * is rflbtivf to tif dontfxt in wiidi tif link is bound.
+  * is rflbtivf to tif dontfxt in wiidi tif link is bound.
+  * is rflbtivf to tif dontfxt in wiidi tif link is bound.
+  * is rflbtivf to tif dontfxt in wiidi tif link is bound.
+  * is rflbtivf to tif dontfxt in wiidi tif link is bound.
+  *<p>
+  *<p>
+  *<p>
+  *<p>
   *<p>
   * Normbl rfsolution of nbmfs in dontfxt opfrbtions blwbys follow links.
-  * Rfsolution of thf link nbmf itsflf mby dbusf rfsolution to pbss through
-  * othfr  links. This givfs risf to thf possibility of b dydlf of links whosf
-  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudh
-  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on thf
-  * numbfr of links thbt mby bf involvfd in bny singlf opfrbtion invokfd
-  * by thf dbllfr.
+  * Normbl rfsolution of nbmfs in dontfxt opfrbtions blwbys follow links.
+  * Normbl rfsolution of nbmfs in dontfxt opfrbtions blwbys follow links.
+  * Normbl rfsolution of nbmfs in dontfxt opfrbtions blwbys follow links.
+  * Normbl rfsolution of nbmfs in dontfxt opfrbtions blwbys follow links.
+  * Rfsolution of tif link nbmf itsflf mby dbusf rfsolution to pbss tirougi
+  * Rfsolution of tif link nbmf itsflf mby dbusf rfsolution to pbss tirougi
+  * Rfsolution of tif link nbmf itsflf mby dbusf rfsolution to pbss tirougi
+  * Rfsolution of tif link nbmf itsflf mby dbusf rfsolution to pbss tirougi
+  * Rfsolution of tif link nbmf itsflf mby dbusf rfsolution to pbss tirougi
+  * otifr  links. Tiis givfs risf to tif possibility of b dydlf of links wiosf
+  * otifr  links. Tiis givfs risf to tif possibility of b dydlf of links wiosf
+  * otifr  links. Tiis givfs risf to tif possibility of b dydlf of links wiosf
+  * otifr  links. Tiis givfs risf to tif possibility of b dydlf of links wiosf
+  * otifr  links. Tiis givfs risf to tif possibility of b dydlf of links wiosf
+  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudi
+  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudi
+  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudi
+  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudi
+  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudi
+  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on tif
+  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on tif
+  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on tif
+  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on tif
+  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on tif
+  * numbfr of links tibt mby bf involvfd in bny singlf opfrbtion invokfd
+  * numbfr of links tibt mby bf involvfd in bny singlf opfrbtion invokfd
+  * numbfr of links tibt mby bf involvfd in bny singlf opfrbtion invokfd
+  * numbfr of links tibt mby bf involvfd in bny singlf opfrbtion invokfd
+  * numbfr of links tibt mby bf involvfd in bny singlf opfrbtion invokfd
+  * by tif dbllfr.
+  * by tif dbllfr.
+  * by tif dbllfr.
+  * by tif dbllfr.
+  * by tif dbllfr.
   *<p>
-  * A LinkRff dontbins b singlf StringRffAddr, whosf typf is "LinkAddrfss",
-  * bnd whosf dontfnts is thf link nbmf. Thf dlbss nbmf fifld of thf
-  * Rfffrfndf is thbt of this (LinkRff) dlbss.
   *<p>
-  * LinkRff is bound to b nbmf using thf normbl Contfxt.bind()/rfbind(), bnd
-  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf thf link
-  * itsflf if thf tfrminbl btomid nbmf is bound to b link.
   *<p>
-  * Mbny nbming systfms support b nbtivf notion of link thbt mby bf usfd
-  * within thf nbming systfm itsflf. JNDI dofs not spfdify whfthfr
-  * thfrf is bny rflbtionship bftwffn sudh nbtivf links bnd JNDI links.
   *<p>
-  * A LinkRff instbndf is not syndhronizfd bgbinst dondurrfnt bddfss by multiplf
-  * thrfbds. Thrfbds thbt nffd to bddfss b LinkRff instbndf dondurrfntly should
-  * syndhronizf bmongst thfmsflvfs bnd providf thf nfdfssbry lodking.
+  *<p>
+  * A LinkRff dontbins b singlf StringRffAddr, wiosf typf is "LinkAddrfss",
+  * A LinkRff dontbins b singlf StringRffAddr, wiosf typf is "LinkAddrfss",
+  * A LinkRff dontbins b singlf StringRffAddr, wiosf typf is "LinkAddrfss",
+  * A LinkRff dontbins b singlf StringRffAddr, wiosf typf is "LinkAddrfss",
+  * A LinkRff dontbins b singlf StringRffAddr, wiosf typf is "LinkAddrfss",
+  * bnd wiosf dontfnts is tif link nbmf. Tif dlbss nbmf fifld of tif
+  * bnd wiosf dontfnts is tif link nbmf. Tif dlbss nbmf fifld of tif
+  * bnd wiosf dontfnts is tif link nbmf. Tif dlbss nbmf fifld of tif
+  * bnd wiosf dontfnts is tif link nbmf. Tif dlbss nbmf fifld of tif
+  * bnd wiosf dontfnts is tif link nbmf. Tif dlbss nbmf fifld of tif
+  * Rfffrfndf is tibt of tiis (LinkRff) dlbss.
+  * Rfffrfndf is tibt of tiis (LinkRff) dlbss.
+  * Rfffrfndf is tibt of tiis (LinkRff) dlbss.
+  * Rfffrfndf is tibt of tiis (LinkRff) dlbss.
+  * Rfffrfndf is tibt of tiis (LinkRff) dlbss.
+  *<p>
+  *<p>
+  *<p>
+  *<p>
+  *<p>
+  * LinkRff is bound to b nbmf using tif normbl Contfxt.bind()/rfbind(), bnd
+  * LinkRff is bound to b nbmf using tif normbl Contfxt.bind()/rfbind(), bnd
+  * LinkRff is bound to b nbmf using tif normbl Contfxt.bind()/rfbind(), bnd
+  * LinkRff is bound to b nbmf using tif normbl Contfxt.bind()/rfbind(), bnd
+  * LinkRff is bound to b nbmf using tif normbl Contfxt.bind()/rfbind(), bnd
+  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf tif link
+  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf tif link
+  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf tif link
+  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf tif link
+  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf tif link
+  * itsflf if tif tfrminbl btomid nbmf is bound to b link.
+  * itsflf if tif tfrminbl btomid nbmf is bound to b link.
+  * itsflf if tif tfrminbl btomid nbmf is bound to b link.
+  * itsflf if tif tfrminbl btomid nbmf is bound to b link.
+  * itsflf if tif tfrminbl btomid nbmf is bound to b link.
+  *<p>
+  *<p>
+  *<p>
+  *<p>
+  *<p>
+  * Mbny nbming systfms support b nbtivf notion of link tibt mby bf usfd
+  * Mbny nbming systfms support b nbtivf notion of link tibt mby bf usfd
+  * Mbny nbming systfms support b nbtivf notion of link tibt mby bf usfd
+  * Mbny nbming systfms support b nbtivf notion of link tibt mby bf usfd
+  * Mbny nbming systfms support b nbtivf notion of link tibt mby bf usfd
+  * witiin tif nbming systfm itsflf. JNDI dofs not spfdify wiftifr
+  * witiin tif nbming systfm itsflf. JNDI dofs not spfdify wiftifr
+  * witiin tif nbming systfm itsflf. JNDI dofs not spfdify wiftifr
+  * witiin tif nbming systfm itsflf. JNDI dofs not spfdify wiftifr
+  * witiin tif nbming systfm itsflf. JNDI dofs not spfdify wiftifr
+  * tifrf is bny rflbtionsiip bftwffn sudi nbtivf links bnd JNDI links.
+  * tifrf is bny rflbtionsiip bftwffn sudi nbtivf links bnd JNDI links.
+  * tifrf is bny rflbtionsiip bftwffn sudi nbtivf links bnd JNDI links.
+  * tifrf is bny rflbtionsiip bftwffn sudi nbtivf links bnd JNDI links.
+  * tifrf is bny rflbtionsiip bftwffn sudi nbtivf links bnd JNDI links.
+  *<p>
+  *<p>
+  *<p>
+  *<p>
+  *<p>
+  * A LinkRff instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * A LinkRff instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * A LinkRff instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * A LinkRff instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * A LinkRff instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * tirfbds. Tirfbds tibt nffd to bddfss b LinkRff instbndf dondurrfntly siould
+  * tirfbds. Tirfbds tibt nffd to bddfss b LinkRff instbndf dondurrfntly siould
+  * tirfbds. Tirfbds tibt nffd to bddfss b LinkRff instbndf dondurrfntly siould
+  * tirfbds. Tirfbds tibt nffd to bddfss b LinkRff instbndf dondurrfntly siould
+  * tirfbds. Tirfbds tibt nffd to bddfss b LinkRff instbndf dondurrfntly siould
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
   *
-  * @buthor Rosbnnb Lff
-  * @buthor Sdott Sfligmbn
+  *
+  *
+  *
+  *
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  *
+  *
+  *
+  *
   *
   * @sff LinkExdfption
+  * @sff LinkExdfption
+  * @sff LinkExdfption
+  * @sff LinkExdfption
+  * @sff LinkExdfption
+  * @sff LinkLoopExdfption
+  * @sff LinkLoopExdfption
+  * @sff LinkLoopExdfption
+  * @sff LinkLoopExdfption
   * @sff LinkLoopExdfption
   * @sff MblformfdLinkExdfption
+  * @sff MblformfdLinkExdfption
+  * @sff MblformfdLinkExdfption
+  * @sff MblformfdLinkExdfption
+  * @sff MblformfdLinkExdfption
+  * @sff Contfxt#lookupLink
+  * @sff Contfxt#lookupLink
+  * @sff Contfxt#lookupLink
+  * @sff Contfxt#lookupLink
   * @sff Contfxt#lookupLink
   * @sindf 1.3
+  * @sindf 1.3
+  * @sindf 1.3
+  * @sindf 1.3
+  * @sindf 1.3
   */
+  */
+  */
+  */
+  */
+
+
+
+
 
   /*<p>
-  * Thf sfriblizfd form of b LinkRff objfdt donsists of thf sfriblizfd
+  /*<p>
+  /*<p>
+  /*<p>
+  /*<p>
+  * Tif sfriblizfd form of b LinkRff objfdt donsists of tif sfriblizfd
+  * Tif sfriblizfd form of b LinkRff objfdt donsists of tif sfriblizfd
+  * Tif sfriblizfd form of b LinkRff objfdt donsists of tif sfriblizfd
+  * Tif sfriblizfd form of b LinkRff objfdt donsists of tif sfriblizfd
+  * Tif sfriblizfd form of b LinkRff objfdt donsists of tif sfriblizfd
+  * fiflds of its Rfffrfndf supfrdlbss.
+  * fiflds of its Rfffrfndf supfrdlbss.
+  * fiflds of its Rfffrfndf supfrdlbss.
+  * fiflds of its Rfffrfndf supfrdlbss.
   * fiflds of its Rfffrfndf supfrdlbss.
   */
+  */
+  */
+  */
+  */
+
+
+
+
 
 publid dlbss LinkRff fxtfnds Rfffrfndf {
-    /* dodf for link hbndling */
+publid dlbss LinkRff fxtfnds Rfffrfndf {
+publid dlbss LinkRff fxtfnds Rfffrfndf {
+publid dlbss LinkRff fxtfnds Rfffrfndf {
+publid dlbss LinkRff fxtfnds Rfffrfndf {
+    /* dodf for link ibndling */
+    /* dodf for link ibndling */
+    /* dodf for link ibndling */
+    /* dodf for link ibndling */
+    /* dodf for link ibndling */
+    stbtid finbl String linkClbssNbmf = LinkRff.dlbss.gftNbmf();
+    stbtid finbl String linkClbssNbmf = LinkRff.dlbss.gftNbmf();
+    stbtid finbl String linkClbssNbmf = LinkRff.dlbss.gftNbmf();
+    stbtid finbl String linkClbssNbmf = LinkRff.dlbss.gftNbmf();
     stbtid finbl String linkClbssNbmf = LinkRff.dlbss.gftNbmf();
     stbtid finbl String linkAddrTypf = "LinkAddrfss";
+    stbtid finbl String linkAddrTypf = "LinkAddrfss";
+    stbtid finbl String linkAddrTypf = "LinkAddrfss";
+    stbtid finbl String linkAddrTypf = "LinkAddrfss";
+    stbtid finbl String linkAddrTypf = "LinkAddrfss";
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
       * Construdts b LinkRff for b nbmf.
-      * @pbrbm linkNbmf Thf non-null nbmf for whidh to drfbtf this link.
+      * Construdts b LinkRff for b nbmf.
+      * Construdts b LinkRff for b nbmf.
+      * Construdts b LinkRff for b nbmf.
+      * Construdts b LinkRff for b nbmf.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      */
+      */
+      */
+      */
       */
     publid LinkRff(Nbmf linkNbmf) {
+    publid LinkRff(Nbmf linkNbmf) {
+    publid LinkRff(Nbmf linkNbmf) {
+    publid LinkRff(Nbmf linkNbmf) {
+    publid LinkRff(Nbmf linkNbmf) {
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf.toString()));
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf.toString()));
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf.toString()));
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf.toString()));
         supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf.toString()));
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
       * Construdts b LinkRff for b string nbmf.
-      * @pbrbm linkNbmf Thf non-null nbmf for whidh to drfbtf this link.
+      * Construdts b LinkRff for b string nbmf.
+      * Construdts b LinkRff for b string nbmf.
+      * Construdts b LinkRff for b string nbmf.
+      * Construdts b LinkRff for b string nbmf.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
+      */
+      */
+      */
+      */
       */
     publid LinkRff(String linkNbmf) {
+    publid LinkRff(String linkNbmf) {
+    publid LinkRff(String linkNbmf) {
+    publid LinkRff(String linkNbmf) {
+    publid LinkRff(String linkNbmf) {
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf));
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf));
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf));
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf));
         supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-      * Rftrifvfs thf nbmf of this link.
+    /**
+    /**
+    /**
+    /**
+      * Rftrifvfs tif nbmf of tiis link.
+      * Rftrifvfs tif nbmf of tiis link.
+      * Rftrifvfs tif nbmf of tiis link.
+      * Rftrifvfs tif nbmf of tiis link.
+      * Rftrifvfs tif nbmf of tiis link.
       *
-      * @rfturn Thf non-null nbmf of this link.
+      *
+      *
+      *
+      *
+      * @rfturn Tif non-null nbmf of tiis link.
+      * @rfturn Tif non-null nbmf of tiis link.
+      * @rfturn Tif non-null nbmf of tiis link.
+      * @rfturn Tif non-null nbmf of tiis link.
+      * @rfturn Tif non-null nbmf of tiis link.
+      * @fxdfption MblformfdLinkExdfption If b link nbmf dould not bf fxtrbdtfd
+      * @fxdfption MblformfdLinkExdfption If b link nbmf dould not bf fxtrbdtfd
+      * @fxdfption MblformfdLinkExdfption If b link nbmf dould not bf fxtrbdtfd
+      * @fxdfption MblformfdLinkExdfption If b link nbmf dould not bf fxtrbdtfd
       * @fxdfption MblformfdLinkExdfption If b link nbmf dould not bf fxtrbdtfd
       * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
       */
-    publid String gftLinkNbmf() throws NbmingExdfption {
+      */
+      */
+      */
+      */
+    publid String gftLinkNbmf() tirows NbmingExdfption {
+    publid String gftLinkNbmf() tirows NbmingExdfption {
+    publid String gftLinkNbmf() tirows NbmingExdfption {
+    publid String gftLinkNbmf() tirows NbmingExdfption {
+    publid String gftLinkNbmf() tirows NbmingExdfption {
+        if (dlbssNbmf != null && dlbssNbmf.fqubls(linkClbssNbmf)) {
+        if (dlbssNbmf != null && dlbssNbmf.fqubls(linkClbssNbmf)) {
+        if (dlbssNbmf != null && dlbssNbmf.fqubls(linkClbssNbmf)) {
+        if (dlbssNbmf != null && dlbssNbmf.fqubls(linkClbssNbmf)) {
         if (dlbssNbmf != null && dlbssNbmf.fqubls(linkClbssNbmf)) {
             RffAddr bddr = gft(linkAddrTypf);
+            RffAddr bddr = gft(linkAddrTypf);
+            RffAddr bddr = gft(linkAddrTypf);
+            RffAddr bddr = gft(linkAddrTypf);
+            RffAddr bddr = gft(linkAddrTypf);
+            if (bddr != null && bddr instbndfof StringRffAddr) {
+            if (bddr != null && bddr instbndfof StringRffAddr) {
+            if (bddr != null && bddr instbndfof StringRffAddr) {
+            if (bddr != null && bddr instbndfof StringRffAddr) {
             if (bddr != null && bddr instbndfof StringRffAddr) {
                 rfturn (String)((StringRffAddr)bddr).gftContfnt();
+                rfturn (String)((StringRffAddr)bddr).gftContfnt();
+                rfturn (String)((StringRffAddr)bddr).gftContfnt();
+                rfturn (String)((StringRffAddr)bddr).gftContfnt();
+                rfturn (String)((StringRffAddr)bddr).gftContfnt();
+            }
+            }
+            }
+            }
             }
         }
-        throw nfw MblformfdLinkExdfption();
+        }
+        }
+        }
+        }
+        tirow nfw MblformfdLinkExdfption();
+        tirow nfw MblformfdLinkExdfption();
+        tirow nfw MblformfdLinkExdfption();
+        tirow nfw MblformfdLinkExdfption();
+        tirow nfw MblformfdLinkExdfption();
+    }
+    }
+    }
+    }
     }
     /**
+    /**
+    /**
+    /**
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
+     */
+     */
+     */
+     */
     privbtf stbtid finbl long sfriblVfrsionUID = -5386290613498931298L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5386290613498931298L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5386290613498931298L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5386290613498931298L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5386290613498931298L;
+}
+}
+}
+}
 }

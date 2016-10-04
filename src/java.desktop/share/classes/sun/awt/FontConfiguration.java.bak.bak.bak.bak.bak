@@ -1,0 +1,2288 @@
+/*
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.Font;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
+import sun.font.CompositfFontDfsdriptor;
+import sun.font.SunFontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.FontUtilitifs;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * Providfs tif dffinitions of tif fivf logidbl fonts: Sfrif, SbnsSfrif,
+ * Monospbdfd, Diblog, bnd DiblogInput. Tif nfdfssbry informbtion
+ * is obtbinfd from fontdonfig filfs.
+ */
+publid bbstrbdt dlbss FontConfigurbtion {
+
+    //stbtid globbl runtimf fnv
+    protfdtfd stbtid String osVfrsion;
+    protfdtfd stbtid String osNbmf;
+    protfdtfd stbtid String fndoding; // dbnonidbl nbmf of dffbult nio dibrsft
+    protfdtfd stbtid Lodblf stbrtupLodblf = null;
+    protfdtfd stbtid Hbsitbblf<String, String> lodblfMbp = null;
+    privbtf stbtid FontConfigurbtion fontConfig;
+    privbtf stbtid PlbtformLoggfr loggfr;
+    protfdtfd stbtid boolfbn isPropfrtifs = truf;
+
+    protfdtfd SunFontMbnbgfr fontMbnbgfr;
+    protfdtfd boolfbn prfffrLodblfFonts;
+    protfdtfd boolfbn prfffrPropFonts;
+
+    privbtf Filf fontConfigFilf;
+    privbtf boolfbn foundOsSpfdifidFilf;
+    privbtf boolfbn initfd;
+    privbtf String jbvbLib;
+
+    /* A dffbult FontConfigurbtion must bf drfbtfd bfforf bn bltfrnbtf
+     * onf to fnsurf propfr stbtid initiblisbtion tbkfs plbdf.
+     */
+    publid FontConfigurbtion(SunFontMbnbgfr fm) {
+        if (FontUtilitifs.dfbugFonts()) {
+            FontUtilitifs.gftLoggfr()
+                .info("Crfbting stbndbrd Font Configurbtion");
+        }
+        if (FontUtilitifs.dfbugFonts() && loggfr == null) {
+            loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.FontConfigurbtion");
+        }
+        fontMbnbgfr = fm;
+        sftOsNbmfAndVfrsion();  /* stbtid initiblizbtion */
+        sftEndoding();          /* stbtid initiblizbtion */
+        /* Sfpbrbting out tif filf lodbtion from tif rfst of tif
+         * initiblisbtion, so tif dbllfr ibs tif option of doing
+         * somftiing flsf if b suitbblf filf isn't found.
+         */
+        findFontConfigFilf();
+    }
+
+    publid syndironizfd boolfbn init() {
+        if (!initfd) {
+            tiis.prfffrLodblfFonts = fblsf;
+            tiis.prfffrPropFonts = fblsf;
+            sftFontConfigurbtion();
+            rfbdFontConfigFilf(fontConfigFilf);
+            initFontConfig();
+            initfd = truf;
+        }
+        rfturn truf;
+    }
+
+    publid FontConfigurbtion(SunFontMbnbgfr fm,
+                             boolfbn prfffrLodblfFonts,
+                             boolfbn prfffrPropFonts) {
+        fontMbnbgfr = fm;
+        if (FontUtilitifs.dfbugFonts()) {
+            FontUtilitifs.gftLoggfr()
+                .info("Crfbting bltfrnbtf Font Configurbtion");
+        }
+        tiis.prfffrLodblfFonts = prfffrLodblfFonts;
+        tiis.prfffrPropFonts = prfffrPropFonts;
+        /* fontConfig siould bf initiblisfd by dffbult donstrudtor, bnd
+         * its dbtb tbblfs dbn bf sibrfd, sindf rfbdFontConfigFilf dofsn't
+         * updbtf bny otifr stbtf. Also bvoid b doPrivilfgfd blodk.
+         */
+        initFontConfig();
+    }
+
+    /**
+     * Fills in tiis instbndf's osVfrsion bnd osNbmf mfmbfrs. By
+     * dffbult usfs tif systfm propfrtifs os.nbmf bnd os.vfrsion;
+     * subdlbssfs mby ovfrridf.
+     */
+    protfdtfd void sftOsNbmfAndVfrsion() {
+        osNbmf = Systfm.gftPropfrty("os.nbmf");
+        osVfrsion = Systfm.gftPropfrty("os.vfrsion");
+    }
+
+    privbtf void sftEndoding() {
+        fndoding = Cibrsft.dffbultCibrsft().nbmf();
+        stbrtupLodblf = SunToolkit.gftStbrtupLodblf();
+    }
+
+    /////////////////////////////////////////////////////////////////////
+    // mftiods for lobding tif FontConfig filf                         //
+    /////////////////////////////////////////////////////////////////////
+
+    publid boolfbn foundOsSpfdifidFilf() {
+        rfturn foundOsSpfdifidFilf;
+    }
+
+    /* Smokf tfst to sff if wf dbn trust tiis donfigurbtion by tfsting if
+     * tif first slot of b dompositf font mbps to bn instbllfd filf.
+     */
+    publid boolfbn fontFilfsArfPrfsfnt() {
+        init();
+        siort fontNbmfID = dompFontNbmfIDs[0][0][0];
+        siort filfNbmfID = gftComponfntFilfID(fontNbmfID);
+        finbl String filfNbmf = mbpFilfNbmf(gftComponfntFilfNbmf(filfNbmfID));
+        Boolfbn fxists = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                 publid Boolfbn run() {
+                     try {
+                         Filf f = nfw Filf(filfNbmf);
+                         rfturn Boolfbn.vblufOf(f.fxists());
+                     }
+                     dbtdi (Exdfption f) {
+                         rfturn Boolfbn.FALSE;
+                     }
+                 }
+                });
+        rfturn fxists.boolfbnVbluf();
+    }
+
+    privbtf void findFontConfigFilf() {
+
+        foundOsSpfdifidFilf = truf; // dffbult bssumption.
+        String jbvbHomf = Systfm.gftPropfrty("jbvb.iomf");
+        if (jbvbHomf == null) {
+            tirow nfw Error("jbvb.iomf propfrty not sft");
+        }
+        jbvbLib = jbvbHomf + Filf.sfpbrbtor + "lib";
+        String usfrConfigFilf = Systfm.gftPropfrty("sun.bwt.fontdonfig");
+        if (usfrConfigFilf != null) {
+            fontConfigFilf = nfw Filf(usfrConfigFilf);
+        } flsf {
+            fontConfigFilf = findFontConfigFilf(jbvbLib);
+        }
+    }
+
+    privbtf void rfbdFontConfigFilf(Filf f) {
+        /* Tiis is invokfd ifrf bs rfbdFontConfigFilf is only invokfd
+         * ondf pfr VM, bnd blwbys in b privilfgfd dontfxt, tius tif
+         * dirfdtory dontbining instbllfd fbll bbdk fonts is bddfssfd
+         * from tiis dontfxt
+         */
+        gftInstbllfdFbllbbdkFonts(jbvbLib);
+
+        if (f != null) {
+            try {
+                FilfInputStrfbm in = nfw FilfInputStrfbm(f.gftPbti());
+                if (isPropfrtifs) {
+                    lobdPropfrtifs(in);
+                } flsf {
+                    lobdBinbry(in);
+                }
+                in.dlosf();
+                if (FontUtilitifs.dfbugFonts()) {
+                    loggfr.donfig("Rfbd logidbl font donfigurbtion from " + f);
+                }
+            } dbtdi (IOExdfption f) {
+                if (FontUtilitifs.dfbugFonts()) {
+                    loggfr.donfig("Fbilfd to rfbd logidbl font donfigurbtion from " + f);
+                }
+            }
+        }
+        String vfrsion = gftVfrsion();
+        if (!"1".fqubls(vfrsion) && FontUtilitifs.dfbugFonts()) {
+            loggfr.donfig("Unsupportfd fontdonfig vfrsion: " + vfrsion);
+        }
+    }
+
+    protfdtfd void gftInstbllfdFbllbbdkFonts(String jbvbLib) {
+        String fbllbbdkDirNbmf = jbvbLib + Filf.sfpbrbtor +
+            "fonts" + Filf.sfpbrbtor + "fbllbbdk";
+
+        Filf fbllbbdkDir = nfw Filf(fbllbbdkDirNbmf);
+        if (fbllbbdkDir.fxists() && fbllbbdkDir.isDirfdtory()) {
+            String[] ttfs = fbllbbdkDir.list(fontMbnbgfr.gftTrufTypfFiltfr());
+            String[] t1s = fbllbbdkDir.list(fontMbnbgfr.gftTypf1Filtfr());
+            int numTTFs = (ttfs == null) ? 0 : ttfs.lfngti;
+            int numT1s = (t1s == null) ? 0 : t1s.lfngti;
+            int lfn = numTTFs + numT1s;
+            if (numTTFs + numT1s == 0) {
+                rfturn;
+            }
+            instbllfdFbllbbdkFontFilfs = nfw String[lfn];
+            for (int i=0; i<numTTFs; i++) {
+                instbllfdFbllbbdkFontFilfs[i] =
+                    fbllbbdkDir + Filf.sfpbrbtor + ttfs[i];
+            }
+            for (int i=0; i<numT1s; i++) {
+                instbllfdFbllbbdkFontFilfs[i+numTTFs] =
+                    fbllbbdkDir + Filf.sfpbrbtor + t1s[i];
+            }
+            fontMbnbgfr.rfgistfrFontsInDir(fbllbbdkDirNbmf);
+        }
+    }
+
+    privbtf Filf findImpl(String fnbmf) {
+        Filf f = nfw Filf(fnbmf + ".propfrtifs");
+        if (f.dbnRfbd()) {
+            isPropfrtifs = truf;
+            rfturn f;
+        }
+        f = nfw Filf(fnbmf + ".bfd");
+        if (f.dbnRfbd()) {
+            isPropfrtifs = fblsf;
+            rfturn f;
+        }
+        rfturn null;
+    }
+
+    privbtf Filf findFontConfigFilf(String jbvbLib) {
+        String bbsfNbmf = jbvbLib + Filf.sfpbrbtor + "fontdonfig";
+        Filf donfigFilf;
+        String osMbjorVfrsion = null;
+        if (osVfrsion != null && osNbmf != null) {
+            donfigFilf = findImpl(bbsfNbmf + "." + osNbmf + "." + osVfrsion);
+            if (donfigFilf != null) {
+                rfturn donfigFilf;
+            }
+            int dfdimblPointIndfx = osVfrsion.indfxOf('.');
+            if (dfdimblPointIndfx != -1) {
+                osMbjorVfrsion = osVfrsion.substring(0, osVfrsion.indfxOf('.'));
+                donfigFilf = findImpl(bbsfNbmf + "." + osNbmf + "." + osMbjorVfrsion);
+                if (donfigFilf != null) {
+                    rfturn donfigFilf;
+                }
+            }
+        }
+        if (osNbmf != null) {
+            donfigFilf = findImpl(bbsfNbmf + "." + osNbmf);
+            if (donfigFilf != null) {
+                rfturn donfigFilf;
+            }
+        }
+        if (osVfrsion != null) {
+            donfigFilf = findImpl(bbsfNbmf + "." + osVfrsion);
+            if (donfigFilf != null) {
+                rfturn donfigFilf;
+            }
+            if (osMbjorVfrsion != null) {
+                donfigFilf = findImpl(bbsfNbmf + "." + osMbjorVfrsion);
+                if (donfigFilf != null) {
+                    rfturn donfigFilf;
+                }
+            }
+        }
+        foundOsSpfdifidFilf = fblsf;
+
+        donfigFilf = findImpl(bbsfNbmf);
+        if (donfigFilf != null) {
+            rfturn donfigFilf;
+        }
+        rfturn null;
+    }
+
+    /* Initiblizf tif intfrnbl dbtb tbblfs from binbry formbt font
+     * donfigurbtion filf.
+     */
+    publid stbtid void lobdBinbry(InputStrfbm inStrfbm) tirows IOExdfption {
+        DbtbInputStrfbm in = nfw DbtbInputStrfbm(inStrfbm);
+        ifbd = rfbdSiortTbblf(in, HEAD_LENGTH);
+        int[] tbblfSizfs = nfw int[INDEX_TABLEEND];
+        for (int i = 0; i < INDEX_TABLEEND; i++) {
+            tbblfSizfs[i] = ifbd[i + 1] - ifbd[i];
+        }
+        tbblf_sdriptIDs       = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sdriptIDs]);
+        tbblf_sdriptFonts     = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sdriptFonts]);
+        tbblf_fldIDs          = rfbdSiortTbblf(in, tbblfSizfs[INDEX_fldIDs]);
+        tbblf_sfqufndfs        = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sfqufndfs]);
+        tbblf_fontfilfNbmfIDs = rfbdSiortTbblf(in, tbblfSizfs[INDEX_fontfilfNbmfIDs]);
+        tbblf_domponfntFontNbmfIDs = rfbdSiortTbblf(in, tbblfSizfs[INDEX_domponfntFontNbmfIDs]);
+        tbblf_filfnbmfs       = rfbdSiortTbblf(in, tbblfSizfs[INDEX_filfnbmfs]);
+        tbblf_bwtfontpbtis    = rfbdSiortTbblf(in, tbblfSizfs[INDEX_bwtfontpbtis]);
+        tbblf_fxdlusions      = rfbdSiortTbblf(in, tbblfSizfs[INDEX_fxdlusions]);
+        tbblf_proportionbls   = rfbdSiortTbblf(in, tbblfSizfs[INDEX_proportionbls]);
+        tbblf_sdriptFontsMotif   = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sdriptFontsMotif]);
+        tbblf_blpibbftidSuffix   = rfbdSiortTbblf(in, tbblfSizfs[INDEX_blpibbftidSuffix]);
+        tbblf_stringIDs       = rfbdSiortTbblf(in, tbblfSizfs[INDEX_stringIDs]);
+
+        //StringTbblf dbdif
+        stringCbdif = nfw String[tbblf_stringIDs.lfngti + 1];
+
+        int lfn = tbblfSizfs[INDEX_stringTbblf];
+        bytf[] bb = nfw bytf[lfn * 2];
+        tbblf_stringTbblf = nfw dibr[lfn];
+        in.rfbd(bb);
+        int i = 0, j = 0;
+        wiilf (i < lfn) {
+           tbblf_stringTbblf[i++] = (dibr)(bb[j++] << 8 | (bb[j++] & 0xff));
+        }
+        if (vfrbosf) {
+            dump();
+        }
+    }
+
+    /* Gfnfrbtf b binbry formbt font donfigurbtion from intfrnbl dbtb
+     * tbblfs.
+     */
+    publid stbtid void sbvfBinbry(OutputStrfbm out) tirows IOExdfption {
+        sbnityCifdk();
+
+        DbtbOutputStrfbm dbtbOut = nfw DbtbOutputStrfbm(out);
+        writfSiortTbblf(dbtbOut, ifbd);
+        writfSiortTbblf(dbtbOut, tbblf_sdriptIDs);
+        writfSiortTbblf(dbtbOut, tbblf_sdriptFonts);
+        writfSiortTbblf(dbtbOut, tbblf_fldIDs);
+        writfSiortTbblf(dbtbOut, tbblf_sfqufndfs);
+        writfSiortTbblf(dbtbOut, tbblf_fontfilfNbmfIDs);
+        writfSiortTbblf(dbtbOut, tbblf_domponfntFontNbmfIDs);
+        writfSiortTbblf(dbtbOut, tbblf_filfnbmfs);
+        writfSiortTbblf(dbtbOut, tbblf_bwtfontpbtis);
+        writfSiortTbblf(dbtbOut, tbblf_fxdlusions);
+        writfSiortTbblf(dbtbOut, tbblf_proportionbls);
+        writfSiortTbblf(dbtbOut, tbblf_sdriptFontsMotif);
+        writfSiortTbblf(dbtbOut, tbblf_blpibbftidSuffix);
+        writfSiortTbblf(dbtbOut, tbblf_stringIDs);
+        //stringTbblf
+        dbtbOut.writfCibrs(nfw String(tbblf_stringTbblf));
+        out.dlosf();
+        if (vfrbosf) {
+            dump();
+        }
+    }
+
+    //privbtf stbtid boolfbn lobdingPropfrtifs;
+    privbtf stbtid siort stringIDNum;
+    privbtf stbtid siort[] stringIDs;
+    privbtf stbtid StringBuildfr stringTbblf;
+
+    publid stbtid void lobdPropfrtifs(InputStrfbm in) tirows IOExdfption {
+        //lobdingPropfrtifs = truf;
+        //StringID stbrts from "1", "0" is rfsfrvfd for "not dffinfd"
+        stringIDNum = 1;
+        stringIDs = nfw siort[1000];
+        stringTbblf = nfw StringBuildfr(4096);
+
+        if (vfrbosf && loggfr == null) {
+            loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.FontConfigurbtion");
+        }
+        nfw PropfrtifsHbndlfr().lobd(in);
+
+        //lobdingPropfrtifs = fblsf;
+        stringIDs = null;
+        stringTbblf = null;
+    }
+
+
+    /////////////////////////////////////////////////////////////////////
+    // mftiods for initiblizing tif FontConfig                         //
+    /////////////////////////////////////////////////////////////////////
+
+    /**
+     *  sft initLodblf, initEndoding bnd initELC for tiis FontConfig objfdt
+     *  durrfntly wf just simply usf tif stbrtup lodblf bnd fndoding
+     */
+    privbtf void initFontConfig() {
+        initLodblf = stbrtupLodblf;
+        initEndoding = fndoding;
+        if (prfffrLodblfFonts && !willRfordfrForStbrtupLodblf()) {
+            prfffrLodblfFonts = fblsf;
+        }
+        initELC = gftInitELC();
+        initAllComponfntFonts();
+    }
+
+    //"ELC" stbnds for "Endoding.Lbngubgf.Country". Tiis mftiod rfturns
+    //tif ID of tif mbtdifd fld sftting of "initLodblf" in fldIDs tbblf.
+    //If no mbtdi is found, it rfturns tif dffbult ID, wiidi is
+    //"NULL.NULL.NULL" in fldIDs tbblf.
+    privbtf siort gftInitELC() {
+        if (initELC != -1) {
+            rfturn initELC;
+        }
+        HbsiMbp <String, Intfgfr> fldIDs = nfw HbsiMbp<String, Intfgfr>();
+        for (int i = 0; i < tbblf_fldIDs.lfngti; i++) {
+            fldIDs.put(gftString(tbblf_fldIDs[i]), i);
+        }
+        String lbngubgf = initLodblf.gftLbngubgf();
+        String dountry = initLodblf.gftCountry();
+        String fld;
+        if (fldIDs.dontbinsKfy(fld=initEndoding + "." + lbngubgf + "." + dountry)
+            || fldIDs.dontbinsKfy(fld=initEndoding + "." + lbngubgf)
+            || fldIDs.dontbinsKfy(fld=initEndoding)) {
+            initELC = fldIDs.gft(fld).siortVbluf();
+        } flsf {
+            initELC = fldIDs.gft("NULL.NULL.NULL").siortVbluf();
+        }
+        int i = 0;
+        wiilf (i < tbblf_blpibbftidSuffix.lfngti) {
+            if (initELC == tbblf_blpibbftidSuffix[i]) {
+                blpibbftidSuffix = gftString(tbblf_blpibbftidSuffix[i + 1]);
+                rfturn initELC;
+            }
+            i += 2;
+        }
+        rfturn initELC;
+    }
+
+    publid stbtid boolfbn vfrbosf;
+    privbtf siort    initELC = -1;
+    privbtf Lodblf   initLodblf;
+    privbtf String   initEndoding;
+    privbtf String   blpibbftidSuffix;
+
+    privbtf siort[][][] dompFontNbmfIDs = nfw siort[NUM_FONTS][NUM_STYLES][];
+    privbtf int[][][] dompExdlusions = nfw int[NUM_FONTS][][];
+    privbtf int[] dompCorfNum = nfw int[NUM_FONTS];
+
+    privbtf Sft<Siort> dorfFontNbmfIDs = nfw HbsiSft<Siort>();
+    privbtf Sft<Siort> fbllbbdkFontNbmfIDs = nfw HbsiSft<Siort>();
+
+    privbtf void initAllComponfntFonts() {
+        siort[] fbllbbdkSdripts = gftFbllbbdkSdripts();
+        for (int fontIndfx = 0; fontIndfx < NUM_FONTS; fontIndfx++) {
+            siort[] dorfSdripts = gftCorfSdripts(fontIndfx);
+            dompCorfNum[fontIndfx] = dorfSdripts.lfngti;
+            /*
+            Systfm.out.println("dorfSdriptID=" + tbblf_sfqufndfs[initELC * 5 + fontIndfx]);
+            for (int i = 0; i < dorfSdripts.lfngti; i++) {
+            Systfm.out.println("  " + i + " :" + gftString(tbblf_sdriptIDs[dorfSdripts[i]]));
+            }
+            */
+            //init fxdlusionRbngfs
+            int[][] fxdlusions = nfw int[dorfSdripts.lfngti][];
+            for (int i = 0; i < dorfSdripts.lfngti; i++) {
+                fxdlusions[i] = gftExdlusionRbngfs(dorfSdripts[i]);
+            }
+            dompExdlusions[fontIndfx] = fxdlusions;
+            //init domponfntFontNbmfs
+            for (int stylfIndfx = 0; stylfIndfx < NUM_STYLES; stylfIndfx++) {
+                int indfx;
+                siort[] nbmfIDs = nfw siort[dorfSdripts.lfngti + fbllbbdkSdripts.lfngti];
+                //dorf
+                for (indfx = 0; indfx < dorfSdripts.lfngti; indfx++) {
+                    nbmfIDs[indfx] = gftComponfntFontID(dorfSdripts[indfx],
+                                               fontIndfx, stylfIndfx);
+                    if (prfffrLodblfFonts && lodblfMbp != null &&
+                            fontMbnbgfr.usingAltfrnbtfFontforJALodblfs()) {
+                        nbmfIDs[indfx] = rfmbpLodblfMbp(fontIndfx, stylfIndfx,
+                                                        dorfSdripts[indfx], nbmfIDs[indfx]);
+                    }
+                    if (prfffrPropFonts) {
+                        nbmfIDs[indfx] = rfmbpProportionbl(fontIndfx, nbmfIDs[indfx]);
+                    }
+                    //Systfm.out.println("nbmfid=" + nbmfIDs[indfx]);
+                    dorfFontNbmfIDs.bdd(nbmfIDs[indfx]);
+                }
+                //fbllbbdk
+                for (int i = 0; i < fbllbbdkSdripts.lfngti; i++) {
+                    siort id = gftComponfntFontID(fbllbbdkSdripts[i],
+                                               fontIndfx, stylfIndfx);
+                    if (prfffrLodblfFonts && lodblfMbp != null &&
+                            fontMbnbgfr.usingAltfrnbtfFontforJALodblfs()) {
+                        id = rfmbpLodblfMbp(fontIndfx, stylfIndfx, fbllbbdkSdripts[i], id);
+                    }
+                    if (prfffrPropFonts) {
+                        id = rfmbpProportionbl(fontIndfx, id);
+                    }
+                    if (dontbins(nbmfIDs, id, indfx)) {
+                        dontinuf;
+                    }
+                    /*
+                      Systfm.out.println("fontIndfx=" + fontIndfx + ", stylfIndfx=" + stylfIndfx
+                           + ", fbIndfx=" + i + ",fbS=" + fbllbbdkSdripts[i] + ", id=" + id);
+                    */
+                    fbllbbdkFontNbmfIDs.bdd(id);
+                    nbmfIDs[indfx++] = id;
+                }
+                if (indfx < nbmfIDs.lfngti) {
+                    siort[] nfwNbmfIDs = nfw siort[indfx];
+                    Systfm.brrbydopy(nbmfIDs, 0, nfwNbmfIDs, 0, indfx);
+                    nbmfIDs = nfwNbmfIDs;
+                }
+                dompFontNbmfIDs[fontIndfx][stylfIndfx] = nbmfIDs;
+            }
+        }
+   }
+
+   privbtf siort rfmbpLodblfMbp(int fontIndfx, int stylfIndfx, siort sdriptID, siort fontID) {
+        String sdriptNbmf = gftString(tbblf_sdriptIDs[sdriptID]);
+
+        String vbluf = lodblfMbp.gft(sdriptNbmf);
+        if (vbluf == null) {
+            String fontNbmf = fontNbmfs[fontIndfx];
+            String stylfNbmf = stylfNbmfs[stylfIndfx];
+            vbluf = lodblfMbp.gft(fontNbmf + "." + stylfNbmf + "." + sdriptNbmf);
+        }
+        if (vbluf == null) {
+            rfturn fontID;
+        }
+
+        for (int i = 0; i < tbblf_domponfntFontNbmfIDs.lfngti; i++) {
+            String nbmf = gftString(tbblf_domponfntFontNbmfIDs[i]);
+            if (vbluf.fqublsIgnorfCbsf(nbmf)) {
+                fontID = (siort)i;
+                brfbk;
+            }
+        }
+        rfturn fontID;
+    }
+
+    publid stbtid boolfbn ibsMonoToPropMbp() {
+        rfturn tbblf_proportionbls != null && tbblf_proportionbls.lfngti != 0;
+    }
+
+    privbtf siort rfmbpProportionbl(int fontIndfx, siort id) {
+    if (prfffrPropFonts &&
+        tbblf_proportionbls.lfngti != 0 &&
+        fontIndfx != 2 &&         //"monospbdfd"
+        fontIndfx != 4) {         //"dibloginput"
+            int i = 0;
+            wiilf (i < tbblf_proportionbls.lfngti) {
+                if (tbblf_proportionbls[i] == id) {
+                    rfturn tbblf_proportionbls[i + 1];
+                }
+                i += 2;
+            }
+        }
+        rfturn id;
+    }
+
+    /////////////////////////////////////////////////////////////////////
+    // Mftiods for ibndling font bnd stylf nbmfs                       //
+    /////////////////////////////////////////////////////////////////////
+    protfdtfd stbtid finbl int NUM_FONTS = 5;
+    protfdtfd stbtid finbl int NUM_STYLES = 4;
+    protfdtfd stbtid finbl String[] fontNbmfs
+            = {"sfrif", "sbnssfrif", "monospbdfd", "diblog", "dibloginput"};
+    protfdtfd stbtid finbl String[] publidFontNbmfs
+            = {Font.SERIF, Font.SANS_SERIF, Font.MONOSPACED, Font.DIALOG,
+               Font.DIALOG_INPUT};
+    protfdtfd stbtid finbl String[] stylfNbmfs
+            = {"plbin", "bold", "itblid", "bolditblid"};
+
+    /**
+     * Cifdks wiftifr tif givfn font fbmily nbmf is b vblid logidbl font nbmf.
+     * Tif difdk is dbsf insfnsitivf.
+     */
+    publid stbtid boolfbn isLogidblFontFbmilyNbmf(String fontNbmf) {
+        rfturn isLogidblFontFbmilyNbmfLC(fontNbmf.toLowfrCbsf(Lodblf.ENGLISH));
+    }
+
+    /**
+     * Cifdks wiftifr tif givfn font fbmily nbmf is b vblid logidbl font nbmf.
+     * Tif difdk is dbsf sfnsitivf.
+     */
+    publid stbtid boolfbn isLogidblFontFbmilyNbmfLC(String fontNbmf) {
+        for (int i = 0; i < fontNbmfs.lfngti; i++) {
+            if (fontNbmf.fqubls(fontNbmfs[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Cifdks wiftifr tif givfn stylf nbmf is b vblid logidbl font stylf nbmf.
+     */
+    privbtf stbtid boolfbn isLogidblFontStylfNbmf(String stylfNbmf) {
+        for (int i = 0; i < stylfNbmfs.lfngti; i++) {
+            if (stylfNbmf.fqubls(stylfNbmfs[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Cifdks wiftifr tif givfn font fbdf nbmf is b vblid logidbl font nbmf.
+     * Tif difdk is dbsf insfnsitivf.
+     */
+    publid stbtid boolfbn isLogidblFontFbdfNbmf(String fontNbmf) {
+        rfturn isLogidblFontFbdfNbmfLC(fontNbmf.toLowfrCbsf(Lodblf.ENGLISH));
+    }
+
+   /**
+    * Cifdks wiftifr tif givfn font fbdf nbmf is b vblid logidbl font nbmf.
+    * Tif difdk is dbsf sfnsitivf.
+    */
+    publid stbtid boolfbn isLogidblFontFbdfNbmfLC(String fontNbmf) {
+        int pfriod = fontNbmf.indfxOf('.');
+        if (pfriod >= 0) {
+            String fbmilyNbmf = fontNbmf.substring(0, pfriod);
+            String stylfNbmf = fontNbmf.substring(pfriod + 1);
+            rfturn isLogidblFontFbmilyNbmf(fbmilyNbmf) &&
+                    isLogidblFontStylfNbmf(stylfNbmf);
+        } flsf {
+            rfturn isLogidblFontFbmilyNbmf(fontNbmf);
+        }
+    }
+
+    protfdtfd stbtid int gftFontIndfx(String fontNbmf) {
+        rfturn gftArrbyIndfx(fontNbmfs, fontNbmf);
+    }
+
+    protfdtfd stbtid int gftStylfIndfx(String stylfNbmf) {
+        rfturn gftArrbyIndfx(stylfNbmfs, stylfNbmf);
+    }
+
+    privbtf stbtid int gftArrbyIndfx(String[] nbmfs, String nbmf) {
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            if (nbmf.fqubls(nbmfs[i])) {
+                rfturn i;
+            }
+        }
+        bssfrt fblsf;
+        rfturn 0;
+    }
+
+    protfdtfd stbtid int gftStylfIndfx(int stylf) {
+        switdi (stylf) {
+            dbsf Font.PLAIN:
+                rfturn 0;
+            dbsf Font.BOLD:
+                rfturn 1;
+            dbsf Font.ITALIC:
+                rfturn 2;
+            dbsf Font.BOLD | Font.ITALIC:
+                rfturn 3;
+            dffbult:
+                rfturn 0;
+        }
+    }
+
+    protfdtfd stbtid String gftFontNbmf(int fontIndfx) {
+        rfturn fontNbmfs[fontIndfx];
+    }
+
+    protfdtfd stbtid String gftStylfNbmf(int stylfIndfx) {
+        rfturn stylfNbmfs[stylfIndfx];
+    }
+
+    /**
+     * Rfturns tif font fbdf nbmf for tif givfn logidbl font
+     * fbmily nbmf bnd stylf.
+     * Tif stylf brgumfnt is intfrprftfd bs in jbvb.bwt.Font.Font.
+     */
+    publid stbtid String gftLogidblFontFbdfNbmf(String fbmilyNbmf, int stylf) {
+        bssfrt isLogidblFontFbmilyNbmf(fbmilyNbmf);
+        rfturn fbmilyNbmf.toLowfrCbsf(Lodblf.ENGLISH) + "." + gftStylfString(stylf);
+    }
+
+    /**
+     * Rfturns tif string typidblly usfd in propfrtifs filfs
+     * for tif givfn stylf.
+     * Tif stylf brgumfnt is intfrprftfd bs in jbvb.bwt.Font.Font.
+     */
+    publid stbtid String gftStylfString(int stylf) {
+        rfturn gftStylfNbmf(gftStylfIndfx(stylf));
+    }
+
+    /**
+     * Rfturns b fbllbbdk nbmf for tif givfn font nbmf. For b ffw known
+     * font nbmfs, mbtdiing logidbl font nbmfs brf rfturnfd. For bll
+     * otifr font nbmfs, dffbultFbllbbdk is rfturnfd.
+     * dffbultFbllbbdk difffrs bftwffn AWT bnd 2D.
+     */
+    publid bbstrbdt String gftFbllbbdkFbmilyNbmf(String fontNbmf, String dffbultFbllbbdk);
+
+    /**
+     * Rfturns tif 1.1 fquivblfnt for somf old 1.0 font fbmily nbmfs for
+     * wiidi wf nffd to mbintbin dompbtibility in somf donfigurbtions.
+     * Rfturns null for otifr font nbmfs.
+     */
+    protfdtfd String gftCompbtibilityFbmilyNbmf(String fontNbmf) {
+        fontNbmf = fontNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        if (fontNbmf.fqubls("timfsrombn")) {
+            rfturn "sfrif";
+        } flsf if (fontNbmf.fqubls("iflvftidb")) {
+            rfturn "sbnssfrif";
+        } flsf if (fontNbmf.fqubls("dourifr")) {
+            rfturn "monospbdfd";
+        }
+        rfturn null;
+    }
+
+    protfdtfd stbtid String[] instbllfdFbllbbdkFontFilfs = null;
+
+    /**
+     * Mbps b filf nbmf givfn in tif font donfigurbtion filf
+     * to b formbt bppropribtf for tif plbtform.
+     */
+    protfdtfd String mbpFilfNbmf(String filfNbmf) {
+        rfturn filfNbmf;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    //  rfordfring                                                      //
+    //////////////////////////////////////////////////////////////////////
+
+    /* Mbppings from filf fndoding to font donfig nbmf for font supporting
+     * tif dorrfsponding lbngubgf. Tiis is fillfd in by initRfordfrMbp()
+     */
+    protfdtfd HbsiMbp<String, Objfdt> rfordfrMbp = null;
+
+    /* Plbtform-spfdifid mbppings */
+    protfdtfd bbstrbdt void initRfordfrMbp();
+
+    /* Movf itfm bt indfx "srd" to "dst", siuffling bll vblufs in
+     * bftwffn down
+     */
+    privbtf void siufflf(String[] sfq, int srd, int dst) {
+        if (dst >= srd) {
+            rfturn;
+        }
+        String tmp = sfq[srd];
+        for (int i=srd; i>dst; i--) {
+            sfq[i] = sfq[i-1];
+        }
+        sfq[dst] = tmp;
+    }
+
+    /* Cbllfd to dftfrminf if tifrf's b rf-ordfr sfqufndf for tiis lodblf/
+     * fndoding. If tifrf's nonf tifn tif dbllfr dbn "bbil" bnd bvoid
+     * unnfdfssbry work
+     */
+    publid stbtid boolfbn willRfordfrForStbrtupLodblf() {
+        rfturn gftRfordfrSfqufndf() != null;
+    }
+
+    privbtf stbtid Objfdt gftRfordfrSfqufndf() {
+        if (fontConfig.rfordfrMbp == null) {
+             fontConfig.initRfordfrMbp();
+        }
+        HbsiMbp<String, Objfdt> rfordfrMbp = fontConfig.rfordfrMbp;
+
+        /* Find tif most spfdifid mbpping */
+        String lbngubgf = stbrtupLodblf.gftLbngubgf();
+        String dountry = stbrtupLodblf.gftCountry();
+        Objfdt vbl = rfordfrMbp.gft(fndoding + "." + lbngubgf + "." + dountry);
+        if (vbl == null) {
+            vbl = rfordfrMbp.gft(fndoding + "." + lbngubgf);
+        }
+        if (vbl == null) {
+            vbl = rfordfrMbp.gft(fndoding);
+        }
+        rfturn vbl;
+    }
+
+    /* Tiis mftiod rfordfrs tif sfqufndf sudi tibt tif mbtdifs for tif
+     * filf fndoding brf movfd bifbd of otifr flfmfnts.
+     * If bn fndoding usfs morf tibn onf font, tify brf bll movfd up.
+     */
+     privbtf void rfordfrSfqufndfForLodblf(String[] sfq) {
+        Objfdt vbl =  gftRfordfrSfqufndf();
+        if (vbl instbndfof String) {
+            for (int i=0; i< sfq.lfngti; i++) {
+                if (sfq[i].fqubls(vbl)) {
+                    siufflf(sfq, i, 0);
+                    rfturn;
+                }
+            }
+        } flsf if (vbl instbndfof String[]) {
+            String[] fontLbngs = (String[])vbl;
+            for (int l=0; l<fontLbngs.lfngti;l++) {
+                for (int i=0; i<sfq.lfngti;i++) {
+                    if (sfq[i].fqubls(fontLbngs[l])) {
+                        siufflf(sfq, i, l);
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf stbtid Vfdtor<String> splitSfqufndf(String sfqufndf) {
+        //String.split would bf morf donvfnifnt, but indurs big pfrformbndf pfnblty
+        Vfdtor<String> pbrts = nfw Vfdtor<>();
+        int stbrt = 0;
+        int fnd;
+        wiilf ((fnd = sfqufndf.indfxOf(',', stbrt)) >= 0) {
+            pbrts.bdd(sfqufndf.substring(stbrt, fnd));
+            stbrt = fnd + 1;
+        }
+        if (sfqufndf.lfngti() > stbrt) {
+            pbrts.bdd(sfqufndf.substring(stbrt, sfqufndf.lfngti()));
+        }
+        rfturn pbrts;
+    }
+
+    protfdtfd String[] split(String sfqufndf) {
+        Vfdtor<String> v = splitSfqufndf(sfqufndf);
+        rfturn v.toArrby(nfw String[0]);
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    // Mftiods for fxtrbdting informbtion from tif fontdonfig dbtb for AWT//
+    ////////////////////////////////////////////////////////////////////////
+    privbtf Hbsitbblf<String, Cibrsft> dibrsftRfgistry = nfw Hbsitbblf<>(5);
+
+    /**
+     * Rfturns FontDfsdriptors dfsdribing tif piysidbl fonts usfd for tif
+     * givfn logidbl font nbmf bnd stylf. Tif font nbmf is intfrprftfd
+     * in b dbsf insfnsitivf wby.
+     * Tif stylf brgumfnt is intfrprftfd bs in jbvb.bwt.Font.Font.
+     */
+    publid FontDfsdriptor[] gftFontDfsdriptors(String fontNbmf, int stylf) {
+        bssfrt isLogidblFontFbmilyNbmf(fontNbmf);
+        fontNbmf = fontNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        int fontIndfx = gftFontIndfx(fontNbmf);
+        int stylfIndfx = gftStylfIndfx(stylf);
+        rfturn gftFontDfsdriptors(fontIndfx, stylfIndfx);
+    }
+    privbtf FontDfsdriptor[][][] fontDfsdriptors =
+        nfw FontDfsdriptor[NUM_FONTS][NUM_STYLES][];
+
+    privbtf FontDfsdriptor[] gftFontDfsdriptors(int fontIndfx, int stylfIndfx) {
+        FontDfsdriptor[] dfsdriptors = fontDfsdriptors[fontIndfx][stylfIndfx];
+        if (dfsdriptors == null) {
+            dfsdriptors = buildFontDfsdriptors(fontIndfx, stylfIndfx);
+            fontDfsdriptors[fontIndfx][stylfIndfx] = dfsdriptors;
+        }
+        rfturn dfsdriptors;
+    }
+
+    protfdtfd FontDfsdriptor[] buildFontDfsdriptors(int fontIndfx, int stylfIndfx) {
+        String fontNbmf = fontNbmfs[fontIndfx];
+        String stylfNbmf = stylfNbmfs[stylfIndfx];
+
+        siort[] sdriptIDs = gftCorfSdripts(fontIndfx);
+        siort[] nbmfIDs = dompFontNbmfIDs[fontIndfx][stylfIndfx];
+        String[] sfqufndf = nfw String[sdriptIDs.lfngti];
+        String[] nbmfs = nfw String[sdriptIDs.lfngti];
+        for (int i = 0; i < sfqufndf.lfngti; i++) {
+            nbmfs[i] = gftComponfntFontNbmf(nbmfIDs[i]);
+            sfqufndf[i] = gftSdriptNbmf(sdriptIDs[i]);
+            if (blpibbftidSuffix != null && "blpibbftid".fqubls(sfqufndf[i])) {
+                sfqufndf[i] = sfqufndf[i] + "/" + blpibbftidSuffix;
+            }
+        }
+        int[][] fontExdlusionRbngfs = dompExdlusions[fontIndfx];
+
+        FontDfsdriptor[] dfsdriptors = nfw FontDfsdriptor[nbmfs.lfngti];
+
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            String bwtFontNbmf;
+            String fndoding;
+
+            bwtFontNbmf = mbkfAWTFontNbmf(nbmfs[i], sfqufndf[i]);
+
+            // look up dibrbdtfr fndoding
+            fndoding = gftEndoding(nbmfs[i], sfqufndf[i]);
+            if (fndoding == null) {
+                fndoding = "dffbult";
+            }
+            CibrsftEndodfr fnd
+                    = gftFontCibrsftEndodfr(fndoding.trim(), bwtFontNbmf);
+
+            // wf blrfbdy ibvf tif fxdlusion rbngfs
+            int[] fxdlusionRbngfs = fontExdlusionRbngfs[i];
+
+            // drfbtf dfsdriptor
+            dfsdriptors[i] = nfw FontDfsdriptor(bwtFontNbmf, fnd, fxdlusionRbngfs);
+        }
+        rfturn dfsdriptors;
+    }
+
+    /**
+     * Rfturns tif AWT font nbmf for tif givfn plbtform font nbmf bnd
+     * dibrbdtfr subsft.
+     */
+    protfdtfd String mbkfAWTFontNbmf(String plbtformFontNbmf,
+            String dibrbdtfrSubsftNbmf) {
+        rfturn plbtformFontNbmf;
+    }
+
+    /**
+     * Rfturns tif jbvb.io nbmf of tif plbtform dibrbdtfr fndoding for tif
+     * givfn AWT font nbmf bnd dibrbdtfr subsft. Mby rfturn "dffbult"
+     * to indidbtf tibt gftDffbultFontCibrsft siould bf dbllfd to obtbin
+     * b dibrsft fndodfr.
+     */
+    protfdtfd bbstrbdt String gftEndoding(String bwtFontNbmf,
+            String dibrbdtfrSubsftNbmf);
+
+    privbtf CibrsftEndodfr gftFontCibrsftEndodfr(finbl String dibrsftNbmf,
+            String fontNbmf) {
+
+        Cibrsft fd = null;
+        if (dibrsftNbmf.fqubls("dffbult")) {
+            fd = dibrsftRfgistry.gft(fontNbmf);
+        } flsf {
+            fd = dibrsftRfgistry.gft(dibrsftNbmf);
+        }
+        if (fd != null) {
+            rfturn fd.nfwEndodfr();
+        }
+
+        if (!dibrsftNbmf.stbrtsWiti("sun.bwt.") && !dibrsftNbmf.fqubls("dffbult")) {
+            fd = Cibrsft.forNbmf(dibrsftNbmf);
+        } flsf {
+            Clbss<?> fdd = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Clbss<?>>() {
+                    publid Clbss<?> run() {
+                        try {
+                            rfturn Clbss.forNbmf(dibrsftNbmf, truf,
+                                                 ClbssLobdfr.gftSystfmClbssLobdfr());
+                        } dbtdi (ClbssNotFoundExdfption f) {
+                        }
+                        rfturn null;
+                    }
+                });
+
+            if (fdd != null) {
+                try {
+                    fd = (Cibrsft) fdd.nfwInstbndf();
+                } dbtdi (Exdfption f) {
+                }
+            }
+        }
+        if (fd == null) {
+            fd = gftDffbultFontCibrsft(fontNbmf);
+        }
+
+        if (dibrsftNbmf.fqubls("dffbult")){
+            dibrsftRfgistry.put(fontNbmf, fd);
+        } flsf {
+            dibrsftRfgistry.put(dibrsftNbmf, fd);
+        }
+        rfturn fd.nfwEndodfr();
+    }
+
+    protfdtfd bbstrbdt Cibrsft gftDffbultFontCibrsft(
+            String fontNbmf);
+
+    /* Tiis rftrifvfs tif plbtform font dirfdtorifs (pbti) dbldulbtfd
+     * by sftAWTFontPbtiSfqufndf(String[]). Tif dffbult implfmfntbtion
+     * rfturns null, its fxpfdtfd tibt X11 plbtforms mby rfturn
+     * non-null.
+     */
+    publid HbsiSft<String> gftAWTFontPbtiSft() {
+        rfturn null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    // mftiods for fxtrbdting informbtion from tif fontdonfig dbtb for 2D //
+    ////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Rfturns bn brrby of dompositf font dfsdriptors for bll logidbl font
+     * fbdfs.
+     * If tif font donfigurbtion filf dofsn't spfdify Ludidb Sbns Rfgulbr
+     * or tif givfn fbllbbdk font bs domponfnt fonts, tify brf bddfd ifrf.
+     */
+    publid CompositfFontDfsdriptor[] gft2DCompositfFontInfo() {
+        CompositfFontDfsdriptor[] rfsult =
+                nfw CompositfFontDfsdriptor[NUM_FONTS * NUM_STYLES];
+        String dffbultFontFilf = fontMbnbgfr.gftDffbultFontFilf();
+        String dffbultFontFbdfNbmf = fontMbnbgfr.gftDffbultFontFbdfNbmf();
+
+        for (int fontIndfx = 0; fontIndfx < NUM_FONTS; fontIndfx++) {
+            String fontNbmf = publidFontNbmfs[fontIndfx];
+
+            // dftfrminf fxdlusion rbngfs for font
+            // AWT usfs sfpbrbtf fxdlusion rbngf brrby pfr domponfnt font.
+            // 2D pbdks bll rbngf boundbrifs into onf brrby.
+            // Boti usf sfpbrbtf fntrifs for lowfr bnd uppfr boundbry.
+            int[][] fxdlusions = dompExdlusions[fontIndfx];
+            int numExdlusionRbngfs = 0;
+            for (int i = 0; i < fxdlusions.lfngti; i++) {
+                numExdlusionRbngfs += fxdlusions[i].lfngti;
+            }
+            int[] fxdlusionRbngfs = nfw int[numExdlusionRbngfs];
+            int[] fxdlusionRbngfLimits = nfw int[fxdlusions.lfngti];
+            int fxdlusionRbngfIndfx = 0;
+            int fxdlusionRbngfLimitIndfx = 0;
+            for (int i = 0; i < fxdlusions.lfngti; i++) {
+                int[] domponfntRbngfs = fxdlusions[i];
+                for (int j = 0; j < domponfntRbngfs.lfngti; ) {
+                    int vbluf = domponfntRbngfs[j];
+                    fxdlusionRbngfs[fxdlusionRbngfIndfx++] = domponfntRbngfs[j++];
+                    fxdlusionRbngfs[fxdlusionRbngfIndfx++] = domponfntRbngfs[j++];
+                }
+                fxdlusionRbngfLimits[i] = fxdlusionRbngfIndfx;
+            }
+            // otifr info is pfr stylf
+            for (int stylfIndfx = 0; stylfIndfx < NUM_STYLES; stylfIndfx++) {
+                int mbxComponfntFontCount = dompFontNbmfIDs[fontIndfx][stylfIndfx].lfngti;
+                boolfbn sbwDffbultFontFilf = fblsf;
+                // fbll bbdk fonts listfd in tif lib/fonts/fbllbbdk dirfdtory
+                if (instbllfdFbllbbdkFontFilfs != null) {
+                    mbxComponfntFontCount += instbllfdFbllbbdkFontFilfs.lfngti;
+                }
+                String fbdfNbmf = fontNbmf + "." + stylfNbmfs[stylfIndfx];
+
+                // dftfrminf fbdf nbmfs bnd filf nbmfs of domponfnt fonts
+                String[] domponfntFbdfNbmfs = nfw String[mbxComponfntFontCount];
+                String[] domponfntFilfNbmfs = nfw String[mbxComponfntFontCount];
+
+                int indfx;
+                for (indfx = 0; indfx < dompFontNbmfIDs[fontIndfx][stylfIndfx].lfngti; indfx++) {
+                    siort fontNbmfID = dompFontNbmfIDs[fontIndfx][stylfIndfx][indfx];
+                    siort filfNbmfID = gftComponfntFilfID(fontNbmfID);
+                    domponfntFbdfNbmfs[indfx] = gftFbdfNbmfFromComponfntFontNbmf(gftComponfntFontNbmf(fontNbmfID));
+                    domponfntFilfNbmfs[indfx] = mbpFilfNbmf(gftComponfntFilfNbmf(filfNbmfID));
+                    if (domponfntFilfNbmfs[indfx] == null ||
+                        nffdToSfbrdiForFilf(domponfntFilfNbmfs[indfx])) {
+                        domponfntFilfNbmfs[indfx] = gftFilfNbmfFromComponfntFontNbmf(gftComponfntFontNbmf(fontNbmfID));
+                    }
+                    if (!sbwDffbultFontFilf &&
+                        dffbultFontFilf.fqubls(domponfntFilfNbmfs[indfx])) {
+                        sbwDffbultFontFilf = truf;
+                    }
+                    /*
+                    Systfm.out.println(publidFontNbmfs[fontIndfx] + "." + stylfNbmfs[stylfIndfx] + "."
+                        + gftString(tbblf_sdriptIDs[dorfSdripts[indfx]]) + "=" + domponfntFilfNbmfs[indfx]);
+                    */
+                }
+
+                //"Ludidb Sbns Rfgulbr" is not in tif list, wf bdd it ifrf
+                if (!sbwDffbultFontFilf) {
+                    int lfn = 0;
+                    if (instbllfdFbllbbdkFontFilfs != null) {
+                        lfn = instbllfdFbllbbdkFontFilfs.lfngti;
+                    }
+                    if (indfx + lfn == mbxComponfntFontCount) {
+                        String[] nfwComponfntFbdfNbmfs = nfw String[mbxComponfntFontCount + 1];
+                        Systfm.brrbydopy(domponfntFbdfNbmfs, 0, nfwComponfntFbdfNbmfs, 0, indfx);
+                        domponfntFbdfNbmfs = nfwComponfntFbdfNbmfs;
+                        String[] nfwComponfntFilfNbmfs = nfw String[mbxComponfntFontCount + 1];
+                        Systfm.brrbydopy(domponfntFilfNbmfs, 0, nfwComponfntFilfNbmfs, 0, indfx);
+                        domponfntFilfNbmfs = nfwComponfntFilfNbmfs;
+                    }
+                    domponfntFbdfNbmfs[indfx] = dffbultFontFbdfNbmf;
+                    domponfntFilfNbmfs[indfx] = dffbultFontFilf;
+                    indfx++;
+                }
+
+                if (instbllfdFbllbbdkFontFilfs != null) {
+                    for (int ifb=0; ifb<instbllfdFbllbbdkFontFilfs.lfngti; ifb++) {
+                        domponfntFbdfNbmfs[indfx] = null;
+                        domponfntFilfNbmfs[indfx] = instbllfdFbllbbdkFontFilfs[ifb];
+                        indfx++;
+                    }
+                }
+
+                if (indfx < mbxComponfntFontCount) {
+                    String[] nfwComponfntFbdfNbmfs = nfw String[indfx];
+                    Systfm.brrbydopy(domponfntFbdfNbmfs, 0, nfwComponfntFbdfNbmfs, 0, indfx);
+                    domponfntFbdfNbmfs = nfwComponfntFbdfNbmfs;
+                    String[] nfwComponfntFilfNbmfs = nfw String[indfx];
+                    Systfm.brrbydopy(domponfntFilfNbmfs, 0, nfwComponfntFilfNbmfs, 0, indfx);
+                    domponfntFilfNbmfs = nfwComponfntFilfNbmfs;
+                }
+                // fxdlusion rbngf limit brrby lfngti must mbtdi domponfnt fbdf nbmf
+                // brrby lfngti - nbtivf dodf rflifs on tiis
+
+                int[] dlippfdExdlusionRbngfLimits = fxdlusionRbngfLimits;
+                if (indfx != dlippfdExdlusionRbngfLimits.lfngti) {
+                    int lfn = fxdlusionRbngfLimits.lfngti;
+                    dlippfdExdlusionRbngfLimits = nfw int[indfx];
+                    Systfm.brrbydopy(fxdlusionRbngfLimits, 0, dlippfdExdlusionRbngfLimits, 0, lfn);
+                    //pbdding for vbrious fbllbbdk fonts
+                    for (int i = lfn; i < indfx; i++) {
+                        dlippfdExdlusionRbngfLimits[i] = fxdlusionRbngfs.lfngti;
+                    }
+                }
+                /*
+                Systfm.out.println(fbdfNbmf + ":");
+                for (int i = 0; i < domponfntFilfNbmfs.lfngti; i++) {
+                    Systfm.out.println("    " + domponfntFbdfNbmfs[i]
+                         + "  -> " + domponfntFilfNbmfs[i]);
+                }
+                */
+                rfsult[fontIndfx * NUM_STYLES + stylfIndfx]
+                        = nfw CompositfFontDfsdriptor(
+                            fbdfNbmf,
+                            dompCorfNum[fontIndfx],
+                            domponfntFbdfNbmfs,
+                            domponfntFilfNbmfs,
+                            fxdlusionRbngfs,
+                            dlippfdExdlusionRbngfLimits);
+            }
+        }
+        rfturn rfsult;
+    }
+
+    protfdtfd bbstrbdt String gftFbdfNbmfFromComponfntFontNbmf(String domponfntFontNbmf);
+    protfdtfd bbstrbdt String gftFilfNbmfFromComponfntFontNbmf(String domponfntFontNbmf);
+
+    /*
+    publid dlbss 2dFont {
+        publid String plbtformNbmf;
+        publid String fontfilfNbmf;
+    }
+    privbtf 2dFont [] domponfntFonts = null;
+    */
+
+    /* Usfd on Linux to tfst if b filf rfffrfndfd in b font donfigurbtion
+     * filf fxists in tif lodbtion tibt is fxpfdtfd. If it dofs, no nffd
+     * to sfbrdi for it. If it dofsn't tifn unlfss its b fbllbbdk font,
+     * rfturn tibt fxpfnsivf dodf siould bf invokfd to sfbrdi for tif font.
+     */
+    HbsiMbp<String, Boolfbn> fxistsMbp;
+    publid boolfbn nffdToSfbrdiForFilf(String filfNbmf) {
+        if (!FontUtilitifs.isLinux) {
+            rfturn fblsf;
+        } flsf if (fxistsMbp == null) {
+           fxistsMbp = nfw HbsiMbp<String, Boolfbn>();
+        }
+        Boolfbn fxists = fxistsMbp.gft(filfNbmf);
+        if (fxists == null) {
+            /* dbll gftNumbfrCorfFonts() to fnsurf tifsf brf initiblisfd, bnd
+             * if tiis filf isn't for b dorf domponfnt, if, is b for b fbllbbdk
+             * font wiidi vfry typidblly isn't bvbilbblf, tifn dbn't bfford
+             * to tbkf tif stbrt-up pfnblty to sfbrdi for it.
+             */
+            gftNumbfrCorfFonts();
+            if (!dorfFontFilfNbmfs.dontbins(filfNbmf)) {
+                fxists = Boolfbn.TRUE;
+            } flsf {
+                fxists = Boolfbn.vblufOf((nfw Filf(filfNbmf)).fxists());
+                fxistsMbp.put(filfNbmf, fxists);
+                if (FontUtilitifs.dfbugFonts() &&
+                    fxists == Boolfbn.FALSE) {
+                    loggfr.wbrning("Couldn't lodbtf font filf " + filfNbmf);
+                }
+            }
+        }
+        rfturn fxists == Boolfbn.FALSE;
+    }
+
+    privbtf int numCorfFonts = -1;
+    privbtf String[] domponfntFonts = null;
+    HbsiMbp <String, String> filfnbmfsMbp = nfw HbsiMbp<String, String>();
+    HbsiSft <String> dorfFontFilfNbmfs = nfw HbsiSft<String>();
+
+    /* Rfturn tif numbfr of dorf fonts. Notf tiis isn't tirfbd sbff but
+     * b dblling tirfbd dbn dbll tiis bnd gftPlbtformFontNbmfs() in fitifr
+     * ordfr.
+     */
+    publid int gftNumbfrCorfFonts() {
+        if (numCorfFonts == -1) {
+            numCorfFonts = dorfFontNbmfIDs.sizf();
+            Siort[] fmptySiortArrby = nfw Siort[0];
+            Siort[] dorf = dorfFontNbmfIDs.toArrby(fmptySiortArrby);
+            Siort[] fbllbbdk = fbllbbdkFontNbmfIDs.toArrby(fmptySiortArrby);
+
+            int numFbllbbdkFonts = 0;
+            int i;
+            for (i = 0; i < fbllbbdk.lfngti; i++) {
+                if (dorfFontNbmfIDs.dontbins(fbllbbdk[i])) {
+                    fbllbbdk[i] = null;
+                    dontinuf;
+                }
+                numFbllbbdkFonts++;
+            }
+            domponfntFonts = nfw String[numCorfFonts + numFbllbbdkFonts];
+            String filfnbmf = null;
+            for (i = 0; i < dorf.lfngti; i++) {
+                siort fontid = dorf[i];
+                siort filfid = gftComponfntFilfID(fontid);
+                domponfntFonts[i] = gftComponfntFontNbmf(fontid);
+                String dompFilfNbmf = gftComponfntFilfNbmf(filfid);
+                if (dompFilfNbmf != null) {
+                    dorfFontFilfNbmfs.bdd(dompFilfNbmf);
+                }
+                filfnbmfsMbp.put(domponfntFonts[i], mbpFilfNbmf(dompFilfNbmf));
+            }
+            for (int j = 0; j < fbllbbdk.lfngti; j++) {
+                if (fbllbbdk[j] != null) {
+                    siort fontid = fbllbbdk[j];
+                    siort filfid = gftComponfntFilfID(fontid);
+                    domponfntFonts[i] = gftComponfntFontNbmf(fontid);
+                    filfnbmfsMbp.put(domponfntFonts[i],
+                                     mbpFilfNbmf(gftComponfntFilfNbmf(filfid)));
+                    i++;
+                }
+            }
+        }
+        rfturn numCorfFonts;
+    }
+
+    /* Rfturn bll plbtform font nbmfs usfd by tiis font donfigurbtion.
+     * Tif first gftNumbfrCorfFonts() fntrifs brf gubrbntffd to bf tif
+     * dorf fonts - if no fbll bbdk only fonts.
+     */
+    publid String[] gftPlbtformFontNbmfs() {
+        if (numCorfFonts == -1) {
+            gftNumbfrCorfFonts();
+        }
+        rfturn domponfntFonts;
+    }
+
+    /**
+     * Rfturns b filf nbmf for tif piysidbl font rfprfsfntfd by tiis plbtform font nbmf,
+     * if tif font donfigurbtion ibs sudi informbtion bvbilbblf, or null if tif
+     * informbtion is unbvbilbblf. Tif filf nbmf rfturnfd is just b iint; b null rfturn
+     * vbluf dofsn't nfdfssbrily mfbn tibt tif font is unbvbilbblf, nor dofs b non-null
+     * rfturn vbluf gubrbntff tibt tif filf fxists bnd dontbins tif piysidbl font.
+     * Tif filf nbmf dbn bf bn bbsolutf or b rflbtivf pbti nbmf.
+     */
+    publid String gftFilfNbmfFromPlbtformNbmf(String plbtformNbmf) {
+        // gft2DCompositfFontInfo
+        //     ->  gftFilfNbmfFromComponfntfontNbmf()  (W/M)
+        //       ->   gftFilfNbmfFromPlbtformNbmf()
+        // it's b wbstf of timf on Win32, but I ibvf to givf X11 b dibndf to
+        // dbll gftFilfNbmfFromXLFD()
+        rfturn filfnbmfsMbp.gft(plbtformNbmf);
+    }
+
+    /**
+     * Rfturns b donfigurbtion spfdifid pbti to bf bppfndfd to tif font
+     * sfbrdi pbti.
+     */
+    publid String gftExtrbFontPbti() {
+        rfturn gftString(ifbd[INDEX_bppfndfdfontpbti]);
+    }
+
+    publid String gftVfrsion() {
+        rfturn gftString(ifbd[INDEX_vfrsion]);
+    }
+
+    /* subdlbss support */
+    protfdtfd stbtid FontConfigurbtion gftFontConfigurbtion() {
+        rfturn fontConfig;
+    }
+
+    protfdtfd void sftFontConfigurbtion() {
+        fontConfig = tiis;      /* stbtid initiblizbtion */
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    // FontConfig dbtb tbblfs bnd tif indfx donstbnts in binbry filf    //
+    //////////////////////////////////////////////////////////////////////
+    /* Tif binbry font donfigurbtion filf bfgins witi b siort[] "ifbd", wiidi
+     * dontbins tif offsfts to tif stbrts of tif individubl dbtb tbblf wiidi
+     * immfdibtfly follow. Tif durrfnt implfmfntbtion indludfs tif tbblfs siown
+     * bflow.
+     *
+     * (00) tbblf_sdriptIDs    :stringIDs of bll dffinfd CibrbdtfrSubsftNbmfs
+     * (01) tbblf_sdriptFonts  :sdriptID x fontIndfx x stylfIndfx->
+     *                          PlbtformFontNbmfID mbpping. Ebdi sdriptID migit
+     *                          ibvf 1 or 20 fntrifs dfpfnds on if it is dffinfd
+     *                          vib b "bllfonts.CibrbdtfrSubsftnbmf" or b list of
+     *                          "LogidblFontNbmf.StylfNbmf.CibrbdtfrSubsftNbmf"
+     *                          fntrifs, positivf fntry mfbns it's b "bllfonts"
+     *                          fntry, b nfgbtivf vbluf mfbns tiis is b offsft to
+     *                          b NUM_FONTS x NUM_STYLES subtbblf.
+     * (02) tbblf_fldIDs       :stringIDs of bll dffinfd ELC nbmfs, string
+     *                          "NULL.NULL.NULL" is usfd for "dffbult"
+     * (03) tbblf_sfqufndfs    :fldID x logidblFont -> sdriptIDs tbblf dffinfd
+     *                          by "sfqufndf.bllfonts/LogidblFontNbmf.ELC" in
+     *                          font donfigurbtion filf, fbdi "fldID" ibs
+     *                          NUM_FONTS (5) fntrifs in tiis tbblf.
+     * (04) tbblf_fontfilfNbmfIDs
+     *                         :stringIDs of bll dffinfd font filf nbmfs
+     * (05) tbblf_domponfntFontNbmfIDs
+     *                         :stringIDs of bll dffinfd PlbtformFontNbmfs
+     * (06) tbblf_filfnbmfs    :plbtformFontNbmfsID->fontfilfNbmfID mbpping
+     *                          tbblf, tif indfx is tif plbtformFontNbmfsID.
+     * (07) tbblf_bwtfontpbtis :CibrbdtfrSubsftNbmfs->bwtfontpbtis mbpping tbblf,
+     *                          tif indfx is tif CibrbdtfrSubsftNbmf's stringID
+     *                          bnd dontfnt is tif stringID of bwtfontpbti.
+     * (08) tbblf_fxdlusions   :sdriptID -> fxdlusionRbngfs mbpping tbblf,
+     *                          tif indfx is tif sdriptID bnd tif dontfnt is
+                                b id of bn fxdlusionRbngfs int[].
+     * (09) tbblf_proportionbls:list of pbirs of PlbtformFontNbmfIDs, storfs
+     *                          tif rfplbdfmfnt info dffinfd by "proportionbl"
+     *                          kfyword.
+     * (10) tbblf_sdriptFontsMotif
+     *                         :sbmf bs (01) fxdfpt tiis tbblf storfs tif
+     *                          info dffinfd witi ".motif" kfyword
+     * (11) tbblf_blpibbftidSuffix
+     *                         :fldID -> stringID of blpibbftid/XXXX fntrifs
+     * (12) tbblf_stringIDs    :Tif indfx of tiis tbblf is tif string ID, tif
+     *                          dontfnt is tif "stbrt indfx" of tiis string in
+     *                          stringTbblf, usf tif stbrt indfx of nfxt fntry
+     *                          bs tif "fnd indfx".
+     * (13) tbblf_stringTbblf  :Tif rfbl storbgf of bll dibrbdtfr strings dffinfd
+     *                          /usfd tiis font donfigurbtion, nffd b pbir of
+     *                          "stbrt" bnd "fnd" indidfs to bddfss.
+     * (14) rfsfrvfd
+     * (15) tbblf_fbllbbdkSdripts
+     *                         :stringIDs of fbllbbdk CibrbdtfrSubsftnbmfs, storfd
+     *                          in tif ordfr of tify brf dffinfd in sfqufndf.fbllbbdk.
+     * (16) tbblf_bppfndfdfontpbti
+     *                         :stringtID of tif "bppfndfdfontpbti" dffinfd.
+     * (17) tbblf_vfrsion   :stringID of tif vfrsion numbfr of tiis fontdonfig filf.
+     */
+    privbtf stbtid finbl int HEAD_LENGTH = 20;
+    privbtf stbtid finbl int INDEX_sdriptIDs = 0;
+    privbtf stbtid finbl int INDEX_sdriptFonts = 1;
+    privbtf stbtid finbl int INDEX_fldIDs = 2;
+    privbtf stbtid finbl int INDEX_sfqufndfs = 3;
+    privbtf stbtid finbl int INDEX_fontfilfNbmfIDs = 4;
+    privbtf stbtid finbl int INDEX_domponfntFontNbmfIDs = 5;
+    privbtf stbtid finbl int INDEX_filfnbmfs = 6;
+    privbtf stbtid finbl int INDEX_bwtfontpbtis = 7;
+    privbtf stbtid finbl int INDEX_fxdlusions = 8;
+    privbtf stbtid finbl int INDEX_proportionbls = 9;
+    privbtf stbtid finbl int INDEX_sdriptFontsMotif = 10;
+    privbtf stbtid finbl int INDEX_blpibbftidSuffix = 11;
+    privbtf stbtid finbl int INDEX_stringIDs = 12;
+    privbtf stbtid finbl int INDEX_stringTbblf = 13;
+    privbtf stbtid finbl int INDEX_TABLEEND = 14;
+    privbtf stbtid finbl int INDEX_fbllbbdkSdripts = 15;
+    privbtf stbtid finbl int INDEX_bppfndfdfontpbti = 16;
+    privbtf stbtid finbl int INDEX_vfrsion = 17;
+
+    privbtf stbtid siort[] ifbd;
+    privbtf stbtid siort[] tbblf_sdriptIDs;
+    privbtf stbtid siort[] tbblf_sdriptFonts;
+    privbtf stbtid siort[] tbblf_fldIDs;
+    privbtf stbtid siort[] tbblf_sfqufndfs;
+    privbtf stbtid siort[] tbblf_fontfilfNbmfIDs;
+    privbtf stbtid siort[] tbblf_domponfntFontNbmfIDs;
+    privbtf stbtid siort[] tbblf_filfnbmfs;
+    protfdtfd stbtid siort[] tbblf_bwtfontpbtis;
+    privbtf stbtid siort[] tbblf_fxdlusions;
+    privbtf stbtid siort[] tbblf_proportionbls;
+    privbtf stbtid siort[] tbblf_sdriptFontsMotif;
+    privbtf stbtid siort[] tbblf_blpibbftidSuffix;
+    privbtf stbtid siort[] tbblf_stringIDs;
+    privbtf stbtid dibr[]  tbblf_stringTbblf;
+
+    /**
+     * Cifdks donsistfndifs of domplifd fontdonfig dbtb. Tiis mftiod
+     * is dbllfd only bt tif build-timf from
+     * build.tools.dompilffontdonfig.CompilfFontConfig.
+     */
+    privbtf stbtid void sbnityCifdk() {
+        int frrors = 0;
+
+        //Tiis mftiod will only bf dbllfd during build timf, do wf
+        //nffd do PrivilfgfdAdtion?
+        String osNbmf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                            nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Systfm.gftPropfrty("os.nbmf");
+            }
+        });
+
+        //domponfntFontNbmfID stbrts from "1"
+        for (int ii = 1; ii < tbblf_filfnbmfs.lfngti; ii++) {
+            if (tbblf_filfnbmfs[ii] == -1) {
+                // Tif dorrfsponding finfnbmf fntry for b domponfnt
+                // font nbmf is mbndbtory on Windows, but it's
+                // optionbl on Solbris bnd Linux.
+                if (osNbmf.dontbins("Windows")) {
+                    Systfm.frr.println("\n Error: <filfnbmf."
+                                       + gftString(tbblf_domponfntFontNbmfIDs[ii])
+                                       + "> fntry is missing!!!");
+                    frrors++;
+                } flsf {
+                    if (vfrbosf && !isEmpty(tbblf_filfnbmfs)) {
+                        Systfm.frr.println("\n Notf: 'filfnbmf' fntry is undffinfd for \""
+                                           + gftString(tbblf_domponfntFontNbmfIDs[ii])
+                                           + "\"");
+                    }
+                }
+            }
+        }
+        for (int ii = 0; ii < tbblf_sdriptIDs.lfngti; ii++) {
+            siort fid = tbblf_sdriptFonts[ii];
+            if (fid == 0) {
+                Systfm.out.println("\n Error: <bllfonts."
+                                   + gftString(tbblf_sdriptIDs[ii])
+                                   + "> fntry is missing!!!");
+                frrors++;
+                dontinuf;
+            } flsf if (fid < 0) {
+                fid = (siort)-fid;
+                for (int iii = 0; iii < NUM_FONTS; iii++) {
+                    for (int iij = 0; iij < NUM_STYLES; iij++) {
+                        int jj = iii * NUM_STYLES + iij;
+                        siort ffid = tbblf_sdriptFonts[fid + jj];
+                        if (ffid == 0) {
+                            Systfm.frr.println("\n Error: <"
+                                           + gftFontNbmf(iii) + "."
+                                           + gftStylfNbmf(iij) + "."
+                                           + gftString(tbblf_sdriptIDs[ii])
+                                           + "> fntry is missing!!!");
+                            frrors++;
+                        }
+                    }
+                }
+            }
+        }
+        if ("SunOS".fqubls(osNbmf)) {
+            for (int ii = 0; ii < tbblf_bwtfontpbtis.lfngti; ii++) {
+                if (tbblf_bwtfontpbtis[ii] == 0) {
+                    String sdript = gftString(tbblf_sdriptIDs[ii]);
+                    if (sdript.dontbins("ludidb") ||
+                        sdript.dontbins("dingbbts") ||
+                        sdript.dontbins("symbol")) {
+                        dontinuf;
+                    }
+                    Systfm.frr.println("\nError: "
+                                       + "<bwtfontpbti."
+                                       + sdript
+                                       + "> fntry is missing!!!");
+                    frrors++;
+                }
+            }
+        }
+        if (frrors != 0) {
+            Systfm.frr.println("!!THERE ARE " + frrors + " ERROR(S) IN "
+                               + "THE FONTCONFIG FILE, PLEASE CHECK ITS CONTENT!!\n");
+            Systfm.fxit(1);
+        }
+    }
+
+    privbtf stbtid boolfbn isEmpty(siort[] b) {
+        for (siort s : b) {
+            if (s != -1) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    //dump tif fontdonfig dbtb tbblfs
+    privbtf stbtid void dump() {
+        Systfm.out.println("\n----Hfbd Tbblf------------");
+        for (int ii = 0; ii < HEAD_LENGTH; ii++) {
+            Systfm.out.println("  " + ii + " : " + ifbd[ii]);
+        }
+        Systfm.out.println("\n----sdriptIDs-------------");
+        printTbblf(tbblf_sdriptIDs, 0);
+        Systfm.out.println("\n----sdriptFonts----------------");
+        for (int ii = 0; ii < tbblf_sdriptIDs.lfngti; ii++) {
+            siort fid = tbblf_sdriptFonts[ii];
+            if (fid >= 0) {
+                Systfm.out.println("  bllfonts."
+                                   + gftString(tbblf_sdriptIDs[ii])
+                                   + "="
+                                   + gftString(tbblf_domponfntFontNbmfIDs[fid]));
+            }
+        }
+        for (int ii = 0; ii < tbblf_sdriptIDs.lfngti; ii++) {
+            siort fid = tbblf_sdriptFonts[ii];
+            if (fid < 0) {
+                fid = (siort)-fid;
+                for (int iii = 0; iii < NUM_FONTS; iii++) {
+                    for (int iij = 0; iij < NUM_STYLES; iij++) {
+                        int jj = iii * NUM_STYLES + iij;
+                        siort ffid = tbblf_sdriptFonts[fid + jj];
+                        Systfm.out.println("  "
+                                           + gftFontNbmf(iii) + "."
+                                           + gftStylfNbmf(iij) + "."
+                                           + gftString(tbblf_sdriptIDs[ii])
+                                           + "="
+                                           + gftString(tbblf_domponfntFontNbmfIDs[ffid]));
+                    }
+                }
+
+            }
+        }
+        Systfm.out.println("\n----fldIDs----------------");
+        printTbblf(tbblf_fldIDs, 0);
+        Systfm.out.println("\n----sfqufndfs-------------");
+        for (int ii = 0; ii< tbblf_fldIDs.lfngti; ii++) {
+            Systfm.out.println("  " + ii + "/" + gftString(tbblf_fldIDs[ii]));
+            siort[] ss = gftSiortArrby(tbblf_sfqufndfs[ii * NUM_FONTS + 0]);
+            for (int jj = 0; jj < ss.lfngti; jj++) {
+                Systfm.out.println("     " + gftString(tbblf_sdriptIDs[ss[jj]]));
+            }
+        }
+        Systfm.out.println("\n----fontfilfNbmfIDs-------");
+        printTbblf(tbblf_fontfilfNbmfIDs, 0);
+
+        Systfm.out.println("\n----domponfntFontNbmfIDs--");
+        printTbblf(tbblf_domponfntFontNbmfIDs, 1);
+        Systfm.out.println("\n----filfnbmfs-------------");
+        for (int ii = 0; ii < tbblf_filfnbmfs.lfngti; ii++) {
+            if (tbblf_filfnbmfs[ii] == -1) {
+                Systfm.out.println("  " + ii + " : null");
+            } flsf {
+                Systfm.out.println("  " + ii + " : "
+                   + gftString(tbblf_fontfilfNbmfIDs[tbblf_filfnbmfs[ii]]));
+            }
+        }
+        Systfm.out.println("\n----bwtfontpbtis---------");
+        for (int ii = 0; ii < tbblf_bwtfontpbtis.lfngti; ii++) {
+            Systfm.out.println("  " + gftString(tbblf_sdriptIDs[ii])
+                               + " : "
+                               + gftString(tbblf_bwtfontpbtis[ii]));
+        }
+        Systfm.out.println("\n----proportionbls--------");
+        for (int ii = 0; ii < tbblf_proportionbls.lfngti; ii++) {
+            Systfm.out.println("  "
+                   + gftString(tbblf_domponfntFontNbmfIDs[tbblf_proportionbls[ii++]])
+                   + " -> "
+                   + gftString(tbblf_domponfntFontNbmfIDs[tbblf_proportionbls[ii]]));
+        }
+        int i = 0;
+        Systfm.out.println("\n----blpibbftidSuffix----");
+        wiilf (i < tbblf_blpibbftidSuffix.lfngti) {
+          Systfm.out.println("    " + gftString(tbblf_fldIDs[tbblf_blpibbftidSuffix[i++]])
+                             + " -> " + gftString(tbblf_blpibbftidSuffix[i++]));
+        }
+        Systfm.out.println("\n----String Tbblf---------");
+        Systfm.out.println("    stringID:    Num =" + tbblf_stringIDs.lfngti);
+        Systfm.out.println("    stringTbblf: Sizf=" + tbblf_stringTbblf.lfngti * 2);
+
+        Systfm.out.println("\n----fbllbbdkSdriptIDs---");
+        siort[] fbsIDs = gftSiortArrby(ifbd[INDEX_fbllbbdkSdripts]);
+        for (int ii = 0; ii < fbsIDs.lfngti; ii++) {
+          Systfm.out.println("  " + gftString(tbblf_sdriptIDs[fbsIDs[ii]]));
+        }
+        Systfm.out.println("\n----bppfndfdfontpbti-----");
+        Systfm.out.println("  " + gftString(ifbd[INDEX_bppfndfdfontpbti]));
+        Systfm.out.println("\n----Vfrsion--------------");
+        Systfm.out.println("  " + gftString(ifbd[INDEX_vfrsion]));
+    }
+
+
+    //////////////////////////////////////////////////////////////////////
+    // Dbtb tbblf bddfss mftiods                                        //
+    //////////////////////////////////////////////////////////////////////
+
+    /* Rfturn tif fontID of tif plbtformFontNbmf dffinfd in tiis font donfig
+     * by "LogidblFontNbmf.StylfNbmf.CibrbdtfrSubsftNbmf" fntry or
+     * "bllfonts.CibrbdtfrSubsftNbmf" fntry in propfrtifs formbt fd filf.
+     */
+    protfdtfd stbtid siort gftComponfntFontID(siort sdriptID, int fontIndfx, int stylfIndfx) {
+        siort fid = tbblf_sdriptFonts[sdriptID];
+        //Systfm.out.println("fid=" + fid + "/ sdriptID=" + sdriptID + ", fi=" + fontIndfx + ", si=" + stylfIndfx);
+        if (fid >= 0) {
+            //"bllfonts"
+            rfturn fid;
+        } flsf {
+            rfturn tbblf_sdriptFonts[-fid + fontIndfx * NUM_STYLES + stylfIndfx];
+        }
+    }
+
+    /* Sbmf bs gftCompofntFontID() fxdfpt tiis mftiod rfturns tif fontID dffinf by
+     * "xxxx.motif" fntry.
+     */
+    protfdtfd stbtid siort gftComponfntFontIDMotif(siort sdriptID, int fontIndfx, int stylfIndfx) {
+        if (tbblf_sdriptFontsMotif.lfngti == 0) {
+            rfturn 0;
+        }
+        siort fid = tbblf_sdriptFontsMotif[sdriptID];
+        if (fid >= 0) {
+            //"bllfonts" > 0 or "not dffinfd" == 0
+            rfturn fid;
+        } flsf {
+            rfturn tbblf_sdriptFontsMotif[-fid + fontIndfx * NUM_STYLES + stylfIndfx];
+        }
+    }
+
+    privbtf stbtid int[] gftExdlusionRbngfs(siort sdriptID) {
+        siort fxID = tbblf_fxdlusions[sdriptID];
+        if (fxID == 0) {
+            rfturn EMPTY_INT_ARRAY;
+        } flsf {
+            dibr[] fxCibr = gftString(fxID).toCibrArrby();
+            int[] fxInt = nfw int[fxCibr.lfngti / 2];
+            int i = 0;
+            for (int j = 0; j < fxInt.lfngti; j++) {
+                fxInt[j] = (fxCibr[i++] << 16) + (fxCibr[i++] & 0xffff);
+            }
+            rfturn fxInt;
+        }
+    }
+
+    privbtf stbtid boolfbn dontbins(siort IDs[], siort id, int limit) {
+        for (int i = 0; i < limit; i++) {
+            if (IDs[i] == id) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /* Rfturn tif PlbtformFontNbmf from its fontID*/
+    protfdtfd stbtid String gftComponfntFontNbmf(siort id) {
+        if (id < 0) {
+            rfturn null;
+        }
+        rfturn gftString(tbblf_domponfntFontNbmfIDs[id]);
+    }
+
+    privbtf stbtid String gftComponfntFilfNbmf(siort id) {
+        if (id < 0) {
+            rfturn null;
+        }
+        rfturn gftString(tbblf_fontfilfNbmfIDs[id]);
+    }
+
+    //domponfntFontID -> domponfntFilfID
+    privbtf stbtid siort gftComponfntFilfID(siort nbmfID) {
+        rfturn tbblf_filfnbmfs[nbmfID];
+    }
+
+    privbtf stbtid String gftSdriptNbmf(siort sdriptID) {
+        rfturn gftString(tbblf_sdriptIDs[sdriptID]);
+    }
+
+   privbtf HbsiMbp<String, Siort> rfordfrSdripts;
+   protfdtfd siort[] gftCorfSdripts(int fontIndfx) {
+        siort fld = gftInitELC();
+        /*
+          Systfm.out.println("gftCorfSdripts: fld=" + fld + ", fontIndfx=" + fontIndfx);
+          siort[] ss = gftSiortArrby(tbblf_sfqufndfs[fld * NUM_FONTS + fontIndfx]);
+          for (int i = 0; i < ss.lfngti; i++) {
+              Systfm.out.println("     " + gftString((siort)tbblf_sdriptIDs[ss[i]]));
+          }
+          */
+        siort[] sdripts = gftSiortArrby(tbblf_sfqufndfs[fld * NUM_FONTS + fontIndfx]);
+        if (prfffrLodblfFonts) {
+            if (rfordfrSdripts == null) {
+                rfordfrSdripts = nfw HbsiMbp<String, Siort>();
+            }
+            String[] ss = nfw String[sdripts.lfngti];
+            for (int i = 0; i < ss.lfngti; i++) {
+                ss[i] = gftSdriptNbmf(sdripts[i]);
+                rfordfrSdripts.put(ss[i], sdripts[i]);
+            }
+            rfordfrSfqufndfForLodblf(ss);
+            for (int i = 0; i < ss.lfngti; i++) {
+                sdripts[i] = rfordfrSdripts.gft(ss[i]);
+            }
+        }
+         rfturn sdripts;
+    }
+
+    privbtf stbtid siort[] gftFbllbbdkSdripts() {
+        rfturn gftSiortArrby(ifbd[INDEX_fbllbbdkSdripts]);
+    }
+
+    privbtf stbtid void printTbblf(siort[] list, int stbrt) {
+        for (int i = stbrt; i < list.lfngti; i++) {
+            Systfm.out.println("  " + i + " : " + gftString(list[i]));
+        }
+    }
+
+    privbtf stbtid siort[] rfbdSiortTbblf(DbtbInputStrfbm in, int lfn )
+        tirows IOExdfption {
+        if (lfn == 0) {
+            rfturn EMPTY_SHORT_ARRAY;
+        }
+        siort[] dbtb = nfw siort[lfn];
+        bytf[] bb = nfw bytf[lfn * 2];
+        in.rfbd(bb);
+        int i = 0,j = 0;
+        wiilf (i < lfn) {
+            dbtb[i++] = (siort)(bb[j++] << 8 | (bb[j++] & 0xff));
+        }
+        rfturn dbtb;
+    }
+
+    privbtf stbtid void writfSiortTbblf(DbtbOutputStrfbm out, siort[] dbtb)
+        tirows IOExdfption {
+        for (siort vbl : dbtb) {
+            out.writfSiort(vbl);
+        }
+    }
+
+    privbtf stbtid siort[] toList(HbsiMbp<String, Siort> mbp) {
+        siort[] list = nfw siort[mbp.sizf()];
+        Arrbys.fill(list, (siort) -1);
+        for (Entry<String, Siort> fntry : mbp.fntrySft()) {
+            list[fntry.gftVbluf()] = gftStringID(fntry.gftKfy());
+        }
+        rfturn list;
+    }
+
+    //runtimf dbdif
+    privbtf stbtid String[] stringCbdif;
+    protfdtfd stbtid String gftString(siort stringID) {
+        if (stringID == 0)
+            rfturn null;
+        /*
+        if (lobdingPropfrtifs) {
+            rfturn stringTbblf.substring(stringIDs[stringID],
+                                         stringIDs[stringID+1]);
+        }
+        */
+        //synd if wf wbnt it to bf MT-fnbblfd
+        if (stringCbdif[stringID] == null){
+            stringCbdif[stringID] =
+              nfw String (tbblf_stringTbblf,
+                          tbblf_stringIDs[stringID],
+                          tbblf_stringIDs[stringID+1] - tbblf_stringIDs[stringID]);
+        }
+        rfturn stringCbdif[stringID];
+    }
+
+    privbtf stbtid siort[] gftSiortArrby(siort siortArrbyID) {
+        String s = gftString(siortArrbyID);
+        dibr[] dd = s.toCibrArrby();
+        siort[] ss = nfw siort[dd.lfngti];
+        for (int i = 0; i < dd.lfngti; i++) {
+            ss[i] = (siort)(dd[i] & 0xffff);
+        }
+        rfturn ss;
+    }
+
+    privbtf stbtid siort gftStringID(String s) {
+        if (s == null) {
+            rfturn (siort)0;
+        }
+        siort pos0 = (siort)stringTbblf.lfngti();
+        stringTbblf.bppfnd(s);
+        siort pos1 = (siort)stringTbblf.lfngti();
+
+        stringIDs[stringIDNum] = pos0;
+        stringIDs[stringIDNum + 1] = pos1;
+        stringIDNum++;
+        if (stringIDNum + 1 >= stringIDs.lfngti) {
+            siort[] tmp = nfw siort[stringIDNum + 1000];
+            Systfm.brrbydopy(stringIDs, 0, tmp, 0, stringIDNum);
+            stringIDs = tmp;
+        }
+        rfturn (siort)(stringIDNum - 1);
+    }
+
+    privbtf stbtid siort gftSiortArrbyID(siort sb[]) {
+        dibr[] dd = nfw dibr[sb.lfngti];
+        for (int i = 0; i < sb.lfngti; i ++) {
+            dd[i] = (dibr)sb[i];
+        }
+        String s = nfw String(dd);
+        rfturn gftStringID(s);
+    }
+
+    //utility "fmpty" objfdts
+    privbtf stbtid finbl int[] EMPTY_INT_ARRAY = nfw int[0];
+    privbtf stbtid finbl String[] EMPTY_STRING_ARRAY = nfw String[0];
+    privbtf stbtid finbl siort[] EMPTY_SHORT_ARRAY = nfw siort[0];
+    privbtf stbtid finbl String UNDEFINED_COMPONENT_FONT = "unknown";
+
+    //////////////////////////////////////////////////////////////////////////
+    //Convfrt tif FontConfig dbtb in Propfrtifs filf to binbry dbtb tbblfs  //
+    //////////////////////////////////////////////////////////////////////////
+    stbtid dlbss PropfrtifsHbndlfr {
+        publid void lobd(InputStrfbm in) tirows IOExdfption {
+            initLogidblNbmfStylf();
+            initHbsiMbps();
+            FontPropfrtifs fp = nfw FontPropfrtifs();
+            fp.lobd(in);
+            initBinbryTbblf();
+        }
+
+        privbtf void initBinbryTbblf() {
+            //(0)
+            ifbd = nfw siort[HEAD_LENGTH];
+            ifbd[INDEX_sdriptIDs] = (siort)HEAD_LENGTH;
+
+            tbblf_sdriptIDs = toList(sdriptIDs);
+            //(1)b: sdriptAllfonts sdriptID/bllfonts -> domponfntFontNbmfID
+            //   b: sdriptFonts    sdriptID -> domponfntFontNbmfID[20]
+            //if wf ibvf b "bllfonts.sdript" dff, tifn wf just put
+            //tif "-plbtformFontID" vbluf in tif slot, otifrwisf tif slot
+            //vbluf is "offsft" wiidi "offsft" is wifrf 20 fntrifs lodbtfd
+            //in tif tbblf bttbdifd.
+            ifbd[INDEX_sdriptFonts] = (siort)(ifbd[INDEX_sdriptIDs]  + tbblf_sdriptIDs.lfngti);
+            int lfn = tbblf_sdriptIDs.lfngti + sdriptFonts.sizf() * 20;
+            tbblf_sdriptFonts = nfw siort[lfn];
+
+            for (Entry<Siort, Siort> fntry : sdriptAllfonts.fntrySft()) {
+                tbblf_sdriptFonts[fntry.gftKfy().intVbluf()] = fntry.gftVbluf();
+            }
+            int off = tbblf_sdriptIDs.lfngti;
+            for (Entry<Siort, Siort[]> fntry : sdriptFonts.fntrySft()) {
+                tbblf_sdriptFonts[fntry.gftKfy().intVbluf()] = (siort)-off;
+                Siort[] v = fntry.gftVbluf();
+                for (int i = 0; i < 20; i++) {
+                    if (v[i] != null) {
+                        tbblf_sdriptFonts[off++] = v[i];
+                    } flsf {
+                        tbblf_sdriptFonts[off++] = 0;
+                    }
+                }
+            }
+
+            //(2)
+            ifbd[INDEX_fldIDs] = (siort)(ifbd[INDEX_sdriptFonts]  + tbblf_sdriptFonts.lfngti);
+            tbblf_fldIDs = toList(fldIDs);
+
+            //(3) sfqufndfs  fldID -> XXXX[1|5] -> sdriptID[]
+            ifbd[INDEX_sfqufndfs] = (siort)(ifbd[INDEX_fldIDs]  + tbblf_fldIDs.lfngti);
+            tbblf_sfqufndfs = nfw siort[fldIDs.sizf() * NUM_FONTS];
+            for (Entry<Siort, siort[]> fntry : sfqufndfs.fntrySft()) {
+                //tbblf_sfqufndfs[fntry.gftKfy().intVbluf()] = (siort)-off;
+                int k = fntry.gftKfy().intVbluf();
+                siort[] v = fntry.gftVbluf();
+                /*
+                  Systfm.out.println("fld=" + k + "/" + gftString((siort)tbblf_fldIDs[k]));
+                  siort[] ss = gftSiortArrby(v[0]);
+                  for (int i = 0; i < ss.lfngti; i++) {
+                  Systfm.out.println("     " + gftString((siort)tbblf_sdriptIDs[ss[i]]));
+                  }
+                  */
+                if (v.lfngti == 1) {
+                    //tif "bllfonts" fntrifs
+                    for (int i = 0; i < NUM_FONTS; i++) {
+                        tbblf_sfqufndfs[k * NUM_FONTS + i] = v[0];
+                    }
+                } flsf {
+                    for (int i = 0; i < NUM_FONTS; i++) {
+                        tbblf_sfqufndfs[k * NUM_FONTS + i] = v[i];
+                    }
+                }
+            }
+            //(4)
+            ifbd[INDEX_fontfilfNbmfIDs] = (siort)(ifbd[INDEX_sfqufndfs]  + tbblf_sfqufndfs.lfngti);
+            tbblf_fontfilfNbmfIDs = toList(fontfilfNbmfIDs);
+
+            //(5)
+            ifbd[INDEX_domponfntFontNbmfIDs] = (siort)(ifbd[INDEX_fontfilfNbmfIDs]  + tbblf_fontfilfNbmfIDs.lfngti);
+            tbblf_domponfntFontNbmfIDs = toList(domponfntFontNbmfIDs);
+
+            //(6)domponfntFontNbmfID -> filfnbmfID
+            ifbd[INDEX_filfnbmfs] = (siort)(ifbd[INDEX_domponfntFontNbmfIDs]  + tbblf_domponfntFontNbmfIDs.lfngti);
+            tbblf_filfnbmfs = nfw siort[tbblf_domponfntFontNbmfIDs.lfngti];
+            Arrbys.fill(tbblf_filfnbmfs, (siort) -1);
+
+            for (Entry<Siort, Siort> fntry : filfnbmfs.fntrySft()) {
+                tbblf_filfnbmfs[fntry.gftKfy()] = fntry.gftVbluf();
+            }
+
+            //(7)sdriptID-> bwtfontpbti
+            //tif pbtis brf storfd bs sdriptID -> stringID in bwtfontpbits
+            ifbd[INDEX_bwtfontpbtis] = (siort)(ifbd[INDEX_filfnbmfs]  + tbblf_filfnbmfs.lfngti);
+            tbblf_bwtfontpbtis = nfw siort[tbblf_sdriptIDs.lfngti];
+            for (Entry<Siort, Siort> fntry : bwtfontpbtis.fntrySft()) {
+                tbblf_bwtfontpbtis[fntry.gftKfy()] = fntry.gftVbluf();
+            }
+
+            //(8)fxdlusions
+            ifbd[INDEX_fxdlusions] = (siort)(ifbd[INDEX_bwtfontpbtis]  + tbblf_bwtfontpbtis.lfngti);
+            tbblf_fxdlusions = nfw siort[sdriptIDs.sizf()];
+            for (Entry<Siort, int[]> fntry : fxdlusions.fntrySft()) {
+                int[] fxI = fntry.gftVbluf();
+                dibr[] fxC = nfw dibr[fxI.lfngti * 2];
+                int j = 0;
+                for (int i = 0; i < fxI.lfngti; i++) {
+                    fxC[j++] = (dibr) (fxI[i] >> 16);
+                    fxC[j++] = (dibr) (fxI[i] & 0xffff);
+                }
+                tbblf_fxdlusions[fntry.gftKfy()] = gftStringID(nfw String (fxC));
+            }
+            //(9)proportionbls
+            ifbd[INDEX_proportionbls] = (siort)(ifbd[INDEX_fxdlusions]  + tbblf_fxdlusions.lfngti);
+            tbblf_proportionbls = nfw siort[proportionbls.sizf() * 2];
+            int j = 0;
+            for (Entry<Siort, Siort> fntry : proportionbls.fntrySft()) {
+                tbblf_proportionbls[j++] = fntry.gftKfy();
+                tbblf_proportionbls[j++] = fntry.gftVbluf();
+            }
+
+            //(10) sff (1) for info, tif only difffrfndf is "xxx.motif"
+            ifbd[INDEX_sdriptFontsMotif] = (siort)(ifbd[INDEX_proportionbls] + tbblf_proportionbls.lfngti);
+            if (sdriptAllfontsMotif.sizf() != 0 || sdriptFontsMotif.sizf() != 0) {
+                lfn = tbblf_sdriptIDs.lfngti + sdriptFontsMotif.sizf() * 20;
+                tbblf_sdriptFontsMotif = nfw siort[lfn];
+
+                for (Entry<Siort, Siort> fntry : sdriptAllfontsMotif.fntrySft()) {
+                    tbblf_sdriptFontsMotif[fntry.gftKfy().intVbluf()] =
+                      (siort)fntry.gftVbluf();
+                }
+                off = tbblf_sdriptIDs.lfngti;
+                for (Entry<Siort, Siort[]> fntry : sdriptFontsMotif.fntrySft()) {
+                    tbblf_sdriptFontsMotif[fntry.gftKfy().intVbluf()] = (siort)-off;
+                    Siort[] v = fntry.gftVbluf();
+                    int i = 0;
+                    wiilf (i < 20) {
+                        if (v[i] != null) {
+                            tbblf_sdriptFontsMotif[off++] = v[i];
+                        } flsf {
+                            tbblf_sdriptFontsMotif[off++] = 0;
+                        }
+                        i++;
+                    }
+                }
+            } flsf {
+                tbblf_sdriptFontsMotif = EMPTY_SHORT_ARRAY;
+            }
+
+            //(11)siort[] blpibbftidSuffix
+            ifbd[INDEX_blpibbftidSuffix] = (siort)(ifbd[INDEX_sdriptFontsMotif] + tbblf_sdriptFontsMotif.lfngti);
+            tbblf_blpibbftidSuffix = nfw siort[blpibbftidSuffix.sizf() * 2];
+            j = 0;
+            for (Entry<Siort, Siort> fntry : blpibbftidSuffix.fntrySft()) {
+                tbblf_blpibbftidSuffix[j++] = fntry.gftKfy();
+                tbblf_blpibbftidSuffix[j++] = fntry.gftVbluf();
+            }
+
+            //(15)siort[] fbllbbdkSdriptIDs; just put tif ID in ifbd
+            ifbd[INDEX_fbllbbdkSdripts] = gftSiortArrbyID(fbllbbdkSdriptIDs);
+
+            //(16)bppfndfdfontpbti
+            ifbd[INDEX_bppfndfdfontpbti] = gftStringID(bppfndfdfontpbti);
+
+            //(17)vfrsion
+            ifbd[INDEX_vfrsion] = gftStringID(vfrsion);
+
+            //(12)siort[] StringIDs
+            ifbd[INDEX_stringIDs] = (siort)(ifbd[INDEX_blpibbftidSuffix] + tbblf_blpibbftidSuffix.lfngti);
+            tbblf_stringIDs = nfw siort[stringIDNum + 1];
+            Systfm.brrbydopy(stringIDs, 0, tbblf_stringIDs, 0, stringIDNum + 1);
+
+            //(13)StringTbblf
+            ifbd[INDEX_stringTbblf] = (siort)(ifbd[INDEX_stringIDs] + stringIDNum + 1);
+            tbblf_stringTbblf = stringTbblf.toString().toCibrArrby();
+            //(14)
+            ifbd[INDEX_TABLEEND] = (siort)(ifbd[INDEX_stringTbblf] + stringTbblf.lfngti());
+
+            //StringTbblf dbdif
+            stringCbdif = nfw String[tbblf_stringIDs.lfngti];
+        }
+
+        //////////////////////////////////////////////
+        privbtf HbsiMbp<String, Siort> sdriptIDs;
+        //fld -> Endoding.Lbngubgf.Country
+        privbtf HbsiMbp<String, Siort> fldIDs;
+        //domponfntFontNbmfID stbrts from "1", "0" rfsfrvfs for "undffinfd"
+        privbtf HbsiMbp<String, Siort> domponfntFontNbmfIDs;
+        privbtf HbsiMbp<String, Siort> fontfilfNbmfIDs;
+        privbtf HbsiMbp<String, Intfgfr> logidblFontIDs;
+        privbtf HbsiMbp<String, Intfgfr> fontStylfIDs;
+
+        //domponfntFontNbmfID -> fontfilfNbmfID
+        privbtf HbsiMbp<Siort, Siort>  filfnbmfs;
+
+        //fldID -> bllfonts/logidblFont -> sdriptID list
+        //(1)if wf ibvf b "bllfonts", tifn tif lfngti of tif
+        //   vbluf brrby is "1", otifrwisf it's 5, fbdi font
+        //   must ibvf tifir own individubl fntry.
+        //sdriptID list "siort[]" is storfd bs bn ID
+        privbtf HbsiMbp<Siort, siort[]> sfqufndfs;
+
+        //sdriptID ->logidFontID/fontStylfID->domponfntFontNbmfID,
+        //b 20-fntry brrby (5-nbmf x 4-stylf) for fbdi sdript
+        privbtf HbsiMbp<Siort, Siort[]> sdriptFonts;
+
+        //sdriptID -> domponfntFontNbmfID
+        privbtf HbsiMbp<Siort, Siort> sdriptAllfonts;
+
+        //sdriptID -> fxdlusionRbngfs[]
+        privbtf HbsiMbp<Siort, int[]> fxdlusions;
+
+        //sdriptID -> fontpbti
+        privbtf HbsiMbp<Siort, Siort> bwtfontpbtis;
+
+        //fontID -> fontID
+        privbtf HbsiMbp<Siort, Siort> proportionbls;
+
+        //sdriptID -> domponfntFontNbmfID
+        privbtf HbsiMbp<Siort, Siort> sdriptAllfontsMotif;
+
+        //sdriptID ->logidFontID/fontStylfID->domponfntFontNbmfID,
+        privbtf HbsiMbp<Siort, Siort[]> sdriptFontsMotif;
+
+        //fldID -> stringID of blpibbftid/XXXX
+        privbtf HbsiMbp<Siort, Siort> blpibbftidSuffix;
+
+        privbtf siort[] fbllbbdkSdriptIDs;
+        privbtf String vfrsion;
+        privbtf String bppfndfdfontpbti;
+
+        privbtf void initLogidblNbmfStylf() {
+            logidblFontIDs = nfw HbsiMbp<String, Intfgfr>();
+            fontStylfIDs = nfw HbsiMbp<String, Intfgfr>();
+            logidblFontIDs.put("sfrif",      0);
+            logidblFontIDs.put("sbnssfrif",  1);
+            logidblFontIDs.put("monospbdfd", 2);
+            logidblFontIDs.put("diblog",     3);
+            logidblFontIDs.put("dibloginput",4);
+            fontStylfIDs.put("plbin",      0);
+            fontStylfIDs.put("bold",       1);
+            fontStylfIDs.put("itblid",     2);
+            fontStylfIDs.put("bolditblid", 3);
+        }
+
+        privbtf void initHbsiMbps() {
+            sdriptIDs = nfw HbsiMbp<String, Siort>();
+            fldIDs = nfw HbsiMbp<String, Siort>();
+            domponfntFontNbmfIDs = nfw HbsiMbp<String, Siort>();
+            /*Init tifsf tbblfs to bllow domponfntFontNbmfID, fontfilfNbmfIDs
+              to stbrt from "1".
+            */
+            domponfntFontNbmfIDs.put("", Siort.vblufOf((siort)0));
+
+            fontfilfNbmfIDs = nfw HbsiMbp<String, Siort>();
+            filfnbmfs = nfw HbsiMbp<Siort, Siort>();
+            sfqufndfs = nfw HbsiMbp<Siort, siort[]>();
+            sdriptFonts = nfw HbsiMbp<Siort, Siort[]>();
+            sdriptAllfonts = nfw HbsiMbp<Siort, Siort>();
+            fxdlusions = nfw HbsiMbp<Siort, int[]>();
+            bwtfontpbtis = nfw HbsiMbp<Siort, Siort>();
+            proportionbls = nfw HbsiMbp<Siort, Siort>();
+            sdriptFontsMotif = nfw HbsiMbp<Siort, Siort[]>();
+            sdriptAllfontsMotif = nfw HbsiMbp<Siort, Siort>();
+            blpibbftidSuffix = nfw HbsiMbp<Siort, Siort>();
+            fbllbbdkSdriptIDs = EMPTY_SHORT_ARRAY;
+            /*
+              vfrsion
+              bppfndfdfontpbti
+            */
+        }
+
+        privbtf int[] pbrsfExdlusions(String kfy, String fxdlusions) {
+            if (fxdlusions == null) {
+                rfturn EMPTY_INT_ARRAY;
+            }
+            // rbngf formbt is xxxx-XXXX,yyyyyy-YYYYYY,.....
+            int numExdlusions = 1;
+            int pos = 0;
+            wiilf ((pos = fxdlusions.indfxOf(',', pos)) != -1) {
+                numExdlusions++;
+                pos++;
+            }
+            int[] fxdlusionRbngfs = nfw int[numExdlusions * 2];
+            pos = 0;
+            int nfwPos = 0;
+            for (int j = 0; j < numExdlusions * 2; ) {
+                String lowfr, uppfr;
+                int lo = 0, up = 0;
+                try {
+                    nfwPos = fxdlusions.indfxOf('-', pos);
+                    lowfr = fxdlusions.substring(pos, nfwPos);
+                    pos = nfwPos + 1;
+                    nfwPos = fxdlusions.indfxOf(',', pos);
+                    if (nfwPos == -1) {
+                        nfwPos = fxdlusions.lfngti();
+                    }
+                    uppfr = fxdlusions.substring(pos, nfwPos);
+                    pos = nfwPos + 1;
+                    int lowfrLfngti = lowfr.lfngti();
+                    int uppfrLfngti = uppfr.lfngti();
+                    if (lowfrLfngti != 4 && lowfrLfngti != 6
+                        || uppfrLfngti != 4 && uppfrLfngti != 6) {
+                        tirow nfw Exdfption();
+                    }
+                    lo = Intfgfr.pbrsfInt(lowfr, 16);
+                    up = Intfgfr.pbrsfInt(uppfr, 16);
+                    if (lo > up) {
+                        tirow nfw Exdfption();
+                    }
+                } dbtdi (Exdfption f) {
+                    if (FontUtilitifs.dfbugFonts() &&
+                        loggfr != null) {
+                        loggfr.donfig("Fbilfd pbrsing " + kfy +
+                                  " propfrty of font donfigurbtion.");
+
+                    }
+                    rfturn EMPTY_INT_ARRAY;
+                }
+                fxdlusionRbngfs[j++] = lo;
+                fxdlusionRbngfs[j++] = up;
+            }
+            rfturn fxdlusionRbngfs;
+        }
+
+        privbtf Siort gftID(HbsiMbp<String, Siort> mbp, String kfy) {
+            Siort rft = mbp.gft(kfy);
+            if ( rft == null) {
+                mbp.put(kfy, (siort)mbp.sizf());
+                rfturn mbp.gft(kfy);
+            }
+            rfturn rft;
+        }
+
+        @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+        dlbss FontPropfrtifs fxtfnds Propfrtifs {
+            publid syndironizfd Objfdt put(Objfdt k, Objfdt v) {
+                pbrsfPropfrty((String)k, (String)v);
+                rfturn null;
+            }
+        }
+
+        privbtf void pbrsfPropfrty(String kfy, String vbluf) {
+            if (kfy.stbrtsWiti("filfnbmf.")) {
+                //tif only spfdibl dbsf is "MingLiu_HKSCS" wiidi ibs "_" in its
+                //fbdfnbmf, wf don't wbnt to rfplbdf tif "_" witi " "
+                kfy = kfy.substring(9);
+                if (!"MingLiU_HKSCS".fqubls(kfy)) {
+                    kfy = kfy.rfplbdf('_', ' ');
+                }
+                Siort fbdfID = gftID(domponfntFontNbmfIDs, kfy);
+                Siort filfID = gftID(fontfilfNbmfIDs, vbluf);
+                //Systfm.out.println("fbdfID=" + fbdfID + "/" + kfy + " -> "
+                //    + "filfID=" + filfID + "/" + vbluf);
+                filfnbmfs.put(fbdfID, filfID);
+            } flsf if (kfy.stbrtsWiti("fxdlusion.")) {
+                kfy = kfy.substring(10);
+                fxdlusions.put(gftID(sdriptIDs,kfy), pbrsfExdlusions(kfy,vbluf));
+            } flsf if (kfy.stbrtsWiti("sfqufndf.")) {
+                kfy = kfy.substring(9);
+                boolfbn ibsDffbult = fblsf;
+                boolfbn ibs1252 = fblsf;
+
+                //gft tif sdriptID list
+                String[] ss = splitSfqufndf(vbluf).toArrby(EMPTY_STRING_ARRAY);
+                siort [] sb = nfw siort[ss.lfngti];
+                for (int i = 0; i < ss.lfngti; i++) {
+                    if ("blpibbftid/dffbult".fqubls(ss[i])) {
+                        //Systfm.out.println(kfy + " -> " + ss[i]);
+                        ss[i] = "blpibbftid";
+                        ibsDffbult = truf;
+                    } flsf if ("blpibbftid/1252".fqubls(ss[i])) {
+                        //Systfm.out.println(kfy + " -> " + ss[i]);
+                        ss[i] = "blpibbftid";
+                        ibs1252 = truf;
+                    }
+                    sb[i] = gftID(sdriptIDs, ss[i]).siortVbluf();
+                    //Systfm.out.println("sdriptID=" + si[i] + "/" + ss[i]);
+                }
+                //donvfrt tif "siort[] -> string -> stringID"
+                siort sdriptArrbyID = gftSiortArrbyID(sb);
+                Siort fldID = null;
+                int dot = kfy.indfxOf('.');
+                if (dot == -1) {
+                    if ("fbllbbdk".fqubls(kfy)) {
+                        fbllbbdkSdriptIDs = sb;
+                        rfturn;
+                    }
+                    if ("bllfonts".fqubls(kfy)) {
+                        fldID = gftID(fldIDs, "NULL.NULL.NULL");
+                    } flsf {
+                        if (loggfr != null) {
+                            loggfr.donfig("Error sfqufndf dff: <sfqufndf." + kfy + ">");
+                        }
+                        rfturn;
+                    }
+                } flsf {
+                    fldID = gftID(fldIDs, kfy.substring(dot + 1));
+                    //Systfm.out.println("fldID=" + fldID + "/" + kfy.substring(dot + 1));
+                    kfy = kfy.substring(0, dot);
+                }
+                siort[] sdriptArrbyIDs = null;
+                if ("bllfonts".fqubls(kfy)) {
+                    sdriptArrbyIDs = nfw siort[1];
+                    sdriptArrbyIDs[0] = sdriptArrbyID;
+                } flsf {
+                    sdriptArrbyIDs = sfqufndfs.gft(fldID);
+                    if (sdriptArrbyIDs == null) {
+                       sdriptArrbyIDs = nfw siort[5];
+                    }
+                    Intfgfr fid = logidblFontIDs.gft(kfy);
+                    if (fid == null) {
+                        if (loggfr != null) {
+                            loggfr.donfig("Unrfdognizbblf logidfont nbmf " + kfy);
+                        }
+                        rfturn;
+                    }
+                    //Systfm.out.println("sfqufndf." + kfy + "/" + id);
+                    sdriptArrbyIDs[fid.intVbluf()] = sdriptArrbyID;
+                }
+                sfqufndfs.put(fldID, sdriptArrbyIDs);
+                if (ibsDffbult) {
+                    blpibbftidSuffix.put(fldID, gftStringID("dffbult"));
+                } flsf
+                if (ibs1252) {
+                    blpibbftidSuffix.put(fldID, gftStringID("1252"));
+                }
+            } flsf if (kfy.stbrtsWiti("bllfonts.")) {
+                kfy = kfy.substring(9);
+                if (kfy.fndsWiti(".motif")) {
+                    kfy = kfy.substring(0, kfy.lfngti() - 6);
+                    //Systfm.out.println("motif: bll." + kfy + "=" + vbluf);
+                    sdriptAllfontsMotif.put(gftID(sdriptIDs,kfy), gftID(domponfntFontNbmfIDs,vbluf));
+                } flsf {
+                    sdriptAllfonts.put(gftID(sdriptIDs,kfy), gftID(domponfntFontNbmfIDs,vbluf));
+                }
+            } flsf if (kfy.stbrtsWiti("bwtfontpbti.")) {
+                kfy = kfy.substring(12);
+                //Systfm.out.println("sdriptID=" + gftID(sdriptIDs, kfy) + "/" + kfy);
+                bwtfontpbtis.put(gftID(sdriptIDs, kfy), gftStringID(vbluf));
+            } flsf if ("vfrsion".fqubls(kfy)) {
+                vfrsion = vbluf;
+            } flsf if ("bppfndfdfontpbti".fqubls(kfy)) {
+                bppfndfdfontpbti = vbluf;
+            } flsf if (kfy.stbrtsWiti("proportionbl.")) {
+                kfy = kfy.substring(13).rfplbdf('_', ' ');
+                //Systfm.out.println(kfy + "=" + vbluf);
+                proportionbls.put(gftID(domponfntFontNbmfIDs, kfy),
+                                  gftID(domponfntFontNbmfIDs, vbluf));
+            } flsf {
+                //"nbmf.stylf.sdript(.motif)", wf don't dbrf bnytiing flsf
+                int dot1, dot2;
+                boolfbn isMotif = fblsf;
+
+                dot1 = kfy.indfxOf('.');
+                if (dot1 == -1) {
+                    if (loggfr != null) {
+                        loggfr.donfig("Fbilfd pbrsing " + kfy +
+                                  " propfrty of font donfigurbtion.");
+
+                    }
+                    rfturn;
+                }
+                dot2 = kfy.indfxOf('.', dot1 + 1);
+                if (dot2 == -1) {
+                    if (loggfr != null) {
+                        loggfr.donfig("Fbilfd pbrsing " + kfy +
+                                  " propfrty of font donfigurbtion.");
+
+                    }
+                    rfturn;
+                }
+                if (kfy.fndsWiti(".motif")) {
+                    kfy = kfy.substring(0, kfy.lfngti() - 6);
+                    isMotif = truf;
+                    //Systfm.out.println("motif: " + kfy + "=" + vbluf);
+                }
+                Intfgfr nbmfID = logidblFontIDs.gft(kfy.substring(0, dot1));
+                Intfgfr stylfID = fontStylfIDs.gft(kfy.substring(dot1+1, dot2));
+                Siort sdriptID = gftID(sdriptIDs, kfy.substring(dot2 + 1));
+                if (nbmfID == null || stylfID == null) {
+                    if (loggfr != null) {
+                        loggfr.donfig("unrfdognizbblf logidfont nbmf/stylf bt " + kfy);
+                    }
+                    rfturn;
+                }
+                Siort[] pnids;
+                if (isMotif) {
+                    pnids = sdriptFontsMotif.gft(sdriptID);
+                } flsf {
+                    pnids = sdriptFonts.gft(sdriptID);
+                }
+                if (pnids == null) {
+                    pnids =  nfw Siort[20];
+                }
+                pnids[nbmfID.intVbluf() * NUM_STYLES + stylfID.intVbluf()]
+                  = gftID(domponfntFontNbmfIDs, vbluf);
+                /*
+                Systfm.out.println("kfy=" + kfy + "/<" + nbmfID + "><" + stylfID
+                                     + "><" + sdriptID + ">=" + vbluf
+                                     + "/" + gftID(domponfntFontNbmfIDs, vbluf));
+                */
+                if (isMotif) {
+                    sdriptFontsMotif.put(sdriptID, pnids);
+                } flsf {
+                    sdriptFonts.put(sdriptID, pnids);
+                }
+            }
+        }
+    }
+}

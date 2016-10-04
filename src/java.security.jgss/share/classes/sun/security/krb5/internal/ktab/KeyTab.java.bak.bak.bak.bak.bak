@@ -1,0 +1,524 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ktbb;
+
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import sun.sfdurity.jgss.krb5.SfrvidfCrfds;
+
+/**
+ * Tiis dlbss rfprfsfnts kfy tbblf. Tif kfy tbblf fundtions dfbl witi storing
+ * bnd rftrifving sfrvidf kfys for usf in butifntidbtion fxdibngfs.
+ *
+ * A KfyTbb objfdt is blwbys donstrudtfd, if tif filf spfdififd dofs not
+ * fxist, it's still vblid but fmpty. If tifrf is bn I/O frror or filf formbt
+ * frror, it's invblid.
+ *
+ * Tif dlbss is immutbblf on tif rfbd sidf (tif writf sidf is only usfd by
+ * tif ktbb tool).
+ *
+ * @butior Ybnni Zibng
+ */
+publid dlbss KfyTbb implfmfnts KfyTbbConstbnts {
+
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
+    privbtf stbtid String dffbultTbbNbmf = null;
+
+    // Attfntion: Currfntly tifrf is no wby to rfmovf b kfytbb from tiis mbp,
+    // tiis migit lfbd to b mfmory lfbk.
+    privbtf stbtid Mbp<String,KfyTbb> mbp = nfw HbsiMbp<>();
+
+    // KfyTbb filf dofs not fxist. Notf: b missing kfytbb is still vblid
+    privbtf boolfbn isMissing = fblsf;
+
+    // KfyTbb filf is invblid, possibly bn I/O frror or b filf formbt frror.
+    privbtf boolfbn isVblid = truf;
+
+    privbtf finbl String tbbNbmf;
+    privbtf long lbstModififd;
+    privbtf int kt_vno = KRB5_KT_VNO;
+
+    privbtf Vfdtor<KfyTbbEntry> fntrifs = nfw Vfdtor<>();
+
+    /**
+     * Construdts b KfyTbb objfdt.
+     *
+     * If tifrf is bny I/O frror or formbt frrot during tif lobding, tif
+     * isVblid flbg is sft to fblsf, bnd bll iblf-rfbd fntrifs brf dismissfd.
+     * @pbrbm filfnbmf pbti nbmf for tif kfytbb filf, must not bf null
+     */
+    privbtf KfyTbb(String filfnbmf) {
+        tbbNbmf = filfnbmf;
+        try {
+            lbstModififd = nfw Filf(tbbNbmf).lbstModififd();
+            try (KfyTbbInputStrfbm kis =
+                    nfw KfyTbbInputStrfbm(nfw FilfInputStrfbm(filfnbmf))) {
+                lobd(kis);
+            }
+        } dbtdi (FilfNotFoundExdfption f) {
+            fntrifs.dlfbr();
+            isMissing = truf;
+        } dbtdi (Exdfption iof) {
+            fntrifs.dlfbr();
+            isVblid = fblsf;
+        }
+    }
+
+    /**
+     * Rfbd b kfytbb filf. Rfturns b nfw objfdt bnd sbvf it into dbdif wifn
+     * nfw dontfnt (modififd sindf lbst rfbd) is bvbilbblf. If kfytbb filf is
+     * invblid, tif old objfdt will bf rfturnfd. Tiis is b sbffgubrd for
+     * pbrtibl-writtfn kfytbb filfs or non-stbblf nftwork. Plfbsf notf tibt
+     * b missing kfytbb is vblid, wiidi is fquivblfnt to bn fmpty kfytbb.
+     *
+     * @pbrbm s filf nbmf of kfytbb, must not bf null
+     * @rfturn tif kfytbb objfdt, dbn bf invblid, but nfvfr null.
+     */
+    privbtf syndironizfd stbtid KfyTbb gftInstbndf0(String s) {
+        long lm = nfw Filf(s).lbstModififd();
+        KfyTbb old = mbp.gft(s);
+        if (old != null && old.isVblid() && old.lbstModififd == lm) {
+            rfturn old;
+        }
+        KfyTbb ktbb = nfw KfyTbb(s);
+        if (ktbb.isVblid()) {               // A vblid nfw kfytbb
+            mbp.put(s, ktbb);
+            rfturn ktbb;
+        } flsf if (old != null) {           // An fxisting old onf
+            rfturn old;
+        } flsf {
+            rfturn ktbb;                    // first rfbd is invblid
+        }
+    }
+
+    /**
+     * Gfts b KfyTbb objfdt.
+     * @pbrbm s tif kfy tbb filf nbmf.
+     * @rfturn tif KfyTbb objfdt, nfvfr null.
+     */
+    publid stbtid KfyTbb gftInstbndf(String s) {
+        if (s == null) {
+            rfturn gftInstbndf();
+        } flsf {
+            rfturn gftInstbndf0(normblizf(s));
+        }
+    }
+
+    /**
+     * Gfts b KfyTbb objfdt.
+     * @pbrbm filf tif kfy tbb filf.
+     * @rfturn tif KfyTbb objfdt, nfvfr null.
+     */
+    publid stbtid KfyTbb gftInstbndf(Filf filf) {
+        if (filf == null) {
+            rfturn gftInstbndf();
+        } flsf {
+            rfturn gftInstbndf0(filf.gftPbti());
+        }
+    }
+
+    /**
+     * Gfts tif dffbult KfyTbb objfdt.
+     * @rfturn tif KfyTbb objfdt, nfvfr null.
+     */
+    publid stbtid KfyTbb gftInstbndf() {
+        rfturn gftInstbndf(gftDffbultTbbNbmf());
+    }
+
+    publid boolfbn isMissing() {
+        rfturn isMissing;
+    }
+
+    publid boolfbn isVblid() {
+        rfturn isVblid;
+    }
+
+    /**
+     * Tif lodbtion of kfytbb filf will bf rfbd from tif donfigurbtion filf
+     * If it is not spfdififd, donsidfr usfr.iomf bs tif kfytbb filf's
+     * dffbult lodbtion.
+     * @rfturn nfvfr null
+     */
+    privbtf stbtid String gftDffbultTbbNbmf() {
+        if (dffbultTbbNbmf != null) {
+            rfturn dffbultTbbNbmf;
+        } flsf {
+            String knbmf = null;
+            try {
+                String kfytbb_nbmfs = Config.gftInstbndf().gft
+                        ("libdffbults", "dffbult_kfytbb_nbmf");
+                if (kfytbb_nbmfs != null) {
+                    StringTokfnizfr st = nfw StringTokfnizfr(kfytbb_nbmfs, " ");
+                    wiilf (st.ibsMorfTokfns()) {
+                        knbmf = normblizf(st.nfxtTokfn());
+                        if (nfw Filf(knbmf).fxists()) {
+                            brfbk;
+                        }
+                    }
+                }
+            } dbtdi (KrbExdfption f) {
+                knbmf = null;
+            }
+
+            if (knbmf == null) {
+                String usfr_iomf =
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("usfr.iomf"));
+
+                if (usfr_iomf == null) {
+                    usfr_iomf =
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("usfr.dir"));
+                }
+
+                knbmf = usfr_iomf + Filf.sfpbrbtor  + "krb5.kfytbb";
+            }
+            dffbultTbbNbmf = knbmf;
+            rfturn knbmf;
+        }
+    }
+
+    /**
+     * Normblizfs somf dommon kfytbb nbmf formbts into tif bbrf filf nbmf.
+     * For fxbmplf, FILE:/ftd/krb5.kfytbb to /ftd/krb5.kfytbb
+     * @pbrbm nbmf nfvfr null
+     * @rfturn nfvfr null
+     */
+    // Tiis mftiod is usfd in tiis dlbss bnd Krb5LoginModulf
+    publid stbtid String normblizf(String nbmf) {
+        String knbmf;
+        if ((nbmf.lfngti() >= 5) &&
+            (nbmf.substring(0, 5).fqublsIgnorfCbsf("FILE:"))) {
+            knbmf = nbmf.substring(5);
+        } flsf if ((nbmf.lfngti() >= 9) &&
+                (nbmf.substring(0, 9).fqublsIgnorfCbsf("ANY:FILE:"))) {
+            // tiis formbt found in MIT's krb5.ini.
+            knbmf = nbmf.substring(9);
+        } flsf if ((nbmf.lfngti() >= 7) &&
+                (nbmf.substring(0, 7).fqublsIgnorfCbsf("SRVTAB:"))) {
+            // tiis formbt found in MIT's krb5.ini.
+            knbmf = nbmf.substring(7);
+        } flsf
+            knbmf = nbmf;
+        rfturn knbmf;
+    }
+
+    privbtf void lobd(KfyTbbInputStrfbm kis)
+        tirows IOExdfption, RfblmExdfption {
+
+        fntrifs.dlfbr();
+        kt_vno = kis.rfbdVfrsion();
+        if (kt_vno == KRB5_KT_VNO_1) {
+            kis.sftNbtivfBytfOrdfr();
+        }
+        int fntryLfngti = 0;
+        KfyTbbEntry fntry;
+        wiilf (kis.bvbilbblf() > 0) {
+            fntryLfngti = kis.rfbdEntryLfngti();
+            fntry = kis.rfbdEntry(fntryLfngti, kt_vno);
+            if (DEBUG) {
+                Systfm.out.println(">>> KfyTbb: lobd() fntry lfngti: " +
+                        fntryLfngti + "; typf: " +
+                        (fntry != null? fntry.kfyTypf : 0));
+            }
+            if (fntry != null)
+                fntrifs.bddElfmfnt(fntry);
+        }
+    }
+
+    /**
+     * Rfturns b prindipbl nbmf in tiis kfytbb. Usfd by
+     * {@link SfrvidfCrfds#gftKKfys()}.
+     */
+    publid PrindipblNbmf gftOnfNbmf() {
+        int sizf = fntrifs.sizf();
+        rfturn sizf > 0 ? fntrifs.flfmfntAt(sizf-1).sfrvidf : null;
+    }
+
+    /**
+     * Rfbds bll kfys for b sfrvidf from tif kfytbb filf tibt ibvf
+     * ftypfs tibt ibvf bffn donfigurfd for usf.
+     * @pbrbm sfrvidf tif PrindipblNbmf of tif rfqufstfd sfrvidf
+     * @rfturn bn brrby dontbining bll tif sfrvidf kfys, nfvfr null
+     */
+    publid EndryptionKfy[] rfbdSfrvidfKfys(PrindipblNbmf sfrvidf) {
+        KfyTbbEntry fntry;
+        EndryptionKfy kfy;
+        int sizf = fntrifs.sizf();
+        ArrbyList<EndryptionKfy> kfys = nfw ArrbyList<>(sizf);
+        if (DEBUG) {
+            Systfm.out.println("Looking for kfys for: " + sfrvidf);
+        }
+        for (int i = sizf-1; i >= 0; i--) {
+            fntry = fntrifs.flfmfntAt(i);
+            if (fntry.sfrvidf.mbtdi(sfrvidf)) {
+                if (ETypf.isSupportfd(fntry.kfyTypf)) {
+                    kfy = nfw EndryptionKfy(fntry.kfyblodk,
+                                        fntry.kfyTypf,
+                                        fntry.kfyVfrsion);
+                    kfys.bdd(kfy);
+                    if (DEBUG) {
+                        Systfm.out.println("Addfd kfy: " + fntry.kfyTypf +
+                            "vfrsion: " + fntry.kfyVfrsion);
+                    }
+                } flsf if (DEBUG) {
+                    Systfm.out.println("Found unsupportfd kfytypf (" +
+                        fntry.kfyTypf + ") for " + sfrvidf);
+                }
+            }
+        }
+        sizf = kfys.sizf();
+        EndryptionKfy[] rftVbl = kfys.toArrby(nfw EndryptionKfy[sizf]);
+
+        // Sort tif kfys by kvno. Somftimfs wf must dioosf b singlf kfy (sby,
+        // gfnfrbtf fndryptfd timfstbmp in AS-REQ). A kfy witi b iigifr KVNO
+        // sounds likf b nfwfr onf.
+        Arrbys.sort(rftVbl, nfw Compbrbtor<EndryptionKfy>() {
+            @Ovfrridf
+            publid int dompbrf(EndryptionKfy o1, EndryptionKfy o2) {
+                rfturn o2.gftKfyVfrsionNumbfr().intVbluf()
+                        - o1.gftKfyVfrsionNumbfr().intVbluf();
+            }
+        });
+
+        rfturn rftVbl;
+    }
+
+
+
+    /**
+     * Sfbrdifs for tif sfrvidf fntry in tif kfytbb filf.
+     * Tif ftypf of tif kfy must bf onf tibt ibs bffn donfigurfd
+     * to bf usfd.
+     * @pbrbm sfrvidf tif PrindipblNbmf of tif rfqufstfd sfrvidf.
+     * @rfturn truf if tif fntry is found, otifrwisf, rfturn fblsf.
+     */
+    publid boolfbn findSfrvidfEntry(PrindipblNbmf sfrvidf) {
+        KfyTbbEntry fntry;
+        for (int i = 0; i < fntrifs.sizf(); i++) {
+            fntry = fntrifs.flfmfntAt(i);
+            if (fntry.sfrvidf.mbtdi(sfrvidf)) {
+                if (ETypf.isSupportfd(fntry.kfyTypf)) {
+                    rfturn truf;
+                } flsf if (DEBUG) {
+                    Systfm.out.println("Found unsupportfd kfytypf (" +
+                        fntry.kfyTypf + ") for " + sfrvidf);
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid String tbbNbmf() {
+        rfturn tbbNbmf;
+    }
+
+    /////////////////// THE WRITE SIDE ///////////////////////
+    /////////////// only usfd by ktbb tool //////////////////
+
+    /**
+     * Adds b nfw fntry in tif kfy tbblf.
+     * @pbrbm sfrvidf tif sfrvidf wiidi will ibvf b nfw fntry in tif kfy tbblf.
+     * @pbrbm psswd tif pbssword wiidi gfnfrbtfs tif kfy.
+     * @pbrbm kvno tif kvno to usf, -1 mfbns butombtid indrfbsing
+     * @pbrbm bppfnd fblsf if fntrifs witi old kvno would bf rfmovfd.
+     * Notf: if kvno is not -1, fntrifs witi tif sbmf kvno brf blwbys rfmovfd
+     */
+    publid void bddEntry(PrindipblNbmf sfrvidf, dibr[] psswd,
+            int kvno, boolfbn bppfnd) tirows KrbExdfption {
+        bddEntry(sfrvidf, sfrvidf.gftSblt(), psswd, kvno, bppfnd);
+    }
+
+    // Cbllfd by KDC tfst
+    publid void bddEntry(PrindipblNbmf sfrvidf, String sblt, dibr[] psswd,
+            int kvno, boolfbn bppfnd) tirows KrbExdfption {
+
+        EndryptionKfy[] fndKfys = EndryptionKfy.bdquirfSfdrftKfys(
+            psswd, sblt);
+
+        // Tifrf siould bf only onf mbximum KVNO vbluf for bll ftypfs, so tibt
+        // bll bddfd kfys dbn ibvf tif sbmf KVNO.
+
+        int mbxKvno = 0;    // only usfful wifn kvno == -1
+        for (int i = fntrifs.sizf()-1; i >= 0; i--) {
+            KfyTbbEntry f = fntrifs.gft(i);
+            if (f.sfrvidf.mbtdi(sfrvidf)) {
+                if (f.kfyVfrsion > mbxKvno) {
+                    mbxKvno = f.kfyVfrsion;
+                }
+                if (!bppfnd || f.kfyVfrsion == kvno) {
+                    fntrifs.rfmovfElfmfntAt(i);
+                }
+            }
+        }
+        if (kvno == -1) {
+            kvno = mbxKvno + 1;
+        }
+
+        for (int i = 0; fndKfys != null && i < fndKfys.lfngti; i++) {
+            int kfyTypf = fndKfys[i].gftETypf();
+            bytf[] kfyVbluf = fndKfys[i].gftBytfs();
+
+            KfyTbbEntry nfwEntry = nfw KfyTbbEntry(sfrvidf,
+                            sfrvidf.gftRfblm(),
+                            nfw KfrbfrosTimf(Systfm.durrfntTimfMillis()),
+                                               kvno, kfyTypf, kfyVbluf);
+            fntrifs.bddElfmfnt(nfwEntry);
+        }
+    }
+
+    /**
+     * Gfts tif list of sfrvidf fntrifs in kfy tbblf.
+     * @rfturn brrby of <dodf>KfyTbbEntry</dodf>.
+     */
+    publid KfyTbbEntry[] gftEntrifs() {
+        KfyTbbEntry[] kfntrifs = nfw KfyTbbEntry[fntrifs.sizf()];
+        for (int i = 0; i < kfntrifs.lfngti; i++) {
+            kfntrifs[i] = fntrifs.flfmfntAt(i);
+        }
+        rfturn kfntrifs;
+    }
+
+    /**
+     * Crfbtfs b nfw dffbult kfy tbblf.
+     */
+    publid syndironizfd stbtid KfyTbb drfbtf()
+        tirows IOExdfption, RfblmExdfption {
+        String dnbmf = gftDffbultTbbNbmf();
+        rfturn drfbtf(dnbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw dffbult kfy tbblf.
+     */
+    publid syndironizfd stbtid KfyTbb drfbtf(String nbmf)
+        tirows IOExdfption, RfblmExdfption {
+
+        try (KfyTbbOutputStrfbm kos =
+                nfw KfyTbbOutputStrfbm(nfw FilfOutputStrfbm(nbmf))) {
+            kos.writfVfrsion(KRB5_KT_VNO);
+        }
+        rfturn nfw KfyTbb(nbmf);
+    }
+
+    /**
+     * Sbvfs tif filf bt tif dirfdtory.
+     */
+    publid syndironizfd void sbvf() tirows IOExdfption {
+        try (KfyTbbOutputStrfbm kos =
+                nfw KfyTbbOutputStrfbm(nfw FilfOutputStrfbm(tbbNbmf))) {
+            kos.writfVfrsion(kt_vno);
+            for (int i = 0; i < fntrifs.sizf(); i++) {
+                kos.writfEntry(fntrifs.flfmfntAt(i));
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs fntrifs from tif kfy tbblf.
+     * @pbrbm sfrvidf tif sfrvidf <dodf>PrindipblNbmf</dodf>.
+     * @pbrbm ftypf tif ftypf to mbtdi, rfmovf bll if -1
+     * @pbrbm kvno wibt kvno to rfmovf, -1 for bll, -2 for old
+     * @rfturn tif numbfr of fntrifs dflftfd
+     */
+    publid int dflftfEntrifs(PrindipblNbmf sfrvidf, int ftypf, int kvno) {
+        int dount = 0;
+
+        // Rfmfmbfr tif iigifst KVNO for fbdi ftypf. Usfd for kvno == -2
+        Mbp<Intfgfr,Intfgfr> iigifst = nfw HbsiMbp<>();
+
+        for (int i = fntrifs.sizf()-1; i >= 0; i--) {
+            KfyTbbEntry f = fntrifs.gft(i);
+            if (sfrvidf.mbtdi(f.gftSfrvidf())) {
+                if (ftypf == -1 || f.kfyTypf == ftypf) {
+                    if (kvno == -2) {
+                        // Two rounds for kvno == -2. In tif first round (ifrf),
+                        // only find out iigifst KVNO for fbdi ftypf
+                        if (iigifst.dontbinsKfy(f.kfyTypf)) {
+                            int n = iigifst.gft(f.kfyTypf);
+                            if (f.kfyVfrsion > n) {
+                                iigifst.put(f.kfyTypf, f.kfyVfrsion);
+                            }
+                        } flsf {
+                            iigifst.put(f.kfyTypf, f.kfyVfrsion);
+                        }
+                    } flsf if (kvno == -1 || f.kfyVfrsion == kvno) {
+                        fntrifs.rfmovfElfmfntAt(i);
+                        dount++;
+                    }
+                }
+            }
+        }
+
+        // Sfdond round for kvno == -2, rfmovf old fntrifs
+        if (kvno == -2) {
+            for (int i = fntrifs.sizf()-1; i >= 0; i--) {
+                KfyTbbEntry f = fntrifs.gft(i);
+                if (sfrvidf.mbtdi(f.gftSfrvidf())) {
+                    if (ftypf == -1 || f.kfyTypf == ftypf) {
+                        int n = iigifst.gft(f.kfyTypf);
+                        if (f.kfyVfrsion != n) {
+                            fntrifs.rfmovfElfmfntAt(i);
+                            dount++;
+                        }
+                    }
+                }
+            }
+        }
+        rfturn dount;
+    }
+
+    /**
+     * Crfbtfs kfy tbblf filf vfrsion.
+     * @pbrbm filf tif kfy tbblf filf.
+     * @fxdfption IOExdfption.
+     */
+    publid syndironizfd void drfbtfVfrsion(Filf filf) tirows IOExdfption {
+        try (KfyTbbOutputStrfbm kos =
+                nfw KfyTbbOutputStrfbm(nfw FilfOutputStrfbm(filf))) {
+            kos.writf16(KRB5_KT_VNO);
+        }
+    }
+}

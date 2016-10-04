@@ -1,539 +1,2695 @@
 /*
+/*
+/*
+/*
+/*
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
  * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ */
+ */
+ */
+ */
  */
 /**
- * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
- * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
- * distributfd with this work for bdditionbl informbtion
- * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
- * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
- * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
- * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+/**
+/**
+/**
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
  *
  * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
- * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
  * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
- * undfr thf Lidfnsf.
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
  */
-pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.implfmfntbtions;
+ */
+ */
+ */
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions;
 
-import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+
+
+
+
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
 import jbvb.sfdurity.InvblidKfyExdfption;
 import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
 import jbvb.sfdurity.SfdurfRbndom;
-import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+
+
+
+
 
 import jbvbx.drypto.Mbd;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfy;
 import jbvbx.drypto.SfdrftKfy;
 
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.JCEMbppfr;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.MfssbgfDigfstAlgorithm;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.SignbturfAlgorithmSpi;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+
+
+
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritimSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritimSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritimSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritimSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritimSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
 import org.w3d.dom.Dodumfnt;
 import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Tfxt;
+import org.w3d.dom.Tfxt;
+import org.w3d.dom.Tfxt;
+import org.w3d.dom.Tfxt;
 import org.w3d.dom.Tfxt;
 
-publid bbstrbdt dlbss IntfgrityHmbd fxtfnds SignbturfAlgorithmSpi {
 
-    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+
+
+
+publid bbstrbdt dlbss IntfgrityHmbd fxtfnds SignbturfAlgoritimSpi {
+publid bbstrbdt dlbss IntfgrityHmbd fxtfnds SignbturfAlgoritimSpi {
+publid bbstrbdt dlbss IntfgrityHmbd fxtfnds SignbturfAlgoritimSpi {
+publid bbstrbdt dlbss IntfgrityHmbd fxtfnds SignbturfAlgoritimSpi {
+publid bbstrbdt dlbss IntfgrityHmbd fxtfnds SignbturfAlgoritimSpi {
+
+
+
+
+
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
     privbtf stbtid jbvb.util.logging.Loggfr log =
         jbvb.util.logging.Loggfr.gftLoggfr(IntfgrityHmbd.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(IntfgrityHmbd.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(IntfgrityHmbd.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(IntfgrityHmbd.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(IntfgrityHmbd.dlbss.gftNbmf());
 
-    /** Fifld mbdAlgorithm */
-    privbtf Mbd mbdAlgorithm = null;
 
-    /** Fifld HMACOutputLfngth */
-    privbtf int HMACOutputLfngth = 0;
-    privbtf boolfbn HMACOutputLfngthSft = fblsf;
+
+
+
+    /** Fifld mbdAlgoritim */
+    /** Fifld mbdAlgoritim */
+    /** Fifld mbdAlgoritim */
+    /** Fifld mbdAlgoritim */
+    /** Fifld mbdAlgoritim */
+    privbtf Mbd mbdAlgoritim = null;
+    privbtf Mbd mbdAlgoritim = null;
+    privbtf Mbd mbdAlgoritim = null;
+    privbtf Mbd mbdAlgoritim = null;
+    privbtf Mbd mbdAlgoritim = null;
+
+
+
+
+
+    /** Fifld HMACOutputLfngti */
+    /** Fifld HMACOutputLfngti */
+    /** Fifld HMACOutputLfngti */
+    /** Fifld HMACOutputLfngti */
+    /** Fifld HMACOutputLfngti */
+    privbtf int HMACOutputLfngti = 0;
+    privbtf int HMACOutputLfngti = 0;
+    privbtf int HMACOutputLfngti = 0;
+    privbtf int HMACOutputLfngti = 0;
+    privbtf int HMACOutputLfngti = 0;
+    privbtf boolfbn HMACOutputLfngtiSft = fblsf;
+    privbtf boolfbn HMACOutputLfngtiSft = fblsf;
+    privbtf boolfbn HMACOutputLfngtiSft = fblsf;
+    privbtf boolfbn HMACOutputLfngtiSft = fblsf;
+    privbtf boolfbn HMACOutputLfngtiSft = fblsf;
+
+
+
+
 
     /**
-     * Mfthod fnginfGftURI
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfGftURI
+     * Mftiod fnginfGftURI
+     * Mftiod fnginfGftURI
+     * Mftiod fnginfGftURI
+     * Mftiod fnginfGftURI
      *
-     *@inhfritDod
+     *
+     *
+     *
+     *
+     *@inifritDod
+     *@inifritDod
+     *@inifritDod
+     *@inifritDod
+     *@inifritDod
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt String fnginfGftURI();
+    publid bbstrbdt String fnginfGftURI();
+    publid bbstrbdt String fnginfGftURI();
+    publid bbstrbdt String fnginfGftURI();
+    publid bbstrbdt String fnginfGftURI();
+
+
+
+
 
     /**
-     * Rfturns thf output lfngth of thf hbsh/digfst.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif output lfngti of tif ibsi/digfst.
+     * Rfturns tif output lfngti of tif ibsi/digfst.
+     * Rfturns tif output lfngti of tif ibsi/digfst.
+     * Rfturns tif output lfngti of tif ibsi/digfst.
+     * Rfturns tif output lfngti of tif ibsi/digfst.
      */
-    bbstrbdt int gftDigfstLfngth();
+     */
+     */
+     */
+     */
+    bbstrbdt int gftDigfstLfngti();
+    bbstrbdt int gftDigfstLfngti();
+    bbstrbdt int gftDigfstLfngti();
+    bbstrbdt int gftDigfstLfngti();
+    bbstrbdt int gftDigfstLfngti();
+
+
+
+
 
     /**
-     * Mfthod IntfgrityHmbd
+    /**
+    /**
+    /**
+    /**
+     * Mftiod IntfgrityHmbd
+     * Mftiod IntfgrityHmbd
+     * Mftiod IntfgrityHmbd
+     * Mftiod IntfgrityHmbd
+     * Mftiod IntfgrityHmbd
      *
-     * @throws XMLSignbturfExdfption
+     *
+     *
+     *
+     *
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid IntfgrityHmbd() throws XMLSignbturfExdfption {
-        String blgorithmID = JCEMbppfr.trbnslbtfURItoJCEID(this.fnginfGftURI());
+     */
+     */
+     */
+     */
+    publid IntfgrityHmbd() tirows XMLSignbturfExdfption {
+    publid IntfgrityHmbd() tirows XMLSignbturfExdfption {
+    publid IntfgrityHmbd() tirows XMLSignbturfExdfption {
+    publid IntfgrityHmbd() tirows XMLSignbturfExdfption {
+    publid IntfgrityHmbd() tirows XMLSignbturfExdfption {
+        String blgoritimID = JCEMbppfr.trbnslbtfURItoJCEID(tiis.fnginfGftURI());
+        String blgoritimID = JCEMbppfr.trbnslbtfURItoJCEID(tiis.fnginfGftURI());
+        String blgoritimID = JCEMbppfr.trbnslbtfURItoJCEID(tiis.fnginfGftURI());
+        String blgoritimID = JCEMbppfr.trbnslbtfURItoJCEID(tiis.fnginfGftURI());
+        String blgoritimID = JCEMbppfr.trbnslbtfURItoJCEID(tiis.fnginfGftURI());
         if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd IntfgrityHmbdSHA1 using " + blgorithmID);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd IntfgrityHmbdSHA1 using " + blgoritimID);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd IntfgrityHmbdSHA1 using " + blgoritimID);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd IntfgrityHmbdSHA1 using " + blgoritimID);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd IntfgrityHmbdSHA1 using " + blgoritimID);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd IntfgrityHmbdSHA1 using " + blgoritimID);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         try {
-            this.mbdAlgorithm = Mbd.gftInstbndf(blgorithmID);
-        } dbtdh (jbvb.sfdurity.NoSudhAlgorithmExdfption fx) {
-            Objfdt[] fxArgs = { blgorithmID, fx.gftLodblizfdMfssbgf() };
+        try {
+        try {
+        try {
+        try {
+            tiis.mbdAlgoritim = Mbd.gftInstbndf(blgoritimID);
+            tiis.mbdAlgoritim = Mbd.gftInstbndf(blgoritimID);
+            tiis.mbdAlgoritim = Mbd.gftInstbndf(blgoritimID);
+            tiis.mbdAlgoritim = Mbd.gftInstbndf(blgoritimID);
+            tiis.mbdAlgoritim = Mbd.gftInstbndf(blgoritimID);
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption fx) {
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption fx) {
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption fx) {
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption fx) {
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption fx) {
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
 
-            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs);
+
+
+
+
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
-     * jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm pbrbms
-     * @throws XMLSignbturfExdfption
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd void fnginfSftPbrbmftfr(AlgorithmPbrbmftfrSpfd pbrbms) throws XMLSignbturfExdfption {
-        throw nfw XMLSignbturfExdfption("fmpty");
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+        tirow nfw XMLSignbturfExdfption("fmpty");
+        tirow nfw XMLSignbturfExdfption("fmpty");
+        tirow nfw XMLSignbturfExdfption("fmpty");
+        tirow nfw XMLSignbturfExdfption("fmpty");
+        tirow nfw XMLSignbturfExdfption("fmpty");
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid void rfsft() {
-        HMACOutputLfngth = 0;
-        HMACOutputLfngthSft = fblsf;
-        this.mbdAlgorithm.rfsft();
+    publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+        HMACOutputLfngti = 0;
+        HMACOutputLfngti = 0;
+        HMACOutputLfngti = 0;
+        HMACOutputLfngti = 0;
+        HMACOutputLfngti = 0;
+        HMACOutputLfngtiSft = fblsf;
+        HMACOutputLfngtiSft = fblsf;
+        HMACOutputLfngtiSft = fblsf;
+        HMACOutputLfngtiSft = fblsf;
+        HMACOutputLfngtiSft = fblsf;
+        tiis.mbdAlgoritim.rfsft();
+        tiis.mbdAlgoritim.rfsft();
+        tiis.mbdAlgoritim.rfsft();
+        tiis.mbdAlgoritim.rfsft();
+        tiis.mbdAlgoritim.rfsft();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm signbturf
-     * @rfturn truf if thf signbturf is dorrfdt
-     * @throws XMLSignbturfExdfption
+     * @pbrbm signbturf
+     * @pbrbm signbturf
+     * @pbrbm signbturf
+     * @pbrbm signbturf
+     * @rfturn truf if tif signbturf is dorrfdt
+     * @rfturn truf if tif signbturf is dorrfdt
+     * @rfturn truf if tif signbturf is dorrfdt
+     * @rfturn truf if tif signbturf is dorrfdt
+     * @rfturn truf if tif signbturf is dorrfdt
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
         try {
-            if (this.HMACOutputLfngthSft && this.HMACOutputLfngth < gftDigfstLfngth()) {
+        try {
+        try {
+        try {
+        try {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
                 if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngth must not bf lfss thbn " + gftDigfstLfngth());
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
                 }
-                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngth()) };
-                throw nfw XMLSignbturfExdfption("blgorithms.HMACOutputLfngthMin", fxArgs);
+                }
+                }
+                }
+                }
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
             } flsf {
-                bytf[] domplftfRfsult = this.mbdAlgorithm.doFinbl();
-                rfturn MfssbgfDigfstAlgorithm.isEqubl(domplftfRfsult, signbturf);
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                bytf[] domplftfRfsult = tiis.mbdAlgoritim.doFinbl();
+                bytf[] domplftfRfsult = tiis.mbdAlgoritim.doFinbl();
+                bytf[] domplftfRfsult = tiis.mbdAlgoritim.doFinbl();
+                bytf[] domplftfRfsult = tiis.mbdAlgoritim.doFinbl();
+                bytf[] domplftfRfsult = tiis.mbdAlgoritim.doFinbl();
+                rfturn MfssbgfDigfstAlgoritim.isEqubl(domplftfRfsult, signbturf);
+                rfturn MfssbgfDigfstAlgoritim.isEqubl(domplftfRfsult, signbturf);
+                rfturn MfssbgfDigfstAlgoritim.isEqubl(domplftfRfsult, signbturf);
+                rfturn MfssbgfDigfstAlgoritim.isEqubl(domplftfRfsult, signbturf);
+                rfturn MfssbgfDigfstAlgoritim.isEqubl(domplftfRfsult, signbturf);
             }
-        } dbtdh (IllfgblStbtfExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+            }
+            }
+            }
+            }
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm sfdrftKfy
-     * @throws XMLSignbturfExdfption
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd void fnginfInitVfrify(Kfy sfdrftKfy) throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfInitVfrify(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitVfrify(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitVfrify(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitVfrify(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitVfrify(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
         if (!(sfdrftKfy instbndfof SfdrftKfy)) {
             String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
             String nffdfd = SfdrftKfy.dlbss.gftNbmf();
             Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
 
-            throw nfw XMLSignbturfExdfption("blgorithms.WrongKfyForThisOpfrbtion", fxArgs);
+
+
+
+
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         try {
-            this.mbdAlgorithm.init(sfdrftKfy);
-        } dbtdh (InvblidKfyExdfption fx) {
+        try {
+        try {
+        try {
+        try {
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
             // rfinstbntibtf Mbd objfdt to work bround bug in JDK
-            // sff: http://bugs.sun.dom/vifw_bug.do?bug_id=4953555
-            Mbd mbd = this.mbdAlgorithm;
+            // rfinstbntibtf Mbd objfdt to work bround bug in JDK
+            // rfinstbntibtf Mbd objfdt to work bround bug in JDK
+            // rfinstbntibtf Mbd objfdt to work bround bug in JDK
+            // rfinstbntibtf Mbd objfdt to work bround bug in JDK
+            // sff: ittp://bugs.sun.dom/vifw_bug.do?bug_id=4953555
+            // sff: ittp://bugs.sun.dom/vifw_bug.do?bug_id=4953555
+            // sff: ittp://bugs.sun.dom/vifw_bug.do?bug_id=4953555
+            // sff: ittp://bugs.sun.dom/vifw_bug.do?bug_id=4953555
+            // sff: ittp://bugs.sun.dom/vifw_bug.do?bug_id=4953555
+            Mbd mbd = tiis.mbdAlgoritim;
+            Mbd mbd = tiis.mbdAlgoritim;
+            Mbd mbd = tiis.mbdAlgoritim;
+            Mbd mbd = tiis.mbdAlgoritim;
+            Mbd mbd = tiis.mbdAlgoritim;
             try {
-                this.mbdAlgorithm = Mbd.gftInstbndf(mbdAlgorithm.gftAlgorithm());
-            } dbtdh (Exdfption f) {
-                // this shouldn't oddur, but if it dofs, rfstorf prfvious Mbd
+            try {
+            try {
+            try {
+            try {
+                tiis.mbdAlgoritim = Mbd.gftInstbndf(mbdAlgoritim.gftAlgoritim());
+                tiis.mbdAlgoritim = Mbd.gftInstbndf(mbdAlgoritim.gftAlgoritim());
+                tiis.mbdAlgoritim = Mbd.gftInstbndf(mbdAlgoritim.gftAlgoritim());
+                tiis.mbdAlgoritim = Mbd.gftInstbndf(mbdAlgoritim.gftAlgoritim());
+                tiis.mbdAlgoritim = Mbd.gftInstbndf(mbdAlgoritim.gftAlgoritim());
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+            } dbtdi (Exdfption f) {
+                // tiis siouldn't oddur, but if it dofs, rfstorf prfvious Mbd
+                // tiis siouldn't oddur, but if it dofs, rfstorf prfvious Mbd
+                // tiis siouldn't oddur, but if it dofs, rfstorf prfvious Mbd
+                // tiis siouldn't oddur, but if it dofs, rfstorf prfvious Mbd
+                // tiis siouldn't oddur, but if it dofs, rfstorf prfvious Mbd
                 if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption whfn rfinstbntibting Mbd:" + f);
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption wifn rfinstbntibting Mbd:" + f);
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption wifn rfinstbntibting Mbd:" + f);
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption wifn rfinstbntibting Mbd:" + f);
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption wifn rfinstbntibting Mbd:" + f);
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption wifn rfinstbntibting Mbd:" + f);
                 }
-                this.mbdAlgorithm = mbd;
+                }
+                }
+                }
+                }
+                tiis.mbdAlgoritim = mbd;
+                tiis.mbdAlgoritim = mbd;
+                tiis.mbdAlgoritim = mbd;
+                tiis.mbdAlgoritim = mbd;
+                tiis.mbdAlgoritim = mbd;
             }
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+            }
+            }
+            }
+            }
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#sign()}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.Signbturf#sign()} mfthod
-     * @throws XMLSignbturfExdfption
+     *
+     *
+     *
+     *
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd bytf[] fnginfSign() throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd bytf[] fnginfSign() tirows XMLSignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows XMLSignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows XMLSignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows XMLSignbturfExdfption {
+    protfdtfd bytf[] fnginfSign() tirows XMLSignbturfExdfption {
         try {
-            if (this.HMACOutputLfngthSft && this.HMACOutputLfngth < gftDigfstLfngth()) {
+        try {
+        try {
+        try {
+        try {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
+            if (tiis.HMACOutputLfngtiSft && tiis.HMACOutputLfngti < gftDigfstLfngti()) {
                 if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngth must not bf lfss thbn " + gftDigfstLfngth());
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
                 }
-                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngth()) };
-                throw nfw XMLSignbturfExdfption("blgorithms.HMACOutputLfngthMin", fxArgs);
+                }
+                }
+                }
+                }
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                Objfdt[] fxArgs = { String.vblufOf(gftDigfstLfngti()) };
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
+                tirow nfw XMLSignbturfExdfption("blgoritims.HMACOutputLfngtiMin", fxArgs);
             } flsf {
-                rfturn this.mbdAlgorithm.doFinbl();
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                rfturn tiis.mbdAlgoritim.doFinbl();
+                rfturn tiis.mbdAlgoritim.doFinbl();
+                rfturn tiis.mbdAlgoritim.doFinbl();
+                rfturn tiis.mbdAlgoritim.doFinbl();
+                rfturn tiis.mbdAlgoritim.doFinbl();
             }
-        } dbtdh (IllfgblStbtfExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+            }
+            }
+            }
+            }
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Mfthod fnginfInitSign
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     *
+     *
+     *
+     *
      *
      * @pbrbm sfdrftKfy
-     * @throws XMLSignbturfExdfption
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd void fnginfInitSign(Kfy sfdrftKfy) throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy) tirows XMLSignbturfExdfption {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
         if (!(sfdrftKfy instbndfof SfdrftKfy)) {
             String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
             String nffdfd = SfdrftKfy.dlbss.gftNbmf();
             Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
 
-            throw nfw XMLSignbturfExdfption("blgorithms.WrongKfyForThisOpfrbtion", fxArgs);
+
+
+
+
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         try {
-            this.mbdAlgorithm.init(sfdrftKfy);
-        } dbtdh (InvblidKfyExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        try {
+        try {
+        try {
+        try {
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+            tiis.mbdAlgoritim.init(sfdrftKfy);
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Mfthod fnginfInitSign
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     *
+     *
+     *
+     *
      *
      * @pbrbm sfdrftKfy
-     * @pbrbm blgorithmPbrbmftfrSpfd
-     * @throws XMLSignbturfExdfption
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     */
+     */
+     */
+     */
      */
     protfdtfd void fnginfInitSign(
-        Kfy sfdrftKfy, AlgorithmPbrbmftfrSpfd blgorithmPbrbmftfrSpfd
-    ) throws XMLSignbturfExdfption {
+    protfdtfd void fnginfInitSign(
+    protfdtfd void fnginfInitSign(
+    protfdtfd void fnginfInitSign(
+    protfdtfd void fnginfInitSign(
+        Kfy sfdrftKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy sfdrftKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy sfdrftKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy sfdrftKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy sfdrftKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
+        if (!(sfdrftKfy instbndfof SfdrftKfy)) {
         if (!(sfdrftKfy instbndfof SfdrftKfy)) {
             String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String supplifd = sfdrftKfy.gftClbss().gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
+            String nffdfd = SfdrftKfy.dlbss.gftNbmf();
             String nffdfd = SfdrftKfy.dlbss.gftNbmf();
             Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+            Objfdt fxArgs[] = { supplifd, nffdfd };
 
-            throw nfw XMLSignbturfExdfption("blgorithms.WrongKfyForThisOpfrbtion", fxArgs);
+
+
+
+
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.WrongKfyForTiisOpfrbtion", fxArgs);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         try {
-            this.mbdAlgorithm.init(sfdrftKfy, blgorithmPbrbmftfrSpfd);
-        } dbtdh (InvblidKfyExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
-        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        try {
+        try {
+        try {
+        try {
+            tiis.mbdAlgoritim.init(sfdrftKfy, blgoritimPbrbmftfrSpfd);
+            tiis.mbdAlgoritim.init(sfdrftKfy, blgoritimPbrbmftfrSpfd);
+            tiis.mbdAlgoritim.init(sfdrftKfy, blgoritimPbrbmftfrSpfd);
+            tiis.mbdAlgoritim.init(sfdrftKfy, blgoritimPbrbmftfrSpfd);
+            tiis.mbdAlgoritim.init(sfdrftKfy, blgoritimPbrbmftfrSpfd);
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+        } dbtdi (InvblidKfyExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Mfthod fnginfInitSign
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     * Mftiod fnginfInitSign
+     *
+     *
+     *
+     *
      *
      * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
+     * @pbrbm sfdrftKfy
      * @pbrbm sfdurfRbndom
-     * @throws XMLSignbturfExdfption
+     * @pbrbm sfdurfRbndom
+     * @pbrbm sfdurfRbndom
+     * @pbrbm sfdurfRbndom
+     * @pbrbm sfdurfRbndom
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     */
+     */
+     */
+     */
      */
     protfdtfd void fnginfInitSign(Kfy sfdrftKfy, SfdurfRbndom sfdurfRbndom)
-        throws XMLSignbturfExdfption {
-        throw nfw XMLSignbturfExdfption("blgorithms.CbnnotUsfSfdurfRbndomOnMAC");
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy, SfdurfRbndom sfdurfRbndom)
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy, SfdurfRbndom sfdurfRbndom)
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy, SfdurfRbndom sfdurfRbndom)
+    protfdtfd void fnginfInitSign(Kfy sfdrftKfy, SfdurfRbndom sfdurfRbndom)
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
+        tirow nfw XMLSignbturfExdfption("blgoritims.CbnnotUsfSfdurfRbndomOnMAC");
+        tirow nfw XMLSignbturfExdfption("blgoritims.CbnnotUsfSfdurfRbndomOnMAC");
+        tirow nfw XMLSignbturfExdfption("blgoritims.CbnnotUsfSfdurfRbndomOnMAC");
+        tirow nfw XMLSignbturfExdfption("blgoritims.CbnnotUsfSfdurfRbndomOnMAC");
+        tirow nfw XMLSignbturfExdfption("blgoritims.CbnnotUsfSfdurfRbndomOnMAC");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm input
-     * @throws XMLSignbturfExdfption
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd void fnginfUpdbtf(bytf[] input) throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfUpdbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf[] input) tirows XMLSignbturfExdfption {
         try {
-            this.mbdAlgorithm.updbtf(input);
-        } dbtdh (IllfgblStbtfExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        try {
+        try {
+        try {
+        try {
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm input
-     * @throws XMLSignbturfExdfption
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd void fnginfUpdbtf(bytf input) throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfUpdbtf(bytf input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf input) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf input) tirows XMLSignbturfExdfption {
         try {
-            this.mbdAlgorithm.updbtf(input);
-        } dbtdh (IllfgblStbtfExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        try {
+        try {
+        try {
+        try {
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+            tiis.mbdAlgoritim.updbtf(input);
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm offsft
+     * @pbrbm offsft
+     * @pbrbm offsft
      * @pbrbm offsft
      * @pbrbm lfn
-     * @throws XMLSignbturfExdfption
+     * @pbrbm lfn
+     * @pbrbm lfn
+     * @pbrbm lfn
+     * @pbrbm lfn
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
         try {
-            this.mbdAlgorithm.updbtf(buf, offsft, lfn);
-        } dbtdh (IllfgblStbtfExdfption fx) {
-            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        try {
+        try {
+        try {
+        try {
+            tiis.mbdAlgoritim.updbtf(buf, offsft, lfn);
+            tiis.mbdAlgoritim.updbtf(buf, offsft, lfn);
+            tiis.mbdAlgoritim.updbtf(buf, offsft, lfn);
+            tiis.mbdAlgoritim.updbtf(buf, offsft, lfn);
+            tiis.mbdAlgoritim.updbtf(buf, offsft, lfn);
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+        } dbtdi (IllfgblStbtfExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        }
+        }
+        }
         }
     }
-
-    /**
-     * Mfthod fnginfGftJCEAlgorithmString
-     * @inhfritDod
-     *
-     */
-    protfdtfd String fnginfGftJCEAlgorithmString() {
-        rfturn this.mbdAlgorithm.gftAlgorithm();
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mfthod fnginfGftJCEAlgorithmString
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     * @inifritDod
+     * @inifritDod
+     * @inifritDod
+     * @inifritDod
+     * @inifritDod
      *
-     * @inhfritDod
+     *
+     *
+     *
+     *
+     */
+     */
+     */
+     */
+     */
+    protfdtfd String fnginfGftJCEAlgoritimString() {
+    protfdtfd String fnginfGftJCEAlgoritimString() {
+    protfdtfd String fnginfGftJCEAlgoritimString() {
+    protfdtfd String fnginfGftJCEAlgoritimString() {
+    protfdtfd String fnginfGftJCEAlgoritimString() {
+        rfturn tiis.mbdAlgoritim.gftAlgoritim();
+        rfturn tiis.mbdAlgoritim.gftAlgoritim();
+        rfturn tiis.mbdAlgoritim.gftAlgoritim();
+        rfturn tiis.mbdAlgoritim.gftAlgoritim();
+        rfturn tiis.mbdAlgoritim.gftAlgoritim();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     * Mftiod fnginfGftJCEAlgoritimString
+     *
+     *
+     *
+     *
+     *
+     * @inifritDod
+     * @inifritDod
+     * @inifritDod
+     * @inifritDod
+     * @inifritDod
+     */
+     */
+     */
+     */
      */
     protfdtfd String fnginfGftJCEProvidfrNbmf() {
-        rfturn this.mbdAlgorithm.gftProvidfr().gftNbmf();
+    protfdtfd String fnginfGftJCEProvidfrNbmf() {
+    protfdtfd String fnginfGftJCEProvidfrNbmf() {
+    protfdtfd String fnginfGftJCEProvidfrNbmf() {
+    protfdtfd String fnginfGftJCEProvidfrNbmf() {
+        rfturn tiis.mbdAlgoritim.gftProvidfr().gftNbmf();
+        rfturn tiis.mbdAlgoritim.gftProvidfr().gftNbmf();
+        rfturn tiis.mbdAlgoritim.gftProvidfr().gftNbmf();
+        rfturn tiis.mbdAlgoritim.gftProvidfr().gftNbmf();
+        rfturn tiis.mbdAlgoritim.gftProvidfr().gftNbmf();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mfthod fnginfSftHMACOutputLfngth
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfSftHMACOutputLfngti
+     * Mftiod fnginfSftHMACOutputLfngti
+     * Mftiod fnginfSftHMACOutputLfngti
+     * Mftiod fnginfSftHMACOutputLfngti
+     * Mftiod fnginfSftHMACOutputLfngti
      *
-     * @pbrbm HMACOutputLfngth
+     *
+     *
+     *
+     *
+     * @pbrbm HMACOutputLfngti
+     * @pbrbm HMACOutputLfngti
+     * @pbrbm HMACOutputLfngti
+     * @pbrbm HMACOutputLfngti
+     * @pbrbm HMACOutputLfngti
      */
-    protfdtfd void fnginfSftHMACOutputLfngth(int HMACOutputLfngth) {
-        this.HMACOutputLfngth = HMACOutputLfngth;
-        this.HMACOutputLfngthSft = truf;
+     */
+     */
+     */
+     */
+    protfdtfd void fnginfSftHMACOutputLfngti(int HMACOutputLfngti) {
+    protfdtfd void fnginfSftHMACOutputLfngti(int HMACOutputLfngti) {
+    protfdtfd void fnginfSftHMACOutputLfngti(int HMACOutputLfngti) {
+    protfdtfd void fnginfSftHMACOutputLfngti(int HMACOutputLfngti) {
+    protfdtfd void fnginfSftHMACOutputLfngti(int HMACOutputLfngti) {
+        tiis.HMACOutputLfngti = HMACOutputLfngti;
+        tiis.HMACOutputLfngti = HMACOutputLfngti;
+        tiis.HMACOutputLfngti = HMACOutputLfngti;
+        tiis.HMACOutputLfngti = HMACOutputLfngti;
+        tiis.HMACOutputLfngti = HMACOutputLfngti;
+        tiis.HMACOutputLfngtiSft = truf;
+        tiis.HMACOutputLfngtiSft = truf;
+        tiis.HMACOutputLfngtiSft = truf;
+        tiis.HMACOutputLfngtiSft = truf;
+        tiis.HMACOutputLfngtiSft = truf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mfthod fnginfGftContfxtFromElfmfnt
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfGftContfxtFromElfmfnt
+     * Mftiod fnginfGftContfxtFromElfmfnt
+     * Mftiod fnginfGftContfxtFromElfmfnt
+     * Mftiod fnginfGftContfxtFromElfmfnt
+     * Mftiod fnginfGftContfxtFromElfmfnt
+     *
+     *
+     *
+     *
      *
      * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     */
+     */
+     */
+     */
      */
     protfdtfd void fnginfGftContfxtFromElfmfnt(Elfmfnt flfmfnt) {
+    protfdtfd void fnginfGftContfxtFromElfmfnt(Elfmfnt flfmfnt) {
+    protfdtfd void fnginfGftContfxtFromElfmfnt(Elfmfnt flfmfnt) {
+    protfdtfd void fnginfGftContfxtFromElfmfnt(Elfmfnt flfmfnt) {
+    protfdtfd void fnginfGftContfxtFromElfmfnt(Elfmfnt flfmfnt) {
+        supfr.fnginfGftContfxtFromElfmfnt(flfmfnt);
+        supfr.fnginfGftContfxtFromElfmfnt(flfmfnt);
+        supfr.fnginfGftContfxtFromElfmfnt(flfmfnt);
+        supfr.fnginfGftContfxtFromElfmfnt(flfmfnt);
         supfr.fnginfGftContfxtFromElfmfnt(flfmfnt);
 
+
+
+
+
         if (flfmfnt == null) {
-            throw nfw IllfgblArgumfntExdfption("flfmfnt null");
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+            tirow nfw IllfgblArgumfntExdfption("flfmfnt null");
+            tirow nfw IllfgblArgumfntExdfption("flfmfnt null");
+            tirow nfw IllfgblArgumfntExdfption("flfmfnt null");
+            tirow nfw IllfgblArgumfntExdfption("flfmfnt null");
+            tirow nfw IllfgblArgumfntExdfption("flfmfnt null");
+        }
+        }
+        }
+        }
         }
 
-        Tfxt hmbdlfngth =
-            XMLUtils.sflfdtDsNodfTfxt(flfmfnt.gftFirstChild(), Constbnts._TAG_HMACOUTPUTLENGTH, 0);
 
-        if (hmbdlfngth != null) {
-            this.HMACOutputLfngth = Intfgfr.pbrsfInt(hmbdlfngth.gftDbtb());
-            this.HMACOutputLfngthSft = truf;
+
+
+
+        Tfxt imbdlfngti =
+        Tfxt imbdlfngti =
+        Tfxt imbdlfngti =
+        Tfxt imbdlfngti =
+        Tfxt imbdlfngti =
+            XMLUtils.sflfdtDsNodfTfxt(flfmfnt.gftFirstCiild(), Constbnts._TAG_HMACOUTPUTLENGTH, 0);
+            XMLUtils.sflfdtDsNodfTfxt(flfmfnt.gftFirstCiild(), Constbnts._TAG_HMACOUTPUTLENGTH, 0);
+            XMLUtils.sflfdtDsNodfTfxt(flfmfnt.gftFirstCiild(), Constbnts._TAG_HMACOUTPUTLENGTH, 0);
+            XMLUtils.sflfdtDsNodfTfxt(flfmfnt.gftFirstCiild(), Constbnts._TAG_HMACOUTPUTLENGTH, 0);
+            XMLUtils.sflfdtDsNodfTfxt(flfmfnt.gftFirstCiild(), Constbnts._TAG_HMACOUTPUTLENGTH, 0);
+
+
+
+
+
+        if (imbdlfngti != null) {
+        if (imbdlfngti != null) {
+        if (imbdlfngti != null) {
+        if (imbdlfngti != null) {
+        if (imbdlfngti != null) {
+            tiis.HMACOutputLfngti = Intfgfr.pbrsfInt(imbdlfngti.gftDbtb());
+            tiis.HMACOutputLfngti = Intfgfr.pbrsfInt(imbdlfngti.gftDbtb());
+            tiis.HMACOutputLfngti = Intfgfr.pbrsfInt(imbdlfngti.gftDbtb());
+            tiis.HMACOutputLfngti = Intfgfr.pbrsfInt(imbdlfngti.gftDbtb());
+            tiis.HMACOutputLfngti = Intfgfr.pbrsfInt(imbdlfngti.gftDbtb());
+            tiis.HMACOutputLfngtiSft = truf;
+            tiis.HMACOutputLfngtiSft = truf;
+            tiis.HMACOutputLfngtiSft = truf;
+            tiis.HMACOutputLfngtiSft = truf;
+            tiis.HMACOutputLfngtiSft = truf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Mfthod fnginfAddContfxtToElfmfnt
+    /**
+    /**
+    /**
+    /**
+     * Mftiod fnginfAddContfxtToElfmfnt
+     * Mftiod fnginfAddContfxtToElfmfnt
+     * Mftiod fnginfAddContfxtToElfmfnt
+     * Mftiod fnginfAddContfxtToElfmfnt
+     * Mftiod fnginfAddContfxtToElfmfnt
+     *
+     *
+     *
+     *
      *
      * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     */
+     */
+     */
+     */
      */
     publid void fnginfAddContfxtToElfmfnt(Elfmfnt flfmfnt) {
+    publid void fnginfAddContfxtToElfmfnt(Elfmfnt flfmfnt) {
+    publid void fnginfAddContfxtToElfmfnt(Elfmfnt flfmfnt) {
+    publid void fnginfAddContfxtToElfmfnt(Elfmfnt flfmfnt) {
+    publid void fnginfAddContfxtToElfmfnt(Elfmfnt flfmfnt) {
         if (flfmfnt == null) {
-            throw nfw IllfgblArgumfntExdfption("null flfmfnt");
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+            tirow nfw IllfgblArgumfntExdfption("null flfmfnt");
+            tirow nfw IllfgblArgumfntExdfption("null flfmfnt");
+            tirow nfw IllfgblArgumfntExdfption("null flfmfnt");
+            tirow nfw IllfgblArgumfntExdfption("null flfmfnt");
+            tirow nfw IllfgblArgumfntExdfption("null flfmfnt");
+        }
+        }
+        }
+        }
         }
 
-        if (this.HMACOutputLfngthSft) {
+
+
+
+
+        if (tiis.HMACOutputLfngtiSft) {
+        if (tiis.HMACOutputLfngtiSft) {
+        if (tiis.HMACOutputLfngtiSft) {
+        if (tiis.HMACOutputLfngtiSft) {
+        if (tiis.HMACOutputLfngtiSft) {
+            Dodumfnt dod = flfmfnt.gftOwnfrDodumfnt();
+            Dodumfnt dod = flfmfnt.gftOwnfrDodumfnt();
+            Dodumfnt dod = flfmfnt.gftOwnfrDodumfnt();
+            Dodumfnt dod = flfmfnt.gftOwnfrDodumfnt();
             Dodumfnt dod = flfmfnt.gftOwnfrDodumfnt();
             Elfmfnt HMElfm =
+            Elfmfnt HMElfm =
+            Elfmfnt HMElfm =
+            Elfmfnt HMElfm =
+            Elfmfnt HMElfm =
+                XMLUtils.drfbtfElfmfntInSignbturfSpbdf(dod, Constbnts._TAG_HMACOUTPUTLENGTH);
+                XMLUtils.drfbtfElfmfntInSignbturfSpbdf(dod, Constbnts._TAG_HMACOUTPUTLENGTH);
+                XMLUtils.drfbtfElfmfntInSignbturfSpbdf(dod, Constbnts._TAG_HMACOUTPUTLENGTH);
+                XMLUtils.drfbtfElfmfntInSignbturfSpbdf(dod, Constbnts._TAG_HMACOUTPUTLENGTH);
                 XMLUtils.drfbtfElfmfntInSignbturfSpbdf(dod, Constbnts._TAG_HMACOUTPUTLENGTH);
             Tfxt HMTfxt =
-                dod.drfbtfTfxtNodf(Intfgfr.vblufOf(this.HMACOutputLfngth).toString());
+            Tfxt HMTfxt =
+            Tfxt HMTfxt =
+            Tfxt HMTfxt =
+            Tfxt HMTfxt =
+                dod.drfbtfTfxtNodf(Intfgfr.vblufOf(tiis.HMACOutputLfngti).toString());
+                dod.drfbtfTfxtNodf(Intfgfr.vblufOf(tiis.HMACOutputLfngti).toString());
+                dod.drfbtfTfxtNodf(Intfgfr.vblufOf(tiis.HMACOutputLfngti).toString());
+                dod.drfbtfTfxtNodf(Intfgfr.vblufOf(tiis.HMACOutputLfngti).toString());
+                dod.drfbtfTfxtNodf(Intfgfr.vblufOf(tiis.HMACOutputLfngti).toString());
 
-            HMElfm.bppfndChild(HMTfxt);
+
+
+
+
+            HMElfm.bppfndCiild(HMTfxt);
+            HMElfm.bppfndCiild(HMTfxt);
+            HMElfm.bppfndCiild(HMTfxt);
+            HMElfm.bppfndCiild(HMTfxt);
+            HMElfm.bppfndCiild(HMTfxt);
             XMLUtils.bddRfturnToElfmfnt(flfmfnt);
-            flfmfnt.bppfndChild(HMElfm);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
+            flfmfnt.bppfndCiild(HMElfm);
+            flfmfnt.bppfndCiild(HMElfm);
+            flfmfnt.bppfndCiild(HMElfm);
+            flfmfnt.bppfndCiild(HMElfm);
+            flfmfnt.bppfndCiild(HMElfm);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
+            XMLUtils.bddRfturnToElfmfnt(flfmfnt);
             XMLUtils.bddRfturnToElfmfnt(flfmfnt);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Clbss IntfgrityHmbdSHA1
+     * Clbss IntfgrityHmbdSHA1
+     * Clbss IntfgrityHmbdSHA1
+     * Clbss IntfgrityHmbdSHA1
+     * Clbss IntfgrityHmbdSHA1
+     */
+     */
+     */
+     */
      */
     publid stbtid dlbss IntfgrityHmbdSHA1 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA1 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA1 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA1 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA1 fxtfnds IntfgrityHmbd {
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Construdtor IntfgrityHmbdSHA1
+         * Construdtor IntfgrityHmbdSHA1
+         * Construdtor IntfgrityHmbdSHA1
+         * Construdtor IntfgrityHmbdSHA1
+         * Construdtor IntfgrityHmbdSHA1
          *
-         * @throws XMLSignbturfExdfption
+         *
+         *
+         *
+         *
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
          */
-        publid IntfgrityHmbdSHA1() throws XMLSignbturfExdfption {
+         */
+         */
+         */
+         */
+        publid IntfgrityHmbdSHA1() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA1() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA1() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA1() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA1() tirows XMLSignbturfExdfption {
+            supfr();
+            supfr();
+            supfr();
+            supfr();
             supfr();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Mfthod fnginfGftURI
-         * @inhfritDod
+        /**
+        /**
+        /**
+        /**
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         *
+         *
+         *
+         *
          *
          */
+         */
+         */
+         */
+         */
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
         publid String fnginfGftURI() {
             rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1;
+        }
+        }
+        }
+        }
         }
 
-        int gftDigfstLfngth() {
+
+
+
+
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+            rfturn 160;
+            rfturn 160;
+            rfturn 160;
+            rfturn 160;
             rfturn 160;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Clbss IntfgrityHmbdSHA256
+     * Clbss IntfgrityHmbdSHA256
+     * Clbss IntfgrityHmbdSHA256
+     * Clbss IntfgrityHmbdSHA256
+     * Clbss IntfgrityHmbdSHA256
+     */
+     */
+     */
+     */
      */
     publid stbtid dlbss IntfgrityHmbdSHA256 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA256 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA256 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA256 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA256 fxtfnds IntfgrityHmbd {
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Construdtor IntfgrityHmbdSHA256
+         * Construdtor IntfgrityHmbdSHA256
+         * Construdtor IntfgrityHmbdSHA256
+         * Construdtor IntfgrityHmbdSHA256
+         * Construdtor IntfgrityHmbdSHA256
          *
-         * @throws XMLSignbturfExdfption
+         *
+         *
+         *
+         *
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
          */
-        publid IntfgrityHmbdSHA256() throws XMLSignbturfExdfption {
+         */
+         */
+         */
+         */
+        publid IntfgrityHmbdSHA256() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA256() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA256() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA256() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA256() tirows XMLSignbturfExdfption {
+            supfr();
+            supfr();
+            supfr();
+            supfr();
             supfr();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Mfthod fnginfGftURI
+        /**
+        /**
+        /**
+        /**
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
          *
-         * @inhfritDod
+         *
+         *
+         *
+         *
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
          */
+         */
+         */
+         */
+         */
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
         publid String fnginfGftURI() {
             rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256;
+        }
+        }
+        }
+        }
         }
 
-        int gftDigfstLfngth() {
+
+
+
+
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+            rfturn 256;
+            rfturn 256;
+            rfturn 256;
+            rfturn 256;
             rfturn 256;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Clbss IntfgrityHmbdSHA384
+     * Clbss IntfgrityHmbdSHA384
+     * Clbss IntfgrityHmbdSHA384
+     * Clbss IntfgrityHmbdSHA384
+     * Clbss IntfgrityHmbdSHA384
+     */
+     */
+     */
+     */
      */
     publid stbtid dlbss IntfgrityHmbdSHA384 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA384 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA384 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA384 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA384 fxtfnds IntfgrityHmbd {
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Construdtor IntfgrityHmbdSHA384
+         * Construdtor IntfgrityHmbdSHA384
+         * Construdtor IntfgrityHmbdSHA384
+         * Construdtor IntfgrityHmbdSHA384
+         * Construdtor IntfgrityHmbdSHA384
          *
-         * @throws XMLSignbturfExdfption
+         *
+         *
+         *
+         *
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
          */
-        publid IntfgrityHmbdSHA384() throws XMLSignbturfExdfption {
+         */
+         */
+         */
+         */
+        publid IntfgrityHmbdSHA384() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA384() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA384() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA384() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA384() tirows XMLSignbturfExdfption {
+            supfr();
+            supfr();
+            supfr();
+            supfr();
             supfr();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Mfthod fnginfGftURI
-         * @inhfritDod
+        /**
+        /**
+        /**
+        /**
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         *
+         *
+         *
+         *
          *
          */
+         */
+         */
+         */
+         */
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
         publid String fnginfGftURI() {
             rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384;
+        }
+        }
+        }
+        }
         }
 
-        int gftDigfstLfngth() {
+
+
+
+
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+            rfturn 384;
+            rfturn 384;
+            rfturn 384;
+            rfturn 384;
             rfturn 384;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Clbss IntfgrityHmbdSHA512
+     * Clbss IntfgrityHmbdSHA512
+     * Clbss IntfgrityHmbdSHA512
+     * Clbss IntfgrityHmbdSHA512
+     * Clbss IntfgrityHmbdSHA512
+     */
+     */
+     */
+     */
      */
     publid stbtid dlbss IntfgrityHmbdSHA512 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA512 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA512 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA512 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdSHA512 fxtfnds IntfgrityHmbd {
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Construdtor IntfgrityHmbdSHA512
+         * Construdtor IntfgrityHmbdSHA512
+         * Construdtor IntfgrityHmbdSHA512
+         * Construdtor IntfgrityHmbdSHA512
+         * Construdtor IntfgrityHmbdSHA512
          *
-         * @throws XMLSignbturfExdfption
+         *
+         *
+         *
+         *
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
          */
-        publid IntfgrityHmbdSHA512() throws XMLSignbturfExdfption {
+         */
+         */
+         */
+         */
+        publid IntfgrityHmbdSHA512() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA512() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA512() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA512() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdSHA512() tirows XMLSignbturfExdfption {
+            supfr();
+            supfr();
+            supfr();
+            supfr();
             supfr();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Mfthod fnginfGftURI
-         * @inhfritDod
+        /**
+        /**
+        /**
+        /**
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         *
+         *
+         *
+         *
          *
          */
+         */
+         */
+         */
+         */
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
         publid String fnginfGftURI() {
             rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512;
+        }
+        }
+        }
+        }
         }
 
-        int gftDigfstLfngth() {
+
+
+
+
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+            rfturn 512;
+            rfturn 512;
+            rfturn 512;
+            rfturn 512;
             rfturn 512;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Clbss IntfgrityHmbdRIPEMD160
+     * Clbss IntfgrityHmbdRIPEMD160
+     * Clbss IntfgrityHmbdRIPEMD160
+     * Clbss IntfgrityHmbdRIPEMD160
+     * Clbss IntfgrityHmbdRIPEMD160
+     */
+     */
+     */
+     */
      */
     publid stbtid dlbss IntfgrityHmbdRIPEMD160 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdRIPEMD160 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdRIPEMD160 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdRIPEMD160 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdRIPEMD160 fxtfnds IntfgrityHmbd {
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Construdtor IntfgrityHmbdRIPEMD160
+         * Construdtor IntfgrityHmbdRIPEMD160
+         * Construdtor IntfgrityHmbdRIPEMD160
+         * Construdtor IntfgrityHmbdRIPEMD160
+         * Construdtor IntfgrityHmbdRIPEMD160
          *
-         * @throws XMLSignbturfExdfption
+         *
+         *
+         *
+         *
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
          */
-        publid IntfgrityHmbdRIPEMD160() throws XMLSignbturfExdfption {
+         */
+         */
+         */
+         */
+        publid IntfgrityHmbdRIPEMD160() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdRIPEMD160() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdRIPEMD160() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdRIPEMD160() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdRIPEMD160() tirows XMLSignbturfExdfption {
+            supfr();
+            supfr();
+            supfr();
+            supfr();
             supfr();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Mfthod fnginfGftURI
+        /**
+        /**
+        /**
+        /**
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
          *
-         * @inhfritDod
+         *
+         *
+         *
+         *
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
          */
+         */
+         */
+         */
+         */
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
         publid String fnginfGftURI() {
             rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160;
+        }
+        }
+        }
+        }
         }
 
-        int gftDigfstLfngth() {
+
+
+
+
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+            rfturn 160;
+            rfturn 160;
+            rfturn 160;
+            rfturn 160;
             rfturn 160;
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Clbss IntfgrityHmbdMD5
+     * Clbss IntfgrityHmbdMD5
+     * Clbss IntfgrityHmbdMD5
+     * Clbss IntfgrityHmbdMD5
      * Clbss IntfgrityHmbdMD5
      */
+     */
+     */
+     */
+     */
+    publid stbtid dlbss IntfgrityHmbdMD5 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdMD5 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdMD5 fxtfnds IntfgrityHmbd {
+    publid stbtid dlbss IntfgrityHmbdMD5 fxtfnds IntfgrityHmbd {
     publid stbtid dlbss IntfgrityHmbdMD5 fxtfnds IntfgrityHmbd {
 
+
+
+
+
+        /**
+        /**
+        /**
+        /**
         /**
          * Construdtor IntfgrityHmbdMD5
+         * Construdtor IntfgrityHmbdMD5
+         * Construdtor IntfgrityHmbdMD5
+         * Construdtor IntfgrityHmbdMD5
+         * Construdtor IntfgrityHmbdMD5
          *
-         * @throws XMLSignbturfExdfption
+         *
+         *
+         *
+         *
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
+         * @tirows XMLSignbturfExdfption
          */
-        publid IntfgrityHmbdMD5() throws XMLSignbturfExdfption {
+         */
+         */
+         */
+         */
+        publid IntfgrityHmbdMD5() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdMD5() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdMD5() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdMD5() tirows XMLSignbturfExdfption {
+        publid IntfgrityHmbdMD5() tirows XMLSignbturfExdfption {
+            supfr();
+            supfr();
+            supfr();
+            supfr();
             supfr();
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Mfthod fnginfGftURI
+        /**
+        /**
+        /**
+        /**
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
+         * Mftiod fnginfGftURI
          *
-         * @inhfritDod
+         *
+         *
+         *
+         *
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         * @inifritDod
+         */
+         */
+         */
+         */
          */
         publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5;
+            rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5;
             rfturn XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5;
         }
+        }
+        }
+        }
+        }
 
-        int gftDigfstLfngth() {
+
+
+
+
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+        int gftDigfstLfngti() {
+            rfturn 128;
+            rfturn 128;
+            rfturn 128;
+            rfturn 128;
             rfturn 128;
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

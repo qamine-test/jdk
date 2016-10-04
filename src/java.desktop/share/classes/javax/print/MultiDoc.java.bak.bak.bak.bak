@@ -1,136 +1,680 @@
 /*
- * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvbx.print;
-
-import jbvb.io.IOExdfption;
-
-/**
- * Intfrfbdf MultiDod spfdififs thf intfrfbdf for bn objfdt thbt supplifs morf
- * thbn onf pifdf of print dbtb for b Print Job. "Dod" is b short,
- * fbsy-to-pronoundf tfrm thbt mfbns "b pifdf of print dbtb," bnd b "multidod"
- * is b group of sfvfrbl dods. Thf dlifnt pbssfs to thf Print Job bn objfdt
- * thbt implfmfnts intfrfbdf MultiDod, bnd thf Print Job dblls mfthods on
- *  thbt objfdt to obtbin thf print dbtb.
- * <P>
- * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
- * dods. A multidod objfdt is likf b nodf in thf linkfd list, dontbining thf
- * durrfnt dod in thf list bnd b pointfr to thf nfxt nodf (multidod) in thf
- * list. Thf Print Job dbn dbll thf multidod's {@link #gftDod()
- * gftDod()} mfthod to gft thf durrfnt dod. Whfn it's rfbdy to go
- * on to thf nfxt dod, thf Print Job dbn dbll thf multidod's {@link #nfxt()
- * nfxt()} mfthod to gft thf nfxt multidod, whidh dontbins thf
- * nfxt dod. So Print Job dodf for bddfssing b multidod might look likf this:
- * <PRE>
- *      void prodfssMultiDod(MultiDod thfMultiDod) {
- *
- *          MultiDod durrfnt = thfMultiDod;
-
- *          whilf (durrfnt != null) {
- *              prodfssDod (durrfnt.gftDod());
- *              durrfnt = durrfnt.nfxt();
- *          }
- *      }
- * </PRE>
- * <P>
- * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby thbt fulfills
- * thf dontrbdt; it dofsn't hbvf to usf b linkfd list in thf implfmfntbtion.
- * <P>
- * To gft bll thf print dbtb for b multidod print job, b Print Sfrvidf
- * proxy dould usf fithfr of two pbttfrns:
- * <OL TYPE=1>
- * <LI>
- * Thf <B>intfrlfbvfd</B> pbttfrn: Gft thf dod from thf durrfnt multidod. Gft
- * thf print dbtb rfprfsfntbtion objfdt from thf durrfnt dod. Gft bll thf print
- * dbtb from thf print dbtb rfprfsfntbtion objfdt. Gft thf nfxt multidod from
- * thf durrfnt multidod, bnd rfpfbt until thfrf brf no morf. (Thf dodf fxbmplf
- * bbovf usfs thf intfrlfbvfd pbttfrn.)
- *
- * <LI>
- * Thf <B>bll-bt-ondf</B> pbttfrn: Gft thf dod from thf durrfnt multidod, bnd
- * sbvf thf dod in b list. Gft thf nfxt multidod from thf durrfnt multidod, bnd
- * rfpfbt until thfrf brf no morf. Thfn itfrbtf ovfr thf list of sbvfd dods. Gft
- * thf print dbtb rfprfsfntbtion objfdt from thf durrfnt dod. Gft bll thf print
- * dbtb from thf print dbtb rfprfsfntbtion objfdt. Go to thf nfxt dod in thf
- * list, bnd rfpfbt until thfrf brf no morf.
- * </OL>
- * Now, donsidfr b printing dlifnt thbt is gfnfrbting print dbtb on thf fly bnd
- * dofs not hbvf thf rfsourdfs to storf morf thbn onf pifdf of print dbtb bt b
- * timf. If thf print sfrvidf proxy usfd thf bll-bt-ondf pbttfrn to gft thf
- * print dbtb, it would posf b problfm for sudh b dlifnt; thf dlifnt would hbvf
- * to kffp bll thf dods' print dbtb bround until thf print sfrvidf proxy domfs
- * bbdk bnd bsks for thfm, whidh thf dlifnt is not bblf to do. To work with sudh
- * b dlifnt, thf print sfrvidf proxy must usf thf intfrlfbvfd pbttfrn.
- * <P>
- * To bddrfss this problfm, bnd to simplify thf dfsign of dlifnts providing
-* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy thbt supports
- * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using thf
- * intfrlfbvfd pbttfrn. Thbt is, givfn b MultiDod objfdt, thf print sfrvidf
- * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
- * until it suddfssfully obtbins thf durrfnt Dod objfdt. Thf print sfrvidf proxy
- * will thfn obtbin thf durrfnt dod's print dbtb, not prodffding until bll thf
- * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
- * dontinuf, thf print sfrvidf proxy will thfn dbll {@link #nfxt()
- * nfxt()} onf or morf timfs until it suddfssfully obtbins fithfr
- * thf nfxt MultiDod objfdt or bn indidbtion thbt thfrf brf no morf. An
- * implfmfntbtion of intfrfbdf MultiDod dbn bssumf thf print sfrvidf proxy will
- * follow this intfrlfbvfd pbttfrn; for bny othfr pbttfrn of usbgf, thf MultiDod
- * implfmfntbtion's bfhbvior is unspfdififd.
- * <P>
- * Thfrf is no rfstridtion on thf numbfr of dlifnt thrfbds thbt mby bf
- * simultbnfously bddfssing thf sbmf multidod. Thfrfforf, bll implfmfntbtions of
- * intfrfbdf MultiDod must bf dfsignfd to bf multiplf thrfbd sbff. In fbdt, b
- * dlifnt thrfbd dould bf bdding dods to thf fnd of thf (dondfptubl) list whilf
- * b Print Job thrfbd is simultbnfously obtbining dods from thf bfginning of thf
- * list; providfd thf multidod objfdt syndhronizfs thf thrfbds propfrly, thf two
- * thrfbds will not intfrffrf with fbdh othfr
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvbx.print;
+pbdkbgf jbvbx.print;
+pbdkbgf jbvbx.print;
+pbdkbgf jbvbx.print;
+pbdkbgf jbvbx.print;
+
+
+
+
+
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Intfrfbdf MultiDod spfdififs tif intfrfbdf for bn objfdt tibt supplifs morf
+ * Intfrfbdf MultiDod spfdififs tif intfrfbdf for bn objfdt tibt supplifs morf
+ * Intfrfbdf MultiDod spfdififs tif intfrfbdf for bn objfdt tibt supplifs morf
+ * Intfrfbdf MultiDod spfdififs tif intfrfbdf for bn objfdt tibt supplifs morf
+ * Intfrfbdf MultiDod spfdififs tif intfrfbdf for bn objfdt tibt supplifs morf
+ * tibn onf pifdf of print dbtb for b Print Job. "Dod" is b siort,
+ * tibn onf pifdf of print dbtb for b Print Job. "Dod" is b siort,
+ * tibn onf pifdf of print dbtb for b Print Job. "Dod" is b siort,
+ * tibn onf pifdf of print dbtb for b Print Job. "Dod" is b siort,
+ * tibn onf pifdf of print dbtb for b Print Job. "Dod" is b siort,
+ * fbsy-to-pronoundf tfrm tibt mfbns "b pifdf of print dbtb," bnd b "multidod"
+ * fbsy-to-pronoundf tfrm tibt mfbns "b pifdf of print dbtb," bnd b "multidod"
+ * fbsy-to-pronoundf tfrm tibt mfbns "b pifdf of print dbtb," bnd b "multidod"
+ * fbsy-to-pronoundf tfrm tibt mfbns "b pifdf of print dbtb," bnd b "multidod"
+ * fbsy-to-pronoundf tfrm tibt mfbns "b pifdf of print dbtb," bnd b "multidod"
+ * is b group of sfvfrbl dods. Tif dlifnt pbssfs to tif Print Job bn objfdt
+ * is b group of sfvfrbl dods. Tif dlifnt pbssfs to tif Print Job bn objfdt
+ * is b group of sfvfrbl dods. Tif dlifnt pbssfs to tif Print Job bn objfdt
+ * is b group of sfvfrbl dods. Tif dlifnt pbssfs to tif Print Job bn objfdt
+ * is b group of sfvfrbl dods. Tif dlifnt pbssfs to tif Print Job bn objfdt
+ * tibt implfmfnts intfrfbdf MultiDod, bnd tif Print Job dblls mftiods on
+ * tibt implfmfnts intfrfbdf MultiDod, bnd tif Print Job dblls mftiods on
+ * tibt implfmfnts intfrfbdf MultiDod, bnd tif Print Job dblls mftiods on
+ * tibt implfmfnts intfrfbdf MultiDod, bnd tif Print Job dblls mftiods on
+ * tibt implfmfnts intfrfbdf MultiDod, bnd tif Print Job dblls mftiods on
+ *  tibt objfdt to obtbin tif print dbtb.
+ *  tibt objfdt to obtbin tif print dbtb.
+ *  tibt objfdt to obtbin tif print dbtb.
+ *  tibt objfdt to obtbin tif print dbtb.
+ *  tibt objfdt to obtbin tif print dbtb.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
+ * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
+ * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
+ * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
+ * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
+ * dods. A multidod objfdt is likf b nodf in tif linkfd list, dontbining tif
+ * dods. A multidod objfdt is likf b nodf in tif linkfd list, dontbining tif
+ * dods. A multidod objfdt is likf b nodf in tif linkfd list, dontbining tif
+ * dods. A multidod objfdt is likf b nodf in tif linkfd list, dontbining tif
+ * dods. A multidod objfdt is likf b nodf in tif linkfd list, dontbining tif
+ * durrfnt dod in tif list bnd b pointfr to tif nfxt nodf (multidod) in tif
+ * durrfnt dod in tif list bnd b pointfr to tif nfxt nodf (multidod) in tif
+ * durrfnt dod in tif list bnd b pointfr to tif nfxt nodf (multidod) in tif
+ * durrfnt dod in tif list bnd b pointfr to tif nfxt nodf (multidod) in tif
+ * durrfnt dod in tif list bnd b pointfr to tif nfxt nodf (multidod) in tif
+ * list. Tif Print Job dbn dbll tif multidod's {@link #gftDod()
+ * list. Tif Print Job dbn dbll tif multidod's {@link #gftDod()
+ * list. Tif Print Job dbn dbll tif multidod's {@link #gftDod()
+ * list. Tif Print Job dbn dbll tif multidod's {@link #gftDod()
+ * list. Tif Print Job dbn dbll tif multidod's {@link #gftDod()
+ * gftDod()} mftiod to gft tif durrfnt dod. Wifn it's rfbdy to go
+ * gftDod()} mftiod to gft tif durrfnt dod. Wifn it's rfbdy to go
+ * gftDod()} mftiod to gft tif durrfnt dod. Wifn it's rfbdy to go
+ * gftDod()} mftiod to gft tif durrfnt dod. Wifn it's rfbdy to go
+ * gftDod()} mftiod to gft tif durrfnt dod. Wifn it's rfbdy to go
+ * on to tif nfxt dod, tif Print Job dbn dbll tif multidod's {@link #nfxt()
+ * on to tif nfxt dod, tif Print Job dbn dbll tif multidod's {@link #nfxt()
+ * on to tif nfxt dod, tif Print Job dbn dbll tif multidod's {@link #nfxt()
+ * on to tif nfxt dod, tif Print Job dbn dbll tif multidod's {@link #nfxt()
+ * on to tif nfxt dod, tif Print Job dbn dbll tif multidod's {@link #nfxt()
+ * nfxt()} mftiod to gft tif nfxt multidod, wiidi dontbins tif
+ * nfxt()} mftiod to gft tif nfxt multidod, wiidi dontbins tif
+ * nfxt()} mftiod to gft tif nfxt multidod, wiidi dontbins tif
+ * nfxt()} mftiod to gft tif nfxt multidod, wiidi dontbins tif
+ * nfxt()} mftiod to gft tif nfxt multidod, wiidi dontbins tif
+ * nfxt dod. So Print Job dodf for bddfssing b multidod migit look likf tiis:
+ * nfxt dod. So Print Job dodf for bddfssing b multidod migit look likf tiis:
+ * nfxt dod. So Print Job dodf for bddfssing b multidod migit look likf tiis:
+ * nfxt dod. So Print Job dodf for bddfssing b multidod migit look likf tiis:
+ * nfxt dod. So Print Job dodf for bddfssing b multidod migit look likf tiis:
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ *      void prodfssMultiDod(MultiDod tifMultiDod) {
+ *      void prodfssMultiDod(MultiDod tifMultiDod) {
+ *      void prodfssMultiDod(MultiDod tifMultiDod) {
+ *      void prodfssMultiDod(MultiDod tifMultiDod) {
+ *      void prodfssMultiDod(MultiDod tifMultiDod) {
+ *
+ *
+ *
+ *
+ *
+ *          MultiDod durrfnt = tifMultiDod;
+ *          MultiDod durrfnt = tifMultiDod;
+ *          MultiDod durrfnt = tifMultiDod;
+ *          MultiDod durrfnt = tifMultiDod;
+ *          MultiDod durrfnt = tifMultiDod;
+
+
+
+
+
+ *          wiilf (durrfnt != null) {
+ *          wiilf (durrfnt != null) {
+ *          wiilf (durrfnt != null) {
+ *          wiilf (durrfnt != null) {
+ *          wiilf (durrfnt != null) {
+ *              prodfssDod (durrfnt.gftDod());
+ *              prodfssDod (durrfnt.gftDod());
+ *              prodfssDod (durrfnt.gftDod());
+ *              prodfssDod (durrfnt.gftDod());
+ *              prodfssDod (durrfnt.gftDod());
+ *              durrfnt = durrfnt.nfxt();
+ *              durrfnt = durrfnt.nfxt();
+ *              durrfnt = durrfnt.nfxt();
+ *              durrfnt = durrfnt.nfxt();
+ *              durrfnt = durrfnt.nfxt();
+ *          }
+ *          }
+ *          }
+ *          }
+ *          }
+ *      }
+ *      }
+ *      }
+ *      }
+ *      }
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby tibt fulfills
+ * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby tibt fulfills
+ * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby tibt fulfills
+ * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby tibt fulfills
+ * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby tibt fulfills
+ * tif dontrbdt; it dofsn't ibvf to usf b linkfd list in tif implfmfntbtion.
+ * tif dontrbdt; it dofsn't ibvf to usf b linkfd list in tif implfmfntbtion.
+ * tif dontrbdt; it dofsn't ibvf to usf b linkfd list in tif implfmfntbtion.
+ * tif dontrbdt; it dofsn't ibvf to usf b linkfd list in tif implfmfntbtion.
+ * tif dontrbdt; it dofsn't ibvf to usf b linkfd list in tif implfmfntbtion.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * To gft bll tif print dbtb for b multidod print job, b Print Sfrvidf
+ * To gft bll tif print dbtb for b multidod print job, b Print Sfrvidf
+ * To gft bll tif print dbtb for b multidod print job, b Print Sfrvidf
+ * To gft bll tif print dbtb for b multidod print job, b Print Sfrvidf
+ * To gft bll tif print dbtb for b multidod print job, b Print Sfrvidf
+ * proxy dould usf fitifr of two pbttfrns:
+ * proxy dould usf fitifr of two pbttfrns:
+ * proxy dould usf fitifr of two pbttfrns:
+ * proxy dould usf fitifr of two pbttfrns:
+ * proxy dould usf fitifr of two pbttfrns:
+ * <OL TYPE=1>
+ * <OL TYPE=1>
+ * <OL TYPE=1>
+ * <OL TYPE=1>
+ * <OL TYPE=1>
+ * <LI>
+ * <LI>
+ * <LI>
+ * <LI>
+ * <LI>
+ * Tif <B>intfrlfbvfd</B> pbttfrn: Gft tif dod from tif durrfnt multidod. Gft
+ * Tif <B>intfrlfbvfd</B> pbttfrn: Gft tif dod from tif durrfnt multidod. Gft
+ * Tif <B>intfrlfbvfd</B> pbttfrn: Gft tif dod from tif durrfnt multidod. Gft
+ * Tif <B>intfrlfbvfd</B> pbttfrn: Gft tif dod from tif durrfnt multidod. Gft
+ * Tif <B>intfrlfbvfd</B> pbttfrn: Gft tif dod from tif durrfnt multidod. Gft
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Gft tif nfxt multidod from
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Gft tif nfxt multidod from
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Gft tif nfxt multidod from
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Gft tif nfxt multidod from
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Gft tif nfxt multidod from
+ * tif durrfnt multidod, bnd rfpfbt until tifrf brf no morf. (Tif dodf fxbmplf
+ * tif durrfnt multidod, bnd rfpfbt until tifrf brf no morf. (Tif dodf fxbmplf
+ * tif durrfnt multidod, bnd rfpfbt until tifrf brf no morf. (Tif dodf fxbmplf
+ * tif durrfnt multidod, bnd rfpfbt until tifrf brf no morf. (Tif dodf fxbmplf
+ * tif durrfnt multidod, bnd rfpfbt until tifrf brf no morf. (Tif dodf fxbmplf
+ * bbovf usfs tif intfrlfbvfd pbttfrn.)
+ * bbovf usfs tif intfrlfbvfd pbttfrn.)
+ * bbovf usfs tif intfrlfbvfd pbttfrn.)
+ * bbovf usfs tif intfrlfbvfd pbttfrn.)
+ * bbovf usfs tif intfrlfbvfd pbttfrn.)
+ *
+ *
+ *
+ *
+ *
+ * <LI>
+ * <LI>
+ * <LI>
+ * <LI>
+ * <LI>
+ * Tif <B>bll-bt-ondf</B> pbttfrn: Gft tif dod from tif durrfnt multidod, bnd
+ * Tif <B>bll-bt-ondf</B> pbttfrn: Gft tif dod from tif durrfnt multidod, bnd
+ * Tif <B>bll-bt-ondf</B> pbttfrn: Gft tif dod from tif durrfnt multidod, bnd
+ * Tif <B>bll-bt-ondf</B> pbttfrn: Gft tif dod from tif durrfnt multidod, bnd
+ * Tif <B>bll-bt-ondf</B> pbttfrn: Gft tif dod from tif durrfnt multidod, bnd
+ * sbvf tif dod in b list. Gft tif nfxt multidod from tif durrfnt multidod, bnd
+ * sbvf tif dod in b list. Gft tif nfxt multidod from tif durrfnt multidod, bnd
+ * sbvf tif dod in b list. Gft tif nfxt multidod from tif durrfnt multidod, bnd
+ * sbvf tif dod in b list. Gft tif nfxt multidod from tif durrfnt multidod, bnd
+ * sbvf tif dod in b list. Gft tif nfxt multidod from tif durrfnt multidod, bnd
+ * rfpfbt until tifrf brf no morf. Tifn itfrbtf ovfr tif list of sbvfd dods. Gft
+ * rfpfbt until tifrf brf no morf. Tifn itfrbtf ovfr tif list of sbvfd dods. Gft
+ * rfpfbt until tifrf brf no morf. Tifn itfrbtf ovfr tif list of sbvfd dods. Gft
+ * rfpfbt until tifrf brf no morf. Tifn itfrbtf ovfr tif list of sbvfd dods. Gft
+ * rfpfbt until tifrf brf no morf. Tifn itfrbtf ovfr tif list of sbvfd dods. Gft
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Go to tif nfxt dod in tif
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Go to tif nfxt dod in tif
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Go to tif nfxt dod in tif
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Go to tif nfxt dod in tif
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Go to tif nfxt dod in tif
+ * list, bnd rfpfbt until tifrf brf no morf.
+ * list, bnd rfpfbt until tifrf brf no morf.
+ * list, bnd rfpfbt until tifrf brf no morf.
+ * list, bnd rfpfbt until tifrf brf no morf.
+ * list, bnd rfpfbt until tifrf brf no morf.
+ * </OL>
+ * </OL>
+ * </OL>
+ * </OL>
+ * </OL>
+ * Now, donsidfr b printing dlifnt tibt is gfnfrbting print dbtb on tif fly bnd
+ * Now, donsidfr b printing dlifnt tibt is gfnfrbting print dbtb on tif fly bnd
+ * Now, donsidfr b printing dlifnt tibt is gfnfrbting print dbtb on tif fly bnd
+ * Now, donsidfr b printing dlifnt tibt is gfnfrbting print dbtb on tif fly bnd
+ * Now, donsidfr b printing dlifnt tibt is gfnfrbting print dbtb on tif fly bnd
+ * dofs not ibvf tif rfsourdfs to storf morf tibn onf pifdf of print dbtb bt b
+ * dofs not ibvf tif rfsourdfs to storf morf tibn onf pifdf of print dbtb bt b
+ * dofs not ibvf tif rfsourdfs to storf morf tibn onf pifdf of print dbtb bt b
+ * dofs not ibvf tif rfsourdfs to storf morf tibn onf pifdf of print dbtb bt b
+ * dofs not ibvf tif rfsourdfs to storf morf tibn onf pifdf of print dbtb bt b
+ * timf. If tif print sfrvidf proxy usfd tif bll-bt-ondf pbttfrn to gft tif
+ * timf. If tif print sfrvidf proxy usfd tif bll-bt-ondf pbttfrn to gft tif
+ * timf. If tif print sfrvidf proxy usfd tif bll-bt-ondf pbttfrn to gft tif
+ * timf. If tif print sfrvidf proxy usfd tif bll-bt-ondf pbttfrn to gft tif
+ * timf. If tif print sfrvidf proxy usfd tif bll-bt-ondf pbttfrn to gft tif
+ * print dbtb, it would posf b problfm for sudi b dlifnt; tif dlifnt would ibvf
+ * print dbtb, it would posf b problfm for sudi b dlifnt; tif dlifnt would ibvf
+ * print dbtb, it would posf b problfm for sudi b dlifnt; tif dlifnt would ibvf
+ * print dbtb, it would posf b problfm for sudi b dlifnt; tif dlifnt would ibvf
+ * print dbtb, it would posf b problfm for sudi b dlifnt; tif dlifnt would ibvf
+ * to kffp bll tif dods' print dbtb bround until tif print sfrvidf proxy domfs
+ * to kffp bll tif dods' print dbtb bround until tif print sfrvidf proxy domfs
+ * to kffp bll tif dods' print dbtb bround until tif print sfrvidf proxy domfs
+ * to kffp bll tif dods' print dbtb bround until tif print sfrvidf proxy domfs
+ * to kffp bll tif dods' print dbtb bround until tif print sfrvidf proxy domfs
+ * bbdk bnd bsks for tifm, wiidi tif dlifnt is not bblf to do. To work witi sudi
+ * bbdk bnd bsks for tifm, wiidi tif dlifnt is not bblf to do. To work witi sudi
+ * bbdk bnd bsks for tifm, wiidi tif dlifnt is not bblf to do. To work witi sudi
+ * bbdk bnd bsks for tifm, wiidi tif dlifnt is not bblf to do. To work witi sudi
+ * bbdk bnd bsks for tifm, wiidi tif dlifnt is not bblf to do. To work witi sudi
+ * b dlifnt, tif print sfrvidf proxy must usf tif intfrlfbvfd pbttfrn.
+ * b dlifnt, tif print sfrvidf proxy must usf tif intfrlfbvfd pbttfrn.
+ * b dlifnt, tif print sfrvidf proxy must usf tif intfrlfbvfd pbttfrn.
+ * b dlifnt, tif print sfrvidf proxy must usf tif intfrlfbvfd pbttfrn.
+ * b dlifnt, tif print sfrvidf proxy must usf tif intfrlfbvfd pbttfrn.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * To bddrfss tiis problfm, bnd to simplify tif dfsign of dlifnts providing
+ * To bddrfss tiis problfm, bnd to simplify tif dfsign of dlifnts providing
+ * To bddrfss tiis problfm, bnd to simplify tif dfsign of dlifnts providing
+ * To bddrfss tiis problfm, bnd to simplify tif dfsign of dlifnts providing
+ * To bddrfss tiis problfm, bnd to simplify tif dfsign of dlifnts providing
+* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy tibt supports
+* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy tibt supports
+* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy tibt supports
+* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy tibt supports
+* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy tibt supports
+ * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using tif
+ * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using tif
+ * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using tif
+ * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using tif
+ * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using tif
+ * intfrlfbvfd pbttfrn. Tibt is, givfn b MultiDod objfdt, tif print sfrvidf
+ * intfrlfbvfd pbttfrn. Tibt is, givfn b MultiDod objfdt, tif print sfrvidf
+ * intfrlfbvfd pbttfrn. Tibt is, givfn b MultiDod objfdt, tif print sfrvidf
+ * intfrlfbvfd pbttfrn. Tibt is, givfn b MultiDod objfdt, tif print sfrvidf
+ * intfrlfbvfd pbttfrn. Tibt is, givfn b MultiDod objfdt, tif print sfrvidf
+ * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
+ * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
+ * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
+ * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
+ * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
+ * until it suddfssfully obtbins tif durrfnt Dod objfdt. Tif print sfrvidf proxy
+ * until it suddfssfully obtbins tif durrfnt Dod objfdt. Tif print sfrvidf proxy
+ * until it suddfssfully obtbins tif durrfnt Dod objfdt. Tif print sfrvidf proxy
+ * until it suddfssfully obtbins tif durrfnt Dod objfdt. Tif print sfrvidf proxy
+ * until it suddfssfully obtbins tif durrfnt Dod objfdt. Tif print sfrvidf proxy
+ * will tifn obtbin tif durrfnt dod's print dbtb, not prodffding until bll tif
+ * will tifn obtbin tif durrfnt dod's print dbtb, not prodffding until bll tif
+ * will tifn obtbin tif durrfnt dod's print dbtb, not prodffding until bll tif
+ * will tifn obtbin tif durrfnt dod's print dbtb, not prodffding until bll tif
+ * will tifn obtbin tif durrfnt dod's print dbtb, not prodffding until bll tif
+ * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
+ * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
+ * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
+ * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
+ * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
+ * dontinuf, tif print sfrvidf proxy will tifn dbll {@link #nfxt()
+ * dontinuf, tif print sfrvidf proxy will tifn dbll {@link #nfxt()
+ * dontinuf, tif print sfrvidf proxy will tifn dbll {@link #nfxt()
+ * dontinuf, tif print sfrvidf proxy will tifn dbll {@link #nfxt()
+ * dontinuf, tif print sfrvidf proxy will tifn dbll {@link #nfxt()
+ * nfxt()} onf or morf timfs until it suddfssfully obtbins fitifr
+ * nfxt()} onf or morf timfs until it suddfssfully obtbins fitifr
+ * nfxt()} onf or morf timfs until it suddfssfully obtbins fitifr
+ * nfxt()} onf or morf timfs until it suddfssfully obtbins fitifr
+ * nfxt()} onf or morf timfs until it suddfssfully obtbins fitifr
+ * tif nfxt MultiDod objfdt or bn indidbtion tibt tifrf brf no morf. An
+ * tif nfxt MultiDod objfdt or bn indidbtion tibt tifrf brf no morf. An
+ * tif nfxt MultiDod objfdt or bn indidbtion tibt tifrf brf no morf. An
+ * tif nfxt MultiDod objfdt or bn indidbtion tibt tifrf brf no morf. An
+ * tif nfxt MultiDod objfdt or bn indidbtion tibt tifrf brf no morf. An
+ * implfmfntbtion of intfrfbdf MultiDod dbn bssumf tif print sfrvidf proxy will
+ * implfmfntbtion of intfrfbdf MultiDod dbn bssumf tif print sfrvidf proxy will
+ * implfmfntbtion of intfrfbdf MultiDod dbn bssumf tif print sfrvidf proxy will
+ * implfmfntbtion of intfrfbdf MultiDod dbn bssumf tif print sfrvidf proxy will
+ * implfmfntbtion of intfrfbdf MultiDod dbn bssumf tif print sfrvidf proxy will
+ * follow tiis intfrlfbvfd pbttfrn; for bny otifr pbttfrn of usbgf, tif MultiDod
+ * follow tiis intfrlfbvfd pbttfrn; for bny otifr pbttfrn of usbgf, tif MultiDod
+ * follow tiis intfrlfbvfd pbttfrn; for bny otifr pbttfrn of usbgf, tif MultiDod
+ * follow tiis intfrlfbvfd pbttfrn; for bny otifr pbttfrn of usbgf, tif MultiDod
+ * follow tiis intfrlfbvfd pbttfrn; for bny otifr pbttfrn of usbgf, tif MultiDod
+ * implfmfntbtion's bfibvior is unspfdififd.
+ * implfmfntbtion's bfibvior is unspfdififd.
+ * implfmfntbtion's bfibvior is unspfdififd.
+ * implfmfntbtion's bfibvior is unspfdififd.
+ * implfmfntbtion's bfibvior is unspfdififd.
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * <P>
+ * Tifrf is no rfstridtion on tif numbfr of dlifnt tirfbds tibt mby bf
+ * Tifrf is no rfstridtion on tif numbfr of dlifnt tirfbds tibt mby bf
+ * Tifrf is no rfstridtion on tif numbfr of dlifnt tirfbds tibt mby bf
+ * Tifrf is no rfstridtion on tif numbfr of dlifnt tirfbds tibt mby bf
+ * Tifrf is no rfstridtion on tif numbfr of dlifnt tirfbds tibt mby bf
+ * simultbnfously bddfssing tif sbmf multidod. Tifrfforf, bll implfmfntbtions of
+ * simultbnfously bddfssing tif sbmf multidod. Tifrfforf, bll implfmfntbtions of
+ * simultbnfously bddfssing tif sbmf multidod. Tifrfforf, bll implfmfntbtions of
+ * simultbnfously bddfssing tif sbmf multidod. Tifrfforf, bll implfmfntbtions of
+ * simultbnfously bddfssing tif sbmf multidod. Tifrfforf, bll implfmfntbtions of
+ * intfrfbdf MultiDod must bf dfsignfd to bf multiplf tirfbd sbff. In fbdt, b
+ * intfrfbdf MultiDod must bf dfsignfd to bf multiplf tirfbd sbff. In fbdt, b
+ * intfrfbdf MultiDod must bf dfsignfd to bf multiplf tirfbd sbff. In fbdt, b
+ * intfrfbdf MultiDod must bf dfsignfd to bf multiplf tirfbd sbff. In fbdt, b
+ * intfrfbdf MultiDod must bf dfsignfd to bf multiplf tirfbd sbff. In fbdt, b
+ * dlifnt tirfbd dould bf bdding dods to tif fnd of tif (dondfptubl) list wiilf
+ * dlifnt tirfbd dould bf bdding dods to tif fnd of tif (dondfptubl) list wiilf
+ * dlifnt tirfbd dould bf bdding dods to tif fnd of tif (dondfptubl) list wiilf
+ * dlifnt tirfbd dould bf bdding dods to tif fnd of tif (dondfptubl) list wiilf
+ * dlifnt tirfbd dould bf bdding dods to tif fnd of tif (dondfptubl) list wiilf
+ * b Print Job tirfbd is simultbnfously obtbining dods from tif bfginning of tif
+ * b Print Job tirfbd is simultbnfously obtbining dods from tif bfginning of tif
+ * b Print Job tirfbd is simultbnfously obtbining dods from tif bfginning of tif
+ * b Print Job tirfbd is simultbnfously obtbining dods from tif bfginning of tif
+ * b Print Job tirfbd is simultbnfously obtbining dods from tif bfginning of tif
+ * list; providfd tif multidod objfdt syndironizfs tif tirfbds propfrly, tif two
+ * list; providfd tif multidod objfdt syndironizfs tif tirfbds propfrly, tif two
+ * list; providfd tif multidod objfdt syndironizfs tif tirfbds propfrly, tif two
+ * list; providfd tif multidod objfdt syndironizfs tif tirfbds propfrly, tif two
+ * list; providfd tif multidod objfdt syndironizfs tif tirfbds propfrly, tif two
+ * tirfbds will not intfrffrf witi fbdi otifr
+ * tirfbds will not intfrffrf witi fbdi otifr
+ * tirfbds will not intfrffrf witi fbdi otifr
+ * tirfbds will not intfrffrf witi fbdi otifr
+ * tirfbds will not intfrffrf witi fbdi otifr
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid intfrfbdf MultiDod {
+publid intfrfbdf MultiDod {
+publid intfrfbdf MultiDod {
+publid intfrfbdf MultiDod {
 publid intfrfbdf MultiDod {
 
 
+
+
+
+
+
+
+
+
     /**
-     * Obtbin thf durrfnt dod objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Obtbin tif durrfnt dod objfdt.
+     * Obtbin tif durrfnt dod objfdt.
+     * Obtbin tif durrfnt dod objfdt.
+     * Obtbin tif durrfnt dod objfdt.
+     * Obtbin tif durrfnt dod objfdt.
+     *
+     *
+     *
+     *
      *
      * @rfturn  Currfnt dod objfdt.
+     * @rfturn  Currfnt dod objfdt.
+     * @rfturn  Currfnt dod objfdt.
+     * @rfturn  Currfnt dod objfdt.
+     * @rfturn  Currfnt dod objfdt.
+     *
+     *
+     *
+     *
      *
      * @fxdfption  IOExdfption
-     *     Thrown if b frror oddurrfd rfbding thf dodumfnt.
+     * @fxdfption  IOExdfption
+     * @fxdfption  IOExdfption
+     * @fxdfption  IOExdfption
+     * @fxdfption  IOExdfption
+     *     Tirown if b frror oddurrfd rfbding tif dodumfnt.
+     *     Tirown if b frror oddurrfd rfbding tif dodumfnt.
+     *     Tirown if b frror oddurrfd rfbding tif dodumfnt.
+     *     Tirown if b frror oddurrfd rfbding tif dodumfnt.
+     *     Tirown if b frror oddurrfd rfbding tif dodumfnt.
      */
-    publid Dod gftDod() throws IOExdfption;
+     */
+     */
+     */
+     */
+    publid Dod gftDod() tirows IOExdfption;
+    publid Dod gftDod() tirows IOExdfption;
+    publid Dod gftDod() tirows IOExdfption;
+    publid Dod gftDod() tirows IOExdfption;
+    publid Dod gftDod() tirows IOExdfption;
+
+
+
+
 
     /**
-     * Go to thf multidod objfdt thbt dontbins thf nfxt dod objfdt in thf
+    /**
+    /**
+    /**
+    /**
+     * Go to tif multidod objfdt tibt dontbins tif nfxt dod objfdt in tif
+     * Go to tif multidod objfdt tibt dontbins tif nfxt dod objfdt in tif
+     * Go to tif multidod objfdt tibt dontbins tif nfxt dod objfdt in tif
+     * Go to tif multidod objfdt tibt dontbins tif nfxt dod objfdt in tif
+     * Go to tif multidod objfdt tibt dontbins tif nfxt dod objfdt in tif
+     * sfqufndf of dod objfdts.
+     * sfqufndf of dod objfdts.
+     * sfqufndf of dod objfdts.
+     * sfqufndf of dod objfdts.
      * sfqufndf of dod objfdts.
      *
-     * @rfturn  Multidod objfdt dontbining thf nfxt dod objfdt, or null if
-     * thfrf brf no furthfr dod objfdts.
+     *
+     *
+     *
+     *
+     * @rfturn  Multidod objfdt dontbining tif nfxt dod objfdt, or null if
+     * @rfturn  Multidod objfdt dontbining tif nfxt dod objfdt, or null if
+     * @rfturn  Multidod objfdt dontbining tif nfxt dod objfdt, or null if
+     * @rfturn  Multidod objfdt dontbining tif nfxt dod objfdt, or null if
+     * @rfturn  Multidod objfdt dontbining tif nfxt dod objfdt, or null if
+     * tifrf brf no furtifr dod objfdts.
+     * tifrf brf no furtifr dod objfdts.
+     * tifrf brf no furtifr dod objfdts.
+     * tifrf brf no furtifr dod objfdts.
+     * tifrf brf no furtifr dod objfdts.
+     *
+     *
+     *
+     *
      *
      * @fxdfption  IOExdfption
-     *     Thrown if bn frror oddurrfd lodbting thf nfxt dodumfnt
+     * @fxdfption  IOExdfption
+     * @fxdfption  IOExdfption
+     * @fxdfption  IOExdfption
+     * @fxdfption  IOExdfption
+     *     Tirown if bn frror oddurrfd lodbting tif nfxt dodumfnt
+     *     Tirown if bn frror oddurrfd lodbting tif nfxt dodumfnt
+     *     Tirown if bn frror oddurrfd lodbting tif nfxt dodumfnt
+     *     Tirown if bn frror oddurrfd lodbting tif nfxt dodumfnt
+     *     Tirown if bn frror oddurrfd lodbting tif nfxt dodumfnt
      */
-    publid MultiDod nfxt() throws IOExdfption;
+     */
+     */
+     */
+     */
+    publid MultiDod nfxt() tirows IOExdfption;
+    publid MultiDod nfxt() tirows IOExdfption;
+    publid MultiDod nfxt() tirows IOExdfption;
+    publid MultiDod nfxt() tirows IOExdfption;
+    publid MultiDod nfxt() tirows IOExdfption;
 
+
+
+
+
+}
+}
+}
+}
 }

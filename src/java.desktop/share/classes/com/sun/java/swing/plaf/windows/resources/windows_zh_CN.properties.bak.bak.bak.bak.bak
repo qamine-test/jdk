@@ -1,0 +1,47 @@
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Windows Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
+#
+#    FilfCioosfr
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+#
+# @butior Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=\u67E5\u627E(&I):
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=\u4FDD\u5B58: 
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\u6587\u4EF6\u540D(&N):
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=\u6587\u4EF6\u5939\u540D(&N):
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\u6587\u4EF6\u7C7B\u578B(&T):
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=\u5411\u4E0A\u4E00\u7EA7
+FilfCioosfr.upFoldfrAddfssiblfNbmf=\u5411\u4E0A
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=\u4E3B\u76EE\u5F55
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=\u4E3B\u76EE\u5F55
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=\u521B\u5EFA\u65B0\u6587\u4EF6\u5939
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\u65B0\u5EFA\u6587\u4EF6\u5939
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=\u65B0\u5EFA\u6587\u4EF6\u5939
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=\u5217\u8868
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=\u5217\u8868
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=\u5217\u8868
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=\u8BE6\u7EC6\u4FE1\u606F
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=\u8BE6\u7EC6\u4FE1\u606F
+FilfCioosfr.vifwMfnuButtonToolTipTfxt = \u67E5\u770B\u83DC\u5355
+FilfCioosfr.vifwMfnuButtonAddfssiblfNbmf = \u67E5\u770B\u83DC\u5355
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=\u8BE6\u7EC6\u4FE1\u606F
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=\u5237\u65B0
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=\u89C6\u56FE
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=\u540D\u79F0
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=\u5927\u5C0F
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=\u7C7B\u578B
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u4FEE\u6539\u65E5\u671F
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=\u5C5E\u6027

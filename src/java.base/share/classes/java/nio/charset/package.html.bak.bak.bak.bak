@@ -1,88 +1,440 @@
 <!--
- Copyright (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
- This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- bddompbnifd this dodf).
 
- You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+
+
+
+
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
  qufstions.
 -->
+-->
+-->
+-->
+-->
 
-<!dodtypf html publid "-//IETF//DTD HTML//EN">
-<html>
-<body bgdolor="whitf">
 
 
-Dffinfs dhbrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
-Unidodf dhbrbdtfrs.
 
-<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dhbrsfts, dfdodfrs, bnd fndodfrs in this pbdkbgf">
- <tr><th><p blign="lfft">Clbss nbmf</p></th><th><p blign="lfft">Dfsdription</p></th></tr>
-  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.Chbrsft}</tt></td>
-      <td>A nbmfd mbpping bftwffn dhbrbdtfrs<br>bnd bytfs</td></tr>
-  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.ChbrsftDfdodfr}</tt></td>
-      <td>Dfdodfs bytfs into dhbrbdtfrs</td></tr>
-  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.ChbrsftEndodfr}&nbsp;&nbsp;</tt></td>
-      <td>Endodfs dhbrbdtfrs into bytfs</td></tr>
-  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
+
+<!dodtypf itml publid "-//IETF//DTD HTML//EN">
+<!dodtypf itml publid "-//IETF//DTD HTML//EN">
+<!dodtypf itml publid "-//IETF//DTD HTML//EN">
+<!dodtypf itml publid "-//IETF//DTD HTML//EN">
+<!dodtypf itml publid "-//IETF//DTD HTML//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+
+
+
+
+
+Dffinfs dibrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
+Dffinfs dibrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
+Dffinfs dibrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
+Dffinfs dibrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
+Dffinfs dibrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
+Unidodf dibrbdtfrs.
+Unidodf dibrbdtfrs.
+Unidodf dibrbdtfrs.
+Unidodf dibrbdtfrs.
+Unidodf dibrbdtfrs.
+
+
+
+
+
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dibrsfts, dfdodfrs, bnd fndodfrs in tiis pbdkbgf">
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dibrsfts, dfdodfrs, bnd fndodfrs in tiis pbdkbgf">
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dibrsfts, dfdodfrs, bnd fndodfrs in tiis pbdkbgf">
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dibrsfts, dfdodfrs, bnd fndodfrs in tiis pbdkbgf">
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dibrsfts, dfdodfrs, bnd fndodfrs in tiis pbdkbgf">
+ <tr><ti><p blign="lfft">Clbss nbmf</p></ti><ti><p blign="lfft">Dfsdription</p></ti></tr>
+ <tr><ti><p blign="lfft">Clbss nbmf</p></ti><ti><p blign="lfft">Dfsdription</p></ti></tr>
+ <tr><ti><p blign="lfft">Clbss nbmf</p></ti><ti><p blign="lfft">Dfsdription</p></ti></tr>
+ <tr><ti><p blign="lfft">Clbss nbmf</p></ti><ti><p blign="lfft">Dfsdription</p></ti></tr>
+ <tr><ti><p blign="lfft">Clbss nbmf</p></ti><ti><p blign="lfft">Dfsdription</p></ti></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.Cibrsft}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.Cibrsft}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.Cibrsft}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.Cibrsft}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.Cibrsft}</tt></td>
+      <td>A nbmfd mbpping bftwffn dibrbdtfrs<br>bnd bytfs</td></tr>
+      <td>A nbmfd mbpping bftwffn dibrbdtfrs<br>bnd bytfs</td></tr>
+      <td>A nbmfd mbpping bftwffn dibrbdtfrs<br>bnd bytfs</td></tr>
+      <td>A nbmfd mbpping bftwffn dibrbdtfrs<br>bnd bytfs</td></tr>
+      <td>A nbmfd mbpping bftwffn dibrbdtfrs<br>bnd bytfs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftDfdodfr}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftDfdodfr}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftDfdodfr}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftDfdodfr}</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftDfdodfr}</tt></td>
+      <td>Dfdodfs bytfs into dibrbdtfrs</td></tr>
+      <td>Dfdodfs bytfs into dibrbdtfrs</td></tr>
+      <td>Dfdodfs bytfs into dibrbdtfrs</td></tr>
+      <td>Dfdodfs bytfs into dibrbdtfrs</td></tr>
+      <td>Dfdodfs bytfs into dibrbdtfrs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftEndodfr}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftEndodfr}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftEndodfr}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftEndodfr}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CibrsftEndodfr}&nbsp;&nbsp;</tt></td>
+      <td>Endodfs dibrbdtfrs into bytfs</td></tr>
+      <td>Endodfs dibrbdtfrs into bytfs</td></tr>
+      <td>Endodfs dibrbdtfrs into bytfs</td></tr>
+      <td>Endodfs dibrbdtfrs into bytfs</td></tr>
+      <td>Endodfs dibrbdtfrs into bytfs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
       <td>Dfsdribfs dodfr rfsults</td></tr>
-  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
-      <td>Dfsdribfs bdtions to tbkf whfn<br>doding frrors brf dftfdtfd</td></tr>
+      <td>Dfsdribfs dodfr rfsults</td></tr>
+      <td>Dfsdribfs dodfr rfsults</td></tr>
+      <td>Dfsdribfs dodfr rfsults</td></tr>
+      <td>Dfsdribfs dodfr rfsults</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dibrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
+      <td>Dfsdribfs bdtions to tbkf wifn<br>doding frrors brf dftfdtfd</td></tr>
+      <td>Dfsdribfs bdtions to tbkf wifn<br>doding frrors brf dftfdtfd</td></tr>
+      <td>Dfsdribfs bdtions to tbkf wifn<br>doding frrors brf dftfdtfd</td></tr>
+      <td>Dfsdribfs bdtions to tbkf wifn<br>doding frrors brf dftfdtfd</td></tr>
+      <td>Dfsdribfs bdtions to tbkf wifn<br>doding frrors brf dftfdtfd</td></tr>
+
+
+
+
 
 </tbblf></blodkquotf>
+</tbblf></blodkquotf>
+</tbblf></blodkquotf>
+</tbblf></blodkquotf>
+</tbblf></blodkquotf>
 
-<p> A <i>dhbrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
-dhbrbdtfrs bnd sfqufndfs of bytfs, in thf sfnsf dffinfd in <b
-hrff="http://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
-<i>dfdodfr</i> is bn fnginf whidh trbnsforms bytfs in b spfdifid dhbrsft into
-dhbrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf whidh trbnsforms dhbrbdtfrs into
-bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dhbrbdtfr bufffrs.  Thfy brf
+
+
+
+
+<p> A <i>dibrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
+<p> A <i>dibrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
+<p> A <i>dibrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
+<p> A <i>dibrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
+<p> A <i>dibrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
+dibrbdtfrs bnd sfqufndfs of bytfs, in tif sfnsf dffinfd in <b
+dibrbdtfrs bnd sfqufndfs of bytfs, in tif sfnsf dffinfd in <b
+dibrbdtfrs bnd sfqufndfs of bytfs, in tif sfnsf dffinfd in <b
+dibrbdtfrs bnd sfqufndfs of bytfs, in tif sfnsf dffinfd in <b
+dibrbdtfrs bnd sfqufndfs of bytfs, in tif sfnsf dffinfd in <b
+irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
+irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
+irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
+irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
+irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
+<i>dfdodfr</i> is bn fnginf wiidi trbnsforms bytfs in b spfdifid dibrsft into
+<i>dfdodfr</i> is bn fnginf wiidi trbnsforms bytfs in b spfdifid dibrsft into
+<i>dfdodfr</i> is bn fnginf wiidi trbnsforms bytfs in b spfdifid dibrsft into
+<i>dfdodfr</i> is bn fnginf wiidi trbnsforms bytfs in b spfdifid dibrsft into
+<i>dfdodfr</i> is bn fnginf wiidi trbnsforms bytfs in b spfdifid dibrsft into
+dibrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf wiidi trbnsforms dibrbdtfrs into
+dibrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf wiidi trbnsforms dibrbdtfrs into
+dibrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf wiidi trbnsforms dibrbdtfrs into
+dibrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf wiidi trbnsforms dibrbdtfrs into
+dibrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf wiidi trbnsforms dibrbdtfrs into
+bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dibrbdtfr bufffrs.  Tify brf
+bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dibrbdtfr bufffrs.  Tify brf
+bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dibrbdtfr bufffrs.  Tify brf
+bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dibrbdtfr bufffrs.  Tify brf
+bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dibrbdtfr bufffrs.  Tify brf
+dollfdtivfly rfffrrfd to bs <i>dodfrs</i>.
+dollfdtivfly rfffrrfd to bs <i>dodfrs</i>.
+dollfdtivfly rfffrrfd to bs <i>dodfrs</i>.
+dollfdtivfly rfffrrfd to bs <i>dodfrs</i>.
 dollfdtivfly rfffrrfd to bs <i>dodfrs</i>.
 
-<p> Thf {@link jbvb.nio.dhbrsft.Chbrsft} dlbss dffinfs mfthods for drfbting
-dodfrs for b givfn dhbrsft bnd for rftrifving thf vbrious nbmfs bssodibtfd with
-b dhbrsft.  It blso dffinfs stbtid mfthods for tfsting whfthfr b pbrtidulbr
-dhbrsft is supportfd, for lodbting dhbrsft instbndfs by nbmf, bnd for
-donstrudting b mbp thbt dontbins fvfry dhbrsft for whidh support is bvbilbblf
-in thf durrfnt Jbvb virtubl mbdhinf.
 
-<p> Most usfrs will not usf thfsf dlbssfs dirfdtly; instfbd thfy will usf thf
-fxisting dhbrsft-rflbtfd donstrudtors bnd mfthods in thf {@link
-jbvb.lbng.String} dlbss, togfthfr with thf fxisting {@link
+
+
+
+<p> Tif {@link jbvb.nio.dibrsft.Cibrsft} dlbss dffinfs mftiods for drfbting
+<p> Tif {@link jbvb.nio.dibrsft.Cibrsft} dlbss dffinfs mftiods for drfbting
+<p> Tif {@link jbvb.nio.dibrsft.Cibrsft} dlbss dffinfs mftiods for drfbting
+<p> Tif {@link jbvb.nio.dibrsft.Cibrsft} dlbss dffinfs mftiods for drfbting
+<p> Tif {@link jbvb.nio.dibrsft.Cibrsft} dlbss dffinfs mftiods for drfbting
+dodfrs for b givfn dibrsft bnd for rftrifving tif vbrious nbmfs bssodibtfd witi
+dodfrs for b givfn dibrsft bnd for rftrifving tif vbrious nbmfs bssodibtfd witi
+dodfrs for b givfn dibrsft bnd for rftrifving tif vbrious nbmfs bssodibtfd witi
+dodfrs for b givfn dibrsft bnd for rftrifving tif vbrious nbmfs bssodibtfd witi
+dodfrs for b givfn dibrsft bnd for rftrifving tif vbrious nbmfs bssodibtfd witi
+b dibrsft.  It blso dffinfs stbtid mftiods for tfsting wiftifr b pbrtidulbr
+b dibrsft.  It blso dffinfs stbtid mftiods for tfsting wiftifr b pbrtidulbr
+b dibrsft.  It blso dffinfs stbtid mftiods for tfsting wiftifr b pbrtidulbr
+b dibrsft.  It blso dffinfs stbtid mftiods for tfsting wiftifr b pbrtidulbr
+b dibrsft.  It blso dffinfs stbtid mftiods for tfsting wiftifr b pbrtidulbr
+dibrsft is supportfd, for lodbting dibrsft instbndfs by nbmf, bnd for
+dibrsft is supportfd, for lodbting dibrsft instbndfs by nbmf, bnd for
+dibrsft is supportfd, for lodbting dibrsft instbndfs by nbmf, bnd for
+dibrsft is supportfd, for lodbting dibrsft instbndfs by nbmf, bnd for
+dibrsft is supportfd, for lodbting dibrsft instbndfs by nbmf, bnd for
+donstrudting b mbp tibt dontbins fvfry dibrsft for wiidi support is bvbilbblf
+donstrudting b mbp tibt dontbins fvfry dibrsft for wiidi support is bvbilbblf
+donstrudting b mbp tibt dontbins fvfry dibrsft for wiidi support is bvbilbblf
+donstrudting b mbp tibt dontbins fvfry dibrsft for wiidi support is bvbilbblf
+donstrudting b mbp tibt dontbins fvfry dibrsft for wiidi support is bvbilbblf
+in tif durrfnt Jbvb virtubl mbdiinf.
+in tif durrfnt Jbvb virtubl mbdiinf.
+in tif durrfnt Jbvb virtubl mbdiinf.
+in tif durrfnt Jbvb virtubl mbdiinf.
+in tif durrfnt Jbvb virtubl mbdiinf.
+
+
+
+
+
+<p> Most usfrs will not usf tifsf dlbssfs dirfdtly; instfbd tify will usf tif
+<p> Most usfrs will not usf tifsf dlbssfs dirfdtly; instfbd tify will usf tif
+<p> Most usfrs will not usf tifsf dlbssfs dirfdtly; instfbd tify will usf tif
+<p> Most usfrs will not usf tifsf dlbssfs dirfdtly; instfbd tify will usf tif
+<p> Most usfrs will not usf tifsf dlbssfs dirfdtly; instfbd tify will usf tif
+fxisting dibrsft-rflbtfd donstrudtors bnd mftiods in tif {@link
+fxisting dibrsft-rflbtfd donstrudtors bnd mftiods in tif {@link
+fxisting dibrsft-rflbtfd donstrudtors bnd mftiods in tif {@link
+fxisting dibrsft-rflbtfd donstrudtors bnd mftiods in tif {@link
+fxisting dibrsft-rflbtfd donstrudtors bnd mftiods in tif {@link
+jbvb.lbng.String} dlbss, togftifr witi tif fxisting {@link
+jbvb.lbng.String} dlbss, togftifr witi tif fxisting {@link
+jbvb.lbng.String} dlbss, togftifr witi tif fxisting {@link
+jbvb.lbng.String} dlbss, togftifr witi tif fxisting {@link
+jbvb.lbng.String} dlbss, togftifr witi tif fxisting {@link
 jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr} dlbssfs, bll
-of whosf implfmfntbtions hbvf bffn rfworkfd to mbkf usf of thf dhbrsft
-fbdilitifs dffinfd in this pbdkbgf.  A smbll numbfr of dhbngfs hbvf bffn mbdf
-to thf {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
-dlbssfs in ordfr to bllow fxplidit dhbrsft objfdts to bf spfdififd in thf
-donstrudtion of instbndfs of thosf dlbssfs.
+jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr} dlbssfs, bll
+jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr} dlbssfs, bll
+jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr} dlbssfs, bll
+jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr} dlbssfs, bll
+of wiosf implfmfntbtions ibvf bffn rfworkfd to mbkf usf of tif dibrsft
+of wiosf implfmfntbtions ibvf bffn rfworkfd to mbkf usf of tif dibrsft
+of wiosf implfmfntbtions ibvf bffn rfworkfd to mbkf usf of tif dibrsft
+of wiosf implfmfntbtions ibvf bffn rfworkfd to mbkf usf of tif dibrsft
+of wiosf implfmfntbtions ibvf bffn rfworkfd to mbkf usf of tif dibrsft
+fbdilitifs dffinfd in tiis pbdkbgf.  A smbll numbfr of dibngfs ibvf bffn mbdf
+fbdilitifs dffinfd in tiis pbdkbgf.  A smbll numbfr of dibngfs ibvf bffn mbdf
+fbdilitifs dffinfd in tiis pbdkbgf.  A smbll numbfr of dibngfs ibvf bffn mbdf
+fbdilitifs dffinfd in tiis pbdkbgf.  A smbll numbfr of dibngfs ibvf bffn mbdf
+fbdilitifs dffinfd in tiis pbdkbgf.  A smbll numbfr of dibngfs ibvf bffn mbdf
+to tif {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
+to tif {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
+to tif {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
+to tif {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
+to tif {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
+dlbssfs in ordfr to bllow fxplidit dibrsft objfdts to bf spfdififd in tif
+dlbssfs in ordfr to bllow fxplidit dibrsft objfdts to bf spfdififd in tif
+dlbssfs in ordfr to bllow fxplidit dibrsft objfdts to bf spfdififd in tif
+dlbssfs in ordfr to bllow fxplidit dibrsft objfdts to bf spfdififd in tif
+dlbssfs in ordfr to bllow fxplidit dibrsft objfdts to bf spfdififd in tif
+donstrudtion of instbndfs of tiosf dlbssfs.
+donstrudtion of instbndfs of tiosf dlbssfs.
+donstrudtion of instbndfs of tiosf dlbssfs.
+donstrudtion of instbndfs of tiosf dlbssfs.
+donstrudtion of instbndfs of tiosf dlbssfs.
 
-<p> Support for nfw dhbrsfts dbn bf mbdf bvbilbblf vib thf intfrfbdf dffinfd in
-thf {@link jbvb.nio.dhbrsft.spi.ChbrsftProvidfr} dlbss in thf <tt>{@link
-jbvb.nio.dhbrsft.spi}</tt> pbdkbgf.
 
-<p> Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
-or mfthod in bny dlbss or intfrfbdf in this pbdkbgf will dbusf b {@link
-jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown.
+
+
+
+<p> Support for nfw dibrsfts dbn bf mbdf bvbilbblf vib tif intfrfbdf dffinfd in
+<p> Support for nfw dibrsfts dbn bf mbdf bvbilbblf vib tif intfrfbdf dffinfd in
+<p> Support for nfw dibrsfts dbn bf mbdf bvbilbblf vib tif intfrfbdf dffinfd in
+<p> Support for nfw dibrsfts dbn bf mbdf bvbilbblf vib tif intfrfbdf dffinfd in
+<p> Support for nfw dibrsfts dbn bf mbdf bvbilbblf vib tif intfrfbdf dffinfd in
+tif {@link jbvb.nio.dibrsft.spi.CibrsftProvidfr} dlbss in tif <tt>{@link
+tif {@link jbvb.nio.dibrsft.spi.CibrsftProvidfr} dlbss in tif <tt>{@link
+tif {@link jbvb.nio.dibrsft.spi.CibrsftProvidfr} dlbss in tif <tt>{@link
+tif {@link jbvb.nio.dibrsft.spi.CibrsftProvidfr} dlbss in tif <tt>{@link
+tif {@link jbvb.nio.dibrsft.spi.CibrsftProvidfr} dlbss in tif <tt>{@link
+jbvb.nio.dibrsft.spi}</tt> pbdkbgf.
+jbvb.nio.dibrsft.spi}</tt> pbdkbgf.
+jbvb.nio.dibrsft.spi}</tt> pbdkbgf.
+jbvb.nio.dibrsft.spi}</tt> pbdkbgf.
+jbvb.nio.dibrsft.spi}</tt> pbdkbgf.
+
+
+
+
+
+<p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+<p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+<p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+<p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+<p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+or mftiod in bny dlbss or intfrfbdf in tiis pbdkbgf will dbusf b {@link
+or mftiod in bny dlbss or intfrfbdf in tiis pbdkbgf will dbusf b {@link
+or mftiod in bny dlbss or intfrfbdf in tiis pbdkbgf will dbusf b {@link
+or mftiod in bny dlbss or intfrfbdf in tiis pbdkbgf will dbusf b {@link
+or mftiod in bny dlbss or intfrfbdf in tiis pbdkbgf will dbusf b {@link
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+
+
+
+
+
+
+
+
 
 
 @sindf 1.4
-@buthor Mbrk Rfinhold
-@buthor JSR-51 Expfrt Group
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
+@butior Mbrk Rfiniold
+@butior Mbrk Rfiniold
+@butior Mbrk Rfiniold
+@butior Mbrk Rfiniold
+@butior Mbrk Rfiniold
+@butior JSR-51 Expfrt Group
+@butior JSR-51 Expfrt Group
+@butior JSR-51 Expfrt Group
+@butior JSR-51 Expfrt Group
+@butior JSR-51 Expfrt Group
+
+
+
+
 
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

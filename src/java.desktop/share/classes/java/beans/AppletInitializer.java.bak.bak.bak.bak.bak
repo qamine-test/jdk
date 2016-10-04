@@ -1,0 +1,90 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import jbvb.bpplft.Applft;
+
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
+
+/**
+ * <p>
+ * Tiis intfrfbdf is dfsignfd to work in dollusion witi jbvb.bfbns.Bfbns.instbntibtf.
+ * Tif intfrfbdf is intfndfd to providf mfdibnism to bllow tif propfr
+ * initiblizbtion of JbvbBfbns tibt brf blso Applfts, during tifir
+ * instbntibtion by jbvb.bfbns.Bfbns.instbntibtf().
+ * </p>
+ *
+ * @sff jbvb.bfbns.Bfbns#instbntibtf
+ *
+ * @sindf 1.2
+ *
+ */
+
+
+publid intfrfbdf ApplftInitiblizfr {
+
+    /**
+     * <p>
+     * If pbssfd to tif bppropribtf vbribnt of jbvb.bfbns.Bfbns.instbntibtf
+     * tiis mftiod will bf dbllfd in ordfr to bssodibtf tif nfwly instbntibtfd
+     * Applft (JbvbBfbn) witi its ApplftContfxt, ApplftStub, bnd Contbinfr.
+     * </p>
+     * <p>
+     * Conformbnt implfmfntbtions sibll:
+     * <ol>
+     * <li> Assodibtf tif nfwly instbntibtfd Applft witi tif bppropribtf
+     * ApplftContfxt.
+     *
+     * <li> Instbntibtf bn ApplftStub() bnd bssodibtf tibt ApplftStub witi
+     * tif Applft vib bn invodbtion of sftStub().
+     *
+     * <li> If BfbnContfxt pbrbmftfr is null, tifn it sibll bssodibtf tif
+     * Applft witi its bppropribtf Contbinfr by bdding tibt Applft to its
+     * Contbinfr vib bn invodbtion of bdd(). If tif BfbnContfxt pbrbmftfr is
+     * non-null, tifn it is tif rfsponsibility of tif BfbnContfxt to bssodibtf
+     * tif Applft witi its Contbinfr during tif subsfqufnt invodbtion of its
+     * bddCiildrfn() mftiod.
+     * </ol>
+     *
+     * @pbrbm nfwApplftBfbn  Tif nfwly instbntibtfd JbvbBfbn
+     * @pbrbm bCtxt          Tif BfbnContfxt intfndfd for tiis Applft, or
+     *                       null.
+     */
+
+    void initiblizf(Applft nfwApplftBfbn, BfbnContfxt bCtxt);
+
+    /**
+     * <p>
+     * Adtivbtf, bnd/or mbrk Applft bdtivf. Implfmfntors of tiis intfrfbdf
+     * sibll mbrk tiis Applft bs bdtivf, bnd optionblly invokf its stbrt()
+     * mftiod.
+     * </p>
+     *
+     * @pbrbm nfwApplft  Tif nfwly instbntibtfd JbvbBfbn
+     */
+
+    void bdtivbtf(Applft nfwApplft);
+}

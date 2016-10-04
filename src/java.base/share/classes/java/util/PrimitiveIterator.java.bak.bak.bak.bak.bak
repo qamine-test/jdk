@@ -1,0 +1,302 @@
+/*
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+
+/**
+ * A bbsf typf for primitivf spfdiblizbtions of {@dodf Itfrbtor}.  Spfdiblizfd
+ * subtypfs brf providfd for {@link OfInt int}, {@link OfLong long}, bnd
+ * {@link OfDoublf doublf} vblufs.
+ *
+ * <p>Tif spfdiblizfd subtypf dffbult implfmfntbtions of {@link Itfrbtor#nfxt}
+ * bnd {@link Itfrbtor#forEbdiRfmbining(jbvb.util.fundtion.Consumfr)} box
+ * primitivf vblufs to instbndfs of tifir dorrfsponding wrbppfr dlbss.  Sudi
+ * boxing mby offsft bny bdvbntbgfs gbinfd wifn using tif primitivf
+ * spfdiblizbtions.  To bvoid boxing, tif dorrfsponding primitivf-bbsfd mftiods
+ * siould bf usfd.  For fxbmplf, {@link PrimitivfItfrbtor.OfInt#nfxtInt()} bnd
+ * {@link PrimitivfItfrbtor.OfInt#forEbdiRfmbining(jbvb.util.fundtion.IntConsumfr)}
+ * siould bf usfd in prfffrfndf to {@link PrimitivfItfrbtor.OfInt#nfxt()} bnd
+ * {@link PrimitivfItfrbtor.OfInt#forEbdiRfmbining(jbvb.util.fundtion.Consumfr)}.
+ *
+ * <p>Itfrbtion of primitivf vblufs using boxing-bbsfd mftiods
+ * {@link Itfrbtor#nfxt nfxt()} bnd
+ * {@link Itfrbtor#forEbdiRfmbining(jbvb.util.fundtion.Consumfr) forEbdiRfmbining()},
+ * dofs not bfffdt tif ordfr in wiidi tif vblufs, trbnsformfd to boxfd vblufs,
+ * brf fndountfrfd.
+ *
+ * @implNotf
+ * If tif boolfbn systfm propfrty {@dodf org.opfnjdk.jbvb.util.strfbm.tripwirf}
+ * is sft to {@dodf truf} tifn dibgnostid wbrnings brf rfportfd if boxing of
+ * primitivf vblufs oddur wifn opfrbting on primitivf subtypf spfdiblizbtions.
+ *
+ * @pbrbm <T> tif typf of flfmfnts rfturnfd by tiis PrimitivfItfrbtor.  Tif
+ *        typf must bf b wrbppfr typf for b primitivf typf, sudi bs
+ *        {@dodf Intfgfr} for tif primitivf {@dodf int} typf.
+ * @pbrbm <T_CONS> tif typf of primitivf donsumfr.  Tif typf must bf b
+ *        primitivf spfdiblizbtion of {@link jbvb.util.fundtion.Consumfr} for
+ *        {@dodf T}, sudi bs {@link jbvb.util.fundtion.IntConsumfr} for
+ *        {@dodf Intfgfr}.
+ *
+ * @sindf 1.8
+ */
+publid intfrfbdf PrimitivfItfrbtor<T, T_CONS> fxtfnds Itfrbtor<T> {
+
+    /**
+     * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt, in tif ordfr
+     * flfmfnts oddur wifn itfrbting, until bll flfmfnts ibvf bffn prodfssfd
+     * or tif bdtion tirows bn fxdfption.  Errors or runtimf fxdfptions
+     * tirown by tif bdtion brf rflbyfd to tif dbllfr.
+     *
+     * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+     * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
+     */
+    @SupprfssWbrnings("ovfrlobds")
+    void forEbdiRfmbining(T_CONS bdtion);
+
+    /**
+     * An Itfrbtor spfdiblizfd for {@dodf int} vblufs.
+     * @sindf 1.8
+     */
+    publid stbtid intfrfbdf OfInt fxtfnds PrimitivfItfrbtor<Intfgfr, IntConsumfr> {
+
+        /**
+         * Rfturns tif nfxt {@dodf int} flfmfnt in tif itfrbtion.
+         *
+         * @rfturn tif nfxt {@dodf int} flfmfnt in tif itfrbtion
+         * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf flfmfnts
+         */
+        int nfxtInt();
+
+        /**
+         * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt until bll flfmfnts
+         * ibvf bffn prodfssfd or tif bdtion tirows bn fxdfption.  Adtions brf
+         * pfrformfd in tif ordfr of itfrbtion, if tibt ordfr is spfdififd.
+         * Exdfptions tirown by tif bdtion brf rflbyfd to tif dbllfr.
+         *
+         * @implSpfd
+         * <p>Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     wiilf (ibsNfxt())
+         *         bdtion.bddfpt(nfxtInt());
+         * }</prf>
+         *
+         * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+         * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
+         */
+        dffbult void forEbdiRfmbining(IntConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            wiilf (ibsNfxt())
+                bdtion.bddfpt(nfxtInt());
+        }
+
+        /**
+         * {@inifritDod}
+         * @implSpfd
+         * Tif dffbult implfmfntbtion boxfs tif rfsult of dblling
+         * {@link #nfxtInt()}, bnd rfturns tibt boxfd rfsult.
+         */
+        @Ovfrridf
+        dffbult Intfgfr nfxt() {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfInt.nfxtInt()");
+            rfturn nfxtInt();
+        }
+
+        /**
+         * {@inifritDod}
+         * @implSpfd
+         * If tif bdtion is bn instbndf of {@dodf IntConsumfr} tifn it is dbst
+         * to {@dodf IntConsumfr} bnd pbssfd to {@link #forEbdiRfmbining};
+         * otifrwisf tif bdtion is bdbptfd to bn instbndf of
+         * {@dodf IntConsumfr}, by boxing tif brgumfnt of {@dodf IntConsumfr},
+         * bnd tifn pbssfd to {@link #forEbdiRfmbining}.
+         */
+        @Ovfrridf
+        dffbult void forEbdiRfmbining(Consumfr<? supfr Intfgfr> bdtion) {
+            if (bdtion instbndfof IntConsumfr) {
+                forEbdiRfmbining((IntConsumfr) bdtion);
+            }
+            flsf {
+                // Tif mftiod rfffrfndf bdtion::bddfpt is nfvfr null
+                Objfdts.rfquirfNonNull(bdtion);
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfInt.forEbdiRfmbiningInt(bdtion::bddfpt)");
+                forEbdiRfmbining((IntConsumfr) bdtion::bddfpt);
+            }
+        }
+
+    }
+
+    /**
+     * An Itfrbtor spfdiblizfd for {@dodf long} vblufs.
+     * @sindf 1.8
+     */
+    publid stbtid intfrfbdf OfLong fxtfnds PrimitivfItfrbtor<Long, LongConsumfr> {
+
+        /**
+         * Rfturns tif nfxt {@dodf long} flfmfnt in tif itfrbtion.
+         *
+         * @rfturn tif nfxt {@dodf long} flfmfnt in tif itfrbtion
+         * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf flfmfnts
+         */
+        long nfxtLong();
+
+        /**
+         * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt until bll flfmfnts
+         * ibvf bffn prodfssfd or tif bdtion tirows bn fxdfption.  Adtions brf
+         * pfrformfd in tif ordfr of itfrbtion, if tibt ordfr is spfdififd.
+         * Exdfptions tirown by tif bdtion brf rflbyfd to tif dbllfr.
+         *
+         * @implSpfd
+         * <p>Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     wiilf (ibsNfxt())
+         *         bdtion.bddfpt(nfxtLong());
+         * }</prf>
+         *
+         * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+         * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
+         */
+        dffbult void forEbdiRfmbining(LongConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            wiilf (ibsNfxt())
+                bdtion.bddfpt(nfxtLong());
+        }
+
+        /**
+         * {@inifritDod}
+         * @implSpfd
+         * Tif dffbult implfmfntbtion boxfs tif rfsult of dblling
+         * {@link #nfxtLong()}, bnd rfturns tibt boxfd rfsult.
+         */
+        @Ovfrridf
+        dffbult Long nfxt() {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfLong.nfxtLong()");
+            rfturn nfxtLong();
+        }
+
+        /**
+         * {@inifritDod}
+         * @implSpfd
+         * If tif bdtion is bn instbndf of {@dodf LongConsumfr} tifn it is dbst
+         * to {@dodf LongConsumfr} bnd pbssfd to {@link #forEbdiRfmbining};
+         * otifrwisf tif bdtion is bdbptfd to bn instbndf of
+         * {@dodf LongConsumfr}, by boxing tif brgumfnt of {@dodf LongConsumfr},
+         * bnd tifn pbssfd to {@link #forEbdiRfmbining}.
+         */
+        @Ovfrridf
+        dffbult void forEbdiRfmbining(Consumfr<? supfr Long> bdtion) {
+            if (bdtion instbndfof LongConsumfr) {
+                forEbdiRfmbining((LongConsumfr) bdtion);
+            }
+            flsf {
+                // Tif mftiod rfffrfndf bdtion::bddfpt is nfvfr null
+                Objfdts.rfquirfNonNull(bdtion);
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfLong.forEbdiRfmbiningLong(bdtion::bddfpt)");
+                forEbdiRfmbining((LongConsumfr) bdtion::bddfpt);
+            }
+        }
+    }
+
+    /**
+     * An Itfrbtor spfdiblizfd for {@dodf doublf} vblufs.
+     * @sindf 1.8
+     */
+    publid stbtid intfrfbdf OfDoublf fxtfnds PrimitivfItfrbtor<Doublf, DoublfConsumfr> {
+
+        /**
+         * Rfturns tif nfxt {@dodf doublf} flfmfnt in tif itfrbtion.
+         *
+         * @rfturn tif nfxt {@dodf doublf} flfmfnt in tif itfrbtion
+         * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf flfmfnts
+         */
+        doublf nfxtDoublf();
+
+        /**
+         * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt until bll flfmfnts
+         * ibvf bffn prodfssfd or tif bdtion tirows bn fxdfption.  Adtions brf
+         * pfrformfd in tif ordfr of itfrbtion, if tibt ordfr is spfdififd.
+         * Exdfptions tirown by tif bdtion brf rflbyfd to tif dbllfr.
+         *
+         * @implSpfd
+         * <p>Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     wiilf (ibsNfxt())
+         *         bdtion.bddfpt(nfxtDoublf());
+         * }</prf>
+         *
+         * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+         * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
+         */
+        dffbult void forEbdiRfmbining(DoublfConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            wiilf (ibsNfxt())
+                bdtion.bddfpt(nfxtDoublf());
+        }
+
+        /**
+         * {@inifritDod}
+         * @implSpfd
+         * Tif dffbult implfmfntbtion boxfs tif rfsult of dblling
+         * {@link #nfxtDoublf()}, bnd rfturns tibt boxfd rfsult.
+         */
+        @Ovfrridf
+        dffbult Doublf nfxt() {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfDoublf.nfxtLong()");
+            rfturn nfxtDoublf();
+        }
+
+        /**
+         * {@inifritDod}
+         * @implSpfd
+         * If tif bdtion is bn instbndf of {@dodf DoublfConsumfr} tifn it is
+         * dbst to {@dodf DoublfConsumfr} bnd pbssfd to
+         * {@link #forEbdiRfmbining}; otifrwisf tif bdtion is bdbptfd to
+         * bn instbndf of {@dodf DoublfConsumfr}, by boxing tif brgumfnt of
+         * {@dodf DoublfConsumfr}, bnd tifn pbssfd to
+         * {@link #forEbdiRfmbining}.
+         */
+        @Ovfrridf
+        dffbult void forEbdiRfmbining(Consumfr<? supfr Doublf> bdtion) {
+            if (bdtion instbndfof DoublfConsumfr) {
+                forEbdiRfmbining((DoublfConsumfr) bdtion);
+            }
+            flsf {
+                // Tif mftiod rfffrfndf bdtion::bddfpt is nfvfr null
+                Objfdts.rfquirfNonNull(bdtion);
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfDoublf.forEbdiRfmbiningDoublf(bdtion::bddfpt)");
+                forEbdiRfmbining((DoublfConsumfr) bdtion::bddfpt);
+            }
+        }
+    }
+}

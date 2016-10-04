@@ -1,244 +1,1220 @@
 #==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#          JVM Mbnbgfmfnt MIB - Instrumfntbtion Clbssfs
+#          JVM Mbnbgfmfnt MIB - Instrumfntbtion Clbssfs
+#          JVM Mbnbgfmfnt MIB - Instrumfntbtion Clbssfs
+#          JVM Mbnbgfmfnt MIB - Instrumfntbtion Clbssfs
 #          JVM Mbnbgfmfnt MIB - Instrumfntbtion Clbssfs
 #==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
 
-In this dirfdtory:
+
+
+
+
+In tiis dirfdtory:
+In tiis dirfdtory:
+In tiis dirfdtory:
+In tiis dirfdtory:
+In tiis dirfdtory:
+------------------
+------------------
+------------------
+------------------
 ------------------
 
-README:              this filf
-dommbnds.fnv:        b filf dontbining somf ksh vbribblfs & fundtions
-                     thbt I hbvf usfd to gfnfrbtf & dompilf bll thf 
+
+
+
+
+README:              tiis filf
+README:              tiis filf
+README:              tiis filf
+README:              tiis filf
+README:              tiis filf
+dommbnds.fnv:        b filf dontbining somf ksi vbribblfs & fundtions
+dommbnds.fnv:        b filf dontbining somf ksi vbribblfs & fundtions
+dommbnds.fnv:        b filf dontbining somf ksi vbribblfs & fundtions
+dommbnds.fnv:        b filf dontbining somf ksi vbribblfs & fundtions
+dommbnds.fnv:        b filf dontbining somf ksi vbribblfs & fundtions
+                     tibt I ibvf usfd to gfnfrbtf & dompilf bll tif 
+                     tibt I ibvf usfd to gfnfrbtf & dompilf bll tif 
+                     tibt I ibvf usfd to gfnfrbtf & dompilf bll tif 
+                     tibt I ibvf usfd to gfnfrbtf & dompilf bll tif 
+                     tibt I ibvf usfd to gfnfrbtf & dompilf bll tif 
                      stuff. Probbbly only vblid in my own fnvironmfnt.
-logging.propfrtifs:  logging.propfrtifs filf thbt dbn bf usfd to obtbin
+                     stuff. Probbbly only vblid in my own fnvironmfnt.
+                     stuff. Probbbly only vblid in my own fnvironmfnt.
+                     stuff. Probbbly only vblid in my own fnvironmfnt.
+                     stuff. Probbbly only vblid in my own fnvironmfnt.
+logging.propfrtifs:  logging.propfrtifs filf tibt dbn bf usfd to obtbin
+logging.propfrtifs:  logging.propfrtifs filf tibt dbn bf usfd to obtbin
+logging.propfrtifs:  logging.propfrtifs filf tibt dbn bf usfd to obtbin
+logging.propfrtifs:  logging.propfrtifs filf tibt dbn bf usfd to obtbin
+logging.propfrtifs:  logging.propfrtifs filf tibt dbn bf usfd to obtbin
                      trbdf informbtion.
-*.jbvb:              utility bnd dustom dlbssfs for thf JVM Mbnbgfmfnt MIB.
-                     Thfsf dlbssfs show how to providf instrumfntbtion for
-                     b mibgfn gfnfrbtfd MIB, how to simulbtf virtubl tbblfs,
-		     bnd how to mbkf usf of thf SnmpUsfrDbtbFbdtory.
-		     Only thf jvmMfmory group bnd its tbblfs brf instrumfntfd.
+                     trbdf informbtion.
+                     trbdf informbtion.
+                     trbdf informbtion.
+                     trbdf informbtion.
+*.jbvb:              utility bnd dustom dlbssfs for tif JVM Mbnbgfmfnt MIB.
+*.jbvb:              utility bnd dustom dlbssfs for tif JVM Mbnbgfmfnt MIB.
+*.jbvb:              utility bnd dustom dlbssfs for tif JVM Mbnbgfmfnt MIB.
+*.jbvb:              utility bnd dustom dlbssfs for tif JVM Mbnbgfmfnt MIB.
+*.jbvb:              utility bnd dustom dlbssfs for tif JVM Mbnbgfmfnt MIB.
+                     Tifsf dlbssfs siow iow to providf instrumfntbtion for
+                     Tifsf dlbssfs siow iow to providf instrumfntbtion for
+                     Tifsf dlbssfs siow iow to providf instrumfntbtion for
+                     Tifsf dlbssfs siow iow to providf instrumfntbtion for
+                     Tifsf dlbssfs siow iow to providf instrumfntbtion for
+                     b mibgfn gfnfrbtfd MIB, iow to simulbtf virtubl tbblfs,
+                     b mibgfn gfnfrbtfd MIB, iow to simulbtf virtubl tbblfs,
+                     b mibgfn gfnfrbtfd MIB, iow to simulbtf virtubl tbblfs,
+                     b mibgfn gfnfrbtfd MIB, iow to simulbtf virtubl tbblfs,
+                     b mibgfn gfnfrbtfd MIB, iow to simulbtf virtubl tbblfs,
+		     bnd iow to mbkf usf of tif SnmpUsfrDbtbFbdtory.
+		     bnd iow to mbkf usf of tif SnmpUsfrDbtbFbdtory.
+		     bnd iow to mbkf usf of tif SnmpUsfrDbtbFbdtory.
+		     bnd iow to mbkf usf of tif SnmpUsfrDbtbFbdtory.
+		     bnd iow to mbkf usf of tif SnmpUsfrDbtbFbdtory.
+		     Only tif jvmMfmory group bnd its tbblfs brf instrumfntfd.
+		     Only tif jvmMfmory group bnd its tbblfs brf instrumfntfd.
+		     Only tif jvmMfmory group bnd its tbblfs brf instrumfntfd.
+		     Only tif jvmMfmory group bnd its tbblfs brf instrumfntfd.
+		     Only tif jvmMfmory group bnd its tbblfs brf instrumfntfd.
+
+
+
+
 
 Dfpfndfndy
+Dfpfndfndy
+Dfpfndfndy
+Dfpfndfndy
+Dfpfndfndy
+----------
+----------
+----------
+----------
 ----------
 
-    jvmMbnbgfmfntMib.txt : thf JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
-    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf thfsf
-                           dlbssfs dould bf pbrt of thf JMX dflivfry
+
+
+
+
+    jvmMbnbgfmfntMib.txt : tif JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
+    jvmMbnbgfmfntMib.txt : tif JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
+    jvmMbnbgfmfntMib.txt : tif JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
+    jvmMbnbgfmfntMib.txt : tif JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
+    jvmMbnbgfmfntMib.txt : tif JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
+    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf tifsf
+    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf tifsf
+    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf tifsf
+    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf tifsf
+    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf tifsf
+                           dlbssfs dould bf pbrt of tif JMX dflivfry
+                           dlbssfs dould bf pbrt of tif JMX dflivfry
+                           dlbssfs dould bf pbrt of tif JMX dflivfry
+                           dlbssfs dould bf pbrt of tif JMX dflivfry
+                           dlbssfs dould bf pbrt of tif JMX dflivfry
                            (dlbssfs in dom.sun.jmx.snmp.*)
-    JDMK 5.1 : Thf jdmktk.jbr dontbins thf dom.sun.jdmk.tools.MibGfn dlbss
-               usfd to dompilf thf MIB. JDMK blso hbs b mibgfn.sh sdript
-               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf thbt dbn
-               intfgrbtf with JDMK SNMP runtimf. In ordfr to gfnfrbtf
-               dodf thbt intfgrbtf with Tigfr SNMP runtimf, you nffd to
-	       stbrt mibgfn with b non-dffbult rfsourdf filf. 
+                           (dlbssfs in dom.sun.jmx.snmp.*)
+                           (dlbssfs in dom.sun.jmx.snmp.*)
+                           (dlbssfs in dom.sun.jmx.snmp.*)
+                           (dlbssfs in dom.sun.jmx.snmp.*)
+    JDMK 5.1 : Tif jdmktk.jbr dontbins tif dom.sun.jdmk.tools.MibGfn dlbss
+    JDMK 5.1 : Tif jdmktk.jbr dontbins tif dom.sun.jdmk.tools.MibGfn dlbss
+    JDMK 5.1 : Tif jdmktk.jbr dontbins tif dom.sun.jdmk.tools.MibGfn dlbss
+    JDMK 5.1 : Tif jdmktk.jbr dontbins tif dom.sun.jdmk.tools.MibGfn dlbss
+    JDMK 5.1 : Tif jdmktk.jbr dontbins tif dom.sun.jdmk.tools.MibGfn dlbss
+               usfd to dompilf tif MIB. JDMK blso ibs b mibgfn.si sdript
+               usfd to dompilf tif MIB. JDMK blso ibs b mibgfn.si sdript
+               usfd to dompilf tif MIB. JDMK blso ibs b mibgfn.si sdript
+               usfd to dompilf tif MIB. JDMK blso ibs b mibgfn.si sdript
+               usfd to dompilf tif MIB. JDMK blso ibs b mibgfn.si sdript
+               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf tibt dbn
+               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf tibt dbn
+               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf tibt dbn
+               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf tibt dbn
+               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf tibt dbn
+               intfgrbtf witi JDMK SNMP runtimf. In ordfr to gfnfrbtf
+               intfgrbtf witi JDMK SNMP runtimf. In ordfr to gfnfrbtf
+               intfgrbtf witi JDMK SNMP runtimf. In ordfr to gfnfrbtf
+               intfgrbtf witi JDMK SNMP runtimf. In ordfr to gfnfrbtf
+               intfgrbtf witi JDMK SNMP runtimf. In ordfr to gfnfrbtf
+               dodf tibt intfgrbtf witi Tigfr SNMP runtimf, you nffd to
+               dodf tibt intfgrbtf witi Tigfr SNMP runtimf, you nffd to
+               dodf tibt intfgrbtf witi Tigfr SNMP runtimf, you nffd to
+               dodf tibt intfgrbtf witi Tigfr SNMP runtimf, you nffd to
+               dodf tibt intfgrbtf witi Tigfr SNMP runtimf, you nffd to
+	       stbrt mibgfn witi b non-dffbult rfsourdf filf. 
+	       stbrt mibgfn witi b non-dffbult rfsourdf filf. 
+	       stbrt mibgfn witi b non-dffbult rfsourdf filf. 
+	       stbrt mibgfn witi b non-dffbult rfsourdf filf. 
+	       stbrt mibgfn witi b non-dffbult rfsourdf filf. 
+               JDMK 5.1 workspbdf dontbins b mibgfn rfsourdf filf
+               JDMK 5.1 workspbdf dontbins b mibgfn rfsourdf filf
+               JDMK 5.1 workspbdf dontbins b mibgfn rfsourdf filf
+               JDMK 5.1 workspbdf dontbins b mibgfn rfsourdf filf
                JDMK 5.1 workspbdf dontbins b mibgfn rfsourdf filf
                spfdifid for tigfr: mibgfn.propfrty.tigfr 
-    Custom Instrumfntbtion Codf: thf filfs in this dirfdtory.
+               spfdifid for tigfr: mibgfn.propfrty.tigfr 
+               spfdifid for tigfr: mibgfn.propfrty.tigfr 
+               spfdifid for tigfr: mibgfn.propfrty.tigfr 
+               spfdifid for tigfr: mibgfn.propfrty.tigfr 
+    Custom Instrumfntbtion Codf: tif filfs in tiis dirfdtory.
+    Custom Instrumfntbtion Codf: tif filfs in tiis dirfdtory.
+    Custom Instrumfntbtion Codf: tif filfs in tiis dirfdtory.
+    Custom Instrumfntbtion Codf: tif filfs in tiis dirfdtory.
+    Custom Instrumfntbtion Codf: tif filfs in tiis dirfdtory.
+
+
+
+
 
 How to prodffd:
+How to prodffd:
+How to prodffd:
+How to prodffd:
+How to prodffd:
+---------------
+---------------
+---------------
+---------------
 ---------------
 
-Gft mibgfn from JDMK 5.1. Stbrt mibgfn with mibgfn rfsourdf filf for
-tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
-on thf Jbvb dommbnd linf.
 
-Usf mibgfn to gfnfrbtf dodf for thf jvmMbnbgfmfntMib.txt filf. Notf thbt
-thf dustom dlbssfs providfd in this dirfdtory brf bll in thf 
-sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt thf gfnfrbtfd dlbssfs to
-bf in bnothfr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+
+
+
+Gft mibgfn from JDMK 5.1. Stbrt mibgfn witi mibgfn rfsourdf filf for
+Gft mibgfn from JDMK 5.1. Stbrt mibgfn witi mibgfn rfsourdf filf for
+Gft mibgfn from JDMK 5.1. Stbrt mibgfn witi mibgfn rfsourdf filf for
+Gft mibgfn from JDMK 5.1. Stbrt mibgfn witi mibgfn rfsourdf filf for
+Gft mibgfn from JDMK 5.1. Stbrt mibgfn witi mibgfn rfsourdf filf for
+tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
+tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
+tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
+tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
+tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
+on tif Jbvb dommbnd linf.
+on tif Jbvb dommbnd linf.
+on tif Jbvb dommbnd linf.
+on tif Jbvb dommbnd linf.
+on tif Jbvb dommbnd linf.
+
+
+
+
+
+Usf mibgfn to gfnfrbtf dodf for tif jvmMbnbgfmfntMib.txt filf. Notf tibt
+Usf mibgfn to gfnfrbtf dodf for tif jvmMbnbgfmfntMib.txt filf. Notf tibt
+Usf mibgfn to gfnfrbtf dodf for tif jvmMbnbgfmfntMib.txt filf. Notf tibt
+Usf mibgfn to gfnfrbtf dodf for tif jvmMbnbgfmfntMib.txt filf. Notf tibt
+Usf mibgfn to gfnfrbtf dodf for tif jvmMbnbgfmfntMib.txt filf. Notf tibt
+tif dustom dlbssfs providfd in tiis dirfdtory brf bll in tif 
+tif dustom dlbssfs providfd in tiis dirfdtory brf bll in tif 
+tif dustom dlbssfs providfd in tiis dirfdtory brf bll in tif 
+tif dustom dlbssfs providfd in tiis dirfdtory brf bll in tif 
+tif dustom dlbssfs providfd in tiis dirfdtory brf bll in tif 
+sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt tif gfnfrbtfd dlbssfs to
+sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt tif gfnfrbtfd dlbssfs to
+sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt tif gfnfrbtfd dlbssfs to
+sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt tif gfnfrbtfd dlbssfs to
+sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt tif gfnfrbtfd dlbssfs to
+bf in bnotifr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+bf in bnotifr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+bf in bnotifr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+bf in bnotifr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+bf in bnotifr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+-tp sun.mbnbgfmfnt.snmp.jvmmib)
+-tp sun.mbnbgfmfnt.snmp.jvmmib)
+-tp sun.mbnbgfmfnt.snmp.jvmmib)
+-tp sun.mbnbgfmfnt.snmp.jvmmib)
 -tp sun.mbnbgfmfnt.snmp.jvmmib)
 
-If this pbdkbgf nbmf dofs not suit you, simply dhbngf it to somfthing flsf,
-both in thf dustom dlbssfs bflow (you might usf 'sfd' or do it mbnublly) 
-bnd in thf -tp option thbt you will pbss to mibgfn.
+
+
+
+
+If tiis pbdkbgf nbmf dofs not suit you, simply dibngf it to somftiing flsf,
+If tiis pbdkbgf nbmf dofs not suit you, simply dibngf it to somftiing flsf,
+If tiis pbdkbgf nbmf dofs not suit you, simply dibngf it to somftiing flsf,
+If tiis pbdkbgf nbmf dofs not suit you, simply dibngf it to somftiing flsf,
+If tiis pbdkbgf nbmf dofs not suit you, simply dibngf it to somftiing flsf,
+boti in tif dustom dlbssfs bflow (you migit usf 'sfd' or do it mbnublly) 
+boti in tif dustom dlbssfs bflow (you migit usf 'sfd' or do it mbnublly) 
+boti in tif dustom dlbssfs bflow (you migit usf 'sfd' or do it mbnublly) 
+boti in tif dustom dlbssfs bflow (you migit usf 'sfd' or do it mbnublly) 
+boti in tif dustom dlbssfs bflow (you migit usf 'sfd' or do it mbnublly) 
+bnd in tif -tp option tibt you will pbss to mibgfn.
+bnd in tif -tp option tibt you will pbss to mibgfn.
+bnd in tif -tp option tibt you will pbss to mibgfn.
+bnd in tif -tp option tibt you will pbss to mibgfn.
+bnd in tif -tp option tibt you will pbss to mibgfn.
+
+
+
+
 
 It is rfdommfndfd to gfnfrbtf bll dlbssfs in b difffrfnt dirfdtory (if
-you rfbd dommbnd.fnv you will sff thbt I hbvf put thf dustom dlbssfs
-in b "dustom" dirfdtory, bnd thf gfnfrbtfd dlbssfs in b "pbrsfd" 
-dirfdtory. This mbkfs it fbsifr to dlfbnup thf mib. You dbn sbffly
+It is rfdommfndfd to gfnfrbtf bll dlbssfs in b difffrfnt dirfdtory (if
+It is rfdommfndfd to gfnfrbtf bll dlbssfs in b difffrfnt dirfdtory (if
+It is rfdommfndfd to gfnfrbtf bll dlbssfs in b difffrfnt dirfdtory (if
+It is rfdommfndfd to gfnfrbtf bll dlbssfs in b difffrfnt dirfdtory (if
+you rfbd dommbnd.fnv you will sff tibt I ibvf put tif dustom dlbssfs
+you rfbd dommbnd.fnv you will sff tibt I ibvf put tif dustom dlbssfs
+you rfbd dommbnd.fnv you will sff tibt I ibvf put tif dustom dlbssfs
+you rfbd dommbnd.fnv you will sff tibt I ibvf put tif dustom dlbssfs
+you rfbd dommbnd.fnv you will sff tibt I ibvf put tif dustom dlbssfs
+in b "dustom" dirfdtory, bnd tif gfnfrbtfd dlbssfs in b "pbrsfd" 
+in b "dustom" dirfdtory, bnd tif gfnfrbtfd dlbssfs in b "pbrsfd" 
+in b "dustom" dirfdtory, bnd tif gfnfrbtfd dlbssfs in b "pbrsfd" 
+in b "dustom" dirfdtory, bnd tif gfnfrbtfd dlbssfs in b "pbrsfd" 
+in b "dustom" dirfdtory, bnd tif gfnfrbtfd dlbssfs in b "pbrsfd" 
+dirfdtory. Tiis mbkfs it fbsifr to dlfbnup tif mib. You dbn sbffly
+dirfdtory. Tiis mbkfs it fbsifr to dlfbnup tif mib. You dbn sbffly
+dirfdtory. Tiis mbkfs it fbsifr to dlfbnup tif mib. You dbn sbffly
+dirfdtory. Tiis mbkfs it fbsifr to dlfbnup tif mib. You dbn sbffly
+dirfdtory. Tiis mbkfs it fbsifr to dlfbnup tif mib. You dbn sbffly
+do b rm -rf <pbrsfd> bnd dbll mibgfn bgbin.
+do b rm -rf <pbrsfd> bnd dbll mibgfn bgbin.
+do b rm -rf <pbrsfd> bnd dbll mibgfn bgbin.
+do b rm -rf <pbrsfd> bnd dbll mibgfn bgbin.
 do b rm -rf <pbrsfd> bnd dbll mibgfn bgbin.
 
-Thfn dompilf thf gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
-runtimf dlbssfs in your dlbsspbth - if you dompilf with b tigfr build thbt
-blrfbdy hbvf thfm thfn you don't nffd to spfdify bnything spfdibl.
 
-Thfn mbkf your dlbsspbth point to thf dompilfd gfnfrbtfd dlbssfs, bnd
-dompilf thf dustom dodf in this dirfdtory.
 
-Thfn you dbn usf thf SnmpDbfmonTfst dlbss to stbrt b JVM with thf
-intsrumfntfd MIB, bnd you dbn usf f.g. thf fbsymbnbgfr dontrib of
-JDMK to vifw thf MIB through SNMP. 
 
+
+Tifn dompilf tif gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
+Tifn dompilf tif gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
+Tifn dompilf tif gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
+Tifn dompilf tif gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
+Tifn dompilf tif gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
+runtimf dlbssfs in your dlbsspbti - if you dompilf witi b tigfr build tibt
+runtimf dlbssfs in your dlbsspbti - if you dompilf witi b tigfr build tibt
+runtimf dlbssfs in your dlbsspbti - if you dompilf witi b tigfr build tibt
+runtimf dlbssfs in your dlbsspbti - if you dompilf witi b tigfr build tibt
+runtimf dlbssfs in your dlbsspbti - if you dompilf witi b tigfr build tibt
+blrfbdy ibvf tifm tifn you don't nffd to spfdify bnytiing spfdibl.
+blrfbdy ibvf tifm tifn you don't nffd to spfdify bnytiing spfdibl.
+blrfbdy ibvf tifm tifn you don't nffd to spfdify bnytiing spfdibl.
+blrfbdy ibvf tifm tifn you don't nffd to spfdify bnytiing spfdibl.
+blrfbdy ibvf tifm tifn you don't nffd to spfdify bnytiing spfdibl.
+
+
+
+
+
+Tifn mbkf your dlbsspbti point to tif dompilfd gfnfrbtfd dlbssfs, bnd
+Tifn mbkf your dlbsspbti point to tif dompilfd gfnfrbtfd dlbssfs, bnd
+Tifn mbkf your dlbsspbti point to tif dompilfd gfnfrbtfd dlbssfs, bnd
+Tifn mbkf your dlbsspbti point to tif dompilfd gfnfrbtfd dlbssfs, bnd
+Tifn mbkf your dlbsspbti point to tif dompilfd gfnfrbtfd dlbssfs, bnd
+dompilf tif dustom dodf in tiis dirfdtory.
+dompilf tif dustom dodf in tiis dirfdtory.
+dompilf tif dustom dodf in tiis dirfdtory.
+dompilf tif dustom dodf in tiis dirfdtory.
+dompilf tif dustom dodf in tiis dirfdtory.
+
+
+
+
+
+Tifn you dbn usf tif SnmpDbfmonTfst dlbss to stbrt b JVM witi tif
+Tifn you dbn usf tif SnmpDbfmonTfst dlbss to stbrt b JVM witi tif
+Tifn you dbn usf tif SnmpDbfmonTfst dlbss to stbrt b JVM witi tif
+Tifn you dbn usf tif SnmpDbfmonTfst dlbss to stbrt b JVM witi tif
+Tifn you dbn usf tif SnmpDbfmonTfst dlbss to stbrt b JVM witi tif
+intsrumfntfd MIB, bnd you dbn usf f.g. tif fbsymbnbgfr dontrib of
+intsrumfntfd MIB, bnd you dbn usf f.g. tif fbsymbnbgfr dontrib of
+intsrumfntfd MIB, bnd you dbn usf f.g. tif fbsymbnbgfr dontrib of
+intsrumfntfd MIB, bnd you dbn usf f.g. tif fbsymbnbgfr dontrib of
+intsrumfntfd MIB, bnd you dbn usf f.g. tif fbsymbnbgfr dontrib of
+JDMK to vifw tif MIB tirougi SNMP. 
+JDMK to vifw tif MIB tirougi SNMP. 
+JDMK to vifw tif MIB tirougi SNMP. 
+JDMK to vifw tif MIB tirougi SNMP. 
+JDMK to vifw tif MIB tirougi SNMP. 
+
+
+
+
+
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
 #==============================================================================
 #  Clbssfs Dftbils
+#  Clbssfs Dftbils
+#  Clbssfs Dftbils
+#  Clbssfs Dftbils
+#  Clbssfs Dftbils
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
 #==============================================================================
 
-Utility Clbssfs dfvfloppfd for thf JVM Mbnbgfmfnt MIB:
+
+
+
+
+Utility Clbssfs dfvfloppfd for tif JVM Mbnbgfmfnt MIB:
+Utility Clbssfs dfvfloppfd for tif JVM Mbnbgfmfnt MIB:
+Utility Clbssfs dfvfloppfd for tif JVM Mbnbgfmfnt MIB:
+Utility Clbssfs dfvfloppfd for tif JVM Mbnbgfmfnt MIB:
+Utility Clbssfs dfvfloppfd for tif JVM Mbnbgfmfnt MIB:
 ------------------------------------------------------
-JvmContfxtFbdtory.jbvb        : Thf dontfxt fbdtory bllodbtfs b Mbp thbt
-                                sfrvfs bs rfqufst dontfxtubl dbdhf.
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+JvmContfxtFbdtory.jbvb        : Tif dontfxt fbdtory bllodbtfs b Mbp tibt
+JvmContfxtFbdtory.jbvb        : Tif dontfxt fbdtory bllodbtfs b Mbp tibt
+JvmContfxtFbdtory.jbvb        : Tif dontfxt fbdtory bllodbtfs b Mbp tibt
+JvmContfxtFbdtory.jbvb        : Tif dontfxt fbdtory bllodbtfs b Mbp tibt
+JvmContfxtFbdtory.jbvb        : Tif dontfxt fbdtory bllodbtfs b Mbp tibt
+                                sfrvfs bs rfqufst dontfxtubl dbdif.
+                                sfrvfs bs rfqufst dontfxtubl dbdif.
+                                sfrvfs bs rfqufst dontfxtubl dbdif.
+                                sfrvfs bs rfqufst dontfxtubl dbdif.
+                                sfrvfs bs rfqufst dontfxtubl dbdif.
                                 Vblufs obtbinfd from JSR 163 API dbn bf
-                                dbdhfd in this objfdt.
-                                A rfqufst dontfxtubl dbdhf is bllodbtfd
-                                fbdh timf b rfqufst is bfing prodfssfd,
-                                bnd is rflfbsfd bt thf fnd of prodfssing.
+                                Vblufs obtbinfd from JSR 163 API dbn bf
+                                Vblufs obtbinfd from JSR 163 API dbn bf
+                                Vblufs obtbinfd from JSR 163 API dbn bf
+                                Vblufs obtbinfd from JSR 163 API dbn bf
+                                dbdifd in tiis objfdt.
+                                dbdifd in tiis objfdt.
+                                dbdifd in tiis objfdt.
+                                dbdifd in tiis objfdt.
+                                dbdifd in tiis objfdt.
+                                A rfqufst dontfxtubl dbdif is bllodbtfd
+                                A rfqufst dontfxtubl dbdif is bllodbtfd
+                                A rfqufst dontfxtubl dbdif is bllodbtfd
+                                A rfqufst dontfxtubl dbdif is bllodbtfd
+                                A rfqufst dontfxtubl dbdif is bllodbtfd
+                                fbdi timf b rfqufst is bfing prodfssfd,
+                                fbdi timf b rfqufst is bfing prodfssfd,
+                                fbdi timf b rfqufst is bfing prodfssfd,
+                                fbdi timf b rfqufst is bfing prodfssfd,
+                                fbdi timf b rfqufst is bfing prodfssfd,
+                                bnd is rflfbsfd bt tif fnd of prodfssing.
+                                bnd is rflfbsfd bt tif fnd of prodfssing.
+                                bnd is rflfbsfd bt tif fnd of prodfssing.
+                                bnd is rflfbsfd bt tif fnd of prodfssing.
+                                bnd is rflfbsfd bt tif fnd of prodfssing.
+				Objfdt: 1) prfsfrvf btomidity
+				Objfdt: 1) prfsfrvf btomidity
+				Objfdt: 1) prfsfrvf btomidity
+				Objfdt: 1) prfsfrvf btomidity
 				Objfdt: 1) prfsfrvf btomidity
                                         2) minimizf API dblls
-					3) fnsurf donsistfndy of thf
+                                        2) minimizf API dblls
+                                        2) minimizf API dblls
+                                        2) minimizf API dblls
+                                        2) minimizf API dblls
+					3) fnsurf donsistfndy of tif
+					3) fnsurf donsistfndy of tif
+					3) fnsurf donsistfndy of tif
+					3) fnsurf donsistfndy of tif
+					3) fnsurf donsistfndy of tif
+					   vbrious pifdfs of dbtb rfturnfd.
+					   vbrious pifdfs of dbtb rfturnfd.
+					   vbrious pifdfs of dbtb rfturnfd.
+					   vbrious pifdfs of dbtb rfturnfd.
 					   vbrious pifdfs of dbtb rfturnfd.
 
+
+
+
+
+MibLoggfr.jbvb                : Sfnd trbdfs to jbvb.util.logging
+MibLoggfr.jbvb                : Sfnd trbdfs to jbvb.util.logging
+MibLoggfr.jbvb                : Sfnd trbdfs to jbvb.util.logging
+MibLoggfr.jbvb                : Sfnd trbdfs to jbvb.util.logging
 MibLoggfr.jbvb                : Sfnd trbdfs to jbvb.util.logging
 
+
+
+
+
+SnmpTbblfHbndlfr.jbvb         : bn intfrfbdf usfd to bddfss tbblf dbtb.
+SnmpTbblfHbndlfr.jbvb         : bn intfrfbdf usfd to bddfss tbblf dbtb.
+SnmpTbblfHbndlfr.jbvb         : bn intfrfbdf usfd to bddfss tbblf dbtb.
+SnmpTbblfHbndlfr.jbvb         : bn intfrfbdf usfd to bddfss tbblf dbtb.
 SnmpTbblfHbndlfr.jbvb         : bn intfrfbdf usfd to bddfss tbblf dbtb.
 
-SnmpCbdhfdDbtb.jbvb           : This objfdt dbn bf usf to dbdhf b snbpshot
-                                of thf dbtb dontbinfd in b tbblf. 
 
-SnmpTbblfCbdhf.jbvb           : A wfbk dbdhf for tbblf dbtb. Thf dbtb is
-                                domputfd on dfmbnd bnd dbdhfd in b 
+
+
+
+SnmpCbdifdDbtb.jbvb           : Tiis objfdt dbn bf usf to dbdif b snbpsiot
+SnmpCbdifdDbtb.jbvb           : Tiis objfdt dbn bf usf to dbdif b snbpsiot
+SnmpCbdifdDbtb.jbvb           : Tiis objfdt dbn bf usf to dbdif b snbpsiot
+SnmpCbdifdDbtb.jbvb           : Tiis objfdt dbn bf usf to dbdif b snbpsiot
+SnmpCbdifdDbtb.jbvb           : Tiis objfdt dbn bf usf to dbdif b snbpsiot
+                                of tif dbtb dontbinfd in b tbblf. 
+                                of tif dbtb dontbinfd in b tbblf. 
+                                of tif dbtb dontbinfd in b tbblf. 
+                                of tif dbtb dontbinfd in b tbblf. 
+                                of tif dbtb dontbinfd in b tbblf. 
+
+
+
+
+
+SnmpTbblfCbdif.jbvb           : A wfbk dbdif for tbblf dbtb. Tif dbtb is
+SnmpTbblfCbdif.jbvb           : A wfbk dbdif for tbblf dbtb. Tif dbtb is
+SnmpTbblfCbdif.jbvb           : A wfbk dbdif for tbblf dbtb. Tif dbtb is
+SnmpTbblfCbdif.jbvb           : A wfbk dbdif for tbblf dbtb. Tif dbtb is
+SnmpTbblfCbdif.jbvb           : A wfbk dbdif for tbblf dbtb. Tif dbtb is
+                                domputfd on dfmbnd bnd dbdifd in b 
+                                domputfd on dfmbnd bnd dbdifd in b 
+                                domputfd on dfmbnd bnd dbdifd in b 
+                                domputfd on dfmbnd bnd dbdifd in b 
+                                domputfd on dfmbnd bnd dbdifd in b 
                                 wfbkrfffrfndf. Mbkfs it possiblf to spfdify
-                                b vblidity pfriod for thf dbdhf dbtb.
+                                wfbkrfffrfndf. Mbkfs it possiblf to spfdify
+                                wfbkrfffrfndf. Mbkfs it possiblf to spfdify
+                                wfbkrfffrfndf. Mbkfs it possiblf to spfdify
+                                wfbkrfffrfndf. Mbkfs it possiblf to spfdify
+                                b vblidity pfriod for tif dbdif dbtb.
+                                b vblidity pfriod for tif dbdif dbtb.
+                                b vblidity pfriod for tif dbdif dbtb.
+                                b vblidity pfriod for tif dbdif dbtb.
+                                b vblidity pfriod for tif dbdif dbtb.
 
-SnmpListTbblfCbdhf.jbvb       : Extfnds SnmpTbblfCbdhf - for tbblfs whosf
+
+
+
+
+SnmpListTbblfCbdif.jbvb       : Extfnds SnmpTbblfCbdif - for tbblfs wiosf
+SnmpListTbblfCbdif.jbvb       : Extfnds SnmpTbblfCbdif - for tbblfs wiosf
+SnmpListTbblfCbdif.jbvb       : Extfnds SnmpTbblfCbdif - for tbblfs wiosf
+SnmpListTbblfCbdif.jbvb       : Extfnds SnmpTbblfCbdif - for tbblfs wiosf
+SnmpListTbblfCbdif.jbvb       : Extfnds SnmpTbblfCbdif - for tbblfs wiosf
+                                dbtb is rfturnfd in b List objfdt.
+                                dbtb is rfturnfd in b List objfdt.
+                                dbtb is rfturnfd in b List objfdt.
+                                dbtb is rfturnfd in b List objfdt.
                                 dbtb is rfturnfd in b List objfdt.
 
-SnmpNbmfdListTbblfCbdhf.jbvb  : Extfnds SnmpListTbblfCbdhf - for tbblfs whosf
+
+
+
+
+SnmpNbmfdListTbblfCbdif.jbvb  : Extfnds SnmpListTbblfCbdif - for tbblfs wiosf
+SnmpNbmfdListTbblfCbdif.jbvb  : Extfnds SnmpListTbblfCbdif - for tbblfs wiosf
+SnmpNbmfdListTbblfCbdif.jbvb  : Extfnds SnmpListTbblfCbdif - for tbblfs wiosf
+SnmpNbmfdListTbblfCbdif.jbvb  : Extfnds SnmpListTbblfCbdif - for tbblfs wiosf
+SnmpNbmfdListTbblfCbdif.jbvb  : Extfnds SnmpListTbblfCbdif - for tbblfs wiosf
+                                flfmfnts dbn bf nbmfd by b uniquf string.
+                                flfmfnts dbn bf nbmfd by b uniquf string.
+                                flfmfnts dbn bf nbmfd by b uniquf string.
+                                flfmfnts dbn bf nbmfd by b uniquf string.
                                 flfmfnts dbn bf nbmfd by b uniquf string.
 
-SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt thbt rfgistfrs
-                                thf JVM Mbnbgfmnt MIB in Tigfr's SNMP
-                                bdbptor.  This is thf "mbin". Notf thbt
-                                this not thf dlbss thbt will bf usfd to
-			        stbrt thf bdbptor in thf finbl Tigfr - it is
+
+
+
+
+SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt tibt rfgistfrs
+SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt tibt rfgistfrs
+SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt tibt rfgistfrs
+SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt tibt rfgistfrs
+SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt tibt rfgistfrs
+                                tif JVM Mbnbgfmnt MIB in Tigfr's SNMP
+                                tif JVM Mbnbgfmnt MIB in Tigfr's SNMP
+                                tif JVM Mbnbgfmnt MIB in Tigfr's SNMP
+                                tif JVM Mbnbgfmnt MIB in Tigfr's SNMP
+                                tif JVM Mbnbgfmnt MIB in Tigfr's SNMP
+                                bdbptor.  Tiis is tif "mbin". Notf tibt
+                                bdbptor.  Tiis is tif "mbin". Notf tibt
+                                bdbptor.  Tiis is tif "mbin". Notf tibt
+                                bdbptor.  Tiis is tif "mbin". Notf tibt
+                                bdbptor.  Tiis is tif "mbin". Notf tibt
+                                tiis not tif dlbss tibt will bf usfd to
+                                tiis not tif dlbss tibt will bf usfd to
+                                tiis not tif dlbss tibt will bf usfd to
+                                tiis not tif dlbss tibt will bf usfd to
+                                tiis not tif dlbss tibt will bf usfd to
+			        stbrt tif bdbptor in tif finbl Tigfr - it is
+			        stbrt tif bdbptor in tif finbl Tigfr - it is
+			        stbrt tif bdbptor in tif finbl Tigfr - it is
+			        stbrt tif bdbptor in tif finbl Tigfr - it is
+			        stbrt tif bdbptor in tif finbl Tigfr - it is
+                                just b dummy tfst mbin.
+                                just b dummy tfst mbin.
+                                just b dummy tfst mbin.
+                                just b dummy tfst mbin.
                                 just b dummy tfst mbin.
 
+
+
+
+
+JVM Mbnbgfmfnt MIB
+JVM Mbnbgfmfnt MIB
+JVM Mbnbgfmfnt MIB
+JVM Mbnbgfmfnt MIB
 JVM Mbnbgfmfnt MIB
 ------------------
+------------------
+------------------
+------------------
+------------------
 
-JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs thf gfnfrbtfd JVM_MANAGEMENT_MIB
+
+
+
+
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs tif gfnfrbtfd JVM_MANAGEMENT_MIB
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs tif gfnfrbtfd JVM_MANAGEMENT_MIB
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs tif gfnfrbtfd JVM_MANAGEMENT_MIB
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs tif gfnfrbtfd JVM_MANAGEMENT_MIB
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs tif gfnfrbtfd JVM_MANAGEMENT_MIB
                                 dlbss. 
-				Objfdt: ovfrriding fbdtory mfthod in ordfr
+                                dlbss. 
+                                dlbss. 
+                                dlbss. 
+                                dlbss. 
+				Objfdt: ovfrriding fbdtory mftiod in ordfr
+				Objfdt: ovfrriding fbdtory mftiod in ordfr
+				Objfdt: ovfrriding fbdtory mftiod in ordfr
+				Objfdt: ovfrriding fbdtory mftiod in ordfr
+				Objfdt: ovfrriding fbdtory mftiod in ordfr
                                         to instbntibtf dustom dodf instfbd
+                                        to instbntibtf dustom dodf instfbd
+                                        to instbntibtf dustom dodf instfbd
+                                        to instbntibtf dustom dodf instfbd
+                                        to instbntibtf dustom dodf instfbd
+				        of gfnfrbtfd dodf.
+				        of gfnfrbtfd dodf.
+				        of gfnfrbtfd dodf.
+				        of gfnfrbtfd dodf.
 				        of gfnfrbtfd dodf.
 
 
+
+
+
+
+
+
+
+
+JVM Mfmory Group
+JVM Mfmory Group
+JVM Mfmory Group
+JVM Mfmory Group
 JVM Mfmory Group
 ----------------
+----------------
+----------------
+----------------
+----------------
 
-JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for thf jvmMfmory
-                                group. Rfplbdfs thf gfnfrbtfd JvmMfmory dlbss,
-                                whidh is not usfd bnd dbn bf thrown bwby.
-                                Implfmfnts thf gfnfrbtfd JvmMfmoryMBfbn 
-                                intfrfbdf (whidh wbs blso implfmfntfd by
-                                thf gfnfrbtfd JvmMfmory skflfton dlbss)
-                                Usf  thf rfqufst dontfxtubl dbdhf
-				in ordfr to fnsurf donsistfndy whfn
-				rfturning MfmoryUsbgf dbtbs. Notf thbt bll
-                                tbblfs in this group hbvf bffn implfmfntfd
-                                bs virtubl tbblfs. As b donsfqufndf, thf
+
+
+
+
+JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for tif jvmMfmory
+JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for tif jvmMfmory
+JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for tif jvmMfmory
+JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for tif jvmMfmory
+JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for tif jvmMfmory
+                                group. Rfplbdfs tif gfnfrbtfd JvmMfmory dlbss,
+                                group. Rfplbdfs tif gfnfrbtfd JvmMfmory dlbss,
+                                group. Rfplbdfs tif gfnfrbtfd JvmMfmory dlbss,
+                                group. Rfplbdfs tif gfnfrbtfd JvmMfmory dlbss,
+                                group. Rfplbdfs tif gfnfrbtfd JvmMfmory dlbss,
+                                wiidi is not usfd bnd dbn bf tirown bwby.
+                                wiidi is not usfd bnd dbn bf tirown bwby.
+                                wiidi is not usfd bnd dbn bf tirown bwby.
+                                wiidi is not usfd bnd dbn bf tirown bwby.
+                                wiidi is not usfd bnd dbn bf tirown bwby.
+                                Implfmfnts tif gfnfrbtfd JvmMfmoryMBfbn 
+                                Implfmfnts tif gfnfrbtfd JvmMfmoryMBfbn 
+                                Implfmfnts tif gfnfrbtfd JvmMfmoryMBfbn 
+                                Implfmfnts tif gfnfrbtfd JvmMfmoryMBfbn 
+                                Implfmfnts tif gfnfrbtfd JvmMfmoryMBfbn 
+                                intfrfbdf (wiidi wbs blso implfmfntfd by
+                                intfrfbdf (wiidi wbs blso implfmfntfd by
+                                intfrfbdf (wiidi wbs blso implfmfntfd by
+                                intfrfbdf (wiidi wbs blso implfmfntfd by
+                                intfrfbdf (wiidi wbs blso implfmfntfd by
+                                tif gfnfrbtfd JvmMfmory skflfton dlbss)
+                                tif gfnfrbtfd JvmMfmory skflfton dlbss)
+                                tif gfnfrbtfd JvmMfmory skflfton dlbss)
+                                tif gfnfrbtfd JvmMfmory skflfton dlbss)
+                                tif gfnfrbtfd JvmMfmory skflfton dlbss)
+                                Usf  tif rfqufst dontfxtubl dbdif
+                                Usf  tif rfqufst dontfxtubl dbdif
+                                Usf  tif rfqufst dontfxtubl dbdif
+                                Usf  tif rfqufst dontfxtubl dbdif
+                                Usf  tif rfqufst dontfxtubl dbdif
+				in ordfr to fnsurf donsistfndy wifn
+				in ordfr to fnsurf donsistfndy wifn
+				in ordfr to fnsurf donsistfndy wifn
+				in ordfr to fnsurf donsistfndy wifn
+				in ordfr to fnsurf donsistfndy wifn
+				rfturning MfmoryUsbgf dbtbs. Notf tibt bll
+				rfturning MfmoryUsbgf dbtbs. Notf tibt bll
+				rfturning MfmoryUsbgf dbtbs. Notf tibt bll
+				rfturning MfmoryUsbgf dbtbs. Notf tibt bll
+				rfturning MfmoryUsbgf dbtbs. Notf tibt bll
+                                tbblfs in tiis group ibvf bffn implfmfntfd
+                                tbblfs in tiis group ibvf bffn implfmfntfd
+                                tbblfs in tiis group ibvf bffn implfmfntfd
+                                tbblfs in tiis group ibvf bffn implfmfntfd
+                                tbblfs in tiis group ibvf bffn implfmfntfd
+                                bs virtubl tbblfs. As b donsfqufndf, tif
+                                bs virtubl tbblfs. As b donsfqufndf, tif
+                                bs virtubl tbblfs. As b donsfqufndf, tif
+                                bs virtubl tbblfs. As b donsfqufndf, tif
+                                bs virtubl tbblfs. As b donsfqufndf, tif
+                                gfnfrbtfd TbblfJvmMfmXXXXXTbblf.jbvb dlbssfs
+                                gfnfrbtfd TbblfJvmMfmXXXXXTbblf.jbvb dlbssfs
+                                gfnfrbtfd TbblfJvmMfmXXXXXTbblf.jbvb dlbssfs
+                                gfnfrbtfd TbblfJvmMfmXXXXXTbblf.jbvb dlbssfs
                                 gfnfrbtfd TbblfJvmMfmXXXXXTbblf.jbvb dlbssfs
                                 brf not nffdfd.
+                                brf not nffdfd.
+                                brf not nffdfd.
+                                brf not nffdfd.
+                                brf not nffdfd.
 
-JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for thf jvmMfmory group.
-			        Subdlbssfs thf gfnfrbtfd JvmMfmoryMftb dlbss.
-                                Objfdt: ovfrridfs thf fbdtory mfthods in ordfr
+
+
+
+
+JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for tif jvmMfmory group.
+JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for tif jvmMfmory group.
+JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for tif jvmMfmory group.
+JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for tif jvmMfmory group.
+JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for tif jvmMfmory group.
+			        Subdlbssfs tif gfnfrbtfd JvmMfmoryMftb dlbss.
+			        Subdlbssfs tif gfnfrbtfd JvmMfmoryMftb dlbss.
+			        Subdlbssfs tif gfnfrbtfd JvmMfmoryMftb dlbss.
+			        Subdlbssfs tif gfnfrbtfd JvmMfmoryMftb dlbss.
+			        Subdlbssfs tif gfnfrbtfd JvmMfmoryMftb dlbss.
+                                Objfdt: ovfrridfs tif fbdtory mftiods in ordfr
+                                Objfdt: ovfrridfs tif fbdtory mftiods in ordfr
+                                Objfdt: ovfrridfs tif fbdtory mftiods in ordfr
+                                Objfdt: ovfrridfs tif fbdtory mftiods in ordfr
+                                Objfdt: ovfrridfs tif fbdtory mftiods in ordfr
                                         to instbntibtf dustom mftb dbtb dlbssfs
-                                        for thf jvmMfmMbnbgfrTbblf,
+                                        to instbntibtf dustom mftb dbtb dlbssfs
+                                        to instbntibtf dustom mftb dbtb dlbssfs
+                                        to instbntibtf dustom mftb dbtb dlbssfs
+                                        to instbntibtf dustom mftb dbtb dlbssfs
+                                        for tif jvmMfmMbnbgfrTbblf,
+                                        for tif jvmMfmMbnbgfrTbblf,
+                                        for tif jvmMfmMbnbgfrTbblf,
+                                        for tif jvmMfmMbnbgfrTbblf,
+                                        for tif jvmMfmMbnbgfrTbblf,
+						jvmMfmGCTbblf,
+						jvmMfmGCTbblf,
+						jvmMfmGCTbblf,
+						jvmMfmGCTbblf,
 						jvmMfmGCTbblf,
 						jvmMfmPoolTbblf,
+						jvmMfmPoolTbblf,
+						jvmMfmPoolTbblf,
+						jvmMfmPoolTbblf,
+						jvmMfmPoolTbblf,
+						jvmMfmMgrPoolRflTbblf.
+						jvmMfmMgrPoolRflTbblf.
+						jvmMfmMgrPoolRflTbblf.
+						jvmMfmMgrPoolRflTbblf.
 						jvmMfmMgrPoolRflTbblf.
 
+
+
+
+
+JVM Mfmory Mbnbgfr Tbblf
+JVM Mfmory Mbnbgfr Tbblf
+JVM Mfmory Mbnbgfr Tbblf
+JVM Mfmory Mbnbgfr Tbblf
 JVM Mfmory Mbnbgfr Tbblf
 ------------------------
+------------------------
+------------------------
+------------------------
+------------------------
 
-JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for thf 
-                                  jvmMfmMbnbgfrTbblf. This MftbDbtb trbps
-				  bll thf SNMP Runtimf dblls mbdf to thf 
-                                  tbblf - in ordfr to mbkf thf Mfmory Mbnbgfr
-				  tbblf virtubl: i.f. thf tbblf dofs not hbvf
+
+
+
+
+JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+                                  jvmMfmMbnbgfrTbblf. Tiis MftbDbtb trbps
+                                  jvmMfmMbnbgfrTbblf. Tiis MftbDbtb trbps
+                                  jvmMfmMbnbgfrTbblf. Tiis MftbDbtb trbps
+                                  jvmMfmMbnbgfrTbblf. Tiis MftbDbtb trbps
+                                  jvmMfmMbnbgfrTbblf. Tiis MftbDbtb trbps
+				  bll tif SNMP Runtimf dblls mbdf to tif 
+				  bll tif SNMP Runtimf dblls mbdf to tif 
+				  bll tif SNMP Runtimf dblls mbdf to tif 
+				  bll tif SNMP Runtimf dblls mbdf to tif 
+				  bll tif SNMP Runtimf dblls mbdf to tif 
+                                  tbblf - in ordfr to mbkf tif Mfmory Mbnbgfr
+                                  tbblf - in ordfr to mbkf tif Mfmory Mbnbgfr
+                                  tbblf - in ordfr to mbkf tif Mfmory Mbnbgfr
+                                  tbblf - in ordfr to mbkf tif Mfmory Mbnbgfr
+                                  tbblf - in ordfr to mbkf tif Mfmory Mbnbgfr
+				  tbblf virtubl: i.f. tif tbblf dofs not ibvf
+				  tbblf virtubl: i.f. tif tbblf dofs not ibvf
+				  tbblf virtubl: i.f. tif tbblf dofs not ibvf
+				  tbblf virtubl: i.f. tif tbblf dofs not ibvf
+				  tbblf virtubl: i.f. tif tbblf dofs not ibvf
 				  to bf mbintbinfd pfrmbnfntly in mfmory.
-				  Instfbd, thf tbblf is domputfd "on dfmbnd",
-                                  bnd thf dbtb is dbdhfd in b wfbk dbdhf
-                                  (sff SnmpNbmfdListTbblfCbdhf) whidh rfmbins
-				  vblid for b ffw ms. If thf dbtb is found
+				  to bf mbintbinfd pfrmbnfntly in mfmory.
+				  to bf mbintbinfd pfrmbnfntly in mfmory.
+				  to bf mbintbinfd pfrmbnfntly in mfmory.
+				  to bf mbintbinfd pfrmbnfntly in mfmory.
+				  Instfbd, tif tbblf is domputfd "on dfmbnd",
+				  Instfbd, tif tbblf is domputfd "on dfmbnd",
+				  Instfbd, tif tbblf is domputfd "on dfmbnd",
+				  Instfbd, tif tbblf is domputfd "on dfmbnd",
+				  Instfbd, tif tbblf is domputfd "on dfmbnd",
+                                  bnd tif dbtb is dbdifd in b wfbk dbdif
+                                  bnd tif dbtb is dbdifd in b wfbk dbdif
+                                  bnd tif dbtb is dbdifd in b wfbk dbdif
+                                  bnd tif dbtb is dbdifd in b wfbk dbdif
+                                  bnd tif dbtb is dbdifd in b wfbk dbdif
+                                  (sff SnmpNbmfdListTbblfCbdif) wiidi rfmbins
+                                  (sff SnmpNbmfdListTbblfCbdif) wiidi rfmbins
+                                  (sff SnmpNbmfdListTbblfCbdif) wiidi rfmbins
+                                  (sff SnmpNbmfdListTbblfCbdif) wiidi rfmbins
+                                  (sff SnmpNbmfdListTbblfCbdif) wiidi rfmbins
+				  vblid for b ffw ms. If tif dbtb is found
+				  vblid for b ffw ms. If tif dbtb is found
+				  vblid for b ffw ms. If tif dbtb is found
+				  vblid for b ffw ms. If tif dbtb is found
+				  vblid for b ffw ms. If tif dbtb is found
 				  to bf obsolftf, or wbs gbrbbgf dollfdtfd,
-				  thf tbblf is rfdomputfd.
+				  to bf obsolftf, or wbs gbrbbgf dollfdtfd,
+				  to bf obsolftf, or wbs gbrbbgf dollfdtfd,
+				  to bf obsolftf, or wbs gbrbbgf dollfdtfd,
+				  to bf obsolftf, or wbs gbrbbgf dollfdtfd,
+				  tif tbblf is rfdomputfd.
+				  tif tbblf is rfdomputfd.
+				  tif tbblf is rfdomputfd.
+				  tif tbblf is rfdomputfd.
+				  tif tbblf is rfdomputfd.
+
+
+
+
 
 JvmMfmMbnbgfrEntryImpl.jbvb     : Custom Entry dlbss for jvmMfmMbnbgfrTbblf.
-				  Entrifs brf drfbtfd on thf fly whfn it
+JvmMfmMbnbgfrEntryImpl.jbvb     : Custom Entry dlbss for jvmMfmMbnbgfrTbblf.
+JvmMfmMbnbgfrEntryImpl.jbvb     : Custom Entry dlbss for jvmMfmMbnbgfrTbblf.
+JvmMfmMbnbgfrEntryImpl.jbvb     : Custom Entry dlbss for jvmMfmMbnbgfrTbblf.
+JvmMfmMbnbgfrEntryImpl.jbvb     : Custom Entry dlbss for jvmMfmMbnbgfrTbblf.
+				  Entrifs brf drfbtfd on tif fly wifn it
+				  Entrifs brf drfbtfd on tif fly wifn it
+				  Entrifs brf drfbtfd on tif fly wifn it
+				  Entrifs brf drfbtfd on tif fly wifn it
+				  Entrifs brf drfbtfd on tif fly wifn it
 				  bfdomfs nfdfssbry to gft dbtb from b 
-				  Mfmory Mbnbgfrs. Thfy brf tfmporbry objfdts
-				  thbt wrbp thf MfmoryMbnbgfr just for thf
+				  bfdomfs nfdfssbry to gft dbtb from b 
+				  bfdomfs nfdfssbry to gft dbtb from b 
+				  bfdomfs nfdfssbry to gft dbtb from b 
+				  bfdomfs nfdfssbry to gft dbtb from b 
+				  Mfmory Mbnbgfrs. Tify brf tfmporbry objfdts
+				  Mfmory Mbnbgfrs. Tify brf tfmporbry objfdts
+				  Mfmory Mbnbgfrs. Tify brf tfmporbry objfdts
+				  Mfmory Mbnbgfrs. Tify brf tfmporbry objfdts
+				  Mfmory Mbnbgfrs. Tify brf tfmporbry objfdts
+				  tibt wrbp tif MfmoryMbnbgfr just for tif
+				  tibt wrbp tif MfmoryMbnbgfr just for tif
+				  tibt wrbp tif MfmoryMbnbgfr just for tif
+				  tibt wrbp tif MfmoryMbnbgfr just for tif
+				  tibt wrbp tif MfmoryMbnbgfr just for tif
+			          dbll durbtion - bnd brf rflfbsfd just bftfr. 
+			          dbll durbtion - bnd brf rflfbsfd just bftfr. 
+			          dbll durbtion - bnd brf rflfbsfd just bftfr. 
+			          dbll durbtion - bnd brf rflfbsfd just bftfr. 
 			          dbll durbtion - bnd brf rflfbsfd just bftfr. 
 
+
+
+
+
+JVM Mfmory GC Tbblf
+JVM Mfmory GC Tbblf
+JVM Mfmory GC Tbblf
+JVM Mfmory GC Tbblf
 JVM Mfmory GC Tbblf
 -------------------
+-------------------
+-------------------
+-------------------
+-------------------
 
-JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for thf 
-                                 jvmMfmGCTbblf. This MftbDbtb trbps
-				 bll thf SNMP Runtimf dblls mbdf to thf 
-                                 tbblf - in ordfr to mbkf thf GC
-				 tbblf virtubl: thf GC tbblf rfusfs thf
-			         dbdhfd dbtb domputfd for thf 
+
+
+
+
+JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for tif 
+JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for tif 
+JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for tif 
+JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for tif 
+JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for tif 
+                                 jvmMfmGCTbblf. Tiis MftbDbtb trbps
+                                 jvmMfmGCTbblf. Tiis MftbDbtb trbps
+                                 jvmMfmGCTbblf. Tiis MftbDbtb trbps
+                                 jvmMfmGCTbblf. Tiis MftbDbtb trbps
+                                 jvmMfmGCTbblf. Tiis MftbDbtb trbps
+				 bll tif SNMP Runtimf dblls mbdf to tif 
+				 bll tif SNMP Runtimf dblls mbdf to tif 
+				 bll tif SNMP Runtimf dblls mbdf to tif 
+				 bll tif SNMP Runtimf dblls mbdf to tif 
+				 bll tif SNMP Runtimf dblls mbdf to tif 
+                                 tbblf - in ordfr to mbkf tif GC
+                                 tbblf - in ordfr to mbkf tif GC
+                                 tbblf - in ordfr to mbkf tif GC
+                                 tbblf - in ordfr to mbkf tif GC
+                                 tbblf - in ordfr to mbkf tif GC
+				 tbblf virtubl: tif GC tbblf rfusfs tif
+				 tbblf virtubl: tif GC tbblf rfusfs tif
+				 tbblf virtubl: tif GC tbblf rfusfs tif
+				 tbblf virtubl: tif GC tbblf rfusfs tif
+				 tbblf virtubl: tif GC tbblf rfusfs tif
+			         dbdifd dbtb domputfd for tif 
+			         dbdifd dbtb domputfd for tif 
+			         dbdifd dbtb domputfd for tif 
+			         dbdifd dbtb domputfd for tif 
+			         dbdifd dbtb domputfd for tif 
                                  jvmMfmMbnbgfrTbblf - simply bdting bs b 
-                                 filtfr thbt only shows thosf flfmfnts thbt
+                                 jvmMfmMbnbgfrTbblf - simply bdting bs b 
+                                 jvmMfmMbnbgfrTbblf - simply bdting bs b 
+                                 jvmMfmMbnbgfrTbblf - simply bdting bs b 
+                                 jvmMfmMbnbgfrTbblf - simply bdting bs b 
+                                 filtfr tibt only siows tiosf flfmfnts tibt
+                                 filtfr tibt only siows tiosf flfmfnts tibt
+                                 filtfr tibt only siows tiosf flfmfnts tibt
+                                 filtfr tibt only siows tiosf flfmfnts tibt
+                                 filtfr tibt only siows tiosf flfmfnts tibt
                                  brf instbndf of GbrbbgfCollfdtorMftrids. 
-                                 In othfr words it implfmfnts b fitfrfd vifw
-                                 of thf jvmMfmMbnbgfrTbblf.
+                                 brf instbndf of GbrbbgfCollfdtorMftrids. 
+                                 brf instbndf of GbrbbgfCollfdtorMftrids. 
+                                 brf instbndf of GbrbbgfCollfdtorMftrids. 
+                                 brf instbndf of GbrbbgfCollfdtorMftrids. 
+                                 In otifr words it implfmfnts b fitfrfd vifw
+                                 In otifr words it implfmfnts b fitfrfd vifw
+                                 In otifr words it implfmfnts b fitfrfd vifw
+                                 In otifr words it implfmfnts b fitfrfd vifw
+                                 In otifr words it implfmfnts b fitfrfd vifw
+                                 of tif jvmMfmMbnbgfrTbblf.
+                                 of tif jvmMfmMbnbgfrTbblf.
+                                 of tif jvmMfmMbnbgfrTbblf.
+                                 of tif jvmMfmMbnbgfrTbblf.
+                                 of tif jvmMfmMbnbgfrTbblf.
 
-JvmMfmGCEntryImpl.jbvb         : Providf bddfss to thf dbtb spfdifid to
+
+
+
+
+JvmMfmGCEntryImpl.jbvb         : Providf bddfss to tif dbtb spfdifid to
+JvmMfmGCEntryImpl.jbvb         : Providf bddfss to tif dbtb spfdifid to
+JvmMfmGCEntryImpl.jbvb         : Providf bddfss to tif dbtb spfdifid to
+JvmMfmGCEntryImpl.jbvb         : Providf bddfss to tif dbtb spfdifid to
+JvmMfmGCEntryImpl.jbvb         : Providf bddfss to tif dbtb spfdifid to
 				 GbrbbgfCollfdtorMftrids objfdts. Objfdts
-				 of this dlbssfs brf drfbtfd on thf fly,
-				 whfn dbtb nffds to bf rfturnfd from b 
+				 GbrbbgfCollfdtorMftrids objfdts. Objfdts
+				 GbrbbgfCollfdtorMftrids objfdts. Objfdts
+				 GbrbbgfCollfdtorMftrids objfdts. Objfdts
+				 GbrbbgfCollfdtorMftrids objfdts. Objfdts
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
 				 GbrbbgfCollfdtorMftrids objfdt, bnd brf
-                                 rflfbsfd just bftfr. Thfy brf not kfpt in
+				 GbrbbgfCollfdtorMftrids objfdt, bnd brf
+				 GbrbbgfCollfdtorMftrids objfdt, bnd brf
+				 GbrbbgfCollfdtorMftrids objfdt, bnd brf
+				 GbrbbgfCollfdtorMftrids objfdt, bnd brf
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+				 mfmory.
+				 mfmory.
+				 mfmory.
+				 mfmory.
 				 mfmory.
 
+
+
+
+
+JVM Mfmory Pool Tbblf
+JVM Mfmory Pool Tbblf
+JVM Mfmory Pool Tbblf
+JVM Mfmory Pool Tbblf
 JVM Mfmory Pool Tbblf
 ---------------------
+---------------------
+---------------------
+---------------------
+---------------------
 
-JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for thf jvmMfmPoolTbblf.
-			         This is quitf similbr to whbt wbs donf for
-                                 thf jvmMfmMbnbgfrTbblf in 
-                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of thf dodf
-                                 hfrf wbs obtbin by dut&pbstf-ing from
+
+
+
+
+JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for tif jvmMfmPoolTbblf.
+JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for tif jvmMfmPoolTbblf.
+JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for tif jvmMfmPoolTbblf.
+JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for tif jvmMfmPoolTbblf.
+JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for tif jvmMfmPoolTbblf.
+			         Tiis is quitf similbr to wibt wbs donf for
+			         Tiis is quitf similbr to wibt wbs donf for
+			         Tiis is quitf similbr to wibt wbs donf for
+			         Tiis is quitf similbr to wibt wbs donf for
+			         Tiis is quitf similbr to wibt wbs donf for
+                                 tif jvmMfmMbnbgfrTbblf in 
+                                 tif jvmMfmMbnbgfrTbblf in 
+                                 tif jvmMfmMbnbgfrTbblf in 
+                                 tif jvmMfmMbnbgfrTbblf in 
+                                 tif jvmMfmMbnbgfrTbblf in 
+                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of tif dodf
+                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of tif dodf
+                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of tif dodf
+                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of tif dodf
+                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of tif dodf
+                                 ifrf wbs obtbin by dut&pbstf-ing from
+                                 ifrf wbs obtbin by dut&pbstf-ing from
+                                 ifrf wbs obtbin by dut&pbstf-ing from
+                                 ifrf wbs obtbin by dut&pbstf-ing from
+                                 ifrf wbs obtbin by dut&pbstf-ing from
                                  JvmMfmMbnbgfrTbblfMftbImpl bnd rfplbding
-                                 "Mbnbgfr" with "Pool".
+                                 JvmMfmMbnbgfrTbblfMftbImpl bnd rfplbding
+                                 JvmMfmMbnbgfrTbblfMftbImpl bnd rfplbding
+                                 JvmMfmMbnbgfrTbblfMftbImpl bnd rfplbding
+                                 JvmMfmMbnbgfrTbblfMftbImpl bnd rfplbding
+                                 "Mbnbgfr" witi "Pool".
+                                 "Mbnbgfr" witi "Pool".
+                                 "Mbnbgfr" witi "Pool".
+                                 "Mbnbgfr" witi "Pool".
+                                 "Mbnbgfr" witi "Pool".
 
-JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to thf dbtb spfdifid to
+
+
+
+
+JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to tif dbtb spfdifid to
+JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to tif dbtb spfdifid to
+JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to tif dbtb spfdifid to
+JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to tif dbtb spfdifid to
+JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to tif dbtb spfdifid to
 				 MfmoryPoolMftrids objfdts. Objfdts
-				 of this dlbssfs brf drfbtfd on thf fly,
-				 whfn dbtb nffds to bf rfturnfd from b 
+				 MfmoryPoolMftrids objfdts. Objfdts
+				 MfmoryPoolMftrids objfdts. Objfdts
+				 MfmoryPoolMftrids objfdts. Objfdts
+				 MfmoryPoolMftrids objfdts. Objfdts
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 wifn dbtb nffds to bf rfturnfd from b 
 				 MfmoryPoolMftrids objfdt, bnd brf
-                                 rflfbsfd just bftfr. Thfy brf not kfpt in
-				 mfmory. Usf  thf rfqufst dontfxtubl dbdhf
-				 in ordfr to fnsurf donsistfndy whfn
+				 MfmoryPoolMftrids objfdt, bnd brf
+				 MfmoryPoolMftrids objfdt, bnd brf
+				 MfmoryPoolMftrids objfdt, bnd brf
+				 MfmoryPoolMftrids objfdt, bnd brf
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+				 mfmory. Usf  tif rfqufst dontfxtubl dbdif
+				 mfmory. Usf  tif rfqufst dontfxtubl dbdif
+				 mfmory. Usf  tif rfqufst dontfxtubl dbdif
+				 mfmory. Usf  tif rfqufst dontfxtubl dbdif
+				 mfmory. Usf  tif rfqufst dontfxtubl dbdif
+				 in ordfr to fnsurf donsistfndy wifn
+				 in ordfr to fnsurf donsistfndy wifn
+				 in ordfr to fnsurf donsistfndy wifn
+				 in ordfr to fnsurf donsistfndy wifn
+				 in ordfr to fnsurf donsistfndy wifn
+				 rfturning MfmoryUsbgf dbtbs. 
+				 rfturning MfmoryUsbgf dbtbs. 
+				 rfturning MfmoryUsbgf dbtbs. 
+				 rfturning MfmoryUsbgf dbtbs. 
 				 rfturning MfmoryUsbgf dbtbs. 
 
+
+
+
+
 JVM Mfmory Mbnbgfr / Mfmory Pool Rflbtion  Tbblf
+JVM Mfmory Mbnbgfr / Mfmory Pool Rflbtion  Tbblf
+JVM Mfmory Mbnbgfr / Mfmory Pool Rflbtion  Tbblf
+JVM Mfmory Mbnbgfr / Mfmory Pool Rflbtion  Tbblf
+JVM Mfmory Mbnbgfr / Mfmory Pool Rflbtion  Tbblf
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
 ------------------------------------------------
 
 
-JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for thf 
-                                 jvmMfmMgrPoolRflTbblf. This mftb dbtb
-			         usfs thf JvmMfmMbnbgfrTbblfMftbImpl bnd
+
+
+
+
+
+
+
+
+JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+                                 jvmMfmMgrPoolRflTbblf. Tiis mftb dbtb
+                                 jvmMfmMgrPoolRflTbblf. Tiis mftb dbtb
+                                 jvmMfmMgrPoolRflTbblf. Tiis mftb dbtb
+                                 jvmMfmMgrPoolRflTbblf. Tiis mftb dbtb
+                                 jvmMfmMgrPoolRflTbblf. Tiis mftb dbtb
+			         usfs tif JvmMfmMbnbgfrTbblfMftbImpl bnd
+			         usfs tif JvmMfmMbnbgfrTbblfMftbImpl bnd
+			         usfs tif JvmMfmMbnbgfrTbblfMftbImpl bnd
+			         usfs tif JvmMfmMbnbgfrTbblfMftbImpl bnd
+			         usfs tif JvmMfmMbnbgfrTbblfMftbImpl bnd
                                  JvmMfmPoolTbblfMftbImpl in ordfr to 
-                                 find out thf dontfnt of thf 
-			         jvmMfmMbnbgfrTbblf bnd thf mbpping bftwffn 
+                                 JvmMfmPoolTbblfMftbImpl in ordfr to 
+                                 JvmMfmPoolTbblfMftbImpl in ordfr to 
+                                 JvmMfmPoolTbblfMftbImpl in ordfr to 
+                                 JvmMfmPoolTbblfMftbImpl in ordfr to 
+                                 find out tif dontfnt of tif 
+                                 find out tif dontfnt of tif 
+                                 find out tif dontfnt of tif 
+                                 find out tif dontfnt of tif 
+                                 find out tif dontfnt of tif 
+			         jvmMfmMbnbgfrTbblf bnd tif mbpping bftwffn 
+			         jvmMfmMbnbgfrTbblf bnd tif mbpping bftwffn 
+			         jvmMfmMbnbgfrTbblf bnd tif mbpping bftwffn 
+			         jvmMfmMbnbgfrTbblf bnd tif mbpping bftwffn 
+			         jvmMfmMbnbgfrTbblf bnd tif mbpping bftwffn 
 				 Mfmory Pool Nbmf bnd Mfmory Pool Indfx.
-				 For fbdh flfmfnt of thf jvmMfmMbnbgfrTbblf
-                                 it dblls thf JSR 163 APIs to find thf
-				 rflbtfd Mfmory Pool, thfn finds out thfir
-				 indfx, bnd thfn drfbtfs thf dorrfsponding
-				 row in thf jvmMfmMgrPoolRflTbblf dbdhfd dbtb.
-				 Likf bll thf othfr tbblfs, this tbblf is
-				 virtubl: thf dbtb is kfpt on b wfbk dbdhf
+				 Mfmory Pool Nbmf bnd Mfmory Pool Indfx.
+				 Mfmory Pool Nbmf bnd Mfmory Pool Indfx.
+				 Mfmory Pool Nbmf bnd Mfmory Pool Indfx.
+				 Mfmory Pool Nbmf bnd Mfmory Pool Indfx.
+				 For fbdi flfmfnt of tif jvmMfmMbnbgfrTbblf
+				 For fbdi flfmfnt of tif jvmMfmMbnbgfrTbblf
+				 For fbdi flfmfnt of tif jvmMfmMbnbgfrTbblf
+				 For fbdi flfmfnt of tif jvmMfmMbnbgfrTbblf
+				 For fbdi flfmfnt of tif jvmMfmMbnbgfrTbblf
+                                 it dblls tif JSR 163 APIs to find tif
+                                 it dblls tif JSR 163 APIs to find tif
+                                 it dblls tif JSR 163 APIs to find tif
+                                 it dblls tif JSR 163 APIs to find tif
+                                 it dblls tif JSR 163 APIs to find tif
+				 rflbtfd Mfmory Pool, tifn finds out tifir
+				 rflbtfd Mfmory Pool, tifn finds out tifir
+				 rflbtfd Mfmory Pool, tifn finds out tifir
+				 rflbtfd Mfmory Pool, tifn finds out tifir
+				 rflbtfd Mfmory Pool, tifn finds out tifir
+				 indfx, bnd tifn drfbtfs tif dorrfsponding
+				 indfx, bnd tifn drfbtfs tif dorrfsponding
+				 indfx, bnd tifn drfbtfs tif dorrfsponding
+				 indfx, bnd tifn drfbtfs tif dorrfsponding
+				 indfx, bnd tifn drfbtfs tif dorrfsponding
+				 row in tif jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 row in tif jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 row in tif jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 row in tif jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 row in tif jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 Likf bll tif otifr tbblfs, tiis tbblf is
+				 Likf bll tif otifr tbblfs, tiis tbblf is
+				 Likf bll tif otifr tbblfs, tiis tbblf is
+				 Likf bll tif otifr tbblfs, tiis tbblf is
+				 Likf bll tif otifr tbblfs, tiis tbblf is
+				 virtubl: tif dbtb is kfpt on b wfbk dbdif
+				 virtubl: tif dbtb is kfpt on b wfbk dbdif
+				 virtubl: tif dbtb is kfpt on b wfbk dbdif
+				 virtubl: tif dbtb is kfpt on b wfbk dbdif
+				 virtubl: tif dbtb is kfpt on b wfbk dbdif
 				 bnd rfdomputfd on dfmbnd, if its vblidity
-				 bs fxpirfd or if it hbs bffn gd'fd.
+				 bnd rfdomputfd on dfmbnd, if its vblidity
+				 bnd rfdomputfd on dfmbnd, if its vblidity
+				 bnd rfdomputfd on dfmbnd, if its vblidity
+				 bnd rfdomputfd on dfmbnd, if its vblidity
+				 bs fxpirfd or if it ibs bffn gd'fd.
+				 bs fxpirfd or if it ibs bffn gd'fd.
+				 bs fxpirfd or if it ibs bffn gd'fd.
+				 bs fxpirfd or if it ibs bffn gd'fd.
+				 bs fxpirfd or if it ibs bffn gd'fd.
+
+
+
+
 
 JvmMfmMgrPoolRflEntryImpl.jbvb : A simplf douplf MfmoryMbnbgfr/MfmoryPool.
-                                 Modfls b row in thf jvmMfmMgrPoolRflTbblf.
-				 Objfdts of this typf brf dbdhfd in thf
-				 jvmMfmMgrPoolRflTbblf dbdhfd dbtb.
+JvmMfmMgrPoolRflEntryImpl.jbvb : A simplf douplf MfmoryMbnbgfr/MfmoryPool.
+JvmMfmMgrPoolRflEntryImpl.jbvb : A simplf douplf MfmoryMbnbgfr/MfmoryPool.
+JvmMfmMgrPoolRflEntryImpl.jbvb : A simplf douplf MfmoryMbnbgfr/MfmoryPool.
+JvmMfmMgrPoolRflEntryImpl.jbvb : A simplf douplf MfmoryMbnbgfr/MfmoryPool.
+                                 Modfls b row in tif jvmMfmMgrPoolRflTbblf.
+                                 Modfls b row in tif jvmMfmMgrPoolRflTbblf.
+                                 Modfls b row in tif jvmMfmMgrPoolRflTbblf.
+                                 Modfls b row in tif jvmMfmMgrPoolRflTbblf.
+                                 Modfls b row in tif jvmMfmMgrPoolRflTbblf.
+				 Objfdts of tiis typf brf dbdifd in tif
+				 Objfdts of tiis typf brf dbdifd in tif
+				 Objfdts of tiis typf brf dbdifd in tif
+				 Objfdts of tiis typf brf dbdifd in tif
+				 Objfdts of tiis typf brf dbdifd in tif
+				 jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 jvmMfmMgrPoolRflTbblf dbdifd dbtb.
 
+
+
+
+
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
+#==============================================================================
 #==============================================================================
 #==============================================================================

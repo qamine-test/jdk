@@ -1,287 +1,1435 @@
 /*
- * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+pbdkbgf jbvbx.nft.ssl;
+
+
+
+
 
 import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.*;
 import jbvb.sfdurity.*;
 
+
+
+
+
+import sun.sfdurity.jdb.GftInstbndf;
+import sun.sfdurity.jdb.GftInstbndf;
+import sun.sfdurity.jdb.GftInstbndf;
+import sun.sfdurity.jdb.GftInstbndf;
 import sun.sfdurity.jdb.GftInstbndf;
 
+
+
+
+
 /**
- * This dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
- * sourdf of trust mbtfribl. Ebdh trust mbnbgfr mbnbgfs b spfdifid
- * typf of trust mbtfribl for usf by sfdurf sodkfts. Thf trust
+/**
+/**
+/**
+/**
+ * Tiis dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
+ * Tiis dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
+ * Tiis dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
+ * Tiis dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
+ * Tiis dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
+ * sourdf of trust mbtfribl. Ebdi trust mbnbgfr mbnbgfs b spfdifid
+ * sourdf of trust mbtfribl. Ebdi trust mbnbgfr mbnbgfs b spfdifid
+ * sourdf of trust mbtfribl. Ebdi trust mbnbgfr mbnbgfs b spfdifid
+ * sourdf of trust mbtfribl. Ebdi trust mbnbgfr mbnbgfs b spfdifid
+ * sourdf of trust mbtfribl. Ebdi trust mbnbgfr mbnbgfs b spfdifid
+ * typf of trust mbtfribl for usf by sfdurf sodkfts. Tif trust
+ * typf of trust mbtfribl for usf by sfdurf sodkfts. Tif trust
+ * typf of trust mbtfribl for usf by sfdurf sodkfts. Tif trust
+ * typf of trust mbtfribl for usf by sfdurf sodkfts. Tif trust
+ * typf of trust mbtfribl for usf by sfdurf sodkfts. Tif trust
+ * mbtfribl is bbsfd on b KfyStorf bnd/or providfr spfdifid sourdfs.
+ * mbtfribl is bbsfd on b KfyStorf bnd/or providfr spfdifid sourdfs.
+ * mbtfribl is bbsfd on b KfyStorf bnd/or providfr spfdifid sourdfs.
+ * mbtfribl is bbsfd on b KfyStorf bnd/or providfr spfdifid sourdfs.
  * mbtfribl is bbsfd on b KfyStorf bnd/or providfr spfdifid sourdfs.
  *
+ *
+ *
+ *
+ *
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
  * @sindf 1.4
  * @sff TrustMbnbgfr
+ * @sff TrustMbnbgfr
+ * @sff TrustMbnbgfr
+ * @sff TrustMbnbgfr
+ * @sff TrustMbnbgfr
+ */
+ */
+ */
+ */
  */
 publid dlbss TrustMbnbgfrFbdtory {
-    // Thf providfr
+publid dlbss TrustMbnbgfrFbdtory {
+publid dlbss TrustMbnbgfrFbdtory {
+publid dlbss TrustMbnbgfrFbdtory {
+publid dlbss TrustMbnbgfrFbdtory {
+    // Tif providfr
+    // Tif providfr
+    // Tif providfr
+    // Tif providfr
+    // Tif providfr
+    privbtf Providfr providfr;
+    privbtf Providfr providfr;
+    privbtf Providfr providfr;
+    privbtf Providfr providfr;
     privbtf Providfr providfr;
 
-    // Thf providfr implfmfntbtion (dflfgbtf)
+
+
+
+
+    // Tif providfr implfmfntbtion (dflfgbtf)
+    // Tif providfr implfmfntbtion (dflfgbtf)
+    // Tif providfr implfmfntbtion (dflfgbtf)
+    // Tif providfr implfmfntbtion (dflfgbtf)
+    // Tif providfr implfmfntbtion (dflfgbtf)
+    privbtf TrustMbnbgfrFbdtorySpi fbdtorySpi;
+    privbtf TrustMbnbgfrFbdtorySpi fbdtorySpi;
+    privbtf TrustMbnbgfrFbdtorySpi fbdtorySpi;
+    privbtf TrustMbnbgfrFbdtorySpi fbdtorySpi;
     privbtf TrustMbnbgfrFbdtorySpi fbdtorySpi;
 
-    // Thf nbmf of thf trust mbnbgfmfnt blgorithm.
-    privbtf String blgorithm;
+
+
+
+
+    // Tif nbmf of tif trust mbnbgfmfnt blgoritim.
+    // Tif nbmf of tif trust mbnbgfmfnt blgoritim.
+    // Tif nbmf of tif trust mbnbgfmfnt blgoritim.
+    // Tif nbmf of tif trust mbnbgfmfnt blgoritim.
+    // Tif nbmf of tif trust mbnbgfmfnt blgoritim.
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+
+
+
+
 
     /**
-     * Obtbins thf dffbult TrustMbnbgfrFbdtory blgorithm nbmf.
+    /**
+    /**
+    /**
+    /**
+     * Obtbins tif dffbult TrustMbnbgfrFbdtory blgoritim nbmf.
+     * Obtbins tif dffbult TrustMbnbgfrFbdtory blgoritim nbmf.
+     * Obtbins tif dffbult TrustMbnbgfrFbdtory blgoritim nbmf.
+     * Obtbins tif dffbult TrustMbnbgfrFbdtory blgoritim nbmf.
+     * Obtbins tif dffbult TrustMbnbgfrFbdtory blgoritim nbmf.
      *
-     * <p>Thf dffbult TrustMbnbgfr dbn bf dhbngfd bt runtimf by sftting
-     * thf vbluf of thf {@dodf ssl.TrustMbnbgfrFbdtory.blgorithm}
-     * sfdurity propfrty to thf dfsirfd blgorithm nbmf.
+     *
+     *
+     *
+     *
+     * <p>Tif dffbult TrustMbnbgfr dbn bf dibngfd bt runtimf by sftting
+     * <p>Tif dffbult TrustMbnbgfr dbn bf dibngfd bt runtimf by sftting
+     * <p>Tif dffbult TrustMbnbgfr dbn bf dibngfd bt runtimf by sftting
+     * <p>Tif dffbult TrustMbnbgfr dbn bf dibngfd bt runtimf by sftting
+     * <p>Tif dffbult TrustMbnbgfr dbn bf dibngfd bt runtimf by sftting
+     * tif vbluf of tif {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim}
+     * tif vbluf of tif {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim}
+     * tif vbluf of tif {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim}
+     * tif vbluf of tif {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim}
+     * tif vbluf of tif {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim}
+     * sfdurity propfrty to tif dfsirfd blgoritim nbmf.
+     * sfdurity propfrty to tif dfsirfd blgoritim nbmf.
+     * sfdurity propfrty to tif dfsirfd blgoritim nbmf.
+     * sfdurity propfrty to tif dfsirfd blgoritim nbmf.
+     * sfdurity propfrty to tif dfsirfd blgoritim nbmf.
+     *
+     *
+     *
+     *
      *
      * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
-     * @rfturn thf dffbult blgorithm nbmf bs spfdififd by thf
-     * {@dodf ssl.TrustMbnbgfrFbdtory.blgorithm} sfdurity propfrty, or bn
-     * implfmfntbtion-spfdifid dffbult if no sudh propfrty fxists.
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     * @rfturn tif dffbult blgoritim nbmf bs spfdififd by tif
+     * @rfturn tif dffbult blgoritim nbmf bs spfdififd by tif
+     * @rfturn tif dffbult blgoritim nbmf bs spfdififd by tif
+     * @rfturn tif dffbult blgoritim nbmf bs spfdififd by tif
+     * @rfturn tif dffbult blgoritim nbmf bs spfdififd by tif
+     * {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim} sfdurity propfrty, or bn
+     * {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim} sfdurity propfrty, or bn
+     * {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim} sfdurity propfrty, or bn
+     * {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim} sfdurity propfrty, or bn
+     * {@dodf ssl.TrustMbnbgfrFbdtory.blgoritim} sfdurity propfrty, or bn
+     * implfmfntbtion-spfdifid dffbult if no sudi propfrty fxists.
+     * implfmfntbtion-spfdifid dffbult if no sudi propfrty fxists.
+     * implfmfntbtion-spfdifid dffbult if no sudi propfrty fxists.
+     * implfmfntbtion-spfdifid dffbult if no sudi propfrty fxists.
+     * implfmfntbtion-spfdifid dffbult if no sudi propfrty fxists.
      */
-    publid finbl stbtid String gftDffbultAlgorithm() {
+     */
+     */
+     */
+     */
+    publid finbl stbtid String gftDffbultAlgoritim() {
+    publid finbl stbtid String gftDffbultAlgoritim() {
+    publid finbl stbtid String gftDffbultAlgoritim() {
+    publid finbl stbtid String gftDffbultAlgoritim() {
+    publid finbl stbtid String gftDffbultAlgoritim() {
+        String typf;
+        String typf;
+        String typf;
+        String typf;
         String typf;
         typf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+        typf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+        typf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+        typf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+        typf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            @Ovfrridf
+            @Ovfrridf
+            @Ovfrridf
+            @Ovfrridf
             @Ovfrridf
             publid String run() {
+            publid String run() {
+            publid String run() {
+            publid String run() {
+            publid String run() {
                 rfturn Sfdurity.gftPropfrty(
-                    "ssl.TrustMbnbgfrFbdtory.blgorithm");
+                rfturn Sfdurity.gftPropfrty(
+                rfturn Sfdurity.gftPropfrty(
+                rfturn Sfdurity.gftPropfrty(
+                rfturn Sfdurity.gftPropfrty(
+                    "ssl.TrustMbnbgfrFbdtory.blgoritim");
+                    "ssl.TrustMbnbgfrFbdtory.blgoritim");
+                    "ssl.TrustMbnbgfrFbdtory.blgoritim");
+                    "ssl.TrustMbnbgfrFbdtory.blgoritim");
+                    "ssl.TrustMbnbgfrFbdtory.blgoritim");
+            }
+            }
+            }
+            }
             }
         });
+        });
+        });
+        });
+        });
+        if (typf == null) {
+        if (typf == null) {
+        if (typf == null) {
+        if (typf == null) {
         if (typf == null) {
             typf = "SunX509";
+            typf = "SunX509";
+            typf = "SunX509";
+            typf = "SunX509";
+            typf = "SunX509";
+        }
+        }
+        }
+        }
         }
         rfturn typf;
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
+        rfturn typf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b TrustMbnbgfrFbdtory objfdt.
+     * Crfbtfs b TrustMbnbgfrFbdtory objfdt.
+     * Crfbtfs b TrustMbnbgfrFbdtory objfdt.
+     * Crfbtfs b TrustMbnbgfrFbdtory objfdt.
+     * Crfbtfs b TrustMbnbgfrFbdtory objfdt.
      *
-     * @pbrbm fbdtorySpi thf dflfgbtf
-     * @pbrbm providfr thf providfr
-     * @pbrbm blgorithm thf blgorithm
+     *
+     *
+     *
+     *
+     * @pbrbm fbdtorySpi tif dflfgbtf
+     * @pbrbm fbdtorySpi tif dflfgbtf
+     * @pbrbm fbdtorySpi tif dflfgbtf
+     * @pbrbm fbdtorySpi tif dflfgbtf
+     * @pbrbm fbdtorySpi tif dflfgbtf
+     * @pbrbm providfr tif providfr
+     * @pbrbm providfr tif providfr
+     * @pbrbm providfr tif providfr
+     * @pbrbm providfr tif providfr
+     * @pbrbm providfr tif providfr
+     * @pbrbm blgoritim tif blgoritim
+     * @pbrbm blgoritim tif blgoritim
+     * @pbrbm blgoritim tif blgoritim
+     * @pbrbm blgoritim tif blgoritim
+     * @pbrbm blgoritim tif blgoritim
+     */
+     */
+     */
+     */
      */
     protfdtfd TrustMbnbgfrFbdtory(TrustMbnbgfrFbdtorySpi fbdtorySpi,
-            Providfr providfr, String blgorithm) {
-        this.fbdtorySpi = fbdtorySpi;
-        this.providfr = providfr;
-        this.blgorithm = blgorithm;
+    protfdtfd TrustMbnbgfrFbdtory(TrustMbnbgfrFbdtorySpi fbdtorySpi,
+    protfdtfd TrustMbnbgfrFbdtory(TrustMbnbgfrFbdtorySpi fbdtorySpi,
+    protfdtfd TrustMbnbgfrFbdtory(TrustMbnbgfrFbdtorySpi fbdtorySpi,
+    protfdtfd TrustMbnbgfrFbdtory(TrustMbnbgfrFbdtorySpi fbdtorySpi,
+            Providfr providfr, String blgoritim) {
+            Providfr providfr, String blgoritim) {
+            Providfr providfr, String blgoritim) {
+            Providfr providfr, String blgoritim) {
+            Providfr providfr, String blgoritim) {
+        tiis.fbdtorySpi = fbdtorySpi;
+        tiis.fbdtorySpi = fbdtorySpi;
+        tiis.fbdtorySpi = fbdtorySpi;
+        tiis.fbdtorySpi = fbdtorySpi;
+        tiis.fbdtorySpi = fbdtorySpi;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf blgorithm nbmf of this <dodf>TrustMbnbgfrFbdtory</dodf>
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * Rfturns tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * Rfturns tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * Rfturns tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * Rfturns tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * objfdt.
+     * objfdt.
+     * objfdt.
+     * objfdt.
      * objfdt.
      *
-     * <p>This is thf sbmf nbmf thbt wbs spfdififd in onf of thf
-     * <dodf>gftInstbndf</dodf> dblls thbt drfbtfd this
+     *
+     *
+     *
+     *
+     * <p>Tiis is tif sbmf nbmf tibt wbs spfdififd in onf of tif
+     * <p>Tiis is tif sbmf nbmf tibt wbs spfdififd in onf of tif
+     * <p>Tiis is tif sbmf nbmf tibt wbs spfdififd in onf of tif
+     * <p>Tiis is tif sbmf nbmf tibt wbs spfdififd in onf of tif
+     * <p>Tiis is tif sbmf nbmf tibt wbs spfdififd in onf of tif
+     * <dodf>gftInstbndf</dodf> dblls tibt drfbtfd tiis
+     * <dodf>gftInstbndf</dodf> dblls tibt drfbtfd tiis
+     * <dodf>gftInstbndf</dodf> dblls tibt drfbtfd tiis
+     * <dodf>gftInstbndf</dodf> dblls tibt drfbtfd tiis
+     * <dodf>gftInstbndf</dodf> dblls tibt drfbtfd tiis
+     * <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
      * <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
      *
-     * @rfturn thf blgorithm nbmf of this <dodf>TrustMbnbgfrFbdtory</dodf>
+     *
+     *
+     *
+     *
+     * @rfturn tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * @rfturn tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * @rfturn tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * @rfturn tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * @rfturn tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     *          objfdt
+     *          objfdt
+     *          objfdt
+     *          objfdt
      *          objfdt
      */
-    publid finbl String gftAlgorithm() {
-        rfturn this.blgorithm;
+     */
+     */
+     */
+     */
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+        rfturn tiis.blgoritim;
+        rfturn tiis.blgoritim;
+        rfturn tiis.blgoritim;
+        rfturn tiis.blgoritim;
+        rfturn tiis.blgoritim;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt thbt bdts bs b
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
      * fbdtory for trust mbnbgfrs.
      *
-     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
-     * stbrting with thf most prfffrrfd Providfr.
-     * A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting thf
-     * TrustMbnbgfrFbdtorySpi implfmfntbtion from thf first
-     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
      *
-     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
-     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
      *
-     * @pbrbm blgorithm thf stbndbrd nbmf of thf rfqufstfd trust mbnbgfmfnt
-     *          blgorithm.  Sff thf <b hrff=
-     *  "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/jssf/JSSERffGuidf.html">
+     *
+     *
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif first
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif first
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif first
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif first
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     *
+     *
+     *
+     *
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
      *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
-     *          for informbtion bbout stbndbrd blgorithm nbmfs.
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @rfturn thf nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
      *
-     * @fxdfption NoSudhAlgorithmExdfption if no Providfr supports b
-     *          TrustMbnbgfrFbdtorySpi implfmfntbtion for thf
-     *          spfdififd blgorithm.
-     * @fxdfption NullPointfrExdfption if blgorithm is null.
+     *
+     *
+     *
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     *          TrustMbnbgfrFbdtorySpi implfmfntbtion for tif
+     *          TrustMbnbgfrFbdtorySpi implfmfntbtion for tif
+     *          TrustMbnbgfrFbdtorySpi implfmfntbtion for tif
+     *          TrustMbnbgfrFbdtorySpi implfmfntbtion for tif
+     *          TrustMbnbgfrFbdtorySpi implfmfntbtion for tif
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     * @fxdfption NullPointfrExdfption if blgoritim is null.
+     * @fxdfption NullPointfrExdfption if blgoritim is null.
+     * @fxdfption NullPointfrExdfption if blgoritim is null.
+     * @fxdfption NullPointfrExdfption if blgoritim is null.
+     * @fxdfption NullPointfrExdfption if blgoritim is null.
+     *
+     *
+     *
+     *
      *
      * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
      */
-    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgorithm)
-            throws NoSudhAlgorithmExdfption {
+     */
+     */
+     */
+     */
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim)
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim)
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim)
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim)
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
         GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
                 ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
-                blgorithm);
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                blgoritim);
+                blgoritim);
+                blgoritim);
+                blgoritim);
+                blgoritim);
         rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
-                instbndf.providfr, blgorithm);
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt thbt bdts bs b
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
      * fbdtory for trust mbnbgfrs.
      *
-     * <p> A nfw KfyMbnbgfrFbdtory objfdt fndbpsulbting thf
-     * KfyMbnbgfrFbdtorySpi implfmfntbtion from thf spfdififd providfr
-     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
-     * in thf sfdurity providfr list.
      *
-     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
-     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
      *
-     * @pbrbm blgorithm thf stbndbrd nbmf of thf rfqufstfd trust mbnbgfmfnt
-     *          blgorithm.  Sff thf <b hrff=
-     *  "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/jssf/JSSERffGuidf.html">
+     *
+     *
+     * <p> A nfw KfyMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw KfyMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw KfyMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw KfyMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw KfyMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * KfyMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd providfr
+     * KfyMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd providfr
+     * KfyMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd providfr
+     * KfyMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd providfr
+     * KfyMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     *
+     *
+     *
+     *
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
      *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
-     *          for informbtion bbout stbndbrd blgorithm nbmfs.
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @pbrbm providfr thf nbmf of thf providfr.
      *
-     * @rfturn thf nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
      *
-     * @throws NoSudhAlgorithmExdfption if b TrustMbnbgfrFbdtorySpi
-     *          implfmfntbtion for thf spfdififd blgorithm is not
-     *          bvbilbblf from thf spfdififd providfr.
      *
-     * @throws NoSudhProvidfrExdfption if thf spfdififd providfr is not
-     *          rfgistfrfd in thf sfdurity providfr list.
      *
-     * @throws IllfgblArgumfntExdfption if thf providfr nbmf is null or fmpty.
-     * @throws NullPointfrExdfption if blgorithm is null.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     *
+     *
+     *
+     *
+     *
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *
+     *
+     *
+     *
+     *
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if tif providfr nbmf is null or fmpty.
+     * @tirows IllfgblArgumfntExdfption if tif providfr nbmf is null or fmpty.
+     * @tirows IllfgblArgumfntExdfption if tif providfr nbmf is null or fmpty.
+     * @tirows IllfgblArgumfntExdfption if tif providfr nbmf is null or fmpty.
+     * @tirows IllfgblArgumfntExdfption if tif providfr nbmf is null or fmpty.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     *
+     *
+     *
+     *
      *
      * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
      */
-    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgorithm,
-            String providfr) throws NoSudhAlgorithmExdfption,
-            NoSudhProvidfrExdfption {
+     */
+     */
+     */
+     */
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+            String providfr) tirows NoSudiAlgoritimExdfption,
+            String providfr) tirows NoSudiAlgoritimExdfption,
+            String providfr) tirows NoSudiAlgoritimExdfption,
+            String providfr) tirows NoSudiAlgoritimExdfption,
+            String providfr) tirows NoSudiAlgoritimExdfption,
+            NoSudiProvidfrExdfption {
+            NoSudiProvidfrExdfption {
+            NoSudiProvidfrExdfption {
+            NoSudiProvidfrExdfption {
+            NoSudiProvidfrExdfption {
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
         GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
                 ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
-                blgorithm, providfr);
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                blgoritim, providfr);
+                blgoritim, providfr);
+                blgoritim, providfr);
+                blgoritim, providfr);
+                blgoritim, providfr);
         rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
-                instbndf.providfr, blgorithm);
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt thbt bdts bs b
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * Rfturns b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt bdts bs b
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
+     * fbdtory for trust mbnbgfrs.
      * fbdtory for trust mbnbgfrs.
      *
-     * <p> A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting thf
-     * TrustMbnbgfrFbdtorySpi implfmfntbtion from thf spfdififd Providfr
-     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
-     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
      *
-     * @pbrbm blgorithm thf stbndbrd nbmf of thf rfqufstfd trust mbnbgfmfnt
-     *          blgorithm.  Sff thf <b hrff=
-     *  "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/jssf/JSSERffGuidf.html">
+     *
+     *
+     *
+     * <p> A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * <p> A nfw TrustMbnbgfrFbdtory objfdt fndbpsulbting tif
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd Providfr
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd Providfr
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd Providfr
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd Providfr
+     * TrustMbnbgfrFbdtorySpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *          blgoritim.  Sff tif <b irff=
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf.itml">
      *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
-     *          for informbtion bbout stbndbrd blgorithm nbmfs.
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          Jbvb Sfdurf Sodkft Extfnsion Rfffrfndf Guidf </b>
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
+     *          for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @pbrbm providfr bn instbndf of thf providfr.
      *
-     * @rfturn thf nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
      *
-     * @throws NoSudhAlgorithmExdfption if b TrustMbnbgfrFbdtorySpi
-     *          implfmfntbtion for thf spfdififd blgorithm is not bvbilbblf
-     *          from thf spfdififd Providfr objfdt.
      *
-     * @throws IllfgblArgumfntExdfption if thf providfr is null.
-     * @throws NullPointfrExdfption if blgorithm is null.
+     *
+     * @pbrbm providfr bn instbndf of tif providfr.
+     * @pbrbm providfr bn instbndf of tif providfr.
+     * @pbrbm providfr bn instbndf of tif providfr.
+     * @pbrbm providfr bn instbndf of tif providfr.
+     * @pbrbm providfr bn instbndf of tif providfr.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     * @tirows NoSudiAlgoritimExdfption if b TrustMbnbgfrFbdtorySpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if tif providfr is null.
+     * @tirows IllfgblArgumfntExdfption if tif providfr is null.
+     * @tirows IllfgblArgumfntExdfption if tif providfr is null.
+     * @tirows IllfgblArgumfntExdfption if tif providfr is null.
+     * @tirows IllfgblArgumfntExdfption if tif providfr is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     * @tirows NullPointfrExdfption if blgoritim is null.
+     *
+     *
+     *
+     *
      *
      * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
+     * @sff jbvb.sfdurity.Providfr
      */
-    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgorithm,
-            Providfr providfr) throws NoSudhAlgorithmExdfption {
+     */
+     */
+     */
+     */
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+        GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
         GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
                 ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
-                blgorithm, providfr);
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                ("TrustMbnbgfrFbdtory", TrustMbnbgfrFbdtorySpi.dlbss,
+                blgoritim, providfr);
+                blgoritim, providfr);
+                blgoritim, providfr);
+                blgoritim, providfr);
+                blgoritim, providfr);
         rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
-                instbndf.providfr, blgorithm);
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)instbndf.impl,
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+                instbndf.providfr, blgoritim);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf providfr of this <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * Rfturns tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * Rfturns tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * Rfturns tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
+     * Rfturns tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
      *
-     * @rfturn thf providfr of this <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     *
+     *
+     *
+     *
+     * @rfturn tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     * @rfturn tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
+     */
+     */
+     */
+     */
      */
     publid finbl Providfr gftProvidfr() {
-        rfturn this.providfr;
+    publid finbl Providfr gftProvidfr() {
+    publid finbl Providfr gftProvidfr() {
+    publid finbl Providfr gftProvidfr() {
+    publid finbl Providfr gftProvidfr() {
+        rfturn tiis.providfr;
+        rfturn tiis.providfr;
+        rfturn tiis.providfr;
+        rfturn tiis.providfr;
+        rfturn tiis.providfr;
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * Initiblizfs this fbdtory with b sourdf of dfrtifidbtf
-     * buthoritifs bnd rflbtfd trust mbtfribl.
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs tiis fbdtory witi b sourdf of dfrtifidbtf
+     * Initiblizfs tiis fbdtory witi b sourdf of dfrtifidbtf
+     * Initiblizfs tiis fbdtory witi b sourdf of dfrtifidbtf
+     * Initiblizfs tiis fbdtory witi b sourdf of dfrtifidbtf
+     * Initiblizfs tiis fbdtory witi b sourdf of dfrtifidbtf
+     * butioritifs bnd rflbtfd trust mbtfribl.
+     * butioritifs bnd rflbtfd trust mbtfribl.
+     * butioritifs bnd rflbtfd trust mbtfribl.
+     * butioritifs bnd rflbtfd trust mbtfribl.
+     * butioritifs bnd rflbtfd trust mbtfribl.
      * <P>
-     * Thf providfr typidblly usfs b KfyStorf bs b bbsis for mbking
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * Tif providfr typidblly usfs b KfyStorf bs b bbsis for mbking
+     * Tif providfr typidblly usfs b KfyStorf bs b bbsis for mbking
+     * Tif providfr typidblly usfs b KfyStorf bs b bbsis for mbking
+     * Tif providfr typidblly usfs b KfyStorf bs b bbsis for mbking
+     * Tif providfr typidblly usfs b KfyStorf bs b bbsis for mbking
+     * trust dfdisions.
+     * trust dfdisions.
+     * trust dfdisions.
+     * trust dfdisions.
      * trust dfdisions.
      * <P>
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * For morf flfxiblf initiblizbtion, plfbsf sff
+     * For morf flfxiblf initiblizbtion, plfbsf sff
+     * For morf flfxiblf initiblizbtion, plfbsf sff
+     * For morf flfxiblf initiblizbtion, plfbsf sff
      * For morf flfxiblf initiblizbtion, plfbsf sff
      * {@link #init(MbnbgfrFbdtoryPbrbmftfrs)}.
+     * {@link #init(MbnbgfrFbdtoryPbrbmftfrs)}.
+     * {@link #init(MbnbgfrFbdtoryPbrbmftfrs)}.
+     * {@link #init(MbnbgfrFbdtoryPbrbmftfrs)}.
+     * {@link #init(MbnbgfrFbdtoryPbrbmftfrs)}.
      *
-     * @pbrbm ks thf kfy storf, or null
-     * @throws KfyStorfExdfption if this opfrbtion fbils
+     *
+     *
+     *
+     *
+     * @pbrbm ks tif kfy storf, or null
+     * @pbrbm ks tif kfy storf, or null
+     * @pbrbm ks tif kfy storf, or null
+     * @pbrbm ks tif kfy storf, or null
+     * @pbrbm ks tif kfy storf, or null
+     * @tirows KfyStorfExdfption if tiis opfrbtion fbils
+     * @tirows KfyStorfExdfption if tiis opfrbtion fbils
+     * @tirows KfyStorfExdfption if tiis opfrbtion fbils
+     * @tirows KfyStorfExdfption if tiis opfrbtion fbils
+     * @tirows KfyStorfExdfption if tiis opfrbtion fbils
      */
-    publid finbl void init(KfyStorf ks) throws KfyStorfExdfption {
+     */
+     */
+     */
+     */
+    publid finbl void init(KfyStorf ks) tirows KfyStorfExdfption {
+    publid finbl void init(KfyStorf ks) tirows KfyStorfExdfption {
+    publid finbl void init(KfyStorf ks) tirows KfyStorfExdfption {
+    publid finbl void init(KfyStorf ks) tirows KfyStorfExdfption {
+    publid finbl void init(KfyStorf ks) tirows KfyStorfExdfption {
+        fbdtorySpi.fnginfInit(ks);
+        fbdtorySpi.fnginfInit(ks);
+        fbdtorySpi.fnginfInit(ks);
+        fbdtorySpi.fnginfInit(ks);
         fbdtorySpi.fnginfInit(ks);
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
-     * Initiblizfs this fbdtory with b sourdf of providfr-spfdifid
+    /**
+    /**
+    /**
+    /**
+     * Initiblizfs tiis fbdtory witi b sourdf of providfr-spfdifid
+     * Initiblizfs tiis fbdtory witi b sourdf of providfr-spfdifid
+     * Initiblizfs tiis fbdtory witi b sourdf of providfr-spfdifid
+     * Initiblizfs tiis fbdtory witi b sourdf of providfr-spfdifid
+     * Initiblizfs tiis fbdtory witi b sourdf of providfr-spfdifid
+     * trust mbtfribl.
+     * trust mbtfribl.
+     * trust mbtfribl.
+     * trust mbtfribl.
      * trust mbtfribl.
      * <P>
-     * In somf dbsfs, initiblizbtion pbrbmftfrs othfr thbn b kfystorf
-     * mby bf nffdfd by b providfr.  Usfrs of thbt pbrtidulbr providfr
-     * brf fxpfdtfd to pbss bn implfmfntbtion of thf bppropribtf
-     * <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs dffinfd by thf
-     * providfr.  Thf providfr dbn thfn dbll thf spfdififd mfthods in
-     * thf <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> implfmfntbtion to obtbin thf
+     * <P>
+     * <P>
+     * <P>
+     * <P>
+     * In somf dbsfs, initiblizbtion pbrbmftfrs otifr tibn b kfystorf
+     * In somf dbsfs, initiblizbtion pbrbmftfrs otifr tibn b kfystorf
+     * In somf dbsfs, initiblizbtion pbrbmftfrs otifr tibn b kfystorf
+     * In somf dbsfs, initiblizbtion pbrbmftfrs otifr tibn b kfystorf
+     * In somf dbsfs, initiblizbtion pbrbmftfrs otifr tibn b kfystorf
+     * mby bf nffdfd by b providfr.  Usfrs of tibt pbrtidulbr providfr
+     * mby bf nffdfd by b providfr.  Usfrs of tibt pbrtidulbr providfr
+     * mby bf nffdfd by b providfr.  Usfrs of tibt pbrtidulbr providfr
+     * mby bf nffdfd by b providfr.  Usfrs of tibt pbrtidulbr providfr
+     * mby bf nffdfd by b providfr.  Usfrs of tibt pbrtidulbr providfr
+     * brf fxpfdtfd to pbss bn implfmfntbtion of tif bppropribtf
+     * brf fxpfdtfd to pbss bn implfmfntbtion of tif bppropribtf
+     * brf fxpfdtfd to pbss bn implfmfntbtion of tif bppropribtf
+     * brf fxpfdtfd to pbss bn implfmfntbtion of tif bppropribtf
+     * brf fxpfdtfd to pbss bn implfmfntbtion of tif bppropribtf
+     * <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs dffinfd by tif
+     * <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs dffinfd by tif
+     * <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs dffinfd by tif
+     * <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs dffinfd by tif
+     * <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs dffinfd by tif
+     * providfr.  Tif providfr dbn tifn dbll tif spfdififd mftiods in
+     * providfr.  Tif providfr dbn tifn dbll tif spfdififd mftiods in
+     * providfr.  Tif providfr dbn tifn dbll tif spfdififd mftiods in
+     * providfr.  Tif providfr dbn tifn dbll tif spfdififd mftiods in
+     * providfr.  Tif providfr dbn tifn dbll tif spfdififd mftiods in
+     * tif <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> implfmfntbtion to obtbin tif
+     * tif <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> implfmfntbtion to obtbin tif
+     * tif <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> implfmfntbtion to obtbin tif
+     * tif <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> implfmfntbtion to obtbin tif
+     * tif <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> implfmfntbtion to obtbin tif
+     * nffdfd informbtion.
+     * nffdfd informbtion.
+     * nffdfd informbtion.
+     * nffdfd informbtion.
      * nffdfd informbtion.
      *
+     *
+     *
+     *
+     *
+     * @pbrbm spfd bn implfmfntbtion of b providfr-spfdifid pbrbmftfr
+     * @pbrbm spfd bn implfmfntbtion of b providfr-spfdifid pbrbmftfr
+     * @pbrbm spfd bn implfmfntbtion of b providfr-spfdifid pbrbmftfr
+     * @pbrbm spfd bn implfmfntbtion of b providfr-spfdifid pbrbmftfr
      * @pbrbm spfd bn implfmfntbtion of b providfr-spfdifid pbrbmftfr
      *          spfdifidbtion
-     * @throws InvblidAlgorithmPbrbmftfrExdfption if bn frror is
+     *          spfdifidbtion
+     *          spfdifidbtion
+     *          spfdifidbtion
+     *          spfdifidbtion
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if bn frror is
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if bn frror is
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if bn frror is
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if bn frror is
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if bn frror is
+     *          fndountfrfd
+     *          fndountfrfd
+     *          fndountfrfd
+     *          fndountfrfd
      *          fndountfrfd
      */
-    publid finbl void init(MbnbgfrFbdtoryPbrbmftfrs spfd) throws
-            InvblidAlgorithmPbrbmftfrExdfption {
+     */
+     */
+     */
+     */
+    publid finbl void init(MbnbgfrFbdtoryPbrbmftfrs spfd) tirows
+    publid finbl void init(MbnbgfrFbdtoryPbrbmftfrs spfd) tirows
+    publid finbl void init(MbnbgfrFbdtoryPbrbmftfrs spfd) tirows
+    publid finbl void init(MbnbgfrFbdtoryPbrbmftfrs spfd) tirows
+    publid finbl void init(MbnbgfrFbdtoryPbrbmftfrs spfd) tirows
+            InvblidAlgoritimPbrbmftfrExdfption {
+            InvblidAlgoritimPbrbmftfrExdfption {
+            InvblidAlgoritimPbrbmftfrExdfption {
+            InvblidAlgoritimPbrbmftfrExdfption {
+            InvblidAlgoritimPbrbmftfrExdfption {
+        fbdtorySpi.fnginfInit(spfd);
+        fbdtorySpi.fnginfInit(spfd);
+        fbdtorySpi.fnginfInit(spfd);
+        fbdtorySpi.fnginfInit(spfd);
         fbdtorySpi.fnginfInit(spfd);
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
-     * Rfturns onf trust mbnbgfr for fbdh typf of trust mbtfribl.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns onf trust mbnbgfr for fbdi typf of trust mbtfribl.
+     * Rfturns onf trust mbnbgfr for fbdi typf of trust mbtfribl.
+     * Rfturns onf trust mbnbgfr for fbdi typf of trust mbtfribl.
+     * Rfturns onf trust mbnbgfr for fbdi typf of trust mbtfribl.
+     * Rfturns onf trust mbnbgfr for fbdi typf of trust mbtfribl.
      *
-     * @throws IllfgblStbtfExdfption if thf fbdtory is not initiblizfd.
      *
-     * @rfturn thf trust mbnbgfrs
+     *
+     *
+     *
+     * @tirows IllfgblStbtfExdfption if tif fbdtory is not initiblizfd.
+     * @tirows IllfgblStbtfExdfption if tif fbdtory is not initiblizfd.
+     * @tirows IllfgblStbtfExdfption if tif fbdtory is not initiblizfd.
+     * @tirows IllfgblStbtfExdfption if tif fbdtory is not initiblizfd.
+     * @tirows IllfgblStbtfExdfption if tif fbdtory is not initiblizfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif trust mbnbgfrs
+     * @rfturn tif trust mbnbgfrs
+     * @rfturn tif trust mbnbgfrs
+     * @rfturn tif trust mbnbgfrs
+     * @rfturn tif trust mbnbgfrs
+     */
+     */
+     */
+     */
      */
     publid finbl TrustMbnbgfr[] gftTrustMbnbgfrs() {
+    publid finbl TrustMbnbgfr[] gftTrustMbnbgfrs() {
+    publid finbl TrustMbnbgfr[] gftTrustMbnbgfrs() {
+    publid finbl TrustMbnbgfr[] gftTrustMbnbgfrs() {
+    publid finbl TrustMbnbgfr[] gftTrustMbnbgfrs() {
+        rfturn fbdtorySpi.fnginfGftTrustMbnbgfrs();
+        rfturn fbdtorySpi.fnginfGftTrustMbnbgfrs();
+        rfturn fbdtorySpi.fnginfGftTrustMbnbgfrs();
+        rfturn fbdtorySpi.fnginfGftTrustMbnbgfrs();
         rfturn fbdtorySpi.fnginfGftTrustMbnbgfrs();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,109 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.Connfdtion;
+import jbvb.sql.SQLExdfption;
+import jbvb.sql.Wrbppfr;
+
+/**
+ * <p>A fbdtory for donnfdtions to tif piysidbl dbtb sourdf tibt tiis
+ * {@dodf DbtbSourdf} objfdt rfprfsfnts.  An bltfrnbtivf to tif
+ * {@dodf DrivfrMbnbgfr} fbdility, b {@dodf DbtbSourdf} objfdt
+ * is tif prfffrrfd mfbns of gftting b donnfdtion. An objfdt tibt implfmfnts
+ * tif {@dodf DbtbSourdf} intfrfbdf will typidblly bf
+ * rfgistfrfd witi b nbming sfrvidf bbsfd on tif
+ * Jbvb&trbdf; Nbming bnd Dirfdtory (JNDI) API.
+ * <P>
+ * Tif {@dodf DbtbSourdf} intfrfbdf is implfmfntfd by b drivfr vfndor.
+ * Tifrf brf tirff typfs of implfmfntbtions:
+ * <OL>
+ *   <LI>Bbsid implfmfntbtion -- produdfs b stbndbrd {@dodf Connfdtion}
+ *       objfdt
+ *   <LI>Connfdtion pooling implfmfntbtion -- produdfs b {@dodf Connfdtion}
+ *       objfdt tibt will butombtidblly pbrtidipbtf in donnfdtion pooling.  Tiis
+ *       implfmfntbtion works witi b middlf-tifr donnfdtion pooling mbnbgfr.
+ *   <LI>Distributfd trbnsbdtion implfmfntbtion -- produdfs b
+ *       {@dodf Connfdtion} objfdt tibt mby bf usfd for distributfd
+ *       trbnsbdtions bnd blmost blwbys pbrtidipbtfs in donnfdtion pooling.
+ *       Tiis implfmfntbtion works witi b middlf-tifr
+ *       trbnsbdtion mbnbgfr bnd blmost blwbys witi b donnfdtion
+ *       pooling mbnbgfr.
+ * </OL>
+ * <P>
+ * A {@dodf DbtbSourdf} objfdt ibs propfrtifs tibt dbn bf modififd
+ * wifn nfdfssbry.  For fxbmplf, if tif dbtb sourdf is movfd to b difffrfnt
+ * sfrvfr, tif propfrty for tif sfrvfr dbn bf dibngfd.  Tif bfnffit is tibt
+ * bfdbusf tif dbtb sourdf's propfrtifs dbn bf dibngfd, bny dodf bddfssing
+ * tibt dbtb sourdf dofs not nffd to bf dibngfd.
+ * <P>
+ * A drivfr tibt is bddfssfd vib b {@dodf DbtbSourdf} objfdt dofs not
+ * rfgistfr itsflf witi tif {@dodf DrivfrMbnbgfr}.  Rbtifr, b
+ * {@dodf DbtbSourdf} objfdt is rftrifvfd tiougi b lookup opfrbtion
+ * bnd tifn usfd to drfbtf b {@dodf Connfdtion} objfdt.  Witi b bbsid
+ * implfmfntbtion, tif donnfdtion obtbinfd tirougi b {@dodf DbtbSourdf}
+ * objfdt is idfntidbl to b donnfdtion obtbinfd tirougi tif
+ * {@dodf DrivfrMbnbgfr} fbdility.
+ * <p>
+ * An implfmfntbtion of {@dodf DbtbSourdf} must indludf b publid no-brg
+ * donstrudtor.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf DbtbSourdf  fxtfnds CommonDbtbSourdf, Wrbppfr {
+
+  /**
+   * <p>Attfmpts to fstbblisi b donnfdtion witi tif dbtb sourdf tibt
+   * tiis {@dodf DbtbSourdf} objfdt rfprfsfnts.
+   *
+   * @rfturn  b donnfdtion to tif dbtb sourdf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @tirows jbvb.sql.SQLTimfoutExdfption  wifn tif drivfr ibs dftfrminfd tibt tif
+   * timfout vbluf spfdififd by tif {@dodf sftLoginTimfout} mftiod
+   * ibs bffn fxdffdfd bnd ibs bt lfbst trifd to dbndfl tif
+   * durrfnt dbtbbbsf donnfdtion bttfmpt
+   */
+  Connfdtion gftConnfdtion() tirows SQLExdfption;
+
+  /**
+   * <p>Attfmpts to fstbblisi b donnfdtion witi tif dbtb sourdf tibt
+   * tiis {@dodf DbtbSourdf} objfdt rfprfsfnts.
+   *
+   * @pbrbm usfrnbmf tif dbtbbbsf usfr on wiosf bfiblf tif donnfdtion is
+   *  bfing mbdf
+   * @pbrbm pbssword tif usfr's pbssword
+   * @rfturn  b donnfdtion to tif dbtb sourdf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @tirows jbvb.sql.SQLTimfoutExdfption  wifn tif drivfr ibs dftfrminfd tibt tif
+   * timfout vbluf spfdififd by tif {@dodf sftLoginTimfout} mftiod
+   * ibs bffn fxdffdfd bnd ibs bt lfbst trifd to dbndfl tif
+   * durrfnt dbtbbbsf donnfdtion bttfmpt
+   * @sindf 1.4
+   */
+  Connfdtion gftConnfdtion(String usfrnbmf, String pbssword)
+    tirows SQLExdfption;
+}

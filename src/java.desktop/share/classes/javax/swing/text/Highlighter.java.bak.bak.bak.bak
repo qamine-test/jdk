@@ -1,152 +1,760 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
 pbdkbgf jbvbx.swing.tfxt;
 
+
+
+
+
 import jbvb.bwt.Color;
-import jbvb.bwt.Grbphids;
-import jbvb.bwt.Shbpf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Color;
+import jbvb.bwt.Color;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+
+
+
+
 
 /**
- * An intfrfbdf for bn objfdt thbt bllows onf to mbrk up thf bbdkground
- * with dolorfd brfbs.
+/**
+/**
+/**
+/**
+ * An intfrfbdf for bn objfdt tibt bllows onf to mbrk up tif bbdkground
+ * An intfrfbdf for bn objfdt tibt bllows onf to mbrk up tif bbdkground
+ * An intfrfbdf for bn objfdt tibt bllows onf to mbrk up tif bbdkground
+ * An intfrfbdf for bn objfdt tibt bllows onf to mbrk up tif bbdkground
+ * An intfrfbdf for bn objfdt tibt bllows onf to mbrk up tif bbdkground
+ * witi dolorfd brfbs.
+ * witi dolorfd brfbs.
+ * witi dolorfd brfbs.
+ * witi dolorfd brfbs.
+ * witi dolorfd brfbs.
  *
- * @buthor  Timothy Prinzing
+ *
+ *
+ *
+ *
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
  */
-publid intfrfbdf Highlightfr {
+ */
+ */
+ */
+ */
+publid intfrfbdf Higiligitfr {
+publid intfrfbdf Higiligitfr {
+publid intfrfbdf Higiligitfr {
+publid intfrfbdf Higiligitfr {
+publid intfrfbdf Higiligitfr {
+
+
+
+
 
     /**
-     * Cbllfd whfn thf UI is bfing instbllfd into thf
-     * intfrfbdf of b JTfxtComponfnt.  This dbn bf usfd
-     * to gbin bddfss to thf modfl thbt is bfing nbvigbtfd
-     * by thf implfmfntbtion of this intfrfbdf.
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
+     * by tif implfmfntbtion of tiis intfrfbdf.
      *
-     * @pbrbm d thf JTfxtComponfnt fditor
+     *
+     *
+     *
+     *
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     */
+     */
+     */
+     */
      */
     publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+    publid void instbll(JTfxtComponfnt d);
+
+
+
+
 
     /**
-     * Cbllfd whfn thf UI is bfing rfmovfd from thf
-     * intfrfbdf of b JTfxtComponfnt.  This is usfd to
-     * unrfgistfr bny listfnfrs thbt wfrf bttbdhfd.
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
      *
-     * @pbrbm d thf JTfxtComponfnt fditor
+     *
+     *
+     *
+     *
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     * @pbrbm d tif JTfxtComponfnt fditor
+     */
+     */
+     */
+     */
      */
     publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+    publid void dfinstbll(JTfxtComponfnt d);
+
+
+
+
 
     /**
-     * Rfndfrs thf highlights.
+    /**
+    /**
+    /**
+    /**
+     * Rfndfrs tif iigiligits.
+     * Rfndfrs tif iigiligits.
+     * Rfndfrs tif iigiligits.
+     * Rfndfrs tif iigiligits.
+     * Rfndfrs tif iigiligits.
      *
-     * @pbrbm g thf grbphids dontfxt.
+     *
+     *
+     *
+     *
+     * @pbrbm g tif grbpiids dontfxt.
+     * @pbrbm g tif grbpiids dontfxt.
+     * @pbrbm g tif grbpiids dontfxt.
+     * @pbrbm g tif grbpiids dontfxt.
+     * @pbrbm g tif grbpiids dontfxt.
      */
-    publid void pbint(Grbphids g);
+     */
+     */
+     */
+     */
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+    publid void pbint(Grbpiids g);
+
+
+
+
 
     /**
-     * Adds b highlight to thf vifw.  Rfturns b tbg thbt dbn bf usfd
-     * to rfffr to thf highlight.
+    /**
+    /**
+    /**
+    /**
+     * Adds b iigiligit to tif vifw.  Rfturns b tbg tibt dbn bf usfd
+     * Adds b iigiligit to tif vifw.  Rfturns b tbg tibt dbn bf usfd
+     * Adds b iigiligit to tif vifw.  Rfturns b tbg tibt dbn bf usfd
+     * Adds b iigiligit to tif vifw.  Rfturns b tbg tibt dbn bf usfd
+     * Adds b iigiligit to tif vifw.  Rfturns b tbg tibt dbn bf usfd
+     * to rfffr to tif iigiligit.
+     * to rfffr to tif iigiligit.
+     * to rfffr to tif iigiligit.
+     * to rfffr to tif iigiligit.
+     * to rfffr to tif iigiligit.
      *
-     * @pbrbm p0 thf bfginning of thf rbngf &gt;= 0
-     * @pbrbm p1 thf fnd of thf rbngf &gt;= p0
-     * @pbrbm p thf pbintfr to usf for thf bdtubl highlighting
-     * @rfturn bn objfdt thbt rfffrs to thf highlight
+     *
+     *
+     *
+     *
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p tif pbintfr to usf for tif bdtubl iigiligiting
+     * @pbrbm p tif pbintfr to usf for tif bdtubl iigiligiting
+     * @pbrbm p tif pbintfr to usf for tif bdtubl iigiligiting
+     * @pbrbm p tif pbintfr to usf for tif bdtubl iigiligiting
+     * @pbrbm p tif pbintfr to usf for tif bdtubl iigiligiting
+     * @rfturn bn objfdt tibt rfffrs to tif iigiligit
+     * @rfturn bn objfdt tibt rfffrs to tif iigiligit
+     * @rfturn bn objfdt tibt rfffrs to tif iigiligit
+     * @rfturn bn objfdt tibt rfffrs to tif iigiligit
+     * @rfturn bn objfdt tibt rfffrs to tif iigiligit
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
      * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
      */
-    publid Objfdt bddHighlight(int p0, int p1, HighlightPbintfr p) throws BbdLodbtionExdfption;
-
-    /**
-     * Rfmovfs b highlight from thf vifw.
-     *
-     * @pbrbm tbg  whidh highlight to rfmovf
      */
-    publid void rfmovfHighlight(Objfdt tbg);
-
-    /**
-     * Rfmovfs bll highlights this highlightfr is rfsponsiblf for.
      */
-    publid void rfmovfAllHighlights();
+     */
+     */
+    publid Objfdt bddHigiligit(int p0, int p1, HigiligitPbintfr p) tirows BbdLodbtionExdfption;
+    publid Objfdt bddHigiligit(int p0, int p1, HigiligitPbintfr p) tirows BbdLodbtionExdfption;
+    publid Objfdt bddHigiligit(int p0, int p1, HigiligitPbintfr p) tirows BbdLodbtionExdfption;
+    publid Objfdt bddHigiligit(int p0, int p1, HigiligitPbintfr p) tirows BbdLodbtionExdfption;
+    publid Objfdt bddHigiligit(int p0, int p1, HigiligitPbintfr p) tirows BbdLodbtionExdfption;
+
+
+
+
 
     /**
-     * Chbngfs thf givfn highlight to spbn b difffrfnt portion of
-     * thf dodumfnt.  This mby bf morf fffidifnt thbn b rfmovf/bdd
-     * whfn b sflfdtion is fxpbnding/shrinking (sudh bs b swffp
-     * with b mousf) by dbmbging only whbt dhbngfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfmovfs b iigiligit from tif vifw.
+     * Rfmovfs b iigiligit from tif vifw.
+     * Rfmovfs b iigiligit from tif vifw.
+     * Rfmovfs b iigiligit from tif vifw.
+     * Rfmovfs b iigiligit from tif vifw.
      *
-     * @pbrbm tbg  whidh highlight to dhbngf
-     * @pbrbm p0 thf bfginning of thf rbngf &gt;= 0
-     * @pbrbm p1 thf fnd of thf rbngf &gt;= p0
+     *
+     *
+     *
+     *
+     * @pbrbm tbg  wiidi iigiligit to rfmovf
+     * @pbrbm tbg  wiidi iigiligit to rfmovf
+     * @pbrbm tbg  wiidi iigiligit to rfmovf
+     * @pbrbm tbg  wiidi iigiligit to rfmovf
+     * @pbrbm tbg  wiidi iigiligit to rfmovf
+     */
+     */
+     */
+     */
+     */
+    publid void rfmovfHigiligit(Objfdt tbg);
+    publid void rfmovfHigiligit(Objfdt tbg);
+    publid void rfmovfHigiligit(Objfdt tbg);
+    publid void rfmovfHigiligit(Objfdt tbg);
+    publid void rfmovfHigiligit(Objfdt tbg);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfmovfs bll iigiligits tiis iigiligitfr is rfsponsiblf for.
+     * Rfmovfs bll iigiligits tiis iigiligitfr is rfsponsiblf for.
+     * Rfmovfs bll iigiligits tiis iigiligitfr is rfsponsiblf for.
+     * Rfmovfs bll iigiligits tiis iigiligitfr is rfsponsiblf for.
+     * Rfmovfs bll iigiligits tiis iigiligitfr is rfsponsiblf for.
+     */
+     */
+     */
+     */
+     */
+    publid void rfmovfAllHigiligits();
+    publid void rfmovfAllHigiligits();
+    publid void rfmovfAllHigiligits();
+    publid void rfmovfAllHigiligits();
+    publid void rfmovfAllHigiligits();
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Cibngfs tif givfn iigiligit to spbn b difffrfnt portion of
+     * Cibngfs tif givfn iigiligit to spbn b difffrfnt portion of
+     * Cibngfs tif givfn iigiligit to spbn b difffrfnt portion of
+     * Cibngfs tif givfn iigiligit to spbn b difffrfnt portion of
+     * Cibngfs tif givfn iigiligit to spbn b difffrfnt portion of
+     * tif dodumfnt.  Tiis mby bf morf fffidifnt tibn b rfmovf/bdd
+     * tif dodumfnt.  Tiis mby bf morf fffidifnt tibn b rfmovf/bdd
+     * tif dodumfnt.  Tiis mby bf morf fffidifnt tibn b rfmovf/bdd
+     * tif dodumfnt.  Tiis mby bf morf fffidifnt tibn b rfmovf/bdd
+     * tif dodumfnt.  Tiis mby bf morf fffidifnt tibn b rfmovf/bdd
+     * wifn b sflfdtion is fxpbnding/sirinking (sudi bs b swffp
+     * wifn b sflfdtion is fxpbnding/sirinking (sudi bs b swffp
+     * wifn b sflfdtion is fxpbnding/sirinking (sudi bs b swffp
+     * wifn b sflfdtion is fxpbnding/sirinking (sudi bs b swffp
+     * wifn b sflfdtion is fxpbnding/sirinking (sudi bs b swffp
+     * witi b mousf) by dbmbging only wibt dibngfd.
+     * witi b mousf) by dbmbging only wibt dibngfd.
+     * witi b mousf) by dbmbging only wibt dibngfd.
+     * witi b mousf) by dbmbging only wibt dibngfd.
+     * witi b mousf) by dbmbging only wibt dibngfd.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm tbg  wiidi iigiligit to dibngf
+     * @pbrbm tbg  wiidi iigiligit to dibngf
+     * @pbrbm tbg  wiidi iigiligit to dibngf
+     * @pbrbm tbg  wiidi iigiligit to dibngf
+     * @pbrbm tbg  wiidi iigiligit to dibngf
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
+     * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
      * @fxdfption BbdLodbtionExdfption for bn invblid rbngf spfdifidbtion
      */
-    publid void dhbngfHighlight(Objfdt tbg, int p0, int p1) throws BbdLodbtionExdfption;
+     */
+     */
+     */
+     */
+    publid void dibngfHigiligit(Objfdt tbg, int p0, int p1) tirows BbdLodbtionExdfption;
+    publid void dibngfHigiligit(Objfdt tbg, int p0, int p1) tirows BbdLodbtionExdfption;
+    publid void dibngfHigiligit(Objfdt tbg, int p0, int p1) tirows BbdLodbtionExdfption;
+    publid void dibngfHigiligit(Objfdt tbg, int p0, int p1) tirows BbdLodbtionExdfption;
+    publid void dibngfHigiligit(Objfdt tbg, int p0, int p1) tirows BbdLodbtionExdfption;
+
+
+
+
 
     /**
-     * Fftdhfs thf durrfnt list of highlights.
+    /**
+    /**
+    /**
+    /**
+     * Fftdifs tif durrfnt list of iigiligits.
+     * Fftdifs tif durrfnt list of iigiligits.
+     * Fftdifs tif durrfnt list of iigiligits.
+     * Fftdifs tif durrfnt list of iigiligits.
+     * Fftdifs tif durrfnt list of iigiligits.
      *
-     * @rfturn thf highlight list
+     *
+     *
+     *
+     *
+     * @rfturn tif iigiligit list
+     * @rfturn tif iigiligit list
+     * @rfturn tif iigiligit list
+     * @rfturn tif iigiligit list
+     * @rfturn tif iigiligit list
      */
-    publid Highlight[] gftHighlights();
+     */
+     */
+     */
+     */
+    publid Higiligit[] gftHigiligits();
+    publid Higiligit[] gftHigiligits();
+    publid Higiligit[] gftHigiligits();
+    publid Higiligit[] gftHigiligits();
+    publid Higiligit[] gftHigiligits();
+
+
+
+
 
     /**
-     * Highlight rfndfrfr.
+    /**
+    /**
+    /**
+    /**
+     * Higiligit rfndfrfr.
+     * Higiligit rfndfrfr.
+     * Higiligit rfndfrfr.
+     * Higiligit rfndfrfr.
+     * Higiligit rfndfrfr.
      */
-    publid intfrfbdf HighlightPbintfr {
+     */
+     */
+     */
+     */
+    publid intfrfbdf HigiligitPbintfr {
+    publid intfrfbdf HigiligitPbintfr {
+    publid intfrfbdf HigiligitPbintfr {
+    publid intfrfbdf HigiligitPbintfr {
+    publid intfrfbdf HigiligitPbintfr {
+
+
+
+
 
         /**
-         * Rfndfrs thf highlight.
+        /**
+        /**
+        /**
+        /**
+         * Rfndfrs tif iigiligit.
+         * Rfndfrs tif iigiligit.
+         * Rfndfrs tif iigiligit.
+         * Rfndfrs tif iigiligit.
+         * Rfndfrs tif iigiligit.
          *
-         * @pbrbm g thf grbphids dontfxt
-         * @pbrbm p0 thf stbrting offsft in thf modfl &gt;= 0
-         * @pbrbm p1 thf fnding offsft in thf modfl &gt;= p0
-         * @pbrbm bounds thf bounding box for thf highlight
-         * @pbrbm d thf fditor
+         *
+         *
+         *
+         *
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm p0 tif stbrting offsft in tif modfl &gt;= 0
+         * @pbrbm p0 tif stbrting offsft in tif modfl &gt;= 0
+         * @pbrbm p0 tif stbrting offsft in tif modfl &gt;= 0
+         * @pbrbm p0 tif stbrting offsft in tif modfl &gt;= 0
+         * @pbrbm p0 tif stbrting offsft in tif modfl &gt;= 0
+         * @pbrbm p1 tif fnding offsft in tif modfl &gt;= p0
+         * @pbrbm p1 tif fnding offsft in tif modfl &gt;= p0
+         * @pbrbm p1 tif fnding offsft in tif modfl &gt;= p0
+         * @pbrbm p1 tif fnding offsft in tif modfl &gt;= p0
+         * @pbrbm p1 tif fnding offsft in tif modfl &gt;= p0
+         * @pbrbm bounds tif bounding box for tif iigiligit
+         * @pbrbm bounds tif bounding box for tif iigiligit
+         * @pbrbm bounds tif bounding box for tif iigiligit
+         * @pbrbm bounds tif bounding box for tif iigiligit
+         * @pbrbm bounds tif bounding box for tif iigiligit
+         * @pbrbm d tif fditor
+         * @pbrbm d tif fditor
+         * @pbrbm d tif fditor
+         * @pbrbm d tif fditor
+         * @pbrbm d tif fditor
          */
-        publid void pbint(Grbphids g, int p0, int p1, Shbpf bounds, JTfxtComponfnt d);
+         */
+         */
+         */
+         */
+        publid void pbint(Grbpiids g, int p0, int p1, Sibpf bounds, JTfxtComponfnt d);
+        publid void pbint(Grbpiids g, int p0, int p1, Sibpf bounds, JTfxtComponfnt d);
+        publid void pbint(Grbpiids g, int p0, int p1, Sibpf bounds, JTfxtComponfnt d);
+        publid void pbint(Grbpiids g, int p0, int p1, Sibpf bounds, JTfxtComponfnt d);
+        publid void pbint(Grbpiids g, int p0, int p1, Sibpf bounds, JTfxtComponfnt d);
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
 
-    publid intfrfbdf Highlight {
+
+
+
+
+    publid intfrfbdf Higiligit {
+    publid intfrfbdf Higiligit {
+    publid intfrfbdf Higiligit {
+    publid intfrfbdf Higiligit {
+    publid intfrfbdf Higiligit {
+
+
+
+
 
         /**
-         * Gfts thf stbrting modfl offsft for thf highlight.
+        /**
+        /**
+        /**
+        /**
+         * Gfts tif stbrting modfl offsft for tif iigiligit.
+         * Gfts tif stbrting modfl offsft for tif iigiligit.
+         * Gfts tif stbrting modfl offsft for tif iigiligit.
+         * Gfts tif stbrting modfl offsft for tif iigiligit.
+         * Gfts tif stbrting modfl offsft for tif iigiligit.
          *
-         * @rfturn thf stbrting offsft &gt;= 0
+         *
+         *
+         *
+         *
+         * @rfturn tif stbrting offsft &gt;= 0
+         * @rfturn tif stbrting offsft &gt;= 0
+         * @rfturn tif stbrting offsft &gt;= 0
+         * @rfturn tif stbrting offsft &gt;= 0
+         * @rfturn tif stbrting offsft &gt;= 0
+         */
+         */
+         */
+         */
          */
         publid int gftStbrtOffsft();
+        publid int gftStbrtOffsft();
+        publid int gftStbrtOffsft();
+        publid int gftStbrtOffsft();
+        publid int gftStbrtOffsft();
+
+
+
+
 
         /**
-         * Gfts thf fnding modfl offsft for thf highlight.
+        /**
+        /**
+        /**
+        /**
+         * Gfts tif fnding modfl offsft for tif iigiligit.
+         * Gfts tif fnding modfl offsft for tif iigiligit.
+         * Gfts tif fnding modfl offsft for tif iigiligit.
+         * Gfts tif fnding modfl offsft for tif iigiligit.
+         * Gfts tif fnding modfl offsft for tif iigiligit.
          *
-         * @rfturn thf fnding offsft &gt;= 0
+         *
+         *
+         *
+         *
+         * @rfturn tif fnding offsft &gt;= 0
+         * @rfturn tif fnding offsft &gt;= 0
+         * @rfturn tif fnding offsft &gt;= 0
+         * @rfturn tif fnding offsft &gt;= 0
+         * @rfturn tif fnding offsft &gt;= 0
+         */
+         */
+         */
+         */
          */
         publid int gftEndOffsft();
+        publid int gftEndOffsft();
+        publid int gftEndOffsft();
+        publid int gftEndOffsft();
+        publid int gftEndOffsft();
+
+
+
+
 
         /**
-         * Gfts thf pbintfr for thf highlightfr.
+        /**
+        /**
+        /**
+        /**
+         * Gfts tif pbintfr for tif iigiligitfr.
+         * Gfts tif pbintfr for tif iigiligitfr.
+         * Gfts tif pbintfr for tif iigiligitfr.
+         * Gfts tif pbintfr for tif iigiligitfr.
+         * Gfts tif pbintfr for tif iigiligitfr.
          *
-         * @rfturn thf pbintfr
+         *
+         *
+         *
+         *
+         * @rfturn tif pbintfr
+         * @rfturn tif pbintfr
+         * @rfturn tif pbintfr
+         * @rfturn tif pbintfr
+         * @rfturn tif pbintfr
          */
-        publid HighlightPbintfr gftPbintfr();
+         */
+         */
+         */
+         */
+        publid HigiligitPbintfr gftPbintfr();
+        publid HigiligitPbintfr gftPbintfr();
+        publid HigiligitPbintfr gftPbintfr();
+        publid HigiligitPbintfr gftPbintfr();
+        publid HigiligitPbintfr gftPbintfr();
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+};
+};
+};
+};
 };

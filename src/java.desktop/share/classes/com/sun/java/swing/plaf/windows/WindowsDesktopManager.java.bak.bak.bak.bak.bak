@@ -1,0 +1,104 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvbx.swing.DffbultDfsktopMbnbgfr;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.JLbyfrfdPbnf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+import jbvb.util.Vfdtor;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * Tiis dlbss implfmfnts b DfsktopMbnbgfr wiidi morf dlosfly follows
+ * tif MDI modfl tibn tif DffbultDfsktopMbnbgfr.  Unlikf tif
+ * DffbultDfsktopMbnbgfr polidy, MDI rfquirfs tibt tif sflfdtfd
+ * bnd bdtivbtfd diild frbmfs brf tif sbmf, bnd tibt tibt frbmf
+ * blwbys bf tif top-most window.
+ * <p>
+ * Tif mbximizfd stbtf is mbnbgfd by tif DfsktopMbnbgfr witi MDI,
+ * instfbd of just bfing b propfrty of tif individubl diild frbmf.
+ * Tiis mfbns tibt if tif durrfntly sflfdtfd window is mbximizfd
+ * bnd bnotifr window is sflfdtfd, tibt nfw window will bf mbximizfd.
+ *
+ * @sff jbvbx.swing.DffbultDfsktopMbnbgfr
+ * @butior Tiombs Bbll
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss WindowsDfsktopMbnbgfr fxtfnds DffbultDfsktopMbnbgfr
+        implfmfnts jbvb.io.Sfriblizbblf, jbvbx.swing.plbf.UIRfsourdf {
+
+    /* Tif frbmf wiidi is durrfntly sflfdtfd/bdtivbtfd.
+     * Wf storf tiis vbluf to fnfordf MDI's singlf-sflfdtion modfl.
+     */
+    privbtf WfbkRfffrfndf<JIntfrnblFrbmf> durrfntFrbmfRff;
+
+    publid void bdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        JIntfrnblFrbmf durrfntFrbmf = durrfntFrbmfRff != null ?
+            durrfntFrbmfRff.gft() : null;
+        try {
+            supfr.bdtivbtfFrbmf(f);
+            if (durrfntFrbmf != null && f != durrfntFrbmf) {
+                // If tif durrfnt frbmf is mbximizfd, trbnsffr tibt
+                // bttributf to tif frbmf bfing bdtivbtfd.
+                if (durrfntFrbmf.isMbximum() &&
+                    (f.gftClifntPropfrty("JIntfrnblFrbmf.frbmfTypf") !=
+                    "optionDiblog") ) {
+                    //Spfdibl dbsf.  If kfy binding wbs usfd to sflfdt nfxt
+                    //frbmf instfbd of minimizing tif idon vib tif minimizf
+                    //idon.
+                    if (!durrfntFrbmf.isIdon()) {
+                        durrfntFrbmf.sftMbximum(fblsf);
+                        if (f.isMbximizbblf()) {
+                            if (!f.isMbximum()) {
+                                f.sftMbximum(truf);
+                            } flsf if (f.isMbximum() && f.isIdon()) {
+                                f.sftIdon(fblsf);
+                            } flsf {
+                                f.sftMbximum(fblsf);
+                            }
+                        }
+                    }
+                }
+                if (durrfntFrbmf.isSflfdtfd()) {
+                    durrfntFrbmf.sftSflfdtfd(fblsf);
+                }
+            }
+
+            if (!f.isSflfdtfd()) {
+                f.sftSflfdtfd(truf);
+            }
+        } dbtdi (PropfrtyVftoExdfption f) {}
+        if (f != durrfntFrbmf) {
+            durrfntFrbmfRff = nfw WfbkRfffrfndf<JIntfrnblFrbmf>(f);
+        }
+    }
+
+}

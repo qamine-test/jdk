@@ -1,334 +1,1670 @@
 /*
- * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+pbdkbgf dom.sun.jndi.ldbp;
+
+
+
+
 
 import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+
+
+
+
 
 /**
-  * A BER dfdodfr. Contbins mfthods to pbrsf b BER bufffr.
+/**
+/**
+/**
+/**
+  * A BER dfdodfr. Contbins mftiods to pbrsf b BER bufffr.
+  * A BER dfdodfr. Contbins mftiods to pbrsf b BER bufffr.
+  * A BER dfdodfr. Contbins mftiods to pbrsf b BER bufffr.
+  * A BER dfdodfr. Contbins mftiods to pbrsf b BER bufffr.
+  * A BER dfdodfr. Contbins mftiods to pbrsf b BER bufffr.
   *
-  * @buthor Jbgbnf Sundbr
-  * @buthor Vindfnt Rybn
+  *
+  *
+  *
+  *
+  * @butior Jbgbnf Sundbr
+  * @butior Jbgbnf Sundbr
+  * @butior Jbgbnf Sundbr
+  * @butior Jbgbnf Sundbr
+  * @butior Jbgbnf Sundbr
+  * @butior Vindfnt Rybn
+  * @butior Vindfnt Rybn
+  * @butior Vindfnt Rybn
+  * @butior Vindfnt Rybn
+  * @butior Vindfnt Rybn
+  */
+  */
+  */
+  */
   */
 publid finbl dlbss BfrDfdodfr fxtfnds Bfr {
+publid finbl dlbss BfrDfdodfr fxtfnds Bfr {
+publid finbl dlbss BfrDfdodfr fxtfnds Bfr {
+publid finbl dlbss BfrDfdodfr fxtfnds Bfr {
+publid finbl dlbss BfrDfdodfr fxtfnds Bfr {
 
-    privbtf int origOffsft;  // Thf stbrt point in buf to dfdodf
+
+
+
+
+    privbtf int origOffsft;  // Tif stbrt point in buf to dfdodf
+    privbtf int origOffsft;  // Tif stbrt point in buf to dfdodf
+    privbtf int origOffsft;  // Tif stbrt point in buf to dfdodf
+    privbtf int origOffsft;  // Tif stbrt point in buf to dfdodf
+    privbtf int origOffsft;  // Tif stbrt point in buf to dfdodf
+
+
+
+
 
     /**
-     * Crfbtfs b BER dfdodfr thbt rfbds bytfs from thf spfdififd bufffr.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b BER dfdodfr tibt rfbds bytfs from tif spfdififd bufffr.
+     * Crfbtfs b BER dfdodfr tibt rfbds bytfs from tif spfdififd bufffr.
+     * Crfbtfs b BER dfdodfr tibt rfbds bytfs from tif spfdififd bufffr.
+     * Crfbtfs b BER dfdodfr tibt rfbds bytfs from tif spfdififd bufffr.
+     * Crfbtfs b BER dfdodfr tibt rfbds bytfs from tif spfdififd bufffr.
+     */
+     */
+     */
+     */
      */
     publid BfrDfdodfr(bytf buf[], int offsft, int bufsizf) {
+    publid BfrDfdodfr(bytf buf[], int offsft, int bufsizf) {
+    publid BfrDfdodfr(bytf buf[], int offsft, int bufsizf) {
+    publid BfrDfdodfr(bytf buf[], int offsft, int bufsizf) {
+    publid BfrDfdodfr(bytf buf[], int offsft, int bufsizf) {
 
-        this.buf = buf;         // shbrfd bufffr, bf dbrfful to usf this dlbss
-        this.bufsizf = bufsizf;
-        this.origOffsft = offsft;
+
+
+
+
+        tiis.buf = buf;         // sibrfd bufffr, bf dbrfful to usf tiis dlbss
+        tiis.buf = buf;         // sibrfd bufffr, bf dbrfful to usf tiis dlbss
+        tiis.buf = buf;         // sibrfd bufffr, bf dbrfful to usf tiis dlbss
+        tiis.buf = buf;         // sibrfd bufffr, bf dbrfful to usf tiis dlbss
+        tiis.buf = buf;         // sibrfd bufffr, bf dbrfful to usf tiis dlbss
+        tiis.bufsizf = bufsizf;
+        tiis.bufsizf = bufsizf;
+        tiis.bufsizf = bufsizf;
+        tiis.bufsizf = bufsizf;
+        tiis.bufsizf = bufsizf;
+        tiis.origOffsft = offsft;
+        tiis.origOffsft = offsft;
+        tiis.origOffsft = offsft;
+        tiis.origOffsft = offsft;
+        tiis.origOffsft = offsft;
+
+
+
+
 
         rfsft();
+        rfsft();
+        rfsft();
+        rfsft();
+        rfsft();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfsfts this dfdodf to stbrt pbrsing from thf initibl offsft
-     * (if., sbmf stbtf bs bftfr dblling thf donstrudtor).
+    /**
+    /**
+    /**
+    /**
+     * Rfsfts tiis dfdodf to stbrt pbrsing from tif initibl offsft
+     * Rfsfts tiis dfdodf to stbrt pbrsing from tif initibl offsft
+     * Rfsfts tiis dfdodf to stbrt pbrsing from tif initibl offsft
+     * Rfsfts tiis dfdodf to stbrt pbrsing from tif initibl offsft
+     * Rfsfts tiis dfdodf to stbrt pbrsing from tif initibl offsft
+     * (if., sbmf stbtf bs bftfr dblling tif donstrudtor).
+     * (if., sbmf stbtf bs bftfr dblling tif donstrudtor).
+     * (if., sbmf stbtf bs bftfr dblling tif donstrudtor).
+     * (if., sbmf stbtf bs bftfr dblling tif donstrudtor).
+     * (if., sbmf stbtf bs bftfr dblling tif donstrudtor).
+     */
+     */
+     */
+     */
      */
     publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+    publid void rfsft() {
+        offsft = origOffsft;
+        offsft = origOffsft;
+        offsft = origOffsft;
+        offsft = origOffsft;
         offsft = origOffsft;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-      * Rfturns thf durrfnt pbrsf position.
-      * It points to thf bytf thbt will bf pbrsfd nfxt.
+    /**
+    /**
+    /**
+    /**
+      * Rfturns tif durrfnt pbrsf position.
+      * Rfturns tif durrfnt pbrsf position.
+      * Rfturns tif durrfnt pbrsf position.
+      * Rfturns tif durrfnt pbrsf position.
+      * Rfturns tif durrfnt pbrsf position.
+      * It points to tif bytf tibt will bf pbrsfd nfxt.
+      * It points to tif bytf tibt will bf pbrsfd nfxt.
+      * It points to tif bytf tibt will bf pbrsfd nfxt.
+      * It points to tif bytf tibt will bf pbrsfd nfxt.
+      * It points to tif bytf tibt will bf pbrsfd nfxt.
+      * Usfful for pbrsing sfqufndfs.
+      * Usfful for pbrsing sfqufndfs.
+      * Usfful for pbrsing sfqufndfs.
+      * Usfful for pbrsing sfqufndfs.
       * Usfful for pbrsing sfqufndfs.
       */
+      */
+      */
+      */
+      */
+    publid int gftPbrsfPosition() {
+    publid int gftPbrsfPosition() {
+    publid int gftPbrsfPosition() {
+    publid int gftPbrsfPosition() {
     publid int gftPbrsfPosition() {
         rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
+        rfturn offsft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-      * Pbrsfs b possibly vbribblf lfngth fifld.
+    /**
+    /**
+    /**
+    /**
+      * Pbrsfs b possibly vbribblf lfngti fifld.
+      * Pbrsfs b possibly vbribblf lfngti fifld.
+      * Pbrsfs b possibly vbribblf lfngti fifld.
+      * Pbrsfs b possibly vbribblf lfngti fifld.
+      * Pbrsfs b possibly vbribblf lfngti fifld.
       */
-    publid int pbrsfLfngth() throws DfdodfExdfption {
+      */
+      */
+      */
+      */
+    publid int pbrsfLfngti() tirows DfdodfExdfption {
+    publid int pbrsfLfngti() tirows DfdodfExdfption {
+    publid int pbrsfLfngti() tirows DfdodfExdfption {
+    publid int pbrsfLfngti() tirows DfdodfExdfption {
+    publid int pbrsfLfngti() tirows DfdodfExdfption {
 
-        int lfngthbytf = pbrsfBytf();
 
-        if ((lfngthbytf & 0x80) == 0x80) {
 
-            lfngthbytf &= 0x7f;
 
-            if (lfngthbytf == 0) {
-                throw nfw DfdodfExdfption(
-                    "Indffinitf lfngth not supportfd");
+
+        int lfngtibytf = pbrsfBytf();
+        int lfngtibytf = pbrsfBytf();
+        int lfngtibytf = pbrsfBytf();
+        int lfngtibytf = pbrsfBytf();
+        int lfngtibytf = pbrsfBytf();
+
+
+
+
+
+        if ((lfngtibytf & 0x80) == 0x80) {
+        if ((lfngtibytf & 0x80) == 0x80) {
+        if ((lfngtibytf & 0x80) == 0x80) {
+        if ((lfngtibytf & 0x80) == 0x80) {
+        if ((lfngtibytf & 0x80) == 0x80) {
+
+
+
+
+
+            lfngtibytf &= 0x7f;
+            lfngtibytf &= 0x7f;
+            lfngtibytf &= 0x7f;
+            lfngtibytf &= 0x7f;
+            lfngtibytf &= 0x7f;
+
+
+
+
+
+            if (lfngtibytf == 0) {
+            if (lfngtibytf == 0) {
+            if (lfngtibytf == 0) {
+            if (lfngtibytf == 0) {
+            if (lfngtibytf == 0) {
+                tirow nfw DfdodfExdfption(
+                tirow nfw DfdodfExdfption(
+                tirow nfw DfdodfExdfption(
+                tirow nfw DfdodfExdfption(
+                tirow nfw DfdodfExdfption(
+                    "Indffinitf lfngti not supportfd");
+                    "Indffinitf lfngti not supportfd");
+                    "Indffinitf lfngti not supportfd");
+                    "Indffinitf lfngti not supportfd");
+                    "Indffinitf lfngti not supportfd");
+            }
+            }
+            }
+            }
             }
 
-            if (lfngthbytf > 4) {
-                throw nfw DfdodfExdfption("fndoding too long");
+
+
+
+
+            if (lfngtibytf > 4) {
+            if (lfngtibytf > 4) {
+            if (lfngtibytf > 4) {
+            if (lfngtibytf > 4) {
+            if (lfngtibytf > 4) {
+                tirow nfw DfdodfExdfption("fndoding too long");
+                tirow nfw DfdodfExdfption("fndoding too long");
+                tirow nfw DfdodfExdfption("fndoding too long");
+                tirow nfw DfdodfExdfption("fndoding too long");
+                tirow nfw DfdodfExdfption("fndoding too long");
+            }
+            }
+            }
+            }
             }
 
-            if (bufsizf - offsft < lfngthbytf) {
-                throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+
+
+
+
+            if (bufsizf - offsft < lfngtibytf) {
+            if (bufsizf - offsft < lfngtibytf) {
+            if (bufsizf - offsft < lfngtibytf) {
+            if (bufsizf - offsft < lfngtibytf) {
+            if (bufsizf - offsft < lfngtibytf) {
+                tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+                tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+                tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+                tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+                tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             int rftvbl = 0;
+            int rftvbl = 0;
+            int rftvbl = 0;
+            int rftvbl = 0;
+            int rftvbl = 0;
 
-            for( int i = 0; i < lfngthbytf; i++) {
+
+
+
+
+            for( int i = 0; i < lfngtibytf; i++) {
+            for( int i = 0; i < lfngtibytf; i++) {
+            for( int i = 0; i < lfngtibytf; i++) {
+            for( int i = 0; i < lfngtibytf; i++) {
+            for( int i = 0; i < lfngtibytf; i++) {
+                rftvbl = (rftvbl << 8) + (buf[offsft++] & 0xff);
+                rftvbl = (rftvbl << 8) + (buf[offsft++] & 0xff);
+                rftvbl = (rftvbl << 8) + (buf[offsft++] & 0xff);
+                rftvbl = (rftvbl << 8) + (buf[offsft++] & 0xff);
                 rftvbl = (rftvbl << 8) + (buf[offsft++] & 0xff);
             }
+            }
+            }
+            }
+            }
+            rfturn rftvbl;
+            rfturn rftvbl;
+            rfturn rftvbl;
+            rfturn rftvbl;
             rfturn rftvbl;
         } flsf {
-            rfturn lfngthbytf;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn lfngtibytf;
+            rfturn lfngtibytf;
+            rfturn lfngtibytf;
+            rfturn lfngtibytf;
+            rfturn lfngtibytf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Pbrsfs thf nfxt sfqufndf in this BER bufffr.
-     * @pbrbm rlfn An brrby for rfturning sizf of thf sfqufndf in bytfs. If null,
-     *          thf sizf is not rfturnfd.
-     * @rfturn Thf sfqufndf's tbg.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs tif nfxt sfqufndf in tiis BER bufffr.
+     * Pbrsfs tif nfxt sfqufndf in tiis BER bufffr.
+     * Pbrsfs tif nfxt sfqufndf in tiis BER bufffr.
+     * Pbrsfs tif nfxt sfqufndf in tiis BER bufffr.
+     * Pbrsfs tif nfxt sfqufndf in tiis BER bufffr.
+     * @pbrbm rlfn An brrby for rfturning sizf of tif sfqufndf in bytfs. If null,
+     * @pbrbm rlfn An brrby for rfturning sizf of tif sfqufndf in bytfs. If null,
+     * @pbrbm rlfn An brrby for rfturning sizf of tif sfqufndf in bytfs. If null,
+     * @pbrbm rlfn An brrby for rfturning sizf of tif sfqufndf in bytfs. If null,
+     * @pbrbm rlfn An brrby for rfturning sizf of tif sfqufndf in bytfs. If null,
+     *          tif sizf is not rfturnfd.
+     *          tif sizf is not rfturnfd.
+     *          tif sizf is not rfturnfd.
+     *          tif sizf is not rfturnfd.
+     *          tif sizf is not rfturnfd.
+     * @rfturn Tif sfqufndf's tbg.
+     * @rfturn Tif sfqufndf's tbg.
+     * @rfturn Tif sfqufndf's tbg.
+     * @rfturn Tif sfqufndf's tbg.
+     * @rfturn Tif sfqufndf's tbg.
      */
-    publid int pbrsfSfq(int rlfn[]) throws DfdodfExdfption {
+     */
+     */
+     */
+     */
+    publid int pbrsfSfq(int rlfn[]) tirows DfdodfExdfption {
+    publid int pbrsfSfq(int rlfn[]) tirows DfdodfExdfption {
+    publid int pbrsfSfq(int rlfn[]) tirows DfdodfExdfption {
+    publid int pbrsfSfq(int rlfn[]) tirows DfdodfExdfption {
+    publid int pbrsfSfq(int rlfn[]) tirows DfdodfExdfption {
+
+
+
+
 
         int sfq = pbrsfBytf();
-        int lfn = pbrsfLfngth();
+        int sfq = pbrsfBytf();
+        int sfq = pbrsfBytf();
+        int sfq = pbrsfBytf();
+        int sfq = pbrsfBytf();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
         if (rlfn != null) {
             rlfn[0] = lfn;
+            rlfn[0] = lfn;
+            rlfn[0] = lfn;
+            rlfn[0] = lfn;
+            rlfn[0] = lfn;
+        }
+        }
+        }
+        }
         }
         rfturn sfq;
+        rfturn sfq;
+        rfturn sfq;
+        rfturn sfq;
+        rfturn sfq;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Usfd to skip bytfs. Usublly usfd whfn trying to rfdovfr from pbrsf frror.
-     * Don't nffd to bf publid right now?
-     * @pbrbm i Thf numbfr of bytfs to skip
+    /**
+    /**
+    /**
+    /**
+     * Usfd to skip bytfs. Usublly usfd wifn trying to rfdovfr from pbrsf frror.
+     * Usfd to skip bytfs. Usublly usfd wifn trying to rfdovfr from pbrsf frror.
+     * Usfd to skip bytfs. Usublly usfd wifn trying to rfdovfr from pbrsf frror.
+     * Usfd to skip bytfs. Usublly usfd wifn trying to rfdovfr from pbrsf frror.
+     * Usfd to skip bytfs. Usublly usfd wifn trying to rfdovfr from pbrsf frror.
+     * Don't nffd to bf publid rigit now?
+     * Don't nffd to bf publid rigit now?
+     * Don't nffd to bf publid rigit now?
+     * Don't nffd to bf publid rigit now?
+     * Don't nffd to bf publid rigit now?
+     * @pbrbm i Tif numbfr of bytfs to skip
+     * @pbrbm i Tif numbfr of bytfs to skip
+     * @pbrbm i Tif numbfr of bytfs to skip
+     * @pbrbm i Tif numbfr of bytfs to skip
+     * @pbrbm i Tif numbfr of bytfs to skip
      */
-    void sffk(int i) throws DfdodfExdfption {
+     */
+     */
+     */
+     */
+    void sffk(int i) tirows DfdodfExdfption {
+    void sffk(int i) tirows DfdodfExdfption {
+    void sffk(int i) tirows DfdodfExdfption {
+    void sffk(int i) tirows DfdodfExdfption {
+    void sffk(int i) tirows DfdodfExdfption {
         if (offsft + i > bufsizf || offsft + i < 0) {
-            throw nfw DfdodfExdfption("brrby indfx out of bounds");
+        if (offsft + i > bufsizf || offsft + i < 0) {
+        if (offsft + i > bufsizf || offsft + i < 0) {
+        if (offsft + i > bufsizf || offsft + i < 0) {
+        if (offsft + i > bufsizf || offsft + i < 0) {
+            tirow nfw DfdodfExdfption("brrby indfx out of bounds");
+            tirow nfw DfdodfExdfption("brrby indfx out of bounds");
+            tirow nfw DfdodfExdfption("brrby indfx out of bounds");
+            tirow nfw DfdodfExdfption("brrby indfx out of bounds");
+            tirow nfw DfdodfExdfption("brrby indfx out of bounds");
+        }
+        }
+        }
+        }
         }
         offsft += i;
+        offsft += i;
+        offsft += i;
+        offsft += i;
+        offsft += i;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbrsfs thf nfxt bytf in this BER bufffr.
-     * @rfturn Thf bytf pbrsfd.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs tif nfxt bytf in tiis BER bufffr.
+     * Pbrsfs tif nfxt bytf in tiis BER bufffr.
+     * Pbrsfs tif nfxt bytf in tiis BER bufffr.
+     * Pbrsfs tif nfxt bytf in tiis BER bufffr.
+     * Pbrsfs tif nfxt bytf in tiis BER bufffr.
+     * @rfturn Tif bytf pbrsfd.
+     * @rfturn Tif bytf pbrsfd.
+     * @rfturn Tif bytf pbrsfd.
+     * @rfturn Tif bytf pbrsfd.
+     * @rfturn Tif bytf pbrsfd.
      */
-    publid int pbrsfBytf() throws DfdodfExdfption {
+     */
+     */
+     */
+     */
+    publid int pbrsfBytf() tirows DfdodfExdfption {
+    publid int pbrsfBytf() tirows DfdodfExdfption {
+    publid int pbrsfBytf() tirows DfdodfExdfption {
+    publid int pbrsfBytf() tirows DfdodfExdfption {
+    publid int pbrsfBytf() tirows DfdodfExdfption {
         if (bufsizf - offsft < 1) {
-            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        if (bufsizf - offsft < 1) {
+        if (bufsizf - offsft < 1) {
+        if (bufsizf - offsft < 1) {
+        if (bufsizf - offsft < 1) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        }
+        }
+        }
         }
         rfturn buf[offsft++] & 0xff;
+        rfturn buf[offsft++] & 0xff;
+        rfturn buf[offsft++] & 0xff;
+        rfturn buf[offsft++] & 0xff;
+        rfturn buf[offsft++] & 0xff;
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * Rfturns thf nfxt bytf in this BER bufffr without donsuming it.
-     * @rfturn Thf nfxt bytf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nfxt bytf in tiis BER bufffr witiout donsuming it.
+     * Rfturns tif nfxt bytf in tiis BER bufffr witiout donsuming it.
+     * Rfturns tif nfxt bytf in tiis BER bufffr witiout donsuming it.
+     * Rfturns tif nfxt bytf in tiis BER bufffr witiout donsuming it.
+     * Rfturns tif nfxt bytf in tiis BER bufffr witiout donsuming it.
+     * @rfturn Tif nfxt bytf.
+     * @rfturn Tif nfxt bytf.
+     * @rfturn Tif nfxt bytf.
+     * @rfturn Tif nfxt bytf.
+     * @rfturn Tif nfxt bytf.
      */
-    publid int pffkBytf() throws DfdodfExdfption {
+     */
+     */
+     */
+     */
+    publid int pffkBytf() tirows DfdodfExdfption {
+    publid int pffkBytf() tirows DfdodfExdfption {
+    publid int pffkBytf() tirows DfdodfExdfption {
+    publid int pffkBytf() tirows DfdodfExdfption {
+    publid int pffkBytf() tirows DfdodfExdfption {
         if (bufsizf - offsft < 1) {
-            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        if (bufsizf - offsft < 1) {
+        if (bufsizf - offsft < 1) {
+        if (bufsizf - offsft < 1) {
+        if (bufsizf - offsft < 1) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        }
+        }
+        }
         }
         rfturn buf[offsft] & 0xff;
+        rfturn buf[offsft] & 0xff;
+        rfturn buf[offsft] & 0xff;
+        rfturn buf[offsft] & 0xff;
+        rfturn buf[offsft] & 0xff;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from this BER bufffr.
-     * @rfturn truf if thf tbggfd intfgfr is 0; fblsf othfrwisf.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from tiis BER bufffr.
+     * @rfturn truf if tif tbggfd intfgfr is 0; fblsf otifrwisf.
+     * @rfturn truf if tif tbggfd intfgfr is 0; fblsf otifrwisf.
+     * @rfturn truf if tif tbggfd intfgfr is 0; fblsf otifrwisf.
+     * @rfturn truf if tif tbggfd intfgfr is 0; fblsf otifrwisf.
+     * @rfturn truf if tif tbggfd intfgfr is 0; fblsf otifrwisf.
      */
-    publid boolfbn pbrsfBoolfbn() throws DfdodfExdfption {
-        rfturn ((pbrsfIntWithTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
-    }
-
-    /**
-     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from this BER bufffr.
-     * @rfturn Thf tbg of fnumfrbtion.
      */
-    publid int pbrsfEnumfrbtion() throws DfdodfExdfption {
-        rfturn pbrsfIntWithTbg(ASN_ENUMERATED);
-    }
-
-    /**
-     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from this BER bufffr.
-     * @rfturn Thf vbluf of thf intfgfr.
      */
-    publid int pbrsfInt() throws DfdodfExdfption {
-        rfturn pbrsfIntWithTbg(ASN_INTEGER);
+     */
+     */
+    publid boolfbn pbrsfBoolfbn() tirows DfdodfExdfption {
+    publid boolfbn pbrsfBoolfbn() tirows DfdodfExdfption {
+    publid boolfbn pbrsfBoolfbn() tirows DfdodfExdfption {
+    publid boolfbn pbrsfBoolfbn() tirows DfdodfExdfption {
+    publid boolfbn pbrsfBoolfbn() tirows DfdodfExdfption {
+        rfturn ((pbrsfIntWitiTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
+        rfturn ((pbrsfIntWitiTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
+        rfturn ((pbrsfIntWitiTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
+        rfturn ((pbrsfIntWitiTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
+        rfturn ((pbrsfIntWitiTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-      * Pbrsfs bn intfgfr thbt's prfdfdfd by b tbg.
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from tiis BER bufffr.
+     * @rfturn Tif tbg of fnumfrbtion.
+     * @rfturn Tif tbg of fnumfrbtion.
+     * @rfturn Tif tbg of fnumfrbtion.
+     * @rfturn Tif tbg of fnumfrbtion.
+     * @rfturn Tif tbg of fnumfrbtion.
+     */
+     */
+     */
+     */
+     */
+    publid int pbrsfEnumfrbtion() tirows DfdodfExdfption {
+    publid int pbrsfEnumfrbtion() tirows DfdodfExdfption {
+    publid int pbrsfEnumfrbtion() tirows DfdodfExdfption {
+    publid int pbrsfEnumfrbtion() tirows DfdodfExdfption {
+    publid int pbrsfEnumfrbtion() tirows DfdodfExdfption {
+        rfturn pbrsfIntWitiTbg(ASN_ENUMERATED);
+        rfturn pbrsfIntWitiTbg(ASN_ENUMERATED);
+        rfturn pbrsfIntWitiTbg(ASN_ENUMERATED);
+        rfturn pbrsfIntWitiTbg(ASN_ENUMERATED);
+        rfturn pbrsfIntWitiTbg(ASN_ENUMERATED);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from tiis BER bufffr.
+     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from tiis BER bufffr.
+     * @rfturn Tif vbluf of tif intfgfr.
+     * @rfturn Tif vbluf of tif intfgfr.
+     * @rfturn Tif vbluf of tif intfgfr.
+     * @rfturn Tif vbluf of tif intfgfr.
+     * @rfturn Tif vbluf of tif intfgfr.
+     */
+     */
+     */
+     */
+     */
+    publid int pbrsfInt() tirows DfdodfExdfption {
+    publid int pbrsfInt() tirows DfdodfExdfption {
+    publid int pbrsfInt() tirows DfdodfExdfption {
+    publid int pbrsfInt() tirows DfdodfExdfption {
+    publid int pbrsfInt() tirows DfdodfExdfption {
+        rfturn pbrsfIntWitiTbg(ASN_INTEGER);
+        rfturn pbrsfIntWitiTbg(ASN_INTEGER);
+        rfturn pbrsfIntWitiTbg(ASN_INTEGER);
+        rfturn pbrsfIntWitiTbg(ASN_INTEGER);
+        rfturn pbrsfIntWitiTbg(ASN_INTEGER);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+      * Pbrsfs bn intfgfr tibt's prfdfdfd by b tbg.
+      * Pbrsfs bn intfgfr tibt's prfdfdfd by b tbg.
+      * Pbrsfs bn intfgfr tibt's prfdfdfd by b tbg.
+      * Pbrsfs bn intfgfr tibt's prfdfdfd by b tbg.
+      * Pbrsfs bn intfgfr tibt's prfdfdfd by b tbg.
       *<blodkquotf><prf>
-      * BER intfgfr ::= tbg lfngth bytf {bytf}*
+      *<blodkquotf><prf>
+      *<blodkquotf><prf>
+      *<blodkquotf><prf>
+      *<blodkquotf><prf>
+      * BER intfgfr ::= tbg lfngti bytf {bytf}*
+      * BER intfgfr ::= tbg lfngti bytf {bytf}*
+      * BER intfgfr ::= tbg lfngti bytf {bytf}*
+      * BER intfgfr ::= tbg lfngti bytf {bytf}*
+      * BER intfgfr ::= tbg lfngti bytf {bytf}*
+      *</prf></blodkquotf>
+      *</prf></blodkquotf>
+      *</prf></blodkquotf>
+      *</prf></blodkquotf>
       *</prf></blodkquotf>
       */
-    privbtf int pbrsfIntWithTbg(int tbg) throws DfdodfExdfption {
+      */
+      */
+      */
+      */
+    privbtf int pbrsfIntWitiTbg(int tbg) tirows DfdodfExdfption {
+    privbtf int pbrsfIntWitiTbg(int tbg) tirows DfdodfExdfption {
+    privbtf int pbrsfIntWitiTbg(int tbg) tirows DfdodfExdfption {
+    privbtf int pbrsfIntWitiTbg(int tbg) tirows DfdodfExdfption {
+    privbtf int pbrsfIntWitiTbg(int tbg) tirows DfdodfExdfption {
+
+
+
+
+
+
+
+
 
 
         if (pbrsfBytf() != tbg) {
-            throw nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+        if (pbrsfBytf() != tbg) {
+        if (pbrsfBytf() != tbg) {
+        if (pbrsfBytf() != tbg) {
+        if (pbrsfBytf() != tbg) {
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString(buf[offsft - 1] & 0xff) +
+                Intfgfr.toString(buf[offsft - 1] & 0xff) +
+                Intfgfr.toString(buf[offsft - 1] & 0xff) +
+                Intfgfr.toString(buf[offsft - 1] & 0xff) +
                 Intfgfr.toString(buf[offsft - 1] & 0xff) +
                 " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
-        }
-
-        int lfn = pbrsfLfngth();
-
-        if (lfn > 4) {
-            throw nfw DfdodfExdfption("INTEGER too long");
-        } flsf if (lfn > bufsizf - offsft) {
-            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
-        }
-
-        bytf fb = buf[offsft++];
-        int vbluf = 0;
-
-        vbluf = fb & 0x7F;
-        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
-            vbluf <<= 8;
-            vbluf |= (buf[offsft++] & 0xff);
-        }
-
-        if ((fb & 0x80) == 0x80) {
-            vbluf = -vbluf;
-        }
-
-        rfturn vbluf;
-    }
-
-    /**
-      * Pbrsfs b string.
-      */
-    publid String pbrsfString(boolfbn dfdodfUTF8) throws DfdodfExdfption {
-        rfturn pbrsfStringWithTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
-    }
-
-    /**
-      * Pbrsfs b string of b givfn tbg from this BER bufffr.
-      *<blodkquotf><prf>
-      *BER simplf string ::= tbg lfngth {bytf}*
-      *</prf></blodkquotf>
-      * @pbrbm rlfn An brrby for holding thf rflbtivf pbrsfd offsft; if null
-      *  offsft not sft.
-      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 whfn dfdoding thf string; othfrwisf
-      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
-      * @pbrbm tbg Thf tbg thbt prfdfdfs thf string.
-      * @rfturn Thf non-null pbrsfd string.
-      */
-    publid String pbrsfStringWithTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
-        throws DfdodfExdfption {
-
-        int st;
-        int origOffsft = offsft;
-
-        if ((st = pbrsfBytf()) != tbg) {
-            throw nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
-                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
-        }
-
-        int lfn = pbrsfLfngth();
-
-        if (lfn > bufsizf - offsft) {
-            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
-        }
-
-        String rftstr;
-        if (lfn == 0) {
-            rftstr = "";
-        } flsf {
-            bytf[] buf2 = nfw bytf[lfn];
-
-            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
-            if (dfdodfUTF8) {
-                try {
-                    rftstr = nfw String(buf2, "UTF8");
-                } dbtdh (UnsupportfdEndodingExdfption f) {
-                    throw nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
-                }
-            } flsf {
-                try {
-                    rftstr = nfw String(buf2, "8859_1");
-                } dbtdh (UnsupportfdEndodingExdfption f) {
-                    throw nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
-                }
-            }
-            offsft += lfn;
-        }
-
-        if (rlfn != null) {
-            rlfn[0] = offsft - origOffsft;
-        }
-
-        rfturn rftstr;
-    }
-
-    /**
-     * Pbrsfs bn odtft string of b givfn typf(tbg) from this BER bufffr.
-     * <blodkquotf><prf>
-     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngth {bytf}*
-     *</prf></blodkquotf>
-     *
-     * @pbrbm tbg Thf tbg to look for.
-     * @pbrbm rlfn An brrby for rfturning thf rflbtivf pbrsfd position. If null,
-     *          thf rflbtivf pbrsfd position is not rfturnfd.
-     * @rfturn A non-null brrby dontbining thf odtft string.
-     * @throws DfdodfExdfption If thf nfxt bytf in thf BER bufffr is not
-     * <tt>tbg</tt>, or if lfngth spfdififd in thf BER bufffr fxdffds thf
-     * numbfr of bytfs lfft in thf bufffr.
-     */
-    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) throws DfdodfExdfption {
-
-        int origOffsft = offsft;
-        int st;
-        if ((st = pbrsfBytf()) != tbg) {
-
-            throw nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
-                Intfgfr.toString(st) +
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
                 " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
         }
-
-        int lfn = pbrsfLfngth();
-
-        if (lfn > bufsizf - offsft) {
-            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        }
+        }
         }
 
-        bytf rftbrr[] = nfw bytf[lfn];
-        if (lfn > 0) {
-            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
-            offsft += lfn;
+
+
+
+
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+
+
+
+
+
+        if (lfn > 4) {
+        if (lfn > 4) {
+        if (lfn > 4) {
+        if (lfn > 4) {
+        if (lfn > 4) {
+            tirow nfw DfdodfExdfption("INTEGER too long");
+            tirow nfw DfdodfExdfption("INTEGER too long");
+            tirow nfw DfdodfExdfption("INTEGER too long");
+            tirow nfw DfdodfExdfption("INTEGER too long");
+            tirow nfw DfdodfExdfption("INTEGER too long");
+        } flsf if (lfn > bufsizf - offsft) {
+        } flsf if (lfn > bufsizf - offsft) {
+        } flsf if (lfn > bufsizf - offsft) {
+        } flsf if (lfn > bufsizf - offsft) {
+        } flsf if (lfn > bufsizf - offsft) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        }
+        }
+        }
         }
 
-        if (rlfn != null) {
-            rlfn[0] = offsft - origOffsft;
+
+
+
+
+        bytf fb = buf[offsft++];
+        bytf fb = buf[offsft++];
+        bytf fb = buf[offsft++];
+        bytf fb = buf[offsft++];
+        bytf fb = buf[offsft++];
+        int vbluf = 0;
+        int vbluf = 0;
+        int vbluf = 0;
+        int vbluf = 0;
+        int vbluf = 0;
+
+
+
+
+
+        vbluf = fb & 0x7F;
+        vbluf = fb & 0x7F;
+        vbluf = fb & 0x7F;
+        vbluf = fb & 0x7F;
+        vbluf = fb & 0x7F;
+        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
+        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
+        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
+        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
+        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
+            vbluf <<= 8;
+            vbluf <<= 8;
+            vbluf <<= 8;
+            vbluf <<= 8;
+            vbluf <<= 8;
+            vbluf |= (buf[offsft++] & 0xff);
+            vbluf |= (buf[offsft++] & 0xff);
+            vbluf |= (buf[offsft++] & 0xff);
+            vbluf |= (buf[offsft++] & 0xff);
+            vbluf |= (buf[offsft++] & 0xff);
+        }
+        }
+        }
+        }
         }
 
-        rfturn rftbrr;
+
+
+
+
+        if ((fb & 0x80) == 0x80) {
+        if ((fb & 0x80) == 0x80) {
+        if ((fb & 0x80) == 0x80) {
+        if ((fb & 0x80) == 0x80) {
+        if ((fb & 0x80) == 0x80) {
+            vbluf = -vbluf;
+            vbluf = -vbluf;
+            vbluf = -vbluf;
+            vbluf = -vbluf;
+            vbluf = -vbluf;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf numbfr of unpbrsfd bytfs in this BER bufffr.
+    /**
+    /**
+    /**
+    /**
+      * Pbrsfs b string.
+      * Pbrsfs b string.
+      * Pbrsfs b string.
+      * Pbrsfs b string.
+      * Pbrsfs b string.
+      */
+      */
+      */
+      */
+      */
+    publid String pbrsfString(boolfbn dfdodfUTF8) tirows DfdodfExdfption {
+    publid String pbrsfString(boolfbn dfdodfUTF8) tirows DfdodfExdfption {
+    publid String pbrsfString(boolfbn dfdodfUTF8) tirows DfdodfExdfption {
+    publid String pbrsfString(boolfbn dfdodfUTF8) tirows DfdodfExdfption {
+    publid String pbrsfString(boolfbn dfdodfUTF8) tirows DfdodfExdfption {
+        rfturn pbrsfStringWitiTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
+        rfturn pbrsfStringWitiTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
+        rfturn pbrsfStringWitiTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
+        rfturn pbrsfStringWitiTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
+        rfturn pbrsfStringWitiTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+      * Pbrsfs b string of b givfn tbg from tiis BER bufffr.
+      * Pbrsfs b string of b givfn tbg from tiis BER bufffr.
+      * Pbrsfs b string of b givfn tbg from tiis BER bufffr.
+      * Pbrsfs b string of b givfn tbg from tiis BER bufffr.
+      * Pbrsfs b string of b givfn tbg from tiis BER bufffr.
+      *<blodkquotf><prf>
+      *<blodkquotf><prf>
+      *<blodkquotf><prf>
+      *<blodkquotf><prf>
+      *<blodkquotf><prf>
+      *BER simplf string ::= tbg lfngti {bytf}*
+      *BER simplf string ::= tbg lfngti {bytf}*
+      *BER simplf string ::= tbg lfngti {bytf}*
+      *BER simplf string ::= tbg lfngti {bytf}*
+      *BER simplf string ::= tbg lfngti {bytf}*
+      *</prf></blodkquotf>
+      *</prf></blodkquotf>
+      *</prf></blodkquotf>
+      *</prf></blodkquotf>
+      *</prf></blodkquotf>
+      * @pbrbm rlfn An brrby for iolding tif rflbtivf pbrsfd offsft; if null
+      * @pbrbm rlfn An brrby for iolding tif rflbtivf pbrsfd offsft; if null
+      * @pbrbm rlfn An brrby for iolding tif rflbtivf pbrsfd offsft; if null
+      * @pbrbm rlfn An brrby for iolding tif rflbtivf pbrsfd offsft; if null
+      * @pbrbm rlfn An brrby for iolding tif rflbtivf pbrsfd offsft; if null
+      *  offsft not sft.
+      *  offsft not sft.
+      *  offsft not sft.
+      *  offsft not sft.
+      *  offsft not sft.
+      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 wifn dfdoding tif string; otifrwisf
+      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 wifn dfdoding tif string; otifrwisf
+      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 wifn dfdoding tif string; otifrwisf
+      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 wifn dfdoding tif string; otifrwisf
+      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 wifn dfdoding tif string; otifrwisf
+      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
+      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
+      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
+      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
+      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
+      * @pbrbm tbg Tif tbg tibt prfdfdfs tif string.
+      * @pbrbm tbg Tif tbg tibt prfdfdfs tif string.
+      * @pbrbm tbg Tif tbg tibt prfdfdfs tif string.
+      * @pbrbm tbg Tif tbg tibt prfdfdfs tif string.
+      * @pbrbm tbg Tif tbg tibt prfdfdfs tif string.
+      * @rfturn Tif non-null pbrsfd string.
+      * @rfturn Tif non-null pbrsfd string.
+      * @rfturn Tif non-null pbrsfd string.
+      * @rfturn Tif non-null pbrsfd string.
+      * @rfturn Tif non-null pbrsfd string.
+      */
+      */
+      */
+      */
+      */
+    publid String pbrsfStringWitiTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
+    publid String pbrsfStringWitiTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
+    publid String pbrsfStringWitiTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
+    publid String pbrsfStringWitiTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
+    publid String pbrsfStringWitiTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
+        tirows DfdodfExdfption {
+        tirows DfdodfExdfption {
+        tirows DfdodfExdfption {
+        tirows DfdodfExdfption {
+        tirows DfdodfExdfption {
+
+
+
+
+
+        int st;
+        int st;
+        int st;
+        int st;
+        int st;
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+
+
+
+
+
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
+                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
+                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
+                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
+                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+
+
+
+
+
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        String rftstr;
+        String rftstr;
+        String rftstr;
+        String rftstr;
+        String rftstr;
+        if (lfn == 0) {
+        if (lfn == 0) {
+        if (lfn == 0) {
+        if (lfn == 0) {
+        if (lfn == 0) {
+            rftstr = "";
+            rftstr = "";
+            rftstr = "";
+            rftstr = "";
+            rftstr = "";
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            bytf[] buf2 = nfw bytf[lfn];
+            bytf[] buf2 = nfw bytf[lfn];
+            bytf[] buf2 = nfw bytf[lfn];
+            bytf[] buf2 = nfw bytf[lfn];
+            bytf[] buf2 = nfw bytf[lfn];
+
+
+
+
+
+            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
+            if (dfdodfUTF8) {
+            if (dfdodfUTF8) {
+            if (dfdodfUTF8) {
+            if (dfdodfUTF8) {
+            if (dfdodfUTF8) {
+                try {
+                try {
+                try {
+                try {
+                try {
+                    rftstr = nfw String(buf2, "UTF8");
+                    rftstr = nfw String(buf2, "UTF8");
+                    rftstr = nfw String(buf2, "UTF8");
+                    rftstr = nfw String(buf2, "UTF8");
+                    rftstr = nfw String(buf2, "UTF8");
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                    tirow nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
+                }
+                }
+                }
+                }
+                }
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                try {
+                try {
+                try {
+                try {
+                try {
+                    rftstr = nfw String(buf2, "8859_1");
+                    rftstr = nfw String(buf2, "8859_1");
+                    rftstr = nfw String(buf2, "8859_1");
+                    rftstr = nfw String(buf2, "8859_1");
+                    rftstr = nfw String(buf2, "8859_1");
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                } dbtdi (UnsupportfdEndodingExdfption f) {
+                    tirow nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
+                    tirow nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
+                }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        rfturn rftstr;
+        rfturn rftstr;
+        rfturn rftstr;
+        rfturn rftstr;
+        rfturn rftstr;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Pbrsfs bn odtft string of b givfn typf(tbg) from tiis BER bufffr.
+     * Pbrsfs bn odtft string of b givfn typf(tbg) from tiis BER bufffr.
+     * Pbrsfs bn odtft string of b givfn typf(tbg) from tiis BER bufffr.
+     * Pbrsfs bn odtft string of b givfn typf(tbg) from tiis BER bufffr.
+     * Pbrsfs bn odtft string of b givfn typf(tbg) from tiis BER bufffr.
+     * <blodkquotf><prf>
+     * <blodkquotf><prf>
+     * <blodkquotf><prf>
+     * <blodkquotf><prf>
+     * <blodkquotf><prf>
+     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngti {bytf}*
+     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngti {bytf}*
+     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngti {bytf}*
+     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngti {bytf}*
+     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngti {bytf}*
+     *</prf></blodkquotf>
+     *</prf></blodkquotf>
+     *</prf></blodkquotf>
+     *</prf></blodkquotf>
+     *</prf></blodkquotf>
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm tbg Tif tbg to look for.
+     * @pbrbm tbg Tif tbg to look for.
+     * @pbrbm tbg Tif tbg to look for.
+     * @pbrbm tbg Tif tbg to look for.
+     * @pbrbm tbg Tif tbg to look for.
+     * @pbrbm rlfn An brrby for rfturning tif rflbtivf pbrsfd position. If null,
+     * @pbrbm rlfn An brrby for rfturning tif rflbtivf pbrsfd position. If null,
+     * @pbrbm rlfn An brrby for rfturning tif rflbtivf pbrsfd position. If null,
+     * @pbrbm rlfn An brrby for rfturning tif rflbtivf pbrsfd position. If null,
+     * @pbrbm rlfn An brrby for rfturning tif rflbtivf pbrsfd position. If null,
+     *          tif rflbtivf pbrsfd position is not rfturnfd.
+     *          tif rflbtivf pbrsfd position is not rfturnfd.
+     *          tif rflbtivf pbrsfd position is not rfturnfd.
+     *          tif rflbtivf pbrsfd position is not rfturnfd.
+     *          tif rflbtivf pbrsfd position is not rfturnfd.
+     * @rfturn A non-null brrby dontbining tif odtft string.
+     * @rfturn A non-null brrby dontbining tif odtft string.
+     * @rfturn A non-null brrby dontbining tif odtft string.
+     * @rfturn A non-null brrby dontbining tif odtft string.
+     * @rfturn A non-null brrby dontbining tif odtft string.
+     * @tirows DfdodfExdfption If tif nfxt bytf in tif BER bufffr is not
+     * @tirows DfdodfExdfption If tif nfxt bytf in tif BER bufffr is not
+     * @tirows DfdodfExdfption If tif nfxt bytf in tif BER bufffr is not
+     * @tirows DfdodfExdfption If tif nfxt bytf in tif BER bufffr is not
+     * @tirows DfdodfExdfption If tif nfxt bytf in tif BER bufffr is not
+     * <tt>tbg</tt>, or if lfngti spfdififd in tif BER bufffr fxdffds tif
+     * <tt>tbg</tt>, or if lfngti spfdififd in tif BER bufffr fxdffds tif
+     * <tt>tbg</tt>, or if lfngti spfdififd in tif BER bufffr fxdffds tif
+     * <tt>tbg</tt>, or if lfngti spfdififd in tif BER bufffr fxdffds tif
+     * <tt>tbg</tt>, or if lfngti spfdififd in tif BER bufffr fxdffds tif
+     * numbfr of bytfs lfft in tif bufffr.
+     * numbfr of bytfs lfft in tif bufffr.
+     * numbfr of bytfs lfft in tif bufffr.
+     * numbfr of bytfs lfft in tif bufffr.
+     * numbfr of bytfs lfft in tif bufffr.
+     */
+     */
+     */
+     */
+     */
+    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) tirows DfdodfExdfption {
+    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) tirows DfdodfExdfption {
+    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) tirows DfdodfExdfption {
+    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) tirows DfdodfExdfption {
+    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) tirows DfdodfExdfption {
+
+
+
+
+
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+        int origOffsft = offsft;
+        int st;
+        int st;
+        int st;
+        int st;
+        int st;
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+        if ((st = pbrsfBytf()) != tbg) {
+
+
+
+
+
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+            tirow nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString(st) +
+                Intfgfr.toString(st) +
+                Intfgfr.toString(st) +
+                Intfgfr.toString(st) +
+                Intfgfr.toString(st) +
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+        int lfn = pbrsfLfngti();
+
+
+
+
+
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+        if (lfn > bufsizf - offsft) {
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+            tirow nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        bytf rftbrr[] = nfw bytf[lfn];
+        bytf rftbrr[] = nfw bytf[lfn];
+        bytf rftbrr[] = nfw bytf[lfn];
+        bytf rftbrr[] = nfw bytf[lfn];
+        bytf rftbrr[] = nfw bytf[lfn];
+        if (lfn > 0) {
+        if (lfn > 0) {
+        if (lfn > 0) {
+        if (lfn > 0) {
+        if (lfn > 0) {
+            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
+            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+            offsft += lfn;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
+        if (rlfn != null) {
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+            rlfn[0] = offsft - origOffsft;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        rfturn rftbrr;
+        rfturn rftbrr;
+        rfturn rftbrr;
+        rfturn rftbrr;
+        rfturn rftbrr;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif numbfr of unpbrsfd bytfs in tiis BER bufffr.
+     * Rfturns tif numbfr of unpbrsfd bytfs in tiis BER bufffr.
+     * Rfturns tif numbfr of unpbrsfd bytfs in tiis BER bufffr.
+     * Rfturns tif numbfr of unpbrsfd bytfs in tiis BER bufffr.
+     * Rfturns tif numbfr of unpbrsfd bytfs in tiis BER bufffr.
+     */
+     */
+     */
+     */
      */
     publid int bytfsLfft() {
+    publid int bytfsLfft() {
+    publid int bytfsLfft() {
+    publid int bytfsLfft() {
+    publid int bytfsLfft() {
+        rfturn bufsizf - offsft;
+        rfturn bufsizf - offsft;
+        rfturn bufsizf - offsft;
+        rfturn bufsizf - offsft;
         rfturn bufsizf - offsft;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

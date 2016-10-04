@@ -1,96 +1,480 @@
 /*
+/*
+/*
+/*
+/*
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
  * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ */
+ */
+ */
+ */
  */
 /**
- * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
- * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
- * distributfd with this work for bdditionbl informbtion
- * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
- * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
- * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
- * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+/**
+/**
+/**
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
  *
  * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
- * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
  * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
- * undfr thf Lidfnsf.
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
  */
-pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
+ */
+ */
+ */
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
+
+
+
+
 
 import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
 
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.RSAKfyVbluf;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+
+
+
+
+
+
+
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.RSAKfyVbluf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.RSAKfyVbluf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.RSAKfyVbluf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.RSAKfyVbluf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs.RSAKfyVbluf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
 import org.w3d.dom.Elfmfnt;
 
+
+
+
+
+publid dlbss RSAKfyVblufRfsolvfr fxtfnds KfyRfsolvfrSpi {
+publid dlbss RSAKfyVblufRfsolvfr fxtfnds KfyRfsolvfrSpi {
+publid dlbss RSAKfyVblufRfsolvfr fxtfnds KfyRfsolvfrSpi {
+publid dlbss RSAKfyVblufRfsolvfr fxtfnds KfyRfsolvfrSpi {
 publid dlbss RSAKfyVblufRfsolvfr fxtfnds KfyRfsolvfrSpi {
 
-    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+
+
+
+
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
     privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RSAKfyVblufRfsolvfr.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(RSAKfyVblufRfsolvfr.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(RSAKfyVblufRfsolvfr.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(RSAKfyVblufRfsolvfr.dlbss.gftNbmf());
         jbvb.util.logging.Loggfr.gftLoggfr(RSAKfyVblufRfsolvfr.dlbss.gftNbmf());
 
 
-    /** @inhfritDod */
+
+
+
+
+
+
+
+
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
     publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
         Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+    ) {
+    ) {
+    ) {
+    ) {
     ) {
         if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf());
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf());
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf());
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf());
             log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf());
         }
+        }
+        }
+        }
+        }
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
+        if (flfmfnt == null) {
         if (flfmfnt == null) {
             rfturn null;
-        }
-
-        boolfbn isKfyVbluf = XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYVALUE);
-        Elfmfnt rsbKfyElfmfnt = null;
-        if (isKfyVbluf) {
-            rsbKfyElfmfnt =
-                XMLUtils.sflfdtDsNodf(flfmfnt.gftFirstChild(), Constbnts._TAG_RSAKEYVALUE, 0);
-        } flsf if (XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_RSAKEYVALUE)) {
-            // this tridk is nffdfd to bllow thf RftrifvblMfthodRfsolvfr to fbt b
-            // ds:RSAKfyVbluf dirfdtly (without KfyVbluf)
-            rsbKfyElfmfnt = flfmfnt;
-        }
-
-        if (rsbKfyElfmfnt == null) {
+            rfturn null;
+            rfturn null;
+            rfturn null;
             rfturn null;
         }
-
-        try {
-            RSAKfyVbluf rsbKfyVbluf = nfw RSAKfyVbluf(rsbKfyElfmfnt, BbsfURI);
-
-            rfturn rsbKfyVbluf.gftPublidKfy();
-        } dbtdh (XMLSfdurityExdfption fx) {
-            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", fx);
-            }
+        }
+        }
+        }
         }
 
+
+
+
+
+        boolfbn isKfyVbluf = XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYVALUE);
+        boolfbn isKfyVbluf = XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYVALUE);
+        boolfbn isKfyVbluf = XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYVALUE);
+        boolfbn isKfyVbluf = XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYVALUE);
+        boolfbn isKfyVbluf = XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYVALUE);
+        Elfmfnt rsbKfyElfmfnt = null;
+        Elfmfnt rsbKfyElfmfnt = null;
+        Elfmfnt rsbKfyElfmfnt = null;
+        Elfmfnt rsbKfyElfmfnt = null;
+        Elfmfnt rsbKfyElfmfnt = null;
+        if (isKfyVbluf) {
+        if (isKfyVbluf) {
+        if (isKfyVbluf) {
+        if (isKfyVbluf) {
+        if (isKfyVbluf) {
+            rsbKfyElfmfnt =
+            rsbKfyElfmfnt =
+            rsbKfyElfmfnt =
+            rsbKfyElfmfnt =
+            rsbKfyElfmfnt =
+                XMLUtils.sflfdtDsNodf(flfmfnt.gftFirstCiild(), Constbnts._TAG_RSAKEYVALUE, 0);
+                XMLUtils.sflfdtDsNodf(flfmfnt.gftFirstCiild(), Constbnts._TAG_RSAKEYVALUE, 0);
+                XMLUtils.sflfdtDsNodf(flfmfnt.gftFirstCiild(), Constbnts._TAG_RSAKEYVALUE, 0);
+                XMLUtils.sflfdtDsNodf(flfmfnt.gftFirstCiild(), Constbnts._TAG_RSAKEYVALUE, 0);
+                XMLUtils.sflfdtDsNodf(flfmfnt.gftFirstCiild(), Constbnts._TAG_RSAKEYVALUE, 0);
+        } flsf if (XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_RSAKEYVALUE)) {
+        } flsf if (XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_RSAKEYVALUE)) {
+        } flsf if (XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_RSAKEYVALUE)) {
+        } flsf if (XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_RSAKEYVALUE)) {
+        } flsf if (XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_RSAKEYVALUE)) {
+            // tiis tridk is nffdfd to bllow tif RftrifvblMftiodRfsolvfr to fbt b
+            // tiis tridk is nffdfd to bllow tif RftrifvblMftiodRfsolvfr to fbt b
+            // tiis tridk is nffdfd to bllow tif RftrifvblMftiodRfsolvfr to fbt b
+            // tiis tridk is nffdfd to bllow tif RftrifvblMftiodRfsolvfr to fbt b
+            // tiis tridk is nffdfd to bllow tif RftrifvblMftiodRfsolvfr to fbt b
+            // ds:RSAKfyVbluf dirfdtly (witiout KfyVbluf)
+            // ds:RSAKfyVbluf dirfdtly (witiout KfyVbluf)
+            // ds:RSAKfyVbluf dirfdtly (witiout KfyVbluf)
+            // ds:RSAKfyVbluf dirfdtly (witiout KfyVbluf)
+            // ds:RSAKfyVbluf dirfdtly (witiout KfyVbluf)
+            rsbKfyElfmfnt = flfmfnt;
+            rsbKfyElfmfnt = flfmfnt;
+            rsbKfyElfmfnt = flfmfnt;
+            rsbKfyElfmfnt = flfmfnt;
+            rsbKfyElfmfnt = flfmfnt;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        if (rsbKfyElfmfnt == null) {
+        if (rsbKfyElfmfnt == null) {
+        if (rsbKfyElfmfnt == null) {
+        if (rsbKfyElfmfnt == null) {
+        if (rsbKfyElfmfnt == null) {
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        try {
+        try {
+        try {
+        try {
+        try {
+            RSAKfyVbluf rsbKfyVbluf = nfw RSAKfyVbluf(rsbKfyElfmfnt, BbsfURI);
+            RSAKfyVbluf rsbKfyVbluf = nfw RSAKfyVbluf(rsbKfyElfmfnt, BbsfURI);
+            RSAKfyVbluf rsbKfyVbluf = nfw RSAKfyVbluf(rsbKfyElfmfnt, BbsfURI);
+            RSAKfyVbluf rsbKfyVbluf = nfw RSAKfyVbluf(rsbKfyElfmfnt, BbsfURI);
+            RSAKfyVbluf rsbKfyVbluf = nfw RSAKfyVbluf(rsbKfyElfmfnt, BbsfURI);
+
+
+
+
+
+            rfturn rsbKfyVbluf.gftPublidKfy();
+            rfturn rsbKfyVbluf.gftPublidKfy();
+            rfturn rsbKfyVbluf.gftPublidKfy();
+            rfturn rsbKfyVbluf.gftPublidKfy();
+            rfturn rsbKfyVbluf.gftPublidKfy();
+        } dbtdi (XMLSfdurityExdfption fx) {
+        } dbtdi (XMLSfdurityExdfption fx) {
+        } dbtdi (XMLSfdurityExdfption fx) {
+        } dbtdi (XMLSfdurityExdfption fx) {
+        } dbtdi (XMLSfdurityExdfption fx) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", fx);
+                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", fx);
+                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", fx);
+                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", fx);
+                log.log(jbvb.util.logging.Lfvfl.FINE, "XMLSfdurityExdfption", fx);
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
 
-    /** @inhfritDod */
+
+
+
+
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
     publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
         Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
-    ) {
-        rfturn null;
-    }
-
-    /** @inhfritDod */
-    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
         Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
     ) {
+    ) {
+    ) {
+    ) {
+    ) {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    /** @inifritDod */
+    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+    publid jbvbx.drypto.SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+        Elfmfnt flfmfnt, String BbsfURI, StorbgfRfsolvfr storbgf
+    ) {
+    ) {
+    ) {
+    ) {
+    ) {
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+    }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,232 +1,1160 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="fs"/>
+		<lbngubgf typf="fs"/>
+		<lbngubgf typf="fs"/>
+		<lbngubgf typf="fs"/>
+		<lbngubgf typf="fs"/>
+		<tfrritory typf="419"/>
+		<tfrritory typf="419"/>
+		<tfrritory typf="419"/>
+		<tfrritory typf="419"/>
 		<tfrritory typf="419"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
 	<lodblfDisplbyNbmfs>
 		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Pbstú</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Pbstú</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Pbstú</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Pbstú</lbngubgf>
 			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Pbstú</lbngubgf>
 			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Uygiur</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Uygiur</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Uygiur</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Uygiur</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Uygiur</lbngubgf>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
 		</lbngubgfs>
 		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">Hbn simplifidbdo</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">Hbn simplifidbdo</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">Hbn simplifidbdo</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">Hbn simplifidbdo</sdript>
 			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">Hbn simplifidbdo</sdript>
 			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">Hbn trbdidionbl</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">Hbn trbdidionbl</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">Hbn trbdidionbl</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">Hbn trbdidionbl</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">Hbn trbdidionbl</sdript>
+		</sdripts>
+		</sdripts>
+		</sdripts>
+		</sdripts>
 		</sdripts>
 		<kfys>
+		<kfys>
+		<kfys>
+		<kfys>
+		<kfys>
+			<kfy typf="numbfrs" drbft="dontributfd">Númfros</kfy>
+			<kfy typf="numbfrs" drbft="dontributfd">Númfros</kfy>
+			<kfy typf="numbfrs" drbft="dontributfd">Númfros</kfy>
+			<kfy typf="numbfrs" drbft="dontributfd">Númfros</kfy>
 			<kfy typf="numbfrs" drbft="dontributfd">Númfros</kfy>
 		</kfys>
+		</kfys>
+		</kfys>
+		</kfys>
+		</kfys>
+		<typfs>
+		<typfs>
+		<typfs>
+		<typfs>
 		<typfs>
 			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Dígitos brábigo-índidos</typf>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Dígitos brábigo-índidos</typf>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Dígitos brábigo-índidos</typf>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Dígitos brábigo-índidos</typf>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Dígitos brábigo-índidos</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Dígitos árbbf-iindú fxtfndidos</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Dígitos árbbf-iindú fxtfndidos</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Dígitos árbbf-iindú fxtfndidos</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Dígitos árbbf-iindú fxtfndidos</typf>
 			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Dígitos árbbf-iindú fxtfndidos</typf>
 			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios fn minúsdulb</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios fn minúsdulb</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios fn minúsdulb</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios fn minúsdulb</typf>
 			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Númfros brmfnios fn minúsdulb</typf>
 			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Dígitos fn bfngblí</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Dígitos fn bfngblí</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Dígitos fn bfngblí</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Dígitos fn bfngblí</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Dígitos fn bfngblí</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio dóptido</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio dóptido</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio dóptido</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio dóptido</typf>
 			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio dóptido</typf>
 			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dfvbnbgbri</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dfvbnbgbri</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dfvbnbgbri</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dfvbnbgbri</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dfvbnbgbri</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión dfl diddionbrio</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión dfl diddionbrio</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión dfl diddionbrio</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión dfl diddionbrio</typf>
 			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión dfl diddionbrio</typf>
 			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df Unidodf prfdftfrminbdo</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df Unidodf prfdftfrminbdo</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df Unidodf prfdftfrminbdo</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df Unidodf prfdftfrminbdo</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df Unidodf prfdftfrminbdo</typf>
+			<typf typf="ftii" kfy="numbfrs" drbft="dontributfd">Númfros ftíopfs</typf>
+			<typf typf="ftii" kfy="numbfrs" drbft="dontributfd">Númfros ftíopfs</typf>
+			<typf typf="ftii" kfy="numbfrs" drbft="dontributfd">Númfros ftíopfs</typf>
+			<typf typf="ftii" kfy="numbfrs" drbft="dontributfd">Númfros ftíopfs</typf>
 			<typf typf="ftii" kfy="numbfrs" drbft="dontributfd">Númfros ftíopfs</typf>
 			<typf typf="ftiiopid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf</typf>
+			<typf typf="ftiiopid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf</typf>
+			<typf typf="ftiiopid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf</typf>
+			<typf typf="ftiiopid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf</typf>
+			<typf typf="ftiiopid" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf Amftf Alfm</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf Amftf Alfm</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf Amftf Alfm</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf Amftf Alfm</typf>
 			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio ftíopf Amftf Alfm</typf>
 			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Dígitos fn formbto domplfto</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Dígitos fn formbto domplfto</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Dígitos fn formbto domplfto</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Dígitos fn formbto domplfto</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Dígitos fn formbto domplfto</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Númfros gforgibnos</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Númfros gforgibnos</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Númfros gforgibnos</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Númfros gforgibnos</typf>
 			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Númfros gforgibnos</typf>
 			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Númfros grifgos</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Númfros grifgos</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Númfros grifgos</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Númfros grifgos</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Númfros grifgos</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Númfros grifgos fn minúsdulb</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Númfros grifgos fn minúsdulb</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Númfros grifgos fn minúsdulb</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Númfros grifgos fn minúsdulb</typf>
 			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Númfros grifgos fn minúsdulb</typf>
 			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Dígitos fn guybrbtí</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Dígitos fn guybrbtí</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Dígitos fn guybrbtí</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Dígitos fn guybrbtí</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Dígitos fn guybrbtí</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Dígitos fn gurumuji</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Dígitos fn gurumuji</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Dígitos fn gurumuji</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Dígitos fn gurumuji</typf>
 			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Dígitos fn gurumuji</typf>
 			<typf typf="ibnidfd" kfy="numbfrs" drbft="dontributfd">Numfrblfs dfdimblfs diinos</typf>
+			<typf typf="ibnidfd" kfy="numbfrs" drbft="dontributfd">Numfrblfs dfdimblfs diinos</typf>
+			<typf typf="ibnidfd" kfy="numbfrs" drbft="dontributfd">Numfrblfs dfdimblfs diinos</typf>
+			<typf typf="ibnidfd" kfy="numbfrs" drbft="dontributfd">Numfrblfs dfdimblfs diinos</typf>
+			<typf typf="ibnidfd" kfy="numbfrs" drbft="dontributfd">Numfrblfs dfdimblfs diinos</typf>
+			<typf typf="ibns" kfy="numbfrs" drbft="dontributfd">Númfros simplifidbdos diinos</typf>
+			<typf typf="ibns" kfy="numbfrs" drbft="dontributfd">Númfros simplifidbdos diinos</typf>
+			<typf typf="ibns" kfy="numbfrs" drbft="dontributfd">Númfros simplifidbdos diinos</typf>
+			<typf typf="ibns" kfy="numbfrs" drbft="dontributfd">Númfros simplifidbdos diinos</typf>
 			<typf typf="ibns" kfy="numbfrs" drbft="dontributfd">Númfros simplifidbdos diinos</typf>
 			<typf typf="ibnsfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros simplifidbdos diinos</typf>
+			<typf typf="ibnsfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros simplifidbdos diinos</typf>
+			<typf typf="ibnsfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros simplifidbdos diinos</typf>
+			<typf typf="ibnsfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros simplifidbdos diinos</typf>
+			<typf typf="ibnsfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros simplifidbdos diinos</typf>
+			<typf typf="ibnt" kfy="numbfrs" drbft="dontributfd">Númfros diinos trbdidionblfs</typf>
+			<typf typf="ibnt" kfy="numbfrs" drbft="dontributfd">Númfros diinos trbdidionblfs</typf>
+			<typf typf="ibnt" kfy="numbfrs" drbft="dontributfd">Númfros diinos trbdidionblfs</typf>
+			<typf typf="ibnt" kfy="numbfrs" drbft="dontributfd">Númfros diinos trbdidionblfs</typf>
 			<typf typf="ibnt" kfy="numbfrs" drbft="dontributfd">Númfros diinos trbdidionblfs</typf>
 			<typf typf="ibntfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros diinos trbdidionblfs</typf>
+			<typf typf="ibntfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros diinos trbdidionblfs</typf>
+			<typf typf="ibntfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros diinos trbdidionblfs</typf>
+			<typf typf="ibntfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros diinos trbdidionblfs</typf>
+			<typf typf="ibntfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros diinos trbdidionblfs</typf>
+			<typf typf="ifbr" kfy="numbfrs" drbft="dontributfd">Númfros ifbrfos</typf>
+			<typf typf="ifbr" kfy="numbfrs" drbft="dontributfd">Númfros ifbrfos</typf>
+			<typf typf="ifbr" kfy="numbfrs" drbft="dontributfd">Númfros ifbrfos</typf>
+			<typf typf="ifbr" kfy="numbfrs" drbft="dontributfd">Númfros ifbrfos</typf>
 			<typf typf="ifbr" kfy="numbfrs" drbft="dontributfd">Númfros ifbrfos</typf>
 			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Númfros fn jbponés</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Númfros fn jbponés</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Númfros fn jbponés</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Númfros fn jbponés</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Númfros fn jbponés</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros jbponfsfs</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros jbponfsfs</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros jbponfsfs</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros jbponfsfs</typf>
 			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Númfros finbndifros jbponfsfs</typf>
 			<typf typf="kimr" kfy="numbfrs" drbft="dontributfd">Dígitos fn jfmfr</typf>
+			<typf typf="kimr" kfy="numbfrs" drbft="dontributfd">Dígitos fn jfmfr</typf>
+			<typf typf="kimr" kfy="numbfrs" drbft="dontributfd">Dígitos fn jfmfr</typf>
+			<typf typf="kimr" kfy="numbfrs" drbft="dontributfd">Dígitos fn jfmfr</typf>
+			<typf typf="kimr" kfy="numbfrs" drbft="dontributfd">Dígitos fn jfmfr</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dbnbrés</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dbnbrés</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dbnbrés</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dbnbrés</typf>
 			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Dígitos fn dbnbrés</typf>
 			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Dígitos df Lbo</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Dígitos df Lbo</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Dígitos df Lbo</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Dígitos df Lbo</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Dígitos df Lbo</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Dígitos oddidfntblfs</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Dígitos oddidfntblfs</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Dígitos oddidfntblfs</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Dígitos oddidfntblfs</typf>
 			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Dígitos oddidfntblfs</typf>
 			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Dígitos mblbbbrfs</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Dígitos mblbbbrfs</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Dígitos mblbbbrfs</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Dígitos mblbbbrfs</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Dígitos mblbbbrfs</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Dígitos fn mongol</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Dígitos fn mongol</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Dígitos fn mongol</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Dígitos fn mongol</typf>
 			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Dígitos fn mongol</typf>
 			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Dígitos fn birmbno</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Dígitos fn birmbno</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Dígitos fn birmbno</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Dígitos fn birmbno</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Dígitos fn birmbno</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Dígitos fn oriyb</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Dígitos fn oriyb</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Dígitos fn oriyb</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Dígitos fn oriyb</typf>
 			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Dígitos fn oriyb</typf>
 			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio pfrsb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio pfrsb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio pfrsb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio pfrsb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndbrio pfrsb</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión rfformbdo</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión rfformbdo</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión rfformbdo</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión rfformbdo</typf>
 			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión rfformbdo</typf>
 			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Númfros rombnos</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Númfros rombnos</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Númfros rombnos</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Númfros rombnos</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Númfros rombnos</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Númfros rombnos fn minúsdulb</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Númfros rombnos fn minúsdulb</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Númfros rombnos fn minúsdulb</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Númfros rombnos fn minúsdulb</typf>
 			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Númfros rombnos fn minúsdulb</typf>
 			<typf typf="sfbrdi" kfy="dollbtion" drbft="dontributfd">Búsqufdb gfnfrblizbdb</typf>
+			<typf typf="sfbrdi" kfy="dollbtion" drbft="dontributfd">Búsqufdb gfnfrblizbdb</typf>
+			<typf typf="sfbrdi" kfy="dollbtion" drbft="dontributfd">Búsqufdb gfnfrblizbdb</typf>
+			<typf typf="sfbrdi" kfy="dollbtion" drbft="dontributfd">Búsqufdb gfnfrblizbdb</typf>
+			<typf typf="sfbrdi" kfy="dollbtion" drbft="dontributfd">Búsqufdb gfnfrblizbdb</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Númfros fn Tbmil</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Númfros fn Tbmil</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Númfros fn Tbmil</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Númfros fn Tbmil</typf>
 			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Númfros fn Tbmil</typf>
 			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Dígitos fn tflugu</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Dígitos fn tflugu</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Dígitos fn tflugu</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Dígitos fn tflugu</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Dígitos fn tflugu</typf>
+			<typf typf="tibi" kfy="numbfrs" drbft="dontributfd">Dígitos fn tbilbndés</typf>
+			<typf typf="tibi" kfy="numbfrs" drbft="dontributfd">Dígitos fn tbilbndés</typf>
+			<typf typf="tibi" kfy="numbfrs" drbft="dontributfd">Dígitos fn tbilbndés</typf>
+			<typf typf="tibi" kfy="numbfrs" drbft="dontributfd">Dígitos fn tbilbndés</typf>
 			<typf typf="tibi" kfy="numbfrs" drbft="dontributfd">Dígitos fn tbilbndés</typf>
 			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Dígitos tibftbnos</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Dígitos tibftbnos</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Dígitos tibftbnos</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Dígitos tibftbnos</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Dígitos tibftbnos</typf>
+			<typf typf="uniibn" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df trbzos rbdidblfs</typf>
+			<typf typf="uniibn" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df trbzos rbdidblfs</typf>
+			<typf typf="uniibn" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df trbzos rbdidblfs</typf>
+			<typf typf="uniibn" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df trbzos rbdidblfs</typf>
 			<typf typf="uniibn" kfy="dollbtion" drbft="dontributfd">Ordfn df dlbsifidbdión df trbzos rbdidblfs</typf>
 		</typfs>
+		</typfs>
+		</typfs>
+		</typfs>
+		</typfs>
+		<trbnsformNbmfs>
+		<trbnsformNbmfs>
+		<trbnsformNbmfs>
+		<trbnsformNbmfs>
 		<trbnsformNbmfs>
 			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Numéridbs</trbnsformNbmf>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Numéridbs</trbnsformNbmf>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Numéridbs</trbnsformNbmf>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Numéridbs</trbnsformNbmf>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Numéridbs</trbnsformNbmf>
+		</trbnsformNbmfs>
+		</trbnsformNbmfs>
+		</trbnsformNbmfs>
+		</trbnsformNbmfs>
 		</trbnsformNbmfs>
 		<mfbsurfmfntSystfmNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">Rfino Unido</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">Rfino Unido</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">Rfino Unido</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">Rfino Unido</mfbsurfmfntSystfmNbmf>
 			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">Rfino Unido</mfbsurfmfntSystfmNbmf>
 		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
 	</lodblfDisplbyNbmfs>
 	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<stopwords>
+		<stopwords>
+		<stopwords>
+		<stopwords>
 		<stopwords>
 			<stopwordList typf="dollbtion" drbft="provisionbl">brtídulos</stopwordList>
+			<stopwordList typf="dollbtion" drbft="provisionbl">brtídulos</stopwordList>
+			<stopwordList typf="dollbtion" drbft="provisionbl">brtídulos</stopwordList>
+			<stopwordList typf="dollbtion" drbft="provisionbl">brtídulos</stopwordList>
+			<stopwordList typf="dollbtion" drbft="provisionbl">brtídulos</stopwordList>
+		</stopwords>
+		</stopwords>
+		</stopwords>
+		</stopwords>
 		</stopwords>
 	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
 			<dblfndbr typf="grfgoribn">
 				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
 					<dbyContfxt typf="stbnd-blonf">
 						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">D</dby>
+							<dby typf="sun">D</dby>
+							<dby typf="sun">D</dby>
+							<dby typf="sun">D</dby>
 							<dby typf="sun">D</dby>
 							<dby typf="mon">L</dby>
+							<dby typf="mon">L</dby>
+							<dby typf="mon">L</dby>
+							<dby typf="mon">L</dby>
+							<dby typf="mon">L</dby>
+							<dby typf="tuf">M</dby>
+							<dby typf="tuf">M</dby>
+							<dby typf="tuf">M</dby>
+							<dby typf="tuf">M</dby>
 							<dby typf="tuf">M</dby>
 							<dby typf="wfd">M</dby>
+							<dby typf="wfd">M</dby>
+							<dby typf="wfd">M</dby>
+							<dby typf="wfd">M</dby>
+							<dby typf="wfd">M</dby>
+							<dby typf="tiu">J</dby>
+							<dby typf="tiu">J</dby>
+							<dby typf="tiu">J</dby>
+							<dby typf="tiu">J</dby>
 							<dby typf="tiu">J</dby>
 							<dby typf="fri">V</dby>
+							<dby typf="fri">V</dby>
+							<dby typf="fri">V</dby>
+							<dby typf="fri">V</dby>
+							<dby typf="fri">V</dby>
+							<dby typf="sbt">S</dby>
+							<dby typf="sbt">S</dby>
+							<dby typf="sbt">S</dby>
+							<dby typf="sbt">S</dby>
 							<dby typf="sbt">S</dby>
 						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
 				<qubrtfrs>
 					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="nbrrow">
+						<qubrtfrWidti typf="nbrrow">
+						<qubrtfrWidti typf="nbrrow">
+						<qubrtfrWidti typf="nbrrow">
 						<qubrtfrWidti typf="nbrrow">
 							<qubrtfr typf="1" drbft="dontributfd">1</qubrtfr>
+							<qubrtfr typf="1" drbft="dontributfd">1</qubrtfr>
+							<qubrtfr typf="1" drbft="dontributfd">1</qubrtfr>
+							<qubrtfr typf="1" drbft="dontributfd">1</qubrtfr>
+							<qubrtfr typf="1" drbft="dontributfd">1</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2</qubrtfr>
 							<qubrtfr typf="2" drbft="dontributfd">2</qubrtfr>
 							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
 							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
 						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
 					</qubrtfrContfxt>
 				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				<fiflds>
+				<fiflds>
+				<fiflds>
+				<fiflds>
 				<fiflds>
 					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+						<rflbtivf typf="-1" drbft="dontributfd">Año pbsbdo</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">Año pbsbdo</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">Año pbsbdo</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">Año pbsbdo</rflbtivf>
 						<rflbtivf typf="-1" drbft="dontributfd">Año pbsbdo</rflbtivf>
 						<rflbtivf typf="0" drbft="dontributfd">Estf bño</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf bño</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf bño</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf bño</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf bño</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Año próximo</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Año próximo</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Año próximo</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Año próximo</rflbtivf>
 						<rflbtivf typf="1" drbft="dontributfd">Año próximo</rflbtivf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
 					<fifld typf="monti">
 						<rflbtivf typf="-1" drbft="dontributfd">El mfs pbsbdo</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">El mfs pbsbdo</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">El mfs pbsbdo</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">El mfs pbsbdo</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">El mfs pbsbdo</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf mfs</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf mfs</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf mfs</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estf mfs</rflbtivf>
 						<rflbtivf typf="0" drbft="dontributfd">Estf mfs</rflbtivf>
 						<rflbtivf typf="1" drbft="dontributfd">Mfs próximo</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Mfs próximo</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Mfs próximo</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Mfs próximo</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Mfs próximo</rflbtivf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+						<rflbtivf typf="-1" drbft="dontributfd">Sfmbnb pbsbdb</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">Sfmbnb pbsbdb</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">Sfmbnb pbsbdb</rflbtivf>
+						<rflbtivf typf="-1" drbft="dontributfd">Sfmbnb pbsbdb</rflbtivf>
 						<rflbtivf typf="-1" drbft="dontributfd">Sfmbnb pbsbdb</rflbtivf>
 						<rflbtivf typf="0" drbft="dontributfd">Estb sfmbnb</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estb sfmbnb</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estb sfmbnb</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estb sfmbnb</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Estb sfmbnb</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Próximb sfmbnb</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Próximb sfmbnb</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Próximb sfmbnb</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Próximb sfmbnb</rflbtivf>
 						<rflbtivf typf="1" drbft="dontributfd">Próximb sfmbnb</rflbtivf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+				</fiflds>
+				</fiflds>
+				</fiflds>
+				</fiflds>
 				</fiflds>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+			<mftbzonf typf="Amfridb_Cfntrbl">
+			<mftbzonf typf="Amfridb_Cfntrbl">
+			<mftbzonf typf="Amfridb_Cfntrbl">
 			<mftbzonf typf="Amfridb_Cfntrbl">
 				<siort>
+				<siort>
+				<siort>
+				<siort>
+				<siort>
+					<gfnfrid>CT</gfnfrid>
+					<gfnfrid>CT</gfnfrid>
+					<gfnfrid>CT</gfnfrid>
+					<gfnfrid>CT</gfnfrid>
 					<gfnfrid>CT</gfnfrid>
 					<stbndbrd>CST</stbndbrd>
+					<stbndbrd>CST</stbndbrd>
+					<stbndbrd>CST</stbndbrd>
+					<stbndbrd>CST</stbndbrd>
+					<stbndbrd>CST</stbndbrd>
+					<dbyligit>CDT</dbyligit>
+					<dbyligit>CDT</dbyligit>
+					<dbyligit>CDT</dbyligit>
+					<dbyligit>CDT</dbyligit>
 					<dbyligit>CDT</dbyligit>
 				</siort>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
 			</mftbzonf>
 			<mftbzonf typf="Amfridb_Ebstfrn">
+			<mftbzonf typf="Amfridb_Ebstfrn">
+			<mftbzonf typf="Amfridb_Ebstfrn">
+			<mftbzonf typf="Amfridb_Ebstfrn">
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<siort>
+				<siort>
+				<siort>
+				<siort>
 				<siort>
 					<gfnfrid>ET</gfnfrid>
+					<gfnfrid>ET</gfnfrid>
+					<gfnfrid>ET</gfnfrid>
+					<gfnfrid>ET</gfnfrid>
+					<gfnfrid>ET</gfnfrid>
+					<stbndbrd>EST</stbndbrd>
+					<stbndbrd>EST</stbndbrd>
+					<stbndbrd>EST</stbndbrd>
+					<stbndbrd>EST</stbndbrd>
 					<stbndbrd>EST</stbndbrd>
 					<dbyligit>EDT</dbyligit>
+					<dbyligit>EDT</dbyligit>
+					<dbyligit>EDT</dbyligit>
+					<dbyligit>EDT</dbyligit>
+					<dbyligit>EDT</dbyligit>
 				</siort>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
 			</mftbzonf>
 			<mftbzonf typf="Amfridb_Mountbin">
+			<mftbzonf typf="Amfridb_Mountbin">
+			<mftbzonf typf="Amfridb_Mountbin">
+			<mftbzonf typf="Amfridb_Mountbin">
+			<mftbzonf typf="Amfridb_Mountbin">
+				<siort>
+				<siort>
+				<siort>
+				<siort>
 				<siort>
 					<gfnfrid>MT</gfnfrid>
+					<gfnfrid>MT</gfnfrid>
+					<gfnfrid>MT</gfnfrid>
+					<gfnfrid>MT</gfnfrid>
+					<gfnfrid>MT</gfnfrid>
+					<stbndbrd>MST</stbndbrd>
+					<stbndbrd>MST</stbndbrd>
+					<stbndbrd>MST</stbndbrd>
+					<stbndbrd>MST</stbndbrd>
 					<stbndbrd>MST</stbndbrd>
 					<dbyligit>MDT</dbyligit>
+					<dbyligit>MDT</dbyligit>
+					<dbyligit>MDT</dbyligit>
+					<dbyligit>MDT</dbyligit>
+					<dbyligit>MDT</dbyligit>
 				</siort>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
 			</mftbzonf>
 			<mftbzonf typf="Amfridb_Pbdifid">
+			<mftbzonf typf="Amfridb_Pbdifid">
+			<mftbzonf typf="Amfridb_Pbdifid">
+			<mftbzonf typf="Amfridb_Pbdifid">
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<siort>
+				<siort>
+				<siort>
+				<siort>
 				<siort>
 					<gfnfrid>PT</gfnfrid>
+					<gfnfrid>PT</gfnfrid>
+					<gfnfrid>PT</gfnfrid>
+					<gfnfrid>PT</gfnfrid>
+					<gfnfrid>PT</gfnfrid>
+					<stbndbrd>PST</stbndbrd>
+					<stbndbrd>PST</stbndbrd>
+					<stbndbrd>PST</stbndbrd>
+					<stbndbrd>PST</stbndbrd>
 					<stbndbrd>PST</stbndbrd>
 					<dbyligit>PDT</dbyligit>
+					<dbyligit>PDT</dbyligit>
+					<dbyligit>PDT</dbyligit>
+					<dbyligit>PDT</dbyligit>
+					<dbyligit>PDT</dbyligit>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
 				</siort>
 			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
 		</timfZonfNbmfs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
 			<dfdimbl>.</dfdimbl>
 			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		</symbols>
 		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti typf="siort">
+			<dfdimblFormbtLfngti typf="siort">
+			<dfdimblFormbtLfngti typf="siort">
+			<dfdimblFormbtLfngti typf="siort">
 			<dfdimblFormbtLfngti typf="siort">
 				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0000</pbttfrn>
+					<pbttfrn typf="1000" drbft="dontributfd">0000</pbttfrn>
+					<pbttfrn typf="1000" drbft="dontributfd">0000</pbttfrn>
+					<pbttfrn typf="1000" drbft="dontributfd">0000</pbttfrn>
 					<pbttfrn typf="1000" drbft="dontributfd">0000</pbttfrn>
 					<pbttfrn typf="10000" drbft="dontributfd">00k</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00k</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00k</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00k</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00k</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000k</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000k</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000k</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000k</pbttfrn>
 					<pbttfrn typf="100000" drbft="dontributfd">000k</pbttfrn>
 					<pbttfrn typf="1000000" drbft="dontributfd">0.0 M</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 M</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 M</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 M</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 M</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 M</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 M</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 M</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 M</pbttfrn>
 					<pbttfrn typf="10000000" drbft="dontributfd">00 M</pbttfrn>
 					<pbttfrn typf="100000000" drbft="dontributfd">000 M</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 M</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 M</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 M</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 M</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0k M</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0k M</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0k M</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0k M</pbttfrn>
 					<pbttfrn typf="1000000000" drbft="dontributfd">0.0k M</pbttfrn>
 					<pbttfrn typf="10000000000" drbft="dontributfd">00k M</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00k M</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00k M</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00k M</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00k M</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000k M</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000k M</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000k M</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000k M</pbttfrn>
 					<pbttfrn typf="100000000000" drbft="dontributfd">000k M</pbttfrn>
 					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 B</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 B</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 B</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 B</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 B</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 B</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 B</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 B</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 B</pbttfrn>
 					<pbttfrn typf="10000000000000" drbft="dontributfd">00 B</pbttfrn>
 					<pbttfrn typf="100000000000000" drbft="dontributfd">000 B</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 B</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 B</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 B</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 B</pbttfrn>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
+				</dfdimblFormbt>
 				</dfdimblFormbt>
 			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
+		</dfdimblFormbts>
 		</dfdimblFormbts>
 		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
 			<durrfndyFormbtLfngti>
 				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+					<pbttfrn drbft="dontributfd">¤#,##0.00</pbttfrn>
+					<pbttfrn drbft="dontributfd">¤#,##0.00</pbttfrn>
+					<pbttfrn drbft="dontributfd">¤#,##0.00</pbttfrn>
+					<pbttfrn drbft="dontributfd">¤#,##0.00</pbttfrn>
 					<pbttfrn drbft="dontributfd">¤#,##0.00</pbttfrn>
 				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
 			</durrfndyFormbtLfngti>
 		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
 	</numbfrs>
 	<units>
+	<units>
+	<units>
+	<units>
+	<units>
+		<unit typf="dby-futurf">
+		<unit typf="dby-futurf">
+		<unit typf="dby-futurf">
+		<unit typf="dby-futurf">
 		<unit typf="dby-futurf">
 			<unitPbttfrn dount="0" drbft="dontributfd">En 0 díbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 díbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 díbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 díbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 díbs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 díb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 díb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 díb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 díb</unitPbttfrn>
 			<unitPbttfrn dount="1" drbft="dontributfd">En 1 díb</unitPbttfrn>
 			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} díb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} díb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} díb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} díb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} díb</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} díbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} díbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} díbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} díbs</unitPbttfrn>
 			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} díbs</unitPbttfrn>
 		</unit>
+		</unit>
+		</unit>
+		</unit>
+		</unit>
+		<unit typf="iour-futurf">
+		<unit typf="iour-futurf">
+		<unit typf="iour-futurf">
+		<unit typf="iour-futurf">
 		<unit typf="iour-futurf">
 			<unitPbttfrn dount="0" drbft="dontributfd">En 0 iorbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 iorbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 iorbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 iorbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 iorbs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 iorb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 iorb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 iorb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 iorb</unitPbttfrn>
 			<unitPbttfrn dount="1" drbft="dontributfd">En 1 iorb</unitPbttfrn>
 			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} iorb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} iorb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} iorb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} iorb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} iorb</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} iorbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} iorbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} iorbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} iorbs</unitPbttfrn>
 			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} iorbs</unitPbttfrn>
 		</unit>
+		</unit>
+		</unit>
+		</unit>
+		</unit>
+		<unit typf="minutf-futurf">
+		<unit typf="minutf-futurf">
+		<unit typf="minutf-futurf">
+		<unit typf="minutf-futurf">
 		<unit typf="minutf-futurf">
 			<unitPbttfrn dount="0" drbft="dontributfd">En 0 minutos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 minutos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 minutos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 minutos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 minutos</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 minuto</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 minuto</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 minuto</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 minuto</unitPbttfrn>
 			<unitPbttfrn dount="1" drbft="dontributfd">En 1 minuto</unitPbttfrn>
 			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} minuto</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} minuto</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} minuto</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} minuto</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} minuto</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} minutos</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} minutos</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} minutos</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} minutos</unitPbttfrn>
 			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} minutos</unitPbttfrn>
 		</unit>
+		</unit>
+		</unit>
+		</unit>
+		</unit>
+		<unit typf="monti-futurf">
+		<unit typf="monti-futurf">
+		<unit typf="monti-futurf">
+		<unit typf="monti-futurf">
 		<unit typf="monti-futurf">
 			<unitPbttfrn dount="0" drbft="dontributfd">En 0 mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 mfs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 mfs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 mfs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 mfs</unitPbttfrn>
 			<unitPbttfrn dount="1" drbft="dontributfd">En 1 mfs</unitPbttfrn>
 			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} mfs</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} mfs</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} mfs</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} mfs</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} mfs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} mfsfs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} mfsfs</unitPbttfrn>
 			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} mfsfs</unitPbttfrn>
 		</unit>
+		</unit>
+		</unit>
+		</unit>
+		</unit>
+		<unit typf="sfdond-futurf">
+		<unit typf="sfdond-futurf">
+		<unit typf="sfdond-futurf">
+		<unit typf="sfdond-futurf">
 		<unit typf="sfdond-futurf">
 			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfgundo</unitPbttfrn>
 			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfgundo</unitPbttfrn>
 			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfgundo</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfgundos</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfgundos</unitPbttfrn>
 			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfgundos</unitPbttfrn>
 		</unit>
+		</unit>
+		</unit>
+		</unit>
+		</unit>
+		<unit typf="wffk-futurf">
+		<unit typf="wffk-futurf">
+		<unit typf="wffk-futurf">
+		<unit typf="wffk-futurf">
 		<unit typf="wffk-futurf">
 			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfmbnb</unitPbttfrn>
 			<unitPbttfrn dount="1" drbft="dontributfd">En 1 sfmbnb</unitPbttfrn>
 			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} sfmbnb</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfmbnbs</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfmbnbs</unitPbttfrn>
 			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} sfmbnbs</unitPbttfrn>
 		</unit>
+		</unit>
+		</unit>
+		</unit>
+		</unit>
+		<unit typf="yfbr-futurf">
+		<unit typf="yfbr-futurf">
+		<unit typf="yfbr-futurf">
+		<unit typf="yfbr-futurf">
 		<unit typf="yfbr-futurf">
 			<unitPbttfrn dount="0" drbft="dontributfd">En 0 bños</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 bños</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 bños</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 bños</unitPbttfrn>
+			<unitPbttfrn dount="0" drbft="dontributfd">En 0 bños</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 bño</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 bño</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 bño</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">En 1 bño</unitPbttfrn>
 			<unitPbttfrn dount="1" drbft="dontributfd">En 1 bño</unitPbttfrn>
 			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} bño</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} bño</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} bño</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} bño</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">En {0} bño</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} bños</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} bños</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} bños</unitPbttfrn>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} bños</unitPbttfrn>
 			<unitPbttfrn dount="otifr" drbft="dontributfd">En {0} bños</unitPbttfrn>
 		</unit>
+		</unit>
+		</unit>
+		</unit>
+		</unit>
+	</units>
+	</units>
+	</units>
+	</units>
 	</units>
 </ldml>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
+
+
+
+
 

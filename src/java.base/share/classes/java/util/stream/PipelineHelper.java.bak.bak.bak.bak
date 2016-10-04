@@ -1,203 +1,1015 @@
 /*
- * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.util.strfbm;
+pbdkbgf jbvb.util.strfbm;
+pbdkbgf jbvb.util.strfbm;
+pbdkbgf jbvb.util.strfbm;
 pbdkbgf jbvb.util.strfbm;
 
+
+
+
+
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtor;
 import jbvb.util.Splitfrbtor;
 import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.IntFundtion;
+
+
+
+
 
 /**
- * Hflpfr dlbss for fxfduting <b hrff="pbdkbgf-summbry.html#StrfbmOps">
- * strfbm pipflinfs</b>, dbpturing bll of thf informbtion bbout b strfbm
- * pipflinf (output shbpf, intfrmfdibtf opfrbtions, strfbm flbgs, pbrbllflism,
+/**
+/**
+/**
+/**
+ * Hflpfr dlbss for fxfduting <b irff="pbdkbgf-summbry.itml#StrfbmOps">
+ * Hflpfr dlbss for fxfduting <b irff="pbdkbgf-summbry.itml#StrfbmOps">
+ * Hflpfr dlbss for fxfduting <b irff="pbdkbgf-summbry.itml#StrfbmOps">
+ * Hflpfr dlbss for fxfduting <b irff="pbdkbgf-summbry.itml#StrfbmOps">
+ * Hflpfr dlbss for fxfduting <b irff="pbdkbgf-summbry.itml#StrfbmOps">
+ * strfbm pipflinfs</b>, dbpturing bll of tif informbtion bbout b strfbm
+ * strfbm pipflinfs</b>, dbpturing bll of tif informbtion bbout b strfbm
+ * strfbm pipflinfs</b>, dbpturing bll of tif informbtion bbout b strfbm
+ * strfbm pipflinfs</b>, dbpturing bll of tif informbtion bbout b strfbm
+ * strfbm pipflinfs</b>, dbpturing bll of tif informbtion bbout b strfbm
+ * pipflinf (output sibpf, intfrmfdibtf opfrbtions, strfbm flbgs, pbrbllflism,
+ * pipflinf (output sibpf, intfrmfdibtf opfrbtions, strfbm flbgs, pbrbllflism,
+ * pipflinf (output sibpf, intfrmfdibtf opfrbtions, strfbm flbgs, pbrbllflism,
+ * pipflinf (output sibpf, intfrmfdibtf opfrbtions, strfbm flbgs, pbrbllflism,
+ * pipflinf (output sibpf, intfrmfdibtf opfrbtions, strfbm flbgs, pbrbllflism,
+ * ftd) in onf plbdf.
+ * ftd) in onf plbdf.
+ * ftd) in onf plbdf.
+ * ftd) in onf plbdf.
  * ftd) in onf plbdf.
  *
+ *
+ *
+ *
+ *
  * <p>
- * A {@dodf PipflinfHflpfr} dfsdribfs thf initibl sfgmfnt of b strfbm pipflinf,
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * A {@dodf PipflinfHflpfr} dfsdribfs tif initibl sfgmfnt of b strfbm pipflinf,
+ * A {@dodf PipflinfHflpfr} dfsdribfs tif initibl sfgmfnt of b strfbm pipflinf,
+ * A {@dodf PipflinfHflpfr} dfsdribfs tif initibl sfgmfnt of b strfbm pipflinf,
+ * A {@dodf PipflinfHflpfr} dfsdribfs tif initibl sfgmfnt of b strfbm pipflinf,
+ * A {@dodf PipflinfHflpfr} dfsdribfs tif initibl sfgmfnt of b strfbm pipflinf,
  * indluding its sourdf, intfrmfdibtf opfrbtions, bnd mby bdditionblly
- * indorporbtf informbtion bbout thf tfrminbl (or stbtfful) opfrbtion whidh
- * follows thf lbst intfrmfdibtf opfrbtion dfsdribfd by this
- * {@dodf PipflinfHflpfr}. Thf {@dodf PipflinfHflpfr} is pbssfd to thf
+ * indluding its sourdf, intfrmfdibtf opfrbtions, bnd mby bdditionblly
+ * indluding its sourdf, intfrmfdibtf opfrbtions, bnd mby bdditionblly
+ * indluding its sourdf, intfrmfdibtf opfrbtions, bnd mby bdditionblly
+ * indluding its sourdf, intfrmfdibtf opfrbtions, bnd mby bdditionblly
+ * indorporbtf informbtion bbout tif tfrminbl (or stbtfful) opfrbtion wiidi
+ * indorporbtf informbtion bbout tif tfrminbl (or stbtfful) opfrbtion wiidi
+ * indorporbtf informbtion bbout tif tfrminbl (or stbtfful) opfrbtion wiidi
+ * indorporbtf informbtion bbout tif tfrminbl (or stbtfful) opfrbtion wiidi
+ * indorporbtf informbtion bbout tif tfrminbl (or stbtfful) opfrbtion wiidi
+ * follows tif lbst intfrmfdibtf opfrbtion dfsdribfd by tiis
+ * follows tif lbst intfrmfdibtf opfrbtion dfsdribfd by tiis
+ * follows tif lbst intfrmfdibtf opfrbtion dfsdribfd by tiis
+ * follows tif lbst intfrmfdibtf opfrbtion dfsdribfd by tiis
+ * follows tif lbst intfrmfdibtf opfrbtion dfsdribfd by tiis
+ * {@dodf PipflinfHflpfr}. Tif {@dodf PipflinfHflpfr} is pbssfd to tif
+ * {@dodf PipflinfHflpfr}. Tif {@dodf PipflinfHflpfr} is pbssfd to tif
+ * {@dodf PipflinfHflpfr}. Tif {@dodf PipflinfHflpfr} is pbssfd to tif
+ * {@dodf PipflinfHflpfr}. Tif {@dodf PipflinfHflpfr} is pbssfd to tif
+ * {@dodf PipflinfHflpfr}. Tif {@dodf PipflinfHflpfr} is pbssfd to tif
+ * {@link TfrminblOp#fvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
+ * {@link TfrminblOp#fvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
+ * {@link TfrminblOp#fvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
+ * {@link TfrminblOp#fvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
  * {@link TfrminblOp#fvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
  * {@link TfrminblOp#fvblubtfSfqufntibl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
+ * {@link TfrminblOp#fvblubtfSfqufntibl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
+ * {@link TfrminblOp#fvblubtfSfqufntibl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
+ * {@link TfrminblOp#fvblubtfSfqufntibl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
+ * {@link TfrminblOp#fvblubtfSfqufntibl(PipflinfHflpfr, jbvb.util.Splitfrbtor)},
  * bnd {@link AbstrbdtPipflinf#opEvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor,
- * jbvb.util.fundtion.IntFundtion)}, mfthods, whidh dbn usf thf
- * {@dodf PipflinfHflpfr} to bddfss informbtion bbout thf pipflinf sudh bs
- * hfbd shbpf, strfbm flbgs, bnd sizf, bnd usf thf hflpfr mfthods
- * sudh bs {@link #wrbpAndCopyInto(Sink, Splitfrbtor)},
+ * bnd {@link AbstrbdtPipflinf#opEvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor,
+ * bnd {@link AbstrbdtPipflinf#opEvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor,
+ * bnd {@link AbstrbdtPipflinf#opEvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor,
+ * bnd {@link AbstrbdtPipflinf#opEvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor,
+ * jbvb.util.fundtion.IntFundtion)}, mftiods, wiidi dbn usf tif
+ * jbvb.util.fundtion.IntFundtion)}, mftiods, wiidi dbn usf tif
+ * jbvb.util.fundtion.IntFundtion)}, mftiods, wiidi dbn usf tif
+ * jbvb.util.fundtion.IntFundtion)}, mftiods, wiidi dbn usf tif
+ * jbvb.util.fundtion.IntFundtion)}, mftiods, wiidi dbn usf tif
+ * {@dodf PipflinfHflpfr} to bddfss informbtion bbout tif pipflinf sudi bs
+ * {@dodf PipflinfHflpfr} to bddfss informbtion bbout tif pipflinf sudi bs
+ * {@dodf PipflinfHflpfr} to bddfss informbtion bbout tif pipflinf sudi bs
+ * {@dodf PipflinfHflpfr} to bddfss informbtion bbout tif pipflinf sudi bs
+ * {@dodf PipflinfHflpfr} to bddfss informbtion bbout tif pipflinf sudi bs
+ * ifbd sibpf, strfbm flbgs, bnd sizf, bnd usf tif iflpfr mftiods
+ * ifbd sibpf, strfbm flbgs, bnd sizf, bnd usf tif iflpfr mftiods
+ * ifbd sibpf, strfbm flbgs, bnd sizf, bnd usf tif iflpfr mftiods
+ * ifbd sibpf, strfbm flbgs, bnd sizf, bnd usf tif iflpfr mftiods
+ * ifbd sibpf, strfbm flbgs, bnd sizf, bnd usf tif iflpfr mftiods
+ * sudi bs {@link #wrbpAndCopyInto(Sink, Splitfrbtor)},
+ * sudi bs {@link #wrbpAndCopyInto(Sink, Splitfrbtor)},
+ * sudi bs {@link #wrbpAndCopyInto(Sink, Splitfrbtor)},
+ * sudi bs {@link #wrbpAndCopyInto(Sink, Splitfrbtor)},
+ * sudi bs {@link #wrbpAndCopyInto(Sink, Splitfrbtor)},
+ * {@link #dopyInto(Sink, Splitfrbtor)}, bnd {@link #wrbpSink(Sink)} to fxfdutf
+ * {@link #dopyInto(Sink, Splitfrbtor)}, bnd {@link #wrbpSink(Sink)} to fxfdutf
+ * {@link #dopyInto(Sink, Splitfrbtor)}, bnd {@link #wrbpSink(Sink)} to fxfdutf
+ * {@link #dopyInto(Sink, Splitfrbtor)}, bnd {@link #wrbpSink(Sink)} to fxfdutf
  * {@link #dopyInto(Sink, Splitfrbtor)}, bnd {@link #wrbpSink(Sink)} to fxfdutf
  * pipflinf opfrbtions.
+ * pipflinf opfrbtions.
+ * pipflinf opfrbtions.
+ * pipflinf opfrbtions.
+ * pipflinf opfrbtions.
  *
- * @pbrbm <P_OUT> typf of output flfmfnts from thf pipflinf
+ *
+ *
+ *
+ *
+ * @pbrbm <P_OUT> typf of output flfmfnts from tif pipflinf
+ * @pbrbm <P_OUT> typf of output flfmfnts from tif pipflinf
+ * @pbrbm <P_OUT> typf of output flfmfnts from tif pipflinf
+ * @pbrbm <P_OUT> typf of output flfmfnts from tif pipflinf
+ * @pbrbm <P_OUT> typf of output flfmfnts from tif pipflinf
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
+ * @sindf 1.8
  * @sindf 1.8
  */
+ */
+ */
+ */
+ */
+bbstrbdt dlbss PipflinfHflpfr<P_OUT> {
+bbstrbdt dlbss PipflinfHflpfr<P_OUT> {
+bbstrbdt dlbss PipflinfHflpfr<P_OUT> {
+bbstrbdt dlbss PipflinfHflpfr<P_OUT> {
 bbstrbdt dlbss PipflinfHflpfr<P_OUT> {
 
-    /**
-     * Gfts thf strfbm shbpf for thf sourdf of thf pipflinf sfgmfnt.
-     *
-     * @rfturn thf strfbm shbpf for thf sourdf of thf pipflinf sfgmfnt.
-     */
-    bbstrbdt StrfbmShbpf gftSourdfShbpf();
+
+
+
 
     /**
-     * Gfts thf dombinfd strfbm bnd opfrbtion flbgs for thf output of thf dfsdribfd
-     * pipflinf.  This will indorporbtf strfbm flbgs from thf strfbm sourdf, bll
-     * thf intfrmfdibtf opfrbtions bnd thf tfrminbl opfrbtion.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * Gfts tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * Gfts tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * Gfts tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * Gfts tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
      *
-     * @rfturn thf dombinfd strfbm bnd opfrbtion flbgs
+     *
+     *
+     *
+     *
+     * @rfturn tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * @rfturn tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * @rfturn tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * @rfturn tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     * @rfturn tif strfbm sibpf for tif sourdf of tif pipflinf sfgmfnt.
+     */
+     */
+     */
+     */
+     */
+    bbstrbdt StrfbmSibpf gftSourdfSibpf();
+    bbstrbdt StrfbmSibpf gftSourdfSibpf();
+    bbstrbdt StrfbmSibpf gftSourdfSibpf();
+    bbstrbdt StrfbmSibpf gftSourdfSibpf();
+    bbstrbdt StrfbmSibpf gftSourdfSibpf();
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif dombinfd strfbm bnd opfrbtion flbgs for tif output of tif dfsdribfd
+     * Gfts tif dombinfd strfbm bnd opfrbtion flbgs for tif output of tif dfsdribfd
+     * Gfts tif dombinfd strfbm bnd opfrbtion flbgs for tif output of tif dfsdribfd
+     * Gfts tif dombinfd strfbm bnd opfrbtion flbgs for tif output of tif dfsdribfd
+     * Gfts tif dombinfd strfbm bnd opfrbtion flbgs for tif output of tif dfsdribfd
+     * pipflinf.  Tiis will indorporbtf strfbm flbgs from tif strfbm sourdf, bll
+     * pipflinf.  Tiis will indorporbtf strfbm flbgs from tif strfbm sourdf, bll
+     * pipflinf.  Tiis will indorporbtf strfbm flbgs from tif strfbm sourdf, bll
+     * pipflinf.  Tiis will indorporbtf strfbm flbgs from tif strfbm sourdf, bll
+     * pipflinf.  Tiis will indorporbtf strfbm flbgs from tif strfbm sourdf, bll
+     * tif intfrmfdibtf opfrbtions bnd tif tfrminbl opfrbtion.
+     * tif intfrmfdibtf opfrbtions bnd tif tfrminbl opfrbtion.
+     * tif intfrmfdibtf opfrbtions bnd tif tfrminbl opfrbtion.
+     * tif intfrmfdibtf opfrbtions bnd tif tfrminbl opfrbtion.
+     * tif intfrmfdibtf opfrbtions bnd tif tfrminbl opfrbtion.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif dombinfd strfbm bnd opfrbtion flbgs
+     * @rfturn tif dombinfd strfbm bnd opfrbtion flbgs
+     * @rfturn tif dombinfd strfbm bnd opfrbtion flbgs
+     * @rfturn tif dombinfd strfbm bnd opfrbtion flbgs
+     * @rfturn tif dombinfd strfbm bnd opfrbtion flbgs
+     * @sff StrfbmOpFlbg
+     * @sff StrfbmOpFlbg
+     * @sff StrfbmOpFlbg
+     * @sff StrfbmOpFlbg
      * @sff StrfbmOpFlbg
      */
+     */
+     */
+     */
+     */
+    bbstrbdt int gftStrfbmAndOpFlbgs();
+    bbstrbdt int gftStrfbmAndOpFlbgs();
+    bbstrbdt int gftStrfbmAndOpFlbgs();
+    bbstrbdt int gftStrfbmAndOpFlbgs();
     bbstrbdt int gftStrfbmAndOpFlbgs();
 
+
+
+
+
     /**
-     * Rfturns thf fxbdt output sizf of thf portion of thf output rfsulting from
-     * bpplying thf pipflinf stbgfs dfsdribfd by this {@dodf PipflinfHflpfr} to
-     * thf portion of thf input dfsdribfd by thf providfd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif fxbdt output sizf of tif portion of tif output rfsulting from
+     * Rfturns tif fxbdt output sizf of tif portion of tif output rfsulting from
+     * Rfturns tif fxbdt output sizf of tif portion of tif output rfsulting from
+     * Rfturns tif fxbdt output sizf of tif portion of tif output rfsulting from
+     * Rfturns tif fxbdt output sizf of tif portion of tif output rfsulting from
+     * bpplying tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * bpplying tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * bpplying tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * bpplying tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * bpplying tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * tif portion of tif input dfsdribfd by tif providfd
+     * tif portion of tif input dfsdribfd by tif providfd
+     * tif portion of tif input dfsdribfd by tif providfd
+     * tif portion of tif input dfsdribfd by tif providfd
+     * tif portion of tif input dfsdribfd by tif providfd
+     * {@dodf Splitfrbtor}, if known.  If not known or known infinitf, will
+     * {@dodf Splitfrbtor}, if known.  If not known or known infinitf, will
+     * {@dodf Splitfrbtor}, if known.  If not known or known infinitf, will
+     * {@dodf Splitfrbtor}, if known.  If not known or known infinitf, will
      * {@dodf Splitfrbtor}, if known.  If not known or known infinitf, will
      * rfturn {@dodf -1}.
+     * rfturn {@dodf -1}.
+     * rfturn {@dodf -1}.
+     * rfturn {@dodf -1}.
+     * rfturn {@dodf -1}.
+     *
+     *
+     *
+     *
      *
      * @bpiNotf
-     * Thf fxbdt output sizf is known if thf {@dodf Splitfrbtor} hbs thf
-     * {@dodf SIZED} dhbrbdtfristid, bnd thf opfrbtion flbgs
-     * {@link StrfbmOpFlbg#SIZED} is known on thf dombinfd strfbm bnd opfrbtion
+     * @bpiNotf
+     * @bpiNotf
+     * @bpiNotf
+     * @bpiNotf
+     * Tif fxbdt output sizf is known if tif {@dodf Splitfrbtor} ibs tif
+     * Tif fxbdt output sizf is known if tif {@dodf Splitfrbtor} ibs tif
+     * Tif fxbdt output sizf is known if tif {@dodf Splitfrbtor} ibs tif
+     * Tif fxbdt output sizf is known if tif {@dodf Splitfrbtor} ibs tif
+     * Tif fxbdt output sizf is known if tif {@dodf Splitfrbtor} ibs tif
+     * {@dodf SIZED} dibrbdtfristid, bnd tif opfrbtion flbgs
+     * {@dodf SIZED} dibrbdtfristid, bnd tif opfrbtion flbgs
+     * {@dodf SIZED} dibrbdtfristid, bnd tif opfrbtion flbgs
+     * {@dodf SIZED} dibrbdtfristid, bnd tif opfrbtion flbgs
+     * {@dodf SIZED} dibrbdtfristid, bnd tif opfrbtion flbgs
+     * {@link StrfbmOpFlbg#SIZED} is known on tif dombinfd strfbm bnd opfrbtion
+     * {@link StrfbmOpFlbg#SIZED} is known on tif dombinfd strfbm bnd opfrbtion
+     * {@link StrfbmOpFlbg#SIZED} is known on tif dombinfd strfbm bnd opfrbtion
+     * {@link StrfbmOpFlbg#SIZED} is known on tif dombinfd strfbm bnd opfrbtion
+     * {@link StrfbmOpFlbg#SIZED} is known on tif dombinfd strfbm bnd opfrbtion
+     * flbgs.
+     * flbgs.
+     * flbgs.
+     * flbgs.
      * flbgs.
      *
-     * @pbrbm splitfrbtor thf splitfrbtor dfsdribing thf rflfvbnt portion of thf
+     *
+     *
+     *
+     *
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif rflfvbnt portion of tif
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif rflfvbnt portion of tif
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif rflfvbnt portion of tif
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif rflfvbnt portion of tif
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif rflfvbnt portion of tif
      *        sourdf dbtb
-     * @rfturn thf fxbdt sizf if known, or -1 if infinitf or unknown
+     *        sourdf dbtb
+     *        sourdf dbtb
+     *        sourdf dbtb
+     *        sourdf dbtb
+     * @rfturn tif fxbdt sizf if known, or -1 if infinitf or unknown
+     * @rfturn tif fxbdt sizf if known, or -1 if infinitf or unknown
+     * @rfturn tif fxbdt sizf if known, or -1 if infinitf or unknown
+     * @rfturn tif fxbdt sizf if known, or -1 if infinitf or unknown
+     * @rfturn tif fxbdt sizf if known, or -1 if infinitf or unknown
+     */
+     */
+     */
+     */
      */
     bbstrbdt<P_IN> long fxbdtOutputSizfIfKnown(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> long fxbdtOutputSizfIfKnown(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> long fxbdtOutputSizfIfKnown(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> long fxbdtOutputSizfIfKnown(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> long fxbdtOutputSizfIfKnown(Splitfrbtor<P_IN> splitfrbtor);
+
+
+
+
 
     /**
-     * Applifs thf pipflinf stbgfs dfsdribfd by this {@dodf PipflinfHflpfr} to
-     * thf providfd {@dodf Splitfrbtor} bnd sfnd thf rfsults to thf providfd
+    /**
+    /**
+    /**
+    /**
+     * Applifs tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * Applifs tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * Applifs tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * Applifs tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * Applifs tif pipflinf stbgfs dfsdribfd by tiis {@dodf PipflinfHflpfr} to
+     * tif providfd {@dodf Splitfrbtor} bnd sfnd tif rfsults to tif providfd
+     * tif providfd {@dodf Splitfrbtor} bnd sfnd tif rfsults to tif providfd
+     * tif providfd {@dodf Splitfrbtor} bnd sfnd tif rfsults to tif providfd
+     * tif providfd {@dodf Splitfrbtor} bnd sfnd tif rfsults to tif providfd
+     * tif providfd {@dodf Splitfrbtor} bnd sfnd tif rfsults to tif providfd
+     * {@dodf Sink}.
+     * {@dodf Sink}.
+     * {@dodf Sink}.
+     * {@dodf Sink}.
      * {@dodf Sink}.
      *
+     *
+     *
+     *
+     *
      * @implSpfd
-     * Thf implfmfntbtion bfhbvfs bs if:
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * Tif implfmfntbtion bfibvfs bs if:
+     * Tif implfmfntbtion bfibvfs bs if:
+     * Tif implfmfntbtion bfibvfs bs if:
+     * Tif implfmfntbtion bfibvfs bs if:
+     * Tif implfmfntbtion bfibvfs bs if:
+     * <prf>{@dodf
+     * <prf>{@dodf
+     * <prf>{@dodf
+     * <prf>{@dodf
      * <prf>{@dodf
      *     intoWrbppfd(wrbpSink(sink), splitfrbtor);
+     *     intoWrbppfd(wrbpSink(sink), splitfrbtor);
+     *     intoWrbppfd(wrbpSink(sink), splitfrbtor);
+     *     intoWrbppfd(wrbpSink(sink), splitfrbtor);
+     *     intoWrbppfd(wrbpSink(sink), splitfrbtor);
+     * }</prf>
+     * }</prf>
+     * }</prf>
+     * }</prf>
      * }</prf>
      *
-     * @pbrbm sink thf {@dodf Sink} to rfdfivf thf rfsults
-     * @pbrbm splitfrbtor thf splitfrbtor dfsdribing thf sourdf input to prodfss
+     *
+     *
+     *
+     *
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif sourdf input to prodfss
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif sourdf input to prodfss
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif sourdf input to prodfss
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif sourdf input to prodfss
+     * @pbrbm splitfrbtor tif splitfrbtor dfsdribing tif sourdf input to prodfss
+     */
+     */
+     */
+     */
      */
     bbstrbdt<P_IN, S fxtfnds Sink<P_OUT>> S wrbpAndCopyInto(S sink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN, S fxtfnds Sink<P_OUT>> S wrbpAndCopyInto(S sink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN, S fxtfnds Sink<P_OUT>> S wrbpAndCopyInto(S sink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN, S fxtfnds Sink<P_OUT>> S wrbpAndCopyInto(S sink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN, S fxtfnds Sink<P_OUT>> S wrbpAndCopyInto(S sink, Splitfrbtor<P_IN> splitfrbtor);
+
+
+
+
 
     /**
-     * Pushfs flfmfnts obtbinfd from thf {@dodf Splitfrbtor} into thf providfd
-     * {@dodf Sink}.  If thf strfbm pipflinf is known to hbvf short-dirduiting
-     * stbgfs in it (sff {@link StrfbmOpFlbg#SHORT_CIRCUIT}), thf
-     * {@link Sink#dbndfllbtionRfqufstfd()} is dhfdkfd bftfr fbdh
+    /**
+    /**
+    /**
+    /**
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * {@dodf Sink}.  If tif strfbm pipflinf is known to ibvf siort-dirduiting
+     * {@dodf Sink}.  If tif strfbm pipflinf is known to ibvf siort-dirduiting
+     * {@dodf Sink}.  If tif strfbm pipflinf is known to ibvf siort-dirduiting
+     * {@dodf Sink}.  If tif strfbm pipflinf is known to ibvf siort-dirduiting
+     * {@dodf Sink}.  If tif strfbm pipflinf is known to ibvf siort-dirduiting
+     * stbgfs in it (sff {@link StrfbmOpFlbg#SHORT_CIRCUIT}), tif
+     * stbgfs in it (sff {@link StrfbmOpFlbg#SHORT_CIRCUIT}), tif
+     * stbgfs in it (sff {@link StrfbmOpFlbg#SHORT_CIRCUIT}), tif
+     * stbgfs in it (sff {@link StrfbmOpFlbg#SHORT_CIRCUIT}), tif
+     * stbgfs in it (sff {@link StrfbmOpFlbg#SHORT_CIRCUIT}), tif
+     * {@link Sink#dbndfllbtionRfqufstfd()} is difdkfd bftfr fbdi
+     * {@link Sink#dbndfllbtionRfqufstfd()} is difdkfd bftfr fbdi
+     * {@link Sink#dbndfllbtionRfqufstfd()} is difdkfd bftfr fbdi
+     * {@link Sink#dbndfllbtionRfqufstfd()} is difdkfd bftfr fbdi
+     * {@link Sink#dbndfllbtionRfqufstfd()} is difdkfd bftfr fbdi
+     * flfmfnt, stopping if dbndfllbtion is rfqufstfd.
+     * flfmfnt, stopping if dbndfllbtion is rfqufstfd.
+     * flfmfnt, stopping if dbndfllbtion is rfqufstfd.
+     * flfmfnt, stopping if dbndfllbtion is rfqufstfd.
      * flfmfnt, stopping if dbndfllbtion is rfqufstfd.
      *
-     * @implSpfd
-     * This mfthod donforms to thf {@dodf Sink} protodol of dblling
-     * {@dodf Sink.bfgin} bfforf pushing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
-     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts hbvf bffn pushfd.
      *
-     * @pbrbm wrbppfdSink thf dfstinbtion {@dodf Sink}
-     * @pbrbm splitfrbtor thf sourdf {@dodf Splitfrbtor}
+     *
+     *
+     *
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd.
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd.
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd.
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd.
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     */
+     */
+     */
+     */
      */
     bbstrbdt<P_IN> void dopyInto(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> void dopyInto(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> void dopyInto(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> void dopyInto(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> void dopyInto(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+
+
+
+
 
     /**
-     * Pushfs flfmfnts obtbinfd from thf {@dodf Splitfrbtor} into thf providfd
-     * {@dodf Sink}, dhfdking {@link Sink#dbndfllbtionRfqufstfd()} bftfr fbdh
+    /**
+    /**
+    /**
+    /**
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * Pusifs flfmfnts obtbinfd from tif {@dodf Splitfrbtor} into tif providfd
+     * {@dodf Sink}, difdking {@link Sink#dbndfllbtionRfqufstfd()} bftfr fbdi
+     * {@dodf Sink}, difdking {@link Sink#dbndfllbtionRfqufstfd()} bftfr fbdi
+     * {@dodf Sink}, difdking {@link Sink#dbndfllbtionRfqufstfd()} bftfr fbdi
+     * {@dodf Sink}, difdking {@link Sink#dbndfllbtionRfqufstfd()} bftfr fbdi
+     * {@dodf Sink}, difdking {@link Sink#dbndfllbtionRfqufstfd()} bftfr fbdi
+     * flfmfnt, bnd stopping if dbndfllbtion is rfqufstfd.
+     * flfmfnt, bnd stopping if dbndfllbtion is rfqufstfd.
+     * flfmfnt, bnd stopping if dbndfllbtion is rfqufstfd.
+     * flfmfnt, bnd stopping if dbndfllbtion is rfqufstfd.
      * flfmfnt, bnd stopping if dbndfllbtion is rfqufstfd.
      *
+     *
+     *
+     *
+     *
      * @implSpfd
-     * This mfthod donforms to thf {@dodf Sink} protodol of dblling
-     * {@dodf Sink.bfgin} bfforf pushing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
-     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts hbvf bffn pushfd or if
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * @implSpfd
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * Tiis mftiod donforms to tif {@dodf Sink} protodol of dblling
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * {@dodf Sink.bfgin} bfforf pusiing flfmfnts, vib {@dodf Sink.bddfpt}, bnd
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd or if
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd or if
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd or if
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd or if
+     * dblling {@dodf Sink.fnd} bftfr bll flfmfnts ibvf bffn pusifd or if
+     * dbndfllbtion is rfqufstfd.
+     * dbndfllbtion is rfqufstfd.
+     * dbndfllbtion is rfqufstfd.
+     * dbndfllbtion is rfqufstfd.
      * dbndfllbtion is rfqufstfd.
      *
-     * @pbrbm wrbppfdSink thf dfstinbtion {@dodf Sink}
-     * @pbrbm splitfrbtor thf sourdf {@dodf Splitfrbtor}
+     *
+     *
+     *
+     *
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm wrbppfdSink tif dfstinbtion {@dodf Sink}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
      */
-    bbstrbdt <P_IN> void dopyIntoWithCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+     */
+     */
+     */
+     */
+    bbstrbdt <P_IN> void dopyIntoWitiCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt <P_IN> void dopyIntoWitiCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt <P_IN> void dopyIntoWitiCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt <P_IN> void dopyIntoWitiCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt <P_IN> void dopyIntoWitiCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor);
+
+
+
+
 
     /**
-     * Tbkfs b {@dodf Sink} thbt bddfpts flfmfnts of thf output typf of thf
-     * {@dodf PipflinfHflpfr}, bnd wrbp it with b {@dodf Sink} thbt bddfpts
-     * flfmfnts of thf input typf bnd implfmfnts bll thf intfrmfdibtf opfrbtions
-     * dfsdribfd by this {@dodf PipflinfHflpfr}, dflivfring thf rfsult into thf
+    /**
+    /**
+    /**
+    /**
+     * Tbkfs b {@dodf Sink} tibt bddfpts flfmfnts of tif output typf of tif
+     * Tbkfs b {@dodf Sink} tibt bddfpts flfmfnts of tif output typf of tif
+     * Tbkfs b {@dodf Sink} tibt bddfpts flfmfnts of tif output typf of tif
+     * Tbkfs b {@dodf Sink} tibt bddfpts flfmfnts of tif output typf of tif
+     * Tbkfs b {@dodf Sink} tibt bddfpts flfmfnts of tif output typf of tif
+     * {@dodf PipflinfHflpfr}, bnd wrbp it witi b {@dodf Sink} tibt bddfpts
+     * {@dodf PipflinfHflpfr}, bnd wrbp it witi b {@dodf Sink} tibt bddfpts
+     * {@dodf PipflinfHflpfr}, bnd wrbp it witi b {@dodf Sink} tibt bddfpts
+     * {@dodf PipflinfHflpfr}, bnd wrbp it witi b {@dodf Sink} tibt bddfpts
+     * {@dodf PipflinfHflpfr}, bnd wrbp it witi b {@dodf Sink} tibt bddfpts
+     * flfmfnts of tif input typf bnd implfmfnts bll tif intfrmfdibtf opfrbtions
+     * flfmfnts of tif input typf bnd implfmfnts bll tif intfrmfdibtf opfrbtions
+     * flfmfnts of tif input typf bnd implfmfnts bll tif intfrmfdibtf opfrbtions
+     * flfmfnts of tif input typf bnd implfmfnts bll tif intfrmfdibtf opfrbtions
+     * flfmfnts of tif input typf bnd implfmfnts bll tif intfrmfdibtf opfrbtions
+     * dfsdribfd by tiis {@dodf PipflinfHflpfr}, dflivfring tif rfsult into tif
+     * dfsdribfd by tiis {@dodf PipflinfHflpfr}, dflivfring tif rfsult into tif
+     * dfsdribfd by tiis {@dodf PipflinfHflpfr}, dflivfring tif rfsult into tif
+     * dfsdribfd by tiis {@dodf PipflinfHflpfr}, dflivfring tif rfsult into tif
+     * dfsdribfd by tiis {@dodf PipflinfHflpfr}, dflivfring tif rfsult into tif
+     * providfd {@dodf Sink}.
+     * providfd {@dodf Sink}.
+     * providfd {@dodf Sink}.
+     * providfd {@dodf Sink}.
      * providfd {@dodf Sink}.
      *
-     * @pbrbm sink thf {@dodf Sink} to rfdfivf thf rfsults
-     * @rfturn b {@dodf Sink} thbt implfmfnts thf pipflinf stbgfs bnd sfnds
-     *         rfsults to thf providfd {@dodf Sink}
+     *
+     *
+     *
+     *
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @pbrbm sink tif {@dodf Sink} to rfdfivf tif rfsults
+     * @rfturn b {@dodf Sink} tibt implfmfnts tif pipflinf stbgfs bnd sfnds
+     * @rfturn b {@dodf Sink} tibt implfmfnts tif pipflinf stbgfs bnd sfnds
+     * @rfturn b {@dodf Sink} tibt implfmfnts tif pipflinf stbgfs bnd sfnds
+     * @rfturn b {@dodf Sink} tibt implfmfnts tif pipflinf stbgfs bnd sfnds
+     * @rfturn b {@dodf Sink} tibt implfmfnts tif pipflinf stbgfs bnd sfnds
+     *         rfsults to tif providfd {@dodf Sink}
+     *         rfsults to tif providfd {@dodf Sink}
+     *         rfsults to tif providfd {@dodf Sink}
+     *         rfsults to tif providfd {@dodf Sink}
+     *         rfsults to tif providfd {@dodf Sink}
+     */
+     */
+     */
+     */
      */
     bbstrbdt<P_IN> Sink<P_IN> wrbpSink(Sink<P_OUT> sink);
+    bbstrbdt<P_IN> Sink<P_IN> wrbpSink(Sink<P_OUT> sink);
+    bbstrbdt<P_IN> Sink<P_IN> wrbpSink(Sink<P_OUT> sink);
+    bbstrbdt<P_IN> Sink<P_IN> wrbpSink(Sink<P_OUT> sink);
+    bbstrbdt<P_IN> Sink<P_IN> wrbpSink(Sink<P_OUT> sink);
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     *
+     *
+     *
+     *
      *
      * @pbrbm splitfrbtor
+     * @pbrbm splitfrbtor
+     * @pbrbm splitfrbtor
+     * @pbrbm splitfrbtor
+     * @pbrbm splitfrbtor
+     * @pbrbm <P_IN>
+     * @pbrbm <P_IN>
+     * @pbrbm <P_IN>
+     * @pbrbm <P_IN>
      * @pbrbm <P_IN>
      * @rfturn
+     * @rfturn
+     * @rfturn
+     * @rfturn
+     * @rfturn
+     */
+     */
+     */
+     */
      */
     bbstrbdt<P_IN> Splitfrbtor<P_OUT> wrbpSplitfrbtor(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> Splitfrbtor<P_OUT> wrbpSplitfrbtor(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> Splitfrbtor<P_OUT> wrbpSplitfrbtor(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> Splitfrbtor<P_OUT> wrbpSplitfrbtor(Splitfrbtor<P_IN> splitfrbtor);
+    bbstrbdt<P_IN> Splitfrbtor<P_OUT> wrbpSplitfrbtor(Splitfrbtor<P_IN> splitfrbtor);
+
+
+
+
 
     /**
-     * Construdts b @{link Nodf.Buildfr} dompbtiblf with thf output shbpf of
-     * this {@dodf PipflinfHflpfr}.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b @{link Nodf.Buildfr} dompbtiblf witi tif output sibpf of
+     * Construdts b @{link Nodf.Buildfr} dompbtiblf witi tif output sibpf of
+     * Construdts b @{link Nodf.Buildfr} dompbtiblf witi tif output sibpf of
+     * Construdts b @{link Nodf.Buildfr} dompbtiblf witi tif output sibpf of
+     * Construdts b @{link Nodf.Buildfr} dompbtiblf witi tif output sibpf of
+     * tiis {@dodf PipflinfHflpfr}.
+     * tiis {@dodf PipflinfHflpfr}.
+     * tiis {@dodf PipflinfHflpfr}.
+     * tiis {@dodf PipflinfHflpfr}.
+     * tiis {@dodf PipflinfHflpfr}.
      *
-     * @pbrbm fxbdtSizfIfKnown if >=0 thfn b buildfr will bf drfbtfd thbt hbs b
-     *        fixfd dbpbdity of fxbdtly sizfIfKnown flfmfnts; if < 0 thfn thf
-     *        buildfr hbs vbribblf dbpbdity.  A fixfd dbpbdity buildfr will fbil
-     *        if bn flfmfnt is bddfd bftfr thf buildfr hbs rfbdhfd dbpbdity.
+     *
+     *
+     *
+     *
+     * @pbrbm fxbdtSizfIfKnown if >=0 tifn b buildfr will bf drfbtfd tibt ibs b
+     * @pbrbm fxbdtSizfIfKnown if >=0 tifn b buildfr will bf drfbtfd tibt ibs b
+     * @pbrbm fxbdtSizfIfKnown if >=0 tifn b buildfr will bf drfbtfd tibt ibs b
+     * @pbrbm fxbdtSizfIfKnown if >=0 tifn b buildfr will bf drfbtfd tibt ibs b
+     * @pbrbm fxbdtSizfIfKnown if >=0 tifn b buildfr will bf drfbtfd tibt ibs b
+     *        fixfd dbpbdity of fxbdtly sizfIfKnown flfmfnts; if < 0 tifn tif
+     *        fixfd dbpbdity of fxbdtly sizfIfKnown flfmfnts; if < 0 tifn tif
+     *        fixfd dbpbdity of fxbdtly sizfIfKnown flfmfnts; if < 0 tifn tif
+     *        fixfd dbpbdity of fxbdtly sizfIfKnown flfmfnts; if < 0 tifn tif
+     *        fixfd dbpbdity of fxbdtly sizfIfKnown flfmfnts; if < 0 tifn tif
+     *        buildfr ibs vbribblf dbpbdity.  A fixfd dbpbdity buildfr will fbil
+     *        buildfr ibs vbribblf dbpbdity.  A fixfd dbpbdity buildfr will fbil
+     *        buildfr ibs vbribblf dbpbdity.  A fixfd dbpbdity buildfr will fbil
+     *        buildfr ibs vbribblf dbpbdity.  A fixfd dbpbdity buildfr will fbil
+     *        buildfr ibs vbribblf dbpbdity.  A fixfd dbpbdity buildfr will fbil
+     *        if bn flfmfnt is bddfd bftfr tif buildfr ibs rfbdifd dbpbdity.
+     *        if bn flfmfnt is bddfd bftfr tif buildfr ibs rfbdifd dbpbdity.
+     *        if bn flfmfnt is bddfd bftfr tif buildfr ibs rfbdifd dbpbdity.
+     *        if bn flfmfnt is bddfd bftfr tif buildfr ibs rfbdifd dbpbdity.
+     *        if bn flfmfnt is bddfd bftfr tif buildfr ibs rfbdifd dbpbdity.
      * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
-     * @rfturn b {@dodf Nodf.Buildfr} dompbtiblf with thf output shbpf of this
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @rfturn b {@dodf Nodf.Buildfr} dompbtiblf witi tif output sibpf of tiis
+     * @rfturn b {@dodf Nodf.Buildfr} dompbtiblf witi tif output sibpf of tiis
+     * @rfturn b {@dodf Nodf.Buildfr} dompbtiblf witi tif output sibpf of tiis
+     * @rfturn b {@dodf Nodf.Buildfr} dompbtiblf witi tif output sibpf of tiis
+     * @rfturn b {@dodf Nodf.Buildfr} dompbtiblf witi tif output sibpf of tiis
+     *         {@dodf PipflinfHflpfr}
+     *         {@dodf PipflinfHflpfr}
+     *         {@dodf PipflinfHflpfr}
+     *         {@dodf PipflinfHflpfr}
      *         {@dodf PipflinfHflpfr}
      */
+     */
+     */
+     */
+     */
+    bbstrbdt Nodf.Buildfr<P_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown,
+    bbstrbdt Nodf.Buildfr<P_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown,
+    bbstrbdt Nodf.Buildfr<P_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown,
+    bbstrbdt Nodf.Buildfr<P_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown,
     bbstrbdt Nodf.Buildfr<P_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown,
                                                  IntFundtion<P_OUT[]> gfnfrbtor);
+                                                 IntFundtion<P_OUT[]> gfnfrbtor);
+                                                 IntFundtion<P_OUT[]> gfnfrbtor);
+                                                 IntFundtion<P_OUT[]> gfnfrbtor);
+                                                 IntFundtion<P_OUT[]> gfnfrbtor);
+
+
+
+
 
     /**
-     * Collfdts bll output flfmfnts rfsulting from bpplying thf pipflinf stbgfs
-     * to thf sourdf {@dodf Splitfrbtor} into b {@dodf Nodf}.
+    /**
+    /**
+    /**
+    /**
+     * Collfdts bll output flfmfnts rfsulting from bpplying tif pipflinf stbgfs
+     * Collfdts bll output flfmfnts rfsulting from bpplying tif pipflinf stbgfs
+     * Collfdts bll output flfmfnts rfsulting from bpplying tif pipflinf stbgfs
+     * Collfdts bll output flfmfnts rfsulting from bpplying tif pipflinf stbgfs
+     * Collfdts bll output flfmfnts rfsulting from bpplying tif pipflinf stbgfs
+     * to tif sourdf {@dodf Splitfrbtor} into b {@dodf Nodf}.
+     * to tif sourdf {@dodf Splitfrbtor} into b {@dodf Nodf}.
+     * to tif sourdf {@dodf Splitfrbtor} into b {@dodf Nodf}.
+     * to tif sourdf {@dodf Splitfrbtor} into b {@dodf Nodf}.
+     * to tif sourdf {@dodf Splitfrbtor} into b {@dodf Nodf}.
+     *
+     *
+     *
+     *
      *
      * @implNotf
-     * If thf pipflinf hbs no intfrmfdibtf opfrbtions bnd thf sourdf is bbdkfd
-     * by b {@dodf Nodf} thfn thbt {@dodf Nodf} will bf rfturnfd (or flbttfnfd
-     * bnd thfn rfturnfd). This rfdudfs dopying for b pipflinf donsisting of b
-     * stbtfful opfrbtion followfd by b tfrminbl opfrbtion thbt rfturns bn
-     * brrby, sudh bs:
+     * @implNotf
+     * @implNotf
+     * @implNotf
+     * @implNotf
+     * If tif pipflinf ibs no intfrmfdibtf opfrbtions bnd tif sourdf is bbdkfd
+     * If tif pipflinf ibs no intfrmfdibtf opfrbtions bnd tif sourdf is bbdkfd
+     * If tif pipflinf ibs no intfrmfdibtf opfrbtions bnd tif sourdf is bbdkfd
+     * If tif pipflinf ibs no intfrmfdibtf opfrbtions bnd tif sourdf is bbdkfd
+     * If tif pipflinf ibs no intfrmfdibtf opfrbtions bnd tif sourdf is bbdkfd
+     * by b {@dodf Nodf} tifn tibt {@dodf Nodf} will bf rfturnfd (or flbttfnfd
+     * by b {@dodf Nodf} tifn tibt {@dodf Nodf} will bf rfturnfd (or flbttfnfd
+     * by b {@dodf Nodf} tifn tibt {@dodf Nodf} will bf rfturnfd (or flbttfnfd
+     * by b {@dodf Nodf} tifn tibt {@dodf Nodf} will bf rfturnfd (or flbttfnfd
+     * by b {@dodf Nodf} tifn tibt {@dodf Nodf} will bf rfturnfd (or flbttfnfd
+     * bnd tifn rfturnfd). Tiis rfdudfs dopying for b pipflinf donsisting of b
+     * bnd tifn rfturnfd). Tiis rfdudfs dopying for b pipflinf donsisting of b
+     * bnd tifn rfturnfd). Tiis rfdudfs dopying for b pipflinf donsisting of b
+     * bnd tifn rfturnfd). Tiis rfdudfs dopying for b pipflinf donsisting of b
+     * bnd tifn rfturnfd). Tiis rfdudfs dopying for b pipflinf donsisting of b
+     * stbtfful opfrbtion followfd by b tfrminbl opfrbtion tibt rfturns bn
+     * stbtfful opfrbtion followfd by b tfrminbl opfrbtion tibt rfturns bn
+     * stbtfful opfrbtion followfd by b tfrminbl opfrbtion tibt rfturns bn
+     * stbtfful opfrbtion followfd by b tfrminbl opfrbtion tibt rfturns bn
+     * stbtfful opfrbtion followfd by b tfrminbl opfrbtion tibt rfturns bn
+     * brrby, sudi bs:
+     * brrby, sudi bs:
+     * brrby, sudi bs:
+     * brrby, sudi bs:
+     * brrby, sudi bs:
+     * <prf>{@dodf
+     * <prf>{@dodf
+     * <prf>{@dodf
+     * <prf>{@dodf
      * <prf>{@dodf
      *     strfbm.sortfd().toArrby();
+     *     strfbm.sortfd().toArrby();
+     *     strfbm.sortfd().toArrby();
+     *     strfbm.sortfd().toArrby();
+     *     strfbm.sortfd().toArrby();
+     * }</prf>
+     * }</prf>
+     * }</prf>
+     * }</prf>
      * }</prf>
      *
-     * @pbrbm splitfrbtor thf sourdf {@dodf Splitfrbtor}
-     * @pbrbm flbttfn if truf bnd thf pipflinf is b pbrbllfl pipflinf thfn thf
-     *        {@dodf Nodf} rfturnfd will dontbin no dhildrfn, othfrwisf thf
-     *        {@dodf Nodf} mby rfprfsfnt thf root in b trff thbt rfflfdts thf
-     *        shbpf of thf domputbtion trff.
+     *
+     *
+     *
+     *
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm flbttfn if truf bnd tif pipflinf is b pbrbllfl pipflinf tifn tif
+     * @pbrbm flbttfn if truf bnd tif pipflinf is b pbrbllfl pipflinf tifn tif
+     * @pbrbm flbttfn if truf bnd tif pipflinf is b pbrbllfl pipflinf tifn tif
+     * @pbrbm flbttfn if truf bnd tif pipflinf is b pbrbllfl pipflinf tifn tif
+     * @pbrbm flbttfn if truf bnd tif pipflinf is b pbrbllfl pipflinf tifn tif
+     *        {@dodf Nodf} rfturnfd will dontbin no diildrfn, otifrwisf tif
+     *        {@dodf Nodf} rfturnfd will dontbin no diildrfn, otifrwisf tif
+     *        {@dodf Nodf} rfturnfd will dontbin no diildrfn, otifrwisf tif
+     *        {@dodf Nodf} rfturnfd will dontbin no diildrfn, otifrwisf tif
+     *        {@dodf Nodf} rfturnfd will dontbin no diildrfn, otifrwisf tif
+     *        {@dodf Nodf} mby rfprfsfnt tif root in b trff tibt rfflfdts tif
+     *        {@dodf Nodf} mby rfprfsfnt tif root in b trff tibt rfflfdts tif
+     *        {@dodf Nodf} mby rfprfsfnt tif root in b trff tibt rfflfdts tif
+     *        {@dodf Nodf} mby rfprfsfnt tif root in b trff tibt rfflfdts tif
+     *        {@dodf Nodf} mby rfprfsfnt tif root in b trff tibt rfflfdts tif
+     *        sibpf of tif domputbtion trff.
+     *        sibpf of tif domputbtion trff.
+     *        sibpf of tif domputbtion trff.
+     *        sibpf of tif domputbtion trff.
+     *        sibpf of tif domputbtion trff.
      * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
-     * @rfturn thf {@dodf Nodf} dontbining bll output flfmfnts
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @pbrbm gfnfrbtor b fbdtory fundtion for brrby instbndfs
+     * @rfturn tif {@dodf Nodf} dontbining bll output flfmfnts
+     * @rfturn tif {@dodf Nodf} dontbining bll output flfmfnts
+     * @rfturn tif {@dodf Nodf} dontbining bll output flfmfnts
+     * @rfturn tif {@dodf Nodf} dontbining bll output flfmfnts
+     * @rfturn tif {@dodf Nodf} dontbining bll output flfmfnts
+     */
+     */
+     */
+     */
      */
     bbstrbdt<P_IN> Nodf<P_OUT> fvblubtf(Splitfrbtor<P_IN> splitfrbtor,
+    bbstrbdt<P_IN> Nodf<P_OUT> fvblubtf(Splitfrbtor<P_IN> splitfrbtor,
+    bbstrbdt<P_IN> Nodf<P_OUT> fvblubtf(Splitfrbtor<P_IN> splitfrbtor,
+    bbstrbdt<P_IN> Nodf<P_OUT> fvblubtf(Splitfrbtor<P_IN> splitfrbtor,
+    bbstrbdt<P_IN> Nodf<P_OUT> fvblubtf(Splitfrbtor<P_IN> splitfrbtor,
+                                        boolfbn flbttfn,
+                                        boolfbn flbttfn,
+                                        boolfbn flbttfn,
+                                        boolfbn flbttfn,
                                         boolfbn flbttfn,
                                         IntFundtion<P_OUT[]> gfnfrbtor);
+                                        IntFundtion<P_OUT[]> gfnfrbtor);
+                                        IntFundtion<P_OUT[]> gfnfrbtor);
+                                        IntFundtion<P_OUT[]> gfnfrbtor);
+                                        IntFundtion<P_OUT[]> gfnfrbtor);
+}
+}
+}
+}
 }

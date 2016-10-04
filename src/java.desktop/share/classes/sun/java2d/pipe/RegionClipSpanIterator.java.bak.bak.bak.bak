@@ -1,392 +1,1960 @@
 /*
- * Copyright (d) 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
 
-import jbvb.bwt.gfom.PbthItfrbtor;
+
+
+
+
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
 import jbvb.bwt.Rfdtbnglf;
 
+
+
+
+
 /**
- * This dlbss dlips b SpbnItfrbtor to b Rfgion bnd outputs thf
- * rfsulting spbns bs bnothfr SpbnItfrbtor.
+/**
+/**
+/**
+/**
+ * Tiis dlbss dlips b SpbnItfrbtor to b Rfgion bnd outputs tif
+ * Tiis dlbss dlips b SpbnItfrbtor to b Rfgion bnd outputs tif
+ * Tiis dlbss dlips b SpbnItfrbtor to b Rfgion bnd outputs tif
+ * Tiis dlbss dlips b SpbnItfrbtor to b Rfgion bnd outputs tif
+ * Tiis dlbss dlips b SpbnItfrbtor to b Rfgion bnd outputs tif
+ * rfsulting spbns bs bnotifr SpbnItfrbtor.
+ * rfsulting spbns bs bnotifr SpbnItfrbtor.
+ * rfsulting spbns bs bnotifr SpbnItfrbtor.
+ * rfsulting spbns bs bnotifr SpbnItfrbtor.
+ * rfsulting spbns bs bnotifr SpbnItfrbtor.
  *
- * Spbns brf output in thf usubl y/x ordfr, unlfss thf input spbn
- * itfrbtor dofsn't donform to this ordfr, or thf itfrbtor's spbn
- * strbddlf morf thbn onf bbnd of thf Rfgion usfd for dlipping.
+ *
+ *
+ *
+ *
+ * Spbns brf output in tif usubl y/x ordfr, unlfss tif input spbn
+ * Spbns brf output in tif usubl y/x ordfr, unlfss tif input spbn
+ * Spbns brf output in tif usubl y/x ordfr, unlfss tif input spbn
+ * Spbns brf output in tif usubl y/x ordfr, unlfss tif input spbn
+ * Spbns brf output in tif usubl y/x ordfr, unlfss tif input spbn
+ * itfrbtor dofsn't donform to tiis ordfr, or tif itfrbtor's spbn
+ * itfrbtor dofsn't donform to tiis ordfr, or tif itfrbtor's spbn
+ * itfrbtor dofsn't donform to tiis ordfr, or tif itfrbtor's spbn
+ * itfrbtor dofsn't donform to tiis ordfr, or tif itfrbtor's spbn
+ * itfrbtor dofsn't donform to tiis ordfr, or tif itfrbtor's spbn
+ * strbddlf morf tibn onf bbnd of tif Rfgion usfd for dlipping.
+ * strbddlf morf tibn onf bbnd of tif Rfgion usfd for dlipping.
+ * strbddlf morf tibn onf bbnd of tif Rfgion usfd for dlipping.
+ * strbddlf morf tibn onf bbnd of tif Rfgion usfd for dlipping.
+ * strbddlf morf tibn onf bbnd of tif Rfgion usfd for dlipping.
+ *
+ *
+ *
+ *
  *
  * Prindiplf of opfrbtion:
+ * Prindiplf of opfrbtion:
+ * Prindiplf of opfrbtion:
+ * Prindiplf of opfrbtion:
+ * Prindiplf of opfrbtion:
  *
- * Thf itfrbtor mbintbins b sfvfrbl dursors onto thf RfgionItfrbtor
- * in ordfr to bvoid hbving to bufffr spbns from thf SpbnItfrbtor.
- * Thfy brf:
- *  rfsftStbtf    Thf initibl stbtf of thf RfgionItfrbtor
+ *
+ *
+ *
+ *
+ * Tif itfrbtor mbintbins b sfvfrbl dursors onto tif RfgionItfrbtor
+ * Tif itfrbtor mbintbins b sfvfrbl dursors onto tif RfgionItfrbtor
+ * Tif itfrbtor mbintbins b sfvfrbl dursors onto tif RfgionItfrbtor
+ * Tif itfrbtor mbintbins b sfvfrbl dursors onto tif RfgionItfrbtor
+ * Tif itfrbtor mbintbins b sfvfrbl dursors onto tif RfgionItfrbtor
+ * in ordfr to bvoid ibving to bufffr spbns from tif SpbnItfrbtor.
+ * in ordfr to bvoid ibving to bufffr spbns from tif SpbnItfrbtor.
+ * in ordfr to bvoid ibving to bufffr spbns from tif SpbnItfrbtor.
+ * in ordfr to bvoid ibving to bufffr spbns from tif SpbnItfrbtor.
+ * in ordfr to bvoid ibving to bufffr spbns from tif SpbnItfrbtor.
+ * Tify brf:
+ * Tify brf:
+ * Tify brf:
+ * Tify brf:
+ * Tify brf:
+ *  rfsftStbtf    Tif initibl stbtf of tif RfgionItfrbtor
+ *  rfsftStbtf    Tif initibl stbtf of tif RfgionItfrbtor
+ *  rfsftStbtf    Tif initibl stbtf of tif RfgionItfrbtor
+ *  rfsftStbtf    Tif initibl stbtf of tif RfgionItfrbtor
+ *  rfsftStbtf    Tif initibl stbtf of tif RfgionItfrbtor
  *  lwm             Low Wbtfr Mbrk, b running stbrt point for
- *                  prodfssing fbdh bbnd. Usublly gofs down, but
- *                  dbn bf rfsft to rfsftStbtf if b spbn hbs b lowfr
- *                  stbrt doordinbtf thbn thf prfvious onf.
- *  row             Thf stbrt of thf durrfnt bbnd of thf RfgionItfrbtor
- *  box             Thf durrfnt spbn of thf durrfnt row
+ *  lwm             Low Wbtfr Mbrk, b running stbrt point for
+ *  lwm             Low Wbtfr Mbrk, b running stbrt point for
+ *  lwm             Low Wbtfr Mbrk, b running stbrt point for
+ *  lwm             Low Wbtfr Mbrk, b running stbrt point for
+ *                  prodfssing fbdi bbnd. Usublly gofs down, but
+ *                  prodfssing fbdi bbnd. Usublly gofs down, but
+ *                  prodfssing fbdi bbnd. Usublly gofs down, but
+ *                  prodfssing fbdi bbnd. Usublly gofs down, but
+ *                  prodfssing fbdi bbnd. Usublly gofs down, but
+ *                  dbn bf rfsft to rfsftStbtf if b spbn ibs b lowfr
+ *                  dbn bf rfsft to rfsftStbtf if b spbn ibs b lowfr
+ *                  dbn bf rfsft to rfsftStbtf if b spbn ibs b lowfr
+ *                  dbn bf rfsft to rfsftStbtf if b spbn ibs b lowfr
+ *                  dbn bf rfsft to rfsftStbtf if b spbn ibs b lowfr
+ *                  stbrt doordinbtf tibn tif prfvious onf.
+ *                  stbrt doordinbtf tibn tif prfvious onf.
+ *                  stbrt doordinbtf tibn tif prfvious onf.
+ *                  stbrt doordinbtf tibn tif prfvious onf.
+ *                  stbrt doordinbtf tibn tif prfvious onf.
+ *  row             Tif stbrt of tif durrfnt bbnd of tif RfgionItfrbtor
+ *  row             Tif stbrt of tif durrfnt bbnd of tif RfgionItfrbtor
+ *  row             Tif stbrt of tif durrfnt bbnd of tif RfgionItfrbtor
+ *  row             Tif stbrt of tif durrfnt bbnd of tif RfgionItfrbtor
+ *  row             Tif stbrt of tif durrfnt bbnd of tif RfgionItfrbtor
+ *  box             Tif durrfnt spbn of tif durrfnt row
+ *  box             Tif durrfnt spbn of tif durrfnt row
+ *  box             Tif durrfnt spbn of tif durrfnt row
+ *  box             Tif durrfnt spbn of tif durrfnt row
+ *  box             Tif durrfnt spbn of tif durrfnt row
  *
- * Thf mbin nfxtSpbn() loop implfmfnts b doroutinf likf strudturf, with
- * thrff produdfrs to gft thf nfxt spbn, row bnd box dblling fbdh othfr
- * to itfrbtf through thf spbn itfrbtor bnd rfgion.
+ *
+ *
+ *
+ *
+ * Tif mbin nfxtSpbn() loop implfmfnts b doroutinf likf strudturf, witi
+ * Tif mbin nfxtSpbn() loop implfmfnts b doroutinf likf strudturf, witi
+ * Tif mbin nfxtSpbn() loop implfmfnts b doroutinf likf strudturf, witi
+ * Tif mbin nfxtSpbn() loop implfmfnts b doroutinf likf strudturf, witi
+ * Tif mbin nfxtSpbn() loop implfmfnts b doroutinf likf strudturf, witi
+ * tirff produdfrs to gft tif nfxt spbn, row bnd box dblling fbdi otifr
+ * tirff produdfrs to gft tif nfxt spbn, row bnd box dblling fbdi otifr
+ * tirff produdfrs to gft tif nfxt spbn, row bnd box dblling fbdi otifr
+ * tirff produdfrs to gft tif nfxt spbn, row bnd box dblling fbdi otifr
+ * tirff produdfrs to gft tif nfxt spbn, row bnd box dblling fbdi otifr
+ * to itfrbtf tirougi tif spbn itfrbtor bnd rfgion.
+ * to itfrbtf tirougi tif spbn itfrbtor bnd rfgion.
+ * to itfrbtf tirougi tif spbn itfrbtor bnd rfgion.
+ * to itfrbtf tirougi tif spbn itfrbtor bnd rfgion.
+ * to itfrbtf tirougi tif spbn itfrbtor bnd rfgion.
+ *
+ *
+ *
+ *
  *
  * REMIND: Nffds b nbtivf implfmfntbtion!
+ * REMIND: Nffds b nbtivf implfmfntbtion!
+ * REMIND: Nffds b nbtivf implfmfntbtion!
+ * REMIND: Nffds b nbtivf implfmfntbtion!
+ * REMIND: Nffds b nbtivf implfmfntbtion!
+ */
+ */
+ */
+ */
  */
 publid dlbss RfgionClipSpbnItfrbtor implfmfnts SpbnItfrbtor {
+publid dlbss RfgionClipSpbnItfrbtor implfmfnts SpbnItfrbtor {
+publid dlbss RfgionClipSpbnItfrbtor implfmfnts SpbnItfrbtor {
+publid dlbss RfgionClipSpbnItfrbtor implfmfnts SpbnItfrbtor {
+publid dlbss RfgionClipSpbnItfrbtor implfmfnts SpbnItfrbtor {
 
-    // Thf inputs to thf filtfr
+
+
+
+
+    // Tif inputs to tif filtfr
+    // Tif inputs to tif filtfr
+    // Tif inputs to tif filtfr
+    // Tif inputs to tif filtfr
+    // Tif inputs to tif filtfr
+    Rfgion rgn;
+    Rfgion rgn;
+    Rfgion rgn;
+    Rfgion rgn;
     Rfgion rgn;
     SpbnItfrbtor spbnItfr;
+    SpbnItfrbtor spbnItfr;
+    SpbnItfrbtor spbnItfr;
+    SpbnItfrbtor spbnItfr;
+    SpbnItfrbtor spbnItfr;
 
-    // Thf dursors thbt trbdk thf progrfss through thf rfgion
+
+
+
+
+    // Tif dursors tibt trbdk tif progrfss tirougi tif rfgion
+    // Tif dursors tibt trbdk tif progrfss tirougi tif rfgion
+    // Tif dursors tibt trbdk tif progrfss tirougi tif rfgion
+    // Tif dursors tibt trbdk tif progrfss tirougi tif rfgion
+    // Tif dursors tibt trbdk tif progrfss tirougi tif rfgion
+    RfgionItfrbtor rfsftStbtf;
+    RfgionItfrbtor rfsftStbtf;
+    RfgionItfrbtor rfsftStbtf;
+    RfgionItfrbtor rfsftStbtf;
     RfgionItfrbtor rfsftStbtf;
     RfgionItfrbtor lwm;
+    RfgionItfrbtor lwm;
+    RfgionItfrbtor lwm;
+    RfgionItfrbtor lwm;
+    RfgionItfrbtor lwm;
+    RfgionItfrbtor row;
+    RfgionItfrbtor row;
+    RfgionItfrbtor row;
+    RfgionItfrbtor row;
     RfgionItfrbtor row;
     RfgionItfrbtor box;
+    RfgionItfrbtor box;
+    RfgionItfrbtor box;
+    RfgionItfrbtor box;
+    RfgionItfrbtor box;
 
-    // Thf bounds of thf durrfnt spbn itfrbtor spbn
-    int spbnlox, spbnhix, spbnloy, spbnhiy;
 
-    // Thf fxtfnt of thf rfgion bbnd mbrking thf low wbtfr mbrk
-    int lwmloy, lwmhiy;
 
-    // Thf bounds of thf durrfnt rfgion box
-    int rgnlox, rgnloy, rgnhix, rgnhiy;
 
-    // Thf bounding box of thf input Rfgion. Usfd for dlidk
+
+    // Tif bounds of tif durrfnt spbn itfrbtor spbn
+    // Tif bounds of tif durrfnt spbn itfrbtor spbn
+    // Tif bounds of tif durrfnt spbn itfrbtor spbn
+    // Tif bounds of tif durrfnt spbn itfrbtor spbn
+    // Tif bounds of tif durrfnt spbn itfrbtor spbn
+    int spbnlox, spbniix, spbnloy, spbniiy;
+    int spbnlox, spbniix, spbnloy, spbniiy;
+    int spbnlox, spbniix, spbnloy, spbniiy;
+    int spbnlox, spbniix, spbnloy, spbniiy;
+    int spbnlox, spbniix, spbnloy, spbniiy;
+
+
+
+
+
+    // Tif fxtfnt of tif rfgion bbnd mbrking tif low wbtfr mbrk
+    // Tif fxtfnt of tif rfgion bbnd mbrking tif low wbtfr mbrk
+    // Tif fxtfnt of tif rfgion bbnd mbrking tif low wbtfr mbrk
+    // Tif fxtfnt of tif rfgion bbnd mbrking tif low wbtfr mbrk
+    // Tif fxtfnt of tif rfgion bbnd mbrking tif low wbtfr mbrk
+    int lwmloy, lwmiiy;
+    int lwmloy, lwmiiy;
+    int lwmloy, lwmiiy;
+    int lwmloy, lwmiiy;
+    int lwmloy, lwmiiy;
+
+
+
+
+
+    // Tif bounds of tif durrfnt rfgion box
+    // Tif bounds of tif durrfnt rfgion box
+    // Tif bounds of tif durrfnt rfgion box
+    // Tif bounds of tif durrfnt rfgion box
+    // Tif bounds of tif durrfnt rfgion box
+    int rgnlox, rgnloy, rgniix, rgniiy;
+    int rgnlox, rgnloy, rgniix, rgniiy;
+    int rgnlox, rgnloy, rgniix, rgniiy;
+    int rgnlox, rgnloy, rgniix, rgniiy;
+    int rgnlox, rgnloy, rgniix, rgniiy;
+
+
+
+
+
+    // Tif bounding box of tif input Rfgion. Usfd for dlidk
+    // Tif bounding box of tif input Rfgion. Usfd for dlidk
+    // Tif bounding box of tif input Rfgion. Usfd for dlidk
+    // Tif bounding box of tif input Rfgion. Usfd for dlidk
+    // Tif bounding box of tif input Rfgion. Usfd for dlidk
     // rfjfdtion of itfrbtor spbns
-    int rgnbndslox, rgnbndsloy, rgnbndshix, rgnbndshiy;
+    // rfjfdtion of itfrbtor spbns
+    // rfjfdtion of itfrbtor spbns
+    // rfjfdtion of itfrbtor spbns
+    // rfjfdtion of itfrbtor spbns
+    int rgnbndslox, rgnbndsloy, rgnbndsiix, rgnbndsiiy;
+    int rgnbndslox, rgnbndsloy, rgnbndsiix, rgnbndsiiy;
+    int rgnbndslox, rgnbndsloy, rgnbndsiix, rgnbndsiiy;
+    int rgnbndslox, rgnbndsloy, rgnbndsiix, rgnbndsiiy;
+    int rgnbndslox, rgnbndsloy, rgnbndsiix, rgnbndsiiy;
 
-    // Thf brrby usfd to hold doordinbtfs from thf rfgion itfrbtor
+
+
+
+
+    // Tif brrby usfd to iold doordinbtfs from tif rfgion itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif rfgion itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif rfgion itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif rfgion itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif rfgion itfrbtor
+    int rgnbox[] = nfw int[4];
+    int rgnbox[] = nfw int[4];
+    int rgnbox[] = nfw int[4];
+    int rgnbox[] = nfw int[4];
     int rgnbox[] = nfw int[4];
 
-    // Thf brrby usfd to hold doordinbtfs from thf spbn itfrbtor
+
+
+
+
+    // Tif brrby usfd to iold doordinbtfs from tif spbn itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif spbn itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif spbn itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif spbn itfrbtor
+    // Tif brrby usfd to iold doordinbtfs from tif spbn itfrbtor
+    int spbnbox[] = nfw int[4];
+    int spbnbox[] = nfw int[4];
+    int spbnbox[] = nfw int[4];
+    int spbnbox[] = nfw int[4];
     int spbnbox[] = nfw int[4];
 
-    // Truf if thf nfxt itfrbtor spbn should bf rfbd on thf nfxt
-    // itfrbtion of thf mbin nfxtSpbn() loop
+
+
+
+
+    // Truf if tif nfxt itfrbtor spbn siould bf rfbd on tif nfxt
+    // Truf if tif nfxt itfrbtor spbn siould bf rfbd on tif nfxt
+    // Truf if tif nfxt itfrbtor spbn siould bf rfbd on tif nfxt
+    // Truf if tif nfxt itfrbtor spbn siould bf rfbd on tif nfxt
+    // Truf if tif nfxt itfrbtor spbn siould bf rfbd on tif nfxt
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    boolfbn doNfxtSpbn;
+    boolfbn doNfxtSpbn;
+    boolfbn doNfxtSpbn;
+    boolfbn doNfxtSpbn;
     boolfbn doNfxtSpbn;
 
-    // Truf if thf nfxt rfgion box should bf rfbd on thf nfxt
-    // itfrbtion of thf mbin nfxtSpbn() loop
+
+
+
+
+    // Truf if tif nfxt rfgion box siould bf rfbd on tif nfxt
+    // Truf if tif nfxt rfgion box siould bf rfbd on tif nfxt
+    // Truf if tif nfxt rfgion box siould bf rfbd on tif nfxt
+    // Truf if tif nfxt rfgion box siould bf rfbd on tif nfxt
+    // Truf if tif nfxt rfgion box siould bf rfbd on tif nfxt
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    // itfrbtion of tif mbin nfxtSpbn() loop
+    boolfbn doNfxtBox;
+    boolfbn doNfxtBox;
+    boolfbn doNfxtBox;
+    boolfbn doNfxtBox;
     boolfbn doNfxtBox;
 
-    // Truf if thfrf brf no morf spbns or thf Rfgion is fmpty
+
+
+
+
+    // Truf if tifrf brf no morf spbns or tif Rfgion is fmpty
+    // Truf if tifrf brf no morf spbns or tif Rfgion is fmpty
+    // Truf if tifrf brf no morf spbns or tif Rfgion is fmpty
+    // Truf if tifrf brf no morf spbns or tif Rfgion is fmpty
+    // Truf if tifrf brf no morf spbns or tif Rfgion is fmpty
+    boolfbn donf = fblsf;
+    boolfbn donf = fblsf;
+    boolfbn donf = fblsf;
+    boolfbn donf = fblsf;
     boolfbn donf = fblsf;
 
+
+
+
+
     /*
-     * Crfbtfs bn instbndf thbt filtfrs thf spbns gfnfrbtfd by
-     * spbnItfr through thf rfgion dfsdribfd by rgn.
+    /*
+    /*
+    /*
+    /*
+     * Crfbtfs bn instbndf tibt filtfrs tif spbns gfnfrbtfd by
+     * Crfbtfs bn instbndf tibt filtfrs tif spbns gfnfrbtfd by
+     * Crfbtfs bn instbndf tibt filtfrs tif spbns gfnfrbtfd by
+     * Crfbtfs bn instbndf tibt filtfrs tif spbns gfnfrbtfd by
+     * Crfbtfs bn instbndf tibt filtfrs tif spbns gfnfrbtfd by
+     * spbnItfr tirougi tif rfgion dfsdribfd by rgn.
+     * spbnItfr tirougi tif rfgion dfsdribfd by rgn.
+     * spbnItfr tirougi tif rfgion dfsdribfd by rgn.
+     * spbnItfr tirougi tif rfgion dfsdribfd by rgn.
+     * spbnItfr tirougi tif rfgion dfsdribfd by rgn.
+     */
+     */
+     */
+     */
      */
     publid RfgionClipSpbnItfrbtor(Rfgion rgn, SpbnItfrbtor spbnItfr) {
+    publid RfgionClipSpbnItfrbtor(Rfgion rgn, SpbnItfrbtor spbnItfr) {
+    publid RfgionClipSpbnItfrbtor(Rfgion rgn, SpbnItfrbtor spbnItfr) {
+    publid RfgionClipSpbnItfrbtor(Rfgion rgn, SpbnItfrbtor spbnItfr) {
+    publid RfgionClipSpbnItfrbtor(Rfgion rgn, SpbnItfrbtor spbnItfr) {
 
-        this.spbnItfr = spbnItfr;
+
+
+
+
+        tiis.spbnItfr = spbnItfr;
+        tiis.spbnItfr = spbnItfr;
+        tiis.spbnItfr = spbnItfr;
+        tiis.spbnItfr = spbnItfr;
+        tiis.spbnItfr = spbnItfr;
+
+
+
+
 
         rfsftStbtf = rgn.gftItfrbtor();
+        rfsftStbtf = rgn.gftItfrbtor();
+        rfsftStbtf = rgn.gftItfrbtor();
+        rfsftStbtf = rgn.gftItfrbtor();
+        rfsftStbtf = rgn.gftItfrbtor();
+        lwm = rfsftStbtf.drfbtfCopy();
+        lwm = rfsftStbtf.drfbtfCopy();
+        lwm = rfsftStbtf.drfbtfCopy();
+        lwm = rfsftStbtf.drfbtfCopy();
         lwm = rfsftStbtf.drfbtfCopy();
 
+
+
+
+
+        if (!lwm.nfxtYRbngf(rgnbox)) {
+        if (!lwm.nfxtYRbngf(rgnbox)) {
+        if (!lwm.nfxtYRbngf(rgnbox)) {
+        if (!lwm.nfxtYRbngf(rgnbox)) {
         if (!lwm.nfxtYRbngf(rgnbox)) {
             donf = truf;
-            rfturn;
-        }
-
-        rgnloy = lwmloy = rgnbox[1];
-        rgnhiy = lwmhiy = rgnbox[3];
-
-        rgn.gftBounds(rgnbox);
-        rgnbndslox = rgnbox[0];
-        rgnbndsloy = rgnbox[1];
-        rgnbndshix = rgnbox[2];
-        rgnbndshiy = rgnbox[3];
-        if (rgnbndslox >= rgnbndshix ||
-            rgnbndsloy >= rgnbndshiy) {
+            donf = truf;
+            donf = truf;
+            donf = truf;
             donf = truf;
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
         }
 
-        this.rgn = rgn;
+
+
+
+
+        rgnloy = lwmloy = rgnbox[1];
+        rgnloy = lwmloy = rgnbox[1];
+        rgnloy = lwmloy = rgnbox[1];
+        rgnloy = lwmloy = rgnbox[1];
+        rgnloy = lwmloy = rgnbox[1];
+        rgniiy = lwmiiy = rgnbox[3];
+        rgniiy = lwmiiy = rgnbox[3];
+        rgniiy = lwmiiy = rgnbox[3];
+        rgniiy = lwmiiy = rgnbox[3];
+        rgniiy = lwmiiy = rgnbox[3];
+
+
+
+
+
+        rgn.gftBounds(rgnbox);
+        rgn.gftBounds(rgnbox);
+        rgn.gftBounds(rgnbox);
+        rgn.gftBounds(rgnbox);
+        rgn.gftBounds(rgnbox);
+        rgnbndslox = rgnbox[0];
+        rgnbndslox = rgnbox[0];
+        rgnbndslox = rgnbox[0];
+        rgnbndslox = rgnbox[0];
+        rgnbndslox = rgnbox[0];
+        rgnbndsloy = rgnbox[1];
+        rgnbndsloy = rgnbox[1];
+        rgnbndsloy = rgnbox[1];
+        rgnbndsloy = rgnbox[1];
+        rgnbndsloy = rgnbox[1];
+        rgnbndsiix = rgnbox[2];
+        rgnbndsiix = rgnbox[2];
+        rgnbndsiix = rgnbox[2];
+        rgnbndsiix = rgnbox[2];
+        rgnbndsiix = rgnbox[2];
+        rgnbndsiiy = rgnbox[3];
+        rgnbndsiiy = rgnbox[3];
+        rgnbndsiiy = rgnbox[3];
+        rgnbndsiiy = rgnbox[3];
+        rgnbndsiiy = rgnbox[3];
+        if (rgnbndslox >= rgnbndsiix ||
+        if (rgnbndslox >= rgnbndsiix ||
+        if (rgnbndslox >= rgnbndsiix ||
+        if (rgnbndslox >= rgnbndsiix ||
+        if (rgnbndslox >= rgnbndsiix ||
+            rgnbndsloy >= rgnbndsiiy) {
+            rgnbndsloy >= rgnbndsiiy) {
+            rgnbndsloy >= rgnbndsiiy) {
+            rgnbndsloy >= rgnbndsiiy) {
+            rgnbndsloy >= rgnbndsiiy) {
+            donf = truf;
+            donf = truf;
+            donf = truf;
+            donf = truf;
+            donf = truf;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        tiis.rgn = rgn;
+        tiis.rgn = rgn;
+        tiis.rgn = rgn;
+        tiis.rgn = rgn;
+        tiis.rgn = rgn;
+
+
+
+
+
+
+
+
 
 
         row = lwm.drfbtfCopy();
+        row = lwm.drfbtfCopy();
+        row = lwm.drfbtfCopy();
+        row = lwm.drfbtfCopy();
+        row = lwm.drfbtfCopy();
+        box = row.drfbtfCopy();
+        box = row.drfbtfCopy();
+        box = row.drfbtfCopy();
+        box = row.drfbtfCopy();
         box = row.drfbtfCopy();
         doNfxtSpbn = truf;
+        doNfxtSpbn = truf;
+        doNfxtSpbn = truf;
+        doNfxtSpbn = truf;
+        doNfxtSpbn = truf;
+        doNfxtBox = fblsf;
+        doNfxtBox = fblsf;
+        doNfxtBox = fblsf;
+        doNfxtBox = fblsf;
         doNfxtBox = fblsf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Gfts thf bbox of thf bvbilbblf pbth sfgmfnts, dlippfd to thf
+    /*
+    /*
+    /*
+    /*
+     * Gfts tif bbox of tif bvbilbblf pbti sfgmfnts, dlippfd to tif
+     * Gfts tif bbox of tif bvbilbblf pbti sfgmfnts, dlippfd to tif
+     * Gfts tif bbox of tif bvbilbblf pbti sfgmfnts, dlippfd to tif
+     * Gfts tif bbox of tif bvbilbblf pbti sfgmfnts, dlippfd to tif
+     * Gfts tif bbox of tif bvbilbblf pbti sfgmfnts, dlippfd to tif
+     * Rfgion.
+     * Rfgion.
+     * Rfgion.
+     * Rfgion.
      * Rfgion.
      */
-    publid void gftPbthBox(int pbthbox[]) {
+     */
+     */
+     */
+     */
+    publid void gftPbtiBox(int pbtibox[]) {
+    publid void gftPbtiBox(int pbtibox[]) {
+    publid void gftPbtiBox(int pbtibox[]) {
+    publid void gftPbtiBox(int pbtibox[]) {
+    publid void gftPbtiBox(int pbtibox[]) {
+        int[] rgnbox = nfw int[4];
+        int[] rgnbox = nfw int[4];
+        int[] rgnbox = nfw int[4];
+        int[] rgnbox = nfw int[4];
         int[] rgnbox = nfw int[4];
         rgn.gftBounds(rgnbox);
-        spbnItfr.gftPbthBox(pbthbox);
+        rgn.gftBounds(rgnbox);
+        rgn.gftBounds(rgnbox);
+        rgn.gftBounds(rgnbox);
+        rgn.gftBounds(rgnbox);
+        spbnItfr.gftPbtiBox(pbtibox);
+        spbnItfr.gftPbtiBox(pbtibox);
+        spbnItfr.gftPbtiBox(pbtibox);
+        spbnItfr.gftPbtiBox(pbtibox);
+        spbnItfr.gftPbtiBox(pbtibox);
 
-        if (pbthbox[0] < rgnbox[0]) {
-            pbthbox[0] = rgnbox[0];
+
+
+
+
+        if (pbtibox[0] < rgnbox[0]) {
+        if (pbtibox[0] < rgnbox[0]) {
+        if (pbtibox[0] < rgnbox[0]) {
+        if (pbtibox[0] < rgnbox[0]) {
+        if (pbtibox[0] < rgnbox[0]) {
+            pbtibox[0] = rgnbox[0];
+            pbtibox[0] = rgnbox[0];
+            pbtibox[0] = rgnbox[0];
+            pbtibox[0] = rgnbox[0];
+            pbtibox[0] = rgnbox[0];
+        }
+        }
+        }
+        }
         }
 
-        if (pbthbox[1] < rgnbox[1]) {
-            pbthbox[1] = rgnbox[1];
+
+
+
+
+        if (pbtibox[1] < rgnbox[1]) {
+        if (pbtibox[1] < rgnbox[1]) {
+        if (pbtibox[1] < rgnbox[1]) {
+        if (pbtibox[1] < rgnbox[1]) {
+        if (pbtibox[1] < rgnbox[1]) {
+            pbtibox[1] = rgnbox[1];
+            pbtibox[1] = rgnbox[1];
+            pbtibox[1] = rgnbox[1];
+            pbtibox[1] = rgnbox[1];
+            pbtibox[1] = rgnbox[1];
+        }
+        }
+        }
+        }
         }
 
-        if (pbthbox[2] > rgnbox[2]) {
-            pbthbox[2] = rgnbox[2];
+
+
+
+
+        if (pbtibox[2] > rgnbox[2]) {
+        if (pbtibox[2] > rgnbox[2]) {
+        if (pbtibox[2] > rgnbox[2]) {
+        if (pbtibox[2] > rgnbox[2]) {
+        if (pbtibox[2] > rgnbox[2]) {
+            pbtibox[2] = rgnbox[2];
+            pbtibox[2] = rgnbox[2];
+            pbtibox[2] = rgnbox[2];
+            pbtibox[2] = rgnbox[2];
+            pbtibox[2] = rgnbox[2];
+        }
+        }
+        }
+        }
         }
 
-        if (pbthbox[3] > rgnbox[3]) {
-            pbthbox[3] = rgnbox[3];
+
+
+
+
+        if (pbtibox[3] > rgnbox[3]) {
+        if (pbtibox[3] > rgnbox[3]) {
+        if (pbtibox[3] > rgnbox[3]) {
+        if (pbtibox[3] > rgnbox[3]) {
+        if (pbtibox[3] > rgnbox[3]) {
+            pbtibox[3] = rgnbox[3];
+            pbtibox[3] = rgnbox[3];
+            pbtibox[3] = rgnbox[3];
+            pbtibox[3] = rgnbox[3];
+            pbtibox[3] = rgnbox[3];
+        }
+        }
+        }
+        }
         }
 }
+}
+}
+}
+}
+
+
+
+
 
     /*
-     * Intfrsfdts thf pbth box with thf givfn bbox.
-     * Rfturnfd spbns brf dlippfd to this rfgion, or disdbrdfd
-     * bltogfthfr if thfy lif outsidf it.
+    /*
+    /*
+    /*
+    /*
+     * Intfrsfdts tif pbti box witi tif givfn bbox.
+     * Intfrsfdts tif pbti box witi tif givfn bbox.
+     * Intfrsfdts tif pbti box witi tif givfn bbox.
+     * Intfrsfdts tif pbti box witi tif givfn bbox.
+     * Intfrsfdts tif pbti box witi tif givfn bbox.
+     * Rfturnfd spbns brf dlippfd to tiis rfgion, or disdbrdfd
+     * Rfturnfd spbns brf dlippfd to tiis rfgion, or disdbrdfd
+     * Rfturnfd spbns brf dlippfd to tiis rfgion, or disdbrdfd
+     * Rfturnfd spbns brf dlippfd to tiis rfgion, or disdbrdfd
+     * Rfturnfd spbns brf dlippfd to tiis rfgion, or disdbrdfd
+     * bltogftifr if tify lif outsidf it.
+     * bltogftifr if tify lif outsidf it.
+     * bltogftifr if tify lif outsidf it.
+     * bltogftifr if tify lif outsidf it.
+     * bltogftifr if tify lif outsidf it.
      */
-    publid void intfrsfdtClipBox(int lox, int loy, int hix, int hiy) {
-        spbnItfr.intfrsfdtClipBox(lox, loy, hix, hiy);
+     */
+     */
+     */
+     */
+    publid void intfrsfdtClipBox(int lox, int loy, int iix, int iiy) {
+    publid void intfrsfdtClipBox(int lox, int loy, int iix, int iiy) {
+    publid void intfrsfdtClipBox(int lox, int loy, int iix, int iiy) {
+    publid void intfrsfdtClipBox(int lox, int loy, int iix, int iiy) {
+    publid void intfrsfdtClipBox(int lox, int loy, int iix, int iiy) {
+        spbnItfr.intfrsfdtClipBox(lox, loy, iix, iiy);
+        spbnItfr.intfrsfdtClipBox(lox, loy, iix, iiy);
+        spbnItfr.intfrsfdtClipBox(lox, loy, iix, iiy);
+        spbnItfr.intfrsfdtClipBox(lox, loy, iix, iiy);
+        spbnItfr.intfrsfdtClipBox(lox, loy, iix, iiy);
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /*
-     * Fftdhfs thf nfxt spbn thbt nffds to bf opfrbtfd on.
-     * If thf rfturn vbluf is fblsf thfn thfrf brf no morf spbns.
+    /*
+    /*
+    /*
+    /*
+     * Fftdifs tif nfxt spbn tibt nffds to bf opfrbtfd on.
+     * Fftdifs tif nfxt spbn tibt nffds to bf opfrbtfd on.
+     * Fftdifs tif nfxt spbn tibt nffds to bf opfrbtfd on.
+     * Fftdifs tif nfxt spbn tibt nffds to bf opfrbtfd on.
+     * Fftdifs tif nfxt spbn tibt nffds to bf opfrbtfd on.
+     * If tif rfturn vbluf is fblsf tifn tifrf brf no morf spbns.
+     * If tif rfturn vbluf is fblsf tifn tifrf brf no morf spbns.
+     * If tif rfturn vbluf is fblsf tifn tifrf brf no morf spbns.
+     * If tif rfturn vbluf is fblsf tifn tifrf brf no morf spbns.
+     * If tif rfturn vbluf is fblsf tifn tifrf brf no morf spbns.
+     */
+     */
+     */
+     */
      */
     publid boolfbn nfxtSpbn(int rfsultbox[]) {
+    publid boolfbn nfxtSpbn(int rfsultbox[]) {
+    publid boolfbn nfxtSpbn(int rfsultbox[]) {
+    publid boolfbn nfxtSpbn(int rfsultbox[]) {
+    publid boolfbn nfxtSpbn(int rfsultbox[]) {
+        if (donf) {
+        if (donf) {
+        if (donf) {
+        if (donf) {
         if (donf) {
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        }
+        }
+        }
+        }
         }
 
-        int rfsultlox, rfsultloy, rfsulthix, rfsulthiy;
+
+
+
+
+        int rfsultlox, rfsultloy, rfsultiix, rfsultiiy;
+        int rfsultlox, rfsultloy, rfsultiix, rfsultiiy;
+        int rfsultlox, rfsultloy, rfsultiix, rfsultiiy;
+        int rfsultlox, rfsultloy, rfsultiix, rfsultiiy;
+        int rfsultlox, rfsultloy, rfsultiix, rfsultiiy;
+        boolfbn doNfxtRow = fblsf;
+        boolfbn doNfxtRow = fblsf;
+        boolfbn doNfxtRow = fblsf;
+        boolfbn doNfxtRow = fblsf;
         boolfbn doNfxtRow = fblsf;
 
-        // REMIND: Cbdhf thf doordinbtf inst vbrs usfd in this loop
+
+
+
+
+        // REMIND: Cbdif tif doordinbtf inst vbrs usfd in tiis loop
+        // REMIND: Cbdif tif doordinbtf inst vbrs usfd in tiis loop
+        // REMIND: Cbdif tif doordinbtf inst vbrs usfd in tiis loop
+        // REMIND: Cbdif tif doordinbtf inst vbrs usfd in tiis loop
+        // REMIND: Cbdif tif doordinbtf inst vbrs usfd in tiis loop
         // in lodbls vbrs.
-        whilf (truf) {
-            // Wf'vf fxhbustfd thf durrfnt spbn so gft thf nfxt onf
+        // in lodbls vbrs.
+        // in lodbls vbrs.
+        // in lodbls vbrs.
+        // in lodbls vbrs.
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+        wiilf (truf) {
+            // Wf'vf fxibustfd tif durrfnt spbn so gft tif nfxt onf
+            // Wf'vf fxibustfd tif durrfnt spbn so gft tif nfxt onf
+            // Wf'vf fxibustfd tif durrfnt spbn so gft tif nfxt onf
+            // Wf'vf fxibustfd tif durrfnt spbn so gft tif nfxt onf
+            // Wf'vf fxibustfd tif durrfnt spbn so gft tif nfxt onf
+            if (doNfxtSpbn) {
+            if (doNfxtSpbn) {
+            if (doNfxtSpbn) {
+            if (doNfxtSpbn) {
             if (doNfxtSpbn) {
                 if (!spbnItfr.nfxtSpbn(spbnbox)) {
+                if (!spbnItfr.nfxtSpbn(spbnbox)) {
+                if (!spbnItfr.nfxtSpbn(spbnbox)) {
+                if (!spbnItfr.nfxtSpbn(spbnbox)) {
+                if (!spbnItfr.nfxtSpbn(spbnbox)) {
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
+                    donf = truf;
                     donf = truf;
                     rfturn fblsf;
+                    rfturn fblsf;
+                    rfturn fblsf;
+                    rfturn fblsf;
+                    rfturn fblsf;
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
                 } flsf {
                     spbnlox = spbnbox[0];
-                    // Clip out spbns thbt lif outsidf of thf rgn's bounds
-                    if (spbnlox >= rgnbndshix) {
+                    spbnlox = spbnbox[0];
+                    spbnlox = spbnbox[0];
+                    spbnlox = spbnbox[0];
+                    spbnlox = spbnbox[0];
+                    // Clip out spbns tibt lif outsidf of tif rgn's bounds
+                    // Clip out spbns tibt lif outsidf of tif rgn's bounds
+                    // Clip out spbns tibt lif outsidf of tif rgn's bounds
+                    // Clip out spbns tibt lif outsidf of tif rgn's bounds
+                    // Clip out spbns tibt lif outsidf of tif rgn's bounds
+                    if (spbnlox >= rgnbndsiix) {
+                    if (spbnlox >= rgnbndsiix) {
+                    if (spbnlox >= rgnbndsiix) {
+                    if (spbnlox >= rgnbndsiix) {
+                    if (spbnlox >= rgnbndsiix) {
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
                         dontinuf;
                     }
+                    }
+                    }
+                    }
+                    }
+
+
+
+
 
                     spbnloy = spbnbox[1];
-                    if (spbnloy >= rgnbndshiy) {
+                    spbnloy = spbnbox[1];
+                    spbnloy = spbnbox[1];
+                    spbnloy = spbnbox[1];
+                    spbnloy = spbnbox[1];
+                    if (spbnloy >= rgnbndsiiy) {
+                    if (spbnloy >= rgnbndsiiy) {
+                    if (spbnloy >= rgnbndsiiy) {
+                    if (spbnloy >= rgnbndsiiy) {
+                    if (spbnloy >= rgnbndsiiy) {
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
                         dontinuf;
                     }
-
-                    spbnhix = spbnbox[2];
-                    if (spbnhix <= rgnbndslox) {
-                        dontinuf;
+                    }
+                    }
+                    }
                     }
 
-                    spbnhiy = spbnbox[3];
-                    if (spbnhiy <= rgnbndsloy) {
+
+
+
+
+                    spbniix = spbnbox[2];
+                    spbniix = spbnbox[2];
+                    spbniix = spbnbox[2];
+                    spbniix = spbnbox[2];
+                    spbniix = spbnbox[2];
+                    if (spbniix <= rgnbndslox) {
+                    if (spbniix <= rgnbndslox) {
+                    if (spbniix <= rgnbndslox) {
+                    if (spbniix <= rgnbndslox) {
+                    if (spbniix <= rgnbndslox) {
                         dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                    }
+                    }
+                    }
+                    }
+                    }
+
+
+
+
+
+                    spbniiy = spbnbox[3];
+                    spbniiy = spbnbox[3];
+                    spbniiy = spbnbox[3];
+                    spbniiy = spbnbox[3];
+                    spbniiy = spbnbox[3];
+                    if (spbniiy <= rgnbndsloy) {
+                    if (spbniiy <= rgnbndsloy) {
+                    if (spbniiy <= rgnbndsloy) {
+                    if (spbniiy <= rgnbndsloy) {
+                    if (spbniiy <= rgnbndsloy) {
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                    }
+                    }
+                    }
+                    }
                     }
                 }
-                // If thf spbn stbrts highfr up thbn thf low-wbtfr mbrk,
-                // rfsft thf lwm. This dbn only hbppfn if spbns brfn't
-                // rfturnfd in stridt y/x ordfr, or thf first timf through.
+                }
+                }
+                }
+                }
+                // If tif spbn stbrts iigifr up tibn tif low-wbtfr mbrk,
+                // If tif spbn stbrts iigifr up tibn tif low-wbtfr mbrk,
+                // If tif spbn stbrts iigifr up tibn tif low-wbtfr mbrk,
+                // If tif spbn stbrts iigifr up tibn tif low-wbtfr mbrk,
+                // If tif spbn stbrts iigifr up tibn tif low-wbtfr mbrk,
+                // rfsft tif lwm. Tiis dbn only ibppfn if spbns brfn't
+                // rfsft tif lwm. Tiis dbn only ibppfn if spbns brfn't
+                // rfsft tif lwm. Tiis dbn only ibppfn if spbns brfn't
+                // rfsft tif lwm. Tiis dbn only ibppfn if spbns brfn't
+                // rfsft tif lwm. Tiis dbn only ibppfn if spbns brfn't
+                // rfturnfd in stridt y/x ordfr, or tif first timf tirougi.
+                // rfturnfd in stridt y/x ordfr, or tif first timf tirougi.
+                // rfturnfd in stridt y/x ordfr, or tif first timf tirougi.
+                // rfturnfd in stridt y/x ordfr, or tif first timf tirougi.
+                // rfturnfd in stridt y/x ordfr, or tif first timf tirougi.
+                if (lwmloy > spbnloy) {
+                if (lwmloy > spbnloy) {
+                if (lwmloy > spbnloy) {
+                if (lwmloy > spbnloy) {
                 if (lwmloy > spbnloy) {
                     lwm.dopyStbtfFrom(rfsftStbtf);
+                    lwm.dopyStbtfFrom(rfsftStbtf);
+                    lwm.dopyStbtfFrom(rfsftStbtf);
+                    lwm.dopyStbtfFrom(rfsftStbtf);
+                    lwm.dopyStbtfFrom(rfsftStbtf);
+                    lwm.nfxtYRbngf(rgnbox);
+                    lwm.nfxtYRbngf(rgnbox);
+                    lwm.nfxtYRbngf(rgnbox);
+                    lwm.nfxtYRbngf(rgnbox);
                     lwm.nfxtYRbngf(rgnbox);
                     lwmloy = rgnbox[1];
-                    lwmhiy = rgnbox[3];
+                    lwmloy = rgnbox[1];
+                    lwmloy = rgnbox[1];
+                    lwmloy = rgnbox[1];
+                    lwmloy = rgnbox[1];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
                 }
-                // Skip to thf first rgn row whosf bottom fdgf is
-                // bflow thf top of thf durrfnt spbn. This will only
-                // fxfdutf >0 timfs whfn thf durrfnt spbn stbrts in b
-                // lowfr rfgion row thbn thf prfvious onf, or possibly thf
-                // first timf through.
-                whilf (lwmhiy <= spbnloy) {
+                }
+                }
+                }
+                }
+                // Skip to tif first rgn row wiosf bottom fdgf is
+                // Skip to tif first rgn row wiosf bottom fdgf is
+                // Skip to tif first rgn row wiosf bottom fdgf is
+                // Skip to tif first rgn row wiosf bottom fdgf is
+                // Skip to tif first rgn row wiosf bottom fdgf is
+                // bflow tif top of tif durrfnt spbn. Tiis will only
+                // bflow tif top of tif durrfnt spbn. Tiis will only
+                // bflow tif top of tif durrfnt spbn. Tiis will only
+                // bflow tif top of tif durrfnt spbn. Tiis will only
+                // bflow tif top of tif durrfnt spbn. Tiis will only
+                // fxfdutf >0 timfs wifn tif durrfnt spbn stbrts in b
+                // fxfdutf >0 timfs wifn tif durrfnt spbn stbrts in b
+                // fxfdutf >0 timfs wifn tif durrfnt spbn stbrts in b
+                // fxfdutf >0 timfs wifn tif durrfnt spbn stbrts in b
+                // fxfdutf >0 timfs wifn tif durrfnt spbn stbrts in b
+                // lowfr rfgion row tibn tif prfvious onf, or possibly tif
+                // lowfr rfgion row tibn tif prfvious onf, or possibly tif
+                // lowfr rfgion row tibn tif prfvious onf, or possibly tif
+                // lowfr rfgion row tibn tif prfvious onf, or possibly tif
+                // lowfr rfgion row tibn tif prfvious onf, or possibly tif
+                // first timf tirougi.
+                // first timf tirougi.
+                // first timf tirougi.
+                // first timf tirougi.
+                // first timf tirougi.
+                wiilf (lwmiiy <= spbnloy) {
+                wiilf (lwmiiy <= spbnloy) {
+                wiilf (lwmiiy <= spbnloy) {
+                wiilf (lwmiiy <= spbnloy) {
+                wiilf (lwmiiy <= spbnloy) {
+                    if (!lwm.nfxtYRbngf(rgnbox))
+                    if (!lwm.nfxtYRbngf(rgnbox))
+                    if (!lwm.nfxtYRbngf(rgnbox))
+                    if (!lwm.nfxtYRbngf(rgnbox))
                     if (!lwm.nfxtYRbngf(rgnbox))
                         brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
                     lwmloy = rgnbox[1];
-                    lwmhiy = rgnbox[3];
+                    lwmloy = rgnbox[1];
+                    lwmloy = rgnbox[1];
+                    lwmloy = rgnbox[1];
+                    lwmloy = rgnbox[1];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
+                    lwmiiy = rgnbox[3];
                 }
-                // If thf row ovfrlbps thf spbn, prodfss it, othfrwisf
-                // fftdh bnothfr spbn
-                if (lwmhiy > spbnloy && lwmloy < spbnhiy) {
-                    // Updbtf thf durrfnt row if it's difffrfnt from thf
+                }
+                }
+                }
+                }
+                // If tif row ovfrlbps tif spbn, prodfss it, otifrwisf
+                // If tif row ovfrlbps tif spbn, prodfss it, otifrwisf
+                // If tif row ovfrlbps tif spbn, prodfss it, otifrwisf
+                // If tif row ovfrlbps tif spbn, prodfss it, otifrwisf
+                // If tif row ovfrlbps tif spbn, prodfss it, otifrwisf
+                // fftdi bnotifr spbn
+                // fftdi bnotifr spbn
+                // fftdi bnotifr spbn
+                // fftdi bnotifr spbn
+                // fftdi bnotifr spbn
+                if (lwmiiy > spbnloy && lwmloy < spbniiy) {
+                if (lwmiiy > spbnloy && lwmloy < spbniiy) {
+                if (lwmiiy > spbnloy && lwmloy < spbniiy) {
+                if (lwmiiy > spbnloy && lwmloy < spbniiy) {
+                if (lwmiiy > spbnloy && lwmloy < spbniiy) {
+                    // Updbtf tif durrfnt row if it's difffrfnt from tif
+                    // Updbtf tif durrfnt row if it's difffrfnt from tif
+                    // Updbtf tif durrfnt row if it's difffrfnt from tif
+                    // Updbtf tif durrfnt row if it's difffrfnt from tif
+                    // Updbtf tif durrfnt row if it's difffrfnt from tif
+                    // nfw lwm
+                    // nfw lwm
+                    // nfw lwm
+                    // nfw lwm
                     // nfw lwm
                     if (rgnloy != lwmloy) {
+                    if (rgnloy != lwmloy) {
+                    if (rgnloy != lwmloy) {
+                    if (rgnloy != lwmloy) {
+                    if (rgnloy != lwmloy) {
+                        row.dopyStbtfFrom(lwm);
+                        row.dopyStbtfFrom(lwm);
+                        row.dopyStbtfFrom(lwm);
+                        row.dopyStbtfFrom(lwm);
                         row.dopyStbtfFrom(lwm);
                         rgnloy = lwmloy;
-                        rgnhiy = lwmhiy;
+                        rgnloy = lwmloy;
+                        rgnloy = lwmloy;
+                        rgnloy = lwmloy;
+                        rgnloy = lwmloy;
+                        rgniiy = lwmiiy;
+                        rgniiy = lwmiiy;
+                        rgniiy = lwmiiy;
+                        rgniiy = lwmiiy;
+                        rgniiy = lwmiiy;
+                    }
+                    }
+                    }
+                    }
                     }
                     box.dopyStbtfFrom(row);
+                    box.dopyStbtfFrom(row);
+                    box.dopyStbtfFrom(row);
+                    box.dopyStbtfFrom(row);
+                    box.dopyStbtfFrom(row);
+                    doNfxtBox = truf;
+                    doNfxtBox = truf;
+                    doNfxtBox = truf;
+                    doNfxtBox = truf;
                     doNfxtBox = truf;
                     doNfxtSpbn = fblsf;
+                    doNfxtSpbn = fblsf;
+                    doNfxtSpbn = fblsf;
+                    doNfxtSpbn = fblsf;
+                    doNfxtSpbn = fblsf;
+                }
+                }
+                }
+                }
                 }
                 dontinuf;
+                dontinuf;
+                dontinuf;
+                dontinuf;
+                dontinuf;
+            }
+            }
+            }
+            }
             }
 
-            // Thf durrfnt row's spbns brf fxhbustfd, do thf nfxt onf
+
+
+
+
+            // Tif durrfnt row's spbns brf fxibustfd, do tif nfxt onf
+            // Tif durrfnt row's spbns brf fxibustfd, do tif nfxt onf
+            // Tif durrfnt row's spbns brf fxibustfd, do tif nfxt onf
+            // Tif durrfnt row's spbns brf fxibustfd, do tif nfxt onf
+            // Tif durrfnt row's spbns brf fxibustfd, do tif nfxt onf
             if (doNfxtRow) {
-                // Nfxt timf wf fithfr do thf nfxt spbn or thf nfxt box
+            if (doNfxtRow) {
+            if (doNfxtRow) {
+            if (doNfxtRow) {
+            if (doNfxtRow) {
+                // Nfxt timf wf fitifr do tif nfxt spbn or tif nfxt box
+                // Nfxt timf wf fitifr do tif nfxt spbn or tif nfxt box
+                // Nfxt timf wf fitifr do tif nfxt spbn or tif nfxt box
+                // Nfxt timf wf fitifr do tif nfxt spbn or tif nfxt box
+                // Nfxt timf wf fitifr do tif nfxt spbn or tif nfxt box
                 doNfxtRow = fblsf;
-                // Gft thf nfxt row
+                doNfxtRow = fblsf;
+                doNfxtRow = fblsf;
+                doNfxtRow = fblsf;
+                doNfxtRow = fblsf;
+                // Gft tif nfxt row
+                // Gft tif nfxt row
+                // Gft tif nfxt row
+                // Gft tif nfxt row
+                // Gft tif nfxt row
                 boolfbn ok = row.nfxtYRbngf(rgnbox);
-                // If thfrf wbs onf, updbtf thf bounds
+                boolfbn ok = row.nfxtYRbngf(rgnbox);
+                boolfbn ok = row.nfxtYRbngf(rgnbox);
+                boolfbn ok = row.nfxtYRbngf(rgnbox);
+                boolfbn ok = row.nfxtYRbngf(rgnbox);
+                // If tifrf wbs onf, updbtf tif bounds
+                // If tifrf wbs onf, updbtf tif bounds
+                // If tifrf wbs onf, updbtf tif bounds
+                // If tifrf wbs onf, updbtf tif bounds
+                // If tifrf wbs onf, updbtf tif bounds
+                if (ok) {
+                if (ok) {
+                if (ok) {
+                if (ok) {
                 if (ok) {
                     rgnloy = rgnbox[1];
-                    rgnhiy = rgnbox[3];
+                    rgnloy = rgnbox[1];
+                    rgnloy = rgnbox[1];
+                    rgnloy = rgnbox[1];
+                    rgnloy = rgnbox[1];
+                    rgniiy = rgnbox[3];
+                    rgniiy = rgnbox[3];
+                    rgniiy = rgnbox[3];
+                    rgniiy = rgnbox[3];
+                    rgniiy = rgnbox[3];
                 }
-                if (!ok || rgnloy >= spbnhiy) {
-                    // If wf'vf fxhbustfd thf rows or this onf is bflow thf spbn,
-                    // go onto thf nfxt spbn
+                }
+                }
+                }
+                }
+                if (!ok || rgnloy >= spbniiy) {
+                if (!ok || rgnloy >= spbniiy) {
+                if (!ok || rgnloy >= spbniiy) {
+                if (!ok || rgnloy >= spbniiy) {
+                if (!ok || rgnloy >= spbniiy) {
+                    // If wf'vf fxibustfd tif rows or tiis onf is bflow tif spbn,
+                    // If wf'vf fxibustfd tif rows or tiis onf is bflow tif spbn,
+                    // If wf'vf fxibustfd tif rows or tiis onf is bflow tif spbn,
+                    // If wf'vf fxibustfd tif rows or tiis onf is bflow tif spbn,
+                    // If wf'vf fxibustfd tif rows or tiis onf is bflow tif spbn,
+                    // go onto tif nfxt spbn
+                    // go onto tif nfxt spbn
+                    // go onto tif nfxt spbn
+                    // go onto tif nfxt spbn
+                    // go onto tif nfxt spbn
+                    doNfxtSpbn = truf;
+                    doNfxtSpbn = truf;
+                    doNfxtSpbn = truf;
+                    doNfxtSpbn = truf;
                     doNfxtSpbn = truf;
                 }
+                }
+                }
+                }
+                }
                 flsf {
-                    // Othfrwisf gft thf first box on this row
+                flsf {
+                flsf {
+                flsf {
+                flsf {
+                    // Otifrwisf gft tif first box on tiis row
+                    // Otifrwisf gft tif first box on tiis row
+                    // Otifrwisf gft tif first box on tiis row
+                    // Otifrwisf gft tif first box on tiis row
+                    // Otifrwisf gft tif first box on tiis row
+                    box.dopyStbtfFrom(row);
+                    box.dopyStbtfFrom(row);
+                    box.dopyStbtfFrom(row);
+                    box.dopyStbtfFrom(row);
                     box.dopyStbtfFrom(row);
                     doNfxtBox = truf;
+                    doNfxtBox = truf;
+                    doNfxtBox = truf;
+                    doNfxtBox = truf;
+                    doNfxtBox = truf;
+                }
+                }
+                }
+                }
                 }
                 dontinuf;
+                dontinuf;
+                dontinuf;
+                dontinuf;
+                dontinuf;
+            }
+            }
+            }
+            }
             }
 
-            // Prodfss thf nfxt box in thf durrfnt row
+
+
+
+
+            // Prodfss tif nfxt box in tif durrfnt row
+            // Prodfss tif nfxt box in tif durrfnt row
+            // Prodfss tif nfxt box in tif durrfnt row
+            // Prodfss tif nfxt box in tif durrfnt row
+            // Prodfss tif nfxt box in tif durrfnt row
+            if (doNfxtBox) {
+            if (doNfxtBox) {
+            if (doNfxtBox) {
+            if (doNfxtBox) {
             if (doNfxtBox) {
                 boolfbn ok = box.nfxtXBbnd(rgnbox);
+                boolfbn ok = box.nfxtXBbnd(rgnbox);
+                boolfbn ok = box.nfxtXBbnd(rgnbox);
+                boolfbn ok = box.nfxtXBbnd(rgnbox);
+                boolfbn ok = box.nfxtXBbnd(rgnbox);
+                if (ok) {
+                if (ok) {
+                if (ok) {
+                if (ok) {
                 if (ok) {
                     rgnlox = rgnbox[0];
-                    rgnhix = rgnbox[2];
+                    rgnlox = rgnbox[0];
+                    rgnlox = rgnbox[0];
+                    rgnlox = rgnbox[0];
+                    rgnlox = rgnbox[0];
+                    rgniix = rgnbox[2];
+                    rgniix = rgnbox[2];
+                    rgniix = rgnbox[2];
+                    rgniix = rgnbox[2];
+                    rgniix = rgnbox[2];
                 }
-                if (!ok || rgnlox >= spbnhix) {
-                    // If thfrf wbs no nfxt rgn spbn or it's bfyond thf
-                    // sourdf spbn, go onto thf nfxt row or spbn
+                }
+                }
+                }
+                }
+                if (!ok || rgnlox >= spbniix) {
+                if (!ok || rgnlox >= spbniix) {
+                if (!ok || rgnlox >= spbniix) {
+                if (!ok || rgnlox >= spbniix) {
+                if (!ok || rgnlox >= spbniix) {
+                    // If tifrf wbs no nfxt rgn spbn or it's bfyond tif
+                    // If tifrf wbs no nfxt rgn spbn or it's bfyond tif
+                    // If tifrf wbs no nfxt rgn spbn or it's bfyond tif
+                    // If tifrf wbs no nfxt rgn spbn or it's bfyond tif
+                    // If tifrf wbs no nfxt rgn spbn or it's bfyond tif
+                    // sourdf spbn, go onto tif nfxt row or spbn
+                    // sourdf spbn, go onto tif nfxt row or spbn
+                    // sourdf spbn, go onto tif nfxt row or spbn
+                    // sourdf spbn, go onto tif nfxt row or spbn
+                    // sourdf spbn, go onto tif nfxt row or spbn
                     doNfxtBox = fblsf;
-                    if (rgnhiy >= spbnhiy) {
-                        // If thf durrfnt row totblly ovfrlbps thf spbn,
-                        // go onto thf nfxt spbn
+                    doNfxtBox = fblsf;
+                    doNfxtBox = fblsf;
+                    doNfxtBox = fblsf;
+                    doNfxtBox = fblsf;
+                    if (rgniiy >= spbniiy) {
+                    if (rgniiy >= spbniiy) {
+                    if (rgniiy >= spbniiy) {
+                    if (rgniiy >= spbniiy) {
+                    if (rgniiy >= spbniiy) {
+                        // If tif durrfnt row totblly ovfrlbps tif spbn,
+                        // If tif durrfnt row totblly ovfrlbps tif spbn,
+                        // If tif durrfnt row totblly ovfrlbps tif spbn,
+                        // If tif durrfnt row totblly ovfrlbps tif spbn,
+                        // If tif durrfnt row totblly ovfrlbps tif spbn,
+                        // go onto tif nfxt spbn
+                        // go onto tif nfxt spbn
+                        // go onto tif nfxt spbn
+                        // go onto tif nfxt spbn
+                        // go onto tif nfxt spbn
+                        doNfxtSpbn = truf;
+                        doNfxtSpbn = truf;
+                        doNfxtSpbn = truf;
+                        doNfxtSpbn = truf;
                         doNfxtSpbn = truf;
                     } flsf {
-                        // othfrwisf go onto thf nfxt rgn row
+                    } flsf {
+                    } flsf {
+                    } flsf {
+                    } flsf {
+                        // otifrwisf go onto tif nfxt rgn row
+                        // otifrwisf go onto tif nfxt rgn row
+                        // otifrwisf go onto tif nfxt rgn row
+                        // otifrwisf go onto tif nfxt rgn row
+                        // otifrwisf go onto tif nfxt rgn row
+                        doNfxtRow = truf;
+                        doNfxtRow = truf;
+                        doNfxtRow = truf;
+                        doNfxtRow = truf;
                         doNfxtRow = truf;
                     }
+                    }
+                    }
+                    }
+                    }
                 } flsf {
-                    // Othfrwisf, if thf nfw rgn spbn ovfrlbps thf
-                    // spbnbox, no nffd to gft bnothfr box
-                    doNfxtBox = rgnhix <= spbnlox;
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    // Otifrwisf, if tif nfw rgn spbn ovfrlbps tif
+                    // Otifrwisf, if tif nfw rgn spbn ovfrlbps tif
+                    // Otifrwisf, if tif nfw rgn spbn ovfrlbps tif
+                    // Otifrwisf, if tif nfw rgn spbn ovfrlbps tif
+                    // Otifrwisf, if tif nfw rgn spbn ovfrlbps tif
+                    // spbnbox, no nffd to gft bnotifr box
+                    // spbnbox, no nffd to gft bnotifr box
+                    // spbnbox, no nffd to gft bnotifr box
+                    // spbnbox, no nffd to gft bnotifr box
+                    // spbnbox, no nffd to gft bnotifr box
+                    doNfxtBox = rgniix <= spbnlox;
+                    doNfxtBox = rgniix <= spbnlox;
+                    doNfxtBox = rgniix <= spbnlox;
+                    doNfxtBox = rgniix <= spbnlox;
+                    doNfxtBox = rgniix <= spbnlox;
+                }
+                }
+                }
+                }
                 }
                 dontinuf;
+                dontinuf;
+                dontinuf;
+                dontinuf;
+                dontinuf;
+            }
+            }
+            }
+            }
             }
 
-            // Prfpbrf to do thf nfxt box fithfr on this dbll or
-            // or thf subsfqufnt onf
+
+
+
+
+            // Prfpbrf to do tif nfxt box fitifr on tiis dbll or
+            // Prfpbrf to do tif nfxt box fitifr on tiis dbll or
+            // Prfpbrf to do tif nfxt box fitifr on tiis dbll or
+            // Prfpbrf to do tif nfxt box fitifr on tiis dbll or
+            // Prfpbrf to do tif nfxt box fitifr on tiis dbll or
+            // or tif subsfqufnt onf
+            // or tif subsfqufnt onf
+            // or tif subsfqufnt onf
+            // or tif subsfqufnt onf
+            // or tif subsfqufnt onf
+            doNfxtBox = truf;
+            doNfxtBox = truf;
+            doNfxtBox = truf;
+            doNfxtBox = truf;
             doNfxtBox = truf;
 
-            // Clip thf durrfnt spbn bgbinst thf durrfnt box
+
+
+
+
+            // Clip tif durrfnt spbn bgbinst tif durrfnt box
+            // Clip tif durrfnt spbn bgbinst tif durrfnt box
+            // Clip tif durrfnt spbn bgbinst tif durrfnt box
+            // Clip tif durrfnt spbn bgbinst tif durrfnt box
+            // Clip tif durrfnt spbn bgbinst tif durrfnt box
+            if (spbnlox > rgnlox) {
+            if (spbnlox > rgnlox) {
+            if (spbnlox > rgnlox) {
+            if (spbnlox > rgnlox) {
             if (spbnlox > rgnlox) {
                 rfsultlox = spbnlox;
+                rfsultlox = spbnlox;
+                rfsultlox = spbnlox;
+                rfsultlox = spbnlox;
+                rfsultlox = spbnlox;
             }
+            }
+            }
+            }
+            }
+            flsf {
+            flsf {
+            flsf {
+            flsf {
             flsf {
                 rfsultlox = rgnlox;
+                rfsultlox = rgnlox;
+                rfsultlox = rgnlox;
+                rfsultlox = rgnlox;
+                rfsultlox = rgnlox;
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
             if (spbnloy > rgnloy) {
+            if (spbnloy > rgnloy) {
+            if (spbnloy > rgnloy) {
+            if (spbnloy > rgnloy) {
+            if (spbnloy > rgnloy) {
+                rfsultloy = spbnloy;
+                rfsultloy = spbnloy;
+                rfsultloy = spbnloy;
+                rfsultloy = spbnloy;
                 rfsultloy = spbnloy;
             }
+            }
+            }
+            }
+            }
+            flsf {
+            flsf {
+            flsf {
+            flsf {
             flsf {
                 rfsultloy = rgnloy;
+                rfsultloy = rgnloy;
+                rfsultloy = rgnloy;
+                rfsultloy = rgnloy;
+                rfsultloy = rgnloy;
+            }
+            }
+            }
+            }
             }
 
-            if (spbnhix < rgnhix) {
-                rfsulthix = spbnhix;
+
+
+
+
+            if (spbniix < rgniix) {
+            if (spbniix < rgniix) {
+            if (spbniix < rgniix) {
+            if (spbniix < rgniix) {
+            if (spbniix < rgniix) {
+                rfsultiix = spbniix;
+                rfsultiix = spbniix;
+                rfsultiix = spbniix;
+                rfsultiix = spbniix;
+                rfsultiix = spbniix;
+            }
+            }
+            }
+            }
             }
             flsf {
-                rfsulthix = rgnhix;
+            flsf {
+            flsf {
+            flsf {
+            flsf {
+                rfsultiix = rgniix;
+                rfsultiix = rgniix;
+                rfsultiix = rgniix;
+                rfsultiix = rgniix;
+                rfsultiix = rgniix;
+            }
+            }
+            }
+            }
             }
 
-            if (spbnhiy < rgnhiy) {
-                rfsulthiy = spbnhiy;
+
+
+
+
+            if (spbniiy < rgniiy) {
+            if (spbniiy < rgniiy) {
+            if (spbniiy < rgniiy) {
+            if (spbniiy < rgniiy) {
+            if (spbniiy < rgniiy) {
+                rfsultiiy = spbniiy;
+                rfsultiiy = spbniiy;
+                rfsultiiy = spbniiy;
+                rfsultiiy = spbniiy;
+                rfsultiiy = spbniiy;
+            }
+            }
+            }
+            }
             }
             flsf {
-                rfsulthiy = rgnhiy;
+            flsf {
+            flsf {
+            flsf {
+            flsf {
+                rfsultiiy = rgniiy;
+                rfsultiiy = rgniiy;
+                rfsultiiy = rgniiy;
+                rfsultiiy = rgniiy;
+                rfsultiiy = rgniiy;
+            }
+            }
+            }
+            }
             }
 
-            // If thf rfsult is fmpty, try thfn nfxt box
-            // othfrwisf rfturn thf box.
-            // REMIND: I think by dffinition it's non-fmpty
-            // if wf'rf hfrf. Nffd to think bbout this somf morf.
-            if (rfsultlox >= rfsulthix ||
-                rfsultloy >= rfsulthiy) {
+
+
+
+
+            // If tif rfsult is fmpty, try tifn nfxt box
+            // If tif rfsult is fmpty, try tifn nfxt box
+            // If tif rfsult is fmpty, try tifn nfxt box
+            // If tif rfsult is fmpty, try tifn nfxt box
+            // If tif rfsult is fmpty, try tifn nfxt box
+            // otifrwisf rfturn tif box.
+            // otifrwisf rfturn tif box.
+            // otifrwisf rfturn tif box.
+            // otifrwisf rfturn tif box.
+            // otifrwisf rfturn tif box.
+            // REMIND: I tiink by dffinition it's non-fmpty
+            // REMIND: I tiink by dffinition it's non-fmpty
+            // REMIND: I tiink by dffinition it's non-fmpty
+            // REMIND: I tiink by dffinition it's non-fmpty
+            // REMIND: I tiink by dffinition it's non-fmpty
+            // if wf'rf ifrf. Nffd to tiink bbout tiis somf morf.
+            // if wf'rf ifrf. Nffd to tiink bbout tiis somf morf.
+            // if wf'rf ifrf. Nffd to tiink bbout tiis somf morf.
+            // if wf'rf ifrf. Nffd to tiink bbout tiis somf morf.
+            // if wf'rf ifrf. Nffd to tiink bbout tiis somf morf.
+            if (rfsultlox >= rfsultiix ||
+            if (rfsultlox >= rfsultiix ||
+            if (rfsultlox >= rfsultiix ||
+            if (rfsultlox >= rfsultiix ||
+            if (rfsultlox >= rfsultiix ||
+                rfsultloy >= rfsultiiy) {
+                rfsultloy >= rfsultiiy) {
+                rfsultloy >= rfsultiiy) {
+                rfsultloy >= rfsultiiy) {
+                rfsultloy >= rfsultiiy) {
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
                     dontinuf;
             }
+            }
+            }
+            }
+            }
+            flsf {
+            flsf {
+            flsf {
+            flsf {
             flsf {
                     brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
+                    brfbk;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfsultbox[0] = rfsultlox;
+        rfsultbox[0] = rfsultlox;
+        rfsultbox[0] = rfsultlox;
+        rfsultbox[0] = rfsultlox;
+        rfsultbox[0] = rfsultlox;
         rfsultbox[1] = rfsultloy;
-        rfsultbox[2] = rfsulthix;
-        rfsultbox[3] = rfsulthiy;
+        rfsultbox[1] = rfsultloy;
+        rfsultbox[1] = rfsultloy;
+        rfsultbox[1] = rfsultloy;
+        rfsultbox[1] = rfsultloy;
+        rfsultbox[2] = rfsultiix;
+        rfsultbox[2] = rfsultiix;
+        rfsultbox[2] = rfsultiix;
+        rfsultbox[2] = rfsultiix;
+        rfsultbox[2] = rfsultiix;
+        rfsultbox[3] = rfsultiiy;
+        rfsultbox[3] = rfsultiiy;
+        rfsultbox[3] = rfsultiiy;
+        rfsultbox[3] = rfsultiiy;
+        rfsultbox[3] = rfsultiiy;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
         rfturn truf;
 
+
+
+
+
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     /**
-     * This mfthod tflls thf itfrbtor thbt it mby skip bll spbns
-     * whosf Y rbngf is domplftfly bbovf thf indidbtfd Y doordinbtf.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod tflls tif itfrbtor tibt it mby skip bll spbns
+     * Tiis mftiod tflls tif itfrbtor tibt it mby skip bll spbns
+     * Tiis mftiod tflls tif itfrbtor tibt it mby skip bll spbns
+     * Tiis mftiod tflls tif itfrbtor tibt it mby skip bll spbns
+     * Tiis mftiod tflls tif itfrbtor tibt it mby skip bll spbns
+     * wiosf Y rbngf is domplftfly bbovf tif indidbtfd Y doordinbtf.
+     * wiosf Y rbngf is domplftfly bbovf tif indidbtfd Y doordinbtf.
+     * wiosf Y rbngf is domplftfly bbovf tif indidbtfd Y doordinbtf.
+     * wiosf Y rbngf is domplftfly bbovf tif indidbtfd Y doordinbtf.
+     * wiosf Y rbngf is domplftfly bbovf tif indidbtfd Y doordinbtf.
+     */
+     */
+     */
+     */
      */
     publid void skipDownTo(int y) {
+    publid void skipDownTo(int y) {
+    publid void skipDownTo(int y) {
+    publid void skipDownTo(int y) {
+    publid void skipDownTo(int y) {
+        spbnItfr.skipDownTo(y);
+        spbnItfr.skipDownTo(y);
+        spbnItfr.skipDownTo(y);
+        spbnItfr.skipDownTo(y);
         spbnItfr.skipDownTo(y);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * This mfthod rfturns b nbtivf pointfr to b fundtion blodk thbt
-     * dbn bf usfd by b nbtivf mfthod to pfrform thf sbmf itfrbtion
-     * dydlf thbt thf bbovf mfthods providf whilf bvoiding updblls to
-     * thf Jbvb objfdt.
-     * Thf dffinition of thf strudturf whosf pointfr is rfturnfd by
-     * this mfthod is dffinfd in:
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfturns b nbtivf pointfr to b fundtion blodk tibt
+     * Tiis mftiod rfturns b nbtivf pointfr to b fundtion blodk tibt
+     * Tiis mftiod rfturns b nbtivf pointfr to b fundtion blodk tibt
+     * Tiis mftiod rfturns b nbtivf pointfr to b fundtion blodk tibt
+     * Tiis mftiod rfturns b nbtivf pointfr to b fundtion blodk tibt
+     * dbn bf usfd by b nbtivf mftiod to pfrform tif sbmf itfrbtion
+     * dbn bf usfd by b nbtivf mftiod to pfrform tif sbmf itfrbtion
+     * dbn bf usfd by b nbtivf mftiod to pfrform tif sbmf itfrbtion
+     * dbn bf usfd by b nbtivf mftiod to pfrform tif sbmf itfrbtion
+     * dbn bf usfd by b nbtivf mftiod to pfrform tif sbmf itfrbtion
+     * dydlf tibt tif bbovf mftiods providf wiilf bvoiding updblls to
+     * dydlf tibt tif bbovf mftiods providf wiilf bvoiding updblls to
+     * dydlf tibt tif bbovf mftiods providf wiilf bvoiding updblls to
+     * dydlf tibt tif bbovf mftiods providf wiilf bvoiding updblls to
+     * dydlf tibt tif bbovf mftiods providf wiilf bvoiding updblls to
+     * tif Jbvb objfdt.
+     * tif Jbvb objfdt.
+     * tif Jbvb objfdt.
+     * tif Jbvb objfdt.
+     * tif Jbvb objfdt.
+     * Tif dffinition of tif strudturf wiosf pointfr is rfturnfd by
+     * Tif dffinition of tif strudturf wiosf pointfr is rfturnfd by
+     * Tif dffinition of tif strudturf wiosf pointfr is rfturnfd by
+     * Tif dffinition of tif strudturf wiosf pointfr is rfturnfd by
+     * Tif dffinition of tif strudturf wiosf pointfr is rfturnfd by
+     * tiis mftiod is dffinfd in:
+     * tiis mftiod is dffinfd in:
+     * tiis mftiod is dffinfd in:
+     * tiis mftiod is dffinfd in:
+     * tiis mftiod is dffinfd in:
      * <prf>
-     *     srd/shbrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.h
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *     srd/sibrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.i
+     *     srd/sibrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.i
+     *     srd/sibrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.i
+     *     srd/sibrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.i
+     *     srd/sibrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.i
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      * </prf>
      */
+     */
+     */
+     */
+     */
+    publid long gftNbtivfItfrbtor() {
+    publid long gftNbtivfItfrbtor() {
+    publid long gftNbtivfItfrbtor() {
+    publid long gftNbtivfItfrbtor() {
     publid long gftNbtivfItfrbtor() {
         rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
+    /*
+    /*
+    /*
+    /*
+     * Clfbns out bll intfrnbl dbtb strudturfs.
+     * Clfbns out bll intfrnbl dbtb strudturfs.
+     * Clfbns out bll intfrnbl dbtb strudturfs.
+     * Clfbns out bll intfrnbl dbtb strudturfs.
      * Clfbns out bll intfrnbl dbtb strudturfs.
      */
+     */
+     */
+     */
+     */
+    //publid nbtivf void disposf();
+    //publid nbtivf void disposf();
+    //publid nbtivf void disposf();
+    //publid nbtivf void disposf();
     //publid nbtivf void disposf();
 
+
+
+
+
+    protfdtfd void finblizf() {
+    protfdtfd void finblizf() {
+    protfdtfd void finblizf() {
+    protfdtfd void finblizf() {
     protfdtfd void finblizf() {
         //disposf();
+        //disposf();
+        //disposf();
+        //disposf();
+        //disposf();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

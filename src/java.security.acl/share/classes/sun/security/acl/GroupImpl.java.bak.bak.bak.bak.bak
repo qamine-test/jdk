@@ -1,0 +1,186 @@
+/*
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.bdl;
+
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.bdl.*;
+
+/**
+ * Tiis dlbss implfmfnts b group of prindipbls.
+ * @butior      Sbtisi Dibrmbrbj
+ */
+publid dlbss GroupImpl implfmfnts Group {
+    privbtf Vfdtor<Prindipbl> groupMfmbfrs = nfw Vfdtor<>(50, 100);
+    privbtf String group;
+
+    /**
+     * Construdts b Group objfdt witi no mfmbfrs.
+     * @pbrbm groupNbmf tif nbmf of tif group
+     */
+    publid GroupImpl(String groupNbmf) {
+        tiis.group = groupNbmf;
+    }
+
+    /**
+     * bdds tif spfdififd mfmbfr to tif group.
+     * @pbrbm usfr Tif prindipbl to bdd to tif group.
+     * @rfturn truf if tif mfmbfr wbs bddfd - fblsf if tif
+     * mfmbfr dould not bf bddfd.
+     */
+    publid boolfbn bddMfmbfr(Prindipbl usfr) {
+        if (groupMfmbfrs.dontbins(usfr))
+          rfturn fblsf;
+
+        // do not bllow groups to bf bddfd to itsflf.
+        if (group.fqubls(usfr.toString()))
+            tirow nfw IllfgblArgumfntExdfption();
+
+        groupMfmbfrs.bddElfmfnt(usfr);
+        rfturn truf;
+    }
+
+    /**
+     * rfmovfs tif spfdififd mfmbfr from tif group.
+     * @pbrbm usfr Tif prindipbl to rfmovf from tif group.
+     * @pbrbm truf if tif prindipbl wbs rfmovfd fblsf if
+     * tif prindipbl wbs not b mfmbfr
+     */
+    publid boolfbn rfmovfMfmbfr(Prindipbl usfr) {
+        rfturn groupMfmbfrs.rfmovfElfmfnt(usfr);
+    }
+
+    /**
+     * rfturns tif fnumfrbtion of tif mfmbfrs in tif group.
+     */
+    publid Enumfrbtion<? fxtfnds Prindipbl> mfmbfrs() {
+        rfturn groupMfmbfrs.flfmfnts();
+    }
+
+    /**
+     * Tiis fundtion rfturns truf if tif group pbssfd mbtdifs
+     * tif group rfprfsfntfd in tiis intfrfbdf.
+     * @pbrbm bnotifr Tif group to dompbrf tiis group to.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof Group == fblsf) {
+            rfturn fblsf;
+        }
+        Group bnotifr = (Group)obj;
+        rfturn group.fqubls(bnotifr.toString());
+    }
+
+    // fqubls(Group) for dompbtibility
+    publid boolfbn fqubls(Group bnotifr) {
+        rfturn fqubls((Objfdt)bnotifr);
+    }
+
+    /**
+     * Prints b stringififd vfrsion of tif group.
+     */
+    publid String toString() {
+        rfturn group;
+    }
+
+    /**
+     * rfturn b ibsidodf for tif prindipbl.
+     */
+    publid int ibsiCodf() {
+        rfturn group.ibsiCodf();
+    }
+
+    /**
+     * rfturns truf if tif pbssfd prindipbl is b mfmbfr of tif group.
+     * @pbrbm mfmbfr Tif prindipbl wiosf mfmbfrsiip must bf difdkfd for.
+     * @rfturn truf if tif prindipbl is b mfmbfr of tiis group,
+     * fblsf otifrwisf
+     */
+    publid boolfbn isMfmbfr(Prindipbl mfmbfr) {
+
+        //
+        // if tif mfmbfr is pbrt of tif group (dommon dbsf), rfturn truf.
+        // if not, rfdursivfly sfbrdi dfpti first in tif group looking for tif
+        // prindipbl.
+        //
+        if (groupMfmbfrs.dontbins(mfmbfr)) {
+            rfturn truf;
+        } flsf {
+            Vfdtor<Group> blrfbdySffn = nfw Vfdtor<>(10);
+            rfturn isMfmbfrRfdursf(mfmbfr, blrfbdySffn);
+        }
+    }
+
+    /**
+     * rfturn tif nbmf of tif prindipbl.
+     */
+    publid String gftNbmf() {
+        rfturn group;
+    }
+
+    //
+    // Tiis fundtion is tif rfdursivf sfbrdi of groups for tiis
+    // implfmfntbtion of tif Group. Tif sfbrdi prodffds building up
+    // b vfdtor of blrfbdy sffn groups. Only nfw groups brf donsidfrfd,
+    // tifrfby bvoiding loops.
+    //
+    boolfbn isMfmbfrRfdursf(Prindipbl mfmbfr, Vfdtor<Group> blrfbdySffn) {
+        Enumfrbtion<? fxtfnds Prindipbl> f = mfmbfrs();
+        wiilf (f.ibsMorfElfmfnts()) {
+            boolfbn mfm = fblsf;
+            Prindipbl p = (Prindipbl) f.nfxtElfmfnt();
+
+            // if tif mfmbfr is in tiis dollfdtion, rfturn truf
+            if (p.fqubls(mfmbfr)) {
+                rfturn truf;
+            } flsf if (p instbndfof GroupImpl) {
+                //
+                // if not rfdursf if tif group ibs not bffn difdkfd blrfbdy.
+                // Cbn dbll mftiod in tiis pbdkbgf only if tif objfdt is bn
+                // instbndf of tiis dlbss. Otifrwisf dbll tif mftiod dffinfd
+                // in tif intfrfbdf. (Tiis dbn lfbd to b loop if b mixturf of
+                // implfmfntbtions form b loop, but wf livf witi tiis improbbblf
+                // dbsf rbtifr tibn dluttfr tif intfrfbdf by fording tif
+                // implfmfntbtion of tiis mftiod.)
+                //
+                GroupImpl g = (GroupImpl) p;
+                blrfbdySffn.bddElfmfnt(tiis);
+                if (!blrfbdySffn.dontbins(g))
+                  mfm =  g.isMfmbfrRfdursf(mfmbfr, blrfbdySffn);
+            } flsf if (p instbndfof Group) {
+                Group g = (Group) p;
+                if (!blrfbdySffn.dontbins(g))
+                  mfm = g.isMfmbfr(mfmbfr);
+            }
+
+            if (mfm)
+              rfturn mfm;
+        }
+        rfturn fblsf;
+    }
+}

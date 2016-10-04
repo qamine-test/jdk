@@ -1,394 +1,1970 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: jjs
+.\" Titlf: jjs
+.\" Titlf: jjs
+.\" Titlf: jjs
+.\" Titlf: jjs
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
 .\" SfdtDfsd: 基本ツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "jjs" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jjs" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jjs" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jjs" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jjs" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 jjs \- Nbsiornエンジンを呼び出します。
+jjs \- Nbsiornエンジンを呼び出します。
+jjs \- Nbsiornエンジンを呼び出します。
+jjs \- Nbsiornエンジンを呼び出します。
+jjs \- Nbsiornエンジンを呼び出します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]
+\fIjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]
+\fIjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]
+\fIjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]
+\fIjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 空白文字で区切られた、\fIjjs\fRコマンドの1つ以上のオプション。詳細は、オプションを参照してください。
+空白文字で区切られた、\fIjjs\fRコマンドの1つ以上のオプション。詳細は、オプションを参照してください。
+空白文字で区切られた、\fIjjs\fRコマンドの1つ以上のオプション。詳細は、オプションを参照してください。
+空白文字で区切られた、\fIjjs\fRコマンドの1つ以上のオプション。詳細は、オプションを参照してください。
+空白文字で区切られた、\fIjjs\fRコマンドの1つ以上のオプション。詳細は、オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIsdript\-filfs\fR
+\fIsdript\-filfs\fR
+\fIsdript\-filfs\fR
+\fIsdript\-filfs\fR
+\fIsdript\-filfs\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 空白文字で区切られた、Nbsiornを使用して解釈する1つ以上のスクリプト・ファイル。ファイルが指定されない場合は、対話型シェルが起動されます。
+空白文字で区切られた、Nbsiornを使用して解釈する1つ以上のスクリプト・ファイル。ファイルが指定されない場合は、対話型シェルが起動されます。
+空白文字で区切られた、Nbsiornを使用して解釈する1つ以上のスクリプト・ファイル。ファイルが指定されない場合は、対話型シェルが起動されます。
+空白文字で区切られた、Nbsiornを使用して解釈する1つ以上のスクリプト・ファイル。ファイルが指定されない場合は、対話型シェルが起動されます。
+空白文字で区切られた、Nbsiornを使用して解釈する1つ以上のスクリプト・ファイル。ファイルが指定されない場合は、対話型シェルが起動されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIbrgumfnts\fR
+\fIbrgumfnts\fR
+\fIbrgumfnts\fR
+\fIbrgumfnts\fR
+\fIbrgumfnts\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 二重ハイフン・マーカー(\fI\-\-\fR)の後のすべての値が、引数としてスクリプトまたは対話型シェルに渡されます。これらの値には\fIbrgumfnts\fRプロパティを使用してアクセスできます(Exbmplf 3を参照してください)。
+二重ハイフン・マーカー(\fI\-\-\fR)の後のすべての値が、引数としてスクリプトまたは対話型シェルに渡されます。これらの値には\fIbrgumfnts\fRプロパティを使用してアクセスできます(Exbmplf 3を参照してください)。
+二重ハイフン・マーカー(\fI\-\-\fR)の後のすべての値が、引数としてスクリプトまたは対話型シェルに渡されます。これらの値には\fIbrgumfnts\fRプロパティを使用してアクセスできます(Exbmplf 3を参照してください)。
+二重ハイフン・マーカー(\fI\-\-\fR)の後のすべての値が、引数としてスクリプトまたは対話型シェルに渡されます。これらの値には\fIbrgumfnts\fRプロパティを使用してアクセスできます(Exbmplf 3を参照してください)。
+二重ハイフン・マーカー(\fI\-\-\fR)の後のすべての値が、引数としてスクリプトまたは対話型シェルに渡されます。これらの値には\fIbrgumfnts\fRプロパティを使用してアクセスできます(Exbmplf 3を参照してください)。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjjs\fRコマンドライン・ツールを使用してNbsiornエンジンを呼び出します。これを使用して、1つまたは複数のスクリプト・ファイルを解釈したり、対話型シェルを実行することができます。
+\fIjjs\fRコマンドライン・ツールを使用してNbsiornエンジンを呼び出します。これを使用して、1つまたは複数のスクリプト・ファイルを解釈したり、対話型シェルを実行することができます。
+\fIjjs\fRコマンドライン・ツールを使用してNbsiornエンジンを呼び出します。これを使用して、1つまたは複数のスクリプト・ファイルを解釈したり、対話型シェルを実行することができます。
+\fIjjs\fRコマンドライン・ツールを使用してNbsiornエンジンを呼び出します。これを使用して、1つまたは複数のスクリプト・ファイルを解釈したり、対話型シェルを実行することができます。
+\fIjjs\fRコマンドライン・ツールを使用してNbsiornエンジンを呼び出します。これを使用して、1つまたは複数のスクリプト・ファイルを解釈したり、対話型シェルを実行することができます。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\fIjjs\fRコマンドのオプションはスクリプトがNbsiornによって解釈される条件を制御します。
+\fIjjs\fRコマンドのオプションはスクリプトがNbsiornによって解釈される条件を制御します。
+\fIjjs\fRコマンドのオプションはスクリプトがNbsiornによって解釈される条件を制御します。
+\fIjjs\fRコマンドのオプションはスクリプトがNbsiornによって解釈される条件を制御します。
 \fIjjs\fRコマンドのオプションはスクリプトがNbsiornによって解釈される条件を制御します。
 .PP
+.PP
+.PP
+.PP
+.PP
+\-dds=\fIsizf\fR, \-\-dlbss\-dbdif\-sizf=\fIsizf\fR
+\-dds=\fIsizf\fR, \-\-dlbss\-dbdif\-sizf=\fIsizf\fR
+\-dds=\fIsizf\fR, \-\-dlbss\-dbdif\-sizf=\fIsizf\fR
+\-dds=\fIsizf\fR, \-\-dlbss\-dbdif\-sizf=\fIsizf\fR
 \-dds=\fIsizf\fR, \-\-dlbss\-dbdif\-sizf=\fIsizf\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+クラス・キャッシュ・サイズをバイト単位で設定します。キロバイト(KB)を示すために\fIk\fRまたは\fIK\fRの文字を追加し、メガバイト(MB)を示すために\fIm\fRまたは\fIM\fRの文字を追加し、ギガバイト(GB)を示すために\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、クラス・キャッシュ・サイズは50バイトに設定されます。次の例は、1024バイト(1 KB)に設定する方法を示します。
+クラス・キャッシュ・サイズをバイト単位で設定します。キロバイト(KB)を示すために\fIk\fRまたは\fIK\fRの文字を追加し、メガバイト(MB)を示すために\fIm\fRまたは\fIM\fRの文字を追加し、ギガバイト(GB)を示すために\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、クラス・キャッシュ・サイズは50バイトに設定されます。次の例は、1024バイト(1 KB)に設定する方法を示します。
+クラス・キャッシュ・サイズをバイト単位で設定します。キロバイト(KB)を示すために\fIk\fRまたは\fIK\fRの文字を追加し、メガバイト(MB)を示すために\fIm\fRまたは\fIM\fRの文字を追加し、ギガバイト(GB)を示すために\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、クラス・キャッシュ・サイズは50バイトに設定されます。次の例は、1024バイト(1 KB)に設定する方法を示します。
+クラス・キャッシュ・サイズをバイト単位で設定します。キロバイト(KB)を示すために\fIk\fRまたは\fIK\fRの文字を追加し、メガバイト(MB)を示すために\fIm\fRまたは\fIM\fRの文字を追加し、ギガバイト(GB)を示すために\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、クラス・キャッシュ・サイズは50バイトに設定されます。次の例は、1024バイト(1 KB)に設定する方法を示します。
 クラス・キャッシュ・サイズをバイト単位で設定します。キロバイト(KB)を示すために\fIk\fRまたは\fIK\fRの文字を追加し、メガバイト(MB)を示すために\fIm\fRまたは\fIM\fRの文字を追加し、ギガバイト(GB)を示すために\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、クラス・キャッシュ・サイズは50バイトに設定されます。次の例は、1024バイト(1 KB)に設定する方法を示します。
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \-dss=100
+\-dss=100
+\-dss=100
+\-dss=100
+\-dss=100
+\-dss=1k
+\-dss=1k
+\-dss=1k
+\-dss=1k
 \-dss=1k
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-do, \-\-dompilf\-only
+\-do, \-\-dompilf\-only
+\-do, \-\-dompilf\-only
+\-do, \-\-dompilf\-only
+\-do, \-\-dompilf\-only
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 スクリプトを実行せずにコンパイルします。
+スクリプトを実行せずにコンパイルします。
+スクリプトを実行せずにコンパイルします。
+スクリプトを実行せずにコンパイルします。
+スクリプトを実行せずにコンパイルします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-dp \fIpbti\fR, \-\-dlbsspbti \fIpbti\fR
+\-dp \fIpbti\fR, \-\-dlbsspbti \fIpbti\fR
+\-dp \fIpbti\fR, \-\-dlbsspbti \fIpbti\fR
+\-dp \fIpbti\fR, \-\-dlbsspbti \fIpbti\fR
+\-dp \fIpbti\fR, \-\-dlbsspbti \fIpbti\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 サポートするクラスへのパスを指定します。複数のパスを設定するには、このオプションを繰り返すか、または各パスをコロン(:)で区切ります。
+サポートするクラスへのパスを指定します。複数のパスを設定するには、このオプションを繰り返すか、または各パスをコロン(:)で区切ります。
+サポートするクラスへのパスを指定します。複数のパスを設定するには、このオプションを繰り返すか、または各パスをコロン(:)で区切ります。
+サポートするクラスへのパスを指定します。複数のパスを設定するには、このオプションを繰り返すか、または各パスをコロン(:)で区切ります。
+サポートするクラスへのパスを指定します。複数のパスを設定するには、このオプションを繰り返すか、または各パスをコロン(:)で区切ります。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 プロパティ名に値を割り当てることで、スクリプトに渡すシステム・プロパティを設定します。次の例で、対話型モードでNbsiornを呼び出して、\fImyVbluf\fRを\fImyKfy\fRという名前のプロパティに割り当てる方法を示します。
+プロパティ名に値を割り当てることで、スクリプトに渡すシステム・プロパティを設定します。次の例で、対話型モードでNbsiornを呼び出して、\fImyVbluf\fRを\fImyKfy\fRという名前のプロパティに割り当てる方法を示します。
+プロパティ名に値を割り当てることで、スクリプトに渡すシステム・プロパティを設定します。次の例で、対話型モードでNbsiornを呼び出して、\fImyVbluf\fRを\fImyKfy\fRという名前のプロパティに割り当てる方法を示します。
+プロパティ名に値を割り当てることで、スクリプトに渡すシステム・プロパティを設定します。次の例で、対話型モードでNbsiornを呼び出して、\fImyVbluf\fRを\fImyKfy\fRという名前のプロパティに割り当てる方法を示します。
+プロパティ名に値を割り当てることで、スクリプトに渡すシステム・プロパティを設定します。次の例で、対話型モードでNbsiornを呼び出して、\fImyVbluf\fRを\fImyKfy\fRという名前のプロパティに割り当てる方法を示します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 >> \fBjjs \-DmyKfy=myVbluf\fR
+>> \fBjjs \-DmyKfy=myVbluf\fR
+>> \fBjjs \-DmyKfy=myVbluf\fR
+>> \fBjjs \-DmyKfy=myVbluf\fR
+>> \fBjjs \-DmyKfy=myVbluf\fR
+jjs> \fBjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR
+jjs> \fBjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR
+jjs> \fBjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR
+jjs> \fBjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR
 jjs> \fBjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR
 myVbluf
+myVbluf
+myVbluf
+myVbluf
+myVbluf
+jjs>
+jjs>
+jjs>
+jjs>
 jjs>
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 このオプションを繰り返し使用すると、複数のプロパティを設定できます。
+このオプションを繰り返し使用すると、複数のプロパティを設定できます。
+このオプションを繰り返し使用すると、複数のプロパティを設定できます。
+このオプションを繰り返し使用すると、複数のプロパティを設定できます。
+このオプションを繰り返し使用すると、複数のプロパティを設定できます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-d=\fIpbti\fR, \-\-dump\-dfbug\-dir=\fIpbti\fR
+\-d=\fIpbti\fR, \-\-dump\-dfbug\-dir=\fIpbti\fR
+\-d=\fIpbti\fR, \-\-dump\-dfbug\-dir=\fIpbti\fR
+\-d=\fIpbti\fR, \-\-dump\-dfbug\-dir=\fIpbti\fR
+\-d=\fIpbti\fR, \-\-dump\-dfbug\-dir=\fIpbti\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 クラス・ファイルをダンプするディレクトリへのパスを指定します。
+クラス・ファイルをダンプするディレクトリへのパスを指定します。
+クラス・ファイルをダンプするディレクトリへのパスを指定します。
+クラス・ファイルをダンプするディレクトリへのパスを指定します。
+クラス・ファイルをダンプするディレクトリへのパスを指定します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-dfbug\-linfs
+\-\-dfbug\-linfs
+\-\-dfbug\-linfs
+\-\-dfbug\-linfs
+\-\-dfbug\-linfs
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 クラス・ファイル内の行番号表を生成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-dfbug\-linfs=fblsf\fRを指定します。
+クラス・ファイル内の行番号表を生成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-dfbug\-linfs=fblsf\fRを指定します。
+クラス・ファイル内の行番号表を生成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-dfbug\-linfs=fblsf\fRを指定します。
+クラス・ファイル内の行番号表を生成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-dfbug\-linfs=fblsf\fRを指定します。
+クラス・ファイル内の行番号表を生成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-dfbug\-linfs=fblsf\fRを指定します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-dfbug\-lodbls
+\-\-dfbug\-lodbls
+\-\-dfbug\-lodbls
+\-\-dfbug\-lodbls
+\-\-dfbug\-lodbls
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 クラス・ファイル内のローカル変数を生成します。
+クラス・ファイル内のローカル変数を生成します。
+クラス・ファイル内のローカル変数を生成します。
+クラス・ファイル内のローカル変数を生成します。
+クラス・ファイル内のローカル変数を生成します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-dof, \-\-dump\-on\-frror
+\-dof, \-\-dump\-on\-frror
+\-dof, \-\-dump\-on\-frror
+\-dof, \-\-dump\-on\-frror
+\-dof, \-\-dump\-on\-frror
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 エラーが発生したときに、フル・スタック・トレースを提供します。デフォルトでは、簡単なエラー・メッセージのみが出力されます。
+エラーが発生したときに、フル・スタック・トレースを提供します。デフォルトでは、簡単なエラー・メッセージのみが出力されます。
+エラーが発生したときに、フル・スタック・トレースを提供します。デフォルトでは、簡単なエラー・メッセージのみが出力されます。
+エラーが発生したときに、フル・スタック・トレースを提供します。デフォルトでは、簡単なエラー・メッセージのみが出力されます。
+エラーが発生したときに、フル・スタック・トレースを提供します。デフォルトでは、簡単なエラー・メッセージのみが出力されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-fbrly\-lvbluf\-frror
+\-\-fbrly\-lvbluf\-frror
+\-\-fbrly\-lvbluf\-frror
+\-\-fbrly\-lvbluf\-frror
+\-\-fbrly\-lvbluf\-frror
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 無効な左辺値式が早期エラーとして(つまり、コードが解析されるときに)報告されます。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-fbrly\-lvbluf\-frror=fblsf\fRを指定します。無効な場合、無効な左辺値式はコードが実行されるまで報告されません。
+無効な左辺値式が早期エラーとして(つまり、コードが解析されるときに)報告されます。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-fbrly\-lvbluf\-frror=fblsf\fRを指定します。無効な場合、無効な左辺値式はコードが実行されるまで報告されません。
+無効な左辺値式が早期エラーとして(つまり、コードが解析されるときに)報告されます。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-fbrly\-lvbluf\-frror=fblsf\fRを指定します。無効な場合、無効な左辺値式はコードが実行されるまで報告されません。
+無効な左辺値式が早期エラーとして(つまり、コードが解析されるときに)報告されます。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-fbrly\-lvbluf\-frror=fblsf\fRを指定します。無効な場合、無効な左辺値式はコードが実行されるまで報告されません。
+無効な左辺値式が早期エラーとして(つまり、コードが解析されるときに)報告されます。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-fbrly\-lvbluf\-frror=fblsf\fRを指定します。無効な場合、無効な左辺値式はコードが実行されるまで報告されません。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-fmpty\-stbtfmfnts
+\-\-fmpty\-stbtfmfnts
+\-\-fmpty\-stbtfmfnts
+\-\-fmpty\-stbtfmfnts
+\-\-fmpty\-stbtfmfnts
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 空の文をJbvbの抽象構文ツリーに保存します。
+空の文をJbvbの抽象構文ツリーに保存します。
+空の文をJbvbの抽象構文ツリーに保存します。
+空の文をJbvbの抽象構文ツリーに保存します。
+空の文をJbvbの抽象構文ツリーに保存します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-fv, \-\-fullvfrsion
+\-fv, \-\-fullvfrsion
+\-fv, \-\-fullvfrsion
+\-fv, \-\-fullvfrsion
+\-fv, \-\-fullvfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 完全なNbsiornバージョン文字列を出力します。
+完全なNbsiornバージョン文字列を出力します。
+完全なNbsiornバージョン文字列を出力します。
+完全なNbsiornバージョン文字列を出力します。
+完全なNbsiornバージョン文字列を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-fundtion\-stbtfmfnt\-frror
+\-\-fundtion\-stbtfmfnt\-frror
+\-\-fundtion\-stbtfmfnt\-frror
+\-\-fundtion\-stbtfmfnt\-frror
+\-\-fundtion\-stbtfmfnt\-frror
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 関数の宣言が文として使用されるとエラー・メッセージが出力されます。
+関数の宣言が文として使用されるとエラー・メッセージが出力されます。
+関数の宣言が文として使用されるとエラー・メッセージが出力されます。
+関数の宣言が文として使用されるとエラー・メッセージが出力されます。
+関数の宣言が文として使用されるとエラー・メッセージが出力されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-fundtion\-stbtfmfnt\-wbrning
+\-\-fundtion\-stbtfmfnt\-wbrning
+\-\-fundtion\-stbtfmfnt\-wbrning
+\-\-fundtion\-stbtfmfnt\-wbrning
+\-\-fundtion\-stbtfmfnt\-wbrning
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 関数の宣言が文として使用されると警告メッセージが出力されます。
+関数の宣言が文として使用されると警告メッセージが出力されます。
+関数の宣言が文として使用されると警告メッセージが出力されます。
+関数の宣言が文として使用されると警告メッセージが出力されます。
+関数の宣言が文として使用されると警告メッセージが出力されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-fx
+\-fx
+\-fx
+\-fx
+\-fx
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 スクリプトをJbvbFXアプリケーションとして起動します。
+スクリプトをJbvbFXアプリケーションとして起動します。
+スクリプトをJbvbFXアプリケーションとして起動します。
+スクリプトをJbvbFXアプリケーションとして起動します。
+スクリプトをJbvbFXアプリケーションとして起動します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-i, \-iflp
+\-i, \-iflp
+\-i, \-iflp
+\-i, \-iflp
+\-i, \-iflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 オプションのリストとその説明を出力します。
+オプションのリストとその説明を出力します。
+オプションのリストとその説明を出力します。
+オプションのリストとその説明を出力します。
+オプションのリストとその説明を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 指定した\fIjbvb\fR起動オプションをJVMに渡します。次の例で、対話型モードでNbsiornを呼び出して、JVMによって使用される最大メモリーを4 GBに設定する方法を示します。
+指定した\fIjbvb\fR起動オプションをJVMに渡します。次の例で、対話型モードでNbsiornを呼び出して、JVMによって使用される最大メモリーを4 GBに設定する方法を示します。
+指定した\fIjbvb\fR起動オプションをJVMに渡します。次の例で、対話型モードでNbsiornを呼び出して、JVMによって使用される最大メモリーを4 GBに設定する方法を示します。
+指定した\fIjbvb\fR起動オプションをJVMに渡します。次の例で、対話型モードでNbsiornを呼び出して、JVMによって使用される最大メモリーを4 GBに設定する方法を示します。
+指定した\fIjbvb\fR起動オプションをJVMに渡します。次の例で、対話型モードでNbsiornを呼び出して、JVMによって使用される最大メモリーを4 GBに設定する方法を示します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 >> \fBjjs \-J\-Xmx4g\fR
+>> \fBjjs \-J\-Xmx4g\fR
+>> \fBjjs \-J\-Xmx4g\fR
+>> \fBjjs \-J\-Xmx4g\fR
+>> \fBjjs \-J\-Xmx4g\fR
+jjs> \fBjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR
+jjs> \fBjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR
+jjs> \fBjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR
+jjs> \fBjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR
 jjs> \fBjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR
 3817799680
+3817799680
+3817799680
+3817799680
+3817799680
+jjs>
+jjs>
+jjs>
+jjs>
 jjs>
 .fi
-.if n \{\
-.RE
-.\}
-このオプションを繰り返し使用すると、複数の\fIjbvb\fRコマンド・オプションを渡すことができます。
-.RE
-.PP
-\-\-lbzy\-dompilbtion
-.RS 4
-レイジー・コード生成戦略(つまり、スクリプト全体が一度にコンパイルされない)を有効にします。このオプションは試験的なものです。
-.RE
-.PP
-\-\-lobdfr\-pfr\-dompilf
-.RS 4
-コンパイルごとに新しいクラス・ローダーを作成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-lobdfr\-pfr\-dompilf=fblsf\fRを指定します。
-.RE
-.PP
-\-\-log=\fIsubsystfm\fR:\fIlfvfl\fR
-.RS 4
-指定されたサブシステムに対して、特定のレベルでロギングを実行します。カンマで区切って複数のサブシステムのロギング・レベルを指定できます。次に例を示します。
-.sp
-.if n \{\
-.RS 4
-.\}
-.nf
-\-\-log=fiflds:finfst,dodfgfn:info
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+このオプションを繰り返し使用すると、複数の\fIjbvb\fRコマンド・オプションを渡すことができます。
+このオプションを繰り返し使用すると、複数の\fIjbvb\fRコマンド・オプションを渡すことができます。
+このオプションを繰り返し使用すると、複数の\fIjbvb\fRコマンド・オプションを渡すことができます。
+このオプションを繰り返し使用すると、複数の\fIjbvb\fRコマンド・オプションを渡すことができます。
+このオプションを繰り返し使用すると、複数の\fIjbvb\fRコマンド・オプションを渡すことができます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
+.PP
+\-\-lbzy\-dompilbtion
+\-\-lbzy\-dompilbtion
+\-\-lbzy\-dompilbtion
+\-\-lbzy\-dompilbtion
+\-\-lbzy\-dompilbtion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+レイジー・コード生成戦略(つまり、スクリプト全体が一度にコンパイルされない)を有効にします。このオプションは試験的なものです。
+レイジー・コード生成戦略(つまり、スクリプト全体が一度にコンパイルされない)を有効にします。このオプションは試験的なものです。
+レイジー・コード生成戦略(つまり、スクリプト全体が一度にコンパイルされない)を有効にします。このオプションは試験的なものです。
+レイジー・コード生成戦略(つまり、スクリプト全体が一度にコンパイルされない)を有効にします。このオプションは試験的なものです。
+レイジー・コード生成戦略(つまり、スクリプト全体が一度にコンパイルされない)を有効にします。このオプションは試験的なものです。
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
+.PP
+\-\-lobdfr\-pfr\-dompilf
+\-\-lobdfr\-pfr\-dompilf
+\-\-lobdfr\-pfr\-dompilf
+\-\-lobdfr\-pfr\-dompilf
+\-\-lobdfr\-pfr\-dompilf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+コンパイルごとに新しいクラス・ローダーを作成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-lobdfr\-pfr\-dompilf=fblsf\fRを指定します。
+コンパイルごとに新しいクラス・ローダーを作成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-lobdfr\-pfr\-dompilf=fblsf\fRを指定します。
+コンパイルごとに新しいクラス・ローダーを作成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-lobdfr\-pfr\-dompilf=fblsf\fRを指定します。
+コンパイルごとに新しいクラス・ローダーを作成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-lobdfr\-pfr\-dompilf=fblsf\fRを指定します。
+コンパイルごとに新しいクラス・ローダーを作成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-lobdfr\-pfr\-dompilf=fblsf\fRを指定します。
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
+.PP
+\-\-log=\fIsubsystfm\fR:\fIlfvfl\fR
+\-\-log=\fIsubsystfm\fR:\fIlfvfl\fR
+\-\-log=\fIsubsystfm\fR:\fIlfvfl\fR
+\-\-log=\fIsubsystfm\fR:\fIlfvfl\fR
+\-\-log=\fIsubsystfm\fR:\fIlfvfl\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+指定されたサブシステムに対して、特定のレベルでロギングを実行します。カンマで区切って複数のサブシステムのロギング・レベルを指定できます。次に例を示します。
+指定されたサブシステムに対して、特定のレベルでロギングを実行します。カンマで区切って複数のサブシステムのロギング・レベルを指定できます。次に例を示します。
+指定されたサブシステムに対して、特定のレベルでロギングを実行します。カンマで区切って複数のサブシステムのロギング・レベルを指定できます。次に例を示します。
+指定されたサブシステムに対して、特定のレベルでロギングを実行します。カンマで区切って複数のサブシステムのロギング・レベルを指定できます。次に例を示します。
+指定されたサブシステムに対して、特定のレベルでロギングを実行します。カンマで区切って複数のサブシステムのロギング・レベルを指定できます。次に例を示します。
+.sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
+.nf
+\-\-log=fiflds:finfst,dodfgfn:info
+\-\-log=fiflds:finfst,dodfgfn:info
+\-\-log=fiflds:finfst,dodfgfn:info
+\-\-log=fiflds:finfst,dodfgfn:info
+\-\-log=fiflds:finfst,dodfgfn:info
+.fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
+.\}
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-pbdkbgf=\fInbmf\fR
+\-\-pbdkbgf=\fInbmf\fR
+\-\-pbdkbgf=\fInbmf\fR
+\-\-pbdkbgf=\fInbmf\fR
+\-\-pbdkbgf=\fInbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 生成されたクラス・ファイルを追加するパッケージを指定します。
+生成されたクラス・ファイルを追加するパッケージを指定します。
+生成されたクラス・ファイルを追加するパッケージを指定します。
+生成されたクラス・ファイルを追加するパッケージを指定します。
+生成されたクラス・ファイルを追加するパッケージを指定します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-pbrsf\-only
+\-\-pbrsf\-only
+\-\-pbrsf\-only
+\-\-pbrsf\-only
+\-\-pbrsf\-only
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コンパイルせずにコードを解析します。
+コンパイルせずにコードを解析します。
+コンパイルせずにコードを解析します。
+コンパイルせずにコードを解析します。
+コンパイルせずにコードを解析します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-print\-bst
+\-\-print\-bst
+\-\-print\-bst
+\-\-print\-bst
+\-\-print\-bst
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 抽象構文ツリーを出力します。
+抽象構文ツリーを出力します。
+抽象構文ツリーを出力します。
+抽象構文ツリーを出力します。
+抽象構文ツリーを出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-print\-dodf
+\-\-print\-dodf
+\-\-print\-dodf
+\-\-print\-dodf
+\-\-print\-dodf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 バイトコードを出力します。
+バイトコードを出力します。
+バイトコードを出力します。
+バイトコードを出力します。
+バイトコードを出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-print\-lowfr\-bst
+\-\-print\-lowfr\-bst
+\-\-print\-lowfr\-bst
+\-\-print\-lowfr\-bst
+\-\-print\-lowfr\-bst
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 掘り下げた抽象構文ツリーを出力します。
+掘り下げた抽象構文ツリーを出力します。
+掘り下げた抽象構文ツリーを出力します。
+掘り下げた抽象構文ツリーを出力します。
+掘り下げた抽象構文ツリーを出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-print\-lowfr\-pbrsf
+\-\-print\-lowfr\-pbrsf
+\-\-print\-lowfr\-pbrsf
+\-\-print\-lowfr\-pbrsf
+\-\-print\-lowfr\-pbrsf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 掘り下げた解析ツリーを出力します。
+掘り下げた解析ツリーを出力します。
+掘り下げた解析ツリーを出力します。
+掘り下げた解析ツリーを出力します。
+掘り下げた解析ツリーを出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-print\-no\-nfwlinf
+\-\-print\-no\-nfwlinf
+\-\-print\-no\-nfwlinf
+\-\-print\-no\-nfwlinf
+\-\-print\-no\-nfwlinf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 その他の\fI\-\-print*\fRオプションで強制的に1行で出力します。
+その他の\fI\-\-print*\fRオプションで強制的に1行で出力します。
+その他の\fI\-\-print*\fRオプションで強制的に1行で出力します。
+その他の\fI\-\-print*\fRオプションで強制的に1行で出力します。
+その他の\fI\-\-print*\fRオプションで強制的に1行で出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-print\-pbrsf
+\-\-print\-pbrsf
+\-\-print\-pbrsf
+\-\-print\-pbrsf
+\-\-print\-pbrsf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 解析ツリーを出力します。
+解析ツリーを出力します。
+解析ツリーを出力します。
+解析ツリーを出力します。
+解析ツリーを出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-print\-symbols
+\-\-print\-symbols
+\-\-print\-symbols
+\-\-print\-symbols
+\-\-print\-symbols
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 記号表を出力します。
+記号表を出力します。
+記号表を出力します。
+記号表を出力します。
+記号表を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-pds, \-\-profilf\-dbllsitfs
+\-pds, \-\-profilf\-dbllsitfs
+\-pds, \-\-profilf\-dbllsitfs
+\-pds, \-\-profilf\-dbllsitfs
+\-pds, \-\-profilf\-dbllsitfs
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 呼び出しサイトのプロファイル・データをダンプします。
+呼び出しサイトのプロファイル・データをダンプします。
+呼び出しサイトのプロファイル・データをダンプします。
+呼び出しサイトのプロファイル・データをダンプします。
+呼び出しサイトのプロファイル・データをダンプします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-sdripting
+\-sdripting
+\-sdripting
+\-sdripting
+\-sdripting
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 シェルのスクリプト機能を有効にします。
+シェルのスクリプト機能を有効にします。
+シェルのスクリプト機能を有効にします。
+シェルのスクリプト機能を有効にします。
+シェルのスクリプト機能を有効にします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 標準エラー・ストリームを指定したファイル、ストリーム(たとえば\fIstdout\fR)に、またはテキスト端末にリダイレクトします。
+標準エラー・ストリームを指定したファイル、ストリーム(たとえば\fIstdout\fR)に、またはテキスト端末にリダイレクトします。
+標準エラー・ストリームを指定したファイル、ストリーム(たとえば\fIstdout\fR)に、またはテキスト端末にリダイレクトします。
+標準エラー・ストリームを指定したファイル、ストリーム(たとえば\fIstdout\fR)に、またはテキスト端末にリダイレクトします。
+標準エラー・ストリームを指定したファイル、ストリーム(たとえば\fIstdout\fR)に、またはテキスト端末にリダイレクトします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+\-\-stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 標準出力ストリームを指定したファイル、ストリーム(たとえば\fIstdfrr\fR)に、またはテキスト端末にリダイレクトします。
+標準出力ストリームを指定したファイル、ストリーム(たとえば\fIstdfrr\fR)に、またはテキスト端末にリダイレクトします。
+標準出力ストリームを指定したファイル、ストリーム(たとえば\fIstdfrr\fR)に、またはテキスト端末にリダイレクトします。
+標準出力ストリームを指定したファイル、ストリーム(たとえば\fIstdfrr\fR)に、またはテキスト端末にリダイレクトします。
+標準出力ストリームを指定したファイル、ストリーム(たとえば\fIstdfrr\fR)に、またはテキスト端末にリダイレクトします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-stridt
+\-stridt
+\-stridt
+\-stridt
+\-stridt
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 標準(ECMASdript Edition 5\&.1)への準拠を強化するstridtモードを有効にし、これにより共通のコーディング・エラーを簡単に検出できるようになります。
+標準(ECMASdript Edition 5\&.1)への準拠を強化するstridtモードを有効にし、これにより共通のコーディング・エラーを簡単に検出できるようになります。
+標準(ECMASdript Edition 5\&.1)への準拠を強化するstridtモードを有効にし、これにより共通のコーディング・エラーを簡単に検出できるようになります。
+標準(ECMASdript Edition 5\&.1)への準拠を強化するstridtモードを有効にし、これにより共通のコーディング・エラーを簡単に検出できるようになります。
+標準(ECMASdript Edition 5\&.1)への準拠を強化するstridtモードを有効にし、これにより共通のコーディング・エラーを簡単に検出できるようになります。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-t=\fIzonf\fR, \-timfzonf=\fIzonf\fR
+\-t=\fIzonf\fR, \-timfzonf=\fIzonf\fR
+\-t=\fIzonf\fR, \-timfzonf=\fIzonf\fR
+\-t=\fIzonf\fR, \-timfzonf=\fIzonf\fR
+\-t=\fIzonf\fR, \-timfzonf=\fIzonf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 スクリプトの実行に対し指定したタイムゾーンを設定します。OSで設定されたタイムゾーンをオーバーライドし、\fIDbtf\fRオブジェクトで使用されます。
+スクリプトの実行に対し指定したタイムゾーンを設定します。OSで設定されたタイムゾーンをオーバーライドし、\fIDbtf\fRオブジェクトで使用されます。
+スクリプトの実行に対し指定したタイムゾーンを設定します。OSで設定されたタイムゾーンをオーバーライドし、\fIDbtf\fRオブジェクトで使用されます。
+スクリプトの実行に対し指定したタイムゾーンを設定します。OSで設定されたタイムゾーンをオーバーライドし、\fIDbtf\fRオブジェクトで使用されます。
+スクリプトの実行に対し指定したタイムゾーンを設定します。OSで設定されたタイムゾーンをオーバーライドし、\fIDbtf\fRオブジェクトで使用されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-tds=\fIpbrbmftfr\fR, \-\-trbdf\-dbllsitfs=\fIpbrbmftfr\fR
+\-tds=\fIpbrbmftfr\fR, \-\-trbdf\-dbllsitfs=\fIpbrbmftfr\fR
+\-tds=\fIpbrbmftfr\fR, \-\-trbdf\-dbllsitfs=\fIpbrbmftfr\fR
+\-tds=\fIpbrbmftfr\fR, \-\-trbdf\-dbllsitfs=\fIpbrbmftfr\fR
+\-tds=\fIpbrbmftfr\fR, \-\-trbdf\-dbllsitfs=\fIpbrbmftfr\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 呼出しサイトのトレースのモードを有効にします。使用可能なパラメータは、次のとおりです。
+呼出しサイトのトレースのモードを有効にします。使用可能なパラメータは、次のとおりです。
+呼出しサイトのトレースのモードを有効にします。使用可能なパラメータは、次のとおりです。
+呼出しサイトのトレースのモードを有効にします。使用可能なパラメータは、次のとおりです。
+呼出しサイトのトレースのモードを有効にします。使用可能なパラメータは、次のとおりです。
+.PP
+.PP
+.PP
+.PP
 .PP
 miss
+miss
+miss
+miss
+miss
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 呼出しサイトのミスをトレースします。
+呼出しサイトのミスをトレースします。
+呼出しサイトのミスをトレースします。
+呼出しサイトのミスをトレースします。
+呼出しサイトのミスをトレースします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 fntfrfxit
+fntfrfxit
+fntfrfxit
+fntfrfxit
+fntfrfxit
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 呼出しサイトへの出入りをトレースします。
+呼出しサイトへの出入りをトレースします。
+呼出しサイトへの出入りをトレースします。
+呼出しサイトへの出入りをトレースします。
+呼出しサイトへの出入りをトレースします。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
+.PP
+.PP
+.PP
+.PP
+objfdts
+objfdts
+objfdts
+objfdts
 objfdts
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+オブジェクトのプロパティを出力します。
+オブジェクトのプロパティを出力します。
+オブジェクトのプロパティを出力します。
+オブジェクトのプロパティを出力します。
 オブジェクトのプロパティを出力します。
 .RE
 .RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-\-vfrify\-dodf
+\-\-vfrify\-dodf
+\-\-vfrify\-dodf
+\-\-vfrify\-dodf
+\-\-vfrify\-dodf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 バイトコードを実行する前に検証します。
+バイトコードを実行する前に検証します。
+バイトコードを実行する前に検証します。
+バイトコードを実行する前に検証します。
+バイトコードを実行する前に検証します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-v, \-vfrsion
+\-v, \-vfrsion
+\-v, \-vfrsion
+\-v, \-vfrsion
+\-v, \-vfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Nbsiornバージョン文字列を出力します。
+Nbsiornバージョン文字列を出力します。
+Nbsiornバージョン文字列を出力します。
+Nbsiornバージョン文字列を出力します。
+Nbsiornバージョン文字列を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-xiflp
+\-xiflp
+\-xiflp
+\-xiflp
+\-xiflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプションの拡張ヘルプを出力します。
+コマンドライン・オプションの拡張ヘルプを出力します。
+コマンドライン・オプションの拡張ヘルプを出力します。
+コマンドライン・オプションの拡張ヘルプを出力します。
+コマンドライン・オプションの拡張ヘルプを出力します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fBExbmplf 1\fR, Nbsiornを使用したスクリプトの実行
+\fBExbmplf 1\fR, Nbsiornを使用したスクリプトの実行
+\fBExbmplf 1\fR, Nbsiornを使用したスクリプトの実行
+\fBExbmplf 1\fR, Nbsiornを使用したスクリプトの実行
+\fBExbmplf 1\fR, Nbsiornを使用したスクリプトの実行
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jjs sdript\&.js
+jjs sdript\&.js
+jjs sdript\&.js
+jjs sdript\&.js
+jjs sdript\&.js
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fBExbmplf 2\fR, 対話型モードでのNbsiornの実行
+\fBExbmplf 2\fR, 対話型モードでのNbsiornの実行
+\fBExbmplf 2\fR, 対話型モードでのNbsiornの実行
+\fBExbmplf 2\fR, 対話型モードでのNbsiornの実行
+\fBExbmplf 2\fR, 対話型モードでのNbsiornの実行
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 >> \fBjjs\fR
+>> \fBjjs\fR
+>> \fBjjs\fR
+>> \fBjjs\fR
+>> \fBjjs\fR
+jjs> \fBprintln("Hfllo, World!")\fR
+jjs> \fBprintln("Hfllo, World!")\fR
+jjs> \fBprintln("Hfllo, World!")\fR
+jjs> \fBprintln("Hfllo, World!")\fR
 jjs> \fBprintln("Hfllo, World!")\fR
 Hfllo, World!
+Hfllo, World!
+Hfllo, World!
+Hfllo, World!
+Hfllo, World!
+jjs> \fBquit()\fR
+jjs> \fBquit()\fR
+jjs> \fBquit()\fR
+jjs> \fBquit()\fR
 jjs> \fBquit()\fR
 >>
+>>
+>>
+>>
+>>
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fBExbmplf 3\fR, Nbsiornへの引数の渡し
+\fBExbmplf 3\fR, Nbsiornへの引数の渡し
+\fBExbmplf 3\fR, Nbsiornへの引数の渡し
+\fBExbmplf 3\fR, Nbsiornへの引数の渡し
+\fBExbmplf 3\fR, Nbsiornへの引数の渡し
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+>> \fBjjs \-\- b b d\fR
+>> \fBjjs \-\- b b d\fR
+>> \fBjjs \-\- b b d\fR
+>> \fBjjs \-\- b b d\fR
 >> \fBjjs \-\- b b d\fR
 jjs> \fBbrgumfnts\&.join(", ")\fR
+jjs> \fBbrgumfnts\&.join(", ")\fR
+jjs> \fBbrgumfnts\&.join(", ")\fR
+jjs> \fBbrgumfnts\&.join(", ")\fR
+jjs> \fBbrgumfnts\&.join(", ")\fR
+b, b, d
+b, b, d
+b, b, d
+b, b, d
 b, b, d
 jjs>
+jjs>
+jjs>
+jjs>
+jjs>
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjrunsdript\fR
+\fIjrunsdript\fR
+\fIjrunsdript\fR
+\fIjrunsdript\fR
+\fIjrunsdript\fR
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

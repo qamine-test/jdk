@@ -1,186 +1,930 @@
 /*
- * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+
+
+
+
 
 import jbvb.nft.URL;
+import jbvb.nft.URL;
+import jbvb.nft.URL;
+import jbvb.nft.URL;
+import jbvb.nft.URL;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbm;
 import jbvb.io.InputStrfbm;
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
+import jbvb.util.Sft;
 import jbvb.util.Sft;
 import jbvb.util.Enumfrbtion;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Enumfrbtion;
 
+
+
+
+
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.*;
 import jbvbx.mbnbgfmfnt.*;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /**
- * Exposfs thf rfmotf mbnbgfmfnt intfrfbdf of thf MLft
+/**
+/**
+/**
+/**
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif MLft
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif MLft
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif MLft
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif MLft
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif MLft
+ * MBfbn.
+ * MBfbn.
+ * MBfbn.
+ * MBfbn.
  * MBfbn.
  *
+ *
+ *
+ *
+ *
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  * @sindf 1.5
  */
+ */
+ */
+ */
+ */
+publid intfrfbdf MLftMBfbn   {
+publid intfrfbdf MLftMBfbn   {
+publid intfrfbdf MLftMBfbn   {
+publid intfrfbdf MLftMBfbn   {
 publid intfrfbdf MLftMBfbn   {
 
 
+
+
+
+
+
+
+
+
     /**
-     * Lobds b tfxt filf dontbining MLET tbgs thbt dffinf thf MBfbns
-     * to bf bddfd to thf MBfbn sfrvfr. Thf lodbtion of thf tfxt filf is
-     * spfdififd by b URL. Thf tfxt filf is rfbd using thf UTF-8
-     * fndoding. Thf MBfbns spfdififd in thf MLET filf will bf
-     * instbntibtfd bnd rfgistfrfd in thf MBfbn sfrvfr.
+    /**
+    /**
+    /**
+    /**
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
      *
-     * @pbrbm url Thf URL of thf tfxt filf to bf lobdfd bs String objfdt.
      *
-     * @rfturn A sft dontbining onf fntry pfr MLET tbg in thf m-lft
-     * tfxt filf lobdfd.  Ebdh fntry spfdififs fithfr thf
-     * ObjfdtInstbndf for thf drfbtfd MBfbn, or b throwbblf objfdt
-     * (thbt is, bn frror or bn fxdfption) if thf MBfbn dould not bf
+     *
+     *
+     *
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs String objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs String objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs String objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs String objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs String objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * drfbtfd.
+     * drfbtfd.
+     * drfbtfd.
+     * drfbtfd.
      * drfbtfd.
      *
-     * @fxdfption SfrvidfNotFoundExdfption Onf of thf following frrors
-     * hbs oddurrfd: Thf m-lft tfxt filf dofs not dontbin bn MLET tbg,
-     * thf m-lft tfxt filf is not found, b mbndbtory bttributf of thf
-     * MLET tbg is not spfdififd, thf vbluf of url is mblformfd.
+     *
+     *
+     *
+     *
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * MLET tbg is not spfdififd, tif vbluf of url is mblformfd.
+     * MLET tbg is not spfdififd, tif vbluf of url is mblformfd.
+     * MLET tbg is not spfdififd, tif vbluf of url is mblformfd.
+     * MLET tbg is not spfdififd, tif vbluf of url is mblformfd.
+     * MLET tbg is not spfdififd, tif vbluf of url is mblformfd.
+     */
+     */
+     */
+     */
      */
     publid Sft<Objfdt> gftMBfbnsFromURL(String url)
-            throws SfrvidfNotFoundExdfption;
+    publid Sft<Objfdt> gftMBfbnsFromURL(String url)
+    publid Sft<Objfdt> gftMBfbnsFromURL(String url)
+    publid Sft<Objfdt> gftMBfbnsFromURL(String url)
+    publid Sft<Objfdt> gftMBfbnsFromURL(String url)
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+
+
+
+
 
     /**
-     * Lobds b tfxt filf dontbining MLET tbgs thbt dffinf thf MBfbns
-     * to bf bddfd to thf MBfbn sfrvfr. Thf lodbtion of thf tfxt filf is
-     * spfdififd by b URL. Thf tfxt filf is rfbd using thf UTF-8
-     * fndoding. Thf MBfbns spfdififd in thf MLET filf will bf
-     * instbntibtfd bnd rfgistfrfd in thf MBfbn sfrvfr.
+    /**
+    /**
+    /**
+    /**
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * Lobds b tfxt filf dontbining MLET tbgs tibt dffinf tif MBfbns
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * to bf bddfd to tif MBfbn sfrvfr. Tif lodbtion of tif tfxt filf is
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * spfdififd by b URL. Tif tfxt filf is rfbd using tif UTF-8
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * fndoding. Tif MBfbns spfdififd in tif MLET filf will bf
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
+     * instbntibtfd bnd rfgistfrfd in tif MBfbn sfrvfr.
      *
-     * @pbrbm url Thf URL of thf tfxt filf to bf lobdfd bs URL objfdt.
      *
-     * @rfturn A sft dontbining onf fntry pfr MLET tbg in thf m-lft
-     * tfxt filf lobdfd.  Ebdh fntry spfdififs fithfr thf
-     * ObjfdtInstbndf for thf drfbtfd MBfbn, or b throwbblf objfdt
-     * (thbt is, bn frror or bn fxdfption) if thf MBfbn dould not bf
+     *
+     *
+     *
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs URL objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs URL objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs URL objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs URL objfdt.
+     * @pbrbm url Tif URL of tif tfxt filf to bf lobdfd bs URL objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * @rfturn A sft dontbining onf fntry pfr MLET tbg in tif m-lft
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * tfxt filf lobdfd.  Ebdi fntry spfdififs fitifr tif
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * ObjfdtInstbndf for tif drfbtfd MBfbn, or b tirowbblf objfdt
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * (tibt is, bn frror or bn fxdfption) if tif MBfbn dould not bf
+     * drfbtfd.
+     * drfbtfd.
+     * drfbtfd.
+     * drfbtfd.
      * drfbtfd.
      *
-     * @fxdfption SfrvidfNotFoundExdfption Onf of thf following frrors
-     * hbs oddurrfd: Thf m-lft tfxt filf dofs not dontbin bn MLET tbg,
-     * thf m-lft tfxt filf is not found, b mbndbtory bttributf of thf
-     * MLET tbg is not spfdififd, thf vbluf of url is null.
+     *
+     *
+     *
+     *
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * @fxdfption SfrvidfNotFoundExdfption Onf of tif following frrors
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * ibs oddurrfd: Tif m-lft tfxt filf dofs not dontbin bn MLET tbg,
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * tif m-lft tfxt filf is not found, b mbndbtory bttributf of tif
+     * MLET tbg is not spfdififd, tif vbluf of url is null.
+     * MLET tbg is not spfdififd, tif vbluf of url is null.
+     * MLET tbg is not spfdififd, tif vbluf of url is null.
+     * MLET tbg is not spfdififd, tif vbluf of url is null.
+     * MLET tbg is not spfdififd, tif vbluf of url is null.
+     */
+     */
+     */
+     */
      */
     publid Sft<Objfdt> gftMBfbnsFromURL(URL url)
-            throws SfrvidfNotFoundExdfption;
+    publid Sft<Objfdt> gftMBfbnsFromURL(URL url)
+    publid Sft<Objfdt> gftMBfbnsFromURL(URL url)
+    publid Sft<Objfdt> gftMBfbnsFromURL(URL url)
+    publid Sft<Objfdt> gftMBfbnsFromURL(URL url)
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+            tirows SfrvidfNotFoundExdfption;
+
+
+
+
 
     /**
-     * Appfnds thf spfdififd URL to thf list of URLs to sfbrdh for dlbssfs bnd
+    /**
+    /**
+    /**
+    /**
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * rfsourdfs.
+     * rfsourdfs.
+     * rfsourdfs.
+     * rfsourdfs.
      * rfsourdfs.
      *
-     * @pbrbm url thf URL to bdd.
+     *
+     *
+     *
+     *
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     */
+     */
+     */
+     */
      */
     publid void bddURL(URL url) ;
+    publid void bddURL(URL url) ;
+    publid void bddURL(URL url) ;
+    publid void bddURL(URL url) ;
+    publid void bddURL(URL url) ;
+
+
+
+
 
     /**
-     * Appfnds thf spfdififd URL to thf list of URLs to sfbrdh for dlbssfs bnd
+    /**
+    /**
+    /**
+    /**
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for dlbssfs bnd
+     * rfsourdfs.
+     * rfsourdfs.
+     * rfsourdfs.
+     * rfsourdfs.
      * rfsourdfs.
      *
-     * @pbrbm url thf URL to bdd.
      *
-     * @fxdfption SfrvidfNotFoundExdfption Thf spfdififd URL is mblformfd.
+     *
+     *
+     *
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     * @pbrbm url tif URL to bdd.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SfrvidfNotFoundExdfption Tif spfdififd URL is mblformfd.
+     * @fxdfption SfrvidfNotFoundExdfption Tif spfdififd URL is mblformfd.
+     * @fxdfption SfrvidfNotFoundExdfption Tif spfdififd URL is mblformfd.
+     * @fxdfption SfrvidfNotFoundExdfption Tif spfdififd URL is mblformfd.
+     * @fxdfption SfrvidfNotFoundExdfption Tif spfdififd URL is mblformfd.
      */
-    publid void bddURL(String url) throws SfrvidfNotFoundExdfption;
+     */
+     */
+     */
+     */
+    publid void bddURL(String url) tirows SfrvidfNotFoundExdfption;
+    publid void bddURL(String url) tirows SfrvidfNotFoundExdfption;
+    publid void bddURL(String url) tirows SfrvidfNotFoundExdfption;
+    publid void bddURL(String url) tirows SfrvidfNotFoundExdfption;
+    publid void bddURL(String url) tirows SfrvidfNotFoundExdfption;
+
+
+
+
 
     /**
-     * Rfturns thf sfbrdh pbth of URLs for lobding dlbssfs bnd rfsourdfs.
-     * This indludfs thf originbl list of URLs spfdififd to thf donstrudtor,
-     * blong with bny URLs subsfqufntly bppfndfd by thf bddURL() mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
+     * Rfturns tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
+     * Rfturns tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
+     * Rfturns tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
+     * Rfturns tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
+     * Tiis indludfs tif originbl list of URLs spfdififd to tif donstrudtor,
+     * Tiis indludfs tif originbl list of URLs spfdififd to tif donstrudtor,
+     * Tiis indludfs tif originbl list of URLs spfdififd to tif donstrudtor,
+     * Tiis indludfs tif originbl list of URLs spfdififd to tif donstrudtor,
+     * Tiis indludfs tif originbl list of URLs spfdififd to tif donstrudtor,
+     * blong witi bny URLs subsfqufntly bppfndfd by tif bddURL() mftiod.
+     * blong witi bny URLs subsfqufntly bppfndfd by tif bddURL() mftiod.
+     * blong witi bny URLs subsfqufntly bppfndfd by tif bddURL() mftiod.
+     * blong witi bny URLs subsfqufntly bppfndfd by tif bddURL() mftiod.
+     * blong witi bny URLs subsfqufntly bppfndfd by tif bddURL() mftiod.
      *
-     * @rfturn thf list of URLs.
+     *
+     *
+     *
+     *
+     * @rfturn tif list of URLs.
+     * @rfturn tif list of URLs.
+     * @rfturn tif list of URLs.
+     * @rfturn tif list of URLs.
+     * @rfturn tif list of URLs.
+     */
+     */
+     */
+     */
      */
     publid URL[] gftURLs();
+    publid URL[] gftURLs();
+    publid URL[] gftURLs();
+    publid URL[] gftURLs();
+    publid URL[] gftURLs();
 
-    /** Finds thf rfsourdf with thf givfn nbmf.
-     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) thbt dbn bf bddfssfd by dlbss dodf in b wby thbt is
-     *   indfpfndfnt of thf lodbtion of thf dodf.
-     *   Thf nbmf of b rfsourdf is b "/"-sfpbrbtfd pbth nbmf thbt idfntififs thf rfsourdf.
+
+
+
+
+    /** Finds tif rfsourdf witi tif givfn nbmf.
+    /** Finds tif rfsourdf witi tif givfn nbmf.
+    /** Finds tif rfsourdf witi tif givfn nbmf.
+    /** Finds tif rfsourdf witi tif givfn nbmf.
+    /** Finds tif rfsourdf witi tif givfn nbmf.
+     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby tibt is
+     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby tibt is
+     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby tibt is
+     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby tibt is
+     * A rfsourdf is somf dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby tibt is
+     *   indfpfndfnt of tif lodbtion of tif dodf.
+     *   indfpfndfnt of tif lodbtion of tif dodf.
+     *   indfpfndfnt of tif lodbtion of tif dodf.
+     *   indfpfndfnt of tif lodbtion of tif dodf.
+     *   indfpfndfnt of tif lodbtion of tif dodf.
+     *   Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt idfntififs tif rfsourdf.
+     *   Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt idfntififs tif rfsourdf.
+     *   Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt idfntififs tif rfsourdf.
+     *   Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt idfntififs tif rfsourdf.
+     *   Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt idfntififs tif rfsourdf.
      *
-     * @pbrbm nbmf Thf rfsourdf nbmf
      *
-     * @rfturn  An URL for rfbding thf rfsourdf, or null if thf rfsourdf dould not bf found or thf dbllfr dofsn't hbvf bdfqubtf privilfgfs to gft thf
+     *
+     *
+     *
+     * @pbrbm nbmf Tif rfsourdf nbmf
+     * @pbrbm nbmf Tif rfsourdf nbmf
+     * @pbrbm nbmf Tif rfsourdf nbmf
+     * @pbrbm nbmf Tif rfsourdf nbmf
+     * @pbrbm nbmf Tif rfsourdf nbmf
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  An URL for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found or tif dbllfr dofsn't ibvf bdfqubtf privilfgfs to gft tif
+     * @rfturn  An URL for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found or tif dbllfr dofsn't ibvf bdfqubtf privilfgfs to gft tif
+     * @rfturn  An URL for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found or tif dbllfr dofsn't ibvf bdfqubtf privilfgfs to gft tif
+     * @rfturn  An URL for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found or tif dbllfr dofsn't ibvf bdfqubtf privilfgfs to gft tif
+     * @rfturn  An URL for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found or tif dbllfr dofsn't ibvf bdfqubtf privilfgfs to gft tif
+     * rfsourdf.
+     * rfsourdf.
+     * rfsourdf.
+     * rfsourdf.
      * rfsourdf.
      */
+     */
+     */
+     */
+     */
+    publid URL gftRfsourdf(String nbmf);
+    publid URL gftRfsourdf(String nbmf);
+    publid URL gftRfsourdf(String nbmf);
+    publid URL gftRfsourdf(String nbmf);
     publid URL gftRfsourdf(String nbmf);
 
-    /** Rfturns bn input strfbm for rfbding thf spfdififd rfsourdf. Thf sfbrdh ordfr is dfsdribfd in thf dodumfntbtion for
+
+
+
+
+    /** Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf. Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for
+    /** Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf. Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for
+    /** Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf. Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for
+    /** Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf. Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for
+    /** Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf. Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for
+     *  gftRfsourdf(String).
+     *  gftRfsourdf(String).
+     *  gftRfsourdf(String).
+     *  gftRfsourdf(String).
      *  gftRfsourdf(String).
      *
-     * @pbrbm nbmf  Thf rfsourdf nbmf
      *
-     * @rfturn An input strfbm for rfbding thf rfsourdf, or null if thf rfsourdf dould not bf found
      *
+     *
+     *
+     * @pbrbm nbmf  Tif rfsourdf nbmf
+     * @pbrbm nbmf  Tif rfsourdf nbmf
+     * @pbrbm nbmf  Tif rfsourdf nbmf
+     * @pbrbm nbmf  Tif rfsourdf nbmf
+     * @pbrbm nbmf  Tif rfsourdf nbmf
+     *
+     *
+     *
+     *
+     *
+     * @rfturn An input strfbm for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found
+     * @rfturn An input strfbm for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found
+     * @rfturn An input strfbm for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found
+     * @rfturn An input strfbm for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found
+     * @rfturn An input strfbm for rfbding tif rfsourdf, or null if tif rfsourdf dould not bf found
+     *
+     *
+     *
+     *
+     *
+     */
+     */
+     */
+     */
      */
     publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf);
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf);
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf);
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf);
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf);
+
+
+
+
 
     /**
-     * Finds bll thf rfsourdfs with thf givfn nbmf. A rfsourdf is somf
-     * dbtb (imbgfs, budio, tfxt, ftd) thbt dbn bf bddfssfd by dlbss
-     * dodf in b wby thbt is indfpfndfnt of thf lodbtion of thf dodf.
-     * Thf nbmf of b rfsourdf is b "/"-sfpbrbtfd pbth nbmf thbt
-     * idfntififs thf rfsourdf.
+    /**
+    /**
+    /**
+    /**
+     * Finds bll tif rfsourdfs witi tif givfn nbmf. A rfsourdf is somf
+     * Finds bll tif rfsourdfs witi tif givfn nbmf. A rfsourdf is somf
+     * Finds bll tif rfsourdfs witi tif givfn nbmf. A rfsourdf is somf
+     * Finds bll tif rfsourdfs witi tif givfn nbmf. A rfsourdf is somf
+     * Finds bll tif rfsourdfs witi tif givfn nbmf. A rfsourdf is somf
+     * dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss
+     * dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss
+     * dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss
+     * dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss
+     * dbtb (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss
+     * dodf in b wby tibt is indfpfndfnt of tif lodbtion of tif dodf.
+     * dodf in b wby tibt is indfpfndfnt of tif lodbtion of tif dodf.
+     * dodf in b wby tibt is indfpfndfnt of tif lodbtion of tif dodf.
+     * dodf in b wby tibt is indfpfndfnt of tif lodbtion of tif dodf.
+     * dodf in b wby tibt is indfpfndfnt of tif lodbtion of tif dodf.
+     * Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt
+     * Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt
+     * Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt
+     * Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt
+     * Tif nbmf of b rfsourdf is b "/"-sfpbrbtfd pbti nbmf tibt
+     * idfntififs tif rfsourdf.
+     * idfntififs tif rfsourdf.
+     * idfntififs tif rfsourdf.
+     * idfntififs tif rfsourdf.
+     * idfntififs tif rfsourdf.
      *
-     * @pbrbm nbmf Thf  rfsourdf nbmf.
      *
-     * @rfturn An fnumfrbtion of URL to thf rfsourdf. If no rfsourdfs
-     * dould bf found, thf fnumfrbtion will bf fmpty. Rfsourdfs thbt
-     * dbnnot bf bddfssfd will not bf in thf fnumfrbtion.
      *
-     * @fxdfption IOExdfption if bn I/O fxdfption oddurs whfn
-     * sfbrdhing for rfsourdfs.
+     *
+     *
+     * @pbrbm nbmf Tif  rfsourdf nbmf.
+     * @pbrbm nbmf Tif  rfsourdf nbmf.
+     * @pbrbm nbmf Tif  rfsourdf nbmf.
+     * @pbrbm nbmf Tif  rfsourdf nbmf.
+     * @pbrbm nbmf Tif  rfsourdf nbmf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn An fnumfrbtion of URL to tif rfsourdf. If no rfsourdfs
+     * @rfturn An fnumfrbtion of URL to tif rfsourdf. If no rfsourdfs
+     * @rfturn An fnumfrbtion of URL to tif rfsourdf. If no rfsourdfs
+     * @rfturn An fnumfrbtion of URL to tif rfsourdf. If no rfsourdfs
+     * @rfturn An fnumfrbtion of URL to tif rfsourdf. If no rfsourdfs
+     * dould bf found, tif fnumfrbtion will bf fmpty. Rfsourdfs tibt
+     * dould bf found, tif fnumfrbtion will bf fmpty. Rfsourdfs tibt
+     * dould bf found, tif fnumfrbtion will bf fmpty. Rfsourdfs tibt
+     * dould bf found, tif fnumfrbtion will bf fmpty. Rfsourdfs tibt
+     * dould bf found, tif fnumfrbtion will bf fmpty. Rfsourdfs tibt
+     * dbnnot bf bddfssfd will not bf in tif fnumfrbtion.
+     * dbnnot bf bddfssfd will not bf in tif fnumfrbtion.
+     * dbnnot bf bddfssfd will not bf in tif fnumfrbtion.
+     * dbnnot bf bddfssfd will not bf in tif fnumfrbtion.
+     * dbnnot bf bddfssfd will not bf in tif fnumfrbtion.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wifn
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wifn
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wifn
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wifn
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wifn
+     * sfbrdiing for rfsourdfs.
+     * sfbrdiing for rfsourdfs.
+     * sfbrdiing for rfsourdfs.
+     * sfbrdiing for rfsourdfs.
+     * sfbrdiing for rfsourdfs.
      */
-    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) throws IOExdfption;
+     */
+     */
+     */
+     */
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) tirows IOExdfption;
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) tirows IOExdfption;
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) tirows IOExdfption;
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) tirows IOExdfption;
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) tirows IOExdfption;
+
+
+
+
 
     /**
-     * Gfts thf durrfnt dirfdtory usfd by thf librbry lobdfr for
-     * storing nbtivf librbrifs bfforf thfy brf lobdfd into mfmory.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif durrfnt dirfdtory usfd by tif librbry lobdfr for
+     * Gfts tif durrfnt dirfdtory usfd by tif librbry lobdfr for
+     * Gfts tif durrfnt dirfdtory usfd by tif librbry lobdfr for
+     * Gfts tif durrfnt dirfdtory usfd by tif librbry lobdfr for
+     * Gfts tif durrfnt dirfdtory usfd by tif librbry lobdfr for
+     * storing nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * storing nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * storing nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * storing nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * storing nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
      *
-     * @rfturn Thf durrfnt dirfdtory usfd by thf librbry lobdfr.
+     *
+     *
+     *
+     *
+     * @rfturn Tif durrfnt dirfdtory usfd by tif librbry lobdfr.
+     * @rfturn Tif durrfnt dirfdtory usfd by tif librbry lobdfr.
+     * @rfturn Tif durrfnt dirfdtory usfd by tif librbry lobdfr.
+     * @rfturn Tif durrfnt dirfdtory usfd by tif librbry lobdfr.
+     * @rfturn Tif durrfnt dirfdtory usfd by tif librbry lobdfr.
+     *
+     *
+     *
+     *
      *
      * @sff #sftLibrbryDirfdtory
+     * @sff #sftLibrbryDirfdtory
+     * @sff #sftLibrbryDirfdtory
+     * @sff #sftLibrbryDirfdtory
+     * @sff #sftLibrbryDirfdtory
      *
-     * @throws UnsupportfdOpfrbtionExdfption if this implfmfntbtion
-     * dofs not support storing nbtivf librbrifs in this wby.
+     *
+     *
+     *
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     */
+     */
+     */
+     */
      */
     publid String gftLibrbryDirfdtory();
+    publid String gftLibrbryDirfdtory();
+    publid String gftLibrbryDirfdtory();
+    publid String gftLibrbryDirfdtory();
+    publid String gftLibrbryDirfdtory();
+
+
+
+
 
     /**
-     * Sfts thf dirfdtory usfd by thf librbry lobdfr for storing
-     * nbtivf librbrifs bfforf thfy brf lobdfd into mfmory.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif dirfdtory usfd by tif librbry lobdfr for storing
+     * Sfts tif dirfdtory usfd by tif librbry lobdfr for storing
+     * Sfts tif dirfdtory usfd by tif librbry lobdfr for storing
+     * Sfts tif dirfdtory usfd by tif librbry lobdfr for storing
+     * Sfts tif dirfdtory usfd by tif librbry lobdfr for storing
+     * nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
+     * nbtivf librbrifs bfforf tify brf lobdfd into mfmory.
      *
-     * @pbrbm libdir Thf dirfdtory usfd by thf librbry lobdfr.
+     *
+     *
+     *
+     *
+     * @pbrbm libdir Tif dirfdtory usfd by tif librbry lobdfr.
+     * @pbrbm libdir Tif dirfdtory usfd by tif librbry lobdfr.
+     * @pbrbm libdir Tif dirfdtory usfd by tif librbry lobdfr.
+     * @pbrbm libdir Tif dirfdtory usfd by tif librbry lobdfr.
+     * @pbrbm libdir Tif dirfdtory usfd by tif librbry lobdfr.
+     *
+     *
+     *
+     *
      *
      * @sff #gftLibrbryDirfdtory
+     * @sff #gftLibrbryDirfdtory
+     * @sff #gftLibrbryDirfdtory
+     * @sff #gftLibrbryDirfdtory
+     * @sff #gftLibrbryDirfdtory
      *
-     * @throws UnsupportfdOpfrbtionExdfption if this implfmfntbtion
-     * dofs not support storing nbtivf librbrifs in this wby.
+     *
+     *
+     *
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     * dofs not support storing nbtivf librbrifs in tiis wby.
+     */
+     */
+     */
+     */
      */
     publid void sftLibrbryDirfdtory(String libdir);
+    publid void sftLibrbryDirfdtory(String libdir);
+    publid void sftLibrbryDirfdtory(String libdir);
+    publid void sftLibrbryDirfdtory(String libdir);
+    publid void sftLibrbryDirfdtory(String libdir);
 
+
+
+
+
+ }
+ }
+ }
+ }
  }

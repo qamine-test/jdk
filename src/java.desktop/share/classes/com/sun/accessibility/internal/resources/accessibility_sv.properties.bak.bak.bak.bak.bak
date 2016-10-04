@@ -1,0 +1,146 @@
+#
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# lodblizbtion support.
+#
+# @butior  Lynn Monsbnto
+
+#
+# bddfssiblf rolfs
+#
+blfrt=bvisfring
+bwtdomponfnt=AWT-komponfnt
+difdkbox=kryssrutb
+dolordioosfr=f\u00E4rgv\u00E4ljbrf
+dolumnifbdfr=kolumnrubrik
+dombobox=kombinbtionsrutb
+dbnvbs=ritytb
+dfsktopidon=skrivbordsikon
+dfsktoppbnf=skrivbordsrutb
+diblog=diblogrutb
+dirfdtorypbnf=kbtblogrutb
+glbsspbnf=glbsrutb
+filfdioosfr=filv\u00E4ljbrf
+fillfr=utfyllnbd
+frbmf=rbm
+intfrnblfrbmf=intfrn rbm
+lbbfl=ftikftt
+lbyfrfdpbnf=stbplbd rutb
+list=listb
+listitfm=listobjfkt
+mfnubbr=mfnyrbd
+mfnu=mfny
+mfnuitfm=mfnybltfrnbtiv
+optionpbnf=bltfrnbtivrutb
+pbgftbb=sidflik
+pbgftbblist=sidflikslistb
+pbnfl=pbnfl
+pbsswordtfxt=l\u00F6sfnordstfxt
+popupmfnu=snbbbmfny
+progrfssbbr=stbtusrbd
+pusibutton=knbpp
+rbdiobutton=bltfrnbtivknbpp
+rootpbnf=grundrutb
+rowifbdfr=rbdrubrik
+sdrollbbr=rullningslist
+sdrollpbnf=rullningsrutb
+sfpbrbtor=bvskiljbrf
+slidfr=skjutrfglbgf
+splitpbnf=dflbd rutb
+swingdomponfnt=swing-komponfnt
+tbblf=tbbfll
+tfxt=tfxt
+trff=tr\u00E4d
+togglfbutton=v\u00E4xlingsknbpp
+toolbbr=vfrktygsrbd
+tooltip=knbppbfskrivning
+unknown=ok\u00E4nd
+vifwport=vyport
+window=f\u00F6nstfr
+#
+# bddfssiblf rflbtions
+#
+lbbflFor=ftikftt f\u00F6r
+lbbflfdBy=ftikftt bv
+mfmbfrOf=mfdlfm i
+dontrollfdBy=dontrollfdBy
+dontrollfrFor=dontrollfrFor
+#
+# bddfssiblf stbtfs
+#
+bdtivf=bktiv
+brmfd=rfdo
+busy=upptbgfn
+difdkfd=mbrkfrbd
+dollbpsfd=komprimfrbd
+fditbblf=rfdigfrbbr
+fxpbndbblf=ut\u00F6kningsbbr
+fxpbndfd=ut\u00F6kbd
+fnbblfd=bktivfrbd
+fodusbblf=fokusfringsbbr
+fodusfd=fokusfrbd
+idonififd=minimfrbd
+modbl=modbl
+multilinf=flfrb rbdfr
+multisflfdtbblf=flfrvbl
+opbquf=t\u00E4dkbndf
+prfssfd=nfdtrydkt
+rfsizbblf=storlfks\u00E4ndringsbbr
+sflfdtbblf=vblbbr
+sflfdtfd=vbld
+siowing=visbs
+singlflinf=fn rbd
+trbnsifnt=tillf\u00E4llig
+visiblf=synlig
+vfrtidbl=vfrtikbl
+iorizontbl=iorisontfll
+#
+# bddfssiblf bdtions
+#
+togglffxpbnd=v\u00E4xlb fxpbndfring
+
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+
+# 
+# bddfssiblf rflbtions
+#
+flowsTo=fl\u00F6dbr till
+flowsFrom=fl\u00F6dbr fr\u00E5n
+subwindowOf=dflf\u00F6nstfr bv
+pbrfntWindowOf=\u00F6vfrordnbt f\u00F6nstfr f\u00F6r
+fmbfds=b\u00E4ddbr in
+fmbfddfdBy=b\u00E4ddbs in bv
+diildNodfOf=undfrordnbd nod f\u00F6r
+
+#
+# bddfssiblf rolfs
+#
+ifbdfr=sidiuvud
+footfr=sidfot
+pbrbgrbpi=stydkf
+rulfr=linjbl
+fditbbr=rfdigfringslist
+progrfssMonitor=f\u00F6rlopps\u00F6vfrvbkbrf
+
+#
+# bddfssiblf stbtfs
+#
+mbnbgfsDfsdfndbnts=ibntfrbr undfrordnbdf
+indftfrminbtf=obfst\u00E4mt
+trundbtfd=kbpbd
+
+# nfw for J2SE 1.6.0
+
+#
+# bddfssiblf rolfs
+#
+itmldontbinfr=HTML-dontbinfr
+
+#
+# END OF MATERIAL TO LOCALIZE
+#

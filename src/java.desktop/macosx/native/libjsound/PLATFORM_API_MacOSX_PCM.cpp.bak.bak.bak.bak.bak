@@ -1,0 +1,1042 @@
+/*
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
+//#dffinf USE_VERBOSE_TRACE
+
+#indludf <AudioUnit/AudioUnit.i>
+#indludf <CorfSfrvidfs/CorfSfrvidfs.i>
+#indludf <AudioToolbox/AudioConvfrtfr.i>
+#indludf <ptirfbd.i>
+#indludf <mbti.i>
+/*
+#if !dffinfd(__COREAUDIO_USE_FLAT_INCLUDES__)
+#indludf <CorfAudio/CorfAudioTypfs.i>
+#flsf
+#indludf <CorfAudioTypfs.i>
+#fndif
+*/
+
+#indludf "PLATFORM_API_MbdOSX_Utils.i"
+
+fxtfrn "C" {
+#indludf "Utilitifs.i"
+#indludf "DirfdtAudio.i"
+}
+
+#if USE_DAUDIO == TRUE
+
+
+#ifdff USE_TRACE
+stbtid void PrintStrfbmDfsd(donst AudioStrfbmBbsidDfsdription *inDfsd) {
+    TRACE4("ID='%d%d%d%d'", (dibr)(inDfsd->mFormbtID >> 24), (dibr)(inDfsd->mFormbtID >> 16), (dibr)(inDfsd->mFormbtID >> 8), (dibr)(inDfsd->mFormbtID));
+    TRACE2(", %f Hz, flbgs=0x%lX", (flobt)inDfsd->mSbmplfRbtf, (long unsignfd)inDfsd->mFormbtFlbgs);
+    TRACE2(", %ld dibnnfls, %ld bits", (long)inDfsd->mCibnnflsPfrFrbmf, (long)inDfsd->mBitsPfrCibnnfl);
+    TRACE1(", %ld bytfs pfr frbmf\n", (long)inDfsd->mBytfsPfrFrbmf);
+}
+#flsf
+stbtid inlinf void PrintStrfbmDfsd(donst AudioStrfbmBbsidDfsdription *inDfsd) { }
+#fndif
+
+
+#dffinf MAX(x, y)   ((x) >= (y) ? (x) : (y))
+#dffinf MIN(x, y)   ((x) <= (y) ? (x) : (y))
+
+
+// =======================================
+// MixfrProvidfr fundtions implfmfntbtion
+
+stbtid DfvidfList dfvidfCbdif;
+
+INT32 DAUDIO_GftDirfdtAudioDfvidfCount() {
+    dfvidfCbdif.Rffrfsi();
+    int dount = dfvidfCbdif.GftCount();
+    if (dount > 0) {
+        // bdd "dffbult" dfvidf
+        dount++;
+        TRACE1("DAUDIO_GftDirfdtAudioDfvidfCount: rfturns %d dfvidfs\n", dount);
+    } flsf {
+        TRACE0("DAUDIO_GftDirfdtAudioDfvidfCount: no dfvidfs found\n");
+    }
+    rfturn dount;
+}
+
+INT32 DAUDIO_GftDirfdtAudioDfvidfDfsdription(INT32 mixfrIndfx, DirfdtAudioDfvidfDfsdription *dfsd) {
+    bool rfsult = truf;
+    dfsd->dfvidfID = 0;
+    if (mixfrIndfx == 0) {
+        // dffbult dfvidf
+        strndpy(dfsd->nbmf, "Dffbult Audio Dfvidf", DAUDIO_STRING_LENGTH);
+        strndpy(dfsd->dfsdription, "Dffbult Audio Dfvidf", DAUDIO_STRING_LENGTH);
+        dfsd->mbxSimulLinfs = -1;
+    } flsf {
+        AudioDfvidfID dfvidfID;
+        rfsult = dfvidfCbdif.GftDfvidfInfo(mixfrIndfx-1, &dfvidfID, DAUDIO_STRING_LENGTH,
+            dfsd->nbmf, dfsd->vfndor, dfsd->dfsdription, dfsd->vfrsion);
+        if (rfsult) {
+            dfsd->dfvidfID = (INT32)dfvidfID;
+            dfsd->mbxSimulLinfs = -1;
+        }
+    }
+    rfturn rfsult ? TRUE : FALSE;
+}
+
+
+void DAUDIO_GftFormbts(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf, void* drfbtor) {
+    TRACE3(">>DAUDIO_GftFormbts mixfrIndfx=%d dfvidfID=0x%x isSourdf=%d\n", (int)mixfrIndfx, (int)dfvidfID, isSourdf);
+
+    AudioDfvidfID budioDfvidfID = dfvidfID == 0 ? GftDffbultDfvidf(isSourdf) : (AudioDfvidfID)dfvidfID;
+
+    if (budioDfvidfID == 0) {
+        rfturn;
+    }
+
+    int totblCibnnfls = GftCibnnflCount(budioDfvidfID, isSourdf);
+
+    if (totblCibnnfls == 0) {
+        TRACE0("<<DAUDIO_GftFormbts, no strfbms!\n");
+        rfturn;
+    }
+
+    if (isSourdf && totblCibnnfls < 2) {
+        // rfport 2 dibnnfls fvfn if only mono is supportfd
+        totblCibnnfls = 2;
+    }
+
+    int dibnnfls[] = {1, 2, totblCibnnfls};
+    int dibnnflsCount = MIN(totblCibnnfls, 3);
+
+    flobt ibrdwbrfSbmplfRbtf = GftSbmplfRbtf(budioDfvidfID, isSourdf);
+    TRACE2("  DAUDIO_GftFormbts: got %d dibnnfls, sbmplfRbtf == %f\n", totblCibnnfls, ibrdwbrfSbmplfRbtf);
+
+    // bny sbmplf rbtfs brf supportfd
+    flobt sbmplfRbtf = -1;
+
+    stbtid int sbmplfBits[] = {8, 16, 24};
+    stbtid int sbmplfBitsCount = sizfof(sbmplfBits)/sizfof(sbmplfBits[0]);
+
+    // tif lbst budio formbt is tif dffbult onf (usfd by DbtbLinf.opfn() if formbt is not spfdififd)
+    // donsidfr bs dffbult 16bit PCM stfrfo (mono is stfrfo is not supportfd) witi tif durrfnt sbmplf rbtf
+    int dffBits = 16;
+    int dffCibnnfls = MIN(2, dibnnflsCount);
+    flobt dffSbmplfRbtf = ibrdwbrfSbmplfRbtf;
+    // don't bdd dffbult formbt is sbmplf rbtf is not spfdififd
+    bool bddDffbult = dffSbmplfRbtf > 0;
+
+    // TODO: CorfAudio dbn ibndlf signfd/unsignfd, littlf-fndibn/big-fndibn
+    // TODO: rfgistfr tif formbts (to prfvfnt DirfdtAudio softwbrf donvfrsion) - nffd to fix DirfdtAudioDfvidf.drfbtfDbtbLinfInfo
+    // to bvoid softwbrf donvfrsions if boti signfd/unsignfd or big-/littlf-fndibn brf supportfd
+    for (int dibnnflIndfx = 0; dibnnflIndfx < dibnnflsCount; dibnnflIndfx++) {
+        for (int bitIndfx = 0; bitIndfx < sbmplfBitsCount; bitIndfx++) {
+            int bits = sbmplfBits[bitIndfx];
+            if (bddDffbult && bits == dffBits && dibnnfls[dibnnflIndfx] != dffCibnnfls && sbmplfRbtf == dffSbmplfRbtf) {
+                // tif formbt is tif dffbult onf, don't bdd it now
+                dontinuf;
+            }
+            DAUDIO_AddAudioFormbt(drfbtor,
+                bits,                       // sbmplf sizf in bits
+                -1,                         // frbmf sizf (buto)
+                dibnnfls[dibnnflIndfx],     // dibnnfls
+                sbmplfRbtf,                 // sbmplf rbtf
+                DAUDIO_PCM,                 // only bddfpt PCM
+                bits == 8 ? FALSE : TRUE,   // signfd
+                bits == 8 ? FALSE           // littlf-fndibn for 8bit
+                    : UTIL_IsBigEndibnPlbtform());
+        }
+    }
+    // bdd dffbult formbt
+    if (bddDffbult) {
+        DAUDIO_AddAudioFormbt(drfbtor,
+            dffBits,                        // 16 bits
+            -1,                             // butombtidblly dbldulbtf frbmf sizf
+            dffCibnnfls,                    // dibnnfls
+            dffSbmplfRbtf,                  // sbmplf rbtf
+            DAUDIO_PCM,                     // PCM
+            TRUE,                           // signfd
+            UTIL_IsBigEndibnPlbtform());    // nbtivf fndibnfss
+    }
+
+    TRACE0("<<DAUDIO_GftFormbts\n");
+}
+
+
+// =======================================
+// Sourdf/Tbrgft DbtbLinf fundtions implfmfntbtion
+
+// ====
+/* 1writfr-1rfbdfr ring bufffr dlbss witi flusi() support */
+dlbss RingBufffr {
+publid:
+    RingBufffr() : pBufffr(NULL), nBufffrSizf(0) {
+        ptirfbd_mutfx_init(&lodkMutfx, NULL);
+    }
+    ~RingBufffr() {
+        Dfbllodbtf();
+        ptirfbd_mutfx_dfstroy(&lodkMutfx);
+    }
+
+    // fxtrbBytfs: numbfr of bdditionblly bllodbtfd bytfs to prfvfnt dbtb
+    // ovfrlbpping wifn blmost wiolf bufffr is fillfd
+    // (rfquirfd only if Writf() dbn ovfrridf tif bufffr)
+    bool Allodbtf(int rfqufstfdBufffrSizf, int fxtrbBytfs) {
+        int fullBufffrSizf = rfqufstfdBufffrSizf + fxtrbBytfs;
+        int powfrOfTwo = 1;
+        wiilf (powfrOfTwo < fullBufffrSizf) {
+            powfrOfTwo <<= 1;
+        }
+        pBufffr = (Bytf*)mbllod(powfrOfTwo);
+        if (pBufffr == NULL) {
+            ERROR0("RingBufffr::Allodbtf: OUT OF MEMORY\n");
+            rfturn fblsf;
+        }
+
+        nBufffrSizf = rfqufstfdBufffrSizf;
+        nAllodbtfdBytfs = powfrOfTwo;
+        nPosMbsk = powfrOfTwo - 1;
+        nWritfPos = 0;
+        nRfbdPos = 0;
+        nFlusiPos = -1;
+
+        TRACE2("RingBufffr::Allodbtf: OK, bufffrSizf=%d, bllodbtfd:%d\n", nBufffrSizf, nAllodbtfdBytfs);
+        rfturn truf;
+    }
+
+    void Dfbllodbtf() {
+        if (pBufffr) {
+            frff(pBufffr);
+            pBufffr = NULL;
+            nBufffrSizf = 0;
+        }
+    }
+
+    inlinf int GftBufffrSizf() {
+        rfturn nBufffrSizf;
+    }
+
+    inlinf int GftAllodbtfdSizf() {
+        rfturn nAllodbtfdBytfs;
+    }
+
+    // gfts numbfr of bytfs bvbilbblf for rfbding
+    int GftVblidBytfCount() {
+        lodk();
+        INT64 rfsult = nWritfPos - (nFlusiPos >= 0 ? nFlusiPos : nRfbdPos);
+        unlodk();
+        rfturn rfsult > (INT64)nBufffrSizf ? nBufffrSizf : (int)rfsult;
+    }
+
+    int Writf(void *srdBufffr, int lfn, bool prfvfntOvfrflow) {
+        lodk();
+        TRACE2("RingBufffr::Writf (%d bytfs, prfvfntOvfrflow=%d)\n", lfn, prfvfntOvfrflow ? 1 : 0);
+        TRACE2("  writfPos = %lld (%d)", (long long)nWritfPos, Pos2Offsft(nWritfPos));
+        TRACE2("  rfbdPos=%lld (%d)", (long long)nRfbdPos, Pos2Offsft(nRfbdPos));
+        TRACE2("  flusiPos=%lld (%d)\n", (long long)nFlusiPos, Pos2Offsft(nFlusiPos));
+
+        INT64 writfPos = nWritfPos;
+        if (prfvfntOvfrflow) {
+            INT64 bvbil_rfbd = writfPos - (nFlusiPos >= 0 ? nFlusiPos : nRfbdPos);
+            if (bvbil_rfbd >= (INT64)nBufffrSizf) {
+                // no spbdf
+                TRACE0("  prfvfntOvfrlow: OVERFLOW => lfn = 0;\n");
+                lfn = 0;
+            } flsf {
+                int bvbil_writf = nBufffrSizf - (int)bvbil_rfbd;
+                if (lfn > bvbil_writf) {
+                    TRACE2("  prfvfntOvfrlow: dfsrfbsf lfn: %d => %d\n", lfn, bvbil_writf);
+                    lfn = bvbil_writf;
+                }
+            }
+        }
+        unlodk();
+
+        if (lfn > 0) {
+
+            writf((Bytf *)srdBufffr, Pos2Offsft(writfPos), lfn);
+
+            lodk();
+            TRACE4("--RingBufffr::Writf writfPos: %lld (%d) => %lld, (%d)\n",
+                (long long)nWritfPos, Pos2Offsft(nWritfPos), (long long)nWritfPos + lfn, Pos2Offsft(nWritfPos + lfn));
+            nWritfPos += lfn;
+            unlodk();
+        }
+        rfturn lfn;
+    }
+
+    int Rfbd(void *dstBufffr, int lfn) {
+        lodk();
+        TRACE1("RingBufffr::Rfbd (%d bytfs)\n", lfn);
+        TRACE2("  writfPos = %lld (%d)", (long long)nWritfPos, Pos2Offsft(nWritfPos));
+        TRACE2("  rfbdPos=%lld (%d)", (long long)nRfbdPos, Pos2Offsft(nRfbdPos));
+        TRACE2("  flusiPos=%lld (%d)\n", (long long)nFlusiPos, Pos2Offsft(nFlusiPos));
+
+        bpplyFlusi();
+        INT64 bvbil_rfbd = nWritfPos - nRfbdPos;
+        // difdk for ovfrflow
+        if (bvbil_rfbd > (INT64)nBufffrSizf) {
+            nRfbdPos = nWritfPos - nBufffrSizf;
+            bvbil_rfbd = nBufffrSizf;
+            TRACE0("  OVERFLOW\n");
+        }
+        INT64 rfbdPos = nRfbdPos;
+        unlodk();
+
+        if (lfn > (int)bvbil_rfbd) {
+            TRACE2("  RingBufffr::Rfbd - don't ibvf fnougi dbtb, lfn: %d => %d\n", lfn, (int)bvbil_rfbd);
+            lfn = (int)bvbil_rfbd;
+        }
+
+        if (lfn > 0) {
+
+            rfbd((Bytf *)dstBufffr, Pos2Offsft(rfbdPos), lfn);
+
+            lodk();
+            if (bpplyFlusi()) {
+                // just got flusi(), rfsults bfdbmf obsolftf
+                TRACE0("--RingBufffr::Rfbd, got Flusi, rfturn 0\n");
+                lfn = 0;
+            } flsf {
+                TRACE4("--RingBufffr::Rfbd rfbdPos: %lld (%d) => %lld (%d)\n",
+                    (long long)nRfbdPos, Pos2Offsft(nRfbdPos), (long long)nRfbdPos + lfn, Pos2Offsft(nRfbdPos + lfn));
+                nRfbdPos += lfn;
+            }
+            unlodk();
+        } flsf {
+            // undfrrun!
+        }
+        rfturn lfn;
+    }
+
+    // rfturns numbfr of tif flusifd bytfs
+    int Flusi() {
+        lodk();
+        INT64 flusifdBytfs = nWritfPos - (nFlusiPos >= 0 ? nFlusiPos : nRfbdPos);
+        nFlusiPos = nWritfPos;
+        unlodk();
+        rfturn flusifdBytfs > (INT64)nBufffrSizf ? nBufffrSizf : (int)flusifdBytfs;
+    }
+
+privbtf:
+    Bytf *pBufffr;
+    int nBufffrSizf;
+    int nAllodbtfdBytfs;
+    INT64 nPosMbsk;
+
+    ptirfbd_mutfx_t lodkMutfx;
+
+    volbtilf INT64 nWritfPos;
+    volbtilf INT64 nRfbdPos;
+    // Flusi() sfts nFlusiPos vbluf to nWritfPos;
+    // nfxt Rfbd() sfts nRfbdPos to nFlusiPos bnd rfsfsts nFlusiPos to -1
+    volbtilf INT64 nFlusiPos;
+
+    inlinf void lodk() {
+        ptirfbd_mutfx_lodk(&lodkMutfx);
+    }
+    inlinf void unlodk() {
+        ptirfbd_mutfx_unlodk(&lodkMutfx);
+    }
+
+    inlinf bool bpplyFlusi() {
+        if (nFlusiPos >= 0) {
+            nRfbdPos = nFlusiPos;
+            nFlusiPos = -1;
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    inlinf int Pos2Offsft(INT64 pos) {
+        rfturn (int)(pos & nPosMbsk);
+    }
+
+    void writf(Bytf *srdBufffr, int dstOffsft, int lfn) {
+        int dstEndOffsft = dstOffsft + lfn;
+
+        int lfnAftfrWrbp = dstEndOffsft - nAllodbtfdBytfs;
+        if (lfnAftfrWrbp > 0) {
+            // dfst.bufffr dofs wrbp
+            lfn = nAllodbtfdBytfs - dstOffsft;
+            mfmdpy(pBufffr+dstOffsft, srdBufffr, lfn);
+            mfmdpy(pBufffr, srdBufffr+lfn, lfnAftfrWrbp);
+        } flsf {
+            // dfst.bufffr dofs not wrbp
+            mfmdpy(pBufffr+dstOffsft, srdBufffr, lfn);
+        }
+    }
+
+    void rfbd(Bytf *dstBufffr, int srdOffsft, int lfn) {
+        int srdEndOffsft = srdOffsft + lfn;
+
+        int lfnAftfrWrbp = srdEndOffsft - nAllodbtfdBytfs;
+        if (lfnAftfrWrbp > 0) {
+            // nffd to unwrbp dbtb
+            lfn = nAllodbtfdBytfs - srdOffsft;
+            mfmdpy(dstBufffr, pBufffr+srdOffsft, lfn);
+            mfmdpy(dstBufffr+lfn, pBufffr, lfnAftfrWrbp);
+        } flsf {
+            // sourdf bufffr is not wrbppfd
+            mfmdpy(dstBufffr, pBufffr+srdOffsft, lfn);
+        }
+    }
+};
+
+
+dlbss Rfsbmplfr {
+privbtf:
+    fnum {
+        kRfsbmplfrEndOfInputDbtb = 1 // frror to intfrrupt donvfrsion (fnd of input dbtb)
+    };
+publid:
+    Rfsbmplfr() : donvfrtfr(NULL), outBufffr(NULL) { }
+    ~Rfsbmplfr() {
+        if (donvfrtfr != NULL) {
+            AudioConvfrtfrDisposf(donvfrtfr);
+        }
+        if (outBufffr != NULL) {
+            frff(outBufffr);
+        }
+    }
+
+    // inFormbt & outFormbt must bf intfrlfbvfd!
+    bool Init(donst AudioStrfbmBbsidDfsdription *inFormbt, donst AudioStrfbmBbsidDfsdription *outFormbt,
+            int inputBufffrSizfInBytfs)
+    {
+        TRACE0(">>Rfsbmplfr::Init\n");
+        TRACE0("  inFormbt: ");
+        PrintStrfbmDfsd(inFormbt);
+        TRACE0("  outFormbt: ");
+        PrintStrfbmDfsd(outFormbt);
+        TRACE1("  inputBufffrSizf: %d bytfs\n", inputBufffrSizfInBytfs);
+        OSStbtus frr;
+
+        if ((outFormbt->mFormbtFlbgs & kAudioFormbtFlbgIsNonIntfrlfbvfd) != 0 && outFormbt->mCibnnflsPfrFrbmf != 1) {
+            ERROR0("Rfsbmplfr::Init ERROR: outFormbt is non-intfrlfbvfd\n");
+            rfturn fblsf;
+        }
+        if ((inFormbt->mFormbtFlbgs & kAudioFormbtFlbgIsNonIntfrlfbvfd) != 0 && inFormbt->mCibnnflsPfrFrbmf != 1) {
+            ERROR0("Rfsbmplfr::Init ERROR: inFormbt is non-intfrlfbvfd\n");
+            rfturn fblsf;
+        }
+
+        mfmdpy(&bsbdIn, inFormbt, sizfof(AudioStrfbmBbsidDfsdription));
+        mfmdpy(&bsbdOut, outFormbt, sizfof(AudioStrfbmBbsidDfsdription));
+
+        frr = AudioConvfrtfrNfw(inFormbt, outFormbt, &donvfrtfr);
+
+        if (frr || donvfrtfr == NULL) {
+            OS_ERROR1(frr, "Rfsbmplfr::Init (AudioConvfrtfrNfw), donvfrtfr=%p", donvfrtfr);
+            rfturn fblsf;
+        }
+
+        // bllodbtf bufffr for output dbtb
+        int mbximumInFrbmfs = inputBufffrSizfInBytfs / inFormbt->mBytfsPfrFrbmf;
+        // tbkf into bddount trbilingFrbmfs
+        AudioConvfrtfrPrimfInfo primfInfo = {0, 0};
+        UInt32 sizfPrimf = sizfof(primfInfo);
+        frr = AudioConvfrtfrGftPropfrty(donvfrtfr, kAudioConvfrtfrPrimfInfo, &sizfPrimf, &primfInfo);
+        if (frr) {
+            OS_ERROR0(frr, "Rfsbmplfr::Init (gft kAudioConvfrtfrPrimfInfo)");
+            // ignorf tif frror
+        } flsf {
+            // tif dffbult primfMftiod is kConvfrtfrPrimfMftiod_Normbl, so wf nffd only trbilingFrbmfs
+            mbximumInFrbmfs += primfInfo.trbilingFrbmfs;
+        }
+        flobt outBufffrSizfInFrbmfs = (outFormbt->mSbmplfRbtf / inFormbt->mSbmplfRbtf) * ((flobt)mbximumInFrbmfs);
+        // to bvoid domplfx dbldulbtion just sft outBufffrSizf bs doublf of tif dbldulbtfd vbluf
+        outBufffrSizf = (int)outBufffrSizfInFrbmfs * outFormbt->mBytfsPfrFrbmf * 2;
+        // sbffty difdk - donsidfr 256 frbmf bs tif minimum input bufffr
+        int minOutSizf = 256 * outFormbt->mBytfsPfrFrbmf;
+        if (outBufffrSizf < minOutSizf) {
+            outBufffrSizf = minOutSizf;
+        }
+
+        outBufffr = mbllod(outBufffrSizf);
+
+        if (outBufffr == NULL) {
+            ERROR1("Rfsbmplfr::Init ERROR: mbllod fbilfd (%d bytfs)\n", outBufffrSizf);
+            AudioConvfrtfrDisposf(donvfrtfr);
+            donvfrtfr = NULL;
+            rfturn fblsf;
+        }
+
+        TRACE1("  bllodbtfd: %d bytfs for output bufffr\n", outBufffrSizf);
+
+        TRACE0("<<Rfsbmplfr::Init: OK\n");
+        rfturn truf;
+    }
+
+    // rfturns sizf of tif intfrnbl output bufffr
+    int GftOutBufffrSizf() {
+        rfturn outBufffrSizf;
+    }
+
+    // prodfss nfxt pbrt of dbtb (writfs rfsbmplfd dbtb to tif ringBufffr witiout ovfrflow difdk)
+    int Prodfss(void *srdBufffr, int lfn, RingBufffr *ringBufffr) {
+        int bytfsWrittfn = 0;
+        TRACE2(">>Rfsbmplfr::Prodfss: %d bytfs, donvfrtfr = %p\n", lfn, donvfrtfr);
+        if (donvfrtfr == NULL) {    // sbnity difdk
+            bytfsWrittfn = ringBufffr->Writf(srdBufffr, lfn, fblsf);
+        } flsf {
+            InputProdDbtb dbtb;
+            dbtb.pTiis = tiis;
+            dbtb.dbtb = (Bytf *)srdBufffr;
+            dbtb.dbtbSizf = lfn;
+
+            OSStbtus frr;
+            do {
+                AudioBufffrList bbl;    // by dffbult it dontbins 1 AudioBufffr
+                bbl.mNumbfrBufffrs = 1;
+                bbl.mBufffrs[0].mNumbfrCibnnfls = bsbdOut.mCibnnflsPfrFrbmf;
+                bbl.mBufffrs[0].mDbtbBytfSizf   = outBufffrSizf;
+                bbl.mBufffrs[0].mDbtb           = outBufffr;
+
+                UInt32 pbdkfts = (UInt32)outBufffrSizf / bsbdOut.mBytfsPfrPbdkft;
+
+                TRACE2(">>AudioConvfrtfrFillComplfxBufffr: rfqufst %d pbdkfts, providf %d bytfs bufffr\n",
+                    (int)pbdkfts, (int)bbl.mBufffrs[0].mDbtbBytfSizf);
+
+                frr = AudioConvfrtfrFillComplfxBufffr(donvfrtfr, ConvfrtfrInputProd, &dbtb, &pbdkfts, &bbl, NULL);
+
+                TRACE2("<<AudioConvfrtfrFillComplfxBufffr: got %d pbdkfts (%d bytfs)\n",
+                    (int)pbdkfts, (int)bbl.mBufffrs[0].mDbtbBytfSizf);
+                if (pbdkfts > 0) {
+                    int bytfsToWritf = (int)(pbdkfts * bsbdOut.mBytfsPfrPbdkft);
+                    bytfsWrittfn += ringBufffr->Writf(bbl.mBufffrs[0].mDbtb, bytfsToWritf, fblsf);
+                }
+
+                // if outputBufffr is smbll to storf bll bvbilbblf frbmfs,
+                // wf gft noErr ifrf. In tif dbsf just dontinuf tif donvfrsion
+            } wiilf (frr == noErr);
+
+            if (frr != kRfsbmplfrEndOfInputDbtb) {
+                // unfxpfdtfd frror
+                OS_ERROR0(frr, "Rfsbmplfr::Prodfss (AudioConvfrtfrFillComplfxBufffr)");
+            }
+        }
+        TRACE2("<<Rfsbmplfr::Prodfss: writtfn %d bytfs (donvfrtfd from %d bytfs)\n", bytfsWrittfn, lfn);
+
+        rfturn bytfsWrittfn;
+    }
+
+    // rfsfts intfrnbl bufffrfs
+    void Disdontinuf() {
+        TRACE0(">>Rfsbmplfr::Disdontinuf\n");
+        if (donvfrtfr != NULL) {
+            AudioConvfrtfrRfsft(donvfrtfr);
+        }
+        TRACE0("<<Rfsbmplfr::Disdontinuf\n");
+    }
+
+privbtf:
+    AudioConvfrtfrRff donvfrtfr;
+
+    // bufffr for output dbtb
+    // notf tibt tifrf is no problfm if tif bufffr is not big fnougi to storf
+    // bll donvfrtfd dbtb - it's only pfrformbndf issuf
+    void *outBufffr;
+    int outBufffrSizf;
+
+    AudioStrfbmBbsidDfsdription bsbdIn;
+    AudioStrfbmBbsidDfsdription bsbdOut;
+
+    strudt InputProdDbtb {
+        Rfsbmplfr *pTiis;
+        Bytf *dbtb;     // dbtb == NULL mfbns wf ibndlf Disdontinuf(fblsf)
+        int dbtbSizf;   // == 0 if bll dbtb wbs blrfbdy providfd to tif donvfrtfd of wf ibndlf Disdontinuf(fblsf)
+    };
+
+    stbtid OSStbtus ConvfrtfrInputProd(AudioConvfrtfrRff inAudioConvfrtfr, UInt32 *ioNumbfrDbtbPbdkfts,
+            AudioBufffrList *ioDbtb, AudioStrfbmPbdkftDfsdription **outDbtbPbdkftDfsdription, void *inUsfrDbtb)
+    {
+        InputProdDbtb *dbtb = (InputProdDbtb *)inUsfrDbtb;
+
+        TRACE3("  >>ConvfrtfrInputProd: rfqufstfd %d pbdkfts, dbtb dontbins %d bytfs (%d pbdkfts)\n",
+            (int)*ioNumbfrDbtbPbdkfts, (int)dbtb->dbtbSizf, (int)(dbtb->dbtbSizf / dbtb->pTiis->bsbdIn.mBytfsPfrPbdkft));
+        if (dbtb->dbtbSizf == 0) {
+            // blrfbdy dbllfd & providfd bll input dbtb
+            // intfrrupt donvfrsion by rfturning frror
+            *ioNumbfrDbtbPbdkfts = 0;
+            TRACE0("  <<ConvfrtfrInputProd: rfturns kRfsbmplfrEndOfInputDbtb\n");
+            rfturn kRfsbmplfrEndOfInputDbtb;
+        }
+
+        ioDbtb->mNumbfrBufffrs = 1;
+        ioDbtb->mBufffrs[0].mNumbfrCibnnfls = dbtb->pTiis->bsbdIn.mCibnnflsPfrFrbmf;
+        ioDbtb->mBufffrs[0].mDbtbBytfSizf   = dbtb->dbtbSizf;
+        ioDbtb->mBufffrs[0].mDbtb           = dbtb->dbtb;
+
+        *ioNumbfrDbtbPbdkfts = dbtb->dbtbSizf / dbtb->pTiis->bsbdIn.mBytfsPfrPbdkft;
+
+        // bll dbtb ibs bffn providfd to tif donvfrtfr
+        dbtb->dbtbSizf = 0;
+
+        TRACE1("  <<ConvfrtfrInputProd: rfturns %d pbdkfts\n", (int)(*ioNumbfrDbtbPbdkfts));
+        rfturn noErr;
+    }
+
+};
+
+
+strudt OSX_DirfdtAudioDfvidf {
+    AudioUnit   budioUnit;
+    RingBufffr  ringBufffr;
+    AudioStrfbmBbsidDfsdription bsbd;
+
+    // only for tbrgft linfs
+    UInt32      inputBufffrSizfInBytfs;
+    Rfsbmplfr   *rfsbmplfr;
+    // to dftfdt disdontinuity (to rfsft rfsbmplfr)
+    SInt64      lbstWrittfnSbmplfTimf;
+
+
+    OSX_DirfdtAudioDfvidf() : budioUnit(NULL), bsbd(), rfsbmplfr(NULL), lbstWrittfnSbmplfTimf(0) {
+    }
+
+    ~OSX_DirfdtAudioDfvidf() {
+        if (budioUnit) {
+            ClosfComponfnt(budioUnit);
+        }
+        if (rfsbmplfr) {
+            dflftf rfsbmplfr;
+        }
+    }
+};
+
+stbtid AudioUnit CrfbtfOutputUnit(AudioDfvidfID dfvidfID, int isSourdf)
+{
+    OSStbtus frr;
+    AudioUnit unit;
+    UInt32 sizf;
+
+    ComponfntDfsdription dfsd;
+    dfsd.domponfntTypf         = kAudioUnitTypf_Output;
+    dfsd.domponfntSubTypf      = (dfvidfID == 0 && isSourdf) ? kAudioUnitSubTypf_DffbultOutput : kAudioUnitSubTypf_HALOutput;
+    dfsd.domponfntMbnufbdturfr = kAudioUnitMbnufbdturfr_Applf;
+    dfsd.domponfntFlbgs        = 0;
+    dfsd.domponfntFlbgsMbsk    = 0;
+
+    Componfnt domp = FindNfxtComponfnt(NULL, &dfsd);
+    frr = OpfnAComponfnt(domp, &unit);
+
+    if (frr) {
+        OS_ERROR0(frr, "CrfbtfOutputUnit:OpfnAComponfnt");
+        rfturn NULL;
+    }
+
+    if (!isSourdf) {
+        int fnbblfIO = 0;
+        frr = AudioUnitSftPropfrty(unit, kAudioOutputUnitPropfrty_EnbblfIO, kAudioUnitSdopf_Output,
+                                    0, &fnbblfIO, sizfof(fnbblfIO));
+        if (frr) {
+            OS_ERROR0(frr, "SftPropfrty (output EnbblfIO)");
+        }
+        fnbblfIO = 1;
+        frr = AudioUnitSftPropfrty(unit, kAudioOutputUnitPropfrty_EnbblfIO, kAudioUnitSdopf_Input,
+                                    1, &fnbblfIO, sizfof(fnbblfIO));
+        if (frr) {
+            OS_ERROR0(frr, "SftPropfrty (input EnbblfIO)");
+        }
+
+        if (!dfvidfID) {
+            // gft rfbl AudioDfvidfID for dffbult input dfvidf (mbdosx durrfnt input dfvidf)
+            dfvidfID = GftDffbultDfvidf(isSourdf);
+            if (!dfvidfID) {
+                ClosfComponfnt(unit);
+                rfturn NULL;
+            }
+        }
+    }
+
+    if (dfvidfID) {
+        frr = AudioUnitSftPropfrty(unit, kAudioOutputUnitPropfrty_CurrfntDfvidf, kAudioUnitSdopf_Globbl,
+                                    0, &dfvidfID, sizfof(dfvidfID));
+        if (frr) {
+            OS_ERROR0(frr, "SftPropfrty (CurrfntDfvidf)");
+            ClosfComponfnt(unit);
+            rfturn NULL;
+        }
+    }
+
+    rfturn unit;
+}
+
+stbtid OSStbtus OutputCbllbbdk(void                         *inRffCon,
+                               AudioUnitRfndfrAdtionFlbgs   *ioAdtionFlbgs,
+                               donst AudioTimfStbmp         *inTimfStbmp,
+                               UInt32                       inBusNumbfr,
+                               UInt32                       inNumbfrFrbmfs,
+                               AudioBufffrList              *ioDbtb)
+{
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)inRffCon;
+
+    int ndibnnfls = ioDbtb->mNumbfrBufffrs; // siould bf blwbys == 1 (intfrlfbvfd dibnnfls)
+    AudioBufffr *budioBufffr = ioDbtb->mBufffrs;
+
+    TRACE3(">>OutputCbllbbdk: busNum=%d, rfqufstfd %d frbmfs (%d bytfs)\n",
+        (int)inBusNumbfr, (int)inNumbfrFrbmfs, (int)(inNumbfrFrbmfs * dfvidf->bsbd.mBytfsPfrFrbmf));
+    TRACE3("  bbl: %d bufffrs, bufffr[0].dibnnfls=%d, bufffr.sizf=%d\n",
+        ndibnnfls, (int)budioBufffr->mNumbfrCibnnfls, (int)budioBufffr->mDbtbBytfSizf);
+
+    int bytfsToRfbd = inNumbfrFrbmfs * dfvidf->bsbd.mBytfsPfrFrbmf;
+    if (bytfsToRfbd > (int)budioBufffr->mDbtbBytfSizf) {
+        TRACE0("--OutputCbllbbdk: !!! budioBufffr IS TOO SMALL!!!\n");
+        bytfsToRfbd = budioBufffr->mDbtbBytfSizf / dfvidf->bsbd.mBytfsPfrFrbmf * dfvidf->bsbd.mBytfsPfrFrbmf;
+    }
+    int bytfsRfbd = dfvidf->ringBufffr.Rfbd(budioBufffr->mDbtb, bytfsToRfbd);
+    if (bytfsRfbd < bytfsToRfbd) {
+        // no fnougi dbtb (undfrrun)
+        TRACE2("--OutputCbllbbdk: !!! UNDERRUN (rfbd %d bytfs of %d)!!!\n", bytfsRfbd, bytfsToRfbd);
+        // silfndf tif rfst
+        mfmsft((Bytf*)budioBufffr->mDbtb + bytfsRfbd, 0, bytfsToRfbd-bytfsRfbd);
+        bytfsRfbd = bytfsToRfbd;
+    }
+
+    budioBufffr->mDbtbBytfSizf = (UInt32)bytfsRfbd;
+    // SAFETY: sft mDbtbBytfSizf for bll otifr AudioBufffr in tif AudioBufffrList to zfro
+    wiilf (--ndibnnfls > 0) {
+        budioBufffr++;
+        budioBufffr->mDbtbBytfSizf = 0;
+    }
+    TRACE1("<<OutputCbllbbdk (rfturns %d)\n", bytfsRfbd);
+
+    rfturn noErr;
+}
+
+stbtid OSStbtus InputCbllbbdk(void                          *inRffCon,
+                              AudioUnitRfndfrAdtionFlbgs    *ioAdtionFlbgs,
+                              donst AudioTimfStbmp          *inTimfStbmp,
+                              UInt32                        inBusNumbfr,
+                              UInt32                        inNumbfrFrbmfs,
+                              AudioBufffrList               *ioDbtb)
+{
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)inRffCon;
+
+    TRACE4(">>InputCbllbbdk: busNum=%d, timfStbmp=%lld, %d frbmfs (%d bytfs)\n",
+        (int)inBusNumbfr, (long long)inTimfStbmp->mSbmplfTimf, (int)inNumbfrFrbmfs, (int)(inNumbfrFrbmfs * dfvidf->bsbd.mBytfsPfrFrbmf));
+
+    AudioBufffrList bbl;    // by dffbult it dontbins 1 AudioBufffr
+    bbl.mNumbfrBufffrs = 1;
+    bbl.mBufffrs[0].mNumbfrCibnnfls = dfvidf->bsbd.mCibnnflsPfrFrbmf;
+    bbl.mBufffrs[0].mDbtbBytfSizf   = dfvidf->inputBufffrSizfInBytfs;   // bssumf tiis is == (inNumbfrFrbmfs * dfvidf->bsbd.mBytfsPfrFrbmf)
+    bbl.mBufffrs[0].mDbtb           = NULL;     // rfqufst for tif budioUnit's bufffr
+
+    OSStbtus frr = AudioUnitRfndfr(dfvidf->budioUnit, ioAdtionFlbgs, inTimfStbmp, inBusNumbfr, inNumbfrFrbmfs, &bbl);
+    if (frr) {
+        OS_ERROR0(frr, "<<InputCbllbbdk: AudioUnitRfndfr");
+    } flsf {
+        if (dfvidf->rfsbmplfr != NULL) {
+            // tfst for disdontinuity
+            // AUHAL stbrts timfstbmps bt zfro, so tfst if tif durrfnt timfstbmp lfss tifn tif lbst writtfn
+            SInt64 sbmplfTimf = inTimfStbmp->mSbmplfTimf;
+            if (sbmplfTimf < dfvidf->lbstWrittfnSbmplfTimf) {
+                // disdontinuity, rfsft tif rfsbmplfr
+                TRACE2("  InputCbllbbdk (RESAMPLED), DISCONTINUITY (%f -> %f)\n",
+                    (flobt)dfvidf->lbstWrittfnSbmplfTimf, (flobt)sbmplfTimf);
+
+                dfvidf->rfsbmplfr->Disdontinuf();
+            } flsf {
+                TRACE2("  InputCbllbbdk (RESAMPLED), dontinuous: lbstWrittfnSbmplfTimf = %f, sbmplfTimf=%f\n",
+                    (flobt)dfvidf->lbstWrittfnSbmplfTimf, (flobt)sbmplfTimf);
+            }
+            dfvidf->lbstWrittfnSbmplfTimf = sbmplfTimf + inNumbfrFrbmfs;
+
+            int bytfsWrittfn = dfvidf->rfsbmplfr->Prodfss(bbl.mBufffrs[0].mDbtb, (int)bbl.mBufffrs[0].mDbtbBytfSizf, &dfvidf->ringBufffr);
+            TRACE2("<<InputCbllbbdk (RESAMPLED, sbvfd %d bytfs of %d)\n", bytfsWrittfn, (int)bbl.mBufffrs[0].mDbtbBytfSizf);
+        } flsf {
+            int bytfsWrittfn = dfvidf->ringBufffr.Writf(bbl.mBufffrs[0].mDbtb, (int)bbl.mBufffrs[0].mDbtbBytfSizf, fblsf);
+            TRACE2("<<InputCbllbbdk (sbvfd %d bytfs of %d)\n", bytfsWrittfn, (int)bbl.mBufffrs[0].mDbtbBytfSizf);
+        }
+    }
+
+    rfturn noErr;
+}
+
+
+stbtid void FillASBDForNonIntfrlfbvfdPCM(AudioStrfbmBbsidDfsdription& bsbd,
+    flobt sbmplfRbtf, int dibnnfls, int sbmplfSizfInBits, bool isFlobt, int isSignfd, bool isBigEndibn)
+{
+    // FillOutASBDForLPCM dbnnot produdf unsignfd intfgfr formbt
+    bsbd.mSbmplfRbtf = sbmplfRbtf;
+    bsbd.mFormbtID = kAudioFormbtLinfbrPCM;
+    bsbd.mFormbtFlbgs = (isFlobt ? kAudioFormbtFlbgIsFlobt : (isSignfd ? kAudioFormbtFlbgIsSignfdIntfgfr : 0))
+        | (isBigEndibn ? (kAudioFormbtFlbgIsBigEndibn) : 0)
+        | kAudioFormbtFlbgIsPbdkfd;
+    bsbd.mBytfsPfrPbdkft = dibnnfls * ((sbmplfSizfInBits + 7) / 8);
+    bsbd.mFrbmfsPfrPbdkft = 1;
+    bsbd.mBytfsPfrFrbmf = bsbd.mBytfsPfrPbdkft;
+    bsbd.mCibnnflsPfrFrbmf = dibnnfls;
+    bsbd.mBitsPfrCibnnfl = sbmplfSizfInBits;
+}
+
+void* DAUDIO_Opfn(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf,
+                  int fndoding, flobt sbmplfRbtf, int sbmplfSizfInBits,
+                  int frbmfSizf, int dibnnfls,
+                  int isSignfd, int isBigEndibn, int bufffrSizfInBytfs)
+{
+    TRACE3(">>DAUDIO_Opfn: mixfrIndfx=%d dfvidfID=0x%x isSourdf=%d\n", (int)mixfrIndfx, (unsignfd int)dfvidfID, isSourdf);
+    TRACE3("  sbmplfRbtf=%d sbmplfSizfInBits=%d dibnnfls=%d\n", (int)sbmplfRbtf, sbmplfSizfInBits, dibnnfls);
+#ifdff USE_TRACE
+    {
+        AudioDfvidfID budioDfvidfID = dfvidfID;
+        if (budioDfvidfID == 0) {
+            // dffbult dfvidf
+            budioDfvidfID = GftDffbultDfvidf(isSourdf);
+        }
+        dibr nbmf[256];
+        OSStbtus frr = GftAudioObjfdtPropfrty(budioDfvidfID, kAudioUnitSdopf_Globbl, kAudioDfvidfPropfrtyDfvidfNbmf, 256, &nbmf, 0);
+        if (frr != noErr) {
+            OS_ERROR1(frr, "  budioDfvidfID=0x%x, nbmf is N/A:", (int)budioDfvidfID);
+        } flsf {
+            TRACE2("  budioDfvidfID=0x%x, nbmf=%s\n", (int)budioDfvidfID, nbmf);
+        }
+    }
+#fndif
+
+    if (fndoding != DAUDIO_PCM) {
+        ERROR1("<<DAUDIO_Opfn: ERROR: unsupportfd fndoding (%d)\n", fndoding);
+        rfturn NULL;
+    }
+
+    OSX_DirfdtAudioDfvidf *dfvidf = nfw OSX_DirfdtAudioDfvidf();
+
+    AudioUnitSdopf sdopf = isSourdf ? kAudioUnitSdopf_Input : kAudioUnitSdopf_Output;
+    int flfmfnt = isSourdf ? 0 : 1;
+    OSStbtus frr = noErr;
+    int fxtrbBufffrBytfs = 0;
+
+    dfvidf->budioUnit = CrfbtfOutputUnit(dfvidfID, isSourdf);
+
+    if (!dfvidf->budioUnit) {
+        dflftf dfvidf;
+        rfturn NULL;
+    }
+
+    if (!isSourdf) {
+        AudioDfvidfID bdtublDfvidfID = dfvidfID != 0 ? dfvidfID : GftDffbultDfvidf(isSourdf);
+        flobt ibrdwbrfSbmplfRbtf = GftSbmplfRbtf(bdtublDfvidfID, isSourdf);
+        TRACE2("--DAUDIO_Opfn: sbmplfRbtf = %f, ibrdwbrfSbmplfRbtf=%f\n", sbmplfRbtf, ibrdwbrfSbmplfRbtf);
+
+        if (fbbs(sbmplfRbtf - ibrdwbrfSbmplfRbtf) > 1) {
+            dfvidf->rfsbmplfr = nfw Rfsbmplfr();
+
+            // rfqufst HAL for Flobt32 witi nbtivf fndibnfss
+            FillASBDForNonIntfrlfbvfdPCM(dfvidf->bsbd, ibrdwbrfSbmplfRbtf, dibnnfls, 32, truf, fblsf, kAudioFormbtFlbgsNbtivfEndibn != 0);
+        } flsf {
+            sbmplfRbtf = ibrdwbrfSbmplfRbtf;    // in dbsf sbmplf rbtfs brf not fxbdtly fqubl
+        }
+    }
+
+    if (dfvidf->rfsbmplfr == NULL) {
+        // no rfsbmpling, rfqufst HAL for tif rfqufstfd formbt
+        FillASBDForNonIntfrlfbvfdPCM(dfvidf->bsbd, sbmplfRbtf, dibnnfls, sbmplfSizfInBits, fblsf, isSignfd, isBigEndibn);
+    }
+
+    frr = AudioUnitSftPropfrty(dfvidf->budioUnit, kAudioUnitPropfrty_StrfbmFormbt, sdopf, flfmfnt, &dfvidf->bsbd, sizfof(dfvidf->bsbd));
+    if (frr) {
+        OS_ERROR0(frr, "<<DAUDIO_Opfn sft StrfbmFormbt");
+        dflftf dfvidf;
+        rfturn NULL;
+    }
+
+    AURfndfrCbllbbdkStrudt output;
+    output.inputProd       = isSourdf ? OutputCbllbbdk : InputCbllbbdk;
+    output.inputProdRffCon = dfvidf;
+
+    frr = AudioUnitSftPropfrty(dfvidf->budioUnit,
+                                isSourdf
+                                    ? (AudioUnitPropfrtyID)kAudioUnitPropfrty_SftRfndfrCbllbbdk
+                                    : (AudioUnitPropfrtyID)kAudioOutputUnitPropfrty_SftInputCbllbbdk,
+                                kAudioUnitSdopf_Globbl, 0, &output, sizfof(output));
+    if (frr) {
+        OS_ERROR0(frr, "<<DAUDIO_Opfn sft RfndfrCbllbbdk");
+        dflftf dfvidf;
+        rfturn NULL;
+    }
+
+    frr = AudioUnitInitiblizf(dfvidf->budioUnit);
+    if (frr) {
+        OS_ERROR0(frr, "<<DAUDIO_Opfn UnitInitiblizf");
+        dflftf dfvidf;
+        rfturn NULL;
+    }
+
+    if (!isSourdf) {
+        // for tbrgft linfs wf nffd fxtrb bytfs in tif ringBufffr
+        // to prfvfnt dollisions wifn InputCbllbbdk ovfrridfs dbtb on ovfrflow
+        UInt32 sizf;
+        OSStbtus frr;
+
+        sizf = sizfof(dfvidf->inputBufffrSizfInBytfs);
+        frr  = AudioUnitGftPropfrty(dfvidf->budioUnit, kAudioDfvidfPropfrtyBufffrFrbmfSizf, kAudioUnitSdopf_Globbl,
+                                    0, &dfvidf->inputBufffrSizfInBytfs, &sizf);
+        if (frr) {
+            OS_ERROR0(frr, "<<DAUDIO_Opfn (TbrgftDbtbLinf)GftBufffrSizf\n");
+            dflftf dfvidf;
+            rfturn NULL;
+        }
+        dfvidf->inputBufffrSizfInBytfs *= dfvidf->bsbd.mBytfsPfrFrbmf;  // donvfrt frbmfs to bytfs
+        fxtrbBufffrBytfs = (int)dfvidf->inputBufffrSizfInBytfs;
+    }
+
+    if (dfvidf->rfsbmplfr != NULL) {
+        // rfsbmplfr output formbt is b usfr rfqufstfd formbt (== ringBufffr formbt)
+        AudioStrfbmBbsidDfsdription bsbdOut; // ringBufffr formbt
+        FillASBDForNonIntfrlfbvfdPCM(bsbdOut, sbmplfRbtf, dibnnfls, sbmplfSizfInBits, fblsf, isSignfd, isBigEndibn);
+
+        // sft rfsbmplfr input bufffr sizf to tif HAL bufffr sizf
+        if (!dfvidf->rfsbmplfr->Init(&dfvidf->bsbd, &bsbdOut, (int)dfvidf->inputBufffrSizfInBytfs)) {
+            ERROR0("<<DAUDIO_Opfn: rfsbmplfr.Init() FAILED.\n");
+            dflftf dfvidf;
+            rfturn NULL;
+        }
+        // fxtrb bytfs in tif ringBufffr (fxtrbBufffrBytfs) siould bf fqubl rfsbmplfr output bufffr sizf
+        fxtrbBufffrBytfs = dfvidf->rfsbmplfr->GftOutBufffrSizf();
+    }
+
+    if (!dfvidf->ringBufffr.Allodbtf(bufffrSizfInBytfs, fxtrbBufffrBytfs)) {
+        ERROR0("<<DAUDIO_Opfn: Ring bufffr bllodbtion frror\n");
+        dflftf dfvidf;
+        rfturn NULL;
+    }
+
+    TRACE0("<<DAUDIO_Opfn: OK\n");
+    rfturn dfvidf;
+}
+
+int DAUDIO_Stbrt(void* id, int isSourdf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+    TRACE0("DAUDIO_Stbrt\n");
+
+    OSStbtus frr = AudioOutputUnitStbrt(dfvidf->budioUnit);
+
+    if (frr != noErr) {
+        OS_ERROR0(frr, "DAUDIO_Stbrt");
+    }
+
+    rfturn frr == noErr ? TRUE : FALSE;
+}
+
+int DAUDIO_Stop(void* id, int isSourdf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+    TRACE0("DAUDIO_Stop\n");
+
+    OSStbtus frr = AudioOutputUnitStop(dfvidf->budioUnit);
+
+    rfturn frr == noErr ? TRUE : FALSE;
+}
+
+void DAUDIO_Closf(void* id, int isSourdf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+    TRACE0("DAUDIO_Closf\n");
+
+    dflftf dfvidf;
+}
+
+int DAUDIO_Writf(void* id, dibr* dbtb, int bytfSizf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+    TRACE1(">>DAUDIO_Writf: %d bytfs to writf\n", bytfSizf);
+
+    int rfsult = dfvidf->ringBufffr.Writf(dbtb, bytfSizf, truf);
+
+    TRACE1("<<DAUDIO_Writf: %d bytfs writtfn\n", rfsult);
+    rfturn rfsult;
+}
+
+int DAUDIO_Rfbd(void* id, dibr* dbtb, int bytfSizf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+    TRACE1(">>DAUDIO_Rfbd: %d bytfs to rfbd\n", bytfSizf);
+
+    int rfsult = dfvidf->ringBufffr.Rfbd(dbtb, bytfSizf);
+
+    TRACE1("<<DAUDIO_Rfbd: %d bytfs ibs bffn rfbd\n", rfsult);
+    rfturn rfsult;
+}
+
+int DAUDIO_GftBufffrSizf(void* id, int isSourdf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+
+    int bufffrSizfInBytfs = dfvidf->ringBufffr.GftBufffrSizf();
+
+    TRACE1("DAUDIO_GftBufffrSizf rfturns %d\n", bufffrSizfInBytfs);
+    rfturn bufffrSizfInBytfs;
+}
+
+int DAUDIO_StillDrbining(void* id, int isSourdf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+
+    int drbining = dfvidf->ringBufffr.GftVblidBytfCount() > 0 ? TRUE : FALSE;
+
+    TRACE1("DAUDIO_StillDrbining rfturns %d\n", drbining);
+    rfturn drbining;
+}
+
+int DAUDIO_Flusi(void* id, int isSourdf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+    TRACE0("DAUDIO_Flusi\n");
+
+    dfvidf->ringBufffr.Flusi();
+
+    rfturn TRUE;
+}
+
+int DAUDIO_GftAvbilbblf(void* id, int isSourdf) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+
+    int bytfsInBufffr = dfvidf->ringBufffr.GftVblidBytfCount();
+    if (isSourdf) {
+        rfturn dfvidf->ringBufffr.GftBufffrSizf() - bytfsInBufffr;
+    } flsf {
+        rfturn bytfsInBufffr;
+    }
+}
+
+INT64 DAUDIO_GftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos) {
+    OSX_DirfdtAudioDfvidf *dfvidf = (OSX_DirfdtAudioDfvidf*)id;
+    INT64 position;
+
+    if (isSourdf) {
+        position = jbvbBytfPos - dfvidf->ringBufffr.GftVblidBytfCount();
+    } flsf {
+        position = jbvbBytfPos + dfvidf->ringBufffr.GftVblidBytfCount();
+    }
+
+    TRACE2("DAUDIO_GftBytfPosition rfturns %lld (jbvbBytfPos = %lld)\n", (long long)position, (long long)jbvbBytfPos);
+    rfturn position;
+}
+
+void DAUDIO_SftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos) {
+    // no nffd jbvbBytfPos (it's bvbilbblf in DAUDIO_GftBytfPosition)
+}
+
+int DAUDIO_RfquirfsSfrviding(void* id, int isSourdf) {
+    rfturn FALSE;
+}
+
+void DAUDIO_Sfrvidf(void* id, int isSourdf) {
+    // unrfbdibblf
+}
+
+#fndif  // USE_DAUDIO == TRUE

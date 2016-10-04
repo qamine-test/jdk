@@ -1,0 +1,443 @@
+'\" t
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbp.1
+.\"
+.if n .pl 99999
+.TH jbvbp 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbvbp \- Disbssfmblfs onf or morf dlbss filfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIdlbssfilf\fR
+Onf or morf dlbssfs sfpbrbtfd by spbdfs to bf prodfssfd for bnnotbtions sudi bs DodFootfr\&.dlbss\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf or witi b URL sudi bs \f3filf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fR\&.
+.SH DESCRIPTION    
+Tif \f3jbvbp\fR dommbnd disbssfmblfs onf or morf dlbss filfs\&. Tif output dfpfnds on tif options usfd\&. Wifn no options brf usfd, tifn tif \f3jbvbp\fR dommbnd prints tif pbdkbgf, protfdtfd bnd publid fiflds, bnd mftiods of tif dlbssfs pbssfd to it\&. Tif \f3jbvbp\fR dommbnd prints its output to \f3stdout\fR\&.
+.SH OPTIONS    
+.TP
+-iflp, --iflp, -?
+.br
+Prints b iflp mfssbgf for tif \f3jbvbp\fR dommbnd\&.
+.TP
+-vfrsion
+.br
+Prints rflfbsf informbtion\&.
+.TP
+-l
+.br
+Prints linf bnd lodbl vbribblf tbblfs\&.
+.TP
+-publid
+.br
+Siows only publid dlbssfs bnd mfmbfrs\&.
+.TP
+-protfdtfd
+.br
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&.
+.TP
+-privbtf, -p
+.br
+Siows bll dlbssfs bnd mfmbfrs\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs tif spfdififd option to tif JVM\&. For fxbmplf:
+.sp     
+.nf     
+\f3jbvbp \-J\-vfrsion\fP
+.fi     
+.nf     
+\f3jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+For morf informbtion bbout JVM options, sff tif \f3jbvb(1)\fR dommbnd dodumfntbtion\&.
+.TP
+-s
+.br
+Prints intfrnbl typf signbturfs\&.
+.TP
+-sysinfo
+.br
+Siows systfm informbtion (pbti, sizf, dbtf, MD5 ibsi) of tif dlbss bfing prodfssfd\&.
+.TP
+-donstbnts
+.br
+Siows \f3stbtid finbl\fR donstbnts\&.
+.TP
+-d
+.br
+Prints disbssfmblfd dodf, for fxbmplf, tif instrudtions tibt domprisf tif Jbvb bytfdodfs, for fbdi of tif mftiods in tif dlbss\&.
+.TP
+-vfrbosf
+.br
+Prints stbdk sizf, numbfr of lodbls bnd brgumfnts for mftiods\&.
+.TP
+-dlbsspbti \fIpbti\fR
+.br
+Spfdififs tif pbti tif \f3jbvbp\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&.
+.TP
+-bootdlbsspbti \fIpbti\fR
+.br
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf/lib/rt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
+.TP
+-fxtdir \fIdirs\fR
+.br
+Ovfrridfs tif lodbtion bt wiidi instbllfd fxtfnsions brf sfbrdifd for\&. Tif dffbult lodbtion for fxtfnsions is tif vbluf of \f3jbvb\&.fxt\&.dirs\fR\&.
+.SH EXAMPLE    
+Compilf tif following \f3DodFootfr\fR dlbss:
+.sp     
+.nf     
+\f3import jbvb\&.bwt\&.*;\fP
+.fi     
+.nf     
+\f3import jbvb\&.bpplft\&.*;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3publid dlbss DodFootfr fxtfnds Applft {\fP
+.fi     
+.nf     
+\f3        String dbtf;\fP
+.fi     
+.nf     
+\f3        String fmbil;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3        publid void init() {\fP
+.fi     
+.nf     
+\f3                rfsizf(500,100);\fP
+.fi     
+.nf     
+\f3                dbtf = gftPbrbmftfr("LAST_UPDATED");\fP
+.fi     
+.nf     
+\f3                fmbil = gftPbrbmftfr("EMAIL");\fP
+.fi     
+.nf     
+\f3        }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3        publid void pbint(Grbpiids g) {\fP
+.fi     
+.nf     
+\f3                g\&.drbwString(dbtf + " by ",100, 15);\fP
+.fi     
+.nf     
+\f3                g\&.drbwString(fmbil,290,15);\fP
+.fi     
+.nf     
+\f3        }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Tif output from tif \f3jbvbp DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+.sp     
+.nf     
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+.fi     
+.nf     
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+.fi     
+.nf     
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+.fi     
+.nf     
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+.fi     
+.nf     
+\f3  publid DodFootfr();\fP
+.fi     
+.nf     
+\f3  publid void init();\fP
+.fi     
+.nf     
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Tif output from \f3jbvbp -d DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
+.sp     
+.nf     
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
+.fi     
+.nf     
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
+.fi     
+.nf     
+\f3  jbvb\&.lbng\&.String dbtf;\fP
+.fi     
+.nf     
+\f3  jbvb\&.lbng\&.String fmbil;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3  publid DodFootfr();\fP
+.fi     
+.nf     
+\f3    Codf:\fP
+.fi     
+.nf     
+\f3       0: blobd_0       \fP
+.fi     
+.nf     
+\f3       1: invokfspfdibl #1                  // Mftiod\fP
+.fi     
+.nf     
+\f3jbvb/bpplft/Applft\&."<init>":()V\fP
+.fi     
+.nf     
+\f3       4: rfturn        \fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3  publid void init();\fP
+.fi     
+.nf     
+\f3    Codf:\fP
+.fi     
+.nf     
+\f3       0: blobd_0       \fP
+.fi     
+.nf     
+\f3       1: sipusi        500\fP
+.fi     
+.nf     
+\f3       4: bipusi        100\fP
+.fi     
+.nf     
+\f3       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V\fP
+.fi     
+.nf     
+\f3       9: blobd_0       \fP
+.fi     
+.nf     
+\f3      10: blobd_0       \fP
+.fi     
+.nf     
+\f3      11: ldd           #3                  // String LAST_UPDATED\fP
+.fi     
+.nf     
+\f3      13: invokfvirtubl #4                  // Mftiod\fP
+.fi     
+.nf     
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+.fi     
+.nf     
+\f3      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+.fi     
+.nf     
+\f3      19: blobd_0       \fP
+.fi     
+.nf     
+\f3      20: blobd_0       \fP
+.fi     
+.nf     
+\f3      21: ldd           #6                  // String EMAIL\fP
+.fi     
+.nf     
+\f3      23: invokfvirtubl #4                  // Mftiod\fP
+.fi     
+.nf     
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+.fi     
+.nf     
+\f3      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+.fi     
+.nf     
+\f3      29: rfturn        \fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
+.fi     
+.nf     
+\f3    Codf:\fP
+.fi     
+.nf     
+\f3       0: blobd_1       \fP
+.fi     
+.nf     
+\f3       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr\fP
+.fi     
+.nf     
+\f3       4: dup           \fP
+.fi     
+.nf     
+\f3       5: invokfspfdibl #9                  // Mftiod\fP
+.fi     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&."<init>":()V\fP
+.fi     
+.nf     
+\f3       8: blobd_0       \fP
+.fi     
+.nf     
+\f3       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
+.fi     
+.nf     
+\f3      12: invokfvirtubl #10                 // Mftiod\fP
+.fi     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+.fi     
+.nf     
+\f3      15: ldd           #11                 // String  by \fP
+.fi     
+.nf     
+\f3      17: invokfvirtubl #10                 // Mftiod\fP
+.fi     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
+.fi     
+.nf     
+\f3      20: invokfvirtubl #12                 // Mftiod\fP
+.fi     
+.nf     
+\f3 jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;\fP
+.fi     
+.nf     
+\f3      23: bipusi        100\fP
+.fi     
+.nf     
+\f3      25: bipusi        15\fP
+.fi     
+.nf     
+\f3      27: invokfvirtubl #13                 // Mftiod\fP
+.fi     
+.nf     
+\f3 jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+.fi     
+.nf     
+\f3      30: blobd_1       \fP
+.fi     
+.nf     
+\f3      31: blobd_0       \fP
+.fi     
+.nf     
+\f3      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
+.fi     
+.nf     
+\f3      35: sipusi        290\fP
+.fi     
+.nf     
+\f3      38: bipusi        15\fP
+.fi     
+.nf     
+\f3      40: invokfvirtubl #13                 // Mftiod\fP
+.fi     
+.nf     
+\f3jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+.fi     
+.nf     
+\f3      43: rfturn        \fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvbd(1)
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jdb(1)
+.TP 0.2i    
+\(bu
+jbvbi(1)
+.TP 0.2i    
+\(bu
+jbvbdod(1)
+.RE
+.br
+'pl 8.5i
+'bp

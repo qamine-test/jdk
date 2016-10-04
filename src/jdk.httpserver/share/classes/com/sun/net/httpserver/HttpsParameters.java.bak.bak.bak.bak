@@ -1,165 +1,825 @@
 /*
- * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-pbdkbgf dom.sun.nft.httpsfrvfr;
+
+
+
+
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
 import jbvb.nft.InftSodkftAddrfss;
 //BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+import jbvbx.nft.ssl.SSLPbrbmftfrs;
+import jbvbx.nft.ssl.SSLPbrbmftfrs;
+import jbvbx.nft.ssl.SSLPbrbmftfrs;
+import jbvbx.nft.ssl.SSLPbrbmftfrs;
 import jbvbx.nft.ssl.SSLPbrbmftfrs;
 //END_TIGER_EXCLUDE
-
-/**
- * Rfprfsfnts thf sft of pbrbmftfrs for fbdh https
- * donnfdtion nfgotibtfd with dlifnts. Onf of thfsf
- * is drfbtfd bnd pbssfd to
- * {@link HttpsConfigurbtor#donfigurf(HttpsPbrbmftfrs)}
- * for fvfry indoming https donnfdtion,
- * in ordfr to dftfrminf thf pbrbmftfrs to usf.
- * <p>
- * Thf undfrlying SSL pbrbmftfrs mby bf fstbblishfd fithfr
- * vib thf sft/gft mfthods of this dlbss, or flsf vib
- * b {@link jbvbx.nft.ssl.SSLPbrbmftfrs} objfdt. SSLPbrbmftfrs
- * is thf prfffrrfd mfthod, bfdbusf in thf futurf,
- * bdditionbl donfigurbtion dbpbbilitifs mby bf bddfd to thbt dlbss, bnd
- * it is fbsifr to dftfrminf thf sft of supportfd pbrbmftfrs bnd thfir
- * dffbult vblufs with SSLPbrbmftfrs. Also, if bn SSLPbrbmftfrs objfdt is
- * providfd vib
- * {@link #sftSSLPbrbmftfrs(SSLPbrbmftfrs)} thfn thosf pbrbmftfr sfttings
- * brf usfd, bnd bny sfttings mbdf in this objfdt brf ignorfd.
- * @sindf 1.6
- */
-@jdk.Exportfd
-publid bbstrbdt dlbss HttpsPbrbmftfrs {
-
-    privbtf String[] diphfrSuitfs;
-    privbtf String[] protodols;
-    privbtf boolfbn wbntClifntAuth;
-    privbtf boolfbn nffdClifntAuth;
-
-    protfdtfd HttpsPbrbmftfrs() {}
-
-    /**
-     * Rfturns thf HttpsConfigurbtor for this HttpsPbrbmftfrs.
-     */
-    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor();
-
-    /**
-     * Rfturns thf bddrfss of thf rfmotf dlifnt initibting thf
-     * donnfdtion.
-     */
-    publid bbstrbdt InftSodkftAddrfss gftClifntAddrfss();
-
-//BEGIN_TIGER_EXCLUDE
-    /**
-     * Sfts thf SSLPbrbmftfrs to usf for this HttpsPbrbmftfrs.
-     * Thf pbrbmftfrs must bf supportfd by thf SSLContfxt dontbinfd
-     * by thf HttpsConfigurbtor bssodibtfd with this HttpsPbrbmftfrs.
-     * If no pbrbmftfrs brf sft, thfn thf dffbult bfhbvior is to usf
-     * thf dffbult pbrbmftfrs from thf bssodibtfd SSLContfxt.
-     * @pbrbm pbrbms thf SSLPbrbmftfrs to sft. If <dodf>null</dodf>
-     * thfn thf fxisting pbrbmftfrs (if bny) rfmbin undhbngfd.
-     * @throws IllfgblArgumfntExdfption if bny of thf pbrbmftfrs brf
-     *   invblid or unsupportfd.
-     */
-    publid bbstrbdt void sftSSLPbrbmftfrs (SSLPbrbmftfrs pbrbms);
+//END_TIGER_EXCLUDE
+//END_TIGER_EXCLUDE
+//END_TIGER_EXCLUDE
 //END_TIGER_EXCLUDE
 
-    /**
-     * Rfturns b dopy of thf brrby of diphfrsuitfs or null if nonf
-     * hbvf bffn sft.
-     *
-     * @rfturn b dopy of thf brrby of diphfrsuitfs or null if nonf
-     * hbvf bffn sft.
-     */
-    publid String[] gftCiphfrSuitfs() {
-        rfturn diphfrSuitfs != null ? diphfrSuitfs.dlonf() : null;
-    }
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Rfprfsfnts tif sft of pbrbmftfrs for fbdi ittps
+ * Rfprfsfnts tif sft of pbrbmftfrs for fbdi ittps
+ * Rfprfsfnts tif sft of pbrbmftfrs for fbdi ittps
+ * Rfprfsfnts tif sft of pbrbmftfrs for fbdi ittps
+ * Rfprfsfnts tif sft of pbrbmftfrs for fbdi ittps
+ * donnfdtion nfgotibtfd witi dlifnts. Onf of tifsf
+ * donnfdtion nfgotibtfd witi dlifnts. Onf of tifsf
+ * donnfdtion nfgotibtfd witi dlifnts. Onf of tifsf
+ * donnfdtion nfgotibtfd witi dlifnts. Onf of tifsf
+ * donnfdtion nfgotibtfd witi dlifnts. Onf of tifsf
+ * is drfbtfd bnd pbssfd to
+ * is drfbtfd bnd pbssfd to
+ * is drfbtfd bnd pbssfd to
+ * is drfbtfd bnd pbssfd to
+ * is drfbtfd bnd pbssfd to
+ * {@link HttpsConfigurbtor#donfigurf(HttpsPbrbmftfrs)}
+ * {@link HttpsConfigurbtor#donfigurf(HttpsPbrbmftfrs)}
+ * {@link HttpsConfigurbtor#donfigurf(HttpsPbrbmftfrs)}
+ * {@link HttpsConfigurbtor#donfigurf(HttpsPbrbmftfrs)}
+ * {@link HttpsConfigurbtor#donfigurf(HttpsPbrbmftfrs)}
+ * for fvfry indoming ittps donnfdtion,
+ * for fvfry indoming ittps donnfdtion,
+ * for fvfry indoming ittps donnfdtion,
+ * for fvfry indoming ittps donnfdtion,
+ * for fvfry indoming ittps donnfdtion,
+ * in ordfr to dftfrminf tif pbrbmftfrs to usf.
+ * in ordfr to dftfrminf tif pbrbmftfrs to usf.
+ * in ordfr to dftfrminf tif pbrbmftfrs to usf.
+ * in ordfr to dftfrminf tif pbrbmftfrs to usf.
+ * in ordfr to dftfrminf tif pbrbmftfrs to usf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif undfrlying SSL pbrbmftfrs mby bf fstbblisifd fitifr
+ * Tif undfrlying SSL pbrbmftfrs mby bf fstbblisifd fitifr
+ * Tif undfrlying SSL pbrbmftfrs mby bf fstbblisifd fitifr
+ * Tif undfrlying SSL pbrbmftfrs mby bf fstbblisifd fitifr
+ * Tif undfrlying SSL pbrbmftfrs mby bf fstbblisifd fitifr
+ * vib tif sft/gft mftiods of tiis dlbss, or flsf vib
+ * vib tif sft/gft mftiods of tiis dlbss, or flsf vib
+ * vib tif sft/gft mftiods of tiis dlbss, or flsf vib
+ * vib tif sft/gft mftiods of tiis dlbss, or flsf vib
+ * vib tif sft/gft mftiods of tiis dlbss, or flsf vib
+ * b {@link jbvbx.nft.ssl.SSLPbrbmftfrs} objfdt. SSLPbrbmftfrs
+ * b {@link jbvbx.nft.ssl.SSLPbrbmftfrs} objfdt. SSLPbrbmftfrs
+ * b {@link jbvbx.nft.ssl.SSLPbrbmftfrs} objfdt. SSLPbrbmftfrs
+ * b {@link jbvbx.nft.ssl.SSLPbrbmftfrs} objfdt. SSLPbrbmftfrs
+ * b {@link jbvbx.nft.ssl.SSLPbrbmftfrs} objfdt. SSLPbrbmftfrs
+ * is tif prfffrrfd mftiod, bfdbusf in tif futurf,
+ * is tif prfffrrfd mftiod, bfdbusf in tif futurf,
+ * is tif prfffrrfd mftiod, bfdbusf in tif futurf,
+ * is tif prfffrrfd mftiod, bfdbusf in tif futurf,
+ * is tif prfffrrfd mftiod, bfdbusf in tif futurf,
+ * bdditionbl donfigurbtion dbpbbilitifs mby bf bddfd to tibt dlbss, bnd
+ * bdditionbl donfigurbtion dbpbbilitifs mby bf bddfd to tibt dlbss, bnd
+ * bdditionbl donfigurbtion dbpbbilitifs mby bf bddfd to tibt dlbss, bnd
+ * bdditionbl donfigurbtion dbpbbilitifs mby bf bddfd to tibt dlbss, bnd
+ * bdditionbl donfigurbtion dbpbbilitifs mby bf bddfd to tibt dlbss, bnd
+ * it is fbsifr to dftfrminf tif sft of supportfd pbrbmftfrs bnd tifir
+ * it is fbsifr to dftfrminf tif sft of supportfd pbrbmftfrs bnd tifir
+ * it is fbsifr to dftfrminf tif sft of supportfd pbrbmftfrs bnd tifir
+ * it is fbsifr to dftfrminf tif sft of supportfd pbrbmftfrs bnd tifir
+ * it is fbsifr to dftfrminf tif sft of supportfd pbrbmftfrs bnd tifir
+ * dffbult vblufs witi SSLPbrbmftfrs. Also, if bn SSLPbrbmftfrs objfdt is
+ * dffbult vblufs witi SSLPbrbmftfrs. Also, if bn SSLPbrbmftfrs objfdt is
+ * dffbult vblufs witi SSLPbrbmftfrs. Also, if bn SSLPbrbmftfrs objfdt is
+ * dffbult vblufs witi SSLPbrbmftfrs. Also, if bn SSLPbrbmftfrs objfdt is
+ * dffbult vblufs witi SSLPbrbmftfrs. Also, if bn SSLPbrbmftfrs objfdt is
+ * providfd vib
+ * providfd vib
+ * providfd vib
+ * providfd vib
+ * providfd vib
+ * {@link #sftSSLPbrbmftfrs(SSLPbrbmftfrs)} tifn tiosf pbrbmftfr sfttings
+ * {@link #sftSSLPbrbmftfrs(SSLPbrbmftfrs)} tifn tiosf pbrbmftfr sfttings
+ * {@link #sftSSLPbrbmftfrs(SSLPbrbmftfrs)} tifn tiosf pbrbmftfr sfttings
+ * {@link #sftSSLPbrbmftfrs(SSLPbrbmftfrs)} tifn tiosf pbrbmftfr sfttings
+ * {@link #sftSSLPbrbmftfrs(SSLPbrbmftfrs)} tifn tiosf pbrbmftfr sfttings
+ * brf usfd, bnd bny sfttings mbdf in tiis objfdt brf ignorfd.
+ * brf usfd, bnd bny sfttings mbdf in tiis objfdt brf ignorfd.
+ * brf usfd, bnd bny sfttings mbdf in tiis objfdt brf ignorfd.
+ * brf usfd, bnd bny sfttings mbdf in tiis objfdt brf ignorfd.
+ * brf usfd, bnd bny sfttings mbdf in tiis objfdt brf ignorfd.
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ * @sindf 1.6
+ */
+ */
+ */
+ */
+ */
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpsPbrbmftfrs {
+publid bbstrbdt dlbss HttpsPbrbmftfrs {
+publid bbstrbdt dlbss HttpsPbrbmftfrs {
+publid bbstrbdt dlbss HttpsPbrbmftfrs {
+publid bbstrbdt dlbss HttpsPbrbmftfrs {
+
+
+
+
+
+    privbtf String[] dipifrSuitfs;
+    privbtf String[] dipifrSuitfs;
+    privbtf String[] dipifrSuitfs;
+    privbtf String[] dipifrSuitfs;
+    privbtf String[] dipifrSuitfs;
+    privbtf String[] protodols;
+    privbtf String[] protodols;
+    privbtf String[] protodols;
+    privbtf String[] protodols;
+    privbtf String[] protodols;
+    privbtf boolfbn wbntClifntAuti;
+    privbtf boolfbn wbntClifntAuti;
+    privbtf boolfbn wbntClifntAuti;
+    privbtf boolfbn wbntClifntAuti;
+    privbtf boolfbn wbntClifntAuti;
+    privbtf boolfbn nffdClifntAuti;
+    privbtf boolfbn nffdClifntAuti;
+    privbtf boolfbn nffdClifntAuti;
+    privbtf boolfbn nffdClifntAuti;
+    privbtf boolfbn nffdClifntAuti;
+
+
+
+
+
+    protfdtfd HttpsPbrbmftfrs() {}
+    protfdtfd HttpsPbrbmftfrs() {}
+    protfdtfd HttpsPbrbmftfrs() {}
+    protfdtfd HttpsPbrbmftfrs() {}
+    protfdtfd HttpsPbrbmftfrs() {}
+
+
+
+
 
     /**
-     * Sfts thf brrby of diphfrsuitfs.
-     *
-     * @pbrbm diphfrSuitfs thf brrby of diphfrsuitfs (or null)
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif HttpsConfigurbtor for tiis HttpsPbrbmftfrs.
+     * Rfturns tif HttpsConfigurbtor for tiis HttpsPbrbmftfrs.
+     * Rfturns tif HttpsConfigurbtor for tiis HttpsPbrbmftfrs.
+     * Rfturns tif HttpsConfigurbtor for tiis HttpsPbrbmftfrs.
+     * Rfturns tif HttpsConfigurbtor for tiis HttpsPbrbmftfrs.
      */
-    publid void sftCiphfrSuitfs(String[] diphfrSuitfs) {
-        this.diphfrSuitfs = diphfrSuitfs != null ? diphfrSuitfs.dlonf() : null;
-    }
+     */
+     */
+     */
+     */
+    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor();
+    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor();
+    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor();
+    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor();
+    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor();
+
+
+
+
 
     /**
-     * Rfturns b dopy of thf brrby of protodols or null if nonf
-     * hbvf bffn sft.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bddrfss of tif rfmotf dlifnt initibting tif
+     * Rfturns tif bddrfss of tif rfmotf dlifnt initibting tif
+     * Rfturns tif bddrfss of tif rfmotf dlifnt initibting tif
+     * Rfturns tif bddrfss of tif rfmotf dlifnt initibting tif
+     * Rfturns tif bddrfss of tif rfmotf dlifnt initibting tif
+     * donnfdtion.
+     * donnfdtion.
+     * donnfdtion.
+     * donnfdtion.
+     * donnfdtion.
+     */
+     */
+     */
+     */
+     */
+    publid bbstrbdt InftSodkftAddrfss gftClifntAddrfss();
+    publid bbstrbdt InftSodkftAddrfss gftClifntAddrfss();
+    publid bbstrbdt InftSodkftAddrfss gftClifntAddrfss();
+    publid bbstrbdt InftSodkftAddrfss gftClifntAddrfss();
+    publid bbstrbdt InftSodkftAddrfss gftClifntAddrfss();
+
+
+
+
+
+//BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+//BEGIN_TIGER_EXCLUDE
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif SSLPbrbmftfrs to usf for tiis HttpsPbrbmftfrs.
+     * Sfts tif SSLPbrbmftfrs to usf for tiis HttpsPbrbmftfrs.
+     * Sfts tif SSLPbrbmftfrs to usf for tiis HttpsPbrbmftfrs.
+     * Sfts tif SSLPbrbmftfrs to usf for tiis HttpsPbrbmftfrs.
+     * Sfts tif SSLPbrbmftfrs to usf for tiis HttpsPbrbmftfrs.
+     * Tif pbrbmftfrs must bf supportfd by tif SSLContfxt dontbinfd
+     * Tif pbrbmftfrs must bf supportfd by tif SSLContfxt dontbinfd
+     * Tif pbrbmftfrs must bf supportfd by tif SSLContfxt dontbinfd
+     * Tif pbrbmftfrs must bf supportfd by tif SSLContfxt dontbinfd
+     * Tif pbrbmftfrs must bf supportfd by tif SSLContfxt dontbinfd
+     * by tif HttpsConfigurbtor bssodibtfd witi tiis HttpsPbrbmftfrs.
+     * by tif HttpsConfigurbtor bssodibtfd witi tiis HttpsPbrbmftfrs.
+     * by tif HttpsConfigurbtor bssodibtfd witi tiis HttpsPbrbmftfrs.
+     * by tif HttpsConfigurbtor bssodibtfd witi tiis HttpsPbrbmftfrs.
+     * by tif HttpsConfigurbtor bssodibtfd witi tiis HttpsPbrbmftfrs.
+     * If no pbrbmftfrs brf sft, tifn tif dffbult bfibvior is to usf
+     * If no pbrbmftfrs brf sft, tifn tif dffbult bfibvior is to usf
+     * If no pbrbmftfrs brf sft, tifn tif dffbult bfibvior is to usf
+     * If no pbrbmftfrs brf sft, tifn tif dffbult bfibvior is to usf
+     * If no pbrbmftfrs brf sft, tifn tif dffbult bfibvior is to usf
+     * tif dffbult pbrbmftfrs from tif bssodibtfd SSLContfxt.
+     * tif dffbult pbrbmftfrs from tif bssodibtfd SSLContfxt.
+     * tif dffbult pbrbmftfrs from tif bssodibtfd SSLContfxt.
+     * tif dffbult pbrbmftfrs from tif bssodibtfd SSLContfxt.
+     * tif dffbult pbrbmftfrs from tif bssodibtfd SSLContfxt.
+     * @pbrbm pbrbms tif SSLPbrbmftfrs to sft. If <dodf>null</dodf>
+     * @pbrbm pbrbms tif SSLPbrbmftfrs to sft. If <dodf>null</dodf>
+     * @pbrbm pbrbms tif SSLPbrbmftfrs to sft. If <dodf>null</dodf>
+     * @pbrbm pbrbms tif SSLPbrbmftfrs to sft. If <dodf>null</dodf>
+     * @pbrbm pbrbms tif SSLPbrbmftfrs to sft. If <dodf>null</dodf>
+     * tifn tif fxisting pbrbmftfrs (if bny) rfmbin undibngfd.
+     * tifn tif fxisting pbrbmftfrs (if bny) rfmbin undibngfd.
+     * tifn tif fxisting pbrbmftfrs (if bny) rfmbin undibngfd.
+     * tifn tif fxisting pbrbmftfrs (if bny) rfmbin undibngfd.
+     * tifn tif fxisting pbrbmftfrs (if bny) rfmbin undibngfd.
+     * @tirows IllfgblArgumfntExdfption if bny of tif pbrbmftfrs brf
+     * @tirows IllfgblArgumfntExdfption if bny of tif pbrbmftfrs brf
+     * @tirows IllfgblArgumfntExdfption if bny of tif pbrbmftfrs brf
+     * @tirows IllfgblArgumfntExdfption if bny of tif pbrbmftfrs brf
+     * @tirows IllfgblArgumfntExdfption if bny of tif pbrbmftfrs brf
+     *   invblid or unsupportfd.
+     *   invblid or unsupportfd.
+     *   invblid or unsupportfd.
+     *   invblid or unsupportfd.
+     *   invblid or unsupportfd.
+     */
+     */
+     */
+     */
+     */
+    publid bbstrbdt void sftSSLPbrbmftfrs (SSLPbrbmftfrs pbrbms);
+    publid bbstrbdt void sftSSLPbrbmftfrs (SSLPbrbmftfrs pbrbms);
+    publid bbstrbdt void sftSSLPbrbmftfrs (SSLPbrbmftfrs pbrbms);
+    publid bbstrbdt void sftSSLPbrbmftfrs (SSLPbrbmftfrs pbrbms);
+    publid bbstrbdt void sftSSLPbrbmftfrs (SSLPbrbmftfrs pbrbms);
+//END_TIGER_EXCLUDE
+//END_TIGER_EXCLUDE
+//END_TIGER_EXCLUDE
+//END_TIGER_EXCLUDE
+//END_TIGER_EXCLUDE
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * Rfturns b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * Rfturns b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * Rfturns b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * Rfturns b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
      *
-     * @rfturn b dopy of thf brrby of protodols or null if nonf
-     * hbvf bffn sft.
+     *
+     *
+     *
+     *
+     * @rfturn b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * @rfturn b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * @rfturn b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * @rfturn b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * @rfturn b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     */
+     */
+     */
+     */
+     */
+    publid String[] gftCipifrSuitfs() {
+    publid String[] gftCipifrSuitfs() {
+    publid String[] gftCipifrSuitfs() {
+    publid String[] gftCipifrSuitfs() {
+    publid String[] gftCipifrSuitfs() {
+        rfturn dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        rfturn dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        rfturn dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        rfturn dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        rfturn dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif brrby of dipifrsuitfs.
+     * Sfts tif brrby of dipifrsuitfs.
+     * Sfts tif brrby of dipifrsuitfs.
+     * Sfts tif brrby of dipifrsuitfs.
+     * Sfts tif brrby of dipifrsuitfs.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
+     */
+     */
+     */
+     */
+     */
+    publid void sftCipifrSuitfs(String[] dipifrSuitfs) {
+    publid void sftCipifrSuitfs(String[] dipifrSuitfs) {
+    publid void sftCipifrSuitfs(String[] dipifrSuitfs) {
+    publid void sftCipifrSuitfs(String[] dipifrSuitfs) {
+    publid void sftCipifrSuitfs(String[] dipifrSuitfs) {
+        tiis.dipifrSuitfs = dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        tiis.dipifrSuitfs = dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        tiis.dipifrSuitfs = dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        tiis.dipifrSuitfs = dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+        tiis.dipifrSuitfs = dipifrSuitfs != null ? dipifrSuitfs.dlonf() : null;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b dopy of tif brrby of protodols or null if nonf
+     * Rfturns b dopy of tif brrby of protodols or null if nonf
+     * Rfturns b dopy of tif brrby of protodols or null if nonf
+     * Rfturns b dopy of tif brrby of protodols or null if nonf
+     * Rfturns b dopy of tif brrby of protodols or null if nonf
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b dopy of tif brrby of protodols or null if nonf
+     * @rfturn b dopy of tif brrby of protodols or null if nonf
+     * @rfturn b dopy of tif brrby of protodols or null if nonf
+     * @rfturn b dopy of tif brrby of protodols or null if nonf
+     * @rfturn b dopy of tif brrby of protodols or null if nonf
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     * ibvf bffn sft.
+     */
+     */
+     */
+     */
      */
     publid String[] gftProtodols() {
+    publid String[] gftProtodols() {
+    publid String[] gftProtodols() {
+    publid String[] gftProtodols() {
+    publid String[] gftProtodols() {
+        rfturn protodols != null ? protodols.dlonf() : null;
+        rfturn protodols != null ? protodols.dlonf() : null;
+        rfturn protodols != null ? protodols.dlonf() : null;
+        rfturn protodols != null ? protodols.dlonf() : null;
         rfturn protodols != null ? protodols.dlonf() : null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Sfts thf brrby of protodols.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif brrby of protodols.
+     * Sfts tif brrby of protodols.
+     * Sfts tif brrby of protodols.
+     * Sfts tif brrby of protodols.
+     * Sfts tif brrby of protodols.
      *
-     * @pbrbm protodols thf brrby of protodols (or null)
+     *
+     *
+     *
+     *
+     * @pbrbm protodols tif brrby of protodols (or null)
+     * @pbrbm protodols tif brrby of protodols (or null)
+     * @pbrbm protodols tif brrby of protodols (or null)
+     * @pbrbm protodols tif brrby of protodols (or null)
+     * @pbrbm protodols tif brrby of protodols (or null)
+     */
+     */
+     */
+     */
      */
     publid void sftProtodols(String[] protodols) {
-        this.protodols = protodols != null ? protodols.dlonf() : null;
+    publid void sftProtodols(String[] protodols) {
+    publid void sftProtodols(String[] protodols) {
+    publid void sftProtodols(String[] protodols) {
+    publid void sftProtodols(String[] protodols) {
+        tiis.protodols = protodols != null ? protodols.dlonf() : null;
+        tiis.protodols = protodols != null ? protodols.dlonf() : null;
+        tiis.protodols = protodols != null ? protodols.dlonf() : null;
+        tiis.protodols = protodols != null ? protodols.dlonf() : null;
+        tiis.protodols = protodols != null ? protodols.dlonf() : null;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Rfturns whfthfr dlifnt buthfntidbtion should bf rfqufstfd.
-     *
-     * @rfturn whfthfr dlifnt buthfntidbtion should bf rfqufstfd.
-     */
-    publid boolfbn gftWbntClifntAuth() {
-        rfturn wbntClifntAuth;
-    }
+
+
+
 
     /**
-     * Sfts whfthfr dlifnt buthfntidbtion should bf rfqufstfd. Cblling
-     * this mfthod dlfbrs thf <dodf>nffdClifntAuth</dodf> flbg.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
      *
-     * @pbrbm wbntClifntAuth whfthfr dlifnt buthfntidbtion should bf rfqufstfd
+     *
+     *
+     *
+     *
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
      */
-    publid void sftWbntClifntAuth(boolfbn wbntClifntAuth) {
-        this.wbntClifntAuth = wbntClifntAuth;
+     */
+     */
+     */
+     */
+    publid boolfbn gftWbntClifntAuti() {
+    publid boolfbn gftWbntClifntAuti() {
+    publid boolfbn gftWbntClifntAuti() {
+    publid boolfbn gftWbntClifntAuti() {
+    publid boolfbn gftWbntClifntAuti() {
+        rfturn wbntClifntAuti;
+        rfturn wbntClifntAuti;
+        rfturn wbntClifntAuti;
+        rfturn wbntClifntAuti;
+        rfturn wbntClifntAuti;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Rfturns whfthfr dlifnt buthfntidbtion should bf rfquirfd.
-     *
-     * @rfturn whfthfr dlifnt buthfntidbtion should bf rfquirfd.
-     */
-    publid boolfbn gftNffdClifntAuth() {
-        rfturn nffdClifntAuth;
-    }
+
+
+
 
     /**
-     * Sfts whfthfr dlifnt buthfntidbtion should bf rfquirfd. Cblling
-     * this mfthod dlfbrs thf <dodf>wbntClifntAuth</dodf> flbg.
+    /**
+    /**
+    /**
+    /**
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfqufstfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfqufstfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfqufstfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfqufstfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfqufstfd. Cblling
+     * tiis mftiod dlfbrs tif <dodf>nffdClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>nffdClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>nffdClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>nffdClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>nffdClifntAuti</dodf> flbg.
      *
-     * @pbrbm nffdClifntAuth whfthfr dlifnt buthfntidbtion should bf rfquirfd
+     *
+     *
+     *
+     *
+     * @pbrbm wbntClifntAuti wiftifr dlifnt butifntidbtion siould bf rfqufstfd
+     * @pbrbm wbntClifntAuti wiftifr dlifnt butifntidbtion siould bf rfqufstfd
+     * @pbrbm wbntClifntAuti wiftifr dlifnt butifntidbtion siould bf rfqufstfd
+     * @pbrbm wbntClifntAuti wiftifr dlifnt butifntidbtion siould bf rfqufstfd
+     * @pbrbm wbntClifntAuti wiftifr dlifnt butifntidbtion siould bf rfqufstfd
      */
-    publid void sftNffdClifntAuth(boolfbn nffdClifntAuth) {
-        this.nffdClifntAuth = nffdClifntAuth;
+     */
+     */
+     */
+     */
+    publid void sftWbntClifntAuti(boolfbn wbntClifntAuti) {
+    publid void sftWbntClifntAuti(boolfbn wbntClifntAuti) {
+    publid void sftWbntClifntAuti(boolfbn wbntClifntAuti) {
+    publid void sftWbntClifntAuti(boolfbn wbntClifntAuti) {
+    publid void sftWbntClifntAuti(boolfbn wbntClifntAuti) {
+        tiis.wbntClifntAuti = wbntClifntAuti;
+        tiis.wbntClifntAuti = wbntClifntAuti;
+        tiis.wbntClifntAuti = wbntClifntAuti;
+        tiis.wbntClifntAuti = wbntClifntAuti;
+        tiis.wbntClifntAuti = wbntClifntAuti;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfquirfd.
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn gftNffdClifntAuti() {
+    publid boolfbn gftNffdClifntAuti() {
+    publid boolfbn gftNffdClifntAuti() {
+    publid boolfbn gftNffdClifntAuti() {
+    publid boolfbn gftNffdClifntAuti() {
+        rfturn nffdClifntAuti;
+        rfturn nffdClifntAuti;
+        rfturn nffdClifntAuti;
+        rfturn nffdClifntAuti;
+        rfturn nffdClifntAuti;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfquirfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfquirfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfquirfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfquirfd. Cblling
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfquirfd. Cblling
+     * tiis mftiod dlfbrs tif <dodf>wbntClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>wbntClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>wbntClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>wbntClifntAuti</dodf> flbg.
+     * tiis mftiod dlfbrs tif <dodf>wbntClifntAuti</dodf> flbg.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm nffdClifntAuti wiftifr dlifnt butifntidbtion siould bf rfquirfd
+     * @pbrbm nffdClifntAuti wiftifr dlifnt butifntidbtion siould bf rfquirfd
+     * @pbrbm nffdClifntAuti wiftifr dlifnt butifntidbtion siould bf rfquirfd
+     * @pbrbm nffdClifntAuti wiftifr dlifnt butifntidbtion siould bf rfquirfd
+     * @pbrbm nffdClifntAuti wiftifr dlifnt butifntidbtion siould bf rfquirfd
+     */
+     */
+     */
+     */
+     */
+    publid void sftNffdClifntAuti(boolfbn nffdClifntAuti) {
+    publid void sftNffdClifntAuti(boolfbn nffdClifntAuti) {
+    publid void sftNffdClifntAuti(boolfbn nffdClifntAuti) {
+    publid void sftNffdClifntAuti(boolfbn nffdClifntAuti) {
+    publid void sftNffdClifntAuti(boolfbn nffdClifntAuti) {
+        tiis.nffdClifntAuti = nffdClifntAuti;
+        tiis.nffdClifntAuti = nffdClifntAuti;
+        tiis.nffdClifntAuti = nffdClifntAuti;
+        tiis.nffdClifntAuti = nffdClifntAuti;
+        tiis.nffdClifntAuti = nffdClifntAuti;
+    }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

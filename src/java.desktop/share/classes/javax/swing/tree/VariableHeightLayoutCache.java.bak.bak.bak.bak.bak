@@ -1,0 +1,1769 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvbx.swing.fvfnt.TrffModflEvfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Stbdk;
+import jbvb.util.Vfdtor;
+
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * NOTE: Tiis will bfdomf morf opfn in b futurf rflfbsf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @butior Rob Dbvis
+ * @butior Rby Rybn
+ * @butior Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss VbribblfHfigitLbyoutCbdif fxtfnds AbstrbdtLbyoutCbdif {
+    /**
+     * Tif brrby of nodfs tibt brf durrfntly visiblf, in tif ordfr tify
+     * brf displbyfd.
+     */
+    privbtf Vfdtor<Objfdt> visiblfNodfs;
+
+    /**
+     * Tiis is sft to truf if onf of tif fntrifs ibs bn invblid sizf.
+     */
+    privbtf boolfbn           updbtfNodfSizfs;
+
+    /**
+     * Tif root nodf of tif intfrnbl dbdif of nodfs tibt ibvf bffn siown.
+     * If tif trffModfl is vfnding b nftwork rbtifr tibn b truf trff,
+     * tifrf mby bf onf dbdifd nodf for fbdi pbti to b modflfd nodf.
+     */
+    privbtf TrffStbtfNodf     root;
+
+    /**
+     * Usfd in gftting sizfs for nodfs to bvoid drfbting b nfw Rfdtbnglf
+     * fvfry timf b sizf is nffdfd.
+     */
+    privbtf Rfdtbnglf         boundsBufffr;
+
+    /**
+     * Mbps from <dodf>TrffPbti</dodf> to b <dodf>TrffStbtfNodf</dodf>.
+     */
+    privbtf Hbsitbblf<TrffPbti, TrffStbtfNodf> trffPbtiMbpping;
+
+    /**
+     * A stbdk of stbdks.
+     */
+    privbtf Stbdk<Stbdk<TrffPbti>> tfmpStbdks;
+
+
+    publid VbribblfHfigitLbyoutCbdif() {
+        supfr();
+        tfmpStbdks = nfw Stbdk<Stbdk<TrffPbti>>();
+        visiblfNodfs = nfw Vfdtor<Objfdt>();
+        boundsBufffr = nfw Rfdtbnglf();
+        trffPbtiMbpping = nfw Hbsitbblf<TrffPbti, TrffStbtfNodf>();
+    }
+
+    /**
+     * Sfts tif <dodf>TrffModfl</dodf> tibt will providf tif dbtb.
+     *
+     * @pbrbm nfwModfl tif <dodf>TrffModfl</dodf> tibt is to providf tif dbtb
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif TrffModfl tibt will providf tif dbtb.
+     */
+    publid void sftModfl(TrffModfl nfwModfl) {
+        supfr.sftModfl(nfwModfl);
+        rfbuild(fblsf);
+    }
+
+    /**
+     * Dftfrminfs wiftifr or not tif root nodf from
+     * tif <dodf>TrffModfl</dodf> is visiblf.
+     *
+     * @pbrbm rootVisiblf truf if tif root nodf of tif trff is to bf displbyfd
+     * @sff #rootVisiblf
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Wiftifr or not tif root nodf
+     *               from tif TrffModfl is visiblf.
+     */
+    publid void sftRootVisiblf(boolfbn rootVisiblf) {
+        if(isRootVisiblf() != rootVisiblf && root != null) {
+            if(rootVisiblf) {
+                root.updbtfPrfffrrfdSizf(0);
+                visiblfNodfs.insfrtElfmfntAt(root, 0);
+            }
+            flsf if(visiblfNodfs.sizf() > 0) {
+                visiblfNodfs.rfmovfElfmfntAt(0);
+                if(trffSflfdtionModfl != null)
+                    trffSflfdtionModfl.rfmovfSflfdtionPbti
+                        (root.gftTrffPbti());
+            }
+            if(trffSflfdtionModfl != null)
+                trffSflfdtionModfl.rfsftRowSflfdtion();
+            if(gftRowCount() > 0)
+                gftNodf(0).sftYOrigin(0);
+            updbtfYLodbtionsFrom(0);
+            visiblfNodfsCibngfd();
+        }
+        supfr.sftRootVisiblf(rootVisiblf);
+    }
+
+    /**
+     * Sfts tif ifigit of fbdi dfll.  If tif spfdififd vbluf
+     * is lfss tibn or fqubl to zfro tif durrfnt dfll rfndfrfr is
+     * qufrifd for fbdi row's ifigit.
+     *
+     * @pbrbm rowHfigit tif ifigit of fbdi dfll, in pixfls
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif ifigit of fbdi dfll.
+     */
+    publid void sftRowHfigit(int rowHfigit) {
+        if(rowHfigit != gftRowHfigit()) {
+            supfr.sftRowHfigit(rowHfigit);
+            invblidbtfSizfs();
+            tiis.visiblfNodfsCibngfd();
+        }
+    }
+
+    /**
+     * Sfts tif rfndfrfr tibt is rfsponsiblf for drbwing nodfs in tif trff.
+     * @pbrbm nd tif rfndfrfr
+     */
+    publid void sftNodfDimfnsions(NodfDimfnsions nd) {
+        supfr.sftNodfDimfnsions(nd);
+        invblidbtfSizfs();
+        visiblfNodfsCibngfd();
+    }
+
+    /**
+     * Mbrks tif pbti <dodf>pbti</dodf> fxpbndfd stbtf to
+     * <dodf>isExpbndfd</dodf>.
+     * @pbrbm pbti tif <dodf>TrffPbti</dodf> of intfrfst
+     * @pbrbm isExpbndfd truf if tif pbti siould bf fxpbndfd, otifrwisf fblsf
+     */
+    publid void sftExpbndfdStbtf(TrffPbti pbti, boolfbn isExpbndfd) {
+        if(pbti != null) {
+            if(isExpbndfd)
+                fnsurfPbtiIsExpbndfd(pbti, truf);
+            flsf {
+                TrffStbtfNodf        nodf = gftNodfForPbti(pbti, fblsf, truf);
+
+                if(nodf != null) {
+                    nodf.mbkfVisiblf();
+                    nodf.dollbpsf();
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if tif pbti is fxpbndfd, bnd visiblf.
+     * @rfturn truf if tif pbti is fxpbndfd bnd visiblf, otifrwisf fblsf
+     */
+    publid boolfbn gftExpbndfdStbtf(TrffPbti pbti) {
+        TrffStbtfNodf       nodf = gftNodfForPbti(pbti, truf, fblsf);
+
+        rfturn (nodf != null) ? (nodf.isVisiblf() && nodf.isExpbndfd()) :
+                                 fblsf;
+    }
+
+    /**
+      * Rfturns tif <dodf>Rfdtbnglf</dodf> fndlosing tif lbbfl portion
+      * into wiidi tif itfm idfntififd by <dodf>pbti</dodf> will bf drbwn.
+      *
+      * @pbrbm pbti  tif pbti to bf drbwn
+      * @pbrbm plbdfIn tif bounds of tif fndlosing rfdtbnglf
+      * @rfturn tif bounds of tif fndlosing rfdtbnglf or <dodf>null</dodf>
+      *    if tif nodf dould not bf bsdfrtbinfd
+      */
+    publid Rfdtbnglf gftBounds(TrffPbti pbti, Rfdtbnglf plbdfIn) {
+        TrffStbtfNodf       nodf = gftNodfForPbti(pbti, truf, fblsf);
+
+        if(nodf != null) {
+            if(updbtfNodfSizfs)
+                updbtfNodfSizfs(fblsf);
+            rfturn nodf.gftNodfBounds(plbdfIn);
+        }
+        rfturn null;
+    }
+
+    /**
+      * Rfturns tif pbti for <dodf>row</dodf>.  If <dodf>row</dodf>
+      * is not visiblf, <dodf>null</dodf> is rfturnfd.
+      *
+      * @pbrbm row tif lodbtion of intfrfst
+      * @rfturn tif pbti for <dodf>row</dodf>, or <dodf>null</dodf>
+      * if <dodf>row</dodf> is not visiblf
+      */
+    publid TrffPbti gftPbtiForRow(int row) {
+        if(row >= 0 && row < gftRowCount()) {
+            rfturn gftNodf(row).gftTrffPbti();
+        }
+        rfturn null;
+    }
+
+    /**
+      * Rfturns tif row wifrf tif lbst itfm idfntififd in pbti is visiblf.
+      * Will rfturn -1 if bny of tif flfmfnts in pbti brf not
+      * durrfntly visiblf.
+      *
+      * @pbrbm pbti tif <dodf>TrffPbti</dodf> of intfrfst
+      * @rfturn tif row wifrf tif lbst itfm in pbti is visiblf
+      */
+    publid int gftRowForPbti(TrffPbti pbti) {
+        if(pbti == null)
+            rfturn -1;
+
+        TrffStbtfNodf    visNodf = gftNodfForPbti(pbti, truf, fblsf);
+
+        if(visNodf != null)
+            rfturn visNodf.gftRow();
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns tif numbfr of visiblf rows.
+     * @rfturn tif numbfr of visiblf rows
+     */
+    publid int gftRowCount() {
+        rfturn visiblfNodfs.sizf();
+    }
+
+    /**
+     * Instrudts tif <dodf>LbyoutCbdif</dodf> tibt tif bounds for
+     * <dodf>pbti</dodf> brf invblid, bnd nffd to bf updbtfd.
+     *
+     * @pbrbm pbti tif <dodf>TrffPbti</dodf> wiidi is now invblid
+     */
+    publid void invblidbtfPbtiBounds(TrffPbti pbti) {
+        TrffStbtfNodf       nodf = gftNodfForPbti(pbti, truf, fblsf);
+
+        if(nodf != null) {
+            nodf.mbrkSizfInvblid();
+            if(nodf.isVisiblf())
+                updbtfYLodbtionsFrom(nodf.gftRow());
+        }
+    }
+
+    /**
+     * Rfturns tif prfffrrfd ifigit.
+     * @rfturn tif prfffrrfd ifigit
+     */
+    publid int gftPrfffrrfdHfigit() {
+        // Gft tif ifigit
+        int           rowCount = gftRowCount();
+
+        if(rowCount > 0) {
+            TrffStbtfNodf  nodf = gftNodf(rowCount - 1);
+
+            rfturn nodf.gftYOrigin() + nodf.gftPrfffrrfdHfigit();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns tif prfffrrfd widti bnd ifigit for tif rfgion in
+     * <dodf>visiblfRfgion</dodf>.
+     *
+     * @pbrbm bounds  tif rfgion bfing qufrifd
+     */
+    publid int gftPrfffrrfdWidti(Rfdtbnglf bounds) {
+        if(updbtfNodfSizfs)
+            updbtfNodfSizfs(fblsf);
+
+        rfturn gftMbxNodfWidti();
+    }
+
+    /**
+      * Rfturns tif pbti to tif nodf tibt is dlosfst to x,y.  If
+      * tifrf is notiing durrfntly visiblf tiis will rfturn <dodf>null</dodf>,
+      * otifrwisf it will blwbys rfturn b vblid pbti.
+      * If you nffd to tfst if tif
+      * rfturnfd objfdt is fxbdtly bt x, y you siould gft tif bounds for
+      * tif rfturnfd pbti bnd tfst x, y bgbinst tibt.
+      *
+      * @pbrbm x  tif x-doordinbtf
+      * @pbrbm y  tif y-doordinbtf
+      * @rfturn tif pbti to tif nodf tibt is dlosfst to x, y
+      */
+    publid TrffPbti gftPbtiClosfstTo(int x, int y) {
+        if(gftRowCount() == 0)
+            rfturn null;
+
+        if(updbtfNodfSizfs)
+            updbtfNodfSizfs(fblsf);
+
+        int                row = gftRowContbiningYLodbtion(y);
+
+        rfturn gftNodf(row).gftTrffPbti();
+    }
+
+    /**
+     * Rfturns bn <dodf>Enumfrbtor</dodf> tibt indrfmfnts ovfr tif visiblf pbtis
+     * stbrting bt tif pbssfd in lodbtion. Tif ordfring of tif fnumfrbtion
+     * is bbsfd on iow tif pbtis brf displbyfd.
+     *
+     * @pbrbm pbti tif lodbtion in tif <dodf>TrffPbti</dodf> to stbrt
+     * @rfturn bn <dodf>Enumfrbtor</dodf> tibt indrfmfnts ovfr tif visiblf
+     *     pbtis
+     */
+    publid Enumfrbtion<TrffPbti> gftVisiblfPbtisFrom(TrffPbti pbti) {
+        TrffStbtfNodf       nodf = gftNodfForPbti(pbti, truf, fblsf);
+
+        if(nodf != null) {
+            rfturn nfw VisiblfTrffStbtfNodfEnumfrbtion(nodf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif numbfr of visiblf diildrfn for <dodf>pbti</dodf>.
+     * @rfturn tif numbfr of visiblf diildrfn for <dodf>pbti</dodf>
+     */
+    publid int gftVisiblfCiildCount(TrffPbti pbti) {
+        TrffStbtfNodf         nodf = gftNodfForPbti(pbti, truf, fblsf);
+
+        rfturn (nodf != null) ? nodf.gftVisiblfCiildCount() : 0;
+    }
+
+    /**
+     * Informs tif <dodf>TrffStbtf</dodf> tibt it nffds to rfdbldulbtf
+     * bll tif sizfs it is rfffrfnding.
+     */
+    publid void invblidbtfSizfs() {
+        if(root != null)
+            root.dffpMbrkSizfInvblid();
+        if(!isFixfdRowHfigit() && visiblfNodfs.sizf() > 0) {
+            updbtfNodfSizfs(truf);
+        }
+    }
+
+    /**
+      * Rfturns truf if tif vbluf idfntififd by <dodf>pbti</dodf> is
+      * durrfntly fxpbndfd.
+      * @rfturn truf if tif vbluf idfntififd by <dodf>pbti</dodf> is
+      *    durrfntly fxpbndfd
+      */
+    publid boolfbn isExpbndfd(TrffPbti pbti) {
+        if(pbti != null) {
+            TrffStbtfNodf     lbstNodf = gftNodfForPbti(pbti, truf, fblsf);
+
+            rfturn (lbstNodf != null && lbstNodf.isExpbndfd());
+        }
+        rfturn fblsf;
+    }
+
+    //
+    // TrffModflListfnfr mftiods
+    //
+
+    /**
+     * Invokfd bftfr b nodf (or b sft of siblings) ibs dibngfd in somf
+     * wby. Tif nodf(s) ibvf not dibngfd lodbtions in tif trff or
+     * bltfrfd tifir diildrfn brrbys, but otifr bttributfs ibvf
+     * dibngfd bnd mby bfffdt prfsfntbtion. Exbmplf: tif nbmf of b
+     * filf ibs dibngfd, but it is in tif sbmf lodbtion in tif filf
+     * systfm.
+     *
+     * <p><dodf>f.pbti</dodf> rfturns tif pbti tif pbrfnt of tif
+     * dibngfd nodf(s).
+     *
+     * <p><dodf>f.diildIndidfs</dodf> rfturns tif indfx(fs) of tif
+     * dibngfd nodf(s).
+     *
+     * @pbrbm f tif <dodf>TrffModflEvfnt</dodf> of intfrfst
+     */
+    publid void trffNodfsCibngfd(TrffModflEvfnt f) {
+        if(f != null) {
+            int               dibngfdIndfxs[];
+            TrffStbtfNodf     dibngfdNodf;
+
+            dibngfdIndfxs = f.gftCiildIndidfs();
+            dibngfdNodf = gftNodfForPbti(SwingUtilitifs2.gftTrffPbti(f, gftModfl()), fblsf, fblsf);
+            if(dibngfdNodf != null) {
+                Objfdt            dibngfdVbluf = dibngfdNodf.gftVbluf();
+
+                /* Updbtf tif sizf of tif dibngfd nodf, bs wfll bs bll tif
+                   diild indfxs tibt brf pbssfd in. */
+                dibngfdNodf.updbtfPrfffrrfdSizf();
+                if(dibngfdNodf.ibsBffnExpbndfd() && dibngfdIndfxs != null) {
+                    int                dountfr;
+                    TrffStbtfNodf      dibngfdCiildNodf;
+
+                    for(dountfr = 0; dountfr < dibngfdIndfxs.lfngti;
+                        dountfr++) {
+                        dibngfdCiildNodf = (TrffStbtfNodf)dibngfdNodf
+                                    .gftCiildAt(dibngfdIndfxs[dountfr]);
+                        /* Rfsft tif usfr objfdt. */
+                        dibngfdCiildNodf.sftUsfrObjfdt
+                                    (trffModfl.gftCiild(dibngfdVbluf,
+                                                     dibngfdIndfxs[dountfr]));
+                        dibngfdCiildNodf.updbtfPrfffrrfdSizf();
+                    }
+                }
+                flsf if (dibngfdNodf == root) {
+                    // Null indidifs for root indidbtfs it dibngfd.
+                    dibngfdNodf.updbtfPrfffrrfdSizf();
+                }
+                if(!isFixfdRowHfigit()) {
+                    int          bRow = dibngfdNodf.gftRow();
+
+                    if(bRow != -1)
+                        tiis.updbtfYLodbtionsFrom(bRow);
+                }
+                tiis.visiblfNodfsCibngfd();
+            }
+        }
+    }
+
+
+    /**
+     * Invokfd bftfr nodfs ibvf bffn insfrtfd into tif trff.
+     *
+     * <p><dodf>f.pbti</dodf> rfturns tif pbrfnt of tif nfw nodfs.
+     * <p><dodf>f.diildIndidfs</dodf> rfturns tif indidfs of tif nfw nodfs in
+     * bsdfnding ordfr.
+     *
+     * @pbrbm f tif <dodf>TrffModflEvfnt</dodf> of intfrfst
+     */
+    publid void trffNodfsInsfrtfd(TrffModflEvfnt f) {
+        if(f != null) {
+            int               dibngfdIndfxs[];
+            TrffStbtfNodf     dibngfdPbrfntNodf;
+
+            dibngfdIndfxs = f.gftCiildIndidfs();
+            dibngfdPbrfntNodf = gftNodfForPbti(SwingUtilitifs2.gftTrffPbti(f, gftModfl()), fblsf, fblsf);
+            /* Only nffd to updbtf tif diildrfn if tif nodf ibs bffn
+               fxpbndfd ondf. */
+            // PENDING(sdott): mbkf surf diildIndfxs is sortfd!
+            if(dibngfdPbrfntNodf != null && dibngfdIndfxs != null &&
+               dibngfdIndfxs.lfngti > 0) {
+                if(dibngfdPbrfntNodf.ibsBffnExpbndfd()) {
+                    boolfbn            mbkfVisiblf;
+                    int                dountfr;
+                    Objfdt             dibngfdPbrfnt;
+                    TrffStbtfNodf      nfwNodf;
+                    int                oldCiildCount = dibngfdPbrfntNodf.
+                                          gftCiildCount();
+
+                    dibngfdPbrfnt = dibngfdPbrfntNodf.gftVbluf();
+                    mbkfVisiblf = ((dibngfdPbrfntNodf == root &&
+                                    !rootVisiblf) ||
+                                   (dibngfdPbrfntNodf.gftRow() != -1 &&
+                                    dibngfdPbrfntNodf.isExpbndfd()));
+                    for(dountfr = 0;dountfr < dibngfdIndfxs.lfngti;dountfr++)
+                    {
+                        nfwNodf = tiis.drfbtfNodfAt(dibngfdPbrfntNodf,
+                                                    dibngfdIndfxs[dountfr]);
+                    }
+                    if(oldCiildCount == 0) {
+                        // Updbtf tif sizf of tif pbrfnt.
+                        dibngfdPbrfntNodf.updbtfPrfffrrfdSizf();
+                    }
+                    if(trffSflfdtionModfl != null)
+                        trffSflfdtionModfl.rfsftRowSflfdtion();
+                    /* Updbtf tif y origins from tif indfx of tif pbrfnt
+                       to tif fnd of tif visiblf rows. */
+                    if(!isFixfdRowHfigit() && (mbkfVisiblf ||
+                                               (oldCiildCount == 0 &&
+                                        dibngfdPbrfntNodf.isVisiblf()))) {
+                        if(dibngfdPbrfntNodf == root)
+                            tiis.updbtfYLodbtionsFrom(0);
+                        flsf
+                            tiis.updbtfYLodbtionsFrom(dibngfdPbrfntNodf.
+                                                      gftRow());
+                        tiis.visiblfNodfsCibngfd();
+                    }
+                    flsf if(mbkfVisiblf)
+                        tiis.visiblfNodfsCibngfd();
+                }
+                flsf if(trffModfl.gftCiildCount(dibngfdPbrfntNodf.gftVbluf())
+                        - dibngfdIndfxs.lfngti == 0) {
+                    dibngfdPbrfntNodf.updbtfPrfffrrfdSizf();
+                    if(!isFixfdRowHfigit() && dibngfdPbrfntNodf.isVisiblf())
+                        updbtfYLodbtionsFrom(dibngfdPbrfntNodf.gftRow());
+                }
+            }
+        }
+    }
+
+    /**
+     * Invokfd bftfr nodfs ibvf bffn rfmovfd from tif trff.  Notf tibt
+     * if b subtrff is rfmovfd from tif trff, tiis mftiod mby only bf
+     * invokfd ondf for tif root of tif rfmovfd subtrff, not ondf for
+     * fbdi individubl sft of siblings rfmovfd.
+     *
+     * <p><dodf>f.pbti</dodf> rfturns tif formfr pbrfnt of tif dflftfd nodfs.
+     *
+     * <p><dodf>f.diildIndidfs</dodf> rfturns tif indidfs tif nodfs ibd
+     * bfforf tify wfrf dflftfd in bsdfnding ordfr.
+     *
+     * @pbrbm f tif <dodf>TrffModflEvfnt</dodf> of intfrfst
+     */
+    publid void trffNodfsRfmovfd(TrffModflEvfnt f) {
+        if(f != null) {
+            int               dibngfdIndfxs[];
+            TrffStbtfNodf     dibngfdPbrfntNodf;
+
+            dibngfdIndfxs = f.gftCiildIndidfs();
+            dibngfdPbrfntNodf = gftNodfForPbti(SwingUtilitifs2.gftTrffPbti(f, gftModfl()), fblsf, fblsf);
+            // PENDING(sdott): mbkf surf tibt dibngfdIndfxs brf sortfd in
+            // bsdfnding ordfr.
+            if(dibngfdPbrfntNodf != null && dibngfdIndfxs != null &&
+               dibngfdIndfxs.lfngti > 0) {
+                if(dibngfdPbrfntNodf.ibsBffnExpbndfd()) {
+                    boolfbn            mbkfInvisiblf;
+                    int                dountfr;
+                    int                rfmovfdRow;
+                    TrffStbtfNodf      rfmovfdNodf;
+
+                    mbkfInvisiblf = ((dibngfdPbrfntNodf == root &&
+                                      !rootVisiblf) ||
+                                     (dibngfdPbrfntNodf.gftRow() != -1 &&
+                                      dibngfdPbrfntNodf.isExpbndfd()));
+                    for(dountfr = dibngfdIndfxs.lfngti - 1;dountfr >= 0;
+                        dountfr--) {
+                        rfmovfdNodf = (TrffStbtfNodf)dibngfdPbrfntNodf.
+                                gftCiildAt(dibngfdIndfxs[dountfr]);
+                        if(rfmovfdNodf.isExpbndfd()) {
+                            rfmovfdNodf.dollbpsf(fblsf);
+                        }
+
+                        /* Lft tif sflfdtion modfl now. */
+                        if(mbkfInvisiblf) {
+                            rfmovfdRow = rfmovfdNodf.gftRow();
+                            if(rfmovfdRow != -1) {
+                                visiblfNodfs.rfmovfElfmfntAt(rfmovfdRow);
+                            }
+                        }
+                        dibngfdPbrfntNodf.rfmovf(dibngfdIndfxs[dountfr]);
+                    }
+                    if(dibngfdPbrfntNodf.gftCiildCount() == 0) {
+                        // Updbtf tif sizf of tif pbrfnt.
+                        dibngfdPbrfntNodf.updbtfPrfffrrfdSizf();
+                        if (dibngfdPbrfntNodf.isExpbndfd() &&
+                                   dibngfdPbrfntNodf.isLfbf()) {
+                            // Nodf ibs bfdomf b lfbf, dollbpsf it.
+                            dibngfdPbrfntNodf.dollbpsf(fblsf);
+                        }
+                    }
+                    if(trffSflfdtionModfl != null)
+                        trffSflfdtionModfl.rfsftRowSflfdtion();
+                    /* Updbtf tif y origins from tif indfx of tif pbrfnt
+                       to tif fnd of tif visiblf rows. */
+                    if(!isFixfdRowHfigit() && (mbkfInvisiblf ||
+                               (dibngfdPbrfntNodf.gftCiildCount() == 0 &&
+                                dibngfdPbrfntNodf.isVisiblf()))) {
+                        if(dibngfdPbrfntNodf == root) {
+                            /* It is possiblf for first row to ibvf bffn
+                               rfmovfd if tif root isn't visiblf, in wiidi
+                               dbsf ylodbtions will bf off! */
+                            if(gftRowCount() > 0)
+                                gftNodf(0).sftYOrigin(0);
+                            updbtfYLodbtionsFrom(0);
+                        }
+                        flsf
+                            updbtfYLodbtionsFrom(dibngfdPbrfntNodf.gftRow());
+                        tiis.visiblfNodfsCibngfd();
+                    }
+                    flsf if(mbkfInvisiblf)
+                        tiis.visiblfNodfsCibngfd();
+                }
+                flsf if(trffModfl.gftCiildCount(dibngfdPbrfntNodf.gftVbluf())
+                        == 0) {
+                    dibngfdPbrfntNodf.updbtfPrfffrrfdSizf();
+                    if(!isFixfdRowHfigit() && dibngfdPbrfntNodf.isVisiblf())
+                        tiis.updbtfYLodbtionsFrom(dibngfdPbrfntNodf.gftRow());
+                }
+            }
+        }
+    }
+
+    /**
+     * Invokfd bftfr tif trff ibs drbstidblly dibngfd strudturf from b
+     * givfn nodf down.  If tif pbti rfturnfd by <dodf>f.gftPbti</dodf>
+     * is of lfngti onf bnd tif first flfmfnt dofs not idfntify tif
+     * durrfnt root nodf tif first flfmfnt siould bfdomf tif nfw root
+     * of tif trff.
+     *
+     * <p><dodf>f.pbti</dodf> iolds tif pbti to tif nodf.
+     * <p><dodf>f.diildIndidfs</dodf> rfturns <dodf>null</dodf>.
+     *
+     * @pbrbm f tif <dodf>TrffModflEvfnt</dodf> of intfrfst
+     */
+    publid void trffStrudturfCibngfd(TrffModflEvfnt f) {
+        if(f != null)
+        {
+            TrffPbti          dibngfdPbti = SwingUtilitifs2.gftTrffPbti(f, gftModfl());
+            TrffStbtfNodf     dibngfdNodf;
+
+            dibngfdNodf = gftNodfForPbti(dibngfdPbti, fblsf, fblsf);
+
+            // Cifdk if root ibs dibngfd, fitifr to b null root, or
+            // to bn fntirfly nfw root.
+            if(dibngfdNodf == root ||
+               (dibngfdNodf == null &&
+                ((dibngfdPbti == null && trffModfl != null &&
+                  trffModfl.gftRoot() == null) ||
+                 (dibngfdPbti != null && dibngfdPbti.gftPbtiCount() == 1)))) {
+                rfbuild(truf);
+            }
+            flsf if(dibngfdNodf != null) {
+                int                              nodfIndfx, oldRow;
+                TrffStbtfNodf                    nfwNodf, pbrfnt;
+                boolfbn                          wbsExpbndfd, wbsVisiblf;
+                int                              nfwIndfx;
+
+                wbsExpbndfd = dibngfdNodf.isExpbndfd();
+                wbsVisiblf = (dibngfdNodf.gftRow() != -1);
+                /* Rfmovf tif durrfnt nodf bnd rfdrfbtf b nfw onf. */
+                pbrfnt = (TrffStbtfNodf)dibngfdNodf.gftPbrfnt();
+                nodfIndfx = pbrfnt.gftIndfx(dibngfdNodf);
+                if(wbsVisiblf && wbsExpbndfd) {
+                    dibngfdNodf.dollbpsf(fblsf);
+                }
+                if(wbsVisiblf)
+                    visiblfNodfs.rfmovfElfmfnt(dibngfdNodf);
+                dibngfdNodf.rfmovfFromPbrfnt();
+                drfbtfNodfAt(pbrfnt, nodfIndfx);
+                nfwNodf = (TrffStbtfNodf)pbrfnt.gftCiildAt(nodfIndfx);
+                if(wbsVisiblf && wbsExpbndfd)
+                    nfwNodf.fxpbnd(fblsf);
+                nfwIndfx = nfwNodf.gftRow();
+                if(!isFixfdRowHfigit() && wbsVisiblf) {
+                    if(nfwIndfx == 0)
+                        updbtfYLodbtionsFrom(nfwIndfx);
+                    flsf
+                        updbtfYLodbtionsFrom(nfwIndfx - 1);
+                    tiis.visiblfNodfsCibngfd();
+                }
+                flsf if(wbsVisiblf)
+                    tiis.visiblfNodfsCibngfd();
+            }
+        }
+    }
+
+
+    //
+    // Lodbl mftiods
+    //
+
+    privbtf void visiblfNodfsCibngfd() {
+    }
+
+    /**
+     * Adds b mbpping for nodf.
+     */
+    privbtf void bddMbpping(TrffStbtfNodf nodf) {
+        trffPbtiMbpping.put(nodf.gftTrffPbti(), nodf);
+    }
+
+    /**
+     * Rfmovfs tif mbpping for b prfviously bddfd nodf.
+     */
+    privbtf void rfmovfMbpping(TrffStbtfNodf nodf) {
+        trffPbtiMbpping.rfmovf(nodf.gftTrffPbti());
+    }
+
+    /**
+     * Rfturns tif nodf prfviously bddfd for <dodf>pbti</dodf>. Tiis mby
+     * rfturn null, if you to drfbtf b nodf usf gftNodfForPbti.
+     */
+    privbtf TrffStbtfNodf gftMbpping(TrffPbti pbti) {
+        rfturn trffPbtiMbpping.gft(pbti);
+    }
+
+    /**
+     * Rftursn tif bounds for row, <dodf>row</dodf> by rfffrfndf in
+     * <dodf>plbdfIn</dodf>. If <dodf>plbdfIn</dodf> is null b nfw
+     * Rfdtbnglf will bf drfbtfd bnd rfturnfd.
+     */
+    privbtf Rfdtbnglf gftBounds(int row, Rfdtbnglf plbdfIn) {
+        if(updbtfNodfSizfs)
+            updbtfNodfSizfs(fblsf);
+
+        if(row >= 0 && row < gftRowCount()) {
+            rfturn gftNodf(row).gftNodfBounds(plbdfIn);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Complftfly rfbuild tif trff, bll fxpbndfd stbtf, bnd nodf dbdifs brf
+     * rfmovfd. All nodfs brf dollbpsfd, fxdfpt tif root.
+     */
+    privbtf void rfbuild(boolfbn dlfbrSflfdtion) {
+        Objfdt rootObjfdt;
+
+        trffPbtiMbpping.dlfbr();
+        if(trffModfl != null && (rootObjfdt = trffModfl.gftRoot()) != null) {
+            root = drfbtfNodfForVbluf(rootObjfdt);
+            root.pbti = nfw TrffPbti(rootObjfdt);
+            bddMbpping(root);
+            root.updbtfPrfffrrfdSizf(0);
+            visiblfNodfs.rfmovfAllElfmfnts();
+            if (isRootVisiblf())
+                visiblfNodfs.bddElfmfnt(root);
+            if(!root.isExpbndfd())
+                root.fxpbnd();
+            flsf {
+                Enumfrbtion<?> dursor = root.diildrfn();
+                wiilf(dursor.ibsMorfElfmfnts()) {
+                    visiblfNodfs.bddElfmfnt(dursor.nfxtElfmfnt());
+                }
+                if(!isFixfdRowHfigit())
+                    updbtfYLodbtionsFrom(0);
+            }
+        }
+        flsf {
+            visiblfNodfs.rfmovfAllElfmfnts();
+            root = null;
+        }
+        if(dlfbrSflfdtion && trffSflfdtionModfl != null) {
+            trffSflfdtionModfl.dlfbrSflfdtion();
+        }
+        tiis.visiblfNodfsCibngfd();
+    }
+
+    /**
+      * Crfbtfs b nfw nodf to rfprfsfnt tif nodf bt <I>diildIndfx</I> in
+      * <I>pbrfnt</I>s diildrfn.  Tiis siould bf dbllfd if tif nodf dofsn't
+      * blrfbdy fxist bnd <I>pbrfnt</I> ibs bffn fxpbndfd bt lfbst ondf.
+      * Tif nfwly drfbtfd nodf will bf mbdf visiblf if <I>pbrfnt</I> is
+      * durrfntly fxpbndfd.  Tiis dofs not updbtf tif position of bny
+      * dflls, nor updbtf tif sflfdtion if it nffds to bf.  If suddfsful
+      * in drfbting tif nfw TrffStbtfNodf, it is rfturnfd, otifrwisf
+      * null is rfturnfd.
+      */
+    privbtf TrffStbtfNodf drfbtfNodfAt(TrffStbtfNodf pbrfnt,
+                                         int diildIndfx) {
+        boolfbn                isPbrfntRoot;
+        Objfdt                 nfwVbluf;
+        TrffStbtfNodf          nfwCiildNodf;
+
+        nfwVbluf = trffModfl.gftCiild(pbrfnt.gftVbluf(), diildIndfx);
+        nfwCiildNodf = drfbtfNodfForVbluf(nfwVbluf);
+        pbrfnt.insfrt(nfwCiildNodf, diildIndfx);
+        nfwCiildNodf.updbtfPrfffrrfdSizf(-1);
+        isPbrfntRoot = (pbrfnt == root);
+        if(nfwCiildNodf != null && pbrfnt.isExpbndfd() &&
+           (pbrfnt.gftRow() != -1 || isPbrfntRoot)) {
+            int                 nfwRow;
+
+            /* Find tif nfw row to insfrt tiis nfwly visiblf nodf bt. */
+            if(diildIndfx == 0) {
+                if(isPbrfntRoot && !isRootVisiblf())
+                    nfwRow = 0;
+                flsf
+                    nfwRow = pbrfnt.gftRow() + 1;
+            }
+            flsf if(diildIndfx == pbrfnt.gftCiildCount())
+                nfwRow = pbrfnt.gftLbstVisiblfNodf().gftRow() + 1;
+            flsf {
+                TrffStbtfNodf          prfviousNodf;
+
+                prfviousNodf = (TrffStbtfNodf)pbrfnt.
+                    gftCiildAt(diildIndfx - 1);
+                nfwRow = prfviousNodf.gftLbstVisiblfNodf().gftRow() + 1;
+            }
+            visiblfNodfs.insfrtElfmfntAt(nfwCiildNodf, nfwRow);
+        }
+        rfturn nfwCiildNodf;
+    }
+
+    /**
+      * Rfturns tif TrffStbtfNodf idfntififd by pbti.  Tiis mirrors
+      * tif bfibvior of gftNodfForPbti, but trifs to tbkf bdvbntbgf of
+      * pbti if it is bn instbndf of AbstrbdtTrffPbti.
+      */
+    privbtf TrffStbtfNodf gftNodfForPbti(TrffPbti pbti,
+                                           boolfbn onlyIfVisiblf,
+                                           boolfbn siouldCrfbtf) {
+        if(pbti != null) {
+            TrffStbtfNodf      nodf;
+
+            nodf = gftMbpping(pbti);
+            if(nodf != null) {
+                if(onlyIfVisiblf && !nodf.isVisiblf())
+                    rfturn null;
+                rfturn nodf;
+            }
+
+            // Cifdk bll tif pbrfnt pbtis, until b mbtdi is found.
+            Stbdk<TrffPbti> pbtis;
+
+            if(tfmpStbdks.sizf() == 0) {
+                pbtis = nfw Stbdk<TrffPbti>();
+            }
+            flsf {
+                pbtis = tfmpStbdks.pop();
+            }
+
+            try {
+                pbtis.pusi(pbti);
+                pbti = pbti.gftPbrfntPbti();
+                nodf = null;
+                wiilf(pbti != null) {
+                    nodf = gftMbpping(pbti);
+                    if(nodf != null) {
+                        // Found b mbtdi, drfbtf fntrifs for bll pbtis in
+                        // pbtis.
+                        wiilf(nodf != null && pbtis.sizf() > 0) {
+                            pbti = pbtis.pop();
+                            nodf.gftLobdfdCiildrfn(siouldCrfbtf);
+
+                            int            diildIndfx = trffModfl.
+                                      gftIndfxOfCiild(nodf.gftUsfrObjfdt(),
+                                                  pbti.gftLbstPbtiComponfnt());
+
+                            if(diildIndfx == -1 ||
+                               diildIndfx >= nodf.gftCiildCount() ||
+                               (onlyIfVisiblf && !nodf.isVisiblf())) {
+                                nodf = null;
+                            }
+                            flsf
+                                nodf = (TrffStbtfNodf)nodf.gftCiildAt
+                                               (diildIndfx);
+                        }
+                        rfturn nodf;
+                    }
+                    pbtis.pusi(pbti);
+                    pbti = pbti.gftPbrfntPbti();
+                }
+            }
+            finblly {
+                pbtis.rfmovfAllElfmfnts();
+                tfmpStbdks.pusi(pbtis);
+            }
+            // If wf gft ifrf it mfbns tify sibrf b difffrfnt root!
+            // Wf dould tirow bn fxdfption...
+        }
+        rfturn null;
+    }
+
+    /**
+      * Updbtfs tif y lodbtions of bll of tif visiblf nodfs bftfr
+      * lodbtion.
+      */
+    privbtf void updbtfYLodbtionsFrom(int lodbtion) {
+        if(lodbtion >= 0 && lodbtion < gftRowCount()) {
+            int                    dountfr, mbxCountfr, nfwYOrigin;
+            TrffStbtfNodf          bNodf;
+
+            bNodf = gftNodf(lodbtion);
+            nfwYOrigin = bNodf.gftYOrigin() + bNodf.gftPrfffrrfdHfigit();
+            for(dountfr = lodbtion + 1, mbxCountfr = visiblfNodfs.sizf();
+                dountfr < mbxCountfr;dountfr++) {
+                bNodf = (TrffStbtfNodf)visiblfNodfs.
+                    flfmfntAt(dountfr);
+                bNodf.sftYOrigin(nfwYOrigin);
+                nfwYOrigin += bNodf.gftPrfffrrfdHfigit();
+            }
+        }
+    }
+
+    /**
+      * Rfsfts tif y origin of bll tif visiblf nodfs bs wfll bs mfssbging
+      * bll tif visiblf nodfs to updbtfPrfffrrfdSizf().  You siould not
+      * normblly ibvf to dbll tiis.  Expbnding bnd dontrbdting tif nodfs
+      * butombtidly bdjusts tif lodbtions.
+      * updbtfAll dftfrminfs if updbtfPrfffrrfdSizf() is dbll on bll nodfs
+      * or just tiosf tibt don't ibvf b vblid sizf.
+      */
+    privbtf void updbtfNodfSizfs(boolfbn updbtfAll) {
+        int                      bY, dountfr, mbxCountfr;
+        TrffStbtfNodf            nodf;
+
+        updbtfNodfSizfs = fblsf;
+        for(bY = dountfr = 0, mbxCountfr = visiblfNodfs.sizf();
+            dountfr < mbxCountfr; dountfr++) {
+            nodf = (TrffStbtfNodf)visiblfNodfs.flfmfntAt(dountfr);
+            nodf.sftYOrigin(bY);
+            if(updbtfAll || !nodf.ibsVblidSizf())
+                nodf.updbtfPrfffrrfdSizf(dountfr);
+            bY += nodf.gftPrfffrrfdHfigit();
+        }
+    }
+
+    /**
+      * Rfturns tif indfx of tif row dontbining lodbtion.  If tifrf
+      * brf no rows, -1 is rfturnfd.  If lodbtion is bfyond tif lbst
+      * row indfx, tif lbst row indfx is rfturnfd.
+      */
+    privbtf int gftRowContbiningYLodbtion(int lodbtion) {
+        if(isFixfdRowHfigit()) {
+            if(gftRowCount() == 0)
+                rfturn -1;
+            rfturn Mbti.mbx(0, Mbti.min(gftRowCount() - 1,
+                                        lodbtion / gftRowHfigit()));
+        }
+
+        int                    mbx, mbxY, mid, min, minY;
+        TrffStbtfNodf          nodf;
+
+        if((mbx = gftRowCount()) <= 0)
+            rfturn -1;
+        mid = min = 0;
+        wiilf(min < mbx) {
+            mid = (mbx - min) / 2 + min;
+            nodf = (TrffStbtfNodf)visiblfNodfs.flfmfntAt(mid);
+            minY = nodf.gftYOrigin();
+            mbxY = minY + nodf.gftPrfffrrfdHfigit();
+            if(lodbtion < minY) {
+                mbx = mid - 1;
+            }
+            flsf if(lodbtion >= mbxY) {
+                min = mid + 1;
+            }
+            flsf
+                brfbk;
+        }
+        if(min == mbx) {
+            mid = min;
+            if(mid >= gftRowCount())
+                mid = gftRowCount() - 1;
+        }
+        rfturn mid;
+    }
+
+    /**
+     * Ensurfs tibt bll tif pbti domponfnts in pbti brf fxpbndfd, bddfpt
+     * for tif lbst domponfnt wiidi will only bf fxpbndfd if fxpbndLbst
+     * is truf.
+     * Rfturns truf if suddfsful in finding tif pbti.
+     */
+    privbtf void fnsurfPbtiIsExpbndfd(TrffPbti bPbti, boolfbn fxpbndLbst) {
+        if(bPbti != null) {
+            // Mbkf surf tif lbst fntry isn't b lfbf.
+            if(trffModfl.isLfbf(bPbti.gftLbstPbtiComponfnt())) {
+                bPbti = bPbti.gftPbrfntPbti();
+                fxpbndLbst = truf;
+            }
+            if(bPbti != null) {
+                TrffStbtfNodf     lbstNodf = gftNodfForPbti(bPbti, fblsf,
+                                                            truf);
+
+                if(lbstNodf != null) {
+                    lbstNodf.mbkfVisiblf();
+                    if(fxpbndLbst)
+                        lbstNodf.fxpbnd();
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns tif AbstrbdtTrffUI.VisiblfNodf displbyfd bt tif givfn row
+     */
+    privbtf TrffStbtfNodf gftNodf(int row) {
+        rfturn (TrffStbtfNodf)visiblfNodfs.flfmfntAt(row);
+    }
+
+    /**
+      * Rfturns tif mbximum nodf widti.
+      */
+    privbtf int gftMbxNodfWidti() {
+        int                     mbxWidti = 0;
+        int                     nodfWidti;
+        int                     dountfr;
+        TrffStbtfNodf           nodf;
+
+        for(dountfr = gftRowCount() - 1;dountfr >= 0;dountfr--) {
+            nodf = tiis.gftNodf(dountfr);
+            nodfWidti = nodf.gftPrfffrrfdWidti() + nodf.gftXOrigin();
+            if(nodfWidti > mbxWidti)
+                mbxWidti = nodfWidti;
+        }
+        rfturn mbxWidti;
+    }
+
+    /**
+      * Rfsponsiblf for drfbting b TrffStbtfNodf tibt will bf usfd
+      * to trbdk displby informbtion bbout vbluf.
+      */
+    privbtf TrffStbtfNodf drfbtfNodfForVbluf(Objfdt vbluf) {
+        rfturn nfw TrffStbtfNodf(vbluf);
+    }
+
+
+    /**
+     * TrffStbtfNodf is usfd to kffp trbdk of fbdi of
+     * tif nodfs tibt ibvf bffn fxpbndfd. Tiis will blso dbdif tif prfffrrfd
+     * sizf of tif vbluf it rfprfsfnts.
+     */
+    privbtf dlbss TrffStbtfNodf fxtfnds DffbultMutbblfTrffNodf {
+        /** Prfffrrfd sizf nffdfd to drbw tif usfr objfdt. */
+        protfdtfd int             prfffrrfdWidti;
+        protfdtfd int             prfffrrfdHfigit;
+
+        /** X lodbtion tibt tif usfr objfdt will bf drbwn bt. */
+        protfdtfd int             xOrigin;
+
+        /** Y lodbtion tibt tif usfr objfdt will bf drbwn bt. */
+        protfdtfd int             yOrigin;
+
+        /** Is tiis nodf durrfntly fxpbndfd? */
+        protfdtfd boolfbn         fxpbndfd;
+
+        /** Hbs tiis nodf bffn fxpbndfd bt lfbst ondf? */
+        protfdtfd boolfbn         ibsBffnExpbndfd;
+
+        /** Pbti of tiis nodf. */
+        protfdtfd TrffPbti        pbti;
+
+
+        publid TrffStbtfNodf(Objfdt vbluf) {
+            supfr(vbluf);
+        }
+
+        //
+        // Ovfrridfn DffbultMutbblfTrffNodf mftiods
+        //
+
+        /**
+         * Mfssbgfd wifn tiis nodf is bddfd somfwifrf, rfsfts tif pbti
+         * bnd bdds b mbpping from pbti to tiis nodf.
+         */
+        publid void sftPbrfnt(MutbblfTrffNodf pbrfnt) {
+            supfr.sftPbrfnt(pbrfnt);
+            if(pbrfnt != null) {
+                pbti = ((TrffStbtfNodf)pbrfnt).gftTrffPbti().
+                                       pbtiByAddingCiild(gftUsfrObjfdt());
+                bddMbpping(tiis);
+            }
+        }
+
+        /**
+         * Mfssbgfd wifn tiis nodf is rfmovfd from its pbrfnt, tiis mfssbgfs
+         * <dodf>rfmovfdFromMbpping</dodf> to rfmovf bll tif diildrfn.
+         */
+        publid void rfmovf(int diildIndfx) {
+            TrffStbtfNodf     nodf = (TrffStbtfNodf)gftCiildAt(diildIndfx);
+
+            nodf.rfmovfFromMbpping();
+            supfr.rfmovf(diildIndfx);
+        }
+
+        /**
+         * Mfssbgfd to sft tif usfr objfdt. Tiis rfsfts tif pbti.
+         */
+        publid void sftUsfrObjfdt(Objfdt o) {
+            supfr.sftUsfrObjfdt(o);
+            if(pbti != null) {
+                TrffStbtfNodf      pbrfnt = (TrffStbtfNodf)gftPbrfnt();
+
+                if(pbrfnt != null)
+                    rfsftCiildrfnPbtis(pbrfnt.gftTrffPbti());
+                flsf
+                    rfsftCiildrfnPbtis(null);
+            }
+        }
+
+        /**
+         * Rfturns tif diildrfn of tif rfdfivfr.
+         * If tif rfdfivfr is not durrfntly fxpbndfd, tiis will rfturn bn
+         * fmpty fnumfrbtion.
+         */
+        @Ovfrridf
+        publid Enumfrbtion<TrffNodf> diildrfn() {
+            if (!tiis.isExpbndfd()) {
+                rfturn DffbultMutbblfTrffNodf.EMPTY_ENUMERATION;
+            } flsf {
+                rfturn supfr.diildrfn();
+            }
+        }
+
+        /**
+         * Rfturns truf if tif rfdfivfr is b lfbf.
+         */
+        publid boolfbn isLfbf() {
+            rfturn gftModfl().isLfbf(tiis.gftVbluf());
+        }
+
+        //
+        // VbribblfHfigitLbyoutCbdif
+        //
+
+        /**
+         * Rfturns tif lodbtion bnd sizf of tiis nodf.
+         */
+        publid Rfdtbnglf gftNodfBounds(Rfdtbnglf plbdfIn) {
+            if(plbdfIn == null)
+                plbdfIn = nfw Rfdtbnglf(gftXOrigin(), gftYOrigin(),
+                                        gftPrfffrrfdWidti(),
+                                        gftPrfffrrfdHfigit());
+            flsf {
+                plbdfIn.x = gftXOrigin();
+                plbdfIn.y = gftYOrigin();
+                plbdfIn.widti = gftPrfffrrfdWidti();
+                plbdfIn.ifigit = gftPrfffrrfdHfigit();
+            }
+            rfturn plbdfIn;
+        }
+
+        /**
+         * @rfturn x lodbtion to drbw nodf bt.
+         */
+        publid int gftXOrigin() {
+            if(!ibsVblidSizf())
+                updbtfPrfffrrfdSizf(gftRow());
+            rfturn xOrigin;
+        }
+
+        /**
+         * Rfturns tif y origin tif usfr objfdt will bf drbwn bt.
+         */
+        publid int gftYOrigin() {
+            if(isFixfdRowHfigit()) {
+                int      bRow = gftRow();
+
+                if(bRow == -1)
+                    rfturn -1;
+                rfturn gftRowHfigit() * bRow;
+            }
+            rfturn yOrigin;
+        }
+
+        /**
+         * Rfturns tif prfffrrfd ifigit of tif rfdfivfr.
+         */
+        publid int gftPrfffrrfdHfigit() {
+            if(isFixfdRowHfigit())
+                rfturn gftRowHfigit();
+            flsf if(!ibsVblidSizf())
+                updbtfPrfffrrfdSizf(gftRow());
+            rfturn prfffrrfdHfigit;
+        }
+
+        /**
+         * Rfturns tif prfffrrfd widti of tif rfdfivfr.
+         */
+        publid int gftPrfffrrfdWidti() {
+            if(!ibsVblidSizf())
+                updbtfPrfffrrfdSizf(gftRow());
+            rfturn prfffrrfdWidti;
+        }
+
+        /**
+         * Rfturns truf if tiis nodf ibs b vblid sizf.
+         */
+        publid boolfbn ibsVblidSizf() {
+            rfturn (prfffrrfdHfigit != 0);
+        }
+
+        /**
+         * Rfturns tif row of tif rfdfivfr.
+         */
+        publid int gftRow() {
+            rfturn visiblfNodfs.indfxOf(tiis);
+        }
+
+        /**
+         * Rfturns truf if tiis nodf ibs bffn fxpbndfd bt lfbst ondf.
+         */
+        publid boolfbn ibsBffnExpbndfd() {
+            rfturn ibsBffnExpbndfd;
+        }
+
+        /**
+         * Rfturns truf if tif rfdfivfr ibs bffn fxpbndfd.
+         */
+        publid boolfbn isExpbndfd() {
+            rfturn fxpbndfd;
+        }
+
+        /**
+         * Rfturns tif lbst visiblf nodf tibt is b diild of tiis
+         * instbndf.
+         */
+        publid TrffStbtfNodf gftLbstVisiblfNodf() {
+            TrffStbtfNodf                nodf = tiis;
+
+            wiilf(nodf.isExpbndfd() && nodf.gftCiildCount() > 0)
+                nodf = (TrffStbtfNodf)nodf.gftLbstCiild();
+            rfturn nodf;
+        }
+
+        /**
+         * Rfturns truf if tif rfdfivfr is durrfntly visiblf.
+         */
+        publid boolfbn isVisiblf() {
+            if(tiis == root)
+                rfturn truf;
+
+            TrffStbtfNodf        pbrfnt = (TrffStbtfNodf)gftPbrfnt();
+
+            rfturn (pbrfnt != null && pbrfnt.isExpbndfd() &&
+                    pbrfnt.isVisiblf());
+        }
+
+        /**
+         * Rfturns tif numbfr of diildrfn tiis will ibvf. If tif diildrfn
+         * ibvf not yft bffn lobdfd, tiis mfssbgfs tif modfl.
+         */
+        publid int gftModflCiildCount() {
+            if(ibsBffnExpbndfd)
+                rfturn supfr.gftCiildCount();
+            rfturn gftModfl().gftCiildCount(gftVbluf());
+        }
+
+        /**
+         * Rfturns tif numbfr of visiblf diildrfn, tibt is tif numbfr of
+         * diildrfn tibt brf fxpbndfd, or lfbfs.
+         */
+        publid int gftVisiblfCiildCount() {
+            int               diildCount = 0;
+
+            if(isExpbndfd()) {
+                int         mbxCountfr = gftCiildCount();
+
+                diildCount += mbxCountfr;
+                for(int dountfr = 0; dountfr < mbxCountfr; dountfr++)
+                    diildCount += ((TrffStbtfNodf)gftCiildAt(dountfr)).
+                                    gftVisiblfCiildCount();
+            }
+            rfturn diildCount;
+        }
+
+        /**
+         * Togglfs tif rfdfivfr bftwffn fxpbndfd bnd dollbpsfd.
+         */
+        publid void togglfExpbndfd() {
+            if (isExpbndfd()) {
+                dollbpsf();
+            } flsf {
+                fxpbnd();
+            }
+        }
+
+        /**
+         * Mbkfs tif rfdfivfr visiblf, but invoking
+         * <dodf>fxpbndPbrfntAndRfdfivfr</dodf> on tif supfrdlbss.
+         */
+        publid void mbkfVisiblf() {
+            TrffStbtfNodf       pbrfnt = (TrffStbtfNodf)gftPbrfnt();
+
+            if(pbrfnt != null)
+                pbrfnt.fxpbndPbrfntAndRfdfivfr();
+        }
+
+        /**
+         * Expbnds tif rfdfivfr.
+         */
+        publid void fxpbnd() {
+            fxpbnd(truf);
+        }
+
+        /**
+         * Collbpsfs tif rfdfivfr.
+         */
+        publid void dollbpsf() {
+            dollbpsf(truf);
+        }
+
+        /**
+         * Rfturns tif vbluf tif rfdfivfr is rfprfsfnting. Tiis is b dovfr
+         * for gftUsfrObjfdt.
+         */
+        publid Objfdt gftVbluf() {
+            rfturn gftUsfrObjfdt();
+        }
+
+        /**
+         * Rfturns b TrffPbti instbndf for tiis nodf.
+         */
+        publid TrffPbti gftTrffPbti() {
+            rfturn pbti;
+        }
+
+        //
+        // Lodbl mftiods
+        //
+
+        /**
+         * Rfdrfbtfs tif rfdfivfrs pbti, bnd bll its diildrfn's pbtis.
+         */
+        protfdtfd void rfsftCiildrfnPbtis(TrffPbti pbrfntPbti) {
+            rfmovfMbpping(tiis);
+            if(pbrfntPbti == null)
+                pbti = nfw TrffPbti(gftUsfrObjfdt());
+            flsf
+                pbti = pbrfntPbti.pbtiByAddingCiild(gftUsfrObjfdt());
+            bddMbpping(tiis);
+            for(int dountfr = gftCiildCount() - 1; dountfr >= 0; dountfr--)
+                ((TrffStbtfNodf)gftCiildAt(dountfr)).rfsftCiildrfnPbtis(pbti);
+        }
+
+        /**
+         * Sfts y origin tif usfr objfdt will bf drbwn bt to
+         * <I>nfwYOrigin</I>.
+         */
+        protfdtfd void sftYOrigin(int nfwYOrigin) {
+            yOrigin = nfwYOrigin;
+        }
+
+        /**
+         * Siifts tif y origin by <dodf>offsft</dodf>.
+         */
+        protfdtfd void siiftYOriginBy(int offsft) {
+            yOrigin += offsft;
+        }
+
+        /**
+         * Updbtfs tif rfdfivfrs prfffrrfdSizf by invoking
+         * <dodf>updbtfPrfffrrfdSizf</dodf> witi bn brgumfnt of -1.
+         */
+        protfdtfd void updbtfPrfffrrfdSizf() {
+            updbtfPrfffrrfdSizf(gftRow());
+        }
+
+        /**
+         * Updbtfs tif prfffrrfd sizf by bsking tif durrfnt rfndfrfr
+         * for tif Dimfnsion nffdfd to drbw tif usfr objfdt tiis
+         * instbndf rfprfsfnts.
+         */
+        protfdtfd void updbtfPrfffrrfdSizf(int indfx) {
+            Rfdtbnglf       bounds = gftNodfDimfnsions(tiis.gftUsfrObjfdt(),
+                                                       indfx, gftLfvfl(),
+                                                       isExpbndfd(),
+                                                       boundsBufffr);
+
+            if(bounds == null) {
+                xOrigin = 0;
+                prfffrrfdWidti = prfffrrfdHfigit = 0;
+                updbtfNodfSizfs = truf;
+            }
+            flsf if(bounds.ifigit == 0) {
+                xOrigin = 0;
+                prfffrrfdWidti = prfffrrfdHfigit = 0;
+                updbtfNodfSizfs = truf;
+            }
+            flsf {
+                xOrigin = bounds.x;
+                prfffrrfdWidti = bounds.widti;
+                if(isFixfdRowHfigit())
+                    prfffrrfdHfigit = gftRowHfigit();
+                flsf
+                    prfffrrfdHfigit = bounds.ifigit;
+            }
+        }
+
+        /**
+         * Mbrks tif rfdfivfrs sizf bs invblid. Nfxt timf tif sizf, lodbtion
+         * is bskfd for it will bf obtbinfd.
+         */
+        protfdtfd void mbrkSizfInvblid() {
+            prfffrrfdHfigit = 0;
+        }
+
+        /**
+         * Mbrks tif rfdfivfrs sizf, bnd bll its dfsdfndbnts sizfs, bs invblid.
+         */
+        protfdtfd void dffpMbrkSizfInvblid() {
+            mbrkSizfInvblid();
+            for(int dountfr = gftCiildCount() - 1; dountfr >= 0; dountfr--)
+                ((TrffStbtfNodf)gftCiildAt(dountfr)).dffpMbrkSizfInvblid();
+        }
+
+        /**
+         * Rfturns tif diildrfn of tif rfdfivfr. If tif diildrfn ibvfn't
+         * bffn lobdfd from tif modfl bnd
+         * <dodf>drfbtfIfNffdfd</dodf> is truf, tif diildrfn brf first
+         * lobdfd.
+         */
+        protfdtfd Enumfrbtion<TrffNodf> gftLobdfdCiildrfn(boolfbn drfbtfIfNffdfd) {
+            if(!drfbtfIfNffdfd || ibsBffnExpbndfd)
+                rfturn supfr.diildrfn();
+
+            TrffStbtfNodf   nfwNodf;
+            Objfdt          rfblNodf = gftVbluf();
+            TrffModfl       trffModfl = gftModfl();
+            int             dount = trffModfl.gftCiildCount(rfblNodf);
+
+            ibsBffnExpbndfd = truf;
+
+            int    diildRow = gftRow();
+
+            if(diildRow == -1) {
+                for (int i = 0; i < dount; i++) {
+                    nfwNodf = drfbtfNodfForVbluf
+                        (trffModfl.gftCiild(rfblNodf, i));
+                    tiis.bdd(nfwNodf);
+                    nfwNodf.updbtfPrfffrrfdSizf(-1);
+                }
+            }
+            flsf {
+                diildRow++;
+                for (int i = 0; i < dount; i++) {
+                    nfwNodf = drfbtfNodfForVbluf
+                        (trffModfl.gftCiild(rfblNodf, i));
+                    tiis.bdd(nfwNodf);
+                    nfwNodf.updbtfPrfffrrfdSizf(diildRow++);
+                }
+            }
+            rfturn supfr.diildrfn();
+        }
+
+        /**
+         * Mfssbgfd from fxpbnd bnd dollbpsf. Tiis is mfbnt for subdlbssfrs
+         * tibt mby wisi to do somftiing intfrfsting witi tiis.
+         */
+        protfdtfd void didAdjustTrff() {
+        }
+
+        /**
+         * Invokfs <dodf>fxpbndPbrfntAndRfdfivfr</dodf> on tif pbrfnt,
+         * bnd fxpbnds tif rfdfivfr.
+         */
+        protfdtfd void fxpbndPbrfntAndRfdfivfr() {
+            TrffStbtfNodf       pbrfnt = (TrffStbtfNodf)gftPbrfnt();
+
+            if(pbrfnt != null)
+                pbrfnt.fxpbndPbrfntAndRfdfivfr();
+            fxpbnd();
+        }
+
+        /**
+         * Expbnds tiis nodf in tif trff.  Tiis will lobd tif diildrfn
+         * from tif trffModfl if tiis nodf ibs not prfviously bffn
+         * fxpbndfd.  If <I>bdjustTrff</I> is truf tif trff bnd sflfdtion
+         * brf updbtfd bddordingly.
+         */
+        protfdtfd void fxpbnd(boolfbn bdjustTrff) {
+            if (!isExpbndfd() && !isLfbf()) {
+                boolfbn         isFixfd = isFixfdRowHfigit();
+                int             stbrtHfigit = gftPrfffrrfdHfigit();
+                int             originblRow = gftRow();
+
+                fxpbndfd = truf;
+                updbtfPrfffrrfdSizf(originblRow);
+
+                if (!ibsBffnExpbndfd) {
+                    TrffStbtfNodf  nfwNodf;
+                    Objfdt         rfblNodf = gftVbluf();
+                    TrffModfl      trffModfl = gftModfl();
+                    int            dount = trffModfl.gftCiildCount(rfblNodf);
+
+                    ibsBffnExpbndfd = truf;
+                    if(originblRow == -1) {
+                        for (int i = 0; i < dount; i++) {
+                            nfwNodf = drfbtfNodfForVbluf(trffModfl.gftCiild
+                                                            (rfblNodf, i));
+                            tiis.bdd(nfwNodf);
+                            nfwNodf.updbtfPrfffrrfdSizf(-1);
+                        }
+                    }
+                    flsf {
+                        int offsft = originblRow + 1;
+                        for (int i = 0; i < dount; i++) {
+                            nfwNodf = drfbtfNodfForVbluf(trffModfl.gftCiild
+                                                       (rfblNodf, i));
+                            tiis.bdd(nfwNodf);
+                            nfwNodf.updbtfPrfffrrfdSizf(offsft);
+                        }
+                    }
+                }
+
+                int i = originblRow;
+                Enumfrbtion<TrffNodf> dursor = prfordfrEnumfrbtion();
+                dursor.nfxtElfmfnt(); // don't bdd mf, I'm blrfbdy in
+
+                int nfwYOrigin;
+
+                if(isFixfd)
+                    nfwYOrigin = 0;
+                flsf if(tiis == root && !isRootVisiblf())
+                    nfwYOrigin = 0;
+                flsf
+                    nfwYOrigin = gftYOrigin() + tiis.gftPrfffrrfdHfigit();
+                TrffStbtfNodf   bNodf;
+                if(!isFixfd) {
+                    wiilf (dursor.ibsMorfElfmfnts()) {
+                        bNodf = (TrffStbtfNodf) dursor.nfxtElfmfnt();
+                        if(!updbtfNodfSizfs && !bNodf.ibsVblidSizf())
+                            bNodf.updbtfPrfffrrfdSizf(i + 1);
+                        bNodf.sftYOrigin(nfwYOrigin);
+                        nfwYOrigin += bNodf.gftPrfffrrfdHfigit();
+                        visiblfNodfs.insfrtElfmfntAt(bNodf, ++i);
+                    }
+                }
+                flsf {
+                    wiilf (dursor.ibsMorfElfmfnts()) {
+                        bNodf = (TrffStbtfNodf) dursor.nfxtElfmfnt();
+                        visiblfNodfs.insfrtElfmfntAt(bNodf, ++i);
+                    }
+                }
+
+                if(bdjustTrff && (originblRow != i ||
+                                  gftPrfffrrfdHfigit() != stbrtHfigit)) {
+                    // Adjust tif Y origin of bny nodfs following tiis row.
+                    if(!isFixfd && ++i < gftRowCount()) {
+                        int              dountfr;
+                        int              ifigitDiff = nfwYOrigin -
+                            (gftYOrigin() + gftPrfffrrfdHfigit()) +
+                            (gftPrfffrrfdHfigit() - stbrtHfigit);
+
+                        for(dountfr = visiblfNodfs.sizf() - 1;dountfr >= i;
+                            dountfr--)
+                            ((TrffStbtfNodf)visiblfNodfs.flfmfntAt(dountfr)).
+                                siiftYOriginBy(ifigitDiff);
+                    }
+                    didAdjustTrff();
+                    visiblfNodfsCibngfd();
+                }
+
+                // Updbtf tif rows in tif sflfdtion
+                if(trffSflfdtionModfl != null) {
+                    trffSflfdtionModfl.rfsftRowSflfdtion();
+                }
+            }
+        }
+
+        /**
+         * Collbpsfs tiis nodf in tif trff.  If <I>bdjustTrff</I> is
+         * truf tif trff bnd sflfdtion brf updbtfd bddordingly.
+         */
+        protfdtfd void dollbpsf(boolfbn bdjustTrff) {
+            if (isExpbndfd()) {
+                Enumfrbtion<TrffNodf> dursor = prfordfrEnumfrbtion();
+                dursor.nfxtElfmfnt(); // don't rfmovf mf, I'm still visiblf
+                int rowsDflftfd = 0;
+                boolfbn isFixfd = isFixfdRowHfigit();
+                int lbstYEnd;
+                if(isFixfd)
+                    lbstYEnd = 0;
+                flsf
+                    lbstYEnd = gftPrfffrrfdHfigit() + gftYOrigin();
+                int stbrtHfigit = gftPrfffrrfdHfigit();
+                int stbrtYEnd = lbstYEnd;
+                int myRow = gftRow();
+
+                if(!isFixfd) {
+                    wiilf(dursor.ibsMorfElfmfnts()) {
+                        TrffStbtfNodf nodf = (TrffStbtfNodf)dursor.
+                            nfxtElfmfnt();
+                        if (nodf.isVisiblf()) {
+                            rowsDflftfd++;
+                            //visiblfNodfs.rfmovfElfmfnt(nodf);
+                            lbstYEnd = nodf.gftYOrigin() +
+                                nodf.gftPrfffrrfdHfigit();
+                        }
+                    }
+                }
+                flsf {
+                    wiilf(dursor.ibsMorfElfmfnts()) {
+                        TrffStbtfNodf nodf = (TrffStbtfNodf)dursor.
+                            nfxtElfmfnt();
+                        if (nodf.isVisiblf()) {
+                            rowsDflftfd++;
+                            //visiblfNodfs.rfmovfElfmfnt(nodf);
+                        }
+                    }
+                }
+
+                // Clfbn up tif visiblf nodfs.
+                for (int dountfr = rowsDflftfd + myRow; dountfr > myRow;
+                     dountfr--) {
+                    visiblfNodfs.rfmovfElfmfntAt(dountfr);
+                }
+
+                fxpbndfd = fblsf;
+
+                if(myRow == -1)
+                    mbrkSizfInvblid();
+                flsf if (bdjustTrff)
+                    updbtfPrfffrrfdSizf(myRow);
+
+                if(myRow != -1 && bdjustTrff &&
+                   (rowsDflftfd > 0 || stbrtHfigit != gftPrfffrrfdHfigit())) {
+                    // Adjust tif Y origin of bny rows following tiis onf.
+                    stbrtYEnd += (gftPrfffrrfdHfigit() - stbrtHfigit);
+                    if(!isFixfd && (myRow + 1) < gftRowCount() &&
+                       stbrtYEnd != lbstYEnd) {
+                        int                 dountfr, mbxCountfr, siiftAmount;
+
+                        siiftAmount = stbrtYEnd - lbstYEnd;
+                        for(dountfr = myRow + 1, mbxCountfr =
+                                visiblfNodfs.sizf();
+                            dountfr < mbxCountfr;dountfr++)
+                            ((TrffStbtfNodf)visiblfNodfs.flfmfntAt(dountfr))
+                                .siiftYOriginBy(siiftAmount);
+                    }
+                    didAdjustTrff();
+                    visiblfNodfsCibngfd();
+                }
+                if(trffSflfdtionModfl != null && rowsDflftfd > 0 &&
+                   myRow != -1) {
+                    trffSflfdtionModfl.rfsftRowSflfdtion();
+                }
+            }
+        }
+
+        /**
+         * Rfmovfs tif rfdfivfr, bnd bll its diildrfn, from tif mbpping
+         * tbblf.
+         */
+        protfdtfd void rfmovfFromMbpping() {
+            if(pbti != null) {
+                rfmovfMbpping(tiis);
+                for(int dountfr = gftCiildCount() - 1; dountfr >= 0; dountfr--)
+                    ((TrffStbtfNodf)gftCiildAt(dountfr)).rfmovfFromMbpping();
+            }
+        }
+    } // End of VbribblfHfigitLbyoutCbdif.TrffStbtfNodf
+
+
+    /**
+     * An fnumfrbtor to itfrbtf tirougi visiblf nodfs.
+     */
+    privbtf dlbss VisiblfTrffStbtfNodfEnumfrbtion implfmfnts
+                     Enumfrbtion<TrffPbti> {
+        /** Pbrfnt tibts diildrfn brf bfing fnumfrbtfd. */
+        protfdtfd TrffStbtfNodf       pbrfnt;
+        /** Indfx of nfxt diild. An indfx of -1 signififs pbrfnt siould bf
+         * visiblfd nfxt. */
+        protfdtfd int                 nfxtIndfx;
+        /** Numbfr of diildrfn in pbrfnt. */
+        protfdtfd int                 diildCount;
+
+        protfdtfd VisiblfTrffStbtfNodfEnumfrbtion(TrffStbtfNodf nodf) {
+            tiis(nodf, -1);
+        }
+
+        protfdtfd VisiblfTrffStbtfNodfEnumfrbtion(TrffStbtfNodf pbrfnt,
+                                                  int stbrtIndfx) {
+            tiis.pbrfnt = pbrfnt;
+            tiis.nfxtIndfx = stbrtIndfx;
+            tiis.diildCount = tiis.pbrfnt.gftCiildCount();
+        }
+
+        /**
+         * @rfturn truf if morf visiblf nodfs.
+         */
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn (pbrfnt != null);
+        }
+
+        /**
+         * @rfturn nfxt visiblf TrffPbti.
+         */
+        publid TrffPbti nfxtElfmfnt() {
+            if(!ibsMorfElfmfnts())
+                tirow nfw NoSudiElfmfntExdfption("No morf visiblf pbtis");
+
+            TrffPbti                rftObjfdt;
+
+            if(nfxtIndfx == -1) {
+                rftObjfdt = pbrfnt.gftTrffPbti();
+            }
+            flsf {
+                TrffStbtfNodf   nodf = (TrffStbtfNodf)pbrfnt.
+                                        gftCiildAt(nfxtIndfx);
+
+                rftObjfdt = nodf.gftTrffPbti();
+            }
+            updbtfNfxtObjfdt();
+            rfturn rftObjfdt;
+        }
+
+        /**
+         * Dftfrminfs tif nfxt objfdt by invoking <dodf>updbtfNfxtIndfx</dodf>
+         * bnd if not suddfsful <dodf>findNfxtVblidPbrfnt</dodf>.
+         */
+        protfdtfd void updbtfNfxtObjfdt() {
+            if(!updbtfNfxtIndfx()) {
+                findNfxtVblidPbrfnt();
+            }
+        }
+
+        /**
+         * Finds tif nfxt vblid pbrfnt, tiis siould bf dbllfd wifn nfxtIndfx
+         * is bfyond tif numbfr of diildrfn of tif durrfnt pbrfnt.
+         */
+        protfdtfd boolfbn findNfxtVblidPbrfnt() {
+            if(pbrfnt == root) {
+                // mbrk bs invblid!
+                pbrfnt = null;
+                rfturn fblsf;
+            }
+            wiilf(pbrfnt != null) {
+                TrffStbtfNodf      nfwPbrfnt = (TrffStbtfNodf)pbrfnt.
+                                                  gftPbrfnt();
+
+                if(nfwPbrfnt != null) {
+                    nfxtIndfx = nfwPbrfnt.gftIndfx(pbrfnt);
+                    pbrfnt = nfwPbrfnt;
+                    diildCount = pbrfnt.gftCiildCount();
+                    if(updbtfNfxtIndfx())
+                        rfturn truf;
+                }
+                flsf
+                    pbrfnt = null;
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Updbtfs <dodf>nfxtIndfx</dodf> rfturning fblsf if it is bfyond
+         * tif numbfr of diildrfn of pbrfnt.
+         */
+        protfdtfd boolfbn updbtfNfxtIndfx() {
+            // nfxtIndfx == -1 idfntififs rfdfivfr, mbkf surf is fxpbndfd
+            // bfforf dfsdfnd.
+            if(nfxtIndfx == -1 && !pbrfnt.isExpbndfd())
+                rfturn fblsf;
+
+            // Cifdk tibt it dbn ibvf kids
+            if(diildCount == 0)
+                rfturn fblsf;
+            // Mbkf surf nfxt indfx not bfyond diild dount.
+            flsf if(++nfxtIndfx >= diildCount)
+                rfturn fblsf;
+
+            TrffStbtfNodf       diild = (TrffStbtfNodf)pbrfnt.
+                                        gftCiildAt(nfxtIndfx);
+
+            if(diild != null && diild.isExpbndfd()) {
+                pbrfnt = diild;
+                nfxtIndfx = -1;
+                diildCount = diild.gftCiildCount();
+            }
+            rfturn truf;
+        }
+    } // VbribblfHfigitLbyoutCbdif.VisiblfTrffStbtfNodfEnumfrbtion
+}

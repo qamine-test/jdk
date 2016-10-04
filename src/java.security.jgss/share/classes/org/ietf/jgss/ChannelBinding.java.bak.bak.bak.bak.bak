@@ -1,0 +1,212 @@
+/*
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf org.iftf.jgss;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.util.Arrbys;
+
+/**
+ * Tiis dlbss fndbpsulbtfs tif dondfpt of dbllfr-providfd dibnnfl
+ * binding informbtion. Cibnnfl bindings brf usfd to strfngtifn tif
+ * qublity witi wiidi pffr fntity butifntidbtion is providfd during
+ * dontfxt fstbblisimfnt.  Tify fnbblf tif GSS-API dbllfrs to bind tif
+ * fstbblisimfnt of tif sfdurity dontfxt to rflfvbnt dibrbdtfristids
+ * likf bddrfssfs or to bpplidbtion spfdifid dbtb.<p>
+ *
+ * Tif dbllfr initibting tif sfdurity dontfxt must dftfrminf tif
+ * bppropribtf dibnnfl binding vblufs to sft in tif GSSContfxt objfdt.
+ * Tif bddfptor must providf bn idfntidbl binding in ordfr to vblidbtf
+ * tibt rfdfivfd tokfns possfss dorrfdt dibnnfl-rflbtfd dibrbdtfristids.<p>
+ *
+ * Usf of dibnnfl bindings is optionbl in GSS-API. CibnnflBinding dbn bf
+ * sft for tif {@link GSSContfxt GSSContfxt} using tif {@link
+ * GSSContfxt#sftCibnnflBinding(CibnnflBinding) sftCibnnflBinding} mftiod
+ * bfforf tif first dbll to {@link GSSContfxt#initSfdContfxt(bytf[], int, int)
+ * initSfdContfxt} or {@link GSSContfxt#bddfptSfdContfxt(bytf[], int, int)
+ * bddfptSfdContfxt} ibs bffn pfrformfd.  Unlfss tif <dodf>sftCibnnflBinding</dodf>
+ * mftiod ibs bffn usfd to sft tif CibnnflBinding for b GSSContfxt objfdt,
+ * <dodf>null</dodf> CibnnflBinding will bf bssumfd. <p>
+ *
+ * Condfptublly, tif GSS-API dondbtfnbtfs tif initibtor bnd bddfptor
+ * bddrfss informbtion, bnd tif bpplidbtion supplifd bytf brrby to form bn
+ * odtft string.  Tif mfdibnism dbldulbtfs b MIC ovfr tiis odtft string bnd
+ * binds tif MIC to tif dontfxt fstbblisimfnt tokfn fmittfd by
+ * <dodf>initSfdContfxt</dodf> mftiod of tif <dodf>GSSContfxt</dodf>
+ * intfrfbdf.  Tif sbmf bindings brf sft by tif dontfxt bddfptor for its
+ * <dodf>GSSContfxt</dodf> objfdt bnd during prodfssing of tif
+ * <dodf>bddfptSfdContfxt</dodf> mftiod b MIC is dbldulbtfd in tif sbmf
+ * wby. Tif dbldulbtfd MIC is dompbrfd witi tibt found in tif tokfn, bnd if
+ * tif MICs difffr, bddfpt will tirow b <dodf>GSSExdfption</dodf> witi tif
+ * mbjor dodf sft to {@link GSSExdfption#BAD_BINDINGS BAD_BINDINGS}, bnd
+ * tif dontfxt will not bf fstbblisifd. Somf mfdibnisms mby indludf tif
+ * bdtubl dibnnfl binding dbtb in tif tokfn (rbtifr tibn just b MIC);
+ * bpplidbtions siould tifrfforf not usf donfidfntibl dbtb bs
+ * dibnnfl-binding domponfnts.<p>
+ *
+ *  Individubl mfdibnisms mby imposf bdditionbl donstrbints on bddrfssfs
+ *  tibt mby bppfbr in dibnnfl bindings.  For fxbmplf, b mfdibnism mby
+ *  vfrify tibt tif initibtor bddrfss fifld of tif dibnnfl binding
+ *  dontbins tif dorrfdt nftwork bddrfss of tif iost systfm.  Portbblf
+ *  bpplidbtions siould tifrfforf fnsurf tibt tify fitifr providf dorrfdt
+ *  informbtion for tif bddrfss fiflds, or omit sftting of tif bddrfssing
+ *  informbtion.
+ *
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
+ */
+publid dlbss CibnnflBinding {
+
+    privbtf InftAddrfss initibtor;
+    privbtf InftAddrfss bddfptor;
+    privbtf  bytf[] bppDbtb;
+
+    /**
+     * Crfbtf b CibnnflBinding objfdt witi usfr supplifd bddrfss informbtion
+     * bnd dbtb.  <dodf>null</dodf> vblufs dbn bf usfd for bny fiflds wiidi tif
+     * bpplidbtion dofs not wbnt to spfdify.
+     *
+     * @pbrbm initAddr tif bddrfss of tif dontfxt initibtor.
+     * <dodf>null</dodf> vbluf dbn bf supplifd to indidbtf tibt tif
+     * bpplidbtion dofs not wbnt to sft tiis vbluf.
+     * @pbrbm bddfptAddr tif bddrfss of tif dontfxt
+     * bddfptor. <dodf>null</dodf> vbluf dbn bf supplifd to indidbtf tibt
+     * tif bpplidbtion dofs not wbnt to sft tiis vbluf.
+     * @pbrbm bppDbtb bpplidbtion supplifd dbtb to bf usfd bs pbrt of tif
+     * dibnnfl bindings. <dodf>null</dodf> vbluf dbn bf supplifd to
+     * indidbtf tibt tif bpplidbtion dofs not wbnt to sft tiis vbluf.
+     */
+    publid CibnnflBinding(InftAddrfss initAddr, InftAddrfss bddfptAddr,
+                        bytf[] bppDbtb) {
+
+        initibtor = initAddr;
+        bddfptor = bddfptAddr;
+
+        if (bppDbtb != null) {
+            tiis.bppDbtb = nfw bytf[bppDbtb.lfngti];
+            jbvb.lbng.Systfm.brrbydopy(bppDbtb, 0, tiis.bppDbtb, 0,
+                                bppDbtb.lfngti);
+        }
+    }
+
+    /**
+     * Crfbtfs b CibnnflBinding objfdt witiout bny bddrfssing informbtion.
+     *
+     * @pbrbm bppDbtb bpplidbtion supplifd dbtb to bf usfd bs pbrt of tif
+     * dibnnfl bindings.
+     */
+    publid CibnnflBinding(bytf[] bppDbtb) {
+        tiis(null, null, bppDbtb);
+    }
+
+    /**
+     * Gft tif initibtor's bddrfss for tiis dibnnfl binding.
+     *
+     * @rfturn tif initibtor's bddrfss. <dodf>null</dodf> is rfturnfd if
+     * tif bddrfss ibs not bffn sft.
+     */
+    publid InftAddrfss gftInitibtorAddrfss() {
+        rfturn initibtor;
+    }
+
+    /**
+     * Gft tif bddfptor's bddrfss for tiis dibnnfl binding.
+     *
+     * @rfturn tif bddfptor's bddrfss. null is rfturnfd if tif bddrfss ibs
+     * not bffn sft.
+     */
+    publid InftAddrfss gftAddfptorAddrfss() {
+        rfturn bddfptor;
+    }
+
+    /**
+     * Gft tif bpplidbtion spfdififd dbtb for tiis dibnnfl binding.
+     *
+     * @rfturn tif bpplidbtion dbtb bfing usfd bs pbrt of tif
+     * CibnnflBinding. <dodf>null</dodf> is rfturnfd if no bpplidbtion dbtb
+     * ibs bffn spfdififd for tif dibnnfl binding.
+     */
+    publid bytf[] gftApplidbtionDbtb() {
+
+        if (bppDbtb == null) {
+            rfturn null;
+        }
+
+        bytf[] rftVbl = nfw bytf[bppDbtb.lfngti];
+        Systfm.brrbydopy(bppDbtb, 0, rftVbl, 0, bppDbtb.lfngti);
+        rfturn rftVbl;
+    }
+
+    /**
+     * Compbrfs two instbndfs of CibnnflBinding.
+     *
+     * @pbrbm obj bnotifr CibnnflBinding to dompbrf tiis onf witi
+     * @rfturn truf if tif two CibnnflBinding's dontbin
+     * tif sbmf vblufs for tif initibtor bnd bddfptor bddrfssfs bnd tif
+     * bpplidbtion dbtb.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+
+        if (tiis == obj)
+            rfturn truf;
+
+        if (! (obj instbndfof CibnnflBinding))
+            rfturn fblsf;
+
+        CibnnflBinding db = (CibnnflBinding) obj;
+
+        if ((initibtor != null && db.initibtor == null) ||
+            (initibtor == null && db.initibtor != null))
+            rfturn fblsf;
+
+        if (initibtor != null && !initibtor.fqubls(db.initibtor))
+            rfturn fblsf;
+
+        if ((bddfptor != null && db.bddfptor == null) ||
+            (bddfptor == null && db.bddfptor != null))
+            rfturn fblsf;
+
+        if (bddfptor != null && !bddfptor.fqubls(db.bddfptor))
+            rfturn fblsf;
+
+        rfturn Arrbys.fqubls(bppDbtb, db.bppDbtb);
+    }
+
+    /**
+     * Rfturns b ibsidodf vbluf for tiis CibnnflBinding objfdt.
+     *
+     * @rfturn b ibsiCodf vbluf
+     */
+    publid int ibsiCodf() {
+        if (initibtor != null)
+            rfturn initibtor.ibsiCodf();
+        flsf if (bddfptor != null)
+            rfturn bddfptor.ibsiCodf();
+        flsf if (bppDbtb != null)
+            rfturn nfw String(bppDbtb).ibsiCodf();
+        flsf
+            rfturn 1;
+    }
+}

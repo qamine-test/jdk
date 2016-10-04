@@ -1,0 +1,317 @@
+/*
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+
+/**
+ * Tif <dodf>SdbnMbnbgfrMXBfbn</dodf> is rfsponsiblf for bpplying b
+ * donfigurbtion, stbrting bnd sdifduling dirfdtory sdbns, bnd rfporting
+ * bpplidbtion stbtf.
+ * <p>
+ * Tif <dodf>SdbnMbnbgfrMXBfbn</dodf> is b singlfton MBfbn: tifrf dbn bf
+ * bt most onf instbndf of sudi bn MBfbn rfgistfrfd in b givfn MBfbnSfrvfr.
+ * Tif nbmf of tibt MBfbn is b donstbnt dffinfd in
+ * {@link SdbnMbnbgfr#SCAN_MANAGER_NAME SdbnMbnbgfr.SCAN_MANAGER_NAME}.
+ * </p>
+ * <p>
+ * Tif <dodf>SdbnMbnbgfrMXBfbn</dodf> is tif fntry point of tif <i>sdbndir</i>
+ * bpplidbtion mbnbgfmfnt intfrfbdf. It is from tiis MBfbn tibt bll otifr
+ * MBfbns will bf drfbtfd bnd rfgistfrfd.
+ * </p>
+ *
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
+ **/
+publid intfrfbdf SdbnMbnbgfrMXBfbn {
+    /**
+     * Tiis stbtf tflls wiftifr dirfdtory sdbns brf running, sdifdulfd,
+     * suddfssfully domplftfd, or stoppfd.
+     * <p>
+     * Tif {@link #CLOSED} stbtf mfbns
+     * tibt tif {@link SdbnMbnbgfrMXBfbn} wbs dlosfd bnd is no longfr usbblf.
+     * Tiis stbtf is usfd wifn tif {@link SdbnMbnbgfrMXBfbn} nffds to bf
+     * unrfgistfrfd.
+     * </p>
+     **/
+    publid fnum SdbnStbtf {
+        /**
+         * Sdbnning of dirfdtorifs is in prodfss.
+         **/
+        RUNNING,
+
+        /**
+         * Sdbnning of dirfdtorifs is not in prodfss, but is sdifdulfd
+         * for b lbtfr dbtf.
+         **/
+        SCHEDULED,
+
+        /**
+         * Sdbnning is suddfssfully domplftfd.
+         **/
+        COMPLETED,
+
+        /**
+         * Sdbnning is stoppfd. No sdbnning is sdifdulfd.
+         **/
+        STOPPED,
+
+        /**
+         * dlosf() wbs dbllfd.
+         **/
+        CLOSED
+
+    }
+
+    /**
+     * Rfturns tif durrfnt stbtf of tif bpplidbtion.
+     * @rfturn tif durrfnt stbtf of tif bpplidbtion.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid SdbnStbtf gftStbtf()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Sdifdulf b sdbn sfssion for b lbtfr dbtf.
+     * <p>
+     * A sdbn sfssion is b bbdkground tbsk tibt will sfqufntiblly dbll {@link
+     * DirfdtorySdbnnfrMXBfbn#sdbn sdbn()} on fvfry {@link
+     * DirfdtorySdbnnfrMXBfbn} donfigurfd for tiis MBfbn.
+     * </p>
+     * @sff #gftDirfdtorySdbnnfrs
+     * @pbrbm dflby Tif first sdbn sfssion will bf stbrtfd bftfr
+     *        tif givfn dflby. 0 mfbns stbrt now.
+     * @pbrbm intfrvbl Sdbn sfssion will bf rfsdifdulfd pfriodidblly
+     *        bt tif spfdififd intfrvbl. Tif intfrvbl stbrts bt tif
+     *        tif fnd of tif sdbn sfssion: if b sdbn sfssion tbkfs
+     *        on bvfrbgf x millisfdonds to domplftf, tifn b sdbn sfssion will
+     *        bf stbrtfd on bvfrbgf fvfry x+intfrvbl millisfdonds.
+     *        if (intfrvbl == 0) tifn sdbn sfssion will not bf
+     *        rfsdifdulfd, bnd will run only ondf.
+     * @tirows IllfgblStbtfExdfption if b sdbn sfssion is blrfbdy
+     *         running or sdifdulfd, or tif MBfbn is dlosfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void sdifdulf(long dflby, long intfrvbl)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+
+    /**
+     * Stops durrfnt running or sdifdulfd sdbn sfssions if bny.
+     * <p>
+     * A sdbn sfssion is b bbdkground tbsk tibt will sfqufntiblly dbll {@link
+     * DirfdtorySdbnnfrMXBfbn#sdbn sdbn()} on fvfry {@link
+     * DirfdtorySdbnnfrMXBfbn} donfigurfd for tiis MBfbn.
+     * </p>
+     * <p>
+     * Sdbn sfssions brf stbrtfd/sdifdulfd by dblls to {@link #stbrt stbrt} or
+     * {@link #sdifdulf sdifdulf}.
+     * </p>
+     * Aftfr tiis mftiod domplftfs tif stbtf of tif bpplidbtion will
+     * bf {@link SdbnStbtf#STOPPED}.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void stop()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Switdifs tif stbtf to CLOSED.
+     * Wifn dlosfd, tiis MBfbn dbnnot bf usfd bny morf.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void dlosf()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Stbrts b sdbn sfssion immfdibtfly.
+     * Tiis is fquivblfnt to {@link #sdifdulf(long,long) sdifdulf(0,0)}.
+     * @tirows IllfgblStbtfExdfption if b sdbn sfssion is blrfbdy
+     *         running or sdifdulfd, or tif MBfbn is dlosfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid void stbrt()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+
+    /**
+     * Gfts tif list of dirfdtory sdbnnfrs donfigurfd for tiis MBfbn.
+     * @rfturn A {@dodf Mbp<String,DirfdtorySdbnnfrMXBfbn>} wifrf tif
+     *         kfy in tif mbp is tif vbluf of tif <dodf>nbmf=</dodf> kfy
+     *         of tif {@link DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
+     **/
+    publid Mbp<String,DirfdtorySdbnnfrMXBfbn> gftDirfdtorySdbnnfrs()
+        tirows IOExdfption, JMExdfption;
+
+    /**
+     * Apply tif donfigurbtion ibndlfd by tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn}.
+     * <p>
+     * Wifn tif donfigurbtion is bpplifd, bll tif {@link DirfdtorySdbnnfrMXBfbn}
+     * drfbtfd by tiis MBfbn will bf unrfgistfrfd, bnd nfw {@link
+     * DirfdtorySdbnnfrMXBfbn} will bf drfbtfd bnd rfgistfrfd from tif
+     * nfw {@link SdbnDirConfigMXBfbn#gftConfigurbtion donfigurbtion dbtb}.
+     * </p>
+     * <p>
+     * Tif initibl rfsult log donfigurbtion ifld by tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn} will blso bf pusifd to tif
+     * {@link RfsultLogMbnbgfrMXBfbn}. If you don't wbnt to losf your durrfnt
+     * {@link RfsultLogMbnbgfrMXBfbn} donfigurbtion, you siould tifrfforf dbll
+     * {@link #bpplyCurrfntRfsultLogConfig
+     * bpplyCurrfntRfsultLogConfig} bfforf dblling
+     * {@link #bpplyConfigurbtion bpplyConfigurbtion}
+     * </p>
+     * @pbrbm fromMfmory if {@dodf truf}, tif donfigurbtion will bf bpplifd
+     *        from mfmory. if {@dodf fblsf}, tif {@dodf SdbnMbnbgfrMXBfbn} will
+     *        bsk tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn} to {@link
+     * SdbnDirConfigMXBfbn#lobd rflobd its donfigurbtion} bfforf bpplying
+     * it.
+     * @tirows IllfgblStbtfExdfption if b sdbn sfssion is
+     *         running or sdifdulfd, or tif MBfbn is dlosfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
+     **/
+    publid void bpplyConfigurbtion(boolfbn fromMfmory)
+        tirows IOExdfption, JMExdfption;
+    /**
+     * Rfplbdfs tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn}'s {@link
+     * dom.sun.jmx.fxbmplfs.sdbndir.donfig.SdbnMbnbgfrConfig#gftInitiblRfsultLogConfig
+     * initibl rfsult log donfigurbtion} witi tif durrfnt {@link
+     * RfsultLogMbnbgfrMXBfbn}
+     * donfigurbtion. Tiis prfvfnts tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf>
+     * durrfnt donfigurbtion from bfing rfsft wifn {@link #bpplyConfigurbtion
+     * bpplyConfigurbtion} is dbllfd.
+     * @pbrbm toMfmory if {@dodf truf} only rfplbdfs tif initibl rfsult log
+     *                 donfigurbtion ifld in mfmory.
+     *                 if {@dodf fblsf}, tif {@link
+     * #gftConfigurbtionMBfbn donfigurbtion MBfbn} will bf bskfd to dommit
+     * tif wiolf donfigurbtion to tif donfigurbtion filf.
+     *
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
+     **/
+    publid void bpplyCurrfntRfsultLogConfig(boolfbn toMfmory)
+        tirows IOExdfption, JMExdfption;
+
+    /**
+     * Instrudt tif {@dodf SdbnMbnbgfrMXBfbn} to usf bnotifr {@link
+     * SdbnDirConfigMXBfbn donfigurbtion MBfbn}.
+     * <p>Tiis mftiod dofsn't {@link #bpplyConfigurbtion bpply} tif nfw
+     * donfigurbtion. If you wbnt to bpply tif nfw donfigurbtion, you siould
+     * bdditionblly dbll {@link #bpplyConfigurbtion
+     * bpplyConfigurbtion(truf|fblsf)}. Notf tibt you dbnnot bpply b
+     * donfigurbtion bs long bs b sdbn sfssion is sdifdulfd or running.
+     * In tibt dbsf you will nffd to wbit for tibt sfssion to domplftf
+     * or dbll {@link #stop} to stop it.
+     * </p>
+     * @pbrbm donfig A proxy to tif {@link SdbnDirConfigMXBfbn} tibt iolds
+     * tif nfw donfigurbtion for tif bpplidbtion.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     */
+    publid void sftConfigurbtionMBfbn(SdbnDirConfigMXBfbn donfig)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+    /**
+     * Gfts tif durrfnt donfigurbtion MBfbn.
+     * @rfturn A proxy to tif durrfnt donfigurbtion MBfbn.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
+     **/
+    publid SdbnDirConfigMXBfbn gftConfigurbtionMBfbn()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
+    /**
+     * Tiis mftiod drfbtfs b nfw bltfrnbtf {@link SdbnDirConfigMXBfbn}.
+     *
+     * <p>You will nffd to dbll {@link #sftConfigurbtionMBfbn
+     * sftConfigurbtionMBfbn} if you
+     * wbnt tiis nfw {@link SdbnDirConfigMXBfbn} to bfdomf tif
+     * durrfnt donfigurbtion MBfbn.
+     * </p>
+     * <p>
+     * Tiis nfw {@link SdbnDirConfigMXBfbn} will bf unrfgistfrfd butombtidblly
+     * by tif {@dodf SdbnMbnbgfrMXBfbn} wifn tif {@dodf SdbnMbnbgfrMXBfbn}
+     * is unrfgistfrfd.
+     * </p>
+     * @pbrbm nbmf Tif siort nbmf for tif nfw {@link SdbnDirConfigMXBfbn}.
+     *        Tiis nbmf will bf usfd in tif ObjfdtNbmf <dodf>nbmf=</dodf> kfy
+     *        of tif nfw {@link SdbnDirConfigMXBfbn}.
+     * @pbrbm filfnbmf Tif pbti of tif filf from wiidi tif nfw {@link
+     *        SdbnDirConfigMXBfbn} dbn {@link SdbnDirConfigMXBfbn#lobd lobd} or
+     *        {@link SdbnDirConfigMXBfbn#sbvf sbvf} its donfigurbtion dbtb.
+     *        Notf tibt fvfn if tif filf fxists bnd dontbin b vblid
+     *        donfigurbtion, you will still nffd to dbll {@link
+     *        SdbnDirConfigMXBfbn#lobd lobd} to mbkf tif {@link
+     *        SdbnDirConfigMXBfbn} lobd its donfigurbtion dbtb.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows JMExdfption Tif MBfbnSfrvfr fbilfd to dbll tif undfrlying MBfbn.
+     * @rfturn A proxy to tif drfbtfd {@link SdbnDirConfigMXBfbn}.
+     */
+    publid SdbnDirConfigMXBfbn drfbtfOtifrConfigurbtionMBfbn(String nbmf,
+            String filfnbmf)
+        tirows JMExdfption, IOExdfption;
+}

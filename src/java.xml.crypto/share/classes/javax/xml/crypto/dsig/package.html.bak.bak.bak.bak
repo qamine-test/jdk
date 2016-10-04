@@ -1,75 +1,375 @@
-<html>
-<hfbd>
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
 
-</hfbd>
+
+
+
+
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body>
+<body>
+<body>
+<body>
 <body>
 Clbssfs for gfnfrbting bnd vblidbting XML digitbl
-signbturfs. This pbdkbgf indludfs dlbssfs thbt rfprfsfnt thf dorf flfmfnts 
-dffinfd in thf W3C XML digitbl signbturf spfdifidbtion:
+Clbssfs for gfnfrbting bnd vblidbting XML digitbl
+Clbssfs for gfnfrbting bnd vblidbting XML digitbl
+Clbssfs for gfnfrbting bnd vblidbting XML digitbl
+Clbssfs for gfnfrbting bnd vblidbting XML digitbl
+signbturfs. Tiis pbdkbgf indludfs dlbssfs tibt rfprfsfnt tif dorf flfmfnts 
+signbturfs. Tiis pbdkbgf indludfs dlbssfs tibt rfprfsfnt tif dorf flfmfnts 
+signbturfs. Tiis pbdkbgf indludfs dlbssfs tibt rfprfsfnt tif dorf flfmfnts 
+signbturfs. Tiis pbdkbgf indludfs dlbssfs tibt rfprfsfnt tif dorf flfmfnts 
+signbturfs. Tiis pbdkbgf indludfs dlbssfs tibt rfprfsfnt tif dorf flfmfnts 
+dffinfd in tif W3C XML digitbl signbturf spfdifidbtion:
+dffinfd in tif W3C XML digitbl signbturf spfdifidbtion:
+dffinfd in tif W3C XML digitbl signbturf spfdifidbtion:
+dffinfd in tif W3C XML digitbl signbturf spfdifidbtion:
+dffinfd in tif W3C XML digitbl signbturf spfdifidbtion:
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf},
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf},
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf},
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf},
 {@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf},
 {@link jbvbx.xml.drypto.dsig.SignfdInfo SignfdInfo},
-{@link jbvbx.xml.drypto.dsig.CbnonidblizbtionMfthod CbnonidblizbtionMfthod},
-{@link jbvbx.xml.drypto.dsig.SignbturfMfthod SignbturfMfthod},
+{@link jbvbx.xml.drypto.dsig.SignfdInfo SignfdInfo},
+{@link jbvbx.xml.drypto.dsig.SignfdInfo SignfdInfo},
+{@link jbvbx.xml.drypto.dsig.SignfdInfo SignfdInfo},
+{@link jbvbx.xml.drypto.dsig.SignfdInfo SignfdInfo},
+{@link jbvbx.xml.drypto.dsig.CbnonidblizbtionMftiod CbnonidblizbtionMftiod},
+{@link jbvbx.xml.drypto.dsig.CbnonidblizbtionMftiod CbnonidblizbtionMftiod},
+{@link jbvbx.xml.drypto.dsig.CbnonidblizbtionMftiod CbnonidblizbtionMftiod},
+{@link jbvbx.xml.drypto.dsig.CbnonidblizbtionMftiod CbnonidblizbtionMftiod},
+{@link jbvbx.xml.drypto.dsig.CbnonidblizbtionMftiod CbnonidblizbtionMftiod},
+{@link jbvbx.xml.drypto.dsig.SignbturfMftiod SignbturfMftiod},
+{@link jbvbx.xml.drypto.dsig.SignbturfMftiod SignbturfMftiod},
+{@link jbvbx.xml.drypto.dsig.SignbturfMftiod SignbturfMftiod},
+{@link jbvbx.xml.drypto.dsig.SignbturfMftiod SignbturfMftiod},
+{@link jbvbx.xml.drypto.dsig.SignbturfMftiod SignbturfMftiod},
 {@link jbvbx.xml.drypto.dsig.Rfffrfndf Rfffrfndf}, 
-{@link jbvbx.xml.drypto.dsig.DigfstMfthod DigfstMfthod},
+{@link jbvbx.xml.drypto.dsig.Rfffrfndf Rfffrfndf}, 
+{@link jbvbx.xml.drypto.dsig.Rfffrfndf Rfffrfndf}, 
+{@link jbvbx.xml.drypto.dsig.Rfffrfndf Rfffrfndf}, 
+{@link jbvbx.xml.drypto.dsig.Rfffrfndf Rfffrfndf}, 
+{@link jbvbx.xml.drypto.dsig.DigfstMftiod DigfstMftiod},
+{@link jbvbx.xml.drypto.dsig.DigfstMftiod DigfstMftiod},
+{@link jbvbx.xml.drypto.dsig.DigfstMftiod DigfstMftiod},
+{@link jbvbx.xml.drypto.dsig.DigfstMftiod DigfstMftiod},
+{@link jbvbx.xml.drypto.dsig.DigfstMftiod DigfstMftiod},
+{@link jbvbx.xml.drypto.dsig.XMLObjfdt XMLObjfdt}, 
+{@link jbvbx.xml.drypto.dsig.XMLObjfdt XMLObjfdt}, 
+{@link jbvbx.xml.drypto.dsig.XMLObjfdt XMLObjfdt}, 
+{@link jbvbx.xml.drypto.dsig.XMLObjfdt XMLObjfdt}, 
 {@link jbvbx.xml.drypto.dsig.XMLObjfdt XMLObjfdt}, 
 {@link jbvbx.xml.drypto.dsig.Mbniffst Mbniffst},
+{@link jbvbx.xml.drypto.dsig.Mbniffst Mbniffst},
+{@link jbvbx.xml.drypto.dsig.Mbniffst Mbniffst},
+{@link jbvbx.xml.drypto.dsig.Mbniffst Mbniffst},
+{@link jbvbx.xml.drypto.dsig.Mbniffst Mbniffst},
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrtifs SignbturfPropfrtifs}, bnd
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrtifs SignbturfPropfrtifs}, bnd
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrtifs SignbturfPropfrtifs}, bnd
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrtifs SignbturfPropfrtifs}, bnd
 {@link jbvbx.xml.drypto.dsig.SignbturfPropfrtifs SignbturfPropfrtifs}, bnd
 {@link jbvbx.xml.drypto.dsig.SignbturfPropfrty SignbturfPropfrty}. 
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrty SignbturfPropfrty}. 
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrty SignbturfPropfrty}. 
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrty SignbturfPropfrty}. 
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrty SignbturfPropfrty}. 
 <dodf>KfyInfo</dodf> typfs
-brf dffinfd in thf {@link jbvbx.xml.drypto.dsig.kfyinfo} subpbdkbgf.
+<dodf>KfyInfo</dodf> typfs
+<dodf>KfyInfo</dodf> typfs
+<dodf>KfyInfo</dodf> typfs
+<dodf>KfyInfo</dodf> typfs
+brf dffinfd in tif {@link jbvbx.xml.drypto.dsig.kfyinfo} subpbdkbgf.
+brf dffinfd in tif {@link jbvbx.xml.drypto.dsig.kfyinfo} subpbdkbgf.
+brf dffinfd in tif {@link jbvbx.xml.drypto.dsig.kfyinfo} subpbdkbgf.
+brf dffinfd in tif {@link jbvbx.xml.drypto.dsig.kfyinfo} subpbdkbgf.
+brf dffinfd in tif {@link jbvbx.xml.drypto.dsig.kfyinfo} subpbdkbgf.
 {@link jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory XMLSignbturfFbdtory}
-is bn bbstrbdt fbdtory thbt drfbtfs 
-{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} objfdts from sdrbtdh
-or from b prf-fxisting XML rfprfsfntbtion, sudh bs b DOM nodf.
+{@link jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory XMLSignbturfFbdtory}
+{@link jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory XMLSignbturfFbdtory}
+{@link jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory XMLSignbturfFbdtory}
+{@link jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory XMLSignbturfFbdtory}
+is bn bbstrbdt fbdtory tibt drfbtfs 
+is bn bbstrbdt fbdtory tibt drfbtfs 
+is bn bbstrbdt fbdtory tibt drfbtfs 
+is bn bbstrbdt fbdtory tibt drfbtfs 
+is bn bbstrbdt fbdtory tibt drfbtfs 
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} objfdts from sdrbtdi
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} objfdts from sdrbtdi
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} objfdts from sdrbtdi
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} objfdts from sdrbtdi
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} objfdts from sdrbtdi
+or from b prf-fxisting XML rfprfsfntbtion, sudi bs b DOM nodf.
+or from b prf-fxisting XML rfprfsfntbtion, sudi bs b DOM nodf.
+or from b prf-fxisting XML rfprfsfntbtion, sudi bs b DOM nodf.
+or from b prf-fxisting XML rfprfsfntbtion, sudi bs b DOM nodf.
+or from b prf-fxisting XML rfprfsfntbtion, sudi bs b DOM nodf.
+{@link jbvbx.xml.drypto.dsig.TrbnsformSfrvidf} is b sfrvidf providfr
+{@link jbvbx.xml.drypto.dsig.TrbnsformSfrvidf} is b sfrvidf providfr
+{@link jbvbx.xml.drypto.dsig.TrbnsformSfrvidf} is b sfrvidf providfr
+{@link jbvbx.xml.drypto.dsig.TrbnsformSfrvidf} is b sfrvidf providfr
 {@link jbvbx.xml.drypto.dsig.TrbnsformSfrvidf} is b sfrvidf providfr
 intfrfbdf for drfbting bnd plugging in implfmfntbtions of
-trbnsform bnd dbnonidblizbtion blgorithms.
+intfrfbdf for drfbting bnd plugging in implfmfntbtions of
+intfrfbdf for drfbting bnd plugging in implfmfntbtions of
+intfrfbdf for drfbting bnd plugging in implfmfntbtions of
+intfrfbdf for drfbting bnd plugging in implfmfntbtions of
+trbnsform bnd dbnonidblizbtion blgoritims.
+trbnsform bnd dbnonidblizbtion blgoritims.
+trbnsform bnd dbnonidblizbtion blgoritims.
+trbnsform bnd dbnonidblizbtion blgoritims.
+trbnsform bnd dbnonidblizbtion blgoritims.
 
-<p>Of primbry signifidbndf in this pbdkbgf is thf 
+
+
+
+
+<p>Of primbry signifidbndf in tiis pbdkbgf is tif 
+<p>Of primbry signifidbndf in tiis pbdkbgf is tif 
+<p>Of primbry signifidbndf in tiis pbdkbgf is tif 
+<p>Of primbry signifidbndf in tiis pbdkbgf is tif 
+<p>Of primbry signifidbndf in tiis pbdkbgf is tif 
 {@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} dlbss,
-whidh bllows you to sign bnd vblidbtf bn XML digitbl signbturf.
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} dlbss,
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} dlbss,
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} dlbss,
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} dlbss,
+wiidi bllows you to sign bnd vblidbtf bn XML digitbl signbturf.
+wiidi bllows you to sign bnd vblidbtf bn XML digitbl signbturf.
+wiidi bllows you to sign bnd vblidbtf bn XML digitbl signbturf.
+wiidi bllows you to sign bnd vblidbtf bn XML digitbl signbturf.
+wiidi bllows you to sign bnd vblidbtf bn XML digitbl signbturf.
 
-<h2>Pbdkbgf Spfdifidbtion</h2>
+
+
+
+
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+
+
+
 
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
 <li>
-<b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+<li>
+<li>
+<li>
+<li>
+<b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+<b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+<b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+<b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+<b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+XML-Signbturf Syntbx bnd Prodfssing: W3C Rfdommfndbtion</b>
+XML-Signbturf Syntbx bnd Prodfssing: W3C Rfdommfndbtion</b>
+XML-Signbturf Syntbx bnd Prodfssing: W3C Rfdommfndbtion</b>
+XML-Signbturf Syntbx bnd Prodfssing: W3C Rfdommfndbtion</b>
 XML-Signbturf Syntbx bnd Prodfssing: W3C Rfdommfndbtion</b>
 <li>
-<b hrff="http://www.iftf.org/rfd/rfd3275.txt">
+<li>
+<li>
+<li>
+<li>
+<b irff="ittp://www.iftf.org/rfd/rfd3275.txt">
+<b irff="ittp://www.iftf.org/rfd/rfd3275.txt">
+<b irff="ittp://www.iftf.org/rfd/rfd3275.txt">
+<b irff="ittp://www.iftf.org/rfd/rfd3275.txt">
+<b irff="ittp://www.iftf.org/rfd/rfd3275.txt">
+RFC 3275: XML-Signbturf Syntbx bnd Prodfssing</b>
+RFC 3275: XML-Signbturf Syntbx bnd Prodfssing</b>
+RFC 3275: XML-Signbturf Syntbx bnd Prodfssing</b>
+RFC 3275: XML-Signbturf Syntbx bnd Prodfssing</b>
 RFC 3275: XML-Signbturf Syntbx bnd Prodfssing</b>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <p>
+<p>
+<p>
+<p>
+<p>
+<dl>
+<dl>
+<dl>
+<dl>
 <dl>
 <dt><b>Sindf:</b></dt>
+<dt><b>Sindf:</b></dt>
+<dt><b>Sindf:</b></dt>
+<dt><b>Sindf:</b></dt>
+<dt><b>Sindf:</b></dt>
+  <dd>1.6</dd>
+  <dd>1.6</dd>
+  <dd>1.6</dd>
+  <dd>1.6</dd>
   <dd>1.6</dd>
 </dl>
+</dl>
+</dl>
+</dl>
+</dl>
+
+
+
+
 
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

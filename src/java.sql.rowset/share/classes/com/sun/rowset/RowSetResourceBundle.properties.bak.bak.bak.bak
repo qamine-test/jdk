@@ -1,170 +1,850 @@
 #
-# Copyright (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
-# CbdhfRowSftImpl fxdfptions
-dbdhfdrowsftimpl.populbtf = Invblid RfsultSft objfdt supplifd to populbtf mfthod
-dbdhfdrowsftimpl.invblidp = Invblid pfrsistfndf providfr gfnfrbtfd
-dbdhfdrowsftimpl.nullhbsh = Cbnnot instbntibtf CbdhfdRowSftImpl instbndf. Null Hbshtbblf supplifd to donstrudtor
-dbdhfdrowsftimpl.invblidop = Invblid opfrbtion whilf on insfrt row
-dbdhfdrowsftimpl.bddfbilfd = bddfptChbngfs Fbilfd
-dbdhfdrowsftimpl.invbliddp = Invblid dursor position
-dbdhfdrowsftimpl.illfgblop = Illfgbl opfrbtion on non-insfrtfd row
-dbdhfdrowsftimpl.dlonffbil = Clonf fbilfd: {0}
-dbdhfdrowsftimpl.invbliddol = Invblid dolumn indfx
-dbdhfdrowsftimpl.invbldolnm = Invblid dolumn nbmf
-dbdhfdrowsftimpl.boolfbil = gftBoolfn Fbilfd on vbluf ( {0} ) in dolumn {1}
-dbdhfdrowsftimpl.bytffbil = gftBytf Fbilfd on vbluf ( {0} ) in dolumn {1}
-dbdhfdrowsftimpl.shortfbil = gftShort Fbilfd on vbluf ( {0} ) in dolumn {1}
-dbdhfdrowsftimpl.intfbil = gftInt Fbilfd on vbluf ( {0} ) in dolumn {1}
-dbdhfdrowsftimpl.longfbil = gftLong Fbilfd on vbluf ( {0} ) in dolumn {1}
-dbdhfdrowsftimpl.flobtfbil = gftFlobt fbilfd on vbluf ( {0} ) in dolumn {1}
-dbdhfdrowsftimpl.doublffbil = gftDoublf fbilfd on vbluf ( {0} ) in dolumn {1}
-dbdhfdrowsftimpl.dtypfmismt = Dbtb Typf Mismbtdh 
-dbdhfdrowsftimpl.dbtffbil = gftDbtf Fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
-dbdhfdrowsftimpl.timffbil = gftTimf fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
-dbdhfdrowsftimpl.posupdbtf = Positionfd updbtfs not supportfd
-dbdhfdrowsftimpl.unbblfins = Unbblf to instbntibtf : {0}
-dbdhfdrowsftimpl.bfforffirst = bfforfFirst : Invblid dursor opfrbtion
-dbdhfdrowsftimpl.first = First : Invblid dursor opfrbtion
-dbdhfdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
-dbdhfdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor position
-dbdhfdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor position
-dbdhfdrowsftimpl.bsdiistrfbm = rfbd fbilfd for bsdii strfbm
-dbdhfdrowsftimpl.binstrfbm = rfbd fbilfd on binbry strfbm
-dbdhfdrowsftimpl.fbilfdins = Fbilfd on insfrt row
-dbdhfdrowsftimpl.updbtfins = updbtfRow dbllfd whilf on insfrt row
-dbdhfdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
-dbdhfdrowsftimpl.movftoins1 = movfToInsfrtRow : no mftb dbtb
-dbdhfdrowsftimpl.movftoins2 = movfToInsfrtRow : invblid numbfr of dolumns
-dbdhfdrowsftimpl.tbblfnbmf = Tbblf nbmf dbnnot bf null
-dbdhfdrowsftimpl.kfydols = Invblid kfy dolumns
-dbdhfdrowsftimpl.invbliddol = Invblid dolumn indfx
-dbdhfdrowsftimpl.opnotsupp = Opfrbtion not supportfd by Dbtbbbsf
-dbdhfdrowsftimpl.mbtdhdols = Mbtdh dolumns brf not thf sbmf bs thosf sft
-dbdhfdrowsftimpl.sftmbtdhdols = Sft Mbtdh dolumns bfforf gftting thfm
-dbdhfdrowsftimpl.mbtdhdols1 = Mbtdh dolumns should bf grfbtfr thbn 0
-dbdhfdrowsftimpl.mbtdhdols2 = Mbtdh dolumns should bf fmpty or null string
-dbdhfdrowsftimpl.unsftmbtdh = Columns bfing unsft brf not thf sbmf bs sft
-dbdhfdrowsftimpl.unsftmbtdh1 = Usf dolumn nbmf bs brgumfnt to unsftMbtdhColumn
-dbdhfdrowsftimpl.unsftmbtdh2 = Usf dolumn ID bs brgumfnt to unsftMbtdhColumn
-dbdhfdrowsftimpl.numrows = Numbfr of rows is lfss thbn zfro or lfss thbn fftdh sizf
-dbdhfdrowsftimpl.stbrtpos = Stbrt position dbnnot bf nfgbtivf
-dbdhfdrowsftimpl.nfxtpbgf = Populbtf dbtb bfforf dblling 
-dbdhfdrowsftimpl.pbgfsizf = Pbgf sizf dbnnot bf lfss thbn zfro
-dbdhfdrowsftimpl.pbgfsizf1 = Pbgf sizf dbnnot bf grfbtfr thbn mbxRows
-dbdhfdrowsftimpl.fwdonly = RfsultSft is forwbrd only
-dbdhfdrowsftimpl.typf = Typf is : {0}
-dbdhfdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
-dbdhfdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+
+
+
+
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+# CbdifRowSftImpl fxdfptions
+dbdifdrowsftimpl.populbtf = Invblid RfsultSft objfdt supplifd to populbtf mftiod
+dbdifdrowsftimpl.populbtf = Invblid RfsultSft objfdt supplifd to populbtf mftiod
+dbdifdrowsftimpl.populbtf = Invblid RfsultSft objfdt supplifd to populbtf mftiod
+dbdifdrowsftimpl.populbtf = Invblid RfsultSft objfdt supplifd to populbtf mftiod
+dbdifdrowsftimpl.populbtf = Invblid RfsultSft objfdt supplifd to populbtf mftiod
+dbdifdrowsftimpl.invblidp = Invblid pfrsistfndf providfr gfnfrbtfd
+dbdifdrowsftimpl.invblidp = Invblid pfrsistfndf providfr gfnfrbtfd
+dbdifdrowsftimpl.invblidp = Invblid pfrsistfndf providfr gfnfrbtfd
+dbdifdrowsftimpl.invblidp = Invblid pfrsistfndf providfr gfnfrbtfd
+dbdifdrowsftimpl.invblidp = Invblid pfrsistfndf providfr gfnfrbtfd
+dbdifdrowsftimpl.nullibsi = Cbnnot instbntibtf CbdifdRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+dbdifdrowsftimpl.nullibsi = Cbnnot instbntibtf CbdifdRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+dbdifdrowsftimpl.nullibsi = Cbnnot instbntibtf CbdifdRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+dbdifdrowsftimpl.nullibsi = Cbnnot instbntibtf CbdifdRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+dbdifdrowsftimpl.nullibsi = Cbnnot instbntibtf CbdifdRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+dbdifdrowsftimpl.invblidop = Invblid opfrbtion wiilf on insfrt row
+dbdifdrowsftimpl.invblidop = Invblid opfrbtion wiilf on insfrt row
+dbdifdrowsftimpl.invblidop = Invblid opfrbtion wiilf on insfrt row
+dbdifdrowsftimpl.invblidop = Invblid opfrbtion wiilf on insfrt row
+dbdifdrowsftimpl.invblidop = Invblid opfrbtion wiilf on insfrt row
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs Fbilfd
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs Fbilfd
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs Fbilfd
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs Fbilfd
+dbdifdrowsftimpl.bddfbilfd = bddfptCibngfs Fbilfd
+dbdifdrowsftimpl.invbliddp = Invblid dursor position
+dbdifdrowsftimpl.invbliddp = Invblid dursor position
+dbdifdrowsftimpl.invbliddp = Invblid dursor position
+dbdifdrowsftimpl.invbliddp = Invblid dursor position
+dbdifdrowsftimpl.invbliddp = Invblid dursor position
+dbdifdrowsftimpl.illfgblop = Illfgbl opfrbtion on non-insfrtfd row
+dbdifdrowsftimpl.illfgblop = Illfgbl opfrbtion on non-insfrtfd row
+dbdifdrowsftimpl.illfgblop = Illfgbl opfrbtion on non-insfrtfd row
+dbdifdrowsftimpl.illfgblop = Illfgbl opfrbtion on non-insfrtfd row
+dbdifdrowsftimpl.illfgblop = Illfgbl opfrbtion on non-insfrtfd row
+dbdifdrowsftimpl.dlonffbil = Clonf fbilfd: {0}
+dbdifdrowsftimpl.dlonffbil = Clonf fbilfd: {0}
+dbdifdrowsftimpl.dlonffbil = Clonf fbilfd: {0}
+dbdifdrowsftimpl.dlonffbil = Clonf fbilfd: {0}
+dbdifdrowsftimpl.dlonffbil = Clonf fbilfd: {0}
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbldolnm = Invblid dolumn nbmf
+dbdifdrowsftimpl.invbldolnm = Invblid dolumn nbmf
+dbdifdrowsftimpl.invbldolnm = Invblid dolumn nbmf
+dbdifdrowsftimpl.invbldolnm = Invblid dolumn nbmf
+dbdifdrowsftimpl.invbldolnm = Invblid dolumn nbmf
+dbdifdrowsftimpl.boolfbil = gftBoolfn Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.boolfbil = gftBoolfn Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.boolfbil = gftBoolfn Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.boolfbil = gftBoolfn Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.boolfbil = gftBoolfn Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.bytffbil = gftBytf Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.bytffbil = gftBytf Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.bytffbil = gftBytf Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.bytffbil = gftBytf Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.bytffbil = gftBytf Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.siortfbil = gftSiort Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.siortfbil = gftSiort Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.siortfbil = gftSiort Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.siortfbil = gftSiort Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.siortfbil = gftSiort Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.intfbil = gftInt Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.intfbil = gftInt Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.intfbil = gftInt Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.intfbil = gftInt Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.intfbil = gftInt Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.longfbil = gftLong Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.longfbil = gftLong Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.longfbil = gftLong Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.longfbil = gftLong Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.longfbil = gftLong Fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.flobtfbil = gftFlobt fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.doublffbil = gftDoublf fbilfd on vbluf ( {0} ) in dolumn {1}
+dbdifdrowsftimpl.dtypfmismt = Dbtb Typf Mismbtdi 
+dbdifdrowsftimpl.dtypfmismt = Dbtb Typf Mismbtdi 
+dbdifdrowsftimpl.dtypfmismt = Dbtb Typf Mismbtdi 
+dbdifdrowsftimpl.dtypfmismt = Dbtb Typf Mismbtdi 
+dbdifdrowsftimpl.dtypfmismt = Dbtb Typf Mismbtdi 
+dbdifdrowsftimpl.dbtffbil = gftDbtf Fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.dbtffbil = gftDbtf Fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.dbtffbil = gftDbtf Fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.dbtffbil = gftDbtf Fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.dbtffbil = gftDbtf Fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.timffbil = gftTimf fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.timffbil = gftTimf fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.timffbil = gftTimf fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.timffbil = gftTimf fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.timffbil = gftTimf fbilfd on vbluf ( {0} ) in dolumn {1} no donvfrsion bvbilbblf
+dbdifdrowsftimpl.posupdbtf = Positionfd updbtfs not supportfd
+dbdifdrowsftimpl.posupdbtf = Positionfd updbtfs not supportfd
+dbdifdrowsftimpl.posupdbtf = Positionfd updbtfs not supportfd
+dbdifdrowsftimpl.posupdbtf = Positionfd updbtfs not supportfd
+dbdifdrowsftimpl.posupdbtf = Positionfd updbtfs not supportfd
+dbdifdrowsftimpl.unbblfins = Unbblf to instbntibtf : {0}
+dbdifdrowsftimpl.unbblfins = Unbblf to instbntibtf : {0}
+dbdifdrowsftimpl.unbblfins = Unbblf to instbntibtf : {0}
+dbdifdrowsftimpl.unbblfins = Unbblf to instbntibtf : {0}
+dbdifdrowsftimpl.unbblfins = Unbblf to instbntibtf : {0}
+dbdifdrowsftimpl.bfforffirst = bfforfFirst : Invblid dursor opfrbtion
+dbdifdrowsftimpl.bfforffirst = bfforfFirst : Invblid dursor opfrbtion
+dbdifdrowsftimpl.bfforffirst = bfforfFirst : Invblid dursor opfrbtion
+dbdifdrowsftimpl.bfforffirst = bfforfFirst : Invblid dursor opfrbtion
+dbdifdrowsftimpl.bfforffirst = bfforfFirst : Invblid dursor opfrbtion
+dbdifdrowsftimpl.first = First : Invblid dursor opfrbtion
+dbdifdrowsftimpl.first = First : Invblid dursor opfrbtion
+dbdifdrowsftimpl.first = First : Invblid dursor opfrbtion
+dbdifdrowsftimpl.first = First : Invblid dursor opfrbtion
+dbdifdrowsftimpl.first = First : Invblid dursor opfrbtion
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor position
+dbdifdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor position
+dbdifdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor position
+dbdifdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor position
+dbdifdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor position
+dbdifdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor position
+dbdifdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor position
+dbdifdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor position
+dbdifdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor position
+dbdifdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor position
+dbdifdrowsftimpl.bsdiistrfbm = rfbd fbilfd for bsdii strfbm
+dbdifdrowsftimpl.bsdiistrfbm = rfbd fbilfd for bsdii strfbm
+dbdifdrowsftimpl.bsdiistrfbm = rfbd fbilfd for bsdii strfbm
+dbdifdrowsftimpl.bsdiistrfbm = rfbd fbilfd for bsdii strfbm
+dbdifdrowsftimpl.bsdiistrfbm = rfbd fbilfd for bsdii strfbm
+dbdifdrowsftimpl.binstrfbm = rfbd fbilfd on binbry strfbm
+dbdifdrowsftimpl.binstrfbm = rfbd fbilfd on binbry strfbm
+dbdifdrowsftimpl.binstrfbm = rfbd fbilfd on binbry strfbm
+dbdifdrowsftimpl.binstrfbm = rfbd fbilfd on binbry strfbm
+dbdifdrowsftimpl.binstrfbm = rfbd fbilfd on binbry strfbm
+dbdifdrowsftimpl.fbilfdins = Fbilfd on insfrt row
+dbdifdrowsftimpl.fbilfdins = Fbilfd on insfrt row
+dbdifdrowsftimpl.fbilfdins = Fbilfd on insfrt row
+dbdifdrowsftimpl.fbilfdins = Fbilfd on insfrt row
+dbdifdrowsftimpl.fbilfdins = Fbilfd on insfrt row
+dbdifdrowsftimpl.updbtfins = updbtfRow dbllfd wiilf on insfrt row
+dbdifdrowsftimpl.updbtfins = updbtfRow dbllfd wiilf on insfrt row
+dbdifdrowsftimpl.updbtfins = updbtfRow dbllfd wiilf on insfrt row
+dbdifdrowsftimpl.updbtfins = updbtfRow dbllfd wiilf on insfrt row
+dbdifdrowsftimpl.updbtfins = updbtfRow dbllfd wiilf on insfrt row
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow : no mftb dbtb
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow : no mftb dbtb
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow : no mftb dbtb
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow : no mftb dbtb
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow : no mftb dbtb
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow : invblid numbfr of dolumns
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow : invblid numbfr of dolumns
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow : invblid numbfr of dolumns
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow : invblid numbfr of dolumns
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow : invblid numbfr of dolumns
+dbdifdrowsftimpl.tbblfnbmf = Tbblf nbmf dbnnot bf null
+dbdifdrowsftimpl.tbblfnbmf = Tbblf nbmf dbnnot bf null
+dbdifdrowsftimpl.tbblfnbmf = Tbblf nbmf dbnnot bf null
+dbdifdrowsftimpl.tbblfnbmf = Tbblf nbmf dbnnot bf null
+dbdifdrowsftimpl.tbblfnbmf = Tbblf nbmf dbnnot bf null
+dbdifdrowsftimpl.kfydols = Invblid kfy dolumns
+dbdifdrowsftimpl.kfydols = Invblid kfy dolumns
+dbdifdrowsftimpl.kfydols = Invblid kfy dolumns
+dbdifdrowsftimpl.kfydols = Invblid kfy dolumns
+dbdifdrowsftimpl.kfydols = Invblid kfy dolumns
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.invbliddol = Invblid dolumn indfx
+dbdifdrowsftimpl.opnotsupp = Opfrbtion not supportfd by Dbtbbbsf
+dbdifdrowsftimpl.opnotsupp = Opfrbtion not supportfd by Dbtbbbsf
+dbdifdrowsftimpl.opnotsupp = Opfrbtion not supportfd by Dbtbbbsf
+dbdifdrowsftimpl.opnotsupp = Opfrbtion not supportfd by Dbtbbbsf
+dbdifdrowsftimpl.opnotsupp = Opfrbtion not supportfd by Dbtbbbsf
+dbdifdrowsftimpl.mbtdidols = Mbtdi dolumns brf not tif sbmf bs tiosf sft
+dbdifdrowsftimpl.mbtdidols = Mbtdi dolumns brf not tif sbmf bs tiosf sft
+dbdifdrowsftimpl.mbtdidols = Mbtdi dolumns brf not tif sbmf bs tiosf sft
+dbdifdrowsftimpl.mbtdidols = Mbtdi dolumns brf not tif sbmf bs tiosf sft
+dbdifdrowsftimpl.mbtdidols = Mbtdi dolumns brf not tif sbmf bs tiosf sft
+dbdifdrowsftimpl.sftmbtdidols = Sft Mbtdi dolumns bfforf gftting tifm
+dbdifdrowsftimpl.sftmbtdidols = Sft Mbtdi dolumns bfforf gftting tifm
+dbdifdrowsftimpl.sftmbtdidols = Sft Mbtdi dolumns bfforf gftting tifm
+dbdifdrowsftimpl.sftmbtdidols = Sft Mbtdi dolumns bfforf gftting tifm
+dbdifdrowsftimpl.sftmbtdidols = Sft Mbtdi dolumns bfforf gftting tifm
+dbdifdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+dbdifdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+dbdifdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+dbdifdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+dbdifdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+dbdifdrowsftimpl.mbtdidols2 = Mbtdi dolumns siould bf fmpty or null string
+dbdifdrowsftimpl.mbtdidols2 = Mbtdi dolumns siould bf fmpty or null string
+dbdifdrowsftimpl.mbtdidols2 = Mbtdi dolumns siould bf fmpty or null string
+dbdifdrowsftimpl.mbtdidols2 = Mbtdi dolumns siould bf fmpty or null string
+dbdifdrowsftimpl.mbtdidols2 = Mbtdi dolumns siould bf fmpty or null string
+dbdifdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs sft
+dbdifdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs sft
+dbdifdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs sft
+dbdifdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs sft
+dbdifdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs sft
+dbdifdrowsftimpl.unsftmbtdi1 = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi1 = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi1 = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi1 = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi1 = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+dbdifdrowsftimpl.numrows = Numbfr of rows is lfss tibn zfro or lfss tibn fftdi sizf
+dbdifdrowsftimpl.numrows = Numbfr of rows is lfss tibn zfro or lfss tibn fftdi sizf
+dbdifdrowsftimpl.numrows = Numbfr of rows is lfss tibn zfro or lfss tibn fftdi sizf
+dbdifdrowsftimpl.numrows = Numbfr of rows is lfss tibn zfro or lfss tibn fftdi sizf
+dbdifdrowsftimpl.numrows = Numbfr of rows is lfss tibn zfro or lfss tibn fftdi sizf
+dbdifdrowsftimpl.stbrtpos = Stbrt position dbnnot bf nfgbtivf
+dbdifdrowsftimpl.stbrtpos = Stbrt position dbnnot bf nfgbtivf
+dbdifdrowsftimpl.stbrtpos = Stbrt position dbnnot bf nfgbtivf
+dbdifdrowsftimpl.stbrtpos = Stbrt position dbnnot bf nfgbtivf
+dbdifdrowsftimpl.stbrtpos = Stbrt position dbnnot bf nfgbtivf
+dbdifdrowsftimpl.nfxtpbgf = Populbtf dbtb bfforf dblling 
+dbdifdrowsftimpl.nfxtpbgf = Populbtf dbtb bfforf dblling 
+dbdifdrowsftimpl.nfxtpbgf = Populbtf dbtb bfforf dblling 
+dbdifdrowsftimpl.nfxtpbgf = Populbtf dbtb bfforf dblling 
+dbdifdrowsftimpl.nfxtpbgf = Populbtf dbtb bfforf dblling 
+dbdifdrowsftimpl.pbgfsizf = Pbgf sizf dbnnot bf lfss tibn zfro
+dbdifdrowsftimpl.pbgfsizf = Pbgf sizf dbnnot bf lfss tibn zfro
+dbdifdrowsftimpl.pbgfsizf = Pbgf sizf dbnnot bf lfss tibn zfro
+dbdifdrowsftimpl.pbgfsizf = Pbgf sizf dbnnot bf lfss tibn zfro
+dbdifdrowsftimpl.pbgfsizf = Pbgf sizf dbnnot bf lfss tibn zfro
+dbdifdrowsftimpl.pbgfsizf1 = Pbgf sizf dbnnot bf grfbtfr tibn mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = Pbgf sizf dbnnot bf grfbtfr tibn mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = Pbgf sizf dbnnot bf grfbtfr tibn mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = Pbgf sizf dbnnot bf grfbtfr tibn mbxRows
+dbdifdrowsftimpl.pbgfsizf1 = Pbgf sizf dbnnot bf grfbtfr tibn mbxRows
+dbdifdrowsftimpl.fwdonly = RfsultSft is forwbrd only
+dbdifdrowsftimpl.fwdonly = RfsultSft is forwbrd only
+dbdifdrowsftimpl.fwdonly = RfsultSft is forwbrd only
+dbdifdrowsftimpl.fwdonly = RfsultSft is forwbrd only
+dbdifdrowsftimpl.fwdonly = RfsultSft is forwbrd only
+dbdifdrowsftimpl.typf = Typf is : {0}
+dbdifdrowsftimpl.typf = Typf is : {0}
+dbdifdrowsftimpl.typf = Typf is : {0}
+dbdifdrowsftimpl.typf = Typf is : {0}
+dbdifdrowsftimpl.typf = Typf is : {0}
+dbdifdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+dbdifdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+dbdifdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+dbdifdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+dbdifdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+dbdifdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+
+
+
+
 
 # WfbRowSftImpl fxdfptions
-wfbrowsftimpl.nullhbsh = Cbnnot instbntibtf WfbRowSftImpl instbndf. Null Hbshtbblf supplifd to donstrudtor
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullibsi = Cbnnot instbntibtf WfbRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+wfbrowsftimpl.nullibsi = Cbnnot instbntibtf WfbRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+wfbrowsftimpl.nullibsi = Cbnnot instbntibtf WfbRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+wfbrowsftimpl.nullibsi = Cbnnot instbntibtf WfbRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+wfbrowsftimpl.nullibsi = Cbnnot instbntibtf WfbRowSftImpl instbndf. Null Hbsitbblf supplifd to donstrudtor
+wfbrowsftimpl.invblidwr = Invblid writfr
+wfbrowsftimpl.invblidwr = Invblid writfr
+wfbrowsftimpl.invblidwr = Invblid writfr
+wfbrowsftimpl.invblidwr = Invblid writfr
 wfbrowsftimpl.invblidwr = Invblid writfr
 wfbrowsftimpl.invblidrd = Invblid rfbdfr
+wfbrowsftimpl.invblidrd = Invblid rfbdfr
+wfbrowsftimpl.invblidrd = Invblid rfbdfr
+wfbrowsftimpl.invblidrd = Invblid rfbdfr
+wfbrowsftimpl.invblidrd = Invblid rfbdfr
+
+
+
+
 
 #FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor opfrbtion 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor opfrbtion 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor opfrbtion 
+filtfrfdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor opfrbtion 
 filtfrfdrowsftimpl.rflbtivf = rflbtivf : Invblid dursor opfrbtion 
 filtfrfdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor opfrbtion
-filtfrfdrowsftimpl.notbllowfd = This vbluf is not bllowfd through thf filtfr
+filtfrfdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor opfrbtion
+filtfrfdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor opfrbtion
+filtfrfdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor opfrbtion
+filtfrfdrowsftimpl.bbsolutf = bbsolutf : Invblid dursor opfrbtion
+filtfrfdrowsftimpl.notbllowfd = Tiis vbluf is not bllowfd tirougi tif filtfr
+filtfrfdrowsftimpl.notbllowfd = Tiis vbluf is not bllowfd tirougi tif filtfr
+filtfrfdrowsftimpl.notbllowfd = Tiis vbluf is not bllowfd tirougi tif filtfr
+filtfrfdrowsftimpl.notbllowfd = Tiis vbluf is not bllowfd tirougi tif filtfr
+filtfrfdrowsftimpl.notbllowfd = Tiis vbluf is not bllowfd tirougi tif filtfr
+
+
+
+
 
 #JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
+#JoinRowSftImpl fxdfptions
 joinrowsftimpl.notinstbndf = Not bn instbndf of rowsft
-joinrowsftimpl.mbtdhnotsft = Mbtdh Column not sft for join
-joinrowsftimpl.numnotfqubl = Numbfr of flfmfnts in rowsft not fqubl to mbtdh dolumn
-joinrowsftimpl.notdffinfd = This is not b dffinfd typf of join
-joinrowsftimpl.notsupportfd = This typf of join is not supportfd
+joinrowsftimpl.notinstbndf = Not bn instbndf of rowsft
+joinrowsftimpl.notinstbndf = Not bn instbndf of rowsft
+joinrowsftimpl.notinstbndf = Not bn instbndf of rowsft
+joinrowsftimpl.notinstbndf = Not bn instbndf of rowsft
+joinrowsftimpl.mbtdinotsft = Mbtdi Column not sft for join
+joinrowsftimpl.mbtdinotsft = Mbtdi Column not sft for join
+joinrowsftimpl.mbtdinotsft = Mbtdi Column not sft for join
+joinrowsftimpl.mbtdinotsft = Mbtdi Column not sft for join
+joinrowsftimpl.mbtdinotsft = Mbtdi Column not sft for join
+joinrowsftimpl.numnotfqubl = Numbfr of flfmfnts in rowsft not fqubl to mbtdi dolumn
+joinrowsftimpl.numnotfqubl = Numbfr of flfmfnts in rowsft not fqubl to mbtdi dolumn
+joinrowsftimpl.numnotfqubl = Numbfr of flfmfnts in rowsft not fqubl to mbtdi dolumn
+joinrowsftimpl.numnotfqubl = Numbfr of flfmfnts in rowsft not fqubl to mbtdi dolumn
+joinrowsftimpl.numnotfqubl = Numbfr of flfmfnts in rowsft not fqubl to mbtdi dolumn
+joinrowsftimpl.notdffinfd = Tiis is not b dffinfd typf of join
+joinrowsftimpl.notdffinfd = Tiis is not b dffinfd typf of join
+joinrowsftimpl.notdffinfd = Tiis is not b dffinfd typf of join
+joinrowsftimpl.notdffinfd = Tiis is not b dffinfd typf of join
+joinrowsftimpl.notdffinfd = Tiis is not b dffinfd typf of join
+joinrowsftimpl.notsupportfd = Tiis typf of join is not supportfd
+joinrowsftimpl.notsupportfd = Tiis typf of join is not supportfd
+joinrowsftimpl.notsupportfd = Tiis typf of join is not supportfd
+joinrowsftimpl.notsupportfd = Tiis typf of join is not supportfd
+joinrowsftimpl.notsupportfd = Tiis typf of join is not supportfd
+joinrowsftimpl.initfrror = JoinRowSft initiblizbtion frror
+joinrowsftimpl.initfrror = JoinRowSft initiblizbtion frror
+joinrowsftimpl.initfrror = JoinRowSft initiblizbtion frror
+joinrowsftimpl.initfrror = JoinRowSft initiblizbtion frror
 joinrowsftimpl.initfrror = JoinRowSft initiblizbtion frror
 joinrowsftimpl.gfnfridfrr = Gfnrid joinrowsft intibl frror
-joinrowsftimpl.fmptyrowsft = Empty rowsft dbnnot bf bddfd to this JoinRowSft
+joinrowsftimpl.gfnfridfrr = Gfnrid joinrowsft intibl frror
+joinrowsftimpl.gfnfridfrr = Gfnrid joinrowsft intibl frror
+joinrowsftimpl.gfnfridfrr = Gfnrid joinrowsft intibl frror
+joinrowsftimpl.gfnfridfrr = Gfnrid joinrowsft intibl frror
+joinrowsftimpl.fmptyrowsft = Empty rowsft dbnnot bf bddfd to tiis JoinRowSft
+joinrowsftimpl.fmptyrowsft = Empty rowsft dbnnot bf bddfd to tiis JoinRowSft
+joinrowsftimpl.fmptyrowsft = Empty rowsft dbnnot bf bddfd to tiis JoinRowSft
+joinrowsftimpl.fmptyrowsft = Empty rowsft dbnnot bf bddfd to tiis JoinRowSft
+joinrowsftimpl.fmptyrowsft = Empty rowsft dbnnot bf bddfd to tiis JoinRowSft
+
+
+
+
 
 #JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = Invblid stbtf
+jdbdrowsftimpl.invblstbtf = Invblid stbtf
+jdbdrowsftimpl.invblstbtf = Invblid stbtf
+jdbdrowsftimpl.invblstbtf = Invblid stbtf
 jdbdrowsftimpl.invblstbtf = Invblid stbtf
 jdbdrowsftimpl.donnfdt = JdbdRowSft (donnfdt) JNDI unbblf to donnfdt
+jdbdrowsftimpl.donnfdt = JdbdRowSft (donnfdt) JNDI unbblf to donnfdt
+jdbdrowsftimpl.donnfdt = JdbdRowSft (donnfdt) JNDI unbblf to donnfdt
+jdbdrowsftimpl.donnfdt = JdbdRowSft (donnfdt) JNDI unbblf to donnfdt
+jdbdrowsftimpl.donnfdt = JdbdRowSft (donnfdt) JNDI unbblf to donnfdt
 jdbdrowsftimpl.pbrbmtypf = Unbblf to dfdudf pbrbm typf
-jdbdrowsftimpl.mbtdhdols = Mbtdh Columns brf not thf sbmf bs thosf sft
-jdbdrowsftimpl.sftmbtdhdols = Sft thf mbtdh dolumns bfforf gftting thfm
-jdbdrowsftimpl.mbtdhdols1 = Mbtdh dolumns should bf grfbtfr thbn 0
-jdbdrowsftimpl.mbtdhdols2 = Mbtdh dolumns dbnnot bf null or fmpty string
-jdbdrowsftimpl.unsftmbtdh = Columns bfing unsft brf not thf sbmf bs thosf sft
-jdbdrowsftimpl.usfdolnbmf = Usf dolumn nbmf bs brgumfnt to unsftMbtdhColumn
-jdbdrowsftimpl.usfdolid = Usf dolumn ID bs brgumfnt to unsftMbtdhColumn
+jdbdrowsftimpl.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+jdbdrowsftimpl.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+jdbdrowsftimpl.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+jdbdrowsftimpl.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+jdbdrowsftimpl.mbtdidols = Mbtdi Columns brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.mbtdidols = Mbtdi Columns brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.mbtdidols = Mbtdi Columns brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.mbtdidols = Mbtdi Columns brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.mbtdidols = Mbtdi Columns brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.sftmbtdidols = Sft tif mbtdi dolumns bfforf gftting tifm
+jdbdrowsftimpl.sftmbtdidols = Sft tif mbtdi dolumns bfforf gftting tifm
+jdbdrowsftimpl.sftmbtdidols = Sft tif mbtdi dolumns bfforf gftting tifm
+jdbdrowsftimpl.sftmbtdidols = Sft tif mbtdi dolumns bfforf gftting tifm
+jdbdrowsftimpl.sftmbtdidols = Sft tif mbtdi dolumns bfforf gftting tifm
+jdbdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+jdbdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+jdbdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+jdbdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+jdbdrowsftimpl.mbtdidols1 = Mbtdi dolumns siould bf grfbtfr tibn 0
+jdbdrowsftimpl.mbtdidols2 = Mbtdi dolumns dbnnot bf null or fmpty string
+jdbdrowsftimpl.mbtdidols2 = Mbtdi dolumns dbnnot bf null or fmpty string
+jdbdrowsftimpl.mbtdidols2 = Mbtdi dolumns dbnnot bf null or fmpty string
+jdbdrowsftimpl.mbtdidols2 = Mbtdi dolumns dbnnot bf null or fmpty string
+jdbdrowsftimpl.mbtdidols2 = Mbtdi dolumns dbnnot bf null or fmpty string
+jdbdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.unsftmbtdi = Columns bfing unsft brf not tif sbmf bs tiosf sft
+jdbdrowsftimpl.usfdolnbmf = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolnbmf = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolnbmf = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolnbmf = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolnbmf = Usf dolumn nbmf bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Usf dolumn ID bs brgumfnt to unsftMbtdiColumn
+jdbdrowsftimpl.rfsnotupd = RfsultSft is not updbtbblf
+jdbdrowsftimpl.rfsnotupd = RfsultSft is not updbtbblf
+jdbdrowsftimpl.rfsnotupd = RfsultSft is not updbtbblf
+jdbdrowsftimpl.rfsnotupd = RfsultSft is not updbtbblf
 jdbdrowsftimpl.rfsnotupd = RfsultSft is not updbtbblf
 jdbdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+jdbdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+jdbdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+jdbdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+jdbdrowsftimpl.opnotysupp = Opfrbtion not yft supportfd
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
 jdbdrowsftimpl.ffbtnotsupp = Ffbturf not supportfd
 
-#CbdhfdRowSftRfbdfr fxdfptions
+
+
+
+
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+#CbdifdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) Unbblf to donnfdt
+drsrfbdfr.donnfdt = (JNDI) Unbblf to donnfdt
+drsrfbdfr.donnfdt = (JNDI) Unbblf to donnfdt
+drsrfbdfr.donnfdt = (JNDI) Unbblf to donnfdt
 drsrfbdfr.donnfdt = (JNDI) Unbblf to donnfdt
 drsrfbdfr.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+drsrfbdfr.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+drsrfbdfr.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+drsrfbdfr.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+drsrfbdfr.pbrbmtypf = Unbblf to dfdudf pbrbm typf
+drsrfbdfr.donnfdtfrr = Intfrnbl Error in RowSftRfbdfr: no donnfdtion or dommbnd
+drsrfbdfr.donnfdtfrr = Intfrnbl Error in RowSftRfbdfr: no donnfdtion or dommbnd
+drsrfbdfr.donnfdtfrr = Intfrnbl Error in RowSftRfbdfr: no donnfdtion or dommbnd
+drsrfbdfr.donnfdtfrr = Intfrnbl Error in RowSftRfbdfr: no donnfdtion or dommbnd
 drsrfbdfr.donnfdtfrr = Intfrnbl Error in RowSftRfbdfr: no donnfdtion or dommbnd
 drsrfbdfr.dbtfdftfdtfd = Dftfdtfd b Dbtf
+drsrfbdfr.dbtfdftfdtfd = Dftfdtfd b Dbtf
+drsrfbdfr.dbtfdftfdtfd = Dftfdtfd b Dbtf
+drsrfbdfr.dbtfdftfdtfd = Dftfdtfd b Dbtf
+drsrfbdfr.dbtfdftfdtfd = Dftfdtfd b Dbtf
+drsrfbdfr.dbldftfdtfd = Dftfdtfd b Cblfndbr
+drsrfbdfr.dbldftfdtfd = Dftfdtfd b Cblfndbr
+drsrfbdfr.dbldftfdtfd = Dftfdtfd b Cblfndbr
+drsrfbdfr.dbldftfdtfd = Dftfdtfd b Cblfndbr
 drsrfbdfr.dbldftfdtfd = Dftfdtfd b Cblfndbr
 
-#CbdhfdRowSftWritfr fxdfptions
+
+
+
+
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+#CbdifdRowSftWritfr fxdfptions
+drswritfr.donnfdt = Unbblf to gft donnfdtion
+drswritfr.donnfdt = Unbblf to gft donnfdtion
+drswritfr.donnfdt = Unbblf to gft donnfdtion
+drswritfr.donnfdt = Unbblf to gft donnfdtion
 drswritfr.donnfdt = Unbblf to gft donnfdtion
 drswritfr.tnbmf = writfDbtb dbnnot dftfrminf tbblf nbmf
+drswritfr.tnbmf = writfDbtb dbnnot dftfrminf tbblf nbmf
+drswritfr.tnbmf = writfDbtb dbnnot dftfrminf tbblf nbmf
+drswritfr.tnbmf = writfDbtb dbnnot dftfrminf tbblf nbmf
+drswritfr.tnbmf = writfDbtb dbnnot dftfrminf tbblf nbmf
+drswritfr.pbrbms1 = Vbluf of pbrbms1 : {0} 
+drswritfr.pbrbms1 = Vbluf of pbrbms1 : {0} 
+drswritfr.pbrbms1 = Vbluf of pbrbms1 : {0} 
+drswritfr.pbrbms1 = Vbluf of pbrbms1 : {0} 
 drswritfr.pbrbms1 = Vbluf of pbrbms1 : {0} 
 drswritfr.pbrbms2 = Vbluf of pbrbms2 : {0} 
-drswritfr.donflidtsno =  donflidts whilf syndhronizing 
+drswritfr.pbrbms2 = Vbluf of pbrbms2 : {0} 
+drswritfr.pbrbms2 = Vbluf of pbrbms2 : {0} 
+drswritfr.pbrbms2 = Vbluf of pbrbms2 : {0} 
+drswritfr.pbrbms2 = Vbluf of pbrbms2 : {0} 
+drswritfr.donflidtsno =  donflidts wiilf syndironizing 
+drswritfr.donflidtsno =  donflidts wiilf syndironizing 
+drswritfr.donflidtsno =  donflidts wiilf syndironizing 
+drswritfr.donflidtsno =  donflidts wiilf syndironizing 
+drswritfr.donflidtsno =  donflidts wiilf syndironizing 
+
+
+
+
 
 #InsfrtRow fxdfptions
-insfrtrow.novbluf = No vbluf hbs bffn insfrtfd
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = No vbluf ibs bffn insfrtfd
+insfrtrow.novbluf = No vbluf ibs bffn insfrtfd
+insfrtrow.novbluf = No vbluf ibs bffn insfrtfd
+insfrtrow.novbluf = No vbluf ibs bffn insfrtfd
+insfrtrow.novbluf = No vbluf ibs bffn insfrtfd
+
+
+
+
 
 #SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
+#SyndRfsolvfrImpl fxdfptions
 syndrsimpl.indfxvbl = Indfx vbluf out of rbngf  
-syndrsimpl.nodonflidt = This dolumn not in donflidt
-syndrsimpl.syndnotpos = Syndhronizbtion is not possiblf
-syndrsimpl.vbltorfs = Vbluf to bf rfsolvfd dbn fithfr bf in thf dbtbbbsf or in dbdhfdrowsft
+syndrsimpl.indfxvbl = Indfx vbluf out of rbngf  
+syndrsimpl.indfxvbl = Indfx vbluf out of rbngf  
+syndrsimpl.indfxvbl = Indfx vbluf out of rbngf  
+syndrsimpl.indfxvbl = Indfx vbluf out of rbngf  
+syndrsimpl.nodonflidt = Tiis dolumn not in donflidt
+syndrsimpl.nodonflidt = Tiis dolumn not in donflidt
+syndrsimpl.nodonflidt = Tiis dolumn not in donflidt
+syndrsimpl.nodonflidt = Tiis dolumn not in donflidt
+syndrsimpl.nodonflidt = Tiis dolumn not in donflidt
+syndrsimpl.syndnotpos = Syndironizbtion is not possiblf
+syndrsimpl.syndnotpos = Syndironizbtion is not possiblf
+syndrsimpl.syndnotpos = Syndironizbtion is not possiblf
+syndrsimpl.syndnotpos = Syndironizbtion is not possiblf
+syndrsimpl.syndnotpos = Syndironizbtion is not possiblf
+syndrsimpl.vbltorfs = Vbluf to bf rfsolvfd dbn fitifr bf in tif dbtbbbsf or in dbdifdrowsft
+syndrsimpl.vbltorfs = Vbluf to bf rfsolvfd dbn fitifr bf in tif dbtbbbsf or in dbdifdrowsft
+syndrsimpl.vbltorfs = Vbluf to bf rfsolvfd dbn fitifr bf in tif dbtbbbsf or in dbdifdrowsft
+syndrsimpl.vbltorfs = Vbluf to bf rfsolvfd dbn fitifr bf in tif dbtbbbsf or in dbdifdrowsft
+syndrsimpl.vbltorfs = Vbluf to bf rfsolvfd dbn fitifr bf in tif dbtbbbsf or in dbdifdrowsft
+
+
+
+
 
 #WfbRowSftXmlRfbdfr fxdfption
-wrsxmlrfbdfr.invbliddp = End of RowSft rfbdhfd. Invblid dursor position
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = End of RowSft rfbdifd. Invblid dursor position
+wrsxmlrfbdfr.invbliddp = End of RowSft rfbdifd. Invblid dursor position
+wrsxmlrfbdfr.invbliddp = End of RowSft rfbdifd. Invblid dursor position
+wrsxmlrfbdfr.invbliddp = End of RowSft rfbdifd. Invblid dursor position
+wrsxmlrfbdfr.invbliddp = End of RowSft rfbdifd. Invblid dursor position
+wrsxmlrfbdfr.rfbdxml = rfbdXML : {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML : {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML : {0}
+wrsxmlrfbdfr.rfbdxml = rfbdXML : {0}
 wrsxmlrfbdfr.rfbdxml = rfbdXML : {0}
 wrsxmlrfbdfr.pbrsffrr = ** Pbrsing Error : {0} , linf : {1} , uri : {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing Error : {0} , linf : {1} , uri : {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing Error : {0} , linf : {1} , uri : {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing Error : {0} , linf : {1} , uri : {2}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing Error : {0} , linf : {1} , uri : {2}
+
+
+
+
 
 #WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.iofx = IOExdfption : {0}
 wrsxmlwritfr.iofx = IOExdfption : {0}
 wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.fbilfdwritf = Fbilfd to writf vbluf
+wrsxmlwritfr.fbilfdwritf = Fbilfd to writf vbluf
+wrsxmlwritfr.fbilfdwritf = Fbilfd to writf vbluf
+wrsxmlwritfr.fbilfdwritf = Fbilfd to writf vbluf
 wrsxmlwritfr.fbilfdwritf = Fbilfd to writf vbluf
 wsrxmlwritfr.notpropfr = Not b propfr typf
+wsrxmlwritfr.notpropfr = Not b propfr typf
+wsrxmlwritfr.notpropfr = Not b propfr typf
+wsrxmlwritfr.notpropfr = Not b propfr typf
+wsrxmlwritfr.notpropfr = Not b propfr typf
+
+
+
+
 
 #XmlRfbdfrContfntHbndlfr fxdfptions
-xmlrdh.frrmbp = Error sftting Mbp : {0}
-xmlrdh.frrmftbdbtb = Error sftting mftbdbtb : {0}
-xmlrdh.frrinsfrtvbl = Error insfrting vblufs : {0}
-xmlrdh.frrdonstr = Error donstrudting row : {0}
-xmlrdh.frrdfl = Error dflfting row : {0}
-xmlrdh.frrinsfrt = Error donstrudting insfrt row : {0}
-xmlrdh.frrinsdfl = Error donstrudting insdfl row : {0}
-xmlrdh.frrupdbtf = Error donstrudting updbtf row : {0}
-xmlrdh.frrupdrow = Error updbting row : {0}
-xmlrdh.dhbrs = dhbrbdtfrs :
-xmlrdh.bbdvbluf = Bbd vbluf ; non-nullbblf propfrty
-xmlrdh.bbdvbluf1 = Bbd vbluf ; non-nullbblf mftbdbtb
-xmlrdh.wbrning =  ** Wbrning : {0} , linf : {1} , uri : {2}
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdi.frrmbp = Error sftting Mbp : {0}
+xmlrdi.frrmbp = Error sftting Mbp : {0}
+xmlrdi.frrmbp = Error sftting Mbp : {0}
+xmlrdi.frrmbp = Error sftting Mbp : {0}
+xmlrdi.frrmbp = Error sftting Mbp : {0}
+xmlrdi.frrmftbdbtb = Error sftting mftbdbtb : {0}
+xmlrdi.frrmftbdbtb = Error sftting mftbdbtb : {0}
+xmlrdi.frrmftbdbtb = Error sftting mftbdbtb : {0}
+xmlrdi.frrmftbdbtb = Error sftting mftbdbtb : {0}
+xmlrdi.frrmftbdbtb = Error sftting mftbdbtb : {0}
+xmlrdi.frrinsfrtvbl = Error insfrting vblufs : {0}
+xmlrdi.frrinsfrtvbl = Error insfrting vblufs : {0}
+xmlrdi.frrinsfrtvbl = Error insfrting vblufs : {0}
+xmlrdi.frrinsfrtvbl = Error insfrting vblufs : {0}
+xmlrdi.frrinsfrtvbl = Error insfrting vblufs : {0}
+xmlrdi.frrdonstr = Error donstrudting row : {0}
+xmlrdi.frrdonstr = Error donstrudting row : {0}
+xmlrdi.frrdonstr = Error donstrudting row : {0}
+xmlrdi.frrdonstr = Error donstrudting row : {0}
+xmlrdi.frrdonstr = Error donstrudting row : {0}
+xmlrdi.frrdfl = Error dflfting row : {0}
+xmlrdi.frrdfl = Error dflfting row : {0}
+xmlrdi.frrdfl = Error dflfting row : {0}
+xmlrdi.frrdfl = Error dflfting row : {0}
+xmlrdi.frrdfl = Error dflfting row : {0}
+xmlrdi.frrinsfrt = Error donstrudting insfrt row : {0}
+xmlrdi.frrinsfrt = Error donstrudting insfrt row : {0}
+xmlrdi.frrinsfrt = Error donstrudting insfrt row : {0}
+xmlrdi.frrinsfrt = Error donstrudting insfrt row : {0}
+xmlrdi.frrinsfrt = Error donstrudting insfrt row : {0}
+xmlrdi.frrinsdfl = Error donstrudting insdfl row : {0}
+xmlrdi.frrinsdfl = Error donstrudting insdfl row : {0}
+xmlrdi.frrinsdfl = Error donstrudting insdfl row : {0}
+xmlrdi.frrinsdfl = Error donstrudting insdfl row : {0}
+xmlrdi.frrinsdfl = Error donstrudting insdfl row : {0}
+xmlrdi.frrupdbtf = Error donstrudting updbtf row : {0}
+xmlrdi.frrupdbtf = Error donstrudting updbtf row : {0}
+xmlrdi.frrupdbtf = Error donstrudting updbtf row : {0}
+xmlrdi.frrupdbtf = Error donstrudting updbtf row : {0}
+xmlrdi.frrupdbtf = Error donstrudting updbtf row : {0}
+xmlrdi.frrupdrow = Error updbting row : {0}
+xmlrdi.frrupdrow = Error updbting row : {0}
+xmlrdi.frrupdrow = Error updbting row : {0}
+xmlrdi.frrupdrow = Error updbting row : {0}
+xmlrdi.frrupdrow = Error updbting row : {0}
+xmlrdi.dibrs = dibrbdtfrs :
+xmlrdi.dibrs = dibrbdtfrs :
+xmlrdi.dibrs = dibrbdtfrs :
+xmlrdi.dibrs = dibrbdtfrs :
+xmlrdi.dibrs = dibrbdtfrs :
+xmlrdi.bbdvbluf = Bbd vbluf ; non-nullbblf propfrty
+xmlrdi.bbdvbluf = Bbd vbluf ; non-nullbblf propfrty
+xmlrdi.bbdvbluf = Bbd vbluf ; non-nullbblf propfrty
+xmlrdi.bbdvbluf = Bbd vbluf ; non-nullbblf propfrty
+xmlrdi.bbdvbluf = Bbd vbluf ; non-nullbblf propfrty
+xmlrdi.bbdvbluf1 = Bbd vbluf ; non-nullbblf mftbdbtb
+xmlrdi.bbdvbluf1 = Bbd vbluf ; non-nullbblf mftbdbtb
+xmlrdi.bbdvbluf1 = Bbd vbluf ; non-nullbblf mftbdbtb
+xmlrdi.bbdvbluf1 = Bbd vbluf ; non-nullbblf mftbdbtb
+xmlrdi.bbdvbluf1 = Bbd vbluf ; non-nullbblf mftbdbtb
+xmlrdi.wbrning =  ** Wbrning : {0} , linf : {1} , uri : {2}
+xmlrdi.wbrning =  ** Wbrning : {0} , linf : {1} , uri : {2}
+xmlrdi.wbrning =  ** Wbrning : {0} , linf : {1} , uri : {2}
+xmlrdi.wbrning =  ** Wbrning : {0} , linf : {1} , uri : {2}
+xmlrdi.wbrning =  ** Wbrning : {0} , linf : {1} , uri : {2}
+
+
+
+
 
 #RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = Lodking dlbssifidbtion is not supportfd
+riop.lodking = Lodking dlbssifidbtion is not supportfd
+riop.lodking = Lodking dlbssifidbtion is not supportfd
+riop.lodking = Lodking dlbssifidbtion is not supportfd
 riop.lodking = Lodking dlbssifidbtion is not supportfd
 
+
+
+
+
 #RIXMLProvidfr fxdfptions
-rixml.unsupp = Unsupportfd with RIXMLProvidfr
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = Unsupportfd witi RIXMLProvidfr
+rixml.unsupp = Unsupportfd witi RIXMLProvidfr
+rixml.unsupp = Unsupportfd witi RIXMLProvidfr
+rixml.unsupp = Unsupportfd witi RIXMLProvidfr
+rixml.unsupp = Unsupportfd witi RIXMLProvidfr

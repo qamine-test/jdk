@@ -1,218 +1,1090 @@
 /*
+/*
+/*
+/*
+/*
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
  * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ */
+ */
+ */
+ */
  */
 /**
- * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
- * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
- * distributfd with this work for bdditionbl informbtion
- * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
- * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
- * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
- * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+/**
+/**
+/**
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
  *
  * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
- * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
  * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
- * undfr thf Lidfnsf.
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+
+
+
 
 import jbvb.sfdurity.Kfy;
-import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
 import jbvb.sfdurity.InvblidKfyExdfption;
 import jbvb.sfdurity.SignbturfExdfption;
-import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
-import jbvbx.xml.drypto.MbrshblExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.MbrsiblExdfption;
 import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
-import jbvbx.xml.drypto.dsig.SignbturfMfthod;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.SignbturfMftiod;
+import jbvbx.xml.drypto.dsig.SignbturfMftiod;
+import jbvbx.xml.drypto.dsig.SignbturfMftiod;
+import jbvbx.xml.drypto.dsig.SignbturfMftiod;
+import jbvbx.xml.drypto.dsig.SignbturfMftiod;
+import jbvbx.xml.drypto.dsig.SignfdInfo;
+import jbvbx.xml.drypto.dsig.SignfdInfo;
+import jbvbx.xml.drypto.dsig.SignfdInfo;
+import jbvbx.xml.drypto.dsig.SignfdInfo;
 import jbvbx.xml.drypto.dsig.SignfdInfo;
 import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturfExdfption;
+import jbvbx.xml.drypto.dsig.XMLSignbturfExdfption;
+import jbvbx.xml.drypto.dsig.XMLSignbturfExdfption;
+import jbvbx.xml.drypto.dsig.XMLSignbturfExdfption;
 import jbvbx.xml.drypto.dsig.XMLSignbturfExdfption;
 import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
 import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
-import jbvbx.xml.drypto.dsig.spfd.SignbturfMfthodPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
 import org.w3d.dom.Dodumfnt;
 import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
 import org.w3d.dom.Nodf;
 
-/**
- * An bbstrbdt dlbss rfprfsfnting b SignbturfMfthod. Subdlbssfs implfmfnt
- * b spfdifid XML DSig signbturf blgorithm.
- */
-bbstrbdt dlbss AbstrbdtDOMSignbturfMfthod fxtfnds DOMStrudturf
-    implfmfnts SignbturfMfthod {
 
-    // dfnotfs thf typf of signbturf blgorithm
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * An bbstrbdt dlbss rfprfsfnting b SignbturfMftiod. Subdlbssfs implfmfnt
+ * An bbstrbdt dlbss rfprfsfnting b SignbturfMftiod. Subdlbssfs implfmfnt
+ * An bbstrbdt dlbss rfprfsfnting b SignbturfMftiod. Subdlbssfs implfmfnt
+ * An bbstrbdt dlbss rfprfsfnting b SignbturfMftiod. Subdlbssfs implfmfnt
+ * An bbstrbdt dlbss rfprfsfnting b SignbturfMftiod. Subdlbssfs implfmfnt
+ * b spfdifid XML DSig signbturf blgoritim.
+ * b spfdifid XML DSig signbturf blgoritim.
+ * b spfdifid XML DSig signbturf blgoritim.
+ * b spfdifid XML DSig signbturf blgoritim.
+ * b spfdifid XML DSig signbturf blgoritim.
+ */
+ */
+ */
+ */
+ */
+bbstrbdt dlbss AbstrbdtDOMSignbturfMftiod fxtfnds DOMStrudturf
+bbstrbdt dlbss AbstrbdtDOMSignbturfMftiod fxtfnds DOMStrudturf
+bbstrbdt dlbss AbstrbdtDOMSignbturfMftiod fxtfnds DOMStrudturf
+bbstrbdt dlbss AbstrbdtDOMSignbturfMftiod fxtfnds DOMStrudturf
+bbstrbdt dlbss AbstrbdtDOMSignbturfMftiod fxtfnds DOMStrudturf
+    implfmfnts SignbturfMftiod {
+    implfmfnts SignbturfMftiod {
+    implfmfnts SignbturfMftiod {
+    implfmfnts SignbturfMftiod {
+    implfmfnts SignbturfMftiod {
+
+
+
+
+
+    // dfnotfs tif typf of signbturf blgoritim
+    // dfnotfs tif typf of signbturf blgoritim
+    // dfnotfs tif typf of signbturf blgoritim
+    // dfnotfs tif typf of signbturf blgoritim
+    // dfnotfs tif typf of signbturf blgoritim
+    fnum Typf { DSA, RSA, ECDSA, HMAC }
+    fnum Typf { DSA, RSA, ECDSA, HMAC }
+    fnum Typf { DSA, RSA, ECDSA, HMAC }
+    fnum Typf { DSA, RSA, ECDSA, HMAC }
     fnum Typf { DSA, RSA, ECDSA, HMAC }
 
+
+
+
+
     /**
-     * Vfrififs thf pbssfd-in signbturf with thf spfdififd kfy, using thf
-     * undfrlying Signbturf or Mbd blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Vfrififs tif pbssfd-in signbturf witi tif spfdififd kfy, using tif
+     * Vfrififs tif pbssfd-in signbturf witi tif spfdififd kfy, using tif
+     * Vfrififs tif pbssfd-in signbturf witi tif spfdififd kfy, using tif
+     * Vfrififs tif pbssfd-in signbturf witi tif spfdififd kfy, using tif
+     * Vfrififs tif pbssfd-in signbturf witi tif spfdififd kfy, using tif
+     * undfrlying Signbturf or Mbd blgoritim.
+     * undfrlying Signbturf or Mbd blgoritim.
+     * undfrlying Signbturf or Mbd blgoritim.
+     * undfrlying Signbturf or Mbd blgoritim.
+     * undfrlying Signbturf or Mbd blgoritim.
      *
-     * @pbrbm kfy thf vfrifidbtion kfy
-     * @pbrbm si thf SignfdInfo
-     * @pbrbm sig thf signbturf bytfs to bf vfrififd
-     * @pbrbm dontfxt thf XMLVblidbtfContfxt
-     * @rfturn <dodf>truf</dodf> if thf signbturf vfrififd suddfssfully,
+     *
+     *
+     *
+     *
+     * @pbrbm kfy tif vfrifidbtion kfy
+     * @pbrbm kfy tif vfrifidbtion kfy
+     * @pbrbm kfy tif vfrifidbtion kfy
+     * @pbrbm kfy tif vfrifidbtion kfy
+     * @pbrbm kfy tif vfrifidbtion kfy
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm sig tif signbturf bytfs to bf vfrififd
+     * @pbrbm sig tif signbturf bytfs to bf vfrififd
+     * @pbrbm sig tif signbturf bytfs to bf vfrififd
+     * @pbrbm sig tif signbturf bytfs to bf vfrififd
+     * @pbrbm sig tif signbturf bytfs to bf vfrififd
+     * @pbrbm dontfxt tif XMLVblidbtfContfxt
+     * @pbrbm dontfxt tif XMLVblidbtfContfxt
+     * @pbrbm dontfxt tif XMLVblidbtfContfxt
+     * @pbrbm dontfxt tif XMLVblidbtfContfxt
+     * @pbrbm dontfxt tif XMLVblidbtfContfxt
+     * @rfturn <dodf>truf</dodf> if tif signbturf vfrififd suddfssfully,
+     * @rfturn <dodf>truf</dodf> if tif signbturf vfrififd suddfssfully,
+     * @rfturn <dodf>truf</dodf> if tif signbturf vfrififd suddfssfully,
+     * @rfturn <dodf>truf</dodf> if tif signbturf vfrififd suddfssfully,
+     * @rfturn <dodf>truf</dodf> if tif signbturf vfrififd suddfssfully,
      *    <dodf>fblsf</dodf> if not
-     * @throws NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
+     *    <dodf>fblsf</dodf> if not
+     *    <dodf>fblsf</dodf> if not
+     *    <dodf>fblsf</dodf> if not
+     *    <dodf>fblsf</dodf> if not
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
      *    <dodf>sig</dodf> brf <dodf>null</dodf>
-     * @throws InvblidKfyExdfption if thf kfy is impropfrly fndodfd, of
-     *    thf wrong typf, or pbrbmftfrs brf missing, ftd
-     * @throws SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudh
-     *    bs thf pbssfd in signbturf is impropfrly fndodfd
-     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     *    <dodf>sig</dodf> brf <dodf>null</dodf>
+     *    <dodf>sig</dodf> brf <dodf>null</dodf>
+     *    <dodf>sig</dodf> brf <dodf>null</dodf>
+     *    <dodf>sig</dodf> brf <dodf>null</dodf>
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     * @tirows SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudi
+     * @tirows SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudi
+     * @tirows SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudi
+     * @tirows SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudi
+     * @tirows SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudi
+     *    bs tif pbssfd in signbturf is impropfrly fndodfd
+     *    bs tif pbssfd in signbturf is impropfrly fndodfd
+     *    bs tif pbssfd in signbturf is impropfrly fndodfd
+     *    bs tif pbssfd in signbturf is impropfrly fndodfd
+     *    bs tif pbssfd in signbturf is impropfrly fndodfd
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     */
+     */
+     */
+     */
      */
     bbstrbdt boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+    bbstrbdt boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+    bbstrbdt boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+    bbstrbdt boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+    bbstrbdt boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
                             XMLVblidbtfContfxt dontfxt)
-        throws InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
+                            XMLVblidbtfContfxt dontfxt)
+                            XMLVblidbtfContfxt dontfxt)
+                            XMLVblidbtfContfxt dontfxt)
+                            XMLVblidbtfContfxt dontfxt)
+        tirows InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
+
+
+
+
 
     /**
-     * Signs thf bytfs with thf spfdififd kfy, using thf undfrlying
-     * Signbturf or Mbd blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Signs tif bytfs witi tif spfdififd kfy, using tif undfrlying
+     * Signs tif bytfs witi tif spfdififd kfy, using tif undfrlying
+     * Signs tif bytfs witi tif spfdififd kfy, using tif undfrlying
+     * Signs tif bytfs witi tif spfdififd kfy, using tif undfrlying
+     * Signs tif bytfs witi tif spfdififd kfy, using tif undfrlying
+     * Signbturf or Mbd blgoritim.
+     * Signbturf or Mbd blgoritim.
+     * Signbturf or Mbd blgoritim.
+     * Signbturf or Mbd blgoritim.
+     * Signbturf or Mbd blgoritim.
      *
-     * @pbrbm kfy thf signing kfy
-     * @pbrbm si thf SignfdInfo
-     * @pbrbm dontfxt thf XMLSignContfxt
-     * @rfturn thf signbturf
-     * @throws NullPointfrExdfption if <dodf>kfy</dodf> or
+     *
+     *
+     *
+     *
+     * @pbrbm kfy tif signing kfy
+     * @pbrbm kfy tif signing kfy
+     * @pbrbm kfy tif signing kfy
+     * @pbrbm kfy tif signing kfy
+     * @pbrbm kfy tif signing kfy
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm si tif SignfdInfo
+     * @pbrbm dontfxt tif XMLSignContfxt
+     * @pbrbm dontfxt tif XMLSignContfxt
+     * @pbrbm dontfxt tif XMLSignContfxt
+     * @pbrbm dontfxt tif XMLSignContfxt
+     * @pbrbm dontfxt tif XMLSignContfxt
+     * @rfturn tif signbturf
+     * @rfturn tif signbturf
+     * @rfturn tif signbturf
+     * @rfturn tif signbturf
+     * @rfturn tif signbturf
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf> or
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf> or
      *    <dodf>si</dodf> brf <dodf>null</dodf>
-     * @throws InvblidKfyExdfption if thf kfy is impropfrly fndodfd, of
-     *    thf wrong typf, or pbrbmftfrs brf missing, ftd
-     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     *    <dodf>si</dodf> brf <dodf>null</dodf>
+     *    <dodf>si</dodf> brf <dodf>null</dodf>
+     *    <dodf>si</dodf> brf <dodf>null</dodf>
+     *    <dodf>si</dodf> brf <dodf>null</dodf>
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     * @tirows InvblidKfyExdfption if tif kfy is impropfrly fndodfd, of
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     *    tif wrong typf, or pbrbmftfrs brf missing, ftd
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     */
+     */
+     */
+     */
      */
     bbstrbdt bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
-        throws InvblidKfyExdfption, XMLSignbturfExdfption;
+    bbstrbdt bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+    bbstrbdt bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+    bbstrbdt bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+    bbstrbdt bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+        tirows InvblidKfyExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, XMLSignbturfExdfption;
+        tirows InvblidKfyExdfption, XMLSignbturfExdfption;
+
+
+
+
 
     /**
-     * Rfturns thf jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
-     * blgorithm nbmf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
+     * Rfturns tif jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
+     * Rfturns tif jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
+     * Rfturns tif jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
+     * Rfturns tif jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
+     * blgoritim nbmf.
+     * blgoritim nbmf.
+     * blgoritim nbmf.
+     * blgoritim nbmf.
+     * blgoritim nbmf.
      */
-    bbstrbdt String gftJCAAlgorithm();
+     */
+     */
+     */
+     */
+    bbstrbdt String gftJCAAlgoritim();
+    bbstrbdt String gftJCAAlgoritim();
+    bbstrbdt String gftJCAAlgoritim();
+    bbstrbdt String gftJCAAlgoritim();
+    bbstrbdt String gftJCAAlgoritim();
+
+
+
+
 
     /**
-     * Rfturns thf typf of signbturf blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif typf of signbturf blgoritim.
+     * Rfturns tif typf of signbturf blgoritim.
+     * Rfturns tif typf of signbturf blgoritim.
+     * Rfturns tif typf of signbturf blgoritim.
+     * Rfturns tif typf of signbturf blgoritim.
      */
-    bbstrbdt Typf gftAlgorithmTypf();
+     */
+     */
+     */
+     */
+    bbstrbdt Typf gftAlgoritimTypf();
+    bbstrbdt Typf gftAlgoritimTypf();
+    bbstrbdt Typf gftAlgoritimTypf();
+    bbstrbdt Typf gftAlgoritimTypf();
+    bbstrbdt Typf gftAlgoritimTypf();
+
+
+
+
 
     /**
-     * This mfthod invokfs thf {@link #mbrshblPbrbms mbrshblPbrbms}
-     * mfthod to mbrshbl bny blgorithm-spfdifid pbrbmftfrs.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod invokfs tif {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
      */
-    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
-        throws MbrshblExdfption
+     */
+     */
+     */
+     */
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+    {
+    {
+    {
+    {
     {
         Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
 
-        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMfthod",
+
+
+
+
+        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMftiod",
+        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMftiod",
+        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMftiod",
+        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMftiod",
+        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMftiod",
                                                 XMLSignbturf.XMLNS, dsPrffix);
-        DOMUtils.sftAttributf(smElfm, "Algorithm", gftAlgorithm());
+                                                XMLSignbturf.XMLNS, dsPrffix);
+                                                XMLSignbturf.XMLNS, dsPrffix);
+                                                XMLSignbturf.XMLNS, dsPrffix);
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        DOMUtils.sftAttributf(smElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(smElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(smElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(smElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(smElfm, "Algoritim", gftAlgoritim());
+
+
+
+
 
         if (gftPbrbmftfrSpfd() != null) {
-            mbrshblPbrbms(smElfm, dsPrffix);
+        if (gftPbrbmftfrSpfd() != null) {
+        if (gftPbrbmftfrSpfd() != null) {
+        if (gftPbrbmftfrSpfd() != null) {
+        if (gftPbrbmftfrSpfd() != null) {
+            mbrsiblPbrbms(smElfm, dsPrffix);
+            mbrsiblPbrbms(smElfm, dsPrffix);
+            mbrsiblPbrbms(smElfm, dsPrffix);
+            mbrsiblPbrbms(smElfm, dsPrffix);
+            mbrsiblPbrbms(smElfm, dsPrffix);
+        }
+        }
+        }
+        }
         }
 
-        pbrfnt.bppfndChild(smElfm);
+
+
+
+
+        pbrfnt.bppfndCiild(smElfm);
+        pbrfnt.bppfndCiild(smElfm);
+        pbrfnt.bppfndCiild(smElfm);
+        pbrfnt.bppfndCiild(smElfm);
+        pbrfnt.bppfndCiild(smElfm);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mbrshbls thf blgorithm-spfdifid pbrbmftfrs to bn Elfmfnt bnd
-     * bppfnds it to thf spfdififd pbrfnt flfmfnt. By dffbult, this mfthod
-     * throws bn fxdfption sindf most SignbturfMfthod blgorithms do not hbvf
-     * pbrbmftfrs. Subdlbssfs should ovfrridf it if thfy hbvf pbrbmftfrs.
+    /**
+    /**
+    /**
+    /**
+     * Mbrsibls tif blgoritim-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * Mbrsibls tif blgoritim-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * Mbrsibls tif blgoritim-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * Mbrsibls tif blgoritim-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * Mbrsibls tif blgoritim-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * bppfnds it to tif spfdififd pbrfnt flfmfnt. By dffbult, tiis mftiod
+     * bppfnds it to tif spfdififd pbrfnt flfmfnt. By dffbult, tiis mftiod
+     * bppfnds it to tif spfdififd pbrfnt flfmfnt. By dffbult, tiis mftiod
+     * bppfnds it to tif spfdififd pbrfnt flfmfnt. By dffbult, tiis mftiod
+     * bppfnds it to tif spfdififd pbrfnt flfmfnt. By dffbult, tiis mftiod
+     * tirows bn fxdfption sindf most SignbturfMftiod blgoritims do not ibvf
+     * tirows bn fxdfption sindf most SignbturfMftiod blgoritims do not ibvf
+     * tirows bn fxdfption sindf most SignbturfMftiod blgoritims do not ibvf
+     * tirows bn fxdfption sindf most SignbturfMftiod blgoritims do not ibvf
+     * tirows bn fxdfption sindf most SignbturfMftiod blgoritims do not ibvf
+     * pbrbmftfrs. Subdlbssfs siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * pbrbmftfrs. Subdlbssfs siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * pbrbmftfrs. Subdlbssfs siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * pbrbmftfrs. Subdlbssfs siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * pbrbmftfrs. Subdlbssfs siould ovfrridf it if tify ibvf pbrbmftfrs.
      *
-     * @pbrbm pbrfnt thf pbrfnt flfmfnt to bppfnd thf pbrbmftfrs to
-     * @pbrbm pbrbmsPrffix thf blgorithm pbrbmftfrs prffix to usf
-     * @throws MbrshblExdfption if thf pbrbmftfrs dbnnot bf mbrshbllfd
+     *
+     *
+     *
+     *
+     * @pbrbm pbrfnt tif pbrfnt flfmfnt to bppfnd tif pbrbmftfrs to
+     * @pbrbm pbrfnt tif pbrfnt flfmfnt to bppfnd tif pbrbmftfrs to
+     * @pbrbm pbrfnt tif pbrfnt flfmfnt to bppfnd tif pbrbmftfrs to
+     * @pbrbm pbrfnt tif pbrfnt flfmfnt to bppfnd tif pbrbmftfrs to
+     * @pbrbm pbrfnt tif pbrfnt flfmfnt to bppfnd tif pbrbmftfrs to
+     * @pbrbm pbrbmsPrffix tif blgoritim pbrbmftfrs prffix to usf
+     * @pbrbm pbrbmsPrffix tif blgoritim pbrbmftfrs prffix to usf
+     * @pbrbm pbrbmsPrffix tif blgoritim pbrbmftfrs prffix to usf
+     * @pbrbm pbrbmsPrffix tif blgoritim pbrbmftfrs prffix to usf
+     * @pbrbm pbrbmsPrffix tif blgoritim pbrbmftfrs prffix to usf
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf mbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf mbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf mbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf mbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf mbrsibllfd
      */
-    void mbrshblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
-        throws MbrshblExdfption
+     */
+     */
+     */
+     */
+    void mbrsiblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
+    void mbrsiblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
+    void mbrsiblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
+    void mbrsiblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
+    void mbrsiblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
     {
-        throw nfw MbrshblExdfption("no pbrbmftfrs should " +
-                                   "bf spfdififd for thf " + gftAlgorithm() +
-                                   " SignbturfMfthod blgorithm");
-    }
-
-    /**
-     * Unmbrshbls <dodf>SignbturfMfthodPbrbmftfrSpfd</dodf> from thf spfdififd
-     * <dodf>Elfmfnt</dodf>. By dffbult, this mfthod throws bn fxdfption sindf
-     * most SignbturfMfthod blgorithms do not hbvf pbrbmftfrs. Subdlbssfs should
-     * ovfrridf it if thfy hbvf pbrbmftfrs.
-     *
-     * @pbrbm pbrbmsElfm thf <dodf>Elfmfnt</dodf> holding thf input pbrbms
-     * @rfturn thf blgorithm-spfdifid <dodf>SignbturfMfthodPbrbmftfrSpfd</dodf>
-     * @throws MbrshblExdfption if thf pbrbmftfrs dbnnot bf unmbrshbllfd
-     */
-    SignbturfMfthodPbrbmftfrSpfd unmbrshblPbrbms(Elfmfnt pbrbmsElfm)
-        throws MbrshblExdfption
     {
-        throw nfw MbrshblExdfption("no pbrbmftfrs should " +
-                                   "bf spfdififd for thf " + gftAlgorithm() +
-                                   " SignbturfMfthod blgorithm");
+    {
+    {
+    {
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Chfdks if thf spfdififd pbrbmftfrs brf vblid for this blgorithm. By
-     * dffbult, this mfthod throws bn fxdfption if pbrbmftfrs brf spfdififd
-     * sindf most SignbturfMfthod blgorithms do not hbvf pbrbmftfrs. Subdlbssfs
-     * should ovfrridf it if thfy hbvf pbrbmftfrs.
+    /**
+    /**
+    /**
+    /**
+     * Unmbrsibls <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf> from tif spfdififd
+     * Unmbrsibls <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf> from tif spfdififd
+     * Unmbrsibls <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf> from tif spfdififd
+     * Unmbrsibls <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf> from tif spfdififd
+     * Unmbrsibls <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf> from tif spfdififd
+     * <dodf>Elfmfnt</dodf>. By dffbult, tiis mftiod tirows bn fxdfption sindf
+     * <dodf>Elfmfnt</dodf>. By dffbult, tiis mftiod tirows bn fxdfption sindf
+     * <dodf>Elfmfnt</dodf>. By dffbult, tiis mftiod tirows bn fxdfption sindf
+     * <dodf>Elfmfnt</dodf>. By dffbult, tiis mftiod tirows bn fxdfption sindf
+     * <dodf>Elfmfnt</dodf>. By dffbult, tiis mftiod tirows bn fxdfption sindf
+     * most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs siould
+     * most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs siould
+     * most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs siould
+     * most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs siould
+     * most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs siould
+     * ovfrridf it if tify ibvf pbrbmftfrs.
+     * ovfrridf it if tify ibvf pbrbmftfrs.
+     * ovfrridf it if tify ibvf pbrbmftfrs.
+     * ovfrridf it if tify ibvf pbrbmftfrs.
+     * ovfrridf it if tify ibvf pbrbmftfrs.
      *
-     * @pbrbm pbrbms thf blgorithm-spfdifid pbrbms (mby bf <dodf>null</dodf>)
-     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf pbrbmftfrs brf not
-     *    bppropribtf for this signbturf mfthod
+     *
+     *
+     *
+     *
+     * @pbrbm pbrbmsElfm tif <dodf>Elfmfnt</dodf> iolding tif input pbrbms
+     * @pbrbm pbrbmsElfm tif <dodf>Elfmfnt</dodf> iolding tif input pbrbms
+     * @pbrbm pbrbmsElfm tif <dodf>Elfmfnt</dodf> iolding tif input pbrbms
+     * @pbrbm pbrbmsElfm tif <dodf>Elfmfnt</dodf> iolding tif input pbrbms
+     * @pbrbm pbrbmsElfm tif <dodf>Elfmfnt</dodf> iolding tif input pbrbms
+     * @rfturn tif blgoritim-spfdifid <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf>
+     * @rfturn tif blgoritim-spfdifid <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf>
+     * @rfturn tif blgoritim-spfdifid <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf>
+     * @rfturn tif blgoritim-spfdifid <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf>
+     * @rfturn tif blgoritim-spfdifid <dodf>SignbturfMftiodPbrbmftfrSpfd</dodf>
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf unmbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf unmbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf unmbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf unmbrsibllfd
+     * @tirows MbrsiblExdfption if tif pbrbmftfrs dbnnot bf unmbrsibllfd
      */
-    void dhfdkPbrbms(SignbturfMfthodPbrbmftfrSpfd pbrbms)
-        throws InvblidAlgorithmPbrbmftfrExdfption
+     */
+     */
+     */
+     */
+    SignbturfMftiodPbrbmftfrSpfd unmbrsiblPbrbms(Elfmfnt pbrbmsElfm)
+    SignbturfMftiodPbrbmftfrSpfd unmbrsiblPbrbms(Elfmfnt pbrbmsElfm)
+    SignbturfMftiodPbrbmftfrSpfd unmbrsiblPbrbms(Elfmfnt pbrbmsElfm)
+    SignbturfMftiodPbrbmftfrSpfd unmbrsiblPbrbms(Elfmfnt pbrbmsElfm)
+    SignbturfMftiodPbrbmftfrSpfd unmbrsiblPbrbms(Elfmfnt pbrbmsElfm)
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+    {
+    {
+    {
+    {
+    {
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+        tirow nfw MbrsiblExdfption("no pbrbmftfrs siould " +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   "bf spfdififd for tif " + gftAlgoritim() +
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+                                   " SignbturfMftiod blgoritim");
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Cifdks if tif spfdififd pbrbmftfrs brf vblid for tiis blgoritim. By
+     * Cifdks if tif spfdififd pbrbmftfrs brf vblid for tiis blgoritim. By
+     * Cifdks if tif spfdififd pbrbmftfrs brf vblid for tiis blgoritim. By
+     * Cifdks if tif spfdififd pbrbmftfrs brf vblid for tiis blgoritim. By
+     * Cifdks if tif spfdififd pbrbmftfrs brf vblid for tiis blgoritim. By
+     * dffbult, tiis mftiod tirows bn fxdfption if pbrbmftfrs brf spfdififd
+     * dffbult, tiis mftiod tirows bn fxdfption if pbrbmftfrs brf spfdififd
+     * dffbult, tiis mftiod tirows bn fxdfption if pbrbmftfrs brf spfdififd
+     * dffbult, tiis mftiod tirows bn fxdfption if pbrbmftfrs brf spfdififd
+     * dffbult, tiis mftiod tirows bn fxdfption if pbrbmftfrs brf spfdififd
+     * sindf most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs
+     * sindf most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs
+     * sindf most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs
+     * sindf most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs
+     * sindf most SignbturfMftiod blgoritims do not ibvf pbrbmftfrs. Subdlbssfs
+     * siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * siould ovfrridf it if tify ibvf pbrbmftfrs.
+     * siould ovfrridf it if tify ibvf pbrbmftfrs.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm pbrbms tif blgoritim-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @pbrbm pbrbms tif blgoritim-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @pbrbm pbrbms tif blgoritim-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @pbrbm pbrbms tif blgoritim-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @pbrbm pbrbms tif blgoritim-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif pbrbmftfrs brf not
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif pbrbmftfrs brf not
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif pbrbmftfrs brf not
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif pbrbmftfrs brf not
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif pbrbmftfrs brf not
+     *    bppropribtf for tiis signbturf mftiod
+     *    bppropribtf for tiis signbturf mftiod
+     *    bppropribtf for tiis signbturf mftiod
+     *    bppropribtf for tiis signbturf mftiod
+     *    bppropribtf for tiis signbturf mftiod
+     */
+     */
+     */
+     */
+     */
+    void difdkPbrbms(SignbturfMftiodPbrbmftfrSpfd pbrbms)
+    void difdkPbrbms(SignbturfMftiodPbrbmftfrSpfd pbrbms)
+    void difdkPbrbms(SignbturfMftiodPbrbmftfrSpfd pbrbms)
+    void difdkPbrbms(SignbturfMftiodPbrbmftfrSpfd pbrbms)
+    void difdkPbrbms(SignbturfMftiodPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
+        tirows InvblidAlgoritimPbrbmftfrExdfption
+        tirows InvblidAlgoritimPbrbmftfrExdfption
+        tirows InvblidAlgoritimPbrbmftfrExdfption
+        tirows InvblidAlgoritimPbrbmftfrExdfption
+    {
+    {
+    {
+    {
     {
         if (pbrbms != null) {
-            throw nfw InvblidAlgorithmPbrbmftfrExdfption("no pbrbmftfrs " +
-                "should bf spfdififd for thf " + gftAlgorithm() +
-                " SignbturfMfthod blgorithm");
+        if (pbrbms != null) {
+        if (pbrbms != null) {
+        if (pbrbms != null) {
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("no pbrbmftfrs " +
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("no pbrbmftfrs " +
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("no pbrbmftfrs " +
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("no pbrbmftfrs " +
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("no pbrbmftfrs " +
+                "siould bf spfdififd for tif " + gftAlgoritim() +
+                "siould bf spfdififd for tif " + gftAlgoritim() +
+                "siould bf spfdififd for tif " + gftAlgoritim() +
+                "siould bf spfdififd for tif " + gftAlgoritim() +
+                "siould bf spfdififd for tif " + gftAlgoritim() +
+                " SignbturfMftiod blgoritim");
+                " SignbturfMftiod blgoritim");
+                " SignbturfMftiod blgoritim");
+                " SignbturfMftiod blgoritim");
+                " SignbturfMftiod blgoritim");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid boolfbn fqubls(Objfdt o)
+    publid boolfbn fqubls(Objfdt o)
+    publid boolfbn fqubls(Objfdt o)
+    publid boolfbn fqubls(Objfdt o)
+    publid boolfbn fqubls(Objfdt o)
     {
-        if (this == o) {
+    {
+    {
+    {
+    {
+        if (tiis == o) {
+        if (tiis == o) {
+        if (tiis == o) {
+        if (tiis == o) {
+        if (tiis == o) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         }
+        }
+        }
+        }
+        }
 
-        if (!(o instbndfof SignbturfMfthod)) {
+
+
+
+
+        if (!(o instbndfof SignbturfMftiod)) {
+        if (!(o instbndfof SignbturfMftiod)) {
+        if (!(o instbndfof SignbturfMftiod)) {
+        if (!(o instbndfof SignbturfMftiod)) {
+        if (!(o instbndfof SignbturfMftiod)) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
-        SignbturfMfthod osm = (SignbturfMfthod)o;
+        }
+        }
+        }
+        }
+        SignbturfMftiod osm = (SignbturfMftiod)o;
+        SignbturfMftiod osm = (SignbturfMftiod)o;
+        SignbturfMftiod osm = (SignbturfMftiod)o;
+        SignbturfMftiod osm = (SignbturfMftiod)o;
+        SignbturfMftiod osm = (SignbturfMftiod)o;
 
-        rfturn (gftAlgorithm().fqubls(osm.gftAlgorithm()) &&
+
+
+
+
+        rfturn (gftAlgoritim().fqubls(osm.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(osm.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(osm.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(osm.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(osm.gftAlgoritim()) &&
+            pbrbmsEqubl(osm.gftPbrbmftfrSpfd()));
+            pbrbmsEqubl(osm.gftPbrbmftfrSpfd()));
+            pbrbmsEqubl(osm.gftPbrbmftfrSpfd()));
+            pbrbmsEqubl(osm.gftPbrbmftfrSpfd()));
             pbrbmsEqubl(osm.gftPbrbmftfrSpfd()));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid int hbshCodf() {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
         int rfsult = 17;
-        rfsult = 31 * rfsult + gftAlgorithm().hbshCodf();
-        AlgorithmPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        int rfsult = 17;
+        int rfsult = 17;
+        int rfsult = 17;
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
         if (spfd != null) {
-            rfsult = 31 * rfsult + spfd.hbshCodf();
+        if (spfd != null) {
+        if (spfd != null) {
+        if (spfd != null) {
+        if (spfd != null) {
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        rfturn rfsult;
+        rfturn rfsult;
+        rfturn rfsult;
+        rfturn rfsult;
         rfturn rfsult;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf othfrwisf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf otifrwisf.
+     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf otifrwisf.
+     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf otifrwisf.
+     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf otifrwisf.
+     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf otifrwisf.
      *
-     * Subdlbssfs should ovfrridf this mfthod to dompbrf blgorithm-spfdifid
+     *
+     *
+     *
+     *
+     * Subdlbssfs siould ovfrridf tiis mftiod to dompbrf blgoritim-spfdifid
+     * Subdlbssfs siould ovfrridf tiis mftiod to dompbrf blgoritim-spfdifid
+     * Subdlbssfs siould ovfrridf tiis mftiod to dompbrf blgoritim-spfdifid
+     * Subdlbssfs siould ovfrridf tiis mftiod to dompbrf blgoritim-spfdifid
+     * Subdlbssfs siould ovfrridf tiis mftiod to dompbrf blgoritim-spfdifid
+     * pbrbmftfrs.
+     * pbrbmftfrs.
+     * pbrbmftfrs.
+     * pbrbmftfrs.
      * pbrbmftfrs.
      */
-    boolfbn pbrbmsEqubl(AlgorithmPbrbmftfrSpfd spfd)
+     */
+     */
+     */
+     */
+    boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd)
+    boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd)
+    boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd)
+    boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd)
+    boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd)
+    {
+    {
+    {
+    {
     {
         rfturn (gftPbrbmftfrSpfd() == spfd);
+        rfturn (gftPbrbmftfrSpfd() == spfd);
+        rfturn (gftPbrbmftfrSpfd() == spfd);
+        rfturn (gftPbrbmftfrSpfd() == spfd);
+        rfturn (gftPbrbmftfrSpfd() == spfd);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

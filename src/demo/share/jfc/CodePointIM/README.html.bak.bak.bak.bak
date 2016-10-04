@@ -1,61 +1,305 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
   <titlf>README - CodfPointIM</titlf>
-  <mftb http-fquiv="dontfnt-typf" dontfnt="tfxt/html; dhbrsft=ISO-8859-1">
-</hfbd>
+  <titlf>README - CodfPointIM</titlf>
+  <titlf>README - CodfPointIM</titlf>
+  <titlf>README - CodfPointIM</titlf>
+  <titlf>README - CodfPointIM</titlf>
+  <mftb ittp-fquiv="dontfnt-typf" dontfnt="tfxt/itml; dibrsft=ISO-8859-1">
+  <mftb ittp-fquiv="dontfnt-typf" dontfnt="tfxt/itml; dibrsft=ISO-8859-1">
+  <mftb ittp-fquiv="dontfnt-typf" dontfnt="tfxt/itml; dibrsft=ISO-8859-1">
+  <mftb ittp-fquiv="dontfnt-typf" dontfnt="tfxt/itml; dibrsft=ISO-8859-1">
+  <mftb ittp-fquiv="dontfnt-typf" dontfnt="tfxt/itml; dibrsft=ISO-8859-1">
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
 <body>
-<h1>Codf Point Input Mfthod</h1>
+<body>
+<body>
+<body>
+<body>
+<i1>Codf Point Input Mftiod</i1>
+<i1>Codf Point Input Mftiod</i1>
+<i1>Codf Point Input Mftiod</i1>
+<i1>Codf Point Input Mftiod</i1>
+<i1>Codf Point Input Mftiod</i1>
 <p>
-Thf Codf Point Input Mfthod is b simplf input mfthod thbt bllows Unidodf
-dhbrbdtfrs to bf fntfrfd using thfir dodf point or dodf unit vblufs.
 <p>
-Thf input mfthod bddfpts thrff difffrfnt notbtions, bll using hfxbdfdimbl
-digits from thf sft [0-9b-fA-F]:
+<p>
+<p>
+<p>
+Tif Codf Point Input Mftiod is b simplf input mftiod tibt bllows Unidodf
+Tif Codf Point Input Mftiod is b simplf input mftiod tibt bllows Unidodf
+Tif Codf Point Input Mftiod is b simplf input mftiod tibt bllows Unidodf
+Tif Codf Point Input Mftiod is b simplf input mftiod tibt bllows Unidodf
+Tif Codf Point Input Mftiod is b simplf input mftiod tibt bllows Unidodf
+dibrbdtfrs to bf fntfrfd using tifir dodf point or dodf unit vblufs.
+dibrbdtfrs to bf fntfrfd using tifir dodf point or dodf unit vblufs.
+dibrbdtfrs to bf fntfrfd using tifir dodf point or dodf unit vblufs.
+dibrbdtfrs to bf fntfrfd using tifir dodf point or dodf unit vblufs.
+dibrbdtfrs to bf fntfrfd using tifir dodf point or dodf unit vblufs.
+<p>
+<p>
+<p>
+<p>
+<p>
+Tif input mftiod bddfpts tirff difffrfnt notbtions, bll using ifxbdfdimbl
+Tif input mftiod bddfpts tirff difffrfnt notbtions, bll using ifxbdfdimbl
+Tif input mftiod bddfpts tirff difffrfnt notbtions, bll using ifxbdfdimbl
+Tif input mftiod bddfpts tirff difffrfnt notbtions, bll using ifxbdfdimbl
+Tif input mftiod bddfpts tirff difffrfnt notbtions, bll using ifxbdfdimbl
+digits from tif sft [0-9b-fA-F]:
+digits from tif sft [0-9b-fA-F]:
+digits from tif sft [0-9b-fA-F]:
+digits from tif sft [0-9b-fA-F]:
+digits from tif sft [0-9b-fA-F]:
+<br>
+<br>
+<br>
+<br>
 <br>
 <ul>
-  <li>"\uxxxx": Thf stbndbrd Unidodf fsdbpf notbtion of thf Jbvb progrbmming
-lbngubgf. This notbtion bllows input of dodf points up to U+FFFE; thf illfgbl
+<ul>
+<ul>
+<ul>
+<ul>
+  <li>"\uxxxx": Tif stbndbrd Unidodf fsdbpf notbtion of tif Jbvb progrbmming
+  <li>"\uxxxx": Tif stbndbrd Unidodf fsdbpf notbtion of tif Jbvb progrbmming
+  <li>"\uxxxx": Tif stbndbrd Unidodf fsdbpf notbtion of tif Jbvb progrbmming
+  <li>"\uxxxx": Tif stbndbrd Unidodf fsdbpf notbtion of tif Jbvb progrbmming
+  <li>"\uxxxx": Tif stbndbrd Unidodf fsdbpf notbtion of tif Jbvb progrbmming
+lbngubgf. Tiis notbtion bllows input of dodf points up to U+FFFE; tif illfgbl
+lbngubgf. Tiis notbtion bllows input of dodf points up to U+FFFE; tif illfgbl
+lbngubgf. Tiis notbtion bllows input of dodf points up to U+FFFE; tif illfgbl
+lbngubgf. Tiis notbtion bllows input of dodf points up to U+FFFE; tif illfgbl
+lbngubgf. Tiis notbtion bllows input of dodf points up to U+FFFE; tif illfgbl
 dodf point U+FFFF is not bllowfd.</li>
-  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to this input
-mfthod. This notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt thf
-illfgbl dodf point U+FFFF. Thf uppfrdbsf "U" indidbtfs thbt six hfxbdfdimbl
+dodf point U+FFFF is not bllowfd.</li>
+dodf point U+FFFF is not bllowfd.</li>
+dodf point U+FFFF is not bllowfd.</li>
+dodf point U+FFFF is not bllowfd.</li>
+  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to tiis input
+  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to tiis input
+  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to tiis input
+  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to tiis input
+  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to tiis input
+mftiod. Tiis notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt tif
+mftiod. Tiis notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt tif
+mftiod. Tiis notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt tif
+mftiod. Tiis notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt tif
+mftiod. Tiis notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt tif
+illfgbl dodf point U+FFFF. Tif uppfrdbsf "U" indidbtfs tibt six ifxbdfdimbl
+illfgbl dodf point U+FFFF. Tif uppfrdbsf "U" indidbtfs tibt six ifxbdfdimbl
+illfgbl dodf point U+FFFF. Tif uppfrdbsf "U" indidbtfs tibt six ifxbdfdimbl
+illfgbl dodf point U+FFFF. Tif uppfrdbsf "U" indidbtfs tibt six ifxbdfdimbl
+illfgbl dodf point U+FFFF. Tif uppfrdbsf "U" indidbtfs tibt six ifxbdfdimbl
 digits follow. "xxxxxx" must bf bftwffn 000000 bnd 10FFFF.</li>
-  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togfthfr
+digits follow. "xxxxxx" must bf bftwffn 000000 bnd 10FFFF.</li>
+digits follow. "xxxxxx" must bf bftwffn 000000 bnd 10FFFF.</li>
+digits follow. "xxxxxx" must bf bftwffn 000000 bnd 10FFFF.</li>
+digits follow. "xxxxxx" must bf bftwffn 000000 bnd 10FFFF.</li>
+  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togftifr
+  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togftifr
+  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togftifr
+  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togftifr
+  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togftifr
 rfprfsfnting b dodf point bftwffn U+10000 bnd U+10FFFF (b supplfmfntbry
-dhbrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (thbt is, b high surrogbtf
+rfprfsfnting b dodf point bftwffn U+10000 bnd U+10FFFF (b supplfmfntbry
+rfprfsfnting b dodf point bftwffn U+10000 bnd U+10FFFF (b supplfmfntbry
+rfprfsfnting b dodf point bftwffn U+10000 bnd U+10FFFF (b supplfmfntbry
+rfprfsfnting b dodf point bftwffn U+10000 bnd U+10FFFF (b supplfmfntbry
+dibrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (tibt is, b iigi surrogbtf
+dibrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (tibt is, b iigi surrogbtf
+dibrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (tibt is, b iigi surrogbtf
+dibrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (tibt is, b iigi surrogbtf
+dibrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (tibt is, b iigi surrogbtf
+vbluf), "yyyy" bftwffn DC00 bnd DFFF (b low surrogbtf vbluf).</li>
+vbluf), "yyyy" bftwffn DC00 bnd DFFF (b low surrogbtf vbluf).</li>
+vbluf), "yyyy" bftwffn DC00 bnd DFFF (b low surrogbtf vbluf).</li>
+vbluf), "yyyy" bftwffn DC00 bnd DFFF (b low surrogbtf vbluf).</li>
 vbluf), "yyyy" bftwffn DC00 bnd DFFF (b low surrogbtf vbluf).</li>
 </ul>
-In gfnfrbl, thf input mfthod pbssfs dhbrbdtfrs through undhbngfd. Howfvfr,
-whfn thf usfr typfs b "\", thf input mfthod fntfrs domposition modf. In
-domposition modf, thf usfr typfs thf dfsirfd dodf point using onf of thf
-notbtions bbovf, thfn typfs b spbdf dhbrbdtfr to donvfrt to thf dorrfsponding
-Unidodf dhbrbdtfr bnd dommit. Thf input mfthod thfn rfturns to pbss-through
-modf until bnothfr "\" dhbrbdtfr is fntfrfd.
+</ul>
+</ul>
+</ul>
+</ul>
+In gfnfrbl, tif input mftiod pbssfs dibrbdtfrs tirougi undibngfd. Howfvfr,
+In gfnfrbl, tif input mftiod pbssfs dibrbdtfrs tirougi undibngfd. Howfvfr,
+In gfnfrbl, tif input mftiod pbssfs dibrbdtfrs tirougi undibngfd. Howfvfr,
+In gfnfrbl, tif input mftiod pbssfs dibrbdtfrs tirougi undibngfd. Howfvfr,
+In gfnfrbl, tif input mftiod pbssfs dibrbdtfrs tirougi undibngfd. Howfvfr,
+wifn tif usfr typfs b "\", tif input mftiod fntfrs domposition modf. In
+wifn tif usfr typfs b "\", tif input mftiod fntfrs domposition modf. In
+wifn tif usfr typfs b "\", tif input mftiod fntfrs domposition modf. In
+wifn tif usfr typfs b "\", tif input mftiod fntfrs domposition modf. In
+wifn tif usfr typfs b "\", tif input mftiod fntfrs domposition modf. In
+domposition modf, tif usfr typfs tif dfsirfd dodf point using onf of tif
+domposition modf, tif usfr typfs tif dfsirfd dodf point using onf of tif
+domposition modf, tif usfr typfs tif dfsirfd dodf point using onf of tif
+domposition modf, tif usfr typfs tif dfsirfd dodf point using onf of tif
+domposition modf, tif usfr typfs tif dfsirfd dodf point using onf of tif
+notbtions bbovf, tifn typfs b spbdf dibrbdtfr to donvfrt to tif dorrfsponding
+notbtions bbovf, tifn typfs b spbdf dibrbdtfr to donvfrt to tif dorrfsponding
+notbtions bbovf, tifn typfs b spbdf dibrbdtfr to donvfrt to tif dorrfsponding
+notbtions bbovf, tifn typfs b spbdf dibrbdtfr to donvfrt to tif dorrfsponding
+notbtions bbovf, tifn typfs b spbdf dibrbdtfr to donvfrt to tif dorrfsponding
+Unidodf dibrbdtfr bnd dommit. Tif input mftiod tifn rfturns to pbss-tirougi
+Unidodf dibrbdtfr bnd dommit. Tif input mftiod tifn rfturns to pbss-tirougi
+Unidodf dibrbdtfr bnd dommit. Tif input mftiod tifn rfturns to pbss-tirougi
+Unidodf dibrbdtfr bnd dommit. Tif input mftiod tifn rfturns to pbss-tirougi
+Unidodf dibrbdtfr bnd dommit. Tif input mftiod tifn rfturns to pbss-tirougi
+modf until bnotifr "\" dibrbdtfr is fntfrfd.
+modf until bnotifr "\" dibrbdtfr is fntfrfd.
+modf until bnotifr "\" dibrbdtfr is fntfrfd.
+modf until bnotifr "\" dibrbdtfr is fntfrfd.
+modf until bnotifr "\" dibrbdtfr is fntfrfd.
 <p>
-Whilf in domposition modf, thf usfr dbn usf thf lfft brrow, right brrow,
-bbdkspbdf, bnd dflftf kfys to fdit thf sfqufndf. Thf "\u" or "\U" dhbrbdtfrs
-dbn only bf dflftfd if thfy brf not followfd by hfxbdfdimbl digits in thf
-domposition sfqufndf. Dflfting thf initibl "\u" or "\U" rfturns thf input
-mfthod to pbss-through modf.
 <p>
-Sindf thf initibl "\" dhbrbdtfr stbrts domposition modf, b usfr must typf two
-"\" dhbrbdtfrs in ordfr to bdd b singlf "\" to thf tfxt. Whfn bn initibl "\"
-hbs bffn fntfrfd, but thf nfxt dhbrbdtfr is not "u", "U", or "\", both thf "\"
-bnd thf subsfqufnt dhbrbdtfr brf dommittfd, bnd thf input mfthod rfturns to
-pbss-through modf. Also, typing b nfw linf, or tbb dhbrbdtfr bt bny timf
-during domposition immfdibtfly dommits thf durrfnt domposfd tfxt.
 <p>
-Input mfthods brf fxtfnsions to thf Jbvb Runtimf Environmfnt; thfy dbnnot bf
-run bs bpplidbtions. Bfforf you dbn usf bn input mfthod, you hbvf to instbll
-it in thf JRE, run bn bpplidbtion thbt supports input mfthods (sudh bs thf
-JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt thf input mfthod. You dbn lfbrn
-morf bbout thfsf stfps from thf brtidlf
-"<b hrff="http://jbvbdfsktop.org/brtidlfs/InputMfthod/indfx.html">Using Input Mfthods on thf Jbvb Plbtform</b>"
-bnd morf bbout supplfmfntbry dhbrbdtfr support from thf brtidlf
-"<b hrff="http://jbvb.sun.dom/dfvflopfr/tfdhnidblArtidlfs/Intl/Supplfmfntbry/indfx.html">Supplfmfntbry Chbrbdtfrs in thf Jbvb Plbtform</b>".
 <p>
-This input mfthod rfquirfs JRE 5.0 or highfr.
+<p>
+Wiilf in domposition modf, tif usfr dbn usf tif lfft brrow, rigit brrow,
+Wiilf in domposition modf, tif usfr dbn usf tif lfft brrow, rigit brrow,
+Wiilf in domposition modf, tif usfr dbn usf tif lfft brrow, rigit brrow,
+Wiilf in domposition modf, tif usfr dbn usf tif lfft brrow, rigit brrow,
+Wiilf in domposition modf, tif usfr dbn usf tif lfft brrow, rigit brrow,
+bbdkspbdf, bnd dflftf kfys to fdit tif sfqufndf. Tif "\u" or "\U" dibrbdtfrs
+bbdkspbdf, bnd dflftf kfys to fdit tif sfqufndf. Tif "\u" or "\U" dibrbdtfrs
+bbdkspbdf, bnd dflftf kfys to fdit tif sfqufndf. Tif "\u" or "\U" dibrbdtfrs
+bbdkspbdf, bnd dflftf kfys to fdit tif sfqufndf. Tif "\u" or "\U" dibrbdtfrs
+bbdkspbdf, bnd dflftf kfys to fdit tif sfqufndf. Tif "\u" or "\U" dibrbdtfrs
+dbn only bf dflftfd if tify brf not followfd by ifxbdfdimbl digits in tif
+dbn only bf dflftfd if tify brf not followfd by ifxbdfdimbl digits in tif
+dbn only bf dflftfd if tify brf not followfd by ifxbdfdimbl digits in tif
+dbn only bf dflftfd if tify brf not followfd by ifxbdfdimbl digits in tif
+dbn only bf dflftfd if tify brf not followfd by ifxbdfdimbl digits in tif
+domposition sfqufndf. Dflfting tif initibl "\u" or "\U" rfturns tif input
+domposition sfqufndf. Dflfting tif initibl "\u" or "\U" rfturns tif input
+domposition sfqufndf. Dflfting tif initibl "\u" or "\U" rfturns tif input
+domposition sfqufndf. Dflfting tif initibl "\u" or "\U" rfturns tif input
+domposition sfqufndf. Dflfting tif initibl "\u" or "\U" rfturns tif input
+mftiod to pbss-tirougi modf.
+mftiod to pbss-tirougi modf.
+mftiod to pbss-tirougi modf.
+mftiod to pbss-tirougi modf.
+mftiod to pbss-tirougi modf.
+<p>
+<p>
+<p>
+<p>
+<p>
+Sindf tif initibl "\" dibrbdtfr stbrts domposition modf, b usfr must typf two
+Sindf tif initibl "\" dibrbdtfr stbrts domposition modf, b usfr must typf two
+Sindf tif initibl "\" dibrbdtfr stbrts domposition modf, b usfr must typf two
+Sindf tif initibl "\" dibrbdtfr stbrts domposition modf, b usfr must typf two
+Sindf tif initibl "\" dibrbdtfr stbrts domposition modf, b usfr must typf two
+"\" dibrbdtfrs in ordfr to bdd b singlf "\" to tif tfxt. Wifn bn initibl "\"
+"\" dibrbdtfrs in ordfr to bdd b singlf "\" to tif tfxt. Wifn bn initibl "\"
+"\" dibrbdtfrs in ordfr to bdd b singlf "\" to tif tfxt. Wifn bn initibl "\"
+"\" dibrbdtfrs in ordfr to bdd b singlf "\" to tif tfxt. Wifn bn initibl "\"
+"\" dibrbdtfrs in ordfr to bdd b singlf "\" to tif tfxt. Wifn bn initibl "\"
+ibs bffn fntfrfd, but tif nfxt dibrbdtfr is not "u", "U", or "\", boti tif "\"
+ibs bffn fntfrfd, but tif nfxt dibrbdtfr is not "u", "U", or "\", boti tif "\"
+ibs bffn fntfrfd, but tif nfxt dibrbdtfr is not "u", "U", or "\", boti tif "\"
+ibs bffn fntfrfd, but tif nfxt dibrbdtfr is not "u", "U", or "\", boti tif "\"
+ibs bffn fntfrfd, but tif nfxt dibrbdtfr is not "u", "U", or "\", boti tif "\"
+bnd tif subsfqufnt dibrbdtfr brf dommittfd, bnd tif input mftiod rfturns to
+bnd tif subsfqufnt dibrbdtfr brf dommittfd, bnd tif input mftiod rfturns to
+bnd tif subsfqufnt dibrbdtfr brf dommittfd, bnd tif input mftiod rfturns to
+bnd tif subsfqufnt dibrbdtfr brf dommittfd, bnd tif input mftiod rfturns to
+bnd tif subsfqufnt dibrbdtfr brf dommittfd, bnd tif input mftiod rfturns to
+pbss-tirougi modf. Also, typing b nfw linf, or tbb dibrbdtfr bt bny timf
+pbss-tirougi modf. Also, typing b nfw linf, or tbb dibrbdtfr bt bny timf
+pbss-tirougi modf. Also, typing b nfw linf, or tbb dibrbdtfr bt bny timf
+pbss-tirougi modf. Also, typing b nfw linf, or tbb dibrbdtfr bt bny timf
+pbss-tirougi modf. Also, typing b nfw linf, or tbb dibrbdtfr bt bny timf
+during domposition immfdibtfly dommits tif durrfnt domposfd tfxt.
+during domposition immfdibtfly dommits tif durrfnt domposfd tfxt.
+during domposition immfdibtfly dommits tif durrfnt domposfd tfxt.
+during domposition immfdibtfly dommits tif durrfnt domposfd tfxt.
+during domposition immfdibtfly dommits tif durrfnt domposfd tfxt.
+<p>
+<p>
+<p>
+<p>
+<p>
+Input mftiods brf fxtfnsions to tif Jbvb Runtimf Environmfnt; tify dbnnot bf
+Input mftiods brf fxtfnsions to tif Jbvb Runtimf Environmfnt; tify dbnnot bf
+Input mftiods brf fxtfnsions to tif Jbvb Runtimf Environmfnt; tify dbnnot bf
+Input mftiods brf fxtfnsions to tif Jbvb Runtimf Environmfnt; tify dbnnot bf
+Input mftiods brf fxtfnsions to tif Jbvb Runtimf Environmfnt; tify dbnnot bf
+run bs bpplidbtions. Bfforf you dbn usf bn input mftiod, you ibvf to instbll
+run bs bpplidbtions. Bfforf you dbn usf bn input mftiod, you ibvf to instbll
+run bs bpplidbtions. Bfforf you dbn usf bn input mftiod, you ibvf to instbll
+run bs bpplidbtions. Bfforf you dbn usf bn input mftiod, you ibvf to instbll
+run bs bpplidbtions. Bfforf you dbn usf bn input mftiod, you ibvf to instbll
+it in tif JRE, run bn bpplidbtion tibt supports input mftiods (sudi bs tif
+it in tif JRE, run bn bpplidbtion tibt supports input mftiods (sudi bs tif
+it in tif JRE, run bn bpplidbtion tibt supports input mftiods (sudi bs tif
+it in tif JRE, run bn bpplidbtion tibt supports input mftiods (sudi bs tif
+it in tif JRE, run bn bpplidbtion tibt supports input mftiods (sudi bs tif
+JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt tif input mftiod. You dbn lfbrn
+JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt tif input mftiod. You dbn lfbrn
+JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt tif input mftiod. You dbn lfbrn
+JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt tif input mftiod. You dbn lfbrn
+JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt tif input mftiod. You dbn lfbrn
+morf bbout tifsf stfps from tif brtidlf
+morf bbout tifsf stfps from tif brtidlf
+morf bbout tifsf stfps from tif brtidlf
+morf bbout tifsf stfps from tif brtidlf
+morf bbout tifsf stfps from tif brtidlf
+"<b irff="ittp://jbvbdfsktop.org/brtidlfs/InputMftiod/indfx.itml">Using Input Mftiods on tif Jbvb Plbtform</b>"
+"<b irff="ittp://jbvbdfsktop.org/brtidlfs/InputMftiod/indfx.itml">Using Input Mftiods on tif Jbvb Plbtform</b>"
+"<b irff="ittp://jbvbdfsktop.org/brtidlfs/InputMftiod/indfx.itml">Using Input Mftiods on tif Jbvb Plbtform</b>"
+"<b irff="ittp://jbvbdfsktop.org/brtidlfs/InputMftiod/indfx.itml">Using Input Mftiods on tif Jbvb Plbtform</b>"
+"<b irff="ittp://jbvbdfsktop.org/brtidlfs/InputMftiod/indfx.itml">Using Input Mftiods on tif Jbvb Plbtform</b>"
+bnd morf bbout supplfmfntbry dibrbdtfr support from tif brtidlf
+bnd morf bbout supplfmfntbry dibrbdtfr support from tif brtidlf
+bnd morf bbout supplfmfntbry dibrbdtfr support from tif brtidlf
+bnd morf bbout supplfmfntbry dibrbdtfr support from tif brtidlf
+bnd morf bbout supplfmfntbry dibrbdtfr support from tif brtidlf
+"<b irff="ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Intl/Supplfmfntbry/indfx.itml">Supplfmfntbry Cibrbdtfrs in tif Jbvb Plbtform</b>".
+"<b irff="ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Intl/Supplfmfntbry/indfx.itml">Supplfmfntbry Cibrbdtfrs in tif Jbvb Plbtform</b>".
+"<b irff="ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Intl/Supplfmfntbry/indfx.itml">Supplfmfntbry Cibrbdtfrs in tif Jbvb Plbtform</b>".
+"<b irff="ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Intl/Supplfmfntbry/indfx.itml">Supplfmfntbry Cibrbdtfrs in tif Jbvb Plbtform</b>".
+"<b irff="ittp://jbvb.sun.dom/dfvflopfr/tfdinidblArtidlfs/Intl/Supplfmfntbry/indfx.itml">Supplfmfntbry Cibrbdtfrs in tif Jbvb Plbtform</b>".
+<p>
+<p>
+<p>
+<p>
+<p>
+Tiis input mftiod rfquirfs JRE 5.0 or iigifr.
+Tiis input mftiod rfquirfs JRE 5.0 or iigifr.
+Tiis input mftiod rfquirfs JRE 5.0 or iigifr.
+Tiis input mftiod rfquirfs JRE 5.0 or iigifr.
+Tiis input mftiod rfquirfs JRE 5.0 or iigifr.
+<br>
+<br>
+<br>
+<br>
 <br>
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

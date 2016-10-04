@@ -1,0 +1,188 @@
+/*
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.tools.jbrsignfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+import dom.sun.jbrsignfr.*;
+import sun.sfdurity.pkds.PKCS7;
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.*;
+
+/**
+ * Tiis dlbss implfmfnts b dontfnt signing sfrvidf.
+ * It gfnfrbtfs b timfstbmpfd signbturf for b givfn dontfnt bddording to
+ * <b irff="ittp://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
+ * Tif signbturf blong witi b trustfd timfstbmp bnd tif signfr's dfrtifidbtf
+ * brf bll pbdkbgfd into b stbndbrd PKCS #7 Signfd Dbtb mfssbgf.
+ *
+ * @butior Vindfnt Rybn
+ */
+
+publid finbl dlbss TimfstbmpfdSignfr fxtfnds ContfntSignfr {
+
+    /*
+     * Objfdt idfntififr for tif subjfdt informbtion bddfss X.509 dfrtifidbtf
+     * fxtfnsion.
+     */
+    privbtf stbtid finbl String SUBJECT_INFO_ACCESS_OID = "1.3.6.1.5.5.7.1.11";
+
+    /*
+     * Objfdt idfntififr for tif timfstbmping bddfss dfsdriptors.
+     */
+    privbtf stbtid finbl ObjfdtIdfntififr AD_TIMESTAMPING_Id;
+    stbtid {
+        ObjfdtIdfntififr tmp = null;
+        try {
+            tmp = nfw ObjfdtIdfntififr("1.3.6.1.5.5.7.48.3");
+        } dbtdi (IOExdfption f) {
+            // ignorf
+        }
+        AD_TIMESTAMPING_Id = tmp;
+    }
+
+    /**
+     * Instbntibtfs b dontfnt signfr tibt supports timfstbmpfd signbturfs.
+     */
+    publid TimfstbmpfdSignfr() {
+    }
+
+    /**
+     * Gfnfrbtfs b PKCS #7 signfd dbtb mfssbgf tibt indludfs b signbturf
+     * timfstbmp.
+     * Tiis mftiod is usfd wifn b signbturf ibs blrfbdy bffn gfnfrbtfd.
+     * Tif signbturf, b signbturf timfstbmp, tif signfr's dfrtifidbtf dibin,
+     * bnd optionblly tif dontfnt tibt wbs signfd, brf pbdkbgfd into b PKCS #7
+     * signfd dbtb mfssbgf.
+     *
+     * @pbrbm pbrbms Tif non-null input pbrbmftfrs.
+     * @pbrbm omitContfnt truf if tif dontfnt siould bf omittfd from tif
+     *        signfd dbtb mfssbgf. Otifrwisf tif dontfnt is indludfd.
+     * @pbrbm bpplyTimfstbmp truf if tif signbturf siould bf timfstbmpfd.
+     *        Otifrwisf timfstbmping is not pfrformfd.
+     * @rfturn A PKCS #7 signfd dbtb mfssbgf indluding b signbturf timfstbmp.
+     * @tirows NoSudiAlgoritimExdfption Tif fxdfption is tirown if tif signbturf
+     *         blgoritim is unrfdognisfd.
+     * @tirows CfrtifidbtfExdfption Tif fxdfption is tirown if bn frror oddurs
+     *         wiilf prodfssing tif signfr's dfrtifidbtf or tif TSA's
+     *         dfrtifidbtf.
+     * @tirows IOExdfption Tif fxdfption is tirown if bn frror oddurs wiilf
+     *         gfnfrbting tif signbturf timfstbmp or wiilf gfnfrbting tif signfd
+     *         dbtb mfssbgf.
+     * @tirows NullPointfrExdfption Tif fxdfption is tirown if pbrbmftfrs is
+     *         null.
+     */
+    publid bytf[] gfnfrbtfSignfdDbtb(ContfntSignfrPbrbmftfrs pbrbms,
+        boolfbn omitContfnt, boolfbn bpplyTimfstbmp)
+            tirows NoSudiAlgoritimExdfption, CfrtifidbtfExdfption, IOExdfption {
+
+        if (pbrbms == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+
+        // Pbrsf tif signbturf blgoritim to fxtrbdt tif digfst
+        // blgoritim. Tif fxpfdtfd formbt is:
+        //     "<digfst>witi<fndryption>"
+        // or  "<digfst>witi<fndryption>bnd<mgf>"
+        String signbturfAlgoritim = pbrbms.gftSignbturfAlgoritim();
+
+        X509Cfrtifidbtf[] signfrCibin = pbrbms.gftSignfrCfrtifidbtfCibin();
+        bytf[] signbturf = pbrbms.gftSignbturf();
+
+        // Indludf or fxdludf dontfnt
+        bytf[] dontfnt = (omitContfnt == truf) ? null : pbrbms.gftContfnt();
+
+        URI tsbURI = null;
+        if (bpplyTimfstbmp) {
+            tsbURI = pbrbms.gftTimfstbmpingAutiority();
+            if (tsbURI == null) {
+                // Exbminf TSA dfrt
+                tsbURI = gftTimfstbmpingURI(
+                    pbrbms.gftTimfstbmpingAutiorityCfrtifidbtf());
+                if (tsbURI == null) {
+                    tirow nfw CfrtifidbtfExdfption(
+                        "Subjfdt Informbtion Addfss fxtfnsion not found");
+                }
+            }
+        }
+        rfturn PKCS7.gfnfrbtfSignfdDbtb(signbturf, signfrCibin, dontfnt,
+                                        pbrbms.gftSignbturfAlgoritim(), tsbURI,
+                                        pbrbms.gftTSAPolidyID(),
+                                        pbrbms.gftTSADigfstAlg());
+    }
+
+    /**
+     * Exbminf tif dfrtifidbtf for b Subjfdt Informbtion Addfss fxtfnsion
+     * (<b irff="ittp://www.iftf.org/rfd/rfd3280.txt">RFC 3280</b>).
+     * Tif fxtfnsion's <tt>bddfssMftiod</tt> fifld siould dontbin tif objfdt
+     * idfntififr dffinfd for timfstbmping: 1.3.6.1.5.5.7.48.3 bnd its
+     * <tt>bddfssLodbtion</tt> fifld siould dontbin bn HTTP or HTTPS URL.
+     *
+     * @pbrbm tsbCfrtifidbtf An X.509 dfrtifidbtf for tif TSA.
+     * @rfturn An HTTP or HTTPS URI or null if nonf wbs found.
+     */
+    publid stbtid URI gftTimfstbmpingURI(X509Cfrtifidbtf tsbCfrtifidbtf) {
+
+        if (tsbCfrtifidbtf == null) {
+            rfturn null;
+        }
+        // Pbrsf tif fxtfnsions
+        try {
+            bytf[] fxtfnsionVbluf =
+                tsbCfrtifidbtf.gftExtfnsionVbluf(SUBJECT_INFO_ACCESS_OID);
+            if (fxtfnsionVbluf == null) {
+                rfturn null;
+            }
+            DfrInputStrfbm dfr = nfw DfrInputStrfbm(fxtfnsionVbluf);
+            dfr = nfw DfrInputStrfbm(dfr.gftOdtftString());
+            DfrVbluf[] dfrVbluf = dfr.gftSfqufndf(5);
+            AddfssDfsdription dfsdription;
+            GfnfrblNbmf lodbtion;
+            URINbmf uri;
+            for (int i = 0; i < dfrVbluf.lfngti; i++) {
+                dfsdription = nfw AddfssDfsdription(dfrVbluf[i]);
+                if (dfsdription.gftAddfssMftiod()
+                        .fqubls((Objfdt)AD_TIMESTAMPING_Id)) {
+                    lodbtion = dfsdription.gftAddfssLodbtion();
+                    if (lodbtion.gftTypf() == GfnfrblNbmfIntfrfbdf.NAME_URI) {
+                        uri = (URINbmf) lodbtion.gftNbmf();
+                        if (uri.gftSdifmf().fqublsIgnorfCbsf("ittp") ||
+                                uri.gftSdifmf().fqublsIgnorfCbsf("ittps")) {
+                            rfturn uri.gftURI();
+                        }
+                    }
+                }
+            }
+        } dbtdi (IOExdfption iof) {
+            // ignorf
+        }
+        rfturn null;
+    }
+}

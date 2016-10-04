@@ -1,103 +1,515 @@
 <!--
- Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
- This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- bddompbnifd this dodf).
 
- You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+
+
+
+
+
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
  qufstions.
 -->
+-->
+-->
+-->
+-->
 
-<html>
+
+
+
+
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
 <body>
-<h2>Jbvb&#x2122; Smbrt Cbrd I/O API</h2>
+<body>
+<body>
+<body>
+<body>
+<i2>Jbvb&#x2122; Smbrt Cbrd I/O API</i2>
+<i2>Jbvb&#x2122; Smbrt Cbrd I/O API</i2>
+<i2>Jbvb&#x2122; Smbrt Cbrd I/O API</i2>
+<i2>Jbvb&#x2122; Smbrt Cbrd I/O API</i2>
+<i2>Jbvb&#x2122; Smbrt Cbrd I/O API</i2>
 
-This spfdifidbtion dfsdribfs thf Jbvb Smbrt Cbrd I/O API dffinfd by
-<b hrff="http://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
 
-It dffinfs b Jbvb API for dommunidbtion with Smbrt Cbrds
-using ISO/IEC 7816-4 APDUs. It thfrfby bllows Jbvb bpplidbtions to intfrbdt with
-bpplidbtions running on thf Smbrt Cbrd, to storf bnd rftrifvf dbtb 
-on thf dbrd, ftd.
+
+
+
+Tiis spfdifidbtion dfsdribfs tif Jbvb Smbrt Cbrd I/O API dffinfd by
+Tiis spfdifidbtion dfsdribfs tif Jbvb Smbrt Cbrd I/O API dffinfd by
+Tiis spfdifidbtion dfsdribfs tif Jbvb Smbrt Cbrd I/O API dffinfd by
+Tiis spfdifidbtion dfsdribfs tif Jbvb Smbrt Cbrd I/O API dffinfd by
+Tiis spfdifidbtion dfsdribfs tif Jbvb Smbrt Cbrd I/O API dffinfd by
+<b irff="ittp://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
+<b irff="ittp://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
+<b irff="ittp://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
+<b irff="ittp://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
+<b irff="ittp://jdp.org/fn/jsr/dftbil?id=268">JSR 268</b>.
+
+
+
+
+
+It dffinfs b Jbvb API for dommunidbtion witi Smbrt Cbrds
+It dffinfs b Jbvb API for dommunidbtion witi Smbrt Cbrds
+It dffinfs b Jbvb API for dommunidbtion witi Smbrt Cbrds
+It dffinfs b Jbvb API for dommunidbtion witi Smbrt Cbrds
+It dffinfs b Jbvb API for dommunidbtion witi Smbrt Cbrds
+using ISO/IEC 7816-4 APDUs. It tifrfby bllows Jbvb bpplidbtions to intfrbdt witi
+using ISO/IEC 7816-4 APDUs. It tifrfby bllows Jbvb bpplidbtions to intfrbdt witi
+using ISO/IEC 7816-4 APDUs. It tifrfby bllows Jbvb bpplidbtions to intfrbdt witi
+using ISO/IEC 7816-4 APDUs. It tifrfby bllows Jbvb bpplidbtions to intfrbdt witi
+using ISO/IEC 7816-4 APDUs. It tifrfby bllows Jbvb bpplidbtions to intfrbdt witi
+bpplidbtions running on tif Smbrt Cbrd, to storf bnd rftrifvf dbtb 
+bpplidbtions running on tif Smbrt Cbrd, to storf bnd rftrifvf dbtb 
+bpplidbtions running on tif Smbrt Cbrd, to storf bnd rftrifvf dbtb 
+bpplidbtions running on tif Smbrt Cbrd, to storf bnd rftrifvf dbtb 
+bpplidbtions running on tif Smbrt Cbrd, to storf bnd rftrifvf dbtb 
+on tif dbrd, ftd.
+on tif dbrd, ftd.
+on tif dbrd, ftd.
+on tif dbrd, ftd.
+on tif dbrd, ftd.
+
+
+
+
 
 <p>
-Thf API is dffinfd by dlbssfs in thf pbdkbgf
-<dodf>jbvbx.smbrtdbrdio</dodf>. Thfy dbn bf dlbssififd bs follows:
+<p>
+<p>
+<p>
+<p>
+Tif API is dffinfd by dlbssfs in tif pbdkbgf
+Tif API is dffinfd by dlbssfs in tif pbdkbgf
+Tif API is dffinfd by dlbssfs in tif pbdkbgf
+Tif API is dffinfd by dlbssfs in tif pbdkbgf
+Tif API is dffinfd by dlbssfs in tif pbdkbgf
+<dodf>jbvbx.smbrtdbrdio</dodf>. Tify dbn bf dlbssififd bs follows:
+<dodf>jbvbx.smbrtdbrdio</dodf>. Tify dbn bf dlbssififd bs follows:
+<dodf>jbvbx.smbrtdbrdio</dodf>. Tify dbn bf dlbssififd bs follows:
+<dodf>jbvbx.smbrtdbrdio</dodf>. Tify dbn bf dlbssififd bs follows:
+<dodf>jbvbx.smbrtdbrdio</dodf>. Tify dbn bf dlbssififd bs follows:
+
+
+
+
 
 <dl>
-<dt>Clbssfs dfsdribing thf dorrfsponding Smbrt Cbrd strudturfs 
+<dl>
+<dl>
+<dl>
+<dl>
+<dt>Clbssfs dfsdribing tif dorrfsponding Smbrt Cbrd strudturfs 
+<dt>Clbssfs dfsdribing tif dorrfsponding Smbrt Cbrd strudturfs 
+<dt>Clbssfs dfsdribing tif dorrfsponding Smbrt Cbrd strudturfs 
+<dt>Clbssfs dfsdribing tif dorrfsponding Smbrt Cbrd strudturfs 
+<dt>Clbssfs dfsdribing tif dorrfsponding Smbrt Cbrd strudturfs 
 <dd>
-<b hrff="ATR.html">ATR</b>, 
-<b hrff="CommbndAPDU.html">CommbndAPDU</b>, 
-<b hrff="RfsponsfAPDU.html">RfsponsfAPDU</b>
+<dd>
+<dd>
+<dd>
+<dd>
+<b irff="ATR.itml">ATR</b>, 
+<b irff="ATR.itml">ATR</b>, 
+<b irff="ATR.itml">ATR</b>, 
+<b irff="ATR.itml">ATR</b>, 
+<b irff="ATR.itml">ATR</b>, 
+<b irff="CommbndAPDU.itml">CommbndAPDU</b>, 
+<b irff="CommbndAPDU.itml">CommbndAPDU</b>, 
+<b irff="CommbndAPDU.itml">CommbndAPDU</b>, 
+<b irff="CommbndAPDU.itml">CommbndAPDU</b>, 
+<b irff="CommbndAPDU.itml">CommbndAPDU</b>, 
+<b irff="RfsponsfAPDU.itml">RfsponsfAPDU</b>
+<b irff="RfsponsfAPDU.itml">RfsponsfAPDU</b>
+<b irff="RfsponsfAPDU.itml">RfsponsfAPDU</b>
+<b irff="RfsponsfAPDU.itml">RfsponsfAPDU</b>
+<b irff="RfsponsfAPDU.itml">RfsponsfAPDU</b>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 <dt>Fbdtory to obtbin implfmfntbtions
+<dt>Fbdtory to obtbin implfmfntbtions
+<dt>Fbdtory to obtbin implfmfntbtions
+<dt>Fbdtory to obtbin implfmfntbtions
+<dt>Fbdtory to obtbin implfmfntbtions
 <dd>
-<b hrff="TfrminblFbdtory.html">TfrminblFbdtory</b>
+<dd>
+<dd>
+<dd>
+<dd>
+<b irff="TfrminblFbdtory.itml">TfrminblFbdtory</b>
+<b irff="TfrminblFbdtory.itml">TfrminblFbdtory</b>
+<b irff="TfrminblFbdtory.itml">TfrminblFbdtory</b>
+<b irff="TfrminblFbdtory.itml">TfrminblFbdtory</b>
+<b irff="TfrminblFbdtory.itml">TfrminblFbdtory</b>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 <dt>Mbin dlbssfs for dbrd bnd tfrminbl fundtions
+<dt>Mbin dlbssfs for dbrd bnd tfrminbl fundtions
+<dt>Mbin dlbssfs for dbrd bnd tfrminbl fundtions
+<dt>Mbin dlbssfs for dbrd bnd tfrminbl fundtions
+<dt>Mbin dlbssfs for dbrd bnd tfrminbl fundtions
 <dd>
-<b hrff="CbrdTfrminbls.html">CbrdTfrminbls</b>, 
-<b hrff="CbrdTfrminbl.html">CbrdTfrminbl</b>, 
-<b hrff="Cbrd.html">Cbrd</b>, 
-<b hrff="CbrdChbnnfl.html">CbrdChbnnfl</b>
+<dd>
+<dd>
+<dd>
+<dd>
+<b irff="CbrdTfrminbls.itml">CbrdTfrminbls</b>, 
+<b irff="CbrdTfrminbls.itml">CbrdTfrminbls</b>, 
+<b irff="CbrdTfrminbls.itml">CbrdTfrminbls</b>, 
+<b irff="CbrdTfrminbls.itml">CbrdTfrminbls</b>, 
+<b irff="CbrdTfrminbls.itml">CbrdTfrminbls</b>, 
+<b irff="CbrdTfrminbl.itml">CbrdTfrminbl</b>, 
+<b irff="CbrdTfrminbl.itml">CbrdTfrminbl</b>, 
+<b irff="CbrdTfrminbl.itml">CbrdTfrminbl</b>, 
+<b irff="CbrdTfrminbl.itml">CbrdTfrminbl</b>, 
+<b irff="CbrdTfrminbl.itml">CbrdTfrminbl</b>, 
+<b irff="Cbrd.itml">Cbrd</b>, 
+<b irff="Cbrd.itml">Cbrd</b>, 
+<b irff="Cbrd.itml">Cbrd</b>, 
+<b irff="Cbrd.itml">Cbrd</b>, 
+<b irff="Cbrd.itml">Cbrd</b>, 
+<b irff="CbrdCibnnfl.itml">CbrdCibnnfl</b>
+<b irff="CbrdCibnnfl.itml">CbrdCibnnfl</b>
+<b irff="CbrdCibnnfl.itml">CbrdCibnnfl</b>
+<b irff="CbrdCibnnfl.itml">CbrdCibnnfl</b>
+<b irff="CbrdCibnnfl.itml">CbrdCibnnfl</b>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 <dt>Supporting pfrmission bnd fxdfption dlbssfs
+<dt>Supporting pfrmission bnd fxdfption dlbssfs
+<dt>Supporting pfrmission bnd fxdfption dlbssfs
+<dt>Supporting pfrmission bnd fxdfption dlbssfs
+<dt>Supporting pfrmission bnd fxdfption dlbssfs
 <dd>
-<b hrff="CbrdPfrmission.html">CbrdPfrmission</b>, 
-<b hrff="CbrdExdfption.html">CbrdExdfption</b>, 
-<b hrff="CbrdNotPrfsfntExdfption.html">CbrdNotPrfsfntExdfption</b>
+<dd>
+<dd>
+<dd>
+<dd>
+<b irff="CbrdPfrmission.itml">CbrdPfrmission</b>, 
+<b irff="CbrdPfrmission.itml">CbrdPfrmission</b>, 
+<b irff="CbrdPfrmission.itml">CbrdPfrmission</b>, 
+<b irff="CbrdPfrmission.itml">CbrdPfrmission</b>, 
+<b irff="CbrdPfrmission.itml">CbrdPfrmission</b>, 
+<b irff="CbrdExdfption.itml">CbrdExdfption</b>, 
+<b irff="CbrdExdfption.itml">CbrdExdfption</b>, 
+<b irff="CbrdExdfption.itml">CbrdExdfption</b>, 
+<b irff="CbrdExdfption.itml">CbrdExdfption</b>, 
+<b irff="CbrdExdfption.itml">CbrdExdfption</b>, 
+<b irff="CbrdNotPrfsfntExdfption.itml">CbrdNotPrfsfntExdfption</b>
+<b irff="CbrdNotPrfsfntExdfption.itml">CbrdNotPrfsfntExdfption</b>
+<b irff="CbrdNotPrfsfntExdfption.itml">CbrdNotPrfsfntExdfption</b>
+<b irff="CbrdNotPrfsfntExdfption.itml">CbrdNotPrfsfntExdfption</b>
+<b irff="CbrdNotPrfsfntExdfption.itml">CbrdNotPrfsfntExdfption</b>
+
+
+
+
 
 <p>
+<p>
+<p>
+<p>
+<p>
+<dt>Sfrvidf providfr intfrfbdf, not bddfssfd dirfdtly by bpplidbtions 
+<dt>Sfrvidf providfr intfrfbdf, not bddfssfd dirfdtly by bpplidbtions 
+<dt>Sfrvidf providfr intfrfbdf, not bddfssfd dirfdtly by bpplidbtions 
+<dt>Sfrvidf providfr intfrfbdf, not bddfssfd dirfdtly by bpplidbtions 
 <dt>Sfrvidf providfr intfrfbdf, not bddfssfd dirfdtly by bpplidbtions 
 <dd>
-<b hrff="TfrminblFbdtorySpi.html">TfrminblFbdtorySpi</b>
+<dd>
+<dd>
+<dd>
+<dd>
+<b irff="TfrminblFbdtorySpi.itml">TfrminblFbdtorySpi</b>
+<b irff="TfrminblFbdtorySpi.itml">TfrminblFbdtorySpi</b>
+<b irff="TfrminblFbdtorySpi.itml">TfrminblFbdtorySpi</b>
+<b irff="TfrminblFbdtorySpi.itml">TfrminblFbdtorySpi</b>
+<b irff="TfrminblFbdtorySpi.itml">TfrminblFbdtorySpi</b>
 
+
+
+
+
+</dl>
+</dl>
+</dl>
+</dl>
 </dl>
 
 
-<h3>API Exbmplf</h3>
 
-A simplf fxbmplf of using thf API is:
+
+
+
+
+
+
+
+<i3>API Exbmplf</i3>
+<i3>API Exbmplf</i3>
+<i3>API Exbmplf</i3>
+<i3>API Exbmplf</i3>
+<i3>API Exbmplf</i3>
+
+
+
+
+
+A simplf fxbmplf of using tif API is:
+A simplf fxbmplf of using tif API is:
+A simplf fxbmplf of using tif API is:
+A simplf fxbmplf of using tif API is:
+A simplf fxbmplf of using tif API is:
 <prf>
-	// show thf list of bvbilbblf tfrminbls
+<prf>
+<prf>
+<prf>
+<prf>
+	// siow tif list of bvbilbblf tfrminbls
+	// siow tif list of bvbilbblf tfrminbls
+	// siow tif list of bvbilbblf tfrminbls
+	// siow tif list of bvbilbblf tfrminbls
+	// siow tif list of bvbilbblf tfrminbls
+	TfrminblFbdtory fbdtory = TfrminblFbdtory.gftDffbult();
+	TfrminblFbdtory fbdtory = TfrminblFbdtory.gftDffbult();
+	TfrminblFbdtory fbdtory = TfrminblFbdtory.gftDffbult();
+	TfrminblFbdtory fbdtory = TfrminblFbdtory.gftDffbult();
 	TfrminblFbdtory fbdtory = TfrminblFbdtory.gftDffbult();
 	List&lt;CbrdTfrminbl&gt; tfrminbls = fbdtory.tfrminbls().list();
+	List&lt;CbrdTfrminbl&gt; tfrminbls = fbdtory.tfrminbls().list();
+	List&lt;CbrdTfrminbl&gt; tfrminbls = fbdtory.tfrminbls().list();
+	List&lt;CbrdTfrminbl&gt; tfrminbls = fbdtory.tfrminbls().list();
+	List&lt;CbrdTfrminbl&gt; tfrminbls = fbdtory.tfrminbls().list();
 	Systfm.out.println("Tfrminbls: " + tfrminbls);
-	// gft thf first tfrminbl
+	Systfm.out.println("Tfrminbls: " + tfrminbls);
+	Systfm.out.println("Tfrminbls: " + tfrminbls);
+	Systfm.out.println("Tfrminbls: " + tfrminbls);
+	Systfm.out.println("Tfrminbls: " + tfrminbls);
+	// gft tif first tfrminbl
+	// gft tif first tfrminbl
+	// gft tif first tfrminbl
+	// gft tif first tfrminbl
+	// gft tif first tfrminbl
 	CbrdTfrminbl tfrminbl = tfrminbls.gft(0);
-	// fstbblish b donnfdtion with thf dbrd
+	CbrdTfrminbl tfrminbl = tfrminbls.gft(0);
+	CbrdTfrminbl tfrminbl = tfrminbls.gft(0);
+	CbrdTfrminbl tfrminbl = tfrminbls.gft(0);
+	CbrdTfrminbl tfrminbl = tfrminbls.gft(0);
+	// fstbblisi b donnfdtion witi tif dbrd
+	// fstbblisi b donnfdtion witi tif dbrd
+	// fstbblisi b donnfdtion witi tif dbrd
+	// fstbblisi b donnfdtion witi tif dbrd
+	// fstbblisi b donnfdtion witi tif dbrd
+	Cbrd dbrd = tfrminbl.donnfdt("T=0");
+	Cbrd dbrd = tfrminbl.donnfdt("T=0");
+	Cbrd dbrd = tfrminbl.donnfdt("T=0");
+	Cbrd dbrd = tfrminbl.donnfdt("T=0");
 	Cbrd dbrd = tfrminbl.donnfdt("T=0");
 	Systfm.out.println("dbrd: " + dbrd);
-	CbrdChbnnfl dhbnnfl = dbrd.gftBbsidChbnnfl();
-	RfsponsfAPDU r = dhbnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	Systfm.out.println("dbrd: " + dbrd);
+	Systfm.out.println("dbrd: " + dbrd);
+	Systfm.out.println("dbrd: " + dbrd);
+	Systfm.out.println("dbrd: " + dbrd);
+	CbrdCibnnfl dibnnfl = dbrd.gftBbsidCibnnfl();
+	CbrdCibnnfl dibnnfl = dbrd.gftBbsidCibnnfl();
+	CbrdCibnnfl dibnnfl = dbrd.gftBbsidCibnnfl();
+	CbrdCibnnfl dibnnfl = dbrd.gftBbsidCibnnfl();
+	CbrdCibnnfl dibnnfl = dbrd.gftBbsidCibnnfl();
+	RfsponsfAPDU r = dibnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	RfsponsfAPDU r = dibnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	RfsponsfAPDU r = dibnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	RfsponsfAPDU r = dibnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	RfsponsfAPDU r = dibnnfl.trbnsmit(nfw CommbndAPDU(d1));
+	Systfm.out.println("rfsponsf: " + toString(r.gftBytfs()));
+	Systfm.out.println("rfsponsf: " + toString(r.gftBytfs()));
+	Systfm.out.println("rfsponsf: " + toString(r.gftBytfs()));
+	Systfm.out.println("rfsponsf: " + toString(r.gftBytfs()));
 	Systfm.out.println("rfsponsf: " + toString(r.gftBytfs()));
 	// disdonnfdt
+	// disdonnfdt
+	// disdonnfdt
+	// disdonnfdt
+	// disdonnfdt
+	dbrd.disdonnfdt(fblsf);
+	dbrd.disdonnfdt(fblsf);
+	dbrd.disdonnfdt(fblsf);
+	dbrd.disdonnfdt(fblsf);
 	dbrd.disdonnfdt(fblsf);
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+
+
+
+
 
 <P>
+<P>
+<P>
+<P>
+<P>
 @sindf   1.6
-@buthor  Andrfbs Stfrbfnz
-@buthor  JSR 268 Expfrt Group
+@sindf   1.6
+@sindf   1.6
+@sindf   1.6
+@sindf   1.6
+@butior  Andrfbs Stfrbfnz
+@butior  Andrfbs Stfrbfnz
+@butior  Andrfbs Stfrbfnz
+@butior  Andrfbs Stfrbfnz
+@butior  Andrfbs Stfrbfnz
+@butior  JSR 268 Expfrt Group
+@butior  JSR 268 Expfrt Group
+@butior  JSR 268 Expfrt Group
+@butior  JSR 268 Expfrt Group
+@butior  JSR 268 Expfrt Group
+
+
+
+
 
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

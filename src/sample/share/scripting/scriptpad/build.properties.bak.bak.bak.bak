@@ -1,22 +1,110 @@
 mbin.dir=.
+mbin.dir=.
+mbin.dir=.
+mbin.dir=.
+mbin.dir=.
+
+
+
+
 
 srd.dir=${mbin.dir}/srd
+srd.dir=${mbin.dir}/srd
+srd.dir=${mbin.dir}/srd
+srd.dir=${mbin.dir}/srd
+srd.dir=${mbin.dir}/srd
+
+
+
+
 
 build.dir=build
+build.dir=build
+build.dir=build
+build.dir=build
+build.dir=build
+dlbssfs.dir=${build.dir}/dlbssfs
+dlbssfs.dir=${build.dir}/dlbssfs
+dlbssfs.dir=${build.dir}/dlbssfs
+dlbssfs.dir=${build.dir}/dlbssfs
 dlbssfs.dir=${build.dir}/dlbssfs
 jbr=${build.dir}/sdriptpbd.jbr
+jbr=${build.dir}/sdriptpbd.jbr
+jbr=${build.dir}/sdriptpbd.jbr
+jbr=${build.dir}/sdriptpbd.jbr
+jbr=${build.dir}/sdriptpbd.jbr
+jbvbdod.dir=${build.dir}/jbvbdod
+jbvbdod.dir=${build.dir}/jbvbdod
+jbvbdod.dir=${build.dir}/jbvbdod
+jbvbdod.dir=${build.dir}/jbvbdod
 jbvbdod.dir=${build.dir}/jbvbdod
 
-build.sysdlbsspbth=ignorf
+
+
+
+
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+# E.g.: dp=lib/x.jbr:lib/y.jbr
 # E.g.: dp=lib/x.jbr:lib/y.jbr
 dp=
+dp=
+dp=
+dp=
+dp=
+fxtrb.run.dp=
+fxtrb.run.dp=
+fxtrb.run.dp=
+fxtrb.run.dp=
 fxtrb.run.dp=
 
+
+
+
+
+mbin.dlbss=dom.sun.sbmplf.sdriptpbd.Mbin
+mbin.dlbss=dom.sun.sbmplf.sdriptpbd.Mbin
+mbin.dlbss=dom.sun.sbmplf.sdriptpbd.Mbin
+mbin.dlbss=dom.sun.sbmplf.sdriptpbd.Mbin
 mbin.dlbss=dom.sun.sbmplf.sdriptpbd.Mbin
 
+
+
+
+
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
 run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
 
+
+
+
+
+dfbug=truf
+dfbug=truf
+dfbug=truf
+dfbug=truf
 dfbug=truf
 dfprfdbtion=fblsf
+dfprfdbtion=fblsf
+dfprfdbtion=fblsf
+dfprfdbtion=fblsf
+dfprfdbtion=fblsf
 
-nbjdk.homf=${bbsfdir}/../../..
+
+
+
+
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..

@@ -1,71 +1,355 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvbx.nbming;
+pbdkbgf jbvbx.nbming;
+pbdkbgf jbvbx.nbming;
+pbdkbgf jbvbx.nbming;
 pbdkbgf jbvbx.nbming;
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
   * Tiis is tif supfrdlbss of sfdurity-rflbtfd fxdfptions
+  * Tiis is tif supfrdlbss of sfdurity-rflbtfd fxdfptions
+  * Tiis is tif supfrdlbss of sfdurity-rflbtfd fxdfptions
+  * Tiis is tif supfrdlbss of sfdurity-rflbtfd fxdfptions
+  * Tiis is tif supfrdlbss of sfdurity-rflbtfd fxdfptions
+  * tirown by opfrbtions in tif Contfxt bnd DirContfxt intfrfbdfs.
+  * tirown by opfrbtions in tif Contfxt bnd DirContfxt intfrfbdfs.
+  * tirown by opfrbtions in tif Contfxt bnd DirContfxt intfrfbdfs.
+  * tirown by opfrbtions in tif Contfxt bnd DirContfxt intfrfbdfs.
   * tirown by opfrbtions in tif Contfxt bnd DirContfxt intfrfbdfs.
   * Tif nbturf of tif fbilurf is dfsdribfd by tif nbmf of tif subdlbss.
+  * Tif nbturf of tif fbilurf is dfsdribfd by tif nbmf of tif subdlbss.
+  * Tif nbturf of tif fbilurf is dfsdribfd by tif nbmf of tif subdlbss.
+  * Tif nbturf of tif fbilurf is dfsdribfd by tif nbmf of tif subdlbss.
+  * Tif nbturf of tif fbilurf is dfsdribfd by tif nbmf of tif subdlbss.
+  *<p>
+  *<p>
+  *<p>
+  *<p>
   *<p>
   * If tif progrbm wbnts to ibndlf tiis fxdfption in pbrtidulbr, it
+  * If tif progrbm wbnts to ibndlf tiis fxdfption in pbrtidulbr, it
+  * If tif progrbm wbnts to ibndlf tiis fxdfption in pbrtidulbr, it
+  * If tif progrbm wbnts to ibndlf tiis fxdfption in pbrtidulbr, it
+  * If tif progrbm wbnts to ibndlf tiis fxdfption in pbrtidulbr, it
+  * siould dbtdi NbmingSfdurityExdfption fxpliditly bfforf bttfmpting to
+  * siould dbtdi NbmingSfdurityExdfption fxpliditly bfforf bttfmpting to
+  * siould dbtdi NbmingSfdurityExdfption fxpliditly bfforf bttfmpting to
+  * siould dbtdi NbmingSfdurityExdfption fxpliditly bfforf bttfmpting to
   * siould dbtdi NbmingSfdurityExdfption fxpliditly bfforf bttfmpting to
   * dbtdi NbmingExdfption. A progrbm migit wbnt to do tiis, for fxbmplf,
+  * dbtdi NbmingExdfption. A progrbm migit wbnt to do tiis, for fxbmplf,
+  * dbtdi NbmingExdfption. A progrbm migit wbnt to do tiis, for fxbmplf,
+  * dbtdi NbmingExdfption. A progrbm migit wbnt to do tiis, for fxbmplf,
+  * dbtdi NbmingExdfption. A progrbm migit wbnt to do tiis, for fxbmplf,
+  * if it wbnts to trfbt sfdurity-rflbtfd fxdfptions spfdiblly from
+  * if it wbnts to trfbt sfdurity-rflbtfd fxdfptions spfdiblly from
+  * if it wbnts to trfbt sfdurity-rflbtfd fxdfptions spfdiblly from
+  * if it wbnts to trfbt sfdurity-rflbtfd fxdfptions spfdiblly from
   * if it wbnts to trfbt sfdurity-rflbtfd fxdfptions spfdiblly from
   * otifr sorts of nbming fxdfption.
+  * otifr sorts of nbming fxdfption.
+  * otifr sorts of nbming fxdfption.
+  * otifr sorts of nbming fxdfption.
+  * otifr sorts of nbming fxdfption.
+  * <p>
+  * <p>
+  * <p>
+  * <p>
   * <p>
   * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * bpply dirfdtly ifrf.
+  * bpply dirfdtly ifrf.
+  * bpply dirfdtly ifrf.
+  * bpply dirfdtly ifrf.
   * bpply dirfdtly ifrf.
   *
+  *
+  *
+  *
+  *
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
+  * @butior Rosbnnb Lff
   * @butior Rosbnnb Lff
   * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
+  * @sindf 1.3
+  * @sindf 1.3
+  * @sindf 1.3
   * @sindf 1.3
   */
+  */
+  */
+  */
+  */
+
+
+
+
 
 publid bbstrbdt dlbss NbmingSfdurityExdfption fxtfnds NbmingExdfption {
+publid bbstrbdt dlbss NbmingSfdurityExdfption fxtfnds NbmingExdfption {
+publid bbstrbdt dlbss NbmingSfdurityExdfption fxtfnds NbmingExdfption {
+publid bbstrbdt dlbss NbmingSfdurityExdfption fxtfnds NbmingExdfption {
+publid bbstrbdt dlbss NbmingSfdurityExdfption fxtfnds NbmingExdfption {
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b nfw instbndf of NbmingSfdurityExdfption using tif
+     * Construdts b nfw instbndf of NbmingSfdurityExdfption using tif
+     * Construdts b nfw instbndf of NbmingSfdurityExdfption using tif
+     * Construdts b nfw instbndf of NbmingSfdurityExdfption using tif
+     * Construdts b nfw instbndf of NbmingSfdurityExdfption using tif
+     * fxplbnbtion supplifd. All otifr fiflds dffbult to null.
+     * fxplbnbtion supplifd. All otifr fiflds dffbult to null.
+     * fxplbnbtion supplifd. All otifr fiflds dffbult to null.
+     * fxplbnbtion supplifd. All otifr fiflds dffbult to null.
      * fxplbnbtion supplifd. All otifr fiflds dffbult to null.
      *
+     *
+     *
+     *
+     *
+     * @pbrbm   fxplbnbtion     Possibly null bdditionbl dftbil bbout tiis fxdfption.
+     * @pbrbm   fxplbnbtion     Possibly null bdditionbl dftbil bbout tiis fxdfption.
+     * @pbrbm   fxplbnbtion     Possibly null bdditionbl dftbil bbout tiis fxdfption.
+     * @pbrbm   fxplbnbtion     Possibly null bdditionbl dftbil bbout tiis fxdfption.
      * @pbrbm   fxplbnbtion     Possibly null bdditionbl dftbil bbout tiis fxdfption.
      * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
+     */
+     */
+     */
+     */
      */
     publid NbmingSfdurityExdfption(String fxplbnbtion) {
+    publid NbmingSfdurityExdfption(String fxplbnbtion) {
+    publid NbmingSfdurityExdfption(String fxplbnbtion) {
+    publid NbmingSfdurityExdfption(String fxplbnbtion) {
+    publid NbmingSfdurityExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
+        supfr(fxplbnbtion);
+        supfr(fxplbnbtion);
+        supfr(fxplbnbtion);
         supfr(fxplbnbtion);
     }
-
-    /**
-      * Construdts b nfw instbndf of NbmingSfdurityExdfption.
-      * All fiflds brf initiblizfd to null.
-      */
-    publid NbmingSfdurityExdfption() {
-        supfr();
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+      * Construdts b nfw instbndf of NbmingSfdurityExdfption.
+      * Construdts b nfw instbndf of NbmingSfdurityExdfption.
+      * Construdts b nfw instbndf of NbmingSfdurityExdfption.
+      * Construdts b nfw instbndf of NbmingSfdurityExdfption.
+      * Construdts b nfw instbndf of NbmingSfdurityExdfption.
+      * All fiflds brf initiblizfd to null.
+      * All fiflds brf initiblizfd to null.
+      * All fiflds brf initiblizfd to null.
+      * All fiflds brf initiblizfd to null.
+      * All fiflds brf initiblizfd to null.
+      */
+      */
+      */
+      */
+      */
+    publid NbmingSfdurityExdfption() {
+    publid NbmingSfdurityExdfption() {
+    publid NbmingSfdurityExdfption() {
+    publid NbmingSfdurityExdfption() {
+    publid NbmingSfdurityExdfption() {
+        supfr();
+        supfr();
+        supfr();
+        supfr();
+        supfr();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+     */
+     */
+     */
      */
     privbtf stbtid finbl long sfriblVfrsionUID = 5855287647294685775L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5855287647294685775L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5855287647294685775L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5855287647294685775L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5855287647294685775L;
+};
+};
+};
+};
 };

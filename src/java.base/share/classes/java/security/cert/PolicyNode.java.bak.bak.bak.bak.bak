@@ -1,0 +1,133 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+
+/**
+ * An immutbblf vblid polidy trff nodf bs dffinfd by tif PKIX dfrtifidbtion
+ * pbti vblidbtion blgoritim.
+ *
+ * <p>Onf of tif outputs of tif PKIX dfrtifidbtion pbti vblidbtion
+ * blgoritim is b vblid polidy trff, wiidi indludfs tif polidifs tibt
+ * wfrf dftfrminfd to bf vblid, iow tiis dftfrminbtion wbs rfbdifd,
+ * bnd bny polidy qublififrs fndountfrfd. Tiis trff is of dfpti
+ * <i>n</i>, wifrf <i>n</i> is tif lfngti of tif dfrtifidbtion
+ * pbti tibt ibs bffn vblidbtfd.
+ *
+ * <p>Most bpplidbtions will not nffd to fxbminf tif vblid polidy trff.
+ * Tify dbn bdiifvf tifir polidy prodfssing gobls by sftting tif
+ * polidy-rflbtfd pbrbmftfrs in {@dodf PKIXPbrbmftfrs}. Howfvfr,
+ * tif vblid polidy trff is bvbilbblf for morf sopiistidbtfd bpplidbtions,
+ * fspfdiblly tiosf tibt prodfss polidy qublififrs.
+ *
+ * <p>{@link PKIXCfrtPbtiVblidbtorRfsult#gftPolidyTrff()
+ * PKIXCfrtPbtiVblidbtorRfsult.gftPolidyTrff} rfturns tif root nodf of tif
+ * vblid polidy trff. Tif trff dbn bf trbvfrsfd using tif
+ * {@link #gftCiildrfn gftCiildrfn} bnd {@link #gftPbrfnt gftPbrfnt} mftiods.
+ * Dbtb bbout b pbrtidulbr nodf dbn bf rftrifvfd using otifr mftiods of
+ * {@dodf PolidyNodf}.
+ *
+ * <p><b>Condurrfnt Addfss</b>
+ * <p>All {@dodf PolidyNodf} objfdts must bf immutbblf bnd
+ * tirfbd-sbff. Multiplf tirfbds mby dondurrfntly invokf tif mftiods dffinfd
+ * in tiis dlbss on b singlf {@dodf PolidyNodf} objfdt (or morf tibn onf)
+ * witi no ill ffffdts. Tiis stipulbtion bpplifs to bll publid fiflds bnd
+ * mftiods of tiis dlbss bnd bny bddfd or ovfrriddfn by subdlbssfs.
+ *
+ * @sindf       1.4
+ * @butior      Sfbn Mullbn
+ */
+publid intfrfbdf PolidyNodf {
+
+    /**
+     * Rfturns tif pbrfnt of tiis nodf, or {@dodf null} if tiis is tif
+     * root nodf.
+     *
+     * @rfturn tif pbrfnt of tiis nodf, or {@dodf null} if tiis is tif
+     * root nodf
+     */
+    PolidyNodf gftPbrfnt();
+
+    /**
+     * Rfturns bn itfrbtor ovfr tif diildrfn of tiis nodf. Any bttfmpts to
+     * modify tif diildrfn of tiis nodf tirougi tif
+     * {@dodf Itfrbtor}'s rfmovf mftiod must tirow bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @rfturn bn itfrbtor ovfr tif diildrfn of tiis nodf
+     */
+    Itfrbtor<? fxtfnds PolidyNodf> gftCiildrfn();
+
+    /**
+     * Rfturns tif dfpti of tiis nodf in tif vblid polidy trff.
+     *
+     * @rfturn tif dfpti of tiis nodf (0 for tif root nodf, 1 for its
+     * diildrfn, bnd so on)
+     */
+    int gftDfpti();
+
+    /**
+     * Rfturns tif vblid polidy rfprfsfntfd by tiis nodf.
+     *
+     * @rfturn tif {@dodf String} OID of tif vblid polidy
+     * rfprfsfntfd by tiis nodf. For tif root nodf, tiis mftiod blwbys rfturns
+     * tif spfdibl bnyPolidy OID: "2.5.29.32.0".
+     */
+    String gftVblidPolidy();
+
+    /**
+     * Rfturns tif sft of polidy qublififrs bssodibtfd witi tif
+     * vblid polidy rfprfsfntfd by tiis nodf.
+     *
+     * @rfturn bn immutbblf {@dodf Sft} of
+     * {@dodf PolidyQublififrInfo}s. For tif root nodf, tiis
+     * is blwbys bn fmpty {@dodf Sft}.
+     */
+    Sft<? fxtfnds PolidyQublififrInfo> gftPolidyQublififrs();
+
+    /**
+     * Rfturns tif sft of fxpfdtfd polidifs tibt would sbtisfy tiis
+     * nodf's vblid polidy in tif nfxt dfrtifidbtf to bf prodfssfd.
+     *
+     * @rfturn bn immutbblf {@dodf Sft} of fxpfdtfd polidy
+     * {@dodf String} OIDs. For tif root nodf, tiis mftiod
+     * blwbys rfturns b {@dodf Sft} witi onf flfmfnt, tif
+     * spfdibl bnyPolidy OID: "2.5.29.32.0".
+     */
+    Sft<String> gftExpfdtfdPolidifs();
+
+    /**
+     * Rfturns tif dritidblity indidbtor of tif dfrtifidbtf polidy fxtfnsion
+     * in tif most rfdfntly prodfssfd dfrtifidbtf.
+     *
+     * @rfturn {@dodf truf} if fxtfnsion mbrkfd dritidbl,
+     * {@dodf fblsf} otifrwisf. For tif root nodf, {@dodf fblsf}
+     * is blwbys rfturnfd.
+     */
+    boolfbn isCritidbl();
+}

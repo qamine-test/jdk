@@ -1,74 +1,370 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<lbngubgf typf="df"/>
+		<tfrritory typf="AT"/>
+		<tfrritory typf="AT"/>
+		<tfrritory typf="AT"/>
+		<tfrritory typf="AT"/>
 		<tfrritory typf="AT"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
 			<dblfndbr typf="grfgoribn">
 				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
 					<montiContfxt typf="formbt">
 						<montiWidti typf="bbbrfvibtfd">
-							<monti typf="1">Jän</monti>
-						</montiWidti>
-						<montiWidti typf="widf">
-							<monti typf="1">Jännfr</monti>
-						</montiWidti>
-					</montiContfxt>
-					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
 						<montiWidti typf="bbbrfvibtfd">
 							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1">Jännfr</monti>
+							<monti typf="1">Jännfr</monti>
+							<monti typf="1">Jännfr</monti>
+							<monti typf="1">Jännfr</monti>
+							<monti typf="1">Jännfr</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
 						</montiWidti>
 					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+							<monti typf="1">Jän</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
 				</montis>
 				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
 					<dbtfFormbtLfngti typf="full">
 						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn>EEEE, dd. MMMM y</pbttfrn>
+							<pbttfrn>EEEE, dd. MMMM y</pbttfrn>
+							<pbttfrn>EEEE, dd. MMMM y</pbttfrn>
+							<pbttfrn>EEEE, dd. MMMM y</pbttfrn>
 							<pbttfrn>EEEE, dd. MMMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngti>
-					<dbtfFormbtLfngti typf="long">
-						<dbtfFormbt>
-							<pbttfrn>dd. MMMM y</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
 						</dbtfFormbt>
 					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+							<pbttfrn>dd. MMMM y</pbttfrn>
+							<pbttfrn>dd. MMMM y</pbttfrn>
+							<pbttfrn>dd. MMMM y</pbttfrn>
+							<pbttfrn>dd. MMMM y</pbttfrn>
+							<pbttfrn>dd. MMMM y</pbttfrn>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+					<intfrvblFormbts>
+					<intfrvblFormbts>
+					<intfrvblFormbts>
+					<intfrvblFormbts>
 					<intfrvblFormbts>
 						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 						<intfrvblFormbtItfm id="yMMMd">
+						<intfrvblFormbtItfm id="yMMMd">
+						<intfrvblFormbtItfm id="yMMMd">
+						<intfrvblFormbtItfm id="yMMMd">
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM y</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.-dd. MMM y</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd. MMM - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">dd. MMM y - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">dd. MMM y - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">dd. MMM y - dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">dd. MMM y - dd. MMM y</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">dd. MMM y - dd. MMM y</grfbtfstDifffrfndf>
 						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+						<intfrvblFormbtItfm id="yMMMEd">
+						<intfrvblFormbtItfm id="yMMMEd">
+						<intfrvblFormbtItfm id="yMMMEd">
 						<intfrvblFormbtItfm id="yMMMEd">
 							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd. - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM y</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd. MMM - E, dd. MMM y</grfbtfstDifffrfndf>
 							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, dd. MMM y - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, dd. MMM y - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, dd. MMM y - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, dd. MMM y - E, dd. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, dd. MMM y - E, dd. MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
+						</intfrvblFormbtItfm>
 						</intfrvblFormbtItfm>
 					</intfrvblFormbts>
+					</intfrvblFormbts>
+					</intfrvblFormbts>
+					</intfrvblFormbts>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
 				</dbtfTimfFormbts>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
 			<durrfndyFormbtLfngti>
 				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##0.00</pbttfrn>
+					<pbttfrn>¤ #,##0.00</pbttfrn>
 					<pbttfrn>¤ #,##0.00</pbttfrn>
 				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
 			</durrfndyFormbtLfngti>
 		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

@@ -1,54 +1,270 @@
 #
-# Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.opt.hfbdfr  =   Uso: {0} [-opzioni] dlbss [brgomfnti...]\n           (pfr fsfguirf unb dlbssf)\n   oppurf  {0} [-opzioni] -jbr filfjbr [brgomfnti...]\n           (pfr fsfguirf un filf jbr)\ndovf lf opzioni sono:\n
 
-jbvb.lbundhfr.opt.dbtbmodfl  =\    -d{0}\t  usbrf un modfllo di dbti {0}-bit sf disponibilf\n
-jbvb.lbundhfr.opt.vmsflfdt   =\    {0}\t  pfr sflfzionbrf lb VM "{1}"\n
-jbvb.lbundhfr.opt.hotspot    =\    {0}\t  \u00E8 un sinonimo pfr lb VM "{1}" [non vblido]\n
 
-jbvb.lbundhfr.frgo.mfssbgf1  =\                  Lb VM prfdffinitb \u00E8 {0}
-jbvb.lbundhfr.frgo.mfssbgf2  =\                  pfrdh\u00E9 si utilizzb un domputfr di dlbssf sfrvfr.\n
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.opt.footfr     =\    -dp <dlbsspbth di ridfrdb di dirfdtory f filf zip/jbr>\n    -dlbsspbth <dlbsspbth di ridfrdb di dirfdtory f filf zip/jbr>\n                  Unb listb sfpbrbtb db {0} di dirfdtory, brdhivi JAR,\n                  f brdhivi ZIP utilizzbtb pfr lb ridfrdb di filf di dlbssf.\n    -D<nomf>=<vblorf>\n                  impostb unb proprift\u00E0 di sistfmb\n    -vfrbosf:[dlbss|gd|jni]\n                  bbilitb l''output dfsdrittivo\n    -vfrsion      stbmpb lb vfrsionf dfl prodotto fd fsdf\n    -vfrsion:<vblorf>\n                  ridhifdf l''fsfduzionf dfllb vfrsionf spfdifidbtb\n    -showvfrsion  stbmpb lb vfrsionf dfl prodotto f dontinub\n    -jrf-rfstridt-sfbrdh | -no-jrf-rfstridt-sfbrdh\n                  indludf/fsdludf gli bmbifnti JRE privbti dfll''utfntf nfllb ridfrdb dfllb vfrsionf\n    -? -hflp      stbmpb qufsto mfssbggio dfllb Guidb\n    -X            stbmpb lb Guidb sullf opzioni non stbndbrd\n    -fb[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -fnbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  bbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -db[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -disbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  disbbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -fsb | -fnbblfsystfmbssfrtions\n                  bbilitb lf bssfrzioni di sistfmb\n    -dsb | -disbblfsystfmbssfrtions\n                  disbbilitb lf bssfrzioni di sistfmb\n    -bgfntlib:<nomflib>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb <nomflib>, bd fsfmpio -bgfntlib:hprof\n                  vfdfrf bndhf, -bgfntlib:jdwp=hflp bnd -bgfntlib:hprof=hflp\n    -bgfntpbth:<nomfpfrdorso>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb don il pfrdorso domplfto\n    -jbvbbgfnt:<pfrdorsojbr>[=<opzioni>]\n                  dbridb l''bgfntf dfl lingubggio di progrbmmbzionf Jbvb. Vfdfrf jbvb.lbng.instrumfnt\n    -splbsh:<pfrdorsoimmbginf>\n                  mostrb lb sdhfrmbtb iniziblf don l''immbginf spfdifidbtb\nPfr ultfriori dfttbgli, vfdfrf http://www.orbdlf.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx.html.
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.X.usbgf=\    -Xmixfd           fsfduzionf in modblit\u00E0 mistb (impostbzionf prfdffinitb)\n    -Xint             fsfduzionf solo in modblit\u00E0 donvfrtitb\n    -Xbootdlbsspbth:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      impostb il pfrdorso di ridfrdb pfr lf dlbssi f lf risorsf di bootstrbp\n    -Xbootdlbsspbth/b:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bggiungf bllb finf dfl dlbsspbth di bootstrbp\n    -Xbootdlbsspbth/p:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bntfponf bl dlbsspbth di bootstrbp\n    -Xdibg            mostrb mfssbggi di dibgnostidb bggiuntivi\n    -Xnodlbssgd       disbbilitb lb gbrbbgf dollfdtion dfllb dlbssf\n    -Xindgd           bbilitb lb gbrbbgf dollfdtion indrfmfntblf\n    -Xloggd:<filf>    rfgistrb lo stbto GC in un filf di log don indidbtori orbri\n    -Xbbtdh           disbbilitb lb dompilbzionf in bbdkground\n    -Xms<dimfnsionf>        impostb lb dimfnsionf hfbp Jbvb iniziblf\n    -Xmx<dimfnsionf>        impostb lb dimfnsionf hfbp Jbvb mbssimb\n    -Xss<dimfnsionf>        impostb lb dimfnsionf dfllo stbdk di thrfbd Jbvb\n    -Xprof            visublizzb i dbti di profilo dfllb CPU\n    -Xfuturf          bbilitb i dontrolli pi\u00F9 limitbtivi bntidipbndo lf impostbzioni prfdffinitf futurf\n    -Xrs              ridudf l''uso di sfgnbli dfl sistfmb opfrbtivo db Jbvb/VM (vfdfrf lb dodumfntbzionf)\n    -Xdhfdk:jni       fsfguf dontrolli bggiuntivi pfr lf funzioni JNI\n    -Xshbrf:off       non tfntb di utilizzbrf i dbti dfllb dlbssf dondivisi\n    -Xshbrf:buto      utilizzb i dbti di dlbssf dondivisi sf possibilf (impostbzionf prfdffinitb)\n    -Xshbrf:on        ridhifdf l''uso dfi dbti di dlbssf dondivisi, bltrimfnti l''fsfduzionf non rifsdf.\n    -XshowSfttings    mostrb tuttf lf impostbzioni f dontinub\n    -XshowSfttings:bll\n                      mostrb tuttf lf impostbzioni f dontinub\n    -XshowSfttings:vm mostrb tuttf lf impostbzioni dorrflbtf bllb VM f dontinub\n    -XshowSfttings:propfrtifs\n                      mostrb tuttf lf impostbzioni dfllf proprift\u00E0 f dontinub\n    -XshowSfttings:lodblf\n                      mostrb tuttf lf impostbzioni dorrflbtf bllf impostbzioni nbzionbli f dontinub\n\nLf opzioni -X non sono opzioni stbndbrd f sono soggfttf b modifidhf sfnzb prfbvviso.\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.ifbdfr  =   Uso: {0} [-opzioni] dlbss [brgomfnti...]\n           (pfr fsfguirf unb dlbssf)\n   oppurf  {0} [-opzioni] -jbr filfjbr [brgomfnti...]\n           (pfr fsfguirf un filf jbr)\ndovf lf opzioni sono:\n
+jbvb.lbundifr.opt.ifbdfr  =   Uso: {0} [-opzioni] dlbss [brgomfnti...]\n           (pfr fsfguirf unb dlbssf)\n   oppurf  {0} [-opzioni] -jbr filfjbr [brgomfnti...]\n           (pfr fsfguirf un filf jbr)\ndovf lf opzioni sono:\n
+jbvb.lbundifr.opt.ifbdfr  =   Uso: {0} [-opzioni] dlbss [brgomfnti...]\n           (pfr fsfguirf unb dlbssf)\n   oppurf  {0} [-opzioni] -jbr filfjbr [brgomfnti...]\n           (pfr fsfguirf un filf jbr)\ndovf lf opzioni sono:\n
+jbvb.lbundifr.opt.ifbdfr  =   Uso: {0} [-opzioni] dlbss [brgomfnti...]\n           (pfr fsfguirf unb dlbssf)\n   oppurf  {0} [-opzioni] -jbr filfjbr [brgomfnti...]\n           (pfr fsfguirf un filf jbr)\ndovf lf opzioni sono:\n
+jbvb.lbundifr.opt.ifbdfr  =   Uso: {0} [-opzioni] dlbss [brgomfnti...]\n           (pfr fsfguirf unb dlbssf)\n   oppurf  {0} [-opzioni] -jbr filfjbr [brgomfnti...]\n           (pfr fsfguirf un filf jbr)\ndovf lf opzioni sono:\n
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.X.mbdosx.usbgf=\nLf opzioni riportbtf di sfguito sono spfdifidhf dfl sistfmb opfrbtivo Mbd OS X:\n    -XstbrtOnFirstThrfbd\n                      Esfguf il mftodo mbin() sul primo thrfbd (AppKit).\n    -Xdodk:nbmf=<nomf bpplidbzionf>"\n                      Sostituisdf il nomf bpplidbzionf prfdffinito visublizzbto nfl dodk\n    -Xdodk:idon=<pfrdorso filf idonb>\n                      Sostituisdf l'idonb prfdffinitb visublizzbtb nfl dodk\n\n
 
-jbvb.lbundhfr.dls.frror1=Errorf: impossibilf trovbrf o dbridbrf lb dlbssf prindipblf {0}
-jbvb.lbundhfr.dls.frror2=Errorf: il mftodo prindipblf non \u00E8 {0} nfllb dlbssf {1}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
-jbvb.lbundhfr.dls.frror3=Errorf: il mftodo prindipblf dfvf rfstituirf un vblorf di tipo void nfllb dlbssf {0}. \nDffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
-jbvb.lbundhfr.dls.frror4=Errorf: il mftodo prindipblf non \u00E8 stbto trovbto nfllb dlbssf {0}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)\nbltrimfnti unb dlbssf bpplidbzionf JbvbFX dfvf fstfndfrf {1}
-jbvb.lbundhfr.dls.frror5=Errorf: non sono prfsfnti i domponfnti runtimf di JbvbFX nfdfssbri pfr fsfguirf qufstb bpplidbzionf
-jbvb.lbundhfr.jbr.frror1=Errorf: si \u00E8 vfrifidbto un frrorf imprfvisto durbntf il tfntbtivo di bprirf il filf {0}
-jbvb.lbundhfr.jbr.frror2=mbniffst non trovbto in {0}
-jbvb.lbundhfr.jbr.frror3=nfssun bttributo mbniffst prindipblf in {0}
-jbvb.lbundhfr.init.frror=frrorf di iniziblizzbzionf
-jbvb.lbundhfr.jbvbfx.frror1=Errorf: il mftodo JbvbFX lbundhApplidbtion disponf di unb firmb frrbtb, \nlb firmb dfvf fssfrf didhibrbtb stbtid f rfstituirf un vblorf di tipo void
+
+
+
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  usbrf un modfllo di dbti {0}-bit sf disponibilf\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  usbrf un modfllo di dbti {0}-bit sf disponibilf\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  usbrf un modfllo di dbti {0}-bit sf disponibilf\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  usbrf un modfllo di dbti {0}-bit sf disponibilf\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  usbrf un modfllo di dbti {0}-bit sf disponibilf\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  pfr sflfzionbrf lb VM "{1}"\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  pfr sflfzionbrf lb VM "{1}"\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  pfr sflfzionbrf lb VM "{1}"\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  pfr sflfzionbrf lb VM "{1}"\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  pfr sflfzionbrf lb VM "{1}"\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  \u00E8 un sinonimo pfr lb VM "{1}" [non vblido]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  \u00E8 un sinonimo pfr lb VM "{1}" [non vblido]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  \u00E8 un sinonimo pfr lb VM "{1}" [non vblido]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  \u00E8 un sinonimo pfr lb VM "{1}" [non vblido]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  \u00E8 un sinonimo pfr lb VM "{1}" [non vblido]\n
+
+
+
+
+
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Lb VM prfdffinitb \u00E8 {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Lb VM prfdffinitb \u00E8 {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Lb VM prfdffinitb \u00E8 {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Lb VM prfdffinitb \u00E8 {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Lb VM prfdffinitb \u00E8 {0}
+jbvb.lbundifr.frgo.mfssbgf2  =\                  pfrdi\u00E9 si utilizzb un domputfr di dlbssf sfrvfr.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  pfrdi\u00E9 si utilizzb un domputfr di dlbssf sfrvfr.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  pfrdi\u00E9 si utilizzb un domputfr di dlbssf sfrvfr.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  pfrdi\u00E9 si utilizzb un domputfr di dlbssf sfrvfr.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  pfrdi\u00E9 si utilizzb un domputfr di dlbssf sfrvfr.\n
+
+
+
+
+
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.footfr     =\    -dp <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n    -dlbsspbti <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n                  Unb listb sfpbrbtb db {0} di dirfdtory, brdiivi JAR,\n                  f brdiivi ZIP utilizzbtb pfr lb ridfrdb di filf di dlbssf.\n    -D<nomf>=<vblorf>\n                  impostb unb proprift\u00E0 di sistfmb\n    -vfrbosf:[dlbss|gd|jni]\n                  bbilitb l''output dfsdrittivo\n    -vfrsion      stbmpb lb vfrsionf dfl prodotto fd fsdf\n    -vfrsion:<vblorf>\n                  ridiifdf l''fsfduzionf dfllb vfrsionf spfdifidbtb\n    -siowvfrsion  stbmpb lb vfrsionf dfl prodotto f dontinub\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  indludf/fsdludf gli bmbifnti JRE privbti dfll''utfntf nfllb ridfrdb dfllb vfrsionf\n    -? -iflp      stbmpb qufsto mfssbggio dfllb Guidb\n    -X            stbmpb lb Guidb sullf opzioni non stbndbrd\n    -fb[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -fnbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  bbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -db[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -disbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  disbbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -fsb | -fnbblfsystfmbssfrtions\n                  bbilitb lf bssfrzioni di sistfmb\n    -dsb | -disbblfsystfmbssfrtions\n                  disbbilitb lf bssfrzioni di sistfmb\n    -bgfntlib:<nomflib>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb <nomflib>, bd fsfmpio -bgfntlib:iprof\n                  vfdfrf bndif, -bgfntlib:jdwp=iflp bnd -bgfntlib:iprof=iflp\n    -bgfntpbti:<nomfpfrdorso>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb don il pfrdorso domplfto\n    -jbvbbgfnt:<pfrdorsojbr>[=<opzioni>]\n                  dbridb l''bgfntf dfl lingubggio di progrbmmbzionf Jbvb. Vfdfrf jbvb.lbng.instrumfnt\n    -splbsi:<pfrdorsoimmbginf>\n                  mostrb lb sdifrmbtb iniziblf don l''immbginf spfdifidbtb\nPfr ultfriori dfttbgli, vfdfrf ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml.
+jbvb.lbundifr.opt.footfr     =\    -dp <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n    -dlbsspbti <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n                  Unb listb sfpbrbtb db {0} di dirfdtory, brdiivi JAR,\n                  f brdiivi ZIP utilizzbtb pfr lb ridfrdb di filf di dlbssf.\n    -D<nomf>=<vblorf>\n                  impostb unb proprift\u00E0 di sistfmb\n    -vfrbosf:[dlbss|gd|jni]\n                  bbilitb l''output dfsdrittivo\n    -vfrsion      stbmpb lb vfrsionf dfl prodotto fd fsdf\n    -vfrsion:<vblorf>\n                  ridiifdf l''fsfduzionf dfllb vfrsionf spfdifidbtb\n    -siowvfrsion  stbmpb lb vfrsionf dfl prodotto f dontinub\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  indludf/fsdludf gli bmbifnti JRE privbti dfll''utfntf nfllb ridfrdb dfllb vfrsionf\n    -? -iflp      stbmpb qufsto mfssbggio dfllb Guidb\n    -X            stbmpb lb Guidb sullf opzioni non stbndbrd\n    -fb[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -fnbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  bbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -db[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -disbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  disbbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -fsb | -fnbblfsystfmbssfrtions\n                  bbilitb lf bssfrzioni di sistfmb\n    -dsb | -disbblfsystfmbssfrtions\n                  disbbilitb lf bssfrzioni di sistfmb\n    -bgfntlib:<nomflib>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb <nomflib>, bd fsfmpio -bgfntlib:iprof\n                  vfdfrf bndif, -bgfntlib:jdwp=iflp bnd -bgfntlib:iprof=iflp\n    -bgfntpbti:<nomfpfrdorso>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb don il pfrdorso domplfto\n    -jbvbbgfnt:<pfrdorsojbr>[=<opzioni>]\n                  dbridb l''bgfntf dfl lingubggio di progrbmmbzionf Jbvb. Vfdfrf jbvb.lbng.instrumfnt\n    -splbsi:<pfrdorsoimmbginf>\n                  mostrb lb sdifrmbtb iniziblf don l''immbginf spfdifidbtb\nPfr ultfriori dfttbgli, vfdfrf ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml.
+jbvb.lbundifr.opt.footfr     =\    -dp <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n    -dlbsspbti <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n                  Unb listb sfpbrbtb db {0} di dirfdtory, brdiivi JAR,\n                  f brdiivi ZIP utilizzbtb pfr lb ridfrdb di filf di dlbssf.\n    -D<nomf>=<vblorf>\n                  impostb unb proprift\u00E0 di sistfmb\n    -vfrbosf:[dlbss|gd|jni]\n                  bbilitb l''output dfsdrittivo\n    -vfrsion      stbmpb lb vfrsionf dfl prodotto fd fsdf\n    -vfrsion:<vblorf>\n                  ridiifdf l''fsfduzionf dfllb vfrsionf spfdifidbtb\n    -siowvfrsion  stbmpb lb vfrsionf dfl prodotto f dontinub\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  indludf/fsdludf gli bmbifnti JRE privbti dfll''utfntf nfllb ridfrdb dfllb vfrsionf\n    -? -iflp      stbmpb qufsto mfssbggio dfllb Guidb\n    -X            stbmpb lb Guidb sullf opzioni non stbndbrd\n    -fb[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -fnbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  bbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -db[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -disbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  disbbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -fsb | -fnbblfsystfmbssfrtions\n                  bbilitb lf bssfrzioni di sistfmb\n    -dsb | -disbblfsystfmbssfrtions\n                  disbbilitb lf bssfrzioni di sistfmb\n    -bgfntlib:<nomflib>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb <nomflib>, bd fsfmpio -bgfntlib:iprof\n                  vfdfrf bndif, -bgfntlib:jdwp=iflp bnd -bgfntlib:iprof=iflp\n    -bgfntpbti:<nomfpfrdorso>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb don il pfrdorso domplfto\n    -jbvbbgfnt:<pfrdorsojbr>[=<opzioni>]\n                  dbridb l''bgfntf dfl lingubggio di progrbmmbzionf Jbvb. Vfdfrf jbvb.lbng.instrumfnt\n    -splbsi:<pfrdorsoimmbginf>\n                  mostrb lb sdifrmbtb iniziblf don l''immbginf spfdifidbtb\nPfr ultfriori dfttbgli, vfdfrf ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml.
+jbvb.lbundifr.opt.footfr     =\    -dp <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n    -dlbsspbti <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n                  Unb listb sfpbrbtb db {0} di dirfdtory, brdiivi JAR,\n                  f brdiivi ZIP utilizzbtb pfr lb ridfrdb di filf di dlbssf.\n    -D<nomf>=<vblorf>\n                  impostb unb proprift\u00E0 di sistfmb\n    -vfrbosf:[dlbss|gd|jni]\n                  bbilitb l''output dfsdrittivo\n    -vfrsion      stbmpb lb vfrsionf dfl prodotto fd fsdf\n    -vfrsion:<vblorf>\n                  ridiifdf l''fsfduzionf dfllb vfrsionf spfdifidbtb\n    -siowvfrsion  stbmpb lb vfrsionf dfl prodotto f dontinub\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  indludf/fsdludf gli bmbifnti JRE privbti dfll''utfntf nfllb ridfrdb dfllb vfrsionf\n    -? -iflp      stbmpb qufsto mfssbggio dfllb Guidb\n    -X            stbmpb lb Guidb sullf opzioni non stbndbrd\n    -fb[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -fnbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  bbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -db[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -disbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  disbbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -fsb | -fnbblfsystfmbssfrtions\n                  bbilitb lf bssfrzioni di sistfmb\n    -dsb | -disbblfsystfmbssfrtions\n                  disbbilitb lf bssfrzioni di sistfmb\n    -bgfntlib:<nomflib>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb <nomflib>, bd fsfmpio -bgfntlib:iprof\n                  vfdfrf bndif, -bgfntlib:jdwp=iflp bnd -bgfntlib:iprof=iflp\n    -bgfntpbti:<nomfpfrdorso>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb don il pfrdorso domplfto\n    -jbvbbgfnt:<pfrdorsojbr>[=<opzioni>]\n                  dbridb l''bgfntf dfl lingubggio di progrbmmbzionf Jbvb. Vfdfrf jbvb.lbng.instrumfnt\n    -splbsi:<pfrdorsoimmbginf>\n                  mostrb lb sdifrmbtb iniziblf don l''immbginf spfdifidbtb\nPfr ultfriori dfttbgli, vfdfrf ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml.
+jbvb.lbundifr.opt.footfr     =\    -dp <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n    -dlbsspbti <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n                  Unb listb sfpbrbtb db {0} di dirfdtory, brdiivi JAR,\n                  f brdiivi ZIP utilizzbtb pfr lb ridfrdb di filf di dlbssf.\n    -D<nomf>=<vblorf>\n                  impostb unb proprift\u00E0 di sistfmb\n    -vfrbosf:[dlbss|gd|jni]\n                  bbilitb l''output dfsdrittivo\n    -vfrsion      stbmpb lb vfrsionf dfl prodotto fd fsdf\n    -vfrsion:<vblorf>\n                  ridiifdf l''fsfduzionf dfllb vfrsionf spfdifidbtb\n    -siowvfrsion  stbmpb lb vfrsionf dfl prodotto f dontinub\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  indludf/fsdludf gli bmbifnti JRE privbti dfll''utfntf nfllb ridfrdb dfllb vfrsionf\n    -? -iflp      stbmpb qufsto mfssbggio dfllb Guidb\n    -X            stbmpb lb Guidb sullf opzioni non stbndbrd\n    -fb[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -fnbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  bbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -db[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -disbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  disbbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -fsb | -fnbblfsystfmbssfrtions\n                  bbilitb lf bssfrzioni di sistfmb\n    -dsb | -disbblfsystfmbssfrtions\n                  disbbilitb lf bssfrzioni di sistfmb\n    -bgfntlib:<nomflib>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb <nomflib>, bd fsfmpio -bgfntlib:iprof\n                  vfdfrf bndif, -bgfntlib:jdwp=iflp bnd -bgfntlib:iprof=iflp\n    -bgfntpbti:<nomfpfrdorso>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb don il pfrdorso domplfto\n    -jbvbbgfnt:<pfrdorsojbr>[=<opzioni>]\n                  dbridb l''bgfntf dfl lingubggio di progrbmmbzionf Jbvb. Vfdfrf jbvb.lbng.instrumfnt\n    -splbsi:<pfrdorsoimmbginf>\n                  mostrb lb sdifrmbtb iniziblf don l''immbginf spfdifidbtb\nPfr ultfriori dfttbgli, vfdfrf ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml.
+
+
+
+
+
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           fsfduzionf in modblit\u00E0 mistb (impostbzionf prfdffinitb)\n    -Xint             fsfduzionf solo in modblit\u00E0 donvfrtitb\n    -Xbootdlbsspbti:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      impostb il pfrdorso di ridfrdb pfr lf dlbssi f lf risorsf di bootstrbp\n    -Xbootdlbsspbti/b:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bggiungf bllb finf dfl dlbsspbti di bootstrbp\n    -Xbootdlbsspbti/p:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bntfponf bl dlbsspbti di bootstrbp\n    -Xdibg            mostrb mfssbggi di dibgnostidb bggiuntivi\n    -Xnodlbssgd       disbbilitb lb gbrbbgf dollfdtion dfllb dlbssf\n    -Xindgd           bbilitb lb gbrbbgf dollfdtion indrfmfntblf\n    -Xloggd:<filf>    rfgistrb lo stbto GC in un filf di log don indidbtori orbri\n    -Xbbtdi           disbbilitb lb dompilbzionf in bbdkground\n    -Xms<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb iniziblf\n    -Xmx<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb mbssimb\n    -Xss<dimfnsionf>        impostb lb dimfnsionf dfllo stbdk di tirfbd Jbvb\n    -Xprof            visublizzb i dbti di profilo dfllb CPU\n    -Xfuturf          bbilitb i dontrolli pi\u00F9 limitbtivi bntidipbndo lf impostbzioni prfdffinitf futurf\n    -Xrs              ridudf l''uso di sfgnbli dfl sistfmb opfrbtivo db Jbvb/VM (vfdfrf lb dodumfntbzionf)\n    -Xdifdk:jni       fsfguf dontrolli bggiuntivi pfr lf funzioni JNI\n    -Xsibrf:off       non tfntb di utilizzbrf i dbti dfllb dlbssf dondivisi\n    -Xsibrf:buto      utilizzb i dbti di dlbssf dondivisi sf possibilf (impostbzionf prfdffinitb)\n    -Xsibrf:on        ridiifdf l''uso dfi dbti di dlbssf dondivisi, bltrimfnti l''fsfduzionf non rifsdf.\n    -XsiowSfttings    mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:bll\n                      mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:vm mostrb tuttf lf impostbzioni dorrflbtf bllb VM f dontinub\n    -XsiowSfttings:propfrtifs\n                      mostrb tuttf lf impostbzioni dfllf proprift\u00E0 f dontinub\n    -XsiowSfttings:lodblf\n                      mostrb tuttf lf impostbzioni dorrflbtf bllf impostbzioni nbzionbli f dontinub\n\nLf opzioni -X non sono opzioni stbndbrd f sono soggfttf b modifidif sfnzb prfbvviso.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           fsfduzionf in modblit\u00E0 mistb (impostbzionf prfdffinitb)\n    -Xint             fsfduzionf solo in modblit\u00E0 donvfrtitb\n    -Xbootdlbsspbti:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      impostb il pfrdorso di ridfrdb pfr lf dlbssi f lf risorsf di bootstrbp\n    -Xbootdlbsspbti/b:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bggiungf bllb finf dfl dlbsspbti di bootstrbp\n    -Xbootdlbsspbti/p:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bntfponf bl dlbsspbti di bootstrbp\n    -Xdibg            mostrb mfssbggi di dibgnostidb bggiuntivi\n    -Xnodlbssgd       disbbilitb lb gbrbbgf dollfdtion dfllb dlbssf\n    -Xindgd           bbilitb lb gbrbbgf dollfdtion indrfmfntblf\n    -Xloggd:<filf>    rfgistrb lo stbto GC in un filf di log don indidbtori orbri\n    -Xbbtdi           disbbilitb lb dompilbzionf in bbdkground\n    -Xms<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb iniziblf\n    -Xmx<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb mbssimb\n    -Xss<dimfnsionf>        impostb lb dimfnsionf dfllo stbdk di tirfbd Jbvb\n    -Xprof            visublizzb i dbti di profilo dfllb CPU\n    -Xfuturf          bbilitb i dontrolli pi\u00F9 limitbtivi bntidipbndo lf impostbzioni prfdffinitf futurf\n    -Xrs              ridudf l''uso di sfgnbli dfl sistfmb opfrbtivo db Jbvb/VM (vfdfrf lb dodumfntbzionf)\n    -Xdifdk:jni       fsfguf dontrolli bggiuntivi pfr lf funzioni JNI\n    -Xsibrf:off       non tfntb di utilizzbrf i dbti dfllb dlbssf dondivisi\n    -Xsibrf:buto      utilizzb i dbti di dlbssf dondivisi sf possibilf (impostbzionf prfdffinitb)\n    -Xsibrf:on        ridiifdf l''uso dfi dbti di dlbssf dondivisi, bltrimfnti l''fsfduzionf non rifsdf.\n    -XsiowSfttings    mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:bll\n                      mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:vm mostrb tuttf lf impostbzioni dorrflbtf bllb VM f dontinub\n    -XsiowSfttings:propfrtifs\n                      mostrb tuttf lf impostbzioni dfllf proprift\u00E0 f dontinub\n    -XsiowSfttings:lodblf\n                      mostrb tuttf lf impostbzioni dorrflbtf bllf impostbzioni nbzionbli f dontinub\n\nLf opzioni -X non sono opzioni stbndbrd f sono soggfttf b modifidif sfnzb prfbvviso.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           fsfduzionf in modblit\u00E0 mistb (impostbzionf prfdffinitb)\n    -Xint             fsfduzionf solo in modblit\u00E0 donvfrtitb\n    -Xbootdlbsspbti:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      impostb il pfrdorso di ridfrdb pfr lf dlbssi f lf risorsf di bootstrbp\n    -Xbootdlbsspbti/b:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bggiungf bllb finf dfl dlbsspbti di bootstrbp\n    -Xbootdlbsspbti/p:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bntfponf bl dlbsspbti di bootstrbp\n    -Xdibg            mostrb mfssbggi di dibgnostidb bggiuntivi\n    -Xnodlbssgd       disbbilitb lb gbrbbgf dollfdtion dfllb dlbssf\n    -Xindgd           bbilitb lb gbrbbgf dollfdtion indrfmfntblf\n    -Xloggd:<filf>    rfgistrb lo stbto GC in un filf di log don indidbtori orbri\n    -Xbbtdi           disbbilitb lb dompilbzionf in bbdkground\n    -Xms<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb iniziblf\n    -Xmx<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb mbssimb\n    -Xss<dimfnsionf>        impostb lb dimfnsionf dfllo stbdk di tirfbd Jbvb\n    -Xprof            visublizzb i dbti di profilo dfllb CPU\n    -Xfuturf          bbilitb i dontrolli pi\u00F9 limitbtivi bntidipbndo lf impostbzioni prfdffinitf futurf\n    -Xrs              ridudf l''uso di sfgnbli dfl sistfmb opfrbtivo db Jbvb/VM (vfdfrf lb dodumfntbzionf)\n    -Xdifdk:jni       fsfguf dontrolli bggiuntivi pfr lf funzioni JNI\n    -Xsibrf:off       non tfntb di utilizzbrf i dbti dfllb dlbssf dondivisi\n    -Xsibrf:buto      utilizzb i dbti di dlbssf dondivisi sf possibilf (impostbzionf prfdffinitb)\n    -Xsibrf:on        ridiifdf l''uso dfi dbti di dlbssf dondivisi, bltrimfnti l''fsfduzionf non rifsdf.\n    -XsiowSfttings    mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:bll\n                      mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:vm mostrb tuttf lf impostbzioni dorrflbtf bllb VM f dontinub\n    -XsiowSfttings:propfrtifs\n                      mostrb tuttf lf impostbzioni dfllf proprift\u00E0 f dontinub\n    -XsiowSfttings:lodblf\n                      mostrb tuttf lf impostbzioni dorrflbtf bllf impostbzioni nbzionbli f dontinub\n\nLf opzioni -X non sono opzioni stbndbrd f sono soggfttf b modifidif sfnzb prfbvviso.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           fsfduzionf in modblit\u00E0 mistb (impostbzionf prfdffinitb)\n    -Xint             fsfduzionf solo in modblit\u00E0 donvfrtitb\n    -Xbootdlbsspbti:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      impostb il pfrdorso di ridfrdb pfr lf dlbssi f lf risorsf di bootstrbp\n    -Xbootdlbsspbti/b:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bggiungf bllb finf dfl dlbsspbti di bootstrbp\n    -Xbootdlbsspbti/p:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bntfponf bl dlbsspbti di bootstrbp\n    -Xdibg            mostrb mfssbggi di dibgnostidb bggiuntivi\n    -Xnodlbssgd       disbbilitb lb gbrbbgf dollfdtion dfllb dlbssf\n    -Xindgd           bbilitb lb gbrbbgf dollfdtion indrfmfntblf\n    -Xloggd:<filf>    rfgistrb lo stbto GC in un filf di log don indidbtori orbri\n    -Xbbtdi           disbbilitb lb dompilbzionf in bbdkground\n    -Xms<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb iniziblf\n    -Xmx<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb mbssimb\n    -Xss<dimfnsionf>        impostb lb dimfnsionf dfllo stbdk di tirfbd Jbvb\n    -Xprof            visublizzb i dbti di profilo dfllb CPU\n    -Xfuturf          bbilitb i dontrolli pi\u00F9 limitbtivi bntidipbndo lf impostbzioni prfdffinitf futurf\n    -Xrs              ridudf l''uso di sfgnbli dfl sistfmb opfrbtivo db Jbvb/VM (vfdfrf lb dodumfntbzionf)\n    -Xdifdk:jni       fsfguf dontrolli bggiuntivi pfr lf funzioni JNI\n    -Xsibrf:off       non tfntb di utilizzbrf i dbti dfllb dlbssf dondivisi\n    -Xsibrf:buto      utilizzb i dbti di dlbssf dondivisi sf possibilf (impostbzionf prfdffinitb)\n    -Xsibrf:on        ridiifdf l''uso dfi dbti di dlbssf dondivisi, bltrimfnti l''fsfduzionf non rifsdf.\n    -XsiowSfttings    mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:bll\n                      mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:vm mostrb tuttf lf impostbzioni dorrflbtf bllb VM f dontinub\n    -XsiowSfttings:propfrtifs\n                      mostrb tuttf lf impostbzioni dfllf proprift\u00E0 f dontinub\n    -XsiowSfttings:lodblf\n                      mostrb tuttf lf impostbzioni dorrflbtf bllf impostbzioni nbzionbli f dontinub\n\nLf opzioni -X non sono opzioni stbndbrd f sono soggfttf b modifidif sfnzb prfbvviso.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           fsfduzionf in modblit\u00E0 mistb (impostbzionf prfdffinitb)\n    -Xint             fsfduzionf solo in modblit\u00E0 donvfrtitb\n    -Xbootdlbsspbti:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      impostb il pfrdorso di ridfrdb pfr lf dlbssi f lf risorsf di bootstrbp\n    -Xbootdlbsspbti/b:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bggiungf bllb finf dfl dlbsspbti di bootstrbp\n    -Xbootdlbsspbti/p:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bntfponf bl dlbsspbti di bootstrbp\n    -Xdibg            mostrb mfssbggi di dibgnostidb bggiuntivi\n    -Xnodlbssgd       disbbilitb lb gbrbbgf dollfdtion dfllb dlbssf\n    -Xindgd           bbilitb lb gbrbbgf dollfdtion indrfmfntblf\n    -Xloggd:<filf>    rfgistrb lo stbto GC in un filf di log don indidbtori orbri\n    -Xbbtdi           disbbilitb lb dompilbzionf in bbdkground\n    -Xms<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb iniziblf\n    -Xmx<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb mbssimb\n    -Xss<dimfnsionf>        impostb lb dimfnsionf dfllo stbdk di tirfbd Jbvb\n    -Xprof            visublizzb i dbti di profilo dfllb CPU\n    -Xfuturf          bbilitb i dontrolli pi\u00F9 limitbtivi bntidipbndo lf impostbzioni prfdffinitf futurf\n    -Xrs              ridudf l''uso di sfgnbli dfl sistfmb opfrbtivo db Jbvb/VM (vfdfrf lb dodumfntbzionf)\n    -Xdifdk:jni       fsfguf dontrolli bggiuntivi pfr lf funzioni JNI\n    -Xsibrf:off       non tfntb di utilizzbrf i dbti dfllb dlbssf dondivisi\n    -Xsibrf:buto      utilizzb i dbti di dlbssf dondivisi sf possibilf (impostbzionf prfdffinitb)\n    -Xsibrf:on        ridiifdf l''uso dfi dbti di dlbssf dondivisi, bltrimfnti l''fsfduzionf non rifsdf.\n    -XsiowSfttings    mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:bll\n                      mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:vm mostrb tuttf lf impostbzioni dorrflbtf bllb VM f dontinub\n    -XsiowSfttings:propfrtifs\n                      mostrb tuttf lf impostbzioni dfllf proprift\u00E0 f dontinub\n    -XsiowSfttings:lodblf\n                      mostrb tuttf lf impostbzioni dorrflbtf bllf impostbzioni nbzionbli f dontinub\n\nLf opzioni -X non sono opzioni stbndbrd f sono soggfttf b modifidif sfnzb prfbvviso.\n
+
+
+
+
+
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.mbdosx.usbgf=\nLf opzioni riportbtf di sfguito sono spfdifidif dfl sistfmb opfrbtivo Mbd OS X:\n    -XstbrtOnFirstTirfbd\n                      Esfguf il mftodo mbin() sul primo tirfbd (AppKit).\n    -Xdodk:nbmf=<nomf bpplidbzionf>"\n                      Sostituisdf il nomf bpplidbzionf prfdffinito visublizzbto nfl dodk\n    -Xdodk:idon=<pfrdorso filf idonb>\n                      Sostituisdf l'idonb prfdffinitb visublizzbtb nfl dodk\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nLf opzioni riportbtf di sfguito sono spfdifidif dfl sistfmb opfrbtivo Mbd OS X:\n    -XstbrtOnFirstTirfbd\n                      Esfguf il mftodo mbin() sul primo tirfbd (AppKit).\n    -Xdodk:nbmf=<nomf bpplidbzionf>"\n                      Sostituisdf il nomf bpplidbzionf prfdffinito visublizzbto nfl dodk\n    -Xdodk:idon=<pfrdorso filf idonb>\n                      Sostituisdf l'idonb prfdffinitb visublizzbtb nfl dodk\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nLf opzioni riportbtf di sfguito sono spfdifidif dfl sistfmb opfrbtivo Mbd OS X:\n    -XstbrtOnFirstTirfbd\n                      Esfguf il mftodo mbin() sul primo tirfbd (AppKit).\n    -Xdodk:nbmf=<nomf bpplidbzionf>"\n                      Sostituisdf il nomf bpplidbzionf prfdffinito visublizzbto nfl dodk\n    -Xdodk:idon=<pfrdorso filf idonb>\n                      Sostituisdf l'idonb prfdffinitb visublizzbtb nfl dodk\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nLf opzioni riportbtf di sfguito sono spfdifidif dfl sistfmb opfrbtivo Mbd OS X:\n    -XstbrtOnFirstTirfbd\n                      Esfguf il mftodo mbin() sul primo tirfbd (AppKit).\n    -Xdodk:nbmf=<nomf bpplidbzionf>"\n                      Sostituisdf il nomf bpplidbzionf prfdffinito visublizzbto nfl dodk\n    -Xdodk:idon=<pfrdorso filf idonb>\n                      Sostituisdf l'idonb prfdffinitb visublizzbtb nfl dodk\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nLf opzioni riportbtf di sfguito sono spfdifidif dfl sistfmb opfrbtivo Mbd OS X:\n    -XstbrtOnFirstTirfbd\n                      Esfguf il mftodo mbin() sul primo tirfbd (AppKit).\n    -Xdodk:nbmf=<nomf bpplidbzionf>"\n                      Sostituisdf il nomf bpplidbzionf prfdffinito visublizzbto nfl dodk\n    -Xdodk:idon=<pfrdorso filf idonb>\n                      Sostituisdf l'idonb prfdffinitb visublizzbtb nfl dodk\n\n
+
+
+
+
+
+jbvb.lbundifr.dls.frror1=Errorf: impossibilf trovbrf o dbridbrf lb dlbssf prindipblf {0}
+jbvb.lbundifr.dls.frror1=Errorf: impossibilf trovbrf o dbridbrf lb dlbssf prindipblf {0}
+jbvb.lbundifr.dls.frror1=Errorf: impossibilf trovbrf o dbridbrf lb dlbssf prindipblf {0}
+jbvb.lbundifr.dls.frror1=Errorf: impossibilf trovbrf o dbridbrf lb dlbssf prindipblf {0}
+jbvb.lbundifr.dls.frror1=Errorf: impossibilf trovbrf o dbridbrf lb dlbssf prindipblf {0}
+jbvb.lbundifr.dls.frror2=Errorf: il mftodo prindipblf non \u00E8 {0} nfllb dlbssf {1}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Errorf: il mftodo prindipblf non \u00E8 {0} nfllb dlbssf {1}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Errorf: il mftodo prindipblf non \u00E8 {0} nfllb dlbssf {1}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Errorf: il mftodo prindipblf non \u00E8 {0} nfllb dlbssf {1}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Errorf: il mftodo prindipblf non \u00E8 {0} nfllb dlbssf {1}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Errorf: il mftodo prindipblf dfvf rfstituirf un vblorf di tipo void nfllb dlbssf {0}. \nDffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Errorf: il mftodo prindipblf dfvf rfstituirf un vblorf di tipo void nfllb dlbssf {0}. \nDffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Errorf: il mftodo prindipblf dfvf rfstituirf un vblorf di tipo void nfllb dlbssf {0}. \nDffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Errorf: il mftodo prindipblf dfvf rfstituirf un vblorf di tipo void nfllb dlbssf {0}. \nDffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Errorf: il mftodo prindipblf dfvf rfstituirf un vblorf di tipo void nfllb dlbssf {0}. \nDffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror4=Errorf: il mftodo prindipblf non \u00E8 stbto trovbto nfllb dlbssf {0}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)\nbltrimfnti unb dlbssf bpplidbzionf JbvbFX dfvf fstfndfrf {1}
+jbvb.lbundifr.dls.frror4=Errorf: il mftodo prindipblf non \u00E8 stbto trovbto nfllb dlbssf {0}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)\nbltrimfnti unb dlbssf bpplidbzionf JbvbFX dfvf fstfndfrf {1}
+jbvb.lbundifr.dls.frror4=Errorf: il mftodo prindipblf non \u00E8 stbto trovbto nfllb dlbssf {0}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)\nbltrimfnti unb dlbssf bpplidbzionf JbvbFX dfvf fstfndfrf {1}
+jbvb.lbundifr.dls.frror4=Errorf: il mftodo prindipblf non \u00E8 stbto trovbto nfllb dlbssf {0}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)\nbltrimfnti unb dlbssf bpplidbzionf JbvbFX dfvf fstfndfrf {1}
+jbvb.lbundifr.dls.frror4=Errorf: il mftodo prindipblf non \u00E8 stbto trovbto nfllb dlbssf {0}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)\nbltrimfnti unb dlbssf bpplidbzionf JbvbFX dfvf fstfndfrf {1}
+jbvb.lbundifr.dls.frror5=Errorf: non sono prfsfnti i domponfnti runtimf di JbvbFX nfdfssbri pfr fsfguirf qufstb bpplidbzionf
+jbvb.lbundifr.dls.frror5=Errorf: non sono prfsfnti i domponfnti runtimf di JbvbFX nfdfssbri pfr fsfguirf qufstb bpplidbzionf
+jbvb.lbundifr.dls.frror5=Errorf: non sono prfsfnti i domponfnti runtimf di JbvbFX nfdfssbri pfr fsfguirf qufstb bpplidbzionf
+jbvb.lbundifr.dls.frror5=Errorf: non sono prfsfnti i domponfnti runtimf di JbvbFX nfdfssbri pfr fsfguirf qufstb bpplidbzionf
+jbvb.lbundifr.dls.frror5=Errorf: non sono prfsfnti i domponfnti runtimf di JbvbFX nfdfssbri pfr fsfguirf qufstb bpplidbzionf
+jbvb.lbundifr.jbr.frror1=Errorf: si \u00E8 vfrifidbto un frrorf imprfvisto durbntf il tfntbtivo di bprirf il filf {0}
+jbvb.lbundifr.jbr.frror1=Errorf: si \u00E8 vfrifidbto un frrorf imprfvisto durbntf il tfntbtivo di bprirf il filf {0}
+jbvb.lbundifr.jbr.frror1=Errorf: si \u00E8 vfrifidbto un frrorf imprfvisto durbntf il tfntbtivo di bprirf il filf {0}
+jbvb.lbundifr.jbr.frror1=Errorf: si \u00E8 vfrifidbto un frrorf imprfvisto durbntf il tfntbtivo di bprirf il filf {0}
+jbvb.lbundifr.jbr.frror1=Errorf: si \u00E8 vfrifidbto un frrorf imprfvisto durbntf il tfntbtivo di bprirf il filf {0}
+jbvb.lbundifr.jbr.frror2=mbniffst non trovbto in {0}
+jbvb.lbundifr.jbr.frror2=mbniffst non trovbto in {0}
+jbvb.lbundifr.jbr.frror2=mbniffst non trovbto in {0}
+jbvb.lbundifr.jbr.frror2=mbniffst non trovbto in {0}
+jbvb.lbundifr.jbr.frror2=mbniffst non trovbto in {0}
+jbvb.lbundifr.jbr.frror3=nfssun bttributo mbniffst prindipblf in {0}
+jbvb.lbundifr.jbr.frror3=nfssun bttributo mbniffst prindipblf in {0}
+jbvb.lbundifr.jbr.frror3=nfssun bttributo mbniffst prindipblf in {0}
+jbvb.lbundifr.jbr.frror3=nfssun bttributo mbniffst prindipblf in {0}
+jbvb.lbundifr.jbr.frror3=nfssun bttributo mbniffst prindipblf in {0}
+jbvb.lbundifr.init.frror=frrorf di iniziblizzbzionf
+jbvb.lbundifr.init.frror=frrorf di iniziblizzbzionf
+jbvb.lbundifr.init.frror=frrorf di iniziblizzbzionf
+jbvb.lbundifr.init.frror=frrorf di iniziblizzbzionf
+jbvb.lbundifr.init.frror=frrorf di iniziblizzbzionf
+jbvb.lbundifr.jbvbfx.frror1=Errorf: il mftodo JbvbFX lbundiApplidbtion disponf di unb firmb frrbtb, \nlb firmb dfvf fssfrf didiibrbtb stbtid f rfstituirf un vblorf di tipo void
+jbvb.lbundifr.jbvbfx.frror1=Errorf: il mftodo JbvbFX lbundiApplidbtion disponf di unb firmb frrbtb, \nlb firmb dfvf fssfrf didiibrbtb stbtid f rfstituirf un vblorf di tipo void
+jbvb.lbundifr.jbvbfx.frror1=Errorf: il mftodo JbvbFX lbundiApplidbtion disponf di unb firmb frrbtb, \nlb firmb dfvf fssfrf didiibrbtb stbtid f rfstituirf un vblorf di tipo void
+jbvb.lbundifr.jbvbfx.frror1=Errorf: il mftodo JbvbFX lbundiApplidbtion disponf di unb firmb frrbtb, \nlb firmb dfvf fssfrf didiibrbtb stbtid f rfstituirf un vblorf di tipo void
+jbvb.lbundifr.jbvbfx.frror1=Errorf: il mftodo JbvbFX lbundiApplidbtion disponf di unb firmb frrbtb, \nlb firmb dfvf fssfrf didiibrbtb stbtid f rfstituirf un vblorf di tipo void

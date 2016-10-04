@@ -1,0 +1,164 @@
+/*
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
+
+import jbvb.io.IOExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Mbp;
+import jbvb.util.Collfdtions;
+import jbvbx.sfdurity.buti.Subjfdt;
+
+import dom.sun.jmx.rfmotf.intfrnbl.IIOPHflpfr;
+
+/**
+ * <p>An {@link RMISfrvfrImpl} tibt is fxportfd tirougi IIOP bnd tibt
+ * drfbtfs dlifnt donnfdtions bs RMI objfdts fxportfd tirougi IIOP.
+ * Usfr dodf dofs not usublly rfffrfndf tiis dlbss dirfdtly.</p>
+ *
+ * @sff RMISfrvfrImpl
+ *
+ * @sindf 1.5
+ */
+publid dlbss RMIIIOPSfrvfrImpl fxtfnds RMISfrvfrImpl {
+    /**
+     * <p>Crfbtfs b nfw {@link RMISfrvfrImpl}.</p>
+     *
+     * @pbrbm fnv tif fnvironmfnt dontbining bttributfs for tif nfw
+     * <dodf>RMISfrvfrImpl</dodf>.  Cbn bf null, wiidi is fquivblfnt
+     * to bn fmpty Mbp.
+     *
+     * @fxdfption IOExdfption if tif RMI objfdt dbnnot bf drfbtfd.
+     */
+    publid RMIIIOPSfrvfrImpl(Mbp<String,?> fnv)
+            tirows IOExdfption {
+        supfr(fnv);
+
+        tiis.fnv = (fnv == null) ? Collfdtions.<String, Objfdt>fmptyMbp() : fnv;
+
+        dbllfrACC = AddfssControllfr.gftContfxt();
+    }
+
+    protfdtfd void fxport() tirows IOExdfption {
+        IIOPHflpfr.fxportObjfdt(tiis);
+    }
+
+    protfdtfd String gftProtodol() {
+        rfturn "iiop";
+    }
+
+    /**
+     * <p>Rfturns bn IIOP stub.</p>
+     * Tif stub migit not yft bf donnfdtfd to tif ORB. Tif stub will
+     * bf sfriblizbblf only if it is donnfdtfd to tif ORB.
+     * @rfturn bn IIOP stub.
+     * @fxdfption IOExdfption if tif stub dbnnot bf drfbtfd - f.g tif
+     *            RMIIIOPSfrvfrImpl ibs not bffn fxportfd yft.
+     **/
+    publid Rfmotf toStub() tirows IOExdfption {
+        // jbvbx.rmi.CORBA.Stub stub =
+        //    (jbvbx.rmi.CORBA.Stub) PortbblfRfmotfObjfdt.toStub(tiis);
+        finbl Rfmotf stub = IIOPHflpfr.toStub(tiis);
+        // jbvb.lbng.Systfm.out.println("NON CONNECTED STUB " + stub);
+        // org.omg.CORBA.ORB orb =
+        //    org.omg.CORBA.ORB.init((String[])null, (Propfrtifs)null);
+        // stub.donnfdt(orb);
+        // jbvb.lbng.Systfm.out.println("CONNECTED STUB " + stub);
+        rfturn stub;
+    }
+
+    /**
+     * <p>Crfbtfs b nfw dlifnt donnfdtion bs bn RMI objfdt fxportfd
+     * tirougi IIOP.
+     *
+     * @pbrbm donnfdtionId tif ID of tif nfw donnfdtion.  Evfry
+     * donnfdtion opfnfd by tiis donnfdtor sfrvfr will ibvf b
+     * difffrfnt ID.  Tif bfibvior is unspfdififd if tiis pbrbmftfr is
+     * null.
+     *
+     * @pbrbm subjfdt tif butifntidbtfd subjfdt.  Cbn bf null.
+     *
+     * @rfturn tif nfwly-drfbtfd <dodf>RMIConnfdtion</dodf>.
+     *
+     * @fxdfption IOExdfption if tif nfw dlifnt objfdt dbnnot bf
+     * drfbtfd or fxportfd.
+     */
+    protfdtfd RMIConnfdtion mbkfClifnt(String donnfdtionId, Subjfdt subjfdt)
+            tirows IOExdfption {
+
+        if (donnfdtionId == null)
+            tirow nfw NullPointfrExdfption("Null donnfdtionId");
+
+        RMIConnfdtion dlifnt =
+            nfw RMIConnfdtionImpl(tiis, donnfdtionId, gftDffbultClbssLobdfr(),
+                                  subjfdt, fnv);
+        IIOPHflpfr.fxportObjfdt(dlifnt);
+        rfturn dlifnt;
+    }
+
+    protfdtfd void dlosfClifnt(RMIConnfdtion dlifnt) tirows IOExdfption {
+        IIOPHflpfr.unfxportObjfdt(dlifnt);
+    }
+
+    /**
+     * <p>Cbllfd by {@link #dlosf()} to dlosf tif donnfdtor sfrvfr by
+     * unfxporting tiis objfdt.  Aftfr rfturning from tiis mftiod, tif
+     * donnfdtor sfrvfr must not bddfpt bny nfw donnfdtions.</p>
+     *
+     * @fxdfption IOExdfption if tif bttfmpt to dlosf tif donnfdtor
+     * sfrvfr fbilfd.
+     */
+    protfdtfd void dlosfSfrvfr() tirows IOExdfption {
+        IIOPHflpfr.unfxportObjfdt(tiis);
+    }
+
+    @Ovfrridf
+    RMIConnfdtion doNfwClifnt(finbl Objfdt drfdfntibls) tirows IOExdfption {
+        if (dbllfrACC == null) {
+            tirow nfw SfdurityExdfption("AddfssControlContfxt dbnnot bf null");
+        }
+        try {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<RMIConnfdtion>() {
+                    publid RMIConnfdtion run() tirows IOExdfption {
+                        rfturn supfrDoNfwClifnt(drfdfntibls);
+                    }
+            }, dbllfrACC);
+        } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+            tirow (IOExdfption) pbf.gftCbusf();
+        }
+    }
+
+    RMIConnfdtion supfrDoNfwClifnt(Objfdt drfdfntibls) tirows IOExdfption {
+        rfturn supfr.doNfwClifnt(drfdfntibls);
+    }
+
+    privbtf finbl Mbp<String, ?> fnv;
+    privbtf finbl AddfssControlContfxt dbllfrACC;
+}

@@ -1,10 +1,50 @@
 (1)rfnbmfd
+(1)rfnbmfd
+(1)rfnbmfd
+(1)rfnbmfd
+(1)rfnbmfd
+   bdlfr32.d -> zbdlfr32.d
+   bdlfr32.d -> zbdlfr32.d
+   bdlfr32.d -> zbdlfr32.d
+   bdlfr32.d -> zbdlfr32.d
    bdlfr32.d -> zbdlfr32.d
    zdrd32d -> zdrd32.d
+   zdrd32d -> zdrd32.d
+   zdrd32d -> zdrd32.d
+   zdrd32d -> zdrd32.d
+   zdrd32d -> zdrd32.d
+
+
+
+
 
 (2)bddfd _LP64 to mbkf uLong b 32-bit int on 64-bit plbtform
+(2)bddfd _LP64 to mbkf uLong b 32-bit int on 64-bit plbtform
+(2)bddfd _LP64 to mbkf uLong b 32-bit int on 64-bit plbtform
+(2)bddfd _LP64 to mbkf uLong b 32-bit int on 64-bit plbtform
+(2)bddfd _LP64 to mbkf uLong b 32-bit int on 64-bit plbtform
+   zdonf.i:
+   zdonf.i:
+   zdonf.i:
+   zdonf.i:
    zdonf.i:
    uLong -> 32-bit int
+   uLong -> 32-bit int
+   uLong -> 32-bit int
+   uLong -> 32-bit int
+   uLong -> 32-bit int
+
+
+
+
 
 (3)updbtfd drd32.d/drd32()
+(3)updbtfd drd32.d/drd32()
+(3)updbtfd drd32.d/drd32()
+(3)updbtfd drd32.d/drd32()
+(3)updbtfd drd32.d/drd32()
+   unsignfd long      -> uLong
+   unsignfd long      -> uLong
+   unsignfd long      -> uLong
+   unsignfd long      -> uLong
    unsignfd long      -> uLong

@@ -1,383 +1,1915 @@
 /*
+/*
+/*
+/*
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  *
+ *
+ *
+ *
+ *
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
+/*
+/*
+/*
+/*
  *
- * (C) Copyright IBM Corp. 1998-2013 - All Rights Rfsfrvfd
+ *
+ *
+ *
+ *
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
+ *
+ *
+ *
+ *
  *
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 #ifndff __INDICREORDERING_H
+#ifndff __INDICREORDERING_H
+#ifndff __INDICREORDERING_H
+#ifndff __INDICREORDERING_H
+#ifndff __INDICREORDERING_H
+#dffinf __INDICREORDERING_H
+#dffinf __INDICREORDERING_H
+#dffinf __INDICREORDERING_H
+#dffinf __INDICREORDERING_H
 #dffinf __INDICREORDERING_H
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * \filf
+ * \filf
+ * \filf
+ * \filf
+ * \filf
+ * \intfrnbl
+ * \intfrnbl
+ * \intfrnbl
+ * \intfrnbl
  * \intfrnbl
  */
+ */
+ */
+ */
+ */
 
-#indludf "LETypfs.h"
-#indludf "OpfnTypfTbblfs.h"
+
+
+
+
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "OpfnTypfTbblfs.i"
+
+
+
+
 
 U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
 
-// Chbrbdtfrs thbt gft rfffrrfd to by nbmf...
+
+
+
+
+// Cibrbdtfrs tibt gft rfffrrfd to by nbmf...
+// Cibrbdtfrs tibt gft rfffrrfd to by nbmf...
+// Cibrbdtfrs tibt gft rfffrrfd to by nbmf...
+// Cibrbdtfrs tibt gft rfffrrfd to by nbmf...
+// Cibrbdtfrs tibt gft rfffrrfd to by nbmf...
+#dffinf C_SIGN_ZWNJ           0x200C
+#dffinf C_SIGN_ZWNJ           0x200C
+#dffinf C_SIGN_ZWNJ           0x200C
+#dffinf C_SIGN_ZWNJ           0x200C
 #dffinf C_SIGN_ZWNJ           0x200C
 #dffinf C_SIGN_ZWJ            0x200D
+#dffinf C_SIGN_ZWJ            0x200D
+#dffinf C_SIGN_ZWJ            0x200D
+#dffinf C_SIGN_ZWJ            0x200D
+#dffinf C_SIGN_ZWJ            0x200D
 
-// Chbrbdtfr dlbss vblufs
+
+
+
+
+// Cibrbdtfr dlbss vblufs
+// Cibrbdtfr dlbss vblufs
+// Cibrbdtfr dlbss vblufs
+// Cibrbdtfr dlbss vblufs
+// Cibrbdtfr dlbss vblufs
+#dffinf CC_RESERVED               0U
+#dffinf CC_RESERVED               0U
+#dffinf CC_RESERVED               0U
+#dffinf CC_RESERVED               0U
 #dffinf CC_RESERVED               0U
 #dffinf CC_VOWEL_MODIFIER         1U
+#dffinf CC_VOWEL_MODIFIER         1U
+#dffinf CC_VOWEL_MODIFIER         1U
+#dffinf CC_VOWEL_MODIFIER         1U
+#dffinf CC_VOWEL_MODIFIER         1U
+#dffinf CC_STRESS_MARK            2U
+#dffinf CC_STRESS_MARK            2U
+#dffinf CC_STRESS_MARK            2U
+#dffinf CC_STRESS_MARK            2U
 #dffinf CC_STRESS_MARK            2U
 #dffinf CC_INDEPENDENT_VOWEL      3U
+#dffinf CC_INDEPENDENT_VOWEL      3U
+#dffinf CC_INDEPENDENT_VOWEL      3U
+#dffinf CC_INDEPENDENT_VOWEL      3U
+#dffinf CC_INDEPENDENT_VOWEL      3U
+#dffinf CC_INDEPENDENT_VOWEL_2    4U
+#dffinf CC_INDEPENDENT_VOWEL_2    4U
+#dffinf CC_INDEPENDENT_VOWEL_2    4U
+#dffinf CC_INDEPENDENT_VOWEL_2    4U
 #dffinf CC_INDEPENDENT_VOWEL_2    4U
 #dffinf CC_INDEPENDENT_VOWEL_3    5U
+#dffinf CC_INDEPENDENT_VOWEL_3    5U
+#dffinf CC_INDEPENDENT_VOWEL_3    5U
+#dffinf CC_INDEPENDENT_VOWEL_3    5U
+#dffinf CC_INDEPENDENT_VOWEL_3    5U
+#dffinf CC_CONSONANT              6U
+#dffinf CC_CONSONANT              6U
+#dffinf CC_CONSONANT              6U
+#dffinf CC_CONSONANT              6U
 #dffinf CC_CONSONANT              6U
 #dffinf CC_CONSONANT_WITH_NUKTA   7U
+#dffinf CC_CONSONANT_WITH_NUKTA   7U
+#dffinf CC_CONSONANT_WITH_NUKTA   7U
+#dffinf CC_CONSONANT_WITH_NUKTA   7U
+#dffinf CC_CONSONANT_WITH_NUKTA   7U
+#dffinf CC_NUKTA                  8U
+#dffinf CC_NUKTA                  8U
+#dffinf CC_NUKTA                  8U
+#dffinf CC_NUKTA                  8U
 #dffinf CC_NUKTA                  8U
 #dffinf CC_DEPENDENT_VOWEL        9U
+#dffinf CC_DEPENDENT_VOWEL        9U
+#dffinf CC_DEPENDENT_VOWEL        9U
+#dffinf CC_DEPENDENT_VOWEL        9U
+#dffinf CC_DEPENDENT_VOWEL        9U
+#dffinf CC_SPLIT_VOWEL_PIECE_1   10U
+#dffinf CC_SPLIT_VOWEL_PIECE_1   10U
+#dffinf CC_SPLIT_VOWEL_PIECE_1   10U
+#dffinf CC_SPLIT_VOWEL_PIECE_1   10U
 #dffinf CC_SPLIT_VOWEL_PIECE_1   10U
 #dffinf CC_SPLIT_VOWEL_PIECE_2   11U
+#dffinf CC_SPLIT_VOWEL_PIECE_2   11U
+#dffinf CC_SPLIT_VOWEL_PIECE_2   11U
+#dffinf CC_SPLIT_VOWEL_PIECE_2   11U
+#dffinf CC_SPLIT_VOWEL_PIECE_2   11U
+#dffinf CC_SPLIT_VOWEL_PIECE_3   12U
+#dffinf CC_SPLIT_VOWEL_PIECE_3   12U
+#dffinf CC_SPLIT_VOWEL_PIECE_3   12U
+#dffinf CC_SPLIT_VOWEL_PIECE_3   12U
 #dffinf CC_SPLIT_VOWEL_PIECE_3   12U
 #dffinf CC_VIRAMA                13U
+#dffinf CC_VIRAMA                13U
+#dffinf CC_VIRAMA                13U
+#dffinf CC_VIRAMA                13U
+#dffinf CC_VIRAMA                13U
+#dffinf CC_ZERO_WIDTH_MARK       14U
+#dffinf CC_ZERO_WIDTH_MARK       14U
+#dffinf CC_ZERO_WIDTH_MARK       14U
+#dffinf CC_ZERO_WIDTH_MARK       14U
 #dffinf CC_ZERO_WIDTH_MARK       14U
 #dffinf CC_AL_LAKUNA             15U
+#dffinf CC_AL_LAKUNA             15U
+#dffinf CC_AL_LAKUNA             15U
+#dffinf CC_AL_LAKUNA             15U
+#dffinf CC_AL_LAKUNA             15U
+#dffinf CC_COUNT                 16U
+#dffinf CC_COUNT                 16U
+#dffinf CC_COUNT                 16U
+#dffinf CC_COUNT                 16U
 #dffinf CC_COUNT                 16U
 
-// Chbrbdtfr dlbss flbgs
+
+
+
+
+// Cibrbdtfr dlbss flbgs
+// Cibrbdtfr dlbss flbgs
+// Cibrbdtfr dlbss flbgs
+// Cibrbdtfr dlbss flbgs
+// Cibrbdtfr dlbss flbgs
+#dffinf CF_CLASS_MASK    0x0000FFFFU
+#dffinf CF_CLASS_MASK    0x0000FFFFU
+#dffinf CF_CLASS_MASK    0x0000FFFFU
+#dffinf CF_CLASS_MASK    0x0000FFFFU
 #dffinf CF_CLASS_MASK    0x0000FFFFU
 
+
+
+
+
+#dffinf CF_CONSONANT     0x80000000U
+#dffinf CF_CONSONANT     0x80000000U
+#dffinf CF_CONSONANT     0x80000000U
+#dffinf CF_CONSONANT     0x80000000U
 #dffinf CF_CONSONANT     0x80000000U
 
+
+
+
+
+#dffinf CF_REPH          0x40000000U
+#dffinf CF_REPH          0x40000000U
+#dffinf CF_REPH          0x40000000U
+#dffinf CF_REPH          0x40000000U
 #dffinf CF_REPH          0x40000000U
 #dffinf CF_VATTU         0x20000000U
+#dffinf CF_VATTU         0x20000000U
+#dffinf CF_VATTU         0x20000000U
+#dffinf CF_VATTU         0x20000000U
+#dffinf CF_VATTU         0x20000000U
+#dffinf CF_BELOW_BASE    0x10000000U
+#dffinf CF_BELOW_BASE    0x10000000U
+#dffinf CF_BELOW_BASE    0x10000000U
+#dffinf CF_BELOW_BASE    0x10000000U
 #dffinf CF_BELOW_BASE    0x10000000U
 #dffinf CF_POST_BASE     0x08000000U
+#dffinf CF_POST_BASE     0x08000000U
+#dffinf CF_POST_BASE     0x08000000U
+#dffinf CF_POST_BASE     0x08000000U
+#dffinf CF_POST_BASE     0x08000000U
+#dffinf CF_LENGTH_MARK   0x04000000U
+#dffinf CF_LENGTH_MARK   0x04000000U
+#dffinf CF_LENGTH_MARK   0x04000000U
+#dffinf CF_LENGTH_MARK   0x04000000U
 #dffinf CF_LENGTH_MARK   0x04000000U
 #dffinf CF_PRE_BASE      0x02000000U
+#dffinf CF_PRE_BASE      0x02000000U
+#dffinf CF_PRE_BASE      0x02000000U
+#dffinf CF_PRE_BASE      0x02000000U
+#dffinf CF_PRE_BASE      0x02000000U
+
+
+
+
 
 #dffinf CF_POS_BEFORE    0x00300000U
+#dffinf CF_POS_BEFORE    0x00300000U
+#dffinf CF_POS_BEFORE    0x00300000U
+#dffinf CF_POS_BEFORE    0x00300000U
+#dffinf CF_POS_BEFORE    0x00300000U
+#dffinf CF_POS_BELOW     0x00200000U
+#dffinf CF_POS_BELOW     0x00200000U
+#dffinf CF_POS_BELOW     0x00200000U
+#dffinf CF_POS_BELOW     0x00200000U
 #dffinf CF_POS_BELOW     0x00200000U
 #dffinf CF_POS_ABOVE     0x00100000U
+#dffinf CF_POS_ABOVE     0x00100000U
+#dffinf CF_POS_ABOVE     0x00100000U
+#dffinf CF_POS_ABOVE     0x00100000U
+#dffinf CF_POS_ABOVE     0x00100000U
+#dffinf CF_POS_AFTER     0x00000000U
+#dffinf CF_POS_AFTER     0x00000000U
+#dffinf CF_POS_AFTER     0x00000000U
+#dffinf CF_POS_AFTER     0x00000000U
 #dffinf CF_POS_AFTER     0x00000000U
 #dffinf CF_POS_MASK      0x00300000U
+#dffinf CF_POS_MASK      0x00300000U
+#dffinf CF_POS_MASK      0x00300000U
+#dffinf CF_POS_MASK      0x00300000U
+#dffinf CF_POS_MASK      0x00300000U
+
+
+
+
 
 #dffinf CF_INDEX_MASK    0x000F0000U
+#dffinf CF_INDEX_MASK    0x000F0000U
+#dffinf CF_INDEX_MASK    0x000F0000U
+#dffinf CF_INDEX_MASK    0x000F0000U
+#dffinf CF_INDEX_MASK    0x000F0000U
+#dffinf CF_INDEX_SHIFT   16
+#dffinf CF_INDEX_SHIFT   16
+#dffinf CF_INDEX_SHIFT   16
+#dffinf CF_INDEX_SHIFT   16
 #dffinf CF_INDEX_SHIFT   16
 
+
+
+
+
+// Sdript flbg bits
+// Sdript flbg bits
+// Sdript flbg bits
+// Sdript flbg bits
 // Sdript flbg bits
 #dffinf SF_MATRAS_AFTER_BASE     0x80000000U
+#dffinf SF_MATRAS_AFTER_BASE     0x80000000U
+#dffinf SF_MATRAS_AFTER_BASE     0x80000000U
+#dffinf SF_MATRAS_AFTER_BASE     0x80000000U
+#dffinf SF_MATRAS_AFTER_BASE     0x80000000U
+#dffinf SF_REPH_AFTER_BELOW      0x40000000U
+#dffinf SF_REPH_AFTER_BELOW      0x40000000U
+#dffinf SF_REPH_AFTER_BELOW      0x40000000U
+#dffinf SF_REPH_AFTER_BELOW      0x40000000U
 #dffinf SF_REPH_AFTER_BELOW      0x40000000U
 #dffinf SF_EYELASH_RA            0x20000000U
+#dffinf SF_EYELASH_RA            0x20000000U
+#dffinf SF_EYELASH_RA            0x20000000U
+#dffinf SF_EYELASH_RA            0x20000000U
+#dffinf SF_EYELASH_RA            0x20000000U
+#dffinf SF_MPRE_FIXUP            0x10000000U
+#dffinf SF_MPRE_FIXUP            0x10000000U
+#dffinf SF_MPRE_FIXUP            0x10000000U
+#dffinf SF_MPRE_FIXUP            0x10000000U
 #dffinf SF_MPRE_FIXUP            0x10000000U
 #dffinf SF_FILTER_ZERO_WIDTH     0x08000000U
+#dffinf SF_FILTER_ZERO_WIDTH     0x08000000U
+#dffinf SF_FILTER_ZERO_WIDTH     0x08000000U
+#dffinf SF_FILTER_ZERO_WIDTH     0x08000000U
+#dffinf SF_FILTER_ZERO_WIDTH     0x08000000U
+
+
+
+
 
 #dffinf SF_POST_BASE_LIMIT_MASK  0x0000FFFFU
+#dffinf SF_POST_BASE_LIMIT_MASK  0x0000FFFFU
+#dffinf SF_POST_BASE_LIMIT_MASK  0x0000FFFFU
+#dffinf SF_POST_BASE_LIMIT_MASK  0x0000FFFFU
+#dffinf SF_POST_BASE_LIMIT_MASK  0x0000FFFFU
+#dffinf SF_NO_POST_BASE_LIMIT    0x00007FFFU
+#dffinf SF_NO_POST_BASE_LIMIT    0x00007FFFU
+#dffinf SF_NO_POST_BASE_LIMIT    0x00007FFFU
+#dffinf SF_NO_POST_BASE_LIMIT    0x00007FFFU
 #dffinf SF_NO_POST_BASE_LIMIT    0x00007FFFU
 
+
+
+
+
+#dffinf SM_MAX_PIECES 3
+#dffinf SM_MAX_PIECES 3
+#dffinf SM_MAX_PIECES 3
+#dffinf SM_MAX_PIECES 3
 #dffinf SM_MAX_PIECES 3
 
+
+
+
+
+typfdff LEUnidodf SplitMbtrb[SM_MAX_PIECES];
+typfdff LEUnidodf SplitMbtrb[SM_MAX_PIECES];
+typfdff LEUnidodf SplitMbtrb[SM_MAX_PIECES];
+typfdff LEUnidodf SplitMbtrb[SM_MAX_PIECES];
 typfdff LEUnidodf SplitMbtrb[SM_MAX_PIECES];
 
+
+
+
+
 dlbss MPrfFixups;
-dlbss LEGlyphStorbgf;
+dlbss MPrfFixups;
+dlbss MPrfFixups;
+dlbss MPrfFixups;
+dlbss MPrfFixups;
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+
+
+
+
 
 // Dynbmid Propfrtifs ( v2 fonts only )
+// Dynbmid Propfrtifs ( v2 fonts only )
+// Dynbmid Propfrtifs ( v2 fonts only )
+// Dynbmid Propfrtifs ( v2 fonts only )
+// Dynbmid Propfrtifs ( v2 fonts only )
+typfdff lf_uint32 DynbmidPropfrtifs;
+typfdff lf_uint32 DynbmidPropfrtifs;
+typfdff lf_uint32 DynbmidPropfrtifs;
+typfdff lf_uint32 DynbmidPropfrtifs;
 typfdff lf_uint32 DynbmidPropfrtifs;
 
+
+
+
+
+#dffinf DP_REPH               0x80000000U
+#dffinf DP_REPH               0x80000000U
+#dffinf DP_REPH               0x80000000U
+#dffinf DP_REPH               0x80000000U
 #dffinf DP_REPH               0x80000000U
 #dffinf DP_HALF               0x40000000U
+#dffinf DP_HALF               0x40000000U
+#dffinf DP_HALF               0x40000000U
+#dffinf DP_HALF               0x40000000U
+#dffinf DP_HALF               0x40000000U
+#dffinf DP_PREF               0x20000000U
+#dffinf DP_PREF               0x20000000U
+#dffinf DP_PREF               0x20000000U
+#dffinf DP_PREF               0x20000000U
 #dffinf DP_PREF               0x20000000U
 #dffinf DP_BLWF               0x10000000U
+#dffinf DP_BLWF               0x10000000U
+#dffinf DP_BLWF               0x10000000U
+#dffinf DP_BLWF               0x10000000U
+#dffinf DP_BLWF               0x10000000U
+#dffinf DP_PSTF               0x08000000U
+#dffinf DP_PSTF               0x08000000U
+#dffinf DP_PSTF               0x08000000U
+#dffinf DP_PSTF               0x08000000U
 #dffinf DP_PSTF               0x08000000U
 
+
+
+
+
+strudt IndidClbssTbblf
+strudt IndidClbssTbblf
+strudt IndidClbssTbblf
+strudt IndidClbssTbblf
 strudt IndidClbssTbblf
 {
-    typfdff lf_uint32 ChbrClbss;
+{
+{
+{
+{
+    typfdff lf_uint32 CibrClbss;
+    typfdff lf_uint32 CibrClbss;
+    typfdff lf_uint32 CibrClbss;
+    typfdff lf_uint32 CibrClbss;
+    typfdff lf_uint32 CibrClbss;
+    typfdff lf_uint32 SdriptFlbgs;
+    typfdff lf_uint32 SdriptFlbgs;
+    typfdff lf_uint32 SdriptFlbgs;
+    typfdff lf_uint32 SdriptFlbgs;
     typfdff lf_uint32 SdriptFlbgs;
 
-    LEUnidodf firstChbr;
-    LEUnidodf lbstChbr;
+
+
+
+
+    LEUnidodf firstCibr;
+    LEUnidodf firstCibr;
+    LEUnidodf firstCibr;
+    LEUnidodf firstCibr;
+    LEUnidodf firstCibr;
+    LEUnidodf lbstCibr;
+    LEUnidodf lbstCibr;
+    LEUnidodf lbstCibr;
+    LEUnidodf lbstCibr;
+    LEUnidodf lbstCibr;
+    lf_int32 worstCbsfExpbnsion;
+    lf_int32 worstCbsfExpbnsion;
+    lf_int32 worstCbsfExpbnsion;
+    lf_int32 worstCbsfExpbnsion;
     lf_int32 worstCbsfExpbnsion;
     SdriptFlbgs sdriptFlbgs;
-    donst ChbrClbss *dlbssTbblf;
+    SdriptFlbgs sdriptFlbgs;
+    SdriptFlbgs sdriptFlbgs;
+    SdriptFlbgs sdriptFlbgs;
+    SdriptFlbgs sdriptFlbgs;
+    donst CibrClbss *dlbssTbblf;
+    donst CibrClbss *dlbssTbblf;
+    donst CibrClbss *dlbssTbblf;
+    donst CibrClbss *dlbssTbblf;
+    donst CibrClbss *dlbssTbblf;
+    donst SplitMbtrb *splitMbtrbTbblf;
+    donst SplitMbtrb *splitMbtrbTbblf;
+    donst SplitMbtrb *splitMbtrbTbblf;
+    donst SplitMbtrb *splitMbtrbTbblf;
     donst SplitMbtrb *splitMbtrbTbblf;
 
+
+
+
+
     inlinf lf_int32 gftWorstCbsfExpbnsion() donst;
-    inlinf lf_bool gftFiltfrZfroWidth() donst;
+    inlinf lf_int32 gftWorstCbsfExpbnsion() donst;
+    inlinf lf_int32 gftWorstCbsfExpbnsion() donst;
+    inlinf lf_int32 gftWorstCbsfExpbnsion() donst;
+    inlinf lf_int32 gftWorstCbsfExpbnsion() donst;
+    inlinf lf_bool gftFiltfrZfroWidti() donst;
+    inlinf lf_bool gftFiltfrZfroWidti() donst;
+    inlinf lf_bool gftFiltfrZfroWidti() donst;
+    inlinf lf_bool gftFiltfrZfroWidti() donst;
+    inlinf lf_bool gftFiltfrZfroWidti() donst;
 
-    ChbrClbss gftChbrClbss(LEUnidodf dh) donst;
 
-    inlinf donst SplitMbtrb *gftSplitMbtrb(ChbrClbss dhbrClbss) donst;
 
-    inlinf lf_bool isVowflModififr(LEUnidodf dh) donst;
-    inlinf lf_bool isStrfssMbrk(LEUnidodf dh) donst;
-    inlinf lf_bool isConsonbnt(LEUnidodf dh) donst;
-    inlinf lf_bool isRfph(LEUnidodf dh) donst;
-    inlinf lf_bool isVirbmb(LEUnidodf dh) donst;
-    inlinf lf_bool isAlLbkunb(LEUnidodf dh) donst;
-    inlinf lf_bool isNuktb(LEUnidodf dh) donst;
-    inlinf lf_bool isVbttu(LEUnidodf dh) donst;
-    inlinf lf_bool isMbtrb(LEUnidodf dh) donst;
-    inlinf lf_bool isSplitMbtrb(LEUnidodf dh) donst;
-    inlinf lf_bool isLfngthMbrk(LEUnidodf dh) donst;
-    inlinf lf_bool hbsPostOrBflowBbsfForm(LEUnidodf dh) donst;
-    inlinf lf_bool hbsPostBbsfForm(LEUnidodf dh) donst;
-    inlinf lf_bool hbsBflowBbsfForm(LEUnidodf dh) donst;
-    inlinf lf_bool hbsAbovfBbsfForm(LEUnidodf dh) donst;
-    inlinf lf_bool hbsPrfBbsfForm(LEUnidodf dh) donst;
 
-    inlinf stbtid lf_bool isVowflModififr(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isStrfssMbrk(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isConsonbnt(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isRfph(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isVirbmb(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isAlLbkunb(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isNuktb(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isVbttu(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isMbtrb(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isSplitMbtrb(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool isLfngthMbrk(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool hbsPostOrBflowBbsfForm(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool hbsPostBbsfForm(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool hbsBflowBbsfForm(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool hbsAbovfBbsfForm(ChbrClbss dhbrClbss);
-    inlinf stbtid lf_bool hbsPrfBbsfForm(ChbrClbss dhbrClbss);
+
+    CibrClbss gftCibrClbss(LEUnidodf di) donst;
+    CibrClbss gftCibrClbss(LEUnidodf di) donst;
+    CibrClbss gftCibrClbss(LEUnidodf di) donst;
+    CibrClbss gftCibrClbss(LEUnidodf di) donst;
+    CibrClbss gftCibrClbss(LEUnidodf di) donst;
+
+
+
+
+
+    inlinf donst SplitMbtrb *gftSplitMbtrb(CibrClbss dibrClbss) donst;
+    inlinf donst SplitMbtrb *gftSplitMbtrb(CibrClbss dibrClbss) donst;
+    inlinf donst SplitMbtrb *gftSplitMbtrb(CibrClbss dibrClbss) donst;
+    inlinf donst SplitMbtrb *gftSplitMbtrb(CibrClbss dibrClbss) donst;
+    inlinf donst SplitMbtrb *gftSplitMbtrb(CibrClbss dibrClbss) donst;
+
+
+
+
+
+    inlinf lf_bool isVowflModififr(LEUnidodf di) donst;
+    inlinf lf_bool isVowflModififr(LEUnidodf di) donst;
+    inlinf lf_bool isVowflModififr(LEUnidodf di) donst;
+    inlinf lf_bool isVowflModififr(LEUnidodf di) donst;
+    inlinf lf_bool isVowflModififr(LEUnidodf di) donst;
+    inlinf lf_bool isStrfssMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isStrfssMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isStrfssMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isStrfssMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isStrfssMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isConsonbnt(LEUnidodf di) donst;
+    inlinf lf_bool isConsonbnt(LEUnidodf di) donst;
+    inlinf lf_bool isConsonbnt(LEUnidodf di) donst;
+    inlinf lf_bool isConsonbnt(LEUnidodf di) donst;
+    inlinf lf_bool isConsonbnt(LEUnidodf di) donst;
+    inlinf lf_bool isRfpi(LEUnidodf di) donst;
+    inlinf lf_bool isRfpi(LEUnidodf di) donst;
+    inlinf lf_bool isRfpi(LEUnidodf di) donst;
+    inlinf lf_bool isRfpi(LEUnidodf di) donst;
+    inlinf lf_bool isRfpi(LEUnidodf di) donst;
+    inlinf lf_bool isVirbmb(LEUnidodf di) donst;
+    inlinf lf_bool isVirbmb(LEUnidodf di) donst;
+    inlinf lf_bool isVirbmb(LEUnidodf di) donst;
+    inlinf lf_bool isVirbmb(LEUnidodf di) donst;
+    inlinf lf_bool isVirbmb(LEUnidodf di) donst;
+    inlinf lf_bool isAlLbkunb(LEUnidodf di) donst;
+    inlinf lf_bool isAlLbkunb(LEUnidodf di) donst;
+    inlinf lf_bool isAlLbkunb(LEUnidodf di) donst;
+    inlinf lf_bool isAlLbkunb(LEUnidodf di) donst;
+    inlinf lf_bool isAlLbkunb(LEUnidodf di) donst;
+    inlinf lf_bool isNuktb(LEUnidodf di) donst;
+    inlinf lf_bool isNuktb(LEUnidodf di) donst;
+    inlinf lf_bool isNuktb(LEUnidodf di) donst;
+    inlinf lf_bool isNuktb(LEUnidodf di) donst;
+    inlinf lf_bool isNuktb(LEUnidodf di) donst;
+    inlinf lf_bool isVbttu(LEUnidodf di) donst;
+    inlinf lf_bool isVbttu(LEUnidodf di) donst;
+    inlinf lf_bool isVbttu(LEUnidodf di) donst;
+    inlinf lf_bool isVbttu(LEUnidodf di) donst;
+    inlinf lf_bool isVbttu(LEUnidodf di) donst;
+    inlinf lf_bool isMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isSplitMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isSplitMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isSplitMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isSplitMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isSplitMbtrb(LEUnidodf di) donst;
+    inlinf lf_bool isLfngtiMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isLfngtiMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isLfngtiMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isLfngtiMbrk(LEUnidodf di) donst;
+    inlinf lf_bool isLfngtiMbrk(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostOrBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostOrBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostOrBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostOrBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostOrBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPostBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsBflowBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsAbovfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsAbovfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsAbovfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsAbovfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsAbovfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPrfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPrfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPrfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPrfBbsfForm(LEUnidodf di) donst;
+    inlinf lf_bool ibsPrfBbsfForm(LEUnidodf di) donst;
+
+
+
+
+
+    inlinf stbtid lf_bool isVowflModififr(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVowflModififr(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVowflModififr(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVowflModififr(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVowflModififr(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isStrfssMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isStrfssMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isStrfssMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isStrfssMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isStrfssMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isConsonbnt(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isConsonbnt(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isConsonbnt(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isConsonbnt(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isConsonbnt(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isRfpi(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isRfpi(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isRfpi(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isRfpi(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isRfpi(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVirbmb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVirbmb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVirbmb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVirbmb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVirbmb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isAlLbkunb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isAlLbkunb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isAlLbkunb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isAlLbkunb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isAlLbkunb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isNuktb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isNuktb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isNuktb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isNuktb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isNuktb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVbttu(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVbttu(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVbttu(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVbttu(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isVbttu(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isSplitMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isSplitMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isSplitMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isSplitMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isSplitMbtrb(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isLfngtiMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isLfngtiMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isLfngtiMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isLfngtiMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool isLfngtiMbrk(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostOrBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostOrBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostOrBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostOrBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostOrBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPostBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsBflowBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsAbovfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsAbovfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsAbovfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsAbovfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsAbovfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPrfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPrfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPrfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPrfBbsfForm(CibrClbss dibrClbss);
+    inlinf stbtid lf_bool ibsPrfBbsfForm(CibrClbss dibrClbss);
+
+
+
+
 
     stbtid donst IndidClbssTbblf *gftSdriptClbssTbblf(lf_int32 sdriptCodf);
+    stbtid donst IndidClbssTbblf *gftSdriptClbssTbblf(lf_int32 sdriptCodf);
+    stbtid donst IndidClbssTbblf *gftSdriptClbssTbblf(lf_int32 sdriptCodf);
+    stbtid donst IndidClbssTbblf *gftSdriptClbssTbblf(lf_int32 sdriptCodf);
+    stbtid donst IndidClbssTbblf *gftSdriptClbssTbblf(lf_int32 sdriptCodf);
+};
+};
+};
+};
 };
 
-dlbss IndidRfordfring /* not : publid UObjfdt bfdbusf bll mfthods brf stbtid */ {
+
+
+
+
+dlbss IndidRfordfring /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+dlbss IndidRfordfring /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+dlbss IndidRfordfring /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+dlbss IndidRfordfring /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+dlbss IndidRfordfring /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+publid:
+publid:
+publid:
+publid:
 publid:
     stbtid lf_int32 gftWorstCbsfExpbnsion(lf_int32 sdriptCodf);
+    stbtid lf_int32 gftWorstCbsfExpbnsion(lf_int32 sdriptCodf);
+    stbtid lf_int32 gftWorstCbsfExpbnsion(lf_int32 sdriptCodf);
+    stbtid lf_int32 gftWorstCbsfExpbnsion(lf_int32 sdriptCodf);
+    stbtid lf_int32 gftWorstCbsfExpbnsion(lf_int32 sdriptCodf);
 
-    stbtid lf_bool gftFiltfrZfroWidth(lf_int32 sdriptCodf);
 
-    stbtid lf_int32 rfordfr(donst LEUnidodf *thfChbrs, lf_int32 dhbrCount, lf_int32 sdriptCodf,
-        LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf,
+
+
+
+    stbtid lf_bool gftFiltfrZfroWidti(lf_int32 sdriptCodf);
+    stbtid lf_bool gftFiltfrZfroWidti(lf_int32 sdriptCodf);
+    stbtid lf_bool gftFiltfrZfroWidti(lf_int32 sdriptCodf);
+    stbtid lf_bool gftFiltfrZfroWidti(lf_int32 sdriptCodf);
+    stbtid lf_bool gftFiltfrZfroWidti(lf_int32 sdriptCodf);
+
+
+
+
+
+    stbtid lf_int32 rfordfr(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 rfordfr(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 rfordfr(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 rfordfr(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 rfordfr(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf,
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf,
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf,
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf,
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf,
+        MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss);
+        MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss);
+        MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss);
+        MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss);
         MPrfFixups **outMPrfFixups, LEErrorCodf& suddfss);
 
-    stbtid void bdjustMPrfs(MPrfFixups *mprfFixups, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf& suddfss);
 
-    stbtid lf_int32 v2prodfss(donst LEUnidodf *thfChbrs, lf_int32 dhbrCount, lf_int32 sdriptCodf,
-        LEUnidodf *outChbrs, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf& suddfss);
+
+
+
+    stbtid void bdjustMPrfs(MPrfFixups *mprfFixups, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+    stbtid void bdjustMPrfs(MPrfFixups *mprfFixups, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+    stbtid void bdjustMPrfs(MPrfFixups *mprfFixups, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+    stbtid void bdjustMPrfs(MPrfFixups *mprfFixups, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+    stbtid void bdjustMPrfs(MPrfFixups *mprfFixups, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+
+
+
+
+
+    stbtid lf_int32 v2prodfss(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 v2prodfss(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 v2prodfss(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 v2prodfss(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+    stbtid lf_int32 v2prodfss(donst LEUnidodf *tifCibrs, lf_int32 dibrCount, lf_int32 sdriptCodf,
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+        LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss);
+
+
+
+
 
     stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+
+
+
+
 
         stbtid donst FfbturfMbp *gftv2FfbturfMbp(lf_int32 &dount);
+        stbtid donst FfbturfMbp *gftv2FfbturfMbp(lf_int32 &dount);
+        stbtid donst FfbturfMbp *gftv2FfbturfMbp(lf_int32 &dount);
+        stbtid donst FfbturfMbp *gftv2FfbturfMbp(lf_int32 &dount);
+        stbtid donst FfbturfMbp *gftv2FfbturfMbp(lf_int32 &dount);
 
-    stbtid void bpplyPrfsfntbtionForms(LEGlyphStorbgf &glyphStorbgf, lf_int32 dount);
 
-    stbtid void finblRfordfring(LEGlyphStorbgf &glyphStorbgf, lf_int32 dount);
+
+
+
+    stbtid void bpplyPrfsfntbtionForms(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void bpplyPrfsfntbtionForms(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void bpplyPrfsfntbtionForms(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void bpplyPrfsfntbtionForms(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void bpplyPrfsfntbtionForms(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+
+
+
+
+
+    stbtid void finblRfordfring(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void finblRfordfring(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void finblRfordfring(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void finblRfordfring(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+    stbtid void finblRfordfring(LEGlypiStorbgf &glypiStorbgf, lf_int32 dount);
+
+
+
+
 
     stbtid void gftDynbmidPropfrtifs(DynbmidPropfrtifs *dProps, donst IndidClbssTbblf *dlbssTbblf);
+    stbtid void gftDynbmidPropfrtifs(DynbmidPropfrtifs *dProps, donst IndidClbssTbblf *dlbssTbblf);
+    stbtid void gftDynbmidPropfrtifs(DynbmidPropfrtifs *dProps, donst IndidClbssTbblf *dlbssTbblf);
+    stbtid void gftDynbmidPropfrtifs(DynbmidPropfrtifs *dProps, donst IndidClbssTbblf *dlbssTbblf);
+    stbtid void gftDynbmidPropfrtifs(DynbmidPropfrtifs *dProps, donst IndidClbssTbblf *dlbssTbblf);
+
+
+
+
 
 privbtf:
+privbtf:
+privbtf:
+privbtf:
+privbtf:
+    // do not instbntibtf
+    // do not instbntibtf
+    // do not instbntibtf
+    // do not instbntibtf
     // do not instbntibtf
     IndidRfordfring();
+    IndidRfordfring();
+    IndidRfordfring();
+    IndidRfordfring();
+    IndidRfordfring();
 
-    stbtid lf_int32 findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dhbrs, lf_int32 prfv, lf_int32 dhbrCount);
+
+
+
+
+    stbtid lf_int32 findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dibrs, lf_int32 prfv, lf_int32 dibrCount);
+    stbtid lf_int32 findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dibrs, lf_int32 prfv, lf_int32 dibrCount);
+    stbtid lf_int32 findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dibrs, lf_int32 prfv, lf_int32 dibrCount);
+    stbtid lf_int32 findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dibrs, lf_int32 prfv, lf_int32 dibrCount);
+    stbtid lf_int32 findSyllbblf(donst IndidClbssTbblf *dlbssTbblf, donst LEUnidodf *dibrs, lf_int32 prfv, lf_int32 dibrCount);
+
+
+
+
 
 };
+};
+};
+};
+};
+
+
+
+
 
 inlinf lf_int32 IndidClbssTbblf::gftWorstCbsfExpbnsion() donst
+inlinf lf_int32 IndidClbssTbblf::gftWorstCbsfExpbnsion() donst
+inlinf lf_int32 IndidClbssTbblf::gftWorstCbsfExpbnsion() donst
+inlinf lf_int32 IndidClbssTbblf::gftWorstCbsfExpbnsion() donst
+inlinf lf_int32 IndidClbssTbblf::gftWorstCbsfExpbnsion() donst
+{
+{
+{
+{
 {
     rfturn worstCbsfExpbnsion;
+    rfturn worstCbsfExpbnsion;
+    rfturn worstCbsfExpbnsion;
+    rfturn worstCbsfExpbnsion;
+    rfturn worstCbsfExpbnsion;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::gftFiltfrZfroWidth() donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::gftFiltfrZfroWidti() donst
+inlinf lf_bool IndidClbssTbblf::gftFiltfrZfroWidti() donst
+inlinf lf_bool IndidClbssTbblf::gftFiltfrZfroWidti() donst
+inlinf lf_bool IndidClbssTbblf::gftFiltfrZfroWidti() donst
+inlinf lf_bool IndidClbssTbblf::gftFiltfrZfroWidti() donst
+{
+{
+{
+{
 {
     rfturn (sdriptFlbgs & SF_FILTER_ZERO_WIDTH) != 0;
+    rfturn (sdriptFlbgs & SF_FILTER_ZERO_WIDTH) != 0;
+    rfturn (sdriptFlbgs & SF_FILTER_ZERO_WIDTH) != 0;
+    rfturn (sdriptFlbgs & SF_FILTER_ZERO_WIDTH) != 0;
+    rfturn (sdriptFlbgs & SF_FILTER_ZERO_WIDTH) != 0;
+}
+}
+}
+}
 }
 
-inlinf donst SplitMbtrb *IndidClbssTbblf::gftSplitMbtrb(ChbrClbss dhbrClbss) donst
+
+
+
+
+inlinf donst SplitMbtrb *IndidClbssTbblf::gftSplitMbtrb(CibrClbss dibrClbss) donst
+inlinf donst SplitMbtrb *IndidClbssTbblf::gftSplitMbtrb(CibrClbss dibrClbss) donst
+inlinf donst SplitMbtrb *IndidClbssTbblf::gftSplitMbtrb(CibrClbss dibrClbss) donst
+inlinf donst SplitMbtrb *IndidClbssTbblf::gftSplitMbtrb(CibrClbss dibrClbss) donst
+inlinf donst SplitMbtrb *IndidClbssTbblf::gftSplitMbtrb(CibrClbss dibrClbss) donst
 {
-    lf_int32 indfx = (dhbrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+{
+{
+{
+{
+    lf_int32 indfx = (dibrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+    lf_int32 indfx = (dibrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+    lf_int32 indfx = (dibrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+    lf_int32 indfx = (dibrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+    lf_int32 indfx = (dibrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+
+
+
+
 
     rfturn &splitMbtrbTbblf[indfx - 1];
+    rfturn &splitMbtrbTbblf[indfx - 1];
+    rfturn &splitMbtrbTbblf[indfx - 1];
+    rfturn &splitMbtrbTbblf[indfx - 1];
+    rfturn &splitMbtrbTbblf[indfx - 1];
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isVowflModififr(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isConsonbnt(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_CONSONANT) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_CONSONANT) != 0;
+    rfturn (dibrClbss & CF_CONSONANT) != 0;
+    rfturn (dibrClbss & CF_CONSONANT) != 0;
+    rfturn (dibrClbss & CF_CONSONANT) != 0;
+    rfturn (dibrClbss & CF_CONSONANT) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isRfph(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isRfpi(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isRfpi(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isRfpi(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isRfpi(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isRfpi(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_REPH) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_REPH) != 0;
+    rfturn (dibrClbss & CF_REPH) != 0;
+    rfturn (dibrClbss & CF_REPH) != 0;
+    rfturn (dibrClbss & CF_REPH) != 0;
+    rfturn (dibrClbss & CF_REPH) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isNuktb(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isNuktb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isNuktb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isNuktb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isNuktb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isNuktb(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_NUKTA;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_NUKTA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_NUKTA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_NUKTA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_NUKTA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_NUKTA;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isVirbmb(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isVirbmb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVirbmb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVirbmb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVirbmb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVirbmb(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_VIRAMA;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VIRAMA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VIRAMA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VIRAMA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VIRAMA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_VIRAMA;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isAlLbkunb(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
+    rfturn (dibrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isVbttu(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isVbttu(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVbttu(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVbttu(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVbttu(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isVbttu(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_VATTU) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_VATTU) != 0;
+    rfturn (dibrClbss & CF_VATTU) != 0;
+    rfturn (dibrClbss & CF_VATTU) != 0;
+    rfturn (dibrClbss & CF_VATTU) != 0;
+    rfturn (dibrClbss & CF_VATTU) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isMbtrb(ChbrClbss dhbrClbss)
-{
-    dhbrClbss &= CF_CLASS_MASK;
 
-    rfturn dhbrClbss >= CC_DEPENDENT_VOWEL && dhbrClbss <= CC_SPLIT_VOWEL_PIECE_3;
+
+
+
+inlinf lf_bool IndidClbssTbblf::isMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isMbtrb(CibrClbss dibrClbss)
+{
+{
+{
+{
+{
+    dibrClbss &= CF_CLASS_MASK;
+    dibrClbss &= CF_CLASS_MASK;
+    dibrClbss &= CF_CLASS_MASK;
+    dibrClbss &= CF_CLASS_MASK;
+    dibrClbss &= CF_CLASS_MASK;
+
+
+
+
+
+    rfturn dibrClbss >= CC_DEPENDENT_VOWEL && dibrClbss <= CC_SPLIT_VOWEL_PIECE_3;
+    rfturn dibrClbss >= CC_DEPENDENT_VOWEL && dibrClbss <= CC_SPLIT_VOWEL_PIECE_3;
+    rfturn dibrClbss >= CC_DEPENDENT_VOWEL && dibrClbss <= CC_SPLIT_VOWEL_PIECE_3;
+    rfturn dibrClbss >= CC_DEPENDENT_VOWEL && dibrClbss <= CC_SPLIT_VOWEL_PIECE_3;
+    rfturn dibrClbss >= CC_DEPENDENT_VOWEL && dibrClbss <= CC_SPLIT_VOWEL_PIECE_3;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_INDEX_MASK) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_INDEX_MASK) != 0;
+    rfturn (dibrClbss & CF_INDEX_MASK) != 0;
+    rfturn (dibrClbss & CF_INDEX_MASK) != 0;
+    rfturn (dibrClbss & CF_INDEX_MASK) != 0;
+    rfturn (dibrClbss & CF_INDEX_MASK) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isLfngthMbrk(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_LENGTH_MARK) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_LENGTH_MARK) != 0;
+    rfturn (dibrClbss & CF_LENGTH_MARK) != 0;
+    rfturn (dibrClbss & CF_LENGTH_MARK) != 0;
+    rfturn (dibrClbss & CF_LENGTH_MARK) != 0;
+    rfturn (dibrClbss & CF_LENGTH_MARK) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsPostOrBflowBbsfForm(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+    rfturn (dibrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+    rfturn (dibrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+    rfturn (dibrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+    rfturn (dibrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsPostBbsfForm(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_POST_BASE) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_POST_BASE) != 0;
+    rfturn (dibrClbss & CF_POST_BASE) != 0;
+    rfturn (dibrClbss & CF_POST_BASE) != 0;
+    rfturn (dibrClbss & CF_POST_BASE) != 0;
+    rfturn (dibrClbss & CF_POST_BASE) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsPrfBbsfForm(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_PRE_BASE) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_PRE_BASE) != 0;
+    rfturn (dibrClbss & CF_PRE_BASE) != 0;
+    rfturn (dibrClbss & CF_PRE_BASE) != 0;
+    rfturn (dibrClbss & CF_PRE_BASE) != 0;
+    rfturn (dibrClbss & CF_PRE_BASE) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsBflowBbsfForm(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(CibrClbss dibrClbss)
 {
-    rfturn (dhbrClbss & CF_BELOW_BASE) != 0;
+{
+{
+{
+{
+    rfturn (dibrClbss & CF_BELOW_BASE) != 0;
+    rfturn (dibrClbss & CF_BELOW_BASE) != 0;
+    rfturn (dibrClbss & CF_BELOW_BASE) != 0;
+    rfturn (dibrClbss & CF_BELOW_BASE) != 0;
+    rfturn (dibrClbss & CF_BELOW_BASE) != 0;
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsAbovfBbsfForm(ChbrClbss dhbrClbss)
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(CibrClbss dibrClbss)
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(CibrClbss dibrClbss)
 {
-    rfturn ((dhbrClbss & CF_POS_MASK) == CF_POS_ABOVE);
+{
+{
+{
+{
+    rfturn ((dibrClbss & CF_POS_MASK) == CF_POS_ABOVE);
+    rfturn ((dibrClbss & CF_POS_MASK) == CF_POS_ABOVE);
+    rfturn ((dibrClbss & CF_POS_MASK) == CF_POS_ABOVE);
+    rfturn ((dibrClbss & CF_POS_MASK) == CF_POS_ABOVE);
+    rfturn ((dibrClbss & CF_POS_MASK) == CF_POS_ABOVE);
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isVowflModififr(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVowflModififr(LEUnidodf di) donst
 {
-    rfturn isVowflModififr(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isVowflModififr(gftCibrClbss(di));
+    rfturn isVowflModififr(gftCibrClbss(di));
+    rfturn isVowflModififr(gftCibrClbss(di));
+    rfturn isVowflModififr(gftCibrClbss(di));
+    rfturn isVowflModififr(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isStrfssMbrk(LEUnidodf di) donst
 {
-    rfturn isStrfssMbrk(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isStrfssMbrk(gftCibrClbss(di));
+    rfturn isStrfssMbrk(gftCibrClbss(di));
+    rfturn isStrfssMbrk(gftCibrClbss(di));
+    rfturn isStrfssMbrk(gftCibrClbss(di));
+    rfturn isStrfssMbrk(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isConsonbnt(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isConsonbnt(LEUnidodf di) donst
 {
-    rfturn isConsonbnt(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isConsonbnt(gftCibrClbss(di));
+    rfturn isConsonbnt(gftCibrClbss(di));
+    rfturn isConsonbnt(gftCibrClbss(di));
+    rfturn isConsonbnt(gftCibrClbss(di));
+    rfturn isConsonbnt(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isRfph(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isRfpi(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isRfpi(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isRfpi(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isRfpi(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isRfpi(LEUnidodf di) donst
 {
-    rfturn isRfph(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isRfpi(gftCibrClbss(di));
+    rfturn isRfpi(gftCibrClbss(di));
+    rfturn isRfpi(gftCibrClbss(di));
+    rfturn isRfpi(gftCibrClbss(di));
+    rfturn isRfpi(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isVirbmb(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isVirbmb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVirbmb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVirbmb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVirbmb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVirbmb(LEUnidodf di) donst
 {
-    rfturn isVirbmb(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isVirbmb(gftCibrClbss(di));
+    rfturn isVirbmb(gftCibrClbss(di));
+    rfturn isVirbmb(gftCibrClbss(di));
+    rfturn isVirbmb(gftCibrClbss(di));
+    rfturn isVirbmb(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isAlLbkunb(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isAlLbkunb(LEUnidodf di) donst
 {
-    rfturn isAlLbkunb(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isAlLbkunb(gftCibrClbss(di));
+    rfturn isAlLbkunb(gftCibrClbss(di));
+    rfturn isAlLbkunb(gftCibrClbss(di));
+    rfturn isAlLbkunb(gftCibrClbss(di));
+    rfturn isAlLbkunb(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isNuktb(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isNuktb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isNuktb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isNuktb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isNuktb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isNuktb(LEUnidodf di) donst
 {
-    rfturn isNuktb(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isNuktb(gftCibrClbss(di));
+    rfturn isNuktb(gftCibrClbss(di));
+    rfturn isNuktb(gftCibrClbss(di));
+    rfturn isNuktb(gftCibrClbss(di));
+    rfturn isNuktb(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isVbttu(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isVbttu(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVbttu(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVbttu(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVbttu(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isVbttu(LEUnidodf di) donst
 {
-    rfturn isVbttu(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isVbttu(gftCibrClbss(di));
+    rfturn isVbttu(gftCibrClbss(di));
+    rfturn isVbttu(gftCibrClbss(di));
+    rfturn isVbttu(gftCibrClbss(di));
+    rfturn isVbttu(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isMbtrb(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isMbtrb(LEUnidodf di) donst
 {
-    rfturn isMbtrb(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isMbtrb(gftCibrClbss(di));
+    rfturn isMbtrb(gftCibrClbss(di));
+    rfturn isMbtrb(gftCibrClbss(di));
+    rfturn isMbtrb(gftCibrClbss(di));
+    rfturn isMbtrb(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isSplitMbtrb(LEUnidodf di) donst
 {
-    rfturn isSplitMbtrb(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isSplitMbtrb(gftCibrClbss(di));
+    rfturn isSplitMbtrb(gftCibrClbss(di));
+    rfturn isSplitMbtrb(gftCibrClbss(di));
+    rfturn isSplitMbtrb(gftCibrClbss(di));
+    rfturn isSplitMbtrb(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::isLfngthMbrk(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::isLfngtiMbrk(LEUnidodf di) donst
 {
-    rfturn isLfngthMbrk(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn isLfngtiMbrk(gftCibrClbss(di));
+    rfturn isLfngtiMbrk(gftCibrClbss(di));
+    rfturn isLfngtiMbrk(gftCibrClbss(di));
+    rfturn isLfngtiMbrk(gftCibrClbss(di));
+    rfturn isLfngtiMbrk(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsPostOrBflowBbsfForm(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostOrBflowBbsfForm(LEUnidodf di) donst
 {
-    rfturn hbsPostOrBflowBbsfForm(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn ibsPostOrBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostOrBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostOrBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostOrBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostOrBflowBbsfForm(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsPostBbsfForm(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPostBbsfForm(LEUnidodf di) donst
 {
-    rfturn hbsPostBbsfForm(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn ibsPostBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostBbsfForm(gftCibrClbss(di));
+    rfturn ibsPostBbsfForm(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsBflowBbsfForm(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsBflowBbsfForm(LEUnidodf di) donst
 {
-    rfturn hbsBflowBbsfForm(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn ibsBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsBflowBbsfForm(gftCibrClbss(di));
+    rfturn ibsBflowBbsfForm(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsPrfBbsfForm(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsPrfBbsfForm(LEUnidodf di) donst
 {
-    rfturn hbsPrfBbsfForm(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn ibsPrfBbsfForm(gftCibrClbss(di));
+    rfturn ibsPrfBbsfForm(gftCibrClbss(di));
+    rfturn ibsPrfBbsfForm(gftCibrClbss(di));
+    rfturn ibsPrfBbsfForm(gftCibrClbss(di));
+    rfturn ibsPrfBbsfForm(gftCibrClbss(di));
+}
+}
+}
+}
 }
 
-inlinf lf_bool IndidClbssTbblf::hbsAbovfBbsfForm(LEUnidodf dh) donst
+
+
+
+
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(LEUnidodf di) donst
+inlinf lf_bool IndidClbssTbblf::ibsAbovfBbsfForm(LEUnidodf di) donst
 {
-    rfturn hbsAbovfBbsfForm(gftChbrClbss(dh));
+{
+{
+{
+{
+    rfturn ibsAbovfBbsfForm(gftCibrClbss(di));
+    rfturn ibsAbovfBbsfForm(gftCibrClbss(di));
+    rfturn ibsAbovfBbsfForm(gftCibrClbss(di));
+    rfturn ibsAbovfBbsfForm(gftCibrClbss(di));
+    rfturn ibsAbovfBbsfForm(gftCibrClbss(di));
+}
+}
+}
+}
 }
 U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif

@@ -1,311 +1,1555 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
 pbdkbgf jbvbx.swing.tfxt;
 
+
+
+
+
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
 import jbvb.bwt.*;
 import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
 import jbvbx.swing.fvfnt.*;
 
+
+
+
+
 /**
- * Extfnds thf multi-linf plbin tfxt vifw to bf suitbblf
- * for b singlf-linf fditor vifw.  If thf vifw is
- * bllodbtfd fxtrb spbdf, thf fifld must bdjust for it.
- * If thf hosting domponfnt is b JTfxtFifld, this vifw
- * will mbnbgf thf rbngfs of thf bssodibtfd BoundfdRbngfModfl
- * bnd will bdjust thf horizontbl bllodbtion to mbtdh thf
- * durrfnt visibility sfttings of thf JTfxtFifld.
+/**
+/**
+/**
+/**
+ * Extfnds tif multi-linf plbin tfxt vifw to bf suitbblf
+ * Extfnds tif multi-linf plbin tfxt vifw to bf suitbblf
+ * Extfnds tif multi-linf plbin tfxt vifw to bf suitbblf
+ * Extfnds tif multi-linf plbin tfxt vifw to bf suitbblf
+ * Extfnds tif multi-linf plbin tfxt vifw to bf suitbblf
+ * for b singlf-linf fditor vifw.  If tif vifw is
+ * for b singlf-linf fditor vifw.  If tif vifw is
+ * for b singlf-linf fditor vifw.  If tif vifw is
+ * for b singlf-linf fditor vifw.  If tif vifw is
+ * for b singlf-linf fditor vifw.  If tif vifw is
+ * bllodbtfd fxtrb spbdf, tif fifld must bdjust for it.
+ * bllodbtfd fxtrb spbdf, tif fifld must bdjust for it.
+ * bllodbtfd fxtrb spbdf, tif fifld must bdjust for it.
+ * bllodbtfd fxtrb spbdf, tif fifld must bdjust for it.
+ * bllodbtfd fxtrb spbdf, tif fifld must bdjust for it.
+ * If tif iosting domponfnt is b JTfxtFifld, tiis vifw
+ * If tif iosting domponfnt is b JTfxtFifld, tiis vifw
+ * If tif iosting domponfnt is b JTfxtFifld, tiis vifw
+ * If tif iosting domponfnt is b JTfxtFifld, tiis vifw
+ * If tif iosting domponfnt is b JTfxtFifld, tiis vifw
+ * will mbnbgf tif rbngfs of tif bssodibtfd BoundfdRbngfModfl
+ * will mbnbgf tif rbngfs of tif bssodibtfd BoundfdRbngfModfl
+ * will mbnbgf tif rbngfs of tif bssodibtfd BoundfdRbngfModfl
+ * will mbnbgf tif rbngfs of tif bssodibtfd BoundfdRbngfModfl
+ * will mbnbgf tif rbngfs of tif bssodibtfd BoundfdRbngfModfl
+ * bnd will bdjust tif iorizontbl bllodbtion to mbtdi tif
+ * bnd will bdjust tif iorizontbl bllodbtion to mbtdi tif
+ * bnd will bdjust tif iorizontbl bllodbtion to mbtdi tif
+ * bnd will bdjust tif iorizontbl bllodbtion to mbtdi tif
+ * bnd will bdjust tif iorizontbl bllodbtion to mbtdi tif
+ * durrfnt visibility sfttings of tif JTfxtFifld.
+ * durrfnt visibility sfttings of tif JTfxtFifld.
+ * durrfnt visibility sfttings of tif JTfxtFifld.
+ * durrfnt visibility sfttings of tif JTfxtFifld.
+ * durrfnt visibility sfttings of tif JTfxtFifld.
  *
- * @buthor  Timothy Prinzing
+ *
+ *
+ *
+ *
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @sff     Vifw
+ * @sff     Vifw
+ * @sff     Vifw
+ * @sff     Vifw
  * @sff     Vifw
  */
+ */
+ */
+ */
+ */
+publid dlbss FifldVifw fxtfnds PlbinVifw {
+publid dlbss FifldVifw fxtfnds PlbinVifw {
+publid dlbss FifldVifw fxtfnds PlbinVifw {
+publid dlbss FifldVifw fxtfnds PlbinVifw {
 publid dlbss FifldVifw fxtfnds PlbinVifw {
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b nfw FifldVifw wrbppfd on bn flfmfnt.
+     * Construdts b nfw FifldVifw wrbppfd on bn flfmfnt.
+     * Construdts b nfw FifldVifw wrbppfd on bn flfmfnt.
+     * Construdts b nfw FifldVifw wrbppfd on bn flfmfnt.
+     * Construdts b nfw FifldVifw wrbppfd on bn flfmfnt.
      *
-     * @pbrbm flfm thf flfmfnt
+     *
+     *
+     *
+     *
+     * @pbrbm flfm tif flfmfnt
+     * @pbrbm flfm tif flfmfnt
+     * @pbrbm flfm tif flfmfnt
+     * @pbrbm flfm tif flfmfnt
+     * @pbrbm flfm tif flfmfnt
+     */
+     */
+     */
+     */
      */
     publid FifldVifw(Elfmfnt flfm) {
+    publid FifldVifw(Elfmfnt flfm) {
+    publid FifldVifw(Elfmfnt flfm) {
+    publid FifldVifw(Elfmfnt flfm) {
+    publid FifldVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        supfr(flfm);
+        supfr(flfm);
+        supfr(flfm);
         supfr(flfm);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Fftdhfs thf font mftrids bssodibtfd with thf domponfnt hosting
-     * this vifw.
+    /**
+    /**
+    /**
+    /**
+     * Fftdifs tif font mftrids bssodibtfd witi tif domponfnt iosting
+     * Fftdifs tif font mftrids bssodibtfd witi tif domponfnt iosting
+     * Fftdifs tif font mftrids bssodibtfd witi tif domponfnt iosting
+     * Fftdifs tif font mftrids bssodibtfd witi tif domponfnt iosting
+     * Fftdifs tif font mftrids bssodibtfd witi tif domponfnt iosting
+     * tiis vifw.
+     * tiis vifw.
+     * tiis vifw.
+     * tiis vifw.
+     * tiis vifw.
      *
-     * @rfturn thf mftrids
+     *
+     *
+     *
+     *
+     * @rfturn tif mftrids
+     * @rfturn tif mftrids
+     * @rfturn tif mftrids
+     * @rfturn tif mftrids
+     * @rfturn tif mftrids
+     */
+     */
+     */
+     */
      */
     protfdtfd FontMftrids gftFontMftrids() {
+    protfdtfd FontMftrids gftFontMftrids() {
+    protfdtfd FontMftrids gftFontMftrids() {
+    protfdtfd FontMftrids gftFontMftrids() {
+    protfdtfd FontMftrids gftFontMftrids() {
+        Componfnt d = gftContbinfr();
+        Componfnt d = gftContbinfr();
+        Componfnt d = gftContbinfr();
+        Componfnt d = gftContbinfr();
         Componfnt d = gftContbinfr();
         rfturn d.gftFontMftrids(d.gftFont());
+        rfturn d.gftFontMftrids(d.gftFont());
+        rfturn d.gftFontMftrids(d.gftFont());
+        rfturn d.gftFontMftrids(d.gftFont());
+        rfturn d.gftFontMftrids(d.gftFont());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Adjusts thf bllodbtion givfn to thf vifw
+    /**
+    /**
+    /**
+    /**
+     * Adjusts tif bllodbtion givfn to tif vifw
+     * Adjusts tif bllodbtion givfn to tif vifw
+     * Adjusts tif bllodbtion givfn to tif vifw
+     * Adjusts tif bllodbtion givfn to tif vifw
+     * Adjusts tif bllodbtion givfn to tif vifw
      * to bf b suitbblf bllodbtion for b tfxt fifld.
-     * If thf vifw hbs bffn bllodbtfd morf thbn thf
-     * prfffrrfd spbn vfrtidblly, thf bllodbtion is
-     * dhbngfd to bf dfntfrfd vfrtidblly.  Horizontblly
-     * thf vifw is bdjustfd bddording to thf horizontbl
-     * blignmfnt propfrty sft on thf bssodibtfd JTfxtFifld
-     * (if thbt is thf typf of thf hosting domponfnt).
+     * to bf b suitbblf bllodbtion for b tfxt fifld.
+     * to bf b suitbblf bllodbtion for b tfxt fifld.
+     * to bf b suitbblf bllodbtion for b tfxt fifld.
+     * to bf b suitbblf bllodbtion for b tfxt fifld.
+     * If tif vifw ibs bffn bllodbtfd morf tibn tif
+     * If tif vifw ibs bffn bllodbtfd morf tibn tif
+     * If tif vifw ibs bffn bllodbtfd morf tibn tif
+     * If tif vifw ibs bffn bllodbtfd morf tibn tif
+     * If tif vifw ibs bffn bllodbtfd morf tibn tif
+     * prfffrrfd spbn vfrtidblly, tif bllodbtion is
+     * prfffrrfd spbn vfrtidblly, tif bllodbtion is
+     * prfffrrfd spbn vfrtidblly, tif bllodbtion is
+     * prfffrrfd spbn vfrtidblly, tif bllodbtion is
+     * prfffrrfd spbn vfrtidblly, tif bllodbtion is
+     * dibngfd to bf dfntfrfd vfrtidblly.  Horizontblly
+     * dibngfd to bf dfntfrfd vfrtidblly.  Horizontblly
+     * dibngfd to bf dfntfrfd vfrtidblly.  Horizontblly
+     * dibngfd to bf dfntfrfd vfrtidblly.  Horizontblly
+     * dibngfd to bf dfntfrfd vfrtidblly.  Horizontblly
+     * tif vifw is bdjustfd bddording to tif iorizontbl
+     * tif vifw is bdjustfd bddording to tif iorizontbl
+     * tif vifw is bdjustfd bddording to tif iorizontbl
+     * tif vifw is bdjustfd bddording to tif iorizontbl
+     * tif vifw is bdjustfd bddording to tif iorizontbl
+     * blignmfnt propfrty sft on tif bssodibtfd JTfxtFifld
+     * blignmfnt propfrty sft on tif bssodibtfd JTfxtFifld
+     * blignmfnt propfrty sft on tif bssodibtfd JTfxtFifld
+     * blignmfnt propfrty sft on tif bssodibtfd JTfxtFifld
+     * blignmfnt propfrty sft on tif bssodibtfd JTfxtFifld
+     * (if tibt is tif typf of tif iosting domponfnt).
+     * (if tibt is tif typf of tif iosting domponfnt).
+     * (if tibt is tif typf of tif iosting domponfnt).
+     * (if tibt is tif typf of tif iosting domponfnt).
+     * (if tibt is tif typf of tif iosting domponfnt).
      *
-     * @pbrbm b thf bllodbtion givfn to thf vifw, whidh mby nffd
+     *
+     *
+     *
+     *
+     * @pbrbm b tif bllodbtion givfn to tif vifw, wiidi mby nffd
+     * @pbrbm b tif bllodbtion givfn to tif vifw, wiidi mby nffd
+     * @pbrbm b tif bllodbtion givfn to tif vifw, wiidi mby nffd
+     * @pbrbm b tif bllodbtion givfn to tif vifw, wiidi mby nffd
+     * @pbrbm b tif bllodbtion givfn to tif vifw, wiidi mby nffd
      *  to bf bdjustfd.
-     * @rfturn thf bllodbtion thbt thf supfrdlbss should usf.
+     *  to bf bdjustfd.
+     *  to bf bdjustfd.
+     *  to bf bdjustfd.
+     *  to bf bdjustfd.
+     * @rfturn tif bllodbtion tibt tif supfrdlbss siould usf.
+     * @rfturn tif bllodbtion tibt tif supfrdlbss siould usf.
+     * @rfturn tif bllodbtion tibt tif supfrdlbss siould usf.
+     * @rfturn tif bllodbtion tibt tif supfrdlbss siould usf.
+     * @rfturn tif bllodbtion tibt tif supfrdlbss siould usf.
      */
-    protfdtfd Shbpf bdjustAllodbtion(Shbpf b) {
+     */
+     */
+     */
+     */
+    protfdtfd Sibpf bdjustAllodbtion(Sibpf b) {
+    protfdtfd Sibpf bdjustAllodbtion(Sibpf b) {
+    protfdtfd Sibpf bdjustAllodbtion(Sibpf b) {
+    protfdtfd Sibpf bdjustAllodbtion(Sibpf b) {
+    protfdtfd Sibpf bdjustAllodbtion(Sibpf b) {
+        if (b != null) {
+        if (b != null) {
+        if (b != null) {
+        if (b != null) {
         if (b != null) {
             Rfdtbnglf bounds = b.gftBounds();
+            Rfdtbnglf bounds = b.gftBounds();
+            Rfdtbnglf bounds = b.gftBounds();
+            Rfdtbnglf bounds = b.gftBounds();
+            Rfdtbnglf bounds = b.gftBounds();
             int vspbn = (int) gftPrfffrrfdSpbn(Y_AXIS);
-            int hspbn = (int) gftPrfffrrfdSpbn(X_AXIS);
-            if (bounds.hfight != vspbn) {
-                int slop = bounds.hfight - vspbn;
+            int vspbn = (int) gftPrfffrrfdSpbn(Y_AXIS);
+            int vspbn = (int) gftPrfffrrfdSpbn(Y_AXIS);
+            int vspbn = (int) gftPrfffrrfdSpbn(Y_AXIS);
+            int vspbn = (int) gftPrfffrrfdSpbn(Y_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            if (bounds.ifigit != vspbn) {
+            if (bounds.ifigit != vspbn) {
+            if (bounds.ifigit != vspbn) {
+            if (bounds.ifigit != vspbn) {
+            if (bounds.ifigit != vspbn) {
+                int slop = bounds.ifigit - vspbn;
+                int slop = bounds.ifigit - vspbn;
+                int slop = bounds.ifigit - vspbn;
+                int slop = bounds.ifigit - vspbn;
+                int slop = bounds.ifigit - vspbn;
                 bounds.y += slop / 2;
-                bounds.hfight -= slop;
+                bounds.y += slop / 2;
+                bounds.y += slop / 2;
+                bounds.y += slop / 2;
+                bounds.y += slop / 2;
+                bounds.ifigit -= slop;
+                bounds.ifigit -= slop;
+                bounds.ifigit -= slop;
+                bounds.ifigit -= slop;
+                bounds.ifigit -= slop;
+            }
+            }
+            }
+            }
             }
 
-            // horizontbl bdjustmfnts
+
+
+
+
+            // iorizontbl bdjustmfnts
+            // iorizontbl bdjustmfnts
+            // iorizontbl bdjustmfnts
+            // iorizontbl bdjustmfnts
+            // iorizontbl bdjustmfnts
+            Componfnt d = gftContbinfr();
+            Componfnt d = gftContbinfr();
+            Componfnt d = gftContbinfr();
+            Componfnt d = gftContbinfr();
             Componfnt d = gftContbinfr();
             if (d instbndfof JTfxtFifld) {
+            if (d instbndfof JTfxtFifld) {
+            if (d instbndfof JTfxtFifld) {
+            if (d instbndfof JTfxtFifld) {
+            if (d instbndfof JTfxtFifld) {
+                JTfxtFifld fifld = (JTfxtFifld) d;
+                JTfxtFifld fifld = (JTfxtFifld) d;
+                JTfxtFifld fifld = (JTfxtFifld) d;
+                JTfxtFifld fifld = (JTfxtFifld) d;
                 JTfxtFifld fifld = (JTfxtFifld) d;
                 BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
-                int mbx = Mbth.mbx(hspbn, bounds.width);
+                BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                int mbx = Mbti.mbx(ispbn, bounds.widti);
+                int mbx = Mbti.mbx(ispbn, bounds.widti);
+                int mbx = Mbti.mbx(ispbn, bounds.widti);
+                int mbx = Mbti.mbx(ispbn, bounds.widti);
+                int mbx = Mbti.mbx(ispbn, bounds.widti);
                 int vbluf = vis.gftVbluf();
-                int fxtfnt = Mbth.min(mbx, bounds.width - 1);
+                int vbluf = vis.gftVbluf();
+                int vbluf = vis.gftVbluf();
+                int vbluf = vis.gftVbluf();
+                int vbluf = vis.gftVbluf();
+                int fxtfnt = Mbti.min(mbx, bounds.widti - 1);
+                int fxtfnt = Mbti.min(mbx, bounds.widti - 1);
+                int fxtfnt = Mbti.min(mbx, bounds.widti - 1);
+                int fxtfnt = Mbti.min(mbx, bounds.widti - 1);
+                int fxtfnt = Mbti.min(mbx, bounds.widti - 1);
+                if ((vbluf + fxtfnt) > mbx) {
+                if ((vbluf + fxtfnt) > mbx) {
+                if ((vbluf + fxtfnt) > mbx) {
+                if ((vbluf + fxtfnt) > mbx) {
                 if ((vbluf + fxtfnt) > mbx) {
                     vbluf = mbx - fxtfnt;
+                    vbluf = mbx - fxtfnt;
+                    vbluf = mbx - fxtfnt;
+                    vbluf = mbx - fxtfnt;
+                    vbluf = mbx - fxtfnt;
+                }
+                }
+                }
+                }
                 }
                 vis.sftRbngfPropfrtifs(vbluf, fxtfnt, vis.gftMinimum(),
+                vis.sftRbngfPropfrtifs(vbluf, fxtfnt, vis.gftMinimum(),
+                vis.sftRbngfPropfrtifs(vbluf, fxtfnt, vis.gftMinimum(),
+                vis.sftRbngfPropfrtifs(vbluf, fxtfnt, vis.gftMinimum(),
+                vis.sftRbngfPropfrtifs(vbluf, fxtfnt, vis.gftMinimum(),
                                        mbx, fblsf);
-                if (hspbn < bounds.width) {
-                    // horizontblly blign thf intfrior
-                    int slop = bounds.width - 1 - hspbn;
+                                       mbx, fblsf);
+                                       mbx, fblsf);
+                                       mbx, fblsf);
+                                       mbx, fblsf);
+                if (ispbn < bounds.widti) {
+                if (ispbn < bounds.widti) {
+                if (ispbn < bounds.widti) {
+                if (ispbn < bounds.widti) {
+                if (ispbn < bounds.widti) {
+                    // iorizontblly blign tif intfrior
+                    // iorizontblly blign tif intfrior
+                    // iorizontblly blign tif intfrior
+                    // iorizontblly blign tif intfrior
+                    // iorizontblly blign tif intfrior
+                    int slop = bounds.widti - 1 - ispbn;
+                    int slop = bounds.widti - 1 - ispbn;
+                    int slop = bounds.widti - 1 - ispbn;
+                    int slop = bounds.widti - 1 - ispbn;
+                    int slop = bounds.widti - 1 - ispbn;
+
+
+
+
 
                     int blign = ((JTfxtFifld)d).gftHorizontblAlignmfnt();
-                    if(Utilitifs.isLfftToRight(d)) {
+                    int blign = ((JTfxtFifld)d).gftHorizontblAlignmfnt();
+                    int blign = ((JTfxtFifld)d).gftHorizontblAlignmfnt();
+                    int blign = ((JTfxtFifld)d).gftHorizontblAlignmfnt();
+                    int blign = ((JTfxtFifld)d).gftHorizontblAlignmfnt();
+                    if(Utilitifs.isLfftToRigit(d)) {
+                    if(Utilitifs.isLfftToRigit(d)) {
+                    if(Utilitifs.isLfftToRigit(d)) {
+                    if(Utilitifs.isLfftToRigit(d)) {
+                    if(Utilitifs.isLfftToRigit(d)) {
+                        if(blign==LEADING) {
+                        if(blign==LEADING) {
+                        if(blign==LEADING) {
+                        if(blign==LEADING) {
                         if(blign==LEADING) {
                             blign = LEFT;
+                            blign = LEFT;
+                            blign = LEFT;
+                            blign = LEFT;
+                            blign = LEFT;
+                        }
+                        }
+                        }
+                        }
                         }
                         flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                            blign = RIGHT;
+                            blign = RIGHT;
+                            blign = RIGHT;
+                            blign = RIGHT;
                             blign = RIGHT;
                         }
+                        }
+                        }
+                        }
+                        }
+                    }
+                    }
+                    }
+                    }
                     }
                     flsf {
+                    flsf {
+                    flsf {
+                    flsf {
+                    flsf {
+                        if(blign==LEADING) {
+                        if(blign==LEADING) {
+                        if(blign==LEADING) {
+                        if(blign==LEADING) {
                         if(blign==LEADING) {
                             blign = RIGHT;
+                            blign = RIGHT;
+                            blign = RIGHT;
+                            blign = RIGHT;
+                            blign = RIGHT;
+                        }
+                        }
+                        }
+                        }
                         }
                         flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                        flsf if(blign==TRAILING) {
+                            blign = LEFT;
+                            blign = LEFT;
+                            blign = LEFT;
+                            blign = LEFT;
                             blign = LEFT;
                         }
+                        }
+                        }
+                        }
+                        }
+                    }
+                    }
+                    }
+                    }
                     }
 
-                    switdh (blign) {
+
+
+
+
+                    switdi (blign) {
+                    switdi (blign) {
+                    switdi (blign) {
+                    switdi (blign) {
+                    switdi (blign) {
+                    dbsf SwingConstbnts.CENTER:
+                    dbsf SwingConstbnts.CENTER:
+                    dbsf SwingConstbnts.CENTER:
+                    dbsf SwingConstbnts.CENTER:
                     dbsf SwingConstbnts.CENTER:
                         bounds.x += slop / 2;
-                        bounds.width -= slop;
+                        bounds.x += slop / 2;
+                        bounds.x += slop / 2;
+                        bounds.x += slop / 2;
+                        bounds.x += slop / 2;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
                         brfbk;
                     dbsf SwingConstbnts.RIGHT:
+                    dbsf SwingConstbnts.RIGHT:
+                    dbsf SwingConstbnts.RIGHT:
+                    dbsf SwingConstbnts.RIGHT:
+                    dbsf SwingConstbnts.RIGHT:
                         bounds.x += slop;
-                        bounds.width -= slop;
+                        bounds.x += slop;
+                        bounds.x += slop;
+                        bounds.x += slop;
+                        bounds.x += slop;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        bounds.widti -= slop;
+                        brfbk;
+                        brfbk;
+                        brfbk;
+                        brfbk;
                         brfbk;
                     }
+                    }
+                    }
+                    }
+                    }
                 } flsf {
-                    // bdjust thf bllodbtion to mbtdh thf boundfd rbngf.
-                    bounds.width = hspbn;
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    // bdjust tif bllodbtion to mbtdi tif boundfd rbngf.
+                    // bdjust tif bllodbtion to mbtdi tif boundfd rbngf.
+                    // bdjust tif bllodbtion to mbtdi tif boundfd rbngf.
+                    // bdjust tif bllodbtion to mbtdi tif boundfd rbngf.
+                    // bdjust tif bllodbtion to mbtdi tif boundfd rbngf.
+                    bounds.widti = ispbn;
+                    bounds.widti = ispbn;
+                    bounds.widti = ispbn;
+                    bounds.widti = ispbn;
+                    bounds.widti = ispbn;
+                    bounds.x -= vis.gftVbluf();
+                    bounds.x -= vis.gftVbluf();
+                    bounds.x -= vis.gftVbluf();
+                    bounds.x -= vis.gftVbluf();
                     bounds.x -= vis.gftVbluf();
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             rfturn bounds;
+            rfturn bounds;
+            rfturn bounds;
+            rfturn bounds;
+            rfturn bounds;
+        }
+        }
+        }
+        }
         }
         rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Updbtf thf visibility modfl with thf bssodibtfd JTfxtFifld
-     * (if thfrf is onf) to rfflfdt thf durrfnt visibility bs b
-     * rfsult of dhbngfs to thf dodumfnt modfl.  Thf boundfd
-     * rbngf propfrtifs brf updbtfd.  If thf vifw hbsn't yft bffn
-     * shown thf fxtfnt will bf zfro bnd wf just sft it to bf full
-     * until dftfrminfd othfrwisf.
+    /**
+    /**
+    /**
+    /**
+     * Updbtf tif visibility modfl witi tif bssodibtfd JTfxtFifld
+     * Updbtf tif visibility modfl witi tif bssodibtfd JTfxtFifld
+     * Updbtf tif visibility modfl witi tif bssodibtfd JTfxtFifld
+     * Updbtf tif visibility modfl witi tif bssodibtfd JTfxtFifld
+     * Updbtf tif visibility modfl witi tif bssodibtfd JTfxtFifld
+     * (if tifrf is onf) to rfflfdt tif durrfnt visibility bs b
+     * (if tifrf is onf) to rfflfdt tif durrfnt visibility bs b
+     * (if tifrf is onf) to rfflfdt tif durrfnt visibility bs b
+     * (if tifrf is onf) to rfflfdt tif durrfnt visibility bs b
+     * (if tifrf is onf) to rfflfdt tif durrfnt visibility bs b
+     * rfsult of dibngfs to tif dodumfnt modfl.  Tif boundfd
+     * rfsult of dibngfs to tif dodumfnt modfl.  Tif boundfd
+     * rfsult of dibngfs to tif dodumfnt modfl.  Tif boundfd
+     * rfsult of dibngfs to tif dodumfnt modfl.  Tif boundfd
+     * rfsult of dibngfs to tif dodumfnt modfl.  Tif boundfd
+     * rbngf propfrtifs brf updbtfd.  If tif vifw ibsn't yft bffn
+     * rbngf propfrtifs brf updbtfd.  If tif vifw ibsn't yft bffn
+     * rbngf propfrtifs brf updbtfd.  If tif vifw ibsn't yft bffn
+     * rbngf propfrtifs brf updbtfd.  If tif vifw ibsn't yft bffn
+     * rbngf propfrtifs brf updbtfd.  If tif vifw ibsn't yft bffn
+     * siown tif fxtfnt will bf zfro bnd wf just sft it to bf full
+     * siown tif fxtfnt will bf zfro bnd wf just sft it to bf full
+     * siown tif fxtfnt will bf zfro bnd wf just sft it to bf full
+     * siown tif fxtfnt will bf zfro bnd wf just sft it to bf full
+     * siown tif fxtfnt will bf zfro bnd wf just sft it to bf full
+     * until dftfrminfd otifrwisf.
+     * until dftfrminfd otifrwisf.
+     * until dftfrminfd otifrwisf.
+     * until dftfrminfd otifrwisf.
+     * until dftfrminfd otifrwisf.
+     */
+     */
+     */
+     */
      */
     void updbtfVisibilityModfl() {
+    void updbtfVisibilityModfl() {
+    void updbtfVisibilityModfl() {
+    void updbtfVisibilityModfl() {
+    void updbtfVisibilityModfl() {
+        Componfnt d = gftContbinfr();
+        Componfnt d = gftContbinfr();
+        Componfnt d = gftContbinfr();
+        Componfnt d = gftContbinfr();
         Componfnt d = gftContbinfr();
         if (d instbndfof JTfxtFifld) {
+        if (d instbndfof JTfxtFifld) {
+        if (d instbndfof JTfxtFifld) {
+        if (d instbndfof JTfxtFifld) {
+        if (d instbndfof JTfxtFifld) {
+            JTfxtFifld fifld = (JTfxtFifld) d;
+            JTfxtFifld fifld = (JTfxtFifld) d;
+            JTfxtFifld fifld = (JTfxtFifld) d;
+            JTfxtFifld fifld = (JTfxtFifld) d;
             JTfxtFifld fifld = (JTfxtFifld) d;
             BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
-            int hspbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+            BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+            BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+            BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
             int fxtfnt = vis.gftExtfnt();
-            int mbximum = Mbth.mbx(hspbn, fxtfnt);
+            int fxtfnt = vis.gftExtfnt();
+            int fxtfnt = vis.gftExtfnt();
+            int fxtfnt = vis.gftExtfnt();
+            int fxtfnt = vis.gftExtfnt();
+            int mbximum = Mbti.mbx(ispbn, fxtfnt);
+            int mbximum = Mbti.mbx(ispbn, fxtfnt);
+            int mbximum = Mbti.mbx(ispbn, fxtfnt);
+            int mbximum = Mbti.mbx(ispbn, fxtfnt);
+            int mbximum = Mbti.mbx(ispbn, fxtfnt);
+            fxtfnt = (fxtfnt == 0) ? mbximum : fxtfnt;
+            fxtfnt = (fxtfnt == 0) ? mbximum : fxtfnt;
+            fxtfnt = (fxtfnt == 0) ? mbximum : fxtfnt;
+            fxtfnt = (fxtfnt == 0) ? mbximum : fxtfnt;
             fxtfnt = (fxtfnt == 0) ? mbximum : fxtfnt;
             int vbluf = mbximum - fxtfnt;
+            int vbluf = mbximum - fxtfnt;
+            int vbluf = mbximum - fxtfnt;
+            int vbluf = mbximum - fxtfnt;
+            int vbluf = mbximum - fxtfnt;
+            int oldVbluf = vis.gftVbluf();
+            int oldVbluf = vis.gftVbluf();
+            int oldVbluf = vis.gftVbluf();
+            int oldVbluf = vis.gftVbluf();
             int oldVbluf = vis.gftVbluf();
             if ((oldVbluf + fxtfnt) > mbximum) {
+            if ((oldVbluf + fxtfnt) > mbximum) {
+            if ((oldVbluf + fxtfnt) > mbximum) {
+            if ((oldVbluf + fxtfnt) > mbximum) {
+            if ((oldVbluf + fxtfnt) > mbximum) {
+                oldVbluf = mbximum - fxtfnt;
+                oldVbluf = mbximum - fxtfnt;
+                oldVbluf = mbximum - fxtfnt;
+                oldVbluf = mbximum - fxtfnt;
                 oldVbluf = mbximum - fxtfnt;
             }
-            vbluf = Mbth.mbx(0, Mbth.min(vbluf, oldVbluf));
+            }
+            }
+            }
+            }
+            vbluf = Mbti.mbx(0, Mbti.min(vbluf, oldVbluf));
+            vbluf = Mbti.mbx(0, Mbti.min(vbluf, oldVbluf));
+            vbluf = Mbti.mbx(0, Mbti.min(vbluf, oldVbluf));
+            vbluf = Mbti.mbx(0, Mbti.min(vbluf, oldVbluf));
+            vbluf = Mbti.mbx(0, Mbti.min(vbluf, oldVbluf));
+            vis.sftRbngfPropfrtifs(vbluf, fxtfnt, 0, mbximum, fblsf);
+            vis.sftRbngfPropfrtifs(vbluf, fxtfnt, 0, mbximum, fblsf);
+            vis.sftRbngfPropfrtifs(vbluf, fxtfnt, 0, mbximum, fblsf);
+            vis.sftRbngfPropfrtifs(vbluf, fxtfnt, 0, mbximum, fblsf);
             vis.sftRbngfPropfrtifs(vbluf, fxtfnt, 0, mbximum, fblsf);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    // --- Vifw mfthods -------------------------------------------
+
+
+
+
+    // --- Vifw mftiods -------------------------------------------
+    // --- Vifw mftiods -------------------------------------------
+    // --- Vifw mftiods -------------------------------------------
+    // --- Vifw mftiods -------------------------------------------
+    // --- Vifw mftiods -------------------------------------------
+
+
+
+
 
     /**
-     * Rfndfrs using thf givfn rfndfring surfbdf bnd brfb on thbt surfbdf.
-     * Thf vifw mby nffd to do lbyout bnd drfbtf dhild vifws to fnbblf
-     * itsflf to rfndfr into thf givfn bllodbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt surfbdf.
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt surfbdf.
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt surfbdf.
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt surfbdf.
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt surfbdf.
+     * Tif vifw mby nffd to do lbyout bnd drfbtf diild vifws to fnbblf
+     * Tif vifw mby nffd to do lbyout bnd drfbtf diild vifws to fnbblf
+     * Tif vifw mby nffd to do lbyout bnd drfbtf diild vifws to fnbblf
+     * Tif vifw mby nffd to do lbyout bnd drfbtf diild vifws to fnbblf
+     * Tif vifw mby nffd to do lbyout bnd drfbtf diild vifws to fnbblf
+     * itsflf to rfndfr into tif givfn bllodbtion.
+     * itsflf to rfndfr into tif givfn bllodbtion.
+     * itsflf to rfndfr into tif givfn bllodbtion.
+     * itsflf to rfndfr into tif givfn bllodbtion.
+     * itsflf to rfndfr into tif givfn bllodbtion.
      *
-     * @pbrbm g thf rfndfring surfbdf to usf
-     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     *
+     *
+     *
+     *
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     *
+     *
+     *
+     *
      *
      * @sff Vifw#pbint
+     * @sff Vifw#pbint
+     * @sff Vifw#pbint
+     * @sff Vifw#pbint
+     * @sff Vifw#pbint
      */
-    publid void pbint(Grbphids g, Shbpf b) {
+     */
+     */
+     */
+     */
+    publid void pbint(Grbpiids g, Sibpf b) {
+    publid void pbint(Grbpiids g, Sibpf b) {
+    publid void pbint(Grbpiids g, Sibpf b) {
+    publid void pbint(Grbpiids g, Sibpf b) {
+    publid void pbint(Grbpiids g, Sibpf b) {
         Rfdtbnglf r = (Rfdtbnglf) b;
-        g.dlipRfdt(r.x, r.y, r.width, r.hfight);
+        Rfdtbnglf r = (Rfdtbnglf) b;
+        Rfdtbnglf r = (Rfdtbnglf) b;
+        Rfdtbnglf r = (Rfdtbnglf) b;
+        Rfdtbnglf r = (Rfdtbnglf) b;
+        g.dlipRfdt(r.x, r.y, r.widti, r.ifigit);
+        g.dlipRfdt(r.x, r.y, r.widti, r.ifigit);
+        g.dlipRfdt(r.x, r.y, r.widti, r.ifigit);
+        g.dlipRfdt(r.x, r.y, r.widti, r.ifigit);
+        g.dlipRfdt(r.x, r.y, r.widti, r.ifigit);
+        supfr.pbint(g, b);
+        supfr.pbint(g, b);
+        supfr.pbint(g, b);
+        supfr.pbint(g, b);
         supfr.pbint(g, b);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Adjusts <dodf>b</dodf> bbsfd on thf visiblf rfgion bnd rfturns it.
+    /**
+    /**
+    /**
+    /**
+     * Adjusts <dodf>b</dodf> bbsfd on tif visiblf rfgion bnd rfturns it.
+     * Adjusts <dodf>b</dodf> bbsfd on tif visiblf rfgion bnd rfturns it.
+     * Adjusts <dodf>b</dodf> bbsfd on tif visiblf rfgion bnd rfturns it.
+     * Adjusts <dodf>b</dodf> bbsfd on tif visiblf rfgion bnd rfturns it.
+     * Adjusts <dodf>b</dodf> bbsfd on tif visiblf rfgion bnd rfturns it.
      */
-    Shbpf bdjustPbintRfgion(Shbpf b) {
+     */
+     */
+     */
+     */
+    Sibpf bdjustPbintRfgion(Sibpf b) {
+    Sibpf bdjustPbintRfgion(Sibpf b) {
+    Sibpf bdjustPbintRfgion(Sibpf b) {
+    Sibpf bdjustPbintRfgion(Sibpf b) {
+    Sibpf bdjustPbintRfgion(Sibpf b) {
+        rfturn bdjustAllodbtion(b);
+        rfturn bdjustAllodbtion(b);
+        rfturn bdjustAllodbtion(b);
+        rfturn bdjustAllodbtion(b);
         rfturn bdjustAllodbtion(b);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dftfrminfs thf prfffrrfd spbn for this vifw blong bn
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * bxis.
+     * bxis.
+     * bxis.
+     * bxis.
      * bxis.
      *
-     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
-     * @rfturn   thf spbn thf vifw would likf to bf rfndfrfd into &gt;= 0.
-     *           Typidblly thf vifw is told to rfndfr into thf spbn
-     *           thbt is rfturnfd, blthough thfrf is no gubrbntff.
-     *           Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+     *
+     *
+     *
+     *
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     */
+     */
+     */
+     */
      */
     publid flobt gftPrfffrrfdSpbn(int bxis) {
-        switdh (bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        switdi (bxis) {
+        switdi (bxis) {
+        switdi (bxis) {
+        switdi (bxis) {
+        switdi (bxis) {
         dbsf Vifw.X_AXIS:
-            Sfgmfnt buff = SfgmfntCbdhf.gftShbrfdSfgmfnt();
+        dbsf Vifw.X_AXIS:
+        dbsf Vifw.X_AXIS:
+        dbsf Vifw.X_AXIS:
+        dbsf Vifw.X_AXIS:
+            Sfgmfnt buff = SfgmfntCbdif.gftSibrfdSfgmfnt();
+            Sfgmfnt buff = SfgmfntCbdif.gftSibrfdSfgmfnt();
+            Sfgmfnt buff = SfgmfntCbdif.gftSibrfdSfgmfnt();
+            Sfgmfnt buff = SfgmfntCbdif.gftSibrfdSfgmfnt();
+            Sfgmfnt buff = SfgmfntCbdif.gftSibrfdSfgmfnt();
             Dodumfnt dod = gftDodumfnt();
-            int width;
+            Dodumfnt dod = gftDodumfnt();
+            Dodumfnt dod = gftDodumfnt();
+            Dodumfnt dod = gftDodumfnt();
+            Dodumfnt dod = gftDodumfnt();
+            int widti;
+            int widti;
+            int widti;
+            int widti;
+            int widti;
+            try {
+            try {
+            try {
+            try {
             try {
                 FontMftrids fm = gftFontMftrids();
-                dod.gftTfxt(0, dod.gftLfngth(), buff);
-                width = Utilitifs.gftTbbbfdTfxtWidth(buff, fm, 0, this, 0);
+                FontMftrids fm = gftFontMftrids();
+                FontMftrids fm = gftFontMftrids();
+                FontMftrids fm = gftFontMftrids();
+                FontMftrids fm = gftFontMftrids();
+                dod.gftTfxt(0, dod.gftLfngti(), buff);
+                dod.gftTfxt(0, dod.gftLfngti(), buff);
+                dod.gftTfxt(0, dod.gftLfngti(), buff);
+                dod.gftTfxt(0, dod.gftLfngti(), buff);
+                dod.gftTfxt(0, dod.gftLfngti(), buff);
+                widti = Utilitifs.gftTbbbfdTfxtWidti(buff, fm, 0, tiis, 0);
+                widti = Utilitifs.gftTbbbfdTfxtWidti(buff, fm, 0, tiis, 0);
+                widti = Utilitifs.gftTbbbfdTfxtWidti(buff, fm, 0, tiis, 0);
+                widti = Utilitifs.gftTbbbfdTfxtWidti(buff, fm, 0, tiis, 0);
+                widti = Utilitifs.gftTbbbfdTfxtWidti(buff, fm, 0, tiis, 0);
+                if (buff.dount > 0) {
+                if (buff.dount > 0) {
+                if (buff.dount > 0) {
+                if (buff.dount > 0) {
                 if (buff.dount > 0) {
                     Componfnt d = gftContbinfr();
+                    Componfnt d = gftContbinfr();
+                    Componfnt d = gftContbinfr();
+                    Componfnt d = gftContbinfr();
+                    Componfnt d = gftContbinfr();
+                    firstLinfOffsft = sun.swing.SwingUtilitifs2.
+                    firstLinfOffsft = sun.swing.SwingUtilitifs2.
+                    firstLinfOffsft = sun.swing.SwingUtilitifs2.
+                    firstLinfOffsft = sun.swing.SwingUtilitifs2.
                     firstLinfOffsft = sun.swing.SwingUtilitifs2.
                         gftLfftSidfBfbring((d instbndfof JComponfnt) ?
+                        gftLfftSidfBfbring((d instbndfof JComponfnt) ?
+                        gftLfftSidfBfbring((d instbndfof JComponfnt) ?
+                        gftLfftSidfBfbring((d instbndfof JComponfnt) ?
+                        gftLfftSidfBfbring((d instbndfof JComponfnt) ?
+                                           (JComponfnt)d : null, fm,
+                                           (JComponfnt)d : null, fm,
+                                           (JComponfnt)d : null, fm,
+                                           (JComponfnt)d : null, fm,
                                            (JComponfnt)d : null, fm,
                                            buff.brrby[buff.offsft]);
-                    firstLinfOffsft = Mbth.mbx(0, -firstLinfOffsft);
+                                           buff.brrby[buff.offsft]);
+                                           buff.brrby[buff.offsft]);
+                                           buff.brrby[buff.offsft]);
+                                           buff.brrby[buff.offsft]);
+                    firstLinfOffsft = Mbti.mbx(0, -firstLinfOffsft);
+                    firstLinfOffsft = Mbti.mbx(0, -firstLinfOffsft);
+                    firstLinfOffsft = Mbti.mbx(0, -firstLinfOffsft);
+                    firstLinfOffsft = Mbti.mbx(0, -firstLinfOffsft);
+                    firstLinfOffsft = Mbti.mbx(0, -firstLinfOffsft);
+                }
+                }
+                }
+                }
                 }
                 flsf {
+                flsf {
+                flsf {
+                flsf {
+                flsf {
+                    firstLinfOffsft = 0;
+                    firstLinfOffsft = 0;
+                    firstLinfOffsft = 0;
+                    firstLinfOffsft = 0;
                     firstLinfOffsft = 0;
                 }
-            } dbtdh (BbdLodbtionExdfption bl) {
-                width = 0;
+                }
+                }
+                }
+                }
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+                widti = 0;
+                widti = 0;
+                widti = 0;
+                widti = 0;
+                widti = 0;
             }
-            SfgmfntCbdhf.rflfbsfShbrfdSfgmfnt(buff);
-            rfturn width + firstLinfOffsft;
+            }
+            }
+            }
+            }
+            SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(buff);
+            SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(buff);
+            SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(buff);
+            SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(buff);
+            SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(buff);
+            rfturn widti + firstLinfOffsft;
+            rfturn widti + firstLinfOffsft;
+            rfturn widti + firstLinfOffsft;
+            rfturn widti + firstLinfOffsft;
+            rfturn widti + firstLinfOffsft;
+        dffbult:
+        dffbult:
+        dffbult:
+        dffbult:
         dffbult:
             rfturn supfr.gftPrfffrrfdSpbn(bxis);
+            rfturn supfr.gftPrfffrrfdSpbn(bxis);
+            rfturn supfr.gftPrfffrrfdSpbn(bxis);
+            rfturn supfr.gftPrfffrrfdSpbn(bxis);
+            rfturn supfr.gftPrfffrrfdSpbn(bxis);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Dftfrminfs thf rfsizbbility of thf vifw blong thf
+    /**
+    /**
+    /**
+    /**
+     * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+     * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+     * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+     * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+     * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+     * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
+     * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
+     * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
+     * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
      * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
      *
+     *
+     *
+     *
+     *
      * @pbrbm bxis Vifw.X_AXIS or Vifw.Y_AXIS
-     * @rfturn thf wfight -&gt; 1 for Vifw.X_AXIS, flsf 0
+     * @pbrbm bxis Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm bxis Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn tif wfigit -&gt; 1 for Vifw.X_AXIS, flsf 0
+     * @rfturn tif wfigit -&gt; 1 for Vifw.X_AXIS, flsf 0
+     * @rfturn tif wfigit -&gt; 1 for Vifw.X_AXIS, flsf 0
+     * @rfturn tif wfigit -&gt; 1 for Vifw.X_AXIS, flsf 0
+     * @rfturn tif wfigit -&gt; 1 for Vifw.X_AXIS, flsf 0
      */
-    publid int gftRfsizfWfight(int bxis) {
+     */
+     */
+     */
+     */
+    publid int gftRfsizfWfigit(int bxis) {
+    publid int gftRfsizfWfigit(int bxis) {
+    publid int gftRfsizfWfigit(int bxis) {
+    publid int gftRfsizfWfigit(int bxis) {
+    publid int gftRfsizfWfigit(int bxis) {
+        if (bxis == Vifw.X_AXIS) {
+        if (bxis == Vifw.X_AXIS) {
+        if (bxis == Vifw.X_AXIS) {
+        if (bxis == Vifw.X_AXIS) {
         if (bxis == Vifw.X_AXIS) {
             rfturn 1;
+            rfturn 1;
+            rfturn 1;
+            rfturn 1;
+            rfturn 1;
+        }
+        }
+        }
+        }
         }
         rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+        rfturn 0;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
-     * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+    /**
+    /**
+    /**
+    /**
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
      *
-     * @pbrbm pos thf position to donvfrt &gt;= 0
-     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
-     * @rfturn thf bounding box of thf givfn position
-     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not
-     *   rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     *
+     *
+     *
+     *
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif bounding box of tif givfn position
+     * @rfturn tif bounding box of tif givfn position
+     * @rfturn tif bounding box of tif givfn position
+     * @rfturn tif bounding box of tif givfn position
+     * @rfturn tif bounding box of tif givfn position
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     * @sff Vifw#modflToVifw
+     * @sff Vifw#modflToVifw
+     * @sff Vifw#modflToVifw
      * @sff Vifw#modflToVifw
      */
-    publid Shbpf modflToVifw(int pos, Shbpf b, Position.Bibs b) throws BbdLodbtionExdfption {
+     */
+     */
+     */
+     */
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+        rfturn supfr.modflToVifw(pos, bdjustAllodbtion(b), b);
+        rfturn supfr.modflToVifw(pos, bdjustAllodbtion(b), b);
+        rfturn supfr.modflToVifw(pos, bdjustAllodbtion(b), b);
+        rfturn supfr.modflToVifw(pos, bdjustAllodbtion(b), b);
         rfturn supfr.modflToVifw(pos, bdjustAllodbtion(b), b);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
-     * doordinbtf spbdf of thf modfl.
+    /**
+    /**
+    /**
+    /**
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
+     * doordinbtf spbdf of tif modfl.
+     * doordinbtf spbdf of tif modfl.
+     * doordinbtf spbdf of tif modfl.
+     * doordinbtf spbdf of tif modfl.
      *
-     * @pbrbm fx thf X doordinbtf &gt;= 0.0f
-     * @pbrbm fy thf Y doordinbtf &gt;= 0.0f
-     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
-     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
-     *  givfn point in thf vifw
+     *
+     *
+     *
+     *
+     * @pbrbm fx tif X doordinbtf &gt;= 0.0f
+     * @pbrbm fx tif X doordinbtf &gt;= 0.0f
+     * @pbrbm fx tif X doordinbtf &gt;= 0.0f
+     * @pbrbm fx tif X doordinbtf &gt;= 0.0f
+     * @pbrbm fx tif X doordinbtf &gt;= 0.0f
+     * @pbrbm fy tif Y doordinbtf &gt;= 0.0f
+     * @pbrbm fy tif Y doordinbtf &gt;= 0.0f
+     * @pbrbm fy tif Y doordinbtf &gt;= 0.0f
+     * @pbrbm fy tif Y doordinbtf &gt;= 0.0f
+     * @pbrbm fy tif Y doordinbtf &gt;= 0.0f
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point in tif vifw
+     *  givfn point in tif vifw
+     *  givfn point in tif vifw
+     *  givfn point in tif vifw
+     *  givfn point in tif vifw
+     * @sff Vifw#vifwToModfl
+     * @sff Vifw#vifwToModfl
+     * @sff Vifw#vifwToModfl
+     * @sff Vifw#vifwToModfl
      * @sff Vifw#vifwToModfl
      */
-    publid int vifwToModfl(flobt fx, flobt fy, Shbpf b, Position.Bibs[] bibs) {
+     */
+     */
+     */
+     */
+    publid int vifwToModfl(flobt fx, flobt fy, Sibpf b, Position.Bibs[] bibs) {
+    publid int vifwToModfl(flobt fx, flobt fy, Sibpf b, Position.Bibs[] bibs) {
+    publid int vifwToModfl(flobt fx, flobt fy, Sibpf b, Position.Bibs[] bibs) {
+    publid int vifwToModfl(flobt fx, flobt fy, Sibpf b, Position.Bibs[] bibs) {
+    publid int vifwToModfl(flobt fx, flobt fy, Sibpf b, Position.Bibs[] bibs) {
+        rfturn supfr.vifwToModfl(fx, fy, bdjustAllodbtion(b), bibs);
+        rfturn supfr.vifwToModfl(fx, fy, bdjustAllodbtion(b), bibs);
+        rfturn supfr.vifwToModfl(fx, fy, bdjustAllodbtion(b), bibs);
+        rfturn supfr.vifwToModfl(fx, fy, bdjustAllodbtion(b), bibs);
         rfturn supfr.vifwToModfl(fx, fy, bdjustAllodbtion(b), bibs);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Givfs notifidbtion thbt somfthing wbs insfrtfd into thf dodumfnt
-     * in b lodbtion thbt this vifw is rfsponsiblf for.
+    /**
+    /**
+    /**
+    /**
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
      *
-     * @pbrbm dhbngfs thf dhbngf informbtion from thf bssodibtfd dodumfnt
-     * @pbrbm b thf durrfnt bllodbtion of thf vifw
-     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     *
+     *
+     *
+     *
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#insfrtUpdbtf
+     * @sff Vifw#insfrtUpdbtf
+     * @sff Vifw#insfrtUpdbtf
+     * @sff Vifw#insfrtUpdbtf
      * @sff Vifw#insfrtUpdbtf
      */
-    publid void insfrtUpdbtf(DodumfntEvfnt dhbngfs, Shbpf b, VifwFbdtory f) {
-        supfr.insfrtUpdbtf(dhbngfs, bdjustAllodbtion(b), f);
+     */
+     */
+     */
+     */
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        supfr.insfrtUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.insfrtUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.insfrtUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.insfrtUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.insfrtUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        updbtfVisibilityModfl();
+        updbtfVisibilityModfl();
+        updbtfVisibilityModfl();
+        updbtfVisibilityModfl();
         updbtfVisibilityModfl();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Givfs notifidbtion thbt somfthing wbs rfmovfd from thf dodumfnt
-     * in b lodbtion thbt this vifw is rfsponsiblf for.
+    /**
+    /**
+    /**
+    /**
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
      *
-     * @pbrbm dhbngfs thf dhbngf informbtion from thf bssodibtfd dodumfnt
-     * @pbrbm b thf durrfnt bllodbtion of thf vifw
-     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     *
+     *
+     *
+     *
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#rfmovfUpdbtf
+     * @sff Vifw#rfmovfUpdbtf
+     * @sff Vifw#rfmovfUpdbtf
+     * @sff Vifw#rfmovfUpdbtf
      * @sff Vifw#rfmovfUpdbtf
      */
-    publid void rfmovfUpdbtf(DodumfntEvfnt dhbngfs, Shbpf b, VifwFbdtory f) {
-        supfr.rfmovfUpdbtf(dhbngfs, bdjustAllodbtion(b), f);
+     */
+     */
+     */
+     */
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        supfr.rfmovfUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.rfmovfUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.rfmovfUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.rfmovfUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        supfr.rfmovfUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+        updbtfVisibilityModfl();
+        updbtfVisibilityModfl();
+        updbtfVisibilityModfl();
+        updbtfVisibilityModfl();
         updbtfVisibilityModfl();
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+}
+}
+}
+}
 }

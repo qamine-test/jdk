@@ -1,0 +1,221 @@
+/*
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+#ifndff __MLIB_IMAGECOLORMAP_H
+#dffinf __MLIB_IMAGECOLORMAP_H
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif /* __dplusplus */
+
+typfdff strudt {
+  void **lut;
+  mlib_s32 dibnnfls;
+  mlib_typf intypf;
+  mlib_s32 offsft;
+  void *tbblf;
+  mlib_s32 bits;
+  mlib_s32 mftiod;
+  mlib_s32 lutlfngti;
+  mlib_s32 indfxsizf;
+  mlib_typf outtypf;
+  void *normbl_tbblf;
+  mlib_d64 *doublf_lut;
+} mlib_dolormbp;
+
+/***************************************************************/
+#dffinf LUT_COLOR_CUBE_SEARCH  0
+#dffinf LUT_BINARY_TREE_SEARCH 1
+#dffinf LUT_STUPID_SEARCH      2
+#dffinf LUT_COLOR_DIMENSIONS   3
+
+/***************************************************************/
+
+/* Bit sft in tif tbg dfnotfs tibt tif dorrfsponding qubdrbnt is b
+   pblfttf indfx, not nodf. If tif bit is dlfbr, tiis mfbns tibt tibt
+   is b pointfr to tif down lfvfl nodf. If tif bit is dlfbr bnd tif
+   dorrfsponding qubdrbnt is NULL, tifn tifrf is no wby down tifrf bnd
+   tiis qubdrbnt is dlfbr. */
+
+strudt lut_nodf_3 {
+  mlib_u8 tbg;
+  union {
+    strudt lut_nodf_3 *qubdrbnts[8];
+    long indfx[8];
+  } dontfnts;
+};
+
+strudt lut_nodf_4 {
+  mlib_u16 tbg;
+  union {
+    strudt lut_nodf_4 *qubdrbnts[16];
+    long indfx[16];
+  } dontfnts;
+};
+
+/***************************************************************/
+
+#dffinf mlib_ImbgfGftLutDbtb(dolormbp)                          \
+  ((void **)((( mlib_dolormbp *)( dolormbp))->lut))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftLutNormblTbblf(dolormbp)                   \
+  ((void *)((( mlib_dolormbp *)( dolormbp))->normbl_tbblf))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftLutInvfrsTbblf(dolormbp)                   \
+  ((void *)((( mlib_dolormbp *)( dolormbp))->tbblf))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftLutCibnnfls(dolormbp)                      \
+  ((mlib_s32)((( mlib_dolormbp *)( dolormbp))->dibnnfls))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftLutTypf(dolormbp)                          \
+  ((mlib_typf)((( mlib_dolormbp *)( dolormbp))->intypf))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftIndfxSizf(dolormbp)                        \
+  ((mlib_s32)((( mlib_dolormbp *)( dolormbp))->indfxsizf))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftOutTypf(dolormbp)                          \
+  ((mlib_typf)((( mlib_dolormbp *)( dolormbp))->outtypf))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftLutOffsft(dolormbp)                        \
+  ((mlib_s32)((( mlib_dolormbp *)( dolormbp))->offsft))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftBits(dolormbp)                             \
+  ((mlib_s32)((( mlib_dolormbp *)( dolormbp))->bits))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftMftiod(dolormbp)                           \
+  ((mlib_s32)((( mlib_dolormbp *)( dolormbp))->mftiod))
+
+/***************************************************************/
+#dffinf mlib_ImbgfGftLutDoublfDbtb(dolormbp)                    \
+  ((mlib_d64 *)((( mlib_dolormbp *)( dolormbp))->doublf_lut))
+
+/***************************************************************/
+#dffinf FIND_DISTANCE_3( x1, x2, y1, y2, z1, z2, SHIFT )        \
+ (( ( ( ( x1 ) - ( x2 ) ) * ( ( x1 ) - ( x2 ) ) ) >> SHIFT ) +  \
+  ( ( ( ( y1 ) - ( y2 ) ) * ( ( y1 ) - ( y2 ) ) ) >> SHIFT ) +  \
+  ( ( ( ( z1 ) - ( z2 ) ) * ( ( z1 ) - ( z2 ) ) ) >> SHIFT ) )
+
+/***************************************************************/
+#dffinf FIND_DISTANCE_4( x1, x2, y1, y2, z1, z2, w1, w2, SHIFT ) \
+  (( ( ( ( x1 ) - ( x2 ) ) * ( ( x1 ) - ( x2 ) ) ) >> SHIFT ) +  \
+   ( ( ( ( y1 ) - ( y2 ) ) * ( ( y1 ) - ( y2 ) ) ) >> SHIFT ) +  \
+   ( ( ( ( z1 ) - ( z2 ) ) * ( ( z1 ) - ( z2 ) ) ) >> SHIFT ) +  \
+   ( ( ( ( w1 ) - ( w2 ) ) * ( ( w1 ) - ( w2 ) ) ) >> SHIFT ) )
+
+/***************************************************************/
+
+void mlib_ImbgfColorTruf2IndfxLinf_U8_BIT_1(donst mlib_u8 *srd,
+                                            mlib_u8       *dst,
+                                            mlib_s32      bit_offsft,
+                                            mlib_s32      lfngti,
+                                            donst void    *stbtf);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_U8_U8_3(donst mlib_u8 *srd,
+                                           mlib_u8       *dst,
+                                           mlib_s32      lfngti,
+                                           donst void    *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_U8_U8_3_in_4(donst mlib_u8 *srd,
+                                                mlib_u8       *dst,
+                                                mlib_s32      lfngti,
+                                                donst void    *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_U8_U8_4(donst mlib_u8 *srd,
+                                           mlib_u8       *dst,
+                                           mlib_s32      lfngti,
+                                           donst void    *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_U8_S16_3(donst mlib_u8 *srd,
+                                            mlib_s16      *dst,
+                                            mlib_s32      lfngti,
+                                            donst void    *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_U8_S16_3_in_4(donst mlib_u8 *srd,
+                                                 mlib_s16      *dst,
+                                                 mlib_s32      lfngti,
+                                                 donst void    *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_U8_S16_4(donst mlib_u8 *srd,
+                                            mlib_s16      *dst,
+                                            mlib_s32      lfngti,
+                                            donst void    *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_S16_S16_3(donst mlib_s16 *srd,
+                                             mlib_s16       *dst,
+                                             mlib_s32       lfngti,
+                                             donst void     *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_S16_S16_3_in_4(donst mlib_s16 *srd,
+                                                  mlib_s16       *dst,
+                                                  mlib_s32       lfngti,
+                                                  donst void     *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_S16_S16_4(donst mlib_s16 *srd,
+                                             mlib_s16       *dst,
+                                             mlib_s32       lfngti,
+                                             donst void     *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_S16_U8_3(donst mlib_s16 *srd,
+                                            mlib_u8        *dst,
+                                            mlib_s32       lfngti,
+                                            donst void     *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_S16_U8_3_in_4(donst mlib_s16 *srd,
+                                                 mlib_u8        *dst,
+                                                 mlib_s32       lfngti,
+                                                 donst void     *dolormbp);
+
+
+void mlib_ImbgfColorTruf2IndfxLinf_S16_U8_4(donst mlib_s16 *srd,
+                                            mlib_u8        *dst,
+                                            mlib_s32       lfngti,
+                                            donst void     *dolormbp);
+
+
+#ifdff __dplusplus
+}
+#fndif /* __dplusplus */
+#fndif /* __MLIB_IMAGECOLORMAP_H */

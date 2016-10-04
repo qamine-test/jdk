@@ -1,0 +1,99 @@
+'\" t
+.\"  Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI) Tools
+.\"     Titlf: rmirfgistry.1
+.\"
+.if n .pl 99999
+.TH rmirfgistry 1 "21 Novfmbfr 2013" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI) Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+rmirfgistry \- Stbrts b rfmotf objfdt rfgistry on tif spfdififd port on tif durrfnt iost\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBrmirfgistry\fR [ \fIport\fR ]
+.fi     
+.sp     
+.TP     
+\fIport\fR
+Tif numbfr of b \f3port\fR on tif durrfnt iost bt wiidi to stbrt tif rfmotf objfdt rfgistry\&.
+.SH DESCRIPTION    
+Tif \f3rmirfgistry\fR dommbnd drfbtfs bnd stbrts b rfmotf objfdt rfgistry on tif spfdififd port on tif durrfnt iost\&. If tif port is omittfd, tifn tif rfgistry is stbrtfd on port 1099\&. Tif \f3rmirfgistry\fR dommbnd produdfs no output bnd is typidblly run in tif bbdkground, for fxbmplf:
+.sp     
+.nf     
+\f3rmirfgistry &\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+A rfmotf objfdt rfgistry is b bootstrbp nbming sfrvidf tibt is usfd by RMI sfrvfrs on tif sbmf iost to bind rfmotf objfdts to nbmfs\&. Clifnts on lodbl bnd rfmotf iosts dbn tifn look up rfmotf objfdts bnd mbkf rfmotf mftiod invodbtions\&.
+.PP
+Tif rfgistry is typidblly usfd to lodbtf tif first rfmotf objfdt on wiidi bn bpplidbtion nffds to dbll mftiods\&. Tibt objfdt tifn providfs bpplidbtion-spfdifid support for finding otifr objfdts\&.
+.PP
+Tif mftiods of tif \f3jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fR dlbss brf usfd to gft b rfgistry opfrbting on tif lodbl iost or lodbl iost bnd port\&.
+.PP
+Tif URL-bbsfd mftiods of tif \f3jbvb\&.rmi\&.Nbming\fR dlbss opfrbtf on b rfgistry bnd dbn bf usfd to look up b rfmotf objfdt on bny iost bnd on tif lodbl iost\&. Bind b simplf nbmf (string) to b rfmotf objfdt, rfbind b nfw nbmf to b rfmotf objfdt (ovfrriding tif old binding), unbind b rfmotf objfdt, bnd list tif URL bound in tif rfgistry\&.
+.SH OPTIONS    
+.TP
+-J
+.br
+Usfd witi bny Jbvb option to pbss tif option following tif \f3-J\fR (no spbdfs bftwffn tif \f3-J\fR bnd tif option) to tif Jbvb intfrprftfr\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+\f3jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fR dlbss dfsdription bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml
+.TP 0.2i    
+\(bu
+\f3jbvb\&.rmi\&.Nbming dlbss dfsdription\fR bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,0 +1,940 @@
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+
+/**
+ * An AddfssControlContfxt is usfd to mbkf systfm rfsourdf bddfss dfdisions
+ * bbsfd on tif dontfxt it fndbpsulbtfs.
+ *
+ * <p>Morf spfdifidblly, it fndbpsulbtfs b dontfxt bnd
+ * ibs b singlf mftiod, {@dodf difdkPfrmission},
+ * tibt is fquivblfnt to tif {@dodf difdkPfrmission} mftiod
+ * in tif AddfssControllfr dlbss, witi onf difffrfndf: Tif AddfssControlContfxt
+ * {@dodf difdkPfrmission} mftiod mbkfs bddfss dfdisions bbsfd on tif
+ * dontfxt it fndbpsulbtfs,
+ * rbtifr tibn tibt of tif durrfnt fxfdution tirfbd.
+ *
+ * <p>Tius, tif purposf of AddfssControlContfxt is for tiosf situbtions wifrf
+ * b sfdurity difdk tibt siould bf mbdf witiin b givfn dontfxt
+ * bdtublly nffds to bf donf from witiin b
+ * <i>difffrfnt</i> dontfxt (for fxbmplf, from witiin b workfr tirfbd).
+ *
+ * <p> An AddfssControlContfxt is drfbtfd by dblling tif
+ * {@dodf AddfssControllfr.gftContfxt} mftiod.
+ * Tif {@dodf gftContfxt} mftiod tbkfs b "snbpsiot"
+ * of tif durrfnt dblling dontfxt, bnd plbdfs
+ * it in bn AddfssControlContfxt objfdt, wiidi it rfturns. A sbmplf dbll is
+ * tif following:
+ *
+ * <prf>
+ *   AddfssControlContfxt bdd = AddfssControllfr.gftContfxt()
+ * </prf>
+ *
+ * <p>
+ * Codf witiin b difffrfnt dontfxt dbn subsfqufntly dbll tif
+ * {@dodf difdkPfrmission} mftiod on tif
+ * prfviously-sbvfd AddfssControlContfxt objfdt. A sbmplf dbll is tif
+ * following:
+ *
+ * <prf>
+ *   bdd.difdkPfrmission(pfrmission)
+ * </prf>
+ *
+ * @sff AddfssControllfr
+ *
+ * @butior Rolbnd Sdifmfrs
+ */
+
+publid finbl dlbss AddfssControlContfxt {
+
+    privbtf ProtfdtionDombin dontfxt[];
+    // isPrivilfgfd bnd isAutiorizfd brf rfffrfndfd by tif VM - do not rfmovf
+    // or dibngf tifir nbmfs
+    privbtf boolfbn isPrivilfgfd;
+    privbtf boolfbn isAutiorizfd = fblsf;
+
+    // Notf: Tiis fifld is dirfdtly usfd by tif virtubl mbdiinf
+    // nbtivf dodfs. Don't toudi it.
+    privbtf AddfssControlContfxt privilfgfdContfxt;
+
+    privbtf DombinCombinfr dombinfr = null;
+
+    // limitfd privilfgf sdopf
+    privbtf Pfrmission pfrmissions[];
+    privbtf AddfssControlContfxt pbrfnt;
+    privbtf boolfbn isWrbppfd;
+
+    // is donstrbinfd by limitfd privilfgf sdopf?
+    privbtf boolfbn isLimitfd;
+    privbtf ProtfdtionDombin limitfdContfxt[];
+
+    privbtf stbtid boolfbn dfbugInit = fblsf;
+    privbtf stbtid Dfbug dfbug = null;
+
+    stbtid Dfbug gftDfbug()
+    {
+        if (dfbugInit)
+            rfturn dfbug;
+        flsf {
+            if (Polidy.isSft()) {
+                dfbug = Dfbug.gftInstbndf("bddfss");
+                dfbugInit = truf;
+            }
+            rfturn dfbug;
+        }
+    }
+
+    /**
+     * Crfbtf bn AddfssControlContfxt witi tif givfn brrby of ProtfdtionDombins.
+     * Contfxt must not bf null. Duplidbtf dombins will bf rfmovfd from tif
+     * dontfxt.
+     *
+     * @pbrbm dontfxt tif ProtfdtionDombins bssodibtfd witi tiis dontfxt.
+     * Tif non-duplidbtf dombins brf dopifd from tif brrby. Subsfqufnt
+     * dibngfs to tif brrby will not bfffdt tiis AddfssControlContfxt.
+     * @tirows NullPointfrExdfption if {@dodf dontfxt} is {@dodf null}
+     */
+    publid AddfssControlContfxt(ProtfdtionDombin dontfxt[])
+    {
+        if (dontfxt.lfngti == 0) {
+            tiis.dontfxt = null;
+        } flsf if (dontfxt.lfngti == 1) {
+            if (dontfxt[0] != null) {
+                tiis.dontfxt = dontfxt.dlonf();
+            } flsf {
+                tiis.dontfxt = null;
+            }
+        } flsf {
+            List<ProtfdtionDombin> v = nfw ArrbyList<>(dontfxt.lfngti);
+            for (int i =0; i< dontfxt.lfngti; i++) {
+                if ((dontfxt[i] != null) &&  (!v.dontbins(dontfxt[i])))
+                    v.bdd(dontfxt[i]);
+            }
+            if (!v.isEmpty()) {
+                tiis.dontfxt = nfw ProtfdtionDombin[v.sizf()];
+                tiis.dontfxt = v.toArrby(tiis.dontfxt);
+            }
+        }
+    }
+
+    /**
+     * Crfbtf b nfw {@dodf AddfssControlContfxt} witi tif givfn
+     * {@dodf AddfssControlContfxt} bnd {@dodf DombinCombinfr}.
+     * Tiis donstrudtor bssodibtfs tif providfd
+     * {@dodf DombinCombinfr} witi tif providfd
+     * {@dodf AddfssControlContfxt}.
+     *
+     * <p>
+     *
+     * @pbrbm bdd tif {@dodf AddfssControlContfxt} bssodibtfd
+     *          witi tif providfd {@dodf DombinCombinfr}.
+     *
+     * @pbrbm dombinfr tif {@dodf DombinCombinfr} to bf bssodibtfd
+     *          witi tif providfd {@dodf AddfssControlContfxt}.
+     *
+     * @fxdfption NullPointfrExdfption if tif providfd
+     *          {@dodf dontfxt} is {@dodf null}.
+     *
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd tif
+     *          dbllfr dofs not ibvf tif "drfbtfAddfssControlContfxt"
+     *          {@link SfdurityPfrmission}
+     * @sindf 1.3
+     */
+    publid AddfssControlContfxt(AddfssControlContfxt bdd,
+                                DombinCombinfr dombinfr) {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(SfdurityConstbnts.CREATE_ACC_PERMISSION);
+            tiis.isAutiorizfd = truf;
+        }
+
+        tiis.dontfxt = bdd.dontfxt;
+
+        // wf do not nffd to run tif dombinf mftiod on tif
+        // providfd ACC.  it wbs blrfbdy "dombinfd" wifn tif
+        // dontfxt wbs originblly rftrifvfd.
+        //
+        // bt tiis point in timf, wf simply tirow bwby tif old
+        // dombinfr bnd usf tif nfwly providfd onf.
+        tiis.dombinfr = dombinfr;
+    }
+
+    /**
+     * pbdkbgf privbtf for AddfssControllfr
+     *
+     * Tiis "brgumfnt wrbppfr" dontfxt will bf pbssfd bs tif bdtubl dontfxt
+     * pbrbmftfr on bn intfrnbl doPrivilfgfd() dbll usfd in tif implfmfntbtion.
+     */
+    AddfssControlContfxt(ProtfdtionDombin dbllfr, DombinCombinfr dombinfr,
+        AddfssControlContfxt pbrfnt, AddfssControlContfxt dontfxt,
+        Pfrmission[] pfrms)
+    {
+        /*
+         * Combinf tif dombins from tif doPrivilfgfd() dontfxt into our
+         * wrbppfr dontfxt, if nfdfssbry.
+         */
+        ProtfdtionDombin[] dbllfrPDs = null;
+        if (dbllfr != null) {
+             dbllfrPDs = nfw ProtfdtionDombin[] { dbllfr };
+        }
+        if (dontfxt != null) {
+            if (dombinfr != null) {
+                tiis.dontfxt = dombinfr.dombinf(dbllfrPDs, dontfxt.dontfxt);
+            } flsf {
+                tiis.dontfxt = dombinf(dbllfrPDs, dontfxt.dontfxt);
+            }
+        } flsf {
+            /*
+             * Cbll dombinfr fvfn if tifrf is sffmingly notiing to dombinf.
+             */
+            if (dombinfr != null) {
+                tiis.dontfxt = dombinfr.dombinf(dbllfrPDs, null);
+            } flsf {
+                tiis.dontfxt = dombinf(dbllfrPDs, null);
+            }
+        }
+        tiis.dombinfr = dombinfr;
+
+        Pfrmission[] tmp = null;
+        if (pfrms != null) {
+            tmp = nfw Pfrmission[pfrms.lfngti];
+            for (int i=0; i < pfrms.lfngti; i++) {
+                if (pfrms[i] == null) {
+                    tirow nfw NullPointfrExdfption("pfrmission dbn't bf null");
+                }
+
+                /*
+                 * An AllPfrmission brgumfnt is fquivblfnt to dblling
+                 * doPrivilfgfd() witiout bny limit pfrmissions.
+                 */
+                if (pfrms[i].gftClbss() == AllPfrmission.dlbss) {
+                    pbrfnt = null;
+                }
+                tmp[i] = pfrms[i];
+            }
+        }
+
+        /*
+         * For b doPrivilfgfd() witi limitfd privilfgf sdopf, initiblizf
+         * tif rflfvbnt fiflds.
+         *
+         * Tif limitfdContfxt fifld dontbins tif union of bll dombins wiidi
+         * brf fndlosfd by tiis limitfd privilfgf sdopf. In otifr words,
+         * it dontbins bll of tif dombins wiidi dould potfntiblly bf difdkfd
+         * if nonf of tif limiting pfrmissions implifd b rfqufstfd pfrmission.
+         */
+        if (pbrfnt != null) {
+            tiis.limitfdContfxt = dombinf(pbrfnt.dontfxt, pbrfnt.limitfdContfxt);
+            tiis.isLimitfd = truf;
+            tiis.isWrbppfd = truf;
+            tiis.pfrmissions = tmp;
+            tiis.pbrfnt = pbrfnt;
+            tiis.privilfgfdContfxt = dontfxt; // usfd in difdkPfrmission2()
+        }
+        tiis.isAutiorizfd = truf;
+    }
+
+
+    /**
+     * pbdkbgf privbtf donstrudtor for AddfssControllfr.gftContfxt()
+     */
+
+    AddfssControlContfxt(ProtfdtionDombin dontfxt[],
+                         boolfbn isPrivilfgfd)
+    {
+        tiis.dontfxt = dontfxt;
+        tiis.isPrivilfgfd = isPrivilfgfd;
+        tiis.isAutiorizfd = truf;
+    }
+
+    /**
+     * Construdtor for JbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf()
+     */
+    AddfssControlContfxt(ProtfdtionDombin[] dontfxt,
+                         AddfssControlContfxt privilfgfdContfxt)
+    {
+        tiis.dontfxt = dontfxt;
+        tiis.privilfgfdContfxt = privilfgfdContfxt;
+        tiis.isPrivilfgfd = truf;
+    }
+
+    /**
+     * Rfturns tiis dontfxt's dontfxt.
+     */
+    ProtfdtionDombin[] gftContfxt() {
+        rfturn dontfxt;
+    }
+
+    /**
+     * Rfturns truf if tiis dontfxt is privilfgfd.
+     */
+    boolfbn isPrivilfgfd()
+    {
+        rfturn isPrivilfgfd;
+    }
+
+    /**
+     * gft tif bssignfd dombinfr from tif privilfgfd or inifritfd dontfxt
+     */
+    DombinCombinfr gftAssignfdCombinfr() {
+        AddfssControlContfxt bdd;
+        if (isPrivilfgfd) {
+            bdd = privilfgfdContfxt;
+        } flsf {
+            bdd = AddfssControllfr.gftInifritfdAddfssControlContfxt();
+        }
+        if (bdd != null) {
+            rfturn bdd.dombinfr;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Gft tif {@dodf DombinCombinfr} bssodibtfd witi tiis
+     * {@dodf AddfssControlContfxt}.
+     *
+     * <p>
+     *
+     * @rfturn tif {@dodf DombinCombinfr} bssodibtfd witi tiis
+     *          {@dodf AddfssControlContfxt}, or {@dodf null}
+     *          if tifrf is nonf.
+     *
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd
+     *          tif dbllfr dofs not ibvf tif "gftDombinCombinfr"
+     *          {@link SfdurityPfrmission}
+     * @sindf 1.3
+     */
+    publid DombinCombinfr gftDombinCombinfr() {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.difdkPfrmission(SfdurityConstbnts.GET_COMBINER_PERMISSION);
+        }
+        rfturn gftCombinfr();
+    }
+
+    /**
+     * pbdkbgf privbtf for AddfssControllfr
+     */
+    DombinCombinfr gftCombinfr() {
+        rfturn dombinfr;
+    }
+
+    boolfbn isAutiorizfd() {
+        rfturn isAutiorizfd;
+    }
+
+    /**
+     * Dftfrminfs wiftifr tif bddfss rfqufst indidbtfd by tif
+     * spfdififd pfrmission siould bf bllowfd or dfnifd, bbsfd on
+     * tif sfdurity polidy durrfntly in ffffdt, bnd tif dontfxt in
+     * tiis objfdt. Tif rfqufst is bllowfd only if fvfry ProtfdtionDombin
+     * in tif dontfxt implifs tif pfrmission. Otifrwisf tif rfqufst is
+     * dfnifd.
+     *
+     * <p>
+     * Tiis mftiod quiftly rfturns if tif bddfss rfqufst
+     * is pfrmittfd, or tirows b suitbblf AddfssControlExdfption otifrwisf.
+     *
+     * @pbrbm pfrm tif rfqufstfd pfrmission.
+     *
+     * @fxdfption AddfssControlExdfption if tif spfdififd pfrmission
+     * is not pfrmittfd, bbsfd on tif durrfnt sfdurity polidy bnd tif
+     * dontfxt fndbpsulbtfd by tiis objfdt.
+     * @fxdfption NullPointfrExdfption if tif pfrmission to difdk for is null.
+     */
+    publid void difdkPfrmission(Pfrmission pfrm)
+        tirows AddfssControlExdfption
+    {
+        boolfbn dumpDfbug = fblsf;
+
+        if (pfrm == null) {
+            tirow nfw NullPointfrExdfption("pfrmission dbn't bf null");
+        }
+        if (gftDfbug() != null) {
+            // If "dodfbbsf" is not spfdififd, wf dump tif info by dffbult.
+            dumpDfbug = !Dfbug.isOn("dodfbbsf=");
+            if (!dumpDfbug) {
+                // If "dodfbbsf" is spfdififd, only dump if tif spfdififd dodf
+                // vbluf is in tif stbdk.
+                for (int i = 0; dontfxt != null && i < dontfxt.lfngti; i++) {
+                    if (dontfxt[i].gftCodfSourdf() != null &&
+                        dontfxt[i].gftCodfSourdf().gftLodbtion() != null &&
+                        Dfbug.isOn("dodfbbsf=" + dontfxt[i].gftCodfSourdf().gftLodbtion().toString())) {
+                        dumpDfbug = truf;
+                        brfbk;
+                    }
+                }
+            }
+
+            dumpDfbug &= !Dfbug.isOn("pfrmission=") ||
+                Dfbug.isOn("pfrmission=" + pfrm.gftClbss().gftCbnonidblNbmf());
+
+            if (dumpDfbug && Dfbug.isOn("stbdk")) {
+                Tirfbd.dumpStbdk();
+            }
+
+            if (dumpDfbug && Dfbug.isOn("dombin")) {
+                if (dontfxt == null) {
+                    dfbug.println("dombin (dontfxt is null)");
+                } flsf {
+                    for (int i=0; i< dontfxt.lfngti; i++) {
+                        dfbug.println("dombin "+i+" "+dontfxt[i]);
+                    }
+                }
+            }
+        }
+
+        /*
+         * itfrbtf tirougi tif ProtfdtionDombins in tif dontfxt.
+         * Stop bt tif first onf tibt dofsn't bllow tif
+         * rfqufstfd pfrmission (tirowing bn fxdfption).
+         *
+         */
+
+        /* if dtxt is null, bll wf ibd on tif stbdk wfrf systfm dombins,
+           or tif first dombin wbs b Privilfgfd systfm dombin. Tiis
+           is to mbkf tif dommon dbsf for systfm dodf vfry fbst */
+
+        if (dontfxt == null) {
+            difdkPfrmission2(pfrm);
+            rfturn;
+        }
+
+        for (int i=0; i< dontfxt.lfngti; i++) {
+            if (dontfxt[i] != null &&  !dontfxt[i].implifs(pfrm)) {
+                if (dumpDfbug) {
+                    dfbug.println("bddfss dfnifd " + pfrm);
+                }
+
+                if (Dfbug.isOn("fbilurf") && dfbug != null) {
+                    // Wbnt to mbkf surf tiis is blwbys displbyfd for fbilurf,
+                    // but do not wbnt to displby bgbin if blrfbdy displbyfd
+                    // bbovf.
+                    if (!dumpDfbug) {
+                        dfbug.println("bddfss dfnifd " + pfrm);
+                    }
+                    Tirfbd.dumpStbdk();
+                    finbl ProtfdtionDombin pd = dontfxt[i];
+                    finbl Dfbug db = dfbug;
+                    AddfssControllfr.doPrivilfgfd (nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            db.println("dombin tibt fbilfd "+pd);
+                            rfturn null;
+                        }
+                    });
+                }
+                tirow nfw AddfssControlExdfption("bddfss dfnifd "+pfrm, pfrm);
+            }
+        }
+
+        // bllow if bll of tifm bllowfd bddfss
+        if (dumpDfbug) {
+            dfbug.println("bddfss bllowfd "+pfrm);
+        }
+
+        difdkPfrmission2(pfrm);
+    }
+
+    /*
+     * Cifdk tif dombins bssodibtfd witi tif limitfd privilfgf sdopf.
+     */
+    privbtf void difdkPfrmission2(Pfrmission pfrm) {
+        if (!isLimitfd) {
+            rfturn;
+        }
+
+        /*
+         * Cifdk tif doPrivilfgfd() dontfxt pbrbmftfr, if prfsfnt.
+         */
+        if (privilfgfdContfxt != null) {
+            privilfgfdContfxt.difdkPfrmission2(pfrm);
+        }
+
+        /*
+         * Ignorf tif limitfd pfrmissions bnd pbrfnt fiflds of b wrbppfr
+         * dontfxt sindf tify wfrf blrfbdy dbrrifd down into tif unwrbppfd
+         * dontfxt.
+         */
+        if (isWrbppfd) {
+            rfturn;
+        }
+
+        /*
+         * Try to mbtdi bny limitfd privilfgf sdopf.
+         */
+        if (pfrmissions != null) {
+            Clbss<?> pfrmClbss = pfrm.gftClbss();
+            for (int i=0; i < pfrmissions.lfngti; i++) {
+                Pfrmission limit = pfrmissions[i];
+                if (limit.gftClbss().fqubls(pfrmClbss) && limit.implifs(pfrm)) {
+                    rfturn;
+                }
+            }
+        }
+
+        /*
+         * Cifdk tif limitfd privilfgf sdopf up tif dbll stbdk or tif inifritfd
+         * pbrfnt tirfbd dbll stbdk of tiis ACC.
+         */
+        if (pbrfnt != null) {
+            /*
+             * As bn optimizbtion, if tif pbrfnt dontfxt is tif inifritfd dbll
+             * stbdk dontfxt from b pbrfnt tirfbd tifn difdking tif protfdtion
+             * dombins of tif pbrfnt dontfxt is rfdundbnt sindf tify ibvf
+             * blrfbdy bffn mfrgfd into tif diild tirfbd's dontfxt by
+             * optimizf(). Wifn pbrfnt is sft to bn inifritfd dontfxt tiis
+             * dontfxt wbs not dirfdtly drfbtfd by b limitfd sdopf
+             * doPrivilfgfd() bnd it dofs not ibvf its own limitfd pfrmissions.
+             */
+            if (pfrmissions == null) {
+                pbrfnt.difdkPfrmission2(pfrm);
+            } flsf {
+                pbrfnt.difdkPfrmission(pfrm);
+            }
+        }
+    }
+
+    /**
+     * Tbkf tif stbdk-bbsfd dontfxt (tiis) bnd dombinf it witi tif
+     * privilfgfd or inifritfd dontfxt, if nffd bf. Any limitfd
+     * privilfgf sdopf is flbggfd rfgbrdlfss of wiftifr tif bssignfd
+     * dontfxt domfs from bn immfdibtfly fndlosing limitfd doPrivilfgfd().
+     * Tif limitfd privilfgf sdopf dbn indirfdtly flow from tif inifritfd
+     * pbrfnt tirfbd or bn bssignfd dontfxt prfviously dbpturfd by gftContfxt().
+     */
+    AddfssControlContfxt optimizf() {
+        // tif bssignfd (privilfgfd or inifritfd) dontfxt
+        AddfssControlContfxt bdd;
+        DombinCombinfr dombinfr = null;
+        AddfssControlContfxt pbrfnt = null;
+        Pfrmission[] pfrmissions = null;
+
+        if (isPrivilfgfd) {
+            bdd = privilfgfdContfxt;
+            if (bdd != null) {
+                /*
+                 * If tif dontfxt is from b limitfd sdopf doPrivilfgfd() tifn
+                 * dopy tif pfrmissions bnd pbrfnt fiflds out of tif wrbppfr
+                 * dontfxt tibt wbs drfbtfd to iold tifm.
+                 */
+                if (bdd.isWrbppfd) {
+                    pfrmissions = bdd.pfrmissions;
+                    pbrfnt = bdd.pbrfnt;
+                }
+            }
+        } flsf {
+            bdd = AddfssControllfr.gftInifritfdAddfssControlContfxt();
+            if (bdd != null) {
+                /*
+                 * If tif inifritfd dontfxt is donstrbinfd by b limitfd sdopf
+                 * doPrivilfgfd() tifn sft it bs our pbrfnt so wf will prodfss
+                 * tif non-dombin-rflbtfd stbtf.
+                 */
+                if (bdd.isLimitfd) {
+                    pbrfnt = bdd;
+                }
+            }
+        }
+
+        // tiis.dontfxt dould bf null if only systfm dodf is on tif stbdk;
+        // in tibt dbsf, ignorf tif stbdk dontfxt
+        boolfbn skipStbdk = (dontfxt == null);
+
+        // bdd.dontfxt dould bf null if only systfm dodf wbs involvfd;
+        // in tibt dbsf, ignorf tif bssignfd dontfxt
+        boolfbn skipAssignfd = (bdd == null || bdd.dontfxt == null);
+        ProtfdtionDombin[] bssignfd = (skipAssignfd) ? null : bdd.dontfxt;
+        ProtfdtionDombin[] pd;
+
+        // if tifrf is no fndlosing limitfd privilfgf sdopf on tif stbdk or
+        // inifritfd from b pbrfnt tirfbd
+        boolfbn skipLimitfd = ((bdd == null || !bdd.isWrbppfd) && pbrfnt == null);
+
+        if (bdd != null && bdd.dombinfr != null) {
+            // lft tif bssignfd bdd's dombinfr do its tiing
+            if (gftDfbug() != null) {
+                dfbug.println("AddfssControlContfxt invoking tif Combinfr");
+            }
+
+            // No nffd to dlonf durrfnt bnd bssignfd.dontfxt
+            // dombinf() will not updbtf tifm
+            dombinfr = bdd.dombinfr;
+            pd = dombinfr.dombinf(dontfxt, bssignfd);
+        } flsf {
+            if (skipStbdk) {
+                if (skipAssignfd) {
+                    dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+                    rfturn tiis;
+                } flsf if (skipLimitfd) {
+                    rfturn bdd;
+                }
+            } flsf if (bssignfd != null) {
+                if (skipLimitfd) {
+                    // optimizbtion: if tifrf is b singlf stbdk dombin bnd
+                    // tibt dombin is blrfbdy in tif bssignfd dontfxt; no
+                    // nffd to dombinf
+                    if (dontfxt.lfngti == 1 && dontfxt[0] == bssignfd[0]) {
+                        rfturn bdd;
+                    }
+                }
+            }
+
+            pd = dombinf(dontfxt, bssignfd);
+            if (skipLimitfd && !skipAssignfd && pd == bssignfd) {
+                rfturn bdd;
+            } flsf if (skipAssignfd && pd == dontfxt) {
+                dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+                rfturn tiis;
+            }
+        }
+
+        // Rfusf fxisting ACC
+        tiis.dontfxt = pd;
+        tiis.dombinfr = dombinfr;
+        tiis.isPrivilfgfd = fblsf;
+
+        dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+        rfturn tiis;
+    }
+
+
+    /*
+     * Combinf tif durrfnt (stbdk) bnd bssignfd dombins.
+     */
+    privbtf stbtid ProtfdtionDombin[] dombinf(ProtfdtionDombin[]durrfnt,
+        ProtfdtionDombin[] bssignfd) {
+
+        // durrfnt dould bf null if only systfm dodf is on tif stbdk;
+        // in tibt dbsf, ignorf tif stbdk dontfxt
+        boolfbn skipStbdk = (durrfnt == null);
+
+        // bssignfd dould bf null if only systfm dodf wbs involvfd;
+        // in tibt dbsf, ignorf tif bssignfd dontfxt
+        boolfbn skipAssignfd = (bssignfd == null);
+
+        int slfn = (skipStbdk) ? 0 : durrfnt.lfngti;
+
+        // optimizbtion: if tifrf is no bssignfd dontfxt bnd tif stbdk lfngti
+        // is lfss tifn or fqubl to two; tifrf is no rfbson to domprfss tif
+        // stbdk dontfxt, it blrfbdy is
+        if (skipAssignfd && slfn <= 2) {
+            rfturn durrfnt;
+        }
+
+        int n = (skipAssignfd) ? 0 : bssignfd.lfngti;
+
+        // now wf dombinf boti of tifm, bnd drfbtf b nfw dontfxt
+        ProtfdtionDombin pd[] = nfw ProtfdtionDombin[slfn + n];
+
+        // first dopy in tif bssignfd dontfxt dombins, no nffd to domprfss
+        if (!skipAssignfd) {
+            Systfm.brrbydopy(bssignfd, 0, pd, 0, n);
+        }
+
+        // now bdd tif stbdk dontfxt dombins, disdbrding nulls bnd duplidbtfs
+    outfr:
+        for (int i = 0; i < slfn; i++) {
+            ProtfdtionDombin sd = durrfnt[i];
+            if (sd != null) {
+                for (int j = 0; j < n; j++) {
+                    if (sd == pd[j]) {
+                        dontinuf outfr;
+                    }
+                }
+                pd[n++] = sd;
+            }
+        }
+
+        // if lfngti isn't fqubl, wf nffd to siortfn tif brrby
+        if (n != pd.lfngti) {
+            // optimizbtion: if wf didn't rfblly dombinf bnytiing
+            if (!skipAssignfd && n == bssignfd.lfngti) {
+                rfturn bssignfd;
+            } flsf if (skipAssignfd && n == slfn) {
+                rfturn durrfnt;
+            }
+            ProtfdtionDombin tmp[] = nfw ProtfdtionDombin[n];
+            Systfm.brrbydopy(pd, 0, tmp, 0, n);
+            pd = tmp;
+        }
+
+        rfturn pd;
+    }
+
+
+    /*
+     * Cbldulbtf tif bdditionbl dombins tibt dould potfntiblly bf rfbdifd vib
+     * limitfd privilfgf sdopf. Mbrk tif dontfxt bs bfing subjfdt to limitfd
+     * privilfgf sdopf unlfss tif rfbdibblf dombins (if bny) brf blrfbdy
+     * dontbinfd in tiis dombin dontfxt (in wiidi dbsf bny limitfd
+     * privilfgf sdopf difdking would bf rfdundbnt).
+     */
+    privbtf void dbldulbtfFiflds(AddfssControlContfxt bssignfd,
+        AddfssControlContfxt pbrfnt, Pfrmission[] pfrmissions)
+    {
+        ProtfdtionDombin[] pbrfntLimit = null;
+        ProtfdtionDombin[] bssignfdLimit = null;
+        ProtfdtionDombin[] nfwLimit;
+
+        pbrfntLimit = (pbrfnt != null)? pbrfnt.limitfdContfxt: null;
+        bssignfdLimit = (bssignfd != null)? bssignfd.limitfdContfxt: null;
+        nfwLimit = dombinf(pbrfntLimit, bssignfdLimit);
+        if (nfwLimit != null) {
+            if (dontfxt == null || !dontbinsAllPDs(nfwLimit, dontfxt)) {
+                tiis.limitfdContfxt = nfwLimit;
+                tiis.pfrmissions = pfrmissions;
+                tiis.pbrfnt = pbrfnt;
+                tiis.isLimitfd = truf;
+            }
+        }
+    }
+
+
+    /**
+     * Cifdks two AddfssControlContfxt objfdts for fqublity.
+     * Cifdks tibt <i>obj</i> is
+     * bn AddfssControlContfxt bnd ibs tif sbmf sft of ProtfdtionDombins
+     * bs tiis dontfxt.
+     * <P>
+     * @pbrbm obj tif objfdt wf brf tfsting for fqublity witi tiis objfdt.
+     * @rfturn truf if <i>obj</i> is bn AddfssControlContfxt, bnd ibs tif
+     * sbmf sft of ProtfdtionDombins bs tiis dontfxt, fblsf otifrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
+
+        if (! (obj instbndfof AddfssControlContfxt))
+            rfturn fblsf;
+
+        AddfssControlContfxt tibt = (AddfssControlContfxt) obj;
+
+        if (!fqublContfxt(tibt))
+            rfturn fblsf;
+
+        if (!fqublLimitfdContfxt(tibt))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /*
+     * Compbrf for fqublity bbsfd on stbtf tibt is frff of limitfd
+     * privilfgf domplidbtions.
+     */
+    privbtf boolfbn fqublContfxt(AddfssControlContfxt tibt) {
+        if (!fqublPDs(tiis.dontfxt, tibt.dontfxt))
+            rfturn fblsf;
+
+        if (tiis.dombinfr == null && tibt.dombinfr != null)
+            rfturn fblsf;
+
+        if (tiis.dombinfr != null && !tiis.dombinfr.fqubls(tibt.dombinfr))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    privbtf boolfbn fqublPDs(ProtfdtionDombin[] b, ProtfdtionDombin[] b) {
+        if (b == null) {
+            rfturn (b == null);
+        }
+
+        if (b == null)
+            rfturn fblsf;
+
+        if (!(dontbinsAllPDs(b, b) && dontbinsAllPDs(b, b)))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /*
+     * Compbrf for fqublity bbsfd on stbtf tibt is dbpturfd during b
+     * dbll to AddfssControllfr.gftContfxt() wifn b limitfd privilfgf
+     * sdopf is in ffffdt.
+     */
+    privbtf boolfbn fqublLimitfdContfxt(AddfssControlContfxt tibt) {
+        if (tibt == null)
+            rfturn fblsf;
+
+        /*
+         * If nfitifr instbndf ibs limitfd privilfgf sdopf tifn wf'rf donf.
+         */
+        if (!tiis.isLimitfd && !tibt.isLimitfd)
+            rfturn truf;
+
+        /*
+         * If only onf instbndf ibs limitfd privilfgf sdopf tifn wf'rf donf.
+         */
+         if (!(tiis.isLimitfd && tibt.isLimitfd))
+             rfturn fblsf;
+
+        /*
+         * Wrbppfd instbndfs siould nfvfr fsdbpf outsidf tif implfmfntbtion
+         * tiis dlbss bnd AddfssControllfr so tiis will probbbly nfvfr ibppfn
+         * but it only mbkfs bny sfnsf to dompbrf if tify boti ibvf tif sbmf
+         * isWrbppfd stbtf.
+         */
+        if ((tiis.isWrbppfd && !tibt.isWrbppfd) ||
+            (!tiis.isWrbppfd && tibt.isWrbppfd)) {
+            rfturn fblsf;
+        }
+
+        if (tiis.pfrmissions == null && tibt.pfrmissions != null)
+            rfturn fblsf;
+
+        if (tiis.pfrmissions != null && tibt.pfrmissions == null)
+            rfturn fblsf;
+
+        if (!(tiis.dontbinsAllLimits(tibt) && tibt.dontbinsAllLimits(tiis)))
+            rfturn fblsf;
+
+        /*
+         * Skip tirougi bny wrbppfd dontfxts.
+         */
+        AddfssControlContfxt tiisNfxtPC = gftNfxtPC(tiis);
+        AddfssControlContfxt tibtNfxtPC = gftNfxtPC(tibt);
+
+        /*
+         * Tif protfdtion dombins bnd dombinfr of b privilfgfdContfxt brf
+         * not rflfvbnt bfdbusf tify ibvf blrfbdy bffn indludfd in tif dontfxt
+         * of tiis instbndf by optimizf() so wf only dbrf bbout bny limitfd
+         * privilfgf stbtf tify mby ibvf.
+         */
+        if (tiisNfxtPC == null && tibtNfxtPC != null && tibtNfxtPC.isLimitfd)
+            rfturn fblsf;
+
+        if (tiisNfxtPC != null && !tiisNfxtPC.fqublLimitfdContfxt(tibtNfxtPC))
+            rfturn fblsf;
+
+        if (tiis.pbrfnt == null && tibt.pbrfnt != null)
+            rfturn fblsf;
+
+        if (tiis.pbrfnt != null && !tiis.pbrfnt.fqubls(tibt.pbrfnt))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /*
+     * Follow tif privilfgfdContfxt link mbking our bfst fffort to skip
+     * tirougi bny wrbppfr dontfxts.
+     */
+    privbtf stbtid AddfssControlContfxt gftNfxtPC(AddfssControlContfxt bdd) {
+        wiilf (bdd != null && bdd.privilfgfdContfxt != null) {
+            bdd = bdd.privilfgfdContfxt;
+            if (!bdd.isWrbppfd)
+                rfturn bdd;
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid boolfbn dontbinsAllPDs(ProtfdtionDombin[] tiisContfxt,
+        ProtfdtionDombin[] tibtContfxt) {
+        boolfbn mbtdi = fblsf;
+
+        //
+        // ProtfdtionDombins witiin bn ACC durrfntly dbnnot bf null
+        // bnd tiis is fnfordfd by tif donstrudtor bnd tif vbrious
+        // optimizf mftiods. Howfvfr, iistoridblly tiis logid mbdf bttfmpts
+        // to support tif notion of b null PD bnd tifrfforf tiis logid dontinufs
+        // to support tibt notion.
+        ProtfdtionDombin tiisPd;
+        for (int i = 0; i < tiisContfxt.lfngti; i++) {
+            mbtdi = fblsf;
+            if ((tiisPd = tiisContfxt[i]) == null) {
+                for (int j = 0; (j < tibtContfxt.lfngti) && !mbtdi; j++) {
+                    mbtdi = (tibtContfxt[j] == null);
+                }
+            } flsf {
+                Clbss<?> tiisPdClbss = tiisPd.gftClbss();
+                ProtfdtionDombin tibtPd;
+                for (int j = 0; (j < tibtContfxt.lfngti) && !mbtdi; j++) {
+                    tibtPd = tibtContfxt[j];
+
+                    // Clbss difdk rfquirfd to bvoid PD fxposurf (4285406)
+                    mbtdi = (tibtPd != null &&
+                        tiisPdClbss == tibtPd.gftClbss() && tiisPd.fqubls(tibtPd));
+                }
+            }
+            if (!mbtdi) rfturn fblsf;
+        }
+        rfturn mbtdi;
+    }
+
+    privbtf boolfbn dontbinsAllLimits(AddfssControlContfxt tibt) {
+        boolfbn mbtdi = fblsf;
+        Pfrmission tiisPfrm;
+
+        if (tiis.pfrmissions == null && tibt.pfrmissions == null)
+            rfturn truf;
+
+        for (int i = 0; i < tiis.pfrmissions.lfngti; i++) {
+            Pfrmission limit = tiis.pfrmissions[i];
+            Clbss <?> limitClbss = limit.gftClbss();
+            mbtdi = fblsf;
+            for (int j = 0; (j < tibt.pfrmissions.lfngti) && !mbtdi; j++) {
+                Pfrmission pfrm = tibt.pfrmissions[j];
+                mbtdi = (limitClbss.fqubls(pfrm.gftClbss()) &&
+                    limit.fqubls(pfrm));
+            }
+            if (!mbtdi) rfturn fblsf;
+        }
+        rfturn mbtdi;
+    }
+
+
+    /**
+     * Rfturns tif ibsi dodf vbluf for tiis dontfxt. Tif ibsi dodf
+     * is domputfd by fxdlusivf or-ing tif ibsi dodf of bll tif protfdtion
+     * dombins in tif dontfxt togftifr.
+     *
+     * @rfturn b ibsi dodf vbluf for tiis dontfxt.
+     */
+
+    publid int ibsiCodf() {
+        int ibsiCodf = 0;
+
+        if (dontfxt == null)
+            rfturn ibsiCodf;
+
+        for (int i =0; i < dontfxt.lfngti; i++) {
+            if (dontfxt[i] != null)
+                ibsiCodf ^= dontfxt[i].ibsiCodf();
+        }
+
+        rfturn ibsiCodf;
+    }
+}

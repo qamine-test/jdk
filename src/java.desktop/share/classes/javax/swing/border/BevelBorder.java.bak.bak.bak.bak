@@ -1,323 +1,1615 @@
 /*
- * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.bordfr;
+pbdkbgf jbvbx.swing.bordfr;
+pbdkbgf jbvbx.swing.bordfr;
+pbdkbgf jbvbx.swing.bordfr;
 pbdkbgf jbvbx.swing.bordfr;
 
-import jbvb.bwt.Grbphids;
+
+
+
+
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Insfts;
 import jbvb.bwt.Insfts;
 import jbvb.bwt.Color;
+import jbvb.bwt.Color;
+import jbvb.bwt.Color;
+import jbvb.bwt.Color;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Componfnt;
 import jbvb.bwt.Componfnt;
 import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+
+
+
 
 /**
- * A dlbss whidh implfmfnts b simplf two-linf bfvfl bordfr.
+/**
+/**
+/**
+/**
+ * A dlbss wiidi implfmfnts b simplf two-linf bfvfl bordfr.
+ * A dlbss wiidi implfmfnts b simplf two-linf bfvfl bordfr.
+ * A dlbss wiidi implfmfnts b simplf two-linf bfvfl bordfr.
+ * A dlbss wiidi implfmfnts b simplf two-linf bfvfl bordfr.
+ * A dlbss wiidi implfmfnts b simplf two-linf bfvfl bordfr.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  * <strong>Wbrning:</strong>
- * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
- * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
- * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
- * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
  * of bll JbvbBfbns&trbdf;
- * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @buthor Dbvid Klobb
+ *
+ *
+ *
+ *
+ * @butior Dbvid Klobb
+ * @butior Dbvid Klobb
+ * @butior Dbvid Klobb
+ * @butior Dbvid Klobb
+ * @butior Dbvid Klobb
+ */
+ */
+ */
+ */
  */
 @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr
+publid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr
+publid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr
+publid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr
 publid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr
 {
+{
+{
+{
+{
+    /** Rbisfd bfvfl typf. */
+    /** Rbisfd bfvfl typf. */
+    /** Rbisfd bfvfl typf. */
+    /** Rbisfd bfvfl typf. */
     /** Rbisfd bfvfl typf. */
     publid stbtid finbl int RAISED  = 0;
+    publid stbtid finbl int RAISED  = 0;
+    publid stbtid finbl int RAISED  = 0;
+    publid stbtid finbl int RAISED  = 0;
+    publid stbtid finbl int RAISED  = 0;
+    /** Lowfrfd bfvfl typf. */
+    /** Lowfrfd bfvfl typf. */
+    /** Lowfrfd bfvfl typf. */
+    /** Lowfrfd bfvfl typf. */
     /** Lowfrfd bfvfl typf. */
     publid stbtid finbl int LOWERED = 1;
+    publid stbtid finbl int LOWERED = 1;
+    publid stbtid finbl int LOWERED = 1;
+    publid stbtid finbl int LOWERED = 1;
+    publid stbtid finbl int LOWERED = 1;
+
+
+
+
 
     protfdtfd int bfvflTypf;
-    protfdtfd Color highlightOutfr;
-    protfdtfd Color highlightInnfr;
-    protfdtfd Color shbdowInnfr;
-    protfdtfd Color shbdowOutfr;
+    protfdtfd int bfvflTypf;
+    protfdtfd int bfvflTypf;
+    protfdtfd int bfvflTypf;
+    protfdtfd int bfvflTypf;
+    protfdtfd Color iigiligitOutfr;
+    protfdtfd Color iigiligitOutfr;
+    protfdtfd Color iigiligitOutfr;
+    protfdtfd Color iigiligitOutfr;
+    protfdtfd Color iigiligitOutfr;
+    protfdtfd Color iigiligitInnfr;
+    protfdtfd Color iigiligitInnfr;
+    protfdtfd Color iigiligitInnfr;
+    protfdtfd Color iigiligitInnfr;
+    protfdtfd Color iigiligitInnfr;
+    protfdtfd Color sibdowInnfr;
+    protfdtfd Color sibdowInnfr;
+    protfdtfd Color sibdowInnfr;
+    protfdtfd Color sibdowInnfr;
+    protfdtfd Color sibdowInnfr;
+    protfdtfd Color sibdowOutfr;
+    protfdtfd Color sibdowOutfr;
+    protfdtfd Color sibdowOutfr;
+    protfdtfd Color sibdowOutfr;
+    protfdtfd Color sibdowOutfr;
+
+
+
+
 
     /**
-     * Crfbtfs b bfvfl bordfr with thf spfdififd typf bnd whosf
-     * dolors will bf dfrivfd from thf bbdkground dolor of thf
-     * domponfnt pbssfd into thf pbintBordfr mfthod.
-     * @pbrbm bfvflTypf thf typf of bfvfl for thf bordfr
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf bnd wiosf
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf bnd wiosf
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf bnd wiosf
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf bnd wiosf
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf bnd wiosf
+     * dolors will bf dfrivfd from tif bbdkground dolor of tif
+     * dolors will bf dfrivfd from tif bbdkground dolor of tif
+     * dolors will bf dfrivfd from tif bbdkground dolor of tif
+     * dolors will bf dfrivfd from tif bbdkground dolor of tif
+     * dolors will bf dfrivfd from tif bbdkground dolor of tif
+     * domponfnt pbssfd into tif pbintBordfr mftiod.
+     * domponfnt pbssfd into tif pbintBordfr mftiod.
+     * domponfnt pbssfd into tif pbintBordfr mftiod.
+     * domponfnt pbssfd into tif pbintBordfr mftiod.
+     * domponfnt pbssfd into tif pbintBordfr mftiod.
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     */
+     */
+     */
+     */
      */
     publid BfvflBordfr(int bfvflTypf) {
-        this.bfvflTypf = bfvflTypf;
+    publid BfvflBordfr(int bfvflTypf) {
+    publid BfvflBordfr(int bfvflTypf) {
+    publid BfvflBordfr(int bfvflTypf) {
+    publid BfvflBordfr(int bfvflTypf) {
+        tiis.bfvflTypf = bfvflTypf;
+        tiis.bfvflTypf = bfvflTypf;
+        tiis.bfvflTypf = bfvflTypf;
+        tiis.bfvflTypf = bfvflTypf;
+        tiis.bfvflTypf = bfvflTypf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b bfvfl bordfr with thf spfdififd typf, highlight bnd
-     * shbdow dolors.
-     * @pbrbm bfvflTypf thf typf of bfvfl for thf bordfr
-     * @pbrbm highlight thf dolor to usf for thf bfvfl highlight
-     * @pbrbm shbdow thf dolor to usf for thf bfvfl shbdow
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * sibdow dolors.
+     * sibdow dolors.
+     * sibdow dolors.
+     * sibdow dolors.
+     * sibdow dolors.
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm iigiligit tif dolor to usf for tif bfvfl iigiligit
+     * @pbrbm iigiligit tif dolor to usf for tif bfvfl iigiligit
+     * @pbrbm iigiligit tif dolor to usf for tif bfvfl iigiligit
+     * @pbrbm iigiligit tif dolor to usf for tif bfvfl iigiligit
+     * @pbrbm iigiligit tif dolor to usf for tif bfvfl iigiligit
+     * @pbrbm sibdow tif dolor to usf for tif bfvfl sibdow
+     * @pbrbm sibdow tif dolor to usf for tif bfvfl sibdow
+     * @pbrbm sibdow tif dolor to usf for tif bfvfl sibdow
+     * @pbrbm sibdow tif dolor to usf for tif bfvfl sibdow
+     * @pbrbm sibdow tif dolor to usf for tif bfvfl sibdow
      */
-    publid BfvflBordfr(int bfvflTypf, Color highlight, Color shbdow) {
-        this(bfvflTypf, highlight.brightfr(), highlight, shbdow, shbdow.brightfr());
+     */
+     */
+     */
+     */
+    publid BfvflBordfr(int bfvflTypf, Color iigiligit, Color sibdow) {
+    publid BfvflBordfr(int bfvflTypf, Color iigiligit, Color sibdow) {
+    publid BfvflBordfr(int bfvflTypf, Color iigiligit, Color sibdow) {
+    publid BfvflBordfr(int bfvflTypf, Color iigiligit, Color sibdow) {
+    publid BfvflBordfr(int bfvflTypf, Color iigiligit, Color sibdow) {
+        tiis(bfvflTypf, iigiligit.brigitfr(), iigiligit, sibdow, sibdow.brigitfr());
+        tiis(bfvflTypf, iigiligit.brigitfr(), iigiligit, sibdow, sibdow.brigitfr());
+        tiis(bfvflTypf, iigiligit.brigitfr(), iigiligit, sibdow, sibdow.brigitfr());
+        tiis(bfvflTypf, iigiligit.brigitfr(), iigiligit, sibdow, sibdow.brigitfr());
+        tiis(bfvflTypf, iigiligit.brigitfr(), iigiligit, sibdow, sibdow.brigitfr());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b bfvfl bordfr with thf spfdififd typf, highlight bnd
-     * shbdow dolors.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * sibdow dolors.
+     * sibdow dolors.
+     * sibdow dolors.
+     * sibdow dolors.
+     * sibdow dolors.
      *
-     * @pbrbm bfvflTypf thf typf of bfvfl for thf bordfr
-     * @pbrbm highlightOutfrColor thf dolor to usf for thf bfvfl outfr highlight
-     * @pbrbm highlightInnfrColor thf dolor to usf for thf bfvfl innfr highlight
-     * @pbrbm shbdowOutfrColor thf dolor to usf for thf bfvfl outfr shbdow
-     * @pbrbm shbdowInnfrColor thf dolor to usf for thf bfvfl innfr shbdow
+     *
+     *
+     *
+     *
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm iigiligitOutfrColor tif dolor to usf for tif bfvfl outfr iigiligit
+     * @pbrbm iigiligitOutfrColor tif dolor to usf for tif bfvfl outfr iigiligit
+     * @pbrbm iigiligitOutfrColor tif dolor to usf for tif bfvfl outfr iigiligit
+     * @pbrbm iigiligitOutfrColor tif dolor to usf for tif bfvfl outfr iigiligit
+     * @pbrbm iigiligitOutfrColor tif dolor to usf for tif bfvfl outfr iigiligit
+     * @pbrbm iigiligitInnfrColor tif dolor to usf for tif bfvfl innfr iigiligit
+     * @pbrbm iigiligitInnfrColor tif dolor to usf for tif bfvfl innfr iigiligit
+     * @pbrbm iigiligitInnfrColor tif dolor to usf for tif bfvfl innfr iigiligit
+     * @pbrbm iigiligitInnfrColor tif dolor to usf for tif bfvfl innfr iigiligit
+     * @pbrbm iigiligitInnfrColor tif dolor to usf for tif bfvfl innfr iigiligit
+     * @pbrbm sibdowOutfrColor tif dolor to usf for tif bfvfl outfr sibdow
+     * @pbrbm sibdowOutfrColor tif dolor to usf for tif bfvfl outfr sibdow
+     * @pbrbm sibdowOutfrColor tif dolor to usf for tif bfvfl outfr sibdow
+     * @pbrbm sibdowOutfrColor tif dolor to usf for tif bfvfl outfr sibdow
+     * @pbrbm sibdowOutfrColor tif dolor to usf for tif bfvfl outfr sibdow
+     * @pbrbm sibdowInnfrColor tif dolor to usf for tif bfvfl innfr sibdow
+     * @pbrbm sibdowInnfrColor tif dolor to usf for tif bfvfl innfr sibdow
+     * @pbrbm sibdowInnfrColor tif dolor to usf for tif bfvfl innfr sibdow
+     * @pbrbm sibdowInnfrColor tif dolor to usf for tif bfvfl innfr sibdow
+     * @pbrbm sibdowInnfrColor tif dolor to usf for tif bfvfl innfr sibdow
      */
-    @ConstrudtorPropfrtifs({"bfvflTypf", "highlightOutfrColor", "highlightInnfrColor", "shbdowOutfrColor", "shbdowInnfrColor"})
-    publid BfvflBordfr(int bfvflTypf, Color highlightOutfrColor,
-                       Color highlightInnfrColor, Color shbdowOutfrColor,
-                       Color shbdowInnfrColor) {
-        this(bfvflTypf);
-        this.highlightOutfr = highlightOutfrColor;
-        this.highlightInnfr = highlightInnfrColor;
-        this.shbdowOutfr = shbdowOutfrColor;
-        this.shbdowInnfr = shbdowInnfrColor;
+     */
+     */
+     */
+     */
+    @ConstrudtorPropfrtifs({"bfvflTypf", "iigiligitOutfrColor", "iigiligitInnfrColor", "sibdowOutfrColor", "sibdowInnfrColor"})
+    @ConstrudtorPropfrtifs({"bfvflTypf", "iigiligitOutfrColor", "iigiligitInnfrColor", "sibdowOutfrColor", "sibdowInnfrColor"})
+    @ConstrudtorPropfrtifs({"bfvflTypf", "iigiligitOutfrColor", "iigiligitInnfrColor", "sibdowOutfrColor", "sibdowInnfrColor"})
+    @ConstrudtorPropfrtifs({"bfvflTypf", "iigiligitOutfrColor", "iigiligitInnfrColor", "sibdowOutfrColor", "sibdowInnfrColor"})
+    @ConstrudtorPropfrtifs({"bfvflTypf", "iigiligitOutfrColor", "iigiligitInnfrColor", "sibdowOutfrColor", "sibdowInnfrColor"})
+    publid BfvflBordfr(int bfvflTypf, Color iigiligitOutfrColor,
+    publid BfvflBordfr(int bfvflTypf, Color iigiligitOutfrColor,
+    publid BfvflBordfr(int bfvflTypf, Color iigiligitOutfrColor,
+    publid BfvflBordfr(int bfvflTypf, Color iigiligitOutfrColor,
+    publid BfvflBordfr(int bfvflTypf, Color iigiligitOutfrColor,
+                       Color iigiligitInnfrColor, Color sibdowOutfrColor,
+                       Color iigiligitInnfrColor, Color sibdowOutfrColor,
+                       Color iigiligitInnfrColor, Color sibdowOutfrColor,
+                       Color iigiligitInnfrColor, Color sibdowOutfrColor,
+                       Color iigiligitInnfrColor, Color sibdowOutfrColor,
+                       Color sibdowInnfrColor) {
+                       Color sibdowInnfrColor) {
+                       Color sibdowInnfrColor) {
+                       Color sibdowInnfrColor) {
+                       Color sibdowInnfrColor) {
+        tiis(bfvflTypf);
+        tiis(bfvflTypf);
+        tiis(bfvflTypf);
+        tiis(bfvflTypf);
+        tiis(bfvflTypf);
+        tiis.iigiligitOutfr = iigiligitOutfrColor;
+        tiis.iigiligitOutfr = iigiligitOutfrColor;
+        tiis.iigiligitOutfr = iigiligitOutfrColor;
+        tiis.iigiligitOutfr = iigiligitOutfrColor;
+        tiis.iigiligitOutfr = iigiligitOutfrColor;
+        tiis.iigiligitInnfr = iigiligitInnfrColor;
+        tiis.iigiligitInnfr = iigiligitInnfrColor;
+        tiis.iigiligitInnfr = iigiligitInnfrColor;
+        tiis.iigiligitInnfr = iigiligitInnfrColor;
+        tiis.iigiligitInnfr = iigiligitInnfrColor;
+        tiis.sibdowOutfr = sibdowOutfrColor;
+        tiis.sibdowOutfr = sibdowOutfrColor;
+        tiis.sibdowOutfr = sibdowOutfrColor;
+        tiis.sibdowOutfr = sibdowOutfrColor;
+        tiis.sibdowOutfr = sibdowOutfrColor;
+        tiis.sibdowInnfr = sibdowInnfrColor;
+        tiis.sibdowInnfr = sibdowInnfrColor;
+        tiis.sibdowInnfr = sibdowInnfrColor;
+        tiis.sibdowInnfr = sibdowInnfrColor;
+        tiis.sibdowInnfr = sibdowInnfrColor;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Pbints thf bordfr for thf spfdififd domponfnt with thf spfdififd
+    /**
+    /**
+    /**
+    /**
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
      * position bnd sizf.
-     * @pbrbm d thf domponfnt for whidh this bordfr is bfing pbintfd
-     * @pbrbm g thf pbint grbphids
-     * @pbrbm x thf x position of thf pbintfd bordfr
-     * @pbrbm y thf y position of thf pbintfd bordfr
-     * @pbrbm width thf width of thf pbintfd bordfr
-     * @pbrbm hfight thf hfight of thf pbintfd bordfr
+     * position bnd sizf.
+     * position bnd sizf.
+     * position bnd sizf.
+     * position bnd sizf.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+     */
+     */
+     */
+     */
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
         if (bfvflTypf == RAISED) {
-             pbintRbisfdBfvfl(d, g, x, y, width, hfight);
+        if (bfvflTypf == RAISED) {
+        if (bfvflTypf == RAISED) {
+        if (bfvflTypf == RAISED) {
+        if (bfvflTypf == RAISED) {
+             pbintRbisfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintRbisfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintRbisfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintRbisfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintRbisfdBfvfl(d, g, x, y, widti, ifigit);
+
+
+
+
 
         } flsf if (bfvflTypf == LOWERED) {
-             pbintLowfrfdBfvfl(d, g, x, y, width, hfight);
+        } flsf if (bfvflTypf == LOWERED) {
+        } flsf if (bfvflTypf == LOWERED) {
+        } flsf if (bfvflTypf == LOWERED) {
+        } flsf if (bfvflTypf == LOWERED) {
+             pbintLowfrfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintLowfrfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintLowfrfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintLowfrfdBfvfl(d, g, x, y, widti, ifigit);
+             pbintLowfrfdBfvfl(d, g, x, y, widti, ifigit);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfinitiblizf thf insfts pbrbmftfr with this Bordfr's durrfnt Insfts.
-     * @pbrbm d thf domponfnt for whidh this bordfr insfts vbluf bpplifs
-     * @pbrbm insfts thf objfdt to bf rfinitiblizfd
+    /**
+    /**
+    /**
+    /**
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     */
+     */
+     */
+     */
      */
     publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        insfts.sft(2, 2, 2, 2);
+        insfts.sft(2, 2, 2, 2);
+        insfts.sft(2, 2, 2, 2);
+        insfts.sft(2, 2, 2, 2);
         insfts.sft(2, 2, 2, 2);
         rfturn insfts;
+        rfturn insfts;
+        rfturn insfts;
+        rfturn insfts;
+        rfturn insfts;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Rfturns thf outfr highlight dolor of thf bfvfl bordfr
-     * whfn rfndfrfd on thf spfdififd domponfnt.  If no highlight
-     * dolor wbs spfdififd bt instbntibtion, thf highlight dolor
-     * is dfrivfd from thf spfdififd domponfnt's bbdkground dolor.
-     *
-     * @pbrbm d thf domponfnt for whidh thf highlight mby bf dfrivfd
-     * @rfturn thf outfr highlight {@dodf Color}
-     * @sindf 1.3
-     */
-    publid Color gftHighlightOutfrColor(Componfnt d)   {
-        Color highlight = gftHighlightOutfrColor();
-        rfturn highlight != null? highlight :
-                                       d.gftBbdkground().brightfr().brightfr();
-    }
+
+
+
 
     /**
-     * Rfturns thf innfr highlight dolor of thf bfvfl bordfr
-     * whfn rfndfrfd on thf spfdififd domponfnt.  If no highlight
-     * dolor wbs spfdififd bt instbntibtion, thf highlight dolor
-     * is dfrivfd from thf spfdififd domponfnt's bbdkground dolor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @pbrbm d thf domponfnt for whidh thf highlight mby bf dfrivfd
-     * @rfturn thf innfr highlight {@dodf Color}
+     *
+     *
+     *
+     *
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @rfturn tif outfr iigiligit {@dodf Color}
+     * @rfturn tif outfr iigiligit {@dodf Color}
+     * @rfturn tif outfr iigiligit {@dodf Color}
+     * @rfturn tif outfr iigiligit {@dodf Color}
+     * @rfturn tif outfr iigiligit {@dodf Color}
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
      * @sindf 1.3
      */
-    publid Color gftHighlightInnfrColor(Componfnt d)   {
-        Color highlight = gftHighlightInnfrColor();
-        rfturn highlight != null? highlight :
-                                       d.gftBbdkground().brightfr();
+     */
+     */
+     */
+     */
+    publid Color gftHigiligitOutfrColor(Componfnt d)   {
+    publid Color gftHigiligitOutfrColor(Componfnt d)   {
+    publid Color gftHigiligitOutfrColor(Componfnt d)   {
+    publid Color gftHigiligitOutfrColor(Componfnt d)   {
+    publid Color gftHigiligitOutfrColor(Componfnt d)   {
+        Color iigiligit = gftHigiligitOutfrColor();
+        Color iigiligit = gftHigiligitOutfrColor();
+        Color iigiligit = gftHigiligitOutfrColor();
+        Color iigiligit = gftHigiligitOutfrColor();
+        Color iigiligit = gftHigiligitOutfrColor();
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+                                       d.gftBbdkground().brigitfr().brigitfr();
+                                       d.gftBbdkground().brigitfr().brigitfr();
+                                       d.gftBbdkground().brigitfr().brigitfr();
+                                       d.gftBbdkground().brigitfr().brigitfr();
+                                       d.gftBbdkground().brigitfr().brigitfr();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf innfr shbdow dolor of thf bfvfl bordfr
-     * whfn rfndfrfd on thf spfdififd domponfnt.  If no shbdow
-     * dolor wbs spfdififd bt instbntibtion, thf shbdow dolor
-     * is dfrivfd from thf spfdififd domponfnt's bbdkground dolor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @pbrbm d thf domponfnt for whidh thf shbdow mby bf dfrivfd
-     * @rfturn thf innfr shbdow {@dodf Color}
+     *
+     *
+     *
+     *
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @rfturn tif innfr iigiligit {@dodf Color}
+     * @rfturn tif innfr iigiligit {@dodf Color}
+     * @rfturn tif innfr iigiligit {@dodf Color}
+     * @rfturn tif innfr iigiligit {@dodf Color}
+     * @rfturn tif innfr iigiligit {@dodf Color}
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
      * @sindf 1.3
      */
-    publid Color gftShbdowInnfrColor(Componfnt d)      {
-        Color shbdow = gftShbdowInnfrColor();
-        rfturn shbdow != null? shbdow :
+     */
+     */
+     */
+     */
+    publid Color gftHigiligitInnfrColor(Componfnt d)   {
+    publid Color gftHigiligitInnfrColor(Componfnt d)   {
+    publid Color gftHigiligitInnfrColor(Componfnt d)   {
+    publid Color gftHigiligitInnfrColor(Componfnt d)   {
+    publid Color gftHigiligitInnfrColor(Componfnt d)   {
+        Color iigiligit = gftHigiligitInnfrColor();
+        Color iigiligit = gftHigiligitInnfrColor();
+        Color iigiligit = gftHigiligitInnfrColor();
+        Color iigiligit = gftHigiligitInnfrColor();
+        Color iigiligit = gftHigiligitInnfrColor();
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+        rfturn iigiligit != null? iigiligit :
+                                       d.gftBbdkground().brigitfr();
+                                       d.gftBbdkground().brigitfr();
+                                       d.gftBbdkground().brigitfr();
+                                       d.gftBbdkground().brigitfr();
+                                       d.gftBbdkground().brigitfr();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @rfturn tif innfr sibdow {@dodf Color}
+     * @rfturn tif innfr sibdow {@dodf Color}
+     * @rfturn tif innfr sibdow {@dodf Color}
+     * @rfturn tif innfr sibdow {@dodf Color}
+     * @rfturn tif innfr sibdow {@dodf Color}
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     */
+     */
+     */
+     */
+     */
+    publid Color gftSibdowInnfrColor(Componfnt d)      {
+    publid Color gftSibdowInnfrColor(Componfnt d)      {
+    publid Color gftSibdowInnfrColor(Componfnt d)      {
+    publid Color gftSibdowInnfrColor(Componfnt d)      {
+    publid Color gftSibdowInnfrColor(Componfnt d)      {
+        Color sibdow = gftSibdowInnfrColor();
+        Color sibdow = gftSibdowInnfrColor();
+        Color sibdow = gftSibdowInnfrColor();
+        Color sibdow = gftSibdowInnfrColor();
+        Color sibdow = gftSibdowInnfrColor();
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+                                    d.gftBbdkground().dbrkfr();
+                                    d.gftBbdkground().dbrkfr();
+                                    d.gftBbdkground().dbrkfr();
+                                    d.gftBbdkground().dbrkfr();
                                     d.gftBbdkground().dbrkfr();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf outfr shbdow dolor of thf bfvfl bordfr
-     * whfn rfndfrfd on thf spfdififd domponfnt.  If no shbdow
-     * dolor wbs spfdififd bt instbntibtion, thf shbdow dolor
-     * is dfrivfd from thf spfdififd domponfnt's bbdkground dolor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @pbrbm d thf domponfnt for whidh thf shbdow mby bf dfrivfd
-     * @rfturn thf outfr shbdow {@dodf Color}
+     *
+     *
+     *
+     *
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @rfturn tif outfr sibdow {@dodf Color}
+     * @rfturn tif outfr sibdow {@dodf Color}
+     * @rfturn tif outfr sibdow {@dodf Color}
+     * @rfturn tif outfr sibdow {@dodf Color}
+     * @rfturn tif outfr sibdow {@dodf Color}
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
      * @sindf 1.3
      */
-    publid Color gftShbdowOutfrColor(Componfnt d)      {
-        Color shbdow = gftShbdowOutfrColor();
-        rfturn shbdow != null? shbdow :
+     */
+     */
+     */
+     */
+    publid Color gftSibdowOutfrColor(Componfnt d)      {
+    publid Color gftSibdowOutfrColor(Componfnt d)      {
+    publid Color gftSibdowOutfrColor(Componfnt d)      {
+    publid Color gftSibdowOutfrColor(Componfnt d)      {
+    publid Color gftSibdowOutfrColor(Componfnt d)      {
+        Color sibdow = gftSibdowOutfrColor();
+        Color sibdow = gftSibdowOutfrColor();
+        Color sibdow = gftSibdowOutfrColor();
+        Color sibdow = gftSibdowOutfrColor();
+        Color sibdow = gftSibdowOutfrColor();
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+        rfturn sibdow != null? sibdow :
+                                    d.gftBbdkground().dbrkfr().dbrkfr();
+                                    d.gftBbdkground().dbrkfr().dbrkfr();
+                                    d.gftBbdkground().dbrkfr().dbrkfr();
+                                    d.gftBbdkground().dbrkfr().dbrkfr();
                                     d.gftBbdkground().dbrkfr().dbrkfr();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf outfr highlight dolor of thf bfvfl bordfr.
-     * Will rfturn null if no highlight dolor wbs spfdififd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr.
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
      * bt instbntibtion.
      *
-     * @rfturn thf outfr highlight {@dodf Color} or {@dodf null} if no highlight
+     *
+     *
+     *
+     *
+     * @rfturn tif outfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif outfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif outfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif outfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif outfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     *         dolor wbs spfdififd
+     *         dolor wbs spfdififd
+     *         dolor wbs spfdififd
+     *         dolor wbs spfdififd
      *         dolor wbs spfdififd
      * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
      */
-    publid Color gftHighlightOutfrColor()   {
-        rfturn highlightOutfr;
+     */
+     */
+     */
+     */
+    publid Color gftHigiligitOutfrColor()   {
+    publid Color gftHigiligitOutfrColor()   {
+    publid Color gftHigiligitOutfrColor()   {
+    publid Color gftHigiligitOutfrColor()   {
+    publid Color gftHigiligitOutfrColor()   {
+        rfturn iigiligitOutfr;
+        rfturn iigiligitOutfr;
+        rfturn iigiligitOutfr;
+        rfturn iigiligitOutfr;
+        rfturn iigiligitOutfr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf innfr highlight dolor of thf bfvfl bordfr.
-     * Will rfturn null if no highlight dolor wbs spfdififd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr.
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
      * bt instbntibtion.
      *
-     * @rfturn thf innfr highlight {@dodf Color} or {@dodf null} if no highlight
+     *
+     *
+     *
+     *
+     * @rfturn tif innfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif innfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif innfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif innfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     * @rfturn tif innfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     *         dolor wbs spfdififd
+     *         dolor wbs spfdififd
+     *         dolor wbs spfdififd
+     *         dolor wbs spfdififd
      *         dolor wbs spfdififd
      * @sindf 1.3
-     */
-    publid Color gftHighlightInnfrColor()   {
-        rfturn highlightInnfr;
-    }
-
-    /**
-     * Rfturns thf innfr shbdow dolor of thf bfvfl bordfr.
-     * Will rfturn null if no shbdow dolor wbs spfdififd
-     * bt instbntibtion.
-     *
-     * @rfturn thf innfr shbdow {@dodf Color} or {@dodf null} if no shbdow dolor
-     *         wbs spfdififd
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
      * @sindf 1.3
      */
-    publid Color gftShbdowInnfrColor()      {
-        rfturn shbdowInnfr;
+     */
+     */
+     */
+     */
+    publid Color gftHigiligitInnfrColor()   {
+    publid Color gftHigiligitInnfrColor()   {
+    publid Color gftHigiligitInnfrColor()   {
+    publid Color gftHigiligitInnfrColor()   {
+    publid Color gftHigiligitInnfrColor()   {
+        rfturn iigiligitInnfr;
+        rfturn iigiligitInnfr;
+        rfturn iigiligitInnfr;
+        rfturn iigiligitInnfr;
+        rfturn iigiligitInnfr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf outfr shbdow dolor of thf bfvfl bordfr.
-     * Will rfturn null if no shbdow dolor wbs spfdififd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr.
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
      * bt instbntibtion.
      *
-     * @rfturn thf outfr shbdow {@dodf Color} or {@dodf null} if no shbdow dolor
+     *
+     *
+     *
+     *
+     * @rfturn tif innfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif innfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif innfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif innfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif innfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     *         wbs spfdififd
+     *         wbs spfdififd
+     *         wbs spfdififd
+     *         wbs spfdififd
      *         wbs spfdififd
      * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
      */
-    publid Color gftShbdowOutfrColor()      {
-        rfturn shbdowOutfr;
+     */
+     */
+     */
+     */
+    publid Color gftSibdowInnfrColor()      {
+    publid Color gftSibdowInnfrColor()      {
+    publid Color gftSibdowInnfrColor()      {
+    publid Color gftSibdowInnfrColor()      {
+    publid Color gftSibdowInnfrColor()      {
+        rfturn sibdowInnfr;
+        rfturn sibdowInnfr;
+        rfturn sibdowInnfr;
+        rfturn sibdowInnfr;
+        rfturn sibdowInnfr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf typf of thf bfvfl bordfr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr.
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr.
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
+     * bt instbntibtion.
      *
-     * @rfturn thf bfvfl bordfr typf, fithfr {@dodf RAISED} or {@dodf LOWERED}
+     *
+     *
+     *
+     *
+     * @rfturn tif outfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif outfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif outfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif outfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     * @rfturn tif outfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     *         wbs spfdififd
+     *         wbs spfdififd
+     *         wbs spfdififd
+     *         wbs spfdififd
+     *         wbs spfdififd
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     */
+     */
+     */
+     */
+     */
+    publid Color gftSibdowOutfrColor()      {
+    publid Color gftSibdowOutfrColor()      {
+    publid Color gftSibdowOutfrColor()      {
+    publid Color gftSibdowOutfrColor()      {
+    publid Color gftSibdowOutfrColor()      {
+        rfturn sibdowOutfr;
+        rfturn sibdowOutfr;
+        rfturn sibdowOutfr;
+        rfturn sibdowOutfr;
+        rfturn sibdowOutfr;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif typf of tif bfvfl bordfr.
+     * Rfturns tif typf of tif bfvfl bordfr.
+     * Rfturns tif typf of tif bfvfl bordfr.
+     * Rfturns tif typf of tif bfvfl bordfr.
+     * Rfturns tif typf of tif bfvfl bordfr.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif bfvfl bordfr typf, fitifr {@dodf RAISED} or {@dodf LOWERED}
+     * @rfturn tif bfvfl bordfr typf, fitifr {@dodf RAISED} or {@dodf LOWERED}
+     * @rfturn tif bfvfl bordfr typf, fitifr {@dodf RAISED} or {@dodf LOWERED}
+     * @rfturn tif bfvfl bordfr typf, fitifr {@dodf RAISED} or {@dodf LOWERED}
+     * @rfturn tif bfvfl bordfr typf, fitifr {@dodf RAISED} or {@dodf LOWERED}
+     */
+     */
+     */
+     */
      */
     publid int gftBfvflTypf()       {
+    publid int gftBfvflTypf()       {
+    publid int gftBfvflTypf()       {
+    publid int gftBfvflTypf()       {
+    publid int gftBfvflTypf()       {
+        rfturn bfvflTypf;
+        rfturn bfvflTypf;
+        rfturn bfvflTypf;
+        rfturn bfvflTypf;
         rfturn bfvflTypf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns whfthfr or not thf bordfr is opbquf. This implfmfntbtion
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr or not tif bordfr is opbquf. Tiis implfmfntbtion
+     * Rfturns wiftifr or not tif bordfr is opbquf. Tiis implfmfntbtion
+     * Rfturns wiftifr or not tif bordfr is opbquf. Tiis implfmfntbtion
+     * Rfturns wiftifr or not tif bordfr is opbquf. Tiis implfmfntbtion
+     * Rfturns wiftifr or not tif bordfr is opbquf. Tiis implfmfntbtion
+     * rfturns {@dodf truf}.
+     * rfturns {@dodf truf}.
+     * rfturns {@dodf truf}.
+     * rfturns {@dodf truf}.
      * rfturns {@dodf truf}.
      *
+     *
+     *
+     *
+     *
+     * @rfturn truf
+     * @rfturn truf
+     * @rfturn truf
+     * @rfturn truf
      * @rfturn truf
      */
+     */
+     */
+     */
+     */
+    publid boolfbn isBordfrOpbquf() { rfturn truf; }
+    publid boolfbn isBordfrOpbquf() { rfturn truf; }
+    publid boolfbn isBordfrOpbquf() { rfturn truf; }
+    publid boolfbn isBordfrOpbquf() { rfturn truf; }
     publid boolfbn isBordfrOpbquf() { rfturn truf; }
 
-    protfdtfd void pbintRbisfdBfvfl(Componfnt d, Grbphids g, int x, int y,
-                                    int width, int hfight)  {
+
+
+
+
+    protfdtfd void pbintRbisfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintRbisfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintRbisfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintRbisfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintRbisfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+                                    int widti, int ifigit)  {
+                                    int widti, int ifigit)  {
+                                    int widti, int ifigit)  {
+                                    int widti, int ifigit)  {
+                                    int widti, int ifigit)  {
         Color oldColor = g.gftColor();
-        int h = hfight;
-        int w = width;
+        Color oldColor = g.gftColor();
+        Color oldColor = g.gftColor();
+        Color oldColor = g.gftColor();
+        Color oldColor = g.gftColor();
+        int i = ifigit;
+        int i = ifigit;
+        int i = ifigit;
+        int i = ifigit;
+        int i = ifigit;
+        int w = widti;
+        int w = widti;
+        int w = widti;
+        int w = widti;
+        int w = widti;
+
+
+
+
 
         g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
 
-        g.sftColor(gftHighlightOutfrColor(d));
-        g.drbwLinf(0, 0, 0, h-2);
+
+
+
+
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.drbwLinf(0, 0, 0, i-2);
+        g.drbwLinf(0, 0, 0, i-2);
+        g.drbwLinf(0, 0, 0, i-2);
+        g.drbwLinf(0, 0, 0, i-2);
+        g.drbwLinf(0, 0, 0, i-2);
+        g.drbwLinf(1, 0, w-2, 0);
+        g.drbwLinf(1, 0, w-2, 0);
+        g.drbwLinf(1, 0, w-2, 0);
+        g.drbwLinf(1, 0, w-2, 0);
         g.drbwLinf(1, 0, w-2, 0);
 
-        g.sftColor(gftHighlightInnfrColor(d));
-        g.drbwLinf(1, 1, 1, h-3);
+
+
+
+
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.drbwLinf(1, 1, 1, i-3);
+        g.drbwLinf(1, 1, 1, i-3);
+        g.drbwLinf(1, 1, 1, i-3);
+        g.drbwLinf(1, 1, 1, i-3);
+        g.drbwLinf(1, 1, 1, i-3);
+        g.drbwLinf(2, 1, w-3, 1);
+        g.drbwLinf(2, 1, w-3, 1);
+        g.drbwLinf(2, 1, w-3, 1);
+        g.drbwLinf(2, 1, w-3, 1);
         g.drbwLinf(2, 1, w-3, 1);
 
-        g.sftColor(gftShbdowOutfrColor(d));
-        g.drbwLinf(0, h-1, w-1, h-1);
-        g.drbwLinf(w-1, 0, w-1, h-2);
 
-        g.sftColor(gftShbdowInnfrColor(d));
-        g.drbwLinf(1, h-2, w-2, h-2);
-        g.drbwLinf(w-2, 1, w-2, h-3);
+
+
+
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(w-1, 0, w-1, i-2);
+        g.drbwLinf(w-1, 0, w-1, i-2);
+        g.drbwLinf(w-1, 0, w-1, i-2);
+        g.drbwLinf(w-1, 0, w-1, i-2);
+        g.drbwLinf(w-1, 0, w-1, i-2);
+
+
+
+
+
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.drbwLinf(1, i-2, w-2, i-2);
+        g.drbwLinf(1, i-2, w-2, i-2);
+        g.drbwLinf(1, i-2, w-2, i-2);
+        g.drbwLinf(1, i-2, w-2, i-2);
+        g.drbwLinf(1, i-2, w-2, i-2);
+        g.drbwLinf(w-2, 1, w-2, i-3);
+        g.drbwLinf(w-2, 1, w-2, i-3);
+        g.drbwLinf(w-2, 1, w-2, i-3);
+        g.drbwLinf(w-2, 1, w-2, i-3);
+        g.drbwLinf(w-2, 1, w-2, i-3);
+
+
+
+
 
         g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
+        g.sftColor(oldColor);
+        g.sftColor(oldColor);
+        g.sftColor(oldColor);
         g.sftColor(oldColor);
 
+
+
+
+
+    }
+    }
+    }
+    }
     }
 
-    protfdtfd void pbintLowfrfdBfvfl(Componfnt d, Grbphids g, int x, int y,
-                                        int width, int hfight)  {
+
+
+
+
+    protfdtfd void pbintLowfrfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintLowfrfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintLowfrfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintLowfrfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+    protfdtfd void pbintLowfrfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+                                        int widti, int ifigit)  {
+                                        int widti, int ifigit)  {
+                                        int widti, int ifigit)  {
+                                        int widti, int ifigit)  {
+                                        int widti, int ifigit)  {
         Color oldColor = g.gftColor();
-        int h = hfight;
-        int w = width;
+        Color oldColor = g.gftColor();
+        Color oldColor = g.gftColor();
+        Color oldColor = g.gftColor();
+        Color oldColor = g.gftColor();
+        int i = ifigit;
+        int i = ifigit;
+        int i = ifigit;
+        int i = ifigit;
+        int i = ifigit;
+        int w = widti;
+        int w = widti;
+        int w = widti;
+        int w = widti;
+        int w = widti;
+
+
+
+
 
         g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
+        g.trbnslbtf(x, y);
 
-        g.sftColor(gftShbdowInnfrColor(d));
-        g.drbwLinf(0, 0, 0, h-1);
+
+
+
+
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.drbwLinf(0, 0, 0, i-1);
+        g.drbwLinf(0, 0, 0, i-1);
+        g.drbwLinf(0, 0, 0, i-1);
+        g.drbwLinf(0, 0, 0, i-1);
+        g.drbwLinf(0, 0, 0, i-1);
+        g.drbwLinf(1, 0, w-1, 0);
+        g.drbwLinf(1, 0, w-1, 0);
+        g.drbwLinf(1, 0, w-1, 0);
+        g.drbwLinf(1, 0, w-1, 0);
         g.drbwLinf(1, 0, w-1, 0);
 
-        g.sftColor(gftShbdowOutfrColor(d));
-        g.drbwLinf(1, 1, 1, h-2);
+
+
+
+
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.drbwLinf(1, 1, 1, i-2);
+        g.drbwLinf(1, 1, 1, i-2);
+        g.drbwLinf(1, 1, 1, i-2);
+        g.drbwLinf(1, 1, 1, i-2);
+        g.drbwLinf(1, 1, 1, i-2);
+        g.drbwLinf(2, 1, w-2, 1);
+        g.drbwLinf(2, 1, w-2, 1);
+        g.drbwLinf(2, 1, w-2, 1);
+        g.drbwLinf(2, 1, w-2, 1);
         g.drbwLinf(2, 1, w-2, 1);
 
-        g.sftColor(gftHighlightOutfrColor(d));
-        g.drbwLinf(1, h-1, w-1, h-1);
-        g.drbwLinf(w-1, 1, w-1, h-2);
 
-        g.sftColor(gftHighlightInnfrColor(d));
-        g.drbwLinf(2, h-2, w-2, h-2);
-        g.drbwLinf(w-2, 2, w-2, h-3);
+
+
+
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.drbwLinf(1, i-1, w-1, i-1);
+        g.drbwLinf(1, i-1, w-1, i-1);
+        g.drbwLinf(1, i-1, w-1, i-1);
+        g.drbwLinf(1, i-1, w-1, i-1);
+        g.drbwLinf(1, i-1, w-1, i-1);
+        g.drbwLinf(w-1, 1, w-1, i-2);
+        g.drbwLinf(w-1, 1, w-1, i-2);
+        g.drbwLinf(w-1, 1, w-1, i-2);
+        g.drbwLinf(w-1, 1, w-1, i-2);
+        g.drbwLinf(w-1, 1, w-1, i-2);
+
+
+
+
+
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.drbwLinf(2, i-2, w-2, i-2);
+        g.drbwLinf(2, i-2, w-2, i-2);
+        g.drbwLinf(2, i-2, w-2, i-2);
+        g.drbwLinf(2, i-2, w-2, i-2);
+        g.drbwLinf(2, i-2, w-2, i-2);
+        g.drbwLinf(w-2, 2, w-2, i-3);
+        g.drbwLinf(w-2, 2, w-2, i-3);
+        g.drbwLinf(w-2, 2, w-2, i-3);
+        g.drbwLinf(w-2, 2, w-2, i-3);
+        g.drbwLinf(w-2, 2, w-2, i-3);
+
+
+
+
 
         g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
+        g.sftColor(oldColor);
+        g.sftColor(oldColor);
+        g.sftColor(oldColor);
         g.sftColor(oldColor);
 
+
+
+
+
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

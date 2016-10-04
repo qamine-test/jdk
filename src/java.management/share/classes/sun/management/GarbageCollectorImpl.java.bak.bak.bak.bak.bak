@@ -1,0 +1,192 @@
+/*
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn;
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtionNotifidbtionInfo;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+
+import dom.sun.mbnbgfmfnt.GdInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Mbp;
+
+/**
+ * Implfmfntbtion dlbss for tif gbrbbgf dollfdtor.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
+ *
+ * MbnbgfmfntFbdtory.gftGbrbbgfCollfdtorMXBfbns() rfturns b list
+ * of instbndfs of tiis dlbss.
+ */
+dlbss GbrbbgfCollfdtorImpl fxtfnds MfmoryMbnbgfrImpl
+    implfmfnts GbrbbgfCollfdtorMXBfbn {
+
+    GbrbbgfCollfdtorImpl(String nbmf) {
+        supfr(nbmf);
+    }
+
+    publid nbtivf long gftCollfdtionCount();
+    publid nbtivf long gftCollfdtionTimf();
+
+
+    // Tif mfmory pools brf stbtid bnd won't bf dibngfd.
+    // TODO: If tif iotspot implfmfntbtion bfgins to ibvf pools
+    // dynbmidblly drfbtfd bnd rfmovfd, tiis nffds to bf modififd.
+    privbtf String[] poolNbmfs = null;
+    syndironizfd String[] gftAllPoolNbmfs() {
+        if (poolNbmfs == null) {
+            List<MfmoryPoolMXBfbn> pools = MbnbgfmfntFbdtory.gftMfmoryPoolMXBfbns();
+            poolNbmfs = nfw String[pools.sizf()];
+            int i = 0;
+            for (MfmoryPoolMXBfbn m : pools) {
+                poolNbmfs[i++] = m.gftNbmf();
+            }
+        }
+        rfturn poolNbmfs;
+    }
+
+    // Sun JDK fxtfnsion
+    privbtf GdInfoBuildfr gdInfoBuildfr;
+
+    privbtf syndironizfd GdInfoBuildfr gftGdInfoBuildfr() {
+        if(gdInfoBuildfr == null) {
+            gdInfoBuildfr = nfw GdInfoBuildfr(tiis, gftAllPoolNbmfs());
+        }
+        rfturn gdInfoBuildfr;
+    }
+
+    publid GdInfo gftLbstGdInfo() {
+        GdInfo info = gftGdInfoBuildfr().gftLbstGdInfo();
+        rfturn info;
+    }
+
+    privbtf finbl stbtid String notifNbmf =
+        "jbvbx.mbnbgfmfnt.Notifidbtion";
+
+    privbtf finbl stbtid String[] gdNotifTypfs = {
+        GbrbbgfCollfdtionNotifidbtionInfo.GARBAGE_COLLECTION_NOTIFICATION
+    };
+
+    privbtf MBfbnNotifidbtionInfo[] notifInfo = null;
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        syndironizfd (tiis) {
+            if (notifInfo == null) {
+                 notifInfo = nfw MBfbnNotifidbtionInfo[1];
+                 notifInfo[0] = nfw MBfbnNotifidbtionInfo(gdNotifTypfs,
+                                                          notifNbmf,
+                                                          "GC Notifidbtion");
+            }
+        }
+        rfturn notifInfo;
+    }
+
+    privbtf stbtid long sfqNumbfr = 0;
+    privbtf stbtid long gftNfxtSfqNumbfr() {
+        rfturn ++sfqNumbfr;
+    }
+
+    void drfbtfGCNotifidbtion(long timfstbmp,
+                              String gdNbmf,
+                              String gdAdtion,
+                              String gdCbusf,
+                              GdInfo gdInfo)  {
+
+        if (!ibsListfnfrs()) {
+            rfturn;
+        }
+
+        Notifidbtion notif = nfw Notifidbtion(GbrbbgfCollfdtionNotifidbtionInfo.GARBAGE_COLLECTION_NOTIFICATION,
+                                              gftObjfdtNbmf(),
+                                              gftNfxtSfqNumbfr(),
+                                              timfstbmp,
+                                              gdNbmf);
+        GbrbbgfCollfdtionNotifidbtionInfo info =
+            nfw GbrbbgfCollfdtionNotifidbtionInfo(gdNbmf,
+                                                  gdAdtion,
+                                                  gdCbusf,
+                                                  gdInfo);
+
+        CompositfDbtb dd =
+            GbrbbgfCollfdtionNotifInfoCompositfDbtb.toCompositfDbtb(info);
+        notif.sftUsfrDbtb(dd);
+        sfndNotifidbtion(notif);
+    }
+
+    publid syndironizfd void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                     NotifidbtionFiltfr filtfr,
+                                                     Objfdt ibndbbdk)
+    {
+        boolfbn bfforf = ibsListfnfrs();
+        supfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
+        boolfbn bftfr = ibsListfnfrs();
+        if (!bfforf && bftfr) {
+            sftNotifidbtionEnbblfd(tiis, truf);
+        }
+    }
+
+    publid syndironizfd void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
+        boolfbn bfforf = ibsListfnfrs();
+        supfr.rfmovfNotifidbtionListfnfr(listfnfr);
+        boolfbn bftfr = ibsListfnfrs();
+        if (bfforf && !bftfr) {
+            sftNotifidbtionEnbblfd(tiis,fblsf);
+        }
+    }
+
+    publid syndironizfd void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                        NotifidbtionFiltfr filtfr,
+                                                        Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption
+    {
+        boolfbn bfforf = ibsListfnfrs();
+        supfr.rfmovfNotifidbtionListfnfr(listfnfr,filtfr,ibndbbdk);
+        boolfbn bftfr = ibsListfnfrs();
+        if (bfforf && !bftfr) {
+            sftNotifidbtionEnbblfd(tiis,fblsf);
+        }
+    }
+
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE, gftNbmf());
+    }
+
+    nbtivf void sftNotifidbtionEnbblfd(GbrbbgfCollfdtorMXBfbn gd,
+                                       boolfbn fnbblfd);
+
+}

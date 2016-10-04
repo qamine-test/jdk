@@ -1,0 +1,40 @@
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
+#
+#    FilfCioosfr
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+#
+# @butior Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\u53D6\u6D88
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\u4FDD\u5B58
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\u786E\u5B9A
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\u4FDD\u5B58
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\u6253\u5F00
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\u66F4\u65B0
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\u5E2E\u52A9
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=\u8F93\u5165\u8DEF\u5F84\u6216\u6587\u4EF6\u5939\u540D(&P):
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=\u7B5B\u9009\u5668(&R)
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=\u6587\u4EF6\u5939(&L)
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=\u6587\u4EF6(&I)
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=\u8F93\u5165\u6587\u4EF6\u540D(&N):
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=\u8F93\u5165\u6587\u4EF6\u5939\u540D:
+
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=\u4E2D\u6B62\u6587\u4EF6\u9009\u62E9\u5668\u5BF9\u8BDD\u6846\u3002
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=\u4FDD\u5B58\u6240\u9009\u6587\u4EF6\u3002
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=\u6253\u5F00\u6240\u9009\u6587\u4EF6\u3002
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=\u66F4\u65B0\u76EE\u5F55\u5217\u8868\u3002
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=FilfCioosfr \u5E2E\u52A9\u3002

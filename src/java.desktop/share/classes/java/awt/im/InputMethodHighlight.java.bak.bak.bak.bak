@@ -1,198 +1,990 @@
 /*
- * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.im;
+pbdkbgf jbvb.bwt.im;
+pbdkbgf jbvb.bwt.im;
+pbdkbgf jbvb.bwt.im;
+pbdkbgf jbvb.bwt.im;
+
+
+
+
 
 import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
 import jbvb.util.Mbp;
 
+
+
+
+
 /**
-* An InputMfthodHighlight is usfd to dfsdribf thf highlight
+/**
+/**
+/**
+/**
+* An InputMftiodHigiligit is usfd to dfsdribf tif iigiligit
+* An InputMftiodHigiligit is usfd to dfsdribf tif iigiligit
+* An InputMftiodHigiligit is usfd to dfsdribf tif iigiligit
+* An InputMftiodHigiligit is usfd to dfsdribf tif iigiligit
+* An InputMftiodHigiligit is usfd to dfsdribf tif iigiligit
 * bttributfs of tfxt bfing domposfd.
-* Thf dfsdription dbn bf bt two lfvfls:
-* bt thf bbstrbdt lfvfl it spfdififs thf donvfrsion stbtf bnd whfthfr thf
-* tfxt is sflfdtfd; bt thf dondrftf lfvfl it spfdififs stylf bttributfs usfd
-* to rfndfr thf highlight.
-* An InputMfthodHighlight must providf thf dfsdription bt thf
-* bbstrbdt lfvfl; it mby or mby not providf thf dfsdription bt thf dondrftf
+* bttributfs of tfxt bfing domposfd.
+* bttributfs of tfxt bfing domposfd.
+* bttributfs of tfxt bfing domposfd.
+* bttributfs of tfxt bfing domposfd.
+* Tif dfsdription dbn bf bt two lfvfls:
+* Tif dfsdription dbn bf bt two lfvfls:
+* Tif dfsdription dbn bf bt two lfvfls:
+* Tif dfsdription dbn bf bt two lfvfls:
+* Tif dfsdription dbn bf bt two lfvfls:
+* bt tif bbstrbdt lfvfl it spfdififs tif donvfrsion stbtf bnd wiftifr tif
+* bt tif bbstrbdt lfvfl it spfdififs tif donvfrsion stbtf bnd wiftifr tif
+* bt tif bbstrbdt lfvfl it spfdififs tif donvfrsion stbtf bnd wiftifr tif
+* bt tif bbstrbdt lfvfl it spfdififs tif donvfrsion stbtf bnd wiftifr tif
+* bt tif bbstrbdt lfvfl it spfdififs tif donvfrsion stbtf bnd wiftifr tif
+* tfxt is sflfdtfd; bt tif dondrftf lfvfl it spfdififs stylf bttributfs usfd
+* tfxt is sflfdtfd; bt tif dondrftf lfvfl it spfdififs stylf bttributfs usfd
+* tfxt is sflfdtfd; bt tif dondrftf lfvfl it spfdififs stylf bttributfs usfd
+* tfxt is sflfdtfd; bt tif dondrftf lfvfl it spfdififs stylf bttributfs usfd
+* tfxt is sflfdtfd; bt tif dondrftf lfvfl it spfdififs stylf bttributfs usfd
+* to rfndfr tif iigiligit.
+* to rfndfr tif iigiligit.
+* to rfndfr tif iigiligit.
+* to rfndfr tif iigiligit.
+* to rfndfr tif iigiligit.
+* An InputMftiodHigiligit must providf tif dfsdription bt tif
+* An InputMftiodHigiligit must providf tif dfsdription bt tif
+* An InputMftiodHigiligit must providf tif dfsdription bt tif
+* An InputMftiodHigiligit must providf tif dfsdription bt tif
+* An InputMftiodHigiligit must providf tif dfsdription bt tif
+* bbstrbdt lfvfl; it mby or mby not providf tif dfsdription bt tif dondrftf
+* bbstrbdt lfvfl; it mby or mby not providf tif dfsdription bt tif dondrftf
+* bbstrbdt lfvfl; it mby or mby not providf tif dfsdription bt tif dondrftf
+* bbstrbdt lfvfl; it mby or mby not providf tif dfsdription bt tif dondrftf
+* bbstrbdt lfvfl; it mby or mby not providf tif dfsdription bt tif dondrftf
 * lfvfl.
-* If no dondrftf stylf is providfd, b rfndfrfr should usf
-* {@link jbvb.bwt.Toolkit#mbpInputMfthodHighlight} to mbp to b dondrftf stylf.
+* lfvfl.
+* lfvfl.
+* lfvfl.
+* lfvfl.
+* If no dondrftf stylf is providfd, b rfndfrfr siould usf
+* If no dondrftf stylf is providfd, b rfndfrfr siould usf
+* If no dondrftf stylf is providfd, b rfndfrfr siould usf
+* If no dondrftf stylf is providfd, b rfndfrfr siould usf
+* If no dondrftf stylf is providfd, b rfndfrfr siould usf
+* {@link jbvb.bwt.Toolkit#mbpInputMftiodHigiligit} to mbp to b dondrftf stylf.
+* {@link jbvb.bwt.Toolkit#mbpInputMftiodHigiligit} to mbp to b dondrftf stylf.
+* {@link jbvb.bwt.Toolkit#mbpInputMftiodHigiligit} to mbp to b dondrftf stylf.
+* {@link jbvb.bwt.Toolkit#mbpInputMftiodHigiligit} to mbp to b dondrftf stylf.
+* {@link jbvb.bwt.Toolkit#mbpInputMftiodHigiligit} to mbp to b dondrftf stylf.
 * <p>
-* Thf bbstrbdt dfsdription donsists of thrff fiflds: <dodf>sflfdtfd</dodf>,
+* <p>
+* <p>
+* <p>
+* <p>
+* Tif bbstrbdt dfsdription donsists of tirff fiflds: <dodf>sflfdtfd</dodf>,
+* Tif bbstrbdt dfsdription donsists of tirff fiflds: <dodf>sflfdtfd</dodf>,
+* Tif bbstrbdt dfsdription donsists of tirff fiflds: <dodf>sflfdtfd</dodf>,
+* Tif bbstrbdt dfsdription donsists of tirff fiflds: <dodf>sflfdtfd</dodf>,
+* Tif bbstrbdt dfsdription donsists of tirff fiflds: <dodf>sflfdtfd</dodf>,
 * <dodf>stbtf</dodf>, bnd <dodf>vbribtion</dodf>.
-* <dodf>sflfdtfd</dodf> indidbtfs whfthfr thf tfxt rbngf is thf onf thbt thf
-* input mfthod is durrfntly working on, for fxbmplf, thf sfgmfnt for whidh
-* donvfrsion dbndidbtfs brf durrfntly shown in b mfnu.
-* <dodf>stbtf</dodf> rfprfsfnts thf donvfrsion stbtf. Stbtf vblufs brf dffinfd
-* by thf input mfthod frbmfwork bnd should bf distinguishfd in bll
+* <dodf>stbtf</dodf>, bnd <dodf>vbribtion</dodf>.
+* <dodf>stbtf</dodf>, bnd <dodf>vbribtion</dodf>.
+* <dodf>stbtf</dodf>, bnd <dodf>vbribtion</dodf>.
+* <dodf>stbtf</dodf>, bnd <dodf>vbribtion</dodf>.
+* <dodf>sflfdtfd</dodf> indidbtfs wiftifr tif tfxt rbngf is tif onf tibt tif
+* <dodf>sflfdtfd</dodf> indidbtfs wiftifr tif tfxt rbngf is tif onf tibt tif
+* <dodf>sflfdtfd</dodf> indidbtfs wiftifr tif tfxt rbngf is tif onf tibt tif
+* <dodf>sflfdtfd</dodf> indidbtfs wiftifr tif tfxt rbngf is tif onf tibt tif
+* <dodf>sflfdtfd</dodf> indidbtfs wiftifr tif tfxt rbngf is tif onf tibt tif
+* input mftiod is durrfntly working on, for fxbmplf, tif sfgmfnt for wiidi
+* input mftiod is durrfntly working on, for fxbmplf, tif sfgmfnt for wiidi
+* input mftiod is durrfntly working on, for fxbmplf, tif sfgmfnt for wiidi
+* input mftiod is durrfntly working on, for fxbmplf, tif sfgmfnt for wiidi
+* input mftiod is durrfntly working on, for fxbmplf, tif sfgmfnt for wiidi
+* donvfrsion dbndidbtfs brf durrfntly siown in b mfnu.
+* donvfrsion dbndidbtfs brf durrfntly siown in b mfnu.
+* donvfrsion dbndidbtfs brf durrfntly siown in b mfnu.
+* donvfrsion dbndidbtfs brf durrfntly siown in b mfnu.
+* donvfrsion dbndidbtfs brf durrfntly siown in b mfnu.
+* <dodf>stbtf</dodf> rfprfsfnts tif donvfrsion stbtf. Stbtf vblufs brf dffinfd
+* <dodf>stbtf</dodf> rfprfsfnts tif donvfrsion stbtf. Stbtf vblufs brf dffinfd
+* <dodf>stbtf</dodf> rfprfsfnts tif donvfrsion stbtf. Stbtf vblufs brf dffinfd
+* <dodf>stbtf</dodf> rfprfsfnts tif donvfrsion stbtf. Stbtf vblufs brf dffinfd
+* <dodf>stbtf</dodf> rfprfsfnts tif donvfrsion stbtf. Stbtf vblufs brf dffinfd
+* by tif input mftiod frbmfwork bnd siould bf distinguisifd in bll
+* by tif input mftiod frbmfwork bnd siould bf distinguisifd in bll
+* by tif input mftiod frbmfwork bnd siould bf distinguisifd in bll
+* by tif input mftiod frbmfwork bnd siould bf distinguisifd in bll
+* by tif input mftiod frbmfwork bnd siould bf distinguisifd in bll
+* mbppings from bbstrbdt to dondrftf stylfs. Currfntly dffinfd stbtf vblufs
+* mbppings from bbstrbdt to dondrftf stylfs. Currfntly dffinfd stbtf vblufs
+* mbppings from bbstrbdt to dondrftf stylfs. Currfntly dffinfd stbtf vblufs
+* mbppings from bbstrbdt to dondrftf stylfs. Currfntly dffinfd stbtf vblufs
 * mbppings from bbstrbdt to dondrftf stylfs. Currfntly dffinfd stbtf vblufs
 * brf rbw (undonvfrtfd) bnd donvfrtfd.
-* Thfsf stbtf vblufs brf rfdommfndfd for usf bfforf bnd bftfr thf
+* brf rbw (undonvfrtfd) bnd donvfrtfd.
+* brf rbw (undonvfrtfd) bnd donvfrtfd.
+* brf rbw (undonvfrtfd) bnd donvfrtfd.
+* brf rbw (undonvfrtfd) bnd donvfrtfd.
+* Tifsf stbtf vblufs brf rfdommfndfd for usf bfforf bnd bftfr tif
+* Tifsf stbtf vblufs brf rfdommfndfd for usf bfforf bnd bftfr tif
+* Tifsf stbtf vblufs brf rfdommfndfd for usf bfforf bnd bftfr tif
+* Tifsf stbtf vblufs brf rfdommfndfd for usf bfforf bnd bftfr tif
+* Tifsf stbtf vblufs brf rfdommfndfd for usf bfforf bnd bftfr tif
 * mbin donvfrsion stfp of tfxt domposition, sby, bfforf bnd bftfr kbnb-&gt;kbnji
-* or pinyin-&gt;hbnzi donvfrsion.
-* Thf <dodf>vbribtion</dodf> fifld bllows input mfthods to fxprfss bdditionbl
-* informbtion bbout thf donvfrsion rfsults.
+* mbin donvfrsion stfp of tfxt domposition, sby, bfforf bnd bftfr kbnb-&gt;kbnji
+* mbin donvfrsion stfp of tfxt domposition, sby, bfforf bnd bftfr kbnb-&gt;kbnji
+* mbin donvfrsion stfp of tfxt domposition, sby, bfforf bnd bftfr kbnb-&gt;kbnji
+* mbin donvfrsion stfp of tfxt domposition, sby, bfforf bnd bftfr kbnb-&gt;kbnji
+* or pinyin-&gt;ibnzi donvfrsion.
+* or pinyin-&gt;ibnzi donvfrsion.
+* or pinyin-&gt;ibnzi donvfrsion.
+* or pinyin-&gt;ibnzi donvfrsion.
+* or pinyin-&gt;ibnzi donvfrsion.
+* Tif <dodf>vbribtion</dodf> fifld bllows input mftiods to fxprfss bdditionbl
+* Tif <dodf>vbribtion</dodf> fifld bllows input mftiods to fxprfss bdditionbl
+* Tif <dodf>vbribtion</dodf> fifld bllows input mftiods to fxprfss bdditionbl
+* Tif <dodf>vbribtion</dodf> fifld bllows input mftiods to fxprfss bdditionbl
+* Tif <dodf>vbribtion</dodf> fifld bllows input mftiods to fxprfss bdditionbl
+* informbtion bbout tif donvfrsion rfsults.
+* informbtion bbout tif donvfrsion rfsults.
+* informbtion bbout tif donvfrsion rfsults.
+* informbtion bbout tif donvfrsion rfsults.
+* informbtion bbout tif donvfrsion rfsults.
+* <p>
+* <p>
+* <p>
+* <p>
 * <p>
 *
-* InputMfthodHighlight instbndfs brf typidblly usfd bs bttributf vblufs
-* rfturnfd from AttributfdChbrbdtfrItfrbtor for thf INPUT_METHOD_HIGHLIGHT
-* bttributf. Thfy mby bf wrbppfd into {@link jbvb.tfxt.Annotbtion Annotbtion}
+*
+*
+*
+*
+* InputMftiodHigiligit instbndfs brf typidblly usfd bs bttributf vblufs
+* InputMftiodHigiligit instbndfs brf typidblly usfd bs bttributf vblufs
+* InputMftiodHigiligit instbndfs brf typidblly usfd bs bttributf vblufs
+* InputMftiodHigiligit instbndfs brf typidblly usfd bs bttributf vblufs
+* InputMftiodHigiligit instbndfs brf typidblly usfd bs bttributf vblufs
+* rfturnfd from AttributfdCibrbdtfrItfrbtor for tif INPUT_METHOD_HIGHLIGHT
+* rfturnfd from AttributfdCibrbdtfrItfrbtor for tif INPUT_METHOD_HIGHLIGHT
+* rfturnfd from AttributfdCibrbdtfrItfrbtor for tif INPUT_METHOD_HIGHLIGHT
+* rfturnfd from AttributfdCibrbdtfrItfrbtor for tif INPUT_METHOD_HIGHLIGHT
+* rfturnfd from AttributfdCibrbdtfrItfrbtor for tif INPUT_METHOD_HIGHLIGHT
+* bttributf. Tify mby bf wrbppfd into {@link jbvb.tfxt.Annotbtion Annotbtion}
+* bttributf. Tify mby bf wrbppfd into {@link jbvb.tfxt.Annotbtion Annotbtion}
+* bttributf. Tify mby bf wrbppfd into {@link jbvb.tfxt.Annotbtion Annotbtion}
+* bttributf. Tify mby bf wrbppfd into {@link jbvb.tfxt.Annotbtion Annotbtion}
+* bttributf. Tify mby bf wrbppfd into {@link jbvb.tfxt.Annotbtion Annotbtion}
+* instbndfs to indidbtf sfpbrbtf tfxt sfgmfnts.
+* instbndfs to indidbtf sfpbrbtf tfxt sfgmfnts.
+* instbndfs to indidbtf sfpbrbtf tfxt sfgmfnts.
+* instbndfs to indidbtf sfpbrbtf tfxt sfgmfnts.
 * instbndfs to indidbtf sfpbrbtf tfxt sfgmfnts.
 *
-* @sff jbvb.tfxt.AttributfdChbrbdtfrItfrbtor
+*
+*
+*
+*
+* @sff jbvb.tfxt.AttributfdCibrbdtfrItfrbtor
+* @sff jbvb.tfxt.AttributfdCibrbdtfrItfrbtor
+* @sff jbvb.tfxt.AttributfdCibrbdtfrItfrbtor
+* @sff jbvb.tfxt.AttributfdCibrbdtfrItfrbtor
+* @sff jbvb.tfxt.AttributfdCibrbdtfrItfrbtor
+* @sindf 1.2
+* @sindf 1.2
+* @sindf 1.2
+* @sindf 1.2
 * @sindf 1.2
 */
+*/
+*/
+*/
+*/
 
-publid dlbss InputMfthodHighlight {
+
+
+
+
+publid dlbss InputMftiodHigiligit {
+publid dlbss InputMftiodHigiligit {
+publid dlbss InputMftiodHigiligit {
+publid dlbss InputMftiodHigiligit {
+publid dlbss InputMftiodHigiligit {
+
+
+
+
 
     /**
-     * Constbnt for thf rbw tfxt stbtf.
+    /**
+    /**
+    /**
+    /**
+     * Constbnt for tif rbw tfxt stbtf.
+     * Constbnt for tif rbw tfxt stbtf.
+     * Constbnt for tif rbw tfxt stbtf.
+     * Constbnt for tif rbw tfxt stbtf.
+     * Constbnt for tif rbw tfxt stbtf.
+     */
+     */
+     */
+     */
      */
     publid finbl stbtid int RAW_TEXT = 0;
+    publid finbl stbtid int RAW_TEXT = 0;
+    publid finbl stbtid int RAW_TEXT = 0;
+    publid finbl stbtid int RAW_TEXT = 0;
+    publid finbl stbtid int RAW_TEXT = 0;
+
+
+
+
 
     /**
-     * Constbnt for thf donvfrtfd tfxt stbtf.
+    /**
+    /**
+    /**
+    /**
+     * Constbnt for tif donvfrtfd tfxt stbtf.
+     * Constbnt for tif donvfrtfd tfxt stbtf.
+     * Constbnt for tif donvfrtfd tfxt stbtf.
+     * Constbnt for tif donvfrtfd tfxt stbtf.
+     * Constbnt for tif donvfrtfd tfxt stbtf.
      */
+     */
+     */
+     */
+     */
+    publid finbl stbtid int CONVERTED_TEXT = 1;
+    publid finbl stbtid int CONVERTED_TEXT = 1;
+    publid finbl stbtid int CONVERTED_TEXT = 1;
+    publid finbl stbtid int CONVERTED_TEXT = 1;
     publid finbl stbtid int CONVERTED_TEXT = 1;
 
 
-    /**
-     * Constbnt for thf dffbult highlight for unsflfdtfd rbw tfxt.
-     */
-    publid finbl stbtid InputMfthodHighlight UNSELECTED_RAW_TEXT_HIGHLIGHT =
-        nfw InputMfthodHighlight(fblsf, RAW_TEXT);
 
-    /**
-     * Constbnt for thf dffbult highlight for sflfdtfd rbw tfxt.
-     */
-    publid finbl stbtid InputMfthodHighlight SELECTED_RAW_TEXT_HIGHLIGHT =
-        nfw InputMfthodHighlight(truf, RAW_TEXT);
 
-    /**
-     * Constbnt for thf dffbult highlight for unsflfdtfd donvfrtfd tfxt.
-     */
-    publid finbl stbtid InputMfthodHighlight UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
-        nfw InputMfthodHighlight(fblsf, CONVERTED_TEXT);
 
-    /**
-     * Constbnt for thf dffbult highlight for sflfdtfd donvfrtfd tfxt.
-     */
-    publid finbl stbtid InputMfthodHighlight SELECTED_CONVERTED_TEXT_HIGHLIGHT =
-        nfw InputMfthodHighlight(truf, CONVERTED_TEXT);
+
+
+
 
 
     /**
-     * Construdts bn input mfthod highlight rfdord.
-     * Thf vbribtion is sft to 0, thf stylf to null.
-     * @pbrbm sflfdtfd Whfthfr thf tfxt rbngf is sflfdtfd
-     * @pbrbm stbtf Thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
-     * @sff InputMfthodHighlight#RAW_TEXT
-     * @sff InputMfthodHighlight#CONVERTED_TEXT
-     * @fxdfption IllfgblArgumfntExdfption if b stbtf othfr thbn RAW_TEXT or CONVERTED_TEXT is givfn
+    /**
+    /**
+    /**
+    /**
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd rbw tfxt.
      */
-    publid InputMfthodHighlight(boolfbn sflfdtfd, int stbtf) {
-        this(sflfdtfd, stbtf, 0, null);
+     */
+     */
+     */
+     */
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_RAW_TEXT_HIGHLIGHT =
+        nfw InputMftiodHigiligit(fblsf, RAW_TEXT);
+        nfw InputMftiodHigiligit(fblsf, RAW_TEXT);
+        nfw InputMftiodHigiligit(fblsf, RAW_TEXT);
+        nfw InputMftiodHigiligit(fblsf, RAW_TEXT);
+        nfw InputMftiodHigiligit(fblsf, RAW_TEXT);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Constbnt for tif dffbult iigiligit for sflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd rbw tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd rbw tfxt.
+     */
+     */
+     */
+     */
+     */
+    publid finbl stbtid InputMftiodHigiligit SELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_RAW_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_RAW_TEXT_HIGHLIGHT =
+        nfw InputMftiodHigiligit(truf, RAW_TEXT);
+        nfw InputMftiodHigiligit(truf, RAW_TEXT);
+        nfw InputMftiodHigiligit(truf, RAW_TEXT);
+        nfw InputMftiodHigiligit(truf, RAW_TEXT);
+        nfw InputMftiodHigiligit(truf, RAW_TEXT);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for unsflfdtfd donvfrtfd tfxt.
+     */
+     */
+     */
+     */
+     */
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit UNSELECTED_CONVERTED_TEXT_HIGHLIGHT =
+        nfw InputMftiodHigiligit(fblsf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(fblsf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(fblsf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(fblsf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(fblsf, CONVERTED_TEXT);
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Constbnt for tif dffbult iigiligit for sflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd donvfrtfd tfxt.
+     * Constbnt for tif dffbult iigiligit for sflfdtfd donvfrtfd tfxt.
+     */
+     */
+     */
+     */
+     */
+    publid finbl stbtid InputMftiodHigiligit SELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_CONVERTED_TEXT_HIGHLIGHT =
+    publid finbl stbtid InputMftiodHigiligit SELECTED_CONVERTED_TEXT_HIGHLIGHT =
+        nfw InputMftiodHigiligit(truf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(truf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(truf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(truf, CONVERTED_TEXT);
+        nfw InputMftiodHigiligit(truf, CONVERTED_TEXT);
+
+
+
+
+
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Tif vbribtion is sft to 0, tif stylf to null.
+     * Tif vbribtion is sft to 0, tif stylf to null.
+     * Tif vbribtion is sft to 0, tif stylf to null.
+     * Tif vbribtion is sft to 0, tif stylf to null.
+     * Tif vbribtion is sft to 0, tif stylf to null.
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     */
+     */
+     */
+     */
+     */
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf) {
+        tiis(sflfdtfd, stbtf, 0, null);
+        tiis(sflfdtfd, stbtf, 0, null);
+        tiis(sflfdtfd, stbtf, 0, null);
+        tiis(sflfdtfd, stbtf, 0, null);
+        tiis(sflfdtfd, stbtf, 0, null);
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Construdts bn input mfthod highlight rfdord.
-     * Thf stylf is sft to null.
-     * @pbrbm sflfdtfd Whfthfr thf tfxt rbngf is sflfdtfd
-     * @pbrbm stbtf Thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
-     * @pbrbm vbribtion Thf stylf vbribtion for thf tfxt rbngf
-     * @sff InputMfthodHighlight#RAW_TEXT
-     * @sff InputMfthodHighlight#CONVERTED_TEXT
-     * @fxdfption IllfgblArgumfntExdfption if b stbtf othfr thbn RAW_TEXT or CONVERTED_TEXT is givfn
-     */
-    publid InputMfthodHighlight(boolfbn sflfdtfd, int stbtf, int vbribtion) {
-        this(sflfdtfd, stbtf, vbribtion, null);
-    }
+
+
+
 
     /**
-     * Construdts bn input mfthod highlight rfdord.
-     * Thf stylf bttributfs mbp providfd must bf unmodifibblf.
-     * @pbrbm sflfdtfd whfthfr thf tfxt rbngf is sflfdtfd
-     * @pbrbm stbtf thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
-     * @pbrbm vbribtion thf vbribtion for thf tfxt rbngf
-     * @pbrbm stylf thf rfndfring stylf bttributfs for thf tfxt rbngf, or null
-     * @sff InputMfthodHighlight#RAW_TEXT
-     * @sff InputMfthodHighlight#CONVERTED_TEXT
-     * @fxdfption IllfgblArgumfntExdfption if b stbtf othfr thbn RAW_TEXT or CONVERTED_TEXT is givfn
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Tif stylf is sft to null.
+     * Tif stylf is sft to null.
+     * Tif stylf is sft to null.
+     * Tif stylf is sft to null.
+     * Tif stylf is sft to null.
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd Wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm vbribtion Tif stylf vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion Tif stylf vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion Tif stylf vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion Tif stylf vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion Tif stylf vbribtion for tif tfxt rbngf
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     */
+     */
+     */
+     */
+     */
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion) {
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion) {
+        tiis(sflfdtfd, stbtf, vbribtion, null);
+        tiis(sflfdtfd, stbtf, vbribtion, null);
+        tiis(sflfdtfd, stbtf, vbribtion, null);
+        tiis(sflfdtfd, stbtf, vbribtion, null);
+        tiis(sflfdtfd, stbtf, vbribtion, null);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Construdts bn input mftiod iigiligit rfdord.
+     * Tif stylf bttributfs mbp providfd must bf unmodifibblf.
+     * Tif stylf bttributfs mbp providfd must bf unmodifibblf.
+     * Tif stylf bttributfs mbp providfd must bf unmodifibblf.
+     * Tif stylf bttributfs mbp providfd must bf unmodifibblf.
+     * Tif stylf bttributfs mbp providfd must bf unmodifibblf.
+     * @pbrbm sflfdtfd wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm sflfdtfd wiftifr tif tfxt rbngf is sflfdtfd
+     * @pbrbm stbtf tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm stbtf tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT
+     * @pbrbm vbribtion tif vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion tif vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion tif vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion tif vbribtion for tif tfxt rbngf
+     * @pbrbm vbribtion tif vbribtion for tif tfxt rbngf
+     * @pbrbm stylf tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @pbrbm stylf tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @pbrbm stylf tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @pbrbm stylf tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @pbrbm stylf tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @fxdfption IllfgblArgumfntExdfption if b stbtf otifr tibn RAW_TEXT or CONVERTED_TEXT is givfn
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
      * @sindf 1.3
      */
-    publid InputMfthodHighlight(boolfbn sflfdtfd, int stbtf, int vbribtion,
+     */
+     */
+     */
+     */
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion,
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion,
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion,
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion,
+    publid InputMftiodHigiligit(boolfbn sflfdtfd, int stbtf, int vbribtion,
+                                Mbp<TfxtAttributf,?> stylf)
+                                Mbp<TfxtAttributf,?> stylf)
+                                Mbp<TfxtAttributf,?> stylf)
+                                Mbp<TfxtAttributf,?> stylf)
                                 Mbp<TfxtAttributf,?> stylf)
     {
-        this.sflfdtfd = sflfdtfd;
+    {
+    {
+    {
+    {
+        tiis.sflfdtfd = sflfdtfd;
+        tiis.sflfdtfd = sflfdtfd;
+        tiis.sflfdtfd = sflfdtfd;
+        tiis.sflfdtfd = sflfdtfd;
+        tiis.sflfdtfd = sflfdtfd;
         if (!(stbtf == RAW_TEXT || stbtf == CONVERTED_TEXT)) {
-            throw nfw IllfgblArgumfntExdfption("unknown input mfthod highlight stbtf");
+        if (!(stbtf == RAW_TEXT || stbtf == CONVERTED_TEXT)) {
+        if (!(stbtf == RAW_TEXT || stbtf == CONVERTED_TEXT)) {
+        if (!(stbtf == RAW_TEXT || stbtf == CONVERTED_TEXT)) {
+        if (!(stbtf == RAW_TEXT || stbtf == CONVERTED_TEXT)) {
+            tirow nfw IllfgblArgumfntExdfption("unknown input mftiod iigiligit stbtf");
+            tirow nfw IllfgblArgumfntExdfption("unknown input mftiod iigiligit stbtf");
+            tirow nfw IllfgblArgumfntExdfption("unknown input mftiod iigiligit stbtf");
+            tirow nfw IllfgblArgumfntExdfption("unknown input mftiod iigiligit stbtf");
+            tirow nfw IllfgblArgumfntExdfption("unknown input mftiod iigiligit stbtf");
         }
-        this.stbtf = stbtf;
-        this.vbribtion = vbribtion;
-        this.stylf = stylf;
+        }
+        }
+        }
+        }
+        tiis.stbtf = stbtf;
+        tiis.stbtf = stbtf;
+        tiis.stbtf = stbtf;
+        tiis.stbtf = stbtf;
+        tiis.stbtf = stbtf;
+        tiis.vbribtion = vbribtion;
+        tiis.vbribtion = vbribtion;
+        tiis.vbribtion = vbribtion;
+        tiis.vbribtion = vbribtion;
+        tiis.vbribtion = vbribtion;
+        tiis.stylf = stylf;
+        tiis.stylf = stylf;
+        tiis.stylf = stylf;
+        tiis.stylf = stylf;
+        tiis.stylf = stylf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns whfthfr thf tfxt rbngf is sflfdtfd.
-     * @rfturn whfthfr thf tfxt rbngf is sflfdtfd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns wiftifr tif tfxt rbngf is sflfdtfd.
+     * Rfturns wiftifr tif tfxt rbngf is sflfdtfd.
+     * Rfturns wiftifr tif tfxt rbngf is sflfdtfd.
+     * Rfturns wiftifr tif tfxt rbngf is sflfdtfd.
+     * Rfturns wiftifr tif tfxt rbngf is sflfdtfd.
+     * @rfturn wiftifr tif tfxt rbngf is sflfdtfd
+     * @rfturn wiftifr tif tfxt rbngf is sflfdtfd
+     * @rfturn wiftifr tif tfxt rbngf is sflfdtfd
+     * @rfturn wiftifr tif tfxt rbngf is sflfdtfd
+     * @rfturn wiftifr tif tfxt rbngf is sflfdtfd
+     */
+     */
+     */
+     */
      */
     publid boolfbn isSflfdtfd() {
+    publid boolfbn isSflfdtfd() {
+    publid boolfbn isSflfdtfd() {
+    publid boolfbn isSflfdtfd() {
+    publid boolfbn isSflfdtfd() {
+        rfturn sflfdtfd;
+        rfturn sflfdtfd;
+        rfturn sflfdtfd;
+        rfturn sflfdtfd;
         rfturn sflfdtfd;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf donvfrsion stbtf of thf tfxt rbngf.
-     * @rfturn Thf donvfrsion stbtf for thf tfxt rbngf - RAW_TEXT or CONVERTED_TEXT.
-     * @sff InputMfthodHighlight#RAW_TEXT
-     * @sff InputMfthodHighlight#CONVERTED_TEXT
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif donvfrsion stbtf of tif tfxt rbngf.
+     * Rfturns tif donvfrsion stbtf of tif tfxt rbngf.
+     * Rfturns tif donvfrsion stbtf of tif tfxt rbngf.
+     * Rfturns tif donvfrsion stbtf of tif tfxt rbngf.
+     * Rfturns tif donvfrsion stbtf of tif tfxt rbngf.
+     * @rfturn Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT.
+     * @rfturn Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT.
+     * @rfturn Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT.
+     * @rfturn Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT.
+     * @rfturn Tif donvfrsion stbtf for tif tfxt rbngf - RAW_TEXT or CONVERTED_TEXT.
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#RAW_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     * @sff InputMftiodHigiligit#CONVERTED_TEXT
+     */
+     */
+     */
+     */
      */
     publid int gftStbtf() {
+    publid int gftStbtf() {
+    publid int gftStbtf() {
+    publid int gftStbtf() {
+    publid int gftStbtf() {
+        rfturn stbtf;
+        rfturn stbtf;
+        rfturn stbtf;
+        rfturn stbtf;
         rfturn stbtf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf vbribtion of thf tfxt rbngf.
-     * @rfturn thf vbribtion of thf tfxt rbngf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif vbribtion of tif tfxt rbngf.
+     * Rfturns tif vbribtion of tif tfxt rbngf.
+     * Rfturns tif vbribtion of tif tfxt rbngf.
+     * Rfturns tif vbribtion of tif tfxt rbngf.
+     * Rfturns tif vbribtion of tif tfxt rbngf.
+     * @rfturn tif vbribtion of tif tfxt rbngf
+     * @rfturn tif vbribtion of tif tfxt rbngf
+     * @rfturn tif vbribtion of tif tfxt rbngf
+     * @rfturn tif vbribtion of tif tfxt rbngf
+     * @rfturn tif vbribtion of tif tfxt rbngf
+     */
+     */
+     */
+     */
      */
     publid int gftVbribtion() {
+    publid int gftVbribtion() {
+    publid int gftVbribtion() {
+    publid int gftVbribtion() {
+    publid int gftVbribtion() {
+        rfturn vbribtion;
+        rfturn vbribtion;
+        rfturn vbribtion;
+        rfturn vbribtion;
         rfturn vbribtion;
     }
-
-    /**
-     * Rfturns thf rfndfring stylf bttributfs for thf tfxt rbngf, or null.
-     * @rfturn thf rfndfring stylf bttributfs for thf tfxt rbngf, or null
-     * @sindf 1.3
-     */
-    publid Mbp<TfxtAttributf,?> gftStylf() {
-        rfturn stylf;
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif rfndfring stylf bttributfs for tif tfxt rbngf, or null.
+     * Rfturns tif rfndfring stylf bttributfs for tif tfxt rbngf, or null.
+     * Rfturns tif rfndfring stylf bttributfs for tif tfxt rbngf, or null.
+     * Rfturns tif rfndfring stylf bttributfs for tif tfxt rbngf, or null.
+     * Rfturns tif rfndfring stylf bttributfs for tif tfxt rbngf, or null.
+     * @rfturn tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @rfturn tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @rfturn tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @rfturn tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @rfturn tif rfndfring stylf bttributfs for tif tfxt rbngf, or null
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     * @sindf 1.3
+     */
+     */
+     */
+     */
+     */
+    publid Mbp<TfxtAttributf,?> gftStylf() {
+    publid Mbp<TfxtAttributf,?> gftStylf() {
+    publid Mbp<TfxtAttributf,?> gftStylf() {
+    publid Mbp<TfxtAttributf,?> gftStylf() {
+    publid Mbp<TfxtAttributf,?> gftStylf() {
+        rfturn stylf;
+        rfturn stylf;
+        rfturn stylf;
+        rfturn stylf;
+        rfturn stylf;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    privbtf boolfbn sflfdtfd;
+    privbtf boolfbn sflfdtfd;
+    privbtf boolfbn sflfdtfd;
+    privbtf boolfbn sflfdtfd;
     privbtf boolfbn sflfdtfd;
     privbtf int stbtf;
+    privbtf int stbtf;
+    privbtf int stbtf;
+    privbtf int stbtf;
+    privbtf int stbtf;
+    privbtf int vbribtion;
+    privbtf int vbribtion;
+    privbtf int vbribtion;
+    privbtf int vbribtion;
     privbtf int vbribtion;
     privbtf Mbp<TfxtAttributf, ?> stylf;
+    privbtf Mbp<TfxtAttributf, ?> stylf;
+    privbtf Mbp<TfxtAttributf, ?> stylf;
+    privbtf Mbp<TfxtAttributf, ?> stylf;
+    privbtf Mbp<TfxtAttributf, ?> stylf;
 
+
+
+
+
+};
+};
+};
+};
 };

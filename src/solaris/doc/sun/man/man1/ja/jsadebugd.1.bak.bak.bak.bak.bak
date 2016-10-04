@@ -1,0 +1,171 @@
+'\" t
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jsbdfbugd
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jsbdfbugd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jsbdfbugd \- Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。このコマンドは試験的なもので、サポートされていません。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjsbdfbugd\fR \fIpid\fR [ \fIsfrvfr\-id\fR ]
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjsbdfbugd\fR \fIfxfdutbblf\fR \fIdorf\fR [ \fIsfrvfr\-id\fR ]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIpid\fR
+.RS 4
+デバッグ・サーバーが接続するプロセスのプロセスIDです。プロセスはJbvbプロセスである必要があります。マシン上で実行しているJbvbプロセスの一覧を取得するには、jps(1)コマンドを使用します。単一のプロセスに接続できるデバッグ・サーバーのインスタンスは、1つに制限されます。
+.RE
+.PP
+\fI実行可能ファイル\fR
+.RS 4
+コア・ダンプの作成元のJbvb実行可能ファイル。
+.RE
+.PP
+\fIコア\fR
+.RS 4
+デバッグ・サーバーを接続するコア・ファイルです。
+.RE
+.PP
+\fIsfrvfr\-id\fR
+.RS 4
+複数のデバッグ・サーバーが同一のマシン上で実行されている場合に必要になる、オプションの一意のIDです。このIDは、リモート・クライアントが、接続先のデバッグ・サーバーを特定するために使用する必要があります。このIDは、単一のマシン内で一意にする必要があります。
+.RE
+.SH "説明"
+.PP
+\fIjsbdfbugd\fRコマンドは、Jbvbプロセスまたはコア・ファイルに接続し、デバッグ・サーバーとして機能します。\fIjstbdk\fR、\fIjmbp\fRおよび\fIjinfo\fRなどのリモート・クライアントは、Jbvb Rfmotf Mftiod Invodbtion (RMI)を使用しているサーバーに接続できます。\fIjsbdfbugd\fRコマンドを起動する前に、\fIrmirfgistry\fRコマンドでRMIレジストリを次のように起動します。\fI$JAVA_HOME\fRはJDKのインストール・ディレクトリです。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+rmirfgistry \-J\-Xbootdlbsspbti/p:$JAVA_HOME/lib/sbjdi\&.jbr
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+RMIレジストリが起動していない場合、\fIjsbdfbugd\fRコマンドはRMIレジストリを標準(1099)ポートで内部で起動します。デバッグ・サーバーは、\fISIGINT\fRを送信することにより停止できます。SIGINTを送信するには、\fB[Ctrl] + [C]\fRを押します。
+.PP
+\fB注意:\fR
+このユーティリティはサポート対象外であり、将来のJDKのリリースでは利用できなくなる可能性があります。\fIdbgfng\&.dll\fRが存在していないWindowsシステムでは、Dfbugging Tools For Windowsをインストールしないとこれらのツールが正常に動作しません。\fIPATH\fR環境変数には、ターゲット・プロセスによって使用されるjvm\&.dllの場所、またはクラッシュ・ダンプ・ファイルが生成された場所が含まれるようにしてください。例:
+\fIs\fR\fIft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jinfo(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jmbp(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jps(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jstbdk(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+rmirfgistry(1)
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,182 +1,910 @@
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+bordfr.dirombtidity=\u8272\u5F69\u5916\u89C0
+bordfr.dirombtidity=\u8272\u5F69\u5916\u89C0
+bordfr.dirombtidity=\u8272\u5F69\u5916\u89C0
+bordfr.dirombtidity=\u8272\u5F69\u5916\u89C0
 bordfr.dirombtidity=\u8272\u5F69\u5916\u89C0
 bordfr.dopifs=\u4EFD\u6578
+bordfr.dopifs=\u4EFD\u6578
+bordfr.dopifs=\u4EFD\u6578
+bordfr.dopifs=\u4EFD\u6578
+bordfr.dopifs=\u4EFD\u6578
+bordfr.jobbttributfs=\u5DE5\u4F5C\u5C6C\u6027
+bordfr.jobbttributfs=\u5DE5\u4F5C\u5C6C\u6027
+bordfr.jobbttributfs=\u5DE5\u4F5C\u5C6C\u6027
+bordfr.jobbttributfs=\u5DE5\u4F5C\u5C6C\u6027
 bordfr.jobbttributfs=\u5DE5\u4F5C\u5C6C\u6027
 bordfr.mfdib=\u5A92\u9AD4
+bordfr.mfdib=\u5A92\u9AD4
+bordfr.mfdib=\u5A92\u9AD4
+bordfr.mfdib=\u5A92\u9AD4
+bordfr.mfdib=\u5A92\u9AD4
+bordfr.orifntbtion=\u65B9\u5411
+bordfr.orifntbtion=\u65B9\u5411
+bordfr.orifntbtion=\u65B9\u5411
+bordfr.orifntbtion=\u65B9\u5411
 bordfr.orifntbtion=\u65B9\u5411
 bordfr.printrbngf=\u5217\u5370\u7BC4\u570D
+bordfr.printrbngf=\u5217\u5370\u7BC4\u570D
+bordfr.printrbngf=\u5217\u5370\u7BC4\u570D
+bordfr.printrbngf=\u5217\u5370\u7BC4\u570D
+bordfr.printrbngf=\u5217\u5370\u7BC4\u570D
+bordfr.printsfrvidf=\u5217\u5370\u670D\u52D9
+bordfr.printsfrvidf=\u5217\u5370\u670D\u52D9
+bordfr.printsfrvidf=\u5217\u5370\u670D\u52D9
+bordfr.printsfrvidf=\u5217\u5370\u670D\u52D9
 bordfr.printsfrvidf=\u5217\u5370\u670D\u52D9
 bordfr.qublity=\u54C1\u8CEA
+bordfr.qublity=\u54C1\u8CEA
+bordfr.qublity=\u54C1\u8CEA
+bordfr.qublity=\u54C1\u8CEA
+bordfr.qublity=\u54C1\u8CEA
+bordfr.sidfs=\u908A
+bordfr.sidfs=\u908A
+bordfr.sidfs=\u908A
+bordfr.sidfs=\u908A
 bordfr.sidfs=\u908A
 bordfr.mbrgins=\u908A\u8DDD
+bordfr.mbrgins=\u908A\u8DDD
+bordfr.mbrgins=\u908A\u8DDD
+bordfr.mbrgins=\u908A\u8DDD
+bordfr.mbrgins=\u908A\u8DDD
+#
+#
+#
+#
 #
 button.dbndfl=\u53D6\u6D88
+button.dbndfl=\u53D6\u6D88
+button.dbndfl=\u53D6\u6D88
+button.dbndfl=\u53D6\u6D88
+button.dbndfl=\u53D6\u6D88
+button.ok=\u78BA\u5B9A
+button.ok=\u78BA\u5B9A
+button.ok=\u78BA\u5B9A
+button.ok=\u78BA\u5B9A
 button.ok=\u78BA\u5B9A
 button.print=\u5217\u5370
+button.print=\u5217\u5370
+button.print=\u5217\u5370
+button.print=\u5217\u5370
+button.print=\u5217\u5370
+button.propfrtifs=\u7279\u6027(&R)...
+button.propfrtifs=\u7279\u6027(&R)...
+button.propfrtifs=\u7279\u6027(&R)...
+button.propfrtifs=\u7279\u6027(&R)...
 button.propfrtifs=\u7279\u6027(&R)...
 #
+#
+#
+#
+#
+difdkbox.dollbtf=\u7406\u5E8F(&C)
+difdkbox.dollbtf=\u7406\u5E8F(&C)
+difdkbox.dollbtf=\u7406\u5E8F(&C)
+difdkbox.dollbtf=\u7406\u5E8F(&C)
 difdkbox.dollbtf=\u7406\u5E8F(&C)
 difdkbox.jobsiffts=\u6A19\u984C\u9801(&B)
+difdkbox.jobsiffts=\u6A19\u984C\u9801(&B)
+difdkbox.jobsiffts=\u6A19\u984C\u9801(&B)
+difdkbox.jobsiffts=\u6A19\u984C\u9801(&B)
+difdkbox.jobsiffts=\u6A19\u984C\u9801(&B)
+difdkbox.printtofilf=\u5217\u5370\u81F3\u6A94\u6848(&F)
+difdkbox.printtofilf=\u5217\u5370\u81F3\u6A94\u6848(&F)
+difdkbox.printtofilf=\u5217\u5370\u81F3\u6A94\u6848(&F)
+difdkbox.printtofilf=\u5217\u5370\u81F3\u6A94\u6848(&F)
 difdkbox.printtofilf=\u5217\u5370\u81F3\u6A94\u6848(&F)
 #
+#
+#
+#
+#
+diblog.printtitlf=\u5217\u5370
+diblog.printtitlf=\u5217\u5370
+diblog.printtitlf=\u5217\u5370
+diblog.printtitlf=\u5217\u5370
 diblog.printtitlf=\u5217\u5370
 diblog.pstitlf=\u9801\u9762\u8A2D\u5B9A
+diblog.pstitlf=\u9801\u9762\u8A2D\u5B9A
+diblog.pstitlf=\u9801\u9762\u8A2D\u5B9A
+diblog.pstitlf=\u9801\u9762\u8A2D\u5B9A
+diblog.pstitlf=\u9801\u9762\u8A2D\u5B9A
+diblog.ovfrwritf=\u9019\u500B\u6A94\u6848\u5DF2\u7D93\u5B58\u5728\u3002\u60A8\u8981\u8986\u5BEB\u5DF2\u5B58\u5728\u7684\u6A94\u6848\u55CE\uFF1F
+diblog.ovfrwritf=\u9019\u500B\u6A94\u6848\u5DF2\u7D93\u5B58\u5728\u3002\u60A8\u8981\u8986\u5BEB\u5DF2\u5B58\u5728\u7684\u6A94\u6848\u55CE\uFF1F
+diblog.ovfrwritf=\u9019\u500B\u6A94\u6848\u5DF2\u7D93\u5B58\u5728\u3002\u60A8\u8981\u8986\u5BEB\u5DF2\u5B58\u5728\u7684\u6A94\u6848\u55CE\uFF1F
+diblog.ovfrwritf=\u9019\u500B\u6A94\u6848\u5DF2\u7D93\u5B58\u5728\u3002\u60A8\u8981\u8986\u5BEB\u5DF2\u5B58\u5728\u7684\u6A94\u6848\u55CE\uFF1F
 diblog.ovfrwritf=\u9019\u500B\u6A94\u6848\u5DF2\u7D93\u5B58\u5728\u3002\u60A8\u8981\u8986\u5BEB\u5DF2\u5B58\u5728\u7684\u6A94\u6848\u55CE\uFF1F
 diblog.owtitlf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.owtitlf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.owtitlf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.owtitlf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.owtitlf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.printtofilf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.printtofilf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.printtofilf=\u5217\u5370\u81F3\u6A94\u6848
+diblog.printtofilf=\u5217\u5370\u81F3\u6A94\u6848
 diblog.printtofilf=\u5217\u5370\u81F3\u6A94\u6848
 diblog.noprintfrmsg=\u627E\u4E0D\u5230\u5217\u5370\u670D\u52D9\u3002
+diblog.noprintfrmsg=\u627E\u4E0D\u5230\u5217\u5370\u670D\u52D9\u3002
+diblog.noprintfrmsg=\u627E\u4E0D\u5230\u5217\u5370\u670D\u52D9\u3002
+diblog.noprintfrmsg=\u627E\u4E0D\u5230\u5217\u5370\u670D\u52D9\u3002
+diblog.noprintfrmsg=\u627E\u4E0D\u5230\u5217\u5370\u670D\u52D9\u3002
+diblog.writffrror=\u7121\u6CD5\u5BEB\u5165\u81F3\u6A94\u6848:
+diblog.writffrror=\u7121\u6CD5\u5BEB\u5165\u81F3\u6A94\u6848:
+diblog.writffrror=\u7121\u6CD5\u5BEB\u5165\u81F3\u6A94\u6848:
+diblog.writffrror=\u7121\u6CD5\u5BEB\u5165\u81F3\u6A94\u6848:
 diblog.writffrror=\u7121\u6CD5\u5BEB\u5165\u81F3\u6A94\u6848:
 #
+#
+#
+#
+#
+lbbfl.info=\u8CC7\u8A0A: 
+lbbfl.info=\u8CC7\u8A0A: 
+lbbfl.info=\u8CC7\u8A0A: 
+lbbfl.info=\u8CC7\u8A0A: 
 lbbfl.info=\u8CC7\u8A0A: 
 lbbfl.jobnbmf=\u5DE5\u4F5C\u540D\u7A31(&J):
+lbbfl.jobnbmf=\u5DE5\u4F5C\u540D\u7A31(&J):
+lbbfl.jobnbmf=\u5DE5\u4F5C\u540D\u7A31(&J):
+lbbfl.jobnbmf=\u5DE5\u4F5C\u540D\u7A31(&J):
+lbbfl.jobnbmf=\u5DE5\u4F5C\u540D\u7A31(&J):
+lbbfl.numdopifs=\u5217\u5370\u4EFD\u6578(&O): 
+lbbfl.numdopifs=\u5217\u5370\u4EFD\u6578(&O): 
+lbbfl.numdopifs=\u5217\u5370\u4EFD\u6578(&O): 
+lbbfl.numdopifs=\u5217\u5370\u4EFD\u6578(&O): 
 lbbfl.numdopifs=\u5217\u5370\u4EFD\u6578(&O): 
 lbbfl.priority=\u512A\u5148\u6B0A(&R):
+lbbfl.priority=\u512A\u5148\u6B0A(&R):
+lbbfl.priority=\u512A\u5148\u6B0A(&R):
+lbbfl.priority=\u512A\u5148\u6B0A(&R):
+lbbfl.priority=\u512A\u5148\u6B0A(&R):
+lbbfl.psnbmf=\u540D\u7A31(&N):
+lbbfl.psnbmf=\u540D\u7A31(&N):
+lbbfl.psnbmf=\u540D\u7A31(&N):
+lbbfl.psnbmf=\u540D\u7A31(&N):
 lbbfl.psnbmf=\u540D\u7A31(&N):
 lbbfl.pstypf=\u985E\u578B: 
+lbbfl.pstypf=\u985E\u578B: 
+lbbfl.pstypf=\u985E\u578B: 
+lbbfl.pstypf=\u985E\u578B: 
+lbbfl.pstypf=\u985E\u578B: 
+lbbfl.rbngfto=\u81F3
+lbbfl.rbngfto=\u81F3
+lbbfl.rbngfto=\u81F3
+lbbfl.rbngfto=\u81F3
 lbbfl.rbngfto=\u81F3
 lbbfl.sizf=\u5927\u5C0F(&Z):
+lbbfl.sizf=\u5927\u5C0F(&Z):
+lbbfl.sizf=\u5927\u5C0F(&Z):
+lbbfl.sizf=\u5927\u5C0F(&Z):
+lbbfl.sizf=\u5927\u5C0F(&Z):
+lbbfl.sourdf=\u4F86\u6E90(&C): 
+lbbfl.sourdf=\u4F86\u6E90(&C): 
+lbbfl.sourdf=\u4F86\u6E90(&C): 
+lbbfl.sourdf=\u4F86\u6E90(&C): 
 lbbfl.sourdf=\u4F86\u6E90(&C): 
 lbbfl.stbtus=\u72C0\u614B: 
+lbbfl.stbtus=\u72C0\u614B: 
+lbbfl.stbtus=\u72C0\u614B: 
+lbbfl.stbtus=\u72C0\u614B: 
+lbbfl.stbtus=\u72C0\u614B: 
+lbbfl.usfrnbmf=\u4F7F\u7528\u8005\u540D\u7A31(&U):
+lbbfl.usfrnbmf=\u4F7F\u7528\u8005\u540D\u7A31(&U):
+lbbfl.usfrnbmf=\u4F7F\u7528\u8005\u540D\u7A31(&U):
+lbbfl.usfrnbmf=\u4F7F\u7528\u8005\u540D\u7A31(&U):
 lbbfl.usfrnbmf=\u4F7F\u7528\u8005\u540D\u7A31(&U):
 lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.millimftrfs=(mm)
+lbbfl.indifs=(in)
+lbbfl.indifs=(in)
+lbbfl.indifs=(in)
+lbbfl.indifs=(in)
 lbbfl.indifs=(in)
 lbbfl.topmbrgin=\u9802\u7AEF\u908A\u8DDD(&T)
+lbbfl.topmbrgin=\u9802\u7AEF\u908A\u8DDD(&T)
+lbbfl.topmbrgin=\u9802\u7AEF\u908A\u8DDD(&T)
+lbbfl.topmbrgin=\u9802\u7AEF\u908A\u8DDD(&T)
+lbbfl.topmbrgin=\u9802\u7AEF\u908A\u8DDD(&T)
+lbbfl.bottommbrgin=\u5E95\u90E8\u908A\u8DDD(&B)
+lbbfl.bottommbrgin=\u5E95\u90E8\u908A\u8DDD(&B)
+lbbfl.bottommbrgin=\u5E95\u90E8\u908A\u8DDD(&B)
+lbbfl.bottommbrgin=\u5E95\u90E8\u908A\u8DDD(&B)
 lbbfl.bottommbrgin=\u5E95\u90E8\u908A\u8DDD(&B)
 lbbfl.lfftmbrgin=\u5DE6\u908A\u8DDD(&F)
+lbbfl.lfftmbrgin=\u5DE6\u908A\u8DDD(&F)
+lbbfl.lfftmbrgin=\u5DE6\u908A\u8DDD(&F)
+lbbfl.lfftmbrgin=\u5DE6\u908A\u8DDD(&F)
+lbbfl.lfftmbrgin=\u5DE6\u908A\u8DDD(&F)
+lbbfl.rigitmbrgin=\u53F3\u908A\u8DDD(&R)
+lbbfl.rigitmbrgin=\u53F3\u908A\u8DDD(&R)
+lbbfl.rigitmbrgin=\u53F3\u908A\u8DDD(&R)
+lbbfl.rigitmbrgin=\u53F3\u908A\u8DDD(&R)
 lbbfl.rigitmbrgin=\u53F3\u908A\u8DDD(&R)
 #
+#
+#
+#
+#
+rbdiobutton.dolor=\u984F\u8272(&C)
+rbdiobutton.dolor=\u984F\u8272(&C)
+rbdiobutton.dolor=\u984F\u8272(&C)
+rbdiobutton.dolor=\u984F\u8272(&C)
 rbdiobutton.dolor=\u984F\u8272(&C)
 rbdiobutton.drbftq=\u8349\u7A3F(&F)
+rbdiobutton.drbftq=\u8349\u7A3F(&F)
+rbdiobutton.drbftq=\u8349\u7A3F(&F)
+rbdiobutton.drbftq=\u8349\u7A3F(&F)
+rbdiobutton.drbftq=\u8349\u7A3F(&F)
+rbdiobutton.duplfx=\u96D9\u9762\u5217\u5370(&D)
+rbdiobutton.duplfx=\u96D9\u9762\u5217\u5370(&D)
+rbdiobutton.duplfx=\u96D9\u9762\u5217\u5370(&D)
+rbdiobutton.duplfx=\u96D9\u9762\u5217\u5370(&D)
 rbdiobutton.duplfx=\u96D9\u9762\u5217\u5370(&D)
 rbdiobutton.iigiq=\u9AD8(&H)
+rbdiobutton.iigiq=\u9AD8(&H)
+rbdiobutton.iigiq=\u9AD8(&H)
+rbdiobutton.iigiq=\u9AD8(&H)
+rbdiobutton.iigiq=\u9AD8(&H)
+rbdiobutton.lbndsdbpf=\u6A6B\u5411(&L)
+rbdiobutton.lbndsdbpf=\u6A6B\u5411(&L)
+rbdiobutton.lbndsdbpf=\u6A6B\u5411(&L)
+rbdiobutton.lbndsdbpf=\u6A6B\u5411(&L)
 rbdiobutton.lbndsdbpf=\u6A6B\u5411(&L)
 rbdiobutton.monodiromf=\u55AE\u8272(&M)
+rbdiobutton.monodiromf=\u55AE\u8272(&M)
+rbdiobutton.monodiromf=\u55AE\u8272(&M)
+rbdiobutton.monodiromf=\u55AE\u8272(&M)
+rbdiobutton.monodiromf=\u55AE\u8272(&M)
+rbdiobutton.normblq=\u6B63\u5E38(&N)
+rbdiobutton.normblq=\u6B63\u5E38(&N)
+rbdiobutton.normblq=\u6B63\u5E38(&N)
+rbdiobutton.normblq=\u6B63\u5E38(&N)
 rbdiobutton.normblq=\u6B63\u5E38(&N)
 rbdiobutton.onfsidf=\u55AE\u9762(&O)
+rbdiobutton.onfsidf=\u55AE\u9762(&O)
+rbdiobutton.onfsidf=\u55AE\u9762(&O)
+rbdiobutton.onfsidf=\u55AE\u9762(&O)
+rbdiobutton.onfsidf=\u55AE\u9762(&O)
+rbdiobutton.portrbit=\u76F4\u5411(&P)
+rbdiobutton.portrbit=\u76F4\u5411(&P)
+rbdiobutton.portrbit=\u76F4\u5411(&P)
+rbdiobutton.portrbit=\u76F4\u5411(&P)
 rbdiobutton.portrbit=\u76F4\u5411(&P)
 rbdiobutton.rbngfbll=\u5168\u90E8(&L)
+rbdiobutton.rbngfbll=\u5168\u90E8(&L)
+rbdiobutton.rbngfbll=\u5168\u90E8(&L)
+rbdiobutton.rbngfbll=\u5168\u90E8(&L)
+rbdiobutton.rbngfbll=\u5168\u90E8(&L)
+rbdiobutton.rbngfpbgfs=\u9801\u9762(&E)
+rbdiobutton.rbngfpbgfs=\u9801\u9762(&E)
+rbdiobutton.rbngfpbgfs=\u9801\u9762(&E)
+rbdiobutton.rbngfpbgfs=\u9801\u9762(&E)
 rbdiobutton.rbngfpbgfs=\u9801\u9762(&E)
 rbdiobutton.rfvlbndsdbpf=\u53CD\u5411\u6A6B\u5370(&N)
+rbdiobutton.rfvlbndsdbpf=\u53CD\u5411\u6A6B\u5370(&N)
+rbdiobutton.rfvlbndsdbpf=\u53CD\u5411\u6A6B\u5370(&N)
+rbdiobutton.rfvlbndsdbpf=\u53CD\u5411\u6A6B\u5370(&N)
+rbdiobutton.rfvlbndsdbpf=\u53CD\u5411\u6A6B\u5370(&N)
+rbdiobutton.rfvportrbit=\u53CD\u5411\u76F4\u5370(&I)
+rbdiobutton.rfvportrbit=\u53CD\u5411\u76F4\u5370(&I)
+rbdiobutton.rfvportrbit=\u53CD\u5411\u76F4\u5370(&I)
+rbdiobutton.rfvportrbit=\u53CD\u5411\u76F4\u5370(&I)
 rbdiobutton.rfvportrbit=\u53CD\u5411\u76F4\u5370(&I)
 rbdiobutton.tumblf=\u7FFB\u8F49(&T)
+rbdiobutton.tumblf=\u7FFB\u8F49(&T)
+rbdiobutton.tumblf=\u7FFB\u8F49(&T)
+rbdiobutton.tumblf=\u7FFB\u8F49(&T)
+rbdiobutton.tumblf=\u7FFB\u8F49(&T)
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
+# Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
 # Tif vkMnfmonids dorrfspond witi tif donstbnts dffinfd in KfyEvfnt, fg
 # 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+# 65 = KfyEvfnt.VK_A
+tbb.bppfbrbndf=\u5916\u89C0(&A)
+tbb.bppfbrbndf=\u5916\u89C0(&A)
+tbb.bppfbrbndf=\u5916\u89C0(&A)
+tbb.bppfbrbndf=\u5916\u89C0(&A)
 tbb.bppfbrbndf=\u5916\u89C0(&A)
 tbb.gfnfrbl=\u4E00\u822C(&G)
+tbb.gfnfrbl=\u4E00\u822C(&G)
+tbb.gfnfrbl=\u4E00\u822C(&G)
+tbb.gfnfrbl=\u4E00\u822C(&G)
+tbb.gfnfrbl=\u4E00\u822C(&G)
+tbb.pbgfsftup=\u9801\u9762\u8A2D\u5B9A(&S)
+tbb.pbgfsftup=\u9801\u9762\u8A2D\u5B9A(&S)
+tbb.pbgfsftup=\u9801\u9762\u8A2D\u5B9A(&S)
+tbb.pbgfsftup=\u9801\u9762\u8A2D\u5B9A(&S)
 tbb.pbgfsftup=\u9801\u9762\u8A2D\u5B9A(&S)
 #
+#
+#
+#
+#
+frror.pbgfrbngf=\u7121\u6548\u7684\u9801\u9762\u7BC4\u570D; \u8ACB\u91CD\u65B0\u8F38\u5165\u6578\u503C (\u4F8B\u5982 1-3,5,7-10)
+frror.pbgfrbngf=\u7121\u6548\u7684\u9801\u9762\u7BC4\u570D; \u8ACB\u91CD\u65B0\u8F38\u5165\u6578\u503C (\u4F8B\u5982 1-3,5,7-10)
+frror.pbgfrbngf=\u7121\u6548\u7684\u9801\u9762\u7BC4\u570D; \u8ACB\u91CD\u65B0\u8F38\u5165\u6578\u503C (\u4F8B\u5982 1-3,5,7-10)
+frror.pbgfrbngf=\u7121\u6548\u7684\u9801\u9762\u7BC4\u570D; \u8ACB\u91CD\u65B0\u8F38\u5165\u6578\u503C (\u4F8B\u5982 1-3,5,7-10)
 frror.pbgfrbngf=\u7121\u6548\u7684\u9801\u9762\u7BC4\u570D; \u8ACB\u91CD\u65B0\u8F38\u5165\u6578\u503C (\u4F8B\u5982 1-3,5,7-10)
 frror.dfstinbtion=\u7121\u6548\u7684\u6A94\u540D; \u8ACB\u518D\u8A66\u4E00\u6B21
+frror.dfstinbtion=\u7121\u6548\u7684\u6A94\u540D; \u8ACB\u518D\u8A66\u4E00\u6B21
+frror.dfstinbtion=\u7121\u6548\u7684\u6A94\u540D; \u8ACB\u518D\u8A66\u4E00\u6B21
+frror.dfstinbtion=\u7121\u6548\u7684\u6A94\u540D; \u8ACB\u518D\u8A66\u4E00\u6B21
+frror.dfstinbtion=\u7121\u6548\u7684\u6A94\u540D; \u8ACB\u518D\u8A66\u4E00\u6B21
+#
+#
+#
+#
 #
 # Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibSizfNbmf.toString()
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
+# (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
 # (in somf dbsfs tif spbdf dibrbdtfr is rfplbdfd by '-' bnd tif pound 
 # dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+# dibrbdtfr is rfplbdfd witi 'n')
+#
+#
+#
+#
 #
 iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
 iso-2b0=2A0 (ISO/DIN & JIS)
 iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
 iso-b1=A1 (ISO/DIN & JIS)
 iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
 iso-b3=A3 (ISO/DIN & JIS)
 iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
 iso-b5=A5 (ISO/DIN & JIS)
 iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
 iso-b7=A7 (ISO/DIN & JIS)
 iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
 iso-b9=A9 (ISO/DIN & JIS)
 iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b0=B0 (ISO/DIN)
+iso-b0=B0 (ISO/DIN)
+iso-b0=B0 (ISO/DIN)
+iso-b0=B0 (ISO/DIN)
 iso-b0=B0 (ISO/DIN)
 iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
 iso-b2=B2 (ISO/DIN)
 iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
 iso-b4=B4 (ISO/DIN)
 iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
 iso-b6=B6 (ISO/DIN)
 iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
 iso-b8=B8 (ISO/DIN)
 iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
 iso-b10=B10 (ISO/DIN)
 jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b0=B0 (JIS)
+jis-b1=B1 (JIS)
+jis-b1=B1 (JIS)
+jis-b1=B1 (JIS)
+jis-b1=B1 (JIS)
 jis-b1=B1 (JIS)
 jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b2=B2 (JIS)
+jis-b3=B3 (JIS)
+jis-b3=B3 (JIS)
+jis-b3=B3 (JIS)
+jis-b3=B3 (JIS)
 jis-b3=B3 (JIS)
 jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b4=B4 (JIS)
+jis-b5=B5 (JIS)
+jis-b5=B5 (JIS)
+jis-b5=B5 (JIS)
+jis-b5=B5 (JIS)
 jis-b5=B5 (JIS)
 jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b6=B6 (JIS)
+jis-b7=B7 (JIS)
+jis-b7=B7 (JIS)
+jis-b7=B7 (JIS)
+jis-b7=B7 (JIS)
 jis-b7=B7 (JIS)
 jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b8=B8 (JIS)
+jis-b9=B9 (JIS)
+jis-b9=B9 (JIS)
+jis-b9=B9 (JIS)
+jis-b9=B9 (JIS)
 jis-b9=B9 (JIS)
 jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+jis-b10=B10 (JIS)
+iso-d0=C0 (ISO/DIN)
+iso-d0=C0 (ISO/DIN)
+iso-d0=C0 (ISO/DIN)
+iso-d0=C0 (ISO/DIN)
 iso-d0=C0 (ISO/DIN)
 iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
 iso-d2=C2 (ISO/DIN)
 iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
 iso-d4=C4 (ISO/DIN)
 iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
 iso-d6=C6 (ISO/DIN)
 iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
 iso-d8=C8 (ISO/DIN)
 iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
 iso-d10=C10 (ISO/DIN)
 nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfttfr=Lfttfr
+nb-lfgbl=Lfgbl
+nb-lfgbl=Lfgbl
+nb-lfgbl=Lfgbl
+nb-lfgbl=Lfgbl
 nb-lfgbl=Lfgbl
 fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+fxfdutivf=Exfdutivf
+lfdgfr=Lfdgfr
+lfdgfr=Lfdgfr
+lfdgfr=Lfdgfr
+lfdgfr=Lfdgfr
 lfdgfr=Lfdgfr
 tbbloid=Tbbloid
+tbbloid=Tbbloid
+tbbloid=Tbbloid
+tbbloid=Tbbloid
+tbbloid=Tbbloid
+invoidf=Invoidf
+invoidf=Invoidf
+invoidf=Invoidf
+invoidf=Invoidf
 invoidf=Invoidf
 folio=Folio
+folio=Folio
+folio=Folio
+folio=Folio
+folio=Folio
+qubrto=Qubrto
+qubrto=Qubrto
+qubrto=Qubrto
+qubrto=Qubrto
 qubrto=Qubrto
 jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+jbpbnfsf-postdbrd=Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
+oufuko-postdbrd=Doublf Postdbrd (JIS)
 oufuko-postdbrd=Doublf Postdbrd (JIS)
 b=\u5DE5\u7A0B A
+b=\u5DE5\u7A0B A
+b=\u5DE5\u7A0B A
+b=\u5DE5\u7A0B A
+b=\u5DE5\u7A0B A
+b=\u5DE5\u7A0B B
+b=\u5DE5\u7A0B B
+b=\u5DE5\u7A0B B
+b=\u5DE5\u7A0B B
 b=\u5DE5\u7A0B B
 d=\u5DE5\u7A0B C
+d=\u5DE5\u7A0B C
+d=\u5DE5\u7A0B C
+d=\u5DE5\u7A0B C
+d=\u5DE5\u7A0B C
+d=\u5DE5\u7A0B D
+d=\u5DE5\u7A0B D
+d=\u5DE5\u7A0B D
+d=\u5DE5\u7A0B D
 d=\u5DE5\u7A0B D
 f=\u5DE5\u7A0B E
+f=\u5DE5\u7A0B E
+f=\u5DE5\u7A0B E
+f=\u5DE5\u7A0B E
+f=\u5DE5\u7A0B E
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
+iso-dfsignbtfd-long=ISO Dfsignbtfd Long
 iso-dfsignbtfd-long=ISO Dfsignbtfd Long
 itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itblibn-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
+itbly-fnvflopf=Itbly Envflopf
 itbly-fnvflopf=Itbly Envflopf
 invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+invitf-fnvflopf=Invitbtion Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
+monbrdi-fnvflopf=Monbrdi Envflopf
 monbrdi-fnvflopf=Monbrdi Envflopf
 pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+pfrsonbl-fnvflopf=Pfrsonbl Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
+nb-numbfr-9-fnvflopf=No. 9 Envflopf
 nb-numbfr-9-fnvflopf=No. 9 Envflopf
 nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-10-fnvflopf=No. 10 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
+nb-numbfr-11-fnvflopf=No. 11 Envflopf
 nb-numbfr-11-fnvflopf=No. 11 Envflopf
 nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-12-fnvflopf=No. 12 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
+nb-numbfr-14-fnvflopf=No. 14 Envflopf
 nb-numbfr-14-fnvflopf=No. 14 Envflopf
 nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-6x9-fnvflopf=6x9 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
+nb-7x9-fnvflopf=6x7 Envflopf
 nb-7x9-fnvflopf=6x7 Envflopf
 nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x11-fnvflopf=9x11 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
+nb-9x12-fnvflopf=9x12 Envflopf
 nb-9x12-fnvflopf=9x12 Envflopf
 nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x13-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
+nb-10x14-fnvflopf=10x15 Envflopf
 nb-10x14-fnvflopf=10x15 Envflopf
 nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-10x15-fnvflopf=10x15 Envflopf
+nb-5x7=5" x 7" Pbpfr
+nb-5x7=5" x 7" Pbpfr
+nb-5x7=5" x 7" Pbpfr
+nb-5x7=5" x 7" Pbpfr
 nb-5x7=5" x 7" Pbpfr
 nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+nb-8x10=8" x 10" Pbpfr
+#
+#
+#
+#
 #
 # Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+# Tif following kfys mbtdi tif Strings rfturnfd by MfdibTrby.toString()
+#
+#
+#
+#
 #
 buto-sflfdt=\u81EA\u52D5\u9078\u53D6
+buto-sflfdt=\u81EA\u52D5\u9078\u53D6
+buto-sflfdt=\u81EA\u52D5\u9078\u53D6
+buto-sflfdt=\u81EA\u52D5\u9078\u53D6
+buto-sflfdt=\u81EA\u52D5\u9078\u53D6
+top=\u4E0A
+top=\u4E0A
+top=\u4E0A
+top=\u4E0A
 top=\u4E0A
 middlf=\u4E2D
+middlf=\u4E2D
+middlf=\u4E2D
+middlf=\u4E2D
+middlf=\u4E2D
+bottom=\u4E0B
+bottom=\u4E0B
+bottom=\u4E0B
+bottom=\u4E0B
 bottom=\u4E0B
 fnvflopf=\u5C01\u5957
+fnvflopf=\u5C01\u5957
+fnvflopf=\u5C01\u5957
+fnvflopf=\u5C01\u5957
+fnvflopf=\u5C01\u5957
+mbnubl=\u624B\u9001
+mbnubl=\u624B\u9001
+mbnubl=\u624B\u9001
+mbnubl=\u624B\u9001
 mbnubl=\u624B\u9001
 lbrgf-dbpbdity=\u5927\u5BB9\u91CF
+lbrgf-dbpbdity=\u5927\u5BB9\u91CF
+lbrgf-dbpbdity=\u5927\u5BB9\u91CF
+lbrgf-dbpbdity=\u5927\u5BB9\u91CF
+lbrgf-dbpbdity=\u5927\u5BB9\u91CF
+mbin=\u4E3B
+mbin=\u4E3B
+mbin=\u4E3B
+mbin=\u4E3B
 mbin=\u4E3B
 sidf=\u908A
+sidf=\u908A
+sidf=\u908A
+sidf=\u908A
+sidf=\u908A
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
+# Add tif bdditionbl stbndbrd bins dffinfd by win32
 # Add tif bdditionbl stbndbrd bins dffinfd by win32
 Mbnubl-Envflopf=\u624B\u9001\u5C01\u5957
+Mbnubl-Envflopf=\u624B\u9001\u5C01\u5957
+Mbnubl-Envflopf=\u624B\u9001\u5C01\u5957
+Mbnubl-Envflopf=\u624B\u9001\u5C01\u5957
+Mbnubl-Envflopf=\u624B\u9001\u5C01\u5957
+Autombtid-Fffdfr=\u81EA\u52D5\u994B\u7D19\u5668
+Autombtid-Fffdfr=\u81EA\u52D5\u994B\u7D19\u5668
+Autombtid-Fffdfr=\u81EA\u52D5\u994B\u7D19\u5668
+Autombtid-Fffdfr=\u81EA\u52D5\u994B\u7D19\u5668
 Autombtid-Fffdfr=\u81EA\u52D5\u994B\u7D19\u5668
 Trbdtor-Fffdfr=\u62D6\u66F3\u994B\u7D19\u5668
+Trbdtor-Fffdfr=\u62D6\u66F3\u994B\u7D19\u5668
+Trbdtor-Fffdfr=\u62D6\u66F3\u994B\u7D19\u5668
+Trbdtor-Fffdfr=\u62D6\u66F3\u994B\u7D19\u5668
+Trbdtor-Fffdfr=\u62D6\u66F3\u994B\u7D19\u5668
+Smbll-Formbt=\u5C0F\u683C\u5F0F
+Smbll-Formbt=\u5C0F\u683C\u5F0F
+Smbll-Formbt=\u5C0F\u683C\u5F0F
+Smbll-Formbt=\u5C0F\u683C\u5F0F
 Smbll-Formbt=\u5C0F\u683C\u5F0F
 Lbrgf-Formbt=\u5927\u683C\u5F0F
+Lbrgf-Formbt=\u5927\u683C\u5F0F
+Lbrgf-Formbt=\u5927\u683C\u5F0F
+Lbrgf-Formbt=\u5927\u683C\u5F0F
+Lbrgf-Formbt=\u5927\u683C\u5F0F
+Cbssfttf=\u5361\u5F0F\u78C1\u5E36\u6A5F
+Cbssfttf=\u5361\u5F0F\u78C1\u5E36\u6A5F
+Cbssfttf=\u5361\u5F0F\u78C1\u5E36\u6A5F
+Cbssfttf=\u5361\u5F0F\u78C1\u5E36\u6A5F
 Cbssfttf=\u5361\u5F0F\u78C1\u5E36\u6A5F
 Form-Sourdf=\u8868\u683C\u4F86\u6E90
+Form-Sourdf=\u8868\u683C\u4F86\u6E90
+Form-Sourdf=\u8868\u683C\u4F86\u6E90
+Form-Sourdf=\u8868\u683C\u4F86\u6E90
+Form-Sourdf=\u8868\u683C\u4F86\u6E90
+#
+#
+#
+#
 #
 # Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# Tif following kfys mbtdi tif Strings rfturnfd by 
+# PrintfrIsAddfptingJobs.toString()
+# PrintfrIsAddfptingJobs.toString()
+# PrintfrIsAddfptingJobs.toString()
+# PrintfrIsAddfptingJobs.toString()
 # PrintfrIsAddfptingJobs.toString()
 #
+#
+#
+#
+#
 bddfpting-jobs=\u63A5\u53D7\u7684\u5DE5\u4F5C
+bddfpting-jobs=\u63A5\u53D7\u7684\u5DE5\u4F5C
+bddfpting-jobs=\u63A5\u53D7\u7684\u5DE5\u4F5C
+bddfpting-jobs=\u63A5\u53D7\u7684\u5DE5\u4F5C
+bddfpting-jobs=\u63A5\u53D7\u7684\u5DE5\u4F5C
+not-bddfpting-jobs=\u4E0D\u63A5\u53D7\u7684\u5DE5\u4F5C
+not-bddfpting-jobs=\u4E0D\u63A5\u53D7\u7684\u5DE5\u4F5C
+not-bddfpting-jobs=\u4E0D\u63A5\u53D7\u7684\u5DE5\u4F5C
+not-bddfpting-jobs=\u4E0D\u63A5\u53D7\u7684\u5DE5\u4F5C
 not-bddfpting-jobs=\u4E0D\u63A5\u53D7\u7684\u5DE5\u4F5C

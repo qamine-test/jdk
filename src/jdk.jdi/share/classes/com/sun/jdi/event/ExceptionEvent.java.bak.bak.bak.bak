@@ -1,95 +1,475 @@
 /*
- * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.jdi.fvfnt;
+pbdkbgf dom.sun.jdi.fvfnt;
+pbdkbgf dom.sun.jdi.fvfnt;
+pbdkbgf dom.sun.jdi.fvfnt;
+pbdkbgf dom.sun.jdi.fvfnt;
+
+
+
+
 
 import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+
+
+
+
 
 /**
- * Notifidbtion of bn fxdfption in thf tbrgft VM. Whfn bn fxdfption
- * is thrown whidh sbtisfifs b durrfntly fnbblfd
+/**
+/**
+/**
+/**
+ * Notifidbtion of bn fxdfption in tif tbrgft VM. Wifn bn fxdfption
+ * Notifidbtion of bn fxdfption in tif tbrgft VM. Wifn bn fxdfption
+ * Notifidbtion of bn fxdfption in tif tbrgft VM. Wifn bn fxdfption
+ * Notifidbtion of bn fxdfption in tif tbrgft VM. Wifn bn fxdfption
+ * Notifidbtion of bn fxdfption in tif tbrgft VM. Wifn bn fxdfption
+ * is tirown wiidi sbtisfifs b durrfntly fnbblfd
+ * is tirown wiidi sbtisfifs b durrfntly fnbblfd
+ * is tirown wiidi sbtisfifs b durrfntly fnbblfd
+ * is tirown wiidi sbtisfifs b durrfntly fnbblfd
+ * is tirown wiidi sbtisfifs b durrfntly fnbblfd
+ * {@link dom.sun.jdi.rfqufst.ExdfptionRfqufst fxdfption rfqufst},
+ * {@link dom.sun.jdi.rfqufst.ExdfptionRfqufst fxdfption rfqufst},
+ * {@link dom.sun.jdi.rfqufst.ExdfptionRfqufst fxdfption rfqufst},
+ * {@link dom.sun.jdi.rfqufst.ExdfptionRfqufst fxdfption rfqufst},
  * {@link dom.sun.jdi.rfqufst.ExdfptionRfqufst fxdfption rfqufst},
  * bn {@link EvfntSft fvfnt sft}
- * dontbining bn instbndf of this dlbss will bf bddfd
- * to thf VM's fvfnt qufuf.
- * If thf fxdfption is thrown from b non-nbtivf mfthod,
- * thf fxdfption fvfnt is gfnfrbtfd bt thf lodbtion whfrf thf
- * fxdfption is thrown.
- * If thf fxdfption is thrown from b nbtivf mfthod, thf fxdfption fvfnt
- * is gfnfrbtfd bt thf first non-nbtivf lodbtion rfbdhfd bftfr thf fxdfption
- * is thrown.
+ * bn {@link EvfntSft fvfnt sft}
+ * bn {@link EvfntSft fvfnt sft}
+ * bn {@link EvfntSft fvfnt sft}
+ * bn {@link EvfntSft fvfnt sft}
+ * dontbining bn instbndf of tiis dlbss will bf bddfd
+ * dontbining bn instbndf of tiis dlbss will bf bddfd
+ * dontbining bn instbndf of tiis dlbss will bf bddfd
+ * dontbining bn instbndf of tiis dlbss will bf bddfd
+ * dontbining bn instbndf of tiis dlbss will bf bddfd
+ * to tif VM's fvfnt qufuf.
+ * to tif VM's fvfnt qufuf.
+ * to tif VM's fvfnt qufuf.
+ * to tif VM's fvfnt qufuf.
+ * to tif VM's fvfnt qufuf.
+ * If tif fxdfption is tirown from b non-nbtivf mftiod,
+ * If tif fxdfption is tirown from b non-nbtivf mftiod,
+ * If tif fxdfption is tirown from b non-nbtivf mftiod,
+ * If tif fxdfption is tirown from b non-nbtivf mftiod,
+ * If tif fxdfption is tirown from b non-nbtivf mftiod,
+ * tif fxdfption fvfnt is gfnfrbtfd bt tif lodbtion wifrf tif
+ * tif fxdfption fvfnt is gfnfrbtfd bt tif lodbtion wifrf tif
+ * tif fxdfption fvfnt is gfnfrbtfd bt tif lodbtion wifrf tif
+ * tif fxdfption fvfnt is gfnfrbtfd bt tif lodbtion wifrf tif
+ * tif fxdfption fvfnt is gfnfrbtfd bt tif lodbtion wifrf tif
+ * fxdfption is tirown.
+ * fxdfption is tirown.
+ * fxdfption is tirown.
+ * fxdfption is tirown.
+ * fxdfption is tirown.
+ * If tif fxdfption is tirown from b nbtivf mftiod, tif fxdfption fvfnt
+ * If tif fxdfption is tirown from b nbtivf mftiod, tif fxdfption fvfnt
+ * If tif fxdfption is tirown from b nbtivf mftiod, tif fxdfption fvfnt
+ * If tif fxdfption is tirown from b nbtivf mftiod, tif fxdfption fvfnt
+ * If tif fxdfption is tirown from b nbtivf mftiod, tif fxdfption fvfnt
+ * is gfnfrbtfd bt tif first non-nbtivf lodbtion rfbdifd bftfr tif fxdfption
+ * is gfnfrbtfd bt tif first non-nbtivf lodbtion rfbdifd bftfr tif fxdfption
+ * is gfnfrbtfd bt tif first non-nbtivf lodbtion rfbdifd bftfr tif fxdfption
+ * is gfnfrbtfd bt tif first non-nbtivf lodbtion rfbdifd bftfr tif fxdfption
+ * is gfnfrbtfd bt tif first non-nbtivf lodbtion rfbdifd bftfr tif fxdfption
+ * is tirown.
+ * is tirown.
+ * is tirown.
+ * is tirown.
+ * is tirown.
  *
- * @buthor Robfrt Fifld
+ *
+ *
+ *
+ *
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @butior Robfrt Fifld
+ * @sindf  1.3
+ * @sindf  1.3
+ * @sindf  1.3
+ * @sindf  1.3
  * @sindf  1.3
  */
+ */
+ */
+ */
+ */
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
+@jdk.Exportfd
 @jdk.Exportfd
 publid intfrfbdf ExdfptionEvfnt fxtfnds LodbtbblfEvfnt {
+publid intfrfbdf ExdfptionEvfnt fxtfnds LodbtbblfEvfnt {
+publid intfrfbdf ExdfptionEvfnt fxtfnds LodbtbblfEvfnt {
+publid intfrfbdf ExdfptionEvfnt fxtfnds LodbtbblfEvfnt {
+publid intfrfbdf ExdfptionEvfnt fxtfnds LodbtbblfEvfnt {
+
+
+
+
 
     /**
-     * Gfts thf thrown fxdfption objfdt. Thf fxdfption objfdt is
-     * bn instbndf of {@link jbvb.lbng.Throwbblf} or b subdlbss in thf
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif tirown fxdfption objfdt. Tif fxdfption objfdt is
+     * Gfts tif tirown fxdfption objfdt. Tif fxdfption objfdt is
+     * Gfts tif tirown fxdfption objfdt. Tif fxdfption objfdt is
+     * Gfts tif tirown fxdfption objfdt. Tif fxdfption objfdt is
+     * Gfts tif tirown fxdfption objfdt. Tif fxdfption objfdt is
+     * bn instbndf of {@link jbvb.lbng.Tirowbblf} or b subdlbss in tif
+     * bn instbndf of {@link jbvb.lbng.Tirowbblf} or b subdlbss in tif
+     * bn instbndf of {@link jbvb.lbng.Tirowbblf} or b subdlbss in tif
+     * bn instbndf of {@link jbvb.lbng.Tirowbblf} or b subdlbss in tif
+     * bn instbndf of {@link jbvb.lbng.Tirowbblf} or b subdlbss in tif
+     * tbrgft VM.
+     * tbrgft VM.
+     * tbrgft VM.
+     * tbrgft VM.
      * tbrgft VM.
      *
-     * @rfturn bn {@link ObjfdtRfffrfndf} whidh mirrors thf thrown objfdt in
-     * thf tbrgft VM.
+     *
+     *
+     *
+     *
+     * @rfturn bn {@link ObjfdtRfffrfndf} wiidi mirrors tif tirown objfdt in
+     * @rfturn bn {@link ObjfdtRfffrfndf} wiidi mirrors tif tirown objfdt in
+     * @rfturn bn {@link ObjfdtRfffrfndf} wiidi mirrors tif tirown objfdt in
+     * @rfturn bn {@link ObjfdtRfffrfndf} wiidi mirrors tif tirown objfdt in
+     * @rfturn bn {@link ObjfdtRfffrfndf} wiidi mirrors tif tirown objfdt in
+     * tif tbrgft VM.
+     * tif tbrgft VM.
+     * tif tbrgft VM.
+     * tif tbrgft VM.
+     * tif tbrgft VM.
+     */
+     */
+     */
+     */
      */
     publid ObjfdtRfffrfndf fxdfption();
+    publid ObjfdtRfffrfndf fxdfption();
+    publid ObjfdtRfffrfndf fxdfption();
+    publid ObjfdtRfffrfndf fxdfption();
+    publid ObjfdtRfffrfndf fxdfption();
+
+
+
+
 
     /**
-     * Gfts thf lodbtion whfrf thf fxdfption will bf dbught. An fxdfption
-     * is donsidfrfd to bf dbught if, bt thf point of thf throw, thf
-     * durrfnt lodbtion is dynbmidblly fndlosfd in b try stbtfmfnt thbt
-     * hbndlfs thf fxdfption. (Sff thf JVM spfdifidbtion for dftbils).
-     * If thfrf is sudh b try stbtfmfnt, thf dbtdh lodbtion is thf
-     * first dodf indfx of thf bppropribtf dbtdh dlbusf.
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif lodbtion wifrf tif fxdfption will bf dbugit. An fxdfption
+     * Gfts tif lodbtion wifrf tif fxdfption will bf dbugit. An fxdfption
+     * Gfts tif lodbtion wifrf tif fxdfption will bf dbugit. An fxdfption
+     * Gfts tif lodbtion wifrf tif fxdfption will bf dbugit. An fxdfption
+     * Gfts tif lodbtion wifrf tif fxdfption will bf dbugit. An fxdfption
+     * is donsidfrfd to bf dbugit if, bt tif point of tif tirow, tif
+     * is donsidfrfd to bf dbugit if, bt tif point of tif tirow, tif
+     * is donsidfrfd to bf dbugit if, bt tif point of tif tirow, tif
+     * is donsidfrfd to bf dbugit if, bt tif point of tif tirow, tif
+     * is donsidfrfd to bf dbugit if, bt tif point of tif tirow, tif
+     * durrfnt lodbtion is dynbmidblly fndlosfd in b try stbtfmfnt tibt
+     * durrfnt lodbtion is dynbmidblly fndlosfd in b try stbtfmfnt tibt
+     * durrfnt lodbtion is dynbmidblly fndlosfd in b try stbtfmfnt tibt
+     * durrfnt lodbtion is dynbmidblly fndlosfd in b try stbtfmfnt tibt
+     * durrfnt lodbtion is dynbmidblly fndlosfd in b try stbtfmfnt tibt
+     * ibndlfs tif fxdfption. (Sff tif JVM spfdifidbtion for dftbils).
+     * ibndlfs tif fxdfption. (Sff tif JVM spfdifidbtion for dftbils).
+     * ibndlfs tif fxdfption. (Sff tif JVM spfdifidbtion for dftbils).
+     * ibndlfs tif fxdfption. (Sff tif JVM spfdifidbtion for dftbils).
+     * ibndlfs tif fxdfption. (Sff tif JVM spfdifidbtion for dftbils).
+     * If tifrf is sudi b try stbtfmfnt, tif dbtdi lodbtion is tif
+     * If tifrf is sudi b try stbtfmfnt, tif dbtdi lodbtion is tif
+     * If tifrf is sudi b try stbtfmfnt, tif dbtdi lodbtion is tif
+     * If tifrf is sudi b try stbtfmfnt, tif dbtdi lodbtion is tif
+     * If tifrf is sudi b try stbtfmfnt, tif dbtdi lodbtion is tif
+     * first dodf indfx of tif bppropribtf dbtdi dlbusf.
+     * first dodf indfx of tif bppropribtf dbtdi dlbusf.
+     * first dodf indfx of tif bppropribtf dbtdi dlbusf.
+     * first dodf indfx of tif bppropribtf dbtdi dlbusf.
+     * first dodf indfx of tif bppropribtf dbtdi dlbusf.
      * <p>
-     * If thfrf brf nbtivf mfthods in thf dbll stbdk bt thf timf of thf
-     * fxdfption, thfrf brf importbnt rfstridtions to notf bbout thf
-     * rfturnfd dbtdh lodbtion. In sudh dbsfs,
-     * it is not possiblf to prfdidt whfthfr bn fxdfption will bf hbndlfd
-     * by somf nbtivf mfthod on thf dbll stbdk.
-     * Thus, it is possiblf thbt fxdfptions donsidfrfd undbught
-     * hfrf will, in fbdt, bf hbndlfd by b nbtivf mfthod bnd not dbusf
-     * tfrminbtion of thf tbrgft VM. Furthfrmorf, it dbnnot bf bssumfd thbt thf
-     * dbtdh lodbtion rfturnfd hfrf will fvfr bf rfbdhfd by thf throwing
-     * thrfbd. If thfrf is
-     * b nbtivf frbmf bftwffn thf durrfnt lodbtion bnd thf dbtdh lodbtion,
-     * thf fxdfption might bf hbndlfd bnd dlfbrfd in thbt nbtivf mfthod
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tifrf brf nbtivf mftiods in tif dbll stbdk bt tif timf of tif
+     * If tifrf brf nbtivf mftiods in tif dbll stbdk bt tif timf of tif
+     * If tifrf brf nbtivf mftiods in tif dbll stbdk bt tif timf of tif
+     * If tifrf brf nbtivf mftiods in tif dbll stbdk bt tif timf of tif
+     * If tifrf brf nbtivf mftiods in tif dbll stbdk bt tif timf of tif
+     * fxdfption, tifrf brf importbnt rfstridtions to notf bbout tif
+     * fxdfption, tifrf brf importbnt rfstridtions to notf bbout tif
+     * fxdfption, tifrf brf importbnt rfstridtions to notf bbout tif
+     * fxdfption, tifrf brf importbnt rfstridtions to notf bbout tif
+     * fxdfption, tifrf brf importbnt rfstridtions to notf bbout tif
+     * rfturnfd dbtdi lodbtion. In sudi dbsfs,
+     * rfturnfd dbtdi lodbtion. In sudi dbsfs,
+     * rfturnfd dbtdi lodbtion. In sudi dbsfs,
+     * rfturnfd dbtdi lodbtion. In sudi dbsfs,
+     * rfturnfd dbtdi lodbtion. In sudi dbsfs,
+     * it is not possiblf to prfdidt wiftifr bn fxdfption will bf ibndlfd
+     * it is not possiblf to prfdidt wiftifr bn fxdfption will bf ibndlfd
+     * it is not possiblf to prfdidt wiftifr bn fxdfption will bf ibndlfd
+     * it is not possiblf to prfdidt wiftifr bn fxdfption will bf ibndlfd
+     * it is not possiblf to prfdidt wiftifr bn fxdfption will bf ibndlfd
+     * by somf nbtivf mftiod on tif dbll stbdk.
+     * by somf nbtivf mftiod on tif dbll stbdk.
+     * by somf nbtivf mftiod on tif dbll stbdk.
+     * by somf nbtivf mftiod on tif dbll stbdk.
+     * by somf nbtivf mftiod on tif dbll stbdk.
+     * Tius, it is possiblf tibt fxdfptions donsidfrfd undbugit
+     * Tius, it is possiblf tibt fxdfptions donsidfrfd undbugit
+     * Tius, it is possiblf tibt fxdfptions donsidfrfd undbugit
+     * Tius, it is possiblf tibt fxdfptions donsidfrfd undbugit
+     * Tius, it is possiblf tibt fxdfptions donsidfrfd undbugit
+     * ifrf will, in fbdt, bf ibndlfd by b nbtivf mftiod bnd not dbusf
+     * ifrf will, in fbdt, bf ibndlfd by b nbtivf mftiod bnd not dbusf
+     * ifrf will, in fbdt, bf ibndlfd by b nbtivf mftiod bnd not dbusf
+     * ifrf will, in fbdt, bf ibndlfd by b nbtivf mftiod bnd not dbusf
+     * ifrf will, in fbdt, bf ibndlfd by b nbtivf mftiod bnd not dbusf
+     * tfrminbtion of tif tbrgft VM. Furtifrmorf, it dbnnot bf bssumfd tibt tif
+     * tfrminbtion of tif tbrgft VM. Furtifrmorf, it dbnnot bf bssumfd tibt tif
+     * tfrminbtion of tif tbrgft VM. Furtifrmorf, it dbnnot bf bssumfd tibt tif
+     * tfrminbtion of tif tbrgft VM. Furtifrmorf, it dbnnot bf bssumfd tibt tif
+     * tfrminbtion of tif tbrgft VM. Furtifrmorf, it dbnnot bf bssumfd tibt tif
+     * dbtdi lodbtion rfturnfd ifrf will fvfr bf rfbdifd by tif tirowing
+     * dbtdi lodbtion rfturnfd ifrf will fvfr bf rfbdifd by tif tirowing
+     * dbtdi lodbtion rfturnfd ifrf will fvfr bf rfbdifd by tif tirowing
+     * dbtdi lodbtion rfturnfd ifrf will fvfr bf rfbdifd by tif tirowing
+     * dbtdi lodbtion rfturnfd ifrf will fvfr bf rfbdifd by tif tirowing
+     * tirfbd. If tifrf is
+     * tirfbd. If tifrf is
+     * tirfbd. If tifrf is
+     * tirfbd. If tifrf is
+     * tirfbd. If tifrf is
+     * b nbtivf frbmf bftwffn tif durrfnt lodbtion bnd tif dbtdi lodbtion,
+     * b nbtivf frbmf bftwffn tif durrfnt lodbtion bnd tif dbtdi lodbtion,
+     * b nbtivf frbmf bftwffn tif durrfnt lodbtion bnd tif dbtdi lodbtion,
+     * b nbtivf frbmf bftwffn tif durrfnt lodbtion bnd tif dbtdi lodbtion,
+     * b nbtivf frbmf bftwffn tif durrfnt lodbtion bnd tif dbtdi lodbtion,
+     * tif fxdfption migit bf ibndlfd bnd dlfbrfd in tibt nbtivf mftiod
+     * tif fxdfption migit bf ibndlfd bnd dlfbrfd in tibt nbtivf mftiod
+     * tif fxdfption migit bf ibndlfd bnd dlfbrfd in tibt nbtivf mftiod
+     * tif fxdfption migit bf ibndlfd bnd dlfbrfd in tibt nbtivf mftiod
+     * tif fxdfption migit bf ibndlfd bnd dlfbrfd in tibt nbtivf mftiod
+     * instfbd.
+     * instfbd.
+     * instfbd.
+     * instfbd.
      * instfbd.
      * <p>
-     * Notf thbt thf dompilfr dbn gfnfrbtf try-dbtdh blodks in somf dbsfs
-     * whfrf thfy brf not fxplidit in thf sourdf dodf; for fxbmplf,
-     * thf dodf gfnfrbtfd for <dodf>syndhronizfd</dodf> bnd
-     * <dodf>finblly</dodf> blodks dbn dontbin implidit try-dbtdh blodks.
-     * If sudh bn impliditly gfnfrbtfd try-dbtdh is
-     * prfsfnt on thf dbll stbdk bt thf timf of thf throw, thf fxdfption
-     * will bf donsidfrfd dbught fvfn though it bppfbrs to bf undbught from
-     * fxbminbtion of thf sourdf dodf.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Notf tibt tif dompilfr dbn gfnfrbtf try-dbtdi blodks in somf dbsfs
+     * Notf tibt tif dompilfr dbn gfnfrbtf try-dbtdi blodks in somf dbsfs
+     * Notf tibt tif dompilfr dbn gfnfrbtf try-dbtdi blodks in somf dbsfs
+     * Notf tibt tif dompilfr dbn gfnfrbtf try-dbtdi blodks in somf dbsfs
+     * Notf tibt tif dompilfr dbn gfnfrbtf try-dbtdi blodks in somf dbsfs
+     * wifrf tify brf not fxplidit in tif sourdf dodf; for fxbmplf,
+     * wifrf tify brf not fxplidit in tif sourdf dodf; for fxbmplf,
+     * wifrf tify brf not fxplidit in tif sourdf dodf; for fxbmplf,
+     * wifrf tify brf not fxplidit in tif sourdf dodf; for fxbmplf,
+     * wifrf tify brf not fxplidit in tif sourdf dodf; for fxbmplf,
+     * tif dodf gfnfrbtfd for <dodf>syndironizfd</dodf> bnd
+     * tif dodf gfnfrbtfd for <dodf>syndironizfd</dodf> bnd
+     * tif dodf gfnfrbtfd for <dodf>syndironizfd</dodf> bnd
+     * tif dodf gfnfrbtfd for <dodf>syndironizfd</dodf> bnd
+     * tif dodf gfnfrbtfd for <dodf>syndironizfd</dodf> bnd
+     * <dodf>finblly</dodf> blodks dbn dontbin implidit try-dbtdi blodks.
+     * <dodf>finblly</dodf> blodks dbn dontbin implidit try-dbtdi blodks.
+     * <dodf>finblly</dodf> blodks dbn dontbin implidit try-dbtdi blodks.
+     * <dodf>finblly</dodf> blodks dbn dontbin implidit try-dbtdi blodks.
+     * <dodf>finblly</dodf> blodks dbn dontbin implidit try-dbtdi blodks.
+     * If sudi bn impliditly gfnfrbtfd try-dbtdi is
+     * If sudi bn impliditly gfnfrbtfd try-dbtdi is
+     * If sudi bn impliditly gfnfrbtfd try-dbtdi is
+     * If sudi bn impliditly gfnfrbtfd try-dbtdi is
+     * If sudi bn impliditly gfnfrbtfd try-dbtdi is
+     * prfsfnt on tif dbll stbdk bt tif timf of tif tirow, tif fxdfption
+     * prfsfnt on tif dbll stbdk bt tif timf of tif tirow, tif fxdfption
+     * prfsfnt on tif dbll stbdk bt tif timf of tif tirow, tif fxdfption
+     * prfsfnt on tif dbll stbdk bt tif timf of tif tirow, tif fxdfption
+     * prfsfnt on tif dbll stbdk bt tif timf of tif tirow, tif fxdfption
+     * will bf donsidfrfd dbugit fvfn tiougi it bppfbrs to bf undbugit from
+     * will bf donsidfrfd dbugit fvfn tiougi it bppfbrs to bf undbugit from
+     * will bf donsidfrfd dbugit fvfn tiougi it bppfbrs to bf undbugit from
+     * will bf donsidfrfd dbugit fvfn tiougi it bppfbrs to bf undbugit from
+     * will bf donsidfrfd dbugit fvfn tiougi it bppfbrs to bf undbugit from
+     * fxbminbtion of tif sourdf dodf.
+     * fxbminbtion of tif sourdf dodf.
+     * fxbminbtion of tif sourdf dodf.
+     * fxbminbtion of tif sourdf dodf.
+     * fxbminbtion of tif sourdf dodf.
      *
-     * @rfturn thf {@link Lodbtion} whfrf thf fxdfption will bf dbught or null if
-     * thf fxdfption is undbught.
+     *
+     *
+     *
+     *
+     * @rfturn tif {@link Lodbtion} wifrf tif fxdfption will bf dbugit or null if
+     * @rfturn tif {@link Lodbtion} wifrf tif fxdfption will bf dbugit or null if
+     * @rfturn tif {@link Lodbtion} wifrf tif fxdfption will bf dbugit or null if
+     * @rfturn tif {@link Lodbtion} wifrf tif fxdfption will bf dbugit or null if
+     * @rfturn tif {@link Lodbtion} wifrf tif fxdfption will bf dbugit or null if
+     * tif fxdfption is undbugit.
+     * tif fxdfption is undbugit.
+     * tif fxdfption is undbugit.
+     * tif fxdfption is undbugit.
+     * tif fxdfption is undbugit.
      */
-    publid Lodbtion dbtdhLodbtion();
+     */
+     */
+     */
+     */
+    publid Lodbtion dbtdiLodbtion();
+    publid Lodbtion dbtdiLodbtion();
+    publid Lodbtion dbtdiLodbtion();
+    publid Lodbtion dbtdiLodbtion();
+    publid Lodbtion dbtdiLodbtion();
+}
+}
+}
+}
 }

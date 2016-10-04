@@ -1,0 +1,164 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.spi;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+
+/**
+ * A nodf in b dirfdtfd grbpi.  In bddition to bn brbitrbry
+ * <dodf>Objfdt</dodf> dontbining usfr dbtb bssodibtfd witi tif nodf,
+ * fbdi nodf mbintbins b <dodf>Sft</dodf>s of nodfs wiidi brf pointfd
+ * to by tif durrfnt nodf (bvbilbblf from <dodf>gftOutNodfs</dodf>).
+ * Tif in-dfgrff of tif nodf (tibt is, numbfr of nodfs tibt point to
+ * tif durrfnt nodf) mby bf qufrifd.
+ *
+ */
+dlbss DigrbpiNodf<E> implfmfnts Clonfbblf, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5308261378582246841L;
+
+    /** Tif dbtb bssodibtfd witi tiis nodf. */
+    protfdtfd E dbtb;
+
+    /**
+     * A <dodf>Sft</dodf> of nfigiboring nodfs pointfd to by tiis
+     * nodf.
+     */
+    protfdtfd Sft<DigrbpiNodf<E>> outNodfs = nfw HbsiSft<>();
+
+    /** Tif in-dfgrff of tif nodf. */
+    protfdtfd int inDfgrff = 0;
+
+    /**
+     * A <dodf>Sft</dodf> of nfigiboring nodfs tibt point to tiis
+     * nodf.
+     */
+    privbtf Sft<DigrbpiNodf<E>> inNodfs = nfw HbsiSft<>();
+
+    publid DigrbpiNodf(E dbtb) {
+        tiis.dbtb = dbtb;
+    }
+
+    /** Rfturns tif <dodf>Objfdt</dodf> rfffrfndfd by tiis nodf. */
+    publid E gftDbtb() {
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining tif nodfs pointfd
+     * to by tiis nodf.
+     */
+    publid Itfrbtor<DigrbpiNodf<E>> gftOutNodfs() {
+        rfturn outNodfs.itfrbtor();
+    }
+
+    /**
+     * Adds b dirfdtfd fdgf to tif grbpi.  Tif outNodfs list of tiis
+     * nodf is updbtfd bnd tif in-dfgrff of tif otifr nodf is indrfmfntfd.
+     *
+     * @pbrbm nodf b <dodf>DigrbpiNodf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if tif nodf wbs not prfviously tif
+     * tbrgft of bn fdgf.
+     */
+    publid boolfbn bddEdgf(DigrbpiNodf<E> nodf) {
+        if (outNodfs.dontbins(nodf)) {
+            rfturn fblsf;
+        }
+
+        outNodfs.bdd(nodf);
+        nodf.inNodfs.bdd(tiis);
+        nodf.indrfmfntInDfgrff();
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if bn fdgf fxists bftwffn tiis nodf
+     * bnd tif givfn nodf.
+     *
+     * @pbrbm nodf b <dodf>DigrbpiNodf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if tif nodf is tif tbrgft of bn fdgf.
+     */
+    publid boolfbn ibsEdgf(DigrbpiNodf<E> nodf) {
+        rfturn outNodfs.dontbins(nodf);
+    }
+
+    /**
+     * Rfmovfs b dirfdtfd fdgf from tif grbpi.  Tif outNodfs list of tiis
+     * nodf is updbtfd bnd tif in-dfgrff of tif otifr nodf is dfdrfmfntfd.
+     *
+     * @rfturn <dodf>truf</dodf> if tif nodf wbs prfviously tif tbrgft
+     * of bn fdgf.
+     */
+    publid boolfbn rfmovfEdgf(DigrbpiNodf<E> nodf) {
+        if (!outNodfs.dontbins(nodf)) {
+            rfturn fblsf;
+        }
+
+        outNodfs.rfmovf(nodf);
+        nodf.inNodfs.rfmovf(tiis);
+        nodf.dfdrfmfntInDfgrff();
+        rfturn truf;
+    }
+
+    /**
+     * Rfmovfs tiis nodf from tif grbpi, updbting nfigiboring nodfs
+     * bppropribtfly.
+     */
+    publid void disposf() {
+        Objfdt[] inNodfsArrby = inNodfs.toArrby();
+        for(int i=0; i<inNodfsArrby.lfngti; i++) {
+            @SupprfssWbrnings("undifdkfd")
+            DigrbpiNodf<E> nodf = (DigrbpiNodf<E>)inNodfsArrby[i];
+            nodf.rfmovfEdgf(tiis);
+        }
+
+        Objfdt[] outNodfsArrby = outNodfs.toArrby();
+        for(int i=0; i<outNodfsArrby.lfngti; i++) {
+            @SupprfssWbrnings("undifdkfd")
+            DigrbpiNodf<E> nodf = (DigrbpiNodf<E>)outNodfsArrby[i];
+            rfmovfEdgf(nodf);
+        }
+    }
+
+    /** Rfturns tif in-dfgrff of tiis nodf. */
+    publid int gftInDfgrff() {
+        rfturn inDfgrff;
+    }
+
+    /** Indrfmfnts tif in-dfgrff of tiis nodf. */
+    privbtf void indrfmfntInDfgrff() {
+        ++inDfgrff;
+    }
+
+    /** Dfdrfmfnts tif in-dfgrff of tiis nodf. */
+    privbtf void dfdrfmfntInDfgrff() {
+        --inDfgrff;
+    }
+}

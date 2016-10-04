@@ -1,260 +1,1300 @@
 /*
- * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvb.sfdurity;
-
-import jbvb.io.*;
-
-/**
- * <p> SignfdObjfdt is b dlbss for thf purposf of drfbting buthfntid
- * runtimf objfdts whosf intfgrity dbnnot bf dompromisfd without bfing
- * dftfdtfd.
- *
- * <p> Morf spfdifidblly, b SignfdObjfdt dontbins bnothfr Sfriblizbblf
- * objfdt, thf (to-bf-)signfd objfdt bnd its signbturf.
- *
- * <p> Thf signfd objfdt is b "dffp dopy" (in sfriblizfd form) of bn
- * originbl objfdt.  Ondf thf dopy is mbdf, furthfr mbnipulbtion of
- * thf originbl objfdt hbs no sidf ffffdt on thf dopy.
- *
- * <p> Thf undfrlying signing blgorithm is dfsignbtfd by thf Signbturf
- * objfdt pbssfd to thf donstrudtor bnd thf {@dodf vfrify} mfthod.
- * A typidbl usbgf for signing is thf following:
- *
- * <prf>{@dodf
- * Signbturf signingEnginf = Signbturf.gftInstbndf(blgorithm,
- *                                                 providfr);
- * SignfdObjfdt so = nfw SignfdObjfdt(myobjfdt, signingKfy,
- *                                    signingEnginf);
- * }</prf>
- *
- * <p> A typidbl usbgf for vfrifidbtion is thf following (hbving
- * rfdfivfd SignfdObjfdt {@dodf so}):
- *
- * <prf>{@dodf
- * Signbturf vfrifidbtionEnginf =
- *     Signbturf.gftInstbndf(blgorithm, providfr);
- * if (so.vfrify(publidkfy, vfrifidbtionEnginf))
- *     try {
- *         Objfdt myobj = so.gftObjfdt();
- *     } dbtdh (jbvb.lbng.ClbssNotFoundExdfption f) {};
- * }</prf>
- *
- * <p> Sfvfrbl points brf worth noting.  First, thfrf is no nffd to
- * initiblizf thf signing or vfrifidbtion fnginf, bs it will bf
- * rf-initiblizfd insidf thf donstrudtor bnd thf {@dodf vfrify}
- * mfthod. Sfdondly, for vfrifidbtion to suddffd, thf spfdififd
- * publid kfy must bf thf publid kfy dorrfsponding to thf privbtf kfy
- * usfd to gfnfrbtf thf SignfdObjfdt.
- *
- * <p> Morf importbntly, for flfxibility rfbsons, thf
- * donstrudtor bnd {@dodf vfrify} mfthod bllow for
- * dustomizfd signbturf fnginfs, whidh dbn implfmfnt signbturf
- * blgorithms thbt brf not instbllfd formblly bs pbrt of b drypto
- * providfr.  Howfvfr, it is drudibl thbt thf progrbmmfr writing thf
- * vfrififr dodf bf bwbrf whbt {@dodf Signbturf} fnginf is bfing
- * usfd, bs its own implfmfntbtion of thf {@dodf vfrify} mfthod
- * is invokfd to vfrify b signbturf.  In othfr words, b mblidious
- * {@dodf Signbturf} mby dhoosf to blwbys rfturn truf on
- * vfrifidbtion in bn bttfmpt to bypbss b sfdurity dhfdk.
- *
- * <p> Thf signbturf blgorithm dbn bf, bmong othfrs, thf NIST stbndbrd
- * DSA, using DSA bnd SHA-1.  Thf blgorithm is spfdififd using thf
- * sbmf donvfntion bs thbt for signbturfs. Thf DSA blgorithm using thf
- * SHA-1 mfssbgf digfst blgorithm dbn bf spfdififd, for fxbmplf, bs
- * "SHA/DSA" or "SHA-1/DSA" (thfy brf fquivblfnt).  In thf dbsf of
- * RSA, thfrf brf multiplf dhoidfs for thf mfssbgf digfst blgorithm,
- * so thf signing blgorithm dould bf spfdififd bs, for fxbmplf,
- * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  Thf blgorithm nbmf must bf
- * spfdififd, bs thfrf is no dffbult.
- *
- * <p> Thf nbmf of thf Cryptogrbphy Pbdkbgf Providfr is dfsignbtfd
- * blso by thf Signbturf pbrbmftfr to thf donstrudtor bnd thf
- * {@dodf vfrify} mfthod.  If thf providfr is not
- * spfdififd, thf dffbult providfr is usfd.  Ebdh instbllbtion dbn
- * bf donfigurfd to usf b pbrtidulbr providfr bs dffbult.
- *
- * <p> Potfntibl bpplidbtions of SignfdObjfdt indludf:
- * <ul>
- * <li> It dbn bf usfd
- * intfrnblly to bny Jbvb runtimf bs bn unforgfbblf buthorizbtion
- * tokfn -- onf thbt dbn bf pbssfd bround without thf ffbr thbt thf
- * tokfn dbn bf mblidiously modififd without bfing dftfdtfd.
- * <li> It
- * dbn bf usfd to sign bnd sfriblizf dbtb/objfdt for storbgf outsidf
- * thf Jbvb runtimf (f.g., storing dritidbl bddfss dontrol dbtb on
- * disk).
- * <li> Nfstfd SignfdObjfdts dbn bf usfd to donstrudt b logidbl
- * sfqufndf of signbturfs, rfsfmbling b dhbin of buthorizbtion bnd
- * dflfgbtion.
- * </ul>
- *
- * @sff Signbturf
- *
- * @buthor Li Gong
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+
+
+
+
+
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * <p> SignfdObjfdt is b dlbss for tif purposf of drfbting butifntid
+ * <p> SignfdObjfdt is b dlbss for tif purposf of drfbting butifntid
+ * <p> SignfdObjfdt is b dlbss for tif purposf of drfbting butifntid
+ * <p> SignfdObjfdt is b dlbss for tif purposf of drfbting butifntid
+ * <p> SignfdObjfdt is b dlbss for tif purposf of drfbting butifntid
+ * runtimf objfdts wiosf intfgrity dbnnot bf dompromisfd witiout bfing
+ * runtimf objfdts wiosf intfgrity dbnnot bf dompromisfd witiout bfing
+ * runtimf objfdts wiosf intfgrity dbnnot bf dompromisfd witiout bfing
+ * runtimf objfdts wiosf intfgrity dbnnot bf dompromisfd witiout bfing
+ * runtimf objfdts wiosf intfgrity dbnnot bf dompromisfd witiout bfing
+ * dftfdtfd.
+ * dftfdtfd.
+ * dftfdtfd.
+ * dftfdtfd.
+ * dftfdtfd.
+ *
+ *
+ *
+ *
+ *
+ * <p> Morf spfdifidblly, b SignfdObjfdt dontbins bnotifr Sfriblizbblf
+ * <p> Morf spfdifidblly, b SignfdObjfdt dontbins bnotifr Sfriblizbblf
+ * <p> Morf spfdifidblly, b SignfdObjfdt dontbins bnotifr Sfriblizbblf
+ * <p> Morf spfdifidblly, b SignfdObjfdt dontbins bnotifr Sfriblizbblf
+ * <p> Morf spfdifidblly, b SignfdObjfdt dontbins bnotifr Sfriblizbblf
+ * objfdt, tif (to-bf-)signfd objfdt bnd its signbturf.
+ * objfdt, tif (to-bf-)signfd objfdt bnd its signbturf.
+ * objfdt, tif (to-bf-)signfd objfdt bnd its signbturf.
+ * objfdt, tif (to-bf-)signfd objfdt bnd its signbturf.
+ * objfdt, tif (to-bf-)signfd objfdt bnd its signbturf.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tif signfd objfdt is b "dffp dopy" (in sfriblizfd form) of bn
+ * <p> Tif signfd objfdt is b "dffp dopy" (in sfriblizfd form) of bn
+ * <p> Tif signfd objfdt is b "dffp dopy" (in sfriblizfd form) of bn
+ * <p> Tif signfd objfdt is b "dffp dopy" (in sfriblizfd form) of bn
+ * <p> Tif signfd objfdt is b "dffp dopy" (in sfriblizfd form) of bn
+ * originbl objfdt.  Ondf tif dopy is mbdf, furtifr mbnipulbtion of
+ * originbl objfdt.  Ondf tif dopy is mbdf, furtifr mbnipulbtion of
+ * originbl objfdt.  Ondf tif dopy is mbdf, furtifr mbnipulbtion of
+ * originbl objfdt.  Ondf tif dopy is mbdf, furtifr mbnipulbtion of
+ * originbl objfdt.  Ondf tif dopy is mbdf, furtifr mbnipulbtion of
+ * tif originbl objfdt ibs no sidf ffffdt on tif dopy.
+ * tif originbl objfdt ibs no sidf ffffdt on tif dopy.
+ * tif originbl objfdt ibs no sidf ffffdt on tif dopy.
+ * tif originbl objfdt ibs no sidf ffffdt on tif dopy.
+ * tif originbl objfdt ibs no sidf ffffdt on tif dopy.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tif undfrlying signing blgoritim is dfsignbtfd by tif Signbturf
+ * <p> Tif undfrlying signing blgoritim is dfsignbtfd by tif Signbturf
+ * <p> Tif undfrlying signing blgoritim is dfsignbtfd by tif Signbturf
+ * <p> Tif undfrlying signing blgoritim is dfsignbtfd by tif Signbturf
+ * <p> Tif undfrlying signing blgoritim is dfsignbtfd by tif Signbturf
+ * objfdt pbssfd to tif donstrudtor bnd tif {@dodf vfrify} mftiod.
+ * objfdt pbssfd to tif donstrudtor bnd tif {@dodf vfrify} mftiod.
+ * objfdt pbssfd to tif donstrudtor bnd tif {@dodf vfrify} mftiod.
+ * objfdt pbssfd to tif donstrudtor bnd tif {@dodf vfrify} mftiod.
+ * objfdt pbssfd to tif donstrudtor bnd tif {@dodf vfrify} mftiod.
+ * A typidbl usbgf for signing is tif following:
+ * A typidbl usbgf for signing is tif following:
+ * A typidbl usbgf for signing is tif following:
+ * A typidbl usbgf for signing is tif following:
+ * A typidbl usbgf for signing is tif following:
+ *
+ *
+ *
+ *
+ *
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * Signbturf signingEnginf = Signbturf.gftInstbndf(blgoritim,
+ * Signbturf signingEnginf = Signbturf.gftInstbndf(blgoritim,
+ * Signbturf signingEnginf = Signbturf.gftInstbndf(blgoritim,
+ * Signbturf signingEnginf = Signbturf.gftInstbndf(blgoritim,
+ * Signbturf signingEnginf = Signbturf.gftInstbndf(blgoritim,
+ *                                                 providfr);
+ *                                                 providfr);
+ *                                                 providfr);
+ *                                                 providfr);
+ *                                                 providfr);
+ * SignfdObjfdt so = nfw SignfdObjfdt(myobjfdt, signingKfy,
+ * SignfdObjfdt so = nfw SignfdObjfdt(myobjfdt, signingKfy,
+ * SignfdObjfdt so = nfw SignfdObjfdt(myobjfdt, signingKfy,
+ * SignfdObjfdt so = nfw SignfdObjfdt(myobjfdt, signingKfy,
+ * SignfdObjfdt so = nfw SignfdObjfdt(myobjfdt, signingKfy,
+ *                                    signingEnginf);
+ *                                    signingEnginf);
+ *                                    signingEnginf);
+ *                                    signingEnginf);
+ *                                    signingEnginf);
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ *
+ *
+ *
+ *
+ *
+ * <p> A typidbl usbgf for vfrifidbtion is tif following (ibving
+ * <p> A typidbl usbgf for vfrifidbtion is tif following (ibving
+ * <p> A typidbl usbgf for vfrifidbtion is tif following (ibving
+ * <p> A typidbl usbgf for vfrifidbtion is tif following (ibving
+ * <p> A typidbl usbgf for vfrifidbtion is tif following (ibving
+ * rfdfivfd SignfdObjfdt {@dodf so}):
+ * rfdfivfd SignfdObjfdt {@dodf so}):
+ * rfdfivfd SignfdObjfdt {@dodf so}):
+ * rfdfivfd SignfdObjfdt {@dodf so}):
+ * rfdfivfd SignfdObjfdt {@dodf so}):
+ *
+ *
+ *
+ *
+ *
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * <prf>{@dodf
+ * Signbturf vfrifidbtionEnginf =
+ * Signbturf vfrifidbtionEnginf =
+ * Signbturf vfrifidbtionEnginf =
+ * Signbturf vfrifidbtionEnginf =
+ * Signbturf vfrifidbtionEnginf =
+ *     Signbturf.gftInstbndf(blgoritim, providfr);
+ *     Signbturf.gftInstbndf(blgoritim, providfr);
+ *     Signbturf.gftInstbndf(blgoritim, providfr);
+ *     Signbturf.gftInstbndf(blgoritim, providfr);
+ *     Signbturf.gftInstbndf(blgoritim, providfr);
+ * if (so.vfrify(publidkfy, vfrifidbtionEnginf))
+ * if (so.vfrify(publidkfy, vfrifidbtionEnginf))
+ * if (so.vfrify(publidkfy, vfrifidbtionEnginf))
+ * if (so.vfrify(publidkfy, vfrifidbtionEnginf))
+ * if (so.vfrify(publidkfy, vfrifidbtionEnginf))
+ *     try {
+ *     try {
+ *     try {
+ *     try {
+ *     try {
+ *         Objfdt myobj = so.gftObjfdt();
+ *         Objfdt myobj = so.gftObjfdt();
+ *         Objfdt myobj = so.gftObjfdt();
+ *         Objfdt myobj = so.gftObjfdt();
+ *         Objfdt myobj = so.gftObjfdt();
+ *     } dbtdi (jbvb.lbng.ClbssNotFoundExdfption f) {};
+ *     } dbtdi (jbvb.lbng.ClbssNotFoundExdfption f) {};
+ *     } dbtdi (jbvb.lbng.ClbssNotFoundExdfption f) {};
+ *     } dbtdi (jbvb.lbng.ClbssNotFoundExdfption f) {};
+ *     } dbtdi (jbvb.lbng.ClbssNotFoundExdfption f) {};
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ * }</prf>
+ *
+ *
+ *
+ *
+ *
+ * <p> Sfvfrbl points brf worti noting.  First, tifrf is no nffd to
+ * <p> Sfvfrbl points brf worti noting.  First, tifrf is no nffd to
+ * <p> Sfvfrbl points brf worti noting.  First, tifrf is no nffd to
+ * <p> Sfvfrbl points brf worti noting.  First, tifrf is no nffd to
+ * <p> Sfvfrbl points brf worti noting.  First, tifrf is no nffd to
+ * initiblizf tif signing or vfrifidbtion fnginf, bs it will bf
+ * initiblizf tif signing or vfrifidbtion fnginf, bs it will bf
+ * initiblizf tif signing or vfrifidbtion fnginf, bs it will bf
+ * initiblizf tif signing or vfrifidbtion fnginf, bs it will bf
+ * initiblizf tif signing or vfrifidbtion fnginf, bs it will bf
+ * rf-initiblizfd insidf tif donstrudtor bnd tif {@dodf vfrify}
+ * rf-initiblizfd insidf tif donstrudtor bnd tif {@dodf vfrify}
+ * rf-initiblizfd insidf tif donstrudtor bnd tif {@dodf vfrify}
+ * rf-initiblizfd insidf tif donstrudtor bnd tif {@dodf vfrify}
+ * rf-initiblizfd insidf tif donstrudtor bnd tif {@dodf vfrify}
+ * mftiod. Sfdondly, for vfrifidbtion to suddffd, tif spfdififd
+ * mftiod. Sfdondly, for vfrifidbtion to suddffd, tif spfdififd
+ * mftiod. Sfdondly, for vfrifidbtion to suddffd, tif spfdififd
+ * mftiod. Sfdondly, for vfrifidbtion to suddffd, tif spfdififd
+ * mftiod. Sfdondly, for vfrifidbtion to suddffd, tif spfdififd
+ * publid kfy must bf tif publid kfy dorrfsponding to tif privbtf kfy
+ * publid kfy must bf tif publid kfy dorrfsponding to tif privbtf kfy
+ * publid kfy must bf tif publid kfy dorrfsponding to tif privbtf kfy
+ * publid kfy must bf tif publid kfy dorrfsponding to tif privbtf kfy
+ * publid kfy must bf tif publid kfy dorrfsponding to tif privbtf kfy
+ * usfd to gfnfrbtf tif SignfdObjfdt.
+ * usfd to gfnfrbtf tif SignfdObjfdt.
+ * usfd to gfnfrbtf tif SignfdObjfdt.
+ * usfd to gfnfrbtf tif SignfdObjfdt.
+ * usfd to gfnfrbtf tif SignfdObjfdt.
+ *
+ *
+ *
+ *
+ *
+ * <p> Morf importbntly, for flfxibility rfbsons, tif
+ * <p> Morf importbntly, for flfxibility rfbsons, tif
+ * <p> Morf importbntly, for flfxibility rfbsons, tif
+ * <p> Morf importbntly, for flfxibility rfbsons, tif
+ * <p> Morf importbntly, for flfxibility rfbsons, tif
+ * donstrudtor bnd {@dodf vfrify} mftiod bllow for
+ * donstrudtor bnd {@dodf vfrify} mftiod bllow for
+ * donstrudtor bnd {@dodf vfrify} mftiod bllow for
+ * donstrudtor bnd {@dodf vfrify} mftiod bllow for
+ * donstrudtor bnd {@dodf vfrify} mftiod bllow for
+ * dustomizfd signbturf fnginfs, wiidi dbn implfmfnt signbturf
+ * dustomizfd signbturf fnginfs, wiidi dbn implfmfnt signbturf
+ * dustomizfd signbturf fnginfs, wiidi dbn implfmfnt signbturf
+ * dustomizfd signbturf fnginfs, wiidi dbn implfmfnt signbturf
+ * dustomizfd signbturf fnginfs, wiidi dbn implfmfnt signbturf
+ * blgoritims tibt brf not instbllfd formblly bs pbrt of b drypto
+ * blgoritims tibt brf not instbllfd formblly bs pbrt of b drypto
+ * blgoritims tibt brf not instbllfd formblly bs pbrt of b drypto
+ * blgoritims tibt brf not instbllfd formblly bs pbrt of b drypto
+ * blgoritims tibt brf not instbllfd formblly bs pbrt of b drypto
+ * providfr.  Howfvfr, it is drudibl tibt tif progrbmmfr writing tif
+ * providfr.  Howfvfr, it is drudibl tibt tif progrbmmfr writing tif
+ * providfr.  Howfvfr, it is drudibl tibt tif progrbmmfr writing tif
+ * providfr.  Howfvfr, it is drudibl tibt tif progrbmmfr writing tif
+ * providfr.  Howfvfr, it is drudibl tibt tif progrbmmfr writing tif
+ * vfrififr dodf bf bwbrf wibt {@dodf Signbturf} fnginf is bfing
+ * vfrififr dodf bf bwbrf wibt {@dodf Signbturf} fnginf is bfing
+ * vfrififr dodf bf bwbrf wibt {@dodf Signbturf} fnginf is bfing
+ * vfrififr dodf bf bwbrf wibt {@dodf Signbturf} fnginf is bfing
+ * vfrififr dodf bf bwbrf wibt {@dodf Signbturf} fnginf is bfing
+ * usfd, bs its own implfmfntbtion of tif {@dodf vfrify} mftiod
+ * usfd, bs its own implfmfntbtion of tif {@dodf vfrify} mftiod
+ * usfd, bs its own implfmfntbtion of tif {@dodf vfrify} mftiod
+ * usfd, bs its own implfmfntbtion of tif {@dodf vfrify} mftiod
+ * usfd, bs its own implfmfntbtion of tif {@dodf vfrify} mftiod
+ * is invokfd to vfrify b signbturf.  In otifr words, b mblidious
+ * is invokfd to vfrify b signbturf.  In otifr words, b mblidious
+ * is invokfd to vfrify b signbturf.  In otifr words, b mblidious
+ * is invokfd to vfrify b signbturf.  In otifr words, b mblidious
+ * is invokfd to vfrify b signbturf.  In otifr words, b mblidious
+ * {@dodf Signbturf} mby dioosf to blwbys rfturn truf on
+ * {@dodf Signbturf} mby dioosf to blwbys rfturn truf on
+ * {@dodf Signbturf} mby dioosf to blwbys rfturn truf on
+ * {@dodf Signbturf} mby dioosf to blwbys rfturn truf on
+ * {@dodf Signbturf} mby dioosf to blwbys rfturn truf on
+ * vfrifidbtion in bn bttfmpt to bypbss b sfdurity difdk.
+ * vfrifidbtion in bn bttfmpt to bypbss b sfdurity difdk.
+ * vfrifidbtion in bn bttfmpt to bypbss b sfdurity difdk.
+ * vfrifidbtion in bn bttfmpt to bypbss b sfdurity difdk.
+ * vfrifidbtion in bn bttfmpt to bypbss b sfdurity difdk.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tif signbturf blgoritim dbn bf, bmong otifrs, tif NIST stbndbrd
+ * <p> Tif signbturf blgoritim dbn bf, bmong otifrs, tif NIST stbndbrd
+ * <p> Tif signbturf blgoritim dbn bf, bmong otifrs, tif NIST stbndbrd
+ * <p> Tif signbturf blgoritim dbn bf, bmong otifrs, tif NIST stbndbrd
+ * <p> Tif signbturf blgoritim dbn bf, bmong otifrs, tif NIST stbndbrd
+ * DSA, using DSA bnd SHA-1.  Tif blgoritim is spfdififd using tif
+ * DSA, using DSA bnd SHA-1.  Tif blgoritim is spfdififd using tif
+ * DSA, using DSA bnd SHA-1.  Tif blgoritim is spfdififd using tif
+ * DSA, using DSA bnd SHA-1.  Tif blgoritim is spfdififd using tif
+ * DSA, using DSA bnd SHA-1.  Tif blgoritim is spfdififd using tif
+ * sbmf donvfntion bs tibt for signbturfs. Tif DSA blgoritim using tif
+ * sbmf donvfntion bs tibt for signbturfs. Tif DSA blgoritim using tif
+ * sbmf donvfntion bs tibt for signbturfs. Tif DSA blgoritim using tif
+ * sbmf donvfntion bs tibt for signbturfs. Tif DSA blgoritim using tif
+ * sbmf donvfntion bs tibt for signbturfs. Tif DSA blgoritim using tif
+ * SHA-1 mfssbgf digfst blgoritim dbn bf spfdififd, for fxbmplf, bs
+ * SHA-1 mfssbgf digfst blgoritim dbn bf spfdififd, for fxbmplf, bs
+ * SHA-1 mfssbgf digfst blgoritim dbn bf spfdififd, for fxbmplf, bs
+ * SHA-1 mfssbgf digfst blgoritim dbn bf spfdififd, for fxbmplf, bs
+ * SHA-1 mfssbgf digfst blgoritim dbn bf spfdififd, for fxbmplf, bs
+ * "SHA/DSA" or "SHA-1/DSA" (tify brf fquivblfnt).  In tif dbsf of
+ * "SHA/DSA" or "SHA-1/DSA" (tify brf fquivblfnt).  In tif dbsf of
+ * "SHA/DSA" or "SHA-1/DSA" (tify brf fquivblfnt).  In tif dbsf of
+ * "SHA/DSA" or "SHA-1/DSA" (tify brf fquivblfnt).  In tif dbsf of
+ * "SHA/DSA" or "SHA-1/DSA" (tify brf fquivblfnt).  In tif dbsf of
+ * RSA, tifrf brf multiplf dioidfs for tif mfssbgf digfst blgoritim,
+ * RSA, tifrf brf multiplf dioidfs for tif mfssbgf digfst blgoritim,
+ * RSA, tifrf brf multiplf dioidfs for tif mfssbgf digfst blgoritim,
+ * RSA, tifrf brf multiplf dioidfs for tif mfssbgf digfst blgoritim,
+ * RSA, tifrf brf multiplf dioidfs for tif mfssbgf digfst blgoritim,
+ * so tif signing blgoritim dould bf spfdififd bs, for fxbmplf,
+ * so tif signing blgoritim dould bf spfdififd bs, for fxbmplf,
+ * so tif signing blgoritim dould bf spfdififd bs, for fxbmplf,
+ * so tif signing blgoritim dould bf spfdififd bs, for fxbmplf,
+ * so tif signing blgoritim dould bf spfdififd bs, for fxbmplf,
+ * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  Tif blgoritim nbmf must bf
+ * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  Tif blgoritim nbmf must bf
+ * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  Tif blgoritim nbmf must bf
+ * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  Tif blgoritim nbmf must bf
+ * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  Tif blgoritim nbmf must bf
+ * spfdififd, bs tifrf is no dffbult.
+ * spfdififd, bs tifrf is no dffbult.
+ * spfdififd, bs tifrf is no dffbult.
+ * spfdififd, bs tifrf is no dffbult.
+ * spfdififd, bs tifrf is no dffbult.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tif nbmf of tif Cryptogrbpiy Pbdkbgf Providfr is dfsignbtfd
+ * <p> Tif nbmf of tif Cryptogrbpiy Pbdkbgf Providfr is dfsignbtfd
+ * <p> Tif nbmf of tif Cryptogrbpiy Pbdkbgf Providfr is dfsignbtfd
+ * <p> Tif nbmf of tif Cryptogrbpiy Pbdkbgf Providfr is dfsignbtfd
+ * <p> Tif nbmf of tif Cryptogrbpiy Pbdkbgf Providfr is dfsignbtfd
+ * blso by tif Signbturf pbrbmftfr to tif donstrudtor bnd tif
+ * blso by tif Signbturf pbrbmftfr to tif donstrudtor bnd tif
+ * blso by tif Signbturf pbrbmftfr to tif donstrudtor bnd tif
+ * blso by tif Signbturf pbrbmftfr to tif donstrudtor bnd tif
+ * blso by tif Signbturf pbrbmftfr to tif donstrudtor bnd tif
+ * {@dodf vfrify} mftiod.  If tif providfr is not
+ * {@dodf vfrify} mftiod.  If tif providfr is not
+ * {@dodf vfrify} mftiod.  If tif providfr is not
+ * {@dodf vfrify} mftiod.  If tif providfr is not
+ * {@dodf vfrify} mftiod.  If tif providfr is not
+ * spfdififd, tif dffbult providfr is usfd.  Ebdi instbllbtion dbn
+ * spfdififd, tif dffbult providfr is usfd.  Ebdi instbllbtion dbn
+ * spfdififd, tif dffbult providfr is usfd.  Ebdi instbllbtion dbn
+ * spfdififd, tif dffbult providfr is usfd.  Ebdi instbllbtion dbn
+ * spfdififd, tif dffbult providfr is usfd.  Ebdi instbllbtion dbn
+ * bf donfigurfd to usf b pbrtidulbr providfr bs dffbult.
+ * bf donfigurfd to usf b pbrtidulbr providfr bs dffbult.
+ * bf donfigurfd to usf b pbrtidulbr providfr bs dffbult.
+ * bf donfigurfd to usf b pbrtidulbr providfr bs dffbult.
+ * bf donfigurfd to usf b pbrtidulbr providfr bs dffbult.
+ *
+ *
+ *
+ *
+ *
+ * <p> Potfntibl bpplidbtions of SignfdObjfdt indludf:
+ * <p> Potfntibl bpplidbtions of SignfdObjfdt indludf:
+ * <p> Potfntibl bpplidbtions of SignfdObjfdt indludf:
+ * <p> Potfntibl bpplidbtions of SignfdObjfdt indludf:
+ * <p> Potfntibl bpplidbtions of SignfdObjfdt indludf:
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li> It dbn bf usfd
+ * <li> It dbn bf usfd
+ * <li> It dbn bf usfd
+ * <li> It dbn bf usfd
+ * <li> It dbn bf usfd
+ * intfrnblly to bny Jbvb runtimf bs bn unforgfbblf butiorizbtion
+ * intfrnblly to bny Jbvb runtimf bs bn unforgfbblf butiorizbtion
+ * intfrnblly to bny Jbvb runtimf bs bn unforgfbblf butiorizbtion
+ * intfrnblly to bny Jbvb runtimf bs bn unforgfbblf butiorizbtion
+ * intfrnblly to bny Jbvb runtimf bs bn unforgfbblf butiorizbtion
+ * tokfn -- onf tibt dbn bf pbssfd bround witiout tif ffbr tibt tif
+ * tokfn -- onf tibt dbn bf pbssfd bround witiout tif ffbr tibt tif
+ * tokfn -- onf tibt dbn bf pbssfd bround witiout tif ffbr tibt tif
+ * tokfn -- onf tibt dbn bf pbssfd bround witiout tif ffbr tibt tif
+ * tokfn -- onf tibt dbn bf pbssfd bround witiout tif ffbr tibt tif
+ * tokfn dbn bf mblidiously modififd witiout bfing dftfdtfd.
+ * tokfn dbn bf mblidiously modififd witiout bfing dftfdtfd.
+ * tokfn dbn bf mblidiously modififd witiout bfing dftfdtfd.
+ * tokfn dbn bf mblidiously modififd witiout bfing dftfdtfd.
+ * tokfn dbn bf mblidiously modififd witiout bfing dftfdtfd.
+ * <li> It
+ * <li> It
+ * <li> It
+ * <li> It
+ * <li> It
+ * dbn bf usfd to sign bnd sfriblizf dbtb/objfdt for storbgf outsidf
+ * dbn bf usfd to sign bnd sfriblizf dbtb/objfdt for storbgf outsidf
+ * dbn bf usfd to sign bnd sfriblizf dbtb/objfdt for storbgf outsidf
+ * dbn bf usfd to sign bnd sfriblizf dbtb/objfdt for storbgf outsidf
+ * dbn bf usfd to sign bnd sfriblizf dbtb/objfdt for storbgf outsidf
+ * tif Jbvb runtimf (f.g., storing dritidbl bddfss dontrol dbtb on
+ * tif Jbvb runtimf (f.g., storing dritidbl bddfss dontrol dbtb on
+ * tif Jbvb runtimf (f.g., storing dritidbl bddfss dontrol dbtb on
+ * tif Jbvb runtimf (f.g., storing dritidbl bddfss dontrol dbtb on
+ * tif Jbvb runtimf (f.g., storing dritidbl bddfss dontrol dbtb on
+ * disk).
+ * disk).
+ * disk).
+ * disk).
+ * disk).
+ * <li> Nfstfd SignfdObjfdts dbn bf usfd to donstrudt b logidbl
+ * <li> Nfstfd SignfdObjfdts dbn bf usfd to donstrudt b logidbl
+ * <li> Nfstfd SignfdObjfdts dbn bf usfd to donstrudt b logidbl
+ * <li> Nfstfd SignfdObjfdts dbn bf usfd to donstrudt b logidbl
+ * <li> Nfstfd SignfdObjfdts dbn bf usfd to donstrudt b logidbl
+ * sfqufndf of signbturfs, rfsfmbling b dibin of butiorizbtion bnd
+ * sfqufndf of signbturfs, rfsfmbling b dibin of butiorizbtion bnd
+ * sfqufndf of signbturfs, rfsfmbling b dibin of butiorizbtion bnd
+ * sfqufndf of signbturfs, rfsfmbling b dibin of butiorizbtion bnd
+ * sfqufndf of signbturfs, rfsfmbling b dibin of butiorizbtion bnd
+ * dflfgbtion.
+ * dflfgbtion.
+ * dflfgbtion.
+ * dflfgbtion.
+ * dflfgbtion.
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ *
+ *
+ *
+ *
+ *
+ * @sff Signbturf
+ * @sff Signbturf
+ * @sff Signbturf
+ * @sff Signbturf
+ * @sff Signbturf
+ *
+ *
+ *
+ *
+ *
+ * @butior Li Gong
+ * @butior Li Gong
+ * @butior Li Gong
+ * @butior Li Gong
+ * @butior Li Gong
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid finbl dlbss SignfdObjfdt implfmfnts Sfriblizbblf {
+publid finbl dlbss SignfdObjfdt implfmfnts Sfriblizbblf {
+publid finbl dlbss SignfdObjfdt implfmfnts Sfriblizbblf {
+publid finbl dlbss SignfdObjfdt implfmfnts Sfriblizbblf {
 publid finbl dlbss SignfdObjfdt implfmfnts Sfriblizbblf {
 
+
+
+
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 720502720485447167L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 720502720485447167L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 720502720485447167L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 720502720485447167L;
     privbtf stbtid finbl long sfriblVfrsionUID = 720502720485447167L;
 
+
+
+
+
     /*
-     * Thf originbl dontfnt is "dffp dopifd" in its sfriblizfd formbt
-     * bnd storfd in b bytf brrby.  Thf signbturf fifld is blso in thf
+    /*
+    /*
+    /*
+    /*
+     * Tif originbl dontfnt is "dffp dopifd" in its sfriblizfd formbt
+     * Tif originbl dontfnt is "dffp dopifd" in its sfriblizfd formbt
+     * Tif originbl dontfnt is "dffp dopifd" in its sfriblizfd formbt
+     * Tif originbl dontfnt is "dffp dopifd" in its sfriblizfd formbt
+     * Tif originbl dontfnt is "dffp dopifd" in its sfriblizfd formbt
+     * bnd storfd in b bytf brrby.  Tif signbturf fifld is blso in tif
+     * bnd storfd in b bytf brrby.  Tif signbturf fifld is blso in tif
+     * bnd storfd in b bytf brrby.  Tif signbturf fifld is blso in tif
+     * bnd storfd in b bytf brrby.  Tif signbturf fifld is blso in tif
+     * bnd storfd in b bytf brrby.  Tif signbturf fifld is blso in tif
+     * form of bytf brrby.
+     * form of bytf brrby.
+     * form of bytf brrby.
+     * form of bytf brrby.
      * form of bytf brrby.
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     privbtf bytf[] dontfnt;
+    privbtf bytf[] dontfnt;
+    privbtf bytf[] dontfnt;
+    privbtf bytf[] dontfnt;
+    privbtf bytf[] dontfnt;
     privbtf bytf[] signbturf;
-    privbtf String thfblgorithm;
+    privbtf bytf[] signbturf;
+    privbtf bytf[] signbturf;
+    privbtf bytf[] signbturf;
+    privbtf bytf[] signbturf;
+    privbtf String tifblgoritim;
+    privbtf String tifblgoritim;
+    privbtf String tifblgoritim;
+    privbtf String tifblgoritim;
+    privbtf String tifblgoritim;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b SignfdObjfdt from bny Sfriblizbblf objfdt.
-     * Thf givfn objfdt is signfd with thf givfn signing kfy, using thf
+     * Construdts b SignfdObjfdt from bny Sfriblizbblf objfdt.
+     * Construdts b SignfdObjfdt from bny Sfriblizbblf objfdt.
+     * Construdts b SignfdObjfdt from bny Sfriblizbblf objfdt.
+     * Construdts b SignfdObjfdt from bny Sfriblizbblf objfdt.
+     * Tif givfn objfdt is signfd witi tif givfn signing kfy, using tif
+     * Tif givfn objfdt is signfd witi tif givfn signing kfy, using tif
+     * Tif givfn objfdt is signfd witi tif givfn signing kfy, using tif
+     * Tif givfn objfdt is signfd witi tif givfn signing kfy, using tif
+     * Tif givfn objfdt is signfd witi tif givfn signing kfy, using tif
+     * dfsignbtfd signbturf fnginf.
+     * dfsignbtfd signbturf fnginf.
+     * dfsignbtfd signbturf fnginf.
+     * dfsignbtfd signbturf fnginf.
      * dfsignbtfd signbturf fnginf.
      *
-     * @pbrbm objfdt thf objfdt to bf signfd.
-     * @pbrbm signingKfy thf privbtf kfy for signing.
-     * @pbrbm signingEnginf thf signbturf signing fnginf.
+     *
+     *
+     *
+     *
+     * @pbrbm objfdt tif objfdt to bf signfd.
+     * @pbrbm objfdt tif objfdt to bf signfd.
+     * @pbrbm objfdt tif objfdt to bf signfd.
+     * @pbrbm objfdt tif objfdt to bf signfd.
+     * @pbrbm objfdt tif objfdt to bf signfd.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     *
+     *
+     *
+     *
      *
      * @fxdfption IOExdfption if bn frror oddurs during sfriblizbtion
-     * @fxdfption InvblidKfyExdfption if thf kfy is invblid.
+     * @fxdfption IOExdfption if bn frror oddurs during sfriblizbtion
+     * @fxdfption IOExdfption if bn frror oddurs during sfriblizbtion
+     * @fxdfption IOExdfption if bn frror oddurs during sfriblizbtion
+     * @fxdfption IOExdfption if bn frror oddurs during sfriblizbtion
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     * @fxdfption SignbturfExdfption if signing fbils.
      * @fxdfption SignbturfExdfption if signing fbils.
      */
+     */
+     */
+     */
+     */
+    publid SignfdObjfdt(Sfriblizbblf objfdt, PrivbtfKfy signingKfy,
+    publid SignfdObjfdt(Sfriblizbblf objfdt, PrivbtfKfy signingKfy,
+    publid SignfdObjfdt(Sfriblizbblf objfdt, PrivbtfKfy signingKfy,
+    publid SignfdObjfdt(Sfriblizbblf objfdt, PrivbtfKfy signingKfy,
     publid SignfdObjfdt(Sfriblizbblf objfdt, PrivbtfKfy signingKfy,
                         Signbturf signingEnginf)
-        throws IOExdfption, InvblidKfyExdfption, SignbturfExdfption {
+                        Signbturf signingEnginf)
+                        Signbturf signingEnginf)
+                        Signbturf signingEnginf)
+                        Signbturf signingEnginf)
+        tirows IOExdfption, InvblidKfyExdfption, SignbturfExdfption {
+        tirows IOExdfption, InvblidKfyExdfption, SignbturfExdfption {
+        tirows IOExdfption, InvblidKfyExdfption, SignbturfExdfption {
+        tirows IOExdfption, InvblidKfyExdfption, SignbturfExdfption {
+        tirows IOExdfption, InvblidKfyExdfption, SignbturfExdfption {
+            // drfbting b strfbm pipf-linf, from b to b
+            // drfbting b strfbm pipf-linf, from b to b
+            // drfbting b strfbm pipf-linf, from b to b
+            // drfbting b strfbm pipf-linf, from b to b
             // drfbting b strfbm pipf-linf, from b to b
             BytfArrbyOutputStrfbm b = nfw BytfArrbyOutputStrfbm();
+            BytfArrbyOutputStrfbm b = nfw BytfArrbyOutputStrfbm();
+            BytfArrbyOutputStrfbm b = nfw BytfArrbyOutputStrfbm();
+            BytfArrbyOutputStrfbm b = nfw BytfArrbyOutputStrfbm();
+            BytfArrbyOutputStrfbm b = nfw BytfArrbyOutputStrfbm();
+            ObjfdtOutput b = nfw ObjfdtOutputStrfbm(b);
+            ObjfdtOutput b = nfw ObjfdtOutputStrfbm(b);
+            ObjfdtOutput b = nfw ObjfdtOutputStrfbm(b);
+            ObjfdtOutput b = nfw ObjfdtOutputStrfbm(b);
             ObjfdtOutput b = nfw ObjfdtOutputStrfbm(b);
 
-            // writf bnd flush thf objfdt dontfnt to bytf brrby
+
+
+
+
+            // writf bnd flusi tif objfdt dontfnt to bytf brrby
+            // writf bnd flusi tif objfdt dontfnt to bytf brrby
+            // writf bnd flusi tif objfdt dontfnt to bytf brrby
+            // writf bnd flusi tif objfdt dontfnt to bytf brrby
+            // writf bnd flusi tif objfdt dontfnt to bytf brrby
             b.writfObjfdt(objfdt);
-            b.flush();
+            b.writfObjfdt(objfdt);
+            b.writfObjfdt(objfdt);
+            b.writfObjfdt(objfdt);
+            b.writfObjfdt(objfdt);
+            b.flusi();
+            b.flusi();
+            b.flusi();
+            b.flusi();
+            b.flusi();
             b.dlosf();
-            this.dontfnt = b.toBytfArrby();
+            b.dlosf();
+            b.dlosf();
+            b.dlosf();
+            b.dlosf();
+            tiis.dontfnt = b.toBytfArrby();
+            tiis.dontfnt = b.toBytfArrby();
+            tiis.dontfnt = b.toBytfArrby();
+            tiis.dontfnt = b.toBytfArrby();
+            tiis.dontfnt = b.toBytfArrby();
+            b.dlosf();
+            b.dlosf();
+            b.dlosf();
+            b.dlosf();
             b.dlosf();
 
-            // now sign thf fndbpsulbtfd objfdt
-            this.sign(signingKfy, signingEnginf);
+
+
+
+
+            // now sign tif fndbpsulbtfd objfdt
+            // now sign tif fndbpsulbtfd objfdt
+            // now sign tif fndbpsulbtfd objfdt
+            // now sign tif fndbpsulbtfd objfdt
+            // now sign tif fndbpsulbtfd objfdt
+            tiis.sign(signingKfy, signingEnginf);
+            tiis.sign(signingKfy, signingEnginf);
+            tiis.sign(signingKfy, signingEnginf);
+            tiis.sign(signingKfy, signingEnginf);
+            tiis.sign(signingKfy, signingEnginf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs thf fndbpsulbtfd objfdt.
-     * Thf fndbpsulbtfd objfdt is df-sfriblizfd bfforf it is rfturnfd.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif fndbpsulbtfd objfdt.
+     * Rftrifvfs tif fndbpsulbtfd objfdt.
+     * Rftrifvfs tif fndbpsulbtfd objfdt.
+     * Rftrifvfs tif fndbpsulbtfd objfdt.
+     * Rftrifvfs tif fndbpsulbtfd objfdt.
+     * Tif fndbpsulbtfd objfdt is df-sfriblizfd bfforf it is rfturnfd.
+     * Tif fndbpsulbtfd objfdt is df-sfriblizfd bfforf it is rfturnfd.
+     * Tif fndbpsulbtfd objfdt is df-sfriblizfd bfforf it is rfturnfd.
+     * Tif fndbpsulbtfd objfdt is df-sfriblizfd bfforf it is rfturnfd.
+     * Tif fndbpsulbtfd objfdt is df-sfriblizfd bfforf it is rfturnfd.
      *
-     * @rfturn thf fndbpsulbtfd objfdt.
+     *
+     *
+     *
+     *
+     * @rfturn tif fndbpsulbtfd objfdt.
+     * @rfturn tif fndbpsulbtfd objfdt.
+     * @rfturn tif fndbpsulbtfd objfdt.
+     * @rfturn tif fndbpsulbtfd objfdt.
+     * @rfturn tif fndbpsulbtfd objfdt.
+     *
+     *
+     *
+     *
      *
      * @fxdfption IOExdfption if bn frror oddurs during df-sfriblizbtion
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblizbtion
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblizbtion
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblizbtion
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblizbtion
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
      * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
      * df-sfriblizbtion
+     * df-sfriblizbtion
+     * df-sfriblizbtion
+     * df-sfriblizbtion
+     * df-sfriblizbtion
+     */
+     */
+     */
+     */
      */
     publid Objfdt gftObjfdt()
-        throws IOExdfption, ClbssNotFoundExdfption
+    publid Objfdt gftObjfdt()
+    publid Objfdt gftObjfdt()
+    publid Objfdt gftObjfdt()
+    publid Objfdt gftObjfdt()
+        tirows IOExdfption, ClbssNotFoundExdfption
+        tirows IOExdfption, ClbssNotFoundExdfption
+        tirows IOExdfption, ClbssNotFoundExdfption
+        tirows IOExdfption, ClbssNotFoundExdfption
+        tirows IOExdfption, ClbssNotFoundExdfption
+    {
+    {
+    {
+    {
     {
         // drfbting b strfbm pipf-linf, from b to b
-        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(this.dontfnt);
+        // drfbting b strfbm pipf-linf, from b to b
+        // drfbting b strfbm pipf-linf, from b to b
+        // drfbting b strfbm pipf-linf, from b to b
+        // drfbting b strfbm pipf-linf, from b to b
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(tiis.dontfnt);
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(tiis.dontfnt);
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(tiis.dontfnt);
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(tiis.dontfnt);
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(tiis.dontfnt);
         ObjfdtInput b = nfw ObjfdtInputStrfbm(b);
+        ObjfdtInput b = nfw ObjfdtInputStrfbm(b);
+        ObjfdtInput b = nfw ObjfdtInputStrfbm(b);
+        ObjfdtInput b = nfw ObjfdtInputStrfbm(b);
+        ObjfdtInput b = nfw ObjfdtInputStrfbm(b);
+        Objfdt obj = b.rfbdObjfdt();
+        Objfdt obj = b.rfbdObjfdt();
+        Objfdt obj = b.rfbdObjfdt();
+        Objfdt obj = b.rfbdObjfdt();
         Objfdt obj = b.rfbdObjfdt();
         b.dlosf();
         b.dlosf();
+        b.dlosf();
+        b.dlosf();
+        b.dlosf();
+        b.dlosf();
+        b.dlosf();
+        b.dlosf();
+        b.dlosf();
+        b.dlosf();
+        rfturn obj;
+        rfturn obj;
+        rfturn obj;
+        rfturn obj;
         rfturn obj;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rftrifvfs thf signbturf on thf signfd objfdt, in thf form of b
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif signbturf on tif signfd objfdt, in tif form of b
+     * Rftrifvfs tif signbturf on tif signfd objfdt, in tif form of b
+     * Rftrifvfs tif signbturf on tif signfd objfdt, in tif form of b
+     * Rftrifvfs tif signbturf on tif signfd objfdt, in tif form of b
+     * Rftrifvfs tif signbturf on tif signfd objfdt, in tif form of b
+     * bytf brrby.
+     * bytf brrby.
+     * bytf brrby.
+     * bytf brrby.
      * bytf brrby.
      *
-     * @rfturn thf signbturf. Rfturns b nfw brrby fbdh timf this
-     * mfthod is dbllfd.
+     *
+     *
+     *
+     *
+     * @rfturn tif signbturf. Rfturns b nfw brrby fbdi timf tiis
+     * @rfturn tif signbturf. Rfturns b nfw brrby fbdi timf tiis
+     * @rfturn tif signbturf. Rfturns b nfw brrby fbdi timf tiis
+     * @rfturn tif signbturf. Rfturns b nfw brrby fbdi timf tiis
+     * @rfturn tif signbturf. Rfturns b nfw brrby fbdi timf tiis
+     * mftiod is dbllfd.
+     * mftiod is dbllfd.
+     * mftiod is dbllfd.
+     * mftiod is dbllfd.
+     * mftiod is dbllfd.
+     */
+     */
+     */
+     */
      */
     publid bytf[] gftSignbturf() {
-        rfturn this.signbturf.dlonf();
+    publid bytf[] gftSignbturf() {
+    publid bytf[] gftSignbturf() {
+    publid bytf[] gftSignbturf() {
+    publid bytf[] gftSignbturf() {
+        rfturn tiis.signbturf.dlonf();
+        rfturn tiis.signbturf.dlonf();
+        rfturn tiis.signbturf.dlonf();
+        rfturn tiis.signbturf.dlonf();
+        rfturn tiis.signbturf.dlonf();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rftrifvfs thf nbmf of thf signbturf blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs tif nbmf of tif signbturf blgoritim.
+     * Rftrifvfs tif nbmf of tif signbturf blgoritim.
+     * Rftrifvfs tif nbmf of tif signbturf blgoritim.
+     * Rftrifvfs tif nbmf of tif signbturf blgoritim.
+     * Rftrifvfs tif nbmf of tif signbturf blgoritim.
      *
-     * @rfturn thf signbturf blgorithm nbmf.
+     *
+     *
+     *
+     *
+     * @rfturn tif signbturf blgoritim nbmf.
+     * @rfturn tif signbturf blgoritim nbmf.
+     * @rfturn tif signbturf blgoritim nbmf.
+     * @rfturn tif signbturf blgoritim nbmf.
+     * @rfturn tif signbturf blgoritim nbmf.
      */
-    publid String gftAlgorithm() {
-        rfturn this.thfblgorithm;
+     */
+     */
+     */
+     */
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+        rfturn tiis.tifblgoritim;
+        rfturn tiis.tifblgoritim;
+        rfturn tiis.tifblgoritim;
+        rfturn tiis.tifblgoritim;
+        rfturn tiis.tifblgoritim;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Vfrififs thbt thf signbturf in this SignfdObjfdt is thf vblid
-     * signbturf for thf objfdt storfd insidf, with thf givfn
-     * vfrifidbtion kfy, using thf dfsignbtfd vfrifidbtion fnginf.
+    /**
+    /**
+    /**
+    /**
+     * Vfrififs tibt tif signbturf in tiis SignfdObjfdt is tif vblid
+     * Vfrififs tibt tif signbturf in tiis SignfdObjfdt is tif vblid
+     * Vfrififs tibt tif signbturf in tiis SignfdObjfdt is tif vblid
+     * Vfrififs tibt tif signbturf in tiis SignfdObjfdt is tif vblid
+     * Vfrififs tibt tif signbturf in tiis SignfdObjfdt is tif vblid
+     * signbturf for tif objfdt storfd insidf, witi tif givfn
+     * signbturf for tif objfdt storfd insidf, witi tif givfn
+     * signbturf for tif objfdt storfd insidf, witi tif givfn
+     * signbturf for tif objfdt storfd insidf, witi tif givfn
+     * signbturf for tif objfdt storfd insidf, witi tif givfn
+     * vfrifidbtion kfy, using tif dfsignbtfd vfrifidbtion fnginf.
+     * vfrifidbtion kfy, using tif dfsignbtfd vfrifidbtion fnginf.
+     * vfrifidbtion kfy, using tif dfsignbtfd vfrifidbtion fnginf.
+     * vfrifidbtion kfy, using tif dfsignbtfd vfrifidbtion fnginf.
+     * vfrifidbtion kfy, using tif dfsignbtfd vfrifidbtion fnginf.
      *
-     * @pbrbm vfrifidbtionKfy thf publid kfy for vfrifidbtion.
-     * @pbrbm vfrifidbtionEnginf thf signbturf vfrifidbtion fnginf.
+     *
+     *
+     *
+     *
+     * @pbrbm vfrifidbtionKfy tif publid kfy for vfrifidbtion.
+     * @pbrbm vfrifidbtionKfy tif publid kfy for vfrifidbtion.
+     * @pbrbm vfrifidbtionKfy tif publid kfy for vfrifidbtion.
+     * @pbrbm vfrifidbtionKfy tif publid kfy for vfrifidbtion.
+     * @pbrbm vfrifidbtionKfy tif publid kfy for vfrifidbtion.
+     * @pbrbm vfrifidbtionEnginf tif signbturf vfrifidbtion fnginf.
+     * @pbrbm vfrifidbtionEnginf tif signbturf vfrifidbtion fnginf.
+     * @pbrbm vfrifidbtionEnginf tif signbturf vfrifidbtion fnginf.
+     * @pbrbm vfrifidbtionEnginf tif signbturf vfrifidbtion fnginf.
+     * @pbrbm vfrifidbtionEnginf tif signbturf vfrifidbtion fnginf.
+     *
+     *
+     *
+     *
      *
      * @fxdfption SignbturfExdfption if signbturf vfrifidbtion fbilfd (bn
-     *     fxdfption prfvfntfd thf signbturf vfrifidbtion fnginf from domplfting
+     * @fxdfption SignbturfExdfption if signbturf vfrifidbtion fbilfd (bn
+     * @fxdfption SignbturfExdfption if signbturf vfrifidbtion fbilfd (bn
+     * @fxdfption SignbturfExdfption if signbturf vfrifidbtion fbilfd (bn
+     * @fxdfption SignbturfExdfption if signbturf vfrifidbtion fbilfd (bn
+     *     fxdfption prfvfntfd tif signbturf vfrifidbtion fnginf from domplfting
+     *     fxdfption prfvfntfd tif signbturf vfrifidbtion fnginf from domplfting
+     *     fxdfption prfvfntfd tif signbturf vfrifidbtion fnginf from domplfting
+     *     fxdfption prfvfntfd tif signbturf vfrifidbtion fnginf from domplfting
+     *     fxdfption prfvfntfd tif signbturf vfrifidbtion fnginf from domplfting
      *     normblly).
-     * @fxdfption InvblidKfyExdfption if thf vfrifidbtion kfy is invblid.
+     *     normblly).
+     *     normblly).
+     *     normblly).
+     *     normblly).
+     * @fxdfption InvblidKfyExdfption if tif vfrifidbtion kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif vfrifidbtion kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif vfrifidbtion kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif vfrifidbtion kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif vfrifidbtion kfy is invblid.
      *
-     * @rfturn {@dodf truf} if thf signbturf
-     * is vblid, {@dodf fblsf} othfrwisf
+     *
+     *
+     *
+     *
+     * @rfturn {@dodf truf} if tif signbturf
+     * @rfturn {@dodf truf} if tif signbturf
+     * @rfturn {@dodf truf} if tif signbturf
+     * @rfturn {@dodf truf} if tif signbturf
+     * @rfturn {@dodf truf} if tif signbturf
+     * is vblid, {@dodf fblsf} otifrwisf
+     * is vblid, {@dodf fblsf} otifrwisf
+     * is vblid, {@dodf fblsf} otifrwisf
+     * is vblid, {@dodf fblsf} otifrwisf
+     * is vblid, {@dodf fblsf} otifrwisf
+     */
+     */
+     */
+     */
      */
     publid boolfbn vfrify(PublidKfy vfrifidbtionKfy,
+    publid boolfbn vfrify(PublidKfy vfrifidbtionKfy,
+    publid boolfbn vfrify(PublidKfy vfrifidbtionKfy,
+    publid boolfbn vfrify(PublidKfy vfrifidbtionKfy,
+    publid boolfbn vfrify(PublidKfy vfrifidbtionKfy,
                           Signbturf vfrifidbtionEnginf)
-         throws InvblidKfyExdfption, SignbturfExdfption {
+                          Signbturf vfrifidbtionEnginf)
+                          Signbturf vfrifidbtionEnginf)
+                          Signbturf vfrifidbtionEnginf)
+                          Signbturf vfrifidbtionEnginf)
+         tirows InvblidKfyExdfption, SignbturfExdfption {
+         tirows InvblidKfyExdfption, SignbturfExdfption {
+         tirows InvblidKfyExdfption, SignbturfExdfption {
+         tirows InvblidKfyExdfption, SignbturfExdfption {
+         tirows InvblidKfyExdfption, SignbturfExdfption {
              vfrifidbtionEnginf.initVfrify(vfrifidbtionKfy);
-             vfrifidbtionEnginf.updbtf(this.dontfnt.dlonf());
-             rfturn vfrifidbtionEnginf.vfrify(this.signbturf.dlonf());
+             vfrifidbtionEnginf.initVfrify(vfrifidbtionKfy);
+             vfrifidbtionEnginf.initVfrify(vfrifidbtionKfy);
+             vfrifidbtionEnginf.initVfrify(vfrifidbtionKfy);
+             vfrifidbtionEnginf.initVfrify(vfrifidbtionKfy);
+             vfrifidbtionEnginf.updbtf(tiis.dontfnt.dlonf());
+             vfrifidbtionEnginf.updbtf(tiis.dontfnt.dlonf());
+             vfrifidbtionEnginf.updbtf(tiis.dontfnt.dlonf());
+             vfrifidbtionEnginf.updbtf(tiis.dontfnt.dlonf());
+             vfrifidbtionEnginf.updbtf(tiis.dontfnt.dlonf());
+             rfturn vfrifidbtionEnginf.vfrify(tiis.signbturf.dlonf());
+             rfturn vfrifidbtionEnginf.vfrify(tiis.signbturf.dlonf());
+             rfturn vfrifidbtionEnginf.vfrify(tiis.signbturf.dlonf());
+             rfturn vfrifidbtionEnginf.vfrify(tiis.signbturf.dlonf());
+             rfturn vfrifidbtionEnginf.vfrify(tiis.signbturf.dlonf());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Signs thf fndbpsulbtfd objfdt with thf givfn signing kfy, using thf
+    /*
+    /*
+    /*
+    /*
+     * Signs tif fndbpsulbtfd objfdt witi tif givfn signing kfy, using tif
+     * Signs tif fndbpsulbtfd objfdt witi tif givfn signing kfy, using tif
+     * Signs tif fndbpsulbtfd objfdt witi tif givfn signing kfy, using tif
+     * Signs tif fndbpsulbtfd objfdt witi tif givfn signing kfy, using tif
+     * Signs tif fndbpsulbtfd objfdt witi tif givfn signing kfy, using tif
+     * dfsignbtfd signbturf fnginf.
+     * dfsignbtfd signbturf fnginf.
+     * dfsignbtfd signbturf fnginf.
+     * dfsignbtfd signbturf fnginf.
      * dfsignbtfd signbturf fnginf.
      *
-     * @pbrbm signingKfy thf privbtf kfy for signing.
-     * @pbrbm signingEnginf thf signbturf signing fnginf.
      *
-     * @fxdfption InvblidKfyExdfption if thf kfy is invblid.
+     *
+     *
+     *
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingKfy tif privbtf kfy for signing.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     * @pbrbm signingEnginf tif signbturf signing fnginf.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     * @fxdfption SignbturfExdfption if signing fbils.
      * @fxdfption SignbturfExdfption if signing fbils.
      */
+     */
+     */
+     */
+     */
     privbtf void sign(PrivbtfKfy signingKfy, Signbturf signingEnginf)
-        throws InvblidKfyExdfption, SignbturfExdfption {
-            // initiblizf thf signing fnginf
+    privbtf void sign(PrivbtfKfy signingKfy, Signbturf signingEnginf)
+    privbtf void sign(PrivbtfKfy signingKfy, Signbturf signingEnginf)
+    privbtf void sign(PrivbtfKfy signingKfy, Signbturf signingEnginf)
+    privbtf void sign(PrivbtfKfy signingKfy, Signbturf signingEnginf)
+        tirows InvblidKfyExdfption, SignbturfExdfption {
+        tirows InvblidKfyExdfption, SignbturfExdfption {
+        tirows InvblidKfyExdfption, SignbturfExdfption {
+        tirows InvblidKfyExdfption, SignbturfExdfption {
+        tirows InvblidKfyExdfption, SignbturfExdfption {
+            // initiblizf tif signing fnginf
+            // initiblizf tif signing fnginf
+            // initiblizf tif signing fnginf
+            // initiblizf tif signing fnginf
+            // initiblizf tif signing fnginf
             signingEnginf.initSign(signingKfy);
-            signingEnginf.updbtf(this.dontfnt.dlonf());
-            this.signbturf = signingEnginf.sign().dlonf();
-            this.thfblgorithm = signingEnginf.gftAlgorithm();
+            signingEnginf.initSign(signingKfy);
+            signingEnginf.initSign(signingKfy);
+            signingEnginf.initSign(signingKfy);
+            signingEnginf.initSign(signingKfy);
+            signingEnginf.updbtf(tiis.dontfnt.dlonf());
+            signingEnginf.updbtf(tiis.dontfnt.dlonf());
+            signingEnginf.updbtf(tiis.dontfnt.dlonf());
+            signingEnginf.updbtf(tiis.dontfnt.dlonf());
+            signingEnginf.updbtf(tiis.dontfnt.dlonf());
+            tiis.signbturf = signingEnginf.sign().dlonf();
+            tiis.signbturf = signingEnginf.sign().dlonf();
+            tiis.signbturf = signingEnginf.sign().dlonf();
+            tiis.signbturf = signingEnginf.sign().dlonf();
+            tiis.signbturf = signingEnginf.sign().dlonf();
+            tiis.tifblgoritim = signingEnginf.gftAlgoritim();
+            tiis.tifblgoritim = signingEnginf.gftAlgoritim();
+            tiis.tifblgoritim = signingEnginf.gftAlgoritim();
+            tiis.tifblgoritim = signingEnginf.gftAlgoritim();
+            tiis.tifblgoritim = signingEnginf.gftAlgoritim();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf SignfdObjfdt from
+    /**
+    /**
+    /**
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SignfdObjfdt from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SignfdObjfdt from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SignfdObjfdt from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SignfdObjfdt from
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif SignfdObjfdt from
+     * b strfbm.
+     * b strfbm.
+     * b strfbm.
+     * b strfbm.
      * b strfbm.
      */
+     */
+     */
+     */
+     */
     privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
-        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+            jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+            jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+            jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+            jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
             jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
             dontfnt = ((bytf[])fiflds.gft("dontfnt", null)).dlonf();
+            dontfnt = ((bytf[])fiflds.gft("dontfnt", null)).dlonf();
+            dontfnt = ((bytf[])fiflds.gft("dontfnt", null)).dlonf();
+            dontfnt = ((bytf[])fiflds.gft("dontfnt", null)).dlonf();
+            dontfnt = ((bytf[])fiflds.gft("dontfnt", null)).dlonf();
             signbturf = ((bytf[])fiflds.gft("signbturf", null)).dlonf();
-            thfblgorithm = (String)fiflds.gft("thfblgorithm", null);
+            signbturf = ((bytf[])fiflds.gft("signbturf", null)).dlonf();
+            signbturf = ((bytf[])fiflds.gft("signbturf", null)).dlonf();
+            signbturf = ((bytf[])fiflds.gft("signbturf", null)).dlonf();
+            signbturf = ((bytf[])fiflds.gft("signbturf", null)).dlonf();
+            tifblgoritim = (String)fiflds.gft("tifblgoritim", null);
+            tifblgoritim = (String)fiflds.gft("tifblgoritim", null);
+            tifblgoritim = (String)fiflds.gft("tifblgoritim", null);
+            tifblgoritim = (String)fiflds.gft("tifblgoritim", null);
+            tifblgoritim = (String)fiflds.gft("tifblgoritim", null);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

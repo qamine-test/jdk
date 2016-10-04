@@ -1,724 +1,3620 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+options {
+options {
+options {
+options {
 options {
   JAVA_UNICODE_ESCAPE = truf;
+  JAVA_UNICODE_ESCAPE = truf;
+  JAVA_UNICODE_ESCAPE = truf;
+  JAVA_UNICODE_ESCAPE = truf;
+  JAVA_UNICODE_ESCAPE = truf;
+  STATIC = fblsf;
+  STATIC = fblsf;
+  STATIC = fblsf;
+  STATIC = fblsf;
   STATIC = fblsf;
 }
-
-PARSER_BEGIN(ExprfssionPbrsfr)
-
-pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
-
-import dom.sun.jdi.*;
-import jbvb.util.Stbdk;
-import jbvb.util.List;
-import jbvb.util.ArrbyList;
-
-publid dlbss ExprfssionPbrsfr {    
-
-  Stbdk stbdk = nfw Stbdk();    
-  VirtublMbdiinf vm = null;
-  GftFrbmf frbmfGfttfr = null;
-  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
-  privbtf stbtid LVbluf lbstLVbluf;
-
-  LVbluf pffk() {
-    rfturn (LVbluf)stbdk.pffk();
-  }
-
-  LVbluf pop() {
-    rfturn (LVbluf)stbdk.pop();
-  }
-
-  void pusi(LVbluf lvbl) {
-    stbdk.pusi(lvbl);
-  }
-
-  publid stbtid Vbluf gftMbssbgfdVbluf() tirows PbrsfExdfption {
-        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
-  }
-
-  publid intfrfbdf GftFrbmf {
-        StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption;
-  }
-
-  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdiinf vm, 
-                               GftFrbmf frbmfGfttfr) tirows PbrsfExdfption,
-                                            InvodbtionExdfption, 
-					    InvblidTypfExdfption,
-					    ClbssNotLobdfdExdfption,
-					    IndompbtiblfTirfbdStbtfExdfption {
-        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
-        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
-        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
-        pbrsfr.vm = vm;
-        pbrsfr.frbmfGfttfr = frbmfGfttfr;
-	Vbluf vbluf = null;
-        pbrsfr.Exprfssion();
-	lbstFrbmfGfttfr = frbmfGfttfr;
-	lbstLVbluf = pbrsfr.pop();
-	rfturn lbstLVbluf.gftVbluf();
-  }
-
-  publid stbtid void mbin(String brgs[]) {
-    ExprfssionPbrsfr pbrsfr;
-    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
-    if (brgs.lfngti == 0) {
-      Systfm.out.println("Rfbding from stbndbrd input . . .");
-      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
-    } flsf if (brgs.lfngti == 1) {
-      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
-      try {
-        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
-      } dbtdi (jbvb.io.FilfNotFoundExdfption f) {
-        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
-                           brgs[0] + " not found.");
-        rfturn;
-      }
-    } flsf {
-      Systfm.out.println("Usbgf is onf of:");
-      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
-      Systfm.out.println("OR");
-      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
-      rfturn;
-    }
-    try {
-        pbrsfr.Exprfssion();
-        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
-        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
-    } dbtdi (PbrsfExdfption f) {
-        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
-        Systfm.out.println("Endountfrfd frrors during pbrsf.");
-    }
-  }
-
+}
+}
+}
 }
 
+
+
+
+
+PARSER_BEGIN(ExprfssionPbrsfr)
+PARSER_BEGIN(ExprfssionPbrsfr)
+PARSER_BEGIN(ExprfssionPbrsfr)
+PARSER_BEGIN(ExprfssionPbrsfr)
+PARSER_BEGIN(ExprfssionPbrsfr)
+
+
+
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+
+
+
+
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvb.util.Stbdk;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+import jbvb.util.ArrbyList;
+
+
+
+
+
+publid dlbss ExprfssionPbrsfr {    
+publid dlbss ExprfssionPbrsfr {    
+publid dlbss ExprfssionPbrsfr {    
+publid dlbss ExprfssionPbrsfr {    
+publid dlbss ExprfssionPbrsfr {    
+
+
+
+
+
+  Stbdk stbdk = nfw Stbdk();    
+  Stbdk stbdk = nfw Stbdk();    
+  Stbdk stbdk = nfw Stbdk();    
+  Stbdk stbdk = nfw Stbdk();    
+  Stbdk stbdk = nfw Stbdk();    
+  VirtublMbdiinf vm = null;
+  VirtublMbdiinf vm = null;
+  VirtublMbdiinf vm = null;
+  VirtublMbdiinf vm = null;
+  VirtublMbdiinf vm = null;
+  GftFrbmf frbmfGfttfr = null;
+  GftFrbmf frbmfGfttfr = null;
+  GftFrbmf frbmfGfttfr = null;
+  GftFrbmf frbmfGfttfr = null;
+  GftFrbmf frbmfGfttfr = null;
+  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
+  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
+  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
+  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
+  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
+  privbtf stbtid LVbluf lbstLVbluf;
+  privbtf stbtid LVbluf lbstLVbluf;
+  privbtf stbtid LVbluf lbstLVbluf;
+  privbtf stbtid LVbluf lbstLVbluf;
+  privbtf stbtid LVbluf lbstLVbluf;
+
+
+
+
+
+  LVbluf pffk() {
+  LVbluf pffk() {
+  LVbluf pffk() {
+  LVbluf pffk() {
+  LVbluf pffk() {
+    rfturn (LVbluf)stbdk.pffk();
+    rfturn (LVbluf)stbdk.pffk();
+    rfturn (LVbluf)stbdk.pffk();
+    rfturn (LVbluf)stbdk.pffk();
+    rfturn (LVbluf)stbdk.pffk();
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
+  LVbluf pop() {
+  LVbluf pop() {
+  LVbluf pop() {
+  LVbluf pop() {
+  LVbluf pop() {
+    rfturn (LVbluf)stbdk.pop();
+    rfturn (LVbluf)stbdk.pop();
+    rfturn (LVbluf)stbdk.pop();
+    rfturn (LVbluf)stbdk.pop();
+    rfturn (LVbluf)stbdk.pop();
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
+  void pusi(LVbluf lvbl) {
+  void pusi(LVbluf lvbl) {
+  void pusi(LVbluf lvbl) {
+  void pusi(LVbluf lvbl) {
+  void pusi(LVbluf lvbl) {
+    stbdk.pusi(lvbl);
+    stbdk.pusi(lvbl);
+    stbdk.pusi(lvbl);
+    stbdk.pusi(lvbl);
+    stbdk.pusi(lvbl);
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
+  publid stbtid Vbluf gftMbssbgfdVbluf() tirows PbrsfExdfption {
+  publid stbtid Vbluf gftMbssbgfdVbluf() tirows PbrsfExdfption {
+  publid stbtid Vbluf gftMbssbgfdVbluf() tirows PbrsfExdfption {
+  publid stbtid Vbluf gftMbssbgfdVbluf() tirows PbrsfExdfption {
+  publid stbtid Vbluf gftMbssbgfdVbluf() tirows PbrsfExdfption {
+        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
+        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
+        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
+        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
+        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
+  publid intfrfbdf GftFrbmf {
+  publid intfrfbdf GftFrbmf {
+  publid intfrfbdf GftFrbmf {
+  publid intfrfbdf GftFrbmf {
+  publid intfrfbdf GftFrbmf {
+        StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption;
+        StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption;
+        StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption;
+        StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption;
+        StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption;
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
+  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdiinf vm, 
+  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdiinf vm, 
+  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdiinf vm, 
+  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdiinf vm, 
+  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdiinf vm, 
+                               GftFrbmf frbmfGfttfr) tirows PbrsfExdfption,
+                               GftFrbmf frbmfGfttfr) tirows PbrsfExdfption,
+                               GftFrbmf frbmfGfttfr) tirows PbrsfExdfption,
+                               GftFrbmf frbmfGfttfr) tirows PbrsfExdfption,
+                               GftFrbmf frbmfGfttfr) tirows PbrsfExdfption,
+                                            InvodbtionExdfption, 
+                                            InvodbtionExdfption, 
+                                            InvodbtionExdfption, 
+                                            InvodbtionExdfption, 
+                                            InvodbtionExdfption, 
+					    InvblidTypfExdfption,
+					    InvblidTypfExdfption,
+					    InvblidTypfExdfption,
+					    InvblidTypfExdfption,
+					    InvblidTypfExdfption,
+					    ClbssNotLobdfdExdfption,
+					    ClbssNotLobdfdExdfption,
+					    ClbssNotLobdfdExdfption,
+					    ClbssNotLobdfdExdfption,
+					    ClbssNotLobdfdExdfption,
+					    IndompbtiblfTirfbdStbtfExdfption {
+					    IndompbtiblfTirfbdStbtfExdfption {
+					    IndompbtiblfTirfbdStbtfExdfption {
+					    IndompbtiblfTirfbdStbtfExdfption {
+					    IndompbtiblfTirfbdStbtfExdfption {
+        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
+        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
+        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
+        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
+        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
+        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
+        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
+        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
+        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
+        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
+        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
+        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
+        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
+        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
+        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
+        pbrsfr.vm = vm;
+        pbrsfr.vm = vm;
+        pbrsfr.vm = vm;
+        pbrsfr.vm = vm;
+        pbrsfr.vm = vm;
+        pbrsfr.frbmfGfttfr = frbmfGfttfr;
+        pbrsfr.frbmfGfttfr = frbmfGfttfr;
+        pbrsfr.frbmfGfttfr = frbmfGfttfr;
+        pbrsfr.frbmfGfttfr = frbmfGfttfr;
+        pbrsfr.frbmfGfttfr = frbmfGfttfr;
+	Vbluf vbluf = null;
+	Vbluf vbluf = null;
+	Vbluf vbluf = null;
+	Vbluf vbluf = null;
+	Vbluf vbluf = null;
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+	lbstFrbmfGfttfr = frbmfGfttfr;
+	lbstFrbmfGfttfr = frbmfGfttfr;
+	lbstFrbmfGfttfr = frbmfGfttfr;
+	lbstFrbmfGfttfr = frbmfGfttfr;
+	lbstFrbmfGfttfr = frbmfGfttfr;
+	lbstLVbluf = pbrsfr.pop();
+	lbstLVbluf = pbrsfr.pop();
+	lbstLVbluf = pbrsfr.pop();
+	lbstLVbluf = pbrsfr.pop();
+	lbstLVbluf = pbrsfr.pop();
+	rfturn lbstLVbluf.gftVbluf();
+	rfturn lbstLVbluf.gftVbluf();
+	rfturn lbstLVbluf.gftVbluf();
+	rfturn lbstLVbluf.gftVbluf();
+	rfturn lbstLVbluf.gftVbluf();
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
+  publid stbtid void mbin(String brgs[]) {
+  publid stbtid void mbin(String brgs[]) {
+  publid stbtid void mbin(String brgs[]) {
+  publid stbtid void mbin(String brgs[]) {
+  publid stbtid void mbin(String brgs[]) {
+    ExprfssionPbrsfr pbrsfr;
+    ExprfssionPbrsfr pbrsfr;
+    ExprfssionPbrsfr pbrsfr;
+    ExprfssionPbrsfr pbrsfr;
+    ExprfssionPbrsfr pbrsfr;
+    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+    if (brgs.lfngti == 0) {
+    if (brgs.lfngti == 0) {
+    if (brgs.lfngti == 0) {
+    if (brgs.lfngti == 0) {
+    if (brgs.lfngti == 0) {
+      Systfm.out.println("Rfbding from stbndbrd input . . .");
+      Systfm.out.println("Rfbding from stbndbrd input . . .");
+      Systfm.out.println("Rfbding from stbndbrd input . . .");
+      Systfm.out.println("Rfbding from stbndbrd input . . .");
+      Systfm.out.println("Rfbding from stbndbrd input . . .");
+      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
+      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
+      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
+      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
+      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
+    } flsf if (brgs.lfngti == 1) {
+    } flsf if (brgs.lfngti == 1) {
+    } flsf if (brgs.lfngti == 1) {
+    } flsf if (brgs.lfngti == 1) {
+    } flsf if (brgs.lfngti == 1) {
+      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
+      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
+      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
+      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
+      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
+      try {
+      try {
+      try {
+      try {
+      try {
+        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
+        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
+        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
+        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
+        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
+      } dbtdi (jbvb.io.FilfNotFoundExdfption f) {
+      } dbtdi (jbvb.io.FilfNotFoundExdfption f) {
+      } dbtdi (jbvb.io.FilfNotFoundExdfption f) {
+      } dbtdi (jbvb.io.FilfNotFoundExdfption f) {
+      } dbtdi (jbvb.io.FilfNotFoundExdfption f) {
+        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
+        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
+        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
+        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
+        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
+                           brgs[0] + " not found.");
+                           brgs[0] + " not found.");
+                           brgs[0] + " not found.");
+                           brgs[0] + " not found.");
+                           brgs[0] + " not found.");
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+        rfturn;
+      }
+      }
+      }
+      }
+      }
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+    } flsf {
+      Systfm.out.println("Usbgf is onf of:");
+      Systfm.out.println("Usbgf is onf of:");
+      Systfm.out.println("Usbgf is onf of:");
+      Systfm.out.println("Usbgf is onf of:");
+      Systfm.out.println("Usbgf is onf of:");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
+      Systfm.out.println("OR");
+      Systfm.out.println("OR");
+      Systfm.out.println("OR");
+      Systfm.out.println("OR");
+      Systfm.out.println("OR");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
+      rfturn;
+      rfturn;
+      rfturn;
+      rfturn;
+      rfturn;
+    }
+    }
+    }
+    }
+    }
+    try {
+    try {
+    try {
+    try {
+    try {
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+        pbrsfr.Exprfssion();
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
+        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
+        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
+        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
+        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
+    } dbtdi (PbrsfExdfption f) {
+    } dbtdi (PbrsfExdfption f) {
+    } dbtdi (PbrsfExdfption f) {
+    } dbtdi (PbrsfExdfption f) {
+    } dbtdi (PbrsfExdfption f) {
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.println("Endountfrfd frrors during pbrsf.");
+        Systfm.out.println("Endountfrfd frrors during pbrsf.");
+        Systfm.out.println("Endountfrfd frrors during pbrsf.");
+        Systfm.out.println("Endountfrfd frrors during pbrsf.");
+        Systfm.out.println("Endountfrfd frrors during pbrsf.");
+    }
+    }
+    }
+    }
+    }
+  }
+  }
+  }
+  }
+  }
+
+
+
+
+
+}
+}
+}
+}
+}
+
+
+
+
+
+PARSER_END(ExprfssionPbrsfr)
+PARSER_END(ExprfssionPbrsfr)
+PARSER_END(ExprfssionPbrsfr)
+PARSER_END(ExprfssionPbrsfr)
 PARSER_END(ExprfssionPbrsfr)
 
 
+
+
+
+
+
+
+
+
+SKIP : /* WHITE SPACE */
+SKIP : /* WHITE SPACE */
+SKIP : /* WHITE SPACE */
+SKIP : /* WHITE SPACE */
 SKIP : /* WHITE SPACE */
 {
+{
+{
+{
+{
+  " "
+  " "
+  " "
+  " "
   " "
 | "\t"
+| "\t"
+| "\t"
+| "\t"
+| "\t"
+| "\n"
+| "\n"
+| "\n"
+| "\n"
 | "\n"
 | "\r"
+| "\r"
+| "\r"
+| "\r"
+| "\r"
+| "\f"
+| "\f"
+| "\f"
+| "\f"
 | "\f"
 }
+}
+}
+}
+}
+
+
+
+
 
 SPECIAL_TOKEN : /* COMMENTS */
+SPECIAL_TOKEN : /* COMMENTS */
+SPECIAL_TOKEN : /* COMMENTS */
+SPECIAL_TOKEN : /* COMMENTS */
+SPECIAL_TOKEN : /* COMMENTS */
+{
+{
+{
+{
 {
   <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
 | <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
 | <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
 }
+}
+}
+}
+}
+
+
+
+
 
 TOKEN : /* RESERVED WORDS AND LITERALS */
+TOKEN : /* RESERVED WORDS AND LITERALS */
+TOKEN : /* RESERVED WORDS AND LITERALS */
+TOKEN : /* RESERVED WORDS AND LITERALS */
+TOKEN : /* RESERVED WORDS AND LITERALS */
+{
+{
+{
+{
 {
   < ABSTRACT: "bbstrbdt" >
+  < ABSTRACT: "bbstrbdt" >
+  < ABSTRACT: "bbstrbdt" >
+  < ABSTRACT: "bbstrbdt" >
+  < ABSTRACT: "bbstrbdt" >
+| < BOOLEAN: "boolfbn" >
+| < BOOLEAN: "boolfbn" >
+| < BOOLEAN: "boolfbn" >
+| < BOOLEAN: "boolfbn" >
 | < BOOLEAN: "boolfbn" >
 | < BREAK: "brfbk" >
+| < BREAK: "brfbk" >
+| < BREAK: "brfbk" >
+| < BREAK: "brfbk" >
+| < BREAK: "brfbk" >
+| < BYTE: "bytf" >
+| < BYTE: "bytf" >
+| < BYTE: "bytf" >
+| < BYTE: "bytf" >
 | < BYTE: "bytf" >
 | < CASE: "dbsf" >
+| < CASE: "dbsf" >
+| < CASE: "dbsf" >
+| < CASE: "dbsf" >
+| < CASE: "dbsf" >
+| < CATCH: "dbtdi" >
+| < CATCH: "dbtdi" >
+| < CATCH: "dbtdi" >
+| < CATCH: "dbtdi" >
 | < CATCH: "dbtdi" >
 | < CHAR: "dibr" >
+| < CHAR: "dibr" >
+| < CHAR: "dibr" >
+| < CHAR: "dibr" >
+| < CHAR: "dibr" >
+| < CLASS: "dlbss" >
+| < CLASS: "dlbss" >
+| < CLASS: "dlbss" >
+| < CLASS: "dlbss" >
 | < CLASS: "dlbss" >
 | < CONST: "donst" >
+| < CONST: "donst" >
+| < CONST: "donst" >
+| < CONST: "donst" >
+| < CONST: "donst" >
+| < CONTINUE: "dontinuf" >
+| < CONTINUE: "dontinuf" >
+| < CONTINUE: "dontinuf" >
+| < CONTINUE: "dontinuf" >
 | < CONTINUE: "dontinuf" >
 | < _DEFAULT: "dffbult" >
+| < _DEFAULT: "dffbult" >
+| < _DEFAULT: "dffbult" >
+| < _DEFAULT: "dffbult" >
+| < _DEFAULT: "dffbult" >
+| < DO: "do" >
+| < DO: "do" >
+| < DO: "do" >
+| < DO: "do" >
 | < DO: "do" >
 | < DOUBLE: "doublf" >
+| < DOUBLE: "doublf" >
+| < DOUBLE: "doublf" >
+| < DOUBLE: "doublf" >
+| < DOUBLE: "doublf" >
+| < ELSE: "flsf" >
+| < ELSE: "flsf" >
+| < ELSE: "flsf" >
+| < ELSE: "flsf" >
 | < ELSE: "flsf" >
 | < EXTENDS: "fxtfnds" >
+| < EXTENDS: "fxtfnds" >
+| < EXTENDS: "fxtfnds" >
+| < EXTENDS: "fxtfnds" >
+| < EXTENDS: "fxtfnds" >
+| < FALSE: "fblsf" >
+| < FALSE: "fblsf" >
+| < FALSE: "fblsf" >
+| < FALSE: "fblsf" >
 | < FALSE: "fblsf" >
 | < FINAL: "finbl" >
+| < FINAL: "finbl" >
+| < FINAL: "finbl" >
+| < FINAL: "finbl" >
+| < FINAL: "finbl" >
+| < FINALLY: "finblly" >
+| < FINALLY: "finblly" >
+| < FINALLY: "finblly" >
+| < FINALLY: "finblly" >
 | < FINALLY: "finblly" >
 | < FLOAT: "flobt" >
+| < FLOAT: "flobt" >
+| < FLOAT: "flobt" >
+| < FLOAT: "flobt" >
+| < FLOAT: "flobt" >
+| < FOR: "for" >
+| < FOR: "for" >
+| < FOR: "for" >
+| < FOR: "for" >
 | < FOR: "for" >
 | < GOTO: "goto" >
+| < GOTO: "goto" >
+| < GOTO: "goto" >
+| < GOTO: "goto" >
+| < GOTO: "goto" >
+| < IF: "if" >
+| < IF: "if" >
+| < IF: "if" >
+| < IF: "if" >
 | < IF: "if" >
 | < IMPLEMENTS: "implfmfnts" >
+| < IMPLEMENTS: "implfmfnts" >
+| < IMPLEMENTS: "implfmfnts" >
+| < IMPLEMENTS: "implfmfnts" >
+| < IMPLEMENTS: "implfmfnts" >
+| < IMPORT: "import" >
+| < IMPORT: "import" >
+| < IMPORT: "import" >
+| < IMPORT: "import" >
 | < IMPORT: "import" >
 | < INSTANCEOF: "instbndfof" >
+| < INSTANCEOF: "instbndfof" >
+| < INSTANCEOF: "instbndfof" >
+| < INSTANCEOF: "instbndfof" >
+| < INSTANCEOF: "instbndfof" >
+| < INT: "int" >
+| < INT: "int" >
+| < INT: "int" >
+| < INT: "int" >
 | < INT: "int" >
 | < INTERFACE: "intfrfbdf" >
+| < INTERFACE: "intfrfbdf" >
+| < INTERFACE: "intfrfbdf" >
+| < INTERFACE: "intfrfbdf" >
+| < INTERFACE: "intfrfbdf" >
+| < LONG: "long" >
+| < LONG: "long" >
+| < LONG: "long" >
+| < LONG: "long" >
 | < LONG: "long" >
 | < NATIVE: "nbtivf" >
+| < NATIVE: "nbtivf" >
+| < NATIVE: "nbtivf" >
+| < NATIVE: "nbtivf" >
+| < NATIVE: "nbtivf" >
+| < NEW: "nfw" >
+| < NEW: "nfw" >
+| < NEW: "nfw" >
+| < NEW: "nfw" >
 | < NEW: "nfw" >
 | < NULL: "null" >
+| < NULL: "null" >
+| < NULL: "null" >
+| < NULL: "null" >
+| < NULL: "null" >
+| < PACKAGE: "pbdkbgf">
+| < PACKAGE: "pbdkbgf">
+| < PACKAGE: "pbdkbgf">
+| < PACKAGE: "pbdkbgf">
 | < PACKAGE: "pbdkbgf">
 | < PRIVATE: "privbtf" >
+| < PRIVATE: "privbtf" >
+| < PRIVATE: "privbtf" >
+| < PRIVATE: "privbtf" >
+| < PRIVATE: "privbtf" >
+| < PROTECTED: "protfdtfd" >
+| < PROTECTED: "protfdtfd" >
+| < PROTECTED: "protfdtfd" >
+| < PROTECTED: "protfdtfd" >
 | < PROTECTED: "protfdtfd" >
 | < PUBLIC: "publid" >
+| < PUBLIC: "publid" >
+| < PUBLIC: "publid" >
+| < PUBLIC: "publid" >
+| < PUBLIC: "publid" >
+| < RETURN: "rfturn" >
+| < RETURN: "rfturn" >
+| < RETURN: "rfturn" >
+| < RETURN: "rfturn" >
 | < RETURN: "rfturn" >
 | < SHORT: "siort" >
+| < SHORT: "siort" >
+| < SHORT: "siort" >
+| < SHORT: "siort" >
+| < SHORT: "siort" >
+| < STATIC: "stbtid" >
+| < STATIC: "stbtid" >
+| < STATIC: "stbtid" >
+| < STATIC: "stbtid" >
 | < STATIC: "stbtid" >
 | < SUPER: "supfr" >
+| < SUPER: "supfr" >
+| < SUPER: "supfr" >
+| < SUPER: "supfr" >
+| < SUPER: "supfr" >
+| < SWITCH: "switdi" >
+| < SWITCH: "switdi" >
+| < SWITCH: "switdi" >
+| < SWITCH: "switdi" >
 | < SWITCH: "switdi" >
 | < SYNCHRONIZED: "syndironizfd" >
+| < SYNCHRONIZED: "syndironizfd" >
+| < SYNCHRONIZED: "syndironizfd" >
+| < SYNCHRONIZED: "syndironizfd" >
+| < SYNCHRONIZED: "syndironizfd" >
+| < THIS: "tiis" >
+| < THIS: "tiis" >
+| < THIS: "tiis" >
+| < THIS: "tiis" >
 | < THIS: "tiis" >
 | < THROW: "tirow" >
+| < THROW: "tirow" >
+| < THROW: "tirow" >
+| < THROW: "tirow" >
+| < THROW: "tirow" >
+| < THROWS: "tirows" >
+| < THROWS: "tirows" >
+| < THROWS: "tirows" >
+| < THROWS: "tirows" >
 | < THROWS: "tirows" >
 | < TRANSIENT: "trbnsifnt" >
+| < TRANSIENT: "trbnsifnt" >
+| < TRANSIENT: "trbnsifnt" >
+| < TRANSIENT: "trbnsifnt" >
+| < TRANSIENT: "trbnsifnt" >
+| < TRUE: "truf" >
+| < TRUE: "truf" >
+| < TRUE: "truf" >
+| < TRUE: "truf" >
 | < TRUE: "truf" >
 | < TRY: "try" >
+| < TRY: "try" >
+| < TRY: "try" >
+| < TRY: "try" >
+| < TRY: "try" >
+| < VOID: "void" >
+| < VOID: "void" >
+| < VOID: "void" >
+| < VOID: "void" >
 | < VOID: "void" >
 | < VOLATILE: "volbtilf" >
+| < VOLATILE: "volbtilf" >
+| < VOLATILE: "volbtilf" >
+| < VOLATILE: "volbtilf" >
+| < VOLATILE: "volbtilf" >
+| < WHILE: "wiilf" >
+| < WHILE: "wiilf" >
+| < WHILE: "wiilf" >
+| < WHILE: "wiilf" >
 | < WHILE: "wiilf" >
 }
+}
+}
+}
+}
+
+
+
+
 
 TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+TOKEN : /* LITERALS */
+{
+{
+{
+{
 {
   <
+  <
+  <
+  <
+  <
+    INTEGER_LITERAL:
+    INTEGER_LITERAL:
+    INTEGER_LITERAL:
+    INTEGER_LITERAL:
     INTEGER_LITERAL:
         <DECIMAL_LITERAL> (["l","L"])?
+        <DECIMAL_LITERAL> (["l","L"])?
+        <DECIMAL_LITERAL> (["l","L"])?
+        <DECIMAL_LITERAL> (["l","L"])?
+        <DECIMAL_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
       | <HEX_LITERAL> (["l","L"])?
       | <OCTAL_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
   >
+  >
+  >
+  >
+  >
+|
+|
+|
+|
 |
   < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+|
+|
+|
 |
   < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
+|
+|
+|
+|
 |
   < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+|
+|
+|
+|
 |
   < FLOATING_POINT_LITERAL:
+  < FLOATING_POINT_LITERAL:
+  < FLOATING_POINT_LITERAL:
+  < FLOATING_POINT_LITERAL:
+  < FLOATING_POINT_LITERAL:
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
         (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
       | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
       | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
       | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
   >
+  >
+  >
+  >
+  >
+|
+|
+|
+|
 |
   < #EXPONENT: ["f","E"] (["+","-"])? (["0"-"9"])+ >
+  < #EXPONENT: ["f","E"] (["+","-"])? (["0"-"9"])+ >
+  < #EXPONENT: ["f","E"] (["+","-"])? (["0"-"9"])+ >
+  < #EXPONENT: ["f","E"] (["+","-"])? (["0"-"9"])+ >
+  < #EXPONENT: ["f","E"] (["+","-"])? (["0"-"9"])+ >
+|
+|
+|
+|
 |
   < CHARACTER_LITERAL:
+  < CHARACTER_LITERAL:
+  < CHARACTER_LITERAL:
+  < CHARACTER_LITERAL:
+  < CHARACTER_LITERAL:
+      "'"
+      "'"
+      "'"
+      "'"
       "'"
       (   (~["'","\\","\n","\r"])
+      (   (~["'","\\","\n","\r"])
+      (   (~["'","\\","\n","\r"])
+      (   (~["'","\\","\n","\r"])
+      (   (~["'","\\","\n","\r"])
+        | ("\\"
+        | ("\\"
+        | ("\\"
+        | ("\\"
         | ("\\"
             ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"7"] ( ["0"-"7"] )?
             | ["0"-"7"] ( ["0"-"7"] )?
             | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
             )
+            )
+            )
+            )
+            )
+          )
+          )
+          )
+          )
           )
       )
+      )
+      )
+      )
+      )
+      "'"
+      "'"
+      "'"
+      "'"
       "'"
   >
+  >
+  >
+  >
+  >
+|
+|
+|
+|
 |
   < STRING_LITERAL:
+  < STRING_LITERAL:
+  < STRING_LITERAL:
+  < STRING_LITERAL:
+  < STRING_LITERAL:
+      "\""
+      "\""
+      "\""
+      "\""
       "\""
       (   (~["\"","\\","\n","\r"])
+      (   (~["\"","\\","\n","\r"])
+      (   (~["\"","\\","\n","\r"])
+      (   (~["\"","\\","\n","\r"])
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+        | ("\\"
+        | ("\\"
+        | ("\\"
         | ("\\"
             ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"7"] ( ["0"-"7"] )?
             | ["0"-"7"] ( ["0"-"7"] )?
             | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+            )
+            )
+            )
             )
           )
+          )
+          )
+          )
+          )
+      )*
+      )*
+      )*
+      )*
       )*
       "\""
+      "\""
+      "\""
+      "\""
+      "\""
+  >
+  >
+  >
+  >
   >
 }
+}
+}
+}
+}
+
+
+
+
 
 TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+TOKEN : /* IDENTIFIERS */
+{
+{
+{
+{
 {
   < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+|
+|
+|
 |
   < #LETTER:
+  < #LETTER:
+  < #LETTER:
+  < #LETTER:
+  < #LETTER:
+      [
+      [
+      [
+      [
       [
        "\u0024",
+       "\u0024",
+       "\u0024",
+       "\u0024",
+       "\u0024",
+       "\u0041"-"\u005b",
+       "\u0041"-"\u005b",
+       "\u0041"-"\u005b",
+       "\u0041"-"\u005b",
        "\u0041"-"\u005b",
        "\u005f",
+       "\u005f",
+       "\u005f",
+       "\u005f",
+       "\u005f",
+       "\u0061"-"\u007b",
+       "\u0061"-"\u007b",
+       "\u0061"-"\u007b",
+       "\u0061"-"\u007b",
        "\u0061"-"\u007b",
        "\u00d0"-"\u00d6",
+       "\u00d0"-"\u00d6",
+       "\u00d0"-"\u00d6",
+       "\u00d0"-"\u00d6",
+       "\u00d0"-"\u00d6",
+       "\u00d8"-"\u00f6",
+       "\u00d8"-"\u00f6",
+       "\u00d8"-"\u00f6",
+       "\u00d8"-"\u00f6",
        "\u00d8"-"\u00f6",
        "\u00f8"-"\u00ff",
+       "\u00f8"-"\u00ff",
+       "\u00f8"-"\u00ff",
+       "\u00f8"-"\u00ff",
+       "\u00f8"-"\u00ff",
+       "\u0100"-"\u1fff",
+       "\u0100"-"\u1fff",
+       "\u0100"-"\u1fff",
+       "\u0100"-"\u1fff",
        "\u0100"-"\u1fff",
        "\u3040"-"\u318f",
+       "\u3040"-"\u318f",
+       "\u3040"-"\u318f",
+       "\u3040"-"\u318f",
+       "\u3040"-"\u318f",
+       "\u3300"-"\u337f",
+       "\u3300"-"\u337f",
+       "\u3300"-"\u337f",
+       "\u3300"-"\u337f",
        "\u3300"-"\u337f",
        "\u3400"-"\u3d2d",
+       "\u3400"-"\u3d2d",
+       "\u3400"-"\u3d2d",
+       "\u3400"-"\u3d2d",
+       "\u3400"-"\u3d2d",
+       "\u4f00"-"\u9fff",
+       "\u4f00"-"\u9fff",
+       "\u4f00"-"\u9fff",
+       "\u4f00"-"\u9fff",
        "\u4f00"-"\u9fff",
        "\uf900"-"\ufbff"
+       "\uf900"-"\ufbff"
+       "\uf900"-"\ufbff"
+       "\uf900"-"\ufbff"
+       "\uf900"-"\ufbff"
       ]
+      ]
+      ]
+      ]
+      ]
+  >
+  >
+  >
+  >
   >
 |
+|
+|
+|
+|
+  < #DIGIT:
+  < #DIGIT:
+  < #DIGIT:
+  < #DIGIT:
   < #DIGIT:
       [
+      [
+      [
+      [
+      [
+       "\u0030"-"\u0039",
+       "\u0030"-"\u0039",
+       "\u0030"-"\u0039",
+       "\u0030"-"\u0039",
        "\u0030"-"\u0039",
        "\u0660"-"\u0669",
+       "\u0660"-"\u0669",
+       "\u0660"-"\u0669",
+       "\u0660"-"\u0669",
+       "\u0660"-"\u0669",
+       "\u06f0"-"\u06f9",
+       "\u06f0"-"\u06f9",
+       "\u06f0"-"\u06f9",
+       "\u06f0"-"\u06f9",
        "\u06f0"-"\u06f9",
        "\u0966"-"\u096f",
+       "\u0966"-"\u096f",
+       "\u0966"-"\u096f",
+       "\u0966"-"\u096f",
+       "\u0966"-"\u096f",
+       "\u09f6"-"\u09ff",
+       "\u09f6"-"\u09ff",
+       "\u09f6"-"\u09ff",
+       "\u09f6"-"\u09ff",
        "\u09f6"-"\u09ff",
        "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0bf6"-"\u0bff",
+       "\u0bf6"-"\u0bff",
+       "\u0bf6"-"\u0bff",
+       "\u0bf6"-"\u0bff",
        "\u0bf6"-"\u0bff",
        "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0b66"-"\u0b6f",
+       "\u0bf7"-"\u0bff",
+       "\u0bf7"-"\u0bff",
+       "\u0bf7"-"\u0bff",
+       "\u0bf7"-"\u0bff",
        "\u0bf7"-"\u0bff",
        "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0df6"-"\u0dff",
+       "\u0df6"-"\u0dff",
+       "\u0df6"-"\u0dff",
+       "\u0df6"-"\u0dff",
        "\u0df6"-"\u0dff",
        "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0d66"-"\u0d6f",
+       "\u0f50"-"\u0f59",
+       "\u0f50"-"\u0f59",
+       "\u0f50"-"\u0f59",
+       "\u0f50"-"\u0f59",
        "\u0f50"-"\u0f59",
        "\u0fd0"-"\u0fd9",
+       "\u0fd0"-"\u0fd9",
+       "\u0fd0"-"\u0fd9",
+       "\u0fd0"-"\u0fd9",
+       "\u0fd0"-"\u0fd9",
+       "\u1040"-"\u1049"
+       "\u1040"-"\u1049"
+       "\u1040"-"\u1049"
+       "\u1040"-"\u1049"
        "\u1040"-"\u1049"
       ]
+      ]
+      ]
+      ]
+      ]
+  >
+  >
+  >
+  >
   >
 }
+}
+}
+}
+}
+
+
+
+
 
 TOKEN : /* SEPARATORS */
+TOKEN : /* SEPARATORS */
+TOKEN : /* SEPARATORS */
+TOKEN : /* SEPARATORS */
+TOKEN : /* SEPARATORS */
+{
+{
+{
+{
 {
   < LPAREN: "(" >
+  < LPAREN: "(" >
+  < LPAREN: "(" >
+  < LPAREN: "(" >
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < RPAREN: ")" >
+| < RPAREN: ")" >
+| < RPAREN: ")" >
 | < RPAREN: ")" >
 | < LBRACE: "{" >
+| < LBRACE: "{" >
+| < LBRACE: "{" >
+| < LBRACE: "{" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < RBRACE: "}" >
+| < RBRACE: "}" >
+| < RBRACE: "}" >
 | < RBRACE: "}" >
 | < LBRACKET: "[" >
+| < LBRACKET: "[" >
+| < LBRACKET: "[" >
+| < LBRACKET: "[" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < RBRACKET: "]" >
+| < RBRACKET: "]" >
+| < RBRACKET: "]" >
 | < RBRACKET: "]" >
 | < SEMICOLON: ";" >
+| < SEMICOLON: ";" >
+| < SEMICOLON: ";" >
+| < SEMICOLON: ";" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < COMMA: "," >
+| < COMMA: "," >
+| < COMMA: "," >
 | < COMMA: "," >
 | < DOT: "." >
+| < DOT: "." >
+| < DOT: "." >
+| < DOT: "." >
+| < DOT: "." >
+}
+}
+}
+}
 }
 
+
+
+
+
+TOKEN : /* OPERATORS */
+TOKEN : /* OPERATORS */
+TOKEN : /* OPERATORS */
+TOKEN : /* OPERATORS */
 TOKEN : /* OPERATORS */
 {
+{
+{
+{
+{
+  < ASSIGN: "=" >
+  < ASSIGN: "=" >
+  < ASSIGN: "=" >
+  < ASSIGN: "=" >
   < ASSIGN: "=" >
 | < GT: ">" >
+| < GT: ">" >
+| < GT: ">" >
+| < GT: ">" >
+| < GT: ">" >
+| < LT: "<" >
+| < LT: "<" >
+| < LT: "<" >
+| < LT: "<" >
 | < LT: "<" >
 | < BANG: "!" >
+| < BANG: "!" >
+| < BANG: "!" >
+| < BANG: "!" >
+| < BANG: "!" >
+| < TILDE: "~" >
+| < TILDE: "~" >
+| < TILDE: "~" >
+| < TILDE: "~" >
 | < TILDE: "~" >
 | < HOOK: "?" >
+| < HOOK: "?" >
+| < HOOK: "?" >
+| < HOOK: "?" >
+| < HOOK: "?" >
+| < COLON: ":" >
+| < COLON: ":" >
+| < COLON: ":" >
+| < COLON: ":" >
 | < COLON: ":" >
 | < EQ: "==" >
+| < EQ: "==" >
+| < EQ: "==" >
+| < EQ: "==" >
+| < EQ: "==" >
+| < LE: "<=" >
+| < LE: "<=" >
+| < LE: "<=" >
+| < LE: "<=" >
 | < LE: "<=" >
 | < GE: ">=" >
+| < GE: ">=" >
+| < GE: ">=" >
+| < GE: ">=" >
+| < GE: ">=" >
+| < NE: "!=" >
+| < NE: "!=" >
+| < NE: "!=" >
+| < NE: "!=" >
 | < NE: "!=" >
 | < SC_OR: "||" >
+| < SC_OR: "||" >
+| < SC_OR: "||" >
+| < SC_OR: "||" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < SC_AND: "&&" >
+| < SC_AND: "&&" >
+| < SC_AND: "&&" >
 | < SC_AND: "&&" >
 | < INCR: "++" >
+| < INCR: "++" >
+| < INCR: "++" >
+| < INCR: "++" >
+| < INCR: "++" >
+| < DECR: "--" >
+| < DECR: "--" >
+| < DECR: "--" >
+| < DECR: "--" >
 | < DECR: "--" >
 | < PLUS: "+" >
+| < PLUS: "+" >
+| < PLUS: "+" >
+| < PLUS: "+" >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < MINUS: "-" >
+| < MINUS: "-" >
+| < MINUS: "-" >
 | < MINUS: "-" >
 | < STAR: "*" >
+| < STAR: "*" >
+| < STAR: "*" >
+| < STAR: "*" >
+| < STAR: "*" >
+| < SLASH: "/" >
+| < SLASH: "/" >
+| < SLASH: "/" >
+| < SLASH: "/" >
 | < SLASH: "/" >
 | < BIT_AND: "&" >
+| < BIT_AND: "&" >
+| < BIT_AND: "&" >
+| < BIT_AND: "&" >
+| < BIT_AND: "&" >
+| < BIT_OR: "|" >
+| < BIT_OR: "|" >
+| < BIT_OR: "|" >
+| < BIT_OR: "|" >
 | < BIT_OR: "|" >
 | < XOR: "^" >
+| < XOR: "^" >
+| < XOR: "^" >
+| < XOR: "^" >
+| < XOR: "^" >
+| < REM: "%" >
+| < REM: "%" >
+| < REM: "%" >
+| < REM: "%" >
 | < REM: "%" >
 | < LSHIFT: "<<" >
+| < LSHIFT: "<<" >
+| < LSHIFT: "<<" >
+| < LSHIFT: "<<" >
+| < LSHIFT: "<<" >
+| < RSIGNEDSHIFT: ">>" >
+| < RSIGNEDSHIFT: ">>" >
+| < RSIGNEDSHIFT: ">>" >
+| < RSIGNEDSHIFT: ">>" >
 | < RSIGNEDSHIFT: ">>" >
 | < RUNSIGNEDSHIFT: ">>>" >
+| < RUNSIGNEDSHIFT: ">>>" >
+| < RUNSIGNEDSHIFT: ">>>" >
+| < RUNSIGNEDSHIFT: ">>>" >
+| < RUNSIGNEDSHIFT: ">>>" >
+| < PLUSASSIGN: "+=" >
+| < PLUSASSIGN: "+=" >
+| < PLUSASSIGN: "+=" >
+| < PLUSASSIGN: "+=" >
 | < PLUSASSIGN: "+=" >
 | < MINUSASSIGN: "-=" >
+| < MINUSASSIGN: "-=" >
+| < MINUSASSIGN: "-=" >
+| < MINUSASSIGN: "-=" >
+| < MINUSASSIGN: "-=" >
+| < STARASSIGN: "*=" >
+| < STARASSIGN: "*=" >
+| < STARASSIGN: "*=" >
+| < STARASSIGN: "*=" >
 | < STARASSIGN: "*=" >
 | < SLASHASSIGN: "/=" >
+| < SLASHASSIGN: "/=" >
+| < SLASHASSIGN: "/=" >
+| < SLASHASSIGN: "/=" >
+| < SLASHASSIGN: "/=" >
+| < ANDASSIGN: "&=" >
+| < ANDASSIGN: "&=" >
+| < ANDASSIGN: "&=" >
+| < ANDASSIGN: "&=" >
 | < ANDASSIGN: "&=" >
 | < ORASSIGN: "|=" >
+| < ORASSIGN: "|=" >
+| < ORASSIGN: "|=" >
+| < ORASSIGN: "|=" >
+| < ORASSIGN: "|=" >
+| < XORASSIGN: "^=" >
+| < XORASSIGN: "^=" >
+| < XORASSIGN: "^=" >
+| < XORASSIGN: "^=" >
 | < XORASSIGN: "^=" >
 | < REMASSIGN: "%=" >
+| < REMASSIGN: "%=" >
+| < REMASSIGN: "%=" >
+| < REMASSIGN: "%=" >
+| < REMASSIGN: "%=" >
+| < LSHIFTASSIGN: "<<=" >
+| < LSHIFTASSIGN: "<<=" >
+| < LSHIFTASSIGN: "<<=" >
+| < LSHIFTASSIGN: "<<=" >
 | < LSHIFTASSIGN: "<<=" >
 | < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
+| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
+| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
+| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
 | < RUNSIGNEDSHIFTASSIGN: ">>>=" >
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 /*****************************************
+/*****************************************
+/*****************************************
+/*****************************************
+/*****************************************
+ * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
+ * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
+ * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
+ * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
  * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
  *****************************************/
+ *****************************************/
+ *****************************************/
+ *****************************************/
+ *****************************************/
+
+
+
+
 
 /*
+/*
+/*
+/*
+/*
+ * Typf, nbmf bnd fxprfssion syntbx follows.
+ * Typf, nbmf bnd fxprfssion syntbx follows.
+ * Typf, nbmf bnd fxprfssion syntbx follows.
+ * Typf, nbmf bnd fxprfssion syntbx follows.
  * Typf, nbmf bnd fxprfssion syntbx follows.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 void Typf() :
+void Typf() :
+void Typf() :
+void Typf() :
+void Typf() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   ( PrimitivfTypf() | Nbmf() ) ( "[" "]" )*
+  ( PrimitivfTypf() | Nbmf() ) ( "[" "]" )*
+  ( PrimitivfTypf() | Nbmf() ) ( "[" "]" )*
+  ( PrimitivfTypf() | Nbmf() ) ( "[" "]" )*
+  ( PrimitivfTypf() | Nbmf() ) ( "[" "]" )*
+}
+}
+}
+}
 }
 
+
+
+
+
+void PrimitivfTypf() :
+void PrimitivfTypf() :
+void PrimitivfTypf() :
+void PrimitivfTypf() :
 void PrimitivfTypf() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   "boolfbn"
+  "boolfbn"
+  "boolfbn"
+  "boolfbn"
+  "boolfbn"
+|
+|
+|
+|
 |
   "dibr"
+  "dibr"
+  "dibr"
+  "dibr"
+  "dibr"
+|
+|
+|
+|
 |
   "bytf"
+  "bytf"
+  "bytf"
+  "bytf"
+  "bytf"
+|
+|
+|
+|
 |
   "siort"
+  "siort"
+  "siort"
+  "siort"
+  "siort"
+|
+|
+|
+|
 |
   "int"
+  "int"
+  "int"
+  "int"
+  "int"
+|
+|
+|
+|
 |
   "long"
+  "long"
+  "long"
+  "long"
+  "long"
+|
+|
+|
+|
 |
   "flobt"
+  "flobt"
+  "flobt"
+  "flobt"
+  "flobt"
+|
+|
+|
+|
 |
   "doublf"
+  "doublf"
+  "doublf"
+  "doublf"
+  "doublf"
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 String Nbmf() :
+String Nbmf() :
+String Nbmf() :
+String Nbmf() :
+String Nbmf() :
+{StringBufffr sb = nfw StringBufffr();}
+{StringBufffr sb = nfw StringBufffr();}
+{StringBufffr sb = nfw StringBufffr();}
+{StringBufffr sb = nfw StringBufffr();}
 {StringBufffr sb = nfw StringBufffr();}
 {
+{
+{
+{
+{
+  <IDENTIFIER> { sb.bppfnd(tokfn); }
+  <IDENTIFIER> { sb.bppfnd(tokfn); }
+  <IDENTIFIER> { sb.bppfnd(tokfn); }
+  <IDENTIFIER> { sb.bppfnd(tokfn); }
   <IDENTIFIER> { sb.bppfnd(tokfn); }
   ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppfnd('.'); sb.bppfnd(tokfn); }
+  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppfnd('.'); sb.bppfnd(tokfn); }
+  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppfnd('.'); sb.bppfnd(tokfn); }
+  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppfnd('.'); sb.bppfnd(tokfn); }
+  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppfnd('.'); sb.bppfnd(tokfn); }
+  )*
+  )*
+  )*
+  )*
   )*
         { rfturn sb.toString(); }
+        { rfturn sb.toString(); }
+        { rfturn sb.toString(); }
+        { rfturn sb.toString(); }
+        { rfturn sb.toString(); }
 }
+}
+}
+}
+}
+
+
+
+
 
 void NbmfList() :
+void NbmfList() :
+void NbmfList() :
+void NbmfList() :
+void NbmfList() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   Nbmf()
+  Nbmf()
+  Nbmf()
+  Nbmf()
+  Nbmf()
+  ( "," Nbmf()
+  ( "," Nbmf()
+  ( "," Nbmf()
+  ( "," Nbmf()
   ( "," Nbmf()
   )*
+  )*
+  )*
+  )*
+  )*
+}
+}
+}
+}
 }
 
 
+
+
+
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Exprfssion syntbx follows.
+ * Exprfssion syntbx follows.
+ * Exprfssion syntbx follows.
+ * Exprfssion syntbx follows.
+ * Exprfssion syntbx follows.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 void Exprfssion() :
+void Exprfssion() :
+void Exprfssion() :
+void Exprfssion() :
+void Exprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   LOOKAHEAD( PrimbryExprfssion() AssignmfntOpfrbtor() )
+  LOOKAHEAD( PrimbryExprfssion() AssignmfntOpfrbtor() )
+  LOOKAHEAD( PrimbryExprfssion() AssignmfntOpfrbtor() )
+  LOOKAHEAD( PrimbryExprfssion() AssignmfntOpfrbtor() )
+  LOOKAHEAD( PrimbryExprfssion() AssignmfntOpfrbtor() )
+  Assignmfnt()
+  Assignmfnt()
+  Assignmfnt()
+  Assignmfnt()
   Assignmfnt()
 |
+|
+|
+|
+|
+  ConditionblExprfssion()
+  ConditionblExprfssion()
+  ConditionblExprfssion()
+  ConditionblExprfssion()
   ConditionblExprfssion()
 }
+}
+}
+}
+}
+
+
+
+
 
 void Assignmfnt() :
+void Assignmfnt() :
+void Assignmfnt() :
+void Assignmfnt() :
+void Assignmfnt() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   PrimbryExprfssion() AssignmfntOpfrbtor() Exprfssion()
+  PrimbryExprfssion() AssignmfntOpfrbtor() Exprfssion()
+  PrimbryExprfssion() AssignmfntOpfrbtor() Exprfssion()
+  PrimbryExprfssion() AssignmfntOpfrbtor() Exprfssion()
+  PrimbryExprfssion() AssignmfntOpfrbtor() Exprfssion()
+        { LVbluf fxprVbl = pop(); pop().sftVbluf(fxprVbl); pusi(fxprVbl);}
+        { LVbluf fxprVbl = pop(); pop().sftVbluf(fxprVbl); pusi(fxprVbl);}
+        { LVbluf fxprVbl = pop(); pop().sftVbluf(fxprVbl); pusi(fxprVbl);}
+        { LVbluf fxprVbl = pop(); pop().sftVbluf(fxprVbl); pusi(fxprVbl);}
         { LVbluf fxprVbl = pop(); pop().sftVbluf(fxprVbl); pusi(fxprVbl);}
 }
+}
+}
+}
+}
+
+
+
+
 
 void AssignmfntOpfrbtor() :
+void AssignmfntOpfrbtor() :
+void AssignmfntOpfrbtor() :
+void AssignmfntOpfrbtor() :
+void AssignmfntOpfrbtor() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
 }
+}
+}
+}
+}
+
+
+
+
 
 void ConditionblExprfssion() :
+void ConditionblExprfssion() :
+void ConditionblExprfssion() :
+void ConditionblExprfssion() :
+void ConditionblExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   ConditionblOrExprfssion() 
+  ConditionblOrExprfssion() 
+  ConditionblOrExprfssion() 
+  ConditionblOrExprfssion() 
+  ConditionblOrExprfssion() 
+        [ "?" Exprfssion() ":" ConditionblExprfssion() 
+        [ "?" Exprfssion() ":" ConditionblExprfssion() 
+        [ "?" Exprfssion() ":" ConditionblExprfssion() 
+        [ "?" Exprfssion() ":" ConditionblExprfssion() 
         [ "?" Exprfssion() ":" ConditionblExprfssion() 
                 { LVbluf fblsfBrbndi = pop(); LVbluf trufBrbndi = pop(); 
+                { LVbluf fblsfBrbndi = pop(); LVbluf trufBrbndi = pop(); 
+                { LVbluf fblsfBrbndi = pop(); LVbluf trufBrbndi = pop(); 
+                { LVbluf fblsfBrbndi = pop(); LVbluf trufBrbndi = pop(); 
+                { LVbluf fblsfBrbndi = pop(); LVbluf trufBrbndi = pop(); 
+                  Vbluf dond = pop().intfriorGftVbluf();
+                  Vbluf dond = pop().intfriorGftVbluf();
+                  Vbluf dond = pop().intfriorGftVbluf();
+                  Vbluf dond = pop().intfriorGftVbluf();
                   Vbluf dond = pop().intfriorGftVbluf();
                   if (dond instbndfof BoolfbnVbluf) {
+                  if (dond instbndfof BoolfbnVbluf) {
+                  if (dond instbndfof BoolfbnVbluf) {
+                  if (dond instbndfof BoolfbnVbluf) {
+                  if (dond instbndfof BoolfbnVbluf) {
+                        pusi(((BoolfbnVbluf)dond).boolfbnVbluf()? 
+                        pusi(((BoolfbnVbluf)dond).boolfbnVbluf()? 
+                        pusi(((BoolfbnVbluf)dond).boolfbnVbluf()? 
+                        pusi(((BoolfbnVbluf)dond).boolfbnVbluf()? 
                         pusi(((BoolfbnVbluf)dond).boolfbnVbluf()? 
                                         trufBrbndi : fblsfBrbndi);
+                                        trufBrbndi : fblsfBrbndi);
+                                        trufBrbndi : fblsfBrbndi);
+                                        trufBrbndi : fblsfBrbndi);
+                                        trufBrbndi : fblsfBrbndi);
+                  } flsf {
+                  } flsf {
+                  } flsf {
+                  } flsf {
                   } flsf {
                         tirow nfw PbrsfExdfption("Condition must bf boolfbn");
+                        tirow nfw PbrsfExdfption("Condition must bf boolfbn");
+                        tirow nfw PbrsfExdfption("Condition must bf boolfbn");
+                        tirow nfw PbrsfExdfption("Condition must bf boolfbn");
+                        tirow nfw PbrsfExdfption("Condition must bf boolfbn");
+                  }
+                  }
+                  }
+                  }
                   }
                 }
+                }
+                }
+                }
+                }
+        ]
+        ]
+        ]
+        ]
         ]
 }
+}
+}
+}
+}
+
+
+
+
 
 void ConditionblOrExprfssion() :
+void ConditionblOrExprfssion() :
+void ConditionblOrExprfssion() :
+void ConditionblOrExprfssion() :
+void ConditionblOrExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   ConditionblAndExprfssion() 
+  ConditionblAndExprfssion() 
+  ConditionblAndExprfssion() 
+  ConditionblAndExprfssion() 
+  ConditionblAndExprfssion() 
+        ( "||" ConditionblAndExprfssion() 
+        ( "||" ConditionblAndExprfssion() 
+        ( "||" ConditionblAndExprfssion() 
+        ( "||" ConditionblAndExprfssion() 
         ( "||" ConditionblAndExprfssion() 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+        )*
+        )*
+        )*
         )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void ConditionblAndExprfssion() :
+void ConditionblAndExprfssion() :
+void ConditionblAndExprfssion() :
+void ConditionblAndExprfssion() :
+void ConditionblAndExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   IndlusivfOrExprfssion() 
+  IndlusivfOrExprfssion() 
+  IndlusivfOrExprfssion() 
+  IndlusivfOrExprfssion() 
+  IndlusivfOrExprfssion() 
+        ( "&&" IndlusivfOrExprfssion() 
+        ( "&&" IndlusivfOrExprfssion() 
+        ( "&&" IndlusivfOrExprfssion() 
+        ( "&&" IndlusivfOrExprfssion() 
         ( "&&" IndlusivfOrExprfssion() 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+        )*
+        )*
+        )*
         )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void IndlusivfOrExprfssion() :
+void IndlusivfOrExprfssion() :
+void IndlusivfOrExprfssion() :
+void IndlusivfOrExprfssion() :
+void IndlusivfOrExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   ExdlusivfOrExprfssion() 
+  ExdlusivfOrExprfssion() 
+  ExdlusivfOrExprfssion() 
+  ExdlusivfOrExprfssion() 
+  ExdlusivfOrExprfssion() 
+        ( "|" ExdlusivfOrExprfssion() 
+        ( "|" ExdlusivfOrExprfssion() 
+        ( "|" ExdlusivfOrExprfssion() 
+        ( "|" ExdlusivfOrExprfssion() 
         ( "|" ExdlusivfOrExprfssion() 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+        )*
+        )*
+        )*
         )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void ExdlusivfOrExprfssion() :
+void ExdlusivfOrExprfssion() :
+void ExdlusivfOrExprfssion() :
+void ExdlusivfOrExprfssion() :
+void ExdlusivfOrExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   AndExprfssion() 
+  AndExprfssion() 
+  AndExprfssion() 
+  AndExprfssion() 
+  AndExprfssion() 
+        ( "^" AndExprfssion() 
+        ( "^" AndExprfssion() 
+        ( "^" AndExprfssion() 
+        ( "^" AndExprfssion() 
         ( "^" AndExprfssion() 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+        )*
+        )*
+        )*
         )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void AndExprfssion() :
+void AndExprfssion() :
+void AndExprfssion() :
+void AndExprfssion() :
+void AndExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   EqublityExprfssion() 
+  EqublityExprfssion() 
+  EqublityExprfssion() 
+  EqublityExprfssion() 
+  EqublityExprfssion() 
+        ( "&" EqublityExprfssion() 
+        ( "&" EqublityExprfssion() 
+        ( "&" EqublityExprfssion() 
+        ( "&" EqublityExprfssion() 
         ( "&" EqublityExprfssion() 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+        )*
+        )*
+        )*
         )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void EqublityExprfssion() :
+void EqublityExprfssion() :
+void EqublityExprfssion() :
+void EqublityExprfssion() :
+void EqublityExprfssion() :
 {Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{
+{
+{
+{
 {
   InstbndfOfExprfssion() 
+  InstbndfOfExprfssion() 
+  InstbndfOfExprfssion() 
+  InstbndfOfExprfssion() 
+  InstbndfOfExprfssion() 
+        ( ( tok = "==" | tok = "!=" ) InstbndfOfExprfssion() 
+        ( ( tok = "==" | tok = "!=" ) InstbndfOfExprfssion() 
+        ( ( tok = "==" | tok = "!=" ) InstbndfOfExprfssion() 
+        ( ( tok = "==" | tok = "!=" ) InstbndfOfExprfssion() 
         ( ( tok = "==" | tok = "!=" ) InstbndfOfExprfssion() 
                 { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
                   pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
         )*
+        )*
+        )*
+        )*
+        )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void InstbndfOfExprfssion() :
+void InstbndfOfExprfssion() :
+void InstbndfOfExprfssion() :
+void InstbndfOfExprfssion() :
+void InstbndfOfExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   RflbtionblExprfssion() 
+  RflbtionblExprfssion() 
+  RflbtionblExprfssion() 
+  RflbtionblExprfssion() 
+  RflbtionblExprfssion() 
+        [ "instbndfof" Typf() 
+        [ "instbndfof" Typf() 
+        [ "instbndfof" Typf() 
+        [ "instbndfof" Typf() 
         [ "instbndfof" Typf() 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        ]
+        ]
+        ]
+        ]
         ]
 }
+}
+}
+}
+}
+
+
+
+
 
 void RflbtionblExprfssion() :
+void RflbtionblExprfssion() :
+void RflbtionblExprfssion() :
+void RflbtionblExprfssion() :
+void RflbtionblExprfssion() :
 {Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{
+{
+{
+{
 {
   SiiftExprfssion() 
+  SiiftExprfssion() 
+  SiiftExprfssion() 
+  SiiftExprfssion() 
+  SiiftExprfssion() 
+        ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) SiiftExprfssion()
+        ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) SiiftExprfssion()
+        ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) SiiftExprfssion()
+        ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) SiiftExprfssion()
         ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) SiiftExprfssion()
                 { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
                   pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
          )*
+         )*
+         )*
+         )*
+         )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void SiiftExprfssion() :
+void SiiftExprfssion() :
+void SiiftExprfssion() :
+void SiiftExprfssion() :
+void SiiftExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   AdditivfExprfssion() 
+  AdditivfExprfssion() 
+  AdditivfExprfssion() 
+  AdditivfExprfssion() 
+  AdditivfExprfssion() 
+        ( ( "<<" | ">>" | ">>>" ) AdditivfExprfssion() 
+        ( ( "<<" | ">>" | ">>>" ) AdditivfExprfssion() 
+        ( ( "<<" | ">>" | ">>>" ) AdditivfExprfssion() 
+        ( ( "<<" | ">>" | ">>>" ) AdditivfExprfssion() 
         ( ( "<<" | ">>" | ">>>" ) AdditivfExprfssion() 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        )*
+        )*
+        )*
+        )*
         )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void AdditivfExprfssion() :
+void AdditivfExprfssion() :
+void AdditivfExprfssion() :
+void AdditivfExprfssion() :
+void AdditivfExprfssion() :
 {Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{
+{
+{
+{
 {
   MultiplidbtivfExprfssion() 
+  MultiplidbtivfExprfssion() 
+  MultiplidbtivfExprfssion() 
+  MultiplidbtivfExprfssion() 
+  MultiplidbtivfExprfssion() 
+        ( ( tok = "+" | tok = "-" ) MultiplidbtivfExprfssion() 
+        ( ( tok = "+" | tok = "-" ) MultiplidbtivfExprfssion() 
+        ( ( tok = "+" | tok = "-" ) MultiplidbtivfExprfssion() 
+        ( ( tok = "+" | tok = "-" ) MultiplidbtivfExprfssion() 
         ( ( tok = "+" | tok = "-" ) MultiplidbtivfExprfssion() 
                 { LVbluf lfft = pop(); 
-                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
-        )*
-}
-
-void MultiplidbtivfExprfssion() :
-{Tokfn tok;}
-{
-  UnbryExprfssion() 
-        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
                 { LVbluf lfft = pop(); 
                   pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+        )*
+        )*
+        )*
+        )*
         )*
 }
+}
+}
+}
+}
+
+
+
+
+
+void MultiplidbtivfExprfssion() :
+void MultiplidbtivfExprfssion() :
+void MultiplidbtivfExprfssion() :
+void MultiplidbtivfExprfssion() :
+void MultiplidbtivfExprfssion() :
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{
+{
+{
+{
+{
+  UnbryExprfssion() 
+  UnbryExprfssion() 
+  UnbryExprfssion() 
+  UnbryExprfssion() 
+  UnbryExprfssion() 
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                { LVbluf lfft = pop(); 
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
+        )*
+        )*
+        )*
+        )*
+        )*
+}
+}
+}
+}
+}
+
+
+
+
 
 void UnbryExprfssion() :
+void UnbryExprfssion() :
+void UnbryExprfssion() :
+void UnbryExprfssion() :
+void UnbryExprfssion() :
 {Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{
+{
+{
+{
 {
   ( tok = "+" | tok = "-" ) UnbryExprfssion()
+  ( tok = "+" | tok = "-" ) UnbryExprfssion()
+  ( tok = "+" | tok = "-" ) UnbryExprfssion()
+  ( tok = "+" | tok = "-" ) UnbryExprfssion()
+  ( tok = "+" | tok = "-" ) UnbryExprfssion()
                 { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+|
+|
+|
+|
 |
   PrfIndrfmfntExprfssion()
+  PrfIndrfmfntExprfssion()
+  PrfIndrfmfntExprfssion()
+  PrfIndrfmfntExprfssion()
+  PrfIndrfmfntExprfssion()
+|
+|
+|
+|
 |
   PrfDfdrfmfntExprfssion()
+  PrfDfdrfmfntExprfssion()
+  PrfDfdrfmfntExprfssion()
+  PrfDfdrfmfntExprfssion()
+  PrfDfdrfmfntExprfssion()
+|
+|
+|
+|
 |
   UnbryExprfssionNotPlusMinus()
+  UnbryExprfssionNotPlusMinus()
+  UnbryExprfssionNotPlusMinus()
+  UnbryExprfssionNotPlusMinus()
+  UnbryExprfssionNotPlusMinus()
 }
+}
+}
+}
+}
+
+
+
+
 
 void PrfIndrfmfntExprfssion() :
+void PrfIndrfmfntExprfssion() :
+void PrfIndrfmfntExprfssion() :
+void PrfIndrfmfntExprfssion() :
+void PrfIndrfmfntExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   "++" PrimbryExprfssion()
+  "++" PrimbryExprfssion()
+  "++" PrimbryExprfssion()
+  "++" PrimbryExprfssion()
+  "++" PrimbryExprfssion()
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
 }
+}
+}
+}
+}
+
+
+
+
 
 void PrfDfdrfmfntExprfssion() :
+void PrfDfdrfmfntExprfssion() :
+void PrfDfdrfmfntExprfssion() :
+void PrfDfdrfmfntExprfssion() :
+void PrfDfdrfmfntExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   "--" PrimbryExprfssion()
+  "--" PrimbryExprfssion()
+  "--" PrimbryExprfssion()
+  "--" PrimbryExprfssion()
+  "--" PrimbryExprfssion()
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
 }
+}
+}
+}
+}
+
+
+
+
 
 void UnbryExprfssionNotPlusMinus() :
+void UnbryExprfssionNotPlusMinus() :
+void UnbryExprfssionNotPlusMinus() :
+void UnbryExprfssionNotPlusMinus() :
+void UnbryExprfssionNotPlusMinus() :
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
+{Tokfn tok;}
 {Tokfn tok;}
 {
+{
+{
+{
+{
+  ( tok = "~" | tok = "!" ) UnbryExprfssion()
+  ( tok = "~" | tok = "!" ) UnbryExprfssion()
+  ( tok = "~" | tok = "!" ) UnbryExprfssion()
+  ( tok = "~" | tok = "!" ) UnbryExprfssion()
   ( tok = "~" | tok = "!" ) UnbryExprfssion()
                 { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
+|
+|
+|
+|
 |
   LOOKAHEAD( CbstLookbifbd() )
+  LOOKAHEAD( CbstLookbifbd() )
+  LOOKAHEAD( CbstLookbifbd() )
+  LOOKAHEAD( CbstLookbifbd() )
+  LOOKAHEAD( CbstLookbifbd() )
+  CbstExprfssion()
+  CbstExprfssion()
+  CbstExprfssion()
+  CbstExprfssion()
   CbstExprfssion()
 |
+|
+|
+|
+|
+  PostfixExprfssion()
+  PostfixExprfssion()
+  PostfixExprfssion()
+  PostfixExprfssion()
   PostfixExprfssion()
 }
+}
+}
+}
+}
+
+
+
+
 
 // Tiis produdtion is to dftfrminf lookbifbd only.  Tif LOOKAHEAD spfdifidbtions
+// Tiis produdtion is to dftfrminf lookbifbd only.  Tif LOOKAHEAD spfdifidbtions
+// Tiis produdtion is to dftfrminf lookbifbd only.  Tif LOOKAHEAD spfdifidbtions
+// Tiis produdtion is to dftfrminf lookbifbd only.  Tif LOOKAHEAD spfdifidbtions
+// Tiis produdtion is to dftfrminf lookbifbd only.  Tif LOOKAHEAD spfdifidbtions
+// bflow brf not usfd, but tify brf tifrf just to indidbtf tibt wf know bbout
+// bflow brf not usfd, but tify brf tifrf just to indidbtf tibt wf know bbout
+// bflow brf not usfd, but tify brf tifrf just to indidbtf tibt wf know bbout
+// bflow brf not usfd, but tify brf tifrf just to indidbtf tibt wf know bbout
 // bflow brf not usfd, but tify brf tifrf just to indidbtf tibt wf know bbout
 // tiis.
+// tiis.
+// tiis.
+// tiis.
+// tiis.
+void CbstLookbifbd() :
+void CbstLookbifbd() :
+void CbstLookbifbd() :
+void CbstLookbifbd() :
 void CbstLookbifbd() :
 {}
+{}
+{}
+{}
+{}
 {
+{
+{
+{
+{
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
   LOOKAHEAD(2)
   "(" PrimitivfTypf()
+  "(" PrimitivfTypf()
+  "(" PrimitivfTypf()
+  "(" PrimitivfTypf()
+  "(" PrimitivfTypf()
+|
+|
+|
+|
 |
   LOOKAHEAD("(" Nbmf() "[")
+  LOOKAHEAD("(" Nbmf() "[")
+  LOOKAHEAD("(" Nbmf() "[")
+  LOOKAHEAD("(" Nbmf() "[")
+  LOOKAHEAD("(" Nbmf() "[")
+  "(" Nbmf() "[" "]"
+  "(" Nbmf() "[" "]"
+  "(" Nbmf() "[" "]"
+  "(" Nbmf() "[" "]"
   "(" Nbmf() "[" "]"
 |
+|
+|
+|
+|
+  "(" Nbmf() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "tiis" | "supfr" | "nfw" | Litfrbl() )
+  "(" Nbmf() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "tiis" | "supfr" | "nfw" | Litfrbl() )
+  "(" Nbmf() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "tiis" | "supfr" | "nfw" | Litfrbl() )
+  "(" Nbmf() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "tiis" | "supfr" | "nfw" | Litfrbl() )
   "(" Nbmf() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "tiis" | "supfr" | "nfw" | Litfrbl() )
 }
+}
+}
+}
+}
+
+
+
+
 
 void PostfixExprfssion() :
+void PostfixExprfssion() :
+void PostfixExprfssion() :
+void PostfixExprfssion() :
+void PostfixExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   PrimbryExprfssion() 
+  PrimbryExprfssion() 
+  PrimbryExprfssion() 
+  PrimbryExprfssion() 
+  PrimbryExprfssion() 
+        [ "++" | "--" 
+        [ "++" | "--" 
+        [ "++" | "--" 
+        [ "++" | "--" 
         [ "++" | "--" 
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+        ]
+        ]
+        ]
+        ]
         ]
 }
+}
+}
+}
+}
+
+
+
+
 
 void CbstExprfssion() :
+void CbstExprfssion() :
+void CbstExprfssion() :
+void CbstExprfssion() :
+void CbstExprfssion() :
+{}
+{}
+{}
+{}
 {}
 {
+{
+{
+{
+{
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
   LOOKAHEAD(2)
   "(" PrimitivfTypf() ( "[" "]" )* ")" UnbryExprfssion()
+  "(" PrimitivfTypf() ( "[" "]" )* ")" UnbryExprfssion()
+  "(" PrimitivfTypf() ( "[" "]" )* ")" UnbryExprfssion()
+  "(" PrimitivfTypf() ( "[" "]" )* ")" UnbryExprfssion()
+  "(" PrimitivfTypf() ( "[" "]" )* ")" UnbryExprfssion()
+|
+|
+|
+|
 |
   "(" Nbmf() ( "[" "]" )* ")" UnbryExprfssionNotPlusMinus()
+  "(" Nbmf() ( "[" "]" )* ")" UnbryExprfssionNotPlusMinus()
+  "(" Nbmf() ( "[" "]" )* ")" UnbryExprfssionNotPlusMinus()
+  "(" Nbmf() ( "[" "]" )* ")" UnbryExprfssionNotPlusMinus()
+  "(" Nbmf() ( "[" "]" )* ")" UnbryExprfssionNotPlusMinus()
 }
+}
+}
+}
+}
+
+
+
+
 
 void PrimbryExprfssion() :
+void PrimbryExprfssion() :
+void PrimbryExprfssion() :
+void PrimbryExprfssion() :
+void PrimbryExprfssion() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   PrimbryPrffix() ( PrimbrySuffix() )*
+  PrimbryPrffix() ( PrimbrySuffix() )*
+  PrimbryPrffix() ( PrimbrySuffix() )*
+  PrimbryPrffix() ( PrimbrySuffix() )*
+  PrimbryPrffix() ( PrimbrySuffix() )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void PrimbryPrffix() :
+void PrimbryPrffix() :
+void PrimbryPrffix() :
+void PrimbryPrffix() :
+void PrimbryPrffix() :
+{String nbmf;}
+{String nbmf;}
+{String nbmf;}
+{String nbmf;}
 {String nbmf;}
 {
+{
+{
+{
+{
+  Litfrbl()
+  Litfrbl()
+  Litfrbl()
+  Litfrbl()
   Litfrbl()
 |
+|
+|
+|
+|
+  nbmf = Nbmf()
+  nbmf = Nbmf()
+  nbmf = Nbmf()
+  nbmf = Nbmf()
   nbmf = Nbmf()
                         { pusi(LVbluf.mbkfNbmf(vm, frbmfGfttfr, nbmf)); }
+                        { pusi(LVbluf.mbkfNbmf(vm, frbmfGfttfr, nbmf)); }
+                        { pusi(LVbluf.mbkfNbmf(vm, frbmfGfttfr, nbmf)); }
+                        { pusi(LVbluf.mbkfNbmf(vm, frbmfGfttfr, nbmf)); }
+                        { pusi(LVbluf.mbkfNbmf(vm, frbmfGfttfr, nbmf)); }
+|
+|
+|
+|
 |
   "tiis"
+  "tiis"
+  "tiis"
+  "tiis"
+  "tiis"
+                        { pusi(LVbluf.mbkfTiisObjfdt(vm, frbmfGfttfr, tokfn)); }
+                        { pusi(LVbluf.mbkfTiisObjfdt(vm, frbmfGfttfr, tokfn)); }
+                        { pusi(LVbluf.mbkfTiisObjfdt(vm, frbmfGfttfr, tokfn)); }
+                        { pusi(LVbluf.mbkfTiisObjfdt(vm, frbmfGfttfr, tokfn)); }
                         { pusi(LVbluf.mbkfTiisObjfdt(vm, frbmfGfttfr, tokfn)); }
 |
+|
+|
+|
+|
+  "supfr" "." <IDENTIFIER>
+  "supfr" "." <IDENTIFIER>
+  "supfr" "." <IDENTIFIER>
+  "supfr" "." <IDENTIFIER>
   "supfr" "." <IDENTIFIER>
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+|
+|
+|
+|
 |
   "(" Exprfssion() ")"
+  "(" Exprfssion() ")"
+  "(" Exprfssion() ")"
+  "(" Exprfssion() ")"
+  "(" Exprfssion() ")"
+|
+|
+|
+|
 |
   AllodbtionExprfssion()
+  AllodbtionExprfssion()
+  AllodbtionExprfssion()
+  AllodbtionExprfssion()
+  AllodbtionExprfssion()
 }
+}
+}
+}
+}
+
+
+
+
 
 void PrimbrySuffix() :
+void PrimbrySuffix() :
+void PrimbrySuffix() :
+void PrimbrySuffix() :
+void PrimbrySuffix() :
+{List brgList;}
+{List brgList;}
+{List brgList;}
+{List brgList;}
 {List brgList;}
 {
+{
+{
+{
+{
+  "[" Exprfssion() "]"  
+  "[" Exprfssion() "]"  
+  "[" Exprfssion() "]"  
+  "[" Exprfssion() "]"  
   "[" Exprfssion() "]"  
                         { LVbluf indfx = pop();
+                        { LVbluf indfx = pop();
+                        { LVbluf indfx = pop();
+                        { LVbluf indfx = pop();
+                        { LVbluf indfx = pop();
+                          pusi(pop().brrbyElfmfntLVbluf(indfx)); }
+                          pusi(pop().brrbyElfmfntLVbluf(indfx)); }
+                          pusi(pop().brrbyElfmfntLVbluf(indfx)); }
+                          pusi(pop().brrbyElfmfntLVbluf(indfx)); }
                           pusi(pop().brrbyElfmfntLVbluf(indfx)); }
 |
+|
+|
+|
+|
+  "." <IDENTIFIER>
+  "." <IDENTIFIER>
+  "." <IDENTIFIER>
+  "." <IDENTIFIER>
   "." <IDENTIFIER>
                         { pusi(pop().mfmbfrLVbluf(frbmfGfttfr, tokfn.imbgf)); }
+                        { pusi(pop().mfmbfrLVbluf(frbmfGfttfr, tokfn.imbgf)); }
+                        { pusi(pop().mfmbfrLVbluf(frbmfGfttfr, tokfn.imbgf)); }
+                        { pusi(pop().mfmbfrLVbluf(frbmfGfttfr, tokfn.imbgf)); }
+                        { pusi(pop().mfmbfrLVbluf(frbmfGfttfr, tokfn.imbgf)); }
+|
+|
+|
+|
 |
   brgList = Argumfnts()
+  brgList = Argumfnts()
+  brgList = Argumfnts()
+  brgList = Argumfnts()
+  brgList = Argumfnts()
+                        { pffk().invokfWiti(brgList); }
+                        { pffk().invokfWiti(brgList); }
+                        { pffk().invokfWiti(brgList); }
+                        { pffk().invokfWiti(brgList); }
                         { pffk().invokfWiti(brgList); }
 }
+}
+}
+}
+}
+
+
+
+
 
 void Litfrbl() :
+void Litfrbl() :
+void Litfrbl() :
+void Litfrbl() :
+void Litfrbl() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   <INTEGER_LITERAL>
+  <INTEGER_LITERAL>
+  <INTEGER_LITERAL>
+  <INTEGER_LITERAL>
+  <INTEGER_LITERAL>
+                        { pusi(LVbluf.mbkfIntfgfr(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfIntfgfr(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfIntfgfr(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfIntfgfr(vm, tokfn)); }
                         { pusi(LVbluf.mbkfIntfgfr(vm, tokfn)); }
 |
+|
+|
+|
+|
+  <FLOATING_POINT_LITERAL>
+  <FLOATING_POINT_LITERAL>
+  <FLOATING_POINT_LITERAL>
+  <FLOATING_POINT_LITERAL>
   <FLOATING_POINT_LITERAL>
                         { pusi(LVbluf.mbkfFlobt(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfFlobt(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfFlobt(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfFlobt(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfFlobt(vm, tokfn)); }
+|
+|
+|
+|
 |
   <CHARACTER_LITERAL>
+  <CHARACTER_LITERAL>
+  <CHARACTER_LITERAL>
+  <CHARACTER_LITERAL>
+  <CHARACTER_LITERAL>
+                        { pusi(LVbluf.mbkfCibrbdtfr(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfCibrbdtfr(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfCibrbdtfr(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfCibrbdtfr(vm, tokfn)); }
                         { pusi(LVbluf.mbkfCibrbdtfr(vm, tokfn)); }
 |
+|
+|
+|
+|
+  <STRING_LITERAL>
+  <STRING_LITERAL>
+  <STRING_LITERAL>
+  <STRING_LITERAL>
   <STRING_LITERAL>
                         { pusi(LVbluf.mbkfString(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfString(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfString(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfString(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfString(vm, tokfn)); }
+|
+|
+|
+|
 |
   BoolfbnLitfrbl()
+  BoolfbnLitfrbl()
+  BoolfbnLitfrbl()
+  BoolfbnLitfrbl()
+  BoolfbnLitfrbl()
+                        { pusi(LVbluf.mbkfBoolfbn(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfBoolfbn(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfBoolfbn(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfBoolfbn(vm, tokfn)); }
                         { pusi(LVbluf.mbkfBoolfbn(vm, tokfn)); }
 |
+|
+|
+|
+|
+  NullLitfrbl()
+  NullLitfrbl()
+  NullLitfrbl()
+  NullLitfrbl()
   NullLitfrbl()
                         { pusi(LVbluf.mbkfNull(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfNull(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfNull(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfNull(vm, tokfn)); }
+                        { pusi(LVbluf.mbkfNull(vm, tokfn)); }
 }
+}
+}
+}
+}
+
+
+
+
 
 void BoolfbnLitfrbl() :
+void BoolfbnLitfrbl() :
+void BoolfbnLitfrbl() :
+void BoolfbnLitfrbl() :
+void BoolfbnLitfrbl() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   "truf" 
+  "truf" 
+  "truf" 
+  "truf" 
+  "truf" 
+|
+|
+|
+|
 |
   "fblsf"
+  "fblsf"
+  "fblsf"
+  "fblsf"
+  "fblsf"
 }
+}
+}
+}
+}
+
+
+
+
 
 void NullLitfrbl() :
+void NullLitfrbl() :
+void NullLitfrbl() :
+void NullLitfrbl() :
+void NullLitfrbl() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   "null"
+  "null"
+  "null"
+  "null"
+  "null"
 }
+}
+}
+}
+}
+
+
+
+
 
 List Argumfnts() :
+List Argumfnts() :
+List Argumfnts() :
+List Argumfnts() :
+List Argumfnts() :
+{List brgList = nfw ArrbyList();}
+{List brgList = nfw ArrbyList();}
+{List brgList = nfw ArrbyList();}
+{List brgList = nfw ArrbyList();}
 {List brgList = nfw ArrbyList();}
 {
+{
+{
+{
+{
+  "(" [ ArgumfntList(brgList) ] ")"
+  "(" [ ArgumfntList(brgList) ] ")"
+  "(" [ ArgumfntList(brgList) ] ")"
+  "(" [ ArgumfntList(brgList) ] ")"
   "(" [ ArgumfntList(brgList) ] ")"
   { rfturn brgList; }
+  { rfturn brgList; }
+  { rfturn brgList; }
+  { rfturn brgList; }
+  { rfturn brgList; }
 }
+}
+}
+}
+}
+
+
+
+
 
 void ArgumfntList(List brgList) :
+void ArgumfntList(List brgList) :
+void ArgumfntList(List brgList) :
+void ArgumfntList(List brgList) :
+void ArgumfntList(List brgList) :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());}
+  Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());}
+  Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());}
+  Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());}
+  Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());}
+  ( "," Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());} )*
+  ( "," Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());} )*
+  ( "," Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());} )*
+  ( "," Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());} )*
   ( "," Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());} )*
 }
+}
+}
+}
+}
+
+
+
+
 
 void AllodbtionExprfssion() :
+void AllodbtionExprfssion() :
+void AllodbtionExprfssion() :
+void AllodbtionExprfssion() :
+void AllodbtionExprfssion() :
+{List brgList; String dlbssNbmf;}
+{List brgList; String dlbssNbmf;}
+{List brgList; String dlbssNbmf;}
+{List brgList; String dlbssNbmf;}
 {List brgList; String dlbssNbmf;}
 {
+{
+{
+{
+{
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
+  LOOKAHEAD(2)
   LOOKAHEAD(2)
   "nfw" PrimitivfTypf() ArrbyDimfnsions()
+  "nfw" PrimitivfTypf() ArrbyDimfnsions()
+  "nfw" PrimitivfTypf() ArrbyDimfnsions()
+  "nfw" PrimitivfTypf() ArrbyDimfnsions()
+  "nfw" PrimitivfTypf() ArrbyDimfnsions()
+|
+|
+|
+|
 |
   "nfw" dlbssNbmf = Nbmf() ( brgList = Argumfnts() 
+  "nfw" dlbssNbmf = Nbmf() ( brgList = Argumfnts() 
+  "nfw" dlbssNbmf = Nbmf() ( brgList = Argumfnts() 
+  "nfw" dlbssNbmf = Nbmf() ( brgList = Argumfnts() 
+  "nfw" dlbssNbmf = Nbmf() ( brgList = Argumfnts() 
+                        { pusi(LVbluf.mbkfNfwObjfdt(vm, frbmfGfttfr, dlbssNbmf, brgList)); }
+                        { pusi(LVbluf.mbkfNfwObjfdt(vm, frbmfGfttfr, dlbssNbmf, brgList)); }
+                        { pusi(LVbluf.mbkfNfwObjfdt(vm, frbmfGfttfr, dlbssNbmf, brgList)); }
+                        { pusi(LVbluf.mbkfNfwObjfdt(vm, frbmfGfttfr, dlbssNbmf, brgList)); }
                         { pusi(LVbluf.mbkfNfwObjfdt(vm, frbmfGfttfr, dlbssNbmf, brgList)); }
                            | ArrbyDimfnsions() 
+                           | ArrbyDimfnsions() 
+                           | ArrbyDimfnsions() 
+                           | ArrbyDimfnsions() 
+                           | ArrbyDimfnsions() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
                         { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
 			   )
+			   )
+			   )
+			   )
+			   )
+}
+}
+}
+}
 }
 
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * Tif sfdond LOOKAHEAD spfdifidbtion bflow is to pbrsf to PrimbrySuffix
+ * Tif sfdond LOOKAHEAD spfdifidbtion bflow is to pbrsf to PrimbrySuffix
+ * Tif sfdond LOOKAHEAD spfdifidbtion bflow is to pbrsf to PrimbrySuffix
+ * Tif sfdond LOOKAHEAD spfdifidbtion bflow is to pbrsf to PrimbrySuffix
+ * Tif sfdond LOOKAHEAD spfdifidbtion bflow is to pbrsf to PrimbrySuffix
+ * if tifrf is bn fxprfssion bftwffn tif "[...]".
+ * if tifrf is bn fxprfssion bftwffn tif "[...]".
+ * if tifrf is bn fxprfssion bftwffn tif "[...]".
+ * if tifrf is bn fxprfssion bftwffn tif "[...]".
  * if tifrf is bn fxprfssion bftwffn tif "[...]".
  */
+ */
+ */
+ */
+ */
+void ArrbyDimfnsions() :
+void ArrbyDimfnsions() :
+void ArrbyDimfnsions() :
+void ArrbyDimfnsions() :
 void ArrbyDimfnsions() :
 {}
+{}
+{}
+{}
+{}
+{
+{
+{
+{
 {
   ( LOOKAHEAD(2) "[" Exprfssion() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+  ( LOOKAHEAD(2) "[" Exprfssion() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+  ( LOOKAHEAD(2) "[" Exprfssion() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+  ( LOOKAHEAD(2) "[" Exprfssion() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+  ( LOOKAHEAD(2) "[" Exprfssion() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
 }
+}
+}
+}
+}
+
+
+
+
 

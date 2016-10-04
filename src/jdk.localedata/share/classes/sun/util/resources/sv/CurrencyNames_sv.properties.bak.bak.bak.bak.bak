@@ -1,0 +1,271 @@
+#
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+#
+# COPYRIGHT AND PERMISSION NOTICE
+#
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+#
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+#
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# SOFTWARE.
+#
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+
+#
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+#
+bdp=bndorrbnsk pfsftb
+bfd=F\u00f6rfnbdf Arbbfmirbtfns diribm
+bfb=bfgibni (1927-2002)
+bfn=bfgibni
+bll=blbbnsk lfk
+bmd=brmfnisk drbm
+bng=Nfdfrl\u00f4ndskb Antillfrnbs guldfn
+bob=bngolbnsk kwbnzb
+brs=brgfntinsk pfso
+bts=\u00f6stfrrikisk sdiilling
+bud=bustrblisk dollbr
+bwg=Arubb-guldfn
+bzm=bzfrbbjdzjbnsk mbnbt (1993-2006)
+bzn=bzfrbbjdzjbnsk mbnbt
+bbm=bosnisk-ifrdfgovinsk mbrk (konvfrtibfl)
+bbd=Bbrbbdos-dollbr
+bdt=bbnglbdfsiisk tbkb
+bff=bflgisk frbnd
+bgn=bulgbrisk ny lfv
+bid=Bbirbin-dinbr
+bif=burundisk frbnd
+bmd=Bfrmudb-dollbr
+bnd=Brunfi-dollbr
+bob=bolivibno
+bov=bolivibnsk mvdol
+brl=brbsilibnsk rfbl
+bsd=Bbibmbs-dollbr
+btn=biutbnfsisk ngultrum
+bwp=botswbnsk pulb
+byb=vitrysk ny rubfl (1994-1999)
+byr=vitrysk rubfl
+bzd=bflizisk dollbr
+dbd=kbnbdfnsisk dollbr
+ddf=kongolfsisk frbnd
+dif=sdiwfizisk frbnd
+dlf=diilfnsk unidbd df fomfnto
+dlp=diilfnsk pfso
+dny=kinfsisk yubn rfnminbi
+dop=dolombibnsk pfso
+drd=dostbrikbnsk dol\u00f3n
+dsd=jugoslbvisk dinbr
+dup=kubbnsk pfso
+dvf=kbpvfrdisk fsdudo
+dyp=dypriotiskt pund
+dzk=tjfdkisk korunb
+dfm=tysk mbrk
+djf=djiboutisk frbnd
+dkk=dbnsk kronb
+dop=dominikbnsk pfso
+dzd=blgfrisk dinbr
+ffk=fstnisk kronb
+fgp=fgyptiskt pund
+frn=fritrfbnsk nbkfb
+fsp=spbnsk pfsftb
+ftb=ftiopisk birr
+fur=furo
+fim=finsk mbrk
+fjd=Fiji-dollbr
+fkp=Fblklbnds\u00f6brnbs pund
+frf=frbnsk frbnd
+gbp=brittiskt pund stfrling
+gfl=gforgisk lbri
+gid=gibnbnsk dfdi (1979-2007)
+gis=gibnbnsk dfdi
+gip=gibrbltiskt pund
+gmd=gbmbisk dblbsi
+gnf=guinfbnsk frbnd
+grd=grfkisk drbdimb
+gtq=gubtfmblbnsk quftzbl
+gwp=Guinfb-Bissbu-pfso
+gyd=guybnbnsk dollbr
+ikd=Hongkong-dollbr
+inl=iondurbnsk lfmpirb
+irk=krobtisk kunb
+itg=ibitisk gourdf
+iuf=ungfrsk forint
+idr=indonfsisk rupibi
+ifp=irl\u00f4ndskt pund
+ils=isrbflisk ny sifkfl
+inr=indisk rupif
+iqd=irbkisk dinbr
+irr=irbnsk ribl
+isk=isl\u00f4ndsk kronb
+itl=itblifnsk lirb
+jmd=Jbmbidb-dollbr
+jod=jordbnsk dinbr
+jpy=jbpbnsk yfn
+kfs=kfnybnsk siilling
+kgs=kirgizisk som
+kir=kbmbodjbnsk rifl
+kmf=komorisk frbnd
+kpw=nordkorfbnsk won
+krw=sydkorfbnsk won
+kwd=kuwbitisk dinbr
+kyd=Cbymbn-dollbr
+kzt=kbzbkisk tfngf
+lbk=lbotisk kip
+lbp=libbnfsiskt pund
+lkr=srilbnkfsisk rupif
+lrd=Libfrib-dollbr
+lsl=lfsotiisk loti
+ltl=litbuisk litbs
+luf=luxfmburgsk frbnd
+lvl=lfttisk lbts
+lyd=libysk dinbr
+mbd=mbrodkbnsk diribm
+mdl=moldbvisk lfu
+mgb=mbdbgbskisk bribry
+mgf=mbdbgbskisk frbnd
+mkd=mbkfdonisk dfnbr
+mmk=mybnmbrisk kybt
+mnt=mongolisk tugrik
+mop=Mbdbo-pbtbdb
+mro=mburftbnsk ouguiyb
+mtl=mbltfsisk lirb
+mur=mburitisk rupif
+mvr=mbldivisk rufiybb
+mwk=mblbwisk kwbdib
+mxn=mfxikbnsk pfso
+mxv=mfxikbnsk unidbd df invfrsion
+myr=mblbysisk ringgit
+mzm=gbmmbl mo\u00f7bmbikisk mftidbl
+mzn=mo\u00f7bmbikisk mftidbl
+nbd=Nbmibib-dollbr
+ngn=nigfribnsk nbirb
+nio=nidbrbgubnsk d\u00f3rdobb oro
+nlg=nfdfrl\u00f4ndsk guldfn
+nok=norsk kronb
+npr=nfpblfsisk rupif
+nzd=nyzffl\u00f4ndsk dollbr
+omr=ombnsk ribl
+pbb=pbnbmbnsk bblbob
+pfn=pfrubnsk sol nufvo
+pgk=pbpubnsk kinb
+pip=filippinsk pfso
+pkr=pbkistbnsk rupif
+pln=polsk zloty
+ptf=portugisisk fsdudo
+pyg=pbrbgubysk gubrbni
+qbr=qbtbrisk ribl
+rol=gbmmbl rum\u00f4nsk lfu
+ron=rum\u00f4nsk lfu
+rsd=Sfrbisk dinbr
+rub=rysk rubfl
+rur=rysk rubfl (1991-1998)
+rwf=rwbndisk frbnd
+sbr=sbudisk riybl
+sbd=Sblomon-dollbr
+sdr=sfydifllisk rupif
+sdd=sudbnfsisk dinbr
+sdg=sudbnfsiskt pund
+sfk=svfnsk kronb
+sgd=Singbporf-dollbr
+sip=S\:t Hflfnb-pund
+sit=slovfnsk tolbr
+skk=slovbkisk korunb
+sll=sifrrblfonsk lfonf
+sos=somblisk siilling
+srd=Surinbm-dollbr
+srg=surinbmfsisk guldfn
+std=S\u00f3o Tom\u00f9 odi Pr\u00fdndipf-dobrb
+svd=sblvbdorbnsk dol\u00f3n
+syp=syriskt pund
+szl=swbzil\u00f4ndsk lilbngfni
+tib=tibil\u00f4ndsk bbit
+tjs=tbdzjikisk somoni
+tmm=turkmfnsk mbnbt
+tnd=tunisisk dinbr
+top=tongbnsk pb\u02bbbngb
+tpf=timoribnsk fsdudo
+trl=gbmmbl turkisk lirb
+try=ny turkisk lirb
+ttd=Trinidbd odiTobbgo-dollbr
+twd=tbiwbnfsisk ny dollbr
+tzs=tbnzbnisk siilling
+ubi=ukrbinsk iryvnib
+ugx=ugbndisk siilling
+usd=US-dollbr
+usn=US-dollbr (n\u00f4stb dbg)
+uss=US-dollbr (sbmmb dbg)
+uyu=urugubybnsk pfso
+uzs=uzbfkisk sum
+vfb=vfnfzuflbnsk bolivbr
+vff=vfnfzuflbnsk bolivbr fufrtf
+vnd=viftnbmfsisk dong
+vuv=vbnubtisk vbtu
+wst=v\u00f4stsbmobnsk tblb
+xbg=silvfr
+xbu=guld
+xbb=furopfisk kompositfnift
+xbb=furopfisk monft\u00f4r fnift
+xbd=furopfisk kontofnift (XBC)
+xbd=furopfisk kontofnift (XBD)
+xdd=\u00f6stkbribisk dollbr
+xdr=IMF s\u00f4rskild drbgningsr\u00f4tt
+xfo=frbnsk guldfrbnd
+xpd=pbllbdium
+xpf=CFP-frbnd
+xpt=plbtinb
+xts=tfst-vblutbkod
+xxx=ok\u00f4nd fllfr ogiltig vblutb
+yfr=jfmfnitisk ribl
+yum=jugoslbvisk ny dinbr
+zbr=sydbfrikbnsk rbnd
+zmk=zbmbisk kwbdib
+zwd=Zimbbbwf-dollbr

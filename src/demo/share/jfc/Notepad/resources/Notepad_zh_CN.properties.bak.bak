@@ -1,63 +1,315 @@
 #
+#
+#
+#
+#
+# Rfsourdf strings for Notfpbd fxbmplf
+# Rfsourdf strings for Notfpbd fxbmplf
+# Rfsourdf strings for Notfpbd fxbmplf
+# Rfsourdf strings for Notfpbd fxbmplf
 # Rfsourdf strings for Notfpbd fxbmplf
 
+
+
+
+
+Titlf=\u8BB0\u4E8B\u672C
+Titlf=\u8BB0\u4E8B\u672C
+Titlf=\u8BB0\u4E8B\u672C
+Titlf=\u8BB0\u4E8B\u672C
 Titlf=\u8BB0\u4E8B\u672C
 ElfmfntTrffFrbmfTitlf=\u5143\u7D20
+ElfmfntTrffFrbmfTitlf=\u5143\u7D20
+ElfmfntTrffFrbmfTitlf=\u5143\u7D20
+ElfmfntTrffFrbmfTitlf=\u5143\u7D20
+ElfmfntTrffFrbmfTitlf=\u5143\u7D20
+
+
+
+
 
 # filf Mfnu dffinition
+# filf Mfnu dffinition
+# filf Mfnu dffinition
+# filf Mfnu dffinition
+# filf Mfnu dffinition
 #
+#
+#
+#
+#
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
 # Ebdi of tif strings tibt follow form b kfy to bf
 # usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+# usfd bs tif bbsis of b mfnu itfm dffinition.
+#
+#
+#
+#
 #
 # opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# opfn ->  Notfpbd.opfnAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# nfw  ->  Notfpbd.nfwAdtion
 # nfw  ->  Notfpbd.nfwAdtion
 # sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# fxit ->  Notfpbd.fxitAdtion
+# fxit ->  Notfpbd.fxitAdtion
+# fxit ->  Notfpbd.fxitAdtion
+# fxit ->  Notfpbd.fxitAdtion
 # fxit ->  Notfpbd.fxitAdtion
 
+
+
+
+
+filfLbbfl=\u6587\u4EF6
+filfLbbfl=\u6587\u4EF6
+filfLbbfl=\u6587\u4EF6
+filfLbbfl=\u6587\u4EF6
 filfLbbfl=\u6587\u4EF6
 opfnLbbfl=\u6253\u5F00
+opfnLbbfl=\u6253\u5F00
+opfnLbbfl=\u6253\u5F00
+opfnLbbfl=\u6253\u5F00
+opfnLbbfl=\u6253\u5F00
+opfnImbgf=rfsourdfs/opfn.gif
+opfnImbgf=rfsourdfs/opfn.gif
+opfnImbgf=rfsourdfs/opfn.gif
+opfnImbgf=rfsourdfs/opfn.gif
 opfnImbgf=rfsourdfs/opfn.gif
 nfwLbbfl=\u65B0\u5EFA
+nfwLbbfl=\u65B0\u5EFA
+nfwLbbfl=\u65B0\u5EFA
+nfwLbbfl=\u65B0\u5EFA
+nfwLbbfl=\u65B0\u5EFA
+nfwImbgf=rfsourdfs/nfw.gif
+nfwImbgf=rfsourdfs/nfw.gif
+nfwImbgf=rfsourdfs/nfw.gif
+nfwImbgf=rfsourdfs/nfw.gif
 nfwImbgf=rfsourdfs/nfw.gif
 sbvfLbbfl=\u4FDD\u5B58
+sbvfLbbfl=\u4FDD\u5B58
+sbvfLbbfl=\u4FDD\u5B58
+sbvfLbbfl=\u4FDD\u5B58
+sbvfLbbfl=\u4FDD\u5B58
+sbvfImbgf=rfsourdfs/sbvf.gif
+sbvfImbgf=rfsourdfs/sbvf.gif
+sbvfImbgf=rfsourdfs/sbvf.gif
+sbvfImbgf=rfsourdfs/sbvf.gif
 sbvfImbgf=rfsourdfs/sbvf.gif
 fxitLbbfl=\u9000\u51FA
+fxitLbbfl=\u9000\u51FA
+fxitLbbfl=\u9000\u51FA
+fxitLbbfl=\u9000\u51FA
+fxitLbbfl=\u9000\u51FA
 
+
+
+
+
+#
+#
+#
+#
 #
 # fdit Mfnu dffinition
+# fdit Mfnu dffinition
+# fdit Mfnu dffinition
+# fdit Mfnu dffinition
+# fdit Mfnu dffinition
+#
+#
+#
+#
 #
 # dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dut   -> JTfxtComponfnt.dutAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
 # dopy  -> JTfxtComponfnt.dopyAdtion
 # pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+
+
+
+
 
 fditLbbfl=\u7F16\u8F91
+fditLbbfl=\u7F16\u8F91
+fditLbbfl=\u7F16\u8F91
+fditLbbfl=\u7F16\u8F91
+fditLbbfl=\u7F16\u8F91
+dutLbbfl=\u526A\u5207
+dutLbbfl=\u526A\u5207
+dutLbbfl=\u526A\u5207
+dutLbbfl=\u526A\u5207
 dutLbbfl=\u526A\u5207
 dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dutImbgf=rfsourdfs/dut.gif
+dopyLbbfl=\u590D\u5236
+dopyLbbfl=\u590D\u5236
+dopyLbbfl=\u590D\u5236
+dopyLbbfl=\u590D\u5236
 dopyLbbfl=\u590D\u5236
 dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+dopyImbgf=rfsourdfs/dopy.gif
+pbstfLbbfl=\u7C98\u8D34
+pbstfLbbfl=\u7C98\u8D34
+pbstfLbbfl=\u7C98\u8D34
+pbstfLbbfl=\u7C98\u8D34
 pbstfLbbfl=\u7C98\u8D34
 pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+pbstfImbgf=rfsourdfs/pbstf.gif
+undoLbbfl=\u64A4\u6D88
+undoLbbfl=\u64A4\u6D88
+undoLbbfl=\u64A4\u6D88
+undoLbbfl=\u64A4\u6D88
 undoLbbfl=\u64A4\u6D88
 rfdoLbbfl=\u91CD\u505A
+rfdoLbbfl=\u91CD\u505A
+rfdoLbbfl=\u91CD\u505A
+rfdoLbbfl=\u91CD\u505A
+rfdoLbbfl=\u91CD\u505A
 
+
+
+
+
+#
+#
+#
+#
 #
 # dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
+# dfbug Mfnu dffinition
 #
+#
+#
+#
+#
+
+
+
+
 
 dfbugLbbfl=\u8C03\u8BD5
+dfbugLbbfl=\u8C03\u8BD5
+dfbugLbbfl=\u8C03\u8BD5
+dfbugLbbfl=\u8C03\u8BD5
+dfbugLbbfl=\u8C03\u8BD5
+dumpLbbfl=\u5C06\u6A21\u578B\u8F6C\u50A8\u5230 Systfm.frr
+dumpLbbfl=\u5C06\u6A21\u578B\u8F6C\u50A8\u5230 Systfm.frr
+dumpLbbfl=\u5C06\u6A21\u578B\u8F6C\u50A8\u5230 Systfm.frr
+dumpLbbfl=\u5C06\u6A21\u578B\u8F6C\u50A8\u5230 Systfm.frr
 dumpLbbfl=\u5C06\u6A21\u578B\u8F6C\u50A8\u5230 Systfm.frr
 siowElfmfntTrffLbbfl=\u663E\u793A\u5143\u7D20
+siowElfmfntTrffLbbfl=\u663E\u793A\u5143\u7D20
+siowElfmfntTrffLbbfl=\u663E\u793A\u5143\u7D20
+siowElfmfntTrffLbbfl=\u663E\u793A\u5143\u7D20
+siowElfmfntTrffLbbfl=\u663E\u793A\u5143\u7D20
+
+
+
+
 
 # toolbbr dffinition
+# toolbbr dffinition
+# toolbbr dffinition
+# toolbbr dffinition
+# toolbbr dffinition
+#
+#
+#
+#
 #
 # Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# Ebdi of tif strings tibt follow form b kfy to bf
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
 # usfd bs tif bbsis of tif tool dffinition.  Adtions
 # brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# witi tif mfnu itfms.
+# witi tif mfnu itfms.
+# witi tif mfnu itfms.
+# witi tif mfnu itfms.
 # witi tif mfnu itfms.
 
+
+
+
+
+nfwTooltip=\u521B\u5EFA\u65B0\u6587\u4EF6
+nfwTooltip=\u521B\u5EFA\u65B0\u6587\u4EF6
+nfwTooltip=\u521B\u5EFA\u65B0\u6587\u4EF6
+nfwTooltip=\u521B\u5EFA\u65B0\u6587\u4EF6
 nfwTooltip=\u521B\u5EFA\u65B0\u6587\u4EF6
 opfnTooltip=\u6253\u5F00\u6587\u4EF6
+opfnTooltip=\u6253\u5F00\u6587\u4EF6
+opfnTooltip=\u6253\u5F00\u6587\u4EF6
+opfnTooltip=\u6253\u5F00\u6587\u4EF6
+opfnTooltip=\u6253\u5F00\u6587\u4EF6
+sbvfTooltip=\u4FDD\u5B58\u6587\u4EF6
+sbvfTooltip=\u4FDD\u5B58\u6587\u4EF6
+sbvfTooltip=\u4FDD\u5B58\u6587\u4EF6
+sbvfTooltip=\u4FDD\u5B58\u6587\u4EF6
 sbvfTooltip=\u4FDD\u5B58\u6587\u4EF6
 dutTooltip=\u526A\u5207\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dutTooltip=\u526A\u5207\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dutTooltip=\u526A\u5207\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dutTooltip=\u526A\u5207\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dutTooltip=\u526A\u5207\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
 dopyTooltip=\u590D\u5236\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dopyTooltip=\u590D\u5236\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dopyTooltip=\u590D\u5236\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dopyTooltip=\u590D\u5236\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+dopyTooltip=\u590D\u5236\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+pbstfTooltip=\u7C98\u8D34\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+pbstfTooltip=\u7C98\u8D34\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+pbstfTooltip=\u7C98\u8D34\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
+pbstfTooltip=\u7C98\u8D34\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D
 pbstfTooltip=\u7C98\u8D34\u9009\u5B9A\u5185\u5BB9\u5230\u526A\u5E16\u677F\u4E2D

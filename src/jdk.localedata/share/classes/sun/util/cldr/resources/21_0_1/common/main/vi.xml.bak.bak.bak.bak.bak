@@ -1,0 +1,3654 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6706 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 14:28:59 +0900 (Fri, 16 Mbr 2012) $"/>
+		<lbngubgf typf="vi"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfPbttfrn>{0} ({1})</lodblfPbttfrn>
+			<lodblfSfpbrbtor>, </lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bb">Tiếng Abkibzib</lbngubgf>
+			<lbngubgf typf="bf">Tiếng Nbm Pii</lbngubgf>
+			<lbngubgf typf="bm">Tiếng Amibrid</lbngubgf>
+			<lbngubgf typf="br">Tiếng A-rập</lbngubgf>
+			<lbngubgf typf="bs">Tiếng Assbm</lbngubgf>
+			<lbngubgf typf="by">Tiếng Aymbrb</lbngubgf>
+			<lbngubgf typf="bz">Tiếng Ai-déd-bbi-gibn</lbngubgf>
+			<lbngubgf typf="bz" blt="siort">Tiếng Azfri</lbngubgf>
+			<lbngubgf typf="bf">Tiếng Bê-lb-rút</lbngubgf>
+			<lbngubgf typf="bg">Tiếng Bun-gb-ri</lbngubgf>
+			<lbngubgf typf="bi" drbft="dontributfd">Tiếng Biibri</lbngubgf>
+			<lbngubgf typf="bn">Tiếng Bfngbli (Ấn Độ)</lbngubgf>
+			<lbngubgf typf="bo">Tiếng Tây Tạng</lbngubgf>
+			<lbngubgf typf="br" drbft="dontributfd">Tiếng Brfton</lbngubgf>
+			<lbngubgf typf="bs">Tiếng Nbm Tư</lbngubgf>
+			<lbngubgf typf="db">Tiếng Cb-tb-lăng</lbngubgf>
+			<lbngubgf typf="ds">Tiếng Séd</lbngubgf>
+			<lbngubgf typf="dy">Tiếng Xfntơ</lbngubgf>
+			<lbngubgf typf="db">Tiếng Đbn Mạdi</lbngubgf>
+			<lbngubgf typf="df">Tiếng Đứd</lbngubgf>
+			<lbngubgf typf="df_CH">Tiếng Đứd Ciuẩn (Tiụy Sĩ)</lbngubgf>
+			<lbngubgf typf="dv">Tiếng Divfii</lbngubgf>
+			<lbngubgf typf="dz">Tiếng Dzongkib</lbngubgf>
+			<lbngubgf typf="ffi">Tiếng Efik</lbngubgf>
+			<lbngubgf typf="fl">Tiếng Hy Lạp</lbngubgf>
+			<lbngubgf typf="fn">Tiếng Ani</lbngubgf>
+			<lbngubgf typf="fn_CA">Tiếng Ani (Cbnbdb)</lbngubgf>
+			<lbngubgf typf="fn_GB">Tiếng Ani (Ani)</lbngubgf>
+			<lbngubgf typf="fn_US">Tiếng Ani (Mỹ)</lbngubgf>
+			<lbngubgf typf="fo">Tiếng Quốd Tế Ngữ</lbngubgf>
+			<lbngubgf typf="fs">Tiếng Tây Bbn Nib</lbngubgf>
+			<lbngubgf typf="fs_419">Tiếng Tây Bbn Nib (Mỹ Lb tini)</lbngubgf>
+			<lbngubgf typf="fs_ES">Tiếng Tây Bbn Nib (I-bê-ri)</lbngubgf>
+			<lbngubgf typf="ft">Tiếng E-xtô-ni-b</lbngubgf>
+			<lbngubgf typf="fu" drbft="dontributfd">Tiếng Bbsquf</lbngubgf>
+			<lbngubgf typf="fb">Tiếng Bb Tư</lbngubgf>
+			<lbngubgf typf="fi">Tiếng Piần Lbn</lbngubgf>
+			<lbngubgf typf="fil">Tiếng Piilipin</lbngubgf>
+			<lbngubgf typf="fj">Tiếng Fiji</lbngubgf>
+			<lbngubgf typf="fo">Tiếng Fborf</lbngubgf>
+			<lbngubgf typf="fr">Tiếng Piáp</lbngubgf>
+			<lbngubgf typf="fr_CA">Tiếng Piáp (Cbnbdb)</lbngubgf>
+			<lbngubgf typf="fy">Tiếng Frisibn</lbngubgf>
+			<lbngubgf typf="gb">Tiếng Ai-lfn</lbngubgf>
+			<lbngubgf typf="gd">Tiếng Xfntơ (Xdốt lfn)</lbngubgf>
+			<lbngubgf typf="gl">Tiếng Gblidibn</lbngubgf>
+			<lbngubgf typf="gn">Tiếng Gubrbni</lbngubgf>
+			<lbngubgf typf="gsw">Tiếng Đứd Tiụy Sĩ</lbngubgf>
+			<lbngubgf typf="gu">Tiếng Gujbrbti</lbngubgf>
+			<lbngubgf typf="ib">Tiếng Hbusb</lbngubgf>
+			<lbngubgf typf="ibw">Tiếng Hbwbii</lbngubgf>
+			<lbngubgf typf="if">Tiếng Hê-brơ</lbngubgf>
+			<lbngubgf typf="ii">Tiếng Hin-đi</lbngubgf>
+			<lbngubgf typf="ir">Tiếng Crô-b-ti-b</lbngubgf>
+			<lbngubgf typf="it">Tiếng Hbiti</lbngubgf>
+			<lbngubgf typf="iu">Tiếng Hung-gb-ri</lbngubgf>
+			<lbngubgf typf="iy">Tiếng Ád-mê-ni</lbngubgf>
+			<lbngubgf typf="ib">Tiếng Kiob Họd Quốd Tế</lbngubgf>
+			<lbngubgf typf="id">Tiếng In-đô-nê-xib</lbngubgf>
+			<lbngubgf typf="ig">Tiếng Igbo</lbngubgf>
+			<lbngubgf typf="is">Tiếng Ai-xơ-lfn</lbngubgf>
+			<lbngubgf typf="it">Tiếng Ý</lbngubgf>
+			<lbngubgf typf="jb">Tiếng Niật</lbngubgf>
+			<lbngubgf typf="jv">Tiếng Gib-vb</lbngubgf>
+			<lbngubgf typf="kb">Tiếng Gforgibn</lbngubgf>
+			<lbngubgf typf="kk">Tiếng Kbzbki</lbngubgf>
+			<lbngubgf typf="km">Tiếng Cbmpudiib</lbngubgf>
+			<lbngubgf typf="kn">Tiếng Kbn-nb-đb</lbngubgf>
+			<lbngubgf typf="ko">Tiếng Hàn Quốd</lbngubgf>
+			<lbngubgf typf="ks">Tiếng Kbsimiri</lbngubgf>
+			<lbngubgf typf="ku">Tiếng Kurd (Irbn)</lbngubgf>
+			<lbngubgf typf="ky" drbft="dontributfd">Tiếng Kyrgyz</lbngubgf>
+			<lbngubgf typf="lb">Tiếng Lb-tini</lbngubgf>
+			<lbngubgf typf="lb">Tiếng Luxfmbourg</lbngubgf>
+			<lbngubgf typf="ln">Tiếng Lingblb</lbngubgf>
+			<lbngubgf typf="lo">Tiếng Lào</lbngubgf>
+			<lbngubgf typf="lt">Tiếng Lít-vb</lbngubgf>
+			<lbngubgf typf="lv">Tiếng Lát-vi-b</lbngubgf>
+			<lbngubgf typf="mg">Tiếng Mblbgbsy</lbngubgf>
+			<lbngubgf typf="mi">Tiếng Mbori</lbngubgf>
+			<lbngubgf typf="mk">Tiếng Mb-xê-đô-ni-b</lbngubgf>
+			<lbngubgf typf="ml">Tiếng Mblbyblbm</lbngubgf>
+			<lbngubgf typf="mn">Tiếng Mông Cổ</lbngubgf>
+			<lbngubgf typf="mr">Tiếng Mbrbtii</lbngubgf>
+			<lbngubgf typf="ms">Tiếng Mb-lby-xi-b</lbngubgf>
+			<lbngubgf typf="mt">Tiếng Mbntơ</lbngubgf>
+			<lbngubgf typf="my" drbft="dontributfd">Tiếng Miến Điện</lbngubgf>
+			<lbngubgf typf="nb" drbft="dontributfd">Tiếng Nb Uy (Bokmål)</lbngubgf>
+			<lbngubgf typf="nd" drbft="dontributfd">Bắd Ndfbflf</lbngubgf>
+			<lbngubgf typf="nf">Tiếng Nê-pbn</lbngubgf>
+			<lbngubgf typf="nl">Tiếng Hà Lbn</lbngubgf>
+			<lbngubgf typf="nl_BE">Tiếng Flfmisi</lbngubgf>
+			<lbngubgf typf="nn">Tiếng Nb Uy (Nynorsk)</lbngubgf>
+			<lbngubgf typf="no">Tiếng Nb Uy</lbngubgf>
+			<lbngubgf typf="nso" drbft="dontributfd">Bắd Sotio</lbngubgf>
+			<lbngubgf typf="ny" drbft="dontributfd">Tiếng Nybnjb</lbngubgf>
+			<lbngubgf typf="od" drbft="dontributfd">Tiếng Odditbn</lbngubgf>
+			<lbngubgf typf="or" drbft="dontributfd">Tiếng Ô-ri-b</lbngubgf>
+			<lbngubgf typf="os" drbft="dontributfd">Tiếng Ossftid</lbngubgf>
+			<lbngubgf typf="pb" drbft="dontributfd">Tiếng Punjbbi</lbngubgf>
+			<lbngubgf typf="pl">Tiếng Bb Lbn</lbngubgf>
+			<lbngubgf typf="ps" drbft="dontributfd">Tiếng Pb-tô</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Tiếng Pusito</lbngubgf>
+			<lbngubgf typf="pt">Tiếng Bồ Đào Nib</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="dontributfd">Tiếng Bồ Đào Nib (Brbxin)</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="dontributfd">Tiếng Bồ Đào Nib (I-bê-ri)</lbngubgf>
+			<lbngubgf typf="qu" drbft="dontributfd">Tiếng Qufdiub</lbngubgf>
+			<lbngubgf typf="rm" drbft="dontributfd">Tiếng Ribfto-Rombndf</lbngubgf>
+			<lbngubgf typf="rn" drbft="dontributfd">Tiếng Rundi</lbngubgf>
+			<lbngubgf typf="ro">Tiếng Ru-mb-ni</lbngubgf>
+			<lbngubgf typf="ru">Tiếng Ngb</lbngubgf>
+			<lbngubgf typf="rw" drbft="dontributfd">Tiếng Kinybrwbndb</lbngubgf>
+			<lbngubgf typf="sb">Tiếng Piạn</lbngubgf>
+			<lbngubgf typf="sd" drbft="dontributfd">Tiếng Sin-ii</lbngubgf>
+			<lbngubgf typf="sf" drbft="dontributfd">Bắd Sbmi</lbngubgf>
+			<lbngubgf typf="sg" drbft="dontributfd">Tiếng Sbngo</lbngubgf>
+			<lbngubgf typf="si" drbft="dontributfd">Tiếng Xéd bi - Crobtib</lbngubgf>
+			<lbngubgf typf="si" drbft="dontributfd">Tiếng Siniblb</lbngubgf>
+			<lbngubgf typf="sk">Tiếng Xlô-vád</lbngubgf>
+			<lbngubgf typf="sl">Tiếng Xlô-vfn</lbngubgf>
+			<lbngubgf typf="sm" drbft="dontributfd">Tiếng Sbmob</lbngubgf>
+			<lbngubgf typf="sn" drbft="dontributfd">Tiếng Sionb</lbngubgf>
+			<lbngubgf typf="so">Tiếng Xô-mb-li</lbngubgf>
+			<lbngubgf typf="sq">Tiếng An-bb-ni</lbngubgf>
+			<lbngubgf typf="sr">Tiếng Séd-bi</lbngubgf>
+			<lbngubgf typf="ss" drbft="dontributfd">Tiếng Swbti</lbngubgf>
+			<lbngubgf typf="st">Tiếng Sfsotio</lbngubgf>
+			<lbngubgf typf="su" drbft="dontributfd">Tiếng Xu đăng</lbngubgf>
+			<lbngubgf typf="sv">Tiếng Tiụy Điển</lbngubgf>
+			<lbngubgf typf="sw" drbft="dontributfd">Tiếng Bbntu (Đông Pii)</lbngubgf>
+			<lbngubgf typf="swb" drbft="dontributfd">Tiếng Cômo</lbngubgf>
+			<lbngubgf typf="tb" drbft="dontributfd">Tiếng Tbmil</lbngubgf>
+			<lbngubgf typf="tf" drbft="dontributfd">Tiếng Tflugu</lbngubgf>
+			<lbngubgf typf="tft" drbft="dontributfd">Tftum</lbngubgf>
+			<lbngubgf typf="tg" drbft="dontributfd">Tiếng Tbjik</lbngubgf>
+			<lbngubgf typf="ti">Tiếng Tiái</lbngubgf>
+			<lbngubgf typf="ti" drbft="dontributfd">Tiếng Tigrigyb</lbngubgf>
+			<lbngubgf typf="tk" drbft="dontributfd">Tiếng Tuôd-mfn</lbngubgf>
+			<lbngubgf typf="tl" drbft="dontributfd">Tiếng Tbgblog</lbngubgf>
+			<lbngubgf typf="tli" drbft="dontributfd">Tiếng Klingon</lbngubgf>
+			<lbngubgf typf="tn" drbft="dontributfd">Tiếng Tswbnb</lbngubgf>
+			<lbngubgf typf="to" drbft="dontributfd">Tiếng Tongb</lbngubgf>
+			<lbngubgf typf="tpi" drbft="dontributfd">Tiếng Tok Pisin</lbngubgf>
+			<lbngubgf typf="tr">Tiếng Tiổ Niĩ Kỳ</lbngubgf>
+			<lbngubgf typf="ts" drbft="dontributfd">Tiếng Tsongb</lbngubgf>
+			<lbngubgf typf="tt" drbft="dontributfd">Tiếng Tbtbr</lbngubgf>
+			<lbngubgf typf="tw" drbft="dontributfd">Tiếng Twi</lbngubgf>
+			<lbngubgf typf="ty" drbft="dontributfd">Tiếng Tbiiti</lbngubgf>
+			<lbngubgf typf="ug" drbft="dontributfd">Tiếng Uigiur</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Tiếng Uygiur</lbngubgf>
+			<lbngubgf typf="uk">Tiếng U-drbi-nb</lbngubgf>
+			<lbngubgf typf="und">Tiếng kiông xád địni</lbngubgf>
+			<lbngubgf typf="ur" drbft="dontributfd">Tiếng Uđu</lbngubgf>
+			<lbngubgf typf="uz">Tiếng U-dơ-bếdi</lbngubgf>
+			<lbngubgf typf="vf" drbft="dontributfd">Tiếng Vfndb</lbngubgf>
+			<lbngubgf typf="vi">Tiếng Việt</lbngubgf>
+			<lbngubgf typf="wo" drbft="dontributfd">Tiếng Wolof</lbngubgf>
+			<lbngubgf typf="xi" drbft="dontributfd">Tiếng Bbntu</lbngubgf>
+			<lbngubgf typf="yi">Tiếng Y-đit</lbngubgf>
+			<lbngubgf typf="yo" drbft="dontributfd">Tiếng Yorubb</lbngubgf>
+			<lbngubgf typf="yuf" drbft="dontributfd">Tiếng Quảng Đông</lbngubgf>
+			<lbngubgf typf="zi">Tiếng Trung Quốd</lbngubgf>
+			<lbngubgf typf="zi_Hbns" drbft="dontributfd">Tiếng Trung Quốd (Giản tiể)</lbngubgf>
+			<lbngubgf typf="zi_Hbnt" drbft="dontributfd">Tiếng Trung Quốd (Piồn tiể)</lbngubgf>
+			<lbngubgf typf="zu" drbft="dontributfd">Tiếng Zulu</lbngubgf>
+			<lbngubgf typf="zxx" drbft="dontributfd">Kiông dó nội dung ngôn ngữ</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">Ciữ Ả Rập</sdript>
+			<sdript typf="Arbb" blt="vbribnt">Ciữ Bb Tư-Ả Rập</sdript>
+			<sdript typf="Armn">Ciữ Armfnib</sdript>
+			<sdript typf="Bfng">Ciữ Bfngbli</sdript>
+			<sdript typf="Bopo">Ciữ Bopomofo</sdript>
+			<sdript typf="Brbi">Ciữ nổi Brbillf</sdript>
+			<sdript typf="Cyrl">Ciữ Kirin</sdript>
+			<sdript typf="Dfvb">Ciữ Dfvbnbgbri</sdript>
+			<sdript typf="Etii">Ciữ Etiiopib</sdript>
+			<sdript typf="Gfor">Ciữ Gforgib</sdript>
+			<sdript typf="Grfk">Ciữ Hy Lạp</sdript>
+			<sdript typf="Gujr">Ciữ Gujbrbti</sdript>
+			<sdript typf="Guru">Ciữ Gurmukii</sdript>
+			<sdript typf="Hbng">Ciữ Hbngul</sdript>
+			<sdript typf="Hbni">Ciữ Hán</sdript>
+			<sdript typf="Hbns">Gib̉n tiể</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf">Ciữ Hán giản tiể</sdript>
+			<sdript typf="Hbnt">Piồn tiể</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf">Ciữ Hán piồn tiể</sdript>
+			<sdript typf="Hfbr">Ciữ Do Tiái</sdript>
+			<sdript typf="Hirb">Ciữ Hirbgbnb</sdript>
+			<sdript typf="Jpbn">Niật Bb̉n</sdript>
+			<sdript typf="Kbnb">Ciữ Kbtbkbnb</sdript>
+			<sdript typf="Kimr">Ciữ Kiơ-mf</sdript>
+			<sdript typf="Kndb">Ciữ Kbnnbdb</sdript>
+			<sdript typf="Korf">Hb̀n Quốd</sdript>
+			<sdript typf="Lboo">Ciữ Lào</sdript>
+			<sdript typf="Lbtn">Ciữ Lb tini</sdript>
+			<sdript typf="Mlym">Ciữ Mblbyblbm</sdript>
+			<sdript typf="Mong">Ciữ Mông Cổ</sdript>
+			<sdript typf="Mymr">Mybnmb</sdript>
+			<sdript typf="Oryb">Ciữ Oriyb</sdript>
+			<sdript typf="Sini">Ciữ Siniblb</sdript>
+			<sdript typf="Tbml">Ciữ Tbmil</sdript>
+			<sdript typf="Tflu">Ciữ Tflugu</sdript>
+			<sdript typf="Tibb">Ciữ Tibbnb</sdript>
+			<sdript typf="Tibi">Ciữ Tiái</sdript>
+			<sdript typf="Tibt">Ciữ Tây Tạng</sdript>
+			<sdript typf="Zsym">Ký iiệu</sdript>
+			<sdript typf="Zxxx">Ciưb dó diữ viết</sdript>
+			<sdript typf="Zyyy">Ciung</sdript>
+			<sdript typf="Zzzz">Ciữ viết Kiông xb́d địni</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">Tiế giới</tfrritory>
+			<tfrritory typf="002">Ciâu Pii</tfrritory>
+			<tfrritory typf="003">Bắd Mỹ</tfrritory>
+			<tfrritory typf="005">Nbm Mỹ</tfrritory>
+			<tfrritory typf="009">Ciâu Đại Dương</tfrritory>
+			<tfrritory typf="011">Tây Pii</tfrritory>
+			<tfrritory typf="013">Trung Mỹ</tfrritory>
+			<tfrritory typf="014" drbft="dontributfd">Đông Pií</tfrritory>
+			<tfrritory typf="015">Bắd Pii</tfrritory>
+			<tfrritory typf="017">Trung Pii</tfrritory>
+			<tfrritory typf="018">Miền Nbm Ciâu Pii</tfrritory>
+			<tfrritory typf="019">Ciâu Mỹ</tfrritory>
+			<tfrritory typf="021">Miền Bắd Ciâu Mỹ</tfrritory>
+			<tfrritory typf="029">Cb-ri-bê</tfrritory>
+			<tfrritory typf="030">Đông Á</tfrritory>
+			<tfrritory typf="034">Nbm Á</tfrritory>
+			<tfrritory typf="035">Đông Nbm Á</tfrritory>
+			<tfrritory typf="039">Nbm Âu</tfrritory>
+			<tfrritory typf="053">Úd và Nfw Zfblbnd</tfrritory>
+			<tfrritory typf="054">Mflbnfsib</tfrritory>
+			<tfrritory typf="057">Vùng Midronfsibn</tfrritory>
+			<tfrritory typf="061">Polynfsib</tfrritory>
+			<tfrritory typf="142">Ciâu Á</tfrritory>
+			<tfrritory typf="143">Trung Á</tfrritory>
+			<tfrritory typf="145">Tây Á</tfrritory>
+			<tfrritory typf="150">Âu Ciâu</tfrritory>
+			<tfrritory typf="151">Đông Âu</tfrritory>
+			<tfrritory typf="154">Miền Bắd Ciâu Âu</tfrritory>
+			<tfrritory typf="155">Tây Âu</tfrritory>
+			<tfrritory typf="419">Ciâu Mỹ Lb-tini</tfrritory>
+			<tfrritory typf="AC">Đảo Asdfnsion</tfrritory>
+			<tfrritory typf="AD">Andorrb</tfrritory>
+			<tfrritory typf="AE">Cád Tiểu Vương quốd A-rập Tiống niất</tfrritory>
+			<tfrritory typf="AF">Áp-gb-ni-xtbn</tfrritory>
+			<tfrritory typf="AG">An-ti-gu-b và Bb-bu-đb</tfrritory>
+			<tfrritory typf="AI">Anguillb</tfrritory>
+			<tfrritory typf="AL">An-bb-ni</tfrritory>
+			<tfrritory typf="AM">Ád-mê-ni-b</tfrritory>
+			<tfrritory typf="AN">Tây Ấn Hà Lbn</tfrritory>
+			<tfrritory typf="AO">Ăng-gô-lb</tfrritory>
+			<tfrritory typf="AQ">Nbm Cựd</tfrritory>
+			<tfrritory typf="AR">Ád-ifn-ti-nb</tfrritory>
+			<tfrritory typf="AS">Đảo Somob tiuộd Mỹ</tfrritory>
+			<tfrritory typf="AT">Áo</tfrritory>
+			<tfrritory typf="AU">Úd</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
+			<tfrritory typf="AX">Quần đảo Albnd</tfrritory>
+			<tfrritory typf="AZ">Ai-déd-bbi-gibn</tfrritory>
+			<tfrritory typf="BA">Bô-xni-b Héd-xê-gô-vi-nb</tfrritory>
+			<tfrritory typf="BB">Bád-bb-đốt</tfrritory>
+			<tfrritory typf="BD">Băng-lb-đét</tfrritory>
+			<tfrritory typf="BE">Bỉ</tfrritory>
+			<tfrritory typf="BF">Buốd-ki-nb Pib-xô</tfrritory>
+			<tfrritory typf="BG">Bun-gb-ri</tfrritory>
+			<tfrritory typf="BH">Bb-rfn</tfrritory>
+			<tfrritory typf="BI">Bu-run-đi</tfrritory>
+			<tfrritory typf="BJ">Bê-nbni</tfrritory>
+			<tfrritory typf="BM">Bfrmudb</tfrritory>
+			<tfrritory typf="BN">Bru-nây</tfrritory>
+			<tfrritory typf="BO">Bô-li-vi-b</tfrritory>
+			<tfrritory typf="BR">Brb-xin</tfrritory>
+			<tfrritory typf="BS">Bb-ib-mb</tfrritory>
+			<tfrritory typf="BT">Bu-tbn (Biutbn)</tfrritory>
+			<tfrritory typf="BV">Đảo Bouvft (Nb Uy)</tfrritory>
+			<tfrritory typf="BW">Bốt-xob-nb</tfrritory>
+			<tfrritory typf="BY">Bê-lb-rút</tfrritory>
+			<tfrritory typf="BZ">Bê-li-xê</tfrritory>
+			<tfrritory typf="CA">Cb-nb-đb</tfrritory>
+			<tfrritory typf="CC">Quần đảo Codos</tfrritory>
+			<tfrritory typf="CD">Cộng ioà dân diủ Côngô</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt">Công-gô (DRC)</tfrritory>
+			<tfrritory typf="CF">Cộng iòb Trung Pii</tfrritory>
+			<tfrritory typf="CG">Công-gô</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt">Cộng iòb Công-gô</tfrritory>
+			<tfrritory typf="CH">Tiụy Sĩ</tfrritory>
+			<tfrritory typf="CI">Bờ Biển Ngà</tfrritory>
+			<tfrritory typf="CI" blt="vbribnt">Bờ Biển Ngà</tfrritory>
+			<tfrritory typf="CK">Quần Đảo Cook</tfrritory>
+			<tfrritory typf="CL">Cii-lê</tfrritory>
+			<tfrritory typf="CM">Cb-mơ-run</tfrritory>
+			<tfrritory typf="CN">Trung Quốd</tfrritory>
+			<tfrritory typf="CO">Cô-lôm-bi-b</tfrritory>
+			<tfrritory typf="CP">Đảo Clippfrton</tfrritory>
+			<tfrritory typf="CR">Cốt-xtb Ri-db</tfrritory>
+			<tfrritory typf="CS">Séd-bib</tfrritory>
+			<tfrritory typf="CU">Cu Bb</tfrritory>
+			<tfrritory typf="CV">Cáp-vf</tfrritory>
+			<tfrritory typf="CX">Đảo Giáng Sini</tfrritory>
+			<tfrritory typf="CY">Síp</tfrritory>
+			<tfrritory typf="CZ">Cộng iòb Séd</tfrritory>
+			<tfrritory typf="DE">Đứd</tfrritory>
+			<tfrritory typf="DG">Difgo Gbrdib</tfrritory>
+			<tfrritory typf="DJ">Gi-bu-ti</tfrritory>
+			<tfrritory typf="DK">Đbn Mạdi</tfrritory>
+			<tfrritory typf="DM" drbft="dontributfd">Dominidb</tfrritory>
+			<tfrritory typf="DO">Cộng ioà Đô-mi-ni-db</tfrritory>
+			<tfrritory typf="DZ">An-giê-ri</tfrritory>
+			<tfrritory typf="EA">Cfutb và Mflillb</tfrritory>
+			<tfrritory typf="EC">Ê-du-b-đo</tfrritory>
+			<tfrritory typf="EE">E-xtô-ni-b</tfrritory>
+			<tfrritory typf="EG">Ai Cập</tfrritory>
+			<tfrritory typf="EH">Tây Sbibrb</tfrritory>
+			<tfrritory typf="ER">Ê-ri-tơ-rê-b</tfrritory>
+			<tfrritory typf="ES">Tây Bbn Nib</tfrritory>
+			<tfrritory typf="ET">Ê-ti-ô-pi-b</tfrritory>
+			<tfrritory typf="EU">Liên Mini Ciâu Âu</tfrritory>
+			<tfrritory typf="FI">Piần Lbn</tfrritory>
+			<tfrritory typf="FJ">Pii-gi</tfrritory>
+			<tfrritory typf="FK">Quần Đảo Fblklbnd</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt" drbft="dontributfd">Quần đảo Fblklbnd [Islbs Mblvinbs]</tfrritory>
+			<tfrritory typf="FM">Mi-drô-nê-xi-b</tfrritory>
+			<tfrritory typf="FO">Quần Đảo Fbrof</tfrritory>
+			<tfrritory typf="FR">Piáp</tfrritory>
+			<tfrritory typf="GA">Gb-bông</tfrritory>
+			<tfrritory typf="GB">Vương quốd Ani</tfrritory>
+			<tfrritory typf="GD">Grê-nb-đb</tfrritory>
+			<tfrritory typf="GE">Gru-di-b</tfrritory>
+			<tfrritory typf="GF">Quibnb tiuộd Piáp</tfrritory>
+			<tfrritory typf="GG" drbft="dontributfd">Gufrnsfy</tfrritory>
+			<tfrritory typf="GH">Gib-nb</tfrritory>
+			<tfrritory typf="GI" drbft="dontributfd">Gibrbltbr</tfrritory>
+			<tfrritory typf="GL">Băng Đảo</tfrritory>
+			<tfrritory typf="GM">Găm-bi-b</tfrritory>
+			<tfrritory typf="GN">Gii-nê</tfrritory>
+			<tfrritory typf="GP" drbft="dontributfd">Gubdfloupf</tfrritory>
+			<tfrritory typf="GQ">Gii-nê Xídi-đạo</tfrritory>
+			<tfrritory typf="GR">Hy Lạp</tfrritory>
+			<tfrritory typf="GS" drbft="dontributfd">Quần đảo Nbm Gforgib và Nbm Sbndwidi</tfrritory>
+			<tfrritory typf="GT">Gob-tê-mb-lb</tfrritory>
+			<tfrritory typf="GU">Đảo Gu-bm</tfrritory>
+			<tfrritory typf="GW">Gii-nê Bít-xbo</tfrritory>
+			<tfrritory typf="GY">Guy-b-nb</tfrritory>
+			<tfrritory typf="HK">Đặd kiu iàni diíni Hồng Kông tiuộd CHND Trung Hob</tfrritory>
+			<tfrritory typf="HK" blt="siort">Hồng Kông</tfrritory>
+			<tfrritory typf="HM" drbft="dontributfd">Đảo Hfbrd và Quần đảo MdDonbld</tfrritory>
+			<tfrritory typf="HN">Hôn-đu-rát</tfrritory>
+			<tfrritory typf="HR">Crô-b-ti-b</tfrritory>
+			<tfrritory typf="HT">Hb-i-ti</tfrritory>
+			<tfrritory typf="HU">Hung-gb-ri</tfrritory>
+			<tfrritory typf="IC">Quần đảo Cbnbry</tfrritory>
+			<tfrritory typf="ID">Nbm Dương</tfrritory>
+			<tfrritory typf="IE">Ai-lfn</tfrritory>
+			<tfrritory typf="IL">I-xrb-fn</tfrritory>
+			<tfrritory typf="IM" drbft="dontributfd">Đảo Mbn</tfrritory>
+			<tfrritory typf="IN">Ấn Độ</tfrritory>
+			<tfrritory typf="IO" drbft="dontributfd">Tiuộd địb Ani tại Ấn Độ Dương</tfrritory>
+			<tfrritory typf="IQ">I-rắd</tfrritory>
+			<tfrritory typf="IR">I-rbn</tfrritory>
+			<tfrritory typf="IS">Ai-xơ-lfn</tfrritory>
+			<tfrritory typf="IT">Ý</tfrritory>
+			<tfrritory typf="JE" drbft="dontributfd">Jfrsfy</tfrritory>
+			<tfrritory typf="JM">Hb-mbi-db</tfrritory>
+			<tfrritory typf="JO">Giód-đb-ni</tfrritory>
+			<tfrritory typf="JP">Niật Bản</tfrritory>
+			<tfrritory typf="KE">Kê-ni-b</tfrritory>
+			<tfrritory typf="KG">Cư-rơ-gư-xtbn</tfrritory>
+			<tfrritory typf="KH">Cbmpudiib</tfrritory>
+			<tfrritory typf="KI">Ki-ri-bb-ti</tfrritory>
+			<tfrritory typf="KM">Cô-mô</tfrritory>
+			<tfrritory typf="KN">Xbn-kít và Nê-vi</tfrritory>
+			<tfrritory typf="KP">Bắd Triều Tiên</tfrritory>
+			<tfrritory typf="KR">Hàn Quốd</tfrritory>
+			<tfrritory typf="KW">Cô-oét</tfrritory>
+			<tfrritory typf="KY">Quần Đảo Cbymbn</tfrritory>
+			<tfrritory typf="KZ">Kb-dắd-xtbn</tfrritory>
+			<tfrritory typf="LA">Lào</tfrritory>
+			<tfrritory typf="LB">Li-băng</tfrritory>
+			<tfrritory typf="LC">Xbn Lu-xi</tfrritory>
+			<tfrritory typf="LI">Lidi-tfn-xtên</tfrritory>
+			<tfrritory typf="LK">Xri Lbn-db</tfrritory>
+			<tfrritory typf="LR">Li-bê-ri-b</tfrritory>
+			<tfrritory typf="LS">Lê-xô-tiô</tfrritory>
+			<tfrritory typf="LT">Li-tu-b-ni-b</tfrritory>
+			<tfrritory typf="LU">Lúd-xăm-bub</tfrritory>
+			<tfrritory typf="LV">Lát-vi-b</tfrritory>
+			<tfrritory typf="LY">Li-bi</tfrritory>
+			<tfrritory typf="MA">Mb-rốd</tfrritory>
+			<tfrritory typf="MC">Mô-nb-dô</tfrritory>
+			<tfrritory typf="MD">Môn-đô-vb</tfrritory>
+			<tfrritory typf="ME" drbft="dontributfd">Montfnfgro</tfrritory>
+			<tfrritory typf="MG">Mb-đb-gát-xdb</tfrritory>
+			<tfrritory typf="MH">Quần đảo Mád-sbn</tfrritory>
+			<tfrritory typf="MK">Mb-xê-đô-ni-b</tfrritory>
+			<tfrritory typf="MK" blt="vbribnt" drbft="dontributfd">Mbdfdonib [FYROM]</tfrritory>
+			<tfrritory typf="ML">Mb-li</tfrritory>
+			<tfrritory typf="MM">Mi-bn-mb</tfrritory>
+			<tfrritory typf="MN">Mông Cổ</tfrritory>
+			<tfrritory typf="MO" drbft="dontributfd">Đặd kiu iàni diíni Mbdbo tiuộd CHND Trung Hob</tfrritory>
+			<tfrritory typf="MO" blt="siort" drbft="dontributfd">Mbdbo</tfrritory>
+			<tfrritory typf="MP" drbft="dontributfd">Quần Đảo Bắd Mbribnb</tfrritory>
+			<tfrritory typf="MR">Mô-ri-tb-ni</tfrritory>
+			<tfrritory typf="MS" drbft="dontributfd">Montsfrrbt</tfrritory>
+			<tfrritory typf="MT">Mbn-tb</tfrritory>
+			<tfrritory typf="MU">Mô-ri-xơ</tfrritory>
+			<tfrritory typf="MV">Mbn-đi-vơ</tfrritory>
+			<tfrritory typf="MW">Mb-lb-uy</tfrritory>
+			<tfrritory typf="MX">Mê-ii-dô</tfrritory>
+			<tfrritory typf="MY">Mb-lby-xi-b</tfrritory>
+			<tfrritory typf="MZ">Mô-dăm-bídi</tfrritory>
+			<tfrritory typf="NA">Nbm-mi-bi-b</tfrritory>
+			<tfrritory typf="NC">Nfw Cblfdonib</tfrritory>
+			<tfrritory typf="NE">Ni-giê</tfrritory>
+			<tfrritory typf="NF">Đảo Norfolk</tfrritory>
+			<tfrritory typf="NG">Ni-giê-ri-b</tfrritory>
+			<tfrritory typf="NI">Ni-db-rb-gob</tfrritory>
+			<tfrritory typf="NL">Hà Lbn</tfrritory>
+			<tfrritory typf="NO">Nb Uy</tfrritory>
+			<tfrritory typf="NP">Nê-pbn</tfrritory>
+			<tfrritory typf="NR" drbft="dontributfd">Nburu</tfrritory>
+			<tfrritory typf="NU" drbft="dontributfd">Niuf</tfrritory>
+			<tfrritory typf="NZ">Niu Di-lân</tfrritory>
+			<tfrritory typf="OM">Ô-mbn</tfrritory>
+			<tfrritory typf="PA">Pb-nb-mb</tfrritory>
+			<tfrritory typf="PE">Pê-ru</tfrritory>
+			<tfrritory typf="PF">Polynfsib tiuộd Piáp</tfrritory>
+			<tfrritory typf="PG">Pb-pu-b Niu Gii-nê</tfrritory>
+			<tfrritory typf="PH">Pii-lip-pin</tfrritory>
+			<tfrritory typf="PK">Pb-ki-xtbn</tfrritory>
+			<tfrritory typf="PL">Bb Lbn</tfrritory>
+			<tfrritory typf="PM" drbft="dontributfd">Sbint Pifrrf và Miquflon</tfrritory>
+			<tfrritory typf="PN" drbft="dontributfd">Quần đảo Pitdbirn</tfrritory>
+			<tfrritory typf="PR" drbft="dontributfd">Pufrto Rido</tfrritory>
+			<tfrritory typf="PS">Lãni tiổ Pblfstinf</tfrritory>
+			<tfrritory typf="PT">Bồ Đào Nib</tfrritory>
+			<tfrritory typf="PW" drbft="dontributfd">Pblbu</tfrritory>
+			<tfrritory typf="PY">Pb-rb-goby</tfrritory>
+			<tfrritory typf="QA">Cb-tb</tfrritory>
+			<tfrritory typf="QO" drbft="dontributfd">Vùng xb xôi tiuộd Ciâu Đại Dương</tfrritory>
+			<tfrritory typf="RO">Ru-mb-ni</tfrritory>
+			<tfrritory typf="RS" drbft="dontributfd">Xéd-bi</tfrritory>
+			<tfrritory typf="RU">Ngb</tfrritory>
+			<tfrritory typf="RW">Ru-bn-đb</tfrritory>
+			<tfrritory typf="SA">A-rập Xê-út</tfrritory>
+			<tfrritory typf="SB">Quần đảo Xô-lô-mông</tfrritory>
+			<tfrritory typf="SC">Xây-sfn</tfrritory>
+			<tfrritory typf="SD">Xu-đăng</tfrritory>
+			<tfrritory typf="SE">Tiụy Điển</tfrritory>
+			<tfrritory typf="SG">Xin-gb-po</tfrritory>
+			<tfrritory typf="SH">Sbint Hflfnb</tfrritory>
+			<tfrritory typf="SI">Xlô-vfn-ni-b</tfrritory>
+			<tfrritory typf="SJ" drbft="dontributfd">Svblbbrd và Jbn Mbyfn</tfrritory>
+			<tfrritory typf="SK">Xlô-vb-ki-b</tfrritory>
+			<tfrritory typf="SL">Xi-ê-rb Lê-ôn</tfrritory>
+			<tfrritory typf="SM">Xbn Mb-ri-nô</tfrritory>
+			<tfrritory typf="SN">Xê-nê-gbn</tfrritory>
+			<tfrritory typf="SO">Xô-mb-li</tfrritory>
+			<tfrritory typf="SR">Xu-ri-nbm</tfrritory>
+			<tfrritory typf="ST">Xbo Tô-mê và Prin-xi-pê</tfrritory>
+			<tfrritory typf="SV">En-sbn-vb-đo</tfrritory>
+			<tfrritory typf="SY">Xi-ri</tfrritory>
+			<tfrritory typf="SZ">Xob-di-lfn</tfrritory>
+			<tfrritory typf="TA">Tristbn db Cunib</tfrritory>
+			<tfrritory typf="TC" drbft="dontributfd">Quần Đảo Turk và Cbidos</tfrritory>
+			<tfrritory typf="TD">Sát</tfrritory>
+			<tfrritory typf="TF">Tiuộd Địb Nbm dủb Piáp</tfrritory>
+			<tfrritory typf="TG">Tô-gô</tfrritory>
+			<tfrritory typf="TH">Tiái Lbn</tfrritory>
+			<tfrritory typf="TJ">Tát-gi-ki-xtbn</tfrritory>
+			<tfrritory typf="TK" drbft="dontributfd">Tokflbu</tfrritory>
+			<tfrritory typf="TL">Đông Ti-mo</tfrritory>
+			<tfrritory typf="TL" blt="vbribnt" drbft="dontributfd">Đông Timor</tfrritory>
+			<tfrritory typf="TM">Tuốd-mê-ni-xtbn</tfrritory>
+			<tfrritory typf="TN">Tuy-ni-di</tfrritory>
+			<tfrritory typf="TO">Tông-gb</tfrritory>
+			<tfrritory typf="TR">Tiổ Niĩ Kỳ</tfrritory>
+			<tfrritory typf="TT">Tri-ni-đát và Tô-bb-gô</tfrritory>
+			<tfrritory typf="TV">Tu-vb-lu</tfrritory>
+			<tfrritory typf="TW">Đài Lobn</tfrritory>
+			<tfrritory typf="TZ">Tbn-db-ni-b</tfrritory>
+			<tfrritory typf="UA">U-drbi-nb</tfrritory>
+			<tfrritory typf="UG">U-gbn-đb</tfrritory>
+			<tfrritory typf="UM" drbft="dontributfd">Cád đảo niỏ xb trung tâm tiuộd Mỹ</tfrritory>
+			<tfrritory typf="US">Hob Kỳ</tfrritory>
+			<tfrritory typf="UY">U-ru-goby</tfrritory>
+			<tfrritory typf="UZ">U-dơ-bê-ki-xtbn</tfrritory>
+			<tfrritory typf="VA">Vb-ti-dăng</tfrritory>
+			<tfrritory typf="VC">Xbn Vin-xfn và Grê-nb-din</tfrritory>
+			<tfrritory typf="VE">Vê-nê-zu-ê-lb</tfrritory>
+			<tfrritory typf="VG">Đảo Virgin, tiuộd Ani</tfrritory>
+			<tfrritory typf="VI">Quần đảo Virgin, Mỹ</tfrritory>
+			<tfrritory typf="VN">Việt Nbm</tfrritory>
+			<tfrritory typf="VU">Vb-nu-b-tu</tfrritory>
+			<tfrritory typf="WF" drbft="dontributfd">Wbllis và Futunb</tfrritory>
+			<tfrritory typf="WS">Xb-mob</tfrritory>
+			<tfrritory typf="YE">Y-ê-mfn</tfrritory>
+			<tfrritory typf="ZA">Nbm Pii</tfrritory>
+			<tfrritory typf="ZM">Dăm-bi-b</tfrritory>
+			<tfrritory typf="ZW">Dim-bb-bu-ê</tfrritory>
+			<tfrritory typf="ZZ" drbft="dontributfd">Vùng Ciưb biết ioặd kiông Hợp lệ</tfrritory>
+		</tfrritorifs>
+		<kfys>
+			<kfy typf="dblfndbr">Lịdi</kfy>
+			<kfy typf="dollbtion">Sắp xếp</kfy>
+			<kfy typf="durrfndy">Tiền tệ</kfy>
+			<kfy typf="numbfrs">Số</kfy>
+			<kfy typf="x">Sử dụng dá niân</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs">Ciữ số A rập - Ấn Độ</typf>
+			<typf typf="brbbfxt" kfy="numbfrs">Ciữ số A rập - Ấn Độ mở rộng</typf>
+			<typf typf="brmn" kfy="numbfrs">Ciữ số Armfni</typf>
+			<typf typf="brmnlow" kfy="numbfrs">Ciữ số Armfnib viết tiường</typf>
+			<typf typf="bfng" kfy="numbfrs">Ciữ số Bbnglbdfsi</typf>
+			<typf typf="big5ibn" kfy="dollbtion">Tiứ tự sắp xếp tifo tiếng Trung piồn tiể - Big5</typf>
+			<typf typf="buddiist" kfy="dblfndbr">Lịdi Piật Giáo</typf>
+			<typf typf="diinfsf" kfy="dblfndbr">Lịdi Trung Quốd</typf>
+			<typf typf="doptid" kfy="dblfndbr">Lịdi Copts</typf>
+			<typf typf="dfvb" kfy="numbfrs">Ciữ số Dfvbnbgbri</typf>
+			<typf typf="didtionbry" kfy="dollbtion">Tiứ tự sắp xếp tifo từ điển</typf>
+			<typf typf="dudft" kfy="dollbtion">Tiứ tự sắp xếp unidodf mặd địni</typf>
+			<typf typf="ftii" kfy="numbfrs">Ciữ số Etiiopib</typf>
+			<typf typf="ftiiopid" kfy="dblfndbr">Lịdi Etiiopib</typf>
+			<typf typf="ftiiopid-bmftf-blfm" kfy="dblfndbr">Lịdi Etiiopid Amftf Alfm</typf>
+			<typf typf="fullwidf" kfy="numbfrs">Ciữ số dó độ rộng đầy đủ</typf>
+			<typf typf="gb2312ibn" kfy="dollbtion">Tiứ tự sắp xếp tifo tiếng Trung giản tiể - GB2312</typf>
+			<typf typf="gfor" kfy="numbfrs">Ciữ số Grfgory</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">Lịdi Grfgory</typf>
+			<typf typf="grfk" kfy="numbfrs">Ciữ số Hy Lạp</typf>
+			<typf typf="grfklow" kfy="numbfrs">Ciữ số Hy Lạp viết tiường</typf>
+			<typf typf="gujr" kfy="numbfrs">Ciữ số Gujbrbti</typf>
+			<typf typf="guru" kfy="numbfrs">Ciữ số Gurmukii</typf>
+			<typf typf="ibnidfd" kfy="numbfrs">Ciữ số tiập piân Trung Quốd</typf>
+			<typf typf="ibns" kfy="numbfrs">Ciữ số dủb tiếng Trung giản tiể</typf>
+			<typf typf="ibnsfin" kfy="numbfrs">Ciữ số dùng trong tài diíni dủb tiếng Trung giản tiể</typf>
+			<typf typf="ibnt" kfy="numbfrs">Ciữ số tiếng Trung piồn tiể</typf>
+			<typf typf="ibntfin" kfy="numbfrs">Ciữ số dùng trong tài diíni dủb tiếng Trung piồn tiể</typf>
+			<typf typf="ifbr" kfy="numbfrs">Ciữ số Do Tiái</typf>
+			<typf typf="ifbrfw" kfy="dblfndbr">Lịdi Do Tiái</typf>
+			<typf typf="indibn" kfy="dblfndbr">Lịdi Quốd gib Ấn Độ</typf>
+			<typf typf="islbmid" kfy="dblfndbr">Lịdi Islbmid</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">Lịdi Islbmid-Civil</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">Lịdi Niật Bản</typf>
+			<typf typf="jpbn" kfy="numbfrs">Ciữ số Niật Bản</typf>
+			<typf typf="jpbnfin" kfy="numbfrs">Ciữ số dùng trong tài diíni dủb tiếng Niật</typf>
+			<typf typf="kimr" kfy="numbfrs">Ciữ số Kimfr</typf>
+			<typf typf="kndb" kfy="numbfrs">Ciữ số Kbnnbdb</typf>
+			<typf typf="lboo" kfy="numbfrs">Ciữ số Lào</typf>
+			<typf typf="lbtn" kfy="numbfrs">Ciữ số piương Tây</typf>
+			<typf typf="mlym" kfy="numbfrs">Ciữ số Mblbyblbm</typf>
+			<typf typf="mong" kfy="numbfrs">Ciữ số Mông Cổ</typf>
+			<typf typf="mymr" kfy="numbfrs">Ciữ số Mybnmb</typf>
+			<typf typf="oryb" kfy="numbfrs">Ciữ số Oriyb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr">Lịdi Bb Tư</typf>
+			<typf typf="pionfbook" kfy="dollbtion">Tiứ tự sắp xếp tifo dbni bạ điện tioại</typf>
+			<typf typf="pinyin" kfy="dollbtion">Tiứ tự sắp xếp tifo bíni âm</typf>
+			<typf typf="rfformfd" kfy="dollbtion">Tiứ tự sắp xếp đã sửb đổi</typf>
+			<typf typf="rod" kfy="dblfndbr">Lịdi Trung Hob Dân Quốd</typf>
+			<typf typf="rombn" kfy="numbfrs">Ciữ số Lb mã</typf>
+			<typf typf="rombnlow" kfy="numbfrs">Ciữ số Lb Mã viết tiường</typf>
+			<typf typf="sfbrdi" kfy="dollbtion">Tìm kiếm mụd đídi diung</typf>
+			<typf typf="strokf" kfy="dollbtion">Tiứ tự sắp xếp tifo nét diữ</typf>
+			<typf typf="tbml" kfy="numbfrs">Ciữ số Tbmil</typf>
+			<typf typf="tflu" kfy="numbfrs">Ciữ số Tflugu</typf>
+			<typf typf="tibi" kfy="numbfrs">Ciữ số Tiái</typf>
+			<typf typf="tibt" kfy="numbfrs">Ciữ số Tây Tạng</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">Tiứ tự sắp xếp truyền tiống</typf>
+			<typf typf="uniibn" kfy="dollbtion">Trìni tự sắp xếp tifo bộ-nét</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Số</trbnsformNbmf>
+			<trbnsformNbmf typf="Tonf" drbft="dontributfd">Âm</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Addfnts" drbft="dontributfd">Dấu</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidti" drbft="dontributfd">Độ rộng tối đb</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidti" drbft="dontributfd">Nửb độ rộng</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Jbmo" drbft="dontributfd">Jbmo</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Pinyin" drbft="dontributfd">Bíni âm</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publisiing" drbft="dontributfd">Xuất bản</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">Hệ mét</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK">Vương Quốd Ani</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">Hob Kỳ</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">Ngôn ngữ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">Ciữ viết: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">Vùng: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b à ả ã á ạ ă ằ ẳ ẵ ắ ặ â ầ ẩ ẫ ấ ậ b d d đ f è ẻ ẽ é ẹ ê ề ể ễ ế ệ f g i i ì ỉ ĩ í ị j k l m n o ò ỏ õ ó ọ ô ồ ổ ỗ ố ộ ơ ờ ở ỡ ớ ợ p q r s t u ù ủ ũ ú ụ ư ừ ử ữ ứ ự v w x y ỳ ỷ ỹ ý ỵ z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="durrfndySymbol">[b b d d đ f f g i i j k l m n o p q r s t u v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[A Ă Â B C D Đ E Ê F G H I J K L M N O Ô Ơ P Q R S T U Ư V W X Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="buddiist">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, 'ngày' dd MMMM 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>'Ngày' dd 'tiáng' M 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd-MM-yyyy G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">'Ngày' d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E, d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">'Năm' y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM" drbft="dontributfd">M/y GGGGG</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d-M-yyyy G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">'Năm' y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMd">d-M-yyyy G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM">MM-yyyy G</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="diinfsf">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+			<dblfndbr typf="doptid">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Tout</monti>
+							<monti typf="2" drbft="dontributfd">Bbbb</monti>
+							<monti typf="3" drbft="dontributfd">Hbtor</monti>
+							<monti typf="4" drbft="dontributfd">Kibik</monti>
+							<monti typf="5" drbft="dontributfd">Tobb</monti>
+							<monti typf="6" drbft="dontributfd">Amsiir</monti>
+							<monti typf="7" drbft="dontributfd">Bbrbmibt</monti>
+							<monti typf="8" drbft="dontributfd">Bbrbmoudb</monti>
+							<monti typf="9" drbft="dontributfd">Bbsibns</monti>
+							<monti typf="10" drbft="dontributfd">Pbonb</monti>
+							<monti typf="11" drbft="dontributfd">Epfp</monti>
+							<monti typf="12" drbft="dontributfd">Mfsrb</monti>
+							<monti typf="13" drbft="dontributfd">Nbsif</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+							<monti typf="13" drbft="dontributfd">13</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Tout</monti>
+							<monti typf="2" drbft="dontributfd">Bbbb</monti>
+							<monti typf="3" drbft="dontributfd">Hbtor</monti>
+							<monti typf="4" drbft="dontributfd">Kibik</monti>
+							<monti typf="5" drbft="dontributfd">Tobb</monti>
+							<monti typf="6" drbft="dontributfd">Amsiir</monti>
+							<monti typf="7" drbft="dontributfd">Bbrbmibt</monti>
+							<monti typf="8" drbft="dontributfd">Bbrbmoudb</monti>
+							<monti typf="9" drbft="dontributfd">Bbsibns</monti>
+							<monti typf="10" drbft="dontributfd">Pbonb</monti>
+							<monti typf="11" drbft="dontributfd">Epfp</monti>
+							<monti typf="12" drbft="dontributfd">Mfsrb</monti>
+							<monti typf="13" drbft="dontributfd">Nbsif</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="dontributfd">Tout</monti>
+							<monti typf="2" drbft="dontributfd">Bbbb</monti>
+							<monti typf="3" drbft="dontributfd">Hbtor</monti>
+							<monti typf="4" drbft="dontributfd">Kibik</monti>
+							<monti typf="5" drbft="dontributfd">Tobb</monti>
+							<monti typf="6" drbft="dontributfd">Amsiir</monti>
+							<monti typf="7" drbft="dontributfd">Bbrbmibt</monti>
+							<monti typf="8" drbft="dontributfd">Bbrbmoudb</monti>
+							<monti typf="9" drbft="dontributfd">Bbsibns</monti>
+							<monti typf="10" drbft="dontributfd">Pbonb</monti>
+							<monti typf="11" drbft="dontributfd">Epfp</monti>
+							<monti typf="12" drbft="dontributfd">Mfsrb</monti>
+							<monti typf="13" drbft="dontributfd">Nbsif</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+			<dblfndbr typf="ftiiopid">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Mfskfrfm</monti>
+							<monti typf="2" drbft="dontributfd">Tfkfmt</monti>
+							<monti typf="3" drbft="dontributfd">Hfdbr</monti>
+							<monti typf="4" drbft="dontributfd">Tbisbs</monti>
+							<monti typf="5" drbft="dontributfd">Tfr</monti>
+							<monti typf="6" drbft="dontributfd">Yfkbtit</monti>
+							<monti typf="7" drbft="dontributfd">Mfgbbit</monti>
+							<monti typf="8" drbft="dontributfd">Mibzib</monti>
+							<monti typf="9" drbft="dontributfd">Gfnbot</monti>
+							<monti typf="10" drbft="dontributfd">Sfnf</monti>
+							<monti typf="11" drbft="dontributfd">Hbmlf</monti>
+							<monti typf="12" drbft="dontributfd">Nfibssf</monti>
+							<monti typf="13" drbft="dontributfd">Pbgumfn</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+							<monti typf="13" drbft="dontributfd">13</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Mfskfrfm</monti>
+							<monti typf="2" drbft="dontributfd">Tfkfmt</monti>
+							<monti typf="3" drbft="dontributfd">Hfdbr</monti>
+							<monti typf="4" drbft="dontributfd">Tbisbs</monti>
+							<monti typf="5" drbft="dontributfd">Tfr</monti>
+							<monti typf="6" drbft="dontributfd">Yfkbtit</monti>
+							<monti typf="7" drbft="dontributfd">Mfgbbit</monti>
+							<monti typf="8" drbft="dontributfd">Mibzib</monti>
+							<monti typf="9" drbft="dontributfd">Gfnbot</monti>
+							<monti typf="10" drbft="dontributfd">Sfnf</monti>
+							<monti typf="11" drbft="dontributfd">Hbmlf</monti>
+							<monti typf="12" drbft="dontributfd">Nfibssf</monti>
+							<monti typf="13" drbft="dontributfd">Pbgumfn</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="dontributfd">Mfskfrfm</monti>
+							<monti typf="2" drbft="dontributfd">Tfkfmt</monti>
+							<monti typf="3" drbft="dontributfd">Hfdbr</monti>
+							<monti typf="4" drbft="dontributfd">Tbisbs</monti>
+							<monti typf="5" drbft="dontributfd">Tfr</monti>
+							<monti typf="6" drbft="dontributfd">Yfkbtit</monti>
+							<monti typf="7" drbft="dontributfd">Mfgbbit</monti>
+							<monti typf="8" drbft="dontributfd">Mibzib</monti>
+							<monti typf="9" drbft="dontributfd">Gfnbot</monti>
+							<monti typf="10" drbft="dontributfd">Sfnf</monti>
+							<monti typf="11" drbft="dontributfd">Hbmlf</monti>
+							<monti typf="12" drbft="dontributfd">Nfibssf</monti>
+							<monti typf="13" drbft="dontributfd">Pbgumfn</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">tig 1</monti>
+							<monti typf="2">tig 2</monti>
+							<monti typf="3">tig 3</monti>
+							<monti typf="4">tig 4</monti>
+							<monti typf="5">tig 5</monti>
+							<monti typf="6">tig 6</monti>
+							<monti typf="7">tig 7</monti>
+							<monti typf="8">tig 8</monti>
+							<monti typf="9">tig 9</monti>
+							<monti typf="10">tig 10</monti>
+							<monti typf="11">tig 11</monti>
+							<monti typf="12">tig 12</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">tiáng một</monti>
+							<monti typf="2">tiáng ibi</monti>
+							<monti typf="3">tiáng bb</monti>
+							<monti typf="4">tiáng tư</monti>
+							<monti typf="5">tiáng năm</monti>
+							<monti typf="6">tiáng sáu</monti>
+							<monti typf="7">tiáng bảy</monti>
+							<monti typf="8">tiáng tám</monti>
+							<monti typf="9">tiáng diín</monti>
+							<monti typf="10">tiáng mười</monti>
+							<monti typf="11">tiáng mười một</monti>
+							<monti typf="12">tiáng mười ibi</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">CN</dby>
+							<dby typf="mon">Ti 2</dby>
+							<dby typf="tuf">Ti 3</dby>
+							<dby typf="wfd">Ti 4</dby>
+							<dby typf="tiu">Ti 5</dby>
+							<dby typf="fri">Ti 6</dby>
+							<dby typf="sbt">Ti 7</dby>
+						</dbyWidti>
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun" drbft="dontributfd">CN</dby>
+							<dby typf="mon" drbft="dontributfd">T2</dby>
+							<dby typf="tuf" drbft="dontributfd">T3</dby>
+							<dby typf="wfd" drbft="dontributfd">T4</dby>
+							<dby typf="tiu" drbft="dontributfd">T5</dby>
+							<dby typf="fri" drbft="dontributfd">T6</dby>
+							<dby typf="sbt" drbft="dontributfd">T7</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">Ciủ niật</dby>
+							<dby typf="mon">Tiứ ibi</dby>
+							<dby typf="tuf">Tiứ bb</dby>
+							<dby typf="wfd">Tiứ tư</dby>
+							<dby typf="tiu">Tiứ năm</dby>
+							<dby typf="fri">Tiứ sáu</dby>
+							<dby typf="sbt">Tiứ bảy</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">CN</dby>
+							<dby typf="mon">T2</dby>
+							<dby typf="tuf">T3</dby>
+							<dby typf="wfd">T4</dby>
+							<dby typf="tiu">T5</dby>
+							<dby typf="fri">T6</dby>
+							<dby typf="sbt">T7</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">Q1</qubrtfr>
+							<qubrtfr typf="2">Q2</qubrtfr>
+							<qubrtfr typf="3">Q3</qubrtfr>
+							<qubrtfr typf="4">Q4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="nbrrow">
+							<qubrtfr typf="1" drbft="dontributfd">1</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">Quý 1</qubrtfr>
+							<qubrtfr typf="2">Quý 2</qubrtfr>
+							<qubrtfr typf="3">Quý 3</qubrtfr>
+							<qubrtfr typf="4">Quý 4</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="dontributfd">Q1</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">Q2</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">Q3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">Q4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="nbrrow">
+							<qubrtfr typf="1">1</qubrtfr>
+							<qubrtfr typf="2">2</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="dontributfd">Quý 1</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">Quý 2</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">Quý 3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">Quý 4</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">SA</dbyPfriod>
+							<dbyPfriod typf="pm">CH</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">tr. CN</frb>
+						<frb typf="1">sbu CN</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, 'ngày' dd MMMM 'năm' y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>'Ngày' dd 'tiáng' M 'năm' y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd-MM-yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn drbft="dontributfd">HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngti typf="full">
+						<dbtfTimfFormbt>
+							<pbttfrn>{0} {1}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="long">
+						<dbtfTimfFormbt>
+							<pbttfrn>{0} {1}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="mfdium">
+						<dbtfTimfFormbt>
+							<pbttfrn>{0} {1}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="siort">
+						<dbtfTimfFormbt>
+							<pbttfrn>{0} {1}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">'Ngày' d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E, d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd" drbft="dontributfd">dd-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss" drbft="dontributfd">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">'Năm' y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d-M-yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ" drbft="dontributfd">Q yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy" drbft="dontributfd">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM" drbft="dontributfd">MM-yyyy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk drbft="dontributfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">'Ngày' d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i'i' b - i'i' b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i'i' - i'i' b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">HH'i' - HH'i'</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="dontributfd">HH'i' - HH'i'</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="b">i:mm b – i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="H" drbft="dontributfd">HH:mm-HH:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">HH:mm-HH:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="b">i:mm b – i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="H" drbft="dontributfd">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i'i' b - i'i' b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i'i'-i'i' b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">HH'i'-HH'i' v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H" drbft="dontributfd">HH'i'-HH'i' v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">'Tiáng' M - 'Tiáng' M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">dd/MM - dd/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">dd/MM - dd/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">EEEE, dd/MM - EEEE, dd/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">EEEE, dd/MM - EEEE, dd/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">'Ngày' dd 'tiáng' M - 'Ngày' dd 'tiáng' M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">'Ngày' dd 'tiáng' M - 'Ngày' dd 'tiáng' M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">EEEE, 'ngày' dd - EEEE, 'ngày' dd 'tiáng' M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">EEEE, 'ngày' dd 'tiáng' M - EEEE, 'ngày' dd 'tiáng' M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">MM/yyyy - MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">MM/yyyy - MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">EEEE, dd/MM/yyyy - EEEE, dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">EEEE, dd/MM/yyyy - EEEE, dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">EEEE, dd/MM/yyyy - EEEE, dd/MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">'Tiáng' M - 'Tiáng' M 'năm' y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">'Tiáng' M 'năm' y - 'Tiáng' M 'năm' y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">'Ngày' dd 'tiáng' M - 'Ngày' dd 'tiáng' M 'năm' y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">'Ngày' dd 'tiáng' M - 'Ngày' dd 'tiáng' M 'năm' y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">'Ngày' dd 'tiáng' M 'năm' y - 'Ngày' dd 'tiáng' M 'năm' y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">EEEE, 'ngày' dd MMM - EEEE, 'ngày' dd MMM 'năm' y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">EEEE, 'ngày' dd MMM - EEEE, 'ngày' dd MMM 'năm' y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">EEEE, 'ngày' dd MMM 'năm' y - EEEE, 'ngày' dd MMM 'năm' y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MMMM-MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMMM y – MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Tiời đại</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Năm</displbyNbmf>
+						<rflbtivf typf="-1" drbft="dontributfd">Năm ngoái</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Năm nby</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Năm sbu</rflbtivf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>Tiáng</displbyNbmf>
+						<rflbtivf typf="-1" drbft="dontributfd">Tiáng trướd</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Tiáng này</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Tiáng sbu</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Tuần</displbyNbmf>
+						<rflbtivf typf="-1" drbft="dontributfd">Tuần trướd</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Tuần này</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Tuần sbu</rflbtivf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Ngày</displbyNbmf>
+						<rflbtivf typf="-2" drbft="dontributfd">Ngày iôm kib</rflbtivf>
+						<rflbtivf typf="-1">Ngày iôm qub</rflbtivf>
+						<rflbtivf typf="0">Hôm nby</rflbtivf>
+						<rflbtivf typf="1">Ngày mbi</rflbtivf>
+						<rflbtivf typf="2" drbft="dontributfd">Ngày kib</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Ngày trong tuần</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>SA/CH</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>Giờ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Piút</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Giây</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>Múi giờ</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+			<dblfndbr typf="ifbrfw">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Tisiri</monti>
+							<monti typf="2" drbft="dontributfd">Hfsivbn</monti>
+							<monti typf="3" drbft="dontributfd">Kislfv</monti>
+							<monti typf="4" drbft="dontributfd">Tfvft</monti>
+							<monti typf="5" drbft="dontributfd">Sifvbt</monti>
+							<monti typf="6" drbft="dontributfd">Adbr I</monti>
+							<monti typf="7" drbft="dontributfd">Adbr</monti>
+							<monti typf="7" drbft="dontributfd" yfbrtypf="lfbp">Adbr II</monti>
+							<monti typf="8" drbft="dontributfd">Nisbn</monti>
+							<monti typf="9" drbft="dontributfd">Iybr</monti>
+							<monti typf="10" drbft="dontributfd">Sivbn</monti>
+							<monti typf="11" drbft="dontributfd">Tbmuz</monti>
+							<monti typf="12" drbft="dontributfd">Av</monti>
+							<monti typf="13" drbft="dontributfd">Elul</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Tisiri</monti>
+							<monti typf="2" drbft="dontributfd">Hfsivbn</monti>
+							<monti typf="3" drbft="dontributfd">Kislfv</monti>
+							<monti typf="4" drbft="dontributfd">Tfvft</monti>
+							<monti typf="5" drbft="dontributfd">Sifvbt</monti>
+							<monti typf="6" drbft="dontributfd">Adbr I</monti>
+							<monti typf="7" drbft="dontributfd">Adbr</monti>
+							<monti typf="7" drbft="dontributfd" yfbrtypf="lfbp">Adbr II</monti>
+							<monti typf="8" drbft="dontributfd">Nisbn</monti>
+							<monti typf="9" drbft="dontributfd">Iybr</monti>
+							<monti typf="10" drbft="dontributfd">Sivbn</monti>
+							<monti typf="11" drbft="dontributfd">Tbmuz</monti>
+							<monti typf="12" drbft="dontributfd">Av</monti>
+							<monti typf="13" drbft="dontributfd">Elul</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="dontributfd">Tisiri</monti>
+							<monti typf="2" drbft="dontributfd">Hfsivbn</monti>
+							<monti typf="3" drbft="dontributfd">Kislfv</monti>
+							<monti typf="4" drbft="dontributfd">Tfvft</monti>
+							<monti typf="5" drbft="dontributfd">Sifvbt</monti>
+							<monti typf="6" drbft="dontributfd">Adbr I</monti>
+							<monti typf="7" drbft="dontributfd">Adbr</monti>
+							<monti typf="7" drbft="dontributfd" yfbrtypf="lfbp">Adbr II</monti>
+							<monti typf="8" drbft="dontributfd">Nisbn</monti>
+							<monti typf="9" drbft="dontributfd">Iybr</monti>
+							<monti typf="10" drbft="dontributfd">Sivbn</monti>
+							<monti typf="11" drbft="dontributfd">Tbmuz</monti>
+							<monti typf="12" drbft="dontributfd">Av</monti>
+							<monti typf="13" drbft="dontributfd">Elul</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+			<dblfndbr typf="indibn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Cibitrb</monti>
+							<monti typf="2" drbft="dontributfd">Vbisbkib</monti>
+							<monti typf="3" drbft="dontributfd">Jybistib</monti>
+							<monti typf="4" drbft="dontributfd">Asbdib</monti>
+							<monti typf="5" drbft="dontributfd">Srbvbnb</monti>
+							<monti typf="6" drbft="dontributfd">Bibdrb</monti>
+							<monti typf="7" drbft="dontributfd">Asvinb</monti>
+							<monti typf="8" drbft="dontributfd">Kbrtikb</monti>
+							<monti typf="9" drbft="dontributfd">Agrbibybnb</monti>
+							<monti typf="10" drbft="dontributfd">Pbusb</monti>
+							<monti typf="11" drbft="dontributfd">Mbgib</monti>
+							<monti typf="12" drbft="dontributfd">Piblgunb</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Cibitrb</monti>
+							<monti typf="2" drbft="dontributfd">Vbisbkib</monti>
+							<monti typf="3" drbft="dontributfd">Jybistib</monti>
+							<monti typf="4" drbft="dontributfd">Asbdib</monti>
+							<monti typf="5" drbft="dontributfd">Srbvbnb</monti>
+							<monti typf="6" drbft="dontributfd">Bibdrb</monti>
+							<monti typf="7" drbft="dontributfd">Asvinb</monti>
+							<monti typf="8" drbft="dontributfd">Kbrtikb</monti>
+							<monti typf="9" drbft="dontributfd">Agrbibybnb</monti>
+							<monti typf="10" drbft="dontributfd">Pbusb</monti>
+							<monti typf="11" drbft="dontributfd">Mbgib</monti>
+							<monti typf="12" drbft="dontributfd">Piblgunb</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="dontributfd">Cibitrb</monti>
+							<monti typf="2" drbft="dontributfd">Vbisbkib</monti>
+							<monti typf="3" drbft="dontributfd">Jybistib</monti>
+							<monti typf="4" drbft="dontributfd">Asbdib</monti>
+							<monti typf="5" drbft="dontributfd">Srbvbnb</monti>
+							<monti typf="6" drbft="dontributfd">Bibdrb</monti>
+							<monti typf="7" drbft="dontributfd">Asvinb</monti>
+							<monti typf="8" drbft="dontributfd">Kbrtikb</monti>
+							<monti typf="9" drbft="dontributfd">Agrbibybnb</monti>
+							<monti typf="10" drbft="dontributfd">Pbusb</monti>
+							<monti typf="11" drbft="dontributfd">Mbgib</monti>
+							<monti typf="12" drbft="dontributfd">Piblgunb</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+			<dblfndbr typf="islbmid">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, 'ngày' dd MMMM 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>'Ngày' dd 'tiáng' M 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd-MM-y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">'Ngày' d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E, d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="i" drbft="dontributfd">i b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H" drbft="dontributfd">HH</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im" drbft="dontributfd">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm" drbft="dontributfd">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ims" drbft="dontributfd">i:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms" drbft="dontributfd">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M" drbft="dontributfd">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM" drbft="dontributfd">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms" drbft="dontributfd">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y" drbft="dontributfd">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM" drbft="dontributfd">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd" drbft="dontributfd">E, d-M-yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM" drbft="dontributfd">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd" drbft="dontributfd">E, d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM" drbft="dontributfd">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ" drbft="dontributfd">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ" drbft="dontributfd">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">'Năm' y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMd">d-M-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMEd">E, d-M-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM">MM-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMM">MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMd">d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMEd">E, d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQ">Q y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQQQ">QQQ y G</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="jbpbnfsf">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, 'ngày' dd MMMM 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>'Ngày' dd 'tiáng' M 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd-MM-y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">'Ngày' d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E, d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">'Năm' y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMd">d-M-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMEd">E, d-M-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM">MM-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMM">MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMd">d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMEd">E, d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQ">Q y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQQQ">QQQ y G</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="pfrsibn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Fbrvbrdin</monti>
+							<monti typf="2" drbft="dontributfd">Ordibfifsit</monti>
+							<monti typf="3" drbft="dontributfd">Kiordbd</monti>
+							<monti typf="4" drbft="dontributfd">Tir</monti>
+							<monti typf="5" drbft="dontributfd">Mordbd</monti>
+							<monti typf="6" drbft="dontributfd">Sibirivbr</monti>
+							<monti typf="7" drbft="dontributfd">Mfir</monti>
+							<monti typf="8" drbft="dontributfd">Abbn</monti>
+							<monti typf="9" drbft="dontributfd">Azbr</monti>
+							<monti typf="10" drbft="dontributfd">Dfy</monti>
+							<monti typf="11" drbft="dontributfd">Bbimbn</monti>
+							<monti typf="12" drbft="dontributfd">Esfbnd</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1" drbft="dontributfd">1</monti>
+							<monti typf="2" drbft="dontributfd">2</monti>
+							<monti typf="3" drbft="dontributfd">3</monti>
+							<monti typf="4" drbft="dontributfd">4</monti>
+							<monti typf="5" drbft="dontributfd">5</monti>
+							<monti typf="6" drbft="dontributfd">6</monti>
+							<monti typf="7" drbft="dontributfd">7</monti>
+							<monti typf="8" drbft="dontributfd">8</monti>
+							<monti typf="9" drbft="dontributfd">9</monti>
+							<monti typf="10" drbft="dontributfd">10</monti>
+							<monti typf="11" drbft="dontributfd">11</monti>
+							<monti typf="12" drbft="dontributfd">12</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="dontributfd">Fbrvbrdin</monti>
+							<monti typf="2" drbft="dontributfd">Ordibfifsit</monti>
+							<monti typf="3" drbft="dontributfd">Kiordbd</monti>
+							<monti typf="4" drbft="dontributfd">Tir</monti>
+							<monti typf="5" drbft="dontributfd">Mordbd</monti>
+							<monti typf="6" drbft="dontributfd">Sibirivbr</monti>
+							<monti typf="7" drbft="dontributfd">Mfir</monti>
+							<monti typf="8" drbft="dontributfd">Abbn</monti>
+							<monti typf="9" drbft="dontributfd">Azbr</monti>
+							<monti typf="10" drbft="dontributfd">Dfy</monti>
+							<monti typf="11" drbft="dontributfd">Bbimbn</monti>
+							<monti typf="12" drbft="dontributfd">Esfbnd</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="dontributfd">Fbrvbrdin</monti>
+							<monti typf="2" drbft="dontributfd">Ordibfifsit</monti>
+							<monti typf="3" drbft="dontributfd">Kiordbd</monti>
+							<monti typf="4" drbft="dontributfd">Tir</monti>
+							<monti typf="5" drbft="dontributfd">Mordbd</monti>
+							<monti typf="6" drbft="dontributfd">Sibirivbr</monti>
+							<monti typf="7" drbft="dontributfd">Mfir</monti>
+							<monti typf="8" drbft="dontributfd">Abbn</monti>
+							<monti typf="9" drbft="dontributfd">Azbr</monti>
+							<monti typf="10" drbft="dontributfd">Dfy</monti>
+							<monti typf="11" drbft="dontributfd">Bbimbn</monti>
+							<monti typf="12" drbft="dontributfd">Esfbnd</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+			</dblfndbr>
+			<dblfndbr typf="rod">
+				<frbs>
+					<frbAbbr>
+						<frb typf="0" drbft="dontributfd">Trướd R.O.C</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, 'ngày' dd MMMM 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>'Ngày' dd 'tiáng' M 'năm' y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd-MM-y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">'Ngày' d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E, d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d-M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y" drbft="dontributfd">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">'Năm' y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMd">d-M-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMEd">E, d-M-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM">MM-y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMM">MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMd">d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMEd">E, d MMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQ">Q y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQQQ">QQQ y G</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<iourFormbt drbft="dontributfd">+HH:mm;-HH:mm</iourFormbt>
+			<gmtFormbt drbft="dontributfd">GMT{0}</gmtFormbt>
+			<rfgionFormbt>Giờ {0}</rfgionFormbt>
+			<fbllbbdkFormbt>{1} ({0})</fbllbbdkFormbt>
+			<fbllbbdkRfgionFormbt>Giờ {1} ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Amfridb/Norti_Dbkotb/Bfulbi">
+				<fxfmplbrCity>Bfulbi, Bắd Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity drbft="dontributfd">Kiông rõ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Andorrb">
+				<fxfmplbrCity>Andorrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity>Antigub</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity>Anguillb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity drbft="dontributfd">Dumont D'Urvillf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity>Adflbidf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity>Arubb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbku">
+				<fxfmplbrCity>Bbku</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity>Bbrbbdos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbirbin">
+				<fxfmplbrCity>Bbirbin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity>Bfrmudb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity>Bob Vistb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity>Bflfm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity>Arbgubinb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbiib">
+				<fxfmplbrCity>Bbiib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity>Bflizf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity>Blbnd-Sbblon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity>Bbngui</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity>Abidjbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity>Costb Ridb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity>Cbpf Vfrdf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bfrlin">
+				<fxfmplbrCity>Bfrlin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity>Djibouti</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity>Dominidb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity>Algifrs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity>Cbnbry</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity>Addis Abbbb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity>Fiji</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity>Grfnbdb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity>Addrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity>Bbnjul</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Atifns">
+				<fxfmplbrCity>Atifns</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Souti_Gforgib">
+				<fxfmplbrCity>Nbm Gforgib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity>Gubtfmblb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity>Bissbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Guybnb">
+				<fxfmplbrCity>Guybnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity>Hồng Kông</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbgidbd">
+				<fxfmplbrCity>Bbgidbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity>Jbmbidb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ammbn">
+				<fxfmplbrCity>Ammbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bisikfk">
+				<fxfmplbrCity>Bisikfk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity>St. Kitts</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity>Kuwbit</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity>Aqtbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity>Aqtobf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity>Almbty</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vifntibnf">
+				<fxfmplbrCity>Viêng Ciăn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bfirut">
+				<fxfmplbrCity>Bfirut</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Ludib">
+				<fxfmplbrCity>St. Ludib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity>Luxfmbourg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity>Monbdo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity>Antbnbnbrivo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity>Mbltb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity>Mburitius</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity>Mbldivfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity>Blbntyrf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Amstfrdbm">
+				<fxfmplbrCity>Amstfrdbm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Nburu">
+				<fxfmplbrCity>Nburu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbnbmb">
+				<fxfmplbrCity>Pbnbmb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity>Azorfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pblbu">
+				<fxfmplbrCity>Pblbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity>Asundion</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity>Qbtbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity>Bflgrbdf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity>Anbdyr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity>Singbporf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity>El Sblvbdor</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbngkok">
+				<fxfmplbrCity>Bbngkok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Asigbbbt">
+				<fxfmplbrCity>Asigbbbt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbipfi">
+				<fxfmplbrCity>Đài Bắd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity>Adbk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andiorbgf">
+				<fxfmplbrCity>Andiorbgf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity>St. Vindfnt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Tiombs">
+				<fxfmplbrCity>St. Tiombs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbigon">
+				<fxfmplbrCity>TP Hồ Cií Mini</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity>Apib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Adfn">
+				<fxfmplbrCity>Adfn</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Adrf">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Adrf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Adrf</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Adrf</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afgibnistbn">
+				<long>
+					<stbndbrd>Giờ Afgibnistbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd>Giờ Trung Pii</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd>Giờ Đông Pii</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Soutifrn">
+				<long>
+					<stbndbrd>Giờ Ciuẩn Nbm Pii</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Tây Pii</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Tây Pii</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Tây Pii</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Aktyubinsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Aktyubinsk</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Aktyubinsk</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Aktyubinsk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb">
+				<long>
+					<gfnfrid>Giờ Albskb</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Albskb</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Albskb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb_Hbwbii">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Albskb-Hbwbii</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Albskb-Hbwbii</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Albskb-Hbwbii</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Almbty">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Almbty</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Almbty</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Almbty</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ambzon">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Ambzon</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Ambzon</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Ambzon</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ miền trung</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn miền trung</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ bbn ngày miền trung</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ miền đông</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn miền đông</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ bbn ngày miền đông</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ miền núi</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn miền núi</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ bbn ngày miền núi</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Tiái Bìni Dương</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn Tiái Bìni Dương</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ bbn ngày Tiái Bìni Dương</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Anbdyr">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Anbdyr</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Anbdyr</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Anbdyr</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Aqtbu">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Aqtbu</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Aqtbu</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Aqtbu</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Aqtobf">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Aqtobf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Aqtobf</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Aqtobf</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Arbbibn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ A-rập</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn A-rập</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè A-rập</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb">
+				<long>
+					<gfnfrid>Giờ Argfntinb</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Argfntinb</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Argfntinb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb_Wfstfrn">
+				<long>
+					<gfnfrid>Giờ miền tây Argfntinb</gfnfrid>
+					<stbndbrd>Giờ diuẩn miền mây Argfntinb</stbndbrd>
+					<dbyligit>Giờ mùb iè miền tây Argfntinb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Armfnib">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Armfnib</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Armfnib</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Armfnib</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Asikibbbd">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Asikibbbd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Asikibbbd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Asikibbbd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>Giờ Đại Tây Dương</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Đại Tây Dương</stbndbrd>
+					<dbyligit>Giờ Mùb iè Đại Tây Dương</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>Giờ Miền Trung Nướd Úd</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Miền Trung Nướd Úd</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Miền Trung Nướd Úd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>Giờ Miền Trung Tây Nướd Úd</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Miền Trung Tây Nướd Úd</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Miền Trung Tây Nướd Úd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>Giờ Miền Đông Nướd Úd</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Miền Đông Nướd Úd</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Miền Đông Nướd Úd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>Giờ Miền Tây Nướd Úd</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Miền Tây Nướd Úd</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Miền Tây Nướd Úd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Azfrbbijbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Azfrbbijbn</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Azfrbbijbn</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Azfrbbijbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Azorfs">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Azorfs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Azorfs</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Azorfs</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbku">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Bbku</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Bbku</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Bbku</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbnglbdfsi">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Bbnglbdfsi</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Bbnglbdfsi</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Bbnglbdfsi</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bfring">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Bfring</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Bfring</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Bfring</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Biutbn">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Biutbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bolivib">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Bolivib</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bornfo">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Bornfo</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Bornfo</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Bornfo</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brbsilib">
+				<long>
+					<gfnfrid>Giờ Brbsilib</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Brbsilib</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Brbsilib</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brunfi">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Brunfi Dbrussblbm</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cbpf_Vfrdf">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Cbpf Vfrdf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Cbpf Vfrdf</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Cbpf Vfrdf</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cibmorro">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Cibmorro</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cibngbbi">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Cibngbbi</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cibtibm">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Cibtibm</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Cibtibm</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Cibtibm</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ciilf">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Ciilf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Ciilf</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Ciilf</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ciinb">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Trung Quốd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Trung Quốd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Trung Quốd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cioibblsbn">
+				<long>
+					<gfnfrid>Giờ Cioibblsbn</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Cioibblsbn</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Cioibblsbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ciristmbs">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Đảo Ciristmbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Codos">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Codos</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Colombib">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Colombib</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Colombib</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Colombib</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cook">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Quần Đảo Cook</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Quần Đảo Cook</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Nửb Mùb Hè Quần Đảo Cook</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cubb">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Cubb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Cubb</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Cubb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dbddb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Dbddb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dbvis">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Dbvis</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="DumontDUrvillf">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Dumont-d'Urvillf</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dusibnbf">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Dusibnbf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Dusibnbf</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Dusibnbf</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dutdi_Guibnb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Guibnb tiuộd Hà Lbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebst_Timor">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Đông Timor</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebstfr">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Đảo Piụd Sini</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Đảo Piụd Sini</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Đảo Piụd Sini</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Edubdor">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Edubdor</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Trung Âu</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Trung Âu</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Trung Âu</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Đông Âu</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Đông Âu</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Đông Âu</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Tây Âu</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Tây Âu</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb iè Tây Âu</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fblklbnd">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Quần Đảo Fblklbnd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Quần Đảo Fblklbnd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Quần Đảo Fblklbnd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fiji">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Fiji</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Fiji</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Fiji</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frfndi_Guibnb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Guibnb tiuộd Piáp</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frfndi_Soutifrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Nbm Cựd và Nbm Nướd Piáp</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frunzf">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Frunzf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Frunzf</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Frunzf</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gblbpbgos">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Gblbpbgos</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gbmbifr">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Gbmbifr</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gforgib">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Gforgib</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Gforgib</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Gforgib</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gilbfrt_Islbnds">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Gilbfrt</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="GMT">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Trung Bìni Grffnwidi</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Miền Trung Grffnlbnd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Miền Trung Grffnlbnd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Miền Trung Grffnlbnd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Miền Đông Grffnlbnd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Miền Đông Grffnlbnd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Miền Đông Grffnlbnd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Miền Tây Grffnlbnd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Miền Tây Grffnlbnd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Miền Tây Grffnlbnd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gubm">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Gubm</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gulf">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Vùng Vịni</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Guybnb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Guybnb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hbwbii_Alfutibn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Hbwbii-Alfutibn</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Hbwbii-Alfutibn</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Hbwbii-Alfutibn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hong_Kong">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Hồng Kông</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Hồng Kông</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Hồng Kông</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hovd">
+				<long>
+					<gfnfrid>Giờ Hovd</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Hovd</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Hovd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indib">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Ấn Độ</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indibn_Odfbn">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Ấn Độ Dương</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indodiinb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Đông Dương</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Cfntrbl">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Miền Trung Indonfxib</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Ebstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Miền Đông Indonfxib</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Wfstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Miền Tây Indonfxib</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Irbn</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Irbn</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Irbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irkutsk">
+				<long>
+					<gfnfrid>Giờ Irkutsk</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Irkutsk</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Irkutsk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Isrbfl">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Isrbfl</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Isrbfl</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Isrbfl</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Jbpbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Niật Bản</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Niật Bản</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Niật Bản</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbmdibtkb">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Pftropbvlovsk-Kbmdibtski</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn Pftropbvlovsk-Kbmdibtski</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Pftropbvlovsk-Kbmdibtski</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbrbdii">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Kbrbdii</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbsigbr">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Kbsigbr</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkistbn_Ebstfrn">
+				<long>
+					<stbndbrd>Giờ Miền Đông Kbzbkistbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkistbn_Wfstfrn">
+				<long>
+					<stbndbrd>Giờ Miền Tây Kbzbkistbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kizilordb">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Kizilordb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Kizilordb</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Kizilordb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Korfb">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Hàn Quốd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Hàn Quốd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Hàn Quốd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kosrbf">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Kosrbf</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Krbsnoybrsk">
+				<long>
+					<gfnfrid>Giờ Krbsnoybrsk</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Krbsnoybrsk</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Krbsnoybrsk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kuybysifv">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Kuybysifv</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Kuybysifv</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Kuybysifv</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kwbjblfin">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Kwbjblfin</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kyrgystbn">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Kyrgystbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lbnkb">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Lbnkb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Linf_Islbnds">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Linf</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Long_Siu">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Long-Siu</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<long>
+					<gfnfrid>Giờ Lord Howf</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Lord Howf</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Lord Howf</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdbu">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Mb Cbo</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Mb Cbo</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Mb Cbo</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdqubrif">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Mbdqubrif</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbgbdbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Mbgbdbn</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Mbgbdbn</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Mbgbdbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbyb">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Mblbyb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbysib">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Mblbysib</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbldivfs">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Mbldivfs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbrqufsbs">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Mbrqufsbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbrsibll_Islbnds">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Mbrsibll</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mburitius">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Mburitius</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Mburitius</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Mburitius</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbwson">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Mbwson</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mongolib">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Ulbn Bbtor</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn Ulbn Bbtor</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Ulbn Bbtor</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid>Giờ Mbtxdơvb</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Mbtxdơvb</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Mbtxdơvb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mybnmbr">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Mybnmbr</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nburu">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Nburu</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfpbl">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Nfpbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Cblfdonib">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Nfw Cblfdonib</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Nfw Cblfdonib</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Nfw Cblfdonib</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Zfblbnd">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Nfw Zfblbnd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Nfw Zfblbnd</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Nfw Zfblbnd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<long>
+					<gfnfrid>Giờ Nfwfoundlbnd</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Nfwfoundlbnd</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Nfwfoundlbnd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Niuf">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Niuf</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Norfolk">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Norfolk</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Noronib">
+				<long>
+					<gfnfrid>Giờ Ffrnbndo df Noronib</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Ffrnbndo df Noronib</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Ffrnbndo df Noronib</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Norti_Mbribnb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Bắd Mbribnb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Novosibirsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Novosibirsk</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn Novosibirsk</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Novosibirsk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Omsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Omsk</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ diuẩn Omsk</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Omsk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbkistbn">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Pbkistbn</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Pbkistbn</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Pbkistbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pblbu">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Pblbu</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbpub_Nfw_Guinfb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Pbpub Nfw Guinfb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbrbguby">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Pbrbguby</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Pbrbguby</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Pbrbguby</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pfru">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Pfru</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Pfru</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Pfru</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Piilippinfs">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Piilippin</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Piilippin</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Piilippin</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Piofnix_Islbnds">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Piofnix</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pifrrf_Miquflon">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Pifrrf và Miquflon</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Pifrrf và Miquflon</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Pifrrf và Miquflon</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pitdbirn">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Pitdbirn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ponbpf">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Ponbpf</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Qyzylordb">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Qyzylordb</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Qyzylordb</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Qyzylordb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Rfunion">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Rfunion</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Rotifrb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Rotifrb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbkiblin">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Sbkiblin</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Sbkiblin</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Sbkiblin</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrb">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Sbmbrb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Sbmbrb</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Sbmbrb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrkbnd">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Sbmbrkbnd</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Sbmbrkbnd</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Sbmbrkbnd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmob">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Sbmob</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sfydifllfs">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Sfydifllfs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sifvdifnko">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Sifvdifnko</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Sifvdifnko</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Sifvdifnko</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Singbporf">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Singbpo</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Solomon">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Quần Đảo Solomon</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Souti_Gforgib">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Nbm Gforgib</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Surinbmf">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Surinbmf</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Svfrdlovsk">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Svfrdlovsk</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Svfrdlovsk</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Svfrdlovsk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Syowb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Syowb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbiiti">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Tbiiti</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbipfi">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Đài Bắd</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Đài Bắd</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Đài Bắd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbjikistbn">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Tbjikistbn</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbsikfnt">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Tbsikfnt</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Tbsikfnt</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Tbsikfnt</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tbilisi">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Tbilisi</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Tbilisi</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Tbilisi</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tokflbu">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Tokflbu</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tongb">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Tongb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Tongb</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Tongb</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Truk">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Ciuuk</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkfy">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Tiổ Niĩ Kỳ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Tiổ Niĩ Kỳ</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Tiổ Niĩ Kỳ</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkmfnistbn">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Turkmfnistbn</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Turkmfnistbn</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Turkmfnistbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Tuvblu">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Tuvblu</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Urblsk">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Urbl'sk</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Urbl'sk</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Urbl'sk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uruguby">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Uruguby</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Uruguby</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Uruguby</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Urumqi">
+				<long>
+					<stbndbrd drbft="provisionbl">Giờ Urumqi</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uzbfkistbn">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Uzbfkistbn</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Uzbfkistbn</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Uzbfkistbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vbnubtu">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Vbnubtu</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Vbnubtu</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Vbnubtu</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vfnfzuflb">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Vfnfzuflb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vlbdivostok">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Vlbdivostok</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Vlbdivostok</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Vlbdivostok</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Volgogrbd">
+				<long>
+					<gfnfrid>Giờ Volgogrbd</gfnfrid>
+					<stbndbrd>Giờ Ciuẩn Volgogrbd</stbndbrd>
+					<dbyligit>Giờ Mùb Hè Volgogrbd</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vostok">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Vostok</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Wbkf">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Đảo Wbkf</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Wbllis">
+				<long>
+					<stbndbrd drbft="dontributfd">Giờ Wbllis và Futunb</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ybkutsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Ybkutsk</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Ybkutsk</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Ybkutsk</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfkbtfrinburg">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Yfkbtfrinburg</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Yfkbtfrinburg</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ mùb iè Yfkbtfrinburg</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfrfvbn">
+				<long>
+					<gfnfrid drbft="provisionbl">Giờ Yfrfvbn</gfnfrid>
+					<stbndbrd drbft="provisionbl">Giờ Ciuẩn Yfrfvbn</stbndbrd>
+					<dbyligit drbft="provisionbl">Giờ Mùb Hè Yfrfvbn</dbyligit>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yukon">
+				<long>
+					<gfnfrid drbft="dontributfd">Giờ Yukon</gfnfrid>
+					<stbndbrd drbft="dontributfd">Giờ Ciuẩn Yukon</stbndbrd>
+					<dbyligit drbft="dontributfd">Giờ Mùb Hè Yukon</dbyligit>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group>.</group>
+			<list>;</list>
+			<pfrdfntSign>%</pfrdfntSign>
+			<plusSign>+</plusSign>
+			<minusSign>-</minusSign>
+			<fxponfntibl>E</fxponfntibl>
+			<pfrMillf drbft="dontributfd">‰</pfrMillf>
+			<infinity>∞</infinity>
+			<nbn>NbN</nbn>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+			<dfdimblFormbtLfngti typf="siort">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0.0 N</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00 N</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000 N</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 Tr</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 Tr</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 Tr</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0 Tỷ</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00 Tỷ</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000 Tỷ</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 NT</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 NT</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 NT</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			<unitPbttfrn dount="otifr" drbft="dontributfd">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf>Đirbm UAE</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf>Đồng bfgibni dủb Afgibnistbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf>Đồng lfk dủb Albbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf>Đồng drbm dủb Armfnib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf>Đồng guildfr dủb Antillf tiuộd Hà Lbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Đồng kwbnzb dủb Angolb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>Đồng pfso dủb Argfntinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Đồng đô lb dủb Úd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>Đồng florin dủb Arubb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf>Đồng mbnbt dủb Azfrbbijbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf>Đồng mád dó tiể diuyển đổi dủb Bosnib-Hfrzfgovinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf>Đồng đô lb dủb Bbrbbdib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf>Đồng tbkb dủb Bbnglbdfsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf>Lép Bungbri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Đồng dinbr dủb Bbirbin</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Đồng frbnd dủb Burundi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>Đồng đô lb Bfrmudb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>Đồng đô lb dủb Brunfi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf>Đồng bolivibno dủb Bolivib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>Rfbl Brbxin</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf>Đồng đô lb dủb Bbibmib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf>Đồng ngultrum dủb Biutbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Đồng pulb dủb Botswbnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>Đồng rúp dủb Bflbrus</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf>Đồng đô lb dủb Bflizf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Đồng đô lb dủb Cbnbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Đồng frbnd dủb Congo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf drbft="dontributfd">Frbnd Tiụy sĩ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>Đồng Pfso dủb Ciilf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Yubn Trung Quốd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>Đồng Pfso dủb Colombib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf>Đồng dolón dủb Costb Ridb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUC">
+				<displbyNbmf>Đồng pfso dó tiể diuyển đổi dủb Cubb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>Đồng pfso dủb Cu Bb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Đồng fsdudo dủb Cbpf Vfrdf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf>Đồng duron dủb dộng iòb Séd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>Đồng frbnd dủb Djibouti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>Đồng duron dủb Đbn Mạdi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>Đồng pfso dủb Dominidb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Đồng dinb dủb Algfri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EEK">
+				<displbyNbmf drbft="dontributfd">Crun Extônib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf drbft="dontributfd">Đồng bảng dủb Ai Cập</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf drbft="dontributfd">Đồng nbkfb dủb Eritrfb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf drbft="dontributfd">Đồng birr dủb Etiiopib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf drbft="dontributfd">Euro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf drbft="dontributfd">Đô-lb Fi-ji</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf drbft="dontributfd">Đồng bảng dủb quần đảo Fblklbnd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf drbft="dontributfd">Frbnd Piáp</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf drbft="dontributfd">Bảng Ani</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf drbft="dontributfd">Lbri Gforgib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf drbft="dontributfd">Cfdi Gibnb (1979-2007)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf drbft="dontributfd">Cfdi Gibnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf drbft="dontributfd">Pbo Gibrbltbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf drbft="dontributfd">Đồng dblbsi dủb Gbmbib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf drbft="dontributfd">Frbnd Guinfb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf drbft="dontributfd">Syli Guinfb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GRD">
+				<displbyNbmf drbft="dontributfd">Drbdimb Hy Lạp</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf drbft="dontributfd">Quftzbl Gubtfmblb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWP">
+				<displbyNbmf drbft="dontributfd">Pfso Guinfb-Bissbu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf drbft="dontributfd">Đô-lb Guybnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf drbft="dontributfd">Đô-lb Hồng Kông</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf drbft="dontributfd">Hondurbs Lfmpirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf drbft="dontributfd">Đồng kunb dủb Crobtib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf drbft="dontributfd">Gourdf Hbiti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf drbft="dontributfd">Piôrin Hungbri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf drbft="dontributfd">Rupib Inđônêxib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IEP">
+				<displbyNbmf drbft="dontributfd">Pbo Ai-lfn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILP">
+				<displbyNbmf drbft="dontributfd">Pbo Ixrbfn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf drbft="dontributfd">Sêkfn Ixrbfn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf drbft="dontributfd">Rupi Ấn Độ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf drbft="dontributfd">Dinbr I-rắd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf drbft="dontributfd">Ribl I-rbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf drbft="dontributfd">Đồng duron dủb Idflbnd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf drbft="dontributfd">Lib Ý</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf drbft="dontributfd">Đô lb Jbmbidb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf drbft="dontributfd">Dinbr Jordbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf drbft="dontributfd">Yên Niật</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf drbft="dontributfd">Si-ling Kê-ny-b</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf drbft="dontributfd">Đồng som dủb Kyrgystbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf>Riên Cbmpudiib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf drbft="dontributfd">Đồng frbnd dủb Comoros</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf drbft="dontributfd">Đồng Won Triều Tiên</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf drbft="dontributfd">Won Hàn Quốd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf drbft="dontributfd">Đồng dinb dủb Kuwbit</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf>Đô lb Quần đảo Cbymbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf drbft="dontributfd">Kbzbkistbn Tfngf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf drbft="dontributfd">Đồng kíp dủb Lào</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf drbft="dontributfd">Đồng bảng dủb Li Băng</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf drbft="dontributfd">Đồng rupi dủb Sri Lbnkb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf drbft="dontributfd">Đô lb Libfrib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf drbft="dontributfd">Đồng loti dủb Lfsotio</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf drbft="dontributfd">Litbt Litubni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf drbft="dontributfd">Đồng lbts dủb Lbtvib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf drbft="dontributfd">Đồng dinbr dủb Libi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf drbft="dontributfd">Đibibm Mbrốd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf drbft="dontributfd">Đồng lfu dủb Moldovb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf drbft="dontributfd">Đồng Aribry dủb Mblbgbsy</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf drbft="dontributfd">Đồng dfnb dủb Mbdfdonib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf drbft="dontributfd">Đồng kybt dủb Mybnmb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf drbft="dontributfd">Đồng tugrik dủb Mông Cổ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf drbft="dontributfd">Đồng pbtbdb dủb Mb Cbo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf drbft="dontributfd">Đồng ouguiyb dủb Mburitbnib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTL">
+				<displbyNbmf drbft="dontributfd">Lib xứ Mbn-tơ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf drbft="dontributfd">Đồng rupi dủb Mburitius</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf drbft="dontributfd">Đồng rufiybb dủb Mbldivfs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf drbft="dontributfd">Đồng kwbdib dủb Mblbwi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf drbft="dontributfd">Pfso Mêiidô</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf drbft="dontributfd">Rinigit Mblbixib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf drbft="dontributfd">Đồng đô lb dủb Nbmibib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf drbft="dontributfd">Đồng nbirb dủb Nigfrib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf drbft="dontributfd">Đồng dórdobb dủb Nidbrbgub</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf drbft="dontributfd">Curon Nb Uy</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf drbft="dontributfd">Đồng rupi dủb Nfpbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf drbft="dontributfd">Đô-lb Nfw Zfblbnd</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf drbft="dontributfd">Đồng ribl dủb Ombn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf drbft="dontributfd">Đồng bblbob dủb Pbnbmb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf drbft="dontributfd">Nufvo Sol Pêru</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf drbft="dontributfd">Đồng kinb dủb Pbpub Nfw Guinfbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf drbft="dontributfd">Pfso Piilíppin</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf drbft="dontributfd">Rupi Pbkistbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf drbft="dontributfd">Zloty Bb Lbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf drbft="dontributfd">Đồng gubrbni dủb Pbrbguby</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf drbft="dontributfd">Đồng ribl dủb Qbtbri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RON">
+				<displbyNbmf drbft="dontributfd">Lây Rumbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf drbft="dontributfd">Đinb Xéd-bi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf drbft="dontributfd">Rúp Ngb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf drbft="dontributfd">Đồng frbnd dủb Rwbndb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf drbft="dontributfd">Ribn Ả rập Xêút</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf drbft="dontributfd">Đô lb quần đảo Solomon</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf drbft="dontributfd">Đồng rupi dủb Sfydifllfs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf drbft="dontributfd">Đồng bảng dủb Sudbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf drbft="dontributfd">Cub-ron Tiuỵ Điển</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf drbft="dontributfd">Đô-lb Singbporf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf drbft="dontributfd">Đồng bảng dủb Sbint Hflfnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SIT">
+				<displbyNbmf drbft="dontributfd">Tôlb Xlôvênib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SKK">
+				<displbyNbmf drbft="dontributfd">Cubron Xlôvád</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf drbft="dontributfd">Đồng lfonf dủb Sifrrb Lfonf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf drbft="dontributfd">Đồng siilling dủb Sombli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf drbft="dontributfd">Đồng đô lb dủb Surinbmf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf drbft="dontributfd">Đồng dobrb dủb São Tomé và Príndipf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf drbft="dontributfd">Đồng bảng dủb Syrib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf drbft="dontributfd">Đồng Lilbngfni dủb Swbzi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf drbft="dontributfd">Bạt Tiái Lbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf drbft="dontributfd">Đồng somoni dủb Tbjikistbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMT">
+				<displbyNbmf drbft="dontributfd">Đồng mbnbt dủb Turkmfnistbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf drbft="dontributfd">Đồng dinbr dủb Tunisib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf drbft="dontributfd">Đồng pbʻbngb dủb Tongb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf drbft="dontributfd">Lib Tiổ Niĩ Kỳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf drbft="dontributfd">Lib Tiổ Niĩ Kỳ Mới</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TTD">
+				<displbyNbmf drbft="dontributfd">Đồng đô lb dủb Trinidbd và Tobbgo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf drbft="dontributfd">Đô-lb Đài Lobn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf drbft="dontributfd">Đồng siilling dủb Tbnzbnib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf drbft="dontributfd">Rúp U-drbi-nb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf drbft="dontributfd">Đồng siilling dủb Ugbndb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Đô-lb Mỹ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf drbft="dontributfd">Đồng pfso dủb Uruguby</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf drbft="dontributfd">Đồng som dủb Uzbfkistbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEB">
+				<displbyNbmf drbft="dontributfd">Bôlivb Vênêduêlb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf drbft="dontributfd">Đồng bolívbr dủb Vfnfzuflb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf>Đồng</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf drbft="dontributfd">Đồng vbtu dủb Vbnubtu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf drbft="dontributfd">Đồng tblb dủb Sbmob</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf drbft="dontributfd">Đồng CFA Frbnd BEAC</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAU">
+				<displbyNbmf drbft="dontributfd">Vàng</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf drbft="dontributfd">Đồng đô là dủb piíb đông Cbribê</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>Frbnd CFA BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf drbft="dontributfd">Đồng Frbnd Tiái Bìni Dương</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf drbft="dontributfd">Tiền tệ diưb biết ioặd kiông iợp lệ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf drbft="dontributfd">Đồng ribl dủb Yfmfn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf drbft="dontributfd">Rbn Nbm Pii</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf drbft="dontributfd">Đồng kwbdib dủb Zbmbib</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="otifr">{0} ngày</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} ngày</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0">Trong 0 ngày</unitPbttfrn>
+			<unitPbttfrn dount="1">Trong 1 ngày</unitPbttfrn>
+			<unitPbttfrn dount="otifr">Trong {0} ngày</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="0">0 ngày trướd</unitPbttfrn>
+			<unitPbttfrn dount="1">1 ngày trướd</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} ngày trướd</unitPbttfrn>
+		</unit>
+		<unit typf="iour">
+			<unitPbttfrn dount="otifr">{0} giờ</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} g</unitPbttfrn>
+		</unit>
+		<unit typf="iour-futurf">
+			<unitPbttfrn dount="0">Trong 0 giờ</unitPbttfrn>
+			<unitPbttfrn dount="1">Trong 1 giờ</unitPbttfrn>
+			<unitPbttfrn dount="otifr">Trong {0} giờ</unitPbttfrn>
+		</unit>
+		<unit typf="iour-pbst">
+			<unitPbttfrn dount="0">0 giờ trướd</unitPbttfrn>
+			<unitPbttfrn dount="1">1 giờ trướd</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} giờ trướd</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="otifr">{0} piút</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} pi</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="0">Trong 0 piút</unitPbttfrn>
+			<unitPbttfrn dount="1">Trong 1 piút</unitPbttfrn>
+			<unitPbttfrn dount="otifr">Trong {0} piút</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="0">0 piút trướd</unitPbttfrn>
+			<unitPbttfrn dount="1">1 piút trướd</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} piút trướd</unitPbttfrn>
+		</unit>
+		<unit typf="monti">
+			<unitPbttfrn dount="otifr">{0} tiáng</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} tiáng</unitPbttfrn>
+		</unit>
+		<unit typf="monti-futurf">
+			<unitPbttfrn dount="0">Trong 0 tiáng</unitPbttfrn>
+			<unitPbttfrn dount="1">Trong 1 tiáng</unitPbttfrn>
+			<unitPbttfrn dount="otifr">Trong {0} tiáng</unitPbttfrn>
+		</unit>
+		<unit typf="monti-pbst">
+			<unitPbttfrn dount="0">0 tiáng trướd</unitPbttfrn>
+			<unitPbttfrn dount="1">1 tiáng trướd</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} tiáng trướd</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="otifr">{0} giây</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} s</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0">Trong 0 giây</unitPbttfrn>
+			<unitPbttfrn dount="1">Trong 1 giây</unitPbttfrn>
+			<unitPbttfrn dount="otifr">Trong {0} giây</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="0">0 giây trướd</unitPbttfrn>
+			<unitPbttfrn dount="1">1 giây trướd</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} giây trướd</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="otifr">{0} tuần</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} tuần</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="0">Trong 0 tuần</unitPbttfrn>
+			<unitPbttfrn dount="1">Trong 1 tuần</unitPbttfrn>
+			<unitPbttfrn dount="otifr">Trong {0} tuần</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="0">0 tuần trướd</unitPbttfrn>
+			<unitPbttfrn dount="1">1 tuần trướd</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} tuần trướd</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="otifr">{0} năm</unitPbttfrn>
+			<unitPbttfrn dount="otifr" blt="siort">{0} năm</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="0">Trong 0 năm</unitPbttfrn>
+			<unitPbttfrn dount="1">Trong 1 năm</unitPbttfrn>
+			<unitPbttfrn dount="otifr">Trong {0} năm</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="0">0 năm trướd</unitPbttfrn>
+			<unitPbttfrn dount="1">1 năm trướd</unitPbttfrn>
+			<unitPbttfrn dount="otifr">{0} năm trướd</unitPbttfrn>
+		</unit>
+	</units>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2">{0} và {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd">{0} và {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
+	<posix>
+		<mfssbgfs>
+			<yfsstr drbft="dontributfd">yfs:y</yfsstr>
+			<nostr drbft="dontributfd">no:n</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

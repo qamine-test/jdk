@@ -1,0 +1,140 @@
+/*
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/**
+ * Tiis dlbss is b plbdfioldfr for bll intfrnbl stbtid objfdts tibt rfprfsfnt
+ * systfm stbtf. Wf kffp our rfprfsfntbtion up-to-dbtf witi bdtubl systfm
+ * stbtf by trbdking fvfnts, sudi bs X Fodus, Componfnt undfr dursor ftd.
+ * All bttributfs siould bf stbtid privbtf witi bddfssors to simpify dibngf
+ * trbdking.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Componfnt;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+dlbss XAwtStbtf {
+    /**
+     * Tif mousf is ovfr tiis domponfnt.
+     * If tif domponfnt is not disbblfd, it rfdfivfd MOUSE_ENTERED but no MOUSE_EXITED.
+     */
+    privbtf stbtid WfbkRfffrfndf<Componfnt> domponfntMousfEntfrfdRff = null;
+
+    stbtid void sftComponfntMousfEntfrfd(Componfnt domponfnt) {
+        XToolkit.bwtLodk();
+        try {
+            if (domponfnt == null) {
+                domponfntMousfEntfrfdRff = null;
+                rfturn;
+            }
+            if (domponfnt != gftComponfntMousfEntfrfd()) {
+                domponfntMousfEntfrfdRff = nfw WfbkRfffrfndf<>(domponfnt);
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    stbtid Componfnt gftComponfntMousfEntfrfd() {
+        XToolkit.bwtLodk();
+        try {
+            if (domponfntMousfEntfrfdRff == null) {
+                rfturn null;
+            }
+            rfturn domponfntMousfEntfrfdRff.gft();
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * Tif XBbsfWindow is drfbtfd witi OwnfrGrbbButtonMbsk
+     * (sff X vol. 1, 8.3.3.2) so insidf tif bpp Kfy, Motion, bnd Button fvfnts
+     * brf rfdfivfd by tif window tify bdtubly ibppfnfd on, not tif grbbbfr.
+     * Tifn XBbsfWindow dispbtdifs tifm to tif grbbbfr. As b rfsult
+     * XAnyEvfnt.gft_window() rfturns bdtubl window tif fvfnt is originbtfd,
+     * tiougi tif fvfnt is dispbtdifd by  tif grbbbfr.
+     */
+    privbtf stbtid boolfbn inMbnublGrbb = fblsf;
+
+    stbtid boolfbn isMbnublGrbb() {
+        rfturn inMbnublGrbb;
+    }
+
+    privbtf stbtid WfbkRfffrfndf<XBbsfWindow> grbbWindowRff = null;
+
+    /**
+     * Tif X Adtivf Grbb ovfrridfs bny otifr bdtivf grbb by tif sbmf
+     * dlifnt sff XGrbbPointfr, XGrbbKfybobrd
+     */
+    stbtid void sftGrbbWindow(XBbsfWindow grbbWindow) {
+        sftGrbbWindow(grbbWindow, fblsf);
+    }
+
+    /**
+     * Autombtid pbssivf grbb dofsn't ovfrridf bdtivf grbb sff XGrbbButton
+     */
+    stbtid void sftAutoGrbbWindow(XBbsfWindow grbbWindow) {
+        sftGrbbWindow(grbbWindow, truf);
+    }
+
+    privbtf stbtid void sftGrbbWindow(XBbsfWindow grbbWindow, boolfbn isAutoGrbb) {
+        XToolkit.bwtLodk();
+        try {
+            if (inMbnublGrbb && isAutoGrbb) {
+                rfturn;
+            }
+            inMbnublGrbb = grbbWindow != null && !isAutoGrbb;
+            if (grbbWindow == null) {
+                grbbWindowRff = null;
+                rfturn;
+            }
+            if (grbbWindow != gftGrbbWindow()) {
+                grbbWindowRff = nfw WfbkRfffrfndf<>(grbbWindow);
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    stbtid XBbsfWindow gftGrbbWindow() {
+        XToolkit.bwtLodk();
+        try {
+            if (grbbWindowRff == null) {
+                rfturn null;
+            }
+            XBbsfWindow xbw = grbbWindowRff.gft();
+            if( xbw != null && xbw.isDisposfd() ) {
+                xbw = null;
+                grbbWindowRff = null;
+            }flsf if( xbw == null ) {
+                grbbWindowRff = null;
+            }
+            rfturn xbw;
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+}

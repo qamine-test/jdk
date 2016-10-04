@@ -1,395 +1,1975 @@
 /*
- * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 /*
+/*
+/*
+/*
+/*
+ * FUNCTION
+ * FUNCTION
+ * FUNCTION
+ * FUNCTION
  * FUNCTION
  *      mlib_ImbgfLookUp - tbblf lookup
+ *      mlib_ImbgfLookUp - tbblf lookup
+ *      mlib_ImbgfLookUp - tbblf lookup
+ *      mlib_ImbgfLookUp - tbblf lookup
+ *      mlib_ImbgfLookUp - tbblf lookup
+ *
+ *
+ *
+ *
  *
  * SYNOPSIS
+ * SYNOPSIS
+ * SYNOPSIS
+ * SYNOPSIS
+ * SYNOPSIS
+ *      mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+ *      mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+ *      mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+ *      mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
  *      mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
  *                                   donst mlib_imbgf *srd,
+ *                                   donst mlib_imbgf *srd,
+ *                                   donst mlib_imbgf *srd,
+ *                                   donst mlib_imbgf *srd,
+ *                                   donst mlib_imbgf *srd,
+ *                                   void             **tbblf)
+ *                                   void             **tbblf)
+ *                                   void             **tbblf)
+ *                                   void             **tbblf)
  *                                   void             **tbblf)
  *
+ *
+ *
+ *
+ *
+ * ARGUMENT
+ * ARGUMENT
+ * ARGUMENT
+ * ARGUMENT
  * ARGUMENT
  *      dst      Pointfr to dfstinbtion imbgf.
+ *      dst      Pointfr to dfstinbtion imbgf.
+ *      dst      Pointfr to dfstinbtion imbgf.
+ *      dst      Pointfr to dfstinbtion imbgf.
+ *      dst      Pointfr to dfstinbtion imbgf.
+ *      srd      Pointfr to sourdf imbgf.
+ *      srd      Pointfr to sourdf imbgf.
+ *      srd      Pointfr to sourdf imbgf.
+ *      srd      Pointfr to sourdf imbgf.
  *      srd      Pointfr to sourdf imbgf.
  *      tbblf    Lookup tbblf.
+ *      tbblf    Lookup tbblf.
+ *      tbblf    Lookup tbblf.
+ *      tbblf    Lookup tbblf.
+ *      tbblf    Lookup tbblf.
+ *
+ *
+ *
+ *
  *
  * DESCRIPTION
- *      Thf mlib_ImbgfLookUp fundtion pfrforms gfnfrbl tbblf lookup on bn
- *      imbgf. Thf dfstinbtion imbgf is obtbinfd by pbssing b sourdf imbgf
- *      through b lookup tbblf.
+ * DESCRIPTION
+ * DESCRIPTION
+ * DESCRIPTION
+ * DESCRIPTION
+ *      Tif mlib_ImbgfLookUp fundtion pfrforms gfnfrbl tbblf lookup on bn
+ *      Tif mlib_ImbgfLookUp fundtion pfrforms gfnfrbl tbblf lookup on bn
+ *      Tif mlib_ImbgfLookUp fundtion pfrforms gfnfrbl tbblf lookup on bn
+ *      Tif mlib_ImbgfLookUp fundtion pfrforms gfnfrbl tbblf lookup on bn
+ *      Tif mlib_ImbgfLookUp fundtion pfrforms gfnfrbl tbblf lookup on bn
+ *      imbgf. Tif dfstinbtion imbgf is obtbinfd by pbssing b sourdf imbgf
+ *      imbgf. Tif dfstinbtion imbgf is obtbinfd by pbssing b sourdf imbgf
+ *      imbgf. Tif dfstinbtion imbgf is obtbinfd by pbssing b sourdf imbgf
+ *      imbgf. Tif dfstinbtion imbgf is obtbinfd by pbssing b sourdf imbgf
+ *      imbgf. Tif dfstinbtion imbgf is obtbinfd by pbssing b sourdf imbgf
+ *      tirougi b lookup tbblf.
+ *      tirougi b lookup tbblf.
+ *      tirougi b lookup tbblf.
+ *      tirougi b lookup tbblf.
+ *      tirougi b lookup tbblf.
  *
- *      Thf sourdf imbgf mby bf 1-, 2-, 3-, or 4-dhbnnflfd of dbtb typfs
- *      MLIB_BIT, MLIB_BYTE, MLIB_SHORT, or MLIB_INT. Thf lookup tbblf mby bf
- *      1-, 2-, 3-, or 4-dhbnnflfd of dbtb typfs MLIB_BYTE, MLIB_SHORT, MLIB_INT,
- *      MLIB_FLOAT, or MLIB_DOUBLE. Thf dfstinbtion imbgf must hbvf thf sbmf
- *      numbfr of dhbnnfls bs fithfr sourdf imbgf or thf lookup tbblf,
- *      whidhfvfr is grfbtfr, bnd thf sbmf dbtb typf bs thf lookup tbblf.
  *
- *      It is thf usfr's rfsponsibility to mbkf surf thbt thf lookup tbblf
- *      supplifd is suitbblf for thf sourdf imbgf. Spfdifidblly, thf tbblf
- *      fntrifs dovfr thf fntirf rbngf of sourdf dbtb. Othfrwisf, thf rfsult
- *      of this fundtion is undffinfd.
  *
- *      Thf pixfl vblufs of thf dfstinbtion imbgf brf dffinfd bs thf following:
  *
- *      If thf sourdf imbgf is singlf-dhbnnflfd bnd thf dfstinbtion imbgf is
- *      multi-dhbnnflfd, thfn thf lookup tbblf hbs thf sbmf numbfr of dhbnnfls
- *      bs thf dfstinbtion imbgf:
+ *
+ *      Tif sourdf imbgf mby bf 1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs
+ *      Tif sourdf imbgf mby bf 1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs
+ *      Tif sourdf imbgf mby bf 1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs
+ *      Tif sourdf imbgf mby bf 1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs
+ *      Tif sourdf imbgf mby bf 1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs
+ *      MLIB_BIT, MLIB_BYTE, MLIB_SHORT, or MLIB_INT. Tif lookup tbblf mby bf
+ *      MLIB_BIT, MLIB_BYTE, MLIB_SHORT, or MLIB_INT. Tif lookup tbblf mby bf
+ *      MLIB_BIT, MLIB_BYTE, MLIB_SHORT, or MLIB_INT. Tif lookup tbblf mby bf
+ *      MLIB_BIT, MLIB_BYTE, MLIB_SHORT, or MLIB_INT. Tif lookup tbblf mby bf
+ *      MLIB_BIT, MLIB_BYTE, MLIB_SHORT, or MLIB_INT. Tif lookup tbblf mby bf
+ *      1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs MLIB_BYTE, MLIB_SHORT, MLIB_INT,
+ *      1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs MLIB_BYTE, MLIB_SHORT, MLIB_INT,
+ *      1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs MLIB_BYTE, MLIB_SHORT, MLIB_INT,
+ *      1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs MLIB_BYTE, MLIB_SHORT, MLIB_INT,
+ *      1-, 2-, 3-, or 4-dibnnflfd of dbtb typfs MLIB_BYTE, MLIB_SHORT, MLIB_INT,
+ *      MLIB_FLOAT, or MLIB_DOUBLE. Tif dfstinbtion imbgf must ibvf tif sbmf
+ *      MLIB_FLOAT, or MLIB_DOUBLE. Tif dfstinbtion imbgf must ibvf tif sbmf
+ *      MLIB_FLOAT, or MLIB_DOUBLE. Tif dfstinbtion imbgf must ibvf tif sbmf
+ *      MLIB_FLOAT, or MLIB_DOUBLE. Tif dfstinbtion imbgf must ibvf tif sbmf
+ *      MLIB_FLOAT, or MLIB_DOUBLE. Tif dfstinbtion imbgf must ibvf tif sbmf
+ *      numbfr of dibnnfls bs fitifr sourdf imbgf or tif lookup tbblf,
+ *      numbfr of dibnnfls bs fitifr sourdf imbgf or tif lookup tbblf,
+ *      numbfr of dibnnfls bs fitifr sourdf imbgf or tif lookup tbblf,
+ *      numbfr of dibnnfls bs fitifr sourdf imbgf or tif lookup tbblf,
+ *      numbfr of dibnnfls bs fitifr sourdf imbgf or tif lookup tbblf,
+ *      wiidifvfr is grfbtfr, bnd tif sbmf dbtb typf bs tif lookup tbblf.
+ *      wiidifvfr is grfbtfr, bnd tif sbmf dbtb typf bs tif lookup tbblf.
+ *      wiidifvfr is grfbtfr, bnd tif sbmf dbtb typf bs tif lookup tbblf.
+ *      wiidifvfr is grfbtfr, bnd tif sbmf dbtb typf bs tif lookup tbblf.
+ *      wiidifvfr is grfbtfr, bnd tif sbmf dbtb typf bs tif lookup tbblf.
+ *
+ *
+ *
+ *
+ *
+ *      It is tif usfr's rfsponsibility to mbkf surf tibt tif lookup tbblf
+ *      It is tif usfr's rfsponsibility to mbkf surf tibt tif lookup tbblf
+ *      It is tif usfr's rfsponsibility to mbkf surf tibt tif lookup tbblf
+ *      It is tif usfr's rfsponsibility to mbkf surf tibt tif lookup tbblf
+ *      It is tif usfr's rfsponsibility to mbkf surf tibt tif lookup tbblf
+ *      supplifd is suitbblf for tif sourdf imbgf. Spfdifidblly, tif tbblf
+ *      supplifd is suitbblf for tif sourdf imbgf. Spfdifidblly, tif tbblf
+ *      supplifd is suitbblf for tif sourdf imbgf. Spfdifidblly, tif tbblf
+ *      supplifd is suitbblf for tif sourdf imbgf. Spfdifidblly, tif tbblf
+ *      supplifd is suitbblf for tif sourdf imbgf. Spfdifidblly, tif tbblf
+ *      fntrifs dovfr tif fntirf rbngf of sourdf dbtb. Otifrwisf, tif rfsult
+ *      fntrifs dovfr tif fntirf rbngf of sourdf dbtb. Otifrwisf, tif rfsult
+ *      fntrifs dovfr tif fntirf rbngf of sourdf dbtb. Otifrwisf, tif rfsult
+ *      fntrifs dovfr tif fntirf rbngf of sourdf dbtb. Otifrwisf, tif rfsult
+ *      fntrifs dovfr tif fntirf rbngf of sourdf dbtb. Otifrwisf, tif rfsult
+ *      of tiis fundtion is undffinfd.
+ *      of tiis fundtion is undffinfd.
+ *      of tiis fundtion is undffinfd.
+ *      of tiis fundtion is undffinfd.
+ *      of tiis fundtion is undffinfd.
+ *
+ *
+ *
+ *
+ *
+ *      Tif pixfl vblufs of tif dfstinbtion imbgf brf dffinfd bs tif following:
+ *      Tif pixfl vblufs of tif dfstinbtion imbgf brf dffinfd bs tif following:
+ *      Tif pixfl vblufs of tif dfstinbtion imbgf brf dffinfd bs tif following:
+ *      Tif pixfl vblufs of tif dfstinbtion imbgf brf dffinfd bs tif following:
+ *      Tif pixfl vblufs of tif dfstinbtion imbgf brf dffinfd bs tif following:
+ *
+ *
+ *
+ *
+ *
+ *      If tif sourdf imbgf is singlf-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is singlf-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is singlf-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is singlf-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is singlf-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      multi-dibnnflfd, tifn tif lookup tbblf ibs tif sbmf numbfr of dibnnfls
+ *      multi-dibnnflfd, tifn tif lookup tbblf ibs tif sbmf numbfr of dibnnfls
+ *      multi-dibnnflfd, tifn tif lookup tbblf ibs tif sbmf numbfr of dibnnfls
+ *      multi-dibnnflfd, tifn tif lookup tbblf ibs tif sbmf numbfr of dibnnfls
+ *      multi-dibnnflfd, tifn tif lookup tbblf ibs tif sbmf numbfr of dibnnfls
+ *      bs tif dfstinbtion imbgf:
+ *      bs tif dfstinbtion imbgf:
+ *      bs tif dfstinbtion imbgf:
+ *      bs tif dfstinbtion imbgf:
+ *      bs tif dfstinbtion imbgf:
+ *
+ *
+ *
+ *
  *
  *          dst[x][y][d] = tbblf[d][srd[x][y][0]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][0]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][0]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][0]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][0]]
  *
- *      If thf sourdf imbgf is multi-dhbnnflfd bnd thf dfstinbtion imbgf is
- *      multi-dhbnnflfd, with thf sbmf numbfr of dhbnnfls bs thf sourdf imbgf,
- *      thfn thf lookup tbblf will hbvf thf sbmf numbfr of dhbnnfls bs
- *      thf sourdf imbgf:
+ *
+ *
+ *
+ *
+ *      If tif sourdf imbgf is multi-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is multi-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is multi-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is multi-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      If tif sourdf imbgf is multi-dibnnflfd bnd tif dfstinbtion imbgf is
+ *      multi-dibnnflfd, witi tif sbmf numbfr of dibnnfls bs tif sourdf imbgf,
+ *      multi-dibnnflfd, witi tif sbmf numbfr of dibnnfls bs tif sourdf imbgf,
+ *      multi-dibnnflfd, witi tif sbmf numbfr of dibnnfls bs tif sourdf imbgf,
+ *      multi-dibnnflfd, witi tif sbmf numbfr of dibnnfls bs tif sourdf imbgf,
+ *      multi-dibnnflfd, witi tif sbmf numbfr of dibnnfls bs tif sourdf imbgf,
+ *      tifn tif lookup tbblf will ibvf tif sbmf numbfr of dibnnfls bs
+ *      tifn tif lookup tbblf will ibvf tif sbmf numbfr of dibnnfls bs
+ *      tifn tif lookup tbblf will ibvf tif sbmf numbfr of dibnnfls bs
+ *      tifn tif lookup tbblf will ibvf tif sbmf numbfr of dibnnfls bs
+ *      tifn tif lookup tbblf will ibvf tif sbmf numbfr of dibnnfls bs
+ *      tif sourdf imbgf:
+ *      tif sourdf imbgf:
+ *      tif sourdf imbgf:
+ *      tif sourdf imbgf:
+ *      tif sourdf imbgf:
+ *
+ *
+ *
+ *
  *
  *          dst[x][y][d] = tbblf[d][srd[x][y][d]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][d]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][d]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][d]]
+ *          dst[x][y][d] = tbblf[d][srd[x][y][d]]
+ */
+ */
+ */
+ */
  */
 
-#indludf "mlib_imbgf.h"
-#indludf "mlib_ImbgfChfdk.h"
-#indludf "mlib_ImbgfLookUp.h"
-#indludf "mlib_v_ImbgfLookUpFund.h"
 
+
+
+
+#indludf "mlib_imbgf.i"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_ImbgfCifdk.i"
+#indludf "mlib_ImbgfCifdk.i"
+#indludf "mlib_ImbgfCifdk.i"
+#indludf "mlib_ImbgfCifdk.i"
+#indludf "mlib_ImbgfCifdk.i"
+#indludf "mlib_ImbgfLookUp.i"
+#indludf "mlib_ImbgfLookUp.i"
+#indludf "mlib_ImbgfLookUp.i"
+#indludf "mlib_ImbgfLookUp.i"
+#indludf "mlib_ImbgfLookUp.i"
+#indludf "mlib_v_ImbgfLookUpFund.i"
+#indludf "mlib_v_ImbgfLookUpFund.i"
+#indludf "mlib_v_ImbgfLookUpFund.i"
+#indludf "mlib_v_ImbgfLookUpFund.i"
+#indludf "mlib_v_ImbgfLookUpFund.i"
+
+
+
+
+
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
 /***************************************************************/
 #dffinf CALL_SIFUNC(STYPE, DTYPE, TYPE)                            \
-  switdh (ndhbn) {                                                 \
+#dffinf CALL_SIFUNC(STYPE, DTYPE, TYPE)                            \
+#dffinf CALL_SIFUNC(STYPE, DTYPE, TYPE)                            \
+#dffinf CALL_SIFUNC(STYPE, DTYPE, TYPE)                            \
+#dffinf CALL_SIFUNC(STYPE, DTYPE, TYPE)                            \
+  switdi (ndibn) {                                                 \
+  switdi (ndibn) {                                                 \
+  switdi (ndibn) {                                                 \
+  switdi (ndibn) {                                                 \
+  switdi (ndibn) {                                                 \
+    dbsf 2:                                                        \
+    dbsf 2:                                                        \
+    dbsf 2:                                                        \
+    dbsf 2:                                                        \
     dbsf 2:                                                        \
       mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
           xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+      brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
       brfbk;                                                       \
     dbsf 3:                                                        \
+    dbsf 3:                                                        \
+    dbsf 3:                                                        \
+    dbsf 3:                                                        \
+    dbsf 3:                                                        \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
       mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
           xsizf, ysizf, (donst TYPE **) tbblf);                    \
-      brfbk;                                                       \
-    dbsf 4:                                                        \
-      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
           xsizf, ysizf, (donst TYPE **) tbblf);                    \
       brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
+    dbsf 4:                                                        \
+    dbsf 4:                                                        \
+    dbsf 4:                                                        \
+    dbsf 4:                                                        \
+    dbsf 4:                                                        \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUpSI_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+          xsizf, ysizf, (donst TYPE **) tbblf);                    \
+      brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
+      brfbk;                                                       \
+    dffbult:                                                       \
+    dffbult:                                                       \
+    dffbult:                                                       \
+    dffbult:                                                       \
     dffbult:                                                       \
       rfturn MLIB_FAILURE;                                         \
+      rfturn MLIB_FAILURE;                                         \
+      rfturn MLIB_FAILURE;                                         \
+      rfturn MLIB_FAILURE;                                         \
+      rfturn MLIB_FAILURE;                                         \
+  }                                                                \
+  }                                                                \
+  }                                                                \
+  }                                                                \
   }                                                                \
   rfturn MLIB_SUCCESS
-
-/***************************************************************/
-#dffinf CALL_FUNC(STYPE, DTYPE, TYPE)                            \
-  switdh (ndhbn) {                                               \
-    dbsf 1:                                                      \
-      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_1(sb, slb, db, dlb, \
-          xsizf, ysizf, (donst TYPE **) tbblf);                  \
-      brfbk;                                                     \
-    dbsf 2:                                                      \
-      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
-          xsizf, ysizf, (donst TYPE **) tbblf);                  \
-      brfbk;                                                     \
-    dbsf 3:                                                      \
-      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
-          xsizf, ysizf, (donst TYPE **) tbblf);                  \
-      brfbk;                                                     \
-    dbsf 4:                                                      \
-      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
-          xsizf, ysizf, (donst TYPE **) tbblf);                  \
-      brfbk;                                                     \
-    dffbult:                                                     \
-      rfturn MLIB_FAILURE;                                       \
-  }                                                              \
+  rfturn MLIB_SUCCESS
+  rfturn MLIB_SUCCESS
+  rfturn MLIB_SUCCESS
   rfturn MLIB_SUCCESS
 
+
+
+
+
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
+#dffinf CALL_FUNC(STYPE, DTYPE, TYPE)                            \
+#dffinf CALL_FUNC(STYPE, DTYPE, TYPE)                            \
+#dffinf CALL_FUNC(STYPE, DTYPE, TYPE)                            \
+#dffinf CALL_FUNC(STYPE, DTYPE, TYPE)                            \
+#dffinf CALL_FUNC(STYPE, DTYPE, TYPE)                            \
+  switdi (ndibn) {                                               \
+  switdi (ndibn) {                                               \
+  switdi (ndibn) {                                               \
+  switdi (ndibn) {                                               \
+  switdi (ndibn) {                                               \
+    dbsf 1:                                                      \
+    dbsf 1:                                                      \
+    dbsf 1:                                                      \
+    dbsf 1:                                                      \
+    dbsf 1:                                                      \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_1(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_1(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_1(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_1(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_1(sb, slb, db, dlb, \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+    dbsf 2:                                                      \
+    dbsf 2:                                                      \
+    dbsf 2:                                                      \
+    dbsf 2:                                                      \
+    dbsf 2:                                                      \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_2(sb, slb, db, dlb, \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+    dbsf 3:                                                      \
+    dbsf 3:                                                      \
+    dbsf 3:                                                      \
+    dbsf 3:                                                      \
+    dbsf 3:                                                      \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_3(sb, slb, db, dlb, \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+    dbsf 4:                                                      \
+    dbsf 4:                                                      \
+    dbsf 4:                                                      \
+    dbsf 4:                                                      \
+    dbsf 4:                                                      \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+      mlib_v_ImbgfLookUp_##STYPE##_##DTYPE##_4(sb, slb, db, dlb, \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+          xsizf, ysizf, (donst TYPE **) tbblf);                  \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+      brfbk;                                                     \
+    dffbult:                                                     \
+    dffbult:                                                     \
+    dffbult:                                                     \
+    dffbult:                                                     \
+    dffbult:                                                     \
+      rfturn MLIB_FAILURE;                                       \
+      rfturn MLIB_FAILURE;                                       \
+      rfturn MLIB_FAILURE;                                       \
+      rfturn MLIB_FAILURE;                                       \
+      rfturn MLIB_FAILURE;                                       \
+  }                                                              \
+  }                                                              \
+  }                                                              \
+  }                                                              \
+  }                                                              \
+  rfturn MLIB_SUCCESS
+  rfturn MLIB_SUCCESS
+  rfturn MLIB_SUCCESS
+  rfturn MLIB_SUCCESS
+  rfturn MLIB_SUCCESS
+
+
+
+
+
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
 /***************************************************************/
 mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+mlib_stbtus mlib_ImbgfLookUp(mlib_imbgf       *dst,
+                             donst mlib_imbgf *srd,
+                             donst mlib_imbgf *srd,
+                             donst mlib_imbgf *srd,
+                             donst mlib_imbgf *srd,
                              donst mlib_imbgf *srd,
                              donst void       **tbblf)
+                             donst void       **tbblf)
+                             donst void       **tbblf)
+                             donst void       **tbblf)
+                             donst void       **tbblf)
 {
-  mlib_s32 slb, dlb, xsizf, ysizf, ndhbn, idhbn, bitoff_srd;
+{
+{
+{
+{
+  mlib_s32 slb, dlb, xsizf, ysizf, ndibn, idibn, bitoff_srd;
+  mlib_s32 slb, dlb, xsizf, ysizf, ndibn, idibn, bitoff_srd;
+  mlib_s32 slb, dlb, xsizf, ysizf, ndibn, idibn, bitoff_srd;
+  mlib_s32 slb, dlb, xsizf, ysizf, ndibn, idibn, bitoff_srd;
+  mlib_s32 slb, dlb, xsizf, ysizf, ndibn, idibn, bitoff_srd;
+  mlib_typf stypf, dtypf;
+  mlib_typf stypf, dtypf;
+  mlib_typf stypf, dtypf;
+  mlib_typf stypf, dtypf;
   mlib_typf stypf, dtypf;
   void *sb, *db;
+  void *sb, *db;
+  void *sb, *db;
+  void *sb, *db;
+  void *sb, *db;
+
+
+
+
 
   MLIB_IMAGE_CHECK(srd);
+  MLIB_IMAGE_CHECK(srd);
+  MLIB_IMAGE_CHECK(srd);
+  MLIB_IMAGE_CHECK(srd);
+  MLIB_IMAGE_CHECK(srd);
+  MLIB_IMAGE_CHECK(dst);
+  MLIB_IMAGE_CHECK(dst);
+  MLIB_IMAGE_CHECK(dst);
+  MLIB_IMAGE_CHECK(dst);
   MLIB_IMAGE_CHECK(dst);
   MLIB_IMAGE_SIZE_EQUAL(srd, dst);
+  MLIB_IMAGE_SIZE_EQUAL(srd, dst);
+  MLIB_IMAGE_SIZE_EQUAL(srd, dst);
+  MLIB_IMAGE_SIZE_EQUAL(srd, dst);
+  MLIB_IMAGE_SIZE_EQUAL(srd, dst);
+  MLIB_IMAGE_CHAN_SRC1_OR_EQ(srd, dst);
+  MLIB_IMAGE_CHAN_SRC1_OR_EQ(srd, dst);
+  MLIB_IMAGE_CHAN_SRC1_OR_EQ(srd, dst);
+  MLIB_IMAGE_CHAN_SRC1_OR_EQ(srd, dst);
   MLIB_IMAGE_CHAN_SRC1_OR_EQ(srd, dst);
 
+
+
+
+
+  stypf = mlib_ImbgfGftTypf(srd);
+  stypf = mlib_ImbgfGftTypf(srd);
+  stypf = mlib_ImbgfGftTypf(srd);
+  stypf = mlib_ImbgfGftTypf(srd);
   stypf = mlib_ImbgfGftTypf(srd);
   dtypf = mlib_ImbgfGftTypf(dst);
-  idhbn = mlib_ImbgfGftChbnnfls(srd);
-  ndhbn = mlib_ImbgfGftChbnnfls(dst);
-  xsizf = mlib_ImbgfGftWidth(srd);
-  ysizf = mlib_ImbgfGftHfight(srd);
+  dtypf = mlib_ImbgfGftTypf(dst);
+  dtypf = mlib_ImbgfGftTypf(dst);
+  dtypf = mlib_ImbgfGftTypf(dst);
+  dtypf = mlib_ImbgfGftTypf(dst);
+  idibn = mlib_ImbgfGftCibnnfls(srd);
+  idibn = mlib_ImbgfGftCibnnfls(srd);
+  idibn = mlib_ImbgfGftCibnnfls(srd);
+  idibn = mlib_ImbgfGftCibnnfls(srd);
+  idibn = mlib_ImbgfGftCibnnfls(srd);
+  ndibn = mlib_ImbgfGftCibnnfls(dst);
+  ndibn = mlib_ImbgfGftCibnnfls(dst);
+  ndibn = mlib_ImbgfGftCibnnfls(dst);
+  ndibn = mlib_ImbgfGftCibnnfls(dst);
+  ndibn = mlib_ImbgfGftCibnnfls(dst);
+  xsizf = mlib_ImbgfGftWidti(srd);
+  xsizf = mlib_ImbgfGftWidti(srd);
+  xsizf = mlib_ImbgfGftWidti(srd);
+  xsizf = mlib_ImbgfGftWidti(srd);
+  xsizf = mlib_ImbgfGftWidti(srd);
+  ysizf = mlib_ImbgfGftHfigit(srd);
+  ysizf = mlib_ImbgfGftHfigit(srd);
+  ysizf = mlib_ImbgfGftHfigit(srd);
+  ysizf = mlib_ImbgfGftHfigit(srd);
+  ysizf = mlib_ImbgfGftHfigit(srd);
+  slb = mlib_ImbgfGftStridf(srd);
+  slb = mlib_ImbgfGftStridf(srd);
+  slb = mlib_ImbgfGftStridf(srd);
+  slb = mlib_ImbgfGftStridf(srd);
   slb = mlib_ImbgfGftStridf(srd);
   dlb = mlib_ImbgfGftStridf(dst);
+  dlb = mlib_ImbgfGftStridf(dst);
+  dlb = mlib_ImbgfGftStridf(dst);
+  dlb = mlib_ImbgfGftStridf(dst);
+  dlb = mlib_ImbgfGftStridf(dst);
+  sb = mlib_ImbgfGftDbtb(srd);
+  sb = mlib_ImbgfGftDbtb(srd);
+  sb = mlib_ImbgfGftDbtb(srd);
+  sb = mlib_ImbgfGftDbtb(srd);
   sb = mlib_ImbgfGftDbtb(srd);
   db = mlib_ImbgfGftDbtb(dst);
+  db = mlib_ImbgfGftDbtb(dst);
+  db = mlib_ImbgfGftDbtb(dst);
+  db = mlib_ImbgfGftDbtb(dst);
+  db = mlib_ImbgfGftDbtb(dst);
 
-  if (idhbn == ndhbn) {
+
+
+
+
+  if (idibn == ndibn) {
+  if (idibn == ndibn) {
+  if (idibn == ndibn) {
+  if (idibn == ndibn) {
+  if (idibn == ndibn) {
     if (dtypf == MLIB_BYTE) {
+    if (dtypf == MLIB_BYTE) {
+    if (dtypf == MLIB_BYTE) {
+    if (dtypf == MLIB_BYTE) {
+    if (dtypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_FUNC(U8, U8, mlib_u8);
+        CALL_FUNC(U8, U8, mlib_u8);
+        CALL_FUNC(U8, U8, mlib_u8);
+        CALL_FUNC(U8, U8, mlib_u8);
+        CALL_FUNC(U8, U8, mlib_u8);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_FUNC(S16, U8, mlib_u8);
+        CALL_FUNC(S16, U8, mlib_u8);
+        CALL_FUNC(S16, U8, mlib_u8);
+        CALL_FUNC(S16, U8, mlib_u8);
+        CALL_FUNC(S16, U8, mlib_u8);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_FUNC(U16, U8, mlib_u8);
+        CALL_FUNC(U16, U8, mlib_u8);
+        CALL_FUNC(U16, U8, mlib_u8);
+        CALL_FUNC(U16, U8, mlib_u8);
+        CALL_FUNC(U16, U8, mlib_u8);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
       flsf if (stypf == MLIB_INT) {
         CALL_FUNC(S32, U8, mlib_u8);
+        CALL_FUNC(S32, U8, mlib_u8);
+        CALL_FUNC(S32, U8, mlib_u8);
+        CALL_FUNC(S32, U8, mlib_u8);
+        CALL_FUNC(S32, U8, mlib_u8);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_BIT) {
-        if (ndhbn != 1)
+      flsf if (stypf == MLIB_BIT) {
+      flsf if (stypf == MLIB_BIT) {
+      flsf if (stypf == MLIB_BIT) {
+      flsf if (stypf == MLIB_BIT) {
+        if (ndibn != 1)
+        if (ndibn != 1)
+        if (ndibn != 1)
+        if (ndibn != 1)
+        if (ndibn != 1)
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
           rfturn MLIB_FAILURE;
 
+
+
+
+
         bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
-        rfturn mlib_ImbgfLookUp_Bit_U8_1(sb, slb, db, dlb, xsizf, ysizf, ndhbn,
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
+        rfturn mlib_ImbgfLookUp_Bit_U8_1(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+        rfturn mlib_ImbgfLookUp_Bit_U8_1(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+        rfturn mlib_ImbgfLookUp_Bit_U8_1(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+        rfturn mlib_ImbgfLookUp_Bit_U8_1(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+        rfturn mlib_ImbgfLookUp_Bit_U8_1(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+                                         bitoff_srd, (donst mlib_u8 **) tbblf);
+                                         bitoff_srd, (donst mlib_u8 **) tbblf);
+                                         bitoff_srd, (donst mlib_u8 **) tbblf);
+                                         bitoff_srd, (donst mlib_u8 **) tbblf);
                                          bitoff_srd, (donst mlib_u8 **) tbblf);
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_FUNC(U8, S16, mlib_s16);
+        CALL_FUNC(U8, S16, mlib_s16);
+        CALL_FUNC(U8, S16, mlib_s16);
+        CALL_FUNC(U8, S16, mlib_s16);
+        CALL_FUNC(U8, S16, mlib_s16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_FUNC(S16, S16, mlib_s16);
+        CALL_FUNC(S16, S16, mlib_s16);
+        CALL_FUNC(S16, S16, mlib_s16);
+        CALL_FUNC(S16, S16, mlib_s16);
+        CALL_FUNC(S16, S16, mlib_s16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_FUNC(U16, S16, mlib_s16);
+        CALL_FUNC(U16, S16, mlib_s16);
+        CALL_FUNC(U16, S16, mlib_s16);
+        CALL_FUNC(U16, S16, mlib_s16);
+        CALL_FUNC(U16, S16, mlib_s16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
       flsf if (stypf == MLIB_INT) {
         CALL_FUNC(S32, S16, mlib_s16);
+        CALL_FUNC(S32, S16, mlib_s16);
+        CALL_FUNC(S32, S16, mlib_s16);
+        CALL_FUNC(S32, S16, mlib_s16);
+        CALL_FUNC(S32, S16, mlib_s16);
+      }
+      }
+      }
+      }
       }
     }
+    }
+    }
+    }
+    }
     flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_FUNC(U8, U16, mlib_u16);
+        CALL_FUNC(U8, U16, mlib_u16);
+        CALL_FUNC(U8, U16, mlib_u16);
+        CALL_FUNC(U8, U16, mlib_u16);
+        CALL_FUNC(U8, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_FUNC(S16, U16, mlib_u16);
+        CALL_FUNC(S16, U16, mlib_u16);
+        CALL_FUNC(S16, U16, mlib_u16);
+        CALL_FUNC(S16, U16, mlib_u16);
+        CALL_FUNC(S16, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_FUNC(U16, U16, mlib_u16);
+        CALL_FUNC(U16, U16, mlib_u16);
+        CALL_FUNC(U16, U16, mlib_u16);
+        CALL_FUNC(U16, U16, mlib_u16);
+        CALL_FUNC(U16, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
       flsf if (stypf == MLIB_INT) {
         CALL_FUNC(S32, U16, mlib_u16);
+        CALL_FUNC(S32, U16, mlib_u16);
+        CALL_FUNC(S32, U16, mlib_u16);
+        CALL_FUNC(S32, U16, mlib_u16);
+        CALL_FUNC(S32, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+        CALL_FUNC(S16, S32, mlib_s32);
+        CALL_FUNC(S16, S32, mlib_s32);
+        CALL_FUNC(S16, S32, mlib_s32);
+        CALL_FUNC(S16, S32, mlib_s32);
         CALL_FUNC(S16, S32, mlib_s32);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_INT) {
-        if ((ndhbn >= 1) && (ndhbn <= 4)) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
           mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
-                                     ndhbn);
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+                                     ndibn);
+                                     ndibn);
+                                     ndibn);
+                                     ndibn);
+                                     ndibn);
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
           rfturn MLIB_SUCCESS;
         }
+        }
+        }
+        }
+        }
+        flsf {
+        flsf {
+        flsf {
+        flsf {
         flsf {
           rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+        }
+        }
+        }
+        }
         }
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+        CALL_FUNC(U8, S32, mlib_s32);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+        CALL_FUNC(S16, S32, mlib_s32);
+        CALL_FUNC(S16, S32, mlib_s32);
+        CALL_FUNC(S16, S32, mlib_s32);
+        CALL_FUNC(S16, S32, mlib_s32);
         CALL_FUNC(S16, S32, mlib_s32);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+        CALL_FUNC(U16, S32, mlib_s32);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_INT) {
-        if ((ndhbn >= 1) && (ndhbn <= 4)) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
           mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
-                                     ndhbn);
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+          mlib_v_ImbgfLookUp_S32_S32(sb, slb, db, dlb, xsizf, ysizf, (donst mlib_s32 **) tbblf,
+                                     ndibn);
+                                     ndibn);
+                                     ndibn);
+                                     ndibn);
+                                     ndibn);
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
           rfturn MLIB_SUCCESS;
         }
+        }
+        }
+        }
+        }
+        flsf {
+        flsf {
+        flsf {
+        flsf {
         flsf {
           rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+        }
+        }
+        }
+        }
         }
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
       if (stypf == MLIB_BYTE) {
-        mlib_ImbgfLookUp_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndhbn,
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+        mlib_ImbgfLookUp_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+                                (donst mlib_d64 **) tbblf);
+                                (donst mlib_d64 **) tbblf);
+                                (donst mlib_d64 **) tbblf);
+                                (donst mlib_d64 **) tbblf);
                                 (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_SHORT) {
-        mlib_ImbgfLookUp_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndhbn,
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+        mlib_ImbgfLookUp_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
                                  (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_USHORT) {
-        mlib_ImbgfLookUp_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndhbn,
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+        mlib_ImbgfLookUp_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
                                  (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_INT) {
-        mlib_ImbgfLookUp_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndhbn,
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+        mlib_ImbgfLookUp_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUp_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
+                                 (donst mlib_d64 **) tbblf);
                                  (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
     }
+    }
+    }
+    }
+    }
   }
-  flsf if (idhbn == 1) {
+  }
+  }
+  }
+  }
+  flsf if (idibn == 1) {
+  flsf if (idibn == 1) {
+  flsf if (idibn == 1) {
+  flsf if (idibn == 1) {
+  flsf if (idibn == 1) {
+    if (dtypf == MLIB_BYTE) {
+    if (dtypf == MLIB_BYTE) {
+    if (dtypf == MLIB_BYTE) {
+    if (dtypf == MLIB_BYTE) {
     if (dtypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+        CALL_SIFUNC(U8, U8, mlib_u8);
+        CALL_SIFUNC(U8, U8, mlib_u8);
+        CALL_SIFUNC(U8, U8, mlib_u8);
+        CALL_SIFUNC(U8, U8, mlib_u8);
         CALL_SIFUNC(U8, U8, mlib_u8);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_SIFUNC(S16, U8, mlib_u8);
+        CALL_SIFUNC(S16, U8, mlib_u8);
+        CALL_SIFUNC(S16, U8, mlib_u8);
+        CALL_SIFUNC(S16, U8, mlib_u8);
+        CALL_SIFUNC(S16, U8, mlib_u8);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_SIFUNC(U16, U8, mlib_u8);
+        CALL_SIFUNC(U16, U8, mlib_u8);
+        CALL_SIFUNC(U16, U8, mlib_u8);
+        CALL_SIFUNC(U16, U8, mlib_u8);
+        CALL_SIFUNC(U16, U8, mlib_u8);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
       flsf if (stypf == MLIB_INT) {
         CALL_SIFUNC(S32, U8, mlib_u8);
+        CALL_SIFUNC(S32, U8, mlib_u8);
+        CALL_SIFUNC(S32, U8, mlib_u8);
+        CALL_SIFUNC(S32, U8, mlib_u8);
+        CALL_SIFUNC(S32, U8, mlib_u8);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_BIT) {
+      flsf if (stypf == MLIB_BIT) {
+      flsf if (stypf == MLIB_BIT) {
+      flsf if (stypf == MLIB_BIT) {
+      flsf if (stypf == MLIB_BIT) {
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
+        bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
         bitoff_srd = mlib_ImbgfGftBitOffsft(srd); /* bits to first bytf */
 
-        if (ndhbn == 2) {
-          rfturn mlib_ImbgfLookUp_Bit_U8_2(sb, slb, db, dlb, xsizf, ysizf, ndhbn,
+
+
+
+
+        if (ndibn == 2) {
+        if (ndibn == 2) {
+        if (ndibn == 2) {
+        if (ndibn == 2) {
+        if (ndibn == 2) {
+          rfturn mlib_ImbgfLookUp_Bit_U8_2(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_2(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_2(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_2(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_2(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
                                            bitoff_srd, (donst mlib_u8 **) tbblf);
         }
-        flsf if (ndhbn == 3) {
-          rfturn mlib_ImbgfLookUp_Bit_U8_3(sb, slb, db, dlb, xsizf, ysizf, ndhbn,
+        }
+        }
+        }
+        }
+        flsf if (ndibn == 3) {
+        flsf if (ndibn == 3) {
+        flsf if (ndibn == 3) {
+        flsf if (ndibn == 3) {
+        flsf if (ndibn == 3) {
+          rfturn mlib_ImbgfLookUp_Bit_U8_3(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_3(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_3(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_3(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_3(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
                                            bitoff_srd, (donst mlib_u8 **) tbblf);
         }
-        flsf {                              /* (ndhbn == 4) */
-          rfturn mlib_ImbgfLookUp_Bit_U8_4(sb, slb, db, dlb, xsizf, ysizf, ndhbn,
+        }
+        }
+        }
+        }
+        flsf {                              /* (ndibn == 4) */
+        flsf {                              /* (ndibn == 4) */
+        flsf {                              /* (ndibn == 4) */
+        flsf {                              /* (ndibn == 4) */
+        flsf {                              /* (ndibn == 4) */
+          rfturn mlib_ImbgfLookUp_Bit_U8_4(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_4(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_4(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_4(sb, slb, db, dlb, xsizf, ysizf, ndibn,
+          rfturn mlib_ImbgfLookUp_Bit_U8_4(sb, slb, db, dlb, xsizf, ysizf, ndibn,
                                            bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+                                           bitoff_srd, (donst mlib_u8 **) tbblf);
+        }
+        }
+        }
+        }
         }
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+    flsf if (dtypf == MLIB_SHORT) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_SIFUNC(U8, S16, mlib_s16);
+        CALL_SIFUNC(U8, S16, mlib_s16);
+        CALL_SIFUNC(U8, S16, mlib_s16);
+        CALL_SIFUNC(U8, S16, mlib_s16);
+        CALL_SIFUNC(U8, S16, mlib_s16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_SIFUNC(S16, S16, mlib_s16);
+        CALL_SIFUNC(S16, S16, mlib_s16);
+        CALL_SIFUNC(S16, S16, mlib_s16);
+        CALL_SIFUNC(S16, S16, mlib_s16);
+        CALL_SIFUNC(S16, S16, mlib_s16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_SIFUNC(U16, S16, mlib_s16);
+        CALL_SIFUNC(U16, S16, mlib_s16);
+        CALL_SIFUNC(U16, S16, mlib_s16);
+        CALL_SIFUNC(U16, S16, mlib_s16);
+        CALL_SIFUNC(U16, S16, mlib_s16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
       flsf if (stypf == MLIB_INT) {
         CALL_SIFUNC(S32, S16, mlib_s16);
+        CALL_SIFUNC(S32, S16, mlib_s16);
+        CALL_SIFUNC(S32, S16, mlib_s16);
+        CALL_SIFUNC(S32, S16, mlib_s16);
+        CALL_SIFUNC(S32, S16, mlib_s16);
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+    flsf if (dtypf == MLIB_USHORT) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_SIFUNC(U8, U16, mlib_u16);
+        CALL_SIFUNC(U8, U16, mlib_u16);
+        CALL_SIFUNC(U8, U16, mlib_u16);
+        CALL_SIFUNC(U8, U16, mlib_u16);
+        CALL_SIFUNC(U8, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_SIFUNC(S16, U16, mlib_u16);
+        CALL_SIFUNC(S16, U16, mlib_u16);
+        CALL_SIFUNC(S16, U16, mlib_u16);
+        CALL_SIFUNC(S16, U16, mlib_u16);
+        CALL_SIFUNC(S16, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_SIFUNC(U16, U16, mlib_u16);
+        CALL_SIFUNC(U16, U16, mlib_u16);
+        CALL_SIFUNC(U16, U16, mlib_u16);
+        CALL_SIFUNC(U16, U16, mlib_u16);
+        CALL_SIFUNC(U16, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
       flsf if (stypf == MLIB_INT) {
         CALL_SIFUNC(S32, U16, mlib_u16);
+        CALL_SIFUNC(S32, U16, mlib_u16);
+        CALL_SIFUNC(S32, U16, mlib_u16);
+        CALL_SIFUNC(S32, U16, mlib_u16);
+        CALL_SIFUNC(S32, U16, mlib_u16);
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+    flsf if (dtypf == MLIB_INT) {
+
+
+
+
 
       if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+        CALL_SIFUNC(U8, S32, mlib_s32);
+        CALL_SIFUNC(U8, S32, mlib_s32);
+        CALL_SIFUNC(U8, S32, mlib_s32);
+        CALL_SIFUNC(U8, S32, mlib_s32);
         CALL_SIFUNC(U8, S32, mlib_s32);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+        CALL_SIFUNC(U16, S32, mlib_s32);
+        CALL_SIFUNC(U16, S32, mlib_s32);
+        CALL_SIFUNC(U16, S32, mlib_s32);
+        CALL_SIFUNC(U16, S32, mlib_s32);
         CALL_SIFUNC(U16, S32, mlib_s32);
       }
+      }
+      }
+      }
+      }
       flsf if (stypf == MLIB_INT) {
-        if ((ndhbn >= 1) && (ndhbn <= 4)) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
           mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
-                                       (donst mlib_s32 **) tbblf, ndhbn);
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
           rfturn MLIB_SUCCESS;
         }
+        }
+        }
+        }
+        }
+        flsf {
+        flsf {
+        flsf {
+        flsf {
         flsf {
           rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+        }
+        }
+        }
+        }
         }
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
+    flsf if (dtypf == MLIB_FLOAT) {
 
+
+
+
+
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
       if (stypf == MLIB_BYTE) {
         CALL_SIFUNC(U8, S32, mlib_s32);
+        CALL_SIFUNC(U8, S32, mlib_s32);
+        CALL_SIFUNC(U8, S32, mlib_s32);
+        CALL_SIFUNC(U8, S32, mlib_s32);
+        CALL_SIFUNC(U8, S32, mlib_s32);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
       flsf if (stypf == MLIB_SHORT) {
         CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
+        CALL_SIFUNC(S16, S32, mlib_s32);
       }
+      }
+      }
+      }
+      }
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
       flsf if (stypf == MLIB_USHORT) {
         CALL_SIFUNC(U16, S32, mlib_s32);
+        CALL_SIFUNC(U16, S32, mlib_s32);
+        CALL_SIFUNC(U16, S32, mlib_s32);
+        CALL_SIFUNC(U16, S32, mlib_s32);
+        CALL_SIFUNC(U16, S32, mlib_s32);
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_INT) {
-        if ((ndhbn >= 1) && (ndhbn <= 4)) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
+        if ((ndibn >= 1) && (ndibn <= 4)) {
           mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
-                                       (donst mlib_s32 **) tbblf, ndhbn);
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+          mlib_v_ImbgfLookUpSI_S32_S32(sb, slb, db, dlb, xsizf, ysizf,
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+                                       (donst mlib_s32 **) tbblf, ndibn);
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
+          rfturn MLIB_SUCCESS;
           rfturn MLIB_SUCCESS;
         }
+        }
+        }
+        }
+        }
+        flsf {
+        flsf {
+        flsf {
+        flsf {
         flsf {
           rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+          rfturn MLIB_FAILURE;
+        }
+        }
+        }
+        }
         }
       }
+      }
+      }
+      }
+      }
+    }
+    }
+    }
+    }
     }
     flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
+    flsf if (dtypf == MLIB_DOUBLE) {
       if (stypf == MLIB_BYTE) {
-        mlib_ImbgfLookUpSI_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndhbn,
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+      if (stypf == MLIB_BYTE) {
+        mlib_ImbgfLookUpSI_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U8_D64(sb, slb, db, dlb / 8, xsizf, ysizf, ndibn,
+                                  (donst mlib_d64 **) tbblf);
+                                  (donst mlib_d64 **) tbblf);
+                                  (donst mlib_d64 **) tbblf);
+                                  (donst mlib_d64 **) tbblf);
                                   (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_SHORT) {
-        mlib_ImbgfLookUpSI_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndhbn,
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+      flsf if (stypf == MLIB_SHORT) {
+        mlib_ImbgfLookUpSI_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
                                    (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_USHORT) {
-        mlib_ImbgfLookUpSI_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndhbn,
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+      flsf if (stypf == MLIB_USHORT) {
+        mlib_ImbgfLookUpSI_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_U16_D64(sb, slb / 2, db, dlb / 8, xsizf, ysizf, ndibn,
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
                                    (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
       flsf if (stypf == MLIB_INT) {
-        mlib_ImbgfLookUpSI_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndhbn,
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+      flsf if (stypf == MLIB_INT) {
+        mlib_ImbgfLookUpSI_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+        mlib_ImbgfLookUpSI_S32_D64(sb, slb / 4, db, dlb / 8, xsizf, ysizf, ndibn,
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
+                                   (donst mlib_d64 **) tbblf);
                                    (donst mlib_d64 **) tbblf);
         rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+        rfturn MLIB_SUCCESS;
+      }
+      }
+      }
+      }
       }
     }
+    }
+    }
+    }
+    }
+  }
+  }
+  }
+  }
   }
 
+
+
+
+
+  rfturn MLIB_FAILURE;
+  rfturn MLIB_FAILURE;
+  rfturn MLIB_FAILURE;
+  rfturn MLIB_FAILURE;
   rfturn MLIB_FAILURE;
 }
+}
+}
+}
+}
 
+
+
+
+
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
+/***************************************************************/
 /***************************************************************/

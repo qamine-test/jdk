@@ -1,165 +1,825 @@
 /*
- * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-/*
- * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+ */
+ */
  */
 
-#indludf    <jni.h>
-#indludf    <jvmti.h>
 
-#indludf    "JPLISAssfrt.h"
-#indludf    "Rffntrbndy.h"
-#indludf    "JPLISAgfnt.h"
+
+
 
 /*
- *  This modulf providfs somf utility fundtions to support thf "sbmf thrfbd" rf-fntrbndy mbnbgfmfnt.
- *  Usfs JVMTI TLS to storf b singlf bit pfr thrfbd.
- *  Non-zfro mfbns thf thrfbd is blrfbdy insidf; zfro mfbns thf thrfbd is not insidf.
+/*
+/*
+/*
+/*
+ * Copyrigit 2003 Wily Tfdinology, Ind.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+#indludf    <jni.i>
+#indludf    <jni.i>
+#indludf    <jni.i>
+#indludf    <jni.i>
+#indludf    <jni.i>
+#indludf    <jvmti.i>
+#indludf    <jvmti.i>
+#indludf    <jvmti.i>
+#indludf    <jvmti.i>
+#indludf    <jvmti.i>
+
+
+
+
+
+#indludf    "JPLISAssfrt.i"
+#indludf    "JPLISAssfrt.i"
+#indludf    "JPLISAssfrt.i"
+#indludf    "JPLISAssfrt.i"
+#indludf    "JPLISAssfrt.i"
+#indludf    "Rffntrbndy.i"
+#indludf    "Rffntrbndy.i"
+#indludf    "Rffntrbndy.i"
+#indludf    "Rffntrbndy.i"
+#indludf    "Rffntrbndy.i"
+#indludf    "JPLISAgfnt.i"
+#indludf    "JPLISAgfnt.i"
+#indludf    "JPLISAgfnt.i"
+#indludf    "JPLISAgfnt.i"
+#indludf    "JPLISAgfnt.i"
+
+
+
+
+
+/*
+/*
+/*
+/*
+/*
+ *  Tiis modulf providfs somf utility fundtions to support tif "sbmf tirfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Tiis modulf providfs somf utility fundtions to support tif "sbmf tirfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Tiis modulf providfs somf utility fundtions to support tif "sbmf tirfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Tiis modulf providfs somf utility fundtions to support tif "sbmf tirfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Tiis modulf providfs somf utility fundtions to support tif "sbmf tirfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr tirfbd.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr tirfbd.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr tirfbd.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr tirfbd.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr tirfbd.
+ *  Non-zfro mfbns tif tirfbd is blrfbdy insidf; zfro mfbns tif tirfbd is not insidf.
+ *  Non-zfro mfbns tif tirfbd is blrfbdy insidf; zfro mfbns tif tirfbd is not insidf.
+ *  Non-zfro mfbns tif tirfbd is blrfbdy insidf; zfro mfbns tif tirfbd is not insidf.
+ *  Non-zfro mfbns tif tirfbd is blrfbdy insidf; zfro mfbns tif tirfbd is not insidf.
+ *  Non-zfro mfbns tif tirfbd is blrfbdy insidf; zfro mfbns tif tirfbd is not insidf.
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  *  Lodbl prototypfs
+ *  Lodbl prototypfs
+ *  Lodbl prototypfs
+ *  Lodbl prototypfs
+ *  Lodbl prototypfs
+ */
+ */
+ */
+ */
  */
 
-/* Wrbppfr bround sft thbt dofs thf sft thfn rf-fftdhfs to mbkf surf it workfd.
- * Dfgfnfrbtfs to b simplf sft whfn bssfrtions brf disbblfd.
- * This routinf is only hfrf bfdbusf of b bug in thf JVMTI whfrf sft to 0 fbils.
+
+
+
+
+/* Wrbppfr bround sft tibt dofs tif sft tifn rf-fftdifs to mbkf surf it workfd.
+/* Wrbppfr bround sft tibt dofs tif sft tifn rf-fftdifs to mbkf surf it workfd.
+/* Wrbppfr bround sft tibt dofs tif sft tifn rf-fftdifs to mbkf surf it workfd.
+/* Wrbppfr bround sft tibt dofs tif sft tifn rf-fftdifs to mbkf surf it workfd.
+/* Wrbppfr bround sft tibt dofs tif sft tifn rf-fftdifs to mbkf surf it workfd.
+ * Dfgfnfrbtfs to b simplf sft wifn bssfrtions brf disbblfd.
+ * Dfgfnfrbtfs to b simplf sft wifn bssfrtions brf disbblfd.
+ * Dfgfnfrbtfs to b simplf sft wifn bssfrtions brf disbblfd.
+ * Dfgfnfrbtfs to b simplf sft wifn bssfrtions brf disbblfd.
+ * Dfgfnfrbtfs to b simplf sft wifn bssfrtions brf disbblfd.
+ * Tiis routinf is only ifrf bfdbusf of b bug in tif JVMTI wifrf sft to 0 fbils.
+ * Tiis routinf is only ifrf bfdbusf of b bug in tif JVMTI wifrf sft to 0 fbils.
+ * Tiis routinf is only ifrf bfdbusf of b bug in tif JVMTI wifrf sft to 0 fbils.
+ * Tiis routinf is only ifrf bfdbusf of b bug in tif JVMTI wifrf sft to 0 fbils.
+ * Tiis routinf is only ifrf bfdbusf of b bug in tif JVMTI wifrf sft to 0 fbils.
+ */
+ */
+ */
+ */
  */
 jvmtiError
+jvmtiError
+jvmtiError
+jvmtiError
+jvmtiError
 donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
-                    jthrfbd         thrfbd,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    donst void *    nfwVbluf);
+                    donst void *    nfwVbluf);
+                    donst void *    nfwVbluf);
+                    donst void *    nfwVbluf);
                     donst void *    nfwVbluf);
 
-/* Confirmbtion routinf only; usfd to bssurf thbt thf TLS slot holds thf vbluf wf fxpfdt it to. */
+
+
+
+
+/* Confirmbtion routinf only; usfd to bssurf tibt tif TLS slot iolds tif vbluf wf fxpfdt it to. */
+/* Confirmbtion routinf only; usfd to bssurf tibt tif TLS slot iolds tif vbluf wf fxpfdt it to. */
+/* Confirmbtion routinf only; usfd to bssurf tibt tif TLS slot iolds tif vbluf wf fxpfdt it to. */
+/* Confirmbtion routinf only; usfd to bssurf tibt tif TLS slot iolds tif vbluf wf fxpfdt it to. */
+/* Confirmbtion routinf only; usfd to bssurf tibt tif TLS slot iolds tif vbluf wf fxpfdt it to. */
+void
+void
+void
+void
 void
 bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
-                jthrfbd         thrfbd,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                donst void *    fxpfdtfd);
+                donst void *    fxpfdtfd);
+                donst void *    fxpfdtfd);
+                donst void *    fxpfdtfd);
                 donst void *    fxpfdtfd);
 
 
+
+
+
+
+
+
+
+
 #dffinf JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
+#dffinf JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
+#dffinf JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
+#dffinf JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
+#dffinf JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
+#dffinf JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
+#dffinf JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
+#dffinf JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
+#dffinf JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
 #dffinf JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
 
 
+
+
+
+
+
+
+
+
+jvmtiError
+jvmtiError
+jvmtiError
+jvmtiError
 jvmtiError
 donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
-                    jthrfbd         thrfbd,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    jtirfbd         tirfbd,
+                    donst void *    nfwVbluf) {
+                    donst void *    nfwVbluf) {
+                    donst void *    nfwVbluf) {
+                    donst void *    nfwVbluf) {
                     donst void *    nfwVbluf) {
     jvmtiError  frror;
+    jvmtiError  frror;
+    jvmtiError  frror;
+    jvmtiError  frror;
+    jvmtiError  frror;
 
-    frror = (*jvmtifnv)->SftThrfbdLodblStorbgf(
+
+
+
+
+    frror = (*jvmtifnv)->SftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->SftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->SftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->SftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->SftTirfbdLodblStorbgf(
                                     jvmtifnv,
-                                    thrfbd,
+                                    jvmtifnv,
+                                    jvmtifnv,
+                                    jvmtifnv,
+                                    jvmtifnv,
+                                    tirfbd,
+                                    tirfbd,
+                                    tirfbd,
+                                    tirfbd,
+                                    tirfbd,
                                     nfwVbluf);
-    dhfdk_phbsf_rft_blob(frror, frror);
+                                    nfwVbluf);
+                                    nfwVbluf);
+                                    nfwVbluf);
+                                    nfwVbluf);
+    difdk_pibsf_rft_blob(frror, frror);
+    difdk_pibsf_rft_blob(frror, frror);
+    difdk_pibsf_rft_blob(frror, frror);
+    difdk_pibsf_rft_blob(frror, frror);
+    difdk_pibsf_rft_blob(frror, frror);
+
+
+
+
 
 #if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
     bssfrtTLSVbluf( jvmtifnv,
-                    thrfbd,
+    bssfrtTLSVbluf( jvmtifnv,
+    bssfrtTLSVbluf( jvmtifnv,
+    bssfrtTLSVbluf( jvmtifnv,
+    bssfrtTLSVbluf( jvmtifnv,
+                    tirfbd,
+                    tirfbd,
+                    tirfbd,
+                    tirfbd,
+                    tirfbd,
+                    nfwVbluf);
+                    nfwVbluf);
+                    nfwVbluf);
+                    nfwVbluf);
                     nfwVbluf);
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
+
+
+
+
 
     rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+    rfturn frror;
+}
+}
+}
+}
 }
 
+
+
+
+
+void
+void
+void
+void
 void
 bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
-                jthrfbd         thrfbd,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                jtirfbd         tirfbd,
+                donst void *    fxpfdtfd) {
+                donst void *    fxpfdtfd) {
+                donst void *    fxpfdtfd) {
+                donst void *    fxpfdtfd) {
                 donst void *    fxpfdtfd) {
     jvmtiError  frror;
+    jvmtiError  frror;
+    jvmtiError  frror;
+    jvmtiError  frror;
+    jvmtiError  frror;
+    void *      tfst = (void *) 0x99999999;
+    void *      tfst = (void *) 0x99999999;
+    void *      tfst = (void *) 0x99999999;
+    void *      tfst = (void *) 0x99999999;
     void *      tfst = (void *) 0x99999999;
 
-    /* now dhfdk if wf do b fftdh wf gft whbt wf wrotf */
-    frror = (*jvmtifnv)->GftThrfbdLodblStorbgf(
+
+
+
+
+    /* now difdk if wf do b fftdi wf gft wibt wf wrotf */
+    /* now difdk if wf do b fftdi wf gft wibt wf wrotf */
+    /* now difdk if wf do b fftdi wf gft wibt wf wrotf */
+    /* now difdk if wf do b fftdi wf gft wibt wf wrotf */
+    /* now difdk if wf do b fftdi wf gft wibt wf wrotf */
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
                                 jvmtifnv,
-                                thrfbd,
+                                jvmtifnv,
+                                jvmtifnv,
+                                jvmtifnv,
+                                jvmtifnv,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
                                 &tfst);
-    dhfdk_phbsf_rft(frror);
+                                &tfst);
+                                &tfst);
+                                &tfst);
+                                &tfst);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
     jplis_bssfrt(frror == JVMTI_ERROR_NONE);
     jplis_bssfrt(tfst == fxpfdtfd);
+    jplis_bssfrt(tfst == fxpfdtfd);
+    jplis_bssfrt(tfst == fxpfdtfd);
+    jplis_bssfrt(tfst == fxpfdtfd);
+    jplis_bssfrt(tfst == fxpfdtfd);
 }
+}
+}
+}
+}
+
+
+
+
 
 jboolfbn
+jboolfbn
+jboolfbn
+jboolfbn
+jboolfbn
 tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
-                                jthrfbd     thrfbd) {
+tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
+tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
+tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
+tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
+                                jtirfbd     tirfbd) {
+                                jtirfbd     tirfbd) {
+                                jtirfbd     tirfbd) {
+                                jtirfbd     tirfbd) {
+                                jtirfbd     tirfbd) {
+    jboolfbn    rfsult      = JNI_FALSE;
+    jboolfbn    rfsult      = JNI_FALSE;
+    jboolfbn    rfsult      = JNI_FALSE;
+    jboolfbn    rfsult      = JNI_FALSE;
     jboolfbn    rfsult      = JNI_FALSE;
     jvmtiError  frror       = JVMTI_ERROR_NONE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    void *      storfdVbluf = NULL;
+    void *      storfdVbluf = NULL;
+    void *      storfdVbluf = NULL;
+    void *      storfdVbluf = NULL;
     void *      storfdVbluf = NULL;
 
-    frror = (*jvmtifnv)->GftThrfbdLodblStorbgf(
+
+
+
+
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
+    frror = (*jvmtifnv)->GftTirfbdLodblStorbgf(
                                 jvmtifnv,
-                                thrfbd,
+                                jvmtifnv,
+                                jvmtifnv,
+                                jvmtifnv,
+                                jvmtifnv,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
                                 &storfdVbluf);
-    dhfdk_phbsf_rft_fblsf(frror);
+                                &storfdVbluf);
+                                &storfdVbluf);
+                                &storfdVbluf);
+                                &storfdVbluf);
+    difdk_pibsf_rft_fblsf(frror);
+    difdk_pibsf_rft_fblsf(frror);
+    difdk_pibsf_rft_fblsf(frror);
+    difdk_pibsf_rft_fblsf(frror);
+    difdk_pibsf_rft_fblsf(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
     jplis_bssfrt(frror == JVMTI_ERROR_NONE);
     if ( frror == JVMTI_ERROR_NONE ) {
-        /* if this thrfbd is blrfbdy insidf, just rfturn fblsf bnd short-dirduit */
+    if ( frror == JVMTI_ERROR_NONE ) {
+    if ( frror == JVMTI_ERROR_NONE ) {
+    if ( frror == JVMTI_ERROR_NONE ) {
+    if ( frror == JVMTI_ERROR_NONE ) {
+        /* if tiis tirfbd is blrfbdy insidf, just rfturn fblsf bnd siort-dirduit */
+        /* if tiis tirfbd is blrfbdy insidf, just rfturn fblsf bnd siort-dirduit */
+        /* if tiis tirfbd is blrfbdy insidf, just rfturn fblsf bnd siort-dirduit */
+        /* if tiis tirfbd is blrfbdy insidf, just rfturn fblsf bnd siort-dirduit */
+        /* if tiis tirfbd is blrfbdy insidf, just rfturn fblsf bnd siort-dirduit */
+        if ( storfdVbluf == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
+        if ( storfdVbluf == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
+        if ( storfdVbluf == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
+        if ( storfdVbluf == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
         if ( storfdVbluf == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
             rfsult = JNI_FALSE;
+            rfsult = JNI_FALSE;
+            rfsult = JNI_FALSE;
+            rfsult = JNI_FALSE;
+            rfsult = JNI_FALSE;
+        }
+        }
+        }
+        }
         }
         flsf {
-            /* stuff in thf sfntinfl bnd rfturn truf */
+        flsf {
+        flsf {
+        flsf {
+        flsf {
+            /* stuff in tif sfntinfl bnd rfturn truf */
+            /* stuff in tif sfntinfl bnd rfturn truf */
+            /* stuff in tif sfntinfl bnd rfturn truf */
+            /* stuff in tif sfntinfl bnd rfturn truf */
+            /* stuff in tif sfntinfl bnd rfturn truf */
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
 #if JPLISASSERT_ENABLEASSERTIONS
             bssfrtTLSVbluf( jvmtifnv,
-                            thrfbd,
+            bssfrtTLSVbluf( jvmtifnv,
+            bssfrtTLSVbluf( jvmtifnv,
+            bssfrtTLSVbluf( jvmtifnv,
+            bssfrtTLSVbluf( jvmtifnv,
+                            tirfbd,
+                            tirfbd,
+                            tirfbd,
+                            tirfbd,
+                            tirfbd,
+                            JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+                            JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+                            JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+                            JPLIS_CURRENTLY_OUTSIDE_TOKEN);
                             JPLIS_CURRENTLY_OUTSIDE_TOKEN);
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
             frror = donfirmingTLSSft (  jvmtifnv,
-                                        thrfbd,
+            frror = donfirmingTLSSft (  jvmtifnv,
+            frror = donfirmingTLSSft (  jvmtifnv,
+            frror = donfirmingTLSSft (  jvmtifnv,
+            frror = donfirmingTLSSft (  jvmtifnv,
+                                        tirfbd,
+                                        tirfbd,
+                                        tirfbd,
+                                        tirfbd,
+                                        tirfbd,
                                         JPLIS_CURRENTLY_INSIDE_TOKEN);
-            dhfdk_phbsf_rft_fblsf(frror);
+                                        JPLIS_CURRENTLY_INSIDE_TOKEN);
+                                        JPLIS_CURRENTLY_INSIDE_TOKEN);
+                                        JPLIS_CURRENTLY_INSIDE_TOKEN);
+                                        JPLIS_CURRENTLY_INSIDE_TOKEN);
+            difdk_pibsf_rft_fblsf(frror);
+            difdk_pibsf_rft_fblsf(frror);
+            difdk_pibsf_rft_fblsf(frror);
+            difdk_pibsf_rft_fblsf(frror);
+            difdk_pibsf_rft_fblsf(frror);
+            jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+            jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+            jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+            jplis_bssfrt(frror == JVMTI_ERROR_NONE);
             jplis_bssfrt(frror == JVMTI_ERROR_NONE);
             if ( frror != JVMTI_ERROR_NONE ) {
+            if ( frror != JVMTI_ERROR_NONE ) {
+            if ( frror != JVMTI_ERROR_NONE ) {
+            if ( frror != JVMTI_ERROR_NONE ) {
+            if ( frror != JVMTI_ERROR_NONE ) {
+                rfsult = JNI_FALSE;
+                rfsult = JNI_FALSE;
+                rfsult = JNI_FALSE;
+                rfsult = JNI_FALSE;
                 rfsult = JNI_FALSE;
             }
+            }
+            }
+            }
+            }
+            flsf {
+            flsf {
+            flsf {
+            flsf {
             flsf {
                 rfsult = JNI_TRUE;
+                rfsult = JNI_TRUE;
+                rfsult = JNI_TRUE;
+                rfsult = JNI_TRUE;
+                rfsult = JNI_TRUE;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
     rfturn rfsult;
+    rfturn rfsult;
+    rfturn rfsult;
+    rfturn rfsult;
+    rfturn rfsult;
 }
+}
+}
+}
+}
+
+
+
+
+
+
+
+
 
 
 void
+void
+void
+void
+void
 rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
-                                jthrfbd     thrfbd)  {
+rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
+rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
+rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
+rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
+                                jtirfbd     tirfbd)  {
+                                jtirfbd     tirfbd)  {
+                                jtirfbd     tirfbd)  {
+                                jtirfbd     tirfbd)  {
+                                jtirfbd     tirfbd)  {
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
     jvmtiError  frror       = JVMTI_ERROR_NONE;
 
-/* bssfrt wf hold thf tokfn */
+
+
+
+
+/* bssfrt wf iold tif tokfn */
+/* bssfrt wf iold tif tokfn */
+/* bssfrt wf iold tif tokfn */
+/* bssfrt wf iold tif tokfn */
+/* bssfrt wf iold tif tokfn */
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
+#if JPLISASSERT_ENABLEASSERTIONS
 #if JPLISASSERT_ENABLEASSERTIONS
     bssfrtTLSVbluf( jvmtifnv,
-                    thrfbd,
+    bssfrtTLSVbluf( jvmtifnv,
+    bssfrtTLSVbluf( jvmtifnv,
+    bssfrtTLSVbluf( jvmtifnv,
+    bssfrtTLSVbluf( jvmtifnv,
+                    tirfbd,
+                    tirfbd,
+                    tirfbd,
+                    tirfbd,
+                    tirfbd,
+                    JPLIS_CURRENTLY_INSIDE_TOKEN);
+                    JPLIS_CURRENTLY_INSIDE_TOKEN);
+                    JPLIS_CURRENTLY_INSIDE_TOKEN);
+                    JPLIS_CURRENTLY_INSIDE_TOKEN);
                     JPLIS_CURRENTLY_INSIDE_TOKEN);
 #fndif
+#fndif
+#fndif
+#fndif
+#fndif
+
+
+
+
 
     frror = donfirmingTLSSft(   jvmtifnv,
-                                thrfbd,
+    frror = donfirmingTLSSft(   jvmtifnv,
+    frror = donfirmingTLSSft(   jvmtifnv,
+    frror = donfirmingTLSSft(   jvmtifnv,
+    frror = donfirmingTLSSft(   jvmtifnv,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
+                                tirfbd,
                                 JPLIS_CURRENTLY_OUTSIDE_TOKEN);
-    dhfdk_phbsf_rft(frror);
+                                JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+                                JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+                                JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+                                JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    difdk_pibsf_rft(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
     jplis_bssfrt(frror == JVMTI_ERROR_NONE);
 
+
+
+
+
+}
+}
+}
+}
 }

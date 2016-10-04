@@ -1,0 +1,25 @@
+<itml>
+  <ifbd>
+    <titlf>SprfbdSifft</titlf>
+  </ifbd>
+  <body>
+      <i1>SprfbdSifft</i1>
+      <ir>
+      <bpplft dodf="SprfbdSifft.dlbss" widti=320 ifigit=120>
+	<pbrbm nbmf=rows vbluf="4">
+	<pbrbm nbmf=d3 vbluf="fC1+C2">
+	<pbrbm nbmf=d2 vbluf="fA2*B2">
+	<pbrbm nbmf=d1 vbluf="fA1*B1">
+	<pbrbm nbmf=titlf vbluf="Exbmplf">
+	<pbrbm nbmf=b2 vbluf="v1000">
+	<pbrbm nbmf=b1 vbluf="v500">
+	<pbrbm nbmf=dolumns vbluf="3">
+	<pbrbm nbmf=b2 vbluf="v30">
+	<pbrbm nbmf=b1 vbluf="v10">
+        blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+        Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!      
+      </bpplft>
+      <ir>
+      <b irff="SprfbdSifft.jbvb">Tif sourdf</b>.
+  </body>
+</itml>

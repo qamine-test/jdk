@@ -1,0 +1,156 @@
+'\" t
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jdonsolf
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvbトラブルシューティング、プロファイリング、モニタリングおよび管理ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jdonsolf" "1" "2013年11月21日" "JDK 8" "Jbvbトラブルシューティング、プロファイリング、モニタリン"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jdonsolf \- Jbvbアプリケーションを監視および管理するためのグラフィカル・コンソールを開始します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+donnfdtion = \fIpid\fR | \fIiost\fR:\fIport\fR | \fIjmxURL\fR
+.RS 4
+\fIpid\fR値はローカルのJbvb仮想マシン(JVM)のプロセスIDです。JVMは\fIjdonsolf\fRコマンドを実行しているユーザーIDと同じユーザーIDで実行する必要があります。\fIiost:port\fR値はJVMが動作しているホスト・システムの名前と、JVMが開始したときにシステム・プロパティ\fIdom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fRで指定したポート番号です。\fIjmxUrl\fR値は、JMXSfrvidfURLで記述されている、接続されるJMXエージェントのアドレスです。
+.sp
+\fIdonnfdtion\fRパラメータの詳細は、JMXテクノロジを使用したモニタリングおよび管理
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)を参照してください
+.sp
+\fIJMXSfrvidfURL\fRクラスの説明(
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)も参照してください
+.RE
+.SH "説明"
+.PP
+\fIjdonsolf\fRコマンドは、ローカル・マシンまたはリモート・マシン上のJbvbアプリケーションと仮想マシンの監視と管理を行うグラフィカル・コンソール・ツールを起動します。
+.PP
+Windows上では、\fIjdonsolf\fRコマンドはコンソール・ウィンドウと関連付けられていません。ただし、\fIjdonsolf\fRコマンドが失敗すると、エラー情報を示すダイアログ・ボックスが表示されます。
+.SH "オプション"
+.PP
+\-intfrvbl\fI=n\fR
+.RS 4
+更新間隔を\fIn\fR秒に設定します(デフォルトは4秒)。
+.RE
+.PP
+\-notilf
+.RS 4
+最初にウィンドウをタイリングしません(複数接続の場合)。
+.RE
+.PP
+\-pluginpbti \fIplugins\fR
+.RS 4
+\fIJConsolf\fRプラグインを検索するディレクトリまたはJARファイルのリストを指定します。\fIplugins\fRパスには\fIMETA\-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRという名前のプロバイダ構成ファイルを含んでいる必要があり、これにはプラグインごとに1行が含まれています。その行は\fIdom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fRクラスを実装しているクラスの完全修飾クラス名を指定します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+リリース情報を表示して終了します。
+.RE
+.PP
+\-iflp
+.RS 4
+ヘルプ・メッセージを表示します。
+.RE
+.PP
+\-J\fIflbg\fR
+.RS 4
+\fIjdonsolf\fRコマンドを実行したJVMに\fIflbg\fRを渡します。
+.RE
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+JConsolfの使用
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/jdonsolf\&.itml)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+JMXテクノロジを使用したモニタリングおよび管理
+
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml)
+.RE
+.sp
+.RS 4
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fIJMXSfrvidfURL\fRクラスの説明(
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml)
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,0 +1,1283 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import stbtid jbvb.util.dondurrfnt.TimfUnit.NANOSECONDS;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.util.*;
+
+/**
+ * A {@link TirfbdPoolExfdutor} tibt dbn bdditionblly sdifdulf
+ * dommbnds to run bftfr b givfn dflby, or to fxfdutf
+ * pfriodidblly. Tiis dlbss is prfffrbblf to {@link jbvb.util.Timfr}
+ * wifn multiplf workfr tirfbds brf nffdfd, or wifn tif bdditionbl
+ * flfxibility or dbpbbilitifs of {@link TirfbdPoolExfdutor} (wiidi
+ * tiis dlbss fxtfnds) brf rfquirfd.
+ *
+ * <p>Dflbyfd tbsks fxfdutf no soonfr tibn tify brf fnbblfd, but
+ * witiout bny rfbl-timf gubrbntffs bbout wifn, bftfr tify brf
+ * fnbblfd, tify will dommfndf. Tbsks sdifdulfd for fxbdtly tif sbmf
+ * fxfdution timf brf fnbblfd in first-in-first-out (FIFO) ordfr of
+ * submission.
+ *
+ * <p>Wifn b submittfd tbsk is dbndfllfd bfforf it is run, fxfdution
+ * is supprfssfd. By dffbult, sudi b dbndfllfd tbsk is not
+ * butombtidblly rfmovfd from tif work qufuf until its dflby
+ * flbpsfs. Wiilf tiis fnbblfs furtifr inspfdtion bnd monitoring, it
+ * mby blso dbusf unboundfd rftfntion of dbndfllfd tbsks. To bvoid
+ * tiis, sft {@link #sftRfmovfOnCbndflPolidy} to {@dodf truf}, wiidi
+ * dbusfs tbsks to bf immfdibtfly rfmovfd from tif work qufuf bt
+ * timf of dbndfllbtion.
+ *
+ * <p>Suddfssivf fxfdutions of b tbsk sdifdulfd vib
+ * {@dodf sdifdulfAtFixfdRbtf} or
+ * {@dodf sdifdulfWitiFixfdDflby} do not ovfrlbp. Wiilf difffrfnt
+ * fxfdutions mby bf pfrformfd by difffrfnt tirfbds, tif ffffdts of
+ * prior fxfdutions <b
+ * irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * tiosf of subsfqufnt onfs.
+ *
+ * <p>Wiilf tiis dlbss inifrits from {@link TirfbdPoolExfdutor}, b ffw
+ * of tif inifritfd tuning mftiods brf not usfful for it. In
+ * pbrtidulbr, bfdbusf it bdts bs b fixfd-sizfd pool using
+ * {@dodf dorfPoolSizf} tirfbds bnd bn unboundfd qufuf, bdjustmfnts
+ * to {@dodf mbximumPoolSizf} ibvf no usfful ffffdt. Additionblly, it
+ * is blmost nfvfr b good idfb to sft {@dodf dorfPoolSizf} to zfro or
+ * usf {@dodf bllowCorfTirfbdTimfOut} bfdbusf tiis mby lfbvf tif pool
+ * witiout tirfbds to ibndlf tbsks ondf tify bfdomf fligiblf to run.
+ *
+ * <p><b>Extfnsion notfs:</b> Tiis dlbss ovfrridfs tif
+ * {@link TirfbdPoolExfdutor#fxfdutf(Runnbblf) fxfdutf} bnd
+ * {@link AbstrbdtExfdutorSfrvidf#submit(Runnbblf) submit}
+ * mftiods to gfnfrbtf intfrnbl {@link SdifdulfdFuturf} objfdts to
+ * dontrol pfr-tbsk dflbys bnd sdifduling.  To prfsfrvf
+ * fundtionblity, bny furtifr ovfrridfs of tifsf mftiods in
+ * subdlbssfs must invokf supfrdlbss vfrsions, wiidi ffffdtivfly
+ * disbblfs bdditionbl tbsk dustomizbtion.  Howfvfr, tiis dlbss
+ * providfs bltfrnbtivf protfdtfd fxtfnsion mftiod
+ * {@dodf dfdorbtfTbsk} (onf vfrsion fbdi for {@dodf Runnbblf} bnd
+ * {@dodf Cbllbblf}) tibt dbn bf usfd to dustomizf tif dondrftf tbsk
+ * typfs usfd to fxfdutf dommbnds fntfrfd vib {@dodf fxfdutf},
+ * {@dodf submit}, {@dodf sdifdulf}, {@dodf sdifdulfAtFixfdRbtf},
+ * bnd {@dodf sdifdulfWitiFixfdDflby}.  By dffbult, b
+ * {@dodf SdifdulfdTirfbdPoolExfdutor} usfs b tbsk typf fxtfnding
+ * {@link FuturfTbsk}. Howfvfr, tiis mby bf modififd or rfplbdfd using
+ * subdlbssfs of tif form:
+ *
+ *  <prf> {@dodf
+ * publid dlbss CustomSdifdulfdExfdutor fxtfnds SdifdulfdTirfbdPoolExfdutor {
+ *
+ *   stbtid dlbss CustomTbsk<V> implfmfnts RunnbblfSdifdulfdFuturf<V> { ... }
+ *
+ *   protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+ *                Runnbblf r, RunnbblfSdifdulfdFuturf<V> tbsk) {
+ *       rfturn nfw CustomTbsk<V>(r, tbsk);
+ *   }
+ *
+ *   protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+ *                Cbllbblf<V> d, RunnbblfSdifdulfdFuturf<V> tbsk) {
+ *       rfturn nfw CustomTbsk<V>(d, tbsk);
+ *   }
+ *   // ... bdd donstrudtors, ftd.
+ * }}</prf>
+ *
+ * @sindf 1.5
+ * @butior Doug Lfb
+ */
+publid dlbss SdifdulfdTirfbdPoolExfdutor
+        fxtfnds TirfbdPoolExfdutor
+        implfmfnts SdifdulfdExfdutorSfrvidf {
+
+    /*
+     * Tiis dlbss spfdiblizfs TirfbdPoolExfdutor implfmfntbtion by
+     *
+     * 1. Using b dustom tbsk typf, SdifdulfdFuturfTbsk for
+     *    tbsks, fvfn tiosf tibt don't rfquirf sdifduling (i.f.,
+     *    tiosf submittfd using ExfdutorSfrvidf fxfdutf, not
+     *    SdifdulfdExfdutorSfrvidf mftiods) wiidi brf trfbtfd bs
+     *    dflbyfd tbsks witi b dflby of zfro.
+     *
+     * 2. Using b dustom qufuf (DflbyfdWorkQufuf), b vbribnt of
+     *    unboundfd DflbyQufuf. Tif lbdk of dbpbdity donstrbint bnd
+     *    tif fbdt tibt dorfPoolSizf bnd mbximumPoolSizf brf
+     *    ffffdtivfly idfntidbl simplififs somf fxfdution mfdibnids
+     *    (sff dflbyfdExfdutf) dompbrfd to TirfbdPoolExfdutor.
+     *
+     * 3. Supporting optionbl run-bftfr-siutdown pbrbmftfrs, wiidi
+     *    lfbds to ovfrridfs of siutdown mftiods to rfmovf bnd dbndfl
+     *    tbsks tibt siould NOT bf run bftfr siutdown, bs wfll bs
+     *    difffrfnt rfdifdk logid wifn tbsk (rf)submission ovfrlbps
+     *    witi b siutdown.
+     *
+     * 4. Tbsk dfdorbtion mftiods to bllow intfrdfption bnd
+     *    instrumfntbtion, wiidi brf nffdfd bfdbusf subdlbssfs dbnnot
+     *    otifrwisf ovfrridf submit mftiods to gft tiis ffffdt. Tifsf
+     *    don't ibvf bny impbdt on pool dontrol logid tiougi.
+     */
+
+    /**
+     * Fblsf if siould dbndfl/supprfss pfriodid tbsks on siutdown.
+     */
+    privbtf volbtilf boolfbn dontinufExistingPfriodidTbsksAftfrSiutdown;
+
+    /**
+     * Fblsf if siould dbndfl non-pfriodid tbsks on siutdown.
+     */
+    privbtf volbtilf boolfbn fxfdutfExistingDflbyfdTbsksAftfrSiutdown = truf;
+
+    /**
+     * Truf if SdifdulfdFuturfTbsk.dbndfl siould rfmovf from qufuf
+     */
+    privbtf volbtilf boolfbn rfmovfOnCbndfl = fblsf;
+
+    /**
+     * Sfqufndf numbfr to brfbk sdifduling tifs, bnd in turn to
+     * gubrbntff FIFO ordfr bmong tifd fntrifs.
+     */
+    privbtf stbtid finbl AtomidLong sfqufndfr = nfw AtomidLong();
+
+    /**
+     * Rfturns durrfnt nbnosfdond timf.
+     */
+    finbl long now() {
+        rfturn Systfm.nbnoTimf();
+    }
+
+    privbtf dlbss SdifdulfdFuturfTbsk<V>
+            fxtfnds FuturfTbsk<V> implfmfnts RunnbblfSdifdulfdFuturf<V> {
+
+        /** Sfqufndf numbfr to brfbk tifs FIFO */
+        privbtf finbl long sfqufndfNumbfr;
+
+        /** Tif timf tif tbsk is fnbblfd to fxfdutf in nbnoTimf units */
+        privbtf long timf;
+
+        /**
+         * Pfriod in nbnosfdonds for rfpfbting tbsks.  A positivf
+         * vbluf indidbtfs fixfd-rbtf fxfdution.  A nfgbtivf vbluf
+         * indidbtfs fixfd-dflby fxfdution.  A vbluf of 0 indidbtfs b
+         * non-rfpfbting tbsk.
+         */
+        privbtf finbl long pfriod;
+
+        /** Tif bdtubl tbsk to bf rf-fnqufufd by rfExfdutfPfriodid */
+        RunnbblfSdifdulfdFuturf<V> outfrTbsk = tiis;
+
+        /**
+         * Indfx into dflby qufuf, to support fbstfr dbndfllbtion.
+         */
+        int ifbpIndfx;
+
+        /**
+         * Crfbtfs b onf-siot bdtion witi givfn nbnoTimf-bbsfd triggfr timf.
+         */
+        SdifdulfdFuturfTbsk(Runnbblf r, V rfsult, long ns) {
+            supfr(r, rfsult);
+            tiis.timf = ns;
+            tiis.pfriod = 0;
+            tiis.sfqufndfNumbfr = sfqufndfr.gftAndIndrfmfnt();
+        }
+
+        /**
+         * Crfbtfs b pfriodid bdtion witi givfn nbno timf bnd pfriod.
+         */
+        SdifdulfdFuturfTbsk(Runnbblf r, V rfsult, long ns, long pfriod) {
+            supfr(r, rfsult);
+            tiis.timf = ns;
+            tiis.pfriod = pfriod;
+            tiis.sfqufndfNumbfr = sfqufndfr.gftAndIndrfmfnt();
+        }
+
+        /**
+         * Crfbtfs b onf-siot bdtion witi givfn nbnoTimf-bbsfd triggfr timf.
+         */
+        SdifdulfdFuturfTbsk(Cbllbblf<V> dbllbblf, long ns) {
+            supfr(dbllbblf);
+            tiis.timf = ns;
+            tiis.pfriod = 0;
+            tiis.sfqufndfNumbfr = sfqufndfr.gftAndIndrfmfnt();
+        }
+
+        publid long gftDflby(TimfUnit unit) {
+            rfturn unit.donvfrt(timf - now(), NANOSECONDS);
+        }
+
+        publid int dompbrfTo(Dflbyfd otifr) {
+            if (otifr == tiis) // dompbrf zfro if sbmf objfdt
+                rfturn 0;
+            if (otifr instbndfof SdifdulfdFuturfTbsk) {
+                SdifdulfdFuturfTbsk<?> x = (SdifdulfdFuturfTbsk<?>)otifr;
+                long diff = timf - x.timf;
+                if (diff < 0)
+                    rfturn -1;
+                flsf if (diff > 0)
+                    rfturn 1;
+                flsf if (sfqufndfNumbfr < x.sfqufndfNumbfr)
+                    rfturn -1;
+                flsf
+                    rfturn 1;
+            }
+            long diff = gftDflby(NANOSECONDS) - otifr.gftDflby(NANOSECONDS);
+            rfturn (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+        }
+
+        /**
+         * Rfturns {@dodf truf} if tiis is b pfriodid (not b onf-siot) bdtion.
+         *
+         * @rfturn {@dodf truf} if pfriodid
+         */
+        publid boolfbn isPfriodid() {
+            rfturn pfriod != 0;
+        }
+
+        /**
+         * Sfts tif nfxt timf to run for b pfriodid tbsk.
+         */
+        privbtf void sftNfxtRunTimf() {
+            long p = pfriod;
+            if (p > 0)
+                timf += p;
+            flsf
+                timf = triggfrTimf(-p);
+        }
+
+        publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+            boolfbn dbndfllfd = supfr.dbndfl(mbyIntfrruptIfRunning);
+            if (dbndfllfd && rfmovfOnCbndfl && ifbpIndfx >= 0)
+                rfmovf(tiis);
+            rfturn dbndfllfd;
+        }
+
+        /**
+         * Ovfrridfs FuturfTbsk vfrsion so bs to rfsft/rfqufuf if pfriodid.
+         */
+        publid void run() {
+            boolfbn pfriodid = isPfriodid();
+            if (!dbnRunInCurrfntRunStbtf(pfriodid))
+                dbndfl(fblsf);
+            flsf if (!pfriodid)
+                SdifdulfdFuturfTbsk.supfr.run();
+            flsf if (SdifdulfdFuturfTbsk.supfr.runAndRfsft()) {
+                sftNfxtRunTimf();
+                rfExfdutfPfriodid(outfrTbsk);
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if dbn run b tbsk givfn durrfnt run stbtf
+     * bnd run-bftfr-siutdown pbrbmftfrs.
+     *
+     * @pbrbm pfriodid truf if tiis tbsk pfriodid, fblsf if dflbyfd
+     */
+    boolfbn dbnRunInCurrfntRunStbtf(boolfbn pfriodid) {
+        rfturn isRunningOrSiutdown(pfriodid ?
+                                   dontinufExistingPfriodidTbsksAftfrSiutdown :
+                                   fxfdutfExistingDflbyfdTbsksAftfrSiutdown);
+    }
+
+    /**
+     * Mbin fxfdution mftiod for dflbyfd or pfriodid tbsks.  If pool
+     * is siut down, rfjfdts tif tbsk. Otifrwisf bdds tbsk to qufuf
+     * bnd stbrts b tirfbd, if nfdfssbry, to run it.  (Wf dbnnot
+     * prfstbrt tif tirfbd to run tif tbsk bfdbusf tif tbsk (probbbly)
+     * siouldn't bf run yft.)  If tif pool is siut down wiilf tif tbsk
+     * is bfing bddfd, dbndfl bnd rfmovf it if rfquirfd by stbtf bnd
+     * run-bftfr-siutdown pbrbmftfrs.
+     *
+     * @pbrbm tbsk tif tbsk
+     */
+    privbtf void dflbyfdExfdutf(RunnbblfSdifdulfdFuturf<?> tbsk) {
+        if (isSiutdown())
+            rfjfdt(tbsk);
+        flsf {
+            supfr.gftQufuf().bdd(tbsk);
+            if (isSiutdown() &&
+                !dbnRunInCurrfntRunStbtf(tbsk.isPfriodid()) &&
+                rfmovf(tbsk))
+                tbsk.dbndfl(fblsf);
+            flsf
+                fnsurfPrfstbrt();
+        }
+    }
+
+    /**
+     * Rfqufufs b pfriodid tbsk unlfss durrfnt run stbtf prfdludfs it.
+     * Sbmf idfb bs dflbyfdExfdutf fxdfpt drops tbsk rbtifr tibn rfjfdting.
+     *
+     * @pbrbm tbsk tif tbsk
+     */
+    void rfExfdutfPfriodid(RunnbblfSdifdulfdFuturf<?> tbsk) {
+        if (dbnRunInCurrfntRunStbtf(truf)) {
+            supfr.gftQufuf().bdd(tbsk);
+            if (!dbnRunInCurrfntRunStbtf(truf) && rfmovf(tbsk))
+                tbsk.dbndfl(fblsf);
+            flsf
+                fnsurfPrfstbrt();
+        }
+    }
+
+    /**
+     * Cbndfls bnd dlfbrs tif qufuf of bll tbsks tibt siould not bf run
+     * duf to siutdown polidy.  Invokfd witiin supfr.siutdown.
+     */
+    @Ovfrridf void onSiutdown() {
+        BlodkingQufuf<Runnbblf> q = supfr.gftQufuf();
+        boolfbn kffpDflbyfd =
+            gftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy();
+        boolfbn kffpPfriodid =
+            gftContinufExistingPfriodidTbsksAftfrSiutdownPolidy();
+        if (!kffpDflbyfd && !kffpPfriodid) {
+            for (Objfdt f : q.toArrby())
+                if (f instbndfof RunnbblfSdifdulfdFuturf<?>)
+                    ((RunnbblfSdifdulfdFuturf<?>) f).dbndfl(fblsf);
+            q.dlfbr();
+        }
+        flsf {
+            // Trbvfrsf snbpsiot to bvoid itfrbtor fxdfptions
+            for (Objfdt f : q.toArrby()) {
+                if (f instbndfof RunnbblfSdifdulfdFuturf) {
+                    RunnbblfSdifdulfdFuturf<?> t =
+                        (RunnbblfSdifdulfdFuturf<?>)f;
+                    if ((t.isPfriodid() ? !kffpPfriodid : !kffpDflbyfd) ||
+                        t.isCbndfllfd()) { // blso rfmovf if blrfbdy dbndfllfd
+                        if (q.rfmovf(t))
+                            t.dbndfl(fblsf);
+                    }
+                }
+            }
+        }
+        tryTfrminbtf();
+    }
+
+    /**
+     * Modififs or rfplbdfs tif tbsk usfd to fxfdutf b runnbblf.
+     * Tiis mftiod dbn bf usfd to ovfrridf tif dondrftf
+     * dlbss usfd for mbnbging intfrnbl tbsks.
+     * Tif dffbult implfmfntbtion simply rfturns tif givfn tbsk.
+     *
+     * @pbrbm runnbblf tif submittfd Runnbblf
+     * @pbrbm tbsk tif tbsk drfbtfd to fxfdutf tif runnbblf
+     * @pbrbm <V> tif typf of tif tbsk's rfsult
+     * @rfturn b tbsk tibt dbn fxfdutf tif runnbblf
+     * @sindf 1.6
+     */
+    protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+        Runnbblf runnbblf, RunnbblfSdifdulfdFuturf<V> tbsk) {
+        rfturn tbsk;
+    }
+
+    /**
+     * Modififs or rfplbdfs tif tbsk usfd to fxfdutf b dbllbblf.
+     * Tiis mftiod dbn bf usfd to ovfrridf tif dondrftf
+     * dlbss usfd for mbnbging intfrnbl tbsks.
+     * Tif dffbult implfmfntbtion simply rfturns tif givfn tbsk.
+     *
+     * @pbrbm dbllbblf tif submittfd Cbllbblf
+     * @pbrbm tbsk tif tbsk drfbtfd to fxfdutf tif dbllbblf
+     * @pbrbm <V> tif typf of tif tbsk's rfsult
+     * @rfturn b tbsk tibt dbn fxfdutf tif dbllbblf
+     * @sindf 1.6
+     */
+    protfdtfd <V> RunnbblfSdifdulfdFuturf<V> dfdorbtfTbsk(
+        Cbllbblf<V> dbllbblf, RunnbblfSdifdulfdFuturf<V> tbsk) {
+        rfturn tbsk;
+    }
+
+    /**
+     * Crfbtfs b nfw {@dodf SdifdulfdTirfbdPoolExfdutor} witi tif
+     * givfn dorf pool sizf.
+     *
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     */
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf());
+    }
+
+    /**
+     * Crfbtfs b nfw {@dodf SdifdulfdTirfbdPoolExfdutor} witi tif
+     * givfn initibl pbrbmftfrs.
+     *
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn tif fxfdutor
+     *        drfbtfs b nfw tirfbd
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @tirows NullPointfrExdfption if {@dodf tirfbdFbdtory} is null
+     */
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf,
+                                       TirfbdFbdtory tirfbdFbdtory) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf(), tirfbdFbdtory);
+    }
+
+    /**
+     * Crfbtfs b nfw SdifdulfdTirfbdPoolExfdutor witi tif givfn
+     * initibl pbrbmftfrs.
+     *
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @pbrbm ibndlfr tif ibndlfr to usf wifn fxfdution is blodkfd
+     *        bfdbusf tif tirfbd bounds bnd qufuf dbpbditifs brf rfbdifd
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @tirows NullPointfrExdfption if {@dodf ibndlfr} is null
+     */
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf,
+                                       RfjfdtfdExfdutionHbndlfr ibndlfr) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf(), ibndlfr);
+    }
+
+    /**
+     * Crfbtfs b nfw SdifdulfdTirfbdPoolExfdutor witi tif givfn
+     * initibl pbrbmftfrs.
+     *
+     * @pbrbm dorfPoolSizf tif numbfr of tirfbds to kffp in tif pool, fvfn
+     *        if tify brf idlf, unlfss {@dodf bllowCorfTirfbdTimfOut} is sft
+     * @pbrbm tirfbdFbdtory tif fbdtory to usf wifn tif fxfdutor
+     *        drfbtfs b nfw tirfbd
+     * @pbrbm ibndlfr tif ibndlfr to usf wifn fxfdution is blodkfd
+     *        bfdbusf tif tirfbd bounds bnd qufuf dbpbditifs brf rfbdifd
+     * @tirows IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @tirows NullPointfrExdfption if {@dodf tirfbdFbdtory} or
+     *         {@dodf ibndlfr} is null
+     */
+    publid SdifdulfdTirfbdPoolExfdutor(int dorfPoolSizf,
+                                       TirfbdFbdtory tirfbdFbdtory,
+                                       RfjfdtfdExfdutionHbndlfr ibndlfr) {
+        supfr(dorfPoolSizf, Intfgfr.MAX_VALUE, 0, NANOSECONDS,
+              nfw DflbyfdWorkQufuf(), tirfbdFbdtory, ibndlfr);
+    }
+
+    /**
+     * Rfturns tif triggfr timf of b dflbyfd bdtion.
+     */
+    privbtf long triggfrTimf(long dflby, TimfUnit unit) {
+        rfturn triggfrTimf(unit.toNbnos((dflby < 0) ? 0 : dflby));
+    }
+
+    /**
+     * Rfturns tif triggfr timf of b dflbyfd bdtion.
+     */
+    long triggfrTimf(long dflby) {
+        rfturn now() +
+            ((dflby < (Long.MAX_VALUE >> 1)) ? dflby : ovfrflowFrff(dflby));
+    }
+
+    /**
+     * Constrbins tif vblufs of bll dflbys in tif qufuf to bf witiin
+     * Long.MAX_VALUE of fbdi otifr, to bvoid ovfrflow in dompbrfTo.
+     * Tiis mby oddur if b tbsk is fligiblf to bf dfqufufd, but ibs
+     * not yft bffn, wiilf somf otifr tbsk is bddfd witi b dflby of
+     * Long.MAX_VALUE.
+     */
+    privbtf long ovfrflowFrff(long dflby) {
+        Dflbyfd ifbd = (Dflbyfd) supfr.gftQufuf().pffk();
+        if (ifbd != null) {
+            long ifbdDflby = ifbd.gftDflby(NANOSECONDS);
+            if (ifbdDflby < 0 && (dflby - ifbdDflby < 0))
+                dflby = Long.MAX_VALUE + ifbdDflby;
+        }
+        rfturn dflby;
+    }
+
+    /**
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     */
+    publid SdifdulfdFuturf<?> sdifdulf(Runnbblf dommbnd,
+                                       long dflby,
+                                       TimfUnit unit) {
+        if (dommbnd == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        RunnbblfSdifdulfdFuturf<?> t = dfdorbtfTbsk(dommbnd,
+            nfw SdifdulfdFuturfTbsk<Void>(dommbnd, null,
+                                          triggfrTimf(dflby, unit)));
+        dflbyfdExfdutf(t);
+        rfturn t;
+    }
+
+    /**
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     */
+    publid <V> SdifdulfdFuturf<V> sdifdulf(Cbllbblf<V> dbllbblf,
+                                           long dflby,
+                                           TimfUnit unit) {
+        if (dbllbblf == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        RunnbblfSdifdulfdFuturf<V> t = dfdorbtfTbsk(dbllbblf,
+            nfw SdifdulfdFuturfTbsk<V>(dbllbblf,
+                                       triggfrTimf(dflby, unit)));
+        dflbyfdExfdutf(t);
+        rfturn t;
+    }
+
+    /**
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption   {@inifritDod}
+     */
+    publid SdifdulfdFuturf<?> sdifdulfAtFixfdRbtf(Runnbblf dommbnd,
+                                                  long initiblDflby,
+                                                  long pfriod,
+                                                  TimfUnit unit) {
+        if (dommbnd == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        if (pfriod <= 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        SdifdulfdFuturfTbsk<Void> sft =
+            nfw SdifdulfdFuturfTbsk<Void>(dommbnd,
+                                          null,
+                                          triggfrTimf(initiblDflby, unit),
+                                          unit.toNbnos(pfriod));
+        RunnbblfSdifdulfdFuturf<Void> t = dfdorbtfTbsk(dommbnd, sft);
+        sft.outfrTbsk = t;
+        dflbyfdExfdutf(t);
+        rfturn t;
+    }
+
+    /**
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption   {@inifritDod}
+     */
+    publid SdifdulfdFuturf<?> sdifdulfWitiFixfdDflby(Runnbblf dommbnd,
+                                                     long initiblDflby,
+                                                     long dflby,
+                                                     TimfUnit unit) {
+        if (dommbnd == null || unit == null)
+            tirow nfw NullPointfrExdfption();
+        if (dflby <= 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        SdifdulfdFuturfTbsk<Void> sft =
+            nfw SdifdulfdFuturfTbsk<Void>(dommbnd,
+                                          null,
+                                          triggfrTimf(initiblDflby, unit),
+                                          unit.toNbnos(-dflby));
+        RunnbblfSdifdulfdFuturf<Void> t = dfdorbtfTbsk(dommbnd, sft);
+        sft.outfrTbsk = t;
+        dflbyfdExfdutf(t);
+        rfturn t;
+    }
+
+    /**
+     * Exfdutfs {@dodf dommbnd} witi zfro rfquirfd dflby.
+     * Tiis ibs ffffdt fquivblfnt to
+     * {@link #sdifdulf(Runnbblf,long,TimfUnit) sdifdulf(dommbnd, 0, bnyUnit)}.
+     * Notf tibt inspfdtions of tif qufuf bnd of tif list rfturnfd by
+     * {@dodf siutdownNow} will bddfss tif zfro-dflbyfd
+     * {@link SdifdulfdFuturf}, not tif {@dodf dommbnd} itsflf.
+     *
+     * <p>A donsfqufndf of tif usf of {@dodf SdifdulfdFuturf} objfdts is
+     * tibt {@link TirfbdPoolExfdutor#bftfrExfdutf bftfrExfdutf} is blwbys
+     * dbllfd witi b null sfdond {@dodf Tirowbblf} brgumfnt, fvfn if tif
+     * {@dodf dommbnd} tfrminbtfd bbruptly.  Instfbd, tif {@dodf Tirowbblf}
+     * tirown by sudi b tbsk dbn bf obtbinfd vib {@link Futurf#gft}.
+     *
+     * @tirows RfjfdtfdExfdutionExdfption bt disdrftion of
+     *         {@dodf RfjfdtfdExfdutionHbndlfr}, if tif tbsk
+     *         dbnnot bf bddfptfd for fxfdution bfdbusf tif
+     *         fxfdutor ibs bffn siut down
+     * @tirows NullPointfrExdfption {@inifritDod}
+     */
+    publid void fxfdutf(Runnbblf dommbnd) {
+        sdifdulf(dommbnd, 0, NANOSECONDS);
+    }
+
+    // Ovfrridf AbstrbdtExfdutorSfrvidf mftiods
+
+    /**
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     */
+    publid Futurf<?> submit(Runnbblf tbsk) {
+        rfturn sdifdulf(tbsk, 0, NANOSECONDS);
+    }
+
+    /**
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     */
+    publid <T> Futurf<T> submit(Runnbblf tbsk, T rfsult) {
+        rfturn sdifdulf(Exfdutors.dbllbblf(tbsk, rfsult), 0, NANOSECONDS);
+    }
+
+    /**
+     * @tirows RfjfdtfdExfdutionExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption       {@inifritDod}
+     */
+    publid <T> Futurf<T> submit(Cbllbblf<T> tbsk) {
+        rfturn sdifdulf(tbsk, 0, NANOSECONDS);
+    }
+
+    /**
+     * Sfts tif polidy on wiftifr to dontinuf fxfduting fxisting
+     * pfriodid tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow} or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf fblsf}.
+     *
+     * @pbrbm vbluf if {@dodf truf}, dontinuf bftfr siutdown, flsf don't
+     * @sff #gftContinufExistingPfriodidTbsksAftfrSiutdownPolidy
+     */
+    publid void sftContinufExistingPfriodidTbsksAftfrSiutdownPolidy(boolfbn vbluf) {
+        dontinufExistingPfriodidTbsksAftfrSiutdown = vbluf;
+        if (!vbluf && isSiutdown())
+            onSiutdown();
+    }
+
+    /**
+     * Gfts tif polidy on wiftifr to dontinuf fxfduting fxisting
+     * pfriodid tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow} or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf fblsf}.
+     *
+     * @rfturn {@dodf truf} if will dontinuf bftfr siutdown
+     * @sff #sftContinufExistingPfriodidTbsksAftfrSiutdownPolidy
+     */
+    publid boolfbn gftContinufExistingPfriodidTbsksAftfrSiutdownPolidy() {
+        rfturn dontinufExistingPfriodidTbsksAftfrSiutdown;
+    }
+
+    /**
+     * Sfts tif polidy on wiftifr to fxfdutf fxisting dflbyfd
+     * tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow}, or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf truf}.
+     *
+     * @pbrbm vbluf if {@dodf truf}, fxfdutf bftfr siutdown, flsf don't
+     * @sff #gftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy
+     */
+    publid void sftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy(boolfbn vbluf) {
+        fxfdutfExistingDflbyfdTbsksAftfrSiutdown = vbluf;
+        if (!vbluf && isSiutdown())
+            onSiutdown();
+    }
+
+    /**
+     * Gfts tif polidy on wiftifr to fxfdutf fxisting dflbyfd
+     * tbsks fvfn wifn tiis fxfdutor ibs bffn {@dodf siutdown}.
+     * In tiis dbsf, tifsf tbsks will only tfrminbtf upon
+     * {@dodf siutdownNow}, or bftfr sftting tif polidy to
+     * {@dodf fblsf} wifn blrfbdy siutdown.
+     * Tiis vbluf is by dffbult {@dodf truf}.
+     *
+     * @rfturn {@dodf truf} if will fxfdutf bftfr siutdown
+     * @sff #sftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy
+     */
+    publid boolfbn gftExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy() {
+        rfturn fxfdutfExistingDflbyfdTbsksAftfrSiutdown;
+    }
+
+    /**
+     * Sfts tif polidy on wiftifr dbndfllfd tbsks siould bf immfdibtfly
+     * rfmovfd from tif work qufuf bt timf of dbndfllbtion.  Tiis vbluf is
+     * by dffbult {@dodf fblsf}.
+     *
+     * @pbrbm vbluf if {@dodf truf}, rfmovf on dbndfllbtion, flsf don't
+     * @sff #gftRfmovfOnCbndflPolidy
+     * @sindf 1.7
+     */
+    publid void sftRfmovfOnCbndflPolidy(boolfbn vbluf) {
+        rfmovfOnCbndfl = vbluf;
+    }
+
+    /**
+     * Gfts tif polidy on wiftifr dbndfllfd tbsks siould bf immfdibtfly
+     * rfmovfd from tif work qufuf bt timf of dbndfllbtion.  Tiis vbluf is
+     * by dffbult {@dodf fblsf}.
+     *
+     * @rfturn {@dodf truf} if dbndfllfd tbsks brf immfdibtfly rfmovfd
+     *         from tif qufuf
+     * @sff #sftRfmovfOnCbndflPolidy
+     * @sindf 1.7
+     */
+    publid boolfbn gftRfmovfOnCbndflPolidy() {
+        rfturn rfmovfOnCbndfl;
+    }
+
+    /**
+     * Initibtfs bn ordfrly siutdown in wiidi prfviously submittfd
+     * tbsks brf fxfdutfd, but no nfw tbsks will bf bddfptfd.
+     * Invodbtion ibs no bdditionbl ffffdt if blrfbdy siut down.
+     *
+     * <p>Tiis mftiod dofs not wbit for prfviously submittfd tbsks to
+     * domplftf fxfdution.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion}
+     * to do tibt.
+     *
+     * <p>If tif {@dodf ExfdutfExistingDflbyfdTbsksAftfrSiutdownPolidy}
+     * ibs bffn sft {@dodf fblsf}, fxisting dflbyfd tbsks wiosf dflbys
+     * ibvf not yft flbpsfd brf dbndfllfd.  And unlfss tif {@dodf
+     * ContinufExistingPfriodidTbsksAftfrSiutdownPolidy} ibs bffn sft
+     * {@dodf truf}, futurf fxfdutions of fxisting pfriodid tbsks will
+     * bf dbndfllfd.
+     *
+     * @tirows SfdurityExdfption {@inifritDod}
+     */
+    publid void siutdown() {
+        supfr.siutdown();
+    }
+
+    /**
+     * Attfmpts to stop bll bdtivfly fxfduting tbsks, iblts tif
+     * prodfssing of wbiting tbsks, bnd rfturns b list of tif tbsks
+     * tibt wfrf bwbiting fxfdution.
+     *
+     * <p>Tiis mftiod dofs not wbit for bdtivfly fxfduting tbsks to
+     * tfrminbtf.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion} to
+     * do tibt.
+     *
+     * <p>Tifrf brf no gubrbntffs bfyond bfst-fffort bttfmpts to stop
+     * prodfssing bdtivfly fxfduting tbsks.  Tiis implfmfntbtion
+     * dbndfls tbsks vib {@link Tirfbd#intfrrupt}, so bny tbsk tibt
+     * fbils to rfspond to intfrrupts mby nfvfr tfrminbtf.
+     *
+     * @rfturn list of tbsks tibt nfvfr dommfndfd fxfdution.
+     *         Ebdi flfmfnt of tiis list is b {@link SdifdulfdFuturf},
+     *         indluding tiosf tbsks submittfd using {@dodf fxfdutf},
+     *         wiidi brf for sdifduling purposfs usfd bs tif bbsis of b
+     *         zfro-dflby {@dodf SdifdulfdFuturf}.
+     * @tirows SfdurityExdfption {@inifritDod}
+     */
+    publid List<Runnbblf> siutdownNow() {
+        rfturn supfr.siutdownNow();
+    }
+
+    /**
+     * Rfturns tif tbsk qufuf usfd by tiis fxfdutor.  Ebdi flfmfnt of
+     * tiis qufuf is b {@link SdifdulfdFuturf}, indluding tiosf
+     * tbsks submittfd using {@dodf fxfdutf} wiidi brf for sdifduling
+     * purposfs usfd bs tif bbsis of b zfro-dflby
+     * {@dodf SdifdulfdFuturf}.  Itfrbtion ovfr tiis qufuf is
+     * <fm>not</fm> gubrbntffd to trbvfrsf tbsks in tif ordfr in
+     * wiidi tify will fxfdutf.
+     *
+     * @rfturn tif tbsk qufuf
+     */
+    publid BlodkingQufuf<Runnbblf> gftQufuf() {
+        rfturn supfr.gftQufuf();
+    }
+
+    /**
+     * Spfdiblizfd dflby qufuf. To mfsi witi TPE dfdlbrbtions, tiis
+     * dlbss must bf dfdlbrfd bs b BlodkingQufuf<Runnbblf> fvfn tiougi
+     * it dbn only iold RunnbblfSdifdulfdFuturfs.
+     */
+    stbtid dlbss DflbyfdWorkQufuf fxtfnds AbstrbdtQufuf<Runnbblf>
+        implfmfnts BlodkingQufuf<Runnbblf> {
+
+        /*
+         * A DflbyfdWorkQufuf is bbsfd on b ifbp-bbsfd dbtb strudturf
+         * likf tiosf in DflbyQufuf bnd PriorityQufuf, fxdfpt tibt
+         * fvfry SdifdulfdFuturfTbsk blso rfdords its indfx into tif
+         * ifbp brrby. Tiis fliminbtfs tif nffd to find b tbsk upon
+         * dbndfllbtion, grfbtly spffding up rfmovbl (down from O(n)
+         * to O(log n)), bnd rfduding gbrbbgf rftfntion tibt would
+         * otifrwisf oddur by wbiting for tif flfmfnt to risf to top
+         * bfforf dlfbring. But bfdbusf tif qufuf mby blso iold
+         * RunnbblfSdifdulfdFuturfs tibt brf not SdifdulfdFuturfTbsks,
+         * wf brf not gubrbntffd to ibvf sudi indidfs bvbilbblf, in
+         * wiidi dbsf wf fbll bbdk to linfbr sfbrdi. (Wf fxpfdt tibt
+         * most tbsks will not bf dfdorbtfd, bnd tibt tif fbstfr dbsfs
+         * will bf mudi morf dommon.)
+         *
+         * All ifbp opfrbtions must rfdord indfx dibngfs -- mbinly
+         * witiin siftUp bnd siftDown. Upon rfmovbl, b tbsk's
+         * ifbpIndfx is sft to -1. Notf tibt SdifdulfdFuturfTbsks dbn
+         * bppfbr bt most ondf in tif qufuf (tiis nffd not bf truf for
+         * otifr kinds of tbsks or work qufufs), so brf uniqufly
+         * idfntififd by ifbpIndfx.
+         */
+
+        privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+        privbtf RunnbblfSdifdulfdFuturf<?>[] qufuf =
+            nfw RunnbblfSdifdulfdFuturf<?>[INITIAL_CAPACITY];
+        privbtf finbl RffntrbntLodk lodk = nfw RffntrbntLodk();
+        privbtf int sizf = 0;
+
+        /**
+         * Tirfbd dfsignbtfd to wbit for tif tbsk bt tif ifbd of tif
+         * qufuf.  Tiis vbribnt of tif Lfbdfr-Followfr pbttfrn
+         * (ittp://www.ds.wustl.fdu/~sdimidt/POSA/POSA2/) sfrvfs to
+         * minimizf unnfdfssbry timfd wbiting.  Wifn b tirfbd bfdomfs
+         * tif lfbdfr, it wbits only for tif nfxt dflby to flbpsf, but
+         * otifr tirfbds bwbit indffinitfly.  Tif lfbdfr tirfbd must
+         * signbl somf otifr tirfbd bfforf rfturning from tbkf() or
+         * poll(...), unlfss somf otifr tirfbd bfdomfs lfbdfr in tif
+         * intfrim.  Wifnfvfr tif ifbd of tif qufuf is rfplbdfd witi b
+         * tbsk witi bn fbrlifr fxpirbtion timf, tif lfbdfr fifld is
+         * invblidbtfd by bfing rfsft to null, bnd somf wbiting
+         * tirfbd, but not nfdfssbrily tif durrfnt lfbdfr, is
+         * signbllfd.  So wbiting tirfbds must bf prfpbrfd to bdquirf
+         * bnd losf lfbdfrsiip wiilf wbiting.
+         */
+        privbtf Tirfbd lfbdfr = null;
+
+        /**
+         * Condition signbllfd wifn b nfwfr tbsk bfdomfs bvbilbblf bt tif
+         * ifbd of tif qufuf or b nfw tirfbd mby nffd to bfdomf lfbdfr.
+         */
+        privbtf finbl Condition bvbilbblf = lodk.nfwCondition();
+
+        /**
+         * Sfts f's ifbpIndfx if it is b SdifdulfdFuturfTbsk.
+         */
+        privbtf void sftIndfx(RunnbblfSdifdulfdFuturf<?> f, int idx) {
+            if (f instbndfof SdifdulfdFuturfTbsk)
+                ((SdifdulfdFuturfTbsk)f).ifbpIndfx = idx;
+        }
+
+        /**
+         * Sifts flfmfnt bddfd bt bottom up to its ifbp-ordfrfd spot.
+         * Cbll only wifn iolding lodk.
+         */
+        privbtf void siftUp(int k, RunnbblfSdifdulfdFuturf<?> kfy) {
+            wiilf (k > 0) {
+                int pbrfnt = (k - 1) >>> 1;
+                RunnbblfSdifdulfdFuturf<?> f = qufuf[pbrfnt];
+                if (kfy.dompbrfTo(f) >= 0)
+                    brfbk;
+                qufuf[k] = f;
+                sftIndfx(f, k);
+                k = pbrfnt;
+            }
+            qufuf[k] = kfy;
+            sftIndfx(kfy, k);
+        }
+
+        /**
+         * Sifts flfmfnt bddfd bt top down to its ifbp-ordfrfd spot.
+         * Cbll only wifn iolding lodk.
+         */
+        privbtf void siftDown(int k, RunnbblfSdifdulfdFuturf<?> kfy) {
+            int iblf = sizf >>> 1;
+            wiilf (k < iblf) {
+                int diild = (k << 1) + 1;
+                RunnbblfSdifdulfdFuturf<?> d = qufuf[diild];
+                int rigit = diild + 1;
+                if (rigit < sizf && d.dompbrfTo(qufuf[rigit]) > 0)
+                    d = qufuf[diild = rigit];
+                if (kfy.dompbrfTo(d) <= 0)
+                    brfbk;
+                qufuf[k] = d;
+                sftIndfx(d, k);
+                k = diild;
+            }
+            qufuf[k] = kfy;
+            sftIndfx(kfy, k);
+        }
+
+        /**
+         * Rfsizfs tif ifbp brrby.  Cbll only wifn iolding lodk.
+         */
+        privbtf void grow() {
+            int oldCbpbdity = qufuf.lfngti;
+            int nfwCbpbdity = oldCbpbdity + (oldCbpbdity >> 1); // grow 50%
+            if (nfwCbpbdity < 0) // ovfrflow
+                nfwCbpbdity = Intfgfr.MAX_VALUE;
+            qufuf = Arrbys.dopyOf(qufuf, nfwCbpbdity);
+        }
+
+        /**
+         * Finds indfx of givfn objfdt, or -1 if bbsfnt.
+         */
+        privbtf int indfxOf(Objfdt x) {
+            if (x != null) {
+                if (x instbndfof SdifdulfdFuturfTbsk) {
+                    int i = ((SdifdulfdFuturfTbsk) x).ifbpIndfx;
+                    // Sbnity difdk; x dould dondfivbbly bf b
+                    // SdifdulfdFuturfTbsk from somf otifr pool.
+                    if (i >= 0 && i < sizf && qufuf[i] == x)
+                        rfturn i;
+                } flsf {
+                    for (int i = 0; i < sizf; i++)
+                        if (x.fqubls(qufuf[i]))
+                            rfturn i;
+                }
+            }
+            rfturn -1;
+        }
+
+        publid boolfbn dontbins(Objfdt x) {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                rfturn indfxOf(x) != -1;
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid boolfbn rfmovf(Objfdt x) {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                int i = indfxOf(x);
+                if (i < 0)
+                    rfturn fblsf;
+
+                sftIndfx(qufuf[i], -1);
+                int s = --sizf;
+                RunnbblfSdifdulfdFuturf<?> rfplbdfmfnt = qufuf[s];
+                qufuf[s] = null;
+                if (s != i) {
+                    siftDown(i, rfplbdfmfnt);
+                    if (qufuf[i] == rfplbdfmfnt)
+                        siftUp(i, rfplbdfmfnt);
+                }
+                rfturn truf;
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid int sizf() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                rfturn sizf;
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid boolfbn isEmpty() {
+            rfturn sizf() == 0;
+        }
+
+        publid int rfmbiningCbpbdity() {
+            rfturn Intfgfr.MAX_VALUE;
+        }
+
+        publid RunnbblfSdifdulfdFuturf<?> pffk() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                rfturn qufuf[0];
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid boolfbn offfr(Runnbblf x) {
+            if (x == null)
+                tirow nfw NullPointfrExdfption();
+            RunnbblfSdifdulfdFuturf<?> f = (RunnbblfSdifdulfdFuturf<?>)x;
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                int i = sizf;
+                if (i >= qufuf.lfngti)
+                    grow();
+                sizf = i + 1;
+                if (i == 0) {
+                    qufuf[0] = f;
+                    sftIndfx(f, 0);
+                } flsf {
+                    siftUp(i, f);
+                }
+                if (qufuf[0] == f) {
+                    lfbdfr = null;
+                    bvbilbblf.signbl();
+                }
+            } finblly {
+                lodk.unlodk();
+            }
+            rfturn truf;
+        }
+
+        publid void put(Runnbblf f) {
+            offfr(f);
+        }
+
+        publid boolfbn bdd(Runnbblf f) {
+            rfturn offfr(f);
+        }
+
+        publid boolfbn offfr(Runnbblf f, long timfout, TimfUnit unit) {
+            rfturn offfr(f);
+        }
+
+        /**
+         * Pfrforms dommon bookkffping for poll bnd tbkf: Rfplbdfs
+         * first flfmfnt witi lbst bnd sifts it down.  Cbll only wifn
+         * iolding lodk.
+         * @pbrbm f tif tbsk to rfmovf bnd rfturn
+         */
+        privbtf RunnbblfSdifdulfdFuturf<?> finisiPoll(RunnbblfSdifdulfdFuturf<?> f) {
+            int s = --sizf;
+            RunnbblfSdifdulfdFuturf<?> x = qufuf[s];
+            qufuf[s] = null;
+            if (s != 0)
+                siftDown(0, x);
+            sftIndfx(f, -1);
+            rfturn f;
+        }
+
+        publid RunnbblfSdifdulfdFuturf<?> poll() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
+                if (first == null || first.gftDflby(NANOSECONDS) > 0)
+                    rfturn null;
+                flsf
+                    rfturn finisiPoll(first);
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid RunnbblfSdifdulfdFuturf<?> tbkf() tirows IntfrruptfdExdfption {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodkIntfrruptibly();
+            try {
+                for (;;) {
+                    RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
+                    if (first == null)
+                        bvbilbblf.bwbit();
+                    flsf {
+                        long dflby = first.gftDflby(NANOSECONDS);
+                        if (dflby <= 0)
+                            rfturn finisiPoll(first);
+                        first = null; // don't rftbin rff wiilf wbiting
+                        if (lfbdfr != null)
+                            bvbilbblf.bwbit();
+                        flsf {
+                            Tirfbd tiisTirfbd = Tirfbd.durrfntTirfbd();
+                            lfbdfr = tiisTirfbd;
+                            try {
+                                bvbilbblf.bwbitNbnos(dflby);
+                            } finblly {
+                                if (lfbdfr == tiisTirfbd)
+                                    lfbdfr = null;
+                            }
+                        }
+                    }
+                }
+            } finblly {
+                if (lfbdfr == null && qufuf[0] != null)
+                    bvbilbblf.signbl();
+                lodk.unlodk();
+            }
+        }
+
+        publid RunnbblfSdifdulfdFuturf<?> poll(long timfout, TimfUnit unit)
+            tirows IntfrruptfdExdfption {
+            long nbnos = unit.toNbnos(timfout);
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodkIntfrruptibly();
+            try {
+                for (;;) {
+                    RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
+                    if (first == null) {
+                        if (nbnos <= 0)
+                            rfturn null;
+                        flsf
+                            nbnos = bvbilbblf.bwbitNbnos(nbnos);
+                    } flsf {
+                        long dflby = first.gftDflby(NANOSECONDS);
+                        if (dflby <= 0)
+                            rfturn finisiPoll(first);
+                        if (nbnos <= 0)
+                            rfturn null;
+                        first = null; // don't rftbin rff wiilf wbiting
+                        if (nbnos < dflby || lfbdfr != null)
+                            nbnos = bvbilbblf.bwbitNbnos(nbnos);
+                        flsf {
+                            Tirfbd tiisTirfbd = Tirfbd.durrfntTirfbd();
+                            lfbdfr = tiisTirfbd;
+                            try {
+                                long timfLfft = bvbilbblf.bwbitNbnos(dflby);
+                                nbnos -= dflby - timfLfft;
+                            } finblly {
+                                if (lfbdfr == tiisTirfbd)
+                                    lfbdfr = null;
+                            }
+                        }
+                    }
+                }
+            } finblly {
+                if (lfbdfr == null && qufuf[0] != null)
+                    bvbilbblf.signbl();
+                lodk.unlodk();
+            }
+        }
+
+        publid void dlfbr() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                for (int i = 0; i < sizf; i++) {
+                    RunnbblfSdifdulfdFuturf<?> t = qufuf[i];
+                    if (t != null) {
+                        qufuf[i] = null;
+                        sftIndfx(t, -1);
+                    }
+                }
+                sizf = 0;
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        /**
+         * Rfturns first flfmfnt only if it is fxpirfd.
+         * Usfd only by drbinTo.  Cbll only wifn iolding lodk.
+         */
+        privbtf RunnbblfSdifdulfdFuturf<?> pffkExpirfd() {
+            // bssfrt lodk.isHfldByCurrfntTirfbd();
+            RunnbblfSdifdulfdFuturf<?> first = qufuf[0];
+            rfturn (first == null || first.gftDflby(NANOSECONDS) > 0) ?
+                null : first;
+        }
+
+        publid int drbinTo(Collfdtion<? supfr Runnbblf> d) {
+            if (d == null)
+                tirow nfw NullPointfrExdfption();
+            if (d == tiis)
+                tirow nfw IllfgblArgumfntExdfption();
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                RunnbblfSdifdulfdFuturf<?> first;
+                int n = 0;
+                wiilf ((first = pffkExpirfd()) != null) {
+                    d.bdd(first);   // In tiis ordfr, in dbsf bdd() tirows.
+                    finisiPoll(first);
+                    ++n;
+                }
+                rfturn n;
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid int drbinTo(Collfdtion<? supfr Runnbblf> d, int mbxElfmfnts) {
+            if (d == null)
+                tirow nfw NullPointfrExdfption();
+            if (d == tiis)
+                tirow nfw IllfgblArgumfntExdfption();
+            if (mbxElfmfnts <= 0)
+                rfturn 0;
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                RunnbblfSdifdulfdFuturf<?> first;
+                int n = 0;
+                wiilf (n < mbxElfmfnts && (first = pffkExpirfd()) != null) {
+                    d.bdd(first);   // In tiis ordfr, in dbsf bdd() tirows.
+                    finisiPoll(first);
+                    ++n;
+                }
+                rfturn n;
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid Objfdt[] toArrby() {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                rfturn Arrbys.dopyOf(qufuf, sizf, Objfdt[].dlbss);
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        @SupprfssWbrnings("undifdkfd")
+        publid <T> T[] toArrby(T[] b) {
+            finbl RffntrbntLodk lodk = tiis.lodk;
+            lodk.lodk();
+            try {
+                if (b.lfngti < sizf)
+                    rfturn (T[]) Arrbys.dopyOf(qufuf, sizf, b.gftClbss());
+                Systfm.brrbydopy(qufuf, 0, b, 0, sizf);
+                if (b.lfngti > sizf)
+                    b[sizf] = null;
+                rfturn b;
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+
+        publid Itfrbtor<Runnbblf> itfrbtor() {
+            rfturn nfw Itr(Arrbys.dopyOf(qufuf, sizf));
+        }
+
+        /**
+         * Snbpsiot itfrbtor tibt works off dopy of undfrlying q brrby.
+         */
+        privbtf dlbss Itr implfmfnts Itfrbtor<Runnbblf> {
+            finbl RunnbblfSdifdulfdFuturf<?>[] brrby;
+            int dursor = 0;     // indfx of nfxt flfmfnt to rfturn
+            int lbstRft = -1;   // indfx of lbst flfmfnt, or -1 if no sudi
+
+            Itr(RunnbblfSdifdulfdFuturf<?>[] brrby) {
+                tiis.brrby = brrby;
+            }
+
+            publid boolfbn ibsNfxt() {
+                rfturn dursor < brrby.lfngti;
+            }
+
+            publid Runnbblf nfxt() {
+                if (dursor >= brrby.lfngti)
+                    tirow nfw NoSudiElfmfntExdfption();
+                lbstRft = dursor;
+                rfturn brrby[dursor++];
+            }
+
+            publid void rfmovf() {
+                if (lbstRft < 0)
+                    tirow nfw IllfgblStbtfExdfption();
+                DflbyfdWorkQufuf.tiis.rfmovf(brrby[lbstRft]);
+                lbstRft = -1;
+            }
+        }
+    }
+}

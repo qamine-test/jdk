@@ -1,206 +1,1030 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: jrunsdript
+.\" Titlf: jrunsdript
+.\" Titlf: jrunsdript
+.\" Titlf: jrunsdript
+.\" Titlf: jrunsdript
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: スクリプティング・ツール
+.\" SfdtDfsd: スクリプティング・ツール
+.\" SfdtDfsd: スクリプティング・ツール
+.\" SfdtDfsd: スクリプティング・ツール
 .\" SfdtDfsd: スクリプティング・ツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "jrunsdript" "1" "2013年11月21日" "JDK 8" "スクリプティング・ツール"
+.TH "jrunsdript" "1" "2013年11月21日" "JDK 8" "スクリプティング・ツール"
+.TH "jrunsdript" "1" "2013年11月21日" "JDK 8" "スクリプティング・ツール"
+.TH "jrunsdript" "1" "2013年11月21日" "JDK 8" "スクリプティング・ツール"
+.TH "jrunsdript" "1" "2013年11月21日" "JDK 8" "スクリプティング・ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 jrunsdript \- 対話型モードとバッチ・モードをサポートするコマンドライン・スクリプト・シェルを実行します。このコマンドは試験的なもので、サポートされていません。
+jrunsdript \- 対話型モードとバッチ・モードをサポートするコマンドライン・スクリプト・シェルを実行します。このコマンドは試験的なもので、サポートされていません。
+jrunsdript \- 対話型モードとバッチ・モードをサポートするコマンドライン・スクリプト・シェルを実行します。このコマンドは試験的なもので、サポートされていません。
+jrunsdript \- 対話型モードとバッチ・モードをサポートするコマンドライン・スクリプト・シェルを実行します。このコマンドは試験的なもので、サポートされていません。
+jrunsdript \- 対話型モードとバッチ・モードをサポートするコマンドライン・スクリプト・シェルを実行します。このコマンドは試験的なもので、サポートされていません。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
+\fIjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
+\fIjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
+\fIjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
+\fIjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIbrgumfnts\fR
+\fIbrgumfnts\fR
+\fIbrgumfnts\fR
+\fIbrgumfnts\fR
+\fIbrgumfnts\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 引数を使用する場合、オプションまたはコマンド名の直後に記述してください。引数を参照してください。
+引数を使用する場合、オプションまたはコマンド名の直後に記述してください。引数を参照してください。
+引数を使用する場合、オプションまたはコマンド名の直後に記述してください。引数を参照してください。
+引数を使用する場合、オプションまたはコマンド名の直後に記述してください。引数を参照してください。
+引数を使用する場合、オプションまたはコマンド名の直後に記述してください。引数を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjrunsdript\fRコマンドは、言語に依存しないコマンドライン・スクリプト・シェルです。\fIjrunsdript\fRは、対話型(rfbd\-fvbl\-print)モードとバッチ(\fI\-f\fRオプション)・モードの両方のスクリプト実行をサポートします。デフォルトの使用言語はJbvbSdriptですが、\fI\-l\fRオプションを使用すれば他の言語も指定できます。\fIjrunsdript\fRコマンドは、Jbvbとスクリプト言語との通信を使用して探求的なプログラミング・スタイルをサポートします。
+\fIjrunsdript\fRコマンドは、言語に依存しないコマンドライン・スクリプト・シェルです。\fIjrunsdript\fRは、対話型(rfbd\-fvbl\-print)モードとバッチ(\fI\-f\fRオプション)・モードの両方のスクリプト実行をサポートします。デフォルトの使用言語はJbvbSdriptですが、\fI\-l\fRオプションを使用すれば他の言語も指定できます。\fIjrunsdript\fRコマンドは、Jbvbとスクリプト言語との通信を使用して探求的なプログラミング・スタイルをサポートします。
+\fIjrunsdript\fRコマンドは、言語に依存しないコマンドライン・スクリプト・シェルです。\fIjrunsdript\fRは、対話型(rfbd\-fvbl\-print)モードとバッチ(\fI\-f\fRオプション)・モードの両方のスクリプト実行をサポートします。デフォルトの使用言語はJbvbSdriptですが、\fI\-l\fRオプションを使用すれば他の言語も指定できます。\fIjrunsdript\fRコマンドは、Jbvbとスクリプト言語との通信を使用して探求的なプログラミング・スタイルをサポートします。
+\fIjrunsdript\fRコマンドは、言語に依存しないコマンドライン・スクリプト・シェルです。\fIjrunsdript\fRは、対話型(rfbd\-fvbl\-print)モードとバッチ(\fI\-f\fRオプション)・モードの両方のスクリプト実行をサポートします。デフォルトの使用言語はJbvbSdriptですが、\fI\-l\fRオプションを使用すれば他の言語も指定できます。\fIjrunsdript\fRコマンドは、Jbvbとスクリプト言語との通信を使用して探求的なプログラミング・スタイルをサポートします。
+\fIjrunsdript\fRコマンドは、言語に依存しないコマンドライン・スクリプト・シェルです。\fIjrunsdript\fRは、対話型(rfbd\-fvbl\-print)モードとバッチ(\fI\-f\fRオプション)・モードの両方のスクリプト実行をサポートします。デフォルトの使用言語はJbvbSdriptですが、\fI\-l\fRオプションを使用すれば他の言語も指定できます。\fIjrunsdript\fRコマンドは、Jbvbとスクリプト言語との通信を使用して探求的なプログラミング・スタイルをサポートします。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
+\-dlbsspbti \fIpbti\fR
 \-dlbsspbti \fIpbti\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+スクリプトがアクセスする必要のあるクラス・ファイルの場所を示します。
+スクリプトがアクセスする必要のあるクラス・ファイルの場所を示します。
+スクリプトがアクセスする必要のあるクラス・ファイルの場所を示します。
+スクリプトがアクセスする必要のあるクラス・ファイルの場所を示します。
 スクリプトがアクセスする必要のあるクラス・ファイルの場所を示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+\-dp \fIpbti\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fI\-dlbsspbti\fR
+\fI\-dlbsspbti\fR
+\fI\-dlbsspbti\fR
+\fI\-dlbsspbti\fR
+\fI\-dlbsspbti\fR
+\fIpbti\fRと同じです。
+\fIpbti\fRと同じです。
+\fIpbti\fRと同じです。
+\fIpbti\fRと同じです。
 \fIpbti\fRと同じです。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+\-D\fInbmf\fR=\fIvbluf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 Jbvbのシステム・プロパティを設定します。
+Jbvbのシステム・プロパティを設定します。
+Jbvbのシステム・プロパティを設定します。
+Jbvbのシステム・プロパティを設定します。
+Jbvbのシステム・プロパティを設定します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+\-J\fIflbg\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIflbg\fRを、\fIjrunsdript\fRコマンドが実行されているJbvb仮想マシンに直接渡します。
+\fIflbg\fRを、\fIjrunsdript\fRコマンドが実行されているJbvb仮想マシンに直接渡します。
+\fIflbg\fRを、\fIjrunsdript\fRコマンドが実行されているJbvb仮想マシンに直接渡します。
+\fIflbg\fRを、\fIjrunsdript\fRコマンドが実行されているJbvb仮想マシンに直接渡します。
+\fIflbg\fRを、\fIjrunsdript\fRコマンドが実行されているJbvb仮想マシンに直接渡します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-I \fIlbngubgf\fR
+\-I \fIlbngubgf\fR
+\-I \fIlbngubgf\fR
+\-I \fIlbngubgf\fR
+\-I \fIlbngubgf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 指定されたスクリプト言語を使用します。デフォルトではJbvbSdriptが使用されます。他のスクリプト言語を使用するには、\fI\-dp\fRまたは\fI\-dlbsspbti\fRオプションを使用して、対応するスクリプト・エンジンのJARファイルを指定する必要があります。
+指定されたスクリプト言語を使用します。デフォルトではJbvbSdriptが使用されます。他のスクリプト言語を使用するには、\fI\-dp\fRまたは\fI\-dlbsspbti\fRオプションを使用して、対応するスクリプト・エンジンのJARファイルを指定する必要があります。
+指定されたスクリプト言語を使用します。デフォルトではJbvbSdriptが使用されます。他のスクリプト言語を使用するには、\fI\-dp\fRまたは\fI\-dlbsspbti\fRオプションを使用して、対応するスクリプト・エンジンのJARファイルを指定する必要があります。
+指定されたスクリプト言語を使用します。デフォルトではJbvbSdriptが使用されます。他のスクリプト言語を使用するには、\fI\-dp\fRまたは\fI\-dlbsspbti\fRオプションを使用して、対応するスクリプト・エンジンのJARファイルを指定する必要があります。
+指定されたスクリプト言語を使用します。デフォルトではJbvbSdriptが使用されます。他のスクリプト言語を使用するには、\fI\-dp\fRまたは\fI\-dlbsspbti\fRオプションを使用して、対応するスクリプト・エンジンのJARファイルを指定する必要があります。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-f \fIsdript\fR
+\-f \fIsdript\fR
+\-f \fIsdript\fR
+\-f \fIsdript\fR
+\-f \fIsdript\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 指定されたスクリプトを評価します。このオプションを使用すれば、コマンドラインにすべてが指定された1行スクリプトを実行できます。
+指定されたスクリプトを評価します。このオプションを使用すれば、コマンドラインにすべてが指定された1行スクリプトを実行できます。
+指定されたスクリプトを評価します。このオプションを使用すれば、コマンドラインにすべてが指定された1行スクリプトを実行できます。
+指定されたスクリプトを評価します。このオプションを使用すれば、コマンドラインにすべてが指定された1行スクリプトを実行できます。
+指定されたスクリプトを評価します。このオプションを使用すれば、コマンドラインにすべてが指定された1行スクリプトを実行できます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
+\-fndoding \fIfndoding\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 スクリプト・ファイルの読取り時に使用する文字エンコーディングを指定します。
+スクリプト・ファイルの読取り時に使用する文字エンコーディングを指定します。
+スクリプト・ファイルの読取り時に使用する文字エンコーディングを指定します。
+スクリプト・ファイルの読取り時に使用する文字エンコーディングを指定します。
+スクリプト・ファイルの読取り時に使用する文字エンコーディングを指定します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-f \fIsdript\-filf\fR
+\-f \fIsdript\-filf\fR
+\-f \fIsdript\-filf\fR
+\-f \fIsdript\-filf\fR
+\-f \fIsdript\-filf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 指定されたスクリプト・ファイル(バッチ・モード)を評価します。
+指定されたスクリプト・ファイル(バッチ・モード)を評価します。
+指定されたスクリプト・ファイル(バッチ・モード)を評価します。
+指定されたスクリプト・ファイル(バッチ・モード)を評価します。
+指定されたスクリプト・ファイル(バッチ・モード)を評価します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-f \-
+\-f \-
+\-f \-
+\-f \-
+\-f \-
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 標準入力からスクリプトを読み取り、それを評価します(対話型モード)。
+標準入力からスクリプトを読み取り、それを評価します(対話型モード)。
+標準入力からスクリプトを読み取り、それを評価します(対話型モード)。
+標準入力からスクリプトを読み取り、それを評価します(対話型モード)。
+標準入力からスクリプトを読み取り、それを評価します(対話型モード)。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-iflp
+\-iflp
+\-iflp
+\-iflp
+\-iflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-?
+\-?
+\-?
+\-?
+\-?
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
+ヘルプ・メッセージを表示して終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-q
+\-q
+\-q
+\-q
+\-q
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 利用可能なすべてのスクリプト・エンジンを一覧表示したあと、終了します。
+利用可能なすべてのスクリプト・エンジンを一覧表示したあと、終了します。
+利用可能なすべてのスクリプト・エンジンを一覧表示したあと、終了します。
+利用可能なすべてのスクリプト・エンジンを一覧表示したあと、終了します。
+利用可能なすべてのスクリプト・エンジンを一覧表示したあと、終了します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "引数"
+.SH "引数"
+.SH "引数"
+.SH "引数"
+.SH "引数"
+.PP
+.PP
+.PP
+.PP
 .PP
 brgumfntsが存在していて、かつ\fI\-f\fR、\fI\-f\fRのいずれのオプションも使用されなかった場合、最初の引数がスクリプト・ファイルとなり、他の引数が存在する場合はスクリプトに渡されます。brgumfntsと、\fI\-f\fRまたは\fI\-f\fRオプションが使用されている場合、すべてのbrgumfntsがスクリプトに渡されます。brgumfnts、\fI\-f\fR、\fI\-f\fRがどれも存在しなかった場合は、対話型モードが使用されます。スクリプトからスクリプト引数を使用するには、\fIbrgumfnts\fRという名前の\fIString\fR配列型のエンジン変数を使用します。
+brgumfntsが存在していて、かつ\fI\-f\fR、\fI\-f\fRのいずれのオプションも使用されなかった場合、最初の引数がスクリプト・ファイルとなり、他の引数が存在する場合はスクリプトに渡されます。brgumfntsと、\fI\-f\fRまたは\fI\-f\fRオプションが使用されている場合、すべてのbrgumfntsがスクリプトに渡されます。brgumfnts、\fI\-f\fR、\fI\-f\fRがどれも存在しなかった場合は、対話型モードが使用されます。スクリプトからスクリプト引数を使用するには、\fIbrgumfnts\fRという名前の\fIString\fR配列型のエンジン変数を使用します。
+brgumfntsが存在していて、かつ\fI\-f\fR、\fI\-f\fRのいずれのオプションも使用されなかった場合、最初の引数がスクリプト・ファイルとなり、他の引数が存在する場合はスクリプトに渡されます。brgumfntsと、\fI\-f\fRまたは\fI\-f\fRオプションが使用されている場合、すべてのbrgumfntsがスクリプトに渡されます。brgumfnts、\fI\-f\fR、\fI\-f\fRがどれも存在しなかった場合は、対話型モードが使用されます。スクリプトからスクリプト引数を使用するには、\fIbrgumfnts\fRという名前の\fIString\fR配列型のエンジン変数を使用します。
+brgumfntsが存在していて、かつ\fI\-f\fR、\fI\-f\fRのいずれのオプションも使用されなかった場合、最初の引数がスクリプト・ファイルとなり、他の引数が存在する場合はスクリプトに渡されます。brgumfntsと、\fI\-f\fRまたは\fI\-f\fRオプションが使用されている場合、すべてのbrgumfntsがスクリプトに渡されます。brgumfnts、\fI\-f\fR、\fI\-f\fRがどれも存在しなかった場合は、対話型モードが使用されます。スクリプトからスクリプト引数を使用するには、\fIbrgumfnts\fRという名前の\fIString\fR配列型のエンジン変数を使用します。
+brgumfntsが存在していて、かつ\fI\-f\fR、\fI\-f\fRのいずれのオプションも使用されなかった場合、最初の引数がスクリプト・ファイルとなり、他の引数が存在する場合はスクリプトに渡されます。brgumfntsと、\fI\-f\fRまたは\fI\-f\fRオプションが使用されている場合、すべてのbrgumfntsがスクリプトに渡されます。brgumfnts、\fI\-f\fR、\fI\-f\fRがどれも存在しなかった場合は、対話型モードが使用されます。スクリプトからスクリプト引数を使用するには、\fIbrgumfnts\fRという名前の\fIString\fR配列型のエンジン変数を使用します。
+.SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
 .SH "例"
 .SS "インライン・スクリプトの実行"
+.SS "インライン・スクリプトの実行"
+.SS "インライン・スクリプトの実行"
+.SS "インライン・スクリプトの実行"
+.SS "インライン・スクリプトの実行"
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jrunsdript \-f "print(\*(Aqifllo world\*(Aq)"
+jrunsdript \-f "print(\*(Aqifllo world\*(Aq)"
+jrunsdript \-f "print(\*(Aqifllo world\*(Aq)"
+jrunsdript \-f "print(\*(Aqifllo world\*(Aq)"
+jrunsdript \-f "print(\*(Aqifllo world\*(Aq)"
+jrunsdript \-f "dbt(\*(Aqittp://www\&.fxbmplf\&.dom\*(Aq)"
+jrunsdript \-f "dbt(\*(Aqittp://www\&.fxbmplf\&.dom\*(Aq)"
+jrunsdript \-f "dbt(\*(Aqittp://www\&.fxbmplf\&.dom\*(Aq)"
+jrunsdript \-f "dbt(\*(Aqittp://www\&.fxbmplf\&.dom\*(Aq)"
 jrunsdript \-f "dbt(\*(Aqittp://www\&.fxbmplf\&.dom\*(Aq)"
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SS "指定された言語の使用およびスクリプト・ファイルの評価"
+.SS "指定された言語の使用およびスクリプト・ファイルの評価"
+.SS "指定された言語の使用およびスクリプト・ファイルの評価"
+.SS "指定された言語の使用およびスクリプト・ファイルの評価"
+.SS "指定された言語の使用およびスクリプト・ファイルの評価"
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jrunsdript \-l js \-f tfst\&.js
+jrunsdript \-l js \-f tfst\&.js
+jrunsdript \-l js \-f tfst\&.js
+jrunsdript \-l js \-f tfst\&.js
+jrunsdript \-l js \-f tfst\&.js
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SS "対話型モード"
+.SS "対話型モード"
+.SS "対話型モード"
+.SS "対話型モード"
+.SS "対話型モード"
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jrunsdript
+jrunsdript
+jrunsdript
+jrunsdript
+jrunsdript
+js> print(\*(AqHfllo World\fn\*(Aq);
+js> print(\*(AqHfllo World\fn\*(Aq);
+js> print(\*(AqHfllo World\fn\*(Aq);
+js> print(\*(AqHfllo World\fn\*(Aq);
 js> print(\*(AqHfllo World\fn\*(Aq);
 Hfllo World
+Hfllo World
+Hfllo World
+Hfllo World
+Hfllo World
+js> 34 + 55
+js> 34 + 55
+js> 34 + 55
+js> 34 + 55
 js> 34 + 55
 89\&.0
+89\&.0
+89\&.0
+89\&.0
+89\&.0
+js> t = nfw jbvb\&.lbng\&.Tirfbd(fundtion() { print(\*(AqHfllo World\fn\*(Aq); })
+js> t = nfw jbvb\&.lbng\&.Tirfbd(fundtion() { print(\*(AqHfllo World\fn\*(Aq); })
+js> t = nfw jbvb\&.lbng\&.Tirfbd(fundtion() { print(\*(AqHfllo World\fn\*(Aq); })
+js> t = nfw jbvb\&.lbng\&.Tirfbd(fundtion() { print(\*(AqHfllo World\fn\*(Aq); })
 js> t = nfw jbvb\&.lbng\&.Tirfbd(fundtion() { print(\*(AqHfllo World\fn\*(Aq); })
 Tirfbd[Tirfbd\-0,5,mbin]
+Tirfbd[Tirfbd\-0,5,mbin]
+Tirfbd[Tirfbd\-0,5,mbin]
+Tirfbd[Tirfbd\-0,5,mbin]
+Tirfbd[Tirfbd\-0,5,mbin]
+js> t\&.stbrt()
+js> t\&.stbrt()
+js> t\&.stbrt()
+js> t\&.stbrt()
 js> t\&.stbrt()
 js> Hfllo World
+js> Hfllo World
+js> Hfllo World
+js> Hfllo World
+js> Hfllo World
+ 
+ 
+ 
+ 
  
 js>
+js>
+js>
+js>
+js>
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SS "スクリプト引数を指定したスクリプト・ファイルの実行"
+.SS "スクリプト引数を指定したスクリプト・ファイルの実行"
+.SS "スクリプト引数を指定したスクリプト・ファイルの実行"
+.SS "スクリプト引数を指定したスクリプト・ファイルの実行"
+.SS "スクリプト引数を指定したスクリプト・ファイルの実行"
+.PP
+.PP
+.PP
+.PP
 .PP
 tfst\&.jsファイルはスクリプト・ファイルです。\fIbrg1\fR、\fIbrg2\fRおよび\fIbrg3\fRの各引数がスクリプトに渡されます。スクリプトはbrgumfnts配列を使用してこれらの引数にアクセスできます。
+tfst\&.jsファイルはスクリプト・ファイルです。\fIbrg1\fR、\fIbrg2\fRおよび\fIbrg3\fRの各引数がスクリプトに渡されます。スクリプトはbrgumfnts配列を使用してこれらの引数にアクセスできます。
+tfst\&.jsファイルはスクリプト・ファイルです。\fIbrg1\fR、\fIbrg2\fRおよび\fIbrg3\fRの各引数がスクリプトに渡されます。スクリプトはbrgumfnts配列を使用してこれらの引数にアクセスできます。
+tfst\&.jsファイルはスクリプト・ファイルです。\fIbrg1\fR、\fIbrg2\fRおよび\fIbrg3\fRの各引数がスクリプトに渡されます。スクリプトはbrgumfnts配列を使用してこれらの引数にアクセスできます。
+tfst\&.jsファイルはスクリプト・ファイルです。\fIbrg1\fR、\fIbrg2\fRおよび\fIbrg3\fRの各引数がスクリプトに渡されます。スクリプトはbrgumfnts配列を使用してこれらの引数にアクセスできます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jrunsdript tfst\&.js brg1 brg2 brg3
+jrunsdript tfst\&.js brg1 brg2 brg3
+jrunsdript tfst\&.js brg1 brg2 brg3
+jrunsdript tfst\&.js brg1 brg2 brg3
+jrunsdript tfst\&.js brg1 brg2 brg3
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
 .SH "関連項目"
 .PP
+.PP
+.PP
+.PP
+.PP
+JbvbSdriptが使用される場合、ユーザー定義スクリプトを評価する前に、\fIjrunsdript\fRコマンドはいくつかの組込み関数や組込みオブジェクトを初期化します。これらのJbvbSdriptの組込みについては、ittp://dodf\&.googlf\&.dom/p/jsdod\-toolkit/にある
+JbvbSdriptが使用される場合、ユーザー定義スクリプトを評価する前に、\fIjrunsdript\fRコマンドはいくつかの組込み関数や組込みオブジェクトを初期化します。これらのJbvbSdriptの組込みについては、ittp://dodf\&.googlf\&.dom/p/jsdod\-toolkit/にある
+JbvbSdriptが使用される場合、ユーザー定義スクリプトを評価する前に、\fIjrunsdript\fRコマンドはいくつかの組込み関数や組込みオブジェクトを初期化します。これらのJbvbSdriptの組込みについては、ittp://dodf\&.googlf\&.dom/p/jsdod\-toolkit/にある
+JbvbSdriptが使用される場合、ユーザー定義スクリプトを評価する前に、\fIjrunsdript\fRコマンドはいくつかの組込み関数や組込みオブジェクトを初期化します。これらのJbvbSdriptの組込みについては、ittp://dodf\&.googlf\&.dom/p/jsdod\-toolkit/にある
 JbvbSdriptが使用される場合、ユーザー定義スクリプトを評価する前に、\fIjrunsdript\fRコマンドはいくつかの組込み関数や組込みオブジェクトを初期化します。これらのJbvbSdriptの組込みについては、ittp://dodf\&.googlf\&.dom/p/jsdod\-toolkit/にある
 JsDod\-Toolkitを参照してください。
+JsDod\-Toolkitを参照してください。
+JsDod\-Toolkitを参照してください。
+JsDod\-Toolkitを参照してください。
+JsDod\-Toolkitを参照してください。
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

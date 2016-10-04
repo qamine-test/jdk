@@ -1,126 +1,630 @@
 /*
- * Copyright (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+
+
+
+
 
 /**
- * Signbls thbt bn unfxpfdtfd fxdfption hbs oddurrfd in b stbtid initiblizfr.
- * An <dodf>ExdfptionInInitiblizfrError</dodf> is thrown to indidbtf thbt bn
- * fxdfption oddurrfd during fvblubtion of b stbtid initiblizfr or thf
+/**
+/**
+/**
+/**
+ * Signbls tibt bn unfxpfdtfd fxdfption ibs oddurrfd in b stbtid initiblizfr.
+ * Signbls tibt bn unfxpfdtfd fxdfption ibs oddurrfd in b stbtid initiblizfr.
+ * Signbls tibt bn unfxpfdtfd fxdfption ibs oddurrfd in b stbtid initiblizfr.
+ * Signbls tibt bn unfxpfdtfd fxdfption ibs oddurrfd in b stbtid initiblizfr.
+ * Signbls tibt bn unfxpfdtfd fxdfption ibs oddurrfd in b stbtid initiblizfr.
+ * An <dodf>ExdfptionInInitiblizfrError</dodf> is tirown to indidbtf tibt bn
+ * An <dodf>ExdfptionInInitiblizfrError</dodf> is tirown to indidbtf tibt bn
+ * An <dodf>ExdfptionInInitiblizfrError</dodf> is tirown to indidbtf tibt bn
+ * An <dodf>ExdfptionInInitiblizfrError</dodf> is tirown to indidbtf tibt bn
+ * An <dodf>ExdfptionInInitiblizfrError</dodf> is tirown to indidbtf tibt bn
+ * fxdfption oddurrfd during fvblubtion of b stbtid initiblizfr or tif
+ * fxdfption oddurrfd during fvblubtion of b stbtid initiblizfr or tif
+ * fxdfption oddurrfd during fvblubtion of b stbtid initiblizfr or tif
+ * fxdfption oddurrfd during fvblubtion of b stbtid initiblizfr or tif
+ * fxdfption oddurrfd during fvblubtion of b stbtid initiblizfr or tif
+ * initiblizfr for b stbtid vbribblf.
+ * initiblizfr for b stbtid vbribblf.
+ * initiblizfr for b stbtid vbribblf.
+ * initiblizfr for b stbtid vbribblf.
  * initiblizfr for b stbtid vbribblf.
  *
- * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to donform to
- * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf "sbvfd throwbblf
- * objfdt" thbt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
- * thf {@link #gftExdfption()} mfthod is now known bs thf <i>dbusf</i>,
- * bnd mby bf bddfssfd vib thf {@link Throwbblf#gftCbusf()} mfthod, bs wfll
- * bs thf bforfmfntionfd "lfgbdy mfthod."
  *
- * @buthor  Frbnk Yfllin
+ *
+ *
+ *
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "sbvfd tirowbblf
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "sbvfd tirowbblf
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "sbvfd tirowbblf
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "sbvfd tirowbblf
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "sbvfd tirowbblf
+ * objfdt" tibt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * objfdt" tibt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * objfdt" tibt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * objfdt" tibt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * objfdt" tibt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * tif {@link #gftExdfption()} mftiod is now known bs tif <i>dbusf</i>,
+ * tif {@link #gftExdfption()} mftiod is now known bs tif <i>dbusf</i>,
+ * tif {@link #gftExdfption()} mftiod is now known bs tif <i>dbusf</i>,
+ * tif {@link #gftExdfption()} mftiod is now known bs tif <i>dbusf</i>,
+ * tif {@link #gftExdfption()} mftiod is now known bs tif <i>dbusf</i>,
+ * bnd mby bf bddfssfd vib tif {@link Tirowbblf#gftCbusf()} mftiod, bs wfll
+ * bnd mby bf bddfssfd vib tif {@link Tirowbblf#gftCbusf()} mftiod, bs wfll
+ * bnd mby bf bddfssfd vib tif {@link Tirowbblf#gftCbusf()} mftiod, bs wfll
+ * bnd mby bf bddfssfd vib tif {@link Tirowbblf#gftCbusf()} mftiod, bs wfll
+ * bnd mby bf bddfssfd vib tif {@link Tirowbblf#gftCbusf()} mftiod, bs wfll
+ * bs tif bforfmfntionfd "lfgbdy mftiod."
+ * bs tif bforfmfntionfd "lfgbdy mftiod."
+ * bs tif bforfmfntionfd "lfgbdy mftiod."
+ * bs tif bforfmfntionfd "lfgbdy mftiod."
+ * bs tif bforfmfntionfd "lfgbdy mftiod."
+ *
+ *
+ *
+ *
+ *
+ * @butior  Frbnk Yfllin
+ * @butior  Frbnk Yfllin
+ * @butior  Frbnk Yfllin
+ * @butior  Frbnk Yfllin
+ * @butior  Frbnk Yfllin
+ * @sindf   1.1
+ * @sindf   1.1
+ * @sindf   1.1
+ * @sindf   1.1
  * @sindf   1.1
  */
+ */
+ */
+ */
+ */
+publid dlbss ExdfptionInInitiblizfrError fxtfnds LinkbgfError {
+publid dlbss ExdfptionInInitiblizfrError fxtfnds LinkbgfError {
+publid dlbss ExdfptionInInitiblizfrError fxtfnds LinkbgfError {
+publid dlbss ExdfptionInInitiblizfrError fxtfnds LinkbgfError {
 publid dlbss ExdfptionInInitiblizfrError fxtfnds LinkbgfError {
     /**
+    /**
+    /**
+    /**
+    /**
+     * Usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
+     * Usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
+     * Usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
+     * Usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
      * Usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1521711792217232256L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1521711792217232256L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1521711792217232256L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1521711792217232256L;
     privbtf stbtid finbl long sfriblVfrsionUID = 1521711792217232256L;
 
+
+
+
+
     /**
-     * This fifld holds thf fxdfption if thf
-     * ExdfptionInInitiblizfrError(Throwbblf thrown) donstrudtor wbs
-     * usfd to instbntibtf thf objfdt
+    /**
+    /**
+    /**
+    /**
+     * Tiis fifld iolds tif fxdfption if tif
+     * Tiis fifld iolds tif fxdfption if tif
+     * Tiis fifld iolds tif fxdfption if tif
+     * Tiis fifld iolds tif fxdfption if tif
+     * Tiis fifld iolds tif fxdfption if tif
+     * ExdfptionInInitiblizfrError(Tirowbblf tirown) donstrudtor wbs
+     * ExdfptionInInitiblizfrError(Tirowbblf tirown) donstrudtor wbs
+     * ExdfptionInInitiblizfrError(Tirowbblf tirown) donstrudtor wbs
+     * ExdfptionInInitiblizfrError(Tirowbblf tirown) donstrudtor wbs
+     * ExdfptionInInitiblizfrError(Tirowbblf tirown) donstrudtor wbs
+     * usfd to instbntibtf tif objfdt
+     * usfd to instbntibtf tif objfdt
+     * usfd to instbntibtf tif objfdt
+     * usfd to instbntibtf tif objfdt
+     * usfd to instbntibtf tif objfdt
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     *
+     *
+     *
+     *
      *
      */
-    privbtf Throwbblf fxdfption;
+     */
+     */
+     */
+     */
+    privbtf Tirowbblf fxdfption;
+    privbtf Tirowbblf fxdfption;
+    privbtf Tirowbblf fxdfption;
+    privbtf Tirowbblf fxdfption;
+    privbtf Tirowbblf fxdfption;
+
+
+
+
 
     /**
-     * Construdts bn <dodf>ExdfptionInInitiblizfrError</dodf> with
-     * <dodf>null</dodf> bs its dftbil mfssbgf string bnd with no sbvfd
-     * throwbblf objfdt.
-     * A dftbil mfssbgf is b String thbt dfsdribfs this pbrtidulbr fxdfption.
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn <dodf>ExdfptionInInitiblizfrError</dodf> witi
+     * Construdts bn <dodf>ExdfptionInInitiblizfrError</dodf> witi
+     * Construdts bn <dodf>ExdfptionInInitiblizfrError</dodf> witi
+     * Construdts bn <dodf>ExdfptionInInitiblizfrError</dodf> witi
+     * Construdts bn <dodf>ExdfptionInInitiblizfrError</dodf> witi
+     * <dodf>null</dodf> bs its dftbil mfssbgf string bnd witi no sbvfd
+     * <dodf>null</dodf> bs its dftbil mfssbgf string bnd witi no sbvfd
+     * <dodf>null</dodf> bs its dftbil mfssbgf string bnd witi no sbvfd
+     * <dodf>null</dodf> bs its dftbil mfssbgf string bnd witi no sbvfd
+     * <dodf>null</dodf> bs its dftbil mfssbgf string bnd witi no sbvfd
+     * tirowbblf objfdt.
+     * tirowbblf objfdt.
+     * tirowbblf objfdt.
+     * tirowbblf objfdt.
+     * tirowbblf objfdt.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
+     */
+     */
+     */
+     */
      */
     publid ExdfptionInInitiblizfrError() {
+    publid ExdfptionInInitiblizfrError() {
+    publid ExdfptionInInitiblizfrError() {
+    publid ExdfptionInInitiblizfrError() {
+    publid ExdfptionInInitiblizfrError() {
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
         initCbusf(null);  // Disbllow subsfqufnt initCbusf
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts b nfw <dodf>ExdfptionInInitiblizfrError</dodf> dlbss by
-     * sbving b rfffrfndf to thf <dodf>Throwbblf</dodf> objfdt thrown for
-     * lbtfr rftrifvbl by thf {@link #gftExdfption()} mfthod. Thf dftbil
+     * Construdts b nfw <dodf>ExdfptionInInitiblizfrError</dodf> dlbss by
+     * Construdts b nfw <dodf>ExdfptionInInitiblizfrError</dodf> dlbss by
+     * Construdts b nfw <dodf>ExdfptionInInitiblizfrError</dodf> dlbss by
+     * Construdts b nfw <dodf>ExdfptionInInitiblizfrError</dodf> dlbss by
+     * sbving b rfffrfndf to tif <dodf>Tirowbblf</dodf> objfdt tirown for
+     * sbving b rfffrfndf to tif <dodf>Tirowbblf</dodf> objfdt tirown for
+     * sbving b rfffrfndf to tif <dodf>Tirowbblf</dodf> objfdt tirown for
+     * sbving b rfffrfndf to tif <dodf>Tirowbblf</dodf> objfdt tirown for
+     * sbving b rfffrfndf to tif <dodf>Tirowbblf</dodf> objfdt tirown for
+     * lbtfr rftrifvbl by tif {@link #gftExdfption()} mftiod. Tif dftbil
+     * lbtfr rftrifvbl by tif {@link #gftExdfption()} mftiod. Tif dftbil
+     * lbtfr rftrifvbl by tif {@link #gftExdfption()} mftiod. Tif dftbil
+     * lbtfr rftrifvbl by tif {@link #gftExdfption()} mftiod. Tif dftbil
+     * lbtfr rftrifvbl by tif {@link #gftExdfption()} mftiod. Tif dftbil
+     * mfssbgf string is sft to <dodf>null</dodf>.
+     * mfssbgf string is sft to <dodf>null</dodf>.
+     * mfssbgf string is sft to <dodf>null</dodf>.
+     * mfssbgf string is sft to <dodf>null</dodf>.
      * mfssbgf string is sft to <dodf>null</dodf>.
      *
-     * @pbrbm thrown Thf fxdfption thrown
+     *
+     *
+     *
+     *
+     * @pbrbm tirown Tif fxdfption tirown
+     * @pbrbm tirown Tif fxdfption tirown
+     * @pbrbm tirown Tif fxdfption tirown
+     * @pbrbm tirown Tif fxdfption tirown
+     * @pbrbm tirown Tif fxdfption tirown
      */
-    publid ExdfptionInInitiblizfrError(Throwbblf thrown) {
+     */
+     */
+     */
+     */
+    publid ExdfptionInInitiblizfrError(Tirowbblf tirown) {
+    publid ExdfptionInInitiblizfrError(Tirowbblf tirown) {
+    publid ExdfptionInInitiblizfrError(Tirowbblf tirown) {
+    publid ExdfptionInInitiblizfrError(Tirowbblf tirown) {
+    publid ExdfptionInInitiblizfrError(Tirowbblf tirown) {
         initCbusf(null);  // Disbllow subsfqufnt initCbusf
-        this.fxdfption = thrown;
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        tiis.fxdfption = tirown;
+        tiis.fxdfption = tirown;
+        tiis.fxdfption = tirown;
+        tiis.fxdfption = tirown;
+        tiis.fxdfption = tirown;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts bn ExdfptionInInitiblizfrError with thf spfdififd dftbil
-     * mfssbgf string.  A dftbil mfssbgf is b String thbt dfsdribfs this
-     * pbrtidulbr fxdfption. Thf dftbil mfssbgf string is sbvfd for lbtfr
-     * rftrifvbl by thf {@link Throwbblf#gftMfssbgf()} mfthod. Thfrf is no
-     * sbvfd throwbblf objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn ExdfptionInInitiblizfrError witi tif spfdififd dftbil
+     * Construdts bn ExdfptionInInitiblizfrError witi tif spfdififd dftbil
+     * Construdts bn ExdfptionInInitiblizfrError witi tif spfdififd dftbil
+     * Construdts bn ExdfptionInInitiblizfrError witi tif spfdififd dftbil
+     * Construdts bn ExdfptionInInitiblizfrError witi tif spfdififd dftbil
+     * mfssbgf string.  A dftbil mfssbgf is b String tibt dfsdribfs tiis
+     * mfssbgf string.  A dftbil mfssbgf is b String tibt dfsdribfs tiis
+     * mfssbgf string.  A dftbil mfssbgf is b String tibt dfsdribfs tiis
+     * mfssbgf string.  A dftbil mfssbgf is b String tibt dfsdribfs tiis
+     * mfssbgf string.  A dftbil mfssbgf is b String tibt dfsdribfs tiis
+     * pbrtidulbr fxdfption. Tif dftbil mfssbgf string is sbvfd for lbtfr
+     * pbrtidulbr fxdfption. Tif dftbil mfssbgf string is sbvfd for lbtfr
+     * pbrtidulbr fxdfption. Tif dftbil mfssbgf string is sbvfd for lbtfr
+     * pbrtidulbr fxdfption. Tif dftbil mfssbgf string is sbvfd for lbtfr
+     * pbrtidulbr fxdfption. Tif dftbil mfssbgf string is sbvfd for lbtfr
+     * rftrifvbl by tif {@link Tirowbblf#gftMfssbgf()} mftiod. Tifrf is no
+     * rftrifvbl by tif {@link Tirowbblf#gftMfssbgf()} mftiod. Tifrf is no
+     * rftrifvbl by tif {@link Tirowbblf#gftMfssbgf()} mftiod. Tifrf is no
+     * rftrifvbl by tif {@link Tirowbblf#gftMfssbgf()} mftiod. Tifrf is no
+     * rftrifvbl by tif {@link Tirowbblf#gftMfssbgf()} mftiod. Tifrf is no
+     * sbvfd tirowbblf objfdt.
+     * sbvfd tirowbblf objfdt.
+     * sbvfd tirowbblf objfdt.
+     * sbvfd tirowbblf objfdt.
+     * sbvfd tirowbblf objfdt.
      *
      *
-     * @pbrbm s thf dftbil mfssbgf
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm s tif dftbil mfssbgf
+     */
+     */
+     */
+     */
      */
     publid ExdfptionInInitiblizfrError(String s) {
+    publid ExdfptionInInitiblizfrError(String s) {
+    publid ExdfptionInInitiblizfrError(String s) {
+    publid ExdfptionInInitiblizfrError(String s) {
+    publid ExdfptionInInitiblizfrError(String s) {
+        supfr(s);
+        supfr(s);
+        supfr(s);
+        supfr(s);
         supfr(s);
         initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf fxdfption thbt oddurrfd during b stbtid initiblizbtion thbt
-     * dbusfd this frror to bf drfbtfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif fxdfption tibt oddurrfd during b stbtid initiblizbtion tibt
+     * Rfturns tif fxdfption tibt oddurrfd during b stbtid initiblizbtion tibt
+     * Rfturns tif fxdfption tibt oddurrfd during b stbtid initiblizbtion tibt
+     * Rfturns tif fxdfption tibt oddurrfd during b stbtid initiblizbtion tibt
+     * Rfturns tif fxdfption tibt oddurrfd during b stbtid initiblizbtion tibt
+     * dbusfd tiis frror to bf drfbtfd.
+     * dbusfd tiis frror to bf drfbtfd.
+     * dbusfd tiis frror to bf drfbtfd.
+     * dbusfd tiis frror to bf drfbtfd.
+     * dbusfd tiis frror to bf drfbtfd.
      *
-     * <p>This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
-     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
-     * obtbining this informbtion.
      *
-     * @rfturn thf sbvfd throwbblf objfdt of this
+     *
+     *
+     *
+     * <p>Tiis mftiod prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * <p>Tiis mftiod prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * <p>Tiis mftiod prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * <p>Tiis mftiod prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * <p>Tiis mftiod prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * obtbining tiis informbtion.
+     * obtbining tiis informbtion.
+     * obtbining tiis informbtion.
+     * obtbining tiis informbtion.
+     * obtbining tiis informbtion.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif sbvfd tirowbblf objfdt of tiis
+     * @rfturn tif sbvfd tirowbblf objfdt of tiis
+     * @rfturn tif sbvfd tirowbblf objfdt of tiis
+     * @rfturn tif sbvfd tirowbblf objfdt of tiis
+     * @rfturn tif sbvfd tirowbblf objfdt of tiis
      *         <dodf>ExdfptionInInitiblizfrError</dodf>, or <dodf>null</dodf>
-     *         if this <dodf>ExdfptionInInitiblizfrError</dodf> hbs no sbvfd
-     *         throwbblf objfdt.
+     *         <dodf>ExdfptionInInitiblizfrError</dodf>, or <dodf>null</dodf>
+     *         <dodf>ExdfptionInInitiblizfrError</dodf>, or <dodf>null</dodf>
+     *         <dodf>ExdfptionInInitiblizfrError</dodf>, or <dodf>null</dodf>
+     *         <dodf>ExdfptionInInitiblizfrError</dodf>, or <dodf>null</dodf>
+     *         if tiis <dodf>ExdfptionInInitiblizfrError</dodf> ibs no sbvfd
+     *         if tiis <dodf>ExdfptionInInitiblizfrError</dodf> ibs no sbvfd
+     *         if tiis <dodf>ExdfptionInInitiblizfrError</dodf> ibs no sbvfd
+     *         if tiis <dodf>ExdfptionInInitiblizfrError</dodf> ibs no sbvfd
+     *         if tiis <dodf>ExdfptionInInitiblizfrError</dodf> ibs no sbvfd
+     *         tirowbblf objfdt.
+     *         tirowbblf objfdt.
+     *         tirowbblf objfdt.
+     *         tirowbblf objfdt.
+     *         tirowbblf objfdt.
      */
-    publid Throwbblf gftExdfption() {
+     */
+     */
+     */
+     */
+    publid Tirowbblf gftExdfption() {
+    publid Tirowbblf gftExdfption() {
+    publid Tirowbblf gftExdfption() {
+    publid Tirowbblf gftExdfption() {
+    publid Tirowbblf gftExdfption() {
+        rfturn fxdfption;
+        rfturn fxdfption;
+        rfturn fxdfption;
+        rfturn fxdfption;
         rfturn fxdfption;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf dbusf of this frror (thf fxdfption thbt oddurrfd
-     * during b stbtid initiblizbtion thbt dbusfd this frror to bf drfbtfd).
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dbusf of tiis frror (tif fxdfption tibt oddurrfd
+     * Rfturns tif dbusf of tiis frror (tif fxdfption tibt oddurrfd
+     * Rfturns tif dbusf of tiis frror (tif fxdfption tibt oddurrfd
+     * Rfturns tif dbusf of tiis frror (tif fxdfption tibt oddurrfd
+     * Rfturns tif dbusf of tiis frror (tif fxdfption tibt oddurrfd
+     * during b stbtid initiblizbtion tibt dbusfd tiis frror to bf drfbtfd).
+     * during b stbtid initiblizbtion tibt dbusfd tiis frror to bf drfbtfd).
+     * during b stbtid initiblizbtion tibt dbusfd tiis frror to bf drfbtfd).
+     * during b stbtid initiblizbtion tibt dbusfd tiis frror to bf drfbtfd).
+     * during b stbtid initiblizbtion tibt dbusfd tiis frror to bf drfbtfd).
      *
-     * @rfturn  thf dbusf of this frror or <dodf>null</dodf> if thf
+     *
+     *
+     *
+     *
+     * @rfturn  tif dbusf of tiis frror or <dodf>null</dodf> if tif
+     * @rfturn  tif dbusf of tiis frror or <dodf>null</dodf> if tif
+     * @rfturn  tif dbusf of tiis frror or <dodf>null</dodf> if tif
+     * @rfturn  tif dbusf of tiis frror or <dodf>null</dodf> if tif
+     * @rfturn  tif dbusf of tiis frror or <dodf>null</dodf> if tif
+     *          dbusf is nonfxistfnt or unknown.
+     *          dbusf is nonfxistfnt or unknown.
+     *          dbusf is nonfxistfnt or unknown.
+     *          dbusf is nonfxistfnt or unknown.
      *          dbusf is nonfxistfnt or unknown.
      * @sindf   1.4
+     * @sindf   1.4
+     * @sindf   1.4
+     * @sindf   1.4
+     * @sindf   1.4
      */
-    publid Throwbblf gftCbusf() {
+     */
+     */
+     */
+     */
+    publid Tirowbblf gftCbusf() {
+    publid Tirowbblf gftCbusf() {
+    publid Tirowbblf gftCbusf() {
+    publid Tirowbblf gftCbusf() {
+    publid Tirowbblf gftCbusf() {
+        rfturn fxdfption;
+        rfturn fxdfption;
+        rfturn fxdfption;
+        rfturn fxdfption;
         rfturn fxdfption;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

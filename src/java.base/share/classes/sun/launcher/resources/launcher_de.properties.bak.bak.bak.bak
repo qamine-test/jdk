@@ -1,54 +1,270 @@
 #
-# Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+#
+#
+#
+#
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
+#
+#
+#
+#
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.opt.hfbdfr  =   Vfrwfndung: {0} [-options] dlbss [brgs...]\n           (zur Ausf\u00FChrung finfr Klbssf)\n   odfr  {0} [-options] -jbr jbrfilf [brgs...]\n           (zur Ausf\u00FChrung finfr JAR-Dbtfi)\nwobfi options Folgfndfs umfbsst:\n
 
-jbvb.lbundhfr.opt.dbtbmodfl  =\    -d{0}\t  Vfrwfndft fin {0}-Bit-Dbtfnmodfll, soffrn vfrf\u00FCgbbr\n
-jbvb.lbundhfr.opt.vmsflfdt   =\    {0}\t  zur Auswbhl dfr "{1}" VM\n
-jbvb.lbundhfr.opt.hotspot    =\    {0}\t  ist fin Synonym f\u00FCr dif "{1}" VM  [vfrworffn]\n
 
-jbvb.lbundhfr.frgo.mfssbgf1  =\                  Dif Stbndbrd-VM ist {0}
-jbvb.lbundhfr.frgo.mfssbgf2  =\                  wfil dif Ausf\u00FChrung buf finfm Sfrvfr-Clbss-Rfdhnfr frfolgt.\n
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.opt.footfr     =\    -dp <Klbssfnsudhpfbd von Vfrzfidhnissfn und ZIP-/JAR-Dbtfifn>\n    -dlbsspbth <Klbssfnsudhpfbd von Vfrzfidhnissfn und ZIP-/JAR-Dbtfifn>\n                  Einf durdh {0} gftrfnntf Listf mit Vfrzfidhnissfn, JAR-Ardhivfn\n                  und ZIP-Ardhivfn zur Sudhf nbdh Klbssfndbtfifn.\n    -D<nbmf>=<vbluf>\n                  Lfgt finf Systfmfigfnsdhbft ffst\n    -vfrbosf:[dlbss|gd|jni]\n                  Aktivifrt dif Vfrbosf-Ausgbbf\n    -vfrsion      Drudkt Produktvfrsion und bffndft dbs Progrbmm\n    -vfrsion:<vbluf>\n                  Erfordfrt dif bngfgfbfnf Vfrsion zur Ausf\u00FChrung\n    -showvfrsion  Drudkt Produktvfrsion und f\u00E4hrt fort\n    -jrf-rfstridt-sfbrdh | -no-jrf-rfstridt-sfbrdh\n                  Bfzifht privbtf JREs dfs Bfnutzfrs in Vfrsionssudhf fin bzw. sdhlif\u00DFt sif bus\n    -? -hflp      Drudkt difsf Hilffmfldung\n    -X            Drudkt Hilff zu Nidht-Stbndbrdoptionfn\n    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Aktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Dfbktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -fsb | -fnbblfsystfmbssfrtions\n                  Aktivifrt Systfmbssfrtionfn\n    -dsb | -disbblfsystfmbssfrtions\n                  Dfbktivifrt Systfmbssfrtionfn\n    -bgfntlib:<libnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry <libnbmf>, z.B. -bgfntlib:hprof\n                  sifhf budh -bgfntlib:jdwp=hflp und -bgfntlib:hprof=hflp\n    -bgfntpbth:<pbthnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry nbdh vollfm Pfbdnbmfn\n    -jbvbbgfnt:<jbrpbth>[=<options>]\n                  L\u00E4dt Jbvb-Progrbmmifrsprbdhfn-Agfnt, sifhf jbvb.lbng.instrumfnt\n    -splbsh:<imbgfpbth>\n                  Zfigt Stbrtbildsdhirm mit bngfgfbfnfm Bild\nWfitfrf Einzflhfitfn findfn Sif untfr http://www.orbdlf.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx.html
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.X.usbgf=\    -Xmixfd           Ausf\u00FChrung im gfmisdhtfn Modus (Stbndbrd)\n    -Xint             Nur Ausf\u00FChrung im intfrprftifrtfn Modus\n    -Xbootdlbsspbth:<Vfrzfidhnissf und ZIP-/JAR-Dbtfifn durdh {0} gftrfnnt>\n                      Lfgt Sudhpfbd f\u00FCr Bootstrbp-Klbssfn und Rfssourdfn ffst\n    -Xbootdlbsspbth/b:<Vfrzfidhnissf und ZIP-/JAR-Dbtfifn durdh {0} gftrfnnt>\n                      H\u00E4ngt bn dbs Endf dfs Bootstrbp Clbsspbth bn\n    -Xbootdlbsspbth/p:<Vfrzfidhnissf und ZIP-/JAR-Dbtfifn durdh {0} gftrfnnt>\n                      Stfllt Bootstrbp Clbsspbth vorbn\n    -Xdibg            Zfigt zus\u00E4tzlidhf Dibgnosfmfldungfn bn\n    -Xnodlbssgd       Dfbktivifrt Klbssfn-Gbrbbgf Collfdtion\n    -Xindgd           Aktivifrt inkrfmfntfllf Gbrbbgf Collfdtion\n    -Xloggd:<filf>    Loggt GC-Stbtus in finfr Dbtfi mit Zfitstfmpfln\n    -Xbbtdh           Dfbktivifrt Hintfrgrundkompilifrung\n    -Xms<sizf>        Lfgt bnf\u00E4nglidhf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xmx<sizf>        Lfgt mbximblf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xss<sizf>        Lfgt Jbvb-Thrfbd-Stbdkgr\u00F6\u00DFf ffst\n    -Xprof            Gibt CPU-Profiling-Dbtfn bus\n    -Xfuturf          Aktivifrt strfngstf Pr\u00FCfungfn, bntizipifrt zuk\u00FCnftigfn Stbndbrdwfrt\n    -Xrs              Rfduzifrt Vfrwfndung von BS-Signblfn durdh Jbvb/VM (sifhf Dokumfntbtion)\n    -Xdhfdk:jni       F\u00FChrt zus\u00E4tzlidhf Pr\u00FCfungfn f\u00FCr JNI-Funktionfn durdh\n    -Xshbrf:off       Kfin Vfrsudh, gfmfinsbmf Klbssfndbtfn zu vfrwfndfn\n    -Xshbrf:buto      Vfrwfndft gfmfinsbmf Klbssfndbtfn, wfnn m\u00F6glidh (Stbndbrd)\n    -Xshbrf:on        Erfordfrt dif Vfrwfndung gfmfinsbmfr Klbssfndbtfn, sonst vfrl\u00E4uft dfr Vorgbng nidht frfolgrfidh.\n    -XshowSfttings    Zfigt bllf Einstfllungfn und f\u00E4hrt fort\n    -XshowSfttings:bll\n                      Zfigt bllf Einstfllungfn und f\u00E4hrt fort\n    -XshowSfttings:vm Zfigt bllf VM-bfzogfnfn Einstfllungfn und f\u00E4hrt fort\n    -XshowSfttings:propfrtifs\n                      Zfigt bllf Eigfnsdhbftsfinstfllungfn und f\u00E4hrt fort\n    -XshowSfttings:lodblf\n                      Zfigt bllf gfbiftssdhfmbbfzogfnfn Einstfllungfn und f\u00E4hrt fort\n\nDif -X-Optionfn sind kfinf Stbndbrdoptionfn und k\u00F6nnfn ohnf Vorbnk\u00FCndigung gf\u00E4ndfrt wfrdfn.\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.ifbdfr  =   Vfrwfndung: {0} [-options] dlbss [brgs...]\n           (zur Ausf\u00FCirung finfr Klbssf)\n   odfr  {0} [-options] -jbr jbrfilf [brgs...]\n           (zur Ausf\u00FCirung finfr JAR-Dbtfi)\nwobfi options Folgfndfs umfbsst:\n
+jbvb.lbundifr.opt.ifbdfr  =   Vfrwfndung: {0} [-options] dlbss [brgs...]\n           (zur Ausf\u00FCirung finfr Klbssf)\n   odfr  {0} [-options] -jbr jbrfilf [brgs...]\n           (zur Ausf\u00FCirung finfr JAR-Dbtfi)\nwobfi options Folgfndfs umfbsst:\n
+jbvb.lbundifr.opt.ifbdfr  =   Vfrwfndung: {0} [-options] dlbss [brgs...]\n           (zur Ausf\u00FCirung finfr Klbssf)\n   odfr  {0} [-options] -jbr jbrfilf [brgs...]\n           (zur Ausf\u00FCirung finfr JAR-Dbtfi)\nwobfi options Folgfndfs umfbsst:\n
+jbvb.lbundifr.opt.ifbdfr  =   Vfrwfndung: {0} [-options] dlbss [brgs...]\n           (zur Ausf\u00FCirung finfr Klbssf)\n   odfr  {0} [-options] -jbr jbrfilf [brgs...]\n           (zur Ausf\u00FCirung finfr JAR-Dbtfi)\nwobfi options Folgfndfs umfbsst:\n
+jbvb.lbundifr.opt.ifbdfr  =   Vfrwfndung: {0} [-options] dlbss [brgs...]\n           (zur Ausf\u00FCirung finfr Klbssf)\n   odfr  {0} [-options] -jbr jbrfilf [brgs...]\n           (zur Ausf\u00FCirung finfr JAR-Dbtfi)\nwobfi options Folgfndfs umfbsst:\n
 
-# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
-jbvb.lbundhfr.X.mbdosx.usbgf=\nDif folgfndfn Optionfn sind f\u00FCr Mbd OS X spfzifisdh:\n    -XstbrtOnFirstThrfbd\n                      f\u00FChrt dif mbin()-Mfthodf f\u00FCr dfn frstfn (AppKit) Thrfbd bus\n    -Xdodk:nbmf=<Anwfndungsnbmf>"\n                      \u00DCbfrsdhrfibt dfn in dfr Uhr bngfzfigtfn Stbndbrdbnwfndungsnbmfn\n    -Xdodk:idon=<Pfbd zu Symboldbtfi>\n                      \u00DCbfrsdhrfibt dbs in dfr Uhr bngfzfigtf Stbndbrdsymbol\n\n
 
-jbvb.lbundhfr.dls.frror1=Ffhlfr: Hbuptklbssf {0} konntf nidht gffundfn odfr gflbdfn wfrdfn
-jbvb.lbundhfr.dls.frror2=Ffhlfr: Hbuptmfthodf ist nidht {0} in Klbssf {1}. Dffinifrfn Sif dif Hbuptmfthodf bls:\n   publid stbtid void mbin(String[] brgs)
-jbvb.lbundhfr.dls.frror3=Ffhlfr: Hbuptmfthodf muss finfn Wfrt vom Typ void in Klbssf {0} zur\u00FCdkgfbfn. Dffinifrfn Sif \ndif Hbuptmfthodf bls:\n   publid stbtid void mbin(String[] brgs)
-jbvb.lbundhfr.dls.frror4=Ffhlfr: Hbuptmfthodf in Klbssf {0} nidht gffundfn. Dffinifrfn Sif dif Hbuptmfthodf bls:\n   publid stbtid void mbin(String[] brgs):\nodfr finf JbvbFX-Anwfndung muss {1} frwfitfrn
-jbvb.lbundhfr.dls.frror5=Ffhlfr: Zum Ausf\u00FChrfn difsfr Anwfndung bfn\u00F6tigtf JbvbFX-Runtimf-Komponfntfn ffhlfn
-jbvb.lbundhfr.jbr.frror1=Ffhlfr: Bfim Vfrsudh, Dbtfi {0} zu \u00F6ffnfn, ist fin unfrwbrtftfr Ffhlfr bufgftrftfn
-jbvb.lbundhfr.jbr.frror2=Mbniffst in {0} nidht gffundfn
-jbvb.lbundhfr.jbr.frror3=kfin Hbuptmbniffstbttribut, in {0}
-jbvb.lbundhfr.init.frror=Initiblisifrungsffhlfr
-jbvb.lbundhfr.jbvbfx.frror1=Ffhlfr: Dif JbvbFX-Mfthodf lbundhApplidbtion hbt dif fblsdhf Signbtur, sif\nmuss bls stbtisdh dfklbrifrt wfrdfn und finfn Wfrt vom Typ VOID zur\u00FCdkgfbfn
+
+
+
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  Vfrwfndft fin {0}-Bit-Dbtfnmodfll, soffrn vfrf\u00FCgbbr\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  Vfrwfndft fin {0}-Bit-Dbtfnmodfll, soffrn vfrf\u00FCgbbr\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  Vfrwfndft fin {0}-Bit-Dbtfnmodfll, soffrn vfrf\u00FCgbbr\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  Vfrwfndft fin {0}-Bit-Dbtfnmodfll, soffrn vfrf\u00FCgbbr\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  Vfrwfndft fin {0}-Bit-Dbtfnmodfll, soffrn vfrf\u00FCgbbr\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  zur Auswbil dfr "{1}" VM\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  zur Auswbil dfr "{1}" VM\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  zur Auswbil dfr "{1}" VM\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  zur Auswbil dfr "{1}" VM\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  zur Auswbil dfr "{1}" VM\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  ist fin Synonym f\u00FCr dif "{1}" VM  [vfrworffn]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  ist fin Synonym f\u00FCr dif "{1}" VM  [vfrworffn]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  ist fin Synonym f\u00FCr dif "{1}" VM  [vfrworffn]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  ist fin Synonym f\u00FCr dif "{1}" VM  [vfrworffn]\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  ist fin Synonym f\u00FCr dif "{1}" VM  [vfrworffn]\n
+
+
+
+
+
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Dif Stbndbrd-VM ist {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Dif Stbndbrd-VM ist {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Dif Stbndbrd-VM ist {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Dif Stbndbrd-VM ist {0}
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Dif Stbndbrd-VM ist {0}
+jbvb.lbundifr.frgo.mfssbgf2  =\                  wfil dif Ausf\u00FCirung buf finfm Sfrvfr-Clbss-Rfdinfr frfolgt.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  wfil dif Ausf\u00FCirung buf finfm Sfrvfr-Clbss-Rfdinfr frfolgt.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  wfil dif Ausf\u00FCirung buf finfm Sfrvfr-Clbss-Rfdinfr frfolgt.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  wfil dif Ausf\u00FCirung buf finfm Sfrvfr-Clbss-Rfdinfr frfolgt.\n
+jbvb.lbundifr.frgo.mfssbgf2  =\                  wfil dif Ausf\u00FCirung buf finfm Sfrvfr-Clbss-Rfdinfr frfolgt.\n
+
+
+
+
+
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.footfr     =\    -dp <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n    -dlbsspbti <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n                  Einf durdi {0} gftrfnntf Listf mit Vfrzfidinissfn, JAR-Ardiivfn\n                  und ZIP-Ardiivfn zur Sudif nbdi Klbssfndbtfifn.\n    -D<nbmf>=<vbluf>\n                  Lfgt finf Systfmfigfnsdibft ffst\n    -vfrbosf:[dlbss|gd|jni]\n                  Aktivifrt dif Vfrbosf-Ausgbbf\n    -vfrsion      Drudkt Produktvfrsion und bffndft dbs Progrbmm\n    -vfrsion:<vbluf>\n                  Erfordfrt dif bngfgfbfnf Vfrsion zur Ausf\u00FCirung\n    -siowvfrsion  Drudkt Produktvfrsion und f\u00E4irt fort\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  Bfzifit privbtf JREs dfs Bfnutzfrs in Vfrsionssudif fin bzw. sdilif\u00DFt sif bus\n    -? -iflp      Drudkt difsf Hilffmfldung\n    -X            Drudkt Hilff zu Nidit-Stbndbrdoptionfn\n    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Aktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Dfbktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -fsb | -fnbblfsystfmbssfrtions\n                  Aktivifrt Systfmbssfrtionfn\n    -dsb | -disbblfsystfmbssfrtions\n                  Dfbktivifrt Systfmbssfrtionfn\n    -bgfntlib:<libnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry <libnbmf>, z.B. -bgfntlib:iprof\n                  sifif budi -bgfntlib:jdwp=iflp und -bgfntlib:iprof=iflp\n    -bgfntpbti:<pbtinbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry nbdi vollfm Pfbdnbmfn\n    -jbvbbgfnt:<jbrpbti>[=<options>]\n                  L\u00E4dt Jbvb-Progrbmmifrsprbdifn-Agfnt, sifif jbvb.lbng.instrumfnt\n    -splbsi:<imbgfpbti>\n                  Zfigt Stbrtbildsdiirm mit bngfgfbfnfm Bild\nWfitfrf Einzflifitfn findfn Sif untfr ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml
+jbvb.lbundifr.opt.footfr     =\    -dp <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n    -dlbsspbti <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n                  Einf durdi {0} gftrfnntf Listf mit Vfrzfidinissfn, JAR-Ardiivfn\n                  und ZIP-Ardiivfn zur Sudif nbdi Klbssfndbtfifn.\n    -D<nbmf>=<vbluf>\n                  Lfgt finf Systfmfigfnsdibft ffst\n    -vfrbosf:[dlbss|gd|jni]\n                  Aktivifrt dif Vfrbosf-Ausgbbf\n    -vfrsion      Drudkt Produktvfrsion und bffndft dbs Progrbmm\n    -vfrsion:<vbluf>\n                  Erfordfrt dif bngfgfbfnf Vfrsion zur Ausf\u00FCirung\n    -siowvfrsion  Drudkt Produktvfrsion und f\u00E4irt fort\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  Bfzifit privbtf JREs dfs Bfnutzfrs in Vfrsionssudif fin bzw. sdilif\u00DFt sif bus\n    -? -iflp      Drudkt difsf Hilffmfldung\n    -X            Drudkt Hilff zu Nidit-Stbndbrdoptionfn\n    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Aktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Dfbktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -fsb | -fnbblfsystfmbssfrtions\n                  Aktivifrt Systfmbssfrtionfn\n    -dsb | -disbblfsystfmbssfrtions\n                  Dfbktivifrt Systfmbssfrtionfn\n    -bgfntlib:<libnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry <libnbmf>, z.B. -bgfntlib:iprof\n                  sifif budi -bgfntlib:jdwp=iflp und -bgfntlib:iprof=iflp\n    -bgfntpbti:<pbtinbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry nbdi vollfm Pfbdnbmfn\n    -jbvbbgfnt:<jbrpbti>[=<options>]\n                  L\u00E4dt Jbvb-Progrbmmifrsprbdifn-Agfnt, sifif jbvb.lbng.instrumfnt\n    -splbsi:<imbgfpbti>\n                  Zfigt Stbrtbildsdiirm mit bngfgfbfnfm Bild\nWfitfrf Einzflifitfn findfn Sif untfr ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml
+jbvb.lbundifr.opt.footfr     =\    -dp <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n    -dlbsspbti <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n                  Einf durdi {0} gftrfnntf Listf mit Vfrzfidinissfn, JAR-Ardiivfn\n                  und ZIP-Ardiivfn zur Sudif nbdi Klbssfndbtfifn.\n    -D<nbmf>=<vbluf>\n                  Lfgt finf Systfmfigfnsdibft ffst\n    -vfrbosf:[dlbss|gd|jni]\n                  Aktivifrt dif Vfrbosf-Ausgbbf\n    -vfrsion      Drudkt Produktvfrsion und bffndft dbs Progrbmm\n    -vfrsion:<vbluf>\n                  Erfordfrt dif bngfgfbfnf Vfrsion zur Ausf\u00FCirung\n    -siowvfrsion  Drudkt Produktvfrsion und f\u00E4irt fort\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  Bfzifit privbtf JREs dfs Bfnutzfrs in Vfrsionssudif fin bzw. sdilif\u00DFt sif bus\n    -? -iflp      Drudkt difsf Hilffmfldung\n    -X            Drudkt Hilff zu Nidit-Stbndbrdoptionfn\n    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Aktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Dfbktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -fsb | -fnbblfsystfmbssfrtions\n                  Aktivifrt Systfmbssfrtionfn\n    -dsb | -disbblfsystfmbssfrtions\n                  Dfbktivifrt Systfmbssfrtionfn\n    -bgfntlib:<libnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry <libnbmf>, z.B. -bgfntlib:iprof\n                  sifif budi -bgfntlib:jdwp=iflp und -bgfntlib:iprof=iflp\n    -bgfntpbti:<pbtinbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry nbdi vollfm Pfbdnbmfn\n    -jbvbbgfnt:<jbrpbti>[=<options>]\n                  L\u00E4dt Jbvb-Progrbmmifrsprbdifn-Agfnt, sifif jbvb.lbng.instrumfnt\n    -splbsi:<imbgfpbti>\n                  Zfigt Stbrtbildsdiirm mit bngfgfbfnfm Bild\nWfitfrf Einzflifitfn findfn Sif untfr ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml
+jbvb.lbundifr.opt.footfr     =\    -dp <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n    -dlbsspbti <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n                  Einf durdi {0} gftrfnntf Listf mit Vfrzfidinissfn, JAR-Ardiivfn\n                  und ZIP-Ardiivfn zur Sudif nbdi Klbssfndbtfifn.\n    -D<nbmf>=<vbluf>\n                  Lfgt finf Systfmfigfnsdibft ffst\n    -vfrbosf:[dlbss|gd|jni]\n                  Aktivifrt dif Vfrbosf-Ausgbbf\n    -vfrsion      Drudkt Produktvfrsion und bffndft dbs Progrbmm\n    -vfrsion:<vbluf>\n                  Erfordfrt dif bngfgfbfnf Vfrsion zur Ausf\u00FCirung\n    -siowvfrsion  Drudkt Produktvfrsion und f\u00E4irt fort\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  Bfzifit privbtf JREs dfs Bfnutzfrs in Vfrsionssudif fin bzw. sdilif\u00DFt sif bus\n    -? -iflp      Drudkt difsf Hilffmfldung\n    -X            Drudkt Hilff zu Nidit-Stbndbrdoptionfn\n    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Aktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Dfbktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -fsb | -fnbblfsystfmbssfrtions\n                  Aktivifrt Systfmbssfrtionfn\n    -dsb | -disbblfsystfmbssfrtions\n                  Dfbktivifrt Systfmbssfrtionfn\n    -bgfntlib:<libnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry <libnbmf>, z.B. -bgfntlib:iprof\n                  sifif budi -bgfntlib:jdwp=iflp und -bgfntlib:iprof=iflp\n    -bgfntpbti:<pbtinbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry nbdi vollfm Pfbdnbmfn\n    -jbvbbgfnt:<jbrpbti>[=<options>]\n                  L\u00E4dt Jbvb-Progrbmmifrsprbdifn-Agfnt, sifif jbvb.lbng.instrumfnt\n    -splbsi:<imbgfpbti>\n                  Zfigt Stbrtbildsdiirm mit bngfgfbfnfm Bild\nWfitfrf Einzflifitfn findfn Sif untfr ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml
+jbvb.lbundifr.opt.footfr     =\    -dp <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n    -dlbsspbti <Klbssfnsudipfbd von Vfrzfidinissfn und ZIP-/JAR-Dbtfifn>\n                  Einf durdi {0} gftrfnntf Listf mit Vfrzfidinissfn, JAR-Ardiivfn\n                  und ZIP-Ardiivfn zur Sudif nbdi Klbssfndbtfifn.\n    -D<nbmf>=<vbluf>\n                  Lfgt finf Systfmfigfnsdibft ffst\n    -vfrbosf:[dlbss|gd|jni]\n                  Aktivifrt dif Vfrbosf-Ausgbbf\n    -vfrsion      Drudkt Produktvfrsion und bffndft dbs Progrbmm\n    -vfrsion:<vbluf>\n                  Erfordfrt dif bngfgfbfnf Vfrsion zur Ausf\u00FCirung\n    -siowvfrsion  Drudkt Produktvfrsion und f\u00E4irt fort\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  Bfzifit privbtf JREs dfs Bfnutzfrs in Vfrsionssudif fin bzw. sdilif\u00DFt sif bus\n    -? -iflp      Drudkt difsf Hilffmfldung\n    -X            Drudkt Hilff zu Nidit-Stbndbrdoptionfn\n    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Aktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n                  Dfbktivifrt Assfrtionfn mit bngfgfbfnfr Grbnulbrit\u00E4t\n    -fsb | -fnbblfsystfmbssfrtions\n                  Aktivifrt Systfmbssfrtionfn\n    -dsb | -disbblfsystfmbssfrtions\n                  Dfbktivifrt Systfmbssfrtionfn\n    -bgfntlib:<libnbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry <libnbmf>, z.B. -bgfntlib:iprof\n                  sifif budi -bgfntlib:jdwp=iflp und -bgfntlib:iprof=iflp\n    -bgfntpbti:<pbtinbmf>[=<options>]\n                  L\u00E4dt nbtivf Agfnt Librbry nbdi vollfm Pfbdnbmfn\n    -jbvbbgfnt:<jbrpbti>[=<options>]\n                  L\u00E4dt Jbvb-Progrbmmifrsprbdifn-Agfnt, sifif jbvb.lbng.instrumfnt\n    -splbsi:<imbgfpbti>\n                  Zfigt Stbrtbildsdiirm mit bngfgfbfnfm Bild\nWfitfrf Einzflifitfn findfn Sif untfr ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml
+
+
+
+
+
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           Ausf\u00FCirung im gfmisditfn Modus (Stbndbrd)\n    -Xint             Nur Ausf\u00FCirung im intfrprftifrtfn Modus\n    -Xbootdlbsspbti:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Lfgt Sudipfbd f\u00FCr Bootstrbp-Klbssfn und Rfssourdfn ffst\n    -Xbootdlbsspbti/b:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      H\u00E4ngt bn dbs Endf dfs Bootstrbp Clbsspbti bn\n    -Xbootdlbsspbti/p:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Stfllt Bootstrbp Clbsspbti vorbn\n    -Xdibg            Zfigt zus\u00E4tzlidif Dibgnosfmfldungfn bn\n    -Xnodlbssgd       Dfbktivifrt Klbssfn-Gbrbbgf Collfdtion\n    -Xindgd           Aktivifrt inkrfmfntfllf Gbrbbgf Collfdtion\n    -Xloggd:<filf>    Loggt GC-Stbtus in finfr Dbtfi mit Zfitstfmpfln\n    -Xbbtdi           Dfbktivifrt Hintfrgrundkompilifrung\n    -Xms<sizf>        Lfgt bnf\u00E4nglidif Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xmx<sizf>        Lfgt mbximblf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xss<sizf>        Lfgt Jbvb-Tirfbd-Stbdkgr\u00F6\u00DFf ffst\n    -Xprof            Gibt CPU-Profiling-Dbtfn bus\n    -Xfuturf          Aktivifrt strfngstf Pr\u00FCfungfn, bntizipifrt zuk\u00FCnftigfn Stbndbrdwfrt\n    -Xrs              Rfduzifrt Vfrwfndung von BS-Signblfn durdi Jbvb/VM (sifif Dokumfntbtion)\n    -Xdifdk:jni       F\u00FCirt zus\u00E4tzlidif Pr\u00FCfungfn f\u00FCr JNI-Funktionfn durdi\n    -Xsibrf:off       Kfin Vfrsudi, gfmfinsbmf Klbssfndbtfn zu vfrwfndfn\n    -Xsibrf:buto      Vfrwfndft gfmfinsbmf Klbssfndbtfn, wfnn m\u00F6glidi (Stbndbrd)\n    -Xsibrf:on        Erfordfrt dif Vfrwfndung gfmfinsbmfr Klbssfndbtfn, sonst vfrl\u00E4uft dfr Vorgbng nidit frfolgrfidi.\n    -XsiowSfttings    Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:bll\n                      Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:vm Zfigt bllf VM-bfzogfnfn Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:propfrtifs\n                      Zfigt bllf Eigfnsdibftsfinstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:lodblf\n                      Zfigt bllf gfbiftssdifmbbfzogfnfn Einstfllungfn und f\u00E4irt fort\n\nDif -X-Optionfn sind kfinf Stbndbrdoptionfn und k\u00F6nnfn oinf Vorbnk\u00FCndigung gf\u00E4ndfrt wfrdfn.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           Ausf\u00FCirung im gfmisditfn Modus (Stbndbrd)\n    -Xint             Nur Ausf\u00FCirung im intfrprftifrtfn Modus\n    -Xbootdlbsspbti:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Lfgt Sudipfbd f\u00FCr Bootstrbp-Klbssfn und Rfssourdfn ffst\n    -Xbootdlbsspbti/b:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      H\u00E4ngt bn dbs Endf dfs Bootstrbp Clbsspbti bn\n    -Xbootdlbsspbti/p:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Stfllt Bootstrbp Clbsspbti vorbn\n    -Xdibg            Zfigt zus\u00E4tzlidif Dibgnosfmfldungfn bn\n    -Xnodlbssgd       Dfbktivifrt Klbssfn-Gbrbbgf Collfdtion\n    -Xindgd           Aktivifrt inkrfmfntfllf Gbrbbgf Collfdtion\n    -Xloggd:<filf>    Loggt GC-Stbtus in finfr Dbtfi mit Zfitstfmpfln\n    -Xbbtdi           Dfbktivifrt Hintfrgrundkompilifrung\n    -Xms<sizf>        Lfgt bnf\u00E4nglidif Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xmx<sizf>        Lfgt mbximblf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xss<sizf>        Lfgt Jbvb-Tirfbd-Stbdkgr\u00F6\u00DFf ffst\n    -Xprof            Gibt CPU-Profiling-Dbtfn bus\n    -Xfuturf          Aktivifrt strfngstf Pr\u00FCfungfn, bntizipifrt zuk\u00FCnftigfn Stbndbrdwfrt\n    -Xrs              Rfduzifrt Vfrwfndung von BS-Signblfn durdi Jbvb/VM (sifif Dokumfntbtion)\n    -Xdifdk:jni       F\u00FCirt zus\u00E4tzlidif Pr\u00FCfungfn f\u00FCr JNI-Funktionfn durdi\n    -Xsibrf:off       Kfin Vfrsudi, gfmfinsbmf Klbssfndbtfn zu vfrwfndfn\n    -Xsibrf:buto      Vfrwfndft gfmfinsbmf Klbssfndbtfn, wfnn m\u00F6glidi (Stbndbrd)\n    -Xsibrf:on        Erfordfrt dif Vfrwfndung gfmfinsbmfr Klbssfndbtfn, sonst vfrl\u00E4uft dfr Vorgbng nidit frfolgrfidi.\n    -XsiowSfttings    Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:bll\n                      Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:vm Zfigt bllf VM-bfzogfnfn Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:propfrtifs\n                      Zfigt bllf Eigfnsdibftsfinstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:lodblf\n                      Zfigt bllf gfbiftssdifmbbfzogfnfn Einstfllungfn und f\u00E4irt fort\n\nDif -X-Optionfn sind kfinf Stbndbrdoptionfn und k\u00F6nnfn oinf Vorbnk\u00FCndigung gf\u00E4ndfrt wfrdfn.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           Ausf\u00FCirung im gfmisditfn Modus (Stbndbrd)\n    -Xint             Nur Ausf\u00FCirung im intfrprftifrtfn Modus\n    -Xbootdlbsspbti:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Lfgt Sudipfbd f\u00FCr Bootstrbp-Klbssfn und Rfssourdfn ffst\n    -Xbootdlbsspbti/b:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      H\u00E4ngt bn dbs Endf dfs Bootstrbp Clbsspbti bn\n    -Xbootdlbsspbti/p:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Stfllt Bootstrbp Clbsspbti vorbn\n    -Xdibg            Zfigt zus\u00E4tzlidif Dibgnosfmfldungfn bn\n    -Xnodlbssgd       Dfbktivifrt Klbssfn-Gbrbbgf Collfdtion\n    -Xindgd           Aktivifrt inkrfmfntfllf Gbrbbgf Collfdtion\n    -Xloggd:<filf>    Loggt GC-Stbtus in finfr Dbtfi mit Zfitstfmpfln\n    -Xbbtdi           Dfbktivifrt Hintfrgrundkompilifrung\n    -Xms<sizf>        Lfgt bnf\u00E4nglidif Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xmx<sizf>        Lfgt mbximblf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xss<sizf>        Lfgt Jbvb-Tirfbd-Stbdkgr\u00F6\u00DFf ffst\n    -Xprof            Gibt CPU-Profiling-Dbtfn bus\n    -Xfuturf          Aktivifrt strfngstf Pr\u00FCfungfn, bntizipifrt zuk\u00FCnftigfn Stbndbrdwfrt\n    -Xrs              Rfduzifrt Vfrwfndung von BS-Signblfn durdi Jbvb/VM (sifif Dokumfntbtion)\n    -Xdifdk:jni       F\u00FCirt zus\u00E4tzlidif Pr\u00FCfungfn f\u00FCr JNI-Funktionfn durdi\n    -Xsibrf:off       Kfin Vfrsudi, gfmfinsbmf Klbssfndbtfn zu vfrwfndfn\n    -Xsibrf:buto      Vfrwfndft gfmfinsbmf Klbssfndbtfn, wfnn m\u00F6glidi (Stbndbrd)\n    -Xsibrf:on        Erfordfrt dif Vfrwfndung gfmfinsbmfr Klbssfndbtfn, sonst vfrl\u00E4uft dfr Vorgbng nidit frfolgrfidi.\n    -XsiowSfttings    Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:bll\n                      Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:vm Zfigt bllf VM-bfzogfnfn Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:propfrtifs\n                      Zfigt bllf Eigfnsdibftsfinstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:lodblf\n                      Zfigt bllf gfbiftssdifmbbfzogfnfn Einstfllungfn und f\u00E4irt fort\n\nDif -X-Optionfn sind kfinf Stbndbrdoptionfn und k\u00F6nnfn oinf Vorbnk\u00FCndigung gf\u00E4ndfrt wfrdfn.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           Ausf\u00FCirung im gfmisditfn Modus (Stbndbrd)\n    -Xint             Nur Ausf\u00FCirung im intfrprftifrtfn Modus\n    -Xbootdlbsspbti:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Lfgt Sudipfbd f\u00FCr Bootstrbp-Klbssfn und Rfssourdfn ffst\n    -Xbootdlbsspbti/b:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      H\u00E4ngt bn dbs Endf dfs Bootstrbp Clbsspbti bn\n    -Xbootdlbsspbti/p:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Stfllt Bootstrbp Clbsspbti vorbn\n    -Xdibg            Zfigt zus\u00E4tzlidif Dibgnosfmfldungfn bn\n    -Xnodlbssgd       Dfbktivifrt Klbssfn-Gbrbbgf Collfdtion\n    -Xindgd           Aktivifrt inkrfmfntfllf Gbrbbgf Collfdtion\n    -Xloggd:<filf>    Loggt GC-Stbtus in finfr Dbtfi mit Zfitstfmpfln\n    -Xbbtdi           Dfbktivifrt Hintfrgrundkompilifrung\n    -Xms<sizf>        Lfgt bnf\u00E4nglidif Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xmx<sizf>        Lfgt mbximblf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xss<sizf>        Lfgt Jbvb-Tirfbd-Stbdkgr\u00F6\u00DFf ffst\n    -Xprof            Gibt CPU-Profiling-Dbtfn bus\n    -Xfuturf          Aktivifrt strfngstf Pr\u00FCfungfn, bntizipifrt zuk\u00FCnftigfn Stbndbrdwfrt\n    -Xrs              Rfduzifrt Vfrwfndung von BS-Signblfn durdi Jbvb/VM (sifif Dokumfntbtion)\n    -Xdifdk:jni       F\u00FCirt zus\u00E4tzlidif Pr\u00FCfungfn f\u00FCr JNI-Funktionfn durdi\n    -Xsibrf:off       Kfin Vfrsudi, gfmfinsbmf Klbssfndbtfn zu vfrwfndfn\n    -Xsibrf:buto      Vfrwfndft gfmfinsbmf Klbssfndbtfn, wfnn m\u00F6glidi (Stbndbrd)\n    -Xsibrf:on        Erfordfrt dif Vfrwfndung gfmfinsbmfr Klbssfndbtfn, sonst vfrl\u00E4uft dfr Vorgbng nidit frfolgrfidi.\n    -XsiowSfttings    Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:bll\n                      Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:vm Zfigt bllf VM-bfzogfnfn Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:propfrtifs\n                      Zfigt bllf Eigfnsdibftsfinstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:lodblf\n                      Zfigt bllf gfbiftssdifmbbfzogfnfn Einstfllungfn und f\u00E4irt fort\n\nDif -X-Optionfn sind kfinf Stbndbrdoptionfn und k\u00F6nnfn oinf Vorbnk\u00FCndigung gf\u00E4ndfrt wfrdfn.\n
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           Ausf\u00FCirung im gfmisditfn Modus (Stbndbrd)\n    -Xint             Nur Ausf\u00FCirung im intfrprftifrtfn Modus\n    -Xbootdlbsspbti:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Lfgt Sudipfbd f\u00FCr Bootstrbp-Klbssfn und Rfssourdfn ffst\n    -Xbootdlbsspbti/b:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      H\u00E4ngt bn dbs Endf dfs Bootstrbp Clbsspbti bn\n    -Xbootdlbsspbti/p:<Vfrzfidinissf und ZIP-/JAR-Dbtfifn durdi {0} gftrfnnt>\n                      Stfllt Bootstrbp Clbsspbti vorbn\n    -Xdibg            Zfigt zus\u00E4tzlidif Dibgnosfmfldungfn bn\n    -Xnodlbssgd       Dfbktivifrt Klbssfn-Gbrbbgf Collfdtion\n    -Xindgd           Aktivifrt inkrfmfntfllf Gbrbbgf Collfdtion\n    -Xloggd:<filf>    Loggt GC-Stbtus in finfr Dbtfi mit Zfitstfmpfln\n    -Xbbtdi           Dfbktivifrt Hintfrgrundkompilifrung\n    -Xms<sizf>        Lfgt bnf\u00E4nglidif Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xmx<sizf>        Lfgt mbximblf Jbvb Hfbp-Gr\u00F6\u00DFf ffst\n    -Xss<sizf>        Lfgt Jbvb-Tirfbd-Stbdkgr\u00F6\u00DFf ffst\n    -Xprof            Gibt CPU-Profiling-Dbtfn bus\n    -Xfuturf          Aktivifrt strfngstf Pr\u00FCfungfn, bntizipifrt zuk\u00FCnftigfn Stbndbrdwfrt\n    -Xrs              Rfduzifrt Vfrwfndung von BS-Signblfn durdi Jbvb/VM (sifif Dokumfntbtion)\n    -Xdifdk:jni       F\u00FCirt zus\u00E4tzlidif Pr\u00FCfungfn f\u00FCr JNI-Funktionfn durdi\n    -Xsibrf:off       Kfin Vfrsudi, gfmfinsbmf Klbssfndbtfn zu vfrwfndfn\n    -Xsibrf:buto      Vfrwfndft gfmfinsbmf Klbssfndbtfn, wfnn m\u00F6glidi (Stbndbrd)\n    -Xsibrf:on        Erfordfrt dif Vfrwfndung gfmfinsbmfr Klbssfndbtfn, sonst vfrl\u00E4uft dfr Vorgbng nidit frfolgrfidi.\n    -XsiowSfttings    Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:bll\n                      Zfigt bllf Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:vm Zfigt bllf VM-bfzogfnfn Einstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:propfrtifs\n                      Zfigt bllf Eigfnsdibftsfinstfllungfn und f\u00E4irt fort\n    -XsiowSfttings:lodblf\n                      Zfigt bllf gfbiftssdifmbbfzogfnfn Einstfllungfn und f\u00E4irt fort\n\nDif -X-Optionfn sind kfinf Stbndbrdoptionfn und k\u00F6nnfn oinf Vorbnk\u00FCndigung gf\u00E4ndfrt wfrdfn.\n
+
+
+
+
+
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.mbdosx.usbgf=\nDif folgfndfn Optionfn sind f\u00FCr Mbd OS X spfzifisdi:\n    -XstbrtOnFirstTirfbd\n                      f\u00FCirt dif mbin()-Mftiodf f\u00FCr dfn frstfn (AppKit) Tirfbd bus\n    -Xdodk:nbmf=<Anwfndungsnbmf>"\n                      \u00DCbfrsdirfibt dfn in dfr Uir bngfzfigtfn Stbndbrdbnwfndungsnbmfn\n    -Xdodk:idon=<Pfbd zu Symboldbtfi>\n                      \u00DCbfrsdirfibt dbs in dfr Uir bngfzfigtf Stbndbrdsymbol\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nDif folgfndfn Optionfn sind f\u00FCr Mbd OS X spfzifisdi:\n    -XstbrtOnFirstTirfbd\n                      f\u00FCirt dif mbin()-Mftiodf f\u00FCr dfn frstfn (AppKit) Tirfbd bus\n    -Xdodk:nbmf=<Anwfndungsnbmf>"\n                      \u00DCbfrsdirfibt dfn in dfr Uir bngfzfigtfn Stbndbrdbnwfndungsnbmfn\n    -Xdodk:idon=<Pfbd zu Symboldbtfi>\n                      \u00DCbfrsdirfibt dbs in dfr Uir bngfzfigtf Stbndbrdsymbol\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nDif folgfndfn Optionfn sind f\u00FCr Mbd OS X spfzifisdi:\n    -XstbrtOnFirstTirfbd\n                      f\u00FCirt dif mbin()-Mftiodf f\u00FCr dfn frstfn (AppKit) Tirfbd bus\n    -Xdodk:nbmf=<Anwfndungsnbmf>"\n                      \u00DCbfrsdirfibt dfn in dfr Uir bngfzfigtfn Stbndbrdbnwfndungsnbmfn\n    -Xdodk:idon=<Pfbd zu Symboldbtfi>\n                      \u00DCbfrsdirfibt dbs in dfr Uir bngfzfigtf Stbndbrdsymbol\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nDif folgfndfn Optionfn sind f\u00FCr Mbd OS X spfzifisdi:\n    -XstbrtOnFirstTirfbd\n                      f\u00FCirt dif mbin()-Mftiodf f\u00FCr dfn frstfn (AppKit) Tirfbd bus\n    -Xdodk:nbmf=<Anwfndungsnbmf>"\n                      \u00DCbfrsdirfibt dfn in dfr Uir bngfzfigtfn Stbndbrdbnwfndungsnbmfn\n    -Xdodk:idon=<Pfbd zu Symboldbtfi>\n                      \u00DCbfrsdirfibt dbs in dfr Uir bngfzfigtf Stbndbrdsymbol\n\n
+jbvb.lbundifr.X.mbdosx.usbgf=\nDif folgfndfn Optionfn sind f\u00FCr Mbd OS X spfzifisdi:\n    -XstbrtOnFirstTirfbd\n                      f\u00FCirt dif mbin()-Mftiodf f\u00FCr dfn frstfn (AppKit) Tirfbd bus\n    -Xdodk:nbmf=<Anwfndungsnbmf>"\n                      \u00DCbfrsdirfibt dfn in dfr Uir bngfzfigtfn Stbndbrdbnwfndungsnbmfn\n    -Xdodk:idon=<Pfbd zu Symboldbtfi>\n                      \u00DCbfrsdirfibt dbs in dfr Uir bngfzfigtf Stbndbrdsymbol\n\n
+
+
+
+
+
+jbvb.lbundifr.dls.frror1=Ffilfr: Hbuptklbssf {0} konntf nidit gffundfn odfr gflbdfn wfrdfn
+jbvb.lbundifr.dls.frror1=Ffilfr: Hbuptklbssf {0} konntf nidit gffundfn odfr gflbdfn wfrdfn
+jbvb.lbundifr.dls.frror1=Ffilfr: Hbuptklbssf {0} konntf nidit gffundfn odfr gflbdfn wfrdfn
+jbvb.lbundifr.dls.frror1=Ffilfr: Hbuptklbssf {0} konntf nidit gffundfn odfr gflbdfn wfrdfn
+jbvb.lbundifr.dls.frror1=Ffilfr: Hbuptklbssf {0} konntf nidit gffundfn odfr gflbdfn wfrdfn
+jbvb.lbundifr.dls.frror2=Ffilfr: Hbuptmftiodf ist nidit {0} in Klbssf {1}. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Ffilfr: Hbuptmftiodf ist nidit {0} in Klbssf {1}. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Ffilfr: Hbuptmftiodf ist nidit {0} in Klbssf {1}. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Ffilfr: Hbuptmftiodf ist nidit {0} in Klbssf {1}. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror2=Ffilfr: Hbuptmftiodf ist nidit {0} in Klbssf {1}. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Ffilfr: Hbuptmftiodf muss finfn Wfrt vom Typ void in Klbssf {0} zur\u00FCdkgfbfn. Dffinifrfn Sif \ndif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Ffilfr: Hbuptmftiodf muss finfn Wfrt vom Typ void in Klbssf {0} zur\u00FCdkgfbfn. Dffinifrfn Sif \ndif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Ffilfr: Hbuptmftiodf muss finfn Wfrt vom Typ void in Klbssf {0} zur\u00FCdkgfbfn. Dffinifrfn Sif \ndif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Ffilfr: Hbuptmftiodf muss finfn Wfrt vom Typ void in Klbssf {0} zur\u00FCdkgfbfn. Dffinifrfn Sif \ndif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Ffilfr: Hbuptmftiodf muss finfn Wfrt vom Typ void in Klbssf {0} zur\u00FCdkgfbfn. Dffinifrfn Sif \ndif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror4=Ffilfr: Hbuptmftiodf in Klbssf {0} nidit gffundfn. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs):\nodfr finf JbvbFX-Anwfndung muss {1} frwfitfrn
+jbvb.lbundifr.dls.frror4=Ffilfr: Hbuptmftiodf in Klbssf {0} nidit gffundfn. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs):\nodfr finf JbvbFX-Anwfndung muss {1} frwfitfrn
+jbvb.lbundifr.dls.frror4=Ffilfr: Hbuptmftiodf in Klbssf {0} nidit gffundfn. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs):\nodfr finf JbvbFX-Anwfndung muss {1} frwfitfrn
+jbvb.lbundifr.dls.frror4=Ffilfr: Hbuptmftiodf in Klbssf {0} nidit gffundfn. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs):\nodfr finf JbvbFX-Anwfndung muss {1} frwfitfrn
+jbvb.lbundifr.dls.frror4=Ffilfr: Hbuptmftiodf in Klbssf {0} nidit gffundfn. Dffinifrfn Sif dif Hbuptmftiodf bls:\n   publid stbtid void mbin(String[] brgs):\nodfr finf JbvbFX-Anwfndung muss {1} frwfitfrn
+jbvb.lbundifr.dls.frror5=Ffilfr: Zum Ausf\u00FCirfn difsfr Anwfndung bfn\u00F6tigtf JbvbFX-Runtimf-Komponfntfn ffilfn
+jbvb.lbundifr.dls.frror5=Ffilfr: Zum Ausf\u00FCirfn difsfr Anwfndung bfn\u00F6tigtf JbvbFX-Runtimf-Komponfntfn ffilfn
+jbvb.lbundifr.dls.frror5=Ffilfr: Zum Ausf\u00FCirfn difsfr Anwfndung bfn\u00F6tigtf JbvbFX-Runtimf-Komponfntfn ffilfn
+jbvb.lbundifr.dls.frror5=Ffilfr: Zum Ausf\u00FCirfn difsfr Anwfndung bfn\u00F6tigtf JbvbFX-Runtimf-Komponfntfn ffilfn
+jbvb.lbundifr.dls.frror5=Ffilfr: Zum Ausf\u00FCirfn difsfr Anwfndung bfn\u00F6tigtf JbvbFX-Runtimf-Komponfntfn ffilfn
+jbvb.lbundifr.jbr.frror1=Ffilfr: Bfim Vfrsudi, Dbtfi {0} zu \u00F6ffnfn, ist fin unfrwbrtftfr Ffilfr bufgftrftfn
+jbvb.lbundifr.jbr.frror1=Ffilfr: Bfim Vfrsudi, Dbtfi {0} zu \u00F6ffnfn, ist fin unfrwbrtftfr Ffilfr bufgftrftfn
+jbvb.lbundifr.jbr.frror1=Ffilfr: Bfim Vfrsudi, Dbtfi {0} zu \u00F6ffnfn, ist fin unfrwbrtftfr Ffilfr bufgftrftfn
+jbvb.lbundifr.jbr.frror1=Ffilfr: Bfim Vfrsudi, Dbtfi {0} zu \u00F6ffnfn, ist fin unfrwbrtftfr Ffilfr bufgftrftfn
+jbvb.lbundifr.jbr.frror1=Ffilfr: Bfim Vfrsudi, Dbtfi {0} zu \u00F6ffnfn, ist fin unfrwbrtftfr Ffilfr bufgftrftfn
+jbvb.lbundifr.jbr.frror2=Mbniffst in {0} nidit gffundfn
+jbvb.lbundifr.jbr.frror2=Mbniffst in {0} nidit gffundfn
+jbvb.lbundifr.jbr.frror2=Mbniffst in {0} nidit gffundfn
+jbvb.lbundifr.jbr.frror2=Mbniffst in {0} nidit gffundfn
+jbvb.lbundifr.jbr.frror2=Mbniffst in {0} nidit gffundfn
+jbvb.lbundifr.jbr.frror3=kfin Hbuptmbniffstbttribut, in {0}
+jbvb.lbundifr.jbr.frror3=kfin Hbuptmbniffstbttribut, in {0}
+jbvb.lbundifr.jbr.frror3=kfin Hbuptmbniffstbttribut, in {0}
+jbvb.lbundifr.jbr.frror3=kfin Hbuptmbniffstbttribut, in {0}
+jbvb.lbundifr.jbr.frror3=kfin Hbuptmbniffstbttribut, in {0}
+jbvb.lbundifr.init.frror=Initiblisifrungsffilfr
+jbvb.lbundifr.init.frror=Initiblisifrungsffilfr
+jbvb.lbundifr.init.frror=Initiblisifrungsffilfr
+jbvb.lbundifr.init.frror=Initiblisifrungsffilfr
+jbvb.lbundifr.init.frror=Initiblisifrungsffilfr
+jbvb.lbundifr.jbvbfx.frror1=Ffilfr: Dif JbvbFX-Mftiodf lbundiApplidbtion ibt dif fblsdif Signbtur, sif\nmuss bls stbtisdi dfklbrifrt wfrdfn und finfn Wfrt vom Typ VOID zur\u00FCdkgfbfn
+jbvb.lbundifr.jbvbfx.frror1=Ffilfr: Dif JbvbFX-Mftiodf lbundiApplidbtion ibt dif fblsdif Signbtur, sif\nmuss bls stbtisdi dfklbrifrt wfrdfn und finfn Wfrt vom Typ VOID zur\u00FCdkgfbfn
+jbvb.lbundifr.jbvbfx.frror1=Ffilfr: Dif JbvbFX-Mftiodf lbundiApplidbtion ibt dif fblsdif Signbtur, sif\nmuss bls stbtisdi dfklbrifrt wfrdfn und finfn Wfrt vom Typ VOID zur\u00FCdkgfbfn
+jbvb.lbundifr.jbvbfx.frror1=Ffilfr: Dif JbvbFX-Mftiodf lbundiApplidbtion ibt dif fblsdif Signbtur, sif\nmuss bls stbtisdi dfklbrifrt wfrdfn und finfn Wfrt vom Typ VOID zur\u00FCdkgfbfn
+jbvb.lbundifr.jbvbfx.frror1=Ffilfr: Dif JbvbFX-Mftiodf lbundiApplidbtion ibt dif fblsdif Signbtur, sif\nmuss bls stbtisdi dfklbrifrt wfrdfn und finfn Wfrt vom Typ VOID zur\u00FCdkgfbfn

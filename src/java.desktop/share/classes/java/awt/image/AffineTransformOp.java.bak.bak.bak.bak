@@ -1,563 +1,2815 @@
 /*
- * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+pbdkbgf jbvb.bwt.imbgf;
+
+
+
+
 
 import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
 import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
 import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 import jbvb.bwt.gfom.Point2D;
-import jbvb.bwt.AlphbCompositf;
-import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
 import jbvb.bwt.Rfdtbnglf;
 import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.Trbnspbrfndy;
 import jbvb.bwt.Trbnspbrfndy;
 import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.bwt.imbgf.ImbgingLib;
+import sun.bwt.imbgf.ImbgingLib;
+import sun.bwt.imbgf.ImbgingLib;
+import sun.bwt.imbgf.ImbgingLib;
 import sun.bwt.imbgf.ImbgingLib;
 
+
+
+
+
 /**
- * This dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
- * 2D doordinbtfs in thf sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
- * in thf dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
- * Thf typf of intfrpolbtion thbt is usfd is spfdififd through b donstrudtor,
- * fithfr by b <CODE>RfndfringHints</CODE> objfdt or by onf of thf intfgfr
- * intfrpolbtion typfs dffinfd in this dlbss.
+/**
+/**
+/**
+/**
+ * Tiis dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
+ * Tiis dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
+ * Tiis dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
+ * Tiis dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
+ * Tiis dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
+ * 2D doordinbtfs in tif sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
+ * 2D doordinbtfs in tif sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
+ * 2D doordinbtfs in tif sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
+ * 2D doordinbtfs in tif sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
+ * 2D doordinbtfs in tif sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
+ * in tif dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
+ * in tif dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
+ * in tif dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
+ * in tif dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
+ * in tif dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
+ * Tif typf of intfrpolbtion tibt is usfd is spfdififd tirougi b donstrudtor,
+ * Tif typf of intfrpolbtion tibt is usfd is spfdififd tirougi b donstrudtor,
+ * Tif typf of intfrpolbtion tibt is usfd is spfdififd tirougi b donstrudtor,
+ * Tif typf of intfrpolbtion tibt is usfd is spfdififd tirougi b donstrudtor,
+ * Tif typf of intfrpolbtion tibt is usfd is spfdififd tirougi b donstrudtor,
+ * fitifr by b <CODE>RfndfringHints</CODE> objfdt or by onf of tif intfgfr
+ * fitifr by b <CODE>RfndfringHints</CODE> objfdt or by onf of tif intfgfr
+ * fitifr by b <CODE>RfndfringHints</CODE> objfdt or by onf of tif intfgfr
+ * fitifr by b <CODE>RfndfringHints</CODE> objfdt or by onf of tif intfgfr
+ * fitifr by b <CODE>RfndfringHints</CODE> objfdt or by onf of tif intfgfr
+ * intfrpolbtion typfs dffinfd in tiis dlbss.
+ * intfrpolbtion typfs dffinfd in tiis dlbss.
+ * intfrpolbtion typfs dffinfd in tiis dlbss.
+ * intfrpolbtion typfs dffinfd in tiis dlbss.
+ * intfrpolbtion typfs dffinfd in tiis dlbss.
  * <p>
- * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in thf donstrudtor, thf
- * intfrpolbtion hint bnd thf rfndfring qublity hint brf usfd to sft
- * thf intfrpolbtion typf for this opfrbtion.  Thf dolor rfndfring hint
- * bnd thf dithfring hint dbn bf usfd whfn dolor donvfrsion is rfquirfd.
  * <p>
- * Notf thbt thf following donstrbints hbvf to bf mft:
+ * <p>
+ * <p>
+ * <p>
+ * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in tif donstrudtor, tif
+ * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in tif donstrudtor, tif
+ * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in tif donstrudtor, tif
+ * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in tif donstrudtor, tif
+ * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in tif donstrudtor, tif
+ * intfrpolbtion iint bnd tif rfndfring qublity iint brf usfd to sft
+ * intfrpolbtion iint bnd tif rfndfring qublity iint brf usfd to sft
+ * intfrpolbtion iint bnd tif rfndfring qublity iint brf usfd to sft
+ * intfrpolbtion iint bnd tif rfndfring qublity iint brf usfd to sft
+ * intfrpolbtion iint bnd tif rfndfring qublity iint brf usfd to sft
+ * tif intfrpolbtion typf for tiis opfrbtion.  Tif dolor rfndfring iint
+ * tif intfrpolbtion typf for tiis opfrbtion.  Tif dolor rfndfring iint
+ * tif intfrpolbtion typf for tiis opfrbtion.  Tif dolor rfndfring iint
+ * tif intfrpolbtion typf for tiis opfrbtion.  Tif dolor rfndfring iint
+ * tif intfrpolbtion typf for tiis opfrbtion.  Tif dolor rfndfring iint
+ * bnd tif ditifring iint dbn bf usfd wifn dolor donvfrsion is rfquirfd.
+ * bnd tif ditifring iint dbn bf usfd wifn dolor donvfrsion is rfquirfd.
+ * bnd tif ditifring iint dbn bf usfd wifn dolor donvfrsion is rfquirfd.
+ * bnd tif ditifring iint dbn bf usfd wifn dolor donvfrsion is rfquirfd.
+ * bnd tif ditifring iint dbn bf usfd wifn dolor donvfrsion is rfquirfd.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Notf tibt tif following donstrbints ibvf to bf mft:
+ * Notf tibt tif following donstrbints ibvf to bf mft:
+ * Notf tibt tif following donstrbints ibvf to bf mft:
+ * Notf tibt tif following donstrbints ibvf to bf mft:
+ * Notf tibt tif following donstrbints ibvf to bf mft:
  * <ul>
- * <li>Thf sourdf bnd dfstinbtion must bf difffrfnt.
- * <li>For <CODE>Rbstfr</CODE> objfdts, thf numbfr of bbnds in thf sourdf must
- * bf fqubl to thf numbfr of bbnds in thf dfstinbtion.
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li>Tif sourdf bnd dfstinbtion must bf difffrfnt.
+ * <li>Tif sourdf bnd dfstinbtion must bf difffrfnt.
+ * <li>Tif sourdf bnd dfstinbtion must bf difffrfnt.
+ * <li>Tif sourdf bnd dfstinbtion must bf difffrfnt.
+ * <li>Tif sourdf bnd dfstinbtion must bf difffrfnt.
+ * <li>For <CODE>Rbstfr</CODE> objfdts, tif numbfr of bbnds in tif sourdf must
+ * <li>For <CODE>Rbstfr</CODE> objfdts, tif numbfr of bbnds in tif sourdf must
+ * <li>For <CODE>Rbstfr</CODE> objfdts, tif numbfr of bbnds in tif sourdf must
+ * <li>For <CODE>Rbstfr</CODE> objfdts, tif numbfr of bbnds in tif sourdf must
+ * <li>For <CODE>Rbstfr</CODE> objfdts, tif numbfr of bbnds in tif sourdf must
+ * bf fqubl to tif numbfr of bbnds in tif dfstinbtion.
+ * bf fqubl to tif numbfr of bbnds in tif dfstinbtion.
+ * bf fqubl to tif numbfr of bbnds in tif dfstinbtion.
+ * bf fqubl to tif numbfr of bbnds in tif dfstinbtion.
+ * bf fqubl to tif numbfr of bbnds in tif dfstinbtion.
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  * </ul>
  * @sff AffinfTrbnsform
+ * @sff AffinfTrbnsform
+ * @sff AffinfTrbnsform
+ * @sff AffinfTrbnsform
+ * @sff AffinfTrbnsform
+ * @sff BufffrfdImbgfFiltfr
+ * @sff BufffrfdImbgfFiltfr
+ * @sff BufffrfdImbgfFiltfr
+ * @sff BufffrfdImbgfFiltfr
  * @sff BufffrfdImbgfFiltfr
  * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+ * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+ * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+ * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+ * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+ * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
  * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
  * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
  * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
  */
+ */
+ */
+ */
+ */
+publid dlbss AffinfTrbnsformOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+publid dlbss AffinfTrbnsformOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+publid dlbss AffinfTrbnsformOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+publid dlbss AffinfTrbnsformOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
 publid dlbss AffinfTrbnsformOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
     privbtf AffinfTrbnsform xform;
-    RfndfringHints hints;
+    privbtf AffinfTrbnsform xform;
+    privbtf AffinfTrbnsform xform;
+    privbtf AffinfTrbnsform xform;
+    privbtf AffinfTrbnsform xform;
+    RfndfringHints iints;
+    RfndfringHints iints;
+    RfndfringHints iints;
+    RfndfringHints iints;
+    RfndfringHints iints;
+
+
+
+
 
     /**
-     * Nfbrfst-nfighbor intfrpolbtion typf.
+    /**
+    /**
+    /**
+    /**
+     * Nfbrfst-nfigibor intfrpolbtion typf.
+     * Nfbrfst-nfigibor intfrpolbtion typf.
+     * Nfbrfst-nfigibor intfrpolbtion typf.
+     * Nfbrfst-nfigibor intfrpolbtion typf.
+     * Nfbrfst-nfigibor intfrpolbtion typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int TYPE_NEAREST_NEIGHBOR = 1;
+    @Nbtivf publid stbtid finbl int TYPE_NEAREST_NEIGHBOR = 1;
+    @Nbtivf publid stbtid finbl int TYPE_NEAREST_NEIGHBOR = 1;
+    @Nbtivf publid stbtid finbl int TYPE_NEAREST_NEIGHBOR = 1;
+    @Nbtivf publid stbtid finbl int TYPE_NEAREST_NEIGHBOR = 1;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Bilinfbr intfrpolbtion typf.
+     * Bilinfbr intfrpolbtion typf.
+     * Bilinfbr intfrpolbtion typf.
+     * Bilinfbr intfrpolbtion typf.
+     * Bilinfbr intfrpolbtion typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int TYPE_BILINEAR = 2;
+    @Nbtivf publid stbtid finbl int TYPE_BILINEAR = 2;
+    @Nbtivf publid stbtid finbl int TYPE_BILINEAR = 2;
+    @Nbtivf publid stbtid finbl int TYPE_BILINEAR = 2;
+    @Nbtivf publid stbtid finbl int TYPE_BILINEAR = 2;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Bidubid intfrpolbtion typf.
+     * Bidubid intfrpolbtion typf.
+     * Bidubid intfrpolbtion typf.
+     * Bidubid intfrpolbtion typf.
+     * Bidubid intfrpolbtion typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int TYPE_BICUBIC = 3;
+    @Nbtivf publid stbtid finbl int TYPE_BICUBIC = 3;
+    @Nbtivf publid stbtid finbl int TYPE_BICUBIC = 3;
+    @Nbtivf publid stbtid finbl int TYPE_BICUBIC = 3;
+    @Nbtivf publid stbtid finbl int TYPE_BICUBIC = 3;
+
+
+
+
 
     int intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+    int intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+    int intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+    int intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+    int intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform.
-     * Thf intfrpolbtion typf is dftfrminfd from thf
-     * <CODE>RfndfringHints</CODE> objfdt.  If thf intfrpolbtion hint is
-     * dffinfd, it will bf usfd. Othfrwisf, if thf rfndfring qublity hint is
-     * dffinfd, thf intfrpolbtion typf is dftfrminfd from its vbluf.  If no
-     * hints brf spfdififd (<CODE>hints</CODE> is null),
-     * thf intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform.
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform.
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform.
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform.
+     * Tif intfrpolbtion typf is dftfrminfd from tif
+     * Tif intfrpolbtion typf is dftfrminfd from tif
+     * Tif intfrpolbtion typf is dftfrminfd from tif
+     * Tif intfrpolbtion typf is dftfrminfd from tif
+     * Tif intfrpolbtion typf is dftfrminfd from tif
+     * <CODE>RfndfringHints</CODE> objfdt.  If tif intfrpolbtion iint is
+     * <CODE>RfndfringHints</CODE> objfdt.  If tif intfrpolbtion iint is
+     * <CODE>RfndfringHints</CODE> objfdt.  If tif intfrpolbtion iint is
+     * <CODE>RfndfringHints</CODE> objfdt.  If tif intfrpolbtion iint is
+     * <CODE>RfndfringHints</CODE> objfdt.  If tif intfrpolbtion iint is
+     * dffinfd, it will bf usfd. Otifrwisf, if tif rfndfring qublity iint is
+     * dffinfd, it will bf usfd. Otifrwisf, if tif rfndfring qublity iint is
+     * dffinfd, it will bf usfd. Otifrwisf, if tif rfndfring qublity iint is
+     * dffinfd, it will bf usfd. Otifrwisf, if tif rfndfring qublity iint is
+     * dffinfd, it will bf usfd. Otifrwisf, if tif rfndfring qublity iint is
+     * dffinfd, tif intfrpolbtion typf is dftfrminfd from its vbluf.  If no
+     * dffinfd, tif intfrpolbtion typf is dftfrminfd from its vbluf.  If no
+     * dffinfd, tif intfrpolbtion typf is dftfrminfd from its vbluf.  If no
+     * dffinfd, tif intfrpolbtion typf is dftfrminfd from its vbluf.  If no
+     * dffinfd, tif intfrpolbtion typf is dftfrminfd from its vbluf.  If no
+     * iints brf spfdififd (<CODE>iints</CODE> is null),
+     * iints brf spfdififd (<CODE>iints</CODE> is null),
+     * iints brf spfdififd (<CODE>iints</CODE> is null),
+     * iints brf spfdififd (<CODE>iints</CODE> is null),
+     * iints brf spfdififd (<CODE>iints</CODE> is null),
+     * tif intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
+     * tif intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
+     * tif intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
+     * tif intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
+     * tif intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
+     * TYPE_NEAREST_NEIGHBOR}.
+     * TYPE_NEAREST_NEIGHBOR}.
+     * TYPE_NEAREST_NEIGHBOR}.
+     * TYPE_NEAREST_NEIGHBOR}.
      * TYPE_NEAREST_NEIGHBOR}.
      *
-     * @pbrbm xform Thf <CODE>AffinfTrbnsform</CODE> to usf for thf
+     *
+     *
+     *
+     *
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
      * opfrbtion.
      *
-     * @pbrbm hints Thf <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
-     * thf intfrpolbtion typf for thf opfrbtion.
      *
-     * @throws ImbgingOpExdfption if thf trbnsform is non-invfrtiblf.
+     *
+     *
+     *
+     * @pbrbm iints Tif <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
+     * @pbrbm iints Tif <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
+     * @pbrbm iints Tif <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
+     * @pbrbm iints Tif <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
+     * @pbrbm iints Tif <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
+     * tif intfrpolbtion typf for tif opfrbtion.
+     * tif intfrpolbtion typf for tif opfrbtion.
+     * tif intfrpolbtion typf for tif opfrbtion.
+     * tif intfrpolbtion typf for tif opfrbtion.
+     * tif intfrpolbtion typf for tif opfrbtion.
+     *
+     *
+     *
+     *
+     *
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+     * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+     * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+     * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
      * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
      * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+     * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+     * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+     * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+     * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
      */
-    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints hints){
+     */
+     */
+     */
+     */
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints iints){
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints iints){
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints iints){
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints iints){
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints iints){
         vblidbtfTrbnsform(xform);
-        this.xform = (AffinfTrbnsform) xform.dlonf();
-        this.hints = hints;
+        vblidbtfTrbnsform(xform);
+        vblidbtfTrbnsform(xform);
+        vblidbtfTrbnsform(xform);
+        vblidbtfTrbnsform(xform);
+        tiis.xform = (AffinfTrbnsform) xform.dlonf();
+        tiis.xform = (AffinfTrbnsform) xform.dlonf();
+        tiis.xform = (AffinfTrbnsform) xform.dlonf();
+        tiis.xform = (AffinfTrbnsform) xform.dlonf();
+        tiis.xform = (AffinfTrbnsform) xform.dlonf();
+        tiis.iints = iints;
+        tiis.iints = iints;
+        tiis.iints = iints;
+        tiis.iints = iints;
+        tiis.iints = iints;
 
-        if (hints != null) {
-            Objfdt vbluf = hints.gft(RfndfringHints.KEY_INTERPOLATION);
+
+
+
+
+        if (iints != null) {
+        if (iints != null) {
+        if (iints != null) {
+        if (iints != null) {
+        if (iints != null) {
+            Objfdt vbluf = iints.gft(RfndfringHints.KEY_INTERPOLATION);
+            Objfdt vbluf = iints.gft(RfndfringHints.KEY_INTERPOLATION);
+            Objfdt vbluf = iints.gft(RfndfringHints.KEY_INTERPOLATION);
+            Objfdt vbluf = iints.gft(RfndfringHints.KEY_INTERPOLATION);
+            Objfdt vbluf = iints.gft(RfndfringHints.KEY_INTERPOLATION);
             if (vbluf == null) {
-                vbluf = hints.gft(RfndfringHints.KEY_RENDERING);
+            if (vbluf == null) {
+            if (vbluf == null) {
+            if (vbluf == null) {
+            if (vbluf == null) {
+                vbluf = iints.gft(RfndfringHints.KEY_RENDERING);
+                vbluf = iints.gft(RfndfringHints.KEY_RENDERING);
+                vbluf = iints.gft(RfndfringHints.KEY_RENDERING);
+                vbluf = iints.gft(RfndfringHints.KEY_RENDERING);
+                vbluf = iints.gft(RfndfringHints.KEY_RENDERING);
+                if (vbluf == RfndfringHints.VALUE_RENDER_SPEED) {
+                if (vbluf == RfndfringHints.VALUE_RENDER_SPEED) {
+                if (vbluf == RfndfringHints.VALUE_RENDER_SPEED) {
+                if (vbluf == RfndfringHints.VALUE_RENDER_SPEED) {
                 if (vbluf == RfndfringHints.VALUE_RENDER_SPEED) {
                     intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                    intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                    intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                    intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                    intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                }
+                }
+                }
+                }
                 }
                 flsf if (vbluf == RfndfringHints.VALUE_RENDER_QUALITY) {
+                flsf if (vbluf == RfndfringHints.VALUE_RENDER_QUALITY) {
+                flsf if (vbluf == RfndfringHints.VALUE_RENDER_QUALITY) {
+                flsf if (vbluf == RfndfringHints.VALUE_RENDER_QUALITY) {
+                flsf if (vbluf == RfndfringHints.VALUE_RENDER_QUALITY) {
+                    intfrpolbtionTypf = TYPE_BILINEAR;
+                    intfrpolbtionTypf = TYPE_BILINEAR;
+                    intfrpolbtionTypf = TYPE_BILINEAR;
+                    intfrpolbtionTypf = TYPE_BILINEAR;
                     intfrpolbtionTypf = TYPE_BILINEAR;
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
             flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+                intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+                intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
                 intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
             }
+            }
+            }
+            }
+            }
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BILINEAR) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BILINEAR) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BILINEAR) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BILINEAR) {
             flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BILINEAR) {
                 intfrpolbtionTypf = TYPE_BILINEAR;
+                intfrpolbtionTypf = TYPE_BILINEAR;
+                intfrpolbtionTypf = TYPE_BILINEAR;
+                intfrpolbtionTypf = TYPE_BILINEAR;
+                intfrpolbtionTypf = TYPE_BILINEAR;
+            }
+            }
+            }
+            }
             }
             flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BICUBIC) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BICUBIC) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BICUBIC) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BICUBIC) {
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BICUBIC) {
+                intfrpolbtionTypf = TYPE_BICUBIC;
+                intfrpolbtionTypf = TYPE_BICUBIC;
+                intfrpolbtionTypf = TYPE_BICUBIC;
+                intfrpolbtionTypf = TYPE_BICUBIC;
                 intfrpolbtionTypf = TYPE_BICUBIC;
             }
+            }
+            }
+            }
+            }
         }
+        }
+        }
+        }
+        }
+        flsf {
+        flsf {
+        flsf {
+        flsf {
         flsf {
             intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+            intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+            intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+            intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+            intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform
-     * bnd thf intfrpolbtion typf.
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform
+     * bnd tif intfrpolbtion typf.
+     * bnd tif intfrpolbtion typf.
+     * bnd tif intfrpolbtion typf.
+     * bnd tif intfrpolbtion typf.
+     * bnd tif intfrpolbtion typf.
      *
-     * @pbrbm xform Thf <CODE>AffinfTrbnsform</CODE> to usf for thf opfrbtion.
-     * @pbrbm intfrpolbtionTypf Onf of thf intfgfr
-     * intfrpolbtion typf donstbnts dffinfd by this dlbss:
+     *
+     *
+     *
+     *
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif opfrbtion.
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif opfrbtion.
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif opfrbtion.
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif opfrbtion.
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif opfrbtion.
+     * @pbrbm intfrpolbtionTypf Onf of tif intfgfr
+     * @pbrbm intfrpolbtionTypf Onf of tif intfgfr
+     * @pbrbm intfrpolbtionTypf Onf of tif intfgfr
+     * @pbrbm intfrpolbtionTypf Onf of tif intfgfr
+     * @pbrbm intfrpolbtionTypf Onf of tif intfgfr
+     * intfrpolbtion typf donstbnts dffinfd by tiis dlbss:
+     * intfrpolbtion typf donstbnts dffinfd by tiis dlbss:
+     * intfrpolbtion typf donstbnts dffinfd by tiis dlbss:
+     * intfrpolbtion typf donstbnts dffinfd by tiis dlbss:
+     * intfrpolbtion typf donstbnts dffinfd by tiis dlbss:
+     * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
+     * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
+     * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
+     * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
      * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
      * {@link #TYPE_BILINEAR TYPE_BILINEAR},
+     * {@link #TYPE_BILINEAR TYPE_BILINEAR},
+     * {@link #TYPE_BILINEAR TYPE_BILINEAR},
+     * {@link #TYPE_BILINEAR TYPE_BILINEAR},
+     * {@link #TYPE_BILINEAR TYPE_BILINEAR},
      * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
-     * @throws ImbgingOpExdfption if thf trbnsform is non-invfrtiblf.
+     * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
+     * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
+     * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
+     * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     */
+     */
+     */
+     */
      */
     publid AffinfTrbnsformOp(AffinfTrbnsform xform, int intfrpolbtionTypf) {
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, int intfrpolbtionTypf) {
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, int intfrpolbtionTypf) {
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, int intfrpolbtionTypf) {
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, int intfrpolbtionTypf) {
         vblidbtfTrbnsform(xform);
-        this.xform = (AffinfTrbnsform)xform.dlonf();
-        switdh(intfrpolbtionTypf) {
+        vblidbtfTrbnsform(xform);
+        vblidbtfTrbnsform(xform);
+        vblidbtfTrbnsform(xform);
+        vblidbtfTrbnsform(xform);
+        tiis.xform = (AffinfTrbnsform)xform.dlonf();
+        tiis.xform = (AffinfTrbnsform)xform.dlonf();
+        tiis.xform = (AffinfTrbnsform)xform.dlonf();
+        tiis.xform = (AffinfTrbnsform)xform.dlonf();
+        tiis.xform = (AffinfTrbnsform)xform.dlonf();
+        switdi(intfrpolbtionTypf) {
+        switdi(intfrpolbtionTypf) {
+        switdi(intfrpolbtionTypf) {
+        switdi(intfrpolbtionTypf) {
+        switdi(intfrpolbtionTypf) {
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_NEAREST_NEIGHBOR:
             dbsf TYPE_NEAREST_NEIGHBOR:
             dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
             dbsf TYPE_BICUBIC:
+            dbsf TYPE_BICUBIC:
+            dbsf TYPE_BICUBIC:
+            dbsf TYPE_BICUBIC:
+            dbsf TYPE_BICUBIC:
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
         dffbult:
-            throw nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+        dffbult:
+        dffbult:
+        dffbult:
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+            tirow nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+            tirow nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+            tirow nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+            tirow nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+                                               intfrpolbtionTypf);
+                                               intfrpolbtionTypf);
+                                               intfrpolbtionTypf);
+                                               intfrpolbtionTypf);
                                                intfrpolbtionTypf);
         }
-        this.intfrpolbtionTypf = intfrpolbtionTypf;
+        }
+        }
+        }
+        }
+        tiis.intfrpolbtionTypf = intfrpolbtionTypf;
+        tiis.intfrpolbtionTypf = intfrpolbtionTypf;
+        tiis.intfrpolbtionTypf = intfrpolbtionTypf;
+        tiis.intfrpolbtionTypf = intfrpolbtionTypf;
+        tiis.intfrpolbtionTypf = intfrpolbtionTypf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf intfrpolbtion typf usfd by this op.
-     * @rfturn thf intfrpolbtion typf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif intfrpolbtion typf usfd by tiis op.
+     * Rfturns tif intfrpolbtion typf usfd by tiis op.
+     * Rfturns tif intfrpolbtion typf usfd by tiis op.
+     * Rfturns tif intfrpolbtion typf usfd by tiis op.
+     * Rfturns tif intfrpolbtion typf usfd by tiis op.
+     * @rfturn tif intfrpolbtion typf.
+     * @rfturn tif intfrpolbtion typf.
+     * @rfturn tif intfrpolbtion typf.
+     * @rfturn tif intfrpolbtion typf.
+     * @rfturn tif intfrpolbtion typf.
+     * @sff #TYPE_NEAREST_NEIGHBOR
+     * @sff #TYPE_NEAREST_NEIGHBOR
+     * @sff #TYPE_NEAREST_NEIGHBOR
+     * @sff #TYPE_NEAREST_NEIGHBOR
      * @sff #TYPE_NEAREST_NEIGHBOR
      * @sff #TYPE_BILINEAR
+     * @sff #TYPE_BILINEAR
+     * @sff #TYPE_BILINEAR
+     * @sff #TYPE_BILINEAR
+     * @sff #TYPE_BILINEAR
+     * @sff #TYPE_BICUBIC
+     * @sff #TYPE_BICUBIC
+     * @sff #TYPE_BICUBIC
+     * @sff #TYPE_BICUBIC
      * @sff #TYPE_BICUBIC
      */
+     */
+     */
+     */
+     */
+    publid finbl int gftIntfrpolbtionTypf() {
+    publid finbl int gftIntfrpolbtionTypf() {
+    publid finbl int gftIntfrpolbtionTypf() {
+    publid finbl int gftIntfrpolbtionTypf() {
     publid finbl int gftIntfrpolbtionTypf() {
         rfturn intfrpolbtionTypf;
+        rfturn intfrpolbtionTypf;
+        rfturn intfrpolbtionTypf;
+        rfturn intfrpolbtionTypf;
+        rfturn intfrpolbtionTypf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Trbnsforms thf sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs thf rfsults
-     * in thf dfstinbtion <CODE>BufffrfdImbgf</CODE>.
-     * If thf dolor modfls for thf two imbgfs do not mbtdh, b dolor
-     * donvfrsion into thf dfstinbtion dolor modfl is pfrformfd.
-     * If thf dfstinbtion imbgf is null,
-     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd with thf sourdf
+    /**
+    /**
+    /**
+    /**
+     * Trbnsforms tif sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs tif rfsults
+     * Trbnsforms tif sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs tif rfsults
+     * Trbnsforms tif sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs tif rfsults
+     * Trbnsforms tif sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs tif rfsults
+     * Trbnsforms tif sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs tif rfsults
+     * in tif dfstinbtion <CODE>BufffrfdImbgf</CODE>.
+     * in tif dfstinbtion <CODE>BufffrfdImbgf</CODE>.
+     * in tif dfstinbtion <CODE>BufffrfdImbgf</CODE>.
+     * in tif dfstinbtion <CODE>BufffrfdImbgf</CODE>.
+     * in tif dfstinbtion <CODE>BufffrfdImbgf</CODE>.
+     * If tif dolor modfls for tif two imbgfs do not mbtdi, b dolor
+     * If tif dolor modfls for tif two imbgfs do not mbtdi, b dolor
+     * If tif dolor modfls for tif two imbgfs do not mbtdi, b dolor
+     * If tif dolor modfls for tif two imbgfs do not mbtdi, b dolor
+     * If tif dolor modfls for tif two imbgfs do not mbtdi, b dolor
+     * donvfrsion into tif dfstinbtion dolor modfl is pfrformfd.
+     * donvfrsion into tif dfstinbtion dolor modfl is pfrformfd.
+     * donvfrsion into tif dfstinbtion dolor modfl is pfrformfd.
+     * donvfrsion into tif dfstinbtion dolor modfl is pfrformfd.
+     * donvfrsion into tif dfstinbtion dolor modfl is pfrformfd.
+     * If tif dfstinbtion imbgf is null,
+     * If tif dfstinbtion imbgf is null,
+     * If tif dfstinbtion imbgf is null,
+     * If tif dfstinbtion imbgf is null,
+     * If tif dfstinbtion imbgf is null,
+     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd witi tif sourdf
+     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd witi tif sourdf
+     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd witi tif sourdf
+     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd witi tif sourdf
+     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd witi tif sourdf
+     * <CODE>ColorModfl</CODE>.
+     * <CODE>ColorModfl</CODE>.
+     * <CODE>ColorModfl</CODE>.
+     * <CODE>ColorModfl</CODE>.
      * <CODE>ColorModfl</CODE>.
      * <p>
-     * Thf doordinbtfs of thf rfdtbnglf rfturnfd by
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
      * <dodf>gftBounds2D(BufffrfdImbgf)</dodf>
-     * brf not nfdfssbrily thf sbmf bs thf doordinbtfs of thf
-     * <dodf>BufffrfdImbgf</dodf> rfturnfd by this mfthod.  If thf
-     * uppfr-lfft dornfr doordinbtfs of thf rfdtbnglf brf
-     * nfgbtivf thfn this pbrt of thf rfdtbnglf is not drbwn.  If thf
-     * uppfr-lfft dornfr doordinbtfs of thf  rfdtbnglf brf positivf
-     * thfn thf filtfrfd imbgf is drbwn bt thbt position in thf
+     * <dodf>gftBounds2D(BufffrfdImbgf)</dodf>
+     * <dodf>gftBounds2D(BufffrfdImbgf)</dodf>
+     * <dodf>gftBounds2D(BufffrfdImbgf)</dodf>
+     * <dodf>gftBounds2D(BufffrfdImbgf)</dodf>
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by tiis mftiod.  If tif
+     * uppfr-lfft dornfr doordinbtfs of tif rfdtbnglf brf
+     * uppfr-lfft dornfr doordinbtfs of tif rfdtbnglf brf
+     * uppfr-lfft dornfr doordinbtfs of tif rfdtbnglf brf
+     * uppfr-lfft dornfr doordinbtfs of tif rfdtbnglf brf
+     * uppfr-lfft dornfr doordinbtfs of tif rfdtbnglf brf
+     * nfgbtivf tifn tiis pbrt of tif rfdtbnglf is not drbwn.  If tif
+     * nfgbtivf tifn tiis pbrt of tif rfdtbnglf is not drbwn.  If tif
+     * nfgbtivf tifn tiis pbrt of tif rfdtbnglf is not drbwn.  If tif
+     * nfgbtivf tifn tiis pbrt of tif rfdtbnglf is not drbwn.  If tif
+     * nfgbtivf tifn tiis pbrt of tif rfdtbnglf is not drbwn.  If tif
+     * uppfr-lfft dornfr doordinbtfs of tif  rfdtbnglf brf positivf
+     * uppfr-lfft dornfr doordinbtfs of tif  rfdtbnglf brf positivf
+     * uppfr-lfft dornfr doordinbtfs of tif  rfdtbnglf brf positivf
+     * uppfr-lfft dornfr doordinbtfs of tif  rfdtbnglf brf positivf
+     * uppfr-lfft dornfr doordinbtfs of tif  rfdtbnglf brf positivf
+     * tifn tif filtfrfd imbgf is drbwn bt tibt position in tif
+     * tifn tif filtfrfd imbgf is drbwn bt tibt position in tif
+     * tifn tif filtfrfd imbgf is drbwn bt tibt position in tif
+     * tifn tif filtfrfd imbgf is drbwn bt tibt position in tif
+     * tifn tif filtfrfd imbgf is drbwn bt tibt position in tif
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf>.
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf>.
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf>.
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf>.
      * dfstinbtion <dodf>BufffrfdImbgf</dodf>.
      * <p>
-     * An <CODE>IllfgblArgumfntExdfption</CODE> is thrown if thf sourdf is
-     * thf sbmf bs thf dfstinbtion.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * An <CODE>IllfgblArgumfntExdfption</CODE> is tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> is tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> is tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> is tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> is tirown if tif sourdf is
+     * tif sbmf bs tif dfstinbtion.
+     * tif sbmf bs tif dfstinbtion.
+     * tif sbmf bs tif dfstinbtion.
+     * tif sbmf bs tif dfstinbtion.
+     * tif sbmf bs tif dfstinbtion.
      *
-     * @pbrbm srd Thf <CODE>BufffrfdImbgf</CODE> to trbnsform.
-     * @pbrbm dst Thf <CODE>BufffrfdImbgf</CODE> in whidh to storf thf rfsults
-     * of thf trbnsformbtion.
      *
-     * @rfturn Thf filtfrfd <CODE>BufffrfdImbgf</CODE>.
-     * @throws IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
-     *         <dodf>dst</dodf> brf thf sbmf
-     * @throws ImbgingOpExdfption if thf imbgf dbnnot bf trbnsformfd
-     *         bfdbusf of b dbtb-prodfssing frror thbt might bf
+     *
+     *
+     *
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to trbnsform.
+     * @pbrbm dst Tif <CODE>BufffrfdImbgf</CODE> in wiidi to storf tif rfsults
+     * @pbrbm dst Tif <CODE>BufffrfdImbgf</CODE> in wiidi to storf tif rfsults
+     * @pbrbm dst Tif <CODE>BufffrfdImbgf</CODE> in wiidi to storf tif rfsults
+     * @pbrbm dst Tif <CODE>BufffrfdImbgf</CODE> in wiidi to storf tif rfsults
+     * @pbrbm dst Tif <CODE>BufffrfdImbgf</CODE> in wiidi to storf tif rfsults
+     * of tif trbnsformbtion.
+     * of tif trbnsformbtion.
+     * of tif trbnsformbtion.
+     * of tif trbnsformbtion.
+     * of tif trbnsformbtion.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn Tif filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     * @rfturn Tif filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     * @rfturn Tif filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     * @rfturn Tif filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     * @rfturn Tif filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     *         <dodf>dst</dodf> brf tif sbmf
+     *         <dodf>dst</dodf> brf tif sbmf
+     *         <dodf>dst</dodf> brf tif sbmf
+     *         <dodf>dst</dodf> brf tif sbmf
+     *         <dodf>dst</dodf> brf tif sbmf
+     * @tirows ImbgingOpExdfption if tif imbgf dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif imbgf dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif imbgf dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif imbgf dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif imbgf dbnnot bf trbnsformfd
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
      *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
-     *         imbgf-prodfssing opfrbtion, or bny othfr unsupportfd
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
      *         opfrbtion.
+     *         opfrbtion.
+     *         opfrbtion.
+     *         opfrbtion.
+     *         opfrbtion.
+     */
+     */
+     */
+     */
      */
     publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
+
+
+
+
 
         if (srd == null) {
-            throw nfw NullPointfrExdfption("srd imbgf is null");
+        if (srd == null) {
+        if (srd == null) {
+        if (srd == null) {
+        if (srd == null) {
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+        }
+        }
+        }
+        }
         }
         if (srd == dst) {
-            throw nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf thf "+
-                                               "sbmf bs thf dst imbgf");
+        if (srd == dst) {
+        if (srd == dst) {
+        if (srd == dst) {
+        if (srd == dst) {
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         boolfbn nffdToConvfrt = fblsf;
+        boolfbn nffdToConvfrt = fblsf;
+        boolfbn nffdToConvfrt = fblsf;
+        boolfbn nffdToConvfrt = fblsf;
+        boolfbn nffdToConvfrt = fblsf;
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl srdCM = srd.gftColorModfl();
         ColorModfl srdCM = srd.gftColorModfl();
         ColorModfl dstCM;
+        ColorModfl dstCM;
+        ColorModfl dstCM;
+        ColorModfl dstCM;
+        ColorModfl dstCM;
+        BufffrfdImbgf origDst = dst;
+        BufffrfdImbgf origDst = dst;
+        BufffrfdImbgf origDst = dst;
+        BufffrfdImbgf origDst = dst;
         BufffrfdImbgf origDst = dst;
 
+
+
+
+
+        if (dst == null) {
+        if (dst == null) {
+        if (dst == null) {
+        if (dst == null) {
         if (dst == null) {
             dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstCM = srdCM;
+            dstCM = srdCM;
+            dstCM = srdCM;
+            dstCM = srdCM;
             dstCM = srdCM;
             origDst = dst;
+            origDst = dst;
+            origDst = dst;
+            origDst = dst;
+            origDst = dst;
         }
+        }
+        }
+        }
+        }
+        flsf {
+        flsf {
+        flsf {
+        flsf {
         flsf {
             dstCM = dst.gftColorModfl();
+            dstCM = dst.gftColorModfl();
+            dstCM = dst.gftColorModfl();
+            dstCM = dst.gftColorModfl();
+            dstCM = dst.gftColorModfl();
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+            if (srdCM.gftColorSpbdf().gftTypf() !=
             if (srdCM.gftColorSpbdf().gftTypf() !=
                 dstCM.gftColorSpbdf().gftTypf())
+                dstCM.gftColorSpbdf().gftTypf())
+                dstCM.gftColorSpbdf().gftTypf())
+                dstCM.gftColorSpbdf().gftTypf())
+                dstCM.gftColorSpbdf().gftTypf())
+            {
+            {
+            {
+            {
             {
                 int typf = xform.gftTypf();
+                int typf = xform.gftTypf();
+                int typf = xform.gftTypf();
+                int typf = xform.gftTypf();
+                int typf = xform.gftTypf();
+                boolfbn nffdTrbns = ((typf&
+                boolfbn nffdTrbns = ((typf&
+                boolfbn nffdTrbns = ((typf&
+                boolfbn nffdTrbns = ((typf&
                 boolfbn nffdTrbns = ((typf&
                                       (AffinfTrbnsform.TYPE_MASK_ROTATION|
+                                      (AffinfTrbnsform.TYPE_MASK_ROTATION|
+                                      (AffinfTrbnsform.TYPE_MASK_ROTATION|
+                                      (AffinfTrbnsform.TYPE_MASK_ROTATION|
+                                      (AffinfTrbnsform.TYPE_MASK_ROTATION|
+                                       AffinfTrbnsform.TYPE_GENERAL_TRANSFORM))
+                                       AffinfTrbnsform.TYPE_GENERAL_TRANSFORM))
+                                       AffinfTrbnsform.TYPE_GENERAL_TRANSFORM))
+                                       AffinfTrbnsform.TYPE_GENERAL_TRANSFORM))
                                        AffinfTrbnsform.TYPE_GENERAL_TRANSFORM))
                                      != 0);
+                                     != 0);
+                                     != 0);
+                                     != 0);
+                                     != 0);
+                if (! nffdTrbns &&
+                if (! nffdTrbns &&
+                if (! nffdTrbns &&
+                if (! nffdTrbns &&
                 if (! nffdTrbns &&
                     typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+                    typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+                    typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+                    typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+                    typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+                    typf != AffinfTrbnsform.TYPE_IDENTITY)
+                    typf != AffinfTrbnsform.TYPE_IDENTITY)
+                    typf != AffinfTrbnsform.TYPE_IDENTITY)
+                    typf != AffinfTrbnsform.TYPE_IDENTITY)
                     typf != AffinfTrbnsform.TYPE_IDENTITY)
                 {
+                {
+                {
+                {
+                {
+                    doublf[] mtx = nfw doublf[4];
+                    doublf[] mtx = nfw doublf[4];
+                    doublf[] mtx = nfw doublf[4];
+                    doublf[] mtx = nfw doublf[4];
                     doublf[] mtx = nfw doublf[4];
                     xform.gftMbtrix(mtx);
-                    // Chfdk out thf mbtrix.  A non-intfgrbl sdblf will fordf ARGB
-                    // sindf thf fdgf donditions dbn't bf gubrbntffd.
+                    xform.gftMbtrix(mtx);
+                    xform.gftMbtrix(mtx);
+                    xform.gftMbtrix(mtx);
+                    xform.gftMbtrix(mtx);
+                    // Cifdk out tif mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+                    // Cifdk out tif mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+                    // Cifdk out tif mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+                    // Cifdk out tif mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+                    // Cifdk out tif mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+                    // sindf tif fdgf donditions dbn't bf gubrbntffd.
+                    // sindf tif fdgf donditions dbn't bf gubrbntffd.
+                    // sindf tif fdgf donditions dbn't bf gubrbntffd.
+                    // sindf tif fdgf donditions dbn't bf gubrbntffd.
+                    // sindf tif fdgf donditions dbn't bf gubrbntffd.
+                    nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
+                    nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
+                    nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
+                    nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
                     nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
                 }
+                }
+                }
+                }
+                }
+
+
+
+
 
                 if (nffdTrbns &&
+                if (nffdTrbns &&
+                if (nffdTrbns &&
+                if (nffdTrbns &&
+                if (nffdTrbns &&
+                    srdCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
+                    srdCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
+                    srdCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
+                    srdCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
                     srdCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
                 {
+                {
+                {
+                {
+                {
                     // Nffd to donvfrt first
-                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(hints);
+                    // Nffd to donvfrt first
+                    // Nffd to donvfrt first
+                    // Nffd to donvfrt first
+                    // Nffd to donvfrt first
+                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
                     BufffrfdImbgf tmpSrd = null;
-                    int sw = srd.gftWidth();
-                    int sh = srd.gftHfight();
+                    BufffrfdImbgf tmpSrd = null;
+                    BufffrfdImbgf tmpSrd = null;
+                    BufffrfdImbgf tmpSrd = null;
+                    BufffrfdImbgf tmpSrd = null;
+                    int sw = srd.gftWidti();
+                    int sw = srd.gftWidti();
+                    int sw = srd.gftWidti();
+                    int sw = srd.gftWidti();
+                    int sw = srd.gftWidti();
+                    int si = srd.gftHfigit();
+                    int si = srd.gftHfigit();
+                    int si = srd.gftHfigit();
+                    int si = srd.gftHfigit();
+                    int si = srd.gftHfigit();
                     if (dstCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
-                        tmpSrd = nfw BufffrfdImbgf(sw, sh,
+                    if (dstCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                    if (dstCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                    if (dstCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                    if (dstCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                        tmpSrd = nfw BufffrfdImbgf(sw, si,
+                        tmpSrd = nfw BufffrfdImbgf(sw, si,
+                        tmpSrd = nfw BufffrfdImbgf(sw, si,
+                        tmpSrd = nfw BufffrfdImbgf(sw, si,
+                        tmpSrd = nfw BufffrfdImbgf(sw, si,
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
                                                   BufffrfdImbgf.TYPE_INT_ARGB);
                     }
+                    }
+                    }
+                    }
+                    }
+                    flsf {
+                    flsf {
+                    flsf {
+                    flsf {
                     flsf {
                         WritbblfRbstfr r =
-                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, sh);
+                        WritbblfRbstfr r =
+                        WritbblfRbstfr r =
+                        WritbblfRbstfr r =
+                        WritbblfRbstfr r =
+                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, si);
+                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, si);
+                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, si);
+                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, si);
+                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, si);
                         tmpSrd = nfw BufffrfdImbgf(dstCM, r,
-                                                  dstCM.isAlphbPrfmultiplifd(),
+                        tmpSrd = nfw BufffrfdImbgf(dstCM, r,
+                        tmpSrd = nfw BufffrfdImbgf(dstCM, r,
+                        tmpSrd = nfw BufffrfdImbgf(dstCM, r,
+                        tmpSrd = nfw BufffrfdImbgf(dstCM, r,
+                                                  dstCM.isAlpibPrfmultiplifd(),
+                                                  dstCM.isAlpibPrfmultiplifd(),
+                                                  dstCM.isAlpibPrfmultiplifd(),
+                                                  dstCM.isAlpibPrfmultiplifd(),
+                                                  dstCM.isAlpibPrfmultiplifd(),
+                                                  null);
+                                                  null);
+                                                  null);
+                                                  null);
                                                   null);
                     }
+                    }
+                    }
+                    }
+                    }
+                    srd = ddop.filtfr(srd, tmpSrd);
+                    srd = ddop.filtfr(srd, tmpSrd);
+                    srd = ddop.filtfr(srd, tmpSrd);
+                    srd = ddop.filtfr(srd, tmpSrd);
                     srd = ddop.filtfr(srd, tmpSrd);
                 }
+                }
+                }
+                }
+                }
+                flsf {
+                flsf {
+                flsf {
+                flsf {
                 flsf {
                     nffdToConvfrt = truf;
+                    nffdToConvfrt = truf;
+                    nffdToConvfrt = truf;
+                    nffdToConvfrt = truf;
+                    nffdToConvfrt = truf;
+                    dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                    dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                    dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                    dst = drfbtfCompbtiblfDfstImbgf(srd, null);
                     dst = drfbtfCompbtiblfDfstImbgf(srd, null);
                 }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
             }
 
+
+
+
+
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+        if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+        if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+        if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+        if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
             dst.gftColorModfl() instbndfof IndfxColorModfl) {
-            dst = nfw BufffrfdImbgf(dst.gftWidth(), dst.gftHfight(),
+            dst.gftColorModfl() instbndfof IndfxColorModfl) {
+            dst.gftColorModfl() instbndfof IndfxColorModfl) {
+            dst.gftColorModfl() instbndfof IndfxColorModfl) {
+            dst.gftColorModfl() instbndfof IndfxColorModfl) {
+            dst = nfw BufffrfdImbgf(dst.gftWidti(), dst.gftHfigit(),
+            dst = nfw BufffrfdImbgf(dst.gftWidti(), dst.gftHfigit(),
+            dst = nfw BufffrfdImbgf(dst.gftWidti(), dst.gftHfigit(),
+            dst = nfw BufffrfdImbgf(dst.gftWidti(), dst.gftHfigit(),
+            dst = nfw BufffrfdImbgf(dst.gftWidti(), dst.gftHfigit(),
+                                    BufffrfdImbgf.TYPE_INT_ARGB);
+                                    BufffrfdImbgf.TYPE_INT_ARGB);
+                                    BufffrfdImbgf.TYPE_INT_ARGB);
+                                    BufffrfdImbgf.TYPE_INT_ARGB);
                                     BufffrfdImbgf.TYPE_INT_ARGB);
         }
-        if (ImbgingLib.filtfr(this, srd, dst) == null) {
-            throw nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
         }
+        }
+        }
+        }
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (nffdToConvfrt) {
-            ColorConvfrtOp ddop = nfw ColorConvfrtOp(hints);
+        if (nffdToConvfrt) {
+        if (nffdToConvfrt) {
+        if (nffdToConvfrt) {
+        if (nffdToConvfrt) {
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ddop.filtfr(dst, origDst);
+            ddop.filtfr(dst, origDst);
+            ddop.filtfr(dst, origDst);
+            ddop.filtfr(dst, origDst);
             ddop.filtfr(dst, origDst);
         }
+        }
+        }
+        }
+        }
         flsf if (origDst != dst) {
-            jbvb.bwt.Grbphids2D g = origDst.drfbtfGrbphids();
+        flsf if (origDst != dst) {
+        flsf if (origDst != dst) {
+        flsf if (origDst != dst) {
+        flsf if (origDst != dst) {
+            jbvb.bwt.Grbpiids2D g = origDst.drfbtfGrbpiids();
+            jbvb.bwt.Grbpiids2D g = origDst.drfbtfGrbpiids();
+            jbvb.bwt.Grbpiids2D g = origDst.drfbtfGrbpiids();
+            jbvb.bwt.Grbpiids2D g = origDst.drfbtfGrbpiids();
+            jbvb.bwt.Grbpiids2D g = origDst.drfbtfGrbpiids();
             try {
-                g.sftCompositf(AlphbCompositf.Srd);
+            try {
+            try {
+            try {
+            try {
+                g.sftCompositf(AlpibCompositf.Srd);
+                g.sftCompositf(AlpibCompositf.Srd);
+                g.sftCompositf(AlpibCompositf.Srd);
+                g.sftCompositf(AlpibCompositf.Srd);
+                g.sftCompositf(AlpibCompositf.Srd);
+                g.drbwImbgf(dst, 0, 0, null);
+                g.drbwImbgf(dst, 0, 0, null);
+                g.drbwImbgf(dst, 0, 0, null);
+                g.drbwImbgf(dst, 0, 0, null);
                 g.drbwImbgf(dst, 0, 0, null);
             } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+                g.disposf();
+                g.disposf();
+                g.disposf();
+                g.disposf();
                 g.disposf();
             }
+            }
+            }
+            }
+            }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn origDst;
+        rfturn origDst;
+        rfturn origDst;
+        rfturn origDst;
+        rfturn origDst;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Trbnsforms thf sourdf <CODE>Rbstfr</CODE> bnd storfs thf rfsults in
-     * thf dfstinbtion <CODE>Rbstfr</CODE>.  This opfrbtion pfrforms thf
+    /**
+    /**
+    /**
+    /**
+     * Trbnsforms tif sourdf <CODE>Rbstfr</CODE> bnd storfs tif rfsults in
+     * Trbnsforms tif sourdf <CODE>Rbstfr</CODE> bnd storfs tif rfsults in
+     * Trbnsforms tif sourdf <CODE>Rbstfr</CODE> bnd storfs tif rfsults in
+     * Trbnsforms tif sourdf <CODE>Rbstfr</CODE> bnd storfs tif rfsults in
+     * Trbnsforms tif sourdf <CODE>Rbstfr</CODE> bnd storfs tif rfsults in
+     * tif dfstinbtion <CODE>Rbstfr</CODE>.  Tiis opfrbtion pfrforms tif
+     * tif dfstinbtion <CODE>Rbstfr</CODE>.  Tiis opfrbtion pfrforms tif
+     * tif dfstinbtion <CODE>Rbstfr</CODE>.  Tiis opfrbtion pfrforms tif
+     * tif dfstinbtion <CODE>Rbstfr</CODE>.  Tiis opfrbtion pfrforms tif
+     * tif dfstinbtion <CODE>Rbstfr</CODE>.  Tiis opfrbtion pfrforms tif
+     * trbnsform bbnd by bbnd.
+     * trbnsform bbnd by bbnd.
+     * trbnsform bbnd by bbnd.
+     * trbnsform bbnd by bbnd.
      * trbnsform bbnd by bbnd.
      * <p>
-     * If thf dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tif dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
+     * If tif dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
+     * If tif dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
+     * If tif dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
+     * If tif dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
      * <CODE>Rbstfr</CODE> is drfbtfd.
-     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf thrown if thf sourdf is
-     * thf sbmf bs thf dfstinbtion or if thf numbfr of bbnds in
-     * thf sourdf is not fqubl to thf numbfr of bbnds in thf
+     * <CODE>Rbstfr</CODE> is drfbtfd.
+     * <CODE>Rbstfr</CODE> is drfbtfd.
+     * <CODE>Rbstfr</CODE> is drfbtfd.
+     * <CODE>Rbstfr</CODE> is drfbtfd.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf is
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf is
+     * tif sbmf bs tif dfstinbtion or if tif numbfr of bbnds in
+     * tif sbmf bs tif dfstinbtion or if tif numbfr of bbnds in
+     * tif sbmf bs tif dfstinbtion or if tif numbfr of bbnds in
+     * tif sbmf bs tif dfstinbtion or if tif numbfr of bbnds in
+     * tif sbmf bs tif dfstinbtion or if tif numbfr of bbnds in
+     * tif sourdf is not fqubl to tif numbfr of bbnds in tif
+     * tif sourdf is not fqubl to tif numbfr of bbnds in tif
+     * tif sourdf is not fqubl to tif numbfr of bbnds in tif
+     * tif sourdf is not fqubl to tif numbfr of bbnds in tif
+     * tif sourdf is not fqubl to tif numbfr of bbnds in tif
+     * dfstinbtion.
+     * dfstinbtion.
+     * dfstinbtion.
+     * dfstinbtion.
      * dfstinbtion.
      * <p>
-     * Thf doordinbtfs of thf rfdtbnglf rfturnfd by
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
      * <dodf>gftBounds2D(Rbstfr)</dodf>
-     * brf not nfdfssbrily thf sbmf bs thf doordinbtfs of thf
-     * <dodf>WritbblfRbstfr</dodf> rfturnfd by this mfthod.  If thf
-     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf thfn
-     * this pbrt of thf rfdtbnglf is not drbwn.  If thf doordinbtfs
-     * of thf rfdtbnglf brf positivf thfn thf filtfrfd imbgf is drbwn bt
-     * thbt position in thf dfstinbtion <dodf>Rbstfr</dodf>.
+     * <dodf>gftBounds2D(Rbstfr)</dodf>
+     * <dodf>gftBounds2D(Rbstfr)</dodf>
+     * <dodf>gftBounds2D(Rbstfr)</dodf>
+     * <dodf>gftBounds2D(Rbstfr)</dodf>
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * <dodf>WritbblfRbstfr</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>WritbblfRbstfr</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>WritbblfRbstfr</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>WritbblfRbstfr</dodf> rfturnfd by tiis mftiod.  If tif
+     * <dodf>WritbblfRbstfr</dodf> rfturnfd by tiis mftiod.  If tif
+     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf tifn
+     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf tifn
+     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf tifn
+     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf tifn
+     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf tifn
+     * tiis pbrt of tif rfdtbnglf is not drbwn.  If tif doordinbtfs
+     * tiis pbrt of tif rfdtbnglf is not drbwn.  If tif doordinbtfs
+     * tiis pbrt of tif rfdtbnglf is not drbwn.  If tif doordinbtfs
+     * tiis pbrt of tif rfdtbnglf is not drbwn.  If tif doordinbtfs
+     * tiis pbrt of tif rfdtbnglf is not drbwn.  If tif doordinbtfs
+     * of tif rfdtbnglf brf positivf tifn tif filtfrfd imbgf is drbwn bt
+     * of tif rfdtbnglf brf positivf tifn tif filtfrfd imbgf is drbwn bt
+     * of tif rfdtbnglf brf positivf tifn tif filtfrfd imbgf is drbwn bt
+     * of tif rfdtbnglf brf positivf tifn tif filtfrfd imbgf is drbwn bt
+     * of tif rfdtbnglf brf positivf tifn tif filtfrfd imbgf is drbwn bt
+     * tibt position in tif dfstinbtion <dodf>Rbstfr</dodf>.
+     * tibt position in tif dfstinbtion <dodf>Rbstfr</dodf>.
+     * tibt position in tif dfstinbtion <dodf>Rbstfr</dodf>.
+     * tibt position in tif dfstinbtion <dodf>Rbstfr</dodf>.
+     * tibt position in tif dfstinbtion <dodf>Rbstfr</dodf>.
      *
-     * @pbrbm srd Thf <CODE>Rbstfr</CODE> to trbnsform.
-     * @pbrbm dst Thf <CODE>Rbstfr</CODE> in whidh to storf thf rfsults of thf
+     *
+     *
+     *
+     *
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to trbnsform.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to trbnsform.
+     * @pbrbm dst Tif <CODE>Rbstfr</CODE> in wiidi to storf tif rfsults of tif
+     * @pbrbm dst Tif <CODE>Rbstfr</CODE> in wiidi to storf tif rfsults of tif
+     * @pbrbm dst Tif <CODE>Rbstfr</CODE> in wiidi to storf tif rfsults of tif
+     * @pbrbm dst Tif <CODE>Rbstfr</CODE> in wiidi to storf tif rfsults of tif
+     * @pbrbm dst Tif <CODE>Rbstfr</CODE> in wiidi to storf tif rfsults of tif
+     * trbnsformbtion.
+     * trbnsformbtion.
+     * trbnsformbtion.
+     * trbnsformbtion.
      * trbnsformbtion.
      *
-     * @rfturn Thf trbnsformfd <CODE>Rbstfr</CODE>.
      *
-     * @throws ImbgingOpExdfption if thf rbstfr dbnnot bf trbnsformfd
-     *         bfdbusf of b dbtb-prodfssing frror thbt might bf
+     *
+     *
+     *
+     * @rfturn Tif trbnsformfd <CODE>Rbstfr</CODE>.
+     * @rfturn Tif trbnsformfd <CODE>Rbstfr</CODE>.
+     * @rfturn Tif trbnsformfd <CODE>Rbstfr</CODE>.
+     * @rfturn Tif trbnsformfd <CODE>Rbstfr</CODE>.
+     * @rfturn Tif trbnsformfd <CODE>Rbstfr</CODE>.
+     *
+     *
+     *
+     *
+     *
+     * @tirows ImbgingOpExdfption if tif rbstfr dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif rbstfr dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif rbstfr dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif rbstfr dbnnot bf trbnsformfd
+     * @tirows ImbgingOpExdfption if tif rbstfr dbnnot bf trbnsformfd
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
      *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
-     *         imbgf-prodfssing opfrbtion, or bny othfr unsupportfd
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         opfrbtion.
+     *         opfrbtion.
+     *         opfrbtion.
+     *         opfrbtion.
      *         opfrbtion.
      */
+     */
+     */
+     */
+     */
+    publid finbl WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
+    publid finbl WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
+    publid finbl WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
+    publid finbl WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
     publid finbl WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
         if (srd == null) {
-            throw nfw NullPointfrExdfption("srd imbgf is null");
+        if (srd == null) {
+        if (srd == null) {
+        if (srd == null) {
+        if (srd == null) {
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
+        }
+        }
+        }
+        }
         }
         if (dst == null) {
+        if (dst == null) {
+        if (dst == null) {
+        if (dst == null) {
+        if (dst == null) {
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
             dst = drfbtfCompbtiblfDfstRbstfr(srd);
         }
+        }
+        }
+        }
+        }
         if (srd == dst) {
-            throw nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf thf "+
-                                               "sbmf bs thf dst imbgf");
+        if (srd == dst) {
+        if (srd == dst) {
+        if (srd == dst) {
+        if (srd == dst) {
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
+                                               "sbmf bs tif dst imbgf");
+        }
+        }
+        }
+        }
         }
         if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
-            throw nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
+        if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+        if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+        if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+        if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
                                                srd.gftNumBbnds()+
-                                               ") dofs not mbtdh numbfr of "+
+                                               srd.gftNumBbnds()+
+                                               srd.gftNumBbnds()+
+                                               srd.gftNumBbnds()+
+                                               srd.gftNumBbnds()+
+                                               ") dofs not mbtdi numbfr of "+
+                                               ") dofs not mbtdi numbfr of "+
+                                               ") dofs not mbtdi numbfr of "+
+                                               ") dofs not mbtdi numbfr of "+
+                                               ") dofs not mbtdi numbfr of "+
+                                               " dst bbnds ("+
+                                               " dst bbnds ("+
+                                               " dst bbnds ("+
+                                               " dst bbnds ("+
                                                " dst bbnds ("+
                                                dst.gftNumBbnds()+")");
+                                               dst.gftNumBbnds()+")");
+                                               dst.gftNumBbnds()+")");
+                                               dst.gftNumBbnds()+")");
+                                               dst.gftNumBbnds()+")");
+        }
+        }
+        }
+        }
         }
 
-        if (ImbgingLib.filtfr(this, srd, dst) == null) {
-            throw nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+
+
+
+
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
+        }
+        }
+        }
+        }
         }
         rfturn dst;
+        rfturn dst;
+        rfturn dst;
+        rfturn dst;
+        rfturn dst;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf bounding box of thf trbnsformfd dfstinbtion.  Thf
-     * rfdtbnglf rfturnfd is thf bdtubl bounding box of thf
-     * trbnsformfd points.  Thf doordinbtfs of thf uppfr-lfft dornfr
-     * of thf rfturnfd rfdtbnglf might not bf (0,&nbsp;0).
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * rfdtbnglf rfturnfd is tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd is tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd is tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd is tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd is tif bdtubl bounding box of tif
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
      *
-     * @pbrbm srd Thf <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
      *
-     * @rfturn Thf <CODE>Rfdtbnglf2D</CODE> rfprfsfnting thf dfstinbtion's
+     *
+     *
+     *
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
      * bounding box.
+     * bounding box.
+     * bounding box.
+     * bounding box.
+     * bounding box.
+     */
+     */
+     */
+     */
      */
     publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+        rfturn gftBounds2D(srd.gftRbstfr());
+        rfturn gftBounds2D(srd.gftRbstfr());
+        rfturn gftBounds2D(srd.gftRbstfr());
+        rfturn gftBounds2D(srd.gftRbstfr());
         rfturn gftBounds2D(srd.gftRbstfr());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf bounding box of thf trbnsformfd dfstinbtion.  Thf
-     * rfdtbnglf rfturnfd will bf thf bdtubl bounding box of thf
-     * trbnsformfd points.  Thf doordinbtfs of thf uppfr-lfft dornfr
-     * of thf rfturnfd rfdtbnglf might not bf (0,&nbsp;0).
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * rfdtbnglf rfturnfd will bf tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd will bf tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd will bf tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd will bf tif bdtubl bounding box of tif
+     * rfdtbnglf rfturnfd will bf tif bdtubl bounding box of tif
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
      *
-     * @pbrbm srd Thf <CODE>Rbstfr</CODE> to bf trbnsformfd.
      *
-     * @rfturn Thf <CODE>Rfdtbnglf2D</CODE> rfprfsfnting thf dfstinbtion's
+     *
+     *
+     *
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
+     * bounding box.
+     * bounding box.
+     * bounding box.
+     * bounding box.
      * bounding box.
      */
+     */
+     */
+     */
+     */
     publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
-        int w = srd.gftWidth();
-        int h = srd.gftHfight();
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+        int w = srd.gftWidti();
+        int w = srd.gftWidti();
+        int w = srd.gftWidti();
+        int w = srd.gftWidti();
+        int w = srd.gftWidti();
+        int i = srd.gftHfigit();
+        int i = srd.gftHfigit();
+        int i = srd.gftHfigit();
+        int i = srd.gftHfigit();
+        int i = srd.gftHfigit();
 
-        // Gft thf bounding box of thf srd bnd trbnsform thf dornfrs
-        flobt[] pts = {0, 0, w, 0, w, h, 0, h};
+
+
+
+
+        // Gft tif bounding box of tif srd bnd trbnsform tif dornfrs
+        // Gft tif bounding box of tif srd bnd trbnsform tif dornfrs
+        // Gft tif bounding box of tif srd bnd trbnsform tif dornfrs
+        // Gft tif bounding box of tif srd bnd trbnsform tif dornfrs
+        // Gft tif bounding box of tif srd bnd trbnsform tif dornfrs
+        flobt[] pts = {0, 0, w, 0, w, i, 0, i};
+        flobt[] pts = {0, 0, w, 0, w, i, 0, i};
+        flobt[] pts = {0, 0, w, 0, w, i, 0, i};
+        flobt[] pts = {0, 0, w, 0, w, i, 0, i};
+        flobt[] pts = {0, 0, w, 0, w, i, 0, i};
+        xform.trbnsform(pts, 0, pts, 0, 4);
+        xform.trbnsform(pts, 0, pts, 0, 4);
+        xform.trbnsform(pts, 0, pts, 0, 4);
+        xform.trbnsform(pts, 0, pts, 0, 4);
         xform.trbnsform(pts, 0, pts, 0, 4);
 
-        // Gft thf min, mbx of thf dst
+
+
+
+
+        // Gft tif min, mbx of tif dst
+        // Gft tif min, mbx of tif dst
+        // Gft tif min, mbx of tif dst
+        // Gft tif min, mbx of tif dst
+        // Gft tif min, mbx of tif dst
+        flobt fmbxX = pts[0];
+        flobt fmbxX = pts[0];
+        flobt fmbxX = pts[0];
+        flobt fmbxX = pts[0];
         flobt fmbxX = pts[0];
         flobt fmbxY = pts[1];
+        flobt fmbxY = pts[1];
+        flobt fmbxY = pts[1];
+        flobt fmbxY = pts[1];
+        flobt fmbxY = pts[1];
+        flobt fminX = pts[0];
+        flobt fminX = pts[0];
+        flobt fminX = pts[0];
+        flobt fminX = pts[0];
         flobt fminX = pts[0];
         flobt fminY = pts[1];
+        flobt fminY = pts[1];
+        flobt fminY = pts[1];
+        flobt fminY = pts[1];
+        flobt fminY = pts[1];
+        for (int i=2; i < 8; i+=2) {
+        for (int i=2; i < 8; i+=2) {
+        for (int i=2; i < 8; i+=2) {
+        for (int i=2; i < 8; i+=2) {
         for (int i=2; i < 8; i+=2) {
             if (pts[i] > fmbxX) {
+            if (pts[i] > fmbxX) {
+            if (pts[i] > fmbxX) {
+            if (pts[i] > fmbxX) {
+            if (pts[i] > fmbxX) {
+                fmbxX = pts[i];
+                fmbxX = pts[i];
+                fmbxX = pts[i];
+                fmbxX = pts[i];
                 fmbxX = pts[i];
             }
+            }
+            }
+            }
+            }
+            flsf if (pts[i] < fminX) {
+            flsf if (pts[i] < fminX) {
+            flsf if (pts[i] < fminX) {
+            flsf if (pts[i] < fminX) {
             flsf if (pts[i] < fminX) {
                 fminX = pts[i];
+                fminX = pts[i];
+                fminX = pts[i];
+                fminX = pts[i];
+                fminX = pts[i];
+            }
+            }
+            }
+            }
             }
             if (pts[i+1] > fmbxY) {
+            if (pts[i+1] > fmbxY) {
+            if (pts[i+1] > fmbxY) {
+            if (pts[i+1] > fmbxY) {
+            if (pts[i+1] > fmbxY) {
+                fmbxY = pts[i+1];
+                fmbxY = pts[i+1];
+                fmbxY = pts[i+1];
+                fmbxY = pts[i+1];
                 fmbxY = pts[i+1];
             }
+            }
+            }
+            }
+            }
+            flsf if (pts[i+1] < fminY) {
+            flsf if (pts[i+1] < fminY) {
+            flsf if (pts[i+1] < fminY) {
+            flsf if (pts[i+1] < fminY) {
             flsf if (pts[i+1] < fminY) {
                 fminY = pts[i+1];
+                fminY = pts[i+1];
+                fminY = pts[i+1];
+                fminY = pts[i+1];
+                fminY = pts[i+1];
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn nfw Rfdtbnglf2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
+        rfturn nfw Rfdtbnglf2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
+        rfturn nfw Rfdtbnglf2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
+        rfturn nfw Rfdtbnglf2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
+        rfturn nfw Rfdtbnglf2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b zfrofd dfstinbtion imbgf with thf dorrfdt sizf bnd numbfr of
-     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf thrown if thf
-     * trbnsformfd width or hfight is fqubl to 0.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown if tif
+     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown if tif
+     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown if tif
+     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown if tif
+     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown if tif
+     * trbnsformfd widti or ifigit is fqubl to 0.
+     * trbnsformfd widti or ifigit is fqubl to 0.
+     * trbnsformfd widti or ifigit is fqubl to 0.
+     * trbnsformfd widti or ifigit is fqubl to 0.
+     * trbnsformfd widti or ifigit is fqubl to 0.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * If <CODE>dfstCM</CODE> is null,
-     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; this
-     * <CODE>ColorModfl</CODE> mby hbvf
-     * bn blphb dhbnnfl fvfn if thf sourdf <CODE>ColorModfl</CODE> is opbquf.
+     * If <CODE>dfstCM</CODE> is null,
+     * If <CODE>dfstCM</CODE> is null,
+     * If <CODE>dfstCM</CODE> is null,
+     * If <CODE>dfstCM</CODE> is null,
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; tiis
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; tiis
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; tiis
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; tiis
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; tiis
+     * <CODE>ColorModfl</CODE> mby ibvf
+     * <CODE>ColorModfl</CODE> mby ibvf
+     * <CODE>ColorModfl</CODE> mby ibvf
+     * <CODE>ColorModfl</CODE> mby ibvf
+     * <CODE>ColorModfl</CODE> mby ibvf
+     * bn blpib dibnnfl fvfn if tif sourdf <CODE>ColorModfl</CODE> is opbquf.
+     * bn blpib dibnnfl fvfn if tif sourdf <CODE>ColorModfl</CODE> is opbquf.
+     * bn blpib dibnnfl fvfn if tif sourdf <CODE>ColorModfl</CODE> is opbquf.
+     * bn blpib dibnnfl fvfn if tif sourdf <CODE>ColorModfl</CODE> is opbquf.
+     * bn blpib dibnnfl fvfn if tif sourdf <CODE>ColorModfl</CODE> is opbquf.
      *
-     * @pbrbm srd  Thf <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
-     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of thf dfstinbtion.  If null,
+     *
+     *
+     *
+     *
+     * @pbrbm srd  Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd  Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd  Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd  Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm srd  Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of tif dfstinbtion.  If null,
+     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of tif dfstinbtion.  If null,
+     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of tif dfstinbtion.  If null,
+     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of tif dfstinbtion.  If null,
+     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of tif dfstinbtion.  If null,
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd.
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd.
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd.
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd.
      * bn bppropribtf <CODE>ColorModfl</CODE> is usfd.
      *
-     * @rfturn Thf zfrofd dfstinbtion imbgf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif zfrofd dfstinbtion imbgf.
+     * @rfturn Tif zfrofd dfstinbtion imbgf.
+     * @rfturn Tif zfrofd dfstinbtion imbgf.
+     * @rfturn Tif zfrofd dfstinbtion imbgf.
+     * @rfturn Tif zfrofd dfstinbtion imbgf.
+     */
+     */
+     */
+     */
      */
     publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM) {
+                                                    ColorModfl dfstCM) {
+                                                    ColorModfl dfstCM) {
+                                                    ColorModfl dfstCM) {
                                                     ColorModfl dfstCM) {
         BufffrfdImbgf imbgf;
+        BufffrfdImbgf imbgf;
+        BufffrfdImbgf imbgf;
+        BufffrfdImbgf imbgf;
+        BufffrfdImbgf imbgf;
+        Rfdtbnglf r = gftBounds2D(srd).gftBounds();
+        Rfdtbnglf r = gftBounds2D(srd).gftBounds();
+        Rfdtbnglf r = gftBounds2D(srd).gftBounds();
+        Rfdtbnglf r = gftBounds2D(srd).gftBounds();
         Rfdtbnglf r = gftBounds2D(srd).gftBounds();
 
-        // If r.x (or r.y) is < 0, thfn wf wbnt to only drfbtf bn imbgf
-        // thbt is in thf positivf rbngf.
-        // If r.x (or r.y) is > 0, thfn wf nffd to drfbtf bn imbgf thbt
-        // indludfs thf trbnslbtion.
-        int w = r.x + r.width;
-        int h = r.y + r.hfight;
+
+
+
+
+        // If r.x (or r.y) is < 0, tifn wf wbnt to only drfbtf bn imbgf
+        // If r.x (or r.y) is < 0, tifn wf wbnt to only drfbtf bn imbgf
+        // If r.x (or r.y) is < 0, tifn wf wbnt to only drfbtf bn imbgf
+        // If r.x (or r.y) is < 0, tifn wf wbnt to only drfbtf bn imbgf
+        // If r.x (or r.y) is < 0, tifn wf wbnt to only drfbtf bn imbgf
+        // tibt is in tif positivf rbngf.
+        // tibt is in tif positivf rbngf.
+        // tibt is in tif positivf rbngf.
+        // tibt is in tif positivf rbngf.
+        // tibt is in tif positivf rbngf.
+        // If r.x (or r.y) is > 0, tifn wf nffd to drfbtf bn imbgf tibt
+        // If r.x (or r.y) is > 0, tifn wf nffd to drfbtf bn imbgf tibt
+        // If r.x (or r.y) is > 0, tifn wf nffd to drfbtf bn imbgf tibt
+        // If r.x (or r.y) is > 0, tifn wf nffd to drfbtf bn imbgf tibt
+        // If r.x (or r.y) is > 0, tifn wf nffd to drfbtf bn imbgf tibt
+        // indludfs tif trbnslbtion.
+        // indludfs tif trbnslbtion.
+        // indludfs tif trbnslbtion.
+        // indludfs tif trbnslbtion.
+        // indludfs tif trbnslbtion.
+        int w = r.x + r.widti;
+        int w = r.x + r.widti;
+        int w = r.x + r.widti;
+        int w = r.x + r.widti;
+        int w = r.x + r.widti;
+        int i = r.y + r.ifigit;
+        int i = r.y + r.ifigit;
+        int i = r.y + r.ifigit;
+        int i = r.y + r.ifigit;
+        int i = r.y + r.ifigit;
         if (w <= 0) {
-            throw nfw RbstfrFormbtExdfption("Trbnsformfd width ("+w+
-                                            ") is lfss thbn or fqubl to 0.");
+        if (w <= 0) {
+        if (w <= 0) {
+        if (w <= 0) {
+        if (w <= 0) {
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd widti ("+w+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd widti ("+w+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd widti ("+w+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd widti ("+w+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd widti ("+w+
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
         }
-        if (h <= 0) {
-            throw nfw RbstfrFormbtExdfption("Trbnsformfd hfight ("+h+
-                                            ") is lfss thbn or fqubl to 0.");
         }
+        }
+        }
+        }
+        if (i <= 0) {
+        if (i <= 0) {
+        if (i <= 0) {
+        if (i <= 0) {
+        if (i <= 0) {
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd ifigit ("+i+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd ifigit ("+i+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd ifigit ("+i+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd ifigit ("+i+
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd ifigit ("+i+
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
+                                            ") is lfss tibn or fqubl to 0.");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (dfstCM == null) {
+        if (dfstCM == null) {
+        if (dfstCM == null) {
+        if (dfstCM == null) {
+        if (dfstCM == null) {
+            ColorModfl dm = srd.gftColorModfl();
+            ColorModfl dm = srd.gftColorModfl();
+            ColorModfl dm = srd.gftColorModfl();
+            ColorModfl dm = srd.gftColorModfl();
             ColorModfl dm = srd.gftColorModfl();
             if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+            if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+            if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+            if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+            if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+                (dm instbndfof IndfxColorModfl ||
+                (dm instbndfof IndfxColorModfl ||
+                (dm instbndfof IndfxColorModfl ||
+                (dm instbndfof IndfxColorModfl ||
                 (dm instbndfof IndfxColorModfl ||
                  dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
+                 dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
+                 dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
+                 dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
+                 dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
             {
-                imbgf = nfw BufffrfdImbgf(w, h,
+            {
+            {
+            {
+            {
+                imbgf = nfw BufffrfdImbgf(w, i,
+                imbgf = nfw BufffrfdImbgf(w, i,
+                imbgf = nfw BufffrfdImbgf(w, i,
+                imbgf = nfw BufffrfdImbgf(w, i,
+                imbgf = nfw BufffrfdImbgf(w, i,
+                                          BufffrfdImbgf.TYPE_INT_ARGB);
+                                          BufffrfdImbgf.TYPE_INT_ARGB);
+                                          BufffrfdImbgf.TYPE_INT_ARGB);
+                                          BufffrfdImbgf.TYPE_INT_ARGB);
                                           BufffrfdImbgf.TYPE_INT_ARGB);
             }
+            }
+            }
+            }
+            }
+            flsf {
+            flsf {
+            flsf {
+            flsf {
             flsf {
                 imbgf = nfw BufffrfdImbgf(dm,
-                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,h),
-                          dm.isAlphbPrfmultiplifd(), null);
+                imbgf = nfw BufffrfdImbgf(dm,
+                imbgf = nfw BufffrfdImbgf(dm,
+                imbgf = nfw BufffrfdImbgf(dm,
+                imbgf = nfw BufffrfdImbgf(dm,
+                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                          dm.isAlpibPrfmultiplifd(), null);
+                          dm.isAlpibPrfmultiplifd(), null);
+                          dm.isAlpibPrfmultiplifd(), null);
+                          dm.isAlpibPrfmultiplifd(), null);
+                          dm.isAlpibPrfmultiplifd(), null);
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         flsf {
+        flsf {
+        flsf {
+        flsf {
+        flsf {
             imbgf = nfw BufffrfdImbgf(dfstCM,
-                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,h),
-                                    dfstCM.isAlphbPrfmultiplifd(), null);
+            imbgf = nfw BufffrfdImbgf(dfstCM,
+            imbgf = nfw BufffrfdImbgf(dfstCM,
+            imbgf = nfw BufffrfdImbgf(dfstCM,
+            imbgf = nfw BufffrfdImbgf(dfstCM,
+                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                                    dfstCM.isAlpibPrfmultiplifd(), null);
+                                    dfstCM.isAlpibPrfmultiplifd(), null);
+                                    dfstCM.isAlpibPrfmultiplifd(), null);
+                                    dfstCM.isAlpibPrfmultiplifd(), null);
+                                    dfstCM.isAlpibPrfmultiplifd(), null);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn imbgf;
+        rfturn imbgf;
+        rfturn imbgf;
+        rfturn imbgf;
+        rfturn imbgf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> with thf dorrfdt sizf
-     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf thrown
-     * if thf trbnsformfd width or hfight is fqubl to 0.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> witi tif dorrfdt sizf
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> witi tif dorrfdt sizf
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> witi tif dorrfdt sizf
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> witi tif dorrfdt sizf
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> witi tif dorrfdt sizf
+     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown
+     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown
+     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown
+     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown
+     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown
+     * if tif trbnsformfd widti or ifigit is fqubl to 0.
+     * if tif trbnsformfd widti or ifigit is fqubl to 0.
+     * if tif trbnsformfd widti or ifigit is fqubl to 0.
+     * if tif trbnsformfd widti or ifigit is fqubl to 0.
+     * if tif trbnsformfd widti or ifigit is fqubl to 0.
      *
-     * @pbrbm srd Thf <CODE>Rbstfr</CODE> to bf trbnsformfd.
      *
-     * @rfturn Thf zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
+     *
+     *
+     *
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn Tif zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
+     * @rfturn Tif zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
+     * @rfturn Tif zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
+     * @rfturn Tif zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
+     * @rfturn Tif zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
+     */
+     */
+     */
+     */
      */
     publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+        Rfdtbnglf2D r = gftBounds2D(srd);
+        Rfdtbnglf2D r = gftBounds2D(srd);
+        Rfdtbnglf2D r = gftBounds2D(srd);
+        Rfdtbnglf2D r = gftBounds2D(srd);
         Rfdtbnglf2D r = gftBounds2D(srd);
 
+
+
+
+
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr((int)r.gftX(),
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr((int)r.gftX(),
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr((int)r.gftX(),
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr((int)r.gftX(),
         rfturn srd.drfbtfCompbtiblfWritbblfRbstfr((int)r.gftX(),
                                                   (int)r.gftY(),
-                                                  (int)r.gftWidth(),
-                                                  (int)r.gftHfight());
+                                                  (int)r.gftY(),
+                                                  (int)r.gftY(),
+                                                  (int)r.gftY(),
+                                                  (int)r.gftY(),
+                                                  (int)r.gftWidti(),
+                                                  (int)r.gftWidti(),
+                                                  (int)r.gftWidti(),
+                                                  (int)r.gftWidti(),
+                                                  (int)r.gftWidti(),
+                                                  (int)r.gftHfigit());
+                                                  (int)r.gftHfigit());
+                                                  (int)r.gftHfigit());
+                                                  (int)r.gftHfigit());
+                                                  (int)r.gftHfigit());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf lodbtion of thf dorrfsponding dfstinbtion point givfn b
-     * point in thf sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
-     * is usfd to hold thf rfturn vbluf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * point in tif sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * point in tif sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * point in tif sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * point in tif sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * point in tif sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * is usfd to iold tif rfturn vbluf.
+     * is usfd to iold tif rfturn vbluf.
+     * is usfd to iold tif rfturn vbluf.
+     * is usfd to iold tif rfturn vbluf.
+     * is usfd to iold tif rfturn vbluf.
      *
-     * @pbrbm srdPt Thf <dodf>Point2D</dodf> thbt rfprfsfnts thf sourdf
+     *
+     *
+     *
+     *
+     * @pbrbm srdPt Tif <dodf>Point2D</dodf> tibt rfprfsfnts tif sourdf
+     * @pbrbm srdPt Tif <dodf>Point2D</dodf> tibt rfprfsfnts tif sourdf
+     * @pbrbm srdPt Tif <dodf>Point2D</dodf> tibt rfprfsfnts tif sourdf
+     * @pbrbm srdPt Tif <dodf>Point2D</dodf> tibt rfprfsfnts tif sourdf
+     * @pbrbm srdPt Tif <dodf>Point2D</dodf> tibt rfprfsfnts tif sourdf
      *              point.
-     * @pbrbm dstPt Thf <CODE>Point2D</CODE> in whidh to storf thf rfsult.
+     *              point.
+     *              point.
+     *              point.
+     *              point.
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult.
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult.
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult.
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult.
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult.
      *
-     * @rfturn Thf <CODE>Point2D</CODE> in thf dfstinbtion thbt dorrfsponds to
-     * thf spfdififd point in thf sourdf.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion tibt dorrfsponds to
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion tibt dorrfsponds to
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion tibt dorrfsponds to
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion tibt dorrfsponds to
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion tibt dorrfsponds to
+     * tif spfdififd point in tif sourdf.
+     * tif spfdififd point in tif sourdf.
+     * tif spfdififd point in tif sourdf.
+     * tif spfdififd point in tif sourdf.
+     * tif spfdififd point in tif sourdf.
+     */
+     */
+     */
+     */
      */
     publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+        rfturn xform.trbnsform (srdPt, dstPt);
+        rfturn xform.trbnsform (srdPt, dstPt);
+        rfturn xform.trbnsform (srdPt, dstPt);
+        rfturn xform.trbnsform (srdPt, dstPt);
         rfturn xform.trbnsform (srdPt, dstPt);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf bffinf trbnsform usfd by this trbnsform opfrbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bffinf trbnsform usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif bffinf trbnsform usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif bffinf trbnsform usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif bffinf trbnsform usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif bffinf trbnsform usfd by tiis trbnsform opfrbtion.
      *
-     * @rfturn Thf <CODE>AffinfTrbnsform</CODE> bssodibtfd with this op.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>AffinfTrbnsform</CODE> bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>AffinfTrbnsform</CODE> bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>AffinfTrbnsform</CODE> bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>AffinfTrbnsform</CODE> bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>AffinfTrbnsform</CODE> bssodibtfd witi tiis op.
+     */
+     */
+     */
+     */
      */
     publid finbl AffinfTrbnsform gftTrbnsform() {
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+        rfturn (AffinfTrbnsform) xform.dlonf();
+        rfturn (AffinfTrbnsform) xform.dlonf();
+        rfturn (AffinfTrbnsform) xform.dlonf();
+        rfturn (AffinfTrbnsform) xform.dlonf();
         rfturn (AffinfTrbnsform) xform.dlonf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf rfndfring hints usfd by this trbnsform opfrbtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif rfndfring iints usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif rfndfring iints usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif rfndfring iints usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif rfndfring iints usfd by tiis trbnsform opfrbtion.
+     * Rfturns tif rfndfring iints usfd by tiis trbnsform opfrbtion.
      *
-     * @rfturn Thf <CODE>RfndfringHints</CODE> objfdt bssodibtfd with this op.
+     *
+     *
+     *
+     *
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt bssodibtfd witi tiis op.
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt bssodibtfd witi tiis op.
+     */
+     */
+     */
+     */
      */
     publid finbl RfndfringHints gftRfndfringHints() {
-        if (hints == null) {
+    publid finbl RfndfringHints gftRfndfringHints() {
+    publid finbl RfndfringHints gftRfndfringHints() {
+    publid finbl RfndfringHints gftRfndfringHints() {
+    publid finbl RfndfringHints gftRfndfringHints() {
+        if (iints == null) {
+        if (iints == null) {
+        if (iints == null) {
+        if (iints == null) {
+        if (iints == null) {
             Objfdt vbl;
-            switdh(intfrpolbtionTypf) {
+            Objfdt vbl;
+            Objfdt vbl;
+            Objfdt vbl;
+            Objfdt vbl;
+            switdi(intfrpolbtionTypf) {
+            switdi(intfrpolbtionTypf) {
+            switdi(intfrpolbtionTypf) {
+            switdi(intfrpolbtionTypf) {
+            switdi(intfrpolbtionTypf) {
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_NEAREST_NEIGHBOR:
             dbsf TYPE_NEAREST_NEIGHBOR:
                 vbl = RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BILINEAR:
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BILINEAR;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BILINEAR;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BILINEAR;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BILINEAR;
                 vbl = RfndfringHints.VALUE_INTERPOLATION_BILINEAR;
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            dbsf TYPE_BICUBIC:
+            dbsf TYPE_BICUBIC:
+            dbsf TYPE_BICUBIC:
+            dbsf TYPE_BICUBIC:
             dbsf TYPE_BICUBIC:
                 vbl = RfndfringHints.VALUE_INTERPOLATION_BICUBIC;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BICUBIC;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BICUBIC;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BICUBIC;
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BICUBIC;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
                 brfbk;
             dffbult:
-                // Should nfvfr gft hfrf
-                throw nfw IntfrnblError("Unknown intfrpolbtion typf "+
+            dffbult:
+            dffbult:
+            dffbult:
+            dffbult:
+                // Siould nfvfr gft ifrf
+                // Siould nfvfr gft ifrf
+                // Siould nfvfr gft ifrf
+                // Siould nfvfr gft ifrf
+                // Siould nfvfr gft ifrf
+                tirow nfw IntfrnblError("Unknown intfrpolbtion typf "+
+                tirow nfw IntfrnblError("Unknown intfrpolbtion typf "+
+                tirow nfw IntfrnblError("Unknown intfrpolbtion typf "+
+                tirow nfw IntfrnblError("Unknown intfrpolbtion typf "+
+                tirow nfw IntfrnblError("Unknown intfrpolbtion typf "+
+                                         intfrpolbtionTypf);
+                                         intfrpolbtionTypf);
+                                         intfrpolbtionTypf);
+                                         intfrpolbtionTypf);
                                          intfrpolbtionTypf);
 
+
+
+
+
             }
-            hints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
+            }
+            }
+            }
+            }
+            iints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
+            iints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
+            iints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
+            iints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
+            iints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
+        }
+        }
+        }
+        }
         }
 
-        rfturn hints;
+
+
+
+
+        rfturn iints;
+        rfturn iints;
+        rfturn iints;
+        rfturn iints;
+        rfturn iints;
+    }
+    }
+    }
+    }
     }
 
-    // Wf nffd to bf bblf to invfrt thf trbnsform if wf wbnt to
-    // trbnsform thf imbgf.  If thf dftfrminbnt of thf mbtrix is 0,
-    // thfn wf dbn't invfrt thf trbnsform.
+
+
+
+
+    // Wf nffd to bf bblf to invfrt tif trbnsform if wf wbnt to
+    // Wf nffd to bf bblf to invfrt tif trbnsform if wf wbnt to
+    // Wf nffd to bf bblf to invfrt tif trbnsform if wf wbnt to
+    // Wf nffd to bf bblf to invfrt tif trbnsform if wf wbnt to
+    // Wf nffd to bf bblf to invfrt tif trbnsform if wf wbnt to
+    // trbnsform tif imbgf.  If tif dftfrminbnt of tif mbtrix is 0,
+    // trbnsform tif imbgf.  If tif dftfrminbnt of tif mbtrix is 0,
+    // trbnsform tif imbgf.  If tif dftfrminbnt of tif mbtrix is 0,
+    // trbnsform tif imbgf.  If tif dftfrminbnt of tif mbtrix is 0,
+    // trbnsform tif imbgf.  If tif dftfrminbnt of tif mbtrix is 0,
+    // tifn wf dbn't invfrt tif trbnsform.
+    // tifn wf dbn't invfrt tif trbnsform.
+    // tifn wf dbn't invfrt tif trbnsform.
+    // tifn wf dbn't invfrt tif trbnsform.
+    // tifn wf dbn't invfrt tif trbnsform.
     void vblidbtfTrbnsform(AffinfTrbnsform xform) {
-        if (Mbth.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
-            throw nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
+    void vblidbtfTrbnsform(AffinfTrbnsform xform) {
+    void vblidbtfTrbnsform(AffinfTrbnsform xform) {
+    void vblidbtfTrbnsform(AffinfTrbnsform xform) {
+    void vblidbtfTrbnsform(AffinfTrbnsform xform) {
+        if (Mbti.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
+        if (Mbti.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
+        if (Mbti.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
+        if (Mbti.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
+        if (Mbti.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
+            tirow nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
+            tirow nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
+            tirow nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
+            tirow nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
+            tirow nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

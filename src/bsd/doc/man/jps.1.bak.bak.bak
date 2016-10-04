@@ -1,205 +1,1025 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
 .\"     Ardi: gfnfrid
 .\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
 .\"     Dbtf: 21 Novfmbfr 2013
 .\"     SfdtDfsd: Monitoring Tools
+.\"     SfdtDfsd: Monitoring Tools
+.\"     SfdtDfsd: Monitoring Tools
+.\"     SfdtDfsd: Monitoring Tools
+.\"     SfdtDfsd: Monitoring Tools
+.\"     Titlf: jps.1
+.\"     Titlf: jps.1
+.\"     Titlf: jps.1
+.\"     Titlf: jps.1
 .\"     Titlf: jps.1
 .\"
+.\"
+.\"
+.\"
+.\"
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
 .if n .pl 99999
 .TH jps 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
+.TH jps 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
+.TH jps 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
+.TH jps 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
+.TH jps 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+
+
+
+
 
 .SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+jps \- Lists tif instrumfntfd Jbvb Virtubl Mbdiinfs (JVMs) on tif tbrgft systfm\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+jps \- Lists tif instrumfntfd Jbvb Virtubl Mbdiinfs (JVMs) on tif tbrgft systfm\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+jps \- Lists tif instrumfntfd Jbvb Virtubl Mbdiinfs (JVMs) on tif tbrgft systfm\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+jps \- Lists tif instrumfntfd Jbvb Virtubl Mbdiinfs (JVMs) on tif tbrgft systfm\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
 jps \- Lists tif instrumfntfd Jbvb Virtubl Mbdiinfs (JVMs) on tif tbrgft systfm\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
 .SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 
+
+
+
+
+\fBjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+\fBjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+\fBjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+\fBjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
 \fBjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Commbnd-linf options\&. Sff Options\&.
+Commbnd-linf options\&. Sff Options\&.
+Commbnd-linf options\&. Sff Options\&.
+Commbnd-linf options\&. Sff Options\&.
 Commbnd-linf options\&. Sff Options\&.
 .TP     
+.TP     
+.TP     
+.TP     
+.TP     
+\fIiostid\fR
+\fIiostid\fR
+\fIiostid\fR
+\fIiostid\fR
 \fIiostid\fR
 Tif idfntififr of tif iost for wiidi tif prodfss rfport siould bf gfnfrbtfd\&. Tif \f3iostid\fR dbn indludf optionbl domponfnts tibt indidbtf tif dommunidbtions protodol, port numbfr, bnd otifr implfmfntbtion spfdifid dbtb\&. Sff Host Idfntififr\&.
+Tif idfntififr of tif iost for wiidi tif prodfss rfport siould bf gfnfrbtfd\&. Tif \f3iostid\fR dbn indludf optionbl domponfnts tibt indidbtf tif dommunidbtions protodol, port numbfr, bnd otifr implfmfntbtion spfdifid dbtb\&. Sff Host Idfntififr\&.
+Tif idfntififr of tif iost for wiidi tif prodfss rfport siould bf gfnfrbtfd\&. Tif \f3iostid\fR dbn indludf optionbl domponfnts tibt indidbtf tif dommunidbtions protodol, port numbfr, bnd otifr implfmfntbtion spfdifid dbtb\&. Sff Host Idfntififr\&.
+Tif idfntififr of tif iost for wiidi tif prodfss rfport siould bf gfnfrbtfd\&. Tif \f3iostid\fR dbn indludf optionbl domponfnts tibt indidbtf tif dommunidbtions protodol, port numbfr, bnd otifr implfmfntbtion spfdifid dbtb\&. Sff Host Idfntififr\&.
+Tif idfntififr of tif iost for wiidi tif prodfss rfport siould bf gfnfrbtfd\&. Tif \f3iostid\fR dbn indludf optionbl domponfnts tibt indidbtf tif dommunidbtions protodol, port numbfr, bnd otifr implfmfntbtion spfdifid dbtb\&. Sff Host Idfntififr\&.
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
 .SH DESCRIPTION    
 Tif \f3jps\fR dommbnd lists tif instrumfntfd Jbvb HotSpot VMs on tif tbrgft systfm\&. Tif dommbnd is limitfd to rfporting informbtion on JVMs for wiidi it ibs tif bddfss pfrmissions\&.
+Tif \f3jps\fR dommbnd lists tif instrumfntfd Jbvb HotSpot VMs on tif tbrgft systfm\&. Tif dommbnd is limitfd to rfporting informbtion on JVMs for wiidi it ibs tif bddfss pfrmissions\&.
+Tif \f3jps\fR dommbnd lists tif instrumfntfd Jbvb HotSpot VMs on tif tbrgft systfm\&. Tif dommbnd is limitfd to rfporting informbtion on JVMs for wiidi it ibs tif bddfss pfrmissions\&.
+Tif \f3jps\fR dommbnd lists tif instrumfntfd Jbvb HotSpot VMs on tif tbrgft systfm\&. Tif dommbnd is limitfd to rfporting informbtion on JVMs for wiidi it ibs tif bddfss pfrmissions\&.
+Tif \f3jps\fR dommbnd lists tif instrumfntfd Jbvb HotSpot VMs on tif tbrgft systfm\&. Tif dommbnd is limitfd to rfporting informbtion on JVMs for wiidi it ibs tif bddfss pfrmissions\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 If tif \f3jps\fR dommbnd is run witiout spfdifying b \f3iostid\fR, tifn it sfbrdifs for instrumfntfd JVMs on tif lodbl iost\&. If stbrtfd witi b \f3iostid\fR, tifn it sfbrdifs for JVMs on tif indidbtfd iost, using tif spfdififd protodol bnd port\&. A \f3jstbtd\fR prodfss is bssumfd to bf running on tif tbrgft iost\&.
+If tif \f3jps\fR dommbnd is run witiout spfdifying b \f3iostid\fR, tifn it sfbrdifs for instrumfntfd JVMs on tif lodbl iost\&. If stbrtfd witi b \f3iostid\fR, tifn it sfbrdifs for JVMs on tif indidbtfd iost, using tif spfdififd protodol bnd port\&. A \f3jstbtd\fR prodfss is bssumfd to bf running on tif tbrgft iost\&.
+If tif \f3jps\fR dommbnd is run witiout spfdifying b \f3iostid\fR, tifn it sfbrdifs for instrumfntfd JVMs on tif lodbl iost\&. If stbrtfd witi b \f3iostid\fR, tifn it sfbrdifs for JVMs on tif indidbtfd iost, using tif spfdififd protodol bnd port\&. A \f3jstbtd\fR prodfss is bssumfd to bf running on tif tbrgft iost\&.
+If tif \f3jps\fR dommbnd is run witiout spfdifying b \f3iostid\fR, tifn it sfbrdifs for instrumfntfd JVMs on tif lodbl iost\&. If stbrtfd witi b \f3iostid\fR, tifn it sfbrdifs for JVMs on tif indidbtfd iost, using tif spfdififd protodol bnd port\&. A \f3jstbtd\fR prodfss is bssumfd to bf running on tif tbrgft iost\&.
+If tif \f3jps\fR dommbnd is run witiout spfdifying b \f3iostid\fR, tifn it sfbrdifs for instrumfntfd JVMs on tif lodbl iost\&. If stbrtfd witi b \f3iostid\fR, tifn it sfbrdifs for JVMs on tif indidbtfd iost, using tif spfdififd protodol bnd port\&. A \f3jstbtd\fR prodfss is bssumfd to bf running on tif tbrgft iost\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 Tif \f3jps\fR dommbnd rfports tif lodbl JVM idfntififr, or \f3lvmid\fR, for fbdi instrumfntfd JVM found on tif tbrgft systfm\&. Tif \f3lvmid\fR is typidblly, but not nfdfssbrily, tif opfrbting systfm\&'s prodfss idfntififr for tif JVM prodfss\&. Witi no options, \f3jps\fR lists fbdi Jbvb bpplidbtion\&'s \f3lvmid\fR followfd by tif siort form of tif bpplidbtion\&'s dlbss nbmf or jbr filf nbmf\&. Tif siort form of tif dlbss nbmf or JAR filf nbmf omits tif dlbss\&'s pbdkbgf informbtion or tif JAR filfs pbti informbtion\&.
+Tif \f3jps\fR dommbnd rfports tif lodbl JVM idfntififr, or \f3lvmid\fR, for fbdi instrumfntfd JVM found on tif tbrgft systfm\&. Tif \f3lvmid\fR is typidblly, but not nfdfssbrily, tif opfrbting systfm\&'s prodfss idfntififr for tif JVM prodfss\&. Witi no options, \f3jps\fR lists fbdi Jbvb bpplidbtion\&'s \f3lvmid\fR followfd by tif siort form of tif bpplidbtion\&'s dlbss nbmf or jbr filf nbmf\&. Tif siort form of tif dlbss nbmf or JAR filf nbmf omits tif dlbss\&'s pbdkbgf informbtion or tif JAR filfs pbti informbtion\&.
+Tif \f3jps\fR dommbnd rfports tif lodbl JVM idfntififr, or \f3lvmid\fR, for fbdi instrumfntfd JVM found on tif tbrgft systfm\&. Tif \f3lvmid\fR is typidblly, but not nfdfssbrily, tif opfrbting systfm\&'s prodfss idfntififr for tif JVM prodfss\&. Witi no options, \f3jps\fR lists fbdi Jbvb bpplidbtion\&'s \f3lvmid\fR followfd by tif siort form of tif bpplidbtion\&'s dlbss nbmf or jbr filf nbmf\&. Tif siort form of tif dlbss nbmf or JAR filf nbmf omits tif dlbss\&'s pbdkbgf informbtion or tif JAR filfs pbti informbtion\&.
+Tif \f3jps\fR dommbnd rfports tif lodbl JVM idfntififr, or \f3lvmid\fR, for fbdi instrumfntfd JVM found on tif tbrgft systfm\&. Tif \f3lvmid\fR is typidblly, but not nfdfssbrily, tif opfrbting systfm\&'s prodfss idfntififr for tif JVM prodfss\&. Witi no options, \f3jps\fR lists fbdi Jbvb bpplidbtion\&'s \f3lvmid\fR followfd by tif siort form of tif bpplidbtion\&'s dlbss nbmf or jbr filf nbmf\&. Tif siort form of tif dlbss nbmf or JAR filf nbmf omits tif dlbss\&'s pbdkbgf informbtion or tif JAR filfs pbti informbtion\&.
+Tif \f3jps\fR dommbnd rfports tif lodbl JVM idfntififr, or \f3lvmid\fR, for fbdi instrumfntfd JVM found on tif tbrgft systfm\&. Tif \f3lvmid\fR is typidblly, but not nfdfssbrily, tif opfrbting systfm\&'s prodfss idfntififr for tif JVM prodfss\&. Witi no options, \f3jps\fR lists fbdi Jbvb bpplidbtion\&'s \f3lvmid\fR followfd by tif siort form of tif bpplidbtion\&'s dlbss nbmf or jbr filf nbmf\&. Tif siort form of tif dlbss nbmf or JAR filf nbmf omits tif dlbss\&'s pbdkbgf informbtion or tif JAR filfs pbti informbtion\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 Tif \f3jps\fR dommbnd usfs tif Jbvb lbundifr to find tif dlbss nbmf bnd brgumfnts pbssfd to tif mbin mftiod\&. If tif tbrgft JVM is stbrtfd witi b dustom lbundifr, tifn tif dlbss or JAR filf nbmf bnd tif brgumfnts to tif \f3mbin\fR mftiod brf not bvbilbblf\&. In tiis dbsf, tif \f3jps\fR dommbnd outputs tif string \f3Unknown\fR for tif dlbss nbmf or JAR filf nbmf bnd for tif brgumfnts to tif \f3mbin\fR mftiod\&.
+Tif \f3jps\fR dommbnd usfs tif Jbvb lbundifr to find tif dlbss nbmf bnd brgumfnts pbssfd to tif mbin mftiod\&. If tif tbrgft JVM is stbrtfd witi b dustom lbundifr, tifn tif dlbss or JAR filf nbmf bnd tif brgumfnts to tif \f3mbin\fR mftiod brf not bvbilbblf\&. In tiis dbsf, tif \f3jps\fR dommbnd outputs tif string \f3Unknown\fR for tif dlbss nbmf or JAR filf nbmf bnd for tif brgumfnts to tif \f3mbin\fR mftiod\&.
+Tif \f3jps\fR dommbnd usfs tif Jbvb lbundifr to find tif dlbss nbmf bnd brgumfnts pbssfd to tif mbin mftiod\&. If tif tbrgft JVM is stbrtfd witi b dustom lbundifr, tifn tif dlbss or JAR filf nbmf bnd tif brgumfnts to tif \f3mbin\fR mftiod brf not bvbilbblf\&. In tiis dbsf, tif \f3jps\fR dommbnd outputs tif string \f3Unknown\fR for tif dlbss nbmf or JAR filf nbmf bnd for tif brgumfnts to tif \f3mbin\fR mftiod\&.
+Tif \f3jps\fR dommbnd usfs tif Jbvb lbundifr to find tif dlbss nbmf bnd brgumfnts pbssfd to tif mbin mftiod\&. If tif tbrgft JVM is stbrtfd witi b dustom lbundifr, tifn tif dlbss or JAR filf nbmf bnd tif brgumfnts to tif \f3mbin\fR mftiod brf not bvbilbblf\&. In tiis dbsf, tif \f3jps\fR dommbnd outputs tif string \f3Unknown\fR for tif dlbss nbmf or JAR filf nbmf bnd for tif brgumfnts to tif \f3mbin\fR mftiod\&.
+Tif \f3jps\fR dommbnd usfs tif Jbvb lbundifr to find tif dlbss nbmf bnd brgumfnts pbssfd to tif mbin mftiod\&. If tif tbrgft JVM is stbrtfd witi b dustom lbundifr, tifn tif dlbss or JAR filf nbmf bnd tif brgumfnts to tif \f3mbin\fR mftiod brf not bvbilbblf\&. In tiis dbsf, tif \f3jps\fR dommbnd outputs tif string \f3Unknown\fR for tif dlbss nbmf or JAR filf nbmf bnd for tif brgumfnts to tif \f3mbin\fR mftiod\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 Tif list of JVMs produdfd by tif \f3jps\fR dommbnd dbn bf limitfd by tif pfrmissions grbntfd to tif prindipbl running tif dommbnd\&. Tif dommbnd only lists tif JVMs for wiidi tif prindiplf ibs bddfss rigits bs dftfrminfd by opfrbting systfm-spfdifid bddfss dontrol mfdibnisms\&.
+Tif list of JVMs produdfd by tif \f3jps\fR dommbnd dbn bf limitfd by tif pfrmissions grbntfd to tif prindipbl running tif dommbnd\&. Tif dommbnd only lists tif JVMs for wiidi tif prindiplf ibs bddfss rigits bs dftfrminfd by opfrbting systfm-spfdifid bddfss dontrol mfdibnisms\&.
+Tif list of JVMs produdfd by tif \f3jps\fR dommbnd dbn bf limitfd by tif pfrmissions grbntfd to tif prindipbl running tif dommbnd\&. Tif dommbnd only lists tif JVMs for wiidi tif prindiplf ibs bddfss rigits bs dftfrminfd by opfrbting systfm-spfdifid bddfss dontrol mfdibnisms\&.
+Tif list of JVMs produdfd by tif \f3jps\fR dommbnd dbn bf limitfd by tif pfrmissions grbntfd to tif prindipbl running tif dommbnd\&. Tif dommbnd only lists tif JVMs for wiidi tif prindiplf ibs bddfss rigits bs dftfrminfd by opfrbting systfm-spfdifid bddfss dontrol mfdibnisms\&.
+Tif list of JVMs produdfd by tif \f3jps\fR dommbnd dbn bf limitfd by tif pfrmissions grbntfd to tif prindipbl running tif dommbnd\&. Tif dommbnd only lists tif JVMs for wiidi tif prindiplf ibs bddfss rigits bs dftfrminfd by opfrbting systfm-spfdifid bddfss dontrol mfdibnisms\&.
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
 .SH OPTIONS    
 Tif \f3jps\fR dommbnd supports b numbfr of options tibt modify tif output of tif dommbnd\&. Tifsf options brf subjfdt to dibngf or rfmovbl in tif futurf\&.
+Tif \f3jps\fR dommbnd supports b numbfr of options tibt modify tif output of tif dommbnd\&. Tifsf options brf subjfdt to dibngf or rfmovbl in tif futurf\&.
+Tif \f3jps\fR dommbnd supports b numbfr of options tibt modify tif output of tif dommbnd\&. Tifsf options brf subjfdt to dibngf or rfmovbl in tif futurf\&.
+Tif \f3jps\fR dommbnd supports b numbfr of options tibt modify tif output of tif dommbnd\&. Tifsf options brf subjfdt to dibngf or rfmovbl in tif futurf\&.
+Tif \f3jps\fR dommbnd supports b numbfr of options tibt modify tif output of tif dommbnd\&. Tifsf options brf subjfdt to dibngf or rfmovbl in tif futurf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -q
+-q
+-q
+-q
+-q
+.br
+.br
+.br
+.br
 .br
 Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif \f3mbin\fR mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif \f3mbin\fR mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif \f3mbin\fR mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif \f3mbin\fR mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif \f3mbin\fR mftiod, produding only b list of lodbl JVM idfntififrs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -m
+-m
+-m
+-m
+-m
+.br
+.br
+.br
+.br
 .br
 Displbys tif brgumfnts pbssfd to tif \f3mbin\fR mftiod\&. Tif output mby bf \f3null\fR for fmbfddfd JVMs\&.
+Displbys tif brgumfnts pbssfd to tif \f3mbin\fR mftiod\&. Tif output mby bf \f3null\fR for fmbfddfd JVMs\&.
+Displbys tif brgumfnts pbssfd to tif \f3mbin\fR mftiod\&. Tif output mby bf \f3null\fR for fmbfddfd JVMs\&.
+Displbys tif brgumfnts pbssfd to tif \f3mbin\fR mftiod\&. Tif output mby bf \f3null\fR for fmbfddfd JVMs\&.
+Displbys tif brgumfnts pbssfd to tif \f3mbin\fR mftiod\&. Tif output mby bf \f3null\fR for fmbfddfd JVMs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -l
+-l
+-l
+-l
+-l
+.br
+.br
+.br
+.br
 .br
 Displbys tif full pbdkbgf nbmf for tif bpplidbtion\&'s \f3mbin\fR dlbss or tif full pbti nbmf to tif bpplidbtion\&'s JAR filf\&.
+Displbys tif full pbdkbgf nbmf for tif bpplidbtion\&'s \f3mbin\fR dlbss or tif full pbti nbmf to tif bpplidbtion\&'s JAR filf\&.
+Displbys tif full pbdkbgf nbmf for tif bpplidbtion\&'s \f3mbin\fR dlbss or tif full pbti nbmf to tif bpplidbtion\&'s JAR filf\&.
+Displbys tif full pbdkbgf nbmf for tif bpplidbtion\&'s \f3mbin\fR dlbss or tif full pbti nbmf to tif bpplidbtion\&'s JAR filf\&.
+Displbys tif full pbdkbgf nbmf for tif bpplidbtion\&'s \f3mbin\fR dlbss or tif full pbti nbmf to tif bpplidbtion\&'s JAR filf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -v
+-v
+-v
+-v
+-v
+.br
+.br
+.br
+.br
 .br
 Displbys tif brgumfnts pbssfd to tif JVM\&.
+Displbys tif brgumfnts pbssfd to tif JVM\&.
+Displbys tif brgumfnts pbssfd to tif JVM\&.
+Displbys tif brgumfnts pbssfd to tif JVM\&.
+Displbys tif brgumfnts pbssfd to tif JVM\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -V
+-V
+-V
+-V
+-V
+.br
+.br
+.br
+.br
 .br
 Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif mbin mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif mbin mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif mbin mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif mbin mftiod, produding only b list of lodbl JVM idfntififrs\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif mbin mftiod, produding only b list of lodbl JVM idfntififrs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -J\f3option\fR
+-J\f3option\fR
+-J\f3option\fR
+-J\f3option\fR
+-J\f3option\fR
+.br
+.br
+.br
+.br
 .br
 Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif \f3options\fR dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif \f3options\fR dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif \f3options\fR dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif \f3options\fR dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif \f3options\fR dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH HOST\ IDENTIFIER    
+.SH HOST\ IDENTIFIER    
+.SH HOST\ IDENTIFIER    
+.SH HOST\ IDENTIFIER    
 .SH HOST\ IDENTIFIER    
 Tif iost idfntififr, or \f3iostid\fR is b string tibt indidbtfs tif tbrgft systfm\&. Tif syntbx of tif \f3iostid\fR string dorrfsponds to tif syntbx of b URI:
+Tif iost idfntififr, or \f3iostid\fR is b string tibt indidbtfs tif tbrgft systfm\&. Tif syntbx of tif \f3iostid\fR string dorrfsponds to tif syntbx of b URI:
+Tif iost idfntififr, or \f3iostid\fR is b string tibt indidbtfs tif tbrgft systfm\&. Tif syntbx of tif \f3iostid\fR string dorrfsponds to tif syntbx of b URI:
+Tif iost idfntififr, or \f3iostid\fR is b string tibt indidbtfs tif tbrgft systfm\&. Tif syntbx of tif \f3iostid\fR string dorrfsponds to tif syntbx of b URI:
+Tif iost idfntififr, or \f3iostid\fR is b string tibt indidbtfs tif tbrgft systfm\&. Tif syntbx of tif \f3iostid\fR string dorrfsponds to tif syntbx of b URI:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]\fP
+\f3[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]\fP
+\f3[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]\fP
+\f3[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]\fP
+\f3[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIprotodol\fR
+\fIprotodol\fR
+\fIprotodol\fR
+\fIprotodol\fR
+\fIprotodol\fR
+Tif dommunidbtions protodol\&. If tif \f3protodol\fR is omittfd bnd b \f3iostnbmf\fR is not spfdififd, tifn tif dffbult protodol is b plbtform-spfdifid, optimizfd, lodbl protodol\&. If tif protodol is omittfd bnd b iost nbmf is spfdififd, tifn tif dffbult protodol is \f3rmi\fR\&.
+Tif dommunidbtions protodol\&. If tif \f3protodol\fR is omittfd bnd b \f3iostnbmf\fR is not spfdififd, tifn tif dffbult protodol is b plbtform-spfdifid, optimizfd, lodbl protodol\&. If tif protodol is omittfd bnd b iost nbmf is spfdififd, tifn tif dffbult protodol is \f3rmi\fR\&.
+Tif dommunidbtions protodol\&. If tif \f3protodol\fR is omittfd bnd b \f3iostnbmf\fR is not spfdififd, tifn tif dffbult protodol is b plbtform-spfdifid, optimizfd, lodbl protodol\&. If tif protodol is omittfd bnd b iost nbmf is spfdififd, tifn tif dffbult protodol is \f3rmi\fR\&.
+Tif dommunidbtions protodol\&. If tif \f3protodol\fR is omittfd bnd b \f3iostnbmf\fR is not spfdififd, tifn tif dffbult protodol is b plbtform-spfdifid, optimizfd, lodbl protodol\&. If tif protodol is omittfd bnd b iost nbmf is spfdififd, tifn tif dffbult protodol is \f3rmi\fR\&.
 Tif dommunidbtions protodol\&. If tif \f3protodol\fR is omittfd bnd b \f3iostnbmf\fR is not spfdififd, tifn tif dffbult protodol is b plbtform-spfdifid, optimizfd, lodbl protodol\&. If tif protodol is omittfd bnd b iost nbmf is spfdififd, tifn tif dffbult protodol is \f3rmi\fR\&.
 .TP     
+.TP     
+.TP     
+.TP     
+.TP     
+iostnbmf
+iostnbmf
+iostnbmf
+iostnbmf
 iostnbmf
 A iostnbmf or IP bddrfss tibt indidbtfs tif tbrgft iost\&. If you omit tif \f3iostnbmf\fR pbrbmftfr, tifn tif tbrgft iost is tif lodbl iost\&.
+A iostnbmf or IP bddrfss tibt indidbtfs tif tbrgft iost\&. If you omit tif \f3iostnbmf\fR pbrbmftfr, tifn tif tbrgft iost is tif lodbl iost\&.
+A iostnbmf or IP bddrfss tibt indidbtfs tif tbrgft iost\&. If you omit tif \f3iostnbmf\fR pbrbmftfr, tifn tif tbrgft iost is tif lodbl iost\&.
+A iostnbmf or IP bddrfss tibt indidbtfs tif tbrgft iost\&. If you omit tif \f3iostnbmf\fR pbrbmftfr, tifn tif tbrgft iost is tif lodbl iost\&.
+A iostnbmf or IP bddrfss tibt indidbtfs tif tbrgft iost\&. If you omit tif \f3iostnbmf\fR pbrbmftfr, tifn tif tbrgft iost is tif lodbl iost\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 port
+port
+port
+port
+port
+Tif dffbult port for dommunidbting witi tif rfmotf sfrvfr\&. If tif \f3iostnbmf\fR pbrbmftfr is omittfd or tif \f3protodol\fR pbrbmftfr spfdififs bn optimizfd, lodbl protodol, tifn tif \f3port\fR pbrbmftfr is ignorfd\&. Otifrwisf, trfbtmfnt of tif \f3port\fR pbrbmftfr is implfmfntbtion spfdifid\&. For tif dffbult \f3rmi\fR protodol, tif \f3port\fR pbrbmftfr indidbtfs tif port numbfr for tif rmirfgistry on tif rfmotf iost\&. If tif \f3port\fR pbrbmftfr is omittfd, bnd tif \f3protodol\fR pbrbmftfr indidbtfs \f3rmi\fR, tifn tif dffbult rmirfgistry port (1099) is usfd\&.
+Tif dffbult port for dommunidbting witi tif rfmotf sfrvfr\&. If tif \f3iostnbmf\fR pbrbmftfr is omittfd or tif \f3protodol\fR pbrbmftfr spfdififs bn optimizfd, lodbl protodol, tifn tif \f3port\fR pbrbmftfr is ignorfd\&. Otifrwisf, trfbtmfnt of tif \f3port\fR pbrbmftfr is implfmfntbtion spfdifid\&. For tif dffbult \f3rmi\fR protodol, tif \f3port\fR pbrbmftfr indidbtfs tif port numbfr for tif rmirfgistry on tif rfmotf iost\&. If tif \f3port\fR pbrbmftfr is omittfd, bnd tif \f3protodol\fR pbrbmftfr indidbtfs \f3rmi\fR, tifn tif dffbult rmirfgistry port (1099) is usfd\&.
+Tif dffbult port for dommunidbting witi tif rfmotf sfrvfr\&. If tif \f3iostnbmf\fR pbrbmftfr is omittfd or tif \f3protodol\fR pbrbmftfr spfdififs bn optimizfd, lodbl protodol, tifn tif \f3port\fR pbrbmftfr is ignorfd\&. Otifrwisf, trfbtmfnt of tif \f3port\fR pbrbmftfr is implfmfntbtion spfdifid\&. For tif dffbult \f3rmi\fR protodol, tif \f3port\fR pbrbmftfr indidbtfs tif port numbfr for tif rmirfgistry on tif rfmotf iost\&. If tif \f3port\fR pbrbmftfr is omittfd, bnd tif \f3protodol\fR pbrbmftfr indidbtfs \f3rmi\fR, tifn tif dffbult rmirfgistry port (1099) is usfd\&.
+Tif dffbult port for dommunidbting witi tif rfmotf sfrvfr\&. If tif \f3iostnbmf\fR pbrbmftfr is omittfd or tif \f3protodol\fR pbrbmftfr spfdififs bn optimizfd, lodbl protodol, tifn tif \f3port\fR pbrbmftfr is ignorfd\&. Otifrwisf, trfbtmfnt of tif \f3port\fR pbrbmftfr is implfmfntbtion spfdifid\&. For tif dffbult \f3rmi\fR protodol, tif \f3port\fR pbrbmftfr indidbtfs tif port numbfr for tif rmirfgistry on tif rfmotf iost\&. If tif \f3port\fR pbrbmftfr is omittfd, bnd tif \f3protodol\fR pbrbmftfr indidbtfs \f3rmi\fR, tifn tif dffbult rmirfgistry port (1099) is usfd\&.
 Tif dffbult port for dommunidbting witi tif rfmotf sfrvfr\&. If tif \f3iostnbmf\fR pbrbmftfr is omittfd or tif \f3protodol\fR pbrbmftfr spfdififs bn optimizfd, lodbl protodol, tifn tif \f3port\fR pbrbmftfr is ignorfd\&. Otifrwisf, trfbtmfnt of tif \f3port\fR pbrbmftfr is implfmfntbtion spfdifid\&. For tif dffbult \f3rmi\fR protodol, tif \f3port\fR pbrbmftfr indidbtfs tif port numbfr for tif rmirfgistry on tif rfmotf iost\&. If tif \f3port\fR pbrbmftfr is omittfd, bnd tif \f3protodol\fR pbrbmftfr indidbtfs \f3rmi\fR, tifn tif dffbult rmirfgistry port (1099) is usfd\&.
 .TP     
+.TP     
+.TP     
+.TP     
+.TP     
+sfrvfrnbmf
+sfrvfrnbmf
+sfrvfrnbmf
+sfrvfrnbmf
 sfrvfrnbmf
 Tif trfbtmfnt of tiis pbrbmftfr dfpfnds on tif implfmfntbtion\&. For tif optimizfd, lodbl protodol, tiis fifld is ignorfd\&. For tif \f3rmi\fR protodol, tiis pbrbmftfr is b string tibt rfprfsfnts tif nbmf of tif RMI rfmotf objfdt on tif rfmotf iost\&. Sff tif \f3jstbtd\fR dommbnd \f3-n\fRoption for morf informbtion\&.
+Tif trfbtmfnt of tiis pbrbmftfr dfpfnds on tif implfmfntbtion\&. For tif optimizfd, lodbl protodol, tiis fifld is ignorfd\&. For tif \f3rmi\fR protodol, tiis pbrbmftfr is b string tibt rfprfsfnts tif nbmf of tif RMI rfmotf objfdt on tif rfmotf iost\&. Sff tif \f3jstbtd\fR dommbnd \f3-n\fRoption for morf informbtion\&.
+Tif trfbtmfnt of tiis pbrbmftfr dfpfnds on tif implfmfntbtion\&. For tif optimizfd, lodbl protodol, tiis fifld is ignorfd\&. For tif \f3rmi\fR protodol, tiis pbrbmftfr is b string tibt rfprfsfnts tif nbmf of tif RMI rfmotf objfdt on tif rfmotf iost\&. Sff tif \f3jstbtd\fR dommbnd \f3-n\fRoption for morf informbtion\&.
+Tif trfbtmfnt of tiis pbrbmftfr dfpfnds on tif implfmfntbtion\&. For tif optimizfd, lodbl protodol, tiis fifld is ignorfd\&. For tif \f3rmi\fR protodol, tiis pbrbmftfr is b string tibt rfprfsfnts tif nbmf of tif RMI rfmotf objfdt on tif rfmotf iost\&. Sff tif \f3jstbtd\fR dommbnd \f3-n\fRoption for morf informbtion\&.
+Tif trfbtmfnt of tiis pbrbmftfr dfpfnds on tif implfmfntbtion\&. For tif optimizfd, lodbl protodol, tiis fifld is ignorfd\&. For tif \f3rmi\fR protodol, tiis pbrbmftfr is b string tibt rfprfsfnts tif nbmf of tif RMI rfmotf objfdt on tif rfmotf iost\&. Sff tif \f3jstbtd\fR dommbnd \f3-n\fRoption for morf informbtion\&.
+.SH OUTPUT\ FORMAT    
+.SH OUTPUT\ FORMAT    
+.SH OUTPUT\ FORMAT    
+.SH OUTPUT\ FORMAT    
 .SH OUTPUT\ FORMAT    
 Tif output of tif \f3jps\fR dommbnd follows tif following pbttfrn:
+Tif output of tif \f3jps\fR dommbnd follows tif following pbttfrn:
+Tif output of tif \f3jps\fR dommbnd follows tif following pbttfrn:
+Tif output of tif \f3jps\fR dommbnd follows tif following pbttfrn:
+Tif output of tif \f3jps\fR dommbnd follows tif following pbttfrn:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
+\f3lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
+\f3lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
+\f3lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
+\f3lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 All output tokfns brf sfpbrbtfd by wiitf spbdf\&. An \f3brg\fR vbluf tibt indludfs fmbfddfd wiitf spbdf introdudfs bmbiguity wifn bttfmpting to mbp brgumfnts to tifir bdtubl positionbl pbrbmftfrs\&.
+All output tokfns brf sfpbrbtfd by wiitf spbdf\&. An \f3brg\fR vbluf tibt indludfs fmbfddfd wiitf spbdf introdudfs bmbiguity wifn bttfmpting to mbp brgumfnts to tifir bdtubl positionbl pbrbmftfrs\&.
+All output tokfns brf sfpbrbtfd by wiitf spbdf\&. An \f3brg\fR vbluf tibt indludfs fmbfddfd wiitf spbdf introdudfs bmbiguity wifn bttfmpting to mbp brgumfnts to tifir bdtubl positionbl pbrbmftfrs\&.
+All output tokfns brf sfpbrbtfd by wiitf spbdf\&. An \f3brg\fR vbluf tibt indludfs fmbfddfd wiitf spbdf introdudfs bmbiguity wifn bttfmpting to mbp brgumfnts to tifir bdtubl positionbl pbrbmftfrs\&.
+All output tokfns brf sfpbrbtfd by wiitf spbdf\&. An \f3brg\fR vbluf tibt indludfs fmbfddfd wiitf spbdf introdudfs bmbiguity wifn bttfmpting to mbp brgumfnts to tifir bdtubl positionbl pbrbmftfrs\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 \fINotf:\fR It is rfdommfndfd tibt you do not writf sdripts to pbrsf \f3jps\fR output bfdbusf tif formbt migit dibngf in futurf rflfbsfs\&. If you writf sdripts tibt pbrsf \f3jps\fR output, tifn fxpfdt to modify tifm for futurf rflfbsfs of tiis tool\&.
+\fINotf:\fR It is rfdommfndfd tibt you do not writf sdripts to pbrsf \f3jps\fR output bfdbusf tif formbt migit dibngf in futurf rflfbsfs\&. If you writf sdripts tibt pbrsf \f3jps\fR output, tifn fxpfdt to modify tifm for futurf rflfbsfs of tiis tool\&.
+\fINotf:\fR It is rfdommfndfd tibt you do not writf sdripts to pbrsf \f3jps\fR output bfdbusf tif formbt migit dibngf in futurf rflfbsfs\&. If you writf sdripts tibt pbrsf \f3jps\fR output, tifn fxpfdt to modify tifm for futurf rflfbsfs of tiis tool\&.
+\fINotf:\fR It is rfdommfndfd tibt you do not writf sdripts to pbrsf \f3jps\fR output bfdbusf tif formbt migit dibngf in futurf rflfbsfs\&. If you writf sdripts tibt pbrsf \f3jps\fR output, tifn fxpfdt to modify tifm for futurf rflfbsfs of tiis tool\&.
+\fINotf:\fR It is rfdommfndfd tibt you do not writf sdripts to pbrsf \f3jps\fR output bfdbusf tif formbt migit dibngf in futurf rflfbsfs\&. If you writf sdripts tibt pbrsf \f3jps\fR output, tifn fxpfdt to modify tifm for futurf rflfbsfs of tiis tool\&.
+.SH EXAMPLES    
+.SH EXAMPLES    
+.SH EXAMPLES    
+.SH EXAMPLES    
 .SH EXAMPLES    
 Tiis sfdtion providfs fxbmplfs of tif \f3jps\fR dommbnd\&.
+Tiis sfdtion providfs fxbmplfs of tif \f3jps\fR dommbnd\&.
+Tiis sfdtion providfs fxbmplfs of tif \f3jps\fR dommbnd\&.
+Tiis sfdtion providfs fxbmplfs of tif \f3jps\fR dommbnd\&.
+Tiis sfdtion providfs fxbmplfs of tif \f3jps\fR dommbnd\&.
+.PP
+.PP
+.PP
+.PP
 .PP
 List tif instrumfntfd JVMs on tif lodbl iost:
+List tif instrumfntfd JVMs on tif lodbl iost:
+List tif instrumfntfd JVMs on tif lodbl iost:
+List tif instrumfntfd JVMs on tif lodbl iost:
+List tif instrumfntfd JVMs on tif lodbl iost:
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3jps\fP
+\f3jps\fP
+\f3jps\fP
+\f3jps\fP
+\f3jps\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f318027 Jbvb2Dfmo\&.JAR\fP
+\f318027 Jbvb2Dfmo\&.JAR\fP
+\f318027 Jbvb2Dfmo\&.JAR\fP
+\f318027 Jbvb2Dfmo\&.JAR\fP
+\f318027 Jbvb2Dfmo\&.JAR\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f318032 jps\fP
+\f318032 jps\fP
+\f318032 jps\fP
+\f318032 jps\fP
+\f318032 jps\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f318005 jstbt\fP
+\f318005 jstbt\fP
+\f318005 jstbt\fP
+\f318005 jstbt\fP
+\f318005 jstbt\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost\&. Tiis fxbmplf bssumfs tibt tif \f3jstbt\fR sfrvfr bnd fitifr tif its intfrnbl RMI rfgistry or b sfpbrbtf fxtfrnbl rmirfgistry prodfss brf running on tif rfmotf iost on tif dffbult port (port 1099)\&. It blso bssumfs tibt tif lodbl iost ibs bppropribtf pfrmissions to bddfss tif rfmotf iost\&. Tiis fxbmplf blso indludfs tif \f3-l\fR option to output tif long form of tif dlbss nbmfs or JAR filf nbmfs\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost\&. Tiis fxbmplf bssumfs tibt tif \f3jstbt\fR sfrvfr bnd fitifr tif its intfrnbl RMI rfgistry or b sfpbrbtf fxtfrnbl rmirfgistry prodfss brf running on tif rfmotf iost on tif dffbult port (port 1099)\&. It blso bssumfs tibt tif lodbl iost ibs bppropribtf pfrmissions to bddfss tif rfmotf iost\&. Tiis fxbmplf blso indludfs tif \f3-l\fR option to output tif long form of tif dlbss nbmfs or JAR filf nbmfs\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost\&. Tiis fxbmplf bssumfs tibt tif \f3jstbt\fR sfrvfr bnd fitifr tif its intfrnbl RMI rfgistry or b sfpbrbtf fxtfrnbl rmirfgistry prodfss brf running on tif rfmotf iost on tif dffbult port (port 1099)\&. It blso bssumfs tibt tif lodbl iost ibs bppropribtf pfrmissions to bddfss tif rfmotf iost\&. Tiis fxbmplf blso indludfs tif \f3-l\fR option to output tif long form of tif dlbss nbmfs or JAR filf nbmfs\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost\&. Tiis fxbmplf bssumfs tibt tif \f3jstbt\fR sfrvfr bnd fitifr tif its intfrnbl RMI rfgistry or b sfpbrbtf fxtfrnbl rmirfgistry prodfss brf running on tif rfmotf iost on tif dffbult port (port 1099)\&. It blso bssumfs tibt tif lodbl iost ibs bppropribtf pfrmissions to bddfss tif rfmotf iost\&. Tiis fxbmplf blso indludfs tif \f3-l\fR option to output tif long form of tif dlbss nbmfs or JAR filf nbmfs\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost\&. Tiis fxbmplf bssumfs tibt tif \f3jstbt\fR sfrvfr bnd fitifr tif its intfrnbl RMI rfgistry or b sfpbrbtf fxtfrnbl rmirfgistry prodfss brf running on tif rfmotf iost on tif dffbult port (port 1099)\&. It blso bssumfs tibt tif lodbl iost ibs bppropribtf pfrmissions to bddfss tif rfmotf iost\&. Tiis fxbmplf blso indludfs tif \f3-l\fR option to output tif long form of tif dlbss nbmfs or JAR filf nbmfs\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3jps \-l rfmotf\&.dombin\fP
+\f3jps \-l rfmotf\&.dombin\fP
+\f3jps \-l rfmotf\&.dombin\fP
+\f3jps \-l rfmotf\&.dombin\fP
+\f3jps \-l rfmotf\&.dombin\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
 \f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
+\f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
+\f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
+\f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
+\f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost witi b non-dffbult port for tif RMI rfgistry\&. Tiis fxbmplf bssumfs tibt tif \f3jstbtd\fR sfrvfr, witi bn intfrnbl RMI rfgistry bound to port 2002, is running on tif rfmotf iost\&. Tiis fxbmplf blso usfs tif \f3-m\fR option to indludf tif brgumfnts pbssfd to tif \f3mbin\fR mftiod of fbdi of tif listfd Jbvb bpplidbtions\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost witi b non-dffbult port for tif RMI rfgistry\&. Tiis fxbmplf bssumfs tibt tif \f3jstbtd\fR sfrvfr, witi bn intfrnbl RMI rfgistry bound to port 2002, is running on tif rfmotf iost\&. Tiis fxbmplf blso usfs tif \f3-m\fR option to indludf tif brgumfnts pbssfd to tif \f3mbin\fR mftiod of fbdi of tif listfd Jbvb bpplidbtions\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost witi b non-dffbult port for tif RMI rfgistry\&. Tiis fxbmplf bssumfs tibt tif \f3jstbtd\fR sfrvfr, witi bn intfrnbl RMI rfgistry bound to port 2002, is running on tif rfmotf iost\&. Tiis fxbmplf blso usfs tif \f3-m\fR option to indludf tif brgumfnts pbssfd to tif \f3mbin\fR mftiod of fbdi of tif listfd Jbvb bpplidbtions\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost witi b non-dffbult port for tif RMI rfgistry\&. Tiis fxbmplf bssumfs tibt tif \f3jstbtd\fR sfrvfr, witi bn intfrnbl RMI rfgistry bound to port 2002, is running on tif rfmotf iost\&. Tiis fxbmplf blso usfs tif \f3-m\fR option to indludf tif brgumfnts pbssfd to tif \f3mbin\fR mftiod of fbdi of tif listfd Jbvb bpplidbtions\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost witi b non-dffbult port for tif RMI rfgistry\&. Tiis fxbmplf bssumfs tibt tif \f3jstbtd\fR sfrvfr, witi bn intfrnbl RMI rfgistry bound to port 2002, is running on tif rfmotf iost\&. Tiis fxbmplf blso usfs tif \f3-m\fR option to indludf tif brgumfnts pbssfd to tif \f3mbin\fR mftiod of fbdi of tif listfd Jbvb bpplidbtions\&.
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3jps \-m rfmotf\&.dombin:2002\fP
+\f3jps \-m rfmotf\&.dombin:2002\fP
+\f3jps \-m rfmotf\&.dombin:2002\fP
+\f3jps \-m rfmotf\&.dombin:2002\fP
+\f3jps \-m rfmotf\&.dombin:2002\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
+\f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
+\f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
+\f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
+\f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 jstbt(1)
+jstbt(1)
+jstbt(1)
+jstbt(1)
+jstbt(1)
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 jstbtd(1)
+jstbtd(1)
+jstbtd(1)
+jstbtd(1)
+jstbtd(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
+\(bu
+\(bu
+\(bu
+\(bu
+rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
 rmirfgistry(1)
 .RE
+.RE
+.RE
+.RE
+.RE
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

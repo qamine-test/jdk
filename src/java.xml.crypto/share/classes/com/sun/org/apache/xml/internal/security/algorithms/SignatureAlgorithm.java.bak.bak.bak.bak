@@ -1,458 +1,2290 @@
 /*
+/*
+/*
+/*
+/*
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
  * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ */
+ */
+ */
+ */
  */
 /**
- * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
- * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
- * distributfd with this work for bdditionbl informbtion
- * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
- * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
- * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
- * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+/**
+/**
+/**
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
  *
  * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
- * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
  * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
- * undfr thf Lidfnsf.
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
  */
-pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms;
+ */
+ */
+ */
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
+
+
+
+
 
 import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Kfy;
 import jbvb.sfdurity.SfdurfRbndom;
-import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 import jbvb.util.Mbp;
-import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
 
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.implfmfntbtions.IntfgrityHmbd;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.implfmfntbtions.SignbturfBbsfRSA;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.implfmfntbtions.SignbturfDSA;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.implfmfntbtions.SignbturfECDSA;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.AlgorithmAlrfbdyRfgistfrfdExdfption;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+
+
+
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.AlgoritimAlrfbdyRfgistfrfdExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.AlgoritimAlrfbdyRfgistfrfdExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.AlgoritimAlrfbdyRfgistfrfdExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.AlgoritimAlrfbdyRfgistfrfdExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.AlgoritimAlrfbdyRfgistfrfdExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Attr;
 import org.w3d.dom.Attr;
 import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
 import org.w3d.dom.Elfmfnt;
 
+
+
+
+
 /**
- * Allows sflfdtion of digitbl signbturf's blgorithm, privbtf kfys, othfr
- * sfdurity pbrbmftfrs, bnd blgorithm's ID.
+/**
+/**
+/**
+/**
+ * Allows sflfdtion of digitbl signbturf's blgoritim, privbtf kfys, otifr
+ * Allows sflfdtion of digitbl signbturf's blgoritim, privbtf kfys, otifr
+ * Allows sflfdtion of digitbl signbturf's blgoritim, privbtf kfys, otifr
+ * Allows sflfdtion of digitbl signbturf's blgoritim, privbtf kfys, otifr
+ * Allows sflfdtion of digitbl signbturf's blgoritim, privbtf kfys, otifr
+ * sfdurity pbrbmftfrs, bnd blgoritim's ID.
+ * sfdurity pbrbmftfrs, bnd blgoritim's ID.
+ * sfdurity pbrbmftfrs, bnd blgoritim's ID.
+ * sfdurity pbrbmftfrs, bnd blgoritim's ID.
+ * sfdurity pbrbmftfrs, bnd blgoritim's ID.
  *
- * @buthor Christibn Gfufr-Pollmbnn
+ *
+ *
+ *
+ *
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-publid dlbss SignbturfAlgorithm fxtfnds Algorithm {
+ */
+ */
+ */
+ */
+publid dlbss SignbturfAlgoritim fxtfnds Algoritim {
+publid dlbss SignbturfAlgoritim fxtfnds Algoritim {
+publid dlbss SignbturfAlgoritim fxtfnds Algoritim {
+publid dlbss SignbturfAlgoritim fxtfnds Algoritim {
+publid dlbss SignbturfAlgoritim fxtfnds Algoritim {
 
-    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+
+
+
+
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
     privbtf stbtid jbvb.util.logging.Loggfr log =
-        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfAlgorithm.dlbss.gftNbmf());
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfAlgoritim.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfAlgoritim.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfAlgoritim.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfAlgoritim.dlbss.gftNbmf());
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfAlgoritim.dlbss.gftNbmf());
 
-    /** All bvbilbblf blgorithm dlbssfs brf rfgistfrfd hfrf */
-    privbtf stbtid Mbp<String, Clbss<? fxtfnds SignbturfAlgorithmSpi>> blgorithmHbsh =
-        nfw CondurrfntHbshMbp<String, Clbss<? fxtfnds SignbturfAlgorithmSpi>>();
 
-    /** Fifld signbturfAlgorithm */
-    privbtf finbl SignbturfAlgorithmSpi signbturfAlgorithm;
 
-    privbtf finbl String blgorithmURI;
+
+
+    /** All bvbilbblf blgoritim dlbssfs brf rfgistfrfd ifrf */
+    /** All bvbilbblf blgoritim dlbssfs brf rfgistfrfd ifrf */
+    /** All bvbilbblf blgoritim dlbssfs brf rfgistfrfd ifrf */
+    /** All bvbilbblf blgoritim dlbssfs brf rfgistfrfd ifrf */
+    /** All bvbilbblf blgoritim dlbssfs brf rfgistfrfd ifrf */
+    privbtf stbtid Mbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>> blgoritimHbsi =
+    privbtf stbtid Mbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>> blgoritimHbsi =
+    privbtf stbtid Mbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>> blgoritimHbsi =
+    privbtf stbtid Mbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>> blgoritimHbsi =
+    privbtf stbtid Mbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>> blgoritimHbsi =
+        nfw CondurrfntHbsiMbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>>();
+        nfw CondurrfntHbsiMbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>>();
+        nfw CondurrfntHbsiMbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>>();
+        nfw CondurrfntHbsiMbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>>();
+        nfw CondurrfntHbsiMbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>>();
+
+
+
+
+
+    /** Fifld signbturfAlgoritim */
+    /** Fifld signbturfAlgoritim */
+    /** Fifld signbturfAlgoritim */
+    /** Fifld signbturfAlgoritim */
+    /** Fifld signbturfAlgoritim */
+    privbtf finbl SignbturfAlgoritimSpi signbturfAlgoritim;
+    privbtf finbl SignbturfAlgoritimSpi signbturfAlgoritim;
+    privbtf finbl SignbturfAlgoritimSpi signbturfAlgoritim;
+    privbtf finbl SignbturfAlgoritimSpi signbturfAlgoritim;
+    privbtf finbl SignbturfAlgoritimSpi signbturfAlgoritim;
+
+
+
+
+
+    privbtf finbl String blgoritimURI;
+    privbtf finbl String blgoritimURI;
+    privbtf finbl String blgoritimURI;
+    privbtf finbl String blgoritimURI;
+    privbtf finbl String blgoritimURI;
+
+
+
+
 
     /**
-     * Construdtor SignbturfAlgorithm
+    /**
+    /**
+    /**
+    /**
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     *
+     *
+     *
+     *
      *
      * @pbrbm dod
-     * @pbrbm blgorithmURI
-     * @throws XMLSfdurityExdfption
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    publid SignbturfAlgorithm(Dodumfnt dod, String blgorithmURI) throws XMLSfdurityExdfption {
-        supfr(dod, blgorithmURI);
-        this.blgorithmURI = blgorithmURI;
+     */
+     */
+     */
+     */
+    publid SignbturfAlgoritim(Dodumfnt dod, String blgoritimURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Dodumfnt dod, String blgoritimURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Dodumfnt dod, String blgoritimURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Dodumfnt dod, String blgoritimURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Dodumfnt dod, String blgoritimURI) tirows XMLSfdurityExdfption {
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
 
-        signbturfAlgorithm = gftSignbturfAlgorithmSpi(blgorithmURI);
-        signbturfAlgorithm.fnginfGftContfxtFromElfmfnt(this.donstrudtionElfmfnt);
+
+
+
+
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdtor SignbturfAlgorithm
+    /**
+    /**
+    /**
+    /**
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     *
+     *
+     *
+     *
      *
      * @pbrbm dod
-     * @pbrbm blgorithmURI
-     * @pbrbm hmbdOutputLfngth
-     * @throws XMLSfdurityExdfption
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @pbrbm blgoritimURI
+     * @pbrbm imbdOutputLfngti
+     * @pbrbm imbdOutputLfngti
+     * @pbrbm imbdOutputLfngti
+     * @pbrbm imbdOutputLfngti
+     * @pbrbm imbdOutputLfngti
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    publid SignbturfAlgorithm(
-        Dodumfnt dod, String blgorithmURI, int hmbdOutputLfngth
-    ) throws XMLSfdurityExdfption {
-        supfr(dod, blgorithmURI);
-        this.blgorithmURI = blgorithmURI;
+     */
+     */
+     */
+     */
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
+        Dodumfnt dod, String blgoritimURI, int imbdOutputLfngti
+        Dodumfnt dod, String blgoritimURI, int imbdOutputLfngti
+        Dodumfnt dod, String blgoritimURI, int imbdOutputLfngti
+        Dodumfnt dod, String blgoritimURI, int imbdOutputLfngti
+        Dodumfnt dod, String blgoritimURI, int imbdOutputLfngti
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        supfr(dod, blgoritimURI);
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
+        tiis.blgoritimURI = blgoritimURI;
 
-        signbturfAlgorithm = gftSignbturfAlgorithmSpi(blgorithmURI);
-        signbturfAlgorithm.fnginfGftContfxtFromElfmfnt(this.donstrudtionElfmfnt);
 
-        signbturfAlgorithm.fnginfSftHMACOutputLfngth(hmbdOutputLfngth);
-        ((IntfgrityHmbd)signbturfAlgorithm).fnginfAddContfxtToElfmfnt(donstrudtionElfmfnt);
+
+
+
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+
+
+
+
+
+        signbturfAlgoritim.fnginfSftHMACOutputLfngti(imbdOutputLfngti);
+        signbturfAlgoritim.fnginfSftHMACOutputLfngti(imbdOutputLfngti);
+        signbturfAlgoritim.fnginfSftHMACOutputLfngti(imbdOutputLfngti);
+        signbturfAlgoritim.fnginfSftHMACOutputLfngti(imbdOutputLfngti);
+        signbturfAlgoritim.fnginfSftHMACOutputLfngti(imbdOutputLfngti);
+        ((IntfgrityHmbd)signbturfAlgoritim).fnginfAddContfxtToElfmfnt(donstrudtionElfmfnt);
+        ((IntfgrityHmbd)signbturfAlgoritim).fnginfAddContfxtToElfmfnt(donstrudtionElfmfnt);
+        ((IntfgrityHmbd)signbturfAlgoritim).fnginfAddContfxtToElfmfnt(donstrudtionElfmfnt);
+        ((IntfgrityHmbd)signbturfAlgoritim).fnginfAddContfxtToElfmfnt(donstrudtionElfmfnt);
+        ((IntfgrityHmbd)signbturfAlgoritim).fnginfAddContfxtToElfmfnt(donstrudtionElfmfnt);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdtor SignbturfAlgorithm
+    /**
+    /**
+    /**
+    /**
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
      *
+     *
+     *
+     *
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
      * @pbrbm flfmfnt
      * @pbrbm bbsfURI
-     * @throws XMLSfdurityExdfption
+     * @pbrbm bbsfURI
+     * @pbrbm bbsfURI
+     * @pbrbm bbsfURI
+     * @pbrbm bbsfURI
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    publid SignbturfAlgorithm(Elfmfnt flfmfnt, String bbsfURI) throws XMLSfdurityExdfption {
-        this(flfmfnt, bbsfURI, fblsf);
+     */
+     */
+     */
+     */
+    publid SignbturfAlgoritim(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+    publid SignbturfAlgoritim(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+        tiis(flfmfnt, bbsfURI, fblsf);
+        tiis(flfmfnt, bbsfURI, fblsf);
+        tiis(flfmfnt, bbsfURI, fblsf);
+        tiis(flfmfnt, bbsfURI, fblsf);
+        tiis(flfmfnt, bbsfURI, fblsf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdtor SignbturfAlgorithm
+    /**
+    /**
+    /**
+    /**
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     * Construdtor SignbturfAlgoritim
+     *
+     *
+     *
+     *
      *
      * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm bbsfURI
+     * @pbrbm bbsfURI
+     * @pbrbm bbsfURI
      * @pbrbm bbsfURI
      * @pbrbm sfdurfVblidbtion
-     * @throws XMLSfdurityExdfption
+     * @pbrbm sfdurfVblidbtion
+     * @pbrbm sfdurfVblidbtion
+     * @pbrbm sfdurfVblidbtion
+     * @pbrbm sfdurfVblidbtion
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    publid SignbturfAlgorithm(
+     */
+     */
+     */
+     */
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
+    publid SignbturfAlgoritim(
         Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
-    ) throws XMLSfdurityExdfption {
+        Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
+        Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
+        Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
+        Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
         supfr(flfmfnt, bbsfURI);
-        blgorithmURI = this.gftURI();
+        supfr(flfmfnt, bbsfURI);
+        supfr(flfmfnt, bbsfURI);
+        supfr(flfmfnt, bbsfURI);
+        supfr(flfmfnt, bbsfURI);
+        blgoritimURI = tiis.gftURI();
+        blgoritimURI = tiis.gftURI();
+        blgoritimURI = tiis.gftURI();
+        blgoritimURI = tiis.gftURI();
+        blgoritimURI = tiis.gftURI();
+
+
+
+
 
         Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+        if (bttr != null) {
+        if (bttr != null) {
+        if (bttr != null) {
         if (bttr != null) {
             flfmfnt.sftIdAttributfNodf(bttr, truf);
+            flfmfnt.sftIdAttributfNodf(bttr, truf);
+            flfmfnt.sftIdAttributfNodf(bttr, truf);
+            flfmfnt.sftIdAttributfNodf(bttr, truf);
+            flfmfnt.sftIdAttributfNodf(bttr, truf);
+        }
+        }
+        }
+        }
         }
 
-        if (sfdurfVblidbtion && (XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.fqubls(blgorithmURI)
-            || XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.fqubls(blgorithmURI))) {
-            Objfdt fxArgs[] = { blgorithmURI };
 
-            throw nfw XMLSfdurityExdfption("signbturf.signbturfAlgorithm", fxArgs);
+
+
+
+        if (sfdurfVblidbtion && (XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.fqubls(blgoritimURI)
+        if (sfdurfVblidbtion && (XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.fqubls(blgoritimURI)
+        if (sfdurfVblidbtion && (XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.fqubls(blgoritimURI)
+        if (sfdurfVblidbtion && (XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.fqubls(blgoritimURI)
+        if (sfdurfVblidbtion && (XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.fqubls(blgoritimURI)
+            || XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.fqubls(blgoritimURI))) {
+            || XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.fqubls(blgoritimURI))) {
+            || XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.fqubls(blgoritimURI))) {
+            || XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.fqubls(blgoritimURI))) {
+            || XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.fqubls(blgoritimURI))) {
+            Objfdt fxArgs[] = { blgoritimURI };
+            Objfdt fxArgs[] = { blgoritimURI };
+            Objfdt fxArgs[] = { blgoritimURI };
+            Objfdt fxArgs[] = { blgoritimURI };
+            Objfdt fxArgs[] = { blgoritimURI };
+
+
+
+
+
+            tirow nfw XMLSfdurityExdfption("signbturf.signbturfAlgoritim", fxArgs);
+            tirow nfw XMLSfdurityExdfption("signbturf.signbturfAlgoritim", fxArgs);
+            tirow nfw XMLSfdurityExdfption("signbturf.signbturfAlgoritim", fxArgs);
+            tirow nfw XMLSfdurityExdfption("signbturf.signbturfAlgoritim", fxArgs);
+            tirow nfw XMLSfdurityExdfption("signbturf.signbturfAlgoritim", fxArgs);
+        }
+        }
+        }
+        }
         }
 
-        signbturfAlgorithm = gftSignbturfAlgorithmSpi(blgorithmURI);
-        signbturfAlgorithm.fnginfGftContfxtFromElfmfnt(this.donstrudtionElfmfnt);
+
+
+
+
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Gft b SignbturfAlgorithmSpi objfdt dorrfsponding to thf blgorithmURI brgumfnt
+    /**
+    /**
+    /**
+    /**
+     * Gft b SignbturfAlgoritimSpi objfdt dorrfsponding to tif blgoritimURI brgumfnt
+     * Gft b SignbturfAlgoritimSpi objfdt dorrfsponding to tif blgoritimURI brgumfnt
+     * Gft b SignbturfAlgoritimSpi objfdt dorrfsponding to tif blgoritimURI brgumfnt
+     * Gft b SignbturfAlgoritimSpi objfdt dorrfsponding to tif blgoritimURI brgumfnt
+     * Gft b SignbturfAlgoritimSpi objfdt dorrfsponding to tif blgoritimURI brgumfnt
      */
-    privbtf stbtid SignbturfAlgorithmSpi gftSignbturfAlgorithmSpi(String blgorithmURI)
-        throws XMLSignbturfExdfption {
+     */
+     */
+     */
+     */
+    privbtf stbtid SignbturfAlgoritimSpi gftSignbturfAlgoritimSpi(String blgoritimURI)
+    privbtf stbtid SignbturfAlgoritimSpi gftSignbturfAlgoritimSpi(String blgoritimURI)
+    privbtf stbtid SignbturfAlgoritimSpi gftSignbturfAlgoritimSpi(String blgoritimURI)
+    privbtf stbtid SignbturfAlgoritimSpi gftSignbturfAlgoritimSpi(String blgoritimURI)
+    privbtf stbtid SignbturfAlgoritimSpi gftSignbturfAlgoritimSpi(String blgoritimURI)
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
+        tirows XMLSignbturfExdfption {
         try {
-            Clbss<? fxtfnds SignbturfAlgorithmSpi> implfmfntingClbss =
-                blgorithmHbsh.gft(blgorithmURI);
+        try {
+        try {
+        try {
+        try {
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss =
+                blgoritimHbsi.gft(blgoritimURI);
+                blgoritimHbsi.gft(blgoritimURI);
+                blgoritimHbsi.gft(blgoritimURI);
+                blgoritimHbsi.gft(blgoritimURI);
+                blgoritimHbsi.gft(blgoritimURI);
             if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-                log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtf URI \"" + blgorithmURI + "\" dlbss \""
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtf URI \"" + blgoritimURI + "\" dlbss \""
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtf URI \"" + blgoritimURI + "\" dlbss \""
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtf URI \"" + blgoritimURI + "\" dlbss \""
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtf URI \"" + blgoritimURI + "\" dlbss \""
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtf URI \"" + blgoritimURI + "\" dlbss \""
+                   + implfmfntingClbss + "\"");
+                   + implfmfntingClbss + "\"");
+                   + implfmfntingClbss + "\"");
+                   + implfmfntingClbss + "\"");
                    + implfmfntingClbss + "\"");
             }
+            }
+            }
+            }
+            }
             rfturn implfmfntingClbss.nfwInstbndf();
-        }  dbtdh (IllfgblAddfssExdfption fx) {
-            Objfdt fxArgs[] = { blgorithmURI, fx.gftMfssbgf() };
-            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs, fx);
-        } dbtdh (InstbntibtionExdfption fx) {
-            Objfdt fxArgs[] = { blgorithmURI, fx.gftMfssbgf() };
-            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs, fx);
-        } dbtdh (NullPointfrExdfption fx) {
-            Objfdt fxArgs[] = { blgorithmURI, fx.gftMfssbgf() };
-            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs, fx);
+            rfturn implfmfntingClbss.nfwInstbndf();
+            rfturn implfmfntingClbss.nfwInstbndf();
+            rfturn implfmfntingClbss.nfwInstbndf();
+            rfturn implfmfntingClbss.nfwInstbndf();
+        }  dbtdi (IllfgblAddfssExdfption fx) {
+        }  dbtdi (IllfgblAddfssExdfption fx) {
+        }  dbtdi (IllfgblAddfssExdfption fx) {
+        }  dbtdi (IllfgblAddfssExdfption fx) {
+        }  dbtdi (IllfgblAddfssExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+        } dbtdi (InstbntibtionExdfption fx) {
+        } dbtdi (InstbntibtionExdfption fx) {
+        } dbtdi (InstbntibtionExdfption fx) {
+        } dbtdi (InstbntibtionExdfption fx) {
+        } dbtdi (InstbntibtionExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+        }
+        }
+        }
+        }
         }
     }
-
-
-    /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#sign()}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
-     *
-     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.Signbturf#sign()} mfthod
-     * @throws XMLSignbturfExdfption
-     */
-    publid bytf[] sign() throws XMLSignbturfExdfption {
-        rfturn signbturfAlgorithm.fnginfSign();
+    }
+    }
+    }
     }
 
-    /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#gftAlgorithm}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
-     *
-     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.Signbturf#gftAlgorithm} mfthod
-     */
-    publid String gftJCEAlgorithmString() {
-        rfturn signbturfAlgorithm.fnginfGftJCEAlgorithmString();
-    }
+
+
+
+
+
+
+
+
 
     /**
-     * Mfthod gftJCEProvidfrNbmf
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @rfturn Thf Providfr of this Signbturf Algorithm
+     *
+     *
+     *
+     *
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     */
+     */
+     */
+     */
+     */
+    publid bytf[] sign() tirows XMLSignbturfExdfption {
+    publid bytf[] sign() tirows XMLSignbturfExdfption {
+    publid bytf[] sign() tirows XMLSignbturfExdfption {
+    publid bytf[] sign() tirows XMLSignbturfExdfption {
+    publid bytf[] sign() tirows XMLSignbturfExdfption {
+        rfturn signbturfAlgoritim.fnginfSign();
+        rfturn signbturfAlgoritim.fnginfSign();
+        rfturn signbturfAlgoritim.fnginfSign();
+        rfturn signbturfAlgoritim.fnginfSign();
+        rfturn signbturfAlgoritim.fnginfSign();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#gftAlgoritim}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#gftAlgoritim}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#gftAlgoritim}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#gftAlgoritim}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#gftAlgoritim}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#gftAlgoritim} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#gftAlgoritim} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#gftAlgoritim} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#gftAlgoritim} mftiod
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#gftAlgoritim} mftiod
+     */
+     */
+     */
+     */
+     */
+    publid String gftJCEAlgoritimString() {
+    publid String gftJCEAlgoritimString() {
+    publid String gftJCEAlgoritimString() {
+    publid String gftJCEAlgoritimString() {
+    publid String gftJCEAlgoritimString() {
+        rfturn signbturfAlgoritim.fnginfGftJCEAlgoritimString();
+        rfturn signbturfAlgoritim.fnginfGftJCEAlgoritimString();
+        rfturn signbturfAlgoritim.fnginfGftJCEAlgoritimString();
+        rfturn signbturfAlgoritim.fnginfGftJCEAlgoritimString();
+        rfturn signbturfAlgoritim.fnginfGftJCEAlgoritimString();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Mftiod gftJCEProvidfrNbmf
+     * Mftiod gftJCEProvidfrNbmf
+     * Mftiod gftJCEProvidfrNbmf
+     * Mftiod gftJCEProvidfrNbmf
+     * Mftiod gftJCEProvidfrNbmf
+     *
+     *
+     *
+     *
+     *
+     * @rfturn Tif Providfr of tiis Signbturf Algoritim
+     * @rfturn Tif Providfr of tiis Signbturf Algoritim
+     * @rfturn Tif Providfr of tiis Signbturf Algoritim
+     * @rfturn Tif Providfr of tiis Signbturf Algoritim
+     * @rfturn Tif Providfr of tiis Signbturf Algoritim
+     */
+     */
+     */
+     */
      */
     publid String gftJCEProvidfrNbmf() {
-        rfturn signbturfAlgorithm.fnginfGftJCEProvidfrNbmf();
+    publid String gftJCEProvidfrNbmf() {
+    publid String gftJCEProvidfrNbmf() {
+    publid String gftJCEProvidfrNbmf() {
+    publid String gftJCEProvidfrNbmf() {
+        rfturn signbturfAlgoritim.fnginfGftJCEProvidfrNbmf();
+        rfturn signbturfAlgoritim.fnginfGftJCEProvidfrNbmf();
+        rfturn signbturfAlgoritim.fnginfGftJCEProvidfrNbmf();
+        rfturn signbturfAlgoritim.fnginfGftJCEProvidfrNbmf();
+        rfturn signbturfAlgoritim.fnginfGftJCEProvidfrNbmf();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm input
-     * @throws XMLSignbturfExdfption
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid void updbtf(bytf[] input) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfUpdbtf(input);
+     */
+     */
+     */
+     */
+    publid void updbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf[] input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf[] input) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm input
-     * @throws XMLSignbturfExdfption
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid void updbtf(bytf input) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfUpdbtf(input);
+     */
+     */
+     */
+     */
+    publid void updbtf(bytf input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf input) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf input) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+        signbturfAlgoritim.fnginfUpdbtf(input);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm offsft
+     * @pbrbm offsft
+     * @pbrbm offsft
      * @pbrbm offsft
      * @pbrbm lfn
-     * @throws XMLSignbturfExdfption
+     * @pbrbm lfn
+     * @pbrbm lfn
+     * @pbrbm lfn
+     * @pbrbm lfn
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid void updbtf(bytf buf[], int offsft, int lfn) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfUpdbtf(buf, offsft, lfn);
+     */
+     */
+     */
+     */
+    publid void updbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+    publid void updbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfUpdbtf(buf, offsft, lfn);
+        signbturfAlgoritim.fnginfUpdbtf(buf, offsft, lfn);
+        signbturfAlgoritim.fnginfUpdbtf(buf, offsft, lfn);
+        signbturfAlgoritim.fnginfUpdbtf(buf, offsft, lfn);
+        signbturfAlgoritim.fnginfUpdbtf(buf, offsft, lfn);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm signingKfy
-     * @throws XMLSignbturfExdfption
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid void initSign(Kfy signingKfy) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfInitSign(signingKfy);
+     */
+     */
+     */
+     */
+    publid void initSign(Kfy signingKfy) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitSign(signingKfy);
+        signbturfAlgoritim.fnginfInitSign(signingKfy);
+        signbturfAlgoritim.fnginfInitSign(signingKfy);
+        signbturfAlgoritim.fnginfInitSign(signingKfy);
+        signbturfAlgoritim.fnginfInitSign(signingKfy);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
      * jbvb.sfdurity.SfdurfRbndom)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * jbvb.sfdurity.SfdurfRbndom)}
+     * jbvb.sfdurity.SfdurfRbndom)}
+     * jbvb.sfdurity.SfdurfRbndom)}
+     * jbvb.sfdurity.SfdurfRbndom)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
+     *
+     *
+     *
+     *
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
      * @pbrbm signingKfy
      * @pbrbm sfdurfRbndom
-     * @throws XMLSignbturfExdfption
+     * @pbrbm sfdurfRbndom
+     * @pbrbm sfdurfRbndom
+     * @pbrbm sfdurfRbndom
+     * @pbrbm sfdurfRbndom
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid void initSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfInitSign(signingKfy, sfdurfRbndom);
+     */
+     */
+     */
+     */
+    publid void initSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom) tirows XMLSignbturfExdfption {
+    publid void initSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitSign(signingKfy, sfdurfRbndom);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, sfdurfRbndom);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, sfdurfRbndom);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, sfdurfRbndom);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, sfdurfRbndom);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm signingKfy
-     * @pbrbm blgorithmPbrbmftfrSpfd
-     * @throws XMLSignbturfExdfption
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @pbrbm signingKfy
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     */
+     */
+     */
+     */
      */
     publid void initSign(
-        Kfy signingKfy, AlgorithmPbrbmftfrSpfd blgorithmPbrbmftfrSpfd
-    ) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfInitSign(signingKfy, blgorithmPbrbmftfrSpfd);
+    publid void initSign(
+    publid void initSign(
+    publid void initSign(
+    publid void initSign(
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+    ) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitSign(signingKfy, blgoritimPbrbmftfrSpfd);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, blgoritimPbrbmftfrSpfd);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, blgoritimPbrbmftfrSpfd);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, blgoritimPbrbmftfrSpfd);
+        signbturfAlgoritim.fnginfInitSign(signingKfy, blgoritimPbrbmftfrSpfd);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
-     * jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm pbrbms
-     * @throws XMLSignbturfExdfption
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid void sftPbrbmftfr(AlgorithmPbrbmftfrSpfd pbrbms) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfSftPbrbmftfr(pbrbms);
+     */
+     */
+     */
+     */
+    publid void sftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    publid void sftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    publid void sftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    publid void sftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+    publid void sftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfSftPbrbmftfr(pbrbms);
+        signbturfAlgoritim.fnginfSftPbrbmftfr(pbrbms);
+        signbturfAlgoritim.fnginfSftPbrbmftfr(pbrbms);
+        signbturfAlgoritim.fnginfSftPbrbmftfr(pbrbms);
+        signbturfAlgoritim.fnginfSftPbrbmftfr(pbrbms);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm vfrifidbtionKfy
-     * @throws XMLSignbturfExdfption
+     * @pbrbm vfrifidbtionKfy
+     * @pbrbm vfrifidbtionKfy
+     * @pbrbm vfrifidbtionKfy
+     * @pbrbm vfrifidbtionKfy
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid void initVfrify(Kfy vfrifidbtionKfy) throws XMLSignbturfExdfption {
-        signbturfAlgorithm.fnginfInitVfrify(vfrifidbtionKfy);
+     */
+     */
+     */
+     */
+    publid void initVfrify(Kfy vfrifidbtionKfy) tirows XMLSignbturfExdfption {
+    publid void initVfrify(Kfy vfrifidbtionKfy) tirows XMLSignbturfExdfption {
+    publid void initVfrify(Kfy vfrifidbtionKfy) tirows XMLSignbturfExdfption {
+    publid void initVfrify(Kfy vfrifidbtionKfy) tirows XMLSignbturfExdfption {
+    publid void initVfrify(Kfy vfrifidbtionKfy) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitVfrify(vfrifidbtionKfy);
+        signbturfAlgoritim.fnginfInitVfrify(vfrifidbtionKfy);
+        signbturfAlgoritim.fnginfInitVfrify(vfrifidbtionKfy);
+        signbturfAlgoritim.fnginfInitVfrify(vfrifidbtionKfy);
+        signbturfAlgoritim.fnginfInitVfrify(vfrifidbtionKfy);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Proxy mfthod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
-     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     *
+     *
+     *
      *
      * @pbrbm signbturf
-     * @rfturn truf if thf signbturf is vblid.
+     * @pbrbm signbturf
+     * @pbrbm signbturf
+     * @pbrbm signbturf
+     * @pbrbm signbturf
+     * @rfturn truf if tif signbturf is vblid.
+     * @rfturn truf if tif signbturf is vblid.
+     * @rfturn truf if tif signbturf is vblid.
+     * @rfturn truf if tif signbturf is vblid.
+     * @rfturn truf if tif signbturf is vblid.
      *
-     * @throws XMLSignbturfExdfption
+     *
+     *
+     *
+     *
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid boolfbn vfrify(bytf[] signbturf) throws XMLSignbturfExdfption {
-        rfturn signbturfAlgorithm.fnginfVfrify(signbturf);
+     */
+     */
+     */
+     */
+    publid boolfbn vfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    publid boolfbn vfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    publid boolfbn vfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    publid boolfbn vfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+    publid boolfbn vfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+        rfturn signbturfAlgoritim.fnginfVfrify(signbturf);
+        rfturn signbturfAlgoritim.fnginfVfrify(signbturf);
+        rfturn signbturfAlgoritim.fnginfVfrify(signbturf);
+        rfturn signbturfAlgoritim.fnginfVfrify(signbturf);
+        rfturn signbturfAlgoritim.fnginfVfrify(signbturf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf URI rfprfsfntbtion of Trbnsformbtion blgorithm
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * Rfturns tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * Rfturns tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * Rfturns tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * Rfturns tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
      *
-     * @rfturn thf URI rfprfsfntbtion of Trbnsformbtion blgorithm
+     *
+     *
+     *
+     *
+     * @rfturn tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * @rfturn tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * @rfturn tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * @rfturn tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     * @rfturn tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
+     */
+     */
+     */
+     */
      */
     publid finbl String gftURI() {
+    publid finbl String gftURI() {
+    publid finbl String gftURI() {
+    publid finbl String gftURI() {
+    publid finbl String gftURI() {
+        rfturn donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
+        rfturn donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
+        rfturn donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
+        rfturn donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
         rfturn donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfgistfrs implfmfnting dlbss of thf Trbnsform blgorithm with blgorithmURI
+    /**
+    /**
+    /**
+    /**
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
      *
-     * @pbrbm blgorithmURI blgorithmURI URI rfprfsfntbtion of <dodf>Trbnsform blgorithm</dodf>.
-     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> thf implfmfnting dlbss of
-     * {@link SignbturfAlgorithmSpi}
-     * @throws AlgorithmAlrfbdyRfgistfrfdExdfption if spfdififd blgorithmURI is blrfbdy rfgistfrfd
-     * @throws XMLSignbturfExdfption
+     *
+     *
+     *
+     *
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    @SupprfssWbrnings("undhfdkfd")
-    publid stbtid void rfgistfr(String blgorithmURI, String implfmfntingClbss)
-       throws AlgorithmAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+     */
+     */
+     */
+     */
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid void rfgistfr(String blgoritimURI, String implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, String implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, String implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, String implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, String implfmfntingClbss)
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+           XMLSignbturfExdfption {
+           XMLSignbturfExdfption {
+           XMLSignbturfExdfption {
+           XMLSignbturfExdfption {
            XMLSignbturfExdfption {
         if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgorithmURI + " " + implfmfntingClbss);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         // brf wf blrfbdy rfgistfrfd?
-        Clbss<? fxtfnds SignbturfAlgorithmSpi> rfgistfrfdClbss = blgorithmHbsh.gft(blgorithmURI);
+        // brf wf blrfbdy rfgistfrfd?
+        // brf wf blrfbdy rfgistfrfd?
+        // brf wf blrfbdy rfgistfrfd?
+        // brf wf blrfbdy rfgistfrfd?
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
         if (rfgistfrfdClbss != null) {
-            Objfdt fxArgs[] = { blgorithmURI, rfgistfrfdClbss };
-            throw nfw AlgorithmAlrfbdyRfgistfrfdExdfption(
-                "blgorithm.blrfbdyRfgistfrfd", fxArgs
+        if (rfgistfrfdClbss != null) {
+        if (rfgistfrfdClbss != null) {
+        if (rfgistfrfdClbss != null) {
+        if (rfgistfrfdClbss != null) {
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
             );
+            );
+            );
+            );
+            );
+        }
+        }
+        }
+        }
         }
         try {
-            Clbss<? fxtfnds SignbturfAlgorithmSpi> dlbzz =
-                (Clbss<? fxtfnds SignbturfAlgorithmSpi>)
-                    ClbssLobdfrUtils.lobdClbss(implfmfntingClbss, SignbturfAlgorithm.dlbss);
-            blgorithmHbsh.put(blgorithmURI, dlbzz);
-        } dbtdh (NullPointfrExdfption fx) {
-            Objfdt fxArgs[] = { blgorithmURI, fx.gftMfssbgf() };
-            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs, fx);
+        try {
+        try {
+        try {
+        try {
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> dlbzz =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> dlbzz =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> dlbzz =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> dlbzz =
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> dlbzz =
+                (Clbss<? fxtfnds SignbturfAlgoritimSpi>)
+                (Clbss<? fxtfnds SignbturfAlgoritimSpi>)
+                (Clbss<? fxtfnds SignbturfAlgoritimSpi>)
+                (Clbss<? fxtfnds SignbturfAlgoritimSpi>)
+                (Clbss<? fxtfnds SignbturfAlgoritimSpi>)
+                    ClbssLobdfrUtils.lobdClbss(implfmfntingClbss, SignbturfAlgoritim.dlbss);
+                    ClbssLobdfrUtils.lobdClbss(implfmfntingClbss, SignbturfAlgoritim.dlbss);
+                    ClbssLobdfrUtils.lobdClbss(implfmfntingClbss, SignbturfAlgoritim.dlbss);
+                    ClbssLobdfrUtils.lobdClbss(implfmfntingClbss, SignbturfAlgoritim.dlbss);
+                    ClbssLobdfrUtils.lobdClbss(implfmfntingClbss, SignbturfAlgoritim.dlbss);
+            blgoritimHbsi.put(blgoritimURI, dlbzz);
+            blgoritimHbsi.put(blgoritimURI, dlbzz);
+            blgoritimHbsi.put(blgoritimURI, dlbzz);
+            blgoritimHbsi.put(blgoritimURI, dlbzz);
+            blgoritimHbsi.put(blgoritimURI, dlbzz);
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+        } dbtdi (NullPointfrExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfgistfrs implfmfnting dlbss of thf Trbnsform blgorithm with blgorithmURI
+    /**
+    /**
+    /**
+    /**
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
      *
-     * @pbrbm blgorithmURI blgorithmURI URI rfprfsfntbtion of <dodf>Trbnsform blgorithm</dodf>.
-     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> thf implfmfnting dlbss of
-     * {@link SignbturfAlgorithmSpi}
-     * @throws AlgorithmAlrfbdyRfgistfrfdExdfption if spfdififd blgorithmURI is blrfbdy rfgistfrfd
-     * @throws XMLSignbturfExdfption
+     *
+     *
+     *
+     *
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * {@link SignbturfAlgoritimSpi}
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    publid stbtid void rfgistfr(String blgorithmURI, Clbss<? fxtfnds SignbturfAlgorithmSpi> implfmfntingClbss)
-       throws AlgorithmAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+     */
+     */
+     */
+     */
+    publid stbtid void rfgistfr(String blgoritimURI, Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss)
+    publid stbtid void rfgistfr(String blgoritimURI, Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss)
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+           XMLSignbturfExdfption {
+           XMLSignbturfExdfption {
+           XMLSignbturfExdfption {
+           XMLSignbturfExdfption {
            XMLSignbturfExdfption {
         if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
-            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgorithmURI + " " + implfmfntingClbss);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // brf wf blrfbdy rfgistfrfd?
-        Clbss<? fxtfnds SignbturfAlgorithmSpi> rfgistfrfdClbss = blgorithmHbsh.gft(blgorithmURI);
+        // brf wf blrfbdy rfgistfrfd?
+        // brf wf blrfbdy rfgistfrfd?
+        // brf wf blrfbdy rfgistfrfd?
+        // brf wf blrfbdy rfgistfrfd?
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
         if (rfgistfrfdClbss != null) {
-            Objfdt fxArgs[] = { blgorithmURI, rfgistfrfdClbss };
-            throw nfw AlgorithmAlrfbdyRfgistfrfdExdfption(
-                "blgorithm.blrfbdyRfgistfrfd", fxArgs
+        if (rfgistfrfdClbss != null) {
+        if (rfgistfrfdClbss != null) {
+        if (rfgistfrfdClbss != null) {
+        if (rfgistfrfdClbss != null) {
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
+            );
+            );
+            );
+            );
             );
         }
-        blgorithmHbsh.put(blgorithmURI, implfmfntingClbss);
+        }
+        }
+        }
+        }
+        blgoritimHbsi.put(blgoritimURI, implfmfntingClbss);
+        blgoritimHbsi.put(blgoritimURI, implfmfntingClbss);
+        blgoritimHbsi.put(blgoritimURI, implfmfntingClbss);
+        blgoritimHbsi.put(blgoritimURI, implfmfntingClbss);
+        blgoritimHbsi.put(blgoritimURI, implfmfntingClbss);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * This mfthod rfgistfrs thf dffbult blgorithms.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfgistfrs tif dffbult blgoritims.
+     * Tiis mftiod rfgistfrs tif dffbult blgoritims.
+     * Tiis mftiod rfgistfrs tif dffbult blgoritims.
+     * Tiis mftiod rfgistfrs tif dffbult blgoritims.
+     * Tiis mftiod rfgistfrs tif dffbult blgoritims.
      */
-    publid stbtid void rfgistfrDffbultAlgorithms() {
-        blgorithmHbsh.put(
+     */
+     */
+     */
+     */
+    publid stbtid void rfgistfrDffbultAlgoritims() {
+    publid stbtid void rfgistfrDffbultAlgoritims() {
+    publid stbtid void rfgistfrDffbultAlgoritims() {
+    publid stbtid void rfgistfrDffbultAlgoritims() {
+    publid stbtid void rfgistfrDffbultAlgoritims() {
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA, SignbturfDSA.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA, SignbturfDSA.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA, SignbturfDSA.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA, SignbturfDSA.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_DSA, SignbturfDSA.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256, SignbturfDSA.SHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256, SignbturfDSA.SHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256, SignbturfDSA.SHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256, SignbturfDSA.SHA256.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256, SignbturfDSA.SHA256.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1, SignbturfBbsfRSA.SignbturfRSASHA1.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1, SignbturfBbsfRSA.SignbturfRSASHA1.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1, SignbturfBbsfRSA.SignbturfRSASHA1.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1, SignbturfBbsfRSA.SignbturfRSASHA1.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1, SignbturfBbsfRSA.SignbturfRSASHA1.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1, IntfgrityHmbd.IntfgrityHmbdSHA1.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1, IntfgrityHmbd.IntfgrityHmbdSHA1.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1, IntfgrityHmbd.IntfgrityHmbdSHA1.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1, IntfgrityHmbd.IntfgrityHmbdSHA1.dlbss
             XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1, IntfgrityHmbd.IntfgrityHmbdSHA1.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
+            XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
+            XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
+            XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
             XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
             SignbturfBbsfRSA.SignbturfRSAMD5.dlbss
+            SignbturfBbsfRSA.SignbturfRSAMD5.dlbss
+            SignbturfBbsfRSA.SignbturfRSAMD5.dlbss
+            SignbturfBbsfRSA.SignbturfRSAMD5.dlbss
+            SignbturfBbsfRSA.SignbturfRSAMD5.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
             XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
             SignbturfBbsfRSA.SignbturfRSARIPEMD160.dlbss
+            SignbturfBbsfRSA.SignbturfRSARIPEMD160.dlbss
+            SignbturfBbsfRSA.SignbturfRSARIPEMD160.dlbss
+            SignbturfBbsfRSA.SignbturfRSARIPEMD160.dlbss
+            SignbturfBbsfRSA.SignbturfRSARIPEMD160.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256, SignbturfBbsfRSA.SignbturfRSASHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256, SignbturfBbsfRSA.SignbturfRSASHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256, SignbturfBbsfRSA.SignbturfRSASHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256, SignbturfBbsfRSA.SignbturfRSASHA256.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256, SignbturfBbsfRSA.SignbturfRSASHA256.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384, SignbturfBbsfRSA.SignbturfRSASHA384.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384, SignbturfBbsfRSA.SignbturfRSASHA384.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384, SignbturfBbsfRSA.SignbturfRSASHA384.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384, SignbturfBbsfRSA.SignbturfRSASHA384.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384, SignbturfBbsfRSA.SignbturfRSASHA384.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512, SignbturfBbsfRSA.SignbturfRSASHA512.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512, SignbturfBbsfRSA.SignbturfRSASHA512.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512, SignbturfBbsfRSA.SignbturfRSASHA512.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512, SignbturfBbsfRSA.SignbturfRSASHA512.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512, SignbturfBbsfRSA.SignbturfRSASHA512.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignbturfECDSA.SignbturfECDSASHA1.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignbturfECDSA.SignbturfECDSASHA1.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignbturfECDSA.SignbturfECDSASHA1.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignbturfECDSA.SignbturfECDSASHA1.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignbturfECDSA.SignbturfECDSASHA1.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignbturfECDSA.SignbturfECDSASHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignbturfECDSA.SignbturfECDSASHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignbturfECDSA.SignbturfECDSASHA256.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignbturfECDSA.SignbturfECDSASHA256.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignbturfECDSA.SignbturfECDSASHA256.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignbturfECDSA.SignbturfECDSASHA384.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignbturfECDSA.SignbturfECDSASHA384.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignbturfECDSA.SignbturfECDSASHA384.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignbturfECDSA.SignbturfECDSASHA384.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignbturfECDSA.SignbturfECDSASHA384.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignbturfECDSA.SignbturfECDSASHA512.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignbturfECDSA.SignbturfECDSASHA512.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignbturfECDSA.SignbturfECDSASHA512.dlbss
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignbturfECDSA.SignbturfECDSASHA512.dlbss
             XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignbturfECDSA.SignbturfECDSASHA512.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntfgrityHmbd.IntfgrityHmbdMD5.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntfgrityHmbd.IntfgrityHmbdMD5.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntfgrityHmbd.IntfgrityHmbdMD5.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntfgrityHmbd.IntfgrityHmbdMD5.dlbss
             XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntfgrityHmbd.IntfgrityHmbdMD5.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160, IntfgrityHmbd.IntfgrityHmbdRIPEMD160.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160, IntfgrityHmbd.IntfgrityHmbdRIPEMD160.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160, IntfgrityHmbd.IntfgrityHmbdRIPEMD160.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160, IntfgrityHmbd.IntfgrityHmbdRIPEMD160.dlbss
             XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160, IntfgrityHmbd.IntfgrityHmbdRIPEMD160.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256, IntfgrityHmbd.IntfgrityHmbdSHA256.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256, IntfgrityHmbd.IntfgrityHmbdSHA256.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256, IntfgrityHmbd.IntfgrityHmbdSHA256.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256, IntfgrityHmbd.IntfgrityHmbdSHA256.dlbss
             XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256, IntfgrityHmbd.IntfgrityHmbdSHA256.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384, IntfgrityHmbd.IntfgrityHmbdSHA384.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384, IntfgrityHmbd.IntfgrityHmbdSHA384.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384, IntfgrityHmbd.IntfgrityHmbdSHA384.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384, IntfgrityHmbd.IntfgrityHmbdSHA384.dlbss
             XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384, IntfgrityHmbd.IntfgrityHmbdSHA384.dlbss
         );
-        blgorithmHbsh.put(
+        );
+        );
+        );
+        );
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512, IntfgrityHmbd.IntfgrityHmbdSHA512.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512, IntfgrityHmbd.IntfgrityHmbdSHA512.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512, IntfgrityHmbd.IntfgrityHmbdSHA512.dlbss
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512, IntfgrityHmbd.IntfgrityHmbdSHA512.dlbss
             XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512, IntfgrityHmbd.IntfgrityHmbdSHA512.dlbss
         );
+        );
+        );
+        );
+        );
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mfthod gftBbsfNbmfspbdf
+    /**
+    /**
+    /**
+    /**
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
      *
-     * @rfturn URI of this flfmfnt
+     *
+     *
+     *
+     *
+     * @rfturn URI of tiis flfmfnt
+     * @rfturn URI of tiis flfmfnt
+     * @rfturn URI of tiis flfmfnt
+     * @rfturn URI of tiis flfmfnt
+     * @rfturn URI of tiis flfmfnt
+     */
+     */
+     */
+     */
      */
     publid String gftBbsfNbmfspbdf() {
+    publid String gftBbsfNbmfspbdf() {
+    publid String gftBbsfNbmfspbdf() {
+    publid String gftBbsfNbmfspbdf() {
+    publid String gftBbsfNbmfspbdf() {
+        rfturn Constbnts.SignbturfSpfdNS;
+        rfturn Constbnts.SignbturfSpfdNS;
+        rfturn Constbnts.SignbturfSpfdNS;
+        rfturn Constbnts.SignbturfSpfdNS;
         rfturn Constbnts.SignbturfSpfdNS;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Mfthod gftBbsfLodblNbmf
+    /**
+    /**
+    /**
+    /**
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
+     *
+     *
+     *
+     *
      *
      * @rfturn Lodbl nbmf
+     * @rfturn Lodbl nbmf
+     * @rfturn Lodbl nbmf
+     * @rfturn Lodbl nbmf
+     * @rfturn Lodbl nbmf
+     */
+     */
+     */
+     */
      */
     publid String gftBbsfLodblNbmf() {
+    publid String gftBbsfLodblNbmf() {
+    publid String gftBbsfLodblNbmf() {
+    publid String gftBbsfLodblNbmf() {
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_SIGNATUREMETHOD;
+        rfturn Constbnts._TAG_SIGNATUREMETHOD;
+        rfturn Constbnts._TAG_SIGNATUREMETHOD;
+        rfturn Constbnts._TAG_SIGNATUREMETHOD;
         rfturn Constbnts._TAG_SIGNATUREMETHOD;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

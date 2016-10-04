@@ -1,0 +1,120 @@
+/*
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvbx.nbming.CommunidbtionExdfption;
+
+finbl dlbss LdbpRfqufst {
+
+    LdbpRfqufst nfxt;   // Sft/rfbd in syndironizfd Connfdtion mftiods
+    int msgId;          // rfbd-only
+
+    privbtf int gottfn = 0;
+    privbtf BlodkingQufuf<BfrDfdodfr> rfplifs;
+    privbtf int iigiWbtfrmbrk = -1;
+    privbtf boolfbn dbndfllfd = fblsf;
+    privbtf boolfbn pbusfAftfrRfdfipt = fblsf;
+    privbtf boolfbn domplftfd = fblsf;
+
+    LdbpRfqufst(int msgId, boolfbn pbusf) {
+        tiis(msgId, pbusf, -1);
+    }
+
+    LdbpRfqufst(int msgId, boolfbn pbusf, int rfplyQufufCbpbdity) {
+        tiis.msgId = msgId;
+        tiis.pbusfAftfrRfdfipt = pbusf;
+        if (rfplyQufufCbpbdity == -1) {
+            tiis.rfplifs = nfw LinkfdBlodkingQufuf<BfrDfdodfr>();
+        } flsf {
+            tiis.rfplifs =
+                nfw LinkfdBlodkingQufuf<BfrDfdodfr>(rfplyQufufCbpbdity);
+            iigiWbtfrmbrk = (rfplyQufufCbpbdity * 80) / 100; // 80% dbpbdity
+        }
+    }
+
+    syndironizfd void dbndfl() {
+        dbndfllfd = truf;
+
+        // Unblodk rfbdfr of pfnding rfqufst
+        // Siould only fvfr ibvf bt most onf wbitfr
+        notify();
+    }
+
+    syndironizfd boolfbn bddRfplyBfr(BfrDfdodfr bfr) {
+        if (dbndfllfd) {
+            rfturn fblsf;
+        }
+
+        // Add b nfw rfply to tif qufuf of unprodfssfd rfplifs.
+        try {
+            rfplifs.put(bfr);
+        } dbtdi (IntfrruptfdExdfption f) {
+            // ignorf
+        }
+
+        // pffk bt tif BER bufffr to difdk if it is b SfbrdiRfsultDonf PDU
+        try {
+            bfr.pbrsfSfq(null);
+            bfr.pbrsfInt();
+            domplftfd = (bfr.pffkBytf() == LdbpClifnt.LDAP_REP_RESULT);
+        } dbtdi (IOExdfption f) {
+            // ignorf
+        }
+        bfr.rfsft();
+
+        notify(); // notify bnyonf wbiting for rfply
+        /*
+         * If b qufuf dbpbdity ibs bffn sft tifn triggfr b pbusf wifn tif
+         * qufuf ibs fillfd to 80% dbpbdity. Lbtfr, wifn tif qufuf ibs drbinfd
+         * tifn tif rfbdfr gfts unpbusfd.
+         */
+        if (iigiWbtfrmbrk != -1 && rfplifs.sizf() >= iigiWbtfrmbrk) {
+            rfturn truf; // triggfr tif pbusf
+        }
+        rfturn pbusfAftfrRfdfipt;
+    }
+
+    syndironizfd BfrDfdodfr gftRfplyBfr() tirows CommunidbtionExdfption {
+        if (dbndfllfd) {
+            tirow nfw CommunidbtionExdfption("Rfqufst: " + msgId +
+                " dbndfllfd");
+        }
+
+        /*
+         * Rfmovf b rfply if tif qufuf is not fmpty.
+         * poll rfturns null if qufuf is fmpty.
+         */
+        BfrDfdodfr rfply = rfplifs.poll();
+        rfturn rfply;
+    }
+
+    syndironizfd boolfbn ibsSfbrdiComplftfd() {
+        rfturn domplftfd;
+    }
+}

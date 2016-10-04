@@ -1,173 +1,865 @@
 '\" t
-.\" Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: polidytool
-.\" Lbngubgf: English
+.\" Titlf: polidytool
+.\" Titlf: polidytool
+.\" Titlf: polidytool
+.\" Titlf: polidytool
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
 .\" Dbtf: 2013年11月21日
 .\" SfdtDfsd: セキュリティ・ツール
+.\" SfdtDfsd: セキュリティ・ツール
+.\" SfdtDfsd: セキュリティ・ツール
+.\" SfdtDfsd: セキュリティ・ツール
+.\" SfdtDfsd: セキュリティ・ツール
 .\" Softwbrf: JDK 8
-.\" Ardh: 汎用
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "polidytool" "1" "2013年11月21日" "JDK 8" "セキュリティ・ツール"
+.TH "polidytool" "1" "2013年11月21日" "JDK 8" "セキュリティ・ツール"
+.TH "polidytool" "1" "2013年11月21日" "JDK 8" "セキュリティ・ツール"
+.TH "polidytool" "1" "2013年11月21日" "JDK 8" "セキュリティ・ツール"
+.TH "polidytool" "1" "2013年11月21日" "JDK 8" "セキュリティ・ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+polidytool \- ユーティリティGUI経由で取得したユーザー入力に基づいて、プレーン・テキストのポリシー・ファイルを読み書きします。
+polidytool \- ユーティリティGUI経由で取得したユーザー入力に基づいて、プレーン・テキストのポリシー・ファイルを読み書きします。
+polidytool \- ユーティリティGUI経由で取得したユーザー入力に基づいて、プレーン・テキストのポリシー・ファイルを読み書きします。
+polidytool \- ユーティリティGUI経由で取得したユーザー入力に基づいて、プレーン・テキストのポリシー・ファイルを読み書きします。
 polidytool \- ユーティリティGUI経由で取得したユーザー入力に基づいて、プレーン・テキストのポリシー・ファイルを読み書きします。
 .SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIpolidytool\fR [ \fI\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fIpolidytool\fR [ \fI\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fIpolidytool\fR [ \fI\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fIpolidytool\fR [ \fI\-filf\fR ] [ \fIfilfnbmf\fR ] 
+\fIpolidytool\fR [ \fI\-filf\fR ] [ \fIfilfnbmf\fR ] 
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \-filf
+\-filf
+\-filf
+\-filf
+\-filf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIfilfnbmf\fR
+\fIfilfnbmf\fR
+\fIfilfnbmf\fR
+\fIfilfnbmf\fR
+\fIfilfnbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ロードするファイルの名前。
+ロードするファイルの名前。
+ロードするファイルの名前。
+ロードするファイルの名前。
+ロードするファイルの名前。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fB例\fR:
+\fB例\fR:
+\fB例\fR:
+\fB例\fR:
+\fB例\fR:
+.PP
+.PP
+.PP
+.PP
 .PP
 ポリシー・ツール管理ユーティリティを実行します:
+ポリシー・ツール管理ユーティリティを実行します:
+ポリシー・ツール管理ユーティリティを実行します:
+ポリシー・ツール管理ユーティリティを実行します:
+ポリシー・ツール管理ユーティリティを実行します:
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 polidytool
+polidytool
+polidytool
+polidytool
+polidytool
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIpolidytool\fRコマンドを実行し、指定されたファイルをロードします:
+\fIpolidytool\fRコマンドを実行し、指定されたファイルをロードします:
+\fIpolidytool\fRコマンドを実行し、指定されたファイルをロードします:
+\fIpolidytool\fRコマンドを実行し、指定されたファイルをロードします:
+\fIpolidytool\fRコマンドを実行し、指定されたファイルをロードします:
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+polidytool\-filf mypolidyfilf
+polidytool\-filf mypolidyfilf
+polidytool\-filf mypolidyfilf
+polidytool\-filf mypolidyfilf
 polidytool\-filf mypolidyfilf
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
 .PP
-\fIpolidytool\fRコマンドは、管理者のGUIを呼び出します。これにより、システム管理者はローカル・ポリシー・ファイルの内容を管理できるようになります。ポリシー・ファイルは\fI\&.polidy\fR拡張子を持つプレーンテキスト・ファイルで、ドメイン別にリモート・リクエスタを権限オブジェクトにマップします。詳細は、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyFilfs\&.htmlにある
+.PP
+.PP
+.PP
+.PP
+\fIpolidytool\fRコマンドは、管理者のGUIを呼び出します。これにより、システム管理者はローカル・ポリシー・ファイルの内容を管理できるようになります。ポリシー・ファイルは\fI\&.polidy\fR拡張子を持つプレーンテキスト・ファイルで、ドメイン別にリモート・リクエスタを権限オブジェクトにマップします。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itmlにある
+\fIpolidytool\fRコマンドは、管理者のGUIを呼び出します。これにより、システム管理者はローカル・ポリシー・ファイルの内容を管理できるようになります。ポリシー・ファイルは\fI\&.polidy\fR拡張子を持つプレーンテキスト・ファイルで、ドメイン別にリモート・リクエスタを権限オブジェクトにマップします。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itmlにある
+\fIpolidytool\fRコマンドは、管理者のGUIを呼び出します。これにより、システム管理者はローカル・ポリシー・ファイルの内容を管理できるようになります。ポリシー・ファイルは\fI\&.polidy\fR拡張子を持つプレーンテキスト・ファイルで、ドメイン別にリモート・リクエスタを権限オブジェクトにマップします。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itmlにある
+\fIpolidytool\fRコマンドは、管理者のGUIを呼び出します。これにより、システム管理者はローカル・ポリシー・ファイルの内容を管理できるようになります。ポリシー・ファイルは\fI\&.polidy\fR拡張子を持つプレーンテキスト・ファイルで、ドメイン別にリモート・リクエスタを権限オブジェクトにマップします。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itmlにある
+\fIpolidytool\fRコマンドは、管理者のGUIを呼び出します。これにより、システム管理者はローカル・ポリシー・ファイルの内容を管理できるようになります。ポリシー・ファイルは\fI\&.polidy\fR拡張子を持つプレーンテキスト・ファイルで、ドメイン別にリモート・リクエスタを権限オブジェクトにマップします。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itmlにある
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」を参照してください
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」を参照してください
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」を参照してください
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」を参照してください
 「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」を参照してください
 .SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.PP
+.PP
+.PP
+.PP
 .PP
 \-filf
+\-filf
+\-filf
+\-filf
+\-filf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+ポリシー・ファイルを読み込むように\fIpolidytool\fRに指示します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」
-(http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyFilfs\&.html)
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」
+「Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx」
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 「Polidy Filf Crfbtion bnd Mbnbgfmfnt」
-(http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyGuidf\&.html)
+「Polidy Filf Crfbtion bnd Mbnbgfmfnt」
+「Polidy Filf Crfbtion bnd Mbnbgfmfnt」
+「Polidy Filf Crfbtion bnd Mbnbgfmfnt」
+「Polidy Filf Crfbtion bnd Mbnbgfmfnt」
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 「Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK)」
-(http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/pfrmissions\&.html)
+「Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK)」
+「Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK)」
+「Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK)」
+「Pfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK)」
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 「Jbvb Sfdurity Ovfrvifw」
-(http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.html)
+「Jbvb Sfdurity Ovfrvifw」
+「Jbvb Sfdurity Ovfrvifw」
+「Jbvb Sfdurity Ovfrvifw」
+「Jbvb Sfdurity Ovfrvifw」
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .\}
-「Jbvb Cryptogrbphy Ardhitfdturf (JCA) Rfffrfndf Guidf」
-(http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.html)
+.\}
+.\}
+.\}
+.\}
+「Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf」
+「Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf」
+「Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf」
+「Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf」
+「Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf」
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml)
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

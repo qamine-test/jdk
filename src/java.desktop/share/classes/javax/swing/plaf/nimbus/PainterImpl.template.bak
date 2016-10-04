@@ -1,87 +1,435 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 pbdkbgf ${PACKAGE};
+pbdkbgf ${PACKAGE};
+pbdkbgf ${PACKAGE};
+pbdkbgf ${PACKAGE};
+pbdkbgf ${PACKAGE};
+
+
+
+
 
 import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.gfom.*;
 import jbvb.bwt.gfom.*;
 import jbvb.bwt.imbgf.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.imbgf.*;
 import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.*;
+import jbvbx.swing.Pbintfr;
+import jbvbx.swing.Pbintfr;
+import jbvbx.swing.Pbintfr;
+import jbvbx.swing.Pbintfr;
 import jbvbx.swing.Pbintfr;
 
 
+
+
+
+
+
+
+
+
+finbl dlbss ${PAINTER_NAME} fxtfnds AbstrbdtRfgionPbintfr {
+finbl dlbss ${PAINTER_NAME} fxtfnds AbstrbdtRfgionPbintfr {
+finbl dlbss ${PAINTER_NAME} fxtfnds AbstrbdtRfgionPbintfr {
+finbl dlbss ${PAINTER_NAME} fxtfnds AbstrbdtRfgionPbintfr {
 finbl dlbss ${PAINTER_NAME} fxtfnds AbstrbdtRfgionPbintfr {
     //pbdkbgf privbtf intfgfrs rfprfsfnting tif bvbilbblf stbtfs tibt
+    //pbdkbgf privbtf intfgfrs rfprfsfnting tif bvbilbblf stbtfs tibt
+    //pbdkbgf privbtf intfgfrs rfprfsfnting tif bvbilbblf stbtfs tibt
+    //pbdkbgf privbtf intfgfrs rfprfsfnting tif bvbilbblf stbtfs tibt
+    //pbdkbgf privbtf intfgfrs rfprfsfnting tif bvbilbblf stbtfs tibt
+    //tiis pbintfr will pbint. Tifsf brf usfd wifn drfbting b nfw instbndf
+    //tiis pbintfr will pbint. Tifsf brf usfd wifn drfbting b nfw instbndf
+    //tiis pbintfr will pbint. Tifsf brf usfd wifn drfbting b nfw instbndf
+    //tiis pbintfr will pbint. Tifsf brf usfd wifn drfbting b nfw instbndf
     //tiis pbintfr will pbint. Tifsf brf usfd wifn drfbting b nfw instbndf
     //of ${PAINTER_NAME} to dftfrminf wiidi rfgion/stbtf is bfing pbintfd
+    //of ${PAINTER_NAME} to dftfrminf wiidi rfgion/stbtf is bfing pbintfd
+    //of ${PAINTER_NAME} to dftfrminf wiidi rfgion/stbtf is bfing pbintfd
+    //of ${PAINTER_NAME} to dftfrminf wiidi rfgion/stbtf is bfing pbintfd
+    //of ${PAINTER_NAME} to dftfrminf wiidi rfgion/stbtf is bfing pbintfd
+    //by tibt instbndf.
+    //by tibt instbndf.
+    //by tibt instbndf.
+    //by tibt instbndf.
     //by tibt instbndf.
 ${STATIC_DECL}
+${STATIC_DECL}
+${STATIC_DECL}
+${STATIC_DECL}
+${STATIC_DECL}
+
+
+
+
 
     privbtf int stbtf; //rfffrs to onf of tif stbtid finbl ints bbovf
+    privbtf int stbtf; //rfffrs to onf of tif stbtid finbl ints bbovf
+    privbtf int stbtf; //rfffrs to onf of tif stbtid finbl ints bbovf
+    privbtf int stbtf; //rfffrs to onf of tif stbtid finbl ints bbovf
+    privbtf int stbtf; //rfffrs to onf of tif stbtid finbl ints bbovf
+    privbtf PbintContfxt dtx;
+    privbtf PbintContfxt dtx;
+    privbtf PbintContfxt dtx;
+    privbtf PbintContfxt dtx;
     privbtf PbintContfxt dtx;
 
+
+
+
+
+    //tif following 4 vbribblfs brf rfusfd during tif pbinting dodf of tif lbyfrs
+    //tif following 4 vbribblfs brf rfusfd during tif pbinting dodf of tif lbyfrs
+    //tif following 4 vbribblfs brf rfusfd during tif pbinting dodf of tif lbyfrs
+    //tif following 4 vbribblfs brf rfusfd during tif pbinting dodf of tif lbyfrs
     //tif following 4 vbribblfs brf rfusfd during tif pbinting dodf of tif lbyfrs
     privbtf Pbti2D pbti = nfw Pbti2D.Flobt();
+    privbtf Pbti2D pbti = nfw Pbti2D.Flobt();
+    privbtf Pbti2D pbti = nfw Pbti2D.Flobt();
+    privbtf Pbti2D pbti = nfw Pbti2D.Flobt();
+    privbtf Pbti2D pbti = nfw Pbti2D.Flobt();
+    privbtf Rfdtbnglf2D rfdt = nfw Rfdtbnglf2D.Flobt(0, 0, 0, 0);
+    privbtf Rfdtbnglf2D rfdt = nfw Rfdtbnglf2D.Flobt(0, 0, 0, 0);
+    privbtf Rfdtbnglf2D rfdt = nfw Rfdtbnglf2D.Flobt(0, 0, 0, 0);
+    privbtf Rfdtbnglf2D rfdt = nfw Rfdtbnglf2D.Flobt(0, 0, 0, 0);
     privbtf Rfdtbnglf2D rfdt = nfw Rfdtbnglf2D.Flobt(0, 0, 0, 0);
     privbtf RoundRfdtbnglf2D roundRfdt = nfw RoundRfdtbnglf2D.Flobt(0, 0, 0, 0, 0, 0);
+    privbtf RoundRfdtbnglf2D roundRfdt = nfw RoundRfdtbnglf2D.Flobt(0, 0, 0, 0, 0, 0);
+    privbtf RoundRfdtbnglf2D roundRfdt = nfw RoundRfdtbnglf2D.Flobt(0, 0, 0, 0, 0, 0);
+    privbtf RoundRfdtbnglf2D roundRfdt = nfw RoundRfdtbnglf2D.Flobt(0, 0, 0, 0, 0, 0);
+    privbtf RoundRfdtbnglf2D roundRfdt = nfw RoundRfdtbnglf2D.Flobt(0, 0, 0, 0, 0, 0);
+    privbtf Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt(0, 0, 0, 0);
+    privbtf Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt(0, 0, 0, 0);
+    privbtf Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt(0, 0, 0, 0);
+    privbtf Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt(0, 0, 0, 0);
     privbtf Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt(0, 0, 0, 0);
 
+
+
+
+
+    //All Colors usfd for pbinting brf storfd ifrf. Idfblly, only tiosf dolors bfing usfd
+    //All Colors usfd for pbinting brf storfd ifrf. Idfblly, only tiosf dolors bfing usfd
+    //All Colors usfd for pbinting brf storfd ifrf. Idfblly, only tiosf dolors bfing usfd
+    //All Colors usfd for pbinting brf storfd ifrf. Idfblly, only tiosf dolors bfing usfd
     //All Colors usfd for pbinting brf storfd ifrf. Idfblly, only tiosf dolors bfing usfd
     //by b pbrtidulbr instbndf of ${PAINTER_NAME} would bf drfbtfd. For tif momfnt bt lfbst,
+    //by b pbrtidulbr instbndf of ${PAINTER_NAME} would bf drfbtfd. For tif momfnt bt lfbst,
+    //by b pbrtidulbr instbndf of ${PAINTER_NAME} would bf drfbtfd. For tif momfnt bt lfbst,
+    //by b pbrtidulbr instbndf of ${PAINTER_NAME} would bf drfbtfd. For tif momfnt bt lfbst,
+    //by b pbrtidulbr instbndf of ${PAINTER_NAME} would bf drfbtfd. For tif momfnt bt lfbst,
+    //iowfvfr, bll brf drfbtfd for fbdi instbndf.
+    //iowfvfr, bll brf drfbtfd for fbdi instbndf.
+    //iowfvfr, bll brf drfbtfd for fbdi instbndf.
+    //iowfvfr, bll brf drfbtfd for fbdi instbndf.
     //iowfvfr, bll brf drfbtfd for fbdi instbndf.
 ${COLORS_DECL}
+${COLORS_DECL}
+${COLORS_DECL}
+${COLORS_DECL}
+${COLORS_DECL}
+
+
+
+
 
     //Arrby of durrfnt domponfnt dolors, updbtfd in fbdi pbint dbll
+    //Arrby of durrfnt domponfnt dolors, updbtfd in fbdi pbint dbll
+    //Arrby of durrfnt domponfnt dolors, updbtfd in fbdi pbint dbll
+    //Arrby of durrfnt domponfnt dolors, updbtfd in fbdi pbint dbll
+    //Arrby of durrfnt domponfnt dolors, updbtfd in fbdi pbint dbll
+    privbtf Objfdt[] domponfntColors;
+    privbtf Objfdt[] domponfntColors;
+    privbtf Objfdt[] domponfntColors;
+    privbtf Objfdt[] domponfntColors;
     privbtf Objfdt[] domponfntColors;
 
+
+
+
+
+    publid ${PAINTER_NAME}(PbintContfxt dtx, int stbtf) {
+    publid ${PAINTER_NAME}(PbintContfxt dtx, int stbtf) {
+    publid ${PAINTER_NAME}(PbintContfxt dtx, int stbtf) {
+    publid ${PAINTER_NAME}(PbintContfxt dtx, int stbtf) {
     publid ${PAINTER_NAME}(PbintContfxt dtx, int stbtf) {
         supfr();
+        supfr();
+        supfr();
+        supfr();
+        supfr();
+        tiis.stbtf = stbtf;
+        tiis.stbtf = stbtf;
+        tiis.stbtf = stbtf;
+        tiis.stbtf = stbtf;
         tiis.stbtf = stbtf;
         tiis.dtx = dtx;
+        tiis.dtx = dtx;
+        tiis.dtx = dtx;
+        tiis.dtx = dtx;
+        tiis.dtx = dtx;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     protfdtfd void doPbint(Grbpiids2D g, JComponfnt d, int widti, int ifigit, Objfdt[] fxtfndfdCbdifKfys) {
+    protfdtfd void doPbint(Grbpiids2D g, JComponfnt d, int widti, int ifigit, Objfdt[] fxtfndfdCbdifKfys) {
+    protfdtfd void doPbint(Grbpiids2D g, JComponfnt d, int widti, int ifigit, Objfdt[] fxtfndfdCbdifKfys) {
+    protfdtfd void doPbint(Grbpiids2D g, JComponfnt d, int widti, int ifigit, Objfdt[] fxtfndfdCbdifKfys) {
+    protfdtfd void doPbint(Grbpiids2D g, JComponfnt d, int widti, int ifigit, Objfdt[] fxtfndfdCbdifKfys) {
+        //populbtf domponfntColors brrby witi dolors dbldulbtfd in gftExtfndfdCbdifKfys dbll
+        //populbtf domponfntColors brrby witi dolors dbldulbtfd in gftExtfndfdCbdifKfys dbll
+        //populbtf domponfntColors brrby witi dolors dbldulbtfd in gftExtfndfdCbdifKfys dbll
+        //populbtf domponfntColors brrby witi dolors dbldulbtfd in gftExtfndfdCbdifKfys dbll
         //populbtf domponfntColors brrby witi dolors dbldulbtfd in gftExtfndfdCbdifKfys dbll
         domponfntColors = fxtfndfdCbdifKfys;
+        domponfntColors = fxtfndfdCbdifKfys;
+        domponfntColors = fxtfndfdCbdifKfys;
+        domponfntColors = fxtfndfdCbdifKfys;
+        domponfntColors = fxtfndfdCbdifKfys;
+        //gfnfrbtf tiis fntirf mftiod. Ebdi stbtf/bg/fg/bordfr dombo tibt ibs
+        //gfnfrbtf tiis fntirf mftiod. Ebdi stbtf/bg/fg/bordfr dombo tibt ibs
+        //gfnfrbtf tiis fntirf mftiod. Ebdi stbtf/bg/fg/bordfr dombo tibt ibs
+        //gfnfrbtf tiis fntirf mftiod. Ebdi stbtf/bg/fg/bordfr dombo tibt ibs
         //gfnfrbtf tiis fntirf mftiod. Ebdi stbtf/bg/fg/bordfr dombo tibt ibs
         //bffn pbintfd gfts its own KEY bnd pbint mftiod.
+        //bffn pbintfd gfts its own KEY bnd pbint mftiod.
+        //bffn pbintfd gfts its own KEY bnd pbint mftiod.
+        //bffn pbintfd gfts its own KEY bnd pbint mftiod.
+        //bffn pbintfd gfts its own KEY bnd pbint mftiod.
+        switdi(stbtf) {
+        switdi(stbtf) {
+        switdi(stbtf) {
+        switdi(stbtf) {
         switdi(stbtf) {
 ${DO_PAINT_SWITCH_BODY}
+${DO_PAINT_SWITCH_BODY}
+${DO_PAINT_SWITCH_BODY}
+${DO_PAINT_SWITCH_BODY}
+${DO_PAINT_SWITCH_BODY}
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+        
+        
+        
+        
         
 ${GET_EXTENDED_CACHE_KEYS}
+${GET_EXTENDED_CACHE_KEYS}
+${GET_EXTENDED_CACHE_KEYS}
+${GET_EXTENDED_CACHE_KEYS}
+${GET_EXTENDED_CACHE_KEYS}
+
+
+
+
 
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    protfdtfd finbl PbintContfxt gftPbintContfxt() {
+    protfdtfd finbl PbintContfxt gftPbintContfxt() {
+    protfdtfd finbl PbintContfxt gftPbintContfxt() {
+    protfdtfd finbl PbintContfxt gftPbintContfxt() {
     protfdtfd finbl PbintContfxt gftPbintContfxt() {
         rfturn dtx;
+        rfturn dtx;
+        rfturn dtx;
+        rfturn dtx;
+        rfturn dtx;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+${PAINTING_DECL}
+${PAINTING_DECL}
+${PAINTING_DECL}
+${PAINTING_DECL}
 ${PAINTING_DECL}
 
+
+
+
+
+${SHAPES_DECL}
+${SHAPES_DECL}
+${SHAPES_DECL}
+${SHAPES_DECL}
 ${SHAPES_DECL}
 
+
+
+
+
 ${GRADIENTS_DECL}
+${GRADIENTS_DECL}
+${GRADIENTS_DECL}
+${GRADIENTS_DECL}
+${GRADIENTS_DECL}
+}
+}
+}
+}
 }

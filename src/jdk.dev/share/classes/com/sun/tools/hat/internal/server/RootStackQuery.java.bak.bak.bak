@@ -1,69 +1,345 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 /*
+/*
+/*
+/*
+/*
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
  * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
  * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
+ * bt JbvbSoft/Sun.
+ * bt JbvbSoft/Sun.
+ * bt JbvbSoft/Sun.
  * bt JbvbSoft/Sun.
  */
+ */
+ */
+ */
+ */
 
+
+
+
+
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
 
+
+
+
+
+
+
+
+
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
+import dom.sun.tools.ibt.intfrnbl.modfl.*;
 import dom.sun.tools.ibt.intfrnbl.modfl.*;
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * Qufry to siow tif StbdkTrbdf for b givfn root
+ * Qufry to siow tif StbdkTrbdf for b givfn root
+ * Qufry to siow tif StbdkTrbdf for b givfn root
+ * Qufry to siow tif StbdkTrbdf for b givfn root
+ * Qufry to siow tif StbdkTrbdf for b givfn root
+ *
+ *
+ *
+ *
  *
  * @butior      Bill Footf
+ * @butior      Bill Footf
+ * @butior      Bill Footf
+ * @butior      Bill Footf
+ * @butior      Bill Footf
+ */
+ */
+ */
+ */
  */
 
 
+
+
+
+
+
+
+
+
+dlbss RootStbdkQufry fxtfnds QufryHbndlfr {
+dlbss RootStbdkQufry fxtfnds QufryHbndlfr {
+dlbss RootStbdkQufry fxtfnds QufryHbndlfr {
+dlbss RootStbdkQufry fxtfnds QufryHbndlfr {
 dlbss RootStbdkQufry fxtfnds QufryHbndlfr {
 
+
+
+
+
+    publid RootStbdkQufry() {
+    publid RootStbdkQufry() {
+    publid RootStbdkQufry() {
+    publid RootStbdkQufry() {
     publid RootStbdkQufry() {
     }
-
-    publid void run() {
-        int indfx = (int) pbrsfHfx(qufry);
-        Root root = snbpsiot.gftRootAt(indfx);
-        if (root == null) {
-            frror("Root bt " + indfx + " not found");
-            rfturn;
-        }
-        StbdkTrbdf st = root.gftStbdkTrbdf();
-        if (st == null || st.gftFrbmfs().lfngti == 0) {
-            frror("No stbdk trbdf for " + root.gftDfsdription());
-            rfturn;
-        }
-        stbrtHtml("Stbdk Trbdf for " + root.gftDfsdription());
-        out.println("<p>");
-        printStbdkTrbdf(st);
-        out.println("</p>");
-        fndHtml();
+    }
+    }
+    }
     }
 
+
+
+
+
+    publid void run() {
+    publid void run() {
+    publid void run() {
+    publid void run() {
+    publid void run() {
+        int indfx = (int) pbrsfHfx(qufry);
+        int indfx = (int) pbrsfHfx(qufry);
+        int indfx = (int) pbrsfHfx(qufry);
+        int indfx = (int) pbrsfHfx(qufry);
+        int indfx = (int) pbrsfHfx(qufry);
+        Root root = snbpsiot.gftRootAt(indfx);
+        Root root = snbpsiot.gftRootAt(indfx);
+        Root root = snbpsiot.gftRootAt(indfx);
+        Root root = snbpsiot.gftRootAt(indfx);
+        Root root = snbpsiot.gftRootAt(indfx);
+        if (root == null) {
+        if (root == null) {
+        if (root == null) {
+        if (root == null) {
+        if (root == null) {
+            frror("Root bt " + indfx + " not found");
+            frror("Root bt " + indfx + " not found");
+            frror("Root bt " + indfx + " not found");
+            frror("Root bt " + indfx + " not found");
+            frror("Root bt " + indfx + " not found");
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
+        }
+        StbdkTrbdf st = root.gftStbdkTrbdf();
+        StbdkTrbdf st = root.gftStbdkTrbdf();
+        StbdkTrbdf st = root.gftStbdkTrbdf();
+        StbdkTrbdf st = root.gftStbdkTrbdf();
+        StbdkTrbdf st = root.gftStbdkTrbdf();
+        if (st == null || st.gftFrbmfs().lfngti == 0) {
+        if (st == null || st.gftFrbmfs().lfngti == 0) {
+        if (st == null || st.gftFrbmfs().lfngti == 0) {
+        if (st == null || st.gftFrbmfs().lfngti == 0) {
+        if (st == null || st.gftFrbmfs().lfngti == 0) {
+            frror("No stbdk trbdf for " + root.gftDfsdription());
+            frror("No stbdk trbdf for " + root.gftDfsdription());
+            frror("No stbdk trbdf for " + root.gftDfsdription());
+            frror("No stbdk trbdf for " + root.gftDfsdription());
+            frror("No stbdk trbdf for " + root.gftDfsdription());
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+        }
+        }
+        }
+        }
+        }
+        stbrtHtml("Stbdk Trbdf for " + root.gftDfsdription());
+        stbrtHtml("Stbdk Trbdf for " + root.gftDfsdription());
+        stbrtHtml("Stbdk Trbdf for " + root.gftDfsdription());
+        stbrtHtml("Stbdk Trbdf for " + root.gftDfsdription());
+        stbrtHtml("Stbdk Trbdf for " + root.gftDfsdription());
+        out.println("<p>");
+        out.println("<p>");
+        out.println("<p>");
+        out.println("<p>");
+        out.println("<p>");
+        printStbdkTrbdf(st);
+        printStbdkTrbdf(st);
+        printStbdkTrbdf(st);
+        printStbdkTrbdf(st);
+        printStbdkTrbdf(st);
+        out.println("</p>");
+        out.println("</p>");
+        out.println("</p>");
+        out.println("</p>");
+        out.println("</p>");
+        fndHtml();
+        fndHtml();
+        fndHtml();
+        fndHtml();
+        fndHtml();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+}
+}
+}
+}
 }

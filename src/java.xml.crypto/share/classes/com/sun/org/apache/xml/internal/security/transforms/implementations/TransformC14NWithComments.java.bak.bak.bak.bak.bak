@@ -1,0 +1,69 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
+
+import jbvb.io.OutputStrfbm;
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr20010315WitiCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+
+/**
+ * Implfmfnts tif <CODE>ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315#WitiCommfnts</CODE>
+ * trbnsform.
+ *
+ * @butior Ciristibn Gfufr-Pollmbnn
+ */
+publid dlbss TrbnsformC14NWitiCommfnts fxtfnds TrbnsformSpi {
+
+    /** Fifld implfmfntfdTrbnsformURI */
+    publid stbtid finbl String implfmfntfdTrbnsformURI =
+        Trbnsforms.TRANSFORM_C14N_WITH_COMMENTS;
+
+    /** @inifritDod */
+    protfdtfd String fnginfGftURI() {
+        rfturn implfmfntfdTrbnsformURI;
+    }
+
+    /** @inifritDod */
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm os, Trbnsform trbnsformObjfdt
+    ) tirows CbnonidblizbtionExdfption {
+
+        Cbnonidblizfr20010315WitiCommfnts d14n = nfw Cbnonidblizfr20010315WitiCommfnts();
+        if (os != null) {
+            d14n.sftWritfr(os);
+        }
+
+        bytf[] rfsult = null;
+        rfsult = d14n.fnginfCbnonidblizf(input);
+        XMLSignbturfInput output = nfw XMLSignbturfInput(rfsult);
+        if (os != null) {
+            output.sftOutputStrfbm(os);
+        }
+        rfturn output;
+    }
+}

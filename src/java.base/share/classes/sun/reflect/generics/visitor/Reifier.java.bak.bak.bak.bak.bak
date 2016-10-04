@@ -1,0 +1,218 @@
+/*
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.visitor;
+
+
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+import sun.rfflfdt.gfnfrids.trff.*;
+import sun.rfflfdt.gfnfrids.fbdtory.*;
+
+
+
+/**
+ * Visitor tibt donvfrts AST to rfififd typfs.
+ */
+publid dlbss Rfififr implfmfnts TypfTrffVisitor<Typf> {
+    privbtf Typf rfsultTypf;
+    privbtf GfnfridsFbdtory fbdtory;
+
+    privbtf Rfififr(GfnfridsFbdtory f){
+        fbdtory = f;
+    }
+
+    privbtf GfnfridsFbdtory gftFbdtory(){ rfturn fbdtory;}
+
+    /**
+     * Fbdtory mftiod. Tif rfsulting visitor will donvfrt bn AST
+     * rfprfsfnting gfnfrid signbturfs into dorrfsponding rfflfdtivf
+     * objfdts, using tif providfd fbdtory, <tt>f</tt>.
+     * @pbrbm f - b fbdtory tibt dbn bf usfd to mbnufbdturf rfflfdtivf
+     * objfdts rfturnfd by tiis visitor
+     * @rfturn A visitor tibt dbn bf usfd to rfify ASTs rfprfsfnting
+     * gfnfrid typf informbtion into rfflfdtivf objfdts
+     */
+    publid stbtid Rfififr mbkf(GfnfridsFbdtory f){
+        rfturn nfw Rfififr(f);
+    }
+
+    // Hflpfr mftiod. Visits bn brrby of TypfArgumfnt bnd produdfs
+    // rfififd Typf brrby.
+    privbtf Typf[] rfifyTypfArgumfnts(TypfArgumfnt[] tbs) {
+        Typf[] ts = nfw Typf[tbs.lfngti];
+        for (int i = 0; i < tbs.lfngti; i++) {
+            tbs[i].bddfpt(tiis);
+            ts[i] = rfsultTypf;
+        }
+        rfturn ts;
+    }
+
+
+    /**
+     * Addfssor for tif rfsult of tif lbst visit by tiis visitor,
+     * @rfturn Tif typf domputfd by tiis visitor bbsfd on its lbst
+     * visit
+     */
+    publid Typf gftRfsult() { bssfrt rfsultTypf != null;rfturn rfsultTypf;}
+
+    publid void visitFormblTypfPbrbmftfr(FormblTypfPbrbmftfr ftp){
+        rfsultTypf = gftFbdtory().mbkfTypfVbribblf(ftp.gftNbmf(),
+                                                   ftp.gftBounds());
+    }
+
+
+    publid void visitClbssTypfSignbturf(ClbssTypfSignbturf dt){
+        // Tiis mftiod fxbminfs tif pbtinbmf storfd in dt, wiidi ibs tif form
+        // n1.n2...nk<tbrgs>....
+        // wifrf n1 ... nk-1 migit not fxist OR
+        // nk migit not fxist (but not boti). It mby bf tibt k fqubls 1.
+        // Tif idfb is tibt nk is tif simplf dlbss typf nbmf tibt ibs
+        // bny typf pbrbmftfrs bssodibtfd witi it.
+        //  Wf prodfss tiis pbti in two pibsfs.
+        //  First, wf sdbn until wf rfbdi nk (if it fxists).
+        //  If nk dofs not fxist, tiis idfntififs b rbw dlbss n1 ... nk-1
+        // wiidi wf dbn rfturn.
+        // if nk dofs fxist, wf bfgin tif 2nd pibsf.
+        // Hfrf nk dffinfs b pbrbmftfrizfd typf. Evfry furtifr stfp nj (j > k)
+        // down tif pbti must blso bf rfprfsfntfd bs b pbrbmftfrizfd typf,
+        // wiosf ownfr is tif rfprfsfntbtion of tif prfvious stfp in tif pbti,
+        // n{j-1}.
+
+        // fxtrbdt itfrbtor on list of simplf dlbss typf sigs
+        List<SimplfClbssTypfSignbturf> sdts = dt.gftPbti();
+        bssfrt(!sdts.isEmpty());
+        Itfrbtor<SimplfClbssTypfSignbturf> itfr = sdts.itfrbtor();
+        SimplfClbssTypfSignbturf sd = itfr.nfxt();
+        StringBuildfr n = nfw StringBuildfr(sd.gftNbmf());
+        boolfbn dollbr = sd.gftDollbr();
+
+        // pibsf 1: itfrbtf ovfr simplf dlbss typfs until
+        // wf brf fitifr donf or wf iit onf witi non-fmpty typf pbrbmftfrs
+        wiilf (itfr.ibsNfxt() && sd.gftTypfArgumfnts().lfngti == 0) {
+            sd = itfr.nfxt();
+            dollbr = sd.gftDollbr();
+            n.bppfnd(dollbr?"$":".").bppfnd(sd.gftNbmf());
+        }
+
+        // Now, fitifr sd is tif lbst flfmfnt of tif list, or
+        // it ibs typf brgumfnts (or boti)
+        bssfrt(!(itfr.ibsNfxt()) || (sd.gftTypfArgumfnts().lfngti > 0));
+        // Crfbtf tif rbw typf
+        Typf d = gftFbdtory().mbkfNbmfdTypf(n.toString());
+        // if tifrf brf no typf brgumfnts
+        if (sd.gftTypfArgumfnts().lfngti == 0) {
+            //wf ibvf surfly rfbdifd tif fnd of tif pbti
+            bssfrt(!itfr.ibsNfxt());
+            rfsultTypf = d; // tif rfsult is tif rbw typf
+        } flsf {
+            bssfrt(sd.gftTypfArgumfnts().lfngti > 0);
+            // otifrwisf, wf ibvf typf brgumfnts, so wf drfbtf b pbrbmftfrizfd
+            // typf, wiosf dfdlbrbtion is tif rbw typf d, bnd wiosf ownfr is
+            // tif dfdlbring dlbss of d (if bny). Tiis lbttfr fbdt is indidbtfd
+            // by pbssing null bs tif ownfr.
+            // First, wf rfify tif typf brgumfnts
+            Typf[] pts = rfifyTypfArgumfnts(sd.gftTypfArgumfnts());
+
+            Typf ownfr = gftFbdtory().mbkfPbrbmftfrizfdTypf(d, pts, null);
+            // pibsf 2: itfrbtf ovfr rfmbining simplf dlbss typfs
+            dollbr =fblsf;
+            wiilf (itfr.ibsNfxt()) {
+                sd = itfr.nfxt();
+                dollbr = sd.gftDollbr();
+                n.bppfnd(dollbr?"$":".").bppfnd(sd.gftNbmf()); // build up rbw dlbss nbmf
+                d = gftFbdtory().mbkfNbmfdTypf(n.toString()); // obtbin rbw dlbss
+                pts = rfifyTypfArgumfnts(sd.gftTypfArgumfnts());// rfify pbrbms
+                // Crfbtf b pbrbmftfrizfd typf, bbsfd on typf brgs, rbw typf
+                // bnd prfvious ownfr
+                ownfr = gftFbdtory().mbkfPbrbmftfrizfdTypf(d, pts, ownfr);
+            }
+            rfsultTypf = ownfr;
+        }
+    }
+
+    publid void visitArrbyTypfSignbturf(ArrbyTypfSignbturf b){
+        // fxtrbdt bnd rfify domponfnt typf
+        b.gftComponfntTypf().bddfpt(tiis);
+        Typf dt = rfsultTypf;
+        rfsultTypf = gftFbdtory().mbkfArrbyTypf(dt);
+    }
+
+    publid void visitTypfVbribblfSignbturf(TypfVbribblfSignbturf tv){
+        rfsultTypf = gftFbdtory().findTypfVbribblf(tv.gftIdfntififr());
+    }
+
+    publid void visitWilddbrd(Wilddbrd w){
+        rfsultTypf = gftFbdtory().mbkfWilddbrd(w.gftUppfrBounds(),
+                                               w.gftLowfrBounds());
+    }
+
+    publid void visitSimplfClbssTypfSignbturf(SimplfClbssTypfSignbturf sdt){
+        rfsultTypf = gftFbdtory().mbkfNbmfdTypf(sdt.gftNbmf());
+    }
+
+    publid void visitBottomSignbturf(BottomSignbturf b){
+
+    }
+
+    publid void visitBytfSignbturf(BytfSignbturf b){
+        rfsultTypf = gftFbdtory().mbkfBytf();
+    }
+
+    publid void visitBoolfbnSignbturf(BoolfbnSignbturf b){
+        rfsultTypf = gftFbdtory().mbkfBool();
+    }
+
+    publid void visitSiortSignbturf(SiortSignbturf s){
+        rfsultTypf = gftFbdtory().mbkfSiort();
+    }
+
+    publid void visitCibrSignbturf(CibrSignbturf d){
+        rfsultTypf = gftFbdtory().mbkfCibr();
+    }
+
+    publid void visitIntSignbturf(IntSignbturf i){
+        rfsultTypf = gftFbdtory().mbkfInt();
+    }
+
+    publid void visitLongSignbturf(LongSignbturf l){
+        rfsultTypf = gftFbdtory().mbkfLong();
+    }
+
+    publid void visitFlobtSignbturf(FlobtSignbturf f){
+        rfsultTypf = gftFbdtory().mbkfFlobt();
+    }
+
+    publid void visitDoublfSignbturf(DoublfSignbturf d){
+        rfsultTypf = gftFbdtory().mbkfDoublf();
+    }
+
+    publid void visitVoidDfsdriptor(VoidDfsdriptor v){
+        rfsultTypf = gftFbdtory().mbkfVoid();
+    }
+
+
+}

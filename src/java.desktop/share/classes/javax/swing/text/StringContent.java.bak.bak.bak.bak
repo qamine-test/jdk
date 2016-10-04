@@ -1,499 +1,2495 @@
 /*
- * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
+pbdkbgf jbvbx.swing.tfxt;
 pbdkbgf jbvbx.swing.tfxt;
 
+
+
+
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Vfdtor;
 import jbvb.util.Vfdtor;
 import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.undo.*;
 import jbvbx.swing.undo.*;
 import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.SwingUtilitifs;
+
+
+
+
 
 /**
- * An implfmfntbtion of thf AbstrbdtDodumfnt.Contfnt intfrfbdf thbt is
- * b brutf fordf implfmfntbtion thbt is usfful for rflbtivfly smbll
- * dodumfnts bnd/or dfbugging.  It mbnbgfs thf dhbrbdtfr dontfnt
- * bs b simplf dhbrbdtfr brrby.  It is blso quitf infffidifnt.
+/**
+/**
+/**
+/**
+ * An implfmfntbtion of tif AbstrbdtDodumfnt.Contfnt intfrfbdf tibt is
+ * An implfmfntbtion of tif AbstrbdtDodumfnt.Contfnt intfrfbdf tibt is
+ * An implfmfntbtion of tif AbstrbdtDodumfnt.Contfnt intfrfbdf tibt is
+ * An implfmfntbtion of tif AbstrbdtDodumfnt.Contfnt intfrfbdf tibt is
+ * An implfmfntbtion of tif AbstrbdtDodumfnt.Contfnt intfrfbdf tibt is
+ * b brutf fordf implfmfntbtion tibt is usfful for rflbtivfly smbll
+ * b brutf fordf implfmfntbtion tibt is usfful for rflbtivfly smbll
+ * b brutf fordf implfmfntbtion tibt is usfful for rflbtivfly smbll
+ * b brutf fordf implfmfntbtion tibt is usfful for rflbtivfly smbll
+ * b brutf fordf implfmfntbtion tibt is usfful for rflbtivfly smbll
+ * dodumfnts bnd/or dfbugging.  It mbnbgfs tif dibrbdtfr dontfnt
+ * dodumfnts bnd/or dfbugging.  It mbnbgfs tif dibrbdtfr dontfnt
+ * dodumfnts bnd/or dfbugging.  It mbnbgfs tif dibrbdtfr dontfnt
+ * dodumfnts bnd/or dfbugging.  It mbnbgfs tif dibrbdtfr dontfnt
+ * dodumfnts bnd/or dfbugging.  It mbnbgfs tif dibrbdtfr dontfnt
+ * bs b simplf dibrbdtfr brrby.  It is blso quitf infffidifnt.
+ * bs b simplf dibrbdtfr brrby.  It is blso quitf infffidifnt.
+ * bs b simplf dibrbdtfr brrby.  It is blso quitf infffidifnt.
+ * bs b simplf dibrbdtfr brrby.  It is blso quitf infffidifnt.
+ * bs b simplf dibrbdtfr brrby.  It is blso quitf infffidifnt.
  * <p>
- * It is gfnfrblly rfdommfndfd thbt thf gbp bufffr or pifdf tbblf
- * implfmfntbtions bf usfd instfbd.  This bufffr dofs not sdblf up
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * It is gfnfrblly rfdommfndfd tibt tif gbp bufffr or pifdf tbblf
+ * It is gfnfrblly rfdommfndfd tibt tif gbp bufffr or pifdf tbblf
+ * It is gfnfrblly rfdommfndfd tibt tif gbp bufffr or pifdf tbblf
+ * It is gfnfrblly rfdommfndfd tibt tif gbp bufffr or pifdf tbblf
+ * It is gfnfrblly rfdommfndfd tibt tif gbp bufffr or pifdf tbblf
+ * implfmfntbtions bf usfd instfbd.  Tiis bufffr dofs not sdblf up
+ * implfmfntbtions bf usfd instfbd.  Tiis bufffr dofs not sdblf up
+ * implfmfntbtions bf usfd instfbd.  Tiis bufffr dofs not sdblf up
+ * implfmfntbtions bf usfd instfbd.  Tiis bufffr dofs not sdblf up
+ * implfmfntbtions bf usfd instfbd.  Tiis bufffr dofs not sdblf up
+ * to lbrgf sizfs.
+ * to lbrgf sizfs.
+ * to lbrgf sizfs.
+ * to lbrgf sizfs.
  * to lbrgf sizfs.
  * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <strong>Wbrning:</strong>
- * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
- * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
- * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
- * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
  * of bll JbvbBfbns&trbdf;
- * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @buthor  Timothy Prinzing
+ *
+ *
+ *
+ *
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ * @butior  Timotiy Prinzing
+ */
+ */
+ */
+ */
  */
 @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl dlbss StringContfnt implfmfnts AbstrbdtDodumfnt.Contfnt, Sfriblizbblf {
+publid finbl dlbss StringContfnt implfmfnts AbstrbdtDodumfnt.Contfnt, Sfriblizbblf {
+publid finbl dlbss StringContfnt implfmfnts AbstrbdtDodumfnt.Contfnt, Sfriblizbblf {
+publid finbl dlbss StringContfnt implfmfnts AbstrbdtDodumfnt.Contfnt, Sfriblizbblf {
 publid finbl dlbss StringContfnt implfmfnts AbstrbdtDodumfnt.Contfnt, Sfriblizbblf {
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b nfw StringContfnt objfdt.  Initibl sizf dffbults to 10.
+     * Crfbtfs b nfw StringContfnt objfdt.  Initibl sizf dffbults to 10.
+     * Crfbtfs b nfw StringContfnt objfdt.  Initibl sizf dffbults to 10.
+     * Crfbtfs b nfw StringContfnt objfdt.  Initibl sizf dffbults to 10.
+     * Crfbtfs b nfw StringContfnt objfdt.  Initibl sizf dffbults to 10.
+     */
+     */
+     */
+     */
      */
     publid StringContfnt() {
-        this(10);
+    publid StringContfnt() {
+    publid StringContfnt() {
+    publid StringContfnt() {
+    publid StringContfnt() {
+        tiis(10);
+        tiis(10);
+        tiis(10);
+        tiis(10);
+        tiis(10);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b nfw StringContfnt objfdt, with thf initibl
-     * sizf spfdififd.  If thf lfngth is &lt; 1, b sizf of 1 is usfd.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw StringContfnt objfdt, witi tif initibl
+     * Crfbtfs b nfw StringContfnt objfdt, witi tif initibl
+     * Crfbtfs b nfw StringContfnt objfdt, witi tif initibl
+     * Crfbtfs b nfw StringContfnt objfdt, witi tif initibl
+     * Crfbtfs b nfw StringContfnt objfdt, witi tif initibl
+     * sizf spfdififd.  If tif lfngti is &lt; 1, b sizf of 1 is usfd.
+     * sizf spfdififd.  If tif lfngti is &lt; 1, b sizf of 1 is usfd.
+     * sizf spfdififd.  If tif lfngti is &lt; 1, b sizf of 1 is usfd.
+     * sizf spfdififd.  If tif lfngti is &lt; 1, b sizf of 1 is usfd.
+     * sizf spfdififd.  If tif lfngti is &lt; 1, b sizf of 1 is usfd.
      *
-     * @pbrbm initiblLfngth thf initibl sizf
+     *
+     *
+     *
+     *
+     * @pbrbm initiblLfngti tif initibl sizf
+     * @pbrbm initiblLfngti tif initibl sizf
+     * @pbrbm initiblLfngti tif initibl sizf
+     * @pbrbm initiblLfngti tif initibl sizf
+     * @pbrbm initiblLfngti tif initibl sizf
      */
-    publid StringContfnt(int initiblLfngth) {
-        if (initiblLfngth < 1) {
-            initiblLfngth = 1;
+     */
+     */
+     */
+     */
+    publid StringContfnt(int initiblLfngti) {
+    publid StringContfnt(int initiblLfngti) {
+    publid StringContfnt(int initiblLfngti) {
+    publid StringContfnt(int initiblLfngti) {
+    publid StringContfnt(int initiblLfngti) {
+        if (initiblLfngti < 1) {
+        if (initiblLfngti < 1) {
+        if (initiblLfngti < 1) {
+        if (initiblLfngti < 1) {
+        if (initiblLfngti < 1) {
+            initiblLfngti = 1;
+            initiblLfngti = 1;
+            initiblLfngti = 1;
+            initiblLfngti = 1;
+            initiblLfngti = 1;
         }
-        dbtb = nfw dhbr[initiblLfngth];
+        }
+        }
+        }
+        }
+        dbtb = nfw dibr[initiblLfngti];
+        dbtb = nfw dibr[initiblLfngti];
+        dbtb = nfw dibr[initiblLfngti];
+        dbtb = nfw dibr[initiblLfngti];
+        dbtb = nfw dibr[initiblLfngti];
+        dbtb[0] = '\n';
+        dbtb[0] = '\n';
+        dbtb[0] = '\n';
+        dbtb[0] = '\n';
         dbtb[0] = '\n';
         dount = 1;
+        dount = 1;
+        dount = 1;
+        dount = 1;
+        dount = 1;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf lfngth of thf dontfnt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif lfngti of tif dontfnt.
+     * Rfturns tif lfngti of tif dontfnt.
+     * Rfturns tif lfngti of tif dontfnt.
+     * Rfturns tif lfngti of tif dontfnt.
+     * Rfturns tif lfngti of tif dontfnt.
      *
-     * @rfturn thf lfngth &gt;= 1
-     * @sff AbstrbdtDodumfnt.Contfnt#lfngth
+     *
+     *
+     *
+     *
+     * @rfturn tif lfngti &gt;= 1
+     * @rfturn tif lfngti &gt;= 1
+     * @rfturn tif lfngti &gt;= 1
+     * @rfturn tif lfngti &gt;= 1
+     * @rfturn tif lfngti &gt;= 1
+     * @sff AbstrbdtDodumfnt.Contfnt#lfngti
+     * @sff AbstrbdtDodumfnt.Contfnt#lfngti
+     * @sff AbstrbdtDodumfnt.Contfnt#lfngti
+     * @sff AbstrbdtDodumfnt.Contfnt#lfngti
+     * @sff AbstrbdtDodumfnt.Contfnt#lfngti
      */
-    publid int lfngth() {
+     */
+     */
+     */
+     */
+    publid int lfngti() {
+    publid int lfngti() {
+    publid int lfngti() {
+    publid int lfngti() {
+    publid int lfngti() {
+        rfturn dount;
+        rfturn dount;
+        rfturn dount;
+        rfturn dount;
         rfturn dount;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Insfrts b string into thf dontfnt.
+    /**
+    /**
+    /**
+    /**
+     * Insfrts b string into tif dontfnt.
+     * Insfrts b string into tif dontfnt.
+     * Insfrts b string into tif dontfnt.
+     * Insfrts b string into tif dontfnt.
+     * Insfrts b string into tif dontfnt.
      *
-     * @pbrbm whfrf thf stbrting position &gt;= 0 &bmp;&bmp; &lt; lfngth()
-     * @pbrbm str thf non-null string to insfrt
+     *
+     *
+     *
+     *
+     * @pbrbm wifrf tif stbrting position &gt;= 0 &bmp;&bmp; &lt; lfngti()
+     * @pbrbm wifrf tif stbrting position &gt;= 0 &bmp;&bmp; &lt; lfngti()
+     * @pbrbm wifrf tif stbrting position &gt;= 0 &bmp;&bmp; &lt; lfngti()
+     * @pbrbm wifrf tif stbrting position &gt;= 0 &bmp;&bmp; &lt; lfngti()
+     * @pbrbm wifrf tif stbrting position &gt;= 0 &bmp;&bmp; &lt; lfngti()
+     * @pbrbm str tif non-null string to insfrt
+     * @pbrbm str tif non-null string to insfrt
+     * @pbrbm str tif non-null string to insfrt
+     * @pbrbm str tif non-null string to insfrt
+     * @pbrbm str tif non-null string to insfrt
      * @rfturn bn UndobblfEdit objfdt for undoing
-     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#insfrtString
+     * @sff AbstrbdtDodumfnt.Contfnt#insfrtString
+     * @sff AbstrbdtDodumfnt.Contfnt#insfrtString
+     * @sff AbstrbdtDodumfnt.Contfnt#insfrtString
      * @sff AbstrbdtDodumfnt.Contfnt#insfrtString
      */
-    publid UndobblfEdit insfrtString(int whfrf, String str) throws BbdLodbtionExdfption {
-        if (whfrf >= dount || whfrf < 0) {
-            throw nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+     */
+     */
+     */
+     */
+    publid UndobblfEdit insfrtString(int wifrf, String str) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit insfrtString(int wifrf, String str) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit insfrtString(int wifrf, String str) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit insfrtString(int wifrf, String str) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit insfrtString(int wifrf, String str) tirows BbdLodbtionExdfption {
+        if (wifrf >= dount || wifrf < 0) {
+        if (wifrf >= dount || wifrf < 0) {
+        if (wifrf >= dount || wifrf < 0) {
+        if (wifrf >= dount || wifrf < 0) {
+        if (wifrf >= dount || wifrf < 0) {
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
         }
-        dhbr[] dhbrs = str.toChbrArrby();
-        rfplbdf(whfrf, 0, dhbrs, 0, dhbrs.lfngth);
+        }
+        }
+        }
+        }
+        dibr[] dibrs = str.toCibrArrby();
+        dibr[] dibrs = str.toCibrArrby();
+        dibr[] dibrs = str.toCibrArrby();
+        dibr[] dibrs = str.toCibrArrby();
+        dibr[] dibrs = str.toCibrArrby();
+        rfplbdf(wifrf, 0, dibrs, 0, dibrs.lfngti);
+        rfplbdf(wifrf, 0, dibrs, 0, dibrs.lfngti);
+        rfplbdf(wifrf, 0, dibrs, 0, dibrs.lfngti);
+        rfplbdf(wifrf, 0, dibrs, 0, dibrs.lfngti);
+        rfplbdf(wifrf, 0, dibrs, 0, dibrs.lfngti);
         if (mbrks != null) {
-            updbtfMbrksForInsfrt(whfrf, str.lfngth());
+        if (mbrks != null) {
+        if (mbrks != null) {
+        if (mbrks != null) {
+        if (mbrks != null) {
+            updbtfMbrksForInsfrt(wifrf, str.lfngti());
+            updbtfMbrksForInsfrt(wifrf, str.lfngti());
+            updbtfMbrksForInsfrt(wifrf, str.lfngti());
+            updbtfMbrksForInsfrt(wifrf, str.lfngti());
+            updbtfMbrksForInsfrt(wifrf, str.lfngti());
         }
-        rfturn nfw InsfrtUndo(whfrf, str.lfngth());
+        }
+        }
+        }
+        }
+        rfturn nfw InsfrtUndo(wifrf, str.lfngti());
+        rfturn nfw InsfrtUndo(wifrf, str.lfngti());
+        rfturn nfw InsfrtUndo(wifrf, str.lfngti());
+        rfturn nfw InsfrtUndo(wifrf, str.lfngti());
+        rfturn nfw InsfrtUndo(wifrf, str.lfngti());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfmovfs pbrt of thf dontfnt.  whfrf + nitfms must bf &lt; lfngth().
+    /**
+    /**
+    /**
+    /**
+     * Rfmovfs pbrt of tif dontfnt.  wifrf + nitfms must bf &lt; lfngti().
+     * Rfmovfs pbrt of tif dontfnt.  wifrf + nitfms must bf &lt; lfngti().
+     * Rfmovfs pbrt of tif dontfnt.  wifrf + nitfms must bf &lt; lfngti().
+     * Rfmovfs pbrt of tif dontfnt.  wifrf + nitfms must bf &lt; lfngti().
+     * Rfmovfs pbrt of tif dontfnt.  wifrf + nitfms must bf &lt; lfngti().
      *
-     * @pbrbm whfrf thf stbrting position &gt;= 0
-     * @pbrbm nitfms thf numbfr of dhbrbdtfrs to rfmovf &gt;= 0
+     *
+     *
+     *
+     *
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm nitfms tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm nitfms tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm nitfms tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm nitfms tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @pbrbm nitfms tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
      * @rfturn bn UndobblfEdit objfdt for undoing
-     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#rfmovf
+     * @sff AbstrbdtDodumfnt.Contfnt#rfmovf
+     * @sff AbstrbdtDodumfnt.Contfnt#rfmovf
+     * @sff AbstrbdtDodumfnt.Contfnt#rfmovf
      * @sff AbstrbdtDodumfnt.Contfnt#rfmovf
      */
-    publid UndobblfEdit rfmovf(int whfrf, int nitfms) throws BbdLodbtionExdfption {
-        if (whfrf + nitfms >= dount) {
-            throw nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+     */
+     */
+     */
+     */
+    publid UndobblfEdit rfmovf(int wifrf, int nitfms) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit rfmovf(int wifrf, int nitfms) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit rfmovf(int wifrf, int nitfms) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit rfmovf(int wifrf, int nitfms) tirows BbdLodbtionExdfption {
+    publid UndobblfEdit rfmovf(int wifrf, int nitfms) tirows BbdLodbtionExdfption {
+        if (wifrf + nitfms >= dount) {
+        if (wifrf + nitfms >= dount) {
+        if (wifrf + nitfms >= dount) {
+        if (wifrf + nitfms >= dount) {
+        if (wifrf + nitfms >= dount) {
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
         }
-        String rfmovfdString = gftString(whfrf, nitfms);
-        UndobblfEdit fdit = nfw RfmovfUndo(whfrf, rfmovfdString);
-        rfplbdf(whfrf, nitfms, fmpty, 0, 0);
+        }
+        }
+        }
+        }
+        String rfmovfdString = gftString(wifrf, nitfms);
+        String rfmovfdString = gftString(wifrf, nitfms);
+        String rfmovfdString = gftString(wifrf, nitfms);
+        String rfmovfdString = gftString(wifrf, nitfms);
+        String rfmovfdString = gftString(wifrf, nitfms);
+        UndobblfEdit fdit = nfw RfmovfUndo(wifrf, rfmovfdString);
+        UndobblfEdit fdit = nfw RfmovfUndo(wifrf, rfmovfdString);
+        UndobblfEdit fdit = nfw RfmovfUndo(wifrf, rfmovfdString);
+        UndobblfEdit fdit = nfw RfmovfUndo(wifrf, rfmovfdString);
+        UndobblfEdit fdit = nfw RfmovfUndo(wifrf, rfmovfdString);
+        rfplbdf(wifrf, nitfms, fmpty, 0, 0);
+        rfplbdf(wifrf, nitfms, fmpty, 0, 0);
+        rfplbdf(wifrf, nitfms, fmpty, 0, 0);
+        rfplbdf(wifrf, nitfms, fmpty, 0, 0);
+        rfplbdf(wifrf, nitfms, fmpty, 0, 0);
         if (mbrks != null) {
-            updbtfMbrksForRfmovf(whfrf, nitfms);
+        if (mbrks != null) {
+        if (mbrks != null) {
+        if (mbrks != null) {
+        if (mbrks != null) {
+            updbtfMbrksForRfmovf(wifrf, nitfms);
+            updbtfMbrksForRfmovf(wifrf, nitfms);
+            updbtfMbrksForRfmovf(wifrf, nitfms);
+            updbtfMbrksForRfmovf(wifrf, nitfms);
+            updbtfMbrksForRfmovf(wifrf, nitfms);
+        }
+        }
+        }
+        }
         }
         rfturn fdit;
+        rfturn fdit;
+        rfturn fdit;
+        rfturn fdit;
+        rfturn fdit;
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rftrifvfs b portion of thf dontfnt.  whfrf + lfn must bf &lt;= lfngth().
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti().
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti().
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti().
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti().
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti().
      *
-     * @pbrbm whfrf thf stbrting position &gt;= 0
-     * @pbrbm lfn thf lfngth to rftrifvf &gt;= 0
-     * @rfturn b string rfprfsfnting thf dontfnt; mby bf fmpty
-     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     *
+     *
+     *
+     *
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm lfn tif lfngti to rftrifvf &gt;= 0
+     * @pbrbm lfn tif lfngti to rftrifvf &gt;= 0
+     * @pbrbm lfn tif lfngti to rftrifvf &gt;= 0
+     * @pbrbm lfn tif lfngti to rftrifvf &gt;= 0
+     * @pbrbm lfn tif lfngti to rftrifvf &gt;= 0
+     * @rfturn b string rfprfsfnting tif dontfnt; mby bf fmpty
+     * @rfturn b string rfprfsfnting tif dontfnt; mby bf fmpty
+     * @rfturn b string rfprfsfnting tif dontfnt; mby bf fmpty
+     * @rfturn b string rfprfsfnting tif dontfnt; mby bf fmpty
+     * @rfturn b string rfprfsfnting tif dontfnt; mby bf fmpty
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#gftString
+     * @sff AbstrbdtDodumfnt.Contfnt#gftString
+     * @sff AbstrbdtDodumfnt.Contfnt#gftString
+     * @sff AbstrbdtDodumfnt.Contfnt#gftString
      * @sff AbstrbdtDodumfnt.Contfnt#gftString
      */
-    publid String gftString(int whfrf, int lfn) throws BbdLodbtionExdfption {
-        if (whfrf + lfn > dount) {
-            throw nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+     */
+     */
+     */
+     */
+    publid String gftString(int wifrf, int lfn) tirows BbdLodbtionExdfption {
+    publid String gftString(int wifrf, int lfn) tirows BbdLodbtionExdfption {
+    publid String gftString(int wifrf, int lfn) tirows BbdLodbtionExdfption {
+    publid String gftString(int wifrf, int lfn) tirows BbdLodbtionExdfption {
+    publid String gftString(int wifrf, int lfn) tirows BbdLodbtionExdfption {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid rbngf", dount);
         }
-        rfturn nfw String(dbtb, whfrf, lfn);
+        }
+        }
+        }
+        }
+        rfturn nfw String(dbtb, wifrf, lfn);
+        rfturn nfw String(dbtb, wifrf, lfn);
+        rfturn nfw String(dbtb, wifrf, lfn);
+        rfturn nfw String(dbtb, wifrf, lfn);
+        rfturn nfw String(dbtb, wifrf, lfn);
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Rftrifvfs b portion of thf dontfnt.  whfrf + lfn must bf &lt;= lfngth()
-     *
-     * @pbrbm whfrf thf stbrting position &gt;= 0
-     * @pbrbm lfn thf numbfr of dhbrbdtfrs to rftrifvf &gt;= 0
-     * @pbrbm dhbrs thf Sfgmfnt objfdt to rfturn thf dhbrbdtfrs in
-     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
-     * @sff AbstrbdtDodumfnt.Contfnt#gftChbrs
-     */
-    publid void gftChbrs(int whfrf, int lfn, Sfgmfnt dhbrs) throws BbdLodbtionExdfption {
-        if (whfrf + lfn > dount) {
-            throw nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
-        }
-        dhbrs.brrby = dbtb;
-        dhbrs.offsft = whfrf;
-        dhbrs.dount = lfn;
-    }
+
+
+
 
     /**
-     * Crfbtfs b position within thf dontfnt thbt will
-     * trbdk dhbngf bs thf dontfnt is mutbtfd.
+    /**
+    /**
+    /**
+    /**
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti()
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti()
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti()
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti()
+     * Rftrifvfs b portion of tif dontfnt.  wifrf + lfn must bf &lt;= lfngti()
      *
-     * @pbrbm offsft thf offsft to drfbtf b position for &gt;= 0
-     * @rfturn thf position
-     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     *
+     *
+     *
+     *
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to rftrifvf &gt;= 0
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to rftrifvf &gt;= 0
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to rftrifvf &gt;= 0
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to rftrifvf &gt;= 0
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to rftrifvf &gt;= 0
+     * @pbrbm dibrs tif Sfgmfnt objfdt to rfturn tif dibrbdtfrs in
+     * @pbrbm dibrs tif Sfgmfnt objfdt to rfturn tif dibrbdtfrs in
+     * @pbrbm dibrs tif Sfgmfnt objfdt to rfturn tif dibrbdtfrs in
+     * @pbrbm dibrs tif Sfgmfnt objfdt to rfturn tif dibrbdtfrs in
+     * @pbrbm dibrs tif Sfgmfnt objfdt to rfturn tif dibrbdtfrs in
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#gftCibrs
+     * @sff AbstrbdtDodumfnt.Contfnt#gftCibrs
+     * @sff AbstrbdtDodumfnt.Contfnt#gftCibrs
+     * @sff AbstrbdtDodumfnt.Contfnt#gftCibrs
+     * @sff AbstrbdtDodumfnt.Contfnt#gftCibrs
      */
-    publid Position drfbtfPosition(int offsft) throws BbdLodbtionExdfption {
-        // somf smbll dodumfnts won't hbvf bny stidky positions
-        // bt bll, so thf bufffr is drfbtfd lbzily.
+     */
+     */
+     */
+     */
+    publid void gftCibrs(int wifrf, int lfn, Sfgmfnt dibrs) tirows BbdLodbtionExdfption {
+    publid void gftCibrs(int wifrf, int lfn, Sfgmfnt dibrs) tirows BbdLodbtionExdfption {
+    publid void gftCibrs(int wifrf, int lfn, Sfgmfnt dibrs) tirows BbdLodbtionExdfption {
+    publid void gftCibrs(int wifrf, int lfn, Sfgmfnt dibrs) tirows BbdLodbtionExdfption {
+    publid void gftCibrs(int wifrf, int lfn, Sfgmfnt dibrs) tirows BbdLodbtionExdfption {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+        if (wifrf + lfn > dount) {
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+        }
+        }
+        }
+        }
+        }
+        dibrs.brrby = dbtb;
+        dibrs.brrby = dbtb;
+        dibrs.brrby = dbtb;
+        dibrs.brrby = dbtb;
+        dibrs.brrby = dbtb;
+        dibrs.offsft = wifrf;
+        dibrs.offsft = wifrf;
+        dibrs.offsft = wifrf;
+        dibrs.offsft = wifrf;
+        dibrs.offsft = wifrf;
+        dibrs.dount = lfn;
+        dibrs.dount = lfn;
+        dibrs.dount = lfn;
+        dibrs.dount = lfn;
+        dibrs.dount = lfn;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b position witiin tif dontfnt tibt will
+     * Crfbtfs b position witiin tif dontfnt tibt will
+     * Crfbtfs b position witiin tif dontfnt tibt will
+     * Crfbtfs b position witiin tif dontfnt tibt will
+     * Crfbtfs b position witiin tif dontfnt tibt will
+     * trbdk dibngf bs tif dontfnt is mutbtfd.
+     * trbdk dibngf bs tif dontfnt is mutbtfd.
+     * trbdk dibngf bs tif dontfnt is mutbtfd.
+     * trbdk dibngf bs tif dontfnt is mutbtfd.
+     * trbdk dibngf bs tif dontfnt is mutbtfd.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm offsft tif offsft to drfbtf b position for &gt;= 0
+     * @pbrbm offsft tif offsft to drfbtf b position for &gt;= 0
+     * @pbrbm offsft tif offsft to drfbtf b position for &gt;= 0
+     * @pbrbm offsft tif offsft to drfbtf b position for &gt;= 0
+     * @pbrbm offsft tif offsft to drfbtf b position for &gt;= 0
+     * @rfturn tif position
+     * @rfturn tif position
+     * @rfturn tif position
+     * @rfturn tif position
+     * @rfturn tif position
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     */
+     */
+     */
+     */
+     */
+    publid Position drfbtfPosition(int offsft) tirows BbdLodbtionExdfption {
+    publid Position drfbtfPosition(int offsft) tirows BbdLodbtionExdfption {
+    publid Position drfbtfPosition(int offsft) tirows BbdLodbtionExdfption {
+    publid Position drfbtfPosition(int offsft) tirows BbdLodbtionExdfption {
+    publid Position drfbtfPosition(int offsft) tirows BbdLodbtionExdfption {
+        // somf smbll dodumfnts won't ibvf bny stidky positions
+        // somf smbll dodumfnts won't ibvf bny stidky positions
+        // somf smbll dodumfnts won't ibvf bny stidky positions
+        // somf smbll dodumfnts won't ibvf bny stidky positions
+        // somf smbll dodumfnts won't ibvf bny stidky positions
+        // bt bll, so tif bufffr is drfbtfd lbzily.
+        // bt bll, so tif bufffr is drfbtfd lbzily.
+        // bt bll, so tif bufffr is drfbtfd lbzily.
+        // bt bll, so tif bufffr is drfbtfd lbzily.
+        // bt bll, so tif bufffr is drfbtfd lbzily.
+        if (mbrks == null) {
+        if (mbrks == null) {
+        if (mbrks == null) {
+        if (mbrks == null) {
         if (mbrks == null) {
             mbrks = nfw Vfdtor<PosRfd>();
+            mbrks = nfw Vfdtor<PosRfd>();
+            mbrks = nfw Vfdtor<PosRfd>();
+            mbrks = nfw Vfdtor<PosRfd>();
+            mbrks = nfw Vfdtor<PosRfd>();
+        }
+        }
+        }
+        }
         }
         rfturn nfw StidkyPosition(offsft);
+        rfturn nfw StidkyPosition(offsft);
+        rfturn nfw StidkyPosition(offsft);
+        rfturn nfw StidkyPosition(offsft);
+        rfturn nfw StidkyPosition(offsft);
+    }
+    }
+    }
+    }
     }
 
-    // --- lodbl mfthods ---------------------------------------
+
+
+
+
+    // --- lodbl mftiods ---------------------------------------
+    // --- lodbl mftiods ---------------------------------------
+    // --- lodbl mftiods ---------------------------------------
+    // --- lodbl mftiods ---------------------------------------
+    // --- lodbl mftiods ---------------------------------------
+
+
+
+
 
     /**
-     * Rfplbdfs somf of thf dhbrbdtfrs in thf brrby
-     * @pbrbm offsft  offsft into thf brrby to stbrt thf rfplbdf
-     * @pbrbm lfngth  numbfr of dhbrbdtfrs to rfmovf
+    /**
+    /**
+    /**
+    /**
+     * Rfplbdfs somf of tif dibrbdtfrs in tif brrby
+     * Rfplbdfs somf of tif dibrbdtfrs in tif brrby
+     * Rfplbdfs somf of tif dibrbdtfrs in tif brrby
+     * Rfplbdfs somf of tif dibrbdtfrs in tif brrby
+     * Rfplbdfs somf of tif dibrbdtfrs in tif brrby
+     * @pbrbm offsft  offsft into tif brrby to stbrt tif rfplbdf
+     * @pbrbm offsft  offsft into tif brrby to stbrt tif rfplbdf
+     * @pbrbm offsft  offsft into tif brrby to stbrt tif rfplbdf
+     * @pbrbm offsft  offsft into tif brrby to stbrt tif rfplbdf
+     * @pbrbm offsft  offsft into tif brrby to stbrt tif rfplbdf
+     * @pbrbm lfngti  numbfr of dibrbdtfrs to rfmovf
+     * @pbrbm lfngti  numbfr of dibrbdtfrs to rfmovf
+     * @pbrbm lfngti  numbfr of dibrbdtfrs to rfmovf
+     * @pbrbm lfngti  numbfr of dibrbdtfrs to rfmovf
+     * @pbrbm lfngti  numbfr of dibrbdtfrs to rfmovf
      * @pbrbm rfplArrby rfplbdfmfnt brrby
-     * @pbrbm rfplOffsft offsft into thf rfplbdfmfnt brrby
-     * @pbrbm rfplLfngth numbfr of dhbrbdtfr to usf from thf
+     * @pbrbm rfplArrby rfplbdfmfnt brrby
+     * @pbrbm rfplArrby rfplbdfmfnt brrby
+     * @pbrbm rfplArrby rfplbdfmfnt brrby
+     * @pbrbm rfplArrby rfplbdfmfnt brrby
+     * @pbrbm rfplOffsft offsft into tif rfplbdfmfnt brrby
+     * @pbrbm rfplOffsft offsft into tif rfplbdfmfnt brrby
+     * @pbrbm rfplOffsft offsft into tif rfplbdfmfnt brrby
+     * @pbrbm rfplOffsft offsft into tif rfplbdfmfnt brrby
+     * @pbrbm rfplOffsft offsft into tif rfplbdfmfnt brrby
+     * @pbrbm rfplLfngti numbfr of dibrbdtfr to usf from tif
+     * @pbrbm rfplLfngti numbfr of dibrbdtfr to usf from tif
+     * @pbrbm rfplLfngti numbfr of dibrbdtfr to usf from tif
+     * @pbrbm rfplLfngti numbfr of dibrbdtfr to usf from tif
+     * @pbrbm rfplLfngti numbfr of dibrbdtfr to usf from tif
+     *   rfplbdfmfnt brrby.
+     *   rfplbdfmfnt brrby.
+     *   rfplbdfmfnt brrby.
+     *   rfplbdfmfnt brrby.
      *   rfplbdfmfnt brrby.
      */
-    void rfplbdf(int offsft, int lfngth,
-                 dhbr[] rfplArrby, int rfplOffsft, int rfplLfngth) {
-        int dfltb = rfplLfngth - lfngth;
-        int srd = offsft + lfngth;
+     */
+     */
+     */
+     */
+    void rfplbdf(int offsft, int lfngti,
+    void rfplbdf(int offsft, int lfngti,
+    void rfplbdf(int offsft, int lfngti,
+    void rfplbdf(int offsft, int lfngti,
+    void rfplbdf(int offsft, int lfngti,
+                 dibr[] rfplArrby, int rfplOffsft, int rfplLfngti) {
+                 dibr[] rfplArrby, int rfplOffsft, int rfplLfngti) {
+                 dibr[] rfplArrby, int rfplOffsft, int rfplLfngti) {
+                 dibr[] rfplArrby, int rfplOffsft, int rfplLfngti) {
+                 dibr[] rfplArrby, int rfplOffsft, int rfplLfngti) {
+        int dfltb = rfplLfngti - lfngti;
+        int dfltb = rfplLfngti - lfngti;
+        int dfltb = rfplLfngti - lfngti;
+        int dfltb = rfplLfngti - lfngti;
+        int dfltb = rfplLfngti - lfngti;
+        int srd = offsft + lfngti;
+        int srd = offsft + lfngti;
+        int srd = offsft + lfngti;
+        int srd = offsft + lfngti;
+        int srd = offsft + lfngti;
+        int nmovf = dount - srd;
+        int nmovf = dount - srd;
+        int nmovf = dount - srd;
+        int nmovf = dount - srd;
         int nmovf = dount - srd;
         int dfst = srd + dfltb;
-        if ((dount + dfltb) >= dbtb.lfngth) {
-            // nffd to grow thf brrby
-            int nfwLfngth = Mbth.mbx(2*dbtb.lfngth, dount + dfltb);
-            dhbr[] nfwDbtb = nfw dhbr[nfwLfngth];
+        int dfst = srd + dfltb;
+        int dfst = srd + dfltb;
+        int dfst = srd + dfltb;
+        int dfst = srd + dfltb;
+        if ((dount + dfltb) >= dbtb.lfngti) {
+        if ((dount + dfltb) >= dbtb.lfngti) {
+        if ((dount + dfltb) >= dbtb.lfngti) {
+        if ((dount + dfltb) >= dbtb.lfngti) {
+        if ((dount + dfltb) >= dbtb.lfngti) {
+            // nffd to grow tif brrby
+            // nffd to grow tif brrby
+            // nffd to grow tif brrby
+            // nffd to grow tif brrby
+            // nffd to grow tif brrby
+            int nfwLfngti = Mbti.mbx(2*dbtb.lfngti, dount + dfltb);
+            int nfwLfngti = Mbti.mbx(2*dbtb.lfngti, dount + dfltb);
+            int nfwLfngti = Mbti.mbx(2*dbtb.lfngti, dount + dfltb);
+            int nfwLfngti = Mbti.mbx(2*dbtb.lfngti, dount + dfltb);
+            int nfwLfngti = Mbti.mbx(2*dbtb.lfngti, dount + dfltb);
+            dibr[] nfwDbtb = nfw dibr[nfwLfngti];
+            dibr[] nfwDbtb = nfw dibr[nfwLfngti];
+            dibr[] nfwDbtb = nfw dibr[nfwLfngti];
+            dibr[] nfwDbtb = nfw dibr[nfwLfngti];
+            dibr[] nfwDbtb = nfw dibr[nfwLfngti];
             Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, offsft);
-            Systfm.brrbydopy(rfplArrby, rfplOffsft, nfwDbtb, offsft, rfplLfngth);
+            Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, offsft);
+            Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, offsft);
+            Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, offsft);
+            Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, offsft);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, nfwDbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, nfwDbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, nfwDbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, nfwDbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, nfwDbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(dbtb, srd, nfwDbtb, dfst, nmovf);
+            Systfm.brrbydopy(dbtb, srd, nfwDbtb, dfst, nmovf);
+            Systfm.brrbydopy(dbtb, srd, nfwDbtb, dfst, nmovf);
+            Systfm.brrbydopy(dbtb, srd, nfwDbtb, dfst, nmovf);
             Systfm.brrbydopy(dbtb, srd, nfwDbtb, dfst, nmovf);
             dbtb = nfwDbtb;
+            dbtb = nfwDbtb;
+            dbtb = nfwDbtb;
+            dbtb = nfwDbtb;
+            dbtb = nfwDbtb;
         } flsf {
-            // pbtdh thf fxisting brrby
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            // pbtdi tif fxisting brrby
+            // pbtdi tif fxisting brrby
+            // pbtdi tif fxisting brrby
+            // pbtdi tif fxisting brrby
+            // pbtdi tif fxisting brrby
             Systfm.brrbydopy(dbtb, srd, dbtb, dfst, nmovf);
-            Systfm.brrbydopy(rfplArrby, rfplOffsft, dbtb, offsft, rfplLfngth);
+            Systfm.brrbydopy(dbtb, srd, dbtb, dfst, nmovf);
+            Systfm.brrbydopy(dbtb, srd, dbtb, dfst, nmovf);
+            Systfm.brrbydopy(dbtb, srd, dbtb, dfst, nmovf);
+            Systfm.brrbydopy(dbtb, srd, dbtb, dfst, nmovf);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, dbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, dbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, dbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, dbtb, offsft, rfplLfngti);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, dbtb, offsft, rfplLfngti);
+        }
+        }
+        }
+        }
         }
         dount = dount + dfltb;
+        dount = dount + dfltb;
+        dount = dount + dfltb;
+        dount = dount + dfltb;
+        dount = dount + dfltb;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     void rfsizf(int ndount) {
-        dhbr[] ndbtb = nfw dhbr[ndount];
-        Systfm.brrbydopy(dbtb, 0, ndbtb, 0, Mbth.min(ndount, dount));
+    void rfsizf(int ndount) {
+    void rfsizf(int ndount) {
+    void rfsizf(int ndount) {
+    void rfsizf(int ndount) {
+        dibr[] ndbtb = nfw dibr[ndount];
+        dibr[] ndbtb = nfw dibr[ndount];
+        dibr[] ndbtb = nfw dibr[ndount];
+        dibr[] ndbtb = nfw dibr[ndount];
+        dibr[] ndbtb = nfw dibr[ndount];
+        Systfm.brrbydopy(dbtb, 0, ndbtb, 0, Mbti.min(ndount, dount));
+        Systfm.brrbydopy(dbtb, 0, ndbtb, 0, Mbti.min(ndount, dount));
+        Systfm.brrbydopy(dbtb, 0, ndbtb, 0, Mbti.min(ndount, dount));
+        Systfm.brrbydopy(dbtb, 0, ndbtb, 0, Mbti.min(ndount, dount));
+        Systfm.brrbydopy(dbtb, 0, ndbtb, 0, Mbti.min(ndount, dount));
+        dbtb = ndbtb;
+        dbtb = ndbtb;
+        dbtb = ndbtb;
+        dbtb = ndbtb;
         dbtb = ndbtb;
     }
+    }
+    }
+    }
+    }
 
-    syndhronizfd void updbtfMbrksForInsfrt(int offsft, int lfngth) {
+
+
+
+
+    syndironizfd void updbtfMbrksForInsfrt(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForInsfrt(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForInsfrt(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForInsfrt(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForInsfrt(int offsft, int lfngti) {
         if (offsft == 0) {
-            // zfro is b spfdibl dbsf whfrf wf updbtf only
+        if (offsft == 0) {
+        if (offsft == 0) {
+        if (offsft == 0) {
+        if (offsft == 0) {
+            // zfro is b spfdibl dbsf wifrf wf updbtf only
+            // zfro is b spfdibl dbsf wifrf wf updbtf only
+            // zfro is b spfdibl dbsf wifrf wf updbtf only
+            // zfro is b spfdibl dbsf wifrf wf updbtf only
+            // zfro is b spfdibl dbsf wifrf wf updbtf only
+            // mbrks bftfr it.
+            // mbrks bftfr it.
+            // mbrks bftfr it.
+            // mbrks bftfr it.
             // mbrks bftfr it.
             offsft = 1;
+            offsft = 1;
+            offsft = 1;
+            offsft = 1;
+            offsft = 1;
+        }
+        }
+        }
+        }
         }
         int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
         for (int i = 0; i < n; i++) {
             PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
             if (mbrk.unusfd) {
-                // this rfdord is no longfr usfd, gft rid of it
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
                 mbrks.rfmovfElfmfntAt(i);
                 i -= 1;
+                i -= 1;
+                i -= 1;
+                i -= 1;
+                i -= 1;
+                n -= 1;
+                n -= 1;
+                n -= 1;
+                n -= 1;
                 n -= 1;
             } flsf if (mbrk.offsft >= offsft) {
-                mbrk.offsft += lfngth;
+            } flsf if (mbrk.offsft >= offsft) {
+            } flsf if (mbrk.offsft >= offsft) {
+            } flsf if (mbrk.offsft >= offsft) {
+            } flsf if (mbrk.offsft >= offsft) {
+                mbrk.offsft += lfngti;
+                mbrk.offsft += lfngti;
+                mbrk.offsft += lfngti;
+                mbrk.offsft += lfngti;
+                mbrk.offsft += lfngti;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    syndhronizfd void updbtfMbrksForRfmovf(int offsft, int lfngth) {
+
+
+
+
+    syndironizfd void updbtfMbrksForRfmovf(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForRfmovf(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForRfmovf(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForRfmovf(int offsft, int lfngti) {
+    syndironizfd void updbtfMbrksForRfmovf(int offsft, int lfngti) {
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
         int n = mbrks.sizf();
         for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
             PosRfd mbrk = mbrks.flfmfntAt(i);
             if (mbrk.unusfd) {
-                // this rfdord is no longfr usfd, gft rid of it
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
                 mbrks.rfmovfElfmfntAt(i);
                 i -= 1;
+                i -= 1;
+                i -= 1;
+                i -= 1;
+                i -= 1;
                 n -= 1;
-            } flsf if (mbrk.offsft >= (offsft + lfngth)) {
-                mbrk.offsft -= lfngth;
+                n -= 1;
+                n -= 1;
+                n -= 1;
+                n -= 1;
+            } flsf if (mbrk.offsft >= (offsft + lfngti)) {
+            } flsf if (mbrk.offsft >= (offsft + lfngti)) {
+            } flsf if (mbrk.offsft >= (offsft + lfngti)) {
+            } flsf if (mbrk.offsft >= (offsft + lfngti)) {
+            } flsf if (mbrk.offsft >= (offsft + lfngti)) {
+                mbrk.offsft -= lfngti;
+                mbrk.offsft -= lfngti;
+                mbrk.offsft -= lfngti;
+                mbrk.offsft -= lfngti;
+                mbrk.offsft -= lfngti;
+            } flsf if (mbrk.offsft >= offsft) {
+            } flsf if (mbrk.offsft >= offsft) {
+            } flsf if (mbrk.offsft >= offsft) {
+            } flsf if (mbrk.offsft >= offsft) {
             } flsf if (mbrk.offsft >= offsft) {
                 mbrk.offsft = offsft;
+                mbrk.offsft = offsft;
+                mbrk.offsft = offsft;
+                mbrk.offsft = offsft;
+                mbrk.offsft = offsft;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for thf
-     * Positions in thf rbngf
-     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngth</dodf>.
-     * If <dodf>v</dodf> is not null thf mbtdhing Positions brf plbdfd in
-     * thfrf. Thf vfdtor with thf rfsulting Positions brf rfturnfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for tif
+     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for tif
+     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for tif
+     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for tif
+     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for tif
+     * Positions in tif rbngf
+     * Positions in tif rbngf
+     * Positions in tif rbngf
+     * Positions in tif rbngf
+     * Positions in tif rbngf
+     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngti</dodf>.
+     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngti</dodf>.
+     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngti</dodf>.
+     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngti</dodf>.
+     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngti</dodf>.
+     * If <dodf>v</dodf> is not null tif mbtdiing Positions brf plbdfd in
+     * If <dodf>v</dodf> is not null tif mbtdiing Positions brf plbdfd in
+     * If <dodf>v</dodf> is not null tif mbtdiing Positions brf plbdfd in
+     * If <dodf>v</dodf> is not null tif mbtdiing Positions brf plbdfd in
+     * If <dodf>v</dodf> is not null tif mbtdiing Positions brf plbdfd in
+     * tifrf. Tif vfdtor witi tif rfsulting Positions brf rfturnfd.
+     * tifrf. Tif vfdtor witi tif rfsulting Positions brf rfturnfd.
+     * tifrf. Tif vfdtor witi tif rfsulting Positions brf rfturnfd.
+     * tifrf. Tif vfdtor witi tif rfsulting Positions brf rfturnfd.
+     * tifrf. Tif vfdtor witi tif rfsulting Positions brf rfturnfd.
      * <p>
-     * This is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * to subdlbssfs.
+     * to subdlbssfs.
+     * to subdlbssfs.
+     * to subdlbssfs.
      * to subdlbssfs.
      *
-     * @pbrbm v thf Vfdtor to usf, with b nfw onf drfbtfd on null
-     * @pbrbm offsft thf stbrting offsft &gt;= 0
-     * @pbrbm lfngth thf lfngth &gt;= 0
-     * @rfturn thf sft of instbndfs
+     *
+     *
+     *
+     *
+     * @pbrbm v tif Vfdtor to usf, witi b nfw onf drfbtfd on null
+     * @pbrbm v tif Vfdtor to usf, witi b nfw onf drfbtfd on null
+     * @pbrbm v tif Vfdtor to usf, witi b nfw onf drfbtfd on null
+     * @pbrbm v tif Vfdtor to usf, witi b nfw onf drfbtfd on null
+     * @pbrbm v tif Vfdtor to usf, witi b nfw onf drfbtfd on null
+     * @pbrbm offsft tif stbrting offsft &gt;= 0
+     * @pbrbm offsft tif stbrting offsft &gt;= 0
+     * @pbrbm offsft tif stbrting offsft &gt;= 0
+     * @pbrbm offsft tif stbrting offsft &gt;= 0
+     * @pbrbm offsft tif stbrting offsft &gt;= 0
+     * @pbrbm lfngti tif lfngti &gt;= 0
+     * @pbrbm lfngti tif lfngti &gt;= 0
+     * @pbrbm lfngti tif lfngti &gt;= 0
+     * @pbrbm lfngti tif lfngti &gt;= 0
+     * @pbrbm lfngti tif lfngti &gt;= 0
+     * @rfturn tif sft of instbndfs
+     * @rfturn tif sft of instbndfs
+     * @rfturn tif sft of instbndfs
+     * @rfturn tif sft of instbndfs
+     * @rfturn tif sft of instbndfs
+     */
+     */
+     */
+     */
      */
     protfdtfd Vfdtor<UndoPosRff> gftPositionsInRbngf(Vfdtor<UndoPosRff> v, int offsft,
-                                                      int lfngth) {
+    protfdtfd Vfdtor<UndoPosRff> gftPositionsInRbngf(Vfdtor<UndoPosRff> v, int offsft,
+    protfdtfd Vfdtor<UndoPosRff> gftPositionsInRbngf(Vfdtor<UndoPosRff> v, int offsft,
+    protfdtfd Vfdtor<UndoPosRff> gftPositionsInRbngf(Vfdtor<UndoPosRff> v, int offsft,
+    protfdtfd Vfdtor<UndoPosRff> gftPositionsInRbngf(Vfdtor<UndoPosRff> v, int offsft,
+                                                      int lfngti) {
+                                                      int lfngti) {
+                                                      int lfngti) {
+                                                      int lfngti) {
+                                                      int lfngti) {
         int n = mbrks.sizf();
-        int fnd = offsft + lfngth;
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int n = mbrks.sizf();
+        int fnd = offsft + lfngti;
+        int fnd = offsft + lfngti;
+        int fnd = offsft + lfngti;
+        int fnd = offsft + lfngti;
+        int fnd = offsft + lfngti;
+        Vfdtor<UndoPosRff> plbdfIn = (v == null) ? nfw Vfdtor<>() : v;
+        Vfdtor<UndoPosRff> plbdfIn = (v == null) ? nfw Vfdtor<>() : v;
+        Vfdtor<UndoPosRff> plbdfIn = (v == null) ? nfw Vfdtor<>() : v;
+        Vfdtor<UndoPosRff> plbdfIn = (v == null) ? nfw Vfdtor<>() : v;
         Vfdtor<UndoPosRff> plbdfIn = (v == null) ? nfw Vfdtor<>() : v;
         for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            PosRfd mbrk = mbrks.flfmfntAt(i);
             PosRfd mbrk = mbrks.flfmfntAt(i);
             if (mbrk.unusfd) {
-                // this rfdord is no longfr usfd, gft rid of it
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+            if (mbrk.unusfd) {
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                // tiis rfdord is no longfr usfd, gft rid of it
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
+                mbrks.rfmovfElfmfntAt(i);
                 mbrks.rfmovfElfmfntAt(i);
                 i -= 1;
+                i -= 1;
+                i -= 1;
+                i -= 1;
+                i -= 1;
+                n -= 1;
+                n -= 1;
+                n -= 1;
+                n -= 1;
                 n -= 1;
             } flsf if(mbrk.offsft >= offsft && mbrk.offsft <= fnd)
+            } flsf if(mbrk.offsft >= offsft && mbrk.offsft <= fnd)
+            } flsf if(mbrk.offsft >= offsft && mbrk.offsft <= fnd)
+            } flsf if(mbrk.offsft >= offsft && mbrk.offsft <= fnd)
+            } flsf if(mbrk.offsft >= offsft && mbrk.offsft <= fnd)
+                plbdfIn.bddElfmfnt(nfw UndoPosRff(mbrk));
+                plbdfIn.bddElfmfnt(nfw UndoPosRff(mbrk));
+                plbdfIn.bddElfmfnt(nfw UndoPosRff(mbrk));
+                plbdfIn.bddElfmfnt(nfw UndoPosRff(mbrk));
                 plbdfIn.bddElfmfnt(nfw UndoPosRff(mbrk));
         }
+        }
+        }
+        }
+        }
+        rfturn plbdfIn;
+        rfturn plbdfIn;
+        rfturn plbdfIn;
+        rfturn plbdfIn;
         rfturn plbdfIn;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfsfts thf lodbtion for bll thf UndoPosRff instbndfs
+    /**
+    /**
+    /**
+    /**
+     * Rfsfts tif lodbtion for bll tif UndoPosRff instbndfs
+     * Rfsfts tif lodbtion for bll tif UndoPosRff instbndfs
+     * Rfsfts tif lodbtion for bll tif UndoPosRff instbndfs
+     * Rfsfts tif lodbtion for bll tif UndoPosRff instbndfs
+     * Rfsfts tif lodbtion for bll tif UndoPosRff instbndfs
+     * in <dodf>positions</dodf>.
+     * in <dodf>positions</dodf>.
+     * in <dodf>positions</dodf>.
+     * in <dodf>positions</dodf>.
      * in <dodf>positions</dodf>.
      * <p>
-     * This is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * to subdlbssfs.
+     * to subdlbssfs.
+     * to subdlbssfs.
+     * to subdlbssfs.
      * to subdlbssfs.
      *
-     * @pbrbm positions thf positions of thf instbndfs
+     *
+     *
+     *
+     *
+     * @pbrbm positions tif positions of tif instbndfs
+     * @pbrbm positions tif positions of tif instbndfs
+     * @pbrbm positions tif positions of tif instbndfs
+     * @pbrbm positions tif positions of tif instbndfs
+     * @pbrbm positions tif positions of tif instbndfs
+     */
+     */
+     */
+     */
      */
     protfdtfd void updbtfUndoPositions(Vfdtor<UndoPosRff> positions) {
+    protfdtfd void updbtfUndoPositions(Vfdtor<UndoPosRff> positions) {
+    protfdtfd void updbtfUndoPositions(Vfdtor<UndoPosRff> positions) {
+    protfdtfd void updbtfUndoPositions(Vfdtor<UndoPosRff> positions) {
+    protfdtfd void updbtfUndoPositions(Vfdtor<UndoPosRff> positions) {
+        for(int dountfr = positions.sizf() - 1; dountfr >= 0; dountfr--) {
+        for(int dountfr = positions.sizf() - 1; dountfr >= 0; dountfr--) {
+        for(int dountfr = positions.sizf() - 1; dountfr >= 0; dountfr--) {
+        for(int dountfr = positions.sizf() - 1; dountfr >= 0; dountfr--) {
         for(int dountfr = positions.sizf() - 1; dountfr >= 0; dountfr--) {
             UndoPosRff rff = positions.flfmfntAt(dountfr);
-            // Chfdk if thf Position is still vblid.
+            UndoPosRff rff = positions.flfmfntAt(dountfr);
+            UndoPosRff rff = positions.flfmfntAt(dountfr);
+            UndoPosRff rff = positions.flfmfntAt(dountfr);
+            UndoPosRff rff = positions.flfmfntAt(dountfr);
+            // Cifdk if tif Position is still vblid.
+            // Cifdk if tif Position is still vblid.
+            // Cifdk if tif Position is still vblid.
+            // Cifdk if tif Position is still vblid.
+            // Cifdk if tif Position is still vblid.
+            if(rff.rfd.unusfd) {
+            if(rff.rfd.unusfd) {
+            if(rff.rfd.unusfd) {
+            if(rff.rfd.unusfd) {
             if(rff.rfd.unusfd) {
                 positions.rfmovfElfmfntAt(dountfr);
+                positions.rfmovfElfmfntAt(dountfr);
+                positions.rfmovfElfmfntAt(dountfr);
+                positions.rfmovfElfmfntAt(dountfr);
+                positions.rfmovfElfmfntAt(dountfr);
+            }
+            }
+            }
+            }
             }
             flsf
+            flsf
+            flsf
+            flsf
+            flsf
+                rff.rfsftLodbtion();
+                rff.rfsftLodbtion();
+                rff.rfsftLodbtion();
+                rff.rfsftLodbtion();
                 rff.rfsftLodbtion();
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    privbtf stbtid finbl dhbr[] fmpty = nfw dhbr[0];
-    privbtf dhbr[] dbtb;
+
+
+
+
+    privbtf stbtid finbl dibr[] fmpty = nfw dibr[0];
+    privbtf stbtid finbl dibr[] fmpty = nfw dibr[0];
+    privbtf stbtid finbl dibr[] fmpty = nfw dibr[0];
+    privbtf stbtid finbl dibr[] fmpty = nfw dibr[0];
+    privbtf stbtid finbl dibr[] fmpty = nfw dibr[0];
+    privbtf dibr[] dbtb;
+    privbtf dibr[] dbtb;
+    privbtf dibr[] dbtb;
+    privbtf dibr[] dbtb;
+    privbtf dibr[] dbtb;
+    privbtf int dount;
+    privbtf int dount;
+    privbtf int dount;
+    privbtf int dount;
     privbtf int dount;
     trbnsifnt Vfdtor<PosRfd> mbrks;
+    trbnsifnt Vfdtor<PosRfd> mbrks;
+    trbnsifnt Vfdtor<PosRfd> mbrks;
+    trbnsifnt Vfdtor<PosRfd> mbrks;
+    trbnsifnt Vfdtor<PosRfd> mbrks;
+
+
+
+
 
     /**
-     * holds thf dbtb for b mbrk... sfpbrbtfly from
-     * thf rfbl mbrk so thbt thf rfbl mbrk dbn bf
-     * dollfdtfd if thfrf brf no morf rfffrfndfs to
-     * it.... thf updbtf tbblf holds only b rfffrfndf
-     * to this grungy thing.
+    /**
+    /**
+    /**
+    /**
+     * iolds tif dbtb for b mbrk... sfpbrbtfly from
+     * iolds tif dbtb for b mbrk... sfpbrbtfly from
+     * iolds tif dbtb for b mbrk... sfpbrbtfly from
+     * iolds tif dbtb for b mbrk... sfpbrbtfly from
+     * iolds tif dbtb for b mbrk... sfpbrbtfly from
+     * tif rfbl mbrk so tibt tif rfbl mbrk dbn bf
+     * tif rfbl mbrk so tibt tif rfbl mbrk dbn bf
+     * tif rfbl mbrk so tibt tif rfbl mbrk dbn bf
+     * tif rfbl mbrk so tibt tif rfbl mbrk dbn bf
+     * tif rfbl mbrk so tibt tif rfbl mbrk dbn bf
+     * dollfdtfd if tifrf brf no morf rfffrfndfs to
+     * dollfdtfd if tifrf brf no morf rfffrfndfs to
+     * dollfdtfd if tifrf brf no morf rfffrfndfs to
+     * dollfdtfd if tifrf brf no morf rfffrfndfs to
+     * dollfdtfd if tifrf brf no morf rfffrfndfs to
+     * it.... tif updbtf tbblf iolds only b rfffrfndf
+     * it.... tif updbtf tbblf iolds only b rfffrfndf
+     * it.... tif updbtf tbblf iolds only b rfffrfndf
+     * it.... tif updbtf tbblf iolds only b rfffrfndf
+     * it.... tif updbtf tbblf iolds only b rfffrfndf
+     * to tiis grungy tiing.
+     * to tiis grungy tiing.
+     * to tiis grungy tiing.
+     * to tiis grungy tiing.
+     * to tiis grungy tiing.
+     */
+     */
+     */
+     */
      */
     finbl dlbss PosRfd {
+    finbl dlbss PosRfd {
+    finbl dlbss PosRfd {
+    finbl dlbss PosRfd {
+    finbl dlbss PosRfd {
+
+
+
+
 
         PosRfd(int offsft) {
-            this.offsft = offsft;
+        PosRfd(int offsft) {
+        PosRfd(int offsft) {
+        PosRfd(int offsft) {
+        PosRfd(int offsft) {
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         int offsft;
+        int offsft;
+        int offsft;
+        int offsft;
+        int offsft;
+        boolfbn unusfd;
+        boolfbn unusfd;
+        boolfbn unusfd;
+        boolfbn unusfd;
         boolfbn unusfd;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * This rfblly wbnts to bf b wfbk rfffrfndf but
-     * in 1.1 wf don't hbvf b 100% purf solution for
-     * this... so this dlbss trys to hbdk b solution
-     * to dbusing thf mbrks to bf dollfdtfd.
+    /**
+    /**
+    /**
+    /**
+     * Tiis rfblly wbnts to bf b wfbk rfffrfndf but
+     * Tiis rfblly wbnts to bf b wfbk rfffrfndf but
+     * Tiis rfblly wbnts to bf b wfbk rfffrfndf but
+     * Tiis rfblly wbnts to bf b wfbk rfffrfndf but
+     * Tiis rfblly wbnts to bf b wfbk rfffrfndf but
+     * in 1.1 wf don't ibvf b 100% purf solution for
+     * in 1.1 wf don't ibvf b 100% purf solution for
+     * in 1.1 wf don't ibvf b 100% purf solution for
+     * in 1.1 wf don't ibvf b 100% purf solution for
+     * in 1.1 wf don't ibvf b 100% purf solution for
+     * tiis... so tiis dlbss trys to ibdk b solution
+     * tiis... so tiis dlbss trys to ibdk b solution
+     * tiis... so tiis dlbss trys to ibdk b solution
+     * tiis... so tiis dlbss trys to ibdk b solution
+     * tiis... so tiis dlbss trys to ibdk b solution
+     * to dbusing tif mbrks to bf dollfdtfd.
+     * to dbusing tif mbrks to bf dollfdtfd.
+     * to dbusing tif mbrks to bf dollfdtfd.
+     * to dbusing tif mbrks to bf dollfdtfd.
+     * to dbusing tif mbrks to bf dollfdtfd.
+     */
+     */
+     */
+     */
      */
     finbl dlbss StidkyPosition implfmfnts Position {
+    finbl dlbss StidkyPosition implfmfnts Position {
+    finbl dlbss StidkyPosition implfmfnts Position {
+    finbl dlbss StidkyPosition implfmfnts Position {
+    finbl dlbss StidkyPosition implfmfnts Position {
+
+
+
+
 
         StidkyPosition(int offsft) {
+        StidkyPosition(int offsft) {
+        StidkyPosition(int offsft) {
+        StidkyPosition(int offsft) {
+        StidkyPosition(int offsft) {
+            rfd = nfw PosRfd(offsft);
+            rfd = nfw PosRfd(offsft);
+            rfd = nfw PosRfd(offsft);
+            rfd = nfw PosRfd(offsft);
             rfd = nfw PosRfd(offsft);
             mbrks.bddElfmfnt(rfd);
+            mbrks.bddElfmfnt(rfd);
+            mbrks.bddElfmfnt(rfd);
+            mbrks.bddElfmfnt(rfd);
+            mbrks.bddElfmfnt(rfd);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         publid int gftOffsft() {
+        publid int gftOffsft() {
+        publid int gftOffsft() {
+        publid int gftOffsft() {
+        publid int gftOffsft() {
+            rfturn rfd.offsft;
+            rfturn rfd.offsft;
+            rfturn rfd.offsft;
+            rfturn rfd.offsft;
             rfturn rfd.offsft;
         }
+        }
+        }
+        }
+        }
 
-        protfdtfd void finblizf() throws Throwbblf {
-            // sdhfdulf thf rfdord to bf rfmovfd lbtfr
-            // on bnothfr thrfbd.
+
+
+
+
+        protfdtfd void finblizf() tirows Tirowbblf {
+        protfdtfd void finblizf() tirows Tirowbblf {
+        protfdtfd void finblizf() tirows Tirowbblf {
+        protfdtfd void finblizf() tirows Tirowbblf {
+        protfdtfd void finblizf() tirows Tirowbblf {
+            // sdifdulf tif rfdord to bf rfmovfd lbtfr
+            // sdifdulf tif rfdord to bf rfmovfd lbtfr
+            // sdifdulf tif rfdord to bf rfmovfd lbtfr
+            // sdifdulf tif rfdord to bf rfmovfd lbtfr
+            // sdifdulf tif rfdord to bf rfmovfd lbtfr
+            // on bnotifr tirfbd.
+            // on bnotifr tirfbd.
+            // on bnotifr tirfbd.
+            // on bnotifr tirfbd.
+            // on bnotifr tirfbd.
+            rfd.unusfd = truf;
+            rfd.unusfd = truf;
+            rfd.unusfd = truf;
+            rfd.unusfd = truf;
             rfd.unusfd = truf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         publid String toString() {
+        publid String toString() {
+        publid String toString() {
+        publid String toString() {
+        publid String toString() {
+            rfturn Intfgfr.toString(gftOffsft());
+            rfturn Intfgfr.toString(gftOffsft());
+            rfturn Intfgfr.toString(gftOffsft());
+            rfturn Intfgfr.toString(gftOffsft());
             rfturn Intfgfr.toString(gftOffsft());
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         PosRfd rfd;
+        PosRfd rfd;
+        PosRfd rfd;
+        PosRfd rfd;
+        PosRfd rfd;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Usfd to hold b rfffrfndf to b Position thbt is bfing rfsft bs thf
-     * rfsult of rfmoving from thf dontfnt.
+    /**
+    /**
+    /**
+    /**
+     * Usfd to iold b rfffrfndf to b Position tibt is bfing rfsft bs tif
+     * Usfd to iold b rfffrfndf to b Position tibt is bfing rfsft bs tif
+     * Usfd to iold b rfffrfndf to b Position tibt is bfing rfsft bs tif
+     * Usfd to iold b rfffrfndf to b Position tibt is bfing rfsft bs tif
+     * Usfd to iold b rfffrfndf to b Position tibt is bfing rfsft bs tif
+     * rfsult of rfmoving from tif dontfnt.
+     * rfsult of rfmoving from tif dontfnt.
+     * rfsult of rfmoving from tif dontfnt.
+     * rfsult of rfmoving from tif dontfnt.
+     * rfsult of rfmoving from tif dontfnt.
+     */
+     */
+     */
+     */
      */
     finbl dlbss UndoPosRff {
+    finbl dlbss UndoPosRff {
+    finbl dlbss UndoPosRff {
+    finbl dlbss UndoPosRff {
+    finbl dlbss UndoPosRff {
         UndoPosRff(PosRfd rfd) {
-            this.rfd = rfd;
-            this.undoLodbtion = rfd.offsft;
+        UndoPosRff(PosRfd rfd) {
+        UndoPosRff(PosRfd rfd) {
+        UndoPosRff(PosRfd rfd) {
+        UndoPosRff(PosRfd rfd) {
+            tiis.rfd = rfd;
+            tiis.rfd = rfd;
+            tiis.rfd = rfd;
+            tiis.rfd = rfd;
+            tiis.rfd = rfd;
+            tiis.undoLodbtion = rfd.offsft;
+            tiis.undoLodbtion = rfd.offsft;
+            tiis.undoLodbtion = rfd.offsft;
+            tiis.undoLodbtion = rfd.offsft;
+            tiis.undoLodbtion = rfd.offsft;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         /**
-         * Rfsfts thf lodbtion of thf Position to thf offsft whfn thf
+        /**
+        /**
+        /**
+        /**
+         * Rfsfts tif lodbtion of tif Position to tif offsft wifn tif
+         * Rfsfts tif lodbtion of tif Position to tif offsft wifn tif
+         * Rfsfts tif lodbtion of tif Position to tif offsft wifn tif
+         * Rfsfts tif lodbtion of tif Position to tif offsft wifn tif
+         * Rfsfts tif lodbtion of tif Position to tif offsft wifn tif
+         * rfdfivfr wbs instbntibtfd.
+         * rfdfivfr wbs instbntibtfd.
+         * rfdfivfr wbs instbntibtfd.
+         * rfdfivfr wbs instbntibtfd.
          * rfdfivfr wbs instbntibtfd.
          */
+         */
+         */
+         */
+         */
+        protfdtfd void rfsftLodbtion() {
+        protfdtfd void rfsftLodbtion() {
+        protfdtfd void rfsftLodbtion() {
+        protfdtfd void rfsftLodbtion() {
         protfdtfd void rfsftLodbtion() {
             rfd.offsft = undoLodbtion;
+            rfd.offsft = undoLodbtion;
+            rfd.offsft = undoLodbtion;
+            rfd.offsft = undoLodbtion;
+            rfd.offsft = undoLodbtion;
+        }
+        }
+        }
+        }
         }
 
-        /** Lodbtion to rfsft to whfn rfsftLodbtino is invokfd. */
+
+
+
+
+        /** Lodbtion to rfsft to wifn rfsftLodbtino is invokfd. */
+        /** Lodbtion to rfsft to wifn rfsftLodbtino is invokfd. */
+        /** Lodbtion to rfsft to wifn rfsftLodbtino is invokfd. */
+        /** Lodbtion to rfsft to wifn rfsftLodbtino is invokfd. */
+        /** Lodbtion to rfsft to wifn rfsftLodbtino is invokfd. */
+        protfdtfd int undoLodbtion;
+        protfdtfd int undoLodbtion;
+        protfdtfd int undoLodbtion;
+        protfdtfd int undoLodbtion;
         protfdtfd int undoLodbtion;
         /** Position to rfsft offsft. */
+        /** Position to rfsft offsft. */
+        /** Position to rfsft offsft. */
+        /** Position to rfsft offsft. */
+        /** Position to rfsft offsft. */
+        protfdtfd PosRfd rfd;
+        protfdtfd PosRfd rfd;
+        protfdtfd PosRfd rfd;
+        protfdtfd PosRfd rfd;
         protfdtfd PosRfd rfd;
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * UnobblfEdit drfbtfd for insfrts.
+     * UnobblfEdit drfbtfd for insfrts.
+     * UnobblfEdit drfbtfd for insfrts.
+     * UnobblfEdit drfbtfd for insfrts.
+     * UnobblfEdit drfbtfd for insfrts.
+     */
+     */
+     */
+     */
      */
     dlbss InsfrtUndo fxtfnds AbstrbdtUndobblfEdit {
-        protfdtfd InsfrtUndo(int offsft, int lfngth) {
+    dlbss InsfrtUndo fxtfnds AbstrbdtUndobblfEdit {
+    dlbss InsfrtUndo fxtfnds AbstrbdtUndobblfEdit {
+    dlbss InsfrtUndo fxtfnds AbstrbdtUndobblfEdit {
+    dlbss InsfrtUndo fxtfnds AbstrbdtUndobblfEdit {
+        protfdtfd InsfrtUndo(int offsft, int lfngti) {
+        protfdtfd InsfrtUndo(int offsft, int lfngti) {
+        protfdtfd InsfrtUndo(int offsft, int lfngti) {
+        protfdtfd InsfrtUndo(int offsft, int lfngti) {
+        protfdtfd InsfrtUndo(int offsft, int lfngti) {
             supfr();
-            this.offsft = offsft;
-            this.lfngth = lfngth;
+            supfr();
+            supfr();
+            supfr();
+            supfr();
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.lfngti = lfngti;
+            tiis.lfngti = lfngti;
+            tiis.lfngti = lfngti;
+            tiis.lfngti = lfngti;
+            tiis.lfngti = lfngti;
+        }
+        }
+        }
+        }
         }
 
-        publid void undo() throws CbnnotUndoExdfption {
+
+
+
+
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+            supfr.undo();
+            supfr.undo();
+            supfr.undo();
+            supfr.undo();
             supfr.undo();
             try {
-                syndhronizfd(StringContfnt.this) {
-                    // Gft thf Positions in thf rbngf bfing rfmovfd.
+            try {
+            try {
+            try {
+            try {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
                     if(mbrks != null)
-                        posRffs = gftPositionsInRbngf(null, offsft, lfngth);
-                    string = gftString(offsft, lfngth);
-                    rfmovf(offsft, lfngth);
+                    if(mbrks != null)
+                    if(mbrks != null)
+                    if(mbrks != null)
+                    if(mbrks != null)
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
                 }
-            } dbtdh (BbdLodbtionExdfption bl) {
-              throw nfw CbnnotUndoExdfption();
+                }
+                }
+                }
+                }
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
 
-        publid void rfdo() throws CbnnotRfdoExdfption {
+
+
+
+
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+            supfr.rfdo();
+            supfr.rfdo();
+            supfr.rfdo();
+            supfr.rfdo();
             supfr.rfdo();
             try {
-                syndhronizfd(StringContfnt.this) {
+            try {
+            try {
+            try {
+            try {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                    insfrtString(offsft, string);
+                    insfrtString(offsft, string);
+                    insfrtString(offsft, string);
+                    insfrtString(offsft, string);
                     insfrtString(offsft, string);
                     string = null;
-                    // Updbtf thf Positions thbt wfrf in thf rbngf rfmovfd.
+                    string = null;
+                    string = null;
+                    string = null;
+                    string = null;
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    if(posRffs != null) {
+                    if(posRffs != null) {
+                    if(posRffs != null) {
+                    if(posRffs != null) {
                     if(posRffs != null) {
                         updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        posRffs = null;
+                        posRffs = null;
+                        posRffs = null;
+                        posRffs = null;
                         posRffs = null;
                     }
+                    }
+                    }
+                    }
+                    }
               }
-            } dbtdh (BbdLodbtionExdfption bl) {
-              throw nfw CbnnotRfdoExdfption();
+              }
+              }
+              }
+              }
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
 
-        // Whfrf thf string gofs.
+
+
+
+
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
         protfdtfd int offsft;
-        // Lfngth of thf string.
-        protfdtfd int lfngth;
-        // Thf string thbt wbs insfrtfd. To dut down on spbdf nffdfd this
+        protfdtfd int offsft;
+        protfdtfd int offsft;
+        protfdtfd int offsft;
+        protfdtfd int offsft;
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        // Tif string tibt wbs insfrtfd. To dut down on spbdf nffdfd tiis
+        // Tif string tibt wbs insfrtfd. To dut down on spbdf nffdfd tiis
+        // Tif string tibt wbs insfrtfd. To dut down on spbdf nffdfd tiis
+        // Tif string tibt wbs insfrtfd. To dut down on spbdf nffdfd tiis
+        // Tif string tibt wbs insfrtfd. To dut down on spbdf nffdfd tiis
+        // will only bf vblid bftfr bn undo.
+        // will only bf vblid bftfr bn undo.
+        // will only bf vblid bftfr bn undo.
+        // will only bf vblid bftfr bn undo.
         // will only bf vblid bftfr bn undo.
         protfdtfd String string;
-        // An brrby of instbndfs of UndoPosRff for thf Positions in thf
-        // rbngf thbt wbs rfmovfd, vblid bftfr undo.
+        protfdtfd String string;
+        protfdtfd String string;
+        protfdtfd String string;
+        protfdtfd String string;
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // rbngf tibt wbs rfmovfd, vblid bftfr undo.
+        // rbngf tibt wbs rfmovfd, vblid bftfr undo.
+        // rbngf tibt wbs rfmovfd, vblid bftfr undo.
+        // rbngf tibt wbs rfmovfd, vblid bftfr undo.
+        // rbngf tibt wbs rfmovfd, vblid bftfr undo.
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
         protfdtfd Vfdtor<UndoPosRff> posRffs;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * UndobblfEdit drfbtfd for rfmovfs.
+     * UndobblfEdit drfbtfd for rfmovfs.
+     * UndobblfEdit drfbtfd for rfmovfs.
+     * UndobblfEdit drfbtfd for rfmovfs.
      * UndobblfEdit drfbtfd for rfmovfs.
      */
+     */
+     */
+     */
+     */
+    dlbss RfmovfUndo fxtfnds AbstrbdtUndobblfEdit {
+    dlbss RfmovfUndo fxtfnds AbstrbdtUndobblfEdit {
+    dlbss RfmovfUndo fxtfnds AbstrbdtUndobblfEdit {
+    dlbss RfmovfUndo fxtfnds AbstrbdtUndobblfEdit {
     dlbss RfmovfUndo fxtfnds AbstrbdtUndobblfEdit {
         protfdtfd RfmovfUndo(int offsft, String string) {
+        protfdtfd RfmovfUndo(int offsft, String string) {
+        protfdtfd RfmovfUndo(int offsft, String string) {
+        protfdtfd RfmovfUndo(int offsft, String string) {
+        protfdtfd RfmovfUndo(int offsft, String string) {
             supfr();
-            this.offsft = offsft;
-            this.string = string;
-            this.lfngth = string.lfngth();
+            supfr();
+            supfr();
+            supfr();
+            supfr();
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.offsft = offsft;
+            tiis.string = string;
+            tiis.string = string;
+            tiis.string = string;
+            tiis.string = string;
+            tiis.string = string;
+            tiis.lfngti = string.lfngti();
+            tiis.lfngti = string.lfngti();
+            tiis.lfngti = string.lfngti();
+            tiis.lfngti = string.lfngti();
+            tiis.lfngti = string.lfngti();
             if(mbrks != null)
-                posRffs = gftPositionsInRbngf(null, offsft, lfngth);
+            if(mbrks != null)
+            if(mbrks != null)
+            if(mbrks != null)
+            if(mbrks != null)
+                posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+        }
+        }
+        }
+        }
         }
 
-        publid void undo() throws CbnnotUndoExdfption {
+
+
+
+
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+        publid void undo() tirows CbnnotUndoExdfption {
+            supfr.undo();
+            supfr.undo();
+            supfr.undo();
+            supfr.undo();
             supfr.undo();
             try {
-                syndhronizfd(StringContfnt.this) {
+            try {
+            try {
+            try {
+            try {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
                     insfrtString(offsft, string);
-                    // Updbtf thf Positions thbt wfrf in thf rbngf rfmovfd.
+                    insfrtString(offsft, string);
+                    insfrtString(offsft, string);
+                    insfrtString(offsft, string);
+                    insfrtString(offsft, string);
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                    if(posRffs != null) {
+                    if(posRffs != null) {
+                    if(posRffs != null) {
+                    if(posRffs != null) {
                     if(posRffs != null) {
                         updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        updbtfUndoPositions(posRffs);
+                        posRffs = null;
+                        posRffs = null;
+                        posRffs = null;
+                        posRffs = null;
                         posRffs = null;
                     }
+                    }
+                    }
+                    }
+                    }
+                    string = null;
+                    string = null;
+                    string = null;
+                    string = null;
                     string = null;
                 }
-            } dbtdh (BbdLodbtionExdfption bl) {
-              throw nfw CbnnotUndoExdfption();
+                }
+                }
+                }
+                }
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+              tirow nfw CbnnotUndoExdfption();
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
 
-        publid void rfdo() throws CbnnotRfdoExdfption {
+
+
+
+
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+            supfr.rfdo();
+            supfr.rfdo();
+            supfr.rfdo();
+            supfr.rfdo();
             supfr.rfdo();
             try {
-                syndhronizfd(StringContfnt.this) {
-                    string = gftString(offsft, lfngth);
-                    // Gft thf Positions in thf rbngf bfing rfmovfd.
+            try {
+            try {
+            try {
+            try {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                syndironizfd(StringContfnt.tiis) {
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    string = gftString(offsft, lfngti);
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
+                    // Gft tif Positions in tif rbngf bfing rfmovfd.
                     if(mbrks != null)
-                        posRffs = gftPositionsInRbngf(null, offsft, lfngth);
-                    rfmovf(offsft, lfngth);
+                    if(mbrks != null)
+                    if(mbrks != null)
+                    if(mbrks != null)
+                    if(mbrks != null)
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
+                    rfmovf(offsft, lfngti);
                 }
-            } dbtdh (BbdLodbtionExdfption bl) {
-              throw nfw CbnnotRfdoExdfption();
+                }
+                }
+                }
+                }
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+            } dbtdi (BbdLodbtionExdfption bl) {
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+              tirow nfw CbnnotRfdoExdfption();
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
 
-        // Whfrf thf string gofs.
+
+
+
+
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
+        // Wifrf tif string gofs.
         protfdtfd int offsft;
-        // Lfngth of thf string.
-        protfdtfd int lfngth;
-        // Thf string thbt wbs insfrtfd. This will bf null bftfr bn undo.
+        protfdtfd int offsft;
+        protfdtfd int offsft;
+        protfdtfd int offsft;
+        protfdtfd int offsft;
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        // Lfngti of tif string.
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        protfdtfd int lfngti;
+        // Tif string tibt wbs insfrtfd. Tiis will bf null bftfr bn undo.
+        // Tif string tibt wbs insfrtfd. Tiis will bf null bftfr bn undo.
+        // Tif string tibt wbs insfrtfd. Tiis will bf null bftfr bn undo.
+        // Tif string tibt wbs insfrtfd. Tiis will bf null bftfr bn undo.
+        // Tif string tibt wbs insfrtfd. Tiis will bf null bftfr bn undo.
         protfdtfd String string;
-        // An brrby of instbndfs of UndoPosRff for thf Positions in thf
-        // rbngf thbt wbs rfmovfd, vblid bfforf undo.
+        protfdtfd String string;
+        protfdtfd String string;
+        protfdtfd String string;
+        protfdtfd String string;
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // An brrby of instbndfs of UndoPosRff for tif Positions in tif
+        // rbngf tibt wbs rfmovfd, vblid bfforf undo.
+        // rbngf tibt wbs rfmovfd, vblid bfforf undo.
+        // rbngf tibt wbs rfmovfd, vblid bfforf undo.
+        // rbngf tibt wbs rfmovfd, vblid bfforf undo.
+        // rbngf tibt wbs rfmovfd, vblid bfforf undo.
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
         protfdtfd Vfdtor<UndoPosRff> posRffs;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

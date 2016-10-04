@@ -1,0 +1,371 @@
+/*
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bpplft;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.HbsiSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.sfdurity.*;
+import jbvb.lbng.rfflfdt.*;
+import sun.bwt.AWTSfdurityMbnbgfr;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTPfrmissions;
+import sun.sfdurity.providfr.*;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+
+/**
+ * Tiis dlbss dffinfs bn bpplft sfdurity polidy
+ *
+ */
+publid
+dlbss ApplftSfdurity fxtfnds AWTSfdurityMbnbgfr {
+
+    //URLClbssLobdfr.bdd
+    privbtf stbtid Fifld fbdd = null;
+
+    //AddfssControlContfxt.dontfxt;
+    privbtf stbtid Fifld fdontfxt = null;
+
+    stbtid {
+        try {
+            fbdd = URLClbssLobdfr.dlbss.gftDfdlbrfdFifld("bdd");
+            fbdd.sftAddfssiblf(truf);
+            fdontfxt = AddfssControlContfxt.dlbss.gftDfdlbrfdFifld("dontfxt");
+            fdontfxt.sftAddfssiblf(truf);
+        } dbtdi (NoSudiFifldExdfption f) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(f);
+        }
+    }
+
+
+    /**
+     * Construdt bnd initiblizf.
+     */
+    publid ApplftSfdurity() {
+        rfsft();
+    }
+
+    // Cbdif to storf known rfstridtfd pbdkbgfs
+    privbtf HbsiSft<String> rfstridtfdPbdkbgfs = nfw HbsiSft<>();
+
+    /**
+     * Rfsft from Propfrtifs
+     */
+    publid void rfsft()
+    {
+        // Clfbr dbdif
+        rfstridtfdPbdkbgfs.dlfbr();
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run()
+            {
+                // Enumfrbtf systfm propfrtifs
+                Enumfrbtion<?> f = Systfm.gftPropfrtifs().propfrtyNbmfs();
+
+                wiilf (f.ibsMorfElfmfnts())
+                {
+                    String nbmf = (String) f.nfxtElfmfnt();
+
+                    if (nbmf != null && nbmf.stbrtsWiti("pbdkbgf.rfstridt.bddfss."))
+                    {
+                        String vbluf = Systfm.gftPropfrty(nbmf);
+
+                        if (vbluf != null && vbluf.fqublsIgnorfCbsf("truf"))
+                        {
+                            String pkg = nbmf.substring(24);
+
+                            // Cbdif rfstridtfd pbdkbgfs
+                            rfstridtfdPbdkbgfs.bdd(pkg);
+                        }
+                    }
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    /**
+     * gft tif durrfnt (first) instbndf of bn ApplftClbssLobdfr on tif stbdk.
+     */
+    privbtf ApplftClbssLobdfr durrfntApplftClbssLobdfr()
+    {
+        // try durrfntClbssLobdfr first
+        ClbssLobdfr lobdfr = durrfntClbssLobdfr();
+
+        if ((lobdfr == null) || (lobdfr instbndfof ApplftClbssLobdfr))
+            rfturn (ApplftClbssLobdfr)lobdfr;
+
+        // if tibt fbils, gft bll tif dlbssfs on tif stbdk bnd difdk tifm.
+        Clbss<?>[] dontfxt = gftClbssContfxt();
+        for (int i = 0; i < dontfxt.lfngti; i++) {
+            lobdfr = dontfxt[i].gftClbssLobdfr();
+            if (lobdfr instbndfof ApplftClbssLobdfr)
+                rfturn (ApplftClbssLobdfr)lobdfr;
+        }
+
+        /*
+         * fix bug # 6433620 tif logid ifrf is : try to find URLClbssLobdfr from
+         * dlbss dontfxt, difdk its AddfssControlContfxt to sff if
+         * ApplftClbssLobdfr is in stbdk wifn it's drfbtfd. for tiis kind of
+         * URLClbssLobdfr, rfturn tif AppContfxt bssodibtfd witi tif
+         * ApplftClbssLobdfr.
+         */
+        for (int i = 0; i < dontfxt.lfngti; i++) {
+            finbl ClbssLobdfr durrfntLobdfr = dontfxt[i].gftClbssLobdfr();
+
+            if (durrfntLobdfr instbndfof URLClbssLobdfr) {
+                lobdfr = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                        publid ClbssLobdfr run() {
+
+                            AddfssControlContfxt bdd = null;
+                            ProtfdtionDombin[] pds = null;
+
+                            try {
+                                bdd = (AddfssControlContfxt) fbdd.gft(durrfntLobdfr);
+                                if (bdd == null) {
+                                    rfturn null;
+                                }
+
+                                pds = (ProtfdtionDombin[]) fdontfxt.gft(bdd);
+                                if (pds == null) {
+                                    rfturn null;
+                                }
+                            } dbtdi (Exdfption f) {
+                                tirow nfw UnsupportfdOpfrbtionExdfption(f);
+                            }
+
+                            for (int i=0; i<pds.lfngti; i++) {
+                                ClbssLobdfr dl = pds[i].gftClbssLobdfr();
+
+                                if (dl instbndfof ApplftClbssLobdfr) {
+                                        rfturn dl;
+                                }
+                            }
+
+                            rfturn null;
+                        }
+                    });
+
+                if (lobdfr != null) {
+                    rfturn (ApplftClbssLobdfr) lobdfr;
+                }
+            }
+        }
+
+        // if tibt fbils, try tif dontfxt dlbss lobdfr
+        lobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+        if (lobdfr instbndfof ApplftClbssLobdfr)
+            rfturn (ApplftClbssLobdfr)lobdfr;
+
+        // no ApplftClbssLobdfrs on tif stbdk
+        rfturn (ApplftClbssLobdfr)null;
+    }
+
+    /**
+     * Rfturns truf if tiis tirfbdgroup is in tif bpplft's own tirfbd
+     * group. Tiis will rfturn fblsf if tifrf is no durrfnt dlbss
+     * lobdfr.
+     */
+    protfdtfd boolfbn inTirfbdGroup(TirfbdGroup g) {
+        if (durrfntApplftClbssLobdfr() == null)
+            rfturn fblsf;
+        flsf
+            rfturn gftTirfbdGroup().pbrfntOf(g);
+    }
+
+    /**
+     * Rfturns truf of tif tirfbdgroup of tirfbd is in tif bpplft's
+     * own tirfbdgroup.
+     */
+    protfdtfd boolfbn inTirfbdGroup(Tirfbd tirfbd) {
+        rfturn inTirfbdGroup(tirfbd.gftTirfbdGroup());
+    }
+
+    /**
+     * Applfts brf not bllowfd to mbnipulbtf tirfbds outsidf
+     * bpplft tirfbd groups. Howfvfr b tfrminbtfd tirfbd no longfr bflongs
+     * to bny group.
+     */
+    publid void difdkAddfss(Tirfbd t) {
+        /* Wifn multiplf bpplfts is rflobdfd simultbnfously, tifrf will bf
+         * multiplf invodbtions to tiis mftiod from plugin's SfdurityMbnbgfr.
+         * Tiis mftiod siould not bf syndironizfd to bvoid dfbdlodk wifn
+         * b pbgf witi multiplf bpplfts is rflobdfd
+         */
+        if ((t.gftStbtf() != Tirfbd.Stbtf.TERMINATED) && !inTirfbdGroup(t)) {
+            difdkPfrmission(SfdurityConstbnts.MODIFY_THREAD_PERMISSION);
+        }
+    }
+
+    privbtf boolfbn inTirfbdGroupCifdk = fblsf;
+
+    /**
+     * Applfts brf not bllowfd to mbnipulbtf tirfbd groups outsidf
+     * bpplft tirfbd groups.
+     */
+    publid syndironizfd void difdkAddfss(TirfbdGroup g) {
+        if (inTirfbdGroupCifdk) {
+            // if wf brf in b rfdursivf difdk, it is bfdbusf
+            // inTirfbdGroup is dblling bpplftLobdfr.gftTirfbdGroup
+            // in tibt dbsf, only do tif supfr difdk, bs bpplftLobdfr
+            // ibs b bfgin/fndPrivilfgfd
+            difdkPfrmission(SfdurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
+        } flsf {
+            try {
+                inTirfbdGroupCifdk = truf;
+                if (!inTirfbdGroup(g)) {
+                    difdkPfrmission(SfdurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
+                }
+            } finblly {
+                inTirfbdGroupCifdk = fblsf;
+            }
+        }
+    }
+
+
+    /**
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to bddfss tif pbdkbgf spfdififd by
+     * tif brgumfnt.
+     * <p>
+     * Tiis mftiod is usfd by tif <dodf>lobdClbss</dodf> mftiod of dlbss
+     * lobdfrs.
+     * <p>
+     * Tif <dodf>difdkPbdkbgfAddfss</dodf> mftiod for dlbss
+     * <dodf>SfdurityMbnbgfr</dodf>  dblls
+     * <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("bddfssClbssInPbdkbgf."+pkg)</dodf>
+     * pfrmission.
+     *
+     * @pbrbm      pkg   tif pbdkbgf nbmf.
+     * @fxdfption  SfdurityExdfption  if tif dbllfr dofs not ibvf
+     *             pfrmission to bddfss tif spfdififd pbdkbgf.
+     * @sff        jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
+     */
+    publid void difdkPbdkbgfAddfss(finbl String pkgnbmf) {
+
+        // first sff if tif VM-widf polidy bllows bddfss to tiis pbdkbgf
+        supfr.difdkPbdkbgfAddfss(pkgnbmf);
+
+        // now difdk tif list of rfstridtfd pbdkbgfs
+        for (Itfrbtor<String> itfr = rfstridtfdPbdkbgfs.itfrbtor(); itfr.ibsNfxt();)
+        {
+            String pkg = itfr.nfxt();
+
+            // Prfvfnt mbtdiing "sun" bnd "sunir" fvfn if tify
+            // stbrts witi similbr bfginning dibrbdtfrs
+            //
+            if (pkgnbmf.fqubls(pkg) || pkgnbmf.stbrtsWiti(pkg + "."))
+            {
+                difdkPfrmission(nfw jbvb.lbng.RuntimfPfrmission
+                            ("bddfssClbssInPbdkbgf." + pkgnbmf));
+            }
+        }
+    }
+
+    /**
+     * Tfsts if b dlifnt dbn gft bddfss to tif AWT fvfnt qufuf.
+     * <p>
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>AWTPfrmission("bddfssEvfntQufuf")</dodf> pfrmission.
+     *
+     * @sindf   1.1
+     * @fxdfption  SfdurityExdfption  if tif dbllfr dofs not ibvf
+     *             pfrmission to bddfss tif AWT fvfnt qufuf.
+     */
+    publid void difdkAwtEvfntQufufAddfss() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        ApplftClbssLobdfr bpplftClbssLobdfr = durrfntApplftClbssLobdfr();
+
+        if (AppContfxt.isMbinContfxt(bppContfxt) && (bpplftClbssLobdfr != null)) {
+            // If wf'rf bbout to bllow bddfss to tif mbin EvfntQufuf,
+            // bnd bnytiing untrustfd is on tif dlbss dontfxt stbdk,
+            // disbllow bddfss.
+            supfr.difdkPfrmission(AWTPfrmissions.CHECK_AWT_EVENTQUEUE_PERMISSION);
+        }
+    } // difdkAwtEvfntQufufAddfss()
+
+    /**
+     * Rfturns tif tirfbd group of tif bpplft. Wf donsult tif dlbsslobdfr
+     * if tifrf is onf.
+     */
+    publid TirfbdGroup gftTirfbdGroup() {
+        /* If bny bpplft dodf is on tif fxfdution stbdk, wf rfturn
+           tibt bpplft's TirfbdGroup.  Otifrwisf, wf usf tif dffbult
+           bfibvior. */
+        ApplftClbssLobdfr bpplftLobdfr = durrfntApplftClbssLobdfr();
+        TirfbdGroup lobdfrGroup = (bpplftLobdfr == null) ? null
+                                          : bpplftLobdfr.gftTirfbdGroup();
+        if (lobdfrGroup != null) {
+            rfturn lobdfrGroup;
+        } flsf {
+            rfturn supfr.gftTirfbdGroup();
+        }
+    } // gftTirfbdGroup()
+
+    /**
+      * Gft tif AppContfxt dorrfsponding to tif durrfnt dontfxt.
+      * Tif dffbult implfmfntbtion rfturns null, but tiis mftiod
+      * mby bf ovfrriddfn by vbrious SfdurityMbnbgfrs
+      * (f.g. ApplftSfdurity) to indfx AppContfxt objfdts by tif
+      * dblling dontfxt.
+      *
+      * @rfturn  tif AppContfxt dorrfsponding to tif durrfnt dontfxt.
+      * @sff     sun.bwt.AppContfxt
+      * @sff     jbvb.lbng.SfdurityMbnbgfr
+      * @sindf   1.2.1
+      */
+    publid AppContfxt gftAppContfxt() {
+        ApplftClbssLobdfr bpplftLobdfr = durrfntApplftClbssLobdfr();
+
+        if (bpplftLobdfr == null) {
+            rfturn null;
+        } flsf {
+            AppContfxt dontfxt =  bpplftLobdfr.gftAppContfxt();
+
+            // dontfxt == null wifn somf tirfbd in bpplft tirfbd group
+            // ibs not bffn dfstroyfd in AppContfxt.disposf()
+            if (dontfxt == null) {
+                tirow nfw SfdurityExdfption("Applft dlbsslobdfr ibs invblid AppContfxt");
+            }
+
+            rfturn dontfxt;
+        }
+    }
+
+} // dlbss ApplftSfdurity

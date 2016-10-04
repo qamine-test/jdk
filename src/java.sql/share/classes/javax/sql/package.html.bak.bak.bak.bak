@@ -1,306 +1,1530 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
 
-</hfbd>
 
 
 
-<body bgdolor="whitf">
 
-Providfs thf API for sfrvfr sidf dbtb sourdf bddfss bnd prodfssing from
-thf Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf.
-This pbdkbgf supplfmfnts thf <dodf>jbvb.sql</dodf>
-pbdkbgf bnd, bs of thf vfrsion 1.4 rflfbsf, is indludfd in thf 
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+Providfs tif API for sfrvfr sidf dbtb sourdf bddfss bnd prodfssing from
+Providfs tif API for sfrvfr sidf dbtb sourdf bddfss bnd prodfssing from
+Providfs tif API for sfrvfr sidf dbtb sourdf bddfss bnd prodfssing from
+Providfs tif API for sfrvfr sidf dbtb sourdf bddfss bnd prodfssing from
+Providfs tif API for sfrvfr sidf dbtb sourdf bddfss bnd prodfssing from
+tif Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf.
+tif Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf.
+tif Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf.
+tif Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf.
+tif Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf.
+Tiis pbdkbgf supplfmfnts tif <dodf>jbvb.sql</dodf>
+Tiis pbdkbgf supplfmfnts tif <dodf>jbvb.sql</dodf>
+Tiis pbdkbgf supplfmfnts tif <dodf>jbvb.sql</dodf>
+Tiis pbdkbgf supplfmfnts tif <dodf>jbvb.sql</dodf>
+Tiis pbdkbgf supplfmfnts tif <dodf>jbvb.sql</dodf>
+pbdkbgf bnd, bs of tif vfrsion 1.4 rflfbsf, is indludfd in tif 
+pbdkbgf bnd, bs of tif vfrsion 1.4 rflfbsf, is indludfd in tif 
+pbdkbgf bnd, bs of tif vfrsion 1.4 rflfbsf, is indludfd in tif 
+pbdkbgf bnd, bs of tif vfrsion 1.4 rflfbsf, is indludfd in tif 
+pbdkbgf bnd, bs of tif vfrsion 1.4 rflfbsf, is indludfd in tif 
 Jbvb Plbtform, Stbndbrd Edition (Jbvb SE&trbdf;).
-It rfmbins bn fssfntibl pbrt of thf Jbvb Plbtform, Entfrprisf Edition
+Jbvb Plbtform, Stbndbrd Edition (Jbvb SE&trbdf;).
+Jbvb Plbtform, Stbndbrd Edition (Jbvb SE&trbdf;).
+Jbvb Plbtform, Stbndbrd Edition (Jbvb SE&trbdf;).
+Jbvb Plbtform, Stbndbrd Edition (Jbvb SE&trbdf;).
+It rfmbins bn fssfntibl pbrt of tif Jbvb Plbtform, Entfrprisf Edition
+It rfmbins bn fssfntibl pbrt of tif Jbvb Plbtform, Entfrprisf Edition
+It rfmbins bn fssfntibl pbrt of tif Jbvb Plbtform, Entfrprisf Edition
+It rfmbins bn fssfntibl pbrt of tif Jbvb Plbtform, Entfrprisf Edition
+It rfmbins bn fssfntibl pbrt of tif Jbvb Plbtform, Entfrprisf Edition
+(Jbvb EE&trbdf;).
+(Jbvb EE&trbdf;).
+(Jbvb EE&trbdf;).
+(Jbvb EE&trbdf;).
 (Jbvb EE&trbdf;).
 <P>
-Thf <dodf>jbvbx.sql</dodf> pbdkbgf providfs for thf following:
+<P>
+<P>
+<P>
+<P>
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs for tif following:
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs for tif following:
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs for tif following:
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs for tif following:
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs for tif following:
 <OL>
-  <LI>Thf <dodf>DbtbSourdf</dodf> intfrfbdf bs bn bltfrnbtivf to thf 
-      <dodf>DrivfrMbnbgfr</dodf> for fstbblishing b 
-      donnfdtion with b dbtb sourdf
+<OL>
+<OL>
+<OL>
+<OL>
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs bn bltfrnbtivf to tif 
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs bn bltfrnbtivf to tif 
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs bn bltfrnbtivf to tif 
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs bn bltfrnbtivf to tif 
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs bn bltfrnbtivf to tif 
+      <dodf>DrivfrMbnbgfr</dodf> for fstbblisiing b 
+      <dodf>DrivfrMbnbgfr</dodf> for fstbblisiing b 
+      <dodf>DrivfrMbnbgfr</dodf> for fstbblisiing b 
+      <dodf>DrivfrMbnbgfr</dodf> for fstbblisiing b 
+      <dodf>DrivfrMbnbgfr</dodf> for fstbblisiing b 
+      donnfdtion witi b dbtb sourdf
+      donnfdtion witi b dbtb sourdf
+      donnfdtion witi b dbtb sourdf
+      donnfdtion witi b dbtb sourdf
+      donnfdtion witi b dbtb sourdf
+  <LI>Connfdtion pooling bnd Stbtfmfnt pooling
+  <LI>Connfdtion pooling bnd Stbtfmfnt pooling
+  <LI>Connfdtion pooling bnd Stbtfmfnt pooling
+  <LI>Connfdtion pooling bnd Stbtfmfnt pooling
   <LI>Connfdtion pooling bnd Stbtfmfnt pooling
   <LI>Distributfd trbnsbdtions
+  <LI>Distributfd trbnsbdtions
+  <LI>Distributfd trbnsbdtions
+  <LI>Distributfd trbnsbdtions
+  <LI>Distributfd trbnsbdtions
+  <LI>Rowsfts
+  <LI>Rowsfts
+  <LI>Rowsfts
+  <LI>Rowsfts
   <LI>Rowsfts
 </OL>
+</OL>
+</OL>
+</OL>
+</OL>
 <P>
-Applidbtions usf thf <dodf>DbtbSourdf</dodf> bnd <dodf>RowSft</dodf>
-APIs dirfdtly, but thf donnfdtion pooling bnd distributfd trbnsbdtion
-APIs brf usfd intfrnblly by thf middlf-tifr infrbstrudturf.
+<P>
+<P>
+<P>
+<P>
+Applidbtions usf tif <dodf>DbtbSourdf</dodf> bnd <dodf>RowSft</dodf>
+Applidbtions usf tif <dodf>DbtbSourdf</dodf> bnd <dodf>RowSft</dodf>
+Applidbtions usf tif <dodf>DbtbSourdf</dodf> bnd <dodf>RowSft</dodf>
+Applidbtions usf tif <dodf>DbtbSourdf</dodf> bnd <dodf>RowSft</dodf>
+Applidbtions usf tif <dodf>DbtbSourdf</dodf> bnd <dodf>RowSft</dodf>
+APIs dirfdtly, but tif donnfdtion pooling bnd distributfd trbnsbdtion
+APIs dirfdtly, but tif donnfdtion pooling bnd distributfd trbnsbdtion
+APIs dirfdtly, but tif donnfdtion pooling bnd distributfd trbnsbdtion
+APIs dirfdtly, but tif donnfdtion pooling bnd distributfd trbnsbdtion
+APIs dirfdtly, but tif donnfdtion pooling bnd distributfd trbnsbdtion
+APIs brf usfd intfrnblly by tif middlf-tifr infrbstrudturf.
+APIs brf usfd intfrnblly by tif middlf-tifr infrbstrudturf.
+APIs brf usfd intfrnblly by tif middlf-tifr infrbstrudturf.
+APIs brf usfd intfrnblly by tif middlf-tifr infrbstrudturf.
+APIs brf usfd intfrnblly by tif middlf-tifr infrbstrudturf.
+
+
+
+
 
 <H2>Using b <dodf>DbtbSourdf</dodf> Objfdt to Mbkf b Connfdtion</H2>
+<H2>Using b <dodf>DbtbSourdf</dodf> Objfdt to Mbkf b Connfdtion</H2>
+<H2>Using b <dodf>DbtbSourdf</dodf> Objfdt to Mbkf b Connfdtion</H2>
+<H2>Using b <dodf>DbtbSourdf</dodf> Objfdt to Mbkf b Connfdtion</H2>
+<H2>Using b <dodf>DbtbSourdf</dodf> Objfdt to Mbkf b Connfdtion</H2>
 
-Thf <dodf>jbvbx.sql</dodf> pbdkbgf providfs thf prfffrrfd
-wby to mbkf b donnfdtion with b dbtb sourdf.  Thf <dodf>DrivfrMbnbgfr</dodf>
-dlbss, thf originbl mfdhbnism, is still vblid, bnd dodf using it will
-dontinuf to run.  Howfvfr, thf nfwfr <dodf>DbtbSourdf</dodf> mfdhbnism
-is prfffrrfd bfdbusf it offfrs mbny bdvbntbgfs ovfr thf 
-<dodf>DrivfrMbnbgfr</dodf> mfdhbnism.
+
+
+
+
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs tif prfffrrfd
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs tif prfffrrfd
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs tif prfffrrfd
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs tif prfffrrfd
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf providfs tif prfffrrfd
+wby to mbkf b donnfdtion witi b dbtb sourdf.  Tif <dodf>DrivfrMbnbgfr</dodf>
+wby to mbkf b donnfdtion witi b dbtb sourdf.  Tif <dodf>DrivfrMbnbgfr</dodf>
+wby to mbkf b donnfdtion witi b dbtb sourdf.  Tif <dodf>DrivfrMbnbgfr</dodf>
+wby to mbkf b donnfdtion witi b dbtb sourdf.  Tif <dodf>DrivfrMbnbgfr</dodf>
+wby to mbkf b donnfdtion witi b dbtb sourdf.  Tif <dodf>DrivfrMbnbgfr</dodf>
+dlbss, tif originbl mfdibnism, is still vblid, bnd dodf using it will
+dlbss, tif originbl mfdibnism, is still vblid, bnd dodf using it will
+dlbss, tif originbl mfdibnism, is still vblid, bnd dodf using it will
+dlbss, tif originbl mfdibnism, is still vblid, bnd dodf using it will
+dlbss, tif originbl mfdibnism, is still vblid, bnd dodf using it will
+dontinuf to run.  Howfvfr, tif nfwfr <dodf>DbtbSourdf</dodf> mfdibnism
+dontinuf to run.  Howfvfr, tif nfwfr <dodf>DbtbSourdf</dodf> mfdibnism
+dontinuf to run.  Howfvfr, tif nfwfr <dodf>DbtbSourdf</dodf> mfdibnism
+dontinuf to run.  Howfvfr, tif nfwfr <dodf>DbtbSourdf</dodf> mfdibnism
+dontinuf to run.  Howfvfr, tif nfwfr <dodf>DbtbSourdf</dodf> mfdibnism
+is prfffrrfd bfdbusf it offfrs mbny bdvbntbgfs ovfr tif 
+is prfffrrfd bfdbusf it offfrs mbny bdvbntbgfs ovfr tif 
+is prfffrrfd bfdbusf it offfrs mbny bdvbntbgfs ovfr tif 
+is prfffrrfd bfdbusf it offfrs mbny bdvbntbgfs ovfr tif 
+is prfffrrfd bfdbusf it offfrs mbny bdvbntbgfs ovfr tif 
+<dodf>DrivfrMbnbgfr</dodf> mfdibnism.
+<dodf>DrivfrMbnbgfr</dodf> mfdibnism.
+<dodf>DrivfrMbnbgfr</dodf> mfdibnism.
+<dodf>DrivfrMbnbgfr</dodf> mfdibnism.
+<dodf>DrivfrMbnbgfr</dodf> mfdibnism.
 <P>
-Thfsf brf thf mbin bdvbntbgfs of using b <dodf>DbtbSourdf</dodf> objfdt to 
+<P>
+<P>
+<P>
+<P>
+Tifsf brf tif mbin bdvbntbgfs of using b <dodf>DbtbSourdf</dodf> objfdt to 
+Tifsf brf tif mbin bdvbntbgfs of using b <dodf>DbtbSourdf</dodf> objfdt to 
+Tifsf brf tif mbin bdvbntbgfs of using b <dodf>DbtbSourdf</dodf> objfdt to 
+Tifsf brf tif mbin bdvbntbgfs of using b <dodf>DbtbSourdf</dodf> objfdt to 
+Tifsf brf tif mbin bdvbntbgfs of using b <dodf>DbtbSourdf</dodf> objfdt to 
+mbkf b donnfdtion:
+mbkf b donnfdtion:
+mbkf b donnfdtion:
+mbkf b donnfdtion:
 mbkf b donnfdtion:
 <UL>
+<UL>
+<UL>
+<UL>
+<UL>
   
-  <LI>Chbngfs dbn bf mbdf to b dbtb sourdf's propfrtifs, whidh mfbns
-      thbt it is not nfdfssbry to mbkf dhbngfs in bpplidbtion dodf whfn
-      somfthing bbout thf dbtb sourdf or drivfr dhbngfs.
+  
+  
+  
+  
+  <LI>Cibngfs dbn bf mbdf to b dbtb sourdf's propfrtifs, wiidi mfbns
+  <LI>Cibngfs dbn bf mbdf to b dbtb sourdf's propfrtifs, wiidi mfbns
+  <LI>Cibngfs dbn bf mbdf to b dbtb sourdf's propfrtifs, wiidi mfbns
+  <LI>Cibngfs dbn bf mbdf to b dbtb sourdf's propfrtifs, wiidi mfbns
+  <LI>Cibngfs dbn bf mbdf to b dbtb sourdf's propfrtifs, wiidi mfbns
+      tibt it is not nfdfssbry to mbkf dibngfs in bpplidbtion dodf wifn
+      tibt it is not nfdfssbry to mbkf dibngfs in bpplidbtion dodf wifn
+      tibt it is not nfdfssbry to mbkf dibngfs in bpplidbtion dodf wifn
+      tibt it is not nfdfssbry to mbkf dibngfs in bpplidbtion dodf wifn
+      tibt it is not nfdfssbry to mbkf dibngfs in bpplidbtion dodf wifn
+      somftiing bbout tif dbtb sourdf or drivfr dibngfs.
+      somftiing bbout tif dbtb sourdf or drivfr dibngfs.
+      somftiing bbout tif dbtb sourdf or drivfr dibngfs.
+      somftiing bbout tif dbtb sourdf or drivfr dibngfs.
+      somftiing bbout tif dbtb sourdf or drivfr dibngfs.
   <LI>Connfdtion  bnd Stbtfmfnt pooling bnd distributfd trbnsbdtions brf bvbilbblf
-      through b <dodf>DbtbSourdf</dodf> objfdt thbt is
-      implfmfntfd to work with thf middlf-tifr infrbstrudturf.
-      Connfdtions mbdf through thf <dodf>DrivfrMbnbgfr</dodf>
-      do not hbvf donnfdtion bnd stbtfmfnt pooling or distributfd trbnsbdtion
+  <LI>Connfdtion  bnd Stbtfmfnt pooling bnd distributfd trbnsbdtions brf bvbilbblf
+  <LI>Connfdtion  bnd Stbtfmfnt pooling bnd distributfd trbnsbdtions brf bvbilbblf
+  <LI>Connfdtion  bnd Stbtfmfnt pooling bnd distributfd trbnsbdtions brf bvbilbblf
+  <LI>Connfdtion  bnd Stbtfmfnt pooling bnd distributfd trbnsbdtions brf bvbilbblf
+      tirougi b <dodf>DbtbSourdf</dodf> objfdt tibt is
+      tirougi b <dodf>DbtbSourdf</dodf> objfdt tibt is
+      tirougi b <dodf>DbtbSourdf</dodf> objfdt tibt is
+      tirougi b <dodf>DbtbSourdf</dodf> objfdt tibt is
+      tirougi b <dodf>DbtbSourdf</dodf> objfdt tibt is
+      implfmfntfd to work witi tif middlf-tifr infrbstrudturf.
+      implfmfntfd to work witi tif middlf-tifr infrbstrudturf.
+      implfmfntfd to work witi tif middlf-tifr infrbstrudturf.
+      implfmfntfd to work witi tif middlf-tifr infrbstrudturf.
+      implfmfntfd to work witi tif middlf-tifr infrbstrudturf.
+      Connfdtions mbdf tirougi tif <dodf>DrivfrMbnbgfr</dodf>
+      Connfdtions mbdf tirougi tif <dodf>DrivfrMbnbgfr</dodf>
+      Connfdtions mbdf tirougi tif <dodf>DrivfrMbnbgfr</dodf>
+      Connfdtions mbdf tirougi tif <dodf>DrivfrMbnbgfr</dodf>
+      Connfdtions mbdf tirougi tif <dodf>DrivfrMbnbgfr</dodf>
+      do not ibvf donnfdtion bnd stbtfmfnt pooling or distributfd trbnsbdtion
+      do not ibvf donnfdtion bnd stbtfmfnt pooling or distributfd trbnsbdtion
+      do not ibvf donnfdtion bnd stbtfmfnt pooling or distributfd trbnsbdtion
+      do not ibvf donnfdtion bnd stbtfmfnt pooling or distributfd trbnsbdtion
+      do not ibvf donnfdtion bnd stbtfmfnt pooling or distributfd trbnsbdtion
+      dbpbbilitifs.
+      dbpbbilitifs.
+      dbpbbilitifs.
+      dbpbbilitifs.
       dbpbbilitifs.
 </UL>
+</UL>
+</UL>
+</UL>
+</UL>
+<P>
+<P>
+<P>
+<P>
 <P>
 Drivfr vfndors providf <dodf>DbtbSourdf</dodf> implfmfntbtions. A
+Drivfr vfndors providf <dodf>DbtbSourdf</dodf> implfmfntbtions. A
+Drivfr vfndors providf <dodf>DbtbSourdf</dodf> implfmfntbtions. A
+Drivfr vfndors providf <dodf>DbtbSourdf</dodf> implfmfntbtions. A
+Drivfr vfndors providf <dodf>DbtbSourdf</dodf> implfmfntbtions. A
 pbrtidulbr <dodf>DbtbSourdf</dodf> objfdt rfprfsfnts b pbrtidulbr
-physidbl dbtb sourdf, bnd fbdh donnfdtion thf <dodf>DbtbSourdf</dodf> objfdt
-drfbtfs is b donnfdtion to thbt physidbl dbtb sourdf. 
+pbrtidulbr <dodf>DbtbSourdf</dodf> objfdt rfprfsfnts b pbrtidulbr
+pbrtidulbr <dodf>DbtbSourdf</dodf> objfdt rfprfsfnts b pbrtidulbr
+pbrtidulbr <dodf>DbtbSourdf</dodf> objfdt rfprfsfnts b pbrtidulbr
+pbrtidulbr <dodf>DbtbSourdf</dodf> objfdt rfprfsfnts b pbrtidulbr
+piysidbl dbtb sourdf, bnd fbdi donnfdtion tif <dodf>DbtbSourdf</dodf> objfdt
+piysidbl dbtb sourdf, bnd fbdi donnfdtion tif <dodf>DbtbSourdf</dodf> objfdt
+piysidbl dbtb sourdf, bnd fbdi donnfdtion tif <dodf>DbtbSourdf</dodf> objfdt
+piysidbl dbtb sourdf, bnd fbdi donnfdtion tif <dodf>DbtbSourdf</dodf> objfdt
+piysidbl dbtb sourdf, bnd fbdi donnfdtion tif <dodf>DbtbSourdf</dodf> objfdt
+drfbtfs is b donnfdtion to tibt piysidbl dbtb sourdf. 
+drfbtfs is b donnfdtion to tibt piysidbl dbtb sourdf. 
+drfbtfs is b donnfdtion to tibt piysidbl dbtb sourdf. 
+drfbtfs is b donnfdtion to tibt piysidbl dbtb sourdf. 
+drfbtfs is b donnfdtion to tibt piysidbl dbtb sourdf. 
 <P>
-A logidbl nbmf for thf dbtb sourdf is rfgistfrfd with b nbming sfrvidf thbt
-usfs thf Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>  
-(JNDI) API, usublly by b systfm bdministrbtor or somfonf pfrforming thf 
-dutifs of b systfm bdministrbtor. An bpplidbtion dbn rftrifvf thf
-<dodf>DbtbSourdf</dodf> objfdt it wbnts by doing b lookup on thf logidbl
-nbmf thbt hbs bffn rfgistfrfd for it.  Thf bpplidbtion dbn thfn usf thf 
-<dodf>DbtbSourdf</dodf> objfdt to drfbtf b donnfdtion to thf physidbl dbtb
+<P>
+<P>
+<P>
+<P>
+A logidbl nbmf for tif dbtb sourdf is rfgistfrfd witi b nbming sfrvidf tibt
+A logidbl nbmf for tif dbtb sourdf is rfgistfrfd witi b nbming sfrvidf tibt
+A logidbl nbmf for tif dbtb sourdf is rfgistfrfd witi b nbming sfrvidf tibt
+A logidbl nbmf for tif dbtb sourdf is rfgistfrfd witi b nbming sfrvidf tibt
+A logidbl nbmf for tif dbtb sourdf is rfgistfrfd witi b nbming sfrvidf tibt
+usfs tif Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>  
+usfs tif Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>  
+usfs tif Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>  
+usfs tif Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>  
+usfs tif Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>  
+(JNDI) API, usublly by b systfm bdministrbtor or somfonf pfrforming tif 
+(JNDI) API, usublly by b systfm bdministrbtor or somfonf pfrforming tif 
+(JNDI) API, usublly by b systfm bdministrbtor or somfonf pfrforming tif 
+(JNDI) API, usublly by b systfm bdministrbtor or somfonf pfrforming tif 
+(JNDI) API, usublly by b systfm bdministrbtor or somfonf pfrforming tif 
+dutifs of b systfm bdministrbtor. An bpplidbtion dbn rftrifvf tif
+dutifs of b systfm bdministrbtor. An bpplidbtion dbn rftrifvf tif
+dutifs of b systfm bdministrbtor. An bpplidbtion dbn rftrifvf tif
+dutifs of b systfm bdministrbtor. An bpplidbtion dbn rftrifvf tif
+dutifs of b systfm bdministrbtor. An bpplidbtion dbn rftrifvf tif
+<dodf>DbtbSourdf</dodf> objfdt it wbnts by doing b lookup on tif logidbl
+<dodf>DbtbSourdf</dodf> objfdt it wbnts by doing b lookup on tif logidbl
+<dodf>DbtbSourdf</dodf> objfdt it wbnts by doing b lookup on tif logidbl
+<dodf>DbtbSourdf</dodf> objfdt it wbnts by doing b lookup on tif logidbl
+<dodf>DbtbSourdf</dodf> objfdt it wbnts by doing b lookup on tif logidbl
+nbmf tibt ibs bffn rfgistfrfd for it.  Tif bpplidbtion dbn tifn usf tif 
+nbmf tibt ibs bffn rfgistfrfd for it.  Tif bpplidbtion dbn tifn usf tif 
+nbmf tibt ibs bffn rfgistfrfd for it.  Tif bpplidbtion dbn tifn usf tif 
+nbmf tibt ibs bffn rfgistfrfd for it.  Tif bpplidbtion dbn tifn usf tif 
+nbmf tibt ibs bffn rfgistfrfd for it.  Tif bpplidbtion dbn tifn usf tif 
+<dodf>DbtbSourdf</dodf> objfdt to drfbtf b donnfdtion to tif piysidbl dbtb
+<dodf>DbtbSourdf</dodf> objfdt to drfbtf b donnfdtion to tif piysidbl dbtb
+<dodf>DbtbSourdf</dodf> objfdt to drfbtf b donnfdtion to tif piysidbl dbtb
+<dodf>DbtbSourdf</dodf> objfdt to drfbtf b donnfdtion to tif piysidbl dbtb
+<dodf>DbtbSourdf</dodf> objfdt to drfbtf b donnfdtion to tif piysidbl dbtb
+sourdf it rfprfsfnts.
+sourdf it rfprfsfnts.
+sourdf it rfprfsfnts.
+sourdf it rfprfsfnts.
 sourdf it rfprfsfnts.
 <P>
-A <dodf>DbtbSourdf</dodf> objfdt dbn bf implfmfntfd to work with thf 
-middlf tifr infrbstrudturf so thbt thf donnfdtions it produdfs will bf
-poolfd for rfusf. An bpplidbtion thbt usfs sudh b <dodf>DbtbSourdf</dodf> 
-implfmfntbtion will butombtidblly gft b donnfdtion thbt pbrtidipbtfs in
+<P>
+<P>
+<P>
+<P>
+A <dodf>DbtbSourdf</dodf> objfdt dbn bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn bf implfmfntfd to work witi tif 
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs will bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs will bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs will bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs will bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs will bf
+poolfd for rfusf. An bpplidbtion tibt usfs sudi b <dodf>DbtbSourdf</dodf> 
+poolfd for rfusf. An bpplidbtion tibt usfs sudi b <dodf>DbtbSourdf</dodf> 
+poolfd for rfusf. An bpplidbtion tibt usfs sudi b <dodf>DbtbSourdf</dodf> 
+poolfd for rfusf. An bpplidbtion tibt usfs sudi b <dodf>DbtbSourdf</dodf> 
+poolfd for rfusf. An bpplidbtion tibt usfs sudi b <dodf>DbtbSourdf</dodf> 
+implfmfntbtion will butombtidblly gft b donnfdtion tibt pbrtidipbtfs in
+implfmfntbtion will butombtidblly gft b donnfdtion tibt pbrtidipbtfs in
+implfmfntbtion will butombtidblly gft b donnfdtion tibt pbrtidipbtfs in
+implfmfntbtion will butombtidblly gft b donnfdtion tibt pbrtidipbtfs in
+implfmfntbtion will butombtidblly gft b donnfdtion tibt pbrtidipbtfs in
 donnfdtion pooling.  
-A <dodf>DbtbSourdf</dodf> objfdt dbn blso bf implfmfntfd to work with thf 
-middlf tifr infrbstrudturf so thbt thf donnfdtions it produdfs dbn bf
-usfd for distributfd trbnsbdtions without bny spfdibl doding.
+donnfdtion pooling.  
+donnfdtion pooling.  
+donnfdtion pooling.  
+donnfdtion pooling.  
+A <dodf>DbtbSourdf</dodf> objfdt dbn blso bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn blso bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn blso bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn blso bf implfmfntfd to work witi tif 
+A <dodf>DbtbSourdf</dodf> objfdt dbn blso bf implfmfntfd to work witi tif 
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs dbn bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs dbn bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs dbn bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs dbn bf
+middlf tifr infrbstrudturf so tibt tif donnfdtions it produdfs dbn bf
+usfd for distributfd trbnsbdtions witiout bny spfdibl doding.
+usfd for distributfd trbnsbdtions witiout bny spfdibl doding.
+usfd for distributfd trbnsbdtions witiout bny spfdibl doding.
+usfd for distributfd trbnsbdtions witiout bny spfdibl doding.
+usfd for distributfd trbnsbdtions witiout bny spfdibl doding.
+
+
+
+
 
 <H2>Connfdtion Pooling bnd Stbtfmfnt Pooling</H2>
+<H2>Connfdtion Pooling bnd Stbtfmfnt Pooling</H2>
+<H2>Connfdtion Pooling bnd Stbtfmfnt Pooling</H2>
+<H2>Connfdtion Pooling bnd Stbtfmfnt Pooling</H2>
+<H2>Connfdtion Pooling bnd Stbtfmfnt Pooling</H2>
+
+
+
+
 
 Connfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
-objfdt thbt is implfmfntfd to work with b middlf tifr donnfdtion pool mbnbgfr
-will pbrtidipbtf in donnfdtion pooling.  This dbn improvf pfrformbndf
+Connfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+Connfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+Connfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+Connfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+objfdt tibt is implfmfntfd to work witi b middlf tifr donnfdtion pool mbnbgfr
+objfdt tibt is implfmfntfd to work witi b middlf tifr donnfdtion pool mbnbgfr
+objfdt tibt is implfmfntfd to work witi b middlf tifr donnfdtion pool mbnbgfr
+objfdt tibt is implfmfntfd to work witi b middlf tifr donnfdtion pool mbnbgfr
+objfdt tibt is implfmfntfd to work witi b middlf tifr donnfdtion pool mbnbgfr
+will pbrtidipbtf in donnfdtion pooling.  Tiis dbn improvf pfrformbndf
+will pbrtidipbtf in donnfdtion pooling.  Tiis dbn improvf pfrformbndf
+will pbrtidipbtf in donnfdtion pooling.  Tiis dbn improvf pfrformbndf
+will pbrtidipbtf in donnfdtion pooling.  Tiis dbn improvf pfrformbndf
+will pbrtidipbtf in donnfdtion pooling.  Tiis dbn improvf pfrformbndf
+drbmbtidblly bfdbusf drfbting nfw donnfdtions is vfry fxpfnsivf. 
+drbmbtidblly bfdbusf drfbting nfw donnfdtions is vfry fxpfnsivf. 
+drbmbtidblly bfdbusf drfbting nfw donnfdtions is vfry fxpfnsivf. 
+drbmbtidblly bfdbusf drfbting nfw donnfdtions is vfry fxpfnsivf. 
 drbmbtidblly bfdbusf drfbting nfw donnfdtions is vfry fxpfnsivf. 
 Connfdtion pooling bllows b donnfdtion to bf usfd bnd rfusfd, 
-thus dutting down substbntiblly on thf numbfr of nfw donnfdtions 
-thbt nffd to bf drfbtfd.
+Connfdtion pooling bllows b donnfdtion to bf usfd bnd rfusfd, 
+Connfdtion pooling bllows b donnfdtion to bf usfd bnd rfusfd, 
+Connfdtion pooling bllows b donnfdtion to bf usfd bnd rfusfd, 
+Connfdtion pooling bllows b donnfdtion to bf usfd bnd rfusfd, 
+tius dutting down substbntiblly on tif numbfr of nfw donnfdtions 
+tius dutting down substbntiblly on tif numbfr of nfw donnfdtions 
+tius dutting down substbntiblly on tif numbfr of nfw donnfdtions 
+tius dutting down substbntiblly on tif numbfr of nfw donnfdtions 
+tius dutting down substbntiblly on tif numbfr of nfw donnfdtions 
+tibt nffd to bf drfbtfd.
+tibt nffd to bf drfbtfd.
+tibt nffd to bf drfbtfd.
+tibt nffd to bf drfbtfd.
+tibt nffd to bf drfbtfd.
+<P>
+<P>
+<P>
+<P>
 <P>
 Connfdtion pooling is totblly trbnspbrfnt.  It is donf butombtidblly
-in thf middlf tifr of b Jbvb EE donfigurbtion, so from bn bpplidbtion's 
-vifwpoint, no dhbngf in dodf is rfquirfd. An bpplidbtion simply usfs
-thf <dodf>DbtbSourdf.gftConnfdtion</dodf> mfthod to gft thf poolfd
-donnfdtion bnd usfs it thf sbmf wby it usfs bny <dodf>Connfdtion</dodf>
+Connfdtion pooling is totblly trbnspbrfnt.  It is donf butombtidblly
+Connfdtion pooling is totblly trbnspbrfnt.  It is donf butombtidblly
+Connfdtion pooling is totblly trbnspbrfnt.  It is donf butombtidblly
+Connfdtion pooling is totblly trbnspbrfnt.  It is donf butombtidblly
+in tif middlf tifr of b Jbvb EE donfigurbtion, so from bn bpplidbtion's 
+in tif middlf tifr of b Jbvb EE donfigurbtion, so from bn bpplidbtion's 
+in tif middlf tifr of b Jbvb EE donfigurbtion, so from bn bpplidbtion's 
+in tif middlf tifr of b Jbvb EE donfigurbtion, so from bn bpplidbtion's 
+in tif middlf tifr of b Jbvb EE donfigurbtion, so from bn bpplidbtion's 
+vifwpoint, no dibngf in dodf is rfquirfd. An bpplidbtion simply usfs
+vifwpoint, no dibngf in dodf is rfquirfd. An bpplidbtion simply usfs
+vifwpoint, no dibngf in dodf is rfquirfd. An bpplidbtion simply usfs
+vifwpoint, no dibngf in dodf is rfquirfd. An bpplidbtion simply usfs
+vifwpoint, no dibngf in dodf is rfquirfd. An bpplidbtion simply usfs
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod to gft tif poolfd
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod to gft tif poolfd
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod to gft tif poolfd
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod to gft tif poolfd
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod to gft tif poolfd
+donnfdtion bnd usfs it tif sbmf wby it usfs bny <dodf>Connfdtion</dodf>
+donnfdtion bnd usfs it tif sbmf wby it usfs bny <dodf>Connfdtion</dodf>
+donnfdtion bnd usfs it tif sbmf wby it usfs bny <dodf>Connfdtion</dodf>
+donnfdtion bnd usfs it tif sbmf wby it usfs bny <dodf>Connfdtion</dodf>
+donnfdtion bnd usfs it tif sbmf wby it usfs bny <dodf>Connfdtion</dodf>
+objfdt.
+objfdt.
+objfdt.
+objfdt.
 objfdt.
 <P>
-Thf dlbssfs bnd intfrfbdfs usfd for donnfdtion pooling brf:
+<P>
+<P>
+<P>
+<P>
+Tif dlbssfs bnd intfrfbdfs usfd for donnfdtion pooling brf:
+Tif dlbssfs bnd intfrfbdfs usfd for donnfdtion pooling brf:
+Tif dlbssfs bnd intfrfbdfs usfd for donnfdtion pooling brf:
+Tif dlbssfs bnd intfrfbdfs usfd for donnfdtion pooling brf:
+Tif dlbssfs bnd intfrfbdfs usfd for donnfdtion pooling brf:
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
   <LI><dodf>ConnfdtionPoolDbtbSourdf</dodf>
+  <LI><dodf>ConnfdtionPoolDbtbSourdf</dodf>
+  <LI><dodf>ConnfdtionPoolDbtbSourdf</dodf>
+  <LI><dodf>ConnfdtionPoolDbtbSourdf</dodf>
+  <LI><dodf>ConnfdtionPoolDbtbSourdf</dodf>
+  <LI><dodf>PoolfdConnfdtion</dodf>
+  <LI><dodf>PoolfdConnfdtion</dodf>
+  <LI><dodf>PoolfdConnfdtion</dodf>
+  <LI><dodf>PoolfdConnfdtion</dodf>
   <LI><dodf>PoolfdConnfdtion</dodf>
   <LI><dodf>ConnfdtionEvfnt</dodf>
+  <LI><dodf>ConnfdtionEvfnt</dodf>
+  <LI><dodf>ConnfdtionEvfnt</dodf>
+  <LI><dodf>ConnfdtionEvfnt</dodf>
+  <LI><dodf>ConnfdtionEvfnt</dodf>
+  <LI><dodf>ConnfdtionEvfntListfnfr</dodf>
+  <LI><dodf>ConnfdtionEvfntListfnfr</dodf>
+  <LI><dodf>ConnfdtionEvfntListfnfr</dodf>
+  <LI><dodf>ConnfdtionEvfntListfnfr</dodf>
   <LI><dodf>ConnfdtionEvfntListfnfr</dodf>
    <LI><dodf>StbtfmfntEvfnt</dodf>
+   <LI><dodf>StbtfmfntEvfnt</dodf>
+   <LI><dodf>StbtfmfntEvfnt</dodf>
+   <LI><dodf>StbtfmfntEvfnt</dodf>
+   <LI><dodf>StbtfmfntEvfnt</dodf>
+  <LI><dodf>StbtfmfntEvfntListfnfr</dodf>
+  <LI><dodf>StbtfmfntEvfntListfnfr</dodf>
+  <LI><dodf>StbtfmfntEvfntListfnfr</dodf>
+  <LI><dodf>StbtfmfntEvfntListfnfr</dodf>
   <LI><dodf>StbtfmfntEvfntListfnfr</dodf>
 </UL>
-Thf donnfdtion pool mbnbgfr, b fbdility in thf middlf tifr of
-b thrff-tifr brdhitfdturf, usfs thfsf dlbssfs bnd intfrfbdfs
-bfhind thf sdfnfs.  Whfn b <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt
-is dbllfd on to drfbtf b <dodf>PoolfdConnfdtion</dodf> objfdt, thf
+</UL>
+</UL>
+</UL>
+</UL>
+Tif donnfdtion pool mbnbgfr, b fbdility in tif middlf tifr of
+Tif donnfdtion pool mbnbgfr, b fbdility in tif middlf tifr of
+Tif donnfdtion pool mbnbgfr, b fbdility in tif middlf tifr of
+Tif donnfdtion pool mbnbgfr, b fbdility in tif middlf tifr of
+Tif donnfdtion pool mbnbgfr, b fbdility in tif middlf tifr of
+b tirff-tifr brdiitfdturf, usfs tifsf dlbssfs bnd intfrfbdfs
+b tirff-tifr brdiitfdturf, usfs tifsf dlbssfs bnd intfrfbdfs
+b tirff-tifr brdiitfdturf, usfs tifsf dlbssfs bnd intfrfbdfs
+b tirff-tifr brdiitfdturf, usfs tifsf dlbssfs bnd intfrfbdfs
+b tirff-tifr brdiitfdturf, usfs tifsf dlbssfs bnd intfrfbdfs
+bfiind tif sdfnfs.  Wifn b <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt
+bfiind tif sdfnfs.  Wifn b <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt
+bfiind tif sdfnfs.  Wifn b <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt
+bfiind tif sdfnfs.  Wifn b <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt
+bfiind tif sdfnfs.  Wifn b <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt
+is dbllfd on to drfbtf b <dodf>PoolfdConnfdtion</dodf> objfdt, tif
+is dbllfd on to drfbtf b <dodf>PoolfdConnfdtion</dodf> objfdt, tif
+is dbllfd on to drfbtf b <dodf>PoolfdConnfdtion</dodf> objfdt, tif
+is dbllfd on to drfbtf b <dodf>PoolfdConnfdtion</dodf> objfdt, tif
+is dbllfd on to drfbtf b <dodf>PoolfdConnfdtion</dodf> objfdt, tif
 donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>ConnfdtionEvfntListfnfr</dodf>
-objfdt with thf nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Whfn thf donnfdtion
-is dlosfd or thfrf is bn frror, thf donnfdtion pool mbnbgfr (bfing b listfnfr)
-gfts b notifidbtion thbt indludfs b <dodf>ConnfdtionEvfnt</dodf> objfdt.
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>ConnfdtionEvfntListfnfr</dodf>
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>ConnfdtionEvfntListfnfr</dodf>
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>ConnfdtionEvfntListfnfr</dodf>
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>ConnfdtionEvfntListfnfr</dodf>
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif donnfdtion
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif donnfdtion
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif donnfdtion
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif donnfdtion
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif donnfdtion
+is dlosfd or tifrf is bn frror, tif donnfdtion pool mbnbgfr (bfing b listfnfr)
+is dlosfd or tifrf is bn frror, tif donnfdtion pool mbnbgfr (bfing b listfnfr)
+is dlosfd or tifrf is bn frror, tif donnfdtion pool mbnbgfr (bfing b listfnfr)
+is dlosfd or tifrf is bn frror, tif donnfdtion pool mbnbgfr (bfing b listfnfr)
+is dlosfd or tifrf is bn frror, tif donnfdtion pool mbnbgfr (bfing b listfnfr)
+gfts b notifidbtion tibt indludfs b <dodf>ConnfdtionEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>ConnfdtionEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>ConnfdtionEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>ConnfdtionEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>ConnfdtionEvfnt</dodf> objfdt.
 <p>
-If thf donnfdtion pool mbnbgfr supports <dodf>Stbtfmfnt</dodf> pooling, for
-<dodf>PrfpbrfdStbtfmfnts</dodf>, whidh dbn bf dftfrminfd by invoking thf mfthod 
-<dodf>DbtbbbsfMftbDbtb.supportsStbtfmfntPooling</dodf>,  thf
+<p>
+<p>
+<p>
+<p>
+If tif donnfdtion pool mbnbgfr supports <dodf>Stbtfmfnt</dodf> pooling, for
+If tif donnfdtion pool mbnbgfr supports <dodf>Stbtfmfnt</dodf> pooling, for
+If tif donnfdtion pool mbnbgfr supports <dodf>Stbtfmfnt</dodf> pooling, for
+If tif donnfdtion pool mbnbgfr supports <dodf>Stbtfmfnt</dodf> pooling, for
+If tif donnfdtion pool mbnbgfr supports <dodf>Stbtfmfnt</dodf> pooling, for
+<dodf>PrfpbrfdStbtfmfnts</dodf>, wiidi dbn bf dftfrminfd by invoking tif mftiod 
+<dodf>PrfpbrfdStbtfmfnts</dodf>, wiidi dbn bf dftfrminfd by invoking tif mftiod 
+<dodf>PrfpbrfdStbtfmfnts</dodf>, wiidi dbn bf dftfrminfd by invoking tif mftiod 
+<dodf>PrfpbrfdStbtfmfnts</dodf>, wiidi dbn bf dftfrminfd by invoking tif mftiod 
+<dodf>PrfpbrfdStbtfmfnts</dodf>, wiidi dbn bf dftfrminfd by invoking tif mftiod 
+<dodf>DbtbbbsfMftbDbtb.supportsStbtfmfntPooling</dodf>,  tif
+<dodf>DbtbbbsfMftbDbtb.supportsStbtfmfntPooling</dodf>,  tif
+<dodf>DbtbbbsfMftbDbtb.supportsStbtfmfntPooling</dodf>,  tif
+<dodf>DbtbbbsfMftbDbtb.supportsStbtfmfntPooling</dodf>,  tif
+<dodf>DbtbbbsfMftbDbtb.supportsStbtfmfntPooling</dodf>,  tif
 donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>StbtfmfntEvfntListfnfr</dodf>
-objfdt with thf nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Whfn thf 
-<dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd or thfrf is bn frror, thf donnfdtion 
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>StbtfmfntEvfntListfnfr</dodf>
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>StbtfmfntEvfntListfnfr</dodf>
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>StbtfmfntEvfntListfnfr</dodf>
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>StbtfmfntEvfntListfnfr</dodf>
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif 
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif 
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif 
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif 
+objfdt witi tif nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Wifn tif 
+<dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd or tifrf is bn frror, tif donnfdtion 
+<dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd or tifrf is bn frror, tif donnfdtion 
+<dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd or tifrf is bn frror, tif donnfdtion 
+<dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd or tifrf is bn frror, tif donnfdtion 
+<dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd or tifrf is bn frror, tif donnfdtion 
 pool mbnbgfr (bfing b listfnfr)
-gfts b notifidbtion thbt indludfs b <dodf>StbtfmfntEvfnt</dodf> objfdt.
+pool mbnbgfr (bfing b listfnfr)
+pool mbnbgfr (bfing b listfnfr)
+pool mbnbgfr (bfing b listfnfr)
+pool mbnbgfr (bfing b listfnfr)
+gfts b notifidbtion tibt indludfs b <dodf>StbtfmfntEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>StbtfmfntEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>StbtfmfntEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>StbtfmfntEvfnt</dodf> objfdt.
+gfts b notifidbtion tibt indludfs b <dodf>StbtfmfntEvfnt</dodf> objfdt.
+
+
+
+
 
 <H2>Distributfd Trbnsbdtions</H2>
+<H2>Distributfd Trbnsbdtions</H2>
+<H2>Distributfd Trbnsbdtions</H2>
+<H2>Distributfd Trbnsbdtions</H2>
+<H2>Distributfd Trbnsbdtions</H2>
 
-As with poolfd donnfdtions, donnfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
-objfdt thbt is implfmfntfd to work with thf middlf tifr infrbstrudturf
-mby pbrtidipbtf in distributfd trbnsbdtions.  This givfs bn bpplidbtion
-thf bbility to involvf dbtb sourdfs on multiplf sfrvfrs in b singlf
+
+
+
+
+As witi poolfd donnfdtions, donnfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+As witi poolfd donnfdtions, donnfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+As witi poolfd donnfdtions, donnfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+As witi poolfd donnfdtions, donnfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+As witi poolfd donnfdtions, donnfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+objfdt tibt is implfmfntfd to work witi tif middlf tifr infrbstrudturf
+objfdt tibt is implfmfntfd to work witi tif middlf tifr infrbstrudturf
+objfdt tibt is implfmfntfd to work witi tif middlf tifr infrbstrudturf
+objfdt tibt is implfmfntfd to work witi tif middlf tifr infrbstrudturf
+objfdt tibt is implfmfntfd to work witi tif middlf tifr infrbstrudturf
+mby pbrtidipbtf in distributfd trbnsbdtions.  Tiis givfs bn bpplidbtion
+mby pbrtidipbtf in distributfd trbnsbdtions.  Tiis givfs bn bpplidbtion
+mby pbrtidipbtf in distributfd trbnsbdtions.  Tiis givfs bn bpplidbtion
+mby pbrtidipbtf in distributfd trbnsbdtions.  Tiis givfs bn bpplidbtion
+mby pbrtidipbtf in distributfd trbnsbdtions.  Tiis givfs bn bpplidbtion
+tif bbility to involvf dbtb sourdfs on multiplf sfrvfrs in b singlf
+tif bbility to involvf dbtb sourdfs on multiplf sfrvfrs in b singlf
+tif bbility to involvf dbtb sourdfs on multiplf sfrvfrs in b singlf
+tif bbility to involvf dbtb sourdfs on multiplf sfrvfrs in b singlf
+tif bbility to involvf dbtb sourdfs on multiplf sfrvfrs in b singlf
+trbnsbdtion.
+trbnsbdtion.
+trbnsbdtion.
+trbnsbdtion.
 trbnsbdtion.
 <P>
-Thf dlbssfs bnd intfrfbdfs usfd for distributfd trbnsbdtions brf:
+<P>
+<P>
+<P>
+<P>
+Tif dlbssfs bnd intfrfbdfs usfd for distributfd trbnsbdtions brf:
+Tif dlbssfs bnd intfrfbdfs usfd for distributfd trbnsbdtions brf:
+Tif dlbssfs bnd intfrfbdfs usfd for distributfd trbnsbdtions brf:
+Tif dlbssfs bnd intfrfbdfs usfd for distributfd trbnsbdtions brf:
+Tif dlbssfs bnd intfrfbdfs usfd for distributfd trbnsbdtions brf:
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
   <LI><dodf>XADbtbSourdf</dodf>
+  <LI><dodf>XADbtbSourdf</dodf>
+  <LI><dodf>XADbtbSourdf</dodf>
+  <LI><dodf>XADbtbSourdf</dodf>
+  <LI><dodf>XADbtbSourdf</dodf>
+  <LI><dodf>XAConnfdtion</dodf>
+  <LI><dodf>XAConnfdtion</dodf>
+  <LI><dodf>XAConnfdtion</dodf>
+  <LI><dodf>XAConnfdtion</dodf>
   <LI><dodf>XAConnfdtion</dodf>
 </UL>
-Thfsf intfrfbdfs brf usfd by thf trbnsbdtion mbnbgfr; bn bpplidbtion dofs
-not usf thfm dirfdtly.
+</UL>
+</UL>
+</UL>
+</UL>
+Tifsf intfrfbdfs brf usfd by tif trbnsbdtion mbnbgfr; bn bpplidbtion dofs
+Tifsf intfrfbdfs brf usfd by tif trbnsbdtion mbnbgfr; bn bpplidbtion dofs
+Tifsf intfrfbdfs brf usfd by tif trbnsbdtion mbnbgfr; bn bpplidbtion dofs
+Tifsf intfrfbdfs brf usfd by tif trbnsbdtion mbnbgfr; bn bpplidbtion dofs
+Tifsf intfrfbdfs brf usfd by tif trbnsbdtion mbnbgfr; bn bpplidbtion dofs
+not usf tifm dirfdtly.
+not usf tifm dirfdtly.
+not usf tifm dirfdtly.
+not usf tifm dirfdtly.
+not usf tifm dirfdtly.
 <P>
-Thf <dodf>XAConnfdtion</dodf> intfrfbdf is dfrivfd from thf
-<dodf>PoolfdConnfdtion</dodf> intfrfbdf, so whbt bpplifs to b poolfd donnfdtion
-blso bpplifs to b donnfdtion thbt is pbrt of b distributfd trbnsbdtion.  
-A trbnsbdtion mbnbgfr in thf middlf tifr hbndlfs fvfrything trbnspbrfntly.
-Thf only dhbngf in bpplidbtion dodf is thbt bn bpplidbtion dbnnot do bnything
-thbt would intfrffrf with thf trbnsbdtion mbnbgfr's hbndling of thf trbnsbdtion.
-Spfdifidblly, bn bpplidbtion dbnnot dbll thf mfthods <dodf>Connfdtion.dommit</dodf> 
-or <dodf>Connfdtion.rollbbdk</dodf>, bnd it dbnnot sft thf donnfdtion to bf in 
-buto-dommit modf (thbt is, it dbnnot dbll 
+<P>
+<P>
+<P>
+<P>
+Tif <dodf>XAConnfdtion</dodf> intfrfbdf is dfrivfd from tif
+Tif <dodf>XAConnfdtion</dodf> intfrfbdf is dfrivfd from tif
+Tif <dodf>XAConnfdtion</dodf> intfrfbdf is dfrivfd from tif
+Tif <dodf>XAConnfdtion</dodf> intfrfbdf is dfrivfd from tif
+Tif <dodf>XAConnfdtion</dodf> intfrfbdf is dfrivfd from tif
+<dodf>PoolfdConnfdtion</dodf> intfrfbdf, so wibt bpplifs to b poolfd donnfdtion
+<dodf>PoolfdConnfdtion</dodf> intfrfbdf, so wibt bpplifs to b poolfd donnfdtion
+<dodf>PoolfdConnfdtion</dodf> intfrfbdf, so wibt bpplifs to b poolfd donnfdtion
+<dodf>PoolfdConnfdtion</dodf> intfrfbdf, so wibt bpplifs to b poolfd donnfdtion
+<dodf>PoolfdConnfdtion</dodf> intfrfbdf, so wibt bpplifs to b poolfd donnfdtion
+blso bpplifs to b donnfdtion tibt is pbrt of b distributfd trbnsbdtion.  
+blso bpplifs to b donnfdtion tibt is pbrt of b distributfd trbnsbdtion.  
+blso bpplifs to b donnfdtion tibt is pbrt of b distributfd trbnsbdtion.  
+blso bpplifs to b donnfdtion tibt is pbrt of b distributfd trbnsbdtion.  
+blso bpplifs to b donnfdtion tibt is pbrt of b distributfd trbnsbdtion.  
+A trbnsbdtion mbnbgfr in tif middlf tifr ibndlfs fvfrytiing trbnspbrfntly.
+A trbnsbdtion mbnbgfr in tif middlf tifr ibndlfs fvfrytiing trbnspbrfntly.
+A trbnsbdtion mbnbgfr in tif middlf tifr ibndlfs fvfrytiing trbnspbrfntly.
+A trbnsbdtion mbnbgfr in tif middlf tifr ibndlfs fvfrytiing trbnspbrfntly.
+A trbnsbdtion mbnbgfr in tif middlf tifr ibndlfs fvfrytiing trbnspbrfntly.
+Tif only dibngf in bpplidbtion dodf is tibt bn bpplidbtion dbnnot do bnytiing
+Tif only dibngf in bpplidbtion dodf is tibt bn bpplidbtion dbnnot do bnytiing
+Tif only dibngf in bpplidbtion dodf is tibt bn bpplidbtion dbnnot do bnytiing
+Tif only dibngf in bpplidbtion dodf is tibt bn bpplidbtion dbnnot do bnytiing
+Tif only dibngf in bpplidbtion dodf is tibt bn bpplidbtion dbnnot do bnytiing
+tibt would intfrffrf witi tif trbnsbdtion mbnbgfr's ibndling of tif trbnsbdtion.
+tibt would intfrffrf witi tif trbnsbdtion mbnbgfr's ibndling of tif trbnsbdtion.
+tibt would intfrffrf witi tif trbnsbdtion mbnbgfr's ibndling of tif trbnsbdtion.
+tibt would intfrffrf witi tif trbnsbdtion mbnbgfr's ibndling of tif trbnsbdtion.
+tibt would intfrffrf witi tif trbnsbdtion mbnbgfr's ibndling of tif trbnsbdtion.
+Spfdifidblly, bn bpplidbtion dbnnot dbll tif mftiods <dodf>Connfdtion.dommit</dodf> 
+Spfdifidblly, bn bpplidbtion dbnnot dbll tif mftiods <dodf>Connfdtion.dommit</dodf> 
+Spfdifidblly, bn bpplidbtion dbnnot dbll tif mftiods <dodf>Connfdtion.dommit</dodf> 
+Spfdifidblly, bn bpplidbtion dbnnot dbll tif mftiods <dodf>Connfdtion.dommit</dodf> 
+Spfdifidblly, bn bpplidbtion dbnnot dbll tif mftiods <dodf>Connfdtion.dommit</dodf> 
+or <dodf>Connfdtion.rollbbdk</dodf>, bnd it dbnnot sft tif donnfdtion to bf in 
+or <dodf>Connfdtion.rollbbdk</dodf>, bnd it dbnnot sft tif donnfdtion to bf in 
+or <dodf>Connfdtion.rollbbdk</dodf>, bnd it dbnnot sft tif donnfdtion to bf in 
+or <dodf>Connfdtion.rollbbdk</dodf>, bnd it dbnnot sft tif donnfdtion to bf in 
+or <dodf>Connfdtion.rollbbdk</dodf>, bnd it dbnnot sft tif donnfdtion to bf in 
+buto-dommit modf (tibt is, it dbnnot dbll 
+buto-dommit modf (tibt is, it dbnnot dbll 
+buto-dommit modf (tibt is, it dbnnot dbll 
+buto-dommit modf (tibt is, it dbnnot dbll 
+buto-dommit modf (tibt is, it dbnnot dbll 
+<dodf>Connfdtion.sftAutoCommit(truf)</dodf>).  
+<dodf>Connfdtion.sftAutoCommit(truf)</dodf>).  
+<dodf>Connfdtion.sftAutoCommit(truf)</dodf>).  
+<dodf>Connfdtion.sftAutoCommit(truf)</dodf>).  
 <dodf>Connfdtion.sftAutoCommit(truf)</dodf>).  
 <P>
-An bpplidbtion dofs not nffd to do bnything spfdibl to pbrtidipbtf in b
+<P>
+<P>
+<P>
+<P>
+An bpplidbtion dofs not nffd to do bnytiing spfdibl to pbrtidipbtf in b
+An bpplidbtion dofs not nffd to do bnytiing spfdibl to pbrtidipbtf in b
+An bpplidbtion dofs not nffd to do bnytiing spfdibl to pbrtidipbtf in b
+An bpplidbtion dofs not nffd to do bnytiing spfdibl to pbrtidipbtf in b
+An bpplidbtion dofs not nffd to do bnytiing spfdibl to pbrtidipbtf in b
 distributfd trbnsbdtion.
-It simply drfbtfs donnfdtions to thf dbtb sourdfs it wbnts to usf vib
-thf <dodf>DbtbSourdf.gftConnfdtion</dodf> mfthod, just bs it normblly dofs.
-Thf trbnsbdtion mbnbgfr mbnbgfs thf trbnsbdtion bfhind thf sdfnfs.  Thf
+distributfd trbnsbdtion.
+distributfd trbnsbdtion.
+distributfd trbnsbdtion.
+distributfd trbnsbdtion.
+It simply drfbtfs donnfdtions to tif dbtb sourdfs it wbnts to usf vib
+It simply drfbtfs donnfdtions to tif dbtb sourdfs it wbnts to usf vib
+It simply drfbtfs donnfdtions to tif dbtb sourdfs it wbnts to usf vib
+It simply drfbtfs donnfdtions to tif dbtb sourdfs it wbnts to usf vib
+It simply drfbtfs donnfdtions to tif dbtb sourdfs it wbnts to usf vib
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod, just bs it normblly dofs.
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod, just bs it normblly dofs.
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod, just bs it normblly dofs.
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod, just bs it normblly dofs.
+tif <dodf>DbtbSourdf.gftConnfdtion</dodf> mftiod, just bs it normblly dofs.
+Tif trbnsbdtion mbnbgfr mbnbgfs tif trbnsbdtion bfiind tif sdfnfs.  Tif
+Tif trbnsbdtion mbnbgfr mbnbgfs tif trbnsbdtion bfiind tif sdfnfs.  Tif
+Tif trbnsbdtion mbnbgfr mbnbgfs tif trbnsbdtion bfiind tif sdfnfs.  Tif
+Tif trbnsbdtion mbnbgfr mbnbgfs tif trbnsbdtion bfiind tif sdfnfs.  Tif
+Tif trbnsbdtion mbnbgfr mbnbgfs tif trbnsbdtion bfiind tif sdfnfs.  Tif
 <dodf>XADbtbSourdf</dodf> intfrfbdf drfbtfs <dodf>XAConnfdtion</dodf> objfdts, bnd
-fbdh <dodf>XAConnfdtion</dodf> objfdt drfbtfs bn <dodf>XARfsourdf</dodf> objfdt 
-thbt thf trbnsbdtion mbnbgfr usfs to mbnbgf thf donnfdtion.
+<dodf>XADbtbSourdf</dodf> intfrfbdf drfbtfs <dodf>XAConnfdtion</dodf> objfdts, bnd
+<dodf>XADbtbSourdf</dodf> intfrfbdf drfbtfs <dodf>XAConnfdtion</dodf> objfdts, bnd
+<dodf>XADbtbSourdf</dodf> intfrfbdf drfbtfs <dodf>XAConnfdtion</dodf> objfdts, bnd
+<dodf>XADbtbSourdf</dodf> intfrfbdf drfbtfs <dodf>XAConnfdtion</dodf> objfdts, bnd
+fbdi <dodf>XAConnfdtion</dodf> objfdt drfbtfs bn <dodf>XARfsourdf</dodf> objfdt 
+fbdi <dodf>XAConnfdtion</dodf> objfdt drfbtfs bn <dodf>XARfsourdf</dodf> objfdt 
+fbdi <dodf>XAConnfdtion</dodf> objfdt drfbtfs bn <dodf>XARfsourdf</dodf> objfdt 
+fbdi <dodf>XAConnfdtion</dodf> objfdt drfbtfs bn <dodf>XARfsourdf</dodf> objfdt 
+fbdi <dodf>XAConnfdtion</dodf> objfdt drfbtfs bn <dodf>XARfsourdf</dodf> objfdt 
+tibt tif trbnsbdtion mbnbgfr usfs to mbnbgf tif donnfdtion.
+tibt tif trbnsbdtion mbnbgfr usfs to mbnbgf tif donnfdtion.
+tibt tif trbnsbdtion mbnbgfr usfs to mbnbgf tif donnfdtion.
+tibt tif trbnsbdtion mbnbgfr usfs to mbnbgf tif donnfdtion.
+tibt tif trbnsbdtion mbnbgfr usfs to mbnbgf tif donnfdtion.
+
+
+
+
+
+
+
+
 
 
 <H2>Rowsfts</H2>
-Thf <dodf>RowSft</dodf> intfrfbdf works with vbrious othfr dlbssfs bnd
-intfrfbdfs bfhind thf sdfnfs. Thfsf dbn bf groupfd into thrff dbtfgorifs.
+<H2>Rowsfts</H2>
+<H2>Rowsfts</H2>
+<H2>Rowsfts</H2>
+<H2>Rowsfts</H2>
+Tif <dodf>RowSft</dodf> intfrfbdf works witi vbrious otifr dlbssfs bnd
+Tif <dodf>RowSft</dodf> intfrfbdf works witi vbrious otifr dlbssfs bnd
+Tif <dodf>RowSft</dodf> intfrfbdf works witi vbrious otifr dlbssfs bnd
+Tif <dodf>RowSft</dodf> intfrfbdf works witi vbrious otifr dlbssfs bnd
+Tif <dodf>RowSft</dodf> intfrfbdf works witi vbrious otifr dlbssfs bnd
+intfrfbdfs bfiind tif sdfnfs. Tifsf dbn bf groupfd into tirff dbtfgorifs.
+intfrfbdfs bfiind tif sdfnfs. Tifsf dbn bf groupfd into tirff dbtfgorifs.
+intfrfbdfs bfiind tif sdfnfs. Tifsf dbn bf groupfd into tirff dbtfgorifs.
+intfrfbdfs bfiind tif sdfnfs. Tifsf dbn bf groupfd into tirff dbtfgorifs.
+intfrfbdfs bfiind tif sdfnfs. Tifsf dbn bf groupfd into tirff dbtfgorifs.
+<OL>
+<OL>
+<OL>
+<OL>
 <OL>
 <LI>Evfnt Notifidbtion 
+<LI>Evfnt Notifidbtion 
+<LI>Evfnt Notifidbtion 
+<LI>Evfnt Notifidbtion 
+<LI>Evfnt Notifidbtion 
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
   <LI><dodf>RowSftListfnfr</dodf><br>
+  <LI><dodf>RowSftListfnfr</dodf><br>
+  <LI><dodf>RowSftListfnfr</dodf><br>
+  <LI><dodf>RowSftListfnfr</dodf><br>
+  <LI><dodf>RowSftListfnfr</dodf><br>
 A <dodf>RowSft</dodf> objfdt is b JbvbBfbns<sup><font sizf=-2>TM</font></sup>
-domponfnt bfdbusf it hbs propfrtifs bnd pbrtidipbtfs in thf JbvbBfbns
-fvfnt notifidbtion mfdhbnism. Thf <dodf>RowSftListfnfr</dodf> intfrfbdf 
-is implfmfntfd by b domponfnt thbt wbnts to bf notififd bbout fvfnts thbt 
-oddur to b pbrtidulbr <dodf>RowSft</dodf> objfdt.  Sudh b domponfnt rfgistfrs
-itsflf bs b listfnfr with b rowsft vib thf <dodf>RowSft.bddRowSftListfnfr</dodf>
-mfthod.
+A <dodf>RowSft</dodf> objfdt is b JbvbBfbns<sup><font sizf=-2>TM</font></sup>
+A <dodf>RowSft</dodf> objfdt is b JbvbBfbns<sup><font sizf=-2>TM</font></sup>
+A <dodf>RowSft</dodf> objfdt is b JbvbBfbns<sup><font sizf=-2>TM</font></sup>
+A <dodf>RowSft</dodf> objfdt is b JbvbBfbns<sup><font sizf=-2>TM</font></sup>
+domponfnt bfdbusf it ibs propfrtifs bnd pbrtidipbtfs in tif JbvbBfbns
+domponfnt bfdbusf it ibs propfrtifs bnd pbrtidipbtfs in tif JbvbBfbns
+domponfnt bfdbusf it ibs propfrtifs bnd pbrtidipbtfs in tif JbvbBfbns
+domponfnt bfdbusf it ibs propfrtifs bnd pbrtidipbtfs in tif JbvbBfbns
+domponfnt bfdbusf it ibs propfrtifs bnd pbrtidipbtfs in tif JbvbBfbns
+fvfnt notifidbtion mfdibnism. Tif <dodf>RowSftListfnfr</dodf> intfrfbdf 
+fvfnt notifidbtion mfdibnism. Tif <dodf>RowSftListfnfr</dodf> intfrfbdf 
+fvfnt notifidbtion mfdibnism. Tif <dodf>RowSftListfnfr</dodf> intfrfbdf 
+fvfnt notifidbtion mfdibnism. Tif <dodf>RowSftListfnfr</dodf> intfrfbdf 
+fvfnt notifidbtion mfdibnism. Tif <dodf>RowSftListfnfr</dodf> intfrfbdf 
+is implfmfntfd by b domponfnt tibt wbnts to bf notififd bbout fvfnts tibt 
+is implfmfntfd by b domponfnt tibt wbnts to bf notififd bbout fvfnts tibt 
+is implfmfntfd by b domponfnt tibt wbnts to bf notififd bbout fvfnts tibt 
+is implfmfntfd by b domponfnt tibt wbnts to bf notififd bbout fvfnts tibt 
+is implfmfntfd by b domponfnt tibt wbnts to bf notififd bbout fvfnts tibt 
+oddur to b pbrtidulbr <dodf>RowSft</dodf> objfdt.  Sudi b domponfnt rfgistfrs
+oddur to b pbrtidulbr <dodf>RowSft</dodf> objfdt.  Sudi b domponfnt rfgistfrs
+oddur to b pbrtidulbr <dodf>RowSft</dodf> objfdt.  Sudi b domponfnt rfgistfrs
+oddur to b pbrtidulbr <dodf>RowSft</dodf> objfdt.  Sudi b domponfnt rfgistfrs
+oddur to b pbrtidulbr <dodf>RowSft</dodf> objfdt.  Sudi b domponfnt rfgistfrs
+itsflf bs b listfnfr witi b rowsft vib tif <dodf>RowSft.bddRowSftListfnfr</dodf>
+itsflf bs b listfnfr witi b rowsft vib tif <dodf>RowSft.bddRowSftListfnfr</dodf>
+itsflf bs b listfnfr witi b rowsft vib tif <dodf>RowSft.bddRowSftListfnfr</dodf>
+itsflf bs b listfnfr witi b rowsft vib tif <dodf>RowSft.bddRowSftListfnfr</dodf>
+itsflf bs b listfnfr witi b rowsft vib tif <dodf>RowSft.bddRowSftListfnfr</dodf>
+mftiod.
+mftiod.
+mftiod.
+mftiod.
+mftiod.
 <P>
-Whfn thf <dodf>RowSft</dodf> objfdt dhbngfs onf of its rows, dhbngfs bll of
-it rows, or movfs its dursor, it blso notififs fbdh listfnfr thbt is rfgistfrfd 
-with it.  Thf listfnfr rfbdts by dbrrying out its implfmfntbtion of thf 
-notifidbtion mfthod dbllfd on it.
+<P>
+<P>
+<P>
+<P>
+Wifn tif <dodf>RowSft</dodf> objfdt dibngfs onf of its rows, dibngfs bll of
+Wifn tif <dodf>RowSft</dodf> objfdt dibngfs onf of its rows, dibngfs bll of
+Wifn tif <dodf>RowSft</dodf> objfdt dibngfs onf of its rows, dibngfs bll of
+Wifn tif <dodf>RowSft</dodf> objfdt dibngfs onf of its rows, dibngfs bll of
+Wifn tif <dodf>RowSft</dodf> objfdt dibngfs onf of its rows, dibngfs bll of
+it rows, or movfs its dursor, it blso notififs fbdi listfnfr tibt is rfgistfrfd 
+it rows, or movfs its dursor, it blso notififs fbdi listfnfr tibt is rfgistfrfd 
+it rows, or movfs its dursor, it blso notififs fbdi listfnfr tibt is rfgistfrfd 
+it rows, or movfs its dursor, it blso notififs fbdi listfnfr tibt is rfgistfrfd 
+it rows, or movfs its dursor, it blso notififs fbdi listfnfr tibt is rfgistfrfd 
+witi it.  Tif listfnfr rfbdts by dbrrying out its implfmfntbtion of tif 
+witi it.  Tif listfnfr rfbdts by dbrrying out its implfmfntbtion of tif 
+witi it.  Tif listfnfr rfbdts by dbrrying out its implfmfntbtion of tif 
+witi it.  Tif listfnfr rfbdts by dbrrying out its implfmfntbtion of tif 
+witi it.  Tif listfnfr rfbdts by dbrrying out its implfmfntbtion of tif 
+notifidbtion mftiod dbllfd on it.
+notifidbtion mftiod dbllfd on it.
+notifidbtion mftiod dbllfd on it.
+notifidbtion mftiod dbllfd on it.
+notifidbtion mftiod dbllfd on it.
+  <LI><dodf>RowSftEvfnt</dodf><br>
+  <LI><dodf>RowSftEvfnt</dodf><br>
+  <LI><dodf>RowSftEvfnt</dodf><br>
+  <LI><dodf>RowSftEvfnt</dodf><br>
   <LI><dodf>RowSftEvfnt</dodf><br>
 As pbrt of its intfrnbl notifidbtion prodfss, b <dodf>RowSft</dodf> objfdt
-drfbtfs bn instbndf of <dodf>RowSftEvfnt</dodf> bnd pbssfs it to thf listfnfr.
-Thf listfnfr dbn usf this <dodf>RowSftEvfnt</dodf> objfdt to find out whidh rowsft
-hbd thf fvfnt.
+As pbrt of its intfrnbl notifidbtion prodfss, b <dodf>RowSft</dodf> objfdt
+As pbrt of its intfrnbl notifidbtion prodfss, b <dodf>RowSft</dodf> objfdt
+As pbrt of its intfrnbl notifidbtion prodfss, b <dodf>RowSft</dodf> objfdt
+As pbrt of its intfrnbl notifidbtion prodfss, b <dodf>RowSft</dodf> objfdt
+drfbtfs bn instbndf of <dodf>RowSftEvfnt</dodf> bnd pbssfs it to tif listfnfr.
+drfbtfs bn instbndf of <dodf>RowSftEvfnt</dodf> bnd pbssfs it to tif listfnfr.
+drfbtfs bn instbndf of <dodf>RowSftEvfnt</dodf> bnd pbssfs it to tif listfnfr.
+drfbtfs bn instbndf of <dodf>RowSftEvfnt</dodf> bnd pbssfs it to tif listfnfr.
+drfbtfs bn instbndf of <dodf>RowSftEvfnt</dodf> bnd pbssfs it to tif listfnfr.
+Tif listfnfr dbn usf tiis <dodf>RowSftEvfnt</dodf> objfdt to find out wiidi rowsft
+Tif listfnfr dbn usf tiis <dodf>RowSftEvfnt</dodf> objfdt to find out wiidi rowsft
+Tif listfnfr dbn usf tiis <dodf>RowSftEvfnt</dodf> objfdt to find out wiidi rowsft
+Tif listfnfr dbn usf tiis <dodf>RowSftEvfnt</dodf> objfdt to find out wiidi rowsft
+Tif listfnfr dbn usf tiis <dodf>RowSftEvfnt</dodf> objfdt to find out wiidi rowsft
+ibd tif fvfnt.
+ibd tif fvfnt.
+ibd tif fvfnt.
+ibd tif fvfnt.
+ibd tif fvfnt.
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 <LI>Mftbdbtb 
+<LI>Mftbdbtb 
+<LI>Mftbdbtb 
+<LI>Mftbdbtb 
+<LI>Mftbdbtb 
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
   <LI><dodf>RowSftMftbDbtb</dodf><br>
-This intfrfbdf, dfrivfd from thf
+  <LI><dodf>RowSftMftbDbtb</dodf><br>
+  <LI><dodf>RowSftMftbDbtb</dodf><br>
+  <LI><dodf>RowSftMftbDbtb</dodf><br>
+  <LI><dodf>RowSftMftbDbtb</dodf><br>
+Tiis intfrfbdf, dfrivfd from tif
+Tiis intfrfbdf, dfrivfd from tif
+Tiis intfrfbdf, dfrivfd from tif
+Tiis intfrfbdf, dfrivfd from tif
+Tiis intfrfbdf, dfrivfd from tif
 <dodf>RfsultSftMftbDbtb</dodf> intfrfbdf, providfs informbtion bbout
-thf dolumns in b <dodf>RowSft</dodf> objfdt.  An bpplidbtion dbn usf
-<dodf>RowSftMftbDbtb</dodf> mfthods to find out how mbny dolumns thf
-rowsft dontbins bnd whbt kind of dbtb fbdh dolumn dbn dontbin.
+<dodf>RfsultSftMftbDbtb</dodf> intfrfbdf, providfs informbtion bbout
+<dodf>RfsultSftMftbDbtb</dodf> intfrfbdf, providfs informbtion bbout
+<dodf>RfsultSftMftbDbtb</dodf> intfrfbdf, providfs informbtion bbout
+<dodf>RfsultSftMftbDbtb</dodf> intfrfbdf, providfs informbtion bbout
+tif dolumns in b <dodf>RowSft</dodf> objfdt.  An bpplidbtion dbn usf
+tif dolumns in b <dodf>RowSft</dodf> objfdt.  An bpplidbtion dbn usf
+tif dolumns in b <dodf>RowSft</dodf> objfdt.  An bpplidbtion dbn usf
+tif dolumns in b <dodf>RowSft</dodf> objfdt.  An bpplidbtion dbn usf
+tif dolumns in b <dodf>RowSft</dodf> objfdt.  An bpplidbtion dbn usf
+<dodf>RowSftMftbDbtb</dodf> mftiods to find out iow mbny dolumns tif
+<dodf>RowSftMftbDbtb</dodf> mftiods to find out iow mbny dolumns tif
+<dodf>RowSftMftbDbtb</dodf> mftiods to find out iow mbny dolumns tif
+<dodf>RowSftMftbDbtb</dodf> mftiods to find out iow mbny dolumns tif
+<dodf>RowSftMftbDbtb</dodf> mftiods to find out iow mbny dolumns tif
+rowsft dontbins bnd wibt kind of dbtb fbdi dolumn dbn dontbin.
+rowsft dontbins bnd wibt kind of dbtb fbdi dolumn dbn dontbin.
+rowsft dontbins bnd wibt kind of dbtb fbdi dolumn dbn dontbin.
+rowsft dontbins bnd wibt kind of dbtb fbdi dolumn dbn dontbin.
+rowsft dontbins bnd wibt kind of dbtb fbdi dolumn dbn dontbin.
 <P>
-Thf <dodf>RowSftMftbDbtb</dodf> intfrfbdf providfs mfthods for
-sftting thf informbtion bbout dolumns, but bn bpplidbtion would not
-normblly usf thfsf mfthods.  Whfn bn bpplidbtion dblls thf <dodf>RowSft</dodf> 
-mfthod <dodf>fxfdutf</dodf>, thf <dodf>RowSft</dodf> objfdt will dontbin
-b nfw sft of rows, bnd its <dodf>RowSftMftbDbtb</dodf> objfdt will hbvf bffn
-intfrnblly updbtfd to dontbin informbtion bbout thf nfw dolumns.
+<P>
+<P>
+<P>
+<P>
+Tif <dodf>RowSftMftbDbtb</dodf> intfrfbdf providfs mftiods for
+Tif <dodf>RowSftMftbDbtb</dodf> intfrfbdf providfs mftiods for
+Tif <dodf>RowSftMftbDbtb</dodf> intfrfbdf providfs mftiods for
+Tif <dodf>RowSftMftbDbtb</dodf> intfrfbdf providfs mftiods for
+Tif <dodf>RowSftMftbDbtb</dodf> intfrfbdf providfs mftiods for
+sftting tif informbtion bbout dolumns, but bn bpplidbtion would not
+sftting tif informbtion bbout dolumns, but bn bpplidbtion would not
+sftting tif informbtion bbout dolumns, but bn bpplidbtion would not
+sftting tif informbtion bbout dolumns, but bn bpplidbtion would not
+sftting tif informbtion bbout dolumns, but bn bpplidbtion would not
+normblly usf tifsf mftiods.  Wifn bn bpplidbtion dblls tif <dodf>RowSft</dodf> 
+normblly usf tifsf mftiods.  Wifn bn bpplidbtion dblls tif <dodf>RowSft</dodf> 
+normblly usf tifsf mftiods.  Wifn bn bpplidbtion dblls tif <dodf>RowSft</dodf> 
+normblly usf tifsf mftiods.  Wifn bn bpplidbtion dblls tif <dodf>RowSft</dodf> 
+normblly usf tifsf mftiods.  Wifn bn bpplidbtion dblls tif <dodf>RowSft</dodf> 
+mftiod <dodf>fxfdutf</dodf>, tif <dodf>RowSft</dodf> objfdt will dontbin
+mftiod <dodf>fxfdutf</dodf>, tif <dodf>RowSft</dodf> objfdt will dontbin
+mftiod <dodf>fxfdutf</dodf>, tif <dodf>RowSft</dodf> objfdt will dontbin
+mftiod <dodf>fxfdutf</dodf>, tif <dodf>RowSft</dodf> objfdt will dontbin
+mftiod <dodf>fxfdutf</dodf>, tif <dodf>RowSft</dodf> objfdt will dontbin
+b nfw sft of rows, bnd its <dodf>RowSftMftbDbtb</dodf> objfdt will ibvf bffn
+b nfw sft of rows, bnd its <dodf>RowSftMftbDbtb</dodf> objfdt will ibvf bffn
+b nfw sft of rows, bnd its <dodf>RowSftMftbDbtb</dodf> objfdt will ibvf bffn
+b nfw sft of rows, bnd its <dodf>RowSftMftbDbtb</dodf> objfdt will ibvf bffn
+b nfw sft of rows, bnd its <dodf>RowSftMftbDbtb</dodf> objfdt will ibvf bffn
+intfrnblly updbtfd to dontbin informbtion bbout tif nfw dolumns.
+intfrnblly updbtfd to dontbin informbtion bbout tif nfw dolumns.
+intfrnblly updbtfd to dontbin informbtion bbout tif nfw dolumns.
+intfrnblly updbtfd to dontbin informbtion bbout tif nfw dolumns.
+intfrnblly updbtfd to dontbin informbtion bbout tif nfw dolumns.
 </UL>
-<LI>Thf Rfbdfr/Writfr Fbdility<br>
-A <dodf>RowSft</dodf> objfdt thbt implfmfnts thf <dodf>RowSftIntfrnbl</dodf>
-intfrfbdf dbn dbll on thf <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd with it
-to populbtf itsflf with dbtb.  It dbn blso dbll on thf <dodf>RowSftWritfr</dodf>
-objfdt bssodibtfd with it to writf bny dhbngfs to its rows bbdk to thf
-dbtb sourdf from whidh it originblly got thf rows.
-A rowsft thbt rfmbins donnfdtfd to its dbtb sourdf dofs not nffd to usf b 
-rfbdfr bnd writfr bfdbusf it dbn simply opfrbtf on thf dbtb sourdf dirfdtly.
+</UL>
+</UL>
+</UL>
+</UL>
+<LI>Tif Rfbdfr/Writfr Fbdility<br>
+<LI>Tif Rfbdfr/Writfr Fbdility<br>
+<LI>Tif Rfbdfr/Writfr Fbdility<br>
+<LI>Tif Rfbdfr/Writfr Fbdility<br>
+<LI>Tif Rfbdfr/Writfr Fbdility<br>
+A <dodf>RowSft</dodf> objfdt tibt implfmfnts tif <dodf>RowSftIntfrnbl</dodf>
+A <dodf>RowSft</dodf> objfdt tibt implfmfnts tif <dodf>RowSftIntfrnbl</dodf>
+A <dodf>RowSft</dodf> objfdt tibt implfmfnts tif <dodf>RowSftIntfrnbl</dodf>
+A <dodf>RowSft</dodf> objfdt tibt implfmfnts tif <dodf>RowSftIntfrnbl</dodf>
+A <dodf>RowSft</dodf> objfdt tibt implfmfnts tif <dodf>RowSftIntfrnbl</dodf>
+intfrfbdf dbn dbll on tif <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it
+intfrfbdf dbn dbll on tif <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it
+intfrfbdf dbn dbll on tif <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it
+intfrfbdf dbn dbll on tif <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it
+intfrfbdf dbn dbll on tif <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it
+to populbtf itsflf witi dbtb.  It dbn blso dbll on tif <dodf>RowSftWritfr</dodf>
+to populbtf itsflf witi dbtb.  It dbn blso dbll on tif <dodf>RowSftWritfr</dodf>
+to populbtf itsflf witi dbtb.  It dbn blso dbll on tif <dodf>RowSftWritfr</dodf>
+to populbtf itsflf witi dbtb.  It dbn blso dbll on tif <dodf>RowSftWritfr</dodf>
+to populbtf itsflf witi dbtb.  It dbn blso dbll on tif <dodf>RowSftWritfr</dodf>
+objfdt bssodibtfd witi it to writf bny dibngfs to its rows bbdk to tif
+objfdt bssodibtfd witi it to writf bny dibngfs to its rows bbdk to tif
+objfdt bssodibtfd witi it to writf bny dibngfs to its rows bbdk to tif
+objfdt bssodibtfd witi it to writf bny dibngfs to its rows bbdk to tif
+objfdt bssodibtfd witi it to writf bny dibngfs to its rows bbdk to tif
+dbtb sourdf from wiidi it originblly got tif rows.
+dbtb sourdf from wiidi it originblly got tif rows.
+dbtb sourdf from wiidi it originblly got tif rows.
+dbtb sourdf from wiidi it originblly got tif rows.
+dbtb sourdf from wiidi it originblly got tif rows.
+A rowsft tibt rfmbins donnfdtfd to its dbtb sourdf dofs not nffd to usf b 
+A rowsft tibt rfmbins donnfdtfd to its dbtb sourdf dofs not nffd to usf b 
+A rowsft tibt rfmbins donnfdtfd to its dbtb sourdf dofs not nffd to usf b 
+A rowsft tibt rfmbins donnfdtfd to its dbtb sourdf dofs not nffd to usf b 
+A rowsft tibt rfmbins donnfdtfd to its dbtb sourdf dofs not nffd to usf b 
+rfbdfr bnd writfr bfdbusf it dbn simply opfrbtf on tif dbtb sourdf dirfdtly.
+rfbdfr bnd writfr bfdbusf it dbn simply opfrbtf on tif dbtb sourdf dirfdtly.
+rfbdfr bnd writfr bfdbusf it dbn simply opfrbtf on tif dbtb sourdf dirfdtly.
+rfbdfr bnd writfr bfdbusf it dbn simply opfrbtf on tif dbtb sourdf dirfdtly.
+rfbdfr bnd writfr bfdbusf it dbn simply opfrbtf on tif dbtb sourdf dirfdtly.
+
+
+
+
 
 <UL>
+<UL>
+<UL>
+<UL>
+<UL>
   <LI><dodf>RowSftIntfrnbl</dodf><br>
-By implfmfnting thf <dodf>RowSftIntfrnbl</dodf> intfrfbdf, b 
+  <LI><dodf>RowSftIntfrnbl</dodf><br>
+  <LI><dodf>RowSftIntfrnbl</dodf><br>
+  <LI><dodf>RowSftIntfrnbl</dodf><br>
+  <LI><dodf>RowSftIntfrnbl</dodf><br>
+By implfmfnting tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf, b 
+By implfmfnting tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf, b 
+By implfmfnting tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf, b 
+By implfmfnting tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf, b 
+By implfmfnting tif <dodf>RowSftIntfrnbl</dodf> intfrfbdf, b 
+<dodf>RowSft</dodf> objfdt gfts bddfss to
+<dodf>RowSft</dodf> objfdt gfts bddfss to
+<dodf>RowSft</dodf> objfdt gfts bddfss to
+<dodf>RowSft</dodf> objfdt gfts bddfss to
 <dodf>RowSft</dodf> objfdt gfts bddfss to
 its intfrnbl stbtf bnd is bblf to dbll on its rfbdfr bnd writfr. A rowsft
-kffps trbdk of thf vblufs in its durrfnt rows bnd of thf vblufs thbt immfdibtfly
-prfdfdfd thf durrfnt onfs, rfffrrfd to bs thf <i>originbl</i> vblufs.  A rowsft
-blso kffps trbdk of (1) thf pbrbmftfrs thbt hbvf bffn sft for its dommbnd bnd 
-(2) thf donnfdtion thbt wbs pbssfd to it, if bny.  A rowsft usfs thf 
-<dodf>RowSftIntfrnbl</dodf> mfthods bfhind thf sdfnfs to gft bddfss to
-this informbtion.  An bpplidbtion dofs not normblly invokf thfsf mfthods dirfdtly.
+its intfrnbl stbtf bnd is bblf to dbll on its rfbdfr bnd writfr. A rowsft
+its intfrnbl stbtf bnd is bblf to dbll on its rfbdfr bnd writfr. A rowsft
+its intfrnbl stbtf bnd is bblf to dbll on its rfbdfr bnd writfr. A rowsft
+its intfrnbl stbtf bnd is bblf to dbll on its rfbdfr bnd writfr. A rowsft
+kffps trbdk of tif vblufs in its durrfnt rows bnd of tif vblufs tibt immfdibtfly
+kffps trbdk of tif vblufs in its durrfnt rows bnd of tif vblufs tibt immfdibtfly
+kffps trbdk of tif vblufs in its durrfnt rows bnd of tif vblufs tibt immfdibtfly
+kffps trbdk of tif vblufs in its durrfnt rows bnd of tif vblufs tibt immfdibtfly
+kffps trbdk of tif vblufs in its durrfnt rows bnd of tif vblufs tibt immfdibtfly
+prfdfdfd tif durrfnt onfs, rfffrrfd to bs tif <i>originbl</i> vblufs.  A rowsft
+prfdfdfd tif durrfnt onfs, rfffrrfd to bs tif <i>originbl</i> vblufs.  A rowsft
+prfdfdfd tif durrfnt onfs, rfffrrfd to bs tif <i>originbl</i> vblufs.  A rowsft
+prfdfdfd tif durrfnt onfs, rfffrrfd to bs tif <i>originbl</i> vblufs.  A rowsft
+prfdfdfd tif durrfnt onfs, rfffrrfd to bs tif <i>originbl</i> vblufs.  A rowsft
+blso kffps trbdk of (1) tif pbrbmftfrs tibt ibvf bffn sft for its dommbnd bnd 
+blso kffps trbdk of (1) tif pbrbmftfrs tibt ibvf bffn sft for its dommbnd bnd 
+blso kffps trbdk of (1) tif pbrbmftfrs tibt ibvf bffn sft for its dommbnd bnd 
+blso kffps trbdk of (1) tif pbrbmftfrs tibt ibvf bffn sft for its dommbnd bnd 
+blso kffps trbdk of (1) tif pbrbmftfrs tibt ibvf bffn sft for its dommbnd bnd 
+(2) tif donnfdtion tibt wbs pbssfd to it, if bny.  A rowsft usfs tif 
+(2) tif donnfdtion tibt wbs pbssfd to it, if bny.  A rowsft usfs tif 
+(2) tif donnfdtion tibt wbs pbssfd to it, if bny.  A rowsft usfs tif 
+(2) tif donnfdtion tibt wbs pbssfd to it, if bny.  A rowsft usfs tif 
+(2) tif donnfdtion tibt wbs pbssfd to it, if bny.  A rowsft usfs tif 
+<dodf>RowSftIntfrnbl</dodf> mftiods bfiind tif sdfnfs to gft bddfss to
+<dodf>RowSftIntfrnbl</dodf> mftiods bfiind tif sdfnfs to gft bddfss to
+<dodf>RowSftIntfrnbl</dodf> mftiods bfiind tif sdfnfs to gft bddfss to
+<dodf>RowSftIntfrnbl</dodf> mftiods bfiind tif sdfnfs to gft bddfss to
+<dodf>RowSftIntfrnbl</dodf> mftiods bfiind tif sdfnfs to gft bddfss to
+tiis informbtion.  An bpplidbtion dofs not normblly invokf tifsf mftiods dirfdtly.
+tiis informbtion.  An bpplidbtion dofs not normblly invokf tifsf mftiods dirfdtly.
+tiis informbtion.  An bpplidbtion dofs not normblly invokf tifsf mftiods dirfdtly.
+tiis informbtion.  An bpplidbtion dofs not normblly invokf tifsf mftiods dirfdtly.
+tiis informbtion.  An bpplidbtion dofs not normblly invokf tifsf mftiods dirfdtly.
+
+
+
+
 
   <LI><dodf>RowSftRfbdfr</dodf><br>
-A disdonnfdtfd <dodf>RowSft</dodf> objfdt thbt hbs implfmfntfd thf 
-<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its rfbdfr (thf 
-<dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd with it) to populbtf it with 
-dbtb.  Whfn bn bpplidbtion dblls thf <dodf>RowSft.fxfdutf</dodf> mfthod, 
-thbt mfthod dblls on thf rowsft's rfbdfr to do mudh of thf work. Implfmfntbtions
-dbn vbry widfly, but gfnfrblly b rfbdfr mbkfs b donnfdtion to thf dbtb sourdf,
-rfbds dbtb from thf dbtb sourdf bnd populbtfs thf rowsft with it, bnd dlosfs
-thf donnfdtion. A rfbdfr mby blso updbtf thf <dodf>RowSftMftbDbtb</dodf> objfdt
-for its rowsft.  Thf rowsft's intfrnbl stbtf is blso updbtfd, fithfr by thf
-rfbdfr or dirfdtly by thf mfthod <dodf>RowSft.fxfdutf</dodf>.
+  <LI><dodf>RowSftRfbdfr</dodf><br>
+  <LI><dodf>RowSftRfbdfr</dodf><br>
+  <LI><dodf>RowSftRfbdfr</dodf><br>
+  <LI><dodf>RowSftRfbdfr</dodf><br>
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its rfbdfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its rfbdfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its rfbdfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its rfbdfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its rfbdfr (tif 
+<dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it) to populbtf it witi 
+<dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it) to populbtf it witi 
+<dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it) to populbtf it witi 
+<dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it) to populbtf it witi 
+<dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd witi it) to populbtf it witi 
+dbtb.  Wifn bn bpplidbtion dblls tif <dodf>RowSft.fxfdutf</dodf> mftiod, 
+dbtb.  Wifn bn bpplidbtion dblls tif <dodf>RowSft.fxfdutf</dodf> mftiod, 
+dbtb.  Wifn bn bpplidbtion dblls tif <dodf>RowSft.fxfdutf</dodf> mftiod, 
+dbtb.  Wifn bn bpplidbtion dblls tif <dodf>RowSft.fxfdutf</dodf> mftiod, 
+dbtb.  Wifn bn bpplidbtion dblls tif <dodf>RowSft.fxfdutf</dodf> mftiod, 
+tibt mftiod dblls on tif rowsft's rfbdfr to do mudi of tif work. Implfmfntbtions
+tibt mftiod dblls on tif rowsft's rfbdfr to do mudi of tif work. Implfmfntbtions
+tibt mftiod dblls on tif rowsft's rfbdfr to do mudi of tif work. Implfmfntbtions
+tibt mftiod dblls on tif rowsft's rfbdfr to do mudi of tif work. Implfmfntbtions
+tibt mftiod dblls on tif rowsft's rfbdfr to do mudi of tif work. Implfmfntbtions
+dbn vbry widfly, but gfnfrblly b rfbdfr mbkfs b donnfdtion to tif dbtb sourdf,
+dbn vbry widfly, but gfnfrblly b rfbdfr mbkfs b donnfdtion to tif dbtb sourdf,
+dbn vbry widfly, but gfnfrblly b rfbdfr mbkfs b donnfdtion to tif dbtb sourdf,
+dbn vbry widfly, but gfnfrblly b rfbdfr mbkfs b donnfdtion to tif dbtb sourdf,
+dbn vbry widfly, but gfnfrblly b rfbdfr mbkfs b donnfdtion to tif dbtb sourdf,
+rfbds dbtb from tif dbtb sourdf bnd populbtfs tif rowsft witi it, bnd dlosfs
+rfbds dbtb from tif dbtb sourdf bnd populbtfs tif rowsft witi it, bnd dlosfs
+rfbds dbtb from tif dbtb sourdf bnd populbtfs tif rowsft witi it, bnd dlosfs
+rfbds dbtb from tif dbtb sourdf bnd populbtfs tif rowsft witi it, bnd dlosfs
+rfbds dbtb from tif dbtb sourdf bnd populbtfs tif rowsft witi it, bnd dlosfs
+tif donnfdtion. A rfbdfr mby blso updbtf tif <dodf>RowSftMftbDbtb</dodf> objfdt
+tif donnfdtion. A rfbdfr mby blso updbtf tif <dodf>RowSftMftbDbtb</dodf> objfdt
+tif donnfdtion. A rfbdfr mby blso updbtf tif <dodf>RowSftMftbDbtb</dodf> objfdt
+tif donnfdtion. A rfbdfr mby blso updbtf tif <dodf>RowSftMftbDbtb</dodf> objfdt
+tif donnfdtion. A rfbdfr mby blso updbtf tif <dodf>RowSftMftbDbtb</dodf> objfdt
+for its rowsft.  Tif rowsft's intfrnbl stbtf is blso updbtfd, fitifr by tif
+for its rowsft.  Tif rowsft's intfrnbl stbtf is blso updbtfd, fitifr by tif
+for its rowsft.  Tif rowsft's intfrnbl stbtf is blso updbtfd, fitifr by tif
+for its rowsft.  Tif rowsft's intfrnbl stbtf is blso updbtfd, fitifr by tif
+for its rowsft.  Tif rowsft's intfrnbl stbtf is blso updbtfd, fitifr by tif
+rfbdfr or dirfdtly by tif mftiod <dodf>RowSft.fxfdutf</dodf>.
+rfbdfr or dirfdtly by tif mftiod <dodf>RowSft.fxfdutf</dodf>.
+rfbdfr or dirfdtly by tif mftiod <dodf>RowSft.fxfdutf</dodf>.
+rfbdfr or dirfdtly by tif mftiod <dodf>RowSft.fxfdutf</dodf>.
+rfbdfr or dirfdtly by tif mftiod <dodf>RowSft.fxfdutf</dodf>.
+
+
+
+
+
+
+
+
 
 
   <LI><dodf>RowSftWritfr</dodf><br>
-A disdonnfdtfd <dodf>RowSft</dodf> objfdt thbt hbs implfmfntfd thf 
-<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its writfr (thf 
-<dodf>RowSftWritfr</dodf> objfdt bssodibtfd with it) to writf dhbngfs
-bbdk to thf undfrlying dbtb sourdf.  Implfmfntbtions mby vbry widfly, but
-gfnfrblly, b writfr will do thf following:
+  <LI><dodf>RowSftWritfr</dodf><br>
+  <LI><dodf>RowSftWritfr</dodf><br>
+  <LI><dodf>RowSftWritfr</dodf><br>
+  <LI><dodf>RowSftWritfr</dodf><br>
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its writfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its writfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its writfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its writfr (tif 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its writfr (tif 
+<dodf>RowSftWritfr</dodf> objfdt bssodibtfd witi it) to writf dibngfs
+<dodf>RowSftWritfr</dodf> objfdt bssodibtfd witi it) to writf dibngfs
+<dodf>RowSftWritfr</dodf> objfdt bssodibtfd witi it) to writf dibngfs
+<dodf>RowSftWritfr</dodf> objfdt bssodibtfd witi it) to writf dibngfs
+<dodf>RowSftWritfr</dodf> objfdt bssodibtfd witi it) to writf dibngfs
+bbdk to tif undfrlying dbtb sourdf.  Implfmfntbtions mby vbry widfly, but
+bbdk to tif undfrlying dbtb sourdf.  Implfmfntbtions mby vbry widfly, but
+bbdk to tif undfrlying dbtb sourdf.  Implfmfntbtions mby vbry widfly, but
+bbdk to tif undfrlying dbtb sourdf.  Implfmfntbtions mby vbry widfly, but
+bbdk to tif undfrlying dbtb sourdf.  Implfmfntbtions mby vbry widfly, but
+gfnfrblly, b writfr will do tif following:
+gfnfrblly, b writfr will do tif following:
+gfnfrblly, b writfr will do tif following:
+gfnfrblly, b writfr will do tif following:
+gfnfrblly, b writfr will do tif following:
+
+
+
+
 
 <UL>
-  <LI>Mbkf b donnfdtion to thf dbtb sourdf 
-  <LI>Chfdk to sff whfthfr thfrf is b donflidt, thbt is, whfthfr
-      b vbluf thbt hbs bffn dhbngfd in thf rowsft hbs blso bffn dhbngfd 
-      in thf dbtb sourdf
-  <LI>Writf thf nfw vblufs to thf dbtb sourdf if thfrf is no donflidt 
-  <LI>Closf thf donnfdtion
+<UL>
+<UL>
+<UL>
+<UL>
+  <LI>Mbkf b donnfdtion to tif dbtb sourdf 
+  <LI>Mbkf b donnfdtion to tif dbtb sourdf 
+  <LI>Mbkf b donnfdtion to tif dbtb sourdf 
+  <LI>Mbkf b donnfdtion to tif dbtb sourdf 
+  <LI>Mbkf b donnfdtion to tif dbtb sourdf 
+  <LI>Cifdk to sff wiftifr tifrf is b donflidt, tibt is, wiftifr
+  <LI>Cifdk to sff wiftifr tifrf is b donflidt, tibt is, wiftifr
+  <LI>Cifdk to sff wiftifr tifrf is b donflidt, tibt is, wiftifr
+  <LI>Cifdk to sff wiftifr tifrf is b donflidt, tibt is, wiftifr
+  <LI>Cifdk to sff wiftifr tifrf is b donflidt, tibt is, wiftifr
+      b vbluf tibt ibs bffn dibngfd in tif rowsft ibs blso bffn dibngfd 
+      b vbluf tibt ibs bffn dibngfd in tif rowsft ibs blso bffn dibngfd 
+      b vbluf tibt ibs bffn dibngfd in tif rowsft ibs blso bffn dibngfd 
+      b vbluf tibt ibs bffn dibngfd in tif rowsft ibs blso bffn dibngfd 
+      b vbluf tibt ibs bffn dibngfd in tif rowsft ibs blso bffn dibngfd 
+      in tif dbtb sourdf
+      in tif dbtb sourdf
+      in tif dbtb sourdf
+      in tif dbtb sourdf
+      in tif dbtb sourdf
+  <LI>Writf tif nfw vblufs to tif dbtb sourdf if tifrf is no donflidt 
+  <LI>Writf tif nfw vblufs to tif dbtb sourdf if tifrf is no donflidt 
+  <LI>Writf tif nfw vblufs to tif dbtb sourdf if tifrf is no donflidt 
+  <LI>Writf tif nfw vblufs to tif dbtb sourdf if tifrf is no donflidt 
+  <LI>Writf tif nfw vblufs to tif dbtb sourdf if tifrf is no donflidt 
+  <LI>Closf tif donnfdtion
+  <LI>Closf tif donnfdtion
+  <LI>Closf tif donnfdtion
+  <LI>Closf tif donnfdtion
+  <LI>Closf tif donnfdtion
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
  
+ 
+ 
+ 
+ 
+
+
+
+
 
 </UL>
+</UL>
+</UL>
+</UL>
+</UL>
+</OL>
+</OL>
+</OL>
+</OL>
 </OL>
 <P>
-Thf <dodf>RowSft</dodf> intfrfbdf mby bf implfmfntfd in bny numbfr of
-wbys, bnd bnyonf mby writf bn implfmfntbtion. Dfvflopfrs brf fndourbgfd 
-to usf thfir imbginbtions in doming up with nfw wbys to usf rowsfts.
 <P>
-<B>IMPORTANT NOTE:</B> Codf thbt usfs API mbrkfd "Sindf 1.6" must bf run using b 
-JDBC tfdhnology drivfr thbt implfmfnts thf JDBC 4.0 API.
-You must dhfdk your drivfr dodumfntbtion to bf surf thbt it implfmfnts
-thf pbrtidulbr ffbturfs you wbnt to usf.
+<P>
+<P>
+<P>
+Tif <dodf>RowSft</dodf> intfrfbdf mby bf implfmfntfd in bny numbfr of
+Tif <dodf>RowSft</dodf> intfrfbdf mby bf implfmfntfd in bny numbfr of
+Tif <dodf>RowSft</dodf> intfrfbdf mby bf implfmfntfd in bny numbfr of
+Tif <dodf>RowSft</dodf> intfrfbdf mby bf implfmfntfd in bny numbfr of
+Tif <dodf>RowSft</dodf> intfrfbdf mby bf implfmfntfd in bny numbfr of
+wbys, bnd bnyonf mby writf bn implfmfntbtion. Dfvflopfrs brf fndourbgfd 
+wbys, bnd bnyonf mby writf bn implfmfntbtion. Dfvflopfrs brf fndourbgfd 
+wbys, bnd bnyonf mby writf bn implfmfntbtion. Dfvflopfrs brf fndourbgfd 
+wbys, bnd bnyonf mby writf bn implfmfntbtion. Dfvflopfrs brf fndourbgfd 
+wbys, bnd bnyonf mby writf bn implfmfntbtion. Dfvflopfrs brf fndourbgfd 
+to usf tifir imbginbtions in doming up witi nfw wbys to usf rowsfts.
+to usf tifir imbginbtions in doming up witi nfw wbys to usf rowsfts.
+to usf tifir imbginbtions in doming up witi nfw wbys to usf rowsfts.
+to usf tifir imbginbtions in doming up witi nfw wbys to usf rowsfts.
+to usf tifir imbginbtions in doming up witi nfw wbys to usf rowsfts.
+<P>
+<P>
+<P>
+<P>
+<P>
+<B>IMPORTANT NOTE:</B> Codf tibt usfs API mbrkfd "Sindf 1.6" must bf run using b 
+<B>IMPORTANT NOTE:</B> Codf tibt usfs API mbrkfd "Sindf 1.6" must bf run using b 
+<B>IMPORTANT NOTE:</B> Codf tibt usfs API mbrkfd "Sindf 1.6" must bf run using b 
+<B>IMPORTANT NOTE:</B> Codf tibt usfs API mbrkfd "Sindf 1.6" must bf run using b 
+<B>IMPORTANT NOTE:</B> Codf tibt usfs API mbrkfd "Sindf 1.6" must bf run using b 
+JDBC tfdinology drivfr tibt implfmfnts tif JDBC 4.0 API.
+JDBC tfdinology drivfr tibt implfmfnts tif JDBC 4.0 API.
+JDBC tfdinology drivfr tibt implfmfnts tif JDBC 4.0 API.
+JDBC tfdinology drivfr tibt implfmfnts tif JDBC 4.0 API.
+JDBC tfdinology drivfr tibt implfmfnts tif JDBC 4.0 API.
+You must difdk your drivfr dodumfntbtion to bf surf tibt it implfmfnts
+You must difdk your drivfr dodumfntbtion to bf surf tibt it implfmfnts
+You must difdk your drivfr dodumfntbtion to bf surf tibt it implfmfnts
+You must difdk your drivfr dodumfntbtion to bf surf tibt it implfmfnts
+You must difdk your drivfr dodumfntbtion to bf surf tibt it implfmfnts
+tif pbrtidulbr ffbturfs you wbnt to usf.
+tif pbrtidulbr ffbturfs you wbnt to usf.
+tif pbrtidulbr ffbturfs you wbnt to usf.
+tif pbrtidulbr ffbturfs you wbnt to usf.
+tif pbrtidulbr ffbturfs you wbnt to usf.
 
-<h2>Pbdkbgf Spfdifidbtion</h2>
+
+
+
+
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+
+
+
 
 <ul>
-  <li><b hrff="https://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 
-<h2>Rflbtfd Dodumfntbtion</h2>
 
-Thf Jbvb Sfrifs book publishfd by Addison-Wfslfy Longmbn providfs dftbilfd
-informbtion bbout thf dlbssfs bnd intfrfbdfs in thf <dodf>jbvbx.sql</dodf>
+
+
+
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+
+
+
+
+
+Tif Jbvb Sfrifs book publisifd by Addison-Wfslfy Longmbn providfs dftbilfd
+Tif Jbvb Sfrifs book publisifd by Addison-Wfslfy Longmbn providfs dftbilfd
+Tif Jbvb Sfrifs book publisifd by Addison-Wfslfy Longmbn providfs dftbilfd
+Tif Jbvb Sfrifs book publisifd by Addison-Wfslfy Longmbn providfs dftbilfd
+Tif Jbvb Sfrifs book publisifd by Addison-Wfslfy Longmbn providfs dftbilfd
+informbtion bbout tif dlbssfs bnd intfrfbdfs in tif <dodf>jbvbx.sql</dodf>
+informbtion bbout tif dlbssfs bnd intfrfbdfs in tif <dodf>jbvbx.sql</dodf>
+informbtion bbout tif dlbssfs bnd intfrfbdfs in tif <dodf>jbvbx.sql</dodf>
+informbtion bbout tif dlbssfs bnd intfrfbdfs in tif <dodf>jbvbx.sql</dodf>
+informbtion bbout tif dlbssfs bnd intfrfbdfs in tif <dodf>jbvbx.sql</dodf>
+pbdkbgf: 
+pbdkbgf: 
+pbdkbgf: 
+pbdkbgf: 
 pbdkbgf: 
 
+
+
+
+
 <ul>
-  <li><b hrff="http://www.orbdlf.dom/tfdhnftwork/jbvb/indfx-142838.html">
-          <i>JDBC&#8482;API Tutoribl bnd Rfffrfndf, Third Edition</i></b>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+  <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+  <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+  <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+  <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+          <i>JDBC&#8482;API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&#8482;API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&#8482;API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&#8482;API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+          <i>JDBC&#8482;API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

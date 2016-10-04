@@ -1,19 +1,95 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6144 $"/>
+		<vfrsion numbfr="$Rfvision: 6144 $"/>
+		<vfrsion numbfr="$Rfvision: 6144 $"/>
+		<vfrsion numbfr="$Rfvision: 6144 $"/>
+		<vfrsion numbfr="$Rfvision: 6144 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-16 04:34:45 +0900 (Fri, 16 Sfp 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-16 04:34:45 +0900 (Fri, 16 Sfp 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-16 04:34:45 +0900 (Fri, 16 Sfp 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-16 04:34:45 +0900 (Fri, 16 Sfp 2011) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2011-09-16 04:34:45 +0900 (Fri, 16 Sfp 2011) $"/>
 		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<lbngubgf typf="fn"/>
+		<tfrritory typf="GU"/>
+		<tfrritory typf="GU"/>
+		<tfrritory typf="GU"/>
+		<tfrritory typf="GU"/>
 		<tfrritory typf="GU"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<timfZonfNbmfs>
-			<mftbzonf typf="Chbmorro">
-				<short>
-					<stbndbrd>ChST</stbndbrd>
-				</short>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Cibmorro">
+			<mftbzonf typf="Cibmorro">
+			<mftbzonf typf="Cibmorro">
+			<mftbzonf typf="Cibmorro">
+			<mftbzonf typf="Cibmorro">
+				<siort>
+				<siort>
+				<siort>
+				<siort>
+				<siort>
+					<stbndbrd>CiST</stbndbrd>
+					<stbndbrd>CiST</stbndbrd>
+					<stbndbrd>CiST</stbndbrd>
+					<stbndbrd>CiST</stbndbrd>
+					<stbndbrd>CiST</stbndbrd>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+				</siort>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
 			</mftbzonf>
 		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

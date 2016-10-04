@@ -1,132 +1,660 @@
 /*
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
  *
  * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
  *
  * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
  *
  * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 #wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
+
+
+
+
+dlbss XXX {
+dlbss XXX {
+dlbss XXX {
+dlbss XXX {
 dlbss XXX {
 
+
+
+
+
+#bfgin
+#bfgin
+#bfgin
+#bfgin
 #bfgin
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rflbtivf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Rflbtivf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Rflbtivf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Rflbtivf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Rflbtivf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     *
+     *
+     *
+     *
      *
      * <p> Rfbds tif nfxt $nbytfs$ bytfs bt tiis bufffr's durrfnt position,
+     * <p> Rfbds tif nfxt $nbytfs$ bytfs bt tiis bufffr's durrfnt position,
+     * <p> Rfbds tif nfxt $nbytfs$ bytfs bt tiis bufffr's durrfnt position,
+     * <p> Rfbds tif nfxt $nbytfs$ bytfs bt tiis bufffr's durrfnt position,
+     * <p> Rfbds tif nfxt $nbytfs$ bytfs bt tiis bufffr's durrfnt position,
+     * domposing tifm into $b$ $typf$ vbluf bddording to tif durrfnt bytf ordfr,
+     * domposing tifm into $b$ $typf$ vbluf bddording to tif durrfnt bytf ordfr,
+     * domposing tifm into $b$ $typf$ vbluf bddording to tif durrfnt bytf ordfr,
+     * domposing tifm into $b$ $typf$ vbluf bddording to tif durrfnt bytf ordfr,
      * domposing tifm into $b$ $typf$ vbluf bddording to tif durrfnt bytf ordfr,
      * bnd tifn indrfmfnts tif position by $nbytfs$.  </p>
+     * bnd tifn indrfmfnts tif position by $nbytfs$.  </p>
+     * bnd tifn indrfmfnts tif position by $nbytfs$.  </p>
+     * bnd tifn indrfmfnts tif position by $nbytfs$.  </p>
+     * bnd tifn indrfmfnts tif position by $nbytfs$.  </p>
+     *
+     *
+     *
+     *
      *
      * @rfturn  Tif $typf$ vbluf bt tif bufffr's durrfnt position
+     * @rfturn  Tif $typf$ vbluf bt tif bufffr's durrfnt position
+     * @rfturn  Tif $typf$ vbluf bt tif bufffr's durrfnt position
+     * @rfturn  Tif $typf$ vbluf bt tif bufffr's durrfnt position
+     * @rfturn  Tif $typf$ vbluf bt tif bufffr's durrfnt position
+     *
+     *
+     *
+     *
      *
      * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
      *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
      *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt $typf$ gft$Typf$();
+    publid bbstrbdt $typf$ gft$Typf$();
+    publid bbstrbdt $typf$ gft$Typf$();
+    publid bbstrbdt $typf$ gft$Typf$();
+    publid bbstrbdt $typf$ gft$Typf$();
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rflbtivf <i>put</i> mftiod for writing $b$ $typf$
+     * Rflbtivf <i>put</i> mftiod for writing $b$ $typf$
+     * Rflbtivf <i>put</i> mftiod for writing $b$ $typf$
+     * Rflbtivf <i>put</i> mftiod for writing $b$ $typf$
+     * Rflbtivf <i>put</i> mftiod for writing $b$ $typf$
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
+     *
+     *
+     *
+     *
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
      * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
      * durrfnt bytf ordfr, into tiis bufffr bt tif durrfnt position, bnd tifn
+     * durrfnt bytf ordfr, into tiis bufffr bt tif durrfnt position, bnd tifn
+     * durrfnt bytf ordfr, into tiis bufffr bt tif durrfnt position, bnd tifn
+     * durrfnt bytf ordfr, into tiis bufffr bt tif durrfnt position, bnd tifn
+     * durrfnt bytf ordfr, into tiis bufffr bt tif durrfnt position, bnd tifn
+     * indrfmfnts tif position by $nbytfs$.  </p>
+     * indrfmfnts tif position by $nbytfs$.  </p>
+     * indrfmfnts tif position by $nbytfs$.  </p>
+     * indrfmfnts tif position by $nbytfs$.  </p>
      * indrfmfnts tif position by $nbytfs$.  </p>
      *
+     *
+     *
+     *
+     *
+     * @pbrbm  vbluf
+     * @pbrbm  vbluf
+     * @pbrbm  vbluf
+     * @pbrbm  vbluf
      * @pbrbm  vbluf
      *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *
+     *
+     *
+     *
      *
      * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     *
+     *
+     *
+     *
      *
      * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
+     *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
      *          If tifrf brf ffwfr tibn $nbytfs$ bytfs
      *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     *          rfmbining in tiis bufffr
+     *
+     *
+     *
+     *
      *
      * @tirows  RfbdOnlyBufffrExdfption
+     * @tirows  RfbdOnlyBufffrExdfption
+     * @tirows  RfbdOnlyBufffrExdfption
+     * @tirows  RfbdOnlyBufffrExdfption
+     * @tirows  RfbdOnlyBufffrExdfption
      *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt BytfBufffr put$Typf$($typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$($typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$($typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$($typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$($typf$ vbluf);
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Absolutf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Absolutf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Absolutf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Absolutf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     * Absolutf <i>gft</i> mftiod for rfbding $b$ $typf$ vbluf.
+     *
+     *
+     *
+     *
      *
      * <p> Rfbds $nbytfs$ bytfs bt tif givfn indfx, domposing tifm into b
+     * <p> Rfbds $nbytfs$ bytfs bt tif givfn indfx, domposing tifm into b
+     * <p> Rfbds $nbytfs$ bytfs bt tif givfn indfx, domposing tifm into b
+     * <p> Rfbds $nbytfs$ bytfs bt tif givfn indfx, domposing tifm into b
+     * <p> Rfbds $nbytfs$ bytfs bt tif givfn indfx, domposing tifm into b
+     * $typf$ vbluf bddording to tif durrfnt bytf ordfr.  </p>
+     * $typf$ vbluf bddording to tif durrfnt bytf ordfr.  </p>
+     * $typf$ vbluf bddording to tif durrfnt bytf ordfr.  </p>
+     * $typf$ vbluf bddording to tif durrfnt bytf ordfr.  </p>
      * $typf$ vbluf bddording to tif durrfnt bytf ordfr.  </p>
      *
+     *
+     *
+     *
+     *
+     * @pbrbm  indfx
+     * @pbrbm  indfx
+     * @pbrbm  indfx
+     * @pbrbm  indfx
      * @pbrbm  indfx
      *         Tif indfx from wiidi tif bytfs will bf rfbd
+     *         Tif indfx from wiidi tif bytfs will bf rfbd
+     *         Tif indfx from wiidi tif bytfs will bf rfbd
+     *         Tif indfx from wiidi tif bytfs will bf rfbd
+     *         Tif indfx from wiidi tif bytfs will bf rfbd
+     *
+     *
+     *
+     *
      *
      * @rfturn  Tif $typf$ vbluf bt tif givfn indfx
+     * @rfturn  Tif $typf$ vbluf bt tif givfn indfx
+     * @rfturn  Tif $typf$ vbluf bt tif givfn indfx
+     * @rfturn  Tif $typf$ vbluf bt tif givfn indfx
+     * @rfturn  Tif $typf$ vbluf bt tif givfn indfx
+     *
+     *
+     *
+     *
      *
      * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          If <tt>indfx</tt> is nfgbtivf
      *          If <tt>indfx</tt> is nfgbtivf
      *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
      *          minus $nbytfsButOnf$
+     *          minus $nbytfsButOnf$
+     *          minus $nbytfsButOnf$
+     *          minus $nbytfsButOnf$
+     *          minus $nbytfsButOnf$
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt $typf$ gft$Typf$(int indfx);
+    publid bbstrbdt $typf$ gft$Typf$(int indfx);
+    publid bbstrbdt $typf$ gft$Typf$(int indfx);
+    publid bbstrbdt $typf$ gft$Typf$(int indfx);
+    publid bbstrbdt $typf$ gft$Typf$(int indfx);
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Absolutf <i>put</i> mftiod for writing $b$ $typf$
+     * Absolutf <i>put</i> mftiod for writing $b$ $typf$
+     * Absolutf <i>put</i> mftiod for writing $b$ $typf$
+     * Absolutf <i>put</i> mftiod for writing $b$ $typf$
+     * Absolutf <i>put</i> mftiod for writing $b$ $typf$
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      * vbluf&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
+     *
+     *
+     *
+     *
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
+     * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
      * <p> Writfs $nbytfs$ bytfs dontbining tif givfn $typf$ vbluf, in tif
      * durrfnt bytf ordfr, into tiis bufffr bt tif givfn indfx.  </p>
+     * durrfnt bytf ordfr, into tiis bufffr bt tif givfn indfx.  </p>
+     * durrfnt bytf ordfr, into tiis bufffr bt tif givfn indfx.  </p>
+     * durrfnt bytf ordfr, into tiis bufffr bt tif givfn indfx.  </p>
+     * durrfnt bytf ordfr, into tiis bufffr bt tif givfn indfx.  </p>
+     *
+     *
+     *
+     *
      *
      * @pbrbm  indfx
+     * @pbrbm  indfx
+     * @pbrbm  indfx
+     * @pbrbm  indfx
+     * @pbrbm  indfx
+     *         Tif indfx bt wiidi tif bytfs will bf writtfn
+     *         Tif indfx bt wiidi tif bytfs will bf writtfn
+     *         Tif indfx bt wiidi tif bytfs will bf writtfn
+     *         Tif indfx bt wiidi tif bytfs will bf writtfn
      *         Tif indfx bt wiidi tif bytfs will bf writtfn
      *
+     *
+     *
+     *
+     *
+     * @pbrbm  vbluf
+     * @pbrbm  vbluf
+     * @pbrbm  vbluf
+     * @pbrbm  vbluf
      * @pbrbm  vbluf
      *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *         Tif $typf$ vbluf to bf writtfn
+     *
+     *
+     *
+     *
      *
      * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     * @rfturn  Tiis bufffr
+     *
+     *
+     *
+     *
      *
      * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          If <tt>indfx</tt> is nfgbtivf
      *          If <tt>indfx</tt> is nfgbtivf
      *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          or not smbllfr tibn tif bufffr's limit,
+     *          minus $nbytfsButOnf$
+     *          minus $nbytfsButOnf$
+     *          minus $nbytfsButOnf$
+     *          minus $nbytfsButOnf$
      *          minus $nbytfsButOnf$
      *
+     *
+     *
+     *
+     *
+     * @tirows  RfbdOnlyBufffrExdfption
+     * @tirows  RfbdOnlyBufffrExdfption
+     * @tirows  RfbdOnlyBufffrExdfption
+     * @tirows  RfbdOnlyBufffrExdfption
      * @tirows  RfbdOnlyBufffrExdfption
      *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     *          If tiis bufffr is rfbd-only
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt BytfBufffr put$Typf$(int indfx, $typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$(int indfx, $typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$(int indfx, $typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$(int indfx, $typf$ vbluf);
+    publid bbstrbdt BytfBufffr put$Typf$(int indfx, $typf$ vbluf);
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b vifw of tiis bytf bufffr bs $b$ $typf$ bufffr.
+     * Crfbtfs b vifw of tiis bytf bufffr bs $b$ $typf$ bufffr.
+     * Crfbtfs b vifw of tiis bytf bufffr bs $b$ $typf$ bufffr.
+     * Crfbtfs b vifw of tiis bytf bufffr bs $b$ $typf$ bufffr.
      * Crfbtfs b vifw of tiis bytf bufffr bs $b$ $typf$ bufffr.
      *
+     *
+     *
+     *
+     *
+     * <p> Tif dontfnt of tif nfw bufffr will stbrt bt tiis bufffr's durrfnt
+     * <p> Tif dontfnt of tif nfw bufffr will stbrt bt tiis bufffr's durrfnt
+     * <p> Tif dontfnt of tif nfw bufffr will stbrt bt tiis bufffr's durrfnt
+     * <p> Tif dontfnt of tif nfw bufffr will stbrt bt tiis bufffr's durrfnt
      * <p> Tif dontfnt of tif nfw bufffr will stbrt bt tiis bufffr's durrfnt
      * position.  Cibngfs to tiis bufffr's dontfnt will bf visiblf in tif nfw
+     * position.  Cibngfs to tiis bufffr's dontfnt will bf visiblf in tif nfw
+     * position.  Cibngfs to tiis bufffr's dontfnt will bf visiblf in tif nfw
+     * position.  Cibngfs to tiis bufffr's dontfnt will bf visiblf in tif nfw
+     * position.  Cibngfs to tiis bufffr's dontfnt will bf visiblf in tif nfw
+     * bufffr, bnd vidf vfrsb; tif two bufffrs' position, limit, bnd mbrk
+     * bufffr, bnd vidf vfrsb; tif two bufffrs' position, limit, bnd mbrk
+     * bufffr, bnd vidf vfrsb; tif two bufffrs' position, limit, bnd mbrk
+     * bufffr, bnd vidf vfrsb; tif two bufffrs' position, limit, bnd mbrk
      * bufffr, bnd vidf vfrsb; tif two bufffrs' position, limit, bnd mbrk
      * vblufs will bf indfpfndfnt.
+     * vblufs will bf indfpfndfnt.
+     * vblufs will bf indfpfndfnt.
+     * vblufs will bf indfpfndfnt.
+     * vblufs will bf indfpfndfnt.
+     *
+     *
+     *
+     *
      *
      * <p> Tif nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * <p> Tif nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * <p> Tif nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * <p> Tif nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * <p> Tif nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * will bf tif numbfr of bytfs rfmbining in tiis bufffr dividfd by
+     * will bf tif numbfr of bytfs rfmbining in tiis bufffr dividfd by
+     * will bf tif numbfr of bytfs rfmbining in tiis bufffr dividfd by
+     * will bf tif numbfr of bytfs rfmbining in tiis bufffr dividfd by
      * will bf tif numbfr of bytfs rfmbining in tiis bufffr dividfd by
      * $nbytfs$, bnd its mbrk will bf undffinfd.  Tif nfw bufffr will bf dirfdt
+     * $nbytfs$, bnd its mbrk will bf undffinfd.  Tif nfw bufffr will bf dirfdt
+     * $nbytfs$, bnd its mbrk will bf undffinfd.  Tif nfw bufffr will bf dirfdt
+     * $nbytfs$, bnd its mbrk will bf undffinfd.  Tif nfw bufffr will bf dirfdt
+     * $nbytfs$, bnd its mbrk will bf undffinfd.  Tif nfw bufffr will bf dirfdt
+     * if, bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
+     * if, bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
+     * if, bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
+     * if, bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
      * if, bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
      * only if, tiis bufffr is rfbd-only.  </p>
+     * only if, tiis bufffr is rfbd-only.  </p>
+     * only if, tiis bufffr is rfbd-only.  </p>
+     * only if, tiis bufffr is rfbd-only.  </p>
+     * only if, tiis bufffr is rfbd-only.  </p>
+     *
+     *
+     *
+     *
      *
      * @rfturn  A nfw $typf$ bufffr
+     * @rfturn  A nfw $typf$ bufffr
+     * @rfturn  A nfw $typf$ bufffr
+     * @rfturn  A nfw $typf$ bufffr
+     * @rfturn  A nfw $typf$ bufffr
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt $Typf$Bufffr bs$Typf$Bufffr();
+    publid bbstrbdt $Typf$Bufffr bs$Typf$Bufffr();
+    publid bbstrbdt $Typf$Bufffr bs$Typf$Bufffr();
+    publid bbstrbdt $Typf$Bufffr bs$Typf$Bufffr();
+    publid bbstrbdt $Typf$Bufffr bs$Typf$Bufffr();
+
+
+
+
 
 #fnd
+#fnd
+#fnd
+#fnd
+#fnd
 
+
+
+
+
+}
+}
+}
+}
 }

@@ -1,0 +1,284 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+import jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts;
+import jbvb.lbng.invokf.MftiodHbndlfs.Lookup;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+
+/**
+ * A symbolid rfffrfndf obtbinfd by drbdking b dirfdt mftiod ibndlf
+ * into its donsitutfnt symbolid pbrts.
+ * To drbdk b dirfdt mftiod ibndlf, dbll {@link Lookup#rfvfblDirfdt Lookup.rfvfblDirfdt}.
+ * <i1><b nbmf="dirfdtmi"></b>Dirfdt Mftiod Hbndlfs</i1>
+ * A <fm>dirfdt mftiod ibndlf</fm> rfprfsfnts b mftiod, donstrudtor, or fifld witiout
+ * bny intfrvfning brgumfnt bindings or otifr trbnsformbtions.
+ * Tif mftiod, donstrudtor, or fifld rfffrrfd to by b dirfdt mftiod ibndlf is dbllfd
+ * its <fm>undfrlying mfmbfr</fm>.
+ * Dirfdt mftiod ibndlfs mby bf obtbinfd in bny of tifsf wbys:
+ * <ul>
+ * <li>By fxfduting bn {@dodf ldd} instrudtion on b {@dodf CONSTANT_MftiodHbndlf} donstbnt.
+ *     (Sff tif Jbvb Virtubl Mbdiinf Spfdifidbtion, sfdtions 4.4.8 bnd 5.4.3.)
+ * <li>By dblling onf of tif <b irff="MftiodHbndlfs.Lookup.itml#lookups">Lookup Fbdtory Mftiods</b>,
+ *     sudi bs {@link Lookup#findVirtubl Lookup.findVirtubl},
+ *     to rfsolvf b symbolid rfffrfndf into b mftiod ibndlf.
+ *     A symbolid rfffrfndf donsists of b dlbss, nbmf string, bnd typf.
+ * <li>By dblling tif fbdtory mftiod {@link Lookup#unrfflfdt Lookup.unrfflfdt}
+ *     or {@link Lookup#unrfflfdtSpfdibl Lookup.unrfflfdtSpfdibl}
+ *     to donvfrt b {@link Mftiod} into b mftiod ibndlf.
+ * <li>By dblling tif fbdtory mftiod {@link Lookup#unrfflfdtConstrudtor Lookup.unrfflfdtConstrudtor}
+ *     to donvfrt b {@link Construdtor} into b mftiod ibndlf.
+ * <li>By dblling tif fbdtory mftiod {@link Lookup#unrfflfdtGfttfr Lookup.unrfflfdtGfttfr}
+ *     or {@link Lookup#unrfflfdtSfttfr Lookup.unrfflfdtSfttfr}
+ *     to donvfrt b {@link Fifld} into b mftiod ibndlf.
+ * </ul>
+ *
+ * <i1>Rfstridtions on Crbdking</i1>
+ * Givfn b suitbblf {@dodf Lookup} objfdt, it is possiblf to drbdk bny dirfdt mftiod ibndlf
+ * to rfdovfr b symbolid rfffrfndf for tif undfrlying mftiod, donstrudtor, or fifld.
+ * Crbdking must bf donf vib b {@dodf Lookup} objfdt fquivblfnt to tibt wiidi drfbtfd
+ * tif tbrgft mftiod ibndlf, or wiidi ibs fnougi bddfss pfrmissions to rfdrfbtf
+ * bn fquivblfnt mftiod ibndlf.
+ * <p>
+ * If tif undfrlying mftiod is <b irff="MftiodHbndlfs.Lookup.itml#dbllsfns">dbllfr sfnsitivf</b>,
+ * tif dirfdt mftiod ibndlf will ibvf bffn "bound" to b pbrtidulbr dbllfr dlbss, tif
+ * {@linkplbin jbvb.lbng.invokf.MftiodHbndlfs.Lookup#lookupClbss() lookup dlbss}
+ * of tif lookup objfdt usfd to drfbtf it.
+ * Crbdking tiis mftiod ibndlf witi b difffrfnt lookup dlbss will fbil
+ * fvfn if tif undfrlying mftiod is publid (likf {@dodf Clbss.forNbmf}).
+ * <p>
+ * Tif rfquirfmfnt of lookup objfdt mbtdiing providfs b "fbst fbil" bfibvior
+ * for progrbms wiidi mby otifrwisf trust frronfous rfvflbtion of b mftiod
+ * ibndlf witi symbolid informbtion (or dbllfr binding) from bn unfxpfdtfd sdopf.
+ * Usf {@link jbvb.lbng.invokf.MftiodHbndlfs#rfflfdtAs} to ovfrridf tiis limitbtion.
+ *
+ * <i1><b nbmf="rffkinds"></b>Rfffrfndf kinds</i1>
+ * Tif <b irff="MftiodHbndlfs.Lookup.itml#lookups">Lookup Fbdtory Mftiods</b>
+ * dorrfspond to bll mbjor usf dbsfs for mftiods, donstrudtors, bnd fiflds.
+ * Tifsf usf dbsfs mby bf distinguisifd using smbll intfgfrs bs follows:
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="rfffrfndf kinds">
+ * <tr><ti>rfffrfndf kind</ti><ti>dfsdriptivf nbmf</ti><ti>sdopf</ti><ti>mfmbfr</ti><ti>bfibvior</ti></tr>
+ * <tr>
+ *     <td>{@dodf 1}</td><td>{@dodf REF_gftFifld}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf FT f;}</td><td>{@dodf (T) tiis.f;}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 2}</td><td>{@dodf REF_gftStbtid}</td><td>{@dodf dlbss} or {@dodf intfrfbdf}</td>
+ *     <td>{@dodf stbtid}<br>{@dodf FT f;}</td><td>{@dodf (T) C.f;}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 3}</td><td>{@dodf REF_putFifld}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf FT f;}</td><td>{@dodf tiis.f = x;}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 4}</td><td>{@dodf REF_putStbtid}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf stbtid}<br>{@dodf FT f;}</td><td>{@dodf C.f = brg;}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 5}</td><td>{@dodf REF_invokfVirtubl}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf T m(A*);}</td><td>{@dodf (T) tiis.m(brg*);}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 6}</td><td>{@dodf REF_invokfStbtid}</td><td>{@dodf dlbss} or {@dodf intfrfbdf}</td>
+ *     <td>{@dodf stbtid}<br>{@dodf T m(A*);}</td><td>{@dodf (T) C.m(brg*);}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 7}</td><td>{@dodf REF_invokfSpfdibl}</td><td>{@dodf dlbss} or {@dodf intfrfbdf}</td>
+ *     <td>{@dodf T m(A*);}</td><td>{@dodf (T) supfr.m(brg*);}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 8}</td><td>{@dodf REF_nfwInvokfSpfdibl}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf C(A*);}</td><td>{@dodf nfw C(brg*);}</td>
+ * </tr>
+ * <tr>
+ *     <td>{@dodf 9}</td><td>{@dodf REF_invokfIntfrfbdf}</td><td>{@dodf intfrfbdf}</td>
+ *     <td>{@dodf T m(A*);}</td><td>{@dodf (T) tiis.m(brg*);}</td>
+ * </tr>
+ * </tbblf>
+ * @sindf 1.8
+ */
+publid
+intfrfbdf MftiodHbndlfInfo {
+    /**
+     * A dirfdt mftiod ibndlf rfffrfndf kind,
+     * bs dffinfd in tif <b irff="MftiodHbndlfInfo.itml#rffkinds">tbblf bbovf</b>.
+     */
+    publid stbtid finbl int
+        REF_gftFifld                = Constbnts.REF_gftFifld,
+        REF_gftStbtid               = Constbnts.REF_gftStbtid,
+        REF_putFifld                = Constbnts.REF_putFifld,
+        REF_putStbtid               = Constbnts.REF_putStbtid,
+        REF_invokfVirtubl           = Constbnts.REF_invokfVirtubl,
+        REF_invokfStbtid            = Constbnts.REF_invokfStbtid,
+        REF_invokfSpfdibl           = Constbnts.REF_invokfSpfdibl,
+        REF_nfwInvokfSpfdibl        = Constbnts.REF_nfwInvokfSpfdibl,
+        REF_invokfIntfrfbdf         = Constbnts.REF_invokfIntfrfbdf;
+
+    /**
+     * Rfturns tif rfffrfndf kind of tif drbdkfd mftiod ibndlf, wiidi in turn
+     * dftfrminfs wiftifr tif mftiod ibndlf's undfrlying mfmbfr wbs b donstrudtor, mftiod, or fifld.
+     * Sff tif <b irff="MftiodHbndlfInfo.itml#rffkinds">tbblf bbovf</b> for dffinitions.
+     * @rfturn tif intfgfr dodf for tif kind of rfffrfndf usfd to bddfss tif undfrlying mfmbfr
+     */
+    publid int gftRfffrfndfKind();
+
+    /**
+     * Rfturns tif dlbss in wiidi tif drbdkfd mftiod ibndlf's undfrlying mfmbfr wbs dffinfd.
+     * @rfturn tif dfdlbring dlbss of tif undfrlying mfmbfr
+     */
+    publid Clbss<?> gftDfdlbringClbss();
+
+    /**
+     * Rfturns tif nbmf of tif drbdkfd mftiod ibndlf's undfrlying mfmbfr.
+     * Tiis is {@dodf "&lt;init&gt;"} if tif undfrlying mfmbfr wbs b donstrudtor,
+     * flsf it is b simplf mftiod nbmf or fifld nbmf.
+     * @rfturn tif simplf nbmf of tif undfrlying mfmbfr
+     */
+    publid String gftNbmf();
+
+    /**
+     * Rfturns tif nominbl typf of tif drbdkfd symbolid rfffrfndf, fxprfssfd bs b mftiod typf.
+     * If tif rfffrfndf is to b donstrudtor, tif rfturn typf will bf {@dodf void}.
+     * If it is to b non-stbtid mftiod, tif mftiod typf will not mfntion tif {@dodf tiis} pbrbmftfr.
+     * If it is to b fifld bnd tif rfqufstfd bddfss is to rfbd tif fifld,
+     * tif mftiod typf will ibvf no pbrbmftfrs bnd rfturn tif fifld typf.
+     * If it is to b fifld bnd tif rfqufstfd bddfss is to writf tif fifld,
+     * tif mftiod typf will ibvf onf pbrbmftfr of tif fifld typf bnd rfturn {@dodf void}.
+     * <p>
+     * Notf tibt originbl dirfdt mftiod ibndlf mby indludf b lfbding {@dodf tiis} pbrbmftfr,
+     * or (in tif dbsf of b donstrudtor) will rfplbdf tif {@dodf void} rfturn typf
+     * witi tif donstrudtfd dlbss.
+     * Tif nominbl typf dofs not indludf bny {@dodf tiis} pbrbmftfr,
+     * bnd (in tif dbsf of b donstrudtor) will rfturn {@dodf void}.
+     * @rfturn tif typf of tif undfrlying mfmbfr, fxprfssfd bs b mftiod typf
+     */
+    publid MftiodTypf gftMftiodTypf();
+
+    // Utility mftiods.
+    // NOTE: dlbss/nbmf/typf bnd rfffrfndf kind donstitutf b symbolid rfffrfndf
+    // mfmbfr bnd modififrs brf bn bdd-on, dfrivfd from Corf Rfflfdtion (or tif fquivblfnt)
+
+    /**
+     * Rfflfdts tif undfrlying mfmbfr bs b mftiod, donstrudtor, or fifld objfdt.
+     * If tif undfrlying mfmbfr is publid, it is rfflfdtfd bs if by
+     * {@dodf gftMftiod}, {@dodf gftConstrudtor}, or {@dodf gftFifld}.
+     * Otifrwisf, it is rfflfdtfd bs if by
+     * {@dodf gftDfdlbrfdMftiod}, {@dodf gftDfdlbrfdConstrudtor}, or {@dodf gftDfdlbrfdFifld}.
+     * Tif undfrlying mfmbfr must bf bddfssiblf to tif givfn lookup objfdt.
+     * @pbrbm <T> tif dfsirfd typf of tif rfsult, fitifr {@link Mfmbfr} or b subtypf
+     * @pbrbm fxpfdtfd b dlbss objfdt rfprfsfnting tif dfsirfd rfsult typf {@dodf T}
+     * @pbrbm lookup tif lookup objfdt tibt drfbtfd tiis MftiodHbndlfInfo, or onf witi fquivblfnt bddfss privilfgfs
+     * @rfturn b rfffrfndf to tif mftiod, donstrudtor, or fifld objfdt
+     * @fxdfption ClbssCbstExdfption if tif mfmbfr is not of tif fxpfdtfd typf
+     * @fxdfption NullPointfrExdfption if fitifr brgumfnt is {@dodf null}
+     * @fxdfption IllfgblArgumfntExdfption if tif undfrlying mfmbfr is not bddfssiblf to tif givfn lookup objfdt
+     */
+    publid <T fxtfnds Mfmbfr> T rfflfdtAs(Clbss<T> fxpfdtfd, Lookup lookup);
+
+    /**
+     * Rfturns tif bddfss modififrs of tif undfrlying mfmbfr.
+     * @rfturn tif Jbvb lbngubgf modififrs for undfrlying mfmbfr,
+     *         or -1 if tif mfmbfr dbnnot bf bddfssfd
+     * @sff Modififr
+     * @sff #rfflfdtAs
+     */
+    publid int gftModififrs();
+
+    /**
+     * Dftfrminfs if tif undfrlying mfmbfr wbs b vbribblf brity mftiod or donstrudtor.
+     * Sudi mfmbfrs brf rfprfsfntfd by mftiod ibndlfs tibt brf vbrbrgs dollfdtors.
+     * @implSpfd
+     * Tiis produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     gftRfffrfndfKind() >= REF_invokfVirtubl && Modififr.isTrbnsifnt(gftModififrs())
+     * }</prf>
+     *
+     *
+     * @rfturn {@dodf truf} if bnd only if tif undfrlying mfmbfr wbs dfdlbrfd witi vbribblf brity.
+     */
+    // spflling dfrivfd from jbvb.lbng.rfflfdt.Exfdutbblf, not MftiodHbndlf.isVbrbrgsCollfdtor
+    publid dffbult boolfbn isVbrArgs()  {
+        // fiflds brf nfvfr vbrbrgs:
+        if (MftiodHbndlfNbtivfs.rffKindIsFifld((bytf) gftRfffrfndfKind()))
+            rfturn fblsf;
+        // not in tif publid API: Modififr.VARARGS
+        finbl int ACC_VARARGS = 0x00000080;  // from JVMS 4.6 (Tbblf 4.20)
+        bssfrt(ACC_VARARGS == Modififr.TRANSIENT);
+        rfturn Modififr.isTrbnsifnt(gftModififrs());
+    }
+
+    /**
+     * Rfturns tif dfsdriptivf nbmf of tif givfn rfffrfndf kind,
+     * bs dffinfd in tif <b irff="MftiodHbndlfInfo.itml#rffkinds">tbblf bbovf</b>.
+     * Tif donvfntionbl prffix "REF_" is omittfd.
+     * @pbrbm rfffrfndfKind bn intfgfr dodf for b kind of rfffrfndf usfd to bddfss b dlbss mfmbfr
+     * @rfturn b mixfd-dbsf string sudi bs {@dodf "gftFifld"}
+     * @fxdfption IllfgblArgumfntExdfption if tif brgumfnt is not b vblid
+     *            <b irff="MftiodHbndlfInfo.itml#rffkinds">rfffrfndf kind numbfr</b>
+     */
+    publid stbtid String rfffrfndfKindToString(int rfffrfndfKind) {
+        if (!MftiodHbndlfNbtivfs.rffKindIsVblid(rfffrfndfKind))
+            tirow nfwIllfgblArgumfntExdfption("invblid rfffrfndf kind", rfffrfndfKind);
+        rfturn MftiodHbndlfNbtivfs.rffKindNbmf((bytf)rfffrfndfKind);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion for b {@dodf MftiodHbndlfInfo},
+     * givfn tif four pbrts of its symbolid rfffrfndf.
+     * Tiis is dffinfd to bf of tif form {@dodf "RK C.N:MT"}, wifrf {@dodf RK} is tif
+     * {@linkplbin #rfffrfndfKindToString rfffrfndf kind string} for {@dodf kind},
+     * {@dodf C} is tif {@linkplbin jbvb.lbng.Clbss#gftNbmf nbmf} of {@dodf dffd}
+     * {@dodf N} is tif {@dodf nbmf}, bnd
+     * {@dodf MT} is tif {@dodf typf}.
+     * Tifsf four vblufs mby bf obtbinfd from tif
+     * {@linkplbin #gftRfffrfndfKind rfffrfndf kind},
+     * {@linkplbin #gftDfdlbringClbss dfdlbring dlbss},
+     * {@linkplbin #gftNbmf mfmbfr nbmf},
+     * bnd {@linkplbin #gftMftiodTypf mftiod typf}
+     * of b {@dodf MftiodHbndlfInfo} objfdt.
+     *
+     * @implSpfd
+     * Tiis produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     String.formbt("%s %s.%s:%s", rfffrfndfKindToString(kind), dffd.gftNbmf(), nbmf, typf)
+     * }</prf>
+     *
+     * @pbrbm kind tif {@linkplbin #gftRfffrfndfKind rfffrfndf kind} pbrt of tif symbolid rfffrfndf
+     * @pbrbm dffd tif {@linkplbin #gftDfdlbringClbss dfdlbring dlbss} pbrt of tif symbolid rfffrfndf
+     * @pbrbm nbmf tif {@linkplbin #gftNbmf mfmbfr nbmf} pbrt of tif symbolid rfffrfndf
+     * @pbrbm typf tif {@linkplbin #gftMftiodTypf mftiod typf} pbrt of tif symbolid rfffrfndf
+     * @rfturn b string of tif form {@dodf "RK C.N:MT"}
+     * @fxdfption IllfgblArgumfntExdfption if tif first brgumfnt is not b vblid
+     *            <b irff="MftiodHbndlfInfo.itml#rffkinds">rfffrfndf kind numbfr</b>
+     * @fxdfption NullPointfrExdfption if bny rfffrfndf brgumfnt is {@dodf null}
+     */
+    publid stbtid String toString(int kind, Clbss<?> dffd, String nbmf, MftiodTypf typf) {
+        Objfdts.rfquirfNonNull(nbmf); Objfdts.rfquirfNonNull(typf);
+        rfturn String.formbt("%s %s.%s:%s", rfffrfndfKindToString(kind), dffd.gftNbmf(), nbmf, typf);
+    }
+}

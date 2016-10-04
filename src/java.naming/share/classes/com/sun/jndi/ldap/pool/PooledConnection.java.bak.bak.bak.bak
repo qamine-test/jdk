@@ -1,53 +1,265 @@
 /*
- * Copyright (d) 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.jndi.ldbp.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
+
+
+
+
 
 /**
- * Rfprfsfnts b donnfdtion thbt is mbnbgfd in b pool. Thf donnfdtion
+/**
+/**
+/**
+/**
+ * Rfprfsfnts b donnfdtion tibt is mbnbgfd in b pool. Tif donnfdtion
+ * Rfprfsfnts b donnfdtion tibt is mbnbgfd in b pool. Tif donnfdtion
+ * Rfprfsfnts b donnfdtion tibt is mbnbgfd in b pool. Tif donnfdtion
+ * Rfprfsfnts b donnfdtion tibt is mbnbgfd in b pool. Tif donnfdtion
+ * Rfprfsfnts b donnfdtion tibt is mbnbgfd in b pool. Tif donnfdtion
+ * mby bf rfusfd by multiplf dlifnts.
+ * mby bf rfusfd by multiplf dlifnts.
+ * mby bf rfusfd by multiplf dlifnts.
+ * mby bf rfusfd by multiplf dlifnts.
  * mby bf rfusfd by multiplf dlifnts.
  *
- * A poolfd donnfdtion typidblly hbs b dlosf mfthod thbt its dlifnts
- * usf to indidbtf thbt thfy no longfr nffd thf donnfdtion. This dlosf
- * mfthod would intfrbdt with thf donnfdtion pool to rfturn thf donnfdtion
- * to thf pool (sff PoolCbllbbdk).
+ *
+ *
+ *
+ *
+ * A poolfd donnfdtion typidblly ibs b dlosf mftiod tibt its dlifnts
+ * A poolfd donnfdtion typidblly ibs b dlosf mftiod tibt its dlifnts
+ * A poolfd donnfdtion typidblly ibs b dlosf mftiod tibt its dlifnts
+ * A poolfd donnfdtion typidblly ibs b dlosf mftiod tibt its dlifnts
+ * A poolfd donnfdtion typidblly ibs b dlosf mftiod tibt its dlifnts
+ * usf to indidbtf tibt tify no longfr nffd tif donnfdtion. Tiis dlosf
+ * usf to indidbtf tibt tify no longfr nffd tif donnfdtion. Tiis dlosf
+ * usf to indidbtf tibt tify no longfr nffd tif donnfdtion. Tiis dlosf
+ * usf to indidbtf tibt tify no longfr nffd tif donnfdtion. Tiis dlosf
+ * usf to indidbtf tibt tify no longfr nffd tif donnfdtion. Tiis dlosf
+ * mftiod would intfrbdt witi tif donnfdtion pool to rfturn tif donnfdtion
+ * mftiod would intfrbdt witi tif donnfdtion pool to rfturn tif donnfdtion
+ * mftiod would intfrbdt witi tif donnfdtion pool to rfturn tif donnfdtion
+ * mftiod would intfrbdt witi tif donnfdtion pool to rfturn tif donnfdtion
+ * mftiod would intfrbdt witi tif donnfdtion pool to rfturn tif donnfdtion
+ * to tif pool (sff PoolCbllbbdk).
+ * to tif pool (sff PoolCbllbbdk).
+ * to tif pool (sff PoolCbllbbdk).
+ * to tif pool (sff PoolCbllbbdk).
+ * to tif pool (sff PoolCbllbbdk).
  *<p>
- * Thf poolfd donnfdtion blso nffds to providf b dlosf mfthod thbt thf
- * donnfdtion pool dbn usf to physidblly dlosf thf donnfdtion.
- * Thf pool might nffd to physidblly dlosf thf donnfdtion bs dftfrminfd
- * by thf pool's polidy (for fxbmplf, to mbnbgf thf pool sizf or idlf
- * donnfdtions). This sfdond dlosf mfthod should *not* usf PoolCbllbbdk
- * mfthods. It should only do whbt is rfquirfd to dlosf thf physidbl
+ *<p>
+ *<p>
+ *<p>
+ *<p>
+ * Tif poolfd donnfdtion blso nffds to providf b dlosf mftiod tibt tif
+ * Tif poolfd donnfdtion blso nffds to providf b dlosf mftiod tibt tif
+ * Tif poolfd donnfdtion blso nffds to providf b dlosf mftiod tibt tif
+ * Tif poolfd donnfdtion blso nffds to providf b dlosf mftiod tibt tif
+ * Tif poolfd donnfdtion blso nffds to providf b dlosf mftiod tibt tif
+ * donnfdtion pool dbn usf to piysidblly dlosf tif donnfdtion.
+ * donnfdtion pool dbn usf to piysidblly dlosf tif donnfdtion.
+ * donnfdtion pool dbn usf to piysidblly dlosf tif donnfdtion.
+ * donnfdtion pool dbn usf to piysidblly dlosf tif donnfdtion.
+ * donnfdtion pool dbn usf to piysidblly dlosf tif donnfdtion.
+ * Tif pool migit nffd to piysidblly dlosf tif donnfdtion bs dftfrminfd
+ * Tif pool migit nffd to piysidblly dlosf tif donnfdtion bs dftfrminfd
+ * Tif pool migit nffd to piysidblly dlosf tif donnfdtion bs dftfrminfd
+ * Tif pool migit nffd to piysidblly dlosf tif donnfdtion bs dftfrminfd
+ * Tif pool migit nffd to piysidblly dlosf tif donnfdtion bs dftfrminfd
+ * by tif pool's polidy (for fxbmplf, to mbnbgf tif pool sizf or idlf
+ * by tif pool's polidy (for fxbmplf, to mbnbgf tif pool sizf or idlf
+ * by tif pool's polidy (for fxbmplf, to mbnbgf tif pool sizf or idlf
+ * by tif pool's polidy (for fxbmplf, to mbnbgf tif pool sizf or idlf
+ * by tif pool's polidy (for fxbmplf, to mbnbgf tif pool sizf or idlf
+ * donnfdtions). Tiis sfdond dlosf mftiod siould *not* usf PoolCbllbbdk
+ * donnfdtions). Tiis sfdond dlosf mftiod siould *not* usf PoolCbllbbdk
+ * donnfdtions). Tiis sfdond dlosf mftiod siould *not* usf PoolCbllbbdk
+ * donnfdtions). Tiis sfdond dlosf mftiod siould *not* usf PoolCbllbbdk
+ * donnfdtions). Tiis sfdond dlosf mftiod siould *not* usf PoolCbllbbdk
+ * mftiods. It siould only do wibt is rfquirfd to dlosf tif piysidbl
+ * mftiods. It siould only do wibt is rfquirfd to dlosf tif piysidbl
+ * mftiods. It siould only do wibt is rfquirfd to dlosf tif piysidbl
+ * mftiods. It siould only do wibt is rfquirfd to dlosf tif piysidbl
+ * mftiods. It siould only do wibt is rfquirfd to dlosf tif piysidbl
+ * donnfdtion.
+ * donnfdtion.
+ * donnfdtion.
+ * donnfdtion.
  * donnfdtion.
  *
- * @buthor Rosbnnb Lff
+ *
+ *
+ *
+ *
+ * @butior Rosbnnb Lff
+ * @butior Rosbnnb Lff
+ * @butior Rosbnnb Lff
+ * @butior Rosbnnb Lff
+ * @butior Rosbnnb Lff
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf PoolfdConnfdtion {
+publid intfrfbdf PoolfdConnfdtion {
+publid intfrfbdf PoolfdConnfdtion {
+publid intfrfbdf PoolfdConnfdtion {
+publid intfrfbdf PoolfdConnfdtion {
+
+
+
+
 
     /**
-     * Closfs thf physidbl donnfdtion.
+    /**
+    /**
+    /**
+    /**
+     * Closfs tif piysidbl donnfdtion.
+     * Closfs tif piysidbl donnfdtion.
+     * Closfs tif piysidbl donnfdtion.
+     * Closfs tif piysidbl donnfdtion.
+     * Closfs tif piysidbl donnfdtion.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt void dlosfConnfdtion();
+    publid bbstrbdt void dlosfConnfdtion();
+    publid bbstrbdt void dlosfConnfdtion();
+    publid bbstrbdt void dlosfConnfdtion();
+    publid bbstrbdt void dlosfConnfdtion();
+}
+}
+}
+}
 }

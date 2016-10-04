@@ -1,291 +1,1455 @@
 /*
- * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+pbdkbgf jbvb.bwt.fvfnt;
+
+
+
+
 
 import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.Adjustbblf;
 import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 import jbvb.lbng.bnnotbtion.Nbtivf;
 
 
+
+
+
+
+
+
+
+
 /**
- * Thf bdjustmfnt fvfnt fmittfd by Adjustbblf objfdts likf
+/**
+/**
+/**
+/**
+ * Tif bdjustmfnt fvfnt fmittfd by Adjustbblf objfdts likf
+ * Tif bdjustmfnt fvfnt fmittfd by Adjustbblf objfdts likf
+ * Tif bdjustmfnt fvfnt fmittfd by Adjustbblf objfdts likf
+ * Tif bdjustmfnt fvfnt fmittfd by Adjustbblf objfdts likf
+ * Tif bdjustmfnt fvfnt fmittfd by Adjustbblf objfdts likf
  * {@link jbvb.bwt.Sdrollbbr} bnd {@link jbvb.bwt.SdrollPbnf}.
- * Whfn thf usfr dhbngfs thf vbluf of thf sdrolling domponfnt,
+ * {@link jbvb.bwt.Sdrollbbr} bnd {@link jbvb.bwt.SdrollPbnf}.
+ * {@link jbvb.bwt.Sdrollbbr} bnd {@link jbvb.bwt.SdrollPbnf}.
+ * {@link jbvb.bwt.Sdrollbbr} bnd {@link jbvb.bwt.SdrollPbnf}.
+ * {@link jbvb.bwt.Sdrollbbr} bnd {@link jbvb.bwt.SdrollPbnf}.
+ * Wifn tif usfr dibngfs tif vbluf of tif sdrolling domponfnt,
+ * Wifn tif usfr dibngfs tif vbluf of tif sdrolling domponfnt,
+ * Wifn tif usfr dibngfs tif vbluf of tif sdrolling domponfnt,
+ * Wifn tif usfr dibngfs tif vbluf of tif sdrolling domponfnt,
+ * Wifn tif usfr dibngfs tif vbluf of tif sdrolling domponfnt,
+ * it rfdfivfs bn instbndf of {@dodf AdjustmfntEvfnt}.
+ * it rfdfivfs bn instbndf of {@dodf AdjustmfntEvfnt}.
+ * it rfdfivfs bn instbndf of {@dodf AdjustmfntEvfnt}.
+ * it rfdfivfs bn instbndf of {@dodf AdjustmfntEvfnt}.
  * it rfdfivfs bn instbndf of {@dodf AdjustmfntEvfnt}.
  * <p>
- * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
- * of bny pbrtidulbr {@dodf AdjustmfntEvfnt} instbndf is not
- * in thf rbngf from {@dodf ADJUSTMENT_FIRST} to {@dodf ADJUSTMENT_LAST}.
  * <p>
- * Thf {@dodf typf} of bny {@dodf AdjustmfntEvfnt} instbndf tbkfs onf of thf following
+ * <p>
+ * <p>
+ * <p>
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf AdjustmfntEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf AdjustmfntEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf AdjustmfntEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf AdjustmfntEvfnt} instbndf is not
+ * of bny pbrtidulbr {@dodf AdjustmfntEvfnt} instbndf is not
+ * in tif rbngf from {@dodf ADJUSTMENT_FIRST} to {@dodf ADJUSTMENT_LAST}.
+ * in tif rbngf from {@dodf ADJUSTMENT_FIRST} to {@dodf ADJUSTMENT_LAST}.
+ * in tif rbngf from {@dodf ADJUSTMENT_FIRST} to {@dodf ADJUSTMENT_LAST}.
+ * in tif rbngf from {@dodf ADJUSTMENT_FIRST} to {@dodf ADJUSTMENT_LAST}.
+ * in tif rbngf from {@dodf ADJUSTMENT_FIRST} to {@dodf ADJUSTMENT_LAST}.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif {@dodf typf} of bny {@dodf AdjustmfntEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf typf} of bny {@dodf AdjustmfntEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf typf} of bny {@dodf AdjustmfntEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf typf} of bny {@dodf AdjustmfntEvfnt} instbndf tbkfs onf of tif following
+ * Tif {@dodf typf} of bny {@dodf AdjustmfntEvfnt} instbndf tbkfs onf of tif following
+ * vblufs:
+ * vblufs:
+ * vblufs:
+ * vblufs:
  * vblufs:
  *                     <ul>
+ *                     <ul>
+ *                     <ul>
+ *                     <ul>
+ *                     <ul>
+ *                     <li> {@dodf UNIT_INCREMENT}
+ *                     <li> {@dodf UNIT_INCREMENT}
+ *                     <li> {@dodf UNIT_INCREMENT}
+ *                     <li> {@dodf UNIT_INCREMENT}
  *                     <li> {@dodf UNIT_INCREMENT}
  *                     <li> {@dodf UNIT_DECREMENT}
+ *                     <li> {@dodf UNIT_DECREMENT}
+ *                     <li> {@dodf UNIT_DECREMENT}
+ *                     <li> {@dodf UNIT_DECREMENT}
+ *                     <li> {@dodf UNIT_DECREMENT}
+ *                     <li> {@dodf BLOCK_INCREMENT}
+ *                     <li> {@dodf BLOCK_INCREMENT}
+ *                     <li> {@dodf BLOCK_INCREMENT}
+ *                     <li> {@dodf BLOCK_INCREMENT}
  *                     <li> {@dodf BLOCK_INCREMENT}
  *                     <li> {@dodf BLOCK_DECREMENT}
+ *                     <li> {@dodf BLOCK_DECREMENT}
+ *                     <li> {@dodf BLOCK_DECREMENT}
+ *                     <li> {@dodf BLOCK_DECREMENT}
+ *                     <li> {@dodf BLOCK_DECREMENT}
+ *                     <li> {@dodf TRACK}
+ *                     <li> {@dodf TRACK}
+ *                     <li> {@dodf TRACK}
+ *                     <li> {@dodf TRACK}
  *                     <li> {@dodf TRACK}
  *                     </ul>
- * Assigning thf vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfhbvior.
+ *                     </ul>
+ *                     </ul>
+ *                     </ul>
+ *                     </ul>
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfibvior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfibvior.
+ * @sff jbvb.bwt.Adjustbblf
+ * @sff jbvb.bwt.Adjustbblf
+ * @sff jbvb.bwt.Adjustbblf
+ * @sff jbvb.bwt.Adjustbblf
  * @sff jbvb.bwt.Adjustbblf
  * @sff AdjustmfntListfnfr
+ * @sff AdjustmfntListfnfr
+ * @sff AdjustmfntListfnfr
+ * @sff AdjustmfntListfnfr
+ * @sff AdjustmfntListfnfr
  *
- * @buthor Amy Fowlfr
+ *
+ *
+ *
+ *
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @butior Amy Fowlfr
+ * @sindf 1.1
+ * @sindf 1.1
+ * @sindf 1.1
+ * @sindf 1.1
  * @sindf 1.1
  */
+ */
+ */
+ */
+ */
+publid dlbss AdjustmfntEvfnt fxtfnds AWTEvfnt {
+publid dlbss AdjustmfntEvfnt fxtfnds AWTEvfnt {
+publid dlbss AdjustmfntEvfnt fxtfnds AWTEvfnt {
+publid dlbss AdjustmfntEvfnt fxtfnds AWTEvfnt {
 publid dlbss AdjustmfntEvfnt fxtfnds AWTEvfnt {
 
+
+
+
+
     /**
-     * Mbrks thf first intfgfr id for thf rbngf of bdjustmfnt fvfnt ids.
+    /**
+    /**
+    /**
+    /**
+     * Mbrks tif first intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif first intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int ADJUSTMENT_FIRST    = 601;
+    publid stbtid finbl int ADJUSTMENT_FIRST    = 601;
+    publid stbtid finbl int ADJUSTMENT_FIRST    = 601;
+    publid stbtid finbl int ADJUSTMENT_FIRST    = 601;
+    publid stbtid finbl int ADJUSTMENT_FIRST    = 601;
+
+
+
+
 
     /**
-     * Mbrks thf lbst intfgfr id for thf rbngf of bdjustmfnt fvfnt ids.
+    /**
+    /**
+    /**
+    /**
+     * Mbrks tif lbst intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of bdjustmfnt fvfnt ids.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int ADJUSTMENT_LAST     = 601;
+    publid stbtid finbl int ADJUSTMENT_LAST     = 601;
+    publid stbtid finbl int ADJUSTMENT_LAST     = 601;
+    publid stbtid finbl int ADJUSTMENT_LAST     = 601;
+    publid stbtid finbl int ADJUSTMENT_LAST     = 601;
+
+
+
+
 
     /**
-     * Thf bdjustmfnt vbluf dhbngfd fvfnt.
+    /**
+    /**
+    /**
+    /**
+     * Tif bdjustmfnt vbluf dibngfd fvfnt.
+     * Tif bdjustmfnt vbluf dibngfd fvfnt.
+     * Tif bdjustmfnt vbluf dibngfd fvfnt.
+     * Tif bdjustmfnt vbluf dibngfd fvfnt.
+     * Tif bdjustmfnt vbluf dibngfd fvfnt.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Evfnt.SCROLL_LINE_UP
+    publid stbtid finbl int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Evfnt.SCROLL_LINE_UP
+    publid stbtid finbl int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Evfnt.SCROLL_LINE_UP
+    publid stbtid finbl int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Evfnt.SCROLL_LINE_UP
+    publid stbtid finbl int ADJUSTMENT_VALUE_CHANGED = ADJUSTMENT_FIRST; //Evfnt.SCROLL_LINE_UP
+
+
+
+
 
     /**
-     * Thf unit indrfmfnt bdjustmfnt typf.
+    /**
+    /**
+    /**
+    /**
+     * Tif unit indrfmfnt bdjustmfnt typf.
+     * Tif unit indrfmfnt bdjustmfnt typf.
+     * Tif unit indrfmfnt bdjustmfnt typf.
+     * Tif unit indrfmfnt bdjustmfnt typf.
+     * Tif unit indrfmfnt bdjustmfnt typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int UNIT_INCREMENT      = 1;
+    @Nbtivf publid stbtid finbl int UNIT_INCREMENT      = 1;
+    @Nbtivf publid stbtid finbl int UNIT_INCREMENT      = 1;
+    @Nbtivf publid stbtid finbl int UNIT_INCREMENT      = 1;
+    @Nbtivf publid stbtid finbl int UNIT_INCREMENT      = 1;
+
+
+
+
 
     /**
-     * Thf unit dfdrfmfnt bdjustmfnt typf.
+    /**
+    /**
+    /**
+    /**
+     * Tif unit dfdrfmfnt bdjustmfnt typf.
+     * Tif unit dfdrfmfnt bdjustmfnt typf.
+     * Tif unit dfdrfmfnt bdjustmfnt typf.
+     * Tif unit dfdrfmfnt bdjustmfnt typf.
+     * Tif unit dfdrfmfnt bdjustmfnt typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int UNIT_DECREMENT      = 2;
+    @Nbtivf publid stbtid finbl int UNIT_DECREMENT      = 2;
+    @Nbtivf publid stbtid finbl int UNIT_DECREMENT      = 2;
+    @Nbtivf publid stbtid finbl int UNIT_DECREMENT      = 2;
+    @Nbtivf publid stbtid finbl int UNIT_DECREMENT      = 2;
+
+
+
+
 
     /**
-     * Thf blodk dfdrfmfnt bdjustmfnt typf.
+    /**
+    /**
+    /**
+    /**
+     * Tif blodk dfdrfmfnt bdjustmfnt typf.
+     * Tif blodk dfdrfmfnt bdjustmfnt typf.
+     * Tif blodk dfdrfmfnt bdjustmfnt typf.
+     * Tif blodk dfdrfmfnt bdjustmfnt typf.
+     * Tif blodk dfdrfmfnt bdjustmfnt typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int BLOCK_DECREMENT     = 3;
+    @Nbtivf publid stbtid finbl int BLOCK_DECREMENT     = 3;
+    @Nbtivf publid stbtid finbl int BLOCK_DECREMENT     = 3;
+    @Nbtivf publid stbtid finbl int BLOCK_DECREMENT     = 3;
+    @Nbtivf publid stbtid finbl int BLOCK_DECREMENT     = 3;
+
+
+
+
 
     /**
-     * Thf blodk indrfmfnt bdjustmfnt typf.
+    /**
+    /**
+    /**
+    /**
+     * Tif blodk indrfmfnt bdjustmfnt typf.
+     * Tif blodk indrfmfnt bdjustmfnt typf.
+     * Tif blodk indrfmfnt bdjustmfnt typf.
+     * Tif blodk indrfmfnt bdjustmfnt typf.
+     * Tif blodk indrfmfnt bdjustmfnt typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int BLOCK_INCREMENT     = 4;
+    @Nbtivf publid stbtid finbl int BLOCK_INCREMENT     = 4;
+    @Nbtivf publid stbtid finbl int BLOCK_INCREMENT     = 4;
+    @Nbtivf publid stbtid finbl int BLOCK_INCREMENT     = 4;
+    @Nbtivf publid stbtid finbl int BLOCK_INCREMENT     = 4;
+
+
+
+
 
     /**
-     * Thf bbsolutf trbdking bdjustmfnt typf.
+    /**
+    /**
+    /**
+    /**
+     * Tif bbsolutf trbdking bdjustmfnt typf.
+     * Tif bbsolutf trbdking bdjustmfnt typf.
+     * Tif bbsolutf trbdking bdjustmfnt typf.
+     * Tif bbsolutf trbdking bdjustmfnt typf.
+     * Tif bbsolutf trbdking bdjustmfnt typf.
+     */
+     */
+     */
+     */
      */
     @Nbtivf publid stbtid finbl int TRACK               = 5;
+    @Nbtivf publid stbtid finbl int TRACK               = 5;
+    @Nbtivf publid stbtid finbl int TRACK               = 5;
+    @Nbtivf publid stbtid finbl int TRACK               = 5;
+    @Nbtivf publid stbtid finbl int TRACK               = 5;
+
+
+
+
 
     /**
-     * Thf bdjustbblf objfdt thbt firfd thf fvfnt.
+    /**
+    /**
+    /**
+    /**
+     * Tif bdjustbblf objfdt tibt firfd tif fvfnt.
+     * Tif bdjustbblf objfdt tibt firfd tif fvfnt.
+     * Tif bdjustbblf objfdt tibt firfd tif fvfnt.
+     * Tif bdjustbblf objfdt tibt firfd tif fvfnt.
+     * Tif bdjustbblf objfdt tibt firfd tif fvfnt.
      *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff #gftAdjustbblf
+     * @sff #gftAdjustbblf
+     * @sff #gftAdjustbblf
+     * @sff #gftAdjustbblf
+     * @sff #gftAdjustbblf
+     */
+     */
+     */
+     */
      */
     Adjustbblf bdjustbblf;
+    Adjustbblf bdjustbblf;
+    Adjustbblf bdjustbblf;
+    Adjustbblf bdjustbblf;
+    Adjustbblf bdjustbblf;
+
+
+
+
 
     /**
-     * <dodf>vbluf</dodf> will dontbin thf nfw vbluf of thf
-     * bdjustbblf objfdt.  This vbluf will blwbys bf  in b
+    /**
+    /**
+    /**
+    /**
+     * <dodf>vbluf</dodf> will dontbin tif nfw vbluf of tif
+     * <dodf>vbluf</dodf> will dontbin tif nfw vbluf of tif
+     * <dodf>vbluf</dodf> will dontbin tif nfw vbluf of tif
+     * <dodf>vbluf</dodf> will dontbin tif nfw vbluf of tif
+     * <dodf>vbluf</dodf> will dontbin tif nfw vbluf of tif
+     * bdjustbblf objfdt.  Tiis vbluf will blwbys bf  in b
+     * bdjustbblf objfdt.  Tiis vbluf will blwbys bf  in b
+     * bdjustbblf objfdt.  Tiis vbluf will blwbys bf  in b
+     * bdjustbblf objfdt.  Tiis vbluf will blwbys bf  in b
+     * bdjustbblf objfdt.  Tiis vbluf will blwbys bf  in b
+     * rbngf bssodibtfd bdjustbblf objfdt.
+     * rbngf bssodibtfd bdjustbblf objfdt.
+     * rbngf bssodibtfd bdjustbblf objfdt.
+     * rbngf bssodibtfd bdjustbblf objfdt.
      * rbngf bssodibtfd bdjustbblf objfdt.
      *
-     * @sfribl
-     * @sff #gftVbluf
-     */
-    int vbluf;
-
-    /**
-     * Thf <dodf>bdjustmfntTypf</dodf> dfsdribfs how thf bdjustbblf
-     * objfdt vbluf hbs dhbngfd.
-     * This vbluf dbn bf indrfbsfd/dfdrfbsfd by b blodk or unit bmount
-     * whfrf thf blodk is bssodibtfd with pbgf indrfmfnts/dfdrfmfnts,
-     * bnd b unit is bssodibtfd with linf indrfmfnts/dfdrfmfnts.
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sff #gftVbluf
+     * @sff #gftVbluf
+     * @sff #gftVbluf
+     * @sff #gftVbluf
+     * @sff #gftVbluf
+     */
+     */
+     */
+     */
+     */
+    int vbluf;
+    int vbluf;
+    int vbluf;
+    int vbluf;
+    int vbluf;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif <dodf>bdjustmfntTypf</dodf> dfsdribfs iow tif bdjustbblf
+     * Tif <dodf>bdjustmfntTypf</dodf> dfsdribfs iow tif bdjustbblf
+     * Tif <dodf>bdjustmfntTypf</dodf> dfsdribfs iow tif bdjustbblf
+     * Tif <dodf>bdjustmfntTypf</dodf> dfsdribfs iow tif bdjustbblf
+     * Tif <dodf>bdjustmfntTypf</dodf> dfsdribfs iow tif bdjustbblf
+     * objfdt vbluf ibs dibngfd.
+     * objfdt vbluf ibs dibngfd.
+     * objfdt vbluf ibs dibngfd.
+     * objfdt vbluf ibs dibngfd.
+     * objfdt vbluf ibs dibngfd.
+     * Tiis vbluf dbn bf indrfbsfd/dfdrfbsfd by b blodk or unit bmount
+     * Tiis vbluf dbn bf indrfbsfd/dfdrfbsfd by b blodk or unit bmount
+     * Tiis vbluf dbn bf indrfbsfd/dfdrfbsfd by b blodk or unit bmount
+     * Tiis vbluf dbn bf indrfbsfd/dfdrfbsfd by b blodk or unit bmount
+     * Tiis vbluf dbn bf indrfbsfd/dfdrfbsfd by b blodk or unit bmount
+     * wifrf tif blodk is bssodibtfd witi pbgf indrfmfnts/dfdrfmfnts,
+     * wifrf tif blodk is bssodibtfd witi pbgf indrfmfnts/dfdrfmfnts,
+     * wifrf tif blodk is bssodibtfd witi pbgf indrfmfnts/dfdrfmfnts,
+     * wifrf tif blodk is bssodibtfd witi pbgf indrfmfnts/dfdrfmfnts,
+     * wifrf tif blodk is bssodibtfd witi pbgf indrfmfnts/dfdrfmfnts,
+     * bnd b unit is bssodibtfd witi linf indrfmfnts/dfdrfmfnts.
+     * bnd b unit is bssodibtfd witi linf indrfmfnts/dfdrfmfnts.
+     * bnd b unit is bssodibtfd witi linf indrfmfnts/dfdrfmfnts.
+     * bnd b unit is bssodibtfd witi linf indrfmfnts/dfdrfmfnts.
+     * bnd b unit is bssodibtfd witi linf indrfmfnts/dfdrfmfnts.
+     *
+     *
+     *
+     *
+     *
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sff #gftAdjustmfntTypf
+     * @sff #gftAdjustmfntTypf
+     * @sff #gftAdjustmfntTypf
+     * @sff #gftAdjustmfntTypf
      * @sff #gftAdjustmfntTypf
      */
+     */
+     */
+     */
+     */
+    int bdjustmfntTypf;
+    int bdjustmfntTypf;
+    int bdjustmfntTypf;
+    int bdjustmfntTypf;
     int bdjustmfntTypf;
 
 
+
+
+
+
+
+
+
+
     /**
-     * Thf <dodf>isAdjusting</dodf> is truf if thf fvfnt is onf
-     * of thf sfrifs of multiplf bdjustmfnt fvfnts.
+    /**
+    /**
+    /**
+    /**
+     * Tif <dodf>isAdjusting</dodf> is truf if tif fvfnt is onf
+     * Tif <dodf>isAdjusting</dodf> is truf if tif fvfnt is onf
+     * Tif <dodf>isAdjusting</dodf> is truf if tif fvfnt is onf
+     * Tif <dodf>isAdjusting</dodf> is truf if tif fvfnt is onf
+     * Tif <dodf>isAdjusting</dodf> is truf if tif fvfnt is onf
+     * of tif sfrifs of multiplf bdjustmfnt fvfnts.
+     * of tif sfrifs of multiplf bdjustmfnt fvfnts.
+     * of tif sfrifs of multiplf bdjustmfnt fvfnts.
+     * of tif sfrifs of multiplf bdjustmfnt fvfnts.
+     * of tif sfrifs of multiplf bdjustmfnt fvfnts.
+     *
+     *
+     *
+     *
      *
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff #gftVblufIsAdjusting
+     * @sff #gftVblufIsAdjusting
+     * @sff #gftVblufIsAdjusting
+     * @sff #gftVblufIsAdjusting
+     * @sff #gftVblufIsAdjusting
      */
+     */
+     */
+     */
+     */
+    boolfbn isAdjusting;
+    boolfbn isAdjusting;
+    boolfbn isAdjusting;
+    boolfbn isAdjusting;
     boolfbn isAdjusting;
 
 
+
+
+
+
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
+     */
+     */
+     */
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 5700290645205279921L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 5700290645205279921L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 5700290645205279921L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 5700290645205279921L;
      privbtf stbtid finbl long sfriblVfrsionUID = 5700290645205279921L;
 
 
+
+
+
+
+
+
+
+
     /**
-     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt with thf
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * spfdififd <dodf>Adjustbblf</dodf> sourdf, fvfnt typf,
+     * spfdififd <dodf>Adjustbblf</dodf> sourdf, fvfnt typf,
+     * spfdififd <dodf>Adjustbblf</dodf> sourdf, fvfnt typf,
+     * spfdififd <dodf>Adjustbblf</dodf> sourdf, fvfnt typf,
      * spfdififd <dodf>Adjustbblf</dodf> sourdf, fvfnt typf,
      * bdjustmfnt typf, bnd vbluf.
-     * <p> This mfthod throws bn
+     * bdjustmfnt typf, bnd vbluf.
+     * bdjustmfnt typf, bnd vbluf.
+     * bdjustmfnt typf, bnd vbluf.
+     * bdjustmfnt typf, bnd vbluf.
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
      * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
      * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
      *
-     * @pbrbm sourdf Thf <dodf>Adjustbblf</dodf> objfdt whfrf thf
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
      *               fvfnt originbtfd
-     * @pbrbm id     An intfgfr indidbting thf typf of fvfnt.
+     *               fvfnt originbtfd
+     *               fvfnt originbtfd
+     *               fvfnt originbtfd
+     *               fvfnt originbtfd
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
      *                     For informbtion on bllowbblf vblufs, sff
-     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
-     * @pbrbm typf   An intfgfr indidbting thf bdjustmfnt typf.
      *                     For informbtion on bllowbblf vblufs, sff
-     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
-     * @pbrbm vbluf  Thf durrfnt vbluf of thf bdjustmfnt
-     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
      * @sff #gftSourdf()
      * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftAdjustmfntTypf()
      * @sff #gftAdjustmfntTypf()
      * @sff #gftVbluf()
+     * @sff #gftVbluf()
+     * @sff #gftVbluf()
+     * @sff #gftVbluf()
+     * @sff #gftVbluf()
+     */
+     */
+     */
+     */
      */
     publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf) {
-        this(sourdf, id, typf, vbluf, fblsf);
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf) {
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf) {
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf) {
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf) {
+        tiis(sourdf, id, typf, vbluf, fblsf);
+        tiis(sourdf, id, typf, vbluf, fblsf);
+        tiis(sourdf, id, typf, vbluf, fblsf);
+        tiis(sourdf, id, typf, vbluf, fblsf);
+        tiis(sourdf, id, typf, vbluf, fblsf);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt with thf
+    /**
+    /**
+    /**
+    /**
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
+     * Construdts bn <dodf>AdjustmfntEvfnt</dodf> objfdt witi tif
      * spfdififd Adjustbblf sourdf, fvfnt typf, bdjustmfnt typf, bnd vbluf.
-     * <p> This mfthod throws bn
+     * spfdififd Adjustbblf sourdf, fvfnt typf, bdjustmfnt typf, bnd vbluf.
+     * spfdififd Adjustbblf sourdf, fvfnt typf, bdjustmfnt typf, bnd vbluf.
+     * spfdififd Adjustbblf sourdf, fvfnt typf, bdjustmfnt typf, bnd vbluf.
+     * spfdififd Adjustbblf sourdf, fvfnt typf, bdjustmfnt typf, bnd vbluf.
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <p> Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
      * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
      * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
+     * is <dodf>null</dodf>.
      *
-     * @pbrbm sourdf Thf <dodf>Adjustbblf</dodf> objfdt whfrf thf
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
+     * @pbrbm sourdf Tif <dodf>Adjustbblf</dodf> objfdt wifrf tif
      *               fvfnt originbtfd
-     * @pbrbm id     An intfgfr indidbting thf typf of fvfnt.
+     *               fvfnt originbtfd
+     *               fvfnt originbtfd
+     *               fvfnt originbtfd
+     *               fvfnt originbtfd
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
      *                     For informbtion on bllowbblf vblufs, sff
-     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
-     * @pbrbm typf   An intfgfr indidbting thf bdjustmfnt typf.
      *                     For informbtion on bllowbblf vblufs, sff
-     *                     thf dlbss dfsdription for {@link AdjustmfntEvfnt}
-     * @pbrbm vbluf  Thf durrfnt vbluf of thf bdjustmfnt
-     * @pbrbm isAdjusting A boolfbn thbt fqubls <dodf>truf</dodf> if thf fvfnt is onf
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm typf   An intfgfr indidbting tif bdjustmfnt typf.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     *                     tif dlbss dfsdription for {@link AdjustmfntEvfnt}
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm vbluf  Tif durrfnt vbluf of tif bdjustmfnt
+     * @pbrbm isAdjusting A boolfbn tibt fqubls <dodf>truf</dodf> if tif fvfnt is onf
+     * @pbrbm isAdjusting A boolfbn tibt fqubls <dodf>truf</dodf> if tif fvfnt is onf
+     * @pbrbm isAdjusting A boolfbn tibt fqubls <dodf>truf</dodf> if tif fvfnt is onf
+     * @pbrbm isAdjusting A boolfbn tibt fqubls <dodf>truf</dodf> if tif fvfnt is onf
+     * @pbrbm isAdjusting A boolfbn tibt fqubls <dodf>truf</dodf> if tif fvfnt is onf
      *               of b sfrifs of multiplf bdjusting fvfnts,
-     *               othfrwisf <dodf>fblsf</dodf>
-     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     *               of b sfrifs of multiplf bdjusting fvfnts,
+     *               of b sfrifs of multiplf bdjusting fvfnts,
+     *               of b sfrifs of multiplf bdjusting fvfnts,
+     *               of b sfrifs of multiplf bdjusting fvfnts,
+     *               otifrwisf <dodf>fblsf</dodf>
+     *               otifrwisf <dodf>fblsf</dodf>
+     *               otifrwisf <dodf>fblsf</dodf>
+     *               otifrwisf <dodf>fblsf</dodf>
+     *               otifrwisf <dodf>fblsf</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      * @sindf 1.4
      * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
+     * @sff #gftID()
      * @sff #gftID()
      * @sff #gftAdjustmfntTypf()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftAdjustmfntTypf()
+     * @sff #gftVbluf()
+     * @sff #gftVbluf()
+     * @sff #gftVbluf()
+     * @sff #gftVbluf()
      * @sff #gftVbluf()
      * @sff #gftVblufIsAdjusting()
+     * @sff #gftVblufIsAdjusting()
+     * @sff #gftVblufIsAdjusting()
+     * @sff #gftVblufIsAdjusting()
+     * @sff #gftVblufIsAdjusting()
+     */
+     */
+     */
+     */
      */
     publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf, boolfbn isAdjusting) {
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf, boolfbn isAdjusting) {
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf, boolfbn isAdjusting) {
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf, boolfbn isAdjusting) {
+    publid AdjustmfntEvfnt(Adjustbblf sourdf, int id, int typf, int vbluf, boolfbn isAdjusting) {
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        supfr(sourdf, id);
+        supfr(sourdf, id);
         supfr(sourdf, id);
         bdjustbblf = sourdf;
-        this.bdjustmfntTypf = typf;
-        this.vbluf = vbluf;
-        this.isAdjusting = isAdjusting;
+        bdjustbblf = sourdf;
+        bdjustbblf = sourdf;
+        bdjustbblf = sourdf;
+        bdjustbblf = sourdf;
+        tiis.bdjustmfntTypf = typf;
+        tiis.bdjustmfntTypf = typf;
+        tiis.bdjustmfntTypf = typf;
+        tiis.bdjustmfntTypf = typf;
+        tiis.bdjustmfntTypf = typf;
+        tiis.vbluf = vbluf;
+        tiis.vbluf = vbluf;
+        tiis.vbluf = vbluf;
+        tiis.vbluf = vbluf;
+        tiis.vbluf = vbluf;
+        tiis.isAdjusting = isAdjusting;
+        tiis.isAdjusting = isAdjusting;
+        tiis.isAdjusting = isAdjusting;
+        tiis.isAdjusting = isAdjusting;
+        tiis.isAdjusting = isAdjusting;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf <dodf>Adjustbblf</dodf> objfdt whfrf this fvfnt originbtfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd.
+     * Rfturns tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd.
+     * Rfturns tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd.
+     * Rfturns tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd.
+     * Rfturns tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd.
      *
-     * @rfturn thf <dodf>Adjustbblf</dodf> objfdt whfrf this fvfnt originbtfd
+     *
+     *
+     *
+     *
+     * @rfturn tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd
+     * @rfturn tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd
+     * @rfturn tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd
+     * @rfturn tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd
+     * @rfturn tif <dodf>Adjustbblf</dodf> objfdt wifrf tiis fvfnt originbtfd
+     */
+     */
+     */
+     */
      */
     publid Adjustbblf gftAdjustbblf() {
+    publid Adjustbblf gftAdjustbblf() {
+    publid Adjustbblf gftAdjustbblf() {
+    publid Adjustbblf gftAdjustbblf() {
+    publid Adjustbblf gftAdjustbblf() {
+        rfturn bdjustbblf;
+        rfturn bdjustbblf;
+        rfturn bdjustbblf;
+        rfturn bdjustbblf;
         rfturn bdjustbblf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf durrfnt vbluf in thf bdjustmfnt fvfnt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif durrfnt vbluf in tif bdjustmfnt fvfnt.
+     * Rfturns tif durrfnt vbluf in tif bdjustmfnt fvfnt.
+     * Rfturns tif durrfnt vbluf in tif bdjustmfnt fvfnt.
+     * Rfturns tif durrfnt vbluf in tif bdjustmfnt fvfnt.
+     * Rfturns tif durrfnt vbluf in tif bdjustmfnt fvfnt.
      *
-     * @rfturn thf durrfnt vbluf in thf bdjustmfnt fvfnt
+     *
+     *
+     *
+     *
+     * @rfturn tif durrfnt vbluf in tif bdjustmfnt fvfnt
+     * @rfturn tif durrfnt vbluf in tif bdjustmfnt fvfnt
+     * @rfturn tif durrfnt vbluf in tif bdjustmfnt fvfnt
+     * @rfturn tif durrfnt vbluf in tif bdjustmfnt fvfnt
+     * @rfturn tif durrfnt vbluf in tif bdjustmfnt fvfnt
+     */
+     */
+     */
+     */
      */
     publid int gftVbluf() {
+    publid int gftVbluf() {
+    publid int gftVbluf() {
+    publid int gftVbluf() {
+    publid int gftVbluf() {
+        rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
+        rfturn vbluf;
         rfturn vbluf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf typf of bdjustmfnt whidh dbusfd thf vbluf dhbngfd
-     * fvfnt.  It will hbvf onf of thf following vblufs:
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif typf of bdjustmfnt wiidi dbusfd tif vbluf dibngfd
+     * Rfturns tif typf of bdjustmfnt wiidi dbusfd tif vbluf dibngfd
+     * Rfturns tif typf of bdjustmfnt wiidi dbusfd tif vbluf dibngfd
+     * Rfturns tif typf of bdjustmfnt wiidi dbusfd tif vbluf dibngfd
+     * Rfturns tif typf of bdjustmfnt wiidi dbusfd tif vbluf dibngfd
+     * fvfnt.  It will ibvf onf of tif following vblufs:
+     * fvfnt.  It will ibvf onf of tif following vblufs:
+     * fvfnt.  It will ibvf onf of tif following vblufs:
+     * fvfnt.  It will ibvf onf of tif following vblufs:
+     * fvfnt.  It will ibvf onf of tif following vblufs:
+     * <ul>
+     * <ul>
+     * <ul>
+     * <ul>
      * <ul>
      * <li>{@link #UNIT_INCREMENT}
+     * <li>{@link #UNIT_INCREMENT}
+     * <li>{@link #UNIT_INCREMENT}
+     * <li>{@link #UNIT_INCREMENT}
+     * <li>{@link #UNIT_INCREMENT}
+     * <li>{@link #UNIT_DECREMENT}
+     * <li>{@link #UNIT_DECREMENT}
+     * <li>{@link #UNIT_DECREMENT}
+     * <li>{@link #UNIT_DECREMENT}
      * <li>{@link #UNIT_DECREMENT}
      * <li>{@link #BLOCK_INCREMENT}
+     * <li>{@link #BLOCK_INCREMENT}
+     * <li>{@link #BLOCK_INCREMENT}
+     * <li>{@link #BLOCK_INCREMENT}
+     * <li>{@link #BLOCK_INCREMENT}
+     * <li>{@link #BLOCK_DECREMENT}
+     * <li>{@link #BLOCK_DECREMENT}
+     * <li>{@link #BLOCK_DECREMENT}
+     * <li>{@link #BLOCK_DECREMENT}
      * <li>{@link #BLOCK_DECREMENT}
      * <li>{@link #TRACK}
+     * <li>{@link #TRACK}
+     * <li>{@link #TRACK}
+     * <li>{@link #TRACK}
+     * <li>{@link #TRACK}
      * </ul>
-     * @rfturn onf of thf bdjustmfnt vblufs listfd bbovf
+     * </ul>
+     * </ul>
+     * </ul>
+     * </ul>
+     * @rfturn onf of tif bdjustmfnt vblufs listfd bbovf
+     * @rfturn onf of tif bdjustmfnt vblufs listfd bbovf
+     * @rfturn onf of tif bdjustmfnt vblufs listfd bbovf
+     * @rfturn onf of tif bdjustmfnt vblufs listfd bbovf
+     * @rfturn onf of tif bdjustmfnt vblufs listfd bbovf
+     */
+     */
+     */
+     */
      */
     publid int gftAdjustmfntTypf() {
+    publid int gftAdjustmfntTypf() {
+    publid int gftAdjustmfntTypf() {
+    publid int gftAdjustmfntTypf() {
+    publid int gftAdjustmfntTypf() {
+        rfturn bdjustmfntTypf;
+        rfturn bdjustmfntTypf;
+        rfturn bdjustmfntTypf;
+        rfturn bdjustmfntTypf;
         rfturn bdjustmfntTypf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns <dodf>truf</dodf> if this is onf of multiplf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>truf</dodf> if tiis is onf of multiplf
+     * Rfturns <dodf>truf</dodf> if tiis is onf of multiplf
+     * Rfturns <dodf>truf</dodf> if tiis is onf of multiplf
+     * Rfturns <dodf>truf</dodf> if tiis is onf of multiplf
+     * Rfturns <dodf>truf</dodf> if tiis is onf of multiplf
+     * bdjustmfnt fvfnts.
+     * bdjustmfnt fvfnts.
+     * bdjustmfnt fvfnts.
+     * bdjustmfnt fvfnts.
      * bdjustmfnt fvfnts.
      *
-     * @rfturn <dodf>truf</dodf> if this is onf of multiplf
-     *         bdjustmfnt fvfnts, othfrwisf rfturns <dodf>fblsf</dodf>
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tiis is onf of multiplf
+     * @rfturn <dodf>truf</dodf> if tiis is onf of multiplf
+     * @rfturn <dodf>truf</dodf> if tiis is onf of multiplf
+     * @rfturn <dodf>truf</dodf> if tiis is onf of multiplf
+     * @rfturn <dodf>truf</dodf> if tiis is onf of multiplf
+     *         bdjustmfnt fvfnts, otifrwisf rfturns <dodf>fblsf</dodf>
+     *         bdjustmfnt fvfnts, otifrwisf rfturns <dodf>fblsf</dodf>
+     *         bdjustmfnt fvfnts, otifrwisf rfturns <dodf>fblsf</dodf>
+     *         bdjustmfnt fvfnts, otifrwisf rfturns <dodf>fblsf</dodf>
+     *         bdjustmfnt fvfnts, otifrwisf rfturns <dodf>fblsf</dodf>
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      * @sindf 1.4
      */
+     */
+     */
+     */
+     */
+    publid boolfbn gftVblufIsAdjusting() {
+    publid boolfbn gftVblufIsAdjusting() {
+    publid boolfbn gftVblufIsAdjusting() {
+    publid boolfbn gftVblufIsAdjusting() {
     publid boolfbn gftVblufIsAdjusting() {
         rfturn isAdjusting;
+        rfturn isAdjusting;
+        rfturn isAdjusting;
+        rfturn isAdjusting;
+        rfturn isAdjusting;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    publid String pbrbmString() {
+    publid String pbrbmString() {
+    publid String pbrbmString() {
+    publid String pbrbmString() {
     publid String pbrbmString() {
         String typfStr;
-        switdh(id) {
+        String typfStr;
+        String typfStr;
+        String typfStr;
+        String typfStr;
+        switdi(id) {
+        switdi(id) {
+        switdi(id) {
+        switdi(id) {
+        switdi(id) {
+          dbsf ADJUSTMENT_VALUE_CHANGED:
+          dbsf ADJUSTMENT_VALUE_CHANGED:
+          dbsf ADJUSTMENT_VALUE_CHANGED:
+          dbsf ADJUSTMENT_VALUE_CHANGED:
           dbsf ADJUSTMENT_VALUE_CHANGED:
               typfStr = "ADJUSTMENT_VALUE_CHANGED";
+              typfStr = "ADJUSTMENT_VALUE_CHANGED";
+              typfStr = "ADJUSTMENT_VALUE_CHANGED";
+              typfStr = "ADJUSTMENT_VALUE_CHANGED";
+              typfStr = "ADJUSTMENT_VALUE_CHANGED";
               brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
+          dffbult:
+          dffbult:
+          dffbult:
+          dffbult:
           dffbult:
               typfStr = "unknown typf";
+              typfStr = "unknown typf";
+              typfStr = "unknown typf";
+              typfStr = "unknown typf";
+              typfStr = "unknown typf";
+        }
+        }
+        }
+        }
         }
         String bdjTypfStr;
-        switdh(bdjustmfntTypf) {
+        String bdjTypfStr;
+        String bdjTypfStr;
+        String bdjTypfStr;
+        String bdjTypfStr;
+        switdi(bdjustmfntTypf) {
+        switdi(bdjustmfntTypf) {
+        switdi(bdjustmfntTypf) {
+        switdi(bdjustmfntTypf) {
+        switdi(bdjustmfntTypf) {
+          dbsf UNIT_INCREMENT:
+          dbsf UNIT_INCREMENT:
+          dbsf UNIT_INCREMENT:
+          dbsf UNIT_INCREMENT:
           dbsf UNIT_INCREMENT:
               bdjTypfStr = "UNIT_INCREMENT";
+              bdjTypfStr = "UNIT_INCREMENT";
+              bdjTypfStr = "UNIT_INCREMENT";
+              bdjTypfStr = "UNIT_INCREMENT";
+              bdjTypfStr = "UNIT_INCREMENT";
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
               brfbk;
           dbsf UNIT_DECREMENT:
+          dbsf UNIT_DECREMENT:
+          dbsf UNIT_DECREMENT:
+          dbsf UNIT_DECREMENT:
+          dbsf UNIT_DECREMENT:
+              bdjTypfStr = "UNIT_DECREMENT";
+              bdjTypfStr = "UNIT_DECREMENT";
+              bdjTypfStr = "UNIT_DECREMENT";
+              bdjTypfStr = "UNIT_DECREMENT";
               bdjTypfStr = "UNIT_DECREMENT";
               brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
+          dbsf BLOCK_INCREMENT:
+          dbsf BLOCK_INCREMENT:
+          dbsf BLOCK_INCREMENT:
+          dbsf BLOCK_INCREMENT:
           dbsf BLOCK_INCREMENT:
               bdjTypfStr = "BLOCK_INCREMENT";
+              bdjTypfStr = "BLOCK_INCREMENT";
+              bdjTypfStr = "BLOCK_INCREMENT";
+              bdjTypfStr = "BLOCK_INCREMENT";
+              bdjTypfStr = "BLOCK_INCREMENT";
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
               brfbk;
           dbsf BLOCK_DECREMENT:
+          dbsf BLOCK_DECREMENT:
+          dbsf BLOCK_DECREMENT:
+          dbsf BLOCK_DECREMENT:
+          dbsf BLOCK_DECREMENT:
+              bdjTypfStr = "BLOCK_DECREMENT";
+              bdjTypfStr = "BLOCK_DECREMENT";
+              bdjTypfStr = "BLOCK_DECREMENT";
+              bdjTypfStr = "BLOCK_DECREMENT";
               bdjTypfStr = "BLOCK_DECREMENT";
               brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
+          dbsf TRACK:
+          dbsf TRACK:
+          dbsf TRACK:
+          dbsf TRACK:
           dbsf TRACK:
               bdjTypfStr = "TRACK";
+              bdjTypfStr = "TRACK";
+              bdjTypfStr = "TRACK";
+              bdjTypfStr = "TRACK";
+              bdjTypfStr = "TRACK";
+              brfbk;
+              brfbk;
+              brfbk;
+              brfbk;
               brfbk;
           dffbult:
+          dffbult:
+          dffbult:
+          dffbult:
+          dffbult:
+              bdjTypfStr = "unknown typf";
+              bdjTypfStr = "unknown typf";
+              bdjTypfStr = "unknown typf";
+              bdjTypfStr = "unknown typf";
               bdjTypfStr = "unknown typf";
         }
+        }
+        }
+        }
+        }
+        rfturn typfStr
+        rfturn typfStr
+        rfturn typfStr
+        rfturn typfStr
         rfturn typfStr
             + ",bdjTypf="+bdjTypfStr
+            + ",bdjTypf="+bdjTypfStr
+            + ",bdjTypf="+bdjTypfStr
+            + ",bdjTypf="+bdjTypfStr
+            + ",bdjTypf="+bdjTypfStr
+            + ",vbluf="+vbluf
+            + ",vbluf="+vbluf
+            + ",vbluf="+vbluf
+            + ",vbluf="+vbluf
             + ",vbluf="+vbluf
             + ",isAdjusting="+isAdjusting;
+            + ",isAdjusting="+isAdjusting;
+            + ",isAdjusting="+isAdjusting;
+            + ",isAdjusting="+isAdjusting;
+            + ",isAdjusting="+isAdjusting;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

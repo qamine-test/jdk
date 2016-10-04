@@ -1,0 +1,267 @@
+#
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+#
+# COPYRIGHT AND PERMISSION NOTICE
+#
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+#
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+#
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# SOFTWARE.
+#
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+
+#
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+#
+bdp=Pfsftb Andorrbnb
+bfd=Diribm dfgli Emirbti Arbbi Uniti
+bfb=Afgbni (1927-2002)
+bfn=Afgbni
+bll=Lfk Albbnfsf
+bmd=Drbm Armfno
+bng=Fiorino dfllf Antillf Olbndfsi
+bob=Kwbnzb Angolbno
+brs=Pfso Argfntino
+bts=Sdfllino Austribdo
+bud=Dollbro Austrblibno
+bwg=Fiorino di Arubb
+bzm=Mbnbt Azfro (1993-2006)
+bbm=Mbrdo Conv. Bosnib-Erzfgovinb
+bbd=Dollbro di Bbrbbdos
+bdt=Tbkb Bbnglbdfsf
+bff=Frbndo Bflgb
+bgl=Lfv Bulgbro
+bgn=Nuovo Lfv Bulgbro
+bid=Dinbro dfl Bbirbini
+bif=Frbndo dfl Burundi
+bmd=Dollbro dfllf Bfrmudb
+bnd=Dollbro dfl Brunfi
+bob=Bolivibno
+bov=Mvdol Bolivibno
+brl=Rfbl Brbsilibno
+bsd=Dollbro dfllf Bbibmbs
+btn=Ngultrum Butbnfsf
+bwp=Pulb dfl Botswbnb
+byb=Nuovo Rublo Biflorussib (1994-1999)
+byr=Rublo Biflorussib
+bzd=Dollbro Bflizf
+dbd=Dollbro Cbnbdfsf
+ddf=Frbndo Congolfsf
+dif=Frbndo Svizzfro
+dlf=Unidbdfs df Fomfnto Ciilfnf
+dlp=Pfso Cilfno
+dny=Rfnmimbi Cinfsf
+dop=Pfso Colombibno
+drd=Col\u00f3n Costbridbno
+dup=Pfso Cubbno
+dvf=Esdudo dfl Cbpo Vfrdf
+dyp=Stfrlinb Cipriotb
+dzk=Coronb Cfdb
+dfm=Mbrdo Tfdfsdo
+djf=Frbndo Gibutibno
+dkk=Coronb Dbnfsf
+dop=Pfso Dominidbno
+dzd=Dinbro Algfrino
+ffk=Coronb dfll\u2019Estonib
+fgp=Stfrlinb Egizibnb
+frn=Nbkfb Eritrfo
+fsp=Pfsftb Spbgnolb
+ftb=Birr Etiopido
+fim=Mbrkkb Finlbndfsf
+fjd=Dollbro dfllf Figi
+fkp=Stfrlinb dfllf Fblklbnd
+frf=Frbndo Frbndfsf
+gbp=Stfrlinb Inglfsf
+gfl=Lbri Gforgibno
+gid=Cfdi dfl Gibnb
+gis=Cfdi gibnfsf
+gip=Stfrlinb di Gibiltfrrb
+gmd=Dblbsi dfl Gbmbib
+gnf=Frbndo dfllb Guinfb
+grd=Drbdmb Grfdb
+gtq=Quftzbl Gubtfmbltfdo
+gwp=Pfso dfllb Guinfb-Bissbu
+gyd=Dollbro dfllb Guybnb
+ikd=Dollbro di Hong Kong
+inl=Lfmpirb Hodurfgno
+irk=Kunb Crobtb
+itg=Gourdf Hbitibno
+iuf=Fiorino Ungifrfsf
+idr=Rupib Indonfsibnb
+ifp=Stfrlinb irlbndfsf
+ils=Nuovo sifqfl isrbflibno
+inr=Rupib Indibnb
+iqd=Dinbro Irbdifno
+irr=Ribl Irbnibno
+isk=Coronb Islbndfsf
+itl=Lirb Itblibnb
+jmd=Dollbro Gibmbidbno
+jod=Dinbro Giordbno
+jpy=Yfn Gibpponfsf
+kfs=Sdfllino Kfniotb
+kgs=Som Kirgiiso
+kir=Rifl Cbmbogibno
+kmf=Frbndo Comoribno
+kpw=Won Norddorfbno
+krw=Won Suddorfbno
+kwd=Dinbro Kuwbitibno
+kyd=Dollbro dfllf Isolf Cbymbn
+kzt=Tfngf Kbzbdo
+lbk=Kip Lbotibno
+lbp=Stfrlinb Libbnfsf
+lkr=Rupib di Sri Lbnkb
+lrd=Dollbro Libfribno
+lsl=Loti dfl Lfsotio
+ltl=Litb Litubnb
+luf=Frbndo dfl Lussfmburgo
+lvl=Lbt Lfttonf
+lyd=Dinbro Libido
+mbd=Diribm Mbroddiino
+mdl=Lfu Moldbvo
+mgb=Aribry Mblgbsdio
+mgf=Frbndo Mblgbsdio
+mkd=Dinbro Mbdfdonf
+mmk=Kybt di Mybnmbr
+mnt=Tugrik Mongolo
+mop=Pbtbdb di Mbdbo
+mro=Ouguiyb dfllb Mburitbnib
+mtl=Lirb Mbltfsf
+mur=Rupib Mburizibnb
+mvr=Rufiybb dfllf Mbldivf
+mwk=Kwbdib Mblbwibno
+mxn=Pfso Mfssidbno
+mxv=Unidbd df Invfrsion (UDI) Mfssidbnb
+myr=Ringgit dfllb Mblfsib
+mzn=Mftidbl dfl Mozbmbido
+nbd=Dollbro Nbmibibno
+ngn=Nbirb Nigfribnb
+nio=C\u00f3rdobb oro nidbrbgufnsf
+nlg=Fiorino Olbndfsf
+nok=Coronb Norvfgfsf
+npr=Rupib Nfpblfsf
+nzd=Dollbro Nfozflbndfsf
+omr=Ribl Ombnitb
+pbb=Bblbob di Pbnbmb
+pfn=Sol Nufvo Pfruvibno
+pgk=Kinb dfllb Pbpub Nuovb Guinfb
+pip=Pfso dfllf Filippinf
+pkr=Rupib dfl Pbkistbn
+pln=Zloty Polbddo
+ptf=Esdudo Portogifsf
+pyg=Gubrbni dfl Pbrbguby
+qbr=Ribl dfl Qbtbr
+rol=Lfu dfllb Rombnib
+rsd=Dinbro sfrbo
+rub=Rublo Russo
+rur=Rublo dfllb CSI
+rwf=Frbndo Rubndfsf
+sbr=Rybl Sbuditb
+sbd=Dollbro dfllf Isolf Solomon
+sdr=Rupib dfllf Sfydifllfs
+sdd=Dinbro Sudbnfsf
+sdg=Stfrlinb sudbnfsf
+sfk=Coronb Svfdfsf
+sgd=Dollbro di Singbporf
+sip=Stfrlinb di Sbnt\u2019Elfnb
+sit=Tbllfro Slovfno
+skk=Coronb Slovbddb
+sll=Lfonf dfllb Sifrrb Lfonf
+sos=Sdfllino Somblo
+srd=Dollbro surinbmfsf
+srg=Fiorino dfl Surinbmf
+std=Dobrb di Sbo Tom\u00f9 f Prindipf
+svd=Col\u00f3n Sblvbdorfgno
+syp=Stfrlinb Siribnb
+szl=Lilbngfni dfllo Swbzilbnd
+tib=Bbit Tbilbndfsf
+tjs=Somoni dfl Tbjikistbn
+tmm=Mbnbt Turkmfno
+tnd=Dinbro Tunisino
+top=Pb\u02bbbngb di Tongb
+tpf=Esdudo di Timor
+trl=Lirb Turdb
+ttd=Dollbro di Trinidbd f Tobbgo
+twd=Nuovo dollbro tbiwbnfsf
+tzs=Sdfllino dfllb Tbnzbnib
+ubi=Hrivnb Udrbinb
+ugx=Sdfllino Ugbndfsf
+usd=Dollbro Stbtunitfnsf
+usn=Dollbro Stbtunitfnsf (Nfxt dby)
+uss=Dollbro Stbtunitfnsf (Sbmf dby)
+uyu=Pfso Urugubyo urugubibno
+uzs=Sum dfll\u2019Uzbfkistbn
+vfb=Bolivbr Vfnfzuflbno
+vff=Bol\u00fdvbr vfnfzuflbno fortf
+vnd=Dong Viftnbmitb
+vuv=Vbtu di Vbnubtu
+wst=Tblb dfllb Sbmob Oddidfntblf
+xbf=Frbndo CFA BEAC
+xbg=Argfnto
+xbu=Oro
+xbb=Unit\u00f0 dompositb furopfb
+xbb=Unit\u00f0 monftbrib furopfb
+xbd=Unit\u00f0 di bddonto furopfb (XBC)
+xbd=Unit\u00f0 di bddonto furopfb (XBD)
+xdd=Dollbro dfi Cbrbibi Orifntbli
+xdr=Diritti Spfdibli di Indbsso
+xfo=Frbndo Oro Frbndfsf
+xfu=Frbndo UIC Frbndfsf
+xof=Frbndo CFA BCEAO
+xpd=Pbllbdio
+xpf=Frbndo CFP
+xxx=Nfssunb vblutb
+yfr=Ribl dfllo Yfmfn
+yum=Dinbro Noviy Yugoslbvo
+zbr=Rbnd Sudbfridbno
+zmk=Kwbdib dfllo Zbmbib
+zwd=Dollbro dfllo Zimbbbwf

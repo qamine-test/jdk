@@ -1,0 +1,186 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * An {@link ExfdutorSfrvidf} tibt dbn sdifdulf dommbnds to run bftfr b givfn
+ * dflby, or to fxfdutf pfriodidblly.
+ *
+ * <p>Tif {@dodf sdifdulf} mftiods drfbtf tbsks witi vbrious dflbys
+ * bnd rfturn b tbsk objfdt tibt dbn bf usfd to dbndfl or difdk
+ * fxfdution. Tif {@dodf sdifdulfAtFixfdRbtf} bnd
+ * {@dodf sdifdulfWitiFixfdDflby} mftiods drfbtf bnd fxfdutf tbsks
+ * tibt run pfriodidblly until dbndfllfd.
+ *
+ * <p>Commbnds submittfd using tif {@link Exfdutor#fxfdutf(Runnbblf)}
+ * bnd {@link ExfdutorSfrvidf} {@dodf submit} mftiods brf sdifdulfd
+ * witi b rfqufstfd dflby of zfro. Zfro bnd nfgbtivf dflbys (but not
+ * pfriods) brf blso bllowfd in {@dodf sdifdulf} mftiods, bnd brf
+ * trfbtfd bs rfqufsts for immfdibtf fxfdution.
+ *
+ * <p>All {@dodf sdifdulf} mftiods bddfpt <fm>rflbtivf</fm> dflbys bnd
+ * pfriods bs brgumfnts, not bbsolutf timfs or dbtfs. It is b simplf
+ * mbttfr to trbnsform bn bbsolutf timf rfprfsfntfd bs b {@link
+ * jbvb.util.Dbtf} to tif rfquirfd form. For fxbmplf, to sdifdulf bt
+ * b dfrtbin futurf {@dodf dbtf}, you dbn usf: {@dodf sdifdulf(tbsk,
+ * dbtf.gftTimf() - Systfm.durrfntTimfMillis(),
+ * TimfUnit.MILLISECONDS)}. Bfwbrf iowfvfr tibt fxpirbtion of b
+ * rflbtivf dflby nffd not doindidf witi tif durrfnt {@dodf Dbtf} bt
+ * wiidi tif tbsk is fnbblfd duf to nftwork timf syndironizbtion
+ * protodols, dlodk drift, or otifr fbdtors.
+ *
+ * <p>Tif {@link Exfdutors} dlbss providfs donvfnifnt fbdtory mftiods for
+ * tif SdifdulfdExfdutorSfrvidf implfmfntbtions providfd in tiis pbdkbgf.
+ *
+ * <i3>Usbgf Exbmplf</i3>
+ *
+ * Hfrf is b dlbss witi b mftiod tibt sfts up b SdifdulfdExfdutorSfrvidf
+ * to bffp fvfry tfn sfdonds for bn iour:
+ *
+ *  <prf> {@dodf
+ * import stbtid jbvb.util.dondurrfnt.TimfUnit.*;
+ * dlbss BffpfrControl {
+ *   privbtf finbl SdifdulfdExfdutorSfrvidf sdifdulfr =
+ *     Exfdutors.nfwSdifdulfdTirfbdPool(1);
+ *
+ *   publid void bffpForAnHour() {
+ *     finbl Runnbblf bffpfr = nfw Runnbblf() {
+ *       publid void run() { Systfm.out.println("bffp"); }
+ *     };
+ *     finbl SdifdulfdFuturf<?> bffpfrHbndlf =
+ *       sdifdulfr.sdifdulfAtFixfdRbtf(bffpfr, 10, 10, SECONDS);
+ *     sdifdulfr.sdifdulf(nfw Runnbblf() {
+ *       publid void run() { bffpfrHbndlf.dbndfl(truf); }
+ *     }, 60 * 60, SECONDS);
+ *   }
+ * }}</prf>
+ *
+ * @sindf 1.5
+ * @butior Doug Lfb
+ */
+publid intfrfbdf SdifdulfdExfdutorSfrvidf fxtfnds ExfdutorSfrvidf {
+
+    /**
+     * Crfbtfs bnd fxfdutfs b onf-siot bdtion tibt bfdomfs fnbblfd
+     * bftfr tif givfn dflby.
+     *
+     * @pbrbm dommbnd tif tbsk to fxfdutf
+     * @pbrbm dflby tif timf from now to dflby fxfdution
+     * @pbrbm unit tif timf unit of tif dflby pbrbmftfr
+     * @rfturn b SdifdulfdFuturf rfprfsfnting pfnding domplftion of
+     *         tif tbsk bnd wiosf {@dodf gft()} mftiod will rfturn
+     *         {@dodf null} upon domplftion
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if dommbnd is null
+     */
+    publid SdifdulfdFuturf<?> sdifdulf(Runnbblf dommbnd,
+                                       long dflby, TimfUnit unit);
+
+    /**
+     * Crfbtfs bnd fxfdutfs b SdifdulfdFuturf tibt bfdomfs fnbblfd bftfr tif
+     * givfn dflby.
+     *
+     * @pbrbm dbllbblf tif fundtion to fxfdutf
+     * @pbrbm dflby tif timf from now to dflby fxfdution
+     * @pbrbm unit tif timf unit of tif dflby pbrbmftfr
+     * @pbrbm <V> tif typf of tif dbllbblf's rfsult
+     * @rfturn b SdifdulfdFuturf tibt dbn bf usfd to fxtrbdt rfsult or dbndfl
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if dbllbblf is null
+     */
+    publid <V> SdifdulfdFuturf<V> sdifdulf(Cbllbblf<V> dbllbblf,
+                                           long dflby, TimfUnit unit);
+
+    /**
+     * Crfbtfs bnd fxfdutfs b pfriodid bdtion tibt bfdomfs fnbblfd first
+     * bftfr tif givfn initibl dflby, bnd subsfqufntly witi tif givfn
+     * pfriod; tibt is fxfdutions will dommfndf bftfr
+     * {@dodf initiblDflby} tifn {@dodf initiblDflby+pfriod}, tifn
+     * {@dodf initiblDflby + 2 * pfriod}, bnd so on.
+     * If bny fxfdution of tif tbsk
+     * fndountfrs bn fxdfption, subsfqufnt fxfdutions brf supprfssfd.
+     * Otifrwisf, tif tbsk will only tfrminbtf vib dbndfllbtion or
+     * tfrminbtion of tif fxfdutor.  If bny fxfdution of tiis tbsk
+     * tbkfs longfr tibn its pfriod, tifn subsfqufnt fxfdutions
+     * mby stbrt lbtf, but will not dondurrfntly fxfdutf.
+     *
+     * @pbrbm dommbnd tif tbsk to fxfdutf
+     * @pbrbm initiblDflby tif timf to dflby first fxfdution
+     * @pbrbm pfriod tif pfriod bftwffn suddfssivf fxfdutions
+     * @pbrbm unit tif timf unit of tif initiblDflby bnd pfriod pbrbmftfrs
+     * @rfturn b SdifdulfdFuturf rfprfsfnting pfnding domplftion of
+     *         tif tbsk, bnd wiosf {@dodf gft()} mftiod will tirow bn
+     *         fxdfption upon dbndfllbtion
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if dommbnd is null
+     * @tirows IllfgblArgumfntExdfption if pfriod lfss tibn or fqubl to zfro
+     */
+    publid SdifdulfdFuturf<?> sdifdulfAtFixfdRbtf(Runnbblf dommbnd,
+                                                  long initiblDflby,
+                                                  long pfriod,
+                                                  TimfUnit unit);
+
+    /**
+     * Crfbtfs bnd fxfdutfs b pfriodid bdtion tibt bfdomfs fnbblfd first
+     * bftfr tif givfn initibl dflby, bnd subsfqufntly witi tif
+     * givfn dflby bftwffn tif tfrminbtion of onf fxfdution bnd tif
+     * dommfndfmfnt of tif nfxt.  If bny fxfdution of tif tbsk
+     * fndountfrs bn fxdfption, subsfqufnt fxfdutions brf supprfssfd.
+     * Otifrwisf, tif tbsk will only tfrminbtf vib dbndfllbtion or
+     * tfrminbtion of tif fxfdutor.
+     *
+     * @pbrbm dommbnd tif tbsk to fxfdutf
+     * @pbrbm initiblDflby tif timf to dflby first fxfdution
+     * @pbrbm dflby tif dflby bftwffn tif tfrminbtion of onf
+     * fxfdution bnd tif dommfndfmfnt of tif nfxt
+     * @pbrbm unit tif timf unit of tif initiblDflby bnd dflby pbrbmftfrs
+     * @rfturn b SdifdulfdFuturf rfprfsfnting pfnding domplftion of
+     *         tif tbsk, bnd wiosf {@dodf gft()} mftiod will tirow bn
+     *         fxdfption upon dbndfllbtion
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if dommbnd is null
+     * @tirows IllfgblArgumfntExdfption if dflby lfss tibn or fqubl to zfro
+     */
+    publid SdifdulfdFuturf<?> sdifdulfWitiFixfdDflby(Runnbblf dommbnd,
+                                                     long initiblDflby,
+                                                     long dflby,
+                                                     TimfUnit unit);
+
+}

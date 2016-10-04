@@ -1,132 +1,660 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: rmirfgistry
+.\" Titlf: rmirfgistry
+.\" Titlf: rmirfgistry
+.\" Titlf: rmirfgistry
+.\" Titlf: rmirfgistry
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
 .\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "rmirfgistry" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmirfgistry" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmirfgistry" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmirfgistry" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.TH "rmirfgistry" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 rmirfgistry \- 現在のホストの指定したポート上にリモート・オブジェクト・レジストリを開始します。
+rmirfgistry \- 現在のホストの指定したポート上にリモート・オブジェクト・レジストリを開始します。
+rmirfgistry \- 現在のホストの指定したポート上にリモート・オブジェクト・レジストリを開始します。
+rmirfgistry \- 現在のホストの指定したポート上にリモート・オブジェクト・レジストリを開始します。
+rmirfgistry \- 現在のホストの指定したポート上にリモート・オブジェクト・レジストリを開始します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIrmirfgistry\fR [ \fIport\fR ]
+\fIrmirfgistry\fR [ \fIport\fR ]
+\fIrmirfgistry\fR [ \fIport\fR ]
+\fIrmirfgistry\fR [ \fIport\fR ]
+\fIrmirfgistry\fR [ \fIport\fR ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIport\fR
+\fIport\fR
+\fIport\fR
+\fIport\fR
+\fIport\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 リモート・オブジェクト・レジストリを開始する現在のホスト上の\fIport\fRの数。
+リモート・オブジェクト・レジストリを開始する現在のホスト上の\fIport\fRの数。
+リモート・オブジェクト・レジストリを開始する現在のホスト上の\fIport\fRの数。
+リモート・オブジェクト・レジストリを開始する現在のホスト上の\fIport\fRの数。
+リモート・オブジェクト・レジストリを開始する現在のホスト上の\fIport\fRの数。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIrmirfgistry\fRコマンドは、現在のホストの指定したポート上にリモート・オブジェクト・レジストリを作成し、開始します。portの指定を省略した場合、レジストリはポート1099で開始します。\fIrmirfgistry\fRコマンドに、出力機能はありません。通常、これはバックグラウンドで実行されます。次に例を示します。
+\fIrmirfgistry\fRコマンドは、現在のホストの指定したポート上にリモート・オブジェクト・レジストリを作成し、開始します。portの指定を省略した場合、レジストリはポート1099で開始します。\fIrmirfgistry\fRコマンドに、出力機能はありません。通常、これはバックグラウンドで実行されます。次に例を示します。
+\fIrmirfgistry\fRコマンドは、現在のホストの指定したポート上にリモート・オブジェクト・レジストリを作成し、開始します。portの指定を省略した場合、レジストリはポート1099で開始します。\fIrmirfgistry\fRコマンドに、出力機能はありません。通常、これはバックグラウンドで実行されます。次に例を示します。
+\fIrmirfgistry\fRコマンドは、現在のホストの指定したポート上にリモート・オブジェクト・レジストリを作成し、開始します。portの指定を省略した場合、レジストリはポート1099で開始します。\fIrmirfgistry\fRコマンドに、出力機能はありません。通常、これはバックグラウンドで実行されます。次に例を示します。
+\fIrmirfgistry\fRコマンドは、現在のホストの指定したポート上にリモート・オブジェクト・レジストリを作成し、開始します。portの指定を省略した場合、レジストリはポート1099で開始します。\fIrmirfgistry\fRコマンドに、出力機能はありません。通常、これはバックグラウンドで実行されます。次に例を示します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+rmirfgistry &
+rmirfgistry &
+rmirfgistry &
+rmirfgistry &
 rmirfgistry &
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 リモート・オブジェクト・レジストリは、ブートストラップのネーム・サービスです。同一ホストのRMIサーバーが、リモート・オブジェクトを名前にバインドするために使用されます。次に、ローカルおよびリモート・ホストのクライアントはリモート・オブジェクトを検索し、リモート・メソッドの呼出しを行います。
+リモート・オブジェクト・レジストリは、ブートストラップのネーム・サービスです。同一ホストのRMIサーバーが、リモート・オブジェクトを名前にバインドするために使用されます。次に、ローカルおよびリモート・ホストのクライアントはリモート・オブジェクトを検索し、リモート・メソッドの呼出しを行います。
+リモート・オブジェクト・レジストリは、ブートストラップのネーム・サービスです。同一ホストのRMIサーバーが、リモート・オブジェクトを名前にバインドするために使用されます。次に、ローカルおよびリモート・ホストのクライアントはリモート・オブジェクトを検索し、リモート・メソッドの呼出しを行います。
+リモート・オブジェクト・レジストリは、ブートストラップのネーム・サービスです。同一ホストのRMIサーバーが、リモート・オブジェクトを名前にバインドするために使用されます。次に、ローカルおよびリモート・ホストのクライアントはリモート・オブジェクトを検索し、リモート・メソッドの呼出しを行います。
+リモート・オブジェクト・レジストリは、ブートストラップのネーム・サービスです。同一ホストのRMIサーバーが、リモート・オブジェクトを名前にバインドするために使用されます。次に、ローカルおよびリモート・ホストのクライアントはリモート・オブジェクトを検索し、リモート・メソッドの呼出しを行います。
+.PP
+.PP
+.PP
+.PP
 .PP
 レジストリは、一般的に、最初のリモート・オブジェクトの位置を指定します。そこで、アプリケーションはメソッドを呼び出す必要があります。その後、そのオブジェクトはアプリケーション指定のサポートを提供し、他のオブジェクトを探します。
+レジストリは、一般的に、最初のリモート・オブジェクトの位置を指定します。そこで、アプリケーションはメソッドを呼び出す必要があります。その後、そのオブジェクトはアプリケーション指定のサポートを提供し、他のオブジェクトを探します。
+レジストリは、一般的に、最初のリモート・オブジェクトの位置を指定します。そこで、アプリケーションはメソッドを呼び出す必要があります。その後、そのオブジェクトはアプリケーション指定のサポートを提供し、他のオブジェクトを探します。
+レジストリは、一般的に、最初のリモート・オブジェクトの位置を指定します。そこで、アプリケーションはメソッドを呼び出す必要があります。その後、そのオブジェクトはアプリケーション指定のサポートを提供し、他のオブジェクトを探します。
+レジストリは、一般的に、最初のリモート・オブジェクトの位置を指定します。そこで、アプリケーションはメソッドを呼び出す必要があります。その後、そのオブジェクトはアプリケーション指定のサポートを提供し、他のオブジェクトを探します。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fRクラスのメソッドは、ローカル・ホスト、またはローカル・ホストとポートで動作するレジストリを取得するために使用されます。
+\fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fRクラスのメソッドは、ローカル・ホスト、またはローカル・ホストとポートで動作するレジストリを取得するために使用されます。
+\fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fRクラスのメソッドは、ローカル・ホスト、またはローカル・ホストとポートで動作するレジストリを取得するために使用されます。
+\fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fRクラスのメソッドは、ローカル・ホスト、またはローカル・ホストとポートで動作するレジストリを取得するために使用されます。
+\fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fRクラスのメソッドは、ローカル・ホスト、またはローカル・ホストとポートで動作するレジストリを取得するために使用されます。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjbvb\&.rmi\&.Nbming\fRクラスのURLベース・メソッドはレジストリに対して操作を実行し、任意のホストおよびローカル・ホストでのリモート・オブジェクトの検索に使用できます。単純名(文字列)をリモート・オブジェクトにバインドし、新しい名前をリモート・オブジェクトに再バインドし(古いバインドをオーバーライド)、リモート・オブジェクトをアンバインドし、レジストリにバインドされているURLをリスト表示します。
+\fIjbvb\&.rmi\&.Nbming\fRクラスのURLベース・メソッドはレジストリに対して操作を実行し、任意のホストおよびローカル・ホストでのリモート・オブジェクトの検索に使用できます。単純名(文字列)をリモート・オブジェクトにバインドし、新しい名前をリモート・オブジェクトに再バインドし(古いバインドをオーバーライド)、リモート・オブジェクトをアンバインドし、レジストリにバインドされているURLをリスト表示します。
+\fIjbvb\&.rmi\&.Nbming\fRクラスのURLベース・メソッドはレジストリに対して操作を実行し、任意のホストおよびローカル・ホストでのリモート・オブジェクトの検索に使用できます。単純名(文字列)をリモート・オブジェクトにバインドし、新しい名前をリモート・オブジェクトに再バインドし(古いバインドをオーバーライド)、リモート・オブジェクトをアンバインドし、レジストリにバインドされているURLをリスト表示します。
+\fIjbvb\&.rmi\&.Nbming\fRクラスのURLベース・メソッドはレジストリに対して操作を実行し、任意のホストおよびローカル・ホストでのリモート・オブジェクトの検索に使用できます。単純名(文字列)をリモート・オブジェクトにバインドし、新しい名前をリモート・オブジェクトに再バインドし(古いバインドをオーバーライド)、リモート・オブジェクトをアンバインドし、レジストリにバインドされているURLをリスト表示します。
+\fIjbvb\&.rmi\&.Nbming\fRクラスのURLベース・メソッドはレジストリに対して操作を実行し、任意のホストおよびローカル・ホストでのリモート・オブジェクトの検索に使用できます。単純名(文字列)をリモート・オブジェクトにバインドし、新しい名前をリモート・オブジェクトに再バインドし(古いバインドをオーバーライド)、リモート・オブジェクトをアンバインドし、レジストリにバインドされているURLをリスト表示します。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-J
+\-J
+\-J
+\-J
 \-J
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+Jbvbオプションとともに使用して、\fI\-J\fRの後ろに続くオプションをJbvbインタプリタに引き渡します(\fI\-J\fRとオプションの間にスペースは入れません)。
+Jbvbオプションとともに使用して、\fI\-J\fRの後ろに続くオプションをJbvbインタプリタに引き渡します(\fI\-J\fRとオプションの間にスペースは入れません)。
+Jbvbオプションとともに使用して、\fI\-J\fRの後ろに続くオプションをJbvbインタプリタに引き渡します(\fI\-J\fRとオプションの間にスペースは入れません)。
+Jbvbオプションとともに使用して、\fI\-J\fRの後ろに続くオプションをJbvbインタプリタに引き渡します(\fI\-J\fRとオプションの間にスペースは入れません)。
 Jbvbオプションとともに使用して、\fI\-J\fRの後ろに続くオプションをJbvbインタプリタに引き渡します(\fI\-J\fRとオプションの間にスペースは入れません)。
 .RE
+.RE
+.RE
+.RE
+.RE
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
 .SH "関連項目"
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 \fI「jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
+\fI「jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
+\fI「jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
+\fI「jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
+\fI「jbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
 \i'-04'\(bu\i'+03'\d
 .\}
+.\}
+.\}
+.\}
+.\}
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
 .fl \{\
 .sp -1
+.sp -1
+.sp -1
+.sp -1
+.sp -1
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
 .IP \(bu 2.3
 .\}
+.\}
+.\}
+.\}
+.\}
+\fI「jbvb\&.rmi\&.Nbming dlbss dfsdription」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
+\fI「jbvb\&.rmi\&.Nbming dlbss dfsdription」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
+\fI「jbvb\&.rmi\&.Nbming dlbss dfsdription」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
+\fI「jbvb\&.rmi\&.Nbming dlbss dfsdription」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
 \fI「jbvb\&.rmi\&.Nbming dlbss dfsdription」\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
 .RE
+.RE
+.RE
+.RE
+.RE
+.br
+.br
+.br
+.br
 .br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

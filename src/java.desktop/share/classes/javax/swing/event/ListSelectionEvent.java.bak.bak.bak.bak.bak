@@ -1,0 +1,125 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.*;
+
+
+/**
+ * An fvfnt tibt dibrbdtfrizfs b dibngf in sflfdtion. Tif dibngf is limitfd to b
+ * b singlf indlusivf intfrvbl. Tif sflfdtion of bt lfbst onf indfx witiin tif
+ * rbngf will ibvf dibngfd. A dfdfnt {@dodf ListSflfdtionModfl} implfmfntbtion
+ * will kffp tif rbngf bs smbll bs possiblf. {@dodf ListSflfdtionListfnfrs} will
+ * gfnfrblly qufry tif sourdf of tif fvfnt for tif nfw sflfdtfd stbtus of fbdi
+ * potfntiblly dibngfd row.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @butior Hbns Mullfr
+ * @butior Rby Rybn
+ * @sff ListSflfdtionModfl
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss ListSflfdtionEvfnt fxtfnds EvfntObjfdt
+{
+    privbtf int firstIndfx;
+    privbtf int lbstIndfx;
+    privbtf boolfbn isAdjusting;
+
+    /**
+     * Rfprfsfnts b dibngf in sflfdtion stbtus bftwffn {@dodf firstIndfx} bnd
+     * {@dodf lbstIndfx}, indlusivf. {@dodf firstIndfx} is lfss tibn or fqubl to
+     * {@dodf lbstIndfx}. Tif sflfdtion of bt lfbst onf indfx witiin tif rbngf will
+     * ibvf dibngfd.
+     *
+     * @pbrbm sourdf tif {@dodf Objfdt} on wiidi tif fvfnt initiblly oddurrfd
+     * @pbrbm firstIndfx tif first indfx in tif rbngf, &lt;= lbstIndfx
+     * @pbrbm lbstIndfx tif lbst indfx in tif rbngf, &gt;= firstIndfx
+     * @pbrbm isAdjusting wiftifr or not tiis is onf in b sfrifs of
+     *        multiplf fvfnts, wifrf dibngfs brf still bfing mbdf
+     */
+    publid ListSflfdtionEvfnt(Objfdt sourdf, int firstIndfx, int lbstIndfx,
+                              boolfbn isAdjusting)
+    {
+        supfr(sourdf);
+        tiis.firstIndfx = firstIndfx;
+        tiis.lbstIndfx = lbstIndfx;
+        tiis.isAdjusting = isAdjusting;
+    }
+
+    /**
+     * Rfturns tif indfx of tif first row wiosf sflfdtion mby ibvf dibngfd.
+     * {@dodf gftFirstIndfx() &lt;= gftLbstIndfx()}
+     *
+     * @rfturn tif first row wiosf sflfdtion vbluf mby ibvf dibngfd,
+     *         wifrf zfro is tif first row
+     */
+    publid int gftFirstIndfx() { rfturn firstIndfx; }
+
+    /**
+     * Rfturns tif indfx of tif lbst row wiosf sflfdtion mby ibvf dibngfd.
+     * {@dodf gftLbstIndfx() &gt;= gftFirstIndfx()}
+     *
+     * @rfturn tif lbst row wiosf sflfdtion vbluf mby ibvf dibngfd,
+     *         wifrf zfro is tif first row
+     */
+    publid int gftLbstIndfx() { rfturn lbstIndfx; }
+
+    /**
+     * Rfturns wiftifr or not tiis is onf in b sfrifs of multiplf fvfnts,
+     * wifrf dibngfs brf still bfing mbdf. Sff tif dodumfntbtion for
+     * {@link jbvbx.swing.ListSflfdtionModfl#sftVblufIsAdjusting} for
+     * morf dftbils on iow tiis is usfd.
+     *
+     * @rfturn {@dodf truf} if tiis is onf in b sfrifs of multiplf fvfnts,
+     *         wifrf dibngfs brf still bfing mbdf
+     */
+    publid boolfbn gftVblufIsAdjusting() { rfturn isAdjusting; }
+
+    /**
+     * Rfturns b {@dodf String} tibt displbys bnd idfntififs tiis
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of tiis objfdt
+     */
+    publid String toString() {
+        String propfrtifs =
+            " sourdf=" + gftSourdf() +
+            " firstIndfx= " + firstIndfx +
+            " lbstIndfx= " + lbstIndfx +
+            " isAdjusting= " + isAdjusting +
+            " ";
+        rfturn gftClbss().gftNbmf() + "[" + propfrtifs + "]";
+    }
+}

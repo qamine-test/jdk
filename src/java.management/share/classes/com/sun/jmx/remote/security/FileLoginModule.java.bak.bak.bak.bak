@@ -1,570 +1,2850 @@
 /*
- * Copyright (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+
+
+
+
 
 import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
 import dom.sun.jmx.mbfbnsfrvfr.Util;
 import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
+import jbvb.io.Filf;
 import jbvb.io.Filf;
 import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.FilfPfrmission;
 import jbvb.io.FilfPfrmission;
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.AddfssControlExdfption;
 import jbvb.sfdurity.AddfssControlExdfption;
 import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
 import jbvb.util.Arrbys;
-import jbvb.util.Hbshtbblf;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
 import jbvb.util.Mbp;
 import jbvb.util.Propfrtifs;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Propfrtifs;
 
-import jbvbx.sfdurity.buth.*;
-import jbvbx.sfdurity.buth.dbllbbdk.*;
-import jbvbx.sfdurity.buth.login.*;
-import jbvbx.sfdurity.buth.spi.*;
+
+
+
+
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.spi.*;
+import jbvbx.sfdurity.buti.spi.*;
+import jbvbx.sfdurity.buti.spi.*;
+import jbvbx.sfdurity.buti.spi.*;
+import jbvbx.sfdurity.buti.spi.*;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl;
 import jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl;
 
+
+
+
+
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
 import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
 import dom.sun.jmx.rfmotf.util.EnvHflp;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import sun.mbnbgfmfnt.jmxrfmotf.ConnfdtorBootstrbp;
+import sun.mbnbgfmfnt.jmxrfmotf.ConnfdtorBootstrbp;
+import sun.mbnbgfmfnt.jmxrfmotf.ConnfdtorBootstrbp;
+import sun.mbnbgfmfnt.jmxrfmotf.ConnfdtorBootstrbp;
 import sun.mbnbgfmfnt.jmxrfmotf.ConnfdtorBootstrbp;
 
+
+
+
+
 /**
- * This {@link LoginModulf} pfrforms filf-bbsfd buthfntidbtion.
+/**
+/**
+/**
+/**
+ * Tiis {@link LoginModulf} pfrforms filf-bbsfd butifntidbtion.
+ * Tiis {@link LoginModulf} pfrforms filf-bbsfd butifntidbtion.
+ * Tiis {@link LoginModulf} pfrforms filf-bbsfd butifntidbtion.
+ * Tiis {@link LoginModulf} pfrforms filf-bbsfd butifntidbtion.
+ * Tiis {@link LoginModulf} pfrforms filf-bbsfd butifntidbtion.
  *
- * <p> A supplifd usfrnbmf bnd pbssword is vfrififd bgbinst thf
+ *
+ *
+ *
+ *
+ * <p> A supplifd usfrnbmf bnd pbssword is vfrififd bgbinst tif
+ * <p> A supplifd usfrnbmf bnd pbssword is vfrififd bgbinst tif
+ * <p> A supplifd usfrnbmf bnd pbssword is vfrififd bgbinst tif
+ * <p> A supplifd usfrnbmf bnd pbssword is vfrififd bgbinst tif
+ * <p> A supplifd usfrnbmf bnd pbssword is vfrififd bgbinst tif
  * dorrfsponding usfr drfdfntibls storfd in b dfsignbtfd pbssword filf.
- * If suddfssful thfn b nfw {@link JMXPrindipbl} is drfbtfd with thf
- * usfr's nbmf bnd it is bssodibtfd with thf durrfnt {@link Subjfdt}.
- * Sudh prindipbls mby bf idfntififd bnd grbntfd mbnbgfmfnt privilfgfs in
- * thf bddfss dontrol filf for JMX rfmotf mbnbgfmfnt or in b Jbvb sfdurity
+ * dorrfsponding usfr drfdfntibls storfd in b dfsignbtfd pbssword filf.
+ * dorrfsponding usfr drfdfntibls storfd in b dfsignbtfd pbssword filf.
+ * dorrfsponding usfr drfdfntibls storfd in b dfsignbtfd pbssword filf.
+ * dorrfsponding usfr drfdfntibls storfd in b dfsignbtfd pbssword filf.
+ * If suddfssful tifn b nfw {@link JMXPrindipbl} is drfbtfd witi tif
+ * If suddfssful tifn b nfw {@link JMXPrindipbl} is drfbtfd witi tif
+ * If suddfssful tifn b nfw {@link JMXPrindipbl} is drfbtfd witi tif
+ * If suddfssful tifn b nfw {@link JMXPrindipbl} is drfbtfd witi tif
+ * If suddfssful tifn b nfw {@link JMXPrindipbl} is drfbtfd witi tif
+ * usfr's nbmf bnd it is bssodibtfd witi tif durrfnt {@link Subjfdt}.
+ * usfr's nbmf bnd it is bssodibtfd witi tif durrfnt {@link Subjfdt}.
+ * usfr's nbmf bnd it is bssodibtfd witi tif durrfnt {@link Subjfdt}.
+ * usfr's nbmf bnd it is bssodibtfd witi tif durrfnt {@link Subjfdt}.
+ * usfr's nbmf bnd it is bssodibtfd witi tif durrfnt {@link Subjfdt}.
+ * Sudi prindipbls mby bf idfntififd bnd grbntfd mbnbgfmfnt privilfgfs in
+ * Sudi prindipbls mby bf idfntififd bnd grbntfd mbnbgfmfnt privilfgfs in
+ * Sudi prindipbls mby bf idfntififd bnd grbntfd mbnbgfmfnt privilfgfs in
+ * Sudi prindipbls mby bf idfntififd bnd grbntfd mbnbgfmfnt privilfgfs in
+ * Sudi prindipbls mby bf idfntififd bnd grbntfd mbnbgfmfnt privilfgfs in
+ * tif bddfss dontrol filf for JMX rfmotf mbnbgfmfnt or in b Jbvb sfdurity
+ * tif bddfss dontrol filf for JMX rfmotf mbnbgfmfnt or in b Jbvb sfdurity
+ * tif bddfss dontrol filf for JMX rfmotf mbnbgfmfnt or in b Jbvb sfdurity
+ * tif bddfss dontrol filf for JMX rfmotf mbnbgfmfnt or in b Jbvb sfdurity
+ * tif bddfss dontrol filf for JMX rfmotf mbnbgfmfnt or in b Jbvb sfdurity
+ * polidy.
+ * polidy.
+ * polidy.
+ * polidy.
  * polidy.
  *
- * <p> Thf pbssword filf domprisfs b list of kfy-vbluf pbirs bs spfdififd in
- * {@link Propfrtifs}. Thf kfy rfprfsfnts b usfr's nbmf bnd thf vbluf is its
- * bssodibtfd dlfbrtfxt pbssword. By dffbult, thf following pbssword filf is
+ *
+ *
+ *
+ *
+ * <p> Tif pbssword filf domprisfs b list of kfy-vbluf pbirs bs spfdififd in
+ * <p> Tif pbssword filf domprisfs b list of kfy-vbluf pbirs bs spfdififd in
+ * <p> Tif pbssword filf domprisfs b list of kfy-vbluf pbirs bs spfdififd in
+ * <p> Tif pbssword filf domprisfs b list of kfy-vbluf pbirs bs spfdififd in
+ * <p> Tif pbssword filf domprisfs b list of kfy-vbluf pbirs bs spfdififd in
+ * {@link Propfrtifs}. Tif kfy rfprfsfnts b usfr's nbmf bnd tif vbluf is its
+ * {@link Propfrtifs}. Tif kfy rfprfsfnts b usfr's nbmf bnd tif vbluf is its
+ * {@link Propfrtifs}. Tif kfy rfprfsfnts b usfr's nbmf bnd tif vbluf is its
+ * {@link Propfrtifs}. Tif kfy rfprfsfnts b usfr's nbmf bnd tif vbluf is its
+ * {@link Propfrtifs}. Tif kfy rfprfsfnts b usfr's nbmf bnd tif vbluf is its
+ * bssodibtfd dlfbrtfxt pbssword. By dffbult, tif following pbssword filf is
+ * bssodibtfd dlfbrtfxt pbssword. By dffbult, tif following pbssword filf is
+ * bssodibtfd dlfbrtfxt pbssword. By dffbult, tif following pbssword filf is
+ * bssodibtfd dlfbrtfxt pbssword. By dffbult, tif following pbssword filf is
+ * bssodibtfd dlfbrtfxt pbssword. By dffbult, tif following pbssword filf is
+ * usfd:
+ * usfd:
+ * usfd:
+ * usfd:
  * usfd:
  * <prf>
- *     ${jbvb.homf}/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ *     ${jbvb.iomf}/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+ *     ${jbvb.iomf}/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+ *     ${jbvb.iomf}/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+ *     ${jbvb.iomf}/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+ *     ${jbvb.iomf}/lib/mbnbgfmfnt/jmxrfmotf.pbssword
  * </prf>
- * A difffrfnt pbssword filf dbn bf spfdififd vib thf <dodf>pbsswordFilf</dodf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * A difffrfnt pbssword filf dbn bf spfdififd vib tif <dodf>pbsswordFilf</dodf>
+ * A difffrfnt pbssword filf dbn bf spfdififd vib tif <dodf>pbsswordFilf</dodf>
+ * A difffrfnt pbssword filf dbn bf spfdififd vib tif <dodf>pbsswordFilf</dodf>
+ * A difffrfnt pbssword filf dbn bf spfdififd vib tif <dodf>pbsswordFilf</dodf>
+ * A difffrfnt pbssword filf dbn bf spfdififd vib tif <dodf>pbsswordFilf</dodf>
+ * donfigurbtion option.
+ * donfigurbtion option.
+ * donfigurbtion option.
+ * donfigurbtion option.
  * donfigurbtion option.
  *
- * <p> This modulf rfdognizfs thf following <dodf>Configurbtion</dodf> options:
+ *
+ *
+ *
+ *
+ * <p> Tiis modulf rfdognizfs tif following <dodf>Configurbtion</dodf> options:
+ * <p> Tiis modulf rfdognizfs tif following <dodf>Configurbtion</dodf> options:
+ * <p> Tiis modulf rfdognizfs tif following <dodf>Configurbtion</dodf> options:
+ * <p> Tiis modulf rfdognizfs tif following <dodf>Configurbtion</dodf> options:
+ * <p> Tiis modulf rfdognizfs tif following <dodf>Configurbtion</dodf> options:
+ * <dl>
+ * <dl>
+ * <dl>
+ * <dl>
  * <dl>
  * <dt> <dodf>pbsswordFilf</dodf> </dt>
- * <dd> thf pbth to bn bltfrnbtivf pbssword filf. It is usfd instfbd of
- *      thf dffbult pbssword filf.</dd>
+ * <dt> <dodf>pbsswordFilf</dodf> </dt>
+ * <dt> <dodf>pbsswordFilf</dodf> </dt>
+ * <dt> <dodf>pbsswordFilf</dodf> </dt>
+ * <dt> <dodf>pbsswordFilf</dodf> </dt>
+ * <dd> tif pbti to bn bltfrnbtivf pbssword filf. It is usfd instfbd of
+ * <dd> tif pbti to bn bltfrnbtivf pbssword filf. It is usfd instfbd of
+ * <dd> tif pbti to bn bltfrnbtivf pbssword filf. It is usfd instfbd of
+ * <dd> tif pbti to bn bltfrnbtivf pbssword filf. It is usfd instfbd of
+ * <dd> tif pbti to bn bltfrnbtivf pbssword filf. It is usfd instfbd of
+ *      tif dffbult pbssword filf.</dd>
+ *      tif dffbult pbssword filf.</dd>
+ *      tif dffbult pbssword filf.</dd>
+ *      tif dffbult pbssword filf.</dd>
+ *      tif dffbult pbssword filf.</dd>
+ *
+ *
+ *
+ *
  *
  * <dt> <dodf>usfFirstPbss</dodf> </dt>
- * <dd> if <dodf>truf</dodf>, this modulf rftrifvfs thf usfrnbmf bnd pbssword
- *      from thf modulf's shbrfd stbtf, using "jbvbx.sfdurity.buth.login.nbmf"
- *      bnd "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf kfys. Thf
- *      rftrifvfd vblufs brf usfd for buthfntidbtion. If buthfntidbtion fbils,
- *      no bttfmpt for b rftry is mbdf, bnd thf fbilurf is rfportfd bbdk to
- *      thf dblling bpplidbtion.</dd>
+ * <dt> <dodf>usfFirstPbss</dodf> </dt>
+ * <dt> <dodf>usfFirstPbss</dodf> </dt>
+ * <dt> <dodf>usfFirstPbss</dodf> </dt>
+ * <dt> <dodf>usfFirstPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys. Tif
+ *      bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys. Tif
+ *      bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys. Tif
+ *      bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys. Tif
+ *      bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys. Tif
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      no bttfmpt for b rftry is mbdf, bnd tif fbilurf is rfportfd bbdk to
+ *      no bttfmpt for b rftry is mbdf, bnd tif fbilurf is rfportfd bbdk to
+ *      no bttfmpt for b rftry is mbdf, bnd tif fbilurf is rfportfd bbdk to
+ *      no bttfmpt for b rftry is mbdf, bnd tif fbilurf is rfportfd bbdk to
+ *      no bttfmpt for b rftry is mbdf, bnd tif fbilurf is rfportfd bbdk to
+ *      tif dblling bpplidbtion.</dd>
+ *      tif dblling bpplidbtion.</dd>
+ *      tif dblling bpplidbtion.</dd>
+ *      tif dblling bpplidbtion.</dd>
+ *      tif dblling bpplidbtion.</dd>
+ *
+ *
+ *
+ *
  *
  * <dt> <dodf>tryFirstPbss</dodf> </dt>
- * <dd> if <dodf>truf</dodf>, this modulf rftrifvfs thf usfrnbmf bnd pbssword
- *      from thf modulf's shbrfd stbtf, using "jbvbx.sfdurity.buth.login.nbmf"
- *       bnd "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf kfys.  Thf
- *      rftrifvfd vblufs brf usfd for buthfntidbtion. If buthfntidbtion fbils,
- *      thf modulf usfs thf CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf bnd
- *      pbssword, bnd bnothfr bttfmpt to buthfntidbtf is mbdf. If thf
- *      buthfntidbtion fbils, thf fbilurf is rfportfd bbdk to thf dblling
+ * <dt> <dodf>tryFirstPbss</dodf> </dt>
+ * <dt> <dodf>tryFirstPbss</dodf> </dt>
+ * <dt> <dodf>tryFirstPbss</dodf> </dt>
+ * <dt> <dodf>tryFirstPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf rftrifvfs tif usfrnbmf bnd pbssword
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *      from tif modulf's sibrfd stbtf, using "jbvbx.sfdurity.buti.login.nbmf"
+ *       bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tif
+ *       bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tif
+ *       bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tif
+ *       bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tif
+ *       bnd "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tif
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      rftrifvfd vblufs brf usfd for butifntidbtion. If butifntidbtion fbils,
+ *      tif modulf usfs tif CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf bnd
+ *      tif modulf usfs tif CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf bnd
+ *      tif modulf usfs tif CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf bnd
+ *      tif modulf usfs tif CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf bnd
+ *      tif modulf usfs tif CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf bnd
+ *      pbssword, bnd bnotifr bttfmpt to butifntidbtf is mbdf. If tif
+ *      pbssword, bnd bnotifr bttfmpt to butifntidbtf is mbdf. If tif
+ *      pbssword, bnd bnotifr bttfmpt to butifntidbtf is mbdf. If tif
+ *      pbssword, bnd bnotifr bttfmpt to butifntidbtf is mbdf. If tif
+ *      pbssword, bnd bnotifr bttfmpt to butifntidbtf is mbdf. If tif
+ *      butifntidbtion fbils, tif fbilurf is rfportfd bbdk to tif dblling
+ *      butifntidbtion fbils, tif fbilurf is rfportfd bbdk to tif dblling
+ *      butifntidbtion fbils, tif fbilurf is rfportfd bbdk to tif dblling
+ *      butifntidbtion fbils, tif fbilurf is rfportfd bbdk to tif dblling
+ *      butifntidbtion fbils, tif fbilurf is rfportfd bbdk to tif dblling
+ *      bpplidbtion.</dd>
+ *      bpplidbtion.</dd>
+ *      bpplidbtion.</dd>
+ *      bpplidbtion.</dd>
  *      bpplidbtion.</dd>
  *
+ *
+ *
+ *
+ *
  * <dt> <dodf>storfPbss</dodf> </dt>
- * <dd> if <dodf>truf</dodf>, this modulf storfs thf usfrnbmf bnd pbssword
- *      obtbinfd from thf CbllbbdkHbndlfr in thf modulf's shbrfd stbtf, using
- *      "jbvbx.sfdurity.buth.login.nbmf" bnd
- *      "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf kfys.  This is
- *      not pfrformfd if fxisting vblufs blrfbdy fxist for thf usfrnbmf bnd
- *      pbssword in thf shbrfd stbtf, or if buthfntidbtion fbils.</dd>
+ * <dt> <dodf>storfPbss</dodf> </dt>
+ * <dt> <dodf>storfPbss</dodf> </dt>
+ * <dt> <dodf>storfPbss</dodf> </dt>
+ * <dt> <dodf>storfPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf storfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf storfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf storfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf storfs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf storfs tif usfrnbmf bnd pbssword
+ *      obtbinfd from tif CbllbbdkHbndlfr in tif modulf's sibrfd stbtf, using
+ *      obtbinfd from tif CbllbbdkHbndlfr in tif modulf's sibrfd stbtf, using
+ *      obtbinfd from tif CbllbbdkHbndlfr in tif modulf's sibrfd stbtf, using
+ *      obtbinfd from tif CbllbbdkHbndlfr in tif modulf's sibrfd stbtf, using
+ *      obtbinfd from tif CbllbbdkHbndlfr in tif modulf's sibrfd stbtf, using
+ *      "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *      "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *      "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *      "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *      "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *      "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tiis is
+ *      "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tiis is
+ *      "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tiis is
+ *      "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tiis is
+ *      "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf kfys.  Tiis is
+ *      not pfrformfd if fxisting vblufs blrfbdy fxist for tif usfrnbmf bnd
+ *      not pfrformfd if fxisting vblufs blrfbdy fxist for tif usfrnbmf bnd
+ *      not pfrformfd if fxisting vblufs blrfbdy fxist for tif usfrnbmf bnd
+ *      not pfrformfd if fxisting vblufs blrfbdy fxist for tif usfrnbmf bnd
+ *      not pfrformfd if fxisting vblufs blrfbdy fxist for tif usfrnbmf bnd
+ *      pbssword in tif sibrfd stbtf, or if butifntidbtion fbils.</dd>
+ *      pbssword in tif sibrfd stbtf, or if butifntidbtion fbils.</dd>
+ *      pbssword in tif sibrfd stbtf, or if butifntidbtion fbils.</dd>
+ *      pbssword in tif sibrfd stbtf, or if butifntidbtion fbils.</dd>
+ *      pbssword in tif sibrfd stbtf, or if butifntidbtion fbils.</dd>
+ *
+ *
+ *
+ *
  *
  * <dt> <dodf>dlfbrPbss</dodf> </dt>
- * <dd> if <dodf>truf</dodf>, this modulf dlfbrs thf usfrnbmf bnd pbssword
- *      storfd in thf modulf's shbrfd stbtf bftfr both phbsfs of buthfntidbtion
- *      (login bnd dommit) hbvf domplftfd.</dd>
+ * <dt> <dodf>dlfbrPbss</dodf> </dt>
+ * <dt> <dodf>dlfbrPbss</dodf> </dt>
+ * <dt> <dodf>dlfbrPbss</dodf> </dt>
+ * <dt> <dodf>dlfbrPbss</dodf> </dt>
+ * <dd> if <dodf>truf</dodf>, tiis modulf dlfbrs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf dlfbrs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf dlfbrs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf dlfbrs tif usfrnbmf bnd pbssword
+ * <dd> if <dodf>truf</dodf>, tiis modulf dlfbrs tif usfrnbmf bnd pbssword
+ *      storfd in tif modulf's sibrfd stbtf bftfr boti pibsfs of butifntidbtion
+ *      storfd in tif modulf's sibrfd stbtf bftfr boti pibsfs of butifntidbtion
+ *      storfd in tif modulf's sibrfd stbtf bftfr boti pibsfs of butifntidbtion
+ *      storfd in tif modulf's sibrfd stbtf bftfr boti pibsfs of butifntidbtion
+ *      storfd in tif modulf's sibrfd stbtf bftfr boti pibsfs of butifntidbtion
+ *      (login bnd dommit) ibvf domplftfd.</dd>
+ *      (login bnd dommit) ibvf domplftfd.</dd>
+ *      (login bnd dommit) ibvf domplftfd.</dd>
+ *      (login bnd dommit) ibvf domplftfd.</dd>
+ *      (login bnd dommit) ibvf domplftfd.</dd>
+ * </dl>
+ * </dl>
+ * </dl>
+ * </dl>
  * </dl>
  */
+ */
+ */
+ */
+ */
+publid dlbss FilfLoginModulf implfmfnts LoginModulf {
+publid dlbss FilfLoginModulf implfmfnts LoginModulf {
+publid dlbss FilfLoginModulf implfmfnts LoginModulf {
+publid dlbss FilfLoginModulf implfmfnts LoginModulf {
 publid dlbss FilfLoginModulf implfmfnts LoginModulf {
 
-    // Lodbtion of thf dffbult pbssword filf
+
+
+
+
+    // Lodbtion of tif dffbult pbssword filf
+    // Lodbtion of tif dffbult pbssword filf
+    // Lodbtion of tif dffbult pbssword filf
+    // Lodbtion of tif dffbult pbssword filf
+    // Lodbtion of tif dffbult pbssword filf
     privbtf stbtid finbl String DEFAULT_PASSWORD_FILE_NAME =
-        AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.homf")) +
-        Filf.sfpbrbtorChbr + "lib" +
-        Filf.sfpbrbtorChbr + "mbnbgfmfnt" + Filf.sfpbrbtorChbr +
+    privbtf stbtid finbl String DEFAULT_PASSWORD_FILE_NAME =
+    privbtf stbtid finbl String DEFAULT_PASSWORD_FILE_NAME =
+    privbtf stbtid finbl String DEFAULT_PASSWORD_FILE_NAME =
+    privbtf stbtid finbl String DEFAULT_PASSWORD_FILE_NAME =
+        AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.iomf")) +
+        AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.iomf")) +
+        AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.iomf")) +
+        AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.iomf")) +
+        AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.iomf")) +
+        Filf.sfpbrbtorCibr + "lib" +
+        Filf.sfpbrbtorCibr + "lib" +
+        Filf.sfpbrbtorCibr + "lib" +
+        Filf.sfpbrbtorCibr + "lib" +
+        Filf.sfpbrbtorCibr + "lib" +
+        Filf.sfpbrbtorCibr + "mbnbgfmfnt" + Filf.sfpbrbtorCibr +
+        Filf.sfpbrbtorCibr + "mbnbgfmfnt" + Filf.sfpbrbtorCibr +
+        Filf.sfpbrbtorCibr + "mbnbgfmfnt" + Filf.sfpbrbtorCibr +
+        Filf.sfpbrbtorCibr + "mbnbgfmfnt" + Filf.sfpbrbtorCibr +
+        Filf.sfpbrbtorCibr + "mbnbgfmfnt" + Filf.sfpbrbtorCibr +
+        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
         ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
 
-    // Kfy to rftrifvf thf storfd usfrnbmf
-    privbtf stbtid finbl String USERNAME_KEY =
-        "jbvbx.sfdurity.buth.login.nbmf";
 
-    // Kfy to rftrifvf thf storfd pbssword
+
+
+
+    // Kfy to rftrifvf tif storfd usfrnbmf
+    // Kfy to rftrifvf tif storfd usfrnbmf
+    // Kfy to rftrifvf tif storfd usfrnbmf
+    // Kfy to rftrifvf tif storfd usfrnbmf
+    // Kfy to rftrifvf tif storfd usfrnbmf
+    privbtf stbtid finbl String USERNAME_KEY =
+    privbtf stbtid finbl String USERNAME_KEY =
+    privbtf stbtid finbl String USERNAME_KEY =
+    privbtf stbtid finbl String USERNAME_KEY =
+    privbtf stbtid finbl String USERNAME_KEY =
+        "jbvbx.sfdurity.buti.login.nbmf";
+        "jbvbx.sfdurity.buti.login.nbmf";
+        "jbvbx.sfdurity.buti.login.nbmf";
+        "jbvbx.sfdurity.buti.login.nbmf";
+        "jbvbx.sfdurity.buti.login.nbmf";
+
+
+
+
+
+    // Kfy to rftrifvf tif storfd pbssword
+    // Kfy to rftrifvf tif storfd pbssword
+    // Kfy to rftrifvf tif storfd pbssword
+    // Kfy to rftrifvf tif storfd pbssword
+    // Kfy to rftrifvf tif storfd pbssword
     privbtf stbtid finbl String PASSWORD_KEY =
-        "jbvbx.sfdurity.buth.login.pbssword";
+    privbtf stbtid finbl String PASSWORD_KEY =
+    privbtf stbtid finbl String PASSWORD_KEY =
+    privbtf stbtid finbl String PASSWORD_KEY =
+    privbtf stbtid finbl String PASSWORD_KEY =
+        "jbvbx.sfdurity.buti.login.pbssword";
+        "jbvbx.sfdurity.buti.login.pbssword";
+        "jbvbx.sfdurity.buti.login.pbssword";
+        "jbvbx.sfdurity.buti.login.pbssword";
+        "jbvbx.sfdurity.buti.login.pbssword";
+
+
+
+
 
     // Log mfssbgfs
+    // Log mfssbgfs
+    // Log mfssbgfs
+    // Log mfssbgfs
+    // Log mfssbgfs
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+    privbtf stbtid finbl ClbssLoggfr loggfr =
     privbtf stbtid finbl ClbssLoggfr loggfr =
         nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "FilfLoginModulf");
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "FilfLoginModulf");
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "FilfLoginModulf");
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "FilfLoginModulf");
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "FilfLoginModulf");
+
+
+
+
 
     // Configurbblf options
+    // Configurbblf options
+    // Configurbblf options
+    // Configurbblf options
+    // Configurbblf options
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn usfFirstPbss = fblsf;
     privbtf boolfbn usfFirstPbss = fblsf;
     privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
     privbtf boolfbn storfPbss = fblsf;
     privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
 
-    // Authfntidbtion stbtus
+
+
+
+
+    // Autifntidbtion stbtus
+    // Autifntidbtion stbtus
+    // Autifntidbtion stbtus
+    // Autifntidbtion stbtus
+    // Autifntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn suddffdfd = fblsf;
     privbtf boolfbn suddffdfd = fblsf;
     privbtf boolfbn dommitSuddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+
+
+
+
 
     // Supplifd usfrnbmf bnd pbssword
+    // Supplifd usfrnbmf bnd pbssword
+    // Supplifd usfrnbmf bnd pbssword
+    // Supplifd usfrnbmf bnd pbssword
+    // Supplifd usfrnbmf bnd pbssword
     privbtf String usfrnbmf;
-    privbtf dhbr[] pbssword;
+    privbtf String usfrnbmf;
+    privbtf String usfrnbmf;
+    privbtf String usfrnbmf;
+    privbtf String usfrnbmf;
+    privbtf dibr[] pbssword;
+    privbtf dibr[] pbssword;
+    privbtf dibr[] pbssword;
+    privbtf dibr[] pbssword;
+    privbtf dibr[] pbssword;
+    privbtf JMXPrindipbl usfr;
+    privbtf JMXPrindipbl usfr;
+    privbtf JMXPrindipbl usfr;
+    privbtf JMXPrindipbl usfr;
     privbtf JMXPrindipbl usfr;
 
+
+
+
+
+    // Initibl stbtf
+    // Initibl stbtf
+    // Initibl stbtf
+    // Initibl stbtf
     // Initibl stbtf
     privbtf Subjfdt subjfdt;
+    privbtf Subjfdt subjfdt;
+    privbtf Subjfdt subjfdt;
+    privbtf Subjfdt subjfdt;
+    privbtf Subjfdt subjfdt;
     privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
-    privbtf Mbp<String, Objfdt> shbrfdStbtf;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, ?> options;
+    privbtf Mbp<String, ?> options;
+    privbtf Mbp<String, ?> options;
+    privbtf Mbp<String, ?> options;
     privbtf Mbp<String, ?> options;
     privbtf String pbsswordFilf;
+    privbtf String pbsswordFilf;
+    privbtf String pbsswordFilf;
+    privbtf String pbsswordFilf;
+    privbtf String pbsswordFilf;
+    privbtf String pbsswordFilfDisplbyNbmf;
+    privbtf String pbsswordFilfDisplbyNbmf;
+    privbtf String pbsswordFilfDisplbyNbmf;
+    privbtf String pbsswordFilfDisplbyNbmf;
     privbtf String pbsswordFilfDisplbyNbmf;
     privbtf boolfbn usfrSupplifdPbsswordFilf;
-    privbtf boolfbn hbsJbvbHomfPfrmission;
+    privbtf boolfbn usfrSupplifdPbsswordFilf;
+    privbtf boolfbn usfrSupplifdPbsswordFilf;
+    privbtf boolfbn usfrSupplifdPbsswordFilf;
+    privbtf boolfbn usfrSupplifdPbsswordFilf;
+    privbtf boolfbn ibsJbvbHomfPfrmission;
+    privbtf boolfbn ibsJbvbHomfPfrmission;
+    privbtf boolfbn ibsJbvbHomfPfrmission;
+    privbtf boolfbn ibsJbvbHomfPfrmission;
+    privbtf boolfbn ibsJbvbHomfPfrmission;
+    privbtf Propfrtifs usfrCrfdfntibls;
+    privbtf Propfrtifs usfrCrfdfntibls;
+    privbtf Propfrtifs usfrCrfdfntibls;
+    privbtf Propfrtifs usfrCrfdfntibls;
     privbtf Propfrtifs usfrCrfdfntibls;
 
+
+
+
+
     /**
-     * Initiblizf this <dodf>LoginModulf</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
      *
-     * @pbrbm subjfdt thf <dodf>Subjfdt</dodf> to bf buthfntidbtfd.
-     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf thf
+     *
+     *
+     *
+     *
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd.
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd.
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd.
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd.
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd.
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf tif
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf tif
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf tif
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf tif
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> to bdquirf tif
      *                  usfr's nbmf bnd pbssword.
-     * @pbrbm shbrfdStbtf shbrfd <dodf>LoginModulf</dodf> stbtf.
-     * @pbrbm options options spfdififd in thf login
-     *                  <dodf>Configurbtion</dodf> for this pbrtidulbr
+     *                  usfr's nbmf bnd pbssword.
+     *                  usfr's nbmf bnd pbssword.
+     *                  usfr's nbmf bnd pbssword.
+     *                  usfr's nbmf bnd pbssword.
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf.
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf.
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf.
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf.
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf.
+     * @pbrbm options options spfdififd in tif login
+     * @pbrbm options options spfdififd in tif login
+     * @pbrbm options options spfdififd in tif login
+     * @pbrbm options options spfdififd in tif login
+     * @pbrbm options options spfdififd in tif login
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
+     *                  <dodf>LoginModulf</dodf>.
+     *                  <dodf>LoginModulf</dodf>.
+     *                  <dodf>LoginModulf</dodf>.
      *                  <dodf>LoginModulf</dodf>.
      */
+     */
+     */
+     */
+     */
     publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
-                           Mbp<String,?> shbrfdStbtf,
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                           Mbp<String,?> sibrfdStbtf,
+                           Mbp<String,?> sibrfdStbtf,
+                           Mbp<String,?> sibrfdStbtf,
+                           Mbp<String,?> sibrfdStbtf,
+                           Mbp<String,?> sibrfdStbtf,
+                           Mbp<String,?> options)
+                           Mbp<String,?> options)
+                           Mbp<String,?> options)
+                           Mbp<String,?> options)
                            Mbp<String,?> options)
     {
+    {
+    {
+    {
+    {
 
-        this.subjfdt = subjfdt;
-        this.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
-        this.shbrfdStbtf = Util.dbst(shbrfdStbtf);
-        this.options = options;
+
+
+
+
+        tiis.subjfdt = subjfdt;
+        tiis.subjfdt = subjfdt;
+        tiis.subjfdt = subjfdt;
+        tiis.subjfdt = subjfdt;
+        tiis.subjfdt = subjfdt;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.sibrfdStbtf = Util.dbst(sibrfdStbtf);
+        tiis.sibrfdStbtf = Util.dbst(sibrfdStbtf);
+        tiis.sibrfdStbtf = Util.dbst(sibrfdStbtf);
+        tiis.sibrfdStbtf = Util.dbst(sibrfdStbtf);
+        tiis.sibrfdStbtf = Util.dbst(sibrfdStbtf);
+        tiis.options = options;
+        tiis.options = options;
+        tiis.options = options;
+        tiis.options = options;
+        tiis.options = options;
+
+
+
+
 
         // initiblizf bny donfigurfd options
+        // initiblizf bny donfigurfd options
+        // initiblizf bny donfigurfd options
+        // initiblizf bny donfigurfd options
+        // initiblizf bny donfigurfd options
+        tryFirstPbss =
+        tryFirstPbss =
+        tryFirstPbss =
+        tryFirstPbss =
         tryFirstPbss =
                 "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("tryFirstPbss"));
+        usfFirstPbss =
+        usfFirstPbss =
+        usfFirstPbss =
+        usfFirstPbss =
         usfFirstPbss =
                 "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("usfFirstPbss"));
+        storfPbss =
+        storfPbss =
+        storfPbss =
+        storfPbss =
         storfPbss =
                 "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+        dlfbrPbss =
+        dlfbrPbss =
+        dlfbrPbss =
+        dlfbrPbss =
         dlfbrPbss =
                 "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+                "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+
+
+
+
 
         pbsswordFilf = (String)options.gft("pbsswordFilf");
+        pbsswordFilf = (String)options.gft("pbsswordFilf");
+        pbsswordFilf = (String)options.gft("pbsswordFilf");
+        pbsswordFilf = (String)options.gft("pbsswordFilf");
+        pbsswordFilf = (String)options.gft("pbsswordFilf");
+        pbsswordFilfDisplbyNbmf = pbsswordFilf;
+        pbsswordFilfDisplbyNbmf = pbsswordFilf;
+        pbsswordFilfDisplbyNbmf = pbsswordFilf;
+        pbsswordFilfDisplbyNbmf = pbsswordFilf;
         pbsswordFilfDisplbyNbmf = pbsswordFilf;
         usfrSupplifdPbsswordFilf = truf;
+        usfrSupplifdPbsswordFilf = truf;
+        usfrSupplifdPbsswordFilf = truf;
+        usfrSupplifdPbsswordFilf = truf;
+        usfrSupplifdPbsswordFilf = truf;
 
-        // sft thf lodbtion of thf pbssword filf
+
+
+
+
+        // sft tif lodbtion of tif pbssword filf
+        // sft tif lodbtion of tif pbssword filf
+        // sft tif lodbtion of tif pbssword filf
+        // sft tif lodbtion of tif pbssword filf
+        // sft tif lodbtion of tif pbssword filf
+        if (pbsswordFilf == null) {
+        if (pbsswordFilf == null) {
+        if (pbsswordFilf == null) {
+        if (pbsswordFilf == null) {
         if (pbsswordFilf == null) {
             pbsswordFilf = DEFAULT_PASSWORD_FILE_NAME;
+            pbsswordFilf = DEFAULT_PASSWORD_FILE_NAME;
+            pbsswordFilf = DEFAULT_PASSWORD_FILE_NAME;
+            pbsswordFilf = DEFAULT_PASSWORD_FILE_NAME;
+            pbsswordFilf = DEFAULT_PASSWORD_FILE_NAME;
+            usfrSupplifdPbsswordFilf = fblsf;
+            usfrSupplifdPbsswordFilf = fblsf;
+            usfrSupplifdPbsswordFilf = fblsf;
+            usfrSupplifdPbsswordFilf = fblsf;
             usfrSupplifdPbsswordFilf = fblsf;
             try {
-                Systfm.gftPropfrty("jbvb.homf");
-                hbsJbvbHomfPfrmission = truf;
+            try {
+            try {
+            try {
+            try {
+                Systfm.gftPropfrty("jbvb.iomf");
+                Systfm.gftPropfrty("jbvb.iomf");
+                Systfm.gftPropfrty("jbvb.iomf");
+                Systfm.gftPropfrty("jbvb.iomf");
+                Systfm.gftPropfrty("jbvb.iomf");
+                ibsJbvbHomfPfrmission = truf;
+                ibsJbvbHomfPfrmission = truf;
+                ibsJbvbHomfPfrmission = truf;
+                ibsJbvbHomfPfrmission = truf;
+                ibsJbvbHomfPfrmission = truf;
                 pbsswordFilfDisplbyNbmf = pbsswordFilf;
-            } dbtdh (SfdurityExdfption f) {
-                hbsJbvbHomfPfrmission = fblsf;
+                pbsswordFilfDisplbyNbmf = pbsswordFilf;
+                pbsswordFilfDisplbyNbmf = pbsswordFilf;
+                pbsswordFilfDisplbyNbmf = pbsswordFilf;
+                pbsswordFilfDisplbyNbmf = pbsswordFilf;
+            } dbtdi (SfdurityExdfption f) {
+            } dbtdi (SfdurityExdfption f) {
+            } dbtdi (SfdurityExdfption f) {
+            } dbtdi (SfdurityExdfption f) {
+            } dbtdi (SfdurityExdfption f) {
+                ibsJbvbHomfPfrmission = fblsf;
+                ibsJbvbHomfPfrmission = fblsf;
+                ibsJbvbHomfPfrmission = fblsf;
+                ibsJbvbHomfPfrmission = fblsf;
+                ibsJbvbHomfPfrmission = fblsf;
+                pbsswordFilfDisplbyNbmf =
+                pbsswordFilfDisplbyNbmf =
+                pbsswordFilfDisplbyNbmf =
+                pbsswordFilfDisplbyNbmf =
                 pbsswordFilfDisplbyNbmf =
                         ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+                        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+                        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+                        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+                        ConnfdtorBootstrbp.DffbultVblufs.PASSWORD_FILE_NAME;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Bfgin usfr buthfntidbtion (Authfntidbtion Phbsf 1).
-     *
-     * <p> Adquirf thf usfr's nbmf bnd pbssword bnd vfrify thfm bgbinst
-     * thf dorrfsponding drfdfntibls from thf pbssword filf.
-     *
-     * @rfturn truf blwbys, sindf this <dodf>LoginModulf</dodf>
-     *          should not bf ignorfd.
-     * @fxdfption FbilfdLoginExdfption if thf buthfntidbtion fbils.
-     * @fxdfption LoginExdfption if this <dodf>LoginModulf</dodf>
-     *          is unbblf to pfrform thf buthfntidbtion.
-     */
-    publid boolfbn login() throws LoginExdfption {
 
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Bfgin usfr butifntidbtion (Autifntidbtion Pibsf 1).
+     * Bfgin usfr butifntidbtion (Autifntidbtion Pibsf 1).
+     * Bfgin usfr butifntidbtion (Autifntidbtion Pibsf 1).
+     * Bfgin usfr butifntidbtion (Autifntidbtion Pibsf 1).
+     * Bfgin usfr butifntidbtion (Autifntidbtion Pibsf 1).
+     *
+     *
+     *
+     *
+     *
+     * <p> Adquirf tif usfr's nbmf bnd pbssword bnd vfrify tifm bgbinst
+     * <p> Adquirf tif usfr's nbmf bnd pbssword bnd vfrify tifm bgbinst
+     * <p> Adquirf tif usfr's nbmf bnd pbssword bnd vfrify tifm bgbinst
+     * <p> Adquirf tif usfr's nbmf bnd pbssword bnd vfrify tifm bgbinst
+     * <p> Adquirf tif usfr's nbmf bnd pbssword bnd vfrify tifm bgbinst
+     * tif dorrfsponding drfdfntibls from tif pbssword filf.
+     * tif dorrfsponding drfdfntibls from tif pbssword filf.
+     * tif dorrfsponding drfdfntibls from tif pbssword filf.
+     * tif dorrfsponding drfdfntibls from tif pbssword filf.
+     * tif dorrfsponding drfdfntibls from tif pbssword filf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn truf blwbys, sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf blwbys, sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf blwbys, sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf blwbys, sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf blwbys, sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils.
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils.
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils.
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils.
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils.
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     *          is unbblf to pfrform tif butifntidbtion.
+     *          is unbblf to pfrform tif butifntidbtion.
+     *          is unbblf to pfrform tif butifntidbtion.
+     *          is unbblf to pfrform tif butifntidbtion.
+     *          is unbblf to pfrform tif butifntidbtion.
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn login() tirows LoginExdfption {
+    publid boolfbn login() tirows LoginExdfption {
+    publid boolfbn login() tirows LoginExdfption {
+    publid boolfbn login() tirows LoginExdfption {
+    publid boolfbn login() tirows LoginExdfption {
+
+
+
+
+
+        try {
+        try {
+        try {
+        try {
         try {
             lobdPbsswordFilf();
-        } dbtdh (IOExdfption iof) {
+            lobdPbsswordFilf();
+            lobdPbsswordFilf();
+            lobdPbsswordFilf();
+            lobdPbsswordFilf();
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
             LoginExdfption lf = nfw LoginExdfption(
-                    "Error: unbblf to lobd thf pbssword filf: " +
+            LoginExdfption lf = nfw LoginExdfption(
+            LoginExdfption lf = nfw LoginExdfption(
+            LoginExdfption lf = nfw LoginExdfption(
+            LoginExdfption lf = nfw LoginExdfption(
+                    "Error: unbblf to lobd tif pbssword filf: " +
+                    "Error: unbblf to lobd tif pbssword filf: " +
+                    "Error: unbblf to lobd tif pbssword filf: " +
+                    "Error: unbblf to lobd tif pbssword filf: " +
+                    "Error: unbblf to lobd tif pbssword filf: " +
                     pbsswordFilfDisplbyNbmf);
-            throw EnvHflp.initCbusf(lf, iof);
+                    pbsswordFilfDisplbyNbmf);
+                    pbsswordFilfDisplbyNbmf);
+                    pbsswordFilfDisplbyNbmf);
+                    pbsswordFilfDisplbyNbmf);
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (usfrCrfdfntibls == null) {
-            throw nfw LoginExdfption
-                ("Error: unbblf to lodbtf thf usfrs' drfdfntibls.");
+        if (usfrCrfdfntibls == null) {
+        if (usfrCrfdfntibls == null) {
+        if (usfrCrfdfntibls == null) {
+        if (usfrCrfdfntibls == null) {
+            tirow nfw LoginExdfption
+            tirow nfw LoginExdfption
+            tirow nfw LoginExdfption
+            tirow nfw LoginExdfption
+            tirow nfw LoginExdfption
+                ("Error: unbblf to lodbtf tif usfrs' drfdfntibls.");
+                ("Error: unbblf to lodbtf tif usfrs' drfdfntibls.");
+                ("Error: unbblf to lodbtf tif usfrs' drfdfntibls.");
+                ("Error: unbblf to lodbtf tif usfrs' drfdfntibls.");
+                ("Error: unbblf to lodbtf tif usfrs' drfdfntibls.");
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+            loggfr.dfbug("login",
+            loggfr.dfbug("login",
+            loggfr.dfbug("login",
+            loggfr.dfbug("login",
             loggfr.dfbug("login",
                     "Using pbssword filf: " + pbsswordFilfDisplbyNbmf);
+                    "Using pbssword filf: " + pbsswordFilfDisplbyNbmf);
+                    "Using pbssword filf: " + pbsswordFilfDisplbyNbmf);
+                    "Using pbssword filf: " + pbsswordFilfDisplbyNbmf);
+                    "Using pbssword filf: " + pbsswordFilfDisplbyNbmf);
+        }
+        }
+        }
+        }
         }
 
-        // bttfmpt thf buthfntidbtion
+
+
+
+
+        // bttfmpt tif butifntidbtion
+        // bttfmpt tif butifntidbtion
+        // bttfmpt tif butifntidbtion
+        // bttfmpt tif butifntidbtion
+        // bttfmpt tif butifntidbtion
+        if (tryFirstPbss) {
+        if (tryFirstPbss) {
+        if (tryFirstPbss) {
+        if (tryFirstPbss) {
         if (tryFirstPbss) {
 
-            try {
-                // bttfmpt thf buthfntidbtion by gftting thf
-                // usfrnbmf bnd pbssword from shbrfd stbtf
-                bttfmptAuthfntidbtion(truf);
 
-                // buthfntidbtion suddffdfd
+
+
+
+            try {
+            try {
+            try {
+            try {
+            try {
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
+
+
+
+
+
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                suddffdfd = truf;
+                suddffdfd = truf;
+                suddffdfd = truf;
+                suddffdfd = truf;
                 suddffdfd = truf;
                 if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
                     loggfr.dfbug("login",
-                        "Authfntidbtion using dbdhfd pbssword hbs suddffdfd");
+                    loggfr.dfbug("login",
+                    loggfr.dfbug("login",
+                    loggfr.dfbug("login",
+                    loggfr.dfbug("login",
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                }
+                }
+                }
+                }
                 }
                 rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
 
-            } dbtdh (LoginExdfption lf) {
-                // buthfntidbtion fbilfd -- try bgbin bflow by prompting
+
+
+
+
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                dlfbnStbtf();
+                dlfbnStbtf();
+                dlfbnStbtf();
+                dlfbnStbtf();
                 dlfbnStbtf();
                 loggfr.dfbug("login",
-                    "Authfntidbtion using dbdhfd pbssword hbs fbilfd");
+                loggfr.dfbug("login",
+                loggfr.dfbug("login",
+                loggfr.dfbug("login",
+                loggfr.dfbug("login",
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
             }
+            }
+            }
+            }
+            }
+
+
+
+
 
         } flsf if (usfFirstPbss) {
+        } flsf if (usfFirstPbss) {
+        } flsf if (usfFirstPbss) {
+        } flsf if (usfFirstPbss) {
+        } flsf if (usfFirstPbss) {
+
+
+
+
 
             try {
-                // bttfmpt thf buthfntidbtion by gftting thf
-                // usfrnbmf bnd pbssword from shbrfd stbtf
-                bttfmptAuthfntidbtion(truf);
+            try {
+            try {
+            try {
+            try {
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // bttfmpt tif butifntidbtion by gftting tif
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                // usfrnbmf bnd pbssword from sibrfd stbtf
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
+                bttfmptAutifntidbtion(truf);
 
-                // buthfntidbtion suddffdfd
+
+
+
+
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                // butifntidbtion suddffdfd
+                suddffdfd = truf;
+                suddffdfd = truf;
+                suddffdfd = truf;
+                suddffdfd = truf;
                 suddffdfd = truf;
                 if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
+                if (loggfr.dfbugOn()) {
                     loggfr.dfbug("login",
-                        "Authfntidbtion using dbdhfd pbssword hbs suddffdfd");
+                    loggfr.dfbug("login",
+                    loggfr.dfbug("login",
+                    loggfr.dfbug("login",
+                    loggfr.dfbug("login",
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                        "Autifntidbtion using dbdifd pbssword ibs suddffdfd");
+                }
+                }
+                }
+                }
                 }
                 rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
+                rfturn truf;
 
-            } dbtdh (LoginExdfption lf) {
-                // buthfntidbtion fbilfd
+
+
+
+
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+            } dbtdi (LoginExdfption lf) {
+                // butifntidbtion fbilfd
+                // butifntidbtion fbilfd
+                // butifntidbtion fbilfd
+                // butifntidbtion fbilfd
+                // butifntidbtion fbilfd
+                dlfbnStbtf();
+                dlfbnStbtf();
+                dlfbnStbtf();
+                dlfbnStbtf();
                 dlfbnStbtf();
                 loggfr.dfbug("login",
-                    "Authfntidbtion using dbdhfd pbssword hbs fbilfd");
+                loggfr.dfbug("login",
+                loggfr.dfbug("login",
+                loggfr.dfbug("login",
+                loggfr.dfbug("login",
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
+                    "Autifntidbtion using dbdifd pbssword ibs fbilfd");
 
-                throw lf;
+
+
+
+
+                tirow lf;
+                tirow lf;
+                tirow lf;
+                tirow lf;
+                tirow lf;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
 
+
+
+
+
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
         if (loggfr.dfbugOn()) {
             loggfr.dfbug("login", "Adquiring pbssword");
+            loggfr.dfbug("login", "Adquiring pbssword");
+            loggfr.dfbug("login", "Adquiring pbssword");
+            loggfr.dfbug("login", "Adquiring pbssword");
+            loggfr.dfbug("login", "Adquiring pbssword");
+        }
+        }
+        }
+        }
         }
 
-        // bttfmpt thf buthfntidbtion using thf supplifd usfrnbmf bnd pbssword
-        try {
-            bttfmptAuthfntidbtion(fblsf);
 
-            // buthfntidbtion suddffdfd
+
+
+
+        // bttfmpt tif butifntidbtion using tif supplifd usfrnbmf bnd pbssword
+        // bttfmpt tif butifntidbtion using tif supplifd usfrnbmf bnd pbssword
+        // bttfmpt tif butifntidbtion using tif supplifd usfrnbmf bnd pbssword
+        // bttfmpt tif butifntidbtion using tif supplifd usfrnbmf bnd pbssword
+        // bttfmpt tif butifntidbtion using tif supplifd usfrnbmf bnd pbssword
+        try {
+        try {
+        try {
+        try {
+        try {
+            bttfmptAutifntidbtion(fblsf);
+            bttfmptAutifntidbtion(fblsf);
+            bttfmptAutifntidbtion(fblsf);
+            bttfmptAutifntidbtion(fblsf);
+            bttfmptAutifntidbtion(fblsf);
+
+
+
+
+
+            // butifntidbtion suddffdfd
+            // butifntidbtion suddffdfd
+            // butifntidbtion suddffdfd
+            // butifntidbtion suddffdfd
+            // butifntidbtion suddffdfd
+            suddffdfd = truf;
+            suddffdfd = truf;
+            suddffdfd = truf;
+            suddffdfd = truf;
             suddffdfd = truf;
             if (loggfr.dfbugOn()) {
-                loggfr.dfbug("login", "Authfntidbtion hbs suddffdfd");
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
+                loggfr.dfbug("login", "Autifntidbtion ibs suddffdfd");
+                loggfr.dfbug("login", "Autifntidbtion ibs suddffdfd");
+                loggfr.dfbug("login", "Autifntidbtion ibs suddffdfd");
+                loggfr.dfbug("login", "Autifntidbtion ibs suddffdfd");
+                loggfr.dfbug("login", "Autifntidbtion ibs suddffdfd");
+            }
+            }
+            }
+            }
             }
             rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
 
-        } dbtdh (LoginExdfption lf) {
+
+
+
+
+        } dbtdi (LoginExdfption lf) {
+        } dbtdi (LoginExdfption lf) {
+        } dbtdi (LoginExdfption lf) {
+        } dbtdi (LoginExdfption lf) {
+        } dbtdi (LoginExdfption lf) {
             dlfbnStbtf();
-            loggfr.dfbug("login", "Authfntidbtion hbs fbilfd");
+            dlfbnStbtf();
+            dlfbnStbtf();
+            dlfbnStbtf();
+            dlfbnStbtf();
+            loggfr.dfbug("login", "Autifntidbtion ibs fbilfd");
+            loggfr.dfbug("login", "Autifntidbtion ibs fbilfd");
+            loggfr.dfbug("login", "Autifntidbtion ibs fbilfd");
+            loggfr.dfbug("login", "Autifntidbtion ibs fbilfd");
+            loggfr.dfbug("login", "Autifntidbtion ibs fbilfd");
 
-            throw lf;
+
+
+
+
+            tirow lf;
+            tirow lf;
+            tirow lf;
+            tirow lf;
+            tirow lf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Complftf usfr buthfntidbtion (Authfntidbtion Phbsf 2).
+    /**
+    /**
+    /**
+    /**
+     * Complftf usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Complftf usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Complftf usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Complftf usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Complftf usfr butifntidbtion (Autifntidbtion Pibsf 2).
      *
-     * <p> This mfthod is dbllfd if thf LoginContfxt's
-     * ovfrbll buthfntidbtion hbs suddffdfd
-     * (bll thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
-     * LoginModulfs hbvf suddffdfd).
      *
-     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
-     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
-     * <dodf>login</dodf> mfthod), thfn this mfthod bssodibtfs b
-     * <dodf>JMXPrindipbl</dodf> with thf <dodf>Subjfdt</dodf> lodbtfd in thf
-     * <dodf>LoginModulf</dodf>.  If this LoginModulf's own
-     * buthfntidbtion bttfmptfd fbilfd, thfn this mfthod rfmovfs
-     * bny stbtf thbt wbs originblly sbvfd.
      *
-     * @fxdfption LoginExdfption if thf dommit fbils
-     * @rfturn truf if this LoginModulf's own login bnd dommit
-     *          bttfmpts suddffdfd, or fblsf othfrwisf.
+     *
+     *
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion ibs suddffdfd
+     * ovfrbll butifntidbtion ibs suddffdfd
+     * ovfrbll butifntidbtion ibs suddffdfd
+     * ovfrbll butifntidbtion ibs suddffdfd
+     * ovfrbll butifntidbtion ibs suddffdfd
+     * (bll tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * (bll tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * (bll tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * (bll tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * (bll tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * LoginModulfs ibvf suddffdfd).
+     * LoginModulfs ibvf suddffdfd).
+     * LoginModulfs ibvf suddffdfd).
+     * LoginModulfs ibvf suddffdfd).
+     * LoginModulfs ibvf suddffdfd).
+     *
+     *
+     *
+     *
+     *
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs b
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs b
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs b
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs b
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs b
+     * <dodf>JMXPrindipbl</dodf> witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>JMXPrindipbl</dodf> witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>JMXPrindipbl</dodf> witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>JMXPrindipbl</dodf> witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>JMXPrindipbl</dodf> witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>LoginModulf</dodf>.  If tiis LoginModulf's own
+     * <dodf>LoginModulf</dodf>.  If tiis LoginModulf's own
+     * <dodf>LoginModulf</dodf>.  If tiis LoginModulf's own
+     * <dodf>LoginModulf</dodf>.  If tiis LoginModulf's own
+     * <dodf>LoginModulf</dodf>.  If tiis LoginModulf's own
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * bny stbtf tibt wbs originblly sbvfd.
+     * bny stbtf tibt wbs originblly sbvfd.
+     * bny stbtf tibt wbs originblly sbvfd.
+     * bny stbtf tibt wbs originblly sbvfd.
+     * bny stbtf tibt wbs originblly sbvfd.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption LoginExdfption if tif dommit fbils
+     * @fxdfption LoginExdfption if tif dommit fbils
+     * @fxdfption LoginExdfption if tif dommit fbils
+     * @fxdfption LoginExdfption if tif dommit fbils
+     * @fxdfption LoginExdfption if tif dommit fbils
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
      */
-    publid boolfbn dommit() throws LoginExdfption {
+     */
+     */
+     */
+     */
+    publid boolfbn dommit() tirows LoginExdfption {
+    publid boolfbn dommit() tirows LoginExdfption {
+    publid boolfbn dommit() tirows LoginExdfption {
+    publid boolfbn dommit() tirows LoginExdfption {
+    publid boolfbn dommit() tirows LoginExdfption {
+
+
+
+
 
         if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
             rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             if (subjfdt.isRfbdOnly()) {
+            if (subjfdt.isRfbdOnly()) {
+            if (subjfdt.isRfbdOnly()) {
+            if (subjfdt.isRfbdOnly()) {
+            if (subjfdt.isRfbdOnly()) {
                 dlfbnStbtf();
-                throw nfw LoginExdfption("Subjfdt is rfbd-only");
+                dlfbnStbtf();
+                dlfbnStbtf();
+                dlfbnStbtf();
+                dlfbnStbtf();
+                tirow nfw LoginExdfption("Subjfdt is rfbd-only");
+                tirow nfw LoginExdfption("Subjfdt is rfbd-only");
+                tirow nfw LoginExdfption("Subjfdt is rfbd-only");
+                tirow nfw LoginExdfption("Subjfdt is rfbd-only");
+                tirow nfw LoginExdfption("Subjfdt is rfbd-only");
             }
-            // bdd Prindipbls to thf Subjfdt
+            }
+            }
+            }
+            }
+            // bdd Prindipbls to tif Subjfdt
+            // bdd Prindipbls to tif Subjfdt
+            // bdd Prindipbls to tif Subjfdt
+            // bdd Prindipbls to tif Subjfdt
+            // bdd Prindipbls to tif Subjfdt
+            if (!subjfdt.gftPrindipbls().dontbins(usfr)) {
+            if (!subjfdt.gftPrindipbls().dontbins(usfr)) {
+            if (!subjfdt.gftPrindipbls().dontbins(usfr)) {
+            if (!subjfdt.gftPrindipbls().dontbins(usfr)) {
             if (!subjfdt.gftPrindipbls().dontbins(usfr)) {
                 subjfdt.gftPrindipbls().bdd(usfr);
+                subjfdt.gftPrindipbls().bdd(usfr);
+                subjfdt.gftPrindipbls().bdd(usfr);
+                subjfdt.gftPrindipbls().bdd(usfr);
+                subjfdt.gftPrindipbls().bdd(usfr);
+            }
+            }
+            }
+            }
             }
 
+
+
+
+
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
             if (loggfr.dfbugOn()) {
                 loggfr.dfbug("dommit",
-                    "Authfntidbtion hbs domplftfd suddfssfully");
+                loggfr.dfbug("dommit",
+                loggfr.dfbug("dommit",
+                loggfr.dfbug("dommit",
+                loggfr.dfbug("dommit",
+                    "Autifntidbtion ibs domplftfd suddfssfully");
+                    "Autifntidbtion ibs domplftfd suddfssfully");
+                    "Autifntidbtion ibs domplftfd suddfssfully");
+                    "Autifntidbtion ibs domplftfd suddfssfully");
+                    "Autifntidbtion ibs domplftfd suddfssfully");
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         // in bny dbsf, dlfbn out stbtf
+        // in bny dbsf, dlfbn out stbtf
+        // in bny dbsf, dlfbn out stbtf
+        // in bny dbsf, dlfbn out stbtf
+        // in bny dbsf, dlfbn out stbtf
+        dlfbnStbtf();
+        dlfbnStbtf();
+        dlfbnStbtf();
+        dlfbnStbtf();
         dlfbnStbtf();
         dommitSuddffdfd = truf;
+        dommitSuddffdfd = truf;
+        dommitSuddffdfd = truf;
+        dommitSuddffdfd = truf;
+        dommitSuddffdfd = truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
         rfturn truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Abort usfr buthfntidbtion (Authfntidbtion Phbsf 2).
+    /**
+    /**
+    /**
+    /**
+     * Abort usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Abort usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Abort usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Abort usfr butifntidbtion (Autifntidbtion Pibsf 2).
+     * Abort usfr butifntidbtion (Autifntidbtion Pibsf 2).
      *
-     * <p> This mfthod is dbllfd if thf LoginContfxt's ovfrbll buthfntidbtion
-     * fbilfd (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     *
+     *
+     *
+     *
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's ovfrbll butifntidbtion
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's ovfrbll butifntidbtion
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's ovfrbll butifntidbtion
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's ovfrbll butifntidbtion
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's ovfrbll butifntidbtion
+     * fbilfd (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * fbilfd (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * fbilfd (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * fbilfd (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * fbilfd (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * LoginModulfs did not suddffd).
+     * LoginModulfs did not suddffd).
+     * LoginModulfs did not suddffd).
+     * LoginModulfs did not suddffd).
      * LoginModulfs did not suddffd).
      *
-     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
-     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
-     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mfthods),
-     * thfn this mfthod dlfbns up bny stbtf thbt wbs originblly sbvfd.
      *
-     * @fxdfption LoginExdfption if thf bbort fbils.
-     * @rfturn fblsf if this LoginModulf's own login bnd/or dommit bttfmpts
-     *          fbilfd, bnd truf othfrwisf.
+     *
+     *
+     *
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption LoginExdfption if tif bbort fbils.
+     * @fxdfption LoginExdfption if tif bbort fbils.
+     * @fxdfption LoginExdfption if tif bbort fbils.
+     * @fxdfption LoginExdfption if tif bbort fbils.
+     * @fxdfption LoginExdfption if tif bbort fbils.
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf otifrwisf.
+     *          fbilfd, bnd truf otifrwisf.
+     *          fbilfd, bnd truf otifrwisf.
+     *          fbilfd, bnd truf otifrwisf.
+     *          fbilfd, bnd truf otifrwisf.
      */
-    publid boolfbn bbort() throws LoginExdfption {
+     */
+     */
+     */
+     */
+    publid boolfbn bbort() tirows LoginExdfption {
+    publid boolfbn bbort() tirows LoginExdfption {
+    publid boolfbn bbort() tirows LoginExdfption {
+    publid boolfbn bbort() tirows LoginExdfption {
+    publid boolfbn bbort() tirows LoginExdfption {
 
+
+
+
+
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
         if (loggfr.dfbugOn()) {
             loggfr.dfbug("bbort",
-                "Authfntidbtion hbs not domplftfd suddfssfully");
+            loggfr.dfbug("bbort",
+            loggfr.dfbug("bbort",
+            loggfr.dfbug("bbort",
+            loggfr.dfbug("bbort",
+                "Autifntidbtion ibs not domplftfd suddfssfully");
+                "Autifntidbtion ibs not domplftfd suddfssfully");
+                "Autifntidbtion ibs not domplftfd suddfssfully");
+                "Autifntidbtion ibs not domplftfd suddfssfully");
+                "Autifntidbtion ibs not domplftfd suddfssfully");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+
+
+
+
 
             // Clfbn out stbtf
+            // Clfbn out stbtf
+            // Clfbn out stbtf
+            // Clfbn out stbtf
+            // Clfbn out stbtf
+            suddffdfd = fblsf;
+            suddffdfd = fblsf;
+            suddffdfd = fblsf;
+            suddffdfd = fblsf;
             suddffdfd = fblsf;
             dlfbnStbtf();
+            dlfbnStbtf();
+            dlfbnStbtf();
+            dlfbnStbtf();
+            dlfbnStbtf();
+            usfr = null;
+            usfr = null;
+            usfr = null;
+            usfr = null;
             usfr = null;
         } flsf {
-            // ovfrbll buthfntidbtion suddffdfd bnd dommit suddffdfd,
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
+            // but somfonf flsf's dommit fbilfd
+            // but somfonf flsf's dommit fbilfd
+            // but somfonf flsf's dommit fbilfd
             // but somfonf flsf's dommit fbilfd
             logout();
+            logout();
+            logout();
+            logout();
+            logout();
+        }
+        }
+        }
+        }
         }
         rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Logout b usfr.
+     * Logout b usfr.
+     * Logout b usfr.
+     * Logout b usfr.
+     * Logout b usfr.
      *
-     * <p> This mfthod rfmovfs thf Prindipbls
-     * thbt wfrf bddfd by thf <dodf>dommit</dodf> mfthod.
      *
-     * @fxdfption LoginExdfption if thf logout fbils.
-     * @rfturn truf in bll dbsfs sindf this <dodf>LoginModulf</dodf>
-     *          should not bf ignorfd.
+     *
+     *
+     *
+     * <p> Tiis mftiod rfmovfs tif Prindipbls
+     * <p> Tiis mftiod rfmovfs tif Prindipbls
+     * <p> Tiis mftiod rfmovfs tif Prindipbls
+     * <p> Tiis mftiod rfmovfs tif Prindipbls
+     * <p> Tiis mftiod rfmovfs tif Prindipbls
+     * tibt wfrf bddfd by tif <dodf>dommit</dodf> mftiod.
+     * tibt wfrf bddfd by tif <dodf>dommit</dodf> mftiod.
+     * tibt wfrf bddfd by tif <dodf>dommit</dodf> mftiod.
+     * tibt wfrf bddfd by tif <dodf>dommit</dodf> mftiod.
+     * tibt wfrf bddfd by tif <dodf>dommit</dodf> mftiod.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption LoginExdfption if tif logout fbils.
+     * @fxdfption LoginExdfption if tif logout fbils.
+     * @fxdfption LoginExdfption if tif logout fbils.
+     * @fxdfption LoginExdfption if tif logout fbils.
+     * @fxdfption LoginExdfption if tif logout fbils.
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
+     *          siould not bf ignorfd.
      */
-    publid boolfbn logout() throws LoginExdfption {
+     */
+     */
+     */
+     */
+    publid boolfbn logout() tirows LoginExdfption {
+    publid boolfbn logout() tirows LoginExdfption {
+    publid boolfbn logout() tirows LoginExdfption {
+    publid boolfbn logout() tirows LoginExdfption {
+    publid boolfbn logout() tirows LoginExdfption {
+        if (subjfdt.isRfbdOnly()) {
+        if (subjfdt.isRfbdOnly()) {
+        if (subjfdt.isRfbdOnly()) {
+        if (subjfdt.isRfbdOnly()) {
         if (subjfdt.isRfbdOnly()) {
             dlfbnStbtf();
-            throw nfw LoginExdfption ("Subjfdt is rfbd-only");
+            dlfbnStbtf();
+            dlfbnStbtf();
+            dlfbnStbtf();
+            dlfbnStbtf();
+            tirow nfw LoginExdfption ("Subjfdt is rfbd-only");
+            tirow nfw LoginExdfption ("Subjfdt is rfbd-only");
+            tirow nfw LoginExdfption ("Subjfdt is rfbd-only");
+            tirow nfw LoginExdfption ("Subjfdt is rfbd-only");
+            tirow nfw LoginExdfption ("Subjfdt is rfbd-only");
+        }
+        }
+        }
+        }
         }
         subjfdt.gftPrindipbls().rfmovf(usfr);
+        subjfdt.gftPrindipbls().rfmovf(usfr);
+        subjfdt.gftPrindipbls().rfmovf(usfr);
+        subjfdt.gftPrindipbls().rfmovf(usfr);
+        subjfdt.gftPrindipbls().rfmovf(usfr);
+
+
+
+
 
         // dlfbn out stbtf
+        // dlfbn out stbtf
+        // dlfbn out stbtf
+        // dlfbn out stbtf
+        // dlfbn out stbtf
+        dlfbnStbtf();
+        dlfbnStbtf();
+        dlfbnStbtf();
+        dlfbnStbtf();
         dlfbnStbtf();
         suddffdfd = fblsf;
+        suddffdfd = fblsf;
+        suddffdfd = fblsf;
+        suddffdfd = fblsf;
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
         dommitSuddffdfd = fblsf;
         usfr = null;
+        usfr = null;
+        usfr = null;
+        usfr = null;
+        usfr = null;
 
+
+
+
+
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
         if (loggfr.dfbugOn()) {
             loggfr.dfbug("logout", "Subjfdt is bfing loggfd out");
+            loggfr.dfbug("logout", "Subjfdt is bfing loggfd out");
+            loggfr.dfbug("logout", "Subjfdt is bfing loggfd out");
+            loggfr.dfbug("logout", "Subjfdt is bfing loggfd out");
+            loggfr.dfbug("logout", "Subjfdt is bfing loggfd out");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Attfmpt buthfntidbtion
-     *
-     * @pbrbm usfPbsswdFromShbrfdStbtf b flbg to tfll this mfthod whfthfr
-     *          to rftrifvf thf pbssword from thf shbrfdStbtf.
-     */
-    @SupprfssWbrnings("undhfdkfd")  // shbrfdStbtf usfd bs Mbp<String,Objfdt>
-    privbtf void bttfmptAuthfntidbtion(boolfbn usfPbsswdFromShbrfdStbtf)
-        throws LoginExdfption {
 
-        // gft thf usfrnbmf bnd pbssword
-        gftUsfrnbmfPbssword(usfPbsswdFromShbrfdStbtf);
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Attfmpt butifntidbtion
+     * Attfmpt butifntidbtion
+     * Attfmpt butifntidbtion
+     * Attfmpt butifntidbtion
+     * Attfmpt butifntidbtion
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm usfPbsswdFromSibrfdStbtf b flbg to tfll tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf b flbg to tfll tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf b flbg to tfll tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf b flbg to tfll tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf b flbg to tfll tiis mftiod wiftifr
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     */
+     */
+     */
+     */
+     */
+    @SupprfssWbrnings("undifdkfd")  // sibrfdStbtf usfd bs Mbp<String,Objfdt>
+    @SupprfssWbrnings("undifdkfd")  // sibrfdStbtf usfd bs Mbp<String,Objfdt>
+    @SupprfssWbrnings("undifdkfd")  // sibrfdStbtf usfd bs Mbp<String,Objfdt>
+    @SupprfssWbrnings("undifdkfd")  // sibrfdStbtf usfd bs Mbp<String,Objfdt>
+    @SupprfssWbrnings("undifdkfd")  // sibrfdStbtf usfd bs Mbp<String,Objfdt>
+    privbtf void bttfmptAutifntidbtion(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void bttfmptAutifntidbtion(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void bttfmptAutifntidbtion(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void bttfmptAutifntidbtion(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void bttfmptAutifntidbtion(boolfbn usfPbsswdFromSibrfdStbtf)
+        tirows LoginExdfption {
+        tirows LoginExdfption {
+        tirows LoginExdfption {
+        tirows LoginExdfption {
+        tirows LoginExdfption {
+
+
+
+
+
+        // gft tif usfrnbmf bnd pbssword
+        // gft tif usfrnbmf bnd pbssword
+        // gft tif usfrnbmf bnd pbssword
+        // gft tif usfrnbmf bnd pbssword
+        // gft tif usfrnbmf bnd pbssword
+        gftUsfrnbmfPbssword(usfPbsswdFromSibrfdStbtf);
+        gftUsfrnbmfPbssword(usfPbsswdFromSibrfdStbtf);
+        gftUsfrnbmfPbssword(usfPbsswdFromSibrfdStbtf);
+        gftUsfrnbmfPbssword(usfPbsswdFromSibrfdStbtf);
+        gftUsfrnbmfPbssword(usfPbsswdFromSibrfdStbtf);
+
+
+
+
 
         String lodblPbssword;
+        String lodblPbssword;
+        String lodblPbssword;
+        String lodblPbssword;
+        String lodblPbssword;
+
+
+
+
 
         // usfrCrfdfntibls is initiblizfd in login()
+        // usfrCrfdfntibls is initiblizfd in login()
+        // usfrCrfdfntibls is initiblizfd in login()
+        // usfrCrfdfntibls is initiblizfd in login()
+        // usfrCrfdfntibls is initiblizfd in login()
+        if (((lodblPbssword = usfrCrfdfntibls.gftPropfrty(usfrnbmf)) == null) ||
+        if (((lodblPbssword = usfrCrfdfntibls.gftPropfrty(usfrnbmf)) == null) ||
+        if (((lodblPbssword = usfrCrfdfntibls.gftPropfrty(usfrnbmf)) == null) ||
+        if (((lodblPbssword = usfrCrfdfntibls.gftPropfrty(usfrnbmf)) == null) ||
         if (((lodblPbssword = usfrCrfdfntibls.gftPropfrty(usfrnbmf)) == null) ||
             (! lodblPbssword.fqubls(nfw String(pbssword)))) {
+            (! lodblPbssword.fqubls(nfw String(pbssword)))) {
+            (! lodblPbssword.fqubls(nfw String(pbssword)))) {
+            (! lodblPbssword.fqubls(nfw String(pbssword)))) {
+            (! lodblPbssword.fqubls(nfw String(pbssword)))) {
 
-            // usfrnbmf not found or pbsswords do not mbtdh
+
+
+
+
+            // usfrnbmf not found or pbsswords do not mbtdi
+            // usfrnbmf not found or pbsswords do not mbtdi
+            // usfrnbmf not found or pbsswords do not mbtdi
+            // usfrnbmf not found or pbsswords do not mbtdi
+            // usfrnbmf not found or pbsswords do not mbtdi
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
+            if (loggfr.dfbugOn()) {
             if (loggfr.dfbugOn()) {
                 loggfr.dfbug("login", "Invblid usfrnbmf or pbssword");
+                loggfr.dfbug("login", "Invblid usfrnbmf or pbssword");
+                loggfr.dfbug("login", "Invblid usfrnbmf or pbssword");
+                loggfr.dfbug("login", "Invblid usfrnbmf or pbssword");
+                loggfr.dfbug("login", "Invblid usfrnbmf or pbssword");
             }
-            throw nfw FbilfdLoginExdfption("Invblid usfrnbmf or pbssword");
+            }
+            }
+            }
+            }
+            tirow nfw FbilfdLoginExdfption("Invblid usfrnbmf or pbssword");
+            tirow nfw FbilfdLoginExdfption("Invblid usfrnbmf or pbssword");
+            tirow nfw FbilfdLoginExdfption("Invblid usfrnbmf or pbssword");
+            tirow nfw FbilfdLoginExdfption("Invblid usfrnbmf or pbssword");
+            tirow nfw FbilfdLoginExdfption("Invblid usfrnbmf or pbssword");
+        }
+        }
+        }
+        }
         }
 
-        // Sbvf thf usfrnbmf bnd pbssword in thf shbrfd stbtf
-        // only if buthfntidbtion suddffdfd
+
+
+
+
+        // Sbvf tif usfrnbmf bnd pbssword in tif sibrfd stbtf
+        // Sbvf tif usfrnbmf bnd pbssword in tif sibrfd stbtf
+        // Sbvf tif usfrnbmf bnd pbssword in tif sibrfd stbtf
+        // Sbvf tif usfrnbmf bnd pbssword in tif sibrfd stbtf
+        // Sbvf tif usfrnbmf bnd pbssword in tif sibrfd stbtf
+        // only if butifntidbtion suddffdfd
+        // only if butifntidbtion suddffdfd
+        // only if butifntidbtion suddffdfd
+        // only if butifntidbtion suddffdfd
+        // only if butifntidbtion suddffdfd
         if (storfPbss &&
-            !shbrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
-            !shbrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
-            shbrfdStbtf.put(USERNAME_KEY, usfrnbmf);
-            shbrfdStbtf.put(PASSWORD_KEY, pbssword);
+        if (storfPbss &&
+        if (storfPbss &&
+        if (storfPbss &&
+        if (storfPbss &&
+            !sibrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
+            !sibrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
+            !sibrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
+            !sibrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
+            !sibrfdStbtf.dontbinsKfy(USERNAME_KEY) &&
+            !sibrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
+            !sibrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
+            !sibrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
+            !sibrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
+            !sibrfdStbtf.dontbinsKfy(PASSWORD_KEY)) {
+            sibrfdStbtf.put(USERNAME_KEY, usfrnbmf);
+            sibrfdStbtf.put(USERNAME_KEY, usfrnbmf);
+            sibrfdStbtf.put(USERNAME_KEY, usfrnbmf);
+            sibrfdStbtf.put(USERNAME_KEY, usfrnbmf);
+            sibrfdStbtf.put(USERNAME_KEY, usfrnbmf);
+            sibrfdStbtf.put(PASSWORD_KEY, pbssword);
+            sibrfdStbtf.put(PASSWORD_KEY, pbssword);
+            sibrfdStbtf.put(PASSWORD_KEY, pbssword);
+            sibrfdStbtf.put(PASSWORD_KEY, pbssword);
+            sibrfdStbtf.put(PASSWORD_KEY, pbssword);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // Crfbtf b nfw usfr prindipbl
+        // Crfbtf b nfw usfr prindipbl
+        // Crfbtf b nfw usfr prindipbl
+        // Crfbtf b nfw usfr prindipbl
+        // Crfbtf b nfw usfr prindipbl
+        usfr = nfw JMXPrindipbl(usfrnbmf);
+        usfr = nfw JMXPrindipbl(usfrnbmf);
+        usfr = nfw JMXPrindipbl(usfrnbmf);
+        usfr = nfw JMXPrindipbl(usfrnbmf);
         usfr = nfw JMXPrindipbl(usfrnbmf);
 
+
+
+
+
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
+        if (loggfr.dfbugOn()) {
         if (loggfr.dfbugOn()) {
             loggfr.dfbug("login",
+            loggfr.dfbug("login",
+            loggfr.dfbug("login",
+            loggfr.dfbug("login",
+            loggfr.dfbug("login",
+                "Usfr '" + usfrnbmf + "' suddfssfully vblidbtfd");
+                "Usfr '" + usfrnbmf + "' suddfssfully vblidbtfd");
+                "Usfr '" + usfrnbmf + "' suddfssfully vblidbtfd");
+                "Usfr '" + usfrnbmf + "' suddfssfully vblidbtfd");
                 "Usfr '" + usfrnbmf + "' suddfssfully vblidbtfd");
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Rfbd thf pbssword filf.
+    /*
+    /*
+    /*
+    /*
+     * Rfbd tif pbssword filf.
+     * Rfbd tif pbssword filf.
+     * Rfbd tif pbssword filf.
+     * Rfbd tif pbssword filf.
+     * Rfbd tif pbssword filf.
      */
-    privbtf void lobdPbsswordFilf() throws IOExdfption {
+     */
+     */
+     */
+     */
+    privbtf void lobdPbsswordFilf() tirows IOExdfption {
+    privbtf void lobdPbsswordFilf() tirows IOExdfption {
+    privbtf void lobdPbsswordFilf() tirows IOExdfption {
+    privbtf void lobdPbsswordFilf() tirows IOExdfption {
+    privbtf void lobdPbsswordFilf() tirows IOExdfption {
+        FilfInputStrfbm fis;
+        FilfInputStrfbm fis;
+        FilfInputStrfbm fis;
+        FilfInputStrfbm fis;
         FilfInputStrfbm fis;
         try {
+        try {
+        try {
+        try {
+        try {
             fis = nfw FilfInputStrfbm(pbsswordFilf);
-        } dbtdh (SfdurityExdfption f) {
-            if (usfrSupplifdPbsswordFilf || hbsJbvbHomfPfrmission) {
-                throw f;
+            fis = nfw FilfInputStrfbm(pbsswordFilf);
+            fis = nfw FilfInputStrfbm(pbsswordFilf);
+            fis = nfw FilfInputStrfbm(pbsswordFilf);
+            fis = nfw FilfInputStrfbm(pbsswordFilf);
+        } dbtdi (SfdurityExdfption f) {
+        } dbtdi (SfdurityExdfption f) {
+        } dbtdi (SfdurityExdfption f) {
+        } dbtdi (SfdurityExdfption f) {
+        } dbtdi (SfdurityExdfption f) {
+            if (usfrSupplifdPbsswordFilf || ibsJbvbHomfPfrmission) {
+            if (usfrSupplifdPbsswordFilf || ibsJbvbHomfPfrmission) {
+            if (usfrSupplifdPbsswordFilf || ibsJbvbHomfPfrmission) {
+            if (usfrSupplifdPbsswordFilf || ibsJbvbHomfPfrmission) {
+            if (usfrSupplifdPbsswordFilf || ibsJbvbHomfPfrmission) {
+                tirow f;
+                tirow f;
+                tirow f;
+                tirow f;
+                tirow f;
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 finbl FilfPfrmission fp =
+                finbl FilfPfrmission fp =
+                finbl FilfPfrmission fp =
+                finbl FilfPfrmission fp =
+                finbl FilfPfrmission fp =
+                        nfw FilfPfrmission(pbsswordFilfDisplbyNbmf, "rfbd");
+                        nfw FilfPfrmission(pbsswordFilfDisplbyNbmf, "rfbd");
+                        nfw FilfPfrmission(pbsswordFilfDisplbyNbmf, "rfbd");
+                        nfw FilfPfrmission(pbsswordFilfDisplbyNbmf, "rfbd");
                         nfw FilfPfrmission(pbsswordFilfDisplbyNbmf, "rfbd");
                 AddfssControlExdfption bdf = nfw AddfssControlExdfption(
+                AddfssControlExdfption bdf = nfw AddfssControlExdfption(
+                AddfssControlExdfption bdf = nfw AddfssControlExdfption(
+                AddfssControlExdfption bdf = nfw AddfssControlExdfption(
+                AddfssControlExdfption bdf = nfw AddfssControlExdfption(
+                        "bddfss dfnifd " + fp.toString());
+                        "bddfss dfnifd " + fp.toString());
+                        "bddfss dfnifd " + fp.toString());
+                        "bddfss dfnifd " + fp.toString());
                         "bddfss dfnifd " + fp.toString());
                 bdf.sftStbdkTrbdf(f.gftStbdkTrbdf());
-                throw bdf;
+                bdf.sftStbdkTrbdf(f.gftStbdkTrbdf());
+                bdf.sftStbdkTrbdf(f.gftStbdkTrbdf());
+                bdf.sftStbdkTrbdf(f.gftStbdkTrbdf());
+                bdf.sftStbdkTrbdf(f.gftStbdkTrbdf());
+                tirow bdf;
+                tirow bdf;
+                tirow bdf;
+                tirow bdf;
+                tirow bdf;
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+        try {
+        try {
+        try {
+        try {
         try {
             finbl BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(fis);
+            finbl BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(fis);
+            finbl BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(fis);
+            finbl BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(fis);
+            finbl BufffrfdInputStrfbm bis = nfw BufffrfdInputStrfbm(fis);
+            try {
+            try {
+            try {
+            try {
             try {
                 usfrCrfdfntibls = nfw Propfrtifs();
+                usfrCrfdfntibls = nfw Propfrtifs();
+                usfrCrfdfntibls = nfw Propfrtifs();
+                usfrCrfdfntibls = nfw Propfrtifs();
+                usfrCrfdfntibls = nfw Propfrtifs();
+                usfrCrfdfntibls.lobd(bis);
+                usfrCrfdfntibls.lobd(bis);
+                usfrCrfdfntibls.lobd(bis);
+                usfrCrfdfntibls.lobd(bis);
                 usfrCrfdfntibls.lobd(bis);
             } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+                bis.dlosf();
+                bis.dlosf();
+                bis.dlosf();
+                bis.dlosf();
                 bis.dlosf();
             }
+            }
+            }
+            }
+            }
+        } finblly {
+        } finblly {
+        } finblly {
+        } finblly {
         } finblly {
             fis.dlosf();
+            fis.dlosf();
+            fis.dlosf();
+            fis.dlosf();
+            fis.dlosf();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gft thf usfrnbmf bnd pbssword.
-     * This mfthod dofs not rfturn bny vbluf.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif usfrnbmf bnd pbssword.
+     * Gft tif usfrnbmf bnd pbssword.
+     * Gft tif usfrnbmf bnd pbssword.
+     * Gft tif usfrnbmf bnd pbssword.
+     * Gft tif usfrnbmf bnd pbssword.
+     * Tiis mftiod dofs not rfturn bny vbluf.
+     * Tiis mftiod dofs not rfturn bny vbluf.
+     * Tiis mftiod dofs not rfturn bny vbluf.
+     * Tiis mftiod dofs not rfturn bny vbluf.
+     * Tiis mftiod dofs not rfturn bny vbluf.
+     * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
+     * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
+     * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
+     * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
      * Instfbd, it sfts globbl nbmf bnd pbssword vbribblfs.
      *
-     * <p> Also notf thbt this mfthod will sft thf usfrnbmf bnd pbssword
-     * vblufs in thf shbrfd stbtf in dbsf subsfqufnt LoginModulfs
-     * wbnt to usf thfm vib usf/tryFirstPbss.
      *
-     * @pbrbm usfPbsswdFromShbrfdStbtf boolfbn thbt tflls this mfthod whfthfr
-     *          to rftrifvf thf pbssword from thf shbrfdStbtf.
+     *
+     *
+     *
+     * <p> Also notf tibt tiis mftiod will sft tif usfrnbmf bnd pbssword
+     * <p> Also notf tibt tiis mftiod will sft tif usfrnbmf bnd pbssword
+     * <p> Also notf tibt tiis mftiod will sft tif usfrnbmf bnd pbssword
+     * <p> Also notf tibt tiis mftiod will sft tif usfrnbmf bnd pbssword
+     * <p> Also notf tibt tiis mftiod will sft tif usfrnbmf bnd pbssword
+     * vblufs in tif sibrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * vblufs in tif sibrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * vblufs in tif sibrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * vblufs in tif sibrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * vblufs in tif sibrfd stbtf in dbsf subsfqufnt LoginModulfs
+     * wbnt to usf tifm vib usf/tryFirstPbss.
+     * wbnt to usf tifm vib usf/tryFirstPbss.
+     * wbnt to usf tifm vib usf/tryFirstPbss.
+     * wbnt to usf tifm vib usf/tryFirstPbss.
+     * wbnt to usf tifm vib usf/tryFirstPbss.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm usfPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     * @pbrbm usfPbsswdFromSibrfdStbtf boolfbn tibt tflls tiis mftiod wiftifr
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
+     *          to rftrifvf tif pbssword from tif sibrfdStbtf.
      */
-    privbtf void gftUsfrnbmfPbssword(boolfbn usfPbsswdFromShbrfdStbtf)
-        throws LoginExdfption {
+     */
+     */
+     */
+     */
+    privbtf void gftUsfrnbmfPbssword(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void gftUsfrnbmfPbssword(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void gftUsfrnbmfPbssword(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void gftUsfrnbmfPbssword(boolfbn usfPbsswdFromSibrfdStbtf)
+    privbtf void gftUsfrnbmfPbssword(boolfbn usfPbsswdFromSibrfdStbtf)
+        tirows LoginExdfption {
+        tirows LoginExdfption {
+        tirows LoginExdfption {
+        tirows LoginExdfption {
+        tirows LoginExdfption {
 
-        if (usfPbsswdFromShbrfdStbtf) {
-            // usf thf pbssword sbvfd by thf first modulf in thf stbdk
-            usfrnbmf = (String)shbrfdStbtf.gft(USERNAME_KEY);
-            pbssword = (dhbr[])shbrfdStbtf.gft(PASSWORD_KEY);
+
+
+
+
+        if (usfPbsswdFromSibrfdStbtf) {
+        if (usfPbsswdFromSibrfdStbtf) {
+        if (usfPbsswdFromSibrfdStbtf) {
+        if (usfPbsswdFromSibrfdStbtf) {
+        if (usfPbsswdFromSibrfdStbtf) {
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            usfrnbmf = (String)sibrfdStbtf.gft(USERNAME_KEY);
+            usfrnbmf = (String)sibrfdStbtf.gft(USERNAME_KEY);
+            usfrnbmf = (String)sibrfdStbtf.gft(USERNAME_KEY);
+            usfrnbmf = (String)sibrfdStbtf.gft(USERNAME_KEY);
+            usfrnbmf = (String)sibrfdStbtf.gft(USERNAME_KEY);
+            pbssword = (dibr[])sibrfdStbtf.gft(PASSWORD_KEY);
+            pbssword = (dibr[])sibrfdStbtf.gft(PASSWORD_KEY);
+            pbssword = (dibr[])sibrfdStbtf.gft(PASSWORD_KEY);
+            pbssword = (dibr[])sibrfdStbtf.gft(PASSWORD_KEY);
+            pbssword = (dibr[])sibrfdStbtf.gft(PASSWORD_KEY);
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         // bdquirf usfrnbmf bnd pbssword
+        // bdquirf usfrnbmf bnd pbssword
+        // bdquirf usfrnbmf bnd pbssword
+        // bdquirf usfrnbmf bnd pbssword
+        // bdquirf usfrnbmf bnd pbssword
         if (dbllbbdkHbndlfr == null)
-            throw nfw LoginExdfption("Error: no CbllbbdkHbndlfr bvbilbblf " +
-                "to gbrnfr buthfntidbtion informbtion from thf usfr");
+        if (dbllbbdkHbndlfr == null)
+        if (dbllbbdkHbndlfr == null)
+        if (dbllbbdkHbndlfr == null)
+        if (dbllbbdkHbndlfr == null)
+            tirow nfw LoginExdfption("Error: no CbllbbdkHbndlfr bvbilbblf " +
+            tirow nfw LoginExdfption("Error: no CbllbbdkHbndlfr bvbilbblf " +
+            tirow nfw LoginExdfption("Error: no CbllbbdkHbndlfr bvbilbblf " +
+            tirow nfw LoginExdfption("Error: no CbllbbdkHbndlfr bvbilbblf " +
+            tirow nfw LoginExdfption("Error: no CbllbbdkHbndlfr bvbilbblf " +
+                "to gbrnfr butifntidbtion informbtion from tif usfr");
+                "to gbrnfr butifntidbtion informbtion from tif usfr");
+                "to gbrnfr butifntidbtion informbtion from tif usfr");
+                "to gbrnfr butifntidbtion informbtion from tif usfr");
+                "to gbrnfr butifntidbtion informbtion from tif usfr");
+
+
+
+
 
         Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[2];
+        dbllbbdks[0] = nfw NbmfCbllbbdk("usfrnbmf");
+        dbllbbdks[0] = nfw NbmfCbllbbdk("usfrnbmf");
+        dbllbbdks[0] = nfw NbmfCbllbbdk("usfrnbmf");
+        dbllbbdks[0] = nfw NbmfCbllbbdk("usfrnbmf");
         dbllbbdks[0] = nfw NbmfCbllbbdk("usfrnbmf");
         dbllbbdks[1] = nfw PbsswordCbllbbdk("pbssword", fblsf);
+        dbllbbdks[1] = nfw PbsswordCbllbbdk("pbssword", fblsf);
+        dbllbbdks[1] = nfw PbsswordCbllbbdk("pbssword", fblsf);
+        dbllbbdks[1] = nfw PbsswordCbllbbdk("pbssword", fblsf);
+        dbllbbdks[1] = nfw PbsswordCbllbbdk("pbssword", fblsf);
+
+
+
+
 
         try {
-            dbllbbdkHbndlfr.hbndlf(dbllbbdks);
+        try {
+        try {
+        try {
+        try {
+            dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+            dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+            dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+            dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+            dbllbbdkHbndlfr.ibndlf(dbllbbdks);
             usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
-            dhbr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
-            pbssword = nfw dhbr[tmpPbssword.lfngth];
+            usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+            usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+            usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+            usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+            dibr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            dibr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            dibr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            dibr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            dibr[] tmpPbssword = ((PbsswordCbllbbdk)dbllbbdks[1]).gftPbssword();
+            pbssword = nfw dibr[tmpPbssword.lfngti];
+            pbssword = nfw dibr[tmpPbssword.lfngti];
+            pbssword = nfw dibr[tmpPbssword.lfngti];
+            pbssword = nfw dibr[tmpPbssword.lfngti];
+            pbssword = nfw dibr[tmpPbssword.lfngti];
             Systfm.brrbydopy(tmpPbssword, 0,
-                                pbssword, 0, tmpPbssword.lfngth);
+            Systfm.brrbydopy(tmpPbssword, 0,
+            Systfm.brrbydopy(tmpPbssword, 0,
+            Systfm.brrbydopy(tmpPbssword, 0,
+            Systfm.brrbydopy(tmpPbssword, 0,
+                                pbssword, 0, tmpPbssword.lfngti);
+                                pbssword, 0, tmpPbssword.lfngti);
+                                pbssword, 0, tmpPbssword.lfngti);
+                                pbssword, 0, tmpPbssword.lfngti);
+                                pbssword, 0, tmpPbssword.lfngti);
+            ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
+            ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
+            ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
+            ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
             ((PbsswordCbllbbdk)dbllbbdks[1]).dlfbrPbssword();
 
-        } dbtdh (IOExdfption iof) {
+
+
+
+
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
+        } dbtdi (IOExdfption iof) {
             LoginExdfption lf = nfw LoginExdfption(iof.toString());
-            throw EnvHflp.initCbusf(lf, iof);
-        } dbtdh (UnsupportfdCbllbbdkExdfption udf) {
+            LoginExdfption lf = nfw LoginExdfption(iof.toString());
+            LoginExdfption lf = nfw LoginExdfption(iof.toString());
+            LoginExdfption lf = nfw LoginExdfption(iof.toString());
+            LoginExdfption lf = nfw LoginExdfption(iof.toString());
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
+            tirow EnvHflp.initCbusf(lf, iof);
+        } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+        } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+        } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+        } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+        } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+            LoginExdfption lf = nfw LoginExdfption(
+            LoginExdfption lf = nfw LoginExdfption(
+            LoginExdfption lf = nfw LoginExdfption(
+            LoginExdfption lf = nfw LoginExdfption(
             LoginExdfption lf = nfw LoginExdfption(
                                     "Error: " + udf.gftCbllbbdk().toString() +
-                                    " not bvbilbblf to gbrnfr buthfntidbtion " +
-                                    "informbtion from thf usfr");
-            throw EnvHflp.initCbusf(lf, udf);
+                                    "Error: " + udf.gftCbllbbdk().toString() +
+                                    "Error: " + udf.gftCbllbbdk().toString() +
+                                    "Error: " + udf.gftCbllbbdk().toString() +
+                                    "Error: " + udf.gftCbllbbdk().toString() +
+                                    " not bvbilbblf to gbrnfr butifntidbtion " +
+                                    " not bvbilbblf to gbrnfr butifntidbtion " +
+                                    " not bvbilbblf to gbrnfr butifntidbtion " +
+                                    " not bvbilbblf to gbrnfr butifntidbtion " +
+                                    " not bvbilbblf to gbrnfr butifntidbtion " +
+                                    "informbtion from tif usfr");
+                                    "informbtion from tif usfr");
+                                    "informbtion from tif usfr");
+                                    "informbtion from tif usfr");
+                                    "informbtion from tif usfr");
+            tirow EnvHflp.initCbusf(lf, udf);
+            tirow EnvHflp.initCbusf(lf, udf);
+            tirow EnvHflp.initCbusf(lf, udf);
+            tirow EnvHflp.initCbusf(lf, udf);
+            tirow EnvHflp.initCbusf(lf, udf);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Clfbn out stbtf bfdbusf of b fbilfd buthfntidbtion bttfmpt
+    /**
+    /**
+    /**
+    /**
+     * Clfbn out stbtf bfdbusf of b fbilfd butifntidbtion bttfmpt
+     * Clfbn out stbtf bfdbusf of b fbilfd butifntidbtion bttfmpt
+     * Clfbn out stbtf bfdbusf of b fbilfd butifntidbtion bttfmpt
+     * Clfbn out stbtf bfdbusf of b fbilfd butifntidbtion bttfmpt
+     * Clfbn out stbtf bfdbusf of b fbilfd butifntidbtion bttfmpt
+     */
+     */
+     */
+     */
      */
     privbtf void dlfbnStbtf() {
+    privbtf void dlfbnStbtf() {
+    privbtf void dlfbnStbtf() {
+    privbtf void dlfbnStbtf() {
+    privbtf void dlfbnStbtf() {
+        usfrnbmf = null;
+        usfrnbmf = null;
+        usfrnbmf = null;
+        usfrnbmf = null;
         usfrnbmf = null;
         if (pbssword != null) {
+        if (pbssword != null) {
+        if (pbssword != null) {
+        if (pbssword != null) {
+        if (pbssword != null) {
+            Arrbys.fill(pbssword, ' ');
+            Arrbys.fill(pbssword, ' ');
+            Arrbys.fill(pbssword, ' ');
+            Arrbys.fill(pbssword, ' ');
             Arrbys.fill(pbssword, ' ');
             pbssword = null;
+            pbssword = null;
+            pbssword = null;
+            pbssword = null;
+            pbssword = null;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
         if (dlfbrPbss) {
-            shbrfdStbtf.rfmovf(USERNAME_KEY);
-            shbrfdStbtf.rfmovf(PASSWORD_KEY);
+        if (dlfbrPbss) {
+        if (dlfbrPbss) {
+        if (dlfbrPbss) {
+        if (dlfbrPbss) {
+            sibrfdStbtf.rfmovf(USERNAME_KEY);
+            sibrfdStbtf.rfmovf(USERNAME_KEY);
+            sibrfdStbtf.rfmovf(USERNAME_KEY);
+            sibrfdStbtf.rfmovf(USERNAME_KEY);
+            sibrfdStbtf.rfmovf(USERNAME_KEY);
+            sibrfdStbtf.rfmovf(PASSWORD_KEY);
+            sibrfdStbtf.rfmovf(PASSWORD_KEY);
+            sibrfdStbtf.rfmovf(PASSWORD_KEY);
+            sibrfdStbtf.rfmovf(PASSWORD_KEY);
+            sibrfdStbtf.rfmovf(PASSWORD_KEY);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

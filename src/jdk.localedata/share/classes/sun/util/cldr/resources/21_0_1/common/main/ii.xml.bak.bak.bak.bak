@@ -1,224 +1,1120 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6443 $"/>
-		<gfnfrbtion dbtf="$Dbtf: 2012-01-26 04:51:07 +0900 (Thu, 26 Jbn 2012) $"/>
+		<vfrsion numbfr="$Rfvision: 6443 $"/>
+		<vfrsion numbfr="$Rfvision: 6443 $"/>
+		<vfrsion numbfr="$Rfvision: 6443 $"/>
+		<vfrsion numbfr="$Rfvision: 6443 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-26 04:51:07 +0900 (Tiu, 26 Jbn 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-26 04:51:07 +0900 (Tiu, 26 Jbn 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-26 04:51:07 +0900 (Tiu, 26 Jbn 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-26 04:51:07 +0900 (Tiu, 26 Jbn 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-01-26 04:51:07 +0900 (Tiu, 26 Jbn 2012) $"/>
+		<lbngubgf typf="ii"/>
+		<lbngubgf typf="ii"/>
+		<lbngubgf typf="ii"/>
+		<lbngubgf typf="ii"/>
 		<lbngubgf typf="ii"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
 	<lodblfDisplbyNbmfs>
 		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+			<lbngubgf typf="df">ꄓꇩꉙ</lbngubgf>
+			<lbngubgf typf="df">ꄓꇩꉙ</lbngubgf>
+			<lbngubgf typf="df">ꄓꇩꉙ</lbngubgf>
+			<lbngubgf typf="df">ꄓꇩꉙ</lbngubgf>
 			<lbngubgf typf="df">ꄓꇩꉙ</lbngubgf>
 			<lbngubgf typf="fn">ꑱꇩꉙ</lbngubgf>
+			<lbngubgf typf="fn">ꑱꇩꉙ</lbngubgf>
+			<lbngubgf typf="fn">ꑱꇩꉙ</lbngubgf>
+			<lbngubgf typf="fn">ꑱꇩꉙ</lbngubgf>
+			<lbngubgf typf="fn">ꑱꇩꉙ</lbngubgf>
+			<lbngubgf typf="fs">ꑭꀠꑸꉙ</lbngubgf>
+			<lbngubgf typf="fs">ꑭꀠꑸꉙ</lbngubgf>
+			<lbngubgf typf="fs">ꑭꀠꑸꉙ</lbngubgf>
+			<lbngubgf typf="fs">ꑭꀠꑸꉙ</lbngubgf>
 			<lbngubgf typf="fs">ꑭꀠꑸꉙ</lbngubgf>
 			<lbngubgf typf="fr">ꃔꇩꉙ</lbngubgf>
+			<lbngubgf typf="fr">ꃔꇩꉙ</lbngubgf>
+			<lbngubgf typf="fr">ꃔꇩꉙ</lbngubgf>
+			<lbngubgf typf="fr">ꃔꇩꉙ</lbngubgf>
+			<lbngubgf typf="fr">ꃔꇩꉙ</lbngubgf>
+			<lbngubgf typf="ii">ꆈꌠꉙ</lbngubgf>
+			<lbngubgf typf="ii">ꆈꌠꉙ</lbngubgf>
+			<lbngubgf typf="ii">ꆈꌠꉙ</lbngubgf>
+			<lbngubgf typf="ii">ꆈꌠꉙ</lbngubgf>
 			<lbngubgf typf="ii">ꆈꌠꉙ</lbngubgf>
 			<lbngubgf typf="it">ꑴꄊꆺꉙ</lbngubgf>
+			<lbngubgf typf="it">ꑴꄊꆺꉙ</lbngubgf>
+			<lbngubgf typf="it">ꑴꄊꆺꉙ</lbngubgf>
+			<lbngubgf typf="it">ꑴꄊꆺꉙ</lbngubgf>
+			<lbngubgf typf="it">ꑴꄊꆺꉙ</lbngubgf>
+			<lbngubgf typf="jb">ꏝꀪꉙ</lbngubgf>
+			<lbngubgf typf="jb">ꏝꀪꉙ</lbngubgf>
+			<lbngubgf typf="jb">ꏝꀪꉙ</lbngubgf>
+			<lbngubgf typf="jb">ꏝꀪꉙ</lbngubgf>
 			<lbngubgf typf="jb">ꏝꀪꉙ</lbngubgf>
 			<lbngubgf typf="pt">ꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt">ꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt">ꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt">ꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt">ꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt_BR">ꀠꑟꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt_BR">ꀠꑟꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt_BR">ꀠꑟꁍꄨꑸꉙ</lbngubgf>
+			<lbngubgf typf="pt_BR">ꀠꑟꁍꄨꑸꉙ</lbngubgf>
 			<lbngubgf typf="pt_BR">ꀠꑟꁍꄨꑸꉙ</lbngubgf>
 			<lbngubgf typf="ru">ꊉꇩꉙ</lbngubgf>
+			<lbngubgf typf="ru">ꊉꇩꉙ</lbngubgf>
+			<lbngubgf typf="ru">ꊉꇩꉙ</lbngubgf>
+			<lbngubgf typf="ru">ꊉꇩꉙ</lbngubgf>
+			<lbngubgf typf="ru">ꊉꇩꉙ</lbngubgf>
 			<lbngubgf typf="und">ꅉꀋꌠꅇꂷ</lbngubgf>
-			<lbngubgf typf="zh">ꍏꇩꉙ</lbngubgf>
-			<lbngubgf typf="zh_Hbns">ꈝꐯꍏꇩꉙ</lbngubgf>
-			<lbngubgf typf="zh_Hbnt">ꀎꋏꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="und">ꅉꀋꌠꅇꂷ</lbngubgf>
+			<lbngubgf typf="und">ꅉꀋꌠꅇꂷ</lbngubgf>
+			<lbngubgf typf="und">ꅉꀋꌠꅇꂷ</lbngubgf>
+			<lbngubgf typf="und">ꅉꀋꌠꅇꂷ</lbngubgf>
+			<lbngubgf typf="zi">ꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi">ꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi">ꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi">ꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi">ꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbns">ꈝꐯꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbns">ꈝꐯꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbns">ꈝꐯꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbns">ꈝꐯꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbns">ꈝꐯꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbnt">ꀎꋏꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbnt">ꀎꋏꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbnt">ꀎꋏꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbnt">ꀎꋏꍏꇩꉙ</lbngubgf>
+			<lbngubgf typf="zi_Hbnt">ꀎꋏꍏꇩꉙ</lbngubgf>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
 		</lbngubgfs>
 		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+		<sdripts>
+			<sdript typf="Arbb">ꀊꇁꀨꁱꂷ</sdript>
+			<sdript typf="Arbb">ꀊꇁꀨꁱꂷ</sdript>
+			<sdript typf="Arbb">ꀊꇁꀨꁱꂷ</sdript>
+			<sdript typf="Arbb">ꀊꇁꀨꁱꂷ</sdript>
 			<sdript typf="Arbb">ꀊꇁꀨꁱꂷ</sdript>
 			<sdript typf="Cyrl">ꀊꆨꌦꇁꃚꁱꂷ</sdript>
+			<sdript typf="Cyrl">ꀊꆨꌦꇁꃚꁱꂷ</sdript>
+			<sdript typf="Cyrl">ꀊꆨꌦꇁꃚꁱꂷ</sdript>
+			<sdript typf="Cyrl">ꀊꆨꌦꇁꃚꁱꂷ</sdript>
+			<sdript typf="Cyrl">ꀊꆨꌦꇁꃚꁱꂷ</sdript>
+			<sdript typf="Hbns">ꈝꐯꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbns">ꈝꐯꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbns">ꈝꐯꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbns">ꈝꐯꉌꈲꁱꂷ</sdript>
 			<sdript typf="Hbns">ꈝꐯꉌꈲꁱꂷ</sdript>
 			<sdript typf="Hbnt">ꀎꋏꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbnt">ꀎꋏꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbnt">ꀎꋏꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbnt">ꀎꋏꉌꈲꁱꂷ</sdript>
+			<sdript typf="Hbnt">ꀎꋏꉌꈲꁱꂷ</sdript>
+			<sdript typf="Lbtn">ꇁꄀꁱꂷ</sdript>
+			<sdript typf="Lbtn">ꇁꄀꁱꂷ</sdript>
+			<sdript typf="Lbtn">ꇁꄀꁱꂷ</sdript>
+			<sdript typf="Lbtn">ꇁꄀꁱꂷ</sdript>
 			<sdript typf="Lbtn">ꇁꄀꁱꂷ</sdript>
 			<sdript typf="Yiii">ꆈꌠꁱꂷ</sdript>
+			<sdript typf="Yiii">ꆈꌠꁱꂷ</sdript>
+			<sdript typf="Yiii">ꆈꌠꁱꂷ</sdript>
+			<sdript typf="Yiii">ꆈꌠꁱꂷ</sdript>
+			<sdript typf="Yiii">ꆈꌠꁱꂷ</sdript>
+			<sdript typf="Zxxx">ꁱꀋꉆꌠ</sdript>
+			<sdript typf="Zxxx">ꁱꀋꉆꌠ</sdript>
+			<sdript typf="Zxxx">ꁱꀋꉆꌠ</sdript>
+			<sdript typf="Zxxx">ꁱꀋꉆꌠ</sdript>
 			<sdript typf="Zxxx">ꁱꀋꉆꌠ</sdript>
 			<sdript typf="Zzzz">ꅉꀋꐚꌠꁱꂷ</sdript>
+			<sdript typf="Zzzz">ꅉꀋꐚꌠꁱꂷ</sdript>
+			<sdript typf="Zzzz">ꅉꀋꐚꌠꁱꂷ</sdript>
+			<sdript typf="Zzzz">ꅉꀋꐚꌠꁱꂷ</sdript>
+			<sdript typf="Zzzz">ꅉꀋꐚꌠꁱꂷ</sdript>
+		</sdripts>
+		</sdripts>
+		</sdripts>
+		</sdripts>
 		</sdripts>
 		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+			<tfrritory typf="BR">ꀠꑭ</tfrritory>
+			<tfrritory typf="BR">ꀠꑭ</tfrritory>
+			<tfrritory typf="BR">ꀠꑭ</tfrritory>
+			<tfrritory typf="BR">ꀠꑭ</tfrritory>
 			<tfrritory typf="BR">ꀠꑭ</tfrritory>
 			<tfrritory typf="CN">ꍏꇩ</tfrritory>
+			<tfrritory typf="CN">ꍏꇩ</tfrritory>
+			<tfrritory typf="CN">ꍏꇩ</tfrritory>
+			<tfrritory typf="CN">ꍏꇩ</tfrritory>
+			<tfrritory typf="CN">ꍏꇩ</tfrritory>
+			<tfrritory typf="DE">ꄓꇩ</tfrritory>
+			<tfrritory typf="DE">ꄓꇩ</tfrritory>
+			<tfrritory typf="DE">ꄓꇩ</tfrritory>
+			<tfrritory typf="DE">ꄓꇩ</tfrritory>
 			<tfrritory typf="DE">ꄓꇩ</tfrritory>
 			<tfrritory typf="FR">ꃔꇩ</tfrritory>
+			<tfrritory typf="FR">ꃔꇩ</tfrritory>
+			<tfrritory typf="FR">ꃔꇩ</tfrritory>
+			<tfrritory typf="FR">ꃔꇩ</tfrritory>
+			<tfrritory typf="FR">ꃔꇩ</tfrritory>
+			<tfrritory typf="GB">ꑱꇩ</tfrritory>
+			<tfrritory typf="GB">ꑱꇩ</tfrritory>
+			<tfrritory typf="GB">ꑱꇩ</tfrritory>
+			<tfrritory typf="GB">ꑱꇩ</tfrritory>
 			<tfrritory typf="GB">ꑱꇩ</tfrritory>
 			<tfrritory typf="IN">ꑴꄗ</tfrritory>
+			<tfrritory typf="IN">ꑴꄗ</tfrritory>
+			<tfrritory typf="IN">ꑴꄗ</tfrritory>
+			<tfrritory typf="IN">ꑴꄗ</tfrritory>
+			<tfrritory typf="IN">ꑴꄗ</tfrritory>
+			<tfrritory typf="IT">ꑴꄊꆺ</tfrritory>
+			<tfrritory typf="IT">ꑴꄊꆺ</tfrritory>
+			<tfrritory typf="IT">ꑴꄊꆺ</tfrritory>
+			<tfrritory typf="IT">ꑴꄊꆺ</tfrritory>
 			<tfrritory typf="IT">ꑴꄊꆺ</tfrritory>
 			<tfrritory typf="JP">ꏝꀪ</tfrritory>
+			<tfrritory typf="JP">ꏝꀪ</tfrritory>
+			<tfrritory typf="JP">ꏝꀪ</tfrritory>
+			<tfrritory typf="JP">ꏝꀪ</tfrritory>
+			<tfrritory typf="JP">ꏝꀪ</tfrritory>
+			<tfrritory typf="RU">ꊉꇆꌦ</tfrritory>
+			<tfrritory typf="RU">ꊉꇆꌦ</tfrritory>
+			<tfrritory typf="RU">ꊉꇆꌦ</tfrritory>
+			<tfrritory typf="RU">ꊉꇆꌦ</tfrritory>
 			<tfrritory typf="RU">ꊉꇆꌦ</tfrritory>
 			<tfrritory typf="US">ꂰꇩ</tfrritory>
+			<tfrritory typf="US">ꂰꇩ</tfrritory>
+			<tfrritory typf="US">ꂰꇩ</tfrritory>
+			<tfrritory typf="US">ꂰꇩ</tfrritory>
+			<tfrritory typf="US">ꂰꇩ</tfrritory>
+			<tfrritory typf="ZZ">ꃅꄷꅉꀋꐚꌠ</tfrritory>
+			<tfrritory typf="ZZ">ꃅꄷꅉꀋꐚꌠ</tfrritory>
+			<tfrritory typf="ZZ">ꃅꄷꅉꀋꐚꌠ</tfrritory>
+			<tfrritory typf="ZZ">ꃅꄷꅉꀋꐚꌠ</tfrritory>
 			<tfrritory typf="ZZ">ꃅꄷꅉꀋꐚꌠ</tfrritory>
 		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		<typfs>
+		<typfs>
+		<typfs>
+		<typfs>
 		<typfs>
 			<typf typf="grfgoribn" kfy="dblfndbr">ꄉꉻꃅꑍ</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">ꄉꉻꃅꑍ</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">ꄉꉻꃅꑍ</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">ꄉꉻꃅꑍ</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">ꄉꉻꃅꑍ</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ꑳꌦꇂꑍꉖ</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ꑳꌦꇂꑍꉖ</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ꑳꌦꇂꑍꉖ</typf>
+			<typf typf="islbmid" kfy="dblfndbr">ꑳꌦꇂꑍꉖ</typf>
 			<typf typf="islbmid" kfy="dblfndbr">ꑳꌦꇂꑍꉖ</typf>
 		</typfs>
+		</typfs>
+		</typfs>
+		</typfs>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
 		<mfbsurfmfntSystfmNbmfs>
 			<mfbsurfmfntSystfmNbmf typf="mftrid">ꂰꌬꌠ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ꂰꌬꌠ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ꂰꌬꌠ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ꂰꌬꌠ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ꂰꌬꌠ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ꂰꇩ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ꂰꇩ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ꂰꇩ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ꂰꇩ</mfbsurfmfntSystfmNbmf>
 			<mfbsurfmfntSystfmNbmf typf="US">ꂰꇩ</mfbsurfmfntSystfmNbmf>
 		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+		<dodfPbttfrns>
+		<dodfPbttfrns>
+		<dodfPbttfrns>
 		<dodfPbttfrns>
 			<dodfPbttfrn typf="lbngubgf">ꅇꉙ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="lbngubgf">ꅇꉙ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="lbngubgf">ꅇꉙ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="lbngubgf">ꅇꉙ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="lbngubgf">ꅇꉙ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">ꇇꁱ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">ꇇꁱ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">ꇇꁱ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">ꇇꁱ: {0}</dodfPbttfrn>
 			<dodfPbttfrn typf="sdript">ꇇꁱ: {0}</dodfPbttfrn>
 			<dodfPbttfrn typf="tfrritory">ꃅꄷ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">ꃅꄷ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">ꃅꄷ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">ꃅꄷ: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">ꃅꄷ: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+		</dodfPbttfrns>
+		</dodfPbttfrns>
+		</dodfPbttfrns>
 		</dodfPbttfrns>
 	</lodblfDisplbyNbmfs>
-	<dhbrbdtfrs>
-		<fxfmplbrChbrbdtfrs>[ꀀ-ꒌ]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[ꀀ ꀋ ꀗ ꀣ ꀯ ꀺ ꁆ ꁒ ꁞ ꁩ ꁵ ꂁ ꂍ ꂘ ꂤ ꂰ ꂼ ꃇ ꃓ ꃟ ꃫ ꃶ ꄂ ꄎ ꄚ ꄥ ꄱ ꄽ ꅉ ꅔ ꅠ ꅬ ꅸ ꆃ ꆏ ꆛ ꆧ ꆳ ꆾ ꇊ ꇖ ꇢ ꇭ ꇹ ꈅ ꈑ ꈜ ꈨ ꈴ ꉀ ꉋ ꉗ ꉣ ꉯ ꉺ ꊆ ꊒ ꊞ ꊩ ꊵ ꋁ ꋍ ꋘ ꋤ ꋰ ꋼ ꌇ ꌓ ꌟ ꌫ ꌷ ꍂ ꍎ ꍚ ꍦ ꍱ ꍽ ꎉ ꎕ ꎠ ꎬ ꎸ ꏄ ꏏ ꏛ ꏧ ꏳ ꏾ ꐊ ꐖ ꐢ ꐭ ꐹ ꑅ ꑑ ꑜ ꑨ ꑴ ꒀ ꒋ]</fxfmplbrChbrbdtfrs>
-	</dhbrbdtfrs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ꀀ-ꒌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ꀀ-ꒌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ꀀ-ꒌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ꀀ-ꒌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[ꀀ-ꒌ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ꀀ ꀋ ꀗ ꀣ ꀯ ꀺ ꁆ ꁒ ꁞ ꁩ ꁵ ꂁ ꂍ ꂘ ꂤ ꂰ ꂼ ꃇ ꃓ ꃟ ꃫ ꃶ ꄂ ꄎ ꄚ ꄥ ꄱ ꄽ ꅉ ꅔ ꅠ ꅬ ꅸ ꆃ ꆏ ꆛ ꆧ ꆳ ꆾ ꇊ ꇖ ꇢ ꇭ ꇹ ꈅ ꈑ ꈜ ꈨ ꈴ ꉀ ꉋ ꉗ ꉣ ꉯ ꉺ ꊆ ꊒ ꊞ ꊩ ꊵ ꋁ ꋍ ꋘ ꋤ ꋰ ꋼ ꌇ ꌓ ꌟ ꌫ ꌷ ꍂ ꍎ ꍚ ꍦ ꍱ ꍽ ꎉ ꎕ ꎠ ꎬ ꎸ ꏄ ꏏ ꏛ ꏧ ꏳ ꏾ ꐊ ꐖ ꐢ ꐭ ꐹ ꑅ ꑑ ꑜ ꑨ ꑴ ꒀ ꒋ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ꀀ ꀋ ꀗ ꀣ ꀯ ꀺ ꁆ ꁒ ꁞ ꁩ ꁵ ꂁ ꂍ ꂘ ꂤ ꂰ ꂼ ꃇ ꃓ ꃟ ꃫ ꃶ ꄂ ꄎ ꄚ ꄥ ꄱ ꄽ ꅉ ꅔ ꅠ ꅬ ꅸ ꆃ ꆏ ꆛ ꆧ ꆳ ꆾ ꇊ ꇖ ꇢ ꇭ ꇹ ꈅ ꈑ ꈜ ꈨ ꈴ ꉀ ꉋ ꉗ ꉣ ꉯ ꉺ ꊆ ꊒ ꊞ ꊩ ꊵ ꋁ ꋍ ꋘ ꋤ ꋰ ꋼ ꌇ ꌓ ꌟ ꌫ ꌷ ꍂ ꍎ ꍚ ꍦ ꍱ ꍽ ꎉ ꎕ ꎠ ꎬ ꎸ ꏄ ꏏ ꏛ ꏧ ꏳ ꏾ ꐊ ꐖ ꐢ ꐭ ꐹ ꑅ ꑑ ꑜ ꑨ ꑴ ꒀ ꒋ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ꀀ ꀋ ꀗ ꀣ ꀯ ꀺ ꁆ ꁒ ꁞ ꁩ ꁵ ꂁ ꂍ ꂘ ꂤ ꂰ ꂼ ꃇ ꃓ ꃟ ꃫ ꃶ ꄂ ꄎ ꄚ ꄥ ꄱ ꄽ ꅉ ꅔ ꅠ ꅬ ꅸ ꆃ ꆏ ꆛ ꆧ ꆳ ꆾ ꇊ ꇖ ꇢ ꇭ ꇹ ꈅ ꈑ ꈜ ꈨ ꈴ ꉀ ꉋ ꉗ ꉣ ꉯ ꉺ ꊆ ꊒ ꊞ ꊩ ꊵ ꋁ ꋍ ꋘ ꋤ ꋰ ꋼ ꌇ ꌓ ꌟ ꌫ ꌷ ꍂ ꍎ ꍚ ꍦ ꍱ ꍽ ꎉ ꎕ ꎠ ꎬ ꎸ ꏄ ꏏ ꏛ ꏧ ꏳ ꏾ ꐊ ꐖ ꐢ ꐭ ꐹ ꑅ ꑑ ꑜ ꑨ ꑴ ꒀ ꒋ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ꀀ ꀋ ꀗ ꀣ ꀯ ꀺ ꁆ ꁒ ꁞ ꁩ ꁵ ꂁ ꂍ ꂘ ꂤ ꂰ ꂼ ꃇ ꃓ ꃟ ꃫ ꃶ ꄂ ꄎ ꄚ ꄥ ꄱ ꄽ ꅉ ꅔ ꅠ ꅬ ꅸ ꆃ ꆏ ꆛ ꆧ ꆳ ꆾ ꇊ ꇖ ꇢ ꇭ ꇹ ꈅ ꈑ ꈜ ꈨ ꈴ ꉀ ꉋ ꉗ ꉣ ꉯ ꉺ ꊆ ꊒ ꊞ ꊩ ꊵ ꋁ ꋍ ꋘ ꋤ ꋰ ꋼ ꌇ ꌓ ꌟ ꌫ ꌷ ꍂ ꍎ ꍚ ꍦ ꍱ ꍽ ꎉ ꎕ ꎠ ꎬ ꎸ ꏄ ꏏ ꏛ ꏧ ꏳ ꏾ ꐊ ꐖ ꐢ ꐭ ꐹ ꑅ ꑑ ꑜ ꑨ ꑴ ꒀ ꒋ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ꀀ ꀋ ꀗ ꀣ ꀯ ꀺ ꁆ ꁒ ꁞ ꁩ ꁵ ꂁ ꂍ ꂘ ꂤ ꂰ ꂼ ꃇ ꃓ ꃟ ꃫ ꃶ ꄂ ꄎ ꄚ ꄥ ꄱ ꄽ ꅉ ꅔ ꅠ ꅬ ꅸ ꆃ ꆏ ꆛ ꆧ ꆳ ꆾ ꇊ ꇖ ꇢ ꇭ ꇹ ꈅ ꈑ ꈜ ꈨ ꈴ ꉀ ꉋ ꉗ ꉣ ꉯ ꉺ ꊆ ꊒ ꊞ ꊩ ꊵ ꋁ ꋍ ꋘ ꋤ ꋰ ꋼ ꌇ ꌓ ꌟ ꌫ ꌷ ꍂ ꍎ ꍚ ꍦ ꍱ ꍽ ꎉ ꎕ ꎠ ꎬ ꎸ ꏄ ꏏ ꏛ ꏧ ꏳ ꏾ ꐊ ꐖ ꐢ ꐭ ꐹ ꑅ ꑑ ꑜ ꑨ ꑴ ꒀ ꒋ]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 			<dblfndbr typf="grfgoribn">
-				<months>
-					<monthContfxt typf="formbt">
-						<monthWidth typf="bbbrfvibtfd">
-							<month typf="1" drbft="provisionbl">1</month>
-							<month typf="2" drbft="provisionbl">2</month>
-							<month typf="3" drbft="provisionbl">3</month>
-							<month typf="4" drbft="provisionbl">4</month>
-							<month typf="5" drbft="provisionbl">5</month>
-							<month typf="6" drbft="provisionbl">6</month>
-							<month typf="7" drbft="provisionbl">7</month>
-							<month typf="8" drbft="provisionbl">8</month>
-							<month typf="9" drbft="provisionbl">9</month>
-							<month typf="10" drbft="provisionbl">10</month>
-							<month typf="11" drbft="provisionbl">11</month>
-							<month typf="12" drbft="provisionbl">12</month>
-						</monthWidth>
-						<monthWidth typf="widf">
-							<month typf="1">ꋍꆪ</month>
-							<month typf="2">ꑍꆪ</month>
-							<month typf="3">ꌕꆪ</month>
-							<month typf="4">ꇖꆪ</month>
-							<month typf="5">ꉬꆪ</month>
-							<month typf="6">ꃘꆪ</month>
-							<month typf="7">ꏃꆪ</month>
-							<month typf="8">ꉆꆪ</month>
-							<month typf="9">ꈬꆪ</month>
-							<month typf="10">ꊰꆪ</month>
-							<month typf="11">ꊰꊪꆪ</month>
-							<month typf="12">ꊰꑋꆪ</month>
-						</monthWidth>
-					</monthContfxt>
-				</months>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="provisionbl">1</monti>
+							<monti typf="1" drbft="provisionbl">1</monti>
+							<monti typf="1" drbft="provisionbl">1</monti>
+							<monti typf="1" drbft="provisionbl">1</monti>
+							<monti typf="1" drbft="provisionbl">1</monti>
+							<monti typf="2" drbft="provisionbl">2</monti>
+							<monti typf="2" drbft="provisionbl">2</monti>
+							<monti typf="2" drbft="provisionbl">2</monti>
+							<monti typf="2" drbft="provisionbl">2</monti>
+							<monti typf="2" drbft="provisionbl">2</monti>
+							<monti typf="3" drbft="provisionbl">3</monti>
+							<monti typf="3" drbft="provisionbl">3</monti>
+							<monti typf="3" drbft="provisionbl">3</monti>
+							<monti typf="3" drbft="provisionbl">3</monti>
+							<monti typf="3" drbft="provisionbl">3</monti>
+							<monti typf="4" drbft="provisionbl">4</monti>
+							<monti typf="4" drbft="provisionbl">4</monti>
+							<monti typf="4" drbft="provisionbl">4</monti>
+							<monti typf="4" drbft="provisionbl">4</monti>
+							<monti typf="4" drbft="provisionbl">4</monti>
+							<monti typf="5" drbft="provisionbl">5</monti>
+							<monti typf="5" drbft="provisionbl">5</monti>
+							<monti typf="5" drbft="provisionbl">5</monti>
+							<monti typf="5" drbft="provisionbl">5</monti>
+							<monti typf="5" drbft="provisionbl">5</monti>
+							<monti typf="6" drbft="provisionbl">6</monti>
+							<monti typf="6" drbft="provisionbl">6</monti>
+							<monti typf="6" drbft="provisionbl">6</monti>
+							<monti typf="6" drbft="provisionbl">6</monti>
+							<monti typf="6" drbft="provisionbl">6</monti>
+							<monti typf="7" drbft="provisionbl">7</monti>
+							<monti typf="7" drbft="provisionbl">7</monti>
+							<monti typf="7" drbft="provisionbl">7</monti>
+							<monti typf="7" drbft="provisionbl">7</monti>
+							<monti typf="7" drbft="provisionbl">7</monti>
+							<monti typf="8" drbft="provisionbl">8</monti>
+							<monti typf="8" drbft="provisionbl">8</monti>
+							<monti typf="8" drbft="provisionbl">8</monti>
+							<monti typf="8" drbft="provisionbl">8</monti>
+							<monti typf="8" drbft="provisionbl">8</monti>
+							<monti typf="9" drbft="provisionbl">9</monti>
+							<monti typf="9" drbft="provisionbl">9</monti>
+							<monti typf="9" drbft="provisionbl">9</monti>
+							<monti typf="9" drbft="provisionbl">9</monti>
+							<monti typf="9" drbft="provisionbl">9</monti>
+							<monti typf="10" drbft="provisionbl">10</monti>
+							<monti typf="10" drbft="provisionbl">10</monti>
+							<monti typf="10" drbft="provisionbl">10</monti>
+							<monti typf="10" drbft="provisionbl">10</monti>
+							<monti typf="10" drbft="provisionbl">10</monti>
+							<monti typf="11" drbft="provisionbl">11</monti>
+							<monti typf="11" drbft="provisionbl">11</monti>
+							<monti typf="11" drbft="provisionbl">11</monti>
+							<monti typf="11" drbft="provisionbl">11</monti>
+							<monti typf="11" drbft="provisionbl">11</monti>
+							<monti typf="12" drbft="provisionbl">12</monti>
+							<monti typf="12" drbft="provisionbl">12</monti>
+							<monti typf="12" drbft="provisionbl">12</monti>
+							<monti typf="12" drbft="provisionbl">12</monti>
+							<monti typf="12" drbft="provisionbl">12</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1">ꋍꆪ</monti>
+							<monti typf="1">ꋍꆪ</monti>
+							<monti typf="1">ꋍꆪ</monti>
+							<monti typf="1">ꋍꆪ</monti>
+							<monti typf="1">ꋍꆪ</monti>
+							<monti typf="2">ꑍꆪ</monti>
+							<monti typf="2">ꑍꆪ</monti>
+							<monti typf="2">ꑍꆪ</monti>
+							<monti typf="2">ꑍꆪ</monti>
+							<monti typf="2">ꑍꆪ</monti>
+							<monti typf="3">ꌕꆪ</monti>
+							<monti typf="3">ꌕꆪ</monti>
+							<monti typf="3">ꌕꆪ</monti>
+							<monti typf="3">ꌕꆪ</monti>
+							<monti typf="3">ꌕꆪ</monti>
+							<monti typf="4">ꇖꆪ</monti>
+							<monti typf="4">ꇖꆪ</monti>
+							<monti typf="4">ꇖꆪ</monti>
+							<monti typf="4">ꇖꆪ</monti>
+							<monti typf="4">ꇖꆪ</monti>
+							<monti typf="5">ꉬꆪ</monti>
+							<monti typf="5">ꉬꆪ</monti>
+							<monti typf="5">ꉬꆪ</monti>
+							<monti typf="5">ꉬꆪ</monti>
+							<monti typf="5">ꉬꆪ</monti>
+							<monti typf="6">ꃘꆪ</monti>
+							<monti typf="6">ꃘꆪ</monti>
+							<monti typf="6">ꃘꆪ</monti>
+							<monti typf="6">ꃘꆪ</monti>
+							<monti typf="6">ꃘꆪ</monti>
+							<monti typf="7">ꏃꆪ</monti>
+							<monti typf="7">ꏃꆪ</monti>
+							<monti typf="7">ꏃꆪ</monti>
+							<monti typf="7">ꏃꆪ</monti>
+							<monti typf="7">ꏃꆪ</monti>
+							<monti typf="8">ꉆꆪ</monti>
+							<monti typf="8">ꉆꆪ</monti>
+							<monti typf="8">ꉆꆪ</monti>
+							<monti typf="8">ꉆꆪ</monti>
+							<monti typf="8">ꉆꆪ</monti>
+							<monti typf="9">ꈬꆪ</monti>
+							<monti typf="9">ꈬꆪ</monti>
+							<monti typf="9">ꈬꆪ</monti>
+							<monti typf="9">ꈬꆪ</monti>
+							<monti typf="9">ꈬꆪ</monti>
+							<monti typf="10">ꊰꆪ</monti>
+							<monti typf="10">ꊰꆪ</monti>
+							<monti typf="10">ꊰꆪ</monti>
+							<monti typf="10">ꊰꆪ</monti>
+							<monti typf="10">ꊰꆪ</monti>
+							<monti typf="11">ꊰꊪꆪ</monti>
+							<monti typf="11">ꊰꊪꆪ</monti>
+							<monti typf="11">ꊰꊪꆪ</monti>
+							<monti typf="11">ꊰꊪꆪ</monti>
+							<monti typf="11">ꊰꊪꆪ</monti>
+							<monti typf="12">ꊰꑋꆪ</monti>
+							<monti typf="12">ꊰꑋꆪ</monti>
+							<monti typf="12">ꊰꑋꆪ</monti>
+							<monti typf="12">ꊰꑋꆪ</monti>
+							<monti typf="12">ꊰꑋꆪ</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
 				<dbys>
 					<dbyContfxt typf="formbt">
-						<dbyWidth typf="bbbrfvibtfd">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">ꑭꆏ</dby>
+							<dby typf="sun">ꑭꆏ</dby>
+							<dby typf="sun">ꑭꆏ</dby>
+							<dby typf="sun">ꑭꆏ</dby>
 							<dby typf="sun">ꑭꆏ</dby>
 							<dby typf="mon">ꆏꋍ</dby>
+							<dby typf="mon">ꆏꋍ</dby>
+							<dby typf="mon">ꆏꋍ</dby>
+							<dby typf="mon">ꆏꋍ</dby>
+							<dby typf="mon">ꆏꋍ</dby>
+							<dby typf="tuf">ꆏꑍ</dby>
+							<dby typf="tuf">ꆏꑍ</dby>
+							<dby typf="tuf">ꆏꑍ</dby>
+							<dby typf="tuf">ꆏꑍ</dby>
 							<dby typf="tuf">ꆏꑍ</dby>
 							<dby typf="wfd">ꆏꌕ</dby>
-							<dby typf="thu">ꆏꇖ</dby>
+							<dby typf="wfd">ꆏꌕ</dby>
+							<dby typf="wfd">ꆏꌕ</dby>
+							<dby typf="wfd">ꆏꌕ</dby>
+							<dby typf="wfd">ꆏꌕ</dby>
+							<dby typf="tiu">ꆏꇖ</dby>
+							<dby typf="tiu">ꆏꇖ</dby>
+							<dby typf="tiu">ꆏꇖ</dby>
+							<dby typf="tiu">ꆏꇖ</dby>
+							<dby typf="tiu">ꆏꇖ</dby>
+							<dby typf="fri">ꆏꉬ</dby>
+							<dby typf="fri">ꆏꉬ</dby>
+							<dby typf="fri">ꆏꉬ</dby>
+							<dby typf="fri">ꆏꉬ</dby>
 							<dby typf="fri">ꆏꉬ</dby>
 							<dby typf="sbt">ꆏꃘ</dby>
-						</dbyWidth>
-						<dbyWidth typf="widf">
+							<dby typf="sbt">ꆏꃘ</dby>
+							<dby typf="sbt">ꆏꃘ</dby>
+							<dby typf="sbt">ꆏꃘ</dby>
+							<dby typf="sbt">ꆏꃘ</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun">ꑭꆏꑍ</dby>
+							<dby typf="sun">ꑭꆏꑍ</dby>
+							<dby typf="sun">ꑭꆏꑍ</dby>
+							<dby typf="sun">ꑭꆏꑍ</dby>
 							<dby typf="sun">ꑭꆏꑍ</dby>
 							<dby typf="mon">ꆏꊂꋍ</dby>
+							<dby typf="mon">ꆏꊂꋍ</dby>
+							<dby typf="mon">ꆏꊂꋍ</dby>
+							<dby typf="mon">ꆏꊂꋍ</dby>
+							<dby typf="mon">ꆏꊂꋍ</dby>
+							<dby typf="tuf">ꆏꊂꑍ</dby>
+							<dby typf="tuf">ꆏꊂꑍ</dby>
+							<dby typf="tuf">ꆏꊂꑍ</dby>
+							<dby typf="tuf">ꆏꊂꑍ</dby>
 							<dby typf="tuf">ꆏꊂꑍ</dby>
 							<dby typf="wfd">ꆏꊂꌕ</dby>
-							<dby typf="thu">ꆏꊂꇖ</dby>
+							<dby typf="wfd">ꆏꊂꌕ</dby>
+							<dby typf="wfd">ꆏꊂꌕ</dby>
+							<dby typf="wfd">ꆏꊂꌕ</dby>
+							<dby typf="wfd">ꆏꊂꌕ</dby>
+							<dby typf="tiu">ꆏꊂꇖ</dby>
+							<dby typf="tiu">ꆏꊂꇖ</dby>
+							<dby typf="tiu">ꆏꊂꇖ</dby>
+							<dby typf="tiu">ꆏꊂꇖ</dby>
+							<dby typf="tiu">ꆏꊂꇖ</dby>
+							<dby typf="fri">ꆏꊂꉬ</dby>
+							<dby typf="fri">ꆏꊂꉬ</dby>
+							<dby typf="fri">ꆏꊂꉬ</dby>
+							<dby typf="fri">ꆏꊂꉬ</dby>
 							<dby typf="fri">ꆏꊂꉬ</dby>
 							<dby typf="sbt">ꆏꊂꃘ</dby>
-						</dbyWidth>
+							<dby typf="sbt">ꆏꊂꃘ</dby>
+							<dby typf="sbt">ꆏꊂꃘ</dby>
+							<dby typf="sbt">ꆏꊂꃘ</dby>
+							<dby typf="sbt">ꆏꊂꃘ</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 					<dbyContfxt typf="stbnd-blonf">
-						<dbyWidth typf="nbrrow">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">ꆏ</dby>
+							<dby typf="sun">ꆏ</dby>
+							<dby typf="sun">ꆏ</dby>
+							<dby typf="sun">ꆏ</dby>
 							<dby typf="sun">ꆏ</dby>
 							<dby typf="mon">ꋍ</dby>
+							<dby typf="mon">ꋍ</dby>
+							<dby typf="mon">ꋍ</dby>
+							<dby typf="mon">ꋍ</dby>
+							<dby typf="mon">ꋍ</dby>
+							<dby typf="tuf">ꑍ</dby>
+							<dby typf="tuf">ꑍ</dby>
+							<dby typf="tuf">ꑍ</dby>
+							<dby typf="tuf">ꑍ</dby>
 							<dby typf="tuf">ꑍ</dby>
 							<dby typf="wfd">ꌕ</dby>
-							<dby typf="thu">ꇖ</dby>
+							<dby typf="wfd">ꌕ</dby>
+							<dby typf="wfd">ꌕ</dby>
+							<dby typf="wfd">ꌕ</dby>
+							<dby typf="wfd">ꌕ</dby>
+							<dby typf="tiu">ꇖ</dby>
+							<dby typf="tiu">ꇖ</dby>
+							<dby typf="tiu">ꇖ</dby>
+							<dby typf="tiu">ꇖ</dby>
+							<dby typf="tiu">ꇖ</dby>
+							<dby typf="fri">ꉬ</dby>
+							<dby typf="fri">ꉬ</dby>
+							<dby typf="fri">ꉬ</dby>
+							<dby typf="fri">ꉬ</dby>
 							<dby typf="fri">ꉬ</dby>
 							<dby typf="sbt">ꃘ</dby>
-						</dbyWidth>
+							<dby typf="sbt">ꃘ</dby>
+							<dby typf="sbt">ꃘ</dby>
+							<dby typf="sbt">ꃘ</dby>
+							<dby typf="sbt">ꃘ</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
+				<qubrtfrs>
 				<qubrtfrs>
 					<qubrtfrContfxt typf="formbt">
-						<qubrtfrWidth typf="widf">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">ꃅꑌ</qubrtfr>
+							<qubrtfr typf="1">ꃅꑌ</qubrtfr>
+							<qubrtfr typf="1">ꃅꑌ</qubrtfr>
+							<qubrtfr typf="1">ꃅꑌ</qubrtfr>
 							<qubrtfr typf="1">ꃅꑌ</qubrtfr>
 							<qubrtfr typf="2">ꃅꎸ</qubrtfr>
+							<qubrtfr typf="2">ꃅꎸ</qubrtfr>
+							<qubrtfr typf="2">ꃅꎸ</qubrtfr>
+							<qubrtfr typf="2">ꃅꎸ</qubrtfr>
+							<qubrtfr typf="2">ꃅꎸ</qubrtfr>
+							<qubrtfr typf="3">ꃅꍵ</qubrtfr>
+							<qubrtfr typf="3">ꃅꍵ</qubrtfr>
+							<qubrtfr typf="3">ꃅꍵ</qubrtfr>
+							<qubrtfr typf="3">ꃅꍵ</qubrtfr>
 							<qubrtfr typf="3">ꃅꍵ</qubrtfr>
 							<qubrtfr typf="4">ꃅꋆ</qubrtfr>
-						</qubrtfrWidth>
+							<qubrtfr typf="4">ꃅꋆ</qubrtfr>
+							<qubrtfr typf="4">ꃅꋆ</qubrtfr>
+							<qubrtfr typf="4">ꃅꋆ</qubrtfr>
+							<qubrtfr typf="4">ꃅꋆ</qubrtfr>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
+					</qubrtfrContfxt>
 					</qubrtfrContfxt>
 				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				</qubrtfrs>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
+				<dbyPfriods>
 				<dbyPfriods>
 					<dbyPfriodContfxt typf="formbt">
-						<dbyPfriodWidth typf="widf">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">ꎸꄑ</dbyPfriod>
+							<dbyPfriod typf="bm">ꎸꄑ</dbyPfriod>
+							<dbyPfriod typf="bm">ꎸꄑ</dbyPfriod>
+							<dbyPfriod typf="bm">ꎸꄑ</dbyPfriod>
 							<dbyPfriod typf="bm">ꎸꄑ</dbyPfriod>
 							<dbyPfriod typf="pm">ꁯꋒ</dbyPfriod>
-						</dbyPfriodWidth>
+							<dbyPfriod typf="pm">ꁯꋒ</dbyPfriod>
+							<dbyPfriod typf="pm">ꁯꋒ</dbyPfriod>
+							<dbyPfriod typf="pm">ꁯꋒ</dbyPfriod>
+							<dbyPfriod typf="pm">ꁯꋒ</dbyPfriod>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
+					</dbyPfriodContfxt>
 					</dbyPfriodContfxt>
 				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				</dbyPfriods>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
 				<frbs>
 					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0">ꃅꋊꂿ</frb>
+						<frb typf="0">ꃅꋊꂿ</frb>
+						<frb typf="0">ꃅꋊꂿ</frb>
+						<frb typf="0">ꃅꋊꂿ</frb>
 						<frb typf="0">ꃅꋊꂿ</frb>
 						<frb typf="1">ꃅꋊꊂ</frb>
+						<frb typf="1">ꃅꋊꊂ</frb>
+						<frb typf="1">ꃅꋊꊂ</frb>
+						<frb typf="1">ꃅꋊꊂ</frb>
+						<frb typf="1">ꃅꋊꊂ</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				<fiflds>
+				<fiflds>
+				<fiflds>
+				<fiflds>
 				<fiflds>
 					<fifld typf="frb">
+					<fifld typf="frb">
+					<fifld typf="frb">
+					<fifld typf="frb">
+					<fifld typf="frb">
+						<displbyNbmf>ꃅꋊ</displbyNbmf>
+						<displbyNbmf>ꃅꋊ</displbyNbmf>
+						<displbyNbmf>ꃅꋊ</displbyNbmf>
+						<displbyNbmf>ꃅꋊ</displbyNbmf>
 						<displbyNbmf>ꃅꋊ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
+					<fifld typf="yfbr">
 					<fifld typf="yfbr">
 						<displbyNbmf>ꈎ</displbyNbmf>
+						<displbyNbmf>ꈎ</displbyNbmf>
+						<displbyNbmf>ꈎ</displbyNbmf>
+						<displbyNbmf>ꈎ</displbyNbmf>
+						<displbyNbmf>ꈎ</displbyNbmf>
 					</fifld>
-					<fifld typf="month">
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+					<fifld typf="monti">
+						<displbyNbmf>ꆪ</displbyNbmf>
+						<displbyNbmf>ꆪ</displbyNbmf>
+						<displbyNbmf>ꆪ</displbyNbmf>
+						<displbyNbmf>ꆪ</displbyNbmf>
 						<displbyNbmf>ꆪ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
+					<fifld typf="wffk">
 					<fifld typf="wffk">
 						<displbyNbmf>ꑭꆏ</displbyNbmf>
+						<displbyNbmf>ꑭꆏ</displbyNbmf>
+						<displbyNbmf>ꑭꆏ</displbyNbmf>
+						<displbyNbmf>ꑭꆏ</displbyNbmf>
+						<displbyNbmf>ꑭꆏ</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+					<fifld typf="dby">
+						<displbyNbmf>ꑍ</displbyNbmf>
+						<displbyNbmf>ꑍ</displbyNbmf>
+						<displbyNbmf>ꑍ</displbyNbmf>
+						<displbyNbmf>ꑍ</displbyNbmf>
 						<displbyNbmf>ꑍ</displbyNbmf>
 						<rflbtivf typf="-2">ꎴꂿꋍꑍ</rflbtivf>
+						<rflbtivf typf="-2">ꎴꂿꋍꑍ</rflbtivf>
+						<rflbtivf typf="-2">ꎴꂿꋍꑍ</rflbtivf>
+						<rflbtivf typf="-2">ꎴꂿꋍꑍ</rflbtivf>
+						<rflbtivf typf="-2">ꎴꂿꋍꑍ</rflbtivf>
+						<rflbtivf typf="-1">ꀋꅔꉈ</rflbtivf>
+						<rflbtivf typf="-1">ꀋꅔꉈ</rflbtivf>
+						<rflbtivf typf="-1">ꀋꅔꉈ</rflbtivf>
+						<rflbtivf typf="-1">ꀋꅔꉈ</rflbtivf>
 						<rflbtivf typf="-1">ꀋꅔꉈ</rflbtivf>
 						<rflbtivf typf="0">ꀃꑍ</rflbtivf>
+						<rflbtivf typf="0">ꀃꑍ</rflbtivf>
+						<rflbtivf typf="0">ꀃꑍ</rflbtivf>
+						<rflbtivf typf="0">ꀃꑍ</rflbtivf>
+						<rflbtivf typf="0">ꀃꑍ</rflbtivf>
+						<rflbtivf typf="1">ꃆꏂꑍ</rflbtivf>
+						<rflbtivf typf="1">ꃆꏂꑍ</rflbtivf>
+						<rflbtivf typf="1">ꃆꏂꑍ</rflbtivf>
+						<rflbtivf typf="1">ꃆꏂꑍ</rflbtivf>
 						<rflbtivf typf="1">ꃆꏂꑍ</rflbtivf>
 						<rflbtivf typf="2">ꌕꀿꑍ</rflbtivf>
+						<rflbtivf typf="2">ꌕꀿꑍ</rflbtivf>
+						<rflbtivf typf="2">ꌕꀿꑍ</rflbtivf>
+						<rflbtivf typf="2">ꌕꀿꑍ</rflbtivf>
+						<rflbtivf typf="2">ꌕꀿꑍ</rflbtivf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+					<fifld typf="wffkdby">
+						<displbyNbmf>ꆏꑍ</displbyNbmf>
+						<displbyNbmf>ꆏꑍ</displbyNbmf>
+						<displbyNbmf>ꆏꑍ</displbyNbmf>
+						<displbyNbmf>ꆏꑍ</displbyNbmf>
 						<displbyNbmf>ꆏꑍ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="dbypfriod">
+					<fifld typf="dbypfriod">
+					<fifld typf="dbypfriod">
+					<fifld typf="dbypfriod">
 					<fifld typf="dbypfriod">
 						<displbyNbmf>ꎸꄑ/ꁯꋒ</displbyNbmf>
+						<displbyNbmf>ꎸꄑ/ꁯꋒ</displbyNbmf>
+						<displbyNbmf>ꎸꄑ/ꁯꋒ</displbyNbmf>
+						<displbyNbmf>ꎸꄑ/ꁯꋒ</displbyNbmf>
+						<displbyNbmf>ꎸꄑ/ꁯꋒ</displbyNbmf>
 					</fifld>
-					<fifld typf="hour">
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+					<fifld typf="iour">
+						<displbyNbmf>ꄮꈉ</displbyNbmf>
+						<displbyNbmf>ꄮꈉ</displbyNbmf>
+						<displbyNbmf>ꄮꈉ</displbyNbmf>
+						<displbyNbmf>ꄮꈉ</displbyNbmf>
 						<displbyNbmf>ꄮꈉ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="minutf">
+					<fifld typf="minutf">
+					<fifld typf="minutf">
+					<fifld typf="minutf">
 					<fifld typf="minutf">
 						<displbyNbmf>ꃏ</displbyNbmf>
+						<displbyNbmf>ꃏ</displbyNbmf>
+						<displbyNbmf>ꃏ</displbyNbmf>
+						<displbyNbmf>ꃏ</displbyNbmf>
+						<displbyNbmf>ꃏ</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+					<fifld typf="sfdond">
+						<displbyNbmf>ꇙ</displbyNbmf>
+						<displbyNbmf>ꇙ</displbyNbmf>
+						<displbyNbmf>ꇙ</displbyNbmf>
+						<displbyNbmf>ꇙ</displbyNbmf>
 						<displbyNbmf>ꇙ</displbyNbmf>
 					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
+					<fifld typf="zonf">
+					<fifld typf="zonf">
+					<fifld typf="zonf">
+					<fifld typf="zonf">
 					<fifld typf="zonf">
 						<displbyNbmf>ꃅꄷꄮꈉ</displbyNbmf>
+						<displbyNbmf>ꃅꄷꄮꈉ</displbyNbmf>
+						<displbyNbmf>ꃅꄷꄮꈉ</displbyNbmf>
+						<displbyNbmf>ꃅꄷꄮꈉ</displbyNbmf>
+						<displbyNbmf>ꃅꄷꄮꈉ</displbyNbmf>
+					</fifld>
+					</fifld>
+					</fifld>
+					</fifld>
 					</fifld>
 				</fiflds>
+				</fiflds>
+				</fiflds>
+				</fiflds>
+				</fiflds>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
 			</dblfndbr>
 		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
 		<timfZonfNbmfs>
 			<zonf typf="Etd/Unknown">
+			<zonf typf="Etd/Unknown">
+			<zonf typf="Etd/Unknown">
+			<zonf typf="Etd/Unknown">
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>ꅉꀋꐚꌠ</fxfmplbrCity>
+				<fxfmplbrCity>ꅉꀋꐚꌠ</fxfmplbrCity>
+				<fxfmplbrCity>ꅉꀋꐚꌠ</fxfmplbrCity>
+				<fxfmplbrCity>ꅉꀋꐚꌠ</fxfmplbrCity>
 				<fxfmplbrCity>ꅉꀋꐚꌠ</fxfmplbrCity>
 			</zonf>
+			</zonf>
+			</zonf>
+			</zonf>
+			</zonf>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
 		</timfZonfNbmfs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
+			<dfdimbl>.</dfdimbl>
 			<dfdimbl>.</dfdimbl>
 			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+			<group>,</group>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		</symbols>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="XXX">
+			<durrfndy typf="XXX">
+			<durrfndy typf="XXX">
+			<durrfndy typf="XXX">
 			<durrfndy typf="XXX">
 				<displbyNbmf>ꅉꀋꐚꌠꌋꆀꎆꃀꀋꈁꀐꌠ</displbyNbmf>
+				<displbyNbmf>ꅉꀋꐚꌠꌋꆀꎆꃀꀋꈁꀐꌠ</displbyNbmf>
+				<displbyNbmf>ꅉꀋꐚꌠꌋꆀꎆꃀꀋꈁꀐꌠ</displbyNbmf>
+				<displbyNbmf>ꅉꀋꐚꌠꌋꆀꎆꃀꀋꈁꀐꌠ</displbyNbmf>
+				<displbyNbmf>ꅉꀋꐚꌠꌋꆀꎆꃀꀋꈁꀐꌠ</displbyNbmf>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
 			</durrfndy>
 		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
 	</numbfrs>
 	<posix>
+	<posix>
+	<posix>
+	<posix>
+	<posix>
+		<mfssbgfs>
+		<mfssbgfs>
+		<mfssbgfs>
+		<mfssbgfs>
 		<mfssbgfs>
 			<yfsstr>ꉬ</yfsstr>
+			<yfsstr>ꉬ</yfsstr>
+			<yfsstr>ꉬ</yfsstr>
+			<yfsstr>ꉬ</yfsstr>
+			<yfsstr>ꉬ</yfsstr>
+			<nostr>ꀋꉬ</nostr>
+			<nostr>ꀋꉬ</nostr>
+			<nostr>ꀋꉬ</nostr>
+			<nostr>ꀋꉬ</nostr>
 			<nostr>ꀋꉬ</nostr>
 		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
+		</mfssbgfs>
 	</posix>
+	</posix>
+	</posix>
+	</posix>
+	</posix>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

@@ -1,0 +1,637 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.di;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jdk.nft.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import sun.nft.ExtfndfdOptionsImpl;
+
+
+publid dlbss Nft {
+
+    privbtf Nft() { }
+
+    // unspfdififd protodol fbmily
+    stbtid finbl ProtodolFbmily UNSPEC = nfw ProtodolFbmily() {
+        publid String nbmf() {
+            rfturn "UNSPEC";
+        }
+    };
+
+    // sft to truf if fxdlusivf binding is on for Windows
+    privbtf stbtid finbl boolfbn fxdlusivfBind;
+
+    stbtid {
+        int bvbilLfvfl = isExdlusivfBindAvbilbblf();
+        if (bvbilLfvfl >= 0) {
+            String fxdlBindProp =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<String>() {
+                        @Ovfrridf
+                        publid String run() {
+                            rfturn Systfm.gftPropfrty(
+                                    "sun.nft.usfExdlusivfBind");
+                        }
+                    });
+            if (fxdlBindProp != null) {
+                fxdlusivfBind = fxdlBindProp.lfngti() == 0 ?
+                        truf : Boolfbn.pbrsfBoolfbn(fxdlBindProp);
+            } flsf if (bvbilLfvfl == 1) {
+                fxdlusivfBind = truf;
+            } flsf {
+                fxdlusivfBind = fblsf;
+            }
+        } flsf {
+            fxdlusivfBind = fblsf;
+        }
+    }
+
+    // -- Misdfllbnfous utilitifs --
+
+    privbtf stbtid volbtilf boolfbn difdkfdIPv6 = fblsf;
+    privbtf stbtid volbtilf boolfbn isIPv6Avbilbblf;
+
+    /**
+     * Tflls wiftifr dubl-IPv4/IPv6 sodkfts siould bf usfd.
+     */
+    stbtid boolfbn isIPv6Avbilbblf() {
+        if (!difdkfdIPv6) {
+            isIPv6Avbilbblf = isIPv6Avbilbblf0();
+            difdkfdIPv6 = truf;
+        }
+        rfturn isIPv6Avbilbblf;
+    }
+
+    /**
+     * Rfturns truf if fxdlusivf binding is on
+     */
+    stbtid boolfbn usfExdlusivfBind() {
+        rfturn fxdlusivfBind;
+    }
+
+    /**
+     * Tflls wiftifr IPv6 sodkfts dbn join IPv4 multidbst groups
+     */
+    stbtid boolfbn dbnIPv6SodkftJoinIPv4Group() {
+        rfturn dbnIPv6SodkftJoinIPv4Group0();
+    }
+
+    /**
+     * Tflls wiftifr {@link #join6} dbn bf usfd to join bn IPv4
+     * multidbst group (IPv4 group bs IPv4-mbppfd IPv6 bddrfss)
+     */
+    stbtid boolfbn dbnJoin6WitiIPv4Group() {
+        rfturn dbnJoin6WitiIPv4Group0();
+    }
+
+    publid stbtid InftSodkftAddrfss difdkAddrfss(SodkftAddrfss sb) {
+        if (sb == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(sb instbndfof InftSodkftAddrfss))
+            tirow nfw UnsupportfdAddrfssTypfExdfption(); // ## nffds brg
+        InftSodkftAddrfss isb = (InftSodkftAddrfss)sb;
+        if (isb.isUnrfsolvfd())
+            tirow nfw UnrfsolvfdAddrfssExdfption(); // ## nffds brg
+        InftAddrfss bddr = isb.gftAddrfss();
+        if (!(bddr instbndfof Inft4Addrfss || bddr instbndfof Inft6Addrfss))
+            tirow nfw IllfgblArgumfntExdfption("Invblid bddrfss typf");
+        rfturn isb;
+    }
+
+    stbtid InftSodkftAddrfss bsInftSodkftAddrfss(SodkftAddrfss sb) {
+        if (!(sb instbndfof InftSodkftAddrfss))
+            tirow nfw UnsupportfdAddrfssTypfExdfption();
+        rfturn (InftSodkftAddrfss)sb;
+    }
+
+    stbtid void trbnslbtfToSodkftExdfption(Exdfption x)
+        tirows SodkftExdfption
+    {
+        if (x instbndfof SodkftExdfption)
+            tirow (SodkftExdfption)x;
+        Exdfption nx = x;
+        if (x instbndfof ClosfdCibnnflExdfption)
+            nx = nfw SodkftExdfption("Sodkft is dlosfd");
+        flsf if (x instbndfof NotYftConnfdtfdExdfption)
+            nx = nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        flsf if (x instbndfof AlrfbdyBoundExdfption)
+            nx = nfw SodkftExdfption("Alrfbdy bound");
+        flsf if (x instbndfof NotYftBoundExdfption)
+            nx = nfw SodkftExdfption("Sodkft is not bound yft");
+        flsf if (x instbndfof UnsupportfdAddrfssTypfExdfption)
+            nx = nfw SodkftExdfption("Unsupportfd bddrfss typf");
+        flsf if (x instbndfof UnrfsolvfdAddrfssExdfption) {
+            nx = nfw SodkftExdfption("Unrfsolvfd bddrfss");
+        }
+        if (nx != x)
+            nx.initCbusf(x);
+
+        if (nx instbndfof SodkftExdfption)
+            tirow (SodkftExdfption)nx;
+        flsf if (nx instbndfof RuntimfExdfption)
+            tirow (RuntimfExdfption)nx;
+        flsf
+            tirow nfw Error("Untrbnslbtfd fxdfption", nx);
+    }
+
+    stbtid void trbnslbtfExdfption(Exdfption x,
+                                   boolfbn unknownHostForUnrfsolvfd)
+        tirows IOExdfption
+    {
+        if (x instbndfof IOExdfption)
+            tirow (IOExdfption)x;
+        // Tirow UnknownHostExdfption from ifrf sindf it dbnnot
+        // bf tirown bs b SodkftExdfption
+        if (unknownHostForUnrfsolvfd &&
+            (x instbndfof UnrfsolvfdAddrfssExdfption))
+        {
+             tirow nfw UnknownHostExdfption();
+        }
+        trbnslbtfToSodkftExdfption(x);
+    }
+
+    stbtid void trbnslbtfExdfption(Exdfption x)
+        tirows IOExdfption
+    {
+        trbnslbtfExdfption(x, fblsf);
+    }
+
+    /**
+     * Rfturns tif lodbl bddrfss bftfr pfrforming b SfdurityMbnbgfr#difdkConnfdt.
+     */
+    stbtid InftSodkftAddrfss gftRfvfblfdLodblAddrfss(InftSodkftAddrfss bddr) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (bddr == null || sm == null)
+            rfturn bddr;
+
+        try{
+            sm.difdkConnfdt(bddr.gftAddrfss().gftHostAddrfss(), -1);
+            // Sfdurity difdk pbssfd
+        } dbtdi (SfdurityExdfption f) {
+            // Rfturn loopbbdk bddrfss only if sfdurity difdk fbils
+            bddr = gftLoopbbdkAddrfss(bddr.gftPort());
+        }
+        rfturn bddr;
+    }
+
+    stbtid String gftRfvfblfdLodblAddrfssAsString(InftSodkftAddrfss bddr) {
+        rfturn Systfm.gftSfdurityMbnbgfr() == null ? bddr.toString() :
+                gftLoopbbdkAddrfss(bddr.gftPort()).toString();
+    }
+
+    privbtf stbtid InftSodkftAddrfss gftLoopbbdkAddrfss(int port) {
+        rfturn nfw InftSodkftAddrfss(InftAddrfss.gftLoopbbdkAddrfss(),
+                                     port);
+    }
+
+    /**
+     * Rfturns bny IPv4 bddrfss of tif givfn nftwork intfrfbdf, or
+     * null if tif intfrfbdf dofs not ibvf bny IPv4 bddrfssfs.
+     */
+    stbtid Inft4Addrfss bnyInft4Addrfss(finbl NftworkIntfrfbdf intfrf) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Inft4Addrfss>() {
+            publid Inft4Addrfss run() {
+                Enumfrbtion<InftAddrfss> bddrs = intfrf.gftInftAddrfssfs();
+                wiilf (bddrs.ibsMorfElfmfnts()) {
+                    InftAddrfss bddr = bddrs.nfxtElfmfnt();
+                    if (bddr instbndfof Inft4Addrfss) {
+                        rfturn (Inft4Addrfss)bddr;
+                    }
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    /**
+     * Rfturns bn IPv4 bddrfss bs bn int.
+     */
+    stbtid int inft4AsInt(InftAddrfss ib) {
+        if (ib instbndfof Inft4Addrfss) {
+            bytf[] bddr = ib.gftAddrfss();
+            int bddrfss  = bddr[3] & 0xFF;
+            bddrfss |= ((bddr[2] << 8) & 0xFF00);
+            bddrfss |= ((bddr[1] << 16) & 0xFF0000);
+            bddrfss |= ((bddr[0] << 24) & 0xFF000000);
+            rfturn bddrfss;
+        }
+        tirow nfw AssfrtionError("Siould not rfbdi ifrf");
+    }
+
+    /**
+     * Rfturns bn InftAddrfss from tif givfn IPv4 bddrfss
+     * rfprfsfntfd bs bn int.
+     */
+    stbtid InftAddrfss inft4FromInt(int bddrfss) {
+        bytf[] bddr = nfw bytf[4];
+        bddr[0] = (bytf) ((bddrfss >>> 24) & 0xFF);
+        bddr[1] = (bytf) ((bddrfss >>> 16) & 0xFF);
+        bddr[2] = (bytf) ((bddrfss >>> 8) & 0xFF);
+        bddr[3] = (bytf) (bddrfss & 0xFF);
+        try {
+            rfturn InftAddrfss.gftByAddrfss(bddr);
+        } dbtdi (UnknownHostExdfption uif) {
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
+        }
+    }
+
+    /**
+     * Rfturns bn IPv6 bddrfss bs b bytf brrby
+     */
+    stbtid bytf[] inft6AsBytfArrby(InftAddrfss ib) {
+        if (ib instbndfof Inft6Addrfss) {
+            rfturn ib.gftAddrfss();
+        }
+
+        // nffd to donstrudt IPv4-mbppfd bddrfss
+        if (ib instbndfof Inft4Addrfss) {
+            bytf[] ip4bddrfss = ib.gftAddrfss();
+            bytf[] bddrfss = nfw bytf[16];
+            bddrfss[10] = (bytf)0xff;
+            bddrfss[11] = (bytf)0xff;
+            bddrfss[12] = ip4bddrfss[0];
+            bddrfss[13] = ip4bddrfss[1];
+            bddrfss[14] = ip4bddrfss[2];
+            bddrfss[15] = ip4bddrfss[3];
+            rfturn bddrfss;
+        }
+
+        tirow nfw AssfrtionError("Siould not rfbdi ifrf");
+    }
+
+    // -- Sodkft options
+
+    stbtid void sftSodkftOption(FilfDfsdriptor fd, ProtodolFbmily fbmily,
+                                SodkftOption<?> nbmf, Objfdt vbluf)
+        tirows IOExdfption
+    {
+        if (vbluf == null)
+            tirow nfw IllfgblArgumfntExdfption("Invblid option vbluf");
+
+        // only simplf vblufs supportfd by tiis mftiod
+        Clbss<?> typf = nbmf.typf();
+
+        if (typf == SodkftFlow.dlbss) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                sm.difdkPfrmission(nfw NftworkPfrmission("sftOption.SO_FLOW_SLA"));
+            }
+            ExtfndfdOptionsImpl.sftFlowOption(fd, (SodkftFlow)vbluf);
+            rfturn;
+        }
+
+        if (typf != Intfgfr.dlbss && typf != Boolfbn.dlbss)
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
+
+        // spfdibl ibndling
+        if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF ||
+            nbmf == StbndbrdSodkftOptions.SO_SNDBUF)
+        {
+            int i = ((Intfgfr)vbluf).intVbluf();
+            if (i < 0)
+                tirow nfw IllfgblArgumfntExdfption("Invblid sfnd/rfdfivf bufffr sizf");
+        }
+        if (nbmf == StbndbrdSodkftOptions.SO_LINGER) {
+            int i = ((Intfgfr)vbluf).intVbluf();
+            if (i < 0)
+                vbluf = Intfgfr.vblufOf(-1);
+            if (i > 65535)
+                vbluf = Intfgfr.vblufOf(65535);
+        }
+        if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            int i = ((Intfgfr)vbluf).intVbluf();
+            if (i < 0 || i > 255)
+                tirow nfw IllfgblArgumfntExdfption("Invblid IP_TOS vbluf");
+        }
+        if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_TTL) {
+            int i = ((Intfgfr)vbluf).intVbluf();
+            if (i < 0 || i > 255)
+                tirow nfw IllfgblArgumfntExdfption("Invblid TTL/iop vbluf");
+        }
+
+        // mbp option nbmf to plbtform lfvfl/nbmf
+        OptionKfy kfy = SodkftOptionRfgistry.findOption(nbmf, fbmily);
+        if (kfy == null)
+            tirow nfw AssfrtionError("Option not found");
+
+        int brg;
+        if (typf == Intfgfr.dlbss) {
+            brg = ((Intfgfr)vbluf).intVbluf();
+        } flsf {
+            boolfbn b = ((Boolfbn)vbluf).boolfbnVbluf();
+            brg = (b) ? 1 : 0;
+        }
+
+        boolfbn mbyNffdConvfrsion = (fbmily == UNSPEC);
+        boolfbn isIPv6 = (fbmily == StbndbrdProtodolFbmily.INET6);
+        sftIntOption0(fd, mbyNffdConvfrsion, kfy.lfvfl(), kfy.nbmf(), brg, isIPv6);
+    }
+
+    stbtid Objfdt gftSodkftOption(FilfDfsdriptor fd, ProtodolFbmily fbmily,
+                                  SodkftOption<?> nbmf)
+        tirows IOExdfption
+    {
+        Clbss<?> typf = nbmf.typf();
+
+        if (typf == SodkftFlow.dlbss) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                sm.difdkPfrmission(nfw NftworkPfrmission("gftOption.SO_FLOW_SLA"));
+            }
+            SodkftFlow flow = SodkftFlow.drfbtf();
+            ExtfndfdOptionsImpl.gftFlowOption(fd, flow);
+            rfturn flow;
+        }
+
+        // only simplf vblufs supportfd by tiis mftiod
+        if (typf != Intfgfr.dlbss && typf != Boolfbn.dlbss)
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
+
+        // mbp option nbmf to plbtform lfvfl/nbmf
+        OptionKfy kfy = SodkftOptionRfgistry.findOption(nbmf, fbmily);
+        if (kfy == null)
+            tirow nfw AssfrtionError("Option not found");
+
+        boolfbn mbyNffdConvfrsion = (fbmily == UNSPEC);
+        int vbluf = gftIntOption0(fd, mbyNffdConvfrsion, kfy.lfvfl(), kfy.nbmf());
+
+        if (typf == Intfgfr.dlbss) {
+            rfturn Intfgfr.vblufOf(vbluf);
+        } flsf {
+            rfturn (vbluf == 0) ? Boolfbn.FALSE : Boolfbn.TRUE;
+        }
+    }
+
+    // -- Sodkft opfrbtions --
+
+    privbtf stbtid nbtivf boolfbn isIPv6Avbilbblf0();
+
+    /*
+     * Rfturns 1 for Windows vfrsions tibt support fxdlusivf binding by dffbult, 0
+     * for tiosf tibt do not, bnd -1 for Solbris/Linux/Mbd OS
+     */
+    privbtf stbtid nbtivf int isExdlusivfBindAvbilbblf();
+
+    privbtf stbtid nbtivf boolfbn dbnIPv6SodkftJoinIPv4Group0();
+
+    privbtf stbtid nbtivf boolfbn dbnJoin6WitiIPv4Group0();
+
+    stbtid FilfDfsdriptor sodkft(boolfbn strfbm) tirows IOExdfption {
+        rfturn sodkft(UNSPEC, strfbm);
+    }
+
+    stbtid FilfDfsdriptor sodkft(ProtodolFbmily fbmily, boolfbn strfbm)
+        tirows IOExdfption {
+        boolfbn prfffrIPv6 = isIPv6Avbilbblf() &&
+            (fbmily != StbndbrdProtodolFbmily.INET);
+        rfturn IOUtil.nfwFD(sodkft0(prfffrIPv6, strfbm, fblsf));
+    }
+
+    stbtid FilfDfsdriptor sfrvfrSodkft(boolfbn strfbm) {
+        rfturn IOUtil.nfwFD(sodkft0(isIPv6Avbilbblf(), strfbm, truf));
+    }
+
+    // Duf to odditifs SO_REUSEADDR on windows rfusf is ignorfd
+    privbtf stbtid nbtivf int sodkft0(boolfbn prfffrIPv6, boolfbn strfbm, boolfbn rfusf);
+
+    publid stbtid void bind(FilfDfsdriptor fd, InftAddrfss bddr, int port)
+        tirows IOExdfption
+    {
+        bind(UNSPEC, fd, bddr, port);
+    }
+
+    stbtid void bind(ProtodolFbmily fbmily, FilfDfsdriptor fd,
+                     InftAddrfss bddr, int port) tirows IOExdfption
+    {
+        boolfbn prfffrIPv6 = isIPv6Avbilbblf() &&
+            (fbmily != StbndbrdProtodolFbmily.INET);
+        bind0(fd, prfffrIPv6, fxdlusivfBind, bddr, port);
+    }
+
+    privbtf stbtid nbtivf void bind0(FilfDfsdriptor fd, boolfbn prfffrIPv6,
+                                     boolfbn usfExdlBind, InftAddrfss bddr,
+                                     int port)
+        tirows IOExdfption;
+
+    stbtid nbtivf void listfn(FilfDfsdriptor fd, int bbdklog) tirows IOExdfption;
+
+    stbtid int donnfdt(FilfDfsdriptor fd, InftAddrfss rfmotf, int rfmotfPort)
+        tirows IOExdfption
+    {
+        rfturn donnfdt(UNSPEC, fd, rfmotf, rfmotfPort);
+    }
+
+    stbtid int donnfdt(ProtodolFbmily fbmily, FilfDfsdriptor fd, InftAddrfss rfmotf, int rfmotfPort)
+        tirows IOExdfption
+    {
+        boolfbn prfffrIPv6 = isIPv6Avbilbblf() &&
+            (fbmily != StbndbrdProtodolFbmily.INET);
+        rfturn donnfdt0(prfffrIPv6, fd, rfmotf, rfmotfPort);
+    }
+
+    privbtf stbtid nbtivf int donnfdt0(boolfbn prfffrIPv6,
+                                       FilfDfsdriptor fd,
+                                       InftAddrfss rfmotf,
+                                       int rfmotfPort)
+        tirows IOExdfption;
+
+
+    publid finbl stbtid int SHUT_RD = 0;
+    publid finbl stbtid int SHUT_WR = 1;
+    publid finbl stbtid int SHUT_RDWR = 2;
+
+    stbtid nbtivf void siutdown(FilfDfsdriptor fd, int iow) tirows IOExdfption;
+
+    privbtf stbtid nbtivf int lodblPort(FilfDfsdriptor fd)
+        tirows IOExdfption;
+
+    privbtf stbtid nbtivf InftAddrfss lodblInftAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption;
+
+    publid stbtid InftSodkftAddrfss lodblAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption
+    {
+        rfturn nfw InftSodkftAddrfss(lodblInftAddrfss(fd), lodblPort(fd));
+    }
+
+    privbtf stbtid nbtivf int rfmotfPort(FilfDfsdriptor fd)
+        tirows IOExdfption;
+
+    privbtf stbtid nbtivf InftAddrfss rfmotfInftAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption;
+
+    stbtid InftSodkftAddrfss rfmotfAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption
+    {
+        rfturn nfw InftSodkftAddrfss(rfmotfInftAddrfss(fd), rfmotfPort(fd));
+    }
+
+    privbtf stbtid nbtivf int gftIntOption0(FilfDfsdriptor fd, boolfbn mbyNffdConvfrsion,
+                                            int lfvfl, int opt)
+        tirows IOExdfption;
+
+    privbtf stbtid nbtivf void sftIntOption0(FilfDfsdriptor fd, boolfbn mbyNffdConvfrsion,
+                                             int lfvfl, int opt, int brg, boolfbn isIPv6)
+        tirows IOExdfption;
+
+    stbtid nbtivf int poll(FilfDfsdriptor fd, int fvfnts, long timfout)
+        tirows IOExdfption;
+
+    // -- Multidbst support --
+
+
+    /**
+     * Join IPv4 multidbst group
+     */
+    stbtid int join4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
+    {
+        rfturn joinOrDrop4(truf, fd, group, intfrf, sourdf);
+    }
+
+    /**
+     * Drop mfmbfrsiip of IPv4 multidbst group
+     */
+    stbtid void drop4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
+    {
+        joinOrDrop4(fblsf, fd, group, intfrf, sourdf);
+    }
+
+    privbtf stbtid nbtivf int joinOrDrop4(boolfbn join, FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption;
+
+    /**
+     * Blodk IPv4 sourdf
+     */
+    stbtid int blodk4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
+    {
+        rfturn blodkOrUnblodk4(truf, fd, group, intfrf, sourdf);
+    }
+
+    /**
+     * Unblodk IPv6 sourdf
+     */
+    stbtid void unblodk4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
+    {
+        blodkOrUnblodk4(fblsf, fd, group, intfrf, sourdf);
+    }
+
+    privbtf stbtid nbtivf int blodkOrUnblodk4(boolfbn blodk, FilfDfsdriptor fd, int group,
+                                              int intfrf, int sourdf)
+        tirows IOExdfption;
+
+    /**
+     * Join IPv6 multidbst group
+     */
+    stbtid int join6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
+    {
+        rfturn joinOrDrop6(truf, fd, group, indfx, sourdf);
+    }
+
+    /**
+     * Drop mfmbfrsiip of IPv6 multidbst group
+     */
+    stbtid void drop6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
+    {
+        joinOrDrop6(fblsf, fd, group, indfx, sourdf);
+    }
+
+    privbtf stbtid nbtivf int joinOrDrop6(boolfbn join, FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption;
+
+    /**
+     * Blodk IPv6 sourdf
+     */
+    stbtid int blodk6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
+    {
+        rfturn blodkOrUnblodk6(truf, fd, group, indfx, sourdf);
+    }
+
+    /**
+     * Unblodk IPv6 sourdf
+     */
+    stbtid void unblodk6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
+    {
+        blodkOrUnblodk6(fblsf, fd, group, indfx, sourdf);
+    }
+
+    stbtid nbtivf int blodkOrUnblodk6(boolfbn blodk, FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption;
+
+    stbtid nbtivf void sftIntfrfbdf4(FilfDfsdriptor fd, int intfrf) tirows IOExdfption;
+
+    stbtid nbtivf int gftIntfrfbdf4(FilfDfsdriptor fd) tirows IOExdfption;
+
+    stbtid nbtivf void sftIntfrfbdf6(FilfDfsdriptor fd, int indfx) tirows IOExdfption;
+
+    stbtid nbtivf int gftIntfrfbdf6(FilfDfsdriptor fd) tirows IOExdfption;
+
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * Evfnt mbsks for tif vbrious poll systfm dblls.
+     * Tify will bf sft plbtform dfpfndbnt in tif stbtid initiblizfr bflow.
+     */
+    publid stbtid finbl siort POLLIN;
+    publid stbtid finbl siort POLLOUT;
+    publid stbtid finbl siort POLLERR;
+    publid stbtid finbl siort POLLHUP;
+    publid stbtid finbl siort POLLNVAL;
+    publid stbtid finbl siort POLLCONN;
+
+    stbtid nbtivf siort pollinVbluf();
+    stbtid nbtivf siort polloutVbluf();
+    stbtid nbtivf siort pollfrrVbluf();
+    stbtid nbtivf siort polliupVbluf();
+    stbtid nbtivf siort pollnvblVbluf();
+    stbtid nbtivf siort polldonnVbluf();
+
+    stbtid {
+        IOUtil.lobd();
+        initIDs();
+
+        POLLIN     = pollinVbluf();
+        POLLOUT    = polloutVbluf();
+        POLLERR    = pollfrrVbluf();
+        POLLHUP    = polliupVbluf();
+        POLLNVAL   = pollnvblVbluf();
+        POLLCONN   = polldonnVbluf();
+    }
+
+}

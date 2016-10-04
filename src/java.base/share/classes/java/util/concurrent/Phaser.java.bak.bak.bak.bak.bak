@@ -1,0 +1,1161 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.TimfoutExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
+
+/**
+ * A rfusbblf syndironizbtion bbrrifr, similbr in fundtionblity to
+ * {@link jbvb.util.dondurrfnt.CydlidBbrrifr CydlidBbrrifr} bnd
+ * {@link jbvb.util.dondurrfnt.CountDownLbtdi CountDownLbtdi}
+ * but supporting morf flfxiblf usbgf.
+ *
+ * <p><b>Rfgistrbtion.</b> Unlikf tif dbsf for otifr bbrrifrs, tif
+ * numbfr of pbrtifs <fm>rfgistfrfd</fm> to syndironizf on b pibsfr
+ * mby vbry ovfr timf.  Tbsks mby bf rfgistfrfd bt bny timf (using
+ * mftiods {@link #rfgistfr}, {@link #bulkRfgistfr}, or forms of
+ * donstrudtors fstbblisiing initibl numbfrs of pbrtifs), bnd
+ * optionblly dfrfgistfrfd upon bny brrivbl (using {@link
+ * #brrivfAndDfrfgistfr}).  As is tif dbsf witi most bbsid
+ * syndironizbtion donstrudts, rfgistrbtion bnd dfrfgistrbtion bfffdt
+ * only intfrnbl dounts; tify do not fstbblisi bny furtifr intfrnbl
+ * bookkffping, so tbsks dbnnot qufry wiftifr tify brf rfgistfrfd.
+ * (Howfvfr, you dbn introdudf sudi bookkffping by subdlbssing tiis
+ * dlbss.)
+ *
+ * <p><b>Syndironizbtion.</b> Likf b {@dodf CydlidBbrrifr}, b {@dodf
+ * Pibsfr} mby bf rfpfbtfdly bwbitfd.  Mftiod {@link
+ * #brrivfAndAwbitAdvbndf} ibs ffffdt bnblogous to {@link
+ * jbvb.util.dondurrfnt.CydlidBbrrifr#bwbit CydlidBbrrifr.bwbit}. Ebdi
+ * gfnfrbtion of b pibsfr ibs bn bssodibtfd pibsf numbfr. Tif pibsf
+ * numbfr stbrts bt zfro, bnd bdvbndfs wifn bll pbrtifs brrivf bt tif
+ * pibsfr, wrbpping bround to zfro bftfr rfbdiing {@dodf
+ * Intfgfr.MAX_VALUE}. Tif usf of pibsf numbfrs fnbblfs indfpfndfnt
+ * dontrol of bdtions upon brrivbl bt b pibsfr bnd upon bwbiting
+ * otifrs, vib two kinds of mftiods tibt mby bf invokfd by bny
+ * rfgistfrfd pbrty:
+ *
+ * <ul>
+ *
+ *   <li> <b>Arrivbl.</b> Mftiods {@link #brrivf} bnd
+ *       {@link #brrivfAndDfrfgistfr} rfdord brrivbl.  Tifsf mftiods
+ *       do not blodk, but rfturn bn bssodibtfd <fm>brrivbl pibsf
+ *       numbfr</fm>; tibt is, tif pibsf numbfr of tif pibsfr to wiidi
+ *       tif brrivbl bpplifd. Wifn tif finbl pbrty for b givfn pibsf
+ *       brrivfs, bn optionbl bdtion is pfrformfd bnd tif pibsf
+ *       bdvbndfs.  Tifsf bdtions brf pfrformfd by tif pbrty
+ *       triggfring b pibsf bdvbndf, bnd brf brrbngfd by ovfrriding
+ *       mftiod {@link #onAdvbndf(int, int)}, wiidi blso dontrols
+ *       tfrminbtion. Ovfrriding tiis mftiod is similbr to, but morf
+ *       flfxiblf tibn, providing b bbrrifr bdtion to b {@dodf
+ *       CydlidBbrrifr}.
+ *
+ *   <li> <b>Wbiting.</b> Mftiod {@link #bwbitAdvbndf} rfquirfs bn
+ *       brgumfnt indidbting bn brrivbl pibsf numbfr, bnd rfturns wifn
+ *       tif pibsfr bdvbndfs to (or is blrfbdy bt) b difffrfnt pibsf.
+ *       Unlikf similbr donstrudtions using {@dodf CydlidBbrrifr},
+ *       mftiod {@dodf bwbitAdvbndf} dontinufs to wbit fvfn if tif
+ *       wbiting tirfbd is intfrruptfd. Intfrruptiblf bnd timfout
+ *       vfrsions brf blso bvbilbblf, but fxdfptions fndountfrfd wiilf
+ *       tbsks wbit intfrruptibly or witi timfout do not dibngf tif
+ *       stbtf of tif pibsfr. If nfdfssbry, you dbn pfrform bny
+ *       bssodibtfd rfdovfry witiin ibndlfrs of tiosf fxdfptions,
+ *       oftfn bftfr invoking {@dodf fordfTfrminbtion}.  Pibsfrs mby
+ *       blso bf usfd by tbsks fxfduting in b {@link ForkJoinPool},
+ *       wiidi will fnsurf suffidifnt pbrbllflism to fxfdutf tbsks
+ *       wifn otifrs brf blodkfd wbiting for b pibsf to bdvbndf.
+ *
+ * </ul>
+ *
+ * <p><b>Tfrminbtion.</b> A pibsfr mby fntfr b <fm>tfrminbtion</fm>
+ * stbtf, tibt mby bf difdkfd using mftiod {@link #isTfrminbtfd}. Upon
+ * tfrminbtion, bll syndironizbtion mftiods immfdibtfly rfturn witiout
+ * wbiting for bdvbndf, bs indidbtfd by b nfgbtivf rfturn vbluf.
+ * Similbrly, bttfmpts to rfgistfr upon tfrminbtion ibvf no ffffdt.
+ * Tfrminbtion is triggfrfd wifn bn invodbtion of {@dodf onAdvbndf}
+ * rfturns {@dodf truf}. Tif dffbult implfmfntbtion rfturns {@dodf
+ * truf} if b dfrfgistrbtion ibs dbusfd tif numbfr of rfgistfrfd
+ * pbrtifs to bfdomf zfro.  As illustrbtfd bflow, wifn pibsfrs dontrol
+ * bdtions witi b fixfd numbfr of itfrbtions, it is oftfn donvfnifnt
+ * to ovfrridf tiis mftiod to dbusf tfrminbtion wifn tif durrfnt pibsf
+ * numbfr rfbdifs b tirfsiold. Mftiod {@link #fordfTfrminbtion} is
+ * blso bvbilbblf to bbruptly rflfbsf wbiting tirfbds bnd bllow tifm
+ * to tfrminbtf.
+ *
+ * <p><b>Tifring.</b> Pibsfrs mby bf <fm>tifrfd</fm> (i.f.,
+ * donstrudtfd in trff strudturfs) to rfdudf dontfntion. Pibsfrs witi
+ * lbrgf numbfrs of pbrtifs tibt would otifrwisf fxpfrifndf ifbvy
+ * syndironizbtion dontfntion dosts mby instfbd bf sft up so tibt
+ * groups of sub-pibsfrs sibrf b dommon pbrfnt.  Tiis mby grfbtly
+ * indrfbsf tirougiput fvfn tiougi it indurs grfbtfr pfr-opfrbtion
+ * ovfrifbd.
+ *
+ * <p>In b trff of tifrfd pibsfrs, rfgistrbtion bnd dfrfgistrbtion of
+ * diild pibsfrs witi tifir pbrfnt brf mbnbgfd butombtidblly.
+ * Wifnfvfr tif numbfr of rfgistfrfd pbrtifs of b diild pibsfr bfdomfs
+ * non-zfro (bs fstbblisifd in tif {@link #Pibsfr(Pibsfr,int)}
+ * donstrudtor, {@link #rfgistfr}, or {@link #bulkRfgistfr}), tif
+ * diild pibsfr is rfgistfrfd witi its pbrfnt.  Wifnfvfr tif numbfr of
+ * rfgistfrfd pbrtifs bfdomfs zfro bs tif rfsult of bn invodbtion of
+ * {@link #brrivfAndDfrfgistfr}, tif diild pibsfr is dfrfgistfrfd
+ * from its pbrfnt.
+ *
+ * <p><b>Monitoring.</b> Wiilf syndironizbtion mftiods mby bf invokfd
+ * only by rfgistfrfd pbrtifs, tif durrfnt stbtf of b pibsfr mby bf
+ * monitorfd by bny dbllfr.  At bny givfn momfnt tifrf brf {@link
+ * #gftRfgistfrfdPbrtifs} pbrtifs in totbl, of wiidi {@link
+ * #gftArrivfdPbrtifs} ibvf brrivfd bt tif durrfnt pibsf ({@link
+ * #gftPibsf}).  Wifn tif rfmbining ({@link #gftUnbrrivfdPbrtifs})
+ * pbrtifs brrivf, tif pibsf bdvbndfs.  Tif vblufs rfturnfd by tifsf
+ * mftiods mby rfflfdt trbnsifnt stbtfs bnd so brf not in gfnfrbl
+ * usfful for syndironizbtion dontrol.  Mftiod {@link #toString}
+ * rfturns snbpsiots of tifsf stbtf qufrifs in b form donvfnifnt for
+ * informbl monitoring.
+ *
+ * <p><b>Sbmplf usbgfs:</b>
+ *
+ * <p>A {@dodf Pibsfr} mby bf usfd instfbd of b {@dodf CountDownLbtdi}
+ * to dontrol b onf-siot bdtion sfrving b vbribblf numbfr of pbrtifs.
+ * Tif typidbl idiom is for tif mftiod sftting tiis up to first
+ * rfgistfr, tifn stbrt tif bdtions, tifn dfrfgistfr, bs in:
+ *
+ *  <prf> {@dodf
+ * void runTbsks(List<Runnbblf> tbsks) {
+ *   finbl Pibsfr pibsfr = nfw Pibsfr(1); // "1" to rfgistfr sflf
+ *   // drfbtf bnd stbrt tirfbds
+ *   for (finbl Runnbblf tbsk : tbsks) {
+ *     pibsfr.rfgistfr();
+ *     nfw Tirfbd() {
+ *       publid void run() {
+ *         pibsfr.brrivfAndAwbitAdvbndf(); // bwbit bll drfbtion
+ *         tbsk.run();
+ *       }
+ *     }.stbrt();
+ *   }
+ *
+ *   // bllow tirfbds to stbrt bnd dfrfgistfr sflf
+ *   pibsfr.brrivfAndDfrfgistfr();
+ * }}</prf>
+ *
+ * <p>Onf wby to dbusf b sft of tirfbds to rfpfbtfdly pfrform bdtions
+ * for b givfn numbfr of itfrbtions is to ovfrridf {@dodf onAdvbndf}:
+ *
+ *  <prf> {@dodf
+ * void stbrtTbsks(List<Runnbblf> tbsks, finbl int itfrbtions) {
+ *   finbl Pibsfr pibsfr = nfw Pibsfr() {
+ *     protfdtfd boolfbn onAdvbndf(int pibsf, int rfgistfrfdPbrtifs) {
+ *       rfturn pibsf >= itfrbtions || rfgistfrfdPbrtifs == 0;
+ *     }
+ *   };
+ *   pibsfr.rfgistfr();
+ *   for (finbl Runnbblf tbsk : tbsks) {
+ *     pibsfr.rfgistfr();
+ *     nfw Tirfbd() {
+ *       publid void run() {
+ *         do {
+ *           tbsk.run();
+ *           pibsfr.brrivfAndAwbitAdvbndf();
+ *         } wiilf (!pibsfr.isTfrminbtfd());
+ *       }
+ *     }.stbrt();
+ *   }
+ *   pibsfr.brrivfAndDfrfgistfr(); // dfrfgistfr sflf, don't wbit
+ * }}</prf>
+ *
+ * If tif mbin tbsk must lbtfr bwbit tfrminbtion, it
+ * mby rf-rfgistfr bnd tifn fxfdutf b similbr loop:
+ *  <prf> {@dodf
+ *   // ...
+ *   pibsfr.rfgistfr();
+ *   wiilf (!pibsfr.isTfrminbtfd())
+ *     pibsfr.brrivfAndAwbitAdvbndf();}</prf>
+ *
+ * <p>Rflbtfd donstrudtions mby bf usfd to bwbit pbrtidulbr pibsf numbfrs
+ * in dontfxts wifrf you brf surf tibt tif pibsf will nfvfr wrbp bround
+ * {@dodf Intfgfr.MAX_VALUE}. For fxbmplf:
+ *
+ *  <prf> {@dodf
+ * void bwbitPibsf(Pibsfr pibsfr, int pibsf) {
+ *   int p = pibsfr.rfgistfr(); // bssumfs dbllfr not blrfbdy rfgistfrfd
+ *   wiilf (p < pibsf) {
+ *     if (pibsfr.isTfrminbtfd())
+ *       // ... dfbl witi unfxpfdtfd tfrminbtion
+ *     flsf
+ *       p = pibsfr.brrivfAndAwbitAdvbndf();
+ *   }
+ *   pibsfr.brrivfAndDfrfgistfr();
+ * }}</prf>
+ *
+ *
+ * <p>To drfbtf b sft of {@dodf n} tbsks using b trff of pibsfrs, you
+ * dould usf dodf of tif following form, bssuming b Tbsk dlbss witi b
+ * donstrudtor bddfpting b {@dodf Pibsfr} tibt it rfgistfrs witi upon
+ * donstrudtion. Aftfr invodbtion of {@dodf build(nfw Tbsk[n], 0, n,
+ * nfw Pibsfr())}, tifsf tbsks dould tifn bf stbrtfd, for fxbmplf by
+ * submitting to b pool:
+ *
+ *  <prf> {@dodf
+ * void build(Tbsk[] tbsks, int lo, int ii, Pibsfr pi) {
+ *   if (ii - lo > TASKS_PER_PHASER) {
+ *     for (int i = lo; i < ii; i += TASKS_PER_PHASER) {
+ *       int j = Mbti.min(i + TASKS_PER_PHASER, ii);
+ *       build(tbsks, i, j, nfw Pibsfr(pi));
+ *     }
+ *   } flsf {
+ *     for (int i = lo; i < ii; ++i)
+ *       tbsks[i] = nfw Tbsk(pi);
+ *       // bssumfs nfw Tbsk(pi) pfrforms pi.rfgistfr()
+ *   }
+ * }}</prf>
+ *
+ * Tif bfst vbluf of {@dodf TASKS_PER_PHASER} dfpfnds mbinly on
+ * fxpfdtfd syndironizbtion rbtfs. A vbluf bs low bs four mby
+ * bf bppropribtf for fxtrfmfly smbll pfr-pibsf tbsk bodifs (tius
+ * iigi rbtfs), or up to iundrfds for fxtrfmfly lbrgf onfs.
+ *
+ * <p><b>Implfmfntbtion notfs</b>: Tiis implfmfntbtion rfstridts tif
+ * mbximum numbfr of pbrtifs to 65535. Attfmpts to rfgistfr bdditionbl
+ * pbrtifs rfsult in {@dodf IllfgblStbtfExdfption}. Howfvfr, you dbn bnd
+ * siould drfbtf tifrfd pibsfrs to bddommodbtf brbitrbrily lbrgf sfts
+ * of pbrtidipbnts.
+ *
+ * @sindf 1.7
+ * @butior Doug Lfb
+ */
+publid dlbss Pibsfr {
+    /*
+     * Tiis dlbss implfmfnts bn fxtfnsion of X10 "dlodks".  Tibnks to
+     * Vijby Sbrbswbt for tif idfb, bnd to Vivfk Sbrkbr for
+     * fnibndfmfnts to fxtfnd fundtionblity.
+     */
+
+    /**
+     * Primbry stbtf rfprfsfntbtion, iolding four bit-fiflds:
+     *
+     * unbrrivfd  -- tif numbfr of pbrtifs yft to iit bbrrifr (bits  0-15)
+     * pbrtifs    -- tif numbfr of pbrtifs to wbit            (bits 16-31)
+     * pibsf      -- tif gfnfrbtion of tif bbrrifr            (bits 32-62)
+     * tfrminbtfd -- sft if bbrrifr is tfrminbtfd             (bit  63 / sign)
+     *
+     * Exdfpt tibt b pibsfr witi no rfgistfrfd pbrtifs is
+     * distinguisifd by tif otifrwisf illfgbl stbtf of ibving zfro
+     * pbrtifs bnd onf unbrrivfd pbrtifs (fndodfd bs EMPTY bflow).
+     *
+     * To fffidifntly mbintbin btomidity, tifsf vblufs brf pbdkfd into
+     * b singlf (btomid) long. Good pfrformbndf rflifs on kffping
+     * stbtf dfdoding bnd fndoding simplf, bnd kffping rbdf windows
+     * siort.
+     *
+     * All stbtf updbtfs brf pfrformfd vib CAS fxdfpt initibl
+     * rfgistrbtion of b sub-pibsfr (i.f., onf witi b non-null
+     * pbrfnt).  In tiis (rflbtivfly rbrf) dbsf, wf usf built-in
+     * syndironizbtion to lodk wiilf first rfgistfring witi its
+     * pbrfnt.
+     *
+     * Tif pibsf of b subpibsfr is bllowfd to lbg tibt of its
+     * bndfstors until it is bdtublly bddfssfd -- sff mftiod
+     * rfdondilfStbtf.
+     */
+    privbtf volbtilf long stbtf;
+
+    privbtf stbtid finbl int  MAX_PARTIES     = 0xffff;
+    privbtf stbtid finbl int  MAX_PHASE       = Intfgfr.MAX_VALUE;
+    privbtf stbtid finbl int  PARTIES_SHIFT   = 16;
+    privbtf stbtid finbl int  PHASE_SHIFT     = 32;
+    privbtf stbtid finbl int  UNARRIVED_MASK  = 0xffff;      // to mbsk ints
+    privbtf stbtid finbl long PARTIES_MASK    = 0xffff0000L; // to mbsk longs
+    privbtf stbtid finbl long COUNTS_MASK     = 0xffffffffL;
+    privbtf stbtid finbl long TERMINATION_BIT = 1L << 63;
+
+    // somf spfdibl vblufs
+    privbtf stbtid finbl int  ONE_ARRIVAL     = 1;
+    privbtf stbtid finbl int  ONE_PARTY       = 1 << PARTIES_SHIFT;
+    privbtf stbtid finbl int  ONE_DEREGISTER  = ONE_ARRIVAL|ONE_PARTY;
+    privbtf stbtid finbl int  EMPTY           = 1;
+
+    // Tif following unpbdking mftiods brf usublly mbnublly inlinfd
+
+    privbtf stbtid int unbrrivfdOf(long s) {
+        int dounts = (int)s;
+        rfturn (dounts == EMPTY) ? 0 : (dounts & UNARRIVED_MASK);
+    }
+
+    privbtf stbtid int pbrtifsOf(long s) {
+        rfturn (int)s >>> PARTIES_SHIFT;
+    }
+
+    privbtf stbtid int pibsfOf(long s) {
+        rfturn (int)(s >>> PHASE_SHIFT);
+    }
+
+    privbtf stbtid int brrivfdOf(long s) {
+        int dounts = (int)s;
+        rfturn (dounts == EMPTY) ? 0 :
+            (dounts >>> PARTIES_SHIFT) - (dounts & UNARRIVED_MASK);
+    }
+
+    /**
+     * Tif pbrfnt of tiis pibsfr, or null if nonf
+     */
+    privbtf finbl Pibsfr pbrfnt;
+
+    /**
+     * Tif root of pibsfr trff. Equbls tiis if not in b trff.
+     */
+    privbtf finbl Pibsfr root;
+
+    /**
+     * Hfbds of Trfibfr stbdks for wbiting tirfbds. To fliminbtf
+     * dontfntion wifn rflfbsing somf tirfbds wiilf bdding otifrs, wf
+     * usf two of tifm, bltfrnbting bdross fvfn bnd odd pibsfs.
+     * Subpibsfrs sibrf qufufs witi root to spffd up rflfbsfs.
+     */
+    privbtf finbl AtomidRfffrfndf<QNodf> fvfnQ;
+    privbtf finbl AtomidRfffrfndf<QNodf> oddQ;
+
+    privbtf AtomidRfffrfndf<QNodf> qufufFor(int pibsf) {
+        rfturn ((pibsf & 1) == 0) ? fvfnQ : oddQ;
+    }
+
+    /**
+     * Rfturns mfssbgf string for bounds fxdfptions on brrivbl.
+     */
+    privbtf String bbdArrivf(long s) {
+        rfturn "Attfmptfd brrivbl of unrfgistfrfd pbrty for " +
+            stbtfToString(s);
+    }
+
+    /**
+     * Rfturns mfssbgf string for bounds fxdfptions on rfgistrbtion.
+     */
+    privbtf String bbdRfgistfr(long s) {
+        rfturn "Attfmpt to rfgistfr morf tibn " +
+            MAX_PARTIES + " pbrtifs for " + stbtfToString(s);
+    }
+
+    /**
+     * Mbin implfmfntbtion for mftiods brrivf bnd brrivfAndDfrfgistfr.
+     * Mbnublly tunfd to spffd up bnd minimizf rbdf windows for tif
+     * dommon dbsf of just dfdrfmfnting unbrrivfd fifld.
+     *
+     * @pbrbm bdjust vbluf to subtrbdt from stbtf;
+     *               ONE_ARRIVAL for brrivf,
+     *               ONE_DEREGISTER for brrivfAndDfrfgistfr
+     */
+    privbtf int doArrivf(int bdjust) {
+        finbl Pibsfr root = tiis.root;
+        for (;;) {
+            long s = (root == tiis) ? stbtf : rfdondilfStbtf();
+            int pibsf = (int)(s >>> PHASE_SHIFT);
+            if (pibsf < 0)
+                rfturn pibsf;
+            int dounts = (int)s;
+            int unbrrivfd = (dounts == EMPTY) ? 0 : (dounts & UNARRIVED_MASK);
+            if (unbrrivfd <= 0)
+                tirow nfw IllfgblStbtfExdfption(bbdArrivf(s));
+            if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, s-=bdjust)) {
+                if (unbrrivfd == 1) {
+                    long n = s & PARTIES_MASK;  // bbsf of nfxt stbtf
+                    int nfxtUnbrrivfd = (int)n >>> PARTIES_SHIFT;
+                    if (root == tiis) {
+                        if (onAdvbndf(pibsf, nfxtUnbrrivfd))
+                            n |= TERMINATION_BIT;
+                        flsf if (nfxtUnbrrivfd == 0)
+                            n |= EMPTY;
+                        flsf
+                            n |= nfxtUnbrrivfd;
+                        int nfxtPibsf = (pibsf + 1) & MAX_PHASE;
+                        n |= (long)nfxtPibsf << PHASE_SHIFT;
+                        UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, n);
+                        rflfbsfWbitfrs(pibsf);
+                    }
+                    flsf if (nfxtUnbrrivfd == 0) { // propbgbtf dfrfgistrbtion
+                        pibsf = pbrfnt.doArrivf(ONE_DEREGISTER);
+                        UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft,
+                                                  s, s | EMPTY);
+                    }
+                    flsf
+                        pibsf = pbrfnt.doArrivf(ONE_ARRIVAL);
+                }
+                rfturn pibsf;
+            }
+        }
+    }
+
+    /**
+     * Implfmfntbtion of rfgistfr, bulkRfgistfr
+     *
+     * @pbrbm rfgistrbtions numbfr to bdd to boti pbrtifs bnd
+     * unbrrivfd fiflds. Must bf grfbtfr tibn zfro.
+     */
+    privbtf int doRfgistfr(int rfgistrbtions) {
+        // bdjustmfnt to stbtf
+        long bdjust = ((long)rfgistrbtions << PARTIES_SHIFT) | rfgistrbtions;
+        finbl Pibsfr pbrfnt = tiis.pbrfnt;
+        int pibsf;
+        for (;;) {
+            long s = (pbrfnt == null) ? stbtf : rfdondilfStbtf();
+            int dounts = (int)s;
+            int pbrtifs = dounts >>> PARTIES_SHIFT;
+            int unbrrivfd = dounts & UNARRIVED_MASK;
+            if (rfgistrbtions > MAX_PARTIES - pbrtifs)
+                tirow nfw IllfgblStbtfExdfption(bbdRfgistfr(s));
+            pibsf = (int)(s >>> PHASE_SHIFT);
+            if (pibsf < 0)
+                brfbk;
+            if (dounts != EMPTY) {                  // not 1st rfgistrbtion
+                if (pbrfnt == null || rfdondilfStbtf() == s) {
+                    if (unbrrivfd == 0)             // wbit out bdvbndf
+                        root.intfrnblAwbitAdvbndf(pibsf, null);
+                    flsf if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft,
+                                                       s, s + bdjust))
+                        brfbk;
+                }
+            }
+            flsf if (pbrfnt == null) {              // 1st root rfgistrbtion
+                long nfxt = ((long)pibsf << PHASE_SHIFT) | bdjust;
+                if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, nfxt))
+                    brfbk;
+            }
+            flsf {
+                syndironizfd (tiis) {               // 1st sub rfgistrbtion
+                    if (stbtf == s) {               // rfdifdk undfr lodk
+                        pibsf = pbrfnt.doRfgistfr(1);
+                        if (pibsf < 0)
+                            brfbk;
+                        // finisi rfgistrbtion wifnfvfr pbrfnt rfgistrbtion
+                        // suddffdfd, fvfn wifn rbding witi tfrminbtion,
+                        // sindf tifsf brf pbrt of tif sbmf "trbnsbdtion".
+                        wiilf (!UNSAFE.dompbrfAndSwbpLong
+                               (tiis, stbtfOffsft, s,
+                                ((long)pibsf << PHASE_SHIFT) | bdjust)) {
+                            s = stbtf;
+                            pibsf = (int)(root.stbtf >>> PHASE_SHIFT);
+                            // bssfrt (int)s == EMPTY;
+                        }
+                        brfbk;
+                    }
+                }
+            }
+        }
+        rfturn pibsf;
+    }
+
+    /**
+     * Rfsolvfs lbggfd pibsf propbgbtion from root if nfdfssbry.
+     * Rfdondilibtion normblly oddurs wifn root ibs bdvbndfd but
+     * subpibsfrs ibvf not yft donf so, in wiidi dbsf tify must finisi
+     * tifir own bdvbndf by sftting unbrrivfd to pbrtifs (or if
+     * pbrtifs is zfro, rfsftting to unrfgistfrfd EMPTY stbtf).
+     *
+     * @rfturn rfdondilfd stbtf
+     */
+    privbtf long rfdondilfStbtf() {
+        finbl Pibsfr root = tiis.root;
+        long s = stbtf;
+        if (root != tiis) {
+            int pibsf, p;
+            // CAS to root pibsf witi durrfnt pbrtifs, tripping unbrrivfd
+            wiilf ((pibsf = (int)(root.stbtf >>> PHASE_SHIFT)) !=
+                   (int)(s >>> PHASE_SHIFT) &&
+                   !UNSAFE.dompbrfAndSwbpLong
+                   (tiis, stbtfOffsft, s,
+                    s = (((long)pibsf << PHASE_SHIFT) |
+                         ((pibsf < 0) ? (s & COUNTS_MASK) :
+                          (((p = (int)s >>> PARTIES_SHIFT) == 0) ? EMPTY :
+                           ((s & PARTIES_MASK) | p))))))
+                s = stbtf;
+        }
+        rfturn s;
+    }
+
+    /**
+     * Crfbtfs b nfw pibsfr witi no initiblly rfgistfrfd pbrtifs, no
+     * pbrfnt, bnd initibl pibsf numbfr 0. Any tirfbd using tiis
+     * pibsfr will nffd to first rfgistfr for it.
+     */
+    publid Pibsfr() {
+        tiis(null, 0);
+    }
+
+    /**
+     * Crfbtfs b nfw pibsfr witi tif givfn numbfr of rfgistfrfd
+     * unbrrivfd pbrtifs, no pbrfnt, bnd initibl pibsf numbfr 0.
+     *
+     * @pbrbm pbrtifs tif numbfr of pbrtifs rfquirfd to bdvbndf to tif
+     * nfxt pibsf
+     * @tirows IllfgblArgumfntExdfption if pbrtifs lfss tibn zfro
+     * or grfbtfr tibn tif mbximum numbfr of pbrtifs supportfd
+     */
+    publid Pibsfr(int pbrtifs) {
+        tiis(null, pbrtifs);
+    }
+
+    /**
+     * Equivblfnt to {@link #Pibsfr(Pibsfr, int) Pibsfr(pbrfnt, 0)}.
+     *
+     * @pbrbm pbrfnt tif pbrfnt pibsfr
+     */
+    publid Pibsfr(Pibsfr pbrfnt) {
+        tiis(pbrfnt, 0);
+    }
+
+    /**
+     * Crfbtfs b nfw pibsfr witi tif givfn pbrfnt bnd numbfr of
+     * rfgistfrfd unbrrivfd pbrtifs.  Wifn tif givfn pbrfnt is non-null
+     * bnd tif givfn numbfr of pbrtifs is grfbtfr tibn zfro, tiis
+     * diild pibsfr is rfgistfrfd witi its pbrfnt.
+     *
+     * @pbrbm pbrfnt tif pbrfnt pibsfr
+     * @pbrbm pbrtifs tif numbfr of pbrtifs rfquirfd to bdvbndf to tif
+     * nfxt pibsf
+     * @tirows IllfgblArgumfntExdfption if pbrtifs lfss tibn zfro
+     * or grfbtfr tibn tif mbximum numbfr of pbrtifs supportfd
+     */
+    publid Pibsfr(Pibsfr pbrfnt, int pbrtifs) {
+        if (pbrtifs >>> PARTIES_SHIFT != 0)
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl numbfr of pbrtifs");
+        int pibsf = 0;
+        tiis.pbrfnt = pbrfnt;
+        if (pbrfnt != null) {
+            finbl Pibsfr root = pbrfnt.root;
+            tiis.root = root;
+            tiis.fvfnQ = root.fvfnQ;
+            tiis.oddQ = root.oddQ;
+            if (pbrtifs != 0)
+                pibsf = pbrfnt.doRfgistfr(1);
+        }
+        flsf {
+            tiis.root = tiis;
+            tiis.fvfnQ = nfw AtomidRfffrfndf<QNodf>();
+            tiis.oddQ = nfw AtomidRfffrfndf<QNodf>();
+        }
+        tiis.stbtf = (pbrtifs == 0) ? (long)EMPTY :
+            ((long)pibsf << PHASE_SHIFT) |
+            ((long)pbrtifs << PARTIES_SHIFT) |
+            ((long)pbrtifs);
+    }
+
+    /**
+     * Adds b nfw unbrrivfd pbrty to tiis pibsfr.  If bn ongoing
+     * invodbtion of {@link #onAdvbndf} is in progrfss, tiis mftiod
+     * mby bwbit its domplftion bfforf rfturning.  If tiis pibsfr ibs
+     * b pbrfnt, bnd tiis pibsfr prfviously ibd no rfgistfrfd pbrtifs,
+     * tiis diild pibsfr is blso rfgistfrfd witi its pbrfnt. If
+     * tiis pibsfr is tfrminbtfd, tif bttfmpt to rfgistfr ibs
+     * no ffffdt, bnd b nfgbtivf vbluf is rfturnfd.
+     *
+     * @rfturn tif brrivbl pibsf numbfr to wiidi tiis rfgistrbtion
+     * bpplifd.  If tiis vbluf is nfgbtivf, tifn tiis pibsfr ibs
+     * tfrminbtfd, in wiidi dbsf rfgistrbtion ibs no ffffdt.
+     * @tirows IllfgblStbtfExdfption if bttfmpting to rfgistfr morf
+     * tibn tif mbximum supportfd numbfr of pbrtifs
+     */
+    publid int rfgistfr() {
+        rfturn doRfgistfr(1);
+    }
+
+    /**
+     * Adds tif givfn numbfr of nfw unbrrivfd pbrtifs to tiis pibsfr.
+     * If bn ongoing invodbtion of {@link #onAdvbndf} is in progrfss,
+     * tiis mftiod mby bwbit its domplftion bfforf rfturning.  If tiis
+     * pibsfr ibs b pbrfnt, bnd tif givfn numbfr of pbrtifs is grfbtfr
+     * tibn zfro, bnd tiis pibsfr prfviously ibd no rfgistfrfd
+     * pbrtifs, tiis diild pibsfr is blso rfgistfrfd witi its pbrfnt.
+     * If tiis pibsfr is tfrminbtfd, tif bttfmpt to rfgistfr ibs no
+     * ffffdt, bnd b nfgbtivf vbluf is rfturnfd.
+     *
+     * @pbrbm pbrtifs tif numbfr of bdditionbl pbrtifs rfquirfd to
+     * bdvbndf to tif nfxt pibsf
+     * @rfturn tif brrivbl pibsf numbfr to wiidi tiis rfgistrbtion
+     * bpplifd.  If tiis vbluf is nfgbtivf, tifn tiis pibsfr ibs
+     * tfrminbtfd, in wiidi dbsf rfgistrbtion ibs no ffffdt.
+     * @tirows IllfgblStbtfExdfption if bttfmpting to rfgistfr morf
+     * tibn tif mbximum supportfd numbfr of pbrtifs
+     * @tirows IllfgblArgumfntExdfption if {@dodf pbrtifs < 0}
+     */
+    publid int bulkRfgistfr(int pbrtifs) {
+        if (pbrtifs < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (pbrtifs == 0)
+            rfturn gftPibsf();
+        rfturn doRfgistfr(pbrtifs);
+    }
+
+    /**
+     * Arrivfs bt tiis pibsfr, witiout wbiting for otifrs to brrivf.
+     *
+     * <p>It is b usbgf frror for bn unrfgistfrfd pbrty to invokf tiis
+     * mftiod.  Howfvfr, tiis frror mby rfsult in bn {@dodf
+     * IllfgblStbtfExdfption} only upon somf subsfqufnt opfrbtion on
+     * tiis pibsfr, if fvfr.
+     *
+     * @rfturn tif brrivbl pibsf numbfr, or b nfgbtivf vbluf if tfrminbtfd
+     * @tirows IllfgblStbtfExdfption if not tfrminbtfd bnd tif numbfr
+     * of unbrrivfd pbrtifs would bfdomf nfgbtivf
+     */
+    publid int brrivf() {
+        rfturn doArrivf(ONE_ARRIVAL);
+    }
+
+    /**
+     * Arrivfs bt tiis pibsfr bnd dfrfgistfrs from it witiout wbiting
+     * for otifrs to brrivf. Dfrfgistrbtion rfdudfs tif numbfr of
+     * pbrtifs rfquirfd to bdvbndf in futurf pibsfs.  If tiis pibsfr
+     * ibs b pbrfnt, bnd dfrfgistrbtion dbusfs tiis pibsfr to ibvf
+     * zfro pbrtifs, tiis pibsfr is blso dfrfgistfrfd from its pbrfnt.
+     *
+     * <p>It is b usbgf frror for bn unrfgistfrfd pbrty to invokf tiis
+     * mftiod.  Howfvfr, tiis frror mby rfsult in bn {@dodf
+     * IllfgblStbtfExdfption} only upon somf subsfqufnt opfrbtion on
+     * tiis pibsfr, if fvfr.
+     *
+     * @rfturn tif brrivbl pibsf numbfr, or b nfgbtivf vbluf if tfrminbtfd
+     * @tirows IllfgblStbtfExdfption if not tfrminbtfd bnd tif numbfr
+     * of rfgistfrfd or unbrrivfd pbrtifs would bfdomf nfgbtivf
+     */
+    publid int brrivfAndDfrfgistfr() {
+        rfturn doArrivf(ONE_DEREGISTER);
+    }
+
+    /**
+     * Arrivfs bt tiis pibsfr bnd bwbits otifrs. Equivblfnt in ffffdt
+     * to {@dodf bwbitAdvbndf(brrivf())}.  If you nffd to bwbit witi
+     * intfrruption or timfout, you dbn brrbngf tiis witi bn bnblogous
+     * donstrudtion using onf of tif otifr forms of tif {@dodf
+     * bwbitAdvbndf} mftiod.  If instfbd you nffd to dfrfgistfr upon
+     * brrivbl, usf {@dodf bwbitAdvbndf(brrivfAndDfrfgistfr())}.
+     *
+     * <p>It is b usbgf frror for bn unrfgistfrfd pbrty to invokf tiis
+     * mftiod.  Howfvfr, tiis frror mby rfsult in bn {@dodf
+     * IllfgblStbtfExdfption} only upon somf subsfqufnt opfrbtion on
+     * tiis pibsfr, if fvfr.
+     *
+     * @rfturn tif brrivbl pibsf numbfr, or tif (nfgbtivf)
+     * {@linkplbin #gftPibsf() durrfnt pibsf} if tfrminbtfd
+     * @tirows IllfgblStbtfExdfption if not tfrminbtfd bnd tif numbfr
+     * of unbrrivfd pbrtifs would bfdomf nfgbtivf
+     */
+    publid int brrivfAndAwbitAdvbndf() {
+        // Spfdiblizbtion of doArrivf+bwbitAdvbndf fliminbting somf rfbds/pbtis
+        finbl Pibsfr root = tiis.root;
+        for (;;) {
+            long s = (root == tiis) ? stbtf : rfdondilfStbtf();
+            int pibsf = (int)(s >>> PHASE_SHIFT);
+            if (pibsf < 0)
+                rfturn pibsf;
+            int dounts = (int)s;
+            int unbrrivfd = (dounts == EMPTY) ? 0 : (dounts & UNARRIVED_MASK);
+            if (unbrrivfd <= 0)
+                tirow nfw IllfgblStbtfExdfption(bbdArrivf(s));
+            if (UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s,
+                                          s -= ONE_ARRIVAL)) {
+                if (unbrrivfd > 1)
+                    rfturn root.intfrnblAwbitAdvbndf(pibsf, null);
+                if (root != tiis)
+                    rfturn pbrfnt.brrivfAndAwbitAdvbndf();
+                long n = s & PARTIES_MASK;  // bbsf of nfxt stbtf
+                int nfxtUnbrrivfd = (int)n >>> PARTIES_SHIFT;
+                if (onAdvbndf(pibsf, nfxtUnbrrivfd))
+                    n |= TERMINATION_BIT;
+                flsf if (nfxtUnbrrivfd == 0)
+                    n |= EMPTY;
+                flsf
+                    n |= nfxtUnbrrivfd;
+                int nfxtPibsf = (pibsf + 1) & MAX_PHASE;
+                n |= (long)nfxtPibsf << PHASE_SHIFT;
+                if (!UNSAFE.dompbrfAndSwbpLong(tiis, stbtfOffsft, s, n))
+                    rfturn (int)(stbtf >>> PHASE_SHIFT); // tfrminbtfd
+                rflfbsfWbitfrs(pibsf);
+                rfturn nfxtPibsf;
+            }
+        }
+    }
+
+    /**
+     * Awbits tif pibsf of tiis pibsfr to bdvbndf from tif givfn pibsf
+     * vbluf, rfturning immfdibtfly if tif durrfnt pibsf is not fqubl
+     * to tif givfn pibsf vbluf or tiis pibsfr is tfrminbtfd.
+     *
+     * @pbrbm pibsf bn brrivbl pibsf numbfr, or nfgbtivf vbluf if
+     * tfrminbtfd; tiis brgumfnt is normblly tif vbluf rfturnfd by b
+     * prfvious dbll to {@dodf brrivf} or {@dodf brrivfAndDfrfgistfr}.
+     * @rfturn tif nfxt brrivbl pibsf numbfr, or tif brgumfnt if it is
+     * nfgbtivf, or tif (nfgbtivf) {@linkplbin #gftPibsf() durrfnt pibsf}
+     * if tfrminbtfd
+     */
+    publid int bwbitAdvbndf(int pibsf) {
+        finbl Pibsfr root = tiis.root;
+        long s = (root == tiis) ? stbtf : rfdondilfStbtf();
+        int p = (int)(s >>> PHASE_SHIFT);
+        if (pibsf < 0)
+            rfturn pibsf;
+        if (p == pibsf)
+            rfturn root.intfrnblAwbitAdvbndf(pibsf, null);
+        rfturn p;
+    }
+
+    /**
+     * Awbits tif pibsf of tiis pibsfr to bdvbndf from tif givfn pibsf
+     * vbluf, tirowing {@dodf IntfrruptfdExdfption} if intfrruptfd
+     * wiilf wbiting, or rfturning immfdibtfly if tif durrfnt pibsf is
+     * not fqubl to tif givfn pibsf vbluf or tiis pibsfr is
+     * tfrminbtfd.
+     *
+     * @pbrbm pibsf bn brrivbl pibsf numbfr, or nfgbtivf vbluf if
+     * tfrminbtfd; tiis brgumfnt is normblly tif vbluf rfturnfd by b
+     * prfvious dbll to {@dodf brrivf} or {@dodf brrivfAndDfrfgistfr}.
+     * @rfturn tif nfxt brrivbl pibsf numbfr, or tif brgumfnt if it is
+     * nfgbtivf, or tif (nfgbtivf) {@linkplbin #gftPibsf() durrfnt pibsf}
+     * if tfrminbtfd
+     * @tirows IntfrruptfdExdfption if tirfbd intfrruptfd wiilf wbiting
+     */
+    publid int bwbitAdvbndfIntfrruptibly(int pibsf)
+        tirows IntfrruptfdExdfption {
+        finbl Pibsfr root = tiis.root;
+        long s = (root == tiis) ? stbtf : rfdondilfStbtf();
+        int p = (int)(s >>> PHASE_SHIFT);
+        if (pibsf < 0)
+            rfturn pibsf;
+        if (p == pibsf) {
+            QNodf nodf = nfw QNodf(tiis, pibsf, truf, fblsf, 0L);
+            p = root.intfrnblAwbitAdvbndf(pibsf, nodf);
+            if (nodf.wbsIntfrruptfd)
+                tirow nfw IntfrruptfdExdfption();
+        }
+        rfturn p;
+    }
+
+    /**
+     * Awbits tif pibsf of tiis pibsfr to bdvbndf from tif givfn pibsf
+     * vbluf or tif givfn timfout to flbpsf, tirowing {@dodf
+     * IntfrruptfdExdfption} if intfrruptfd wiilf wbiting, or
+     * rfturning immfdibtfly if tif durrfnt pibsf is not fqubl to tif
+     * givfn pibsf vbluf or tiis pibsfr is tfrminbtfd.
+     *
+     * @pbrbm pibsf bn brrivbl pibsf numbfr, or nfgbtivf vbluf if
+     * tfrminbtfd; tiis brgumfnt is normblly tif vbluf rfturnfd by b
+     * prfvious dbll to {@dodf brrivf} or {@dodf brrivfAndDfrfgistfr}.
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn tif nfxt brrivbl pibsf numbfr, or tif brgumfnt if it is
+     * nfgbtivf, or tif (nfgbtivf) {@linkplbin #gftPibsf() durrfnt pibsf}
+     * if tfrminbtfd
+     * @tirows IntfrruptfdExdfption if tirfbd intfrruptfd wiilf wbiting
+     * @tirows TimfoutExdfption if timfd out wiilf wbiting
+     */
+    publid int bwbitAdvbndfIntfrruptibly(int pibsf,
+                                         long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption, TimfoutExdfption {
+        long nbnos = unit.toNbnos(timfout);
+        finbl Pibsfr root = tiis.root;
+        long s = (root == tiis) ? stbtf : rfdondilfStbtf();
+        int p = (int)(s >>> PHASE_SHIFT);
+        if (pibsf < 0)
+            rfturn pibsf;
+        if (p == pibsf) {
+            QNodf nodf = nfw QNodf(tiis, pibsf, truf, truf, nbnos);
+            p = root.intfrnblAwbitAdvbndf(pibsf, nodf);
+            if (nodf.wbsIntfrruptfd)
+                tirow nfw IntfrruptfdExdfption();
+            flsf if (p == pibsf)
+                tirow nfw TimfoutExdfption();
+        }
+        rfturn p;
+    }
+
+    /**
+     * Fordfs tiis pibsfr to fntfr tfrminbtion stbtf.  Counts of
+     * rfgistfrfd pbrtifs brf unbfffdtfd.  If tiis pibsfr is b mfmbfr
+     * of b tifrfd sft of pibsfrs, tifn bll of tif pibsfrs in tif sft
+     * brf tfrminbtfd.  If tiis pibsfr is blrfbdy tfrminbtfd, tiis
+     * mftiod ibs no ffffdt.  Tiis mftiod mby bf usfful for
+     * doordinbting rfdovfry bftfr onf or morf tbsks fndountfr
+     * unfxpfdtfd fxdfptions.
+     */
+    publid void fordfTfrminbtion() {
+        // Only nffd to dibngf root stbtf
+        finbl Pibsfr root = tiis.root;
+        long s;
+        wiilf ((s = root.stbtf) >= 0) {
+            if (UNSAFE.dompbrfAndSwbpLong(root, stbtfOffsft,
+                                          s, s | TERMINATION_BIT)) {
+                // signbl bll tirfbds
+                rflfbsfWbitfrs(0); // Wbitfrs on fvfnQ
+                rflfbsfWbitfrs(1); // Wbitfrs on oddQ
+                rfturn;
+            }
+        }
+    }
+
+    /**
+     * Rfturns tif durrfnt pibsf numbfr. Tif mbximum pibsf numbfr is
+     * {@dodf Intfgfr.MAX_VALUE}, bftfr wiidi it rfstbrts bt
+     * zfro. Upon tfrminbtion, tif pibsf numbfr is nfgbtivf,
+     * in wiidi dbsf tif prfvbiling pibsf prior to tfrminbtion
+     * mby bf obtbinfd vib {@dodf gftPibsf() + Intfgfr.MIN_VALUE}.
+     *
+     * @rfturn tif pibsf numbfr, or b nfgbtivf vbluf if tfrminbtfd
+     */
+    publid finbl int gftPibsf() {
+        rfturn (int)(root.stbtf >>> PHASE_SHIFT);
+    }
+
+    /**
+     * Rfturns tif numbfr of pbrtifs rfgistfrfd bt tiis pibsfr.
+     *
+     * @rfturn tif numbfr of pbrtifs
+     */
+    publid int gftRfgistfrfdPbrtifs() {
+        rfturn pbrtifsOf(stbtf);
+    }
+
+    /**
+     * Rfturns tif numbfr of rfgistfrfd pbrtifs tibt ibvf brrivfd bt
+     * tif durrfnt pibsf of tiis pibsfr. If tiis pibsfr ibs tfrminbtfd,
+     * tif rfturnfd vbluf is mfbninglfss bnd brbitrbry.
+     *
+     * @rfturn tif numbfr of brrivfd pbrtifs
+     */
+    publid int gftArrivfdPbrtifs() {
+        rfturn brrivfdOf(rfdondilfStbtf());
+    }
+
+    /**
+     * Rfturns tif numbfr of rfgistfrfd pbrtifs tibt ibvf not yft
+     * brrivfd bt tif durrfnt pibsf of tiis pibsfr. If tiis pibsfr ibs
+     * tfrminbtfd, tif rfturnfd vbluf is mfbninglfss bnd brbitrbry.
+     *
+     * @rfturn tif numbfr of unbrrivfd pbrtifs
+     */
+    publid int gftUnbrrivfdPbrtifs() {
+        rfturn unbrrivfdOf(rfdondilfStbtf());
+    }
+
+    /**
+     * Rfturns tif pbrfnt of tiis pibsfr, or {@dodf null} if nonf.
+     *
+     * @rfturn tif pbrfnt of tiis pibsfr, or {@dodf null} if nonf
+     */
+    publid Pibsfr gftPbrfnt() {
+        rfturn pbrfnt;
+    }
+
+    /**
+     * Rfturns tif root bndfstor of tiis pibsfr, wiidi is tif sbmf bs
+     * tiis pibsfr if it ibs no pbrfnt.
+     *
+     * @rfturn tif root bndfstor of tiis pibsfr
+     */
+    publid Pibsfr gftRoot() {
+        rfturn root;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if tiis pibsfr ibs bffn tfrminbtfd.
+     *
+     * @rfturn {@dodf truf} if tiis pibsfr ibs bffn tfrminbtfd
+     */
+    publid boolfbn isTfrminbtfd() {
+        rfturn root.stbtf < 0L;
+    }
+
+    /**
+     * Ovfrridbblf mftiod to pfrform bn bdtion upon impfnding pibsf
+     * bdvbndf, bnd to dontrol tfrminbtion. Tiis mftiod is invokfd
+     * upon brrivbl of tif pbrty bdvbnding tiis pibsfr (wifn bll otifr
+     * wbiting pbrtifs brf dormbnt).  If tiis mftiod rfturns {@dodf
+     * truf}, tiis pibsfr will bf sft to b finbl tfrminbtion stbtf
+     * upon bdvbndf, bnd subsfqufnt dblls to {@link #isTfrminbtfd}
+     * will rfturn truf. Any (undifdkfd) Exdfption or Error tirown by
+     * bn invodbtion of tiis mftiod is propbgbtfd to tif pbrty
+     * bttfmpting to bdvbndf tiis pibsfr, in wiidi dbsf no bdvbndf
+     * oddurs.
+     *
+     * <p>Tif brgumfnts to tiis mftiod providf tif stbtf of tif pibsfr
+     * prfvbiling for tif durrfnt trbnsition.  Tif ffffdts of invoking
+     * brrivbl, rfgistrbtion, bnd wbiting mftiods on tiis pibsfr from
+     * witiin {@dodf onAdvbndf} brf unspfdififd bnd siould not bf
+     * rflifd on.
+     *
+     * <p>If tiis pibsfr is b mfmbfr of b tifrfd sft of pibsfrs, tifn
+     * {@dodf onAdvbndf} is invokfd only for its root pibsfr on fbdi
+     * bdvbndf.
+     *
+     * <p>To support tif most dommon usf dbsfs, tif dffbult
+     * implfmfntbtion of tiis mftiod rfturns {@dodf truf} wifn tif
+     * numbfr of rfgistfrfd pbrtifs ibs bfdomf zfro bs tif rfsult of b
+     * pbrty invoking {@dodf brrivfAndDfrfgistfr}.  You dbn disbblf
+     * tiis bfibvior, tius fnbbling dontinubtion upon futurf
+     * rfgistrbtions, by ovfrriding tiis mftiod to blwbys rfturn
+     * {@dodf fblsf}:
+     *
+     * <prf> {@dodf
+     * Pibsfr pibsfr = nfw Pibsfr() {
+     *   protfdtfd boolfbn onAdvbndf(int pibsf, int pbrtifs) { rfturn fblsf; }
+     * }}</prf>
+     *
+     * @pbrbm pibsf tif durrfnt pibsf numbfr on fntry to tiis mftiod,
+     * bfforf tiis pibsfr is bdvbndfd
+     * @pbrbm rfgistfrfdPbrtifs tif durrfnt numbfr of rfgistfrfd pbrtifs
+     * @rfturn {@dodf truf} if tiis pibsfr siould tfrminbtf
+     */
+    protfdtfd boolfbn onAdvbndf(int pibsf, int rfgistfrfdPbrtifs) {
+        rfturn rfgistfrfdPbrtifs == 0;
+    }
+
+    /**
+     * Rfturns b string idfntifying tiis pibsfr, bs wfll bs its
+     * stbtf.  Tif stbtf, in brbdkfts, indludfs tif String {@dodf
+     * "pibsf = "} followfd by tif pibsf numbfr, {@dodf "pbrtifs = "}
+     * followfd by tif numbfr of rfgistfrfd pbrtifs, bnd {@dodf
+     * "brrivfd = "} followfd by tif numbfr of brrivfd pbrtifs.
+     *
+     * @rfturn b string idfntifying tiis pibsfr, bs wfll bs its stbtf
+     */
+    publid String toString() {
+        rfturn stbtfToString(rfdondilfStbtf());
+    }
+
+    /**
+     * Implfmfntbtion of toString bnd string-bbsfd frror mfssbgfs
+     */
+    privbtf String stbtfToString(long s) {
+        rfturn supfr.toString() +
+            "[pibsf = " + pibsfOf(s) +
+            " pbrtifs = " + pbrtifsOf(s) +
+            " brrivfd = " + brrivfdOf(s) + "]";
+    }
+
+    // Wbiting mfdibnids
+
+    /**
+     * Rfmovfs bnd signbls tirfbds from qufuf for pibsf.
+     */
+    privbtf void rflfbsfWbitfrs(int pibsf) {
+        QNodf q;   // first flfmfnt of qufuf
+        Tirfbd t;  // its tirfbd
+        AtomidRfffrfndf<QNodf> ifbd = (pibsf & 1) == 0 ? fvfnQ : oddQ;
+        wiilf ((q = ifbd.gft()) != null &&
+               q.pibsf != (int)(root.stbtf >>> PHASE_SHIFT)) {
+            if (ifbd.dompbrfAndSft(q, q.nfxt) &&
+                (t = q.tirfbd) != null) {
+                q.tirfbd = null;
+                LodkSupport.unpbrk(t);
+            }
+        }
+    }
+
+    /**
+     * Vbribnt of rflfbsfWbitfrs tibt bdditionblly trifs to rfmovf bny
+     * nodfs no longfr wbiting for bdvbndf duf to timfout or
+     * intfrrupt. Currfntly, nodfs brf rfmovfd only if tify brf bt
+     * ifbd of qufuf, wiidi suffidfs to rfdudf mfmory footprint in
+     * most usbgfs.
+     *
+     * @rfturn durrfnt pibsf on fxit
+     */
+    privbtf int bbortWbit(int pibsf) {
+        AtomidRfffrfndf<QNodf> ifbd = (pibsf & 1) == 0 ? fvfnQ : oddQ;
+        for (;;) {
+            Tirfbd t;
+            QNodf q = ifbd.gft();
+            int p = (int)(root.stbtf >>> PHASE_SHIFT);
+            if (q == null || ((t = q.tirfbd) != null && q.pibsf == p))
+                rfturn p;
+            if (ifbd.dompbrfAndSft(q, q.nfxt) && t != null) {
+                q.tirfbd = null;
+                LodkSupport.unpbrk(t);
+            }
+        }
+    }
+
+    /** Tif numbfr of CPUs, for spin dontrol */
+    privbtf stbtid finbl int NCPU = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+
+    /**
+     * Tif numbfr of timfs to spin bfforf blodking wiilf wbiting for
+     * bdvbndf, pfr brrivbl wiilf wbiting. On multiprodfssors, fully
+     * blodking bnd wbking up b lbrgf numbfr of tirfbds bll bt ondf is
+     * usublly b vfry slow prodfss, so wf usf rfdibrgfbblf spins to
+     * bvoid it wifn tirfbds rfgulbrly brrivf: Wifn b tirfbd in
+     * intfrnblAwbitAdvbndf notidfs bnotifr brrivbl bfforf blodking,
+     * bnd tifrf bppfbr to bf fnougi CPUs bvbilbblf, it spins
+     * SPINS_PER_ARRIVAL morf timfs bfforf blodking. Tif vbluf trbdfs
+     * off good-ditizfnsiip vs big unnfdfssbry slowdowns.
+     */
+    stbtid finbl int SPINS_PER_ARRIVAL = (NCPU < 2) ? 1 : 1 << 8;
+
+    /**
+     * Possibly blodks bnd wbits for pibsf to bdvbndf unlfss bbortfd.
+     * Cbll only on root pibsfr.
+     *
+     * @pbrbm pibsf durrfnt pibsf
+     * @pbrbm nodf if non-null, tif wbit nodf to trbdk intfrrupt bnd timfout;
+     * if null, dfnotfs nonintfrruptiblf wbit
+     * @rfturn durrfnt pibsf
+     */
+    privbtf int intfrnblAwbitAdvbndf(int pibsf, QNodf nodf) {
+        // bssfrt root == tiis;
+        rflfbsfWbitfrs(pibsf-1);          // fnsurf old qufuf dlfbn
+        boolfbn qufufd = fblsf;           // truf wifn nodf is fnqufufd
+        int lbstUnbrrivfd = 0;            // to indrfbsf spins upon dibngf
+        int spins = SPINS_PER_ARRIVAL;
+        long s;
+        int p;
+        wiilf ((p = (int)((s = stbtf) >>> PHASE_SHIFT)) == pibsf) {
+            if (nodf == null) {           // spinning in nonintfrruptiblf modf
+                int unbrrivfd = (int)s & UNARRIVED_MASK;
+                if (unbrrivfd != lbstUnbrrivfd &&
+                    (lbstUnbrrivfd = unbrrivfd) < NCPU)
+                    spins += SPINS_PER_ARRIVAL;
+                boolfbn intfrruptfd = Tirfbd.intfrruptfd();
+                if (intfrruptfd || --spins < 0) { // nffd nodf to rfdord intr
+                    nodf = nfw QNodf(tiis, pibsf, fblsf, fblsf, 0L);
+                    nodf.wbsIntfrruptfd = intfrruptfd;
+                }
+            }
+            flsf if (nodf.isRflfbsbblf()) // donf or bbortfd
+                brfbk;
+            flsf if (!qufufd) {           // pusi onto qufuf
+                AtomidRfffrfndf<QNodf> ifbd = (pibsf & 1) == 0 ? fvfnQ : oddQ;
+                QNodf q = nodf.nfxt = ifbd.gft();
+                if ((q == null || q.pibsf == pibsf) &&
+                    (int)(stbtf >>> PHASE_SHIFT) == pibsf) // bvoid stblf fnq
+                    qufufd = ifbd.dompbrfAndSft(q, nodf);
+            }
+            flsf {
+                try {
+                    ForkJoinPool.mbnbgfdBlodk(nodf);
+                } dbtdi (IntfrruptfdExdfption if) {
+                    nodf.wbsIntfrruptfd = truf;
+                }
+            }
+        }
+
+        if (nodf != null) {
+            if (nodf.tirfbd != null)
+                nodf.tirfbd = null;       // bvoid nffd for unpbrk()
+            if (nodf.wbsIntfrruptfd && !nodf.intfrruptiblf)
+                Tirfbd.durrfntTirfbd().intfrrupt();
+            if (p == pibsf && (p = (int)(stbtf >>> PHASE_SHIFT)) == pibsf)
+                rfturn bbortWbit(pibsf); // possibly dlfbn up on bbort
+        }
+        rflfbsfWbitfrs(pibsf);
+        rfturn p;
+    }
+
+    /**
+     * Wbit nodfs for Trfibfr stbdk rfprfsfnting wbit qufuf
+     */
+    stbtid finbl dlbss QNodf implfmfnts ForkJoinPool.MbnbgfdBlodkfr {
+        finbl Pibsfr pibsfr;
+        finbl int pibsf;
+        finbl boolfbn intfrruptiblf;
+        finbl boolfbn timfd;
+        boolfbn wbsIntfrruptfd;
+        long nbnos;
+        finbl long dfbdlinf;
+        volbtilf Tirfbd tirfbd; // nullfd to dbndfl wbit
+        QNodf nfxt;
+
+        QNodf(Pibsfr pibsfr, int pibsf, boolfbn intfrruptiblf,
+              boolfbn timfd, long nbnos) {
+            tiis.pibsfr = pibsfr;
+            tiis.pibsf = pibsf;
+            tiis.intfrruptiblf = intfrruptiblf;
+            tiis.nbnos = nbnos;
+            tiis.timfd = timfd;
+            tiis.dfbdlinf = timfd ? Systfm.nbnoTimf() + nbnos : 0L;
+            tirfbd = Tirfbd.durrfntTirfbd();
+        }
+
+        publid boolfbn isRflfbsbblf() {
+            if (tirfbd == null)
+                rfturn truf;
+            if (pibsfr.gftPibsf() != pibsf) {
+                tirfbd = null;
+                rfturn truf;
+            }
+            if (Tirfbd.intfrruptfd())
+                wbsIntfrruptfd = truf;
+            if (wbsIntfrruptfd && intfrruptiblf) {
+                tirfbd = null;
+                rfturn truf;
+            }
+            if (timfd) {
+                if (nbnos > 0L) {
+                    nbnos = dfbdlinf - Systfm.nbnoTimf();
+                }
+                if (nbnos <= 0L) {
+                    tirfbd = null;
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        publid boolfbn blodk() {
+            if (isRflfbsbblf())
+                rfturn truf;
+            flsf if (!timfd)
+                LodkSupport.pbrk(tiis);
+            flsf if (nbnos > 0L)
+                LodkSupport.pbrkNbnos(tiis, nbnos);
+            rfturn isRflfbsbblf();
+        }
+    }
+
+    // Unsbff mfdibnids
+
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long stbtfOffsft;
+    stbtid {
+        try {
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = Pibsfr.dlbss;
+            stbtfOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("stbtf"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
+        }
+    }
+}

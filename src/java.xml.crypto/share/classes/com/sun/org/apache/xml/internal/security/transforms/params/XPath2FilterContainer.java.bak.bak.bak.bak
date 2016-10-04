@@ -1,292 +1,1460 @@
 /*
+/*
+/*
+/*
+/*
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
  * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ */
+ */
+ */
+ */
  */
 /**
- * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
- * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
- * distributfd with this work for bdditionbl informbtion
- * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
- * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
- * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
- * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+/**
+/**
+/**
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
  *
  * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
- * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
  * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
- * undfr thf Lidfnsf.
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
  */
-pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
+ */
+ */
+ */
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
 
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.HflpfrNodfList;
-import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+
+
+
+
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.HflpfrNodfList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.HflpfrNodfList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.HflpfrNodfList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.HflpfrNodfList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.HflpfrNodfList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
 import org.w3d.dom.Dodumfnt;
 import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
 import org.w3d.dom.Nodf;
 import org.w3d.dom.NodfList;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NodfList;
+
+
+
+
 
 /**
- * Implfmfnts thf pbrbmftfrs for thf <A
- * HREF="http://www.w3.org/TR/xmldsig-filtfr2/">XPbth Filtfr v2.0</A>.
+/**
+/**
+/**
+/**
+ * Implfmfnts tif pbrbmftfrs for tif <A
+ * Implfmfnts tif pbrbmftfrs for tif <A
+ * Implfmfnts tif pbrbmftfrs for tif <A
+ * Implfmfnts tif pbrbmftfrs for tif <A
+ * Implfmfnts tif pbrbmftfrs for tif <A
+ * HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0</A>.
+ * HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0</A>.
+ * HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0</A>.
+ * HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0</A>.
+ * HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0</A>.
  *
- * @buthor $Author: dohfigfb $
- * @sff <A HREF="http://www.w3.org/TR/xmldsig-filtfr2/">XPbth Filtfr v2.0 (TR)</A>
+ *
+ *
+ *
+ *
+ * @butior $Autior: doifigfb $
+ * @butior $Autior: doifigfb $
+ * @butior $Autior: doifigfb $
+ * @butior $Autior: doifigfb $
+ * @butior $Autior: doifigfb $
+ * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0 (TR)</A>
+ * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0 (TR)</A>
+ * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0 (TR)</A>
+ * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0 (TR)</A>
+ * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0 (TR)</A>
  */
-publid dlbss XPbth2FiltfrContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
+ */
+ */
+ */
+ */
+publid dlbss XPbti2FiltfrContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
+publid dlbss XPbti2FiltfrContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
+publid dlbss XPbti2FiltfrContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
+publid dlbss XPbti2FiltfrContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
+publid dlbss XPbti2FiltfrContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
+
+
+
+
 
     /** Fifld _ATT_FILTER */
+    /** Fifld _ATT_FILTER */
+    /** Fifld _ATT_FILTER */
+    /** Fifld _ATT_FILTER */
+    /** Fifld _ATT_FILTER */
+    privbtf stbtid finbl String _ATT_FILTER = "Filtfr";
+    privbtf stbtid finbl String _ATT_FILTER = "Filtfr";
+    privbtf stbtid finbl String _ATT_FILTER = "Filtfr";
+    privbtf stbtid finbl String _ATT_FILTER = "Filtfr";
     privbtf stbtid finbl String _ATT_FILTER = "Filtfr";
 
+
+
+
+
+    /** Fifld _ATT_FILTER_VALUE_INTERSECT */
+    /** Fifld _ATT_FILTER_VALUE_INTERSECT */
+    /** Fifld _ATT_FILTER_VALUE_INTERSECT */
+    /** Fifld _ATT_FILTER_VALUE_INTERSECT */
     /** Fifld _ATT_FILTER_VALUE_INTERSECT */
     privbtf stbtid finbl String _ATT_FILTER_VALUE_INTERSECT = "intfrsfdt";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_INTERSECT = "intfrsfdt";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_INTERSECT = "intfrsfdt";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_INTERSECT = "intfrsfdt";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_INTERSECT = "intfrsfdt";
+
+
+
+
 
     /** Fifld _ATT_FILTER_VALUE_SUBTRACT */
+    /** Fifld _ATT_FILTER_VALUE_SUBTRACT */
+    /** Fifld _ATT_FILTER_VALUE_SUBTRACT */
+    /** Fifld _ATT_FILTER_VALUE_SUBTRACT */
+    /** Fifld _ATT_FILTER_VALUE_SUBTRACT */
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_SUBTRACT = "subtrbdt";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_SUBTRACT = "subtrbdt";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_SUBTRACT = "subtrbdt";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_SUBTRACT = "subtrbdt";
     privbtf stbtid finbl String _ATT_FILTER_VALUE_SUBTRACT = "subtrbdt";
 
+
+
+
+
+    /** Fifld _ATT_FILTER_VALUE_UNION */
+    /** Fifld _ATT_FILTER_VALUE_UNION */
+    /** Fifld _ATT_FILTER_VALUE_UNION */
+    /** Fifld _ATT_FILTER_VALUE_UNION */
     /** Fifld _ATT_FILTER_VALUE_UNION */
     privbtf stbtid finbl String _ATT_FILTER_VALUE_UNION = "union";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_UNION = "union";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_UNION = "union";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_UNION = "union";
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_UNION = "union";
+
+
+
+
 
     /** Fifld INTERSECT */
+    /** Fifld INTERSECT */
+    /** Fifld INTERSECT */
+    /** Fifld INTERSECT */
+    /** Fifld INTERSECT */
     publid stbtid finbl String INTERSECT =
-        XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT;
+    publid stbtid finbl String INTERSECT =
+    publid stbtid finbl String INTERSECT =
+    publid stbtid finbl String INTERSECT =
+    publid stbtid finbl String INTERSECT =
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT;
+
+
+
+
 
     /** Fifld SUBTRACT */
+    /** Fifld SUBTRACT */
+    /** Fifld SUBTRACT */
+    /** Fifld SUBTRACT */
+    /** Fifld SUBTRACT */
     publid stbtid finbl String SUBTRACT =
-        XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT;
+    publid stbtid finbl String SUBTRACT =
+    publid stbtid finbl String SUBTRACT =
+    publid stbtid finbl String SUBTRACT =
+    publid stbtid finbl String SUBTRACT =
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT;
+
+
+
+
 
     /** Fifld UNION */
+    /** Fifld UNION */
+    /** Fifld UNION */
+    /** Fifld UNION */
+    /** Fifld UNION */
     publid stbtid finbl String UNION =
-        XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_UNION;
+    publid stbtid finbl String UNION =
+    publid stbtid finbl String UNION =
+    publid stbtid finbl String UNION =
+    publid stbtid finbl String UNION =
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION;
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION;
+
+
+
+
 
     /** Fifld _TAG_XPATH2 */
-    publid stbtid finbl String _TAG_XPATH2 = "XPbth";
+    /** Fifld _TAG_XPATH2 */
+    /** Fifld _TAG_XPATH2 */
+    /** Fifld _TAG_XPATH2 */
+    /** Fifld _TAG_XPATH2 */
+    publid stbtid finbl String _TAG_XPATH2 = "XPbti";
+    publid stbtid finbl String _TAG_XPATH2 = "XPbti";
+    publid stbtid finbl String _TAG_XPATH2 = "XPbti";
+    publid stbtid finbl String _TAG_XPATH2 = "XPbti";
+    publid stbtid finbl String _TAG_XPATH2 = "XPbti";
 
-    /** Fifld XPbthFilfr2NS */
-    publid stbtid finbl String XPbthFiltfr2NS =
-        "http://www.w3.org/2002/06/xmldsig-filtfr2";
+
+
+
+
+    /** Fifld XPbtiFilfr2NS */
+    /** Fifld XPbtiFilfr2NS */
+    /** Fifld XPbtiFilfr2NS */
+    /** Fifld XPbtiFilfr2NS */
+    /** Fifld XPbtiFilfr2NS */
+    publid stbtid finbl String XPbtiFiltfr2NS =
+    publid stbtid finbl String XPbtiFiltfr2NS =
+    publid stbtid finbl String XPbtiFiltfr2NS =
+    publid stbtid finbl String XPbtiFiltfr2NS =
+    publid stbtid finbl String XPbtiFiltfr2NS =
+        "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+        "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+        "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+        "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+        "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
+
+
+
+
 
     /**
-     * Construdtor XPbth2FiltfrContbinfr
+    /**
+    /**
+    /**
+    /**
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     *
+     *
+     *
+     *
      *
      */
-    privbtf XPbth2FiltfrContbinfr() {
+     */
+     */
+     */
+     */
+    privbtf XPbti2FiltfrContbinfr() {
+    privbtf XPbti2FiltfrContbinfr() {
+    privbtf XPbti2FiltfrContbinfr() {
+    privbtf XPbti2FiltfrContbinfr() {
+    privbtf XPbti2FiltfrContbinfr() {
+        // no instbntibtion
+        // no instbntibtion
+        // no instbntibtion
+        // no instbntibtion
         // no instbntibtion
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Construdtor XPbth2FiltfrContbinfr
+    /**
+    /**
+    /**
+    /**
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     *
+     *
+     *
+     *
      *
      * @pbrbm dod
-     * @pbrbm xpbth2filtfr
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm filtfrTypf
+     * @pbrbm filtfrTypf
+     * @pbrbm filtfrTypf
+     * @pbrbm filtfrTypf
      * @pbrbm filtfrTypf
      */
-    privbtf XPbth2FiltfrContbinfr(Dodumfnt dod, String xpbth2filtfr, String filtfrTypf) {
+     */
+     */
+     */
+     */
+    privbtf XPbti2FiltfrContbinfr(Dodumfnt dod, String xpbti2filtfr, String filtfrTypf) {
+    privbtf XPbti2FiltfrContbinfr(Dodumfnt dod, String xpbti2filtfr, String filtfrTypf) {
+    privbtf XPbti2FiltfrContbinfr(Dodumfnt dod, String xpbti2filtfr, String filtfrTypf) {
+    privbtf XPbti2FiltfrContbinfr(Dodumfnt dod, String xpbti2filtfr, String filtfrTypf) {
+    privbtf XPbti2FiltfrContbinfr(Dodumfnt dod, String xpbti2filtfr, String filtfrTypf) {
+        supfr(dod);
+        supfr(dod);
+        supfr(dod);
+        supfr(dod);
         supfr(dod);
 
-        this.donstrudtionElfmfnt.sftAttributfNS(
-            null, XPbth2FiltfrContbinfr._ATT_FILTER, filtfrTypf);
-        this.donstrudtionElfmfnt.bppfndChild(dod.drfbtfTfxtNodf(xpbth2filtfr));
+
+
+
+
+        tiis.donstrudtionElfmfnt.sftAttributfNS(
+        tiis.donstrudtionElfmfnt.sftAttributfNS(
+        tiis.donstrudtionElfmfnt.sftAttributfNS(
+        tiis.donstrudtionElfmfnt.sftAttributfNS(
+        tiis.donstrudtionElfmfnt.sftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER, filtfrTypf);
+            null, XPbti2FiltfrContbinfr._ATT_FILTER, filtfrTypf);
+            null, XPbti2FiltfrContbinfr._ATT_FILTER, filtfrTypf);
+            null, XPbti2FiltfrContbinfr._ATT_FILTER, filtfrTypf);
+            null, XPbti2FiltfrContbinfr._ATT_FILTER, filtfrTypf);
+        tiis.donstrudtionElfmfnt.bppfndCiild(dod.drfbtfTfxtNodf(xpbti2filtfr));
+        tiis.donstrudtionElfmfnt.bppfndCiild(dod.drfbtfTfxtNodf(xpbti2filtfr));
+        tiis.donstrudtionElfmfnt.bppfndCiild(dod.drfbtfTfxtNodf(xpbti2filtfr));
+        tiis.donstrudtionElfmfnt.bppfndCiild(dod.drfbtfTfxtNodf(xpbti2filtfr));
+        tiis.donstrudtionElfmfnt.bppfndCiild(dod.drfbtfTfxtNodf(xpbti2filtfr));
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdtor XPbth2FiltfrContbinfr
+    /**
+    /**
+    /**
+    /**
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     * Construdtor XPbti2FiltfrContbinfr
+     *
+     *
+     *
+     *
      *
      * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
      * @pbrbm BbsfURI
-     * @throws XMLSfdurityExdfption
+     * @pbrbm BbsfURI
+     * @pbrbm BbsfURI
+     * @pbrbm BbsfURI
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    privbtf XPbth2FiltfrContbinfr(Elfmfnt flfmfnt, String BbsfURI) throws XMLSfdurityExdfption {
+     */
+     */
+     */
+     */
+    privbtf XPbti2FiltfrContbinfr(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+    privbtf XPbti2FiltfrContbinfr(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+    privbtf XPbti2FiltfrContbinfr(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+    privbtf XPbti2FiltfrContbinfr(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+    privbtf XPbti2FiltfrContbinfr(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+
+
+
+
 
         supfr(flfmfnt, BbsfURI);
+        supfr(flfmfnt, BbsfURI);
+        supfr(flfmfnt, BbsfURI);
+        supfr(flfmfnt, BbsfURI);
+        supfr(flfmfnt, BbsfURI);
+
+
+
+
 
         String filtfrStr =
-            this.donstrudtionElfmfnt.gftAttributfNS(null, XPbth2FiltfrContbinfr._ATT_FILTER);
+        String filtfrStr =
+        String filtfrStr =
+        String filtfrStr =
+        String filtfrStr =
+            tiis.donstrudtionElfmfnt.gftAttributfNS(null, XPbti2FiltfrContbinfr._ATT_FILTER);
+            tiis.donstrudtionElfmfnt.gftAttributfNS(null, XPbti2FiltfrContbinfr._ATT_FILTER);
+            tiis.donstrudtionElfmfnt.gftAttributfNS(null, XPbti2FiltfrContbinfr._ATT_FILTER);
+            tiis.donstrudtionElfmfnt.gftAttributfNS(null, XPbti2FiltfrContbinfr._ATT_FILTER);
+            tiis.donstrudtionElfmfnt.gftAttributfNS(null, XPbti2FiltfrContbinfr._ATT_FILTER);
 
-        if (!filtfrStr.fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
-            && !filtfrStr.fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
-            && !filtfrStr.fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_UNION)) {
-            Objfdt fxArgs[] = { XPbth2FiltfrContbinfr._ATT_FILTER, filtfrStr,
-                                XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT
+
+
+
+
+        if (!filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+        if (!filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+        if (!filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+        if (!filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+        if (!filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION)) {
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION)) {
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION)) {
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION)) {
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION)) {
+            Objfdt fxArgs[] = { XPbti2FiltfrContbinfr._ATT_FILTER, filtfrStr,
+            Objfdt fxArgs[] = { XPbti2FiltfrContbinfr._ATT_FILTER, filtfrStr,
+            Objfdt fxArgs[] = { XPbti2FiltfrContbinfr._ATT_FILTER, filtfrStr,
+            Objfdt fxArgs[] = { XPbti2FiltfrContbinfr._ATT_FILTER, filtfrStr,
+            Objfdt fxArgs[] = { XPbti2FiltfrContbinfr._ATT_FILTER, filtfrStr,
+                                XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT
+                                XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT
+                                XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT
+                                XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT
+                                XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT
                                 + ", "
-                                + XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT
+                                + ", "
+                                + ", "
+                                + ", "
+                                + ", "
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT
                                 + " or "
-                                + XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_UNION };
+                                + " or "
+                                + " or "
+                                + " or "
+                                + " or "
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION };
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION };
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION };
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION };
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION };
 
-            throw nfw XMLSfdurityExdfption("bttributfVblufIllfgbl", fxArgs);
+
+
+
+
+            tirow nfw XMLSfdurityExdfption("bttributfVblufIllfgbl", fxArgs);
+            tirow nfw XMLSfdurityExdfption("bttributfVblufIllfgbl", fxArgs);
+            tirow nfw XMLSfdurityExdfption("bttributfVblufIllfgbl", fxArgs);
+            tirow nfw XMLSfdurityExdfption("bttributfVblufIllfgbl", fxArgs);
+            tirow nfw XMLSfdurityExdfption("bttributfVblufIllfgbl", fxArgs);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Crfbtfs b nfw XPbth2FiltfrContbinfr with thf filtfr typf "intfrsfdt".
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "intfrsfdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "intfrsfdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "intfrsfdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "intfrsfdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "intfrsfdt".
+     *
+     *
+     *
+     *
      *
      * @pbrbm dod
-     * @pbrbm xpbth2filtfr
-     * @rfturn thf filtfr.
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
      */
-    publid stbtid XPbth2FiltfrContbinfr nfwInstbndfIntfrsfdt(
-        Dodumfnt dod, String xpbth2filtfr
+     */
+     */
+     */
+     */
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfIntfrsfdt(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfIntfrsfdt(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfIntfrsfdt(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfIntfrsfdt(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfIntfrsfdt(
+        Dodumfnt dod, String xpbti2filtfr
+        Dodumfnt dod, String xpbti2filtfr
+        Dodumfnt dod, String xpbti2filtfr
+        Dodumfnt dod, String xpbti2filtfr
+        Dodumfnt dod, String xpbti2filtfr
     ) {
-        rfturn nfw XPbth2FiltfrContbinfr(
-            dod, xpbth2filtfr, XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+    ) {
+    ) {
+    ) {
+    ) {
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b nfw XPbth2FiltfrContbinfr with thf filtfr typf "subtrbdt".
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "subtrbdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "subtrbdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "subtrbdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "subtrbdt".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "subtrbdt".
+     *
+     *
+     *
+     *
      *
      * @pbrbm dod
-     * @pbrbm xpbth2filtfr
-     * @rfturn thf filtfr.
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
+     * @rfturn tif filtfr.
      */
-    publid stbtid XPbth2FiltfrContbinfr nfwInstbndfSubtrbdt(Dodumfnt dod, String xpbth2filtfr) {
-        rfturn nfw XPbth2FiltfrContbinfr(
-            dod, xpbth2filtfr, XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+     */
+     */
+     */
+     */
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfSubtrbdt(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfSubtrbdt(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfSubtrbdt(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfSubtrbdt(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfSubtrbdt(Dodumfnt dod, String xpbti2filtfr) {
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b nfw XPbth2FiltfrContbinfr with thf filtfr typf "union".
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "union".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "union".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "union".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "union".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "union".
+     *
+     *
+     *
+     *
      *
      * @pbrbm dod
-     * @pbrbm xpbth2filtfr
-     * @rfturn thf filtfr
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @pbrbm xpbti2filtfr
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
      */
-    publid stbtid XPbth2FiltfrContbinfr nfwInstbndfUnion(Dodumfnt dod, String xpbth2filtfr) {
-        rfturn nfw XPbth2FiltfrContbinfr(
-            dod, xpbth2filtfr, XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+     */
+     */
+     */
+     */
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfUnion(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfUnion(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfUnion(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfUnion(Dodumfnt dod, String xpbti2filtfr) {
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfUnion(Dodumfnt dod, String xpbti2filtfr) {
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+        rfturn nfw XPbti2FiltfrContbinfr(
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mfthod nfwInstbndfs
+    /**
+    /**
+    /**
+    /**
+     * Mftiod nfwInstbndfs
+     * Mftiod nfwInstbndfs
+     * Mftiod nfwInstbndfs
+     * Mftiod nfwInstbndfs
+     * Mftiod nfwInstbndfs
      *
+     *
+     *
+     *
+     *
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
+     * @pbrbm dod
      * @pbrbm dod
      * @pbrbm pbrbms
-     * @rfturn thf nodflist with thf dbtb
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @pbrbm pbrbms
+     * @rfturn tif nodflist witi tif dbtb
+     * @rfturn tif nodflist witi tif dbtb
+     * @rfturn tif nodflist witi tif dbtb
+     * @rfturn tif nodflist witi tif dbtb
+     * @rfturn tif nodflist witi tif dbtb
+     */
+     */
+     */
+     */
      */
     publid stbtid NodfList nfwInstbndfs(Dodumfnt dod, String[][] pbrbms) {
+    publid stbtid NodfList nfwInstbndfs(Dodumfnt dod, String[][] pbrbms) {
+    publid stbtid NodfList nfwInstbndfs(Dodumfnt dod, String[][] pbrbms) {
+    publid stbtid NodfList nfwInstbndfs(Dodumfnt dod, String[][] pbrbms) {
+    publid stbtid NodfList nfwInstbndfs(Dodumfnt dod, String[][] pbrbms) {
+        HflpfrNodfList nl = nfw HflpfrNodfList();
+        HflpfrNodfList nl = nfw HflpfrNodfList();
+        HflpfrNodfList nl = nfw HflpfrNodfList();
+        HflpfrNodfList nl = nfw HflpfrNodfList();
         HflpfrNodfList nl = nfw HflpfrNodfList();
 
+
+
+
+
+        XMLUtils.bddRfturnToElfmfnt(dod, nl);
+        XMLUtils.bddRfturnToElfmfnt(dod, nl);
+        XMLUtils.bddRfturnToElfmfnt(dod, nl);
+        XMLUtils.bddRfturnToElfmfnt(dod, nl);
         XMLUtils.bddRfturnToElfmfnt(dod, nl);
 
-        for (int i = 0; i < pbrbms.lfngth; i++) {
-            String typf = pbrbms[i][0];
-            String xpbth = pbrbms[i][1];
 
-            if (!(typf.fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
-                || typf.fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
-                || typf.fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_UNION))){
-                throw nfw IllfgblArgumfntExdfption("Thf typf(" + i + ")=\"" + typf
+
+
+
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+            String typf = pbrbms[i][0];
+            String typf = pbrbms[i][0];
+            String typf = pbrbms[i][0];
+            String typf = pbrbms[i][0];
+            String typf = pbrbms[i][0];
+            String xpbti = pbrbms[i][1];
+            String xpbti = pbrbms[i][1];
+            String xpbti = pbrbms[i][1];
+            String xpbti = pbrbms[i][1];
+            String xpbti = pbrbms[i][1];
+
+
+
+
+
+            if (!(typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+            if (!(typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+            if (!(typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+            if (!(typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+            if (!(typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION))){
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION))){
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION))){
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION))){
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION))){
+                tirow nfw IllfgblArgumfntExdfption("Tif typf(" + i + ")=\"" + typf
+                tirow nfw IllfgblArgumfntExdfption("Tif typf(" + i + ")=\"" + typf
+                tirow nfw IllfgblArgumfntExdfption("Tif typf(" + i + ")=\"" + typf
+                tirow nfw IllfgblArgumfntExdfption("Tif typf(" + i + ")=\"" + typf
+                tirow nfw IllfgblArgumfntExdfption("Tif typf(" + i + ")=\"" + typf
+                                                   + "\" is illfgbl");
+                                                   + "\" is illfgbl");
+                                                   + "\" is illfgbl");
+                                                   + "\" is illfgbl");
                                                    + "\" is illfgbl");
             }
+            }
+            }
+            }
+            }
 
-            XPbth2FiltfrContbinfr d = nfw XPbth2FiltfrContbinfr(dod, xpbth, typf);
 
-            nl.bppfndChild(d.gftElfmfnt());
+
+
+
+            XPbti2FiltfrContbinfr d = nfw XPbti2FiltfrContbinfr(dod, xpbti, typf);
+            XPbti2FiltfrContbinfr d = nfw XPbti2FiltfrContbinfr(dod, xpbti, typf);
+            XPbti2FiltfrContbinfr d = nfw XPbti2FiltfrContbinfr(dod, xpbti, typf);
+            XPbti2FiltfrContbinfr d = nfw XPbti2FiltfrContbinfr(dod, xpbti, typf);
+            XPbti2FiltfrContbinfr d = nfw XPbti2FiltfrContbinfr(dod, xpbti, typf);
+
+
+
+
+
+            nl.bppfndCiild(d.gftElfmfnt());
+            nl.bppfndCiild(d.gftElfmfnt());
+            nl.bppfndCiild(d.gftElfmfnt());
+            nl.bppfndCiild(d.gftElfmfnt());
+            nl.bppfndCiild(d.gftElfmfnt());
+            XMLUtils.bddRfturnToElfmfnt(dod, nl);
+            XMLUtils.bddRfturnToElfmfnt(dod, nl);
+            XMLUtils.bddRfturnToElfmfnt(dod, nl);
+            XMLUtils.bddRfturnToElfmfnt(dod, nl);
             XMLUtils.bddRfturnToElfmfnt(dod, nl);
         }
-
-        rfturn nl;
-    }
-
-    /**
-     * Crfbtfs b XPbth2FiltfrContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
-     *
-     * @pbrbm flfmfnt
-     * @pbrbm BbsfURI
-     * @rfturn thf filtfr
-     *
-     * @throws XMLSfdurityExdfption
-     */
-    publid stbtid XPbth2FiltfrContbinfr nfwInstbndf(
-        Elfmfnt flfmfnt, String BbsfURI
-    ) throws XMLSfdurityExdfption {
-        rfturn nfw XPbth2FiltfrContbinfr(flfmfnt, BbsfURI);
-    }
-
-    /**
-     * Rfturns <dodf>truf</dodf> if thf <dodf>Filtfr</dodf> bttributf hbs vbluf "intfrsfdt".
-     *
-     * @rfturn <dodf>truf</dodf> if thf <dodf>Filtfr</dodf> bttributf hbs vbluf "intfrsfdt".
-     */
-    publid boolfbn isIntfrsfdt() {
-        rfturn this.donstrudtionElfmfnt.gftAttributfNS(
-            null, XPbth2FiltfrContbinfr._ATT_FILTER
-        ).fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
-    }
-
-    /**
-     * Rfturns <dodf>truf</dodf> if thf <dodf>Filtfr</dodf> bttributf hbs vbluf "subtrbdt".
-     *
-     * @rfturn <dodf>truf</dodf> if thf <dodf>Filtfr</dodf> bttributf hbs vbluf "subtrbdt".
-     */
-    publid boolfbn isSubtrbdt() {
-        rfturn this.donstrudtionElfmfnt.gftAttributfNS(
-            null, XPbth2FiltfrContbinfr._ATT_FILTER
-        ).fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
-    }
-
-    /**
-     * Rfturns <dodf>truf</dodf> if thf <dodf>Filtfr</dodf> bttributf hbs vbluf "union".
-     *
-     * @rfturn <dodf>truf</dodf> if thf <dodf>Filtfr</dodf> bttributf hbs vbluf "union".
-     */
-    publid boolfbn isUnion() {
-        rfturn this.donstrudtionElfmfnt.gftAttributfNS(
-            null, XPbth2FiltfrContbinfr._ATT_FILTER
-        ).fqubls(XPbth2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
-    }
-
-    /**
-     * Rfturns thf XPbth 2 Filtfr String
-     *
-     * @rfturn thf XPbth 2 Filtfr String
-     */
-    publid String gftXPbthFiltfrStr() {
-        rfturn this.gftTfxtFromTfxtChild();
-    }
-
-    /**
-     * Rfturns thf first Tfxt nodf whidh dontbins informbtion from thf XPbth 2
-     * Filtfr String. Wf must usf this stupid hook to fnbblf thf hfrf() fundtion
-     * to work.
-     *
-     * $todo$ I dunno whfthfr this drbshfs: <XPbth> hfrf()<!-- dommfnt -->/ds:Signbturf[1]</XPbth>
-     * @rfturn thf first Tfxt nodf whidh dontbins informbtion from thf XPbth 2 Filtfr String
-     */
-    publid Nodf gftXPbthFiltfrTfxtNodf() {
-
-        NodfList dhildrfn = this.donstrudtionElfmfnt.gftChildNodfs();
-        int lfngth = dhildrfn.gftLfngth();
-
-        for (int i = 0; i < lfngth; i++) {
-            if (dhildrfn.itfm(i).gftNodfTypf() == Nodf.TEXT_NODE) {
-                rfturn dhildrfn.itfm(i);
-            }
+        }
+        }
+        }
         }
 
+
+
+
+
+        rfturn nl;
+        rfturn nl;
+        rfturn nl;
+        rfturn nl;
+        rfturn nl;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b XPbti2FiltfrContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
+     * Crfbtfs b XPbti2FiltfrContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
+     * Crfbtfs b XPbti2FiltfrContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
+     * Crfbtfs b XPbti2FiltfrContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
+     * Crfbtfs b XPbti2FiltfrContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @pbrbm BbsfURI
+     * @pbrbm BbsfURI
+     * @pbrbm BbsfURI
+     * @pbrbm BbsfURI
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
+     * @rfturn tif filtfr
+     *
+     *
+     *
+     *
+     *
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     * @tirows XMLSfdurityExdfption
+     */
+     */
+     */
+     */
+     */
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndf(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndf(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndf(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndf(
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndf(
+        Elfmfnt flfmfnt, String BbsfURI
+        Elfmfnt flfmfnt, String BbsfURI
+        Elfmfnt flfmfnt, String BbsfURI
+        Elfmfnt flfmfnt, String BbsfURI
+        Elfmfnt flfmfnt, String BbsfURI
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+    ) tirows XMLSfdurityExdfption {
+        rfturn nfw XPbti2FiltfrContbinfr(flfmfnt, BbsfURI);
+        rfturn nfw XPbti2FiltfrContbinfr(flfmfnt, BbsfURI);
+        rfturn nfw XPbti2FiltfrContbinfr(flfmfnt, BbsfURI);
+        rfturn nfw XPbti2FiltfrContbinfr(flfmfnt, BbsfURI);
+        rfturn nfw XPbti2FiltfrContbinfr(flfmfnt, BbsfURI);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn isIntfrsfdt() {
+    publid boolfbn isIntfrsfdt() {
+    publid boolfbn isIntfrsfdt() {
+    publid boolfbn isIntfrsfdt() {
+    publid boolfbn isIntfrsfdt() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn isSubtrbdt() {
+    publid boolfbn isSubtrbdt() {
+    publid boolfbn isSubtrbdt() {
+    publid boolfbn isSubtrbdt() {
+    publid boolfbn isSubtrbdt() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn isUnion() {
+    publid boolfbn isUnion() {
+    publid boolfbn isUnion() {
+    publid boolfbn isUnion() {
+    publid boolfbn isUnion() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif XPbti 2 Filtfr String
+     * Rfturns tif XPbti 2 Filtfr String
+     * Rfturns tif XPbti 2 Filtfr String
+     * Rfturns tif XPbti 2 Filtfr String
+     * Rfturns tif XPbti 2 Filtfr String
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif XPbti 2 Filtfr String
+     * @rfturn tif XPbti 2 Filtfr String
+     * @rfturn tif XPbti 2 Filtfr String
+     * @rfturn tif XPbti 2 Filtfr String
+     * @rfturn tif XPbti 2 Filtfr String
+     */
+     */
+     */
+     */
+     */
+    publid String gftXPbtiFiltfrStr() {
+    publid String gftXPbtiFiltfrStr() {
+    publid String gftXPbtiFiltfrStr() {
+    publid String gftXPbtiFiltfrStr() {
+    publid String gftXPbtiFiltfrStr() {
+        rfturn tiis.gftTfxtFromTfxtCiild();
+        rfturn tiis.gftTfxtFromTfxtCiild();
+        rfturn tiis.gftTfxtFromTfxtCiild();
+        rfturn tiis.gftTfxtFromTfxtCiild();
+        rfturn tiis.gftTfxtFromTfxtCiild();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2
+     * Rfturns tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2
+     * Rfturns tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2
+     * Rfturns tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2
+     * Rfturns tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2
+     * Filtfr String. Wf must usf tiis stupid iook to fnbblf tif ifrf() fundtion
+     * Filtfr String. Wf must usf tiis stupid iook to fnbblf tif ifrf() fundtion
+     * Filtfr String. Wf must usf tiis stupid iook to fnbblf tif ifrf() fundtion
+     * Filtfr String. Wf must usf tiis stupid iook to fnbblf tif ifrf() fundtion
+     * Filtfr String. Wf must usf tiis stupid iook to fnbblf tif ifrf() fundtion
+     * to work.
+     * to work.
+     * to work.
+     * to work.
+     * to work.
+     *
+     *
+     *
+     *
+     *
+     * $todo$ I dunno wiftifr tiis drbsifs: <XPbti> ifrf()<!-- dommfnt -->/ds:Signbturf[1]</XPbti>
+     * $todo$ I dunno wiftifr tiis drbsifs: <XPbti> ifrf()<!-- dommfnt -->/ds:Signbturf[1]</XPbti>
+     * $todo$ I dunno wiftifr tiis drbsifs: <XPbti> ifrf()<!-- dommfnt -->/ds:Signbturf[1]</XPbti>
+     * $todo$ I dunno wiftifr tiis drbsifs: <XPbti> ifrf()<!-- dommfnt -->/ds:Signbturf[1]</XPbti>
+     * $todo$ I dunno wiftifr tiis drbsifs: <XPbti> ifrf()<!-- dommfnt -->/ds:Signbturf[1]</XPbti>
+     * @rfturn tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2 Filtfr String
+     * @rfturn tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2 Filtfr String
+     * @rfturn tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2 Filtfr String
+     * @rfturn tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2 Filtfr String
+     * @rfturn tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2 Filtfr String
+     */
+     */
+     */
+     */
+     */
+    publid Nodf gftXPbtiFiltfrTfxtNodf() {
+    publid Nodf gftXPbtiFiltfrTfxtNodf() {
+    publid Nodf gftXPbtiFiltfrTfxtNodf() {
+    publid Nodf gftXPbtiFiltfrTfxtNodf() {
+    publid Nodf gftXPbtiFiltfrTfxtNodf() {
+
+
+
+
+
+        NodfList diildrfn = tiis.donstrudtionElfmfnt.gftCiildNodfs();
+        NodfList diildrfn = tiis.donstrudtionElfmfnt.gftCiildNodfs();
+        NodfList diildrfn = tiis.donstrudtionElfmfnt.gftCiildNodfs();
+        NodfList diildrfn = tiis.donstrudtionElfmfnt.gftCiildNodfs();
+        NodfList diildrfn = tiis.donstrudtionElfmfnt.gftCiildNodfs();
+        int lfngti = diildrfn.gftLfngti();
+        int lfngti = diildrfn.gftLfngti();
+        int lfngti = diildrfn.gftLfngti();
+        int lfngti = diildrfn.gftLfngti();
+        int lfngti = diildrfn.gftLfngti();
+
+
+
+
+
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+        for (int i = 0; i < lfngti; i++) {
+            if (diildrfn.itfm(i).gftNodfTypf() == Nodf.TEXT_NODE) {
+            if (diildrfn.itfm(i).gftNodfTypf() == Nodf.TEXT_NODE) {
+            if (diildrfn.itfm(i).gftNodfTypf() == Nodf.TEXT_NODE) {
+            if (diildrfn.itfm(i).gftNodfTypf() == Nodf.TEXT_NODE) {
+            if (diildrfn.itfm(i).gftNodfTypf() == Nodf.TEXT_NODE) {
+                rfturn diildrfn.itfm(i);
+                rfturn diildrfn.itfm(i);
+                rfturn diildrfn.itfm(i);
+                rfturn diildrfn.itfm(i);
+                rfturn diildrfn.itfm(i);
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
         rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Mfthod gftBbsfLodblNbmf
+    /**
+    /**
+    /**
+    /**
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
+     * Mftiod gftBbsfLodblNbmf
      *
-     * @rfturn thf XPATH2 tbg
+     *
+     *
+     *
+     *
+     * @rfturn tif XPATH2 tbg
+     * @rfturn tif XPATH2 tbg
+     * @rfturn tif XPATH2 tbg
+     * @rfturn tif XPATH2 tbg
+     * @rfturn tif XPATH2 tbg
+     */
+     */
+     */
+     */
      */
     publid finbl String gftBbsfLodblNbmf() {
-        rfturn XPbth2FiltfrContbinfr._TAG_XPATH2;
+    publid finbl String gftBbsfLodblNbmf() {
+    publid finbl String gftBbsfLodblNbmf() {
+    publid finbl String gftBbsfLodblNbmf() {
+    publid finbl String gftBbsfLodblNbmf() {
+        rfturn XPbti2FiltfrContbinfr._TAG_XPATH2;
+        rfturn XPbti2FiltfrContbinfr._TAG_XPATH2;
+        rfturn XPbti2FiltfrContbinfr._TAG_XPATH2;
+        rfturn XPbti2FiltfrContbinfr._TAG_XPATH2;
+        rfturn XPbti2FiltfrContbinfr._TAG_XPATH2;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Mfthod gftBbsfNbmfspbdf
+    /**
+    /**
+    /**
+    /**
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
+     * Mftiod gftBbsfNbmfspbdf
+     *
+     *
+     *
+     *
      *
      * @rfturn XPATH2 tbg nbmfspbdf
+     * @rfturn XPATH2 tbg nbmfspbdf
+     * @rfturn XPATH2 tbg nbmfspbdf
+     * @rfturn XPATH2 tbg nbmfspbdf
+     * @rfturn XPATH2 tbg nbmfspbdf
+     */
+     */
+     */
+     */
      */
     publid finbl String gftBbsfNbmfspbdf() {
-        rfturn XPbth2FiltfrContbinfr.XPbthFiltfr2NS;
+    publid finbl String gftBbsfNbmfspbdf() {
+    publid finbl String gftBbsfNbmfspbdf() {
+    publid finbl String gftBbsfNbmfspbdf() {
+    publid finbl String gftBbsfNbmfspbdf() {
+        rfturn XPbti2FiltfrContbinfr.XPbtiFiltfr2NS;
+        rfturn XPbti2FiltfrContbinfr.XPbtiFiltfr2NS;
+        rfturn XPbti2FiltfrContbinfr.XPbtiFiltfr2NS;
+        rfturn XPbti2FiltfrContbinfr.XPbtiFiltfr2NS;
+        rfturn XPbti2FiltfrContbinfr.XPbtiFiltfr2NS;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

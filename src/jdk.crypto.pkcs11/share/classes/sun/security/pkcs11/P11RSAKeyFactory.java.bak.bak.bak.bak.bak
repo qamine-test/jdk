@@ -1,0 +1,325 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.mbti.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
+
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+
+/**
+ * RSA KfyFbdtory implfmfntbtion.
+ *
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss P11RSAKfyFbdtory fxtfnds P11KfyFbdtory {
+
+    P11RSAKfyFbdtory(Tokfn tokfn, String blgoritim) {
+        supfr(tokfn, blgoritim);
+    }
+
+    PublidKfy implTrbnslbtfPublidKfy(PublidKfy kfy) tirows InvblidKfyExdfption {
+        try {
+            if (kfy instbndfof RSAPublidKfy) {
+                RSAPublidKfy rsbKfy = (RSAPublidKfy)kfy;
+                rfturn gfnfrbtfPublid(
+                    rsbKfy.gftModulus(),
+                    rsbKfy.gftPublidExponfnt()
+                );
+            } flsf if ("X.509".fqubls(kfy.gftFormbt())) {
+                // lft SunRsbSign providfr pbrsf for us, tifn rfdursf
+                bytf[] fndodfd = kfy.gftEndodfd();
+                kfy = nfw sun.sfdurity.rsb.RSAPublidKfyImpl(fndodfd);
+                rfturn implTrbnslbtfPublidKfy(kfy);
+            } flsf {
+                tirow nfw InvblidKfyExdfption("PublidKfy must bf instbndf "
+                        + "of RSAPublidKfy or ibvf X.509 fndoding");
+            }
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfyExdfption("Could not drfbtf RSA publid kfy", f);
+        }
+    }
+
+    PrivbtfKfy implTrbnslbtfPrivbtfKfy(PrivbtfKfy kfy)
+            tirows InvblidKfyExdfption {
+        try {
+            if (kfy instbndfof RSAPrivbtfCrtKfy) {
+                RSAPrivbtfCrtKfy rsbKfy = (RSAPrivbtfCrtKfy)kfy;
+                rfturn gfnfrbtfPrivbtf(
+                    rsbKfy.gftModulus(),
+                    rsbKfy.gftPublidExponfnt(),
+                    rsbKfy.gftPrivbtfExponfnt(),
+                    rsbKfy.gftPrimfP(),
+                    rsbKfy.gftPrimfQ(),
+                    rsbKfy.gftPrimfExponfntP(),
+                    rsbKfy.gftPrimfExponfntQ(),
+                    rsbKfy.gftCrtCofffidifnt()
+                );
+            } flsf if (kfy instbndfof RSAPrivbtfKfy) {
+                RSAPrivbtfKfy rsbKfy = (RSAPrivbtfKfy)kfy;
+                rfturn gfnfrbtfPrivbtf(
+                    rsbKfy.gftModulus(),
+                    rsbKfy.gftPrivbtfExponfnt()
+                );
+            } flsf if ("PKCS#8".fqubls(kfy.gftFormbt())) {
+                // lft SunRsbSign providfr pbrsf for us, tifn rfdursf
+                bytf[] fndodfd = kfy.gftEndodfd();
+                kfy = sun.sfdurity.rsb.RSAPrivbtfCrtKfyImpl.nfwKfy(fndodfd);
+                rfturn implTrbnslbtfPrivbtfKfy(kfy);
+            } flsf {
+                tirow nfw InvblidKfyExdfption("Privbtf kfy must bf instbndf "
+                        + "of RSAPrivbtf(Crt)Kfy or ibvf PKCS#8 fndoding");
+            }
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfyExdfption("Could not drfbtf RSA privbtf kfy", f);
+        }
+    }
+
+    // sff JCA spfd
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof X509EndodfdKfySpfd) {
+            try {
+                bytf[] fndodfd = ((X509EndodfdKfySpfd)kfySpfd).gftEndodfd();
+                PublidKfy kfy = nfw sun.sfdurity.rsb.RSAPublidKfyImpl(fndodfd);
+                rfturn implTrbnslbtfPublidKfy(kfy);
+            } dbtdi (InvblidKfyExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf RSA publid kfy", f);
+            }
+        }
+        if (kfySpfd instbndfof RSAPublidKfySpfd == fblsf) {
+            tirow nfw InvblidKfySpfdExdfption("Only RSAPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for RSA publid kfys");
+        }
+        try {
+            RSAPublidKfySpfd rs = (RSAPublidKfySpfd)kfySpfd;
+            rfturn gfnfrbtfPublid(
+                rs.gftModulus(),
+                rs.gftPublidExponfnt()
+            );
+        } dbtdi (PKCS11Exdfption | InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf RSA publid kfy", f);
+        }
+    }
+
+    // sff JCA spfd
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
+            try {
+                bytf[] fndodfd = ((PKCS8EndodfdKfySpfd)kfySpfd).gftEndodfd();
+                PrivbtfKfy kfy =
+                        sun.sfdurity.rsb.RSAPrivbtfCrtKfyImpl.nfwKfy(fndodfd);
+                rfturn implTrbnslbtfPrivbtfKfy(kfy);
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf RSA privbtf kfy", f);
+            }
+        }
+        try {
+            if (kfySpfd instbndfof RSAPrivbtfCrtKfySpfd) {
+                RSAPrivbtfCrtKfySpfd rs = (RSAPrivbtfCrtKfySpfd)kfySpfd;
+                rfturn gfnfrbtfPrivbtf(
+                    rs.gftModulus(),
+                    rs.gftPublidExponfnt(),
+                    rs.gftPrivbtfExponfnt(),
+                    rs.gftPrimfP(),
+                    rs.gftPrimfQ(),
+                    rs.gftPrimfExponfntP(),
+                    rs.gftPrimfExponfntQ(),
+                    rs.gftCrtCofffidifnt()
+                );
+            } flsf if (kfySpfd instbndfof RSAPrivbtfKfySpfd) {
+                RSAPrivbtfKfySpfd rs = (RSAPrivbtfKfySpfd)kfySpfd;
+                rfturn gfnfrbtfPrivbtf(
+                    rs.gftModulus(),
+                    rs.gftPrivbtfExponfnt()
+                );
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption("Only RSAPrivbtf(Crt)KfySpfd "
+                    + "bnd PKCS8EndodfdKfySpfd supportfd for RSA privbtf kfys");
+            }
+        } dbtdi (PKCS11Exdfption | InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf RSA privbtf kfy", f);
+        }
+    }
+
+    privbtf PublidKfy gfnfrbtfPublid(BigIntfgfr n, BigIntfgfr f)
+            tirows PKCS11Exdfption, InvblidKfyExdfption {
+        RSAKfyFbdtory.difdkKfyLfngtis(n.bitLfngti(), f, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
+            nfw CK_ATTRIBUTE(CKA_MODULUS, n),
+            nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, f),
+        };
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PUBLIC_KEY, CKK_RSA, bttributfs);
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.publidKfy
+                (sfssion, kfyID, "RSA", n.bitLfngti(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+    privbtf PrivbtfKfy gfnfrbtfPrivbtf(BigIntfgfr n, BigIntfgfr d)
+            tirows PKCS11Exdfption, InvblidKfyExdfption {
+        RSAKfyFbdtory.difdkKfyLfngtis(n.bitLfngti(), null, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
+            nfw CK_ATTRIBUTE(CKA_MODULUS, n),
+            nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT, d),
+        };
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, bttributfs);
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.privbtfKfy
+                (sfssion,  kfyID, "RSA", n.bitLfngti(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+    privbtf PrivbtfKfy gfnfrbtfPrivbtf(BigIntfgfr n, BigIntfgfr f,
+            BigIntfgfr d, BigIntfgfr p, BigIntfgfr q, BigIntfgfr pf,
+            BigIntfgfr qf, BigIntfgfr dofff) tirows PKCS11Exdfption,
+            InvblidKfyExdfption {
+        RSAKfyFbdtory.difdkKfyLfngtis(n.bitLfngti(), f, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
+            nfw CK_ATTRIBUTE(CKA_MODULUS, n),
+            nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, f),
+            nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT, d),
+            nfw CK_ATTRIBUTE(CKA_PRIME_1, p),
+            nfw CK_ATTRIBUTE(CKA_PRIME_2, q),
+            nfw CK_ATTRIBUTE(CKA_EXPONENT_1, pf),
+            nfw CK_ATTRIBUTE(CKA_EXPONENT_2, qf),
+            nfw CK_ATTRIBUTE(CKA_COEFFICIENT, dofff),
+        };
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, bttributfs);
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.privbtfKfy
+                (sfssion, kfyID, "RSA", n.bitLfngti(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+    <T fxtfnds KfySpfd> T implGftPublidKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (RSAPublidKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
+            };
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw RSAPublidKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr()
+            );
+            rfturn kfySpfd.dbst(spfd);
+        } flsf { // X.509 ibndlfd in supfrdlbss
+            tirow nfw InvblidKfySpfdExdfption("Only RSAPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for RSA publid kfys");
+        }
+    }
+
+    <T fxtfnds KfySpfd> T implGftPrivbtfKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (RSAPrivbtfCrtKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
+                nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
+                nfw CK_ATTRIBUTE(CKA_PRIME_1),
+                nfw CK_ATTRIBUTE(CKA_PRIME_2),
+                nfw CK_ATTRIBUTE(CKA_EXPONENT_1),
+                nfw CK_ATTRIBUTE(CKA_EXPONENT_2),
+                nfw CK_ATTRIBUTE(CKA_COEFFICIENT),
+            };
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw RSAPrivbtfCrtKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr(),
+                bttributfs[3].gftBigIntfgfr(),
+                bttributfs[4].gftBigIntfgfr(),
+                bttributfs[5].gftBigIntfgfr(),
+                bttributfs[6].gftBigIntfgfr(),
+                bttributfs[7].gftBigIntfgfr()
+            );
+            rfturn kfySpfd.dbst(spfd);
+        } flsf if (RSAPrivbtfKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
+            };
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw RSAPrivbtfKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr()
+            );
+            rfturn kfySpfd.dbst(spfd);
+        } flsf { // PKCS#8 ibndlfd in supfrdlbss
+            tirow nfw InvblidKfySpfdExdfption("Only RSAPrivbtf(Crt)KfySpfd "
+                + "bnd PKCS8EndodfdKfySpfd supportfd for RSA privbtf kfys");
+        }
+    }
+
+    KfyFbdtory implGftSoftwbrfFbdtory() tirows GfnfrblSfdurityExdfption {
+        rfturn KfyFbdtory.gftInstbndf("RSA", P11Util.gftSunRsbSignProvidfr());
+    }
+
+}

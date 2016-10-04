@@ -1,170 +1,850 @@
 /*
- * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.imbgfio.fvfnt;
+pbdkbgf jbvbx.imbgfio.fvfnt;
+pbdkbgf jbvbx.imbgfio.fvfnt;
+pbdkbgf jbvbx.imbgfio.fvfnt;
+pbdkbgf jbvbx.imbgfio.fvfnt;
+
+
+
+
 
 import jbvb.util.EvfntListfnfr;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
 import jbvbx.imbgfio.ImbgfRfbdfr;
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
- * notify dbllfrs of thfir imbgf bnd thumbnbil rfbding mfthods of
+ * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
+ * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
+ * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
+ * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
+ * notify dbllfrs of tifir imbgf bnd tiumbnbil rfbding mftiods of
+ * notify dbllfrs of tifir imbgf bnd tiumbnbil rfbding mftiods of
+ * notify dbllfrs of tifir imbgf bnd tiumbnbil rfbding mftiods of
+ * notify dbllfrs of tifir imbgf bnd tiumbnbil rfbding mftiods of
+ * notify dbllfrs of tifir imbgf bnd tiumbnbil rfbding mftiods of
+ * progrfss.
+ * progrfss.
+ * progrfss.
+ * progrfss.
  * progrfss.
  *
- * <p> This intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
- * progrfss (vib thf <dodf>imbgfProgrfss</dodf> bnd
- * <dodf>thumbnbilProgrfss</dodf> mfthods), bnd fvfnts indidbting whfn
- * bn fntirf imbgf hbs bffn updbtfd (vib thf
+ *
+ *
+ *
+ *
+ * <p> Tiis intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
+ * <p> Tiis intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
+ * <p> Tiis intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
+ * <p> Tiis intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
+ * <p> Tiis intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
+ * progrfss (vib tif <dodf>imbgfProgrfss</dodf> bnd
+ * progrfss (vib tif <dodf>imbgfProgrfss</dodf> bnd
+ * progrfss (vib tif <dodf>imbgfProgrfss</dodf> bnd
+ * progrfss (vib tif <dodf>imbgfProgrfss</dodf> bnd
+ * progrfss (vib tif <dodf>imbgfProgrfss</dodf> bnd
+ * <dodf>tiumbnbilProgrfss</dodf> mftiods), bnd fvfnts indidbting wifn
+ * <dodf>tiumbnbilProgrfss</dodf> mftiods), bnd fvfnts indidbting wifn
+ * <dodf>tiumbnbilProgrfss</dodf> mftiods), bnd fvfnts indidbting wifn
+ * <dodf>tiumbnbilProgrfss</dodf> mftiods), bnd fvfnts indidbting wifn
+ * <dodf>tiumbnbilProgrfss</dodf> mftiods), bnd fvfnts indidbting wifn
+ * bn fntirf imbgf ibs bffn updbtfd (vib tif
+ * bn fntirf imbgf ibs bffn updbtfd (vib tif
+ * bn fntirf imbgf ibs bffn updbtfd (vib tif
+ * bn fntirf imbgf ibs bffn updbtfd (vib tif
+ * bn fntirf imbgf ibs bffn updbtfd (vib tif
  * <dodf>imbgfStbrtfd</dodf>, <dodf>imbgfComplftf</dodf>,
- * <dodf>thumbnbilStbrtfd</dodf> bnd <dodf>thumbnbilComplftf</dodf>
- * mfthods).  Applidbtions thbt wish to bf informfd of pixfl updbtfs
- * bs thfy hbppfn (for fxbmplf, during progrfssivf dfdoding), should
+ * <dodf>imbgfStbrtfd</dodf>, <dodf>imbgfComplftf</dodf>,
+ * <dodf>imbgfStbrtfd</dodf>, <dodf>imbgfComplftf</dodf>,
+ * <dodf>imbgfStbrtfd</dodf>, <dodf>imbgfComplftf</dodf>,
+ * <dodf>imbgfStbrtfd</dodf>, <dodf>imbgfComplftf</dodf>,
+ * <dodf>tiumbnbilStbrtfd</dodf> bnd <dodf>tiumbnbilComplftf</dodf>
+ * <dodf>tiumbnbilStbrtfd</dodf> bnd <dodf>tiumbnbilComplftf</dodf>
+ * <dodf>tiumbnbilStbrtfd</dodf> bnd <dodf>tiumbnbilComplftf</dodf>
+ * <dodf>tiumbnbilStbrtfd</dodf> bnd <dodf>tiumbnbilComplftf</dodf>
+ * <dodf>tiumbnbilStbrtfd</dodf> bnd <dodf>tiumbnbilComplftf</dodf>
+ * mftiods).  Applidbtions tibt wisi to bf informfd of pixfl updbtfs
+ * mftiods).  Applidbtions tibt wisi to bf informfd of pixfl updbtfs
+ * mftiods).  Applidbtions tibt wisi to bf informfd of pixfl updbtfs
+ * mftiods).  Applidbtions tibt wisi to bf informfd of pixfl updbtfs
+ * mftiods).  Applidbtions tibt wisi to bf informfd of pixfl updbtfs
+ * bs tify ibppfn (for fxbmplf, during progrfssivf dfdoding), siould
+ * bs tify ibppfn (for fxbmplf, during progrfssivf dfdoding), siould
+ * bs tify ibppfn (for fxbmplf, during progrfssivf dfdoding), siould
+ * bs tify ibppfn (for fxbmplf, during progrfssivf dfdoding), siould
+ * bs tify ibppfn (for fxbmplf, during progrfssivf dfdoding), siould
+ * providf bn <dodf>IIORfbdUpdbtfListfnfr</dodf>.
+ * providf bn <dodf>IIORfbdUpdbtfListfnfr</dodf>.
+ * providf bn <dodf>IIORfbdUpdbtfListfnfr</dodf>.
+ * providf bn <dodf>IIORfbdUpdbtfListfnfr</dodf>.
  * providf bn <dodf>IIORfbdUpdbtfListfnfr</dodf>.
  *
+ *
+ *
+ *
+ *
+ * @sff IIORfbdUpdbtfListfnfr
+ * @sff IIORfbdUpdbtfListfnfr
+ * @sff IIORfbdUpdbtfListfnfr
+ * @sff IIORfbdUpdbtfListfnfr
  * @sff IIORfbdUpdbtfListfnfr
  * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdProgrfssListfnfr
  * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdProgrfssListfnfr
  *
+ *
+ *
+ *
+ *
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf IIORfbdProgrfssListfnfr fxtfnds EvfntListfnfr {
+publid intfrfbdf IIORfbdProgrfssListfnfr fxtfnds EvfntListfnfr {
+publid intfrfbdf IIORfbdProgrfssListfnfr fxtfnds EvfntListfnfr {
+publid intfrfbdf IIORfbdProgrfssListfnfr fxtfnds EvfntListfnfr {
+publid intfrfbdf IIORfbdProgrfssListfnfr fxtfnds EvfntListfnfr {
+
+
+
+
 
     /**
-     * Rfports thbt b sfqufndf of rfbd opfrbtions is bfginning.
+    /**
+    /**
+    /**
+    /**
+     * Rfports tibt b sfqufndf of rfbd opfrbtions is bfginning.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions is bfginning.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions is bfginning.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions is bfginning.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions is bfginning.
      * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
-     * this mfthod fxbdtly ondf from thfir
-     * <dodf>rfbdAll(Itfrbtor)</dodf> mfthod.
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
-     * @pbrbm minIndfx thf indfx of thf first imbgf to bf rfbd.
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm minIndfx tif indfx of tif first imbgf to bf rfbd.
+     * @pbrbm minIndfx tif indfx of tif first imbgf to bf rfbd.
+     * @pbrbm minIndfx tif indfx of tif first imbgf to bf rfbd.
+     * @pbrbm minIndfx tif indfx of tif first imbgf to bf rfbd.
+     * @pbrbm minIndfx tif indfx of tif first imbgf to bf rfbd.
+     */
+     */
+     */
+     */
      */
     void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx);
+    void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx);
+    void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx);
+    void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx);
+    void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx);
+
+
+
+
 
     /**
-     * Rfports thbt b sfqufndf of rfbd opfrbtions hbs domplftfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfports tibt b sfqufndf of rfbd opfrbtions ibs domplftfd.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions ibs domplftfd.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions ibs domplftfd.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions ibs domplftfd.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions ibs domplftfd.
      * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
-     * this mfthod fxbdtly ondf from thfir
-     * <dodf>rfbdAll(Itfrbtor)</dodf> mfthod.
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * tiis mftiod fxbdtly ondf from tifir
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     */
+     */
+     */
+     */
      */
     void sfqufndfComplftf(ImbgfRfbdfr sourdf);
+    void sfqufndfComplftf(ImbgfRfbdfr sourdf);
+    void sfqufndfComplftf(ImbgfRfbdfr sourdf);
+    void sfqufndfComplftf(ImbgfRfbdfr sourdf);
+    void sfqufndfComplftf(ImbgfRfbdfr sourdf);
+
+
+
+
 
     /**
-     * Rfports thbt bn imbgf rfbd opfrbtion is bfginning.  All
+    /**
+    /**
+    /**
+    /**
+     * Rfports tibt bn imbgf rfbd opfrbtion is bfginning.  All
+     * Rfports tibt bn imbgf rfbd opfrbtion is bfginning.  All
+     * Rfports tibt bn imbgf rfbd opfrbtion is bfginning.  All
+     * Rfports tibt bn imbgf rfbd opfrbtion is bfginning.  All
+     * Rfports tibt bn imbgf rfbd opfrbtion is bfginning.  All
      * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
-     * this mfthod fxbdtly ondf whfn bfginning bn imbgf rfbd
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf wifn bfginning bn imbgf rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning bn imbgf rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning bn imbgf rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning bn imbgf rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning bn imbgf rfbd
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
      * opfrbtion.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
-     * @pbrbm imbgfIndfx thf indfx of thf imbgf bfing rfbd within its
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
      * dontbining input filf or strfbm.
+     * dontbining input filf or strfbm.
+     * dontbining input filf or strfbm.
+     * dontbining input filf or strfbm.
+     * dontbining input filf or strfbm.
+     */
+     */
+     */
+     */
      */
     void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx);
+    void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx);
+    void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx);
+    void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx);
+    void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx);
+
+
+
+
 
     /**
-     * Rfports thf bpproximbtf dfgrff of domplftion of thf durrfnt
-     * <dodf>rfbd</dodf> dbll of thf bssodibtfd
+    /**
+    /**
+    /**
+    /**
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * <dodf>rfbd</dodf> dbll of tif bssodibtfd
+     * <dodf>rfbd</dodf> dbll of tif bssodibtfd
+     * <dodf>rfbd</dodf> dbll of tif bssodibtfd
+     * <dodf>rfbd</dodf> dbll of tif bssodibtfd
+     * <dodf>rfbd</dodf> dbll of tif bssodibtfd
+     * <dodf>ImbgfRfbdfr</dodf>.
+     * <dodf>ImbgfRfbdfr</dodf>.
+     * <dodf>ImbgfRfbdfr</dodf>.
+     * <dodf>ImbgfRfbdfr</dodf>.
      * <dodf>ImbgfRfbdfr</dodf>.
      *
-     * <p> Thf dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
-     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Thf
-     * pfrdfntbgf should idfblly bf dbldulbtfd in tfrms of thf
+     *
+     *
+     *
+     *
+     * <p> Tif dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
+     * <p> Tif dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
+     * <p> Tif dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
+     * <p> Tif dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
+     * <p> Tif dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Tif
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Tif
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Tif
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Tif
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Tif
+     * pfrdfntbgf siould idfblly bf dbldulbtfd in tfrms of tif
+     * pfrdfntbgf siould idfblly bf dbldulbtfd in tfrms of tif
+     * pfrdfntbgf siould idfblly bf dbldulbtfd in tfrms of tif
+     * pfrdfntbgf siould idfblly bf dbldulbtfd in tfrms of tif
+     * pfrdfntbgf siould idfblly bf dbldulbtfd in tfrms of tif
      * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
-     * to usf b morf wfll-dffinfd mftrid sudh bs pixfls dfdodfd or
+     * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
+     * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
+     * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
+     * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
+     * to usf b morf wfll-dffinfd mftrid sudi bs pixfls dfdodfd or
+     * to usf b morf wfll-dffinfd mftrid sudi bs pixfls dfdodfd or
+     * to usf b morf wfll-dffinfd mftrid sudi bs pixfls dfdodfd or
+     * to usf b morf wfll-dffinfd mftrid sudi bs pixfls dfdodfd or
+     * to usf b morf wfll-dffinfd mftrid sudi bs pixfls dfdodfd or
      * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
-     * dblls to this mfthod during b givfn rfbd opfrbtion should
+     * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
+     * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
+     * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
+     * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
+     * dblls to tiis mftiod during b givfn rfbd opfrbtion siould
+     * dblls to tiis mftiod during b givfn rfbd opfrbtion siould
+     * dblls to tiis mftiod during b givfn rfbd opfrbtion siould
+     * dblls to tiis mftiod during b givfn rfbd opfrbtion siould
+     * dblls to tiis mftiod during b givfn rfbd opfrbtion siould
      * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
-     * vblufs.  It is not nfdfssbry to supply thf fxbdt vblufs
-     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs thfsf mby bf inffrrfd
-     * by thf dbllff from othfr mfthods.
+     * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
+     * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
+     * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
+     * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
+     * vblufs.  It is not nfdfssbry to supply tif fxbdt vblufs
+     * vblufs.  It is not nfdfssbry to supply tif fxbdt vblufs
+     * vblufs.  It is not nfdfssbry to supply tif fxbdt vblufs
+     * vblufs.  It is not nfdfssbry to supply tif fxbdt vblufs
+     * vblufs.  It is not nfdfssbry to supply tif fxbdt vblufs
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs tifsf mby bf inffrrfd
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs tifsf mby bf inffrrfd
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs tifsf mby bf inffrrfd
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs tifsf mby bf inffrrfd
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs tifsf mby bf inffrrfd
+     * by tif dbllff from otifr mftiods.
+     * by tif dbllff from otifr mftiods.
+     * by tif dbllff from otifr mftiods.
+     * by tif dbllff from otifr mftiods.
+     * by tif dbllff from otifr mftiods.
      *
-     * <p> Ebdh pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
-     * dbll this mfthod bt whbtfvfr frfqufndy it dfsirfs.  A rulf of
-     * thumb is to dbll it bround fbdh 5 pfrdfnt mbrk.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
-     * @pbrbm pfrdfntbgfDonf thf bpproximbtf pfrdfntbgf of dfdoding thbt
-     * hbs bffn domplftfd.
+     *
+     *
+     *
+     * <p> Ebdi pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * <p> Ebdi pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * <p> Ebdi pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * <p> Ebdi pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * <p> Ebdi pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * dbll tiis mftiod bt wibtfvfr frfqufndy it dfsirfs.  A rulf of
+     * dbll tiis mftiod bt wibtfvfr frfqufndy it dfsirfs.  A rulf of
+     * dbll tiis mftiod bt wibtfvfr frfqufndy it dfsirfs.  A rulf of
+     * dbll tiis mftiod bt wibtfvfr frfqufndy it dfsirfs.  A rulf of
+     * dbll tiis mftiod bt wibtfvfr frfqufndy it dfsirfs.  A rulf of
+     * tiumb is to dbll it bround fbdi 5 pfrdfnt mbrk.
+     * tiumb is to dbll it bround fbdi 5 pfrdfnt mbrk.
+     * tiumb is to dbll it bround fbdi 5 pfrdfnt mbrk.
+     * tiumb is to dbll it bround fbdi 5 pfrdfnt mbrk.
+     * tiumb is to dbll it bround fbdi 5 pfrdfnt mbrk.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
+     */
+     */
+     */
+     */
      */
     void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+
+
+
+
 
     /**
-     * Rfports thbt thf durrfnt imbgf rfbd opfrbtion hbs domplftfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfports tibt tif durrfnt imbgf rfbd opfrbtion ibs domplftfd.
+     * Rfports tibt tif durrfnt imbgf rfbd opfrbtion ibs domplftfd.
+     * Rfports tibt tif durrfnt imbgf rfbd opfrbtion ibs domplftfd.
+     * Rfports tibt tif durrfnt imbgf rfbd opfrbtion ibs domplftfd.
+     * Rfports tibt tif durrfnt imbgf rfbd opfrbtion ibs domplftfd.
      * All <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to
-     * dbll this mfthod fxbdtly ondf upon domplftion of fbdh imbgf
+     * All <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to
+     * All <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to
+     * All <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to
+     * All <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to
+     * dbll tiis mftiod fxbdtly ondf upon domplftion of fbdi imbgf
+     * dbll tiis mftiod fxbdtly ondf upon domplftion of fbdi imbgf
+     * dbll tiis mftiod fxbdtly ondf upon domplftion of fbdi imbgf
+     * dbll tiis mftiod fxbdtly ondf upon domplftion of fbdi imbgf
+     * dbll tiis mftiod fxbdtly ondf upon domplftion of fbdi imbgf
+     * rfbd opfrbtion.
+     * rfbd opfrbtion.
+     * rfbd opfrbtion.
+     * rfbd opfrbtion.
      * rfbd opfrbtion.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
-     * mfthod.
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     */
+     */
+     */
+     */
      */
     void imbgfComplftf(ImbgfRfbdfr sourdf);
+    void imbgfComplftf(ImbgfRfbdfr sourdf);
+    void imbgfComplftf(ImbgfRfbdfr sourdf);
+    void imbgfComplftf(ImbgfRfbdfr sourdf);
+    void imbgfComplftf(ImbgfRfbdfr sourdf);
+
+
+
+
 
     /**
-     * Rfports thbt b thumbnbil rfbd opfrbtion is bfginning.  All
+    /**
+    /**
+    /**
+    /**
+     * Rfports tibt b tiumbnbil rfbd opfrbtion is bfginning.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion is bfginning.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion is bfginning.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion is bfginning.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion is bfginning.  All
      * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
-     * this mfthod fxbdtly ondf whfn bfginning b thumbnbil rfbd
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf wifn bfginning b tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning b tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning b tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning b tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf wifn bfginning b tiumbnbil rfbd
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
      * opfrbtion.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
-     * @pbrbm imbgfIndfx thf indfx of thf imbgf bfing rfbd within its
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
      * dontbining input filf or strfbm.
-     * @pbrbm thumbnbilIndfx thf indfx of thf thumbnbil bfing rfbd.
+     * dontbining input filf or strfbm.
+     * dontbining input filf or strfbm.
+     * dontbining input filf or strfbm.
+     * dontbining input filf or strfbm.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil bfing rfbd.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil bfing rfbd.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil bfing rfbd.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil bfing rfbd.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil bfing rfbd.
      */
-    void thumbnbilStbrtfd(ImbgfRfbdfr sourdf,
-                          int imbgfIndfx, int thumbnbilIndfx);
+     */
+     */
+     */
+     */
+    void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+    void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+    void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+    void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+    void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+                          int imbgfIndfx, int tiumbnbilIndfx);
+                          int imbgfIndfx, int tiumbnbilIndfx);
+                          int imbgfIndfx, int tiumbnbilIndfx);
+                          int imbgfIndfx, int tiumbnbilIndfx);
+                          int imbgfIndfx, int tiumbnbilIndfx);
+
+
+
+
 
     /**
-     * Rfports thf bpproximbtf dfgrff of domplftion of thf durrfnt
-     * <dodf>gftThumbnbil</dodf> dbll within thf bssodibtfd
-     * <dodf>ImbgfRfbdfr</dodf>.  Thf sfmbntids brf idfntidbl to thosf
+    /**
+    /**
+    /**
+    /**
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * <dodf>gftTiumbnbil</dodf> dbll witiin tif bssodibtfd
+     * <dodf>gftTiumbnbil</dodf> dbll witiin tif bssodibtfd
+     * <dodf>gftTiumbnbil</dodf> dbll witiin tif bssodibtfd
+     * <dodf>gftTiumbnbil</dodf> dbll witiin tif bssodibtfd
+     * <dodf>gftTiumbnbil</dodf> dbll witiin tif bssodibtfd
+     * <dodf>ImbgfRfbdfr</dodf>.  Tif sfmbntids brf idfntidbl to tiosf
+     * <dodf>ImbgfRfbdfr</dodf>.  Tif sfmbntids brf idfntidbl to tiosf
+     * <dodf>ImbgfRfbdfr</dodf>.  Tif sfmbntids brf idfntidbl to tiosf
+     * <dodf>ImbgfRfbdfr</dodf>.  Tif sfmbntids brf idfntidbl to tiosf
+     * <dodf>ImbgfRfbdfr</dodf>.  Tif sfmbntids brf idfntidbl to tiosf
+     * of <dodf>imbgfProgrfss</dodf>.
+     * of <dodf>imbgfProgrfss</dodf>.
+     * of <dodf>imbgfProgrfss</dodf>.
+     * of <dodf>imbgfProgrfss</dodf>.
      * of <dodf>imbgfProgrfss</dodf>.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
-     * @pbrbm pfrdfntbgfDonf thf bpproximbtf pfrdfntbgf of dfdoding thbt
-     * hbs bffn domplftfd.
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
+     * ibs bffn domplftfd.
      */
-    void thumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+     */
+     */
+     */
+     */
+    void tiumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void tiumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void tiumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void tiumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+    void tiumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+
+
+
+
 
     /**
-     * Rfports thbt b thumbnbil rfbd opfrbtion hbs domplftfd.  All
+    /**
+    /**
+    /**
+    /**
+     * Rfports tibt b tiumbnbil rfbd opfrbtion ibs domplftfd.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion ibs domplftfd.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion ibs domplftfd.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion ibs domplftfd.  All
+     * Rfports tibt b tiumbnbil rfbd opfrbtion ibs domplftfd.  All
      * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
-     * this mfthod fxbdtly ondf upon domplftion of fbdh thumbnbil rfbd
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi tiumbnbil rfbd
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi tiumbnbil rfbd
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
+     * opfrbtion.
      * opfrbtion.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
-     * mfthod.
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
      */
-    void thumbnbilComplftf(ImbgfRfbdfr sourdf);
+     */
+     */
+     */
+     */
+    void tiumbnbilComplftf(ImbgfRfbdfr sourdf);
+    void tiumbnbilComplftf(ImbgfRfbdfr sourdf);
+    void tiumbnbilComplftf(ImbgfRfbdfr sourdf);
+    void tiumbnbilComplftf(ImbgfRfbdfr sourdf);
+    void tiumbnbilComplftf(ImbgfRfbdfr sourdf);
+
+
+
+
 
     /**
-     * Rfports thbt b rfbd hbs bffn bbortfd vib thf rfbdfr's
-     * <dodf>bbort</dodf> mfthod.  No furthfr notifidbtions will bf
+    /**
+    /**
+    /**
+    /**
+     * Rfports tibt b rfbd ibs bffn bbortfd vib tif rfbdfr's
+     * Rfports tibt b rfbd ibs bffn bbortfd vib tif rfbdfr's
+     * Rfports tibt b rfbd ibs bffn bbortfd vib tif rfbdfr's
+     * Rfports tibt b rfbd ibs bffn bbortfd vib tif rfbdfr's
+     * Rfports tibt b rfbd ibs bffn bbortfd vib tif rfbdfr's
+     * <dodf>bbort</dodf> mftiod.  No furtifr notifidbtions will bf
+     * <dodf>bbort</dodf> mftiod.  No furtifr notifidbtions will bf
+     * <dodf>bbort</dodf> mftiod.  No furtifr notifidbtions will bf
+     * <dodf>bbort</dodf> mftiod.  No furtifr notifidbtions will bf
+     * <dodf>bbort</dodf> mftiod.  No furtifr notifidbtions will bf
+     * givfn.
+     * givfn.
+     * givfn.
+     * givfn.
      * givfn.
      *
-     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
-     * mfthod.
+     *
+     *
+     *
+     *
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     * mftiod.
+     */
+     */
+     */
+     */
      */
     void rfbdAbortfd(ImbgfRfbdfr sourdf);
+    void rfbdAbortfd(ImbgfRfbdfr sourdf);
+    void rfbdAbortfd(ImbgfRfbdfr sourdf);
+    void rfbdAbortfd(ImbgfRfbdfr sourdf);
+    void rfbdAbortfd(ImbgfRfbdfr sourdf);
+}
+}
+}
+}
 }

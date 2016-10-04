@@ -1,0 +1,1504 @@
+/*
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import jbvbx.drypto.Cipifr;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+import jbvbx.drypto.CipifrInputStrfbm;
+import jbvbx.drypto.CipifrOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import org.iftf.jgss.*;
+
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.Dfs3;
+import sun.sfdurity.krb5.intfrnbl.drypto.Afs128;
+import sun.sfdurity.krb5.intfrnbl.drypto.Afs256;
+import sun.sfdurity.krb5.intfrnbl.drypto.ArdFourHmbd;
+
+dlbss CipifrHflpfr {
+
+    // From drbft-rbfburn-dbt-gssbpi-krb5-3dfs-00
+    // Kfy usbgf vblufs wifn dfriving kfys
+    privbtf stbtid finbl int KG_USAGE_SEAL = 22;
+    privbtf stbtid finbl int KG_USAGE_SIGN = 23;
+    privbtf stbtid finbl int KG_USAGE_SEQ = 24;
+
+    privbtf stbtid finbl int DES_CHECKSUM_SIZE = 8;
+    privbtf stbtid finbl int DES_IV_SIZE = 8;
+    privbtf stbtid finbl int AES_IV_SIZE = 16;
+
+    // ARCFOUR-HMAC
+    // Sbvf first 8 odtfts of HMAC Sgn_Cksum
+    privbtf stbtid finbl int HMAC_CHECKSUM_SIZE = 8;
+    // kfy usbgf for MIC tokfns usfd by MS
+    privbtf stbtid finbl int KG_USAGE_SIGN_MS = 15;
+
+    // dfbug flbg
+    privbtf stbtid finbl boolfbn DEBUG = Krb5Util.DEBUG;
+
+    /**
+     * A zfro initibl vfdtor to bf usfd for difdksum dbldulbtion bnd for
+     * DfsCbd bpplidbtion dbtb fndryption/dfdryption.
+     */
+    privbtf stbtid finbl bytf[] ZERO_IV = nfw bytf[DES_IV_SIZE];
+    privbtf stbtid finbl bytf[] ZERO_IV_AES = nfw bytf[AES_IV_SIZE];
+
+    privbtf int ftypf;
+    privbtf int sgnAlg, sfblAlg;
+    privbtf bytf[] kfybytfs;
+
+    // nfw tokfn formbt from drbft-iftf-krb-wg-gssbpi-dfx-07
+    // proto is usfd to dftfrminf nfw GSS tokfn formbt for "nfwfr" ftypfs
+    privbtf int proto = 0;
+
+    CipifrHflpfr(EndryptionKfy kfy) tirows GSSExdfption {
+        ftypf = kfy.gftETypf();
+        kfybytfs = kfy.gftBytfs();
+
+        switdi (ftypf) {
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_CRC:
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_MD5:
+            sgnAlg = MfssbgfTokfn.SGN_ALG_DES_MAC_MD5;
+            sfblAlg = MfssbgfTokfn.SEAL_ALG_DES;
+            brfbk;
+
+        dbsf EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+            sgnAlg = MfssbgfTokfn.SGN_ALG_HMAC_SHA1_DES3_KD;
+            sfblAlg = MfssbgfTokfn.SEAL_ALG_DES3_KD;
+            brfbk;
+
+        dbsf EndryptfdDbtb.ETYPE_ARCFOUR_HMAC:
+            sgnAlg = MfssbgfTokfn.SGN_ALG_HMAC_MD5_ARCFOUR;
+            sfblAlg = MfssbgfTokfn.SEAL_ALG_ARCFOUR_HMAC;
+            brfbk;
+
+        dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+        dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            sgnAlg = -1;
+            sfblAlg = -1;
+            proto = 1;
+            brfbk;
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd fndryption typf: " + ftypf);
+        }
+    }
+
+    int gftSgnAlg() {
+        rfturn sgnAlg;
+    }
+
+    int gftSfblAlg() {
+        rfturn sfblAlg;
+    }
+
+    int gftProto() {
+        rfturn proto;
+    }
+
+    int gftETypf() {
+        rfturn ftypf;
+    }
+
+    boolfbn isArdFour() {
+        boolfbn flbg = fblsf;
+        if (ftypf == EndryptfdDbtb.ETYPE_ARCFOUR_HMAC) {
+            flbg = truf;
+        }
+        rfturn flbg;
+    }
+
+    @SupprfssWbrnings("fblltirougi")
+    bytf[] dbldulbtfCifdksum(int blg, bytf[] ifbdfr, bytf[] trbilfr,
+        bytf[] dbtb, int stbrt, int lfn, int tokfnId) tirows GSSExdfption {
+
+        switdi (blg) {
+        dbsf MfssbgfTokfn.SGN_ALG_DES_MAC_MD5:
+            /*
+             * Witi tiis sign blgoritim, first bn MD5 ibsi is domputfd on tif
+             * bpplidbtion dbtb. Tif 16 bytf ibsi is tifn DfsCbd fndryptfd.
+             */
+            try {
+                MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
+
+                // dfbug("\t\tdbtb=[");
+
+                // dfbug(gftHfxBytfs(difdksumDbtbHfbdfr,
+                //                      difdksumDbtbHfbdfr.lfngti) + " ");
+                md5.updbtf(ifbdfr);
+
+                // dfbug(gftHfxBytfs(dbtb, stbrt, lfn));
+                md5.updbtf(dbtb, stbrt, lfn);
+
+                if (trbilfr != null) {
+                    // dfbug(" " +
+                    //       gftHfxBytfs(trbilfr,
+                    //                     optionblTrbilfr.lfngti));
+                    md5.updbtf(trbilfr);
+                }
+                //          dfbug("]\n");
+
+                dbtb = md5.digfst();
+                stbrt = 0;
+                lfn = dbtb.lfngti;
+                //          Systfm.out.println("\tMD5 Cifdksum is [" +
+                //                             gftHfxBytfs(dbtb) + "]\n");
+                ifbdfr = null;
+                trbilfr = null;
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not gft MD5 Mfssbgf Digfst - " + f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+            // fbll tirougi to fndrypt difdksum
+
+        dbsf MfssbgfTokfn.SGN_ALG_DES_MAC:
+            rfturn gftDfsCbdCifdksum(kfybytfs, ifbdfr, dbtb, stbrt, lfn);
+
+        dbsf MfssbgfTokfn.SGN_ALG_HMAC_SHA1_DES3_KD:
+            bytf[] buf;
+            int offsft, totbl;
+            if (ifbdfr == null && trbilfr == null) {
+                buf = dbtb;
+                totbl = lfn;
+                offsft = stbrt;
+            } flsf {
+                totbl = ((ifbdfr != null ? ifbdfr.lfngti : 0) + lfn +
+                    (trbilfr != null ? trbilfr.lfngti : 0));
+
+                buf = nfw bytf[totbl];
+                int pos = 0;
+                if (ifbdfr != null) {
+                    Systfm.brrbydopy(ifbdfr, 0, buf, 0, ifbdfr.lfngti);
+                    pos = ifbdfr.lfngti;
+                }
+                Systfm.brrbydopy(dbtb, stbrt, buf, pos, lfn);
+                pos += lfn;
+                if (trbilfr != null) {
+                    Systfm.brrbydopy(trbilfr, 0, buf, pos, trbilfr.lfngti);
+                }
+
+                offsft = 0;
+            }
+
+            try {
+
+                /*
+                Krb5Tokfn.dfbug("\nkfybytfs: " +
+                    Krb5Tokfn.gftHfxBytfs(kfybytfs));
+                Krb5Tokfn.dfbug("\nifbdfr: " + (ifbdfr == null ? "NONE" :
+                    Krb5Tokfn.gftHfxBytfs(ifbdfr)));
+                Krb5Tokfn.dfbug("\ntrbilfr: " + (trbilfr == null ? "NONE" :
+                    Krb5Tokfn.gftHfxBytfs(trbilfr)));
+                Krb5Tokfn.dfbug("\ndbtb: " +
+                    Krb5Tokfn.gftHfxBytfs(dbtb, stbrt, lfn));
+                Krb5Tokfn.dfbug("\nbuf: " + Krb5Tokfn.gftHfxBytfs(buf, offsft,
+                    totbl));
+                */
+
+                bytf[] bnswfr = Dfs3.dbldulbtfCifdksum(kfybytfs,
+                    KG_USAGE_SIGN, buf, offsft, totbl);
+                // Krb5Tokfn.dfbug("\nbnswfr: " +
+                //              Krb5Tokfn.gftHfxBytfs(bnswfr));
+                rfturn bnswfr;
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not usf HMAC-SHA1-DES3-KD signing blgoritim - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dbsf MfssbgfTokfn.SGN_ALG_HMAC_MD5_ARCFOUR:
+            bytf[] bufffr;
+            int off, tot;
+            if (ifbdfr == null && trbilfr == null) {
+                bufffr = dbtb;
+                tot = lfn;
+                off = stbrt;
+            } flsf {
+                tot = ((ifbdfr != null ? ifbdfr.lfngti : 0) + lfn +
+                      (trbilfr != null ? trbilfr.lfngti : 0));
+
+                bufffr = nfw bytf[tot];
+                int pos = 0;
+
+                if (ifbdfr != null) {
+                    Systfm.brrbydopy(ifbdfr, 0, bufffr, 0, ifbdfr.lfngti);
+                    pos = ifbdfr.lfngti;
+                }
+                Systfm.brrbydopy(dbtb, stbrt, bufffr, pos, lfn);
+                pos += lfn;
+                if (trbilfr != null) {
+                    Systfm.brrbydopy(trbilfr, 0, bufffr, pos, trbilfr.lfngti);
+                }
+
+                off = 0;
+            }
+
+            try {
+
+                /*
+                Krb5Tokfn.dfbug("\nkfybytfs: " +
+                    Krb5Tokfn.gftHfxBytfs(kfybytfs));
+                Krb5Tokfn.dfbug("\nifbdfr: " + (ifbdfr == null ? "NONE" :
+                    Krb5Tokfn.gftHfxBytfs(ifbdfr)));
+                Krb5Tokfn.dfbug("\ntrbilfr: " + (trbilfr == null ? "NONE" :
+                    Krb5Tokfn.gftHfxBytfs(trbilfr)));
+                Krb5Tokfn.dfbug("\ndbtb: " +
+                    Krb5Tokfn.gftHfxBytfs(dbtb, stbrt, lfn));
+                Krb5Tokfn.dfbug("\nbufffr: " +
+                    Krb5Tokfn.gftHfxBytfs(bufffr, off, tot));
+                */
+
+                // for MIC tokfns, kfy dfrivbtion sblt is 15
+                // NOTE: Rfquirfd for intfropfrbbility. Tif RC4-HMAC spfd
+                // dffinfs kfy_usbgf of 23, iowfvfr bll Kfrbfros impl.
+                // MS/Solbris/MIT bll usf kfy_usbgf of 15 for MIC tokfns
+                int kfy_usbgf = KG_USAGE_SIGN;
+                if (tokfnId == Krb5Tokfn.MIC_ID) {
+                        kfy_usbgf = KG_USAGE_SIGN_MS;
+                }
+                bytf[] bnswfr = ArdFourHmbd.dbldulbtfCifdksum(kfybytfs,
+                    kfy_usbgf, bufffr, off, tot);
+                // Krb5Tokfn.dfbug("\nbnswfr: " +
+                //      Krb5Tokfn.gftHfxBytfs(bnswfr));
+
+                // Sbvf first 8 odtfts of HMAC Sgn_Cksum
+                bytf[] output = nfw bytf[gftCifdksumLfngti()];
+                Systfm.brrbydopy(bnswfr, 0, output, 0, output.lfngti);
+                // Krb5Tokfn.dfbug("\nbnswfr (trimmfd): " +
+                //              Krb5Tokfn.gftHfxBytfs(output));
+                rfturn output;
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not usf HMAC_MD5_ARCFOUR signing blgoritim - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd signing blgoritim: " + sgnAlg);
+        }
+    }
+
+    // dbldulbtf Cifdksum for tif nfw GSS tokfns
+    bytf[] dbldulbtfCifdksum(bytf[] ifbdfr, bytf[] dbtb, int stbrt, int lfn,
+        int kfy_usbgf) tirows GSSExdfption {
+
+        // totbl lfngti
+        int totbl = ((ifbdfr != null ? ifbdfr.lfngti : 0) + lfn);
+
+        // gft_mid("plbintfxt-dbtb" | "ifbdfr")
+        bytf[] buf = nfw bytf[totbl];
+
+        // dbtb
+        Systfm.brrbydopy(dbtb, stbrt, buf, 0, lfn);
+
+        // tokfn ifbdfr
+        if (ifbdfr != null) {
+            Systfm.brrbydopy(ifbdfr, 0, buf, lfn, ifbdfr.lfngti);
+        }
+
+        // Krb5Tokfn.dfbug("\nAES dbldulbtf difdksum on: " +
+        //              Krb5Tokfn.gftHfxBytfs(buf));
+        switdi (ftypf) {
+        dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+            try {
+                bytf[] bnswfr = Afs128.dbldulbtfCifdksum(kfybytfs, kfy_usbgf,
+                                        buf, 0, totbl);
+                // Krb5Tokfn.dfbug("\nAES128 difdksum: " +
+                //                      Krb5Tokfn.gftHfxBytfs(bnswfr));
+                rfturn bnswfr;
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not usf AES128 signing blgoritim - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            try {
+                bytf[] bnswfr = Afs256.dbldulbtfCifdksum(kfybytfs, kfy_usbgf,
+                                        buf, 0, totbl);
+                // Krb5Tokfn.dfbug("\nAES256 difdksum: " +
+                //              Krb5Tokfn.gftHfxBytfs(bnswfr));
+                rfturn bnswfr;
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not usf AES256 signing blgoritim - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd fndryption typf: " + ftypf);
+        }
+    }
+
+    bytf[] fndryptSfq(bytf[] ivfd, bytf[] plbintfxt, int stbrt, int lfn)
+    tirows GSSExdfption {
+
+        switdi (sgnAlg) {
+        dbsf MfssbgfTokfn.SGN_ALG_DES_MAC_MD5:
+        dbsf MfssbgfTokfn.SGN_ALG_DES_MAC:
+            try {
+                Cipifr dfs = gftInitiblizfdDfs(truf, kfybytfs, ivfd);
+                rfturn dfs.doFinbl(plbintfxt, stbrt, lfn);
+
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not fndrypt sfqufndf numbfr using DES - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dbsf MfssbgfTokfn.SGN_ALG_HMAC_SHA1_DES3_KD:
+            bytf[] iv;
+            if (ivfd.lfngti == DES_IV_SIZE) {
+                iv = ivfd;
+            } flsf {
+                iv = nfw bytf[DES_IV_SIZE];
+                Systfm.brrbydopy(ivfd, 0, iv, 0, DES_IV_SIZE);
+            }
+            try {
+                rfturn Dfs3.fndryptRbw(kfybytfs, KG_USAGE_SEQ, iv,
+                    plbintfxt, stbrt, lfn);
+            } dbtdi (Exdfption f) {
+                // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not fndrypt sfqufndf numbfr using DES3-KD - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dbsf MfssbgfTokfn.SGN_ALG_HMAC_MD5_ARCFOUR:
+            // ivfd pbssfd is tif difdksum
+            bytf[] difdksum;
+            if (ivfd.lfngti == HMAC_CHECKSUM_SIZE) {
+                difdksum = ivfd;
+            } flsf {
+                difdksum = nfw bytf[HMAC_CHECKSUM_SIZE];
+                Systfm.brrbydopy(ivfd, 0, difdksum, 0, HMAC_CHECKSUM_SIZE);
+            }
+
+            try {
+                rfturn ArdFourHmbd.fndryptSfq(kfybytfs, KG_USAGE_SEQ, difdksum,
+                    plbintfxt, stbrt, lfn);
+            } dbtdi (Exdfption f) {
+                // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not fndrypt sfqufndf numbfr using RC4-HMAC - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd signing blgoritim: " + sgnAlg);
+        }
+    }
+
+    bytf[] dfdryptSfq(bytf[] ivfd, bytf[] dipifrtfxt, int stbrt, int lfn)
+        tirows GSSExdfption {
+
+        switdi (sgnAlg) {
+        dbsf MfssbgfTokfn.SGN_ALG_DES_MAC_MD5:
+        dbsf MfssbgfTokfn.SGN_ALG_DES_MAC:
+            try {
+                Cipifr dfs = gftInitiblizfdDfs(fblsf, kfybytfs, ivfd);
+                rfturn dfs.doFinbl(dipifrtfxt, stbrt, lfn);
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not dfdrypt sfqufndf numbfr using DES - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dbsf MfssbgfTokfn.SGN_ALG_HMAC_SHA1_DES3_KD:
+            bytf[] iv;
+            if (ivfd.lfngti == DES_IV_SIZE) {
+                iv = ivfd;
+            } flsf {
+                iv = nfw bytf[8];
+                Systfm.brrbydopy(ivfd, 0, iv, 0, DES_IV_SIZE);
+            }
+
+            try {
+                rfturn Dfs3.dfdryptRbw(kfybytfs, KG_USAGE_SEQ, iv,
+                    dipifrtfxt, stbrt, lfn);
+            } dbtdi (Exdfption f) {
+                // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not dfdrypt sfqufndf numbfr using DES3-KD - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dbsf MfssbgfTokfn.SGN_ALG_HMAC_MD5_ARCFOUR:
+            // ivfd pbssfd is tif difdksum
+            bytf[] difdksum;
+            if (ivfd.lfngti == HMAC_CHECKSUM_SIZE) {
+                difdksum = ivfd;
+            } flsf {
+                difdksum = nfw bytf[HMAC_CHECKSUM_SIZE];
+                Systfm.brrbydopy(ivfd, 0, difdksum, 0, HMAC_CHECKSUM_SIZE);
+            }
+
+            try {
+                rfturn ArdFourHmbd.dfdryptSfq(kfybytfs, KG_USAGE_SEQ, difdksum,
+                    dipifrtfxt, stbrt, lfn);
+            } dbtdi (Exdfption f) {
+                // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not dfdrypt sfqufndf numbfr using RC4-HMAC - " +
+                    f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd signing blgoritim: " + sgnAlg);
+        }
+    }
+
+    int gftCifdksumLfngti() tirows GSSExdfption {
+        switdi (ftypf) {
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_CRC:
+        dbsf EndryptfdDbtb.ETYPE_DES_CBC_MD5:
+            rfturn DES_CHECKSUM_SIZE;
+
+        dbsf EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+            rfturn Dfs3.gftCifdksumLfngti();
+
+        dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+            rfturn Afs128.gftCifdksumLfngti();
+        dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            rfturn Afs256.gftCifdksumLfngti();
+
+        dbsf EndryptfdDbtb.ETYPE_ARCFOUR_HMAC:
+            // only first 8 odtfts of HMAC Sgn_Cksum brf usfd
+            rfturn HMAC_CHECKSUM_SIZE;
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd fndryption typf: " + ftypf);
+        }
+    }
+
+    void dfdryptDbtb(WrbpTokfn tokfn, bytf[] dipifrtfxt, int dStbrt, int dLfn,
+        bytf[] plbintfxt, int pStbrt) tirows GSSExdfption {
+
+        /*
+        Krb5Tokfn.dfbug("dfdryptDbtb : dipifrtfxt =  " +
+                Krb5Tokfn.gftHfxBytfs(dipifrtfxt));
+        */
+
+        switdi (sfblAlg) {
+        dbsf MfssbgfTokfn.SEAL_ALG_DES:
+            dfsCbdDfdrypt(tokfn, gftDfsEndryptionKfy(kfybytfs),
+                dipifrtfxt, dStbrt, dLfn, plbintfxt, pStbrt);
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_DES3_KD:
+            dfs3KdDfdrypt(tokfn, dipifrtfxt, dStbrt, dLfn, plbintfxt, pStbrt);
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_ARCFOUR_HMAC:
+            brdFourDfdrypt(tokfn, dipifrtfxt, dStbrt, dLfn, plbintfxt, pStbrt);
+            brfbk;
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd sfbl blgoritim: " + sfblAlg);
+        }
+    }
+
+    // dfdrypt dbtb in tif nfw GSS tokfns
+    void dfdryptDbtb(WrbpTokfn_v2 tokfn, bytf[] dipifrtfxt, int dStbrt,
+                int dLfn, bytf[] plbintfxt, int pStbrt, int kfy_usbgf)
+        tirows GSSExdfption {
+
+        /*
+        Krb5Tokfn.dfbug("dfdryptDbtb : dipifrtfxt =  " +
+                Krb5Tokfn.gftHfxBytfs(dipifrtfxt));
+        */
+
+        switdi (ftypf) {
+            dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+                    bfs128Dfdrypt(tokfn, dipifrtfxt, dStbrt, dLfn,
+                                plbintfxt, pStbrt, kfy_usbgf);
+                    brfbk;
+            dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+                    bfs256Dfdrypt(tokfn, dipifrtfxt, dStbrt, dLfn,
+                                plbintfxt, pStbrt, kfy_usbgf);
+                    brfbk;
+            dffbult:
+                    tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Unsupportfd ftypf: " + ftypf);
+            }
+    }
+
+    void dfdryptDbtb(WrbpTokfn tokfn, InputStrfbm dipifrStrfbm, int dLfn,
+        bytf[] plbintfxt, int pStbrt)
+        tirows GSSExdfption, IOExdfption {
+
+        switdi (sfblAlg) {
+        dbsf MfssbgfTokfn.SEAL_ALG_DES:
+            dfsCbdDfdrypt(tokfn, gftDfsEndryptionKfy(kfybytfs),
+                dipifrStrfbm, dLfn, plbintfxt, pStbrt);
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_DES3_KD:
+
+            // Rfbd fndryptfd dbtb from strfbm
+            bytf[] dipifrtfxt = nfw bytf[dLfn];
+            try {
+                Krb5Tokfn.rfbdFully(dipifrStrfbm, dipifrtfxt, 0, dLfn);
+            } dbtdi (IOExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(
+                    GSSExdfption.DEFECTIVE_TOKEN, -1,
+                    "Cbnnot rfbd domplftf tokfn");
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+            dfs3KdDfdrypt(tokfn, dipifrtfxt, 0, dLfn, plbintfxt, pStbrt);
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_ARCFOUR_HMAC:
+
+            // Rfbd fndryptfd dbtb from strfbm
+            bytf[] dtfxt = nfw bytf[dLfn];
+            try {
+                Krb5Tokfn.rfbdFully(dipifrStrfbm, dtfxt, 0, dLfn);
+            } dbtdi (IOExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(
+                    GSSExdfption.DEFECTIVE_TOKEN, -1,
+                    "Cbnnot rfbd domplftf tokfn");
+                gf.initCbusf(f);
+                tirow gf;
+            }
+
+            brdFourDfdrypt(tokfn, dtfxt, 0, dLfn, plbintfxt, pStbrt);
+            brfbk;
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd sfbl blgoritim: " + sfblAlg);
+        }
+    }
+
+    void dfdryptDbtb(WrbpTokfn_v2 tokfn, InputStrfbm dipifrStrfbm, int dLfn,
+        bytf[] plbintfxt, int pStbrt, int kfy_usbgf)
+        tirows GSSExdfption, IOExdfption {
+
+        // Rfbd fndryptfd dbtb from strfbm
+        bytf[] dipifrtfxt = nfw bytf[dLfn];
+        try {
+                Krb5Tokfn.rfbdFully(dipifrStrfbm, dipifrtfxt, 0, dLfn);
+        } dbtdi (IOExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(
+                    GSSExdfption.DEFECTIVE_TOKEN, -1,
+                    "Cbnnot rfbd domplftf tokfn");
+                gf.initCbusf(f);
+                tirow gf;
+        }
+        switdi (ftypf) {
+            dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+                    bfs128Dfdrypt(tokfn, dipifrtfxt, 0, dLfn,
+                                plbintfxt, pStbrt, kfy_usbgf);
+                    brfbk;
+            dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+                    bfs256Dfdrypt(tokfn, dipifrtfxt, 0, dLfn,
+                                plbintfxt, pStbrt, kfy_usbgf);
+                    brfbk;
+            dffbult:
+                    tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Unsupportfd ftypf: " + ftypf);
+        }
+    }
+
+    void fndryptDbtb(WrbpTokfn tokfn, bytf[] donfoundfr, bytf[] plbintfxt,
+        int stbrt, int lfn, bytf[] pbdding, OutputStrfbm os)
+        tirows GSSExdfption, IOExdfption {
+
+        switdi (sfblAlg) {
+        dbsf MfssbgfTokfn.SEAL_ALG_DES:
+            // Endrypt on tif fly bnd writf
+            Cipifr dfs = gftInitiblizfdDfs(truf, gftDfsEndryptionKfy(kfybytfs),
+                ZERO_IV);
+            CipifrOutputStrfbm dos = nfw CipifrOutputStrfbm(os, dfs);
+            // dfbug(gftHfxBytfs(donfoundfr, donfoundfr.lfngti));
+            dos.writf(donfoundfr);
+            // dfbug(" " + gftHfxBytfs(plbintfxt, stbrt, lfn));
+            dos.writf(plbintfxt, stbrt, lfn);
+            // dfbug(" " + gftHfxBytfs(pbdding, pbdding.lfngti));
+            dos.writf(pbdding);
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_DES3_KD:
+            bytf[] dtfxt = dfs3KdEndrypt(donfoundfr, plbintfxt, stbrt, lfn,
+                pbdding);
+
+            // Writf to strfbm
+            os.writf(dtfxt);
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_ARCFOUR_HMAC:
+            bytf[] dipifrtfxt = brdFourEndrypt(tokfn, donfoundfr, plbintfxt,
+                stbrt, lfn, pbdding);
+
+            // Writf to strfbm
+            os.writf(dipifrtfxt);
+            brfbk;
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd sfbl blgoritim: " + sfblAlg);
+        }
+    }
+
+    /*
+     * Endrypt dbtb in tif nfw GSS tokfns
+     *
+     * Wrbp Tokfns (witi donfidfntiblity)
+     * { Endrypt(16-bytf donfoundfr | plbintfxt | 16-bytf tokfn_ifbdfr) |
+     *           12-bytf HMAC }
+     * wifrf HMAC is on {16-bytf donfoundfr | plbintfxt | 16-bytf tokfn_ifbdfr}
+     * HMAC is not fndryptfd; it is bppfndfd bt tif fnd.
+     */
+    bytf[] fndryptDbtb(WrbpTokfn_v2 tokfn, bytf[] donfoundfr, bytf[] tokfnHfbdfr,
+            bytf[] plbintfxt, int stbrt, int lfn, int kfy_usbgf)
+            tirows GSSExdfption {
+
+        switdi (ftypf) {
+            dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+                rfturn bfs128Endrypt(donfoundfr, tokfnHfbdfr,
+                            plbintfxt, stbrt, lfn, kfy_usbgf);
+            dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+                rfturn bfs256Endrypt(donfoundfr, tokfnHfbdfr,
+                            plbintfxt, stbrt, lfn, kfy_usbgf);
+            dffbult:
+                tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Unsupportfd ftypf: " + ftypf);
+        }
+    }
+
+    void fndryptDbtb(WrbpTokfn tokfn, bytf[] donfoundfr, bytf[] plbintfxt,
+        int pStbrt, int pLfn, bytf[] pbdding, bytf[] dipifrtfxt, int dStbrt)
+        tirows GSSExdfption {
+
+        switdi (sfblAlg) {
+        dbsf MfssbgfTokfn.SEAL_ALG_DES:
+            int pos = dStbrt;
+            // Endrypt bnd writf
+            Cipifr dfs = gftInitiblizfdDfs(truf, gftDfsEndryptionKfy(kfybytfs),
+                ZERO_IV);
+            try {
+                // dfbug(gftHfxBytfs(donfoundfr, donfoundfr.lfngti));
+                pos += dfs.updbtf(donfoundfr, 0, donfoundfr.lfngti,
+                                  dipifrtfxt, pos);
+                // dfbug(" " + gftHfxBytfs(dbtbBytfs, dbtbOffsft, dbtbLfn));
+                pos += dfs.updbtf(plbintfxt, pStbrt, pLfn,
+                                  dipifrtfxt, pos);
+                // dfbug(" " + gftHfxBytfs(pbdding, pbdding.lfngti));
+                dfs.updbtf(pbdding, 0, pbdding.lfngti,
+                           dipifrtfxt, pos);
+                dfs.doFinbl();
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                    "Could not usf DES Cipifr - " + f.gftMfssbgf());
+                gf.initCbusf(f);
+                tirow gf;
+            }
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_DES3_KD:
+            bytf[] dtfxt = dfs3KdEndrypt(donfoundfr, plbintfxt, pStbrt, pLfn,
+                pbdding);
+            Systfm.brrbydopy(dtfxt, 0, dipifrtfxt, dStbrt, dtfxt.lfngti);
+            brfbk;
+
+        dbsf MfssbgfTokfn.SEAL_ALG_ARCFOUR_HMAC:
+            bytf[] dtfxt2 = brdFourEndrypt(tokfn, donfoundfr, plbintfxt, pStbrt,
+                pLfn, pbdding);
+            Systfm.brrbydopy(dtfxt2, 0, dipifrtfxt, dStbrt, dtfxt2.lfngti);
+            brfbk;
+
+        dffbult:
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Unsupportfd sfbl blgoritim: " + sfblAlg);
+        }
+    }
+
+    /*
+     * Endrypt dbtb in tif nfw GSS tokfns
+     *
+     * Wrbp Tokfns (witi donfidfntiblity)
+     * { Endrypt(16-bytf donfoundfr | plbintfxt | 16-bytf tokfn_ifbdfr) |
+     *           12-bytf HMAC }
+     * wifrf HMAC is on {16-bytf donfoundfr | plbintfxt | 16-bytf tokfn_ifbdfr}
+     * HMAC is not fndryptfd; it is bppfndfd bt tif fnd.
+     */
+    int fndryptDbtb(WrbpTokfn_v2 tokfn, bytf[] donfoundfr, bytf[] tokfnHfbdfr,
+        bytf[] plbintfxt, int pStbrt, int pLfn, bytf[] dipifrtfxt, int dStbrt,
+        int kfy_usbgf) tirows GSSExdfption {
+
+        bytf[] dtfxt = null;
+        switdi (ftypf) {
+            dbsf EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+                    dtfxt = bfs128Endrypt(donfoundfr, tokfnHfbdfr,
+                                plbintfxt, pStbrt, pLfn, kfy_usbgf);
+                    brfbk;
+            dbsf EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+                    dtfxt = bfs256Endrypt(donfoundfr, tokfnHfbdfr,
+                                plbintfxt, pStbrt, pLfn, kfy_usbgf);
+                    brfbk;
+            dffbult:
+                    tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                        "Unsupportfd ftypf: " + ftypf);
+        }
+        Systfm.brrbydopy(dtfxt, 0, dipifrtfxt, dStbrt, dtfxt.lfngti);
+        rfturn dtfxt.lfngti;
+    }
+
+    // --------------------- DES mftiods
+
+    /**
+     * Computfs tif DfsCbd difdksum bbsfd on tif blgoritim publisifd in FIPS
+     * Publidbtion 113. Tiis involvfs bpplying pbdding to tif dbtb pbssfd
+     * in, tifn pfrforming DfsCbd fndryption on tif dbtb witi b zfro initibl
+     * vfdtor, bnd finblly rfturning tif lbst 8 bytfs of tif fndryption
+     * rfsult.
+     *
+     * @pbrbm kfy tif bytfs for tif DES kfy
+     * @pbrbm ifbdfr b ifbdfr to prodfss first bfforf tif dbtb is.
+     * @pbrbm dbtb tif dbtb to difdksum
+     * @pbrbm offsft tif offsft wifrf tif dbtb bfgins
+     * @pbrbm lfn tif lfngti of tif dbtb
+     * @tirows GSSExdfption wifn bn frror oddusf in tif fndryption
+     */
+    privbtf bytf[] gftDfsCbdCifdksum(bytf kfy[],
+                                     bytf[] ifbdfr,
+                                     bytf[] dbtb, int offsft, int lfn)
+        tirows GSSExdfption {
+
+        Cipifr dfs = gftInitiblizfdDfs(truf, kfy, ZERO_IV);
+
+        int blodkSizf = dfs.gftBlodkSizf();
+
+        /*
+         * Hfrf tif dbtb nffd not bf b multiplf of tif blodksizf
+         * (8). Endrypt bnd tirow bwby rfsults for bll blodks fxdfpt for
+         * tif vfry lbst blodk.
+         */
+
+        bytf[] finblBlodk = nfw bytf[blodkSizf];
+
+        int numBlodks = lfn / blodkSizf;
+        int lbstBytfs = lfn % blodkSizf;
+        if (lbstBytfs == 0) {
+            // No nffd for pbdding. Sbvf lbst blodk from bpplidbtion dbtb
+            numBlodks -= 1;
+            Systfm.brrbydopy(dbtb, offsft + numBlodks*blodkSizf,
+                             finblBlodk, 0, blodkSizf);
+        } flsf {
+            Systfm.brrbydopy(dbtb, offsft + numBlodks*blodkSizf,
+                             finblBlodk, 0, lbstBytfs);
+            // Zfro pbdding butombtidblly donf
+        }
+
+        try {
+            bytf[] tfmp = nfw bytf[Mbti.mbx(blodkSizf,
+                (ifbdfr == null? blodkSizf : ifbdfr.lfngti))];
+
+            if (ifbdfr != null) {
+                // ifbdfr will bf null wifn doing DES-MD5 Cifdksum
+                dfs.updbtf(ifbdfr, 0, ifbdfr.lfngti, tfmp, 0);
+            }
+
+            // Itfrbtf ovfr bll but tif lbst blodk
+            for (int i = 0; i < numBlodks; i++) {
+                dfs.updbtf(dbtb, offsft, blodkSizf,
+                           tfmp, 0);
+                offsft += blodkSizf;
+            }
+
+            // Now prodfss tif finbl blodk
+            bytf[] rftVbl = nfw bytf[blodkSizf];
+            dfs.updbtf(finblBlodk, 0, blodkSizf, rftVbl, 0);
+            dfs.doFinbl();
+
+            rfturn rftVbl;
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf DES Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+    }
+
+    /**
+     * Obtbins bn initiblizfd DES dipifr.
+     *
+     * @pbrbm fndryptModf truf if fndryption is dfsirfd, fblsf is dfdryption
+     * is dfsirfd.
+     * @pbrbm kfy tif bytfs for tif DES kfy
+     * @pbrbm ivBytfs tif initibl vfdtor bytfs
+     */
+    privbtf finbl Cipifr gftInitiblizfdDfs(boolfbn fndryptModf, bytf[] kfy,
+                                          bytf[] ivBytfs)
+        tirows  GSSExdfption  {
+
+
+        try {
+            IvPbrbmftfrSpfd iv = nfw IvPbrbmftfrSpfd(ivBytfs);
+            SfdrftKfy jdfKfy = (SfdrftKfy) (nfw SfdrftKfySpfd(kfy, "DES"));
+
+            Cipifr dfsCipifr = Cipifr.gftInstbndf("DES/CBC/NoPbdding");
+            dfsCipifr.init(
+                (fndryptModf ? Cipifr.ENCRYPT_MODE : Cipifr.DECRYPT_MODE),
+                jdfKfy, iv);
+            rfturn dfsCipifr;
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+    }
+
+    /**
+     * Hflpfr routinf to dfdrypt fromm b bytf brrby bnd writf tif
+     * bpplidbtion dbtb strbigit to bn output brrby witi minimbl
+     * bufffr dopifs. Tif donfoundfr bnd tif pbdding brf storfd
+     * sfpbrbtfly bnd not dopifd into tiis output brrby.
+     * @pbrbm kfy tif DES kfy to usf
+     * @pbrbm dipifrTfxt tif fndryptfd dbtb
+     * @pbrbm offsft tif offsft for tif fndryptfd dbtb
+     * @pbrbm lfn tif lfngti of tif fndryptfd dbtb
+     * @pbrbm dbtbOutBuf tif output bufffr wifrf tif bpplidbtion dbtb
+     * siould bf writtf
+     * @pbrbm dbtbOffsft tif offsfr wifrf tif bpplidbtion dbtb siould
+     * bf writtfn.
+     * @tirows GSSExdfption is bn frror oddurs wiilf dfdrypting tif
+     * dbtb
+     */
+    privbtf void dfsCbdDfdrypt(WrbpTokfn tokfn, bytf[] kfy, bytf[] dipifrTfxt,
+        int offsft, int lfn, bytf[] dbtbOutBuf, int dbtbOffsft)
+         tirows GSSExdfption {
+
+        try {
+
+            int tfmp = 0;
+
+            Cipifr dfs = gftInitiblizfdDfs(fblsf, kfy, ZERO_IV);
+
+            /*
+             * Rfmovf tif dounfoundfr first.
+             * CONFOUNDER_SIZE is onf DES blodk if 8 bytfs.
+             */
+            tfmp = dfs.updbtf(dipifrTfxt, offsft, WrbpTokfn.CONFOUNDER_SIZE,
+                              tokfn.donfoundfr);
+            // tfmp siould bf CONFOUNDER_SIZE
+            // dfbug("\n\ttfmp is " + tfmp + " bnd CONFOUNDER_SIZE is "
+            //  + CONFOUNDER_SIZE);
+
+            offsft += WrbpTokfn.CONFOUNDER_SIZE;
+            lfn -= WrbpTokfn.CONFOUNDER_SIZE;
+
+            /*
+             * lfn is b multiplf of 8 duf to pbdding.
+             * Dfdrypt bll blodks dirfdtly into tif output bufffr fxdfpt for
+             * tif vfry lbst blodk. Rfmovf tif trbiling pbdding bytfs from tif
+             * vfry lbst blodk bnd dopy tibt into tif output bufffr.
+             */
+
+            int blodkSizf = dfs.gftBlodkSizf();
+            int numBlodks = lfn / blodkSizf - 1;
+
+            // Itfrbtf ovfr bll but tif lbst blodk
+            for (int i = 0; i < numBlodks; i++) {
+                tfmp = dfs.updbtf(dipifrTfxt, offsft, blodkSizf,
+                                  dbtbOutBuf, dbtbOffsft);
+                // tfmp siould bf blodkSizf
+                // dfbug("\n\ttfmp is " + tfmp + " bnd blodkSizf is "
+                //    + blodkSizf);
+
+                offsft += blodkSizf;
+                dbtbOffsft += blodkSizf;
+            }
+
+            // Now prodfss tif lbst blodk
+            bytf[] finblBlodk = nfw bytf[blodkSizf];
+            dfs.updbtf(dipifrTfxt, offsft, blodkSizf, finblBlodk);
+
+            dfs.doFinbl();
+
+            /*
+             * Tifrf is blwbys bt lfbst onf pbdding bytf. Tif pbdding bytfs
+             * brf bll tif vbluf of tif numbfr of pbdding bytfs.
+             */
+
+            int pbdSizf = finblBlodk[blodkSizf - 1];
+            if (pbdSizf < 1  || pbdSizf > 8)
+                tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                        "Invblid pbdding on Wrbp Tokfn");
+            tokfn.pbdding = WrbpTokfn.pbds[pbdSizf];
+            blodkSizf -= pbdSizf;
+
+            // Copy tiis lbst blodk into tif output bufffr
+            Systfm.brrbydopy(finblBlodk, 0, dbtbOutBuf, dbtbOffsft,
+                             blodkSizf);
+
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf DES dipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+    }
+
+    /**
+     * Hflpfr routinf to dfdrypt from bn InputStrfbm bnd writf tif
+     * bpplidbtion dbtb strbigit to bn output brrby witi minimbl
+     * bufffr dopifs. Tif donfoundfr bnd tif pbdding brf storfd
+     * sfpbrbtfly bnd not dopifd into tiis output brrby.
+     * @pbrbm kfy tif DES kfy to usf
+     * @pbrbm is tif InputStrfbm from wiidi tif dipifr tfxt siould bf
+     * rfbd
+     * @pbrbm lfn tif lfngti of tif dipifrtfxt dbtb
+     * @pbrbm dbtbOutBuf tif output bufffr wifrf tif bpplidbtion dbtb
+     * siould bf writtf
+     * @pbrbm dbtbOffsft tif offsfr wifrf tif bpplidbtion dbtb siould
+     * bf writtfn.
+     * @tirows GSSExdfption is bn frror oddurs wiilf dfdrypting tif
+     * dbtb
+     */
+    privbtf void dfsCbdDfdrypt(WrbpTokfn tokfn, bytf[] kfy,
+        InputStrfbm is, int lfn, bytf[] dbtbOutBuf, int dbtbOffsft)
+        tirows GSSExdfption, IOExdfption {
+
+        int tfmp = 0;
+
+        Cipifr dfs = gftInitiblizfdDfs(fblsf, kfy, ZERO_IV);
+
+        WrbpTokfnInputStrfbm trundbtfdInputStrfbm =
+            nfw WrbpTokfnInputStrfbm(is, lfn);
+        CipifrInputStrfbm dis = nfw CipifrInputStrfbm(trundbtfdInputStrfbm,
+                                                      dfs);
+        /*
+         * Rfmovf tif dounfoundfr first.
+         * CONFOUNDER_SIZE is onf DES blodk if 8 bytfs.
+         */
+        tfmp = dis.rfbd(tokfn.donfoundfr);
+
+        lfn -= tfmp;
+        // tfmp siould bf CONFOUNDER_SIZE
+        // dfbug("Got " + tfmp + " bytfs; CONFOUNDER_SIZE is "
+        //     + CONFOUNDER_SIZE + "\n");
+        // dfbug("Confoundfr is " + gftHfxBytfs(donfoundfr) + "\n");
+
+
+        /*
+         * lfn is b multiplf of 8 duf to pbdding.
+         * Dfdrypt bll blodks dirfdtly into tif output bufffr fxdfpt for
+         * tif vfry lbst blodk. Rfmovf tif trbiling pbdding bytfs from tif
+         * vfry lbst blodk bnd dopy tibt into tif output bufffr.
+         */
+
+        int blodkSizf = dfs.gftBlodkSizf();
+        int numBlodks = lfn / blodkSizf - 1;
+
+        // Itfrbtf ovfr bll but tif lbst blodk
+        for (int i = 0; i < numBlodks; i++) {
+            // dfbug("dbtbOffsft is " + dbtbOffsft + "\n");
+            tfmp = dis.rfbd(dbtbOutBuf, dbtbOffsft, blodkSizf);
+
+            // tfmp siould bf blodkSizf
+            // dfbug("Got " + tfmp + " bytfs bnd blodkSizf is "
+            //    + blodkSizf + "\n");
+            // dfbug("Bytfs brf: "
+            //    + gftHfxBytfs(dbtbOutBuf, dbtbOffsft, tfmp) + "\n");
+            dbtbOffsft += blodkSizf;
+        }
+
+        // Now prodfss tif lbst blodk
+        bytf[] finblBlodk = nfw bytf[blodkSizf];
+        // dfbug("Will dbll rfbd on finblBlodk" + "\n");
+        tfmp = dis.rfbd(finblBlodk);
+        // tfmp siould bf blodkSizf
+        /*
+          dfbug("Got " + tfmp + " bytfs bnd blodkSizf is "
+          + blodkSizf + "\n");
+          dfbug("Bytfs brf: "
+          + gftHfxBytfs(finblBlodk, 0, tfmp) + "\n");
+          dfbug("Will dbll doFinbl" + "\n");
+        */
+        try {
+            dfs.doFinbl();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf DES dipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+
+        /*
+         * Tifrf is blwbys bt lfbst onf pbdding bytf. Tif pbdding bytfs
+         * brf bll tif vbluf of tif numbfr of pbdding bytfs.
+         */
+
+        int pbdSizf = finblBlodk[blodkSizf - 1];
+        if (pbdSizf < 1  || pbdSizf > 8)
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "Invblid pbdding on Wrbp Tokfn");
+        tokfn.pbdding = WrbpTokfn.pbds[pbdSizf];
+        blodkSizf -= pbdSizf;
+
+        // Copy tiis lbst blodk into tif output bufffr
+        Systfm.brrbydopy(finblBlodk, 0, dbtbOutBuf, dbtbOffsft,
+                         blodkSizf);
+    }
+
+    privbtf stbtid bytf[] gftDfsEndryptionKfy(bytf[] kfy)
+        tirows GSSExdfption {
+
+        /*
+         * To mfft fxport dontrol rfquirfmfnts, doublf difdk tibt tif
+         * kfy bfing usfd is no longfr tibn 64 bits.
+         *
+         * Notf tibt from b protodol point of vifw, bn
+         * blgoritim tibt is not DES will bf rfjfdtfd bfforf tiis
+         * point. Also, b DES kfy tibt is not 64 bits will bf
+         * rfjfdtfd by b good JCE providfr.
+         */
+        if (kfy.lfngti > 8)
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -100,
+                                   "Invblid DES Kfy!");
+
+        bytf[] rftVbl = nfw bytf[kfy.lfngti];
+        for (int i = 0; i < kfy.lfngti; i++)
+            rftVbl[i] = (bytf)(kfy[i] ^ 0xf0);  // RFC 1964, Sfdtion 1.2.2
+        rfturn rftVbl;
+    }
+
+    // ---- DES3-KD mftiods
+    privbtf void dfs3KdDfdrypt(WrbpTokfn tokfn, bytf[] dipifrtfxt,
+        int dStbrt, int dLfn, bytf[] plbintfxt, int pStbrt)
+        tirows GSSExdfption {
+        bytf[] ptfxt;
+        try {
+            ptfxt = Dfs3.dfdryptRbw(kfybytfs, KG_USAGE_SEAL, ZERO_IV,
+                dipifrtfxt, dStbrt, dLfn);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf DES3-KD Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+
+        /*
+        Krb5Tokfn.dfbug("\ndfs3KdDfdrypt in: " +
+            Krb5Tokfn.gftHfxBytfs(dipifrtfxt, dStbrt, dLfn));
+        Krb5Tokfn.dfbug("\ndfs3KdDfdrypt plbin: " +
+            Krb5Tokfn.gftHfxBytfs(ptfxt));
+        */
+
+        // Strip out donfoundfr bnd pbdding
+        /*
+         * Tifrf is blwbys bt lfbst onf pbdding bytf. Tif pbdding bytfs
+         * brf bll tif vbluf of tif numbfr of pbdding bytfs.
+         */
+        int pbdSizf = ptfxt[ptfxt.lfngti - 1];
+        if (pbdSizf < 1  || pbdSizf > 8)
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid pbdding on Wrbp Tokfn");
+
+        tokfn.pbdding = WrbpTokfn.pbds[pbdSizf];
+        int lfn = ptfxt.lfngti - WrbpTokfn.CONFOUNDER_SIZE - pbdSizf;
+
+        Systfm.brrbydopy(ptfxt, WrbpTokfn.CONFOUNDER_SIZE,
+            plbintfxt, pStbrt, lfn);
+
+        // Nffdfd to dbldulbtf difdksum
+        Systfm.brrbydopy(ptfxt, 0, tokfn.donfoundfr,
+            0, WrbpTokfn.CONFOUNDER_SIZE);
+    }
+
+    privbtf bytf[] dfs3KdEndrypt(bytf[] donfoundfr, bytf[] plbintfxt,
+        int stbrt, int lfn, bytf[] pbdding) tirows GSSExdfption {
+
+
+        // [donfoundfr | plbintfxt | pbdding]
+        bytf[] bll = nfw bytf[donfoundfr.lfngti + lfn + pbdding.lfngti];
+        Systfm.brrbydopy(donfoundfr, 0, bll, 0, donfoundfr.lfngti);
+        Systfm.brrbydopy(plbintfxt, stbrt, bll, donfoundfr.lfngti, lfn);
+        Systfm.brrbydopy(pbdding, 0, bll, donfoundfr.lfngti + lfn,
+            pbdding.lfngti);
+
+        // Krb5Tokfn.dfbug("\ndfs3KdEndrypt:" + Krb5Tokfn.gftHfxBytfs(bll));
+
+        // Endrypt
+        try {
+            bytf[] bnswfr = Dfs3.fndryptRbw(kfybytfs, KG_USAGE_SEAL, ZERO_IV,
+                bll, 0, bll.lfngti);
+            // Krb5Tokfn.dfbug("\ndfs3KdEndrypt fndryptfd:" +
+            //  Krb5Tokfn.gftHfxBytfs(bnswfr));
+            rfturn bnswfr;
+        } dbtdi (Exdfption f) {
+            // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf DES3-KD Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+    }
+
+    // ---- RC4-HMAC mftiods
+    privbtf void brdFourDfdrypt(WrbpTokfn tokfn, bytf[] dipifrtfxt,
+        int dStbrt, int dLfn, bytf[] plbintfxt, int pStbrt)
+        tirows GSSExdfption {
+
+        // obtbin Sfqufndf numbfr nffdfd for dfdryption
+        // first dfdrypt tif Sfqufndf Numbfr using difdksum
+        bytf[] sfqNum = dfdryptSfq(tokfn.gftCifdksum(),
+                tokfn.gftEndSfqNumbfr(), 0, 8);
+
+        bytf[] ptfxt;
+        try {
+            ptfxt = ArdFourHmbd.dfdryptRbw(kfybytfs, KG_USAGE_SEAL, ZERO_IV,
+                dipifrtfxt, dStbrt, dLfn, sfqNum);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf ArdFour Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+
+        /*
+        Krb5Tokfn.dfbug("\nbrdFourDfdrypt in: " +
+            Krb5Tokfn.gftHfxBytfs(dipifrtfxt, dStbrt, dLfn));
+        Krb5Tokfn.dfbug("\nbrdFourDfdrypt plbin: " +
+            Krb5Tokfn.gftHfxBytfs(ptfxt));
+        */
+
+        // Strip out donfoundfr bnd pbdding
+        /*
+         * Tifrf is blwbys bt lfbst onf pbdding bytf. Tif pbdding bytfs
+         * brf bll tif vbluf of tif numbfr of pbdding bytfs.
+         */
+        int pbdSizf = ptfxt[ptfxt.lfngti - 1];
+        if (pbdSizf < 1)
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid pbdding on Wrbp Tokfn");
+
+        tokfn.pbdding = WrbpTokfn.pbds[pbdSizf];
+        int lfn = ptfxt.lfngti - WrbpTokfn.CONFOUNDER_SIZE - pbdSizf;
+
+        Systfm.brrbydopy(ptfxt, WrbpTokfn.CONFOUNDER_SIZE,
+            plbintfxt, pStbrt, lfn);
+
+        // Krb5Tokfn.dfbug("\nbrdFourDfdrypt plbintfxt: " +
+        //    Krb5Tokfn.gftHfxBytfs(plbintfxt));
+
+        // Nffdfd to dbldulbtf difdksum
+        Systfm.brrbydopy(ptfxt, 0, tokfn.donfoundfr,
+            0, WrbpTokfn.CONFOUNDER_SIZE);
+    }
+
+    privbtf bytf[] brdFourEndrypt(WrbpTokfn tokfn, bytf[] donfoundfr,
+        bytf[] plbintfxt, int stbrt, int lfn, bytf[] pbdding)
+        tirows GSSExdfption {
+
+        // [donfoundfr | plbintfxt | pbdding]
+        bytf[] bll = nfw bytf[donfoundfr.lfngti + lfn + pbdding.lfngti];
+        Systfm.brrbydopy(donfoundfr, 0, bll, 0, donfoundfr.lfngti);
+        Systfm.brrbydopy(plbintfxt, stbrt, bll, donfoundfr.lfngti, lfn);
+        Systfm.brrbydopy(pbdding, 0, bll, donfoundfr.lfngti + lfn,
+            pbdding.lfngti);
+
+        // gft tif tokfn Sfqufndf Numbfr rfquirfd for fndryption
+        // Notf: Wifn using tiis RC4 bbsfd fndryption typf, tif sfqufndf numbfr
+        // is blwbys sfnt in big-fndibn rbtifr tibn littlf-fndibn ordfr.
+        bytf[] sfqNum = nfw bytf[4];
+        WrbpTokfn.writfBigEndibn(tokfn.gftSfqufndfNumbfr(), sfqNum);
+
+        // Krb5Tokfn.dfbug("\nbrdFourEndrypt:" + Krb5Tokfn.gftHfxBytfs(bll));
+
+        // Endrypt
+        try {
+            bytf[] bnswfr = ArdFourHmbd.fndryptRbw(kfybytfs, KG_USAGE_SEAL,
+                                        sfqNum, bll, 0, bll.lfngti);
+            // Krb5Tokfn.dfbug("\nbrdFourEndrypt fndryptfd:" +
+            //  Krb5Tokfn.gftHfxBytfs(bnswfr));
+            rfturn bnswfr;
+        } dbtdi (Exdfption f) {
+            // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf ArdFour Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+    }
+
+    // ---- AES mftiods
+    privbtf bytf[] bfs128Endrypt(bytf[] donfoundfr, bytf[] tokfnHfbdfr,
+        bytf[] plbintfxt, int stbrt, int lfn, int kfy_usbgf)
+        tirows GSSExdfption {
+
+        // fndrypt { AES-plbintfxt-dbtb | fillfr | ifbdfr }
+        // AES-plbintfxt-dbtb { donfoundfr | plbintfxt }
+        // WrbpTokfn = { tokfnHfbdfr |
+        //      Endrypt (donfoundfr | plbintfxt | tokfnHfbdfr ) | HMAC }
+
+        bytf[] bll = nfw bytf[donfoundfr.lfngti + lfn + tokfnHfbdfr.lfngti];
+        Systfm.brrbydopy(donfoundfr, 0, bll, 0, donfoundfr.lfngti);
+        Systfm.brrbydopy(plbintfxt, stbrt, bll, donfoundfr.lfngti, lfn);
+        Systfm.brrbydopy(tokfnHfbdfr, 0, bll, donfoundfr.lfngti+lfn,
+                                tokfnHfbdfr.lfngti);
+
+        // Krb5Tokfn.dfbug("\nbfs128Endrypt:" + Krb5Tokfn.gftHfxBytfs(bll));
+        try {
+            bytf[] bnswfr = Afs128.fndryptRbw(kfybytfs, kfy_usbgf,
+                                ZERO_IV_AES,
+                                bll, 0, bll.lfngti);
+            // Krb5Tokfn.dfbug("\nbfs128Endrypt fndryptfd:" +
+            //                  Krb5Tokfn.gftHfxBytfs(bnswfr));
+            rfturn bnswfr;
+        } dbtdi (Exdfption f) {
+            // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf AES128 Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+    }
+
+    privbtf void bfs128Dfdrypt(WrbpTokfn_v2 tokfn, bytf[] dipifrtfxt,
+        int dStbrt, int dLfn, bytf[] plbintfxt, int pStbrt, int kfy_usbgf)
+        tirows GSSExdfption {
+
+        bytf[] ptfxt = null;
+
+        try {
+            ptfxt = Afs128.dfdryptRbw(kfybytfs, kfy_usbgf,
+                        ZERO_IV_AES, dipifrtfxt, dStbrt, dLfn);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf AES128 Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+
+        /*
+        Krb5Tokfn.dfbug("\nbfs128Dfdrypt in: " +
+            Krb5Tokfn.gftHfxBytfs(dipifrtfxt, dStbrt, dLfn));
+        Krb5Tokfn.dfbug("\nbfs128Dfdrypt plbin: " +
+            Krb5Tokfn.gftHfxBytfs(ptfxt));
+        Krb5Tokfn.dfbug("\nbfs128Dfdrypt ptfxt: " +
+            Krb5Tokfn.gftHfxBytfs(ptfxt));
+        */
+
+        // Strip out donfoundfr bnd tokfn ifbdfr
+        int lfn = ptfxt.lfngti - WrbpTokfn_v2.CONFOUNDER_SIZE -
+                        WrbpTokfn_v2.TOKEN_HEADER_SIZE;
+        Systfm.brrbydopy(ptfxt, WrbpTokfn_v2.CONFOUNDER_SIZE,
+                                plbintfxt, pStbrt, lfn);
+
+        /*
+        Krb5Tokfn.dfbug("\nbfs128Dfdrypt plbintfxt: " +
+            Krb5Tokfn.gftHfxBytfs(plbintfxt, pStbrt, lfn));
+        */
+    }
+
+    privbtf bytf[] bfs256Endrypt(bytf[] donfoundfr, bytf[] tokfnHfbdfr,
+        bytf[] plbintfxt, int stbrt, int lfn, int kfy_usbgf)
+        tirows GSSExdfption {
+
+        // fndrypt { AES-plbintfxt-dbtb | fillfr | ifbdfr }
+        // AES-plbintfxt-dbtb { donfoundfr | plbintfxt }
+        // WrbpTokfn = { tokfnHfbdfr |
+        //       Endrypt (donfoundfr | plbintfxt | tokfnHfbdfr ) | HMAC }
+
+        bytf[] bll = nfw bytf[donfoundfr.lfngti + lfn + tokfnHfbdfr.lfngti];
+        Systfm.brrbydopy(donfoundfr, 0, bll, 0, donfoundfr.lfngti);
+        Systfm.brrbydopy(plbintfxt, stbrt, bll, donfoundfr.lfngti, lfn);
+        Systfm.brrbydopy(tokfnHfbdfr, 0, bll, donfoundfr.lfngti+lfn,
+                                tokfnHfbdfr.lfngti);
+
+        // Krb5Tokfn.dfbug("\nbfs256Endrypt:" + Krb5Tokfn.gftHfxBytfs(bll));
+
+        try {
+            bytf[] bnswfr = Afs256.fndryptRbw(kfybytfs, kfy_usbgf,
+                                ZERO_IV_AES, bll, 0, bll.lfngti);
+            // Krb5Tokfn.dfbug("\nbfs256Endrypt fndryptfd:" +
+            //  Krb5Tokfn.gftHfxBytfs(bnswfr));
+            rfturn bnswfr;
+        } dbtdi (Exdfption f) {
+            // GfnfrblSfdurityExdfption, KrbCryptoExdfption
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf AES256 Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+    }
+
+    privbtf void bfs256Dfdrypt(WrbpTokfn_v2 tokfn, bytf[] dipifrtfxt,
+        int dStbrt, int dLfn, bytf[] plbintfxt, int pStbrt, int kfy_usbgf)
+        tirows GSSExdfption {
+
+        bytf[] ptfxt;
+        try {
+            ptfxt = Afs256.dfdryptRbw(kfybytfs, kfy_usbgf,
+                        ZERO_IV_AES, dipifrtfxt, dStbrt, dLfn);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            GSSExdfption gf = nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "Could not usf AES128 Cipifr - " + f.gftMfssbgf());
+            gf.initCbusf(f);
+            tirow gf;
+        }
+
+        /*
+        Krb5Tokfn.dfbug("\nbfs256Dfdrypt in: " +
+            Krb5Tokfn.gftHfxBytfs(dipifrtfxt, dStbrt, dLfn));
+        Krb5Tokfn.dfbug("\nbfs256Dfdrypt plbin: " +
+            Krb5Tokfn.gftHfxBytfs(ptfxt));
+        Krb5Tokfn.dfbug("\nbfs256Dfdrypt ptfxt: " +
+            Krb5Tokfn.gftHfxBytfs(ptfxt));
+        */
+
+        // Strip out donfoundfr bnd tokfn ifbdfr
+        int lfn = ptfxt.lfngti - WrbpTokfn_v2.CONFOUNDER_SIZE -
+                        WrbpTokfn_v2.TOKEN_HEADER_SIZE;
+        Systfm.brrbydopy(ptfxt, WrbpTokfn_v2.CONFOUNDER_SIZE,
+                                plbintfxt, pStbrt, lfn);
+
+        /*
+        Krb5Tokfn.dfbug("\nbfs128Dfdrypt plbintfxt: " +
+            Krb5Tokfn.gftHfxBytfs(plbintfxt, pStbrt, lfn));
+        */
+
+    }
+
+    /**
+     * Tiis dlbss providfs b trundbtfd inputstrfbm nffdfd by WrbpTokfn. Tif
+     * trundbtfd inputstrfbm is pbssfd to CipifrInputStrfbm. It prfvfnts
+     * tif CipifrInputStrfbm from trfbting tif bytfs of tif following tokfn
+     * bs pbrt fo tif dipifrtfxt for tiis tokfn.
+     */
+    dlbss WrbpTokfnInputStrfbm fxtfnds InputStrfbm {
+
+        privbtf InputStrfbm is;
+        privbtf int lfngti;
+        privbtf int rfmbining;
+
+        privbtf int tfmp;
+
+        publid WrbpTokfnInputStrfbm(InputStrfbm is, int lfngti) {
+            tiis.is = is;
+            tiis.lfngti = lfngti;
+            rfmbining = lfngti;
+        }
+
+        publid finbl int rfbd() tirows IOExdfption {
+            if (rfmbining == 0)
+                rfturn -1;
+            flsf {
+                tfmp = is.rfbd();
+                if (tfmp != -1)
+                    rfmbining -= tfmp;
+                rfturn tfmp;
+            }
+        }
+
+        publid finbl int rfbd(bytf[] b) tirows IOExdfption {
+            if (rfmbining == 0)
+                rfturn -1;
+            flsf {
+                tfmp = Mbti.min(rfmbining, b.lfngti);
+                tfmp = is.rfbd(b, 0, tfmp);
+                if (tfmp != -1)
+                    rfmbining -= tfmp;
+                rfturn tfmp;
+            }
+        }
+
+        publid finbl int rfbd(bytf[] b,
+                              int off,
+                              int lfn) tirows IOExdfption {
+            if (rfmbining == 0)
+                rfturn -1;
+            flsf {
+                tfmp = Mbti.min(rfmbining, lfn);
+                tfmp = is.rfbd(b, off, tfmp);
+                if (tfmp != -1)
+                    rfmbining -= tfmp;
+                rfturn tfmp;
+            }
+        }
+
+        publid finbl long skip(long n)  tirows IOExdfption {
+            if (rfmbining == 0)
+                rfturn 0;
+            flsf {
+                tfmp = (int) Mbti.min(rfmbining, n);
+                tfmp = (int) is.skip(tfmp);
+                rfmbining -= tfmp;
+                rfturn tfmp;
+            }
+        }
+
+        publid finbl int bvbilbblf() tirows IOExdfption {
+            rfturn Mbti.min(rfmbining, is.bvbilbblf());
+        }
+
+        publid finbl void dlosf() tirows IOExdfption {
+            rfmbining = 0;
+        }
+    }
+}

@@ -1,195 +1,975 @@
 /*
- * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.util;
+pbdkbgf jbvb.util;
+pbdkbgf jbvb.util;
+pbdkbgf jbvb.util;
+pbdkbgf jbvb.util;
+
+
+
+
 
 /**
- * An itfrbtor for lists thbt bllows thf progrbmmfr
- * to trbvfrsf thf list in fithfr dirfdtion, modify
- * thf list during itfrbtion, bnd obtbin thf itfrbtor's
- * durrfnt position in thf list. A {@dodf ListItfrbtor}
- * hbs no durrfnt flfmfnt; its <I>dursor position</I> blwbys
- * lifs bftwffn thf flfmfnt thbt would bf rfturnfd by b dbll
- * to {@dodf prfvious()} bnd thf flfmfnt thbt would bf
+/**
+/**
+/**
+/**
+ * An itfrbtor for lists tibt bllows tif progrbmmfr
+ * An itfrbtor for lists tibt bllows tif progrbmmfr
+ * An itfrbtor for lists tibt bllows tif progrbmmfr
+ * An itfrbtor for lists tibt bllows tif progrbmmfr
+ * An itfrbtor for lists tibt bllows tif progrbmmfr
+ * to trbvfrsf tif list in fitifr dirfdtion, modify
+ * to trbvfrsf tif list in fitifr dirfdtion, modify
+ * to trbvfrsf tif list in fitifr dirfdtion, modify
+ * to trbvfrsf tif list in fitifr dirfdtion, modify
+ * to trbvfrsf tif list in fitifr dirfdtion, modify
+ * tif list during itfrbtion, bnd obtbin tif itfrbtor's
+ * tif list during itfrbtion, bnd obtbin tif itfrbtor's
+ * tif list during itfrbtion, bnd obtbin tif itfrbtor's
+ * tif list during itfrbtion, bnd obtbin tif itfrbtor's
+ * tif list during itfrbtion, bnd obtbin tif itfrbtor's
+ * durrfnt position in tif list. A {@dodf ListItfrbtor}
+ * durrfnt position in tif list. A {@dodf ListItfrbtor}
+ * durrfnt position in tif list. A {@dodf ListItfrbtor}
+ * durrfnt position in tif list. A {@dodf ListItfrbtor}
+ * durrfnt position in tif list. A {@dodf ListItfrbtor}
+ * ibs no durrfnt flfmfnt; its <I>dursor position</I> blwbys
+ * ibs no durrfnt flfmfnt; its <I>dursor position</I> blwbys
+ * ibs no durrfnt flfmfnt; its <I>dursor position</I> blwbys
+ * ibs no durrfnt flfmfnt; its <I>dursor position</I> blwbys
+ * ibs no durrfnt flfmfnt; its <I>dursor position</I> blwbys
+ * lifs bftwffn tif flfmfnt tibt would bf rfturnfd by b dbll
+ * lifs bftwffn tif flfmfnt tibt would bf rfturnfd by b dbll
+ * lifs bftwffn tif flfmfnt tibt would bf rfturnfd by b dbll
+ * lifs bftwffn tif flfmfnt tibt would bf rfturnfd by b dbll
+ * lifs bftwffn tif flfmfnt tibt would bf rfturnfd by b dbll
+ * to {@dodf prfvious()} bnd tif flfmfnt tibt would bf
+ * to {@dodf prfvious()} bnd tif flfmfnt tibt would bf
+ * to {@dodf prfvious()} bnd tif flfmfnt tibt would bf
+ * to {@dodf prfvious()} bnd tif flfmfnt tibt would bf
+ * to {@dodf prfvious()} bnd tif flfmfnt tibt would bf
  * rfturnfd by b dbll to {@dodf nfxt()}.
- * An itfrbtor for b list of lfngth {@dodf n} hbs {@dodf n+1} possiblf
- * dursor positions, bs illustrbtfd by thf dbrfts ({@dodf ^}) bflow:
+ * rfturnfd by b dbll to {@dodf nfxt()}.
+ * rfturnfd by b dbll to {@dodf nfxt()}.
+ * rfturnfd by b dbll to {@dodf nfxt()}.
+ * rfturnfd by b dbll to {@dodf nfxt()}.
+ * An itfrbtor for b list of lfngti {@dodf n} ibs {@dodf n+1} possiblf
+ * An itfrbtor for b list of lfngti {@dodf n} ibs {@dodf n+1} possiblf
+ * An itfrbtor for b list of lfngti {@dodf n} ibs {@dodf n+1} possiblf
+ * An itfrbtor for b list of lfngti {@dodf n} ibs {@dodf n+1} possiblf
+ * An itfrbtor for b list of lfngti {@dodf n} ibs {@dodf n+1} possiblf
+ * dursor positions, bs illustrbtfd by tif dbrfts ({@dodf ^}) bflow:
+ * dursor positions, bs illustrbtfd by tif dbrfts ({@dodf ^}) bflow:
+ * dursor positions, bs illustrbtfd by tif dbrfts ({@dodf ^}) bflow:
+ * dursor positions, bs illustrbtfd by tif dbrfts ({@dodf ^}) bflow:
+ * dursor positions, bs illustrbtfd by tif dbrfts ({@dodf ^}) bflow:
+ * <PRE>
+ * <PRE>
+ * <PRE>
+ * <PRE>
  * <PRE>
  *                      Elfmfnt(0)   Elfmfnt(1)   Elfmfnt(2)   ... Elfmfnt(n-1)
+ *                      Elfmfnt(0)   Elfmfnt(1)   Elfmfnt(2)   ... Elfmfnt(n-1)
+ *                      Elfmfnt(0)   Elfmfnt(1)   Elfmfnt(2)   ... Elfmfnt(n-1)
+ *                      Elfmfnt(0)   Elfmfnt(1)   Elfmfnt(2)   ... Elfmfnt(n-1)
+ *                      Elfmfnt(0)   Elfmfnt(1)   Elfmfnt(2)   ... Elfmfnt(n-1)
+ * dursor positions:  ^            ^            ^            ^                  ^
+ * dursor positions:  ^            ^            ^            ^                  ^
+ * dursor positions:  ^            ^            ^            ^                  ^
+ * dursor positions:  ^            ^            ^            ^                  ^
  * dursor positions:  ^            ^            ^            ^                  ^
  * </PRE>
- * Notf thbt thf {@link #rfmovf} bnd {@link #sft(Objfdt)} mfthods brf
- * <i>not</i> dffinfd in tfrms of thf dursor position;  thfy brf dffinfd to
- * opfrbtf on thf lbst flfmfnt rfturnfd by b dbll to {@link #nfxt} or
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * </PRE>
+ * Notf tibt tif {@link #rfmovf} bnd {@link #sft(Objfdt)} mftiods brf
+ * Notf tibt tif {@link #rfmovf} bnd {@link #sft(Objfdt)} mftiods brf
+ * Notf tibt tif {@link #rfmovf} bnd {@link #sft(Objfdt)} mftiods brf
+ * Notf tibt tif {@link #rfmovf} bnd {@link #sft(Objfdt)} mftiods brf
+ * Notf tibt tif {@link #rfmovf} bnd {@link #sft(Objfdt)} mftiods brf
+ * <i>not</i> dffinfd in tfrms of tif dursor position;  tify brf dffinfd to
+ * <i>not</i> dffinfd in tfrms of tif dursor position;  tify brf dffinfd to
+ * <i>not</i> dffinfd in tfrms of tif dursor position;  tify brf dffinfd to
+ * <i>not</i> dffinfd in tfrms of tif dursor position;  tify brf dffinfd to
+ * <i>not</i> dffinfd in tfrms of tif dursor position;  tify brf dffinfd to
+ * opfrbtf on tif lbst flfmfnt rfturnfd by b dbll to {@link #nfxt} or
+ * opfrbtf on tif lbst flfmfnt rfturnfd by b dbll to {@link #nfxt} or
+ * opfrbtf on tif lbst flfmfnt rfturnfd by b dbll to {@link #nfxt} or
+ * opfrbtf on tif lbst flfmfnt rfturnfd by b dbll to {@link #nfxt} or
+ * opfrbtf on tif lbst flfmfnt rfturnfd by b dbll to {@link #nfxt} or
+ * {@link #prfvious()}.
+ * {@link #prfvious()}.
+ * {@link #prfvious()}.
+ * {@link #prfvious()}.
  * {@link #prfvious()}.
  *
- * <p>This intfrfbdf is b mfmbfr of thf
- * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ *
+ *
+ *
+ *
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ * Jbvb Collfdtions Frbmfwork</b>.
+ * Jbvb Collfdtions Frbmfwork</b>.
+ * Jbvb Collfdtions Frbmfwork</b>.
  * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @buthor  Josh Blodh
+ *
+ *
+ *
+ *
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @sff Collfdtion
+ * @sff Collfdtion
+ * @sff Collfdtion
+ * @sff Collfdtion
  * @sff Collfdtion
  * @sff List
+ * @sff List
+ * @sff List
+ * @sff List
+ * @sff List
+ * @sff Itfrbtor
+ * @sff Itfrbtor
+ * @sff Itfrbtor
+ * @sff Itfrbtor
  * @sff Itfrbtor
  * @sff Enumfrbtion
+ * @sff Enumfrbtion
+ * @sff Enumfrbtion
+ * @sff Enumfrbtion
+ * @sff Enumfrbtion
+ * @sff List#listItfrbtor()
+ * @sff List#listItfrbtor()
+ * @sff List#listItfrbtor()
+ * @sff List#listItfrbtor()
  * @sff List#listItfrbtor()
  * @sindf   1.2
+ * @sindf   1.2
+ * @sindf   1.2
+ * @sindf   1.2
+ * @sindf   1.2
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf ListItfrbtor<E> fxtfnds Itfrbtor<E> {
+publid intfrfbdf ListItfrbtor<E> fxtfnds Itfrbtor<E> {
+publid intfrfbdf ListItfrbtor<E> fxtfnds Itfrbtor<E> {
+publid intfrfbdf ListItfrbtor<E> fxtfnds Itfrbtor<E> {
+publid intfrfbdf ListItfrbtor<E> fxtfnds Itfrbtor<E> {
+    // Qufry Opfrbtions
+    // Qufry Opfrbtions
+    // Qufry Opfrbtions
+    // Qufry Opfrbtions
     // Qufry Opfrbtions
 
-    /**
-     * Rfturns {@dodf truf} if this list itfrbtor hbs morf flfmfnts whfn
-     * trbvfrsing thf list in thf forwbrd dirfdtion. (In othfr words,
-     * rfturns {@dodf truf} if {@link #nfxt} would rfturn bn flfmfnt rbthfr
-     * thbn throwing bn fxdfption.)
-     *
-     * @rfturn {@dodf truf} if thf list itfrbtor hbs morf flfmfnts whfn
-     *         trbvfrsing thf list in thf forwbrd dirfdtion
-     */
-    boolfbn hbsNfxt();
+
+
+
 
     /**
-     * Rfturns thf nfxt flfmfnt in thf list bnd bdvbndfs thf dursor position.
-     * This mfthod mby bf dbllfd rfpfbtfdly to itfrbtf through thf list,
-     * or intfrmixfd with dblls to {@link #prfvious} to go bbdk bnd forth.
-     * (Notf thbt bltfrnbting dblls to {@dodf nfxt} bnd {@dodf prfvious}
-     * will rfturn thf sbmf flfmfnt rfpfbtfdly.)
+    /**
+    /**
+    /**
+    /**
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * trbvfrsing tif list in tif forwbrd dirfdtion. (In otifr words,
+     * trbvfrsing tif list in tif forwbrd dirfdtion. (In otifr words,
+     * trbvfrsing tif list in tif forwbrd dirfdtion. (In otifr words,
+     * trbvfrsing tif list in tif forwbrd dirfdtion. (In otifr words,
+     * trbvfrsing tif list in tif forwbrd dirfdtion. (In otifr words,
+     * rfturns {@dodf truf} if {@link #nfxt} would rfturn bn flfmfnt rbtifr
+     * rfturns {@dodf truf} if {@link #nfxt} would rfturn bn flfmfnt rbtifr
+     * rfturns {@dodf truf} if {@link #nfxt} would rfturn bn flfmfnt rbtifr
+     * rfturns {@dodf truf} if {@link #nfxt} would rfturn bn flfmfnt rbtifr
+     * rfturns {@dodf truf} if {@link #nfxt} would rfturn bn flfmfnt rbtifr
+     * tibn tirowing bn fxdfption.)
+     * tibn tirowing bn fxdfption.)
+     * tibn tirowing bn fxdfption.)
+     * tibn tirowing bn fxdfption.)
+     * tibn tirowing bn fxdfption.)
      *
-     * @rfturn thf nfxt flfmfnt in thf list
-     * @throws NoSudhElfmfntExdfption if thf itfrbtion hbs no nfxt flfmfnt
+     *
+     *
+     *
+     *
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     *         trbvfrsing tif list in tif forwbrd dirfdtion
+     *         trbvfrsing tif list in tif forwbrd dirfdtion
+     *         trbvfrsing tif list in tif forwbrd dirfdtion
+     *         trbvfrsing tif list in tif forwbrd dirfdtion
+     *         trbvfrsing tif list in tif forwbrd dirfdtion
+     */
+     */
+     */
+     */
+     */
+    boolfbn ibsNfxt();
+    boolfbn ibsNfxt();
+    boolfbn ibsNfxt();
+    boolfbn ibsNfxt();
+    boolfbn ibsNfxt();
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nfxt flfmfnt in tif list bnd bdvbndfs tif dursor position.
+     * Rfturns tif nfxt flfmfnt in tif list bnd bdvbndfs tif dursor position.
+     * Rfturns tif nfxt flfmfnt in tif list bnd bdvbndfs tif dursor position.
+     * Rfturns tif nfxt flfmfnt in tif list bnd bdvbndfs tif dursor position.
+     * Rfturns tif nfxt flfmfnt in tif list bnd bdvbndfs tif dursor position.
+     * Tiis mftiod mby bf dbllfd rfpfbtfdly to itfrbtf tirougi tif list,
+     * Tiis mftiod mby bf dbllfd rfpfbtfdly to itfrbtf tirougi tif list,
+     * Tiis mftiod mby bf dbllfd rfpfbtfdly to itfrbtf tirougi tif list,
+     * Tiis mftiod mby bf dbllfd rfpfbtfdly to itfrbtf tirougi tif list,
+     * Tiis mftiod mby bf dbllfd rfpfbtfdly to itfrbtf tirougi tif list,
+     * or intfrmixfd witi dblls to {@link #prfvious} to go bbdk bnd forti.
+     * or intfrmixfd witi dblls to {@link #prfvious} to go bbdk bnd forti.
+     * or intfrmixfd witi dblls to {@link #prfvious} to go bbdk bnd forti.
+     * or intfrmixfd witi dblls to {@link #prfvious} to go bbdk bnd forti.
+     * or intfrmixfd witi dblls to {@link #prfvious} to go bbdk bnd forti.
+     * (Notf tibt bltfrnbting dblls to {@dodf nfxt} bnd {@dodf prfvious}
+     * (Notf tibt bltfrnbting dblls to {@dodf nfxt} bnd {@dodf prfvious}
+     * (Notf tibt bltfrnbting dblls to {@dodf nfxt} bnd {@dodf prfvious}
+     * (Notf tibt bltfrnbting dblls to {@dodf nfxt} bnd {@dodf prfvious}
+     * (Notf tibt bltfrnbting dblls to {@dodf nfxt} bnd {@dodf prfvious}
+     * will rfturn tif sbmf flfmfnt rfpfbtfdly.)
+     * will rfturn tif sbmf flfmfnt rfpfbtfdly.)
+     * will rfturn tif sbmf flfmfnt rfpfbtfdly.)
+     * will rfturn tif sbmf flfmfnt rfpfbtfdly.)
+     * will rfturn tif sbmf flfmfnt rfpfbtfdly.)
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nfxt flfmfnt in tif list
+     * @rfturn tif nfxt flfmfnt in tif list
+     * @rfturn tif nfxt flfmfnt in tif list
+     * @rfturn tif nfxt flfmfnt in tif list
+     * @rfturn tif nfxt flfmfnt in tif list
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no nfxt flfmfnt
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no nfxt flfmfnt
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no nfxt flfmfnt
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no nfxt flfmfnt
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no nfxt flfmfnt
+     */
+     */
+     */
+     */
      */
     E nfxt();
+    E nfxt();
+    E nfxt();
+    E nfxt();
+    E nfxt();
+
+
+
+
 
     /**
-     * Rfturns {@dodf truf} if this list itfrbtor hbs morf flfmfnts whfn
-     * trbvfrsing thf list in thf rfvfrsf dirfdtion.  (In othfr words,
+    /**
+    /**
+    /**
+    /**
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * Rfturns {@dodf truf} if tiis list itfrbtor ibs morf flfmfnts wifn
+     * trbvfrsing tif list in tif rfvfrsf dirfdtion.  (In otifr words,
+     * trbvfrsing tif list in tif rfvfrsf dirfdtion.  (In otifr words,
+     * trbvfrsing tif list in tif rfvfrsf dirfdtion.  (In otifr words,
+     * trbvfrsing tif list in tif rfvfrsf dirfdtion.  (In otifr words,
+     * trbvfrsing tif list in tif rfvfrsf dirfdtion.  (In otifr words,
      * rfturns {@dodf truf} if {@link #prfvious} would rfturn bn flfmfnt
-     * rbthfr thbn throwing bn fxdfption.)
+     * rfturns {@dodf truf} if {@link #prfvious} would rfturn bn flfmfnt
+     * rfturns {@dodf truf} if {@link #prfvious} would rfturn bn flfmfnt
+     * rfturns {@dodf truf} if {@link #prfvious} would rfturn bn flfmfnt
+     * rfturns {@dodf truf} if {@link #prfvious} would rfturn bn flfmfnt
+     * rbtifr tibn tirowing bn fxdfption.)
+     * rbtifr tibn tirowing bn fxdfption.)
+     * rbtifr tibn tirowing bn fxdfption.)
+     * rbtifr tibn tirowing bn fxdfption.)
+     * rbtifr tibn tirowing bn fxdfption.)
      *
-     * @rfturn {@dodf truf} if thf list itfrbtor hbs morf flfmfnts whfn
-     *         trbvfrsing thf list in thf rfvfrsf dirfdtion
+     *
+     *
+     *
+     *
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     * @rfturn {@dodf truf} if tif list itfrbtor ibs morf flfmfnts wifn
+     *         trbvfrsing tif list in tif rfvfrsf dirfdtion
+     *         trbvfrsing tif list in tif rfvfrsf dirfdtion
+     *         trbvfrsing tif list in tif rfvfrsf dirfdtion
+     *         trbvfrsing tif list in tif rfvfrsf dirfdtion
+     *         trbvfrsing tif list in tif rfvfrsf dirfdtion
      */
-    boolfbn hbsPrfvious();
+     */
+     */
+     */
+     */
+    boolfbn ibsPrfvious();
+    boolfbn ibsPrfvious();
+    boolfbn ibsPrfvious();
+    boolfbn ibsPrfvious();
+    boolfbn ibsPrfvious();
+
+
+
+
 
     /**
-     * Rfturns thf prfvious flfmfnt in thf list bnd movfs thf dursor
-     * position bbdkwbrds.  This mfthod mby bf dbllfd rfpfbtfdly to
-     * itfrbtf through thf list bbdkwbrds, or intfrmixfd with dblls to
-     * {@link #nfxt} to go bbdk bnd forth.  (Notf thbt bltfrnbting dblls
-     * to {@dodf nfxt} bnd {@dodf prfvious} will rfturn thf sbmf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif prfvious flfmfnt in tif list bnd movfs tif dursor
+     * Rfturns tif prfvious flfmfnt in tif list bnd movfs tif dursor
+     * Rfturns tif prfvious flfmfnt in tif list bnd movfs tif dursor
+     * Rfturns tif prfvious flfmfnt in tif list bnd movfs tif dursor
+     * Rfturns tif prfvious flfmfnt in tif list bnd movfs tif dursor
+     * position bbdkwbrds.  Tiis mftiod mby bf dbllfd rfpfbtfdly to
+     * position bbdkwbrds.  Tiis mftiod mby bf dbllfd rfpfbtfdly to
+     * position bbdkwbrds.  Tiis mftiod mby bf dbllfd rfpfbtfdly to
+     * position bbdkwbrds.  Tiis mftiod mby bf dbllfd rfpfbtfdly to
+     * position bbdkwbrds.  Tiis mftiod mby bf dbllfd rfpfbtfdly to
+     * itfrbtf tirougi tif list bbdkwbrds, or intfrmixfd witi dblls to
+     * itfrbtf tirougi tif list bbdkwbrds, or intfrmixfd witi dblls to
+     * itfrbtf tirougi tif list bbdkwbrds, or intfrmixfd witi dblls to
+     * itfrbtf tirougi tif list bbdkwbrds, or intfrmixfd witi dblls to
+     * itfrbtf tirougi tif list bbdkwbrds, or intfrmixfd witi dblls to
+     * {@link #nfxt} to go bbdk bnd forti.  (Notf tibt bltfrnbting dblls
+     * {@link #nfxt} to go bbdk bnd forti.  (Notf tibt bltfrnbting dblls
+     * {@link #nfxt} to go bbdk bnd forti.  (Notf tibt bltfrnbting dblls
+     * {@link #nfxt} to go bbdk bnd forti.  (Notf tibt bltfrnbting dblls
+     * {@link #nfxt} to go bbdk bnd forti.  (Notf tibt bltfrnbting dblls
+     * to {@dodf nfxt} bnd {@dodf prfvious} will rfturn tif sbmf
+     * to {@dodf nfxt} bnd {@dodf prfvious} will rfturn tif sbmf
+     * to {@dodf nfxt} bnd {@dodf prfvious} will rfturn tif sbmf
+     * to {@dodf nfxt} bnd {@dodf prfvious} will rfturn tif sbmf
+     * to {@dodf nfxt} bnd {@dodf prfvious} will rfturn tif sbmf
+     * flfmfnt rfpfbtfdly.)
+     * flfmfnt rfpfbtfdly.)
+     * flfmfnt rfpfbtfdly.)
+     * flfmfnt rfpfbtfdly.)
      * flfmfnt rfpfbtfdly.)
      *
-     * @rfturn thf prfvious flfmfnt in thf list
-     * @throws NoSudhElfmfntExdfption if thf itfrbtion hbs no prfvious
+     *
+     *
+     *
+     *
+     * @rfturn tif prfvious flfmfnt in tif list
+     * @rfturn tif prfvious flfmfnt in tif list
+     * @rfturn tif prfvious flfmfnt in tif list
+     * @rfturn tif prfvious flfmfnt in tif list
+     * @rfturn tif prfvious flfmfnt in tif list
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no prfvious
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no prfvious
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no prfvious
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no prfvious
+     * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no prfvious
+     *         flfmfnt
+     *         flfmfnt
+     *         flfmfnt
+     *         flfmfnt
      *         flfmfnt
      */
+     */
+     */
+     */
+     */
+    E prfvious();
+    E prfvious();
+    E prfvious();
+    E prfvious();
     E prfvious();
 
-    /**
-     * Rfturns thf indfx of thf flfmfnt thbt would bf rfturnfd by b
-     * subsfqufnt dbll to {@link #nfxt}. (Rfturns list sizf if thf list
-     * itfrbtor is bt thf fnd of thf list.)
-     *
-     * @rfturn thf indfx of thf flfmfnt thbt would bf rfturnfd by b
-     *         subsfqufnt dbll to {@dodf nfxt}, or list sizf if thf list
-     *         itfrbtor is bt thf fnd of thf list
-     */
-    int nfxtIndfx();
+
+
+
 
     /**
-     * Rfturns thf indfx of thf flfmfnt thbt would bf rfturnfd by b
-     * subsfqufnt dbll to {@link #prfvious}. (Rfturns -1 if thf list
-     * itfrbtor is bt thf bfginning of thf list.)
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * subsfqufnt dbll to {@link #nfxt}. (Rfturns list sizf if tif list
+     * subsfqufnt dbll to {@link #nfxt}. (Rfturns list sizf if tif list
+     * subsfqufnt dbll to {@link #nfxt}. (Rfturns list sizf if tif list
+     * subsfqufnt dbll to {@link #nfxt}. (Rfturns list sizf if tif list
+     * subsfqufnt dbll to {@link #nfxt}. (Rfturns list sizf if tif list
+     * itfrbtor is bt tif fnd of tif list.)
+     * itfrbtor is bt tif fnd of tif list.)
+     * itfrbtor is bt tif fnd of tif list.)
+     * itfrbtor is bt tif fnd of tif list.)
+     * itfrbtor is bt tif fnd of tif list.)
      *
-     * @rfturn thf indfx of thf flfmfnt thbt would bf rfturnfd by b
-     *         subsfqufnt dbll to {@dodf prfvious}, or -1 if thf list
-     *         itfrbtor is bt thf bfginning of thf list
+     *
+     *
+     *
+     *
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     *         subsfqufnt dbll to {@dodf nfxt}, or list sizf if tif list
+     *         subsfqufnt dbll to {@dodf nfxt}, or list sizf if tif list
+     *         subsfqufnt dbll to {@dodf nfxt}, or list sizf if tif list
+     *         subsfqufnt dbll to {@dodf nfxt}, or list sizf if tif list
+     *         subsfqufnt dbll to {@dodf nfxt}, or list sizf if tif list
+     *         itfrbtor is bt tif fnd of tif list
+     *         itfrbtor is bt tif fnd of tif list
+     *         itfrbtor is bt tif fnd of tif list
+     *         itfrbtor is bt tif fnd of tif list
+     *         itfrbtor is bt tif fnd of tif list
      */
+     */
+     */
+     */
+     */
+    int nfxtIndfx();
+    int nfxtIndfx();
+    int nfxtIndfx();
+    int nfxtIndfx();
+    int nfxtIndfx();
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * Rfturns tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * subsfqufnt dbll to {@link #prfvious}. (Rfturns -1 if tif list
+     * subsfqufnt dbll to {@link #prfvious}. (Rfturns -1 if tif list
+     * subsfqufnt dbll to {@link #prfvious}. (Rfturns -1 if tif list
+     * subsfqufnt dbll to {@link #prfvious}. (Rfturns -1 if tif list
+     * subsfqufnt dbll to {@link #prfvious}. (Rfturns -1 if tif list
+     * itfrbtor is bt tif bfginning of tif list.)
+     * itfrbtor is bt tif bfginning of tif list.)
+     * itfrbtor is bt tif bfginning of tif list.)
+     * itfrbtor is bt tif bfginning of tif list.)
+     * itfrbtor is bt tif bfginning of tif list.)
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     * @rfturn tif indfx of tif flfmfnt tibt would bf rfturnfd by b
+     *         subsfqufnt dbll to {@dodf prfvious}, or -1 if tif list
+     *         subsfqufnt dbll to {@dodf prfvious}, or -1 if tif list
+     *         subsfqufnt dbll to {@dodf prfvious}, or -1 if tif list
+     *         subsfqufnt dbll to {@dodf prfvious}, or -1 if tif list
+     *         subsfqufnt dbll to {@dodf prfvious}, or -1 if tif list
+     *         itfrbtor is bt tif bfginning of tif list
+     *         itfrbtor is bt tif bfginning of tif list
+     *         itfrbtor is bt tif bfginning of tif list
+     *         itfrbtor is bt tif bfginning of tif list
+     *         itfrbtor is bt tif bfginning of tif list
+     */
+     */
+     */
+     */
+     */
+    int prfviousIndfx();
+    int prfviousIndfx();
+    int prfviousIndfx();
+    int prfviousIndfx();
     int prfviousIndfx();
 
 
+
+
+
+
+
+
+
+
+    // Modifidbtion Opfrbtions
+    // Modifidbtion Opfrbtions
+    // Modifidbtion Opfrbtions
+    // Modifidbtion Opfrbtions
     // Modifidbtion Opfrbtions
 
+
+
+
+
     /**
-     * Rfmovfs from thf list thf lbst flfmfnt thbt wbs rfturnfd by {@link
-     * #nfxt} or {@link #prfvious} (optionbl opfrbtion).  This dbll dbn
+    /**
+    /**
+    /**
+    /**
+     * Rfmovfs from tif list tif lbst flfmfnt tibt wbs rfturnfd by {@link
+     * Rfmovfs from tif list tif lbst flfmfnt tibt wbs rfturnfd by {@link
+     * Rfmovfs from tif list tif lbst flfmfnt tibt wbs rfturnfd by {@link
+     * Rfmovfs from tif list tif lbst flfmfnt tibt wbs rfturnfd by {@link
+     * Rfmovfs from tif list tif lbst flfmfnt tibt wbs rfturnfd by {@link
+     * #nfxt} or {@link #prfvious} (optionbl opfrbtion).  Tiis dbll dbn
+     * #nfxt} or {@link #prfvious} (optionbl opfrbtion).  Tiis dbll dbn
+     * #nfxt} or {@link #prfvious} (optionbl opfrbtion).  Tiis dbll dbn
+     * #nfxt} or {@link #prfvious} (optionbl opfrbtion).  Tiis dbll dbn
+     * #nfxt} or {@link #prfvious} (optionbl opfrbtion).  Tiis dbll dbn
      * only bf mbdf ondf pfr dbll to {@dodf nfxt} or {@dodf prfvious}.
-     * It dbn bf mbdf only if {@link #bdd} hbs not bffn
-     * dbllfd bftfr thf lbst dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * only bf mbdf ondf pfr dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * only bf mbdf ondf pfr dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * only bf mbdf ondf pfr dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * only bf mbdf ondf pfr dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * It dbn bf mbdf only if {@link #bdd} ibs not bffn
+     * It dbn bf mbdf only if {@link #bdd} ibs not bffn
+     * It dbn bf mbdf only if {@link #bdd} ibs not bffn
+     * It dbn bf mbdf only if {@link #bdd} ibs not bffn
+     * It dbn bf mbdf only if {@link #bdd} ibs not bffn
+     * dbllfd bftfr tif lbst dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * dbllfd bftfr tif lbst dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * dbllfd bftfr tif lbst dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * dbllfd bftfr tif lbst dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * dbllfd bftfr tif lbst dbll to {@dodf nfxt} or {@dodf prfvious}.
      *
-     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf rfmovf}
-     *         opfrbtion is not supportfd by this list itfrbtor
-     * @throws IllfgblStbtfExdfption if nfithfr {@dodf nfxt} nor
-     *         {@dodf prfvious} hbvf bffn dbllfd, or {@dodf rfmovf} or
-     *         {@dodf bdd} hbvf bffn dbllfd bftfr thf lbst dbll to
+     *
+     *
+     *
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf rfmovf}
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf rfmovf}
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf rfmovf}
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf rfmovf}
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf rfmovf}
+     *         opfrbtion is not supportfd by tiis list itfrbtor
+     *         opfrbtion is not supportfd by tiis list itfrbtor
+     *         opfrbtion is not supportfd by tiis list itfrbtor
+     *         opfrbtion is not supportfd by tiis list itfrbtor
+     *         opfrbtion is not supportfd by tiis list itfrbtor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
      *         {@dodf nfxt} or {@dodf prfvious}
+     *         {@dodf nfxt} or {@dodf prfvious}
+     *         {@dodf nfxt} or {@dodf prfvious}
+     *         {@dodf nfxt} or {@dodf prfvious}
+     *         {@dodf nfxt} or {@dodf prfvious}
+     */
+     */
+     */
+     */
      */
     void rfmovf();
+    void rfmovf();
+    void rfmovf();
+    void rfmovf();
+    void rfmovf();
+
+
+
+
 
     /**
-     * Rfplbdfs thf lbst flfmfnt rfturnfd by {@link #nfxt} or
-     * {@link #prfvious} with thf spfdififd flfmfnt (optionbl opfrbtion).
-     * This dbll dbn bf mbdf only if nfithfr {@link #rfmovf} nor {@link
-     * #bdd} hbvf bffn dbllfd bftfr thf lbst dbll to {@dodf nfxt} or
+    /**
+    /**
+    /**
+    /**
+     * Rfplbdfs tif lbst flfmfnt rfturnfd by {@link #nfxt} or
+     * Rfplbdfs tif lbst flfmfnt rfturnfd by {@link #nfxt} or
+     * Rfplbdfs tif lbst flfmfnt rfturnfd by {@link #nfxt} or
+     * Rfplbdfs tif lbst flfmfnt rfturnfd by {@link #nfxt} or
+     * Rfplbdfs tif lbst flfmfnt rfturnfd by {@link #nfxt} or
+     * {@link #prfvious} witi tif spfdififd flfmfnt (optionbl opfrbtion).
+     * {@link #prfvious} witi tif spfdififd flfmfnt (optionbl opfrbtion).
+     * {@link #prfvious} witi tif spfdififd flfmfnt (optionbl opfrbtion).
+     * {@link #prfvious} witi tif spfdififd flfmfnt (optionbl opfrbtion).
+     * {@link #prfvious} witi tif spfdififd flfmfnt (optionbl opfrbtion).
+     * Tiis dbll dbn bf mbdf only if nfitifr {@link #rfmovf} nor {@link
+     * Tiis dbll dbn bf mbdf only if nfitifr {@link #rfmovf} nor {@link
+     * Tiis dbll dbn bf mbdf only if nfitifr {@link #rfmovf} nor {@link
+     * Tiis dbll dbn bf mbdf only if nfitifr {@link #rfmovf} nor {@link
+     * Tiis dbll dbn bf mbdf only if nfitifr {@link #rfmovf} nor {@link
+     * #bdd} ibvf bffn dbllfd bftfr tif lbst dbll to {@dodf nfxt} or
+     * #bdd} ibvf bffn dbllfd bftfr tif lbst dbll to {@dodf nfxt} or
+     * #bdd} ibvf bffn dbllfd bftfr tif lbst dbll to {@dodf nfxt} or
+     * #bdd} ibvf bffn dbllfd bftfr tif lbst dbll to {@dodf nfxt} or
+     * #bdd} ibvf bffn dbllfd bftfr tif lbst dbll to {@dodf nfxt} or
+     * {@dodf prfvious}.
+     * {@dodf prfvious}.
+     * {@dodf prfvious}.
+     * {@dodf prfvious}.
      * {@dodf prfvious}.
      *
-     * @pbrbm f thf flfmfnt with whidh to rfplbdf thf lbst flfmfnt rfturnfd by
+     *
+     *
+     *
+     *
+     * @pbrbm f tif flfmfnt witi wiidi to rfplbdf tif lbst flfmfnt rfturnfd by
+     * @pbrbm f tif flfmfnt witi wiidi to rfplbdf tif lbst flfmfnt rfturnfd by
+     * @pbrbm f tif flfmfnt witi wiidi to rfplbdf tif lbst flfmfnt rfturnfd by
+     * @pbrbm f tif flfmfnt witi wiidi to rfplbdf tif lbst flfmfnt rfturnfd by
+     * @pbrbm f tif flfmfnt witi wiidi to rfplbdf tif lbst flfmfnt rfturnfd by
      *          {@dodf nfxt} or {@dodf prfvious}
-     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf sft} opfrbtion
-     *         is not supportfd by this list itfrbtor
-     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
-     *         prfvfnts it from bfing bddfd to this list
-     * @throws IllfgblArgumfntExdfption if somf bspfdt of thf spfdififd
-     *         flfmfnt prfvfnts it from bfing bddfd to this list
-     * @throws IllfgblStbtfExdfption if nfithfr {@dodf nfxt} nor
-     *         {@dodf prfvious} hbvf bffn dbllfd, or {@dodf rfmovf} or
-     *         {@dodf bdd} hbvf bffn dbllfd bftfr thf lbst dbll to
+     *          {@dodf nfxt} or {@dodf prfvious}
+     *          {@dodf nfxt} or {@dodf prfvious}
+     *          {@dodf nfxt} or {@dodf prfvious}
+     *          {@dodf nfxt} or {@dodf prfvious}
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf sft} opfrbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf sft} opfrbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf sft} opfrbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf sft} opfrbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf sft} opfrbtion
+     *         is not supportfd by tiis list itfrbtor
+     *         is not supportfd by tiis list itfrbtor
+     *         is not supportfd by tiis list itfrbtor
+     *         is not supportfd by tiis list itfrbtor
+     *         is not supportfd by tiis list itfrbtor
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tif spfdififd
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tif spfdififd
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tif spfdififd
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tif spfdififd
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis list
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis list
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis list
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis list
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis list
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     * @tirows IllfgblStbtfExdfption if nfitifr {@dodf nfxt} nor
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf prfvious} ibvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf bdd} ibvf bffn dbllfd bftfr tif lbst dbll to
+     *         {@dodf nfxt} or {@dodf prfvious}
+     *         {@dodf nfxt} or {@dodf prfvious}
+     *         {@dodf nfxt} or {@dodf prfvious}
+     *         {@dodf nfxt} or {@dodf prfvious}
      *         {@dodf nfxt} or {@dodf prfvious}
      */
+     */
+     */
+     */
+     */
+    void sft(E f);
+    void sft(E f);
+    void sft(E f);
+    void sft(E f);
     void sft(E f);
 
+
+
+
+
     /**
-     * Insfrts thf spfdififd flfmfnt into thf list (optionbl opfrbtion).
-     * Thf flfmfnt is insfrtfd immfdibtfly bfforf thf flfmfnt thbt
-     * would bf rfturnfd by {@link #nfxt}, if bny, bnd bftfr thf flfmfnt
-     * thbt would bf rfturnfd by {@link #prfvious}, if bny.  (If thf
-     * list dontbins no flfmfnts, thf nfw flfmfnt bfdomfs thf solf flfmfnt
-     * on thf list.)  Thf nfw flfmfnt is insfrtfd bfforf thf implidit
+    /**
+    /**
+    /**
+    /**
+     * Insfrts tif spfdififd flfmfnt into tif list (optionbl opfrbtion).
+     * Insfrts tif spfdififd flfmfnt into tif list (optionbl opfrbtion).
+     * Insfrts tif spfdififd flfmfnt into tif list (optionbl opfrbtion).
+     * Insfrts tif spfdififd flfmfnt into tif list (optionbl opfrbtion).
+     * Insfrts tif spfdififd flfmfnt into tif list (optionbl opfrbtion).
+     * Tif flfmfnt is insfrtfd immfdibtfly bfforf tif flfmfnt tibt
+     * Tif flfmfnt is insfrtfd immfdibtfly bfforf tif flfmfnt tibt
+     * Tif flfmfnt is insfrtfd immfdibtfly bfforf tif flfmfnt tibt
+     * Tif flfmfnt is insfrtfd immfdibtfly bfforf tif flfmfnt tibt
+     * Tif flfmfnt is insfrtfd immfdibtfly bfforf tif flfmfnt tibt
+     * would bf rfturnfd by {@link #nfxt}, if bny, bnd bftfr tif flfmfnt
+     * would bf rfturnfd by {@link #nfxt}, if bny, bnd bftfr tif flfmfnt
+     * would bf rfturnfd by {@link #nfxt}, if bny, bnd bftfr tif flfmfnt
+     * would bf rfturnfd by {@link #nfxt}, if bny, bnd bftfr tif flfmfnt
+     * would bf rfturnfd by {@link #nfxt}, if bny, bnd bftfr tif flfmfnt
+     * tibt would bf rfturnfd by {@link #prfvious}, if bny.  (If tif
+     * tibt would bf rfturnfd by {@link #prfvious}, if bny.  (If tif
+     * tibt would bf rfturnfd by {@link #prfvious}, if bny.  (If tif
+     * tibt would bf rfturnfd by {@link #prfvious}, if bny.  (If tif
+     * tibt would bf rfturnfd by {@link #prfvious}, if bny.  (If tif
+     * list dontbins no flfmfnts, tif nfw flfmfnt bfdomfs tif solf flfmfnt
+     * list dontbins no flfmfnts, tif nfw flfmfnt bfdomfs tif solf flfmfnt
+     * list dontbins no flfmfnts, tif nfw flfmfnt bfdomfs tif solf flfmfnt
+     * list dontbins no flfmfnts, tif nfw flfmfnt bfdomfs tif solf flfmfnt
+     * list dontbins no flfmfnts, tif nfw flfmfnt bfdomfs tif solf flfmfnt
+     * on tif list.)  Tif nfw flfmfnt is insfrtfd bfforf tif implidit
+     * on tif list.)  Tif nfw flfmfnt is insfrtfd bfforf tif implidit
+     * on tif list.)  Tif nfw flfmfnt is insfrtfd bfforf tif implidit
+     * on tif list.)  Tif nfw flfmfnt is insfrtfd bfforf tif implidit
+     * on tif list.)  Tif nfw flfmfnt is insfrtfd bfforf tif implidit
      * dursor: b subsfqufnt dbll to {@dodf nfxt} would bf unbfffdtfd, bnd b
-     * subsfqufnt dbll to {@dodf prfvious} would rfturn thf nfw flfmfnt.
-     * (This dbll indrfbsfs by onf thf vbluf thbt would bf rfturnfd by b
+     * dursor: b subsfqufnt dbll to {@dodf nfxt} would bf unbfffdtfd, bnd b
+     * dursor: b subsfqufnt dbll to {@dodf nfxt} would bf unbfffdtfd, bnd b
+     * dursor: b subsfqufnt dbll to {@dodf nfxt} would bf unbfffdtfd, bnd b
+     * dursor: b subsfqufnt dbll to {@dodf nfxt} would bf unbfffdtfd, bnd b
+     * subsfqufnt dbll to {@dodf prfvious} would rfturn tif nfw flfmfnt.
+     * subsfqufnt dbll to {@dodf prfvious} would rfturn tif nfw flfmfnt.
+     * subsfqufnt dbll to {@dodf prfvious} would rfturn tif nfw flfmfnt.
+     * subsfqufnt dbll to {@dodf prfvious} would rfturn tif nfw flfmfnt.
+     * subsfqufnt dbll to {@dodf prfvious} would rfturn tif nfw flfmfnt.
+     * (Tiis dbll indrfbsfs by onf tif vbluf tibt would bf rfturnfd by b
+     * (Tiis dbll indrfbsfs by onf tif vbluf tibt would bf rfturnfd by b
+     * (Tiis dbll indrfbsfs by onf tif vbluf tibt would bf rfturnfd by b
+     * (Tiis dbll indrfbsfs by onf tif vbluf tibt would bf rfturnfd by b
+     * (Tiis dbll indrfbsfs by onf tif vbluf tibt would bf rfturnfd by b
+     * dbll to {@dodf nfxtIndfx} or {@dodf prfviousIndfx}.)
+     * dbll to {@dodf nfxtIndfx} or {@dodf prfviousIndfx}.)
+     * dbll to {@dodf nfxtIndfx} or {@dodf prfviousIndfx}.)
+     * dbll to {@dodf nfxtIndfx} or {@dodf prfviousIndfx}.)
      * dbll to {@dodf nfxtIndfx} or {@dodf prfviousIndfx}.)
      *
-     * @pbrbm f thf flfmfnt to insfrt
-     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf bdd} mfthod is
-     *         not supportfd by this list itfrbtor
-     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
-     *         prfvfnts it from bfing bddfd to this list
-     * @throws IllfgblArgumfntExdfption if somf bspfdt of this flfmfnt
-     *         prfvfnts it from bfing bddfd to this list
+     *
+     *
+     *
+     *
+     * @pbrbm f tif flfmfnt to insfrt
+     * @pbrbm f tif flfmfnt to insfrt
+     * @pbrbm f tif flfmfnt to insfrt
+     * @pbrbm f tif flfmfnt to insfrt
+     * @pbrbm f tif flfmfnt to insfrt
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf bdd} mftiod is
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf bdd} mftiod is
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf bdd} mftiod is
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf bdd} mftiod is
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf bdd} mftiod is
+     *         not supportfd by tiis list itfrbtor
+     *         not supportfd by tiis list itfrbtor
+     *         not supportfd by tiis list itfrbtor
+     *         not supportfd by tiis list itfrbtor
+     *         not supportfd by tiis list itfrbtor
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tiis flfmfnt
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tiis flfmfnt
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tiis flfmfnt
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tiis flfmfnt
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tiis flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     *         prfvfnts it from bfing bddfd to tiis list
+     */
+     */
+     */
+     */
      */
     void bdd(E f);
+    void bdd(E f);
+    void bdd(E f);
+    void bdd(E f);
+    void bdd(E f);
+}
+}
+}
+}
 }

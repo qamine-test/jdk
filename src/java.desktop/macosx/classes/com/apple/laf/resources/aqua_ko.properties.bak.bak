@@ -1,183 +1,915 @@
 #
+#
+#
+#
+#
+# Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 #
+#
+#
+#
+#
+
+
+
+
 
 # Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# It dontbins Lodblf spfdifid strings usfd in Swing
 # It dontbins Lodblf spfdifid strings usfd in Swing
 # Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
+# Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
+# Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
+# Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
+# Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
+#
+#
+#
+#
 #
 #    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#
+#
+#
+#
 #
 # Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
+# support.
+# support.
+# support.
+# support.
+
+
+
+
 
 ############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=\uC77C\uBC18 \uD30C\uC77C
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=\uC77C\uBC18 \uD30C\uC77C
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=\uC77C\uBC18 \uD30C\uC77C
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=\uC77C\uBC18 \uD30C\uC77C
 FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=\uC77C\uBC18 \uD30C\uC77C
 FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=\uD3F4\uB354 \uC0DD\uC131 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=\uD3F4\uB354 \uC0DD\uC131 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=\uD3F4\uB354 \uC0DD\uC131 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=\uD3F4\uB354 \uC0DD\uC131 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.
 FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=\uD3F4\uB354 \uC0DD\uC131 \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4.
 FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=\uBAA8\uB4E0 \uD30C\uC77C
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=\uBAA8\uB4E0 \uD30C\uC77C
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=\uBAA8\uB4E0 \uD30C\uC77C
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=\uBAA8\uB4E0 \uD30C\uC77C
 FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=\uBAA8\uB4E0 \uD30C\uC77C
 FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
 FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
 FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
 FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
 FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
 FilfCioosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
 FilfCioosfr.iflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
 FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
 
+
+
+
+
+# Filf Sizf Units
+# Filf Sizf Units
+# Filf Sizf Units
+# Filf Sizf Units
 # Filf Sizf Units
 FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
 FilfCioosfr.filfSizfMfgbBytfs={0} MB
 FilfCioosfr.filfSizfGigbBytfs={0} GB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
+
+
+
+
 
 # Mbd-spfdifid strings
+# Mbd-spfdifid strings
+# Mbd-spfdifid strings
+# Mbd-spfdifid strings
+# Mbd-spfdifid strings
+FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=\uC800\uC7A5
 FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=\uC800\uC7A5
 FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=\uD574\uB2F9 \uC774\uB984\uC740 \uC774\uBBF8 \uC0AC\uC6A9 \uC911\uC785\uB2C8\uB2E4.
+FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=\uD574\uB2F9 \uC774\uB984\uC740 \uC774\uBBF8 \uC0AC\uC6A9 \uC911\uC785\uB2C8\uB2E4.
+FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=\uD574\uB2F9 \uC774\uB984\uC740 \uC774\uBBF8 \uC0AC\uC6A9 \uC911\uC785\uB2C8\uB2E4.
+FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=\uD574\uB2F9 \uC774\uB984\uC740 \uC774\uBBF8 \uC0AC\uC6A9 \uC911\uC785\uB2C8\uB2E4.
 FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=\uD574\uB2F9 \uC774\uB984\uC740 \uC774\uBBF8 \uC0AC\uC6A9 \uC911\uC785\uB2C8\uB2E4.
 FilfCioosfr.dioosfButton.tfxtAndMnfmonid=\uC120\uD0DD
+FilfCioosfr.dioosfButton.tfxtAndMnfmonid=\uC120\uD0DD
+FilfCioosfr.dioosfButton.tfxtAndMnfmonid=\uC120\uD0DD
+FilfCioosfr.dioosfButton.tfxtAndMnfmonid=\uC120\uD0DD
+FilfCioosfr.dioosfButton.tfxtAndMnfmonid=\uC120\uD0DD
+
+
+
+
 
 FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
 FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
 FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C:
+FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=\uB2E4\uB978 \uC774\uB984\uC73C\uB85C \uC800\uC7A5:
+FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=\uB2E4\uB978 \uC774\uB984\uC73C\uB85C \uC800\uC7A5:
+FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=\uB2E4\uB978 \uC774\uB984\uC73C\uB85C \uC800\uC7A5:
+FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=\uB2E4\uB978 \uC774\uB984\uC73C\uB85C \uC800\uC7A5:
 FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=\uB2E4\uB978 \uC774\uB984\uC73C\uB85C \uC800\uC7A5:
 FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uD615\uC2DD:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uD615\uC2DD:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uD615\uC2DD:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uD615\uC2DD:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uD615\uC2DD:
+
+
+
+
 
 FilfCioosfr.dfsktopNbmf=\uB370\uC2A4\uD06C\uD1B1
+FilfCioosfr.dfsktopNbmf=\uB370\uC2A4\uD06C\uD1B1
+FilfCioosfr.dfsktopNbmf=\uB370\uC2A4\uD06C\uD1B1
+FilfCioosfr.dfsktopNbmf=\uB370\uC2A4\uD06C\uD1B1
+FilfCioosfr.dfsktopNbmf=\uB370\uC2A4\uD06C\uD1B1
+FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354\uC758 \uC774\uB984:
+FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354\uC758 \uC774\uB984:
+FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354\uC758 \uC774\uB984:
+FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354\uC758 \uC774\uB984:
 FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354\uC758 \uC774\uB984:
 FilfCioosfr.untitlfdFoldfrNbmf=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.untitlfdFoldfrNbmf=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.untitlfdFoldfrNbmf=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.untitlfdFoldfrNbmf=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.untitlfdFoldfrNbmf=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.untitlfdFilfNbmf=\uC81C\uBAA9 \uC5C6\uC74C
+FilfCioosfr.untitlfdFilfNbmf=\uC81C\uBAA9 \uC5C6\uC74C
+FilfCioosfr.untitlfdFilfNbmf=\uC81C\uBAA9 \uC5C6\uC74C
+FilfCioosfr.untitlfdFilfNbmf=\uC81C\uBAA9 \uC5C6\uC74C
 FilfCioosfr.untitlfdFilfNbmf=\uC81C\uBAA9 \uC5C6\uC74C
 FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=\uC0DD\uC131
+FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=\uC0DD\uC131
+FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=\uC0DD\uC131
+FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=\uC0DD\uC131
+FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=\uC0DD\uC131
+
+
+
+
 
 FilfCioosfr.byDbtf.tfxtAndMnfmonid=\uC218\uC815\uB41C \uB0A0\uC9DC
+FilfCioosfr.byDbtf.tfxtAndMnfmonid=\uC218\uC815\uB41C \uB0A0\uC9DC
+FilfCioosfr.byDbtf.tfxtAndMnfmonid=\uC218\uC815\uB41C \uB0A0\uC9DC
+FilfCioosfr.byDbtf.tfxtAndMnfmonid=\uC218\uC815\uB41C \uB0A0\uC9DC
+FilfCioosfr.byDbtf.tfxtAndMnfmonid=\uC218\uC815\uB41C \uB0A0\uC9DC
+FilfCioosfr.by.tfxtAndMnfmonid=\uC774\uB984
+FilfCioosfr.by.tfxtAndMnfmonid=\uC774\uB984
+FilfCioosfr.by.tfxtAndMnfmonid=\uC774\uB984
+FilfCioosfr.by.tfxtAndMnfmonid=\uC774\uB984
 FilfCioosfr.by.tfxtAndMnfmonid=\uC774\uB984
 FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
+
+
+
+
 
 FilfCioosfr.mbd.nfwFoldfr=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.mbd.nfwFoldfr=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.mbd.nfwFoldfr=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.mbd.nfwFoldfr=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.mbd.nfwFoldfr=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354
+FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354 {0}
+FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354 {0}
+FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354 {0}
+FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354 {0}
 FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=\uC81C\uBAA9 \uC5C6\uB294 \uD3F4\uB354 {0}
 
 
+
+
+
+
+
+
+
+
+############ COLOR CHOOSER STRINGS #############
+############ COLOR CHOOSER STRINGS #############
+############ COLOR CHOOSER STRINGS #############
+############ COLOR CHOOSER STRINGS #############
 ############ COLOR CHOOSER STRINGS #############
 ColorCioosfr.prfvifw.tfxtAndMnfmonid=\uBBF8\uB9AC\uBCF4\uAE30
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=\uBBF8\uB9AC\uBCF4\uAE30
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=\uBBF8\uB9AC\uBCF4\uAE30
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=\uBBF8\uB9AC\uBCF4\uAE30
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=\uBBF8\uB9AC\uBCF4\uAE30
+ColorCioosfr.ok.tfxtAndMnfmonid=\uD655\uC778
+ColorCioosfr.ok.tfxtAndMnfmonid=\uD655\uC778
+ColorCioosfr.ok.tfxtAndMnfmonid=\uD655\uC778
+ColorCioosfr.ok.tfxtAndMnfmonid=\uD655\uC778
 ColorCioosfr.ok.tfxtAndMnfmonid=\uD655\uC778
 ColorCioosfr.dbndfl.tfxtAndMnfmonid=\uCDE8\uC18C
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=\uCDE8\uC18C
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=\uCDE8\uC18C
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=\uCDE8\uC18C
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=\uCDE8\uC18C
+ColorCioosfr.rfsft.tfxtAndMnfmonid=\uC7AC\uC124\uC815(&R)
+ColorCioosfr.rfsft.tfxtAndMnfmonid=\uC7AC\uC124\uC815(&R)
+ColorCioosfr.rfsft.tfxtAndMnfmonid=\uC7AC\uC124\uC815(&R)
+ColorCioosfr.rfsft.tfxtAndMnfmonid=\uC7AC\uC124\uC815(&R)
 ColorCioosfr.rfsft.tfxtAndMnfmonid=\uC7AC\uC124\uC815(&R)
 ColorCioosfr.sbmplf.tfxtAndMnfmonid=\uC0D8\uD50C \uD14D\uC2A4\uD2B8  \uC0D8\uD50C \uD14D\uC2A4\uD2B8
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=\uC0D8\uD50C \uD14D\uC2A4\uD2B8  \uC0D8\uD50C \uD14D\uC2A4\uD2B8
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=\uC0D8\uD50C \uD14D\uC2A4\uD2B8  \uC0D8\uD50C \uD14D\uC2A4\uD2B8
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=\uC0D8\uD50C \uD14D\uC2A4\uD2B8  \uC0D8\uD50C \uD14D\uC2A4\uD2B8
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=\uC0D8\uD50C \uD14D\uC2A4\uD2B8  \uC0D8\uD50C \uD14D\uC2A4\uD2B8
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=\uACAC\uBCF8(&S)
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=\uACAC\uBCF8(&S)
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=\uACAC\uBCF8(&S)
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=\uACAC\uBCF8(&S)
 ColorCioosfr.swbtdifs.tfxtAndMnfmonid=\uACAC\uBCF8(&S)
 ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=\uCD5C\uADFC \uBAA9\uB85D:
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=\uCD5C\uADFC \uBAA9\uB85D:
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=\uCD5C\uADFC \uBAA9\uB85D:
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=\uCD5C\uADFC \uBAA9\uB85D:
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=\uCD5C\uADFC \uBAA9\uB85D:
+ColorCioosfr.isb.tfxtAndMnfmonid=HSB(&H)
+ColorCioosfr.isb.tfxtAndMnfmonid=HSB(&H)
+ColorCioosfr.isb.tfxtAndMnfmonid=HSB(&H)
+ColorCioosfr.isb.tfxtAndMnfmonid=HSB(&H)
 ColorCioosfr.isb.tfxtAndMnfmonid=HSB(&H)
 ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
+ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
+ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
+ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
 ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
 ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
+ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
+ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
+ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
 ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
 ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
+ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
+ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
+ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
 ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
 ColorCioosfr.rgb.tfxtAndMnfmonid=RGB(&G)
+ColorCioosfr.rgb.tfxtAndMnfmonid=RGB(&G)
+ColorCioosfr.rgb.tfxtAndMnfmonid=RGB(&G)
+ColorCioosfr.rgb.tfxtAndMnfmonid=RGB(&G)
+ColorCioosfr.rgb.tfxtAndMnfmonid=RGB(&G)
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=\uBE68\uAC04\uC0C9(&D)
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=\uBE68\uAC04\uC0C9(&D)
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=\uBE68\uAC04\uC0C9(&D)
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=\uBE68\uAC04\uC0C9(&D)
 ColorCioosfr.rgbRfd.tfxtAndMnfmonid=\uBE68\uAC04\uC0C9(&D)
 ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=\uB179\uC0C9(&N)
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=\uB179\uC0C9(&N)
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=\uB179\uC0C9(&N)
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=\uB179\uC0C9(&N)
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=\uB179\uC0C9(&N)
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=\uD30C\uB780\uC0C9(&B)
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=\uD30C\uB780\uC0C9(&B)
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=\uD30C\uB780\uC0C9(&B)
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=\uD30C\uB780\uC0C9(&B)
 ColorCioosfr.rgbBluf.tfxtAndMnfmonid=\uD30C\uB780\uC0C9(&B)
 
+
+
+
+
+############ OPTION PANE STRINGS #############
+############ OPTION PANE STRINGS #############
+############ OPTION PANE STRINGS #############
+############ OPTION PANE STRINGS #############
 ############ OPTION PANE STRINGS #############
 # Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# dffinf mnfmonids for bny of tif buttons.
+# dffinf mnfmonids for bny of tif buttons.
+# dffinf mnfmonids for bny of tif buttons.
+# dffinf mnfmonids for bny of tif buttons.
 # dffinf mnfmonids for bny of tif buttons.
 OptionPbnf.yfsButton.tfxtAndMnfmonid=\uC608(&Y)
+OptionPbnf.yfsButton.tfxtAndMnfmonid=\uC608(&Y)
+OptionPbnf.yfsButton.tfxtAndMnfmonid=\uC608(&Y)
+OptionPbnf.yfsButton.tfxtAndMnfmonid=\uC608(&Y)
+OptionPbnf.yfsButton.tfxtAndMnfmonid=\uC608(&Y)
+OptionPbnf.noButton.tfxtAndMnfmonid=\uC544\uB2C8\uC624(&N)
+OptionPbnf.noButton.tfxtAndMnfmonid=\uC544\uB2C8\uC624(&N)
+OptionPbnf.noButton.tfxtAndMnfmonid=\uC544\uB2C8\uC624(&N)
+OptionPbnf.noButton.tfxtAndMnfmonid=\uC544\uB2C8\uC624(&N)
 OptionPbnf.noButton.tfxtAndMnfmonid=\uC544\uB2C8\uC624(&N)
 OptionPbnf.okButton.tfxtAndMnfmonid=\uD655\uC778
+OptionPbnf.okButton.tfxtAndMnfmonid=\uD655\uC778
+OptionPbnf.okButton.tfxtAndMnfmonid=\uD655\uC778
+OptionPbnf.okButton.tfxtAndMnfmonid=\uD655\uC778
+OptionPbnf.okButton.tfxtAndMnfmonid=\uD655\uC778
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
 OptionPbnf.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
 OptionPbnf.titlf.tfxtAndMnfmonid=\uC635\uC158 \uC120\uD0DD
+OptionPbnf.titlf.tfxtAndMnfmonid=\uC635\uC158 \uC120\uD0DD
+OptionPbnf.titlf.tfxtAndMnfmonid=\uC635\uC158 \uC120\uD0DD
+OptionPbnf.titlf.tfxtAndMnfmonid=\uC635\uC158 \uC120\uD0DD
+OptionPbnf.titlf.tfxtAndMnfmonid=\uC635\uC158 \uC120\uD0DD
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
 # Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
 # tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.inputDiblog.titlfAndMnfmonid=\uC785\uB825
+OptionPbnf.inputDiblog.titlfAndMnfmonid=\uC785\uB825
+OptionPbnf.inputDiblog.titlfAndMnfmonid=\uC785\uB825
+OptionPbnf.inputDiblog.titlfAndMnfmonid=\uC785\uB825
 OptionPbnf.inputDiblog.titlfAndMnfmonid=\uC785\uB825
 # Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
 # tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
 OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=\uBA54\uC2DC\uC9C0
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=\uBA54\uC2DC\uC9C0
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=\uBA54\uC2DC\uC9C0
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=\uBA54\uC2DC\uC9C0
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=\uBA54\uC2DC\uC9C0
+
+
+
+
 
 ############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+############ Printing Diblog Strings ############
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=\uC778\uC1C4
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=\uC778\uC1C4
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=\uC778\uC1C4
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=\uC778\uC1C4
 PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=\uC778\uC1C4
 PrintingDiblog.titlfAborting.tfxtAndMnfmonid=\uC778\uC1C4(\uC911\uB2E8 \uC911)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=\uC778\uC1C4(\uC911\uB2E8 \uC911)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=\uC778\uC1C4(\uC911\uB2E8 \uC911)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=\uC778\uC1C4(\uC911\uB2E8 \uC911)
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=\uC778\uC1C4(\uC911\uB2E8 \uC911)
+
+
+
+
 
 PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=\uC778\uC1C4 \uC9C4\uD589 \uC911...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=\uC778\uC1C4 \uC9C4\uD589 \uC911...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=\uC778\uC1C4 \uC9C4\uD589 \uC911...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=\uC778\uC1C4 \uC9C4\uD589 \uC911...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=\uC778\uC1C4 \uC9C4\uD589 \uC911...
+
+
+
+
 
 # Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
 # bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
 PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=\uC778\uC1C4\uB41C \uD398\uC774\uC9C0 {0}...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=\uC778\uC1C4\uB41C \uD398\uC774\uC9C0 {0}...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=\uC778\uC1C4\uB41C \uD398\uC774\uC9C0 {0}...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=\uC778\uC1C4\uB41C \uD398\uC774\uC9C0 {0}...
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=\uC778\uC1C4\uB41C \uD398\uC774\uC9C0 {0}...
+
+
+
+
 
 PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8 \uC911...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8 \uC911...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8 \uC911...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8 \uC911...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8 \uC911...
+
+
+
+
 
 PrintingDiblog.bbortButton.tfxtAndMnfmonid=\uC911\uB2E8(&A)
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=\uC911\uB2E8(&A)
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=\uC911\uB2E8(&A)
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=\uC911\uB2E8(&A)
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=\uC911\uB2E8(&A)
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8
 PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=\uC778\uC1C4 \uC911\uB2E8
 
+
+
+
+
+############ Intfrnbl Frbmf Strings ############
+############ Intfrnbl Frbmf Strings ############
+############ Intfrnbl Frbmf Strings ############
+############ Intfrnbl Frbmf Strings ############
 ############ Intfrnbl Frbmf Strings ############
 IntfrnblFrbmf.idonButtonToolTip=\uCD5C\uC18C\uD654
+IntfrnblFrbmf.idonButtonToolTip=\uCD5C\uC18C\uD654
+IntfrnblFrbmf.idonButtonToolTip=\uCD5C\uC18C\uD654
+IntfrnblFrbmf.idonButtonToolTip=\uCD5C\uC18C\uD654
+IntfrnblFrbmf.idonButtonToolTip=\uCD5C\uC18C\uD654
+IntfrnblFrbmf.mbxButtonToolTip=\uCD5C\uB300\uD654
+IntfrnblFrbmf.mbxButtonToolTip=\uCD5C\uB300\uD654
+IntfrnblFrbmf.mbxButtonToolTip=\uCD5C\uB300\uD654
+IntfrnblFrbmf.mbxButtonToolTip=\uCD5C\uB300\uD654
 IntfrnblFrbmf.mbxButtonToolTip=\uCD5C\uB300\uD654
 IntfrnblFrbmf.rfstorfButtonToolTip=\uBCF5\uC6D0
+IntfrnblFrbmf.rfstorfButtonToolTip=\uBCF5\uC6D0
+IntfrnblFrbmf.rfstorfButtonToolTip=\uBCF5\uC6D0
+IntfrnblFrbmf.rfstorfButtonToolTip=\uBCF5\uC6D0
+IntfrnblFrbmf.rfstorfButtonToolTip=\uBCF5\uC6D0
+IntfrnblFrbmf.dlosfButtonToolTip=\uB2EB\uAE30
+IntfrnblFrbmf.dlosfButtonToolTip=\uB2EB\uAE30
+IntfrnblFrbmf.dlosfButtonToolTip=\uB2EB\uAE30
+IntfrnblFrbmf.dlosfButtonToolTip=\uB2EB\uAE30
 IntfrnblFrbmf.dlosfButtonToolTip=\uB2EB\uAE30
 
+
+
+
+
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
 ############ Intfrnbl Frbmf Titlf Pbnf Strings ############
 IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=\uBCF5\uC6D0
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=\uBCF5\uC6D0
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=\uBCF5\uC6D0
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=\uBCF5\uC6D0
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=\uBCF5\uC6D0
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=\uC774\uB3D9
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=\uC774\uB3D9
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=\uC774\uB3D9
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=\uC774\uB3D9
 IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=\uC774\uB3D9
 IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=\uD06C\uAE30
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=\uD06C\uAE30
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=\uD06C\uAE30
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=\uD06C\uAE30
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=\uD06C\uAE30
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=\uCD5C\uC18C\uD654
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=\uCD5C\uC18C\uD654
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=\uCD5C\uC18C\uD654
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=\uCD5C\uC18C\uD654
 IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=\uCD5C\uC18C\uD654
 IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=\uB2EB\uAE30
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=\uB2EB\uAE30
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=\uB2EB\uAE30
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=\uB2EB\uAE30
 IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=\uB2EB\uAE30
 
+
+
+
+
+############ Tfxt strings #############
+############ Tfxt strings #############
+############ Tfxt strings #############
+############ Tfxt strings #############
 ############ Tfxt strings #############
 # Usfd for itml forms
+# Usfd for itml forms
+# Usfd for itml forms
+# Usfd for itml forms
+# Usfd for itml forms
+FormVifw.submitButton.tfxtAndMnfmonid=\uC9C8\uC758 \uC81C\uCD9C
+FormVifw.submitButton.tfxtAndMnfmonid=\uC9C8\uC758 \uC81C\uCD9C
+FormVifw.submitButton.tfxtAndMnfmonid=\uC9C8\uC758 \uC81C\uCD9C
+FormVifw.submitButton.tfxtAndMnfmonid=\uC9C8\uC758 \uC81C\uCD9C
 FormVifw.submitButton.tfxtAndMnfmonid=\uC9C8\uC758 \uC81C\uCD9C
 FormVifw.rfsftButton.tfxtAndMnfmonid=\uC7AC\uC124\uC815
+FormVifw.rfsftButton.tfxtAndMnfmonid=\uC7AC\uC124\uC815
+FormVifw.rfsftButton.tfxtAndMnfmonid=\uC7AC\uC124\uC815
+FormVifw.rfsftButton.tfxtAndMnfmonid=\uC7AC\uC124\uC815
+FormVifw.rfsftButton.tfxtAndMnfmonid=\uC7AC\uC124\uC815
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=\uCC3E\uC544\uBCF4\uAE30...
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=\uCC3E\uC544\uBCF4\uAE30...
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=\uCC3E\uC544\uBCF4\uAE30...
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=\uCC3E\uC544\uBCF4\uAE30...
 FormVifw.browsfFilfButton.tfxtAndMnfmonid=\uCC3E\uC544\uBCF4\uAE30...
 
+
+
+
+
+############ Abstrbdt Dodumfnt Strings ############
+############ Abstrbdt Dodumfnt Strings ############
+############ Abstrbdt Dodumfnt Strings ############
+############ Abstrbdt Dodumfnt Strings ############
 ############ Abstrbdt Dodumfnt Strings ############
 AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=\uC2A4\uD0C0\uC77C \uBCC0\uACBD
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=\uC2A4\uD0C0\uC77C \uBCC0\uACBD
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=\uC2A4\uD0C0\uC77C \uBCC0\uACBD
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=\uC2A4\uD0C0\uC77C \uBCC0\uACBD
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=\uC2A4\uD0C0\uC77C \uBCC0\uACBD
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=\uCD94\uAC00
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=\uCD94\uAC00
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=\uCD94\uAC00
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=\uCD94\uAC00
 AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=\uCD94\uAC00
 AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=\uC0AD\uC81C
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=\uC0AD\uC81C
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=\uC0AD\uC81C
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=\uC0AD\uC81C
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=\uC0AD\uC81C
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
 AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
 AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+
+
+
+
 
 ############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+############ Abstrbdt Button Strings ############
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=\uB204\uB974\uAE30
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=\uB204\uB974\uAE30
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=\uB204\uB974\uAE30
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=\uB204\uB974\uAE30
 AbstrbdtButton.dlidk.tfxtAndMnfmonid=\uB204\uB974\uAE30
 
+
+
+
+
+############ Abstrbdt Undobblf Edit Strings ############
+############ Abstrbdt Undobblf Edit Strings ############
+############ Abstrbdt Undobblf Edit Strings ############
+############ Abstrbdt Undobblf Edit Strings ############
 ############ Abstrbdt Undobblf Edit Strings ############
 AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=\uC2E4\uD589 \uCDE8\uC18C
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
 AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=\uC7AC\uC2E4\uD589
 
+
+
+
+
+############ Combo Box Strings ############
+############ Combo Box Strings ############
+############ Combo Box Strings ############
+############ Combo Box Strings ############
 ############ Combo Box Strings ############
 ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
+
+
+
+
 
 ############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+############ Progrfss Monitor Strings ############
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=\uC9C4\uD589...
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=\uC9C4\uD589...
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=\uC9C4\uD589...
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=\uC9C4\uD589...
 ProgrfssMonitor.progrfss.tfxtAndMnfmonid=\uC9C4\uD589...
 
+
+
+
+
+############ Split Pbnf Strings ############
+############ Split Pbnf Strings ############
+############ Split Pbnf Strings ############
+############ Split Pbnf Strings ############
 ############ Split Pbnf Strings ############
 SplitPbnf.lfftButton.tfxtAndMnfmonid=\uC67C\uCABD \uB2E8\uCD94
+SplitPbnf.lfftButton.tfxtAndMnfmonid=\uC67C\uCABD \uB2E8\uCD94
+SplitPbnf.lfftButton.tfxtAndMnfmonid=\uC67C\uCABD \uB2E8\uCD94
+SplitPbnf.lfftButton.tfxtAndMnfmonid=\uC67C\uCABD \uB2E8\uCD94
+SplitPbnf.lfftButton.tfxtAndMnfmonid=\uC67C\uCABD \uB2E8\uCD94
+SplitPbnf.rigitButton.tfxtAndMnfmonid=\uC624\uB978\uCABD \uB2E8\uCD94
+SplitPbnf.rigitButton.tfxtAndMnfmonid=\uC624\uB978\uCABD \uB2E8\uCD94
+SplitPbnf.rigitButton.tfxtAndMnfmonid=\uC624\uB978\uCABD \uB2E8\uCD94
+SplitPbnf.rigitButton.tfxtAndMnfmonid=\uC624\uB978\uCABD \uB2E8\uCD94
 SplitPbnf.rigitButton.tfxtAndMnfmonid=\uC624\uB978\uCABD \uB2E8\uCD94
 # Usfd for Isindfx
+# Usfd for Isindfx
+# Usfd for Isindfx
+# Usfd for Isindfx
+# Usfd for Isindfx
+IsindfxVifw.prompt=\uB2E4\uC74C\uC740 \uAC80\uC0C9 \uAC00\uB2A5\uD55C \uC778\uB371\uC2A4\uC785\uB2C8\uB2E4. \uAC80\uC0C9 \uD0A4\uC6CC\uB4DC \uC785\uB825:
+IsindfxVifw.prompt=\uB2E4\uC74C\uC740 \uAC80\uC0C9 \uAC00\uB2A5\uD55C \uC778\uB371\uC2A4\uC785\uB2C8\uB2E4. \uAC80\uC0C9 \uD0A4\uC6CC\uB4DC \uC785\uB825:
+IsindfxVifw.prompt=\uB2E4\uC74C\uC740 \uAC80\uC0C9 \uAC00\uB2A5\uD55C \uC778\uB371\uC2A4\uC785\uB2C8\uB2E4. \uAC80\uC0C9 \uD0A4\uC6CC\uB4DC \uC785\uB825:
+IsindfxVifw.prompt=\uB2E4\uC74C\uC740 \uAC80\uC0C9 \uAC00\uB2A5\uD55C \uC778\uB371\uC2A4\uC785\uB2C8\uB2E4. \uAC80\uC0C9 \uD0A4\uC6CC\uB4DC \uC785\uB825:
 IsindfxVifw.prompt=\uB2E4\uC74C\uC740 \uAC80\uC0C9 \uAC00\uB2A5\uD55C \uC778\uB371\uC2A4\uC785\uB2C8\uB2E4. \uAC80\uC0C9 \uD0A4\uC6CC\uB4DC \uC785\uB825:
 
+
+
+
+
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+############ IntfrnblFrbmfTitlfPbnf Strings ############
 ############ IntfrnblFrbmfTitlfPbnf Strings ############
 IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=\uC544\uC774\uCF58\uD654
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=\uC544\uC774\uCF58\uD654
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=\uC544\uC774\uCF58\uD654
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=\uC544\uC774\uCF58\uD654
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=\uC544\uC774\uCF58\uD654
 IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=\uCD5C\uB300\uD654
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=\uB2EB\uAE30
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=\uB2EB\uAE30
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=\uB2EB\uAE30
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=\uB2EB\uAE30
 IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=\uB2EB\uAE30

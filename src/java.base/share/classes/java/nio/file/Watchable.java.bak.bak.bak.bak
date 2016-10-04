@@ -1,127 +1,635 @@
 /*
- * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvb.nio.filf;
-
-import jbvb.io.IOExdfption;
-
-/**
- * An objfdt thbt mby bf rfgistfrfd with b wbtdh sfrvidf so thbt it dbn bf
- * <fm>wbtdhfd</fm> for dhbngfs bnd fvfnts.
- *
- * <p> This intfrfbdf dffinfs thf {@link #rfgistfr rfgistfr} mfthod to rfgistfr
- * thf objfdt with b {@link WbtdhSfrvidf} rfturning b {@link WbtdhKfy} to
- * rfprfsfnt thf rfgistrbtion. An objfdt mby bf rfgistfrfd with morf thbn onf
- * wbtdh sfrvidf. Rfgistrbtion with b wbtdh sfrvidf is dbndfllfd by invoking thf
- * kfy's {@link WbtdhKfy#dbndfl dbndfl} mfthod.
- *
- * @sindf 1.7
- *
- * @sff Pbth#rfgistfr
+ */
+ */
+ */
  */
 
-publid intfrfbdf Wbtdhbblf {
+
+
+
+
+pbdkbgf jbvb.nio.filf;
+pbdkbgf jbvb.nio.filf;
+pbdkbgf jbvb.nio.filf;
+pbdkbgf jbvb.nio.filf;
+pbdkbgf jbvb.nio.filf;
+
+
+
+
+
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * An objfdt tibt mby bf rfgistfrfd witi b wbtdi sfrvidf so tibt it dbn bf
+ * An objfdt tibt mby bf rfgistfrfd witi b wbtdi sfrvidf so tibt it dbn bf
+ * An objfdt tibt mby bf rfgistfrfd witi b wbtdi sfrvidf so tibt it dbn bf
+ * An objfdt tibt mby bf rfgistfrfd witi b wbtdi sfrvidf so tibt it dbn bf
+ * An objfdt tibt mby bf rfgistfrfd witi b wbtdi sfrvidf so tibt it dbn bf
+ * <fm>wbtdifd</fm> for dibngfs bnd fvfnts.
+ * <fm>wbtdifd</fm> for dibngfs bnd fvfnts.
+ * <fm>wbtdifd</fm> for dibngfs bnd fvfnts.
+ * <fm>wbtdifd</fm> for dibngfs bnd fvfnts.
+ * <fm>wbtdifd</fm> for dibngfs bnd fvfnts.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tiis intfrfbdf dffinfs tif {@link #rfgistfr rfgistfr} mftiod to rfgistfr
+ * <p> Tiis intfrfbdf dffinfs tif {@link #rfgistfr rfgistfr} mftiod to rfgistfr
+ * <p> Tiis intfrfbdf dffinfs tif {@link #rfgistfr rfgistfr} mftiod to rfgistfr
+ * <p> Tiis intfrfbdf dffinfs tif {@link #rfgistfr rfgistfr} mftiod to rfgistfr
+ * <p> Tiis intfrfbdf dffinfs tif {@link #rfgistfr rfgistfr} mftiod to rfgistfr
+ * tif objfdt witi b {@link WbtdiSfrvidf} rfturning b {@link WbtdiKfy} to
+ * tif objfdt witi b {@link WbtdiSfrvidf} rfturning b {@link WbtdiKfy} to
+ * tif objfdt witi b {@link WbtdiSfrvidf} rfturning b {@link WbtdiKfy} to
+ * tif objfdt witi b {@link WbtdiSfrvidf} rfturning b {@link WbtdiKfy} to
+ * tif objfdt witi b {@link WbtdiSfrvidf} rfturning b {@link WbtdiKfy} to
+ * rfprfsfnt tif rfgistrbtion. An objfdt mby bf rfgistfrfd witi morf tibn onf
+ * rfprfsfnt tif rfgistrbtion. An objfdt mby bf rfgistfrfd witi morf tibn onf
+ * rfprfsfnt tif rfgistrbtion. An objfdt mby bf rfgistfrfd witi morf tibn onf
+ * rfprfsfnt tif rfgistrbtion. An objfdt mby bf rfgistfrfd witi morf tibn onf
+ * rfprfsfnt tif rfgistrbtion. An objfdt mby bf rfgistfrfd witi morf tibn onf
+ * wbtdi sfrvidf. Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif
+ * wbtdi sfrvidf. Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif
+ * wbtdi sfrvidf. Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif
+ * wbtdi sfrvidf. Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif
+ * wbtdi sfrvidf. Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif
+ * kfy's {@link WbtdiKfy#dbndfl dbndfl} mftiod.
+ * kfy's {@link WbtdiKfy#dbndfl dbndfl} mftiod.
+ * kfy's {@link WbtdiKfy#dbndfl dbndfl} mftiod.
+ * kfy's {@link WbtdiKfy#dbndfl dbndfl} mftiod.
+ * kfy's {@link WbtdiKfy#dbndfl dbndfl} mftiod.
+ *
+ *
+ *
+ *
+ *
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ * @sindf 1.7
+ *
+ *
+ *
+ *
+ *
+ * @sff Pbti#rfgistfr
+ * @sff Pbti#rfgistfr
+ * @sff Pbti#rfgistfr
+ * @sff Pbti#rfgistfr
+ * @sff Pbti#rfgistfr
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid intfrfbdf Wbtdibblf {
+publid intfrfbdf Wbtdibblf {
+publid intfrfbdf Wbtdibblf {
+publid intfrfbdf Wbtdibblf {
+publid intfrfbdf Wbtdibblf {
+
+
+
+
 
     /**
-     * Rfgistfrs bn objfdt with b wbtdh sfrvidf.
+    /**
+    /**
+    /**
+    /**
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
      *
-     * <p> If thf filf systfm objfdt idfntififd by this objfdt is durrfntly
-     * rfgistfrfd with thf wbtdh sfrvidf thfn thf wbtdh kfy, rfprfsfnting thbt
-     * rfgistrbtion, is rfturnfd bftfr dhbnging thf fvfnt sft or modififrs to
-     * thosf spfdififd by thf {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
-     * Chbnging thf fvfnt sft dofs not dbusf pfnding fvfnts for thf objfdt to bf
-     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for thf {@link
-     * StbndbrdWbtdhEvfntKinds#OVERFLOW OVERFLOW} fvfnt. This fvfnt is not
-     * rfquirfd to bf prfsfnt in thf brrby of fvfnts.
      *
-     * <p> Othfrwisf thf filf systfm objfdt hbs not yft bffn rfgistfrfd with thf
-     * givfn wbtdh sfrvidf, so it is rfgistfrfd bnd thf rfsulting nfw kfy is
+     *
+     *
+     *
+     * <p> If tif filf systfm objfdt idfntififd by tiis objfdt is durrfntly
+     * <p> If tif filf systfm objfdt idfntififd by tiis objfdt is durrfntly
+     * <p> If tif filf systfm objfdt idfntififd by tiis objfdt is durrfntly
+     * <p> If tif filf systfm objfdt idfntififd by tiis objfdt is durrfntly
+     * <p> If tif filf systfm objfdt idfntififd by tiis objfdt is durrfntly
+     * rfgistfrfd witi tif wbtdi sfrvidf tifn tif wbtdi kfy, rfprfsfnting tibt
+     * rfgistfrfd witi tif wbtdi sfrvidf tifn tif wbtdi kfy, rfprfsfnting tibt
+     * rfgistfrfd witi tif wbtdi sfrvidf tifn tif wbtdi kfy, rfprfsfnting tibt
+     * rfgistfrfd witi tif wbtdi sfrvidf tifn tif wbtdi kfy, rfprfsfnting tibt
+     * rfgistfrfd witi tif wbtdi sfrvidf tifn tif wbtdi kfy, rfprfsfnting tibt
+     * rfgistrbtion, is rfturnfd bftfr dibnging tif fvfnt sft or modififrs to
+     * rfgistrbtion, is rfturnfd bftfr dibnging tif fvfnt sft or modififrs to
+     * rfgistrbtion, is rfturnfd bftfr dibnging tif fvfnt sft or modififrs to
+     * rfgistrbtion, is rfturnfd bftfr dibnging tif fvfnt sft or modififrs to
+     * rfgistrbtion, is rfturnfd bftfr dibnging tif fvfnt sft or modififrs to
+     * tiosf spfdififd by tif {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
+     * tiosf spfdififd by tif {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
+     * tiosf spfdififd by tif {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
+     * tiosf spfdififd by tif {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
+     * tiosf spfdififd by tif {@dodf fvfnts} bnd {@dodf modififrs} pbrbmftfrs.
+     * Cibnging tif fvfnt sft dofs not dbusf pfnding fvfnts for tif objfdt to bf
+     * Cibnging tif fvfnt sft dofs not dbusf pfnding fvfnts for tif objfdt to bf
+     * Cibnging tif fvfnt sft dofs not dbusf pfnding fvfnts for tif objfdt to bf
+     * Cibnging tif fvfnt sft dofs not dbusf pfnding fvfnts for tif objfdt to bf
+     * Cibnging tif fvfnt sft dofs not dbusf pfnding fvfnts for tif objfdt to bf
+     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for tif {@link
+     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for tif {@link
+     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for tif {@link
+     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for tif {@link
+     * disdbrdfd. Objfdts brf butombtidblly rfgistfrfd for tif {@link
+     * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW} fvfnt. Tiis fvfnt is not
+     * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW} fvfnt. Tiis fvfnt is not
+     * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW} fvfnt. Tiis fvfnt is not
+     * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW} fvfnt. Tiis fvfnt is not
+     * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW} fvfnt. Tiis fvfnt is not
+     * rfquirfd to bf prfsfnt in tif brrby of fvfnts.
+     * rfquirfd to bf prfsfnt in tif brrby of fvfnts.
+     * rfquirfd to bf prfsfnt in tif brrby of fvfnts.
+     * rfquirfd to bf prfsfnt in tif brrby of fvfnts.
+     * rfquirfd to bf prfsfnt in tif brrby of fvfnts.
+     *
+     *
+     *
+     *
+     *
+     * <p> Otifrwisf tif filf systfm objfdt ibs not yft bffn rfgistfrfd witi tif
+     * <p> Otifrwisf tif filf systfm objfdt ibs not yft bffn rfgistfrfd witi tif
+     * <p> Otifrwisf tif filf systfm objfdt ibs not yft bffn rfgistfrfd witi tif
+     * <p> Otifrwisf tif filf systfm objfdt ibs not yft bffn rfgistfrfd witi tif
+     * <p> Otifrwisf tif filf systfm objfdt ibs not yft bffn rfgistfrfd witi tif
+     * givfn wbtdi sfrvidf, so it is rfgistfrfd bnd tif rfsulting nfw kfy is
+     * givfn wbtdi sfrvidf, so it is rfgistfrfd bnd tif rfsulting nfw kfy is
+     * givfn wbtdi sfrvidf, so it is rfgistfrfd bnd tif rfsulting nfw kfy is
+     * givfn wbtdi sfrvidf, so it is rfgistfrfd bnd tif rfsulting nfw kfy is
+     * givfn wbtdi sfrvidf, so it is rfgistfrfd bnd tif rfsulting nfw kfy is
+     * rfturnfd.
+     * rfturnfd.
+     * rfturnfd.
+     * rfturnfd.
      * rfturnfd.
      *
-     * <p> Implfmfntbtions of this intfrfbdf should spfdify thf fvfnts thfy
+     *
+     *
+     *
+     *
+     * <p> Implfmfntbtions of tiis intfrfbdf siould spfdify tif fvfnts tify
+     * <p> Implfmfntbtions of tiis intfrfbdf siould spfdify tif fvfnts tify
+     * <p> Implfmfntbtions of tiis intfrfbdf siould spfdify tif fvfnts tify
+     * <p> Implfmfntbtions of tiis intfrfbdf siould spfdify tif fvfnts tify
+     * <p> Implfmfntbtions of tiis intfrfbdf siould spfdify tif fvfnts tify
+     * support.
+     * support.
+     * support.
+     * support.
      * support.
      *
-     * @pbrbm   wbtdhfr
-     *          thf wbtdh sfrvidf to whidh this objfdt is to bf rfgistfrfd
+     *
+     *
+     *
+     *
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
      * @pbrbm   fvfnts
-     *          thf fvfnts for whidh this objfdt should bf rfgistfrfd
+     * @pbrbm   fvfnts
+     * @pbrbm   fvfnts
+     * @pbrbm   fvfnts
+     * @pbrbm   fvfnts
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
      * @pbrbm   modififrs
-     *          thf modififrs, if bny, thbt modify how thf objfdt is rfgistfrfd
+     * @pbrbm   modififrs
+     * @pbrbm   modififrs
+     * @pbrbm   modififrs
+     * @pbrbm   modififrs
+     *          tif modififrs, if bny, tibt modify iow tif objfdt is rfgistfrfd
+     *          tif modififrs, if bny, tibt modify iow tif objfdt is rfgistfrfd
+     *          tif modififrs, if bny, tibt modify iow tif objfdt is rfgistfrfd
+     *          tif modififrs, if bny, tibt modify iow tif objfdt is rfgistfrfd
+     *          tif modififrs, if bny, tibt modify iow tif objfdt is rfgistfrfd
      *
-     * @rfturn  b kfy rfprfsfnting thf rfgistrbtion of this objfdt with thf
-     *          givfn wbtdh sfrvidf
      *
-     * @throws  UnsupportfdOpfrbtionExdfption
+     *
+     *
+     *
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *
+     *
+     *
+     *
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
      *          if unsupportfd fvfnts or modififrs brf spfdififd
-     * @throws  IllfgblArgumfntExdfption
+     *          if unsupportfd fvfnts or modififrs brf spfdififd
+     *          if unsupportfd fvfnts or modififrs brf spfdififd
+     *          if unsupportfd fvfnts or modififrs brf spfdififd
+     *          if unsupportfd fvfnts or modififrs brf spfdififd
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
      *          if bn invblid of dombinbtion of fvfnts brf modififrs brf spfdififd
-     * @throws  ClosfdWbtdhSfrvidfExdfption
-     *          if thf wbtdh sfrvidf is dlosfd
-     * @throws  IOExdfption
+     *          if bn invblid of dombinbtion of fvfnts brf modififrs brf spfdififd
+     *          if bn invblid of dombinbtion of fvfnts brf modififrs brf spfdififd
+     *          if bn invblid of dombinbtion of fvfnts brf modififrs brf spfdififd
+     *          if bn invblid of dombinbtion of fvfnts brf modififrs brf spfdififd
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
      *          if bn I/O frror oddurs
-     * @throws  SfdurityExdfption
+     *          if bn I/O frror oddurs
+     *          if bn I/O frror oddurs
+     *          if bn I/O frror oddurs
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
      *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
-     *          pfrmission rfquirfd to monitor this objfdt. Implfmfntbtions of
-     *          this intfrfbdf should spfdify thf pfrmission dhfdks.
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
      */
-    WbtdhKfy rfgistfr(WbtdhSfrvidf wbtdhfr,
-                      WbtdhEvfnt.Kind<?>[] fvfnts,
-                      WbtdhEvfnt.Modififr... modififrs)
-        throws IOExdfption;
+     */
+     */
+     */
+     */
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Modififr... modififrs)
+                      WbtdiEvfnt.Modififr... modififrs)
+                      WbtdiEvfnt.Modififr... modififrs)
+                      WbtdiEvfnt.Modififr... modififrs)
+                      WbtdiEvfnt.Modififr... modififrs)
+        tirows IOExdfption;
+        tirows IOExdfption;
+        tirows IOExdfption;
+        tirows IOExdfption;
+        tirows IOExdfption;
+
+
+
+
+
+
+
+
 
 
     /**
-     * Rfgistfrs bn objfdt with b wbtdh sfrvidf.
+    /**
+    /**
+    /**
+    /**
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
+     * Rfgistfrs bn objfdt witi b wbtdi sfrvidf.
      *
-     * <p> An invodbtion of this mfthod bfhbvfs in fxbdtly thf sbmf wby bs thf
+     *
+     *
+     *
+     *
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf wby bs tif
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf wby bs tif
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf wby bs tif
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf wby bs tif
+     * <p> An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf wby bs tif
+     * invodbtion
+     * invodbtion
+     * invodbtion
+     * invodbtion
      * invodbtion
      * <prf>
-     *     wbtdhbblf.{@link #rfgistfr(WbtdhSfrvidf,WbtdhEvfnt.Kind[],WbtdhEvfnt.Modififr[]) rfgistfr}(wbtdhfr, fvfnts, nfw WbtdhEvfnt.Modififr[0]);
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
+     *     wbtdibblf.{@link #rfgistfr(WbtdiSfrvidf,WbtdiEvfnt.Kind[],WbtdiEvfnt.Modififr[]) rfgistfr}(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
+     *     wbtdibblf.{@link #rfgistfr(WbtdiSfrvidf,WbtdiEvfnt.Kind[],WbtdiEvfnt.Modififr[]) rfgistfr}(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
+     *     wbtdibblf.{@link #rfgistfr(WbtdiSfrvidf,WbtdiEvfnt.Kind[],WbtdiEvfnt.Modififr[]) rfgistfr}(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
+     *     wbtdibblf.{@link #rfgistfr(WbtdiSfrvidf,WbtdiEvfnt.Kind[],WbtdiEvfnt.Modififr[]) rfgistfr}(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
+     *     wbtdibblf.{@link #rfgistfr(WbtdiSfrvidf,WbtdiEvfnt.Kind[],WbtdiEvfnt.Modififr[]) rfgistfr}(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
+     * </prf>
+     * </prf>
+     * </prf>
+     * </prf>
      * </prf>
      *
-     * @pbrbm   wbtdhfr
-     *          thf wbtdh sfrvidf to whidh this objfdt is to bf rfgistfrfd
+     *
+     *
+     *
+     *
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     * @pbrbm   wbtdifr
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
+     *          tif wbtdi sfrvidf to wiidi tiis objfdt is to bf rfgistfrfd
      * @pbrbm   fvfnts
-     *          thf fvfnts for whidh this objfdt should bf rfgistfrfd
+     * @pbrbm   fvfnts
+     * @pbrbm   fvfnts
+     * @pbrbm   fvfnts
+     * @pbrbm   fvfnts
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
+     *          tif fvfnts for wiidi tiis objfdt siould bf rfgistfrfd
      *
-     * @rfturn  b kfy rfprfsfnting thf rfgistrbtion of this objfdt with thf
-     *          givfn wbtdh sfrvidf
      *
-     * @throws  UnsupportfdOpfrbtionExdfption
+     *
+     *
+     *
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     * @rfturn  b kfy rfprfsfnting tif rfgistrbtion of tiis objfdt witi tif
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *          givfn wbtdi sfrvidf
+     *
+     *
+     *
+     *
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
      *          if unsupportfd fvfnts brf spfdififd
-     * @throws  IllfgblArgumfntExdfption
+     *          if unsupportfd fvfnts brf spfdififd
+     *          if unsupportfd fvfnts brf spfdififd
+     *          if unsupportfd fvfnts brf spfdififd
+     *          if unsupportfd fvfnts brf spfdififd
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
+     * @tirows  IllfgblArgumfntExdfption
      *          if bn invblid of dombinbtion of fvfnts brf spfdififd
-     * @throws  ClosfdWbtdhSfrvidfExdfption
-     *          if thf wbtdh sfrvidf is dlosfd
-     * @throws  IOExdfption
+     *          if bn invblid of dombinbtion of fvfnts brf spfdififd
+     *          if bn invblid of dombinbtion of fvfnts brf spfdififd
+     *          if bn invblid of dombinbtion of fvfnts brf spfdififd
+     *          if bn invblid of dombinbtion of fvfnts brf spfdififd
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     *          if tif wbtdi sfrvidf is dlosfd
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
+     * @tirows  IOExdfption
      *          if bn I/O frror oddurs
-     * @throws  SfdurityExdfption
+     *          if bn I/O frror oddurs
+     *          if bn I/O frror oddurs
+     *          if bn I/O frror oddurs
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
+     * @tirows  SfdurityExdfption
      *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
-     *          pfrmission rfquirfd to monitor this objfdt. Implfmfntbtions of
-     *          this intfrfbdf should spfdify thf pfrmission dhfdks.
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          pfrmission rfquirfd to monitor tiis objfdt. Implfmfntbtions of
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
+     *          tiis intfrfbdf siould spfdify tif pfrmission difdks.
      */
-    WbtdhKfy rfgistfr(WbtdhSfrvidf wbtdhfr, WbtdhEvfnt.Kind<?>... fvfnts)
-        throws IOExdfption;
+     */
+     */
+     */
+     */
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts)
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts)
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts)
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts)
+    WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts)
+        tirows IOExdfption;
+        tirows IOExdfption;
+        tirows IOExdfption;
+        tirows IOExdfption;
+        tirows IOExdfption;
+}
+}
+}
+}
 }

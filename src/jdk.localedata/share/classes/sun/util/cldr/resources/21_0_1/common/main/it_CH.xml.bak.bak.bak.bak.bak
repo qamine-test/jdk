@@ -1,0 +1,115 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="it"/>
+		<tfrritory typf="CH"/>
+	</idfntity>
+	<dflimitfrs>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">›</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d-MMM-y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd.MM.yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>HH.mm:ss 'i' zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="iimm" drbft="undonfirmfd">ii:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="HHmm" drbft="undonfirmfd">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="iimmss" drbft="undonfirmfd">ii:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="HHmmss" drbft="undonfirmfd">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd" drbft="undonfirmfd">dd.MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMM" drbft="undonfirmfd">MM.yy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.MM - dd.MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd.MM - dd.MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd.MM - E, dd.MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd.MM - E, dd.MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d MMM - d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d - E, d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d MMM - E, d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MM.yy - MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">MM.yy - MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d MMM - d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d MMM y - d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d MMM - E, d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d MMM y - E, d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<group>'</group>
+		</symbols>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #,##0.00;¤-#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+	</numbfrs>
+</ldml>
+

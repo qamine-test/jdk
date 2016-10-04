@@ -1,367 +1,1835 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: jdfps
+.\" Titlf: jdfps
+.\" Titlf: jdfps
+.\" Titlf: jdfps
+.\" Titlf: jdfps
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
 .\" SfdtDfsd: 基本ツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "jdfps" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jdfps" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jdfps" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jdfps" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jdfps" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 jdfps \- Jbvbクラス依存性アナライザ。
+jdfps \- Jbvbクラス依存性アナライザ。
+jdfps \- Jbvbクラス依存性アナライザ。
+jdfps \- Jbvbクラス依存性アナライザ。
+jdfps \- Jbvbクラス依存性アナライザ。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fIjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fIjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fIjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+\fIjdfps\fR [\fIoptions\fR] \fIdlbssfs\fR \&.\&.\&.
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIdlbssfs\fR
+\fIdlbssfs\fR
+\fIdlbssfs\fR
+\fIdlbssfs\fR
+\fIdlbssfs\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 分析するクラスの名前。クラス・パスで検出できるクラスを、ファイル名、ディレクトリまたはJARファイルで指定できます。
+分析するクラスの名前。クラス・パスで検出できるクラスを、ファイル名、ディレクトリまたはJARファイルで指定できます。
+分析するクラスの名前。クラス・パスで検出できるクラスを、ファイル名、ディレクトリまたはJARファイルで指定できます。
+分析するクラスの名前。クラス・パスで検出できるクラスを、ファイル名、ディレクトリまたはJARファイルで指定できます。
+分析するクラスの名前。クラス・パスで検出できるクラスを、ファイル名、ディレクトリまたはJARファイルで指定できます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjdfps\fRコマンドは、Jbvbクラス・ファイルのパッケージレベルまたはクラスレベルの依存性を示します。入力クラスには、\fI\&.dlbss\fRファイルのパス名、ディレクトリ、JARファイル、またはすべてのクラス・ファイルを分析するための完全修飾クラス名を指定できます。オプションにより出力が決定します。デフォルトでは、\fIjdfps\fRはシステム出力に依存関係を出力します。DOT言語で依存関係を生成できます(\fI\-dotoutput\fRオプションを参照)。
+\fIjdfps\fRコマンドは、Jbvbクラス・ファイルのパッケージレベルまたはクラスレベルの依存性を示します。入力クラスには、\fI\&.dlbss\fRファイルのパス名、ディレクトリ、JARファイル、またはすべてのクラス・ファイルを分析するための完全修飾クラス名を指定できます。オプションにより出力が決定します。デフォルトでは、\fIjdfps\fRはシステム出力に依存関係を出力します。DOT言語で依存関係を生成できます(\fI\-dotoutput\fRオプションを参照)。
+\fIjdfps\fRコマンドは、Jbvbクラス・ファイルのパッケージレベルまたはクラスレベルの依存性を示します。入力クラスには、\fI\&.dlbss\fRファイルのパス名、ディレクトリ、JARファイル、またはすべてのクラス・ファイルを分析するための完全修飾クラス名を指定できます。オプションにより出力が決定します。デフォルトでは、\fIjdfps\fRはシステム出力に依存関係を出力します。DOT言語で依存関係を生成できます(\fI\-dotoutput\fRオプションを参照)。
+\fIjdfps\fRコマンドは、Jbvbクラス・ファイルのパッケージレベルまたはクラスレベルの依存性を示します。入力クラスには、\fI\&.dlbss\fRファイルのパス名、ディレクトリ、JARファイル、またはすべてのクラス・ファイルを分析するための完全修飾クラス名を指定できます。オプションにより出力が決定します。デフォルトでは、\fIjdfps\fRはシステム出力に依存関係を出力します。DOT言語で依存関係を生成できます(\fI\-dotoutput\fRオプションを参照)。
+\fIjdfps\fRコマンドは、Jbvbクラス・ファイルのパッケージレベルまたはクラスレベルの依存性を示します。入力クラスには、\fI\&.dlbss\fRファイルのパス名、ディレクトリ、JARファイル、またはすべてのクラス・ファイルを分析するための完全修飾クラス名を指定できます。オプションにより出力が決定します。デフォルトでは、\fIjdfps\fRはシステム出力に依存関係を出力します。DOT言語で依存関係を生成できます(\fI\-dotoutput\fRオプションを参照)。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-dotoutput <\fIdir\fR>
+\-dotoutput <\fIdir\fR>
+\-dotoutput <\fIdir\fR>
+\-dotoutput <\fIdir\fR>
 \-dotoutput <\fIdir\fR>
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+DOTファイル出力の宛先ディレクトリ。指定した場合は\fIjdfps\fRは<\fIbrdiivf\-filf\-nbmf\fR>\&.dotという名前の分析済みアーカイブごとに依存関係をリストする1つのdotファイルを生成し、アーカイブ間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも生成します。
+DOTファイル出力の宛先ディレクトリ。指定した場合は\fIjdfps\fRは<\fIbrdiivf\-filf\-nbmf\fR>\&.dotという名前の分析済みアーカイブごとに依存関係をリストする1つのdotファイルを生成し、アーカイブ間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも生成します。
+DOTファイル出力の宛先ディレクトリ。指定した場合は\fIjdfps\fRは<\fIbrdiivf\-filf\-nbmf\fR>\&.dotという名前の分析済みアーカイブごとに依存関係をリストする1つのdotファイルを生成し、アーカイブ間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも生成します。
+DOTファイル出力の宛先ディレクトリ。指定した場合は\fIjdfps\fRは<\fIbrdiivf\-filf\-nbmf\fR>\&.dotという名前の分析済みアーカイブごとに依存関係をリストする1つのdotファイルを生成し、アーカイブ間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも生成します。
 DOTファイル出力の宛先ディレクトリ。指定した場合は\fIjdfps\fRは<\fIbrdiivf\-filf\-nbmf\fR>\&.dotという名前の分析済みアーカイブごとに依存関係をリストする1つのdotファイルを生成し、アーカイブ間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも生成します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-s, \-summbry
+\-s, \-summbry
+\-s, \-summbry
+\-s, \-summbry
+\-s, \-summbry
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 依存関係のサマリーのみを出力します。
+依存関係のサマリーのみを出力します。
+依存関係のサマリーのみを出力します。
+依存関係のサマリーのみを出力します。
+依存関係のサマリーのみを出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-v, \-vfrbosf
+\-v, \-vfrbosf
+\-v, \-vfrbosf
+\-v, \-vfrbosf
+\-v, \-vfrbosf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 すべてのクラスレベルの依存関係を出力します。
+すべてのクラスレベルの依存関係を出力します。
+すべてのクラスレベルの依存関係を出力します。
+すべてのクラスレベルの依存関係を出力します。
+すべてのクラスレベルの依存関係を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-vfrbosf:pbdkbgf
+\-vfrbosf:pbdkbgf
+\-vfrbosf:pbdkbgf
+\-vfrbosf:pbdkbgf
+\-vfrbosf:pbdkbgf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 同じアーカイブ内の依存関係を除き、パッケージレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、パッケージレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、パッケージレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、パッケージレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、パッケージレベルの依存関係を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-vfrbosf:dlbss
+\-vfrbosf:dlbss
+\-vfrbosf:dlbss
+\-vfrbosf:dlbss
+\-vfrbosf:dlbss
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 同じアーカイブ内の依存関係を除き、クラスレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、クラスレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、クラスレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、クラスレベルの依存関係を出力します。
+同じアーカイブ内の依存関係を除き、クラスレベルの依存関係を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-dp <\fIpbti\fR>, \-dlbsspbti <\fIpbti\fR>
+\-dp <\fIpbti\fR>, \-dlbsspbti <\fIpbti\fR>
+\-dp <\fIpbti\fR>, \-dlbsspbti <\fIpbti\fR>
+\-dp <\fIpbti\fR>, \-dlbsspbti <\fIpbti\fR>
+\-dp <\fIpbti\fR>, \-dlbsspbti <\fIpbti\fR>
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 クラス・ファイルの検索場所を指定します。
+クラス・ファイルの検索場所を指定します。
+クラス・ファイルの検索場所を指定します。
+クラス・ファイルの検索場所を指定します。
+クラス・ファイルの検索場所を指定します。
+.sp
+.sp
+.sp
+.sp
 .sp
 Sftting tif Clbss Pbti も参照してください。
+Sftting tif Clbss Pbti も参照してください。
+Sftting tif Clbss Pbti も参照してください。
+Sftting tif Clbss Pbti も参照してください。
+Sftting tif Clbss Pbti も参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-p <\fIpkg nbmf\fR>, \-pbdkbgf <\fIpkg nbmf\fR>
+\-p <\fIpkg nbmf\fR>, \-pbdkbgf <\fIpkg nbmf\fR>
+\-p <\fIpkg nbmf\fR>, \-pbdkbgf <\fIpkg nbmf\fR>
+\-p <\fIpkg nbmf\fR>, \-pbdkbgf <\fIpkg nbmf\fR>
+\-p <\fIpkg nbmf\fR>, \-pbdkbgf <\fIpkg nbmf\fR>
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 指定したパッケージの依存関係を検出します。異なるパッケージに対してこのオプションを複数回指定できます。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定したパッケージの依存関係を検出します。異なるパッケージに対してこのオプションを複数回指定できます。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定したパッケージの依存関係を検出します。異なるパッケージに対してこのオプションを複数回指定できます。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定したパッケージの依存関係を検出します。異なるパッケージに対してこのオプションを複数回指定できます。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定したパッケージの依存関係を検出します。異なるパッケージに対してこのオプションを複数回指定できます。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-f <\fIrfgfx\fR>, \-rfgfx <\fIrfgfx\fR>
+\-f <\fIrfgfx\fR>, \-rfgfx <\fIrfgfx\fR>
+\-f <\fIrfgfx\fR>, \-rfgfx <\fIrfgfx\fR>
+\-f <\fIrfgfx\fR>, \-rfgfx <\fIrfgfx\fR>
+\-f <\fIrfgfx\fR>, \-rfgfx <\fIrfgfx\fR>
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 指定した正規表現パターンと一致するパッケージの依存関係を検出します。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定した正規表現パターンと一致するパッケージの依存関係を検出します。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定した正規表現パターンと一致するパッケージの依存関係を検出します。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定した正規表現パターンと一致するパッケージの依存関係を検出します。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
+指定した正規表現パターンと一致するパッケージの依存関係を検出します。\fI\-p\fRオプションと\fI\-f\fRオプションを同時に指定することはできません。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-indludf <\fIrfgfx\fR>
+\-indludf <\fIrfgfx\fR>
+\-indludf <\fIrfgfx\fR>
+\-indludf <\fIrfgfx\fR>
+\-indludf <\fIrfgfx\fR>
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 分析をパターンに一致するクラスに制限します。このオプションは、分析するクラスのリストをフィルタします。依存関係にパターンを適用する\fI\-p\fRおよび\fI\-f\fRとともに使用できます。
+分析をパターンに一致するクラスに制限します。このオプションは、分析するクラスのリストをフィルタします。依存関係にパターンを適用する\fI\-p\fRおよび\fI\-f\fRとともに使用できます。
+分析をパターンに一致するクラスに制限します。このオプションは、分析するクラスのリストをフィルタします。依存関係にパターンを適用する\fI\-p\fRおよび\fI\-f\fRとともに使用できます。
+分析をパターンに一致するクラスに制限します。このオプションは、分析するクラスのリストをフィルタします。依存関係にパターンを適用する\fI\-p\fRおよび\fI\-f\fRとともに使用できます。
+分析をパターンに一致するクラスに制限します。このオプションは、分析するクラスのリストをフィルタします。依存関係にパターンを適用する\fI\-p\fRおよび\fI\-f\fRとともに使用できます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-jdkintfrnbls
+\-jdkintfrnbls
+\-jdkintfrnbls
+\-jdkintfrnbls
+\-jdkintfrnbls
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 JDKの内部APIのクラスレベルの依存関係を検出します。デフォルトでは、\fI\-indludf\fRオプションを指定しないかぎり、\fI\-dlbsspbti\fRオプションおよび入力ファイルに指定されたすべてのクラスを分析します。このオプションは、\fI\-p\fRオプション、\fI\-f\fRオプションおよび\fI\-s\fRオプションとともに使用できません。
+JDKの内部APIのクラスレベルの依存関係を検出します。デフォルトでは、\fI\-indludf\fRオプションを指定しないかぎり、\fI\-dlbsspbti\fRオプションおよび入力ファイルに指定されたすべてのクラスを分析します。このオプションは、\fI\-p\fRオプション、\fI\-f\fRオプションおよび\fI\-s\fRオプションとともに使用できません。
+JDKの内部APIのクラスレベルの依存関係を検出します。デフォルトでは、\fI\-indludf\fRオプションを指定しないかぎり、\fI\-dlbsspbti\fRオプションおよび入力ファイルに指定されたすべてのクラスを分析します。このオプションは、\fI\-p\fRオプション、\fI\-f\fRオプションおよび\fI\-s\fRオプションとともに使用できません。
+JDKの内部APIのクラスレベルの依存関係を検出します。デフォルトでは、\fI\-indludf\fRオプションを指定しないかぎり、\fI\-dlbsspbti\fRオプションおよび入力ファイルに指定されたすべてのクラスを分析します。このオプションは、\fI\-p\fRオプション、\fI\-f\fRオプションおよび\fI\-s\fRオプションとともに使用できません。
+JDKの内部APIのクラスレベルの依存関係を検出します。デフォルトでは、\fI\-indludf\fRオプションを指定しないかぎり、\fI\-dlbsspbti\fRオプションおよび入力ファイルに指定されたすべてのクラスを分析します。このオプションは、\fI\-p\fRオプション、\fI\-f\fRオプションおよび\fI\-s\fRオプションとともに使用できません。
+.sp
+.sp
+.sp
+.sp
 .sp
 \fB警告\fR: JDKの内部APIは、今後のリリースでアクセスできなくなる可能性があります。
+\fB警告\fR: JDKの内部APIは、今後のリリースでアクセスできなくなる可能性があります。
+\fB警告\fR: JDKの内部APIは、今後のリリースでアクセスできなくなる可能性があります。
+\fB警告\fR: JDKの内部APIは、今後のリリースでアクセスできなくなる可能性があります。
+\fB警告\fR: JDKの内部APIは、今後のリリースでアクセスできなくなる可能性があります。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-P, \-profilf
+\-P, \-profilf
+\-P, \-profilf
+\-P, \-profilf
+\-P, \-profilf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 パッケージを含むプロファイルまたはファイルを表示します。
+パッケージを含むプロファイルまたはファイルを表示します。
+パッケージを含むプロファイルまたはファイルを表示します。
+パッケージを含むプロファイルまたはファイルを表示します。
+パッケージを含むプロファイルまたはファイルを表示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-bpionly
+\-bpionly
+\-bpionly
+\-bpionly
+\-bpionly
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 フィールド・タイプ、メソッド・パラメータ・タイプ、戻りタイプ、チェックされた例外タイプを含むパブリック・クラスの\fIpublid\fRおよび\fIprotfdtfd\fRメンバーの署名からの依存関係など、分析をAPIに制限します。
+フィールド・タイプ、メソッド・パラメータ・タイプ、戻りタイプ、チェックされた例外タイプを含むパブリック・クラスの\fIpublid\fRおよび\fIprotfdtfd\fRメンバーの署名からの依存関係など、分析をAPIに制限します。
+フィールド・タイプ、メソッド・パラメータ・タイプ、戻りタイプ、チェックされた例外タイプを含むパブリック・クラスの\fIpublid\fRおよび\fIprotfdtfd\fRメンバーの署名からの依存関係など、分析をAPIに制限します。
+フィールド・タイプ、メソッド・パラメータ・タイプ、戻りタイプ、チェックされた例外タイプを含むパブリック・クラスの\fIpublid\fRおよび\fIprotfdtfd\fRメンバーの署名からの依存関係など、分析をAPIに制限します。
+フィールド・タイプ、メソッド・パラメータ・タイプ、戻りタイプ、チェックされた例外タイプを含むパブリック・クラスの\fIpublid\fRおよび\fIprotfdtfd\fRメンバーの署名からの依存関係など、分析をAPIに制限します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-R, \-rfdursivf
+\-R, \-rfdursivf
+\-R, \-rfdursivf
+\-R, \-rfdursivf
+\-R, \-rfdursivf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 すべての依存関係を再帰的に走査します。
+すべての依存関係を再帰的に走査します。
+すべての依存関係を再帰的に走査します。
+すべての依存関係を再帰的に走査します。
+すべての依存関係を再帰的に走査します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+\-vfrsion
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 バージョン情報を出力します。
+バージョン情報を出力します。
+バージョン情報を出力します。
+バージョン情報を出力します。
+バージョン情報を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-i, \-?, \-iflp
+\-i, \-?, \-iflp
+\-i, \-?, \-iflp
+\-i, \-?, \-iflp
+\-i, \-?, \-iflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fIjdfps\fRに関するヘルプ・メッセージを出力します。
+\fIjdfps\fRに関するヘルプ・メッセージを出力します。
+\fIjdfps\fRに関するヘルプ・メッセージを出力します。
+\fIjdfps\fRに関するヘルプ・メッセージを出力します。
+\fIjdfps\fRに関するヘルプ・メッセージを出力します。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
+.PP
+.PP
+.PP
+.PP
 .PP
 Notfpbd\&.jbrの依存関係の分析。
+Notfpbd\&.jbrの依存関係の分析。
+Notfpbd\&.jbrの依存関係の分析。
+Notfpbd\&.jbrの依存関係の分析。
+Notfpbd\&.jbrの依存関係の分析。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 $ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+ 
+ 
+ 
+ 
  
 dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+   <unnbmfd> (Notfpbd\&.jbr)
+   <unnbmfd> (Notfpbd\&.jbr)
+   <unnbmfd> (Notfpbd\&.jbr)
+   <unnbmfd> (Notfpbd\&.jbr)
    <unnbmfd> (Notfpbd\&.jbr)
       \-> jbvb\&.bwt                                           
+      \-> jbvb\&.bwt                                           
+      \-> jbvb\&.bwt                                           
+      \-> jbvb\&.bwt                                           
+      \-> jbvb\&.bwt                                           
+      \-> jbvb\&.bwt\&.fvfnt                                     
+      \-> jbvb\&.bwt\&.fvfnt                                     
+      \-> jbvb\&.bwt\&.fvfnt                                     
+      \-> jbvb\&.bwt\&.fvfnt                                     
       \-> jbvb\&.bwt\&.fvfnt                                     
       \-> jbvb\&.bfbns                                         
+      \-> jbvb\&.bfbns                                         
+      \-> jbvb\&.bfbns                                         
+      \-> jbvb\&.bfbns                                         
+      \-> jbvb\&.bfbns                                         
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
       \-> jbvb\&.io                                            
       \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
       \-> jbvb\&.nft                                           
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
       \-> jbvb\&.util                                          
       \-> jbvb\&.util\&.logging                                  
+      \-> jbvb\&.util\&.logging                                  
+      \-> jbvb\&.util\&.logging                                  
+      \-> jbvb\&.util\&.logging                                  
+      \-> jbvb\&.util\&.logging                                  
+      \-> jbvbx\&.swing                                        
+      \-> jbvbx\&.swing                                        
+      \-> jbvbx\&.swing                                        
+      \-> jbvbx\&.swing                                        
       \-> jbvbx\&.swing                                        
       \-> jbvbx\&.swing\&.bordfr                                 
+      \-> jbvbx\&.swing\&.bordfr                                 
+      \-> jbvbx\&.swing\&.bordfr                                 
+      \-> jbvbx\&.swing\&.bordfr                                 
+      \-> jbvbx\&.swing\&.bordfr                                 
+      \-> jbvbx\&.swing\&.fvfnt                                  
+      \-> jbvbx\&.swing\&.fvfnt                                  
+      \-> jbvbx\&.swing\&.fvfnt                                  
+      \-> jbvbx\&.swing\&.fvfnt                                  
       \-> jbvbx\&.swing\&.fvfnt                                  
       \-> jbvbx\&.swing\&.tfxt                                   
+      \-> jbvbx\&.swing\&.tfxt                                   
+      \-> jbvbx\&.swing\&.tfxt                                   
+      \-> jbvbx\&.swing\&.tfxt                                   
+      \-> jbvbx\&.swing\&.tfxt                                   
+      \-> jbvbx\&.swing\&.trff                                   
+      \-> jbvbx\&.swing\&.trff                                   
+      \-> jbvbx\&.swing\&.trff                                   
+      \-> jbvbx\&.swing\&.trff                                   
       \-> jbvbx\&.swing\&.trff                                   
       \-> jbvbx\&.swing\&.undo  
+      \-> jbvbx\&.swing\&.undo  
+      \-> jbvbx\&.swing\&.undo  
+      \-> jbvbx\&.swing\&.undo  
+      \-> jbvbx\&.swing\&.undo  
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \-Pまたは\-profilfオプションを使用して、メモ帳が依存するプロファイルを表示します。
+\-Pまたは\-profilfオプションを使用して、メモ帳が依存するプロファイルを表示します。
+\-Pまたは\-profilfオプションを使用して、メモ帳が依存するプロファイルを表示します。
+\-Pまたは\-profilfオプションを使用して、メモ帳が依存するプロファイルを表示します。
+\-Pまたは\-profilfオプションを使用して、メモ帳が依存するプロファイルを表示します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 $ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr 
+$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr 
+$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr 
+$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr 
+$ jdfps \-profilf dfmo/jfd/Notfpbd/Notfpbd\&.jbr 
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)
+dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)
 dfmo/jfd/Notfpbd/Notfpbd\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr (Full JRE)
    <unnbmfd> (Notfpbd\&.jbr)
+   <unnbmfd> (Notfpbd\&.jbr)
+   <unnbmfd> (Notfpbd\&.jbr)
+   <unnbmfd> (Notfpbd\&.jbr)
+   <unnbmfd> (Notfpbd\&.jbr)
+      \-> jbvb\&.bwt                                           Full JRE
+      \-> jbvb\&.bwt                                           Full JRE
+      \-> jbvb\&.bwt                                           Full JRE
+      \-> jbvb\&.bwt                                           Full JRE
       \-> jbvb\&.bwt                                           Full JRE
       \-> jbvb\&.bwt\&.fvfnt                                     Full JRE
+      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE
+      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE
+      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE
+      \-> jbvb\&.bwt\&.fvfnt                                     Full JRE
+      \-> jbvb\&.bfbns                                         Full JRE
+      \-> jbvb\&.bfbns                                         Full JRE
+      \-> jbvb\&.bfbns                                         Full JRE
+      \-> jbvb\&.bfbns                                         Full JRE
       \-> jbvb\&.bfbns                                         Full JRE
       \-> jbvb\&.io                                            dompbdt1
+      \-> jbvb\&.io                                            dompbdt1
+      \-> jbvb\&.io                                            dompbdt1
+      \-> jbvb\&.io                                            dompbdt1
+      \-> jbvb\&.io                                            dompbdt1
+      \-> jbvb\&.lbng                                          dompbdt1
+      \-> jbvb\&.lbng                                          dompbdt1
+      \-> jbvb\&.lbng                                          dompbdt1
+      \-> jbvb\&.lbng                                          dompbdt1
       \-> jbvb\&.lbng                                          dompbdt1
       \-> jbvb\&.nft                                           dompbdt1
+      \-> jbvb\&.nft                                           dompbdt1
+      \-> jbvb\&.nft                                           dompbdt1
+      \-> jbvb\&.nft                                           dompbdt1
+      \-> jbvb\&.nft                                           dompbdt1
+      \-> jbvb\&.util                                          dompbdt1
+      \-> jbvb\&.util                                          dompbdt1
+      \-> jbvb\&.util                                          dompbdt1
+      \-> jbvb\&.util                                          dompbdt1
       \-> jbvb\&.util                                          dompbdt1
       \-> jbvb\&.util\&.logging                                  dompbdt1
+      \-> jbvb\&.util\&.logging                                  dompbdt1
+      \-> jbvb\&.util\&.logging                                  dompbdt1
+      \-> jbvb\&.util\&.logging                                  dompbdt1
+      \-> jbvb\&.util\&.logging                                  dompbdt1
+      \-> jbvbx\&.swing                                        Full JRE
+      \-> jbvbx\&.swing                                        Full JRE
+      \-> jbvbx\&.swing                                        Full JRE
+      \-> jbvbx\&.swing                                        Full JRE
       \-> jbvbx\&.swing                                        Full JRE
       \-> jbvbx\&.swing\&.bordfr                                 Full JRE
+      \-> jbvbx\&.swing\&.bordfr                                 Full JRE
+      \-> jbvbx\&.swing\&.bordfr                                 Full JRE
+      \-> jbvbx\&.swing\&.bordfr                                 Full JRE
+      \-> jbvbx\&.swing\&.bordfr                                 Full JRE
+      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE
+      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE
+      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE
+      \-> jbvbx\&.swing\&.fvfnt                                  Full JRE
       \-> jbvbx\&.swing\&.fvfnt                                  Full JRE
       \-> jbvbx\&.swing\&.tfxt                                   Full JRE
+      \-> jbvbx\&.swing\&.tfxt                                   Full JRE
+      \-> jbvbx\&.swing\&.tfxt                                   Full JRE
+      \-> jbvbx\&.swing\&.tfxt                                   Full JRE
+      \-> jbvbx\&.swing\&.tfxt                                   Full JRE
+      \-> jbvbx\&.swing\&.trff                                   Full JRE
+      \-> jbvbx\&.swing\&.trff                                   Full JRE
+      \-> jbvbx\&.swing\&.trff                                   Full JRE
+      \-> jbvbx\&.swing\&.trff                                   Full JRE
       \-> jbvbx\&.swing\&.trff                                   Full JRE
       \-> jbvbx\&.swing\&.undo                                   Full JRE
+      \-> jbvbx\&.swing\&.undo                                   Full JRE
+      \-> jbvbx\&.swing\&.undo                                   Full JRE
+      \-> jbvbx\&.swing\&.undo                                   Full JRE
+      \-> jbvbx\&.swing\&.undo                                   Full JRE
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 tools\&.jbrファイル内の\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスなど、特定のクラスパス内の特定のクラスの直接依存関係の分析。
+tools\&.jbrファイル内の\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスなど、特定のクラスパス内の特定のクラスの直接依存関係の分析。
+tools\&.jbrファイル内の\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスなど、特定のクラスパス内の特定のクラスの直接依存関係の分析。
+tools\&.jbrファイル内の\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスなど、特定のクラスパス内の特定のクラスの直接依存関係の分析。
+tools\&.jbrファイル内の\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスなど、特定のクラスパス内の特定のクラスの直接依存関係の分析。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 $ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
 lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
    dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
       \-> jbvb\&.io                                            
       \-> jbvb\&.lbng 
+      \-> jbvb\&.lbng 
+      \-> jbvb\&.lbng 
+      \-> jbvb\&.lbng 
+      \-> jbvb\&.lbng 
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fI\-vfrbosf:dlbss\fRオプションを使用して、クラスレベル依存関係を検索するか\fI\-v\fRまたは\fI\-vfrbosf\fRオプションを使用して同じJARファイルからの依存関係を含めます。
+\fI\-vfrbosf:dlbss\fRオプションを使用して、クラスレベル依存関係を検索するか\fI\-v\fRまたは\fI\-vfrbosf\fRオプションを使用して同じJARファイルからの依存関係を含めます。
+\fI\-vfrbosf:dlbss\fRオプションを使用して、クラスレベル依存関係を検索するか\fI\-v\fRまたは\fI\-vfrbosf\fRオプションを使用して同じJARファイルからの依存関係を含めます。
+\fI\-vfrbosf:dlbss\fRオプションを使用して、クラスレベル依存関係を検索するか\fI\-v\fRまたは\fI\-vfrbosf\fRオプションを使用して同じJARファイルからの依存関係を含めます。
+\fI\-vfrbosf:dlbss\fRオプションを使用して、クラスレベル依存関係を検索するか\fI\-v\fRまたは\fI\-vfrbosf\fRオプションを使用して同じJARファイルからの依存関係を含めます。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 $ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-vfrbosf:dlbss \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
  
+ 
+ 
+ 
+ 
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
 lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
    dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps\&.Mbin (tools\&.jbr)
+      \-> jbvb\&.io\&.PrintWritfr                                
+      \-> jbvb\&.io\&.PrintWritfr                                
+      \-> jbvb\&.io\&.PrintWritfr                                
+      \-> jbvb\&.io\&.PrintWritfr                                
       \-> jbvb\&.io\&.PrintWritfr                                
       \-> jbvb\&.lbng\&.Exdfption                                
+      \-> jbvb\&.lbng\&.Exdfption                                
+      \-> jbvb\&.lbng\&.Exdfption                                
+      \-> jbvb\&.lbng\&.Exdfption                                
+      \-> jbvb\&.lbng\&.Exdfption                                
+      \-> jbvb\&.lbng\&.Objfdt                                   
+      \-> jbvb\&.lbng\&.Objfdt                                   
+      \-> jbvb\&.lbng\&.Objfdt                                   
+      \-> jbvb\&.lbng\&.Objfdt                                   
       \-> jbvb\&.lbng\&.Objfdt                                   
       \-> jbvb\&.lbng\&.String                                   
+      \-> jbvb\&.lbng\&.String                                   
+      \-> jbvb\&.lbng\&.String                                   
+      \-> jbvb\&.lbng\&.String                                   
+      \-> jbvb\&.lbng\&.String                                   
+      \-> jbvb\&.lbng\&.Systfm 
+      \-> jbvb\&.lbng\&.Systfm 
+      \-> jbvb\&.lbng\&.Systfm 
+      \-> jbvb\&.lbng\&.Systfm 
       \-> jbvb\&.lbng\&.Systfm 
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fI\-R\fRまたは\fI\-rfdursivf\fRオプションを使用して、\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスの推移的な依存関係を分析します。
+\fI\-R\fRまたは\fI\-rfdursivf\fRオプションを使用して、\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスの推移的な依存関係を分析します。
+\fI\-R\fRまたは\fI\-rfdursivf\fRオプションを使用して、\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスの推移的な依存関係を分析します。
+\fI\-R\fRまたは\fI\-rfdursivf\fRオプションを使用して、\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスの推移的な依存関係を分析します。
+\fI\-R\fRまたは\fI\-rfdursivf\fRオプションを使用して、\fIdom\&.sun\&.tools\&.jdfps\&.Mbin\fRクラスの推移的な依存関係を分析します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 $ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+$ jdfps \-R \-dp lib/tools\&.jbr dom\&.sun\&.tools\&.jdfps\&.Mbin
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
 lib/tools\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
    dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)
+   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)
+   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)
+   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)
+   dom\&.sun\&.tools\&.dlbssfilf (tools\&.jbr)
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
       \-> jbvb\&.io                                            
       \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.lbng\&.rfflfdt                                  
       \-> jbvb\&.lbng\&.rfflfdt                                  
       \-> jbvb\&.nio\&.dibrsft                                   
+      \-> jbvb\&.nio\&.dibrsft                                   
+      \-> jbvb\&.nio\&.dibrsft                                   
+      \-> jbvb\&.nio\&.dibrsft                                   
+      \-> jbvb\&.nio\&.dibrsft                                   
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf                                      
       \-> jbvb\&.nio\&.filf                                      
       \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
       \-> jbvb\&.util\&.rfgfx                                    
    dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
+   dom\&.sun\&.tools\&.jdfps (tools\&.jbr)
       \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
       \-> jbvb\&.lbng                                          
       \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf                                      
+      \-> jbvb\&.nio\&.filf\&.bttributf                            
+      \-> jbvb\&.nio\&.filf\&.bttributf                            
+      \-> jbvb\&.nio\&.filf\&.bttributf                            
+      \-> jbvb\&.nio\&.filf\&.bttributf                            
       \-> jbvb\&.nio\&.filf\&.bttributf                            
       \-> jbvb\&.tfxt                                          
+      \-> jbvb\&.tfxt                                          
+      \-> jbvb\&.tfxt                                          
+      \-> jbvb\&.tfxt                                          
+      \-> jbvb\&.tfxt                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
       \-> jbvb\&.util                                          
       \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.jbr                                      
       \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.zip                                      
+      \-> jbvb\&.util\&.zip                                      
+      \-> jbvb\&.util\&.zip                                      
+      \-> jbvb\&.util\&.zip                                      
       \-> jbvb\&.util\&.zip                                      
 /usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+/usr/jbvb/jrf/lib/jdf\&.jbr \-> /usr/jbvb/jrf/lib/rt\&.jbr
+   jbvbx\&.drypto (jdf\&.jbr)
+   jbvbx\&.drypto (jdf\&.jbr)
+   jbvbx\&.drypto (jdf\&.jbr)
+   jbvbx\&.drypto (jdf\&.jbr)
    jbvbx\&.drypto (jdf\&.jbr)
       \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.io                                            
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
       \-> jbvb\&.lbng                                          
       \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.lbng\&.rfflfdt                                  
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.nft                                           
+      \-> jbvb\&.nft                                           
       \-> jbvb\&.nft                                           
       \-> jbvb\&.nio                                           
+      \-> jbvb\&.nio                                           
+      \-> jbvb\&.nio                                           
+      \-> jbvb\&.nio                                           
+      \-> jbvb\&.nio                                           
+      \-> jbvb\&.sfdurity                                      
+      \-> jbvb\&.sfdurity                                      
+      \-> jbvb\&.sfdurity                                      
+      \-> jbvb\&.sfdurity                                      
       \-> jbvb\&.sfdurity                                      
       \-> jbvb\&.sfdurity\&.dfrt                                 
+      \-> jbvb\&.sfdurity\&.dfrt                                 
+      \-> jbvb\&.sfdurity\&.dfrt                                 
+      \-> jbvb\&.sfdurity\&.dfrt                                 
+      \-> jbvb\&.sfdurity\&.dfrt                                 
       \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
       \-> jbvb\&.util                                          
       \-> jbvb\&.util\&.dondurrfnt                               
+      \-> jbvb\&.util\&.dondurrfnt                               
+      \-> jbvb\&.util\&.dondurrfnt                               
+      \-> jbvb\&.util\&.dondurrfnt                               
+      \-> jbvb\&.util\&.dondurrfnt                               
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.jbr                                      
+      \-> jbvb\&.util\&.jbr                                      
       \-> jbvb\&.util\&.jbr                                      
       \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.rfgfx                                    
+      \-> jbvb\&.util\&.zip                                      
+      \-> jbvb\&.util\&.zip                                      
+      \-> jbvb\&.util\&.zip                                      
+      \-> jbvb\&.util\&.zip                                      
       \-> jbvb\&.util\&.zip                                      
       \-> jbvbx\&.sfdurity\&.buti                                
+      \-> jbvbx\&.sfdurity\&.buti                                
+      \-> jbvbx\&.sfdurity\&.buti                                
+      \-> jbvbx\&.sfdurity\&.buti                                
+      \-> jbvbx\&.sfdurity\&.buti                                
+      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)
       \-> sun\&.sfdurity\&.jdb                                   JDK intfrnbl API (rt\&.jbr)
       \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)
+      \-> sun\&.sfdurity\&.util                                  JDK intfrnbl API (rt\&.jbr)
+   jbvbx\&.drypto\&.spfd (jdf\&.jbr)
+   jbvbx\&.drypto\&.spfd (jdf\&.jbr)
+   jbvbx\&.drypto\&.spfd (jdf\&.jbr)
+   jbvbx\&.drypto\&.spfd (jdf\&.jbr)
    jbvbx\&.drypto\&.spfd (jdf\&.jbr)
       \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.lbng                                          
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
+      \-> jbvb\&.sfdurity\&.spfd                                 
       \-> jbvb\&.sfdurity\&.spfd                                 
       \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+      \-> jbvb\&.util                                          
+/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr
+/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr
+/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr
+/usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr
 /usr/jbvb/jrf/lib/rt\&.jbr \-> /usr/jbvb/jrf/lib/jdf\&.jbr
    jbvb\&.sfdurity (rt\&.jbr)
+   jbvb\&.sfdurity (rt\&.jbr)
+   jbvb\&.sfdurity (rt\&.jbr)
+   jbvb\&.sfdurity (rt\&.jbr)
+   jbvb\&.sfdurity (rt\&.jbr)
+      \-> jbvbx\&.drypto
+      \-> jbvbx\&.drypto
+      \-> jbvbx\&.drypto
+      \-> jbvbx\&.drypto
       \-> jbvbx\&.drypto
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 メモ帳デモの依存関係のdotファイルを生成します。
+メモ帳デモの依存関係のdotファイルを生成します。
+メモ帳デモの依存関係のdotファイルを生成します。
+メモ帳デモの依存関係のdotファイルを生成します。
+メモ帳デモの依存関係のdotファイルを生成します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 $ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+$ jdfps \-dotoutput dot dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
+.PP
+.PP
+.PP
+.PP
+\fIjdfps\fRは、\fI\-dotoutput\fRオプションで指定されたdotディレクトリに<\fIfilfnbmf\fR>\&.dotという名前のdotファイルを特定のJARファイルごとに作成し、JARファイル間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも作成します
+\fIjdfps\fRは、\fI\-dotoutput\fRオプションで指定されたdotディレクトリに<\fIfilfnbmf\fR>\&.dotという名前のdotファイルを特定のJARファイルごとに作成し、JARファイル間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも作成します
+\fIjdfps\fRは、\fI\-dotoutput\fRオプションで指定されたdotディレクトリに<\fIfilfnbmf\fR>\&.dotという名前のdotファイルを特定のJARファイルごとに作成し、JARファイル間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも作成します
+\fIjdfps\fRは、\fI\-dotoutput\fRオプションで指定されたdotディレクトリに<\fIfilfnbmf\fR>\&.dotという名前のdotファイルを特定のJARファイルごとに作成し、JARファイル間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも作成します
 \fIjdfps\fRは、\fI\-dotoutput\fRオプションで指定されたdotディレクトリに<\fIfilfnbmf\fR>\&.dotという名前のdotファイルを特定のJARファイルごとに作成し、JARファイル間の依存関係をリストするsummbry\&.dotという名前のサマリー・ファイルも作成します
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+$ dbt dot/Notfpbd\&.jbr\&.dot 
+$ dbt dot/Notfpbd\&.jbr\&.dot 
+$ dbt dot/Notfpbd\&.jbr\&.dot 
+$ dbt dot/Notfpbd\&.jbr\&.dot 
 $ dbt dot/Notfpbd\&.jbr\&.dot 
 digrbpi "Notfpbd\&.jbr" {
+digrbpi "Notfpbd\&.jbr" {
+digrbpi "Notfpbd\&.jbr" {
+digrbpi "Notfpbd\&.jbr" {
+digrbpi "Notfpbd\&.jbr" {
+    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr
+    // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr
     // Pbti: dfmo/jfd/Notfpbd/Notfpbd\&.jbr
    "<unnbmfd>"                                        \-> "jbvb\&.bwt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";
    "<unnbmfd>"                                        \-> "jbvb\&.bwt\&.fvfnt";
    "<unnbmfd>"                                        \-> "jbvb\&.bfbns";
+   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";
+   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";
+   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";
+   "<unnbmfd>"                                        \-> "jbvb\&.bfbns";
+   "<unnbmfd>"                                        \-> "jbvb\&.io";
+   "<unnbmfd>"                                        \-> "jbvb\&.io";
+   "<unnbmfd>"                                        \-> "jbvb\&.io";
+   "<unnbmfd>"                                        \-> "jbvb\&.io";
    "<unnbmfd>"                                        \-> "jbvb\&.io";
    "<unnbmfd>"                                        \-> "jbvb\&.lbng";
+   "<unnbmfd>"                                        \-> "jbvb\&.lbng";
+   "<unnbmfd>"                                        \-> "jbvb\&.lbng";
+   "<unnbmfd>"                                        \-> "jbvb\&.lbng";
+   "<unnbmfd>"                                        \-> "jbvb\&.lbng";
+   "<unnbmfd>"                                        \-> "jbvb\&.nft";
+   "<unnbmfd>"                                        \-> "jbvb\&.nft";
+   "<unnbmfd>"                                        \-> "jbvb\&.nft";
+   "<unnbmfd>"                                        \-> "jbvb\&.nft";
    "<unnbmfd>"                                        \-> "jbvb\&.nft";
    "<unnbmfd>"                                        \-> "jbvb\&.util";
+   "<unnbmfd>"                                        \-> "jbvb\&.util";
+   "<unnbmfd>"                                        \-> "jbvb\&.util";
+   "<unnbmfd>"                                        \-> "jbvb\&.util";
+   "<unnbmfd>"                                        \-> "jbvb\&.util";
+   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";
+   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";
+   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";
+   "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";
    "<unnbmfd>"                                        \-> "jbvb\&.util\&.logging";
    "<unnbmfd>"                                        \-> "jbvbx\&.swing";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";
    "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.bordfr";
    "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.fvfnt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";
    "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.tfxt";
    "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.trff";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";
+   "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";
    "<unnbmfd>"                                        \-> "jbvbx\&.swing\&.undo";
 }
+}
+}
+}
+}
+ 
+ 
+ 
+ 
  
 $ dbt dot/summbry\&.dot
+$ dbt dot/summbry\&.dot
+$ dbt dot/summbry\&.dot
+$ dbt dot/summbry\&.dot
+$ dbt dot/summbry\&.dot
+digrbpi "summbry" {
+digrbpi "summbry" {
+digrbpi "summbry" {
+digrbpi "summbry" {
 digrbpi "summbry" {
    "Notfpbd\&.jbr"                  \-> "rt\&.jbr";
+   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";
+   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";
+   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";
+   "Notfpbd\&.jbr"                  \-> "rt\&.jbr";
+}
+}
+}
+}
 }
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 \i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+jbvbp(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

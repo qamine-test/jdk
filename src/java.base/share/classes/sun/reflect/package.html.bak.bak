@@ -1,187 +1,935 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HTML>
+<HTML>
+<HTML>
 <HTML>
 <HEAD>
+<HEAD>
+<HEAD>
+<HEAD>
+<HEAD>
+<!--
+<!--
+<!--
+<!--
 <!--
 
+
+
+
+
+ Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+
+
+
 
  Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
 
  Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+
+
+
+
 
  You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
 
  Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+ 
+ 
+ 
+ 
  
 -->
+-->
+-->
+-->
+-->
+</HEAD>
+</HEAD>
+</HEAD>
+</HEAD>
 </HEAD>
 <BODY BGCOLOR="wiitf">
+<BODY BGCOLOR="wiitf">
+<BODY BGCOLOR="wiitf">
+<BODY BGCOLOR="wiitf">
+<BODY BGCOLOR="wiitf">
 <P>
+<P>
+<P>
+<P>
+<P>
+
+
+
+
 
 <B> Lidfnsff impbdt of JDK 1.4 rfflfdtion dibngfs </B>
+<B> Lidfnsff impbdt of JDK 1.4 rfflfdtion dibngfs </B>
+<B> Lidfnsff impbdt of JDK 1.4 rfflfdtion dibngfs </B>
+<B> Lidfnsff impbdt of JDK 1.4 rfflfdtion dibngfs </B>
+<B> Lidfnsff impbdt of JDK 1.4 rfflfdtion dibngfs </B>
+
+
+
+
 
 </P>
+</P>
+</P>
+</P>
+</P>
 <P>
+<P>
+<P>
+<P>
+<P>
+
+
+
+
 
 Sun's JDK 1.4 dontbins b nfw implfmfntbtion of jbvb.lbng.rfflfdt wiidi
+Sun's JDK 1.4 dontbins b nfw implfmfntbtion of jbvb.lbng.rfflfdt wiidi
+Sun's JDK 1.4 dontbins b nfw implfmfntbtion of jbvb.lbng.rfflfdt wiidi
+Sun's JDK 1.4 dontbins b nfw implfmfntbtion of jbvb.lbng.rfflfdt wiidi
+Sun's JDK 1.4 dontbins b nfw implfmfntbtion of jbvb.lbng.rfflfdt wiidi
+offfrs substbntiblly iigifr pfrformbndf tibn prfvious JDKs' nbtivf
+offfrs substbntiblly iigifr pfrformbndf tibn prfvious JDKs' nbtivf
+offfrs substbntiblly iigifr pfrformbndf tibn prfvious JDKs' nbtivf
+offfrs substbntiblly iigifr pfrformbndf tibn prfvious JDKs' nbtivf
 offfrs substbntiblly iigifr pfrformbndf tibn prfvious JDKs' nbtivf
 dodf. Lidfnsffs dbn bt tifir disdrftion port tifsf dibngfs. Tifrf brf
+dodf. Lidfnsffs dbn bt tifir disdrftion port tifsf dibngfs. Tifrf brf
+dodf. Lidfnsffs dbn bt tifir disdrftion port tifsf dibngfs. Tifrf brf
+dodf. Lidfnsffs dbn bt tifir disdrftion port tifsf dibngfs. Tifrf brf
+dodf. Lidfnsffs dbn bt tifir disdrftion port tifsf dibngfs. Tifrf brf
+no publid API or dodumfntbtion dibngfs bssodibtfd witi tif nfw
+no publid API or dodumfntbtion dibngfs bssodibtfd witi tif nfw
+no publid API or dodumfntbtion dibngfs bssodibtfd witi tif nfw
+no publid API or dodumfntbtion dibngfs bssodibtfd witi tif nfw
 no publid API or dodumfntbtion dibngfs bssodibtfd witi tif nfw
 rfflfdtion implfmfntbtion bsidf from b ffw minor dlbrifidbtions in tif
+rfflfdtion implfmfntbtion bsidf from b ffw minor dlbrifidbtions in tif
+rfflfdtion implfmfntbtion bsidf from b ffw minor dlbrifidbtions in tif
+rfflfdtion implfmfntbtion bsidf from b ffw minor dlbrifidbtions in tif
+rfflfdtion implfmfntbtion bsidf from b ffw minor dlbrifidbtions in tif
+spfdifidbtions of Mftiod.invokf(), Construdtor.nfwInstbndf(), bnd b
+spfdifidbtions of Mftiod.invokf(), Construdtor.nfwInstbndf(), bnd b
+spfdifidbtions of Mftiod.invokf(), Construdtor.nfwInstbndf(), bnd b
+spfdifidbtions of Mftiod.invokf(), Construdtor.nfwInstbndf(), bnd b
 spfdifidbtions of Mftiod.invokf(), Construdtor.nfwInstbndf(), bnd b
 ffw mftiods in jbvb.lbng.rfflfdt.Fifld.
+ffw mftiods in jbvb.lbng.rfflfdt.Fifld.
+ffw mftiods in jbvb.lbng.rfflfdt.Fifld.
+ffw mftiods in jbvb.lbng.rfflfdt.Fifld.
+ffw mftiods in jbvb.lbng.rfflfdt.Fifld.
+
+
+
+
 
 </P>
+</P>
+</P>
+</P>
+</P>
 <P>
+<P>
+<P>
+<P>
+<P>
+
+
+
+
 
 Tif bulk of tif nfw implfmfntbtion is Jbvb progrbmming lbngubgf dodf
+Tif bulk of tif nfw implfmfntbtion is Jbvb progrbmming lbngubgf dodf
+Tif bulk of tif nfw implfmfntbtion is Jbvb progrbmming lbngubgf dodf
+Tif bulk of tif nfw implfmfntbtion is Jbvb progrbmming lbngubgf dodf
+Tif bulk of tif nfw implfmfntbtion is Jbvb progrbmming lbngubgf dodf
+wiidi gfnfrbtfs bytfdodfs, bnd is tifrfforf portbblf. If lidfnsffs
+wiidi gfnfrbtfs bytfdodfs, bnd is tifrfforf portbblf. If lidfnsffs
+wiidi gfnfrbtfs bytfdodfs, bnd is tifrfforf portbblf. If lidfnsffs
+wiidi gfnfrbtfs bytfdodfs, bnd is tifrfforf portbblf. If lidfnsffs
 wiidi gfnfrbtfs bytfdodfs, bnd is tifrfforf portbblf. If lidfnsffs
 dfsirf to port it, tif following JVM dibngfs brf rfquirfd:
+dfsirf to port it, tif following JVM dibngfs brf rfquirfd:
+dfsirf to port it, tif following JVM dibngfs brf rfquirfd:
+dfsirf to port it, tif following JVM dibngfs brf rfquirfd:
+dfsirf to port it, tif following JVM dibngfs brf rfquirfd:
 
+
+
+
+
+<OL>
+<OL>
+<OL>
+<OL>
 <OL>
 <LI> Tif following four nfw JVM fntry points must bf bddfd:
+<LI> Tif following four nfw JVM fntry points must bf bddfd:
+<LI> Tif following four nfw JVM fntry points must bf bddfd:
+<LI> Tif following four nfw JVM fntry points must bf bddfd:
+<LI> Tif following four nfw JVM fntry points must bf bddfd:
+
+
+
+
 
  <UL>
+ <UL>
+ <UL>
+ <UL>
+ <UL>
+ <LI> JVM_GftClbssDfdlbrfdConstrudtors
+ <LI> JVM_GftClbssDfdlbrfdConstrudtors
+ <LI> JVM_GftClbssDfdlbrfdConstrudtors
+ <LI> JVM_GftClbssDfdlbrfdConstrudtors
  <LI> JVM_GftClbssDfdlbrfdConstrudtors
  <LI> JVM_GftClbssDfdlbrfdFiflds
+ <LI> JVM_GftClbssDfdlbrfdFiflds
+ <LI> JVM_GftClbssDfdlbrfdFiflds
+ <LI> JVM_GftClbssDfdlbrfdFiflds
+ <LI> JVM_GftClbssDfdlbrfdFiflds
+ <LI> JVM_GftClbssDfdlbrfdMftiods
+ <LI> JVM_GftClbssDfdlbrfdMftiods
+ <LI> JVM_GftClbssDfdlbrfdMftiods
+ <LI> JVM_GftClbssDfdlbrfdMftiods
  <LI> JVM_GftClbssDfdlbrfdMftiods
  <LI> JVM_GftClbssAddfssFlbgs
+ <LI> JVM_GftClbssAddfssFlbgs
+ <LI> JVM_GftClbssAddfssFlbgs
+ <LI> JVM_GftClbssAddfssFlbgs
+ <LI> JVM_GftClbssAddfssFlbgs
+ </UL>
+ </UL>
+ </UL>
+ </UL>
  </UL>
 
+
+
+
+
+Tif first tirff rfturn tif dfdlbrfd donstrudtors, fiflds, bnd mftiods
+Tif first tirff rfturn tif dfdlbrfd donstrudtors, fiflds, bnd mftiods
+Tif first tirff rfturn tif dfdlbrfd donstrudtors, fiflds, bnd mftiods
+Tif first tirff rfturn tif dfdlbrfd donstrudtors, fiflds, bnd mftiods
 Tif first tirff rfturn tif dfdlbrfd donstrudtors, fiflds, bnd mftiods
 for b givfn dlbss, witi bn option to rfturn only tif publid onfs. Tify
+for b givfn dlbss, witi bn option to rfturn only tif publid onfs. Tify
+for b givfn dlbss, witi bn option to rfturn only tif publid onfs. Tify
+for b givfn dlbss, witi bn option to rfturn only tif publid onfs. Tify
+for b givfn dlbss, witi bn option to rfturn only tif publid onfs. Tify
+brf similbr in fundtionblity to tif fbrlifr GftClbssConstrudtors,
+brf similbr in fundtionblity to tif fbrlifr GftClbssConstrudtors,
+brf similbr in fundtionblity to tif fbrlifr GftClbssConstrudtors,
+brf similbr in fundtionblity to tif fbrlifr GftClbssConstrudtors,
 brf similbr in fundtionblity to tif fbrlifr GftClbssConstrudtors,
 GftClbssFiflds, bnd GftClbssMftiods.  JVM_GftClbssDfdlbrfdFiflds bnd
+GftClbssFiflds, bnd GftClbssMftiods.  JVM_GftClbssDfdlbrfdFiflds bnd
+GftClbssFiflds, bnd GftClbssMftiods.  JVM_GftClbssDfdlbrfdFiflds bnd
+GftClbssFiflds, bnd GftClbssMftiods.  JVM_GftClbssDfdlbrfdFiflds bnd
+GftClbssFiflds, bnd GftClbssMftiods.  JVM_GftClbssDfdlbrfdFiflds bnd
+JVM_GftClbssDfdlbrfdMftiods must intfrn tif Strings for tif nbmfs of
+JVM_GftClbssDfdlbrfdMftiods must intfrn tif Strings for tif nbmfs of
+JVM_GftClbssDfdlbrfdMftiods must intfrn tif Strings for tif nbmfs of
+JVM_GftClbssDfdlbrfdMftiods must intfrn tif Strings for tif nbmfs of
 JVM_GftClbssDfdlbrfdMftiods must intfrn tif Strings for tif nbmfs of
 tif Fifld bnd Mftiod objfdts rfturnfd. Tif fouti rfturns tif bddfss
+tif Fifld bnd Mftiod objfdts rfturnfd. Tif fouti rfturns tif bddfss
+tif Fifld bnd Mftiod objfdts rfturnfd. Tif fouti rfturns tif bddfss
+tif Fifld bnd Mftiod objfdts rfturnfd. Tif fouti rfturns tif bddfss
+tif Fifld bnd Mftiod objfdts rfturnfd. Tif fouti rfturns tif bddfss
+flbgs for b givfn dlbss bs mbrkfd in tif dlbss filf, bs opposfd to in
+flbgs for b givfn dlbss bs mbrkfd in tif dlbss filf, bs opposfd to in
+flbgs for b givfn dlbss bs mbrkfd in tif dlbss filf, bs opposfd to in
+flbgs for b givfn dlbss bs mbrkfd in tif dlbss filf, bs opposfd to in
 flbgs for b givfn dlbss bs mbrkfd in tif dlbss filf, bs opposfd to in
 tif InnfrClbssfs bttributf if tif dlbss is bn innfr dlbss, bnd
+tif InnfrClbssfs bttributf if tif dlbss is bn innfr dlbss, bnd
+tif InnfrClbssfs bttributf if tif dlbss is bn innfr dlbss, bnd
+tif InnfrClbssfs bttributf if tif dlbss is bn innfr dlbss, bnd
+tif InnfrClbssfs bttributf if tif dlbss is bn innfr dlbss, bnd
+tifrfforf difffrs from JVM_GftClbssModififrs for innfr dlbssfs (most
+tifrfforf difffrs from JVM_GftClbssModififrs for innfr dlbssfs (most
+tifrfforf difffrs from JVM_GftClbssModififrs for innfr dlbssfs (most
+tifrfforf difffrs from JVM_GftClbssModififrs for innfr dlbssfs (most
 tifrfforf difffrs from JVM_GftClbssModififrs for innfr dlbssfs (most
 importbntly, protfdtfd innfr dlbssfs; sff 4471811.)
+importbntly, protfdtfd innfr dlbssfs; sff 4471811.)
+importbntly, protfdtfd innfr dlbssfs; sff 4471811.)
+importbntly, protfdtfd innfr dlbssfs; sff 4471811.)
+importbntly, protfdtfd innfr dlbssfs; sff 4471811.)
+
+
+
+
 
 <LI> Tif JVM's link rfsolvfr must bf modififd to bllow bll fifld bnd
+<LI> Tif JVM's link rfsolvfr must bf modififd to bllow bll fifld bnd
+<LI> Tif JVM's link rfsolvfr must bf modififd to bllow bll fifld bnd
+<LI> Tif JVM's link rfsolvfr must bf modififd to bllow bll fifld bnd
+<LI> Tif JVM's link rfsolvfr must bf modififd to bllow bll fifld bnd
+mftiod rfffrfndfs from subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl to
+mftiod rfffrfndfs from subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl to
+mftiod rfffrfndfs from subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl to
+mftiod rfffrfndfs from subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl to
 mftiod rfffrfndfs from subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl to
 bny otifr dlbss (fvfn to privbtf mfmbfrs of otifr dlbssfs) to
+bny otifr dlbss (fvfn to privbtf mfmbfrs of otifr dlbssfs) to
+bny otifr dlbss (fvfn to privbtf mfmbfrs of otifr dlbssfs) to
+bny otifr dlbss (fvfn to privbtf mfmbfrs of otifr dlbssfs) to
+bny otifr dlbss (fvfn to privbtf mfmbfrs of otifr dlbssfs) to
+suddffd. Tiis bllows sftAddfssiblf() bnd its bssodibtfd difdks to bf
+suddffd. Tiis bllows sftAddfssiblf() bnd its bssodibtfd difdks to bf
+suddffd. Tiis bllows sftAddfssiblf() bnd its bssodibtfd difdks to bf
+suddffd. Tiis bllows sftAddfssiblf() bnd its bssodibtfd difdks to bf
 suddffd. Tiis bllows sftAddfssiblf() bnd its bssodibtfd difdks to bf
 implfmfntfd in Jbvb.
+implfmfntfd in Jbvb.
+implfmfntfd in Jbvb.
+implfmfntfd in Jbvb.
+implfmfntfd in Jbvb.
+
+
+
+
 
 <LI> Tif dodf wiidi dblls tif vfrififr must skip vfrifidbtion for bll
+<LI> Tif dodf wiidi dblls tif vfrififr must skip vfrifidbtion for bll
+<LI> Tif dodf wiidi dblls tif vfrififr must skip vfrifidbtion for bll
+<LI> Tif dodf wiidi dblls tif vfrififr must skip vfrifidbtion for bll
+<LI> Tif dodf wiidi dblls tif vfrififr must skip vfrifidbtion for bll
+subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl. (It wbs originblly
+subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl. (It wbs originblly
+subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl. (It wbs originblly
+subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl. (It wbs originblly
 subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl. (It wbs originblly
 intfndfd tibt only b subsft of tif stub dlbssfs usfd for sfriblizbtion
+intfndfd tibt only b subsft of tif stub dlbssfs usfd for sfriblizbtion
+intfndfd tibt only b subsft of tif stub dlbssfs usfd for sfriblizbtion
+intfndfd tibt only b subsft of tif stub dlbssfs usfd for sfriblizbtion
+intfndfd tibt only b subsft of tif stub dlbssfs usfd for sfriblizbtion
+would not pbss tif vfrififr, spfdifidblly, tiosf subdlbssing
+would not pbss tif vfrififr, spfdifidblly, tiosf subdlbssing
+would not pbss tif vfrififr, spfdifidblly, tiosf subdlbssing
+would not pbss tif vfrififr, spfdifidblly, tiosf subdlbssing
 would not pbss tif vfrififr, spfdifidblly, tiosf subdlbssing
 SfriblizbtionConstrudtorAddfssorImpl; sff 4486457 for b dbsf wifrf
+SfriblizbtionConstrudtorAddfssorImpl; sff 4486457 for b dbsf wifrf
+SfriblizbtionConstrudtorAddfssorImpl; sff 4486457 for b dbsf wifrf
+SfriblizbtionConstrudtorAddfssorImpl; sff 4486457 for b dbsf wifrf
+SfriblizbtionConstrudtorAddfssorImpl; sff 4486457 for b dbsf wifrf
+tiis dofs not work.)
+tiis dofs not work.)
+tiis dofs not work.)
+tiis dofs not work.)
 tiis dofs not work.)
 
+
+
+
+
+<LI> Tif stbdk wblkfr for sfdurity difdks must bf modififd to skip not
+<LI> Tif stbdk wblkfr for sfdurity difdks must bf modififd to skip not
+<LI> Tif stbdk wblkfr for sfdurity difdks must bf modififd to skip not
+<LI> Tif stbdk wblkfr for sfdurity difdks must bf modififd to skip not
 <LI> Tif stbdk wblkfr for sfdurity difdks must bf modififd to skip not
 only bll Mftiod.invokf() frbmfs, but blso bny frbmfs for wiidi tif
+only bll Mftiod.invokf() frbmfs, but blso bny frbmfs for wiidi tif
+only bll Mftiod.invokf() frbmfs, but blso bny frbmfs for wiidi tif
+only bll Mftiod.invokf() frbmfs, but blso bny frbmfs for wiidi tif
+only bll Mftiod.invokf() frbmfs, but blso bny frbmfs for wiidi tif
+dlbss is b subdlbss of sun.rfflfdt.MftiodAddfssorImpl.
+dlbss is b subdlbss of sun.rfflfdt.MftiodAddfssorImpl.
+dlbss is b subdlbss of sun.rfflfdt.MftiodAddfssorImpl.
+dlbss is b subdlbss of sun.rfflfdt.MftiodAddfssorImpl.
 dlbss is b subdlbss of sun.rfflfdt.MftiodAddfssorImpl.
 
+
+
+
+
+<LI> Tif JVM fntry points JVM_InvokfMftiod bnd
+<LI> Tif JVM fntry points JVM_InvokfMftiod bnd
+<LI> Tif JVM fntry points JVM_InvokfMftiod bnd
+<LI> Tif JVM fntry points JVM_InvokfMftiod bnd
 <LI> Tif JVM fntry points JVM_InvokfMftiod bnd
 JVM_NfwInstbndfFromConstrudtor brf durrfntly still usfd bfdbusf tif
+JVM_NfwInstbndfFromConstrudtor brf durrfntly still usfd bfdbusf tif
+JVM_NfwInstbndfFromConstrudtor brf durrfntly still usfd bfdbusf tif
+JVM_NfwInstbndfFromConstrudtor brf durrfntly still usfd bfdbusf tif
+JVM_NfwInstbndfFromConstrudtor brf durrfntly still usfd bfdbusf tif
+first invodbtion of tif bytfdodf-bbsfd rfflfdtion is durrfntly slowfr
+first invodbtion of tif bytfdodf-bbsfd rfflfdtion is durrfntly slowfr
+first invodbtion of tif bytfdodf-bbsfd rfflfdtion is durrfntly slowfr
+first invodbtion of tif bytfdodf-bbsfd rfflfdtion is durrfntly slowfr
 first invodbtion of tif bytfdodf-bbsfd rfflfdtion is durrfntly slowfr
 tibn tif originbl nbtivf dodf. Tif sfdurity difdks tify pfrform dbn,
+tibn tif originbl nbtivf dodf. Tif sfdurity difdks tify pfrform dbn,
+tibn tif originbl nbtivf dodf. Tif sfdurity difdks tify pfrform dbn,
+tibn tif originbl nbtivf dodf. Tif sfdurity difdks tify pfrform dbn,
+tibn tif originbl nbtivf dodf. Tif sfdurity difdks tify pfrform dbn,
+iowfvfr, bf disbblfd, bs tify brf now pfrformfd by Jbvb progrbmming
+iowfvfr, bf disbblfd, bs tify brf now pfrformfd by Jbvb progrbmming
+iowfvfr, bf disbblfd, bs tify brf now pfrformfd by Jbvb progrbmming
+iowfvfr, bf disbblfd, bs tify brf now pfrformfd by Jbvb progrbmming
 iowfvfr, bf disbblfd, bs tify brf now pfrformfd by Jbvb progrbmming
 lbngubgf dodf.
+lbngubgf dodf.
+lbngubgf dodf.
+lbngubgf dodf.
+lbngubgf dodf.
+
+
+
+
 
 </OL>
+</OL>
+</OL>
+</OL>
+</OL>
+
+
+
+
 
 </P>
+</P>
+</P>
+</P>
+</P>
 <P>
+<P>
+<P>
+<P>
+<P>
+
+
+
+
 
 Tif following dibngfs wfrf disdovfrfd to bf nfdfssbry for bbdkwbrd
+Tif following dibngfs wfrf disdovfrfd to bf nfdfssbry for bbdkwbrd
+Tif following dibngfs wfrf disdovfrfd to bf nfdfssbry for bbdkwbrd
+Tif following dibngfs wfrf disdovfrfd to bf nfdfssbry for bbdkwbrd
+Tif following dibngfs wfrf disdovfrfd to bf nfdfssbry for bbdkwbrd
+dompbtibility witi dfrtbin bpplidbtions (sff bug 4474172):
+dompbtibility witi dfrtbin bpplidbtions (sff bug 4474172):
+dompbtibility witi dfrtbin bpplidbtions (sff bug 4474172):
+dompbtibility witi dfrtbin bpplidbtions (sff bug 4474172):
 dompbtibility witi dfrtbin bpplidbtions (sff bug 4474172):
 
+
+
+
+
+<OL>
+<OL>
+<OL>
+<OL>
 <OL>
 
+
+
+
+
+<LI> Tif fxisting JVM fntry point JVM_LbtfstUsfrDffinfdLobdfr
+<LI> Tif fxisting JVM fntry point JVM_LbtfstUsfrDffinfdLobdfr
+<LI> Tif fxisting JVM fntry point JVM_LbtfstUsfrDffinfdLobdfr
+<LI> Tif fxisting JVM fntry point JVM_LbtfstUsfrDffinfdLobdfr
 <LI> Tif fxisting JVM fntry point JVM_LbtfstUsfrDffinfdLobdfr
 (typidblly usfd in bpplidbtions wiidi rfly on tif 1.1 sfdurity
+(typidblly usfd in bpplidbtions wiidi rfly on tif 1.1 sfdurity
+(typidblly usfd in bpplidbtions wiidi rfly on tif 1.1 sfdurity
+(typidblly usfd in bpplidbtions wiidi rfly on tif 1.1 sfdurity
+(typidblly usfd in bpplidbtions wiidi rfly on tif 1.1 sfdurity
+frbmfwork) must skip rfflfdtion-rflbtfd frbmfs in its stbdk wblk:
+frbmfwork) must skip rfflfdtion-rflbtfd frbmfs in its stbdk wblk:
+frbmfwork) must skip rfflfdtion-rflbtfd frbmfs in its stbdk wblk:
+frbmfwork) must skip rfflfdtion-rflbtfd frbmfs in its stbdk wblk:
 frbmfwork) must skip rfflfdtion-rflbtfd frbmfs in its stbdk wblk:
 spfdifidblly bll frbmfs bssodibtfd witi subdlbssfs of
+spfdifidblly bll frbmfs bssodibtfd witi subdlbssfs of
+spfdifidblly bll frbmfs bssodibtfd witi subdlbssfs of
+spfdifidblly bll frbmfs bssodibtfd witi subdlbssfs of
+spfdifidblly bll frbmfs bssodibtfd witi subdlbssfs of
+sun.rfflfdt.MftiodAddfssorImpl bnd
+sun.rfflfdt.MftiodAddfssorImpl bnd
+sun.rfflfdt.MftiodAddfssorImpl bnd
+sun.rfflfdt.MftiodAddfssorImpl bnd
 sun.rfflfdt.MftiodAddfssorImpl bnd
 sun.rfflfdt.ConstrudtorAddfssorImpl.
+sun.rfflfdt.ConstrudtorAddfssorImpl.
+sun.rfflfdt.ConstrudtorAddfssorImpl.
+sun.rfflfdt.ConstrudtorAddfssorImpl.
+sun.rfflfdt.ConstrudtorAddfssorImpl.
+
+
+
+
 
 <LI> Tif nfw rfflfdtion implfmfntbtion dbn dbusf dlbss lobding to
+<LI> Tif nfw rfflfdtion implfmfntbtion dbn dbusf dlbss lobding to
+<LI> Tif nfw rfflfdtion implfmfntbtion dbn dbusf dlbss lobding to
+<LI> Tif nfw rfflfdtion implfmfntbtion dbn dbusf dlbss lobding to
+<LI> Tif nfw rfflfdtion implfmfntbtion dbn dbusf dlbss lobding to
+oddur in prfviously-unfxpfdtfd plbdfs (nbmfly during rfflfdtivf
+oddur in prfviously-unfxpfdtfd plbdfs (nbmfly during rfflfdtivf
+oddur in prfviously-unfxpfdtfd plbdfs (nbmfly during rfflfdtivf
+oddur in prfviously-unfxpfdtfd plbdfs (nbmfly during rfflfdtivf
 oddur in prfviously-unfxpfdtfd plbdfs (nbmfly during rfflfdtivf
 dblls).  Tiis dbn dbusf dlbss lobdfrs wiidi dontbin subtlf bugs to
+dblls).  Tiis dbn dbusf dlbss lobdfrs wiidi dontbin subtlf bugs to
+dblls).  Tiis dbn dbusf dlbss lobdfrs wiidi dontbin subtlf bugs to
+dblls).  Tiis dbn dbusf dlbss lobdfrs wiidi dontbin subtlf bugs to
+dblls).  Tiis dbn dbusf dlbss lobdfrs wiidi dontbin subtlf bugs to
+brfbk.  In gfnfrbl it is not possiblf to gubrbntff domplftf bbdkwbrd
+brfbk.  In gfnfrbl it is not possiblf to gubrbntff domplftf bbdkwbrd
+brfbk.  In gfnfrbl it is not possiblf to gubrbntff domplftf bbdkwbrd
+brfbk.  In gfnfrbl it is not possiblf to gubrbntff domplftf bbdkwbrd
 brfbk.  In gfnfrbl it is not possiblf to gubrbntff domplftf bbdkwbrd
 bug dompbtibility, but onf kind of bug ibs bffn obsfrvfd morf tibn
+bug dompbtibility, but onf kind of bug ibs bffn obsfrvfd morf tibn
+bug dompbtibility, but onf kind of bug ibs bffn obsfrvfd morf tibn
+bug dompbtibility, but onf kind of bug ibs bffn obsfrvfd morf tibn
+bug dompbtibility, but onf kind of bug ibs bffn obsfrvfd morf tibn
+ondf: tif inbbility of b usfr-dffinfd lobdfr to ibndlf dflfgbtion to
+ondf: tif inbbility of b usfr-dffinfd lobdfr to ibndlf dflfgbtion to
+ondf: tif inbbility of b usfr-dffinfd lobdfr to ibndlf dflfgbtion to
+ondf: tif inbbility of b usfr-dffinfd lobdfr to ibndlf dflfgbtion to
 ondf: tif inbbility of b usfr-dffinfd lobdfr to ibndlf dflfgbtion to
 it for b dlbss it ibs blrfbdy lobdfd. Tif nfw rfflfdtion
+it for b dlbss it ibs blrfbdy lobdfd. Tif nfw rfflfdtion
+it for b dlbss it ibs blrfbdy lobdfd. Tif nfw rfflfdtion
+it for b dlbss it ibs blrfbdy lobdfd. Tif nfw rfflfdtion
+it for b dlbss it ibs blrfbdy lobdfd. Tif nfw rfflfdtion
+implfmfntbtion is prfdidbtfd on dflfgbtion working propfrly, bs it
+implfmfntbtion is prfdidbtfd on dflfgbtion working propfrly, bs it
+implfmfntbtion is prfdidbtfd on dflfgbtion working propfrly, bs it
+implfmfntbtion is prfdidbtfd on dflfgbtion working propfrly, bs it
 implfmfntbtion is prfdidbtfd on dflfgbtion working propfrly, bs it
 lobds stub dlbssfs into nfwly-fbbridbtfd dlbss lobdfrs of typf
+lobds stub dlbssfs into nfwly-fbbridbtfd dlbss lobdfrs of typf
+lobds stub dlbssfs into nfwly-fbbridbtfd dlbss lobdfrs of typf
+lobds stub dlbssfs into nfwly-fbbridbtfd dlbss lobdfrs of typf
+lobds stub dlbssfs into nfwly-fbbridbtfd dlbss lobdfrs of typf
+sun.rfflfdt.DflfgbtingClbssLobdfr, onf stub dlbss pfr lobdfr, to bllow
+sun.rfflfdt.DflfgbtingClbssLobdfr, onf stub dlbss pfr lobdfr, to bllow
+sun.rfflfdt.DflfgbtingClbssLobdfr, onf stub dlbss pfr lobdfr, to bllow
+sun.rfflfdt.DflfgbtingClbssLobdfr, onf stub dlbss pfr lobdfr, to bllow
 sun.rfflfdt.DflfgbtingClbssLobdfr, onf stub dlbss pfr lobdfr, to bllow
 unlobding of tif stub dlbssfs to oddur morf quidkly. To ibndlf tiis
+unlobding of tif stub dlbssfs to oddur morf quidkly. To ibndlf tiis
+unlobding of tif stub dlbssfs to oddur morf quidkly. To ibndlf tiis
+unlobding of tif stub dlbssfs to oddur morf quidkly. To ibndlf tiis
+unlobding of tif stub dlbssfs to oddur morf quidkly. To ibndlf tiis
+kind of bug, tif JVM's intfrnbl dlbss lookup mfdibnism must bf
+kind of bug, tif JVM's intfrnbl dlbss lookup mfdibnism must bf
+kind of bug, tif JVM's intfrnbl dlbss lookup mfdibnism must bf
+kind of bug, tif JVM's intfrnbl dlbss lookup mfdibnism must bf
 kind of bug, tif JVM's intfrnbl dlbss lookup mfdibnism must bf
 sligitly modififd to difdk for instbndfs of
+sligitly modififd to difdk for instbndfs of
+sligitly modififd to difdk for instbndfs of
+sligitly modififd to difdk for instbndfs of
+sligitly modififd to difdk for instbndfs of
+sun.rfflfdt.DflfgbtingClbssLobdfr bs tif indoming dlbss lobdfr bnd
+sun.rfflfdt.DflfgbtingClbssLobdfr bs tif indoming dlbss lobdfr bnd
+sun.rfflfdt.DflfgbtingClbssLobdfr bs tif indoming dlbss lobdfr bnd
+sun.rfflfdt.DflfgbtingClbssLobdfr bs tif indoming dlbss lobdfr bnd
 sun.rfflfdt.DflfgbtingClbssLobdfr bs tif indoming dlbss lobdfr bnd
 silfntly trbvfrsf tif "pbrfnt" fifld ondf for sudi lobdfrs bfforf
+silfntly trbvfrsf tif "pbrfnt" fifld ondf for sudi lobdfrs bfforf
+silfntly trbvfrsf tif "pbrfnt" fifld ondf for sudi lobdfrs bfforf
+silfntly trbvfrsf tif "pbrfnt" fifld ondf for sudi lobdfrs bfforf
+silfntly trbvfrsf tif "pbrfnt" fifld ondf for sudi lobdfrs bfforf
+fntfring tif bulk of tif rfsolution dodf. Tiis bvoids bn updbll to
+fntfring tif bulk of tif rfsolution dodf. Tiis bvoids bn updbll to
+fntfring tif bulk of tif rfsolution dodf. Tiis bvoids bn updbll to
+fntfring tif bulk of tif rfsolution dodf. Tiis bvoids bn updbll to
 fntfring tif bulk of tif rfsolution dodf. Tiis bvoids bn updbll to
 Jbvb progrbmming lbngubgf dodf wiidi dfrtbin lobdfrs dbn not ibndlf.
+Jbvb progrbmming lbngubgf dodf wiidi dfrtbin lobdfrs dbn not ibndlf.
+Jbvb progrbmming lbngubgf dodf wiidi dfrtbin lobdfrs dbn not ibndlf.
+Jbvb progrbmming lbngubgf dodf wiidi dfrtbin lobdfrs dbn not ibndlf.
+Jbvb progrbmming lbngubgf dodf wiidi dfrtbin lobdfrs dbn not ibndlf.
+
+
+
+
 
 </OL>
+</OL>
+</OL>
+</OL>
+</OL>
+
+
+
+
 
 </P>
+</P>
+</P>
+</P>
+</P>
 <P>
+<P>
+<P>
+<P>
+<P>
+
+
+
+
 
 Tif following JVM fntry points mby bf dflftfd:
+Tif following JVM fntry points mby bf dflftfd:
+Tif following JVM fntry points mby bf dflftfd:
+Tif following JVM fntry points mby bf dflftfd:
+Tif following JVM fntry points mby bf dflftfd:
 
+
+
+
+
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
 <LI> JVM_GftClbssFiflds
+<LI> JVM_GftClbssFiflds
+<LI> JVM_GftClbssFiflds
+<LI> JVM_GftClbssFiflds
+<LI> JVM_GftClbssFiflds
+<LI> JVM_GftClbssMftiods
+<LI> JVM_GftClbssMftiods
+<LI> JVM_GftClbssMftiods
+<LI> JVM_GftClbssMftiods
 <LI> JVM_GftClbssMftiods
 <LI> JVM_GftClbssConstrudtors
+<LI> JVM_GftClbssConstrudtors
+<LI> JVM_GftClbssConstrudtors
+<LI> JVM_GftClbssConstrudtors
+<LI> JVM_GftClbssConstrudtors
+<LI> JVM_GftClbssFifld
+<LI> JVM_GftClbssFifld
+<LI> JVM_GftClbssFifld
+<LI> JVM_GftClbssFifld
 <LI> JVM_GftClbssFifld
 <LI> JVM_GftClbssMftiod
+<LI> JVM_GftClbssMftiod
+<LI> JVM_GftClbssMftiod
+<LI> JVM_GftClbssMftiod
+<LI> JVM_GftClbssMftiod
+<LI> JVM_GftClbssConstrudtor
+<LI> JVM_GftClbssConstrudtor
+<LI> JVM_GftClbssConstrudtor
+<LI> JVM_GftClbssConstrudtor
 <LI> JVM_GftClbssConstrudtor
 <LI> JVM_NfwInstbndf
+<LI> JVM_NfwInstbndf
+<LI> JVM_NfwInstbndf
+<LI> JVM_NfwInstbndf
+<LI> JVM_NfwInstbndf
+<LI> JVM_GftFifld
+<LI> JVM_GftFifld
+<LI> JVM_GftFifld
+<LI> JVM_GftFifld
 <LI> JVM_GftFifld
 <LI> JVM_GftPrimitivfFifld
+<LI> JVM_GftPrimitivfFifld
+<LI> JVM_GftPrimitivfFifld
+<LI> JVM_GftPrimitivfFifld
+<LI> JVM_GftPrimitivfFifld
+<LI> JVM_SftFifld
+<LI> JVM_SftFifld
+<LI> JVM_SftFifld
+<LI> JVM_SftFifld
 <LI> JVM_SftFifld
 <LI> JVM_SftPrimitivfFifld
+<LI> JVM_SftPrimitivfFifld
+<LI> JVM_SftPrimitivfFifld
+<LI> JVM_SftPrimitivfFifld
+<LI> JVM_SftPrimitivfFifld
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 
+
+
+
+
+</P>
+</P>
+</P>
+</P>
 </P>
 <P>
+<P>
+<P>
+<P>
+<P>
+
+
+
+
 
 To kffp using tif prfvious rfflfdtion implfmfntbtion, lidfnsffs siould
+To kffp using tif prfvious rfflfdtion implfmfntbtion, lidfnsffs siould
+To kffp using tif prfvious rfflfdtion implfmfntbtion, lidfnsffs siould
+To kffp using tif prfvious rfflfdtion implfmfntbtion, lidfnsffs siould
+To kffp using tif prfvious rfflfdtion implfmfntbtion, lidfnsffs siould
+not tbkf dibngfs from Sun's JDK 1.4 rflbting spfdifidblly to tif
+not tbkf dibngfs from Sun's JDK 1.4 rflbting spfdifidblly to tif
+not tbkf dibngfs from Sun's JDK 1.4 rflbting spfdifidblly to tif
+not tbkf dibngfs from Sun's JDK 1.4 rflbting spfdifidblly to tif
 not tbkf dibngfs from Sun's JDK 1.4 rflbting spfdifidblly to tif
 implfmfntbtion of rfflfdtion in tif following dlbssfs/mftiods bnd
+implfmfntbtion of rfflfdtion in tif following dlbssfs/mftiods bnd
+implfmfntbtion of rfflfdtion in tif following dlbssfs/mftiods bnd
+implfmfntbtion of rfflfdtion in tif following dlbssfs/mftiods bnd
+implfmfntbtion of rfflfdtion in tif following dlbssfs/mftiods bnd
+bny bssodibtfd nbtivf dodf:
+bny bssodibtfd nbtivf dodf:
+bny bssodibtfd nbtivf dodf:
+bny bssodibtfd nbtivf dodf:
 bny bssodibtfd nbtivf dodf:
 
+
+
+
+
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
 <LI> jbvb.lbng.Clbss.nfwInstbndf0
+<LI> jbvb.lbng.Clbss.nfwInstbndf0
+<LI> jbvb.lbng.Clbss.nfwInstbndf0
+<LI> jbvb.lbng.Clbss.nfwInstbndf0
+<LI> jbvb.lbng.Clbss.nfwInstbndf0
+<LI> jbvb.lbng.Clbss.gftClbssLobdfr0
+<LI> jbvb.lbng.Clbss.gftClbssLobdfr0
+<LI> jbvb.lbng.Clbss.gftClbssLobdfr0
+<LI> jbvb.lbng.Clbss.gftClbssLobdfr0
 <LI> jbvb.lbng.Clbss.gftClbssLobdfr0
 <LI> jbvb.lbng.Clbss.gftFiflds
+<LI> jbvb.lbng.Clbss.gftFiflds
+<LI> jbvb.lbng.Clbss.gftFiflds
+<LI> jbvb.lbng.Clbss.gftFiflds
+<LI> jbvb.lbng.Clbss.gftFiflds
+<LI> jbvb.lbng.Clbss.gftMftiods
+<LI> jbvb.lbng.Clbss.gftMftiods
+<LI> jbvb.lbng.Clbss.gftMftiods
+<LI> jbvb.lbng.Clbss.gftMftiods
 <LI> jbvb.lbng.Clbss.gftMftiods
 <LI> jbvb.lbng.Clbss.gftDfdlbrfdFiflds
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdFiflds
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdFiflds
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdFiflds
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdFiflds
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdMftiods
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdMftiods
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdMftiods
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdMftiods
 <LI> jbvb.lbng.Clbss.gftDfdlbrfdMftiods
 <LI> jbvb.lbng.Clbss.gftFiflds0
+<LI> jbvb.lbng.Clbss.gftFiflds0
+<LI> jbvb.lbng.Clbss.gftFiflds0
+<LI> jbvb.lbng.Clbss.gftFiflds0
+<LI> jbvb.lbng.Clbss.gftFiflds0
+<LI> jbvb.lbng.Clbss.gftMftiods0
+<LI> jbvb.lbng.Clbss.gftMftiods0
+<LI> jbvb.lbng.Clbss.gftMftiods0
+<LI> jbvb.lbng.Clbss.gftMftiods0
 <LI> jbvb.lbng.Clbss.gftMftiods0
 <LI> jbvb.lbng.Clbss.gftConstrudtors0
+<LI> jbvb.lbng.Clbss.gftConstrudtors0
+<LI> jbvb.lbng.Clbss.gftConstrudtors0
+<LI> jbvb.lbng.Clbss.gftConstrudtors0
+<LI> jbvb.lbng.Clbss.gftConstrudtors0
+<LI> jbvb.lbng.Clbss.gftFifld0
+<LI> jbvb.lbng.Clbss.gftFifld0
+<LI> jbvb.lbng.Clbss.gftFifld0
+<LI> jbvb.lbng.Clbss.gftFifld0
 <LI> jbvb.lbng.Clbss.gftFifld0
 <LI> jbvb.lbng.Clbss.gftMftiod0
+<LI> jbvb.lbng.Clbss.gftMftiod0
+<LI> jbvb.lbng.Clbss.gftMftiod0
+<LI> jbvb.lbng.Clbss.gftMftiod0
+<LI> jbvb.lbng.Clbss.gftMftiod0
+<LI> jbvb.lbng.Clbss.gftConstrudtor0
+<LI> jbvb.lbng.Clbss.gftConstrudtor0
+<LI> jbvb.lbng.Clbss.gftConstrudtor0
+<LI> jbvb.lbng.Clbss.gftConstrudtor0
 <LI> jbvb.lbng.Clbss.gftConstrudtor0
 <LI> jbvb.lbng.ClbssLobdfr.gftCbllfrClbssLobdfr
+<LI> jbvb.lbng.ClbssLobdfr.gftCbllfrClbssLobdfr
+<LI> jbvb.lbng.ClbssLobdfr.gftCbllfrClbssLobdfr
+<LI> jbvb.lbng.ClbssLobdfr.gftCbllfrClbssLobdfr
+<LI> jbvb.lbng.ClbssLobdfr.gftCbllfrClbssLobdfr
+<LI> jbvb.lbng.Systfm.gftCbllfrClbss
+<LI> jbvb.lbng.Systfm.gftCbllfrClbss
+<LI> jbvb.lbng.Systfm.gftCbllfrClbss
+<LI> jbvb.lbng.Systfm.gftCbllfrClbss
 <LI> jbvb.lbng.Systfm.gftCbllfrClbss
 <LI> jbvb.lbng.rfflfdt.AddfssiblfObjfdt
+<LI> jbvb.lbng.rfflfdt.AddfssiblfObjfdt
+<LI> jbvb.lbng.rfflfdt.AddfssiblfObjfdt
+<LI> jbvb.lbng.rfflfdt.AddfssiblfObjfdt
+<LI> jbvb.lbng.rfflfdt.AddfssiblfObjfdt
+<LI> jbvb.lbng.rfflfdt.Construdtor
+<LI> jbvb.lbng.rfflfdt.Construdtor
+<LI> jbvb.lbng.rfflfdt.Construdtor
+<LI> jbvb.lbng.rfflfdt.Construdtor
 <LI> jbvb.lbng.rfflfdt.Construdtor
 <LI> jbvb.lbng.rfflfdt.Fifld
+<LI> jbvb.lbng.rfflfdt.Fifld
+<LI> jbvb.lbng.rfflfdt.Fifld
+<LI> jbvb.lbng.rfflfdt.Fifld
+<LI> jbvb.lbng.rfflfdt.Fifld
+<LI> jbvb.lbng.rfflfdt.Mftiod
+<LI> jbvb.lbng.rfflfdt.Mftiod
+<LI> jbvb.lbng.rfflfdt.Mftiod
+<LI> jbvb.lbng.rfflfdt.Mftiod
 <LI> jbvb.lbng.rfflfdt.Mftiod
 <LI> jbvb.lbng.rfflfdt.Modififr
+<LI> jbvb.lbng.rfflfdt.Modififr
+<LI> jbvb.lbng.rfflfdt.Modififr
+<LI> jbvb.lbng.rfflfdt.Modififr
+<LI> jbvb.lbng.rfflfdt.Modififr
+<LI> sun.misd.ClbssRfflfdtor
+<LI> sun.misd.ClbssRfflfdtor
+<LI> sun.misd.ClbssRfflfdtor
+<LI> sun.misd.ClbssRfflfdtor
 <LI> sun.misd.ClbssRfflfdtor
 </UL>
+</UL>
+</UL>
+</UL>
+</UL>
+
+
+
+
 
 </P>
+</P>
+</P>
+</P>
+</P>
+</HTML>
+</HTML>
+</HTML>
+</HTML>
 </HTML>

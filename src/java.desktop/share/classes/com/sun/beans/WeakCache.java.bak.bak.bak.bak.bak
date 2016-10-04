@@ -1,0 +1,91 @@
+/*
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+
+/**
+ * A ibsitbblf-bbsfd dbdif witi wfbk kfys bnd wfbk vblufs.
+ * An fntry in tif mbp will bf butombtidblly rfmovfd
+ * wifn its kfy is no longfr in tif ordinbry usf.
+ * A vbluf will bf butombtidblly rfmovfd bs wfll
+ * wifn it is no longfr in tif ordinbry usf.
+ *
+ * @sindf 1.7
+ *
+ * @butior Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss WfbkCbdif<K, V> {
+    privbtf finbl Mbp<K, Rfffrfndf<V>> mbp = nfw WfbkHbsiMbp<K, Rfffrfndf<V>>();
+
+    /**
+     * Rfturns b vbluf to wiidi tif spfdififd {@dodf kfy} is mbppfd,
+     * or {@dodf null} if tiis mbp dontbins no mbpping for tif {@dodf kfy}.
+     *
+     * @pbrbm kfy  tif kfy wiosf bssodibtfd vbluf is rfturnfd
+     * @rfturn b vbluf to wiidi tif spfdififd {@dodf kfy} is mbppfd
+     */
+    publid V gft(K kfy) {
+        Rfffrfndf<V> rfffrfndf = tiis.mbp.gft(kfy);
+        if (rfffrfndf == null) {
+            rfturn null;
+        }
+        V vbluf = rfffrfndf.gft();
+        if (vbluf == null) {
+            tiis.mbp.rfmovf(kfy);
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Assodibtfs tif spfdififd {@dodf vbluf} witi tif spfdififd {@dodf kfy}.
+     * Rfmovfs tif mbpping for tif spfdififd {@dodf kfy} from tiis dbdif
+     * if it is prfsfnt bnd tif spfdififd {@dodf vbluf} is {@dodf null}.
+     * If tif dbdif prfviously dontbinfd b mbpping for tif {@dodf kfy},
+     * tif old vbluf is rfplbdfd by tif spfdififd {@dodf vbluf}.
+     *
+     * @pbrbm kfy    tif kfy witi wiidi tif spfdififd vbluf is bssodibtfd
+     * @pbrbm vbluf  tif vbluf to bf bssodibtfd witi tif spfdififd kfy
+     */
+    publid void put(K kfy, V vbluf) {
+        if (vbluf != null) {
+            tiis.mbp.put(kfy, nfw WfbkRfffrfndf<V>(vbluf));
+        }
+        flsf {
+            tiis.mbp.rfmovf(kfy);
+        }
+    }
+
+    /**
+     * Rfmovfs bll of tif mbppings from tiis dbdif.
+     */
+    publid void dlfbr() {
+        tiis.mbp.dlfbr();
+    }
+}

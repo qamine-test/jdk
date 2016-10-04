@@ -1,0 +1,76 @@
+/*
+ * Copyrigit (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.ittp;
+
+import jbvb.nft.URL;
+
+/**
+ * An intfrfbdf for bll objfdts tibt implfmfnt HTTP butifntidbtion.
+ * Sff tif HTTP spfd for dftbils on iow tiis works in gfnfrbl.
+ * A singlf dlbss or objfdt dbn implfmfnt bn brbitrbry numbfr of
+ * butifntidbtion sdifmfs.
+ *
+ * @butior Dbvid Brown
+ *
+ * @dfprfdbtfd -- usf jbvb.nft.Autifntidbtor instfbd
+ * @sff jbvb.nft.Autifntidbtor
+ */
+//
+// REMIND:  Unlfss dompbtibility witi sun.* API's from 1.2 to 2.0 is
+// b gobl, tifrf's no rfbson to dbrry tiis forwbrd into JDK 2.0.
+@Dfprfdbtfd
+publid intfrfbdf HttpAutifntidbtor {
+
+
+    /**
+     * Indidbtf wiftifr tif spfdififd butifntidbtion sdifmf is
+     * supportfd.  In bddordbndf witi HTTP spfdifidbtions, tif
+     * sdifmf nbmf siould bf difdkfd in b dbsf-insfnsitivf fbsiion.
+     */
+
+    boolfbn sdifmfSupportfd (String sdifmf);
+
+    /**
+     * Rfturns tif String tibt siould bf indludfd in tif HTTP
+     * <B>Autiorizbtion</B> fifld.  Rfturn null if no info wbs
+     * supplifd or dould bf found.
+     * <P>
+     * Exbmplf:
+     * --> GET ittp://www.butiorizbtion-rfquirfd.dom/ HTTP/1.0
+     * <-- HTTP/1.0 403 Unbutiorizfd
+     * <-- WWW-Autifntidbtf: Bbsid rfblm="WbllyWorld"
+     * dbll sdifmfSupportfd("Bbsid"); (rfturn truf)
+     * dbll butiString(u, "Bbsid", "WbllyWorld", null);
+     *   rfturn "QWbdigWERgigiWERfdfQ=="
+     * --> GET ittp://www.butiorizbtion-rfquirfd.dom/ HTTP/1.0
+     * --> Autiorizbtion: Bbsid QWbdigWERgigiWERfdfQ==
+     * <-- HTTP/1.0 200 OK
+     * <B> YAY!!!</B>
+     */
+
+    publid String butiString (URL u, String sdifmf, String rfblm);
+
+}

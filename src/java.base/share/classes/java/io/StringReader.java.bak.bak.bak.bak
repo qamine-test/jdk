@@ -1,201 +1,1005 @@
 /*
- * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
+
+
+
+
+pbdkbgf jbvb.io;
+pbdkbgf jbvb.io;
+pbdkbgf jbvb.io;
+pbdkbgf jbvb.io;
 pbdkbgf jbvb.io;
 
 
+
+
+
+
+
+
+
+
 /**
- * A dhbrbdtfr strfbm whosf sourdf is b string.
+/**
+/**
+/**
+/**
+ * A dibrbdtfr strfbm wiosf sourdf is b string.
+ * A dibrbdtfr strfbm wiosf sourdf is b string.
+ * A dibrbdtfr strfbm wiosf sourdf is b string.
+ * A dibrbdtfr strfbm wiosf sourdf is b string.
+ * A dibrbdtfr strfbm wiosf sourdf is b string.
  *
- * @buthor      Mbrk Rfinhold
+ *
+ *
+ *
+ *
+ * @butior      Mbrk Rfiniold
+ * @butior      Mbrk Rfiniold
+ * @butior      Mbrk Rfiniold
+ * @butior      Mbrk Rfiniold
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
+ * @sindf       1.1
+ * @sindf       1.1
+ * @sindf       1.1
  * @sindf       1.1
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 publid dlbss StringRfbdfr fxtfnds Rfbdfr {
+publid dlbss StringRfbdfr fxtfnds Rfbdfr {
+publid dlbss StringRfbdfr fxtfnds Rfbdfr {
+publid dlbss StringRfbdfr fxtfnds Rfbdfr {
+publid dlbss StringRfbdfr fxtfnds Rfbdfr {
+
+
+
+
 
     privbtf String str;
-    privbtf int lfngth;
+    privbtf String str;
+    privbtf String str;
+    privbtf String str;
+    privbtf String str;
+    privbtf int lfngti;
+    privbtf int lfngti;
+    privbtf int lfngti;
+    privbtf int lfngti;
+    privbtf int lfngti;
+    privbtf int nfxt = 0;
+    privbtf int nfxt = 0;
+    privbtf int nfxt = 0;
+    privbtf int nfxt = 0;
     privbtf int nfxt = 0;
     privbtf int mbrk = 0;
+    privbtf int mbrk = 0;
+    privbtf int mbrk = 0;
+    privbtf int mbrk = 0;
+    privbtf int mbrk = 0;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b nfw string rfbdfr.
+     * Crfbtfs b nfw string rfbdfr.
+     * Crfbtfs b nfw string rfbdfr.
+     * Crfbtfs b nfw string rfbdfr.
+     * Crfbtfs b nfw string rfbdfr.
      *
-     * @pbrbm s  String providing thf dhbrbdtfr strfbm.
+     *
+     *
+     *
+     *
+     * @pbrbm s  String providing tif dibrbdtfr strfbm.
+     * @pbrbm s  String providing tif dibrbdtfr strfbm.
+     * @pbrbm s  String providing tif dibrbdtfr strfbm.
+     * @pbrbm s  String providing tif dibrbdtfr strfbm.
+     * @pbrbm s  String providing tif dibrbdtfr strfbm.
+     */
+     */
+     */
+     */
      */
     publid StringRfbdfr(String s) {
-        this.str = s;
-        this.lfngth = s.lfngth();
+    publid StringRfbdfr(String s) {
+    publid StringRfbdfr(String s) {
+    publid StringRfbdfr(String s) {
+    publid StringRfbdfr(String s) {
+        tiis.str = s;
+        tiis.str = s;
+        tiis.str = s;
+        tiis.str = s;
+        tiis.str = s;
+        tiis.lfngti = s.lfngti();
+        tiis.lfngti = s.lfngti();
+        tiis.lfngti = s.lfngti();
+        tiis.lfngti = s.lfngti();
+        tiis.lfngti = s.lfngti();
+    }
+    }
+    }
+    }
     }
 
-    /** Chfdk to mbkf surf thbt thf strfbm hbs not bffn dlosfd */
-    privbtf void fnsurfOpfn() throws IOExdfption {
+
+
+
+
+    /** Cifdk to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    /** Cifdk to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    /** Cifdk to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    /** Cifdk to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    /** Cifdk to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+    privbtf void fnsurfOpfn() tirows IOExdfption {
         if (str == null)
-            throw nfw IOExdfption("Strfbm dlosfd");
+        if (str == null)
+        if (str == null)
+        if (str == null)
+        if (str == null)
+            tirow nfw IOExdfption("Strfbm dlosfd");
+            tirow nfw IOExdfption("Strfbm dlosfd");
+            tirow nfw IOExdfption("Strfbm dlosfd");
+            tirow nfw IOExdfption("Strfbm dlosfd");
+            tirow nfw IOExdfption("Strfbm dlosfd");
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfbds b singlf dhbrbdtfr.
+    /**
+    /**
+    /**
+    /**
+     * Rfbds b singlf dibrbdtfr.
+     * Rfbds b singlf dibrbdtfr.
+     * Rfbds b singlf dibrbdtfr.
+     * Rfbds b singlf dibrbdtfr.
+     * Rfbds b singlf dibrbdtfr.
      *
-     * @rfturn     Thf dhbrbdtfr rfbd, or -1 if thf fnd of thf strfbm hbs bffn
-     *             rfbdhfd
+     *
+     *
+     *
+     *
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     *             rfbdifd
+     *             rfbdifd
+     *             rfbdifd
+     *             rfbdifd
+     *             rfbdifd
+     *
+     *
+     *
+     *
      *
      * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    publid int rfbd() throws IOExdfption {
-        syndhronizfd (lodk) {
+     */
+     */
+     */
+     */
+    publid int rfbd() tirows IOExdfption {
+    publid int rfbd() tirows IOExdfption {
+    publid int rfbd() tirows IOExdfption {
+    publid int rfbd() tirows IOExdfption {
+    publid int rfbd() tirows IOExdfption {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
             fnsurfOpfn();
-            if (nfxt >= lfngth)
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
                 rfturn -1;
-            rfturn str.dhbrAt(nfxt++);
+                rfturn -1;
+                rfturn -1;
+                rfturn -1;
+                rfturn -1;
+            rfturn str.dibrAt(nfxt++);
+            rfturn str.dibrAt(nfxt++);
+            rfturn str.dibrAt(nfxt++);
+            rfturn str.dibrAt(nfxt++);
+            rfturn str.dibrAt(nfxt++);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfbds dhbrbdtfrs into b portion of bn brrby.
+    /**
+    /**
+    /**
+    /**
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
+     *
+     *
+     *
+     *
      *
      * @pbrbm      dbuf  Dfstinbtion bufffr
-     * @pbrbm      off   Offsft bt whidh to stbrt writing dhbrbdtfrs
-     * @pbrbm      lfn   Mbximum numbfr of dhbrbdtfrs to rfbd
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
      *
-     * @rfturn     Thf numbfr of dhbrbdtfrs rfbd, or -1 if thf fnd of thf
-     *             strfbm hbs bffn rfbdhfd
+     *
+     *
+     *
+     *
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     *             strfbm ibs bffn rfbdifd
+     *             strfbm ibs bffn rfbdifd
+     *             strfbm ibs bffn rfbdifd
+     *             strfbm ibs bffn rfbdifd
+     *             strfbm ibs bffn rfbdifd
+     *
+     *
+     *
+     *
      *
      * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    publid int rfbd(dhbr dbuf[], int off, int lfn) throws IOExdfption {
-        syndhronizfd (lodk) {
+     */
+     */
+     */
+     */
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
             fnsurfOpfn();
-            if ((off < 0) || (off > dbuf.lfngth) || (lfn < 0) ||
-                ((off + lfn) > dbuf.lfngth) || ((off + lfn) < 0)) {
-                throw nfw IndfxOutOfBoundsExdfption();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+                tirow nfw IndfxOutOfBoundsExdfption();
+                tirow nfw IndfxOutOfBoundsExdfption();
+                tirow nfw IndfxOutOfBoundsExdfption();
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+            } flsf if (lfn == 0) {
+            } flsf if (lfn == 0) {
+            } flsf if (lfn == 0) {
             } flsf if (lfn == 0) {
                 rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
             }
-            if (nfxt >= lfngth)
+            }
+            }
+            }
+            }
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
                 rfturn -1;
-            int n = Mbth.min(lfngth - nfxt, lfn);
-            str.gftChbrs(nfxt, nfxt + n, dbuf, off);
+                rfturn -1;
+                rfturn -1;
+                rfturn -1;
+                rfturn -1;
+            int n = Mbti.min(lfngti - nfxt, lfn);
+            int n = Mbti.min(lfngti - nfxt, lfn);
+            int n = Mbti.min(lfngti - nfxt, lfn);
+            int n = Mbti.min(lfngti - nfxt, lfn);
+            int n = Mbti.min(lfngti - nfxt, lfn);
+            str.gftCibrs(nfxt, nfxt + n, dbuf, off);
+            str.gftCibrs(nfxt, nfxt + n, dbuf, off);
+            str.gftCibrs(nfxt, nfxt + n, dbuf, off);
+            str.gftCibrs(nfxt, nfxt + n, dbuf, off);
+            str.gftCibrs(nfxt, nfxt + n, dbuf, off);
+            nfxt += n;
+            nfxt += n;
+            nfxt += n;
+            nfxt += n;
             nfxt += n;
             rfturn n;
+            rfturn n;
+            rfturn n;
+            rfturn n;
+            rfturn n;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Skips thf spfdififd numbfr of dhbrbdtfrs in thf strfbm. Rfturns
-     * thf numbfr of dhbrbdtfrs thbt wfrf skippfd.
+    /**
+    /**
+    /**
+    /**
+     * Skips tif spfdififd numbfr of dibrbdtfrs in tif strfbm. Rfturns
+     * Skips tif spfdififd numbfr of dibrbdtfrs in tif strfbm. Rfturns
+     * Skips tif spfdififd numbfr of dibrbdtfrs in tif strfbm. Rfturns
+     * Skips tif spfdififd numbfr of dibrbdtfrs in tif strfbm. Rfturns
+     * Skips tif spfdififd numbfr of dibrbdtfrs in tif strfbm. Rfturns
+     * tif numbfr of dibrbdtfrs tibt wfrf skippfd.
+     * tif numbfr of dibrbdtfrs tibt wfrf skippfd.
+     * tif numbfr of dibrbdtfrs tibt wfrf skippfd.
+     * tif numbfr of dibrbdtfrs tibt wfrf skippfd.
+     * tif numbfr of dibrbdtfrs tibt wfrf skippfd.
      *
-     * <p>Thf <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn though thf
-     * <dodf>skip</dodf> mfthod of thf {@link Rfbdfr} supfrdlbss throws
-     * bn fxdfption in this dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf thf
+     *
+     *
+     *
+     *
+     * <p>Tif <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn tiougi tif
+     * <p>Tif <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn tiougi tif
+     * <p>Tif <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn tiougi tif
+     * <p>Tif <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn tiougi tif
+     * <p>Tif <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn tiougi tif
+     * <dodf>skip</dodf> mftiod of tif {@link Rfbdfr} supfrdlbss tirows
+     * <dodf>skip</dodf> mftiod of tif {@link Rfbdfr} supfrdlbss tirows
+     * <dodf>skip</dodf> mftiod of tif {@link Rfbdfr} supfrdlbss tirows
+     * <dodf>skip</dodf> mftiod of tif {@link Rfbdfr} supfrdlbss tirows
+     * <dodf>skip</dodf> mftiod of tif {@link Rfbdfr} supfrdlbss tirows
+     * bn fxdfption in tiis dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf tif
+     * bn fxdfption in tiis dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf tif
+     * bn fxdfption in tiis dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf tif
+     * bn fxdfption in tiis dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf tif
+     * bn fxdfption in tiis dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf tif
      * strfbm to skip bbdkwbrds. Nfgbtivf rfturn vblufs indidbtf b skip
-     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst thf bfginning of
-     * thf string.
+     * strfbm to skip bbdkwbrds. Nfgbtivf rfturn vblufs indidbtf b skip
+     * strfbm to skip bbdkwbrds. Nfgbtivf rfturn vblufs indidbtf b skip
+     * strfbm to skip bbdkwbrds. Nfgbtivf rfturn vblufs indidbtf b skip
+     * strfbm to skip bbdkwbrds. Nfgbtivf rfturn vblufs indidbtf b skip
+     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst tif bfginning of
+     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst tif bfginning of
+     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst tif bfginning of
+     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst tif bfginning of
+     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst tif bfginning of
+     * tif string.
+     * tif string.
+     * tif string.
+     * tif string.
+     * tif string.
      *
-     * <p>If thf fntirf string hbs bffn rfbd or skippfd, thfn this mfthod hbs
+     *
+     *
+     *
+     *
+     * <p>If tif fntirf string ibs bffn rfbd or skippfd, tifn tiis mftiod ibs
+     * <p>If tif fntirf string ibs bffn rfbd or skippfd, tifn tiis mftiod ibs
+     * <p>If tif fntirf string ibs bffn rfbd or skippfd, tifn tiis mftiod ibs
+     * <p>If tif fntirf string ibs bffn rfbd or skippfd, tifn tiis mftiod ibs
+     * <p>If tif fntirf string ibs bffn rfbd or skippfd, tifn tiis mftiod ibs
+     * no ffffdt bnd blwbys rfturns 0.
+     * no ffffdt bnd blwbys rfturns 0.
+     * no ffffdt bnd blwbys rfturns 0.
+     * no ffffdt bnd blwbys rfturns 0.
      * no ffffdt bnd blwbys rfturns 0.
      *
+     *
+     *
+     *
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    publid long skip(long ns) throws IOExdfption {
-        syndhronizfd (lodk) {
+     */
+     */
+     */
+     */
+    publid long skip(long ns) tirows IOExdfption {
+    publid long skip(long ns) tirows IOExdfption {
+    publid long skip(long ns) tirows IOExdfption {
+    publid long skip(long ns) tirows IOExdfption {
+    publid long skip(long ns) tirows IOExdfption {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
             fnsurfOpfn();
-            if (nfxt >= lfngth)
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
+            if (nfxt >= lfngti)
                 rfturn 0;
-            // Bound skip by bfginning bnd fnd of thf sourdf
-            long n = Mbth.min(lfngth - nfxt, ns);
-            n = Mbth.mbx(-nfxt, n);
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+            // Bound skip by bfginning bnd fnd of tif sourdf
+            // Bound skip by bfginning bnd fnd of tif sourdf
+            // Bound skip by bfginning bnd fnd of tif sourdf
+            // Bound skip by bfginning bnd fnd of tif sourdf
+            // Bound skip by bfginning bnd fnd of tif sourdf
+            long n = Mbti.min(lfngti - nfxt, ns);
+            long n = Mbti.min(lfngti - nfxt, ns);
+            long n = Mbti.min(lfngti - nfxt, ns);
+            long n = Mbti.min(lfngti - nfxt, ns);
+            long n = Mbti.min(lfngti - nfxt, ns);
+            n = Mbti.mbx(-nfxt, n);
+            n = Mbti.mbx(-nfxt, n);
+            n = Mbti.mbx(-nfxt, n);
+            n = Mbti.mbx(-nfxt, n);
+            n = Mbti.mbx(-nfxt, n);
+            nfxt += n;
+            nfxt += n;
+            nfxt += n;
+            nfxt += n;
             nfxt += n;
             rfturn n;
+            rfturn n;
+            rfturn n;
+            rfturn n;
+            rfturn n;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tflls whfthfr this strfbm is rfbdy to bf rfbd.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
      *
-     * @rfturn Truf if thf nfxt rfbd() is gubrbntffd not to blodk for input
      *
-     * @fxdfption  IOExdfption  If thf strfbm is dlosfd
+     *
+     *
+     *
+     * @rfturn Truf if tif nfxt rfbd() is gubrbntffd not to blodk for input
+     * @rfturn Truf if tif nfxt rfbd() is gubrbntffd not to blodk for input
+     * @rfturn Truf if tif nfxt rfbd() is gubrbntffd not to blodk for input
+     * @rfturn Truf if tif nfxt rfbd() is gubrbntffd not to blodk for input
+     * @rfturn Truf if tif nfxt rfbd() is gubrbntffd not to blodk for input
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption  IOExdfption  If tif strfbm is dlosfd
+     * @fxdfption  IOExdfption  If tif strfbm is dlosfd
+     * @fxdfption  IOExdfption  If tif strfbm is dlosfd
+     * @fxdfption  IOExdfption  If tif strfbm is dlosfd
+     * @fxdfption  IOExdfption  If tif strfbm is dlosfd
      */
-    publid boolfbn rfbdy() throws IOExdfption {
-        syndhronizfd (lodk) {
+     */
+     */
+     */
+     */
+    publid boolfbn rfbdy() tirows IOExdfption {
+    publid boolfbn rfbdy() tirows IOExdfption {
+    publid boolfbn rfbdy() tirows IOExdfption {
+    publid boolfbn rfbdy() tirows IOExdfption {
+    publid boolfbn rfbdy() tirows IOExdfption {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        fnsurfOpfn();
+        fnsurfOpfn();
+        fnsurfOpfn();
+        fnsurfOpfn();
         fnsurfOpfn();
         rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tflls whfthfr this strfbm supports thf mbrk() opfrbtion, whidh it dofs.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs.
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs.
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs.
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs.
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs.
+     */
+     */
+     */
+     */
      */
     publid boolfbn mbrkSupportfd() {
+    publid boolfbn mbrkSupportfd() {
+    publid boolfbn mbrkSupportfd() {
+    publid boolfbn mbrkSupportfd() {
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
         rfturn truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Mbrks thf prfsfnt position in thf strfbm.  Subsfqufnt dblls to rfsft()
-     * will rfposition thf strfbm to this point.
+    /**
+    /**
+    /**
+    /**
+     * Mbrks tif prfsfnt position in tif strfbm.  Subsfqufnt dblls to rfsft()
+     * Mbrks tif prfsfnt position in tif strfbm.  Subsfqufnt dblls to rfsft()
+     * Mbrks tif prfsfnt position in tif strfbm.  Subsfqufnt dblls to rfsft()
+     * Mbrks tif prfsfnt position in tif strfbm.  Subsfqufnt dblls to rfsft()
+     * Mbrks tif prfsfnt position in tif strfbm.  Subsfqufnt dblls to rfsft()
+     * will rfposition tif strfbm to tiis point.
+     * will rfposition tif strfbm to tiis point.
+     * will rfposition tif strfbm to tiis point.
+     * will rfposition tif strfbm to tiis point.
+     * will rfposition tif strfbm to tiis point.
      *
-     * @pbrbm  rfbdAhfbdLimit  Limit on thf numbfr of dhbrbdtfrs thbt mby bf
-     *                         rfbd whilf still prfsfrving thf mbrk.  Bfdbusf
-     *                         thf strfbm's input domfs from b string, thfrf
-     *                         is no bdtubl limit, so this brgumfnt must not
-     *                         bf nfgbtivf, but is othfrwisf ignorfd.
      *
-     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAhfbdLimit < 0}
+     *
+     *
+     *
+     * @pbrbm  rfbdAifbdLimit  Limit on tif numbfr of dibrbdtfrs tibt mby bf
+     * @pbrbm  rfbdAifbdLimit  Limit on tif numbfr of dibrbdtfrs tibt mby bf
+     * @pbrbm  rfbdAifbdLimit  Limit on tif numbfr of dibrbdtfrs tibt mby bf
+     * @pbrbm  rfbdAifbdLimit  Limit on tif numbfr of dibrbdtfrs tibt mby bf
+     * @pbrbm  rfbdAifbdLimit  Limit on tif numbfr of dibrbdtfrs tibt mby bf
+     *                         rfbd wiilf still prfsfrving tif mbrk.  Bfdbusf
+     *                         rfbd wiilf still prfsfrving tif mbrk.  Bfdbusf
+     *                         rfbd wiilf still prfsfrving tif mbrk.  Bfdbusf
+     *                         rfbd wiilf still prfsfrving tif mbrk.  Bfdbusf
+     *                         rfbd wiilf still prfsfrving tif mbrk.  Bfdbusf
+     *                         tif strfbm's input domfs from b string, tifrf
+     *                         tif strfbm's input domfs from b string, tifrf
+     *                         tif strfbm's input domfs from b string, tifrf
+     *                         tif strfbm's input domfs from b string, tifrf
+     *                         tif strfbm's input domfs from b string, tifrf
+     *                         is no bdtubl limit, so tiis brgumfnt must not
+     *                         is no bdtubl limit, so tiis brgumfnt must not
+     *                         is no bdtubl limit, so tiis brgumfnt must not
+     *                         is no bdtubl limit, so tiis brgumfnt must not
+     *                         is no bdtubl limit, so tiis brgumfnt must not
+     *                         bf nfgbtivf, but is otifrwisf ignorfd.
+     *                         bf nfgbtivf, but is otifrwisf ignorfd.
+     *                         bf nfgbtivf, but is otifrwisf ignorfd.
+     *                         bf nfgbtivf, but is otifrwisf ignorfd.
+     *                         bf nfgbtivf, but is otifrwisf ignorfd.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAifbdLimit < 0}
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAifbdLimit < 0}
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAifbdLimit < 0}
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAifbdLimit < 0}
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAifbdLimit < 0}
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    publid void mbrk(int rfbdAhfbdLimit) throws IOExdfption {
-        if (rfbdAhfbdLimit < 0){
-            throw nfw IllfgblArgumfntExdfption("Rfbd-bhfbd limit < 0");
+     */
+     */
+     */
+     */
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+        if (rfbdAifbdLimit < 0){
+        if (rfbdAifbdLimit < 0){
+        if (rfbdAifbdLimit < 0){
+        if (rfbdAifbdLimit < 0){
+        if (rfbdAifbdLimit < 0){
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-bifbd limit < 0");
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-bifbd limit < 0");
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-bifbd limit < 0");
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-bifbd limit < 0");
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-bifbd limit < 0");
         }
-        syndhronizfd (lodk) {
+        }
+        }
+        }
+        }
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
             fnsurfOpfn();
             mbrk = nfxt;
+            mbrk = nfxt;
+            mbrk = nfxt;
+            mbrk = nfxt;
+            mbrk = nfxt;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfsfts thf strfbm to thf most rfdfnt mbrk, or to thf bfginning of thf
-     * string if it hbs nfvfr bffn mbrkfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfsfts tif strfbm to tif most rfdfnt mbrk, or to tif bfginning of tif
+     * Rfsfts tif strfbm to tif most rfdfnt mbrk, or to tif bfginning of tif
+     * Rfsfts tif strfbm to tif most rfdfnt mbrk, or to tif bfginning of tif
+     * Rfsfts tif strfbm to tif most rfdfnt mbrk, or to tif bfginning of tif
+     * Rfsfts tif strfbm to tif most rfdfnt mbrk, or to tif bfginning of tif
+     * string if it ibs nfvfr bffn mbrkfd.
+     * string if it ibs nfvfr bffn mbrkfd.
+     * string if it ibs nfvfr bffn mbrkfd.
+     * string if it ibs nfvfr bffn mbrkfd.
+     * string if it ibs nfvfr bffn mbrkfd.
+     *
+     *
+     *
+     *
      *
      * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    publid void rfsft() throws IOExdfption {
-        syndhronizfd (lodk) {
+     */
+     */
+     */
+     */
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+    publid void rfsft() tirows IOExdfption {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
+            fnsurfOpfn();
             fnsurfOpfn();
             nfxt = mbrk;
+            nfxt = mbrk;
+            nfxt = mbrk;
+            nfxt = mbrk;
+            nfxt = mbrk;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Closfs thf strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd with
-     * it. Ondf thf strfbm hbs bffn dlosfd, furthfr rfbd(),
-     * rfbdy(), mbrk(), or rfsft() invodbtions will throw bn IOExdfption.
-     * Closing b prfviously dlosfd strfbm hbs no ffffdt.
+    /**
+    /**
+    /**
+    /**
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * rfbdy(), mbrk(), or rfsft() invodbtions will tirow bn IOExdfption.
+     * rfbdy(), mbrk(), or rfsft() invodbtions will tirow bn IOExdfption.
+     * rfbdy(), mbrk(), or rfsft() invodbtions will tirow bn IOExdfption.
+     * rfbdy(), mbrk(), or rfsft() invodbtions will tirow bn IOExdfption.
+     * rfbdy(), mbrk(), or rfsft() invodbtions will tirow bn IOExdfption.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
+     */
+     */
+     */
+     */
      */
     publid void dlosf() {
+    publid void dlosf() {
+    publid void dlosf() {
+    publid void dlosf() {
+    publid void dlosf() {
+        str = null;
+        str = null;
+        str = null;
+        str = null;
         str = null;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

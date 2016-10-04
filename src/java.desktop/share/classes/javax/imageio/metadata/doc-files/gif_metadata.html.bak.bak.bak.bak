@@ -1,453 +1,2265 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 <titlf>GIF Mftbdbtb Formbt Spfdifidbtion</titlf>
-</hfbd>
+<titlf>GIF Mftbdbtb Formbt Spfdifidbtion</titlf>
+<titlf>GIF Mftbdbtb Formbt Spfdifidbtion</titlf>
+<titlf>GIF Mftbdbtb Formbt Spfdifidbtion</titlf>
+<titlf>GIF Mftbdbtb Formbt Spfdifidbtion</titlf>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
 
-<body bgdolor="whitf">
 
-<dfntfr><h1>
+
+
+
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+<dfntfr><i1>
+<dfntfr><i1>
+<dfntfr><i1>
+<dfntfr><i1>
+<dfntfr><i1>
 GIF Mftbdbtb Formbt Spfdifidbtion
-</h1></dfntfr>
+GIF Mftbdbtb Formbt Spfdifidbtion
+GIF Mftbdbtb Formbt Spfdifidbtion
+GIF Mftbdbtb Formbt Spfdifidbtion
+GIF Mftbdbtb Formbt Spfdifidbtion
+</i1></dfntfr>
+</i1></dfntfr>
+</i1></dfntfr>
+</i1></dfntfr>
+</i1></dfntfr>
+
+
+
+
 
 <b nbmf="gif_strfbm_mftbdbtb_formbt">
-<dfntfr><h2>
+<b nbmf="gif_strfbm_mftbdbtb_formbt">
+<b nbmf="gif_strfbm_mftbdbtb_formbt">
+<b nbmf="gif_strfbm_mftbdbtb_formbt">
+<b nbmf="gif_strfbm_mftbdbtb_formbt">
+<dfntfr><i2>
+<dfntfr><i2>
+<dfntfr><i2>
+<dfntfr><i2>
+<dfntfr><i2>
 GIF Strfbm Mftbdbtb Formbt Spfdifidbtion
-</h2></dfntfr>
+GIF Strfbm Mftbdbtb Formbt Spfdifidbtion
+GIF Strfbm Mftbdbtb Formbt Spfdifidbtion
+GIF Strfbm Mftbdbtb Formbt Spfdifidbtion
+GIF Strfbm Mftbdbtb Formbt Spfdifidbtion
+</i2></dfntfr>
+</i2></dfntfr>
+</i2></dfntfr>
+</i2></dfntfr>
+</i2></dfntfr>
+</b>
+</b>
+</b>
+</b>
 </b>
 <p>
-
-Thf GIF strfbm mftbdbtb formbt fndodfs thf informbtion storfd in thf
-pfr-filf hfbdfr, nbmfly thf filf vfrsion, logidbl sdrffn dfsdriptor,
-bnd thf globbl dolor tbblf.
-
+<p>
+<p>
+<p>
 <p>
 
-Thf logidbl sdrffn dfsdriptor dfsdribfs thf ovfrbll width bnd hfight
-of bn bnimbtfd filf, bs wfll bs informbtion bbout thf dolor rfsolution
+
+
+
+
+Tif GIF strfbm mftbdbtb formbt fndodfs tif informbtion storfd in tif
+Tif GIF strfbm mftbdbtb formbt fndodfs tif informbtion storfd in tif
+Tif GIF strfbm mftbdbtb formbt fndodfs tif informbtion storfd in tif
+Tif GIF strfbm mftbdbtb formbt fndodfs tif informbtion storfd in tif
+Tif GIF strfbm mftbdbtb formbt fndodfs tif informbtion storfd in tif
+pfr-filf ifbdfr, nbmfly tif filf vfrsion, logidbl sdrffn dfsdriptor,
+pfr-filf ifbdfr, nbmfly tif filf vfrsion, logidbl sdrffn dfsdriptor,
+pfr-filf ifbdfr, nbmfly tif filf vfrsion, logidbl sdrffn dfsdriptor,
+pfr-filf ifbdfr, nbmfly tif filf vfrsion, logidbl sdrffn dfsdriptor,
+pfr-filf ifbdfr, nbmfly tif filf vfrsion, logidbl sdrffn dfsdriptor,
+bnd tif globbl dolor tbblf.
+bnd tif globbl dolor tbblf.
+bnd tif globbl dolor tbblf.
+bnd tif globbl dolor tbblf.
+bnd tif globbl dolor tbblf.
+
+
+
+
+
+<p>
+<p>
+<p>
+<p>
+<p>
+
+
+
+
+
+Tif logidbl sdrffn dfsdriptor dfsdribfs tif ovfrbll widti bnd ifigit
+Tif logidbl sdrffn dfsdriptor dfsdribfs tif ovfrbll widti bnd ifigit
+Tif logidbl sdrffn dfsdriptor dfsdribfs tif ovfrbll widti bnd ifigit
+Tif logidbl sdrffn dfsdriptor dfsdribfs tif ovfrbll widti bnd ifigit
+Tif logidbl sdrffn dfsdriptor dfsdribfs tif ovfrbll widti bnd ifigit
+of bn bnimbtfd filf, bs wfll bs informbtion bbout tif dolor rfsolution
+of bn bnimbtfd filf, bs wfll bs informbtion bbout tif dolor rfsolution
+of bn bnimbtfd filf, bs wfll bs informbtion bbout tif dolor rfsolution
+of bn bnimbtfd filf, bs wfll bs informbtion bbout tif dolor rfsolution
+of bn bnimbtfd filf, bs wfll bs informbtion bbout tif dolor rfsolution
+(numbfr of bits pfr pixfl) bnd pixfl bspfdt rbtio.
+(numbfr of bits pfr pixfl) bnd pixfl bspfdt rbtio.
+(numbfr of bits pfr pixfl) bnd pixfl bspfdt rbtio.
+(numbfr of bits pfr pixfl) bnd pixfl bspfdt rbtio.
 (numbfr of bits pfr pixfl) bnd pixfl bspfdt rbtio.
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 
-Thf globbl dolor tbblf dontbins b dolor lookup tbblf thbt is usfd for
-imbgfs thbt do not hbvf thfir own lodbl dolor tbblf.
 
+
+
+
+Tif globbl dolor tbblf dontbins b dolor lookup tbblf tibt is usfd for
+Tif globbl dolor tbblf dontbins b dolor lookup tbblf tibt is usfd for
+Tif globbl dolor tbblf dontbins b dolor lookup tbblf tibt is usfd for
+Tif globbl dolor tbblf dontbins b dolor lookup tbblf tibt is usfd for
+Tif globbl dolor tbblf dontbins b dolor lookup tbblf tibt is usfd for
+imbgfs tibt do not ibvf tifir own lodbl dolor tbblf.
+imbgfs tibt do not ibvf tifir own lodbl dolor tbblf.
+imbgfs tibt do not ibvf tifir own lodbl dolor tbblf.
+imbgfs tibt do not ibvf tifir own lodbl dolor tbblf.
+imbgfs tibt do not ibvf tifir own lodbl dolor tbblf.
+
+
+
+
+
+<prf>
+<prf>
+<prf>
+<prf>
 <prf>
 &lt;!DOCTYPE "jbvbx_imbgfio_gif_strfbm_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_strfbm_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_strfbm_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_strfbm_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_strfbm_1.0" [
+
+
+
+
 
   &lt;!ELEMENT "jbvbx_imbgfio_gif_strfbm_1.0" (Vfrsion?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_strfbm_1.0" (Vfrsion?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_strfbm_1.0" (Vfrsion?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_strfbm_1.0" (Vfrsion?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_strfbm_1.0" (Vfrsion?, 
+    LogidblSdrffnDfsdriptor?, GlobblColorTbblf?)&gt;
+    LogidblSdrffnDfsdriptor?, GlobblColorTbblf?)&gt;
+    LogidblSdrffnDfsdriptor?, GlobblColorTbblf?)&gt;
+    LogidblSdrffnDfsdriptor?, GlobblColorTbblf?)&gt;
     LogidblSdrffnDfsdriptor?, GlobblColorTbblf?)&gt;
 
+
+
+
+
     &lt;!ELEMENT "Vfrsion" EMPTY&gt;
-      &lt;!-- Thf filf vfrsion, fithfr 87b or 89b --&gt;
+    &lt;!ELEMENT "Vfrsion" EMPTY&gt;
+    &lt;!ELEMENT "Vfrsion" EMPTY&gt;
+    &lt;!ELEMENT "Vfrsion" EMPTY&gt;
+    &lt;!ELEMENT "Vfrsion" EMPTY&gt;
+      &lt;!-- Tif filf vfrsion, fitifr 87b or 89b --&gt;
+      &lt;!-- Tif filf vfrsion, fitifr 87b or 89b --&gt;
+      &lt;!-- Tif filf vfrsion, fitifr 87b or 89b --&gt;
+      &lt;!-- Tif filf vfrsion, fitifr 87b or 89b --&gt;
+      &lt;!-- Tif filf vfrsion, fitifr 87b or 89b --&gt;
       &lt;!ATTLIST "Vfrsion" "vbluf" ("87b" | "89b") #REQUIRED&gt;
-        &lt;!-- Thf vfrsion string --&gt;
+      &lt;!ATTLIST "Vfrsion" "vbluf" ("87b" | "89b") #REQUIRED&gt;
+      &lt;!ATTLIST "Vfrsion" "vbluf" ("87b" | "89b") #REQUIRED&gt;
+      &lt;!ATTLIST "Vfrsion" "vbluf" ("87b" | "89b") #REQUIRED&gt;
+      &lt;!ATTLIST "Vfrsion" "vbluf" ("87b" | "89b") #REQUIRED&gt;
+        &lt;!-- Tif vfrsion string --&gt;
+        &lt;!-- Tif vfrsion string --&gt;
+        &lt;!-- Tif vfrsion string --&gt;
+        &lt;!-- Tif vfrsion string --&gt;
+        &lt;!-- Tif vfrsion string --&gt;
+
+
+
+
 
     &lt;!ELEMENT "LogidblSdrffnDfsdriptor" EMPTY&gt;
-      &lt;!-- Thf logidbl sdrffn dfsdriptor, fxdfpt for thf globbl dolor tbblf --&gt;
-      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidth" #CDATA
+    &lt;!ELEMENT "LogidblSdrffnDfsdriptor" EMPTY&gt;
+    &lt;!ELEMENT "LogidblSdrffnDfsdriptor" EMPTY&gt;
+    &lt;!ELEMENT "LogidblSdrffnDfsdriptor" EMPTY&gt;
+    &lt;!ELEMENT "LogidblSdrffnDfsdriptor" EMPTY&gt;
+      &lt;!-- Tif logidbl sdrffn dfsdriptor, fxdfpt for tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif logidbl sdrffn dfsdriptor, fxdfpt for tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif logidbl sdrffn dfsdriptor, fxdfpt for tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif logidbl sdrffn dfsdriptor, fxdfpt for tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif logidbl sdrffn dfsdriptor, fxdfpt for tif globbl dolor tbblf --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidti" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidti" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidti" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidti" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidti" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf width in pixfls of thf wholf pidturf --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif widti in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif widti in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif widti in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif widti in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif widti in pixfls of tif wiolf pidturf --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfight" #CDATA
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfigit" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfigit" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfigit" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfigit" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfigit" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf hfight in pixfls of thf wholf pidturf --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif ifigit in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif ifigit in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif ifigit in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif ifigit in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Tif ifigit in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
       &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "dolorRfsolution" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "dolorRfsolution" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "dolorRfsolution" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "dolorRfsolution" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "dolorRfsolution" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
+        &lt;!-- Tif numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
+        &lt;!-- Tif numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
+        &lt;!-- Tif numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
+        &lt;!-- Tif numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 8 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 8 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 8 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 8 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 8 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "pixflAspfdtRbtio" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "pixflAspfdtRbtio" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "pixflAspfdtRbtio" #CDATA
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "pixflAspfdtRbtio" #CDATA
       &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "pixflAspfdtRbtio" #CDATA
          #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64 --&gt;
+        &lt;!-- If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64 --&gt;
+        &lt;!-- If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64 --&gt;
+        &lt;!-- If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64 --&gt;
         &lt;!-- If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64 --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+
+
+
 
     &lt;!ELEMENT "GlobblColorTbblf" (ColorTbblfEntry)*&gt;
-      &lt;!-- Thf globbl dolor tbblf --&gt;
-      &lt;!-- Min dhildrfn: 2 --&gt;
-      &lt;!-- Mbx dhildrfn: 256 --&gt;
+    &lt;!ELEMENT "GlobblColorTbblf" (ColorTbblfEntry)*&gt;
+    &lt;!ELEMENT "GlobblColorTbblf" (ColorTbblfEntry)*&gt;
+    &lt;!ELEMENT "GlobblColorTbblf" (ColorTbblfEntry)*&gt;
+    &lt;!ELEMENT "GlobblColorTbblf" (ColorTbblfEntry)*&gt;
+      &lt;!-- Tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif globbl dolor tbblf --&gt;
+      &lt;!-- Tif globbl dolor tbblf --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "sizfOfGlobblColorTbblf" ("2" | 
+      &lt;!ATTLIST "GlobblColorTbblf" "sizfOfGlobblColorTbblf" ("2" | 
+      &lt;!ATTLIST "GlobblColorTbblf" "sizfOfGlobblColorTbblf" ("2" | 
+      &lt;!ATTLIST "GlobblColorTbblf" "sizfOfGlobblColorTbblf" ("2" | 
       &lt;!ATTLIST "GlobblColorTbblf" "sizfOfGlobblColorTbblf" ("2" | 
         "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
-        &lt;!-- Thf numbfr of fntrifs in thf globbl dolor tbblf --&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif globbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif globbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif globbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif globbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif globbl dolor tbblf --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "bbdkgroundColorIndfx" #CDATA
+      &lt;!ATTLIST "GlobblColorTbblf" "bbdkgroundColorIndfx" #CDATA
+      &lt;!ATTLIST "GlobblColorTbblf" "bbdkgroundColorIndfx" #CDATA
+      &lt;!ATTLIST "GlobblColorTbblf" "bbdkgroundColorIndfx" #CDATA
       &lt;!ATTLIST "GlobblColorTbblf" "bbdkgroundColorIndfx" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf indfx of thf dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif indfx of tif dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+        &lt;!-- Tif indfx of tif dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+        &lt;!-- Tif indfx of tif dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+        &lt;!-- Tif indfx of tif dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+        &lt;!-- Tif indfx of tif dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
       &lt;!ATTLIST "GlobblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "GlobblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "GlobblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "GlobblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "GlobblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- Truf if thf globbl dolor tbblf is sortfd by frfqufndy --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Truf if tif globbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif globbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif globbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif globbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif globbl dolor tbblf is sortfd by frfqufndy --&gt;
 
+
+
+
+
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
       &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
         &lt;!-- A globbl dolor tbblf fntry --&gt;
+        &lt;!-- A globbl dolor tbblf fntry --&gt;
+        &lt;!-- A globbl dolor tbblf fntry --&gt;
+        &lt;!-- A globbl dolor tbblf fntry --&gt;
+        &lt;!-- A globbl dolor tbblf fntry --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf indfx of thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf rfd vbluf for thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf grffn vbluf for thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf bluf vbluf for thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 ]&gt;
+]&gt;
+]&gt;
+]&gt;
+]&gt;
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 <b nbmf="gif_imbgf_mftbdbtb_formbt">
-<dfntfr><h2>
+<b nbmf="gif_imbgf_mftbdbtb_formbt">
+<b nbmf="gif_imbgf_mftbdbtb_formbt">
+<b nbmf="gif_imbgf_mftbdbtb_formbt">
+<b nbmf="gif_imbgf_mftbdbtb_formbt">
+<dfntfr><i2>
+<dfntfr><i2>
+<dfntfr><i2>
+<dfntfr><i2>
+<dfntfr><i2>
 GIF Imbgf Mftbdbtb Formbt Spfdifidbtion
-</h2></dfntfr>
+GIF Imbgf Mftbdbtb Formbt Spfdifidbtion
+GIF Imbgf Mftbdbtb Formbt Spfdifidbtion
+GIF Imbgf Mftbdbtb Formbt Spfdifidbtion
+GIF Imbgf Mftbdbtb Formbt Spfdifidbtion
+</i2></dfntfr>
+</i2></dfntfr>
+</i2></dfntfr>
+</i2></dfntfr>
+</i2></dfntfr>
+</b>
+</b>
+</b>
+</b>
 </b>
 <p>
-
-Thf GIF imbgf mftbdbtb formbt fndodfs thf imbgf dfsdriptor, lodbl
-dolor tbblf, bnd fxtfnsion informbtion bssdibtfd with b singlf imbgf
-within b GIF filf, typidblly b frbmf of bn bnimbtion.
-
+<p>
+<p>
+<p>
 <p>
 
-Thf imbgf dfsdription dontbins thf offsft of thf frbmf within thf
-logidbl sdrffn dfsdribfd in thf strfbm mftbdbtb, bs wfll bs thf width
-bnd hfight of thf frbmf bnd whfthfr it is usfd intfrlbdfd fndoding.
+
+
+
+
+Tif GIF imbgf mftbdbtb formbt fndodfs tif imbgf dfsdriptor, lodbl
+Tif GIF imbgf mftbdbtb formbt fndodfs tif imbgf dfsdriptor, lodbl
+Tif GIF imbgf mftbdbtb formbt fndodfs tif imbgf dfsdriptor, lodbl
+Tif GIF imbgf mftbdbtb formbt fndodfs tif imbgf dfsdriptor, lodbl
+Tif GIF imbgf mftbdbtb formbt fndodfs tif imbgf dfsdriptor, lodbl
+dolor tbblf, bnd fxtfnsion informbtion bssdibtfd witi b singlf imbgf
+dolor tbblf, bnd fxtfnsion informbtion bssdibtfd witi b singlf imbgf
+dolor tbblf, bnd fxtfnsion informbtion bssdibtfd witi b singlf imbgf
+dolor tbblf, bnd fxtfnsion informbtion bssdibtfd witi b singlf imbgf
+dolor tbblf, bnd fxtfnsion informbtion bssdibtfd witi b singlf imbgf
+witiin b GIF filf, typidblly b frbmf of bn bnimbtion.
+witiin b GIF filf, typidblly b frbmf of bn bnimbtion.
+witiin b GIF filf, typidblly b frbmf of bn bnimbtion.
+witiin b GIF filf, typidblly b frbmf of bn bnimbtion.
+witiin b GIF filf, typidblly b frbmf of bn bnimbtion.
+
+
+
+
 
 <p>
-
-Thf lodbl dolor tbblf, if prfsfnt, supfrsfdfs thf globbl dolor tbblf
-for thf frbmf bt hbnd.
-
+<p>
+<p>
+<p>
 <p>
 
-Thf grbphid dontrol fxtfnsion dontbins informbtion on how thf frbmf is
-to bf indorporbtfd into thf bnimbtion.  Thf disposbl mfthod indidbtfs
-whfthfr thf durrfnt frbmf should rfmbin in plbdf
-(<dodf>doNotDisposf</dodf>), bf rfstorfd to thf bbdkgound dolor bs
-spfdififd in thf strfbm mftbdbtb
-(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to thf
+
+
+
+
+Tif imbgf dfsdription dontbins tif offsft of tif frbmf witiin tif
+Tif imbgf dfsdription dontbins tif offsft of tif frbmf witiin tif
+Tif imbgf dfsdription dontbins tif offsft of tif frbmf witiin tif
+Tif imbgf dfsdription dontbins tif offsft of tif frbmf witiin tif
+Tif imbgf dfsdription dontbins tif offsft of tif frbmf witiin tif
+logidbl sdrffn dfsdribfd in tif strfbm mftbdbtb, bs wfll bs tif widti
+logidbl sdrffn dfsdribfd in tif strfbm mftbdbtb, bs wfll bs tif widti
+logidbl sdrffn dfsdribfd in tif strfbm mftbdbtb, bs wfll bs tif widti
+logidbl sdrffn dfsdribfd in tif strfbm mftbdbtb, bs wfll bs tif widti
+logidbl sdrffn dfsdribfd in tif strfbm mftbdbtb, bs wfll bs tif widti
+bnd ifigit of tif frbmf bnd wiftifr it is usfd intfrlbdfd fndoding.
+bnd ifigit of tif frbmf bnd wiftifr it is usfd intfrlbdfd fndoding.
+bnd ifigit of tif frbmf bnd wiftifr it is usfd intfrlbdfd fndoding.
+bnd ifigit of tif frbmf bnd wiftifr it is usfd intfrlbdfd fndoding.
+bnd ifigit of tif frbmf bnd wiftifr it is usfd intfrlbdfd fndoding.
+
+
+
+
+
+<p>
+<p>
+<p>
+<p>
+<p>
+
+
+
+
+
+Tif lodbl dolor tbblf, if prfsfnt, supfrsfdfs tif globbl dolor tbblf
+Tif lodbl dolor tbblf, if prfsfnt, supfrsfdfs tif globbl dolor tbblf
+Tif lodbl dolor tbblf, if prfsfnt, supfrsfdfs tif globbl dolor tbblf
+Tif lodbl dolor tbblf, if prfsfnt, supfrsfdfs tif globbl dolor tbblf
+Tif lodbl dolor tbblf, if prfsfnt, supfrsfdfs tif globbl dolor tbblf
+for tif frbmf bt ibnd.
+for tif frbmf bt ibnd.
+for tif frbmf bt ibnd.
+for tif frbmf bt ibnd.
+for tif frbmf bt ibnd.
+
+
+
+
+
+<p>
+<p>
+<p>
+<p>
+<p>
+
+
+
+
+
+Tif grbpiid dontrol fxtfnsion dontbins informbtion on iow tif frbmf is
+Tif grbpiid dontrol fxtfnsion dontbins informbtion on iow tif frbmf is
+Tif grbpiid dontrol fxtfnsion dontbins informbtion on iow tif frbmf is
+Tif grbpiid dontrol fxtfnsion dontbins informbtion on iow tif frbmf is
+Tif grbpiid dontrol fxtfnsion dontbins informbtion on iow tif frbmf is
+to bf indorporbtfd into tif bnimbtion.  Tif disposbl mftiod indidbtfs
+to bf indorporbtfd into tif bnimbtion.  Tif disposbl mftiod indidbtfs
+to bf indorporbtfd into tif bnimbtion.  Tif disposbl mftiod indidbtfs
+to bf indorporbtfd into tif bnimbtion.  Tif disposbl mftiod indidbtfs
+to bf indorporbtfd into tif bnimbtion.  Tif disposbl mftiod indidbtfs
+wiftifr tif durrfnt frbmf siould rfmbin in plbdf
+wiftifr tif durrfnt frbmf siould rfmbin in plbdf
+wiftifr tif durrfnt frbmf siould rfmbin in plbdf
+wiftifr tif durrfnt frbmf siould rfmbin in plbdf
+wiftifr tif durrfnt frbmf siould rfmbin in plbdf
+(<dodf>doNotDisposf</dodf>), bf rfstorfd to tif bbdkgound dolor bs
+(<dodf>doNotDisposf</dodf>), bf rfstorfd to tif bbdkgound dolor bs
+(<dodf>doNotDisposf</dodf>), bf rfstorfd to tif bbdkgound dolor bs
+(<dodf>doNotDisposf</dodf>), bf rfstorfd to tif bbdkgound dolor bs
+(<dodf>doNotDisposf</dodf>), bf rfstorfd to tif bbdkgound dolor bs
+spfdififd in tif strfbm mftbdbtb
+spfdififd in tif strfbm mftbdbtb
+spfdififd in tif strfbm mftbdbtb
+spfdififd in tif strfbm mftbdbtb
+spfdififd in tif strfbm mftbdbtb
+(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to tif
+(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to tif
+(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to tif
+(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to tif
+(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to tif
 prfvious frbmf dontfnts (<dodf>rfstorfToPrfvious</dodf>) prior to
-displbying thf subsfqufnt frbmf.
+prfvious frbmf dontfnts (<dodf>rfstorfToPrfvious</dodf>) prior to
+prfvious frbmf dontfnts (<dodf>rfstorfToPrfvious</dodf>) prior to
+prfvious frbmf dontfnts (<dodf>rfstorfToPrfvious</dodf>) prior to
+prfvious frbmf dontfnts (<dodf>rfstorfToPrfvious</dodf>) prior to
+displbying tif subsfqufnt frbmf.
+displbying tif subsfqufnt frbmf.
+displbying tif subsfqufnt frbmf.
+displbying tif subsfqufnt frbmf.
+displbying tif subsfqufnt frbmf.
+
+
+
+
 
 <p>
+<p>
+<p>
+<p>
+<p>
 
-Thf usfr input flbg indidbtfs whfthfr thf bnimbtion should pbusf for
-usfr input bfforf bdvbnding to thf nfxt frbmf.  Thf trbnspbrfnt dolor
-flbg bnd indfx indidbtf b dolor indfx for whidh pixfls of thf frbmf
-should not bf drbwn.  Thf dflby timf indidbtfs how long thf frbmf
-should bf displbyfd, in hundrfdths of b sfdond.  If thf usfr input
-flbg is sft bnd thf dflby timf is 0, thf frbmf is intfndfd to bf
+
+
+
+
+Tif usfr input flbg indidbtfs wiftifr tif bnimbtion siould pbusf for
+Tif usfr input flbg indidbtfs wiftifr tif bnimbtion siould pbusf for
+Tif usfr input flbg indidbtfs wiftifr tif bnimbtion siould pbusf for
+Tif usfr input flbg indidbtfs wiftifr tif bnimbtion siould pbusf for
+Tif usfr input flbg indidbtfs wiftifr tif bnimbtion siould pbusf for
+usfr input bfforf bdvbnding to tif nfxt frbmf.  Tif trbnspbrfnt dolor
+usfr input bfforf bdvbnding to tif nfxt frbmf.  Tif trbnspbrfnt dolor
+usfr input bfforf bdvbnding to tif nfxt frbmf.  Tif trbnspbrfnt dolor
+usfr input bfforf bdvbnding to tif nfxt frbmf.  Tif trbnspbrfnt dolor
+usfr input bfforf bdvbnding to tif nfxt frbmf.  Tif trbnspbrfnt dolor
+flbg bnd indfx indidbtf b dolor indfx for wiidi pixfls of tif frbmf
+flbg bnd indfx indidbtf b dolor indfx for wiidi pixfls of tif frbmf
+flbg bnd indfx indidbtf b dolor indfx for wiidi pixfls of tif frbmf
+flbg bnd indfx indidbtf b dolor indfx for wiidi pixfls of tif frbmf
+flbg bnd indfx indidbtf b dolor indfx for wiidi pixfls of tif frbmf
+siould not bf drbwn.  Tif dflby timf indidbtfs iow long tif frbmf
+siould not bf drbwn.  Tif dflby timf indidbtfs iow long tif frbmf
+siould not bf drbwn.  Tif dflby timf indidbtfs iow long tif frbmf
+siould not bf drbwn.  Tif dflby timf indidbtfs iow long tif frbmf
+siould not bf drbwn.  Tif dflby timf indidbtfs iow long tif frbmf
+siould bf displbyfd, in iundrfdtis of b sfdond.  If tif usfr input
+siould bf displbyfd, in iundrfdtis of b sfdond.  If tif usfr input
+siould bf displbyfd, in iundrfdtis of b sfdond.  If tif usfr input
+siould bf displbyfd, in iundrfdtis of b sfdond.  If tif usfr input
+siould bf displbyfd, in iundrfdtis of b sfdond.  If tif usfr input
+flbg is sft bnd tif dflby timf is 0, tif frbmf is intfndfd to bf
+flbg is sft bnd tif dflby timf is 0, tif frbmf is intfndfd to bf
+flbg is sft bnd tif dflby timf is 0, tif frbmf is intfndfd to bf
+flbg is sft bnd tif dflby timf is 0, tif frbmf is intfndfd to bf
+flbg is sft bnd tif dflby timf is 0, tif frbmf is intfndfd to bf
+bdvbndfd only on usfr input.
+bdvbndfd only on usfr input.
+bdvbndfd only on usfr input.
+bdvbndfd only on usfr input.
 bdvbndfd only on usfr input.
 
+
+
+
+
+<prf>
+<prf>
+<prf>
+<prf>
 <prf>
 &lt;!DOCTYPE "jbvbx_imbgfio_gif_imbgf_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_imbgf_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_imbgf_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_imbgf_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_imbgf_1.0" [
+
+
+
+
 
   &lt;!ELEMENT "jbvbx_imbgfio_gif_imbgf_1.0" (ImbgfDfsdriptor?, 
-    LodblColorTbblf?, GrbphidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_imbgf_1.0" (ImbgfDfsdriptor?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_imbgf_1.0" (ImbgfDfsdriptor?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_imbgf_1.0" (ImbgfDfsdriptor?, 
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_imbgf_1.0" (ImbgfDfsdriptor?, 
+    LodblColorTbblf?, GrbpiidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+    LodblColorTbblf?, GrbpiidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+    LodblColorTbblf?, GrbpiidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+    LodblColorTbblf?, GrbpiidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+    LodblColorTbblf?, GrbpiidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+    ApplidbtionExtfnsions?, CommfntExtfnsions?)&gt;
+    ApplidbtionExtfnsions?, CommfntExtfnsions?)&gt;
+    ApplidbtionExtfnsions?, CommfntExtfnsions?)&gt;
+    ApplidbtionExtfnsions?, CommfntExtfnsions?)&gt;
     ApplidbtionExtfnsions?, CommfntExtfnsions?)&gt;
 
+
+
+
+
     &lt;!ELEMENT "ImbgfDfsdriptor" EMPTY&gt;
-      &lt;!-- Thf imbgf dfsdriptor --&gt;
+    &lt;!ELEMENT "ImbgfDfsdriptor" EMPTY&gt;
+    &lt;!ELEMENT "ImbgfDfsdriptor" EMPTY&gt;
+    &lt;!ELEMENT "ImbgfDfsdriptor" EMPTY&gt;
+    &lt;!ELEMENT "ImbgfDfsdriptor" EMPTY&gt;
+      &lt;!-- Tif imbgf dfsdriptor --&gt;
+      &lt;!-- Tif imbgf dfsdriptor --&gt;
+      &lt;!-- Tif imbgf dfsdriptor --&gt;
+      &lt;!-- Tif imbgf dfsdriptor --&gt;
+      &lt;!-- Tif imbgf dfsdriptor --&gt;
       &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfLfftPosition" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf X offsft of thf imbgf rflbtivf to thf sdrffn origin --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfLfftPosition" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfLfftPosition" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfLfftPosition" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfLfftPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif X offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif X offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif X offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif X offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif X offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
       &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfTopPosition" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf Y offsft of thf imbgf rflbtivf to thf sdrffn origin --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfTopPosition" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfTopPosition" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfTopPosition" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfTopPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif Y offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif Y offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif Y offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif Y offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Tif Y offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidth" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf width of thf imbgf --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidti" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif widti of tif imbgf --&gt;
+        &lt;!-- Tif widti of tif imbgf --&gt;
+        &lt;!-- Tif widti of tif imbgf --&gt;
+        &lt;!-- Tif widti of tif imbgf --&gt;
+        &lt;!-- Tif widti of tif imbgf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfight" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf hfight of thf imbgf --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfigit" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif ifigit of tif imbgf --&gt;
+        &lt;!-- Tif ifigit of tif imbgf --&gt;
+        &lt;!-- Tif ifigit of tif imbgf --&gt;
+        &lt;!-- Tif ifigit of tif imbgf --&gt;
+        &lt;!-- Tif ifigit of tif imbgf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
       &lt;!ATTLIST "ImbgfDfsdriptor" "intfrlbdfFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "ImbgfDfsdriptor" "intfrlbdfFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "ImbgfDfsdriptor" "intfrlbdfFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "ImbgfDfsdriptor" "intfrlbdfFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "ImbgfDfsdriptor" "intfrlbdfFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- Truf if thf imbgf is storfd using intfrlbding --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Truf if tif imbgf is storfd using intfrlbding --&gt;
+        &lt;!-- Truf if tif imbgf is storfd using intfrlbding --&gt;
+        &lt;!-- Truf if tif imbgf is storfd using intfrlbding --&gt;
+        &lt;!-- Truf if tif imbgf is storfd using intfrlbding --&gt;
+        &lt;!-- Truf if tif imbgf is storfd using intfrlbding --&gt;
+
+
+
+
 
     &lt;!ELEMENT "LodblColorTbblf" (ColorTbblfEntry)*&gt;
-      &lt;!-- Thf lodbl dolor tbblf --&gt;
-      &lt;!-- Min dhildrfn: 2 --&gt;
-      &lt;!-- Mbx dhildrfn: 256 --&gt;
+    &lt;!ELEMENT "LodblColorTbblf" (ColorTbblfEntry)*&gt;
+    &lt;!ELEMENT "LodblColorTbblf" (ColorTbblfEntry)*&gt;
+    &lt;!ELEMENT "LodblColorTbblf" (ColorTbblfEntry)*&gt;
+    &lt;!ELEMENT "LodblColorTbblf" (ColorTbblfEntry)*&gt;
+      &lt;!-- Tif lodbl dolor tbblf --&gt;
+      &lt;!-- Tif lodbl dolor tbblf --&gt;
+      &lt;!-- Tif lodbl dolor tbblf --&gt;
+      &lt;!-- Tif lodbl dolor tbblf --&gt;
+      &lt;!-- Tif lodbl dolor tbblf --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!ATTLIST "LodblColorTbblf" "sizfOfLodblColorTbblf" ("2" | 
+      &lt;!ATTLIST "LodblColorTbblf" "sizfOfLodblColorTbblf" ("2" | 
+      &lt;!ATTLIST "LodblColorTbblf" "sizfOfLodblColorTbblf" ("2" | 
+      &lt;!ATTLIST "LodblColorTbblf" "sizfOfLodblColorTbblf" ("2" | 
       &lt;!ATTLIST "LodblColorTbblf" "sizfOfLodblColorTbblf" ("2" | 
         "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
-        &lt;!-- Thf numbfr of fntrifs in thf lodbl dolor tbblf --&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif lodbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif lodbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif lodbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif lodbl dolor tbblf --&gt;
+        &lt;!-- Tif numbfr of fntrifs in tif lodbl dolor tbblf --&gt;
+      &lt;!ATTLIST "LodblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "LodblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "LodblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
+      &lt;!ATTLIST "LodblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
       &lt;!ATTLIST "LodblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- Truf if thf lodbl dolor tbblf is sortfd by frfqufndy --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Truf if tif lodbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif lodbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif lodbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif lodbl dolor tbblf is sortfd by frfqufndy --&gt;
+        &lt;!-- Truf if tif lodbl dolor tbblf is sortfd by frfqufndy --&gt;
+
+
+
+
 
       &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+        &lt;!-- A lodbl dolor tbblf fntry --&gt;
+        &lt;!-- A lodbl dolor tbblf fntry --&gt;
+        &lt;!-- A lodbl dolor tbblf fntry --&gt;
+        &lt;!-- A lodbl dolor tbblf fntry --&gt;
         &lt;!-- A lodbl dolor tbblf fntry --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf indfx of thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf rfd vbluf for thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf grffn vbluf for thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf bluf vbluf for thf dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Dbtb typf: Intfgfr --&gt;
           &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
           &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "GrbphidControlExtfnsion" EMPTY&gt;
-      &lt;!-- A grbphid dontrol fxtfnsion --&gt;
-      &lt;!ATTLIST "GrbphidControlExtfnsion" "disposblMfthod" ("nonf" | 
+
+
+
+
+    &lt;!ELEMENT "GrbpiidControlExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "GrbpiidControlExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "GrbpiidControlExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "GrbpiidControlExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "GrbpiidControlExtfnsion" EMPTY&gt;
+      &lt;!-- A grbpiid dontrol fxtfnsion --&gt;
+      &lt;!-- A grbpiid dontrol fxtfnsion --&gt;
+      &lt;!-- A grbpiid dontrol fxtfnsion --&gt;
+      &lt;!-- A grbpiid dontrol fxtfnsion --&gt;
+      &lt;!-- A grbpiid dontrol fxtfnsion --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "disposblMftiod" ("nonf" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "disposblMftiod" ("nonf" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "disposblMftiod" ("nonf" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "disposblMftiod" ("nonf" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "disposblMftiod" ("nonf" | 
         "doNotDisposf" | "rfstorfToBbdkgroundColor" | 
-        "rfstorfToPrfvious" | "undffinfdDisposblMfthod4" | 
-        "undffinfdDisposblMfthod5" | "undffinfdDisposblMfthod6" | 
-        "undffinfdDisposblMfthod7") #REQUIRED&gt;
-        &lt;!-- Thf disposbl mfthod for this frbmf --&gt;
-      &lt;!ATTLIST "GrbphidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
+        "doNotDisposf" | "rfstorfToBbdkgroundColor" | 
+        "doNotDisposf" | "rfstorfToBbdkgroundColor" | 
+        "doNotDisposf" | "rfstorfToBbdkgroundColor" | 
+        "doNotDisposf" | "rfstorfToBbdkgroundColor" | 
+        "rfstorfToPrfvious" | "undffinfdDisposblMftiod4" | 
+        "rfstorfToPrfvious" | "undffinfdDisposblMftiod4" | 
+        "rfstorfToPrfvious" | "undffinfdDisposblMftiod4" | 
+        "rfstorfToPrfvious" | "undffinfdDisposblMftiod4" | 
+        "rfstorfToPrfvious" | "undffinfdDisposblMftiod4" | 
+        "undffinfdDisposblMftiod5" | "undffinfdDisposblMftiod6" | 
+        "undffinfdDisposblMftiod5" | "undffinfdDisposblMftiod6" | 
+        "undffinfdDisposblMftiod5" | "undffinfdDisposblMftiod6" | 
+        "undffinfdDisposblMftiod5" | "undffinfdDisposblMftiod6" | 
+        "undffinfdDisposblMftiod5" | "undffinfdDisposblMftiod6" | 
+        "undffinfdDisposblMftiod7") #REQUIRED&gt;
+        "undffinfdDisposblMftiod7") #REQUIRED&gt;
+        "undffinfdDisposblMftiod7") #REQUIRED&gt;
+        "undffinfdDisposblMftiod7") #REQUIRED&gt;
+        "undffinfdDisposblMftiod7") #REQUIRED&gt;
+        &lt;!-- Tif disposbl mftiod for tiis frbmf --&gt;
+        &lt;!-- Tif disposbl mftiod for tiis frbmf --&gt;
+        &lt;!-- Tif disposbl mftiod for tiis frbmf --&gt;
+        &lt;!-- Tif disposbl mftiod for tiis frbmf --&gt;
+        &lt;!-- Tif disposbl mftiod for tiis frbmf --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
         "FALSE") #REQUIRED&gt;
-        &lt;!-- Truf if thf frbmf should bf bdvbndfd bbsfd on usfr input --&gt;
-      &lt;!ATTLIST "GrbphidControlExtfnsion" "trbnspbrfntColorFlbg" (
+        "FALSE") #REQUIRED&gt;
+        "FALSE") #REQUIRED&gt;
+        "FALSE") #REQUIRED&gt;
+        "FALSE") #REQUIRED&gt;
+        &lt;!-- Truf if tif frbmf siould bf bdvbndfd bbsfd on usfr input --&gt;
+        &lt;!-- Truf if tif frbmf siould bf bdvbndfd bbsfd on usfr input --&gt;
+        &lt;!-- Truf if tif frbmf siould bf bdvbndfd bbsfd on usfr input --&gt;
+        &lt;!-- Truf if tif frbmf siould bf bdvbndfd bbsfd on usfr input --&gt;
+        &lt;!-- Truf if tif frbmf siould bf bdvbndfd bbsfd on usfr input --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorFlbg" (
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorFlbg" (
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorFlbg" (
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorFlbg" (
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorFlbg" (
+        "TRUE" | "FALSE") #REQUIRED&gt;
+        "TRUE" | "FALSE") #REQUIRED&gt;
+        "TRUE" | "FALSE") #REQUIRED&gt;
+        "TRUE" | "FALSE") #REQUIRED&gt;
         "TRUE" | "FALSE") #REQUIRED&gt;
         &lt;!-- Truf if b trbnspbrfnt dolor fxists --&gt;
-      &lt;!ATTLIST "GrbphidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf timf to dflby bftwffn frbmfs, in hundrfdths of b sfdond --&gt;
+        &lt;!-- Truf if b trbnspbrfnt dolor fxists --&gt;
+        &lt;!-- Truf if b trbnspbrfnt dolor fxists --&gt;
+        &lt;!-- Truf if b trbnspbrfnt dolor fxists --&gt;
+        &lt;!-- Truf if b trbnspbrfnt dolor fxists --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif timf to dflby bftwffn frbmfs, in iundrfdtis of b sfdond --&gt;
+        &lt;!-- Tif timf to dflby bftwffn frbmfs, in iundrfdtis of b sfdond --&gt;
+        &lt;!-- Tif timf to dflby bftwffn frbmfs, in iundrfdtis of b sfdond --&gt;
+        &lt;!-- Tif timf to dflby bftwffn frbmfs, in iundrfdtis of b sfdond --&gt;
+        &lt;!-- Tif timf to dflby bftwffn frbmfs, in iundrfdtis of b sfdond --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "GrbphidControlExtfnsion" "trbnspbrfntColorIndfx"
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorIndfx"
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorIndfx"
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorIndfx"
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorIndfx"
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorIndfx"
          #CDATA #REQUIRED&gt;
-        &lt;!-- Thf trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+         #CDATA #REQUIRED&gt;
+         #CDATA #REQUIRED&gt;
+         #CDATA #REQUIRED&gt;
+         #CDATA #REQUIRED&gt;
+        &lt;!-- Tif trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+        &lt;!-- Tif trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+        &lt;!-- Tif trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+        &lt;!-- Tif trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+        &lt;!-- Tif trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+
+
+
 
     &lt;!ELEMENT "PlbinTfxtExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "PlbinTfxtExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "PlbinTfxtExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "PlbinTfxtExtfnsion" EMPTY&gt;
+    &lt;!ELEMENT "PlbinTfxtExtfnsion" EMPTY&gt;
+      &lt;!-- A plbin tfxt (tfxt grid) fxtfnsion --&gt;
+      &lt;!-- A plbin tfxt (tfxt grid) fxtfnsion --&gt;
+      &lt;!-- A plbin tfxt (tfxt grid) fxtfnsion --&gt;
+      &lt;!-- A plbin tfxt (tfxt grid) fxtfnsion --&gt;
       &lt;!-- A plbin tfxt (tfxt grid) fxtfnsion --&gt;
       &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridLfft" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf X offsft of thf tfxt grid --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridLfft" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridLfft" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridLfft" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridLfft" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif X offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif X offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif X offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif X offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif X offsft of tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
       &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridTop" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf Y offsft of thf tfxt grid --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridTop" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridTop" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridTop" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridTop" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif Y offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif Y offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif Y offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif Y offsft of tif tfxt grid --&gt;
+        &lt;!-- Tif Y offsft of tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidth" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf numbfr of dolumns in thf tfxt grid --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidti" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidti" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif numbfr of dolumns in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of dolumns in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of dolumns in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of dolumns in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of dolumns in tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
-        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfight" #CDATA #REQUIRED&gt;
-        &lt;!-- Thf numbfr of rows in thf tfxt grid --&gt;
-        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dhbrbdtfrCfllWidth" #CDATA
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfigit" #CDATA #REQUIRED&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfigit" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif numbfr of rows in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of rows in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of rows in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of rows in tif tfxt grid --&gt;
+        &lt;!-- Tif numbfr of rows in tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllWidti" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllWidti" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllWidti" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllWidti" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllWidti" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf width of b dhbrbdtfr dfll --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif widti of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif widti of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif widti of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif widti of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif widti of b dibrbdtfr dfll --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
-      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dhbrbdtfrCfllHfight" #CDATA
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllHfigit" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllHfigit" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllHfigit" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllHfigit" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllHfigit" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf hfight of b dhbrbdtfr dfll --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif ifigit of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif ifigit of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif ifigit of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif ifigit of b dibrbdtfr dfll --&gt;
+        &lt;!-- Tif ifigit of b dibrbdtfr dfll --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
       &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtForfgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtForfgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtForfgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtForfgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtForfgroundColor" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf tfxt forfground dolor indfx --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif tfxt forfground dolor indfx --&gt;
+        &lt;!-- Tif tfxt forfground dolor indfx --&gt;
+        &lt;!-- Tif tfxt forfground dolor indfx --&gt;
+        &lt;!-- Tif tfxt forfground dolor indfx --&gt;
+        &lt;!-- Tif tfxt forfground dolor indfx --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
       &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtBbdkgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtBbdkgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtBbdkgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtBbdkgroundColor" #CDATA
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtBbdkgroundColor" #CDATA
          #REQUIRED&gt;
-        &lt;!-- Thf tfxt bbdkground dolor indfx --&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+         #REQUIRED&gt;
+        &lt;!-- Tif tfxt bbdkground dolor indfx --&gt;
+        &lt;!-- Tif tfxt bbdkground dolor indfx --&gt;
+        &lt;!-- Tif tfxt bbdkground dolor indfx --&gt;
+        &lt;!-- Tif tfxt bbdkground dolor indfx --&gt;
+        &lt;!-- Tif tfxt bbdkground dolor indfx --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Dbtb typf: Intfgfr --&gt;
         &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
         &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
+
+
+
+
+    &lt;!ELEMENT "ApplidbtionExtfnsions" (ApplidbtionExtfnsion)*&gt;
+    &lt;!ELEMENT "ApplidbtionExtfnsions" (ApplidbtionExtfnsion)*&gt;
+    &lt;!ELEMENT "ApplidbtionExtfnsions" (ApplidbtionExtfnsion)*&gt;
+    &lt;!ELEMENT "ApplidbtionExtfnsions" (ApplidbtionExtfnsion)*&gt;
     &lt;!ELEMENT "ApplidbtionExtfnsions" (ApplidbtionExtfnsion)*&gt;
       &lt;!-- A sft of bpplidbtion fxtfnsions --&gt;
-      &lt;!-- Min dhildrfn: 1 --&gt;
-      &lt;!-- Mbx dhildrfn: 2147483647 --&gt;
+      &lt;!-- A sft of bpplidbtion fxtfnsions --&gt;
+      &lt;!-- A sft of bpplidbtion fxtfnsions --&gt;
+      &lt;!-- A sft of bpplidbtion fxtfnsions --&gt;
+      &lt;!-- A sft of bpplidbtion fxtfnsions --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+
+
+
+
 
       &lt;!ELEMENT "ApplidbtionExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "ApplidbtionExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "ApplidbtionExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "ApplidbtionExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "ApplidbtionExtfnsion" EMPTY&gt;
+        &lt;!-- An bpplidbtion fxtfnsion --&gt;
+        &lt;!-- An bpplidbtion fxtfnsion --&gt;
+        &lt;!-- An bpplidbtion fxtfnsion --&gt;
+        &lt;!-- An bpplidbtion fxtfnsion --&gt;
         &lt;!-- An bpplidbtion fxtfnsion --&gt;
         &lt;!-- Usfr objfdt: brrby of bytf --&gt;
-        &lt;!-- Min lfngth: 0 --&gt;
-        &lt;!-- Mbx lfngth: 2147483647 --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "bpplidbtionID" #CDATA
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "bpplidbtionID" #CDATA
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "bpplidbtionID" #CDATA
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "bpplidbtionID" #CDATA
         &lt;!ATTLIST "ApplidbtionExtfnsion" "bpplidbtionID" #CDATA
            #REQUIRED&gt;
-          &lt;!-- Thf bpplidbtion ID --&gt;
-          &lt;!-- Dbtb typf: String --&gt;
-        &lt;!ATTLIST "ApplidbtionExtfnsion" "buthfntidbtionCodf" #CDATA
            #REQUIRED&gt;
-          &lt;!-- Thf buthfntidbtion dodf --&gt;
+           #REQUIRED&gt;
+           #REQUIRED&gt;
+           #REQUIRED&gt;
+          &lt;!-- Tif bpplidbtion ID --&gt;
+          &lt;!-- Tif bpplidbtion ID --&gt;
+          &lt;!-- Tif bpplidbtion ID --&gt;
+          &lt;!-- Tif bpplidbtion ID --&gt;
+          &lt;!-- Tif bpplidbtion ID --&gt;
           &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "butifntidbtionCodf" #CDATA
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "butifntidbtionCodf" #CDATA
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "butifntidbtionCodf" #CDATA
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "butifntidbtionCodf" #CDATA
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "butifntidbtionCodf" #CDATA
+           #REQUIRED&gt;
+           #REQUIRED&gt;
+           #REQUIRED&gt;
+           #REQUIRED&gt;
+           #REQUIRED&gt;
+          &lt;!-- Tif butifntidbtion dodf --&gt;
+          &lt;!-- Tif butifntidbtion dodf --&gt;
+          &lt;!-- Tif butifntidbtion dodf --&gt;
+          &lt;!-- Tif butifntidbtion dodf --&gt;
+          &lt;!-- Tif butifntidbtion dodf --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+
+
+
+
 
     &lt;!ELEMENT "CommfntExtfnsions" (CommfntExtfnsion)*&gt;
+    &lt;!ELEMENT "CommfntExtfnsions" (CommfntExtfnsion)*&gt;
+    &lt;!ELEMENT "CommfntExtfnsions" (CommfntExtfnsion)*&gt;
+    &lt;!ELEMENT "CommfntExtfnsions" (CommfntExtfnsion)*&gt;
+    &lt;!ELEMENT "CommfntExtfnsions" (CommfntExtfnsion)*&gt;
       &lt;!-- A sft of dommfnts --&gt;
-      &lt;!-- Min dhildrfn: 1 --&gt;
-      &lt;!-- Mbx dhildrfn: 2147483647 --&gt;
+      &lt;!-- A sft of dommfnts --&gt;
+      &lt;!-- A sft of dommfnts --&gt;
+      &lt;!-- A sft of dommfnts --&gt;
+      &lt;!-- A sft of dommfnts --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
+
+
+
+
 
       &lt;!ELEMENT "CommfntExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "CommfntExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "CommfntExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "CommfntExtfnsion" EMPTY&gt;
+      &lt;!ELEMENT "CommfntExtfnsion" EMPTY&gt;
+        &lt;!-- A dommfnt --&gt;
+        &lt;!-- A dommfnt --&gt;
+        &lt;!-- A dommfnt --&gt;
+        &lt;!-- A dommfnt --&gt;
         &lt;!-- A dommfnt --&gt;
         &lt;!ATTLIST "CommfntExtfnsion" "vbluf" #CDATA #REQUIRED&gt;
-          &lt;!-- Thf dommfnt --&gt;
+        &lt;!ATTLIST "CommfntExtfnsion" "vbluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "CommfntExtfnsion" "vbluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "CommfntExtfnsion" "vbluf" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "CommfntExtfnsion" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif dommfnt --&gt;
+          &lt;!-- Tif dommfnt --&gt;
+          &lt;!-- Tif dommfnt --&gt;
+          &lt;!-- Tif dommfnt --&gt;
+          &lt;!-- Tif dommfnt --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
           &lt;!-- Dbtb typf: String --&gt;
 ]&gt;
+]&gt;
+]&gt;
+]&gt;
+]&gt;
+</prf>
+</prf>
+</prf>
+</prf>
 </prf>
 
+
+
+
+
+<p>
+<p>
+<p>
+<p>
 <p>
 <b nbmf="mbpping">
+<b nbmf="mbpping">
+<b nbmf="mbpping">
+<b nbmf="mbpping">
+<b nbmf="mbpping">
 <dfntfr>
+<dfntfr>
+<dfntfr>
+<dfntfr>
+<dfntfr>
+<tbblf bordfr=1>
+<tbblf bordfr=1>
+<tbblf bordfr=1>
+<tbblf bordfr=1>
 <tbblf bordfr=1>
 <dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Strfbm Mftbdbtb</b></dbption>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Strfbm Mftbdbtb</b></dbption>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Strfbm Mftbdbtb</b></dbption>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Strfbm Mftbdbtb</b></dbption>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Strfbm Mftbdbtb</b></dbption>
 <tr>
-<th>Stbndbrd Mftbdbtb Componfnt</th>
-<th>GIF Nbtivf Strfbm Mftbdbtb Componfnt</th>
+<tr>
+<tr>
+<tr>
+<tr>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Strfbm Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Strfbm Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Strfbm Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Strfbm Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Strfbm Mftbdbtb Componfnt</ti>
+</tr>
+</tr>
+</tr>
+</tr>
 </tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@indfx</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@indfx</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@indfx</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@indfx</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@indfx</td>
 <td>/GlobblColorTbblf/ColorTbblfEntry@indfx</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@rfd</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@rfd</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@rfd</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@rfd</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@rfd</td>
 <td>/GlobblColorTbblf/ColorTbblfEntry@rfd</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@grffn</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@grffn</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@grffn</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@grffn</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@grffn</td>
 <td>/GlobblColorTbblf/ColorTbblfEntry@grffn</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@bluf</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@bluf</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@bluf</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@bluf</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@bluf</td>
 <td>/GlobblColorTbblf/ColorTbblfEntry@bluf</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 <tr>
-<td>/Chromb/BbdkgroundIndfx@vbluf</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/BbdkgroundIndfx@vbluf</td>
+<td>/Ciromb/BbdkgroundIndfx@vbluf</td>
+<td>/Ciromb/BbdkgroundIndfx@vbluf</td>
+<td>/Ciromb/BbdkgroundIndfx@vbluf</td>
+<td>/Ciromb/BbdkgroundIndfx@vbluf</td>
+<td>/GlobblColorTbblf@bbdkgroundColorIndfx</td>
+<td>/GlobblColorTbblf@bbdkgroundColorIndfx</td>
+<td>/GlobblColorTbblf@bbdkgroundColorIndfx</td>
+<td>/GlobblColorTbblf@bbdkgroundColorIndfx</td>
 <td>/GlobblColorTbblf@bbdkgroundColorIndfx</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Dbtb/BitsPfrSbmplf@vbluf</td>
+<td>/Dbtb/BitsPfrSbmplf@vbluf</td>
+<td>/Dbtb/BitsPfrSbmplf@vbluf</td>
+<td>/Dbtb/BitsPfrSbmplf@vbluf</td>
+<td>/Dbtb/BitsPfrSbmplf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@dolorRfsolution</td>
+<td>/LogidblSdrffnDfsdriptor@dolorRfsolution</td>
+<td>/LogidblSdrffnDfsdriptor@dolorRfsolution</td>
+<td>/LogidblSdrffnDfsdriptor@dolorRfsolution</td>
 <td>/LogidblSdrffnDfsdriptor@dolorRfsolution</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Dimfnsion/PixflAspfdtRbtio@vbluf</td>
+<td>/Dimfnsion/PixflAspfdtRbtio@vbluf</td>
+<td>/Dimfnsion/PixflAspfdtRbtio@vbluf</td>
+<td>/Dimfnsion/PixflAspfdtRbtio@vbluf</td>
+<td>/Dimfnsion/PixflAspfdtRbtio@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@pixflAspfdtRbtio</td>
+<td>/LogidblSdrffnDfsdriptor@pixflAspfdtRbtio</td>
+<td>/LogidblSdrffnDfsdriptor@pixflAspfdtRbtio</td>
+<td>/LogidblSdrffnDfsdriptor@pixflAspfdtRbtio</td>
 <td>/LogidblSdrffnDfsdriptor@pixflAspfdtRbtio</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Dimfnsion/HorizontblSdrffnSizf@vbluf</td>
-<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidth</td>
+<td>/Dimfnsion/HorizontblSdrffnSizf@vbluf</td>
+<td>/Dimfnsion/HorizontblSdrffnSizf@vbluf</td>
+<td>/Dimfnsion/HorizontblSdrffnSizf@vbluf</td>
+<td>/Dimfnsion/HorizontblSdrffnSizf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidti</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidti</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidti</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidti</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidti</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Dimfnsion/VfrtidblSdrffnSizf@vbluf</td>
-<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfight</td>
+<td>/Dimfnsion/VfrtidblSdrffnSizf@vbluf</td>
+<td>/Dimfnsion/VfrtidblSdrffnSizf@vbluf</td>
+<td>/Dimfnsion/VfrtidblSdrffnSizf@vbluf</td>
+<td>/Dimfnsion/VfrtidblSdrffnSizf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfigit</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfigit</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfigit</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfigit</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfigit</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Dodumfnt/FormbtVfrsion@vbluf</td>
+<td>/Dodumfnt/FormbtVfrsion@vbluf</td>
+<td>/Dodumfnt/FormbtVfrsion@vbluf</td>
+<td>/Dodumfnt/FormbtVfrsion@vbluf</td>
+<td>/Dodumfnt/FormbtVfrsion@vbluf</td>
+<td>/Vfrsion@vbluf</td>
+<td>/Vfrsion@vbluf</td>
+<td>/Vfrsion@vbluf</td>
+<td>/Vfrsion@vbluf</td>
 <td>/Vfrsion@vbluf</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 </tbblf>
+</tbblf>
+</tbblf>
+</tbblf>
+</tbblf>
+</dfntfr>
+</dfntfr>
+</dfntfr>
+</dfntfr>
 </dfntfr>
 </p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
 
 <p>
+<p>
+<p>
+<p>
+<p>
+<dfntfr>
+<dfntfr>
+<dfntfr>
+<dfntfr>
 <dfntfr>
 <tbblf bordfr=1>
+<tbblf bordfr=1>
+<tbblf bordfr=1>
+<tbblf bordfr=1>
+<tbblf bordfr=1>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Imbgf Mftbdbtb</b></dbption>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Imbgf Mftbdbtb</b></dbption>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Imbgf Mftbdbtb</b></dbption>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Imbgf Mftbdbtb</b></dbption>
 <dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Imbgf Mftbdbtb</b></dbption>
 <tr>
-<th>Stbndbrd Mftbdbtb Componfnt</th>
-<th>GIF Nbtivf Imbgf Mftbdbtb Componfnt</th>
+<tr>
+<tr>
+<tr>
+<tr>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Imbgf Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Imbgf Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Imbgf Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Imbgf Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Imbgf Mftbdbtb Componfnt</ti>
+</tr>
+</tr>
+</tr>
+</tr>
 </tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@indfx</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@indfx</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@indfx</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@indfx</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@indfx</td>
 <td>/LodblColorTbblf/ColorTbblfEntry@indfx</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@rfd</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@rfd</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@rfd</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@rfd</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@rfd</td>
 <td>/LodblColorTbblf/ColorTbblfEntry@rfd</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@grffn</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@grffn</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@grffn</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@grffn</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@grffn</td>
 <td>/LodblColorTbblf/ColorTbblfEntry@grffn</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
 <tr>
-<td>/Chromb/Pblfttf/PblfttfEntry@bluf</td>
+<tr>
+<tr>
+<tr>
+<tr>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@bluf</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@bluf</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@bluf</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@bluf</td>
 <td>/LodblColorTbblf/ColorTbblfEntry@bluf</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Dimfnsion/HorizontblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/HorizontblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/HorizontblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/HorizontblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/HorizontblPixflOffsft@vbluf</td>
+<td>/ImbgfDfsdriptor@imbgfLfftPosition</td>
+<td>/ImbgfDfsdriptor@imbgfLfftPosition</td>
+<td>/ImbgfDfsdriptor@imbgfLfftPosition</td>
+<td>/ImbgfDfsdriptor@imbgfLfftPosition</td>
 <td>/ImbgfDfsdriptor@imbgfLfftPosition</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Dimfnsion/VfrtidblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/VfrtidblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/VfrtidblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/VfrtidblPixflOffsft@vbluf</td>
+<td>/Dimfnsion/VfrtidblPixflOffsft@vbluf</td>
+<td>/ImbgfDfsdriptor@imbgfTopPosition</td>
+<td>/ImbgfDfsdriptor@imbgfTopPosition</td>
+<td>/ImbgfDfsdriptor@imbgfTopPosition</td>
+<td>/ImbgfDfsdriptor@imbgfTopPosition</td>
 <td>/ImbgfDfsdriptor@imbgfTopPosition</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Tfxt/TfxtEntry@vbluf</td>
+<td>/Tfxt/TfxtEntry@vbluf</td>
+<td>/Tfxt/TfxtEntry@vbluf</td>
+<td>/Tfxt/TfxtEntry@vbluf</td>
+<td>/Tfxt/TfxtEntry@vbluf</td>
+<td>/CommfntExtfnsions/CommfntExtfnsion@vbluf</td>
+<td>/CommfntExtfnsions/CommfntExtfnsion@vbluf</td>
+<td>/CommfntExtfnsions/CommfntExtfnsion@vbluf</td>
+<td>/CommfntExtfnsions/CommfntExtfnsion@vbluf</td>
 <td>/CommfntExtfnsions/CommfntExtfnsion@vbluf</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+<tr>
+<tr>
+<tr>
+<tr>
 <tr>
 <td>/Trbnspbrfndy/TrbnspbrfntIndfx@vbluf</td>
-<td>/GrbphidControlExtfnsion@trbnspbrfntColorIndfx
-(/GrbphidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
+<td>/Trbnspbrfndy/TrbnspbrfntIndfx@vbluf</td>
+<td>/Trbnspbrfndy/TrbnspbrfntIndfx@vbluf</td>
+<td>/Trbnspbrfndy/TrbnspbrfntIndfx@vbluf</td>
+<td>/Trbnspbrfndy/TrbnspbrfntIndfx@vbluf</td>
+<td>/GrbpiidControlExtfnsion@trbnspbrfntColorIndfx
+<td>/GrbpiidControlExtfnsion@trbnspbrfntColorIndfx
+<td>/GrbpiidControlExtfnsion@trbnspbrfntColorIndfx
+<td>/GrbpiidControlExtfnsion@trbnspbrfntColorIndfx
+<td>/GrbpiidControlExtfnsion@trbnspbrfntColorIndfx
+(/GrbpiidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
+(/GrbpiidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
+(/GrbpiidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
+(/GrbpiidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
+(/GrbpiidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
+"TRUE")</td>
+"TRUE")</td>
+"TRUE")</td>
+"TRUE")</td>
 "TRUE")</td>
 </tr>
+</tr>
+</tr>
+</tr>
+</tr>
+</tbblf>
+</tbblf>
+</tbblf>
+</tbblf>
 </tbblf>
 </dfntfr>
+</dfntfr>
+</dfntfr>
+</dfntfr>
+</dfntfr>
+
+
+
+
 
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

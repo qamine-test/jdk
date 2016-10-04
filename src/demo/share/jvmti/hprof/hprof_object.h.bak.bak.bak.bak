@@ -1,62 +1,310 @@
 /*
- * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
- * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ *
+ *
+ *
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * brf mft:
+ * brf mft:
+ * brf mft:
  * brf mft:
  *
- *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
- *     notidf, this list of donditions bnd thf following disdlbimfr.
  *
- *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
- *     notidf, this list of donditions bnd thf following disdlbimfr in thf
- *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
  *
- *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *
+ *
+ *
+ *
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *
+ *
+ *
+ *
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
  *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
- *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ *
+ *
+ *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
  * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
 /*
- * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
- * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
- * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
- * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
- * this sbmplf dodf.
+/*
+/*
+/*
+/*
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
+ * tiis sbmplf dodf.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 #ifndff HPROF_OBJECT_H
+#ifndff HPROF_OBJECT_H
+#ifndff HPROF_OBJECT_H
+#ifndff HPROF_OBJECT_H
+#ifndff HPROF_OBJECT_H
+#dffinf HPROF_OBJECT_H
+#dffinf HPROF_OBJECT_H
+#dffinf HPROF_OBJECT_H
+#dffinf HPROF_OBJECT_H
 #dffinf HPROF_OBJECT_H
 
+
+
+
+
+void         objfdt_init(void);
+void         objfdt_init(void);
+void         objfdt_init(void);
+void         objfdt_init(void);
 void         objfdt_init(void);
 ObjfdtIndfx  objfdt_nfw(SitfIndfx sitf_indfx, jint sizf, ObjfdtKind kind,
-                        SfriblNumbfr thrfbd_sfribl_num);
+ObjfdtIndfx  objfdt_nfw(SitfIndfx sitf_indfx, jint sizf, ObjfdtKind kind,
+ObjfdtIndfx  objfdt_nfw(SitfIndfx sitf_indfx, jint sizf, ObjfdtKind kind,
+ObjfdtIndfx  objfdt_nfw(SitfIndfx sitf_indfx, jint sizf, ObjfdtKind kind,
+ObjfdtIndfx  objfdt_nfw(SitfIndfx sitf_indfx, jint sizf, ObjfdtKind kind,
+                        SfriblNumbfr tirfbd_sfribl_num);
+                        SfriblNumbfr tirfbd_sfribl_num);
+                        SfriblNumbfr tirfbd_sfribl_num);
+                        SfriblNumbfr tirfbd_sfribl_num);
+                        SfriblNumbfr tirfbd_sfribl_num);
+SitfIndfx    objfdt_gft_sitf(ObjfdtIndfx indfx);
+SitfIndfx    objfdt_gft_sitf(ObjfdtIndfx indfx);
+SitfIndfx    objfdt_gft_sitf(ObjfdtIndfx indfx);
+SitfIndfx    objfdt_gft_sitf(ObjfdtIndfx indfx);
 SitfIndfx    objfdt_gft_sitf(ObjfdtIndfx indfx);
 jint         objfdt_gft_sizf(ObjfdtIndfx indfx);
+jint         objfdt_gft_sizf(ObjfdtIndfx indfx);
+jint         objfdt_gft_sizf(ObjfdtIndfx indfx);
+jint         objfdt_gft_sizf(ObjfdtIndfx indfx);
+jint         objfdt_gft_sizf(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_gft_kind(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_gft_kind(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_gft_kind(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_gft_kind(ObjfdtIndfx indfx);
 ObjfdtKind   objfdt_gft_kind(ObjfdtIndfx indfx);
 ObjfdtKind   objfdt_frff(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_frff(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_frff(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_frff(ObjfdtIndfx indfx);
+ObjfdtKind   objfdt_frff(ObjfdtIndfx indfx);
+void         objfdt_list(void);
+void         objfdt_list(void);
+void         objfdt_list(void);
+void         objfdt_list(void);
 void         objfdt_list(void);
 void         objfdt_dlfbnup(void);
+void         objfdt_dlfbnup(void);
+void         objfdt_dlfbnup(void);
+void         objfdt_dlfbnup(void);
+void         objfdt_dlfbnup(void);
 
-void         objfdt_sft_thrfbd_sfribl_numbfr(ObjfdtIndfx indfx,
-                                             SfriblNumbfr thrfbd_sfribl_num);
-SfriblNumbfr objfdt_gft_thrfbd_sfribl_numbfr(ObjfdtIndfx indfx);
+
+
+
+
+void         objfdt_sft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx,
+void         objfdt_sft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx,
+void         objfdt_sft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx,
+void         objfdt_sft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx,
+void         objfdt_sft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx,
+                                             SfriblNumbfr tirfbd_sfribl_num);
+                                             SfriblNumbfr tirfbd_sfribl_num);
+                                             SfriblNumbfr tirfbd_sfribl_num);
+                                             SfriblNumbfr tirfbd_sfribl_num);
+                                             SfriblNumbfr tirfbd_sfribl_num);
+SfriblNumbfr objfdt_gft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx);
+SfriblNumbfr objfdt_gft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx);
+SfriblNumbfr objfdt_gft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx);
+SfriblNumbfr objfdt_gft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx);
+SfriblNumbfr objfdt_gft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx);
+RffIndfx     objfdt_gft_rfffrfndfs(ObjfdtIndfx indfx);
+RffIndfx     objfdt_gft_rfffrfndfs(ObjfdtIndfx indfx);
+RffIndfx     objfdt_gft_rfffrfndfs(ObjfdtIndfx indfx);
+RffIndfx     objfdt_gft_rfffrfndfs(ObjfdtIndfx indfx);
 RffIndfx     objfdt_gft_rfffrfndfs(ObjfdtIndfx indfx);
 void         objfdt_sft_rfffrfndfs(ObjfdtIndfx indfx, RffIndfx rff_indfx);
+void         objfdt_sft_rfffrfndfs(ObjfdtIndfx indfx, RffIndfx rff_indfx);
+void         objfdt_sft_rfffrfndfs(ObjfdtIndfx indfx, RffIndfx rff_indfx);
+void         objfdt_sft_rfffrfndfs(ObjfdtIndfx indfx, RffIndfx rff_indfx);
+void         objfdt_sft_rfffrfndfs(ObjfdtIndfx indfx, RffIndfx rff_indfx);
+void         objfdt_dlfbr_rfffrfndfs(void);
+void         objfdt_dlfbr_rfffrfndfs(void);
+void         objfdt_dlfbr_rfffrfndfs(void);
+void         objfdt_dlfbr_rfffrfndfs(void);
 void         objfdt_dlfbr_rfffrfndfs(void);
 void         objfdt_rfffrfndf_dump(JNIEnv *fnv);
+void         objfdt_rfffrfndf_dump(JNIEnv *fnv);
+void         objfdt_rfffrfndf_dump(JNIEnv *fnv);
+void         objfdt_rfffrfndf_dump(JNIEnv *fnv);
+void         objfdt_rfffrfndf_dump(JNIEnv *fnv);
 
+
+
+
+
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif

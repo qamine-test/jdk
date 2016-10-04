@@ -1,171 +1,855 @@
 /*
- * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+
+
+
+
 
 import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.EOFExdfption;
 import jbvb.io.EOFExdfption;
 import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.FiltfrOutputStrfbm;
 import jbvb.io.FiltfrOutputStrfbm;
 import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
 import jbvb.io.BytfArrbyOutputStrfbm;
 
+
+
+
+
 /**
- * A trbnspbrfnt strfbm thbt updbtfs thf bssodibtfd mfssbgf digfst using
- * thf bits going through thf strfbm.
+/**
+/**
+/**
+/**
+ * A trbnspbrfnt strfbm tibt updbtfs tif bssodibtfd mfssbgf digfst using
+ * A trbnspbrfnt strfbm tibt updbtfs tif bssodibtfd mfssbgf digfst using
+ * A trbnspbrfnt strfbm tibt updbtfs tif bssodibtfd mfssbgf digfst using
+ * A trbnspbrfnt strfbm tibt updbtfs tif bssodibtfd mfssbgf digfst using
+ * A trbnspbrfnt strfbm tibt updbtfs tif bssodibtfd mfssbgf digfst using
+ * tif bits going tirougi tif strfbm.
+ * tif bits going tirougi tif strfbm.
+ * tif bits going tirougi tif strfbm.
+ * tif bits going tirougi tif strfbm.
+ * tif bits going tirougi tif strfbm.
  *
- * <p>To domplftf thf mfssbgf digfst domputbtion, dbll onf of thf
- * {@dodf digfst} mfthods on thf bssodibtfd mfssbgf
- * digfst bftfr your dblls to onf of this digfst output strfbm's
- * {@link #writf(int) writf} mfthods.
  *
- * <p>It is possiblf to turn this strfbm on or off (sff
- * {@link #on(boolfbn) on}). Whfn it is on, b dbll to onf of thf
- * {@dodf writf} mfthods rfsults in
- * bn updbtf on thf mfssbgf digfst.  But whfn it is off, thf mfssbgf
- * digfst is not updbtfd. Thf dffbult is for thf strfbm to bf on.
+ *
+ *
+ *
+ * <p>To domplftf tif mfssbgf digfst domputbtion, dbll onf of tif
+ * <p>To domplftf tif mfssbgf digfst domputbtion, dbll onf of tif
+ * <p>To domplftf tif mfssbgf digfst domputbtion, dbll onf of tif
+ * <p>To domplftf tif mfssbgf digfst domputbtion, dbll onf of tif
+ * <p>To domplftf tif mfssbgf digfst domputbtion, dbll onf of tif
+ * {@dodf digfst} mftiods on tif bssodibtfd mfssbgf
+ * {@dodf digfst} mftiods on tif bssodibtfd mfssbgf
+ * {@dodf digfst} mftiods on tif bssodibtfd mfssbgf
+ * {@dodf digfst} mftiods on tif bssodibtfd mfssbgf
+ * {@dodf digfst} mftiods on tif bssodibtfd mfssbgf
+ * digfst bftfr your dblls to onf of tiis digfst output strfbm's
+ * digfst bftfr your dblls to onf of tiis digfst output strfbm's
+ * digfst bftfr your dblls to onf of tiis digfst output strfbm's
+ * digfst bftfr your dblls to onf of tiis digfst output strfbm's
+ * digfst bftfr your dblls to onf of tiis digfst output strfbm's
+ * {@link #writf(int) writf} mftiods.
+ * {@link #writf(int) writf} mftiods.
+ * {@link #writf(int) writf} mftiods.
+ * {@link #writf(int) writf} mftiods.
+ * {@link #writf(int) writf} mftiods.
+ *
+ *
+ *
+ *
+ *
+ * <p>It is possiblf to turn tiis strfbm on or off (sff
+ * <p>It is possiblf to turn tiis strfbm on or off (sff
+ * <p>It is possiblf to turn tiis strfbm on or off (sff
+ * <p>It is possiblf to turn tiis strfbm on or off (sff
+ * <p>It is possiblf to turn tiis strfbm on or off (sff
+ * {@link #on(boolfbn) on}). Wifn it is on, b dbll to onf of tif
+ * {@link #on(boolfbn) on}). Wifn it is on, b dbll to onf of tif
+ * {@link #on(boolfbn) on}). Wifn it is on, b dbll to onf of tif
+ * {@link #on(boolfbn) on}). Wifn it is on, b dbll to onf of tif
+ * {@link #on(boolfbn) on}). Wifn it is on, b dbll to onf of tif
+ * {@dodf writf} mftiods rfsults in
+ * {@dodf writf} mftiods rfsults in
+ * {@dodf writf} mftiods rfsults in
+ * {@dodf writf} mftiods rfsults in
+ * {@dodf writf} mftiods rfsults in
+ * bn updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+ * bn updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+ * bn updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+ * bn updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+ * bn updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+ * digfst is not updbtfd. Tif dffbult is for tif strfbm to bf on.
+ * digfst is not updbtfd. Tif dffbult is for tif strfbm to bf on.
+ * digfst is not updbtfd. Tif dffbult is for tif strfbm to bf on.
+ * digfst is not updbtfd. Tif dffbult is for tif strfbm to bf on.
+ * digfst is not updbtfd. Tif dffbult is for tif strfbm to bf on.
+ *
+ *
+ *
+ *
  *
  * @sff MfssbgfDigfst
+ * @sff MfssbgfDigfst
+ * @sff MfssbgfDigfst
+ * @sff MfssbgfDigfst
+ * @sff MfssbgfDigfst
+ * @sff DigfstInputStrfbm
+ * @sff DigfstInputStrfbm
+ * @sff DigfstInputStrfbm
+ * @sff DigfstInputStrfbm
  * @sff DigfstInputStrfbm
  *
- * @buthor Bfnjbmin Rfnbud
+ *
+ *
+ *
+ *
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ */
+ */
+ */
+ */
  */
 publid dlbss DigfstOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss DigfstOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss DigfstOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss DigfstOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+publid dlbss DigfstOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+
+
+
+
 
     privbtf boolfbn on = truf;
+    privbtf boolfbn on = truf;
+    privbtf boolfbn on = truf;
+    privbtf boolfbn on = truf;
+    privbtf boolfbn on = truf;
+
+
+
+
 
     /**
-     * Thf mfssbgf digfst bssodibtfd with this strfbm.
+    /**
+    /**
+    /**
+    /**
+     * Tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     */
+     */
+     */
+     */
      */
     protfdtfd MfssbgfDigfst digfst;
+    protfdtfd MfssbgfDigfst digfst;
+    protfdtfd MfssbgfDigfst digfst;
+    protfdtfd MfssbgfDigfst digfst;
+    protfdtfd MfssbgfDigfst digfst;
+
+
+
+
 
     /**
-     * Crfbtfs b digfst output strfbm, using thf spfdififd output strfbm
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b digfst output strfbm, using tif spfdififd output strfbm
+     * Crfbtfs b digfst output strfbm, using tif spfdififd output strfbm
+     * Crfbtfs b digfst output strfbm, using tif spfdififd output strfbm
+     * Crfbtfs b digfst output strfbm, using tif spfdififd output strfbm
+     * Crfbtfs b digfst output strfbm, using tif spfdififd output strfbm
+     * bnd mfssbgf digfst.
+     * bnd mfssbgf digfst.
+     * bnd mfssbgf digfst.
+     * bnd mfssbgf digfst.
      * bnd mfssbgf digfst.
      *
-     * @pbrbm strfbm thf output strfbm.
      *
-     * @pbrbm digfst thf mfssbgf digfst to bssodibtf with this strfbm.
+     *
+     *
+     *
+     * @pbrbm strfbm tif output strfbm.
+     * @pbrbm strfbm tif output strfbm.
+     * @pbrbm strfbm tif output strfbm.
+     * @pbrbm strfbm tif output strfbm.
+     * @pbrbm strfbm tif output strfbm.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm digfst tif mfssbgf digfst to bssodibtf witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bssodibtf witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bssodibtf witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bssodibtf witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bssodibtf witi tiis strfbm.
+     */
+     */
+     */
+     */
      */
     publid DigfstOutputStrfbm(OutputStrfbm strfbm, MfssbgfDigfst digfst) {
+    publid DigfstOutputStrfbm(OutputStrfbm strfbm, MfssbgfDigfst digfst) {
+    publid DigfstOutputStrfbm(OutputStrfbm strfbm, MfssbgfDigfst digfst) {
+    publid DigfstOutputStrfbm(OutputStrfbm strfbm, MfssbgfDigfst digfst) {
+    publid DigfstOutputStrfbm(OutputStrfbm strfbm, MfssbgfDigfst digfst) {
+        supfr(strfbm);
+        supfr(strfbm);
+        supfr(strfbm);
+        supfr(strfbm);
         supfr(strfbm);
         sftMfssbgfDigfst(digfst);
+        sftMfssbgfDigfst(digfst);
+        sftMfssbgfDigfst(digfst);
+        sftMfssbgfDigfst(digfst);
+        sftMfssbgfDigfst(digfst);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf mfssbgf digfst bssodibtfd with this strfbm.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Rfturns tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Rfturns tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Rfturns tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * Rfturns tif mfssbgf digfst bssodibtfd witi tiis strfbm.
      *
-     * @rfturn thf mfssbgf digfst bssodibtfd with this strfbm.
+     *
+     *
+     *
+     *
+     * @rfturn tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * @rfturn tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * @rfturn tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * @rfturn tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * @rfturn tif mfssbgf digfst bssodibtfd witi tiis strfbm.
+     * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
+     * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
+     * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
+     * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
      * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
      */
+     */
+     */
+     */
+     */
+    publid MfssbgfDigfst gftMfssbgfDigfst() {
+    publid MfssbgfDigfst gftMfssbgfDigfst() {
+    publid MfssbgfDigfst gftMfssbgfDigfst() {
+    publid MfssbgfDigfst gftMfssbgfDigfst() {
     publid MfssbgfDigfst gftMfssbgfDigfst() {
         rfturn digfst;
+        rfturn digfst;
+        rfturn digfst;
+        rfturn digfst;
+        rfturn digfst;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Assodibtfs thf spfdififd mfssbgf digfst with this strfbm.
+    /**
+    /**
+    /**
+    /**
+     * Assodibtfs tif spfdififd mfssbgf digfst witi tiis strfbm.
+     * Assodibtfs tif spfdififd mfssbgf digfst witi tiis strfbm.
+     * Assodibtfs tif spfdififd mfssbgf digfst witi tiis strfbm.
+     * Assodibtfs tif spfdififd mfssbgf digfst witi tiis strfbm.
+     * Assodibtfs tif spfdififd mfssbgf digfst witi tiis strfbm.
      *
-     * @pbrbm digfst thf mfssbgf digfst to bf bssodibtfd with this strfbm.
+     *
+     *
+     *
+     *
+     * @pbrbm digfst tif mfssbgf digfst to bf bssodibtfd witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bf bssodibtfd witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bf bssodibtfd witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bf bssodibtfd witi tiis strfbm.
+     * @pbrbm digfst tif mfssbgf digfst to bf bssodibtfd witi tiis strfbm.
+     * @sff #gftMfssbgfDigfst()
+     * @sff #gftMfssbgfDigfst()
+     * @sff #gftMfssbgfDigfst()
+     * @sff #gftMfssbgfDigfst()
      * @sff #gftMfssbgfDigfst()
      */
+     */
+     */
+     */
+     */
     publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
-        this.digfst = digfst;
+    publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
+    publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
+    publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
+    publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
+        tiis.digfst = digfst;
+        tiis.digfst = digfst;
+        tiis.digfst = digfst;
+        tiis.digfst = digfst;
+        tiis.digfst = digfst;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Updbtfs thf mfssbgf digfst (if thf digfst fundtion is on) using
-     * thf spfdififd bytf, bnd in bny dbsf writfs thf bytf
-     * to thf output strfbm. Thbt is, if thf digfst fundtion is on
-     * (sff {@link #on(boolfbn) on}), this mfthod dblls
-     * {@dodf updbtf} on thf mfssbgf digfst bssodibtfd with this
-     * strfbm, pbssing it thf bytf {@dodf b}. This mfthod thfn
-     * writfs thf bytf to thf output strfbm, blodking until thf bytf
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * tif spfdififd bytf, bnd in bny dbsf writfs tif bytf
+     * tif spfdififd bytf, bnd in bny dbsf writfs tif bytf
+     * tif spfdififd bytf, bnd in bny dbsf writfs tif bytf
+     * tif spfdififd bytf, bnd in bny dbsf writfs tif bytf
+     * tif spfdififd bytf, bnd in bny dbsf writfs tif bytf
+     * to tif output strfbm. Tibt is, if tif digfst fundtion is on
+     * to tif output strfbm. Tibt is, if tif digfst fundtion is on
+     * to tif output strfbm. Tibt is, if tif digfst fundtion is on
+     * to tif output strfbm. Tibt is, if tif digfst fundtion is on
+     * to tif output strfbm. Tibt is, if tif digfst fundtion is on
+     * (sff {@link #on(boolfbn) on}), tiis mftiod dblls
+     * (sff {@link #on(boolfbn) on}), tiis mftiod dblls
+     * (sff {@link #on(boolfbn) on}), tiis mftiod dblls
+     * (sff {@link #on(boolfbn) on}), tiis mftiod dblls
+     * (sff {@link #on(boolfbn) on}), tiis mftiod dblls
+     * {@dodf updbtf} on tif mfssbgf digfst bssodibtfd witi tiis
+     * {@dodf updbtf} on tif mfssbgf digfst bssodibtfd witi tiis
+     * {@dodf updbtf} on tif mfssbgf digfst bssodibtfd witi tiis
+     * {@dodf updbtf} on tif mfssbgf digfst bssodibtfd witi tiis
+     * {@dodf updbtf} on tif mfssbgf digfst bssodibtfd witi tiis
+     * strfbm, pbssing it tif bytf {@dodf b}. Tiis mftiod tifn
+     * strfbm, pbssing it tif bytf {@dodf b}. Tiis mftiod tifn
+     * strfbm, pbssing it tif bytf {@dodf b}. Tiis mftiod tifn
+     * strfbm, pbssing it tif bytf {@dodf b}. Tiis mftiod tifn
+     * strfbm, pbssing it tif bytf {@dodf b}. Tiis mftiod tifn
+     * writfs tif bytf to tif output strfbm, blodking until tif bytf
+     * writfs tif bytf to tif output strfbm, blodking until tif bytf
+     * writfs tif bytf to tif output strfbm, blodking until tif bytf
+     * writfs tif bytf to tif output strfbm, blodking until tif bytf
+     * writfs tif bytf to tif output strfbm, blodking until tif bytf
+     * is bdtublly writtfn.
+     * is bdtublly writtfn.
+     * is bdtublly writtfn.
+     * is bdtublly writtfn.
      * is bdtublly writtfn.
      *
-     * @pbrbm b thf bytf to bf usfd for updbting bnd writing to thf
+     *
+     *
+     *
+     *
+     * @pbrbm b tif bytf to bf usfd for updbting bnd writing to tif
+     * @pbrbm b tif bytf to bf usfd for updbting bnd writing to tif
+     * @pbrbm b tif bytf to bf usfd for updbting bnd writing to tif
+     * @pbrbm b tif bytf to bf usfd for updbting bnd writing to tif
+     * @pbrbm b tif bytf to bf usfd for updbting bnd writing to tif
+     * output strfbm.
+     * output strfbm.
+     * output strfbm.
+     * output strfbm.
      * output strfbm.
      *
+     *
+     *
+     *
+     *
      * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     *
+     *
+     *
+     *
      *
      * @sff MfssbgfDigfst#updbtf(bytf)
+     * @sff MfssbgfDigfst#updbtf(bytf)
+     * @sff MfssbgfDigfst#updbtf(bytf)
+     * @sff MfssbgfDigfst#updbtf(bytf)
+     * @sff MfssbgfDigfst#updbtf(bytf)
      */
-    publid void writf(int b) throws IOExdfption {
+     */
+     */
+     */
+     */
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+    publid void writf(int b) tirows IOExdfption {
+        out.writf(b);
+        out.writf(b);
+        out.writf(b);
+        out.writf(b);
         out.writf(b);
         if (on) {
+        if (on) {
+        if (on) {
+        if (on) {
+        if (on) {
+            digfst.updbtf((bytf)b);
+            digfst.updbtf((bytf)b);
+            digfst.updbtf((bytf)b);
+            digfst.updbtf((bytf)b);
             digfst.updbtf((bytf)b);
         }
-    }
-
-    /**
-     * Updbtfs thf mfssbgf digfst (if thf digfst fundtion is on) using
-     * thf spfdififd subbrrby, bnd in bny dbsf writfs thf subbrrby to
-     * thf output strfbm. Thbt is, if thf digfst fundtion is on (sff
-     * {@link #on(boolfbn) on}), this mfthod dblls {@dodf updbtf}
-     * on thf mfssbgf digfst bssodibtfd with this strfbm, pbssing it
-     * thf subbrrby spfdifidbtions. This mfthod thfn writfs thf subbrrby
-     * bytfs to thf output strfbm, blodking until thf bytfs brf bdtublly
-     * writtfn.
-     *
-     * @pbrbm b thf brrby dontbining thf subbrrby to bf usfd for updbting
-     * bnd writing to thf output strfbm.
-     *
-     * @pbrbm off thf offsft into {@dodf b} of thf first bytf to
-     * bf updbtfd bnd writtfn.
-     *
-     * @pbrbm lfn thf numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
-     * from {@dodf b}, stbrting bt offsft {@dodf off}.
-     *
-     * @fxdfption IOExdfption if bn I/O frror oddurs.
-     *
-     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
-     */
-    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
-        out.writf(b, off, lfn);
-        if (on) {
-            digfst.updbtf(b, off, lfn);
+        }
+        }
+        }
         }
     }
-
-    /**
-     * Turns thf digfst fundtion on or off. Thf dffbult is on.  Whfn
-     * it is on, b dbll to onf of thf {@dodf writf} mfthods rfsults in bn
-     * updbtf on thf mfssbgf digfst.  But whfn it is off, thf mfssbgf
-     * digfst is not updbtfd.
-     *
-     * @pbrbm on truf to turn thf digfst fundtion on, fblsf to turn it
-     * off.
-     */
-    publid void on(boolfbn on) {
-        this.on = on;
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Prints b string rfprfsfntbtion of this digfst output strfbm bnd
+    /**
+    /**
+    /**
+    /**
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * Updbtfs tif mfssbgf digfst (if tif digfst fundtion is on) using
+     * tif spfdififd subbrrby, bnd in bny dbsf writfs tif subbrrby to
+     * tif spfdififd subbrrby, bnd in bny dbsf writfs tif subbrrby to
+     * tif spfdififd subbrrby, bnd in bny dbsf writfs tif subbrrby to
+     * tif spfdififd subbrrby, bnd in bny dbsf writfs tif subbrrby to
+     * tif spfdififd subbrrby, bnd in bny dbsf writfs tif subbrrby to
+     * tif output strfbm. Tibt is, if tif digfst fundtion is on (sff
+     * tif output strfbm. Tibt is, if tif digfst fundtion is on (sff
+     * tif output strfbm. Tibt is, if tif digfst fundtion is on (sff
+     * tif output strfbm. Tibt is, if tif digfst fundtion is on (sff
+     * tif output strfbm. Tibt is, if tif digfst fundtion is on (sff
+     * {@link #on(boolfbn) on}), tiis mftiod dblls {@dodf updbtf}
+     * {@link #on(boolfbn) on}), tiis mftiod dblls {@dodf updbtf}
+     * {@link #on(boolfbn) on}), tiis mftiod dblls {@dodf updbtf}
+     * {@link #on(boolfbn) on}), tiis mftiod dblls {@dodf updbtf}
+     * {@link #on(boolfbn) on}), tiis mftiod dblls {@dodf updbtf}
+     * on tif mfssbgf digfst bssodibtfd witi tiis strfbm, pbssing it
+     * on tif mfssbgf digfst bssodibtfd witi tiis strfbm, pbssing it
+     * on tif mfssbgf digfst bssodibtfd witi tiis strfbm, pbssing it
+     * on tif mfssbgf digfst bssodibtfd witi tiis strfbm, pbssing it
+     * on tif mfssbgf digfst bssodibtfd witi tiis strfbm, pbssing it
+     * tif subbrrby spfdifidbtions. Tiis mftiod tifn writfs tif subbrrby
+     * tif subbrrby spfdifidbtions. Tiis mftiod tifn writfs tif subbrrby
+     * tif subbrrby spfdifidbtions. Tiis mftiod tifn writfs tif subbrrby
+     * tif subbrrby spfdifidbtions. Tiis mftiod tifn writfs tif subbrrby
+     * tif subbrrby spfdifidbtions. Tiis mftiod tifn writfs tif subbrrby
+     * bytfs to tif output strfbm, blodking until tif bytfs brf bdtublly
+     * bytfs to tif output strfbm, blodking until tif bytfs brf bdtublly
+     * bytfs to tif output strfbm, blodking until tif bytfs brf bdtublly
+     * bytfs to tif output strfbm, blodking until tif bytfs brf bdtublly
+     * bytfs to tif output strfbm, blodking until tif bytfs brf bdtublly
+     * writtfn.
+     * writtfn.
+     * writtfn.
+     * writtfn.
+     * writtfn.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm b tif brrby dontbining tif subbrrby to bf usfd for updbting
+     * @pbrbm b tif brrby dontbining tif subbrrby to bf usfd for updbting
+     * @pbrbm b tif brrby dontbining tif subbrrby to bf usfd for updbting
+     * @pbrbm b tif brrby dontbining tif subbrrby to bf usfd for updbting
+     * @pbrbm b tif brrby dontbining tif subbrrby to bf usfd for updbting
+     * bnd writing to tif output strfbm.
+     * bnd writing to tif output strfbm.
+     * bnd writing to tif output strfbm.
+     * bnd writing to tif output strfbm.
+     * bnd writing to tif output strfbm.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm off tif offsft into {@dodf b} of tif first bytf to
+     * @pbrbm off tif offsft into {@dodf b} of tif first bytf to
+     * @pbrbm off tif offsft into {@dodf b} of tif first bytf to
+     * @pbrbm off tif offsft into {@dodf b} of tif first bytf to
+     * @pbrbm off tif offsft into {@dodf b} of tif first bytf to
+     * bf updbtfd bnd writtfn.
+     * bf updbtfd bnd writtfn.
+     * bf updbtfd bnd writtfn.
+     * bf updbtfd bnd writtfn.
+     * bf updbtfd bnd writtfn.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm lfn tif numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
+     * @pbrbm lfn tif numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
+     * @pbrbm lfn tif numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
+     * @pbrbm lfn tif numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
+     * @pbrbm lfn tif numbfr of bytfs of dbtb to bf updbtfd bnd writtfn
+     * from {@dodf b}, stbrting bt offsft {@dodf off}.
+     * from {@dodf b}, stbrting bt offsft {@dodf off}.
+     * from {@dodf b}, stbrting bt offsft {@dodf off}.
+     * from {@dodf b}, stbrting bt offsft {@dodf off}.
+     * from {@dodf b}, stbrting bt offsft {@dodf off}.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     *
+     *
+     *
+     *
+     *
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
+     */
+     */
+     */
+     */
+     */
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+        out.writf(b, off, lfn);
+        out.writf(b, off, lfn);
+        out.writf(b, off, lfn);
+        out.writf(b, off, lfn);
+        out.writf(b, off, lfn);
+        if (on) {
+        if (on) {
+        if (on) {
+        if (on) {
+        if (on) {
+            digfst.updbtf(b, off, lfn);
+            digfst.updbtf(b, off, lfn);
+            digfst.updbtf(b, off, lfn);
+            digfst.updbtf(b, off, lfn);
+            digfst.updbtf(b, off, lfn);
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Turns tif digfst fundtion on or off. Tif dffbult is on.  Wifn
+     * Turns tif digfst fundtion on or off. Tif dffbult is on.  Wifn
+     * Turns tif digfst fundtion on or off. Tif dffbult is on.  Wifn
+     * Turns tif digfst fundtion on or off. Tif dffbult is on.  Wifn
+     * Turns tif digfst fundtion on or off. Tif dffbult is on.  Wifn
+     * it is on, b dbll to onf of tif {@dodf writf} mftiods rfsults in bn
+     * it is on, b dbll to onf of tif {@dodf writf} mftiods rfsults in bn
+     * it is on, b dbll to onf of tif {@dodf writf} mftiods rfsults in bn
+     * it is on, b dbll to onf of tif {@dodf writf} mftiods rfsults in bn
+     * it is on, b dbll to onf of tif {@dodf writf} mftiods rfsults in bn
+     * updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+     * updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+     * updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+     * updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+     * updbtf on tif mfssbgf digfst.  But wifn it is off, tif mfssbgf
+     * digfst is not updbtfd.
+     * digfst is not updbtfd.
+     * digfst is not updbtfd.
+     * digfst is not updbtfd.
+     * digfst is not updbtfd.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm on truf to turn tif digfst fundtion on, fblsf to turn it
+     * @pbrbm on truf to turn tif digfst fundtion on, fblsf to turn it
+     * @pbrbm on truf to turn tif digfst fundtion on, fblsf to turn it
+     * @pbrbm on truf to turn tif digfst fundtion on, fblsf to turn it
+     * @pbrbm on truf to turn tif digfst fundtion on, fblsf to turn it
+     * off.
+     * off.
+     * off.
+     * off.
+     * off.
+     */
+     */
+     */
+     */
+     */
+    publid void on(boolfbn on) {
+    publid void on(boolfbn on) {
+    publid void on(boolfbn on) {
+    publid void on(boolfbn on) {
+    publid void on(boolfbn on) {
+        tiis.on = on;
+        tiis.on = on;
+        tiis.on = on;
+        tiis.on = on;
+        tiis.on = on;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Prints b string rfprfsfntbtion of tiis digfst output strfbm bnd
+     * Prints b string rfprfsfntbtion of tiis digfst output strfbm bnd
+     * Prints b string rfprfsfntbtion of tiis digfst output strfbm bnd
+     * Prints b string rfprfsfntbtion of tiis digfst output strfbm bnd
+     * Prints b string rfprfsfntbtion of tiis digfst output strfbm bnd
+     * its bssodibtfd mfssbgf digfst objfdt.
+     * its bssodibtfd mfssbgf digfst objfdt.
+     * its bssodibtfd mfssbgf digfst objfdt.
+     * its bssodibtfd mfssbgf digfst objfdt.
      * its bssodibtfd mfssbgf digfst objfdt.
      */
+     */
+     */
+     */
+     */
+     publid String toString() {
+     publid String toString() {
+     publid String toString() {
+     publid String toString() {
      publid String toString() {
          rfturn "[Digfst Output Strfbm] " + digfst.toString();
+         rfturn "[Digfst Output Strfbm] " + digfst.toString();
+         rfturn "[Digfst Output Strfbm] " + digfst.toString();
+         rfturn "[Digfst Output Strfbm] " + digfst.toString();
+         rfturn "[Digfst Output Strfbm] " + digfst.toString();
      }
+     }
+     }
+     }
+     }
+}
+}
+}
+}
 }

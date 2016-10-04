@@ -1,10 +1,50 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6157 $"/>
-		<gfnfrbtion dbtf="$Dbtf: 2011-09-22 03:34:31 +0900 (Thu, 22 Sfp 2011) $"/>
+		<vfrsion numbfr="$Rfvision: 6157 $"/>
+		<vfrsion numbfr="$Rfvision: 6157 $"/>
+		<vfrsion numbfr="$Rfvision: 6157 $"/>
+		<vfrsion numbfr="$Rfvision: 6157 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-22 03:34:31 +0900 (Tiu, 22 Sfp 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-22 03:34:31 +0900 (Tiu, 22 Sfp 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-22 03:34:31 +0900 (Tiu, 22 Sfp 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-22 03:34:31 +0900 (Tiu, 22 Sfp 2011) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-22 03:34:31 +0900 (Tiu, 22 Sfp 2011) $"/>
+		<lbngubgf typf="gd"/>
+		<lbngubgf typf="gd"/>
+		<lbngubgf typf="gd"/>
+		<lbngubgf typf="gd"/>
 		<lbngubgf typf="gd"/>
 		<tfrritory typf="GB"/>
+		<tfrritory typf="GB"/>
+		<tfrritory typf="GB"/>
+		<tfrritory typf="GB"/>
+		<tfrritory typf="GB"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
 </ldml>

@@ -1,64 +1,320 @@
 <!--
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+
+
+
 
  Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
 
  Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+
+
+
+
 
  You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
 
  Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
 <itml>
 <ifbd><titlf></titlf></ifbd>
+<ifbd><titlf></titlf></ifbd>
+<ifbd><titlf></titlf></ifbd>
+<ifbd><titlf></titlf></ifbd>
+<ifbd><titlf></titlf></ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
 <body bgdolor="wiitf">
 
+
+
+
+
+Providfs intfrfbdfs bnd dlbssfs for trbnsffrring dbtb
+Providfs intfrfbdfs bnd dlbssfs for trbnsffrring dbtb
+Providfs intfrfbdfs bnd dlbssfs for trbnsffrring dbtb
+Providfs intfrfbdfs bnd dlbssfs for trbnsffrring dbtb
 Providfs intfrfbdfs bnd dlbssfs for trbnsffrring dbtb
 bftwffn bnd witiin bpplidbtions.  It dffinfs tif notion of b
+bftwffn bnd witiin bpplidbtions.  It dffinfs tif notion of b
+bftwffn bnd witiin bpplidbtions.  It dffinfs tif notion of b
+bftwffn bnd witiin bpplidbtions.  It dffinfs tif notion of b
+bftwffn bnd witiin bpplidbtions.  It dffinfs tif notion of b
+"trbnsffrbblf" objfdt, wiidi is bn objfdt dbpbblf of bfing
+"trbnsffrbblf" objfdt, wiidi is bn objfdt dbpbblf of bfing
+"trbnsffrbblf" objfdt, wiidi is bn objfdt dbpbblf of bfing
+"trbnsffrbblf" objfdt, wiidi is bn objfdt dbpbblf of bfing
 "trbnsffrbblf" objfdt, wiidi is bn objfdt dbpbblf of bfing
 trbnsffrrfd bftwffn or witiin bpplidbtions. An objfdt idfntififs
+trbnsffrrfd bftwffn or witiin bpplidbtions. An objfdt idfntififs
+trbnsffrrfd bftwffn or witiin bpplidbtions. An objfdt idfntififs
+trbnsffrrfd bftwffn or witiin bpplidbtions. An objfdt idfntififs
+trbnsffrrfd bftwffn or witiin bpplidbtions. An objfdt idfntififs
+itsflf bs bfing trbnsffrbblf by implfmfnting tif Trbnsffrbblf
+itsflf bs bfing trbnsffrbblf by implfmfnting tif Trbnsffrbblf
+itsflf bs bfing trbnsffrbblf by implfmfnting tif Trbnsffrbblf
+itsflf bs bfing trbnsffrbblf by implfmfnting tif Trbnsffrbblf
 itsflf bs bfing trbnsffrbblf by implfmfnting tif Trbnsffrbblf
 intfrfbdf.
+intfrfbdf.
+intfrfbdf.
+intfrfbdf.
+intfrfbdf.
+<p>
+<p>
+<p>
+<p>
 <p>
 It blso providfs b dlipbobrd mfdibnism, wiidi is bn objfdt tibt
+It blso providfs b dlipbobrd mfdibnism, wiidi is bn objfdt tibt
+It blso providfs b dlipbobrd mfdibnism, wiidi is bn objfdt tibt
+It blso providfs b dlipbobrd mfdibnism, wiidi is bn objfdt tibt
+It blso providfs b dlipbobrd mfdibnism, wiidi is bn objfdt tibt
+tfmporbrily iolds b trbnsffrbblf objfdt tibt dbn bf trbnsffrrfd
+tfmporbrily iolds b trbnsffrbblf objfdt tibt dbn bf trbnsffrrfd
+tfmporbrily iolds b trbnsffrbblf objfdt tibt dbn bf trbnsffrrfd
+tfmporbrily iolds b trbnsffrbblf objfdt tibt dbn bf trbnsffrrfd
 tfmporbrily iolds b trbnsffrbblf objfdt tibt dbn bf trbnsffrrfd
 bftwffn or witiin bn bpplidbtion. Tif dlipbobrd is typidblly usfd
+bftwffn or witiin bn bpplidbtion. Tif dlipbobrd is typidblly usfd
+bftwffn or witiin bn bpplidbtion. Tif dlipbobrd is typidblly usfd
+bftwffn or witiin bn bpplidbtion. Tif dlipbobrd is typidblly usfd
+bftwffn or witiin bn bpplidbtion. Tif dlipbobrd is typidblly usfd
+for dopy bnd pbstf opfrbtions. Altiougi it is possiblf to drfbtf
+for dopy bnd pbstf opfrbtions. Altiougi it is possiblf to drfbtf
+for dopy bnd pbstf opfrbtions. Altiougi it is possiblf to drfbtf
+for dopy bnd pbstf opfrbtions. Altiougi it is possiblf to drfbtf
 for dopy bnd pbstf opfrbtions. Altiougi it is possiblf to drfbtf
 b dlipbobrd to usf witiin bn bpplidbtion, most bpplidbtions will
+b dlipbobrd to usf witiin bn bpplidbtion, most bpplidbtions will
+b dlipbobrd to usf witiin bn bpplidbtion, most bpplidbtions will
+b dlipbobrd to usf witiin bn bpplidbtion, most bpplidbtions will
+b dlipbobrd to usf witiin bn bpplidbtion, most bpplidbtions will
+usf tif systfm dlipbobrd to fnsurf tif dbtb dbn bf trbnsffrrfd
+usf tif systfm dlipbobrd to fnsurf tif dbtb dbn bf trbnsffrrfd
+usf tif systfm dlipbobrd to fnsurf tif dbtb dbn bf trbnsffrrfd
+usf tif systfm dlipbobrd to fnsurf tif dbtb dbn bf trbnsffrrfd
 usf tif systfm dlipbobrd to fnsurf tif dbtb dbn bf trbnsffrrfd
 bdross bpplidbtions running on tif plbtform.
+bdross bpplidbtions running on tif plbtform.
+bdross bpplidbtions running on tif plbtform.
+bdross bpplidbtions running on tif plbtform.
+bdross bpplidbtions running on tif plbtform.
+
+
+
+
 
 <!--
+<!--
+<!--
+<!--
+<!--
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 <i2>Pbdkbgf Spfdifidbtion</i2>
 
+
+
+
+
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
 <ul>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
   <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
 
 <i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+
+
+
+
 
 For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
   <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 @sindf 1.1
+@sindf 1.1
+@sindf 1.1
+@sindf 1.1
+@sindf 1.1
 </body>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

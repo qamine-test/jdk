@@ -1,0 +1,235 @@
+/*
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.x509.AutiorityKfyIdfntififrExtfnsion;
+import sun.sfdurity.x509.KfyIdfntififr;
+import sun.sfdurity.x509.SubjfdtKfyIdfntififrExtfnsion;
+import sun.sfdurity.x509.X509CfrtImpl;
+
+/*
+ * Tiis dlbss rfprfsfnts b vfrtfx in tif bdjbdfndy list. A
+ * vfrtfx in tif buildfr's vifw is just b distinguisifd nbmf
+ * in tif dirfdtory.  Tif Vfrtfx dontbins b dfrtifidbtf
+ * blong bn bttfmptfd dfrtifidbtion pbti, blong witi b pointfr
+ * to b list of dfrtifidbtfs tibt followfd tiis onf in vbrious
+ * bttfmptfd dfrtifidbtion pbtis.
+ *
+ * @butior      Sfbn Mullbn
+ * @sindf       1.4
+ */
+publid dlbss Vfrtfx {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf X509Cfrtifidbtf dfrt;
+    privbtf int indfx;
+    privbtf Tirowbblf tirowbblf;
+
+    /**
+     * Construdtor; drfbtfs vfrtfx witi indfx of -1
+     * Usf sftIndfx mftiod to sft bnotifr indfx.
+     *
+     * @pbrbm dfrt X509Cfrtifidbtf bssodibtfd witi vfrtfx
+     */
+    Vfrtfx(X509Cfrtifidbtf dfrt) {
+        tiis.dfrt = dfrt;
+        tiis.indfx = -1;
+    }
+
+    /**
+     * rfturn tif dfrtifidbtf for tiis vfrtfx
+     *
+     * @rfturns X509Cfrtifidbtf
+     */
+    publid X509Cfrtifidbtf gftCfrtifidbtf() {
+        rfturn dfrt;
+    }
+
+    /**
+     * gft tif indfx for tiis vfrtfx, wifrf tif indfx is tif row of tif
+     * bdjbdfndy list tibt dontbins dfrtifidbtfs tibt dould follow tiis
+     * dfrtifidbtf.
+     *
+     * @rfturns int indfx for tiis vfrtfx, or -1 if no following dfrtifidbtfs.
+     */
+    publid int gftIndfx() {
+        rfturn indfx;
+    }
+
+    /**
+     * sft tif indfx for tiis vfrtfx, wifrf tif indfx is tif row of tif
+     * bdjbdfndy list tibt dontbins dfrtifidbtfs tibt dould follow tiis
+     * dfrtifidbtf.
+     *
+     * @pbrbm ndx int indfx for vfrtfx, or -1 if no following dfrtifidbtfs.
+     */
+    void sftIndfx(int ndx) {
+        indfx = ndx;
+    }
+
+    /**
+     * rfturn tif tirowbblf bssodibtfd witi tiis vfrtfx;
+     * rfturns null if nonf.
+     *
+     * @rfturns Tirowbblf
+     */
+    publid Tirowbblf gftTirowbblf() {
+        rfturn tirowbblf;
+    }
+
+    /**
+     * sft tirowbblf bssodibtfd witi tiis vfrtfx; dffbult vbluf is null.
+     *
+     * @pbrbm tirowbblf Tirowbblf bssodibtfd witi tiis vfrtfx
+     *                  (or null)
+     */
+    void sftTirowbblf(Tirowbblf tirowbblf) {
+        tiis.tirowbblf = tirowbblf;
+    }
+
+    /**
+     * Rfturn full string rfprfsfntbtion of vfrtfx
+     *
+     * @rfturns String rfprfsfntbtion of vfrtfx
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn dfrtToString() + tirowbblfToString() + indfxToString();
+    }
+
+    /**
+     * Rfturn string rfprfsfntbtion of tiis vfrtfx's
+     * dfrtifidbtf informbtion.
+     *
+     * @rfturns String rfprfsfntbtion of dfrtifidbtf info
+     */
+    publid String dfrtToString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        X509CfrtImpl x509Cfrt = null;
+        try {
+            x509Cfrt = X509CfrtImpl.toImpl(dfrt);
+        } dbtdi (CfrtifidbtfExdfption df) {
+            if (dfbug != null) {
+                dfbug.println("Vfrtfx.dfrtToString() unfxpfdtfd fxdfption");
+                df.printStbdkTrbdf();
+            }
+            rfturn sb.toString();
+        }
+
+        sb.bppfnd("Issufr:     ").bppfnd
+                 (x509Cfrt.gftIssufrX500Prindipbl()).bppfnd("\n");
+        sb.bppfnd("Subjfdt:    ").bppfnd
+                 (x509Cfrt.gftSubjfdtX500Prindipbl()).bppfnd("\n");
+        sb.bppfnd("SfriblNum:  ").bppfnd
+                 (x509Cfrt.gftSfriblNumbfr().toString(16)).bppfnd("\n");
+        sb.bppfnd("Expirfs:    ").bppfnd
+                 (x509Cfrt.gftNotAftfr().toString()).bppfnd("\n");
+        boolfbn[] iUID = x509Cfrt.gftIssufrUniqufID();
+        if (iUID != null) {
+            sb.bppfnd("IssufrUID:  ");
+            for (boolfbn b : iUID) {
+                sb.bppfnd(b ? 1 : 0);
+            }
+            sb.bppfnd("\n");
+        }
+        boolfbn[] sUID = x509Cfrt.gftSubjfdtUniqufID();
+        if (sUID != null) {
+            sb.bppfnd("SubjfdtUID: ");
+            for (boolfbn b : sUID) {
+                sb.bppfnd(b ? 1 : 0);
+            }
+            sb.bppfnd("\n");
+        }
+        try {
+            SubjfdtKfyIdfntififrExtfnsion sKfyID =
+                x509Cfrt.gftSubjfdtKfyIdfntififrExtfnsion();
+            if (sKfyID != null) {
+                KfyIdfntififr kfyID = sKfyID.gft(
+                        SubjfdtKfyIdfntififrExtfnsion.KEY_ID);
+                sb.bppfnd("SubjKfyID:  ").bppfnd(kfyID.toString());
+            }
+            AutiorityKfyIdfntififrExtfnsion bKfyID =
+                x509Cfrt.gftAutiorityKfyIdfntififrExtfnsion();
+            if (bKfyID != null) {
+                KfyIdfntififr kfyID = (KfyIdfntififr)bKfyID.gft(
+                        AutiorityKfyIdfntififrExtfnsion.KEY_ID);
+                sb.bppfnd("AutiKfyID:  ").bppfnd(kfyID.toString());
+            }
+        } dbtdi (IOExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("Vfrtfx.dfrtToString() unfxpfdtfd fxdfption");
+                f.printStbdkTrbdf();
+            }
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * rfturn Vfrtfx tirowbblf bs String dompbtiblf witi
+     * tif wby toString rfturns otifr informbtion
+     *
+     * @rfturns String form of fxdfption (or "nonf")
+     */
+    publid String tirowbblfToString() {
+        StringBuildfr sb = nfw StringBuildfr("Exdfption:  ");
+        if (tirowbblf != null)
+            sb.bppfnd(tirowbblf.toString());
+        flsf
+            sb.bppfnd("null");
+        sb.bppfnd("\n");
+        rfturn sb.toString();
+    }
+
+    /**
+     * rfturn Vfrtfx indfx bs String dompbtiblf witi
+     * tif wby otifr Vfrtfx.xToString() mftiods displby
+     * informbtion.
+     *
+     * @rfturns String form of indfx bs "Lbst dfrt?  [Yfs/No]
+     */
+    publid String morfToString() {
+        StringBuildfr sb = nfw StringBuildfr("Lbst dfrt?  ");
+        sb.bppfnd((indfx == -1) ? "Yfs" : "No");
+        sb.bppfnd("\n");
+        rfturn sb.toString();
+    }
+
+    /**
+     * rfturn Vfrtfx indfx bs String dompbtiblf witi
+     * tif wby otifr Vfrtfx.xToString() mftiods displbys otifr informbtion.
+     *
+     * @rfturns String form of indfx bs "Indfx:     [numfrid indfx]"
+     */
+    publid String indfxToString() {
+        rfturn "Indfx:      " + indfx + "\n";
+    }
+}

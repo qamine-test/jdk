@@ -1,0 +1,321 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
+
+/**
+ * A {@link MftiodVisitor} tibt prints tif mftiods it visits witi b
+ * {@link Printfr}.
+ *
+ * @butior Erid Brunfton
+ */
+publid finbl dlbss TrbdfMftiodVisitor fxtfnds MftiodVisitor {
+
+    publid finbl Printfr p;
+
+    publid TrbdfMftiodVisitor(finbl Printfr p) {
+        tiis(null, p);
+    }
+
+    publid TrbdfMftiodVisitor(finbl MftiodVisitor mv, finbl Printfr p) {
+        supfr(Opdodfs.ASM5, mv);
+        tiis.p = p;
+    }
+
+    @Ovfrridf
+    publid void visitPbrbmftfr(String nbmf, int bddfss) {
+        p.visitPbrbmftfr(nbmf, bddfss);
+        supfr.visitPbrbmftfr(nbmf, bddfss);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        Printfr p = tiis.p.visitMftiodAnnotbtion(dfsd, visiblf);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitAnnotbtion(dfsd,
+                visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        Printfr p = tiis.p.visitMftiodTypfAnnotbtion(typfRff, typfPbti, dfsd,
+                visiblf);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitTypfAnnotbtion(
+                typfRff, typfPbti, dfsd, visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
+    }
+
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        p.visitMftiodAttributf(bttr);
+        supfr.visitAttributf(bttr);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtionDffbult() {
+        Printfr p = tiis.p.visitAnnotbtionDffbult();
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitAnnotbtionDffbult();
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitPbrbmftfrAnnotbtion(finbl int pbrbmftfr,
+            finbl String dfsd, finbl boolfbn visiblf) {
+        Printfr p = tiis.p.visitPbrbmftfrAnnotbtion(pbrbmftfr, dfsd, visiblf);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitPbrbmftfrAnnotbtion(
+                pbrbmftfr, dfsd, visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
+    }
+
+    @Ovfrridf
+    publid void visitCodf() {
+        p.visitCodf();
+        supfr.visitCodf();
+    }
+
+    @Ovfrridf
+    publid void visitFrbmf(finbl int typf, finbl int nLodbl,
+            finbl Objfdt[] lodbl, finbl int nStbdk, finbl Objfdt[] stbdk) {
+        p.visitFrbmf(typf, nLodbl, lodbl, nStbdk, stbdk);
+        supfr.visitFrbmf(typf, nLodbl, lodbl, nStbdk, stbdk);
+    }
+
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
+        p.visitInsn(opdodf);
+        supfr.visitInsn(opdodf);
+    }
+
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
+        p.visitIntInsn(opdodf, opfrbnd);
+        supfr.visitIntInsn(opdodf, opfrbnd);
+    }
+
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
+        p.visitVbrInsn(opdodf, vbr);
+        supfr.visitVbrInsn(opdodf, vbr);
+    }
+
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        p.visitTypfInsn(opdodf, typf);
+        supfr.visitTypfInsn(opdodf, typf);
+    }
+
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        p.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
+        supfr.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
+    }
+
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
+        }
+        p.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+        if (mv != null) {
+            mv.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd, boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
+        }
+        p.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+        if (mv != null) {
+            mv.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        p.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
+        supfr.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
+    }
+
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
+        p.visitJumpInsn(opdodf, lbbfl);
+        supfr.visitJumpInsn(opdodf, lbbfl);
+    }
+
+    @Ovfrridf
+    publid void visitLbbfl(finbl Lbbfl lbbfl) {
+        p.visitLbbfl(lbbfl);
+        supfr.visitLbbfl(lbbfl);
+    }
+
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
+        p.visitLddInsn(dst);
+        supfr.visitLddInsn(dst);
+    }
+
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
+        p.visitIindInsn(vbr, indrfmfnt);
+        supfr.visitIindInsn(vbr, indrfmfnt);
+    }
+
+    @Ovfrridf
+    publid void visitTbblfSwitdiInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
+        p.visitTbblfSwitdiInsn(min, mbx, dflt, lbbfls);
+        supfr.visitTbblfSwitdiInsn(min, mbx, dflt, lbbfls);
+    }
+
+    @Ovfrridf
+    publid void visitLookupSwitdiInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
+        p.visitLookupSwitdiInsn(dflt, kfys, lbbfls);
+        supfr.visitLookupSwitdiInsn(dflt, kfys, lbbfls);
+    }
+
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
+        p.visitMultiANfwArrbyInsn(dfsd, dims);
+        supfr.visitMultiANfwArrbyInsn(dfsd, dims);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitInsnAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        Printfr p = tiis.p
+                .visitInsnAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitInsnAnnotbtion(
+                typfRff, typfPbti, dfsd, visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
+    }
+
+    @Ovfrridf
+    publid void visitTryCbtdiBlodk(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Lbbfl ibndlfr, finbl String typf) {
+        p.visitTryCbtdiBlodk(stbrt, fnd, ibndlfr, typf);
+        supfr.visitTryCbtdiBlodk(stbrt, fnd, ibndlfr, typf);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTryCbtdiAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        Printfr p = tiis.p.visitTryCbtdiAnnotbtion(typfRff, typfPbti, dfsd,
+                visiblf);
+        AnnotbtionVisitor bv = mv == null ? null : mv.visitTryCbtdiAnnotbtion(
+                typfRff, typfPbti, dfsd, visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
+    }
+
+    @Ovfrridf
+    publid void visitLodblVbribblf(finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl int indfx) {
+        p.visitLodblVbribblf(nbmf, dfsd, signbturf, stbrt, fnd, indfx);
+        supfr.visitLodblVbribblf(nbmf, dfsd, signbturf, stbrt, fnd, indfx);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitLodblVbribblfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx,
+            String dfsd, boolfbn visiblf) {
+        Printfr p = tiis.p.visitLodblVbribblfAnnotbtion(typfRff, typfPbti,
+                stbrt, fnd, indfx, dfsd, visiblf);
+        AnnotbtionVisitor bv = mv == null ? null : mv
+                .visitLodblVbribblfAnnotbtion(typfRff, typfPbti, stbrt, fnd,
+                        indfx, dfsd, visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
+    }
+
+    @Ovfrridf
+    publid void visitLinfNumbfr(finbl int linf, finbl Lbbfl stbrt) {
+        p.visitLinfNumbfr(linf, stbrt);
+        supfr.visitLinfNumbfr(linf, stbrt);
+    }
+
+    @Ovfrridf
+    publid void visitMbxs(finbl int mbxStbdk, finbl int mbxLodbls) {
+        p.visitMbxs(mbxStbdk, mbxLodbls);
+        supfr.visitMbxs(mbxStbdk, mbxLodbls);
+    }
+
+    @Ovfrridf
+    publid void visitEnd() {
+        p.visitMftiodEnd();
+        supfr.visitEnd();
+    }
+}

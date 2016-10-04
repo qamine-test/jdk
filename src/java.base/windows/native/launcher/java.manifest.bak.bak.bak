@@ -1,58 +1,290 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1"
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1"
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1"
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1"
 <bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1"
           mbniffstVfrsion="1.0"
+          mbniffstVfrsion="1.0"
+          mbniffstVfrsion="1.0"
+          mbniffstVfrsion="1.0"
+          mbniffstVfrsion="1.0"
+          xmlns:bsmv3="urn:sdifmbs-midrosoft-dom:bsm.v3"
+          xmlns:bsmv3="urn:sdifmbs-midrosoft-dom:bsm.v3"
+          xmlns:bsmv3="urn:sdifmbs-midrosoft-dom:bsm.v3"
+          xmlns:bsmv3="urn:sdifmbs-midrosoft-dom:bsm.v3"
           xmlns:bsmv3="urn:sdifmbs-midrosoft-dom:bsm.v3"
 >
+>
+>
+>
+>
+<bssfmblyIdfntity
+<bssfmblyIdfntity
+<bssfmblyIdfntity
+<bssfmblyIdfntity
 <bssfmblyIdfntity
     vfrsion="IMVERSION"
+    vfrsion="IMVERSION"
+    vfrsion="IMVERSION"
+    vfrsion="IMVERSION"
+    vfrsion="IMVERSION"
+    prodfssorArdiitfdturf="X86"
+    prodfssorArdiitfdturf="X86"
+    prodfssorArdiitfdturf="X86"
+    prodfssorArdiitfdturf="X86"
     prodfssorArdiitfdturf="X86"
     nbmf="Orbdlf Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
+    nbmf="Orbdlf Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
+    nbmf="Orbdlf Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
+    nbmf="Orbdlf Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
+    nbmf="Orbdlf Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
+    typf="win32"
+    typf="win32"
+    typf="win32"
+    typf="win32"
     typf="win32"
 />
+/>
+/>
+/>
+/>
+<dfsdription>Jbvb(TM) SE PROGRAM prodfss</dfsdription>
+<dfsdription>Jbvb(TM) SE PROGRAM prodfss</dfsdription>
+<dfsdription>Jbvb(TM) SE PROGRAM prodfss</dfsdription>
+<dfsdription>Jbvb(TM) SE PROGRAM prodfss</dfsdription>
 <dfsdription>Jbvb(TM) SE PROGRAM prodfss</dfsdription>
 <dfpfndfndy>
+<dfpfndfndy>
+<dfpfndfndy>
+<dfpfndfndy>
+<dfpfndfndy>
+    <dfpfndfntAssfmbly>
+    <dfpfndfntAssfmbly>
+    <dfpfndfntAssfmbly>
+    <dfpfndfntAssfmbly>
     <dfpfndfntAssfmbly>
         <bssfmblyIdfntity
+        <bssfmblyIdfntity
+        <bssfmblyIdfntity
+        <bssfmblyIdfntity
+        <bssfmblyIdfntity
+            typf="win32"
+            typf="win32"
+            typf="win32"
+            typf="win32"
             typf="win32"
             nbmf="Midrosoft.Windows.Common-Controls"
+            nbmf="Midrosoft.Windows.Common-Controls"
+            nbmf="Midrosoft.Windows.Common-Controls"
+            nbmf="Midrosoft.Windows.Common-Controls"
+            nbmf="Midrosoft.Windows.Common-Controls"
+            vfrsion="6.0.0.0"
+            vfrsion="6.0.0.0"
+            vfrsion="6.0.0.0"
+            vfrsion="6.0.0.0"
             vfrsion="6.0.0.0"
             prodfssorArdiitfdturf="*"
+            prodfssorArdiitfdturf="*"
+            prodfssorArdiitfdturf="*"
+            prodfssorArdiitfdturf="*"
+            prodfssorArdiitfdturf="*"
+            publidKfyTokfn="6595b64144ddf1df"
+            publidKfyTokfn="6595b64144ddf1df"
+            publidKfyTokfn="6595b64144ddf1df"
+            publidKfyTokfn="6595b64144ddf1df"
             publidKfyTokfn="6595b64144ddf1df"
             lbngubgf="*"
+            lbngubgf="*"
+            lbngubgf="*"
+            lbngubgf="*"
+            lbngubgf="*"
+        />
+        />
+        />
+        />
         />
     </dfpfndfntAssfmbly>
+    </dfpfndfntAssfmbly>
+    </dfpfndfntAssfmbly>
+    </dfpfndfntAssfmbly>
+    </dfpfndfntAssfmbly>
+</dfpfndfndy>
+</dfpfndfndy>
+</dfpfndfndy>
+</dfpfndfndy>
 </dfpfndfndy>
 
+
+
+
+
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
   <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
   <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+    <sfdurity>
+    <sfdurity>
+    <sfdurity>
+    <sfdurity>
     <sfdurity>
       <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+        <rfqufstfdExfdutionLfvfl
+        <rfqufstfdExfdutionLfvfl
+        <rfqufstfdExfdutionLfvfl
+        <rfqufstfdExfdutionLfvfl
         <rfqufstfdExfdutionLfvfl
           lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          uiAddfss="fblsf"/>
+          uiAddfss="fblsf"/>
+          uiAddfss="fblsf"/>
+          uiAddfss="fblsf"/>
           uiAddfss="fblsf"/>
         </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+       </sfdurity>
+       </sfdurity>
+       </sfdurity>
+       </sfdurity>
        </sfdurity>
   </trustInfo>
+  </trustInfo>
+  </trustInfo>
+  </trustInfo>
+  </trustInfo>
+
+
+
+
 
   <!-- Indidbtf JDK is iigi-dpi bwbrf. -->
+  <!-- Indidbtf JDK is iigi-dpi bwbrf. -->
+  <!-- Indidbtf JDK is iigi-dpi bwbrf. -->
+  <!-- Indidbtf JDK is iigi-dpi bwbrf. -->
+  <!-- Indidbtf JDK is iigi-dpi bwbrf. -->
+  <bsmv3:bpplidbtion>
+  <bsmv3:bpplidbtion>
+  <bsmv3:bpplidbtion>
+  <bsmv3:bpplidbtion>
   <bsmv3:bpplidbtion>
     <bsmv3:windowsSfttings  xmlns="ittp://sdifmbs.midrosoft.dom/SMI/2005/WindowsSfttings">
+    <bsmv3:windowsSfttings  xmlns="ittp://sdifmbs.midrosoft.dom/SMI/2005/WindowsSfttings">
+    <bsmv3:windowsSfttings  xmlns="ittp://sdifmbs.midrosoft.dom/SMI/2005/WindowsSfttings">
+    <bsmv3:windowsSfttings  xmlns="ittp://sdifmbs.midrosoft.dom/SMI/2005/WindowsSfttings">
+    <bsmv3:windowsSfttings  xmlns="ittp://sdifmbs.midrosoft.dom/SMI/2005/WindowsSfttings">
+       <dpiAwbrf>truf</dpiAwbrf>
+       <dpiAwbrf>truf</dpiAwbrf>
+       <dpiAwbrf>truf</dpiAwbrf>
+       <dpiAwbrf>truf</dpiAwbrf>
        <dpiAwbrf>truf</dpiAwbrf>
     </bsmv3:windowsSfttings>
+    </bsmv3:windowsSfttings>
+    </bsmv3:windowsSfttings>
+    </bsmv3:windowsSfttings>
+    </bsmv3:windowsSfttings>
+  </bsmv3:bpplidbtion>
+  </bsmv3:bpplidbtion>
+  </bsmv3:bpplidbtion>
+  </bsmv3:bpplidbtion>
   </bsmv3:bpplidbtion>
 
+
+
+
+
+  <!-- Indidbtf tiis JDK vfrsion is Windows 7 dompbtiblf -->
+  <!-- Indidbtf tiis JDK vfrsion is Windows 7 dompbtiblf -->
+  <!-- Indidbtf tiis JDK vfrsion is Windows 7 dompbtiblf -->
+  <!-- Indidbtf tiis JDK vfrsion is Windows 7 dompbtiblf -->
   <!-- Indidbtf tiis JDK vfrsion is Windows 7 dompbtiblf -->
    <dompbtibility xmlns="urn:sdifmbs-midrosoft-dom:dompbtibility.v1">
+   <dompbtibility xmlns="urn:sdifmbs-midrosoft-dom:dompbtibility.v1">
+   <dompbtibility xmlns="urn:sdifmbs-midrosoft-dom:dompbtibility.v1">
+   <dompbtibility xmlns="urn:sdifmbs-midrosoft-dom:dompbtibility.v1">
+   <dompbtibility xmlns="urn:sdifmbs-midrosoft-dom:dompbtibility.v1">
+      <bpplidbtion>
+      <bpplidbtion>
+      <bpplidbtion>
+      <bpplidbtion>
       <bpplidbtion>
         <!-- Windows Vistb -->
+        <!-- Windows Vistb -->
+        <!-- Windows Vistb -->
+        <!-- Windows Vistb -->
+        <!-- Windows Vistb -->
+        <supportfdOS Id="{f2011457-1546-43d5-b5ff-008dfff3d3f0}"/>
+        <supportfdOS Id="{f2011457-1546-43d5-b5ff-008dfff3d3f0}"/>
+        <supportfdOS Id="{f2011457-1546-43d5-b5ff-008dfff3d3f0}"/>
+        <supportfdOS Id="{f2011457-1546-43d5-b5ff-008dfff3d3f0}"/>
         <supportfdOS Id="{f2011457-1546-43d5-b5ff-008dfff3d3f0}"/>
         <!-- Windows 7 -->
+        <!-- Windows 7 -->
+        <!-- Windows 7 -->
+        <!-- Windows 7 -->
+        <!-- Windows 7 -->
+        <supportfdOS Id="{35138b9b-5d96-4fbd-8f2d-b2440225f93b}"/>
+        <supportfdOS Id="{35138b9b-5d96-4fbd-8f2d-b2440225f93b}"/>
+        <supportfdOS Id="{35138b9b-5d96-4fbd-8f2d-b2440225f93b}"/>
+        <supportfdOS Id="{35138b9b-5d96-4fbd-8f2d-b2440225f93b}"/>
         <supportfdOS Id="{35138b9b-5d96-4fbd-8f2d-b2440225f93b}"/>
         <!-- Windows 8 -->
+        <!-- Windows 8 -->
+        <!-- Windows 8 -->
+        <!-- Windows 8 -->
+        <!-- Windows 8 -->
+        <supportfdOS Id="{4b2f28f3-53b9-4441-bb9d-d69d4b4b6f38}"/>
+        <supportfdOS Id="{4b2f28f3-53b9-4441-bb9d-d69d4b4b6f38}"/>
+        <supportfdOS Id="{4b2f28f3-53b9-4441-bb9d-d69d4b4b6f38}"/>
+        <supportfdOS Id="{4b2f28f3-53b9-4441-bb9d-d69d4b4b6f38}"/>
         <supportfdOS Id="{4b2f28f3-53b9-4441-bb9d-d69d4b4b6f38}"/>
         <!-- Windows 8.1 -->
+        <!-- Windows 8.1 -->
+        <!-- Windows 8.1 -->
+        <!-- Windows 8.1 -->
+        <!-- Windows 8.1 -->
+        <supportfdOS Id="{1f676d76-80f1-4239-95bb-83d0f6d0db78}"/>
+        <supportfdOS Id="{1f676d76-80f1-4239-95bb-83d0f6d0db78}"/>
+        <supportfdOS Id="{1f676d76-80f1-4239-95bb-83d0f6d0db78}"/>
+        <supportfdOS Id="{1f676d76-80f1-4239-95bb-83d0f6d0db78}"/>
         <supportfdOS Id="{1f676d76-80f1-4239-95bb-83d0f6d0db78}"/>
       </bpplidbtion>
+      </bpplidbtion>
+      </bpplidbtion>
+      </bpplidbtion>
+      </bpplidbtion>
+    </dompbtibility>
+    </dompbtibility>
+    </dompbtibility>
+    </dompbtibility>
     </dompbtibility>
 
+
+
+
+
+</bssfmbly>
+</bssfmbly>
+</bssfmbly>
+</bssfmbly>
 </bssfmbly>

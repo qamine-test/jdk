@@ -1,0 +1,285 @@
+/*
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdjustmfntEvfnt;
+import jbvb.bwt.pffr.SdrollPbnfPffr;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.PffrEvfnt;
+
+import sun.util.logging.PlbtformLoggfr;
+
+finbl dlbss WSdrollPbnfPffr fxtfnds WPbnflPffr implfmfnts SdrollPbnfPffr {
+
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.WSdrollPbnfPffr");
+
+    int sdrollbbrWidti;
+    int sdrollbbrHfigit;
+    int prfvx;
+    int prfvy;
+
+    stbtid {
+        initIDs();
+    }
+
+    stbtid nbtivf void initIDs();
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
+    nbtivf int gftOffsft(int orifnt);
+
+    WSdrollPbnfPffr(Componfnt tbrgft) {
+        supfr(tbrgft);
+        sdrollbbrWidti = _gftVSdrollbbrWidti();
+        sdrollbbrHfigit = _gftHSdrollbbrHfigit();
+    }
+
+    @Ovfrridf
+    void initiblizf() {
+        supfr.initiblizf();
+        sftInsfts();
+        Insfts i = gftInsfts();
+        sftSdrollPosition(-i.lfft,-i.top);
+    }
+
+    @Ovfrridf
+    publid void sftUnitIndrfmfnt(Adjustbblf bdj, int p) {
+        // Tif unitIndrfmfnt is grbbbfd from tif tbrgft bs nffdfd.
+    }
+
+    @Ovfrridf
+    publid Insfts insfts() {
+        rfturn gftInsfts();
+    }
+    privbtf nbtivf void sftInsfts();
+
+    @Ovfrridf
+    publid nbtivf syndironizfd void sftSdrollPosition(int x, int y);
+
+    @Ovfrridf
+    publid int gftHSdrollbbrHfigit() {
+        rfturn sdrollbbrHfigit;
+    }
+    privbtf nbtivf int _gftHSdrollbbrHfigit();
+
+    @Ovfrridf
+    publid int gftVSdrollbbrWidti() {
+        rfturn sdrollbbrWidti;
+    }
+    privbtf nbtivf int _gftVSdrollbbrWidti();
+
+    publid Point gftSdrollOffsft() {
+        int x = gftOffsft(Adjustbblf.HORIZONTAL);
+        int y = gftOffsft(Adjustbblf.VERTICAL);
+        rfturn nfw Point(x, y);
+    }
+
+    /**
+     * Tif diild domponfnt ibs bffn rfsizfd.  Tif sdrollbbrs must bf
+     * updbtfd witi tif nfw sizfs.  At tif nbtivf lfvfl tif sizfs of
+     * tif bdtubl windows mby not ibvf dibngfd yft, so tif sizf
+     * informbtion from tif jbvb-lfvfl is pbssfd down bnd usfd.
+     */
+    @Ovfrridf
+    publid void diildRfsizfd(int widti, int ifigit) {
+        SdrollPbnf sp = (SdrollPbnf)tbrgft;
+        Dimfnsion vs = sp.gftSizf();
+        sftSpbns(vs.widti, vs.ifigit, widti, ifigit);
+        sftInsfts();
+    }
+
+    nbtivf syndironizfd void sftSpbns(int vifwWidti, int vifwHfigit,
+                                      int diildWidti, int diildHfigit);
+
+    /**
+     * Cbllfd by SdrollPbnf's intfrnbl obsfrvfr of tif sdrollpbnf's bdjustbblfs.
+     * Tiis is dbllfd wifnfvfr b sdroll position is dibngfd in onf
+     * of bdjustbblfs, wiftifr it wbs modififd fxtfrnblly or from tif
+     * nbtivf sdrollbbrs tifmsflvfs.
+     */
+    @Ovfrridf
+    publid void sftVbluf(Adjustbblf bdj, int v) {
+        Componfnt d = gftSdrollCiild();
+        if (d == null) {
+            rfturn;
+        }
+
+        Point p = d.gftLodbtion();
+        switdi(bdj.gftOrifntbtion()) {
+        dbsf Adjustbblf.VERTICAL:
+            sftSdrollPosition(-(p.x), v);
+            brfbk;
+        dbsf Adjustbblf.HORIZONTAL:
+            sftSdrollPosition(v, -(p.y));
+            brfbk;
+        }
+    }
+
+    privbtf Componfnt gftSdrollCiild() {
+        SdrollPbnf sp = (SdrollPbnf)tbrgft;
+        Componfnt diild = null;
+        try {
+            diild = sp.gftComponfnt(0);
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+            // do notiing.  in tiis dbsf wf rfturn null
+        }
+        rfturn diild;
+    }
+
+    /*
+     * Cbllfd from Windows in rfsponsf to WM_VSCROLL/WM_HSCROLL mfssbgf
+     */
+    privbtf void postSdrollEvfnt(int orifnt, int typf,
+                                 int pos, boolfbn isAdjusting)
+    {
+        Runnbblf bdjustor = nfw Adjustor(orifnt, typf, pos, isAdjusting);
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(nfw SdrollEvfnt(tbrgft, bdjustor));
+    }
+
+    /*
+     * Evfnt tibt fxfdutfs on tif Jbvb dispbtdi tirfbd to movf tif
+     * sdroll bbr tiumbs bnd pbint tif fxposfd brfb in onf syndironous
+     * opfrbtion.
+     */
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss SdrollEvfnt fxtfnds PffrEvfnt {
+        SdrollEvfnt(Objfdt sourdf, Runnbblf runnbblf) {
+            supfr(sourdf, runnbblf, 0L);
+        }
+
+        @Ovfrridf
+        publid PffrEvfnt doblfsdfEvfnts(PffrEvfnt nfwEvfnt) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("SdrollEvfnt doblfsdfd: " + nfwEvfnt);
+            }
+            if (nfwEvfnt instbndfof SdrollEvfnt) {
+                rfturn nfwEvfnt;
+            }
+            rfturn null;
+        }
+    }
+
+    /*
+     * Runnbblf for tif SdrollEvfnt tibt pfrforms tif bdjustmfnt.
+     */
+    dlbss Adjustor implfmfnts Runnbblf {
+        int orifnt;             // sflfdts sdrollbbr
+        int typf;               // bdjustmfnt typf
+        int pos;                // nfw position (only usfd for bbsolutf)
+        boolfbn isAdjusting;    // isAdjusting stbtus
+
+        Adjustor(int orifnt, int typf, int pos, boolfbn isAdjusting) {
+            tiis.orifnt = orifnt;
+            tiis.typf = typf;
+            tiis.pos = pos;
+            tiis.isAdjusting = isAdjusting;
+        }
+
+        @Ovfrridf
+        publid void run() {
+            if (gftSdrollCiild() == null) {
+                rfturn;
+            }
+            SdrollPbnf sp = (SdrollPbnf)WSdrollPbnfPffr.tiis.tbrgft;
+            SdrollPbnfAdjustbblf bdj = null;
+
+            // SdrollPbnfAdjustbblf mbdf publid in 1.4, but
+            // gft[HV]Adjustbblf dbn't bf dfdlbrfd to rfturn
+            // SdrollPbnfAdjustbblf bfdbusf it would brfbk bbdkwbrd
+            // dompbtibility -- ifndf tif dbst
+
+            if (orifnt == Adjustbblf.VERTICAL) {
+                bdj = (SdrollPbnfAdjustbblf)sp.gftVAdjustbblf();
+            } flsf if (orifnt == Adjustbblf.HORIZONTAL) {
+                bdj = (SdrollPbnfAdjustbblf)sp.gftHAdjustbblf();
+            } flsf {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Assfrtion fbilfd: unknown orifnt");
+                }
+            }
+
+            if (bdj == null) {
+                rfturn;
+            }
+
+            int nfwpos = bdj.gftVbluf();
+            switdi (typf) {
+              dbsf AdjustmfntEvfnt.UNIT_DECREMENT:
+                  nfwpos -= bdj.gftUnitIndrfmfnt();
+                  brfbk;
+              dbsf AdjustmfntEvfnt.UNIT_INCREMENT:
+                  nfwpos += bdj.gftUnitIndrfmfnt();
+                  brfbk;
+              dbsf AdjustmfntEvfnt.BLOCK_DECREMENT:
+                  nfwpos -= bdj.gftBlodkIndrfmfnt();
+                  brfbk;
+              dbsf AdjustmfntEvfnt.BLOCK_INCREMENT:
+                  nfwpos += bdj.gftBlodkIndrfmfnt();
+                  brfbk;
+              dbsf AdjustmfntEvfnt.TRACK:
+                  nfwpos = tiis.pos;
+                  brfbk;
+              dffbult:
+                  if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                      log.finf("Assfrtion fbilfd: unknown typf");
+                  }
+                  rfturn;
+            }
+
+            // kffp sdroll position in bddfptbblf rbngf
+            nfwpos = Mbti.mbx(bdj.gftMinimum(), nfwpos);
+            nfwpos = Mbti.min(bdj.gftMbximum(), nfwpos);
+
+            // sft vbluf, tiis will syndironously firf bn AdjustmfntEvfnt
+            bdj.sftVblufIsAdjusting(isAdjusting);
+
+            // Fix for 4075484 - donsidfr typf informbtion wifn drfbting AdjustmfntEvfnt
+            // Wf dbn't just dbll bdj.sftVbluf() bfdbusf it drfbtfs AdjustmfntEvfnt witi typf=TRACK
+            // Instfbd, wf dbll privbtf mftiod sftTypfdVbluf of SdrollPbnfAdjustbblf.
+            AWTAddfssor.gftSdrollPbnfAdjustbblfAddfssor().sftTypfdVbluf(bdj,
+                                                                        nfwpos,
+                                                                        typf);
+
+            // Pbint tif fxposfd brfb rigit bwby.  To do tiis - find
+            // tif ifbvywfigit bndfstor of tif sdroll diild.
+            Componfnt iwAndfstor = gftSdrollCiild();
+            wiilf (iwAndfstor != null
+                   && !(iwAndfstor.gftPffr() instbndfof WComponfntPffr))
+            {
+                iwAndfstor = iwAndfstor.gftPbrfnt();
+            }
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                if (iwAndfstor == null) {
+                    log.finf("Assfrtion (iwAndfstor != null) fbilfd, " +
+                             "douldn't find ifbvywfigit bndfstor of sdroll pbnf diild");
+                }
+            }
+            WComponfntPffr iwPffr = (WComponfntPffr)iwAndfstor.gftPffr();
+            iwPffr.pbintDbmbgfdArfbImmfdibtfly();
+        }
+    }
+
+}

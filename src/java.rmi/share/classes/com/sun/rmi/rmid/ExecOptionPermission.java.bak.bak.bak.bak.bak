@@ -1,0 +1,349 @@
+/*
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rmi.rmid;
+
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * Tif ExfdOptionPfrmission dlbss rfprfsfnts pfrmission for rmid to usf
+ * b spfdifid dommbnd-linf option wifn lbundiing bn bdtivbtion group.
+ * <P>
+ *
+ * @butior Ann Wollrbti
+ *
+ * @sfribl fxdludf
+ */
+publid finbl dlbss ExfdOptionPfrmission fxtfnds Pfrmission
+{
+    /**
+     * dofs tiis pfrmission ibvf b wilddbrd bt tif fnd?
+     */
+    privbtf trbnsifnt boolfbn wilddbrd;
+
+    /**
+     * tif nbmf witiout tif wilddbrd on tif fnd
+     */
+    privbtf trbnsifnt String nbmf;
+
+    /**
+     * UID for sfriblizbtion
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 5842294756823092756L;
+
+    publid ExfdOptionPfrmission(String nbmf) {
+        supfr(nbmf);
+        init(nbmf);
+    }
+
+    publid ExfdOptionPfrmission(String nbmf, String bdtions) {
+        tiis(nbmf);
+    }
+
+    /**
+     * Cifdks if tif spfdififd pfrmission is "implifd" by
+     * tiis objfdt.
+     * <P>
+     * Morf spfdifidblly, tiis mftiod rfturns truf if:<p>
+     * <ul>
+     * <li> <i>p</i>'s dlbss is tif sbmf bs tiis objfdt's dlbss, bnd<p>
+     * <li> <i>p</i>'s nbmf fqubls or (in tif dbsf of wilddbrds)
+     *      is implifd by tiis objfdt's
+     *      nbmf. For fxbmplf, "b.b.*" implifs "b.b.d", bnd
+     *      "b.b=*" implifs "b.b=d"
+     * </ul>
+     *
+     * @pbrbm p tif pfrmission to difdk bgbinst.
+     *
+     * @rfturn truf if tif pbssfd pfrmission is fqubl to or
+     * implifd by tiis pfrmission, fblsf otifrwisf.
+     */
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof ExfdOptionPfrmission))
+            rfturn fblsf;
+
+        ExfdOptionPfrmission tibt = (ExfdOptionPfrmission) p;
+
+        if (tiis.wilddbrd) {
+            if (tibt.wilddbrd) {
+                // onf wilddbrd dbn imply bnotifr
+                rfturn tibt.nbmf.stbrtsWiti(nbmf);
+            } flsf {
+                // mbkf surf p.nbmf is longfr so b.b.* dofsn't imply b.b
+                rfturn (tibt.nbmf.lfngti() > tiis.nbmf.lfngti()) &&
+                    tibt.nbmf.stbrtsWiti(tiis.nbmf);
+            }
+        } flsf {
+            if (tibt.wilddbrd) {
+                // b non-wilddbrd dbn't imply b wilddbrd
+                rfturn fblsf;
+            } flsf {
+                rfturn tiis.nbmf.fqubls(tibt.nbmf);
+            }
+        }
+    }
+
+    /**
+     * Cifdks two ExfdOptionPfrmission objfdts for fqublity.
+     * Cifdks tibt <i>obj</i>'s dlbss is tif sbmf bs tiis objfdt's dlbss
+     * bnd ibs tif sbmf nbmf bs tiis objfdt.
+     * <P>
+     * @pbrbm obj tif objfdt wf brf tfsting for fqublity witi tiis objfdt.
+     * @rfturn truf if <i>obj</i> is bn ExfdOptionPfrmission, bnd ibs tif sbmf
+     * nbmf bs tiis ExfdOptionPfrmission objfdt, fblsf otifrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
+
+        if ((obj == null) || (obj.gftClbss() != gftClbss()))
+            rfturn fblsf;
+
+        ExfdOptionPfrmission tibt = (ExfdOptionPfrmission) obj;
+
+        rfturn tiis.gftNbmf().fqubls(tibt.gftNbmf());
+    }
+
+
+    /**
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
+     * Tif ibsi dodf usfd is tif ibsi dodf of tif nbmf, tibt is,
+     * <dodf>gftNbmf().ibsiCodf()</dodf>, wifrf <dodf>gftNbmf</dodf> is
+     * from tif Pfrmission supfrdlbss.
+     *
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
+     */
+    publid int ibsiCodf() {
+        rfturn tiis.gftNbmf().ibsiCodf();
+    }
+
+    /**
+     * Rfturns tif dbnonidbl string rfprfsfntbtion of tif bdtions.
+     *
+     * @rfturn tif dbnonidbl string rfprfsfntbtion of tif bdtions.
+     */
+    publid String gftAdtions() {
+        rfturn "";
+    }
+
+    /**
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing
+     * ExfdOptionPfrmission objfdts.
+     * <p>
+     * A ExfdOptionPfrmissionCollfdtion storfs b dollfdtion of
+     * ExfdOptionPfrmission pfrmissions.
+     *
+     * <p>ExfdOptionPfrmission objfdts must bf storfd in b mbnnfr tibt bllows
+     * tifm to bf insfrtfd in bny ordfr, but tibt blso fnbblfs tif
+     * PfrmissionCollfdtion <dodf>implifs</dodf> mftiod
+     * to bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
+     *
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for
+     * storing ExfdOptionPfrmissions.
+     */
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw ExfdOptionPfrmissionCollfdtion();
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif ExfdOptionPfrmission
+     * from b strfbm.
+     */
+    privbtf syndironizfd void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        // init is dbllfd to initiblizf tif rfst of tif vblufs.
+        init(gftNbmf());
+    }
+
+    /**
+     * Initiblizf b ExfdOptionPfrmission objfdt. Common to bll donstrudtors.
+     * Also dbllfd during df-sfriblizbtion.
+     */
+    privbtf void init(String nbmf)
+    {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption("nbmf dbn't bf null");
+
+        if (nbmf.fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("nbmf dbn't bf fmpty");
+        }
+
+        if (nbmf.fndsWiti(".*") || nbmf.fndsWiti("=*") || nbmf.fqubls("*")) {
+            wilddbrd = truf;
+            if (nbmf.lfngti() == 1) {
+                tiis.nbmf = "";
+            } flsf {
+                tiis.nbmf = nbmf.substring(0, nbmf.lfngti()-1);
+            }
+        } flsf {
+            tiis.nbmf = nbmf;
+        }
+    }
+
+    /**
+     * A ExfdOptionPfrmissionCollfdtion storfs b dollfdtion
+     * of ExfdOptionPfrmission pfrmissions. ExfdOptionPfrmission objfdts
+     * must bf storfd in b mbnnfr tibt bllows tifm to bf insfrtfd in bny
+     * ordfr, but fnbblf tif implifs fundtion to fvblubtf tif implifs
+     * mftiod in bn fffidifnt (bnd donsistfnt) mbnnfr.
+     *
+     * A ExfdOptionPfrmissionCollfdtion ibndlfs dompbring b pfrmission likf
+     * "b.b.d.d.f" * witi b Pfrmission sudi bs "b.b.*", or "*".
+     *
+     * @sfribl indludf
+     */
+    privbtf stbtid dlbss ExfdOptionPfrmissionCollfdtion
+        fxtfnds PfrmissionCollfdtion
+        implfmfnts jbvb.io.Sfriblizbblf
+    {
+
+        privbtf Hbsitbblf<String, Pfrmission> pfrmissions;
+        privbtf boolfbn bll_bllowfd; // truf if "*" is in tif dollfdtion
+        privbtf stbtid finbl long sfriblVfrsionUID = -1242475729790124375L;
+
+        /**
+         * Crfbtf bn fmpty ExfdOptionPfrmissionCollfdtion.
+         */
+        publid ExfdOptionPfrmissionCollfdtion() {
+            pfrmissions = nfw Hbsitbblf<>(11);
+            bll_bllowfd = fblsf;
+        }
+
+        /**
+         * Adds b pfrmission to tif dollfdtion. Tif kfy for tif ibsi is
+         * pfrmission.nbmf.
+         *
+         * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
+         *
+         * @fxdfption IllfgblArgumfntExdfption - if tif pfrmission is not b
+         *                                       ExfdOptionPfrmission
+         *
+         * @fxdfption SfdurityExdfption - if tiis ExfdOptionPfrmissionCollfdtion
+         *                                objfdt ibs bffn mbrkfd rfbdonly
+         */
+
+        publid void bdd(Pfrmission pfrmission)
+        {
+            if (! (pfrmission instbndfof ExfdOptionPfrmission))
+                tirow nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                                   pfrmission);
+            if (isRfbdOnly())
+                tirow nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
+
+            ExfdOptionPfrmission p = (ExfdOptionPfrmission) pfrmission;
+
+            pfrmissions.put(p.gftNbmf(), pfrmission);
+            if (!bll_bllowfd) {
+                if (p.gftNbmf().fqubls("*"))
+                    bll_bllowfd = truf;
+            }
+        }
+
+        /**
+         * Cifdk bnd sff if tiis sft of pfrmissions implifs tif pfrmissions
+         * fxprfssfd in "pfrmission".
+         *
+         * @pbrbm p tif Pfrmission objfdt to dompbrf
+         *
+         * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+         * tif sft, fblsf if not.
+         */
+        publid boolfbn implifs(Pfrmission pfrmission)
+        {
+            if (! (pfrmission instbndfof ExfdOptionPfrmission))
+                rfturn fblsf;
+
+            ExfdOptionPfrmission p = (ExfdOptionPfrmission) pfrmission;
+
+            // siort dirduit if tif "*" Pfrmission wbs bddfd
+            if (bll_bllowfd)
+                rfturn truf;
+
+            // strbtfgy:
+            // Cifdk for full mbtdi first. Tifn work our wby up tif
+            // nbmf looking for mbtdifs on b.b.*
+
+            String pnbmf = p.gftNbmf();
+
+            Pfrmission x = pfrmissions.gft(pnbmf);
+
+            if (x != null)
+                // wf ibvf b dirfdt iit!
+                rfturn x.implifs(pfrmission);
+
+
+            // work our wby up tif trff...
+            int lbst, offsft;
+
+            offsft = pnbmf.lfngti() - 1;
+
+            wiilf ((lbst = pnbmf.lbstIndfxOf('.', offsft)) != -1) {
+
+                pnbmf = pnbmf.substring(0, lbst+1) + "*";
+                x = pfrmissions.gft(pnbmf);
+
+                if (x != null) {
+                    rfturn x.implifs(pfrmission);
+                }
+                offsft = lbst - 1;
+            }
+
+            // difdk for "=*" wilddbrd mbtdi
+            pnbmf = p.gftNbmf();
+            offsft = pnbmf.lfngti() - 1;
+
+            wiilf ((lbst = pnbmf.lbstIndfxOf('=', offsft)) != -1) {
+
+                pnbmf = pnbmf.substring(0, lbst+1) + "*";
+                x = pfrmissions.gft(pnbmf);
+
+                if (x != null) {
+                    rfturn x.implifs(pfrmission);
+                }
+                offsft = lbst - 1;
+            }
+
+            // wf don't ibvf to difdk for "*" bs it wbs blrfbdy difdkfd
+            // bt tif top (bll_bllowfd), so wf just rfturn fblsf
+            rfturn fblsf;
+        }
+
+        /**
+         * Rfturns bn fnumfrbtion of bll tif ExfdOptionPfrmission objfdts in tif
+         * dontbinfr.
+         *
+         * @rfturn bn fnumfrbtion of bll tif ExfdOptionPfrmission objfdts.
+         */
+
+        publid Enumfrbtion<Pfrmission> flfmfnts()
+        {
+            rfturn pfrmissions.flfmfnts();
+        }
+    }
+}

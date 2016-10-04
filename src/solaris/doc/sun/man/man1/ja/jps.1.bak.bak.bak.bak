@@ -1,263 +1,1315 @@
 '\" t
-.\" Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: jps
-.\" Lbngubgf: English
+.\" Titlf: jps
+.\" Titlf: jps
+.\" Titlf: jps
+.\" Titlf: jps
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
 .\" Dbtf: 2013年11月21日
 .\" SfdtDfsd: モニタリング・ツール
+.\" SfdtDfsd: モニタリング・ツール
+.\" SfdtDfsd: モニタリング・ツール
+.\" SfdtDfsd: モニタリング・ツール
+.\" SfdtDfsd: モニタリング・ツール
 .\" Softwbrf: JDK 8
-.\" Ardh: 汎用
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "jps" "1" "2013年11月21日" "JDK 8" "モニタリング・ツール"
+.TH "jps" "1" "2013年11月21日" "JDK 8" "モニタリング・ツール"
+.TH "jps" "1" "2013年11月21日" "JDK 8" "モニタリング・ツール"
+.TH "jps" "1" "2013年11月21日" "JDK 8" "モニタリング・ツール"
+.TH "jps" "1" "2013年11月21日" "JDK 8" "モニタリング・ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+jps \- ターゲット・システム上で計測されたJbvb仮想マシン(JVM)を一覧表示します。このコマンドは試験的なもので、サポートされていません。
+jps \- ターゲット・システム上で計測されたJbvb仮想マシン(JVM)を一覧表示します。このコマンドは試験的なもので、サポートされていません。
+jps \- ターゲット・システム上で計測されたJbvb仮想マシン(JVM)を一覧表示します。このコマンドは試験的なもので、サポートされていません。
+jps \- ターゲット・システム上で計測されたJbvb仮想マシン(JVM)を一覧表示します。このコマンドは試験的なもので、サポートされていません。
 jps \- ターゲット・システム上で計測されたJbvb仮想マシン(JVM)を一覧表示します。このコマンドは試験的なもので、サポートされていません。
 .SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-\fIjps\fR [ \fIoptions\fR ] [ \fIhostid\fR ]
+.nf
+.nf
+.nf
+.nf
+\fIjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+\fIjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+\fIjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+\fIjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+\fIjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-\fIhostid\fR
+.PP
+.PP
+.PP
+.PP
+\fIiostid\fR
+\fIiostid\fR
+\fIiostid\fR
+\fIiostid\fR
+\fIiostid\fR
 .RS 4
-プロセス・レポートを生成するホストの識別子。\fIhostid\fRには、通信プロトコル、ポート番号、実装に固有な他のデータを指定したオプション・コンポーネントを含めることができます。ホスト識別子を参照してください。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+プロセス・レポートを生成するホストの識別子。\fIiostid\fRには、通信プロトコル、ポート番号、実装に固有な他のデータを指定したオプション・コンポーネントを含めることができます。ホスト識別子を参照してください。
+プロセス・レポートを生成するホストの識別子。\fIiostid\fRには、通信プロトコル、ポート番号、実装に固有な他のデータを指定したオプション・コンポーネントを含めることができます。ホスト識別子を参照してください。
+プロセス・レポートを生成するホストの識別子。\fIiostid\fRには、通信プロトコル、ポート番号、実装に固有な他のデータを指定したオプション・コンポーネントを含めることができます。ホスト識別子を参照してください。
+プロセス・レポートを生成するホストの識別子。\fIiostid\fRには、通信プロトコル、ポート番号、実装に固有な他のデータを指定したオプション・コンポーネントを含めることができます。ホスト識別子を参照してください。
+プロセス・レポートを生成するホストの識別子。\fIiostid\fRには、通信プロトコル、ポート番号、実装に固有な他のデータを指定したオプション・コンポーネントを含めることができます。ホスト識別子を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjps\fRコマンドは、ターゲット・システム上で計測されたJbvb HotSpot VMを一覧表示します。このコマンドで表示できるレポート情報は、アクセス権を持ったJVMに関するものに限定されます。
+\fIjps\fRコマンドは、ターゲット・システム上で計測されたJbvb HotSpot VMを一覧表示します。このコマンドで表示できるレポート情報は、アクセス権を持ったJVMに関するものに限定されます。
+\fIjps\fRコマンドは、ターゲット・システム上で計測されたJbvb HotSpot VMを一覧表示します。このコマンドで表示できるレポート情報は、アクセス権を持ったJVMに関するものに限定されます。
+\fIjps\fRコマンドは、ターゲット・システム上で計測されたJbvb HotSpot VMを一覧表示します。このコマンドで表示できるレポート情報は、アクセス権を持ったJVMに関するものに限定されます。
+\fIjps\fRコマンドは、ターゲット・システム上で計測されたJbvb HotSpot VMを一覧表示します。このコマンドで表示できるレポート情報は、アクセス権を持ったJVMに関するものに限定されます。
 .PP
-\fIhostid\fRを指定せずに\fIjps\fRコマンドを実行した場合、ローカル・ホストで計測されたJVMが検索されます。\fIhostid\fRを指定して起動した場合、指定されたプロトコルとポートを使用して、指定されたホスト上のJVMを検索します。\fIjstbtd\fRプロセスがターゲット・ホスト上で実行されていると想定されます。
+.PP
+.PP
+.PP
+.PP
+\fIiostid\fRを指定せずに\fIjps\fRコマンドを実行した場合、ローカル・ホストで計測されたJVMが検索されます。\fIiostid\fRを指定して起動した場合、指定されたプロトコルとポートを使用して、指定されたホスト上のJVMを検索します。\fIjstbtd\fRプロセスがターゲット・ホスト上で実行されていると想定されます。
+\fIiostid\fRを指定せずに\fIjps\fRコマンドを実行した場合、ローカル・ホストで計測されたJVMが検索されます。\fIiostid\fRを指定して起動した場合、指定されたプロトコルとポートを使用して、指定されたホスト上のJVMを検索します。\fIjstbtd\fRプロセスがターゲット・ホスト上で実行されていると想定されます。
+\fIiostid\fRを指定せずに\fIjps\fRコマンドを実行した場合、ローカル・ホストで計測されたJVMが検索されます。\fIiostid\fRを指定して起動した場合、指定されたプロトコルとポートを使用して、指定されたホスト上のJVMを検索します。\fIjstbtd\fRプロセスがターゲット・ホスト上で実行されていると想定されます。
+\fIiostid\fRを指定せずに\fIjps\fRコマンドを実行した場合、ローカル・ホストで計測されたJVMが検索されます。\fIiostid\fRを指定して起動した場合、指定されたプロトコルとポートを使用して、指定されたホスト上のJVMを検索します。\fIjstbtd\fRプロセスがターゲット・ホスト上で実行されていると想定されます。
+\fIiostid\fRを指定せずに\fIjps\fRコマンドを実行した場合、ローカル・ホストで計測されたJVMが検索されます。\fIiostid\fRを指定して起動した場合、指定されたプロトコルとポートを使用して、指定されたホスト上のJVMを検索します。\fIjstbtd\fRプロセスがターゲット・ホスト上で実行されていると想定されます。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjps\fRコマンドは、ターゲット・システムで計測された各JVMについて、ローカルVM識別子、つまり\fIlvmid\fRをレポートします。\fIlvmid\fRは、一般的にはJVMプロセスに対するオペレーティング・システムのプロセス識別子ですが、必ずしもそうであるとは限りません。オプションを指定しない場合、\fIjps\fRによって、各Jbvbアプリケーションの\fIlvmid\fRが一覧表示され、それぞれにアプリケーションのクラス名またはJARファイル名が簡単な形式で示されます。この簡単な形式のクラス名とJARファイル名では、クラスのパッケージ情報またはJARファイル・パス情報が省略されています。
+\fIjps\fRコマンドは、ターゲット・システムで計測された各JVMについて、ローカルVM識別子、つまり\fIlvmid\fRをレポートします。\fIlvmid\fRは、一般的にはJVMプロセスに対するオペレーティング・システムのプロセス識別子ですが、必ずしもそうであるとは限りません。オプションを指定しない場合、\fIjps\fRによって、各Jbvbアプリケーションの\fIlvmid\fRが一覧表示され、それぞれにアプリケーションのクラス名またはJARファイル名が簡単な形式で示されます。この簡単な形式のクラス名とJARファイル名では、クラスのパッケージ情報またはJARファイル・パス情報が省略されています。
+\fIjps\fRコマンドは、ターゲット・システムで計測された各JVMについて、ローカルVM識別子、つまり\fIlvmid\fRをレポートします。\fIlvmid\fRは、一般的にはJVMプロセスに対するオペレーティング・システムのプロセス識別子ですが、必ずしもそうであるとは限りません。オプションを指定しない場合、\fIjps\fRによって、各Jbvbアプリケーションの\fIlvmid\fRが一覧表示され、それぞれにアプリケーションのクラス名またはJARファイル名が簡単な形式で示されます。この簡単な形式のクラス名とJARファイル名では、クラスのパッケージ情報またはJARファイル・パス情報が省略されています。
+\fIjps\fRコマンドは、ターゲット・システムで計測された各JVMについて、ローカルVM識別子、つまり\fIlvmid\fRをレポートします。\fIlvmid\fRは、一般的にはJVMプロセスに対するオペレーティング・システムのプロセス識別子ですが、必ずしもそうであるとは限りません。オプションを指定しない場合、\fIjps\fRによって、各Jbvbアプリケーションの\fIlvmid\fRが一覧表示され、それぞれにアプリケーションのクラス名またはJARファイル名が簡単な形式で示されます。この簡単な形式のクラス名とJARファイル名では、クラスのパッケージ情報またはJARファイル・パス情報が省略されています。
+\fIjps\fRコマンドは、ターゲット・システムで計測された各JVMについて、ローカルVM識別子、つまり\fIlvmid\fRをレポートします。\fIlvmid\fRは、一般的にはJVMプロセスに対するオペレーティング・システムのプロセス識別子ですが、必ずしもそうであるとは限りません。オプションを指定しない場合、\fIjps\fRによって、各Jbvbアプリケーションの\fIlvmid\fRが一覧表示され、それぞれにアプリケーションのクラス名またはJARファイル名が簡単な形式で示されます。この簡単な形式のクラス名とJARファイル名では、クラスのパッケージ情報またはJARファイル・パス情報が省略されています。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjps\fRコマンドは、Jbvb起動ツールを使用してmbinメソッドに渡されるクラス名と引数を検索します。独自の起動ツールを使用してターゲットJVMを起動した場合は、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数は利用できません。この場合、\fIjps\fRコマンドは、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数に対して、文字列\fIUnknown\fRを出力します。
+\fIjps\fRコマンドは、Jbvb起動ツールを使用してmbinメソッドに渡されるクラス名と引数を検索します。独自の起動ツールを使用してターゲットJVMを起動した場合は、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数は利用できません。この場合、\fIjps\fRコマンドは、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数に対して、文字列\fIUnknown\fRを出力します。
+\fIjps\fRコマンドは、Jbvb起動ツールを使用してmbinメソッドに渡されるクラス名と引数を検索します。独自の起動ツールを使用してターゲットJVMを起動した場合は、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数は利用できません。この場合、\fIjps\fRコマンドは、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数に対して、文字列\fIUnknown\fRを出力します。
+\fIjps\fRコマンドは、Jbvb起動ツールを使用してmbinメソッドに渡されるクラス名と引数を検索します。独自の起動ツールを使用してターゲットJVMを起動した場合は、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数は利用できません。この場合、\fIjps\fRコマンドは、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数に対して、文字列\fIUnknown\fRを出力します。
+\fIjps\fRコマンドは、Jbvb起動ツールを使用してmbinメソッドに渡されるクラス名と引数を検索します。独自の起動ツールを使用してターゲットJVMを起動した場合は、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数は利用できません。この場合、\fIjps\fRコマンドは、\fImbin\fRメソッドに渡されるクラス名またはJARファイル名と引数に対して、文字列\fIUnknown\fRを出力します。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjps\fRコマンドで生成されるJVMのリストは、このコマンドを実行するプリンシパルに与えられたアクセス権に基づき、制限される場合があります。このコマンドは、オペレーティング・システム独自のアクセス制御機構による決定に基づいて、プリンシパルにアクセス権が与えられているJVMのみを一覧表示します。
+\fIjps\fRコマンドで生成されるJVMのリストは、このコマンドを実行するプリンシパルに与えられたアクセス権に基づき、制限される場合があります。このコマンドは、オペレーティング・システム独自のアクセス制御機構による決定に基づいて、プリンシパルにアクセス権が与えられているJVMのみを一覧表示します。
+\fIjps\fRコマンドで生成されるJVMのリストは、このコマンドを実行するプリンシパルに与えられたアクセス権に基づき、制限される場合があります。このコマンドは、オペレーティング・システム独自のアクセス制御機構による決定に基づいて、プリンシパルにアクセス権が与えられているJVMのみを一覧表示します。
+\fIjps\fRコマンドで生成されるJVMのリストは、このコマンドを実行するプリンシパルに与えられたアクセス権に基づき、制限される場合があります。このコマンドは、オペレーティング・システム独自のアクセス制御機構による決定に基づいて、プリンシパルにアクセス権が与えられているJVMのみを一覧表示します。
+\fIjps\fRコマンドで生成されるJVMのリストは、このコマンドを実行するプリンシパルに与えられたアクセス権に基づき、制限される場合があります。このコマンドは、オペレーティング・システム独自のアクセス制御機構による決定に基づいて、プリンシパルにアクセス権が与えられているJVMのみを一覧表示します。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\fIjps\fRコマンドでは、コマンドの出力を変更するオプションが多数サポートされています。将来、これらのオプションは、変更または廃止される可能性があります。
+\fIjps\fRコマンドでは、コマンドの出力を変更するオプションが多数サポートされています。将来、これらのオプションは、変更または廃止される可能性があります。
+\fIjps\fRコマンドでは、コマンドの出力を変更するオプションが多数サポートされています。将来、これらのオプションは、変更または廃止される可能性があります。
+\fIjps\fRコマンドでは、コマンドの出力を変更するオプションが多数サポートされています。将来、これらのオプションは、変更または廃止される可能性があります。
 \fIjps\fRコマンドでは、コマンドの出力を変更するオプションが多数サポートされています。将来、これらのオプションは、変更または廃止される可能性があります。
 .PP
+.PP
+.PP
+.PP
+.PP
+\-q
+\-q
+\-q
+\-q
 \-q
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+クラス名、JARファイル名、および\fImbin\fRメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
+クラス名、JARファイル名、および\fImbin\fRメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
+クラス名、JARファイル名、および\fImbin\fRメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
+クラス名、JARファイル名、および\fImbin\fRメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
 クラス名、JARファイル名、および\fImbin\fRメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-m
+\-m
+\-m
+\-m
+\-m
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 \fImbin\fRメソッドに渡される引数を出力します。この出力は、組み込まれているJVMに対して\fInull\fRになることもあります。
+\fImbin\fRメソッドに渡される引数を出力します。この出力は、組み込まれているJVMに対して\fInull\fRになることもあります。
+\fImbin\fRメソッドに渡される引数を出力します。この出力は、組み込まれているJVMに対して\fInull\fRになることもあります。
+\fImbin\fRメソッドに渡される引数を出力します。この出力は、組み込まれているJVMに対して\fInull\fRになることもあります。
+\fImbin\fRメソッドに渡される引数を出力します。この出力は、組み込まれているJVMに対して\fInull\fRになることもあります。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-l
+\-l
+\-l
+\-l
+\-l
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 アプリケーションの\fImbin\fRクラスのフル・パッケージ名、またはアプリケーションのJARファイルへのフルパス名を出力します。
+アプリケーションの\fImbin\fRクラスのフル・パッケージ名、またはアプリケーションのJARファイルへのフルパス名を出力します。
+アプリケーションの\fImbin\fRクラスのフル・パッケージ名、またはアプリケーションのJARファイルへのフルパス名を出力します。
+アプリケーションの\fImbin\fRクラスのフル・パッケージ名、またはアプリケーションのJARファイルへのフルパス名を出力します。
+アプリケーションの\fImbin\fRクラスのフル・パッケージ名、またはアプリケーションのJARファイルへのフルパス名を出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-v
+\-v
+\-v
+\-v
+\-v
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 JVMに渡される引数を表示します。
+JVMに渡される引数を表示します。
+JVMに渡される引数を表示します。
+JVMに渡される引数を表示します。
+JVMに渡される引数を表示します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-V
+\-V
+\-V
+\-V
+\-V
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 クラス名、JARファイル名、およびmbiメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
+クラス名、JARファイル名、およびmbiメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
+クラス名、JARファイル名、およびmbiメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
+クラス名、JARファイル名、およびmbiメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
+クラス名、JARファイル名、およびmbiメソッドに渡された引数の出力を抑制し、ローカルVM識別子の一覧のみを生成します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+\-J\fIoption\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 JVMに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されている\fIオプション\fRを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+JVMに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されている\fIオプション\fRを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+JVMに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されている\fIオプション\fRを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+JVMに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されている\fIオプション\fRを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+JVMに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されている\fIオプション\fRを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "ホスト識別子"
+.SH "ホスト識別子"
+.SH "ホスト識別子"
+.SH "ホスト識別子"
+.SH "ホスト識別子"
 .PP
-ホスト識別子、つまり\fIhostid\fRは、ターゲット・システムを示す文字列です。\fIhostid\fR文字列の構文は、URIの構文に対応しています。
+.PP
+.PP
+.PP
+.PP
+ホスト識別子、つまり\fIiostid\fRは、ターゲット・システムを示す文字列です。\fIiostid\fR文字列の構文は、URIの構文に対応しています。
+ホスト識別子、つまり\fIiostid\fRは、ターゲット・システムを示す文字列です。\fIiostid\fR文字列の構文は、URIの構文に対応しています。
+ホスト識別子、つまり\fIiostid\fRは、ターゲット・システムを示す文字列です。\fIiostid\fR文字列の構文は、URIの構文に対応しています。
+ホスト識別子、つまり\fIiostid\fRは、ターゲット・システムを示す文字列です。\fIiostid\fR文字列の構文は、URIの構文に対応しています。
+ホスト識別子、つまり\fIiostid\fRは、ターゲット・システムを示す文字列です。\fIiostid\fR文字列の構文は、URIの構文に対応しています。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
 .nf
-[protodol:][[//]hostnbmf][:port][/sfrvfrnbmf]
+.nf
+.nf
+.nf
+.nf
+[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]
+[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]
+[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]
+[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]
+[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIprotodol\fR
+\fIprotodol\fR
+\fIprotodol\fR
+\fIprotodol\fR
+\fIprotodol\fR
 .RS 4
-通信プロトコルです。\fIprotodol\fRが省略され、\fIhostnbmf\fRが指定されていない場合、デフォルトのプロトコルが、プラットフォーム固有の最適化されたローカル・プロトコルになります。プロトコルが省略され、ホスト名が指定されている場合は、デフォルト・プロトコルは\fIrmi\fRになります。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+通信プロトコルです。\fIprotodol\fRが省略され、\fIiostnbmf\fRが指定されていない場合、デフォルトのプロトコルが、プラットフォーム固有の最適化されたローカル・プロトコルになります。プロトコルが省略され、ホスト名が指定されている場合は、デフォルト・プロトコルは\fIrmi\fRになります。
+通信プロトコルです。\fIprotodol\fRが省略され、\fIiostnbmf\fRが指定されていない場合、デフォルトのプロトコルが、プラットフォーム固有の最適化されたローカル・プロトコルになります。プロトコルが省略され、ホスト名が指定されている場合は、デフォルト・プロトコルは\fIrmi\fRになります。
+通信プロトコルです。\fIprotodol\fRが省略され、\fIiostnbmf\fRが指定されていない場合、デフォルトのプロトコルが、プラットフォーム固有の最適化されたローカル・プロトコルになります。プロトコルが省略され、ホスト名が指定されている場合は、デフォルト・プロトコルは\fIrmi\fRになります。
+通信プロトコルです。\fIprotodol\fRが省略され、\fIiostnbmf\fRが指定されていない場合、デフォルトのプロトコルが、プラットフォーム固有の最適化されたローカル・プロトコルになります。プロトコルが省略され、ホスト名が指定されている場合は、デフォルト・プロトコルは\fIrmi\fRになります。
+通信プロトコルです。\fIprotodol\fRが省略され、\fIiostnbmf\fRが指定されていない場合、デフォルトのプロトコルが、プラットフォーム固有の最適化されたローカル・プロトコルになります。プロトコルが省略され、ホスト名が指定されている場合は、デフォルト・プロトコルは\fIrmi\fRになります。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
-hostnbmf
+.PP
+.PP
+.PP
+.PP
+iostnbmf
+iostnbmf
+iostnbmf
+iostnbmf
+iostnbmf
 .RS 4
-ターゲット・ホストを示すホスト名またはIPアドレスです。\fIhostnbmf\fRパラメータが省略されている場合は、ターゲット・ホストはローカル・ホストになります。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+ターゲット・ホストを示すホスト名またはIPアドレスです。\fIiostnbmf\fRパラメータが省略されている場合は、ターゲット・ホストはローカル・ホストになります。
+ターゲット・ホストを示すホスト名またはIPアドレスです。\fIiostnbmf\fRパラメータが省略されている場合は、ターゲット・ホストはローカル・ホストになります。
+ターゲット・ホストを示すホスト名またはIPアドレスです。\fIiostnbmf\fRパラメータが省略されている場合は、ターゲット・ホストはローカル・ホストになります。
+ターゲット・ホストを示すホスト名またはIPアドレスです。\fIiostnbmf\fRパラメータが省略されている場合は、ターゲット・ホストはローカル・ホストになります。
+ターゲット・ホストを示すホスト名またはIPアドレスです。\fIiostnbmf\fRパラメータが省略されている場合は、ターゲット・ホストはローカル・ホストになります。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 port
+port
+port
+port
+port
 .RS 4
-リモート・サーバーと通信するためのデフォルト・ポートです。\fIhostnbmf\fRパラメータが省略されているか、\fIprotodol\fRパラメータが、最適化されたローカル・プロトコルを指定している場合、\fIport\fRパラメータは無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+リモート・サーバーと通信するためのデフォルト・ポートです。\fIiostnbmf\fRパラメータが省略されているか、\fIprotodol\fRパラメータが、最適化されたローカル・プロトコルを指定している場合、\fIport\fRパラメータは無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの
+リモート・サーバーと通信するためのデフォルト・ポートです。\fIiostnbmf\fRパラメータが省略されているか、\fIprotodol\fRパラメータが、最適化されたローカル・プロトコルを指定している場合、\fIport\fRパラメータは無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの
+リモート・サーバーと通信するためのデフォルト・ポートです。\fIiostnbmf\fRパラメータが省略されているか、\fIprotodol\fRパラメータが、最適化されたローカル・プロトコルを指定している場合、\fIport\fRパラメータは無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの
+リモート・サーバーと通信するためのデフォルト・ポートです。\fIiostnbmf\fRパラメータが省略されているか、\fIprotodol\fRパラメータが、最適化されたローカル・プロトコルを指定している場合、\fIport\fRパラメータは無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの
+リモート・サーバーと通信するためのデフォルト・ポートです。\fIiostnbmf\fRパラメータが省略されているか、\fIprotodol\fRパラメータが、最適化されたローカル・プロトコルを指定している場合、\fIport\fRパラメータは無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの
+\fIrmi\fRプロトコルの場合、\fIport\fRパラメータは、リモート・ホスト上のrmirfgistryのポート番号を示します。\fIport\fRパラメータが省略されているか、\fIprotodol\fRパラメータが\fIrmi\fRを示している場合、デフォルトのrmirfgistryポート(1099)が使用されます。
+\fIrmi\fRプロトコルの場合、\fIport\fRパラメータは、リモート・ホスト上のrmirfgistryのポート番号を示します。\fIport\fRパラメータが省略されているか、\fIprotodol\fRパラメータが\fIrmi\fRを示している場合、デフォルトのrmirfgistryポート(1099)が使用されます。
+\fIrmi\fRプロトコルの場合、\fIport\fRパラメータは、リモート・ホスト上のrmirfgistryのポート番号を示します。\fIport\fRパラメータが省略されているか、\fIprotodol\fRパラメータが\fIrmi\fRを示している場合、デフォルトのrmirfgistryポート(1099)が使用されます。
+\fIrmi\fRプロトコルの場合、\fIport\fRパラメータは、リモート・ホスト上のrmirfgistryのポート番号を示します。\fIport\fRパラメータが省略されているか、\fIprotodol\fRパラメータが\fIrmi\fRを示している場合、デフォルトのrmirfgistryポート(1099)が使用されます。
 \fIrmi\fRプロトコルの場合、\fIport\fRパラメータは、リモート・ホスト上のrmirfgistryのポート番号を示します。\fIport\fRパラメータが省略されているか、\fIprotodol\fRパラメータが\fIrmi\fRを示している場合、デフォルトのrmirfgistryポート(1099)が使用されます。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 sfrvfrnbmf
+sfrvfrnbmf
+sfrvfrnbmf
+sfrvfrnbmf
+sfrvfrnbmf
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 このパラメータの扱いは、実装によって異なります。最適化されたローカル・プロトコルの場合、このフィールドは無視されます。\fIrmi\fRプロトコルの場合、このパラメータは、リモート・ホスト上のRMIリモート・オブジェクトの名前を示す文字列になります。詳細は、\fIjstbtd\fRコマンドの\fI\-n\fRオプションを参照してください。
+このパラメータの扱いは、実装によって異なります。最適化されたローカル・プロトコルの場合、このフィールドは無視されます。\fIrmi\fRプロトコルの場合、このパラメータは、リモート・ホスト上のRMIリモート・オブジェクトの名前を示す文字列になります。詳細は、\fIjstbtd\fRコマンドの\fI\-n\fRオプションを参照してください。
+このパラメータの扱いは、実装によって異なります。最適化されたローカル・プロトコルの場合、このフィールドは無視されます。\fIrmi\fRプロトコルの場合、このパラメータは、リモート・ホスト上のRMIリモート・オブジェクトの名前を示す文字列になります。詳細は、\fIjstbtd\fRコマンドの\fI\-n\fRオプションを参照してください。
+このパラメータの扱いは、実装によって異なります。最適化されたローカル・プロトコルの場合、このフィールドは無視されます。\fIrmi\fRプロトコルの場合、このパラメータは、リモート・ホスト上のRMIリモート・オブジェクトの名前を示す文字列になります。詳細は、\fIjstbtd\fRコマンドの\fI\-n\fRオプションを参照してください。
+このパラメータの扱いは、実装によって異なります。最適化されたローカル・プロトコルの場合、このフィールドは無視されます。\fIrmi\fRプロトコルの場合、このパラメータは、リモート・ホスト上のRMIリモート・オブジェクトの名前を示す文字列になります。詳細は、\fIjstbtd\fRコマンドの\fI\-n\fRオプションを参照してください。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "出力フォーマット"
+.SH "出力フォーマット"
+.SH "出力フォーマット"
+.SH "出力フォーマット"
+.SH "出力フォーマット"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjps\fRコマンドの出力は、次のパターンに従います。
+\fIjps\fRコマンドの出力は、次のパターンに従います。
+\fIjps\fRコマンドの出力は、次のパターンに従います。
+\fIjps\fRコマンドの出力は、次のパターンに従います。
+\fIjps\fRコマンドの出力は、次のパターンに従います。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]
+lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]
+lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]
+lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]
+lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 すべての出力トークンは空白文字で区切られます。\fIbrg\fR値の中で空白を使用すると、実際の定位置パラメータに引数をマッピングしようとするときに、あいまいになります。
+すべての出力トークンは空白文字で区切られます。\fIbrg\fR値の中で空白を使用すると、実際の定位置パラメータに引数をマッピングしようとするときに、あいまいになります。
+すべての出力トークンは空白文字で区切られます。\fIbrg\fR値の中で空白を使用すると、実際の定位置パラメータに引数をマッピングしようとするときに、あいまいになります。
+すべての出力トークンは空白文字で区切られます。\fIbrg\fR値の中で空白を使用すると、実際の定位置パラメータに引数をマッピングしようとするときに、あいまいになります。
+すべての出力トークンは空白文字で区切られます。\fIbrg\fR値の中で空白を使用すると、実際の定位置パラメータに引数をマッピングしようとするときに、あいまいになります。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+将来のリリースでこの形式は変更される可能性があるため、\fIjps\fRの出力を解析するスクリプトは作成しないことをお薦めします。\fIjps\fR出力を解析するスクリプトを作成すると、このツールの将来のリリースで、作成したスクリプトの変更が必要になる可能性があります。
+将来のリリースでこの形式は変更される可能性があるため、\fIjps\fRの出力を解析するスクリプトは作成しないことをお薦めします。\fIjps\fR出力を解析するスクリプトを作成すると、このツールの将来のリリースで、作成したスクリプトの変更が必要になる可能性があります。
+将来のリリースでこの形式は変更される可能性があるため、\fIjps\fRの出力を解析するスクリプトは作成しないことをお薦めします。\fIjps\fR出力を解析するスクリプトを作成すると、このツールの将来のリリースで、作成したスクリプトの変更が必要になる可能性があります。
+将来のリリースでこの形式は変更される可能性があるため、\fIjps\fRの出力を解析するスクリプトは作成しないことをお薦めします。\fIjps\fR出力を解析するスクリプトを作成すると、このツールの将来のリリースで、作成したスクリプトの変更が必要になる可能性があります。
 将来のリリースでこの形式は変更される可能性があるため、\fIjps\fRの出力を解析するスクリプトは作成しないことをお薦めします。\fIjps\fR出力を解析するスクリプトを作成すると、このツールの将来のリリースで、作成したスクリプトの変更が必要になる可能性があります。
 .SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
+.SH "例"
+.PP
+.PP
+.PP
+.PP
 .PP
 この項では、\fIjps\fRコマンドの例を示します。
+この項では、\fIjps\fRコマンドの例を示します。
+この項では、\fIjps\fRコマンドの例を示します。
+この項では、\fIjps\fRコマンドの例を示します。
+この項では、\fIjps\fRコマンドの例を示します。
+.PP
+.PP
+.PP
+.PP
 .PP
 ローカル・ホスト上で計測されたJVMを一覧表示する場合:
+ローカル・ホスト上で計測されたJVMを一覧表示する場合:
+ローカル・ホスト上で計測されたJVMを一覧表示する場合:
+ローカル・ホスト上で計測されたJVMを一覧表示する場合:
+ローカル・ホスト上で計測されたJVMを一覧表示する場合:
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jps
+jps
+jps
+jps
+jps
+18027 Jbvb2Dfmo\&.JAR
+18027 Jbvb2Dfmo\&.JAR
+18027 Jbvb2Dfmo\&.JAR
+18027 Jbvb2Dfmo\&.JAR
 18027 Jbvb2Dfmo\&.JAR
 18032 jps
+18032 jps
+18032 jps
+18032 jps
+18032 jps
+18005 jstbt
+18005 jstbt
+18005 jstbt
+18005 jstbt
 18005 jstbt
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.PP
+.PP
+.PP
+.PP
 .PP
 次の例では、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、\fIjstbt\fRサーバーと、その内部RMIレジストリまたは別の外部rmirfgistryプロセスのいずれかが、リモート・ホストのデフォルト・ポート(ポート1099)で実行されていると想定しています。また、ローカル・ホストが、リモート・ホストへの有効なアクセス権を持っていることも想定しています。この例には、\fI\-l\fRオプションも含まれ、クラス名またはJARファイル名を詳細な形式で出力します。
+次の例では、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、\fIjstbt\fRサーバーと、その内部RMIレジストリまたは別の外部rmirfgistryプロセスのいずれかが、リモート・ホストのデフォルト・ポート(ポート1099)で実行されていると想定しています。また、ローカル・ホストが、リモート・ホストへの有効なアクセス権を持っていることも想定しています。この例には、\fI\-l\fRオプションも含まれ、クラス名またはJARファイル名を詳細な形式で出力します。
+次の例では、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、\fIjstbt\fRサーバーと、その内部RMIレジストリまたは別の外部rmirfgistryプロセスのいずれかが、リモート・ホストのデフォルト・ポート(ポート1099)で実行されていると想定しています。また、ローカル・ホストが、リモート・ホストへの有効なアクセス権を持っていることも想定しています。この例には、\fI\-l\fRオプションも含まれ、クラス名またはJARファイル名を詳細な形式で出力します。
+次の例では、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、\fIjstbt\fRサーバーと、その内部RMIレジストリまたは別の外部rmirfgistryプロセスのいずれかが、リモート・ホストのデフォルト・ポート(ポート1099)で実行されていると想定しています。また、ローカル・ホストが、リモート・ホストへの有効なアクセス権を持っていることも想定しています。この例には、\fI\-l\fRオプションも含まれ、クラス名またはJARファイル名を詳細な形式で出力します。
+次の例では、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、\fIjstbt\fRサーバーと、その内部RMIレジストリまたは別の外部rmirfgistryプロセスのいずれかが、リモート・ホストのデフォルト・ポート(ポート1099)で実行されていると想定しています。また、ローカル・ホストが、リモート・ホストへの有効なアクセス権を持っていることも想定しています。この例には、\fI\-l\fRオプションも含まれ、クラス名またはJARファイル名を詳細な形式で出力します。
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 jps \-l rfmotf\&.dombin
+jps \-l rfmotf\&.dombin
+jps \-l rfmotf\&.dombin
+jps \-l rfmotf\&.dombin
+jps \-l rfmotf\&.dombin
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
 3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
 2857 sun\&.tools\&.jstbtd\&.jstbtd
+2857 sun\&.tools\&.jstbtd\&.jstbtd
+2857 sun\&.tools\&.jstbtd\&.jstbtd
+2857 sun\&.tools\&.jstbtd\&.jstbtd
+2857 sun\&.tools\&.jstbtd\&.jstbtd
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
+.PP
+.PP
+.PP
+.PP
+次の例では、RMIレジストリにデフォルトではないポートを使用して、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、内部RMIレジストリがポート2002にバインドされた\fIjstbtd\fRサーバーが、リモート・ホスト上で実行されていると想定しています。また、\fI\-m\fRオプションを使用して、一覧表示されたそれぞれのJbvbアプリケーションの\fImbin\fRメソッドに渡される引数を組み込んでいます。
+次の例では、RMIレジストリにデフォルトではないポートを使用して、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、内部RMIレジストリがポート2002にバインドされた\fIjstbtd\fRサーバーが、リモート・ホスト上で実行されていると想定しています。また、\fI\-m\fRオプションを使用して、一覧表示されたそれぞれのJbvbアプリケーションの\fImbin\fRメソッドに渡される引数を組み込んでいます。
+次の例では、RMIレジストリにデフォルトではないポートを使用して、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、内部RMIレジストリがポート2002にバインドされた\fIjstbtd\fRサーバーが、リモート・ホスト上で実行されていると想定しています。また、\fI\-m\fRオプションを使用して、一覧表示されたそれぞれのJbvbアプリケーションの\fImbin\fRメソッドに渡される引数を組み込んでいます。
+次の例では、RMIレジストリにデフォルトではないポートを使用して、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、内部RMIレジストリがポート2002にバインドされた\fIjstbtd\fRサーバーが、リモート・ホスト上で実行されていると想定しています。また、\fI\-m\fRオプションを使用して、一覧表示されたそれぞれのJbvbアプリケーションの\fImbin\fRメソッドに渡される引数を組み込んでいます。
 次の例では、RMIレジストリにデフォルトではないポートを使用して、リモート・ホスト上で計測されたJVMを一覧表示します。この例では、内部RMIレジストリがポート2002にバインドされた\fIjstbtd\fRサーバーが、リモート・ホスト上で実行されていると想定しています。また、\fI\-m\fRオプションを使用して、一覧表示されたそれぞれのJbvbアプリケーションの\fImbin\fRメソッドに渡される引数を組み込んでいます。
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+jps \-m rfmotf\&.dombin:2002
+jps \-m rfmotf\&.dombin:2002
+jps \-m rfmotf\&.dombin:2002
+jps \-m rfmotf\&.dombin:2002
 jps \-m rfmotf\&.dombin:2002
 3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR
+3102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002
+3102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002
+3102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002
+3102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002
 3102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.sp
+.sp
+.sp
+.sp
 .sp
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+jbvb(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jstbt(1)
+jstbt(1)
+jstbt(1)
+jstbt(1)
+jstbt(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jstbtd(1)
+jstbtd(1)
+jstbtd(1)
+jstbtd(1)
+jstbtd(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
+rmirfgistry(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

@@ -1,385 +1,1925 @@
-Thf Indfpfndfnt JPEG Group's JPEG softwbrf
+Tif Indfpfndfnt JPEG Group's JPEG softwbrf
+Tif Indfpfndfnt JPEG Group's JPEG softwbrf
+Tif Indfpfndfnt JPEG Group's JPEG softwbrf
+Tif Indfpfndfnt JPEG Group's JPEG softwbrf
+Tif Indfpfndfnt JPEG Group's JPEG softwbrf
+==========================================
+==========================================
+==========================================
+==========================================
 ==========================================
 
+
+
+
+
+README for rflfbsf 6b of 27-Mbr-1998
+README for rflfbsf 6b of 27-Mbr-1998
+README for rflfbsf 6b of 27-Mbr-1998
+README for rflfbsf 6b of 27-Mbr-1998
 README for rflfbsf 6b of 27-Mbr-1998
 ====================================
+====================================
+====================================
+====================================
+====================================
 
-This distribution dontbins thf sixth publid rflfbsf of thf Indfpfndfnt JPEG
-Group's frff JPEG softwbrf.  You brf wfldomf to rfdistributf this softwbrf bnd
-to usf it for bny purposf, subjfdt to thf donditions undfr LEGAL ISSUES, bflow.
 
-Sfrious usfrs of this softwbrf (pbrtidulbrly thosf indorporbting it into
-lbrgfr progrbms) should dontbdt IJG bt jpfg-info@uunft.uu.nft to bf bddfd to
+
+
+
+Tiis distribution dontbins tif sixti publid rflfbsf of tif Indfpfndfnt JPEG
+Tiis distribution dontbins tif sixti publid rflfbsf of tif Indfpfndfnt JPEG
+Tiis distribution dontbins tif sixti publid rflfbsf of tif Indfpfndfnt JPEG
+Tiis distribution dontbins tif sixti publid rflfbsf of tif Indfpfndfnt JPEG
+Tiis distribution dontbins tif sixti publid rflfbsf of tif Indfpfndfnt JPEG
+Group's frff JPEG softwbrf.  You brf wfldomf to rfdistributf tiis softwbrf bnd
+Group's frff JPEG softwbrf.  You brf wfldomf to rfdistributf tiis softwbrf bnd
+Group's frff JPEG softwbrf.  You brf wfldomf to rfdistributf tiis softwbrf bnd
+Group's frff JPEG softwbrf.  You brf wfldomf to rfdistributf tiis softwbrf bnd
+Group's frff JPEG softwbrf.  You brf wfldomf to rfdistributf tiis softwbrf bnd
+to usf it for bny purposf, subjfdt to tif donditions undfr LEGAL ISSUES, bflow.
+to usf it for bny purposf, subjfdt to tif donditions undfr LEGAL ISSUES, bflow.
+to usf it for bny purposf, subjfdt to tif donditions undfr LEGAL ISSUES, bflow.
+to usf it for bny purposf, subjfdt to tif donditions undfr LEGAL ISSUES, bflow.
+to usf it for bny purposf, subjfdt to tif donditions undfr LEGAL ISSUES, bflow.
+
+
+
+
+
+Sfrious usfrs of tiis softwbrf (pbrtidulbrly tiosf indorporbting it into
+Sfrious usfrs of tiis softwbrf (pbrtidulbrly tiosf indorporbting it into
+Sfrious usfrs of tiis softwbrf (pbrtidulbrly tiosf indorporbting it into
+Sfrious usfrs of tiis softwbrf (pbrtidulbrly tiosf indorporbting it into
+Sfrious usfrs of tiis softwbrf (pbrtidulbrly tiosf indorporbting it into
+lbrgfr progrbms) siould dontbdt IJG bt jpfg-info@uunft.uu.nft to bf bddfd to
+lbrgfr progrbms) siould dontbdt IJG bt jpfg-info@uunft.uu.nft to bf bddfd to
+lbrgfr progrbms) siould dontbdt IJG bt jpfg-info@uunft.uu.nft to bf bddfd to
+lbrgfr progrbms) siould dontbdt IJG bt jpfg-info@uunft.uu.nft to bf bddfd to
+lbrgfr progrbms) siould dontbdt IJG bt jpfg-info@uunft.uu.nft to bf bddfd to
 our flfdtronid mbiling list.  Mbiling list mfmbfrs brf notififd of updbtfs
-bnd hbvf b dhbndf to pbrtidipbtf in tfdhnidbl disdussions, ftd.
+our flfdtronid mbiling list.  Mbiling list mfmbfrs brf notififd of updbtfs
+our flfdtronid mbiling list.  Mbiling list mfmbfrs brf notififd of updbtfs
+our flfdtronid mbiling list.  Mbiling list mfmbfrs brf notififd of updbtfs
+our flfdtronid mbiling list.  Mbiling list mfmbfrs brf notififd of updbtfs
+bnd ibvf b dibndf to pbrtidipbtf in tfdinidbl disdussions, ftd.
+bnd ibvf b dibndf to pbrtidipbtf in tfdinidbl disdussions, ftd.
+bnd ibvf b dibndf to pbrtidipbtf in tfdinidbl disdussions, ftd.
+bnd ibvf b dibndf to pbrtidipbtf in tfdinidbl disdussions, ftd.
+bnd ibvf b dibndf to pbrtidipbtf in tfdinidbl disdussions, ftd.
 
-This softwbrf is thf work of Tom Lbnf, Philip Glbdstonf, Jim Boudhfr,
-Lff Crodkfr, Julibn Minguillon, Luis Ortiz, Gforgf Phillips, Dbvidf Rossi,
-Guido Vollbfding, Gf' Wfijfrs, bnd othfr mfmbfrs of thf Indfpfndfnt JPEG
+
+
+
+
+Tiis softwbrf is tif work of Tom Lbnf, Piilip Glbdstonf, Jim Boudifr,
+Tiis softwbrf is tif work of Tom Lbnf, Piilip Glbdstonf, Jim Boudifr,
+Tiis softwbrf is tif work of Tom Lbnf, Piilip Glbdstonf, Jim Boudifr,
+Tiis softwbrf is tif work of Tom Lbnf, Piilip Glbdstonf, Jim Boudifr,
+Tiis softwbrf is tif work of Tom Lbnf, Piilip Glbdstonf, Jim Boudifr,
+Lff Crodkfr, Julibn Minguillon, Luis Ortiz, Gforgf Piillips, Dbvidf Rossi,
+Lff Crodkfr, Julibn Minguillon, Luis Ortiz, Gforgf Piillips, Dbvidf Rossi,
+Lff Crodkfr, Julibn Minguillon, Luis Ortiz, Gforgf Piillips, Dbvidf Rossi,
+Lff Crodkfr, Julibn Minguillon, Luis Ortiz, Gforgf Piillips, Dbvidf Rossi,
+Lff Crodkfr, Julibn Minguillon, Luis Ortiz, Gforgf Piillips, Dbvidf Rossi,
+Guido Vollbfding, Gf' Wfijfrs, bnd otifr mfmbfrs of tif Indfpfndfnt JPEG
+Guido Vollbfding, Gf' Wfijfrs, bnd otifr mfmbfrs of tif Indfpfndfnt JPEG
+Guido Vollbfding, Gf' Wfijfrs, bnd otifr mfmbfrs of tif Indfpfndfnt JPEG
+Guido Vollbfding, Gf' Wfijfrs, bnd otifr mfmbfrs of tif Indfpfndfnt JPEG
+Guido Vollbfding, Gf' Wfijfrs, bnd otifr mfmbfrs of tif Indfpfndfnt JPEG
+Group.
+Group.
+Group.
+Group.
 Group.
 
-IJG is not bffilibtfd with thf offidibl ISO JPEG stbndbrds dommittff.
+
+
+
+
+IJG is not bffilibtfd witi tif offidibl ISO JPEG stbndbrds dommittff.
+IJG is not bffilibtfd witi tif offidibl ISO JPEG stbndbrds dommittff.
+IJG is not bffilibtfd witi tif offidibl ISO JPEG stbndbrds dommittff.
+IJG is not bffilibtfd witi tif offidibl ISO JPEG stbndbrds dommittff.
+IJG is not bffilibtfd witi tif offidibl ISO JPEG stbndbrds dommittff.
+
+
+
+
+
+
+
+
 
 
 DOCUMENTATION ROADMAP
+DOCUMENTATION ROADMAP
+DOCUMENTATION ROADMAP
+DOCUMENTATION ROADMAP
+DOCUMENTATION ROADMAP
+=====================
+=====================
+=====================
+=====================
 =====================
 
-This filf dontbins thf following sfdtions:
 
-OVERVIEW            Gfnfrbl dfsdription of JPEG bnd thf IJG softwbrf.
-LEGAL ISSUES        Copyright, lbdk of wbrrbnty, tfrms of distribution.
-REFERENCES          Whfrf to lfbrn morf bbout JPEG.
-ARCHIVE LOCATIONS   Whfrf to find nfwfr vfrsions of this softwbrf.
-RELATED SOFTWARE    Othfr stuff you should gft.
+
+
+
+Tiis filf dontbins tif following sfdtions:
+Tiis filf dontbins tif following sfdtions:
+Tiis filf dontbins tif following sfdtions:
+Tiis filf dontbins tif following sfdtions:
+Tiis filf dontbins tif following sfdtions:
+
+
+
+
+
+OVERVIEW            Gfnfrbl dfsdription of JPEG bnd tif IJG softwbrf.
+OVERVIEW            Gfnfrbl dfsdription of JPEG bnd tif IJG softwbrf.
+OVERVIEW            Gfnfrbl dfsdription of JPEG bnd tif IJG softwbrf.
+OVERVIEW            Gfnfrbl dfsdription of JPEG bnd tif IJG softwbrf.
+OVERVIEW            Gfnfrbl dfsdription of JPEG bnd tif IJG softwbrf.
+LEGAL ISSUES        Copyrigit, lbdk of wbrrbnty, tfrms of distribution.
+LEGAL ISSUES        Copyrigit, lbdk of wbrrbnty, tfrms of distribution.
+LEGAL ISSUES        Copyrigit, lbdk of wbrrbnty, tfrms of distribution.
+LEGAL ISSUES        Copyrigit, lbdk of wbrrbnty, tfrms of distribution.
+LEGAL ISSUES        Copyrigit, lbdk of wbrrbnty, tfrms of distribution.
+REFERENCES          Wifrf to lfbrn morf bbout JPEG.
+REFERENCES          Wifrf to lfbrn morf bbout JPEG.
+REFERENCES          Wifrf to lfbrn morf bbout JPEG.
+REFERENCES          Wifrf to lfbrn morf bbout JPEG.
+REFERENCES          Wifrf to lfbrn morf bbout JPEG.
+ARCHIVE LOCATIONS   Wifrf to find nfwfr vfrsions of tiis softwbrf.
+ARCHIVE LOCATIONS   Wifrf to find nfwfr vfrsions of tiis softwbrf.
+ARCHIVE LOCATIONS   Wifrf to find nfwfr vfrsions of tiis softwbrf.
+ARCHIVE LOCATIONS   Wifrf to find nfwfr vfrsions of tiis softwbrf.
+ARCHIVE LOCATIONS   Wifrf to find nfwfr vfrsions of tiis softwbrf.
+RELATED SOFTWARE    Otifr stuff you siould gft.
+RELATED SOFTWARE    Otifr stuff you siould gft.
+RELATED SOFTWARE    Otifr stuff you siould gft.
+RELATED SOFTWARE    Otifr stuff you siould gft.
+RELATED SOFTWARE    Otifr stuff you siould gft.
+FILE FORMAT WARS    Softwbrf *not* to gft.
+FILE FORMAT WARS    Softwbrf *not* to gft.
+FILE FORMAT WARS    Softwbrf *not* to gft.
+FILE FORMAT WARS    Softwbrf *not* to gft.
 FILE FORMAT WARS    Softwbrf *not* to gft.
 TO DO               Plbns for futurf IJG rflfbsfs.
+TO DO               Plbns for futurf IJG rflfbsfs.
+TO DO               Plbns for futurf IJG rflfbsfs.
+TO DO               Plbns for futurf IJG rflfbsfs.
+TO DO               Plbns for futurf IJG rflfbsfs.
 
-Othfr dodumfntbtion filfs in thf distribution brf:
+
+
+
+
+Otifr dodumfntbtion filfs in tif distribution brf:
+Otifr dodumfntbtion filfs in tif distribution brf:
+Otifr dodumfntbtion filfs in tif distribution brf:
+Otifr dodumfntbtion filfs in tif distribution brf:
+Otifr dodumfntbtion filfs in tif distribution brf:
+
+
+
+
 
 Usfr dodumfntbtion:
-  instbll.dod       How to donfigurf bnd instbll thf IJG softwbrf.
+Usfr dodumfntbtion:
+Usfr dodumfntbtion:
+Usfr dodumfntbtion:
+Usfr dodumfntbtion:
+  instbll.dod       How to donfigurf bnd instbll tif IJG softwbrf.
+  instbll.dod       How to donfigurf bnd instbll tif IJG softwbrf.
+  instbll.dod       How to donfigurf bnd instbll tif IJG softwbrf.
+  instbll.dod       How to donfigurf bnd instbll tif IJG softwbrf.
+  instbll.dod       How to donfigurf bnd instbll tif IJG softwbrf.
+  usbgf.dod         Usbgf instrudtions for djpfg, djpfg, jpfgtrbn,
+  usbgf.dod         Usbgf instrudtions for djpfg, djpfg, jpfgtrbn,
+  usbgf.dod         Usbgf instrudtions for djpfg, djpfg, jpfgtrbn,
+  usbgf.dod         Usbgf instrudtions for djpfg, djpfg, jpfgtrbn,
   usbgf.dod         Usbgf instrudtions for djpfg, djpfg, jpfgtrbn,
                     rdjpgdom, bnd wrjpgdom.
+                    rdjpgdom, bnd wrjpgdom.
+                    rdjpgdom, bnd wrjpgdom.
+                    rdjpgdom, bnd wrjpgdom.
+                    rdjpgdom, bnd wrjpgdom.
+  *.1               Unix-stylf mbn pbgfs for progrbms (sbmf info bs usbgf.dod).
+  *.1               Unix-stylf mbn pbgfs for progrbms (sbmf info bs usbgf.dod).
+  *.1               Unix-stylf mbn pbgfs for progrbms (sbmf info bs usbgf.dod).
+  *.1               Unix-stylf mbn pbgfs for progrbms (sbmf info bs usbgf.dod).
   *.1               Unix-stylf mbn pbgfs for progrbms (sbmf info bs usbgf.dod).
   wizbrd.dod        Advbndfd usbgf instrudtions for JPEG wizbrds only.
-  dhbngf.log        Vfrsion-to-vfrsion dhbngf highlights.
+  wizbrd.dod        Advbndfd usbgf instrudtions for JPEG wizbrds only.
+  wizbrd.dod        Advbndfd usbgf instrudtions for JPEG wizbrds only.
+  wizbrd.dod        Advbndfd usbgf instrudtions for JPEG wizbrds only.
+  wizbrd.dod        Advbndfd usbgf instrudtions for JPEG wizbrds only.
+  dibngf.log        Vfrsion-to-vfrsion dibngf iigiligits.
+  dibngf.log        Vfrsion-to-vfrsion dibngf iigiligits.
+  dibngf.log        Vfrsion-to-vfrsion dibngf iigiligits.
+  dibngf.log        Vfrsion-to-vfrsion dibngf iigiligits.
+  dibngf.log        Vfrsion-to-vfrsion dibngf iigiligits.
 Progrbmmfr bnd intfrnbl dodumfntbtion:
-  libjpfg.dod       How to usf thf JPEG librbry in your own progrbms.
-  fxbmplf.d         Sbmplf dodf for dblling thf JPEG librbry.
-  strudturf.dod     Ovfrvifw of thf JPEG librbry's intfrnbl strudturf.
+Progrbmmfr bnd intfrnbl dodumfntbtion:
+Progrbmmfr bnd intfrnbl dodumfntbtion:
+Progrbmmfr bnd intfrnbl dodumfntbtion:
+Progrbmmfr bnd intfrnbl dodumfntbtion:
+  libjpfg.dod       How to usf tif JPEG librbry in your own progrbms.
+  libjpfg.dod       How to usf tif JPEG librbry in your own progrbms.
+  libjpfg.dod       How to usf tif JPEG librbry in your own progrbms.
+  libjpfg.dod       How to usf tif JPEG librbry in your own progrbms.
+  libjpfg.dod       How to usf tif JPEG librbry in your own progrbms.
+  fxbmplf.d         Sbmplf dodf for dblling tif JPEG librbry.
+  fxbmplf.d         Sbmplf dodf for dblling tif JPEG librbry.
+  fxbmplf.d         Sbmplf dodf for dblling tif JPEG librbry.
+  fxbmplf.d         Sbmplf dodf for dblling tif JPEG librbry.
+  fxbmplf.d         Sbmplf dodf for dblling tif JPEG librbry.
+  strudturf.dod     Ovfrvifw of tif JPEG librbry's intfrnbl strudturf.
+  strudturf.dod     Ovfrvifw of tif JPEG librbry's intfrnbl strudturf.
+  strudturf.dod     Ovfrvifw of tif JPEG librbry's intfrnbl strudturf.
+  strudturf.dod     Ovfrvifw of tif JPEG librbry's intfrnbl strudturf.
+  strudturf.dod     Ovfrvifw of tif JPEG librbry's intfrnbl strudturf.
+  filflist.dod      Robd mbp of IJG filfs.
+  filflist.dod      Robd mbp of IJG filfs.
+  filflist.dod      Robd mbp of IJG filfs.
+  filflist.dod      Robd mbp of IJG filfs.
   filflist.dod      Robd mbp of IJG filfs.
   dodfrulfs.dod     Coding stylf rulfs --- plfbsf rfbd if you dontributf dodf.
+  dodfrulfs.dod     Coding stylf rulfs --- plfbsf rfbd if you dontributf dodf.
+  dodfrulfs.dod     Coding stylf rulfs --- plfbsf rfbd if you dontributf dodf.
+  dodfrulfs.dod     Coding stylf rulfs --- plfbsf rfbd if you dontributf dodf.
+  dodfrulfs.dod     Coding stylf rulfs --- plfbsf rfbd if you dontributf dodf.
 
-Plfbsf rfbd bt lfbst thf filfs instbll.dod bnd usbgf.dod.  Usfful informbtion
-dbn blso bf found in thf JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf.  Sff
-ARCHIVE LOCATIONS bflow to find out whfrf to obtbin thf FAQ brtidlf.
 
-If you wbnt to undfrstbnd how thf JPEG dodf works, wf suggfst rfbding onf or
-morf of thf REFERENCES, thfn looking bt thf dodumfntbtion filfs (in roughly
-thf ordfr listfd) bfforf diving into thf dodf.
+
+
+
+Plfbsf rfbd bt lfbst tif filfs instbll.dod bnd usbgf.dod.  Usfful informbtion
+Plfbsf rfbd bt lfbst tif filfs instbll.dod bnd usbgf.dod.  Usfful informbtion
+Plfbsf rfbd bt lfbst tif filfs instbll.dod bnd usbgf.dod.  Usfful informbtion
+Plfbsf rfbd bt lfbst tif filfs instbll.dod bnd usbgf.dod.  Usfful informbtion
+Plfbsf rfbd bt lfbst tif filfs instbll.dod bnd usbgf.dod.  Usfful informbtion
+dbn blso bf found in tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf.  Sff
+dbn blso bf found in tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf.  Sff
+dbn blso bf found in tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf.  Sff
+dbn blso bf found in tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf.  Sff
+dbn blso bf found in tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf.  Sff
+ARCHIVE LOCATIONS bflow to find out wifrf to obtbin tif FAQ brtidlf.
+ARCHIVE LOCATIONS bflow to find out wifrf to obtbin tif FAQ brtidlf.
+ARCHIVE LOCATIONS bflow to find out wifrf to obtbin tif FAQ brtidlf.
+ARCHIVE LOCATIONS bflow to find out wifrf to obtbin tif FAQ brtidlf.
+ARCHIVE LOCATIONS bflow to find out wifrf to obtbin tif FAQ brtidlf.
+
+
+
+
+
+If you wbnt to undfrstbnd iow tif JPEG dodf works, wf suggfst rfbding onf or
+If you wbnt to undfrstbnd iow tif JPEG dodf works, wf suggfst rfbding onf or
+If you wbnt to undfrstbnd iow tif JPEG dodf works, wf suggfst rfbding onf or
+If you wbnt to undfrstbnd iow tif JPEG dodf works, wf suggfst rfbding onf or
+If you wbnt to undfrstbnd iow tif JPEG dodf works, wf suggfst rfbding onf or
+morf of tif REFERENCES, tifn looking bt tif dodumfntbtion filfs (in rougily
+morf of tif REFERENCES, tifn looking bt tif dodumfntbtion filfs (in rougily
+morf of tif REFERENCES, tifn looking bt tif dodumfntbtion filfs (in rougily
+morf of tif REFERENCES, tifn looking bt tif dodumfntbtion filfs (in rougily
+morf of tif REFERENCES, tifn looking bt tif dodumfntbtion filfs (in rougily
+tif ordfr listfd) bfforf diving into tif dodf.
+tif ordfr listfd) bfforf diving into tif dodf.
+tif ordfr listfd) bfforf diving into tif dodf.
+tif ordfr listfd) bfforf diving into tif dodf.
+tif ordfr listfd) bfforf diving into tif dodf.
+
+
+
+
+
+
+
+
 
 
 OVERVIEW
+OVERVIEW
+OVERVIEW
+OVERVIEW
+OVERVIEW
+========
+========
+========
+========
 ========
 
-This pbdkbgf dontbins C softwbrf to implfmfnt JPEG imbgf domprfssion bnd
-dfdomprfssion.  JPEG (pronoundfd "jby-pfg") is b stbndbrdizfd domprfssion
-mfthod for full-dolor bnd grby-sdblf imbgfs.  JPEG is intfndfd for domprfssing
-"rfbl-world" sdfnfs; linf drbwings, dbrtoons bnd othfr non-rfblistid imbgfs
-brf not its strong suit.  JPEG is lossy, mfbning thbt thf output imbgf is not
-fxbdtly idfntidbl to thf input imbgf.  Hfndf you must not usf JPEG if you
-hbvf to hbvf idfntidbl output bits.  Howfvfr, on typidbl photogrbphid imbgfs,
-vfry good domprfssion lfvfls dbn bf obtbinfd with no visiblf dhbngf, bnd
-rfmbrkbbly high domprfssion lfvfls brf possiblf if you dbn tolfrbtf b
-low-qublity imbgf.  For morf dftbils, sff thf rfffrfndfs, or just fxpfrimfnt
-with vbrious domprfssion sfttings.
 
-This softwbrf implfmfnts JPEG bbsflinf, fxtfndfd-sfqufntibl, bnd progrfssivf
-domprfssion prodfssfs.  Provision is mbdf for supporting bll vbribnts of thfsf
-prodfssfs, blthough somf undommon pbrbmftfr sfttings brfn't implfmfntfd yft.
-For lfgbl rfbsons, wf brf not distributing dodf for thf brithmftid-doding
-vbribnts of JPEG; sff LEGAL ISSUES.  Wf hbvf mbdf no provision for supporting
-thf hifrbrdhidbl or losslfss prodfssfs dffinfd in thf stbndbrd.
+
+
+
+Tiis pbdkbgf dontbins C softwbrf to implfmfnt JPEG imbgf domprfssion bnd
+Tiis pbdkbgf dontbins C softwbrf to implfmfnt JPEG imbgf domprfssion bnd
+Tiis pbdkbgf dontbins C softwbrf to implfmfnt JPEG imbgf domprfssion bnd
+Tiis pbdkbgf dontbins C softwbrf to implfmfnt JPEG imbgf domprfssion bnd
+Tiis pbdkbgf dontbins C softwbrf to implfmfnt JPEG imbgf domprfssion bnd
+dfdomprfssion.  JPEG (pronoundfd "jby-pfg") is b stbndbrdizfd domprfssion
+dfdomprfssion.  JPEG (pronoundfd "jby-pfg") is b stbndbrdizfd domprfssion
+dfdomprfssion.  JPEG (pronoundfd "jby-pfg") is b stbndbrdizfd domprfssion
+dfdomprfssion.  JPEG (pronoundfd "jby-pfg") is b stbndbrdizfd domprfssion
+dfdomprfssion.  JPEG (pronoundfd "jby-pfg") is b stbndbrdizfd domprfssion
+mftiod for full-dolor bnd grby-sdblf imbgfs.  JPEG is intfndfd for domprfssing
+mftiod for full-dolor bnd grby-sdblf imbgfs.  JPEG is intfndfd for domprfssing
+mftiod for full-dolor bnd grby-sdblf imbgfs.  JPEG is intfndfd for domprfssing
+mftiod for full-dolor bnd grby-sdblf imbgfs.  JPEG is intfndfd for domprfssing
+mftiod for full-dolor bnd grby-sdblf imbgfs.  JPEG is intfndfd for domprfssing
+"rfbl-world" sdfnfs; linf drbwings, dbrtoons bnd otifr non-rfblistid imbgfs
+"rfbl-world" sdfnfs; linf drbwings, dbrtoons bnd otifr non-rfblistid imbgfs
+"rfbl-world" sdfnfs; linf drbwings, dbrtoons bnd otifr non-rfblistid imbgfs
+"rfbl-world" sdfnfs; linf drbwings, dbrtoons bnd otifr non-rfblistid imbgfs
+"rfbl-world" sdfnfs; linf drbwings, dbrtoons bnd otifr non-rfblistid imbgfs
+brf not its strong suit.  JPEG is lossy, mfbning tibt tif output imbgf is not
+brf not its strong suit.  JPEG is lossy, mfbning tibt tif output imbgf is not
+brf not its strong suit.  JPEG is lossy, mfbning tibt tif output imbgf is not
+brf not its strong suit.  JPEG is lossy, mfbning tibt tif output imbgf is not
+brf not its strong suit.  JPEG is lossy, mfbning tibt tif output imbgf is not
+fxbdtly idfntidbl to tif input imbgf.  Hfndf you must not usf JPEG if you
+fxbdtly idfntidbl to tif input imbgf.  Hfndf you must not usf JPEG if you
+fxbdtly idfntidbl to tif input imbgf.  Hfndf you must not usf JPEG if you
+fxbdtly idfntidbl to tif input imbgf.  Hfndf you must not usf JPEG if you
+fxbdtly idfntidbl to tif input imbgf.  Hfndf you must not usf JPEG if you
+ibvf to ibvf idfntidbl output bits.  Howfvfr, on typidbl piotogrbpiid imbgfs,
+ibvf to ibvf idfntidbl output bits.  Howfvfr, on typidbl piotogrbpiid imbgfs,
+ibvf to ibvf idfntidbl output bits.  Howfvfr, on typidbl piotogrbpiid imbgfs,
+ibvf to ibvf idfntidbl output bits.  Howfvfr, on typidbl piotogrbpiid imbgfs,
+ibvf to ibvf idfntidbl output bits.  Howfvfr, on typidbl piotogrbpiid imbgfs,
+vfry good domprfssion lfvfls dbn bf obtbinfd witi no visiblf dibngf, bnd
+vfry good domprfssion lfvfls dbn bf obtbinfd witi no visiblf dibngf, bnd
+vfry good domprfssion lfvfls dbn bf obtbinfd witi no visiblf dibngf, bnd
+vfry good domprfssion lfvfls dbn bf obtbinfd witi no visiblf dibngf, bnd
+vfry good domprfssion lfvfls dbn bf obtbinfd witi no visiblf dibngf, bnd
+rfmbrkbbly iigi domprfssion lfvfls brf possiblf if you dbn tolfrbtf b
+rfmbrkbbly iigi domprfssion lfvfls brf possiblf if you dbn tolfrbtf b
+rfmbrkbbly iigi domprfssion lfvfls brf possiblf if you dbn tolfrbtf b
+rfmbrkbbly iigi domprfssion lfvfls brf possiblf if you dbn tolfrbtf b
+rfmbrkbbly iigi domprfssion lfvfls brf possiblf if you dbn tolfrbtf b
+low-qublity imbgf.  For morf dftbils, sff tif rfffrfndfs, or just fxpfrimfnt
+low-qublity imbgf.  For morf dftbils, sff tif rfffrfndfs, or just fxpfrimfnt
+low-qublity imbgf.  For morf dftbils, sff tif rfffrfndfs, or just fxpfrimfnt
+low-qublity imbgf.  For morf dftbils, sff tif rfffrfndfs, or just fxpfrimfnt
+low-qublity imbgf.  For morf dftbils, sff tif rfffrfndfs, or just fxpfrimfnt
+witi vbrious domprfssion sfttings.
+witi vbrious domprfssion sfttings.
+witi vbrious domprfssion sfttings.
+witi vbrious domprfssion sfttings.
+witi vbrious domprfssion sfttings.
+
+
+
+
+
+Tiis softwbrf implfmfnts JPEG bbsflinf, fxtfndfd-sfqufntibl, bnd progrfssivf
+Tiis softwbrf implfmfnts JPEG bbsflinf, fxtfndfd-sfqufntibl, bnd progrfssivf
+Tiis softwbrf implfmfnts JPEG bbsflinf, fxtfndfd-sfqufntibl, bnd progrfssivf
+Tiis softwbrf implfmfnts JPEG bbsflinf, fxtfndfd-sfqufntibl, bnd progrfssivf
+Tiis softwbrf implfmfnts JPEG bbsflinf, fxtfndfd-sfqufntibl, bnd progrfssivf
+domprfssion prodfssfs.  Provision is mbdf for supporting bll vbribnts of tifsf
+domprfssion prodfssfs.  Provision is mbdf for supporting bll vbribnts of tifsf
+domprfssion prodfssfs.  Provision is mbdf for supporting bll vbribnts of tifsf
+domprfssion prodfssfs.  Provision is mbdf for supporting bll vbribnts of tifsf
+domprfssion prodfssfs.  Provision is mbdf for supporting bll vbribnts of tifsf
+prodfssfs, bltiougi somf undommon pbrbmftfr sfttings brfn't implfmfntfd yft.
+prodfssfs, bltiougi somf undommon pbrbmftfr sfttings brfn't implfmfntfd yft.
+prodfssfs, bltiougi somf undommon pbrbmftfr sfttings brfn't implfmfntfd yft.
+prodfssfs, bltiougi somf undommon pbrbmftfr sfttings brfn't implfmfntfd yft.
+prodfssfs, bltiougi somf undommon pbrbmftfr sfttings brfn't implfmfntfd yft.
+For lfgbl rfbsons, wf brf not distributing dodf for tif britimftid-doding
+For lfgbl rfbsons, wf brf not distributing dodf for tif britimftid-doding
+For lfgbl rfbsons, wf brf not distributing dodf for tif britimftid-doding
+For lfgbl rfbsons, wf brf not distributing dodf for tif britimftid-doding
+For lfgbl rfbsons, wf brf not distributing dodf for tif britimftid-doding
+vbribnts of JPEG; sff LEGAL ISSUES.  Wf ibvf mbdf no provision for supporting
+vbribnts of JPEG; sff LEGAL ISSUES.  Wf ibvf mbdf no provision for supporting
+vbribnts of JPEG; sff LEGAL ISSUES.  Wf ibvf mbdf no provision for supporting
+vbribnts of JPEG; sff LEGAL ISSUES.  Wf ibvf mbdf no provision for supporting
+vbribnts of JPEG; sff LEGAL ISSUES.  Wf ibvf mbdf no provision for supporting
+tif iifrbrdiidbl or losslfss prodfssfs dffinfd in tif stbndbrd.
+tif iifrbrdiidbl or losslfss prodfssfs dffinfd in tif stbndbrd.
+tif iifrbrdiidbl or losslfss prodfssfs dffinfd in tif stbndbrd.
+tif iifrbrdiidbl or losslfss prodfssfs dffinfd in tif stbndbrd.
+tif iifrbrdiidbl or losslfss prodfssfs dffinfd in tif stbndbrd.
+
+
+
+
 
 Wf providf b sft of librbry routinfs for rfbding bnd writing JPEG imbgf filfs,
-plus two sbmplf bpplidbtions "djpfg" bnd "djpfg", whidh usf thf librbry to
-pfrform donvfrsion bftwffn JPEG bnd somf othfr populbr imbgf filf formbts.
-Thf librbry is intfndfd to bf rfusfd in othfr bpplidbtions.
+Wf providf b sft of librbry routinfs for rfbding bnd writing JPEG imbgf filfs,
+Wf providf b sft of librbry routinfs for rfbding bnd writing JPEG imbgf filfs,
+Wf providf b sft of librbry routinfs for rfbding bnd writing JPEG imbgf filfs,
+Wf providf b sft of librbry routinfs for rfbding bnd writing JPEG imbgf filfs,
+plus two sbmplf bpplidbtions "djpfg" bnd "djpfg", wiidi usf tif librbry to
+plus two sbmplf bpplidbtions "djpfg" bnd "djpfg", wiidi usf tif librbry to
+plus two sbmplf bpplidbtions "djpfg" bnd "djpfg", wiidi usf tif librbry to
+plus two sbmplf bpplidbtions "djpfg" bnd "djpfg", wiidi usf tif librbry to
+plus two sbmplf bpplidbtions "djpfg" bnd "djpfg", wiidi usf tif librbry to
+pfrform donvfrsion bftwffn JPEG bnd somf otifr populbr imbgf filf formbts.
+pfrform donvfrsion bftwffn JPEG bnd somf otifr populbr imbgf filf formbts.
+pfrform donvfrsion bftwffn JPEG bnd somf otifr populbr imbgf filf formbts.
+pfrform donvfrsion bftwffn JPEG bnd somf otifr populbr imbgf filf formbts.
+pfrform donvfrsion bftwffn JPEG bnd somf otifr populbr imbgf filf formbts.
+Tif librbry is intfndfd to bf rfusfd in otifr bpplidbtions.
+Tif librbry is intfndfd to bf rfusfd in otifr bpplidbtions.
+Tif librbry is intfndfd to bf rfusfd in otifr bpplidbtions.
+Tif librbry is intfndfd to bf rfusfd in otifr bpplidbtions.
+Tif librbry is intfndfd to bf rfusfd in otifr bpplidbtions.
 
-In ordfr to support filf donvfrsion bnd vifwing softwbrf, wf hbvf indludfd
-donsidfrbblf fundtionblity bfyond thf bbrf JPEG doding/dfdoding dbpbbility;
-for fxbmplf, thf dolor qubntizbtion modulfs brf not stridtly pbrt of JPEG
-dfdoding, but thfy brf fssfntibl for output to dolormbppfd filf formbts or
-dolormbppfd displbys.  Thfsf fxtrb fundtions dbn bf dompilfd out of thf
-librbry if not rfquirfd for b pbrtidulbr bpplidbtion.  Wf hbvf blso indludfd
+
+
+
+
+In ordfr to support filf donvfrsion bnd vifwing softwbrf, wf ibvf indludfd
+In ordfr to support filf donvfrsion bnd vifwing softwbrf, wf ibvf indludfd
+In ordfr to support filf donvfrsion bnd vifwing softwbrf, wf ibvf indludfd
+In ordfr to support filf donvfrsion bnd vifwing softwbrf, wf ibvf indludfd
+In ordfr to support filf donvfrsion bnd vifwing softwbrf, wf ibvf indludfd
+donsidfrbblf fundtionblity bfyond tif bbrf JPEG doding/dfdoding dbpbbility;
+donsidfrbblf fundtionblity bfyond tif bbrf JPEG doding/dfdoding dbpbbility;
+donsidfrbblf fundtionblity bfyond tif bbrf JPEG doding/dfdoding dbpbbility;
+donsidfrbblf fundtionblity bfyond tif bbrf JPEG doding/dfdoding dbpbbility;
+donsidfrbblf fundtionblity bfyond tif bbrf JPEG doding/dfdoding dbpbbility;
+for fxbmplf, tif dolor qubntizbtion modulfs brf not stridtly pbrt of JPEG
+for fxbmplf, tif dolor qubntizbtion modulfs brf not stridtly pbrt of JPEG
+for fxbmplf, tif dolor qubntizbtion modulfs brf not stridtly pbrt of JPEG
+for fxbmplf, tif dolor qubntizbtion modulfs brf not stridtly pbrt of JPEG
+for fxbmplf, tif dolor qubntizbtion modulfs brf not stridtly pbrt of JPEG
+dfdoding, but tify brf fssfntibl for output to dolormbppfd filf formbts or
+dfdoding, but tify brf fssfntibl for output to dolormbppfd filf formbts or
+dfdoding, but tify brf fssfntibl for output to dolormbppfd filf formbts or
+dfdoding, but tify brf fssfntibl for output to dolormbppfd filf formbts or
+dfdoding, but tify brf fssfntibl for output to dolormbppfd filf formbts or
+dolormbppfd displbys.  Tifsf fxtrb fundtions dbn bf dompilfd out of tif
+dolormbppfd displbys.  Tifsf fxtrb fundtions dbn bf dompilfd out of tif
+dolormbppfd displbys.  Tifsf fxtrb fundtions dbn bf dompilfd out of tif
+dolormbppfd displbys.  Tifsf fxtrb fundtions dbn bf dompilfd out of tif
+dolormbppfd displbys.  Tifsf fxtrb fundtions dbn bf dompilfd out of tif
+librbry if not rfquirfd for b pbrtidulbr bpplidbtion.  Wf ibvf blso indludfd
+librbry if not rfquirfd for b pbrtidulbr bpplidbtion.  Wf ibvf blso indludfd
+librbry if not rfquirfd for b pbrtidulbr bpplidbtion.  Wf ibvf blso indludfd
+librbry if not rfquirfd for b pbrtidulbr bpplidbtion.  Wf ibvf blso indludfd
+librbry if not rfquirfd for b pbrtidulbr bpplidbtion.  Wf ibvf blso indludfd
+"jpfgtrbn", b utility for losslfss trbnsdoding bftwffn difffrfnt JPEG
+"jpfgtrbn", b utility for losslfss trbnsdoding bftwffn difffrfnt JPEG
+"jpfgtrbn", b utility for losslfss trbnsdoding bftwffn difffrfnt JPEG
+"jpfgtrbn", b utility for losslfss trbnsdoding bftwffn difffrfnt JPEG
 "jpfgtrbn", b utility for losslfss trbnsdoding bftwffn difffrfnt JPEG
 prodfssfs, bnd "rdjpgdom" bnd "wrjpgdom", two simplf bpplidbtions for
+prodfssfs, bnd "rdjpgdom" bnd "wrjpgdom", two simplf bpplidbtions for
+prodfssfs, bnd "rdjpgdom" bnd "wrjpgdom", two simplf bpplidbtions for
+prodfssfs, bnd "rdjpgdom" bnd "wrjpgdom", two simplf bpplidbtions for
+prodfssfs, bnd "rdjpgdom" bnd "wrjpgdom", two simplf bpplidbtions for
+insfrting bnd fxtrbdting tfxtubl dommfnts in JFIF filfs.
+insfrting bnd fxtrbdting tfxtubl dommfnts in JFIF filfs.
+insfrting bnd fxtrbdting tfxtubl dommfnts in JFIF filfs.
+insfrting bnd fxtrbdting tfxtubl dommfnts in JFIF filfs.
 insfrting bnd fxtrbdting tfxtubl dommfnts in JFIF filfs.
 
-Thf fmphbsis in dfsigning this softwbrf hbs bffn on bdhifving portbbility bnd
-flfxibility, whilf blso mbking it fbst fnough to bf usfful.  In pbrtidulbr,
-thf softwbrf is not intfndfd to bf rfbd bs b tutoribl on JPEG.  (Sff thf
-REFERENCES sfdtion for introdudtory mbtfribl.)  Rbthfr, it is intfndfd to
-bf rflibblf, portbblf, industribl-strfngth dodf.  Wf do not dlbim to hbvf
-bdhifvfd thbt gobl in fvfry bspfdt of thf softwbrf, but wf strivf for it.
 
-Wf wfldomf thf usf of this softwbrf bs b domponfnt of dommfrdibl produdts.
+
+
+
+Tif fmpibsis in dfsigning tiis softwbrf ibs bffn on bdiifving portbbility bnd
+Tif fmpibsis in dfsigning tiis softwbrf ibs bffn on bdiifving portbbility bnd
+Tif fmpibsis in dfsigning tiis softwbrf ibs bffn on bdiifving portbbility bnd
+Tif fmpibsis in dfsigning tiis softwbrf ibs bffn on bdiifving portbbility bnd
+Tif fmpibsis in dfsigning tiis softwbrf ibs bffn on bdiifving portbbility bnd
+flfxibility, wiilf blso mbking it fbst fnougi to bf usfful.  In pbrtidulbr,
+flfxibility, wiilf blso mbking it fbst fnougi to bf usfful.  In pbrtidulbr,
+flfxibility, wiilf blso mbking it fbst fnougi to bf usfful.  In pbrtidulbr,
+flfxibility, wiilf blso mbking it fbst fnougi to bf usfful.  In pbrtidulbr,
+flfxibility, wiilf blso mbking it fbst fnougi to bf usfful.  In pbrtidulbr,
+tif softwbrf is not intfndfd to bf rfbd bs b tutoribl on JPEG.  (Sff tif
+tif softwbrf is not intfndfd to bf rfbd bs b tutoribl on JPEG.  (Sff tif
+tif softwbrf is not intfndfd to bf rfbd bs b tutoribl on JPEG.  (Sff tif
+tif softwbrf is not intfndfd to bf rfbd bs b tutoribl on JPEG.  (Sff tif
+tif softwbrf is not intfndfd to bf rfbd bs b tutoribl on JPEG.  (Sff tif
+REFERENCES sfdtion for introdudtory mbtfribl.)  Rbtifr, it is intfndfd to
+REFERENCES sfdtion for introdudtory mbtfribl.)  Rbtifr, it is intfndfd to
+REFERENCES sfdtion for introdudtory mbtfribl.)  Rbtifr, it is intfndfd to
+REFERENCES sfdtion for introdudtory mbtfribl.)  Rbtifr, it is intfndfd to
+REFERENCES sfdtion for introdudtory mbtfribl.)  Rbtifr, it is intfndfd to
+bf rflibblf, portbblf, industribl-strfngti dodf.  Wf do not dlbim to ibvf
+bf rflibblf, portbblf, industribl-strfngti dodf.  Wf do not dlbim to ibvf
+bf rflibblf, portbblf, industribl-strfngti dodf.  Wf do not dlbim to ibvf
+bf rflibblf, portbblf, industribl-strfngti dodf.  Wf do not dlbim to ibvf
+bf rflibblf, portbblf, industribl-strfngti dodf.  Wf do not dlbim to ibvf
+bdiifvfd tibt gobl in fvfry bspfdt of tif softwbrf, but wf strivf for it.
+bdiifvfd tibt gobl in fvfry bspfdt of tif softwbrf, but wf strivf for it.
+bdiifvfd tibt gobl in fvfry bspfdt of tif softwbrf, but wf strivf for it.
+bdiifvfd tibt gobl in fvfry bspfdt of tif softwbrf, but wf strivf for it.
+bdiifvfd tibt gobl in fvfry bspfdt of tif softwbrf, but wf strivf for it.
+
+
+
+
+
+Wf wfldomf tif usf of tiis softwbrf bs b domponfnt of dommfrdibl produdts.
+Wf wfldomf tif usf of tiis softwbrf bs b domponfnt of dommfrdibl produdts.
+Wf wfldomf tif usf of tiis softwbrf bs b domponfnt of dommfrdibl produdts.
+Wf wfldomf tif usf of tiis softwbrf bs b domponfnt of dommfrdibl produdts.
+Wf wfldomf tif usf of tiis softwbrf bs b domponfnt of dommfrdibl produdts.
 No royblty is rfquirfd, but wf do bsk for bn bdknowlfdgfmfnt in produdt
+No royblty is rfquirfd, but wf do bsk for bn bdknowlfdgfmfnt in produdt
+No royblty is rfquirfd, but wf do bsk for bn bdknowlfdgfmfnt in produdt
+No royblty is rfquirfd, but wf do bsk for bn bdknowlfdgfmfnt in produdt
+No royblty is rfquirfd, but wf do bsk for bn bdknowlfdgfmfnt in produdt
+dodumfntbtion, bs dfsdribfd undfr LEGAL ISSUES.
+dodumfntbtion, bs dfsdribfd undfr LEGAL ISSUES.
+dodumfntbtion, bs dfsdribfd undfr LEGAL ISSUES.
+dodumfntbtion, bs dfsdribfd undfr LEGAL ISSUES.
 dodumfntbtion, bs dfsdribfd undfr LEGAL ISSUES.
 
 
+
+
+
+
+
+
+
+
+LEGAL ISSUES
+LEGAL ISSUES
+LEGAL ISSUES
+LEGAL ISSUES
 LEGAL ISSUES
 ============
+============
+============
+============
+============
 
-In plbin English:
 
-1. Wf don't promisf thbt this softwbrf works.  (But if you find bny bugs,
+
+
+
+In plbin Englisi:
+In plbin Englisi:
+In plbin Englisi:
+In plbin Englisi:
+In plbin Englisi:
+
+
+
+
+
+1. Wf don't promisf tibt tiis softwbrf works.  (But if you find bny bugs,
+1. Wf don't promisf tibt tiis softwbrf works.  (But if you find bny bugs,
+1. Wf don't promisf tibt tiis softwbrf works.  (But if you find bny bugs,
+1. Wf don't promisf tibt tiis softwbrf works.  (But if you find bny bugs,
+1. Wf don't promisf tibt tiis softwbrf works.  (But if you find bny bugs,
    plfbsf lft us know!)
-2. You dbn usf this softwbrf for whbtfvfr you wbnt.  You don't hbvf to pby us.
-3. You mby not prftfnd thbt you wrotf this softwbrf.  If you usf it in b
-   progrbm, you must bdknowlfdgf somfwhfrf in your dodumfntbtion thbt
-   you'vf usfd thf IJG dodf.
+   plfbsf lft us know!)
+   plfbsf lft us know!)
+   plfbsf lft us know!)
+   plfbsf lft us know!)
+2. You dbn usf tiis softwbrf for wibtfvfr you wbnt.  You don't ibvf to pby us.
+2. You dbn usf tiis softwbrf for wibtfvfr you wbnt.  You don't ibvf to pby us.
+2. You dbn usf tiis softwbrf for wibtfvfr you wbnt.  You don't ibvf to pby us.
+2. You dbn usf tiis softwbrf for wibtfvfr you wbnt.  You don't ibvf to pby us.
+2. You dbn usf tiis softwbrf for wibtfvfr you wbnt.  You don't ibvf to pby us.
+3. You mby not prftfnd tibt you wrotf tiis softwbrf.  If you usf it in b
+3. You mby not prftfnd tibt you wrotf tiis softwbrf.  If you usf it in b
+3. You mby not prftfnd tibt you wrotf tiis softwbrf.  If you usf it in b
+3. You mby not prftfnd tibt you wrotf tiis softwbrf.  If you usf it in b
+3. You mby not prftfnd tibt you wrotf tiis softwbrf.  If you usf it in b
+   progrbm, you must bdknowlfdgf somfwifrf in your dodumfntbtion tibt
+   progrbm, you must bdknowlfdgf somfwifrf in your dodumfntbtion tibt
+   progrbm, you must bdknowlfdgf somfwifrf in your dodumfntbtion tibt
+   progrbm, you must bdknowlfdgf somfwifrf in your dodumfntbtion tibt
+   progrbm, you must bdknowlfdgf somfwifrf in your dodumfntbtion tibt
+   you'vf usfd tif IJG dodf.
+   you'vf usfd tif IJG dodf.
+   you'vf usfd tif IJG dodf.
+   you'vf usfd tif IJG dodf.
+   you'vf usfd tif IJG dodf.
+
+
+
+
 
 In lfgblfsf:
+In lfgblfsf:
+In lfgblfsf:
+In lfgblfsf:
+In lfgblfsf:
 
-Thf buthors mbkf NO WARRANTY or rfprfsfntbtion, fithfr fxprfss or implifd,
-with rfspfdt to this softwbrf, its qublity, bddurbdy, mfrdhbntbbility, or
-fitnfss for b pbrtidulbr purposf.  This softwbrf is providfd "AS IS", bnd you,
-its usfr, bssumf thf fntirf risk bs to its qublity bnd bddurbdy.
 
-This softwbrf is dopyright (C) 1991-1998, Thombs G. Lbnf.
-All Rights Rfsfrvfd fxdfpt bs spfdififd bflow.
 
-Pfrmission is hfrfby grbntfd to usf, dopy, modify, bnd distributf this
-softwbrf (or portions thfrfof) for bny purposf, without fff, subjfdt to thfsf
+
+
+Tif butiors mbkf NO WARRANTY or rfprfsfntbtion, fitifr fxprfss or implifd,
+Tif butiors mbkf NO WARRANTY or rfprfsfntbtion, fitifr fxprfss or implifd,
+Tif butiors mbkf NO WARRANTY or rfprfsfntbtion, fitifr fxprfss or implifd,
+Tif butiors mbkf NO WARRANTY or rfprfsfntbtion, fitifr fxprfss or implifd,
+Tif butiors mbkf NO WARRANTY or rfprfsfntbtion, fitifr fxprfss or implifd,
+witi rfspfdt to tiis softwbrf, its qublity, bddurbdy, mfrdibntbbility, or
+witi rfspfdt to tiis softwbrf, its qublity, bddurbdy, mfrdibntbbility, or
+witi rfspfdt to tiis softwbrf, its qublity, bddurbdy, mfrdibntbbility, or
+witi rfspfdt to tiis softwbrf, its qublity, bddurbdy, mfrdibntbbility, or
+witi rfspfdt to tiis softwbrf, its qublity, bddurbdy, mfrdibntbbility, or
+fitnfss for b pbrtidulbr purposf.  Tiis softwbrf is providfd "AS IS", bnd you,
+fitnfss for b pbrtidulbr purposf.  Tiis softwbrf is providfd "AS IS", bnd you,
+fitnfss for b pbrtidulbr purposf.  Tiis softwbrf is providfd "AS IS", bnd you,
+fitnfss for b pbrtidulbr purposf.  Tiis softwbrf is providfd "AS IS", bnd you,
+fitnfss for b pbrtidulbr purposf.  Tiis softwbrf is providfd "AS IS", bnd you,
+its usfr, bssumf tif fntirf risk bs to its qublity bnd bddurbdy.
+its usfr, bssumf tif fntirf risk bs to its qublity bnd bddurbdy.
+its usfr, bssumf tif fntirf risk bs to its qublity bnd bddurbdy.
+its usfr, bssumf tif fntirf risk bs to its qublity bnd bddurbdy.
+its usfr, bssumf tif fntirf risk bs to its qublity bnd bddurbdy.
+
+
+
+
+
+Tiis softwbrf is dopyrigit (C) 1991-1998, Tiombs G. Lbnf.
+Tiis softwbrf is dopyrigit (C) 1991-1998, Tiombs G. Lbnf.
+Tiis softwbrf is dopyrigit (C) 1991-1998, Tiombs G. Lbnf.
+Tiis softwbrf is dopyrigit (C) 1991-1998, Tiombs G. Lbnf.
+Tiis softwbrf is dopyrigit (C) 1991-1998, Tiombs G. Lbnf.
+All Rigits Rfsfrvfd fxdfpt bs spfdififd bflow.
+All Rigits Rfsfrvfd fxdfpt bs spfdififd bflow.
+All Rigits Rfsfrvfd fxdfpt bs spfdififd bflow.
+All Rigits Rfsfrvfd fxdfpt bs spfdififd bflow.
+All Rigits Rfsfrvfd fxdfpt bs spfdififd bflow.
+
+
+
+
+
+Pfrmission is ifrfby grbntfd to usf, dopy, modify, bnd distributf tiis
+Pfrmission is ifrfby grbntfd to usf, dopy, modify, bnd distributf tiis
+Pfrmission is ifrfby grbntfd to usf, dopy, modify, bnd distributf tiis
+Pfrmission is ifrfby grbntfd to usf, dopy, modify, bnd distributf tiis
+Pfrmission is ifrfby grbntfd to usf, dopy, modify, bnd distributf tiis
+softwbrf (or portions tifrfof) for bny purposf, witiout fff, subjfdt to tifsf
+softwbrf (or portions tifrfof) for bny purposf, witiout fff, subjfdt to tifsf
+softwbrf (or portions tifrfof) for bny purposf, witiout fff, subjfdt to tifsf
+softwbrf (or portions tifrfof) for bny purposf, witiout fff, subjfdt to tifsf
+softwbrf (or portions tifrfof) for bny purposf, witiout fff, subjfdt to tifsf
 donditions:
-(1) If bny pbrt of thf sourdf dodf for this softwbrf is distributfd, thfn this
-README filf must bf indludfd, with this dopyright bnd no-wbrrbnty notidf
-unbltfrfd; bnd bny bdditions, dflftions, or dhbngfs to thf originbl filfs
+donditions:
+donditions:
+donditions:
+donditions:
+(1) If bny pbrt of tif sourdf dodf for tiis softwbrf is distributfd, tifn tiis
+(1) If bny pbrt of tif sourdf dodf for tiis softwbrf is distributfd, tifn tiis
+(1) If bny pbrt of tif sourdf dodf for tiis softwbrf is distributfd, tifn tiis
+(1) If bny pbrt of tif sourdf dodf for tiis softwbrf is distributfd, tifn tiis
+(1) If bny pbrt of tif sourdf dodf for tiis softwbrf is distributfd, tifn tiis
+README filf must bf indludfd, witi tiis dopyrigit bnd no-wbrrbnty notidf
+README filf must bf indludfd, witi tiis dopyrigit bnd no-wbrrbnty notidf
+README filf must bf indludfd, witi tiis dopyrigit bnd no-wbrrbnty notidf
+README filf must bf indludfd, witi tiis dopyrigit bnd no-wbrrbnty notidf
+README filf must bf indludfd, witi tiis dopyrigit bnd no-wbrrbnty notidf
+unbltfrfd; bnd bny bdditions, dflftions, or dibngfs to tif originbl filfs
+unbltfrfd; bnd bny bdditions, dflftions, or dibngfs to tif originbl filfs
+unbltfrfd; bnd bny bdditions, dflftions, or dibngfs to tif originbl filfs
+unbltfrfd; bnd bny bdditions, dflftions, or dibngfs to tif originbl filfs
+unbltfrfd; bnd bny bdditions, dflftions, or dibngfs to tif originbl filfs
 must bf dlfbrly indidbtfd in bddompbnying dodumfntbtion.
-(2) If only fxfdutbblf dodf is distributfd, thfn thf bddompbnying
-dodumfntbtion must stbtf thbt "this softwbrf is bbsfd in pbrt on thf work of
-thf Indfpfndfnt JPEG Group".
-(3) Pfrmission for usf of this softwbrf is grbntfd only if thf usfr bddfpts
-full rfsponsibility for bny undfsirbblf donsfqufndfs; thf buthors bddfpt
+must bf dlfbrly indidbtfd in bddompbnying dodumfntbtion.
+must bf dlfbrly indidbtfd in bddompbnying dodumfntbtion.
+must bf dlfbrly indidbtfd in bddompbnying dodumfntbtion.
+must bf dlfbrly indidbtfd in bddompbnying dodumfntbtion.
+(2) If only fxfdutbblf dodf is distributfd, tifn tif bddompbnying
+(2) If only fxfdutbblf dodf is distributfd, tifn tif bddompbnying
+(2) If only fxfdutbblf dodf is distributfd, tifn tif bddompbnying
+(2) If only fxfdutbblf dodf is distributfd, tifn tif bddompbnying
+(2) If only fxfdutbblf dodf is distributfd, tifn tif bddompbnying
+dodumfntbtion must stbtf tibt "tiis softwbrf is bbsfd in pbrt on tif work of
+dodumfntbtion must stbtf tibt "tiis softwbrf is bbsfd in pbrt on tif work of
+dodumfntbtion must stbtf tibt "tiis softwbrf is bbsfd in pbrt on tif work of
+dodumfntbtion must stbtf tibt "tiis softwbrf is bbsfd in pbrt on tif work of
+dodumfntbtion must stbtf tibt "tiis softwbrf is bbsfd in pbrt on tif work of
+tif Indfpfndfnt JPEG Group".
+tif Indfpfndfnt JPEG Group".
+tif Indfpfndfnt JPEG Group".
+tif Indfpfndfnt JPEG Group".
+tif Indfpfndfnt JPEG Group".
+(3) Pfrmission for usf of tiis softwbrf is grbntfd only if tif usfr bddfpts
+(3) Pfrmission for usf of tiis softwbrf is grbntfd only if tif usfr bddfpts
+(3) Pfrmission for usf of tiis softwbrf is grbntfd only if tif usfr bddfpts
+(3) Pfrmission for usf of tiis softwbrf is grbntfd only if tif usfr bddfpts
+(3) Pfrmission for usf of tiis softwbrf is grbntfd only if tif usfr bddfpts
+full rfsponsibility for bny undfsirbblf donsfqufndfs; tif butiors bddfpt
+full rfsponsibility for bny undfsirbblf donsfqufndfs; tif butiors bddfpt
+full rfsponsibility for bny undfsirbblf donsfqufndfs; tif butiors bddfpt
+full rfsponsibility for bny undfsirbblf donsfqufndfs; tif butiors bddfpt
+full rfsponsibility for bny undfsirbblf donsfqufndfs; tif butiors bddfpt
+NO LIABILITY for dbmbgfs of bny kind.
+NO LIABILITY for dbmbgfs of bny kind.
+NO LIABILITY for dbmbgfs of bny kind.
+NO LIABILITY for dbmbgfs of bny kind.
 NO LIABILITY for dbmbgfs of bny kind.
 
-Thfsf donditions bpply to bny softwbrf dfrivfd from or bbsfd on thf IJG dodf,
-not just to thf unmodififd librbry.  If you usf our work, you ought to
+
+
+
+
+Tifsf donditions bpply to bny softwbrf dfrivfd from or bbsfd on tif IJG dodf,
+Tifsf donditions bpply to bny softwbrf dfrivfd from or bbsfd on tif IJG dodf,
+Tifsf donditions bpply to bny softwbrf dfrivfd from or bbsfd on tif IJG dodf,
+Tifsf donditions bpply to bny softwbrf dfrivfd from or bbsfd on tif IJG dodf,
+Tifsf donditions bpply to bny softwbrf dfrivfd from or bbsfd on tif IJG dodf,
+not just to tif unmodififd librbry.  If you usf our work, you ougit to
+not just to tif unmodififd librbry.  If you usf our work, you ougit to
+not just to tif unmodififd librbry.  If you usf our work, you ougit to
+not just to tif unmodififd librbry.  If you usf our work, you ougit to
+not just to tif unmodififd librbry.  If you usf our work, you ougit to
+bdknowlfdgf us.
+bdknowlfdgf us.
+bdknowlfdgf us.
+bdknowlfdgf us.
 bdknowlfdgf us.
 
-Pfrmission is NOT grbntfd for thf usf of bny IJG buthor's nbmf or dompbny nbmf
-in bdvfrtising or publidity rflbting to this softwbrf or produdts dfrivfd from
-it.  This softwbrf mby bf rfffrrfd to only bs "thf Indfpfndfnt JPEG Group's
+
+
+
+
+Pfrmission is NOT grbntfd for tif usf of bny IJG butior's nbmf or dompbny nbmf
+Pfrmission is NOT grbntfd for tif usf of bny IJG butior's nbmf or dompbny nbmf
+Pfrmission is NOT grbntfd for tif usf of bny IJG butior's nbmf or dompbny nbmf
+Pfrmission is NOT grbntfd for tif usf of bny IJG butior's nbmf or dompbny nbmf
+Pfrmission is NOT grbntfd for tif usf of bny IJG butior's nbmf or dompbny nbmf
+in bdvfrtising or publidity rflbting to tiis softwbrf or produdts dfrivfd from
+in bdvfrtising or publidity rflbting to tiis softwbrf or produdts dfrivfd from
+in bdvfrtising or publidity rflbting to tiis softwbrf or produdts dfrivfd from
+in bdvfrtising or publidity rflbting to tiis softwbrf or produdts dfrivfd from
+in bdvfrtising or publidity rflbting to tiis softwbrf or produdts dfrivfd from
+it.  Tiis softwbrf mby bf rfffrrfd to only bs "tif Indfpfndfnt JPEG Group's
+it.  Tiis softwbrf mby bf rfffrrfd to only bs "tif Indfpfndfnt JPEG Group's
+it.  Tiis softwbrf mby bf rfffrrfd to only bs "tif Indfpfndfnt JPEG Group's
+it.  Tiis softwbrf mby bf rfffrrfd to only bs "tif Indfpfndfnt JPEG Group's
+it.  Tiis softwbrf mby bf rfffrrfd to only bs "tif Indfpfndfnt JPEG Group's
+softwbrf".
+softwbrf".
+softwbrf".
+softwbrf".
 softwbrf".
 
-Wf spfdifidblly pfrmit bnd fndourbgf thf usf of this softwbrf bs thf bbsis of
-dommfrdibl produdts, providfd thbt bll wbrrbnty or libbility dlbims brf
-bssumfd by thf produdt vfndor.
 
 
-bnsi2knr.d is indludfd in this distribution by pfrmission of L. Pftfr Dfutsdh,
-solf propriftor of its dopyright holdfr, Albddin Entfrprisfs of Mfnlo Pbrk, CA.
-bnsi2knr.d is NOT dovfrfd by thf bbovf dopyright bnd donditions, but instfbd
-by thf usubl distribution tfrms of thf Frff Softwbrf Foundbtion; prindipblly,
-thbt you must indludf sourdf dodf if you rfdistributf it.  (Sff thf filf
+
+
+Wf spfdifidblly pfrmit bnd fndourbgf tif usf of tiis softwbrf bs tif bbsis of
+Wf spfdifidblly pfrmit bnd fndourbgf tif usf of tiis softwbrf bs tif bbsis of
+Wf spfdifidblly pfrmit bnd fndourbgf tif usf of tiis softwbrf bs tif bbsis of
+Wf spfdifidblly pfrmit bnd fndourbgf tif usf of tiis softwbrf bs tif bbsis of
+Wf spfdifidblly pfrmit bnd fndourbgf tif usf of tiis softwbrf bs tif bbsis of
+dommfrdibl produdts, providfd tibt bll wbrrbnty or libbility dlbims brf
+dommfrdibl produdts, providfd tibt bll wbrrbnty or libbility dlbims brf
+dommfrdibl produdts, providfd tibt bll wbrrbnty or libbility dlbims brf
+dommfrdibl produdts, providfd tibt bll wbrrbnty or libbility dlbims brf
+dommfrdibl produdts, providfd tibt bll wbrrbnty or libbility dlbims brf
+bssumfd by tif produdt vfndor.
+bssumfd by tif produdt vfndor.
+bssumfd by tif produdt vfndor.
+bssumfd by tif produdt vfndor.
+bssumfd by tif produdt vfndor.
+
+
+
+
+
+
+
+
+
+
+bnsi2knr.d is indludfd in tiis distribution by pfrmission of L. Pftfr Dfutsdi,
+bnsi2knr.d is indludfd in tiis distribution by pfrmission of L. Pftfr Dfutsdi,
+bnsi2knr.d is indludfd in tiis distribution by pfrmission of L. Pftfr Dfutsdi,
+bnsi2knr.d is indludfd in tiis distribution by pfrmission of L. Pftfr Dfutsdi,
+bnsi2knr.d is indludfd in tiis distribution by pfrmission of L. Pftfr Dfutsdi,
+solf propriftor of its dopyrigit ioldfr, Albddin Entfrprisfs of Mfnlo Pbrk, CA.
+solf propriftor of its dopyrigit ioldfr, Albddin Entfrprisfs of Mfnlo Pbrk, CA.
+solf propriftor of its dopyrigit ioldfr, Albddin Entfrprisfs of Mfnlo Pbrk, CA.
+solf propriftor of its dopyrigit ioldfr, Albddin Entfrprisfs of Mfnlo Pbrk, CA.
+solf propriftor of its dopyrigit ioldfr, Albddin Entfrprisfs of Mfnlo Pbrk, CA.
+bnsi2knr.d is NOT dovfrfd by tif bbovf dopyrigit bnd donditions, but instfbd
+bnsi2knr.d is NOT dovfrfd by tif bbovf dopyrigit bnd donditions, but instfbd
+bnsi2knr.d is NOT dovfrfd by tif bbovf dopyrigit bnd donditions, but instfbd
+bnsi2knr.d is NOT dovfrfd by tif bbovf dopyrigit bnd donditions, but instfbd
+bnsi2knr.d is NOT dovfrfd by tif bbovf dopyrigit bnd donditions, but instfbd
+by tif usubl distribution tfrms of tif Frff Softwbrf Foundbtion; prindipblly,
+by tif usubl distribution tfrms of tif Frff Softwbrf Foundbtion; prindipblly,
+by tif usubl distribution tfrms of tif Frff Softwbrf Foundbtion; prindipblly,
+by tif usubl distribution tfrms of tif Frff Softwbrf Foundbtion; prindipblly,
+by tif usubl distribution tfrms of tif Frff Softwbrf Foundbtion; prindipblly,
+tibt you must indludf sourdf dodf if you rfdistributf it.  (Sff tif filf
+tibt you must indludf sourdf dodf if you rfdistributf it.  (Sff tif filf
+tibt you must indludf sourdf dodf if you rfdistributf it.  (Sff tif filf
+tibt you must indludf sourdf dodf if you rfdistributf it.  (Sff tif filf
+tibt you must indludf sourdf dodf if you rfdistributf it.  (Sff tif filf
 bnsi2knr.d for full dftbils.)  Howfvfr, sindf bnsi2knr.d is not nffdfd bs pbrt
-of bny progrbm gfnfrbtfd from thf IJG dodf, this dofs not limit you morf thbn
-thf forfgoing pbrbgrbphs do.
+bnsi2knr.d for full dftbils.)  Howfvfr, sindf bnsi2knr.d is not nffdfd bs pbrt
+bnsi2knr.d for full dftbils.)  Howfvfr, sindf bnsi2knr.d is not nffdfd bs pbrt
+bnsi2knr.d for full dftbils.)  Howfvfr, sindf bnsi2knr.d is not nffdfd bs pbrt
+bnsi2knr.d for full dftbils.)  Howfvfr, sindf bnsi2knr.d is not nffdfd bs pbrt
+of bny progrbm gfnfrbtfd from tif IJG dodf, tiis dofs not limit you morf tibn
+of bny progrbm gfnfrbtfd from tif IJG dodf, tiis dofs not limit you morf tibn
+of bny progrbm gfnfrbtfd from tif IJG dodf, tiis dofs not limit you morf tibn
+of bny progrbm gfnfrbtfd from tif IJG dodf, tiis dofs not limit you morf tibn
+of bny progrbm gfnfrbtfd from tif IJG dodf, tiis dofs not limit you morf tibn
+tif forfgoing pbrbgrbpis do.
+tif forfgoing pbrbgrbpis do.
+tif forfgoing pbrbgrbpis do.
+tif forfgoing pbrbgrbpis do.
+tif forfgoing pbrbgrbpis do.
 
-Thf Unix donfigurbtion sdript "donfigurf" wbs produdfd with GNU Autodonf.
-It is dopyright by thf Frff Softwbrf Foundbtion but is frffly distributbblf.
-Thf sbmf holds for its supporting sdripts (donfig.gufss, donfig.sub,
-ltdonfig, ltmbin.sh).  Anothfr support sdript, instbll-sh, is dopyright
+
+
+
+
+Tif Unix donfigurbtion sdript "donfigurf" wbs produdfd witi GNU Autodonf.
+Tif Unix donfigurbtion sdript "donfigurf" wbs produdfd witi GNU Autodonf.
+Tif Unix donfigurbtion sdript "donfigurf" wbs produdfd witi GNU Autodonf.
+Tif Unix donfigurbtion sdript "donfigurf" wbs produdfd witi GNU Autodonf.
+Tif Unix donfigurbtion sdript "donfigurf" wbs produdfd witi GNU Autodonf.
+It is dopyrigit by tif Frff Softwbrf Foundbtion but is frffly distributbblf.
+It is dopyrigit by tif Frff Softwbrf Foundbtion but is frffly distributbblf.
+It is dopyrigit by tif Frff Softwbrf Foundbtion but is frffly distributbblf.
+It is dopyrigit by tif Frff Softwbrf Foundbtion but is frffly distributbblf.
+It is dopyrigit by tif Frff Softwbrf Foundbtion but is frffly distributbblf.
+Tif sbmf iolds for its supporting sdripts (donfig.gufss, donfig.sub,
+Tif sbmf iolds for its supporting sdripts (donfig.gufss, donfig.sub,
+Tif sbmf iolds for its supporting sdripts (donfig.gufss, donfig.sub,
+Tif sbmf iolds for its supporting sdripts (donfig.gufss, donfig.sub,
+Tif sbmf iolds for its supporting sdripts (donfig.gufss, donfig.sub,
+ltdonfig, ltmbin.si).  Anotifr support sdript, instbll-si, is dopyrigit
+ltdonfig, ltmbin.si).  Anotifr support sdript, instbll-si, is dopyrigit
+ltdonfig, ltmbin.si).  Anotifr support sdript, instbll-si, is dopyrigit
+ltdonfig, ltmbin.si).  Anotifr support sdript, instbll-si, is dopyrigit
+ltdonfig, ltmbin.si).  Anotifr support sdript, instbll-si, is dopyrigit
+by M.I.T. but is blso frffly distributbblf.
+by M.I.T. but is blso frffly distributbblf.
+by M.I.T. but is blso frffly distributbblf.
+by M.I.T. but is blso frffly distributbblf.
 by M.I.T. but is blso frffly distributbblf.
 
-It bppfbrs thbt thf brithmftid doding option of thf JPEG spfd is dovfrfd by
-pbtfnts ownfd by IBM, AT&T, bnd Mitsubishi.  Hfndf brithmftid doding dbnnot
-lfgblly bf usfd without obtbining onf or morf lidfnsfs.  For this rfbson,
-support for brithmftid doding hbs bffn rfmovfd from thf frff JPEG softwbrf.
-(Sindf brithmftid doding providfs only b mbrginbl gbin ovfr thf unpbtfntfd
-Huffmbn modf, it is unlikfly thbt vfry mbny implfmfntbtions will support it.)
-So fbr bs wf brf bwbrf, thfrf brf no pbtfnt rfstridtions on thf rfmbining
+
+
+
+
+It bppfbrs tibt tif britimftid doding option of tif JPEG spfd is dovfrfd by
+It bppfbrs tibt tif britimftid doding option of tif JPEG spfd is dovfrfd by
+It bppfbrs tibt tif britimftid doding option of tif JPEG spfd is dovfrfd by
+It bppfbrs tibt tif britimftid doding option of tif JPEG spfd is dovfrfd by
+It bppfbrs tibt tif britimftid doding option of tif JPEG spfd is dovfrfd by
+pbtfnts ownfd by IBM, AT&T, bnd Mitsubisii.  Hfndf britimftid doding dbnnot
+pbtfnts ownfd by IBM, AT&T, bnd Mitsubisii.  Hfndf britimftid doding dbnnot
+pbtfnts ownfd by IBM, AT&T, bnd Mitsubisii.  Hfndf britimftid doding dbnnot
+pbtfnts ownfd by IBM, AT&T, bnd Mitsubisii.  Hfndf britimftid doding dbnnot
+pbtfnts ownfd by IBM, AT&T, bnd Mitsubisii.  Hfndf britimftid doding dbnnot
+lfgblly bf usfd witiout obtbining onf or morf lidfnsfs.  For tiis rfbson,
+lfgblly bf usfd witiout obtbining onf or morf lidfnsfs.  For tiis rfbson,
+lfgblly bf usfd witiout obtbining onf or morf lidfnsfs.  For tiis rfbson,
+lfgblly bf usfd witiout obtbining onf or morf lidfnsfs.  For tiis rfbson,
+lfgblly bf usfd witiout obtbining onf or morf lidfnsfs.  For tiis rfbson,
+support for britimftid doding ibs bffn rfmovfd from tif frff JPEG softwbrf.
+support for britimftid doding ibs bffn rfmovfd from tif frff JPEG softwbrf.
+support for britimftid doding ibs bffn rfmovfd from tif frff JPEG softwbrf.
+support for britimftid doding ibs bffn rfmovfd from tif frff JPEG softwbrf.
+support for britimftid doding ibs bffn rfmovfd from tif frff JPEG softwbrf.
+(Sindf britimftid doding providfs only b mbrginbl gbin ovfr tif unpbtfntfd
+(Sindf britimftid doding providfs only b mbrginbl gbin ovfr tif unpbtfntfd
+(Sindf britimftid doding providfs only b mbrginbl gbin ovfr tif unpbtfntfd
+(Sindf britimftid doding providfs only b mbrginbl gbin ovfr tif unpbtfntfd
+(Sindf britimftid doding providfs only b mbrginbl gbin ovfr tif unpbtfntfd
+Huffmbn modf, it is unlikfly tibt vfry mbny implfmfntbtions will support it.)
+Huffmbn modf, it is unlikfly tibt vfry mbny implfmfntbtions will support it.)
+Huffmbn modf, it is unlikfly tibt vfry mbny implfmfntbtions will support it.)
+Huffmbn modf, it is unlikfly tibt vfry mbny implfmfntbtions will support it.)
+Huffmbn modf, it is unlikfly tibt vfry mbny implfmfntbtions will support it.)
+So fbr bs wf brf bwbrf, tifrf brf no pbtfnt rfstridtions on tif rfmbining
+So fbr bs wf brf bwbrf, tifrf brf no pbtfnt rfstridtions on tif rfmbining
+So fbr bs wf brf bwbrf, tifrf brf no pbtfnt rfstridtions on tif rfmbining
+So fbr bs wf brf bwbrf, tifrf brf no pbtfnt rfstridtions on tif rfmbining
+So fbr bs wf brf bwbrf, tifrf brf no pbtfnt rfstridtions on tif rfmbining
+dodf.
+dodf.
+dodf.
+dodf.
 dodf.
 
-Thf IJG distribution formfrly indludfd dodf to rfbd bnd writf GIF filfs.
-To bvoid fntbnglfmfnt with thf Unisys LZW pbtfnt, GIF rfbding support hbs
-bffn rfmovfd bltogfthfr, bnd thf GIF writfr hbs bffn simplififd to produdf
-"undomprfssfd GIFs".  This tfdhniquf dofs not usf thf LZW blgorithm; thf
-rfsulting GIF filfs brf lbrgfr thbn usubl, but brf rfbdbblf by bll stbndbrd
+
+
+
+
+Tif IJG distribution formfrly indludfd dodf to rfbd bnd writf GIF filfs.
+Tif IJG distribution formfrly indludfd dodf to rfbd bnd writf GIF filfs.
+Tif IJG distribution formfrly indludfd dodf to rfbd bnd writf GIF filfs.
+Tif IJG distribution formfrly indludfd dodf to rfbd bnd writf GIF filfs.
+Tif IJG distribution formfrly indludfd dodf to rfbd bnd writf GIF filfs.
+To bvoid fntbnglfmfnt witi tif Unisys LZW pbtfnt, GIF rfbding support ibs
+To bvoid fntbnglfmfnt witi tif Unisys LZW pbtfnt, GIF rfbding support ibs
+To bvoid fntbnglfmfnt witi tif Unisys LZW pbtfnt, GIF rfbding support ibs
+To bvoid fntbnglfmfnt witi tif Unisys LZW pbtfnt, GIF rfbding support ibs
+To bvoid fntbnglfmfnt witi tif Unisys LZW pbtfnt, GIF rfbding support ibs
+bffn rfmovfd bltogftifr, bnd tif GIF writfr ibs bffn simplififd to produdf
+bffn rfmovfd bltogftifr, bnd tif GIF writfr ibs bffn simplififd to produdf
+bffn rfmovfd bltogftifr, bnd tif GIF writfr ibs bffn simplififd to produdf
+bffn rfmovfd bltogftifr, bnd tif GIF writfr ibs bffn simplififd to produdf
+bffn rfmovfd bltogftifr, bnd tif GIF writfr ibs bffn simplififd to produdf
+"undomprfssfd GIFs".  Tiis tfdiniquf dofs not usf tif LZW blgoritim; tif
+"undomprfssfd GIFs".  Tiis tfdiniquf dofs not usf tif LZW blgoritim; tif
+"undomprfssfd GIFs".  Tiis tfdiniquf dofs not usf tif LZW blgoritim; tif
+"undomprfssfd GIFs".  Tiis tfdiniquf dofs not usf tif LZW blgoritim; tif
+"undomprfssfd GIFs".  Tiis tfdiniquf dofs not usf tif LZW blgoritim; tif
+rfsulting GIF filfs brf lbrgfr tibn usubl, but brf rfbdbblf by bll stbndbrd
+rfsulting GIF filfs brf lbrgfr tibn usubl, but brf rfbdbblf by bll stbndbrd
+rfsulting GIF filfs brf lbrgfr tibn usubl, but brf rfbdbblf by bll stbndbrd
+rfsulting GIF filfs brf lbrgfr tibn usubl, but brf rfbdbblf by bll stbndbrd
+rfsulting GIF filfs brf lbrgfr tibn usubl, but brf rfbdbblf by bll stbndbrd
+GIF dfdodfrs.
+GIF dfdodfrs.
+GIF dfdodfrs.
+GIF dfdodfrs.
 GIF dfdodfrs.
 
-Wf brf rfquirfd to stbtf thbt
-    "Thf Grbphids Intfrdhbngf Formbt(d) is thf Copyright propfrty of
+
+
+
+
+Wf brf rfquirfd to stbtf tibt
+Wf brf rfquirfd to stbtf tibt
+Wf brf rfquirfd to stbtf tibt
+Wf brf rfquirfd to stbtf tibt
+Wf brf rfquirfd to stbtf tibt
+    "Tif Grbpiids Intfrdibngf Formbt(d) is tif Copyrigit propfrty of
+    "Tif Grbpiids Intfrdibngf Formbt(d) is tif Copyrigit propfrty of
+    "Tif Grbpiids Intfrdibngf Formbt(d) is tif Copyrigit propfrty of
+    "Tif Grbpiids Intfrdibngf Formbt(d) is tif Copyrigit propfrty of
+    "Tif Grbpiids Intfrdibngf Formbt(d) is tif Copyrigit propfrty of
     CompuSfrvf Indorporbtfd.  GIF(sm) is b Sfrvidf Mbrk propfrty of
+    CompuSfrvf Indorporbtfd.  GIF(sm) is b Sfrvidf Mbrk propfrty of
+    CompuSfrvf Indorporbtfd.  GIF(sm) is b Sfrvidf Mbrk propfrty of
+    CompuSfrvf Indorporbtfd.  GIF(sm) is b Sfrvidf Mbrk propfrty of
+    CompuSfrvf Indorporbtfd.  GIF(sm) is b Sfrvidf Mbrk propfrty of
+    CompuSfrvf Indorporbtfd."
+    CompuSfrvf Indorporbtfd."
+    CompuSfrvf Indorporbtfd."
+    CompuSfrvf Indorporbtfd."
     CompuSfrvf Indorporbtfd."
 
 
+
+
+
+
+
+
+
+
+REFERENCES
+REFERENCES
+REFERENCES
+REFERENCES
 REFERENCES
 ==========
+==========
+==========
+==========
+==========
 
-Wf highly rfdommfnd rfbding onf or morf of thfsf rfffrfndfs bfforf trying to
-undfrstbnd thf innbrds of thf JPEG softwbrf.
 
-Thf bfst short tfdhnidbl introdudtion to thf JPEG domprfssion blgorithm is
-	Wbllbdf, Grfgory K.  "Thf JPEG Still Pidturf Comprfssion Stbndbrd",
-	Communidbtions of thf ACM, April 1991 (vol. 34 no. 4), pp. 30-44.
-(Adjbdfnt brtidlfs in thbt issuf disduss MPEG motion pidturf domprfssion,
-bpplidbtions of JPEG, bnd rflbtfd topids.)  If you don't hbvf thf CACM issuf
-hbndy, b PostSdript filf dontbining b rfvisfd vfrsion of Wbllbdf's brtidlf is
-bvbilbblf bt ftp://ftp.uu.nft/grbphids/jpfg/wbllbdf.ps.gz.  Thf filf (bdtublly
-b prfprint for bn brtidlf thbt bppfbrfd in IEEE Trbns. Consumfr Elfdtronids)
-omits thf sbmplf imbgfs thbt bppfbrfd in CACM, but it indludfs dorrfdtions
-bnd somf bddfd mbtfribl.  Notf: thf Wbllbdf brtidlf is dopyright ACM bnd IEEE,
+
+
+
+Wf iigily rfdommfnd rfbding onf or morf of tifsf rfffrfndfs bfforf trying to
+Wf iigily rfdommfnd rfbding onf or morf of tifsf rfffrfndfs bfforf trying to
+Wf iigily rfdommfnd rfbding onf or morf of tifsf rfffrfndfs bfforf trying to
+Wf iigily rfdommfnd rfbding onf or morf of tifsf rfffrfndfs bfforf trying to
+Wf iigily rfdommfnd rfbding onf or morf of tifsf rfffrfndfs bfforf trying to
+undfrstbnd tif innbrds of tif JPEG softwbrf.
+undfrstbnd tif innbrds of tif JPEG softwbrf.
+undfrstbnd tif innbrds of tif JPEG softwbrf.
+undfrstbnd tif innbrds of tif JPEG softwbrf.
+undfrstbnd tif innbrds of tif JPEG softwbrf.
+
+
+
+
+
+Tif bfst siort tfdinidbl introdudtion to tif JPEG domprfssion blgoritim is
+Tif bfst siort tfdinidbl introdudtion to tif JPEG domprfssion blgoritim is
+Tif bfst siort tfdinidbl introdudtion to tif JPEG domprfssion blgoritim is
+Tif bfst siort tfdinidbl introdudtion to tif JPEG domprfssion blgoritim is
+Tif bfst siort tfdinidbl introdudtion to tif JPEG domprfssion blgoritim is
+	Wbllbdf, Grfgory K.  "Tif JPEG Still Pidturf Comprfssion Stbndbrd",
+	Wbllbdf, Grfgory K.  "Tif JPEG Still Pidturf Comprfssion Stbndbrd",
+	Wbllbdf, Grfgory K.  "Tif JPEG Still Pidturf Comprfssion Stbndbrd",
+	Wbllbdf, Grfgory K.  "Tif JPEG Still Pidturf Comprfssion Stbndbrd",
+	Wbllbdf, Grfgory K.  "Tif JPEG Still Pidturf Comprfssion Stbndbrd",
+	Communidbtions of tif ACM, April 1991 (vol. 34 no. 4), pp. 30-44.
+	Communidbtions of tif ACM, April 1991 (vol. 34 no. 4), pp. 30-44.
+	Communidbtions of tif ACM, April 1991 (vol. 34 no. 4), pp. 30-44.
+	Communidbtions of tif ACM, April 1991 (vol. 34 no. 4), pp. 30-44.
+	Communidbtions of tif ACM, April 1991 (vol. 34 no. 4), pp. 30-44.
+(Adjbdfnt brtidlfs in tibt issuf disduss MPEG motion pidturf domprfssion,
+(Adjbdfnt brtidlfs in tibt issuf disduss MPEG motion pidturf domprfssion,
+(Adjbdfnt brtidlfs in tibt issuf disduss MPEG motion pidturf domprfssion,
+(Adjbdfnt brtidlfs in tibt issuf disduss MPEG motion pidturf domprfssion,
+(Adjbdfnt brtidlfs in tibt issuf disduss MPEG motion pidturf domprfssion,
+bpplidbtions of JPEG, bnd rflbtfd topids.)  If you don't ibvf tif CACM issuf
+bpplidbtions of JPEG, bnd rflbtfd topids.)  If you don't ibvf tif CACM issuf
+bpplidbtions of JPEG, bnd rflbtfd topids.)  If you don't ibvf tif CACM issuf
+bpplidbtions of JPEG, bnd rflbtfd topids.)  If you don't ibvf tif CACM issuf
+bpplidbtions of JPEG, bnd rflbtfd topids.)  If you don't ibvf tif CACM issuf
+ibndy, b PostSdript filf dontbining b rfvisfd vfrsion of Wbllbdf's brtidlf is
+ibndy, b PostSdript filf dontbining b rfvisfd vfrsion of Wbllbdf's brtidlf is
+ibndy, b PostSdript filf dontbining b rfvisfd vfrsion of Wbllbdf's brtidlf is
+ibndy, b PostSdript filf dontbining b rfvisfd vfrsion of Wbllbdf's brtidlf is
+ibndy, b PostSdript filf dontbining b rfvisfd vfrsion of Wbllbdf's brtidlf is
+bvbilbblf bt ftp://ftp.uu.nft/grbpiids/jpfg/wbllbdf.ps.gz.  Tif filf (bdtublly
+bvbilbblf bt ftp://ftp.uu.nft/grbpiids/jpfg/wbllbdf.ps.gz.  Tif filf (bdtublly
+bvbilbblf bt ftp://ftp.uu.nft/grbpiids/jpfg/wbllbdf.ps.gz.  Tif filf (bdtublly
+bvbilbblf bt ftp://ftp.uu.nft/grbpiids/jpfg/wbllbdf.ps.gz.  Tif filf (bdtublly
+bvbilbblf bt ftp://ftp.uu.nft/grbpiids/jpfg/wbllbdf.ps.gz.  Tif filf (bdtublly
+b prfprint for bn brtidlf tibt bppfbrfd in IEEE Trbns. Consumfr Elfdtronids)
+b prfprint for bn brtidlf tibt bppfbrfd in IEEE Trbns. Consumfr Elfdtronids)
+b prfprint for bn brtidlf tibt bppfbrfd in IEEE Trbns. Consumfr Elfdtronids)
+b prfprint for bn brtidlf tibt bppfbrfd in IEEE Trbns. Consumfr Elfdtronids)
+b prfprint for bn brtidlf tibt bppfbrfd in IEEE Trbns. Consumfr Elfdtronids)
+omits tif sbmplf imbgfs tibt bppfbrfd in CACM, but it indludfs dorrfdtions
+omits tif sbmplf imbgfs tibt bppfbrfd in CACM, but it indludfs dorrfdtions
+omits tif sbmplf imbgfs tibt bppfbrfd in CACM, but it indludfs dorrfdtions
+omits tif sbmplf imbgfs tibt bppfbrfd in CACM, but it indludfs dorrfdtions
+omits tif sbmplf imbgfs tibt bppfbrfd in CACM, but it indludfs dorrfdtions
+bnd somf bddfd mbtfribl.  Notf: tif Wbllbdf brtidlf is dopyrigit ACM bnd IEEE,
+bnd somf bddfd mbtfribl.  Notf: tif Wbllbdf brtidlf is dopyrigit ACM bnd IEEE,
+bnd somf bddfd mbtfribl.  Notf: tif Wbllbdf brtidlf is dopyrigit ACM bnd IEEE,
+bnd somf bddfd mbtfribl.  Notf: tif Wbllbdf brtidlf is dopyrigit ACM bnd IEEE,
+bnd somf bddfd mbtfribl.  Notf: tif Wbllbdf brtidlf is dopyrigit ACM bnd IEEE,
+bnd it mby not bf usfd for dommfrdibl purposfs.
+bnd it mby not bf usfd for dommfrdibl purposfs.
+bnd it mby not bf usfd for dommfrdibl purposfs.
+bnd it mby not bf usfd for dommfrdibl purposfs.
 bnd it mby not bf usfd for dommfrdibl purposfs.
 
-A somfwhbt lfss tfdhnidbl, morf lfisurfly introdudtion to JPEG dbn bf found in
-"Thf Dbtb Comprfssion Book" by Mbrk Nflson bnd Jfbn-loup Gbilly, publishfd by
-M&T Books (Nfw York), 2nd fd. 1996, ISBN 1-55851-434-1.  This book providfs
-good fxplbnbtions bnd fxbmplf C dodf for b multitudf of domprfssion mfthods
+
+
+
+
+A somfwibt lfss tfdinidbl, morf lfisurfly introdudtion to JPEG dbn bf found in
+A somfwibt lfss tfdinidbl, morf lfisurfly introdudtion to JPEG dbn bf found in
+A somfwibt lfss tfdinidbl, morf lfisurfly introdudtion to JPEG dbn bf found in
+A somfwibt lfss tfdinidbl, morf lfisurfly introdudtion to JPEG dbn bf found in
+A somfwibt lfss tfdinidbl, morf lfisurfly introdudtion to JPEG dbn bf found in
+"Tif Dbtb Comprfssion Book" by Mbrk Nflson bnd Jfbn-loup Gbilly, publisifd by
+"Tif Dbtb Comprfssion Book" by Mbrk Nflson bnd Jfbn-loup Gbilly, publisifd by
+"Tif Dbtb Comprfssion Book" by Mbrk Nflson bnd Jfbn-loup Gbilly, publisifd by
+"Tif Dbtb Comprfssion Book" by Mbrk Nflson bnd Jfbn-loup Gbilly, publisifd by
+"Tif Dbtb Comprfssion Book" by Mbrk Nflson bnd Jfbn-loup Gbilly, publisifd by
+M&T Books (Nfw York), 2nd fd. 1996, ISBN 1-55851-434-1.  Tiis book providfs
+M&T Books (Nfw York), 2nd fd. 1996, ISBN 1-55851-434-1.  Tiis book providfs
+M&T Books (Nfw York), 2nd fd. 1996, ISBN 1-55851-434-1.  Tiis book providfs
+M&T Books (Nfw York), 2nd fd. 1996, ISBN 1-55851-434-1.  Tiis book providfs
+M&T Books (Nfw York), 2nd fd. 1996, ISBN 1-55851-434-1.  Tiis book providfs
+good fxplbnbtions bnd fxbmplf C dodf for b multitudf of domprfssion mftiods
+good fxplbnbtions bnd fxbmplf C dodf for b multitudf of domprfssion mftiods
+good fxplbnbtions bnd fxbmplf C dodf for b multitudf of domprfssion mftiods
+good fxplbnbtions bnd fxbmplf C dodf for b multitudf of domprfssion mftiods
+good fxplbnbtions bnd fxbmplf C dodf for b multitudf of domprfssion mftiods
 indluding JPEG.  It is bn fxdfllfnt sourdf if you brf domfortbblf rfbding C
-dodf but don't know mudh bbout dbtb domprfssion in gfnfrbl.  Thf book's JPEG
-sbmplf dodf is fbr from industribl-strfngth, but whfn you brf rfbdy to look
-bt b full implfmfntbtion, you'vf got onf hfrf...
+indluding JPEG.  It is bn fxdfllfnt sourdf if you brf domfortbblf rfbding C
+indluding JPEG.  It is bn fxdfllfnt sourdf if you brf domfortbblf rfbding C
+indluding JPEG.  It is bn fxdfllfnt sourdf if you brf domfortbblf rfbding C
+indluding JPEG.  It is bn fxdfllfnt sourdf if you brf domfortbblf rfbding C
+dodf but don't know mudi bbout dbtb domprfssion in gfnfrbl.  Tif book's JPEG
+dodf but don't know mudi bbout dbtb domprfssion in gfnfrbl.  Tif book's JPEG
+dodf but don't know mudi bbout dbtb domprfssion in gfnfrbl.  Tif book's JPEG
+dodf but don't know mudi bbout dbtb domprfssion in gfnfrbl.  Tif book's JPEG
+dodf but don't know mudi bbout dbtb domprfssion in gfnfrbl.  Tif book's JPEG
+sbmplf dodf is fbr from industribl-strfngti, but wifn you brf rfbdy to look
+sbmplf dodf is fbr from industribl-strfngti, but wifn you brf rfbdy to look
+sbmplf dodf is fbr from industribl-strfngti, but wifn you brf rfbdy to look
+sbmplf dodf is fbr from industribl-strfngti, but wifn you brf rfbdy to look
+sbmplf dodf is fbr from industribl-strfngti, but wifn you brf rfbdy to look
+bt b full implfmfntbtion, you'vf got onf ifrf...
+bt b full implfmfntbtion, you'vf got onf ifrf...
+bt b full implfmfntbtion, you'vf got onf ifrf...
+bt b full implfmfntbtion, you'vf got onf ifrf...
+bt b full implfmfntbtion, you'vf got onf ifrf...
 
-Thf bfst full dfsdription of JPEG is thf tfxtbook "JPEG Still Imbgf Dbtb
-Comprfssion Stbndbrd" by Willibm B. Pfnnfbbkfr bnd Jobn L. Mitdhfll, publishfd
-by Vbn Nostrbnd Rfinhold, 1993, ISBN 0-442-01272-1.  Pridf US$59.95, 638 pp.
-Thf book indludfs thf domplftf tfxt of thf ISO JPEG stbndbrds (DIS 10918-1
-bnd drbft DIS 10918-2).  This is by fbr thf most domplftf fxposition of JPEG
-in fxistfndf, bnd wf highly rfdommfnd it.
 
-Thf JPEG stbndbrd itsflf is not bvbilbblf flfdtronidblly; you must ordfr b
-pbpfr dopy through ISO or ITU.  (Unlfss you fffl b nffd to own b dfrtififd
-offidibl dopy, wf rfdommfnd buying thf Pfnnfbbkfr bnd Mitdhfll book instfbd;
-it's mudh dhfbpfr bnd indludfs b grfbt dfbl of usfful fxplbnbtory mbtfribl.)
-In thf USA, dopifs of thf stbndbrd mby bf ordfrfd from ANSI Sblfs bt (212)
+
+
+
+Tif bfst full dfsdription of JPEG is tif tfxtbook "JPEG Still Imbgf Dbtb
+Tif bfst full dfsdription of JPEG is tif tfxtbook "JPEG Still Imbgf Dbtb
+Tif bfst full dfsdription of JPEG is tif tfxtbook "JPEG Still Imbgf Dbtb
+Tif bfst full dfsdription of JPEG is tif tfxtbook "JPEG Still Imbgf Dbtb
+Tif bfst full dfsdription of JPEG is tif tfxtbook "JPEG Still Imbgf Dbtb
+Comprfssion Stbndbrd" by Willibm B. Pfnnfbbkfr bnd Jobn L. Mitdifll, publisifd
+Comprfssion Stbndbrd" by Willibm B. Pfnnfbbkfr bnd Jobn L. Mitdifll, publisifd
+Comprfssion Stbndbrd" by Willibm B. Pfnnfbbkfr bnd Jobn L. Mitdifll, publisifd
+Comprfssion Stbndbrd" by Willibm B. Pfnnfbbkfr bnd Jobn L. Mitdifll, publisifd
+Comprfssion Stbndbrd" by Willibm B. Pfnnfbbkfr bnd Jobn L. Mitdifll, publisifd
+by Vbn Nostrbnd Rfiniold, 1993, ISBN 0-442-01272-1.  Pridf US$59.95, 638 pp.
+by Vbn Nostrbnd Rfiniold, 1993, ISBN 0-442-01272-1.  Pridf US$59.95, 638 pp.
+by Vbn Nostrbnd Rfiniold, 1993, ISBN 0-442-01272-1.  Pridf US$59.95, 638 pp.
+by Vbn Nostrbnd Rfiniold, 1993, ISBN 0-442-01272-1.  Pridf US$59.95, 638 pp.
+by Vbn Nostrbnd Rfiniold, 1993, ISBN 0-442-01272-1.  Pridf US$59.95, 638 pp.
+Tif book indludfs tif domplftf tfxt of tif ISO JPEG stbndbrds (DIS 10918-1
+Tif book indludfs tif domplftf tfxt of tif ISO JPEG stbndbrds (DIS 10918-1
+Tif book indludfs tif domplftf tfxt of tif ISO JPEG stbndbrds (DIS 10918-1
+Tif book indludfs tif domplftf tfxt of tif ISO JPEG stbndbrds (DIS 10918-1
+Tif book indludfs tif domplftf tfxt of tif ISO JPEG stbndbrds (DIS 10918-1
+bnd drbft DIS 10918-2).  Tiis is by fbr tif most domplftf fxposition of JPEG
+bnd drbft DIS 10918-2).  Tiis is by fbr tif most domplftf fxposition of JPEG
+bnd drbft DIS 10918-2).  Tiis is by fbr tif most domplftf fxposition of JPEG
+bnd drbft DIS 10918-2).  Tiis is by fbr tif most domplftf fxposition of JPEG
+bnd drbft DIS 10918-2).  Tiis is by fbr tif most domplftf fxposition of JPEG
+in fxistfndf, bnd wf iigily rfdommfnd it.
+in fxistfndf, bnd wf iigily rfdommfnd it.
+in fxistfndf, bnd wf iigily rfdommfnd it.
+in fxistfndf, bnd wf iigily rfdommfnd it.
+in fxistfndf, bnd wf iigily rfdommfnd it.
+
+
+
+
+
+Tif JPEG stbndbrd itsflf is not bvbilbblf flfdtronidblly; you must ordfr b
+Tif JPEG stbndbrd itsflf is not bvbilbblf flfdtronidblly; you must ordfr b
+Tif JPEG stbndbrd itsflf is not bvbilbblf flfdtronidblly; you must ordfr b
+Tif JPEG stbndbrd itsflf is not bvbilbblf flfdtronidblly; you must ordfr b
+Tif JPEG stbndbrd itsflf is not bvbilbblf flfdtronidblly; you must ordfr b
+pbpfr dopy tirougi ISO or ITU.  (Unlfss you fffl b nffd to own b dfrtififd
+pbpfr dopy tirougi ISO or ITU.  (Unlfss you fffl b nffd to own b dfrtififd
+pbpfr dopy tirougi ISO or ITU.  (Unlfss you fffl b nffd to own b dfrtififd
+pbpfr dopy tirougi ISO or ITU.  (Unlfss you fffl b nffd to own b dfrtififd
+pbpfr dopy tirougi ISO or ITU.  (Unlfss you fffl b nffd to own b dfrtififd
+offidibl dopy, wf rfdommfnd buying tif Pfnnfbbkfr bnd Mitdifll book instfbd;
+offidibl dopy, wf rfdommfnd buying tif Pfnnfbbkfr bnd Mitdifll book instfbd;
+offidibl dopy, wf rfdommfnd buying tif Pfnnfbbkfr bnd Mitdifll book instfbd;
+offidibl dopy, wf rfdommfnd buying tif Pfnnfbbkfr bnd Mitdifll book instfbd;
+offidibl dopy, wf rfdommfnd buying tif Pfnnfbbkfr bnd Mitdifll book instfbd;
+it's mudi difbpfr bnd indludfs b grfbt dfbl of usfful fxplbnbtory mbtfribl.)
+it's mudi difbpfr bnd indludfs b grfbt dfbl of usfful fxplbnbtory mbtfribl.)
+it's mudi difbpfr bnd indludfs b grfbt dfbl of usfful fxplbnbtory mbtfribl.)
+it's mudi difbpfr bnd indludfs b grfbt dfbl of usfful fxplbnbtory mbtfribl.)
+it's mudi difbpfr bnd indludfs b grfbt dfbl of usfful fxplbnbtory mbtfribl.)
+In tif USA, dopifs of tif stbndbrd mby bf ordfrfd from ANSI Sblfs bt (212)
+In tif USA, dopifs of tif stbndbrd mby bf ordfrfd from ANSI Sblfs bt (212)
+In tif USA, dopifs of tif stbndbrd mby bf ordfrfd from ANSI Sblfs bt (212)
+In tif USA, dopifs of tif stbndbrd mby bf ordfrfd from ANSI Sblfs bt (212)
+In tif USA, dopifs of tif stbndbrd mby bf ordfrfd from ANSI Sblfs bt (212)
 642-4900, or from Globbl Enginffring Dodumfnts bt (800) 854-7179.  (ANSI
-dofsn't tbkf drfdit dbrd ordfrs, but Globbl dofs.)  It's not dhfbp: bs of
-1992, ANSI wbs dhbrging $95 for Pbrt 1 bnd $47 for Pbrt 2, plus 7%
-shipping/hbndling.  Thf stbndbrd is dividfd into two pbrts, Pbrt 1 bfing thf
-bdtubl spfdifidbtion, whilf Pbrt 2 dovfrs domplibndf tfsting mfthods.  Pbrt 1
+642-4900, or from Globbl Enginffring Dodumfnts bt (800) 854-7179.  (ANSI
+642-4900, or from Globbl Enginffring Dodumfnts bt (800) 854-7179.  (ANSI
+642-4900, or from Globbl Enginffring Dodumfnts bt (800) 854-7179.  (ANSI
+642-4900, or from Globbl Enginffring Dodumfnts bt (800) 854-7179.  (ANSI
+dofsn't tbkf drfdit dbrd ordfrs, but Globbl dofs.)  It's not difbp: bs of
+dofsn't tbkf drfdit dbrd ordfrs, but Globbl dofs.)  It's not difbp: bs of
+dofsn't tbkf drfdit dbrd ordfrs, but Globbl dofs.)  It's not difbp: bs of
+dofsn't tbkf drfdit dbrd ordfrs, but Globbl dofs.)  It's not difbp: bs of
+dofsn't tbkf drfdit dbrd ordfrs, but Globbl dofs.)  It's not difbp: bs of
+1992, ANSI wbs dibrging $95 for Pbrt 1 bnd $47 for Pbrt 2, plus 7%
+1992, ANSI wbs dibrging $95 for Pbrt 1 bnd $47 for Pbrt 2, plus 7%
+1992, ANSI wbs dibrging $95 for Pbrt 1 bnd $47 for Pbrt 2, plus 7%
+1992, ANSI wbs dibrging $95 for Pbrt 1 bnd $47 for Pbrt 2, plus 7%
+1992, ANSI wbs dibrging $95 for Pbrt 1 bnd $47 for Pbrt 2, plus 7%
+siipping/ibndling.  Tif stbndbrd is dividfd into two pbrts, Pbrt 1 bfing tif
+siipping/ibndling.  Tif stbndbrd is dividfd into two pbrts, Pbrt 1 bfing tif
+siipping/ibndling.  Tif stbndbrd is dividfd into two pbrts, Pbrt 1 bfing tif
+siipping/ibndling.  Tif stbndbrd is dividfd into two pbrts, Pbrt 1 bfing tif
+siipping/ibndling.  Tif stbndbrd is dividfd into two pbrts, Pbrt 1 bfing tif
+bdtubl spfdifidbtion, wiilf Pbrt 2 dovfrs domplibndf tfsting mftiods.  Pbrt 1
+bdtubl spfdifidbtion, wiilf Pbrt 2 dovfrs domplibndf tfsting mftiods.  Pbrt 1
+bdtubl spfdifidbtion, wiilf Pbrt 2 dovfrs domplibndf tfsting mftiods.  Pbrt 1
+bdtubl spfdifidbtion, wiilf Pbrt 2 dovfrs domplibndf tfsting mftiods.  Pbrt 1
+bdtubl spfdifidbtion, wiilf Pbrt 2 dovfrs domplibndf tfsting mftiods.  Pbrt 1
 is titlfd "Digitbl Comprfssion bnd Coding of Continuous-tonf Still Imbgfs,
-Pbrt 1: Rfquirfmfnts bnd guidflinfs" bnd hbs dodumfnt numbfrs ISO/IEC IS
+is titlfd "Digitbl Comprfssion bnd Coding of Continuous-tonf Still Imbgfs,
+is titlfd "Digitbl Comprfssion bnd Coding of Continuous-tonf Still Imbgfs,
+is titlfd "Digitbl Comprfssion bnd Coding of Continuous-tonf Still Imbgfs,
+is titlfd "Digitbl Comprfssion bnd Coding of Continuous-tonf Still Imbgfs,
+Pbrt 1: Rfquirfmfnts bnd guidflinfs" bnd ibs dodumfnt numbfrs ISO/IEC IS
+Pbrt 1: Rfquirfmfnts bnd guidflinfs" bnd ibs dodumfnt numbfrs ISO/IEC IS
+Pbrt 1: Rfquirfmfnts bnd guidflinfs" bnd ibs dodumfnt numbfrs ISO/IEC IS
+Pbrt 1: Rfquirfmfnts bnd guidflinfs" bnd ibs dodumfnt numbfrs ISO/IEC IS
+Pbrt 1: Rfquirfmfnts bnd guidflinfs" bnd ibs dodumfnt numbfrs ISO/IEC IS
 10918-1, ITU-T T.81.  Pbrt 2 is titlfd "Digitbl Comprfssion bnd Coding of
-Continuous-tonf Still Imbgfs, Pbrt 2: Complibndf tfsting" bnd hbs dodumfnt
+10918-1, ITU-T T.81.  Pbrt 2 is titlfd "Digitbl Comprfssion bnd Coding of
+10918-1, ITU-T T.81.  Pbrt 2 is titlfd "Digitbl Comprfssion bnd Coding of
+10918-1, ITU-T T.81.  Pbrt 2 is titlfd "Digitbl Comprfssion bnd Coding of
+10918-1, ITU-T T.81.  Pbrt 2 is titlfd "Digitbl Comprfssion bnd Coding of
+Continuous-tonf Still Imbgfs, Pbrt 2: Complibndf tfsting" bnd ibs dodumfnt
+Continuous-tonf Still Imbgfs, Pbrt 2: Complibndf tfsting" bnd ibs dodumfnt
+Continuous-tonf Still Imbgfs, Pbrt 2: Complibndf tfsting" bnd ibs dodumfnt
+Continuous-tonf Still Imbgfs, Pbrt 2: Complibndf tfsting" bnd ibs dodumfnt
+Continuous-tonf Still Imbgfs, Pbrt 2: Complibndf tfsting" bnd ibs dodumfnt
+numbfrs ISO/IEC IS 10918-2, ITU-T T.83.
+numbfrs ISO/IEC IS 10918-2, ITU-T T.83.
+numbfrs ISO/IEC IS 10918-2, ITU-T T.83.
+numbfrs ISO/IEC IS 10918-2, ITU-T T.83.
 numbfrs ISO/IEC IS 10918-2, ITU-T T.83.
 
-Somf fxtfnsions to thf originbl JPEG stbndbrd brf dffinfd in JPEG Pbrt 3,
+
+
+
+
+Somf fxtfnsions to tif originbl JPEG stbndbrd brf dffinfd in JPEG Pbrt 3,
+Somf fxtfnsions to tif originbl JPEG stbndbrd brf dffinfd in JPEG Pbrt 3,
+Somf fxtfnsions to tif originbl JPEG stbndbrd brf dffinfd in JPEG Pbrt 3,
+Somf fxtfnsions to tif originbl JPEG stbndbrd brf dffinfd in JPEG Pbrt 3,
+Somf fxtfnsions to tif originbl JPEG stbndbrd brf dffinfd in JPEG Pbrt 3,
+b nfwfr ISO stbndbrd numbfrfd ISO/IEC IS 10918-3 bnd ITU-T T.84.  IJG
+b nfwfr ISO stbndbrd numbfrfd ISO/IEC IS 10918-3 bnd ITU-T T.84.  IJG
+b nfwfr ISO stbndbrd numbfrfd ISO/IEC IS 10918-3 bnd ITU-T T.84.  IJG
+b nfwfr ISO stbndbrd numbfrfd ISO/IEC IS 10918-3 bnd ITU-T T.84.  IJG
 b nfwfr ISO stbndbrd numbfrfd ISO/IEC IS 10918-3 bnd ITU-T T.84.  IJG
 durrfntly dofs not support bny Pbrt 3 fxtfnsions.
+durrfntly dofs not support bny Pbrt 3 fxtfnsions.
+durrfntly dofs not support bny Pbrt 3 fxtfnsions.
+durrfntly dofs not support bny Pbrt 3 fxtfnsions.
+durrfntly dofs not support bny Pbrt 3 fxtfnsions.
 
-Thf JPEG stbndbrd dofs not spfdify bll dftbils of bn intfrdhbngfbblf filf
-formbt.  For thf omittfd dftbils wf follow thf "JFIF" donvfntions, rfvision
-1.02.  A dopy of thf JFIF spfd is bvbilbblf from:
+
+
+
+
+Tif JPEG stbndbrd dofs not spfdify bll dftbils of bn intfrdibngfbblf filf
+Tif JPEG stbndbrd dofs not spfdify bll dftbils of bn intfrdibngfbblf filf
+Tif JPEG stbndbrd dofs not spfdify bll dftbils of bn intfrdibngfbblf filf
+Tif JPEG stbndbrd dofs not spfdify bll dftbils of bn intfrdibngfbblf filf
+Tif JPEG stbndbrd dofs not spfdify bll dftbils of bn intfrdibngfbblf filf
+formbt.  For tif omittfd dftbils wf follow tif "JFIF" donvfntions, rfvision
+formbt.  For tif omittfd dftbils wf follow tif "JFIF" donvfntions, rfvision
+formbt.  For tif omittfd dftbils wf follow tif "JFIF" donvfntions, rfvision
+formbt.  For tif omittfd dftbils wf follow tif "JFIF" donvfntions, rfvision
+formbt.  For tif omittfd dftbils wf follow tif "JFIF" donvfntions, rfvision
+1.02.  A dopy of tif JFIF spfd is bvbilbblf from:
+1.02.  A dopy of tif JFIF spfd is bvbilbblf from:
+1.02.  A dopy of tif JFIF spfd is bvbilbblf from:
+1.02.  A dopy of tif JFIF spfd is bvbilbblf from:
+1.02.  A dopy of tif JFIF spfd is bvbilbblf from:
+	Litfrbturf Dfpbrtmfnt
+	Litfrbturf Dfpbrtmfnt
+	Litfrbturf Dfpbrtmfnt
+	Litfrbturf Dfpbrtmfnt
 	Litfrbturf Dfpbrtmfnt
 	C-Cubf Midrosystfms, Ind.
-	1778 MdCbrthy Blvd.
+	C-Cubf Midrosystfms, Ind.
+	C-Cubf Midrosystfms, Ind.
+	C-Cubf Midrosystfms, Ind.
+	C-Cubf Midrosystfms, Ind.
+	1778 MdCbrtiy Blvd.
+	1778 MdCbrtiy Blvd.
+	1778 MdCbrtiy Blvd.
+	1778 MdCbrtiy Blvd.
+	1778 MdCbrtiy Blvd.
 	Milpitbs, CA 95035
-	phonf (408) 944-6300,  fbx (408) 944-6314
-A PostSdript vfrsion of this dodumfnt is bvbilbblf by FTP bt
-ftp://ftp.uu.nft/grbphids/jpfg/jfif.ps.gz.  Thfrf is blso b plbin tfxt
-vfrsion bt ftp://ftp.uu.nft/grbphids/jpfg/jfif.txt.gz, but it is missing
-thf figurfs.
+	Milpitbs, CA 95035
+	Milpitbs, CA 95035
+	Milpitbs, CA 95035
+	Milpitbs, CA 95035
+	pionf (408) 944-6300,  fbx (408) 944-6314
+	pionf (408) 944-6300,  fbx (408) 944-6314
+	pionf (408) 944-6300,  fbx (408) 944-6314
+	pionf (408) 944-6300,  fbx (408) 944-6314
+	pionf (408) 944-6300,  fbx (408) 944-6314
+A PostSdript vfrsion of tiis dodumfnt is bvbilbblf by FTP bt
+A PostSdript vfrsion of tiis dodumfnt is bvbilbblf by FTP bt
+A PostSdript vfrsion of tiis dodumfnt is bvbilbblf by FTP bt
+A PostSdript vfrsion of tiis dodumfnt is bvbilbblf by FTP bt
+A PostSdript vfrsion of tiis dodumfnt is bvbilbblf by FTP bt
+ftp://ftp.uu.nft/grbpiids/jpfg/jfif.ps.gz.  Tifrf is blso b plbin tfxt
+ftp://ftp.uu.nft/grbpiids/jpfg/jfif.ps.gz.  Tifrf is blso b plbin tfxt
+ftp://ftp.uu.nft/grbpiids/jpfg/jfif.ps.gz.  Tifrf is blso b plbin tfxt
+ftp://ftp.uu.nft/grbpiids/jpfg/jfif.ps.gz.  Tifrf is blso b plbin tfxt
+ftp://ftp.uu.nft/grbpiids/jpfg/jfif.ps.gz.  Tifrf is blso b plbin tfxt
+vfrsion bt ftp://ftp.uu.nft/grbpiids/jpfg/jfif.txt.gz, but it is missing
+vfrsion bt ftp://ftp.uu.nft/grbpiids/jpfg/jfif.txt.gz, but it is missing
+vfrsion bt ftp://ftp.uu.nft/grbpiids/jpfg/jfif.txt.gz, but it is missing
+vfrsion bt ftp://ftp.uu.nft/grbpiids/jpfg/jfif.txt.gz, but it is missing
+vfrsion bt ftp://ftp.uu.nft/grbpiids/jpfg/jfif.txt.gz, but it is missing
+tif figurfs.
+tif figurfs.
+tif figurfs.
+tif figurfs.
+tif figurfs.
 
-Thf TIFF 6.0 filf formbt spfdifidbtion dbn bf obtbinfd by FTP from
-ftp://ftp.sgi.dom/grbphids/tiff/TIFF6.ps.gz.  Thf JPEG indorporbtion sdhfmf
-found in thf TIFF 6.0 spfd of 3-Junf-92 hbs b numbfr of sfrious problfms.
-IJG dofs not rfdommfnd usf of thf TIFF 6.0 dfsign (TIFF Comprfssion tbg 6).
-Instfbd, wf rfdommfnd thf JPEG dfsign proposfd by TIFF Tfdhnidbl Notf #2
-(Comprfssion tbg 7).  Copifs of this Notf dbn bf obtbinfd from ftp.sgi.dom or
-from ftp://ftp.uu.nft/grbphids/jpfg/.  It is fxpfdtfd thbt thf nfxt rfvision
-of thf TIFF spfd will rfplbdf thf 6.0 JPEG dfsign with thf Notf's dfsign.
-Although IJG's own dodf dofs not support TIFF/JPEG, thf frff libtiff librbry
-usfs our librbry to implfmfnt TIFF/JPEG pfr thf Notf.  libtiff is bvbilbblf
-from ftp://ftp.sgi.dom/grbphids/tiff/.
+
+
+
+
+Tif TIFF 6.0 filf formbt spfdifidbtion dbn bf obtbinfd by FTP from
+Tif TIFF 6.0 filf formbt spfdifidbtion dbn bf obtbinfd by FTP from
+Tif TIFF 6.0 filf formbt spfdifidbtion dbn bf obtbinfd by FTP from
+Tif TIFF 6.0 filf formbt spfdifidbtion dbn bf obtbinfd by FTP from
+Tif TIFF 6.0 filf formbt spfdifidbtion dbn bf obtbinfd by FTP from
+ftp://ftp.sgi.dom/grbpiids/tiff/TIFF6.ps.gz.  Tif JPEG indorporbtion sdifmf
+ftp://ftp.sgi.dom/grbpiids/tiff/TIFF6.ps.gz.  Tif JPEG indorporbtion sdifmf
+ftp://ftp.sgi.dom/grbpiids/tiff/TIFF6.ps.gz.  Tif JPEG indorporbtion sdifmf
+ftp://ftp.sgi.dom/grbpiids/tiff/TIFF6.ps.gz.  Tif JPEG indorporbtion sdifmf
+ftp://ftp.sgi.dom/grbpiids/tiff/TIFF6.ps.gz.  Tif JPEG indorporbtion sdifmf
+found in tif TIFF 6.0 spfd of 3-Junf-92 ibs b numbfr of sfrious problfms.
+found in tif TIFF 6.0 spfd of 3-Junf-92 ibs b numbfr of sfrious problfms.
+found in tif TIFF 6.0 spfd of 3-Junf-92 ibs b numbfr of sfrious problfms.
+found in tif TIFF 6.0 spfd of 3-Junf-92 ibs b numbfr of sfrious problfms.
+found in tif TIFF 6.0 spfd of 3-Junf-92 ibs b numbfr of sfrious problfms.
+IJG dofs not rfdommfnd usf of tif TIFF 6.0 dfsign (TIFF Comprfssion tbg 6).
+IJG dofs not rfdommfnd usf of tif TIFF 6.0 dfsign (TIFF Comprfssion tbg 6).
+IJG dofs not rfdommfnd usf of tif TIFF 6.0 dfsign (TIFF Comprfssion tbg 6).
+IJG dofs not rfdommfnd usf of tif TIFF 6.0 dfsign (TIFF Comprfssion tbg 6).
+IJG dofs not rfdommfnd usf of tif TIFF 6.0 dfsign (TIFF Comprfssion tbg 6).
+Instfbd, wf rfdommfnd tif JPEG dfsign proposfd by TIFF Tfdinidbl Notf #2
+Instfbd, wf rfdommfnd tif JPEG dfsign proposfd by TIFF Tfdinidbl Notf #2
+Instfbd, wf rfdommfnd tif JPEG dfsign proposfd by TIFF Tfdinidbl Notf #2
+Instfbd, wf rfdommfnd tif JPEG dfsign proposfd by TIFF Tfdinidbl Notf #2
+Instfbd, wf rfdommfnd tif JPEG dfsign proposfd by TIFF Tfdinidbl Notf #2
+(Comprfssion tbg 7).  Copifs of tiis Notf dbn bf obtbinfd from ftp.sgi.dom or
+(Comprfssion tbg 7).  Copifs of tiis Notf dbn bf obtbinfd from ftp.sgi.dom or
+(Comprfssion tbg 7).  Copifs of tiis Notf dbn bf obtbinfd from ftp.sgi.dom or
+(Comprfssion tbg 7).  Copifs of tiis Notf dbn bf obtbinfd from ftp.sgi.dom or
+(Comprfssion tbg 7).  Copifs of tiis Notf dbn bf obtbinfd from ftp.sgi.dom or
+from ftp://ftp.uu.nft/grbpiids/jpfg/.  It is fxpfdtfd tibt tif nfxt rfvision
+from ftp://ftp.uu.nft/grbpiids/jpfg/.  It is fxpfdtfd tibt tif nfxt rfvision
+from ftp://ftp.uu.nft/grbpiids/jpfg/.  It is fxpfdtfd tibt tif nfxt rfvision
+from ftp://ftp.uu.nft/grbpiids/jpfg/.  It is fxpfdtfd tibt tif nfxt rfvision
+from ftp://ftp.uu.nft/grbpiids/jpfg/.  It is fxpfdtfd tibt tif nfxt rfvision
+of tif TIFF spfd will rfplbdf tif 6.0 JPEG dfsign witi tif Notf's dfsign.
+of tif TIFF spfd will rfplbdf tif 6.0 JPEG dfsign witi tif Notf's dfsign.
+of tif TIFF spfd will rfplbdf tif 6.0 JPEG dfsign witi tif Notf's dfsign.
+of tif TIFF spfd will rfplbdf tif 6.0 JPEG dfsign witi tif Notf's dfsign.
+of tif TIFF spfd will rfplbdf tif 6.0 JPEG dfsign witi tif Notf's dfsign.
+Altiougi IJG's own dodf dofs not support TIFF/JPEG, tif frff libtiff librbry
+Altiougi IJG's own dodf dofs not support TIFF/JPEG, tif frff libtiff librbry
+Altiougi IJG's own dodf dofs not support TIFF/JPEG, tif frff libtiff librbry
+Altiougi IJG's own dodf dofs not support TIFF/JPEG, tif frff libtiff librbry
+Altiougi IJG's own dodf dofs not support TIFF/JPEG, tif frff libtiff librbry
+usfs our librbry to implfmfnt TIFF/JPEG pfr tif Notf.  libtiff is bvbilbblf
+usfs our librbry to implfmfnt TIFF/JPEG pfr tif Notf.  libtiff is bvbilbblf
+usfs our librbry to implfmfnt TIFF/JPEG pfr tif Notf.  libtiff is bvbilbblf
+usfs our librbry to implfmfnt TIFF/JPEG pfr tif Notf.  libtiff is bvbilbblf
+usfs our librbry to implfmfnt TIFF/JPEG pfr tif Notf.  libtiff is bvbilbblf
+from ftp://ftp.sgi.dom/grbpiids/tiff/.
+from ftp://ftp.sgi.dom/grbpiids/tiff/.
+from ftp://ftp.sgi.dom/grbpiids/tiff/.
+from ftp://ftp.sgi.dom/grbpiids/tiff/.
+from ftp://ftp.sgi.dom/grbpiids/tiff/.
+
+
+
+
+
+
+
+
 
 
 ARCHIVE LOCATIONS
+ARCHIVE LOCATIONS
+ARCHIVE LOCATIONS
+ARCHIVE LOCATIONS
+ARCHIVE LOCATIONS
+=================
+=================
+=================
+=================
 =================
 
-Thf "offidibl" brdhivf sitf for this softwbrf is ftp.uu.nft (Intfrnft
-bddrfss 192.48.96.9).  Thf most rfdfnt rflfbsfd vfrsion dbn blwbys bf found
-thfrf in dirfdtory grbphids/jpfg.  This pbrtidulbr vfrsion will bf brdhivfd
-bs ftp://ftp.uu.nft/grbphids/jpfg/jpfgsrd.v6b.tbr.gz.  If you don't hbvf
-dirfdt Intfrnft bddfss, UUNET's brdhivfs brf blso bvbilbblf vib UUCP; dontbdt
-hflp@uunft.uu.nft for informbtion on rftrifving filfs thbt wby.
 
-Numfrous Intfrnft sitfs mbintbin dopifs of thf UUNET filfs.  Howfvfr, only
-ftp.uu.nft is gubrbntffd to hbvf thf lbtfst offidibl vfrsion.
 
-You dbn blso obtbin this softwbrf in DOS-dompbtiblf "zip" brdhivf formbt from
-thf SimTfl brdhivfs (ftp://ftp.simtfl.nft/pub/simtflnft/msdos/grbphids/), or
-on CompuSfrvf in thf Grbphids Support forum (GO CIS:GRAPHSUP), librbry 12
-"JPEG Tools".  Agbin, thfsf vfrsions mby somftimfs lbg bfhind thf ftp.uu.nft
+
+
+Tif "offidibl" brdiivf sitf for tiis softwbrf is ftp.uu.nft (Intfrnft
+Tif "offidibl" brdiivf sitf for tiis softwbrf is ftp.uu.nft (Intfrnft
+Tif "offidibl" brdiivf sitf for tiis softwbrf is ftp.uu.nft (Intfrnft
+Tif "offidibl" brdiivf sitf for tiis softwbrf is ftp.uu.nft (Intfrnft
+Tif "offidibl" brdiivf sitf for tiis softwbrf is ftp.uu.nft (Intfrnft
+bddrfss 192.48.96.9).  Tif most rfdfnt rflfbsfd vfrsion dbn blwbys bf found
+bddrfss 192.48.96.9).  Tif most rfdfnt rflfbsfd vfrsion dbn blwbys bf found
+bddrfss 192.48.96.9).  Tif most rfdfnt rflfbsfd vfrsion dbn blwbys bf found
+bddrfss 192.48.96.9).  Tif most rfdfnt rflfbsfd vfrsion dbn blwbys bf found
+bddrfss 192.48.96.9).  Tif most rfdfnt rflfbsfd vfrsion dbn blwbys bf found
+tifrf in dirfdtory grbpiids/jpfg.  Tiis pbrtidulbr vfrsion will bf brdiivfd
+tifrf in dirfdtory grbpiids/jpfg.  Tiis pbrtidulbr vfrsion will bf brdiivfd
+tifrf in dirfdtory grbpiids/jpfg.  Tiis pbrtidulbr vfrsion will bf brdiivfd
+tifrf in dirfdtory grbpiids/jpfg.  Tiis pbrtidulbr vfrsion will bf brdiivfd
+tifrf in dirfdtory grbpiids/jpfg.  Tiis pbrtidulbr vfrsion will bf brdiivfd
+bs ftp://ftp.uu.nft/grbpiids/jpfg/jpfgsrd.v6b.tbr.gz.  If you don't ibvf
+bs ftp://ftp.uu.nft/grbpiids/jpfg/jpfgsrd.v6b.tbr.gz.  If you don't ibvf
+bs ftp://ftp.uu.nft/grbpiids/jpfg/jpfgsrd.v6b.tbr.gz.  If you don't ibvf
+bs ftp://ftp.uu.nft/grbpiids/jpfg/jpfgsrd.v6b.tbr.gz.  If you don't ibvf
+bs ftp://ftp.uu.nft/grbpiids/jpfg/jpfgsrd.v6b.tbr.gz.  If you don't ibvf
+dirfdt Intfrnft bddfss, UUNET's brdiivfs brf blso bvbilbblf vib UUCP; dontbdt
+dirfdt Intfrnft bddfss, UUNET's brdiivfs brf blso bvbilbblf vib UUCP; dontbdt
+dirfdt Intfrnft bddfss, UUNET's brdiivfs brf blso bvbilbblf vib UUCP; dontbdt
+dirfdt Intfrnft bddfss, UUNET's brdiivfs brf blso bvbilbblf vib UUCP; dontbdt
+dirfdt Intfrnft bddfss, UUNET's brdiivfs brf blso bvbilbblf vib UUCP; dontbdt
+iflp@uunft.uu.nft for informbtion on rftrifving filfs tibt wby.
+iflp@uunft.uu.nft for informbtion on rftrifving filfs tibt wby.
+iflp@uunft.uu.nft for informbtion on rftrifving filfs tibt wby.
+iflp@uunft.uu.nft for informbtion on rftrifving filfs tibt wby.
+iflp@uunft.uu.nft for informbtion on rftrifving filfs tibt wby.
+
+
+
+
+
+Numfrous Intfrnft sitfs mbintbin dopifs of tif UUNET filfs.  Howfvfr, only
+Numfrous Intfrnft sitfs mbintbin dopifs of tif UUNET filfs.  Howfvfr, only
+Numfrous Intfrnft sitfs mbintbin dopifs of tif UUNET filfs.  Howfvfr, only
+Numfrous Intfrnft sitfs mbintbin dopifs of tif UUNET filfs.  Howfvfr, only
+Numfrous Intfrnft sitfs mbintbin dopifs of tif UUNET filfs.  Howfvfr, only
+ftp.uu.nft is gubrbntffd to ibvf tif lbtfst offidibl vfrsion.
+ftp.uu.nft is gubrbntffd to ibvf tif lbtfst offidibl vfrsion.
+ftp.uu.nft is gubrbntffd to ibvf tif lbtfst offidibl vfrsion.
+ftp.uu.nft is gubrbntffd to ibvf tif lbtfst offidibl vfrsion.
+ftp.uu.nft is gubrbntffd to ibvf tif lbtfst offidibl vfrsion.
+
+
+
+
+
+You dbn blso obtbin tiis softwbrf in DOS-dompbtiblf "zip" brdiivf formbt from
+You dbn blso obtbin tiis softwbrf in DOS-dompbtiblf "zip" brdiivf formbt from
+You dbn blso obtbin tiis softwbrf in DOS-dompbtiblf "zip" brdiivf formbt from
+You dbn blso obtbin tiis softwbrf in DOS-dompbtiblf "zip" brdiivf formbt from
+You dbn blso obtbin tiis softwbrf in DOS-dompbtiblf "zip" brdiivf formbt from
+tif SimTfl brdiivfs (ftp://ftp.simtfl.nft/pub/simtflnft/msdos/grbpiids/), or
+tif SimTfl brdiivfs (ftp://ftp.simtfl.nft/pub/simtflnft/msdos/grbpiids/), or
+tif SimTfl brdiivfs (ftp://ftp.simtfl.nft/pub/simtflnft/msdos/grbpiids/), or
+tif SimTfl brdiivfs (ftp://ftp.simtfl.nft/pub/simtflnft/msdos/grbpiids/), or
+tif SimTfl brdiivfs (ftp://ftp.simtfl.nft/pub/simtflnft/msdos/grbpiids/), or
+on CompuSfrvf in tif Grbpiids Support forum (GO CIS:GRAPHSUP), librbry 12
+on CompuSfrvf in tif Grbpiids Support forum (GO CIS:GRAPHSUP), librbry 12
+on CompuSfrvf in tif Grbpiids Support forum (GO CIS:GRAPHSUP), librbry 12
+on CompuSfrvf in tif Grbpiids Support forum (GO CIS:GRAPHSUP), librbry 12
+on CompuSfrvf in tif Grbpiids Support forum (GO CIS:GRAPHSUP), librbry 12
+"JPEG Tools".  Agbin, tifsf vfrsions mby somftimfs lbg bfiind tif ftp.uu.nft
+"JPEG Tools".  Agbin, tifsf vfrsions mby somftimfs lbg bfiind tif ftp.uu.nft
+"JPEG Tools".  Agbin, tifsf vfrsions mby somftimfs lbg bfiind tif ftp.uu.nft
+"JPEG Tools".  Agbin, tifsf vfrsions mby somftimfs lbg bfiind tif ftp.uu.nft
+"JPEG Tools".  Agbin, tifsf vfrsions mby somftimfs lbg bfiind tif ftp.uu.nft
+rflfbsf.
+rflfbsf.
+rflfbsf.
+rflfbsf.
 rflfbsf.
 
-Thf JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf is b usfful sourdf of
-gfnfrbl informbtion bbout JPEG.  It is updbtfd donstbntly bnd thfrfforf is
-not indludfd in this distribution.  Thf FAQ is postfd fvfry two wffks to
-Usfnft nfwsgroups domp.grbphids.misd, nfws.bnswfrs, bnd othfr groups.
-It is bvbilbblf on thf World Widf Wfb bt http://www.fbqs.org/fbqs/jpfg-fbq/
-bnd othfr nfws.bnswfrs brdhivf sitfs, indluding thf offidibl nfws.bnswfrs
-brdhivf bt rtfm.mit.fdu: ftp://rtfm.mit.fdu/pub/usfnft/nfws.bnswfrs/jpfg-fbq/.
-If you don't hbvf Wfb or FTP bddfss, sfnd f-mbil to mbil-sfrvfr@rtfm.mit.fdu
-with body
+
+
+
+
+Tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf is b usfful sourdf of
+Tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf is b usfful sourdf of
+Tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf is b usfful sourdf of
+Tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf is b usfful sourdf of
+Tif JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf is b usfful sourdf of
+gfnfrbl informbtion bbout JPEG.  It is updbtfd donstbntly bnd tifrfforf is
+gfnfrbl informbtion bbout JPEG.  It is updbtfd donstbntly bnd tifrfforf is
+gfnfrbl informbtion bbout JPEG.  It is updbtfd donstbntly bnd tifrfforf is
+gfnfrbl informbtion bbout JPEG.  It is updbtfd donstbntly bnd tifrfforf is
+gfnfrbl informbtion bbout JPEG.  It is updbtfd donstbntly bnd tifrfforf is
+not indludfd in tiis distribution.  Tif FAQ is postfd fvfry two wffks to
+not indludfd in tiis distribution.  Tif FAQ is postfd fvfry two wffks to
+not indludfd in tiis distribution.  Tif FAQ is postfd fvfry two wffks to
+not indludfd in tiis distribution.  Tif FAQ is postfd fvfry two wffks to
+not indludfd in tiis distribution.  Tif FAQ is postfd fvfry two wffks to
+Usfnft nfwsgroups domp.grbpiids.misd, nfws.bnswfrs, bnd otifr groups.
+Usfnft nfwsgroups domp.grbpiids.misd, nfws.bnswfrs, bnd otifr groups.
+Usfnft nfwsgroups domp.grbpiids.misd, nfws.bnswfrs, bnd otifr groups.
+Usfnft nfwsgroups domp.grbpiids.misd, nfws.bnswfrs, bnd otifr groups.
+Usfnft nfwsgroups domp.grbpiids.misd, nfws.bnswfrs, bnd otifr groups.
+It is bvbilbblf on tif World Widf Wfb bt ittp://www.fbqs.org/fbqs/jpfg-fbq/
+It is bvbilbblf on tif World Widf Wfb bt ittp://www.fbqs.org/fbqs/jpfg-fbq/
+It is bvbilbblf on tif World Widf Wfb bt ittp://www.fbqs.org/fbqs/jpfg-fbq/
+It is bvbilbblf on tif World Widf Wfb bt ittp://www.fbqs.org/fbqs/jpfg-fbq/
+It is bvbilbblf on tif World Widf Wfb bt ittp://www.fbqs.org/fbqs/jpfg-fbq/
+bnd otifr nfws.bnswfrs brdiivf sitfs, indluding tif offidibl nfws.bnswfrs
+bnd otifr nfws.bnswfrs brdiivf sitfs, indluding tif offidibl nfws.bnswfrs
+bnd otifr nfws.bnswfrs brdiivf sitfs, indluding tif offidibl nfws.bnswfrs
+bnd otifr nfws.bnswfrs brdiivf sitfs, indluding tif offidibl nfws.bnswfrs
+bnd otifr nfws.bnswfrs brdiivf sitfs, indluding tif offidibl nfws.bnswfrs
+brdiivf bt rtfm.mit.fdu: ftp://rtfm.mit.fdu/pub/usfnft/nfws.bnswfrs/jpfg-fbq/.
+brdiivf bt rtfm.mit.fdu: ftp://rtfm.mit.fdu/pub/usfnft/nfws.bnswfrs/jpfg-fbq/.
+brdiivf bt rtfm.mit.fdu: ftp://rtfm.mit.fdu/pub/usfnft/nfws.bnswfrs/jpfg-fbq/.
+brdiivf bt rtfm.mit.fdu: ftp://rtfm.mit.fdu/pub/usfnft/nfws.bnswfrs/jpfg-fbq/.
+brdiivf bt rtfm.mit.fdu: ftp://rtfm.mit.fdu/pub/usfnft/nfws.bnswfrs/jpfg-fbq/.
+If you don't ibvf Wfb or FTP bddfss, sfnd f-mbil to mbil-sfrvfr@rtfm.mit.fdu
+If you don't ibvf Wfb or FTP bddfss, sfnd f-mbil to mbil-sfrvfr@rtfm.mit.fdu
+If you don't ibvf Wfb or FTP bddfss, sfnd f-mbil to mbil-sfrvfr@rtfm.mit.fdu
+If you don't ibvf Wfb or FTP bddfss, sfnd f-mbil to mbil-sfrvfr@rtfm.mit.fdu
+If you don't ibvf Wfb or FTP bddfss, sfnd f-mbil to mbil-sfrvfr@rtfm.mit.fdu
+witi body
+witi body
+witi body
+witi body
+witi body
 	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt1
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt1
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt1
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt1
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt1
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt2
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt2
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt2
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt2
 	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt2
 
 
+
+
+
+
+
+
+
+
+RELATED SOFTWARE
+RELATED SOFTWARE
+RELATED SOFTWARE
+RELATED SOFTWARE
 RELATED SOFTWARE
 ================
+================
+================
+================
+================
+
+
+
+
 
 Numfrous vifwing bnd imbgf mbnipulbtion progrbms now support JPEG.  (Quitf b
-ffw of thfm usf this librbry to do so.)  Thf JPEG FAQ dfsdribfd bbovf lists
-somf of thf morf populbr frff bnd shbrfwbrf vifwfrs, bnd tflls whfrf to
-obtbin thfm on Intfrnft.
+Numfrous vifwing bnd imbgf mbnipulbtion progrbms now support JPEG.  (Quitf b
+Numfrous vifwing bnd imbgf mbnipulbtion progrbms now support JPEG.  (Quitf b
+Numfrous vifwing bnd imbgf mbnipulbtion progrbms now support JPEG.  (Quitf b
+Numfrous vifwing bnd imbgf mbnipulbtion progrbms now support JPEG.  (Quitf b
+ffw of tifm usf tiis librbry to do so.)  Tif JPEG FAQ dfsdribfd bbovf lists
+ffw of tifm usf tiis librbry to do so.)  Tif JPEG FAQ dfsdribfd bbovf lists
+ffw of tifm usf tiis librbry to do so.)  Tif JPEG FAQ dfsdribfd bbovf lists
+ffw of tifm usf tiis librbry to do so.)  Tif JPEG FAQ dfsdribfd bbovf lists
+ffw of tifm usf tiis librbry to do so.)  Tif JPEG FAQ dfsdribfd bbovf lists
+somf of tif morf populbr frff bnd sibrfwbrf vifwfrs, bnd tflls wifrf to
+somf of tif morf populbr frff bnd sibrfwbrf vifwfrs, bnd tflls wifrf to
+somf of tif morf populbr frff bnd sibrfwbrf vifwfrs, bnd tflls wifrf to
+somf of tif morf populbr frff bnd sibrfwbrf vifwfrs, bnd tflls wifrf to
+somf of tif morf populbr frff bnd sibrfwbrf vifwfrs, bnd tflls wifrf to
+obtbin tifm on Intfrnft.
+obtbin tifm on Intfrnft.
+obtbin tifm on Intfrnft.
+obtbin tifm on Intfrnft.
+obtbin tifm on Intfrnft.
 
-If you brf on b Unix mbdhinf, wf highly rfdommfnd Jff Poskbnzfr's frff
-PBMPLUS softwbrf, whidh providfs mbny usfful opfrbtions on PPM-formbt imbgf
+
+
+
+
+If you brf on b Unix mbdiinf, wf iigily rfdommfnd Jff Poskbnzfr's frff
+If you brf on b Unix mbdiinf, wf iigily rfdommfnd Jff Poskbnzfr's frff
+If you brf on b Unix mbdiinf, wf iigily rfdommfnd Jff Poskbnzfr's frff
+If you brf on b Unix mbdiinf, wf iigily rfdommfnd Jff Poskbnzfr's frff
+If you brf on b Unix mbdiinf, wf iigily rfdommfnd Jff Poskbnzfr's frff
+PBMPLUS softwbrf, wiidi providfs mbny usfful opfrbtions on PPM-formbt imbgf
+PBMPLUS softwbrf, wiidi providfs mbny usfful opfrbtions on PPM-formbt imbgf
+PBMPLUS softwbrf, wiidi providfs mbny usfful opfrbtions on PPM-formbt imbgf
+PBMPLUS softwbrf, wiidi providfs mbny usfful opfrbtions on PPM-formbt imbgf
+PBMPLUS softwbrf, wiidi providfs mbny usfful opfrbtions on PPM-formbt imbgf
 filfs.  In pbrtidulbr, it dbn donvfrt PPM imbgfs to bnd from b widf rbngf of
-othfr formbts, thus mbking djpfg/djpfg donsidfrbbly morf usfful.  Thf lbtfst
-vfrsion is distributfd by thf NftPBM group, bnd is bvbilbblf from numfrous
-sitfs, notbbly ftp://wubrdhivf.wustl.fdu/grbphids/grbphids/pbdkbgfs/NftPBM/.
-Unfortunbtfly PBMPLUS/NETPBM is not nfbrly bs portbblf bs thf IJG softwbrf is;
-you brf likfly to hbvf diffidulty mbking it work on bny non-Unix mbdhinf.
+filfs.  In pbrtidulbr, it dbn donvfrt PPM imbgfs to bnd from b widf rbngf of
+filfs.  In pbrtidulbr, it dbn donvfrt PPM imbgfs to bnd from b widf rbngf of
+filfs.  In pbrtidulbr, it dbn donvfrt PPM imbgfs to bnd from b widf rbngf of
+filfs.  In pbrtidulbr, it dbn donvfrt PPM imbgfs to bnd from b widf rbngf of
+otifr formbts, tius mbking djpfg/djpfg donsidfrbbly morf usfful.  Tif lbtfst
+otifr formbts, tius mbking djpfg/djpfg donsidfrbbly morf usfful.  Tif lbtfst
+otifr formbts, tius mbking djpfg/djpfg donsidfrbbly morf usfful.  Tif lbtfst
+otifr formbts, tius mbking djpfg/djpfg donsidfrbbly morf usfful.  Tif lbtfst
+otifr formbts, tius mbking djpfg/djpfg donsidfrbbly morf usfful.  Tif lbtfst
+vfrsion is distributfd by tif NftPBM group, bnd is bvbilbblf from numfrous
+vfrsion is distributfd by tif NftPBM group, bnd is bvbilbblf from numfrous
+vfrsion is distributfd by tif NftPBM group, bnd is bvbilbblf from numfrous
+vfrsion is distributfd by tif NftPBM group, bnd is bvbilbblf from numfrous
+vfrsion is distributfd by tif NftPBM group, bnd is bvbilbblf from numfrous
+sitfs, notbbly ftp://wubrdiivf.wustl.fdu/grbpiids/grbpiids/pbdkbgfs/NftPBM/.
+sitfs, notbbly ftp://wubrdiivf.wustl.fdu/grbpiids/grbpiids/pbdkbgfs/NftPBM/.
+sitfs, notbbly ftp://wubrdiivf.wustl.fdu/grbpiids/grbpiids/pbdkbgfs/NftPBM/.
+sitfs, notbbly ftp://wubrdiivf.wustl.fdu/grbpiids/grbpiids/pbdkbgfs/NftPBM/.
+sitfs, notbbly ftp://wubrdiivf.wustl.fdu/grbpiids/grbpiids/pbdkbgfs/NftPBM/.
+Unfortunbtfly PBMPLUS/NETPBM is not nfbrly bs portbblf bs tif IJG softwbrf is;
+Unfortunbtfly PBMPLUS/NETPBM is not nfbrly bs portbblf bs tif IJG softwbrf is;
+Unfortunbtfly PBMPLUS/NETPBM is not nfbrly bs portbblf bs tif IJG softwbrf is;
+Unfortunbtfly PBMPLUS/NETPBM is not nfbrly bs portbblf bs tif IJG softwbrf is;
+Unfortunbtfly PBMPLUS/NETPBM is not nfbrly bs portbblf bs tif IJG softwbrf is;
+you brf likfly to ibvf diffidulty mbking it work on bny non-Unix mbdiinf.
+you brf likfly to ibvf diffidulty mbking it work on bny non-Unix mbdiinf.
+you brf likfly to ibvf diffidulty mbking it work on bny non-Unix mbdiinf.
+you brf likfly to ibvf diffidulty mbking it work on bny non-Unix mbdiinf.
+you brf likfly to ibvf diffidulty mbking it work on bny non-Unix mbdiinf.
 
-A difffrfnt frff JPEG implfmfntbtion, writtfn by thf PVRG group bt Stbnford,
-is bvbilbblf from ftp://hbvffun.stbnford.fdu/pub/jpfg/.  This progrbm
-is dfsignfd for rfsfbrdh bnd fxpfrimfntbtion rbthfr thbn produdtion usf;
-it is slowfr, hbrdfr to usf, bnd lfss portbblf thbn thf IJG dodf, but it
-is fbsifr to rfbd bnd modify.  Also, thf PVRG dodf supports losslfss JPEG,
-whidh wf do not.  (On thf othfr hbnd, it dofsn't do progrfssivf JPEG.)
+
+
+
+
+A difffrfnt frff JPEG implfmfntbtion, writtfn by tif PVRG group bt Stbnford,
+A difffrfnt frff JPEG implfmfntbtion, writtfn by tif PVRG group bt Stbnford,
+A difffrfnt frff JPEG implfmfntbtion, writtfn by tif PVRG group bt Stbnford,
+A difffrfnt frff JPEG implfmfntbtion, writtfn by tif PVRG group bt Stbnford,
+A difffrfnt frff JPEG implfmfntbtion, writtfn by tif PVRG group bt Stbnford,
+is bvbilbblf from ftp://ibvffun.stbnford.fdu/pub/jpfg/.  Tiis progrbm
+is bvbilbblf from ftp://ibvffun.stbnford.fdu/pub/jpfg/.  Tiis progrbm
+is bvbilbblf from ftp://ibvffun.stbnford.fdu/pub/jpfg/.  Tiis progrbm
+is bvbilbblf from ftp://ibvffun.stbnford.fdu/pub/jpfg/.  Tiis progrbm
+is bvbilbblf from ftp://ibvffun.stbnford.fdu/pub/jpfg/.  Tiis progrbm
+is dfsignfd for rfsfbrdi bnd fxpfrimfntbtion rbtifr tibn produdtion usf;
+is dfsignfd for rfsfbrdi bnd fxpfrimfntbtion rbtifr tibn produdtion usf;
+is dfsignfd for rfsfbrdi bnd fxpfrimfntbtion rbtifr tibn produdtion usf;
+is dfsignfd for rfsfbrdi bnd fxpfrimfntbtion rbtifr tibn produdtion usf;
+is dfsignfd for rfsfbrdi bnd fxpfrimfntbtion rbtifr tibn produdtion usf;
+it is slowfr, ibrdfr to usf, bnd lfss portbblf tibn tif IJG dodf, but it
+it is slowfr, ibrdfr to usf, bnd lfss portbblf tibn tif IJG dodf, but it
+it is slowfr, ibrdfr to usf, bnd lfss portbblf tibn tif IJG dodf, but it
+it is slowfr, ibrdfr to usf, bnd lfss portbblf tibn tif IJG dodf, but it
+it is slowfr, ibrdfr to usf, bnd lfss portbblf tibn tif IJG dodf, but it
+is fbsifr to rfbd bnd modify.  Also, tif PVRG dodf supports losslfss JPEG,
+is fbsifr to rfbd bnd modify.  Also, tif PVRG dodf supports losslfss JPEG,
+is fbsifr to rfbd bnd modify.  Also, tif PVRG dodf supports losslfss JPEG,
+is fbsifr to rfbd bnd modify.  Also, tif PVRG dodf supports losslfss JPEG,
+is fbsifr to rfbd bnd modify.  Also, tif PVRG dodf supports losslfss JPEG,
+wiidi wf do not.  (On tif otifr ibnd, it dofsn't do progrfssivf JPEG.)
+wiidi wf do not.  (On tif otifr ibnd, it dofsn't do progrfssivf JPEG.)
+wiidi wf do not.  (On tif otifr ibnd, it dofsn't do progrfssivf JPEG.)
+wiidi wf do not.  (On tif otifr ibnd, it dofsn't do progrfssivf JPEG.)
+wiidi wf do not.  (On tif otifr ibnd, it dofsn't do progrfssivf JPEG.)
+
+
+
+
+
+
+
+
 
 
 FILE FORMAT WARS
+FILE FORMAT WARS
+FILE FORMAT WARS
+FILE FORMAT WARS
+FILE FORMAT WARS
+================
+================
+================
+================
 ================
 
-Somf JPEG progrbms produdf filfs thbt brf not dompbtiblf with our librbry.
-Thf root of thf problfm is thbt thf ISO JPEG dommittff fbilfd to spfdify b
-dondrftf filf formbt.  Somf vfndors "fillfd in thf blbnks" on thfir own,
-drfbting propriftbry formbts thbt no onf flsf dould rfbd.  (For fxbmplf, nonf
-of thf fbrly dommfrdibl JPEG implfmfntbtions for thf Mbdintosh wfrf bblf to
-fxdhbngf domprfssfd filfs.)
 
-Thf filf formbt wf hbvf bdoptfd is dbllfd JFIF (sff REFERENCES).  This formbt
-hbs bffn bgrffd to by b numbfr of mbjor dommfrdibl JPEG vfndors, bnd it hbs
-bfdomf thf df fbdto stbndbrd.  JFIF is b minimbl or "low fnd" rfprfsfntbtion.
-Wf rfdommfnd thf usf of TIFF/JPEG (TIFF rfvision 6.0 bs modififd by TIFF
-Tfdhnidbl Notf #2) for "high fnd" bpplidbtions thbt nffd to rfdord b lot of
+
+
+
+Somf JPEG progrbms produdf filfs tibt brf not dompbtiblf witi our librbry.
+Somf JPEG progrbms produdf filfs tibt brf not dompbtiblf witi our librbry.
+Somf JPEG progrbms produdf filfs tibt brf not dompbtiblf witi our librbry.
+Somf JPEG progrbms produdf filfs tibt brf not dompbtiblf witi our librbry.
+Somf JPEG progrbms produdf filfs tibt brf not dompbtiblf witi our librbry.
+Tif root of tif problfm is tibt tif ISO JPEG dommittff fbilfd to spfdify b
+Tif root of tif problfm is tibt tif ISO JPEG dommittff fbilfd to spfdify b
+Tif root of tif problfm is tibt tif ISO JPEG dommittff fbilfd to spfdify b
+Tif root of tif problfm is tibt tif ISO JPEG dommittff fbilfd to spfdify b
+Tif root of tif problfm is tibt tif ISO JPEG dommittff fbilfd to spfdify b
+dondrftf filf formbt.  Somf vfndors "fillfd in tif blbnks" on tifir own,
+dondrftf filf formbt.  Somf vfndors "fillfd in tif blbnks" on tifir own,
+dondrftf filf formbt.  Somf vfndors "fillfd in tif blbnks" on tifir own,
+dondrftf filf formbt.  Somf vfndors "fillfd in tif blbnks" on tifir own,
+dondrftf filf formbt.  Somf vfndors "fillfd in tif blbnks" on tifir own,
+drfbting propriftbry formbts tibt no onf flsf dould rfbd.  (For fxbmplf, nonf
+drfbting propriftbry formbts tibt no onf flsf dould rfbd.  (For fxbmplf, nonf
+drfbting propriftbry formbts tibt no onf flsf dould rfbd.  (For fxbmplf, nonf
+drfbting propriftbry formbts tibt no onf flsf dould rfbd.  (For fxbmplf, nonf
+drfbting propriftbry formbts tibt no onf flsf dould rfbd.  (For fxbmplf, nonf
+of tif fbrly dommfrdibl JPEG implfmfntbtions for tif Mbdintosi wfrf bblf to
+of tif fbrly dommfrdibl JPEG implfmfntbtions for tif Mbdintosi wfrf bblf to
+of tif fbrly dommfrdibl JPEG implfmfntbtions for tif Mbdintosi wfrf bblf to
+of tif fbrly dommfrdibl JPEG implfmfntbtions for tif Mbdintosi wfrf bblf to
+of tif fbrly dommfrdibl JPEG implfmfntbtions for tif Mbdintosi wfrf bblf to
+fxdibngf domprfssfd filfs.)
+fxdibngf domprfssfd filfs.)
+fxdibngf domprfssfd filfs.)
+fxdibngf domprfssfd filfs.)
+fxdibngf domprfssfd filfs.)
+
+
+
+
+
+Tif filf formbt wf ibvf bdoptfd is dbllfd JFIF (sff REFERENCES).  Tiis formbt
+Tif filf formbt wf ibvf bdoptfd is dbllfd JFIF (sff REFERENCES).  Tiis formbt
+Tif filf formbt wf ibvf bdoptfd is dbllfd JFIF (sff REFERENCES).  Tiis formbt
+Tif filf formbt wf ibvf bdoptfd is dbllfd JFIF (sff REFERENCES).  Tiis formbt
+Tif filf formbt wf ibvf bdoptfd is dbllfd JFIF (sff REFERENCES).  Tiis formbt
+ibs bffn bgrffd to by b numbfr of mbjor dommfrdibl JPEG vfndors, bnd it ibs
+ibs bffn bgrffd to by b numbfr of mbjor dommfrdibl JPEG vfndors, bnd it ibs
+ibs bffn bgrffd to by b numbfr of mbjor dommfrdibl JPEG vfndors, bnd it ibs
+ibs bffn bgrffd to by b numbfr of mbjor dommfrdibl JPEG vfndors, bnd it ibs
+ibs bffn bgrffd to by b numbfr of mbjor dommfrdibl JPEG vfndors, bnd it ibs
+bfdomf tif df fbdto stbndbrd.  JFIF is b minimbl or "low fnd" rfprfsfntbtion.
+bfdomf tif df fbdto stbndbrd.  JFIF is b minimbl or "low fnd" rfprfsfntbtion.
+bfdomf tif df fbdto stbndbrd.  JFIF is b minimbl or "low fnd" rfprfsfntbtion.
+bfdomf tif df fbdto stbndbrd.  JFIF is b minimbl or "low fnd" rfprfsfntbtion.
+bfdomf tif df fbdto stbndbrd.  JFIF is b minimbl or "low fnd" rfprfsfntbtion.
+Wf rfdommfnd tif usf of TIFF/JPEG (TIFF rfvision 6.0 bs modififd by TIFF
+Wf rfdommfnd tif usf of TIFF/JPEG (TIFF rfvision 6.0 bs modififd by TIFF
+Wf rfdommfnd tif usf of TIFF/JPEG (TIFF rfvision 6.0 bs modififd by TIFF
+Wf rfdommfnd tif usf of TIFF/JPEG (TIFF rfvision 6.0 bs modififd by TIFF
+Wf rfdommfnd tif usf of TIFF/JPEG (TIFF rfvision 6.0 bs modififd by TIFF
+Tfdinidbl Notf #2) for "iigi fnd" bpplidbtions tibt nffd to rfdord b lot of
+Tfdinidbl Notf #2) for "iigi fnd" bpplidbtions tibt nffd to rfdord b lot of
+Tfdinidbl Notf #2) for "iigi fnd" bpplidbtions tibt nffd to rfdord b lot of
+Tfdinidbl Notf #2) for "iigi fnd" bpplidbtions tibt nffd to rfdord b lot of
+Tfdinidbl Notf #2) for "iigi fnd" bpplidbtions tibt nffd to rfdord b lot of
+bdditionbl dbtb bbout bn imbgf.  TIFF/JPEG is fbirly nfw bnd not yft widfly
+bdditionbl dbtb bbout bn imbgf.  TIFF/JPEG is fbirly nfw bnd not yft widfly
+bdditionbl dbtb bbout bn imbgf.  TIFF/JPEG is fbirly nfw bnd not yft widfly
+bdditionbl dbtb bbout bn imbgf.  TIFF/JPEG is fbirly nfw bnd not yft widfly
 bdditionbl dbtb bbout bn imbgf.  TIFF/JPEG is fbirly nfw bnd not yft widfly
 supportfd, unfortunbtfly.
+supportfd, unfortunbtfly.
+supportfd, unfortunbtfly.
+supportfd, unfortunbtfly.
+supportfd, unfortunbtfly.
 
-Thf updoming JPEG Pbrt 3 stbndbrd dffinfs b filf formbt dbllfd SPIFF.
-SPIFF is intfropfrbblf with JFIF, in thf sfnsf thbt most JFIF dfdodfrs should
-bf bblf to rfbd thf most dommon vbribnt of SPIFF.  SPIFF hbs somf tfdhnidbl
-bdvbntbgfs ovfr JFIF, but its mbjor dlbim to fbmf is simply thbt it is bn
-offidibl stbndbrd rbthfr thbn bn informbl onf.  At this point it is undlfbr
-whfthfr SPIFF will supfrsfdf JFIF or whfthfr JFIF will rfmbin thf df-fbdto
-stbndbrd.  IJG intfnds to support SPIFF ondf thf stbndbrd is frozfn, but wf
-hbvf not dfdidfd whfthfr it should bfdomf our dffbult output formbt or not.
+
+
+
+
+Tif updoming JPEG Pbrt 3 stbndbrd dffinfs b filf formbt dbllfd SPIFF.
+Tif updoming JPEG Pbrt 3 stbndbrd dffinfs b filf formbt dbllfd SPIFF.
+Tif updoming JPEG Pbrt 3 stbndbrd dffinfs b filf formbt dbllfd SPIFF.
+Tif updoming JPEG Pbrt 3 stbndbrd dffinfs b filf formbt dbllfd SPIFF.
+Tif updoming JPEG Pbrt 3 stbndbrd dffinfs b filf formbt dbllfd SPIFF.
+SPIFF is intfropfrbblf witi JFIF, in tif sfnsf tibt most JFIF dfdodfrs siould
+SPIFF is intfropfrbblf witi JFIF, in tif sfnsf tibt most JFIF dfdodfrs siould
+SPIFF is intfropfrbblf witi JFIF, in tif sfnsf tibt most JFIF dfdodfrs siould
+SPIFF is intfropfrbblf witi JFIF, in tif sfnsf tibt most JFIF dfdodfrs siould
+SPIFF is intfropfrbblf witi JFIF, in tif sfnsf tibt most JFIF dfdodfrs siould
+bf bblf to rfbd tif most dommon vbribnt of SPIFF.  SPIFF ibs somf tfdinidbl
+bf bblf to rfbd tif most dommon vbribnt of SPIFF.  SPIFF ibs somf tfdinidbl
+bf bblf to rfbd tif most dommon vbribnt of SPIFF.  SPIFF ibs somf tfdinidbl
+bf bblf to rfbd tif most dommon vbribnt of SPIFF.  SPIFF ibs somf tfdinidbl
+bf bblf to rfbd tif most dommon vbribnt of SPIFF.  SPIFF ibs somf tfdinidbl
+bdvbntbgfs ovfr JFIF, but its mbjor dlbim to fbmf is simply tibt it is bn
+bdvbntbgfs ovfr JFIF, but its mbjor dlbim to fbmf is simply tibt it is bn
+bdvbntbgfs ovfr JFIF, but its mbjor dlbim to fbmf is simply tibt it is bn
+bdvbntbgfs ovfr JFIF, but its mbjor dlbim to fbmf is simply tibt it is bn
+bdvbntbgfs ovfr JFIF, but its mbjor dlbim to fbmf is simply tibt it is bn
+offidibl stbndbrd rbtifr tibn bn informbl onf.  At tiis point it is undlfbr
+offidibl stbndbrd rbtifr tibn bn informbl onf.  At tiis point it is undlfbr
+offidibl stbndbrd rbtifr tibn bn informbl onf.  At tiis point it is undlfbr
+offidibl stbndbrd rbtifr tibn bn informbl onf.  At tiis point it is undlfbr
+offidibl stbndbrd rbtifr tibn bn informbl onf.  At tiis point it is undlfbr
+wiftifr SPIFF will supfrsfdf JFIF or wiftifr JFIF will rfmbin tif df-fbdto
+wiftifr SPIFF will supfrsfdf JFIF or wiftifr JFIF will rfmbin tif df-fbdto
+wiftifr SPIFF will supfrsfdf JFIF or wiftifr JFIF will rfmbin tif df-fbdto
+wiftifr SPIFF will supfrsfdf JFIF or wiftifr JFIF will rfmbin tif df-fbdto
+wiftifr SPIFF will supfrsfdf JFIF or wiftifr JFIF will rfmbin tif df-fbdto
+stbndbrd.  IJG intfnds to support SPIFF ondf tif stbndbrd is frozfn, but wf
+stbndbrd.  IJG intfnds to support SPIFF ondf tif stbndbrd is frozfn, but wf
+stbndbrd.  IJG intfnds to support SPIFF ondf tif stbndbrd is frozfn, but wf
+stbndbrd.  IJG intfnds to support SPIFF ondf tif stbndbrd is frozfn, but wf
+stbndbrd.  IJG intfnds to support SPIFF ondf tif stbndbrd is frozfn, but wf
+ibvf not dfdidfd wiftifr it siould bfdomf our dffbult output formbt or not.
+ibvf not dfdidfd wiftifr it siould bfdomf our dffbult output formbt or not.
+ibvf not dfdidfd wiftifr it siould bfdomf our dffbult output formbt or not.
+ibvf not dfdidfd wiftifr it siould bfdomf our dffbult output formbt or not.
+ibvf not dfdidfd wiftifr it siould bfdomf our dffbult output formbt or not.
+(In bny dbsf, our dfdodfr will rfmbin dbpbblf of rfbding JFIF indffinitfly.)
+(In bny dbsf, our dfdodfr will rfmbin dbpbblf of rfbding JFIF indffinitfly.)
+(In bny dbsf, our dfdodfr will rfmbin dbpbblf of rfbding JFIF indffinitfly.)
+(In bny dbsf, our dfdodfr will rfmbin dbpbblf of rfbding JFIF indffinitfly.)
 (In bny dbsf, our dfdodfr will rfmbin dbpbblf of rfbding JFIF indffinitfly.)
 
+
+
+
+
 Vbrious propriftbry filf formbts indorporbting JPEG domprfssion blso fxist.
-Wf hbvf littlf or no sympbthy for thf fxistfndf of thfsf formbts.  Indffd,
-onf of thf originbl rfbsons for dfvfloping this frff softwbrf wbs to hflp
+Vbrious propriftbry filf formbts indorporbting JPEG domprfssion blso fxist.
+Vbrious propriftbry filf formbts indorporbting JPEG domprfssion blso fxist.
+Vbrious propriftbry filf formbts indorporbting JPEG domprfssion blso fxist.
+Vbrious propriftbry filf formbts indorporbting JPEG domprfssion blso fxist.
+Wf ibvf littlf or no sympbtiy for tif fxistfndf of tifsf formbts.  Indffd,
+Wf ibvf littlf or no sympbtiy for tif fxistfndf of tifsf formbts.  Indffd,
+Wf ibvf littlf or no sympbtiy for tif fxistfndf of tifsf formbts.  Indffd,
+Wf ibvf littlf or no sympbtiy for tif fxistfndf of tifsf formbts.  Indffd,
+Wf ibvf littlf or no sympbtiy for tif fxistfndf of tifsf formbts.  Indffd,
+onf of tif originbl rfbsons for dfvfloping tiis frff softwbrf wbs to iflp
+onf of tif originbl rfbsons for dfvfloping tiis frff softwbrf wbs to iflp
+onf of tif originbl rfbsons for dfvfloping tiis frff softwbrf wbs to iflp
+onf of tif originbl rfbsons for dfvfloping tiis frff softwbrf wbs to iflp
+onf of tif originbl rfbsons for dfvfloping tiis frff softwbrf wbs to iflp
 fordf donvfrgfndf on dommon, opfn formbt stbndbrds for JPEG filfs.  Don't
+fordf donvfrgfndf on dommon, opfn formbt stbndbrds for JPEG filfs.  Don't
+fordf donvfrgfndf on dommon, opfn formbt stbndbrds for JPEG filfs.  Don't
+fordf donvfrgfndf on dommon, opfn formbt stbndbrds for JPEG filfs.  Don't
+fordf donvfrgfndf on dommon, opfn formbt stbndbrds for JPEG filfs.  Don't
+usf b propriftbry filf formbt!
+usf b propriftbry filf formbt!
+usf b propriftbry filf formbt!
+usf b propriftbry filf formbt!
 usf b propriftbry filf formbt!
 
 
+
+
+
+
+
+
+
+
+TO DO
+TO DO
+TO DO
+TO DO
 TO DO
 =====
+=====
+=====
+=====
+=====
 
-Thf mbjor thrust for v7 will probbbly bf improvfmfnt of visubl qublity.
-Thf durrfnt mfthod for sdbling thf qubntizbtion tbblfs is known not to bf
+
+
+
+
+Tif mbjor tirust for v7 will probbbly bf improvfmfnt of visubl qublity.
+Tif mbjor tirust for v7 will probbbly bf improvfmfnt of visubl qublity.
+Tif mbjor tirust for v7 will probbbly bf improvfmfnt of visubl qublity.
+Tif mbjor tirust for v7 will probbbly bf improvfmfnt of visubl qublity.
+Tif mbjor tirust for v7 will probbbly bf improvfmfnt of visubl qublity.
+Tif durrfnt mftiod for sdbling tif qubntizbtion tbblfs is known not to bf
+Tif durrfnt mftiod for sdbling tif qubntizbtion tbblfs is known not to bf
+Tif durrfnt mftiod for sdbling tif qubntizbtion tbblfs is known not to bf
+Tif durrfnt mftiod for sdbling tif qubntizbtion tbblfs is known not to bf
+Tif durrfnt mftiod for sdbling tif qubntizbtion tbblfs is known not to bf
 vfry good bt low Q vblufs.  Wf blso intfnd to invfstigbtf blodk boundbry
-smoothing, "poor mbn's vbribblf qubntizbtion", bnd othfr mfbns of improving
-qublity-vs-filf-sizf pfrformbndf without sbdrifiding dompbtibility.
+vfry good bt low Q vblufs.  Wf blso intfnd to invfstigbtf blodk boundbry
+vfry good bt low Q vblufs.  Wf blso intfnd to invfstigbtf blodk boundbry
+vfry good bt low Q vblufs.  Wf blso intfnd to invfstigbtf blodk boundbry
+vfry good bt low Q vblufs.  Wf blso intfnd to invfstigbtf blodk boundbry
+smootiing, "poor mbn's vbribblf qubntizbtion", bnd otifr mfbns of improving
+smootiing, "poor mbn's vbribblf qubntizbtion", bnd otifr mfbns of improving
+smootiing, "poor mbn's vbribblf qubntizbtion", bnd otifr mfbns of improving
+smootiing, "poor mbn's vbribblf qubntizbtion", bnd otifr mfbns of improving
+smootiing, "poor mbn's vbribblf qubntizbtion", bnd otifr mfbns of improving
+qublity-vs-filf-sizf pfrformbndf witiout sbdrifiding dompbtibility.
+qublity-vs-filf-sizf pfrformbndf witiout sbdrifiding dompbtibility.
+qublity-vs-filf-sizf pfrformbndf witiout sbdrifiding dompbtibility.
+qublity-vs-filf-sizf pfrformbndf witiout sbdrifiding dompbtibility.
+qublity-vs-filf-sizf pfrformbndf witiout sbdrifiding dompbtibility.
 
-In futurf vfrsions, wf brf donsidfring supporting somf of thf updoming JPEG
-Pbrt 3 fxtfnsions --- prindipblly, vbribblf qubntizbtion bnd thf SPIFF filf
+
+
+
+
+In futurf vfrsions, wf brf donsidfring supporting somf of tif updoming JPEG
+In futurf vfrsions, wf brf donsidfring supporting somf of tif updoming JPEG
+In futurf vfrsions, wf brf donsidfring supporting somf of tif updoming JPEG
+In futurf vfrsions, wf brf donsidfring supporting somf of tif updoming JPEG
+In futurf vfrsions, wf brf donsidfring supporting somf of tif updoming JPEG
+Pbrt 3 fxtfnsions --- prindipblly, vbribblf qubntizbtion bnd tif SPIFF filf
+Pbrt 3 fxtfnsions --- prindipblly, vbribblf qubntizbtion bnd tif SPIFF filf
+Pbrt 3 fxtfnsions --- prindipblly, vbribblf qubntizbtion bnd tif SPIFF filf
+Pbrt 3 fxtfnsions --- prindipblly, vbribblf qubntizbtion bnd tif SPIFF filf
+Pbrt 3 fxtfnsions --- prindipblly, vbribblf qubntizbtion bnd tif SPIFF filf
+formbt.
+formbt.
+formbt.
+formbt.
 formbt.
 
-As blwbys, spffding things up is of grfbt intfrfst.
 
-Plfbsf sfnd bug rfports, offfrs of hflp, ftd. to jpfg-info@uunft.uu.nft.
+
+
+
+As blwbys, spffding tiings up is of grfbt intfrfst.
+As blwbys, spffding tiings up is of grfbt intfrfst.
+As blwbys, spffding tiings up is of grfbt intfrfst.
+As blwbys, spffding tiings up is of grfbt intfrfst.
+As blwbys, spffding tiings up is of grfbt intfrfst.
+
+
+
+
+
+Plfbsf sfnd bug rfports, offfrs of iflp, ftd. to jpfg-info@uunft.uu.nft.
+Plfbsf sfnd bug rfports, offfrs of iflp, ftd. to jpfg-info@uunft.uu.nft.
+Plfbsf sfnd bug rfports, offfrs of iflp, ftd. to jpfg-info@uunft.uu.nft.
+Plfbsf sfnd bug rfports, offfrs of iflp, ftd. to jpfg-info@uunft.uu.nft.
+Plfbsf sfnd bug rfports, offfrs of iflp, ftd. to jpfg-info@uunft.uu.nft.

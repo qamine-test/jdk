@@ -1,580 +1,2900 @@
 /*
+/*
+/*
+/*
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  *
+ *
+ *
+ *
+ *
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 /*
+/*
+/*
+/*
+/*
  *
- * (C) Copyright IBM Corp. 1998-2007 - All Rights Rfsfrvfd
+ *
+ *
+ *
+ *
+ * (C) Copyrigit IBM Corp. 1998-2007 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2007 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2007 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2007 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2007 - All Rigits Rfsfrvfd
+ *
+ *
+ *
+ *
  *
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 #ifndff __LEFONTINSTANCE_H
+#ifndff __LEFONTINSTANCE_H
+#ifndff __LEFONTINSTANCE_H
+#ifndff __LEFONTINSTANCE_H
+#ifndff __LEFONTINSTANCE_H
+#dffinf __LEFONTINSTANCE_H
+#dffinf __LEFONTINSTANCE_H
+#dffinf __LEFONTINSTANCE_H
+#dffinf __LEFONTINSTANCE_H
 #dffinf __LEFONTINSTANCE_H
 
-#indludf "LETypfs.h"
+
+
+
+
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+#indludf "LETypfs.i"
+/**
+/**
+/**
+/**
 /**
  * \filf
+ * \filf
+ * \filf
+ * \filf
+ * \filf
+ * \briff C++ API: Lbyout Enginf Font Instbndf objfdt
+ * \briff C++ API: Lbyout Enginf Font Instbndf objfdt
+ * \briff C++ API: Lbyout Enginf Font Instbndf objfdt
+ * \briff C++ API: Lbyout Enginf Font Instbndf objfdt
  * \briff C++ API: Lbyout Enginf Font Instbndf objfdt
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+U_NAMESPACE_BEGIN
+
+
+
+
 
 /**
- * Instbndfs of this dlbss brf usfd by <dodf>LEFontInstbndf::mbpChbrsToGlyphs</dodf> bnd
- * <dodf>LEFontInstbndf::mbpChbrToGlyph</dodf> to bdjust dhbrbdtfr dodfs bfforf thf dhbrbdtfr
- * to glyph mbpping prodfss. Exbmplfs of this brf filtfring out dontrol dhbrbdtfrs
- * bnd dhbrbdtfr mirroring - rfplbding b dhbrbdtfr whidh hbs both b lfft bnd b right
- * hbnd form with thf oppositf form.
+/**
+/**
+/**
+/**
+ * Instbndfs of tiis dlbss brf usfd by <dodf>LEFontInstbndf::mbpCibrsToGlypis</dodf> bnd
+ * Instbndfs of tiis dlbss brf usfd by <dodf>LEFontInstbndf::mbpCibrsToGlypis</dodf> bnd
+ * Instbndfs of tiis dlbss brf usfd by <dodf>LEFontInstbndf::mbpCibrsToGlypis</dodf> bnd
+ * Instbndfs of tiis dlbss brf usfd by <dodf>LEFontInstbndf::mbpCibrsToGlypis</dodf> bnd
+ * Instbndfs of tiis dlbss brf usfd by <dodf>LEFontInstbndf::mbpCibrsToGlypis</dodf> bnd
+ * <dodf>LEFontInstbndf::mbpCibrToGlypi</dodf> to bdjust dibrbdtfr dodfs bfforf tif dibrbdtfr
+ * <dodf>LEFontInstbndf::mbpCibrToGlypi</dodf> to bdjust dibrbdtfr dodfs bfforf tif dibrbdtfr
+ * <dodf>LEFontInstbndf::mbpCibrToGlypi</dodf> to bdjust dibrbdtfr dodfs bfforf tif dibrbdtfr
+ * <dodf>LEFontInstbndf::mbpCibrToGlypi</dodf> to bdjust dibrbdtfr dodfs bfforf tif dibrbdtfr
+ * <dodf>LEFontInstbndf::mbpCibrToGlypi</dodf> to bdjust dibrbdtfr dodfs bfforf tif dibrbdtfr
+ * to glypi mbpping prodfss. Exbmplfs of tiis brf filtfring out dontrol dibrbdtfrs
+ * to glypi mbpping prodfss. Exbmplfs of tiis brf filtfring out dontrol dibrbdtfrs
+ * to glypi mbpping prodfss. Exbmplfs of tiis brf filtfring out dontrol dibrbdtfrs
+ * to glypi mbpping prodfss. Exbmplfs of tiis brf filtfring out dontrol dibrbdtfrs
+ * to glypi mbpping prodfss. Exbmplfs of tiis brf filtfring out dontrol dibrbdtfrs
+ * bnd dibrbdtfr mirroring - rfplbding b dibrbdtfr wiidi ibs boti b lfft bnd b rigit
+ * bnd dibrbdtfr mirroring - rfplbding b dibrbdtfr wiidi ibs boti b lfft bnd b rigit
+ * bnd dibrbdtfr mirroring - rfplbding b dibrbdtfr wiidi ibs boti b lfft bnd b rigit
+ * bnd dibrbdtfr mirroring - rfplbding b dibrbdtfr wiidi ibs boti b lfft bnd b rigit
+ * bnd dibrbdtfr mirroring - rfplbding b dibrbdtfr wiidi ibs boti b lfft bnd b rigit
+ * ibnd form witi tif oppositf form.
+ * ibnd form witi tif oppositf form.
+ * ibnd form witi tif oppositf form.
+ * ibnd form witi tif oppositf form.
+ * ibnd form witi tif oppositf form.
+ *
+ *
+ *
+ *
  *
  * @stbblf ICU 3.2
+ * @stbblf ICU 3.2
+ * @stbblf ICU 3.2
+ * @stbblf ICU 3.2
+ * @stbblf ICU 3.2
  */
-dlbss LEChbrMbppfr /* not : publid UObjfdt bfdbusf this is bn intfrfbdf/mixin dlbss */
+ */
+ */
+ */
+ */
+dlbss LECibrMbppfr /* not : publid UObjfdt bfdbusf tiis is bn intfrfbdf/mixin dlbss */
+dlbss LECibrMbppfr /* not : publid UObjfdt bfdbusf tiis is bn intfrfbdf/mixin dlbss */
+dlbss LECibrMbppfr /* not : publid UObjfdt bfdbusf tiis is bn intfrfbdf/mixin dlbss */
+dlbss LECibrMbppfr /* not : publid UObjfdt bfdbusf tiis is bn intfrfbdf/mixin dlbss */
+dlbss LECibrMbppfr /* not : publid UObjfdt bfdbusf tiis is bn intfrfbdf/mixin dlbss */
+{
+{
+{
+{
 {
 publid:
+publid:
+publid:
+publid:
+publid:
+    /**
+    /**
+    /**
+    /**
     /**
      * Dfstrudtor.
+     * Dfstrudtor.
+     * Dfstrudtor.
+     * Dfstrudtor.
+     * Dfstrudtor.
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
      * @stbblf ICU 3.2
      */
-    virtubl ~LEChbrMbppfr();
+     */
+     */
+     */
+     */
+    virtubl ~LECibrMbppfr();
+    virtubl ~LECibrMbppfr();
+    virtubl ~LECibrMbppfr();
+    virtubl ~LECibrMbppfr();
+    virtubl ~LECibrMbppfr();
+
+
+
+
 
     /**
-     * This mfthod dofs thf bdjustmfnts.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod dofs tif bdjustmfnts.
+     * Tiis mftiod dofs tif bdjustmfnts.
+     * Tiis mftiod dofs tif bdjustmfnts.
+     * Tiis mftiod dofs tif bdjustmfnts.
+     * Tiis mftiod dofs tif bdjustmfnts.
      *
-     * @pbrbm dh - thf input dhbrbdtfr
      *
-     * @rfturn thf bdjustfd dhbrbdtfr
+     *
+     *
+     *
+     * @pbrbm di - tif input dibrbdtfr
+     * @pbrbm di - tif input dibrbdtfr
+     * @pbrbm di - tif input dibrbdtfr
+     * @pbrbm di - tif input dibrbdtfr
+     * @pbrbm di - tif input dibrbdtfr
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif bdjustfd dibrbdtfr
+     * @rfturn tif bdjustfd dibrbdtfr
+     * @rfturn tif bdjustfd dibrbdtfr
+     * @rfturn tif bdjustfd dibrbdtfr
+     * @rfturn tif bdjustfd dibrbdtfr
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
      */
-    virtubl LEUnidodf32 mbpChbr(LEUnidodf32 dh) donst = 0;
+     */
+     */
+     */
+     */
+    virtubl LEUnidodf32 mbpCibr(LEUnidodf32 di) donst = 0;
+    virtubl LEUnidodf32 mbpCibr(LEUnidodf32 di) donst = 0;
+    virtubl LEUnidodf32 mbpCibr(LEUnidodf32 di) donst = 0;
+    virtubl LEUnidodf32 mbpCibr(LEUnidodf32 di) donst = 0;
+    virtubl LEUnidodf32 mbpCibr(LEUnidodf32 di) donst = 0;
+};
+};
+};
+};
 };
 
+
+
+
+
 /**
- * This is b forwbrd rfffrfndf to thf dlbss whidh holds thf pfr-glyph
+/**
+/**
+/**
+/**
+ * Tiis is b forwbrd rfffrfndf to tif dlbss wiidi iolds tif pfr-glypi
+ * Tiis is b forwbrd rfffrfndf to tif dlbss wiidi iolds tif pfr-glypi
+ * Tiis is b forwbrd rfffrfndf to tif dlbss wiidi iolds tif pfr-glypi
+ * Tiis is b forwbrd rfffrfndf to tif dlbss wiidi iolds tif pfr-glypi
+ * Tiis is b forwbrd rfffrfndf to tif dlbss wiidi iolds tif pfr-glypi
+ * storbgf.
+ * storbgf.
+ * storbgf.
+ * storbgf.
  * storbgf.
  *
+ *
+ *
+ *
+ *
+ * @stbblf ICU 3.0
+ * @stbblf ICU 3.0
+ * @stbblf ICU 3.0
+ * @stbblf ICU 3.0
  * @stbblf ICU 3.0
  */
-dlbss LEGlyphStorbgf;
+ */
+ */
+ */
+ */
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+dlbss LEGlypiStorbgf;
+
+
+
+
 
 /**
- * This is b virtubl bbsf dlbss thbt sfrvfs bs thf intfrfbdf bftwffn b LbyoutEnginf
- * bnd thf plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
- * dhbrbdtfr to glyph mbpping, bnd obtbin mftrids informbtion without knowing bny plbtform
- * spfdifid dftbils. Thfrf brf blso b ffw utility mfthods for donvfrting bftwffn points,
+/**
+/**
+/**
+/**
+ * Tiis is b virtubl bbsf dlbss tibt sfrvfs bs tif intfrfbdf bftwffn b LbyoutEnginf
+ * Tiis is b virtubl bbsf dlbss tibt sfrvfs bs tif intfrfbdf bftwffn b LbyoutEnginf
+ * Tiis is b virtubl bbsf dlbss tibt sfrvfs bs tif intfrfbdf bftwffn b LbyoutEnginf
+ * Tiis is b virtubl bbsf dlbss tibt sfrvfs bs tif intfrfbdf bftwffn b LbyoutEnginf
+ * Tiis is b virtubl bbsf dlbss tibt sfrvfs bs tif intfrfbdf bftwffn b LbyoutEnginf
+ * bnd tif plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
+ * bnd tif plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
+ * bnd tif plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
+ * bnd tif plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
+ * bnd tif plbtform font fnvironmfnt. It bllows b LbyoutEnginf to bddfss font tbblfs, do
+ * dibrbdtfr to glypi mbpping, bnd obtbin mftrids informbtion witiout knowing bny plbtform
+ * dibrbdtfr to glypi mbpping, bnd obtbin mftrids informbtion witiout knowing bny plbtform
+ * dibrbdtfr to glypi mbpping, bnd obtbin mftrids informbtion witiout knowing bny plbtform
+ * dibrbdtfr to glypi mbpping, bnd obtbin mftrids informbtion witiout knowing bny plbtform
+ * dibrbdtfr to glypi mbpping, bnd obtbin mftrids informbtion witiout knowing bny plbtform
+ * spfdifid dftbils. Tifrf brf blso b ffw utility mftiods for donvfrting bftwffn points,
+ * spfdifid dftbils. Tifrf brf blso b ffw utility mftiods for donvfrting bftwffn points,
+ * spfdifid dftbils. Tifrf brf blso b ffw utility mftiods for donvfrting bftwffn points,
+ * spfdifid dftbils. Tifrf brf blso b ffw utility mftiods for donvfrting bftwffn points,
+ * spfdifid dftbils. Tifrf brf blso b ffw utility mftiods for donvfrting bftwffn points,
+ * pixfls bnd funits. (font dfsign units)
+ * pixfls bnd funits. (font dfsign units)
+ * pixfls bnd funits. (font dfsign units)
+ * pixfls bnd funits. (font dfsign units)
  * pixfls bnd funits. (font dfsign units)
  *
+ *
+ *
+ *
+ *
  * An instbndf of bn <dodf>LEFontInstbndf</dodf> rfprfsfnts b font bt b pbrtidulbr point
- * sizf. Ebdh instbndf dbn rfprfsfnt fithfr b singlf physidbl font, or b dompositf font.
- * A dompositf font is b dollfdtion of physidbl fonts, fbdh of whidh dontbins b subsft of
- * thf dhbrbdtfrs dontbinfd in thf dompositf font.
+ * An instbndf of bn <dodf>LEFontInstbndf</dodf> rfprfsfnts b font bt b pbrtidulbr point
+ * An instbndf of bn <dodf>LEFontInstbndf</dodf> rfprfsfnts b font bt b pbrtidulbr point
+ * An instbndf of bn <dodf>LEFontInstbndf</dodf> rfprfsfnts b font bt b pbrtidulbr point
+ * An instbndf of bn <dodf>LEFontInstbndf</dodf> rfprfsfnts b font bt b pbrtidulbr point
+ * sizf. Ebdi instbndf dbn rfprfsfnt fitifr b singlf piysidbl font, or b dompositf font.
+ * sizf. Ebdi instbndf dbn rfprfsfnt fitifr b singlf piysidbl font, or b dompositf font.
+ * sizf. Ebdi instbndf dbn rfprfsfnt fitifr b singlf piysidbl font, or b dompositf font.
+ * sizf. Ebdi instbndf dbn rfprfsfnt fitifr b singlf piysidbl font, or b dompositf font.
+ * sizf. Ebdi instbndf dbn rfprfsfnt fitifr b singlf piysidbl font, or b dompositf font.
+ * A dompositf font is b dollfdtion of piysidbl fonts, fbdi of wiidi dontbins b subsft of
+ * A dompositf font is b dollfdtion of piysidbl fonts, fbdi of wiidi dontbins b subsft of
+ * A dompositf font is b dollfdtion of piysidbl fonts, fbdi of wiidi dontbins b subsft of
+ * A dompositf font is b dollfdtion of piysidbl fonts, fbdi of wiidi dontbins b subsft of
+ * A dompositf font is b dollfdtion of piysidbl fonts, fbdi of wiidi dontbins b subsft of
+ * tif dibrbdtfrs dontbinfd in tif dompositf font.
+ * tif dibrbdtfrs dontbinfd in tif dompositf font.
+ * tif dibrbdtfrs dontbinfd in tif dompositf font.
+ * tif dibrbdtfrs dontbinfd in tif dompositf font.
+ * tif dibrbdtfrs dontbinfd in tif dompositf font.
  *
- * Notf: with thf fxdfption of <dodf>gftSubFont</dodf>, thf mfthods in this dlbss only
- * mbkf sfnsf for b physidbl font. If you hbvf bn <dodf>LEFontInstbndf</dodf> whidh
- * rfprfsfnts b dompositf font you should only dbll thf mfthods bflow whidh hbvf
- * bn <dodf>LEGlyphID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
- * bs onf of thf brgumfnts bfdbusf thfsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
  *
- * Subdlbssfs whidh implfmfnt dompositf fonts should supply bn implfmfntbtion of thfsf
- * mfthods with somf dffbult bfhbvior sudh bs rfturning donstbnt vblufs, or using thf
- * vblufs from thf first subfont.
+ *
+ *
+ *
+ * Notf: witi tif fxdfption of <dodf>gftSubFont</dodf>, tif mftiods in tiis dlbss only
+ * Notf: witi tif fxdfption of <dodf>gftSubFont</dodf>, tif mftiods in tiis dlbss only
+ * Notf: witi tif fxdfption of <dodf>gftSubFont</dodf>, tif mftiods in tiis dlbss only
+ * Notf: witi tif fxdfption of <dodf>gftSubFont</dodf>, tif mftiods in tiis dlbss only
+ * Notf: witi tif fxdfption of <dodf>gftSubFont</dodf>, tif mftiods in tiis dlbss only
+ * mbkf sfnsf for b piysidbl font. If you ibvf bn <dodf>LEFontInstbndf</dodf> wiidi
+ * mbkf sfnsf for b piysidbl font. If you ibvf bn <dodf>LEFontInstbndf</dodf> wiidi
+ * mbkf sfnsf for b piysidbl font. If you ibvf bn <dodf>LEFontInstbndf</dodf> wiidi
+ * mbkf sfnsf for b piysidbl font. If you ibvf bn <dodf>LEFontInstbndf</dodf> wiidi
+ * mbkf sfnsf for b piysidbl font. If you ibvf bn <dodf>LEFontInstbndf</dodf> wiidi
+ * rfprfsfnts b dompositf font you siould only dbll tif mftiods bflow wiidi ibvf
+ * rfprfsfnts b dompositf font you siould only dbll tif mftiods bflow wiidi ibvf
+ * rfprfsfnts b dompositf font you siould only dbll tif mftiods bflow wiidi ibvf
+ * rfprfsfnts b dompositf font you siould only dbll tif mftiods bflow wiidi ibvf
+ * rfprfsfnts b dompositf font you siould only dbll tif mftiods bflow wiidi ibvf
+ * bn <dodf>LEGlypiID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
+ * bn <dodf>LEGlypiID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
+ * bn <dodf>LEGlypiID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
+ * bn <dodf>LEGlypiID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
+ * bn <dodf>LEGlypiID</dodf>, bn <dodf>LEUnidodf</dodf> or bn <dodf>LEUnidodf32</dodf>
+ * bs onf of tif brgumfnts bfdbusf tifsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
+ * bs onf of tif brgumfnts bfdbusf tifsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
+ * bs onf of tif brgumfnts bfdbusf tifsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
+ * bs onf of tif brgumfnts bfdbusf tifsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
+ * bs onf of tif brgumfnts bfdbusf tifsf dbn bf usfd to sflfdt b pbrtidulbr subfont.
+ *
+ *
+ *
+ *
+ *
+ * Subdlbssfs wiidi implfmfnt dompositf fonts siould supply bn implfmfntbtion of tifsf
+ * Subdlbssfs wiidi implfmfnt dompositf fonts siould supply bn implfmfntbtion of tifsf
+ * Subdlbssfs wiidi implfmfnt dompositf fonts siould supply bn implfmfntbtion of tifsf
+ * Subdlbssfs wiidi implfmfnt dompositf fonts siould supply bn implfmfntbtion of tifsf
+ * Subdlbssfs wiidi implfmfnt dompositf fonts siould supply bn implfmfntbtion of tifsf
+ * mftiods witi somf dffbult bfibvior sudi bs rfturning donstbnt vblufs, or using tif
+ * mftiods witi somf dffbult bfibvior sudi bs rfturning donstbnt vblufs, or using tif
+ * mftiods witi somf dffbult bfibvior sudi bs rfturning donstbnt vblufs, or using tif
+ * mftiods witi somf dffbult bfibvior sudi bs rfturning donstbnt vblufs, or using tif
+ * mftiods witi somf dffbult bfibvior sudi bs rfturning donstbnt vblufs, or using tif
+ * vblufs from tif first subfont.
+ * vblufs from tif first subfont.
+ * vblufs from tif first subfont.
+ * vblufs from tif first subfont.
+ * vblufs from tif first subfont.
+ *
+ *
+ *
+ *
  *
  * @stbblf ICU 3.0
+ * @stbblf ICU 3.0
+ * @stbblf ICU 3.0
+ * @stbblf ICU 3.0
+ * @stbblf ICU 3.0
+ */
+ */
+ */
+ */
  */
 dlbss U_LAYOUT_API LEFontInstbndf : publid UObjfdt
+dlbss U_LAYOUT_API LEFontInstbndf : publid UObjfdt
+dlbss U_LAYOUT_API LEFontInstbndf : publid UObjfdt
+dlbss U_LAYOUT_API LEFontInstbndf : publid UObjfdt
+dlbss U_LAYOUT_API LEFontInstbndf : publid UObjfdt
+{
+{
+{
+{
 {
 publid:
+publid:
+publid:
+publid:
+publid:
+
+
+
+
 
     /**
-     * This virtubl dfstrudtor is hfrf so thbt thf subdlbss
-     * dfstrudtors dbn bf invokfd through thf bbsf dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Tiis virtubl dfstrudtor is ifrf so tibt tif subdlbss
+     * Tiis virtubl dfstrudtor is ifrf so tibt tif subdlbss
+     * Tiis virtubl dfstrudtor is ifrf so tibt tif subdlbss
+     * Tiis virtubl dfstrudtor is ifrf so tibt tif subdlbss
+     * Tiis virtubl dfstrudtor is ifrf so tibt tif subdlbss
+     * dfstrudtors dbn bf invokfd tirougi tif bbsf dlbss.
+     * dfstrudtors dbn bf invokfd tirougi tif bbsf dlbss.
+     * dfstrudtors dbn bf invokfd tirougi tif bbsf dlbss.
+     * dfstrudtors dbn bf invokfd tirougi tif bbsf dlbss.
+     * dfstrudtors dbn bf invokfd tirougi tif bbsf dlbss.
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     virtubl ~LEFontInstbndf();
+    virtubl ~LEFontInstbndf();
+    virtubl ~LEFontInstbndf();
+    virtubl ~LEFontInstbndf();
+    virtubl ~LEFontInstbndf();
+
+
+
+
 
     /**
-     * Gft b physidbl font whidh dbn rfndfr thf givfn tfxt. For dompositf fonts,
-     * if thfrf is no singlf physidbl font whidh dbn rfndfr bll of thf tfxt,
-     * rfturn b physidbl font whidh dbn rfndfr bn initibl substring of thf tfxt,
-     * bnd sft thf <dodf>offsft</dodf> pbrbmftfr to thf fnd of thbt substring.
+    /**
+    /**
+    /**
+    /**
+     * Gft b piysidbl font wiidi dbn rfndfr tif givfn tfxt. For dompositf fonts,
+     * Gft b piysidbl font wiidi dbn rfndfr tif givfn tfxt. For dompositf fonts,
+     * Gft b piysidbl font wiidi dbn rfndfr tif givfn tfxt. For dompositf fonts,
+     * Gft b piysidbl font wiidi dbn rfndfr tif givfn tfxt. For dompositf fonts,
+     * Gft b piysidbl font wiidi dbn rfndfr tif givfn tfxt. For dompositf fonts,
+     * if tifrf is no singlf piysidbl font wiidi dbn rfndfr bll of tif tfxt,
+     * if tifrf is no singlf piysidbl font wiidi dbn rfndfr bll of tif tfxt,
+     * if tifrf is no singlf piysidbl font wiidi dbn rfndfr bll of tif tfxt,
+     * if tifrf is no singlf piysidbl font wiidi dbn rfndfr bll of tif tfxt,
+     * if tifrf is no singlf piysidbl font wiidi dbn rfndfr bll of tif tfxt,
+     * rfturn b piysidbl font wiidi dbn rfndfr bn initibl substring of tif tfxt,
+     * rfturn b piysidbl font wiidi dbn rfndfr bn initibl substring of tif tfxt,
+     * rfturn b piysidbl font wiidi dbn rfndfr bn initibl substring of tif tfxt,
+     * rfturn b piysidbl font wiidi dbn rfndfr bn initibl substring of tif tfxt,
+     * rfturn b piysidbl font wiidi dbn rfndfr bn initibl substring of tif tfxt,
+     * bnd sft tif <dodf>offsft</dodf> pbrbmftfr to tif fnd of tibt substring.
+     * bnd sft tif <dodf>offsft</dodf> pbrbmftfr to tif fnd of tibt substring.
+     * bnd sft tif <dodf>offsft</dodf> pbrbmftfr to tif fnd of tibt substring.
+     * bnd sft tif <dodf>offsft</dodf> pbrbmftfr to tif fnd of tibt substring.
+     * bnd sft tif <dodf>offsft</dodf> pbrbmftfr to tif fnd of tibt substring.
      *
-     * Intfrnblly, thf LbyoutEnginf works with runs of tfxt bll in thf sbmf
-     * font bnd sdript, so it is bfst to dbll this mfthod with tfxt whidh is
-     * in b singlf sdript, pbssing thf sdript dodf in bs b hint. If you don't
-     * know thf sdript of thf tfxt, you dbn usf zfro, whidh is thf sdript dodf
-     * for dhbrbdtfrs usfd in morf thbn onf sdript.
      *
-     * Thf dffbult implfmfntbtion of this mfthod is intfndfd for instbndfs of
-     * <dodf>LEFontInstbndf</dodf> whidh rfprfsfnt b physidbl font. It rfturns
-     * <dodf>this</dodf> bnd indidbtfs thbt thf fntirf string dbn bf rfndfrfd.
      *
-     * This mfthod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
-     * hbvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror hbs bffn fndountfrfd.
-     * For dompositf fonts, it mby rfturn thf wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
-     * to indidbtf thbt thf rfturnfd font mby not bf bblf to rfndfr bll of
-     * thf tfxt. Whfnfvfr b vblid font is rfturnfd, thf <dodf>offsft</dodf> pbrbmftfr
+     *
+     *
+     * Intfrnblly, tif LbyoutEnginf works witi runs of tfxt bll in tif sbmf
+     * Intfrnblly, tif LbyoutEnginf works witi runs of tfxt bll in tif sbmf
+     * Intfrnblly, tif LbyoutEnginf works witi runs of tfxt bll in tif sbmf
+     * Intfrnblly, tif LbyoutEnginf works witi runs of tfxt bll in tif sbmf
+     * Intfrnblly, tif LbyoutEnginf works witi runs of tfxt bll in tif sbmf
+     * font bnd sdript, so it is bfst to dbll tiis mftiod witi tfxt wiidi is
+     * font bnd sdript, so it is bfst to dbll tiis mftiod witi tfxt wiidi is
+     * font bnd sdript, so it is bfst to dbll tiis mftiod witi tfxt wiidi is
+     * font bnd sdript, so it is bfst to dbll tiis mftiod witi tfxt wiidi is
+     * font bnd sdript, so it is bfst to dbll tiis mftiod witi tfxt wiidi is
+     * in b singlf sdript, pbssing tif sdript dodf in bs b iint. If you don't
+     * in b singlf sdript, pbssing tif sdript dodf in bs b iint. If you don't
+     * in b singlf sdript, pbssing tif sdript dodf in bs b iint. If you don't
+     * in b singlf sdript, pbssing tif sdript dodf in bs b iint. If you don't
+     * in b singlf sdript, pbssing tif sdript dodf in bs b iint. If you don't
+     * know tif sdript of tif tfxt, you dbn usf zfro, wiidi is tif sdript dodf
+     * know tif sdript of tif tfxt, you dbn usf zfro, wiidi is tif sdript dodf
+     * know tif sdript of tif tfxt, you dbn usf zfro, wiidi is tif sdript dodf
+     * know tif sdript of tif tfxt, you dbn usf zfro, wiidi is tif sdript dodf
+     * know tif sdript of tif tfxt, you dbn usf zfro, wiidi is tif sdript dodf
+     * for dibrbdtfrs usfd in morf tibn onf sdript.
+     * for dibrbdtfrs usfd in morf tibn onf sdript.
+     * for dibrbdtfrs usfd in morf tibn onf sdript.
+     * for dibrbdtfrs usfd in morf tibn onf sdript.
+     * for dibrbdtfrs usfd in morf tibn onf sdript.
+     *
+     *
+     *
+     *
+     *
+     * Tif dffbult implfmfntbtion of tiis mftiod is intfndfd for instbndfs of
+     * Tif dffbult implfmfntbtion of tiis mftiod is intfndfd for instbndfs of
+     * Tif dffbult implfmfntbtion of tiis mftiod is intfndfd for instbndfs of
+     * Tif dffbult implfmfntbtion of tiis mftiod is intfndfd for instbndfs of
+     * Tif dffbult implfmfntbtion of tiis mftiod is intfndfd for instbndfs of
+     * <dodf>LEFontInstbndf</dodf> wiidi rfprfsfnt b piysidbl font. It rfturns
+     * <dodf>LEFontInstbndf</dodf> wiidi rfprfsfnt b piysidbl font. It rfturns
+     * <dodf>LEFontInstbndf</dodf> wiidi rfprfsfnt b piysidbl font. It rfturns
+     * <dodf>LEFontInstbndf</dodf> wiidi rfprfsfnt b piysidbl font. It rfturns
+     * <dodf>LEFontInstbndf</dodf> wiidi rfprfsfnt b piysidbl font. It rfturns
+     * <dodf>tiis</dodf> bnd indidbtfs tibt tif fntirf string dbn bf rfndfrfd.
+     * <dodf>tiis</dodf> bnd indidbtfs tibt tif fntirf string dbn bf rfndfrfd.
+     * <dodf>tiis</dodf> bnd indidbtfs tibt tif fntirf string dbn bf rfndfrfd.
+     * <dodf>tiis</dodf> bnd indidbtfs tibt tif fntirf string dbn bf rfndfrfd.
+     * <dodf>tiis</dodf> bnd indidbtfs tibt tif fntirf string dbn bf rfndfrfd.
+     *
+     *
+     *
+     *
+     *
+     * Tiis mftiod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
+     * Tiis mftiod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
+     * Tiis mftiod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
+     * Tiis mftiod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
+     * Tiis mftiod will rfturn b vblid <dodf>LEFontInstbndf</dodf> unlfss you
+     * ibvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror ibs bffn fndountfrfd.
+     * ibvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror ibs bffn fndountfrfd.
+     * ibvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror ibs bffn fndountfrfd.
+     * ibvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror ibs bffn fndountfrfd.
+     * ibvf pbssfd illfgbl pbrbmftfrs, or bn intfrnbl frror ibs bffn fndountfrfd.
+     * For dompositf fonts, it mby rfturn tif wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
+     * For dompositf fonts, it mby rfturn tif wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
+     * For dompositf fonts, it mby rfturn tif wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
+     * For dompositf fonts, it mby rfturn tif wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
+     * For dompositf fonts, it mby rfturn tif wbrning <dodf>LE_NO_SUBFONT_WARNING</dodf>
+     * to indidbtf tibt tif rfturnfd font mby not bf bblf to rfndfr bll of
+     * to indidbtf tibt tif rfturnfd font mby not bf bblf to rfndfr bll of
+     * to indidbtf tibt tif rfturnfd font mby not bf bblf to rfndfr bll of
+     * to indidbtf tibt tif rfturnfd font mby not bf bblf to rfndfr bll of
+     * to indidbtf tibt tif rfturnfd font mby not bf bblf to rfndfr bll of
+     * tif tfxt. Wifnfvfr b vblid font is rfturnfd, tif <dodf>offsft</dodf> pbrbmftfr
+     * tif tfxt. Wifnfvfr b vblid font is rfturnfd, tif <dodf>offsft</dodf> pbrbmftfr
+     * tif tfxt. Wifnfvfr b vblid font is rfturnfd, tif <dodf>offsft</dodf> pbrbmftfr
+     * tif tfxt. Wifnfvfr b vblid font is rfturnfd, tif <dodf>offsft</dodf> pbrbmftfr
+     * tif tfxt. Wifnfvfr b vblid font is rfturnfd, tif <dodf>offsft</dodf> pbrbmftfr
+     * will bf bdvbndfd by bt lfbst onf.
+     * will bf bdvbndfd by bt lfbst onf.
+     * will bf bdvbndfd by bt lfbst onf.
+     * will bf bdvbndfd by bt lfbst onf.
      * will bf bdvbndfd by bt lfbst onf.
      *
-     * Subdlbssfs whidh implfmfnt dompositf fonts must ovfrridf this mfthod.
-     * Whfrf it mbkfs sfnsf, thfy should usf thf sdript dodf bs b hint to rfndfr
-     * dhbrbdtfrs from thf COMMON sdript in thf font whidh is usfd for thf givfn
-     * sdript. For fxbmplf, if thf input tfxt is b sfrifs of Arbbid words sfpbrbtfd
-     * by spbdfs, bnd thf sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
-     * should rfturn thf font usfd for Arbbid dhbrbdtfrs for bll of thf input tfxt,
-     * indluding thf spbdfs. If, on thf othfr hbnd, thf input tfxt dontbins dhbrbdtfrs
-     * whidh dbnnot bf rfndfrfd by thf font usfd for Arbbid dhbrbdtfrs, but whidh dbn
-     * bf rfndfrfd by bnothfr font, you should rfturn thbt font for thosf dhbrbdtfrs.
      *
-     * @pbrbm dhbrs   - thf brrby of Unidodf dhbrbdtfrs.
-     * @pbrbm offsft  - b pointfr to thf stbrting offsft in thf tfxt. On fxit this
-     *                  will bf sft thf thf limit offsft of thf tfxt whidh dbn bf
-     *                  rfndfrfd using thf rfturnfd font.
-     * @pbrbm limit   - thf limit offsft for thf input tfxt.
-     * @pbrbm sdript  - thf sdript hint.
-     * @pbrbm suddfss - sft to bn frror dodf if thf brgumfnts brf illfgbl, or no font
+     *
+     *
+     *
+     * Subdlbssfs wiidi implfmfnt dompositf fonts must ovfrridf tiis mftiod.
+     * Subdlbssfs wiidi implfmfnt dompositf fonts must ovfrridf tiis mftiod.
+     * Subdlbssfs wiidi implfmfnt dompositf fonts must ovfrridf tiis mftiod.
+     * Subdlbssfs wiidi implfmfnt dompositf fonts must ovfrridf tiis mftiod.
+     * Subdlbssfs wiidi implfmfnt dompositf fonts must ovfrridf tiis mftiod.
+     * Wifrf it mbkfs sfnsf, tify siould usf tif sdript dodf bs b iint to rfndfr
+     * Wifrf it mbkfs sfnsf, tify siould usf tif sdript dodf bs b iint to rfndfr
+     * Wifrf it mbkfs sfnsf, tify siould usf tif sdript dodf bs b iint to rfndfr
+     * Wifrf it mbkfs sfnsf, tify siould usf tif sdript dodf bs b iint to rfndfr
+     * Wifrf it mbkfs sfnsf, tify siould usf tif sdript dodf bs b iint to rfndfr
+     * dibrbdtfrs from tif COMMON sdript in tif font wiidi is usfd for tif givfn
+     * dibrbdtfrs from tif COMMON sdript in tif font wiidi is usfd for tif givfn
+     * dibrbdtfrs from tif COMMON sdript in tif font wiidi is usfd for tif givfn
+     * dibrbdtfrs from tif COMMON sdript in tif font wiidi is usfd for tif givfn
+     * dibrbdtfrs from tif COMMON sdript in tif font wiidi is usfd for tif givfn
+     * sdript. For fxbmplf, if tif input tfxt is b sfrifs of Arbbid words sfpbrbtfd
+     * sdript. For fxbmplf, if tif input tfxt is b sfrifs of Arbbid words sfpbrbtfd
+     * sdript. For fxbmplf, if tif input tfxt is b sfrifs of Arbbid words sfpbrbtfd
+     * sdript. For fxbmplf, if tif input tfxt is b sfrifs of Arbbid words sfpbrbtfd
+     * sdript. For fxbmplf, if tif input tfxt is b sfrifs of Arbbid words sfpbrbtfd
+     * by spbdfs, bnd tif sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
+     * by spbdfs, bnd tif sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
+     * by spbdfs, bnd tif sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
+     * by spbdfs, bnd tif sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
+     * by spbdfs, bnd tif sdript dodf pbssfd in is <dodf>brbbSdriptCodf</dodf> you
+     * siould rfturn tif font usfd for Arbbid dibrbdtfrs for bll of tif input tfxt,
+     * siould rfturn tif font usfd for Arbbid dibrbdtfrs for bll of tif input tfxt,
+     * siould rfturn tif font usfd for Arbbid dibrbdtfrs for bll of tif input tfxt,
+     * siould rfturn tif font usfd for Arbbid dibrbdtfrs for bll of tif input tfxt,
+     * siould rfturn tif font usfd for Arbbid dibrbdtfrs for bll of tif input tfxt,
+     * indluding tif spbdfs. If, on tif otifr ibnd, tif input tfxt dontbins dibrbdtfrs
+     * indluding tif spbdfs. If, on tif otifr ibnd, tif input tfxt dontbins dibrbdtfrs
+     * indluding tif spbdfs. If, on tif otifr ibnd, tif input tfxt dontbins dibrbdtfrs
+     * indluding tif spbdfs. If, on tif otifr ibnd, tif input tfxt dontbins dibrbdtfrs
+     * indluding tif spbdfs. If, on tif otifr ibnd, tif input tfxt dontbins dibrbdtfrs
+     * wiidi dbnnot bf rfndfrfd by tif font usfd for Arbbid dibrbdtfrs, but wiidi dbn
+     * wiidi dbnnot bf rfndfrfd by tif font usfd for Arbbid dibrbdtfrs, but wiidi dbn
+     * wiidi dbnnot bf rfndfrfd by tif font usfd for Arbbid dibrbdtfrs, but wiidi dbn
+     * wiidi dbnnot bf rfndfrfd by tif font usfd for Arbbid dibrbdtfrs, but wiidi dbn
+     * wiidi dbnnot bf rfndfrfd by tif font usfd for Arbbid dibrbdtfrs, but wiidi dbn
+     * bf rfndfrfd by bnotifr font, you siould rfturn tibt font for tiosf dibrbdtfrs.
+     * bf rfndfrfd by bnotifr font, you siould rfturn tibt font for tiosf dibrbdtfrs.
+     * bf rfndfrfd by bnotifr font, you siould rfturn tibt font for tiosf dibrbdtfrs.
+     * bf rfndfrfd by bnotifr font, you siould rfturn tibt font for tiosf dibrbdtfrs.
+     * bf rfndfrfd by bnotifr font, you siould rfturn tibt font for tiosf dibrbdtfrs.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dibrs   - tif brrby of Unidodf dibrbdtfrs.
+     * @pbrbm dibrs   - tif brrby of Unidodf dibrbdtfrs.
+     * @pbrbm dibrs   - tif brrby of Unidodf dibrbdtfrs.
+     * @pbrbm dibrs   - tif brrby of Unidodf dibrbdtfrs.
+     * @pbrbm dibrs   - tif brrby of Unidodf dibrbdtfrs.
+     * @pbrbm offsft  - b pointfr to tif stbrting offsft in tif tfxt. On fxit tiis
+     * @pbrbm offsft  - b pointfr to tif stbrting offsft in tif tfxt. On fxit tiis
+     * @pbrbm offsft  - b pointfr to tif stbrting offsft in tif tfxt. On fxit tiis
+     * @pbrbm offsft  - b pointfr to tif stbrting offsft in tif tfxt. On fxit tiis
+     * @pbrbm offsft  - b pointfr to tif stbrting offsft in tif tfxt. On fxit tiis
+     *                  will bf sft tif tif limit offsft of tif tfxt wiidi dbn bf
+     *                  will bf sft tif tif limit offsft of tif tfxt wiidi dbn bf
+     *                  will bf sft tif tif limit offsft of tif tfxt wiidi dbn bf
+     *                  will bf sft tif tif limit offsft of tif tfxt wiidi dbn bf
+     *                  will bf sft tif tif limit offsft of tif tfxt wiidi dbn bf
+     *                  rfndfrfd using tif rfturnfd font.
+     *                  rfndfrfd using tif rfturnfd font.
+     *                  rfndfrfd using tif rfturnfd font.
+     *                  rfndfrfd using tif rfturnfd font.
+     *                  rfndfrfd using tif rfturnfd font.
+     * @pbrbm limit   - tif limit offsft for tif input tfxt.
+     * @pbrbm limit   - tif limit offsft for tif input tfxt.
+     * @pbrbm limit   - tif limit offsft for tif input tfxt.
+     * @pbrbm limit   - tif limit offsft for tif input tfxt.
+     * @pbrbm limit   - tif limit offsft for tif input tfxt.
+     * @pbrbm sdript  - tif sdript iint.
+     * @pbrbm sdript  - tif sdript iint.
+     * @pbrbm sdript  - tif sdript iint.
+     * @pbrbm sdript  - tif sdript iint.
+     * @pbrbm sdript  - tif sdript iint.
+     * @pbrbm suddfss - sft to bn frror dodf if tif brgumfnts brf illfgbl, or no font
+     * @pbrbm suddfss - sft to bn frror dodf if tif brgumfnts brf illfgbl, or no font
+     * @pbrbm suddfss - sft to bn frror dodf if tif brgumfnts brf illfgbl, or no font
+     * @pbrbm suddfss - sft to bn frror dodf if tif brgumfnts brf illfgbl, or no font
+     * @pbrbm suddfss - sft to bn frror dodf if tif brgumfnts brf illfgbl, or no font
      *                  dbn bf rfturnfd for somf rfbson. Mby blso bf sft to
-     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if thf subfont whidh
-     *                  wbs rfturnfd dbnnot rfndfr bll of thf tfxt.
+     *                  dbn bf rfturnfd for somf rfbson. Mby blso bf sft to
+     *                  dbn bf rfturnfd for somf rfbson. Mby blso bf sft to
+     *                  dbn bf rfturnfd for somf rfbson. Mby blso bf sft to
+     *                  dbn bf rfturnfd for somf rfbson. Mby blso bf sft to
+     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if tif subfont wiidi
+     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if tif subfont wiidi
+     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if tif subfont wiidi
+     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if tif subfont wiidi
+     *                  <dodf>LE_NO_SUBFONT_WARNING</dodf> if tif subfont wiidi
+     *                  wbs rfturnfd dbnnot rfndfr bll of tif tfxt.
+     *                  wbs rfturnfd dbnnot rfndfr bll of tif tfxt.
+     *                  wbs rfturnfd dbnnot rfndfr bll of tif tfxt.
+     *                  wbs rfturnfd dbnnot rfndfr bll of tif tfxt.
+     *                  wbs rfturnfd dbnnot rfndfr bll of tif tfxt.
      *
-     * @rfturn bn <dodf>LEFontInstbndf</dodf> for thf sub font whidh dbn rfndfr thf dhbrbdtfrs, or
-     *         <dodf>NULL</dodf> if thfrf is bn frror.
      *
-     * @sff LESdripts.h
+     *
+     *
+     *
+     * @rfturn bn <dodf>LEFontInstbndf</dodf> for tif sub font wiidi dbn rfndfr tif dibrbdtfrs, or
+     * @rfturn bn <dodf>LEFontInstbndf</dodf> for tif sub font wiidi dbn rfndfr tif dibrbdtfrs, or
+     * @rfturn bn <dodf>LEFontInstbndf</dodf> for tif sub font wiidi dbn rfndfr tif dibrbdtfrs, or
+     * @rfturn bn <dodf>LEFontInstbndf</dodf> for tif sub font wiidi dbn rfndfr tif dibrbdtfrs, or
+     * @rfturn bn <dodf>LEFontInstbndf</dodf> for tif sub font wiidi dbn rfndfr tif dibrbdtfrs, or
+     *         <dodf>NULL</dodf> if tifrf is bn frror.
+     *         <dodf>NULL</dodf> if tifrf is bn frror.
+     *         <dodf>NULL</dodf> if tifrf is bn frror.
+     *         <dodf>NULL</dodf> if tifrf is bn frror.
+     *         <dodf>NULL</dodf> if tifrf is bn frror.
+     *
+     *
+     *
+     *
+     *
+     * @sff LESdripts.i
+     * @sff LESdripts.i
+     * @sff LESdripts.i
+     * @sff LESdripts.i
+     * @sff LESdripts.i
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dhbrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
+     */
+     */
+     */
+     */
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dibrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dibrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dibrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dibrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dibrs[], lf_int32 *offsft, lf_int32 limit, lf_int32 sdript, LEErrorCodf &suddfss) donst;
 
+
+
+
+
+    //
+    //
+    //
+    //
     //
     // Font filf bddfss
+    // Font filf bddfss
+    // Font filf bddfss
+    // Font filf bddfss
+    // Font filf bddfss
+    //
+    //
+    //
+    //
     //
 
+
+
+
+
     /**
-     * This mfthod rfbds b tbblf from thf font. Notf thbt in gfnfrbl,
-     * it only mbkfs sfnsf to dbll this mfthod on bn <dodf>LEFontInstbndf</dodf>
-     * whidh rfprfsfnts b physidbl font - i.f. onf whidh hbs bffn rfturnfd by
-     * <dodf>gftSubFont()</dodf>. This is bfdbusf fbdh subfont in b dompositf font
-     * will hbvf difffrfnt tbblfs, bnd thfrf's no wby to know whidh subfont to bddfss.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
      *
-     * Subdlbssfs whidh rfprfsfnt dompositf fonts should blwbys rfturn <dodf>NULL</dodf>.
      *
-     * Notf thbt implfmfnting this fundtion dofs not bllow for rbngf dhfdking.
-     * Subdlbssfs thbt dfsirf thf sbffty of rbngf dhfdking must implfmfnt thf
-     * vbribtion whidh hbs b lfngth pbrbmftfr.
      *
-     * @pbrbm tbblfTbg - thf four bytf tbblf tbg. (f.g. 'dmbp')
      *
-     * @rfturn thf bddrfss of thf tbblf in mfmory, or <dodf>NULL</dodf>
-     *         if thf tbblf dofsn't fxist.
+     *
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     *
+     *
+     *
+     *
+     *
+     * Notf tibt implfmfnting tiis fundtion dofs not bllow for rbngf difdking.
+     * Notf tibt implfmfnting tiis fundtion dofs not bllow for rbngf difdking.
+     * Notf tibt implfmfnting tiis fundtion dofs not bllow for rbngf difdking.
+     * Notf tibt implfmfnting tiis fundtion dofs not bllow for rbngf difdking.
+     * Notf tibt implfmfnting tiis fundtion dofs not bllow for rbngf difdking.
+     * Subdlbssfs tibt dfsirf tif sbffty of rbngf difdking must implfmfnt tif
+     * Subdlbssfs tibt dfsirf tif sbffty of rbngf difdking must implfmfnt tif
+     * Subdlbssfs tibt dfsirf tif sbffty of rbngf difdking must implfmfnt tif
+     * Subdlbssfs tibt dfsirf tif sbffty of rbngf difdking must implfmfnt tif
+     * Subdlbssfs tibt dfsirf tif sbffty of rbngf difdking must implfmfnt tif
+     * vbribtion wiidi ibs b lfngti pbrbmftfr.
+     * vbribtion wiidi ibs b lfngti pbrbmftfr.
+     * vbribtion wiidi ibs b lfngti pbrbmftfr.
+     * vbribtion wiidi ibs b lfngti pbrbmftfr.
+     * vbribtion wiidi ibs b lfngti pbrbmftfr.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst = 0;
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst = 0;
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst = 0;
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst = 0;
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst = 0;
+
+
+
+
 
     /**
-     * This mfthod rfbds b tbblf from thf font. Notf thbt in gfnfrbl,
-     * it only mbkfs sfnsf to dbll this mfthod on bn <dodf>LEFontInstbndf</dodf>
-     * whidh rfprfsfnts b physidbl font - i.f. onf whidh hbs bffn rfturnfd by
-     * <dodf>gftSubFont()</dodf>. This is bfdbusf fbdh subfont in b dompositf font
-     * will hbvf difffrfnt tbblfs, bnd thfrf's no wby to know whidh subfont to bddfss.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * Tiis mftiod rfbds b tbblf from tif font. Notf tibt in gfnfrbl,
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * it only mbkfs sfnsf to dbll tiis mftiod on bn <dodf>LEFontInstbndf</dodf>
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * wiidi rfprfsfnts b piysidbl font - i.f. onf wiidi ibs bffn rfturnfd by
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * <dodf>gftSubFont()</dodf>. Tiis is bfdbusf fbdi subfont in b dompositf font
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
+     * will ibvf difffrfnt tbblfs, bnd tifrf's no wby to know wiidi subfont to bddfss.
      *
-     * Subdlbssfs whidh rfprfsfnt dompositf fonts should blwbys rfturn <dodf>NULL</dodf>.
      *
-     * This vfrsion sfts b lfngth, for rbngf dhfdking.
-     * Notf thbt rbngf dhfdking dbn only bf bddomplishfd if this fundtion is
+     *
+     *
+     *
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     * Subdlbssfs wiidi rfprfsfnt dompositf fonts siould blwbys rfturn <dodf>NULL</dodf>.
+     *
+     *
+     *
+     *
+     *
+     * Tiis vfrsion sfts b lfngti, for rbngf difdking.
+     * Tiis vfrsion sfts b lfngti, for rbngf difdking.
+     * Tiis vfrsion sfts b lfngti, for rbngf difdking.
+     * Tiis vfrsion sfts b lfngti, for rbngf difdking.
+     * Tiis vfrsion sfts b lfngti, for rbngf difdking.
+     * Notf tibt rbngf difdking dbn only bf bddomplisifd if tiis fundtion is
+     * Notf tibt rbngf difdking dbn only bf bddomplisifd if tiis fundtion is
+     * Notf tibt rbngf difdking dbn only bf bddomplisifd if tiis fundtion is
+     * Notf tibt rbngf difdking dbn only bf bddomplisifd if tiis fundtion is
+     * Notf tibt rbngf difdking dbn only bf bddomplisifd if tiis fundtion is
+     * implfmfntfd in subdlbssfs.
+     * implfmfntfd in subdlbssfs.
+     * implfmfntfd in subdlbssfs.
+     * implfmfntfd in subdlbssfs.
      * implfmfntfd in subdlbssfs.
      *
-     * @pbrbm tbblfTbg - thf four bytf tbblf tbg. (f.g. 'dmbp')
-     * @pbrbm lfngth - ignorfd on fntry, on fxit will bf thf lfngth of thf tbblf if known, or -1 if unknown.
-     * @rfturn thf bddrfss of thf tbblf in mfmory, or <dodf>NULL</dodf>
-     *         if thf tbblf dofsn't fxist.
+     *
+     *
+     *
+     *
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm tbblfTbg - tif four bytf tbblf tbg. (f.g. 'dmbp')
+     * @pbrbm lfngti - ignorfd on fntry, on fxit will bf tif lfngti of tif tbblf if known, or -1 if unknown.
+     * @pbrbm lfngti - ignorfd on fntry, on fxit will bf tif lfngti of tif tbblf if known, or -1 if unknown.
+     * @pbrbm lfngti - ignorfd on fntry, on fxit will bf tif lfngti of tif tbblf if known, or -1 if unknown.
+     * @pbrbm lfngti - ignorfd on fntry, on fxit will bf tif lfngti of tif tbblf if known, or -1 if unknown.
+     * @pbrbm lfngti - ignorfd on fntry, on fxit will bf tif lfngti of tif tbblf if known, or -1 if unknown.
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     * @rfturn tif bddrfss of tif tbblf in mfmory, or <dodf>NULL</dodf>
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     *         if tif tbblf dofsn't fxist.
+     * @intfrnbl
+     * @intfrnbl
+     * @intfrnbl
+     * @intfrnbl
      * @intfrnbl
      */
-    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngth) donst { lfngth=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngth */
+     */
+     */
+     */
+     */
+    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst { lfngti=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngti */
+    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst { lfngti=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngti */
+    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst { lfngti=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngti */
+    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst { lfngti=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngti */
+    virtubl donst void* gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst { lfngti=-1; rfturn gftFontTbblf(tbblfTbg); }  /* -1 = unknown lfngti */
+
+
+
+
 
     virtubl void *gftKfrnPbirs() donst = 0;
+    virtubl void *gftKfrnPbirs() donst = 0;
+    virtubl void *gftKfrnPbirs() donst = 0;
+    virtubl void *gftKfrnPbirs() donst = 0;
+    virtubl void *gftKfrnPbirs() donst = 0;
+    virtubl void  sftKfrnPbirs(void *pbirs) donst = 0;
+    virtubl void  sftKfrnPbirs(void *pbirs) donst = 0;
+    virtubl void  sftKfrnPbirs(void *pbirs) donst = 0;
+    virtubl void  sftKfrnPbirs(void *pbirs) donst = 0;
     virtubl void  sftKfrnPbirs(void *pbirs) donst = 0;
 
+
+
+
+
     /**
-     * This mfthod is usfd to dftfrminf if thf font dbn
-     * rfndfr thf givfn dhbrbdtfr. This dbn usublly bf donf
-     * by looking thf dhbrbdtfr up in thf font's dhbrbdtfr
-     * to glyph mbpping.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod is usfd to dftfrminf if tif font dbn
+     * Tiis mftiod is usfd to dftfrminf if tif font dbn
+     * Tiis mftiod is usfd to dftfrminf if tif font dbn
+     * Tiis mftiod is usfd to dftfrminf if tif font dbn
+     * Tiis mftiod is usfd to dftfrminf if tif font dbn
+     * rfndfr tif givfn dibrbdtfr. Tiis dbn usublly bf donf
+     * rfndfr tif givfn dibrbdtfr. Tiis dbn usublly bf donf
+     * rfndfr tif givfn dibrbdtfr. Tiis dbn usublly bf donf
+     * rfndfr tif givfn dibrbdtfr. Tiis dbn usublly bf donf
+     * rfndfr tif givfn dibrbdtfr. Tiis dbn usublly bf donf
+     * by looking tif dibrbdtfr up in tif font's dibrbdtfr
+     * by looking tif dibrbdtfr up in tif font's dibrbdtfr
+     * by looking tif dibrbdtfr up in tif font's dibrbdtfr
+     * by looking tif dibrbdtfr up in tif font's dibrbdtfr
+     * by looking tif dibrbdtfr up in tif font's dibrbdtfr
+     * to glypi mbpping.
+     * to glypi mbpping.
+     * to glypi mbpping.
+     * to glypi mbpping.
+     * to glypi mbpping.
      *
-     * Thf dffbult implfmfntbtion of this mfthod will rfturn
-     * <dodf>TRUE</dodf> if <dodf>mbpChbrToGlyph(dh)</dodf>
+     *
+     *
+     *
+     *
+     * Tif dffbult implfmfntbtion of tiis mftiod will rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod will rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod will rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod will rfturn
+     * Tif dffbult implfmfntbtion of tiis mftiod will rfturn
+     * <dodf>TRUE</dodf> if <dodf>mbpCibrToGlypi(di)</dodf>
+     * <dodf>TRUE</dodf> if <dodf>mbpCibrToGlypi(di)</dodf>
+     * <dodf>TRUE</dodf> if <dodf>mbpCibrToGlypi(di)</dodf>
+     * <dodf>TRUE</dodf> if <dodf>mbpCibrToGlypi(di)</dodf>
+     * <dodf>TRUE</dodf> if <dodf>mbpCibrToGlypi(di)</dodf>
+     * rfturns b non-zfro vbluf.
+     * rfturns b non-zfro vbluf.
+     * rfturns b non-zfro vbluf.
+     * rfturns b non-zfro vbluf.
      * rfturns b non-zfro vbluf.
      *
-     * @pbrbm dh - thf dhbrbdtfr to bf tfstfd
      *
-     * @rfturn <dodf>TRUE</dodf> if thf font dbn rfndfr dh.
+     *
+     *
+     *
+     * @pbrbm di - tif dibrbdtfr to bf tfstfd
+     * @pbrbm di - tif dibrbdtfr to bf tfstfd
+     * @pbrbm di - tif dibrbdtfr to bf tfstfd
+     * @pbrbm di - tif dibrbdtfr to bf tfstfd
+     * @pbrbm di - tif dibrbdtfr to bf tfstfd
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>TRUE</dodf> if tif font dbn rfndfr di.
+     * @rfturn <dodf>TRUE</dodf> if tif font dbn rfndfr di.
+     * @rfturn <dodf>TRUE</dodf> if tif font dbn rfndfr di.
+     * @rfturn <dodf>TRUE</dodf> if tif font dbn rfndfr di.
+     * @rfturn <dodf>TRUE</dodf> if tif font dbn rfndfr di.
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtubl lf_bool dbnDisplby(LEUnidodf32 dh) donst;
+     */
+     */
+     */
+     */
+    virtubl lf_bool dbnDisplby(LEUnidodf32 di) donst;
+    virtubl lf_bool dbnDisplby(LEUnidodf32 di) donst;
+    virtubl lf_bool dbnDisplby(LEUnidodf32 di) donst;
+    virtubl lf_bool dbnDisplby(LEUnidodf32 di) donst;
+    virtubl lf_bool dbnDisplby(LEUnidodf32 di) donst;
+
+
+
+
 
     /**
-     * This mfthod rfturns thf numbfr of dfsign units in
-     * thf font's EM squbrf.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfturns tif numbfr of dfsign units in
+     * Tiis mftiod rfturns tif numbfr of dfsign units in
+     * Tiis mftiod rfturns tif numbfr of dfsign units in
+     * Tiis mftiod rfturns tif numbfr of dfsign units in
+     * Tiis mftiod rfturns tif numbfr of dfsign units in
+     * tif font's EM squbrf.
+     * tif font's EM squbrf.
+     * tif font's EM squbrf.
+     * tif font's EM squbrf.
+     * tif font's EM squbrf.
      *
-     * @rfturn thf numbfr of dfsign units prf EM.
+     *
+     *
+     *
+     *
+     * @rfturn tif numbfr of dfsign units prf EM.
+     * @rfturn tif numbfr of dfsign units prf EM.
+     * @rfturn tif numbfr of dfsign units prf EM.
+     * @rfturn tif numbfr of dfsign units prf EM.
+     * @rfturn tif numbfr of dfsign units prf EM.
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     virtubl lf_int32 gftUnitsPfrEM() donst = 0;
+    virtubl lf_int32 gftUnitsPfrEM() donst = 0;
+    virtubl lf_int32 gftUnitsPfrEM() donst = 0;
+    virtubl lf_int32 gftUnitsPfrEM() donst = 0;
+    virtubl lf_int32 gftUnitsPfrEM() donst = 0;
+
+
+
+
 
     /**
-     * This mfthod mbps bn brrby of dhbrbdtfr dodfs to bn brrby of glyph
-     * indidfs, using thf font's dhbrbdtfr to glyph mbp.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod mbps bn brrby of dibrbdtfr dodfs to bn brrby of glypi
+     * Tiis mftiod mbps bn brrby of dibrbdtfr dodfs to bn brrby of glypi
+     * Tiis mftiod mbps bn brrby of dibrbdtfr dodfs to bn brrby of glypi
+     * Tiis mftiod mbps bn brrby of dibrbdtfr dodfs to bn brrby of glypi
+     * Tiis mftiod mbps bn brrby of dibrbdtfr dodfs to bn brrby of glypi
+     * indidfs, using tif font's dibrbdtfr to glypi mbp.
+     * indidfs, using tif font's dibrbdtfr to glypi mbp.
+     * indidfs, using tif font's dibrbdtfr to glypi mbp.
+     * indidfs, using tif font's dibrbdtfr to glypi mbp.
+     * indidfs, using tif font's dibrbdtfr to glypi mbp.
      *
-     * Thf dffbult implfmfntbtion itfrbtfs ovfr bll of thf dhbrbdtfrs bnd dblls
-     * <dodf>mbpChbrToGlyph(dh, mbppfr)</dodf> on fbdh onf. It blso hbndlfs surrogbtf
-     * dhbrbdtfrs, storing thf glyph ID for thf high surrogbtf, bnd b dflftfd glyph (0xFFFF)
-     * for thf low surrogbtf.
      *
-     * Most subldbssfs will not nffd to implfmfnt this mfthod.
      *
-     * @pbrbm dhbrs - thf dhbrbdtfr brrby
-     * @pbrbm offsft - thf indfx of thf first dhbrbdtfr
-     * @pbrbm dount - thf numbfr of dhbrbdtfrs
-     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf thf glyph indidfs in rfvfrsf ordfr.
-     * @pbrbm mbppfr - thf dhbrbdtfr mbppfr.
-     * @pbrbm filtfrZfroWidth - <dodf>TRUE</dodf> if ZWJ / ZWNJ dhbrbdtfrs should mbp to b glyph w/ no dontours.
-     * @pbrbm glyphStorbgf - thf objfdt whidh dontbins thf output glyph brrby
      *
-     * @sff LEChbrMbppfr
+     *
+     * Tif dffbult implfmfntbtion itfrbtfs ovfr bll of tif dibrbdtfrs bnd dblls
+     * Tif dffbult implfmfntbtion itfrbtfs ovfr bll of tif dibrbdtfrs bnd dblls
+     * Tif dffbult implfmfntbtion itfrbtfs ovfr bll of tif dibrbdtfrs bnd dblls
+     * Tif dffbult implfmfntbtion itfrbtfs ovfr bll of tif dibrbdtfrs bnd dblls
+     * Tif dffbult implfmfntbtion itfrbtfs ovfr bll of tif dibrbdtfrs bnd dblls
+     * <dodf>mbpCibrToGlypi(di, mbppfr)</dodf> on fbdi onf. It blso ibndlfs surrogbtf
+     * <dodf>mbpCibrToGlypi(di, mbppfr)</dodf> on fbdi onf. It blso ibndlfs surrogbtf
+     * <dodf>mbpCibrToGlypi(di, mbppfr)</dodf> on fbdi onf. It blso ibndlfs surrogbtf
+     * <dodf>mbpCibrToGlypi(di, mbppfr)</dodf> on fbdi onf. It blso ibndlfs surrogbtf
+     * <dodf>mbpCibrToGlypi(di, mbppfr)</dodf> on fbdi onf. It blso ibndlfs surrogbtf
+     * dibrbdtfrs, storing tif glypi ID for tif iigi surrogbtf, bnd b dflftfd glypi (0xFFFF)
+     * dibrbdtfrs, storing tif glypi ID for tif iigi surrogbtf, bnd b dflftfd glypi (0xFFFF)
+     * dibrbdtfrs, storing tif glypi ID for tif iigi surrogbtf, bnd b dflftfd glypi (0xFFFF)
+     * dibrbdtfrs, storing tif glypi ID for tif iigi surrogbtf, bnd b dflftfd glypi (0xFFFF)
+     * dibrbdtfrs, storing tif glypi ID for tif iigi surrogbtf, bnd b dflftfd glypi (0xFFFF)
+     * for tif low surrogbtf.
+     * for tif low surrogbtf.
+     * for tif low surrogbtf.
+     * for tif low surrogbtf.
+     * for tif low surrogbtf.
+     *
+     *
+     *
+     *
+     *
+     * Most subldbssfs will not nffd to implfmfnt tiis mftiod.
+     * Most subldbssfs will not nffd to implfmfnt tiis mftiod.
+     * Most subldbssfs will not nffd to implfmfnt tiis mftiod.
+     * Most subldbssfs will not nffd to implfmfnt tiis mftiod.
+     * Most subldbssfs will not nffd to implfmfnt tiis mftiod.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm dibrs - tif dibrbdtfr brrby
+     * @pbrbm dibrs - tif dibrbdtfr brrby
+     * @pbrbm dibrs - tif dibrbdtfr brrby
+     * @pbrbm dibrs - tif dibrbdtfr brrby
+     * @pbrbm dibrs - tif dibrbdtfr brrby
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr
+     * @pbrbm dount - tif numbfr of dibrbdtfrs
+     * @pbrbm dount - tif numbfr of dibrbdtfrs
+     * @pbrbm dount - tif numbfr of dibrbdtfrs
+     * @pbrbm dount - tif numbfr of dibrbdtfrs
+     * @pbrbm dount - tif numbfr of dibrbdtfrs
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf tif glypi indidfs in rfvfrsf ordfr.
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf tif glypi indidfs in rfvfrsf ordfr.
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf tif glypi indidfs in rfvfrsf ordfr.
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf tif glypi indidfs in rfvfrsf ordfr.
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, storf tif glypi indidfs in rfvfrsf ordfr.
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr.
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr.
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr.
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr.
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm glypiStorbgf - tif objfdt wiidi dontbins tif output glypi brrby
+     * @pbrbm glypiStorbgf - tif objfdt wiidi dontbins tif output glypi brrby
+     * @pbrbm glypiStorbgf - tif objfdt wiidi dontbins tif output glypi brrby
+     * @pbrbm glypiStorbgf - tif objfdt wiidi dontbins tif output glypi brrby
+     * @pbrbm glypiStorbgf - tif objfdt wiidi dontbins tif output glypi brrby
+     *
+     *
+     *
+     *
+     *
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.6
-     */
-    virtubl void mbpChbrsToGlyphs(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LEChbrMbppfr *mbppfr, lf_bool filtfrZfroWidth, LEGlyphStorbgf &glyphStorbgf) donst;
-
-    /**
-     * This mfthod mbps b singlf dhbrbdtfr to b glyph indfx, using thf
-     * font's dhbrbdtfr to glyph mbp. Thf dffbult implfmfntbtion of this
-     * mfthod dblls thf mbppfr, bnd thfn dblls <dodf>mbpChbrToGlyph(mbppfdCh)</dodf>.
-     *
-     * @pbrbm dh - thf dhbrbdtfr
-     * @pbrbm mbppfr - thf dhbrbdtfr mbppfr
-     * @pbrbm filtfrZfroWidth - <dodf>TRUE</dodf> if ZWJ / ZWNJ dhbrbdtfrs should mbp to b glyph w/ no dontours.
-     *
-     * @rfturn thf glyph indfx
-     *
-     * @sff LEChbrMbppfr
-     *
+     * @stbblf ICU 3.6
+     * @stbblf ICU 3.6
+     * @stbblf ICU 3.6
      * @stbblf ICU 3.6
      */
-    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh, donst LEChbrMbppfr *mbppfr, lf_bool filtfrZfroWidth) donst;
+     */
+     */
+     */
+     */
+    virtubl void mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti, LEGlypiStorbgf &glypiStorbgf) donst;
+    virtubl void mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti, LEGlypiStorbgf &glypiStorbgf) donst;
+    virtubl void mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti, LEGlypiStorbgf &glypiStorbgf) donst;
+    virtubl void mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti, LEGlypiStorbgf &glypiStorbgf) donst;
+    virtubl void mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti, LEGlypiStorbgf &glypiStorbgf) donst;
+
+
+
+
 
     /**
-     * This mfthod mbps b singlf dhbrbdtfr to b glyph indfx, using thf
-     * font's dhbrbdtfr to glyph mbp. Thf dffbult implfmfntbtion of this
-     * mfthod dblls thf mbppfr, bnd thfn dblls <dodf>mbpChbrToGlyph(mbppfdCh)</dodf>.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
      *
-     * @pbrbm dh - thf dhbrbdtfr
-     * @pbrbm mbppfr - thf dhbrbdtfr mbppfr
      *
-     * @rfturn thf glyph indfx
      *
-     * @sff LEChbrMbppfr
+     *
+     *
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     * @pbrbm filtfrZfroWidti - <dodf>TRUE</dodf> if ZWJ / ZWNJ dibrbdtfrs siould mbp to b glypi w/ no dontours.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     *
+     *
+     *
+     *
+     *
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     *
+     *
+     *
+     *
+     *
+     * @stbblf ICU 3.6
+     * @stbblf ICU 3.6
+     * @stbblf ICU 3.6
+     * @stbblf ICU 3.6
+     * @stbblf ICU 3.6
+     */
+     */
+     */
+     */
+     */
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr, lf_bool filtfrZfroWidti) donst;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * font's dibrbdtfr to glypi mbp. Tif dffbult implfmfntbtion of tiis
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     * mftiod dblls tif mbppfr, bnd tifn dblls <dodf>mbpCibrToGlypi(mbppfdCi)</dodf>.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     * @pbrbm mbppfr - tif dibrbdtfr mbppfr
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     *
+     *
+     *
+     *
+     *
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     * @sff LECibrMbppfr
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh, donst LEChbrMbppfr *mbppfr) donst;
+     */
+     */
+     */
+     */
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst;
+
+
+
+
 
     /**
-     * This mfthod mbps b singlf dhbrbdtfr to b glyph indfx, using thf
-     * font's dhbrbdtfr to glyph mbp. Thfrf is no dffbult implfmfntbtion
-     * of this mfthod bfdbusf it rfquirfs informbtion bbout thf plbtform
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * Tiis mftiod mbps b singlf dibrbdtfr to b glypi indfx, using tif
+     * font's dibrbdtfr to glypi mbp. Tifrf is no dffbult implfmfntbtion
+     * font's dibrbdtfr to glypi mbp. Tifrf is no dffbult implfmfntbtion
+     * font's dibrbdtfr to glypi mbp. Tifrf is no dffbult implfmfntbtion
+     * font's dibrbdtfr to glypi mbp. Tifrf is no dffbult implfmfntbtion
+     * font's dibrbdtfr to glypi mbp. Tifrf is no dffbult implfmfntbtion
+     * of tiis mftiod bfdbusf it rfquirfs informbtion bbout tif plbtform
+     * of tiis mftiod bfdbusf it rfquirfs informbtion bbout tif plbtform
+     * of tiis mftiod bfdbusf it rfquirfs informbtion bbout tif plbtform
+     * of tiis mftiod bfdbusf it rfquirfs informbtion bbout tif plbtform
+     * of tiis mftiod bfdbusf it rfquirfs informbtion bbout tif plbtform
+     * font implfmfntbtion.
+     * font implfmfntbtion.
+     * font implfmfntbtion.
+     * font implfmfntbtion.
      * font implfmfntbtion.
      *
-     * @pbrbm dh - thf dhbrbdtfr
      *
-     * @rfturn thf glyph indfx
+     *
+     *
+     *
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     * @pbrbm di - tif dibrbdtfr
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     * @rfturn tif glypi indfx
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh) donst = 0;
+     */
+     */
+     */
+     */
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di) donst = 0;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di) donst = 0;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di) donst = 0;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di) donst = 0;
+    virtubl LEGlypiID mbpCibrToGlypi(LEUnidodf32 di) donst = 0;
 
+
+
+
+
+    //
+    //
+    //
+    //
     //
     // Mftrids
+    // Mftrids
+    // Mftrids
+    // Mftrids
+    // Mftrids
+    //
+    //
+    //
+    //
     //
 
+
+
+
+
     /**
-     * This mfthod gfts thf X bnd Y bdvbndf of b pbrtidulbr glyph, in pixfls.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod gfts tif X bnd Y bdvbndf of b pbrtidulbr glypi, in pixfls.
+     * Tiis mftiod gfts tif X bnd Y bdvbndf of b pbrtidulbr glypi, in pixfls.
+     * Tiis mftiod gfts tif X bnd Y bdvbndf of b pbrtidulbr glypi, in pixfls.
+     * Tiis mftiod gfts tif X bnd Y bdvbndf of b pbrtidulbr glypi, in pixfls.
+     * Tiis mftiod gfts tif X bnd Y bdvbndf of b pbrtidulbr glypi, in pixfls.
      *
-     * @pbrbm glyph - thf glyph indfx
-     * @pbrbm bdvbndf - thf X bnd Y pixfl vblufs will bf storfd hfrf
+     *
+     *
+     *
+     *
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm bdvbndf - tif X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm bdvbndf - tif X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm bdvbndf - tif X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm bdvbndf - tif X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm bdvbndf - tif X bnd Y pixfl vblufs will bf storfd ifrf
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
      */
-    virtubl void gftGlyphAdvbndf(LEGlyphID glyph, LEPoint &bdvbndf) donst = 0;
+     */
+     */
+     */
+     */
+    virtubl void gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst = 0;
+    virtubl void gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst = 0;
+    virtubl void gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst = 0;
+    virtubl void gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst = 0;
+    virtubl void gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst = 0;
+
+
+
+
 
     virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst = 0;
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst = 0;
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst = 0;
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst = 0;
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst = 0;
+
+
+
+
 
     /**
-     * This mfthod gfts thf hintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
-     * point in thf outlinf of thf givfn glyph.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod gfts tif iintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
+     * Tiis mftiod gfts tif iintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
+     * Tiis mftiod gfts tif iintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
+     * Tiis mftiod gfts tif iintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
+     * Tiis mftiod gfts tif iintfd X bnd Y pixfl doordinbtfs of b pbrtidulbr
+     * point in tif outlinf of tif givfn glypi.
+     * point in tif outlinf of tif givfn glypi.
+     * point in tif outlinf of tif givfn glypi.
+     * point in tif outlinf of tif givfn glypi.
+     * point in tif outlinf of tif givfn glypi.
      *
-     * @pbrbm glyph - thf glyph indfx
-     * @pbrbm pointNumbfr - thf numbfr of thf point
-     * @pbrbm point - thf point's X bnd Y pixfl vblufs will bf storfd hfrf
      *
-     * @rfturn <dodf>TRUE</dodf> if thf point doordinbtfs dould bf storfd.
      *
+     *
+     *
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm glypi - tif glypi indfx
+     * @pbrbm pointNumbfr - tif numbfr of tif point
+     * @pbrbm pointNumbfr - tif numbfr of tif point
+     * @pbrbm pointNumbfr - tif numbfr of tif point
+     * @pbrbm pointNumbfr - tif numbfr of tif point
+     * @pbrbm pointNumbfr - tif numbfr of tif point
+     * @pbrbm point - tif point's X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm point - tif point's X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm point - tif point's X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm point - tif point's X bnd Y pixfl vblufs will bf storfd ifrf
+     * @pbrbm point - tif point's X bnd Y pixfl vblufs will bf storfd ifrf
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>TRUE</dodf> if tif point doordinbtfs dould bf storfd.
+     * @rfturn <dodf>TRUE</dodf> if tif point doordinbtfs dould bf storfd.
+     * @rfturn <dodf>TRUE</dodf> if tif point doordinbtfs dould bf storfd.
+     * @rfturn <dodf>TRUE</dodf> if tif point doordinbtfs dould bf storfd.
+     * @rfturn <dodf>TRUE</dodf> if tif point doordinbtfs dould bf storfd.
+     *
+     *
+     *
+     *
+     *
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
      * @stbblf ICU 2.8
      */
-    virtubl lf_bool gftGlyphPoint(LEGlyphID glyph, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
+     */
+     */
+     */
+     */
+    virtubl lf_bool gftGlypiPoint(LEGlypiID glypi, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
+    virtubl lf_bool gftGlypiPoint(LEGlypiID glypi, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
+    virtubl lf_bool gftGlypiPoint(LEGlypiID glypi, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
+    virtubl lf_bool gftGlypiPoint(LEGlypiID glypi, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
+    virtubl lf_bool gftGlypiPoint(LEGlypiID glypi, lf_int32 pointNumbfr, LEPoint &point) donst = 0;
+
+
+
+
 
     /**
-     * This mfthod rfturns thf width of thf font's EM squbrf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfturns tif widti of tif font's EM squbrf
+     * Tiis mftiod rfturns tif widti of tif font's EM squbrf
+     * Tiis mftiod rfturns tif widti of tif font's EM squbrf
+     * Tiis mftiod rfturns tif widti of tif font's EM squbrf
+     * Tiis mftiod rfturns tif widti of tif font's EM squbrf
+     * in pixfls.
+     * in pixfls.
+     * in pixfls.
+     * in pixfls.
      * in pixfls.
      *
-     * @rfturn thf pixfl width of thf EM squbrf
+     *
+     *
+     *
+     *
+     * @rfturn tif pixfl widti of tif EM squbrf
+     * @rfturn tif pixfl widti of tif EM squbrf
+     * @rfturn tif pixfl widti of tif EM squbrf
+     * @rfturn tif pixfl widti of tif EM squbrf
+     * @rfturn tif pixfl widti of tif EM squbrf
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     virtubl flobt gftXPixflsPfrEm() donst = 0;
+    virtubl flobt gftXPixflsPfrEm() donst = 0;
+    virtubl flobt gftXPixflsPfrEm() donst = 0;
+    virtubl flobt gftXPixflsPfrEm() donst = 0;
+    virtubl flobt gftXPixflsPfrEm() donst = 0;
+
+
+
+
 
     /**
-     * This mfthod rfturns thf hfight of thf font's EM squbrf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod rfturns tif ifigit of tif font's EM squbrf
+     * Tiis mftiod rfturns tif ifigit of tif font's EM squbrf
+     * Tiis mftiod rfturns tif ifigit of tif font's EM squbrf
+     * Tiis mftiod rfturns tif ifigit of tif font's EM squbrf
+     * Tiis mftiod rfturns tif ifigit of tif font's EM squbrf
+     * in pixfls.
+     * in pixfls.
+     * in pixfls.
+     * in pixfls.
      * in pixfls.
      *
-     * @rfturn thf pixfl hfight of thf EM squbrf
+     *
+     *
+     *
+     *
+     * @rfturn tif pixfl ifigit of tif EM squbrf
+     * @rfturn tif pixfl ifigit of tif EM squbrf
+     * @rfturn tif pixfl ifigit of tif EM squbrf
+     * @rfturn tif pixfl ifigit of tif EM squbrf
+     * @rfturn tif pixfl ifigit of tif EM squbrf
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     virtubl flobt gftYPixflsPfrEm() donst = 0;
+    virtubl flobt gftYPixflsPfrEm() donst = 0;
+    virtubl flobt gftYPixflsPfrEm() donst = 0;
+    virtubl flobt gftYPixflsPfrEm() donst = 0;
+    virtubl flobt gftYPixflsPfrEm() donst = 0;
+
+
+
+
 
     /**
-     * This mfthod donvfrts font dfsign units in thf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * X dirfdtion to points.
+     * X dirfdtion to points.
+     * X dirfdtion to points.
+     * X dirfdtion to points.
      * X dirfdtion to points.
      *
-     * @pbrbm xUnits - dfsign units in thf X dirfdtion
      *
-     * @rfturn points in thf X dirfdtion
+     *
+     *
+     *
+     * @pbrbm xUnits - dfsign units in tif X dirfdtion
+     * @pbrbm xUnits - dfsign units in tif X dirfdtion
+     * @pbrbm xUnits - dfsign units in tif X dirfdtion
+     * @pbrbm xUnits - dfsign units in tif X dirfdtion
+     * @pbrbm xUnits - dfsign units in tif X dirfdtion
+     *
+     *
+     *
+     *
+     *
+     * @rfturn points in tif X dirfdtion
+     * @rfturn points in tif X dirfdtion
+     * @rfturn points in tif X dirfdtion
+     * @rfturn points in tif X dirfdtion
+     * @rfturn points in tif X dirfdtion
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl flobt xUnitsToPoints(flobt xUnits) donst;
+    virtubl flobt xUnitsToPoints(flobt xUnits) donst;
+    virtubl flobt xUnitsToPoints(flobt xUnits) donst;
+    virtubl flobt xUnitsToPoints(flobt xUnits) donst;
+    virtubl flobt xUnitsToPoints(flobt xUnits) donst;
+
+
+
+
 
     /**
-     * This mfthod donvfrts font dfsign units in thf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Tiis mftiod donvfrts font dfsign units in tif
+     * Y dirfdtion to points.
+     * Y dirfdtion to points.
+     * Y dirfdtion to points.
+     * Y dirfdtion to points.
      * Y dirfdtion to points.
      *
-     * @pbrbm yUnits - dfsign units in thf Y dirfdtion
      *
-     * @rfturn points in thf Y dirfdtion
+     *
+     *
+     *
+     * @pbrbm yUnits - dfsign units in tif Y dirfdtion
+     * @pbrbm yUnits - dfsign units in tif Y dirfdtion
+     * @pbrbm yUnits - dfsign units in tif Y dirfdtion
+     * @pbrbm yUnits - dfsign units in tif Y dirfdtion
+     * @pbrbm yUnits - dfsign units in tif Y dirfdtion
+     *
+     *
+     *
+     *
+     *
+     * @rfturn points in tif Y dirfdtion
+     * @rfturn points in tif Y dirfdtion
+     * @rfturn points in tif Y dirfdtion
+     * @rfturn points in tif Y dirfdtion
+     * @rfturn points in tif Y dirfdtion
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl flobt yUnitsToPoints(flobt yUnits) donst;
+    virtubl flobt yUnitsToPoints(flobt yUnits) donst;
+    virtubl flobt yUnitsToPoints(flobt yUnits) donst;
+    virtubl flobt yUnitsToPoints(flobt yUnits) donst;
+    virtubl flobt yUnitsToPoints(flobt yUnits) donst;
+
+
+
+
 
     /**
-     * This mfthod donvfrts font dfsign units to points.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod donvfrts font dfsign units to points.
+     * Tiis mftiod donvfrts font dfsign units to points.
+     * Tiis mftiod donvfrts font dfsign units to points.
+     * Tiis mftiod donvfrts font dfsign units to points.
+     * Tiis mftiod donvfrts font dfsign units to points.
+     *
+     *
+     *
+     *
      *
      * @pbrbm units - X bnd Y dfsign units
+     * @pbrbm units - X bnd Y dfsign units
+     * @pbrbm units - X bnd Y dfsign units
+     * @pbrbm units - X bnd Y dfsign units
+     * @pbrbm units - X bnd Y dfsign units
+     * @pbrbm points - sft to X bnd Y points
+     * @pbrbm points - sft to X bnd Y points
+     * @pbrbm points - sft to X bnd Y points
+     * @pbrbm points - sft to X bnd Y points
      * @pbrbm points - sft to X bnd Y points
      *
+     *
+     *
+     *
+     *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl void unitsToPoints(LEPoint &units, LEPoint &points) donst;
+    virtubl void unitsToPoints(LEPoint &units, LEPoint &points) donst;
+    virtubl void unitsToPoints(LEPoint &units, LEPoint &points) donst;
+    virtubl void unitsToPoints(LEPoint &units, LEPoint &points) donst;
+    virtubl void unitsToPoints(LEPoint &units, LEPoint &points) donst;
+
+
+
+
 
     /**
-     * This mfthod donvfrts pixfls in thf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * X dirfdtion to font dfsign units.
+     * X dirfdtion to font dfsign units.
+     * X dirfdtion to font dfsign units.
+     * X dirfdtion to font dfsign units.
      * X dirfdtion to font dfsign units.
      *
-     * @pbrbm xPixfls - pixfls in thf X dirfdtion
      *
-     * @rfturn font dfsign units in thf X dirfdtion
+     *
+     *
+     *
+     * @pbrbm xPixfls - pixfls in tif X dirfdtion
+     * @pbrbm xPixfls - pixfls in tif X dirfdtion
+     * @pbrbm xPixfls - pixfls in tif X dirfdtion
+     * @pbrbm xPixfls - pixfls in tif X dirfdtion
+     * @pbrbm xPixfls - pixfls in tif X dirfdtion
+     *
+     *
+     *
+     *
+     *
+     * @rfturn font dfsign units in tif X dirfdtion
+     * @rfturn font dfsign units in tif X dirfdtion
+     * @rfturn font dfsign units in tif X dirfdtion
+     * @rfturn font dfsign units in tif X dirfdtion
+     * @rfturn font dfsign units in tif X dirfdtion
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl flobt xPixflsToUnits(flobt xPixfls) donst;
+    virtubl flobt xPixflsToUnits(flobt xPixfls) donst;
+    virtubl flobt xPixflsToUnits(flobt xPixfls) donst;
+    virtubl flobt xPixflsToUnits(flobt xPixfls) donst;
+    virtubl flobt xPixflsToUnits(flobt xPixfls) donst;
+
+
+
+
 
     /**
-     * This mfthod donvfrts pixfls in thf
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * Tiis mftiod donvfrts pixfls in tif
+     * Y dirfdtion to font dfsign units.
+     * Y dirfdtion to font dfsign units.
+     * Y dirfdtion to font dfsign units.
+     * Y dirfdtion to font dfsign units.
      * Y dirfdtion to font dfsign units.
      *
-     * @pbrbm yPixfls - pixfls in thf Y dirfdtion
      *
-     * @rfturn font dfsign units in thf Y dirfdtion
+     *
+     *
+     *
+     * @pbrbm yPixfls - pixfls in tif Y dirfdtion
+     * @pbrbm yPixfls - pixfls in tif Y dirfdtion
+     * @pbrbm yPixfls - pixfls in tif Y dirfdtion
+     * @pbrbm yPixfls - pixfls in tif Y dirfdtion
+     * @pbrbm yPixfls - pixfls in tif Y dirfdtion
+     *
+     *
+     *
+     *
+     *
+     * @rfturn font dfsign units in tif Y dirfdtion
+     * @rfturn font dfsign units in tif Y dirfdtion
+     * @rfturn font dfsign units in tif Y dirfdtion
+     * @rfturn font dfsign units in tif Y dirfdtion
+     * @rfturn font dfsign units in tif Y dirfdtion
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl flobt yPixflsToUnits(flobt yPixfls) donst;
+    virtubl flobt yPixflsToUnits(flobt yPixfls) donst;
+    virtubl flobt yPixflsToUnits(flobt yPixfls) donst;
+    virtubl flobt yPixflsToUnits(flobt yPixfls) donst;
+    virtubl flobt yPixflsToUnits(flobt yPixfls) donst;
+
+
+
+
 
     /**
-     * This mfthod donvfrts pixfls to font dfsign units.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod donvfrts pixfls to font dfsign units.
+     * Tiis mftiod donvfrts pixfls to font dfsign units.
+     * Tiis mftiod donvfrts pixfls to font dfsign units.
+     * Tiis mftiod donvfrts pixfls to font dfsign units.
+     * Tiis mftiod donvfrts pixfls to font dfsign units.
+     *
+     *
+     *
+     *
      *
      * @pbrbm pixfls - X bnd Y pixfl
+     * @pbrbm pixfls - X bnd Y pixfl
+     * @pbrbm pixfls - X bnd Y pixfl
+     * @pbrbm pixfls - X bnd Y pixfl
+     * @pbrbm pixfls - X bnd Y pixfl
+     * @pbrbm units - sft to X bnd Y font dfsign units
+     * @pbrbm units - sft to X bnd Y font dfsign units
+     * @pbrbm units - sft to X bnd Y font dfsign units
+     * @pbrbm units - sft to X bnd Y font dfsign units
      * @pbrbm units - sft to X bnd Y font dfsign units
      *
+     *
+     *
+     *
+     *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst;
+    virtubl void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst;
+    virtubl void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst;
+    virtubl void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst;
+    virtubl void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst;
+
+
+
+
 
     /**
-     * Gft thf X sdblf fbdtor from thf font's trbnsform. Thf dffbult
-     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll this mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif X sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif X sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif X sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif X sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif X sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
      *
-     * @rfturn thf X sdblf fbdtor.
+     *
+     *
+     *
+     *
+     * @rfturn tif X sdblf fbdtor.
+     * @rfturn tif X sdblf fbdtor.
+     * @rfturn tif X sdblf fbdtor.
+     * @rfturn tif X sdblf fbdtor.
+     * @rfturn tif X sdblf fbdtor.
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      *
      *
      * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl flobt gftSdblfFbdtorX() donst = 0;
+    virtubl flobt gftSdblfFbdtorX() donst = 0;
+    virtubl flobt gftSdblfFbdtorX() donst = 0;
+    virtubl flobt gftSdblfFbdtorX() donst = 0;
+    virtubl flobt gftSdblfFbdtorX() donst = 0;
+
+
+
+
 
     /**
-     * Gft thf Y sdblf fbdtor from thf font's trbnsform. Thf dffbult
-     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll this mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif Y sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif Y sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif Y sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif Y sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * Gft tif Y sdblf fbdtor from tif font's trbnsform. Tif dffbult
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
+     * implfmfntbtion of <dodf>trbnsformFunits()</dodf> will dbll tiis mftiod.
      *
-     * @rfturn thf Ysdblf fbdtor.
+     *
+     *
+     *
+     *
+     * @rfturn tif Ysdblf fbdtor.
+     * @rfturn tif Ysdblf fbdtor.
+     * @rfturn tif Ysdblf fbdtor.
+     * @rfturn tif Ysdblf fbdtor.
+     * @rfturn tif Ysdblf fbdtor.
+     *
+     *
+     *
+     *
      *
      * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     * @sff trbnsformFunits
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl flobt gftSdblfFbdtorY() donst = 0;
+    virtubl flobt gftSdblfFbdtorY() donst = 0;
+    virtubl flobt gftSdblfFbdtorY() donst = 0;
+    virtubl flobt gftSdblfFbdtorY() donst = 0;
+    virtubl flobt gftSdblfFbdtorY() donst = 0;
+
+
+
+
 
     /**
-     * This mfthod trbnsforms bn X, Y point in font dfsign units to b
-     * pixfl doordinbtf, bpplying thf font's trbnsform. Thf dffbult
-     * implfmfntbtion of this mfthod dblls <dodf>gftSdblfFbdtorX()</dodf>
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod trbnsforms bn X, Y point in font dfsign units to b
+     * Tiis mftiod trbnsforms bn X, Y point in font dfsign units to b
+     * Tiis mftiod trbnsforms bn X, Y point in font dfsign units to b
+     * Tiis mftiod trbnsforms bn X, Y point in font dfsign units to b
+     * Tiis mftiod trbnsforms bn X, Y point in font dfsign units to b
+     * pixfl doordinbtf, bpplying tif font's trbnsform. Tif dffbult
+     * pixfl doordinbtf, bpplying tif font's trbnsform. Tif dffbult
+     * pixfl doordinbtf, bpplying tif font's trbnsform. Tif dffbult
+     * pixfl doordinbtf, bpplying tif font's trbnsform. Tif dffbult
+     * pixfl doordinbtf, bpplying tif font's trbnsform. Tif dffbult
+     * implfmfntbtion of tiis mftiod dblls <dodf>gftSdblfFbdtorX()</dodf>
+     * implfmfntbtion of tiis mftiod dblls <dodf>gftSdblfFbdtorX()</dodf>
+     * implfmfntbtion of tiis mftiod dblls <dodf>gftSdblfFbdtorX()</dodf>
+     * implfmfntbtion of tiis mftiod dblls <dodf>gftSdblfFbdtorX()</dodf>
+     * implfmfntbtion of tiis mftiod dblls <dodf>gftSdblfFbdtorX()</dodf>
+     * bnd <dodf>gftSdblfFbdtorY()</dodf>.
+     * bnd <dodf>gftSdblfFbdtorY()</dodf>.
+     * bnd <dodf>gftSdblfFbdtorY()</dodf>.
+     * bnd <dodf>gftSdblfFbdtorY()</dodf>.
      * bnd <dodf>gftSdblfFbdtorY()</dodf>.
      *
-     * @pbrbm xFunits - thf X doordinbtf in font dfsign units
-     * @pbrbm yFunits - thf Y doordinbtf in font dfsign units
-     * @pbrbm pixfls - thf trbnformfd do-ordinbtf in pixfls
+     *
+     *
+     *
+     *
+     * @pbrbm xFunits - tif X doordinbtf in font dfsign units
+     * @pbrbm xFunits - tif X doordinbtf in font dfsign units
+     * @pbrbm xFunits - tif X doordinbtf in font dfsign units
+     * @pbrbm xFunits - tif X doordinbtf in font dfsign units
+     * @pbrbm xFunits - tif X doordinbtf in font dfsign units
+     * @pbrbm yFunits - tif Y doordinbtf in font dfsign units
+     * @pbrbm yFunits - tif Y doordinbtf in font dfsign units
+     * @pbrbm yFunits - tif Y doordinbtf in font dfsign units
+     * @pbrbm yFunits - tif Y doordinbtf in font dfsign units
+     * @pbrbm yFunits - tif Y doordinbtf in font dfsign units
+     * @pbrbm pixfls - tif trbnformfd do-ordinbtf in pixfls
+     * @pbrbm pixfls - tif trbnformfd do-ordinbtf in pixfls
+     * @pbrbm pixfls - tif trbnformfd do-ordinbtf in pixfls
+     * @pbrbm pixfls - tif trbnformfd do-ordinbtf in pixfls
+     * @pbrbm pixfls - tif trbnformfd do-ordinbtf in pixfls
+     *
+     *
+     *
+     *
      *
      * @sff gftSdblfFbdtorX
+     * @sff gftSdblfFbdtorX
+     * @sff gftSdblfFbdtorX
+     * @sff gftSdblfFbdtorX
+     * @sff gftSdblfFbdtorX
+     * @sff gftSdblfFbdtorY
+     * @sff gftSdblfFbdtorY
+     * @sff gftSdblfFbdtorY
+     * @sff gftSdblfFbdtorY
      * @sff gftSdblfFbdtorY
      *
+     *
+     *
+     *
+     *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+    virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+    virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+    virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+    virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+
+
+
+
 
     /**
-     * This is b donvfnifndf mfthod usfd to donvfrt
+    /**
+    /**
+    /**
+    /**
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * vblufs in b 16.16 fixfd point formbt to flobting point.
+     * vblufs in b 16.16 fixfd point formbt to flobting point.
+     * vblufs in b 16.16 fixfd point formbt to flobting point.
+     * vblufs in b 16.16 fixfd point formbt to flobting point.
      * vblufs in b 16.16 fixfd point formbt to flobting point.
      *
-     * @pbrbm fixfd - thf fixfd point vbluf
      *
-     * @rfturn thf flobting point vbluf
+     *
+     *
+     *
+     * @pbrbm fixfd - tif fixfd point vbluf
+     * @pbrbm fixfd - tif fixfd point vbluf
+     * @pbrbm fixfd - tif fixfd point vbluf
+     * @pbrbm fixfd - tif fixfd point vbluf
+     * @pbrbm fixfd - tif fixfd point vbluf
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif flobting point vbluf
+     * @rfturn tif flobting point vbluf
+     * @rfturn tif flobting point vbluf
+     * @rfturn tif flobting point vbluf
+     * @rfturn tif flobting point vbluf
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     */
+     */
+     */
+     */
      */
     stbtid inlinf flobt fixfdToFlobt(lf_int32 fixfd);
+    stbtid inlinf flobt fixfdToFlobt(lf_int32 fixfd);
+    stbtid inlinf flobt fixfdToFlobt(lf_int32 fixfd);
+    stbtid inlinf flobt fixfdToFlobt(lf_int32 fixfd);
+    stbtid inlinf flobt fixfdToFlobt(lf_int32 fixfd);
+
+
+
+
 
     /**
-     * This is b donvfnifndf mfthod usfd to donvfrt
+    /**
+    /**
+    /**
+    /**
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * Tiis is b donvfnifndf mftiod usfd to donvfrt
+     * flobting point vblufs to 16.16 fixfd point formbt.
+     * flobting point vblufs to 16.16 fixfd point formbt.
+     * flobting point vblufs to 16.16 fixfd point formbt.
+     * flobting point vblufs to 16.16 fixfd point formbt.
      * flobting point vblufs to 16.16 fixfd point formbt.
      *
-     * @pbrbm thfFlobt - thf flobting point vbluf
      *
-     * @rfturn thf fixfd point vbluf
+     *
+     *
+     *
+     * @pbrbm tifFlobt - tif flobting point vbluf
+     * @pbrbm tifFlobt - tif flobting point vbluf
+     * @pbrbm tifFlobt - tif flobting point vbluf
+     * @pbrbm tifFlobt - tif flobting point vbluf
+     * @pbrbm tifFlobt - tif flobting point vbluf
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif fixfd point vbluf
+     * @rfturn tif fixfd point vbluf
+     * @rfturn tif fixfd point vbluf
+     * @rfturn tif fixfd point vbluf
+     * @rfturn tif fixfd point vbluf
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
+     * @stbblf ICU 2.8
      */
-    stbtid inlinf lf_int32 flobtToFixfd(flobt thfFlobt);
+     */
+     */
+     */
+     */
+    stbtid inlinf lf_int32 flobtToFixfd(flobt tifFlobt);
+    stbtid inlinf lf_int32 flobtToFixfd(flobt tifFlobt);
+    stbtid inlinf lf_int32 flobtToFixfd(flobt tifFlobt);
+    stbtid inlinf lf_int32 flobtToFixfd(flobt tifFlobt);
+    stbtid inlinf lf_int32 flobtToFixfd(flobt tifFlobt);
+
+
+
+
 
     //
-    // Thfsf mfthods won't fvfr bf dbllfd by thf LbyoutEnginf,
-    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> who
+    //
+    //
+    //
+    //
+    // Tifsf mftiods won't fvfr bf dbllfd by tif LbyoutEnginf,
+    // Tifsf mftiods won't fvfr bf dbllfd by tif LbyoutEnginf,
+    // Tifsf mftiods won't fvfr bf dbllfd by tif LbyoutEnginf,
+    // Tifsf mftiods won't fvfr bf dbllfd by tif LbyoutEnginf,
+    // Tifsf mftiods won't fvfr bf dbllfd by tif LbyoutEnginf,
+    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> wio
+    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> wio
+    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> wio
+    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> wio
+    // but brf usfful for dlifnts of <dodf>LEFontInstbndf</dodf> wio
+    // nffd to rfndfr tfxt.
+    // nffd to rfndfr tfxt.
+    // nffd to rfndfr tfxt.
+    // nffd to rfndfr tfxt.
     // nffd to rfndfr tfxt.
     //
+    //
+    //
+    //
+    //
+
+
+
+
 
     /**
-     * Gft thf font's bsdfnt.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif font's bsdfnt.
+     * Gft tif font's bsdfnt.
+     * Gft tif font's bsdfnt.
+     * Gft tif font's bsdfnt.
+     * Gft tif font's bsdfnt.
      *
-     * @rfturn thf font's bsdfnt, in points. This vbluf
+     *
+     *
+     *
+     *
+     * @rfturn tif font's bsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's bsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's bsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's bsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's bsdfnt, in points. Tiis vbluf
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
      * will blwbys bf positivf.
      *
+     *
+     *
+     *
+     *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl lf_int32 gftAsdfnt() donst = 0;
+    virtubl lf_int32 gftAsdfnt() donst = 0;
+    virtubl lf_int32 gftAsdfnt() donst = 0;
+    virtubl lf_int32 gftAsdfnt() donst = 0;
+    virtubl lf_int32 gftAsdfnt() donst = 0;
+
+
+
+
 
     /**
-     * Gft thf font's dfsdfnt.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif font's dfsdfnt.
+     * Gft tif font's dfsdfnt.
+     * Gft tif font's dfsdfnt.
+     * Gft tif font's dfsdfnt.
+     * Gft tif font's dfsdfnt.
      *
-     * @rfturn thf font's dfsdfnt, in points. This vbluf
+     *
+     *
+     *
+     *
+     * @rfturn tif font's dfsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's dfsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's dfsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's dfsdfnt, in points. Tiis vbluf
+     * @rfturn tif font's dfsdfnt, in points. Tiis vbluf
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
      * will blwbys bf positivf.
      *
+     *
+     *
+     *
+     *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl lf_int32 gftDfsdfnt() donst = 0;
+    virtubl lf_int32 gftDfsdfnt() donst = 0;
+    virtubl lf_int32 gftDfsdfnt() donst = 0;
+    virtubl lf_int32 gftDfsdfnt() donst = 0;
+    virtubl lf_int32 gftDfsdfnt() donst = 0;
+
+
+
+
 
     /**
-     * Gft thf font's lfbding.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif font's lfbding.
+     * Gft tif font's lfbding.
+     * Gft tif font's lfbding.
+     * Gft tif font's lfbding.
+     * Gft tif font's lfbding.
      *
-     * @rfturn thf font's lfbding, in points. This vbluf
+     *
+     *
+     *
+     *
+     * @rfturn tif font's lfbding, in points. Tiis vbluf
+     * @rfturn tif font's lfbding, in points. Tiis vbluf
+     * @rfturn tif font's lfbding, in points. Tiis vbluf
+     * @rfturn tif font's lfbding, in points. Tiis vbluf
+     * @rfturn tif font's lfbding, in points. Tiis vbluf
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
+     * will blwbys bf positivf.
      * will blwbys bf positivf.
      *
+     *
+     *
+     *
+     *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl lf_int32 gftLfbding() donst = 0;
+    virtubl lf_int32 gftLfbding() donst = 0;
+    virtubl lf_int32 gftLfbding() donst = 0;
+    virtubl lf_int32 gftLfbding() donst = 0;
+    virtubl lf_int32 gftLfbding() donst = 0;
+
+
+
+
 
     /**
-     * Gft thf linf hfight rfquirfd to displby tfxt in
-     * this font. Thf dffbult implfmfntbtion of this mfthod
-     * rfturns thf sum of thf bsdfnt, dfsdfnt, bnd lfbding.
+    /**
+    /**
+    /**
+    /**
+     * Gft tif linf ifigit rfquirfd to displby tfxt in
+     * Gft tif linf ifigit rfquirfd to displby tfxt in
+     * Gft tif linf ifigit rfquirfd to displby tfxt in
+     * Gft tif linf ifigit rfquirfd to displby tfxt in
+     * Gft tif linf ifigit rfquirfd to displby tfxt in
+     * tiis font. Tif dffbult implfmfntbtion of tiis mftiod
+     * tiis font. Tif dffbult implfmfntbtion of tiis mftiod
+     * tiis font. Tif dffbult implfmfntbtion of tiis mftiod
+     * tiis font. Tif dffbult implfmfntbtion of tiis mftiod
+     * tiis font. Tif dffbult implfmfntbtion of tiis mftiod
+     * rfturns tif sum of tif bsdfnt, dfsdfnt, bnd lfbding.
+     * rfturns tif sum of tif bsdfnt, dfsdfnt, bnd lfbding.
+     * rfturns tif sum of tif bsdfnt, dfsdfnt, bnd lfbding.
+     * rfturns tif sum of tif bsdfnt, dfsdfnt, bnd lfbding.
+     * rfturns tif sum of tif bsdfnt, dfsdfnt, bnd lfbding.
      *
-     * @rfturn thf linf hfight, in points. This vbulf will
+     *
+     *
+     *
+     *
+     * @rfturn tif linf ifigit, in points. Tiis vbulf will
+     * @rfturn tif linf ifigit, in points. Tiis vbulf will
+     * @rfturn tif linf ifigit, in points. Tiis vbulf will
+     * @rfturn tif linf ifigit, in points. Tiis vbulf will
+     * @rfturn tif linf ifigit, in points. Tiis vbulf will
+     * blwbys bf positivf.
+     * blwbys bf positivf.
+     * blwbys bf positivf.
+     * blwbys bf positivf.
      * blwbys bf positivf.
      *
-     * @stbblf ICU 3.2
-     */
-    virtubl lf_int32 gftLinfHfight() donst;
-
-    /**
-     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
+     */
+    virtubl lf_int32 gftLinfHfigit() donst;
+    virtubl lf_int32 gftLinfHfigit() donst;
+    virtubl lf_int32 gftLinfHfigit() donst;
+    virtubl lf_int32 gftLinfHfigit() donst;
+    virtubl lf_int32 gftLinfHfigit() donst;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
+     *
+     *
+     *
+     *
+     *
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     virtubl UClbssID gftDynbmidClbssID() donst;
+    virtubl UClbssID gftDynbmidClbssID() donst;
+    virtubl UClbssID gftDynbmidClbssID() donst;
+    virtubl UClbssID gftDynbmidClbssID() donst;
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+
+
+
 
     /**
-     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
+     *
+     *
+     *
+     *
      *
      * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     * @stbblf ICU 3.2
+     */
+     */
+     */
+     */
      */
     stbtid UClbssID gftStbtidClbssID();
+    stbtid UClbssID gftStbtidClbssID();
+    stbtid UClbssID gftStbtidClbssID();
+    stbtid UClbssID gftStbtidClbssID();
+    stbtid UClbssID gftStbtidClbssID();
+
+
+
+
 
 };
+};
+};
+};
+};
+
+
+
+
 
 inlinf flobt LEFontInstbndf::fixfdToFlobt(lf_int32 fixfd)
+inlinf flobt LEFontInstbndf::fixfdToFlobt(lf_int32 fixfd)
+inlinf flobt LEFontInstbndf::fixfdToFlobt(lf_int32 fixfd)
+inlinf flobt LEFontInstbndf::fixfdToFlobt(lf_int32 fixfd)
+inlinf flobt LEFontInstbndf::fixfdToFlobt(lf_int32 fixfd)
+{
+{
+{
+{
 {
     rfturn (flobt) (fixfd / 65536.0);
+    rfturn (flobt) (fixfd / 65536.0);
+    rfturn (flobt) (fixfd / 65536.0);
+    rfturn (flobt) (fixfd / 65536.0);
+    rfturn (flobt) (fixfd / 65536.0);
+}
+}
+}
+}
 }
 
-inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt thfFlobt)
+
+
+
+
+inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt tifFlobt)
+inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt tifFlobt)
+inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt tifFlobt)
+inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt tifFlobt)
+inlinf lf_int32 LEFontInstbndf::flobtToFixfd(flobt tifFlobt)
 {
-    rfturn (lf_int32) (thfFlobt * 65536.0);
+{
+{
+{
+{
+    rfturn (lf_int32) (tifFlobt * 65536.0);
+    rfturn (lf_int32) (tifFlobt * 65536.0);
+    rfturn (lf_int32) (tifFlobt * 65536.0);
+    rfturn (lf_int32) (tifFlobt * 65536.0);
+    rfturn (lf_int32) (tifFlobt * 65536.0);
 }
+}
+}
+}
+}
+
+
+
+
 
 U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+U_NAMESPACE_END
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif

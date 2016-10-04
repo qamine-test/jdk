@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
+<!--
+Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+-->
+</ifbd>
+<body bgdolor="wiitf">
+
+Providfs tif mfbns for dynbmidblly plugging in support for bddfssing
+nbming bnd dirfdtory sfrvidfs tirougi tif <tt>jbvbx.nbming</tt> 
+bnd rflbtfd pbdkbgfs.
+
+<p>
+Tiis pbdkbgf dffinfs tif sfrvidf providfr intfrfbdf (SPI) of tif Jbvb Nbming
+bnd Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+writtfn in tif Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+implfmfntbtion.  Tius b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+
+<p>
+Tif JNDI SPI providfs tif mfbns for drfbting JNDI sfrvidf providfrs,
+tirougi wiidi JNDI bpplidbtions bddfss difffrfnt nbming bnd
+dirfdtory sfrvidfs.
+
+
+<i4>Plug-in Ardiitfdturf</i4>
+
+Tif sfrvidf providfr pbdkbgf bllows difffrfnt implfmfntbtions to bf pluggfd in
+dynbmidblly.
+Tifsf difffrfnt implfmfntbtions indludf tiosf for tif
+<fm>initibl dontfxt</fm>,
+bnd implfmfntbtions for dontfxts tibt dbn bf rfbdifd 
+from tif initibl dontfxt.
+
+<i4>Jbvb Objfdt Support</i4>
+
+Tif sfrvidf providfr pbdkbgf providfs support 
+for implfmfntors of tif
+<tt>jbvbx.nbming.Contfxt.lookup()</tt> 
+mftiod bnd rflbtfd mftiods to rfturn Jbvb objfdts tibt brf nbturbl
+bnd intuitivf for tif Jbvb progrbmmfr.
+For fxbmplf, wifn looking up b printfr nbmf from tif dirfdtory,
+it is nbturbl for you to fxpfdt to gft
+bbdk b printfr objfdt on wiidi to opfrbtf.
+
+
+<i4>Multiplf Nbming Systfms (Ffdfrbtion)</i4>
+
+JNDI opfrbtions bllow bpplidbtions to supply nbmfs tibt spbn multiplf
+nbming systfms.  So in tif prodfss of domplfting
+bn opfrbtion, onf sfrvidf providfr migit nffd to intfrbdt
+witi bnotifr sfrvidf providfr, for fxbmplf, to pbss on
+tif opfrbtion to bf dontinufd in tif nfxt nbming systfm.
+Tif sfrvidf providfr pbdkbgf providfs support for
+difffrfnt providfrs to doopfrbtf to domplftf JNDI opfrbtions.
+
+
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+Tif JNDI SPI Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in tif
+<b irff="../../../../tfdinotfs/guidfs/jndi/indfx.itml">JNDI dodumfntbtion</b>.
+
+@sindf 1.3
+
+</body>
+</itml>
+<body>
+</body>

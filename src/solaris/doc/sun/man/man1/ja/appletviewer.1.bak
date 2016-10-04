@@ -1,105 +1,525 @@
 '\" t
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: bpplftvifwfr
+.\" Titlf: bpplftvifwfr
+.\" Titlf: bpplftvifwfr
+.\" Titlf: bpplftvifwfr
+.\" Titlf: bpplftvifwfr
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
 .\" Lbngubgf: Englisi
 .\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
+.\" SfdtDfsd: 基本ツール
 .\" SfdtDfsd: 基本ツール
 .\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
 .\" Ardi: 汎用
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 .\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 .\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
 .\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
 .\" bddompbnifd tiis dodf).
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 .\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 .\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "bpplftvifwfr" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "bpplftvifwfr" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "bpplftvifwfr" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "bpplftvifwfr" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "bpplftvifwfr" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
 .if \n(.g .ds Aq \(bq
 .fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
 .ni
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.bd l
+.bd l
+.bd l
 .bd l
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
 .SH "NAME"
 bpplftvifwfr \- Wfbブラウザの外側でアプレットを実行します。
+bpplftvifwfr \- Wfbブラウザの外側でアプレットを実行します。
+bpplftvifwfr \- Wfbブラウザの外側でアプレットを実行します。
+bpplftvifwfr \- Wfbブラウザの外側でアプレットを実行します。
+bpplftvifwfr \- Wfbブラウザの外側でアプレットを実行します。
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
 .SH "概要"
 .sp
+.sp
+.sp
+.sp
+.sp
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+\fIbpplftvifwfr\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
+\fIbpplftvifwfr\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
+\fIbpplftvifwfr\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
+\fIbpplftvifwfr\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
 \fIbpplftvifwfr\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .PP
+.PP
+.PP
+.PP
+.PP
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
 \fIoptions\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+空白で区切られたコマンドライン・オプション。オプションを参照してください。
+空白で区切られたコマンドライン・オプション。オプションを参照してください。
+空白で区切られたコマンドライン・オプション。オプションを参照してください。
+空白で区切られたコマンドライン・オプション。オプションを参照してください。
 空白で区切られたコマンドライン・オプション。オプションを参照してください。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIurl\fR
+\fIurl\fR
+\fIurl\fR
+\fIurl\fR
+\fIurl\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 表示するドキュメントまたはリソースの場所。空白で区切られた複数のURLを指定できます。
+表示するドキュメントまたはリソースの場所。空白で区切られた複数のURLを指定できます。
+表示するドキュメントまたはリソースの場所。空白で区切られた複数のURLを指定できます。
+表示するドキュメントまたはリソースの場所。空白で区切られた複数のURLを指定できます。
+表示するドキュメントまたはリソースの場所。空白で区切られた複数のURLを指定できます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIbpplftvifwfr\fRコマンドは\fIurls\fRに指定されたドキュメントあるいはリソースと接続して、そのドキュメントが参照するそれぞれのアプレットを独自のウィンドウで表示します。urlsによって参照されたドキュメントが、\fIOBJECT\fR、\fIEMBED\fRまたは\fIAPPLET\fRタグでどのアプレットも参照していない場合、\fIbpplftvifwfr\fRコマンドは何も行いません。\fIbpplftvifwfr\fRコマンドでサポートされるHTMLタグの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/bpplftvifwfrtbgs\&.itmlにある
+\fIbpplftvifwfr\fRコマンドは\fIurls\fRに指定されたドキュメントあるいはリソースと接続して、そのドキュメントが参照するそれぞれのアプレットを独自のウィンドウで表示します。urlsによって参照されたドキュメントが、\fIOBJECT\fR、\fIEMBED\fRまたは\fIAPPLET\fRタグでどのアプレットも参照していない場合、\fIbpplftvifwfr\fRコマンドは何も行いません。\fIbpplftvifwfr\fRコマンドでサポートされるHTMLタグの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/bpplftvifwfrtbgs\&.itmlにある
+\fIbpplftvifwfr\fRコマンドは\fIurls\fRに指定されたドキュメントあるいはリソースと接続して、そのドキュメントが参照するそれぞれのアプレットを独自のウィンドウで表示します。urlsによって参照されたドキュメントが、\fIOBJECT\fR、\fIEMBED\fRまたは\fIAPPLET\fRタグでどのアプレットも参照していない場合、\fIbpplftvifwfr\fRコマンドは何も行いません。\fIbpplftvifwfr\fRコマンドでサポートされるHTMLタグの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/bpplftvifwfrtbgs\&.itmlにある
+\fIbpplftvifwfr\fRコマンドは\fIurls\fRに指定されたドキュメントあるいはリソースと接続して、そのドキュメントが参照するそれぞれのアプレットを独自のウィンドウで表示します。urlsによって参照されたドキュメントが、\fIOBJECT\fR、\fIEMBED\fRまたは\fIAPPLET\fRタグでどのアプレットも参照していない場合、\fIbpplftvifwfr\fRコマンドは何も行いません。\fIbpplftvifwfr\fRコマンドでサポートされるHTMLタグの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/bpplftvifwfrtbgs\&.itmlにある
+\fIbpplftvifwfr\fRコマンドは\fIurls\fRに指定されたドキュメントあるいはリソースと接続して、そのドキュメントが参照するそれぞれのアプレットを独自のウィンドウで表示します。urlsによって参照されたドキュメントが、\fIOBJECT\fR、\fIEMBED\fRまたは\fIAPPLET\fRタグでどのアプレットも参照していない場合、\fIbpplftvifwfr\fRコマンドは何も行いません。\fIbpplftvifwfr\fRコマンドでサポートされるHTMLタグの詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/tools/bpplftvifwfrtbgs\&.itmlにある
+アプレット・ビューア・タグを参照してください。
+アプレット・ビューア・タグを参照してください。
+アプレット・ビューア・タグを参照してください。
+アプレット・ビューア・タグを参照してください。
 アプレット・ビューア・タグを参照してください。
 .PP
+.PP
+.PP
+.PP
+.PP
+\fIbpplftvifwfr\fRコマンドは、RFC2396で定義されたエスケープ・メカニズムに従ってエンコードされたURLを必要とします。サポートされるのは、エンコードされたURLのみです。ただし、ファイル名については、RFC2396の仕様に従ってエンコードを解除しておく必要があります。
+\fIbpplftvifwfr\fRコマンドは、RFC2396で定義されたエスケープ・メカニズムに従ってエンコードされたURLを必要とします。サポートされるのは、エンコードされたURLのみです。ただし、ファイル名については、RFC2396の仕様に従ってエンコードを解除しておく必要があります。
+\fIbpplftvifwfr\fRコマンドは、RFC2396で定義されたエスケープ・メカニズムに従ってエンコードされたURLを必要とします。サポートされるのは、エンコードされたURLのみです。ただし、ファイル名については、RFC2396の仕様に従ってエンコードを解除しておく必要があります。
+\fIbpplftvifwfr\fRコマンドは、RFC2396で定義されたエスケープ・メカニズムに従ってエンコードされたURLを必要とします。サポートされるのは、エンコードされたURLのみです。ただし、ファイル名については、RFC2396の仕様に従ってエンコードを解除しておく必要があります。
 \fIbpplftvifwfr\fRコマンドは、RFC2396で定義されたエスケープ・メカニズムに従ってエンコードされたURLを必要とします。サポートされるのは、エンコードされたURLのみです。ただし、ファイル名については、RFC2396の仕様に従ってエンコードを解除しておく必要があります。
 .PP
+.PP
+.PP
+.PP
+.PP
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
 \fB注意:\fR
 Tif
+Tif
+Tif
+Tif
+Tif
+\fIbpplftvifwfr\fRコマンドは開発専用です。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/bboutCodfSbmplfs\&.itmlにある
+\fIbpplftvifwfr\fRコマンドは開発専用です。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/bboutCodfSbmplfs\&.itmlにある
+\fIbpplftvifwfr\fRコマンドは開発専用です。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/bboutCodfSbmplfs\&.itmlにある
+\fIbpplftvifwfr\fRコマンドは開発専用です。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/bboutCodfSbmplfs\&.itmlにある
 \fIbpplftvifwfr\fRコマンドは開発専用です。詳細は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/bboutCodfSbmplfs\&.itmlにある
 サンプル/テスト・アプリケーションおよびコードについてを参照してください。
+サンプル/テスト・アプリケーションおよびコードについてを参照してください。
+サンプル/テスト・アプリケーションおよびコードについてを参照してください。
+サンプル/テスト・アプリケーションおよびコードについてを参照してください。
+サンプル/テスト・アプリケーションおよびコードについてを参照してください。
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+\-dfbug
+\-dfbug
+\-dfbug
+\-dfbug
 \-dfbug
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+\fIjdb\fRコマンドを使用してJbvbデバッガでアプレット・ビューアを開始して、ドキュメント中のアプレットをデバッグします。
+\fIjdb\fRコマンドを使用してJbvbデバッガでアプレット・ビューアを開始して、ドキュメント中のアプレットをデバッグします。
+\fIjdb\fRコマンドを使用してJbvbデバッガでアプレット・ビューアを開始して、ドキュメント中のアプレットをデバッグします。
+\fIjdb\fRコマンドを使用してJbvbデバッガでアプレット・ビューアを開始して、ドキュメント中のアプレットをデバッグします。
 \fIjdb\fRコマンドを使用してJbvbデバッガでアプレット・ビューアを開始して、ドキュメント中のアプレットをデバッグします。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-fndoding \fIfndoding\-nbmf\fR
+\-fndoding \fIfndoding\-nbmf\fR
+\-fndoding \fIfndoding\-nbmf\fR
+\-fndoding \fIfndoding\-nbmf\fR
+\-fndoding \fIfndoding\-nbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 入力HTMLファイルのエンコーディング名を指定します。
+入力HTMLファイルのエンコーディング名を指定します。
+入力HTMLファイルのエンコーディング名を指定します。
+入力HTMLファイルのエンコーディング名を指定します。
+入力HTMLファイルのエンコーディング名を指定します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \-J\fIjbvboption\fR
+\-J\fIjbvboption\fR
+\-J\fIjbvboption\fR
+\-J\fIjbvboption\fR
+\-J\fIjbvboption\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 文字列\fIjbvboption\fRは、アプレット・ビューアを実行するJbvbインタプリタに1つの引数として渡されます。引数にスペースを含めないでください。複数の引数は、すべてが接頭辞\fI\-J\fRで始まる必要があります。これは、コンパイラの実行環境またはメモリー使用の調整に有効です。
+文字列\fIjbvboption\fRは、アプレット・ビューアを実行するJbvbインタプリタに1つの引数として渡されます。引数にスペースを含めないでください。複数の引数は、すべてが接頭辞\fI\-J\fRで始まる必要があります。これは、コンパイラの実行環境またはメモリー使用の調整に有効です。
+文字列\fIjbvboption\fRは、アプレット・ビューアを実行するJbvbインタプリタに1つの引数として渡されます。引数にスペースを含めないでください。複数の引数は、すべてが接頭辞\fI\-J\fRで始まる必要があります。これは、コンパイラの実行環境またはメモリー使用の調整に有効です。
+文字列\fIjbvboption\fRは、アプレット・ビューアを実行するJbvbインタプリタに1つの引数として渡されます。引数にスペースを含めないでください。複数の引数は、すべてが接頭辞\fI\-J\fRで始まる必要があります。これは、コンパイラの実行環境またはメモリー使用の調整に有効です。
+文字列\fIjbvboption\fRは、アプレット・ビューアを実行するJbvbインタプリタに1つの引数として渡されます。引数にスペースを含めないでください。複数の引数は、すべてが接頭辞\fI\-J\fRで始まる必要があります。これは、コンパイラの実行環境またはメモリー使用の調整に有効です。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
+.PP
+.PP
+.PP
+.PP
+
+
+
+
 
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

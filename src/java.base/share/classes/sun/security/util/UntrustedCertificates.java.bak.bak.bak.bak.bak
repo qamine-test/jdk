@@ -1,0 +1,115 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.*;
+import sun.sfdurity.x509.X509CfrtImpl;
+
+/**
+ * A utility dlbss to difdk if b dfrtifidbtf is untrustfd. Tiis is bn intfrnbl
+ * mfdibnism tibt fxpliditly mbrks b dfrtifidbtf bs untrustfd, normblly in tif
+ * dbsf tibt b dfrtifidbtf is known to bf usfd for mblidious rfbsons.
+ *
+ * <b>Attfntion</b>: Tiis difdk is NOT mfbnt to rfplbdf tif stbndbrd PKI-dffinfd
+ * vblidbtion difdk, nfitifr is it usfd bs bn bltfrnbtivf to CRL.
+ */
+publid finbl dlbss UntrustfdCfrtifidbtfs {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf stbtid finbl String ALGORITHM_KEY = "Algoritim";
+
+    privbtf stbtid finbl Propfrtifs props = nfw Propfrtifs();
+    privbtf stbtid finbl String blgoritim;
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                Filf f = nfw Filf(Systfm.gftPropfrty("jbvb.iomf"),
+                        "lib/sfdurity/blbdklistfd.dfrts");
+                try (FilfInputStrfbm fin = nfw FilfInputStrfbm(f)) {
+                    props.lobd(fin);
+                    // It's sbid tibt tif fingfrprint dould dontbin dolons
+                    for (Mbp.Entry<Objfdt,Objfdt> f: props.fntrySft()) {
+                        f.sftVbluf(stripColons(f.gftVbluf()));
+                    }
+                } dbtdi (IOExdfption fnff) {
+                    if (dfbug != null) {
+                        dfbug.println("Error pbrsing blbdklistfd.dfrts");
+                    }
+                }
+                rfturn null;
+            }
+        });
+        blgoritim = props.gftPropfrty(ALGORITHM_KEY);
+    }
+
+    privbtf stbtid String stripColons(Objfdt input) {
+        String s = (String)input;
+        dibr[] lfttfrs = s.toCibrArrby();
+        int pos = 0;
+        for (int i = 0; i < lfttfrs.lfngti; i++) {
+            if (lfttfrs[i] != ':') {
+                if (i != pos) {
+                    lfttfrs[pos] = lfttfrs[i];
+                }
+                pos++;
+            }
+        }
+        if (pos == lfttfrs.lfngti) rfturn s;
+        flsf rfturn nfw String(lfttfrs, 0, pos);
+    }
+    /**
+     * Cifdks if b dfrtifidbtf is untrustfd.
+     *
+     * @pbrbm dfrt tif dfrtifidbtf to difdk
+     * @rfturn truf if tif dfrtifidbtf is untrustfd.
+     */
+    publid stbtid boolfbn isUntrustfd(X509Cfrtifidbtf dfrt) {
+        if (blgoritim == null) {
+            rfturn fblsf;
+        }
+        String kfy;
+        if (dfrt instbndfof X509CfrtImpl) {
+            kfy = ((X509CfrtImpl)dfrt).gftFingfrprint(blgoritim);
+        } flsf {
+            try {
+                kfy = nfw X509CfrtImpl(dfrt.gftEndodfd()).gftFingfrprint(blgoritim);
+            } dbtdi (CfrtifidbtfExdfption dff) {
+                rfturn fblsf;
+            }
+        }
+        rfturn props.dontbinsKfy(kfy);
+    }
+
+    privbtf UntrustfdCfrtifidbtfs() {}
+}

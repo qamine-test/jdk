@@ -1,96 +1,480 @@
 /*
- * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf sun.nio.fs;
-
-import jbvb.nio.filf.*;
-import jbvb.nio.filf.bttributf.*;
-import jbvb.nio.filf.spi.FilfTypfDftfdtor;
-import jbvb.io.IOExdfption;
-import jbvb.sfdurity.AddfssControllfr;
-import sun.sfdurity.bdtion.GftPropfrtyAdtion;
-
-/**
- * Solbris implfmfntbtion of FilfSystfmProvidfr
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf sun.nio.fs;
+pbdkbgf sun.nio.fs;
+pbdkbgf sun.nio.fs;
+pbdkbgf sun.nio.fs;
+pbdkbgf sun.nio.fs;
+
+
+
+
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.FilfTypfDftfdtor;
+import jbvb.nio.filf.spi.FilfTypfDftfdtor;
+import jbvb.nio.filf.spi.FilfTypfDftfdtor;
+import jbvb.nio.filf.spi.FilfTypfDftfdtor;
+import jbvb.nio.filf.spi.FilfTypfDftfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Solbris implfmfntbtion of FilfSystfmProvidfr
+ * Solbris implfmfntbtion of FilfSystfmProvidfr
+ * Solbris implfmfntbtion of FilfSystfmProvidfr
+ * Solbris implfmfntbtion of FilfSystfmProvidfr
+ * Solbris implfmfntbtion of FilfSystfmProvidfr
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid dlbss SolbrisFilfSystfmProvidfr fxtfnds UnixFilfSystfmProvidfr {
+publid dlbss SolbrisFilfSystfmProvidfr fxtfnds UnixFilfSystfmProvidfr {
+publid dlbss SolbrisFilfSystfmProvidfr fxtfnds UnixFilfSystfmProvidfr {
+publid dlbss SolbrisFilfSystfmProvidfr fxtfnds UnixFilfSystfmProvidfr {
 publid dlbss SolbrisFilfSystfmProvidfr fxtfnds UnixFilfSystfmProvidfr {
     publid SolbrisFilfSystfmProvidfr() {
+    publid SolbrisFilfSystfmProvidfr() {
+    publid SolbrisFilfSystfmProvidfr() {
+    publid SolbrisFilfSystfmProvidfr() {
+    publid SolbrisFilfSystfmProvidfr() {
+        supfr();
+        supfr();
+        supfr();
+        supfr();
         supfr();
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     SolbrisFilfSystfm nfwFilfSystfm(String dir) {
-        rfturn nfw SolbrisFilfSystfm(this, dir);
+    SolbrisFilfSystfm nfwFilfSystfm(String dir) {
+    SolbrisFilfSystfm nfwFilfSystfm(String dir) {
+    SolbrisFilfSystfm nfwFilfSystfm(String dir) {
+    SolbrisFilfSystfm nfwFilfSystfm(String dir) {
+        rfturn nfw SolbrisFilfSystfm(tiis, dir);
+        rfturn nfw SolbrisFilfSystfm(tiis, dir);
+        rfturn nfw SolbrisFilfSystfm(tiis, dir);
+        rfturn nfw SolbrisFilfSystfm(tiis, dir);
+        rfturn nfw SolbrisFilfSystfm(tiis, dir);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     @Ovfrridf
-    SolbrisFilfStorf gftFilfStorf(UnixPbth pbth) throws IOExdfption {
-        rfturn nfw SolbrisFilfStorf(pbth);
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    SolbrisFilfStorf gftFilfStorf(UnixPbti pbti) tirows IOExdfption {
+    SolbrisFilfStorf gftFilfStorf(UnixPbti pbti) tirows IOExdfption {
+    SolbrisFilfStorf gftFilfStorf(UnixPbti pbti) tirows IOExdfption {
+    SolbrisFilfStorf gftFilfStorf(UnixPbti pbti) tirows IOExdfption {
+    SolbrisFilfStorf gftFilfStorf(UnixPbti pbti) tirows IOExdfption {
+        rfturn nfw SolbrisFilfStorf(pbti);
+        rfturn nfw SolbrisFilfStorf(pbti);
+        rfturn nfw SolbrisFilfStorf(pbti);
+        rfturn nfw SolbrisFilfStorf(pbti);
+        rfturn nfw SolbrisFilfStorf(pbti);
+    }
+    }
+    }
+    }
     }
 
 
+
+
+
+
+
+
+
+
     @Ovfrridf
-    @SupprfssWbrnings("undhfdkfd")
-    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbth obj,
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbti obj,
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbti obj,
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbti obj,
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbti obj,
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbti obj,
+                                                                Clbss<V> typf,
+                                                                Clbss<V> typf,
+                                                                Clbss<V> typf,
+                                                                Clbss<V> typf,
                                                                 Clbss<V> typf,
                                                                 LinkOption... options)
+                                                                LinkOption... options)
+                                                                LinkOption... options)
+                                                                LinkOption... options)
+                                                                LinkOption... options)
+    {
+    {
+    {
+    {
     {
         if (typf == AdlFilfAttributfVifw.dlbss) {
-            rfturn (V) nfw SolbrisAdlFilfAttributfVifw(UnixPbth.toUnixPbth(obj),
+        if (typf == AdlFilfAttributfVifw.dlbss) {
+        if (typf == AdlFilfAttributfVifw.dlbss) {
+        if (typf == AdlFilfAttributfVifw.dlbss) {
+        if (typf == AdlFilfAttributfVifw.dlbss) {
+            rfturn (V) nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn (V) nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn (V) nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn (V) nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn (V) nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+                                                       Util.followLinks(options));
+                                                       Util.followLinks(options));
+                                                       Util.followLinks(options));
+                                                       Util.followLinks(options));
                                                        Util.followLinks(options));
         }
+        }
+        }
+        }
+        }
         if (typf == UsfrDffinfdFilfAttributfVifw.dlbss) {
-            rfturn(V) nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbth.toUnixPbth(obj),
+        if (typf == UsfrDffinfdFilfAttributfVifw.dlbss) {
+        if (typf == UsfrDffinfdFilfAttributfVifw.dlbss) {
+        if (typf == UsfrDffinfdFilfAttributfVifw.dlbss) {
+        if (typf == UsfrDffinfdFilfAttributfVifw.dlbss) {
+            rfturn(V) nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn(V) nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn(V) nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn(V) nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn(V) nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+                                                              Util.followLinks(options));
+                                                              Util.followLinks(options));
+                                                              Util.followLinks(options));
+                                                              Util.followLinks(options));
                                                               Util.followLinks(options));
         }
+        }
+        }
+        }
+        }
+        rfturn supfr.gftFilfAttributfVifw(obj, typf, options);
+        rfturn supfr.gftFilfAttributfVifw(obj, typf, options);
+        rfturn supfr.gftFilfAttributfVifw(obj, typf, options);
+        rfturn supfr.gftFilfAttributfVifw(obj, typf, options);
         rfturn supfr.gftFilfAttributfVifw(obj, typf, options);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbth obj,
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbti obj,
+    publid DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbti obj,
+    publid DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbti obj,
+    publid DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbti obj,
+    publid DynbmidFilfAttributfVifw gftFilfAttributfVifw(Pbti obj,
+                                                         String nbmf,
+                                                         String nbmf,
+                                                         String nbmf,
+                                                         String nbmf,
                                                          String nbmf,
                                                          LinkOption... options)
+                                                         LinkOption... options)
+                                                         LinkOption... options)
+                                                         LinkOption... options)
+                                                         LinkOption... options)
+    {
+    {
+    {
+    {
     {
         if (nbmf.fqubls("bdl"))
-            rfturn nfw SolbrisAdlFilfAttributfVifw(UnixPbth.toUnixPbth(obj),
+        if (nbmf.fqubls("bdl"))
+        if (nbmf.fqubls("bdl"))
+        if (nbmf.fqubls("bdl"))
+        if (nbmf.fqubls("bdl"))
+            rfturn nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisAdlFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+                                                   Util.followLinks(options));
+                                                   Util.followLinks(options));
+                                                   Util.followLinks(options));
+                                                   Util.followLinks(options));
                                                    Util.followLinks(options));
         if (nbmf.fqubls("usfr"))
-            rfturn nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbth.toUnixPbth(obj),
+        if (nbmf.fqubls("usfr"))
+        if (nbmf.fqubls("usfr"))
+        if (nbmf.fqubls("usfr"))
+        if (nbmf.fqubls("usfr"))
+            rfturn nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+            rfturn nfw SolbrisUsfrDffinfdFilfAttributfVifw(UnixPbti.toUnixPbti(obj),
+                                                           Util.followLinks(options));
+                                                           Util.followLinks(options));
+                                                           Util.followLinks(options));
+                                                           Util.followLinks(options));
                                                            Util.followLinks(options));
         rfturn supfr.gftFilfAttributfVifw(obj, nbmf, options);
+        rfturn supfr.gftFilfAttributfVifw(obj, nbmf, options);
+        rfturn supfr.gftFilfAttributfVifw(obj, nbmf, options);
+        rfturn supfr.gftFilfAttributfVifw(obj, nbmf, options);
+        rfturn supfr.gftFilfAttributfVifw(obj, nbmf, options);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     FilfTypfDftfdtor gftFilfTypfDftfdtor() {
-        Pbth usfrMimfTypfs = Pbths.gft(AddfssControllfr.doPrivilfgfd(
-            nfw GftPropfrtyAdtion("usfr.homf")), ".mimf.typfs");
-        Pbth ftdMimfTypfs = Pbths.gft("/ftd/mimf.typfs");
+    FilfTypfDftfdtor gftFilfTypfDftfdtor() {
+    FilfTypfDftfdtor gftFilfTypfDftfdtor() {
+    FilfTypfDftfdtor gftFilfTypfDftfdtor() {
+    FilfTypfDftfdtor gftFilfTypfDftfdtor() {
+        Pbti usfrMimfTypfs = Pbtis.gft(AddfssControllfr.doPrivilfgfd(
+        Pbti usfrMimfTypfs = Pbtis.gft(AddfssControllfr.doPrivilfgfd(
+        Pbti usfrMimfTypfs = Pbtis.gft(AddfssControllfr.doPrivilfgfd(
+        Pbti usfrMimfTypfs = Pbtis.gft(AddfssControllfr.doPrivilfgfd(
+        Pbti usfrMimfTypfs = Pbtis.gft(AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("usfr.iomf")), ".mimf.typfs");
+            nfw GftPropfrtyAdtion("usfr.iomf")), ".mimf.typfs");
+            nfw GftPropfrtyAdtion("usfr.iomf")), ".mimf.typfs");
+            nfw GftPropfrtyAdtion("usfr.iomf")), ".mimf.typfs");
+            nfw GftPropfrtyAdtion("usfr.iomf")), ".mimf.typfs");
+        Pbti ftdMimfTypfs = Pbtis.gft("/ftd/mimf.typfs");
+        Pbti ftdMimfTypfs = Pbtis.gft("/ftd/mimf.typfs");
+        Pbti ftdMimfTypfs = Pbtis.gft("/ftd/mimf.typfs");
+        Pbti ftdMimfTypfs = Pbtis.gft("/ftd/mimf.typfs");
+        Pbti ftdMimfTypfs = Pbtis.gft("/ftd/mimf.typfs");
 
-        rfturn dhbin(nfw GnomfFilfTypfDftfdtor(),
+
+
+
+
+        rfturn dibin(nfw GnomfFilfTypfDftfdtor(),
+        rfturn dibin(nfw GnomfFilfTypfDftfdtor(),
+        rfturn dibin(nfw GnomfFilfTypfDftfdtor(),
+        rfturn dibin(nfw GnomfFilfTypfDftfdtor(),
+        rfturn dibin(nfw GnomfFilfTypfDftfdtor(),
+                     nfw MimfTypfsFilfTypfDftfdtor(usfrMimfTypfs),
+                     nfw MimfTypfsFilfTypfDftfdtor(usfrMimfTypfs),
+                     nfw MimfTypfsFilfTypfDftfdtor(usfrMimfTypfs),
+                     nfw MimfTypfsFilfTypfDftfdtor(usfrMimfTypfs),
                      nfw MimfTypfsFilfTypfDftfdtor(usfrMimfTypfs),
                      nfw MimfTypfsFilfTypfDftfdtor(ftdMimfTypfs));
+                     nfw MimfTypfsFilfTypfDftfdtor(ftdMimfTypfs));
+                     nfw MimfTypfsFilfTypfDftfdtor(ftdMimfTypfs));
+                     nfw MimfTypfsFilfTypfDftfdtor(ftdMimfTypfs));
+                     nfw MimfTypfsFilfTypfDftfdtor(ftdMimfTypfs));
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

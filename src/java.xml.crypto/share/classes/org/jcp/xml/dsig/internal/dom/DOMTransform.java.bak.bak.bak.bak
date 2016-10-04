@@ -1,224 +1,1120 @@
 /*
+/*
+/*
+/*
+/*
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
+ * rfsfrvfd dommfnt blodk
  * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ * DO NOT REMOVE OR ALTER!
+ */
+ */
+ */
+ */
  */
 /**
- * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
- * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
- * distributfd with this work for bdditionbl informbtion
- * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
- * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
- * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
- * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+/**
+/**
+/**
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ *
+ *
+ *
  *
  * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
- * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
  * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
- * undfr thf Lidfnsf.
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ * undfr tif Lidfnsf.
+ */
+ */
+ */
+ */
  */
 /*
- * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ */
+ */
+ */
+ */
  */
 /*
- * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+/*
+/*
+/*
+/*
+ * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
+ * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
+ * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
+ * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
+ * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
+ */
+ */
+ */
+ */
  */
 pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+
+
+
 
 import jbvb.io.OutputStrfbm;
-import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
-import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
 import jbvb.sfdurity.Providfr;
-import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+
+
+
+
 
 import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Elfmfnt;
 import org.w3d.dom.Elfmfnt;
 import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Nodf;
+
+
+
+
 
 import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.*;
 import jbvbx.xml.drypto.dsig.*;
 import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.dom.DOMSignContfxt;
+import jbvbx.xml.drypto.dsig.dom.DOMSignContfxt;
+import jbvbx.xml.drypto.dsig.dom.DOMSignContfxt;
+import jbvbx.xml.drypto.dsig.dom.DOMSignContfxt;
 import jbvbx.xml.drypto.dsig.dom.DOMSignContfxt;
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * DOM-bbsfd bbstrbdt implfmfntbtion of Trbnsform.
+ * DOM-bbsfd bbstrbdt implfmfntbtion of Trbnsform.
+ * DOM-bbsfd bbstrbdt implfmfntbtion of Trbnsform.
+ * DOM-bbsfd bbstrbdt implfmfntbtion of Trbnsform.
+ * DOM-bbsfd bbstrbdt implfmfntbtion of Trbnsform.
  *
- * @buthor Sfbn Mullbn
+ *
+ *
+ *
+ *
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ * @butior Sfbn Mullbn
+ */
+ */
+ */
+ */
  */
 publid dlbss DOMTrbnsform fxtfnds DOMStrudturf implfmfnts Trbnsform {
+publid dlbss DOMTrbnsform fxtfnds DOMStrudturf implfmfnts Trbnsform {
+publid dlbss DOMTrbnsform fxtfnds DOMStrudturf implfmfnts Trbnsform {
+publid dlbss DOMTrbnsform fxtfnds DOMStrudturf implfmfnts Trbnsform {
+publid dlbss DOMTrbnsform fxtfnds DOMStrudturf implfmfnts Trbnsform {
+
+
+
+
 
     protfdtfd TrbnsformSfrvidf spi;
+    protfdtfd TrbnsformSfrvidf spi;
+    protfdtfd TrbnsformSfrvidf spi;
+    protfdtfd TrbnsformSfrvidf spi;
+    protfdtfd TrbnsformSfrvidf spi;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b <dodf>DOMTrbnsform</dodf>.
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf>.
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf>.
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf>.
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf>.
      *
-     * @pbrbm spi thf TrbnsformSfrvidf
+     *
+     *
+     *
+     *
+     * @pbrbm spi tif TrbnsformSfrvidf
+     * @pbrbm spi tif TrbnsformSfrvidf
+     * @pbrbm spi tif TrbnsformSfrvidf
+     * @pbrbm spi tif TrbnsformSfrvidf
+     * @pbrbm spi tif TrbnsformSfrvidf
+     */
+     */
+     */
+     */
      */
     publid DOMTrbnsform(TrbnsformSfrvidf spi) {
-        this.spi = spi;
+    publid DOMTrbnsform(TrbnsformSfrvidf spi) {
+    publid DOMTrbnsform(TrbnsformSfrvidf spi) {
+    publid DOMTrbnsform(TrbnsformSfrvidf spi) {
+    publid DOMTrbnsform(TrbnsformSfrvidf spi) {
+        tiis.spi = spi;
+        tiis.spi = spi;
+        tiis.spi = spi;
+        tiis.spi = spi;
+        tiis.spi = spi;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Crfbtfs b <dodf>DOMTrbnsform</dodf> from bn flfmfnt. This donstrudtor
-     * invokfs thf bbstrbdt {@link #unmbrshblPbrbms unmbrshblPbrbms} mfthod to
-     * unmbrshbl bny blgorithm-spfdifid input pbrbmftfrs.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf> from bn flfmfnt. Tiis donstrudtor
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf> from bn flfmfnt. Tiis donstrudtor
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf> from bn flfmfnt. Tiis donstrudtor
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf> from bn flfmfnt. Tiis donstrudtor
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf> from bn flfmfnt. Tiis donstrudtor
+     * invokfs tif bbstrbdt {@link #unmbrsiblPbrbms unmbrsiblPbrbms} mftiod to
+     * invokfs tif bbstrbdt {@link #unmbrsiblPbrbms unmbrsiblPbrbms} mftiod to
+     * invokfs tif bbstrbdt {@link #unmbrsiblPbrbms unmbrsiblPbrbms} mftiod to
+     * invokfs tif bbstrbdt {@link #unmbrsiblPbrbms unmbrsiblPbrbms} mftiod to
+     * invokfs tif bbstrbdt {@link #unmbrsiblPbrbms unmbrsiblPbrbms} mftiod to
+     * unmbrsibl bny blgoritim-spfdifid input pbrbmftfrs.
+     * unmbrsibl bny blgoritim-spfdifid input pbrbmftfrs.
+     * unmbrsibl bny blgoritim-spfdifid input pbrbmftfrs.
+     * unmbrsibl bny blgoritim-spfdifid input pbrbmftfrs.
+     * unmbrsibl bny blgoritim-spfdifid input pbrbmftfrs.
+     *
+     *
+     *
+     *
      *
      * @pbrbm trbnsElfm b Trbnsform flfmfnt
+     * @pbrbm trbnsElfm b Trbnsform flfmfnt
+     * @pbrbm trbnsElfm b Trbnsform flfmfnt
+     * @pbrbm trbnsElfm b Trbnsform flfmfnt
+     * @pbrbm trbnsElfm b Trbnsform flfmfnt
+     */
+     */
+     */
+     */
      */
     publid DOMTrbnsform(Elfmfnt trbnsElfm, XMLCryptoContfxt dontfxt,
+    publid DOMTrbnsform(Elfmfnt trbnsElfm, XMLCryptoContfxt dontfxt,
+    publid DOMTrbnsform(Elfmfnt trbnsElfm, XMLCryptoContfxt dontfxt,
+    publid DOMTrbnsform(Elfmfnt trbnsElfm, XMLCryptoContfxt dontfxt,
+    publid DOMTrbnsform(Elfmfnt trbnsElfm, XMLCryptoContfxt dontfxt,
                         Providfr providfr)
-        throws MbrshblExdfption
+                        Providfr providfr)
+                        Providfr providfr)
+                        Providfr providfr)
+                        Providfr providfr)
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
     {
-        String blgorithm = DOMUtils.gftAttributfVbluf(trbnsElfm, "Algorithm");
+    {
+    {
+    {
+    {
+        String blgoritim = DOMUtils.gftAttributfVbluf(trbnsElfm, "Algoritim");
+        String blgoritim = DOMUtils.gftAttributfVbluf(trbnsElfm, "Algoritim");
+        String blgoritim = DOMUtils.gftAttributfVbluf(trbnsElfm, "Algoritim");
+        String blgoritim = DOMUtils.gftAttributfVbluf(trbnsElfm, "Algoritim");
+        String blgoritim = DOMUtils.gftAttributfVbluf(trbnsElfm, "Algoritim");
+
+
+
+
 
         if (providfr == null) {
+        if (providfr == null) {
+        if (providfr == null) {
+        if (providfr == null) {
+        if (providfr == null) {
             try {
-                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
-            } dbtdh (NoSudhAlgorithmExdfption f1) {
-                throw nfw MbrshblExdfption(f1);
+            try {
+            try {
+            try {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+            } dbtdi (NoSudiAlgoritimExdfption f1) {
+            } dbtdi (NoSudiAlgoritimExdfption f1) {
+            } dbtdi (NoSudiAlgoritimExdfption f1) {
+            } dbtdi (NoSudiAlgoritimExdfption f1) {
+            } dbtdi (NoSudiAlgoritimExdfption f1) {
+                tirow nfw MbrsiblExdfption(f1);
+                tirow nfw MbrsiblExdfption(f1);
+                tirow nfw MbrsiblExdfption(f1);
+                tirow nfw MbrsiblExdfption(f1);
+                tirow nfw MbrsiblExdfption(f1);
+            }
+            }
+            }
+            }
             }
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
             try {
-                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM", providfr);
-            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            try {
+            try {
+            try {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", providfr);
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", providfr);
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", providfr);
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", providfr);
+                spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM", providfr);
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
                 try {
-                    spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
-                } dbtdh (NoSudhAlgorithmExdfption f2) {
-                    throw nfw MbrshblExdfption(f2);
+                try {
+                try {
+                try {
+                try {
+                    spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                    spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                    spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                    spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                    spi = TrbnsformSfrvidf.gftInstbndf(blgoritim, "DOM");
+                } dbtdi (NoSudiAlgoritimExdfption f2) {
+                } dbtdi (NoSudiAlgoritimExdfption f2) {
+                } dbtdi (NoSudiAlgoritimExdfption f2) {
+                } dbtdi (NoSudiAlgoritimExdfption f2) {
+                } dbtdi (NoSudiAlgoritimExdfption f2) {
+                    tirow nfw MbrsiblExdfption(f2);
+                    tirow nfw MbrsiblExdfption(f2);
+                    tirow nfw MbrsiblExdfption(f2);
+                    tirow nfw MbrsiblExdfption(f2);
+                    tirow nfw MbrsiblExdfption(f2);
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         try {
+        try {
+        try {
+        try {
+        try {
             spi.init(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsElfm), dontfxt);
-        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
-            throw nfw MbrshblExdfption(ibpf);
+            spi.init(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsElfm), dontfxt);
+            spi.init(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsElfm), dontfxt);
+            spi.init(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsElfm), dontfxt);
+            spi.init(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsElfm), dontfxt);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+            tirow nfw MbrsiblExdfption(ibpf);
+            tirow nfw MbrsiblExdfption(ibpf);
+            tirow nfw MbrsiblExdfption(ibpf);
+            tirow nfw MbrsiblExdfption(ibpf);
+            tirow nfw MbrsiblExdfption(ibpf);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    publid finbl AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+
+
+
+
+    publid finbl AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+    publid finbl AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+    publid finbl AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+    publid finbl AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+    publid finbl AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+        rfturn spi.gftPbrbmftfrSpfd();
+        rfturn spi.gftPbrbmftfrSpfd();
+        rfturn spi.gftPbrbmftfrSpfd();
+        rfturn spi.gftPbrbmftfrSpfd();
         rfturn spi.gftPbrbmftfrSpfd();
     }
-
-    publid finbl String gftAlgorithm() {
-        rfturn spi.gftAlgorithm();
+    }
+    }
+    }
     }
 
+
+
+
+
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+    publid finbl String gftAlgoritim() {
+        rfturn spi.gftAlgoritim();
+        rfturn spi.gftAlgoritim();
+        rfturn spi.gftAlgoritim();
+        rfturn spi.gftAlgoritim();
+        rfturn spi.gftAlgoritim();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
     /**
-     * This mfthod invokfs thf bbstrbdt {@link #mbrshblPbrbms mbrshblPbrbms}
-     * mfthod to mbrshbl bny blgorithm-spfdifid pbrbmftfrs.
+    /**
+    /**
+    /**
+    /**
+     * Tiis mftiod invokfs tif bbstrbdt {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif bbstrbdt {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif bbstrbdt {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif bbstrbdt {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * Tiis mftiod invokfs tif bbstrbdt {@link #mbrsiblPbrbms mbrsiblPbrbms}
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
+     * mftiod to mbrsibl bny blgoritim-spfdifid pbrbmftfrs.
      */
-    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
-        throws MbrshblExdfption
+     */
+     */
+     */
+     */
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+        tirows MbrsiblExdfption
+    {
+    {
+    {
+    {
     {
         Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+
+
+
+
 
         Elfmfnt trbnsformElfm = null;
+        Elfmfnt trbnsformElfm = null;
+        Elfmfnt trbnsformElfm = null;
+        Elfmfnt trbnsformElfm = null;
+        Elfmfnt trbnsformElfm = null;
+        if (pbrfnt.gftLodblNbmf().fqubls("Trbnsforms")) {
+        if (pbrfnt.gftLodblNbmf().fqubls("Trbnsforms")) {
+        if (pbrfnt.gftLodblNbmf().fqubls("Trbnsforms")) {
+        if (pbrfnt.gftLodblNbmf().fqubls("Trbnsforms")) {
         if (pbrfnt.gftLodblNbmf().fqubls("Trbnsforms")) {
             trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Trbnsform",
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Trbnsform",
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Trbnsform",
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Trbnsform",
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Trbnsform",
                                                    XMLSignbturf.XMLNS,
+                                                   XMLSignbturf.XMLNS,
+                                                   XMLSignbturf.XMLNS,
+                                                   XMLSignbturf.XMLNS,
+                                                   XMLSignbturf.XMLNS,
+                                                   dsPrffix);
+                                                   dsPrffix);
+                                                   dsPrffix);
+                                                   dsPrffix);
                                                    dsPrffix);
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
             trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
-                                                   "CbnonidblizbtionMfthod",
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+                                                   "CbnonidblizbtionMftiod",
+                                                   "CbnonidblizbtionMftiod",
+                                                   "CbnonidblizbtionMftiod",
+                                                   "CbnonidblizbtionMftiod",
+                                                   "CbnonidblizbtionMftiod",
+                                                   XMLSignbturf.XMLNS,
+                                                   XMLSignbturf.XMLNS,
+                                                   XMLSignbturf.XMLNS,
+                                                   XMLSignbturf.XMLNS,
                                                    XMLSignbturf.XMLNS,
                                                    dsPrffix);
+                                                   dsPrffix);
+                                                   dsPrffix);
+                                                   dsPrffix);
+                                                   dsPrffix);
         }
-        DOMUtils.sftAttributf(trbnsformElfm, "Algorithm", gftAlgorithm());
+        }
+        }
+        }
+        }
+        DOMUtils.sftAttributf(trbnsformElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(trbnsformElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(trbnsformElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(trbnsformElfm, "Algoritim", gftAlgoritim());
+        DOMUtils.sftAttributf(trbnsformElfm, "Algoritim", gftAlgoritim());
 
-        spi.mbrshblPbrbms(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsformElfm),
+
+
+
+
+        spi.mbrsiblPbrbms(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsformElfm),
+        spi.mbrsiblPbrbms(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsformElfm),
+        spi.mbrsiblPbrbms(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsformElfm),
+        spi.mbrsiblPbrbms(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsformElfm),
+        spi.mbrsiblPbrbms(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsformElfm),
+                          dontfxt);
+                          dontfxt);
+                          dontfxt);
+                          dontfxt);
                           dontfxt);
 
-        pbrfnt.bppfndChild(trbnsformElfm);
+
+
+
+
+        pbrfnt.bppfndCiild(trbnsformElfm);
+        pbrfnt.bppfndCiild(trbnsformElfm);
+        pbrfnt.bppfndCiild(trbnsformElfm);
+        pbrfnt.bppfndCiild(trbnsformElfm);
+        pbrfnt.bppfndCiild(trbnsformElfm);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
      *
-     * @pbrbm dbtb thf dbtb to bf trbnsformfd
-     * @pbrbm sd thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *
+     *
+     *
+     *
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
      *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
-     * @rfturn thf trbnsformfd dbtb
-     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
-     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs whilf
-     *    fxfduting thf trbnsform
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     */
+     */
+     */
+     */
      */
     publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd)
-        throws TrbnsformExdfption
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd)
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd)
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd)
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd)
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+    {
+    {
+    {
+    {
     {
         rfturn spi.trbnsform(dbtb, xd);
+        rfturn spi.trbnsform(dbtb, xd);
+        rfturn spi.trbnsform(dbtb, xd);
+        rfturn spi.trbnsform(dbtb, xd);
+        rfturn spi.trbnsform(dbtb, xd);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
      *
-     * @pbrbm dbtb thf dbtb to bf trbnsformfd
-     * @pbrbm sd thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *
+     *
+     *
+     *
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
      *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
-     * @pbrbm os thf <dodf>OutputStrfbm</dodf> thbt should bf usfd to writf
-     *    thf trbnsformfd dbtb to
-     * @rfturn thf trbnsformfd dbtb
-     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
-     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs whilf
-     *    fxfduting thf trbnsform
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     * @pbrbm os tif <dodf>OutputStrfbm</dodf> tibt siould bf usfd to writf
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     *    tif trbnsformfd dbtb to
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     */
+     */
+     */
+     */
      */
     publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
-        throws TrbnsformExdfption
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+        tirows TrbnsformExdfption
+    {
+    {
+    {
+    {
     {
         rfturn spi.trbnsform(dbtb, xd, os);
+        rfturn spi.trbnsform(dbtb, xd, os);
+        rfturn spi.trbnsform(dbtb, xd, os);
+        rfturn spi.trbnsform(dbtb, xd, os);
+        rfturn spi.trbnsform(dbtb, xd, os);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid boolfbn fqubls(Objfdt o) {
-        if (this == o) {
+    publid boolfbn fqubls(Objfdt o) {
+    publid boolfbn fqubls(Objfdt o) {
+    publid boolfbn fqubls(Objfdt o) {
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+        if (tiis == o) {
+        if (tiis == o) {
+        if (tiis == o) {
+        if (tiis == o) {
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
+            rfturn truf;
             rfturn truf;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (!(o instbndfof Trbnsform)) {
+        if (!(o instbndfof Trbnsform)) {
+        if (!(o instbndfof Trbnsform)) {
+        if (!(o instbndfof Trbnsform)) {
+        if (!(o instbndfof Trbnsform)) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+        Trbnsform otrbnsform = (Trbnsform)o;
+        Trbnsform otrbnsform = (Trbnsform)o;
+        Trbnsform otrbnsform = (Trbnsform)o;
+        Trbnsform otrbnsform = (Trbnsform)o;
         Trbnsform otrbnsform = (Trbnsform)o;
 
-        rfturn (gftAlgorithm().fqubls(otrbnsform.gftAlgorithm()) &&
+
+
+
+
+        rfturn (gftAlgoritim().fqubls(otrbnsform.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(otrbnsform.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(otrbnsform.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(otrbnsform.gftAlgoritim()) &&
+        rfturn (gftAlgoritim().fqubls(otrbnsform.gftAlgoritim()) &&
+                DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(),
+                DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(),
+                DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(),
+                DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(),
                 DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(),
                                      otrbnsform.gftPbrbmftfrSpfd()));
+                                     otrbnsform.gftPbrbmftfrSpfd()));
+                                     otrbnsform.gftPbrbmftfrSpfd()));
+                                     otrbnsform.gftPbrbmftfrSpfd()));
+                                     otrbnsform.gftPbrbmftfrSpfd()));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    publid int hbshCodf() {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
         int rfsult = 17;
-        rfsult = 31 * rfsult + gftAlgorithm().hbshCodf();
-        AlgorithmPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        int rfsult = 17;
+        int rfsult = 17;
+        int rfsult = 17;
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
         if (spfd != null) {
-            rfsult = 31 * rfsult + spfd.hbshCodf();
+        if (spfd != null) {
+        if (spfd != null) {
+        if (spfd != null) {
+        if (spfd != null) {
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+        rfturn rfsult;
+        rfturn rfsult;
+        rfturn rfsult;
+        rfturn rfsult;
         rfturn rfsult;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
-     * This mfthod invokfs thf {@link #mbrshbl mbrshbl} mfthod bnd pbssfs it
-     * thf spfdififd <dodf>DOMSignContfxt</dodf> bfforf trbnsforming thf dbtb.
+    /**
+    /**
+    /**
+    /**
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Trbnsforms tif spfdififd dbtb using tif undfrlying trbnsform blgoritim.
+     * Tiis mftiod invokfs tif {@link #mbrsibl mbrsibl} mftiod bnd pbssfs it
+     * Tiis mftiod invokfs tif {@link #mbrsibl mbrsibl} mftiod bnd pbssfs it
+     * Tiis mftiod invokfs tif {@link #mbrsibl mbrsibl} mftiod bnd pbssfs it
+     * Tiis mftiod invokfs tif {@link #mbrsibl mbrsibl} mftiod bnd pbssfs it
+     * Tiis mftiod invokfs tif {@link #mbrsibl mbrsibl} mftiod bnd pbssfs it
+     * tif spfdififd <dodf>DOMSignContfxt</dodf> bfforf trbnsforming tif dbtb.
+     * tif spfdififd <dodf>DOMSignContfxt</dodf> bfforf trbnsforming tif dbtb.
+     * tif spfdififd <dodf>DOMSignContfxt</dodf> bfforf trbnsforming tif dbtb.
+     * tif spfdififd <dodf>DOMSignContfxt</dodf> bfforf trbnsforming tif dbtb.
+     * tif spfdififd <dodf>DOMSignContfxt</dodf> bfforf trbnsforming tif dbtb.
      *
-     * @pbrbm dbtb thf dbtb to bf trbnsformfd
-     * @pbrbm sd thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *
+     *
+     *
+     *
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm dbtb tif dbtb to bf trbnsformfd
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     * @pbrbm sd tif <dodf>XMLCryptoContfxt</dodf> dontbining
      *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
-     * @pbrbm dontfxt thf mbrshblling dontfxt
-     * @rfturn thf trbnsformfd dbtb
-     * @throws MbrshblExdfption if bn fxdfption oddurs whilf mbrshblling
-     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>dontfxt</dodf>
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm dontfxt tif mbrsiblling dontfxt
+     * @pbrbm dontfxt tif mbrsiblling dontfxt
+     * @pbrbm dontfxt tif mbrsiblling dontfxt
+     * @pbrbm dontfxt tif mbrsiblling dontfxt
+     * @pbrbm dontfxt tif mbrsiblling dontfxt
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @rfturn tif trbnsformfd dbtb
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows MbrsiblExdfption if bn fxdfption oddurs wiilf mbrsiblling
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>dontfxt</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>dontfxt</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>dontfxt</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>dontfxt</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>dontfxt</dodf>
      *    is <dodf>null</dodf>
-     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs whilf
-     *    fxfduting thf trbnsform
+     *    is <dodf>null</dodf>
+     *    is <dodf>null</dodf>
+     *    is <dodf>null</dodf>
+     *    is <dodf>null</dodf>
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     * @tirows XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs wiilf
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     *    fxfduting tif trbnsform
+     */
+     */
+     */
+     */
      */
     Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, DOMSignContfxt dontfxt)
-        throws MbrshblExdfption, TrbnsformExdfption
+    Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, DOMSignContfxt dontfxt)
+    Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, DOMSignContfxt dontfxt)
+    Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, DOMSignContfxt dontfxt)
+    Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, DOMSignContfxt dontfxt)
+        tirows MbrsiblExdfption, TrbnsformExdfption
+        tirows MbrsiblExdfption, TrbnsformExdfption
+        tirows MbrsiblExdfption, TrbnsformExdfption
+        tirows MbrsiblExdfption, TrbnsformExdfption
+        tirows MbrsiblExdfption, TrbnsformExdfption
     {
-        mbrshbl(dontfxt.gftPbrfnt(),
+    {
+    {
+    {
+    {
+        mbrsibl(dontfxt.gftPbrfnt(),
+        mbrsibl(dontfxt.gftPbrfnt(),
+        mbrsibl(dontfxt.gftPbrfnt(),
+        mbrsibl(dontfxt.gftPbrfnt(),
+        mbrsibl(dontfxt.gftPbrfnt(),
+                DOMUtils.gftSignbturfPrffix(dontfxt), dontfxt);
+                DOMUtils.gftSignbturfPrffix(dontfxt), dontfxt);
+                DOMUtils.gftSignbturfPrffix(dontfxt), dontfxt);
+                DOMUtils.gftSignbturfPrffix(dontfxt), dontfxt);
                 DOMUtils.gftSignbturfPrffix(dontfxt), dontfxt);
         rfturn trbnsform(dbtb, xd);
+        rfturn trbnsform(dbtb, xd);
+        rfturn trbnsform(dbtb, xd);
+        rfturn trbnsform(dbtb, xd);
+        rfturn trbnsform(dbtb, xd);
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

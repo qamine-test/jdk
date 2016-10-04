@@ -1,88 +1,440 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
 
-</hfbd>
-<body bgdolor="whitf">
 
-Providfs dlbssfs for rfbding bnd writing thf stbndbrd ZIP bnd GZIP
+
+
+
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+Providfs dlbssfs for rfbding bnd writing tif stbndbrd ZIP bnd GZIP
+Providfs dlbssfs for rfbding bnd writing tif stbndbrd ZIP bnd GZIP
+Providfs dlbssfs for rfbding bnd writing tif stbndbrd ZIP bnd GZIP
+Providfs dlbssfs for rfbding bnd writing tif stbndbrd ZIP bnd GZIP
+Providfs dlbssfs for rfbding bnd writing tif stbndbrd ZIP bnd GZIP
 filf formbts.  Also indludfs dlbssfs for domprfssing bnd dfdomprfssing
-dbtb using thf DEFLATE domprfssion blgorithm, whidh is usfd by thf
-ZIP bnd GZIP filf formbts. Additionblly, thfrf brf utility dlbssfs
-for domputing thf CRC-32 bnd Adlfr-32 dhfdksums of brbitrbry
+filf formbts.  Also indludfs dlbssfs for domprfssing bnd dfdomprfssing
+filf formbts.  Also indludfs dlbssfs for domprfssing bnd dfdomprfssing
+filf formbts.  Also indludfs dlbssfs for domprfssing bnd dfdomprfssing
+filf formbts.  Also indludfs dlbssfs for domprfssing bnd dfdomprfssing
+dbtb using tif DEFLATE domprfssion blgoritim, wiidi is usfd by tif
+dbtb using tif DEFLATE domprfssion blgoritim, wiidi is usfd by tif
+dbtb using tif DEFLATE domprfssion blgoritim, wiidi is usfd by tif
+dbtb using tif DEFLATE domprfssion blgoritim, wiidi is usfd by tif
+dbtb using tif DEFLATE domprfssion blgoritim, wiidi is usfd by tif
+ZIP bnd GZIP filf formbts. Additionblly, tifrf brf utility dlbssfs
+ZIP bnd GZIP filf formbts. Additionblly, tifrf brf utility dlbssfs
+ZIP bnd GZIP filf formbts. Additionblly, tifrf brf utility dlbssfs
+ZIP bnd GZIP filf formbts. Additionblly, tifrf brf utility dlbssfs
+ZIP bnd GZIP filf formbts. Additionblly, tifrf brf utility dlbssfs
+for domputing tif CRC-32 bnd Adlfr-32 difdksums of brbitrbry
+for domputing tif CRC-32 bnd Adlfr-32 difdksums of brbitrbry
+for domputing tif CRC-32 bnd Adlfr-32 difdksums of brbitrbry
+for domputing tif CRC-32 bnd Adlfr-32 difdksums of brbitrbry
+for domputing tif CRC-32 bnd Adlfr-32 difdksums of brbitrbry
+input strfbms.
+input strfbms.
+input strfbms.
+input strfbms.
 input strfbms.
 
 
-<h2>Pbdkbgf Spfdifidbtion</h2>
+
+
+
+
+
+
+
+
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+
+
+
 
 <ul>
-  <li><b hrff="http://www.info-zip.org/dod/bppnotf-19970311-iz.zip">
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="ittp://www.info-zip.org/dod/bppnotf-19970311-iz.zip">
+  <li><b irff="ittp://www.info-zip.org/dod/bppnotf-19970311-iz.zip">
+  <li><b irff="ittp://www.info-zip.org/dod/bppnotf-19970311-iz.zip">
+  <li><b irff="ittp://www.info-zip.org/dod/bppnotf-19970311-iz.zip">
+  <li><b irff="ittp://www.info-zip.org/dod/bppnotf-19970311-iz.zip">
       Info-ZIP Applidbtion Notf 970311
-      </b> - b dftbilfd dfsdription of thf Info-ZIP formbt upon whidh
-      thf <dodf>jbvb.util.zip</dodf> dlbssfs brf bbsfd.
-  <li><b nbmf="zip64">An implfmfntbtion mby optionblly support thf ZIP64(tm) formbt fxtfnsions
-      dffinfd by thf </b>
-      <b hrff="http://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
-      PKWARE ZIP Filf Formbt Spfdifidbtion</b>. Thf ZIP64(tm) formbt fxtfnsions
-      brf usfd to ovfrdomf thf sizf limitbtions of thf originbl ZIP formbt.
-  <li><b nbmf="lbng_fndoding">APPENDIX D of </b><b hrff="http://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      Info-ZIP Applidbtion Notf 970311
+      Info-ZIP Applidbtion Notf 970311
+      Info-ZIP Applidbtion Notf 970311
+      Info-ZIP Applidbtion Notf 970311
+      </b> - b dftbilfd dfsdription of tif Info-ZIP formbt upon wiidi
+      </b> - b dftbilfd dfsdription of tif Info-ZIP formbt upon wiidi
+      </b> - b dftbilfd dfsdription of tif Info-ZIP formbt upon wiidi
+      </b> - b dftbilfd dfsdription of tif Info-ZIP formbt upon wiidi
+      </b> - b dftbilfd dfsdription of tif Info-ZIP formbt upon wiidi
+      tif <dodf>jbvb.util.zip</dodf> dlbssfs brf bbsfd.
+      tif <dodf>jbvb.util.zip</dodf> dlbssfs brf bbsfd.
+      tif <dodf>jbvb.util.zip</dodf> dlbssfs brf bbsfd.
+      tif <dodf>jbvb.util.zip</dodf> dlbssfs brf bbsfd.
+      tif <dodf>jbvb.util.zip</dodf> dlbssfs brf bbsfd.
+  <li><b nbmf="zip64">An implfmfntbtion mby optionblly support tif ZIP64(tm) formbt fxtfnsions
+  <li><b nbmf="zip64">An implfmfntbtion mby optionblly support tif ZIP64(tm) formbt fxtfnsions
+  <li><b nbmf="zip64">An implfmfntbtion mby optionblly support tif ZIP64(tm) formbt fxtfnsions
+  <li><b nbmf="zip64">An implfmfntbtion mby optionblly support tif ZIP64(tm) formbt fxtfnsions
+  <li><b nbmf="zip64">An implfmfntbtion mby optionblly support tif ZIP64(tm) formbt fxtfnsions
+      dffinfd by tif </b>
+      dffinfd by tif </b>
+      dffinfd by tif </b>
+      dffinfd by tif </b>
+      dffinfd by tif </b>
+      <b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      <b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      <b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      <b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      <b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b>. Tif ZIP64(tm) formbt fxtfnsions
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b>. Tif ZIP64(tm) formbt fxtfnsions
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b>. Tif ZIP64(tm) formbt fxtfnsions
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b>. Tif ZIP64(tm) formbt fxtfnsions
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b>. Tif ZIP64(tm) formbt fxtfnsions
+      brf usfd to ovfrdomf tif sizf limitbtions of tif originbl ZIP formbt.
+      brf usfd to ovfrdomf tif sizf limitbtions of tif originbl ZIP formbt.
+      brf usfd to ovfrdomf tif sizf limitbtions of tif originbl ZIP formbt.
+      brf usfd to ovfrdomf tif sizf limitbtions of tif originbl ZIP formbt.
+      brf usfd to ovfrdomf tif sizf limitbtions of tif originbl ZIP formbt.
+  <li><b nbmf="lbng_fndoding">APPENDIX D of </b><b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+  <li><b nbmf="lbng_fndoding">APPENDIX D of </b><b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+  <li><b nbmf="lbng_fndoding">APPENDIX D of </b><b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+  <li><b nbmf="lbng_fndoding">APPENDIX D of </b><b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+  <li><b nbmf="lbng_fndoding">APPENDIX D of </b><b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b> - Lbngubgf Endoding Flbg (EFS) to
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b> - Lbngubgf Endoding Flbg (EFS) to
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b> - Lbngubgf Endoding Flbg (EFS) to
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b> - Lbngubgf Endoding Flbg (EFS) to
       PKWARE ZIP Filf Formbt Spfdifidbtion</b> - Lbngubgf Endoding Flbg (EFS) to
       fndodf ZIP fntry filfnbmf bnd dommfnt fiflds using UTF-8.
-  <li><b hrff="http://www.iftf.org/rfd/rfd1950.txt">
+      fndodf ZIP fntry filfnbmf bnd dommfnt fiflds using UTF-8.
+      fndodf ZIP fntry filfnbmf bnd dommfnt fiflds using UTF-8.
+      fndodf ZIP fntry filfnbmf bnd dommfnt fiflds using UTF-8.
+      fndodf ZIP fntry filfnbmf bnd dommfnt fiflds using UTF-8.
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1950.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1950.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1950.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1950.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1950.txt">
+      ZLIB Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 3.3</b>
+      ZLIB Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 3.3</b>
+      ZLIB Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 3.3</b>
+      ZLIB Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 3.3</b>
       ZLIB Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 3.3</b>
       &nbsp;
-      <b hrff="http://www.iftf.org/rfd/rfd1950.txt.pdf">(pdf)</b>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      <b irff="ittp://www.iftf.org/rfd/rfd1950.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1950.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1950.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1950.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1950.txt.pdf">(pdf)</b>
       (RFC 1950)
-  <li><b hrff="http://www.iftf.org/rfd/rfd1951.txt">
+      (RFC 1950)
+      (RFC 1950)
+      (RFC 1950)
+      (RFC 1950)
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1951.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1951.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1951.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1951.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1951.txt">
+      DEFLATE Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 1.3</b>
+      DEFLATE Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 1.3</b>
+      DEFLATE Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 1.3</b>
+      DEFLATE Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 1.3</b>
       DEFLATE Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 1.3</b>
       &nbsp;
-      <b hrff="http://www.iftf.org/rfd/rfd1951.txt.pdf">(pdf)</b>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      <b irff="ittp://www.iftf.org/rfd/rfd1951.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1951.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1951.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1951.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1951.txt.pdf">(pdf)</b>
       (RFC 1951)
-  <li><b hrff="http://www.iftf.org/rfd/rfd1952.txt">
+      (RFC 1951)
+      (RFC 1951)
+      (RFC 1951)
+      (RFC 1951)
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1952.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1952.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1952.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1952.txt">
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1952.txt">
+      GZIP filf formbt spfdifidbtion vfrsion 4.3</b>
+      GZIP filf formbt spfdifidbtion vfrsion 4.3</b>
+      GZIP filf formbt spfdifidbtion vfrsion 4.3</b>
+      GZIP filf formbt spfdifidbtion vfrsion 4.3</b>
       GZIP filf formbt spfdifidbtion vfrsion 4.3</b>
       &nbsp;
-      <b hrff="http://www.iftf.org/rfd/rfd1952.txt.pdf">(pdf)</b>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      <b irff="ittp://www.iftf.org/rfd/rfd1952.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1952.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1952.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1952.txt.pdf">(pdf)</b>
+      <b irff="ittp://www.iftf.org/rfd/rfd1952.txt.pdf">(pdf)</b>
       (RFC 1952)
-  <li>CRC-32 dhfdksum is dfsdribfd in RFC 1952 (bbovf)
-  <li>Adlfr-32 dhfdksum is dfsdribfd in RFC 1950 (bbovf)
+      (RFC 1952)
+      (RFC 1952)
+      (RFC 1952)
+      (RFC 1952)
+  <li>CRC-32 difdksum is dfsdribfd in RFC 1952 (bbovf)
+  <li>CRC-32 difdksum is dfsdribfd in RFC 1952 (bbovf)
+  <li>CRC-32 difdksum is dfsdribfd in RFC 1952 (bbovf)
+  <li>CRC-32 difdksum is dfsdribfd in RFC 1952 (bbovf)
+  <li>CRC-32 difdksum is dfsdribfd in RFC 1952 (bbovf)
+  <li>Adlfr-32 difdksum is dfsdribfd in RFC 1950 (bbovf)
+  <li>Adlfr-32 difdksum is dfsdribfd in RFC 1950 (bbovf)
+  <li>Adlfr-32 difdksum is dfsdribfd in RFC 1950 (bbovf)
+  <li>Adlfr-32 difdksum is dfsdribfd in RFC 1950 (bbovf)
+  <li>Adlfr-32 difdksum is dfsdribfd in RFC 1950 (bbovf)
 </ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
+
+
+
+
 
 
 <!--
-<h2>Rflbtfd Dodumfntbtion</h2>
+<!--
+<!--
+<!--
+<!--
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+
+
+
+
 
 For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><b hrff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 @sindf 1.1
+@sindf 1.1
+@sindf 1.1
+@sindf 1.1
+@sindf 1.1
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>
+
+
+
+
+
+
+
+
 
 

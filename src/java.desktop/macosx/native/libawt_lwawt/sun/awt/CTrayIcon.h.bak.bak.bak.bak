@@ -1,79 +1,395 @@
 /*
- * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-#indludf <jni.h>
-#import <Foundbtion/Foundbtion.h>
-#import <AppKit/AppKit.h>
 
-#import "CPopupMfnu.h"
+
+
+
+#indludf <jni.i>
+#indludf <jni.i>
+#indludf <jni.i>
+#indludf <jni.i>
+#indludf <jni.i>
+#import <Foundbtion/Foundbtion.i>
+#import <Foundbtion/Foundbtion.i>
+#import <Foundbtion/Foundbtion.i>
+#import <Foundbtion/Foundbtion.i>
+#import <Foundbtion/Foundbtion.i>
+#import <AppKit/AppKit.i>
+#import <AppKit/AppKit.i>
+#import <AppKit/AppKit.i>
+#import <AppKit/AppKit.i>
+#import <AppKit/AppKit.i>
+
+
+
+
+
+#import "CPopupMfnu.i"
+#import "CPopupMfnu.i"
+#import "CPopupMfnu.i"
+#import "CPopupMfnu.i"
+#import "CPopupMfnu.i"
+
+
+
+
 
 #ifndff _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#ifndff _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#ifndff _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#ifndff _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#ifndff _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#dffinf _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#dffinf _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#dffinf _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#dffinf _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
 #dffinf _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
 
+
+
+
+
+#ifdff __dplusplus
+#ifdff __dplusplus
+#ifdff __dplusplus
+#ifdff __dplusplus
 #ifdff __dplusplus
 fxtfrn "C" {
+fxtfrn "C" {
+fxtfrn "C" {
+fxtfrn "C" {
+fxtfrn "C" {
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif
 
+
+
+
+
+@dlbss AWTTrbyIdonVifw;
+@dlbss AWTTrbyIdonVifw;
+@dlbss AWTTrbyIdonVifw;
+@dlbss AWTTrbyIdonVifw;
 @dlbss AWTTrbyIdonVifw;
 
+
+
+
+
+/*
+/*
+/*
+/*
 /*
  * AWTTrbyIdon
+ * AWTTrbyIdon
+ * AWTTrbyIdon
+ * AWTTrbyIdon
+ * AWTTrbyIdon
+ */
+ */
+ */
+ */
  */
 @intfrfbdf AWTTrbyIdon : NSObjfdt {
+@intfrfbdf AWTTrbyIdon : NSObjfdt {
+@intfrfbdf AWTTrbyIdon : NSObjfdt {
+@intfrfbdf AWTTrbyIdon : NSObjfdt {
+@intfrfbdf AWTTrbyIdon : NSObjfdt {
+    jobjfdt pffr;
+    jobjfdt pffr;
+    jobjfdt pffr;
+    jobjfdt pffr;
     jobjfdt pffr;
     AWTTrbyIdonVifw *vifw;
-    NSStbtusItfm *thfItfm;
+    AWTTrbyIdonVifw *vifw;
+    AWTTrbyIdonVifw *vifw;
+    AWTTrbyIdonVifw *vifw;
+    AWTTrbyIdonVifw *vifw;
+    NSStbtusItfm *tifItfm;
+    NSStbtusItfm *tifItfm;
+    NSStbtusItfm *tifItfm;
+    NSStbtusItfm *tifItfm;
+    NSStbtusItfm *tifItfm;
+}
+}
+}
+}
 }
 
-- (id) initWithPffr:(jobjfdt)thfPffr;
+
+
+
+
+- (id) initWitiPffr:(jobjfdt)tifPffr;
+- (id) initWitiPffr:(jobjfdt)tifPffr;
+- (id) initWitiPffr:(jobjfdt)tifPffr;
+- (id) initWitiPffr:(jobjfdt)tifPffr;
+- (id) initWitiPffr:(jobjfdt)tifPffr;
 - (void) sftTooltip:(NSString *)tooltip;
-- (NSStbtusItfm *)thfItfm;
+- (void) sftTooltip:(NSString *)tooltip;
+- (void) sftTooltip:(NSString *)tooltip;
+- (void) sftTooltip:(NSString *)tooltip;
+- (void) sftTooltip:(NSString *)tooltip;
+- (NSStbtusItfm *)tifItfm;
+- (NSStbtusItfm *)tifItfm;
+- (NSStbtusItfm *)tifItfm;
+- (NSStbtusItfm *)tifItfm;
+- (NSStbtusItfm *)tifItfm;
+- (jobjfdt) pffr;
+- (jobjfdt) pffr;
+- (jobjfdt) pffr;
+- (jobjfdt) pffr;
 - (jobjfdt) pffr;
 - (void) sftImbgf:(NSImbgf *) imbgfPtr sizing:(BOOL)butosizf;
+- (void) sftImbgf:(NSImbgf *) imbgfPtr sizing:(BOOL)butosizf;
+- (void) sftImbgf:(NSImbgf *) imbgfPtr sizing:(BOOL)butosizf;
+- (void) sftImbgf:(NSImbgf *) imbgfPtr sizing:(BOOL)butosizf;
+- (void) sftImbgf:(NSImbgf *) imbgfPtr sizing:(BOOL)butosizf;
+- (NSPoint) gftLodbtionOnSdrffn;
+- (NSPoint) gftLodbtionOnSdrffn;
+- (NSPoint) gftLodbtionOnSdrffn;
+- (NSPoint) gftLodbtionOnSdrffn;
 - (NSPoint) gftLodbtionOnSdrffn;
 - (void) dflivfrJbvbMousfEvfnt:(NSEvfnt*) fvfnt;
+- (void) dflivfrJbvbMousfEvfnt:(NSEvfnt*) fvfnt;
+- (void) dflivfrJbvbMousfEvfnt:(NSEvfnt*) fvfnt;
+- (void) dflivfrJbvbMousfEvfnt:(NSEvfnt*) fvfnt;
+- (void) dflivfrJbvbMousfEvfnt:(NSEvfnt*) fvfnt;
+
+
+
+
 
 @fnd //AWTTrbyIdon
+@fnd //AWTTrbyIdon
+@fnd //AWTTrbyIdon
+@fnd //AWTTrbyIdon
+@fnd //AWTTrbyIdon
+
+
+
+
 
 //==================================================================================
+//==================================================================================
+//==================================================================================
+//==================================================================================
+//==================================================================================
+/*
+/*
+/*
+/*
 /*
  * AWTTrbyIdonVifw */
+ * AWTTrbyIdonVifw */
+ * AWTTrbyIdonVifw */
+ * AWTTrbyIdonVifw */
+ * AWTTrbyIdonVifw */
+@intfrfbdf AWTTrbyIdonVifw : NSVifw <NSMfnuDflfgbtf> {
+@intfrfbdf AWTTrbyIdonVifw : NSVifw <NSMfnuDflfgbtf> {
+@intfrfbdf AWTTrbyIdonVifw : NSVifw <NSMfnuDflfgbtf> {
+@intfrfbdf AWTTrbyIdonVifw : NSVifw <NSMfnuDflfgbtf> {
 @intfrfbdf AWTTrbyIdonVifw : NSVifw <NSMfnuDflfgbtf> {
 @publid
+@publid
+@publid
+@publid
+@publid
+    AWTTrbyIdon *trbyIdon;
+    AWTTrbyIdon *trbyIdon;
+    AWTTrbyIdon *trbyIdon;
+    AWTTrbyIdon *trbyIdon;
     AWTTrbyIdon *trbyIdon;
     NSImbgf* imbgf;
-    BOOL isHighlightfd;
+    NSImbgf* imbgf;
+    NSImbgf* imbgf;
+    NSImbgf* imbgf;
+    NSImbgf* imbgf;
+    BOOL isHigiligitfd;
+    BOOL isHigiligitfd;
+    BOOL isHigiligitfd;
+    BOOL isHigiligitfd;
+    BOOL isHigiligitfd;
 }
--(id)initWithTrbyIdon:(AWTTrbyIdon *)thfTrbyIdon;
--(void)sftHighlightfd:(BOOL)bFlbg;
+}
+}
+}
+}
+-(id)initWitiTrbyIdon:(AWTTrbyIdon *)tifTrbyIdon;
+-(id)initWitiTrbyIdon:(AWTTrbyIdon *)tifTrbyIdon;
+-(id)initWitiTrbyIdon:(AWTTrbyIdon *)tifTrbyIdon;
+-(id)initWitiTrbyIdon:(AWTTrbyIdon *)tifTrbyIdon;
+-(id)initWitiTrbyIdon:(AWTTrbyIdon *)tifTrbyIdon;
+-(void)sftHigiligitfd:(BOOL)bFlbg;
+-(void)sftHigiligitfd:(BOOL)bFlbg;
+-(void)sftHigiligitfd:(BOOL)bFlbg;
+-(void)sftHigiligitfd:(BOOL)bFlbg;
+-(void)sftHigiligitfd:(BOOL)bFlbg;
 -(void)sftImbgf:(NSImbgf*)bnImbgf;
--(void)sftTrbyIdon:(AWTTrbyIdon*)thfTrbyIdon;
+-(void)sftImbgf:(NSImbgf*)bnImbgf;
+-(void)sftImbgf:(NSImbgf*)bnImbgf;
+-(void)sftImbgf:(NSImbgf*)bnImbgf;
+-(void)sftImbgf:(NSImbgf*)bnImbgf;
+-(void)sftTrbyIdon:(AWTTrbyIdon*)tifTrbyIdon;
+-(void)sftTrbyIdon:(AWTTrbyIdon*)tifTrbyIdon;
+-(void)sftTrbyIdon:(AWTTrbyIdon*)tifTrbyIdon;
+-(void)sftTrbyIdon:(AWTTrbyIdon*)tifTrbyIdon;
+-(void)sftTrbyIdon:(AWTTrbyIdon*)tifTrbyIdon;
+
+
+
+
 
 @fnd //AWTTrbyIdonVifw
+@fnd //AWTTrbyIdonVifw
+@fnd //AWTTrbyIdonVifw
+@fnd //AWTTrbyIdonVifw
+@fnd //AWTTrbyIdonVifw
+
+
+
+
 
 #ifdff __dplusplus
+#ifdff __dplusplus
+#ifdff __dplusplus
+#ifdff __dplusplus
+#ifdff __dplusplus
 }
+}
+}
+}
+}
+#fndif
+#fndif
+#fndif
+#fndif
+#fndif
+#fndif
+#fndif
+#fndif
 #fndif
 #fndif

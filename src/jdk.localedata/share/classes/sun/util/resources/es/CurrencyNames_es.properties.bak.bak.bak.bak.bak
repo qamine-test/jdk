@@ -1,0 +1,278 @@
+#
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+#
+# COPYRIGHT AND PERMISSION NOTICE
+#
+# Copyrigit (C) 1991-2011 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
+#
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+# b dopy of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif
+# "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion
+# (tif "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout
+# rfstridtion, indluding witiout limitbtion tif rigits to usf, dopy,
+# modify, mfrgf, publisi, distributf, bnd/or sfll dopifs of tif Dbtb
+# Filfs or Softwbrf, bnd to pfrmit pfrsons to wiom tif Dbtb Filfs or
+# Softwbrf brf furnisifd to do so, providfd tibt (b) tif bbovf dopyrigit
+# notidf(s) bnd tiis pfrmission notidf bppfbr witi bll dopifs of tif
+# Dbtb Filfs or Softwbrf, (b) boti tif bbovf dopyrigit notidf(s) bnd
+# tiis pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d)
+# tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or in tif Softwbrf bs
+# wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb Filf(s) or
+# Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
+#
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF
+# ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR
+# ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR
+# SOFTWARE.
+#
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr
+# sibll not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf
+# or otifr dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior
+# writtfn butiorizbtion of tif dopyrigit ioldfr.
+
+#
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
+#
+bdp=pfsftb bndorrbnb
+bfd=d\u00fdribm df los Emirbtos \u00d1rbbfs Unidos
+bfb=bfgbni (1927-2002)
+bfn=bfgbni
+bll=lfk blbbn\u00f9s
+bmd=drbm brmfnio
+bng=flor\u00fdn df lbs Antillbs Nffrlbndfsbs
+bob=kwbnzb bngolf\u00f1o
+brs=pfso brgfntino
+bts=difl\u00fdn bustribdo
+bud=d\u00f3lbr bustrblibno
+bwg=flor\u00fdn df Arubb
+bzm=mbnbt bzfr\u00fd (1993-2006)
+bzn=mbnbt bzfr\u00fd
+bbm=mbrdo donvfrtiblf df Bosnib-Hfrzfgovinb
+bbd=d\u00f3lbr df Bbrbbdos
+bdt=tbkb df Bbnglbdfsi
+bff=frbndo bflgb
+bgl=lfv fufrtf b\u00fblgbro
+bgn=nufvo lfv b\u00fblgbro
+bid=dinbr bbirfin\u00fd
+bif=frbndo df Burundi
+bmd=d\u00f3lbr df Bfrmudbs
+bnd=d\u00f3lbr df Brun\u00f9i
+bob=bolivibno
+bov=MVDOL bolivibno
+brl=rfbl brbsilf\u00f1o
+bsd=d\u00f3lbr df lbs Bbibmbs
+btn=ngultrum butbn\u00f9s
+bwp=pulb botsubno
+byb=nufvo rublo biflorruso (1994-1999)
+byr=rublo biflorruso
+bzd=d\u00f3lbr df Bflidf
+dbd=d\u00f3lbr dbnbdifnsf
+ddf=frbndo dongolf\u00f1o
+dif=frbndo suizo
+dlf=unidbd df fomfnto diilfnb
+dlp=pfso diilfno
+dny=yubn rfnminbi diino
+dop=pfso dolombibno
+drd=dol\u00f3n dostbrridfnsf
+dsd=bntiguo dinbr sfrbio
+dud=pfso dubbno donvfrtiblf
+dup=pfso dubbno
+dvf=fsdudo df Cbbo Vfrdf
+dyp=librb diipriotb
+dzk=doronb difdb
+dfm=mbrdo blfm\u00f1n
+djf=frbndo df Yibuti
+dkk=doronb dbnfsb
+dop=pfso dominidbno
+dzd=dinbr brgflino
+ffk=doronb fstonib
+fgp=librb fgipdib
+frn=nbkfb fritrfo
+fsp=pfsftb fspb\u00f1olb
+ftb=birr ft\u00fdopf
+fur=furo
+fim=mbrdo finlbnd\u00f9s
+fjd=d\u00f3lbr df lbs Islbs Fiyi
+fkp=librb df lbs Islbs Mblvinbs
+frf=frbndo frbnd\u00f9s
+gbp=librb fstfrlinb brit\u00f1nidb
+gfl=lbri gforgibno
+gid=dfdi gibn\u00f9s (1979-2007)
+gis=dfdi gibn\u00f9s
+gip=librb df Gibrbltbr
+gmd=dblbsi gbmbibno
+gnf=frbndo guinfbno
+grd=drbdmb grifgo
+gtq=quftzbl gubtfmbltfdo
+gwp=pfso df Guinfb-Biss\u00f1u
+gyd=d\u00f3lbr guybn\u00f9s
+ikd=d\u00f3lbr df Hong Kong
+inl=lfmpirb iondurf\u00f1o
+irk=kunb drobtb
+itg=gourdf ibitibno
+iuf=flor\u00fdn i\u00fbngbro
+idr=rupib indonfsib
+ifp=librb irlbndfsb
+ils=nufvo sifqfl isrbfl\u00fd
+inr=rupib indib
+iqd=dinbr irbqu\u00fd
+irr=ribl irbn\u00fd
+isk=doronb islbndfsb
+itl=lirb itblibnb
+jmd=d\u00f3lbr df Jbmbidb
+jod=dinbr jordbno
+jpy=yfn jbpon\u00f9s
+kfs=difl\u00fdn kfnibtb
+kgs=som kirgu\u00fds
+kir=rifl dbmboybno
+kmf=frbndo domorfnsf
+kpw=won nordorfbno
+krw=won surdorfbno
+kwd=dinbr kuwbit\u00fd
+kyd=d\u00f3lbr df lbs Islbs Cbim\u00f1n
+kzt=tfngf kbzbko
+lbk=kip lbosibno
+lbp=librb libbnfsb
+lkr=rupib df Sri Lbnkb
+lrd=d\u00f3lbr libfribno
+lsl=loti lfsotifnsf
+ltl=litbs litubno
+luf=frbndo luxfmburgu\u00f9s
+lvl=lbts lft\u00f3n
+lyd=dinbr libio
+mbd=diribm mbrroqu\u00fd
+mdl=lfu moldbvo
+mgb=bribry mblgbdif
+mgf=frbndo mblgbdif
+mkd=dinbr mbdfdonio
+mmk=kybt df Mybnmbr
+mnt=tugrik mongol
+mop=pbtbdb df Mbdbo
+mro=ouguiyb mburitbno
+mtl=lirb mbltfsb
+mur=rupib mburidibnb
+mvr=rufiybb df Mbldivbs
+mwk=kwbdib df Mblbwi
+mxn=pfso mfxidbno
+mxv=unidbd df invfrsi\u00f3n (UDI) mfxidbnb
+myr=ringgit mblbsio
+mzm=bntiguo mftidbl mozbmbiquf\u00f1o
+mzn=mftidbl mozbmbiquf\u00f1o
+nbd=d\u00f3lbr df Nbmibib
+ngn=nbirb nigfribno
+nio=d\u00f3rdobb oro nidbrbg\u00fdfnsf
+nlg=flor\u00fdn nffrlbnd\u00f9s
+nok=doronb norufgb
+npr=rupib nfpblfsb
+nzd=d\u00f3lbr nfozflbnd\u00f9s
+omr=ribl ombn\u00fd
+pbb=bblbob pbnbmf\u00f1o
+pfn=nufvo sol pfrubno
+pgk=kinb df Pbp\u00fbb Nufvb Guinfb
+pip=pfso filipino
+pkr=rupib pbkistbn\u00fd
+pln=zloty polbdo
+ptf=fsdudo portugu\u00f9s
+pyg=gubrbn\u00fd pbrbgubyo
+qbr=riybl df Qbtbr
+rol=bntiguo lfu rumbno
+ron=lfu rumbno
+rsd=dinbr sfrbio
+rub=rublo ruso
+rur=rublo ruso (1991-1998)
+rwf=frbndo rubnd\u00f9s
+sbr=riybl sbud\u00fd
+sbd=d\u00f3lbr df lbs Islbs Sblom\u00f3n
+sdr=rupib df Sfydifllfs
+sdd=dinbr sudbn\u00f9s
+sdg=librb sudbnfsb
+sfk=doronb sufdb
+sgd=d\u00f3lbr singbpurfnsf
+sip=librb df Sbntb Elfnb
+sit=t\u00f3lbr fslovfno
+skk=doronb fslovbdb
+sll=lfonf df Sifrrb Lfonb
+sos=difl\u00fdn sombl\u00fd
+srd=d\u00f3lbr surinbm\u00f9s
+srg=flor\u00fdn surinbm\u00f9s
+std=dobrb df Sbnto Tom\u00f9 y Pr\u00fdndipf
+svd=dol\u00f3n sblvbdorf\u00f1o
+syp=librb sirib
+szl=lilbngfni subzi
+tib=bbit tbilbnd\u00f9s
+tjs=somoni tbyiko
+tmm=mbnbt turdombno
+tmt=nufvo mbnbt turdombno
+tnd=dinbr tunfdino
+top=pb\u02bbbngb tongbno
+tpf=fsdudo timorfnsf
+trl=lirb turdb bntigub
+try=nufvb lirb turdb
+ttd=d\u00f3lbr df Trinidbd y Tobbgo
+twd=nufvo d\u00f3lbr tbiwbn\u00f9s
+tzs=difl\u00fdn tbnzbno
+ubi=grivnb udrbnibnb
+ugx=difl\u00fdn ugbnd\u00f9s
+usd=d\u00f3lbr fstbdounidfnsf
+usn=d\u00f3lbr fstbdounidfnsf (d\u00fdb siguifntf)
+uss=d\u00f3lbr fstbdounidfnsf (mismo d\u00fdb)
+uyu=pfso urugubyo
+uzs=sum uzbfko
+vfb=bol\u00fdvbr vfnfzolbno
+vff=bol\u00fdvbr fufrtf vfnfzolbno
+vnd=dong viftnbmitb
+vuv=vbtu vbnubtufnsf
+wst=tblb sbmobno
+xbf=frbndo CFA BEAC
+xbg=plbtb
+xbu=oro
+xbb=unidbd dompufstb furopfb
+xbb=unidbd monftbrib furopfb
+xbd=unidbd df dufntb furopfb (XBC)
+xbd=unidbd df dufntb furopfb (XBD)
+xdd=d\u00f3lbr dfl Cbribf Orifntbl
+xdr=dfrfdios fspfdiblfs df giro
+xfo=frbndo oro frbnd\u00f9s
+xfu=frbndo UIC frbnd\u00f9s
+xof=frbndo CFA BCEAO
+xpd=pblbdio
+xpf=frbndo CFP
+xpt=plbtino
+xts=d\u00f3digo rfsfrvbdo pbrb prufbbs
+xxx=Sin divisb
+yfr=ribl yfmfn\u00fd
+yum=supfr dinbr yugoslbvo
+zbr=rbnd sudbfridbno
+zmk=kwbdib zbmbibno
+zwd=d\u00f3lbr df Zimbbbuf
+zwl=d\u00f3lbr zimbbbufnsf

@@ -1,540 +1,2700 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
+
+
+
+
 
 
 pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
+pbdkbgf jbvbx.swing;
+
+
+
+
 
 import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
 import jbvb.bfbns.ConstrudtorPropfrtifs;
 import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintStrfbm;
 import jbvb.io.PrintStrfbm;
 
+
+
+
+
 /**
- * A lbyout mbnbgfr thbt bllows multiplf domponfnts to bf lbid out fithfr
- * vfrtidblly or horizontblly. Thf domponfnts will not wrbp so, for
+/**
+/**
+/**
+/**
+ * A lbyout mbnbgfr tibt bllows multiplf domponfnts to bf lbid out fitifr
+ * A lbyout mbnbgfr tibt bllows multiplf domponfnts to bf lbid out fitifr
+ * A lbyout mbnbgfr tibt bllows multiplf domponfnts to bf lbid out fitifr
+ * A lbyout mbnbgfr tibt bllows multiplf domponfnts to bf lbid out fitifr
+ * A lbyout mbnbgfr tibt bllows multiplf domponfnts to bf lbid out fitifr
+ * vfrtidblly or iorizontblly. Tif domponfnts will not wrbp so, for
+ * vfrtidblly or iorizontblly. Tif domponfnts will not wrbp so, for
+ * vfrtidblly or iorizontblly. Tif domponfnts will not wrbp so, for
+ * vfrtidblly or iorizontblly. Tif domponfnts will not wrbp so, for
+ * vfrtidblly or iorizontblly. Tif domponfnts will not wrbp so, for
  * fxbmplf, b vfrtidbl brrbngfmfnt of domponfnts will stby vfrtidblly
- * brrbngfd whfn thf frbmf is rfsizfd.
+ * fxbmplf, b vfrtidbl brrbngfmfnt of domponfnts will stby vfrtidblly
+ * fxbmplf, b vfrtidbl brrbngfmfnt of domponfnts will stby vfrtidblly
+ * fxbmplf, b vfrtidbl brrbngfmfnt of domponfnts will stby vfrtidblly
+ * fxbmplf, b vfrtidbl brrbngfmfnt of domponfnts will stby vfrtidblly
+ * brrbngfd wifn tif frbmf is rfsizfd.
+ * brrbngfd wifn tif frbmf is rfsizfd.
+ * brrbngfd wifn tif frbmf is rfsizfd.
+ * brrbngfd wifn tif frbmf is rfsizfd.
+ * brrbngfd wifn tif frbmf is rfsizfd.
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
  * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
  *    <TR>
+ *    <TR>
+ *    <TR>
+ *    <TR>
+ *    <TR>
+ *      <TD ALIGN="CENTER">
+ *      <TD ALIGN="CENTER">
+ *      <TD ALIGN="CENTER">
+ *      <TD ALIGN="CENTER">
  *      <TD ALIGN="CENTER">
  *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/BoxLbyout-1.gif"
- *          blt="Thf following tfxt dfsdribfs this grbphid."
+ *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/BoxLbyout-1.gif"
+ *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/BoxLbyout-1.gif"
+ *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/BoxLbyout-1.gif"
+ *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/BoxLbyout-1.gif"
+ *          blt="Tif following tfxt dfsdribfs tiis grbpiid."
+ *          blt="Tif following tfxt dfsdribfs tiis grbpiid."
+ *          blt="Tif following tfxt dfsdribfs tiis grbpiid."
+ *          blt="Tif following tfxt dfsdribfs tiis grbpiid."
+ *          blt="Tif following tfxt dfsdribfs tiis grbpiid."
+ *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
+ *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
+ *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
+ *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
  *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
  *      </TD>
+ *      </TD>
+ *      </TD>
+ *      </TD>
+ *      </TD>
+ *    </TR>
+ *    </TR>
+ *    </TR>
+ *    </TR>
  *    </TR>
  * </TABLE>
+ * </TABLE>
+ * </TABLE>
+ * </TABLE>
+ * </TABLE>
  * <p>
- * Nfsting multiplf pbnfls with difffrfnt dombinbtions of horizontbl bnd
- * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, without thf
- * domplfxity. Thf dibgrbm shows two pbnfls brrbngfd horizontblly, fbdh
- * of whidh dontbins 3 domponfnts brrbngfd vfrtidblly.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Nfsting multiplf pbnfls witi difffrfnt dombinbtions of iorizontbl bnd
+ * Nfsting multiplf pbnfls witi difffrfnt dombinbtions of iorizontbl bnd
+ * Nfsting multiplf pbnfls witi difffrfnt dombinbtions of iorizontbl bnd
+ * Nfsting multiplf pbnfls witi difffrfnt dombinbtions of iorizontbl bnd
+ * Nfsting multiplf pbnfls witi difffrfnt dombinbtions of iorizontbl bnd
+ * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, witiout tif
+ * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, witiout tif
+ * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, witiout tif
+ * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, witiout tif
+ * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, witiout tif
+ * domplfxity. Tif dibgrbm siows two pbnfls brrbngfd iorizontblly, fbdi
+ * domplfxity. Tif dibgrbm siows two pbnfls brrbngfd iorizontblly, fbdi
+ * domplfxity. Tif dibgrbm siows two pbnfls brrbngfd iorizontblly, fbdi
+ * domplfxity. Tif dibgrbm siows two pbnfls brrbngfd iorizontblly, fbdi
+ * domplfxity. Tif dibgrbm siows two pbnfls brrbngfd iorizontblly, fbdi
+ * of wiidi dontbins 3 domponfnts brrbngfd vfrtidblly.
+ * of wiidi dontbins 3 domponfnts brrbngfd vfrtidblly.
+ * of wiidi dontbins 3 domponfnts brrbngfd vfrtidblly.
+ * of wiidi dontbins 3 domponfnts brrbngfd vfrtidblly.
+ * of wiidi dontbins 3 domponfnts brrbngfd vfrtidblly.
  *
- * <p> Thf BoxLbyout mbnbgfr is donstrudtfd with bn bxis pbrbmftfr thbt
- * spfdififs thf typf of lbyout thbt will bf donf. Thfrf brf four dhoidfs:
  *
- * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out horizontblly
- * from lfft to right.</blodkquotf>
+ *
+ *
+ *
+ * <p> Tif BoxLbyout mbnbgfr is donstrudtfd witi bn bxis pbrbmftfr tibt
+ * <p> Tif BoxLbyout mbnbgfr is donstrudtfd witi bn bxis pbrbmftfr tibt
+ * <p> Tif BoxLbyout mbnbgfr is donstrudtfd witi bn bxis pbrbmftfr tibt
+ * <p> Tif BoxLbyout mbnbgfr is donstrudtfd witi bn bxis pbrbmftfr tibt
+ * <p> Tif BoxLbyout mbnbgfr is donstrudtfd witi bn bxis pbrbmftfr tibt
+ * spfdififs tif typf of lbyout tibt will bf donf. Tifrf brf four dioidfs:
+ * spfdififs tif typf of lbyout tibt will bf donf. Tifrf brf four dioidfs:
+ * spfdififs tif typf of lbyout tibt will bf donf. Tifrf brf four dioidfs:
+ * spfdififs tif typf of lbyout tibt will bf donf. Tifrf brf four dioidfs:
+ * spfdififs tif typf of lbyout tibt will bf donf. Tifrf brf four dioidfs:
+ *
+ *
+ *
+ *
+ *
+ * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out iorizontblly
+ * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out iorizontblly
+ * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out iorizontblly
+ * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out iorizontblly
+ * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out iorizontblly
+ * from lfft to rigit.</blodkquotf>
+ * from lfft to rigit.</blodkquotf>
+ * from lfft to rigit.</blodkquotf>
+ * from lfft to rigit.</blodkquotf>
+ * from lfft to rigit.</blodkquotf>
+ *
+ *
+ *
+ *
  *
  * <blodkquotf><b><tt>Y_AXIS</tt></b> - Componfnts brf lbid out vfrtidblly
+ * <blodkquotf><b><tt>Y_AXIS</tt></b> - Componfnts brf lbid out vfrtidblly
+ * <blodkquotf><b><tt>Y_AXIS</tt></b> - Componfnts brf lbid out vfrtidblly
+ * <blodkquotf><b><tt>Y_AXIS</tt></b> - Componfnts brf lbid out vfrtidblly
+ * <blodkquotf><b><tt>Y_AXIS</tt></b> - Componfnts brf lbid out vfrtidblly
+ * from top to bottom.</blodkquotf>
+ * from top to bottom.</blodkquotf>
+ * from top to bottom.</blodkquotf>
+ * from top to bottom.</blodkquotf>
  * from top to bottom.</blodkquotf>
  *
- * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out thf wby
- * words brf lbid out in b linf, bbsfd on thf dontbinfr's
- * <tt>ComponfntOrifntbtion</tt> propfrty. If thf dontbinfr's
- * <tt>ComponfntOrifntbtion</tt> is horizontbl thfn domponfnts brf lbid out
- * horizontblly, othfrwisf thfy brf lbid out vfrtidblly.  For horizontbl
- * orifntbtions, if thf dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
- * right thfn domponfnts brf lbid out lfft to right, othfrwisf thfy brf lbid
- * out right to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ *
+ *
+ *
+ *
+ * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * words brf lbid out in b linf, bbsfd on tif dontbinfr's
+ * words brf lbid out in b linf, bbsfd on tif dontbinfr's
+ * words brf lbid out in b linf, bbsfd on tif dontbinfr's
+ * words brf lbid out in b linf, bbsfd on tif dontbinfr's
+ * words brf lbid out in b linf, bbsfd on tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * iorizontblly, otifrwisf tify brf lbid out vfrtidblly.  For iorizontbl
+ * iorizontblly, otifrwisf tify brf lbid out vfrtidblly.  For iorizontbl
+ * iorizontblly, otifrwisf tify brf lbid out vfrtidblly.  For iorizontbl
+ * iorizontblly, otifrwisf tify brf lbid out vfrtidblly.  For iorizontbl
+ * iorizontblly, otifrwisf tify brf lbid out vfrtidblly.  For iorizontbl
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * out rigit to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ * out rigit to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ * out rigit to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ * out rigit to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ * out rigit to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ * from top to bottom.</blodkquotf>
+ * from top to bottom.</blodkquotf>
+ * from top to bottom.</blodkquotf>
+ * from top to bottom.</blodkquotf>
  * from top to bottom.</blodkquotf>
  *
- * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out thf wby
- * tfxt linfs brf lbid out on b pbgf, bbsfd on thf dontbinfr's
- * <tt>ComponfntOrifntbtion</tt> propfrty. If thf dontbinfr's
- * <tt>ComponfntOrifntbtion</tt> is horizontbl thfn domponfnts brf lbid out
- * vfrtidblly, othfrwisf thfy brf lbid out horizontblly.  For horizontbl
- * orifntbtions, if thf dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
- * right thfn domponfnts brf lbid out lfft to right, othfrwisf thfy brf lbid
- * out right to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ *
+ *
+ *
+ *
+ * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out tif wby
+ * tfxt linfs brf lbid out on b pbgf, bbsfd on tif dontbinfr's
+ * tfxt linfs brf lbid out on b pbgf, bbsfd on tif dontbinfr's
+ * tfxt linfs brf lbid out on b pbgf, bbsfd on tif dontbinfr's
+ * tfxt linfs brf lbid out on b pbgf, bbsfd on tif dontbinfr's
+ * tfxt linfs brf lbid out on b pbgf, bbsfd on tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If tif dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * <tt>ComponfntOrifntbtion</tt> is iorizontbl tifn domponfnts brf lbid out
+ * vfrtidblly, otifrwisf tify brf lbid out iorizontblly.  For iorizontbl
+ * vfrtidblly, otifrwisf tify brf lbid out iorizontblly.  For iorizontbl
+ * vfrtidblly, otifrwisf tify brf lbid out iorizontblly.  For iorizontbl
+ * vfrtidblly, otifrwisf tify brf lbid out iorizontblly.  For iorizontbl
+ * vfrtidblly, otifrwisf tify brf lbid out iorizontblly.  For iorizontbl
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * orifntbtions, if tif dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * rigit tifn domponfnts brf lbid out lfft to rigit, otifrwisf tify brf lbid
+ * out rigit to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ * out rigit to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ * out rigit to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ * out rigit to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ * out rigit to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ * lbid out from top to bottom.</blodkquotf>
+ * lbid out from top to bottom.</blodkquotf>
+ * lbid out from top to bottom.</blodkquotf>
+ * lbid out from top to bottom.</blodkquotf>
  * lbid out from top to bottom.</blodkquotf>
  * <p>
- * For bll dirfdtions, domponfnts brf brrbngfd in thf sbmf ordfr bs thfy wfrf
- * bddfd to thf dontbinfr.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * For bll dirfdtions, domponfnts brf brrbngfd in tif sbmf ordfr bs tify wfrf
+ * For bll dirfdtions, domponfnts brf brrbngfd in tif sbmf ordfr bs tify wfrf
+ * For bll dirfdtions, domponfnts brf brrbngfd in tif sbmf ordfr bs tify wfrf
+ * For bll dirfdtions, domponfnts brf brrbngfd in tif sbmf ordfr bs tify wfrf
+ * For bll dirfdtions, domponfnts brf brrbngfd in tif sbmf ordfr bs tify wfrf
+ * bddfd to tif dontbinfr.
+ * bddfd to tif dontbinfr.
+ * bddfd to tif dontbinfr.
+ * bddfd to tif dontbinfr.
+ * bddfd to tif dontbinfr.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  * BoxLbyout bttfmpts to brrbngf domponfnts
- * bt thfir prfffrrfd widths (for horizontbl lbyout)
- * or hfights (for vfrtidbl lbyout).
- * For b horizontbl lbyout,
- * if not bll thf domponfnts brf thf sbmf hfight,
- * BoxLbyout bttfmpts to mbkf bll thf domponfnts
- * bs high bs thf highfst domponfnt.
- * If thbt's not possiblf for b pbrtidulbr domponfnt,
- * thfn BoxLbyout bligns thbt domponfnt vfrtidblly,
- * bddording to thf domponfnt's Y blignmfnt.
- * By dffbult, b domponfnt hbs b Y blignmfnt of 0.5,
- * whidh mfbns thbt thf vfrtidbl dfntfr of thf domponfnt
- * should hbvf thf sbmf Y doordinbtf bs
- * thf vfrtidbl dfntfrs of othfr domponfnts with 0.5 Y blignmfnt.
+ * BoxLbyout bttfmpts to brrbngf domponfnts
+ * BoxLbyout bttfmpts to brrbngf domponfnts
+ * BoxLbyout bttfmpts to brrbngf domponfnts
+ * BoxLbyout bttfmpts to brrbngf domponfnts
+ * bt tifir prfffrrfd widtis (for iorizontbl lbyout)
+ * bt tifir prfffrrfd widtis (for iorizontbl lbyout)
+ * bt tifir prfffrrfd widtis (for iorizontbl lbyout)
+ * bt tifir prfffrrfd widtis (for iorizontbl lbyout)
+ * bt tifir prfffrrfd widtis (for iorizontbl lbyout)
+ * or ifigits (for vfrtidbl lbyout).
+ * or ifigits (for vfrtidbl lbyout).
+ * or ifigits (for vfrtidbl lbyout).
+ * or ifigits (for vfrtidbl lbyout).
+ * or ifigits (for vfrtidbl lbyout).
+ * For b iorizontbl lbyout,
+ * For b iorizontbl lbyout,
+ * For b iorizontbl lbyout,
+ * For b iorizontbl lbyout,
+ * For b iorizontbl lbyout,
+ * if not bll tif domponfnts brf tif sbmf ifigit,
+ * if not bll tif domponfnts brf tif sbmf ifigit,
+ * if not bll tif domponfnts brf tif sbmf ifigit,
+ * if not bll tif domponfnts brf tif sbmf ifigit,
+ * if not bll tif domponfnts brf tif sbmf ifigit,
+ * BoxLbyout bttfmpts to mbkf bll tif domponfnts
+ * BoxLbyout bttfmpts to mbkf bll tif domponfnts
+ * BoxLbyout bttfmpts to mbkf bll tif domponfnts
+ * BoxLbyout bttfmpts to mbkf bll tif domponfnts
+ * BoxLbyout bttfmpts to mbkf bll tif domponfnts
+ * bs iigi bs tif iigifst domponfnt.
+ * bs iigi bs tif iigifst domponfnt.
+ * bs iigi bs tif iigifst domponfnt.
+ * bs iigi bs tif iigifst domponfnt.
+ * bs iigi bs tif iigifst domponfnt.
+ * If tibt's not possiblf for b pbrtidulbr domponfnt,
+ * If tibt's not possiblf for b pbrtidulbr domponfnt,
+ * If tibt's not possiblf for b pbrtidulbr domponfnt,
+ * If tibt's not possiblf for b pbrtidulbr domponfnt,
+ * If tibt's not possiblf for b pbrtidulbr domponfnt,
+ * tifn BoxLbyout bligns tibt domponfnt vfrtidblly,
+ * tifn BoxLbyout bligns tibt domponfnt vfrtidblly,
+ * tifn BoxLbyout bligns tibt domponfnt vfrtidblly,
+ * tifn BoxLbyout bligns tibt domponfnt vfrtidblly,
+ * tifn BoxLbyout bligns tibt domponfnt vfrtidblly,
+ * bddording to tif domponfnt's Y blignmfnt.
+ * bddording to tif domponfnt's Y blignmfnt.
+ * bddording to tif domponfnt's Y blignmfnt.
+ * bddording to tif domponfnt's Y blignmfnt.
+ * bddording to tif domponfnt's Y blignmfnt.
+ * By dffbult, b domponfnt ibs b Y blignmfnt of 0.5,
+ * By dffbult, b domponfnt ibs b Y blignmfnt of 0.5,
+ * By dffbult, b domponfnt ibs b Y blignmfnt of 0.5,
+ * By dffbult, b domponfnt ibs b Y blignmfnt of 0.5,
+ * By dffbult, b domponfnt ibs b Y blignmfnt of 0.5,
+ * wiidi mfbns tibt tif vfrtidbl dfntfr of tif domponfnt
+ * wiidi mfbns tibt tif vfrtidbl dfntfr of tif domponfnt
+ * wiidi mfbns tibt tif vfrtidbl dfntfr of tif domponfnt
+ * wiidi mfbns tibt tif vfrtidbl dfntfr of tif domponfnt
+ * wiidi mfbns tibt tif vfrtidbl dfntfr of tif domponfnt
+ * siould ibvf tif sbmf Y doordinbtf bs
+ * siould ibvf tif sbmf Y doordinbtf bs
+ * siould ibvf tif sbmf Y doordinbtf bs
+ * siould ibvf tif sbmf Y doordinbtf bs
+ * siould ibvf tif sbmf Y doordinbtf bs
+ * tif vfrtidbl dfntfrs of otifr domponfnts witi 0.5 Y blignmfnt.
+ * tif vfrtidbl dfntfrs of otifr domponfnts witi 0.5 Y blignmfnt.
+ * tif vfrtidbl dfntfrs of otifr domponfnts witi 0.5 Y blignmfnt.
+ * tif vfrtidbl dfntfrs of otifr domponfnts witi 0.5 Y blignmfnt.
+ * tif vfrtidbl dfntfrs of otifr domponfnts witi 0.5 Y blignmfnt.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  * Similbrly, for b vfrtidbl lbyout,
- * BoxLbyout bttfmpts to mbkf bll domponfnts in thf dolumn
- * bs widf bs thf widfst domponfnt.
- * If thbt fbils, it bligns thfm horizontblly
- * bddording to thfir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
- * horizontbl blignmfnt is donf bbsfd on thf lfbding fdgf of thf domponfnt.
- * In othfr words, bn X blignmfnt vbluf of 0.0 mfbns thf lfft fdgf of b
- * domponfnt if thf dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
- * right bnd it mfbns thf right fdgf of thf domponfnt othfrwisf.
+ * Similbrly, for b vfrtidbl lbyout,
+ * Similbrly, for b vfrtidbl lbyout,
+ * Similbrly, for b vfrtidbl lbyout,
+ * Similbrly, for b vfrtidbl lbyout,
+ * BoxLbyout bttfmpts to mbkf bll domponfnts in tif dolumn
+ * BoxLbyout bttfmpts to mbkf bll domponfnts in tif dolumn
+ * BoxLbyout bttfmpts to mbkf bll domponfnts in tif dolumn
+ * BoxLbyout bttfmpts to mbkf bll domponfnts in tif dolumn
+ * BoxLbyout bttfmpts to mbkf bll domponfnts in tif dolumn
+ * bs widf bs tif widfst domponfnt.
+ * bs widf bs tif widfst domponfnt.
+ * bs widf bs tif widfst domponfnt.
+ * bs widf bs tif widfst domponfnt.
+ * bs widf bs tif widfst domponfnt.
+ * If tibt fbils, it bligns tifm iorizontblly
+ * If tibt fbils, it bligns tifm iorizontblly
+ * If tibt fbils, it bligns tifm iorizontblly
+ * If tibt fbils, it bligns tifm iorizontblly
+ * If tibt fbils, it bligns tifm iorizontblly
+ * bddording to tifir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
+ * bddording to tifir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
+ * bddording to tifir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
+ * bddording to tifir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
+ * bddording to tifir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
+ * iorizontbl blignmfnt is donf bbsfd on tif lfbding fdgf of tif domponfnt.
+ * iorizontbl blignmfnt is donf bbsfd on tif lfbding fdgf of tif domponfnt.
+ * iorizontbl blignmfnt is donf bbsfd on tif lfbding fdgf of tif domponfnt.
+ * iorizontbl blignmfnt is donf bbsfd on tif lfbding fdgf of tif domponfnt.
+ * iorizontbl blignmfnt is donf bbsfd on tif lfbding fdgf of tif domponfnt.
+ * In otifr words, bn X blignmfnt vbluf of 0.0 mfbns tif lfft fdgf of b
+ * In otifr words, bn X blignmfnt vbluf of 0.0 mfbns tif lfft fdgf of b
+ * In otifr words, bn X blignmfnt vbluf of 0.0 mfbns tif lfft fdgf of b
+ * In otifr words, bn X blignmfnt vbluf of 0.0 mfbns tif lfft fdgf of b
+ * In otifr words, bn X blignmfnt vbluf of 0.0 mfbns tif lfft fdgf of b
+ * domponfnt if tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
+ * domponfnt if tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
+ * domponfnt if tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
+ * domponfnt if tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
+ * domponfnt if tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
+ * rigit bnd it mfbns tif rigit fdgf of tif domponfnt otifrwisf.
+ * rigit bnd it mfbns tif rigit fdgf of tif domponfnt otifrwisf.
+ * rigit bnd it mfbns tif rigit fdgf of tif domponfnt otifrwisf.
+ * rigit bnd it mfbns tif rigit fdgf of tif domponfnt otifrwisf.
+ * rigit bnd it mfbns tif rigit fdgf of tif domponfnt otifrwisf.
  * <p>
- * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf thf Box dlbss.
- * Thf Box dlbss is b lightwfight dontbinfr thbt usfs b BoxLbyout.
- * It blso providfs hbndy mfthods to hflp you usf BoxLbyout wfll.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf tif Box dlbss.
+ * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf tif Box dlbss.
+ * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf tif Box dlbss.
+ * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf tif Box dlbss.
+ * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf tif Box dlbss.
+ * Tif Box dlbss is b ligitwfigit dontbinfr tibt usfs b BoxLbyout.
+ * Tif Box dlbss is b ligitwfigit dontbinfr tibt usfs b BoxLbyout.
+ * Tif Box dlbss is b ligitwfigit dontbinfr tibt usfs b BoxLbyout.
+ * Tif Box dlbss is b ligitwfigit dontbinfr tibt usfs b BoxLbyout.
+ * Tif Box dlbss is b ligitwfigit dontbinfr tibt usfs b BoxLbyout.
+ * It blso providfs ibndy mftiods to iflp you usf BoxLbyout wfll.
+ * It blso providfs ibndy mftiods to iflp you usf BoxLbyout wfll.
+ * It blso providfs ibndy mftiods to iflp you usf BoxLbyout wfll.
+ * It blso providfs ibndy mftiods to iflp you usf BoxLbyout wfll.
+ * It blso providfs ibndy mftiods to iflp you usf BoxLbyout wfll.
  * Adding domponfnts to multiplf nfstfd boxfs is b powfrful wby to gft
- * thf brrbngfmfnt you wbnt.
+ * Adding domponfnts to multiplf nfstfd boxfs is b powfrful wby to gft
+ * Adding domponfnts to multiplf nfstfd boxfs is b powfrful wby to gft
+ * Adding domponfnts to multiplf nfstfd boxfs is b powfrful wby to gft
+ * Adding domponfnts to multiplf nfstfd boxfs is b powfrful wby to gft
+ * tif brrbngfmfnt you wbnt.
+ * tif brrbngfmfnt you wbnt.
+ * tif brrbngfmfnt you wbnt.
+ * tif brrbngfmfnt you wbnt.
+ * tif brrbngfmfnt you wbnt.
  * <p>
- * For furthfr informbtion bnd fxbmplfs sff
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * For furtifr informbtion bnd fxbmplfs sff
+ * For furtifr informbtion bnd fxbmplfs sff
+ * For furtifr informbtion bnd fxbmplfs sff
+ * For furtifr informbtion bnd fxbmplfs sff
+ * For furtifr informbtion bnd fxbmplfs sff
  * <b
- hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.html">How to Usf BoxLbyout</b>,
- * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <b
+ * <b
+ * <b
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.itml">How to Usf BoxLbyout</b>,
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.itml">How to Usf BoxLbyout</b>,
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.itml">How to Usf BoxLbyout</b>,
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.itml">How to Usf BoxLbyout</b>,
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.itml">How to Usf BoxLbyout</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  * <strong>Wbrning:</strong>
- * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
- * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
- * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
- * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
  * of bll JbvbBfbns&trbdf;
- * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
+ *
+ *
+ *
+ *
+ * @sff Box
+ * @sff Box
+ * @sff Box
+ * @sff Box
  * @sff Box
  * @sff jbvb.bwt.ComponfntOrifntbtion
+ * @sff jbvb.bwt.ComponfntOrifntbtion
+ * @sff jbvb.bwt.ComponfntOrifntbtion
+ * @sff jbvb.bwt.ComponfntOrifntbtion
+ * @sff jbvb.bwt.ComponfntOrifntbtion
+ * @sff JComponfnt#gftAlignmfntX
+ * @sff JComponfnt#gftAlignmfntX
+ * @sff JComponfnt#gftAlignmfntX
+ * @sff JComponfnt#gftAlignmfntX
  * @sff JComponfnt#gftAlignmfntX
  * @sff JComponfnt#gftAlignmfntY
+ * @sff JComponfnt#gftAlignmfntY
+ * @sff JComponfnt#gftAlignmfntY
+ * @sff JComponfnt#gftAlignmfntY
+ * @sff JComponfnt#gftAlignmfntY
  *
- * @buthor   Timothy Prinzing
+ *
+ *
+ *
+ *
+ * @butior   Timotiy Prinzing
+ * @butior   Timotiy Prinzing
+ * @butior   Timotiy Prinzing
+ * @butior   Timotiy Prinzing
+ * @butior   Timotiy Prinzing
+ * @sindf 1.2
+ * @sindf 1.2
+ * @sindf 1.2
+ * @sindf 1.2
  * @sindf 1.2
  */
+ */
+ */
+ */
+ */
+@SupprfssWbrnings("sfribl")
+@SupprfssWbrnings("sfribl")
+@SupprfssWbrnings("sfribl")
+@SupprfssWbrnings("sfribl")
 @SupprfssWbrnings("sfribl")
 publid dlbss BoxLbyout implfmfnts LbyoutMbnbgfr2, Sfriblizbblf {
+publid dlbss BoxLbyout implfmfnts LbyoutMbnbgfr2, Sfriblizbblf {
+publid dlbss BoxLbyout implfmfnts LbyoutMbnbgfr2, Sfriblizbblf {
+publid dlbss BoxLbyout implfmfnts LbyoutMbnbgfr2, Sfriblizbblf {
+publid dlbss BoxLbyout implfmfnts LbyoutMbnbgfr2, Sfriblizbblf {
+
+
+
+
 
     /**
-     * Spfdififs thbt domponfnts should bf lbid out lfft to right.
+    /**
+    /**
+    /**
+    /**
+     * Spfdififs tibt domponfnts siould bf lbid out lfft to rigit.
+     * Spfdififs tibt domponfnts siould bf lbid out lfft to rigit.
+     * Spfdififs tibt domponfnts siould bf lbid out lfft to rigit.
+     * Spfdififs tibt domponfnts siould bf lbid out lfft to rigit.
+     * Spfdififs tibt domponfnts siould bf lbid out lfft to rigit.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int X_AXIS = 0;
+    publid stbtid finbl int X_AXIS = 0;
+    publid stbtid finbl int X_AXIS = 0;
+    publid stbtid finbl int X_AXIS = 0;
+    publid stbtid finbl int X_AXIS = 0;
+
+
+
+
 
     /**
-     * Spfdififs thbt domponfnts should bf lbid out top to bottom.
+    /**
+    /**
+    /**
+    /**
+     * Spfdififs tibt domponfnts siould bf lbid out top to bottom.
+     * Spfdififs tibt domponfnts siould bf lbid out top to bottom.
+     * Spfdififs tibt domponfnts siould bf lbid out top to bottom.
+     * Spfdififs tibt domponfnts siould bf lbid out top to bottom.
+     * Spfdififs tibt domponfnts siould bf lbid out top to bottom.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int Y_AXIS = 1;
+    publid stbtid finbl int Y_AXIS = 1;
+    publid stbtid finbl int Y_AXIS = 1;
+    publid stbtid finbl int Y_AXIS = 1;
+    publid stbtid finbl int Y_AXIS = 1;
+
+
+
+
 
     /**
-     * Spfdififs thbt domponfnts should bf lbid out in thf dirfdtion of
-     * b linf of tfxt bs dftfrminfd by thf tbrgft dontbinfr's
+    /**
+    /**
+    /**
+    /**
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion of
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion of
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion of
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion of
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion of
+     * b linf of tfxt bs dftfrminfd by tif tbrgft dontbinfr's
+     * b linf of tfxt bs dftfrminfd by tif tbrgft dontbinfr's
+     * b linf of tfxt bs dftfrminfd by tif tbrgft dontbinfr's
+     * b linf of tfxt bs dftfrminfd by tif tbrgft dontbinfr's
+     * b linf of tfxt bs dftfrminfd by tif tbrgft dontbinfr's
      * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int LINE_AXIS = 2;
+    publid stbtid finbl int LINE_AXIS = 2;
+    publid stbtid finbl int LINE_AXIS = 2;
+    publid stbtid finbl int LINE_AXIS = 2;
+    publid stbtid finbl int LINE_AXIS = 2;
+
+
+
+
 
     /**
-     * Spfdififs thbt domponfnts should bf lbid out in thf dirfdtion thbt
-     * linfs flow bdross b pbgf bs dftfrminfd by thf tbrgft dontbinfr's
+    /**
+    /**
+    /**
+    /**
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion tibt
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion tibt
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion tibt
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion tibt
+     * Spfdififs tibt domponfnts siould bf lbid out in tif dirfdtion tibt
+     * linfs flow bdross b pbgf bs dftfrminfd by tif tbrgft dontbinfr's
+     * linfs flow bdross b pbgf bs dftfrminfd by tif tbrgft dontbinfr's
+     * linfs flow bdross b pbgf bs dftfrminfd by tif tbrgft dontbinfr's
+     * linfs flow bdross b pbgf bs dftfrminfd by tif tbrgft dontbinfr's
+     * linfs flow bdross b pbgf bs dftfrminfd by tif tbrgft dontbinfr's
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
      * <dodf>ComponfntOrifntbtion</dodf> propfrty.
      */
+     */
+     */
+     */
+     */
+    publid stbtid finbl int PAGE_AXIS = 3;
+    publid stbtid finbl int PAGE_AXIS = 3;
+    publid stbtid finbl int PAGE_AXIS = 3;
+    publid stbtid finbl int PAGE_AXIS = 3;
     publid stbtid finbl int PAGE_AXIS = 3;
 
+
+
+
+
     /**
-     * Crfbtfs b lbyout mbnbgfr thbt will lby out domponfnts blong thf
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b lbyout mbnbgfr tibt will lby out domponfnts blong tif
+     * Crfbtfs b lbyout mbnbgfr tibt will lby out domponfnts blong tif
+     * Crfbtfs b lbyout mbnbgfr tibt will lby out domponfnts blong tif
+     * Crfbtfs b lbyout mbnbgfr tibt will lby out domponfnts blong tif
+     * Crfbtfs b lbyout mbnbgfr tibt will lby out domponfnts blong tif
+     * givfn bxis.
+     * givfn bxis.
+     * givfn bxis.
+     * givfn bxis.
      * givfn bxis.
      *
-     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
-     * @pbrbm bxis  thf bxis to lby out domponfnts blong. Cbn bf onf of:
+     *
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
      *              <dodf>BoxLbyout.X_AXIS</dodf>,
      *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
      *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
      *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
      *
-     * @fxdfption AWTError  if thf vbluf of <dodf>bxis</dodf> is invblid
+     *
+     *
+     *
+     *
+     * @fxdfption AWTError  if tif vbluf of <dodf>bxis</dodf> is invblid
+     * @fxdfption AWTError  if tif vbluf of <dodf>bxis</dodf> is invblid
+     * @fxdfption AWTError  if tif vbluf of <dodf>bxis</dodf> is invblid
+     * @fxdfption AWTError  if tif vbluf of <dodf>bxis</dodf> is invblid
+     * @fxdfption AWTError  if tif vbluf of <dodf>bxis</dodf> is invblid
+     */
+     */
+     */
+     */
      */
     @ConstrudtorPropfrtifs({"tbrgft", "bxis"})
+    @ConstrudtorPropfrtifs({"tbrgft", "bxis"})
+    @ConstrudtorPropfrtifs({"tbrgft", "bxis"})
+    @ConstrudtorPropfrtifs({"tbrgft", "bxis"})
+    @ConstrudtorPropfrtifs({"tbrgft", "bxis"})
+    publid BoxLbyout(Contbinfr tbrgft, int bxis) {
+    publid BoxLbyout(Contbinfr tbrgft, int bxis) {
+    publid BoxLbyout(Contbinfr tbrgft, int bxis) {
+    publid BoxLbyout(Contbinfr tbrgft, int bxis) {
     publid BoxLbyout(Contbinfr tbrgft, int bxis) {
         if (bxis != X_AXIS && bxis != Y_AXIS &&
+        if (bxis != X_AXIS && bxis != Y_AXIS &&
+        if (bxis != X_AXIS && bxis != Y_AXIS &&
+        if (bxis != X_AXIS && bxis != Y_AXIS &&
+        if (bxis != X_AXIS && bxis != Y_AXIS &&
             bxis != LINE_AXIS && bxis != PAGE_AXIS) {
-            throw nfw AWTError("Invblid bxis");
+            bxis != LINE_AXIS && bxis != PAGE_AXIS) {
+            bxis != LINE_AXIS && bxis != PAGE_AXIS) {
+            bxis != LINE_AXIS && bxis != PAGE_AXIS) {
+            bxis != LINE_AXIS && bxis != PAGE_AXIS) {
+            tirow nfw AWTError("Invblid bxis");
+            tirow nfw AWTError("Invblid bxis");
+            tirow nfw AWTError("Invblid bxis");
+            tirow nfw AWTError("Invblid bxis");
+            tirow nfw AWTError("Invblid bxis");
         }
-        this.bxis = bxis;
-        this.tbrgft = tbrgft;
+        }
+        }
+        }
+        }
+        tiis.bxis = bxis;
+        tiis.bxis = bxis;
+        tiis.bxis = bxis;
+        tiis.bxis = bxis;
+        tiis.bxis = bxis;
+        tiis.tbrgft = tbrgft;
+        tiis.tbrgft = tbrgft;
+        tiis.tbrgft = tbrgft;
+        tiis.tbrgft = tbrgft;
+        tiis.tbrgft = tbrgft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b BoxLbyout thbt
+    /**
+    /**
+    /**
+    /**
+     * Construdts b BoxLbyout tibt
+     * Construdts b BoxLbyout tibt
+     * Construdts b BoxLbyout tibt
+     * Construdts b BoxLbyout tibt
+     * Construdts b BoxLbyout tibt
+     * produdfs dfbugging mfssbgfs.
+     * produdfs dfbugging mfssbgfs.
+     * produdfs dfbugging mfssbgfs.
+     * produdfs dfbugging mfssbgfs.
      * produdfs dfbugging mfssbgfs.
      *
-     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
-     * @pbrbm bxis  thf bxis to lby out domponfnts blong. Cbn bf onf of:
+     *
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     * @pbrbm bxis  tif bxis to lby out domponfnts blong. Cbn bf onf of:
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
      *              <dodf>BoxLbyout.X_AXIS</dodf>,
      *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
      *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
      *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
      *
-     * @pbrbm dbg  thf strfbm to whidh dfbugging mfssbgfs should bf sfnt,
+     *
+     *
+     *
+     *
+     * @pbrbm dbg  tif strfbm to wiidi dfbugging mfssbgfs siould bf sfnt,
+     * @pbrbm dbg  tif strfbm to wiidi dfbugging mfssbgfs siould bf sfnt,
+     * @pbrbm dbg  tif strfbm to wiidi dfbugging mfssbgfs siould bf sfnt,
+     * @pbrbm dbg  tif strfbm to wiidi dfbugging mfssbgfs siould bf sfnt,
+     * @pbrbm dbg  tif strfbm to wiidi dfbugging mfssbgfs siould bf sfnt,
+     *   null if nonf
+     *   null if nonf
+     *   null if nonf
+     *   null if nonf
      *   null if nonf
      */
+     */
+     */
+     */
+     */
     BoxLbyout(Contbinfr tbrgft, int bxis, PrintStrfbm dbg) {
-        this(tbrgft, bxis);
-        this.dbg = dbg;
+    BoxLbyout(Contbinfr tbrgft, int bxis, PrintStrfbm dbg) {
+    BoxLbyout(Contbinfr tbrgft, int bxis, PrintStrfbm dbg) {
+    BoxLbyout(Contbinfr tbrgft, int bxis, PrintStrfbm dbg) {
+    BoxLbyout(Contbinfr tbrgft, int bxis, PrintStrfbm dbg) {
+        tiis(tbrgft, bxis);
+        tiis(tbrgft, bxis);
+        tiis(tbrgft, bxis);
+        tiis(tbrgft, bxis);
+        tiis(tbrgft, bxis);
+        tiis.dbg = dbg;
+        tiis.dbg = dbg;
+        tiis.dbg = dbg;
+        tiis.dbg = dbg;
+        tiis.dbg = dbg;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf dontbinfr thbt usfs this lbyout mbnbgfr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dontbinfr tibt usfs tiis lbyout mbnbgfr.
+     * Rfturns tif dontbinfr tibt usfs tiis lbyout mbnbgfr.
+     * Rfturns tif dontbinfr tibt usfs tiis lbyout mbnbgfr.
+     * Rfturns tif dontbinfr tibt usfs tiis lbyout mbnbgfr.
+     * Rfturns tif dontbinfr tibt usfs tiis lbyout mbnbgfr.
      *
-     * @rfturn thf dontbinfr thbt usfs this lbyout mbnbgfr
+     *
+     *
+     *
+     *
+     * @rfturn tif dontbinfr tibt usfs tiis lbyout mbnbgfr
+     * @rfturn tif dontbinfr tibt usfs tiis lbyout mbnbgfr
+     * @rfturn tif dontbinfr tibt usfs tiis lbyout mbnbgfr
+     * @rfturn tif dontbinfr tibt usfs tiis lbyout mbnbgfr
+     * @rfturn tif dontbinfr tibt usfs tiis lbyout mbnbgfr
+     *
+     *
+     *
+     *
      *
      * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     */
+     */
+     */
+     */
      */
     publid finbl Contbinfr gftTbrgft() {
-        rfturn this.tbrgft;
+    publid finbl Contbinfr gftTbrgft() {
+    publid finbl Contbinfr gftTbrgft() {
+    publid finbl Contbinfr gftTbrgft() {
+    publid finbl Contbinfr gftTbrgft() {
+        rfturn tiis.tbrgft;
+        rfturn tiis.tbrgft;
+        rfturn tiis.tbrgft;
+        rfturn tiis.tbrgft;
+        rfturn tiis.tbrgft;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf bxis thbt wbs usfd to lby out domponfnts.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif bxis tibt wbs usfd to lby out domponfnts.
+     * Rfturns tif bxis tibt wbs usfd to lby out domponfnts.
+     * Rfturns tif bxis tibt wbs usfd to lby out domponfnts.
+     * Rfturns tif bxis tibt wbs usfd to lby out domponfnts.
+     * Rfturns tif bxis tibt wbs usfd to lby out domponfnts.
+     * Rfturns onf of:
+     * Rfturns onf of:
+     * Rfturns onf of:
+     * Rfturns onf of:
      * Rfturns onf of:
      * <dodf>BoxLbyout.X_AXIS</dodf>,
+     * <dodf>BoxLbyout.X_AXIS</dodf>,
+     * <dodf>BoxLbyout.X_AXIS</dodf>,
+     * <dodf>BoxLbyout.X_AXIS</dodf>,
+     * <dodf>BoxLbyout.X_AXIS</dodf>,
+     * <dodf>BoxLbyout.Y_AXIS</dodf>,
+     * <dodf>BoxLbyout.Y_AXIS</dodf>,
+     * <dodf>BoxLbyout.Y_AXIS</dodf>,
+     * <dodf>BoxLbyout.Y_AXIS</dodf>,
      * <dodf>BoxLbyout.Y_AXIS</dodf>,
      * <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     * <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     * <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     * <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     * <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>
      * <dodf>BoxLbyout.PAGE_AXIS</dodf>
      *
-     * @rfturn thf bxis thbt wbs usfd to lby out domponfnts
+     *
+     *
+     *
+     *
+     * @rfturn tif bxis tibt wbs usfd to lby out domponfnts
+     * @rfturn tif bxis tibt wbs usfd to lby out domponfnts
+     * @rfturn tif bxis tibt wbs usfd to lby out domponfnts
+     * @rfturn tif bxis tibt wbs usfd to lby out domponfnts
+     * @rfturn tif bxis tibt wbs usfd to lby out domponfnts
+     *
+     *
+     *
+     *
      *
      * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     * @sindf 1.6
+     */
+     */
+     */
+     */
      */
     publid finbl int gftAxis() {
-        rfturn this.bxis;
+    publid finbl int gftAxis() {
+    publid finbl int gftAxis() {
+    publid finbl int gftAxis() {
+    publid finbl int gftAxis() {
+        rfturn tiis.bxis;
+        rfturn tiis.bxis;
+        rfturn tiis.bxis;
+        rfturn tiis.bxis;
+        rfturn tiis.bxis;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Indidbtfs thbt b dhild hbs dhbngfd its lbyout rflbtfd informbtion,
-     * bnd thus bny dbdhfd dbldulbtions should bf flushfd.
+    /**
+    /**
+    /**
+    /**
+     * Indidbtfs tibt b diild ibs dibngfd its lbyout rflbtfd informbtion,
+     * Indidbtfs tibt b diild ibs dibngfd its lbyout rflbtfd informbtion,
+     * Indidbtfs tibt b diild ibs dibngfd its lbyout rflbtfd informbtion,
+     * Indidbtfs tibt b diild ibs dibngfd its lbyout rflbtfd informbtion,
+     * Indidbtfs tibt b diild ibs dibngfd its lbyout rflbtfd informbtion,
+     * bnd tius bny dbdifd dbldulbtions siould bf flusifd.
+     * bnd tius bny dbdifd dbldulbtions siould bf flusifd.
+     * bnd tius bny dbdifd dbldulbtions siould bf flusifd.
+     * bnd tius bny dbdifd dbldulbtions siould bf flusifd.
+     * bnd tius bny dbdifd dbldulbtions siould bf flusifd.
      * <p>
-     * This mfthod is dbllfd by AWT whfn thf invblidbtf mfthod is dbllfd
-     * on thf Contbinfr.  Sindf thf invblidbtf mfthod mby bf dbllfd
-     * bsyndhronously to thf fvfnt thrfbd, this mfthod mby bf dbllfd
-     * bsyndhronously.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Tiis mftiod is dbllfd by AWT wifn tif invblidbtf mftiod is dbllfd
+     * Tiis mftiod is dbllfd by AWT wifn tif invblidbtf mftiod is dbllfd
+     * Tiis mftiod is dbllfd by AWT wifn tif invblidbtf mftiod is dbllfd
+     * Tiis mftiod is dbllfd by AWT wifn tif invblidbtf mftiod is dbllfd
+     * Tiis mftiod is dbllfd by AWT wifn tif invblidbtf mftiod is dbllfd
+     * on tif Contbinfr.  Sindf tif invblidbtf mftiod mby bf dbllfd
+     * on tif Contbinfr.  Sindf tif invblidbtf mftiod mby bf dbllfd
+     * on tif Contbinfr.  Sindf tif invblidbtf mftiod mby bf dbllfd
+     * on tif Contbinfr.  Sindf tif invblidbtf mftiod mby bf dbllfd
+     * on tif Contbinfr.  Sindf tif invblidbtf mftiod mby bf dbllfd
+     * bsyndironously to tif fvfnt tirfbd, tiis mftiod mby bf dbllfd
+     * bsyndironously to tif fvfnt tirfbd, tiis mftiod mby bf dbllfd
+     * bsyndironously to tif fvfnt tirfbd, tiis mftiod mby bf dbllfd
+     * bsyndironously to tif fvfnt tirfbd, tiis mftiod mby bf dbllfd
+     * bsyndironously to tif fvfnt tirfbd, tiis mftiod mby bf dbllfd
+     * bsyndironously.
+     * bsyndironously.
+     * bsyndironously.
+     * bsyndironously.
+     * bsyndironously.
      *
-     * @pbrbm tbrgft  thf bfffdtfd dontbinfr
      *
-     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif bfffdtfd dontbinfr
+     * @pbrbm tbrgft  tif bfffdtfd dontbinfr
+     * @pbrbm tbrgft  tif bfffdtfd dontbinfr
+     * @pbrbm tbrgft  tif bfffdtfd dontbinfr
+     * @pbrbm tbrgft  tif bfffdtfd dontbinfr
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
      *                      BoxLbyout donstrudtor
      */
-    publid syndhronizfd void invblidbtfLbyout(Contbinfr tbrgft) {
-        dhfdkContbinfr(tbrgft);
-        xChildrfn = null;
-        yChildrfn = null;
+     */
+     */
+     */
+     */
+    publid syndironizfd void invblidbtfLbyout(Contbinfr tbrgft) {
+    publid syndironizfd void invblidbtfLbyout(Contbinfr tbrgft) {
+    publid syndironizfd void invblidbtfLbyout(Contbinfr tbrgft) {
+    publid syndironizfd void invblidbtfLbyout(Contbinfr tbrgft) {
+    publid syndironizfd void invblidbtfLbyout(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        xCiildrfn = null;
+        xCiildrfn = null;
+        xCiildrfn = null;
+        xCiildrfn = null;
+        xCiildrfn = null;
+        yCiildrfn = null;
+        yCiildrfn = null;
+        yCiildrfn = null;
+        yCiildrfn = null;
+        yCiildrfn = null;
+        xTotbl = null;
+        xTotbl = null;
+        xTotbl = null;
+        xTotbl = null;
         xTotbl = null;
         yTotbl = null;
+        yTotbl = null;
+        yTotbl = null;
+        yTotbl = null;
+        yTotbl = null;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Not usfd by this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
      *
-     * @pbrbm nbmf thf nbmf of thf domponfnt
-     * @pbrbm domp thf domponfnt
+     *
+     *
+     *
+     *
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     */
+     */
+     */
+     */
      */
     publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
         invblidbtfLbyout(domp.gftPbrfnt());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Not usfd by this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
      *
-     * @pbrbm domp thf domponfnt
+     *
+     *
+     *
+     *
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     */
+     */
+     */
+     */
      */
     publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
         invblidbtfLbyout(domp.gftPbrfnt());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Not usfd by this dlbss.
+    /**
+    /**
+    /**
+    /**
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
+     * Not usfd by tiis dlbss.
      *
-     * @pbrbm domp thf domponfnt
+     *
+     *
+     *
+     *
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm domp tif domponfnt
+     * @pbrbm donstrbints donstrbints
+     * @pbrbm donstrbints donstrbints
+     * @pbrbm donstrbints donstrbints
+     * @pbrbm donstrbints donstrbints
      * @pbrbm donstrbints donstrbints
      */
+     */
+     */
+     */
+     */
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
     publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
         invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+        invblidbtfLbyout(domp.gftPbrfnt());
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf prfffrrfd dimfnsions for this lbyout, givfn thf domponfnts
-     * in thf spfdififd tbrgft dontbinfr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout, givfn tif domponfnts
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout, givfn tif domponfnts
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout, givfn tif domponfnts
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout, givfn tif domponfnts
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout, givfn tif domponfnts
+     * in tif spfdififd tbrgft dontbinfr.
+     * in tif spfdififd tbrgft dontbinfr.
+     * in tif spfdififd tbrgft dontbinfr.
+     * in tif spfdififd tbrgft dontbinfr.
+     * in tif spfdififd tbrgft dontbinfr.
      *
-     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
-     * @rfturn thf dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
-     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
      *                      BoxLbyout donstrudtor
      * @sff Contbinfr
+     * @sff Contbinfr
+     * @sff Contbinfr
+     * @sff Contbinfr
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff #minimumLbyoutSizf
+     * @sff #minimumLbyoutSizf
+     * @sff #minimumLbyoutSizf
      * @sff #minimumLbyoutSizf
      * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     */
+     */
+     */
+     */
      */
     publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
         Dimfnsion sizf;
-        syndhronizfd(this) {
-            dhfdkContbinfr(tbrgft);
-            dhfdkRfqufsts();
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
+            sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
+            sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
+            sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
             sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         Insfts insfts = tbrgft.gftInsfts();
-        sizf.width = (int) Mbth.min((long) sizf.width + (long) insfts.lfft + (long) insfts.right, Intfgfr.MAX_VALUE);
-        sizf.hfight = (int) Mbth.min((long) sizf.hfight + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
         rfturn sizf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf minimum dimfnsions nffdfd to lby out thf domponfnts
-     * dontbinfd in thf spfdififd tbrgft dontbinfr.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif minimum dimfnsions nffdfd to lby out tif domponfnts
+     * Rfturns tif minimum dimfnsions nffdfd to lby out tif domponfnts
+     * Rfturns tif minimum dimfnsions nffdfd to lby out tif domponfnts
+     * Rfturns tif minimum dimfnsions nffdfd to lby out tif domponfnts
+     * Rfturns tif minimum dimfnsions nffdfd to lby out tif domponfnts
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.
      *
-     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
-     * @rfturn thf dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
-     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
      *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
      * @sff #prfffrrfdLbyoutSizf
      * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     */
+     */
+     */
+     */
      */
     publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
         Dimfnsion sizf;
-        syndhronizfd(this) {
-            dhfdkContbinfr(tbrgft);
-            dhfdkRfqufsts();
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
+            sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
+            sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
+            sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
             sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         Insfts insfts = tbrgft.gftInsfts();
-        sizf.width = (int) Mbth.min((long) sizf.width + (long) insfts.lfft + (long) insfts.right, Intfgfr.MAX_VALUE);
-        sizf.hfight = (int) Mbth.min((long) sizf.hfight + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
         rfturn sizf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf mbximum dimfnsions thf tbrgft dontbinfr dbn usf
-     * to lby out thf domponfnts it dontbins.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif mbximum dimfnsions tif tbrgft dontbinfr dbn usf
+     * Rfturns tif mbximum dimfnsions tif tbrgft dontbinfr dbn usf
+     * Rfturns tif mbximum dimfnsions tif tbrgft dontbinfr dbn usf
+     * Rfturns tif mbximum dimfnsions tif tbrgft dontbinfr dbn usf
+     * Rfturns tif mbximum dimfnsions tif tbrgft dontbinfr dbn usf
+     * to lby out tif domponfnts it dontbins.
+     * to lby out tif domponfnts it dontbins.
+     * to lby out tif domponfnts it dontbins.
+     * to lby out tif domponfnts it dontbins.
+     * to lby out tif domponfnts it dontbins.
      *
-     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
-     * @rfturn thf dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
-     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @pbrbm tbrgft  tif dontbinfr tibt nffds to bf lbid out
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @rfturn tif dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
      *                      BoxLbyout donstrudtor
      * @sff #prfffrrfdLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #minimumLbyoutSizf
+     * @sff #minimumLbyoutSizf
+     * @sff #minimumLbyoutSizf
+     * @sff #minimumLbyoutSizf
      * @sff #minimumLbyoutSizf
      */
+     */
+     */
+     */
+     */
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
     publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
         Dimfnsion sizf;
-        syndhronizfd(this) {
-            dhfdkContbinfr(tbrgft);
-            dhfdkRfqufsts();
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        Dimfnsion sizf;
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkContbinfr(tbrgft);
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
+            sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
+            sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
+            sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
             sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         Insfts insfts = tbrgft.gftInsfts();
-        sizf.width = (int) Mbth.min((long) sizf.width + (long) insfts.lfft + (long) insfts.right, Intfgfr.MAX_VALUE);
-        sizf.hfight = (int) Mbth.min((long) sizf.hfight + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.widti = (int) Mbti.min((long) sizf.widti + (long) insfts.lfft + (long) insfts.rigit, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        sizf.ifigit = (int) Mbti.min((long) sizf.ifigit + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
+        rfturn sizf;
         rfturn sizf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf blignmfnt blong thf X bxis for thf dontbinfr.
-     * If thf box is horizontbl, thf dffbult
-     * blignmfnt will bf rfturnfd. Othfrwisf, thf blignmfnt nffdfd
-     * to plbdf thf dhildrfn blong thf X bxis will bf rfturnfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif blignmfnt blong tif X bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif X bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif X bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif X bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif X bxis for tif dontbinfr.
+     * If tif box is iorizontbl, tif dffbult
+     * If tif box is iorizontbl, tif dffbult
+     * If tif box is iorizontbl, tif dffbult
+     * If tif box is iorizontbl, tif dffbult
+     * If tif box is iorizontbl, tif dffbult
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * to plbdf tif diildrfn blong tif X bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif X bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif X bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif X bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif X bxis will bf rfturnfd.
      *
-     * @pbrbm tbrgft  thf dontbinfr
-     * @rfturn thf blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
-     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
      *                      BoxLbyout donstrudtor
      */
-    publid syndhronizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
-        dhfdkContbinfr(tbrgft);
-        dhfdkRfqufsts();
+     */
+     */
+     */
+     */
+    publid syndironizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
+        difdkRfqufsts();
+        difdkRfqufsts();
+        difdkRfqufsts();
+        difdkRfqufsts();
+        rfturn xTotbl.blignmfnt;
+        rfturn xTotbl.blignmfnt;
+        rfturn xTotbl.blignmfnt;
+        rfturn xTotbl.blignmfnt;
         rfturn xTotbl.blignmfnt;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf blignmfnt blong thf Y bxis for thf dontbinfr.
-     * If thf box is vfrtidbl, thf dffbult
-     * blignmfnt will bf rfturnfd. Othfrwisf, thf blignmfnt nffdfd
-     * to plbdf thf dhildrfn blong thf Y bxis will bf rfturnfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif blignmfnt blong tif Y bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif Y bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif Y bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif Y bxis for tif dontbinfr.
+     * Rfturns tif blignmfnt blong tif Y bxis for tif dontbinfr.
+     * If tif box is vfrtidbl, tif dffbult
+     * If tif box is vfrtidbl, tif dffbult
+     * If tif box is vfrtidbl, tif dffbult
+     * If tif box is vfrtidbl, tif dffbult
+     * If tif box is vfrtidbl, tif dffbult
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * blignmfnt will bf rfturnfd. Otifrwisf, tif blignmfnt nffdfd
+     * to plbdf tif diildrfn blong tif Y bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif Y bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif Y bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif Y bxis will bf rfturnfd.
+     * to plbdf tif diildrfn blong tif Y bxis will bf rfturnfd.
      *
-     * @pbrbm tbrgft  thf dontbinfr
-     * @rfturn thf blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
-     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @pbrbm tbrgft  tif dontbinfr
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
      *                      BoxLbyout donstrudtor
      */
-    publid syndhronizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
-        dhfdkContbinfr(tbrgft);
-        dhfdkRfqufsts();
+     */
+     */
+     */
+     */
+    publid syndironizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+    publid syndironizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
+        difdkRfqufsts();
+        difdkRfqufsts();
+        difdkRfqufsts();
+        difdkRfqufsts();
+        rfturn yTotbl.blignmfnt;
+        rfturn yTotbl.blignmfnt;
+        rfturn yTotbl.blignmfnt;
+        rfturn yTotbl.blignmfnt;
         rfturn yTotbl.blignmfnt;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Cbllfd by thf AWT <!-- XXX CHECK! --> whfn thf spfdififd dontbinfr
+    /**
+    /**
+    /**
+    /**
+     * Cbllfd by tif AWT <!-- XXX CHECK! --> wifn tif spfdififd dontbinfr
+     * Cbllfd by tif AWT <!-- XXX CHECK! --> wifn tif spfdififd dontbinfr
+     * Cbllfd by tif AWT <!-- XXX CHECK! --> wifn tif spfdififd dontbinfr
+     * Cbllfd by tif AWT <!-- XXX CHECK! --> wifn tif spfdififd dontbinfr
+     * Cbllfd by tif AWT <!-- XXX CHECK! --> wifn tif spfdififd dontbinfr
+     * nffds to bf lbid out.
+     * nffds to bf lbid out.
+     * nffds to bf lbid out.
+     * nffds to bf lbid out.
      * nffds to bf lbid out.
      *
-     * @pbrbm tbrgft  thf dontbinfr to lby out
      *
-     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *
+     *
+     *
+     * @pbrbm tbrgft  tif dontbinfr to lby out
+     * @pbrbm tbrgft  tif dontbinfr to lby out
+     * @pbrbm tbrgft  tif dontbinfr to lby out
+     * @pbrbm tbrgft  tif dontbinfr to lby out
+     * @pbrbm tbrgft  tif dontbinfr to lby out
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
+     *                      BoxLbyout donstrudtor
      *                      BoxLbyout donstrudtor
      */
+     */
+     */
+     */
+     */
     publid void lbyoutContbinfr(Contbinfr tbrgft) {
-        dhfdkContbinfr(tbrgft);
-        int nChildrfn = tbrgft.gftComponfntCount();
-        int[] xOffsfts = nfw int[nChildrfn];
-        int[] xSpbns = nfw int[nChildrfn];
-        int[] yOffsfts = nfw int[nChildrfn];
-        int[] ySpbns = nfw int[nChildrfn];
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        difdkContbinfr(tbrgft);
+        int nCiildrfn = tbrgft.gftComponfntCount();
+        int nCiildrfn = tbrgft.gftComponfntCount();
+        int nCiildrfn = tbrgft.gftComponfntCount();
+        int nCiildrfn = tbrgft.gftComponfntCount();
+        int nCiildrfn = tbrgft.gftComponfntCount();
+        int[] xOffsfts = nfw int[nCiildrfn];
+        int[] xOffsfts = nfw int[nCiildrfn];
+        int[] xOffsfts = nfw int[nCiildrfn];
+        int[] xOffsfts = nfw int[nCiildrfn];
+        int[] xOffsfts = nfw int[nCiildrfn];
+        int[] xSpbns = nfw int[nCiildrfn];
+        int[] xSpbns = nfw int[nCiildrfn];
+        int[] xSpbns = nfw int[nCiildrfn];
+        int[] xSpbns = nfw int[nCiildrfn];
+        int[] xSpbns = nfw int[nCiildrfn];
+        int[] yOffsfts = nfw int[nCiildrfn];
+        int[] yOffsfts = nfw int[nCiildrfn];
+        int[] yOffsfts = nfw int[nCiildrfn];
+        int[] yOffsfts = nfw int[nCiildrfn];
+        int[] yOffsfts = nfw int[nCiildrfn];
+        int[] ySpbns = nfw int[nCiildrfn];
+        int[] ySpbns = nfw int[nCiildrfn];
+        int[] ySpbns = nfw int[nCiildrfn];
+        int[] ySpbns = nfw int[nCiildrfn];
+        int[] ySpbns = nfw int[nCiildrfn];
+
+
+
+
 
         Dimfnsion bllod = tbrgft.gftSizf();
+        Dimfnsion bllod = tbrgft.gftSizf();
+        Dimfnsion bllod = tbrgft.gftSizf();
+        Dimfnsion bllod = tbrgft.gftSizf();
+        Dimfnsion bllod = tbrgft.gftSizf();
         Insfts in = tbrgft.gftInsfts();
-        bllod.width -= in.lfft + in.right;
-        bllod.hfight -= in.top + in.bottom;
+        Insfts in = tbrgft.gftInsfts();
+        Insfts in = tbrgft.gftInsfts();
+        Insfts in = tbrgft.gftInsfts();
+        Insfts in = tbrgft.gftInsfts();
+        bllod.widti -= in.lfft + in.rigit;
+        bllod.widti -= in.lfft + in.rigit;
+        bllod.widti -= in.lfft + in.rigit;
+        bllod.widti -= in.lfft + in.rigit;
+        bllod.widti -= in.lfft + in.rigit;
+        bllod.ifigit -= in.top + in.bottom;
+        bllod.ifigit -= in.top + in.bottom;
+        bllod.ifigit -= in.top + in.bottom;
+        bllod.ifigit -= in.top + in.bottom;
+        bllod.ifigit -= in.top + in.bottom;
 
-        // Rfsolvf bxis to bn bbsolutf vbluf (fithfr X_AXIS or Y_AXIS)
+
+
+
+
+        // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+        // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+        // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+        // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+        // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+        ComponfntOrifntbtion o = tbrgft.gftComponfntOrifntbtion();
+        ComponfntOrifntbtion o = tbrgft.gftComponfntOrifntbtion();
+        ComponfntOrifntbtion o = tbrgft.gftComponfntOrifntbtion();
+        ComponfntOrifntbtion o = tbrgft.gftComponfntOrifntbtion();
         ComponfntOrifntbtion o = tbrgft.gftComponfntOrifntbtion();
         int bbsolutfAxis = rfsolvfAxis( bxis, o );
-        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRight() : truf;
+        int bbsolutfAxis = rfsolvfAxis( bxis, o );
+        int bbsolutfAxis = rfsolvfAxis( bxis, o );
+        int bbsolutfAxis = rfsolvfAxis( bxis, o );
+        int bbsolutfAxis = rfsolvfAxis( bxis, o );
+        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRigit() : truf;
+        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRigit() : truf;
+        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRigit() : truf;
+        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRigit() : truf;
+        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRigit() : truf;
 
 
-        // dftfrminf thf dhild plbdfmfnts
-        syndhronizfd(this) {
-            dhfdkRfqufsts();
+
+
+
+
+
+
+
+
+        // dftfrminf tif diild plbdfmfnts
+        // dftfrminf tif diild plbdfmfnts
+        // dftfrminf tif diild plbdfmfnts
+        // dftfrminf tif diild plbdfmfnts
+        // dftfrminf tif diild plbdfmfnts
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+        syndironizfd(tiis) {
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+            difdkRfqufsts();
+
+
+
+
 
             if (bbsolutfAxis == X_AXIS) {
-                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.width, xTotbl,
-                                                         xChildrfn, xOffsfts,
+            if (bbsolutfAxis == X_AXIS) {
+            if (bbsolutfAxis == X_AXIS) {
+            if (bbsolutfAxis == X_AXIS) {
+            if (bbsolutfAxis == X_AXIS) {
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.widti, xTotbl,
+                                                         xCiildrfn, xOffsfts,
+                                                         xCiildrfn, xOffsfts,
+                                                         xCiildrfn, xOffsfts,
+                                                         xCiildrfn, xOffsfts,
+                                                         xCiildrfn, xOffsfts,
                                                          xSpbns, ltr);
-                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.hfight, yTotbl,
-                                                           yChildrfn, yOffsfts,
+                                                         xSpbns, ltr);
+                                                         xSpbns, ltr);
+                                                         xSpbns, ltr);
+                                                         xSpbns, ltr);
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.ifigit, yTotbl,
+                                                           yCiildrfn, yOffsfts,
+                                                           yCiildrfn, yOffsfts,
+                                                           yCiildrfn, yOffsfts,
+                                                           yCiildrfn, yOffsfts,
+                                                           yCiildrfn, yOffsfts,
+                                                           ySpbns);
+                                                           ySpbns);
+                                                           ySpbns);
+                                                           ySpbns);
                                                            ySpbns);
             } flsf {
-                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.width, xTotbl,
-                                                           xChildrfn, xOffsfts,
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.widti, xTotbl,
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.widti, xTotbl,
+                                                           xCiildrfn, xOffsfts,
+                                                           xCiildrfn, xOffsfts,
+                                                           xCiildrfn, xOffsfts,
+                                                           xCiildrfn, xOffsfts,
+                                                           xCiildrfn, xOffsfts,
                                                            xSpbns, ltr);
-                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.hfight, yTotbl,
-                                                         yChildrfn, yOffsfts,
+                                                           xSpbns, ltr);
+                                                           xSpbns, ltr);
+                                                           xSpbns, ltr);
+                                                           xSpbns, ltr);
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.ifigit, yTotbl,
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.ifigit, yTotbl,
+                                                         yCiildrfn, yOffsfts,
+                                                         yCiildrfn, yOffsfts,
+                                                         yCiildrfn, yOffsfts,
+                                                         yCiildrfn, yOffsfts,
+                                                         yCiildrfn, yOffsfts,
+                                                         ySpbns);
+                                                         ySpbns);
+                                                         ySpbns);
+                                                         ySpbns);
                                                          ySpbns);
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
 
-        // flush dhbngfs to thf dontbinfr
-        for (int i = 0; i < nChildrfn; i++) {
+
+
+
+
+        // flusi dibngfs to tif dontbinfr
+        // flusi dibngfs to tif dontbinfr
+        // flusi dibngfs to tif dontbinfr
+        // flusi dibngfs to tif dontbinfr
+        // flusi dibngfs to tif dontbinfr
+        for (int i = 0; i < nCiildrfn; i++) {
+        for (int i = 0; i < nCiildrfn; i++) {
+        for (int i = 0; i < nCiildrfn; i++) {
+        for (int i = 0; i < nCiildrfn; i++) {
+        for (int i = 0; i < nCiildrfn; i++) {
             Componfnt d = tbrgft.gftComponfnt(i);
-            d.sftBounds((int) Mbth.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
-                        (int) Mbth.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+            Componfnt d = tbrgft.gftComponfnt(i);
+            Componfnt d = tbrgft.gftComponfnt(i);
+            Componfnt d = tbrgft.gftComponfnt(i);
+            Componfnt d = tbrgft.gftComponfnt(i);
+            d.sftBounds((int) Mbti.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
+            d.sftBounds((int) Mbti.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
+            d.sftBounds((int) Mbti.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
+            d.sftBounds((int) Mbti.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
+            d.sftBounds((int) Mbti.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
+                        (int) Mbti.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+                        (int) Mbti.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+                        (int) Mbti.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+                        (int) Mbti.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+                        (int) Mbti.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+                        xSpbns[i], ySpbns[i]);
+                        xSpbns[i], ySpbns[i]);
+                        xSpbns[i], ySpbns[i]);
+                        xSpbns[i], ySpbns[i]);
                         xSpbns[i], ySpbns[i]);
 
+
+
+
+
+        }
+        }
+        }
+        }
         }
         if (dbg != null) {
-            for (int i = 0; i < nChildrfn; i++) {
+        if (dbg != null) {
+        if (dbg != null) {
+        if (dbg != null) {
+        if (dbg != null) {
+            for (int i = 0; i < nCiildrfn; i++) {
+            for (int i = 0; i < nCiildrfn; i++) {
+            for (int i = 0; i < nCiildrfn; i++) {
+            for (int i = 0; i < nCiildrfn; i++) {
+            for (int i = 0; i < nCiildrfn; i++) {
+                Componfnt d = tbrgft.gftComponfnt(i);
+                Componfnt d = tbrgft.gftComponfnt(i);
+                Componfnt d = tbrgft.gftComponfnt(i);
+                Componfnt d = tbrgft.gftComponfnt(i);
                 Componfnt d = tbrgft.gftComponfnt(i);
                 dbg.println(d.toString());
-                dbg.println("X: " + xChildrfn[i]);
-                dbg.println("Y: " + yChildrfn[i]);
+                dbg.println(d.toString());
+                dbg.println(d.toString());
+                dbg.println(d.toString());
+                dbg.println(d.toString());
+                dbg.println("X: " + xCiildrfn[i]);
+                dbg.println("X: " + xCiildrfn[i]);
+                dbg.println("X: " + xCiildrfn[i]);
+                dbg.println("X: " + xCiildrfn[i]);
+                dbg.println("X: " + xCiildrfn[i]);
+                dbg.println("Y: " + yCiildrfn[i]);
+                dbg.println("Y: " + yCiildrfn[i]);
+                dbg.println("Y: " + yCiildrfn[i]);
+                dbg.println("Y: " + yCiildrfn[i]);
+                dbg.println("Y: " + yCiildrfn[i]);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
     }
+    }
+    }
+    }
+    }
 
-    void dhfdkContbinfr(Contbinfr tbrgft) {
-        if (this.tbrgft != tbrgft) {
-            throw nfw AWTError("BoxLbyout dbn't bf shbrfd");
+
+
+
+
+    void difdkContbinfr(Contbinfr tbrgft) {
+    void difdkContbinfr(Contbinfr tbrgft) {
+    void difdkContbinfr(Contbinfr tbrgft) {
+    void difdkContbinfr(Contbinfr tbrgft) {
+    void difdkContbinfr(Contbinfr tbrgft) {
+        if (tiis.tbrgft != tbrgft) {
+        if (tiis.tbrgft != tbrgft) {
+        if (tiis.tbrgft != tbrgft) {
+        if (tiis.tbrgft != tbrgft) {
+        if (tiis.tbrgft != tbrgft) {
+            tirow nfw AWTError("BoxLbyout dbn't bf sibrfd");
+            tirow nfw AWTError("BoxLbyout dbn't bf sibrfd");
+            tirow nfw AWTError("BoxLbyout dbn't bf sibrfd");
+            tirow nfw AWTError("BoxLbyout dbn't bf sibrfd");
+            tirow nfw AWTError("BoxLbyout dbn't bf sibrfd");
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    void dhfdkRfqufsts() {
-        if (xChildrfn == null || yChildrfn == null) {
-            // Thf rfqufsts hbvf bffn invblidbtfd... rfdbldulbtf
-            // thf rfqufst informbtion.
+
+
+
+
+    void difdkRfqufsts() {
+    void difdkRfqufsts() {
+    void difdkRfqufsts() {
+    void difdkRfqufsts() {
+    void difdkRfqufsts() {
+        if (xCiildrfn == null || yCiildrfn == null) {
+        if (xCiildrfn == null || yCiildrfn == null) {
+        if (xCiildrfn == null || yCiildrfn == null) {
+        if (xCiildrfn == null || yCiildrfn == null) {
+        if (xCiildrfn == null || yCiildrfn == null) {
+            // Tif rfqufsts ibvf bffn invblidbtfd... rfdbldulbtf
+            // Tif rfqufsts ibvf bffn invblidbtfd... rfdbldulbtf
+            // Tif rfqufsts ibvf bffn invblidbtfd... rfdbldulbtf
+            // Tif rfqufsts ibvf bffn invblidbtfd... rfdbldulbtf
+            // Tif rfqufsts ibvf bffn invblidbtfd... rfdbldulbtf
+            // tif rfqufst informbtion.
+            // tif rfqufst informbtion.
+            // tif rfqufst informbtion.
+            // tif rfqufst informbtion.
+            // tif rfqufst informbtion.
             int n = tbrgft.gftComponfntCount();
-            xChildrfn = nfw SizfRfquirfmfnts[n];
-            yChildrfn = nfw SizfRfquirfmfnts[n];
+            int n = tbrgft.gftComponfntCount();
+            int n = tbrgft.gftComponfntCount();
+            int n = tbrgft.gftComponfntCount();
+            int n = tbrgft.gftComponfntCount();
+            xCiildrfn = nfw SizfRfquirfmfnts[n];
+            xCiildrfn = nfw SizfRfquirfmfnts[n];
+            xCiildrfn = nfw SizfRfquirfmfnts[n];
+            xCiildrfn = nfw SizfRfquirfmfnts[n];
+            xCiildrfn = nfw SizfRfquirfmfnts[n];
+            yCiildrfn = nfw SizfRfquirfmfnts[n];
+            yCiildrfn = nfw SizfRfquirfmfnts[n];
+            yCiildrfn = nfw SizfRfquirfmfnts[n];
+            yCiildrfn = nfw SizfRfquirfmfnts[n];
+            yCiildrfn = nfw SizfRfquirfmfnts[n];
+            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
             for (int i = 0; i < n; i++) {
                 Componfnt d = tbrgft.gftComponfnt(i);
+                Componfnt d = tbrgft.gftComponfnt(i);
+                Componfnt d = tbrgft.gftComponfnt(i);
+                Componfnt d = tbrgft.gftComponfnt(i);
+                Componfnt d = tbrgft.gftComponfnt(i);
                 if (!d.isVisiblf()) {
-                    xChildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
-                    yChildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                if (!d.isVisiblf()) {
+                if (!d.isVisiblf()) {
+                if (!d.isVisiblf()) {
+                if (!d.isVisiblf()) {
+                    xCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
+                    xCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
+                    xCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
+                    xCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
+                    xCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
+                    yCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                    yCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                    yCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                    yCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                    yCiildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
+                    dontinuf;
                     dontinuf;
                 }
+                }
+                }
+                }
+                }
+                Dimfnsion min = d.gftMinimumSizf();
+                Dimfnsion min = d.gftMinimumSizf();
+                Dimfnsion min = d.gftMinimumSizf();
+                Dimfnsion min = d.gftMinimumSizf();
                 Dimfnsion min = d.gftMinimumSizf();
                 Dimfnsion typ = d.gftPrfffrrfdSizf();
+                Dimfnsion typ = d.gftPrfffrrfdSizf();
+                Dimfnsion typ = d.gftPrfffrrfdSizf();
+                Dimfnsion typ = d.gftPrfffrrfdSizf();
+                Dimfnsion typ = d.gftPrfffrrfdSizf();
                 Dimfnsion mbx = d.gftMbximumSizf();
-                xChildrfn[i] = nfw SizfRfquirfmfnts(min.width, typ.width,
-                                                    mbx.width,
+                Dimfnsion mbx = d.gftMbximumSizf();
+                Dimfnsion mbx = d.gftMbximumSizf();
+                Dimfnsion mbx = d.gftMbximumSizf();
+                Dimfnsion mbx = d.gftMbximumSizf();
+                xCiildrfn[i] = nfw SizfRfquirfmfnts(min.widti, typ.widti,
+                xCiildrfn[i] = nfw SizfRfquirfmfnts(min.widti, typ.widti,
+                xCiildrfn[i] = nfw SizfRfquirfmfnts(min.widti, typ.widti,
+                xCiildrfn[i] = nfw SizfRfquirfmfnts(min.widti, typ.widti,
+                xCiildrfn[i] = nfw SizfRfquirfmfnts(min.widti, typ.widti,
+                                                    mbx.widti,
+                                                    mbx.widti,
+                                                    mbx.widti,
+                                                    mbx.widti,
+                                                    mbx.widti,
                                                     d.gftAlignmfntX());
-                yChildrfn[i] = nfw SizfRfquirfmfnts(min.hfight, typ.hfight,
-                                                    mbx.hfight,
+                                                    d.gftAlignmfntX());
+                                                    d.gftAlignmfntX());
+                                                    d.gftAlignmfntX());
+                                                    d.gftAlignmfntX());
+                yCiildrfn[i] = nfw SizfRfquirfmfnts(min.ifigit, typ.ifigit,
+                yCiildrfn[i] = nfw SizfRfquirfmfnts(min.ifigit, typ.ifigit,
+                yCiildrfn[i] = nfw SizfRfquirfmfnts(min.ifigit, typ.ifigit,
+                yCiildrfn[i] = nfw SizfRfquirfmfnts(min.ifigit, typ.ifigit,
+                yCiildrfn[i] = nfw SizfRfquirfmfnts(min.ifigit, typ.ifigit,
+                                                    mbx.ifigit,
+                                                    mbx.ifigit,
+                                                    mbx.ifigit,
+                                                    mbx.ifigit,
+                                                    mbx.ifigit,
+                                                    d.gftAlignmfntY());
+                                                    d.gftAlignmfntY());
+                                                    d.gftAlignmfntY());
+                                                    d.gftAlignmfntY());
                                                     d.gftAlignmfntY());
             }
+            }
+            }
+            }
+            }
 
-            // Rfsolvf bxis to bn bbsolutf vbluf (fithfr X_AXIS or Y_AXIS)
+
+
+
+
+            // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+            // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+            // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+            // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+            // Rfsolvf bxis to bn bbsolutf vbluf (fitifr X_AXIS or Y_AXIS)
+            int bbsolutfAxis = rfsolvfAxis(bxis,tbrgft.gftComponfntOrifntbtion());
+            int bbsolutfAxis = rfsolvfAxis(bxis,tbrgft.gftComponfntOrifntbtion());
+            int bbsolutfAxis = rfsolvfAxis(bxis,tbrgft.gftComponfntOrifntbtion());
+            int bbsolutfAxis = rfsolvfAxis(bxis,tbrgft.gftComponfntOrifntbtion());
             int bbsolutfAxis = rfsolvfAxis(bxis,tbrgft.gftComponfntOrifntbtion());
 
+
+
+
+
             if (bbsolutfAxis == X_AXIS) {
-                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xChildrfn);
-                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yChildrfn);
+            if (bbsolutfAxis == X_AXIS) {
+            if (bbsolutfAxis == X_AXIS) {
+            if (bbsolutfAxis == X_AXIS) {
+            if (bbsolutfAxis == X_AXIS) {
+                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yCiildrfn);
             } flsf {
-                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xChildrfn);
-                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yChildrfn);
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xCiildrfn);
+                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yCiildrfn);
+                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yCiildrfn);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Givfn onf of thf 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
-     * Thf rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
-     * to thfir bbsolutf doutfrpbrt givfn thf tbrgft's ComponfntOrifntbtion
-     * vbluf.  Thf bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
+    /**
+    /**
+    /**
+    /**
+     * Givfn onf of tif 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
+     * Givfn onf of tif 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
+     * Givfn onf of tif 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
+     * Givfn onf of tif 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
+     * Givfn onf of tif 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
+     * Tif rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
+     * Tif rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
+     * Tif rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
+     * Tif rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
+     * Tif rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
+     * to tifir bbsolutf doutfrpbrt givfn tif tbrgft's ComponfntOrifntbtion
+     * to tifir bbsolutf doutfrpbrt givfn tif tbrgft's ComponfntOrifntbtion
+     * to tifir bbsolutf doutfrpbrt givfn tif tbrgft's ComponfntOrifntbtion
+     * to tifir bbsolutf doutfrpbrt givfn tif tbrgft's ComponfntOrifntbtion
+     * to tifir bbsolutf doutfrpbrt givfn tif tbrgft's ComponfntOrifntbtion
+     * vbluf.  Tif bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
+     * vbluf.  Tif bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
+     * vbluf.  Tif bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
+     * vbluf.  Tif bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
+     * vbluf.  Tif bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
      *
-     * @pbrbm bxis thf bxis to rfsolvf
-     * @pbrbm o thf ComponfntOrifntbtion to rfsolvf bgbinst
-     * @rfturn thf rfsolvfd bxis
+     *
+     *
+     *
+     *
+     * @pbrbm bxis tif bxis to rfsolvf
+     * @pbrbm bxis tif bxis to rfsolvf
+     * @pbrbm bxis tif bxis to rfsolvf
+     * @pbrbm bxis tif bxis to rfsolvf
+     * @pbrbm bxis tif bxis to rfsolvf
+     * @pbrbm o tif ComponfntOrifntbtion to rfsolvf bgbinst
+     * @pbrbm o tif ComponfntOrifntbtion to rfsolvf bgbinst
+     * @pbrbm o tif ComponfntOrifntbtion to rfsolvf bgbinst
+     * @pbrbm o tif ComponfntOrifntbtion to rfsolvf bgbinst
+     * @pbrbm o tif ComponfntOrifntbtion to rfsolvf bgbinst
+     * @rfturn tif rfsolvfd bxis
+     * @rfturn tif rfsolvfd bxis
+     * @rfturn tif rfsolvfd bxis
+     * @rfturn tif rfsolvfd bxis
+     * @rfturn tif rfsolvfd bxis
+     */
+     */
+     */
+     */
      */
     privbtf int rfsolvfAxis( int bxis, ComponfntOrifntbtion o ) {
+    privbtf int rfsolvfAxis( int bxis, ComponfntOrifntbtion o ) {
+    privbtf int rfsolvfAxis( int bxis, ComponfntOrifntbtion o ) {
+    privbtf int rfsolvfAxis( int bxis, ComponfntOrifntbtion o ) {
+    privbtf int rfsolvfAxis( int bxis, ComponfntOrifntbtion o ) {
+        int bbsolutfAxis;
+        int bbsolutfAxis;
+        int bbsolutfAxis;
+        int bbsolutfAxis;
         int bbsolutfAxis;
         if( bxis == LINE_AXIS ) {
+        if( bxis == LINE_AXIS ) {
+        if( bxis == LINE_AXIS ) {
+        if( bxis == LINE_AXIS ) {
+        if( bxis == LINE_AXIS ) {
+            bbsolutfAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
+            bbsolutfAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
+            bbsolutfAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
+            bbsolutfAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
             bbsolutfAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
         } flsf if( bxis == PAGE_AXIS ) {
+        } flsf if( bxis == PAGE_AXIS ) {
+        } flsf if( bxis == PAGE_AXIS ) {
+        } flsf if( bxis == PAGE_AXIS ) {
+        } flsf if( bxis == PAGE_AXIS ) {
+            bbsolutfAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
+            bbsolutfAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
+            bbsolutfAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
+            bbsolutfAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
             bbsolutfAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            bbsolutfAxis = bxis;
+            bbsolutfAxis = bxis;
+            bbsolutfAxis = bxis;
+            bbsolutfAxis = bxis;
             bbsolutfAxis = bxis;
         }
+        }
+        }
+        }
+        }
         rfturn bbsolutfAxis;
+        rfturn bbsolutfAxis;
+        rfturn bbsolutfAxis;
+        rfturn bbsolutfAxis;
+        rfturn bbsolutfAxis;
+   }
+   }
+   }
+   }
    }
 
 
+
+
+
+
+
+
+
+
+    privbtf int bxis;
+    privbtf int bxis;
+    privbtf int bxis;
+    privbtf int bxis;
     privbtf int bxis;
     privbtf Contbinfr tbrgft;
+    privbtf Contbinfr tbrgft;
+    privbtf Contbinfr tbrgft;
+    privbtf Contbinfr tbrgft;
+    privbtf Contbinfr tbrgft;
 
-    privbtf trbnsifnt SizfRfquirfmfnts[] xChildrfn;
-    privbtf trbnsifnt SizfRfquirfmfnts[] yChildrfn;
+
+
+
+
+    privbtf trbnsifnt SizfRfquirfmfnts[] xCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] xCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] xCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] xCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] xCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] yCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] yCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] yCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] yCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] yCiildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts xTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts xTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts xTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts xTotbl;
     privbtf trbnsifnt SizfRfquirfmfnts xTotbl;
     privbtf trbnsifnt SizfRfquirfmfnts yTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts yTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts yTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts yTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts yTotbl;
+
+
+
+
 
     privbtf trbnsifnt PrintStrfbm dbg;
+    privbtf trbnsifnt PrintStrfbm dbg;
+    privbtf trbnsifnt PrintStrfbm dbg;
+    privbtf trbnsifnt PrintStrfbm dbg;
+    privbtf trbnsifnt PrintStrfbm dbg;
+}
+}
+}
+}
 }

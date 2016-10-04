@@ -1,140 +1,700 @@
 /*
- * Copyright (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.rmi.log;
+pbdkbgf sun.rmi.log;
+pbdkbgf sun.rmi.log;
+pbdkbgf sun.rmi.log;
+pbdkbgf sun.rmi.log;
+
+
+
+
 
 import jbvb.io.*;
-import sun.rmi.sfrvfr.MbrshblOutputStrfbm;
-import sun.rmi.sfrvfr.MbrshblInputStrfbm;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblOutputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+import sun.rmi.sfrvfr.MbrsiblInputStrfbm;
+
+
+
+
 
 /**
- * A LogHbndlfr rfprfsfnts snbpshots bnd updbtf rfdords bs sfriblizbblf
+/**
+/**
+/**
+/**
+ * A LogHbndlfr rfprfsfnts snbpsiots bnd updbtf rfdords bs sfriblizbblf
+ * A LogHbndlfr rfprfsfnts snbpsiots bnd updbtf rfdords bs sfriblizbblf
+ * A LogHbndlfr rfprfsfnts snbpsiots bnd updbtf rfdords bs sfriblizbblf
+ * A LogHbndlfr rfprfsfnts snbpsiots bnd updbtf rfdords bs sfriblizbblf
+ * A LogHbndlfr rfprfsfnts snbpsiots bnd updbtf rfdords bs sfriblizbblf
+ * objfdts.
+ * objfdts.
+ * objfdts.
+ * objfdts.
  * objfdts.
  *
- * This implfmfntbtion dofs not know how to drfbtf bn initibl snbphot or
- * bpply bn updbtf to b snbpshot.  Thf dlifnt must spfdifiy thfsf mfthods
+ *
+ *
+ *
+ *
+ * Tiis implfmfntbtion dofs not know iow to drfbtf bn initibl snbpiot or
+ * Tiis implfmfntbtion dofs not know iow to drfbtf bn initibl snbpiot or
+ * Tiis implfmfntbtion dofs not know iow to drfbtf bn initibl snbpiot or
+ * Tiis implfmfntbtion dofs not know iow to drfbtf bn initibl snbpiot or
+ * Tiis implfmfntbtion dofs not know iow to drfbtf bn initibl snbpiot or
+ * bpply bn updbtf to b snbpsiot.  Tif dlifnt must spfdifiy tifsf mftiods
+ * bpply bn updbtf to b snbpsiot.  Tif dlifnt must spfdifiy tifsf mftiods
+ * bpply bn updbtf to b snbpsiot.  Tif dlifnt must spfdifiy tifsf mftiods
+ * bpply bn updbtf to b snbpsiot.  Tif dlifnt must spfdifiy tifsf mftiods
+ * bpply bn updbtf to b snbpsiot.  Tif dlifnt must spfdifiy tifsf mftiods
+ * vib b subdlbss.
+ * vib b subdlbss.
+ * vib b subdlbss.
+ * vib b subdlbss.
  * vib b subdlbss.
  *
+ *
+ *
+ *
+ *
+ * @sff RflibblfLog
+ * @sff RflibblfLog
+ * @sff RflibblfLog
+ * @sff RflibblfLog
  * @sff RflibblfLog
  *
- * @buthor Ann Wollrbth
+ *
+ *
+ *
+ *
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ * @butior Ann Wollrbti
+ */
+ */
+ */
+ */
  */
 publid bbstrbdt
+publid bbstrbdt
+publid bbstrbdt
+publid bbstrbdt
+publid bbstrbdt
+dlbss LogHbndlfr {
+dlbss LogHbndlfr {
+dlbss LogHbndlfr {
+dlbss LogHbndlfr {
 dlbss LogHbndlfr {
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b LogHbndlfr for b RflibblfLog.
+     * Crfbtfs b LogHbndlfr for b RflibblfLog.
+     * Crfbtfs b LogHbndlfr for b RflibblfLog.
+     * Crfbtfs b LogHbndlfr for b RflibblfLog.
+     * Crfbtfs b LogHbndlfr for b RflibblfLog.
+     */
+     */
+     */
+     */
      */
     publid LogHbndlfr() {}
+    publid LogHbndlfr() {}
+    publid LogHbndlfr() {}
+    publid LogHbndlfr() {}
+    publid LogHbndlfr() {}
+
+
+
+
 
     /**
-     * Crfbtfs bnd rfturns thf initibl stbtf of dbtb strudturf thbt nffds
-     * to bf stbbly storfd. This mfthod is dbllfd whfn b RflibblfLog is
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs bnd rfturns tif initibl stbtf of dbtb strudturf tibt nffds
+     * Crfbtfs bnd rfturns tif initibl stbtf of dbtb strudturf tibt nffds
+     * Crfbtfs bnd rfturns tif initibl stbtf of dbtb strudturf tibt nffds
+     * Crfbtfs bnd rfturns tif initibl stbtf of dbtb strudturf tibt nffds
+     * Crfbtfs bnd rfturns tif initibl stbtf of dbtb strudturf tibt nffds
+     * to bf stbbly storfd. Tiis mftiod is dbllfd wifn b RflibblfLog is
+     * to bf stbbly storfd. Tiis mftiod is dbllfd wifn b RflibblfLog is
+     * to bf stbbly storfd. Tiis mftiod is dbllfd wifn b RflibblfLog is
+     * to bf stbbly storfd. Tiis mftiod is dbllfd wifn b RflibblfLog is
+     * to bf stbbly storfd. Tiis mftiod is dbllfd wifn b RflibblfLog is
      * drfbtfd.
-     * @rfturn thf initibl stbtf
+     * drfbtfd.
+     * drfbtfd.
+     * drfbtfd.
+     * drfbtfd.
+     * @rfturn tif initibl stbtf
+     * @rfturn tif initibl stbtf
+     * @rfturn tif initibl stbtf
+     * @rfturn tif initibl stbtf
+     * @rfturn tif initibl stbtf
      * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt
-    Objfdt initiblSnbpshot() throws Exdfption;
+    publid bbstrbdt
+    publid bbstrbdt
+    publid bbstrbdt
+    publid bbstrbdt
+    Objfdt initiblSnbpsiot() tirows Exdfption;
+    Objfdt initiblSnbpsiot() tirows Exdfption;
+    Objfdt initiblSnbpsiot() tirows Exdfption;
+    Objfdt initiblSnbpsiot() tirows Exdfption;
+    Objfdt initiblSnbpsiot() tirows Exdfption;
+
+
+
+
 
     /**
-     * Writfs thf snbpshot objfdt to b strfbm.  This dbllbbdk is
-     * invokfd whfn thf dlifnt dblls thf snbphot mfthod of RflibblfLog.
-     * @pbrbm out thf output strfbm
-     * @pbrbm vbluf thf snbpshot
+    /**
+    /**
+    /**
+    /**
+     * Writfs tif snbpsiot objfdt to b strfbm.  Tiis dbllbbdk is
+     * Writfs tif snbpsiot objfdt to b strfbm.  Tiis dbllbbdk is
+     * Writfs tif snbpsiot objfdt to b strfbm.  Tiis dbllbbdk is
+     * Writfs tif snbpsiot objfdt to b strfbm.  Tiis dbllbbdk is
+     * Writfs tif snbpsiot objfdt to b strfbm.  Tiis dbllbbdk is
+     * invokfd wifn tif dlifnt dblls tif snbpiot mftiod of RflibblfLog.
+     * invokfd wifn tif dlifnt dblls tif snbpiot mftiod of RflibblfLog.
+     * invokfd wifn tif dlifnt dblls tif snbpiot mftiod of RflibblfLog.
+     * invokfd wifn tif dlifnt dblls tif snbpiot mftiod of RflibblfLog.
+     * invokfd wifn tif dlifnt dblls tif snbpiot mftiod of RflibblfLog.
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
      * @fxdfption Exdfption dbn rbisf bny fxdfption
      */
+     */
+     */
+     */
+     */
     publid
-    void snbpshot(OutputStrfbm out, Objfdt vbluf) throws Exdfption {
-        MbrshblOutputStrfbm s = nfw MbrshblOutputStrfbm(out);
+    publid
+    publid
+    publid
+    publid
+    void snbpsiot(OutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void snbpsiot(OutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void snbpsiot(OutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void snbpsiot(OutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void snbpsiot(OutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
         s.writfObjfdt(vbluf);
-        s.flush();
+        s.writfObjfdt(vbluf);
+        s.writfObjfdt(vbluf);
+        s.writfObjfdt(vbluf);
+        s.writfObjfdt(vbluf);
+        s.flusi();
+        s.flusi();
+        s.flusi();
+        s.flusi();
+        s.flusi();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfbd thf snbpshot objfdt from b strfbm bnd rfturns thf snbpshot.
-     * This dbllbbdk is invokfd whfn thf dlifnt dblls thf rfdovfr mfthod
+    /**
+    /**
+    /**
+    /**
+     * Rfbd tif snbpsiot objfdt from b strfbm bnd rfturns tif snbpsiot.
+     * Rfbd tif snbpsiot objfdt from b strfbm bnd rfturns tif snbpsiot.
+     * Rfbd tif snbpsiot objfdt from b strfbm bnd rfturns tif snbpsiot.
+     * Rfbd tif snbpsiot objfdt from b strfbm bnd rfturns tif snbpsiot.
+     * Rfbd tif snbpsiot objfdt from b strfbm bnd rfturns tif snbpsiot.
+     * Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif rfdovfr mftiod
+     * Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif rfdovfr mftiod
+     * Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif rfdovfr mftiod
+     * Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif rfdovfr mftiod
+     * Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif rfdovfr mftiod
      * of RflibblfLog.
-     * @pbrbm in thf input strfbm
-     * @rfturn thf stbtf (snbpshot)
+     * of RflibblfLog.
+     * of RflibblfLog.
+     * of RflibblfLog.
+     * of RflibblfLog.
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @rfturn tif stbtf (snbpsiot)
+     * @rfturn tif stbtf (snbpsiot)
+     * @rfturn tif stbtf (snbpsiot)
+     * @rfturn tif stbtf (snbpsiot)
+     * @rfturn tif stbtf (snbpsiot)
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
      * @fxdfption Exdfption dbn rbisf bny fxdfption
      */
+     */
+     */
+     */
+     */
+
+
+
+
 
     publid
-    Objfdt rfdovfr(InputStrfbm in) throws Exdfption {
-        MbrshblInputStrfbm s = nfw MbrshblInputStrfbm(in);
+    publid
+    publid
+    publid
+    publid
+    Objfdt rfdovfr(InputStrfbm in) tirows Exdfption {
+    Objfdt rfdovfr(InputStrfbm in) tirows Exdfption {
+    Objfdt rfdovfr(InputStrfbm in) tirows Exdfption {
+    Objfdt rfdovfr(InputStrfbm in) tirows Exdfption {
+    Objfdt rfdovfr(InputStrfbm in) tirows Exdfption {
+        MbrsiblInputStrfbm s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm s = nfw MbrsiblInputStrfbm(in);
+        rfturn s.rfbdObjfdt();
+        rfturn s.rfbdObjfdt();
+        rfturn s.rfbdObjfdt();
+        rfturn s.rfbdObjfdt();
         rfturn s.rfbdObjfdt();
     }
-
-    /**
-     * Writfs thf rfprfsfntbtion (b sfriblizbblf objfdt) of bn updbtf
-     * to b strfbm.  This dbllbbdk is invokfd whfn thf dlifnt dblls thf
-     * updbtf mfthod of RflibblfLog.
-     * @pbrbm out thf output strfbm
-     * @pbrbm vbluf thf snbpshot
-     * @fxdfption Exdfption dbn rbisf bny fxdfption
-     */
-    publid
-    void writfUpdbtf(LogOutputStrfbm out, Objfdt vbluf) throws Exdfption {
-
-        MbrshblOutputStrfbm s = nfw MbrshblOutputStrfbm(out);
-        s.writfObjfdt(vbluf);
-        s.flush();
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Writfs tif rfprfsfntbtion (b sfriblizbblf objfdt) of bn updbtf
+     * Writfs tif rfprfsfntbtion (b sfriblizbblf objfdt) of bn updbtf
+     * Writfs tif rfprfsfntbtion (b sfriblizbblf objfdt) of bn updbtf
+     * Writfs tif rfprfsfntbtion (b sfriblizbblf objfdt) of bn updbtf
+     * Writfs tif rfprfsfntbtion (b sfriblizbblf objfdt) of bn updbtf
+     * to b strfbm.  Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif
+     * to b strfbm.  Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif
+     * to b strfbm.  Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif
+     * to b strfbm.  Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif
+     * to b strfbm.  Tiis dbllbbdk is invokfd wifn tif dlifnt dblls tif
+     * updbtf mftiod of RflibblfLog.
+     * updbtf mftiod of RflibblfLog.
+     * updbtf mftiod of RflibblfLog.
+     * updbtf mftiod of RflibblfLog.
+     * updbtf mftiod of RflibblfLog.
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm out tif output strfbm
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @pbrbm vbluf tif snbpsiot
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     */
+     */
+     */
+     */
+     */
+    publid
+    publid
+    publid
+    publid
+    publid
+    void writfUpdbtf(LogOutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void writfUpdbtf(LogOutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void writfUpdbtf(LogOutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void writfUpdbtf(LogOutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+    void writfUpdbtf(LogOutputStrfbm out, Objfdt vbluf) tirows Exdfption {
+
+
+
+
+
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        MbrsiblOutputStrfbm s = nfw MbrsiblOutputStrfbm(out);
+        s.writfObjfdt(vbluf);
+        s.writfObjfdt(vbluf);
+        s.writfObjfdt(vbluf);
+        s.writfObjfdt(vbluf);
+        s.writfObjfdt(vbluf);
+        s.flusi();
+        s.flusi();
+        s.flusi();
+        s.flusi();
+        s.flusi();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b
-     * strfbm.  This dbllbbdk is invokfd during rfdovfry, ondf for
-     * fvfry rfdord in thf log.  Aftfr rfbding thf updbtf, this mfthod
-     * invokfs thf bpplyUpdbtf (bbstrbdt) mfthod in ordfr to obtbin
-     * thf nfw snbpshot vbluf.  It thfn rfturns thf nfw snbpshot.
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b
+     * strfbm.  Tiis dbllbbdk is invokfd during rfdovfry, ondf for
+     * strfbm.  Tiis dbllbbdk is invokfd during rfdovfry, ondf for
+     * strfbm.  Tiis dbllbbdk is invokfd during rfdovfry, ondf for
+     * strfbm.  Tiis dbllbbdk is invokfd during rfdovfry, ondf for
+     * strfbm.  Tiis dbllbbdk is invokfd during rfdovfry, ondf for
+     * fvfry rfdord in tif log.  Aftfr rfbding tif updbtf, tiis mftiod
+     * fvfry rfdord in tif log.  Aftfr rfbding tif updbtf, tiis mftiod
+     * fvfry rfdord in tif log.  Aftfr rfbding tif updbtf, tiis mftiod
+     * fvfry rfdord in tif log.  Aftfr rfbding tif updbtf, tiis mftiod
+     * fvfry rfdord in tif log.  Aftfr rfbding tif updbtf, tiis mftiod
+     * invokfs tif bpplyUpdbtf (bbstrbdt) mftiod in ordfr to obtbin
+     * invokfs tif bpplyUpdbtf (bbstrbdt) mftiod in ordfr to obtbin
+     * invokfs tif bpplyUpdbtf (bbstrbdt) mftiod in ordfr to obtbin
+     * invokfs tif bpplyUpdbtf (bbstrbdt) mftiod in ordfr to obtbin
+     * invokfs tif bpplyUpdbtf (bbstrbdt) mftiod in ordfr to obtbin
+     * tif nfw snbpsiot vbluf.  It tifn rfturns tif nfw snbpsiot.
+     * tif nfw snbpsiot vbluf.  It tifn rfturns tif nfw snbpsiot.
+     * tif nfw snbpsiot vbluf.  It tifn rfturns tif nfw snbpsiot.
+     * tif nfw snbpsiot vbluf.  It tifn rfturns tif nfw snbpsiot.
+     * tif nfw snbpsiot vbluf.  It tifn rfturns tif nfw snbpsiot.
      *
-     * @pbrbm in thf input strfbm
-     * @pbrbm stbtf thf durrfnt stbtf
-     * @rfturn thf nfw stbtf
+     *
+     *
+     *
+     *
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @pbrbm in tif input strfbm
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
      * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     */
+     */
+     */
+     */
      */
     publid
-    Objfdt rfbdUpdbtf(LogInputStrfbm in, Objfdt stbtf) throws Exdfption {
-        MbrshblInputStrfbm  s = nfw MbrshblInputStrfbm(in);
+    publid
+    publid
+    publid
+    publid
+    Objfdt rfbdUpdbtf(LogInputStrfbm in, Objfdt stbtf) tirows Exdfption {
+    Objfdt rfbdUpdbtf(LogInputStrfbm in, Objfdt stbtf) tirows Exdfption {
+    Objfdt rfbdUpdbtf(LogInputStrfbm in, Objfdt stbtf) tirows Exdfption {
+    Objfdt rfbdUpdbtf(LogInputStrfbm in, Objfdt stbtf) tirows Exdfption {
+    Objfdt rfbdUpdbtf(LogInputStrfbm in, Objfdt stbtf) tirows Exdfption {
+        MbrsiblInputStrfbm  s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm  s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm  s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm  s = nfw MbrsiblInputStrfbm(in);
+        MbrsiblInputStrfbm  s = nfw MbrsiblInputStrfbm(in);
+        rfturn bpplyUpdbtf(s.rfbdObjfdt(), stbtf);
+        rfturn bpplyUpdbtf(s.rfbdObjfdt(), stbtf);
+        rfturn bpplyUpdbtf(s.rfbdObjfdt(), stbtf);
+        rfturn bpplyUpdbtf(s.rfbdObjfdt(), stbtf);
         rfturn bpplyUpdbtf(s.rfbdObjfdt(), stbtf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b strfbm.
-     * This dbllbbdk is invokfd during rfdovfry, ondf for fvfry rfdord in thf
-     * log.  Aftfr rfbding thf updbtf, this mfthod is invokfd in ordfr to
-     * obtbin thf nfw snbpshot vbluf.  Thf mfthod should bpply thf updbtf
-     * objfdt to thf durrfnt stbtf <dodf>stbtf</dodf> bnd rfturn thf nfw
-     * stbtf (thf nfw snbpshot vbluf).
-     * @pbrbm updbtf thf updbtf objfdt
-     * @pbrbm stbtf thf durrfnt stbtf
-     * @rfturn thf nfw stbtf
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b strfbm.
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b strfbm.
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b strfbm.
+     * Rfbds b stbbly loggfd updbtf (b sfriblizbblf objfdt) from b strfbm.
+     * Tiis dbllbbdk is invokfd during rfdovfry, ondf for fvfry rfdord in tif
+     * Tiis dbllbbdk is invokfd during rfdovfry, ondf for fvfry rfdord in tif
+     * Tiis dbllbbdk is invokfd during rfdovfry, ondf for fvfry rfdord in tif
+     * Tiis dbllbbdk is invokfd during rfdovfry, ondf for fvfry rfdord in tif
+     * Tiis dbllbbdk is invokfd during rfdovfry, ondf for fvfry rfdord in tif
+     * log.  Aftfr rfbding tif updbtf, tiis mftiod is invokfd in ordfr to
+     * log.  Aftfr rfbding tif updbtf, tiis mftiod is invokfd in ordfr to
+     * log.  Aftfr rfbding tif updbtf, tiis mftiod is invokfd in ordfr to
+     * log.  Aftfr rfbding tif updbtf, tiis mftiod is invokfd in ordfr to
+     * log.  Aftfr rfbding tif updbtf, tiis mftiod is invokfd in ordfr to
+     * obtbin tif nfw snbpsiot vbluf.  Tif mftiod siould bpply tif updbtf
+     * obtbin tif nfw snbpsiot vbluf.  Tif mftiod siould bpply tif updbtf
+     * obtbin tif nfw snbpsiot vbluf.  Tif mftiod siould bpply tif updbtf
+     * obtbin tif nfw snbpsiot vbluf.  Tif mftiod siould bpply tif updbtf
+     * obtbin tif nfw snbpsiot vbluf.  Tif mftiod siould bpply tif updbtf
+     * objfdt to tif durrfnt stbtf <dodf>stbtf</dodf> bnd rfturn tif nfw
+     * objfdt to tif durrfnt stbtf <dodf>stbtf</dodf> bnd rfturn tif nfw
+     * objfdt to tif durrfnt stbtf <dodf>stbtf</dodf> bnd rfturn tif nfw
+     * objfdt to tif durrfnt stbtf <dodf>stbtf</dodf> bnd rfturn tif nfw
+     * objfdt to tif durrfnt stbtf <dodf>stbtf</dodf> bnd rfturn tif nfw
+     * stbtf (tif nfw snbpsiot vbluf).
+     * stbtf (tif nfw snbpsiot vbluf).
+     * stbtf (tif nfw snbpsiot vbluf).
+     * stbtf (tif nfw snbpsiot vbluf).
+     * stbtf (tif nfw snbpsiot vbluf).
+     * @pbrbm updbtf tif updbtf objfdt
+     * @pbrbm updbtf tif updbtf objfdt
+     * @pbrbm updbtf tif updbtf objfdt
+     * @pbrbm updbtf tif updbtf objfdt
+     * @pbrbm updbtf tif updbtf objfdt
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @pbrbm stbtf tif durrfnt stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
+     * @rfturn tif nfw stbtf
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
+     * @fxdfption Exdfption dbn rbisf bny fxdfption
      * @fxdfption Exdfption dbn rbisf bny fxdfption
      */
+     */
+     */
+     */
+     */
     publid bbstrbdt
-    Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf) throws Exdfption;
+    publid bbstrbdt
+    publid bbstrbdt
+    publid bbstrbdt
+    publid bbstrbdt
+    Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf) tirows Exdfption;
+    Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf) tirows Exdfption;
+    Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf) tirows Exdfption;
+    Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf) tirows Exdfption;
+    Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf) tirows Exdfption;
 
+
+
+
+
+}
+}
+}
+}
 }

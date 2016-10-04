@@ -1,45 +1,225 @@
-# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
-# It dontbins Lodblf spfdifid strings usfd bf thf Synth Look bnd Fffl.
-# Currfntly, thf following domponfnts nffd this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Synti Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Synti Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Synti Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Synti Look bnd Fffl.
+# It dontbins Lodblf spfdifid strings usfd bf tif Synti Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FilfChoosfr
 #
-# Whfn this filf is rfbd in, thf strings brf put into thf
-# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+#
+#
+#
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#    FilfCioosfr
+#
+#
+#
+#
+#
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
-# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# support.
+# support.
+# support.
+# support.
 # support.
 #
-# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
-# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
 #
-# @buthor Stfvf Wilson
+#
+#
+#
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
+#
+#
+#
+#
+#
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+# @butior Stfvf Wilson
+
+
+
+
+
+
+
+
 
 
 ############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
+############ FILE CHOOSER STRINGS #############
 
-FilfChoosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
-FilfChoosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
-FilfChoosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Fil&nbmn:
-FilfChoosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
-FilfChoosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Filfr bv &typ:
-FilfChoosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
-FilfChoosfr.upFoldfrAddfssiblfNbmf=Upp
-FilfChoosfr.homfFoldfrToolTip.tfxtAndMnfmonid=Hfm
-FilfChoosfr.homfFoldfrAddfssiblfNbmf=Hfm
-FilfChoosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
-FilfChoosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
-FilfChoosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
-FilfChoosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
-FilfChoosfr.listVifwButtonAddfssiblfNbmf=Listb
-FilfChoosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
-FilfChoosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
-FilfChoosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
-FilfChoosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
-FilfChoosfr.rffrfshAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
-FilfChoosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
-FilfChoosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
-FilfChoosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
-FilfChoosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
-FilfChoosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
-FilfChoosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut
+
+
+
+
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Lftb &i:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Spbrb i:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Fil&nbmn:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Fil&nbmn:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Fil&nbmn:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Fil&nbmn:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Fil&nbmn:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=Mbpp&nbmn:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Filfr bv &typ:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Filfr bv &typ:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Filfr bv &typ:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Filfr bv &typ:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Filfr bv &typ:
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Upp fn niv\u00E5
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Upp
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Upp
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Upp
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Upp
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Upp
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Hfm
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Hfm
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Hfm
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Hfm
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Hfm
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Hfm
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Hfm
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Hfm
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Hfm
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Hfm
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Skbpb ny mbpp
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Ny mbpp
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Ny mbpp
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbljfr
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbljfr
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=F\u00F6rnyb
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vy
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmn
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Storlfk
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typ
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u00C4ndrbd
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attribut

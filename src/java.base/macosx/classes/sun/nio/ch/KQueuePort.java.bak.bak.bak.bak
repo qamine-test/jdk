@@ -1,331 +1,1655 @@
 /*
- * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf sun.nio.dh;
-
-import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
-import jbvb.io.IOExdfption;
-import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
-import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
-import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
-import stbtid sun.nio.dh.KQufuf.*;
-
-/**
- * AsyndhronousChbnnflGroup implfmfntbtion bbsfd on thf BSD kqufuf fbdility.
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf sun.nio.di;
+pbdkbgf sun.nio.di;
+pbdkbgf sun.nio.di;
+pbdkbgf sun.nio.di;
+pbdkbgf sun.nio.di;
+
+
+
+
+
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import stbtid sun.nio.di.KQufuf.*;
+import stbtid sun.nio.di.KQufuf.*;
+import stbtid sun.nio.di.KQufuf.*;
+import stbtid sun.nio.di.KQufuf.*;
+import stbtid sun.nio.di.KQufuf.*;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * AsyndironousCibnnflGroup implfmfntbtion bbsfd on tif BSD kqufuf fbdility.
+ * AsyndironousCibnnflGroup implfmfntbtion bbsfd on tif BSD kqufuf fbdility.
+ * AsyndironousCibnnflGroup implfmfntbtion bbsfd on tif BSD kqufuf fbdility.
+ * AsyndironousCibnnflGroup implfmfntbtion bbsfd on tif BSD kqufuf fbdility.
+ * AsyndironousCibnnflGroup implfmfntbtion bbsfd on tif BSD kqufuf fbdility.
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+finbl dlbss KQufufPort
+finbl dlbss KQufufPort
+finbl dlbss KQufufPort
+finbl dlbss KQufufPort
 finbl dlbss KQufufPort
     fxtfnds Port
+    fxtfnds Port
+    fxtfnds Port
+    fxtfnds Port
+    fxtfnds Port
+{
+{
+{
+{
 {
     // mbximum numbfr of fvfnts to poll bt b timf
+    // mbximum numbfr of fvfnts to poll bt b timf
+    // mbximum numbfr of fvfnts to poll bt b timf
+    // mbximum numbfr of fvfnts to poll bt b timf
+    // mbximum numbfr of fvfnts to poll bt b timf
+    privbtf stbtid finbl int MAX_KEVENTS_TO_POLL = 512;
+    privbtf stbtid finbl int MAX_KEVENTS_TO_POLL = 512;
+    privbtf stbtid finbl int MAX_KEVENTS_TO_POLL = 512;
+    privbtf stbtid finbl int MAX_KEVENTS_TO_POLL = 512;
     privbtf stbtid finbl int MAX_KEVENTS_TO_POLL = 512;
 
+
+
+
+
+    // kqufuf filf dfsdriptor
+    // kqufuf filf dfsdriptor
+    // kqufuf filf dfsdriptor
+    // kqufuf filf dfsdriptor
     // kqufuf filf dfsdriptor
     privbtf finbl int kqfd;
+    privbtf finbl int kqfd;
+    privbtf finbl int kqfd;
+    privbtf finbl int kqfd;
+    privbtf finbl int kqfd;
+
+
+
+
 
     // truf if kqufuf dlosfd
+    // truf if kqufuf dlosfd
+    // truf if kqufuf dlosfd
+    // truf if kqufuf dlosfd
+    // truf if kqufuf dlosfd
+    privbtf boolfbn dlosfd;
+    privbtf boolfbn dlosfd;
+    privbtf boolfbn dlosfd;
+    privbtf boolfbn dlosfd;
     privbtf boolfbn dlosfd;
 
+
+
+
+
+    // sodkft pbir usfd for wbkfup
+    // sodkft pbir usfd for wbkfup
+    // sodkft pbir usfd for wbkfup
+    // sodkft pbir usfd for wbkfup
     // sodkft pbir usfd for wbkfup
     privbtf finbl int sp[];
+    privbtf finbl int sp[];
+    privbtf finbl int sp[];
+    privbtf finbl int sp[];
+    privbtf finbl int sp[];
+
+
+
+
 
     // numbfr of wbkfups pfnding
+    // numbfr of wbkfups pfnding
+    // numbfr of wbkfups pfnding
+    // numbfr of wbkfups pfnding
+    // numbfr of wbkfups pfnding
+    privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
+    privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
+    privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
+    privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
     privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
 
-    // bddrfss of thf poll brrby pbssfd to kqufuf_wbit
+
+
+
+
+    // bddrfss of tif poll brrby pbssfd to kqufuf_wbit
+    // bddrfss of tif poll brrby pbssfd to kqufuf_wbit
+    // bddrfss of tif poll brrby pbssfd to kqufuf_wbit
+    // bddrfss of tif poll brrby pbssfd to kqufuf_wbit
+    // bddrfss of tif poll brrby pbssfd to kqufuf_wbit
+    privbtf finbl long bddrfss;
+    privbtf finbl long bddrfss;
+    privbtf finbl long bddrfss;
+    privbtf finbl long bddrfss;
     privbtf finbl long bddrfss;
 
-    // fndbpsulbtfs bn fvfnt for b dhbnnfl
+
+
+
+
+    // fndbpsulbtfs bn fvfnt for b dibnnfl
+    // fndbpsulbtfs bn fvfnt for b dibnnfl
+    // fndbpsulbtfs bn fvfnt for b dibnnfl
+    // fndbpsulbtfs bn fvfnt for b dibnnfl
+    // fndbpsulbtfs bn fvfnt for b dibnnfl
     stbtid dlbss Evfnt {
-        finbl PollbblfChbnnfl dhbnnfl;
+    stbtid dlbss Evfnt {
+    stbtid dlbss Evfnt {
+    stbtid dlbss Evfnt {
+    stbtid dlbss Evfnt {
+        finbl PollbblfCibnnfl dibnnfl;
+        finbl PollbblfCibnnfl dibnnfl;
+        finbl PollbblfCibnnfl dibnnfl;
+        finbl PollbblfCibnnfl dibnnfl;
+        finbl PollbblfCibnnfl dibnnfl;
+        finbl int fvfnts;
+        finbl int fvfnts;
+        finbl int fvfnts;
+        finbl int fvfnts;
         finbl int fvfnts;
 
-        Evfnt(PollbblfChbnnfl dhbnnfl, int fvfnts) {
-            this.dhbnnfl = dhbnnfl;
-            this.fvfnts = fvfnts;
+
+
+
+
+        Evfnt(PollbblfCibnnfl dibnnfl, int fvfnts) {
+        Evfnt(PollbblfCibnnfl dibnnfl, int fvfnts) {
+        Evfnt(PollbblfCibnnfl dibnnfl, int fvfnts) {
+        Evfnt(PollbblfCibnnfl dibnnfl, int fvfnts) {
+        Evfnt(PollbblfCibnnfl dibnnfl, int fvfnts) {
+            tiis.dibnnfl = dibnnfl;
+            tiis.dibnnfl = dibnnfl;
+            tiis.dibnnfl = dibnnfl;
+            tiis.dibnnfl = dibnnfl;
+            tiis.dibnnfl = dibnnfl;
+            tiis.fvfnts = fvfnts;
+            tiis.fvfnts = fvfnts;
+            tiis.fvfnts = fvfnts;
+            tiis.fvfnts = fvfnts;
+            tiis.fvfnts = fvfnts;
+        }
+        }
+        }
+        }
         }
 
-        PollbblfChbnnfl dhbnnfl()   { rfturn dhbnnfl; }
+
+
+
+
+        PollbblfCibnnfl dibnnfl()   { rfturn dibnnfl; }
+        PollbblfCibnnfl dibnnfl()   { rfturn dibnnfl; }
+        PollbblfCibnnfl dibnnfl()   { rfturn dibnnfl; }
+        PollbblfCibnnfl dibnnfl()   { rfturn dibnnfl; }
+        PollbblfCibnnfl dibnnfl()   { rfturn dibnnfl; }
+        int fvfnts()                { rfturn fvfnts; }
+        int fvfnts()                { rfturn fvfnts; }
+        int fvfnts()                { rfturn fvfnts; }
+        int fvfnts()                { rfturn fvfnts; }
         int fvfnts()                { rfturn fvfnts; }
     }
+    }
+    }
+    }
+    }
 
-    // qufuf of fvfnts for dbsfs thbt b polling thrfbd dfqufufs morf thbn onf
+
+
+
+
+    // qufuf of fvfnts for dbsfs tibt b polling tirfbd dfqufufs morf tibn onf
+    // qufuf of fvfnts for dbsfs tibt b polling tirfbd dfqufufs morf tibn onf
+    // qufuf of fvfnts for dbsfs tibt b polling tirfbd dfqufufs morf tibn onf
+    // qufuf of fvfnts for dbsfs tibt b polling tirfbd dfqufufs morf tibn onf
+    // qufuf of fvfnts for dbsfs tibt b polling tirfbd dfqufufs morf tibn onf
+    // fvfnt
+    // fvfnt
+    // fvfnt
+    // fvfnt
     // fvfnt
     privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
     privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
     privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
 
-    KQufufPort(AsyndhronousChbnnflProvidfr providfr, ThrfbdPool pool)
-        throws IOExdfption
+
+
+
+
+    KQufufPort(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+    KQufufPort(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+    KQufufPort(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+    KQufufPort(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+    KQufufPort(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+        tirows IOExdfption
+        tirows IOExdfption
+        tirows IOExdfption
+        tirows IOExdfption
+        tirows IOExdfption
+    {
+    {
+    {
+    {
     {
         supfr(providfr, pool);
+        supfr(providfr, pool);
+        supfr(providfr, pool);
+        supfr(providfr, pool);
+        supfr(providfr, pool);
+
+
+
+
 
         // opfn kqufuf
-        this.kqfd = kqufuf();
+        // opfn kqufuf
+        // opfn kqufuf
+        // opfn kqufuf
+        // opfn kqufuf
+        tiis.kqfd = kqufuf();
+        tiis.kqfd = kqufuf();
+        tiis.kqfd = kqufuf();
+        tiis.kqfd = kqufuf();
+        tiis.kqfd = kqufuf();
 
-        // drfbtf sodkft pbir for wbkfup mfdhbnism
+
+
+
+
+        // drfbtf sodkft pbir for wbkfup mfdibnism
+        // drfbtf sodkft pbir for wbkfup mfdibnism
+        // drfbtf sodkft pbir for wbkfup mfdibnism
+        // drfbtf sodkft pbir for wbkfup mfdibnism
+        // drfbtf sodkft pbir for wbkfup mfdibnism
+        int[] sv = nfw int[2];
+        int[] sv = nfw int[2];
+        int[] sv = nfw int[2];
+        int[] sv = nfw int[2];
         int[] sv = nfw int[2];
         try {
+        try {
+        try {
+        try {
+        try {
+            sodkftpbir(sv);
+            sodkftpbir(sv);
+            sodkftpbir(sv);
+            sodkftpbir(sv);
             sodkftpbir(sv);
 
-            // rfgistfr onf fnd with kqufuf
+
+
+
+
+            // rfgistfr onf fnd witi kqufuf
+            // rfgistfr onf fnd witi kqufuf
+            // rfgistfr onf fnd witi kqufuf
+            // rfgistfr onf fnd witi kqufuf
+            // rfgistfr onf fnd witi kqufuf
             kfvfntRfgistfr(kqfd, sv[0], EVFILT_READ, EV_ADD);
-        } dbtdh (IOExdfption x) {
+            kfvfntRfgistfr(kqfd, sv[0], EVFILT_READ, EV_ADD);
+            kfvfntRfgistfr(kqfd, sv[0], EVFILT_READ, EV_ADD);
+            kfvfntRfgistfr(kqfd, sv[0], EVFILT_READ, EV_ADD);
+            kfvfntRfgistfr(kqfd, sv[0], EVFILT_READ, EV_ADD);
+        } dbtdi (IOExdfption x) {
+        } dbtdi (IOExdfption x) {
+        } dbtdi (IOExdfption x) {
+        } dbtdi (IOExdfption x) {
+        } dbtdi (IOExdfption x) {
             dlosf0(kqfd);
-            throw x;
+            dlosf0(kqfd);
+            dlosf0(kqfd);
+            dlosf0(kqfd);
+            dlosf0(kqfd);
+            tirow x;
+            tirow x;
+            tirow x;
+            tirow x;
+            tirow x;
         }
-        this.sp = sv;
+        }
+        }
+        }
+        }
+        tiis.sp = sv;
+        tiis.sp = sv;
+        tiis.sp = sv;
+        tiis.sp = sv;
+        tiis.sp = sv;
 
-        // bllodbtf thf poll brrby
-        this.bddrfss = bllodbtfPollArrby(MAX_KEVENTS_TO_POLL);
 
-        // drfbtf thf qufuf bnd offfr thf spfdibl fvfnt to fnsurf thbt thf first
-        // thrfbds polls
-        this.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_KEVENTS_TO_POLL);
-        this.qufuf.offfr(NEED_TO_POLL);
+
+
+
+        // bllodbtf tif poll brrby
+        // bllodbtf tif poll brrby
+        // bllodbtf tif poll brrby
+        // bllodbtf tif poll brrby
+        // bllodbtf tif poll brrby
+        tiis.bddrfss = bllodbtfPollArrby(MAX_KEVENTS_TO_POLL);
+        tiis.bddrfss = bllodbtfPollArrby(MAX_KEVENTS_TO_POLL);
+        tiis.bddrfss = bllodbtfPollArrby(MAX_KEVENTS_TO_POLL);
+        tiis.bddrfss = bllodbtfPollArrby(MAX_KEVENTS_TO_POLL);
+        tiis.bddrfss = bllodbtfPollArrby(MAX_KEVENTS_TO_POLL);
+
+
+
+
+
+        // drfbtf tif qufuf bnd offfr tif spfdibl fvfnt to fnsurf tibt tif first
+        // drfbtf tif qufuf bnd offfr tif spfdibl fvfnt to fnsurf tibt tif first
+        // drfbtf tif qufuf bnd offfr tif spfdibl fvfnt to fnsurf tibt tif first
+        // drfbtf tif qufuf bnd offfr tif spfdibl fvfnt to fnsurf tibt tif first
+        // drfbtf tif qufuf bnd offfr tif spfdibl fvfnt to fnsurf tibt tif first
+        // tirfbds polls
+        // tirfbds polls
+        // tirfbds polls
+        // tirfbds polls
+        // tirfbds polls
+        tiis.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_KEVENTS_TO_POLL);
+        tiis.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_KEVENTS_TO_POLL);
+        tiis.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_KEVENTS_TO_POLL);
+        tiis.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_KEVENTS_TO_POLL);
+        tiis.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_KEVENTS_TO_POLL);
+        tiis.qufuf.offfr(NEED_TO_POLL);
+        tiis.qufuf.offfr(NEED_TO_POLL);
+        tiis.qufuf.offfr(NEED_TO_POLL);
+        tiis.qufuf.offfr(NEED_TO_POLL);
+        tiis.qufuf.offfr(NEED_TO_POLL);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     KQufufPort stbrt() {
-        stbrtThrfbds(nfw EvfntHbndlfrTbsk());
-        rfturn this;
+    KQufufPort stbrt() {
+    KQufufPort stbrt() {
+    KQufufPort stbrt() {
+    KQufufPort stbrt() {
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
+        rfturn tiis;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * Rflfbsf bll rfsourdfs
+     * Rflfbsf bll rfsourdfs
+     * Rflfbsf bll rfsourdfs
+     * Rflfbsf bll rfsourdfs
      * Rflfbsf bll rfsourdfs
      */
+     */
+     */
+     */
+     */
     privbtf void implClosf() {
-        syndhronizfd (this) {
+    privbtf void implClosf() {
+    privbtf void implClosf() {
+    privbtf void implClosf() {
+    privbtf void implClosf() {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+            if (dlosfd)
+            if (dlosfd)
+            if (dlosfd)
+            if (dlosfd)
             if (dlosfd)
                 rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+                rfturn;
+            dlosfd = truf;
+            dlosfd = truf;
+            dlosfd = truf;
+            dlosfd = truf;
             dlosfd = truf;
         }
+        }
+        }
+        }
+        }
+        frffPollArrby(bddrfss);
+        frffPollArrby(bddrfss);
+        frffPollArrby(bddrfss);
+        frffPollArrby(bddrfss);
         frffPollArrby(bddrfss);
         dlosf0(sp[0]);
+        dlosf0(sp[0]);
+        dlosf0(sp[0]);
+        dlosf0(sp[0]);
+        dlosf0(sp[0]);
+        dlosf0(sp[1]);
+        dlosf0(sp[1]);
+        dlosf0(sp[1]);
+        dlosf0(sp[1]);
         dlosf0(sp[1]);
         dlosf0(kqfd);
+        dlosf0(kqfd);
+        dlosf0(kqfd);
+        dlosf0(kqfd);
+        dlosf0(kqfd);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void wbkfup() {
+    privbtf void wbkfup() {
+    privbtf void wbkfup() {
+    privbtf void wbkfup() {
+    privbtf void wbkfup() {
+        if (wbkfupCount.indrfmfntAndGft() == 1) {
+        if (wbkfupCount.indrfmfntAndGft() == 1) {
+        if (wbkfupCount.indrfmfntAndGft() == 1) {
+        if (wbkfupCount.indrfmfntAndGft() == 1) {
         if (wbkfupCount.indrfmfntAndGft() == 1) {
             // writf bytf to sodkftpbir to fordf wbkfup
+            // writf bytf to sodkftpbir to fordf wbkfup
+            // writf bytf to sodkftpbir to fordf wbkfup
+            // writf bytf to sodkftpbir to fordf wbkfup
+            // writf bytf to sodkftpbir to fordf wbkfup
+            try {
+            try {
+            try {
+            try {
             try {
                 intfrrupt(sp[1]);
-            } dbtdh (IOExdfption x) {
-                throw nfw AssfrtionError(x);
+                intfrrupt(sp[1]);
+                intfrrupt(sp[1]);
+                intfrrupt(sp[1]);
+                intfrrupt(sp[1]);
+            } dbtdi (IOExdfption x) {
+            } dbtdi (IOExdfption x) {
+            } dbtdi (IOExdfption x) {
+            } dbtdi (IOExdfption x) {
+            } dbtdi (IOExdfption x) {
+                tirow nfw AssfrtionError(x);
+                tirow nfw AssfrtionError(x);
+                tirow nfw AssfrtionError(x);
+                tirow nfw AssfrtionError(x);
+                tirow nfw AssfrtionError(x);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
-        syndhronizfd (this) {
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
+        syndironizfd (tiis) {
             if (dlosfd)
-                throw nfw RfjfdtfdExfdutionExdfption();
+            if (dlosfd)
+            if (dlosfd)
+            if (dlosfd)
+            if (dlosfd)
+                tirow nfw RfjfdtfdExfdutionExdfption();
+                tirow nfw RfjfdtfdExfdutionExdfption();
+                tirow nfw RfjfdtfdExfdutionExdfption();
+                tirow nfw RfjfdtfdExfdutionExdfption();
+                tirow nfw RfjfdtfdExfdutionExdfption();
+            offfrTbsk(tbsk);
+            offfrTbsk(tbsk);
+            offfrTbsk(tbsk);
+            offfrTbsk(tbsk);
             offfrTbsk(tbsk);
             wbkfup();
+            wbkfup();
+            wbkfup();
+            wbkfup();
+            wbkfup();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     @Ovfrridf
-    void shutdownHbndlfrTbsks() {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    void siutdownHbndlfrTbsks() {
+    void siutdownHbndlfrTbsks() {
+    void siutdownHbndlfrTbsks() {
+    void siutdownHbndlfrTbsks() {
+    void siutdownHbndlfrTbsks() {
         /*
-         * If no tbsks brf running thfn just rflfbsf rfsourdfs; othfrwisf
-         * writf to thf onf fnd of thf sodkftpbir to wbkfup bny polling thrfbds.
+        /*
+        /*
+        /*
+        /*
+         * If no tbsks brf running tifn just rflfbsf rfsourdfs; otifrwisf
+         * If no tbsks brf running tifn just rflfbsf rfsourdfs; otifrwisf
+         * If no tbsks brf running tifn just rflfbsf rfsourdfs; otifrwisf
+         * If no tbsks brf running tifn just rflfbsf rfsourdfs; otifrwisf
+         * If no tbsks brf running tifn just rflfbsf rfsourdfs; otifrwisf
+         * writf to tif onf fnd of tif sodkftpbir to wbkfup bny polling tirfbds.
+         * writf to tif onf fnd of tif sodkftpbir to wbkfup bny polling tirfbds.
+         * writf to tif onf fnd of tif sodkftpbir to wbkfup bny polling tirfbds.
+         * writf to tif onf fnd of tif sodkftpbir to wbkfup bny polling tirfbds.
+         * writf to tif onf fnd of tif sodkftpbir to wbkfup bny polling tirfbds.
          */
-        int nThrfbds = thrfbdCount();
-        if (nThrfbds == 0) {
+         */
+         */
+         */
+         */
+        int nTirfbds = tirfbdCount();
+        int nTirfbds = tirfbdCount();
+        int nTirfbds = tirfbdCount();
+        int nTirfbds = tirfbdCount();
+        int nTirfbds = tirfbdCount();
+        if (nTirfbds == 0) {
+        if (nTirfbds == 0) {
+        if (nTirfbds == 0) {
+        if (nTirfbds == 0) {
+        if (nTirfbds == 0) {
+            implClosf();
+            implClosf();
+            implClosf();
+            implClosf();
             implClosf();
         } flsf {
-            // sfnd intfrrupt to fbdh thrfbd
-            whilf (nThrfbds-- > 0) {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            // sfnd intfrrupt to fbdi tirfbd
+            // sfnd intfrrupt to fbdi tirfbd
+            // sfnd intfrrupt to fbdi tirfbd
+            // sfnd intfrrupt to fbdi tirfbd
+            // sfnd intfrrupt to fbdi tirfbd
+            wiilf (nTirfbds-- > 0) {
+            wiilf (nTirfbds-- > 0) {
+            wiilf (nTirfbds-- > 0) {
+            wiilf (nTirfbds-- > 0) {
+            wiilf (nTirfbds-- > 0) {
+                wbkfup();
+                wbkfup();
+                wbkfup();
+                wbkfup();
                 wbkfup();
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     // invokfd by dlifnts to rfgistfr b filf dfsdriptor
+    // invokfd by dlifnts to rfgistfr b filf dfsdriptor
+    // invokfd by dlifnts to rfgistfr b filf dfsdriptor
+    // invokfd by dlifnts to rfgistfr b filf dfsdriptor
+    // invokfd by dlifnts to rfgistfr b filf dfsdriptor
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     void stbrtPoll(int fd, int fvfnts) {
+    void stbrtPoll(int fd, int fvfnts) {
+    void stbrtPoll(int fd, int fvfnts) {
+    void stbrtPoll(int fd, int fvfnts) {
+    void stbrtPoll(int fd, int fvfnts) {
         // Wf usf b sfpbrbtf filtfr for rfbd bnd writf fvfnts.
-        // TBD: Mfbsurf dost of EV_ONESHOT vs. EV_CLEAR, fithfr will do hfrf.
+        // Wf usf b sfpbrbtf filtfr for rfbd bnd writf fvfnts.
+        // Wf usf b sfpbrbtf filtfr for rfbd bnd writf fvfnts.
+        // Wf usf b sfpbrbtf filtfr for rfbd bnd writf fvfnts.
+        // Wf usf b sfpbrbtf filtfr for rfbd bnd writf fvfnts.
+        // TBD: Mfbsurf dost of EV_ONESHOT vs. EV_CLEAR, fitifr will do ifrf.
+        // TBD: Mfbsurf dost of EV_ONESHOT vs. EV_CLEAR, fitifr will do ifrf.
+        // TBD: Mfbsurf dost of EV_ONESHOT vs. EV_CLEAR, fitifr will do ifrf.
+        // TBD: Mfbsurf dost of EV_ONESHOT vs. EV_CLEAR, fitifr will do ifrf.
+        // TBD: Mfbsurf dost of EV_ONESHOT vs. EV_CLEAR, fitifr will do ifrf.
+        int frr = 0;
+        int frr = 0;
+        int frr = 0;
+        int frr = 0;
         int frr = 0;
         int flbgs = (EV_ADD|EV_ONESHOT);
+        int flbgs = (EV_ADD|EV_ONESHOT);
+        int flbgs = (EV_ADD|EV_ONESHOT);
+        int flbgs = (EV_ADD|EV_ONESHOT);
+        int flbgs = (EV_ADD|EV_ONESHOT);
+        if ((fvfnts & Nft.POLLIN) > 0)
+        if ((fvfnts & Nft.POLLIN) > 0)
+        if ((fvfnts & Nft.POLLIN) > 0)
+        if ((fvfnts & Nft.POLLIN) > 0)
         if ((fvfnts & Nft.POLLIN) > 0)
             frr = kfvfntRfgistfr(kqfd, fd, EVFILT_READ, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_READ, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_READ, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_READ, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_READ, flbgs);
+        if (frr == 0 && (fvfnts & Nft.POLLOUT) > 0)
+        if (frr == 0 && (fvfnts & Nft.POLLOUT) > 0)
+        if (frr == 0 && (fvfnts & Nft.POLLOUT) > 0)
+        if (frr == 0 && (fvfnts & Nft.POLLOUT) > 0)
         if (frr == 0 && (fvfnts & Nft.POLLOUT) > 0)
             frr = kfvfntRfgistfr(kqfd, fd, EVFILT_WRITE, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_WRITE, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_WRITE, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_WRITE, flbgs);
+            frr = kfvfntRfgistfr(kqfd, fd, EVFILT_WRITE, flbgs);
         if (frr != 0)
-            throw nfw IntfrnblError("kfvfnt fbilfd: " + frr);  // should not hbppfn
+        if (frr != 0)
+        if (frr != 0)
+        if (frr != 0)
+        if (frr != 0)
+            tirow nfw IntfrnblError("kfvfnt fbilfd: " + frr);  // siould not ibppfn
+            tirow nfw IntfrnblError("kfvfnt fbilfd: " + frr);  // siould not ibppfn
+            tirow nfw IntfrnblError("kfvfnt fbilfd: " + frr);  // siould not ibppfn
+            tirow nfw IntfrnblError("kfvfnt fbilfd: " + frr);  // siould not ibppfn
+            tirow nfw IntfrnblError("kfvfnt fbilfd: " + frr);  // siould not ibppfn
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Tbsk to prodfss fvfnts from kqufuf bnd dispbtdh to thf dhbnnfl's
-     * onEvfnt hbndlfr.
+    /*
+    /*
+    /*
+    /*
+     * Tbsk to prodfss fvfnts from kqufuf bnd dispbtdi to tif dibnnfl's
+     * Tbsk to prodfss fvfnts from kqufuf bnd dispbtdi to tif dibnnfl's
+     * Tbsk to prodfss fvfnts from kqufuf bnd dispbtdi to tif dibnnfl's
+     * Tbsk to prodfss fvfnts from kqufuf bnd dispbtdi to tif dibnnfl's
+     * Tbsk to prodfss fvfnts from kqufuf bnd dispbtdi to tif dibnnfl's
+     * onEvfnt ibndlfr.
+     * onEvfnt ibndlfr.
+     * onEvfnt ibndlfr.
+     * onEvfnt ibndlfr.
+     * onEvfnt ibndlfr.
      *
-     * Evfnts brf rftrfivfd from kqufuf in bbtdh bnd offfrfd to b BlodkingQufuf
-     * whfrf thfy brf donsumfd by hbndlfr thrfbds. A spfdibl "NEED_TO_POLL"
-     * fvfnt is usfd to signbl onf donsumfr to rf-poll whfn bll fvfnts hbvf
+     *
+     *
+     *
+     *
+     * Evfnts brf rftrfivfd from kqufuf in bbtdi bnd offfrfd to b BlodkingQufuf
+     * Evfnts brf rftrfivfd from kqufuf in bbtdi bnd offfrfd to b BlodkingQufuf
+     * Evfnts brf rftrfivfd from kqufuf in bbtdi bnd offfrfd to b BlodkingQufuf
+     * Evfnts brf rftrfivfd from kqufuf in bbtdi bnd offfrfd to b BlodkingQufuf
+     * Evfnts brf rftrfivfd from kqufuf in bbtdi bnd offfrfd to b BlodkingQufuf
+     * wifrf tify brf donsumfd by ibndlfr tirfbds. A spfdibl "NEED_TO_POLL"
+     * wifrf tify brf donsumfd by ibndlfr tirfbds. A spfdibl "NEED_TO_POLL"
+     * wifrf tify brf donsumfd by ibndlfr tirfbds. A spfdibl "NEED_TO_POLL"
+     * wifrf tify brf donsumfd by ibndlfr tirfbds. A spfdibl "NEED_TO_POLL"
+     * wifrf tify brf donsumfd by ibndlfr tirfbds. A spfdibl "NEED_TO_POLL"
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll wifn bll fvfnts ibvf
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll wifn bll fvfnts ibvf
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll wifn bll fvfnts ibvf
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll wifn bll fvfnts ibvf
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll wifn bll fvfnts ibvf
+     * bffn donsumfd.
+     * bffn donsumfd.
+     * bffn donsumfd.
+     * bffn donsumfd.
      * bffn donsumfd.
      */
+     */
+     */
+     */
+     */
     privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
-        privbtf Evfnt poll() throws IOExdfption {
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+        privbtf Evfnt poll() tirows IOExdfption {
+        privbtf Evfnt poll() tirows IOExdfption {
+        privbtf Evfnt poll() tirows IOExdfption {
+        privbtf Evfnt poll() tirows IOExdfption {
+        privbtf Evfnt poll() tirows IOExdfption {
             try {
+            try {
+            try {
+            try {
+            try {
+                for (;;) {
+                for (;;) {
+                for (;;) {
+                for (;;) {
                 for (;;) {
                     int n = kfvfntPoll(kqfd, bddrfss, MAX_KEVENTS_TO_POLL);
+                    int n = kfvfntPoll(kqfd, bddrfss, MAX_KEVENTS_TO_POLL);
+                    int n = kfvfntPoll(kqfd, bddrfss, MAX_KEVENTS_TO_POLL);
+                    int n = kfvfntPoll(kqfd, bddrfss, MAX_KEVENTS_TO_POLL);
+                    int n = kfvfntPoll(kqfd, bddrfss, MAX_KEVENTS_TO_POLL);
                     /*
-                     * 'n' fvfnts hbvf bffn rfbd. Hfrf wf mbp thfm to thfir
-                     * dorrfsponding dhbnnfl in bbtdh bnd qufuf n-1 so thbt
-                     * thfy dbn bf hbndlfd by othfr hbndlfr thrfbds. Thf lbst
-                     * fvfnt is hbndlfd by this thrfbd (bnd so is not qufufd).
+                    /*
+                    /*
+                    /*
+                    /*
+                     * 'n' fvfnts ibvf bffn rfbd. Hfrf wf mbp tifm to tifir
+                     * 'n' fvfnts ibvf bffn rfbd. Hfrf wf mbp tifm to tifir
+                     * 'n' fvfnts ibvf bffn rfbd. Hfrf wf mbp tifm to tifir
+                     * 'n' fvfnts ibvf bffn rfbd. Hfrf wf mbp tifm to tifir
+                     * 'n' fvfnts ibvf bffn rfbd. Hfrf wf mbp tifm to tifir
+                     * dorrfsponding dibnnfl in bbtdi bnd qufuf n-1 so tibt
+                     * dorrfsponding dibnnfl in bbtdi bnd qufuf n-1 so tibt
+                     * dorrfsponding dibnnfl in bbtdi bnd qufuf n-1 so tibt
+                     * dorrfsponding dibnnfl in bbtdi bnd qufuf n-1 so tibt
+                     * dorrfsponding dibnnfl in bbtdi bnd qufuf n-1 so tibt
+                     * tify dbn bf ibndlfd by otifr ibndlfr tirfbds. Tif lbst
+                     * tify dbn bf ibndlfd by otifr ibndlfr tirfbds. Tif lbst
+                     * tify dbn bf ibndlfd by otifr ibndlfr tirfbds. Tif lbst
+                     * tify dbn bf ibndlfd by otifr ibndlfr tirfbds. Tif lbst
+                     * tify dbn bf ibndlfd by otifr ibndlfr tirfbds. Tif lbst
+                     * fvfnt is ibndlfd by tiis tirfbd (bnd so is not qufufd).
+                     * fvfnt is ibndlfd by tiis tirfbd (bnd so is not qufufd).
+                     * fvfnt is ibndlfd by tiis tirfbd (bnd so is not qufufd).
+                     * fvfnt is ibndlfd by tiis tirfbd (bnd so is not qufufd).
+                     * fvfnt is ibndlfd by tiis tirfbd (bnd so is not qufufd).
                      */
-                    fdToChbnnflLodk.rfbdLodk().lodk();
+                     */
+                     */
+                     */
+                     */
+                    fdToCibnnflLodk.rfbdLodk().lodk();
+                    fdToCibnnflLodk.rfbdLodk().lodk();
+                    fdToCibnnflLodk.rfbdLodk().lodk();
+                    fdToCibnnflLodk.rfbdLodk().lodk();
+                    fdToCibnnflLodk.rfbdLodk().lodk();
                     try {
-                        whilf (n-- > 0) {
+                    try {
+                    try {
+                    try {
+                    try {
+                        wiilf (n-- > 0) {
+                        wiilf (n-- > 0) {
+                        wiilf (n-- > 0) {
+                        wiilf (n-- > 0) {
+                        wiilf (n-- > 0) {
+                            long kfvfntAddrfss = gftEvfnt(bddrfss, n);
+                            long kfvfntAddrfss = gftEvfnt(bddrfss, n);
+                            long kfvfntAddrfss = gftEvfnt(bddrfss, n);
+                            long kfvfntAddrfss = gftEvfnt(bddrfss, n);
                             long kfvfntAddrfss = gftEvfnt(bddrfss, n);
                             int fd = gftDfsdriptor(kfvfntAddrfss);
+                            int fd = gftDfsdriptor(kfvfntAddrfss);
+                            int fd = gftDfsdriptor(kfvfntAddrfss);
+                            int fd = gftDfsdriptor(kfvfntAddrfss);
+                            int fd = gftDfsdriptor(kfvfntAddrfss);
+
+
+
+
 
                             // wbkfup
+                            // wbkfup
+                            // wbkfup
+                            // wbkfup
+                            // wbkfup
+                            if (fd == sp[0]) {
+                            if (fd == sp[0]) {
+                            if (fd == sp[0]) {
+                            if (fd == sp[0]) {
                             if (fd == sp[0]) {
                                 if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                    // no morf wbkfups so drbin pipf
+                                    // no morf wbkfups so drbin pipf
+                                    // no morf wbkfups so drbin pipf
+                                    // no morf wbkfups so drbin pipf
                                     // no morf wbkfups so drbin pipf
                                     drbin1(sp[0]);
+                                    drbin1(sp[0]);
+                                    drbin1(sp[0]);
+                                    drbin1(sp[0]);
+                                    drbin1(sp[0]);
+                                }
+                                }
+                                }
+                                }
                                 }
 
-                                // qufuf spfdibl fvfnt if thfrf brf morf fvfnts
-                                // to hbndlf.
+
+
+
+
+                                // qufuf spfdibl fvfnt if tifrf brf morf fvfnts
+                                // qufuf spfdibl fvfnt if tifrf brf morf fvfnts
+                                // qufuf spfdibl fvfnt if tifrf brf morf fvfnts
+                                // qufuf spfdibl fvfnt if tifrf brf morf fvfnts
+                                // qufuf spfdibl fvfnt if tifrf brf morf fvfnts
+                                // to ibndlf.
+                                // to ibndlf.
+                                // to ibndlf.
+                                // to ibndlf.
+                                // to ibndlf.
+                                if (n > 0) {
+                                if (n > 0) {
+                                if (n > 0) {
+                                if (n > 0) {
                                 if (n > 0) {
                                     qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    dontinuf;
+                                    dontinuf;
+                                    dontinuf;
+                                    dontinuf;
                                     dontinuf;
                                 }
+                                }
+                                }
+                                }
+                                }
+                                rfturn EXECUTE_TASK_OR_SHUTDOWN;
+                                rfturn EXECUTE_TASK_OR_SHUTDOWN;
+                                rfturn EXECUTE_TASK_OR_SHUTDOWN;
+                                rfturn EXECUTE_TASK_OR_SHUTDOWN;
                                 rfturn EXECUTE_TASK_OR_SHUTDOWN;
                             }
+                            }
+                            }
+                            }
+                            }
 
-                            PollbblfChbnnfl dhbnnfl = fdToChbnnfl.gft(fd);
-                            if (dhbnnfl != null) {
+
+
+
+
+                            PollbblfCibnnfl dibnnfl = fdToCibnnfl.gft(fd);
+                            PollbblfCibnnfl dibnnfl = fdToCibnnfl.gft(fd);
+                            PollbblfCibnnfl dibnnfl = fdToCibnnfl.gft(fd);
+                            PollbblfCibnnfl dibnnfl = fdToCibnnfl.gft(fd);
+                            PollbblfCibnnfl dibnnfl = fdToCibnnfl.gft(fd);
+                            if (dibnnfl != null) {
+                            if (dibnnfl != null) {
+                            if (dibnnfl != null) {
+                            if (dibnnfl != null) {
+                            if (dibnnfl != null) {
+                                int filtfr = gftFiltfr(kfvfntAddrfss);
+                                int filtfr = gftFiltfr(kfvfntAddrfss);
+                                int filtfr = gftFiltfr(kfvfntAddrfss);
+                                int filtfr = gftFiltfr(kfvfntAddrfss);
                                 int filtfr = gftFiltfr(kfvfntAddrfss);
                                 int fvfnts = 0;
+                                int fvfnts = 0;
+                                int fvfnts = 0;
+                                int fvfnts = 0;
+                                int fvfnts = 0;
+                                if (filtfr == EVFILT_READ)
+                                if (filtfr == EVFILT_READ)
+                                if (filtfr == EVFILT_READ)
+                                if (filtfr == EVFILT_READ)
                                 if (filtfr == EVFILT_READ)
                                     fvfnts = Nft.POLLIN;
+                                    fvfnts = Nft.POLLIN;
+                                    fvfnts = Nft.POLLIN;
+                                    fvfnts = Nft.POLLIN;
+                                    fvfnts = Nft.POLLIN;
+                                flsf if (filtfr == EVFILT_WRITE)
+                                flsf if (filtfr == EVFILT_WRITE)
+                                flsf if (filtfr == EVFILT_WRITE)
+                                flsf if (filtfr == EVFILT_WRITE)
                                 flsf if (filtfr == EVFILT_WRITE)
                                     fvfnts = Nft.POLLOUT;
+                                    fvfnts = Nft.POLLOUT;
+                                    fvfnts = Nft.POLLOUT;
+                                    fvfnts = Nft.POLLOUT;
+                                    fvfnts = Nft.POLLOUT;
 
-                                Evfnt fv = nfw Evfnt(dhbnnfl, fvfnts);
 
-                                // n-1 fvfnts brf qufufd; This thrfbd hbndlfs
-                                // thf lbst onf fxdfpt for thf wbkfup
+
+
+
+                                Evfnt fv = nfw Evfnt(dibnnfl, fvfnts);
+                                Evfnt fv = nfw Evfnt(dibnnfl, fvfnts);
+                                Evfnt fv = nfw Evfnt(dibnnfl, fvfnts);
+                                Evfnt fv = nfw Evfnt(dibnnfl, fvfnts);
+                                Evfnt fv = nfw Evfnt(dibnnfl, fvfnts);
+
+
+
+
+
+                                // n-1 fvfnts brf qufufd; Tiis tirfbd ibndlfs
+                                // n-1 fvfnts brf qufufd; Tiis tirfbd ibndlfs
+                                // n-1 fvfnts brf qufufd; Tiis tirfbd ibndlfs
+                                // n-1 fvfnts brf qufufd; Tiis tirfbd ibndlfs
+                                // n-1 fvfnts brf qufufd; Tiis tirfbd ibndlfs
+                                // tif lbst onf fxdfpt for tif wbkfup
+                                // tif lbst onf fxdfpt for tif wbkfup
+                                // tif lbst onf fxdfpt for tif wbkfup
+                                // tif lbst onf fxdfpt for tif wbkfup
+                                // tif lbst onf fxdfpt for tif wbkfup
+                                if (n > 0) {
+                                if (n > 0) {
+                                if (n > 0) {
+                                if (n > 0) {
                                 if (n > 0) {
                                     qufuf.offfr(fv);
+                                    qufuf.offfr(fv);
+                                    qufuf.offfr(fv);
+                                    qufuf.offfr(fv);
+                                    qufuf.offfr(fv);
+                                } flsf {
+                                } flsf {
+                                } flsf {
+                                } flsf {
                                 } flsf {
                                     rfturn fv;
+                                    rfturn fv;
+                                    rfturn fv;
+                                    rfturn fv;
+                                    rfturn fv;
+                                }
+                                }
+                                }
+                                }
                                 }
                             }
-                        }
-                    } finblly {
-                        fdToChbnnflLodk.rfbdLodk().unlodk();
-                    }
-                }
-            } finblly {
-                // to fnsurf thbt somf thrfbd will poll whfn bll fvfnts hbvf
-                // bffn donsumfd
-                qufuf.offfr(NEED_TO_POLL);
-            }
-        }
-
-        publid void run() {
-            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
-                Invokfr.gftGroupAndInvokfCount();
-            finbl boolfbn isPoolfdThrfbd = (myGroupAndInvokfCount != null);
-            boolfbn rfplbdfMf = fblsf;
-            Evfnt fv;
-            try {
-                for (;;) {
-                    // rfsft invokf dount
-                    if (isPoolfdThrfbd)
-                        myGroupAndInvokfCount.rfsftInvokfCount();
-
-                    try {
-                        rfplbdfMf = fblsf;
-                        fv = qufuf.tbkf();
-
-                        // no fvfnts bnd this thrfbd hbs bffn "sflfdtfd" to
-                        // poll for morf.
-                        if (fv == NEED_TO_POLL) {
-                            try {
-                                fv = poll();
-                            } dbtdh (IOExdfption x) {
-                                x.printStbdkTrbdf();
-                                rfturn;
+                            }
+                            }
+                            }
                             }
                         }
-                    } dbtdh (IntfrruptfdExdfption x) {
-                        dontinuf;
-                    }
-
-                    // hbndlf wbkfup to fxfdutf tbsk or shutdown
-                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
-                        Runnbblf tbsk = pollTbsk();
-                        if (tbsk == null) {
-                            // shutdown rfqufst
-                            rfturn;
                         }
-                        // run tbsk (mby throw frror/fxdfption)
-                        rfplbdfMf = truf;
-                        tbsk.run();
-                        dontinuf;
+                        }
+                        }
+                        }
+                    } finblly {
+                    } finblly {
+                    } finblly {
+                    } finblly {
+                    } finblly {
+                        fdToCibnnflLodk.rfbdLodk().unlodk();
+                        fdToCibnnflLodk.rfbdLodk().unlodk();
+                        fdToCibnnflLodk.rfbdLodk().unlodk();
+                        fdToCibnnflLodk.rfbdLodk().unlodk();
+                        fdToCibnnflLodk.rfbdLodk().unlodk();
                     }
-
-                    // prodfss fvfnt
-                    try {
-                        fv.dhbnnfl().onEvfnt(fv.fvfnts(), isPoolfdThrfbd);
-                    } dbtdh (Error x) {
-                        rfplbdfMf = truf; throw x;
-                    } dbtdh (RuntimfExdfption x) {
-                        rfplbdfMf = truf; throw x;
                     }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
                 }
             } finblly {
-                // lbst hbndlfr to fxit whfn shutdown rflfbsfs rfsourdfs
-                int rfmbining = thrfbdExit(this, rfplbdfMf);
-                if (rfmbining == 0 && isShutdown()) {
-                    implClosf();
-                }
+            } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+                // to fnsurf tibt somf tirfbd will poll wifn bll fvfnts ibvf
+                // to fnsurf tibt somf tirfbd will poll wifn bll fvfnts ibvf
+                // to fnsurf tibt somf tirfbd will poll wifn bll fvfnts ibvf
+                // to fnsurf tibt somf tirfbd will poll wifn bll fvfnts ibvf
+                // to fnsurf tibt somf tirfbd will poll wifn bll fvfnts ibvf
+                // bffn donsumfd
+                // bffn donsumfd
+                // bffn donsumfd
+                // bffn donsumfd
+                // bffn donsumfd
+                qufuf.offfr(NEED_TO_POLL);
+                qufuf.offfr(NEED_TO_POLL);
+                qufuf.offfr(NEED_TO_POLL);
+                qufuf.offfr(NEED_TO_POLL);
+                qufuf.offfr(NEED_TO_POLL);
+            }
+            }
+            }
+            }
             }
         }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        publid void run() {
+        publid void run() {
+        publid void run() {
+        publid void run() {
+        publid void run() {
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+                Invokfr.gftGroupAndInvokfCount();
+                Invokfr.gftGroupAndInvokfCount();
+                Invokfr.gftGroupAndInvokfCount();
+                Invokfr.gftGroupAndInvokfCount();
+                Invokfr.gftGroupAndInvokfCount();
+            finbl boolfbn isPoolfdTirfbd = (myGroupAndInvokfCount != null);
+            finbl boolfbn isPoolfdTirfbd = (myGroupAndInvokfCount != null);
+            finbl boolfbn isPoolfdTirfbd = (myGroupAndInvokfCount != null);
+            finbl boolfbn isPoolfdTirfbd = (myGroupAndInvokfCount != null);
+            finbl boolfbn isPoolfdTirfbd = (myGroupAndInvokfCount != null);
+            boolfbn rfplbdfMf = fblsf;
+            boolfbn rfplbdfMf = fblsf;
+            boolfbn rfplbdfMf = fblsf;
+            boolfbn rfplbdfMf = fblsf;
+            boolfbn rfplbdfMf = fblsf;
+            Evfnt fv;
+            Evfnt fv;
+            Evfnt fv;
+            Evfnt fv;
+            Evfnt fv;
+            try {
+            try {
+            try {
+            try {
+            try {
+                for (;;) {
+                for (;;) {
+                for (;;) {
+                for (;;) {
+                for (;;) {
+                    // rfsft invokf dount
+                    // rfsft invokf dount
+                    // rfsft invokf dount
+                    // rfsft invokf dount
+                    // rfsft invokf dount
+                    if (isPoolfdTirfbd)
+                    if (isPoolfdTirfbd)
+                    if (isPoolfdTirfbd)
+                    if (isPoolfdTirfbd)
+                    if (isPoolfdTirfbd)
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+
+
+
+
+
+                    try {
+                    try {
+                    try {
+                    try {
+                    try {
+                        rfplbdfMf = fblsf;
+                        rfplbdfMf = fblsf;
+                        rfplbdfMf = fblsf;
+                        rfplbdfMf = fblsf;
+                        rfplbdfMf = fblsf;
+                        fv = qufuf.tbkf();
+                        fv = qufuf.tbkf();
+                        fv = qufuf.tbkf();
+                        fv = qufuf.tbkf();
+                        fv = qufuf.tbkf();
+
+
+
+
+
+                        // no fvfnts bnd tiis tirfbd ibs bffn "sflfdtfd" to
+                        // no fvfnts bnd tiis tirfbd ibs bffn "sflfdtfd" to
+                        // no fvfnts bnd tiis tirfbd ibs bffn "sflfdtfd" to
+                        // no fvfnts bnd tiis tirfbd ibs bffn "sflfdtfd" to
+                        // no fvfnts bnd tiis tirfbd ibs bffn "sflfdtfd" to
+                        // poll for morf.
+                        // poll for morf.
+                        // poll for morf.
+                        // poll for morf.
+                        // poll for morf.
+                        if (fv == NEED_TO_POLL) {
+                        if (fv == NEED_TO_POLL) {
+                        if (fv == NEED_TO_POLL) {
+                        if (fv == NEED_TO_POLL) {
+                        if (fv == NEED_TO_POLL) {
+                            try {
+                            try {
+                            try {
+                            try {
+                            try {
+                                fv = poll();
+                                fv = poll();
+                                fv = poll();
+                                fv = poll();
+                                fv = poll();
+                            } dbtdi (IOExdfption x) {
+                            } dbtdi (IOExdfption x) {
+                            } dbtdi (IOExdfption x) {
+                            } dbtdi (IOExdfption x) {
+                            } dbtdi (IOExdfption x) {
+                                x.printStbdkTrbdf();
+                                x.printStbdkTrbdf();
+                                x.printStbdkTrbdf();
+                                x.printStbdkTrbdf();
+                                x.printStbdkTrbdf();
+                                rfturn;
+                                rfturn;
+                                rfturn;
+                                rfturn;
+                                rfturn;
+                            }
+                            }
+                            }
+                            }
+                            }
+                        }
+                        }
+                        }
+                        }
+                        }
+                    } dbtdi (IntfrruptfdExdfption x) {
+                    } dbtdi (IntfrruptfdExdfption x) {
+                    } dbtdi (IntfrruptfdExdfption x) {
+                    } dbtdi (IntfrruptfdExdfption x) {
+                    } dbtdi (IntfrruptfdExdfption x) {
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                    }
+                    }
+                    }
+                    }
+                    }
+
+
+
+
+
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                        Runnbblf tbsk = pollTbsk();
+                        Runnbblf tbsk = pollTbsk();
+                        Runnbblf tbsk = pollTbsk();
+                        Runnbblf tbsk = pollTbsk();
+                        Runnbblf tbsk = pollTbsk();
+                        if (tbsk == null) {
+                        if (tbsk == null) {
+                        if (tbsk == null) {
+                        if (tbsk == null) {
+                        if (tbsk == null) {
+                            // siutdown rfqufst
+                            // siutdown rfqufst
+                            // siutdown rfqufst
+                            // siutdown rfqufst
+                            // siutdown rfqufst
+                            rfturn;
+                            rfturn;
+                            rfturn;
+                            rfturn;
+                            rfturn;
+                        }
+                        }
+                        }
+                        }
+                        }
+                        // run tbsk (mby tirow frror/fxdfption)
+                        // run tbsk (mby tirow frror/fxdfption)
+                        // run tbsk (mby tirow frror/fxdfption)
+                        // run tbsk (mby tirow frror/fxdfption)
+                        // run tbsk (mby tirow frror/fxdfption)
+                        rfplbdfMf = truf;
+                        rfplbdfMf = truf;
+                        rfplbdfMf = truf;
+                        rfplbdfMf = truf;
+                        rfplbdfMf = truf;
+                        tbsk.run();
+                        tbsk.run();
+                        tbsk.run();
+                        tbsk.run();
+                        tbsk.run();
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                        dontinuf;
+                    }
+                    }
+                    }
+                    }
+                    }
+
+
+
+
+
+                    // prodfss fvfnt
+                    // prodfss fvfnt
+                    // prodfss fvfnt
+                    // prodfss fvfnt
+                    // prodfss fvfnt
+                    try {
+                    try {
+                    try {
+                    try {
+                    try {
+                        fv.dibnnfl().onEvfnt(fv.fvfnts(), isPoolfdTirfbd);
+                        fv.dibnnfl().onEvfnt(fv.fvfnts(), isPoolfdTirfbd);
+                        fv.dibnnfl().onEvfnt(fv.fvfnts(), isPoolfdTirfbd);
+                        fv.dibnnfl().onEvfnt(fv.fvfnts(), isPoolfdTirfbd);
+                        fv.dibnnfl().onEvfnt(fv.fvfnts(), isPoolfdTirfbd);
+                    } dbtdi (Error x) {
+                    } dbtdi (Error x) {
+                    } dbtdi (Error x) {
+                    } dbtdi (Error x) {
+                    } dbtdi (Error x) {
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                    } dbtdi (RuntimfExdfption x) {
+                    } dbtdi (RuntimfExdfption x) {
+                    } dbtdi (RuntimfExdfption x) {
+                    } dbtdi (RuntimfExdfption x) {
+                    } dbtdi (RuntimfExdfption x) {
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                        rfplbdfMf = truf; tirow x;
+                    }
+                    }
+                    }
+                    }
+                    }
+                }
+                }
+                }
+                }
+                }
+            } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+            } finblly {
+                // lbst ibndlfr to fxit wifn siutdown rflfbsfs rfsourdfs
+                // lbst ibndlfr to fxit wifn siutdown rflfbsfs rfsourdfs
+                // lbst ibndlfr to fxit wifn siutdown rflfbsfs rfsourdfs
+                // lbst ibndlfr to fxit wifn siutdown rflfbsfs rfsourdfs
+                // lbst ibndlfr to fxit wifn siutdown rflfbsfs rfsourdfs
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                if (rfmbining == 0 && isSiutdown()) {
+                if (rfmbining == 0 && isSiutdown()) {
+                if (rfmbining == 0 && isSiutdown()) {
+                if (rfmbining == 0 && isSiutdown()) {
+                if (rfmbining == 0 && isSiutdown()) {
+                    implClosf();
+                    implClosf();
+                    implClosf();
+                    implClosf();
+                    implClosf();
+                }
+                }
+                }
+                }
+                }
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    // -- Nbtivf mfthods --
 
-    privbtf stbtid nbtivf void sodkftpbir(int[] sv) throws IOExdfption;
 
-    privbtf stbtid nbtivf void intfrrupt(int fd) throws IOExdfption;
 
-    privbtf stbtid nbtivf void drbin1(int fd) throws IOExdfption;
+
+    // -- Nbtivf mftiods --
+    // -- Nbtivf mftiods --
+    // -- Nbtivf mftiods --
+    // -- Nbtivf mftiods --
+    // -- Nbtivf mftiods --
+
+
+
+
+
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) tirows IOExdfption;
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) tirows IOExdfption;
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) tirows IOExdfption;
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) tirows IOExdfption;
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) tirows IOExdfption;
+
+
+
+
+
+    privbtf stbtid nbtivf void intfrrupt(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void intfrrupt(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void intfrrupt(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void intfrrupt(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void intfrrupt(int fd) tirows IOExdfption;
+
+
+
+
+
+    privbtf stbtid nbtivf void drbin1(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void drbin1(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void drbin1(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void drbin1(int fd) tirows IOExdfption;
+    privbtf stbtid nbtivf void drbin1(int fd) tirows IOExdfption;
+
+
+
+
 
     privbtf stbtid nbtivf void dlosf0(int fd);
+    privbtf stbtid nbtivf void dlosf0(int fd);
+    privbtf stbtid nbtivf void dlosf0(int fd);
+    privbtf stbtid nbtivf void dlosf0(int fd);
+    privbtf stbtid nbtivf void dlosf0(int fd);
+
+
+
+
 
     stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+    stbtid {
+        IOUtil.lobd();
+        IOUtil.lobd();
+        IOUtil.lobd();
+        IOUtil.lobd();
         IOUtil.lobd();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

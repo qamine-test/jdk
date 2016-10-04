@@ -1,124 +1,620 @@
 /*
- * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+/*
+/*
+/*
+/*
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
- * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
- * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
- * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ *                                                                             *
+ *                                                                             *
+ *                                                                             *
+ *                                                                             *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
  * to rfmovfd.                                                                 *
  *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
  */
-/* Writtfn by Simon Montbgu, Mbtitibhu Alloudhf
- * (portfd from C dodf writtfn by Mbrkus W. Sdhfrfr)
  */
+ */
+ */
+ */
+/* Writtfn by Simon Montbgu, Mbtitibiu Alloudif
+/* Writtfn by Simon Montbgu, Mbtitibiu Alloudif
+/* Writtfn by Simon Montbgu, Mbtitibiu Alloudif
+/* Writtfn by Simon Montbgu, Mbtitibiu Alloudif
+/* Writtfn by Simon Montbgu, Mbtitibiu Alloudif
+ * (portfd from C dodf writtfn by Mbrkus W. Sdifrfr)
+ * (portfd from C dodf writtfn by Mbrkus W. Sdifrfr)
+ * (portfd from C dodf writtfn by Mbrkus W. Sdifrfr)
+ * (portfd from C dodf writtfn by Mbrkus W. Sdifrfr)
+ * (portfd from C dodf writtfn by Mbrkus W. Sdifrfr)
+ */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.tfxt.bidi;
+pbdkbgf sun.tfxt.bidi;
+pbdkbgf sun.tfxt.bidi;
+pbdkbgf sun.tfxt.bidi;
+pbdkbgf sun.tfxt.bidi;
+
+
+
+
 
 /**
- * A BidiRun rfprfsfnts b sfqufndf of dhbrbdtfrs bt thf sbmf fmbfdding lfvfl.
- * Thf Bidi blgorithm dfdomposfs b pifdf of tfxt into sfqufndfs of dhbrbdtfrs
- * bt thf sbmf fmbfdding lfvfl, fbdh sudh sfqufndf is dbllfd b <quotf>run</quotf>.
+/**
+/**
+/**
+/**
+ * A BidiRun rfprfsfnts b sfqufndf of dibrbdtfrs bt tif sbmf fmbfdding lfvfl.
+ * A BidiRun rfprfsfnts b sfqufndf of dibrbdtfrs bt tif sbmf fmbfdding lfvfl.
+ * A BidiRun rfprfsfnts b sfqufndf of dibrbdtfrs bt tif sbmf fmbfdding lfvfl.
+ * A BidiRun rfprfsfnts b sfqufndf of dibrbdtfrs bt tif sbmf fmbfdding lfvfl.
+ * A BidiRun rfprfsfnts b sfqufndf of dibrbdtfrs bt tif sbmf fmbfdding lfvfl.
+ * Tif Bidi blgoritim dfdomposfs b pifdf of tfxt into sfqufndfs of dibrbdtfrs
+ * Tif Bidi blgoritim dfdomposfs b pifdf of tfxt into sfqufndfs of dibrbdtfrs
+ * Tif Bidi blgoritim dfdomposfs b pifdf of tfxt into sfqufndfs of dibrbdtfrs
+ * Tif Bidi blgoritim dfdomposfs b pifdf of tfxt into sfqufndfs of dibrbdtfrs
+ * Tif Bidi blgoritim dfdomposfs b pifdf of tfxt into sfqufndfs of dibrbdtfrs
+ * bt tif sbmf fmbfdding lfvfl, fbdi sudi sfqufndf is dbllfd b <quotf>run</quotf>.
+ * bt tif sbmf fmbfdding lfvfl, fbdi sudi sfqufndf is dbllfd b <quotf>run</quotf>.
+ * bt tif sbmf fmbfdding lfvfl, fbdi sudi sfqufndf is dbllfd b <quotf>run</quotf>.
+ * bt tif sbmf fmbfdding lfvfl, fbdi sudi sfqufndf is dbllfd b <quotf>run</quotf>.
+ * bt tif sbmf fmbfdding lfvfl, fbdi sudi sfqufndf is dbllfd b <quotf>run</quotf>.
  *
- * <p>A BidiRun rfprfsfnts sudh b run by storing its fssfntibl propfrtifs,
- * but dofs not duplidbtf thf dhbrbdtfrs whidh form thf run.
  *
- * <p>Thf &quot;limit&quot; of thf run is thf position just bftfr thf
- * lbst dhbrbdtfr, i.f., onf morf thbn thbt position.
  *
- * <p>This dlbss hbs no publid donstrudtor, bnd its mfmbfrs dbnnot bf
+ *
+ *
+ * <p>A BidiRun rfprfsfnts sudi b run by storing its fssfntibl propfrtifs,
+ * <p>A BidiRun rfprfsfnts sudi b run by storing its fssfntibl propfrtifs,
+ * <p>A BidiRun rfprfsfnts sudi b run by storing its fssfntibl propfrtifs,
+ * <p>A BidiRun rfprfsfnts sudi b run by storing its fssfntibl propfrtifs,
+ * <p>A BidiRun rfprfsfnts sudi b run by storing its fssfntibl propfrtifs,
+ * but dofs not duplidbtf tif dibrbdtfrs wiidi form tif run.
+ * but dofs not duplidbtf tif dibrbdtfrs wiidi form tif run.
+ * but dofs not duplidbtf tif dibrbdtfrs wiidi form tif run.
+ * but dofs not duplidbtf tif dibrbdtfrs wiidi form tif run.
+ * but dofs not duplidbtf tif dibrbdtfrs wiidi form tif run.
+ *
+ *
+ *
+ *
+ *
+ * <p>Tif &quot;limit&quot; of tif run is tif position just bftfr tif
+ * <p>Tif &quot;limit&quot; of tif run is tif position just bftfr tif
+ * <p>Tif &quot;limit&quot; of tif run is tif position just bftfr tif
+ * <p>Tif &quot;limit&quot; of tif run is tif position just bftfr tif
+ * <p>Tif &quot;limit&quot; of tif run is tif position just bftfr tif
+ * lbst dibrbdtfr, i.f., onf morf tibn tibt position.
+ * lbst dibrbdtfr, i.f., onf morf tibn tibt position.
+ * lbst dibrbdtfr, i.f., onf morf tibn tibt position.
+ * lbst dibrbdtfr, i.f., onf morf tibn tibt position.
+ * lbst dibrbdtfr, i.f., onf morf tibn tibt position.
+ *
+ *
+ *
+ *
+ *
+ * <p>Tiis dlbss ibs no publid donstrudtor, bnd its mfmbfrs dbnnot bf
+ * <p>Tiis dlbss ibs no publid donstrudtor, bnd its mfmbfrs dbnnot bf
+ * <p>Tiis dlbss ibs no publid donstrudtor, bnd its mfmbfrs dbnnot bf
+ * <p>Tiis dlbss ibs no publid donstrudtor, bnd its mfmbfrs dbnnot bf
+ * <p>Tiis dlbss ibs no publid donstrudtor, bnd its mfmbfrs dbnnot bf
+ * modififd by usfrs.
+ * modififd by usfrs.
+ * modififd by usfrs.
+ * modififd by usfrs.
  * modififd by usfrs.
  *
+ *
+ *
+ *
+ *
+ * @sff dom.ibm.idu.tfxt.Bidi
+ * @sff dom.ibm.idu.tfxt.Bidi
+ * @sff dom.ibm.idu.tfxt.Bidi
+ * @sff dom.ibm.idu.tfxt.Bidi
  * @sff dom.ibm.idu.tfxt.Bidi
  */
+ */
+ */
+ */
+ */
+publid dlbss BidiRun {
+publid dlbss BidiRun {
+publid dlbss BidiRun {
+publid dlbss BidiRun {
 publid dlbss BidiRun {
 
-    int stbrt;              /* first logidbl position of thf run */
-    int limit;              /* lbst visubl position of thf run +1 */
+
+
+
+
+    int stbrt;              /* first logidbl position of tif run */
+    int stbrt;              /* first logidbl position of tif run */
+    int stbrt;              /* first logidbl position of tif run */
+    int stbrt;              /* first logidbl position of tif run */
+    int stbrt;              /* first logidbl position of tif run */
+    int limit;              /* lbst visubl position of tif run +1 */
+    int limit;              /* lbst visubl position of tif run +1 */
+    int limit;              /* lbst visubl position of tif run +1 */
+    int limit;              /* lbst visubl position of tif run +1 */
+    int limit;              /* lbst visubl position of tif run +1 */
     int insfrtRfmovf;       /* if >0, flbgs for insfrting LRM/RLM bfforf/bftfr run,
-                               if <0, dount of bidi dontrols within run            */
+    int insfrtRfmovf;       /* if >0, flbgs for insfrting LRM/RLM bfforf/bftfr run,
+    int insfrtRfmovf;       /* if >0, flbgs for insfrting LRM/RLM bfforf/bftfr run,
+    int insfrtRfmovf;       /* if >0, flbgs for insfrting LRM/RLM bfforf/bftfr run,
+    int insfrtRfmovf;       /* if >0, flbgs for insfrting LRM/RLM bfforf/bftfr run,
+                               if <0, dount of bidi dontrols witiin run            */
+                               if <0, dount of bidi dontrols witiin run            */
+                               if <0, dount of bidi dontrols witiin run            */
+                               if <0, dount of bidi dontrols witiin run            */
+                               if <0, dount of bidi dontrols witiin run            */
+    bytf lfvfl;
+    bytf lfvfl;
+    bytf lfvfl;
+    bytf lfvfl;
     bytf lfvfl;
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Dffbult donstrudtor
+     * Dffbult donstrudtor
+     * Dffbult donstrudtor
+     * Dffbult donstrudtor
+     * Dffbult donstrudtor
      *
-     * Notf thbt mfmbfrs stbrt bnd limit of b run instbndf hbvf difffrfnt
-     * mfbnings dfpfnding whfthfr thf run is pbrt of thf runs brrby of b Bidi
+     *
+     *
+     *
+     *
+     * Notf tibt mfmbfrs stbrt bnd limit of b run instbndf ibvf difffrfnt
+     * Notf tibt mfmbfrs stbrt bnd limit of b run instbndf ibvf difffrfnt
+     * Notf tibt mfmbfrs stbrt bnd limit of b run instbndf ibvf difffrfnt
+     * Notf tibt mfmbfrs stbrt bnd limit of b run instbndf ibvf difffrfnt
+     * Notf tibt mfmbfrs stbrt bnd limit of b run instbndf ibvf difffrfnt
+     * mfbnings dfpfnding wiftifr tif run is pbrt of tif runs brrby of b Bidi
+     * mfbnings dfpfnding wiftifr tif run is pbrt of tif runs brrby of b Bidi
+     * mfbnings dfpfnding wiftifr tif run is pbrt of tif runs brrby of b Bidi
+     * mfbnings dfpfnding wiftifr tif run is pbrt of tif runs brrby of b Bidi
+     * mfbnings dfpfnding wiftifr tif run is pbrt of tif runs brrby of b Bidi
+     * objfdt, or if it is b rfffrfndf rfturnfd by gftVisublRun() or
+     * objfdt, or if it is b rfffrfndf rfturnfd by gftVisublRun() or
+     * objfdt, or if it is b rfffrfndf rfturnfd by gftVisublRun() or
+     * objfdt, or if it is b rfffrfndf rfturnfd by gftVisublRun() or
      * objfdt, or if it is b rfffrfndf rfturnfd by gftVisublRun() or
      * gftLogidblRun().
-     * For b mfmbfr of thf runs brrby of b Bidi objfdt,
-     *   - stbrt is thf first logidbl position of thf run in thf sourdf tfxt.
-     *   - limit is onf bftfr thf lbst visubl position of thf run.
+     * gftLogidblRun().
+     * gftLogidblRun().
+     * gftLogidblRun().
+     * gftLogidblRun().
+     * For b mfmbfr of tif runs brrby of b Bidi objfdt,
+     * For b mfmbfr of tif runs brrby of b Bidi objfdt,
+     * For b mfmbfr of tif runs brrby of b Bidi objfdt,
+     * For b mfmbfr of tif runs brrby of b Bidi objfdt,
+     * For b mfmbfr of tif runs brrby of b Bidi objfdt,
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - limit is onf bftfr tif lbst visubl position of tif run.
+     *   - limit is onf bftfr tif lbst visubl position of tif run.
+     *   - limit is onf bftfr tif lbst visubl position of tif run.
+     *   - limit is onf bftfr tif lbst visubl position of tif run.
+     *   - limit is onf bftfr tif lbst visubl position of tif run.
      * For b rfffrfndf rfturnfd by gftLogidblRun() or gftVisublRun(),
-     *   - stbrt is thf first logidbl position of thf run in thf sourdf tfxt.
-     *   - limit is onf bftfr thf lbst logidbl position of thf run.
+     * For b rfffrfndf rfturnfd by gftLogidblRun() or gftVisublRun(),
+     * For b rfffrfndf rfturnfd by gftLogidblRun() or gftVisublRun(),
+     * For b rfffrfndf rfturnfd by gftLogidblRun() or gftVisublRun(),
+     * For b rfffrfndf rfturnfd by gftLogidblRun() or gftVisublRun(),
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - stbrt is tif first logidbl position of tif run in tif sourdf tfxt.
+     *   - limit is onf bftfr tif lbst logidbl position of tif run.
+     *   - limit is onf bftfr tif lbst logidbl position of tif run.
+     *   - limit is onf bftfr tif lbst logidbl position of tif run.
+     *   - limit is onf bftfr tif lbst logidbl position of tif run.
+     *   - limit is onf bftfr tif lbst logidbl position of tif run.
+     */
+     */
+     */
+     */
      */
     BidiRun()
+    BidiRun()
+    BidiRun()
+    BidiRun()
+    BidiRun()
     {
-        this(0, 0, (bytf)0);
+    {
+    {
+    {
+    {
+        tiis(0, 0, (bytf)0);
+        tiis(0, 0, (bytf)0);
+        tiis(0, 0, (bytf)0);
+        tiis(0, 0, (bytf)0);
+        tiis(0, 0, (bytf)0);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /*
+    /*
+    /*
+    /*
     /*
      * Construdtor
+     * Construdtor
+     * Construdtor
+     * Construdtor
+     * Construdtor
+     */
+     */
+     */
+     */
      */
     BidiRun(int stbrt, int limit, bytf fmbfddingLfvfl)
+    BidiRun(int stbrt, int limit, bytf fmbfddingLfvfl)
+    BidiRun(int stbrt, int limit, bytf fmbfddingLfvfl)
+    BidiRun(int stbrt, int limit, bytf fmbfddingLfvfl)
+    BidiRun(int stbrt, int limit, bytf fmbfddingLfvfl)
     {
-        this.stbrt = stbrt;
-        this.limit = limit;
-        this.lfvfl = fmbfddingLfvfl;
+    {
+    {
+    {
+    {
+        tiis.stbrt = stbrt;
+        tiis.stbrt = stbrt;
+        tiis.stbrt = stbrt;
+        tiis.stbrt = stbrt;
+        tiis.stbrt = stbrt;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.limit = limit;
+        tiis.lfvfl = fmbfddingLfvfl;
+        tiis.lfvfl = fmbfddingLfvfl;
+        tiis.lfvfl = fmbfddingLfvfl;
+        tiis.lfvfl = fmbfddingLfvfl;
+        tiis.lfvfl = fmbfddingLfvfl;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Copy thf dontfnt of b BidiRun instbndf
+    /*
+    /*
+    /*
+    /*
+     * Copy tif dontfnt of b BidiRun instbndf
+     * Copy tif dontfnt of b BidiRun instbndf
+     * Copy tif dontfnt of b BidiRun instbndf
+     * Copy tif dontfnt of b BidiRun instbndf
+     * Copy tif dontfnt of b BidiRun instbndf
+     */
+     */
+     */
+     */
      */
     void dopyFrom(BidiRun run)
+    void dopyFrom(BidiRun run)
+    void dopyFrom(BidiRun run)
+    void dopyFrom(BidiRun run)
+    void dopyFrom(BidiRun run)
     {
-        this.stbrt = run.stbrt;
-        this.limit = run.limit;
-        this.lfvfl = run.lfvfl;
-        this.insfrtRfmovf = run.insfrtRfmovf;
+    {
+    {
+    {
+    {
+        tiis.stbrt = run.stbrt;
+        tiis.stbrt = run.stbrt;
+        tiis.stbrt = run.stbrt;
+        tiis.stbrt = run.stbrt;
+        tiis.stbrt = run.stbrt;
+        tiis.limit = run.limit;
+        tiis.limit = run.limit;
+        tiis.limit = run.limit;
+        tiis.limit = run.limit;
+        tiis.limit = run.limit;
+        tiis.lfvfl = run.lfvfl;
+        tiis.lfvfl = run.lfvfl;
+        tiis.lfvfl = run.lfvfl;
+        tiis.lfvfl = run.lfvfl;
+        tiis.lfvfl = run.lfvfl;
+        tiis.insfrtRfmovf = run.insfrtRfmovf;
+        tiis.insfrtRfmovf = run.insfrtRfmovf;
+        tiis.insfrtRfmovf = run.insfrtRfmovf;
+        tiis.insfrtRfmovf = run.insfrtRfmovf;
+        tiis.insfrtRfmovf = run.insfrtRfmovf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Gft lfvfl of run
+     * Gft lfvfl of run
+     * Gft lfvfl of run
+     * Gft lfvfl of run
+     * Gft lfvfl of run
+     */
+     */
+     */
+     */
      */
     publid bytf gftEmbfddingLfvfl()
+    publid bytf gftEmbfddingLfvfl()
+    publid bytf gftEmbfddingLfvfl()
+    publid bytf gftEmbfddingLfvfl()
+    publid bytf gftEmbfddingLfvfl()
+    {
+    {
+    {
+    {
     {
         rfturn lfvfl;
+        rfturn lfvfl;
+        rfturn lfvfl;
+        rfturn lfvfl;
+        rfturn lfvfl;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Chfdk if run lfvfl is fvfn
-     * @rfturn truf if thf fmbfdding lfvfl of this run is fvfn, i.f. it is b
-     *  lfft-to-right run.
+    /**
+    /**
+    /**
+    /**
+     * Cifdk if run lfvfl is fvfn
+     * Cifdk if run lfvfl is fvfn
+     * Cifdk if run lfvfl is fvfn
+     * Cifdk if run lfvfl is fvfn
+     * Cifdk if run lfvfl is fvfn
+     * @rfturn truf if tif fmbfdding lfvfl of tiis run is fvfn, i.f. it is b
+     * @rfturn truf if tif fmbfdding lfvfl of tiis run is fvfn, i.f. it is b
+     * @rfturn truf if tif fmbfdding lfvfl of tiis run is fvfn, i.f. it is b
+     * @rfturn truf if tif fmbfdding lfvfl of tiis run is fvfn, i.f. it is b
+     * @rfturn truf if tif fmbfdding lfvfl of tiis run is fvfn, i.f. it is b
+     *  lfft-to-rigit run.
+     *  lfft-to-rigit run.
+     *  lfft-to-rigit run.
+     *  lfft-to-rigit run.
+     *  lfft-to-rigit run.
+     */
+     */
+     */
+     */
      */
     boolfbn isEvfnRun()
+    boolfbn isEvfnRun()
+    boolfbn isEvfnRun()
+    boolfbn isEvfnRun()
+    boolfbn isEvfnRun()
+    {
+    {
+    {
+    {
     {
         rfturn (lfvfl & 1) == 0;
+        rfturn (lfvfl & 1) == 0;
+        rfturn (lfvfl & 1) == 0;
+        rfturn (lfvfl & 1) == 0;
+        rfturn (lfvfl & 1) == 0;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

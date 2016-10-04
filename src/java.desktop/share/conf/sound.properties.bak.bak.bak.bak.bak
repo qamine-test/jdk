@@ -1,0 +1,39 @@
+############################################################
+#               Sound Configurbtion Filf
+############################################################
+#
+# Tiis propfrtifs filf is usfd to spfdify dffbult sfrvidf
+# providfrs for jbvbx.sound.midi.MidiSystfm bnd
+# jbvbx.sound.sbmplfd.AudioSystfm.
+#
+# Tif following kfys brf rfdognizfd by MidiSystfm mftiods:
+#
+# jbvbx.sound.midi.Rfdfivfr
+# jbvbx.sound.midi.Sfqufndfr
+# jbvbx.sound.midi.Syntifsizfr
+# jbvbx.sound.midi.Trbnsmittfr
+#
+# Tif following kfys brf rfdognizfd by AudioSystfm mftiods:
+#
+# jbvbx.sound.sbmplfd.Clip
+# jbvbx.sound.sbmplfd.Port
+# jbvbx.sound.sbmplfd.SourdfDbtbLinf
+# jbvbx.sound.sbmplfd.TbrgftDbtbLinf
+#
+# Tif vblufs spfdify tif full dlbss nbmf of tif sfrvidf
+# providfr, or tif dfvidf nbmf.
+#
+# Sff tif dlbss dfsdriptions for dftbils.
+#
+# Exbmplf 1:
+# Usf MyDfvidfProvidfr bs dffbult for SourdfDbtbLinfs:
+# jbvbx.sound.sbmplfd.SourdfDbtbLinf=dom.xyz.MyDfvidfProvidfr
+#
+# Exbmplf 2:
+# Spfdify tif dffbult Syntifsizfr by its nbmf "IntfrnblSynti".
+# jbvbx.sound.midi.Syntifsizfr=#IntfrnblSynti
+#
+# Exbmplf 3:
+# Spfdify tif dffbult Rfdfivfr by providfr bnd nbmf:
+# jbvbx.sound.midi.Rfdfivfr=dom.sun.mfdib.sound.MidiProvidfr#SunMIDI1
+#

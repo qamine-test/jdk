@@ -1,19 +1,95 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
-<bssfmbly xmlns="urn:sdhfmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
   <bssfmblyIdfntity vfrsion="IMVERSION"
-     prodfssorArdhitfdturf="X86"
+  <bssfmblyIdfntity vfrsion="IMVERSION"
+  <bssfmblyIdfntity vfrsion="IMVERSION"
+  <bssfmblyIdfntity vfrsion="IMVERSION"
+  <bssfmblyIdfntity vfrsion="IMVERSION"
+     prodfssorArdiitfdturf="X86"
+     prodfssorArdiitfdturf="X86"
+     prodfssorArdiitfdturf="X86"
+     prodfssorArdiitfdturf="X86"
+     prodfssorArdiitfdturf="X86"
+     nbmf="unpbdk200.fxf"
+     nbmf="unpbdk200.fxf"
+     nbmf="unpbdk200.fxf"
+     nbmf="unpbdk200.fxf"
      nbmf="unpbdk200.fxf"
      typf="win32"/> 
+     typf="win32"/> 
+     typf="win32"/> 
+     typf="win32"/> 
+     typf="win32"/> 
+
+
+
+
 
   <dfsdription>Jbvb(TM) SE Runtimf Environmfnt unpbdk200 Prodfss.</dfsdription> 
-  <!-- Idfntify thf bpplidbtion sfdurity rfquirfmfnts. -->
-  <trustInfo xmlns="urn:sdhfmbs-midrosoft-dom:bsm.v3">
+  <dfsdription>Jbvb(TM) SE Runtimf Environmfnt unpbdk200 Prodfss.</dfsdription> 
+  <dfsdription>Jbvb(TM) SE Runtimf Environmfnt unpbdk200 Prodfss.</dfsdription> 
+  <dfsdription>Jbvb(TM) SE Runtimf Environmfnt unpbdk200 Prodfss.</dfsdription> 
+  <dfsdription>Jbvb(TM) SE Runtimf Environmfnt unpbdk200 Prodfss.</dfsdription> 
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+    <sfdurity>
+    <sfdurity>
+    <sfdurity>
+    <sfdurity>
     <sfdurity>
       <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+      <rfqufstfdPrivilfgfs>
+        <rfqufstfdExfdutionLfvfl
+        <rfqufstfdExfdutionLfvfl
+        <rfqufstfdExfdutionLfvfl
+        <rfqufstfdExfdutionLfvfl
         <rfqufstfdExfdutionLfvfl
           lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          lfvfl="bsInvokfr"
+          uiAddfss="fblsf"/>
+          uiAddfss="fblsf"/>
+          uiAddfss="fblsf"/>
+          uiAddfss="fblsf"/>
           uiAddfss="fblsf"/>
         </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+        </rfqufstfdPrivilfgfs>
+       </sfdurity>
+       </sfdurity>
+       </sfdurity>
+       </sfdurity>
        </sfdurity>
   </trustInfo>
+  </trustInfo>
+  </trustInfo>
+  </trustInfo>
+  </trustInfo>
+</bssfmbly>
+</bssfmbly>
+</bssfmbly>
+</bssfmbly>
 </bssfmbly>

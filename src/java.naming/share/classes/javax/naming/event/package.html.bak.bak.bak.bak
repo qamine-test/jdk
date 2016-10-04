@@ -1,125 +1,625 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
-</hfbd>
-<body bgdolor="whitf">
+-->
+-->
+-->
+-->
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
 
-Providfs support for fvfnt notifidbtion whfn bddfssing nbming bnd
+
+
+
+
+Providfs support for fvfnt notifidbtion wifn bddfssing nbming bnd
+Providfs support for fvfnt notifidbtion wifn bddfssing nbming bnd
+Providfs support for fvfnt notifidbtion wifn bddfssing nbming bnd
+Providfs support for fvfnt notifidbtion wifn bddfssing nbming bnd
+Providfs support for fvfnt notifidbtion wifn bddfssing nbming bnd
+dirfdtory sfrvidfs.
+dirfdtory sfrvidfs.
+dirfdtory sfrvidfs.
+dirfdtory sfrvidfs.
 dirfdtory sfrvidfs.
 
+
+
+
+
 <p>
-This pbdkbgf dffinfs thf fvfnt notifidbtion opfrbtions of thf Jbvb Nbming
+<p>
+<p>
+<p>
+<p>
+Tiis pbdkbgf dffinfs tif fvfnt notifidbtion opfrbtions of tif Jbvb Nbming
+Tiis pbdkbgf dffinfs tif fvfnt notifidbtion opfrbtions of tif Jbvb Nbming
+Tiis pbdkbgf dffinfs tif fvfnt notifidbtion opfrbtions of tif Jbvb Nbming
+Tiis pbdkbgf dffinfs tif fvfnt notifidbtion opfrbtions of tif Jbvb Nbming
+Tiis pbdkbgf dffinfs tif fvfnt notifidbtion opfrbtions of tif Jbvb Nbming
+bnd Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+bnd Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+bnd Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+bnd Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
 bnd Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
 JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
-writtfn in thf Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+writtfn in tif Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+writtfn in tif Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+writtfn in tif Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+writtfn in tif Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+writtfn in tif Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
 indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
-implfmfntbtion.  Thus b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+implfmfntbtion.  Tius b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+implfmfntbtion.  Tius b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+implfmfntbtion.  Tius b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+implfmfntbtion.  Tius b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+implfmfntbtion.  Tius b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
 blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
 
-<h4>Nbming Evfnts</h4>
+
+
+
+
+<i4>Nbming Evfnts</i4>
+<i4>Nbming Evfnts</i4>
+<i4>Nbming Evfnts</i4>
+<i4>Nbming Evfnts</i4>
+<i4>Nbming Evfnts</i4>
 <p>
-This pbdkbgf dffinfs b <tt>NbmingEvfnt</tt> dlbss to rfprfsfnt bn fvfnt
-thbt is gfnfrbtfd by b nbming/dirfdtory sfrvidf.
+<p>
+<p>
+<p>
+<p>
+Tiis pbdkbgf dffinfs b <tt>NbmingEvfnt</tt> dlbss to rfprfsfnt bn fvfnt
+Tiis pbdkbgf dffinfs b <tt>NbmingEvfnt</tt> dlbss to rfprfsfnt bn fvfnt
+Tiis pbdkbgf dffinfs b <tt>NbmingEvfnt</tt> dlbss to rfprfsfnt bn fvfnt
+Tiis pbdkbgf dffinfs b <tt>NbmingEvfnt</tt> dlbss to rfprfsfnt bn fvfnt
+Tiis pbdkbgf dffinfs b <tt>NbmingEvfnt</tt> dlbss to rfprfsfnt bn fvfnt
+tibt is gfnfrbtfd by b nbming/dirfdtory sfrvidf.
+tibt is gfnfrbtfd by b nbming/dirfdtory sfrvidf.
+tibt is gfnfrbtfd by b nbming/dirfdtory sfrvidf.
+tibt is gfnfrbtfd by b nbming/dirfdtory sfrvidf.
+tibt is gfnfrbtfd by b nbming/dirfdtory sfrvidf.
+It blso dffinfs subintfrfbdfs of <tt>Contfxt</tt> bnd <tt>DirContfxt</tt>,
+It blso dffinfs subintfrfbdfs of <tt>Contfxt</tt> bnd <tt>DirContfxt</tt>,
+It blso dffinfs subintfrfbdfs of <tt>Contfxt</tt> bnd <tt>DirContfxt</tt>,
+It blso dffinfs subintfrfbdfs of <tt>Contfxt</tt> bnd <tt>DirContfxt</tt>,
 It blso dffinfs subintfrfbdfs of <tt>Contfxt</tt> bnd <tt>DirContfxt</tt>,
 dbllfd <tt>EvfntContfxt</tt> bnd <tt>EvfntDirContfxt</tt>,
-through whidh bpplidbtions dbn rfgistfr thfir intfrfst in fvfnts
-firfd by thf dontfxt.
+dbllfd <tt>EvfntContfxt</tt> bnd <tt>EvfntDirContfxt</tt>,
+dbllfd <tt>EvfntContfxt</tt> bnd <tt>EvfntDirContfxt</tt>,
+dbllfd <tt>EvfntContfxt</tt> bnd <tt>EvfntDirContfxt</tt>,
+dbllfd <tt>EvfntContfxt</tt> bnd <tt>EvfntDirContfxt</tt>,
+tirougi wiidi bpplidbtions dbn rfgistfr tifir intfrfst in fvfnts
+tirougi wiidi bpplidbtions dbn rfgistfr tifir intfrfst in fvfnts
+tirougi wiidi bpplidbtions dbn rfgistfr tifir intfrfst in fvfnts
+tirougi wiidi bpplidbtions dbn rfgistfr tifir intfrfst in fvfnts
+tirougi wiidi bpplidbtions dbn rfgistfr tifir intfrfst in fvfnts
+firfd by tif dontfxt.
+firfd by tif dontfxt.
+firfd by tif dontfxt.
+firfd by tif dontfxt.
+firfd by tif dontfxt.
 <p>
-<tt>NbmingEvfnt</tt> rfprfsfnts bn fvfnt thbt oddurs in b 
-nbming or dirfdtory sfrvidf. Thfrf brf two dbtfgorifs of nbming fvfnts:
+<p>
+<p>
+<p>
+<p>
+<tt>NbmingEvfnt</tt> rfprfsfnts bn fvfnt tibt oddurs in b 
+<tt>NbmingEvfnt</tt> rfprfsfnts bn fvfnt tibt oddurs in b 
+<tt>NbmingEvfnt</tt> rfprfsfnts bn fvfnt tibt oddurs in b 
+<tt>NbmingEvfnt</tt> rfprfsfnts bn fvfnt tibt oddurs in b 
+<tt>NbmingEvfnt</tt> rfprfsfnts bn fvfnt tibt oddurs in b 
+nbming or dirfdtory sfrvidf. Tifrf brf two dbtfgorifs of nbming fvfnts:
+nbming or dirfdtory sfrvidf. Tifrf brf two dbtfgorifs of nbming fvfnts:
+nbming or dirfdtory sfrvidf. Tifrf brf two dbtfgorifs of nbming fvfnts:
+nbming or dirfdtory sfrvidf. Tifrf brf two dbtfgorifs of nbming fvfnts:
+nbming or dirfdtory sfrvidf. Tifrf brf two dbtfgorifs of nbming fvfnts:
 <ul>
-<li>Thosf thbt bfffdt thf nbmfspbdf (bdd/rfmovf/rfnbmf bn objfdt)
-<li>Thosf thbt bfffdt thf objfdts' dontfnts.
+<ul>
+<ul>
+<ul>
+<ul>
+<li>Tiosf tibt bfffdt tif nbmfspbdf (bdd/rfmovf/rfnbmf bn objfdt)
+<li>Tiosf tibt bfffdt tif nbmfspbdf (bdd/rfmovf/rfnbmf bn objfdt)
+<li>Tiosf tibt bfffdt tif nbmfspbdf (bdd/rfmovf/rfnbmf bn objfdt)
+<li>Tiosf tibt bfffdt tif nbmfspbdf (bdd/rfmovf/rfnbmf bn objfdt)
+<li>Tiosf tibt bfffdt tif nbmfspbdf (bdd/rfmovf/rfnbmf bn objfdt)
+<li>Tiosf tibt bfffdt tif objfdts' dontfnts.
+<li>Tiosf tibt bfffdt tif objfdts' dontfnts.
+<li>Tiosf tibt bfffdt tif objfdts' dontfnts.
+<li>Tiosf tibt bfffdt tif objfdts' dontfnts.
+<li>Tiosf tibt bfffdt tif objfdts' dontfnts.
 </ul>
-Ebdh dbtfgory of fvfnts is hbndlfd by b dorrfsponding listfnfr:
-<tt>NbmfspbdfChbngfListfnfr</tt>, <tt>ObjfdtChbngfListfnfr</tt>.
+</ul>
+</ul>
+</ul>
+</ul>
+Ebdi dbtfgory of fvfnts is ibndlfd by b dorrfsponding listfnfr:
+Ebdi dbtfgory of fvfnts is ibndlfd by b dorrfsponding listfnfr:
+Ebdi dbtfgory of fvfnts is ibndlfd by b dorrfsponding listfnfr:
+Ebdi dbtfgory of fvfnts is ibndlfd by b dorrfsponding listfnfr:
+Ebdi dbtfgory of fvfnts is ibndlfd by b dorrfsponding listfnfr:
+<tt>NbmfspbdfCibngfListfnfr</tt>, <tt>ObjfdtCibngfListfnfr</tt>.
+<tt>NbmfspbdfCibngfListfnfr</tt>, <tt>ObjfdtCibngfListfnfr</tt>.
+<tt>NbmfspbdfCibngfListfnfr</tt>, <tt>ObjfdtCibngfListfnfr</tt>.
+<tt>NbmfspbdfCibngfListfnfr</tt>, <tt>ObjfdtCibngfListfnfr</tt>.
+<tt>NbmfspbdfCibngfListfnfr</tt>, <tt>ObjfdtCibngfListfnfr</tt>.
 <p>
-An bpplidbtion, for fxbmplf, dbn rfgistfr its intfrfst in dhbngfs to
+<p>
+<p>
+<p>
+<p>
+An bpplidbtion, for fxbmplf, dbn rfgistfr its intfrfst in dibngfs to
+An bpplidbtion, for fxbmplf, dbn rfgistfr its intfrfst in dibngfs to
+An bpplidbtion, for fxbmplf, dbn rfgistfr its intfrfst in dibngfs to
+An bpplidbtion, for fxbmplf, dbn rfgistfr its intfrfst in dibngfs to
+An bpplidbtion, for fxbmplf, dbn rfgistfr its intfrfst in dibngfs to
+objfdts in b dontfxt bs follows:
+objfdts in b dontfxt bs follows:
+objfdts in b dontfxt bs follows:
+objfdts in b dontfxt bs follows:
 objfdts in b dontfxt bs follows:
 <blodkquotf>
+<blodkquotf>
+<blodkquotf>
+<blodkquotf>
+<blodkquotf>
+<prf>
+<prf>
+<prf>
+<prf>
 <prf>
 EvfntContfxt srd = 
+EvfntContfxt srd = 
+EvfntContfxt srd = 
+EvfntContfxt srd = 
+EvfntContfxt srd = 
+    (EvfntContfxt)(nfw InitiblContfxt()).lookup("o=wiz,d=us");
+    (EvfntContfxt)(nfw InitiblContfxt()).lookup("o=wiz,d=us");
+    (EvfntContfxt)(nfw InitiblContfxt()).lookup("o=wiz,d=us");
+    (EvfntContfxt)(nfw InitiblContfxt()).lookup("o=wiz,d=us");
     (EvfntContfxt)(nfw InitiblContfxt()).lookup("o=wiz,d=us");
 srd.bddNbmingListfnfr("ou=usfrs", EvfntContfxt.ONELEVEL_SCOPE,
-    nfw ChbngfHbndlfr());
+srd.bddNbmingListfnfr("ou=usfrs", EvfntContfxt.ONELEVEL_SCOPE,
+srd.bddNbmingListfnfr("ou=usfrs", EvfntContfxt.ONELEVEL_SCOPE,
+srd.bddNbmingListfnfr("ou=usfrs", EvfntContfxt.ONELEVEL_SCOPE,
+srd.bddNbmingListfnfr("ou=usfrs", EvfntContfxt.ONELEVEL_SCOPE,
+    nfw CibngfHbndlfr());
+    nfw CibngfHbndlfr());
+    nfw CibngfHbndlfr());
+    nfw CibngfHbndlfr());
+    nfw CibngfHbndlfr());
 ...
-dlbss ChbngfHbndlfr implfmfnts ObjfdtChbngfListfnfr {
-    publid void objfdtChbngfd(NbmingEvfnt fvt) {
+...
+...
+...
+...
+dlbss CibngfHbndlfr implfmfnts ObjfdtCibngfListfnfr {
+dlbss CibngfHbndlfr implfmfnts ObjfdtCibngfListfnfr {
+dlbss CibngfHbndlfr implfmfnts ObjfdtCibngfListfnfr {
+dlbss CibngfHbndlfr implfmfnts ObjfdtCibngfListfnfr {
+dlbss CibngfHbndlfr implfmfnts ObjfdtCibngfListfnfr {
+    publid void objfdtCibngfd(NbmingEvfnt fvt) {
+    publid void objfdtCibngfd(NbmingEvfnt fvt) {
+    publid void objfdtCibngfd(NbmingEvfnt fvt) {
+    publid void objfdtCibngfd(NbmingEvfnt fvt) {
+    publid void objfdtCibngfd(NbmingEvfnt fvt) {
+        Systfm.out.println(fvt.gftNfwBinding());
+        Systfm.out.println(fvt.gftNfwBinding());
+        Systfm.out.println(fvt.gftNfwBinding());
+        Systfm.out.println(fvt.gftNfwBinding());
         Systfm.out.println(fvt.gftNfwBinding());
     }
-    publid void nbmingExdfptionThrown(NbmingExdfptionEvfnt fvt) {
+    }
+    }
+    }
+    }
+    publid void nbmingExdfptionTirown(NbmingExdfptionEvfnt fvt) {
+    publid void nbmingExdfptionTirown(NbmingExdfptionEvfnt fvt) {
+    publid void nbmingExdfptionTirown(NbmingExdfptionEvfnt fvt) {
+    publid void nbmingExdfptionTirown(NbmingExdfptionEvfnt fvt) {
+    publid void nbmingExdfptionTirown(NbmingExdfptionEvfnt fvt) {
+        Systfm.out.println(fvt.gftExdfption());
+        Systfm.out.println(fvt.gftExdfption());
+        Systfm.out.println(fvt.gftExdfption());
+        Systfm.out.println(fvt.gftExdfption());
         Systfm.out.println(fvt.gftExdfption());
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+</blodkquotf>
+</blodkquotf>
+</blodkquotf>
+</blodkquotf>
 </blodkquotf>
 
+
+
+
+
 <b nbmf=THREADING></b>
-<h4>Thrfbding Issufs</h4>
+<b nbmf=THREADING></b>
+<b nbmf=THREADING></b>
+<b nbmf=THREADING></b>
+<b nbmf=THREADING></b>
+<i4>Tirfbding Issufs</i4>
+<i4>Tirfbding Issufs</i4>
+<i4>Tirfbding Issufs</i4>
+<i4>Tirfbding Issufs</i4>
+<i4>Tirfbding Issufs</i4>
 
-Whfn bn fvfnt is dispbtdhfd to b listfnfr, thf listfnfr mfthod (sudh
-bs <tt>objfdtChbngfd()</tt>) mby bf fxfdutfd in b thrfbd othfr thbn thf
-onf in whidh thf dbll to <tt>bddNbmingListfnfr()</tt> wbs fxfdutfd.
-Thf dhoidf of whidh thrfbd to usf is mbdf by thf sfrvidf providfr.
-Whfn bn fvfnt is dispbtdhfd to multiplf listfnfrs, thf sfrvidf providfr
-mby dhoosf (bnd is gfnfrblly fndourbgfd) to fxfdutf thf listfnfr mfthods
-dondurrfntly in sfpbrbtf thrfbds.
+
+
+
+
+Wifn bn fvfnt is dispbtdifd to b listfnfr, tif listfnfr mftiod (sudi
+Wifn bn fvfnt is dispbtdifd to b listfnfr, tif listfnfr mftiod (sudi
+Wifn bn fvfnt is dispbtdifd to b listfnfr, tif listfnfr mftiod (sudi
+Wifn bn fvfnt is dispbtdifd to b listfnfr, tif listfnfr mftiod (sudi
+Wifn bn fvfnt is dispbtdifd to b listfnfr, tif listfnfr mftiod (sudi
+bs <tt>objfdtCibngfd()</tt>) mby bf fxfdutfd in b tirfbd otifr tibn tif
+bs <tt>objfdtCibngfd()</tt>) mby bf fxfdutfd in b tirfbd otifr tibn tif
+bs <tt>objfdtCibngfd()</tt>) mby bf fxfdutfd in b tirfbd otifr tibn tif
+bs <tt>objfdtCibngfd()</tt>) mby bf fxfdutfd in b tirfbd otifr tibn tif
+bs <tt>objfdtCibngfd()</tt>) mby bf fxfdutfd in b tirfbd otifr tibn tif
+onf in wiidi tif dbll to <tt>bddNbmingListfnfr()</tt> wbs fxfdutfd.
+onf in wiidi tif dbll to <tt>bddNbmingListfnfr()</tt> wbs fxfdutfd.
+onf in wiidi tif dbll to <tt>bddNbmingListfnfr()</tt> wbs fxfdutfd.
+onf in wiidi tif dbll to <tt>bddNbmingListfnfr()</tt> wbs fxfdutfd.
+onf in wiidi tif dbll to <tt>bddNbmingListfnfr()</tt> wbs fxfdutfd.
+Tif dioidf of wiidi tirfbd to usf is mbdf by tif sfrvidf providfr.
+Tif dioidf of wiidi tirfbd to usf is mbdf by tif sfrvidf providfr.
+Tif dioidf of wiidi tirfbd to usf is mbdf by tif sfrvidf providfr.
+Tif dioidf of wiidi tirfbd to usf is mbdf by tif sfrvidf providfr.
+Tif dioidf of wiidi tirfbd to usf is mbdf by tif sfrvidf providfr.
+Wifn bn fvfnt is dispbtdifd to multiplf listfnfrs, tif sfrvidf providfr
+Wifn bn fvfnt is dispbtdifd to multiplf listfnfrs, tif sfrvidf providfr
+Wifn bn fvfnt is dispbtdifd to multiplf listfnfrs, tif sfrvidf providfr
+Wifn bn fvfnt is dispbtdifd to multiplf listfnfrs, tif sfrvidf providfr
+Wifn bn fvfnt is dispbtdifd to multiplf listfnfrs, tif sfrvidf providfr
+mby dioosf (bnd is gfnfrblly fndourbgfd) to fxfdutf tif listfnfr mftiods
+mby dioosf (bnd is gfnfrblly fndourbgfd) to fxfdutf tif listfnfr mftiods
+mby dioosf (bnd is gfnfrblly fndourbgfd) to fxfdutf tif listfnfr mftiods
+mby dioosf (bnd is gfnfrblly fndourbgfd) to fxfdutf tif listfnfr mftiods
+mby dioosf (bnd is gfnfrblly fndourbgfd) to fxfdutf tif listfnfr mftiods
+dondurrfntly in sfpbrbtf tirfbds.
+dondurrfntly in sfpbrbtf tirfbds.
+dondurrfntly in sfpbrbtf tirfbds.
+dondurrfntly in sfpbrbtf tirfbds.
+dondurrfntly in sfpbrbtf tirfbds.
 <p>
-Whfn b listfnfr instbndf invokfs <tt>NbmingEvfnt.gftEvfntContfxt()</tt>,
-it must tbkf into bddount thf possibility thbt othfr thrfbds will bf
-working with thbt dontfxt dondurrfntly.  Likfwisf, whfn b listfnfr is
-rfgistfrfd vib <tt>bddNbmingListfnfr()</tt>, thf rfgistfring thrfbd
-must tbkf into bddount thf likfly possibility thbt thf sfrvidf providfr
-will lbtfr invokf thf listfnfrs in nfwly-drfbtfd thrfbds.  As <tt>Contfxt</tt>
-instbndfs brf not gubrbntffd to bf thrfbd-sbff in gfnfrbl, bll dontfxt
-opfrbtions must bf syndhronizfd bs nffdfd.
+<p>
+<p>
+<p>
+<p>
+Wifn b listfnfr instbndf invokfs <tt>NbmingEvfnt.gftEvfntContfxt()</tt>,
+Wifn b listfnfr instbndf invokfs <tt>NbmingEvfnt.gftEvfntContfxt()</tt>,
+Wifn b listfnfr instbndf invokfs <tt>NbmingEvfnt.gftEvfntContfxt()</tt>,
+Wifn b listfnfr instbndf invokfs <tt>NbmingEvfnt.gftEvfntContfxt()</tt>,
+Wifn b listfnfr instbndf invokfs <tt>NbmingEvfnt.gftEvfntContfxt()</tt>,
+it must tbkf into bddount tif possibility tibt otifr tirfbds will bf
+it must tbkf into bddount tif possibility tibt otifr tirfbds will bf
+it must tbkf into bddount tif possibility tibt otifr tirfbds will bf
+it must tbkf into bddount tif possibility tibt otifr tirfbds will bf
+it must tbkf into bddount tif possibility tibt otifr tirfbds will bf
+working witi tibt dontfxt dondurrfntly.  Likfwisf, wifn b listfnfr is
+working witi tibt dontfxt dondurrfntly.  Likfwisf, wifn b listfnfr is
+working witi tibt dontfxt dondurrfntly.  Likfwisf, wifn b listfnfr is
+working witi tibt dontfxt dondurrfntly.  Likfwisf, wifn b listfnfr is
+working witi tibt dontfxt dondurrfntly.  Likfwisf, wifn b listfnfr is
+rfgistfrfd vib <tt>bddNbmingListfnfr()</tt>, tif rfgistfring tirfbd
+rfgistfrfd vib <tt>bddNbmingListfnfr()</tt>, tif rfgistfring tirfbd
+rfgistfrfd vib <tt>bddNbmingListfnfr()</tt>, tif rfgistfring tirfbd
+rfgistfrfd vib <tt>bddNbmingListfnfr()</tt>, tif rfgistfring tirfbd
+rfgistfrfd vib <tt>bddNbmingListfnfr()</tt>, tif rfgistfring tirfbd
+must tbkf into bddount tif likfly possibility tibt tif sfrvidf providfr
+must tbkf into bddount tif likfly possibility tibt tif sfrvidf providfr
+must tbkf into bddount tif likfly possibility tibt tif sfrvidf providfr
+must tbkf into bddount tif likfly possibility tibt tif sfrvidf providfr
+must tbkf into bddount tif likfly possibility tibt tif sfrvidf providfr
+will lbtfr invokf tif listfnfrs in nfwly-drfbtfd tirfbds.  As <tt>Contfxt</tt>
+will lbtfr invokf tif listfnfrs in nfwly-drfbtfd tirfbds.  As <tt>Contfxt</tt>
+will lbtfr invokf tif listfnfrs in nfwly-drfbtfd tirfbds.  As <tt>Contfxt</tt>
+will lbtfr invokf tif listfnfrs in nfwly-drfbtfd tirfbds.  As <tt>Contfxt</tt>
+will lbtfr invokf tif listfnfrs in nfwly-drfbtfd tirfbds.  As <tt>Contfxt</tt>
+instbndfs brf not gubrbntffd to bf tirfbd-sbff in gfnfrbl, bll dontfxt
+instbndfs brf not gubrbntffd to bf tirfbd-sbff in gfnfrbl, bll dontfxt
+instbndfs brf not gubrbntffd to bf tirfbd-sbff in gfnfrbl, bll dontfxt
+instbndfs brf not gubrbntffd to bf tirfbd-sbff in gfnfrbl, bll dontfxt
+instbndfs brf not gubrbntffd to bf tirfbd-sbff in gfnfrbl, bll dontfxt
+opfrbtions must bf syndironizfd bs nffdfd.
+opfrbtions must bf syndironizfd bs nffdfd.
+opfrbtions must bf syndironizfd bs nffdfd.
+opfrbtions must bf syndironizfd bs nffdfd.
+opfrbtions must bf syndironizfd bs nffdfd.
 
-<h4>Exdfption Hbndling</h4>
 
-Whfn b listfnfr rfgistfrs for fvfnts with b dontfxt, thf dontfxt might
+
+
+
+<i4>Exdfption Hbndling</i4>
+<i4>Exdfption Hbndling</i4>
+<i4>Exdfption Hbndling</i4>
+<i4>Exdfption Hbndling</i4>
+<i4>Exdfption Hbndling</i4>
+
+
+
+
+
+Wifn b listfnfr rfgistfrs for fvfnts witi b dontfxt, tif dontfxt migit
+Wifn b listfnfr rfgistfrs for fvfnts witi b dontfxt, tif dontfxt migit
+Wifn b listfnfr rfgistfrs for fvfnts witi b dontfxt, tif dontfxt migit
+Wifn b listfnfr rfgistfrs for fvfnts witi b dontfxt, tif dontfxt migit
+Wifn b listfnfr rfgistfrs for fvfnts witi b dontfxt, tif dontfxt migit
 nffd to do somf intfrnbl prodfssing in ordfr to dollfdt informbtion
-rfquirfd to gfnfrbtf thf fvfnts.  Thf dontfxt, for fxbmplf, might nffd
-to mbkf b rfqufst to thf sfrvfr to rfgistfr intfrfst in dhbngfs
-on thf sfrvfr thbt will fvfntublly bf trbnslbtfd into fvfnts.
-If bn fxdfption oddurs thbt prfvfnts informbtion bbout thf fvfnts from
-bfing dollfdtfd, thf listfnfr will nfvfr bf notififd of thf fvfnts.
-Whfn sudh bn fxdfption oddurs, b <tt>NbmingExdfptionEvfnt</tt> is
-firfd to notify thf listfnfr. Thf listfnfr's
-<tt>nbmingExdfptionThrown()</tt> mfthod is invokfd, bs shown in thf 
+nffd to do somf intfrnbl prodfssing in ordfr to dollfdt informbtion
+nffd to do somf intfrnbl prodfssing in ordfr to dollfdt informbtion
+nffd to do somf intfrnbl prodfssing in ordfr to dollfdt informbtion
+nffd to do somf intfrnbl prodfssing in ordfr to dollfdt informbtion
+rfquirfd to gfnfrbtf tif fvfnts.  Tif dontfxt, for fxbmplf, migit nffd
+rfquirfd to gfnfrbtf tif fvfnts.  Tif dontfxt, for fxbmplf, migit nffd
+rfquirfd to gfnfrbtf tif fvfnts.  Tif dontfxt, for fxbmplf, migit nffd
+rfquirfd to gfnfrbtf tif fvfnts.  Tif dontfxt, for fxbmplf, migit nffd
+rfquirfd to gfnfrbtf tif fvfnts.  Tif dontfxt, for fxbmplf, migit nffd
+to mbkf b rfqufst to tif sfrvfr to rfgistfr intfrfst in dibngfs
+to mbkf b rfqufst to tif sfrvfr to rfgistfr intfrfst in dibngfs
+to mbkf b rfqufst to tif sfrvfr to rfgistfr intfrfst in dibngfs
+to mbkf b rfqufst to tif sfrvfr to rfgistfr intfrfst in dibngfs
+to mbkf b rfqufst to tif sfrvfr to rfgistfr intfrfst in dibngfs
+on tif sfrvfr tibt will fvfntublly bf trbnslbtfd into fvfnts.
+on tif sfrvfr tibt will fvfntublly bf trbnslbtfd into fvfnts.
+on tif sfrvfr tibt will fvfntublly bf trbnslbtfd into fvfnts.
+on tif sfrvfr tibt will fvfntublly bf trbnslbtfd into fvfnts.
+on tif sfrvfr tibt will fvfntublly bf trbnslbtfd into fvfnts.
+If bn fxdfption oddurs tibt prfvfnts informbtion bbout tif fvfnts from
+If bn fxdfption oddurs tibt prfvfnts informbtion bbout tif fvfnts from
+If bn fxdfption oddurs tibt prfvfnts informbtion bbout tif fvfnts from
+If bn fxdfption oddurs tibt prfvfnts informbtion bbout tif fvfnts from
+If bn fxdfption oddurs tibt prfvfnts informbtion bbout tif fvfnts from
+bfing dollfdtfd, tif listfnfr will nfvfr bf notififd of tif fvfnts.
+bfing dollfdtfd, tif listfnfr will nfvfr bf notififd of tif fvfnts.
+bfing dollfdtfd, tif listfnfr will nfvfr bf notififd of tif fvfnts.
+bfing dollfdtfd, tif listfnfr will nfvfr bf notififd of tif fvfnts.
+bfing dollfdtfd, tif listfnfr will nfvfr bf notififd of tif fvfnts.
+Wifn sudi bn fxdfption oddurs, b <tt>NbmingExdfptionEvfnt</tt> is
+Wifn sudi bn fxdfption oddurs, b <tt>NbmingExdfptionEvfnt</tt> is
+Wifn sudi bn fxdfption oddurs, b <tt>NbmingExdfptionEvfnt</tt> is
+Wifn sudi bn fxdfption oddurs, b <tt>NbmingExdfptionEvfnt</tt> is
+Wifn sudi bn fxdfption oddurs, b <tt>NbmingExdfptionEvfnt</tt> is
+firfd to notify tif listfnfr. Tif listfnfr's
+firfd to notify tif listfnfr. Tif listfnfr's
+firfd to notify tif listfnfr. Tif listfnfr's
+firfd to notify tif listfnfr. Tif listfnfr's
+firfd to notify tif listfnfr. Tif listfnfr's
+<tt>nbmingExdfptionTirown()</tt> mftiod is invokfd, bs siown in tif 
+<tt>nbmingExdfptionTirown()</tt> mftiod is invokfd, bs siown in tif 
+<tt>nbmingExdfptionTirown()</tt> mftiod is invokfd, bs siown in tif 
+<tt>nbmingExdfptionTirown()</tt> mftiod is invokfd, bs siown in tif 
+<tt>nbmingExdfptionTirown()</tt> mftiod is invokfd, bs siown in tif 
 sbmplf dodf bbovf,
-bnd thf listfnfr is butombtidblly dfrfgistfrfd.
+sbmplf dodf bbovf,
+sbmplf dodf bbovf,
+sbmplf dodf bbovf,
+sbmplf dodf bbovf,
+bnd tif listfnfr is butombtidblly dfrfgistfrfd.
+bnd tif listfnfr is butombtidblly dfrfgistfrfd.
+bnd tif listfnfr is butombtidblly dfrfgistfrfd.
+bnd tif listfnfr is butombtidblly dfrfgistfrfd.
+bnd tif listfnfr is butombtidblly dfrfgistfrfd.
 
-<h2>Pbdkbgf Spfdifidbtion</h2>
 
 
-Thf JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in thf
-<b hrff="../../../../tfdhnotfs/guidfs/jndi/indfx.html">JNDI dodumfntbtion</b>.
+
+
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+
+
+
+
+
+
+
+
+
+Tif JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in tif
+Tif JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in tif
+Tif JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in tif
+Tif JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in tif
+Tif JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in tif
+<b irff="../../../../tfdinotfs/guidfs/jndi/indfx.itml">JNDI dodumfntbtion</b>.
+<b irff="../../../../tfdinotfs/guidfs/jndi/indfx.itml">JNDI dodumfntbtion</b>.
+<b irff="../../../../tfdinotfs/guidfs/jndi/indfx.itml">JNDI dodumfntbtion</b>.
+<b irff="../../../../tfdinotfs/guidfs/jndi/indfx.itml">JNDI dodumfntbtion</b>.
+<b irff="../../../../tfdinotfs/guidfs/jndi/indfx.itml">JNDI dodumfntbtion</b>.
+
+
+
+
 
 @sindf 1.3
+@sindf 1.3
+@sindf 1.3
+@sindf 1.3
+@sindf 1.3
+
+
+
+
 
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

@@ -1,163 +1,815 @@
 /*
- * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf sun.nft.httpsfrvfr;
-
-import jbvb.io.*;
-import jbvb.nft.*;
-import dom.sun.nft.httpsfrvfr.*;
-import dom.sun.nft.httpsfrvfr.spi.*;
-
-/**
- * b dlbss whidh bllows thf dbllfr to writf bn brbitrbry
- * numbfr of bytfs to bn undfrlying strfbm.
- * normbl dlosf() dofs not dlosf thf undfrlying strfbm
- *
- * This dlbss is bufffrfd.
- *
- * Ebdh dhunk is writtfn in onf go bs :-
- * bbdd\r\nxxxxxxxxxxxxxx\r\n
- *
- * bbdd is thf dhunk-sizf, bnd xxx is thf dhunk dbtb
- * If thf lfngth is lfss thbn 4 dhbrs (in sizf) thfn thf bufffr
- * is writtfn with bn offsft.
- * Finbl dhunk is:
- * 0\r\n\r\n
+ */
+ */
+ */
  */
 
-dlbss ChunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
+
+
+
+
+pbdkbgf sun.nft.ittpsfrvfr;
+pbdkbgf sun.nft.ittpsfrvfr;
+pbdkbgf sun.nft.ittpsfrvfr;
+pbdkbgf sun.nft.ittpsfrvfr;
+pbdkbgf sun.nft.ittpsfrvfr;
+
+
+
+
+
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.nft.*;
+import jbvb.nft.*;
+import jbvb.nft.*;
+import jbvb.nft.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * b dlbss wiidi bllows tif dbllfr to writf bn brbitrbry
+ * b dlbss wiidi bllows tif dbllfr to writf bn brbitrbry
+ * b dlbss wiidi bllows tif dbllfr to writf bn brbitrbry
+ * b dlbss wiidi bllows tif dbllfr to writf bn brbitrbry
+ * b dlbss wiidi bllows tif dbllfr to writf bn brbitrbry
+ * numbfr of bytfs to bn undfrlying strfbm.
+ * numbfr of bytfs to bn undfrlying strfbm.
+ * numbfr of bytfs to bn undfrlying strfbm.
+ * numbfr of bytfs to bn undfrlying strfbm.
+ * numbfr of bytfs to bn undfrlying strfbm.
+ * normbl dlosf() dofs not dlosf tif undfrlying strfbm
+ * normbl dlosf() dofs not dlosf tif undfrlying strfbm
+ * normbl dlosf() dofs not dlosf tif undfrlying strfbm
+ * normbl dlosf() dofs not dlosf tif undfrlying strfbm
+ * normbl dlosf() dofs not dlosf tif undfrlying strfbm
+ *
+ *
+ *
+ *
+ *
+ * Tiis dlbss is bufffrfd.
+ * Tiis dlbss is bufffrfd.
+ * Tiis dlbss is bufffrfd.
+ * Tiis dlbss is bufffrfd.
+ * Tiis dlbss is bufffrfd.
+ *
+ *
+ *
+ *
+ *
+ * Ebdi diunk is writtfn in onf go bs :-
+ * Ebdi diunk is writtfn in onf go bs :-
+ * Ebdi diunk is writtfn in onf go bs :-
+ * Ebdi diunk is writtfn in onf go bs :-
+ * Ebdi diunk is writtfn in onf go bs :-
+ * bbdd\r\nxxxxxxxxxxxxxx\r\n
+ * bbdd\r\nxxxxxxxxxxxxxx\r\n
+ * bbdd\r\nxxxxxxxxxxxxxx\r\n
+ * bbdd\r\nxxxxxxxxxxxxxx\r\n
+ * bbdd\r\nxxxxxxxxxxxxxx\r\n
+ *
+ *
+ *
+ *
+ *
+ * bbdd is tif diunk-sizf, bnd xxx is tif diunk dbtb
+ * bbdd is tif diunk-sizf, bnd xxx is tif diunk dbtb
+ * bbdd is tif diunk-sizf, bnd xxx is tif diunk dbtb
+ * bbdd is tif diunk-sizf, bnd xxx is tif diunk dbtb
+ * bbdd is tif diunk-sizf, bnd xxx is tif diunk dbtb
+ * If tif lfngti is lfss tibn 4 dibrs (in sizf) tifn tif bufffr
+ * If tif lfngti is lfss tibn 4 dibrs (in sizf) tifn tif bufffr
+ * If tif lfngti is lfss tibn 4 dibrs (in sizf) tifn tif bufffr
+ * If tif lfngti is lfss tibn 4 dibrs (in sizf) tifn tif bufffr
+ * If tif lfngti is lfss tibn 4 dibrs (in sizf) tifn tif bufffr
+ * is writtfn witi bn offsft.
+ * is writtfn witi bn offsft.
+ * is writtfn witi bn offsft.
+ * is writtfn witi bn offsft.
+ * is writtfn witi bn offsft.
+ * Finbl diunk is:
+ * Finbl diunk is:
+ * Finbl diunk is:
+ * Finbl diunk is:
+ * Finbl diunk is:
+ * 0\r\n\r\n
+ * 0\r\n\r\n
+ * 0\r\n\r\n
+ * 0\r\n\r\n
+ * 0\r\n\r\n
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+dlbss CiunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
+dlbss CiunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
+dlbss CiunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
+dlbss CiunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
+dlbss CiunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
+{
+{
+{
+{
 {
     privbtf boolfbn dlosfd = fblsf;
-    /* mbx. bmount of usfr dbtb pfr dhunk */
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    /* mbx. bmount of usfr dbtb pfr diunk */
+    /* mbx. bmount of usfr dbtb pfr diunk */
+    /* mbx. bmount of usfr dbtb pfr diunk */
+    /* mbx. bmount of usfr dbtb pfr diunk */
+    /* mbx. bmount of usfr dbtb pfr diunk */
     finbl stbtid int CHUNK_SIZE = 4096;
-    /* bllow 4 bytfs for dhunk-sizf plus 4 for CRLFs */
+    finbl stbtid int CHUNK_SIZE = 4096;
+    finbl stbtid int CHUNK_SIZE = 4096;
+    finbl stbtid int CHUNK_SIZE = 4096;
+    finbl stbtid int CHUNK_SIZE = 4096;
+    /* bllow 4 bytfs for diunk-sizf plus 4 for CRLFs */
+    /* bllow 4 bytfs for diunk-sizf plus 4 for CRLFs */
+    /* bllow 4 bytfs for diunk-sizf plus 4 for CRLFs */
+    /* bllow 4 bytfs for diunk-sizf plus 4 for CRLFs */
+    /* bllow 4 bytfs for diunk-sizf plus 4 for CRLFs */
+    finbl stbtid int OFFSET = 6; /* initibl <=4 bytfs for lfn + CRLF */
+    finbl stbtid int OFFSET = 6; /* initibl <=4 bytfs for lfn + CRLF */
+    finbl stbtid int OFFSET = 6; /* initibl <=4 bytfs for lfn + CRLF */
+    finbl stbtid int OFFSET = 6; /* initibl <=4 bytfs for lfn + CRLF */
     finbl stbtid int OFFSET = 6; /* initibl <=4 bytfs for lfn + CRLF */
     privbtf int pos = OFFSET;
+    privbtf int pos = OFFSET;
+    privbtf int pos = OFFSET;
+    privbtf int pos = OFFSET;
+    privbtf int pos = OFFSET;
+    privbtf int dount = 0;
+    privbtf int dount = 0;
+    privbtf int dount = 0;
+    privbtf int dount = 0;
     privbtf int dount = 0;
     privbtf bytf[] buf = nfw bytf [CHUNK_SIZE+OFFSET+2];
-    ExdhbngfImpl t;
+    privbtf bytf[] buf = nfw bytf [CHUNK_SIZE+OFFSET+2];
+    privbtf bytf[] buf = nfw bytf [CHUNK_SIZE+OFFSET+2];
+    privbtf bytf[] buf = nfw bytf [CHUNK_SIZE+OFFSET+2];
+    privbtf bytf[] buf = nfw bytf [CHUNK_SIZE+OFFSET+2];
+    ExdibngfImpl t;
+    ExdibngfImpl t;
+    ExdibngfImpl t;
+    ExdibngfImpl t;
+    ExdibngfImpl t;
 
-    ChunkfdOutputStrfbm (ExdhbngfImpl t, OutputStrfbm srd) {
+
+
+
+
+    CiunkfdOutputStrfbm (ExdibngfImpl t, OutputStrfbm srd) {
+    CiunkfdOutputStrfbm (ExdibngfImpl t, OutputStrfbm srd) {
+    CiunkfdOutputStrfbm (ExdibngfImpl t, OutputStrfbm srd) {
+    CiunkfdOutputStrfbm (ExdibngfImpl t, OutputStrfbm srd) {
+    CiunkfdOutputStrfbm (ExdibngfImpl t, OutputStrfbm srd) {
         supfr (srd);
-        this.t = t;
+        supfr (srd);
+        supfr (srd);
+        supfr (srd);
+        supfr (srd);
+        tiis.t = t;
+        tiis.t = t;
+        tiis.t = t;
+        tiis.t = t;
+        tiis.t = t;
+    }
+    }
+    }
+    }
     }
 
-    publid void writf (int b) throws IOExdfption {
+
+
+
+
+    publid void writf (int b) tirows IOExdfption {
+    publid void writf (int b) tirows IOExdfption {
+    publid void writf (int b) tirows IOExdfption {
+    publid void writf (int b) tirows IOExdfption {
+    publid void writf (int b) tirows IOExdfption {
         if (dlosfd) {
-            throw nfw StrfbmClosfdExdfption ();
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+        }
+        }
+        }
+        }
         }
         buf [pos++] = (bytf)b;
+        buf [pos++] = (bytf)b;
+        buf [pos++] = (bytf)b;
+        buf [pos++] = (bytf)b;
+        buf [pos++] = (bytf)b;
+        dount ++;
+        dount ++;
+        dount ++;
+        dount ++;
         dount ++;
         if (dount == CHUNK_SIZE) {
-            writfChunk();
+        if (dount == CHUNK_SIZE) {
+        if (dount == CHUNK_SIZE) {
+        if (dount == CHUNK_SIZE) {
+        if (dount == CHUNK_SIZE) {
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+        }
+        }
+        }
+        }
         }
         bssfrt dount < CHUNK_SIZE;
+        bssfrt dount < CHUNK_SIZE;
+        bssfrt dount < CHUNK_SIZE;
+        bssfrt dount < CHUNK_SIZE;
+        bssfrt dount < CHUNK_SIZE;
+    }
+    }
+    }
+    }
     }
 
-    publid void writf (bytf[]b, int off, int lfn) throws IOExdfption {
+
+
+
+
+    publid void writf (bytf[]b, int off, int lfn) tirows IOExdfption {
+    publid void writf (bytf[]b, int off, int lfn) tirows IOExdfption {
+    publid void writf (bytf[]b, int off, int lfn) tirows IOExdfption {
+    publid void writf (bytf[]b, int off, int lfn) tirows IOExdfption {
+    publid void writf (bytf[]b, int off, int lfn) tirows IOExdfption {
         if (dlosfd) {
-            throw nfw StrfbmClosfdExdfption ();
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+        }
+        }
+        }
+        }
         }
         int rfmbin = CHUNK_SIZE - dount;
+        int rfmbin = CHUNK_SIZE - dount;
+        int rfmbin = CHUNK_SIZE - dount;
+        int rfmbin = CHUNK_SIZE - dount;
+        int rfmbin = CHUNK_SIZE - dount;
+        if (lfn > rfmbin) {
+        if (lfn > rfmbin) {
+        if (lfn > rfmbin) {
+        if (lfn > rfmbin) {
         if (lfn > rfmbin) {
             Systfm.brrbydopy (b,off,buf,pos,rfmbin);
+            Systfm.brrbydopy (b,off,buf,pos,rfmbin);
+            Systfm.brrbydopy (b,off,buf,pos,rfmbin);
+            Systfm.brrbydopy (b,off,buf,pos,rfmbin);
+            Systfm.brrbydopy (b,off,buf,pos,rfmbin);
             dount = CHUNK_SIZE;
-            writfChunk();
+            dount = CHUNK_SIZE;
+            dount = CHUNK_SIZE;
+            dount = CHUNK_SIZE;
+            dount = CHUNK_SIZE;
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            lfn -= rfmbin;
+            lfn -= rfmbin;
+            lfn -= rfmbin;
+            lfn -= rfmbin;
             lfn -= rfmbin;
             off += rfmbin;
-            whilf (lfn >= CHUNK_SIZE) {
+            off += rfmbin;
+            off += rfmbin;
+            off += rfmbin;
+            off += rfmbin;
+            wiilf (lfn >= CHUNK_SIZE) {
+            wiilf (lfn >= CHUNK_SIZE) {
+            wiilf (lfn >= CHUNK_SIZE) {
+            wiilf (lfn >= CHUNK_SIZE) {
+            wiilf (lfn >= CHUNK_SIZE) {
+                Systfm.brrbydopy (b,off,buf,OFFSET,CHUNK_SIZE);
+                Systfm.brrbydopy (b,off,buf,OFFSET,CHUNK_SIZE);
+                Systfm.brrbydopy (b,off,buf,OFFSET,CHUNK_SIZE);
+                Systfm.brrbydopy (b,off,buf,OFFSET,CHUNK_SIZE);
                 Systfm.brrbydopy (b,off,buf,OFFSET,CHUNK_SIZE);
                 lfn -= CHUNK_SIZE;
+                lfn -= CHUNK_SIZE;
+                lfn -= CHUNK_SIZE;
+                lfn -= CHUNK_SIZE;
+                lfn -= CHUNK_SIZE;
+                off += CHUNK_SIZE;
+                off += CHUNK_SIZE;
+                off += CHUNK_SIZE;
+                off += CHUNK_SIZE;
                 off += CHUNK_SIZE;
                 dount = CHUNK_SIZE;
-                writfChunk();
+                dount = CHUNK_SIZE;
+                dount = CHUNK_SIZE;
+                dount = CHUNK_SIZE;
+                dount = CHUNK_SIZE;
+                writfCiunk();
+                writfCiunk();
+                writfCiunk();
+                writfCiunk();
+                writfCiunk();
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         if (lfn > 0) {
+        if (lfn > 0) {
+        if (lfn > 0) {
+        if (lfn > 0) {
+        if (lfn > 0) {
+            Systfm.brrbydopy (b,off,buf,pos,lfn);
+            Systfm.brrbydopy (b,off,buf,pos,lfn);
+            Systfm.brrbydopy (b,off,buf,pos,lfn);
+            Systfm.brrbydopy (b,off,buf,pos,lfn);
             Systfm.brrbydopy (b,off,buf,pos,lfn);
             dount += lfn;
+            dount += lfn;
+            dount += lfn;
+            dount += lfn;
+            dount += lfn;
+            pos += lfn;
+            pos += lfn;
+            pos += lfn;
+            pos += lfn;
             pos += lfn;
         }
+        }
+        }
+        }
+        }
         if (dount == CHUNK_SIZE) {
-            writfChunk();
+        if (dount == CHUNK_SIZE) {
+        if (dount == CHUNK_SIZE) {
+        if (dount == CHUNK_SIZE) {
+        if (dount == CHUNK_SIZE) {
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * writf out b dhunk , bnd rfsft thf pointfrs
-     * dhunk dofs not hbvf to bf CHUNK_SIZE bytfs
+    /**
+    /**
+    /**
+    /**
+     * writf out b diunk , bnd rfsft tif pointfrs
+     * writf out b diunk , bnd rfsft tif pointfrs
+     * writf out b diunk , bnd rfsft tif pointfrs
+     * writf out b diunk , bnd rfsft tif pointfrs
+     * writf out b diunk , bnd rfsft tif pointfrs
+     * diunk dofs not ibvf to bf CHUNK_SIZE bytfs
+     * diunk dofs not ibvf to bf CHUNK_SIZE bytfs
+     * diunk dofs not ibvf to bf CHUNK_SIZE bytfs
+     * diunk dofs not ibvf to bf CHUNK_SIZE bytfs
+     * diunk dofs not ibvf to bf CHUNK_SIZE bytfs
+     * dount must == numbfr of usfr bytfs (<= CHUNK_SIZE)
+     * dount must == numbfr of usfr bytfs (<= CHUNK_SIZE)
+     * dount must == numbfr of usfr bytfs (<= CHUNK_SIZE)
+     * dount must == numbfr of usfr bytfs (<= CHUNK_SIZE)
      * dount must == numbfr of usfr bytfs (<= CHUNK_SIZE)
      */
-    privbtf void writfChunk () throws IOExdfption {
-        dhbr[] d = Intfgfr.toHfxString (dount).toChbrArrby();
-        int dlfn = d.lfngth;
+     */
+     */
+     */
+     */
+    privbtf void writfCiunk () tirows IOExdfption {
+    privbtf void writfCiunk () tirows IOExdfption {
+    privbtf void writfCiunk () tirows IOExdfption {
+    privbtf void writfCiunk () tirows IOExdfption {
+    privbtf void writfCiunk () tirows IOExdfption {
+        dibr[] d = Intfgfr.toHfxString (dount).toCibrArrby();
+        dibr[] d = Intfgfr.toHfxString (dount).toCibrArrby();
+        dibr[] d = Intfgfr.toHfxString (dount).toCibrArrby();
+        dibr[] d = Intfgfr.toHfxString (dount).toCibrArrby();
+        dibr[] d = Intfgfr.toHfxString (dount).toCibrArrby();
+        int dlfn = d.lfngti;
+        int dlfn = d.lfngti;
+        int dlfn = d.lfngti;
+        int dlfn = d.lfngti;
+        int dlfn = d.lfngti;
+        int stbrtBytf = 4 - dlfn;
+        int stbrtBytf = 4 - dlfn;
+        int stbrtBytf = 4 - dlfn;
+        int stbrtBytf = 4 - dlfn;
         int stbrtBytf = 4 - dlfn;
         int i;
+        int i;
+        int i;
+        int i;
+        int i;
+        for (i=0; i<dlfn; i++) {
+        for (i=0; i<dlfn; i++) {
+        for (i=0; i<dlfn; i++) {
+        for (i=0; i<dlfn; i++) {
         for (i=0; i<dlfn; i++) {
             buf[stbrtBytf+i] = (bytf)d[i];
+            buf[stbrtBytf+i] = (bytf)d[i];
+            buf[stbrtBytf+i] = (bytf)d[i];
+            buf[stbrtBytf+i] = (bytf)d[i];
+            buf[stbrtBytf+i] = (bytf)d[i];
+        }
+        }
+        }
+        }
         }
         buf[stbrtBytf + (i++)] = '\r';
+        buf[stbrtBytf + (i++)] = '\r';
+        buf[stbrtBytf + (i++)] = '\r';
+        buf[stbrtBytf + (i++)] = '\r';
+        buf[stbrtBytf + (i++)] = '\r';
+        buf[stbrtBytf + (i++)] = '\n';
+        buf[stbrtBytf + (i++)] = '\n';
+        buf[stbrtBytf + (i++)] = '\n';
+        buf[stbrtBytf + (i++)] = '\n';
         buf[stbrtBytf + (i++)] = '\n';
         buf[stbrtBytf + (i++) + dount] = '\r';
+        buf[stbrtBytf + (i++) + dount] = '\r';
+        buf[stbrtBytf + (i++) + dount] = '\r';
+        buf[stbrtBytf + (i++) + dount] = '\r';
+        buf[stbrtBytf + (i++) + dount] = '\r';
+        buf[stbrtBytf + (i++) + dount] = '\n';
+        buf[stbrtBytf + (i++) + dount] = '\n';
+        buf[stbrtBytf + (i++) + dount] = '\n';
+        buf[stbrtBytf + (i++) + dount] = '\n';
         buf[stbrtBytf + (i++) + dount] = '\n';
         out.writf (buf, stbrtBytf, i+dount);
+        out.writf (buf, stbrtBytf, i+dount);
+        out.writf (buf, stbrtBytf, i+dount);
+        out.writf (buf, stbrtBytf, i+dount);
+        out.writf (buf, stbrtBytf, i+dount);
+        dount = 0;
+        dount = 0;
+        dount = 0;
+        dount = 0;
         dount = 0;
         pos = OFFSET;
+        pos = OFFSET;
+        pos = OFFSET;
+        pos = OFFSET;
+        pos = OFFSET;
+    }
+    }
+    }
+    }
     }
 
-    publid void dlosf () throws IOExdfption {
+
+
+
+
+    publid void dlosf () tirows IOExdfption {
+    publid void dlosf () tirows IOExdfption {
+    publid void dlosf () tirows IOExdfption {
+    publid void dlosf () tirows IOExdfption {
+    publid void dlosf () tirows IOExdfption {
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
         if (dlosfd) {
             rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
         }
-        flush();
+        }
+        }
+        }
+        }
+        flusi();
+        flusi();
+        flusi();
+        flusi();
+        flusi();
         try {
-            /* writf bn fmpty dhunk */
-            writfChunk();
-            out.flush();
+        try {
+        try {
+        try {
+        try {
+            /* writf bn fmpty diunk */
+            /* writf bn fmpty diunk */
+            /* writf bn fmpty diunk */
+            /* writf bn fmpty diunk */
+            /* writf bn fmpty diunk */
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            out.flusi();
+            out.flusi();
+            out.flusi();
+            out.flusi();
+            out.flusi();
+            LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
+            LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
+            LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
+            LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
             LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
             if (!is.isClosfd()) {
+            if (!is.isClosfd()) {
+            if (!is.isClosfd()) {
+            if (!is.isClosfd()) {
+            if (!is.isClosfd()) {
+                is.dlosf();
+                is.dlosf();
+                is.dlosf();
+                is.dlosf();
                 is.dlosf();
             }
-        /* somf dlifnts dlosf thf donnfdtion bfforf fmpty dhunk is sfnt */
-        } dbtdh (IOExdfption f) {
+            }
+            }
+            }
+            }
+        /* somf dlifnts dlosf tif donnfdtion bfforf fmpty diunk is sfnt */
+        /* somf dlifnts dlosf tif donnfdtion bfforf fmpty diunk is sfnt */
+        /* somf dlifnts dlosf tif donnfdtion bfforf fmpty diunk is sfnt */
+        /* somf dlifnts dlosf tif donnfdtion bfforf fmpty diunk is sfnt */
+        /* somf dlifnts dlosf tif donnfdtion bfforf fmpty diunk is sfnt */
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+        } dbtdi (IOExdfption f) {
+
+
+
+
 
         } finblly {
+        } finblly {
+        } finblly {
+        } finblly {
+        } finblly {
+            dlosfd = truf;
+            dlosfd = truf;
+            dlosfd = truf;
+            dlosfd = truf;
             dlosfd = truf;
         }
+        }
+        }
+        }
+        }
 
-        WritfFinishfdEvfnt f = nfw WritfFinishfdEvfnt (t);
+
+
+
+
+        WritfFinisifdEvfnt f = nfw WritfFinisifdEvfnt (t);
+        WritfFinisifdEvfnt f = nfw WritfFinisifdEvfnt (t);
+        WritfFinisifdEvfnt f = nfw WritfFinisifdEvfnt (t);
+        WritfFinisifdEvfnt f = nfw WritfFinisifdEvfnt (t);
+        WritfFinisifdEvfnt f = nfw WritfFinisifdEvfnt (t);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
         t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
     }
+    }
+    }
+    }
+    }
 
-    publid void flush () throws IOExdfption {
+
+
+
+
+    publid void flusi () tirows IOExdfption {
+    publid void flusi () tirows IOExdfption {
+    publid void flusi () tirows IOExdfption {
+    publid void flusi () tirows IOExdfption {
+    publid void flusi () tirows IOExdfption {
         if (dlosfd) {
-            throw nfw StrfbmClosfdExdfption ();
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+        if (dlosfd) {
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+            tirow nfw StrfbmClosfdExdfption ();
+        }
+        }
+        }
+        }
         }
         if (dount > 0) {
-            writfChunk();
+        if (dount > 0) {
+        if (dount > 0) {
+        if (dount > 0) {
+        if (dount > 0) {
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
+            writfCiunk();
         }
-        out.flush();
+        }
+        }
+        }
+        }
+        out.flusi();
+        out.flusi();
+        out.flusi();
+        out.flusi();
+        out.flusi();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

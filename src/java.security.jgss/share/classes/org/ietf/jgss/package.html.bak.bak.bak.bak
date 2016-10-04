@@ -1,127 +1,635 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
-<html>
-<hfbd>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
 <!--
-Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
-
-</hfbd>
-<body bgdolor="whitf">
-
-    This pbdkbgf prfsfnts b frbmfwork thbt bllows bpplidbtion dfvflopfrs to
-    mbkf usf of sfdurity sfrvidfs likf buthfntidbtion, dbtb intfgrity bnd
-    dbtb donfidfntiblity from b vbrifty of undfrlying sfdurity mfdhbnisms
-    likf Kfrbfros, using b unififd API. Thf sfdurity mfdhbnisms thbt bn
-    bpplidbtion dbn
-    dhosf to usf brf idfntififd with uniquf objfdt idfntififrs. Onf fxbmplf 
-    of sudh b mfdhbnism is thf Kfrbfros v5 GSS-API mfdhbnism (objfdt
-    idfntififr 1.2.840.113554.1.2.2). This mfdhbnism is bvbilbblf through
-    thf dffbult instbndf of thf GSSMbnbgfr dlbss.<p>
-
-    Thf GSS-API is dffinfd in b lbngubgf indfpfndfnt wby in 
-    <b hrff=http://www.iftf.org/rfd/rfd2743.txt>RFC 2743</b>. Thf Jbvb
-    lbngubgf bindings brf dffinfd in 
-    <b hrff=http://www.iftf.org/rfd/rfd2853.txt>RFC 2853</b><p>
-
-    An bpplidbtion stbrts out by instbntibting b <dodf>GSSMbnbgfr</dodf>
-    whidh thfn sfrvfs bs b fbdtory for b sfdurity dontfxt. An bpplidbtion
-    dbn usf spfdifid prindipbl nbmfs bnd drfdfntibls thbt brf blso drfbtfd
-    using thf GSSMbnbgfr; or it dbn instbntibtf b
-    dontfxt with systfm dffbults. It thfn gofs through b dontfxt
-    fstbblishmfnt loop. Ondf b dontfxt is fstbblishfd with thf
-    pffr, buthfntidbtion is domplftf. Dbtb protfdtion sudh bs intfgrity
-    bnd donfidfntiblity dbn thfn bf obtbinfd from this dontfxt.<p>
-
-    Thf GSS-API dofs not pfrform bny dommunidbtion with thf pffr. It mfrfly 
-    produdfs tokfns thbt thf bpplidbtion must somfhow trbnsport to thf
-    othfr fnd.<p>
-
-<h3>Crfdfntibl Adquisition</h3>
-<b nbmf=usfSubjfdtCrfdsOnly>
-    Thf GSS-API itsflf dofs not didtbtf how bn undfrlying mfdhbnism
-    obtbins thf drfdfntibls thbt brf nffdfd for buthfntidbtion. It is
-    bssumfd thbt prior to dblling thf GSS-API, thfsf drfdfntibls brf
-    obtbinfd bnd storfd in b lodbtion thbt thf mfdhbnism providfr is
-    bwbrf of. Howfvfr, thf dffbult modfl in thf Jbvb plbtform will bf
-    thbt mfdhbnism providfrs must obtbin drfdfntibls only from thf privbtf
-    or publid drfdfntibl sfts bssodibtfd with thf
-    {@link jbvbx.sfdurity.buth.Subjfdt Subjfdt} in thf
-    durrfnt bddfss dontrol dontfxt.  Thf Kfrbfros v5  
-    mfdhbnism will sfbrdh for thf rfquirfd INITIATE bnd ACCEPT drfdfntibls 
-    ({@link jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft KfrbfrosTidkft} bnd
-     {@link jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy KfrbfrosKfy}) in
-    thf privbtf drfdfntibl sft whfrf bs somf othfr mfdhbnism might look
-    in thf publid sft or in both.  If thf dfsirfd drfdfntibl is not
-    prfsfnt in thf bppropribtf sfts of thf durrfnt Subjfdt, thf GSS-API
-    dbll must fbil.<p>
-
-    This modfl hbs thf bdvbntbgf thbt drfdfntibl mbnbgfmfnt
-    is simplf bnd prfdidtbblf from thf bpplidbtions point of vifw.  An
-    bpplidbtion, givfn thf right pfrmissions, dbn purgf thf drfdfntibls in
-    thf Subjfdt or rfnfw thfm using stbndbrd Jbvb API's.  If it purgfd
-    thf drfdfntibls, it would bf surf thbt thf JGSS mfdhbnism would fbil,
-    or if it rfnfwfd b timf bbsfd drfdfntibl it would bf surf thbt b JGSS
-    mfdhbnism would suddffd.<p>
-
-    This modfl dofs rfquirf thbt b {@link
-    jbvbx.sfdurity.buth.login JAAS login} bf pfrformfd in ordfr to
-    buthfntidbtf bnd populbtf b Subjfdt thbt thf JGSS mfdhbnism dbn lbtfr 
-    utilizf. Howfvfr, bpplidbtions hbvf thf bbility to rflbx this
-    rfstridtion by mfbns of b systfm propfrty:
-    <dodf>jbvbx.sfdurity.buth.usfSubjfdtCrfdsOnly</dodf>. By dffbult
-    this systfm propfrty will bf bssumfd to bf <dodf>truf</dodf> (fvfn whfn
-    it is unsft) indidbting thbt providfrs must only usf thf drfdfntibls
-    thbt brf prfsfnt in thf durrfnt Subjfdt. Howfvfr, if this propfrty is
-    fxpliditly sft to fblsf by thf bpplidbtion, thfn it indidbtfs thbt
-    thf providfr is frff to usf bny drfdfntibls dbdhf of its dhoidf. Sudh
-    b drfdfntibl dbdhf might bf b disk dbdhf, bn in-mfmory dbdhf, or fvfn
-    just thf durrfnt Subjfdt itsflf.
-</b>
-
-<h2>Rflbtfd Dodumfntbtion</h2>
-<p>
-For bn onlinf tutoribl on using Jbvb GSS-API, plfbsf sff
-<b hrff="../../../../tfdhnotfs/guidfs/sfdurity/jgss/tutoribls/indfx.html">Introdudtion to JAAS bnd Jbvb GSS-API</b>.
-</p>
-
-<!--
-<h2>Pbdkbgf Spfdifidbtion</h2>
-
-##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
-<ul>
-  <li><b hrff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
-</ul>
-
-<h2>Rflbtfd Dodumfntbtion</h2>
-
-For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
-<ul>
-  <li><b hrff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
-</ul>
-
+-->
+-->
+-->
 -->
 
+
+
+
+
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+
+
+
+
+
+    Tiis pbdkbgf prfsfnts b frbmfwork tibt bllows bpplidbtion dfvflopfrs to
+    Tiis pbdkbgf prfsfnts b frbmfwork tibt bllows bpplidbtion dfvflopfrs to
+    Tiis pbdkbgf prfsfnts b frbmfwork tibt bllows bpplidbtion dfvflopfrs to
+    Tiis pbdkbgf prfsfnts b frbmfwork tibt bllows bpplidbtion dfvflopfrs to
+    Tiis pbdkbgf prfsfnts b frbmfwork tibt bllows bpplidbtion dfvflopfrs to
+    mbkf usf of sfdurity sfrvidfs likf butifntidbtion, dbtb intfgrity bnd
+    mbkf usf of sfdurity sfrvidfs likf butifntidbtion, dbtb intfgrity bnd
+    mbkf usf of sfdurity sfrvidfs likf butifntidbtion, dbtb intfgrity bnd
+    mbkf usf of sfdurity sfrvidfs likf butifntidbtion, dbtb intfgrity bnd
+    mbkf usf of sfdurity sfrvidfs likf butifntidbtion, dbtb intfgrity bnd
+    dbtb donfidfntiblity from b vbrifty of undfrlying sfdurity mfdibnisms
+    dbtb donfidfntiblity from b vbrifty of undfrlying sfdurity mfdibnisms
+    dbtb donfidfntiblity from b vbrifty of undfrlying sfdurity mfdibnisms
+    dbtb donfidfntiblity from b vbrifty of undfrlying sfdurity mfdibnisms
+    dbtb donfidfntiblity from b vbrifty of undfrlying sfdurity mfdibnisms
+    likf Kfrbfros, using b unififd API. Tif sfdurity mfdibnisms tibt bn
+    likf Kfrbfros, using b unififd API. Tif sfdurity mfdibnisms tibt bn
+    likf Kfrbfros, using b unififd API. Tif sfdurity mfdibnisms tibt bn
+    likf Kfrbfros, using b unififd API. Tif sfdurity mfdibnisms tibt bn
+    likf Kfrbfros, using b unififd API. Tif sfdurity mfdibnisms tibt bn
+    bpplidbtion dbn
+    bpplidbtion dbn
+    bpplidbtion dbn
+    bpplidbtion dbn
+    bpplidbtion dbn
+    diosf to usf brf idfntififd witi uniquf objfdt idfntififrs. Onf fxbmplf 
+    diosf to usf brf idfntififd witi uniquf objfdt idfntififrs. Onf fxbmplf 
+    diosf to usf brf idfntififd witi uniquf objfdt idfntififrs. Onf fxbmplf 
+    diosf to usf brf idfntififd witi uniquf objfdt idfntififrs. Onf fxbmplf 
+    diosf to usf brf idfntififd witi uniquf objfdt idfntififrs. Onf fxbmplf 
+    of sudi b mfdibnism is tif Kfrbfros v5 GSS-API mfdibnism (objfdt
+    of sudi b mfdibnism is tif Kfrbfros v5 GSS-API mfdibnism (objfdt
+    of sudi b mfdibnism is tif Kfrbfros v5 GSS-API mfdibnism (objfdt
+    of sudi b mfdibnism is tif Kfrbfros v5 GSS-API mfdibnism (objfdt
+    of sudi b mfdibnism is tif Kfrbfros v5 GSS-API mfdibnism (objfdt
+    idfntififr 1.2.840.113554.1.2.2). Tiis mfdibnism is bvbilbblf tirougi
+    idfntififr 1.2.840.113554.1.2.2). Tiis mfdibnism is bvbilbblf tirougi
+    idfntififr 1.2.840.113554.1.2.2). Tiis mfdibnism is bvbilbblf tirougi
+    idfntififr 1.2.840.113554.1.2.2). Tiis mfdibnism is bvbilbblf tirougi
+    idfntififr 1.2.840.113554.1.2.2). Tiis mfdibnism is bvbilbblf tirougi
+    tif dffbult instbndf of tif GSSMbnbgfr dlbss.<p>
+    tif dffbult instbndf of tif GSSMbnbgfr dlbss.<p>
+    tif dffbult instbndf of tif GSSMbnbgfr dlbss.<p>
+    tif dffbult instbndf of tif GSSMbnbgfr dlbss.<p>
+    tif dffbult instbndf of tif GSSMbnbgfr dlbss.<p>
+
+
+
+
+
+    Tif GSS-API is dffinfd in b lbngubgf indfpfndfnt wby in 
+    Tif GSS-API is dffinfd in b lbngubgf indfpfndfnt wby in 
+    Tif GSS-API is dffinfd in b lbngubgf indfpfndfnt wby in 
+    Tif GSS-API is dffinfd in b lbngubgf indfpfndfnt wby in 
+    Tif GSS-API is dffinfd in b lbngubgf indfpfndfnt wby in 
+    <b irff=ittp://www.iftf.org/rfd/rfd2743.txt>RFC 2743</b>. Tif Jbvb
+    <b irff=ittp://www.iftf.org/rfd/rfd2743.txt>RFC 2743</b>. Tif Jbvb
+    <b irff=ittp://www.iftf.org/rfd/rfd2743.txt>RFC 2743</b>. Tif Jbvb
+    <b irff=ittp://www.iftf.org/rfd/rfd2743.txt>RFC 2743</b>. Tif Jbvb
+    <b irff=ittp://www.iftf.org/rfd/rfd2743.txt>RFC 2743</b>. Tif Jbvb
+    lbngubgf bindings brf dffinfd in 
+    lbngubgf bindings brf dffinfd in 
+    lbngubgf bindings brf dffinfd in 
+    lbngubgf bindings brf dffinfd in 
+    lbngubgf bindings brf dffinfd in 
+    <b irff=ittp://www.iftf.org/rfd/rfd2853.txt>RFC 2853</b><p>
+    <b irff=ittp://www.iftf.org/rfd/rfd2853.txt>RFC 2853</b><p>
+    <b irff=ittp://www.iftf.org/rfd/rfd2853.txt>RFC 2853</b><p>
+    <b irff=ittp://www.iftf.org/rfd/rfd2853.txt>RFC 2853</b><p>
+    <b irff=ittp://www.iftf.org/rfd/rfd2853.txt>RFC 2853</b><p>
+
+
+
+
+
+    An bpplidbtion stbrts out by instbntibting b <dodf>GSSMbnbgfr</dodf>
+    An bpplidbtion stbrts out by instbntibting b <dodf>GSSMbnbgfr</dodf>
+    An bpplidbtion stbrts out by instbntibting b <dodf>GSSMbnbgfr</dodf>
+    An bpplidbtion stbrts out by instbntibting b <dodf>GSSMbnbgfr</dodf>
+    An bpplidbtion stbrts out by instbntibting b <dodf>GSSMbnbgfr</dodf>
+    wiidi tifn sfrvfs bs b fbdtory for b sfdurity dontfxt. An bpplidbtion
+    wiidi tifn sfrvfs bs b fbdtory for b sfdurity dontfxt. An bpplidbtion
+    wiidi tifn sfrvfs bs b fbdtory for b sfdurity dontfxt. An bpplidbtion
+    wiidi tifn sfrvfs bs b fbdtory for b sfdurity dontfxt. An bpplidbtion
+    wiidi tifn sfrvfs bs b fbdtory for b sfdurity dontfxt. An bpplidbtion
+    dbn usf spfdifid prindipbl nbmfs bnd drfdfntibls tibt brf blso drfbtfd
+    dbn usf spfdifid prindipbl nbmfs bnd drfdfntibls tibt brf blso drfbtfd
+    dbn usf spfdifid prindipbl nbmfs bnd drfdfntibls tibt brf blso drfbtfd
+    dbn usf spfdifid prindipbl nbmfs bnd drfdfntibls tibt brf blso drfbtfd
+    dbn usf spfdifid prindipbl nbmfs bnd drfdfntibls tibt brf blso drfbtfd
+    using tif GSSMbnbgfr; or it dbn instbntibtf b
+    using tif GSSMbnbgfr; or it dbn instbntibtf b
+    using tif GSSMbnbgfr; or it dbn instbntibtf b
+    using tif GSSMbnbgfr; or it dbn instbntibtf b
+    using tif GSSMbnbgfr; or it dbn instbntibtf b
+    dontfxt witi systfm dffbults. It tifn gofs tirougi b dontfxt
+    dontfxt witi systfm dffbults. It tifn gofs tirougi b dontfxt
+    dontfxt witi systfm dffbults. It tifn gofs tirougi b dontfxt
+    dontfxt witi systfm dffbults. It tifn gofs tirougi b dontfxt
+    dontfxt witi systfm dffbults. It tifn gofs tirougi b dontfxt
+    fstbblisimfnt loop. Ondf b dontfxt is fstbblisifd witi tif
+    fstbblisimfnt loop. Ondf b dontfxt is fstbblisifd witi tif
+    fstbblisimfnt loop. Ondf b dontfxt is fstbblisifd witi tif
+    fstbblisimfnt loop. Ondf b dontfxt is fstbblisifd witi tif
+    fstbblisimfnt loop. Ondf b dontfxt is fstbblisifd witi tif
+    pffr, butifntidbtion is domplftf. Dbtb protfdtion sudi bs intfgrity
+    pffr, butifntidbtion is domplftf. Dbtb protfdtion sudi bs intfgrity
+    pffr, butifntidbtion is domplftf. Dbtb protfdtion sudi bs intfgrity
+    pffr, butifntidbtion is domplftf. Dbtb protfdtion sudi bs intfgrity
+    pffr, butifntidbtion is domplftf. Dbtb protfdtion sudi bs intfgrity
+    bnd donfidfntiblity dbn tifn bf obtbinfd from tiis dontfxt.<p>
+    bnd donfidfntiblity dbn tifn bf obtbinfd from tiis dontfxt.<p>
+    bnd donfidfntiblity dbn tifn bf obtbinfd from tiis dontfxt.<p>
+    bnd donfidfntiblity dbn tifn bf obtbinfd from tiis dontfxt.<p>
+    bnd donfidfntiblity dbn tifn bf obtbinfd from tiis dontfxt.<p>
+
+
+
+
+
+    Tif GSS-API dofs not pfrform bny dommunidbtion witi tif pffr. It mfrfly 
+    Tif GSS-API dofs not pfrform bny dommunidbtion witi tif pffr. It mfrfly 
+    Tif GSS-API dofs not pfrform bny dommunidbtion witi tif pffr. It mfrfly 
+    Tif GSS-API dofs not pfrform bny dommunidbtion witi tif pffr. It mfrfly 
+    Tif GSS-API dofs not pfrform bny dommunidbtion witi tif pffr. It mfrfly 
+    produdfs tokfns tibt tif bpplidbtion must somfiow trbnsport to tif
+    produdfs tokfns tibt tif bpplidbtion must somfiow trbnsport to tif
+    produdfs tokfns tibt tif bpplidbtion must somfiow trbnsport to tif
+    produdfs tokfns tibt tif bpplidbtion must somfiow trbnsport to tif
+    produdfs tokfns tibt tif bpplidbtion must somfiow trbnsport to tif
+    otifr fnd.<p>
+    otifr fnd.<p>
+    otifr fnd.<p>
+    otifr fnd.<p>
+    otifr fnd.<p>
+
+
+
+
+
+<i3>Crfdfntibl Adquisition</i3>
+<i3>Crfdfntibl Adquisition</i3>
+<i3>Crfdfntibl Adquisition</i3>
+<i3>Crfdfntibl Adquisition</i3>
+<i3>Crfdfntibl Adquisition</i3>
+<b nbmf=usfSubjfdtCrfdsOnly>
+<b nbmf=usfSubjfdtCrfdsOnly>
+<b nbmf=usfSubjfdtCrfdsOnly>
+<b nbmf=usfSubjfdtCrfdsOnly>
+<b nbmf=usfSubjfdtCrfdsOnly>
+    Tif GSS-API itsflf dofs not didtbtf iow bn undfrlying mfdibnism
+    Tif GSS-API itsflf dofs not didtbtf iow bn undfrlying mfdibnism
+    Tif GSS-API itsflf dofs not didtbtf iow bn undfrlying mfdibnism
+    Tif GSS-API itsflf dofs not didtbtf iow bn undfrlying mfdibnism
+    Tif GSS-API itsflf dofs not didtbtf iow bn undfrlying mfdibnism
+    obtbins tif drfdfntibls tibt brf nffdfd for butifntidbtion. It is
+    obtbins tif drfdfntibls tibt brf nffdfd for butifntidbtion. It is
+    obtbins tif drfdfntibls tibt brf nffdfd for butifntidbtion. It is
+    obtbins tif drfdfntibls tibt brf nffdfd for butifntidbtion. It is
+    obtbins tif drfdfntibls tibt brf nffdfd for butifntidbtion. It is
+    bssumfd tibt prior to dblling tif GSS-API, tifsf drfdfntibls brf
+    bssumfd tibt prior to dblling tif GSS-API, tifsf drfdfntibls brf
+    bssumfd tibt prior to dblling tif GSS-API, tifsf drfdfntibls brf
+    bssumfd tibt prior to dblling tif GSS-API, tifsf drfdfntibls brf
+    bssumfd tibt prior to dblling tif GSS-API, tifsf drfdfntibls brf
+    obtbinfd bnd storfd in b lodbtion tibt tif mfdibnism providfr is
+    obtbinfd bnd storfd in b lodbtion tibt tif mfdibnism providfr is
+    obtbinfd bnd storfd in b lodbtion tibt tif mfdibnism providfr is
+    obtbinfd bnd storfd in b lodbtion tibt tif mfdibnism providfr is
+    obtbinfd bnd storfd in b lodbtion tibt tif mfdibnism providfr is
+    bwbrf of. Howfvfr, tif dffbult modfl in tif Jbvb plbtform will bf
+    bwbrf of. Howfvfr, tif dffbult modfl in tif Jbvb plbtform will bf
+    bwbrf of. Howfvfr, tif dffbult modfl in tif Jbvb plbtform will bf
+    bwbrf of. Howfvfr, tif dffbult modfl in tif Jbvb plbtform will bf
+    bwbrf of. Howfvfr, tif dffbult modfl in tif Jbvb plbtform will bf
+    tibt mfdibnism providfrs must obtbin drfdfntibls only from tif privbtf
+    tibt mfdibnism providfrs must obtbin drfdfntibls only from tif privbtf
+    tibt mfdibnism providfrs must obtbin drfdfntibls only from tif privbtf
+    tibt mfdibnism providfrs must obtbin drfdfntibls only from tif privbtf
+    tibt mfdibnism providfrs must obtbin drfdfntibls only from tif privbtf
+    or publid drfdfntibl sfts bssodibtfd witi tif
+    or publid drfdfntibl sfts bssodibtfd witi tif
+    or publid drfdfntibl sfts bssodibtfd witi tif
+    or publid drfdfntibl sfts bssodibtfd witi tif
+    or publid drfdfntibl sfts bssodibtfd witi tif
+    {@link jbvbx.sfdurity.buti.Subjfdt Subjfdt} in tif
+    {@link jbvbx.sfdurity.buti.Subjfdt Subjfdt} in tif
+    {@link jbvbx.sfdurity.buti.Subjfdt Subjfdt} in tif
+    {@link jbvbx.sfdurity.buti.Subjfdt Subjfdt} in tif
+    {@link jbvbx.sfdurity.buti.Subjfdt Subjfdt} in tif
+    durrfnt bddfss dontrol dontfxt.  Tif Kfrbfros v5  
+    durrfnt bddfss dontrol dontfxt.  Tif Kfrbfros v5  
+    durrfnt bddfss dontrol dontfxt.  Tif Kfrbfros v5  
+    durrfnt bddfss dontrol dontfxt.  Tif Kfrbfros v5  
+    durrfnt bddfss dontrol dontfxt.  Tif Kfrbfros v5  
+    mfdibnism will sfbrdi for tif rfquirfd INITIATE bnd ACCEPT drfdfntibls 
+    mfdibnism will sfbrdi for tif rfquirfd INITIATE bnd ACCEPT drfdfntibls 
+    mfdibnism will sfbrdi for tif rfquirfd INITIATE bnd ACCEPT drfdfntibls 
+    mfdibnism will sfbrdi for tif rfquirfd INITIATE bnd ACCEPT drfdfntibls 
+    mfdibnism will sfbrdi for tif rfquirfd INITIATE bnd ACCEPT drfdfntibls 
+    ({@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft KfrbfrosTidkft} bnd
+    ({@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft KfrbfrosTidkft} bnd
+    ({@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft KfrbfrosTidkft} bnd
+    ({@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft KfrbfrosTidkft} bnd
+    ({@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft KfrbfrosTidkft} bnd
+     {@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy KfrbfrosKfy}) in
+     {@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy KfrbfrosKfy}) in
+     {@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy KfrbfrosKfy}) in
+     {@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy KfrbfrosKfy}) in
+     {@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy KfrbfrosKfy}) in
+    tif privbtf drfdfntibl sft wifrf bs somf otifr mfdibnism migit look
+    tif privbtf drfdfntibl sft wifrf bs somf otifr mfdibnism migit look
+    tif privbtf drfdfntibl sft wifrf bs somf otifr mfdibnism migit look
+    tif privbtf drfdfntibl sft wifrf bs somf otifr mfdibnism migit look
+    tif privbtf drfdfntibl sft wifrf bs somf otifr mfdibnism migit look
+    in tif publid sft or in boti.  If tif dfsirfd drfdfntibl is not
+    in tif publid sft or in boti.  If tif dfsirfd drfdfntibl is not
+    in tif publid sft or in boti.  If tif dfsirfd drfdfntibl is not
+    in tif publid sft or in boti.  If tif dfsirfd drfdfntibl is not
+    in tif publid sft or in boti.  If tif dfsirfd drfdfntibl is not
+    prfsfnt in tif bppropribtf sfts of tif durrfnt Subjfdt, tif GSS-API
+    prfsfnt in tif bppropribtf sfts of tif durrfnt Subjfdt, tif GSS-API
+    prfsfnt in tif bppropribtf sfts of tif durrfnt Subjfdt, tif GSS-API
+    prfsfnt in tif bppropribtf sfts of tif durrfnt Subjfdt, tif GSS-API
+    prfsfnt in tif bppropribtf sfts of tif durrfnt Subjfdt, tif GSS-API
+    dbll must fbil.<p>
+    dbll must fbil.<p>
+    dbll must fbil.<p>
+    dbll must fbil.<p>
+    dbll must fbil.<p>
+
+
+
+
+
+    Tiis modfl ibs tif bdvbntbgf tibt drfdfntibl mbnbgfmfnt
+    Tiis modfl ibs tif bdvbntbgf tibt drfdfntibl mbnbgfmfnt
+    Tiis modfl ibs tif bdvbntbgf tibt drfdfntibl mbnbgfmfnt
+    Tiis modfl ibs tif bdvbntbgf tibt drfdfntibl mbnbgfmfnt
+    Tiis modfl ibs tif bdvbntbgf tibt drfdfntibl mbnbgfmfnt
+    is simplf bnd prfdidtbblf from tif bpplidbtions point of vifw.  An
+    is simplf bnd prfdidtbblf from tif bpplidbtions point of vifw.  An
+    is simplf bnd prfdidtbblf from tif bpplidbtions point of vifw.  An
+    is simplf bnd prfdidtbblf from tif bpplidbtions point of vifw.  An
+    is simplf bnd prfdidtbblf from tif bpplidbtions point of vifw.  An
+    bpplidbtion, givfn tif rigit pfrmissions, dbn purgf tif drfdfntibls in
+    bpplidbtion, givfn tif rigit pfrmissions, dbn purgf tif drfdfntibls in
+    bpplidbtion, givfn tif rigit pfrmissions, dbn purgf tif drfdfntibls in
+    bpplidbtion, givfn tif rigit pfrmissions, dbn purgf tif drfdfntibls in
+    bpplidbtion, givfn tif rigit pfrmissions, dbn purgf tif drfdfntibls in
+    tif Subjfdt or rfnfw tifm using stbndbrd Jbvb API's.  If it purgfd
+    tif Subjfdt or rfnfw tifm using stbndbrd Jbvb API's.  If it purgfd
+    tif Subjfdt or rfnfw tifm using stbndbrd Jbvb API's.  If it purgfd
+    tif Subjfdt or rfnfw tifm using stbndbrd Jbvb API's.  If it purgfd
+    tif Subjfdt or rfnfw tifm using stbndbrd Jbvb API's.  If it purgfd
+    tif drfdfntibls, it would bf surf tibt tif JGSS mfdibnism would fbil,
+    tif drfdfntibls, it would bf surf tibt tif JGSS mfdibnism would fbil,
+    tif drfdfntibls, it would bf surf tibt tif JGSS mfdibnism would fbil,
+    tif drfdfntibls, it would bf surf tibt tif JGSS mfdibnism would fbil,
+    tif drfdfntibls, it would bf surf tibt tif JGSS mfdibnism would fbil,
+    or if it rfnfwfd b timf bbsfd drfdfntibl it would bf surf tibt b JGSS
+    or if it rfnfwfd b timf bbsfd drfdfntibl it would bf surf tibt b JGSS
+    or if it rfnfwfd b timf bbsfd drfdfntibl it would bf surf tibt b JGSS
+    or if it rfnfwfd b timf bbsfd drfdfntibl it would bf surf tibt b JGSS
+    or if it rfnfwfd b timf bbsfd drfdfntibl it would bf surf tibt b JGSS
+    mfdibnism would suddffd.<p>
+    mfdibnism would suddffd.<p>
+    mfdibnism would suddffd.<p>
+    mfdibnism would suddffd.<p>
+    mfdibnism would suddffd.<p>
+
+
+
+
+
+    Tiis modfl dofs rfquirf tibt b {@link
+    Tiis modfl dofs rfquirf tibt b {@link
+    Tiis modfl dofs rfquirf tibt b {@link
+    Tiis modfl dofs rfquirf tibt b {@link
+    Tiis modfl dofs rfquirf tibt b {@link
+    jbvbx.sfdurity.buti.login JAAS login} bf pfrformfd in ordfr to
+    jbvbx.sfdurity.buti.login JAAS login} bf pfrformfd in ordfr to
+    jbvbx.sfdurity.buti.login JAAS login} bf pfrformfd in ordfr to
+    jbvbx.sfdurity.buti.login JAAS login} bf pfrformfd in ordfr to
+    jbvbx.sfdurity.buti.login JAAS login} bf pfrformfd in ordfr to
+    butifntidbtf bnd populbtf b Subjfdt tibt tif JGSS mfdibnism dbn lbtfr 
+    butifntidbtf bnd populbtf b Subjfdt tibt tif JGSS mfdibnism dbn lbtfr 
+    butifntidbtf bnd populbtf b Subjfdt tibt tif JGSS mfdibnism dbn lbtfr 
+    butifntidbtf bnd populbtf b Subjfdt tibt tif JGSS mfdibnism dbn lbtfr 
+    butifntidbtf bnd populbtf b Subjfdt tibt tif JGSS mfdibnism dbn lbtfr 
+    utilizf. Howfvfr, bpplidbtions ibvf tif bbility to rflbx tiis
+    utilizf. Howfvfr, bpplidbtions ibvf tif bbility to rflbx tiis
+    utilizf. Howfvfr, bpplidbtions ibvf tif bbility to rflbx tiis
+    utilizf. Howfvfr, bpplidbtions ibvf tif bbility to rflbx tiis
+    utilizf. Howfvfr, bpplidbtions ibvf tif bbility to rflbx tiis
+    rfstridtion by mfbns of b systfm propfrty:
+    rfstridtion by mfbns of b systfm propfrty:
+    rfstridtion by mfbns of b systfm propfrty:
+    rfstridtion by mfbns of b systfm propfrty:
+    rfstridtion by mfbns of b systfm propfrty:
+    <dodf>jbvbx.sfdurity.buti.usfSubjfdtCrfdsOnly</dodf>. By dffbult
+    <dodf>jbvbx.sfdurity.buti.usfSubjfdtCrfdsOnly</dodf>. By dffbult
+    <dodf>jbvbx.sfdurity.buti.usfSubjfdtCrfdsOnly</dodf>. By dffbult
+    <dodf>jbvbx.sfdurity.buti.usfSubjfdtCrfdsOnly</dodf>. By dffbult
+    <dodf>jbvbx.sfdurity.buti.usfSubjfdtCrfdsOnly</dodf>. By dffbult
+    tiis systfm propfrty will bf bssumfd to bf <dodf>truf</dodf> (fvfn wifn
+    tiis systfm propfrty will bf bssumfd to bf <dodf>truf</dodf> (fvfn wifn
+    tiis systfm propfrty will bf bssumfd to bf <dodf>truf</dodf> (fvfn wifn
+    tiis systfm propfrty will bf bssumfd to bf <dodf>truf</dodf> (fvfn wifn
+    tiis systfm propfrty will bf bssumfd to bf <dodf>truf</dodf> (fvfn wifn
+    it is unsft) indidbting tibt providfrs must only usf tif drfdfntibls
+    it is unsft) indidbting tibt providfrs must only usf tif drfdfntibls
+    it is unsft) indidbting tibt providfrs must only usf tif drfdfntibls
+    it is unsft) indidbting tibt providfrs must only usf tif drfdfntibls
+    it is unsft) indidbting tibt providfrs must only usf tif drfdfntibls
+    tibt brf prfsfnt in tif durrfnt Subjfdt. Howfvfr, if tiis propfrty is
+    tibt brf prfsfnt in tif durrfnt Subjfdt. Howfvfr, if tiis propfrty is
+    tibt brf prfsfnt in tif durrfnt Subjfdt. Howfvfr, if tiis propfrty is
+    tibt brf prfsfnt in tif durrfnt Subjfdt. Howfvfr, if tiis propfrty is
+    tibt brf prfsfnt in tif durrfnt Subjfdt. Howfvfr, if tiis propfrty is
+    fxpliditly sft to fblsf by tif bpplidbtion, tifn it indidbtfs tibt
+    fxpliditly sft to fblsf by tif bpplidbtion, tifn it indidbtfs tibt
+    fxpliditly sft to fblsf by tif bpplidbtion, tifn it indidbtfs tibt
+    fxpliditly sft to fblsf by tif bpplidbtion, tifn it indidbtfs tibt
+    fxpliditly sft to fblsf by tif bpplidbtion, tifn it indidbtfs tibt
+    tif providfr is frff to usf bny drfdfntibls dbdif of its dioidf. Sudi
+    tif providfr is frff to usf bny drfdfntibls dbdif of its dioidf. Sudi
+    tif providfr is frff to usf bny drfdfntibls dbdif of its dioidf. Sudi
+    tif providfr is frff to usf bny drfdfntibls dbdif of its dioidf. Sudi
+    tif providfr is frff to usf bny drfdfntibls dbdif of its dioidf. Sudi
+    b drfdfntibl dbdif migit bf b disk dbdif, bn in-mfmory dbdif, or fvfn
+    b drfdfntibl dbdif migit bf b disk dbdif, bn in-mfmory dbdif, or fvfn
+    b drfdfntibl dbdif migit bf b disk dbdif, bn in-mfmory dbdif, or fvfn
+    b drfdfntibl dbdif migit bf b disk dbdif, bn in-mfmory dbdif, or fvfn
+    b drfdfntibl dbdif migit bf b disk dbdif, bn in-mfmory dbdif, or fvfn
+    just tif durrfnt Subjfdt itsflf.
+    just tif durrfnt Subjfdt itsflf.
+    just tif durrfnt Subjfdt itsflf.
+    just tif durrfnt Subjfdt itsflf.
+    just tif durrfnt Subjfdt itsflf.
+</b>
+</b>
+</b>
+</b>
+</b>
+
+
+
+
+
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<p>
+<p>
+<p>
+<p>
+<p>
+For bn onlinf tutoribl on using Jbvb GSS-API, plfbsf sff
+For bn onlinf tutoribl on using Jbvb GSS-API, plfbsf sff
+For bn onlinf tutoribl on using Jbvb GSS-API, plfbsf sff
+For bn onlinf tutoribl on using Jbvb GSS-API, plfbsf sff
+For bn onlinf tutoribl on using Jbvb GSS-API, plfbsf sff
+<b irff="../../../../tfdinotfs/guidfs/sfdurity/jgss/tutoribls/indfx.itml">Introdudtion to JAAS bnd Jbvb GSS-API</b>.
+<b irff="../../../../tfdinotfs/guidfs/sfdurity/jgss/tutoribls/indfx.itml">Introdudtion to JAAS bnd Jbvb GSS-API</b>.
+<b irff="../../../../tfdinotfs/guidfs/sfdurity/jgss/tutoribls/indfx.itml">Introdudtion to JAAS bnd Jbvb GSS-API</b>.
+<b irff="../../../../tfdinotfs/guidfs/sfdurity/jgss/tutoribls/indfx.itml">Introdudtion to JAAS bnd Jbvb GSS-API</b>.
+<b irff="../../../../tfdinotfs/guidfs/sfdurity/jgss/tutoribls/indfx.itml">Introdudtion to JAAS bnd Jbvb GSS-API</b>.
+</p>
+</p>
+</p>
+</p>
+</p>
+
+
+
+
+
+<!--
+<!--
+<!--
+<!--
+<!--
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
+
+
+
+
+
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+<ul>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
+
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+<i2>Rflbtfd Dodumfntbtion</i2>
+
+
+
+
+
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+<ul>
+<ul>
+<ul>
+<ul>
+<ul>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+
+
+
+
+
+-->
+-->
+-->
+-->
+-->
+
+
+
+
+
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
 @sindf 1.4
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

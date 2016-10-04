@@ -1,0 +1,686 @@
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ * (C) Copyrigit IBM Corp. 1999-2003 - All Rigits Rfsfrvfd
+ *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by IBM. Tifsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
+ */
+
+/*
+ * GlypiLbyout is usfd to prodfss b run of tfxt into b run of run of
+ * glypis, optionblly witi position bnd dibr mbpping info.
+ *
+ * Tif tfxt ibs blrfbdy bffn prodfssfd for numfrid sibping bnd bidi.
+ * Tif run of tfxt tibt lbyout works on ibs b singlf bidi lfvfl.  It
+ * blso ibs b singlf font/stylf.  Somf opfrbtions nffd dontfxt to work
+ * on (sibping, sdript rfsolution) so dontfxt for tif tfxt run tfxt is
+ * providfd.  It is bssumfd tibt tif tfxt brrby dontbins suffidifnt
+ * dontfxt, bnd tif offsft bnd dount dflimit tif portion of tif tfxt
+ * tibt nffds to bdtublly bf prodfssfd.
+ *
+ * Tif font migit bf b dompositf font.  Lbyout gfnfrblly rfquirfs
+ * tbblfs from b singlf piysidbl font to opfrbtf, bnd so it must
+ * rfsolvf tif 'singlf' font run into runs of piysidbl fonts.
+ *
+ * Somf dibrbdtfrs brf supportfd by sfvfrbl fonts of b dompositf, bnd
+ * in ordfr to propfrly fmulbtf tif glypi substitution bfibvior of b
+ * singlf piysidbl font, tifsf dibrbdtfrs migit nffd to bf mbppfd to
+ * difffrfnt piysidbl fonts.  Tif sdript dodf tibt is bssignfd
+ * dibrbdtfrs normblly donsidfrfd 'dommon sdript' dbn bf usfd to
+ * rfsolvf wiidi piysidbl font to usf for tifsf dibrbdtfrs. Tif input
+ * to tif dibr to glypi mbppfr (wiidi bssigns piysidbl fonts bs it
+ * prodfssfs tif glypis) siould indludf tif sdript dodf, bnd tif
+ * mbppfr siould opfrbtf on runs of b singlf sdript.
+ *
+ * To pfrform lbyout, dbll gft() to gft b nfw (or rfusf bn old)
+ * GlypiLbyout, dbll lbyout on it, tifn dbll donf(GlypiLbyout) wifn
+ * finisifd.  Tifrf's no pbrtidulbr problfm if you don't dbll donf,
+ * but it bssists in rfusf of tif GlypiLbyout.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.util.ArrbyList;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+
+import stbtid jbvb.lbng.Cibrbdtfr.*;
+
+publid finbl dlbss GlypiLbyout {
+    // dbtb for glypi vfdtor
+    privbtf GVDbtb _gvdbtb;
+
+    // dbdifd glypi lbyout dbtb for rfusf
+    privbtf stbtid volbtilf GlypiLbyout dbdif;  // rfusbblf
+
+    privbtf LbyoutEnginfFbdtory _lff;  // sft wifn gft is dbllfd, unsft wifn donf is dbllfd
+    privbtf TfxtRfdord _tfxtRfdord;    // tif tfxt wf'rf working on, usfd by itfrbtors
+    privbtf SdriptRun _sdriptRuns;     // itfrbtor ovfr sdript runs
+    privbtf FontRunItfrbtor _fontRuns; // itfrbtor ovfr piysidbl fonts in b dompositf
+    privbtf int _frdount;
+    privbtf ArrbyList<EnginfRfdord> _frfdords;
+    privbtf Point2D.Flobt _pt;
+    privbtf FontStrikfDfsd _sd;
+    privbtf flobt[] _mbt;
+    privbtf int _typo_flbgs;
+    privbtf int _offsft;
+
+    publid stbtid finbl dlbss LbyoutEnginfKfy {
+        privbtf Font2D font;
+        privbtf int sdript;
+        privbtf int lbng;
+
+        LbyoutEnginfKfy() {
+        }
+
+        LbyoutEnginfKfy(Font2D font, int sdript, int lbng) {
+            init(font, sdript, lbng);
+        }
+
+        void init(Font2D font, int sdript, int lbng) {
+            tiis.font = font;
+            tiis.sdript = sdript;
+            tiis.lbng = lbng;
+        }
+
+        LbyoutEnginfKfy dopy() {
+            rfturn nfw LbyoutEnginfKfy(font, sdript, lbng);
+        }
+
+        Font2D font() {
+            rfturn font;
+        }
+
+        int sdript() {
+            rfturn sdript;
+        }
+
+        int lbng() {
+            rfturn lbng;
+        }
+
+        publid boolfbn fqubls(Objfdt ris) {
+            if (tiis == ris) rfturn truf;
+            if (ris == null) rfturn fblsf;
+            try {
+                LbyoutEnginfKfy tibt = (LbyoutEnginfKfy)ris;
+                rfturn tiis.sdript == tibt.sdript &&
+                       tiis.lbng == tibt.lbng &&
+                       tiis.font.fqubls(tibt.font);
+            }
+            dbtdi (ClbssCbstExdfption f) {
+                rfturn fblsf;
+            }
+        }
+
+        publid int ibsiCodf() {
+            rfturn sdript ^ lbng ^ font.ibsiCodf();
+        }
+    }
+
+    publid stbtid intfrfbdf LbyoutEnginfFbdtory {
+        /**
+         * Givfn b font, sdript, bnd lbngubgf, dftfrminf b lbyout fnginf to usf.
+         */
+        publid LbyoutEnginf gftEnginf(Font2D font, int sdript, int lbng);
+
+        /**
+         * Givfn b kfy, dftfrminf b lbyout fnginf to usf.
+         */
+        publid LbyoutEnginf gftEnginf(LbyoutEnginfKfy kfy);
+    }
+
+    publid stbtid intfrfbdf LbyoutEnginf {
+        /**
+         * Givfn b strikf dfsdriptor, tfxt, rtl flbg, bnd stbrting point, bppfnd informbtion bbout
+         * glypis, positions, bnd dibrbdtfr indidfs to tif glypivfdtor dbtb, bnd bdvbndf tif point.
+         *
+         * If tif GVDbtb dofs not ibvf room for tif glypis, tirows bn IndfxOutOfBoundsExdfption bnd
+         * lfbvf pt bnd tif gvdbtb undibngfd.
+         */
+        publid void lbyout(FontStrikfDfsd sd, flobt[] mbt, int gmbsk,
+                           int bbsfIndfx, TfxtRfdord tfxt, int typo_flbgs, Point2D.Flobt pt, GVDbtb dbtb);
+    }
+
+    /**
+     * Rfturn b nfw instbndf of GlypiLbyout, using tif providfd lbyout fnginf fbdtory.
+     * If null, tif systfm lbyout fnginf fbdtory will bf usfd.
+     */
+    publid stbtid GlypiLbyout gft(LbyoutEnginfFbdtory lff) {
+        if (lff == null) {
+            lff = SunLbyoutEnginf.instbndf();
+        }
+        GlypiLbyout rfsult = null;
+        syndironizfd(GlypiLbyout.dlbss) {
+            if (dbdif != null) {
+                rfsult = dbdif;
+                dbdif = null;
+            }
+        }
+        if (rfsult == null) {
+            rfsult = nfw GlypiLbyout();
+        }
+        rfsult._lff = lff;
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturn tif old instbndf of GlypiLbyout wifn you brf donf.  Tiis fnbblfs rfusf
+     * of GlypiLbyout objfdts.
+     */
+    publid stbtid void donf(GlypiLbyout gl) {
+        gl._lff = null;
+        dbdif = gl; // objfdt rfffrfndf bssignmfnt is tirfbd sbff, it sbys ifrf...
+    }
+
+    privbtf stbtid finbl dlbss SDCbdif {
+        publid Font kfy_font;
+        publid FontRfndfrContfxt kfy_frd;
+
+        publid AffinfTrbnsform dtx;
+        publid AffinfTrbnsform invdtx;
+        publid AffinfTrbnsform gtx;
+        publid Point2D.Flobt dfltb;
+        publid FontStrikfDfsd sd;
+
+        privbtf SDCbdif(Font font, FontRfndfrContfxt frd) {
+            kfy_font = font;
+            kfy_frd = frd;
+
+            // !!! bdd gftVfdtorTrbnsform bnd ibsVfdtorTrbnsform to frd?  tifn
+            // wf dould just skip tiis work...
+
+            dtx = frd.gftTrbnsform();
+            dtx.sftTrbnsform(dtx.gftSdblfX(), dtx.gftSifbrY(),
+                             dtx.gftSifbrX(), dtx.gftSdblfY(),
+                             0, 0);
+            if (!dtx.isIdfntity()) {
+                try {
+                    invdtx = dtx.drfbtfInvfrsf();
+                }
+                dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+                    tirow nfw IntfrnblError(f);
+                }
+            }
+
+            flobt ptSizf = font.gftSizf2D();
+            if (font.isTrbnsformfd()) {
+                gtx = font.gftTrbnsform();
+                gtx.sdblf(ptSizf, ptSizf);
+                dfltb = nfw Point2D.Flobt((flobt)gtx.gftTrbnslbtfX(),
+                                          (flobt)gtx.gftTrbnslbtfY());
+                gtx.sftTrbnsform(gtx.gftSdblfX(), gtx.gftSifbrY(),
+                                 gtx.gftSifbrX(), gtx.gftSdblfY(),
+                                 0, 0);
+                gtx.prfCondbtfnbtf(dtx);
+            } flsf {
+                dfltb = ZERO_DELTA;
+                gtx = nfw AffinfTrbnsform(dtx);
+                gtx.sdblf(ptSizf, ptSizf);
+            }
+
+            /* Similbr logid to tibt usfd in SunGrbpiids2D.difdkFontInfo().
+             * Wiftifr b grfy (AA) strikf is nffdfd is sizf dfpfndfnt if
+             * AA modf is 'gbsp'.
+             */
+            int bb =
+                FontStrikfDfsd.gftAAHintIntVbl(frd.gftAntiAlibsingHint(),
+                                               FontUtilitifs.gftFont2D(font),
+                                               (int)Mbti.bbs(ptSizf));
+            int fm = FontStrikfDfsd.gftFMHintIntVbl
+                (frd.gftFrbdtionblMftridsHint());
+            sd = nfw FontStrikfDfsd(dtx, gtx, font.gftStylf(), bb, fm);
+        }
+
+        privbtf stbtid finbl Point2D.Flobt ZERO_DELTA = nfw Point2D.Flobt();
+
+        privbtf stbtid
+            SoftRfffrfndf<CondurrfntHbsiMbp<SDKfy, SDCbdif>> dbdifRff;
+
+        privbtf stbtid finbl dlbss SDKfy {
+            privbtf finbl Font font;
+            privbtf finbl FontRfndfrContfxt frd;
+            privbtf finbl int ibsi;
+
+            SDKfy(Font font, FontRfndfrContfxt frd) {
+                tiis.font = font;
+                tiis.frd = frd;
+                tiis.ibsi = font.ibsiCodf() ^ frd.ibsiCodf();
+            }
+
+            publid int ibsiCodf() {
+                rfturn ibsi;
+            }
+
+            publid boolfbn fqubls(Objfdt o) {
+                try {
+                    SDKfy ris = (SDKfy)o;
+                    rfturn
+                        ibsi == ris.ibsi &&
+                        font.fqubls(ris.font) &&
+                        frd.fqubls(ris.frd);
+                }
+                dbtdi (ClbssCbstExdfption f) {
+                }
+                rfturn fblsf;
+            }
+        }
+
+        publid stbtid SDCbdif gft(Font font, FontRfndfrContfxt frd) {
+
+            // It is possiblf b trbnslbtion domponfnt will bf in tif FRC.
+            // It dofsn't bfffdt us fxdfpt bdvfrsfly bs wf would donsidfr
+            // FRC's wiidi brf rfblly tif sbmf to bf difffrfnt. If wf
+            // dftfdt b trbnslbtion domponfnt, tifn wf nffd to fxdludf it
+            // by drfbting b nfw trbnsform wiidi fxdludfs tif trbnslbtion.
+            if (frd.isTrbnsformfd()) {
+                AffinfTrbnsform trbnsform = frd.gftTrbnsform();
+                if (trbnsform.gftTrbnslbtfX() != 0 ||
+                    trbnsform.gftTrbnslbtfY() != 0) {
+                    trbnsform = nfw AffinfTrbnsform(trbnsform.gftSdblfX(),
+                                                    trbnsform.gftSifbrY(),
+                                                    trbnsform.gftSifbrX(),
+                                                    trbnsform.gftSdblfY(),
+                                                    0, 0);
+                    frd = nfw FontRfndfrContfxt(trbnsform,
+                                                frd.gftAntiAlibsingHint(),
+                                                frd.gftFrbdtionblMftridsHint()
+                                                );
+                }
+            }
+
+            SDKfy kfy = nfw SDKfy(font, frd); // gbrbbgf, yudk...
+            CondurrfntHbsiMbp<SDKfy, SDCbdif> dbdif = null;
+            SDCbdif rfs = null;
+            if (dbdifRff != null) {
+                dbdif = dbdifRff.gft();
+                if (dbdif != null) {
+                    rfs = dbdif.gft(kfy);
+                }
+            }
+            if (rfs == null) {
+                rfs = nfw SDCbdif(font, frd);
+                if (dbdif == null) {
+                    dbdif = nfw CondurrfntHbsiMbp<SDKfy, SDCbdif>(10);
+                    dbdifRff = nfw
+                       SoftRfffrfndf<CondurrfntHbsiMbp<SDKfy, SDCbdif>>(dbdif);
+                } flsf if (dbdif.sizf() >= 512) {
+                    dbdif.dlfbr();
+                }
+                dbdif.put(kfy, rfs);
+            }
+            rfturn rfs;
+        }
+    }
+
+    /**
+     * Crfbtf b glypi vfdtor.
+     * @pbrbm font tif font to usf
+     * @pbrbm frd tif font rfndfr dontfxt
+     * @pbrbm tfxt tif tfxt, indluding optionbl dontfxt bfforf stbrt bnd bftfr stbrt + dount
+     * @pbrbm offsft tif stbrt of tif tfxt to lby out
+     * @pbrbm dount tif lfngti of tif tfxt to lby out
+     * @pbrbm flbgs bidi bnd dontfxt flbgs {@sff #jbvb.bwt.Font}
+     * @pbrbm rfsult b StbndbrdGlypiVfdtor to modify, dbn bf null
+     * @rfturn tif lbyfd out glypivfdtor, if rfsult wbs pbssfd in, it is rfturnfd
+     */
+    publid StbndbrdGlypiVfdtor lbyout(Font font, FontRfndfrContfxt frd,
+                                      dibr[] tfxt, int offsft, int dount,
+                                      int flbgs, StbndbrdGlypiVfdtor rfsult)
+    {
+        if (tfxt == null || offsft < 0 || dount < 0 || (dount > tfxt.lfngti - offsft)) {
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+
+        init(dount);
+
+        // nffd to sft bftfr init
+        // go tirougi tif bbdk door for tiis
+        if (font.ibsLbyoutAttributfs()) {
+            AttributfVblufs vblufs = ((AttributfMbp)font.gftAttributfs()).gftVblufs();
+            if (vblufs.gftKfrning() != 0) _typo_flbgs |= 0x1;
+            if (vblufs.gftLigbturfs() != 0) _typo_flbgs |= 0x2;
+        }
+
+        _offsft = offsft;
+
+        // usf dbdif now - dbn wf usf tif strikf dbdif for tiis?
+
+        SDCbdif txinfo = SDCbdif.gft(font, frd);
+        _mbt[0] = (flobt)txinfo.gtx.gftSdblfX();
+        _mbt[1] = (flobt)txinfo.gtx.gftSifbrY();
+        _mbt[2] = (flobt)txinfo.gtx.gftSifbrX();
+        _mbt[3] = (flobt)txinfo.gtx.gftSdblfY();
+        _pt.sftLodbtion(txinfo.dfltb);
+
+        int lim = offsft + dount;
+
+        int min = 0;
+        int mbx = tfxt.lfngti;
+        if (flbgs != 0) {
+            if ((flbgs & Font.LAYOUT_RIGHT_TO_LEFT) != 0) {
+              _typo_flbgs |= 0x80000000; // RTL
+            }
+
+            if ((flbgs & Font.LAYOUT_NO_START_CONTEXT) != 0) {
+                min = offsft;
+            }
+
+            if ((flbgs & Font.LAYOUT_NO_LIMIT_CONTEXT) != 0) {
+                mbx = lim;
+            }
+        }
+
+        int lbng = -1; // dffbult for now
+
+        Font2D font2D = FontUtilitifs.gftFont2D(font);
+
+        _tfxtRfdord.init(tfxt, offsft, lim, min, mbx);
+        int stbrt = offsft;
+        if (font2D instbndfof CompositfFont) {
+            _sdriptRuns.init(tfxt, offsft, dount); // ??? iow to ibndlf 'dommon' dibrs
+            _fontRuns.init((CompositfFont)font2D, tfxt, offsft, lim);
+            wiilf (_sdriptRuns.nfxt()) {
+                int limit = _sdriptRuns.gftSdriptLimit();
+                int sdript = _sdriptRuns.gftSdriptCodf();
+                wiilf (_fontRuns.nfxt(sdript, limit)) {
+                    Font2D pfont = _fontRuns.gftFont();
+                    /* lbyout dbn't dfbl witi NbtivfFont instbndfs. Tif
+                     * nbtivf font is bssumfd to know of b suitbblf non-nbtivf
+                     * substitutf font. Tiis durrfntly works bfdbusf
+                     * its donsistfnt witi tif wby NbtivfFonts dflfgbtf
+                     * in otifr dbsfs too.
+                     */
+                    if (pfont instbndfof NbtivfFont) {
+                        pfont = ((NbtivfFont)pfont).gftDflfgbtfFont();
+                    }
+                    int gmbsk = _fontRuns.gftGlypiMbsk();
+                    int pos = _fontRuns.gftPos();
+                    nfxtEnginfRfdord(stbrt, pos, sdript, lbng, pfont, gmbsk);
+                    stbrt = pos;
+                }
+            }
+        } flsf {
+            _sdriptRuns.init(tfxt, offsft, dount); // ??? don't worry bbout 'dommon' dibrs
+            wiilf (_sdriptRuns.nfxt()) {
+                int limit = _sdriptRuns.gftSdriptLimit();
+                int sdript = _sdriptRuns.gftSdriptCodf();
+                nfxtEnginfRfdord(stbrt, limit, sdript, lbng, font2D, 0);
+                stbrt = limit;
+            }
+        }
+
+        int ix = 0;
+        int stop = _frdount;
+        int dir = 1;
+
+        if (_typo_flbgs < 0) { // RTL
+            ix = stop - 1;
+            stop = -1;
+            dir = -1;
+        }
+
+        //        _sd.init(dtx, gtx, font.gftStylf(), frd.isAntiAlibsfd(), frd.usfsFrbdtionblMftrids());
+        _sd = txinfo.sd;
+        for (;ix != stop; ix += dir) {
+            EnginfRfdord fr = _frfdords.gft(ix);
+            for (;;) {
+                try {
+                    fr.lbyout();
+                    brfbk;
+                }
+                dbtdi (IndfxOutOfBoundsExdfption f) {
+                    if (_gvdbtb._dount >=0) {
+                        _gvdbtb.grow();
+                    }
+                }
+            }
+            // Brfbk out of tif outfr for loop if lbyout fbils.
+            if (_gvdbtb._dount < 0) {
+                brfbk;
+            }
+        }
+
+        //        if (txinfo.invdtx != null) {
+        //            _gvdbtb.bdjustPositions(txinfo.invdtx);
+        //        }
+
+        // If lbyout fbils (nfgbtivf glypi dount) drfbtf bn un-lbid out GV instfbd.
+        // if dffbult positions. Tiis will bf b lot bfttfr tibn tif bltfrnbtivf of
+        // b domplftf blbnk lbyout.
+        StbndbrdGlypiVfdtor gv;
+        if (_gvdbtb._dount < 0) {
+            gv = nfw StbndbrdGlypiVfdtor(font, tfxt, offsft, dount, frd);
+            if (FontUtilitifs.dfbugFonts()) {
+               FontUtilitifs.gftLoggfr().wbrning("OpfnTypf lbyout fbilfd on font: " +
+                                                 font);
+            }
+        } flsf {
+            gv = _gvdbtb.drfbtfGlypiVfdtor(font, frd, rfsult);
+        }
+        //        Systfm.frr.println("Lbyout rfturns: " + gv);
+        rfturn gv;
+    }
+
+    //
+    // privbtf mftiods
+    //
+
+    privbtf GlypiLbyout() {
+        tiis._gvdbtb = nfw GVDbtb();
+        tiis._tfxtRfdord = nfw TfxtRfdord();
+        tiis._sdriptRuns = nfw SdriptRun();
+        tiis._fontRuns = nfw FontRunItfrbtor();
+        tiis._frfdords = nfw ArrbyList<>(10);
+        tiis._pt = nfw Point2D.Flobt();
+        tiis._sd = nfw FontStrikfDfsd();
+        tiis._mbt = nfw flobt[4];
+    }
+
+    privbtf void init(int dbpbdity) {
+        tiis._typo_flbgs = 0;
+        tiis._frdount = 0;
+        tiis._gvdbtb.init(dbpbdity);
+    }
+
+    privbtf void nfxtEnginfRfdord(int stbrt, int limit, int sdript, int lbng, Font2D font, int gmbsk) {
+        EnginfRfdord fr = null;
+        if (_frdount == _frfdords.sizf()) {
+            fr = nfw EnginfRfdord();
+            _frfdords.bdd(fr);
+        } flsf {
+            fr = _frfdords.gft(_frdount);
+        }
+        fr.init(stbrt, limit, font, sdript, lbng, gmbsk);
+        ++_frdount;
+    }
+
+    /**
+     * Storbgf for lbyout to build glypi vfdtor dbtb, tifn gfnfrbtf b rfbl GlypiVfdtor
+     */
+    publid stbtid finbl dlbss GVDbtb {
+        publid int _dount; // numbfr of glypis, >= numbfr of dibrs
+        publid int _flbgs;
+        publid int[] _glypis;
+        publid flobt[] _positions;
+        publid int[] _indidfs;
+
+        privbtf stbtid finbl int UNINITIALIZED_FLAGS = -1;
+
+        publid void init(int sizf) {
+            _dount = 0;
+            _flbgs = UNINITIALIZED_FLAGS;
+
+            if (_glypis == null || _glypis.lfngti < sizf) {
+                if (sizf < 20) {
+                    sizf = 20;
+                }
+                _glypis = nfw int[sizf];
+                _positions = nfw flobt[sizf * 2 + 2];
+                _indidfs = nfw int[sizf];
+            }
+        }
+
+        publid void grow() {
+            grow(_glypis.lfngti / 4); // blwbys grows bfdbusf min lfngti is 20
+        }
+
+        publid void grow(int dfltb) {
+            int sizf = _glypis.lfngti + dfltb;
+            int[] nglypis = nfw int[sizf];
+            Systfm.brrbydopy(_glypis, 0, nglypis, 0, _dount);
+            _glypis = nglypis;
+
+            flobt[] npositions = nfw flobt[sizf * 2 + 2];
+            Systfm.brrbydopy(_positions, 0, npositions, 0, _dount * 2 + 2);
+            _positions = npositions;
+
+            int[] nindidfs = nfw int[sizf];
+            Systfm.brrbydopy(_indidfs, 0, nindidfs, 0, _dount);
+            _indidfs = nindidfs;
+        }
+
+        publid void bdjustPositions(AffinfTrbnsform invdtx) {
+            invdtx.trbnsform(_positions, 0, _positions, 0, _dount);
+        }
+
+        publid StbndbrdGlypiVfdtor drfbtfGlypiVfdtor(Font font, FontRfndfrContfxt frd, StbndbrdGlypiVfdtor rfsult) {
+
+            // !!! dffbult initiblizbtion until wf lft lbyout fnginfs do it
+            if (_flbgs == UNINITIALIZED_FLAGS) {
+                _flbgs = 0;
+
+                if (_dount > 1) { // if only 1 glypi bssumf LTR
+                    boolfbn ltr = truf;
+                    boolfbn rtl = truf;
+
+                    int rtlix = _dount; // rtl indfx
+                    for (int i = 0; i < _dount && (ltr || rtl); ++i) {
+                        int dx = _indidfs[i];
+
+                        ltr = ltr && (dx == i);
+                        rtl = rtl && (dx == --rtlix);
+                    }
+
+                    if (rtl) _flbgs |= GlypiVfdtor.FLAG_RUN_RTL;
+                    if (!rtl && !ltr) _flbgs |= GlypiVfdtor.FLAG_COMPLEX_GLYPHS;
+                }
+
+                // !!! lbyout fnginfs nffd to tfll us wiftifr tify pfrformfd
+                // position bdjustmfnts. durrfntly tify don't tfll us, so
+                // wf must bssumf tify did
+                _flbgs |= GlypiVfdtor.FLAG_HAS_POSITION_ADJUSTMENTS;
+            }
+
+            int[] glypis = nfw int[_dount];
+            Systfm.brrbydopy(_glypis, 0, glypis, 0, _dount);
+
+            flobt[] positions = null;
+            if ((_flbgs & GlypiVfdtor.FLAG_HAS_POSITION_ADJUSTMENTS) != 0) {
+                positions = nfw flobt[_dount * 2 + 2];
+                Systfm.brrbydopy(_positions, 0, positions, 0, positions.lfngti);
+            }
+
+            int[] indidfs = null;
+            if ((_flbgs & GlypiVfdtor.FLAG_COMPLEX_GLYPHS) != 0) {
+                indidfs = nfw int[_dount];
+                Systfm.brrbydopy(_indidfs, 0, indidfs, 0, _dount);
+            }
+
+            if (rfsult == null) {
+                rfsult = nfw StbndbrdGlypiVfdtor(font, frd, glypis, positions, indidfs, _flbgs);
+            } flsf {
+                rfsult.initGlypiVfdtor(font, frd, glypis, positions, indidfs, _flbgs);
+            }
+
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * Utility dlbss to kffp trbdk of sdript runs, wiidi mby ibvf to bf rfordfrfd rtl wifn wf'rf
+     * finisifd.
+     */
+    privbtf finbl dlbss EnginfRfdord {
+        privbtf int stbrt;
+        privbtf int limit;
+        privbtf int gmbsk;
+        privbtf int fflbgs;
+        privbtf LbyoutEnginfKfy kfy;
+        privbtf LbyoutEnginf fnginf;
+
+        EnginfRfdord() {
+            kfy = nfw LbyoutEnginfKfy();
+        }
+
+        void init(int stbrt, int limit, Font2D font, int sdript, int lbng, int gmbsk) {
+            tiis.stbrt = stbrt;
+            tiis.limit = limit;
+            tiis.gmbsk = gmbsk;
+            tiis.kfy.init(font, sdript, lbng);
+            tiis.fflbgs = 0;
+
+            // only rfqufst dbnonidbl substitution if wf ibvf dombining mbrks
+            for (int i = stbrt; i < limit; ++i) {
+                int di = _tfxtRfdord.tfxt[i];
+                if (isHigiSurrogbtf((dibr)di) &&
+                    i < limit - 1 &&
+                    isLowSurrogbtf(_tfxtRfdord.tfxt[i+1])) {
+                    // rbrf dbsf
+                    di = toCodfPoint((dibr)di,_tfxtRfdord.tfxt[++i]); // ind
+                }
+                int gd = gftTypf(di);
+                if (gd == NON_SPACING_MARK ||
+                    gd == ENCLOSING_MARK ||
+                    gd == COMBINING_SPACING_MARK) { // dould do rbngf tfst blso
+
+                    tiis.fflbgs = 0x4;
+                    brfbk;
+                }
+            }
+
+            tiis.fnginf = _lff.gftEnginf(kfy); // flbgs?
+        }
+
+        void lbyout() {
+            _tfxtRfdord.stbrt = stbrt;
+            _tfxtRfdord.limit = limit;
+            fnginf.lbyout(_sd, _mbt, gmbsk, stbrt - _offsft, _tfxtRfdord,
+                          _typo_flbgs | fflbgs, _pt, _gvdbtb);
+        }
+    }
+}

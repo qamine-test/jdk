@@ -1,0 +1,116 @@
+/*
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * An input strfbm tibt blso mbintbins b difdksum of tif dbtb bfing rfbd.
+ * Tif difdksum dbn tifn bf usfd to vfrify tif intfgrity of tif input dbtb.
+ *
+ * @sff         Cifdksum
+ * @butior      Dbvid Connflly
+ */
+publid
+dlbss CifdkfdInputStrfbm fxtfnds FiltfrInputStrfbm {
+    privbtf Cifdksum dksum;
+
+    /**
+     * Crfbtfs bn input strfbm using tif spfdififd Cifdksum.
+     * @pbrbm in tif input strfbm
+     * @pbrbm dksum tif Cifdksum
+     */
+    publid CifdkfdInputStrfbm(InputStrfbm in, Cifdksum dksum) {
+        supfr(in);
+        tiis.dksum = dksum;
+    }
+
+    /**
+     * Rfbds b bytf. Will blodk if no input is bvbilbblf.
+     * @rfturn tif bytf rfbd, or -1 if tif fnd of tif strfbm is rfbdifd.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     */
+    publid int rfbd() tirows IOExdfption {
+        int b = in.rfbd();
+        if (b != -1) {
+            dksum.updbtf(b);
+        }
+        rfturn b;
+    }
+
+    /**
+     * Rfbds into bn brrby of bytfs. If <dodf>lfn</dodf> is not zfro, tif mftiod
+     * blodks until somf input is bvbilbblf; otifrwisf, no
+     * bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     * @pbrbm buf tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm off tif stbrt offsft in tif dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm lfn tif mbximum numbfr of bytfs rfbd
+     * @rfturn    tif bdtubl numbfr of bytfs rfbd, or -1 if tif fnd
+     *            of tif strfbm is rfbdifd.
+     * @fxdfption  NullPointfrExdfption If <dodf>buf</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>buf.lfngti - off</dodf>
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     */
+    publid int rfbd(bytf[] buf, int off, int lfn) tirows IOExdfption {
+        lfn = in.rfbd(buf, off, lfn);
+        if (lfn != -1) {
+            dksum.updbtf(buf, off, lfn);
+        }
+        rfturn lfn;
+    }
+
+    /**
+     * Skips spfdififd numbfr of bytfs of input.
+     * @pbrbm n tif numbfr of bytfs to skip
+     * @rfturn tif bdtubl numbfr of bytfs skippfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     */
+    publid long skip(long n) tirows IOExdfption {
+        bytf[] buf = nfw bytf[512];
+        long totbl = 0;
+        wiilf (totbl < n) {
+            long lfn = n - totbl;
+            lfn = rfbd(buf, 0, lfn < buf.lfngti ? (int)lfn : buf.lfngti);
+            if (lfn == -1) {
+                rfturn totbl;
+            }
+            totbl += lfn;
+        }
+        rfturn totbl;
+    }
+
+    /**
+     * Rfturns tif Cifdksum for tiis input strfbm.
+     * @rfturn tif Cifdksum vbluf
+     */
+    publid Cifdksum gftCifdksum() {
+        rfturn dksum;
+    }
+}

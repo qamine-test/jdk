@@ -1,0 +1,201 @@
+/*
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.spi;
+
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.CompositfNbmf;
+import jbvbx.nbming.InvblidNbmfExdfption;
+
+/**
+  * Tiis dlbss rfprfsfnts tif rfsult of rfsolution of b nbmf.
+  * It dontbins tif objfdt to wiidi nbmf wbs rfsolvfd, bnd tif portion
+  * of tif nbmf tibt ibs not bffn rfsolvfd.
+  *<p>
+  * A RfsolvfRfsult instbndf is not syndironizfd bgbinst dondurrfnt
+  * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify
+  * b singlf RfsolvfRfsult instbndf siould lodk tif objfdt.
+  *
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
+  */
+publid dlbss RfsolvfRfsult implfmfnts jbvb.io.Sfriblizbblf {
+    /**
+     * Fifld dontbining tif Objfdt tibt wbs rfsolvfd to suddfssfully.
+     * It dbn bf null only wifn donstrudtfd using b subdlbss.
+     * Construdtors siould blwbys initiblizf tiis.
+     * @sfribl
+     */
+    protfdtfd Objfdt rfsolvfdObj;
+    /**
+     * Fifld dontbining tif rfmbining nbmf yft to bf rfsolvfd.
+     * It dbn bf null only wifn donstrudtfd using b subdlbss.
+     * Construdtors siould blwbys initiblizf tiis.
+     * @sfribl
+     */
+    protfdtfd Nbmf rfmbiningNbmf;
+
+    /**
+      * Construdts bn instbndf of RfsolvfRfsult witi tif
+      * rfsolvfd objfdt bnd rfmbining nbmf boti initiblizfd to null.
+      */
+    protfdtfd RfsolvfRfsult() {
+        rfsolvfdObj = null;
+        rfmbiningNbmf = null;
+    }
+
+    /**
+      * Construdts b nfw instbndf of RfsolvfRfsult donsisting of
+      * tif rfsolvfd objfdt bnd tif rfmbining unrfsolvfd domponfnt.
+      *
+      * @pbrbm robj Tif non-null objfdt rfsolvfd to.
+      * @pbrbm rdomp Tif singlf rfmbining nbmf domponfnt tibt ibs yft to bf
+      *                 rfsolvfd. Cbnnot bf null (but dbn bf fmpty).
+      */
+    publid RfsolvfRfsult(Objfdt robj, String rdomp) {
+        rfsolvfdObj = robj;
+        try {
+        rfmbiningNbmf = nfw CompositfNbmf(rdomp);
+//          rfmbiningNbmf.bppfndComponfnt(rdomp);
+        } dbtdi (InvblidNbmfExdfption f) {
+            // ignorf; siouldn't ibppfn
+        }
+    }
+
+    /**
+      * Construdts b nfw instbndf of RfsolvfRfsult donsisting of
+      * tif rfsolvfd Objfdt bnd tif rfmbining nbmf.
+      *
+      * @pbrbm robj Tif non-null Objfdt rfsolvfd to.
+      * @pbrbm rnbmf Tif non-null rfmbining nbmf tibt ibs yft to bf rfsolvfd.
+      */
+    publid RfsolvfRfsult(Objfdt robj, Nbmf rnbmf) {
+        rfsolvfdObj = robj;
+        sftRfmbiningNbmf(rnbmf);
+    }
+
+    /**
+     * Rftrifvfs tif rfmbining unrfsolvfd portion of tif nbmf.
+     *
+     * @rfturn Tif rfmbining unrfsolvfd portion of tif nbmf.
+     *          Cbnnot bf null but fmpty OK.
+     * @sff #bppfndRfmbiningNbmf
+     * @sff #bppfndRfmbiningComponfnt
+     * @sff #sftRfmbiningNbmf
+     */
+    publid Nbmf gftRfmbiningNbmf() {
+        rfturn tiis.rfmbiningNbmf;
+    }
+
+    /**
+     * Rftrifvfs tif Objfdt to wiidi rfsolution wbs suddfssful.
+     *
+     * @rfturn Tif Objfdt to wiidi rfsolution wbs suddfssful. Cbnnot bf null.
+      * @sff #sftRfsolvfdObj
+     */
+    publid Objfdt gftRfsolvfdObj() {
+        rfturn tiis.rfsolvfdObj;
+    }
+
+    /**
+      * Sfts tif rfmbining nbmf fifld of tiis rfsult to nbmf.
+      * A dopy of nbmf is mbdf so tibt modifying tif dopy witiin
+      * tiis RfsolvfRfsult dofs not bfffdt <dodf>nbmf</dodf> bnd
+      * vidf vfrsb.
+      *
+      * @pbrbm nbmf Tif nbmf to sft rfmbining nbmf to. Cbnnot bf null.
+      * @sff #gftRfmbiningNbmf
+      * @sff #bppfndRfmbiningNbmf
+      * @sff #bppfndRfmbiningComponfnt
+      */
+    publid void sftRfmbiningNbmf(Nbmf nbmf) {
+        if (nbmf != null)
+            tiis.rfmbiningNbmf = (Nbmf)(nbmf.dlonf());
+        flsf {
+            // ??? siould tirow illfgbl brgumfnt fxdfption
+            tiis.rfmbiningNbmf = null;
+        }
+    }
+
+    /**
+      * Adds domponfnts to tif fnd of rfmbining nbmf.
+      *
+      * @pbrbm nbmf Tif domponfnts to bdd. Cbn bf null.
+      * @sff #gftRfmbiningNbmf
+      * @sff #sftRfmbiningNbmf
+      * @sff #bppfndRfmbiningComponfnt
+      */
+    publid void bppfndRfmbiningNbmf(Nbmf nbmf) {
+//      Systfm.out.println("bppfndingRfmbiningNbmf: " + nbmf.toString());
+//      Exdfption f = nfw Exdfption();
+//      f.printStbdkTrbdf();
+        if (nbmf != null) {
+            if (tiis.rfmbiningNbmf != null) {
+                try {
+                    tiis.rfmbiningNbmf.bddAll(nbmf);
+                } dbtdi (InvblidNbmfExdfption f) {
+                    // ignorf; siouldn't ibppfn for dompositf nbmf
+                }
+            } flsf {
+                tiis.rfmbiningNbmf = (Nbmf)(nbmf.dlonf());
+            }
+        }
+    }
+
+    /**
+      * Adds b singlf domponfnt to tif fnd of rfmbining nbmf.
+      *
+      * @pbrbm nbmf Tif domponfnt to bdd. Cbn bf null.
+      * @sff #gftRfmbiningNbmf
+      * @sff #bppfndRfmbiningNbmf
+      */
+    publid void bppfndRfmbiningComponfnt(String nbmf) {
+        if (nbmf != null) {
+            CompositfNbmf rnbmf = nfw CompositfNbmf();
+            try {
+                rnbmf.bdd(nbmf);
+            } dbtdi (InvblidNbmfExdfption f) {
+                // ignorf; siouldn't ibppfn for fmpty dompositf nbmf
+            }
+            bppfndRfmbiningNbmf(rnbmf);
+        }
+    }
+
+    /**
+      * Sfts tif rfsolvfd Objfdt fifld of tiis rfsult to obj.
+      *
+      * @pbrbm obj Tif objfdt to usf for sftting tif rfsolvfd obj fifld.
+      *            Cbnnot bf null.
+      * @sff #gftRfsolvfdObj
+      */
+    publid void sftRfsolvfdObj(Objfdt obj) {
+        tiis.rfsolvfdObj = obj;
+        // ??? siould difdk for null?
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4552108072002407559L;
+}

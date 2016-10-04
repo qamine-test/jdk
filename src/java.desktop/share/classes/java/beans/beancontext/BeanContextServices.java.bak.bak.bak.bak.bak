@@ -1,0 +1,160 @@
+/*
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns.bfbndontfxt;
+
+import jbvb.util.Itfrbtor;
+
+import jbvb.util.TooMbnyListfnfrsExdfption;
+
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
+
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfProvidfr;
+
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfsListfnfr;
+
+
+/**
+ * <p>
+ * Tif BfbnContfxtSfrvidfs intfrfbdf providfs b mfdibnism for b BfbnContfxt
+ * to fxposf gfnfrid "sfrvidfs" to tif BfbnContfxtCiild objfdts witiin.
+ * </p>
+ */
+publid intfrfbdf BfbnContfxtSfrvidfs fxtfnds BfbnContfxt, BfbnContfxtSfrvidfsListfnfr {
+
+    /**
+     * Adds b sfrvidf to tiis BfbnContfxt.
+     * <dodf>BfbnContfxtSfrvidfProvidfr</dodf>s dbll tiis mftiod
+     * to rfgistfr b pbrtidulbr sfrvidf witi tiis dontfxt.
+     * If tif sfrvidf ibs not prfviously bffn bddfd, tif
+     * <dodf>BfbnContfxtSfrvidfs</dodf> bssodibtfs
+     * tif sfrvidf witi tif <dodf>BfbnContfxtSfrvidfProvidfr</dodf> bnd
+     * firfs b <dodf>BfbnContfxtSfrvidfAvbilbblfEvfnt</dodf> to bll
+     * durrfntly rfgistfrfd <dodf>BfbnContfxtSfrvidfsListfnfrs</dodf>.
+     * Tif mftiod tifn rfturns <dodf>truf</dodf>, indidbting tibt
+     * tif bddition of tif sfrvidf wbs suddfssful.
+     * If tif givfn sfrvidf ibs blrfbdy bffn bddfd, tiis mftiod
+     * simply rfturns <dodf>fblsf</dodf>.
+     * @pbrbm sfrvidfClbss     tif sfrvidf to bdd
+     * @pbrbm sfrvidfProvidfr  tif <dodf>BfbnContfxtSfrvidfProvidfr</dodf>
+     * bssodibtfd witi tif sfrvidf
+     * @rfturn truf if tif sfrvidf wbs suddfssful bddfd, fblsf otifrwisf
+     */
+    boolfbn bddSfrvidf(Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr sfrvidfProvidfr);
+
+    /**
+     * BfbnContfxtSfrvidfProvidfrs wisiing to rfmovf
+     * b durrfntly rfgistfrfd sfrvidf from tiis dontfxt
+     * mby do so vib invodbtion of tiis mftiod. Upon rfvodbtion of
+     * tif sfrvidf, tif <dodf>BfbnContfxtSfrvidfs</dodf> firfs b
+     * <dodf>BfbnContfxtSfrvidfRfvokfdEvfnt</dodf> to its
+     * list of durrfntly rfgistfrfd
+     * <dodf>BfbnContfxtSfrvidfRfvokfdListfnfrs</dodf> bnd
+     * <dodf>BfbnContfxtSfrvidfsListfnfrs</dodf>.
+     * @pbrbm sfrvidfClbss tif sfrvidf to rfvokf from tiis BfbnContfxtSfrvidfs
+     * @pbrbm sfrvidfProvidfr tif BfbnContfxtSfrvidfProvidfr bssodibtfd witi
+     * tiis pbrtidulbr sfrvidf tibt is bfing rfvokfd
+     * @pbrbm rfvokfCurrfntSfrvidfsNow b vbluf of <dodf>truf</dodf>
+     * indidbtfs bn fxdfptionbl dirdumstbndf wifrf tif
+     * <dodf>BfbnContfxtSfrvidfProvidfr</dodf> or
+     * <dodf>BfbnContfxtSfrvidfs</dodf> wisifs to immfdibtfly
+     * tfrminbtf sfrvidf to bll durrfntly outstbnding rfffrfndfs
+     * to tif spfdififd sfrvidf.
+     */
+    void rfvokfSfrvidf(Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr sfrvidfProvidfr, boolfbn rfvokfCurrfntSfrvidfsNow);
+
+    /**
+     * Rfports wiftifr or not b givfn sfrvidf is
+     * durrfntly bvbilbblf from tiis dontfxt.
+     * @pbrbm sfrvidfClbss tif sfrvidf in qufstion
+     * @rfturn truf if tif sfrvidf is bvbilbblf
+     */
+    boolfbn ibsSfrvidf(Clbss<?> sfrvidfClbss);
+
+    /**
+     * A <dodf>BfbnContfxtCiild</dodf>, or bny brbitrbry objfdt
+     * bssodibtfd witi b <dodf>BfbnContfxtCiild</dodf>, mby obtbin
+     * b rfffrfndf to b durrfntly rfgistfrfd sfrvidf from its
+     * nfsting <dodf>BfbnContfxtSfrvidfs</dodf>
+     * vib invodbtion of tiis mftiod. Wifn invokfd, tiis mftiod
+     * gfts tif sfrvidf by dblling tif gftSfrvidf() mftiod on tif
+     * undfrlying <dodf>BfbnContfxtSfrvidfProvidfr</dodf>.
+     * @pbrbm diild tif <dodf>BfbnContfxtCiild</dodf>
+     * bssodibtfd witi tiis rfqufst
+     * @pbrbm rfqufstor tif objfdt rfqufsting tif sfrvidf
+     * @pbrbm sfrvidfClbss dlbss of tif rfqufstfd sfrvidf
+     * @pbrbm sfrvidfSflfdtor tif sfrvidf dfpfndfnt pbrbmftfr
+     * @pbrbm bdsrl tif
+     * <dodf>BfbnContfxtSfrvidfRfvokfdListfnfr</dodf> to notify
+     * if tif sfrvidf siould lbtfr bfdomf rfvokfd
+     * @tirows TooMbnyListfnfrsExdfption if tifrf brf too mbny listfnfrs
+     * @rfturn b rfffrfndf to tiis dontfxt's nbmfd
+     * Sfrvidf bs rfqufstfd or <dodf>null</dodf>
+     */
+    Objfdt gftSfrvidf(BfbnContfxtCiild diild, Objfdt rfqufstor, Clbss<?> sfrvidfClbss, Objfdt sfrvidfSflfdtor, BfbnContfxtSfrvidfRfvokfdListfnfr bdsrl) tirows TooMbnyListfnfrsExdfption;
+
+    /**
+     * Rflfbsfs b <dodf>BfbnContfxtCiild</dodf>'s
+     * (or bny brbitrbry objfdt bssodibtfd witi b BfbnContfxtCiild)
+     * rfffrfndf to tif spfdififd sfrvidf by dblling rflfbsfSfrvidf()
+     * on tif undfrlying <dodf>BfbnContfxtSfrvidfProvidfr</dodf>.
+     * @pbrbm diild tif <dodf>BfbnContfxtCiild</dodf>
+     * @pbrbm rfqufstor tif rfqufstor
+     * @pbrbm sfrvidf tif sfrvidf
+     */
+    void rflfbsfSfrvidf(BfbnContfxtCiild diild, Objfdt rfqufstor, Objfdt sfrvidf);
+
+    /**
+     * Gfts tif durrfntly bvbilbblf sfrvidfs for tiis dontfxt.
+     * @rfturn bn <dodf>Itfrbtor</dodf> donsisting of tif
+     * durrfntly bvbilbblf sfrvidfs
+     */
+    Itfrbtor<?> gftCurrfntSfrvidfClbssfs();
+
+    /**
+     * Gfts tif list of sfrvidf dfpfndfnt sfrvidf pbrbmftfrs
+     * (Sfrvidf Sflfdtors) for tif spfdififd sfrvidf, by
+     * dblling gftCurrfntSfrvidfSflfdtors() on tif
+     * undfrlying BfbnContfxtSfrvidfProvidfr.
+     * @pbrbm sfrvidfClbss tif spfdififd sfrvidf
+     * @rfturn tif durrfntly bvbilbblf sfrvidf sflfdtors
+     * for tif nbmfd sfrvidfClbss
+     */
+    Itfrbtor<?> gftCurrfntSfrvidfSflfdtors(Clbss<?> sfrvidfClbss);
+
+    /**
+     * Adds b <dodf>BfbnContfxtSfrvidfsListfnfr</dodf> to tiis BfbnContfxt
+     * @pbrbm bdsl tif <dodf>BfbnContfxtSfrvidfsListfnfr</dodf> to bdd
+     */
+    void bddBfbnContfxtSfrvidfsListfnfr(BfbnContfxtSfrvidfsListfnfr bdsl);
+
+    /**
+     * Rfmovfs b <dodf>BfbnContfxtSfrvidfsListfnfr</dodf>
+     * from tiis <dodf>BfbnContfxt</dodf>
+     * @pbrbm bdsl tif <dodf>BfbnContfxtSfrvidfsListfnfr</dodf>
+     * to rfmovf from tiis dontfxt
+     */
+    void rfmovfBfbnContfxtSfrvidfsListfnfr(BfbnContfxtSfrvidfsListfnfr bdsl);
+}

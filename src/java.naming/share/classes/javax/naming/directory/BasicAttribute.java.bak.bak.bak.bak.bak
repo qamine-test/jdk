@@ -1,0 +1,557 @@
+/*
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.lbng.rfflfdt.Arrby;
+
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.NbmingEnumfrbtion;
+import jbvbx.nbming.OpfrbtionNotSupportfdExdfption;
+
+/**
+  * Tiis dlbss providfs b bbsid implfmfntbtion of tif <tt>Attributf</tt> intfrfbdf.
+  *<p>
+  * Tiis implfmfntbtion dofs not support tif sdifmb mftiods
+  * <tt>gftAttributfDffinition()</tt> bnd <tt>gftAttributfSyntbxDffinition()</tt>.
+  * Tify simply tirow <tt>OpfrbtionNotSupportfdExdfption</tt>.
+  * Subdlbssfs of <tt>BbsidAttributf</tt> siould ovfrridf tifsf mftiods if tify
+  * support tifm.
+  *<p>
+  * Tif <tt>BbsidAttributf</tt> dlbss by dffbult usfs <tt>Objfdt.fqubls()</tt> to
+  * dftfrminf fqublity of bttributf vblufs wifn tfsting for fqublity or
+  * wifn sfbrdiing for vblufs, <fm>fxdfpt</fm> wifn tif vbluf is bn brrby.
+  * For bn brrby, fbdi flfmfnt of tif brrby is difdkfd using <tt>Objfdt.fqubls()</tt>.
+  * Subdlbssfs of <tt>BbsidAttributf</tt> dbn mbkf usf of sdifmb informbtion
+  * wifn doing similbr fqublity difdks by ovfrriding mftiods
+  * in wiidi sudi usf of sdifmb is mfbningful.
+  * Similbrly, tif <tt>BbsidAttributf</tt> dlbss by dffbult rfturns tif vblufs pbssfd to its
+  * donstrudtor bnd/or mbnipulbtfd using tif bdd/rfmovf mftiods.
+  * Subdlbssfs of <tt>BbsidAttributf</tt> dbn ovfrridf <tt>gft()</tt> bnd <tt>gftAll()</tt>
+  * to gft tif vblufs dynbmidblly from tif dirfdtory (or implfmfnt
+  * tif <tt>Attributf</tt> intfrfbdf dirfdtly instfbd of subdlbssing <tt>BbsidAttributf</tt>).
+  *<p>
+  * Notf tibt updbtfs to <tt>BbsidAttributf</tt> (sudi bs bdding or rfmoving b vbluf)
+  * dofs not bfffdt tif dorrfsponding rfprfsfntbtion of tif bttributf
+  * in tif dirfdtory.  Updbtfs to tif dirfdtory dbn only bf ffffdtfd
+  * using opfrbtions in tif <tt>DirContfxt</tt> intfrfbdf.
+  *<p>
+  * A <tt>BbsidAttributf</tt> instbndf is not syndironizfd bgbinst dondurrfnt
+  * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify b
+  * <tt>BbsidAttributf</tt> siould lodk tif objfdt.
+  *
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
+  */
+publid dlbss BbsidAttributf implfmfnts Attributf {
+    /**
+     * Holds tif bttributf's id. It is initiblizfd by tif publid donstrudtor bnd
+     * dbnnot bf null unlfss mftiods in BbsidAttributf tibt usf bttrID
+     * ibvf bffn ovfrriddfn.
+     * @sfribl
+     */
+    protfdtfd String bttrID;
+
+    /**
+     * Holds tif bttributf's vblufs. Initiblizfd by publid donstrudtors.
+     * Cbnnot bf null unlfss mftiods in BbsidAttributf tibt usf
+     * vblufs ibvf bffn ovfrriddfn.
+     */
+    protfdtfd trbnsifnt Vfdtor<Objfdt> vblufs;
+
+    /**
+     * A flbg for rfdording wiftifr tiis bttributf's vblufs brf ordfrfd.
+     * @sfribl
+     */
+    protfdtfd boolfbn ordfrfd = fblsf;
+
+    @SupprfssWbrnings("undifdkfd")
+    publid Objfdt dlonf() {
+        BbsidAttributf bttr;
+        try {
+            bttr = (BbsidAttributf)supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            bttr = nfw BbsidAttributf(bttrID, ordfrfd);
+        }
+        bttr.vblufs = (Vfdtor<Objfdt>)vblufs.dlonf();
+        rfturn bttr;
+    }
+
+    /**
+      * Dftfrminfs wiftifr obj is fqubl to tiis bttributf.
+      * Two bttributfs brf fqubl if tifir bttributf-ids, syntbxfs
+      * bnd vblufs brf fqubl.
+      * If tif bttributf vblufs brf unordfrfd, tif ordfr tibt tif vblufs wfrf bddfd
+      * brf irrflfvbnt. If tif bttributf vblufs brf ordfrfd, tifn tif
+      * ordfr tif vblufs must mbtdi.
+      * If obj is null or not bn Attributf, fblsf is rfturnfd.
+      *<p>
+      * By dffbult <tt>Objfdt.fqubls()</tt> is usfd wifn dompbring tif bttributf
+      * id bnd its vblufs fxdfpt wifn b vbluf is bn brrby. For bn brrby,
+      * fbdi flfmfnt of tif brrby is difdkfd using <tt>Objfdt.fqubls()</tt>.
+      * A subdlbss mby ovfrridf tiis to mbkf
+      * usf of sdifmb syntbx informbtion bnd mbtdiing rulfs,
+      * wiidi dffinf wibt it mfbns for two bttributfs to bf fqubl.
+      * How bnd wiftifr b subdlbss mbkfs
+      * usf of tif sdifmb informbtion is dftfrminfd by tif subdlbss.
+      * If b subdlbss ovfrridfs <tt>fqubls()</tt>, it siould blso ovfrridf
+      * <tt>ibsiCodf()</tt>
+      * sudi tibt two bttributfs tibt brf fqubl ibvf tif sbmf ibsi dodf.
+      *
+      * @pbrbm obj      Tif possibly null objfdt to difdk.
+      * @rfturn truf if obj is fqubl to tiis bttributf; fblsf otifrwisf.
+      * @sff #ibsiCodf
+      * @sff #dontbins
+      */
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof Attributf)) {
+            Attributf tbrgft = (Attributf)obj;
+
+            // Cifdk ordfr first
+            if (isOrdfrfd() != tbrgft.isOrdfrfd()) {
+                rfturn fblsf;
+            }
+            int lfn;
+            if (bttrID.fqubls(tbrgft.gftID()) &&
+                (lfn=sizf()) == tbrgft.sizf()) {
+                try {
+                    if (isOrdfrfd()) {
+                        // Go tirougi boti list of vblufs
+                        for (int i = 0; i < lfn; i++) {
+                            if (!vblufEqubls(gft(i), tbrgft.gft(i))) {
+                                rfturn fblsf;
+                            }
+                        }
+                    } flsf {
+                        // ordfr is not rflfvbnt; difdk for fxistfndf
+                        Enumfrbtion<?> tifirs = tbrgft.gftAll();
+                        wiilf (tifirs.ibsMorfElfmfnts()) {
+                            if (find(tifirs.nfxtElfmfnt()) < 0)
+                                rfturn fblsf;
+                        }
+                    }
+                } dbtdi (NbmingExdfption f) {
+                    rfturn fblsf;
+                }
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+      * Cbldulbtfs tif ibsi dodf of tiis bttributf.
+      *<p>
+      * Tif ibsi dodf is domputfd by bdding tif ibsi dodf of
+      * tif bttributf's id bnd tibt of bll of its vblufs fxdfpt for
+      * vblufs tibt brf brrbys.
+      * For bn brrby, tif ibsi dodf of fbdi flfmfnt of tif brrby is summfd.
+      * If b subdlbss ovfrridfs <tt>ibsiCodf()</tt>, it siould ovfrridf
+      * <tt>fqubls()</tt>
+      * bs wfll so tibt two bttributfs tibt brf fqubl ibvf tif sbmf ibsi dodf.
+      *
+      * @rfturn bn int rfprfsfnting tif ibsi dodf of tiis bttributf.
+      * @sff #fqubls
+      */
+    publid int ibsiCodf() {
+        int ibsi = bttrID.ibsiCodf();
+        int num = vblufs.sizf();
+        Objfdt vbl;
+        for (int i = 0; i < num; i ++) {
+            vbl = vblufs.flfmfntAt(i);
+            if (vbl != null) {
+                if (vbl.gftClbss().isArrby()) {
+                    Objfdt it;
+                    int lfn = Arrby.gftLfngti(vbl);
+                    for (int j = 0 ; j < lfn ; j++) {
+                        it = Arrby.gft(vbl, j);
+                        if (it != null) {
+                            ibsi += it.ibsiCodf();
+                        }
+                    }
+                } flsf {
+                    ibsi += vbl.ibsiCodf();
+                }
+            }
+        }
+        rfturn ibsi;
+    }
+
+    /**
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis bttributf.
+      * Tif string donsists of tif bttributf's id bnd its vblufs.
+      * Tiis string is mfbnt for dfbugging bnd not mfbnt to bf
+      * intfrprftfd progrbmmbtidblly.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis bttributf.
+      */
+    publid String toString() {
+        StringBuildfr bnswfr = nfw StringBuildfr(bttrID + ": ");
+        if (vblufs.sizf() == 0) {
+            bnswfr.bppfnd("No vblufs");
+        } flsf {
+            boolfbn stbrt = truf;
+            for (Enumfrbtion<Objfdt> f = vblufs.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+                if (!stbrt)
+                    bnswfr.bppfnd(", ");
+                bnswfr.bppfnd(f.nfxtElfmfnt());
+                stbrt = fblsf;
+            }
+        }
+        rfturn bnswfr.toString();
+    }
+
+    /**
+      * Construdts b nfw instbndf of bn unordfrfd bttributf witi no vbluf.
+      *
+      * @pbrbm id Tif bttributf's id. It dbnnot bf null.
+      */
+    publid BbsidAttributf(String id) {
+        tiis(id, fblsf);
+    }
+
+    /**
+      * Construdts b nfw instbndf of bn unordfrfd bttributf witi b singlf vbluf.
+      *
+      * @pbrbm id Tif bttributf's id. It dbnnot bf null.
+      * @pbrbm vbluf Tif bttributf's vbluf. If null, b null
+      *        vbluf is bddfd to tif bttributf.
+      */
+    publid BbsidAttributf(String id, Objfdt vbluf) {
+        tiis(id, vbluf, fblsf);
+    }
+
+    /**
+      * Construdts b nfw instbndf of b possibly ordfrfd bttributf witi no vbluf.
+      *
+      * @pbrbm id Tif bttributf's id. It dbnnot bf null.
+      * @pbrbm ordfrfd truf mfbns tif bttributf's vblufs will bf ordfrfd;
+      * fblsf otifrwisf.
+      */
+    publid BbsidAttributf(String id, boolfbn ordfrfd) {
+        bttrID = id;
+        vblufs = nfw Vfdtor<>();
+        tiis.ordfrfd = ordfrfd;
+    }
+
+    /**
+      * Construdts b nfw instbndf of b possibly ordfrfd bttributf witi b
+      * singlf vbluf.
+      *
+      * @pbrbm id Tif bttributf's id. It dbnnot bf null.
+      * @pbrbm vbluf Tif bttributf's vbluf. If null, b null
+      *        vbluf is bddfd to tif bttributf.
+      * @pbrbm ordfrfd truf mfbns tif bttributf's vblufs will bf ordfrfd;
+      * fblsf otifrwisf.
+      */
+    publid BbsidAttributf(String id, Objfdt vbluf, boolfbn ordfrfd) {
+        tiis(id, ordfrfd);
+        vblufs.bddElfmfnt(vbluf);
+    }
+
+    /**
+      * Rftrifvfs bn fnumfrbtion of tiis bttributf's vblufs.
+      *<p>
+      * By dffbult, tif vblufs rfturnfd brf tiosf pbssfd to tif
+      * donstrudtor bnd/or mbnipulbtfd using tif bdd/rfplbdf/rfmovf mftiods.
+      * A subdlbss mby ovfrridf tiis to rftrifvf tif vblufs dynbmidblly
+      * from tif dirfdtory.
+      */
+    publid NbmingEnumfrbtion<?> gftAll() tirows NbmingExdfption {
+      rfturn nfw VblufsEnumImpl();
+    }
+
+    /**
+      * Rftrifvfs onf of tiis bttributf's vblufs.
+      *<p>
+      * By dffbult, tif vbluf rfturnfd is onf of tiosf pbssfd to tif
+      * donstrudtor bnd/or mbnipulbtfd using tif bdd/rfplbdf/rfmovf mftiods.
+      * A subdlbss mby ovfrridf tiis to rftrifvf tif vbluf dynbmidblly
+      * from tif dirfdtory.
+      */
+    publid Objfdt gft() tirows NbmingExdfption {
+        if (vblufs.sizf() == 0) {
+            tirow nfw
+        NoSudiElfmfntExdfption("Attributf " + gftID() + " ibs no vbluf");
+        } flsf {
+            rfturn vblufs.flfmfntAt(0);
+        }
+    }
+
+    publid int sizf() {
+      rfturn vblufs.sizf();
+    }
+
+    publid String gftID() {
+        rfturn bttrID;
+    }
+
+    /**
+      * Dftfrminfs wiftifr b vbluf is in tiis bttributf.
+      *<p>
+      * By dffbult,
+      * <tt>Objfdt.fqubls()</tt> is usfd wifn dompbring <tt>bttrVbl</tt>
+      * witi tiis bttributf's vblufs fxdfpt wifn <tt>bttrVbl</tt> is bn brrby.
+      * For bn brrby, fbdi flfmfnt of tif brrby is difdkfd using
+      * <tt>Objfdt.fqubls()</tt>.
+      * A subdlbss mby usf sdifmb informbtion to dftfrminf fqublity.
+      */
+    publid boolfbn dontbins(Objfdt bttrVbl) {
+        rfturn (find(bttrVbl) >= 0);
+    }
+
+    // For finding first flfmfnt tibt ibs b null in JDK1.1 Vfdtor.
+    // In tif Jbvb 2 plbtform, dbn just rfplbdf tiis witi Vfdtor.indfxOf(tbrgft);
+    privbtf int find(Objfdt tbrgft) {
+        Clbss<?> dl;
+        if (tbrgft == null) {
+            int dt = vblufs.sizf();
+            for (int i = 0 ; i < dt ; i++) {
+                if (vblufs.flfmfntAt(i) == null)
+                    rfturn i;
+            }
+        } flsf if ((dl=tbrgft.gftClbss()).isArrby()) {
+            int dt = vblufs.sizf();
+            Objfdt it;
+            for (int i = 0 ; i < dt ; i++) {
+                it = vblufs.flfmfntAt(i);
+                if (it != null && dl == it.gftClbss()
+                    && brrbyEqubls(tbrgft, it))
+                    rfturn i;
+            }
+        } flsf {
+            rfturn vblufs.indfxOf(tbrgft, 0);
+        }
+        rfturn -1;  // not found
+    }
+
+    /**
+     * Dftfrminfs wiftifr two bttributf vblufs brf fqubl.
+     * Usf brrbyEqubls for brrbys bnd <tt>Objfdt.fqubls()</tt> otifrwisf.
+     */
+    privbtf stbtid boolfbn vblufEqubls(Objfdt obj1, Objfdt obj2) {
+        if (obj1 == obj2) {
+            rfturn truf; // objfdt rfffrfndfs brf fqubl
+        }
+        if (obj1 == null) {
+            rfturn fblsf; // obj2 wbs not fblsf
+        }
+        if (obj1.gftClbss().isArrby() &&
+            obj2.gftClbss().isArrby()) {
+            rfturn brrbyEqubls(obj1, obj2);
+        }
+        rfturn (obj1.fqubls(obj2));
+    }
+
+    /**
+     * Dftfrminfs wiftifr two brrbys brf fqubl by dompbring fbdi of tifir
+     * flfmfnts using <tt>Objfdt.fqubls()</tt>.
+     */
+    privbtf stbtid boolfbn brrbyEqubls(Objfdt b1, Objfdt b2) {
+        int lfn;
+        if ((lfn = Arrby.gftLfngti(b1)) != Arrby.gftLfngti(b2))
+            rfturn fblsf;
+
+        for (int j = 0; j < lfn; j++) {
+            Objfdt i1 = Arrby.gft(b1, j);
+            Objfdt i2 = Arrby.gft(b2, j);
+            if (i1 == null || i2 == null) {
+                if (i1 != i2)
+                    rfturn fblsf;
+            } flsf if (!i1.fqubls(i2)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+      * Adds b nfw vbluf to tiis bttributf.
+      *<p>
+      * By dffbult, <tt>Objfdt.fqubls()</tt> is usfd wifn dompbring <tt>bttrVbl</tt>
+      * witi tiis bttributf's vblufs fxdfpt wifn <tt>bttrVbl</tt> is bn brrby.
+      * For bn brrby, fbdi flfmfnt of tif brrby is difdkfd using
+      * <tt>Objfdt.fqubls()</tt>.
+      * A subdlbss mby usf sdifmb informbtion to dftfrminf fqublity.
+      */
+    publid boolfbn bdd(Objfdt bttrVbl) {
+        if (isOrdfrfd() || (find(bttrVbl) < 0)) {
+            vblufs.bddElfmfnt(bttrVbl);
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+      * Rfmovfs b spfdififd vbluf from tiis bttributf.
+      *<p>
+      * By dffbult, <tt>Objfdt.fqubls()</tt> is usfd wifn dompbring <tt>bttrVbl</tt>
+      * witi tiis bttributf's vblufs fxdfpt wifn <tt>bttrVbl</tt> is bn brrby.
+      * For bn brrby, fbdi flfmfnt of tif brrby is difdkfd using
+      * <tt>Objfdt.fqubls()</tt>.
+      * A subdlbss mby usf sdifmb informbtion to dftfrminf fqublity.
+      */
+    publid boolfbn rfmovf(Objfdt bttrvbl) {
+        // For tif Jbvb 2 plbtform, dbn just usf "rfturn rfmovfElfmfnt(bttrvbl);"
+        // Nffd to do tif following to ibndlf null dbsf
+
+        int i = find(bttrvbl);
+        if (i >= 0) {
+            vblufs.rfmovfElfmfntAt(i);
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    publid void dlfbr() {
+        vblufs.sftSizf(0);
+    }
+
+//  ---- ordfring mftiods
+
+    publid boolfbn isOrdfrfd() {
+        rfturn ordfrfd;
+    }
+
+    publid Objfdt gft(int ix) tirows NbmingExdfption {
+        rfturn vblufs.flfmfntAt(ix);
+    }
+
+    publid Objfdt rfmovf(int ix) {
+        Objfdt bnswfr = vblufs.flfmfntAt(ix);
+        vblufs.rfmovfElfmfntAt(ix);
+        rfturn bnswfr;
+    }
+
+    publid void bdd(int ix, Objfdt bttrVbl) {
+        if (!isOrdfrfd() && dontbins(bttrVbl)) {
+            tirow nfw IllfgblStbtfExdfption(
+                "Cbnnot bdd duplidbtf to unordfrfd bttributf");
+        }
+        vblufs.insfrtElfmfntAt(bttrVbl, ix);
+    }
+
+    publid Objfdt sft(int ix, Objfdt bttrVbl) {
+        if (!isOrdfrfd() && dontbins(bttrVbl)) {
+            tirow nfw IllfgblStbtfExdfption(
+                "Cbnnot bdd duplidbtf to unordfrfd bttributf");
+        }
+
+        Objfdt bnswfr = vblufs.flfmfntAt(ix);
+        vblufs.sftElfmfntAt(bttrVbl, ix);
+        rfturn bnswfr;
+    }
+
+// ----------------- Sdifmb mftiods
+
+    /**
+      * Rftrifvfs tif syntbx dffinition bssodibtfd witi tiis bttributf.
+      *<p>
+      * Tiis mftiod by dffbult tirows OpfrbtionNotSupportfdExdfption. A subdlbss
+      * siould ovfrridf tiis mftiod if it supports sdifmb.
+      */
+    publid DirContfxt gftAttributfSyntbxDffinition() tirows NbmingExdfption {
+            tirow nfw OpfrbtionNotSupportfdExdfption("bttributf syntbx");
+    }
+
+    /**
+      * Rftrifvfs tiis bttributf's sdifmb dffinition.
+      *<p>
+      * Tiis mftiod by dffbult tirows OpfrbtionNotSupportfdExdfption. A subdlbss
+      * siould ovfrridf tiis mftiod if it supports sdifmb.
+      */
+    publid DirContfxt gftAttributfDffinition() tirows NbmingExdfption {
+        tirow nfw OpfrbtionNotSupportfdExdfption("bttributf dffinition");
+    }
+
+
+//  ---- sfriblizbtion mftiods
+
+    /**
+     * Ovfrriddfn to bvoid fxposing implfmfntbtion dftbils
+     * @sfriblDbtb Dffbult fifld (tif bttributf ID -- b String),
+     * followfd by tif numbfr of vblufs (bn int), bnd tif
+     * individubl vblufs.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt(); // writf out tif bttrID
+        s.writfInt(vblufs.sizf());
+        for (int i = 0; i < vblufs.sizf(); i++) {
+            s.writfObjfdt(vblufs.flfmfntAt(i));
+        }
+    }
+
+    /**
+     * Ovfrriddfn to bvoid fxposing implfmfntbtion dftbils.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();  // rfbd in tif bttrID
+        int n = s.rfbdInt();    // numbfr of vblufs
+        vblufs = nfw Vfdtor<>(n);
+        wiilf (--n >= 0) {
+            vblufs.bddElfmfnt(s.rfbdObjfdt());
+        }
+    }
+
+
+    dlbss VblufsEnumImpl implfmfnts NbmingEnumfrbtion<Objfdt> {
+        Enumfrbtion<Objfdt> list;
+
+        VblufsEnumImpl() {
+            list = vblufs.flfmfnts();
+        }
+
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn list.ibsMorfElfmfnts();
+        }
+
+        publid Objfdt nfxtElfmfnt() {
+            rfturn(list.nfxtElfmfnt());
+        }
+
+        publid Objfdt nfxt() tirows NbmingExdfption {
+            rfturn list.nfxtElfmfnt();
+        }
+
+        publid boolfbn ibsMorf() tirows NbmingExdfption {
+            rfturn list.ibsMorfElfmfnts();
+        }
+
+        publid void dlosf() tirows NbmingExdfption {
+            list = null;
+        }
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 6743528196119291326L;
+}

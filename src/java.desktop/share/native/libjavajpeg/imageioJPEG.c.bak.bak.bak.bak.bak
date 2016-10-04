@@ -1,0 +1,3086 @@
+/*
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf dontbins tif dodf to link tif Jbvb Imbgf I/O JPEG plug-in
+ * to tif IJG librbry usfd to rfbd bnd writf JPEG filfs.  Mudi of it ibs
+ * bffn dopifd, updbtfd, bnd bnnotbtfd from tif jpfgdfdodfr.d AWT JPEG
+ * dfdodfr.  Wifrf tibt dodf wbs undlfbr, tif prfsfnt butior ibs fitifr
+ * rfwrittfn tif rflfvbnt sfdtion or dommfntfd it for tif sbkf of futurf
+ * mbintbinfrs.
+ *
+ * In pbrtidulbr, tif wby tif AWT dodf ibndlfd progrfssivf JPEGs sffms
+ * to mf to bf only bddidfntblly dorrfdt bnd somfwibt infffidifnt.  Tif
+ * sdifmf usfd ifrf rfprfsfnts tif wby I tiink it siould work. (REV 11/00)
+ */
+
+#indludf <stdlib.i>
+#indludf <sftjmp.i>
+#indludf <bssfrt.i>
+#indludf <string.i>
+#indludf <limits.i>
+
+/* jbvb nbtivf intfrfbdf ifbdfrs */
+#indludf "jni.i"
+#indludf "jni_util.i"
+
+#indludf "dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr.i"
+#indludf "dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr.i"
+
+/* ifbdfrs from tif JPEG librbry */
+#indludf <jpfglib.i>
+#indludf <jfrror.i>
+
+#undff MAX
+#dffinf MAX(b,b)        ((b) > (b) ? (b) : (b))
+
+#ifdff __APPLE__
+/* usf sftjmp/longjmp vfrsions tibt do not sbvf/rfstorf tif signbl mbsk */
+#dffinf sftjmp _sftjmp
+#dffinf longjmp _longjmp
+#fndif
+
+/* Cbdifd Jbvb mftiod ids */
+stbtid jmftiodID JPEGImbgfRfbdfr_rfbdInputDbtbID;
+stbtid jmftiodID JPEGImbgfRfbdfr_skipInputBytfsID;
+stbtid jmftiodID JPEGImbgfRfbdfr_wbrningOddurrfdID;
+stbtid jmftiodID JPEGImbgfRfbdfr_wbrningWitiMfssbgfID;
+stbtid jmftiodID JPEGImbgfRfbdfr_sftImbgfDbtbID;
+stbtid jmftiodID JPEGImbgfRfbdfr_bddfptPixflsID;
+stbtid jmftiodID JPEGImbgfRfbdfr_pusiBbdkID;
+stbtid jmftiodID JPEGImbgfRfbdfr_pbssStbrtfdID;
+stbtid jmftiodID JPEGImbgfRfbdfr_pbssComplftfID;
+stbtid jmftiodID JPEGImbgfWritfr_writfOutputDbtbID;
+stbtid jmftiodID JPEGImbgfWritfr_wbrningOddurrfdID;
+stbtid jmftiodID JPEGImbgfWritfr_wbrningWitiMfssbgfID;
+stbtid jmftiodID JPEGImbgfWritfr_writfMftbdbtbID;
+stbtid jmftiodID JPEGImbgfWritfr_grbbPixflsID;
+stbtid jfifldID JPEGQTbblf_tbblfID;
+stbtid jfifldID JPEGHuffmbnTbblf_lfngtisID;
+stbtid jfifldID JPEGHuffmbnTbblf_vblufsID;
+
+/*
+ * Dffinfd in jpfgdfdodfr.d.  Copy dodf from tifrf if bnd
+ * wifn tibt disbppfbrs. */
+fxtfrn JbvbVM *jvm;
+
+/*
+ * Tif following sfts of dffinfs must mbtdi tif wbrning mfssbgfs in tif
+ * Jbvb dodf.
+ */
+
+/* Rfbdfr wbrnings */
+#dffinf READ_NO_EOI          0
+
+/* Writfr wbrnings */
+
+/* Rfturn dodfs for vbrious ops */
+#dffinf OK     1
+#dffinf NOT_OK 0
+
+/*
+ * First wf dffinf two objfdts, onf for tif strfbm bnd bufffr bnd onf
+ * for pixfls.  Boti dontbin rfffrfndfs to Jbvb objfdts bnd pointfrs to
+ * pinnfd brrbys.  Tifsf objfdts dbn bf usfd for fitifr input or
+ * output.  Pixfls dbn bf bddfssfd bs fitifr INT32s or bytfs.
+ * Evfry I/O opfrbtion will ibvf onf of fbdi tifsf objfdts, onf for
+ * tif strfbm bnd tif otifr to iold pixfls, rfgbrdlfss of tif I/O dirfdtion.
+ */
+
+/******************** StrfbmBufffr dffinition ************************/
+
+typfdff strudt strfbmBufffrStrudt {
+    jwfbk ioRff;               // wfbk rfffrfndf to b providfr of I/O routinfs
+    jbytfArrby istrfbmBufffr;  // Hbndlf to b Jbvb bufffr for tif strfbm
+    JOCTET *buf;               // Pinnfd bufffr pointfr */
+    sizf_t bufffrOffsft;          // iolds offsft bftwffn unpin bnd tif nfxt pin
+    sizf_t bufffrLfngti;          // Allodbtfd, nut just usfd
+    int suspfndbblf;           // Sft to truf to suspfnd input
+    long rfmbining_skip;       // Usfd only on input
+} strfbmBufffr, *strfbmBufffrPtr;
+
+/*
+ * Tiis bufffr sizf wbs sft to 64K in tif old dlbssfs, 4K by dffbult in tif
+ * IJG librbry, witi tif dommfnt "bn fffidifntly frfbdbblf sizf", bnd 1K
+ * in AWT.
+ * Unlikf in tif otifr Jbvb dfsigns, tifsf objfdts will pfrsist, so 64K
+ * sffms too big bnd 1K sffms too smbll.  If 4K wbs good fnougi for tif
+ * IJG folks, it's good fnougi for mf.
+ */
+#dffinf STREAMBUF_SIZE 4096
+
+#dffinf GET_IO_REF(io_nbmf)                                            \
+    do {                                                               \
+        if ((*fnv)->IsSbmfObjfdt(fnv, sb->ioRff, NULL) ||              \
+            ((io_nbmf) = (*fnv)->NfwLodblRff(fnv, sb->ioRff)) == NULL) \
+        {                                                              \
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);              \
+        }                                                              \
+    } wiilf (0)                                                        \
+
+/*
+ * Usfd to signbl tibt no dbtb nffd bf rfstorfd from bn unpin to b pin.
+ * I.f. tif bufffr is fmpty.
+ */
+#dffinf NO_DATA ((sizf_t)-1)
+
+// Forwbrd rfffrfndf
+stbtid void rfsftStrfbmBufffr(JNIEnv *fnv, strfbmBufffrPtr sb);
+
+/*
+ * Initiblizf b frfsily bllodbtfd StrfbmBufffr objfdt.  Tif strfbm is lfft
+ * null, bs it will bf sft from Jbvb by sftSourdf, but tif bufffr objfdt
+ * is drfbtfd bnd b globbl rfffrfndf kfpt.  Rfturns OK on suddfss, NOT_OK
+ * if bllodbting tif bufffr or gftting b globbl rfffrfndf for it fbilfd.
+ */
+stbtid int initStrfbmBufffr(JNIEnv *fnv, strfbmBufffrPtr sb) {
+    /* Initiblizf b nfw bufffr */
+    jbytfArrby iInputBufffr = (*fnv)->NfwBytfArrby(fnv, STREAMBUF_SIZE);
+    if (iInputBufffr == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Rfbdfr");
+        rfturn NOT_OK;
+    }
+    sb->bufffrLfngti = (*fnv)->GftArrbyLfngti(fnv, iInputBufffr);
+    sb->istrfbmBufffr = (*fnv)->NfwGlobblRff(fnv, iInputBufffr);
+    if (sb->istrfbmBufffr == NULL) {
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Rfbdfr");
+        rfturn NOT_OK;
+    }
+
+
+    sb->ioRff = NULL;
+
+    sb->buf = NULL;
+
+    rfsftStrfbmBufffr(fnv, sb);
+
+    rfturn OK;
+}
+
+/*
+ * Frff bll rfsourdfs bssodibtfd witi tiis strfbmBufffr.  Tiis must
+ * bf dbllfd to disposf tif objfdt to bvoid lfbking globbl rfffrfndfs, bs
+ * rfsftStrfbmBufffr dofs not rflfbsf tif bufffr rfffrfndf.
+ */
+stbtid void dfstroyStrfbmBufffr(JNIEnv *fnv, strfbmBufffrPtr sb) {
+    rfsftStrfbmBufffr(fnv, sb);
+    if (sb->istrfbmBufffr != NULL) {
+        (*fnv)->DflftfGlobblRff(fnv, sb->istrfbmBufffr);
+    }
+}
+
+// Forwbrd rfffrfndf
+stbtid void unpinStrfbmBufffr(JNIEnv *fnv,
+                              strfbmBufffrPtr sb,
+                              donst JOCTET *nfxt_bytf);
+/*
+ * Rfsfts tif stbtf of b strfbmBufffr objfdt tibt ibs bffn in usf.
+ * Tif globbl rfffrfndf to tif strfbm is rflfbsfd, but tif rfffrfndf
+ * to tif bufffr is rftbinfd.  Tif bufffr is unpinnfd if it wbs pinnfd.
+ * All otifr stbtf is rfsft.
+ */
+stbtid void rfsftStrfbmBufffr(JNIEnv *fnv, strfbmBufffrPtr sb) {
+    if (sb->ioRff != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv, sb->ioRff);
+        sb->ioRff = NULL;
+    }
+    unpinStrfbmBufffr(fnv, sb, NULL);
+    sb->bufffrOffsft = NO_DATA;
+    sb->suspfndbblf = FALSE;
+    sb->rfmbining_skip = 0;
+}
+
+/*
+ * Pins tif dbtb bufffr bssodibtfd witi tiis strfbm.  Rfturns OK on
+ * suddfss, NOT_OK on fbilurf, bs GftPrimitivfArrbyCritidbl mby fbil.
+ */
+stbtid int pinStrfbmBufffr(JNIEnv *fnv,
+                           strfbmBufffrPtr sb,
+                           donst JOCTET **nfxt_bytf) {
+    if (sb->istrfbmBufffr != NULL) {
+        bssfrt(sb->buf == NULL);
+        sb->buf =
+            (JOCTET *)(*fnv)->GftPrimitivfArrbyCritidbl(fnv,
+                                                        sb->istrfbmBufffr,
+                                                        NULL);
+        if (sb->buf == NULL) {
+            rfturn NOT_OK;
+        }
+        if (sb->bufffrOffsft != NO_DATA) {
+            *nfxt_bytf = sb->buf + sb->bufffrOffsft;
+        }
+    }
+    rfturn OK;
+}
+
+/*
+ * Unpins tif dbtb bufffr bssodibtfd witi tiis strfbm.
+ */
+stbtid void unpinStrfbmBufffr(JNIEnv *fnv,
+                              strfbmBufffrPtr sb,
+                              donst JOCTET *nfxt_bytf) {
+    if (sb->buf != NULL) {
+        bssfrt(sb->istrfbmBufffr != NULL);
+        if (nfxt_bytf == NULL) {
+            sb->bufffrOffsft = NO_DATA;
+        } flsf {
+            sb->bufffrOffsft = nfxt_bytf - sb->buf;
+        }
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                              sb->istrfbmBufffr,
+                                              sb->buf,
+                                              0);
+        sb->buf = NULL;
+    }
+}
+
+/*
+ * Clfbr out tif strfbmBufffr.  Tiis just invblidbtfs tif dbtb in tif bufffr.
+ */
+stbtid void dlfbrStrfbmBufffr(strfbmBufffrPtr sb) {
+    sb->bufffrOffsft = NO_DATA;
+}
+
+/*************************** fnd StrfbmBufffr dffinition *************/
+
+/*************************** Pixfl Bufffr dffinition ******************/
+
+typfdff strudt pixflBufffrStrudt {
+    jobjfdt ipixflObjfdt;   // Usublly b DbtbBufffr bbnk bs b bytf brrby
+    unsignfd int bytfBufffrLfngti;
+    union pixptr {
+        INT32         *ip;  // Pinnfd bufffr pointfr, bs 32-bit ints
+        unsignfd dibr *bp;  // Pinnfd bufffr pointfr, bs bytfs
+    } buf;
+} pixflBufffr, *pixflBufffrPtr;
+
+/*
+ * Initiblizf b frfsily bllodbtfd PixflBufffr.  All fiflds brf simply
+ * sft to NULL, bs wf ibvf no idfb wibt sizf bufffr wf will nffd.
+ */
+stbtid void initPixflBufffr(pixflBufffrPtr pb) {
+    pb->ipixflObjfdt = NULL;
+    pb->bytfBufffrLfngti = 0;
+    pb->buf.ip = NULL;
+}
+
+/*
+ * Sft tif pixflBufffr to usf tif givfn bufffr, bdquiring b nfw globbl
+ * rfffrfndf for it.  Rfturns OK on suddfss, NOT_OK on fbilurf.
+ */
+stbtid int sftPixflBufffr(JNIEnv *fnv, pixflBufffrPtr pb, jobjfdt obj) {
+    pb->ipixflObjfdt = (*fnv)->NfwGlobblRff(fnv, obj);
+    if (pb->ipixflObjfdt == NULL) {
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Sftting Pixfl Bufffr");
+        rfturn NOT_OK;
+    }
+    pb->bytfBufffrLfngti = (*fnv)->GftArrbyLfngti(fnv, pb->ipixflObjfdt);
+    rfturn OK;
+}
+
+// Forwbrd rfffrfndf
+stbtid void unpinPixflBufffr(JNIEnv *fnv, pixflBufffrPtr pb);
+
+/*
+ * Rfsfts b pixfl bufffr to its initibl stbtf.  Unpins bny pixfl bufffr,
+ * rflfbsfs tif globbl rfffrfndf, bnd rfsfts fiflds to NULL.  Usf tiis
+ * mftiod to disposf tif objfdt bs wfll (tifrf is no dfstroyPixflBufffr).
+ */
+stbtid void rfsftPixflBufffr(JNIEnv *fnv, pixflBufffrPtr pb) {
+    if (pb->ipixflObjfdt != NULL) {
+        unpinPixflBufffr(fnv, pb);
+        (*fnv)->DflftfGlobblRff(fnv, pb->ipixflObjfdt);
+        pb->ipixflObjfdt = NULL;
+        pb->bytfBufffrLfngti = 0;
+    }
+}
+
+/*
+ * Pins tif dbtb bufffr.  Rfturns OK on suddfss, NOT_OK on fbilurf.
+ */
+stbtid int pinPixflBufffr(JNIEnv *fnv, pixflBufffrPtr pb) {
+    if (pb->ipixflObjfdt != NULL) {
+        bssfrt(pb->buf.ip == NULL);
+        pb->buf.bp = (unsignfd dibr *)(*fnv)->GftPrimitivfArrbyCritidbl
+            (fnv, pb->ipixflObjfdt, NULL);
+        if (pb->buf.bp == NULL) {
+            rfturn NOT_OK;
+        }
+    }
+    rfturn OK;
+}
+
+/*
+ * Unpins tif dbtb bufffr.
+ */
+stbtid void unpinPixflBufffr(JNIEnv *fnv, pixflBufffrPtr pb) {
+
+    if (pb->buf.ip != NULL) {
+        bssfrt(pb->ipixflObjfdt != NULL);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                              pb->ipixflObjfdt,
+                                              pb->buf.ip,
+                                              0);
+        pb->buf.ip = NULL;
+    }
+}
+
+/********************* fnd PixflBufffr dffinition *******************/
+
+/********************* ImbgfIODbtb dffinition ***********************/
+
+#dffinf MAX_BANDS 4
+#dffinf JPEG_BAND_SIZE 8
+#dffinf NUM_BAND_VALUES (1<<JPEG_BAND_SIZE)
+#dffinf MAX_JPEG_BAND_VALUE (NUM_BAND_VALUES-1)
+#dffinf HALF_MAX_JPEG_BAND_VALUE (MAX_JPEG_BAND_VALUE>>1)
+
+/* Tif numbfr of possiblf indoming vblufs to bf sdblfd. */
+#dffinf NUM_INPUT_VALUES (1 << 16)
+
+/*
+ * Tif prindipbl imbgfioDbtb objfdt, opbquf to I/O dirfdtion.
+ * Ebdi JPEGImbgfRfbdfr will ibvf bssodibtfd witi it b
+ * jpfg_dfdomprfss_strudt, bnd similbrly fbdi JPEGImbgfWritfr will
+ * ibvf bssodibtfd witi it b jpfg_domprfss_strudt.  In ordfr to
+ * fnsurf tibt tifsf bssodibtions pfrsist from onf nbtivf dbll to
+ * tif nfxt, bnd to providf b dfntrbl lodus of imbgfio-spfdifid
+ * dbtb, wf dffinf bn imbgfioDbtb strudt dontbining rfffrfndfs
+ * to tif Jbvb objfdt bnd tif IJG strudts.  Tif fundtions
+ * tibt mbnipulbtf tifsf objfdts know wiftifr input or output is bfing
+ * pfrformfd bnd tifrfforf know iow to mbnipulbtf tif dontfnts dorrfdtly.
+ * If for somf rfbson tify don't, tif dirfdtion dbn bf dftfrminfd by
+ * difdking tif is_dfdomprfssor fifld of tif jpfgObj.
+ * In ordfr for lowfr lfvfl dodf to dftfrminf b
+ * Jbvb objfdt givfn bn IJG strudt, sudi bs for dispbtdiing wbrnings,
+ * wf usf tif dlifnt_dbtb fifld of tif jpfg objfdt to storf b pointfr
+ * to tif imbgfIODbtb objfdt.  Mbintfnbndf of tiis pointfr is pfrformfd
+ * fxdlusivfly witiin tif following bddfss fundtions.  If you
+ * dibngf tibt, you run tif risk of dbngling pointfrs.
+ */
+typfdff strudt imbgfIODbtbStrudt {
+    j_dommon_ptr jpfgObj;     // Eitifr strudt is finf
+    jobjfdt imbgfIOobj;       // A JPEGImbgfRfbdfr or b JPEGImbgfWritfr
+
+    strfbmBufffr strfbmBuf;   // Bufffr for tif strfbm
+    pixflBufffr pixflBuf;     // Bufffr for pixfls
+
+    jboolfbn bbortFlbg;       // Pbssfd down from Jbvb bbort mftiod
+} imbgfIODbtb, *imbgfIODbtbPtr;
+
+/*
+ * Allodbtf bnd initiblizf b nfw imbgfIODbtb objfdt to bssodibtf tif
+ * jpfg objfdt bnd tif Jbvb objfdt.  Rfturns b pointfr to tif nfw objfdt
+ * on suddfss, NULL on fbilurf.
+ */
+stbtid imbgfIODbtbPtr initImbgfioDbtb (JNIEnv *fnv,
+                                       j_dommon_ptr dinfo,
+                                       jobjfdt obj) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) mbllod (sizfof(imbgfIODbtb));
+    if (dbtb == NULL) {
+        rfturn NULL;
+    }
+
+    dbtb->jpfgObj = dinfo;
+    dinfo->dlifnt_dbtb = dbtb;
+
+#ifdff DEBUG_IIO_JPEG
+    printf("nfw strudturfs: dbtb is %p, dinfo is %p\n", dbtb, dinfo);
+#fndif
+
+    dbtb->imbgfIOobj = (*fnv)->NfwWfbkGlobblRff(fnv, obj);
+    if (dbtb->imbgfIOobj == NULL) {
+        frff (dbtb);
+        rfturn NULL;
+    }
+    if (initStrfbmBufffr(fnv, &dbtb->strfbmBuf) == NOT_OK) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv, dbtb->imbgfIOobj);
+        frff (dbtb);
+        rfturn NULL;
+    }
+    initPixflBufffr(&dbtb->pixflBuf);
+
+    dbtb->bbortFlbg = JNI_FALSE;
+
+    rfturn dbtb;
+}
+
+/*
+ * Rfsfts tif imbgfIODbtb objfdt to its initibl stbtf, bs tiougi
+ * it ibd just bffn bllodbtfd bnd initiblizfd.
+ */
+stbtid void rfsftImbgfIODbtb(JNIEnv *fnv, imbgfIODbtbPtr dbtb) {
+    rfsftStrfbmBufffr(fnv, &dbtb->strfbmBuf);
+    rfsftPixflBufffr(fnv, &dbtb->pixflBuf);
+    dbtb->bbortFlbg = JNI_FALSE;
+}
+
+/*
+ * Rflfbsfs bll rfsourdfs ifld by tiis objfdt bnd its subobjfdts,
+ * frffs tif objfdt, bnd rfturns tif jpfg objfdt.  Tiis mftiod must
+ * bf dbllfd to bvoid lfbking globbl rfffrfndfs.
+ * Notf tibt tif jpfg objfdt is not frffd or dfstroyfd, bs tibt is
+ * tif dlifnt's rfsponsibility, bltiougi tif dlifnt_dbtb fifld is
+ * dlfbrfd.
+ */
+stbtid j_dommon_ptr dfstroyImbgfioDbtb(JNIEnv *fnv, imbgfIODbtbPtr dbtb) {
+    j_dommon_ptr rft = dbtb->jpfgObj;
+    (*fnv)->DflftfWfbkGlobblRff(fnv, dbtb->imbgfIOobj);
+    dfstroyStrfbmBufffr(fnv, &dbtb->strfbmBuf);
+    rfsftPixflBufffr(fnv, &dbtb->pixflBuf);
+    rft->dlifnt_dbtb = NULL;
+    frff(dbtb);
+    rfturn rft;
+}
+
+/******************** fnd ImbgfIODbtb dffinition ***********************/
+
+/******************** Jbvb brrby pinning bnd unpinning *****************/
+
+/* Wf usf Gft/RflfbsfPrimitivfArrbyCritidbl fundtions to bvoid
+ * tif nffd to dopy brrby flfmfnts for tif bbovf two objfdts.
+ *
+ * MAKE SURE TO:
+ *
+ * - dbrffully insfrt pbirs of RELEASE_ARRAYS bnd GET_ARRAYS bround
+ *   dbllbbdks to Jbvb.
+ * - dbll RELEASE_ARRAYS bfforf rfturning to Jbvb.
+ *
+ * Otifrwisf tiings will go iorribly wrong. Tifrf mby bf mfmory lfbks,
+ * fxdfssivf pinning, or fvfn VM drbsifs!
+ *
+ * Notf tibt GftPrimitivfArrbyCritidbl mby fbil!
+ */
+
+/*
+ * Rflfbsf (unpin) bll tif brrbys in usf during b rfbd.
+ */
+stbtid void RELEASE_ARRAYS(JNIEnv *fnv, imbgfIODbtbPtr dbtb, donst JOCTET *nfxt_bytf)
+{
+    unpinStrfbmBufffr(fnv, &dbtb->strfbmBuf, nfxt_bytf);
+
+    unpinPixflBufffr(fnv, &dbtb->pixflBuf);
+
+}
+
+/*
+ * Gft (pin) bll tif brrbys in usf during b rfbd.
+ */
+stbtid int GET_ARRAYS(JNIEnv *fnv, imbgfIODbtbPtr dbtb, donst JOCTET **nfxt_bytf) {
+    if (pinStrfbmBufffr(fnv, &dbtb->strfbmBuf, nfxt_bytf) == NOT_OK) {
+        rfturn NOT_OK;
+    }
+
+    if (pinPixflBufffr(fnv, &dbtb->pixflBuf) == NOT_OK) {
+        RELEASE_ARRAYS(fnv, dbtb, *nfxt_bytf);
+        rfturn NOT_OK;
+    }
+    rfturn OK;
+}
+
+/****** fnd of Jbvb brrby pinning bnd unpinning ***********/
+
+/****** Error Hbndling *******/
+
+/*
+ * Sft up frror ibndling to usf sftjmp/longjmp.  Tiis is tif tiird sudi
+ * sftup, bs boti tif AWT jpfg dfdodfr bnd tif dom.sun... JPEG dlbssfs
+ * sftup tiifr own.  Ultimbtfly tifsf siould bf intfgrbtfd, bs tify bll
+ * do prftty mudi tif sbmf tiing.
+ */
+
+strudt sun_jpfg_frror_mgr {
+  strudt jpfg_frror_mgr pub;    /* "publid" fiflds */
+
+  jmp_buf sftjmp_bufffr;        /* for rfturn to dbllfr */
+};
+
+typfdff strudt sun_jpfg_frror_mgr * sun_jpfg_frror_ptr;
+
+/*
+ * Hfrf's tif routinf tibt will rfplbdf tif stbndbrd frror_fxit mftiod:
+ */
+
+METHODDEF(void)
+sun_jpfg_frror_fxit (j_dommon_ptr dinfo)
+{
+  /* dinfo->frr rfblly points to b sun_jpfg_frror_mgr strudt */
+  sun_jpfg_frror_ptr myfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+  /* For Jbvb, wf will formbt tif mfssbgf bnd put it in tif frror wf tirow. */
+
+  /* Rfturn dontrol to tif sftjmp point */
+  longjmp(myfrr->sftjmp_bufffr, 1);
+}
+
+/*
+ * Error Mfssbgf ibndling
+ *
+ * Tiis ovfrridfs tif output_mfssbgf mftiod to sfnd JPEG mfssbgfs
+ *
+ */
+
+METHODDEF(void)
+sun_jpfg_output_mfssbgf (j_dommon_ptr dinfo)
+{
+  dibr bufffr[JMSG_LENGTH_MAX];
+  jstring string;
+  imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+  JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+  jobjfdt tifObjfdt;
+
+  /* Crfbtf tif mfssbgf */
+  (*dinfo->frr->formbt_mfssbgf) (dinfo, bufffr);
+
+  // Crfbtf b nfw jbvb string from tif mfssbgf
+  string = (*fnv)->NfwStringUTF(fnv, bufffr);
+  CHECK_NULL(string);
+
+  tifObjfdt = dbtb->imbgfIOobj;
+
+  if (dinfo->is_dfdomprfssor) {
+      (*fnv)->CbllVoidMftiod(fnv, tifObjfdt,
+                             JPEGImbgfRfbdfr_wbrningWitiMfssbgfID,
+                             string);
+  } flsf {
+      (*fnv)->CbllVoidMftiod(fnv, tifObjfdt,
+                             JPEGImbgfWritfr_wbrningWitiMfssbgfID,
+                             string);
+  }
+}
+
+/* End of vfrbbtim dopy from jpfgdfdodfr.d */
+
+/*************** fnd of frror ibndling *********************/
+
+/*************** Sibrfd utility dodf ***********************/
+
+stbtid void imbgfio_sft_strfbm(JNIEnv *fnv,
+                               j_dommon_ptr dinfo,
+                               imbgfIODbtbPtr dbtb,
+                               jobjfdt io){
+    strfbmBufffrPtr sb;
+    sun_jpfg_frror_ptr jfrr;
+
+    sb = &dbtb->strfbmBuf;
+
+    rfsftStrfbmBufffr(fnv, sb);  // Rfmovfs bny old strfbm
+
+    /* Now wf nffd b nfw wfbk globbl rfffrfndf for tif I/O providfr */
+    if (io != NULL) { // Fix for 4411955
+        sb->ioRff = (*fnv)->NfwWfbkGlobblRff(fnv, io);
+        CHECK_NULL(sb->ioRff);
+    }
+
+    /* And finblly rfsft stbtf */
+    dbtb->bbortFlbg = JNI_FALSE;
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    jfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror
+           wiilf bborting. */
+        if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+            dibr bufffr[JMSG_LENGTH_MAX];
+            (*dinfo->frr->formbt_mfssbgf) (dinfo,
+                                           bufffr);
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        }
+        rfturn;
+    }
+
+    jpfg_bbort(dinfo);  // Frffs bny mbrkfrs, but not tbblfs
+
+}
+
+stbtid void imbgfio_rfsft(JNIEnv *fnv,
+                          j_dommon_ptr dinfo,
+                          imbgfIODbtbPtr dbtb) {
+    sun_jpfg_frror_ptr jfrr;
+
+    rfsftImbgfIODbtb(fnv, dbtb);  // Mbpping to jpfg objfdt is rftbinfd.
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    jfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror
+           wiilf bborting. */
+        if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+            dibr bufffr[JMSG_LENGTH_MAX];
+            (*dinfo->frr->formbt_mfssbgf) (dinfo, bufffr);
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        }
+        rfturn;
+    }
+
+    jpfg_bbort(dinfo);  // Dofs not rfsft tbblfs
+
+}
+
+stbtid void imbgfio_disposf(j_dommon_ptr info) {
+
+    if (info != NULL) {
+        frff(info->frr);
+        info->frr = NULL;
+        if (info->is_dfdomprfssor) {
+            j_dfdomprfss_ptr dinfo = (j_dfdomprfss_ptr) info;
+            frff(dinfo->srd);
+            dinfo->srd = NULL;
+        } flsf {
+            j_domprfss_ptr dinfo = (j_domprfss_ptr) info;
+            frff(dinfo->dfst);
+            dinfo->dfst = NULL;
+        }
+        jpfg_dfstroy(info);
+        frff(info);
+    }
+}
+
+stbtid void imbgfio_bbort(JNIEnv *fnv, jobjfdt tiis,
+                          imbgfIODbtbPtr dbtb) {
+    dbtb->bbortFlbg = JNI_TRUE;
+}
+
+stbtid int sftQTbblfs(JNIEnv *fnv,
+                      j_dommon_ptr dinfo,
+                      jobjfdtArrby qtbblfs,
+                      boolfbn writf) {
+    jsizf qlfn;
+    jobjfdt tbblf;
+    jintArrby qdbtb;
+    jint *qdbtbBody;
+    JQUANT_TBL *qubnt_ptr;
+    int i, j;
+    j_domprfss_ptr domp;
+    j_dfdomprfss_ptr dfdomp;
+
+    qlfn = (*fnv)->GftArrbyLfngti(fnv, qtbblfs);
+#ifdff DEBUG_IIO_JPEG
+    printf("in sftQTbblfs, qlfn = %d, writf is %d\n", qlfn, writf);
+#fndif
+    if (qlfn > NUM_QUANT_TBLS) {
+        /* Ignorf fxtrb quntfrizbtion tbblfs. */
+        qlfn = NUM_QUANT_TBLS;
+    }
+    for (i = 0; i < qlfn; i++) {
+        tbblf = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, qtbblfs, i);
+        CHECK_NULL_RETURN(tbblf, 0);
+        qdbtb = (*fnv)->GftObjfdtFifld(fnv, tbblf, JPEGQTbblf_tbblfID);
+        qdbtbBody = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, qdbtb, NULL);
+
+        if (dinfo->is_dfdomprfssor) {
+            dfdomp = (j_dfdomprfss_ptr) dinfo;
+            if (dfdomp->qubnt_tbl_ptrs[i] == NULL) {
+                dfdomp->qubnt_tbl_ptrs[i] =
+                    jpfg_bllod_qubnt_tbblf(dinfo);
+            }
+            qubnt_ptr = dfdomp->qubnt_tbl_ptrs[i];
+        } flsf {
+            domp = (j_domprfss_ptr) dinfo;
+            if (domp->qubnt_tbl_ptrs[i] == NULL) {
+                domp->qubnt_tbl_ptrs[i] =
+                    jpfg_bllod_qubnt_tbblf(dinfo);
+            }
+            qubnt_ptr = domp->qubnt_tbl_ptrs[i];
+        }
+
+        for (j = 0; j < 64; j++) {
+            qubnt_ptr->qubntvbl[j] = (UINT16)qdbtbBody[j];
+        }
+        qubnt_ptr->sfnt_tbblf = !writf;
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                              qdbtb,
+                                              qdbtbBody,
+                                              0);
+    }
+    rfturn qlfn;
+}
+
+stbtid boolfbn sftHuffTbblf(JNIEnv *fnv,
+                         JHUFF_TBL *iuff_ptr,
+                         jobjfdt tbblf) {
+
+    jsiortArrby iuffLfns;
+    jsiortArrby iuffVblufs;
+    jsiort *ilfnsBody, *ivblsBody;
+    jsizf ilfnsLfn, ivblsLfn;
+    int i;
+
+    // lfngtis
+    iuffLfns = (*fnv)->GftObjfdtFifld(fnv,
+                                      tbblf,
+                                      JPEGHuffmbnTbblf_lfngtisID);
+    ilfnsLfn = (*fnv)->GftArrbyLfngti(fnv, iuffLfns);
+    ilfnsBody = (*fnv)->GftSiortArrbyElfmfnts(fnv,
+                                              iuffLfns,
+                                              NULL);
+    CHECK_NULL_RETURN(ilfnsBody, FALSE);
+
+    if (ilfnsLfn > 16) {
+        /* Ignorf fxtrb flfmfnts of bits brrby. Only 16 flfmfnts dbn bf
+           storfd. 0-ti flfmfnt is not usfd. (sff jpfglib.i, linf 107)  */
+        ilfnsLfn = 16;
+    }
+    for (i = 1; i <= ilfnsLfn; i++) {
+        iuff_ptr->bits[i] = (UINT8)ilfnsBody[i-1];
+    }
+    (*fnv)->RflfbsfSiortArrbyElfmfnts(fnv,
+                                      iuffLfns,
+                                      ilfnsBody,
+                                      JNI_ABORT);
+    // vblufs
+    iuffVblufs = (*fnv)->GftObjfdtFifld(fnv,
+                                        tbblf,
+                                        JPEGHuffmbnTbblf_vblufsID);
+    ivblsLfn = (*fnv)->GftArrbyLfngti(fnv, iuffVblufs);
+    ivblsBody = (*fnv)->GftSiortArrbyElfmfnts(fnv,
+                                              iuffVblufs,
+                                              NULL);
+    CHECK_NULL_RETURN(ivblsBody, FALSE);
+
+    if (ivblsLfn > 256) {
+        /* Ignorf fxtrb flfmfnts of iufvbl brrby. Only 256 flfmfnts
+           dbn bf storfd. (sff jpfglib.i, linf 109)                  */
+        ilfnsLfn = 256;
+    }
+    for (i = 0; i < ivblsLfn; i++) {
+        iuff_ptr->iuffvbl[i] = (UINT8)ivblsBody[i];
+    }
+    (*fnv)->RflfbsfSiortArrbyElfmfnts(fnv,
+                                      iuffVblufs,
+                                      ivblsBody,
+                                      JNI_ABORT);
+    rfturn TRUE;
+}
+
+stbtid int sftHTbblfs(JNIEnv *fnv,
+                      j_dommon_ptr dinfo,
+                      jobjfdtArrby DCHuffmbnTbblfs,
+                      jobjfdtArrby ACHuffmbnTbblfs,
+                      boolfbn writf) {
+    int i;
+    jobjfdt tbblf;
+    JHUFF_TBL *iuff_ptr;
+    j_domprfss_ptr domp;
+    j_dfdomprfss_ptr dfdomp;
+    jsizf ilfn = (*fnv)->GftArrbyLfngti(fnv, DCHuffmbnTbblfs);
+
+    if (ilfn > NUM_HUFF_TBLS) {
+        /* Ignorf fxtrb DC iuffmbn tbblfs. */
+        ilfn = NUM_HUFF_TBLS;
+    }
+    for (i = 0; i < ilfn; i++) {
+        if (dinfo->is_dfdomprfssor) {
+            dfdomp = (j_dfdomprfss_ptr) dinfo;
+            if (dfdomp->dd_iuff_tbl_ptrs[i] == NULL) {
+                dfdomp->dd_iuff_tbl_ptrs[i] =
+                    jpfg_bllod_iuff_tbblf(dinfo);
+            }
+            iuff_ptr = dfdomp->dd_iuff_tbl_ptrs[i];
+        } flsf {
+            domp = (j_domprfss_ptr) dinfo;
+            if (domp->dd_iuff_tbl_ptrs[i] == NULL) {
+                domp->dd_iuff_tbl_ptrs[i] =
+                    jpfg_bllod_iuff_tbblf(dinfo);
+            }
+            iuff_ptr = domp->dd_iuff_tbl_ptrs[i];
+        }
+        tbblf = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, DCHuffmbnTbblfs, i);
+        if (tbblf == NULL || !sftHuffTbblf(fnv, iuff_ptr, tbblf)) {
+            rfturn 0;
+        }
+        iuff_ptr->sfnt_tbblf = !writf;
+    }
+    ilfn = (*fnv)->GftArrbyLfngti(fnv, ACHuffmbnTbblfs);
+    if (ilfn > NUM_HUFF_TBLS) {
+        /* Ignorf fxtrb AC iuffmbn tbblfs. */
+        ilfn = NUM_HUFF_TBLS;
+    }
+    for (i = 0; i < ilfn; i++) {
+        if (dinfo->is_dfdomprfssor) {
+            dfdomp = (j_dfdomprfss_ptr) dinfo;
+            if (dfdomp->bd_iuff_tbl_ptrs[i] == NULL) {
+                dfdomp->bd_iuff_tbl_ptrs[i] =
+                    jpfg_bllod_iuff_tbblf(dinfo);
+            }
+            iuff_ptr = dfdomp->bd_iuff_tbl_ptrs[i];
+        } flsf {
+            domp = (j_domprfss_ptr) dinfo;
+            if (domp->bd_iuff_tbl_ptrs[i] == NULL) {
+                domp->bd_iuff_tbl_ptrs[i] =
+                    jpfg_bllod_iuff_tbblf(dinfo);
+            }
+            iuff_ptr = domp->bd_iuff_tbl_ptrs[i];
+        }
+        tbblf = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, ACHuffmbnTbblfs, i);
+        if(tbblf == NULL || !sftHuffTbblf(fnv, iuff_ptr, tbblf)) {
+            rfturn 0;
+        }
+        iuff_ptr->sfnt_tbblf = !writf;
+    }
+    rfturn ilfn;
+}
+
+
+/*************** fnd of sibrfd utility dodf ****************/
+
+/********************** Rfbdfr Support **************************/
+
+/********************** Sourdf Mbnbgfmfnt ***********************/
+
+/*
+ * INPUT HANDLING:
+ *
+ * Tif JPEG librbry's input mbnbgfmfnt is dffinfd by tif jpfg_sourdf_mgr
+ * strudturf wiidi dontbins two fiflds to donvfy tif informbtion in tif
+ * bufffr bnd 5 mftiods wiidi pfrform bll bufffr mbnbgfmfnt.  Tif librbry
+ * dffinfs b stbndbrd input mbnbgfr tibt usfs stdio for obtbining domprfssfd
+ * jpfg dbtb, but ifrf wf nffd to usf Jbvb to gft our dbtb.
+ *
+ * Wf usf tif librbry jpfg_sourdf_mgr but our own routinfs tibt bddfss
+ * imbgfio-spfdifid informbtion in tif imbgfIODbtb strudturf.
+ */
+
+/*
+ * Initiblizf sourdf.  Tiis is dbllfd by jpfg_rfbd_ifbdfr() bfforf bny
+ * dbtb is bdtublly rfbd.  Unlikf init_dfstinbtion(), it mby lfbvf
+ * bytfs_in_bufffr sft to 0 (in wiidi dbsf b fill_input_bufffr() dbll
+ * will oddur immfdibtfly).
+ */
+
+GLOBAL(void)
+imbgfio_init_sourdf(j_dfdomprfss_ptr dinfo)
+{
+    strudt jpfg_sourdf_mgr *srd = dinfo->srd;
+    srd->nfxt_input_bytf = NULL;
+    srd->bytfs_in_bufffr = 0;
+}
+
+/*
+ * Tiis is dbllfd wifnfvfr bytfs_in_bufffr ibs rfbdifd zfro bnd morf
+ * dbtb is wbntfd.  In typidbl bpplidbtions, it siould rfbd frfsi dbtb
+ * into tif bufffr (ignoring tif durrfnt stbtf of nfxt_input_bytf bnd
+ * bytfs_in_bufffr), rfsft tif pointfr & dount to tif stbrt of tif
+ * bufffr, bnd rfturn TRUE indidbting tibt tif bufffr ibs bffn rflobdfd.
+ * It is not nfdfssbry to fill tif bufffr fntirfly, only to obtbin bt
+ * lfbst onf morf bytf.  bytfs_in_bufffr MUST bf sft to b positivf vbluf
+ * if TRUE is rfturnfd.  A FALSE rfturn siould only bf usfd wifn I/O
+ * suspfnsion is dfsirfd (tiis modf is disdussfd in tif nfxt sfdtion).
+ */
+/*
+ * Notf tibt witi I/O suspfnsion turnfd on, tiis prodfdurf siould not
+ * do bny work sindf tif JPEG librbry ibs b vfry simplf bbdktrbdking
+ * mfdibnism wiidi rflifs on tif fbdt tibt tif bufffr will bf fillfd
+ * only wifn it ibs bbdkfd out to tif top bpplidbtion lfvfl.  Wifn
+ * suspfndbblf is turnfd on, imbgfio_fill_suspfndfd_bufffr will
+ * do tif bdtubl work of filling tif bufffr.
+ */
+
+GLOBAL(boolfbn)
+imbgfio_fill_input_bufffr(j_dfdomprfss_ptr dinfo)
+{
+    strudt jpfg_sourdf_mgr *srd = dinfo->srd;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    strfbmBufffrPtr sb = &dbtb->strfbmBuf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    int rft;
+    jobjfdt input = NULL;
+
+    /* Tiis is wifrf input suspfnds */
+    if (sb->suspfndbblf) {
+        rfturn FALSE;
+    }
+
+#ifdff DEBUG_IIO_JPEG
+    printf("Filling input bufffr, rfmbining skip is %ld, ",
+           sb->rfmbining_skip);
+    printf("Bufffr lfngti is %d\n", sb->bufffrLfngti);
+#fndif
+
+    /*
+     * Dffinitivfly skips.  Could bf lfft ovfr if wf trifd to skip
+     * morf tibn b bufffr's worti but suspfndfd wifn gftting tif nfxt
+     * bufffr.  Now wf brfn't suspfndfd, so wf dbn dbtdi up.
+     */
+    if (sb->rfmbining_skip) {
+        srd->skip_input_dbtb(dinfo, 0);
+    }
+
+    /*
+     * Now fill b domplftf bufffr, or bs mudi of onf bs tif strfbm
+     * will givf us if wf brf nfbr tif fnd.
+     */
+    RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+
+    GET_IO_REF(input);
+
+    rft = (*fnv)->CbllIntMftiod(fnv,
+                                input,
+                                JPEGImbgfRfbdfr_rfbdInputDbtbID,
+                                sb->istrfbmBufffr, 0,
+                                sb->bufffrLfngti);
+    if ((rft > 0) && ((unsignfd int)rft > sb->bufffrLfngti)) {
+         rft = sb->bufffrLfngti;
+    }
+    if ((*fnv)->ExdfptionOddurrfd(fnv)
+        || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+    }
+
+#ifdff DEBUG_IIO_JPEG
+      printf("Bufffr fillfd. rft = %d\n", rft);
+#fndif
+    /*
+     * If wf ibvf rfbdifd tif fnd of tif strfbm, tifn tif EOI mbrkfr
+     * is missing.  Wf bddfpt sudi strfbms but gfnfrbtf b wbrning.
+     * Tif imbgf is likfly to bf dorruptfd, tiougi fvfrytiing tirougi
+     * tif fnd of tif lbst domplftf MCU siould bf usbblf.
+     */
+    if (rft <= 0) {
+        jobjfdt rfbdfr = dbtb->imbgfIOobj;
+#ifdff DEBUG_IIO_JPEG
+      printf("YO! Ebrly EOI! rft = %d\n", rft);
+#fndif
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+        (*fnv)->CbllVoidMftiod(fnv, rfbdfr,
+                               JPEGImbgfRfbdfr_wbrningOddurrfdID,
+                               READ_NO_EOI);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)
+            || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+        }
+
+        sb->buf[0] = (JOCTET) 0xFF;
+        sb->buf[1] = (JOCTET) JPEG_EOI;
+        rft = 2;
+    }
+
+    srd->nfxt_input_bytf = sb->buf;
+    srd->bytfs_in_bufffr = rft;
+
+    rfturn TRUE;
+}
+
+/*
+ * Witi I/O suspfnsion turnfd on, tif JPEG librbry rfquirfs tibt bll
+ * bufffr filling bf donf bt tif top bpplidbtion lfvfl, using tiis
+ * fundtion.  Duf to tif wby tibt bbdktrbdking works, tiis prodfdurf
+ * sbvfs bll of tif dbtb tibt wbs lfft in tif bufffr wifn suspfnsion
+ * oddurrfd bnd rfbd nfw dbtb only bt tif fnd.
+ */
+
+GLOBAL(void)
+imbgfio_fill_suspfndfd_bufffr(j_dfdomprfss_ptr dinfo)
+{
+    strudt jpfg_sourdf_mgr *srd = dinfo->srd;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    strfbmBufffrPtr sb = &dbtb->strfbmBuf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jint rft;
+    sizf_t offsft, buflfn;
+    jobjfdt input = NULL;
+
+    /*
+     * Tif originbl (jpfgdfdodfr.d) ibd dodf ifrf tibt dbllfd
+     * InputStrfbm.bvbilbblf bnd just rfturnfd if tif numbfr of bytfs
+     * bvbilbblf wbs lfss tibn bny rfmbining skip.  Prfsumbbly tiis wbs
+     * to bvoid blodking, bltiougi tif bfnffit wbs undlfbr, bs no morf
+     * dfdomprfssion dbn tbkf plbdf until morf dbtb is bvbilbblf, so
+     * tif dodf would blodk on input b littlf furtifr blong bnywby.
+     * ImbgfInputStrfbms don't ibvf bn bvbilbblf mftiod, so wf'll just
+     * blodk in tif skip if wf ibvf to.
+     */
+
+    if (sb->rfmbining_skip) {
+        srd->skip_input_dbtb(dinfo, 0);
+    }
+
+    /* Sbvf tif dbtb durrfntly in tif bufffr */
+    offsft = srd->bytfs_in_bufffr;
+    if (srd->nfxt_input_bytf > sb->buf) {
+        mfmdpy(sb->buf, srd->nfxt_input_bytf, offsft);
+    }
+
+
+    RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+
+    GET_IO_REF(input);
+
+    buflfn = sb->bufffrLfngti - offsft;
+    if (buflfn <= 0) {
+        if (!GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+        }
+        rfturn;
+    }
+
+    rft = (*fnv)->CbllIntMftiod(fnv, input,
+                                JPEGImbgfRfbdfr_rfbdInputDbtbID,
+                                sb->istrfbmBufffr,
+                                offsft, buflfn);
+    if ((rft > 0) && ((unsignfd int)rft > buflfn)) rft = buflfn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv)
+        || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+        dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+    }
+    /*
+     * If wf ibvf rfbdifd tif fnd of tif strfbm, tifn tif EOI mbrkfr
+     * is missing.  Wf bddfpt sudi strfbms but gfnfrbtf b wbrning.
+     * Tif imbgf is likfly to bf dorruptfd, tiougi fvfrytiing tirougi
+     * tif fnd of tif lbst domplftf MCU siould bf usbblf.
+     */
+    if (rft <= 0) {
+        jobjfdt rfbdfr = dbtb->imbgfIOobj;
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+        (*fnv)->CbllVoidMftiod(fnv, rfbdfr,
+                               JPEGImbgfRfbdfr_wbrningOddurrfdID,
+                               READ_NO_EOI);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)
+            || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+        }
+
+        sb->buf[offsft] = (JOCTET) 0xFF;
+        sb->buf[offsft + 1] = (JOCTET) JPEG_EOI;
+        rft = 2;
+    }
+
+    srd->nfxt_input_bytf = sb->buf;
+    srd->bytfs_in_bufffr = rft + offsft;
+
+    rfturn;
+}
+
+/*
+ * Skip num_bytfs worti of dbtb.  Tif bufffr pointfr bnd dount brf
+ * bdvbndfd ovfr num_bytfs input bytfs, using tif input strfbm
+ * skipBytfs mftiod if tif skip is grfbtfr tibn tif numbfr of bytfs
+ * in tif bufffr.  Tiis is usfd to skip ovfr b potfntiblly lbrgf bmount of
+ * unintfrfsting dbtb (sudi bs bn APPn mbrkfr).  bytfs_in_bufffr will bf
+ * zfro on rfturn if tif skip is lbrgfr tibn tif durrfnt dontfnts of tif
+ * bufffr.
+ *
+ * A nfgbtivf skip dount is trfbtfd bs b no-op.  A zfro skip dount
+ * skips bny rfmbining skip from b prfvious skip wiilf suspfndfd.
+ *
+ * Notf tibt witi I/O suspfnsion turnfd on, tiis prodfdurf dofs not
+ * dbll skipBytfs sindf tif JPEG librbry ibs b vfry simplf bbdktrbdking
+ * mfdibnism wiidi rflifs on tif fbdt tibt tif bpplidbtion lfvfl ibs
+ * fxdlusivf dontrol ovfr bdtubl I/O.
+ */
+
+GLOBAL(void)
+imbgfio_skip_input_dbtb(j_dfdomprfss_ptr dinfo, long num_bytfs)
+{
+    strudt jpfg_sourdf_mgr *srd = dinfo->srd;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    strfbmBufffrPtr sb = &dbtb->strfbmBuf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jlong rft;
+    jobjfdt rfbdfr;
+    jobjfdt input = NULL;
+
+    if (num_bytfs < 0) {
+        rfturn;
+    }
+    num_bytfs += sb->rfmbining_skip;
+    sb->rfmbining_skip = 0;
+
+    /* First tif fbsy dbsf wifrf wf brf skipping <= tif durrfnt dontfnts. */
+    rft = srd->bytfs_in_bufffr;
+    if (rft >= num_bytfs) {
+        srd->nfxt_input_bytf += num_bytfs;
+        srd->bytfs_in_bufffr -= num_bytfs;
+        rfturn;
+    }
+
+    /*
+     * Wf brf skipping morf tibn is in tif bufffr.  Wf fmpty tif bufffr bnd,
+     * if wf brfn't suspfndfd, dbll tif Jbvb skipBytfs mftiod.  Wf blwbys
+     * lfbvf tif bufffr fmpty, to bf fillfd by fitifr fill mftiod bbovf.
+     */
+    srd->bytfs_in_bufffr = 0;
+    srd->nfxt_input_bytf = sb->buf;
+
+    num_bytfs -= (long)rft;
+    if (sb->suspfndbblf) {
+        sb->rfmbining_skip = num_bytfs;
+        rfturn;
+    }
+
+    RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+
+    GET_IO_REF(input);
+
+    rft = (*fnv)->CbllLongMftiod(fnv,
+                                 input,
+                                 JPEGImbgfRfbdfr_skipInputBytfsID,
+                                 (jlong) num_bytfs);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)
+        || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+    }
+
+    /*
+     * If wf ibvf rfbdifd tif fnd of tif strfbm, tifn tif EOI mbrkfr
+     * is missing.  Wf bddfpt sudi strfbms but gfnfrbtf b wbrning.
+     * Tif imbgf is likfly to bf dorruptfd, tiougi fvfrytiing tirougi
+     * tif fnd of tif lbst domplftf MCU siould bf usbblf.
+     */
+    if (rft <= 0) {
+        rfbdfr = dbtb->imbgfIOobj;
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+        (*fnv)->CbllVoidMftiod(fnv,
+                               rfbdfr,
+                               JPEGImbgfRfbdfr_wbrningOddurrfdID,
+                               READ_NO_EOI);
+
+        if ((*fnv)->ExdfptionOddurrfd(fnv)
+            || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+                dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+        }
+        sb->buf[0] = (JOCTET) 0xFF;
+        sb->buf[1] = (JOCTET) JPEG_EOI;
+        srd->bytfs_in_bufffr = 2;
+        srd->nfxt_input_bytf = sb->buf;
+    }
+}
+
+/*
+ * Tfrminbtf sourdf --- dbllfd by jpfg_finisi_dfdomprfss() bftfr bll
+ * dbtb for bn imbgf ibs bffn rfbd.  In our dbsf pusifs bbdk bny
+ * rfmbining dbtb, bs it will bf for bnotifr imbgf bnd must bf bvbilbblf
+ * for jbvb to find out tibt tifrf is bnotifr imbgf.  Also dbllfd if
+ * rfsfting stbtf bftfr rfbding b tbblfs-only imbgf.
+ */
+
+GLOBAL(void)
+imbgfio_tfrm_sourdf(j_dfdomprfss_ptr dinfo)
+{
+    // To pusibbdk, just sffk bbdk by srd->bytfs_in_bufffr
+    strudt jpfg_sourdf_mgr *srd = dinfo->srd;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt rfbdfr = dbtb->imbgfIOobj;
+    if (srd->bytfs_in_bufffr > 0) {
+         RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+         (*fnv)->CbllVoidMftiod(fnv,
+                                rfbdfr,
+                                JPEGImbgfRfbdfr_pusiBbdkID,
+                                srd->bytfs_in_bufffr);
+
+         if ((*fnv)->ExdfptionOddurrfd(fnv)
+             || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+             dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+         }
+         srd->bytfs_in_bufffr = 0;
+         //srd->nfxt_input_bytf = sb->buf;
+    }
+}
+
+/********************* fnd of sourdf mbnbgfr ******************/
+
+/********************* ICC profilf support ********************/
+/*
+ * Tif following routinfs brf modififd vfrsions of tif ICC
+ * profilf support routinfs bvbilbblf from tif IJG wfbsitf.
+ * Tif originbls wfrf writtfn by Todd Nfwmbn
+ * <tdn@fddfntrid.fsd.sgi.dom> bnd modififd by Tom Lbnf for
+ * tif IJG.  Tify brf furtifr modififd to fit in tif dontfxt
+ * of tif imbgfio JPEG plug-in.
+ */
+
+/*
+ * Sindf bn ICC profilf dbn bf lbrgfr tibn tif mbximum sizf of b JPEG mbrkfr
+ * (64K), wf nffd provisions to split it into multiplf mbrkfrs.  Tif formbt
+ * dffinfd by tif ICC spfdififs onf or morf APP2 mbrkfrs dontbining tif
+ * following dbtb:
+ *      Idfntifying string      ASCII "ICC_PROFILE\0"  (12 bytfs)
+ *      Mbrkfr sfqufndf numbfr  1 for first APP2, 2 for nfxt, ftd (1 bytf)
+ *      Numbfr of mbrkfrs       Totbl numbfr of APP2's usfd (1 bytf)
+ *      Profilf dbtb            (rfmbindfr of APP2 dbtb)
+ * Dfdodfrs siould usf tif mbrkfr sfqufndf numbfrs to rfbssfmblf tif profilf,
+ * rbtifr tibn bssuming tibt tif APP2 mbrkfrs bppfbr in tif dorrfdt sfqufndf.
+ */
+
+#dffinf ICC_MARKER  (JPEG_APP0 + 2)     /* JPEG mbrkfr dodf for ICC */
+#dffinf ICC_OVERHEAD_LEN  14            /* sizf of non-profilf dbtb in APP2 */
+#dffinf MAX_BYTES_IN_MARKER  65533      /* mbximum dbtb lfn of b JPEG mbrkfr */
+#dffinf MAX_DATA_BYTES_IN_ICC_MARKER  (MAX_BYTES_IN_MARKER - ICC_OVERHEAD_LEN)
+
+
+/*
+ * Hbndy subroutinf to tfst wiftifr b sbvfd mbrkfr is bn ICC profilf mbrkfr.
+ */
+
+stbtid boolfbn
+mbrkfr_is_idd (jpfg_sbvfd_mbrkfr_ptr mbrkfr)
+{
+  rfturn
+    mbrkfr->mbrkfr == ICC_MARKER &&
+    mbrkfr->dbtb_lfngti >= ICC_OVERHEAD_LEN &&
+    /* vfrify tif idfntifying string */
+    GETJOCTET(mbrkfr->dbtb[0]) == 0x49 &&
+    GETJOCTET(mbrkfr->dbtb[1]) == 0x43 &&
+    GETJOCTET(mbrkfr->dbtb[2]) == 0x43 &&
+    GETJOCTET(mbrkfr->dbtb[3]) == 0x5F &&
+    GETJOCTET(mbrkfr->dbtb[4]) == 0x50 &&
+    GETJOCTET(mbrkfr->dbtb[5]) == 0x52 &&
+    GETJOCTET(mbrkfr->dbtb[6]) == 0x4F &&
+    GETJOCTET(mbrkfr->dbtb[7]) == 0x46 &&
+    GETJOCTET(mbrkfr->dbtb[8]) == 0x49 &&
+    GETJOCTET(mbrkfr->dbtb[9]) == 0x4C &&
+    GETJOCTET(mbrkfr->dbtb[10]) == 0x45 &&
+    GETJOCTET(mbrkfr->dbtb[11]) == 0x0;
+}
+
+/*
+ * Sff if tifrf wbs bn ICC profilf in tif JPEG filf bfing rfbd;
+ * if so, rfbssfmblf bnd rfturn tif profilf dbtb bs b nfw Jbvb bytf brrby.
+ * If tifrf wbs no ICC profilf, rfturn NULL.
+ *
+ * If tif filf dontbins invblid ICC APP2 mbrkfrs, wf tirow bn IIOExdfption
+ * witi bn bppropribtf mfssbgf.
+ */
+
+jbytfArrby
+rfbd_idd_profilf (JNIEnv *fnv, j_dfdomprfss_ptr dinfo)
+{
+    jpfg_sbvfd_mbrkfr_ptr mbrkfr;
+    int num_mbrkfrs = 0;
+    int num_found_mbrkfrs = 0;
+    int sfq_no;
+    JOCTET *idd_dbtb;
+    JOCTET *dst_ptr;
+    unsignfd int totbl_lfngti;
+#dffinf MAX_SEQ_NO  255         // suffidifnt sindf mbrkfr numbfrs brf bytfs
+    jpfg_sbvfd_mbrkfr_ptr idd_mbrkfrs[MAX_SEQ_NO + 1];
+    int first;         // indfx of tif first mbrkfr in tif idd_mbrkfrs brrby
+    int lbst;          // indfx of tif lbst mbrkfr in tif idd_mbrkfrs brrby
+    jbytfArrby dbtb = NULL;
+
+    /* Tiis first pbss ovfr tif sbvfd mbrkfrs disdovfrs wiftifr tifrf brf
+     * bny ICC mbrkfrs bnd vfrififs tif donsistfndy of tif mbrkfr numbfring.
+     */
+
+    for (sfq_no = 0; sfq_no <= MAX_SEQ_NO; sfq_no++)
+        idd_mbrkfrs[sfq_no] = NULL;
+
+
+    for (mbrkfr = dinfo->mbrkfr_list; mbrkfr != NULL; mbrkfr = mbrkfr->nfxt) {
+        if (mbrkfr_is_idd(mbrkfr)) {
+            if (num_mbrkfrs == 0)
+                num_mbrkfrs = GETJOCTET(mbrkfr->dbtb[13]);
+            flsf if (num_mbrkfrs != GETJOCTET(mbrkfr->dbtb[13])) {
+                JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                     "Invblid idd profilf: indonsistfnt num_mbrkfrs fiflds");
+                rfturn NULL;
+            }
+            sfq_no = GETJOCTET(mbrkfr->dbtb[12]);
+
+            /* Somf tiird-pbrty tools produdf imbgfs witi profilf diunk
+             * numfrbtion stbrtfd from zfro. It is indonsistfnt witi ICC
+             * spfd, but sffms to bf rfdognizfd by mbjority of imbgf
+             * prodfssing tools, so wf siould bf morf tolfrbnt to tiis
+             * dfpbrturf from tif spfd.
+             */
+            if (sfq_no < 0 || sfq_no > num_mbrkfrs) {
+                JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                     "Invblid idd profilf: bbd sfqufndf numbfr");
+                rfturn NULL;
+            }
+            if (idd_mbrkfrs[sfq_no] != NULL) {
+                JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                     "Invblid idd profilf: duplidbtf sfqufndf numbfrs");
+                rfturn NULL;
+            }
+            idd_mbrkfrs[sfq_no] = mbrkfr;
+            num_found_mbrkfrs ++;
+        }
+    }
+
+    if (num_mbrkfrs == 0)
+        rfturn NULL;  // Tifrf is no profilf
+
+    if (num_mbrkfrs != num_found_mbrkfrs) {
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                        "Invblid idd profilf: invblid numbfr of idd mbrkfrs");
+        rfturn NULL;
+    }
+
+    first = idd_mbrkfrs[0] ? 0 : 1;
+    lbst = num_found_mbrkfrs + first;
+
+    /* Cifdk for missing mbrkfrs, dount totbl spbdf nffdfd.
+     */
+    totbl_lfngti = 0;
+    for (sfq_no = first; sfq_no < lbst; sfq_no++) {
+        unsignfd int lfngti;
+        if (idd_mbrkfrs[sfq_no] == NULL) {
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                 "Invblid idd profilf: missing sfqufndf numbfr");
+            rfturn NULL;
+        }
+        /* difdk tif dbtb lfngti dorrfdtnfss */
+        lfngti = idd_mbrkfrs[sfq_no]->dbtb_lfngti;
+        if (ICC_OVERHEAD_LEN > lfngti || lfngti > MAX_BYTES_IN_MARKER) {
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                 "Invblid idd profilf: invblid dbtb lfngti");
+            rfturn NULL;
+        }
+        totbl_lfngti += (lfngti - ICC_OVERHEAD_LEN);
+    }
+
+    if (totbl_lfngti <= 0) {
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+              "Invblid idd profilf: found only fmpty mbrkfrs");
+        rfturn NULL;
+    }
+
+    /* Allodbtf b Jbvb bytf brrby for bssfmblfd dbtb */
+
+    dbtb = (*fnv)->NfwBytfArrby(fnv, totbl_lfngti);
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/OutOfMfmoryError",
+                        "Rfbding ICC profilf");
+        rfturn NULL;
+    }
+
+    idd_dbtb = (JOCTET *)(*fnv)->GftPrimitivfArrbyCritidbl(fnv,
+                                                           dbtb,
+                                                           NULL);
+    if (idd_dbtb == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                        "Unbblf to pin idd profilf dbtb brrby");
+        rfturn NULL;
+    }
+
+    /* bnd fill it in */
+    dst_ptr = idd_dbtb;
+    for (sfq_no = first; sfq_no < lbst; sfq_no++) {
+        JOCTET FAR *srd_ptr = idd_mbrkfrs[sfq_no]->dbtb + ICC_OVERHEAD_LEN;
+        unsignfd int lfngti =
+            idd_mbrkfrs[sfq_no]->dbtb_lfngti - ICC_OVERHEAD_LEN;
+
+        mfmdpy(dst_ptr, srd_ptr, lfngti);
+        dst_ptr += lfngti;
+    }
+
+    /* finblly, unpin tif brrby */
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv,
+                                          dbtb,
+                                          idd_dbtb,
+                                          0);
+
+
+    rfturn dbtb;
+}
+
+/********************* fnd of ICC profilf support *************/
+
+/********************* Rfbdfr JNI dblls ***********************/
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_initRfbdfrIDs
+    (JNIEnv *fnv,
+     jdlbss dls,
+     jdlbss ImbgfInputStrfbmClbss,
+     jdlbss qTbblfClbss,
+     jdlbss iuffClbss) {
+
+    CHECK_NULL(JPEGImbgfRfbdfr_rfbdInputDbtbID = (*fnv)->GftMftiodID(fnv,
+                                                  dls,
+                                                  "rfbdInputDbtb",
+                                                  "([BII)I"));
+    CHECK_NULL(JPEGImbgfRfbdfr_skipInputBytfsID = (*fnv)->GftMftiodID(fnv,
+                                                       dls,
+                                                       "skipInputBytfs",
+                                                       "(J)J"));
+    CHECK_NULL(JPEGImbgfRfbdfr_wbrningOddurrfdID = (*fnv)->GftMftiodID(fnv,
+                                                            dls,
+                                                            "wbrningOddurrfd",
+                                                            "(I)V"));
+    CHECK_NULL(JPEGImbgfRfbdfr_wbrningWitiMfssbgfID =
+        (*fnv)->GftMftiodID(fnv,
+                            dls,
+                            "wbrningWitiMfssbgf",
+                            "(Ljbvb/lbng/String;)V"));
+    CHECK_NULL(JPEGImbgfRfbdfr_sftImbgfDbtbID = (*fnv)->GftMftiodID(fnv,
+                                                         dls,
+                                                         "sftImbgfDbtb",
+                                                         "(IIIII[B)V"));
+    CHECK_NULL(JPEGImbgfRfbdfr_bddfptPixflsID = (*fnv)->GftMftiodID(fnv,
+                                                         dls,
+                                                         "bddfptPixfls",
+                                                         "(IZ)V"));
+    CHECK_NULL(JPEGImbgfRfbdfr_pbssStbrtfdID = (*fnv)->GftMftiodID(fnv,
+                                                        dls,
+                                                        "pbssStbrtfd",
+                                                        "(I)V"));
+    CHECK_NULL(JPEGImbgfRfbdfr_pbssComplftfID = (*fnv)->GftMftiodID(fnv,
+                                                         dls,
+                                                         "pbssComplftf",
+                                                         "()V"));
+    CHECK_NULL(JPEGImbgfRfbdfr_pusiBbdkID = (*fnv)->GftMftiodID(fnv,
+                                                     dls,
+                                                     "pusiBbdk",
+                                                     "(I)V"));
+    CHECK_NULL(JPEGQTbblf_tbblfID = (*fnv)->GftFifldID(fnv,
+                                            qTbblfClbss,
+                                            "qTbblf",
+                                            "[I"));
+
+    CHECK_NULL(JPEGHuffmbnTbblf_lfngtisID = (*fnv)->GftFifldID(fnv,
+                                                    iuffClbss,
+                                                    "lfngtis",
+                                                    "[S"));
+
+    CHECK_NULL(JPEGHuffmbnTbblf_vblufsID = (*fnv)->GftFifldID(fnv,
+                                                    iuffClbss,
+                                                    "vblufs",
+                                                    "[S"));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_initJPEGImbgfRfbdfr
+    (JNIEnv *fnv,
+     jobjfdt tiis) {
+
+    imbgfIODbtbPtr rft;
+    strudt sun_jpfg_frror_mgr *jfrr;
+
+    /* Tiis strudt dontbins tif JPEG dfdomprfssion pbrbmftfrs bnd pointfrs to
+     * working spbdf (wiidi is bllodbtfd bs nffdfd by tif JPEG librbry).
+     */
+    strudt jpfg_dfdomprfss_strudt *dinfo =
+        mbllod(sizfof(strudt jpfg_dfdomprfss_strudt));
+    if (dinfo == NULL) {
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Rfbdfr");
+        rfturn 0;
+    }
+
+    /* Wf usf our privbtf fxtfnsion JPEG frror ibndlfr.
+     */
+    jfrr = mbllod (sizfof(strudt sun_jpfg_frror_mgr));
+    if (jfrr == NULL) {
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Rfbdfr");
+        frff(dinfo);
+        rfturn 0;
+    }
+
+    /* Wf sft up tif normbl JPEG frror routinfs, tifn ovfrridf frror_fxit. */
+    dinfo->frr = jpfg_std_frror(&(jfrr->pub));
+    jfrr->pub.frror_fxit = sun_jpfg_frror_fxit;
+    /* Wf nffd to sftup our own print routinfs */
+    jfrr->pub.output_mfssbgf = sun_jpfg_output_mfssbgf;
+    /* Now wf dbn sftjmp bfforf fvfry dbll to tif librbry */
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror. */
+        dibr bufffr[JMSG_LENGTH_MAX];
+        (*dinfo->frr->formbt_mfssbgf) ((strudt jpfg_dommon_strudt *) dinfo,
+                                      bufffr);
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        rfturn 0;
+    }
+
+    /* Pfrform librbry initiblizbtion */
+    jpfg_drfbtf_dfdomprfss(dinfo);
+
+    // Sft up to kffp bny APP2 mbrkfrs, bs tifsf migit dontbin ICC profilf
+    // dbtb
+    jpfg_sbvf_mbrkfrs(dinfo, ICC_MARKER, 0xFFFF);
+
+    /*
+     * Now sft up our sourdf.
+     */
+    dinfo->srd =
+        (strudt jpfg_sourdf_mgr *) mbllod (sizfof(strudt jpfg_sourdf_mgr));
+    if (dinfo->srd == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/OutOfMfmoryError",
+                        "Initiblizing Rfbdfr");
+        imbgfio_disposf((j_dommon_ptr)dinfo);
+        rfturn 0;
+    }
+    dinfo->srd->bytfs_in_bufffr = 0;
+    dinfo->srd->nfxt_input_bytf = NULL;
+    dinfo->srd->init_sourdf = imbgfio_init_sourdf;
+    dinfo->srd->fill_input_bufffr = imbgfio_fill_input_bufffr;
+    dinfo->srd->skip_input_dbtb = imbgfio_skip_input_dbtb;
+    dinfo->srd->rfsynd_to_rfstbrt = jpfg_rfsynd_to_rfstbrt; // usf dffbult
+    dinfo->srd->tfrm_sourdf = imbgfio_tfrm_sourdf;
+
+    /* sft up tif bssodibtion to pfrsist for futurf dblls */
+    rft = initImbgfioDbtb(fnv, (j_dommon_ptr) dinfo, tiis);
+    if (rft == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError",
+                        "Initiblizing Rfbdfr");
+        imbgfio_disposf((j_dommon_ptr)dinfo);
+        rfturn 0;
+    }
+    rfturn ptr_to_jlong(rft);
+}
+
+/*
+ * Wifn wf sft b sourdf from Jbvb, wf sft up tif strfbm in tif strfbmBuf
+ * objfdt.  If tifrf wbs bn old onf, it is rflfbsfd first.
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_sftSourdf
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dommon_ptr dinfo;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf rfbdfr bftfr disposf()");
+        rfturn;
+    }
+
+    dinfo = dbtb->jpfgObj;
+
+    imbgfio_sft_strfbm(fnv, dinfo, dbtb, tiis);
+
+    imbgfio_init_sourdf((j_dfdomprfss_ptr) dinfo);
+}
+
+#dffinf JPEG_APP1  (JPEG_APP0 + 1)  /* EXIF APP1 mbrkfr dodf  */
+
+/*
+ * For EXIF imbgfs, tif APP1 will bppfbr immfdibtfly bftfr tif SOI,
+ * so it's sbff to only look bt tif first mbrkfr in tif list.
+ * (sff ittp://www.fxif.org/Exif2-2.PDF, sfdtion 4.7, pbgf 58)
+ */
+#dffinf IS_EXIF(d) \
+    (((d)->mbrkfr_list != NULL) && ((d)->mbrkfr_list->mbrkfr == JPEG_APP1))
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_rfbdImbgfHfbdfr
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr,
+     jboolfbn dlfbrFirst,
+     jboolfbn rfsft) {
+
+    int rft;
+    int i_sbmp0, i_sbmp1, i_sbmp2;
+    int v_sbmp0, v_sbmp1, v_sbmp2;
+    jboolfbn rftvbl = JNI_FALSE;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dfdomprfss_ptr dinfo;
+    strudt jpfg_sourdf_mgr *srd;
+    sun_jpfg_frror_ptr jfrr;
+    jbytfArrby profilfDbtb = NULL;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf rfbdfr bftfr disposf()");
+        rfturn JNI_FALSE;
+    }
+
+    dinfo = (j_dfdomprfss_ptr) dbtb->jpfgObj;
+    srd = dinfo->srd;
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    jfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror
+           wiilf rfbding tif ifbdfr. */
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+        if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+            dibr bufffr[JMSG_LENGTH_MAX];
+            (*dinfo->frr->formbt_mfssbgf) ((strudt jpfg_dommon_strudt *) dinfo,
+                                          bufffr);
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        }
+        rfturn rftvbl;
+    }
+
+#ifdff DEBUG_IIO_JPEG
+    printf("In rfbdImbgfHfbdfr, dbtb is %p dinfo is %p\n", dbtb, dinfo);
+    printf("dlfbrFirst is %d\n", dlfbrFirst);
+#fndif
+
+    if (GET_ARRAYS(fnv, dbtb, &srd->nfxt_input_bytf) == NOT_OK) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf(fnv,
+                        "jbvbx/imbgfio/IIOExdfption",
+                        "Arrby pin fbilfd");
+        rfturn rftvbl;
+    }
+
+    /*
+     * Now dlfbr tif input bufffr if tif Jbvb dodf ibs donf b sffk
+     * on tif strfbm sindf tif lbst dbll, invblidbting bny bufffr dontfnts.
+     */
+    if (dlfbrFirst) {
+        dlfbrStrfbmBufffr(&dbtb->strfbmBuf);
+        srd->nfxt_input_bytf = NULL;
+        srd->bytfs_in_bufffr = 0;
+    }
+
+    rft = jpfg_rfbd_ifbdfr(dinfo, FALSE);
+
+    if (rft == JPEG_HEADER_TABLES_ONLY) {
+        rftvbl = JNI_TRUE;
+        imbgfio_tfrm_sourdf(dinfo);  // Pusibbdk rfmbining bufffr dontfnts
+#ifdff DEBUG_IIO_JPEG
+        printf("just rfbd tbblfs-only imbgf; q tbblf 0 bt %p\n",
+               dinfo->qubnt_tbl_ptrs[0]);
+#fndif
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+    } flsf {
+        /*
+         * Now bdjust tif jpfg_dolor_spbdf vbribblf, wiidi wbs sft in
+         * dffbult_dfdomprfss_pbrms, to rfflfdt our difffrfndfs from IJG
+         */
+
+        switdi (dinfo->jpfg_dolor_spbdf) {
+        dffbult :
+          brfbk;
+        dbsf JCS_YCbCr:
+
+            /*
+             * Tifrf brf sfvfrbl possibilitifs:
+             *  - wf got imbgf witi fmbfdfd dolorspbdf
+             *     Usf it. Usfr knows wibt if is doing.
+             *  - wf got JFIF imbgf
+             *     Must bf YCbCr (sff ittp://www.w3.org/Grbpiids/JPEG/jfif3.pdf, pbgf 2)
+             *  - wf got EXIF imbgf
+             *     Must bf YCbCr (sff ittp://www.fxif.org/Exif2-2.PDF, sfdtion 4.7, pbgf 63)
+             *  - somftiing flsf
+             *     Apply ifuristidbl rulfs to idfntify bdtubl dolorspbdf.
+             */
+
+            if (dinfo->sbw_Adobf_mbrkfr) {
+                if (dinfo->Adobf_trbnsform != 1) {
+                    /*
+                     * IJG gufssfs tiis is YCbCr bnd fmits b wbrning
+                     * Wf would rbtifr not gufss.  Tifn tif usfr knows
+                     * To rfbd tiis bs b Rbstfr if bt bll
+                     */
+                    dinfo->jpfg_dolor_spbdf = JCS_UNKNOWN;
+                    dinfo->out_dolor_spbdf = JCS_UNKNOWN;
+                }
+            } flsf if (!dinfo->sbw_JFIF_mbrkfr && !IS_EXIF(dinfo)) {
+                /*
+                 * IJG bssumfs bll unidfntififd 3-dibnnfls brf YCbCr.
+                 * Wf bssumf tibt only if tif sfdond two dibnnfls brf
+                 * subsbmplfd (fitifr iorizontblly or vfrtidblly).  If not,
+                 * wf bssumf RGB.
+                 *
+                 * 4776576: Somf digitbl dbmfrbs output YCbCr JPEG imbgfs
+                 * tibt do not dontbin b JFIF APP0 mbrkfr but brf only
+                 * vfrtidblly subsbmplfd (no iorizontbl subsbmpling).
+                 * Wf siould only bssumf tiis is RGB dbtb if tif subsbmpling
+                 * fbdtors for tif sfdond two dibnnfls brf tif sbmf bs tif
+                 * first (difdk boti iorizontbl bnd vfrtidbl fbdtors).
+                 */
+                i_sbmp0 = dinfo->domp_info[0].i_sbmp_fbdtor;
+                i_sbmp1 = dinfo->domp_info[1].i_sbmp_fbdtor;
+                i_sbmp2 = dinfo->domp_info[2].i_sbmp_fbdtor;
+
+                v_sbmp0 = dinfo->domp_info[0].v_sbmp_fbdtor;
+                v_sbmp1 = dinfo->domp_info[1].v_sbmp_fbdtor;
+                v_sbmp2 = dinfo->domp_info[2].v_sbmp_fbdtor;
+
+                if ((i_sbmp1 == i_sbmp0) && (i_sbmp2 == i_sbmp0) &&
+                    (v_sbmp1 == v_sbmp0) && (v_sbmp2 == v_sbmp0))
+                {
+                    dinfo->jpfg_dolor_spbdf = JCS_RGB;
+                    /* output is blrfbdy RGB, so it stbys tif sbmf */
+                }
+            }
+            brfbk;
+#ifdff YCCALPHA
+        dbsf JCS_YCC:
+            dinfo->out_dolor_spbdf = JCS_YCC;
+            brfbk;
+#fndif
+        dbsf JCS_YCCK:
+            if ((dinfo->sbw_Adobf_mbrkfr) && (dinfo->Adobf_trbnsform != 2)) {
+                /*
+                 * IJG gufssfs tiis is YCCK bnd fmits b wbrning
+                 * Wf would rbtifr not gufss.  Tifn tif usfr knows
+                 * To rfbd tiis bs b Rbstfr if bt bll
+                 */
+                dinfo->jpfg_dolor_spbdf = JCS_UNKNOWN;
+                dinfo->out_dolor_spbdf = JCS_UNKNOWN;
+            }
+            brfbk;
+        dbsf JCS_CMYK:
+            /*
+             * IJG bssumfs bll unidfntififd 4-dibnnfls brf CMYK.
+             * Wf bssumf tibt only if tif sfdond two dibnnfls brf
+             * not subsbmplfd (fitifr iorizontblly or vfrtidblly).
+             * If tify brf, wf bssumf YCCK.
+             */
+            i_sbmp0 = dinfo->domp_info[0].i_sbmp_fbdtor;
+            i_sbmp1 = dinfo->domp_info[1].i_sbmp_fbdtor;
+            i_sbmp2 = dinfo->domp_info[2].i_sbmp_fbdtor;
+
+            v_sbmp0 = dinfo->domp_info[0].v_sbmp_fbdtor;
+            v_sbmp1 = dinfo->domp_info[1].v_sbmp_fbdtor;
+            v_sbmp2 = dinfo->domp_info[2].v_sbmp_fbdtor;
+
+            if ((i_sbmp1 > i_sbmp0) && (i_sbmp2 > i_sbmp0) ||
+                (v_sbmp1 > v_sbmp0) && (v_sbmp2 > v_sbmp0))
+            {
+                dinfo->jpfg_dolor_spbdf = JCS_YCCK;
+                /* Lfbvf tif output spbdf bs CMYK */
+            }
+        }
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+
+        /* rfbd idd profilf dbtb */
+        profilfDbtb = rfbd_idd_profilf(fnv, dinfo);
+
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            rfturn rftvbl;
+        }
+
+        (*fnv)->CbllVoidMftiod(fnv, tiis,
+                               JPEGImbgfRfbdfr_sftImbgfDbtbID,
+                               dinfo->imbgf_widti,
+                               dinfo->imbgf_ifigit,
+                               dinfo->jpfg_dolor_spbdf,
+                               dinfo->out_dolor_spbdf,
+                               dinfo->num_domponfnts,
+                               profilfDbtb);
+        if (rfsft) {
+            jpfg_bbort_dfdomprfss(dinfo);
+        }
+    }
+
+    rfturn rftvbl;
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_sftOutColorSpbdf
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr,
+     jint dodf) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dfdomprfss_ptr dinfo;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf rfbdfr bftfr disposf()");
+        rfturn;
+    }
+
+    dinfo = (j_dfdomprfss_ptr) dbtb->jpfgObj;
+
+    dinfo->out_dolor_spbdf = dodf;
+
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_rfbdImbgf
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr,
+     jbytfArrby bufffr,
+     jint numBbnds,
+     jintArrby srdBbnds,
+     jintArrby bbndSizfs,
+     jint sourdfXStbrt,
+     jint sourdfYStbrt,
+     jint sourdfWidti,
+     jint sourdfHfigit,
+     jint stfpX,
+     jint stfpY,
+     jobjfdtArrby qtbblfs,
+     jobjfdtArrby DCHuffmbnTbblfs,
+     jobjfdtArrby ACHuffmbnTbblfs,
+     jint minProgrfssivfPbss,  // Counts from 0
+     jint mbxProgrfssivfPbss,
+     jboolfbn wbntUpdbtfs) {
+
+
+    strudt jpfg_sourdf_mgr *srd;
+    JSAMPROW sdbnLinfPtr = NULL;
+    jint bbnds[MAX_BANDS];
+    int i;
+    jint *body;
+    int sdbnlinfLimit;
+    int pixflStridf;
+    unsignfd dibr *in, *out, *pixflLimit;
+    int tbrgftLinf;
+    int skipLinfs, linfsLfft;
+    pixflBufffrPtr pb;
+    sun_jpfg_frror_ptr jfrr;
+    boolfbn donf;
+    boolfbn mustSdblf = FALSE;
+    boolfbn progrfssivf = FALSE;
+    boolfbn ordfrfdBbnds = TRUE;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dfdomprfss_ptr dinfo;
+    sizf_t numBytfs;
+
+    /* vfrify tif inputs */
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf rfbdfr bftfr disposf()");
+        rfturn JNI_FALSE;
+    }
+
+    if ((bufffr == NULL) || (srdBbnds == NULL))  {
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn JNI_FALSE;
+    }
+
+    dinfo = (j_dfdomprfss_ptr) dbtb->jpfgObj;
+
+    if ((numBbnds < 1) || (numBbnds > MAX_BANDS) ||
+        (sourdfXStbrt < 0) || (sourdfXStbrt >= (jint)dinfo->imbgf_widti) ||
+        (sourdfYStbrt < 0) || (sourdfYStbrt >= (jint)dinfo->imbgf_ifigit) ||
+        (sourdfWidti < 1) || (sourdfWidti > (jint)dinfo->imbgf_widti) ||
+        (sourdfHfigit < 1) || (sourdfHfigit > (jint)dinfo->imbgf_ifigit) ||
+        (stfpX < 1) || (stfpY < 1) ||
+        (minProgrfssivfPbss < 0) ||
+        (mbxProgrfssivfPbss < minProgrfssivfPbss))
+    {
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                        "Invblid brgumfnt to nbtivf rfbdImbgf");
+        rfturn JNI_FALSE;
+    }
+
+    if (stfpX > (jint)dinfo->imbgf_widti) {
+        stfpX = dinfo->imbgf_widti;
+    }
+    if (stfpY > (jint)dinfo->imbgf_ifigit) {
+        stfpY = dinfo->imbgf_ifigit;
+    }
+
+    /*
+     * First gft tif sourdf bbnds brrby bnd dopy it to our lodbl brrby
+     * so wf don't ibvf to worry bbout pinning bnd unpinning it bgbin.
+     */
+
+    body = (*fnv)->GftIntArrbyElfmfnts(fnv, srdBbnds, NULL);
+    if (body == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Rfbd");
+        rfturn JNI_FALSE;
+    }
+
+    for (i = 0; i < numBbnds; i++) {
+        bbnds[i] = body[i];
+        if (ordfrfdBbnds && (bbnds[i] != i)) {
+            ordfrfdBbnds = FALSE;
+        }
+    }
+
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, srdBbnds, body, JNI_ABORT);
+
+#ifdff DEBUG_IIO_JPEG
+    printf("---- in rfbdfr.rfbd ----\n");
+    printf("numBbnds is %d\n", numBbnds);
+    printf("bbnds brrby: ");
+    for (i = 0; i < numBbnds; i++) {
+        printf("%d ", bbnds[i]);
+    }
+    printf("\n");
+    printf("jq tbblf 0 bt %p\n",
+               dinfo->qubnt_tbl_ptrs[0]);
+#fndif
+
+    dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    srd = dinfo->srd;
+
+    /* Sft tif bufffr bs our PixflBufffr */
+    pb = &dbtb->pixflBuf;
+
+    if (sftPixflBufffr(fnv, pb, bufffr) == NOT_OK) {
+        rfturn dbtb->bbortFlbg;  // Wf blrfbdy tirfw bn out of mfmory fxdfption
+    }
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    jfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror
+           wiilf rfbding. */
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+        if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+            dibr bufffr[JMSG_LENGTH_MAX];
+            (*dinfo->frr->formbt_mfssbgf) ((strudt jpfg_dommon_strudt *) dinfo,
+                                          bufffr);
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        }
+        if (sdbnLinfPtr != NULL) {
+            frff(sdbnLinfPtr);
+            sdbnLinfPtr = NULL;
+        }
+        rfturn dbtb->bbortFlbg;
+    }
+
+    if (GET_ARRAYS(fnv, dbtb, &srd->nfxt_input_bytf) == NOT_OK) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf(fnv,
+                        "jbvbx/imbgfio/IIOExdfption",
+                        "Arrby pin fbilfd");
+        rfturn dbtb->bbortFlbg;
+    }
+
+    // If tifrf brf no tbblfs in our strudturf bnd tbblf brgumfnts brfn't
+    // NULL, usf tif tbblf brgumfnts.
+    if ((qtbblfs != NULL) && (dinfo->qubnt_tbl_ptrs[0] == NULL)) {
+        (void) sftQTbblfs(fnv, (j_dommon_ptr) dinfo, qtbblfs, TRUE);
+    }
+
+    if ((DCHuffmbnTbblfs != NULL) && (dinfo->dd_iuff_tbl_ptrs[0] == NULL)) {
+        sftHTbblfs(fnv, (j_dommon_ptr) dinfo,
+                   DCHuffmbnTbblfs,
+                   ACHuffmbnTbblfs,
+                   TRUE);
+    }
+
+    progrfssivf = jpfg_ibs_multiplf_sdbns(dinfo);
+    if (progrfssivf) {
+        dinfo->bufffrfd_imbgf = TRUE;
+        dinfo->input_sdbn_numbfr = minProgrfssivfPbss+1; // Jbvb dount from 0
+#dffinf MAX_JAVA_INT 2147483647 // XXX Is tiis dffinfd in JNI somfwifrf?
+        if (mbxProgrfssivfPbss < MAX_JAVA_INT) {
+            mbxProgrfssivfPbss++; // For tfsting
+        }
+    }
+
+    dbtb->strfbmBuf.suspfndbblf = FALSE;
+
+    jpfg_stbrt_dfdomprfss(dinfo);
+
+    if (numBbnds !=  dinfo->output_domponfnts) {
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                        "Invblid brgumfnt to nbtivf rfbdImbgf");
+        rfturn dbtb->bbortFlbg;
+    }
+
+    if (dinfo->output_domponfnts <= 0 ||
+        dinfo->imbgf_widti > (0xffffffffu / (unsignfd int)dinfo->output_domponfnts))
+    {
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                        "Invblid numbfr of output domponfnts");
+        rfturn dbtb->bbortFlbg;
+    }
+
+    // Allodbtf b 1-sdbnlinf bufffr
+    sdbnLinfPtr = (JSAMPROW)mbllod(dinfo->imbgf_widti*dinfo->output_domponfnts);
+    if (sdbnLinfPtr == NULL) {
+        RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Rfbding JPEG Strfbm");
+        rfturn dbtb->bbortFlbg;
+    }
+
+    // loop ovfr progrfssivf pbssfs
+    donf = FALSE;
+    wiilf (!donf) {
+        if (progrfssivf) {
+            // initiblizf tif nfxt pbss.  Notf tibt tiis skips up to
+            // tif first intfrfsting pbss.
+            jpfg_stbrt_output(dinfo, dinfo->input_sdbn_numbfr);
+            if (wbntUpdbtfs) {
+                (*fnv)->CbllVoidMftiod(fnv, tiis,
+                                       JPEGImbgfRfbdfr_pbssStbrtfdID,
+                                       dinfo->input_sdbn_numbfr-1);
+            }
+        } flsf if (wbntUpdbtfs) {
+            (*fnv)->CbllVoidMftiod(fnv, tiis,
+                                   JPEGImbgfRfbdfr_pbssStbrtfdID,
+                                   0);
+
+        }
+
+        // Skip until tif first intfrfsting linf
+        wiilf ((dbtb->bbortFlbg == JNI_FALSE)
+               && ((jint)dinfo->output_sdbnlinf < sourdfYStbrt)) {
+            jpfg_rfbd_sdbnlinfs(dinfo, &sdbnLinfPtr, 1);
+        }
+
+        sdbnlinfLimit = sourdfYStbrt+sourdfHfigit;
+        pixflLimit = sdbnLinfPtr
+            +(sourdfXStbrt+sourdfWidti)*dinfo->output_domponfnts;
+
+        pixflStridf = stfpX*dinfo->output_domponfnts;
+        tbrgftLinf = 0;
+
+        wiilf ((dbtb->bbortFlbg == JNI_FALSE)
+               && ((jint)dinfo->output_sdbnlinf < sdbnlinfLimit)) {
+
+            jpfg_rfbd_sdbnlinfs(dinfo, &sdbnLinfPtr, 1);
+
+            // Now mbnglf it into our bufffr
+            out = dbtb->pixflBuf.buf.bp;
+
+            if (ordfrfdBbnds && (pixflStridf == numBbnds)) {
+                // Optimizbtion: Tif domponfnt bbnds brf ordfrfd sfqufntiblly,
+                // so wf dbn simply usf mfmdpy() to dopy tif intfrmfdibtf
+                // sdbnlinf bufffr into tif rbstfr.
+                in = sdbnLinfPtr + (sourdfXStbrt * dinfo->output_domponfnts);
+                if (pixflLimit > in) {
+                    numBytfs = pixflLimit - in;
+                    if (numBytfs > dbtb->pixflBuf.bytfBufffrLfngti) {
+                        numBytfs = dbtb->pixflBuf.bytfBufffrLfngti;
+                    }
+                    mfmdpy(out, in, numBytfs);
+                }
+            } flsf {
+                numBytfs = numBbnds;
+                for (in = sdbnLinfPtr+sourdfXStbrt*dinfo->output_domponfnts;
+                     in < pixflLimit &&
+                       numBytfs <= dbtb->pixflBuf.bytfBufffrLfngti;
+                     in += pixflStridf) {
+                    for (i = 0; i < numBbnds; i++) {
+                        *out++ = *(in+bbnds[i]);
+                    }
+                    numBytfs += numBbnds;
+                }
+            }
+
+            // And dbll it bbdk to Jbvb
+            RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+            (*fnv)->CbllVoidMftiod(fnv,
+                                   tiis,
+                                   JPEGImbgfRfbdfr_bddfptPixflsID,
+                                   tbrgftLinf++,
+                                   progrfssivf);
+
+            if ((*fnv)->ExdfptionOddurrfd(fnv)
+                || !GET_ARRAYS(fnv, dbtb, &(srd->nfxt_input_bytf))) {
+                dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+            }
+
+            // And skip ovfr unintfrfsting linfs to tif nfxt subsbmplfd linf
+            // Ensurf wf don't go pbst tif fnd of tif imbgf
+
+            // Linfs to skip bbsfd on subsbmpling
+            skipLinfs = stfpY - 1;
+            // Linfs lfft in tif imbgf
+            linfsLfft =  sdbnlinfLimit - dinfo->output_sdbnlinf;
+            // Tbkf tif minimum
+            if (skipLinfs > linfsLfft) {
+                skipLinfs = linfsLfft;
+            }
+            for(i = 0; i < skipLinfs; i++) {
+                jpfg_rfbd_sdbnlinfs(dinfo, &sdbnLinfPtr, 1);
+            }
+        }
+        if (progrfssivf) {
+            jpfg_finisi_output(dinfo); // Indrfmfnts pbss dountfr
+            // Cbll Jbvb to notify pbss domplftf
+            if (jpfg_input_domplftf(dinfo)
+                || (dinfo->input_sdbn_numbfr > mbxProgrfssivfPbss)) {
+                donf = TRUE;
+            }
+        } flsf {
+            donf = TRUE;
+        }
+        if (wbntUpdbtfs) {
+            (*fnv)->CbllVoidMftiod(fnv, tiis,
+                                   JPEGImbgfRfbdfr_pbssComplftfID);
+        }
+
+    }
+    /*
+     * Wf brf donf, but wf migit not ibvf rfbd bll tif linfs, or bll
+     * tif pbssfs, so usf jpfg_bbort instfbd of jpfg_finisi_dfdomprfss.
+     */
+    if (dinfo->output_sdbnlinf == dinfo->output_ifigit) {
+        //    if ((dinfo->output_sdbnlinf == dinfo->output_ifigit) &&
+        //(jpfg_input_domplftf(dinfo))) {  // Wf rfbd tif wiolf filf
+        jpfg_finisi_dfdomprfss(dinfo);
+    } flsf {
+        jpfg_bbort_dfdomprfss(dinfo);
+    }
+
+    frff(sdbnLinfPtr);
+
+    RELEASE_ARRAYS(fnv, dbtb, srd->nfxt_input_bytf);
+
+    rfturn dbtb->bbortFlbg;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_bbortRfbd
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf rfbdfr bftfr disposf()");
+        rfturn;
+    }
+
+    imbgfio_bbort(fnv, tiis, dbtb);
+
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_rfsftLibrbryStbtf
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr) {
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dfdomprfss_ptr dinfo;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf rfbdfr bftfr disposf()");
+        rfturn;
+    }
+
+    dinfo = (j_dfdomprfss_ptr) dbtb->jpfgObj;
+
+    jpfg_bbort_dfdomprfss(dinfo);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_rfsftRfbdfr
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dfdomprfss_ptr dinfo;
+    sun_jpfg_frror_ptr jfrr;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf rfbdfr bftfr disposf()");
+        rfturn;
+    }
+
+    dinfo = (j_dfdomprfss_ptr) dbtb->jpfgObj;
+
+    jfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+    imbgfio_rfsft(fnv, (j_dommon_ptr) dinfo, dbtb);
+
+    /*
+     * Tif tbblfs ibvf not bffn rfsft, bnd tifrf is no wby to do so
+     * in IJG witiout lfbking mfmory.  Tif only situbtion in wiidi
+     * tiis will dbusf b problfm is if bn imbgf-only strfbm is rfbd
+     * witi tiis objfdt witiout initiblizing tif dorrfdt tbblfs first.
+     * Tiis situbtion, wiidi siould dbusf bn frror, migit work but
+     * produdf gbrbbgf instfbd.  If tif iuffmbn tbblfs brf wrong,
+     * it will fbil during tif dfdodf.  If tif q tbblfs brf wrong, it
+     * will look strbngf.  Tiis is vfry unlikfly, so don't worry bbout
+     * it.  To bf rfblly robust, wf would kffp b flbg for tbblf stbtf
+     * bnd donsult it to dbtdi fxdfptionbl situbtions.
+     */
+
+    /* bbovf dofs not dlfbn up tif sourdf, so wf ibvf to */
+
+    /*
+      Wf nffd to fxpliditly initiblizf fxdfption ibndlfr or wf mby
+       longjump to rbndom bddrfss from tif tfrm_sourdf()
+     */
+
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+
+        /*
+          Wf mby gft IOExdfption from pusiBbdk() ifrf.
+
+          Howfvfr it dould bf lfgbl if originbl input strfbm wbs dlosfd
+          fbrlifr (for fxbmplf bfdbusf nftwork donnfdtion wbs dlosfd).
+          Unfortunbtfly, imbgf inputstrfbm API ibs no wby to difdk wiftifr
+          strfbm is blrfbdy dlosfd or IOExdfption wbs tirown bfdbusf of somf
+          otifr IO problfm,
+          And wf dbn not bvoid dbll to pusiBbdk() on dlosfd strfbm for tif
+          sbmf rfbson.
+
+          So, for now wf will silfntly fbt tiis fxdfption.
+
+          NB: tiis mby bf dibngfd in futurf wifn ImbgfInputStrfbm API will
+          bfdomf morf flfxiblf.
+        */
+
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            (*fnv)->ExdfptionClfbr(fnv);
+        }
+    } flsf {
+        dinfo->srd->tfrm_sourdf(dinfo);
+    }
+
+    dinfo->srd->bytfs_in_bufffr = 0;
+    dinfo->srd->nfxt_input_bytf = NULL;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfRfbdfr_disposfRfbdfr
+    (JNIEnv *fnv,
+     jdlbss rfbdfr,
+     jlong ptr) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dommon_ptr info = dfstroyImbgfioDbtb(fnv, dbtb);
+
+    imbgfio_disposf(info);
+}
+
+/********************** fnd of Rfbdfr *************************/
+
+/********************** Writfr Support ************************/
+
+/********************** Dfstinbtion Mbnbgfr *******************/
+
+METHODDEF(void)
+/*
+ * Initiblizf dfstinbtion --- dbllfd by jpfg_stbrt_domprfss
+ * bfforf bny dbtb is bdtublly writtfn.  Tif dbtb brrbys
+ * must bf pinnfd bfforf tiis is dbllfd.
+ */
+imbgfio_init_dfstinbtion (j_domprfss_ptr dinfo)
+{
+    strudt jpfg_dfstinbtion_mgr *dfst = dinfo->dfst;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    strfbmBufffrPtr sb = &dbtb->strfbmBuf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (sb->buf == NULL) {
+        // Wf forgot to pin tif brrby
+        (*fnv)->FbtblError(fnv, "Output bufffr not pinnfd!");
+    }
+
+    dfst->nfxt_output_bytf = sb->buf;
+    dfst->frff_in_bufffr = sb->bufffrLfngti;
+}
+
+/*
+ * Empty tif output bufffr --- dbllfd wifnfvfr bufffr fills up.
+ *
+ * Tiis routinf writfs tif fntirf output bufffr
+ * (ignoring tif durrfnt stbtf of nfxt_output_bytf & frff_in_bufffr),
+ * rfsfts tif pointfr & dount to tif stbrt of tif bufffr, bnd rfturns TRUE
+ * indidbting tibt tif bufffr ibs bffn dumpfd.
+ */
+
+METHODDEF(boolfbn)
+imbgfio_fmpty_output_bufffr (j_domprfss_ptr dinfo)
+{
+    strudt jpfg_dfstinbtion_mgr *dfst = dinfo->dfst;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    strfbmBufffrPtr sb = &dbtb->strfbmBuf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt output = NULL;
+
+    RELEASE_ARRAYS(fnv, dbtb, (donst JOCTET *)(dfst->nfxt_output_bytf));
+
+    GET_IO_REF(output);
+
+    (*fnv)->CbllVoidMftiod(fnv,
+                           output,
+                           JPEGImbgfWritfr_writfOutputDbtbID,
+                           sb->istrfbmBufffr,
+                           0,
+                           sb->bufffrLfngti);
+    if ((*fnv)->ExdfptionOddurrfd(fnv)
+        || !GET_ARRAYS(fnv, dbtb,
+                       (donst JOCTET **)(&dfst->nfxt_output_bytf))) {
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+    }
+
+    dfst->nfxt_output_bytf = sb->buf;
+    dfst->frff_in_bufffr = sb->bufffrLfngti;
+
+    rfturn TRUE;
+}
+
+/*
+ * Aftfr bll of tif dbtb ibs bffn fndodfd tifrf mby still bf somf
+ * morf lfft ovfr in somf of tif working bufffrs.  Now is tif
+ * timf to dlfbr tifm out.
+ */
+METHODDEF(void)
+imbgfio_tfrm_dfstinbtion (j_domprfss_ptr dinfo)
+{
+    strudt jpfg_dfstinbtion_mgr *dfst = dinfo->dfst;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr) dinfo->dlifnt_dbtb;
+    strfbmBufffrPtr sb = &dbtb->strfbmBuf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    /* find out iow mudi nffds to bf writtfn */
+    /* tiis donvfrsion from sizf_t to jint is sbff, bfdbusf tif lfngit of tif bufffr is limitfd by jint */
+    jint dbtbdount = (jint)(sb->bufffrLfngti - dfst->frff_in_bufffr);
+
+    if (dbtbdount != 0) {
+        jobjfdt output = NULL;
+
+        RELEASE_ARRAYS(fnv, dbtb, (donst JOCTET *)(dfst->nfxt_output_bytf));
+
+        GET_IO_REF(output);
+
+        (*fnv)->CbllVoidMftiod(fnv,
+                               output,
+                               JPEGImbgfWritfr_writfOutputDbtbID,
+                               sb->istrfbmBufffr,
+                               0,
+                               dbtbdount);
+
+        if ((*fnv)->ExdfptionOddurrfd(fnv)
+            || !GET_ARRAYS(fnv, dbtb,
+                           (donst JOCTET **)(&dfst->nfxt_output_bytf))) {
+            dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+        }
+    }
+
+    dfst->nfxt_output_bytf = NULL;
+    dfst->frff_in_bufffr = 0;
+
+}
+
+/*
+ * Flusi tif dfstinbtion bufffr.  Tiis is not dbllfd by tif librbry,
+ * but by our dodf bflow.  Tiis is tif simplfst implfmfntbtion, tiougi
+ * dfrtbinly not tif most fffidifnt.
+ */
+METHODDEF(void)
+imbgfio_flusi_dfstinbtion(j_domprfss_ptr dinfo)
+{
+    imbgfio_tfrm_dfstinbtion(dinfo);
+    imbgfio_init_dfstinbtion(dinfo);
+}
+
+/********************** fnd of dfstinbtion mbnbgfr ************/
+
+/********************** Writfr JNI dblls **********************/
+
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_initWritfrIDs
+    (JNIEnv *fnv,
+     jdlbss dls,
+     jdlbss qTbblfClbss,
+     jdlbss iuffClbss) {
+
+    CHECK_NULL(JPEGImbgfWritfr_writfOutputDbtbID = (*fnv)->GftMftiodID(fnv,
+                                                    dls,
+                                                    "writfOutputDbtb",
+                                                    "([BII)V"));
+    CHECK_NULL(JPEGImbgfWritfr_wbrningOddurrfdID = (*fnv)->GftMftiodID(fnv,
+                                                            dls,
+                                                            "wbrningOddurrfd",
+                                                            "(I)V"));
+    CHECK_NULL(JPEGImbgfWritfr_wbrningWitiMfssbgfID =
+                                        (*fnv)->GftMftiodID(fnv,
+                                                            dls,
+                                                            "wbrningWitiMfssbgf",
+                                                            "(Ljbvb/lbng/String;)V"));
+    CHECK_NULL(JPEGImbgfWritfr_writfMftbdbtbID = (*fnv)->GftMftiodID(fnv,
+                                                          dls,
+                                                          "writfMftbdbtb",
+                                                          "()V"));
+    CHECK_NULL(JPEGImbgfWritfr_grbbPixflsID = (*fnv)->GftMftiodID(fnv,
+                                                       dls,
+                                                       "grbbPixfls",
+                                                       "(I)V"));
+    CHECK_NULL(JPEGQTbblf_tbblfID = (*fnv)->GftFifldID(fnv,
+                                            qTbblfClbss,
+                                            "qTbblf",
+                                            "[I"));
+    CHECK_NULL(JPEGHuffmbnTbblf_lfngtisID = (*fnv)->GftFifldID(fnv,
+                                                    iuffClbss,
+                                                    "lfngtis",
+                                                    "[S"));
+    CHECK_NULL(JPEGHuffmbnTbblf_vblufsID = (*fnv)->GftFifldID(fnv,
+                                                    iuffClbss,
+                                                    "vblufs",
+                                                    "[S"));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_initJPEGImbgfWritfr
+    (JNIEnv *fnv,
+     jobjfdt tiis) {
+
+    imbgfIODbtbPtr rft;
+    strudt sun_jpfg_frror_mgr *jfrr;
+    strudt jpfg_dfstinbtion_mgr *dfst;
+
+    /* Tiis strudt dontbins tif JPEG domprfssion pbrbmftfrs bnd pointfrs to
+     * working spbdf (wiidi is bllodbtfd bs nffdfd by tif JPEG librbry).
+     */
+    strudt jpfg_domprfss_strudt *dinfo =
+        mbllod(sizfof(strudt jpfg_domprfss_strudt));
+    if (dinfo == NULL) {
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Writfr");
+        rfturn 0;
+    }
+
+    /* Wf usf our privbtf fxtfnsion JPEG frror ibndlfr.
+     */
+    jfrr = mbllod (sizfof(strudt sun_jpfg_frror_mgr));
+    if (jfrr == NULL) {
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Writfr");
+        frff(dinfo);
+        rfturn 0;
+    }
+
+    /* Wf sft up tif normbl JPEG frror routinfs, tifn ovfrridf frror_fxit. */
+    dinfo->frr = jpfg_std_frror(&(jfrr->pub));
+    jfrr->pub.frror_fxit = sun_jpfg_frror_fxit;
+    /* Wf nffd to sftup our own print routinfs */
+    jfrr->pub.output_mfssbgf = sun_jpfg_output_mfssbgf;
+    /* Now wf dbn sftjmp bfforf fvfry dbll to tif librbry */
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror. */
+        dibr bufffr[JMSG_LENGTH_MAX];
+        (*dinfo->frr->formbt_mfssbgf) ((strudt jpfg_dommon_strudt *) dinfo,
+                                      bufffr);
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        rfturn 0;
+    }
+
+    /* Pfrform librbry initiblizbtion */
+    jpfg_drfbtf_domprfss(dinfo);
+
+    /* Now sft up tif dfstinbtion  */
+    dfst = mbllod(sizfof(strudt jpfg_dfstinbtion_mgr));
+    if (dfst == NULL) {
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Writfr");
+        imbgfio_disposf((j_dommon_ptr)dinfo);
+        rfturn 0;
+    }
+
+    dfst->init_dfstinbtion = imbgfio_init_dfstinbtion;
+    dfst->fmpty_output_bufffr = imbgfio_fmpty_output_bufffr;
+    dfst->tfrm_dfstinbtion = imbgfio_tfrm_dfstinbtion;
+    dfst->nfxt_output_bytf = NULL;
+    dfst->frff_in_bufffr = 0;
+
+    dinfo->dfst = dfst;
+
+    /* sft up tif bssodibtion to pfrsist for futurf dblls */
+    rft = initImbgfioDbtb(fnv, (j_dommon_ptr) dinfo, tiis);
+    if (rft == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Initiblizing Writfr");
+        imbgfio_disposf((j_dommon_ptr)dinfo);
+        rfturn 0;
+    }
+    rfturn ptr_to_jlong(rft);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_sftDfst
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_domprfss_ptr dinfo;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf writfr bftfr disposf()");
+        rfturn;
+    }
+
+    dinfo = (j_domprfss_ptr) dbtb->jpfgObj;
+
+    imbgfio_sft_strfbm(fnv, dbtb->jpfgObj, dbtb, tiis);
+
+
+    // Don't dbll tif init mftiod, bs tibt dfpfnds on pinnfd brrbys
+    dinfo->dfst->nfxt_output_bytf = NULL;
+    dinfo->dfst->frff_in_bufffr = 0;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_writfTbblfs
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr,
+     jobjfdtArrby qtbblfs,
+     jobjfdtArrby DCHuffmbnTbblfs,
+     jobjfdtArrby ACHuffmbnTbblfs) {
+
+    strudt jpfg_dfstinbtion_mgr *dfst;
+    sun_jpfg_frror_ptr jfrr;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_domprfss_ptr dinfo;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf writfr bftfr disposf()");
+        rfturn;
+    }
+
+    dinfo = (j_domprfss_ptr) dbtb->jpfgObj;
+    dfst = dinfo->dfst;
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    jfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror
+           wiilf writing. */
+        RELEASE_ARRAYS(fnv, dbtb, (donst JOCTET *)(dfst->nfxt_output_bytf));
+        if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+            dibr bufffr[JMSG_LENGTH_MAX];
+            (*dinfo->frr->formbt_mfssbgf) ((j_dommon_ptr) dinfo,
+                                          bufffr);
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        }
+        rfturn;
+    }
+
+    if (GET_ARRAYS(fnv, dbtb,
+                   (donst JOCTET **)(&dfst->nfxt_output_bytf)) == NOT_OK) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf(fnv,
+                        "jbvbx/imbgfio/IIOExdfption",
+                        "Arrby pin fbilfd");
+        rfturn;
+    }
+
+    jpfg_supprfss_tbblfs(dinfo, TRUE);  // Supprfss writing of bny durrfnt
+
+    dbtb->strfbmBuf.suspfndbblf = FALSE;
+    if (qtbblfs != NULL) {
+#ifdff DEBUG_IIO_JPEG
+        printf("in writfTbblfs: qtbblfs not NULL\n");
+#fndif
+        sftQTbblfs(fnv, (j_dommon_ptr) dinfo, qtbblfs, TRUE);
+    }
+
+    if (DCHuffmbnTbblfs != NULL) {
+        sftHTbblfs(fnv, (j_dommon_ptr) dinfo,
+                   DCHuffmbnTbblfs, ACHuffmbnTbblfs, TRUE);
+    }
+
+    jpfg_writf_tbblfs(dinfo); // Flusifs tif bufffr for you
+    RELEASE_ARRAYS(fnv, dbtb, NULL);
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_writfImbgf
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr,
+     jbytfArrby bufffr,
+     jint inCs, jint outCs,
+     jint numBbnds,
+     jintArrby bbndSizfs,
+     jint srdWidti,
+     jint dfstWidti, jint dfstHfigit,
+     jint stfpX, jint stfpY,
+     jobjfdtArrby qtbblfs,
+     jboolfbn writfDQT,
+     jobjfdtArrby DCHuffmbnTbblfs,
+     jobjfdtArrby ACHuffmbnTbblfs,
+     jboolfbn writfDHT,
+     jboolfbn optimizf,
+     jboolfbn progrfssivf,
+     jint numSdbns,
+     jintArrby sdbnInfo,
+     jintArrby domponfntIds,
+     jintArrby HsbmplingFbdtors,
+     jintArrby VsbmplingFbdtors,
+     jintArrby QtbblfSflfdtors,
+     jboolfbn ibvfMftbdbtb,
+     jint rfstbrtIntfrvbl) {
+
+    strudt jpfg_dfstinbtion_mgr *dfst;
+    JSAMPROW sdbnLinfPtr;
+    int i, j;
+    int pixflStridf;
+    unsignfd dibr *in, *out, *pixflLimit, *sdbnLinfLimit;
+    unsignfd int sdbnLinfSizf, pixflBufffrSizf;
+    int tbrgftLinf;
+    pixflBufffrPtr pb;
+    sun_jpfg_frror_ptr jfrr;
+    jint *ids, *ifbdtors, *vfbdtors, *qsfls;
+    jsizf qlfn, ilfn;
+    int *sdbnptr;
+    jint *sdbnDbtb;
+    jint *bbndSizf;
+    int mbxBbndVbluf, iblfMbxBbndVbluf;
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_domprfss_ptr dinfo;
+    UINT8** sdblf = NULL;
+    boolfbn suddfss = TRUE;
+
+
+    /* vfrify tif inputs */
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf writfr bftfr disposf()");
+        rfturn JNI_FALSE;
+    }
+
+    if ((bufffr == NULL) ||
+        (qtbblfs == NULL) ||
+        // H tbblfs dbn bf null if optimizing
+        (domponfntIds == NULL) ||
+        (HsbmplingFbdtors == NULL) || (VsbmplingFbdtors == NULL) ||
+        (QtbblfSflfdtors == NULL) ||
+        ((numSdbns != 0) && (sdbnInfo != NULL))) {
+
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn JNI_FALSE;
+
+    }
+
+    sdbnLinfSizf = dfstWidti * numBbnds;
+    if ((inCs < 0) || (inCs > JCS_YCCK) ||
+        (outCs < 0) || (outCs > JCS_YCCK) ||
+        (numBbnds < 1) || (numBbnds > MAX_BANDS) ||
+        (srdWidti < 0) ||
+        (dfstWidti < 0) || (dfstWidti > srdWidti) ||
+        (dfstHfigit < 0) ||
+        (stfpX < 0) || (stfpY < 0) ||
+        ((INT_MAX / numBbnds) < dfstWidti))  /* dfstWidti dbusfs bn intfgfr ovfrflow */
+    {
+        JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption",
+                        "Invblid brgumfnt to nbtivf writfImbgf");
+        rfturn JNI_FALSE;
+    }
+
+    if (stfpX > srdWidti) {
+        stfpX = srdWidti;
+    }
+
+    bbndSizf = (*fnv)->GftIntArrbyElfmfnts(fnv, bbndSizfs, NULL);
+    CHECK_NULL_RETURN(bbndSizf, JNI_FALSE);
+
+    for (i = 0; i < numBbnds; i++) {
+        if (bbndSizf[i] <= 0 || bbndSizf[i] > JPEG_BAND_SIZE) {
+            (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, bbndSizfs,
+                                            bbndSizf, JNI_ABORT);
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", "Invblid Imbgf");
+            rfturn JNI_FALSE;
+        }
+    }
+
+    for (i = 0; i < numBbnds; i++) {
+        if (bbndSizf[i] != JPEG_BAND_SIZE) {
+            if (sdblf == NULL) {
+                sdblf = (UINT8**) dbllod(numBbnds, sizfof(UINT8*));
+
+                if (sdblf == NULL) {
+                    JNU_TirowByNbmf( fnv, "jbvb/lbng/OutOfMfmoryError",
+                                     "Writing JPEG Strfbm");
+                    rfturn JNI_FALSE;
+                }
+            }
+
+            mbxBbndVbluf = (1 << bbndSizf[i]) - 1;
+
+            sdblf[i] = (UINT8*) mbllod((mbxBbndVbluf + 1) * sizfof(UINT8));
+
+            if (sdblf[i] == NULL) {
+                // Clfbnup bfforf tirowing bn out of mfmory fxdfption
+                for (j = 0; j < i; j++) {
+                    frff(sdblf[j]);
+                }
+                frff(sdblf);
+                JNU_TirowByNbmf( fnv, "jbvb/lbng/OutOfMfmoryError",
+                                 "Writing JPEG Strfbm");
+                rfturn JNI_FALSE;
+            }
+
+            iblfMbxBbndVbluf = mbxBbndVbluf >> 1;
+
+            for (j = 0; j <= mbxBbndVbluf; j++) {
+                sdblf[i][j] = (UINT8)
+                    ((j*MAX_JPEG_BAND_VALUE + iblfMbxBbndVbluf)/mbxBbndVbluf);
+            }
+        }
+    }
+
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, bbndSizfs,
+                                    bbndSizf, JNI_ABORT);
+
+    dinfo = (j_domprfss_ptr) dbtb->jpfgObj;
+    dfst = dinfo->dfst;
+
+    /* Sft tif bufffr bs our PixflBufffr */
+    pb = &dbtb->pixflBuf;
+
+    if (sftPixflBufffr(fnv, pb, bufffr) == NOT_OK) {
+        rfturn dbtb->bbortFlbg;  // Wf blrfbdy tirfw bn out of mfmory fxdfption
+    }
+
+    // Allodbtf b 1-sdbnlinf bufffr
+    sdbnLinfPtr = (JSAMPROW)mbllod(sdbnLinfSizf);
+    if (sdbnLinfPtr == NULL) {
+        RELEASE_ARRAYS(fnv, dbtb, (donst JOCTET *)(dfst->nfxt_output_bytf));
+        JNU_TirowByNbmf( fnv,
+                         "jbvb/lbng/OutOfMfmoryError",
+                         "Writing JPEG Strfbm");
+        rfturn dbtb->bbortFlbg;
+    }
+    sdbnLinfLimit = sdbnLinfPtr + sdbnLinfSizf;
+
+    /* Estbblisi tif sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+    jfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+    if (sftjmp(jfrr->sftjmp_bufffr)) {
+        /* If wf gft ifrf, tif JPEG dodf ibs signblfd bn frror
+           wiilf writing. */
+        RELEASE_ARRAYS(fnv, dbtb, (donst JOCTET *)(dfst->nfxt_output_bytf));
+        if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+            dibr bufffr[JMSG_LENGTH_MAX];
+            (*dinfo->frr->formbt_mfssbgf) ((j_dommon_ptr) dinfo,
+                                          bufffr);
+            JNU_TirowByNbmf(fnv, "jbvbx/imbgfio/IIOExdfption", bufffr);
+        }
+
+        if (sdblf != NULL) {
+            for (i = 0; i < numBbnds; i++) {
+                if (sdblf[i] != NULL) {
+                    frff(sdblf[i]);
+                }
+            }
+            frff(sdblf);
+        }
+
+        frff(sdbnLinfPtr);
+        rfturn dbtb->bbortFlbg;
+    }
+
+    // sft up pbrbmftfrs
+    dinfo->imbgf_widti = dfstWidti;
+    dinfo->imbgf_ifigit = dfstHfigit;
+    dinfo->input_domponfnts = numBbnds;
+    dinfo->in_dolor_spbdf = inCs;
+
+    jpfg_sft_dffbults(dinfo);
+
+    jpfg_sft_dolorspbdf(dinfo, outCs);
+
+    dinfo->optimizf_doding = optimizf;
+
+    dinfo->writf_JFIF_ifbdfr = FALSE;
+    dinfo->writf_Adobf_mbrkfr = FALSE;
+    // dopy domponfntIds
+    ids = (*fnv)->GftIntArrbyElfmfnts(fnv, domponfntIds, NULL);
+    ifbdtors = (*fnv)->GftIntArrbyElfmfnts(fnv, HsbmplingFbdtors, NULL);
+    vfbdtors = (*fnv)->GftIntArrbyElfmfnts(fnv, VsbmplingFbdtors, NULL);
+    qsfls = (*fnv)->GftIntArrbyElfmfnts(fnv, QtbblfSflfdtors, NULL);
+
+    if (ids && ifbdtors && vfbdtors && qsfls) {
+        for (i = 0; i < numBbnds; i++) {
+            dinfo->domp_info[i].domponfnt_id = ids[i];
+            dinfo->domp_info[i].i_sbmp_fbdtor = ifbdtors[i];
+            dinfo->domp_info[i].v_sbmp_fbdtor = vfbdtors[i];
+            dinfo->domp_info[i].qubnt_tbl_no = qsfls[i];
+        }
+    } flsf {
+        suddfss = FALSE;
+    }
+
+    if (ids) {
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, domponfntIds, ids, JNI_ABORT);
+    }
+    if (ifbdtors) {
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, HsbmplingFbdtors, ifbdtors, JNI_ABORT);
+    }
+    if (vfbdtors) {
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, VsbmplingFbdtors, vfbdtors, JNI_ABORT);
+    }
+    if (qsfls) {
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, QtbblfSflfdtors, qsfls, JNI_ABORT);
+    }
+    if (!suddfss) rfturn dbtb->bbortFlbg;
+
+    jpfg_supprfss_tbblfs(dinfo, TRUE);  // Disbblf writing bny durrfnt
+
+    qlfn = sftQTbblfs(fnv, (j_dommon_ptr) dinfo, qtbblfs, writfDQT);
+
+    if (!optimizf) {
+        // Sft tif i tbblfs
+        ilfn = sftHTbblfs(fnv,
+                          (j_dommon_ptr) dinfo,
+                          DCHuffmbnTbblfs,
+                          ACHuffmbnTbblfs,
+                          writfDHT);
+    }
+
+    if (GET_ARRAYS(fnv, dbtb,
+                   (donst JOCTET **)(&dfst->nfxt_output_bytf)) == NOT_OK) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowByNbmf(fnv,
+                        "jbvbx/imbgfio/IIOExdfption",
+                        "Arrby pin fbilfd");
+        rfturn dbtb->bbortFlbg;
+    }
+
+    dbtb->strfbmBuf.suspfndbblf = FALSE;
+
+    if (progrfssivf) {
+        if (numSdbns == 0) { // tifn usf dffbult sdbns
+            jpfg_simplf_progrfssion(dinfo);
+        } flsf {
+            dinfo->num_sdbns = numSdbns;
+            // Copy tif sdbnInfo to b lodbl brrby
+            // Tif following is dopifd from jpfg_simplf_progrfssion:
+  /* Allodbtf spbdf for sdript.
+   * Wf nffd to put it in tif pfrmbnfnt pool in dbsf tif bpplidbtion pfrforms
+   * multiplf domprfssions witiout dibnging tif sfttings.  To bvoid b mfmory
+   * lfbk if jpfg_simplf_progrfssion is dbllfd rfpfbtfdly for tif sbmf JPEG
+   * objfdt, wf try to rf-usf prfviously bllodbtfd spbdf, bnd wf bllodbtf
+   * fnougi spbdf to ibndlf YCbCr fvfn if initiblly bskfd for grbysdblf.
+   */
+            if (dinfo->sdript_spbdf == NULL
+                || dinfo->sdript_spbdf_sizf < numSdbns) {
+                dinfo->sdript_spbdf_sizf = MAX(numSdbns, 10);
+                dinfo->sdript_spbdf = (jpfg_sdbn_info *)
+                    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo,
+                                                JPOOL_PERMANENT,
+                                                dinfo->sdript_spbdf_sizf
+                                                * sizfof(jpfg_sdbn_info));
+            }
+            dinfo->sdbn_info = dinfo->sdript_spbdf;
+            sdbnptr = (int *) dinfo->sdript_spbdf;
+            sdbnDbtb = (*fnv)->GftIntArrbyElfmfnts(fnv, sdbnInfo, NULL);
+            CHECK_NULL_RETURN(sdbnDbtb, dbtb->bbortFlbg);
+            // numbfr of jints pfr sdbn is 9
+            // Wf bvoid b mfmdpy to ibndlf difffrfnt sizf ints
+            for (i = 0; i < numSdbns*9; i++) {
+                sdbnptr[i] = sdbnDbtb[i];
+            }
+            (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, sdbnInfo,
+                                            sdbnDbtb, JNI_ABORT);
+
+        }
+    }
+
+    dinfo->rfstbrt_intfrvbl = rfstbrtIntfrvbl;
+
+#ifdff DEBUG_IIO_JPEG
+    printf("writfr sftup domplftf, stbrting domprfssor\n");
+#fndif
+
+    // stbrt tif domprfssor; tbblfs must blrfbdy bf sft
+    jpfg_stbrt_domprfss(dinfo, FALSE); // Lfbvfs sfnt_tbblf blonf
+
+    if (ibvfMftbdbtb) {
+        // Flusi tif bufffr
+        imbgfio_flusi_dfstinbtion(dinfo);
+        // Cbll Jbvb to writf tif mftbdbtb
+        RELEASE_ARRAYS(fnv, dbtb, (donst JOCTET *)(dfst->nfxt_output_bytf));
+        (*fnv)->CbllVoidMftiod(fnv,
+                               tiis,
+                               JPEGImbgfWritfr_writfMftbdbtbID);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)
+            || !GET_ARRAYS(fnv, dbtb,
+                           (donst JOCTET **)(&dfst->nfxt_output_bytf))) {
+                dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+         }
+    }
+
+    tbrgftLinf = 0;
+    pixflBufffrSizf = srdWidti * numBbnds;
+    pixflStridf = numBbnds * stfpX;
+
+    // for fbdi linf in dfstHfigit
+    wiilf ((dbtb->bbortFlbg == JNI_FALSE)
+           && (dinfo->nfxt_sdbnlinf < dinfo->imbgf_ifigit)) {
+        // gft tif linf from Jbvb
+        RELEASE_ARRAYS(fnv, dbtb, (donst JOCTET *)(dfst->nfxt_output_bytf));
+        (*fnv)->CbllVoidMftiod(fnv,
+                               tiis,
+                               JPEGImbgfWritfr_grbbPixflsID,
+                               tbrgftLinf);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)
+            || !GET_ARRAYS(fnv, dbtb,
+                           (donst JOCTET **)(&dfst->nfxt_output_bytf))) {
+                dinfo->frr->frror_fxit((j_dommon_ptr) dinfo);
+         }
+
+        // subsbmplf it into our bufffr
+
+        in = dbtb->pixflBuf.buf.bp;
+        out = sdbnLinfPtr;
+        pixflLimit = in + ((pixflBufffrSizf > dbtb->pixflBuf.bytfBufffrLfngti) ?
+                           dbtb->pixflBuf.bytfBufffrLfngti : pixflBufffrSizf);
+        for (; (in < pixflLimit) && (out < sdbnLinfLimit); in += pixflStridf) {
+            for (i = 0; i < numBbnds; i++) {
+                if (sdblf !=NULL && sdblf[i] != NULL) {
+                    *out++ = sdblf[i][*(in+i)];
+#ifdff DEBUG_IIO_JPEG
+                    if (in == dbtb->pixflBuf.buf.bp){ // Just tif first pixfl
+                        printf("in %d -> out %d, ", *(in+i), *(out-i-1));
+                    }
+#fndif
+
+#ifdff DEBUG_IIO_JPEG
+                    if (in == dbtb->pixflBuf.buf.bp){ // Just tif first pixfl
+                        printf("\n");
+                    }
+#fndif
+                } flsf {
+                    *out++ = *(in+i);
+                }
+            }
+        }
+        // writf it out
+        jpfg_writf_sdbnlinfs(dinfo, (JSAMPARRAY)&sdbnLinfPtr, 1);
+        tbrgftLinf += stfpY;
+    }
+
+    /*
+     * Wf brf donf, but wf migit not ibvf donf bll tif linfs,
+     * so usf jpfg_bbort instfbd of jpfg_finisi_domprfss.
+     */
+    if (dinfo->nfxt_sdbnlinf == dinfo->imbgf_ifigit) {
+        jpfg_finisi_domprfss(dinfo);  // Flusifs bufffr witi tfrm_dfst
+    } flsf {
+        jpfg_bbort((j_dommon_ptr)dinfo);
+    }
+
+    if (sdblf != NULL) {
+        for (i = 0; i < numBbnds; i++) {
+            if (sdblf[i] != NULL) {
+                frff(sdblf[i]);
+            }
+        }
+        frff(sdblf);
+    }
+
+    frff(sdbnLinfPtr);
+    RELEASE_ARRAYS(fnv, dbtb, NULL);
+    rfturn dbtb->bbortFlbg;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_bbortWritf
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf writfr bftfr disposf()");
+        rfturn;
+    }
+
+    imbgfio_bbort(fnv, tiis, dbtb);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_rfsftWritfr
+    (JNIEnv *fnv,
+     jobjfdt tiis,
+     jlong ptr) {
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_domprfss_ptr dinfo;
+
+    if (dbtb == NULL) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption",
+                        "Attfmpting to usf writfr bftfr disposf()");
+        rfturn;
+    }
+
+    dinfo = (j_domprfss_ptr) dbtb->jpfgObj;
+
+    imbgfio_rfsft(fnv, (j_dommon_ptr) dinfo, dbtb);
+
+    /*
+     * Tif tbblfs ibvf not bffn rfsft, bnd tifrf is no wby to do so
+     * in IJG witiout lfbking mfmory.  Tif only situbtion in wiidi
+     * tiis will dbusf b problfm is if bn imbgf-only strfbm is writtfn
+     * witi tiis objfdt witiout initiblizing tif dorrfdt tbblfs first,
+     * wiidi siould not bf possiblf.
+     */
+
+    dinfo->dfst->nfxt_output_bytf = NULL;
+    dinfo->dfst->frff_in_bufffr = 0;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_imbgfio_plugins_jpfg_JPEGImbgfWritfr_disposfWritfr
+    (JNIEnv *fnv,
+     jdlbss writfr,
+     jlong ptr) {
+
+    imbgfIODbtbPtr dbtb = (imbgfIODbtbPtr)jlong_to_ptr(ptr);
+    j_dommon_ptr info = dfstroyImbgfioDbtb(fnv, dbtb);
+
+    imbgfio_disposf(info);
+}

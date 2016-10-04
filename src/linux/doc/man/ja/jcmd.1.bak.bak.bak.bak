@@ -1,154 +1,770 @@
 '\" t
-.\" Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+'\" t
+'\" t
+'\" t
+'\" t
+.\" Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\" Titlf: jdmd
-.\" Lbngubgf: English
+.\" Titlf: jdmd
+.\" Titlf: jdmd
+.\" Titlf: jdmd
+.\" Titlf: jdmd
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
+.\" Dbtf: 2013年11月21日
 .\" Dbtf: 2013年11月21日
 .\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
+.\" SfdtDfsd: トラブルシューティング・ツール
 .\" Softwbrf: JDK 8
-.\" Ardh: 汎用
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\" Ardi: 汎用
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
+.\"
+.\"
+.\"
+.\"
+.pl 99999
+.pl 99999
+.pl 99999
+.pl 99999
 .pl 99999
 .TH "jdmd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jdmd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jdmd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jdmd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.TH "jdmd" "1" "2013年11月21日" "JDK 8" "トラブルシューティング・ツール"
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+.SH "NAME"
+jdmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
+jdmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
+jdmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
+jdmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
 jdmd \- 実行中のJbvb仮想マシン(JVM)に診断コマンド・リクエストを送信します。
 .SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.SH "概要"
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
-\fIjdmd\fR [\fI\-l\fR|\fI\-h\fR|\fI\-hflp\fR]
+.nf
+.nf
+.nf
+.nf
+\fIjdmd\fR [\fI\-l\fR|\fI\-i\fR|\fI\-iflp\fR]
+\fIjdmd\fR [\fI\-l\fR|\fI\-i\fR|\fI\-iflp\fR]
+\fIjdmd\fR [\fI\-l\fR|\fI\-i\fR|\fI\-iflp\fR]
+\fIjdmd\fR [\fI\-l\fR|\fI\-i\fR|\fI\-iflp\fR]
+\fIjdmd\fR [\fI\-l\fR|\fI\-i\fR|\fI\-iflp\fR]
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIPfrfCountfr\&.print\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIPfrfCountfr\&.print\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIPfrfCountfr\&.print\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIPfrfCountfr\&.print\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIPfrfCountfr\&.print\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .\}
+.\}
+.\}
+.\}
+.\}
+.nf
+.nf
+.nf
+.nf
 .nf
 \fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fI\-f\fR \fIfilfnbmf\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fI\-f\fR \fIfilfnbmf\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fI\-f\fR \fIfilfnbmf\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fI\-f\fR \fIfilfnbmf\fR
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fI\-f\fR \fIfilfnbmf\fR
+.fi
+.fi
+.fi
+.fi
 .fi
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.RE
+.RE
+.RE
+.RE
 .RE
 .\}
+.\}
+.\}
+.\}
+.\}
+.sp
+.sp
+.sp
+.sp
 .sp
 .if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+.\}
+.\}
+.\}
+.\}
 .\}
 .nf
+.nf
+.nf
+.nf
+.nf
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
+\fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
 \fIjdmd\fR \fIpid\fR|\fImbin\-dlbss\fR \fIdommbnd\fR[ \fIbrgumfnts\fR]
 .fi
+.fi
+.fi
+.fi
+.fi
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
 .if n \{\
 .RE
+.RE
+.RE
+.RE
+.RE
+.\}
+.\}
+.\}
+.\}
 .\}
 .SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.SH "説明"
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIjdmd\fRユーティリティは、JVMに診断コマンド・リクエストを送信するために使用されます。これはJVMが稼働しているのと同じマシンで使用し、JVMの起動に使用したものと同じ有効ユーザーおよびグループ識別子を持っている必要があります。
+\fIjdmd\fRユーティリティは、JVMに診断コマンド・リクエストを送信するために使用されます。これはJVMが稼働しているのと同じマシンで使用し、JVMの起動に使用したものと同じ有効ユーザーおよびグループ識別子を持っている必要があります。
+\fIjdmd\fRユーティリティは、JVMに診断コマンド・リクエストを送信するために使用されます。これはJVMが稼働しているのと同じマシンで使用し、JVMの起動に使用したものと同じ有効ユーザーおよびグループ識別子を持っている必要があります。
+\fIjdmd\fRユーティリティは、JVMに診断コマンド・リクエストを送信するために使用されます。これはJVMが稼働しているのと同じマシンで使用し、JVMの起動に使用したものと同じ有効ユーザーおよびグループ識別子を持っている必要があります。
+\fIjdmd\fRユーティリティは、JVMに診断コマンド・リクエストを送信するために使用されます。これはJVMが稼働しているのと同じマシンで使用し、JVMの起動に使用したものと同じ有効ユーザーおよびグループ識別子を持っている必要があります。
+.PP
+.PP
+.PP
+.PP
 .PP
 \fB注意:\fR
-リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIdom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fRインタフェースを使用できます。\fIDibgnostidCommbndMBfbn\fRインタフェースの詳細は、http://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.htmlにあるAPIドキュメントを参照してください。
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIdom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fRインタフェースを使用できます。\fIDibgnostidCommbndMBfbn\fRインタフェースの詳細は、ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itmlにあるAPIドキュメントを参照してください。
+リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIdom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fRインタフェースを使用できます。\fIDibgnostidCommbndMBfbn\fRインタフェースの詳細は、ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itmlにあるAPIドキュメントを参照してください。
+リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIdom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fRインタフェースを使用できます。\fIDibgnostidCommbndMBfbn\fRインタフェースの詳細は、ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itmlにあるAPIドキュメントを参照してください。
+リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIdom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fRインタフェースを使用できます。\fIDibgnostidCommbndMBfbn\fRインタフェースの詳細は、ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itmlにあるAPIドキュメントを参照してください。
+リモート・マシンから、または別の識別子で診断コマンドを起動するには、\fIdom\&.sun\&.mbnbgfmfnt\&.DibgnostidCommbndMBfbn\fRインタフェースを使用できます。\fIDibgnostidCommbndMBfbn\fRインタフェースの詳細は、ittp://downlobd\&.jbvb\&.nft/jdk8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/DibgnostidCommbndMBfbn\&.itmlにあるAPIドキュメントを参照してください。
 .PP
-\fIjdmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-h\fRまたは\fI\-hflp\fRオプションを指定して\fIjdmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
+.PP
+.PP
+.PP
+.PP
+\fIjdmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-i\fRまたは\fI\-iflp\fRオプションを指定して\fIjdmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
+\fIjdmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-i\fRまたは\fI\-iflp\fRオプションを指定して\fIjdmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
+\fIjdmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-i\fRまたは\fI\-iflp\fRオプションを指定して\fIjdmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
+\fIjdmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-i\fRまたは\fI\-iflp\fRオプションを指定して\fIjdmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
+\fIjdmd\fRを引数なしまたは\fI\- l\fRオプションを指定して実行した場合は、実行中のJbvbプロセス識別子のリストが、メイン・クラスおよびプロセスの起動に使用されたコマンドライン引数とともに出力されます。\fI\-i\fRまたは\fI\-iflp\fRオプションを指定して\fIjdmd\fRを実行すると、ツールのヘルプ・メッセージが出力されます。
+.PP
+.PP
+.PP
+.PP
 .PP
 プロセス識別子(\fIpid\fR)またはメイン・クラス(\fImbin\-dlbss\fR)を最初の引数として指定した場合、\fIjdmd\fRは、識別子を指定した場合はJbvbプロセスに、メイン・クラスの名前を指定した場合はすべてのJbvbプロセスに診断コマンド・リクエストを送信します。プロセス識別子として\fI0\fRを指定して、すべての使用可能なJbvbプロセスに診断コマンド・リクエストを送信することもできます。診断コマンド・リクエストとして、次のいずれかを使用します。
+プロセス識別子(\fIpid\fR)またはメイン・クラス(\fImbin\-dlbss\fR)を最初の引数として指定した場合、\fIjdmd\fRは、識別子を指定した場合はJbvbプロセスに、メイン・クラスの名前を指定した場合はすべてのJbvbプロセスに診断コマンド・リクエストを送信します。プロセス識別子として\fI0\fRを指定して、すべての使用可能なJbvbプロセスに診断コマンド・リクエストを送信することもできます。診断コマンド・リクエストとして、次のいずれかを使用します。
+プロセス識別子(\fIpid\fR)またはメイン・クラス(\fImbin\-dlbss\fR)を最初の引数として指定した場合、\fIjdmd\fRは、識別子を指定した場合はJbvbプロセスに、メイン・クラスの名前を指定した場合はすべてのJbvbプロセスに診断コマンド・リクエストを送信します。プロセス識別子として\fI0\fRを指定して、すべての使用可能なJbvbプロセスに診断コマンド・リクエストを送信することもできます。診断コマンド・リクエストとして、次のいずれかを使用します。
+プロセス識別子(\fIpid\fR)またはメイン・クラス(\fImbin\-dlbss\fR)を最初の引数として指定した場合、\fIjdmd\fRは、識別子を指定した場合はJbvbプロセスに、メイン・クラスの名前を指定した場合はすべてのJbvbプロセスに診断コマンド・リクエストを送信します。プロセス識別子として\fI0\fRを指定して、すべての使用可能なJbvbプロセスに診断コマンド・リクエストを送信することもできます。診断コマンド・リクエストとして、次のいずれかを使用します。
+プロセス識別子(\fIpid\fR)またはメイン・クラス(\fImbin\-dlbss\fR)を最初の引数として指定した場合、\fIjdmd\fRは、識別子を指定した場合はJbvbプロセスに、メイン・クラスの名前を指定した場合はすべてのJbvbプロセスに診断コマンド・リクエストを送信します。プロセス識別子として\fI0\fRを指定して、すべての使用可能なJbvbプロセスに診断コマンド・リクエストを送信することもできます。診断コマンド・リクエストとして、次のいずれかを使用します。
+.PP
+.PP
+.PP
+.PP
 .PP
 Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+Pfrfdountfr\&.print
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 指定したJbvbプロセスで使用可能なパフォーマンス・カウンタが出力されます。パフォーマンス・カウンタのリストはJbvbプロセスによって異なる場合があります。
+指定したJbvbプロセスで使用可能なパフォーマンス・カウンタが出力されます。パフォーマンス・カウンタのリストはJbvbプロセスによって異なる場合があります。
+指定したJbvbプロセスで使用可能なパフォーマンス・カウンタが出力されます。パフォーマンス・カウンタのリストはJbvbプロセスによって異なる場合があります。
+指定したJbvbプロセスで使用可能なパフォーマンス・カウンタが出力されます。パフォーマンス・カウンタのリストはJbvbプロセスによって異なる場合があります。
+指定したJbvbプロセスで使用可能なパフォーマンス・カウンタが出力されます。パフォーマンス・カウンタのリストはJbvbプロセスによって異なる場合があります。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
+.PP
+.PP
+.PP
+.PP
 \-f \fIfilfnbmf\fR
+\-f \fIfilfnbmf\fR
+\-f \fIfilfnbmf\fR
+\-f \fIfilfnbmf\fR
+\-f \fIfilfnbmf\fR
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 診断コマンドを読み取り、指定したJbvbプロセスに送信するファイルの名前。\fI\-f\fRオプションでのみ使用します。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
+診断コマンドを読み取り、指定したJbvbプロセスに送信するファイルの名前。\fI\-f\fRオプションでのみ使用します。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
+診断コマンドを読み取り、指定したJbvbプロセスに送信するファイルの名前。\fI\-f\fRオプションでのみ使用します。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
+診断コマンドを読み取り、指定したJbvbプロセスに送信するファイルの名前。\fI\-f\fRオプションでのみ使用します。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
+診断コマンドを読み取り、指定したJbvbプロセスに送信するファイルの名前。\fI\-f\fRオプションでのみ使用します。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
+\fIdommbnd\fR [\fIbrgumfnts\fR]
 .RS 4
-指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIhflp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIhflp\fRコマンドの引数としてコマンド名を使用します。
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIiflp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIiflp\fRコマンドの引数としてコマンド名を使用します。
+指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIiflp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIiflp\fRコマンドの引数としてコマンド名を使用します。
+指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIiflp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIiflp\fRコマンドの引数としてコマンド名を使用します。
+指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIiflp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIiflp\fRコマンドの引数としてコマンド名を使用します。
+指定されたJbvbプロセスに送信するコマンド。指定したプロセスで使用できる診断コマンドのリストは、このプロセスに対して\fIiflp\fRコマンドを送信すれば表示されます。各診断コマンドに独自の引数セットがあります。コマンドの説明、構文および使用可能な引数のリストを表示するには、\fIiflp\fRコマンドの引数としてコマンド名を使用します。
+.sp
+.sp
+.sp
+.sp
 .sp
 \fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+\fB注意:\fR
+引数にスペースが含まれている場合は、一重引用符または二重引用符(\fI\*(Aq\fRまたは\fI"\fR)で囲む必要があります。加えて、オペレーティング・システム・シェルが引用符を処理しないように、バックスラッシュ(\fI\f\fR)で一重引用符または二重引用符をエスケープする必要があります。または、これらの引数を一重引用符で囲んでから、二重引用符で囲むこともできます(または二重引用符で囲んでから、一重引用符で囲む)。
+引数にスペースが含まれている場合は、一重引用符または二重引用符(\fI\*(Aq\fRまたは\fI"\fR)で囲む必要があります。加えて、オペレーティング・システム・シェルが引用符を処理しないように、バックスラッシュ(\fI\f\fR)で一重引用符または二重引用符をエスケープする必要があります。または、これらの引数を一重引用符で囲んでから、二重引用符で囲むこともできます(または二重引用符で囲んでから、一重引用符で囲む)。
+引数にスペースが含まれている場合は、一重引用符または二重引用符(\fI\*(Aq\fRまたは\fI"\fR)で囲む必要があります。加えて、オペレーティング・システム・シェルが引用符を処理しないように、バックスラッシュ(\fI\f\fR)で一重引用符または二重引用符をエスケープする必要があります。または、これらの引数を一重引用符で囲んでから、二重引用符で囲むこともできます(または二重引用符で囲んでから、一重引用符で囲む)。
+引数にスペースが含まれている場合は、一重引用符または二重引用符(\fI\*(Aq\fRまたは\fI"\fR)で囲む必要があります。加えて、オペレーティング・システム・シェルが引用符を処理しないように、バックスラッシュ(\fI\f\fR)で一重引用符または二重引用符をエスケープする必要があります。または、これらの引数を一重引用符で囲んでから、二重引用符で囲むこともできます(または二重引用符で囲んでから、一重引用符で囲む)。
 引数にスペースが含まれている場合は、一重引用符または二重引用符(\fI\*(Aq\fRまたは\fI"\fR)で囲む必要があります。加えて、オペレーティング・システム・シェルが引用符を処理しないように、バックスラッシュ(\fI\f\fR)で一重引用符または二重引用符をエスケープする必要があります。または、これらの引数を一重引用符で囲んでから、二重引用符で囲むこともできます(または二重引用符で囲んでから、一重引用符で囲む)。
 .RE
+.RE
+.RE
+.RE
+.RE
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
+.SH "オプション"
 .SH "オプション"
 .PP
+.PP
+.PP
+.PP
+.PP
+各オプションは互いに排他的です。
+各オプションは互いに排他的です。
+各オプションは互いに排他的です。
+各オプションは互いに排他的です。
 各オプションは互いに排他的です。
 .PP
+.PP
+.PP
+.PP
+.PP
+\-f \fIfilfnbmf\fR
+\-f \fIfilfnbmf\fR
+\-f \fIfilfnbmf\fR
+\-f \fIfilfnbmf\fR
 \-f \fIfilfnbmf\fR
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+指定されたファイルからコマンドを読み取ります。このオプションは、最初の引数としてプロセス識別子またはメイン・クラスを指定する場合にのみ使用できます。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
+指定されたファイルからコマンドを読み取ります。このオプションは、最初の引数としてプロセス識別子またはメイン・クラスを指定する場合にのみ使用できます。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
+指定されたファイルからコマンドを読み取ります。このオプションは、最初の引数としてプロセス識別子またはメイン・クラスを指定する場合にのみ使用できます。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
+指定されたファイルからコマンドを読み取ります。このオプションは、最初の引数としてプロセス識別子またはメイン・クラスを指定する場合にのみ使用できます。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
 指定されたファイルからコマンドを読み取ります。このオプションは、最初の引数としてプロセス識別子またはメイン・クラスを指定する場合にのみ使用できます。ファイル内の各コマンドは、1行で記述する必要があります。番号記号(\fI#\fR)で始まる行は無視されます。すべての行が読み取られるか、\fIstop\fRキーワードを含む行が読み取られると、ファイルの処理が終了します。
 .RE
+.RE
+.RE
+.RE
+.RE
 .PP
-\-h, \-hflp
+.PP
+.PP
+.PP
+.PP
+\-i, \-iflp
+\-i, \-iflp
+\-i, \-iflp
+\-i, \-iflp
+\-i, \-iflp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 ヘルプ・メッセージが出力されます。
+ヘルプ・メッセージが出力されます。
+ヘルプ・メッセージが出力されます。
+ヘルプ・メッセージが出力されます。
+ヘルプ・メッセージが出力されます。
+.RE
+.RE
+.RE
+.RE
 .RE
 .PP
+.PP
+.PP
+.PP
+.PP
+\-l
+\-l
+\-l
+\-l
 \-l
 .RS 4
+.RS 4
+.RS 4
+.RS 4
+.RS 4
+実行中のJbvbプロセス識別子のリストをメイン・クラスおよびコマンドライン引数とともに出力します。
+実行中のJbvbプロセス識別子のリストをメイン・クラスおよびコマンドライン引数とともに出力します。
+実行中のJbvbプロセス識別子のリストをメイン・クラスおよびコマンドライン引数とともに出力します。
+実行中のJbvbプロセス識別子のリストをメイン・クラスおよびコマンドライン引数とともに出力します。
 実行中のJbvbプロセス識別子のリストをメイン・クラスおよびコマンドライン引数とともに出力します。
 .RE
+.RE
+.RE
+.RE
+.RE
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
+.SH "関連項目"
 .SH "関連項目"
 .sp
+.sp
+.sp
+.sp
+.sp
+.RS 4
+.RS 4
+.RS 4
+.RS 4
 .RS 4
 .if n \{\
-\h'-04'\(bu\h'+03'\d
+.if n \{\
+.if n \{\
+.if n \{\
+.if n \{\
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+\i'-04'\(bu\i'+03'\d
+.\}
+.\}
+.\}
+.\}
 .\}
 .fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.fl \{\
+.sp -1
+.sp -1
+.sp -1
+.sp -1
 .sp -1
 .IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.IP \(bu 2.3
+.\}
+.\}
+.\}
+.\}
 .\}
 jps(1)
+jps(1)
+jps(1)
+jps(1)
+jps(1)
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

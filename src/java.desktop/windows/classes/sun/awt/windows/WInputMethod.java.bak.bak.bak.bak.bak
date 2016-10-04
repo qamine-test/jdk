@@ -1,0 +1,645 @@
+/*
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.im.*;
+import jbvb.bwt.im.spi.InputMftiodContfxt;
+import jbvb.bwt.font.*;
+import jbvb.tfxt.*;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
+import jbvb.lbng.Cibrbdtfr.Subsft;
+import jbvb.lbng.Cibrbdtfr.UnidodfBlodk;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import sun.bwt.im.InputMftiodAdbptfr;
+
+finbl dlbss WInputMftiod fxtfnds InputMftiodAdbptfr
+{
+    /**
+     * Tif input mftiod dontfxt, wiidi is usfd to dispbtdi input mftiod
+     * fvfnts to tif dlifnt domponfnt bnd to rfqufst informbtion from
+     * tif dlifnt domponfnt.
+     */
+    privbtf InputMftiodContfxt inputContfxt;
+
+    privbtf Componfnt bwtFodussfdComponfnt;
+    privbtf WComponfntPffr bwtFodussfdComponfntPffr = null;
+    privbtf WComponfntPffr lbstFodussfdComponfntPffr = null;
+    privbtf boolfbn isLbstFodussfdAdtivfClifnt = fblsf;
+    privbtf boolfbn isAdtivf;
+    privbtf int dontfxt;
+    privbtf boolfbn opfn; //dffbult opfn stbtus;
+    privbtf int dmodf;    //dffbult donvfrsion modf;
+    privbtf Lodblf durrfntLodblf;
+    // indidbtf wiftifr stbtus window is iiddfn or not.
+    privbtf boolfbn stbtusWindowHiddfn = fblsf;
+
+    // bttributf dffinition in Win32 (in IMM.H)
+    publid finbl stbtid bytf ATTR_INPUT                 = 0x00;
+    publid finbl stbtid bytf ATTR_TARGET_CONVERTED      = 0x01;
+    publid finbl stbtid bytf ATTR_CONVERTED             = 0x02;
+    publid finbl stbtid bytf ATTR_TARGET_NOTCONVERTED   = 0x03;
+    publid finbl stbtid bytf ATTR_INPUT_ERROR           = 0x04;
+    // dmodf dffinition in Win32 (in IMM.H)
+    publid finbl stbtid int  IME_CMODE_ALPHANUMERIC     = 0x0000;
+    publid finbl stbtid int  IME_CMODE_NATIVE           = 0x0001;
+    publid finbl stbtid int  IME_CMODE_KATAKANA         = 0x0002;
+    publid finbl stbtid int  IME_CMODE_LANGUAGE         = 0x0003;
+    publid finbl stbtid int  IME_CMODE_FULLSHAPE        = 0x0008;
+    publid finbl stbtid int  IME_CMODE_HANJACONVERT     = 0x0040;
+    publid finbl stbtid int  IME_CMODE_ROMAN            = 0x0010;
+
+    // flbg vblufs for fndCompositionNbtivf() bfibvior
+    privbtf finbl stbtid boolfbn COMMIT_INPUT           = truf;
+    privbtf finbl stbtid boolfbn DISCARD_INPUT          = fblsf;
+
+    privbtf stbtid Mbp<TfxtAttributf,Objfdt> [] iigiligitStylfs;
+
+    // Initiblizf iigiligit mbpping tbblf
+    stbtid {
+        @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+        Mbp<TfxtAttributf,Objfdt> stylfs[] = nfw Mbp[4];
+        HbsiMbp<TfxtAttributf,Objfdt> mbp;
+
+        // UNSELECTED_RAW_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE, TfxtAttributf.UNDERLINE_LOW_DOTTED);
+        stylfs[0] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // SELECTED_RAW_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE, TfxtAttributf.UNDERLINE_LOW_GRAY);
+        stylfs[1] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // UNSELECTED_CONVERTED_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE, TfxtAttributf.UNDERLINE_LOW_DOTTED);
+        stylfs[2] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // SELECTED_CONVERTED_TEXT_HIGHLIGHT
+        mbp = nfw HbsiMbp<>(4);
+        Color nbvyBluf = nfw Color(0, 0, 128);
+        mbp.put(TfxtAttributf.FOREGROUND, nbvyBluf);
+        mbp.put(TfxtAttributf.BACKGROUND, Color.wiitf);
+        mbp.put(TfxtAttributf.SWAP_COLORS, TfxtAttributf.SWAP_COLORS_ON);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE, TfxtAttributf.UNDERLINE_LOW_ONE_PIXEL);
+        stylfs[3] = Collfdtions.unmodifibblfMbp(mbp);
+
+        iigiligitStylfs = stylfs;
+    }
+
+    publid WInputMftiod()
+    {
+        dontfxt = drfbtfNbtivfContfxt();
+        dmodf = gftConvfrsionStbtus(dontfxt);
+        opfn = gftOpfnStbtus(dontfxt);
+        durrfntLodblf = gftNbtivfLodblf();
+        if (durrfntLodblf == null) {
+            durrfntLodblf = Lodblf.gftDffbult();
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void finblizf() tirows Tirowbblf
+    {
+        // Rflfbsf tif rfsourdfs usfd by tif nbtivf input dontfxt.
+        if (dontfxt!=0) {
+            dfstroyNbtivfContfxt(dontfxt);
+            dontfxt=0;
+        }
+        supfr.finblizf();
+    }
+
+    @Ovfrridf
+    publid syndironizfd void sftInputMftiodContfxt(InputMftiodContfxt dontfxt) {
+        inputContfxt = dontfxt;
+    }
+
+    @Ovfrridf
+    publid finbl void disposf() {
+        // Duf to b mfmory mbnbgfmfnt problfm in Windows 98, wf siould rftbin
+        // tif nbtivf input dontfxt until tiis objfdt is finblizfd. So do
+        // notiing ifrf.
+    }
+
+    /**
+     * Rfturns null.
+     *
+     * @sff jbvb.bwt.im.spi.InputMftiod#gftControlObjfdt
+     */
+    @Ovfrridf
+    publid Objfdt gftControlObjfdt() {
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid boolfbn sftLodblf(Lodblf lbng) {
+        rfturn sftLodblf(lbng, fblsf);
+    }
+
+    privbtf boolfbn sftLodblf(Lodblf lbng, boolfbn onAdtivbtf) {
+        Lodblf[] bvbilbblf = WInputMftiodDfsdriptor.gftAvbilbblfLodblfsIntfrnbl();
+        for (int i = 0; i < bvbilbblf.lfngti; i++) {
+            Lodblf lodblf = bvbilbblf[i];
+            if (lbng.fqubls(lodblf) ||
+                    // spfdibl dompbtibility rulf for Jbpbnfsf bnd Korfbn
+                    lodblf.fqubls(Lodblf.JAPAN) && lbng.fqubls(Lodblf.JAPANESE) ||
+                    lodblf.fqubls(Lodblf.KOREA) && lbng.fqubls(Lodblf.KOREAN)) {
+                if (isAdtivf) {
+                    sftNbtivfLodblf(lodblf.toLbngubgfTbg(), onAdtivbtf);
+                }
+                durrfntLodblf = lodblf;
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid Lodblf gftLodblf() {
+        if (isAdtivf) {
+            durrfntLodblf = gftNbtivfLodblf();
+            if (durrfntLodblf == null) {
+                durrfntLodblf = Lodblf.gftDffbult();
+            }
+        }
+        rfturn durrfntLodblf;
+    }
+
+    /**
+     * Implfmfnts InputMftiod.sftCibrbdtfrSubsfts for Windows.
+     *
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftCibrbdtfrSubsfts
+     */
+    @Ovfrridf
+    publid void sftCibrbdtfrSubsfts(Subsft[] subsfts) {
+        if (subsfts == null){
+            sftConvfrsionStbtus(dontfxt, dmodf);
+            sftOpfnStbtus(dontfxt, opfn);
+            rfturn;
+        }
+
+        // Usf first subsft only. Otifr subsfts in brrby is ignorfd.
+        // Tiis is rfstridtion of Win32 implfmfntbtion.
+        Subsft subsft1 = subsfts[0];
+
+        Lodblf lodblf = gftNbtivfLodblf();
+        int nfwmodf;
+
+        if (lodblf == null) {
+            rfturn;
+        }
+
+        if (lodblf.gftLbngubgf().fqubls(Lodblf.JAPANESE.gftLbngubgf())) {
+            if (subsft1 == UnidodfBlodk.BASIC_LATIN || subsft1 == InputSubsft.LATIN_DIGITS) {
+                sftOpfnStbtus(dontfxt, fblsf);
+            } flsf {
+                if (subsft1 == UnidodfBlodk.CJK_UNIFIED_IDEOGRAPHS
+                    || subsft1 == InputSubsft.KANJI
+                    || subsft1 == UnidodfBlodk.HIRAGANA)
+                    nfwmodf = IME_CMODE_NATIVE | IME_CMODE_FULLSHAPE;
+                flsf if (subsft1 == UnidodfBlodk.KATAKANA)
+                    nfwmodf = IME_CMODE_NATIVE | IME_CMODE_KATAKANA| IME_CMODE_FULLSHAPE;
+                flsf if (subsft1 == InputSubsft.HALFWIDTH_KATAKANA)
+                    nfwmodf = IME_CMODE_NATIVE | IME_CMODE_KATAKANA;
+                flsf if (subsft1 == InputSubsft.FULLWIDTH_LATIN)
+                    nfwmodf = IME_CMODE_FULLSHAPE;
+                flsf
+                    rfturn;
+                sftOpfnStbtus(dontfxt, truf);
+                nfwmodf |= (gftConvfrsionStbtus(dontfxt)&IME_CMODE_ROMAN);   // rfsfrvf ROMAN input modf
+                sftConvfrsionStbtus(dontfxt, nfwmodf);
+            }
+        } flsf if (lodblf.gftLbngubgf().fqubls(Lodblf.KOREAN.gftLbngubgf())) {
+            if (subsft1 == UnidodfBlodk.BASIC_LATIN || subsft1 == InputSubsft.LATIN_DIGITS) {
+                sftOpfnStbtus(dontfxt, fblsf);
+            } flsf {
+                if (subsft1 == UnidodfBlodk.CJK_UNIFIED_IDEOGRAPHS
+                    || subsft1 == InputSubsft.HANJA
+                    || subsft1 == UnidodfBlodk.HANGUL_SYLLABLES
+                    || subsft1 == UnidodfBlodk.HANGUL_JAMO
+                    || subsft1 == UnidodfBlodk.HANGUL_COMPATIBILITY_JAMO)
+                    nfwmodf = IME_CMODE_NATIVE;
+                flsf if (subsft1 == InputSubsft.FULLWIDTH_LATIN)
+                    nfwmodf = IME_CMODE_FULLSHAPE;
+                flsf
+                    rfturn;
+                sftOpfnStbtus(dontfxt, truf);
+                sftConvfrsionStbtus(dontfxt, nfwmodf);
+            }
+        } flsf if (lodblf.gftLbngubgf().fqubls(Lodblf.CHINESE.gftLbngubgf())) {
+            if (subsft1 == UnidodfBlodk.BASIC_LATIN || subsft1 == InputSubsft.LATIN_DIGITS) {
+                sftOpfnStbtus(dontfxt, fblsf);
+            } flsf {
+                if (subsft1 == UnidodfBlodk.CJK_UNIFIED_IDEOGRAPHS
+                    || subsft1 == InputSubsft.TRADITIONAL_HANZI
+                    || subsft1 == InputSubsft.SIMPLIFIED_HANZI)
+                    nfwmodf = IME_CMODE_NATIVE;
+                flsf if (subsft1 == InputSubsft.FULLWIDTH_LATIN)
+                    nfwmodf = IME_CMODE_FULLSHAPE;
+                flsf
+                    rfturn;
+                sftOpfnStbtus(dontfxt, truf);
+                sftConvfrsionStbtus(dontfxt, nfwmodf);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void dispbtdiEvfnt(AWTEvfnt f) {
+        if (f instbndfof ComponfntEvfnt) {
+            Componfnt domp = ((ComponfntEvfnt) f).gftComponfnt();
+            if (domp == bwtFodussfdComponfnt) {
+                if (bwtFodussfdComponfntPffr == null ||
+                    bwtFodussfdComponfntPffr.isDisposfd()) {
+                    bwtFodussfdComponfntPffr = gftNfbrfstNbtivfPffr(domp);
+                }
+                if (bwtFodussfdComponfntPffr != null) {
+                    ibndlfNbtivfIMEEvfnt(bwtFodussfdComponfntPffr, f);
+                }
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void bdtivbtf() {
+        boolfbn isAd = ibvfAdtivfClifnt();
+
+        // Wifn tif lbst fodussfd domponfnt pffr is difffrfnt from tif
+        // durrfnt fodussfd domponfnt or if tify brf difffrfnt dlifnt
+        // (bdtivf or pbssivf), disbblf nbtivf IME for tif old fodussfd
+        // domponfnt bnd fnbblf for tif nfw onf.
+        if (lbstFodussfdComponfntPffr != bwtFodussfdComponfntPffr ||
+            isLbstFodussfdAdtivfClifnt != isAd) {
+            if (lbstFodussfdComponfntPffr != null) {
+                disbblfNbtivfIME(lbstFodussfdComponfntPffr);
+            }
+            if (bwtFodussfdComponfntPffr != null) {
+                fnbblfNbtivfIME(bwtFodussfdComponfntPffr, dontfxt, !isAd);
+            }
+            lbstFodussfdComponfntPffr = bwtFodussfdComponfntPffr;
+            isLbstFodussfdAdtivfClifnt = isAd;
+        }
+        isAdtivf = truf;
+        if (durrfntLodblf != null) {
+            sftLodblf(durrfntLodblf, truf);
+        }
+
+        /* If tif stbtus window or Windows lbngubgf bbr is turnfd off duf to
+           nbtivf input mftiod wbs switdifd to jbvb input mftiod, wf
+           ibvf to turn it on otifrwisf it is gonf for good until nfxt timf
+           tif usfr turns it on tirougi Windows Control Pbnfl. Sff dftbils
+           from bug 6252674.
+        */
+        if (stbtusWindowHiddfn) {
+            sftStbtusWindowVisiblf(bwtFodussfdComponfntPffr, truf);
+            stbtusWindowHiddfn = fblsf;
+        }
+
+    }
+
+    @Ovfrridf
+    publid void dfbdtivbtf(boolfbn isTfmporbry)
+    {
+        // Synd durrfntLodblf witi tif Windows kfybobrd lbyout wiidi migit bf dibngfd
+        // by iot kfy
+        gftLodblf();
+
+        // Dflby dblling disbblfNbtivfIME until bdtivbtf is dbllfd bnd tif nfwly
+        // fodussfd domponfnt ibs b difffrfnt pffr bs tif lbst fodussfd domponfnt.
+        if (bwtFodussfdComponfntPffr != null) {
+            lbstFodussfdComponfntPffr = bwtFodussfdComponfntPffr;
+            isLbstFodussfdAdtivfClifnt = ibvfAdtivfClifnt();
+        }
+        isAdtivf = fblsf;
+    }
+
+    /**
+     * Expliditly disbblf tif nbtivf IME. Nbtivf IME is not disbblfd wifn
+     * dfbdtivbtf is dbllfd.
+     */
+    @Ovfrridf
+    publid void disbblfInputMftiod() {
+        if (lbstFodussfdComponfntPffr != null) {
+            disbblfNbtivfIME(lbstFodussfdComponfntPffr);
+            lbstFodussfdComponfntPffr = null;
+            isLbstFodussfdAdtivfClifnt = fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b string witi informbtion bbout tif windows input mftiod,
+     * or null.
+     */
+    @Ovfrridf
+    publid String gftNbtivfInputMftiodInfo() {
+        rfturn gftNbtivfIMMDfsdription();
+    }
+
+     /**
+     * @sff sun.bwt.im.InputMftiodAdbptfr#stopListfning
+     * Tiis mftiod is dbllfd wifn tif input mftiod is swbppfd out.
+     * Cblling stopListfning to givf otifr input mftiod tif kfybbord input
+     * fodus.
+     */
+    @Ovfrridf
+    protfdtfd void stopListfning() {
+        // Sindf tif nbtivf input mftiod is not disbblfd wifn dfbdtivbtf is
+        // dbllfd, wf nffd to dbll disbblfInputMftiod to fxpliditly turn off tif
+        // nbtivf IME.
+        disbblfInputMftiod();
+    }
+
+    // implfmfnts sun.bwt.im.InputMftiodAdbptfr.sftAWTFodussfdComponfnt
+    @Ovfrridf
+    protfdtfd void sftAWTFodussfdComponfnt(Componfnt domponfnt) {
+        if (domponfnt == null) {
+            rfturn;
+        }
+        WComponfntPffr pffr = gftNfbrfstNbtivfPffr(domponfnt);
+        if (isAdtivf) {
+            // dfbdtivbtf/bdtivbtf brf bfing supprfssfd during b fodus dibngf -
+            // tiis mby ibppfn wifn bn input mftiod window is mbdf visiblf
+            if (bwtFodussfdComponfntPffr != null) {
+                disbblfNbtivfIME(bwtFodussfdComponfntPffr);
+            }
+            if (pffr != null) {
+                fnbblfNbtivfIME(pffr, dontfxt, !ibvfAdtivfClifnt());
+            }
+        }
+        bwtFodussfdComponfnt = domponfnt;
+        bwtFodussfdComponfntPffr = pffr;
+    }
+
+    // implfmfnts jbvb.bwt.im.spi.InputMftiod.iidfWindows
+    @Ovfrridf
+    publid void iidfWindows() {
+        if (bwtFodussfdComponfntPffr != null) {
+            /* Hidf tif nbtivf stbtus window indluding tif Windows lbngubgf
+               bbr if it is on. Onf typidbl sfnbrio tiis mftiod
+               gfts dbllfd is wifn tif nbtivf input mftiod is
+               switdifd to jbvb input mftiod, for fxbmplf.
+            */
+            sftStbtusWindowVisiblf(bwtFodussfdComponfntPffr, fblsf);
+            stbtusWindowHiddfn = truf;
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMftiod#rfmovfNotify
+     */
+    @Ovfrridf
+    publid void rfmovfNotify() {
+        fndCompositionNbtivf(dontfxt, DISCARD_INPUT);
+        bwtFodussfdComponfnt = null;
+        bwtFodussfdComponfntPffr = null;
+    }
+
+    /**
+     * @sff jbvb.bwt.Toolkit#mbpInputMftiodHigiligit
+     */
+    stbtid Mbp<TfxtAttributf,?> mbpInputMftiodHigiligit(InputMftiodHigiligit iigiligit) {
+        int indfx;
+        int stbtf = iigiligit.gftStbtf();
+        if (stbtf == InputMftiodHigiligit.RAW_TEXT) {
+            indfx = 0;
+        } flsf if (stbtf == InputMftiodHigiligit.CONVERTED_TEXT) {
+            indfx = 2;
+        } flsf {
+            rfturn null;
+        }
+        if (iigiligit.isSflfdtfd()) {
+            indfx += 1;
+        }
+        rfturn iigiligitStylfs[indfx];
+    }
+
+    // sff sun.bwt.im.InputMftiodAdbptfr.supportsBflowTifSpot
+    @Ovfrridf
+    protfdtfd boolfbn supportsBflowTifSpot() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid void fndComposition()
+    {
+        //rigit now tif nbtivf fndCompositionNbtivf() just dbndfl
+        //tif domposition string, mbybf b dommtting is dfsirfd
+        fndCompositionNbtivf(dontfxt,
+            (ibvfAdtivfClifnt() ? COMMIT_INPUT : DISCARD_INPUT));
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMftiod#sftCompositionEnbblfd(boolfbn)
+     */
+    @Ovfrridf
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        sftOpfnStbtus(dontfxt, fnbblf);
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMftiod#isCompositionEnbblfd
+     */
+    @Ovfrridf
+    publid boolfbn isCompositionEnbblfd() {
+        rfturn gftOpfnStbtus(dontfxt);
+    }
+
+    publid void sfndInputMftiodEvfnt(int id, long wifn, String tfxt,
+                                     int[] dlbusfBoundbry, String[] dlbusfRfbding,
+                                     int[] bttributfBoundbry, bytf[] bttributfVbluf,
+                                     int dommitfdTfxtLfngti, int dbrftPos, int visiblfPos)
+    {
+
+        AttributfdCibrbdtfrItfrbtor itfrbtor = null;
+
+        if (tfxt!=null) {
+
+            // donstrudt AttributfdString
+            AttributfdString bttrStr = nfw AttributfdString(tfxt);
+
+            // sft Lbngubgf Informbtion
+            bttrStr.bddAttributf(Attributf.LANGUAGE,
+                                            Lodblf.gftDffbult(), 0, tfxt.lfngti());
+
+            // sft Clbusf bnd Rfbding Informbtion
+            if (dlbusfBoundbry!=null && dlbusfRfbding!=null &&
+                dlbusfRfbding.lfngti!=0 && dlbusfBoundbry.lfngti==dlbusfRfbding.lfngti+1 &&
+                dlbusfBoundbry[0]==0 && dlbusfBoundbry[dlbusfRfbding.lfngti]==tfxt.lfngti() )
+            {
+                for (int i=0; i<dlbusfBoundbry.lfngti-1; i++) {
+                    bttrStr.bddAttributf(Attributf.INPUT_METHOD_SEGMENT,
+                                            nfw Annotbtion(null), dlbusfBoundbry[i], dlbusfBoundbry[i+1]);
+                    bttrStr.bddAttributf(Attributf.READING,
+                                            nfw Annotbtion(dlbusfRfbding[i]), dlbusfBoundbry[i], dlbusfBoundbry[i+1]);
+                }
+            } flsf {
+                // if (dlbusfBoundbry != null)
+                //    Systfm.out.println("Invblid dlbusf informbtion!");
+
+                bttrStr.bddAttributf(Attributf.INPUT_METHOD_SEGMENT,
+                                        nfw Annotbtion(null), 0, tfxt.lfngti());
+                bttrStr.bddAttributf(Attributf.READING,
+                                     nfw Annotbtion(""), 0, tfxt.lfngti());
+            }
+
+            // sft Hiligit Informbtion
+            if (bttributfBoundbry!=null && bttributfVbluf!=null &&
+                bttributfVbluf.lfngti!=0 && bttributfBoundbry.lfngti==bttributfVbluf.lfngti+1 &&
+                bttributfBoundbry[0]==0 && bttributfBoundbry[bttributfVbluf.lfngti]==tfxt.lfngti() )
+            {
+                for (int i=0; i<bttributfBoundbry.lfngti-1; i++) {
+                    InputMftiodHigiligit iigiligit;
+                    switdi (bttributfVbluf[i]) {
+                        dbsf ATTR_TARGET_CONVERTED:
+                            iigiligit = InputMftiodHigiligit.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
+                            brfbk;
+                        dbsf ATTR_CONVERTED:
+                            iigiligit = InputMftiodHigiligit.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
+                            brfbk;
+                        dbsf ATTR_TARGET_NOTCONVERTED:
+                            iigiligit = InputMftiodHigiligit.SELECTED_RAW_TEXT_HIGHLIGHT;
+                            brfbk;
+                        dbsf ATTR_INPUT:
+                        dbsf ATTR_INPUT_ERROR:
+                        dffbult:
+                            iigiligit = InputMftiodHigiligit.UNSELECTED_RAW_TEXT_HIGHLIGHT;
+                            brfbk;
+                    }
+                    bttrStr.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT,
+                                         iigiligit,
+                                         bttributfBoundbry[i], bttributfBoundbry[i+1]);
+                }
+            } flsf {
+                // if (bttributfBoundbry != null)
+                //    Systfm.out.println("Invblid bttributf informbtion!");
+
+                bttrStr.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT,
+                             InputMftiodHigiligit.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT,
+                             0, tfxt.lfngti());
+            }
+
+            // gft itfrbtor
+            itfrbtor = bttrStr.gftItfrbtor();
+
+        }
+
+        Componfnt sourdf = gftClifntComponfnt();
+        if (sourdf == null)
+            rfturn;
+
+        InputMftiodEvfnt fvfnt = nfw InputMftiodEvfnt(sourdf,
+                                                      id,
+                                                      wifn,
+                                                      itfrbtor,
+                                                      dommitfdTfxtLfngti,
+                                                      TfxtHitInfo.lfbding(dbrftPos),
+                                                      TfxtHitInfo.lfbding(visiblfPos));
+        WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(sourdf), fvfnt);
+    }
+
+    publid void inquirfCbndidbtfPosition()
+    {
+        Componfnt sourdf = gftClifntComponfnt();
+        if (sourdf == null) {
+            rfturn;
+        }
+        // Tiis dbll siould rfturn immfdibtfly just to dbusf
+        // InputMftiodRfqufsts.gftTfxtLodbtion bf dbllfd witiin
+        // AWT Evfnt tirfbd.  Otifrwisf, b potfntibl dfbdlodk
+        // dould ibppfn.
+        Runnbblf r = nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                int x = 0;
+                int y = 0;
+                Componfnt dlifnt = gftClifntComponfnt();
+
+                if (dlifnt != null) {
+                    if (ibvfAdtivfClifnt()) {
+                            Rfdtbnglf rd = inputContfxt.gftTfxtLodbtion(TfxtHitInfo.lfbding(0));
+                            x = rd.x;
+                            y = rd.y + rd.ifigit;
+                    } flsf {
+                            Point pt = dlifnt.gftLodbtionOnSdrffn();
+                            Dimfnsion sizf = dlifnt.gftSizf();
+                            x = pt.x;
+                            y = pt.y + sizf.ifigit;
+                    }
+                }
+
+                opfnCbndidbtfWindow(bwtFodussfdComponfntPffr, x, y);
+            }
+        };
+        WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(sourdf),
+                           nfw InvodbtionEvfnt(sourdf, r));
+    }
+
+    // jbvb.bwt.Toolkit#gftNbtivfContbinfr() is not bvbilbblf
+    //  from tiis pbdkbgf
+    privbtf WComponfntPffr gftNfbrfstNbtivfPffr(Componfnt domp)
+    {
+        if (domp==null)     rfturn null;
+
+        ComponfntPffr pffr = domp.gftPffr();
+        if (pffr==null)     rfturn null;
+
+        wiilf (pffr instbndfof jbvb.bwt.pffr.LigitwfigitPffr) {
+            domp = domp.gftPbrfnt();
+            if (domp==null) rfturn null;
+            pffr = domp.gftPffr();
+            if (pffr==null) rfturn null;
+        }
+
+        if (pffr instbndfof WComponfntPffr)
+            rfturn (WComponfntPffr)pffr;
+        flsf
+            rfturn null;
+
+    }
+
+    privbtf nbtivf int drfbtfNbtivfContfxt();
+    privbtf nbtivf void dfstroyNbtivfContfxt(int dontfxt);
+    privbtf nbtivf void fnbblfNbtivfIME(WComponfntPffr pffr, int dontfxt, boolfbn usfNbtivfCompWindow);
+    privbtf nbtivf void disbblfNbtivfIME(WComponfntPffr pffr);
+    privbtf nbtivf void ibndlfNbtivfIMEEvfnt(WComponfntPffr pffr, AWTEvfnt f);
+    privbtf nbtivf void fndCompositionNbtivf(int dontfxt, boolfbn flbg);
+    privbtf nbtivf void sftConvfrsionStbtus(int dontfxt, int dmodf);
+    privbtf nbtivf int  gftConvfrsionStbtus(int dontfxt);
+    privbtf nbtivf void sftOpfnStbtus(int dontfxt, boolfbn flbg);
+    privbtf nbtivf boolfbn gftOpfnStbtus(int dontfxt);
+    privbtf nbtivf void sftStbtusWindowVisiblf(WComponfntPffr pffr, boolfbn visiblf);
+    privbtf nbtivf String gftNbtivfIMMDfsdription();
+    stbtid nbtivf Lodblf gftNbtivfLodblf();
+    stbtid nbtivf boolfbn sftNbtivfLodblf(String lodblfNbmf, boolfbn onAdtivbtf);
+    privbtf nbtivf void opfnCbndidbtfWindow(WComponfntPffr pffr, int x, int y);
+}

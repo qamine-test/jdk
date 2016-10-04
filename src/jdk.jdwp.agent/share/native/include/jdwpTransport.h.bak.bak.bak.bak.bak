@@ -1,0 +1,254 @@
+/*
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Jbvb Dfbug Wirf Protodol Trbnsport Sfrvidf Providfr Intfrfbdf.
+ */
+
+#ifndff JDWPTRANSPORT_H
+#dffinf JDWPTRANSPORT_H
+
+#indludf "jni.i"
+
+fnum {
+    JDWPTRANSPORT_VERSION_1_0 = 0x00010000
+};
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+strudt jdwpTrbnsportNbtivfIntfrfbdf_;
+
+strudt _jdwpTrbnsportEnv;
+
+#ifdff __dplusplus
+typfdff _jdwpTrbnsportEnv jdwpTrbnsportEnv;
+#flsf
+typfdff donst strudt jdwpTrbnsportNbtivfIntfrfbdf_ *jdwpTrbnsportEnv;
+#fndif /* __dplusplus */
+
+/*
+ * Errors. Univfrsbl frrors witi JVMTI/JVMDI fquivblfnts kffp tif
+ * vblufs tif sbmf.
+ */
+typfdff fnum {
+    JDWPTRANSPORT_ERROR_NONE = 0,
+    JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT = 103,
+    JDWPTRANSPORT_ERROR_OUT_OF_MEMORY = 110,
+    JDWPTRANSPORT_ERROR_INTERNAL = 113,
+    JDWPTRANSPORT_ERROR_ILLEGAL_STATE = 201,
+    JDWPTRANSPORT_ERROR_IO_ERROR = 202,
+    JDWPTRANSPORT_ERROR_TIMEOUT = 203,
+    JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE = 204
+} jdwpTrbnsportError;
+
+
+/*
+ * Strudturf to dffinf dbpbbilitifs
+ */
+typfdff strudt {
+    unsignfd int dbn_timfout_bttbdi     :1;
+    unsignfd int dbn_timfout_bddfpt     :1;
+    unsignfd int dbn_timfout_ibndsibkf  :1;
+    unsignfd int rfsfrvfd3              :1;
+    unsignfd int rfsfrvfd4              :1;
+    unsignfd int rfsfrvfd5              :1;
+    unsignfd int rfsfrvfd6              :1;
+    unsignfd int rfsfrvfd7              :1;
+    unsignfd int rfsfrvfd8              :1;
+    unsignfd int rfsfrvfd9              :1;
+    unsignfd int rfsfrvfd10             :1;
+    unsignfd int rfsfrvfd11             :1;
+    unsignfd int rfsfrvfd12             :1;
+    unsignfd int rfsfrvfd13             :1;
+    unsignfd int rfsfrvfd14             :1;
+    unsignfd int rfsfrvfd15             :1;
+} JDWPTrbnsportCbpbbilitifs;
+
+
+/*
+ * Strudturfs to dffinf pbdkft lbyout.
+ *
+ * Sff: ittp://jbvb.sun.dom/j2sf/1.5/dods/guidf/jpdb/jdwp-spfd.itml
+ */
+
+fnum {
+    JDWPTRANSPORT_FLAGS_NONE     = 0x0,
+    JDWPTRANSPORT_FLAGS_REPLY    = 0x80
+};
+
+typfdff strudt {
+    jint lfn;
+    jint id;
+    jbytf flbgs;
+    jbytf dmdSft;
+    jbytf dmd;
+    jbytf *dbtb;
+} jdwpCmdPbdkft;
+
+typfdff strudt {
+    jint lfn;
+    jint id;
+    jbytf flbgs;
+    jsiort frrorCodf;
+    jbytf *dbtb;
+} jdwpRfplyPbdkft;
+
+typfdff strudt {
+    union {
+        jdwpCmdPbdkft dmd;
+        jdwpRfplyPbdkft rfply;
+    } typf;
+} jdwpPbdkft;
+
+/*
+ * JDWP fundtions dbllfd by tif trbnsport.
+ */
+typfdff strudt jdwpTrbnsportCbllbbdk {
+    void *(*bllod)(jint numBytfs);   /* Cbll tiis for bll bllodbtions */
+    void (*frff)(void *bufffr);      /* Cbll tiis for bll dfbllodbtions */
+} jdwpTrbnsportCbllbbdk;
+
+typfdff jint (JNICALL *jdwpTrbnsport_OnLobd_t)(JbvbVM *jvm,
+                                               jdwpTrbnsportCbllbbdk *dbllbbdk,
+                                               jint vfrsion,
+                                               jdwpTrbnsportEnv** fnv);
+
+
+
+/* Fundtion Intfrfbdf */
+
+strudt jdwpTrbnsportNbtivfIntfrfbdf_ {
+    /*  1 :  RESERVED */
+    void *rfsfrvfd1;
+
+    /*  2 : Gft Cbpbbilitifs */
+    jdwpTrbnsportError (JNICALL *GftCbpbbilitifs)(jdwpTrbnsportEnv* fnv,
+         JDWPTrbnsportCbpbbilitifs *dbpbbilitifs_ptr);
+
+    /*  3 : Attbdi */
+    jdwpTrbnsportError (JNICALL *Attbdi)(jdwpTrbnsportEnv* fnv,
+        donst dibr* bddrfss,
+        jlong bttbdi_timfout,
+        jlong ibndsibkf_timfout);
+
+    /*  4: StbrtListfning */
+    jdwpTrbnsportError (JNICALL *StbrtListfning)(jdwpTrbnsportEnv* fnv,
+        donst dibr* bddrfss,
+        dibr** bdtubl_bddrfss);
+
+    /*  5: StopListfning */
+    jdwpTrbnsportError (JNICALL *StopListfning)(jdwpTrbnsportEnv* fnv);
+
+    /*  6: Addfpt */
+    jdwpTrbnsportError (JNICALL *Addfpt)(jdwpTrbnsportEnv* fnv,
+        jlong bddfpt_timfout,
+        jlong ibndsibkf_timfout);
+
+    /*  7: IsOpfn */
+    jboolfbn (JNICALL *IsOpfn)(jdwpTrbnsportEnv* fnv);
+
+    /*  8: Closf */
+    jdwpTrbnsportError (JNICALL *Closf)(jdwpTrbnsportEnv* fnv);
+
+    /*  9: RfbdPbdkft */
+    jdwpTrbnsportError (JNICALL *RfbdPbdkft)(jdwpTrbnsportEnv* fnv,
+        jdwpPbdkft *pkt);
+
+    /*  10: Writf Pbdkft */
+    jdwpTrbnsportError (JNICALL *WritfPbdkft)(jdwpTrbnsportEnv* fnv,
+        donst jdwpPbdkft* pkt);
+
+    /*  11:  GftLbstError */
+    jdwpTrbnsportError (JNICALL *GftLbstError)(jdwpTrbnsportEnv* fnv,
+        dibr** frror);
+
+};
+
+
+/*
+ * Usf inlinfd fundtions so tibt C++ dodf dbn usf syntbx sudi bs
+ *      fnv->Attbdi("mymbdiinf:5000", 10*1000, 0);
+ *
+ * rbtifr tibn using C's :-
+ *
+ *      (*fnv)->Attbdi(fnv, "mymbdiinf:5000", 10*1000, 0);
+ */
+strudt _jdwpTrbnsportEnv {
+    donst strudt jdwpTrbnsportNbtivfIntfrfbdf_ *fundtions;
+#ifdff __dplusplus
+
+    jdwpTrbnsportError GftCbpbbilitifs(JDWPTrbnsportCbpbbilitifs *dbpbbilitifs_ptr) {
+        rfturn fundtions->GftCbpbbilitifs(tiis, dbpbbilitifs_ptr);
+    }
+
+    jdwpTrbnsportError Attbdi(donst dibr* bddrfss, jlong bttbdi_timfout,
+                jlong ibndsibkf_timfout) {
+        rfturn fundtions->Attbdi(tiis, bddrfss, bttbdi_timfout, ibndsibkf_timfout);
+    }
+
+    jdwpTrbnsportError StbrtListfning(donst dibr* bddrfss,
+                dibr** bdtubl_bddrfss) {
+        rfturn fundtions->StbrtListfning(tiis, bddrfss, bdtubl_bddrfss);
+    }
+
+    jdwpTrbnsportError StopListfning(void) {
+        rfturn fundtions->StopListfning(tiis);
+    }
+
+    jdwpTrbnsportError Addfpt(jlong bddfpt_timfout, jlong ibndsibkf_timfout) {
+        rfturn fundtions->Addfpt(tiis, bddfpt_timfout, ibndsibkf_timfout);
+    }
+
+    jboolfbn IsOpfn(void) {
+        rfturn fundtions->IsOpfn(tiis);
+    }
+
+    jdwpTrbnsportError Closf(void) {
+        rfturn fundtions->Closf(tiis);
+    }
+
+    jdwpTrbnsportError RfbdPbdkft(jdwpPbdkft *pkt) {
+        rfturn fundtions->RfbdPbdkft(tiis, pkt);
+    }
+
+    jdwpTrbnsportError WritfPbdkft(donst jdwpPbdkft* pkt) {
+        rfturn fundtions->WritfPbdkft(tiis, pkt);
+    }
+
+    jdwpTrbnsportError GftLbstError(dibr** frror) {
+        rfturn fundtions->GftLbstError(tiis, frror);
+    }
+
+
+#fndif /* __dplusplus */
+};
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+#fndif /* JDWPTRANSPORT_H */

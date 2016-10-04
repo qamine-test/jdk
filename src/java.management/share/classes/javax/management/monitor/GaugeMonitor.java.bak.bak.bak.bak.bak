@@ -1,0 +1,884 @@
+/*
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MONITOR_LOGGER;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import stbtid jbvbx.mbnbgfmfnt.monitor.Monitor.NumfridblTypf.*;
+import stbtid jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion.*;
+
+/**
+ * Dffinfs b monitor MBfbn dfsignfd to obsfrvf tif vblufs of b gbugf bttributf.
+ *
+ * <P> A gbugf monitor obsfrvfs bn bttributf tibt is dontinuously
+ * vbribblf witi timf. A gbugf monitor sfnds notifidbtions bs
+ * follows:
+ *
+ * <UL>
+ *
+ * <LI> if tif bttributf vbluf is indrfbsing bnd bfdomfs fqubl to or
+ * grfbtfr tibn tif iigi tirfsiold vbluf, b {@link
+ * MonitorNotifidbtion#THRESHOLD_HIGH_VALUE_EXCEEDED tirfsiold iigi
+ * notifidbtion} is sfnt. Tif notify iigi flbg must bf sft to
+ * <CODE>truf</CODE>.
+ *
+ * <BR>Subsfqufnt drossings of tif iigi tirfsiold vbluf do not dbusf
+ * furtifr notifidbtions unlfss tif bttributf vbluf bfdomfs fqubl to
+ * or lfss tibn tif low tirfsiold vbluf.</LI>
+ *
+ * <LI> if tif bttributf vbluf is dfdrfbsing bnd bfdomfs fqubl to or
+ * lfss tibn tif low tirfsiold vbluf, b {@link
+ * MonitorNotifidbtion#THRESHOLD_LOW_VALUE_EXCEEDED tirfsiold low
+ * notifidbtion} is sfnt. Tif notify low flbg must bf sft to
+ * <CODE>truf</CODE>.
+ *
+ * <BR>Subsfqufnt drossings of tif low tirfsiold vbluf do not dbusf
+ * furtifr notifidbtions unlfss tif bttributf vbluf bfdomfs fqubl to
+ * or grfbtfr tibn tif iigi tirfsiold vbluf.</LI>
+ *
+ * </UL>
+ *
+ * Tiis providfs b iystfrfsis mfdibnism to bvoid rfpfbtfd triggfring
+ * of notifidbtions wifn tif bttributf vbluf mbkfs smbll osdillbtions
+ * bround tif iigi or low tirfsiold vbluf.
+ *
+ * <P> If tif gbugf difffrfndf modf is usfd, tif vbluf of tif dfrivfd
+ * gbugf is dbldulbtfd bs tif difffrfndf bftwffn tif obsfrvfd gbugf
+ * vblufs for two suddfssivf obsfrvbtions.
+ *
+ * <BR>Tif dfrivfd gbugf vbluf (V[t]) is dbldulbtfd using tif following mftiod:
+ * <UL>
+ * <LI>V[t] = gbugf[t] - gbugf[t-GP]</LI>
+ * </UL>
+ *
+ * Tiis implfmfntbtion of tif gbugf monitor rfquirfs tif obsfrvfd
+ * bttributf to bf of tif typf intfgfr or flobting-point
+ * (<CODE>Bytf</CODE>, <CODE>Intfgfr</CODE>, <CODE>Siort</CODE>,
+ * <CODE>Long</CODE>, <CODE>Flobt</CODE>, <CODE>Doublf</CODE>).
+ *
+ *
+ * @sindf 1.5
+ */
+publid dlbss GbugfMonitor fxtfnds Monitor implfmfnts GbugfMonitorMBfbn {
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE CLASSES
+     * ------------------------------------------
+     */
+
+    stbtid dlbss GbugfMonitorObsfrvfdObjfdt fxtfnds ObsfrvfdObjfdt {
+
+        publid GbugfMonitorObsfrvfdObjfdt(ObjfdtNbmf obsfrvfdObjfdt) {
+            supfr(obsfrvfdObjfdt);
+        }
+
+        publid finbl syndironizfd boolfbn gftDfrivfdGbugfVblid() {
+            rfturn dfrivfdGbugfVblid;
+        }
+        publid finbl syndironizfd void sftDfrivfdGbugfVblid(
+                                                 boolfbn dfrivfdGbugfVblid) {
+            tiis.dfrivfdGbugfVblid = dfrivfdGbugfVblid;
+        }
+        publid finbl syndironizfd NumfridblTypf gftTypf() {
+            rfturn typf;
+        }
+        publid finbl syndironizfd void sftTypf(NumfridblTypf typf) {
+            tiis.typf = typf;
+        }
+        publid finbl syndironizfd Numbfr gftPrfviousSdbnGbugf() {
+            rfturn prfviousSdbnGbugf;
+        }
+        publid finbl syndironizfd void sftPrfviousSdbnGbugf(
+                                                  Numbfr prfviousSdbnGbugf) {
+            tiis.prfviousSdbnGbugf = prfviousSdbnGbugf;
+        }
+        publid finbl syndironizfd int gftStbtus() {
+            rfturn stbtus;
+        }
+        publid finbl syndironizfd void sftStbtus(int stbtus) {
+            tiis.stbtus = stbtus;
+        }
+
+        privbtf boolfbn dfrivfdGbugfVblid;
+        privbtf NumfridblTypf typf;
+        privbtf Numbfr prfviousSdbnGbugf;
+        privbtf int stbtus;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * Gbugf iigi tirfsiold.
+     *
+     * <BR>Tif dffbult vbluf is b null Intfgfr objfdt.
+     */
+    privbtf Numbfr iigiTirfsiold = INTEGER_ZERO;
+
+    /**
+     * Gbugf low tirfsiold.
+     *
+     * <BR>Tif dffbult vbluf is b null Intfgfr objfdt.
+     */
+    privbtf Numbfr lowTirfsiold = INTEGER_ZERO;
+
+    /**
+     * Flbg indidbting if tif gbugf monitor notififs wifn fxdffding
+     * tif iigi tirfsiold.
+     *
+     * <BR>Tif dffbult vbluf is <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn notifyHigi = fblsf;
+
+    /**
+     * Flbg indidbting if tif gbugf monitor notififs wifn fxdffding
+     * tif low tirfsiold.
+     *
+     * <BR>Tif dffbult vbluf is <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn notifyLow = fblsf;
+
+    /**
+     * Flbg indidbting if tif gbugf difffrfndf modf is usfd.  If tif
+     * gbugf difffrfndf modf is usfd, tif dfrivfd gbugf is tif
+     * difffrfndf bftwffn two donsfdutivf obsfrvfd vblufs.  Otifrwisf,
+     * tif dfrivfd gbugf is dirfdtly tif vbluf of tif obsfrvfd
+     * bttributf.
+     *
+     * <BR>Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn difffrfndfModf = fblsf;
+
+    privbtf stbtid finbl String[] typfs = {
+        RUNTIME_ERROR,
+        OBSERVED_OBJECT_ERROR,
+        OBSERVED_ATTRIBUTE_ERROR,
+        OBSERVED_ATTRIBUTE_TYPE_ERROR,
+        THRESHOLD_ERROR,
+        THRESHOLD_HIGH_VALUE_EXCEEDED,
+        THRESHOLD_LOW_VALUE_EXCEEDED
+    };
+
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] notifsInfo = {
+        nfw MBfbnNotifidbtionInfo(
+            typfs,
+            "jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion",
+            "Notifidbtions sfnt by tif GbugfMonitor MBfbn")
+    };
+
+    // Flbgs nffdfd to implfmfnt tif iystfrfsis mfdibnism.
+    //
+    privbtf stbtid finbl int RISING             = 0;
+    privbtf stbtid finbl int FALLING            = 1;
+    privbtf stbtid finbl int RISING_OR_FALLING  = 2;
+
+    /*
+     * ------------------------------------------
+     *  CONSTRUCTORS
+     * ------------------------------------------
+     */
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid GbugfMonitor() {
+    }
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Stbrts tif gbugf monitor.
+     */
+    publid syndironizfd void stbrt() {
+        if (isAdtivf()) {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, GbugfMonitor.dlbss.gftNbmf(),
+                    "stbrt", "tif monitor is blrfbdy bdtivf");
+            rfturn;
+        }
+        // Rfsft vblufs.
+        //
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl GbugfMonitorObsfrvfdObjfdt gmo =
+                (GbugfMonitorObsfrvfdObjfdt) o;
+            gmo.sftStbtus(RISING_OR_FALLING);
+            gmo.sftPrfviousSdbnGbugf(null);
+        }
+        doStbrt();
+    }
+
+    /**
+     * Stops tif gbugf monitor.
+     */
+    publid syndironizfd void stop() {
+        doStop();
+    }
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts tif dfrivfd gbugf of tif spfdififd objfdt, if tiis objfdt is
+     * dontbinfd in tif sft of obsfrvfd MBfbns, or <dodf>null</dodf> otifrwisf.
+     *
+     * @pbrbm objfdt tif nbmf of tif MBfbn.
+     *
+     * @rfturn Tif dfrivfd gbugf of tif spfdififd objfdt.
+     *
+     */
+    @Ovfrridf
+    publid syndironizfd Numbfr gftDfrivfdGbugf(ObjfdtNbmf objfdt) {
+        rfturn (Numbfr) supfr.gftDfrivfdGbugf(objfdt);
+    }
+
+    /**
+     * Gfts tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt, if
+     * tiis objfdt is dontbinfd in tif sft of obsfrvfd MBfbns, or
+     * <dodf>0</dodf> otifrwisf.
+     *
+     * @pbrbm objfdt tif nbmf of tif objfdt wiosf dfrivfd gbugf
+     * timfstbmp is to bf rfturnfd.
+     *
+     * @rfturn Tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt.
+     *
+     */
+    @Ovfrridf
+    publid syndironizfd long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt) {
+        rfturn supfr.gftDfrivfdGbugfTimfStbmp(objfdt);
+    }
+
+    /**
+     * Rfturns tif dfrivfd gbugf of tif first objfdt in tif sft of
+     * obsfrvfd MBfbns.
+     *
+     * @rfturn Tif dfrivfd gbugf.
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid syndironizfd Numbfr gftDfrivfdGbugf() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn (Numbfr) obsfrvfdObjfdts.gft(0).gftDfrivfdGbugf();
+        }
+    }
+
+    /**
+     * Gfts tif dfrivfd gbugf timfstbmp of tif first objfdt in tif sft
+     * of obsfrvfd MBfbns.
+     *
+     * @rfturn Tif dfrivfd gbugf timfstbmp.
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid syndironizfd long gftDfrivfdGbugfTimfStbmp() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn 0;
+        } flsf {
+            rfturn obsfrvfdObjfdts.gft(0).gftDfrivfdGbugfTimfStbmp();
+        }
+    }
+
+    /**
+     * Gfts tif iigi tirfsiold vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @rfturn Tif iigi tirfsiold vbluf.
+     *
+     * @sff #sftTirfsiolds
+     */
+    publid syndironizfd Numbfr gftHigiTirfsiold() {
+        rfturn iigiTirfsiold;
+    }
+
+    /**
+     * Gfts tif low tirfsiold vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @rfturn Tif low tirfsiold vbluf.
+     *
+     * @sff #sftTirfsiolds
+     */
+    publid syndironizfd Numbfr gftLowTirfsiold() {
+        rfturn lowTirfsiold;
+    }
+
+    /**
+     * Sfts tif iigi bnd tif low tirfsiold vblufs dommon to bll
+     * obsfrvfd MBfbns.
+     *
+     * @pbrbm iigiVbluf Tif iigi tirfsiold vbluf.
+     * @pbrbm lowVbluf Tif low tirfsiold vbluf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd iigi/low
+     * tirfsiold is null or tif low tirfsiold is grfbtfr tibn tif iigi
+     * tirfsiold or tif iigi tirfsiold bnd tif low tirfsiold brf not
+     * of tif sbmf typf.
+     *
+     * @sff #gftHigiTirfsiold
+     * @sff #gftLowTirfsiold
+     */
+    publid syndironizfd void sftTirfsiolds(Numbfr iigiVbluf, Numbfr lowVbluf)
+        tirows IllfgblArgumfntExdfption {
+
+        if ((iigiVbluf == null) || (lowVbluf == null)) {
+            tirow nfw IllfgblArgumfntExdfption("Null tirfsiold vbluf");
+        }
+
+        if (iigiVbluf.gftClbss() != lowVbluf.gftClbss()) {
+            tirow nfw IllfgblArgumfntExdfption("Difffrfnt typf " +
+                                               "tirfsiold vblufs");
+        }
+
+        if (isFirstStridtlyGrfbtfrTibnLbst(lowVbluf, iigiVbluf,
+                                           iigiVbluf.gftClbss().gftNbmf())) {
+            tirow nfw IllfgblArgumfntExdfption("Higi tirfsiold lfss tibn " +
+                                               "low tirfsiold");
+        }
+
+        if (iigiTirfsiold.fqubls(iigiVbluf) && lowTirfsiold.fqubls(lowVbluf))
+            rfturn;
+        iigiTirfsiold = iigiVbluf;
+        lowTirfsiold = lowVbluf;
+
+        // Rfsft vblufs.
+        //
+        int indfx = 0;
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            rfsftAlrfbdyNotififd(o, indfx++, THRESHOLD_ERROR_NOTIFIED);
+            finbl GbugfMonitorObsfrvfdObjfdt gmo =
+                (GbugfMonitorObsfrvfdObjfdt) o;
+            gmo.sftStbtus(RISING_OR_FALLING);
+        }
+    }
+
+    /**
+     * Gfts tif iigi notifidbtion's on/off switdi vbluf dommon to bll
+     * obsfrvfd MBfbns.
+     *
+     * @rfturn <CODE>truf</CODE> if tif gbugf monitor notififs wifn
+     * fxdffding tif iigi tirfsiold, <CODE>fblsf</CODE> otifrwisf.
+     *
+     * @sff #sftNotifyHigi
+     */
+    publid syndironizfd boolfbn gftNotifyHigi() {
+        rfturn notifyHigi;
+    }
+
+    /**
+     * Sfts tif iigi notifidbtion's on/off switdi vbluf dommon to bll
+     * obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Tif iigi notifidbtion's on/off switdi vbluf.
+     *
+     * @sff #gftNotifyHigi
+     */
+    publid syndironizfd void sftNotifyHigi(boolfbn vbluf) {
+        if (notifyHigi == vbluf)
+            rfturn;
+        notifyHigi = vbluf;
+    }
+
+    /**
+     * Gfts tif low notifidbtion's on/off switdi vbluf dommon to bll
+     * obsfrvfd MBfbns.
+     *
+     * @rfturn <CODE>truf</CODE> if tif gbugf monitor notififs wifn
+     * fxdffding tif low tirfsiold, <CODE>fblsf</CODE> otifrwisf.
+     *
+     * @sff #sftNotifyLow
+     */
+    publid syndironizfd boolfbn gftNotifyLow() {
+        rfturn notifyLow;
+    }
+
+    /**
+     * Sfts tif low notifidbtion's on/off switdi vbluf dommon to bll
+     * obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Tif low notifidbtion's on/off switdi vbluf.
+     *
+     * @sff #gftNotifyLow
+     */
+    publid syndironizfd void sftNotifyLow(boolfbn vbluf) {
+        if (notifyLow == vbluf)
+            rfturn;
+        notifyLow = vbluf;
+    }
+
+    /**
+     * Gfts tif difffrfndf modf flbg vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @rfturn <CODE>truf</CODE> if tif difffrfndf modf is usfd,
+     * <CODE>fblsf</CODE> otifrwisf.
+     *
+     * @sff #sftDifffrfndfModf
+     */
+    publid syndironizfd boolfbn gftDifffrfndfModf() {
+        rfturn difffrfndfModf;
+    }
+
+    /**
+     * Sfts tif difffrfndf modf flbg vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Tif difffrfndf modf flbg vbluf.
+     *
+     * @sff #gftDifffrfndfModf
+     */
+    publid syndironizfd void sftDifffrfndfModf(boolfbn vbluf) {
+        if (difffrfndfModf == vbluf)
+            rfturn;
+        difffrfndfModf = vbluf;
+
+        // Rfsft vblufs.
+        //
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl GbugfMonitorObsfrvfdObjfdt gmo =
+                (GbugfMonitorObsfrvfdObjfdt) o;
+            gmo.sftStbtus(RISING_OR_FALLING);
+            gmo.sftPrfviousSdbnGbugf(null);
+        }
+    }
+
+   /**
+     * Rfturns b <CODE>NotifidbtionInfo</CODE> objfdt dontbining tif
+     * nbmf of tif Jbvb dlbss of tif notifidbtion bnd tif notifidbtion
+     * typfs sfnt by tif gbugf monitor.
+     */
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn notifsInfo.dlonf();
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Updbtfs tif dfrivfd gbugf bttributf of tif obsfrvfd objfdt.
+     *
+     * @pbrbm sdbnGbugf Tif vbluf of tif obsfrvfd bttributf.
+     * @pbrbm o Tif obsfrvfd objfdt.
+     * @rfturn <CODE>truf</CODE> if tif dfrivfd gbugf vbluf is vblid,
+     * <CODE>fblsf</CODE> otifrwisf.  Tif dfrivfd gbugf vbluf is
+     * invblid wifn tif difffrfndfModf flbg is sft to
+     * <CODE>truf</CODE> bnd it is tif first notifidbtion (so wf
+     * ibvfn't 2 donsfdutivf vblufs to updbtf tif dfrivfd gbugf).
+     */
+    privbtf syndironizfd boolfbn updbtfDfrivfdGbugf(
+        Objfdt sdbnGbugf, GbugfMonitorObsfrvfdObjfdt o) {
+
+        boolfbn is_dfrivfd_gbugf_vblid;
+
+        // Tif gbugf difffrfndf modf is usfd.
+        //
+        if (difffrfndfModf) {
+
+            // Tif prfvious sdbn gbugf ibs bffn initiblizfd.
+            //
+            if (o.gftPrfviousSdbnGbugf() != null) {
+                sftDfrivfdGbugfWitiDifffrfndf((Numbfr)sdbnGbugf, o);
+                is_dfrivfd_gbugf_vblid = truf;
+            }
+            // Tif prfvious sdbn gbugf ibs not bffn initiblizfd.
+            // Wf dbnnot updbtf tif dfrivfd gbugf...
+            //
+            flsf {
+                is_dfrivfd_gbugf_vblid = fblsf;
+            }
+            o.sftPrfviousSdbnGbugf((Numbfr)sdbnGbugf);
+        }
+        // Tif gbugf difffrfndf modf is not usfd.
+        //
+        flsf {
+            o.sftDfrivfdGbugf((Numbfr)sdbnGbugf);
+            is_dfrivfd_gbugf_vblid = truf;
+        }
+
+        rfturn is_dfrivfd_gbugf_vblid;
+    }
+
+    /**
+     * Updbtfs tif notifidbtion bttributf of tif obsfrvfd objfdt
+     * bnd notififs tif listfnfrs only ondf if tif notify flbg
+     * is sft to <CODE>truf</CODE>.
+     * @pbrbm o Tif obsfrvfd objfdt.
+     */
+    privbtf syndironizfd MonitorNotifidbtion updbtfNotifidbtions(
+        GbugfMonitorObsfrvfdObjfdt o) {
+
+        MonitorNotifidbtion n = null;
+
+        // Sfnd iigi notifidbtion if notifyHigi is truf.
+        // Sfnd low notifidbtion if notifyLow is truf.
+        //
+        if (o.gftStbtus() == RISING_OR_FALLING) {
+            if (isFirstGrfbtfrTibnLbst((Numbfr)o.gftDfrivfdGbugf(),
+                                       iigiTirfsiold,
+                                       o.gftTypf())) {
+                if (notifyHigi) {
+                    n = nfw MonitorNotifidbtion(
+                            THRESHOLD_HIGH_VALUE_EXCEEDED,
+                            tiis,
+                            0,
+                            0,
+                            "",
+                            null,
+                            null,
+                            null,
+                            iigiTirfsiold);
+                }
+                o.sftStbtus(FALLING);
+            } flsf if (isFirstGrfbtfrTibnLbst(lowTirfsiold,
+                                              (Numbfr)o.gftDfrivfdGbugf(),
+                                              o.gftTypf())) {
+                if (notifyLow) {
+                    n = nfw MonitorNotifidbtion(
+                            THRESHOLD_LOW_VALUE_EXCEEDED,
+                            tiis,
+                            0,
+                            0,
+                            "",
+                            null,
+                            null,
+                            null,
+                            lowTirfsiold);
+                }
+                o.sftStbtus(RISING);
+            }
+        } flsf {
+            if (o.gftStbtus() == RISING) {
+                if (isFirstGrfbtfrTibnLbst((Numbfr)o.gftDfrivfdGbugf(),
+                                           iigiTirfsiold,
+                                           o.gftTypf())) {
+                    if (notifyHigi) {
+                        n = nfw MonitorNotifidbtion(
+                                THRESHOLD_HIGH_VALUE_EXCEEDED,
+                                tiis,
+                                0,
+                                0,
+                                "",
+                                null,
+                                null,
+                                null,
+                                iigiTirfsiold);
+                    }
+                    o.sftStbtus(FALLING);
+                }
+            } flsf if (o.gftStbtus() == FALLING) {
+                if (isFirstGrfbtfrTibnLbst(lowTirfsiold,
+                                           (Numbfr)o.gftDfrivfdGbugf(),
+                                           o.gftTypf())) {
+                    if (notifyLow) {
+                        n = nfw MonitorNotifidbtion(
+                                THRESHOLD_LOW_VALUE_EXCEEDED,
+                                tiis,
+                                0,
+                                0,
+                                "",
+                                null,
+                                null,
+                                null,
+                                lowTirfsiold);
+                    }
+                    o.sftStbtus(RISING);
+                }
+            }
+        }
+
+        rfturn n;
+    }
+
+    /**
+     * Sfts tif dfrivfd gbugf wifn tif difffrfndfModf flbg is sft to
+     * <CODE>truf</CODE>.  Boti intfgfr bnd flobting-point typfs brf
+     * bllowfd.
+     *
+     * @pbrbm sdbnGbugf Tif vbluf of tif obsfrvfd bttributf.
+     * @pbrbm o Tif obsfrvfd objfdt.
+     */
+    privbtf syndironizfd void sftDfrivfdGbugfWitiDifffrfndf(
+        Numbfr sdbnGbugf, GbugfMonitorObsfrvfdObjfdt o) {
+        Numbfr prfv = o.gftPrfviousSdbnGbugf();
+        Numbfr dfr;
+        switdi (o.gftTypf()) {
+        dbsf INTEGER:
+            dfr = Intfgfr.vblufOf(((Intfgfr)sdbnGbugf).intVbluf() -
+                                  ((Intfgfr)prfv).intVbluf());
+            brfbk;
+        dbsf BYTE:
+            dfr = Bytf.vblufOf((bytf)(((Bytf)sdbnGbugf).bytfVbluf() -
+                                      ((Bytf)prfv).bytfVbluf()));
+            brfbk;
+        dbsf SHORT:
+            dfr = Siort.vblufOf((siort)(((Siort)sdbnGbugf).siortVbluf() -
+                                        ((Siort)prfv).siortVbluf()));
+            brfbk;
+        dbsf LONG:
+            dfr = Long.vblufOf(((Long)sdbnGbugf).longVbluf() -
+                               ((Long)prfv).longVbluf());
+            brfbk;
+        dbsf FLOAT:
+            dfr = Flobt.vblufOf(((Flobt)sdbnGbugf).flobtVbluf() -
+                                ((Flobt)prfv).flobtVbluf());
+            brfbk;
+        dbsf DOUBLE:
+            dfr = Doublf.vblufOf(((Doublf)sdbnGbugf).doublfVbluf() -
+                                 ((Doublf)prfv).doublfVbluf());
+            brfbk;
+        dffbult:
+            // Siould nfvfr oddur...
+            MONITOR_LOGGER.logp(Lfvfl.FINEST, GbugfMonitor.dlbss.gftNbmf(),
+                    "sftDfrivfdGbugfWitiDifffrfndf",
+                    "tif tirfsiold typf is invblid");
+            rfturn;
+        }
+        o.sftDfrivfdGbugf(dfr);
+    }
+
+    /**
+     * Tfsts if tif first spfdififd Numbfr is grfbtfr tibn or fqubl to
+     * tif lbst.  Boti intfgfr bnd flobting-point typfs brf bllowfd.
+     *
+     * @pbrbm grfbtfr Tif first Numbfr to dompbrf witi tif sfdond.
+     * @pbrbm lfss Tif sfdond Numbfr to dompbrf witi tif first.
+     * @pbrbm typf Tif numbfr typf.
+     * @rfturn <CODE>truf</CODE> if tif first spfdififd Numbfr is
+     * grfbtfr tibn or fqubl to tif lbst, <CODE>fblsf</CODE>
+     * otifrwisf.
+     */
+    privbtf boolfbn isFirstGrfbtfrTibnLbst(Numbfr grfbtfr,
+                                           Numbfr lfss,
+                                           NumfridblTypf typf) {
+
+        switdi (typf) {
+        dbsf INTEGER:
+        dbsf BYTE:
+        dbsf SHORT:
+        dbsf LONG:
+            rfturn (grfbtfr.longVbluf() >= lfss.longVbluf());
+        dbsf FLOAT:
+        dbsf DOUBLE:
+            rfturn (grfbtfr.doublfVbluf() >= lfss.doublfVbluf());
+        dffbult:
+            // Siould nfvfr oddur...
+            MONITOR_LOGGER.logp(Lfvfl.FINEST, GbugfMonitor.dlbss.gftNbmf(),
+                    "isFirstGrfbtfrTibnLbst",
+                    "tif tirfsiold typf is invblid");
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Tfsts if tif first spfdififd Numbfr is stridtly grfbtfr tibn tif lbst.
+     * Boti intfgfr bnd flobting-point typfs brf bllowfd.
+     *
+     * @pbrbm grfbtfr Tif first Numbfr to dompbrf witi tif sfdond.
+     * @pbrbm lfss Tif sfdond Numbfr to dompbrf witi tif first.
+     * @pbrbm dlbssNbmf Tif numbfr dlbss nbmf.
+     * @rfturn <CODE>truf</CODE> if tif first spfdififd Numbfr is
+     * stridtly grfbtfr tibn tif lbst, <CODE>fblsf</CODE> otifrwisf.
+     */
+    privbtf boolfbn isFirstStridtlyGrfbtfrTibnLbst(Numbfr grfbtfr,
+                                                   Numbfr lfss,
+                                                   String dlbssNbmf) {
+
+        if (dlbssNbmf.fqubls("jbvb.lbng.Intfgfr") ||
+            dlbssNbmf.fqubls("jbvb.lbng.Bytf") ||
+            dlbssNbmf.fqubls("jbvb.lbng.Siort") ||
+            dlbssNbmf.fqubls("jbvb.lbng.Long")) {
+
+            rfturn (grfbtfr.longVbluf() > lfss.longVbluf());
+        }
+        flsf if (dlbssNbmf.fqubls("jbvb.lbng.Flobt") ||
+                 dlbssNbmf.fqubls("jbvb.lbng.Doublf")) {
+
+            rfturn (grfbtfr.doublfVbluf() > lfss.doublfVbluf());
+        }
+        flsf {
+            // Siould nfvfr oddur...
+            MONITOR_LOGGER.logp(Lfvfl.FINEST, GbugfMonitor.dlbss.gftNbmf(),
+                    "isFirstStridtlyGrfbtfrTibnLbst",
+                    "tif tirfsiold typf is invblid");
+            rfturn fblsf;
+        }
+    }
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Fbdtory mftiod for ObsfrvfdObjfdt drfbtion.
+     *
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    ObsfrvfdObjfdt drfbtfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        finbl GbugfMonitorObsfrvfdObjfdt gmo =
+            nfw GbugfMonitorObsfrvfdObjfdt(objfdt);
+        gmo.sftStbtus(RISING_OR_FALLING);
+        gmo.sftPrfviousSdbnGbugf(null);
+        rfturn gmo;
+    }
+
+    /**
+     * Tiis mftiod globblly sfts tif dfrivfd gbugf typf for tif givfn
+     * "objfdt" bnd "bttributf" bftfr difdking tibt tif typf of tif
+     * supplifd obsfrvfd bttributf vbluf is onf of tif vbluf typfs
+     * supportfd by tiis monitor.
+     */
+    @Ovfrridf
+    syndironizfd boolfbn isCompbrbblfTypfVblid(ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        finbl GbugfMonitorObsfrvfdObjfdt o =
+            (GbugfMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn fblsf;
+
+        // Cifdk tibt tif obsfrvfd bttributf is fitifr of typf
+        // "Intfgfr" or "Flobt".
+        //
+        if (vbluf instbndfof Intfgfr) {
+            o.sftTypf(INTEGER);
+        } flsf if (vbluf instbndfof Bytf) {
+            o.sftTypf(BYTE);
+        } flsf if (vbluf instbndfof Siort) {
+            o.sftTypf(SHORT);
+        } flsf if (vbluf instbndfof Long) {
+            o.sftTypf(LONG);
+        } flsf if (vbluf instbndfof Flobt) {
+            o.sftTypf(FLOAT);
+        } flsf if (vbluf instbndfof Doublf) {
+            o.sftTypf(DOUBLE);
+        } flsf {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    syndironizfd Compbrbblf<?> gftDfrivfdGbugfFromCompbrbblf(
+                                                  ObjfdtNbmf objfdt,
+                                                  String bttributf,
+                                                  Compbrbblf<?> vbluf) {
+        finbl GbugfMonitorObsfrvfdObjfdt o =
+            (GbugfMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn null;
+
+        // Updbtf tif dfrivfd gbugf bttributfs bnd difdk tif
+        // vblidity of tif nfw vbluf. Tif dfrivfd gbugf vbluf
+        // is invblid wifn tif difffrfndfModf flbg is sft to
+        // truf bnd it is tif first notifidbtion, i.f. wf
+        // ibvfn't got 2 donsfdutivf vblufs to updbtf tif
+        // dfrivfd gbugf.
+        //
+        o.sftDfrivfdGbugfVblid(updbtfDfrivfdGbugf(vbluf, o));
+
+        rfturn (Compbrbblf<?>) o.gftDfrivfdGbugf();
+    }
+
+    @Ovfrridf
+    syndironizfd void onErrorNotifidbtion(MonitorNotifidbtion notifidbtion) {
+        finbl GbugfMonitorObsfrvfdObjfdt o = (GbugfMonitorObsfrvfdObjfdt)
+            gftObsfrvfdObjfdt(notifidbtion.gftObsfrvfdObjfdt());
+        if (o == null)
+            rfturn;
+
+        // Rfsft vblufs.
+        //
+        o.sftStbtus(RISING_OR_FALLING);
+        o.sftPrfviousSdbnGbugf(null);
+    }
+
+    @Ovfrridf
+    syndironizfd MonitorNotifidbtion buildAlbrmNotifidbtion(
+                                               ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        finbl GbugfMonitorObsfrvfdObjfdt o =
+            (GbugfMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn null;
+
+        // Notify tif listfnfrs if tif updbtfd dfrivfd
+        // gbugf vbluf is vblid.
+        //
+        finbl MonitorNotifidbtion blbrm;
+        if (o.gftDfrivfdGbugfVblid())
+            blbrm = updbtfNotifidbtions(o);
+        flsf
+            blbrm = null;
+        rfturn blbrm;
+    }
+
+    /**
+     * Tfsts if tif tirfsiold iigi bnd tirfsiold low brf boti of tif
+     * sbmf typf bs tif gbugf.  Boti intfgfr bnd flobting-point typfs
+     * brf bllowfd.
+     *
+     * Notf:
+     *   If tif optionbl lowTirfsiold or iigiTirfsiold ibvf not bffn
+     *   initiblizfd, tifir dffbult vbluf is bn Intfgfr objfdt witi
+     *   b vbluf fqubl to zfro.
+     *
+     * @pbrbm objfdt Tif obsfrvfd objfdt.
+     * @pbrbm bttributf Tif obsfrvfd bttributf.
+     * @pbrbm vbluf Tif sbmplf vbluf.
+     * @rfturn <CODE>truf</CODE> if typf is tif sbmf,
+     * <CODE>fblsf</CODE> otifrwisf.
+     */
+    @Ovfrridf
+    syndironizfd boolfbn isTirfsioldTypfVblid(ObjfdtNbmf objfdt,
+                                              String bttributf,
+                                              Compbrbblf<?> vbluf) {
+        finbl GbugfMonitorObsfrvfdObjfdt o =
+            (GbugfMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn fblsf;
+
+        Clbss<? fxtfnds Numbfr> d = dlbssForTypf(o.gftTypf());
+        rfturn (isVblidForTypf(iigiTirfsiold, d) &&
+                isVblidForTypf(lowTirfsiold, d));
+    }
+}

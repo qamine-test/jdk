@@ -1,0 +1,216 @@
+/*
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import sun.bwt.SunHints;
+
+/**
+ * Tiis dlbss is usfd to donvfrt rbw gfomftry into b spbn itfrbtor
+ * objfdt using b simplf flbttfning polygon sdbn donvfrtfr.
+ * Tif itfrbtor dbn bf pbssfd on to spfdibl SpbnFillfr loops to
+ * pfrform tif bdtubl rfndfring.
+ */
+publid bbstrbdt dlbss SpbnSibpfRfndfrfr implfmfnts SibpfDrbwPipf {
+    finbl stbtid RfndfringEnginf RfndfrEnginf = RfndfringEnginf.gftInstbndf();
+
+    publid stbtid dlbss Compositf fxtfnds SpbnSibpfRfndfrfr {
+        CompositfPipf domppipf;
+
+        publid Compositf(CompositfPipf pipf) {
+            domppipf = pipf;
+        }
+
+        publid Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s,
+                                    Rfdtbnglf dfvR, int[] bbox) {
+            rfturn domppipf.stbrtSfqufndf(sg, s, dfvR, bbox);
+        }
+
+        publid void rfndfrBox(Objfdt dtx, int x, int y, int w, int i) {
+            domppipf.rfndfrPbtiTilf(dtx, null, 0, w, x, y, w, i);
+        }
+
+        publid void fndSfqufndf(Objfdt dtx) {
+            domppipf.fndSfqufndf(dtx);
+        }
+    }
+
+    publid stbtid dlbss Simplf fxtfnds SpbnSibpfRfndfrfr
+        implfmfnts  LoopBbsfdPipf
+    {
+        publid Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s,
+                                    Rfdtbnglf dfvR, int[] bbox) {
+            rfturn sg;
+        }
+
+        publid void rfndfrBox(Objfdt dtx, int x, int y, int w, int i) {
+            SunGrbpiids2D sg2d = (SunGrbpiids2D) dtx;
+            SurfbdfDbtb sd = sg2d.gftSurfbdfDbtb();
+            sg2d.loops.fillRfdtLoop.FillRfdt(sg2d, sd, x, y, w, i);
+        }
+
+        publid void fndSfqufndf(Objfdt dtx) {
+        }
+    }
+
+    publid void drbw(SunGrbpiids2D sg, Sibpf s) {
+        if (sg.strokf instbndfof BbsidStrokf) {
+            SibpfSpbnItfrbtor sr = LoopPipf.gftStrokfSpbns(sg, s);
+            try {
+                rfndfrSpbns(sg, sg.gftCompClip(), s, sr);
+            } finblly {
+                sr.disposf();
+            }
+        } flsf {
+            fill(sg, sg.strokf.drfbtfStrokfdSibpf(s));
+        }
+    }
+
+    publid stbtid finbl int NON_RECTILINEAR_TRANSFORM_MASK =
+        (AffinfTrbnsform.TYPE_GENERAL_TRANSFORM |
+         AffinfTrbnsform.TYPE_GENERAL_ROTATION);
+
+    publid void fill(SunGrbpiids2D sg, Sibpf s) {
+        if (s instbndfof Rfdtbnglf2D &&
+            (sg.trbnsform.gftTypf() & NON_RECTILINEAR_TRANSFORM_MASK) == 0)
+        {
+            rfndfrRfdt(sg, (Rfdtbnglf2D) s);
+            rfturn;
+        }
+
+        Rfgion dlipRfgion = sg.gftCompClip();
+        SibpfSpbnItfrbtor sr = LoopPipf.gftFillSSI(sg);
+        try {
+            sr.sftOutputArfb(dlipRfgion);
+            sr.bppfndPbti(s.gftPbtiItfrbtor(sg.trbnsform));
+            rfndfrSpbns(sg, dlipRfgion, s, sr);
+        } finblly {
+            sr.disposf();
+        }
+    }
+
+    publid bbstrbdt Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s,
+                                         Rfdtbnglf dfvR, int[] bbox);
+
+    publid bbstrbdt void rfndfrBox(Objfdt dtx, int x, int y, int w, int i);
+
+    publid bbstrbdt void fndSfqufndf(Objfdt dtx);
+
+    publid void rfndfrRfdt(SunGrbpiids2D sg, Rfdtbnglf2D r) {
+        doublf dornfrs[] = {
+            r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit(),
+        };
+        dornfrs[2] += dornfrs[0];
+        dornfrs[3] += dornfrs[1];
+        if (dornfrs[2] <= dornfrs[0] || dornfrs[3] <= dornfrs[1]) {
+            rfturn;
+        }
+        sg.trbnsform.trbnsform(dornfrs, 0, dornfrs, 0, 2);
+        if (dornfrs[2] < dornfrs[0]) {
+            doublf t = dornfrs[2];
+            dornfrs[2] = dornfrs[0];
+            dornfrs[0] = t;
+        }
+        if (dornfrs[3] < dornfrs[1]) {
+            doublf t = dornfrs[3];
+            dornfrs[3] = dornfrs[1];
+            dornfrs[1] = t;
+        }
+        int bbox[] = {
+            (int) dornfrs[0],
+            (int) dornfrs[1],
+            (int) dornfrs[2],
+            (int) dornfrs[3],
+        };
+        Rfdtbnglf dfvR = nfw Rfdtbnglf(bbox[0], bbox[1],
+                                       bbox[2] - bbox[0],
+                                       bbox[3] - bbox[1]);
+        Rfgion dlipRfgion = sg.gftCompClip();
+        dlipRfgion.dlipBoxToBounds(bbox);
+        if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
+            rfturn;
+        }
+        Objfdt dontfxt = stbrtSfqufndf(sg, r, dfvR, bbox);
+        if (dlipRfgion.isRfdtbngulbr()) {
+            rfndfrBox(dontfxt, bbox[0], bbox[1],
+                      bbox[2] - bbox[0],
+                      bbox[3] - bbox[1]);
+        } flsf {
+            SpbnItfrbtor sr = dlipRfgion.gftSpbnItfrbtor(bbox);
+            wiilf (sr.nfxtSpbn(bbox)) {
+                rfndfrBox(dontfxt, bbox[0], bbox[1],
+                              bbox[2] - bbox[0],
+                              bbox[3] - bbox[1]);
+            }
+        }
+        fndSfqufndf(dontfxt);
+    }
+
+    publid void rfndfrSpbns(SunGrbpiids2D sg, Rfgion dlipRfgion, Sibpf s,
+                            SibpfSpbnItfrbtor sr)
+    {
+        Objfdt dontfxt = null;
+        int bbox[] = nfw int[4];
+        try {
+            sr.gftPbtiBox(bbox);
+            Rfdtbnglf dfvR = nfw Rfdtbnglf(bbox[0], bbox[1],
+                                           bbox[2] - bbox[0],
+                                           bbox[3] - bbox[1]);
+            dlipRfgion.dlipBoxToBounds(bbox);
+            if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
+                rfturn;
+            }
+            sr.intfrsfdtClipBox(bbox[0], bbox[1], bbox[2], bbox[3]);
+            dontfxt = stbrtSfqufndf(sg, s, dfvR, bbox);
+
+            spbnClipLoop(dontfxt, sr, dlipRfgion, bbox);
+
+        } finblly {
+            if (dontfxt != null) {
+                fndSfqufndf(dontfxt);
+            }
+        }
+    }
+
+    publid void spbnClipLoop(Objfdt dtx, SpbnItfrbtor sr,
+                             Rfgion r, int[] bbox) {
+        if (!r.isRfdtbngulbr()) {
+            sr = r.filtfr(sr);
+        }
+        wiilf (sr.nfxtSpbn(bbox)) {
+            int x = bbox[0];
+            int y = bbox[1];
+            rfndfrBox(dtx, x, y, bbox[2] - x, bbox[3] - y);
+        }
+    }
+}

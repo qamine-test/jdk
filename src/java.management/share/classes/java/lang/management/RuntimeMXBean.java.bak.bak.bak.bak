@@ -1,339 +1,1695 @@
 /*
- * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+
+
+
 
 /**
- * Thf mbnbgfmfnt intfrfbdf for thf runtimf systfm of
- * thf Jbvb virtubl mbdhinf.
+/**
+/**
+/**
+/**
+ * Tif mbnbgfmfnt intfrfbdf for tif runtimf systfm of
+ * Tif mbnbgfmfnt intfrfbdf for tif runtimf systfm of
+ * Tif mbnbgfmfnt intfrfbdf for tif runtimf systfm of
+ * Tif mbnbgfmfnt intfrfbdf for tif runtimf systfm of
+ * Tif mbnbgfmfnt intfrfbdf for tif runtimf systfm of
+ * tif Jbvb virtubl mbdiinf.
+ * tif Jbvb virtubl mbdiinf.
+ * tif Jbvb virtubl mbdiinf.
+ * tif Jbvb virtubl mbdiinf.
+ * tif Jbvb virtubl mbdiinf.
  *
- * <p> A Jbvb virtubl mbdhinf hbs b singlf instbndf of thf implfmfntbtion
- * dlbss of this intfrfbdf.  This instbndf implfmfnting this intfrfbdf is
- * bn <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">MXBfbn</b>
- * thbt dbn bf obtbinfd by dblling
- * thf {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mfthod or
- * from thf {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
- * plbtform <tt>MBfbnSfrvfr</tt>} mfthod.
  *
- * <p>Thf <tt>ObjfdtNbmf</tt> for uniqufly idfntifying thf MXBfbn for
- * thf runtimf systfm within bn MBfbnSfrvfr is:
+ *
+ *
+ *
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * tibt dbn bf obtbinfd by dblling
+ * tibt dbn bf obtbinfd by dblling
+ * tibt dbn bf obtbinfd by dblling
+ * tibt dbn bf obtbinfd by dblling
+ * tibt dbn bf obtbinfd by dblling
+ * tif {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mftiod or
+ * tif {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mftiod or
+ * tif {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mftiod or
+ * tif {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mftiod or
+ * tif {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mftiod or
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
+ *
+ *
+ *
+ *
+ *
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * tif runtimf systfm witiin bn MBfbnSfrvfr is:
+ * tif runtimf systfm witiin bn MBfbnSfrvfr is:
+ * tif runtimf systfm witiin bn MBfbnSfrvfr is:
+ * tif runtimf systfm witiin bn MBfbnSfrvfr is:
+ * tif runtimf systfm witiin bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ * <blodkquotf>
+ * <blodkquotf>
+ * <blodkquotf>
  * <blodkquotf>
  *    {@link MbnbgfmfntFbdtory#RUNTIME_MXBEAN_NAME
+ *    {@link MbnbgfmfntFbdtory#RUNTIME_MXBEAN_NAME
+ *    {@link MbnbgfmfntFbdtory#RUNTIME_MXBEAN_NAME
+ *    {@link MbnbgfmfntFbdtory#RUNTIME_MXBEAN_NAME
+ *    {@link MbnbgfmfntFbdtory#RUNTIME_MXBEAN_NAME
+ *           <tt>jbvb.lbng:typf=Runtimf</tt>}
+ *           <tt>jbvb.lbng:typf=Runtimf</tt>}
+ *           <tt>jbvb.lbng:typf=Runtimf</tt>}
+ *           <tt>jbvb.lbng:typf=Runtimf</tt>}
  *           <tt>jbvb.lbng:typf=Runtimf</tt>}
  * </blodkquotf>
+ * </blodkquotf>
+ * </blodkquotf>
+ * </blodkquotf>
+ * </blodkquotf>
  *
- * It dbn bf obtbinfd by dblling thf
- * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mfthod.
  *
- * <p> This intfrfbdf dffinfs sfvfrbl donvfnifnt mfthods for bddfssing
- * systfm propfrtifs bbout thf Jbvb virtubl mbdhinf.
+ *
+ *
+ *
+ * It dbn bf obtbinfd by dblling tif
+ * It dbn bf obtbinfd by dblling tif
+ * It dbn bf obtbinfd by dblling tif
+ * It dbn bf obtbinfd by dblling tif
+ * It dbn bf obtbinfd by dblling tif
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
+ *
+ *
+ *
+ *
+ *
+ * <p> Tiis intfrfbdf dffinfs sfvfrbl donvfnifnt mftiods for bddfssing
+ * <p> Tiis intfrfbdf dffinfs sfvfrbl donvfnifnt mftiods for bddfssing
+ * <p> Tiis intfrfbdf dffinfs sfvfrbl donvfnifnt mftiods for bddfssing
+ * <p> Tiis intfrfbdf dffinfs sfvfrbl donvfnifnt mftiods for bddfssing
+ * <p> Tiis intfrfbdf dffinfs sfvfrbl donvfnifnt mftiods for bddfssing
+ * systfm propfrtifs bbout tif Jbvb virtubl mbdiinf.
+ * systfm propfrtifs bbout tif Jbvb virtubl mbdiinf.
+ * systfm propfrtifs bbout tif Jbvb virtubl mbdiinf.
+ * systfm propfrtifs bbout tif Jbvb virtubl mbdiinf.
+ * systfm propfrtifs bbout tif Jbvb virtubl mbdiinf.
+ *
+ *
+ *
+ *
  *
  * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
- * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
  *      JMX Spfdifidbtion.</b>
- * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      JMX Spfdifidbtion.</b>
+ *      JMX Spfdifidbtion.</b>
+ *      JMX Spfdifidbtion.</b>
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *      Wbys to Addfss MXBfbns</b>
+ *      Wbys to Addfss MXBfbns</b>
+ *      Wbys to Addfss MXBfbns</b>
  *      Wbys to Addfss MXBfbns</b>
  *
- * @buthor  Mbndy Chung
+ *
+ *
+ *
+ *
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
+ * @sindf   1.5
+ * @sindf   1.5
+ * @sindf   1.5
  * @sindf   1.5
  */
+ */
+ */
+ */
+ */
+publid intfrfbdf RuntimfMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+publid intfrfbdf RuntimfMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+publid intfrfbdf RuntimfMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+publid intfrfbdf RuntimfMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
 publid intfrfbdf RuntimfMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
     /**
-     * Rfturns thf nbmf rfprfsfnting thf running Jbvb virtubl mbdhinf.
-     * Thf rfturnfd nbmf string dbn bf bny brbitrbry string bnd
-     * b Jbvb virtubl mbdhinf implfmfntbtion dbn dhoosf
-     * to fmbfd plbtform-spfdifid usfful informbtion in thf
-     * rfturnfd nbmf string.  Ebdh running virtubl mbdhinf dould hbvf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * Rfturns tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * Rfturns tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * Rfturns tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * Rfturns tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * Tif rfturnfd nbmf string dbn bf bny brbitrbry string bnd
+     * Tif rfturnfd nbmf string dbn bf bny brbitrbry string bnd
+     * Tif rfturnfd nbmf string dbn bf bny brbitrbry string bnd
+     * Tif rfturnfd nbmf string dbn bf bny brbitrbry string bnd
+     * Tif rfturnfd nbmf string dbn bf bny brbitrbry string bnd
+     * b Jbvb virtubl mbdiinf implfmfntbtion dbn dioosf
+     * b Jbvb virtubl mbdiinf implfmfntbtion dbn dioosf
+     * b Jbvb virtubl mbdiinf implfmfntbtion dbn dioosf
+     * b Jbvb virtubl mbdiinf implfmfntbtion dbn dioosf
+     * b Jbvb virtubl mbdiinf implfmfntbtion dbn dioosf
+     * to fmbfd plbtform-spfdifid usfful informbtion in tif
+     * to fmbfd plbtform-spfdifid usfful informbtion in tif
+     * to fmbfd plbtform-spfdifid usfful informbtion in tif
+     * to fmbfd plbtform-spfdifid usfful informbtion in tif
+     * to fmbfd plbtform-spfdifid usfful informbtion in tif
+     * rfturnfd nbmf string.  Ebdi running virtubl mbdiinf dould ibvf
+     * rfturnfd nbmf string.  Ebdi running virtubl mbdiinf dould ibvf
+     * rfturnfd nbmf string.  Ebdi running virtubl mbdiinf dould ibvf
+     * rfturnfd nbmf string.  Ebdi running virtubl mbdiinf dould ibvf
+     * rfturnfd nbmf string.  Ebdi running virtubl mbdiinf dould ibvf
+     * b difffrfnt nbmf.
+     * b difffrfnt nbmf.
+     * b difffrfnt nbmf.
+     * b difffrfnt nbmf.
      * b difffrfnt nbmf.
      *
-     * @rfturn thf nbmf rfprfsfnting thf running Jbvb virtubl mbdhinf.
+     *
+     *
+     *
+     *
+     * @rfturn tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * @rfturn tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * @rfturn tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * @rfturn tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * @rfturn tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     */
+     */
+     */
+     */
      */
     publid String gftNbmf();
+    publid String gftNbmf();
+    publid String gftNbmf();
+    publid String gftNbmf();
+    publid String gftNbmf();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb virtubl mbdhinf implfmfntbtion nbmf.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.nbmf")}.
+     * Systfm.gftPropfrty("jbvb.vm.nbmf")}.
+     * Systfm.gftPropfrty("jbvb.vm.nbmf")}.
+     * Systfm.gftPropfrty("jbvb.vm.nbmf")}.
      * Systfm.gftPropfrty("jbvb.vm.nbmf")}.
      *
-     * @rfturn thf Jbvb virtubl mbdhinf implfmfntbtion nbmf.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
      * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+     */
+     */
+     */
      */
     publid String gftVmNbmf();
+    publid String gftVmNbmf();
+    publid String gftVmNbmf();
+    publid String gftVmNbmf();
+    publid String gftVmNbmf();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb virtubl mbdhinf implfmfntbtion vfndor.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.vfndor")}.
+     * Systfm.gftPropfrty("jbvb.vm.vfndor")}.
+     * Systfm.gftPropfrty("jbvb.vm.vfndor")}.
+     * Systfm.gftPropfrty("jbvb.vm.vfndor")}.
      * Systfm.gftPropfrty("jbvb.vm.vfndor")}.
      *
-     * @rfturn thf Jbvb virtubl mbdhinf implfmfntbtion vfndor.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
      * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+     */
+     */
+     */
      */
     publid String gftVmVfndor();
+    publid String gftVmVfndor();
+    publid String gftVmVfndor();
+    publid String gftVmVfndor();
+    publid String gftVmVfndor();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb virtubl mbdhinf implfmfntbtion vfrsion.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.vfrsion")}.
+     * Systfm.gftPropfrty("jbvb.vm.vfrsion")}.
+     * Systfm.gftPropfrty("jbvb.vm.vfrsion")}.
+     * Systfm.gftPropfrty("jbvb.vm.vfrsion")}.
      * Systfm.gftPropfrty("jbvb.vm.vfrsion")}.
      *
-     * @rfturn thf Jbvb virtubl mbdhinf implfmfntbtion vfrsion.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
      * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+     */
+     */
+     */
      */
     publid String gftVmVfrsion();
+    publid String gftVmVfrsion();
+    publid String gftVmVfrsion();
+    publid String gftVmVfrsion();
+    publid String gftVmVfrsion();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb virtubl mbdhinf spfdifidbtion nbmf.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf")}.
      * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf")}.
      *
-     * @rfturn thf Jbvb virtubl mbdhinf spfdifidbtion nbmf.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
      * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+     */
+     */
+     */
      */
     publid String gftSpfdNbmf();
+    publid String gftSpfdNbmf();
+    publid String gftSpfdNbmf();
+    publid String gftSpfdNbmf();
+    publid String gftSpfdNbmf();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb virtubl mbdhinf spfdifidbtion vfndor.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor")}.
      * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor")}.
      *
-     * @rfturn thf Jbvb virtubl mbdhinf spfdifidbtion vfndor.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
      * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+     */
+     */
+     */
      */
     publid String gftSpfdVfndor();
+    publid String gftSpfdVfndor();
+    publid String gftSpfdVfndor();
+    publid String gftSpfdVfndor();
+    publid String gftSpfdVfndor();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb virtubl mbdhinf spfdifidbtion vfrsion.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion")}.
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion")}.
      * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion")}.
      *
-     * @rfturn thf Jbvb virtubl mbdhinf spfdifidbtion vfrsion.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      * @sff jbvb.lbng.Systfm#gftPropfrty
      */
+     */
+     */
+     */
+     */
+    publid String gftSpfdVfrsion();
+    publid String gftSpfdVfrsion();
+    publid String gftSpfdVfrsion();
+    publid String gftSpfdVfrsion();
     publid String gftSpfdVfrsion();
 
 
+
+
+
+
+
+
+
+
     /**
-     * Rfturns thf vfrsion of thf spfdifidbtion for thf mbnbgfmfnt intfrfbdf
-     * implfmfntfd by thf running Jbvb virtubl mbdhinf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * Rfturns tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * Rfturns tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * Rfturns tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * Rfturns tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
      *
-     * @rfturn thf vfrsion of thf spfdifidbtion for thf mbnbgfmfnt intfrfbdf
-     * implfmfntfd by thf running Jbvb virtubl mbdhinf.
+     *
+     *
+     *
+     *
+     * @rfturn tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * @rfturn tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * @rfturn tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * @rfturn tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * @rfturn tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
+     */
+     */
+     */
+     */
      */
     publid String gftMbnbgfmfntSpfdVfrsion();
+    publid String gftMbnbgfmfntSpfdVfrsion();
+    publid String gftMbnbgfmfntSpfdVfrsion();
+    publid String gftMbnbgfmfntSpfdVfrsion();
+    publid String gftMbnbgfmfntSpfdVfrsion();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb dlbss pbth thbt is usfd by thf systfm dlbss lobdfr
-     * to sfbrdh for dlbss filfs.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
-     * Systfm.gftPropfrty("jbvb.dlbss.pbth")}.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb dlbss pbti tibt is usfd by tif systfm dlbss lobdfr
+     * Rfturns tif Jbvb dlbss pbti tibt is usfd by tif systfm dlbss lobdfr
+     * Rfturns tif Jbvb dlbss pbti tibt is usfd by tif systfm dlbss lobdfr
+     * Rfturns tif Jbvb dlbss pbti tibt is usfd by tif systfm dlbss lobdfr
+     * Rfturns tif Jbvb dlbss pbti tibt is usfd by tif systfm dlbss lobdfr
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.dlbss.pbti")}.
+     * Systfm.gftPropfrty("jbvb.dlbss.pbti")}.
+     * Systfm.gftPropfrty("jbvb.dlbss.pbti")}.
+     * Systfm.gftPropfrty("jbvb.dlbss.pbti")}.
+     * Systfm.gftPropfrty("jbvb.dlbss.pbti")}.
      *
-     * <p> Multiplf pbths in thf Jbvb dlbss pbth brf sfpbrbtfd by thf
-     * pbth sfpbrbtor dhbrbdtfr of thf plbtform of thf Jbvb virtubl mbdhinf
+     *
+     *
+     *
+     *
+     * <p> Multiplf pbtis in tif Jbvb dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb dlbss pbti brf sfpbrbtfd by tif
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * bfing monitorfd.
+     * bfing monitorfd.
+     * bfing monitorfd.
+     * bfing monitorfd.
      * bfing monitorfd.
      *
-     * @rfturn thf Jbvb dlbss pbth.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb dlbss pbti.
+     * @rfturn tif Jbvb dlbss pbti.
+     * @rfturn tif Jbvb dlbss pbti.
+     * @rfturn tif Jbvb dlbss pbti.
+     * @rfturn tif Jbvb dlbss pbti.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    publid String gftClbssPbth();
+     */
+     */
+     */
+     */
+    publid String gftClbssPbti();
+    publid String gftClbssPbti();
+    publid String gftClbssPbti();
+    publid String gftClbssPbti();
+    publid String gftClbssPbti();
+
+
+
+
 
     /**
-     * Rfturns thf Jbvb librbry pbth.
-     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
-     * Systfm.gftPropfrty("jbvb.librbry.pbth")}.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Jbvb librbry pbti.
+     * Rfturns tif Jbvb librbry pbti.
+     * Rfturns tif Jbvb librbry pbti.
+     * Rfturns tif Jbvb librbry pbti.
+     * Rfturns tif Jbvb librbry pbti.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.librbry.pbti")}.
+     * Systfm.gftPropfrty("jbvb.librbry.pbti")}.
+     * Systfm.gftPropfrty("jbvb.librbry.pbti")}.
+     * Systfm.gftPropfrty("jbvb.librbry.pbti")}.
+     * Systfm.gftPropfrty("jbvb.librbry.pbti")}.
      *
-     * <p> Multiplf pbths in thf Jbvb librbry pbth brf sfpbrbtfd by thf
-     * pbth sfpbrbtor dhbrbdtfr of thf plbtform of thf Jbvb virtubl mbdhinf
+     *
+     *
+     *
+     *
+     * <p> Multiplf pbtis in tif Jbvb librbry pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb librbry pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb librbry pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb librbry pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif Jbvb librbry pbti brf sfpbrbtfd by tif
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * bfing monitorfd.
+     * bfing monitorfd.
+     * bfing monitorfd.
+     * bfing monitorfd.
      * bfing monitorfd.
      *
-     * @rfturn thf Jbvb librbry pbth.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     * @rfturn tif Jbvb librbry pbti.
+     * @rfturn tif Jbvb librbry pbti.
+     * @rfturn tif Jbvb librbry pbti.
+     * @rfturn tif Jbvb librbry pbti.
+     * @rfturn tif Jbvb librbry pbti.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to this systfm propfrty.
-     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    publid String gftLibrbryPbth();
+     */
+     */
+     */
+     */
+    publid String gftLibrbryPbti();
+    publid String gftLibrbryPbti();
+    publid String gftLibrbryPbti();
+    publid String gftLibrbryPbti();
+    publid String gftLibrbryPbti();
+
+
+
+
 
     /**
-     * Tfsts if thf Jbvb virtubl mbdhinf supports thf boot dlbss pbth
-     * mfdhbnism usfd by thf bootstrbp dlbss lobdfr to sfbrdh for dlbss
+    /**
+    /**
+    /**
+    /**
+     * Tfsts if tif Jbvb virtubl mbdiinf supports tif boot dlbss pbti
+     * Tfsts if tif Jbvb virtubl mbdiinf supports tif boot dlbss pbti
+     * Tfsts if tif Jbvb virtubl mbdiinf supports tif boot dlbss pbti
+     * Tfsts if tif Jbvb virtubl mbdiinf supports tif boot dlbss pbti
+     * Tfsts if tif Jbvb virtubl mbdiinf supports tif boot dlbss pbti
+     * mfdibnism usfd by tif bootstrbp dlbss lobdfr to sfbrdi for dlbss
+     * mfdibnism usfd by tif bootstrbp dlbss lobdfr to sfbrdi for dlbss
+     * mfdibnism usfd by tif bootstrbp dlbss lobdfr to sfbrdi for dlbss
+     * mfdibnism usfd by tif bootstrbp dlbss lobdfr to sfbrdi for dlbss
+     * mfdibnism usfd by tif bootstrbp dlbss lobdfr to sfbrdi for dlbss
+     * filfs.
+     * filfs.
+     * filfs.
+     * filfs.
      * filfs.
      *
-     * @rfturn <tt>truf</tt> if thf Jbvb virtubl mbdhinf supports thf
-     * dlbss pbth mfdhbnism; <tt>fblsf</tt> othfrwisf.
+     *
+     *
+     *
+     *
+     * @rfturn <tt>truf</tt> if tif Jbvb virtubl mbdiinf supports tif
+     * @rfturn <tt>truf</tt> if tif Jbvb virtubl mbdiinf supports tif
+     * @rfturn <tt>truf</tt> if tif Jbvb virtubl mbdiinf supports tif
+     * @rfturn <tt>truf</tt> if tif Jbvb virtubl mbdiinf supports tif
+     * @rfturn <tt>truf</tt> if tif Jbvb virtubl mbdiinf supports tif
+     * dlbss pbti mfdibnism; <tt>fblsf</tt> otifrwisf.
+     * dlbss pbti mfdibnism; <tt>fblsf</tt> otifrwisf.
+     * dlbss pbti mfdibnism; <tt>fblsf</tt> otifrwisf.
+     * dlbss pbti mfdibnism; <tt>fblsf</tt> otifrwisf.
+     * dlbss pbti mfdibnism; <tt>fblsf</tt> otifrwisf.
      */
-    publid boolfbn isBootClbssPbthSupportfd();
+     */
+     */
+     */
+     */
+    publid boolfbn isBootClbssPbtiSupportfd();
+    publid boolfbn isBootClbssPbtiSupportfd();
+    publid boolfbn isBootClbssPbtiSupportfd();
+    publid boolfbn isBootClbssPbtiSupportfd();
+    publid boolfbn isBootClbssPbtiSupportfd();
+
+
+
+
 
     /**
-     * Rfturns thf boot dlbss pbth thbt is usfd by thf bootstrbp dlbss lobdfr
-     * to sfbrdh for dlbss filfs.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif boot dlbss pbti tibt is usfd by tif bootstrbp dlbss lobdfr
+     * Rfturns tif boot dlbss pbti tibt is usfd by tif bootstrbp dlbss lobdfr
+     * Rfturns tif boot dlbss pbti tibt is usfd by tif bootstrbp dlbss lobdfr
+     * Rfturns tif boot dlbss pbti tibt is usfd by tif bootstrbp dlbss lobdfr
+     * Rfturns tif boot dlbss pbti tibt is usfd by tif bootstrbp dlbss lobdfr
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
      *
-     * <p> Multiplf pbths in thf boot dlbss pbth brf sfpbrbtfd by thf
-     * pbth sfpbrbtor dhbrbdtfr of thf plbtform on whidh thf Jbvb
-     * virtubl mbdhinf is running.
      *
-     * <p>A Jbvb virtubl mbdhinf implfmfntbtion mby not support
-     * thf boot dlbss pbth mfdhbnism for thf bootstrbp dlbss lobdfr
-     * to sfbrdh for dlbss filfs.
-     * Thf {@link #isBootClbssPbthSupportfd} mfthod dbn bf usfd
-     * to dftfrminf if thf Jbvb virtubl mbdhinf supports this mfthod.
      *
-     * @rfturn thf boot dlbss pbth.
      *
-     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption
-     *     if thf Jbvb virtubl mbdhinf dofs not support this opfrbtion.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
-     *     if b sfdurity mbnbgfr fxists bnd thf dbllfr dofs not hbvf
+     * <p> Multiplf pbtis in tif boot dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif boot dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif boot dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif boot dlbss pbti brf sfpbrbtfd by tif
+     * <p> Multiplf pbtis in tif boot dlbss pbti brf sfpbrbtfd by tif
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform on wiidi tif Jbvb
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform on wiidi tif Jbvb
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform on wiidi tif Jbvb
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform on wiidi tif Jbvb
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform on wiidi tif Jbvb
+     * virtubl mbdiinf is running.
+     * virtubl mbdiinf is running.
+     * virtubl mbdiinf is running.
+     * virtubl mbdiinf is running.
+     * virtubl mbdiinf is running.
+     *
+     *
+     *
+     *
+     *
+     * <p>A Jbvb virtubl mbdiinf implfmfntbtion mby not support
+     * <p>A Jbvb virtubl mbdiinf implfmfntbtion mby not support
+     * <p>A Jbvb virtubl mbdiinf implfmfntbtion mby not support
+     * <p>A Jbvb virtubl mbdiinf implfmfntbtion mby not support
+     * <p>A Jbvb virtubl mbdiinf implfmfntbtion mby not support
+     * tif boot dlbss pbti mfdibnism for tif bootstrbp dlbss lobdfr
+     * tif boot dlbss pbti mfdibnism for tif bootstrbp dlbss lobdfr
+     * tif boot dlbss pbti mfdibnism for tif bootstrbp dlbss lobdfr
+     * tif boot dlbss pbti mfdibnism for tif bootstrbp dlbss lobdfr
+     * tif boot dlbss pbti mfdibnism for tif bootstrbp dlbss lobdfr
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * to sfbrdi for dlbss filfs.
+     * Tif {@link #isBootClbssPbtiSupportfd} mftiod dbn bf usfd
+     * Tif {@link #isBootClbssPbtiSupportfd} mftiod dbn bf usfd
+     * Tif {@link #isBootClbssPbtiSupportfd} mftiod dbn bf usfd
+     * Tif {@link #isBootClbssPbtiSupportfd} mftiod dbn bf usfd
+     * Tif {@link #isBootClbssPbtiSupportfd} mftiod dbn bf usfd
+     * to dftfrminf if tif Jbvb virtubl mbdiinf supports tiis mftiod.
+     * to dftfrminf if tif Jbvb virtubl mbdiinf supports tiis mftiod.
+     * to dftfrminf if tif Jbvb virtubl mbdiinf supports tiis mftiod.
+     * to dftfrminf if tif Jbvb virtubl mbdiinf supports tiis mftiod.
+     * to dftfrminf if tif Jbvb virtubl mbdiinf supports tiis mftiod.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif boot dlbss pbti.
+     * @rfturn tif boot dlbss pbti.
+     * @rfturn tif boot dlbss pbti.
+     * @rfturn tif boot dlbss pbti.
+     * @rfturn tif boot dlbss pbti.
+     *
+     *
+     *
+     *
+     *
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     *     if tif Jbvb virtubl mbdiinf dofs not support tiis opfrbtion.
+     *     if tif Jbvb virtubl mbdiinf dofs not support tiis opfrbtion.
+     *     if tif Jbvb virtubl mbdiinf dofs not support tiis opfrbtion.
+     *     if tif Jbvb virtubl mbdiinf dofs not support tiis opfrbtion.
+     *     if tif Jbvb virtubl mbdiinf dofs not support tiis opfrbtion.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     MbnbgfmfntPfrmission("monitor").
+     *     MbnbgfmfntPfrmission("monitor").
+     *     MbnbgfmfntPfrmission("monitor").
+     *     MbnbgfmfntPfrmission("monitor").
      *     MbnbgfmfntPfrmission("monitor").
      */
-    publid String gftBootClbssPbth();
+     */
+     */
+     */
+     */
+    publid String gftBootClbssPbti();
+    publid String gftBootClbssPbti();
+    publid String gftBootClbssPbti();
+    publid String gftBootClbssPbti();
+    publid String gftBootClbssPbti();
+
+
+
+
 
     /**
-     * Rfturns thf input brgumfnts pbssfd to thf Jbvb virtubl mbdhinf
-     * whidh dofs not indludf thf brgumfnts to thf <tt>mbin</tt> mfthod.
-     * This mfthod rfturns bn fmpty list if thfrf is no input brgumfnt
-     * to thf Jbvb virtubl mbdhinf.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif input brgumfnts pbssfd to tif Jbvb virtubl mbdiinf
+     * Rfturns tif input brgumfnts pbssfd to tif Jbvb virtubl mbdiinf
+     * Rfturns tif input brgumfnts pbssfd to tif Jbvb virtubl mbdiinf
+     * Rfturns tif input brgumfnts pbssfd to tif Jbvb virtubl mbdiinf
+     * Rfturns tif input brgumfnts pbssfd to tif Jbvb virtubl mbdiinf
+     * wiidi dofs not indludf tif brgumfnts to tif <tt>mbin</tt> mftiod.
+     * wiidi dofs not indludf tif brgumfnts to tif <tt>mbin</tt> mftiod.
+     * wiidi dofs not indludf tif brgumfnts to tif <tt>mbin</tt> mftiod.
+     * wiidi dofs not indludf tif brgumfnts to tif <tt>mbin</tt> mftiod.
+     * wiidi dofs not indludf tif brgumfnts to tif <tt>mbin</tt> mftiod.
+     * Tiis mftiod rfturns bn fmpty list if tifrf is no input brgumfnt
+     * Tiis mftiod rfturns bn fmpty list if tifrf is no input brgumfnt
+     * Tiis mftiod rfturns bn fmpty list if tifrf is no input brgumfnt
+     * Tiis mftiod rfturns bn fmpty list if tifrf is no input brgumfnt
+     * Tiis mftiod rfturns bn fmpty list if tifrf is no input brgumfnt
+     * to tif Jbvb virtubl mbdiinf.
+     * to tif Jbvb virtubl mbdiinf.
+     * to tif Jbvb virtubl mbdiinf.
+     * to tif Jbvb virtubl mbdiinf.
+     * to tif Jbvb virtubl mbdiinf.
      * <p>
-     * Somf Jbvb virtubl mbdhinf implfmfntbtions mby tbkf input brgumfnts
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Somf Jbvb virtubl mbdiinf implfmfntbtions mby tbkf input brgumfnts
+     * Somf Jbvb virtubl mbdiinf implfmfntbtions mby tbkf input brgumfnts
+     * Somf Jbvb virtubl mbdiinf implfmfntbtions mby tbkf input brgumfnts
+     * Somf Jbvb virtubl mbdiinf implfmfntbtions mby tbkf input brgumfnts
+     * Somf Jbvb virtubl mbdiinf implfmfntbtions mby tbkf input brgumfnts
      * from multiplf difffrfnt sourdfs: for fxbmplfs, brgumfnts pbssfd from
-     * thf bpplidbtion thbt lbundhfs thf Jbvb virtubl mbdhinf sudh bs
-     * thf 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
+     * from multiplf difffrfnt sourdfs: for fxbmplfs, brgumfnts pbssfd from
+     * from multiplf difffrfnt sourdfs: for fxbmplfs, brgumfnts pbssfd from
+     * from multiplf difffrfnt sourdfs: for fxbmplfs, brgumfnts pbssfd from
+     * from multiplf difffrfnt sourdfs: for fxbmplfs, brgumfnts pbssfd from
+     * tif bpplidbtion tibt lbundifs tif Jbvb virtubl mbdiinf sudi bs
+     * tif bpplidbtion tibt lbundifs tif Jbvb virtubl mbdiinf sudi bs
+     * tif bpplidbtion tibt lbundifs tif Jbvb virtubl mbdiinf sudi bs
+     * tif bpplidbtion tibt lbundifs tif Jbvb virtubl mbdiinf sudi bs
+     * tif bpplidbtion tibt lbundifs tif Jbvb virtubl mbdiinf sudi bs
+     * tif 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
+     * tif 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
+     * tif 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
+     * tif 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
+     * tif 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
      * <p>
-     * Typidblly, not bll dommbnd-linf options to thf 'jbvb' dommbnd
-     * brf pbssfd to thf Jbvb virtubl mbdhinf.
-     * Thus, thf rfturnfd input brgumfnts mby not
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Typidblly, not bll dommbnd-linf options to tif 'jbvb' dommbnd
+     * Typidblly, not bll dommbnd-linf options to tif 'jbvb' dommbnd
+     * Typidblly, not bll dommbnd-linf options to tif 'jbvb' dommbnd
+     * Typidblly, not bll dommbnd-linf options to tif 'jbvb' dommbnd
+     * Typidblly, not bll dommbnd-linf options to tif 'jbvb' dommbnd
+     * brf pbssfd to tif Jbvb virtubl mbdiinf.
+     * brf pbssfd to tif Jbvb virtubl mbdiinf.
+     * brf pbssfd to tif Jbvb virtubl mbdiinf.
+     * brf pbssfd to tif Jbvb virtubl mbdiinf.
+     * brf pbssfd to tif Jbvb virtubl mbdiinf.
+     * Tius, tif rfturnfd input brgumfnts mby not
+     * Tius, tif rfturnfd input brgumfnts mby not
+     * Tius, tif rfturnfd input brgumfnts mby not
+     * Tius, tif rfturnfd input brgumfnts mby not
+     * Tius, tif rfturnfd input brgumfnts mby not
+     * indludf bll dommbnd-linf options.
+     * indludf bll dommbnd-linf options.
+     * indludf bll dommbnd-linf options.
+     * indludf bll dommbnd-linf options.
      * indludf bll dommbnd-linf options.
      *
+     *
+     *
+     *
+     *
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * <b>MBfbnSfrvfr bddfss</b>:<br>
-     * Thf mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
+     * Tif mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
+     * Tif mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
+     * Tif mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
+     * Tif mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
      *
-     * @rfturn b list of <tt>String</tt> objfdts; fbdh flfmfnt
-     * is bn brgumfnt pbssfd to thf Jbvb virtubl mbdhinf.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
-     *     if b sfdurity mbnbgfr fxists bnd thf dbllfr dofs not hbvf
+     *
+     *
+     *
+     * @rfturn b list of <tt>String</tt> objfdts; fbdi flfmfnt
+     * @rfturn b list of <tt>String</tt> objfdts; fbdi flfmfnt
+     * @rfturn b list of <tt>String</tt> objfdts; fbdi flfmfnt
+     * @rfturn b list of <tt>String</tt> objfdts; fbdi flfmfnt
+     * @rfturn b list of <tt>String</tt> objfdts; fbdi flfmfnt
+     * is bn brgumfnt pbssfd to tif Jbvb virtubl mbdiinf.
+     * is bn brgumfnt pbssfd to tif Jbvb virtubl mbdiinf.
+     * is bn brgumfnt pbssfd to tif Jbvb virtubl mbdiinf.
+     * is bn brgumfnt pbssfd to tif Jbvb virtubl mbdiinf.
+     * is bn brgumfnt pbssfd to tif Jbvb virtubl mbdiinf.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     MbnbgfmfntPfrmission("monitor").
+     *     MbnbgfmfntPfrmission("monitor").
+     *     MbnbgfmfntPfrmission("monitor").
+     *     MbnbgfmfntPfrmission("monitor").
      *     MbnbgfmfntPfrmission("monitor").
      */
+     */
+     */
+     */
+     */
+    publid jbvb.util.List<String> gftInputArgumfnts();
+    publid jbvb.util.List<String> gftInputArgumfnts();
+    publid jbvb.util.List<String> gftInputArgumfnts();
+    publid jbvb.util.List<String> gftInputArgumfnts();
     publid jbvb.util.List<String> gftInputArgumfnts();
 
+
+
+
+
     /**
-     * Rfturns thf uptimf of thf Jbvb virtubl mbdhinf in millisfdonds.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
      *
-     * @rfturn uptimf of thf Jbvb virtubl mbdhinf in millisfdonds.
+     *
+     *
+     *
+     *
+     * @rfturn uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     */
+     */
+     */
+     */
      */
     publid long gftUptimf();
+    publid long gftUptimf();
+    publid long gftUptimf();
+    publid long gftUptimf();
+    publid long gftUptimf();
+
+
+
+
 
     /**
-     * Rfturns thf stbrt timf of thf Jbvb virtubl mbdhinf in millisfdonds.
-     * This mfthod rfturns thf bpproximbtf timf whfn thf Jbvb virtubl
-     * mbdhinf stbrtfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Rfturns tif stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Tiis mftiod rfturns tif bpproximbtf timf wifn tif Jbvb virtubl
+     * Tiis mftiod rfturns tif bpproximbtf timf wifn tif Jbvb virtubl
+     * Tiis mftiod rfturns tif bpproximbtf timf wifn tif Jbvb virtubl
+     * Tiis mftiod rfturns tif bpproximbtf timf wifn tif Jbvb virtubl
+     * Tiis mftiod rfturns tif bpproximbtf timf wifn tif Jbvb virtubl
+     * mbdiinf stbrtfd.
+     * mbdiinf stbrtfd.
+     * mbdiinf stbrtfd.
+     * mbdiinf stbrtfd.
+     * mbdiinf stbrtfd.
      *
-     * @rfturn stbrt timf of thf Jbvb virtubl mbdhinf in millisfdonds.
      *
+     *
+     *
+     *
+     * @rfturn stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * @rfturn stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     *
+     *
+     *
+     *
+     *
+     */
+     */
+     */
+     */
      */
     publid long gftStbrtTimf();
+    publid long gftStbrtTimf();
+    publid long gftStbrtTimf();
+    publid long gftStbrtTimf();
+    publid long gftStbrtTimf();
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
      * Rfturns b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
-     * This mfthod dblls {@link Systfm#gftPropfrtifs} to gft bll
-     * systfm propfrtifs.  Propfrtifs whosf nbmf or vbluf is not
+     * Rfturns b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * Rfturns b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * Rfturns b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * Rfturns b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * Tiis mftiod dblls {@link Systfm#gftPropfrtifs} to gft bll
+     * Tiis mftiod dblls {@link Systfm#gftPropfrtifs} to gft bll
+     * Tiis mftiod dblls {@link Systfm#gftPropfrtifs} to gft bll
+     * Tiis mftiod dblls {@link Systfm#gftPropfrtifs} to gft bll
+     * Tiis mftiod dblls {@link Systfm#gftPropfrtifs} to gft bll
+     * systfm propfrtifs.  Propfrtifs wiosf nbmf or vbluf is not
+     * systfm propfrtifs.  Propfrtifs wiosf nbmf or vbluf is not
+     * systfm propfrtifs.  Propfrtifs wiosf nbmf or vbluf is not
+     * systfm propfrtifs.  Propfrtifs wiosf nbmf or vbluf is not
+     * systfm propfrtifs.  Propfrtifs wiosf nbmf or vbluf is not
+     * b <tt>String</tt> brf omittfd.
+     * b <tt>String</tt> brf omittfd.
+     * b <tt>String</tt> brf omittfd.
+     * b <tt>String</tt> brf omittfd.
      * b <tt>String</tt> brf omittfd.
      *
+     *
+     *
+     *
+     *
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * <p>
      * <b>MBfbnSfrvfr bddfss</b>:<br>
-     * Thf mbppfd typf of {@dodf Mbp<String,String>} is
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of {@dodf Mbp<String,String>} is
+     * Tif mbppfd typf of {@dodf Mbp<String,String>} is
+     * Tif mbppfd typf of {@dodf Mbp<String,String>} is
+     * Tif mbppfd typf of {@dodf Mbp<String,String>} is
+     * Tif mbppfd typf of {@dodf Mbp<String,String>} is
      * {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
-     * with two itfms in fbdh row bs follows:
+     * {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+     * {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+     * {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+     * {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+     * witi two itfms in fbdi row bs follows:
+     * witi two itfms in fbdi row bs follows:
+     * witi two itfms in fbdi row bs follows:
+     * witi two itfms in fbdi row bs follows:
+     * witi two itfms in fbdi row bs follows:
      * <blodkquotf>
-     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdh itfm">
+     * <blodkquotf>
+     * <blodkquotf>
+     * <blodkquotf>
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdi itfm">
+     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdi itfm">
+     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdi itfm">
+     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdi itfm">
+     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdi itfm">
      * <tr>
-     *   <th>Itfm Nbmf</th>
-     *   <th>Itfm Typf</th>
+     * <tr>
+     * <tr>
+     * <tr>
+     * <tr>
+     *   <ti>Itfm Nbmf</ti>
+     *   <ti>Itfm Nbmf</ti>
+     *   <ti>Itfm Nbmf</ti>
+     *   <ti>Itfm Nbmf</ti>
+     *   <ti>Itfm Nbmf</ti>
+     *   <ti>Itfm Typf</ti>
+     *   <ti>Itfm Typf</ti>
+     *   <ti>Itfm Typf</ti>
+     *   <ti>Itfm Typf</ti>
+     *   <ti>Itfm Typf</ti>
      *   </tr>
+     *   </tr>
+     *   </tr>
+     *   </tr>
+     *   </tr>
+     * <tr>
+     * <tr>
+     * <tr>
+     * <tr>
      * <tr>
      *   <td><tt>kfy</tt></td>
+     *   <td><tt>kfy</tt></td>
+     *   <td><tt>kfy</tt></td>
+     *   <td><tt>kfy</tt></td>
+     *   <td><tt>kfy</tt></td>
      *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   </tr>
+     *   </tr>
+     *   </tr>
+     *   </tr>
      *   </tr>
      * <tr>
+     * <tr>
+     * <tr>
+     * <tr>
+     * <tr>
+     *   <td><tt>vbluf</tt></td>
+     *   <td><tt>vbluf</tt></td>
+     *   <td><tt>vbluf</tt></td>
+     *   <td><tt>vbluf</tt></td>
      *   <td><tt>vbluf</tt></td>
      *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   <td><tt>String</tt></td>
+     *   </tr>
+     *   </tr>
+     *   </tr>
+     *   </tr>
      *   </tr>
      * </tbblf>
+     * </tbblf>
+     * </tbblf>
+     * </tbblf>
+     * </tbblf>
+     * </blodkquotf>
+     * </blodkquotf>
+     * </blodkquotf>
+     * </blodkquotf>
      * </blodkquotf>
      *
+     *
+     *
+     *
+     *
+     * @rfturn b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * @rfturn b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * @rfturn b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * @rfturn b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
      * @rfturn b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
      *
-     * @throws  jbvb.lbng.SfdurityExdfption
+     *
+     *
+     *
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     * @tirows  jbvb.lbng.SfdurityExdfption
      *     if b sfdurity mbnbgfr fxists bnd its
-     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
-     *     to thf systfm propfrtifs.
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tif systfm propfrtifs.
+     *     to tif systfm propfrtifs.
+     *     to tif systfm propfrtifs.
+     *     to tif systfm propfrtifs.
+     *     to tif systfm propfrtifs.
+     */
+     */
+     */
+     */
      */
     publid jbvb.util.Mbp<String, String> gftSystfmPropfrtifs();
+    publid jbvb.util.Mbp<String, String> gftSystfmPropfrtifs();
+    publid jbvb.util.Mbp<String, String> gftSystfmPropfrtifs();
+    publid jbvb.util.Mbp<String, String> gftSystfmPropfrtifs();
+    publid jbvb.util.Mbp<String, String> gftSystfmPropfrtifs();
+}
+}
+}
+}
 }

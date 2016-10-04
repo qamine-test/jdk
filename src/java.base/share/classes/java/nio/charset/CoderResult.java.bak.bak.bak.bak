@@ -1,288 +1,1440 @@
 /*
- * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
-pbdkbgf jbvb.nio.dhbrsft;
+
+
+
+
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+pbdkbgf jbvb.nio.dibrsft;
+
+
+
+
 
 import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nio.*;
+import jbvb.nio.*;
+import jbvb.nio.*;
+import jbvb.nio.*;
 import jbvb.nio.*;
 import jbvb.util.Mbp;
-import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiMbp;
+
+
+
+
+
+
+
+
 
 
 /**
- * A dfsdription of thf rfsult stbtf of b dodfr.
+/**
+/**
+/**
+/**
+ * A dfsdription of tif rfsult stbtf of b dodfr.
+ * A dfsdription of tif rfsult stbtf of b dodfr.
+ * A dfsdription of tif rfsult stbtf of b dodfr.
+ * A dfsdription of tif rfsult stbtf of b dodfr.
+ * A dfsdription of tif rfsult stbtf of b dodfr.
  *
- * <p> A dhbrsft dodfr, thbt is, fithfr b dfdodfr or bn fndodfr, donsumfs bytfs
- * (or dhbrbdtfrs) from bn input bufffr, trbnslbtfs thfm, bnd writfs thf
- * rfsulting dhbrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
- * tfrminbtfs for onf of four dbtfgorifs of rfbsons, whidh brf dfsdribfd by
- * instbndfs of this dlbss:
+ *
+ *
+ *
+ *
+ * <p> A dibrsft dodfr, tibt is, fitifr b dfdodfr or bn fndodfr, donsumfs bytfs
+ * <p> A dibrsft dodfr, tibt is, fitifr b dfdodfr or bn fndodfr, donsumfs bytfs
+ * <p> A dibrsft dodfr, tibt is, fitifr b dfdodfr or bn fndodfr, donsumfs bytfs
+ * <p> A dibrsft dodfr, tibt is, fitifr b dfdodfr or bn fndodfr, donsumfs bytfs
+ * <p> A dibrsft dodfr, tibt is, fitifr b dfdodfr or bn fndodfr, donsumfs bytfs
+ * (or dibrbdtfrs) from bn input bufffr, trbnslbtfs tifm, bnd writfs tif
+ * (or dibrbdtfrs) from bn input bufffr, trbnslbtfs tifm, bnd writfs tif
+ * (or dibrbdtfrs) from bn input bufffr, trbnslbtfs tifm, bnd writfs tif
+ * (or dibrbdtfrs) from bn input bufffr, trbnslbtfs tifm, bnd writfs tif
+ * (or dibrbdtfrs) from bn input bufffr, trbnslbtfs tifm, bnd writfs tif
+ * rfsulting dibrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
+ * rfsulting dibrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
+ * rfsulting dibrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
+ * rfsulting dibrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
+ * rfsulting dibrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
+ * tfrminbtfs for onf of four dbtfgorifs of rfbsons, wiidi brf dfsdribfd by
+ * tfrminbtfs for onf of four dbtfgorifs of rfbsons, wiidi brf dfsdribfd by
+ * tfrminbtfs for onf of four dbtfgorifs of rfbsons, wiidi brf dfsdribfd by
+ * tfrminbtfs for onf of four dbtfgorifs of rfbsons, wiidi brf dfsdribfd by
+ * tfrminbtfs for onf of four dbtfgorifs of rfbsons, wiidi brf dfsdribfd by
+ * instbndfs of tiis dlbss:
+ * instbndfs of tiis dlbss:
+ * instbndfs of tiis dlbss:
+ * instbndfs of tiis dlbss:
+ * instbndfs of tiis dlbss:
+ *
+ *
+ *
+ *
  *
  * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
  *
- *   <li><p> <i>Undfrflow</i> is rfportfd whfn thfrf is no morf input to bf
- *   prodfssfd, or thfrf is insuffidifnt input bnd bdditionbl input is
- *   rfquirfd.  This dondition is rfprfsfntfd by thf uniquf rfsult objfdt
- *   {@link #UNDERFLOW}, whosf {@link #isUndfrflow() isUndfrflow} mfthod
+ *
+ *
+ *
+ *
+ *   <li><p> <i>Undfrflow</i> is rfportfd wifn tifrf is no morf input to bf
+ *   <li><p> <i>Undfrflow</i> is rfportfd wifn tifrf is no morf input to bf
+ *   <li><p> <i>Undfrflow</i> is rfportfd wifn tifrf is no morf input to bf
+ *   <li><p> <i>Undfrflow</i> is rfportfd wifn tifrf is no morf input to bf
+ *   <li><p> <i>Undfrflow</i> is rfportfd wifn tifrf is no morf input to bf
+ *   prodfssfd, or tifrf is insuffidifnt input bnd bdditionbl input is
+ *   prodfssfd, or tifrf is insuffidifnt input bnd bdditionbl input is
+ *   prodfssfd, or tifrf is insuffidifnt input bnd bdditionbl input is
+ *   prodfssfd, or tifrf is insuffidifnt input bnd bdditionbl input is
+ *   prodfssfd, or tifrf is insuffidifnt input bnd bdditionbl input is
+ *   rfquirfd.  Tiis dondition is rfprfsfntfd by tif uniquf rfsult objfdt
+ *   rfquirfd.  Tiis dondition is rfprfsfntfd by tif uniquf rfsult objfdt
+ *   rfquirfd.  Tiis dondition is rfprfsfntfd by tif uniquf rfsult objfdt
+ *   rfquirfd.  Tiis dondition is rfprfsfntfd by tif uniquf rfsult objfdt
+ *   rfquirfd.  Tiis dondition is rfprfsfntfd by tif uniquf rfsult objfdt
+ *   {@link #UNDERFLOW}, wiosf {@link #isUndfrflow() isUndfrflow} mftiod
+ *   {@link #UNDERFLOW}, wiosf {@link #isUndfrflow() isUndfrflow} mftiod
+ *   {@link #UNDERFLOW}, wiosf {@link #isUndfrflow() isUndfrflow} mftiod
+ *   {@link #UNDERFLOW}, wiosf {@link #isUndfrflow() isUndfrflow} mftiod
+ *   {@link #UNDERFLOW}, wiosf {@link #isUndfrflow() isUndfrflow} mftiod
+ *   rfturns <tt>truf</tt>.  </p></li>
+ *   rfturns <tt>truf</tt>.  </p></li>
+ *   rfturns <tt>truf</tt>.  </p></li>
+ *   rfturns <tt>truf</tt>.  </p></li>
  *   rfturns <tt>truf</tt>.  </p></li>
  *
- *   <li><p> <i>Ovfrflow</i> is rfportfd whfn thfrf is insuffidifnt room
- *   rfmbining in thf output bufffr.  This dondition is rfprfsfntfd by thf
- *   uniquf rfsult objfdt {@link #OVERFLOW}, whosf {@link #isOvfrflow()
- *   isOvfrflow} mfthod rfturns <tt>truf</tt>.  </p></li>
  *
- *   <li><p> A <i>mblformfd-input frror</i> is rfportfd whfn b sfqufndf of
- *   input units is not wfll-formfd.  Sudh frrors brf dfsdribfd by instbndfs of
- *   this dlbss whosf {@link #isMblformfd() isMblformfd} mfthod rfturns
- *   <tt>truf</tt> bnd whosf {@link #lfngth() lfngth} mfthod rfturns thf lfngth
- *   of thf mblformfd sfqufndf.  Thfrf is onf uniquf instbndf of this dlbss for
- *   bll mblformfd-input frrors of b givfn lfngth.  </p></li>
  *
- *   <li><p> An <i>unmbppbblf-dhbrbdtfr frror</i> is rfportfd whfn b sfqufndf
- *   of input units dfnotfs b dhbrbdtfr thbt dbnnot bf rfprfsfntfd in thf
- *   output dhbrsft.  Sudh frrors brf dfsdribfd by instbndfs of this dlbss
- *   whosf {@link #isUnmbppbblf() isUnmbppbblf} mfthod rfturns <tt>truf</tt> bnd
- *   whosf {@link #lfngth() lfngth} mfthod rfturns thf lfngth of thf input
- *   sfqufndf dfnoting thf unmbppbblf dhbrbdtfr.  Thfrf is onf uniquf instbndf
- *   of this dlbss for bll unmbppbblf-dhbrbdtfr frrors of b givfn lfngth.
+ *
+ *
+ *   <li><p> <i>Ovfrflow</i> is rfportfd wifn tifrf is insuffidifnt room
+ *   <li><p> <i>Ovfrflow</i> is rfportfd wifn tifrf is insuffidifnt room
+ *   <li><p> <i>Ovfrflow</i> is rfportfd wifn tifrf is insuffidifnt room
+ *   <li><p> <i>Ovfrflow</i> is rfportfd wifn tifrf is insuffidifnt room
+ *   <li><p> <i>Ovfrflow</i> is rfportfd wifn tifrf is insuffidifnt room
+ *   rfmbining in tif output bufffr.  Tiis dondition is rfprfsfntfd by tif
+ *   rfmbining in tif output bufffr.  Tiis dondition is rfprfsfntfd by tif
+ *   rfmbining in tif output bufffr.  Tiis dondition is rfprfsfntfd by tif
+ *   rfmbining in tif output bufffr.  Tiis dondition is rfprfsfntfd by tif
+ *   rfmbining in tif output bufffr.  Tiis dondition is rfprfsfntfd by tif
+ *   uniquf rfsult objfdt {@link #OVERFLOW}, wiosf {@link #isOvfrflow()
+ *   uniquf rfsult objfdt {@link #OVERFLOW}, wiosf {@link #isOvfrflow()
+ *   uniquf rfsult objfdt {@link #OVERFLOW}, wiosf {@link #isOvfrflow()
+ *   uniquf rfsult objfdt {@link #OVERFLOW}, wiosf {@link #isOvfrflow()
+ *   uniquf rfsult objfdt {@link #OVERFLOW}, wiosf {@link #isOvfrflow()
+ *   isOvfrflow} mftiod rfturns <tt>truf</tt>.  </p></li>
+ *   isOvfrflow} mftiod rfturns <tt>truf</tt>.  </p></li>
+ *   isOvfrflow} mftiod rfturns <tt>truf</tt>.  </p></li>
+ *   isOvfrflow} mftiod rfturns <tt>truf</tt>.  </p></li>
+ *   isOvfrflow} mftiod rfturns <tt>truf</tt>.  </p></li>
+ *
+ *
+ *
+ *
+ *
+ *   <li><p> A <i>mblformfd-input frror</i> is rfportfd wifn b sfqufndf of
+ *   <li><p> A <i>mblformfd-input frror</i> is rfportfd wifn b sfqufndf of
+ *   <li><p> A <i>mblformfd-input frror</i> is rfportfd wifn b sfqufndf of
+ *   <li><p> A <i>mblformfd-input frror</i> is rfportfd wifn b sfqufndf of
+ *   <li><p> A <i>mblformfd-input frror</i> is rfportfd wifn b sfqufndf of
+ *   input units is not wfll-formfd.  Sudi frrors brf dfsdribfd by instbndfs of
+ *   input units is not wfll-formfd.  Sudi frrors brf dfsdribfd by instbndfs of
+ *   input units is not wfll-formfd.  Sudi frrors brf dfsdribfd by instbndfs of
+ *   input units is not wfll-formfd.  Sudi frrors brf dfsdribfd by instbndfs of
+ *   input units is not wfll-formfd.  Sudi frrors brf dfsdribfd by instbndfs of
+ *   tiis dlbss wiosf {@link #isMblformfd() isMblformfd} mftiod rfturns
+ *   tiis dlbss wiosf {@link #isMblformfd() isMblformfd} mftiod rfturns
+ *   tiis dlbss wiosf {@link #isMblformfd() isMblformfd} mftiod rfturns
+ *   tiis dlbss wiosf {@link #isMblformfd() isMblformfd} mftiod rfturns
+ *   tiis dlbss wiosf {@link #isMblformfd() isMblformfd} mftiod rfturns
+ *   <tt>truf</tt> bnd wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti
+ *   <tt>truf</tt> bnd wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti
+ *   <tt>truf</tt> bnd wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti
+ *   <tt>truf</tt> bnd wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti
+ *   <tt>truf</tt> bnd wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti
+ *   of tif mblformfd sfqufndf.  Tifrf is onf uniquf instbndf of tiis dlbss for
+ *   of tif mblformfd sfqufndf.  Tifrf is onf uniquf instbndf of tiis dlbss for
+ *   of tif mblformfd sfqufndf.  Tifrf is onf uniquf instbndf of tiis dlbss for
+ *   of tif mblformfd sfqufndf.  Tifrf is onf uniquf instbndf of tiis dlbss for
+ *   of tif mblformfd sfqufndf.  Tifrf is onf uniquf instbndf of tiis dlbss for
+ *   bll mblformfd-input frrors of b givfn lfngti.  </p></li>
+ *   bll mblformfd-input frrors of b givfn lfngti.  </p></li>
+ *   bll mblformfd-input frrors of b givfn lfngti.  </p></li>
+ *   bll mblformfd-input frrors of b givfn lfngti.  </p></li>
+ *   bll mblformfd-input frrors of b givfn lfngti.  </p></li>
+ *
+ *
+ *
+ *
+ *
+ *   <li><p> An <i>unmbppbblf-dibrbdtfr frror</i> is rfportfd wifn b sfqufndf
+ *   <li><p> An <i>unmbppbblf-dibrbdtfr frror</i> is rfportfd wifn b sfqufndf
+ *   <li><p> An <i>unmbppbblf-dibrbdtfr frror</i> is rfportfd wifn b sfqufndf
+ *   <li><p> An <i>unmbppbblf-dibrbdtfr frror</i> is rfportfd wifn b sfqufndf
+ *   <li><p> An <i>unmbppbblf-dibrbdtfr frror</i> is rfportfd wifn b sfqufndf
+ *   of input units dfnotfs b dibrbdtfr tibt dbnnot bf rfprfsfntfd in tif
+ *   of input units dfnotfs b dibrbdtfr tibt dbnnot bf rfprfsfntfd in tif
+ *   of input units dfnotfs b dibrbdtfr tibt dbnnot bf rfprfsfntfd in tif
+ *   of input units dfnotfs b dibrbdtfr tibt dbnnot bf rfprfsfntfd in tif
+ *   of input units dfnotfs b dibrbdtfr tibt dbnnot bf rfprfsfntfd in tif
+ *   output dibrsft.  Sudi frrors brf dfsdribfd by instbndfs of tiis dlbss
+ *   output dibrsft.  Sudi frrors brf dfsdribfd by instbndfs of tiis dlbss
+ *   output dibrsft.  Sudi frrors brf dfsdribfd by instbndfs of tiis dlbss
+ *   output dibrsft.  Sudi frrors brf dfsdribfd by instbndfs of tiis dlbss
+ *   output dibrsft.  Sudi frrors brf dfsdribfd by instbndfs of tiis dlbss
+ *   wiosf {@link #isUnmbppbblf() isUnmbppbblf} mftiod rfturns <tt>truf</tt> bnd
+ *   wiosf {@link #isUnmbppbblf() isUnmbppbblf} mftiod rfturns <tt>truf</tt> bnd
+ *   wiosf {@link #isUnmbppbblf() isUnmbppbblf} mftiod rfturns <tt>truf</tt> bnd
+ *   wiosf {@link #isUnmbppbblf() isUnmbppbblf} mftiod rfturns <tt>truf</tt> bnd
+ *   wiosf {@link #isUnmbppbblf() isUnmbppbblf} mftiod rfturns <tt>truf</tt> bnd
+ *   wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti of tif input
+ *   wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti of tif input
+ *   wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti of tif input
+ *   wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti of tif input
+ *   wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti of tif input
+ *   sfqufndf dfnoting tif unmbppbblf dibrbdtfr.  Tifrf is onf uniquf instbndf
+ *   sfqufndf dfnoting tif unmbppbblf dibrbdtfr.  Tifrf is onf uniquf instbndf
+ *   sfqufndf dfnoting tif unmbppbblf dibrbdtfr.  Tifrf is onf uniquf instbndf
+ *   sfqufndf dfnoting tif unmbppbblf dibrbdtfr.  Tifrf is onf uniquf instbndf
+ *   sfqufndf dfnoting tif unmbppbblf dibrbdtfr.  Tifrf is onf uniquf instbndf
+ *   of tiis dlbss for bll unmbppbblf-dibrbdtfr frrors of b givfn lfngti.
+ *   of tiis dlbss for bll unmbppbblf-dibrbdtfr frrors of b givfn lfngti.
+ *   of tiis dlbss for bll unmbppbblf-dibrbdtfr frrors of b givfn lfngti.
+ *   of tiis dlbss for bll unmbppbblf-dibrbdtfr frrors of b givfn lfngti.
+ *   of tiis dlbss for bll unmbppbblf-dibrbdtfr frrors of b givfn lfngti.
+ *   </p></li>
+ *   </p></li>
+ *   </p></li>
+ *   </p></li>
  *   </p></li>
  *
+ *
+ *
+ *
+ *
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  * </ul>
  *
- * <p> For donvfnifndf, thf {@link #isError() isError} mfthod rfturns <tt>truf</tt>
- * for rfsult objfdts thbt dfsdribf mblformfd-input bnd unmbppbblf-dhbrbdtfr
- * frrors but <tt>fblsf</tt> for thosf thbt dfsdribf undfrflow or ovfrflow
+ *
+ *
+ *
+ *
+ * <p> For donvfnifndf, tif {@link #isError() isError} mftiod rfturns <tt>truf</tt>
+ * <p> For donvfnifndf, tif {@link #isError() isError} mftiod rfturns <tt>truf</tt>
+ * <p> For donvfnifndf, tif {@link #isError() isError} mftiod rfturns <tt>truf</tt>
+ * <p> For donvfnifndf, tif {@link #isError() isError} mftiod rfturns <tt>truf</tt>
+ * <p> For donvfnifndf, tif {@link #isError() isError} mftiod rfturns <tt>truf</tt>
+ * for rfsult objfdts tibt dfsdribf mblformfd-input bnd unmbppbblf-dibrbdtfr
+ * for rfsult objfdts tibt dfsdribf mblformfd-input bnd unmbppbblf-dibrbdtfr
+ * for rfsult objfdts tibt dfsdribf mblformfd-input bnd unmbppbblf-dibrbdtfr
+ * for rfsult objfdts tibt dfsdribf mblformfd-input bnd unmbppbblf-dibrbdtfr
+ * for rfsult objfdts tibt dfsdribf mblformfd-input bnd unmbppbblf-dibrbdtfr
+ * frrors but <tt>fblsf</tt> for tiosf tibt dfsdribf undfrflow or ovfrflow
+ * frrors but <tt>fblsf</tt> for tiosf tibt dfsdribf undfrflow or ovfrflow
+ * frrors but <tt>fblsf</tt> for tiosf tibt dfsdribf undfrflow or ovfrflow
+ * frrors but <tt>fblsf</tt> for tiosf tibt dfsdribf undfrflow or ovfrflow
+ * frrors but <tt>fblsf</tt> for tiosf tibt dfsdribf undfrflow or ovfrflow
+ * donditions.  </p>
+ * donditions.  </p>
+ * donditions.  </p>
+ * donditions.  </p>
  * donditions.  </p>
  *
  *
- * @buthor Mbrk Rfinhold
- * @buthor JSR-51 Expfrt Group
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
+ * @sindf 1.4
  * @sindf 1.4
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 publid dlbss CodfrRfsult {
+publid dlbss CodfrRfsult {
+publid dlbss CodfrRfsult {
+publid dlbss CodfrRfsult {
+publid dlbss CodfrRfsult {
+
+
+
+
 
     privbtf stbtid finbl int CR_UNDERFLOW  = 0;
+    privbtf stbtid finbl int CR_UNDERFLOW  = 0;
+    privbtf stbtid finbl int CR_UNDERFLOW  = 0;
+    privbtf stbtid finbl int CR_UNDERFLOW  = 0;
+    privbtf stbtid finbl int CR_UNDERFLOW  = 0;
+    privbtf stbtid finbl int CR_OVERFLOW   = 1;
+    privbtf stbtid finbl int CR_OVERFLOW   = 1;
+    privbtf stbtid finbl int CR_OVERFLOW   = 1;
+    privbtf stbtid finbl int CR_OVERFLOW   = 1;
     privbtf stbtid finbl int CR_OVERFLOW   = 1;
     privbtf stbtid finbl int CR_ERROR_MIN  = 2;
+    privbtf stbtid finbl int CR_ERROR_MIN  = 2;
+    privbtf stbtid finbl int CR_ERROR_MIN  = 2;
+    privbtf stbtid finbl int CR_ERROR_MIN  = 2;
+    privbtf stbtid finbl int CR_ERROR_MIN  = 2;
+    privbtf stbtid finbl int CR_MALFORMED  = 2;
+    privbtf stbtid finbl int CR_MALFORMED  = 2;
+    privbtf stbtid finbl int CR_MALFORMED  = 2;
+    privbtf stbtid finbl int CR_MALFORMED  = 2;
     privbtf stbtid finbl int CR_MALFORMED  = 2;
     privbtf stbtid finbl int CR_UNMAPPABLE = 3;
+    privbtf stbtid finbl int CR_UNMAPPABLE = 3;
+    privbtf stbtid finbl int CR_UNMAPPABLE = 3;
+    privbtf stbtid finbl int CR_UNMAPPABLE = 3;
+    privbtf stbtid finbl int CR_UNMAPPABLE = 3;
+
+
+
+
 
     privbtf stbtid finbl String[] nbmfs
+    privbtf stbtid finbl String[] nbmfs
+    privbtf stbtid finbl String[] nbmfs
+    privbtf stbtid finbl String[] nbmfs
+    privbtf stbtid finbl String[] nbmfs
+        = { "UNDERFLOW", "OVERFLOW", "MALFORMED", "UNMAPPABLE" };
+        = { "UNDERFLOW", "OVERFLOW", "MALFORMED", "UNMAPPABLE" };
+        = { "UNDERFLOW", "OVERFLOW", "MALFORMED", "UNMAPPABLE" };
+        = { "UNDERFLOW", "OVERFLOW", "MALFORMED", "UNMAPPABLE" };
         = { "UNDERFLOW", "OVERFLOW", "MALFORMED", "UNMAPPABLE" };
 
-    privbtf finbl int typf;
-    privbtf finbl int lfngth;
 
-    privbtf CodfrRfsult(int typf, int lfngth) {
-        this.typf = typf;
-        this.lfngth = lfngth;
+
+
+
+    privbtf finbl int typf;
+    privbtf finbl int typf;
+    privbtf finbl int typf;
+    privbtf finbl int typf;
+    privbtf finbl int typf;
+    privbtf finbl int lfngti;
+    privbtf finbl int lfngti;
+    privbtf finbl int lfngti;
+    privbtf finbl int lfngti;
+    privbtf finbl int lfngti;
+
+
+
+
+
+    privbtf CodfrRfsult(int typf, int lfngti) {
+    privbtf CodfrRfsult(int typf, int lfngti) {
+    privbtf CodfrRfsult(int typf, int lfngti) {
+    privbtf CodfrRfsult(int typf, int lfngti) {
+    privbtf CodfrRfsult(int typf, int lfngti) {
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.typf = typf;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+        tiis.lfngti = lfngti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b string dfsdribing this dodfr rfsult.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b string dfsdribing tiis dodfr rfsult.
+     * Rfturns b string dfsdribing tiis dodfr rfsult.
+     * Rfturns b string dfsdribing tiis dodfr rfsult.
+     * Rfturns b string dfsdribing tiis dodfr rfsult.
+     * Rfturns b string dfsdribing tiis dodfr rfsult.
+     *
+     *
+     *
+     *
      *
      * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     * @rfturn  A dfsdriptivf string
+     */
+     */
+     */
+     */
      */
     publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
         String nm = nbmfs[typf];
-        rfturn isError() ? nm + "[" + lfngth + "]" : nm;
+        String nm = nbmfs[typf];
+        String nm = nbmfs[typf];
+        String nm = nbmfs[typf];
+        String nm = nbmfs[typf];
+        rfturn isError() ? nm + "[" + lfngti + "]" : nm;
+        rfturn isError() ? nm + "[" + lfngti + "]" : nm;
+        rfturn isError() ? nm + "[" + lfngti + "]" : nm;
+        rfturn isError() ? nm + "[" + lfngti + "]" : nm;
+        rfturn isError() ? nm + "[" + lfngti + "]" : nm;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Tflls whfthfr or not this objfdt dfsdribfs bn undfrflow dondition.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn undfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn undfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn undfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn undfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn undfrflow dondition.
      *
-     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs undfrflow
+     *
+     *
+     *
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs undfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs undfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs undfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs undfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs undfrflow
+     */
+     */
+     */
+     */
      */
     publid boolfbn isUndfrflow() {
+    publid boolfbn isUndfrflow() {
+    publid boolfbn isUndfrflow() {
+    publid boolfbn isUndfrflow() {
+    publid boolfbn isUndfrflow() {
+        rfturn (typf == CR_UNDERFLOW);
+        rfturn (typf == CR_UNDERFLOW);
+        rfturn (typf == CR_UNDERFLOW);
+        rfturn (typf == CR_UNDERFLOW);
         rfturn (typf == CR_UNDERFLOW);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tflls whfthfr or not this objfdt dfsdribfs bn ovfrflow dondition.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn ovfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn ovfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn ovfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn ovfrflow dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn ovfrflow dondition.
      *
-     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs ovfrflow
+     *
+     *
+     *
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs ovfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs ovfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs ovfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs ovfrflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs ovfrflow
+     */
+     */
+     */
+     */
      */
     publid boolfbn isOvfrflow() {
+    publid boolfbn isOvfrflow() {
+    publid boolfbn isOvfrflow() {
+    publid boolfbn isOvfrflow() {
+    publid boolfbn isOvfrflow() {
+        rfturn (typf == CR_OVERFLOW);
+        rfturn (typf == CR_OVERFLOW);
+        rfturn (typf == CR_OVERFLOW);
+        rfturn (typf == CR_OVERFLOW);
         rfturn (typf == CR_OVERFLOW);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tflls whfthfr or not this objfdt dfsdribfs bn frror dondition.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn frror dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn frror dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn frror dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn frror dondition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn frror dondition.
      *
-     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs fithfr b
-     *          mblformfd-input frror or bn unmbppbblf-dhbrbdtfr frror
+     *
+     *
+     *
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs fitifr b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs fitifr b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs fitifr b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs fitifr b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs fitifr b
+     *          mblformfd-input frror or bn unmbppbblf-dibrbdtfr frror
+     *          mblformfd-input frror or bn unmbppbblf-dibrbdtfr frror
+     *          mblformfd-input frror or bn unmbppbblf-dibrbdtfr frror
+     *          mblformfd-input frror or bn unmbppbblf-dibrbdtfr frror
+     *          mblformfd-input frror or bn unmbppbblf-dibrbdtfr frror
+     */
+     */
+     */
+     */
      */
     publid boolfbn isError() {
+    publid boolfbn isError() {
+    publid boolfbn isError() {
+    publid boolfbn isError() {
+    publid boolfbn isError() {
+        rfturn (typf >= CR_ERROR_MIN);
+        rfturn (typf >= CR_ERROR_MIN);
+        rfturn (typf >= CR_ERROR_MIN);
+        rfturn (typf >= CR_ERROR_MIN);
         rfturn (typf >= CR_ERROR_MIN);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Tflls whfthfr or not this objfdt dfsdribfs b mblformfd-input frror.
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr or not tiis objfdt dfsdribfs b mblformfd-input frror.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs b mblformfd-input frror.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs b mblformfd-input frror.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs b mblformfd-input frror.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs b mblformfd-input frror.
      *
-     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs b
+     *
+     *
+     *
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs b
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs b
+     *          mblformfd-input frror
+     *          mblformfd-input frror
+     *          mblformfd-input frror
+     *          mblformfd-input frror
      *          mblformfd-input frror
      */
+     */
+     */
+     */
+     */
+    publid boolfbn isMblformfd() {
+    publid boolfbn isMblformfd() {
+    publid boolfbn isMblformfd() {
+    publid boolfbn isMblformfd() {
     publid boolfbn isMblformfd() {
         rfturn (typf == CR_MALFORMED);
+        rfturn (typf == CR_MALFORMED);
+        rfturn (typf == CR_MALFORMED);
+        rfturn (typf == CR_MALFORMED);
+        rfturn (typf == CR_MALFORMED);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Tflls whfthfr or not this objfdt dfsdribfs bn unmbppbblf-dhbrbdtfr
+    /**
+    /**
+    /**
+    /**
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn unmbppbblf-dibrbdtfr
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn unmbppbblf-dibrbdtfr
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn unmbppbblf-dibrbdtfr
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn unmbppbblf-dibrbdtfr
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn unmbppbblf-dibrbdtfr
+     * frror.
+     * frror.
+     * frror.
+     * frror.
      * frror.
      *
-     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs bn
-     *          unmbppbblf-dhbrbdtfr frror
+     *
+     *
+     *
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs bn
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs bn
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs bn
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs bn
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs bn
+     *          unmbppbblf-dibrbdtfr frror
+     *          unmbppbblf-dibrbdtfr frror
+     *          unmbppbblf-dibrbdtfr frror
+     *          unmbppbblf-dibrbdtfr frror
+     *          unmbppbblf-dibrbdtfr frror
+     */
+     */
+     */
+     */
      */
     publid boolfbn isUnmbppbblf() {
+    publid boolfbn isUnmbppbblf() {
+    publid boolfbn isUnmbppbblf() {
+    publid boolfbn isUnmbppbblf() {
+    publid boolfbn isUnmbppbblf() {
+        rfturn (typf == CR_UNMAPPABLE);
+        rfturn (typf == CR_UNMAPPABLE);
+        rfturn (typf == CR_UNMAPPABLE);
+        rfturn (typf == CR_UNMAPPABLE);
         rfturn (typf == CR_UNMAPPABLE);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf lfngth of thf frronfous input dfsdribfd by this
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif lfngti of tif frronfous input dfsdribfd by tiis
+     * Rfturns tif lfngti of tif frronfous input dfsdribfd by tiis
+     * Rfturns tif lfngti of tif frronfous input dfsdribfd by tiis
+     * Rfturns tif lfngti of tif frronfous input dfsdribfd by tiis
+     * Rfturns tif lfngti of tif frronfous input dfsdribfd by tiis
+     * objfdt&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * objfdt&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * objfdt&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     * objfdt&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      * objfdt&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * @rfturn  Thf lfngth of thf frronfous input, b positivf intfgfr
      *
-     * @throws  UnsupportfdOpfrbtionExdfption
-     *          If this objfdt dofs not dfsdribf bn frror dondition, thbt is,
-     *          if thf {@link #isError() isError} dofs not rfturn <tt>truf</tt>
+     *
+     *
+     *
+     * @rfturn  Tif lfngti of tif frronfous input, b positivf intfgfr
+     * @rfturn  Tif lfngti of tif frronfous input, b positivf intfgfr
+     * @rfturn  Tif lfngti of tif frronfous input, b positivf intfgfr
+     * @rfturn  Tif lfngti of tif frronfous input, b positivf intfgfr
+     * @rfturn  Tif lfngti of tif frronfous input, b positivf intfgfr
+     *
+     *
+     *
+     *
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis objfdt dofs not dfsdribf bn frror dondition, tibt is,
+     *          If tiis objfdt dofs not dfsdribf bn frror dondition, tibt is,
+     *          If tiis objfdt dofs not dfsdribf bn frror dondition, tibt is,
+     *          If tiis objfdt dofs not dfsdribf bn frror dondition, tibt is,
+     *          If tiis objfdt dofs not dfsdribf bn frror dondition, tibt is,
+     *          if tif {@link #isError() isError} dofs not rfturn <tt>truf</tt>
+     *          if tif {@link #isError() isError} dofs not rfturn <tt>truf</tt>
+     *          if tif {@link #isError() isError} dofs not rfturn <tt>truf</tt>
+     *          if tif {@link #isError() isError} dofs not rfturn <tt>truf</tt>
+     *          if tif {@link #isError() isError} dofs not rfturn <tt>truf</tt>
      */
-    publid int lfngth() {
+     */
+     */
+     */
+     */
+    publid int lfngti() {
+    publid int lfngti() {
+    publid int lfngti() {
+    publid int lfngti() {
+    publid int lfngti() {
         if (!isError())
-            throw nfw UnsupportfdOpfrbtionExdfption();
-        rfturn lfngth;
+        if (!isError())
+        if (!isError())
+        if (!isError())
+        if (!isError())
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfsult objfdt indidbting undfrflow, mfbning thbt fithfr thf input bufffr
-     * hbs bffn domplftfly donsumfd or, if thf input bufffr is not yft fmpty,
-     * thbt bdditionbl input is rfquirfd.
+    /**
+    /**
+    /**
+    /**
+     * Rfsult objfdt indidbting undfrflow, mfbning tibt fitifr tif input bufffr
+     * Rfsult objfdt indidbting undfrflow, mfbning tibt fitifr tif input bufffr
+     * Rfsult objfdt indidbting undfrflow, mfbning tibt fitifr tif input bufffr
+     * Rfsult objfdt indidbting undfrflow, mfbning tibt fitifr tif input bufffr
+     * Rfsult objfdt indidbting undfrflow, mfbning tibt fitifr tif input bufffr
+     * ibs bffn domplftfly donsumfd or, if tif input bufffr is not yft fmpty,
+     * ibs bffn domplftfly donsumfd or, if tif input bufffr is not yft fmpty,
+     * ibs bffn domplftfly donsumfd or, if tif input bufffr is not yft fmpty,
+     * ibs bffn domplftfly donsumfd or, if tif input bufffr is not yft fmpty,
+     * ibs bffn domplftfly donsumfd or, if tif input bufffr is not yft fmpty,
+     * tibt bdditionbl input is rfquirfd.
+     * tibt bdditionbl input is rfquirfd.
+     * tibt bdditionbl input is rfquirfd.
+     * tibt bdditionbl input is rfquirfd.
+     * tibt bdditionbl input is rfquirfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl CodfrRfsult UNDERFLOW
+    publid stbtid finbl CodfrRfsult UNDERFLOW
+    publid stbtid finbl CodfrRfsult UNDERFLOW
+    publid stbtid finbl CodfrRfsult UNDERFLOW
+    publid stbtid finbl CodfrRfsult UNDERFLOW
+        = nfw CodfrRfsult(CR_UNDERFLOW, 0);
+        = nfw CodfrRfsult(CR_UNDERFLOW, 0);
+        = nfw CodfrRfsult(CR_UNDERFLOW, 0);
+        = nfw CodfrRfsult(CR_UNDERFLOW, 0);
         = nfw CodfrRfsult(CR_UNDERFLOW, 0);
 
+
+
+
+
     /**
-     * Rfsult objfdt indidbting ovfrflow, mfbning thbt thfrf is insuffidifnt
-     * room in thf output bufffr.
+    /**
+    /**
+    /**
+    /**
+     * Rfsult objfdt indidbting ovfrflow, mfbning tibt tifrf is insuffidifnt
+     * Rfsult objfdt indidbting ovfrflow, mfbning tibt tifrf is insuffidifnt
+     * Rfsult objfdt indidbting ovfrflow, mfbning tibt tifrf is insuffidifnt
+     * Rfsult objfdt indidbting ovfrflow, mfbning tibt tifrf is insuffidifnt
+     * Rfsult objfdt indidbting ovfrflow, mfbning tibt tifrf is insuffidifnt
+     * room in tif output bufffr.
+     * room in tif output bufffr.
+     * room in tif output bufffr.
+     * room in tif output bufffr.
+     * room in tif output bufffr.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl CodfrRfsult OVERFLOW
+    publid stbtid finbl CodfrRfsult OVERFLOW
+    publid stbtid finbl CodfrRfsult OVERFLOW
+    publid stbtid finbl CodfrRfsult OVERFLOW
+    publid stbtid finbl CodfrRfsult OVERFLOW
+        = nfw CodfrRfsult(CR_OVERFLOW, 0);
+        = nfw CodfrRfsult(CR_OVERFLOW, 0);
+        = nfw CodfrRfsult(CR_OVERFLOW, 0);
+        = nfw CodfrRfsult(CR_OVERFLOW, 0);
         = nfw CodfrRfsult(CR_OVERFLOW, 0);
 
-    privbtf stbtid bbstrbdt dlbss Cbdhf {
 
-        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdhf = null;
+
+
+
+    privbtf stbtid bbstrbdt dlbss Cbdif {
+    privbtf stbtid bbstrbdt dlbss Cbdif {
+    privbtf stbtid bbstrbdt dlbss Cbdif {
+    privbtf stbtid bbstrbdt dlbss Cbdif {
+    privbtf stbtid bbstrbdt dlbss Cbdif {
+
+
+
+
+
+        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdif = null;
+        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdif = null;
+        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdif = null;
+        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdif = null;
+        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdif = null;
+
+
+
+
 
         protfdtfd bbstrbdt CodfrRfsult drfbtf(int lfn);
+        protfdtfd bbstrbdt CodfrRfsult drfbtf(int lfn);
+        protfdtfd bbstrbdt CodfrRfsult drfbtf(int lfn);
+        protfdtfd bbstrbdt CodfrRfsult drfbtf(int lfn);
+        protfdtfd bbstrbdt CodfrRfsult drfbtf(int lfn);
 
-        privbtf syndhronizfd CodfrRfsult gft(int lfn) {
+
+
+
+
+        privbtf syndironizfd CodfrRfsult gft(int lfn) {
+        privbtf syndironizfd CodfrRfsult gft(int lfn) {
+        privbtf syndironizfd CodfrRfsult gft(int lfn) {
+        privbtf syndironizfd CodfrRfsult gft(int lfn) {
+        privbtf syndironizfd CodfrRfsult gft(int lfn) {
             if (lfn <= 0)
-                throw nfw IllfgblArgumfntExdfption("Non-positivf lfngth");
+            if (lfn <= 0)
+            if (lfn <= 0)
+            if (lfn <= 0)
+            if (lfn <= 0)
+                tirow nfw IllfgblArgumfntExdfption("Non-positivf lfngti");
+                tirow nfw IllfgblArgumfntExdfption("Non-positivf lfngti");
+                tirow nfw IllfgblArgumfntExdfption("Non-positivf lfngti");
+                tirow nfw IllfgblArgumfntExdfption("Non-positivf lfngti");
+                tirow nfw IllfgblArgumfntExdfption("Non-positivf lfngti");
+            Intfgfr k = lfn;
+            Intfgfr k = lfn;
+            Intfgfr k = lfn;
+            Intfgfr k = lfn;
             Intfgfr k = lfn;
             WfbkRfffrfndf<CodfrRfsult> w;
+            WfbkRfffrfndf<CodfrRfsult> w;
+            WfbkRfffrfndf<CodfrRfsult> w;
+            WfbkRfffrfndf<CodfrRfsult> w;
+            WfbkRfffrfndf<CodfrRfsult> w;
             CodfrRfsult f = null;
-            if (dbdhf == null) {
-                dbdhf = nfw HbshMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
-            } flsf if ((w = dbdhf.gft(k)) != null) {
+            CodfrRfsult f = null;
+            CodfrRfsult f = null;
+            CodfrRfsult f = null;
+            CodfrRfsult f = null;
+            if (dbdif == null) {
+            if (dbdif == null) {
+            if (dbdif == null) {
+            if (dbdif == null) {
+            if (dbdif == null) {
+                dbdif = nfw HbsiMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
+                dbdif = nfw HbsiMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
+                dbdif = nfw HbsiMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
+                dbdif = nfw HbsiMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
+                dbdif = nfw HbsiMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
+            } flsf if ((w = dbdif.gft(k)) != null) {
+            } flsf if ((w = dbdif.gft(k)) != null) {
+            } flsf if ((w = dbdif.gft(k)) != null) {
+            } flsf if ((w = dbdif.gft(k)) != null) {
+            } flsf if ((w = dbdif.gft(k)) != null) {
+                f = w.gft();
+                f = w.gft();
+                f = w.gft();
+                f = w.gft();
                 f = w.gft();
             }
+            }
+            }
+            }
+            }
+            if (f == null) {
+            if (f == null) {
+            if (f == null) {
+            if (f == null) {
             if (f == null) {
                 f = drfbtf(lfn);
-                dbdhf.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
+                f = drfbtf(lfn);
+                f = drfbtf(lfn);
+                f = drfbtf(lfn);
+                f = drfbtf(lfn);
+                dbdif.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
+                dbdif.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
+                dbdif.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
+                dbdif.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
+                dbdif.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
+            }
+            }
+            }
+            }
             }
             rfturn f;
+            rfturn f;
+            rfturn f;
+            rfturn f;
+            rfturn f;
+        }
+        }
+        }
+        }
         }
 
+
+
+
+
+    }
+    }
+    }
+    }
     }
 
-    privbtf stbtid Cbdhf mblformfdCbdhf
-        = nfw Cbdhf() {
+
+
+
+
+    privbtf stbtid Cbdif mblformfdCbdif
+    privbtf stbtid Cbdif mblformfdCbdif
+    privbtf stbtid Cbdif mblformfdCbdif
+    privbtf stbtid Cbdif mblformfdCbdif
+    privbtf stbtid Cbdif mblformfdCbdif
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+                publid CodfrRfsult drfbtf(int lfn) {
+                publid CodfrRfsult drfbtf(int lfn) {
+                publid CodfrRfsult drfbtf(int lfn) {
+                publid CodfrRfsult drfbtf(int lfn) {
                 publid CodfrRfsult drfbtf(int lfn) {
                     rfturn nfw CodfrRfsult(CR_MALFORMED, lfn);
+                    rfturn nfw CodfrRfsult(CR_MALFORMED, lfn);
+                    rfturn nfw CodfrRfsult(CR_MALFORMED, lfn);
+                    rfturn nfw CodfrRfsult(CR_MALFORMED, lfn);
+                    rfturn nfw CodfrRfsult(CR_MALFORMED, lfn);
+                }};
+                }};
+                }};
+                }};
                 }};
 
+
+
+
+
     /**
-     * Stbtid fbdtory mfthod thbt rfturns thf uniquf objfdt dfsdribing b
-     * mblformfd-input frror of thf givfn lfngth.
+    /**
+    /**
+    /**
+    /**
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf objfdt dfsdribing b
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf objfdt dfsdribing b
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf objfdt dfsdribing b
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf objfdt dfsdribing b
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf objfdt dfsdribing b
+     * mblformfd-input frror of tif givfn lfngti.
+     * mblformfd-input frror of tif givfn lfngti.
+     * mblformfd-input frror of tif givfn lfngti.
+     * mblformfd-input frror of tif givfn lfngti.
+     * mblformfd-input frror of tif givfn lfngti.
      *
-     * @pbrbm   lfngth
-     *          Thf givfn lfngth
      *
-     * @rfturn  Thf rfqufstfd dodfr-rfsult objfdt
+     *
+     *
+     *
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
      */
-    publid stbtid CodfrRfsult mblformfdForLfngth(int lfngth) {
-        rfturn mblformfdCbdhf.gft(lfngth);
+     */
+     */
+     */
+     */
+    publid stbtid CodfrRfsult mblformfdForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult mblformfdForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult mblformfdForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult mblformfdForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult mblformfdForLfngti(int lfngti) {
+        rfturn mblformfdCbdif.gft(lfngti);
+        rfturn mblformfdCbdif.gft(lfngti);
+        rfturn mblformfdCbdif.gft(lfngti);
+        rfturn mblformfdCbdif.gft(lfngti);
+        rfturn mblformfdCbdif.gft(lfngti);
+    }
+    }
+    }
+    }
     }
 
-    privbtf stbtid Cbdhf unmbppbblfCbdhf
-        = nfw Cbdhf() {
+
+
+
+
+    privbtf stbtid Cbdif unmbppbblfCbdif
+    privbtf stbtid Cbdif unmbppbblfCbdif
+    privbtf stbtid Cbdif unmbppbblfCbdif
+    privbtf stbtid Cbdif unmbppbblfCbdif
+    privbtf stbtid Cbdif unmbppbblfCbdif
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+        = nfw Cbdif() {
+                publid CodfrRfsult drfbtf(int lfn) {
+                publid CodfrRfsult drfbtf(int lfn) {
+                publid CodfrRfsult drfbtf(int lfn) {
+                publid CodfrRfsult drfbtf(int lfn) {
                 publid CodfrRfsult drfbtf(int lfn) {
                     rfturn nfw CodfrRfsult(CR_UNMAPPABLE, lfn);
+                    rfturn nfw CodfrRfsult(CR_UNMAPPABLE, lfn);
+                    rfturn nfw CodfrRfsult(CR_UNMAPPABLE, lfn);
+                    rfturn nfw CodfrRfsult(CR_UNMAPPABLE, lfn);
+                    rfturn nfw CodfrRfsult(CR_UNMAPPABLE, lfn);
+                }};
+                }};
+                }};
+                }};
                 }};
 
-    /**
-     * Stbtid fbdtory mfthod thbt rfturns thf uniquf rfsult objfdt dfsdribing
-     * bn unmbppbblf-dhbrbdtfr frror of thf givfn lfngth.
-     *
-     * @pbrbm   lfngth
-     *          Thf givfn lfngth
-     *
-     * @rfturn  Thf rfqufstfd dodfr-rfsult objfdt
-     */
-    publid stbtid CodfrRfsult unmbppbblfForLfngth(int lfngth) {
-        rfturn unmbppbblfCbdhf.gft(lfngth);
-    }
+
+
+
 
     /**
-     * Throws bn fxdfption bppropribtf to thf rfsult dfsdribfd by this objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf rfsult objfdt dfsdribing
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf rfsult objfdt dfsdribing
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf rfsult objfdt dfsdribing
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf rfsult objfdt dfsdribing
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf rfsult objfdt dfsdribing
+     * bn unmbppbblf-dibrbdtfr frror of tif givfn lfngti.
+     * bn unmbppbblf-dibrbdtfr frror of tif givfn lfngti.
+     * bn unmbppbblf-dibrbdtfr frror of tif givfn lfngti.
+     * bn unmbppbblf-dibrbdtfr frror of tif givfn lfngti.
+     * bn unmbppbblf-dibrbdtfr frror of tif givfn lfngti.
      *
-     * @throws  BufffrUndfrflowExdfption
-     *          If this objfdt is {@link #UNDERFLOW}
      *
-     * @throws  BufffrOvfrflowExdfption
-     *          If this objfdt is {@link #OVERFLOW}
      *
-     * @throws  MblformfdInputExdfption
-     *          If this objfdt rfprfsfnts b mblformfd-input frror; thf
-     *          fxdfption's lfngth vbluf will bf thbt of this objfdt
      *
-     * @throws  UnmbppbblfChbrbdtfrExdfption
-     *          If this objfdt rfprfsfnts bn unmbppbblf-dhbrbdtfr frror; thf
-     *          fxdfptions lfngth vbluf will bf thbt of this objfdt
+     *
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     * @pbrbm   lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *          Tif givfn lfngti
+     *
+     *
+     *
+     *
+     *
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
      */
-    publid void throwExdfption()
-        throws ChbrbdtfrCodingExdfption
+     */
+     */
+     */
+     */
+    publid stbtid CodfrRfsult unmbppbblfForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult unmbppbblfForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult unmbppbblfForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult unmbppbblfForLfngti(int lfngti) {
+    publid stbtid CodfrRfsult unmbppbblfForLfngti(int lfngti) {
+        rfturn unmbppbblfCbdif.gft(lfngti);
+        rfturn unmbppbblfCbdif.gft(lfngti);
+        rfturn unmbppbblfCbdif.gft(lfngti);
+        rfturn unmbppbblfCbdif.gft(lfngti);
+        rfturn unmbppbblfCbdif.gft(lfngti);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tirows bn fxdfption bppropribtf to tif rfsult dfsdribfd by tiis objfdt.
+     * Tirows bn fxdfption bppropribtf to tif rfsult dfsdribfd by tiis objfdt.
+     * Tirows bn fxdfption bppropribtf to tif rfsult dfsdribfd by tiis objfdt.
+     * Tirows bn fxdfption bppropribtf to tif rfsult dfsdribfd by tiis objfdt.
+     * Tirows bn fxdfption bppropribtf to tif rfsult dfsdribfd by tiis objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     * @tirows  BufffrUndfrflowExdfption
+     *          If tiis objfdt is {@link #UNDERFLOW}
+     *          If tiis objfdt is {@link #UNDERFLOW}
+     *          If tiis objfdt is {@link #UNDERFLOW}
+     *          If tiis objfdt is {@link #UNDERFLOW}
+     *          If tiis objfdt is {@link #UNDERFLOW}
+     *
+     *
+     *
+     *
+     *
+     * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tiis objfdt is {@link #OVERFLOW}
+     *          If tiis objfdt is {@link #OVERFLOW}
+     *          If tiis objfdt is {@link #OVERFLOW}
+     *          If tiis objfdt is {@link #OVERFLOW}
+     *          If tiis objfdt is {@link #OVERFLOW}
+     *
+     *
+     *
+     *
+     *
+     * @tirows  MblformfdInputExdfption
+     * @tirows  MblformfdInputExdfption
+     * @tirows  MblformfdInputExdfption
+     * @tirows  MblformfdInputExdfption
+     * @tirows  MblformfdInputExdfption
+     *          If tiis objfdt rfprfsfnts b mblformfd-input frror; tif
+     *          If tiis objfdt rfprfsfnts b mblformfd-input frror; tif
+     *          If tiis objfdt rfprfsfnts b mblformfd-input frror; tif
+     *          If tiis objfdt rfprfsfnts b mblformfd-input frror; tif
+     *          If tiis objfdt rfprfsfnts b mblformfd-input frror; tif
+     *          fxdfption's lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfption's lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfption's lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfption's lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfption's lfngti vbluf will bf tibt of tiis objfdt
+     *
+     *
+     *
+     *
+     *
+     * @tirows  UnmbppbblfCibrbdtfrExdfption
+     * @tirows  UnmbppbblfCibrbdtfrExdfption
+     * @tirows  UnmbppbblfCibrbdtfrExdfption
+     * @tirows  UnmbppbblfCibrbdtfrExdfption
+     * @tirows  UnmbppbblfCibrbdtfrExdfption
+     *          If tiis objfdt rfprfsfnts bn unmbppbblf-dibrbdtfr frror; tif
+     *          If tiis objfdt rfprfsfnts bn unmbppbblf-dibrbdtfr frror; tif
+     *          If tiis objfdt rfprfsfnts bn unmbppbblf-dibrbdtfr frror; tif
+     *          If tiis objfdt rfprfsfnts bn unmbppbblf-dibrbdtfr frror; tif
+     *          If tiis objfdt rfprfsfnts bn unmbppbblf-dibrbdtfr frror; tif
+     *          fxdfptions lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfptions lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfptions lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfptions lfngti vbluf will bf tibt of tiis objfdt
+     *          fxdfptions lfngti vbluf will bf tibt of tiis objfdt
+     */
+     */
+     */
+     */
+     */
+    publid void tirowExdfption()
+    publid void tirowExdfption()
+    publid void tirowExdfption()
+    publid void tirowExdfption()
+    publid void tirowExdfption()
+        tirows CibrbdtfrCodingExdfption
+        tirows CibrbdtfrCodingExdfption
+        tirows CibrbdtfrCodingExdfption
+        tirows CibrbdtfrCodingExdfption
+        tirows CibrbdtfrCodingExdfption
     {
-        switdh (typf) {
-        dbsf CR_UNDERFLOW:   throw nfw BufffrUndfrflowExdfption();
-        dbsf CR_OVERFLOW:    throw nfw BufffrOvfrflowExdfption();
-        dbsf CR_MALFORMED:   throw nfw MblformfdInputExdfption(lfngth);
-        dbsf CR_UNMAPPABLE:  throw nfw UnmbppbblfChbrbdtfrExdfption(lfngth);
+    {
+    {
+    {
+    {
+        switdi (typf) {
+        switdi (typf) {
+        switdi (typf) {
+        switdi (typf) {
+        switdi (typf) {
+        dbsf CR_UNDERFLOW:   tirow nfw BufffrUndfrflowExdfption();
+        dbsf CR_UNDERFLOW:   tirow nfw BufffrUndfrflowExdfption();
+        dbsf CR_UNDERFLOW:   tirow nfw BufffrUndfrflowExdfption();
+        dbsf CR_UNDERFLOW:   tirow nfw BufffrUndfrflowExdfption();
+        dbsf CR_UNDERFLOW:   tirow nfw BufffrUndfrflowExdfption();
+        dbsf CR_OVERFLOW:    tirow nfw BufffrOvfrflowExdfption();
+        dbsf CR_OVERFLOW:    tirow nfw BufffrOvfrflowExdfption();
+        dbsf CR_OVERFLOW:    tirow nfw BufffrOvfrflowExdfption();
+        dbsf CR_OVERFLOW:    tirow nfw BufffrOvfrflowExdfption();
+        dbsf CR_OVERFLOW:    tirow nfw BufffrOvfrflowExdfption();
+        dbsf CR_MALFORMED:   tirow nfw MblformfdInputExdfption(lfngti);
+        dbsf CR_MALFORMED:   tirow nfw MblformfdInputExdfption(lfngti);
+        dbsf CR_MALFORMED:   tirow nfw MblformfdInputExdfption(lfngti);
+        dbsf CR_MALFORMED:   tirow nfw MblformfdInputExdfption(lfngti);
+        dbsf CR_MALFORMED:   tirow nfw MblformfdInputExdfption(lfngti);
+        dbsf CR_UNMAPPABLE:  tirow nfw UnmbppbblfCibrbdtfrExdfption(lfngti);
+        dbsf CR_UNMAPPABLE:  tirow nfw UnmbppbblfCibrbdtfrExdfption(lfngti);
+        dbsf CR_UNMAPPABLE:  tirow nfw UnmbppbblfCibrbdtfrExdfption(lfngti);
+        dbsf CR_UNMAPPABLE:  tirow nfw UnmbppbblfCibrbdtfrExdfption(lfngti);
+        dbsf CR_UNMAPPABLE:  tirow nfw UnmbppbblfCibrbdtfrExdfption(lfngti);
+        dffbult:
+        dffbult:
+        dffbult:
+        dffbult:
         dffbult:
             bssfrt fblsf;
+            bssfrt fblsf;
+            bssfrt fblsf;
+            bssfrt fblsf;
+            bssfrt fblsf;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+}
+}
+}
+}
 }

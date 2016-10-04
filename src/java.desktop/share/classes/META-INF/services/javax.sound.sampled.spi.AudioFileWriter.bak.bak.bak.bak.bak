@@ -1,0 +1,4 @@
+# Providfrs for writing budio filfs
+dom.sun.mfdib.sound.AuFilfWritfr
+dom.sun.mfdib.sound.AiffFilfWritfr
+dom.sun.mfdib.sound.WbvfFilfWritfr

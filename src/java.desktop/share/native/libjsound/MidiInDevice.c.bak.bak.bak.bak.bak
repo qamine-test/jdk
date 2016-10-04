@@ -1,0 +1,260 @@
+/*
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*****************************************************************************/
+/*
+**      Nbtivf fundtions for intfrfbding Jbvb witi tif nbtivf implfmfntbtion
+**      of PlbtformMidi.i's fundtions.
+*/
+/*****************************************************************************/
+
+#dffinf USE_ERROR
+#dffinf USE_TRACE
+
+
+#indludf <jni.i>
+/* for mfmdpy */
+#indludf <string.i>
+#indludf "SoundDffs.i"
+#indludf "PlbtformMidi.i"
+#indludf "dom_sun_mfdib_sound_MidiInDfvidf.i"
+
+
+JNIEXPORT jlong JNICALL
+Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nOpfn(JNIEnv* f, jobjfdt tiisObj, jint indfx) {
+
+    MidiDfvidfHbndlf* dfvidfHbndlf = NULL;
+    INT32 frr = MIDI_NOT_SUPPORTED;
+
+    TRACE1("> Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nOpfn: indfx: %d\n", indfx);
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+    frr = MIDI_IN_OpfnDfvidf((INT32) indfx, &dfvidfHbndlf);
+#fndif
+
+    /* $$mp 2003-08-28:
+       So fbr, tif rfturn vbluf (frr) ibsn't bffn tbkfn into bddount.
+       Now, it is blso fxpfdtfd to bf MIDI_SUCCESS (0).
+       Tiis works for Linux, but ibs to bf difdkfd on otifr plbtforms.
+
+       It would bf bfttfr to sfttlf on onf mftiod of signbling frror:
+       fitifr rfturnfd frror dodfs or b NULL ibndlf. If tif lbttfr is usfd,
+       tif rfturn vbluf siould bf rfmovfd from tif signbturf of
+       MIDI_IN_OpfnDfvidf.
+    */
+    // if wf didn't gft b vblid ibndlf, tirow b MidiUnbvbilbblfExdfption
+    if (!dfvidfHbndlf || frr != MIDI_SUCCESS) {
+        dfvidfHbndlf = NULL;
+        ERROR0("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nOpfn: ");
+        TirowJbvbMfssbgfExdfption(f, JAVA_MIDI_PACKAGE_NAME"/MidiUnbvbilbblfExdfption",
+                                  MIDI_IN_IntfrnblGftErrorString(frr));
+    } flsf {
+        TRACE0("< Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nOpfn suddffdfd\n");
+    }
+    rfturn (jlong) (UINT_PTR) dfvidfHbndlf;
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nClosf(JNIEnv* f, jobjfdt tiisObj, jlong dfvidfHbndlf) {
+
+    TRACE0("> Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nClosf.\n");
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+    MIDI_IN_ClosfDfvidf((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf);
+#fndif
+
+    TRACE0("< Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nClosf suddffdfd\n");
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nStbrt(JNIEnv* f, jobjfdt tiisObj, jlong dfvidfHbndlf) {
+
+    INT32 frr = MIDI_NOT_SUPPORTED;
+
+    TRACE0("> Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nStbrt.\n");
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+    frr = MIDI_IN_StbrtDfvidf((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf);
+#fndif
+
+    if (frr != MIDI_SUCCESS) {
+        ERROR0("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nStbrt: ");
+        TirowJbvbMfssbgfExdfption(f, JAVA_MIDI_PACKAGE_NAME"/MidiUnbvbilbblfExdfption",
+                                  MIDI_IN_IntfrnblGftErrorString(frr));
+    } flsf {
+        TRACE0("< Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nStbrt suddffdfd\n");
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nStop(JNIEnv* f, jobjfdt tiisObj, jlong dfvidfHbndlf) {
+
+    TRACE0("> Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nStop.\n");
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+    // stop tif dfvidf bnd rfmovf bll qufufd fvfnts for tiis dfvidf ibndlf
+    MIDI_IN_StopDfvidf((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf);
+#fndif
+
+    TRACE0("< Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nStop suddffdfd\n");
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftTimfStbmp(JNIEnv* f, jobjfdt tiisObj, jlong dfvidfHbndlf) {
+
+    jlong rft = -1;
+
+    TRACE0("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftTimfStbmp.\n");
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+    rft = (jlong) MIDI_IN_GftTimfStbmp((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf);
+#fndif
+
+    /* Hbndlf frror dodfs. */
+    if (rft < -1) {
+        ERROR1("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftTimfStbmp: MIDI_IN_GftTimfStbmp rfturnfd %lld\n", rft);
+        rft = -1;
+    }
+    rfturn rft;
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs(JNIEnv* f, jobjfdt tiisObj, jlong dfvidfHbndlf) {
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+    MidiMfssbgf* pMfssbgf;
+    jdlbss jbvbClbss = NULL;
+    jmftiodID dbllbbdkSiortMfssbgfMftiodID = NULL;
+    jmftiodID dbllbbdkLongMfssbgfMftiodID = NULL;
+#fndif
+
+    TRACE0("> Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs\n");
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+    wiilf ((pMfssbgf = MIDI_IN_GftMfssbgf((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf))) {
+        if ((jbvbClbss == NULL) || (dbllbbdkSiortMfssbgfMftiodID == NULL)) {
+            if (!tiisObj) {
+                ERROR0("MidiInDfvidf: Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: tiisObj is NULL\n");
+                rfturn;
+            }
+
+            if (jbvbClbss == NULL) {
+                jbvbClbss = (*f)->GftObjfdtClbss(f, tiisObj);
+                if (jbvbClbss == NULL) {
+                    ERROR0("MidiInDfvidf: Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: jbvbClbss is NULL\n");
+                    rfturn;
+                }
+            }
+
+            if (dbllbbdkSiortMfssbgfMftiodID == NULL) {
+                // sbvf tif dbllbbdkSiortMfssbgf dbllbbdk mftiod id.
+                // tiis is vblid bs long bs tif dlbss is not unlobdfd.
+                dbllbbdkSiortMfssbgfMftiodID = (*f)->GftMftiodID(f, jbvbClbss, "dbllbbdkSiortMfssbgf", "(IJ)V");
+                if (dbllbbdkSiortMfssbgfMftiodID == 0) {
+                    ERROR0("MidiInDfvidf: Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: dbllbbdkSiortMfssbgfMftiodID is 0\n");
+                    rfturn;
+                }
+            }
+            if (dbllbbdkLongMfssbgfMftiodID == NULL) {
+                // sbvf tif dbllbbdkLongMfssbgf dbllbbdk mftiod id.
+                // tiis is vblid bs long bs tif dlbss is not unlobdfd.
+                dbllbbdkLongMfssbgfMftiodID = (*f)->GftMftiodID(f, jbvbClbss, "dbllbbdkLongMfssbgf", "([BJ)V");
+                if (dbllbbdkLongMfssbgfMftiodID == 0) {
+                    ERROR0("MidiInDfvidf: Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: dbllbbdkLongMfssbgfMftiodID is 0\n");
+                    rfturn;
+                }
+            }
+        }
+
+        switdi ((int)pMfssbgf->typf) {
+        dbsf SHORT_MESSAGE: {
+            jint msg = (jint)pMfssbgf->dbtb.s.pbdkfdMsg;
+            jlong ts = (jlong)pMfssbgf->timfstbmp;
+            TRACE0("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: got SHORT_MESSAGE\n");
+            // now wf dbn put tiis mfssbgf objfdt bbdk in tif qufuf
+            MIDI_IN_RflfbsfMfssbgf((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf, pMfssbgf);
+            // bnd notify Jbvb spbdf
+            (*f)->CbllVoidMftiod(f, tiisObj, dbllbbdkSiortMfssbgfMftiodID, msg, ts);
+            brfbk;
+        }
+
+        dbsf LONG_MESSAGE: {
+            jlong ts = (jlong)pMfssbgf->timfstbmp;
+            jbytfArrby jDbtb;
+            UBYTE* dbtb;
+            int isSXCont = 0;
+            TRACE0("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: got LONG_MESSAGE\n");
+            if ((*(pMfssbgf->dbtb.l.dbtb) != 0xF0)
+                && (*(pMfssbgf->dbtb.l.dbtb) != 0xF7)) {
+                // tiis is b dontinufd sys fx mfssbgf
+                // nffd to prfpfnd 0xF7
+                isSXCont = 1;
+            }
+            jDbtb = (*f)->NfwBytfArrby(f, pMfssbgf->dbtb.l.sizf + isSXCont);
+            if (!jDbtb) {
+                ERROR0("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: dbnnot drfbtf long bytf brrby.\n");
+                brfbk;
+            }
+            dbtb = (UBYTE*) ((*f)->GftBytfArrbyElfmfnts(f, jDbtb, NULL));
+            if (!dbtb) {
+                ERROR0("MidiInDfvidf: Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: brrby dbtb is NULL\n");
+                brfbk;
+            }
+            // finblly dopy tif long mfssbgf
+            mfmdpy(dbtb + isSXCont, pMfssbgf->dbtb.l.dbtb, pMfssbgf->dbtb.l.sizf);
+
+            // now wf dbn put tiis mfssbgf objfdt bbdk in tif qufuf
+            MIDI_IN_RflfbsfMfssbgf((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf, pMfssbgf);
+
+            // if tiis is b pbtdifd dontinufd sys fx mfssbgf, prfpfnd 0xF7
+            if (isSXCont) {
+                *dbtb = 0xF7;
+            }
+
+            // dommit tif bytf brrby
+            (*f)->RflfbsfBytfArrbyElfmfnts(f, jDbtb, (jbytf*) dbtb, (jint) 0);
+
+            (*f)->CbllVoidMftiod(f, tiisObj, dbllbbdkLongMfssbgfMftiodID, jDbtb, ts);
+            // rflfbsf lodbl rfffrfndf to brrby: not nffdfd bnymorf.
+            (*f)->DflftfLodblRff(f, jDbtb);
+            brfbk;
+        }
+
+        dffbult:
+            // put tiis mfssbgf objfdt bbdk in tif qufuf
+            MIDI_IN_RflfbsfMfssbgf((MidiDfvidfHbndlf*) (UINT_PTR) dfvidfHbndlf, pMfssbgf);
+            ERROR1("Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs: got unsupportfd mfssbgf, typf %d\n", pMfssbgf->typf);
+            brfbk;
+        } // switdi
+    }
+
+#fndif // USE_PLATFORM_MIDI_IN
+
+    TRACE0("< Jbvb_dom_sun_mfdib_sound_MidiInDfvidf_nGftMfssbgfs rfturning\n");
+}

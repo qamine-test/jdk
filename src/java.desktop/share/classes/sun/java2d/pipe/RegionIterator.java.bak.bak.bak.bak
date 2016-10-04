@@ -1,101 +1,505 @@
 /*
- * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+pbdkbgf sun.jbvb2d.pipf;
+
+
+
+
 
 import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+
+
+
+
 
 /**
- * This dlbss dffinfs thf API for itfrbting through thf bbnds
+/**
+/**
+/**
+/**
+ * Tiis dlbss dffinfs tif API for itfrbting tirougi tif bbnds
+ * Tiis dlbss dffinfs tif API for itfrbting tirougi tif bbnds
+ * Tiis dlbss dffinfs tif API for itfrbting tirougi tif bbnds
+ * Tiis dlbss dffinfs tif API for itfrbting tirougi tif bbnds
+ * Tiis dlbss dffinfs tif API for itfrbting tirougi tif bbnds
+ * of b rfgion objfdt.
+ * of b rfgion objfdt.
+ * of b rfgion objfdt.
+ * of b rfgion objfdt.
  * of b rfgion objfdt.
  */
+ */
+ */
+ */
+ */
+publid dlbss RfgionItfrbtor {
+publid dlbss RfgionItfrbtor {
+publid dlbss RfgionItfrbtor {
+publid dlbss RfgionItfrbtor {
 publid dlbss RfgionItfrbtor {
     Rfgion rfgion;
+    Rfgion rfgion;
+    Rfgion rfgion;
+    Rfgion rfgion;
+    Rfgion rfgion;
+    int durIndfx;
+    int durIndfx;
+    int durIndfx;
+    int durIndfx;
     int durIndfx;
     int numXbbnds;
+    int numXbbnds;
+    int numXbbnds;
+    int numXbbnds;
+    int numXbbnds;
+
+
+
+
 
     RfgionItfrbtor(Rfgion r) {
+    RfgionItfrbtor(Rfgion r) {
+    RfgionItfrbtor(Rfgion r) {
+    RfgionItfrbtor(Rfgion r) {
+    RfgionItfrbtor(Rfgion r) {
+        rfgion = r;
+        rfgion = r;
+        rfgion = r;
+        rfgion = r;
         rfgion = r;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting thf sbmf
-     * itfrbtion stbtf bs this objfdt to bllow multiplf itfrbtion
-     * brbndhfs from thf durrfnt position.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting tif sbmf
+     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting tif sbmf
+     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting tif sbmf
+     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting tif sbmf
+     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting tif sbmf
+     * itfrbtion stbtf bs tiis objfdt to bllow multiplf itfrbtion
+     * itfrbtion stbtf bs tiis objfdt to bllow multiplf itfrbtion
+     * itfrbtion stbtf bs tiis objfdt to bllow multiplf itfrbtion
+     * itfrbtion stbtf bs tiis objfdt to bllow multiplf itfrbtion
+     * itfrbtion stbtf bs tiis objfdt to bllow multiplf itfrbtion
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     */
+     */
+     */
+     */
      */
     publid RfgionItfrbtor drfbtfCopy() {
+    publid RfgionItfrbtor drfbtfCopy() {
+    publid RfgionItfrbtor drfbtfCopy() {
+    publid RfgionItfrbtor drfbtfCopy() {
+    publid RfgionItfrbtor drfbtfCopy() {
         RfgionItfrbtor r = nfw RfgionItfrbtor(rfgion);
-        r.durIndfx = this.durIndfx;
-        r.numXbbnds = this.numXbbnds;
+        RfgionItfrbtor r = nfw RfgionItfrbtor(rfgion);
+        RfgionItfrbtor r = nfw RfgionItfrbtor(rfgion);
+        RfgionItfrbtor r = nfw RfgionItfrbtor(rfgion);
+        RfgionItfrbtor r = nfw RfgionItfrbtor(rfgion);
+        r.durIndfx = tiis.durIndfx;
+        r.durIndfx = tiis.durIndfx;
+        r.durIndfx = tiis.durIndfx;
+        r.durIndfx = tiis.durIndfx;
+        r.durIndfx = tiis.durIndfx;
+        r.numXbbnds = tiis.numXbbnds;
+        r.numXbbnds = tiis.numXbbnds;
+        r.numXbbnds = tiis.numXbbnds;
+        r.numXbbnds = tiis.numXbbnds;
+        r.numXbbnds = tiis.numXbbnds;
+        rfturn r;
+        rfturn r;
+        rfturn r;
+        rfturn r;
         rfturn r;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Copifs thf itfrbtion stbtf from this RfgionItfrbtor objfdt
-     * into bnothfr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
-     * brbndhfs from thf durrfnt position.
+    /**
+    /**
+    /**
+    /**
+     * Copifs tif itfrbtion stbtf from tiis RfgionItfrbtor objfdt
+     * Copifs tif itfrbtion stbtf from tiis RfgionItfrbtor objfdt
+     * Copifs tif itfrbtion stbtf from tiis RfgionItfrbtor objfdt
+     * Copifs tif itfrbtion stbtf from tiis RfgionItfrbtor objfdt
+     * Copifs tif itfrbtion stbtf from tiis RfgionItfrbtor objfdt
+     * into bnotifr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
+     * into bnotifr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
+     * into bnotifr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
+     * into bnotifr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
+     * into bnotifr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     * brbndifs from tif durrfnt position.
+     */
+     */
+     */
+     */
      */
     publid void dopyStbtfFrom(RfgionItfrbtor ri) {
-        if (this.rfgion != ri.rfgion) {
-            throw nfw IntfrnblError("rfgion mismbtdh");
+    publid void dopyStbtfFrom(RfgionItfrbtor ri) {
+    publid void dopyStbtfFrom(RfgionItfrbtor ri) {
+    publid void dopyStbtfFrom(RfgionItfrbtor ri) {
+    publid void dopyStbtfFrom(RfgionItfrbtor ri) {
+        if (tiis.rfgion != ri.rfgion) {
+        if (tiis.rfgion != ri.rfgion) {
+        if (tiis.rfgion != ri.rfgion) {
+        if (tiis.rfgion != ri.rfgion) {
+        if (tiis.rfgion != ri.rfgion) {
+            tirow nfw IntfrnblError("rfgion mismbtdi");
+            tirow nfw IntfrnblError("rfgion mismbtdi");
+            tirow nfw IntfrnblError("rfgion mismbtdi");
+            tirow nfw IntfrnblError("rfgion mismbtdi");
+            tirow nfw IntfrnblError("rfgion mismbtdi");
         }
-        this.durIndfx = ri.durIndfx;
-        this.numXbbnds = ri.numXbbnds;
+        }
+        }
+        }
+        }
+        tiis.durIndfx = ri.durIndfx;
+        tiis.durIndfx = ri.durIndfx;
+        tiis.durIndfx = ri.durIndfx;
+        tiis.durIndfx = ri.durIndfx;
+        tiis.durIndfx = ri.durIndfx;
+        tiis.numXbbnds = ri.numXbbnds;
+        tiis.numXbbnds = ri.numXbbnds;
+        tiis.numXbbnds = ri.numXbbnds;
+        tiis.numXbbnds = ri.numXbbnds;
+        tiis.numXbbnds = ri.numXbbnds;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Movfs thf itfrbtion stbtf to thf bfginning of thf nfxt
-     * Y rbngf in thf rfgion rfturning truf if onf is found
-     * bnd rfdording thf low bnd high Y doordinbtfs of thf
-     * rbngf in thf brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
+    /**
+    /**
+    /**
+    /**
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Y rbngf in tif rfgion rfturning truf if onf is found
+     * Y rbngf in tif rfgion rfturning truf if onf is found
+     * Y rbngf in tif rfgion rfturning truf if onf is found
+     * Y rbngf in tif rfgion rfturning truf if onf is found
+     * Y rbngf in tif rfgion rfturning truf if onf is found
+     * bnd rfdording tif low bnd iigi Y doordinbtfs of tif
+     * bnd rfdording tif low bnd iigi Y doordinbtfs of tif
+     * bnd rfdording tif low bnd iigi Y doordinbtfs of tif
+     * bnd rfdording tif low bnd iigi Y doordinbtfs of tif
+     * bnd rfdording tif low bnd iigi Y doordinbtfs of tif
+     * rbngf in tif brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
+     * rbngf in tif brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
+     * rbngf in tif brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
+     * rbngf in tif brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
+     * rbngf in tif brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
+     */
+     */
+     */
+     */
      */
     publid boolfbn nfxtYRbngf(int rbngf[]) {
+    publid boolfbn nfxtYRbngf(int rbngf[]) {
+    publid boolfbn nfxtYRbngf(int rbngf[]) {
+    publid boolfbn nfxtYRbngf(int rbngf[]) {
+    publid boolfbn nfxtYRbngf(int rbngf[]) {
+        durIndfx += numXbbnds * 2;
+        durIndfx += numXbbnds * 2;
+        durIndfx += numXbbnds * 2;
+        durIndfx += numXbbnds * 2;
         durIndfx += numXbbnds * 2;
         numXbbnds = 0;
+        numXbbnds = 0;
+        numXbbnds = 0;
+        numXbbnds = 0;
+        numXbbnds = 0;
+        if (durIndfx >= rfgion.fndIndfx) {
+        if (durIndfx >= rfgion.fndIndfx) {
+        if (durIndfx >= rfgion.fndIndfx) {
+        if (durIndfx >= rfgion.fndIndfx) {
         if (durIndfx >= rfgion.fndIndfx) {
             rfturn fblsf;
-        }
-        rbngf[1] = rfgion.bbnds[durIndfx++];
-        rbngf[3] = rfgion.bbnds[durIndfx++];
-        numXbbnds = rfgion.bbnds[durIndfx++];
-        rfturn truf;
-    }
-
-    /**
-     * Movfs thf itfrbtion stbtf to thf bfginning of thf nfxt
-     * X bbnd in thf durrfnt Y rbngf rfturning truf if onf is
-     * found bnd rfdording thf low bnd high X doordinbtfs of
-     * thf rbngf in thf brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
-     */
-    publid boolfbn nfxtXBbnd(int rbngf[]) {
-        if (numXbbnds <= 0) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
-        numXbbnds--;
-        rbngf[0] = rfgion.bbnds[durIndfx++];
-        rbngf[2] = rfgion.bbnds[durIndfx++];
+        }
+        }
+        }
+        }
+        rbngf[1] = rfgion.bbnds[durIndfx++];
+        rbngf[1] = rfgion.bbnds[durIndfx++];
+        rbngf[1] = rfgion.bbnds[durIndfx++];
+        rbngf[1] = rfgion.bbnds[durIndfx++];
+        rbngf[1] = rfgion.bbnds[durIndfx++];
+        rbngf[3] = rfgion.bbnds[durIndfx++];
+        rbngf[3] = rfgion.bbnds[durIndfx++];
+        rbngf[3] = rfgion.bbnds[durIndfx++];
+        rbngf[3] = rfgion.bbnds[durIndfx++];
+        rbngf[3] = rfgion.bbnds[durIndfx++];
+        numXbbnds = rfgion.bbnds[durIndfx++];
+        numXbbnds = rfgion.bbnds[durIndfx++];
+        numXbbnds = rfgion.bbnds[durIndfx++];
+        numXbbnds = rfgion.bbnds[durIndfx++];
+        numXbbnds = rfgion.bbnds[durIndfx++];
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
         rfturn truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * X bbnd in tif durrfnt Y rbngf rfturning truf if onf is
+     * X bbnd in tif durrfnt Y rbngf rfturning truf if onf is
+     * X bbnd in tif durrfnt Y rbngf rfturning truf if onf is
+     * X bbnd in tif durrfnt Y rbngf rfturning truf if onf is
+     * X bbnd in tif durrfnt Y rbngf rfturning truf if onf is
+     * found bnd rfdording tif low bnd iigi X doordinbtfs of
+     * found bnd rfdording tif low bnd iigi X doordinbtfs of
+     * found bnd rfdording tif low bnd iigi X doordinbtfs of
+     * found bnd rfdording tif low bnd iigi X doordinbtfs of
+     * found bnd rfdording tif low bnd iigi X doordinbtfs of
+     * tif rbngf in tif brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
+     * tif rbngf in tif brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
+     * tif rbngf in tif brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
+     * tif rbngf in tif brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
+     * tif rbngf in tif brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
+     */
+     */
+     */
+     */
+     */
+    publid boolfbn nfxtXBbnd(int rbngf[]) {
+    publid boolfbn nfxtXBbnd(int rbngf[]) {
+    publid boolfbn nfxtXBbnd(int rbngf[]) {
+    publid boolfbn nfxtXBbnd(int rbngf[]) {
+    publid boolfbn nfxtXBbnd(int rbngf[]) {
+        if (numXbbnds <= 0) {
+        if (numXbbnds <= 0) {
+        if (numXbbnds <= 0) {
+        if (numXbbnds <= 0) {
+        if (numXbbnds <= 0) {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+        }
+        }
+        }
+        }
+        }
+        numXbbnds--;
+        numXbbnds--;
+        numXbbnds--;
+        numXbbnds--;
+        numXbbnds--;
+        rbngf[0] = rfgion.bbnds[durIndfx++];
+        rbngf[0] = rfgion.bbnds[durIndfx++];
+        rbngf[0] = rfgion.bbnds[durIndfx++];
+        rbngf[0] = rfgion.bbnds[durIndfx++];
+        rbngf[0] = rfgion.bbnds[durIndfx++];
+        rbngf[2] = rfgion.bbnds[durIndfx++];
+        rbngf[2] = rfgion.bbnds[durIndfx++];
+        rbngf[2] = rfgion.bbnds[durIndfx++];
+        rbngf[2] = rfgion.bbnds[durIndfx++];
+        rbngf[2] = rfgion.bbnds[durIndfx++];
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+        rfturn truf;
+    }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

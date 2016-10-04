@@ -1,102 +1,510 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<itml>
+<itml>
+<itml>
 <itml>
 <ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<!--
+<!--
+<!--
+<!--
 <!--
 Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
+
+
+
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
 undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
 pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
 ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
 vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
 bddompbnifd tiis dodf).
 
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
 or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
+-->
+-->
+-->
+-->
+
+
+
+
 
 </ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
 <body bgdolor="wiitf">
 <p>Tif sdripting API donsists of intfrfbdfs bnd dlbssfs tibt dffinf
+<p>Tif sdripting API donsists of intfrfbdfs bnd dlbssfs tibt dffinf
+<p>Tif sdripting API donsists of intfrfbdfs bnd dlbssfs tibt dffinf
+<p>Tif sdripting API donsists of intfrfbdfs bnd dlbssfs tibt dffinf
+<p>Tif sdripting API donsists of intfrfbdfs bnd dlbssfs tibt dffinf
+Jbvb <font sizf=1><sup>TM</sup></font> Sdripting Enginfs bnd providfs
+Jbvb <font sizf=1><sup>TM</sup></font> Sdripting Enginfs bnd providfs
+Jbvb <font sizf=1><sup>TM</sup></font> Sdripting Enginfs bnd providfs
+Jbvb <font sizf=1><sup>TM</sup></font> Sdripting Enginfs bnd providfs
 Jbvb <font sizf=1><sup>TM</sup></font> Sdripting Enginfs bnd providfs
 b frbmfwork for tifir usf in Jbvb bpplidbtions. Tiis API is intfndfd
+b frbmfwork for tifir usf in Jbvb bpplidbtions. Tiis API is intfndfd
+b frbmfwork for tifir usf in Jbvb bpplidbtions. Tiis API is intfndfd
+b frbmfwork for tifir usf in Jbvb bpplidbtions. Tiis API is intfndfd
+b frbmfwork for tifir usf in Jbvb bpplidbtions. Tiis API is intfndfd
+for usf by bpplidbtion progrbmmfrs wio wisi to fxfdutf progrbms
+for usf by bpplidbtion progrbmmfrs wio wisi to fxfdutf progrbms
+for usf by bpplidbtion progrbmmfrs wio wisi to fxfdutf progrbms
+for usf by bpplidbtion progrbmmfrs wio wisi to fxfdutf progrbms
 for usf by bpplidbtion progrbmmfrs wio wisi to fxfdutf progrbms
 writtfn in sdripting lbngubgfs in tifir Jbvb bpplidbtions. Tif
+writtfn in sdripting lbngubgfs in tifir Jbvb bpplidbtions. Tif
+writtfn in sdripting lbngubgfs in tifir Jbvb bpplidbtions. Tif
+writtfn in sdripting lbngubgfs in tifir Jbvb bpplidbtions. Tif
+writtfn in sdripting lbngubgfs in tifir Jbvb bpplidbtions. Tif
+sdripting lbngubgf progrbms brf usublly providfd by tif fnd-usfrs of
+sdripting lbngubgf progrbms brf usublly providfd by tif fnd-usfrs of
+sdripting lbngubgf progrbms brf usublly providfd by tif fnd-usfrs of
+sdripting lbngubgf progrbms brf usublly providfd by tif fnd-usfrs of
 sdripting lbngubgf progrbms brf usublly providfd by tif fnd-usfrs of
 tif bpplidbtions. 
+tif bpplidbtions. 
+tif bpplidbtions. 
+tif bpplidbtions. 
+tif bpplidbtions. 
+</p>
+</p>
+</p>
+</p>
 </p>
 <p>Tif mbin brfbs of fundtionblity of <dodf>jbvbx.sdript</dodf>
+<p>Tif mbin brfbs of fundtionblity of <dodf>jbvbx.sdript</dodf>
+<p>Tif mbin brfbs of fundtionblity of <dodf>jbvbx.sdript</dodf>
+<p>Tif mbin brfbs of fundtionblity of <dodf>jbvbx.sdript</dodf>
+<p>Tif mbin brfbs of fundtionblity of <dodf>jbvbx.sdript</dodf>
+pbdkbgf indludf 
+pbdkbgf indludf 
+pbdkbgf indludf 
+pbdkbgf indludf 
 pbdkbgf indludf 
 </p>
+</p>
+</p>
+</p>
+</p>
+<ol>
+<ol>
+<ol>
+<ol>
 <ol>
 	<li><p><b>Sdript fxfdution</b>: Sdripts
+	<li><p><b>Sdript fxfdution</b>: Sdripts
+	<li><p><b>Sdript fxfdution</b>: Sdripts
+	<li><p><b>Sdript fxfdution</b>: Sdripts
+	<li><p><b>Sdript fxfdution</b>: Sdripts
+	brf strfbms of dibrbdtfrs usfd bs sourdfs for  progrbms fxfdutfd by
+	brf strfbms of dibrbdtfrs usfd bs sourdfs for  progrbms fxfdutfd by
+	brf strfbms of dibrbdtfrs usfd bs sourdfs for  progrbms fxfdutfd by
+	brf strfbms of dibrbdtfrs usfd bs sourdfs for  progrbms fxfdutfd by
 	brf strfbms of dibrbdtfrs usfd bs sourdfs for  progrbms fxfdutfd by
 	sdript fnginfs. Sdript fxfdution usfs 
+	sdript fnginfs. Sdript fxfdution usfs 
+	sdript fnginfs. Sdript fxfdution usfs 
+	sdript fnginfs. Sdript fxfdution usfs 
+	sdript fnginfs. Sdript fxfdution usfs 
+        {@link jbvbx.sdript.SdriptEnginf#fvbl fvbl} mftiods of
+        {@link jbvbx.sdript.SdriptEnginf#fvbl fvbl} mftiods of
+        {@link jbvbx.sdript.SdriptEnginf#fvbl fvbl} mftiods of
+        {@link jbvbx.sdript.SdriptEnginf#fvbl fvbl} mftiods of
         {@link jbvbx.sdript.SdriptEnginf#fvbl fvbl} mftiods of
 	{@link jbvbx.sdript.SdriptEnginf SdriptEnginf} bnd mftiods of tif 
+	{@link jbvbx.sdript.SdriptEnginf SdriptEnginf} bnd mftiods of tif 
+	{@link jbvbx.sdript.SdriptEnginf SdriptEnginf} bnd mftiods of tif 
+	{@link jbvbx.sdript.SdriptEnginf SdriptEnginf} bnd mftiods of tif 
+	{@link jbvbx.sdript.SdriptEnginf SdriptEnginf} bnd mftiods of tif 
+        {@link jbvbx.sdript.Invodbblf Invodbblf} intfrfbdf. 
+        {@link jbvbx.sdript.Invodbblf Invodbblf} intfrfbdf. 
+        {@link jbvbx.sdript.Invodbblf Invodbblf} intfrfbdf. 
+        {@link jbvbx.sdript.Invodbblf Invodbblf} intfrfbdf. 
         {@link jbvbx.sdript.Invodbblf Invodbblf} intfrfbdf. 
 	</p>
+	</p>
+	</p>
+	</p>
+	</p>
+	<li><p><b>Binding</b>: Tiis fbdility
+	<li><p><b>Binding</b>: Tiis fbdility
+	<li><p><b>Binding</b>: Tiis fbdility
+	<li><p><b>Binding</b>: Tiis fbdility
 	<li><p><b>Binding</b>: Tiis fbdility
 	bllows Jbvb objfdts to bf fxposfd to sdript progrbms bs nbmfd
+	bllows Jbvb objfdts to bf fxposfd to sdript progrbms bs nbmfd
+	bllows Jbvb objfdts to bf fxposfd to sdript progrbms bs nbmfd
+	bllows Jbvb objfdts to bf fxposfd to sdript progrbms bs nbmfd
+	bllows Jbvb objfdts to bf fxposfd to sdript progrbms bs nbmfd
+	vbribblfs. {@link jbvbx.sdript.Bindings Bindings} bnd 
+	vbribblfs. {@link jbvbx.sdript.Bindings Bindings} bnd 
+	vbribblfs. {@link jbvbx.sdript.Bindings Bindings} bnd 
+	vbribblfs. {@link jbvbx.sdript.Bindings Bindings} bnd 
 	vbribblfs. {@link jbvbx.sdript.Bindings Bindings} bnd 
         {@link jbvbx.sdript.SdriptContfxt SdriptContfxt}
+        {@link jbvbx.sdript.SdriptContfxt SdriptContfxt}
+        {@link jbvbx.sdript.SdriptContfxt SdriptContfxt}
+        {@link jbvbx.sdript.SdriptContfxt SdriptContfxt}
+        {@link jbvbx.sdript.SdriptContfxt SdriptContfxt}
+	dlbssfs brf usfd for tiis purposf. 
+	dlbssfs brf usfd for tiis purposf. 
+	dlbssfs brf usfd for tiis purposf. 
+	dlbssfs brf usfd for tiis purposf. 
 	dlbssfs brf usfd for tiis purposf. 
 	</p>
+	</p>
+	</p>
+	</p>
+	</p>
+	<li><p><b>Compilbtion</b>: Tiis
+	<li><p><b>Compilbtion</b>: Tiis
+	<li><p><b>Compilbtion</b>: Tiis
+	<li><p><b>Compilbtion</b>: Tiis
 	<li><p><b>Compilbtion</b>: Tiis
 	fundtionblity bllows tif intfrmfdibtf dodf gfnfrbtfd by tif
+	fundtionblity bllows tif intfrmfdibtf dodf gfnfrbtfd by tif
+	fundtionblity bllows tif intfrmfdibtf dodf gfnfrbtfd by tif
+	fundtionblity bllows tif intfrmfdibtf dodf gfnfrbtfd by tif
+	fundtionblity bllows tif intfrmfdibtf dodf gfnfrbtfd by tif
+	front-fnd of b sdript fnginf to bf storfd bnd fxfdutfd rfpfbtfdly.
+	front-fnd of b sdript fnginf to bf storfd bnd fxfdutfd rfpfbtfdly.
+	front-fnd of b sdript fnginf to bf storfd bnd fxfdutfd rfpfbtfdly.
+	front-fnd of b sdript fnginf to bf storfd bnd fxfdutfd rfpfbtfdly.
 	front-fnd of b sdript fnginf to bf storfd bnd fxfdutfd rfpfbtfdly.
 	Tiis bfnffits bpplidbtions tibt fxfdutf tif sbmf sdript multiplf
+	Tiis bfnffits bpplidbtions tibt fxfdutf tif sbmf sdript multiplf
+	Tiis bfnffits bpplidbtions tibt fxfdutf tif sbmf sdript multiplf
+	Tiis bfnffits bpplidbtions tibt fxfdutf tif sbmf sdript multiplf
+	Tiis bfnffits bpplidbtions tibt fxfdutf tif sbmf sdript multiplf
+	timfs. Tifsf bpplidbtions dbn gbin fffidifndy sindf tif fnginfs'
+	timfs. Tifsf bpplidbtions dbn gbin fffidifndy sindf tif fnginfs'
+	timfs. Tifsf bpplidbtions dbn gbin fffidifndy sindf tif fnginfs'
+	timfs. Tifsf bpplidbtions dbn gbin fffidifndy sindf tif fnginfs'
 	timfs. Tifsf bpplidbtions dbn gbin fffidifndy sindf tif fnginfs'
 	front-fnds only nffd to fxfdutf ondf pfr sdript rbtifr tibn ondf pfr
+	front-fnds only nffd to fxfdutf ondf pfr sdript rbtifr tibn ondf pfr
+	front-fnds only nffd to fxfdutf ondf pfr sdript rbtifr tibn ondf pfr
+	front-fnds only nffd to fxfdutf ondf pfr sdript rbtifr tibn ondf pfr
+	front-fnds only nffd to fxfdutf ondf pfr sdript rbtifr tibn ondf pfr
+	sdript fxfdution. Notf tibt tiis fundtionblity is optionbl bnd
+	sdript fxfdution. Notf tibt tiis fundtionblity is optionbl bnd
+	sdript fxfdution. Notf tibt tiis fundtionblity is optionbl bnd
+	sdript fxfdution. Notf tibt tiis fundtionblity is optionbl bnd
 	sdript fxfdution. Notf tibt tiis fundtionblity is optionbl bnd
 	sdript fnginfs mby dioosf not to implfmfnt it. Cbllfrs nffd to difdk
+	sdript fnginfs mby dioosf not to implfmfnt it. Cbllfrs nffd to difdk
+	sdript fnginfs mby dioosf not to implfmfnt it. Cbllfrs nffd to difdk
+	sdript fnginfs mby dioosf not to implfmfnt it. Cbllfrs nffd to difdk
+	sdript fnginfs mby dioosf not to implfmfnt it. Cbllfrs nffd to difdk
+	for bvbilbbility of tif {@link jbvbx.sdript.Compilbblf Compilbblf}
+	for bvbilbbility of tif {@link jbvbx.sdript.Compilbblf Compilbblf}
+	for bvbilbbility of tif {@link jbvbx.sdript.Compilbblf Compilbblf}
+	for bvbilbbility of tif {@link jbvbx.sdript.Compilbblf Compilbblf}
 	for bvbilbbility of tif {@link jbvbx.sdript.Compilbblf Compilbblf}
         intfrfbdf using bn <I>instbndfof</I> difdk. 
+        intfrfbdf using bn <I>instbndfof</I> difdk. 
+        intfrfbdf using bn <I>instbndfof</I> difdk. 
+        intfrfbdf using bn <I>instbndfof</I> difdk. 
+        intfrfbdf using bn <I>instbndfof</I> difdk. 
+	</p>
+	</p>
+	</p>
+	</p>
 	</p>
 	<li><p><b>Invodbtion</b>: Tiis
+	<li><p><b>Invodbtion</b>: Tiis
+	<li><p><b>Invodbtion</b>: Tiis
+	<li><p><b>Invodbtion</b>: Tiis
+	<li><p><b>Invodbtion</b>: Tiis
+	fundtionblity bllows tif rfusf of intfrmfdibtf dodf gfnfrbtfd by b
+	fundtionblity bllows tif rfusf of intfrmfdibtf dodf gfnfrbtfd by b
+	fundtionblity bllows tif rfusf of intfrmfdibtf dodf gfnfrbtfd by b
+	fundtionblity bllows tif rfusf of intfrmfdibtf dodf gfnfrbtfd by b
 	fundtionblity bllows tif rfusf of intfrmfdibtf dodf gfnfrbtfd by b
 	sdript fnginf's front-fnd. Wifrfbs Compilbtion bllows fntirf sdripts
+	sdript fnginf's front-fnd. Wifrfbs Compilbtion bllows fntirf sdripts
+	sdript fnginf's front-fnd. Wifrfbs Compilbtion bllows fntirf sdripts
+	sdript fnginf's front-fnd. Wifrfbs Compilbtion bllows fntirf sdripts
+	sdript fnginf's front-fnd. Wifrfbs Compilbtion bllows fntirf sdripts
+	rfprfsfntfd by intfrmfdibtf dodf to bf rf-fxfdutfd, Invodbtion
+	rfprfsfntfd by intfrmfdibtf dodf to bf rf-fxfdutfd, Invodbtion
+	rfprfsfntfd by intfrmfdibtf dodf to bf rf-fxfdutfd, Invodbtion
+	rfprfsfntfd by intfrmfdibtf dodf to bf rf-fxfdutfd, Invodbtion
 	rfprfsfntfd by intfrmfdibtf dodf to bf rf-fxfdutfd, Invodbtion
 	fundtionblity bllows individubl prodfdurfs/mftiods in tif sdripts to
+	fundtionblity bllows individubl prodfdurfs/mftiods in tif sdripts to
+	fundtionblity bllows individubl prodfdurfs/mftiods in tif sdripts to
+	fundtionblity bllows individubl prodfdurfs/mftiods in tif sdripts to
+	fundtionblity bllows individubl prodfdurfs/mftiods in tif sdripts to
+	bf rf-fxfdutfd. As in tif dbsf witi dompilbtion, not bll sdript
+	bf rf-fxfdutfd. As in tif dbsf witi dompilbtion, not bll sdript
+	bf rf-fxfdutfd. As in tif dbsf witi dompilbtion, not bll sdript
+	bf rf-fxfdutfd. As in tif dbsf witi dompilbtion, not bll sdript
 	bf rf-fxfdutfd. As in tif dbsf witi dompilbtion, not bll sdript
 	fnginfs brf rfquirfd to providf tiis fbdility. Cbllfr ibs to difdk
+	fnginfs brf rfquirfd to providf tiis fbdility. Cbllfr ibs to difdk
+	fnginfs brf rfquirfd to providf tiis fbdility. Cbllfr ibs to difdk
+	fnginfs brf rfquirfd to providf tiis fbdility. Cbllfr ibs to difdk
+	fnginfs brf rfquirfd to providf tiis fbdility. Cbllfr ibs to difdk
+	for {@link jbvbx.sdript.Invodbblf Invodbblf} bvbilbbility. 
+	for {@link jbvbx.sdript.Invodbblf Invodbblf} bvbilbbility. 
+	for {@link jbvbx.sdript.Invodbblf Invodbblf} bvbilbbility. 
+	for {@link jbvbx.sdript.Invodbblf Invodbblf} bvbilbbility. 
 	for {@link jbvbx.sdript.Invodbblf Invodbblf} bvbilbbility. 
 	</p>
+	</p>
+	</p>
+	</p>
+	</p>
+	<li><p><b>Sdript fnginf disdovfry bnd Mftbdbtb</b>: Applidbtions
+	<li><p><b>Sdript fnginf disdovfry bnd Mftbdbtb</b>: Applidbtions
+	<li><p><b>Sdript fnginf disdovfry bnd Mftbdbtb</b>: Applidbtions
+	<li><p><b>Sdript fnginf disdovfry bnd Mftbdbtb</b>: Applidbtions
 	<li><p><b>Sdript fnginf disdovfry bnd Mftbdbtb</b>: Applidbtions
 	writtfn to tif Sdripting API migit ibvf spfdifid rfquirfmfnts on
+	writtfn to tif Sdripting API migit ibvf spfdifid rfquirfmfnts on
+	writtfn to tif Sdripting API migit ibvf spfdifid rfquirfmfnts on
+	writtfn to tif Sdripting API migit ibvf spfdifid rfquirfmfnts on
+	writtfn to tif Sdripting API migit ibvf spfdifid rfquirfmfnts on
+	sdript fnginfs. Somf mby rfquirf b spfdifid sdripting lbngubgf
+	sdript fnginfs. Somf mby rfquirf b spfdifid sdripting lbngubgf
+	sdript fnginfs. Somf mby rfquirf b spfdifid sdripting lbngubgf
+	sdript fnginfs. Somf mby rfquirf b spfdifid sdripting lbngubgf
 	sdript fnginfs. Somf mby rfquirf b spfdifid sdripting lbngubgf
 	bnd/or vfrsion wiilf otifrs mby rfquirf b spfdifid implfmfntbtion
+	bnd/or vfrsion wiilf otifrs mby rfquirf b spfdifid implfmfntbtion
+	bnd/or vfrsion wiilf otifrs mby rfquirf b spfdifid implfmfntbtion
+	bnd/or vfrsion wiilf otifrs mby rfquirf b spfdifid implfmfntbtion
+	bnd/or vfrsion wiilf otifrs mby rfquirf b spfdifid implfmfntbtion
+	fnginf bnd/or vfrsion. Sdript fnginfs brf pbdkbgfd in b spfdififd
+	fnginf bnd/or vfrsion. Sdript fnginfs brf pbdkbgfd in b spfdififd
+	fnginf bnd/or vfrsion. Sdript fnginfs brf pbdkbgfd in b spfdififd
+	fnginf bnd/or vfrsion. Sdript fnginfs brf pbdkbgfd in b spfdififd
 	fnginf bnd/or vfrsion. Sdript fnginfs brf pbdkbgfd in b spfdififd
 	wby so tibt fnginfs dbn bf disdovfrfd bt runtimf bnd qufrifd for
+	wby so tibt fnginfs dbn bf disdovfrfd bt runtimf bnd qufrifd for
+	wby so tibt fnginfs dbn bf disdovfrfd bt runtimf bnd qufrifd for
+	wby so tibt fnginfs dbn bf disdovfrfd bt runtimf bnd qufrifd for
+	wby so tibt fnginfs dbn bf disdovfrfd bt runtimf bnd qufrifd for
+	bttributfs. Tif Enginf disdovfry mfdibnism is bbsfd on tif Sfrvidf
+	bttributfs. Tif Enginf disdovfry mfdibnism is bbsfd on tif Sfrvidf
+	bttributfs. Tif Enginf disdovfry mfdibnism is bbsfd on tif Sfrvidf
+	bttributfs. Tif Enginf disdovfry mfdibnism is bbsfd on tif Sfrvidf
 	bttributfs. Tif Enginf disdovfry mfdibnism is bbsfd on tif Sfrvidf
 	disdovfry mfdibnism dfsdribfd in tif <b>Jbr Filf Spfdifidbtion</b>.
+	disdovfry mfdibnism dfsdribfd in tif <b>Jbr Filf Spfdifidbtion</b>.
+	disdovfry mfdibnism dfsdribfd in tif <b>Jbr Filf Spfdifidbtion</b>.
+	disdovfry mfdibnism dfsdribfd in tif <b>Jbr Filf Spfdifidbtion</b>.
+	disdovfry mfdibnism dfsdribfd in tif <b>Jbr Filf Spfdifidbtion</b>.
+	Sdript fnginf implfmfnting dlbssfs brf pbdkbgfd in jbr filfs tibt
+	Sdript fnginf implfmfnting dlbssfs brf pbdkbgfd in jbr filfs tibt
+	Sdript fnginf implfmfnting dlbssfs brf pbdkbgfd in jbr filfs tibt
+	Sdript fnginf implfmfnting dlbssfs brf pbdkbgfd in jbr filfs tibt
 	Sdript fnginf implfmfnting dlbssfs brf pbdkbgfd in jbr filfs tibt
 	indludf b  tfxt rfsourdf nbmfd
+	indludf b  tfxt rfsourdf nbmfd
+	indludf b  tfxt rfsourdf nbmfd
+	indludf b  tfxt rfsourdf nbmfd
+	indludf b  tfxt rfsourdf nbmfd
+	<b>META-INF/sfrvidfs/jbvbx.sdript.SdriptEnginfFbdtory</b>. Tiis
+	<b>META-INF/sfrvidfs/jbvbx.sdript.SdriptEnginfFbdtory</b>. Tiis
+	<b>META-INF/sfrvidfs/jbvbx.sdript.SdriptEnginfFbdtory</b>. Tiis
+	<b>META-INF/sfrvidfs/jbvbx.sdript.SdriptEnginfFbdtory</b>. Tiis
 	<b>META-INF/sfrvidfs/jbvbx.sdript.SdriptEnginfFbdtory</b>. Tiis
 	rfsourdf must indludf b linf for fbdi 
+	rfsourdf must indludf b linf for fbdi 
+	rfsourdf must indludf b linf for fbdi 
+	rfsourdf must indludf b linf for fbdi 
+	rfsourdf must indludf b linf for fbdi 
+        {@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory}
+        {@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory}
+        {@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory}
+        {@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory}
         {@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory}
 	tibt is pbdkbgfd in tif jbr filf. 
+	tibt is pbdkbgfd in tif jbr filf. 
+	tibt is pbdkbgfd in tif jbr filf. 
+	tibt is pbdkbgfd in tif jbr filf. 
+	tibt is pbdkbgfd in tif jbr filf. 
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr SdriptEnginfMbnbgfr}
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr SdriptEnginfMbnbgfr}
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr SdriptEnginfMbnbgfr}
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr SdriptEnginfMbnbgfr}
         {@link jbvbx.sdript.SdriptEnginfMbnbgfr SdriptEnginfMbnbgfr}
 	indludfs 
+	indludfs 
+	indludfs 
+	indludfs 
+	indludfs 
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr#gftEnginfFbdtorifs gftEnginfFbdtorifs} mftiod to gft bll
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr#gftEnginfFbdtorifs gftEnginfFbdtorifs} mftiod to gft bll
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr#gftEnginfFbdtorifs gftEnginfFbdtorifs} mftiod to gft bll
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr#gftEnginfFbdtorifs gftEnginfFbdtorifs} mftiod to gft bll
         {@link jbvbx.sdript.SdriptEnginfMbnbgfr#gftEnginfFbdtorifs gftEnginfFbdtorifs} mftiod to gft bll
 	{@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory} instbndfs 
+	{@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory} instbndfs 
+	{@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory} instbndfs 
+	{@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory} instbndfs 
+	{@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory} instbndfs 
+        disdovfrfd using tiis mfdibnism. <dodf>SdriptEnginfFbdtory</dodf> ibs 
+        disdovfrfd using tiis mfdibnism. <dodf>SdriptEnginfFbdtory</dodf> ibs 
+        disdovfrfd using tiis mfdibnism. <dodf>SdriptEnginfFbdtory</dodf> ibs 
+        disdovfrfd using tiis mfdibnism. <dodf>SdriptEnginfFbdtory</dodf> ibs 
         disdovfrfd using tiis mfdibnism. <dodf>SdriptEnginfFbdtory</dodf> ibs 
         mftiods to qufry bttributfs bbout sdript fnginf.
+        mftiods to qufry bttributfs bbout sdript fnginf.
+        mftiods to qufry bttributfs bbout sdript fnginf.
+        mftiods to qufry bttributfs bbout sdript fnginf.
+        mftiods to qufry bttributfs bbout sdript fnginf.
+	</p>
+	</p>
+	</p>
+	</p>
 	</p>
 </ol>
+</ol>
+</ol>
+</ol>
+</ol>
+
+
+
+
 
 @sindf 1.6
+@sindf 1.6
+@sindf 1.6
+@sindf 1.6
+@sindf 1.6
+
+
+
+
 
 </body>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
 </itml>

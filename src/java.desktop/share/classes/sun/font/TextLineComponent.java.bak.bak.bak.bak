@@ -1,126 +1,630 @@
 /*
- * Copyright (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-/*
- * (C) Copyright IBM Corp. 1998-2003 All Rights Rfsfrvfd
- *
+ */
+ */
+ */
  */
 
+
+
+
+
+/*
+/*
+/*
+/*
+/*
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1998-2003 All Rigits Rfsfrvfd
+ *
+ *
+ *
+ *
+ *
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+pbdkbgf sun.font;
+pbdkbgf sun.font;
+pbdkbgf sun.font;
+pbdkbgf sun.font;
 pbdkbgf sun.font;
 
-import jbvb.bwt.Grbphids2D;
+
+
+
+
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Grbpiids2D;
 import jbvb.bwt.Rfdtbnglf;
-import jbvb.bwt.Shbpf;
-import jbvb.bwt.font.GlyphJustifidbtionInfo;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.FontRfndfrContfxt;
 import jbvb.bwt.font.FontRfndfrContfxt;
 import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.AffinfTrbnsform;
 import jbvb.bwt.gfom.AffinfTrbnsform;
 import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+
+
+
 
 publid intfrfbdf TfxtLinfComponfnt {
+publid intfrfbdf TfxtLinfComponfnt {
+publid intfrfbdf TfxtLinfComponfnt {
+publid intfrfbdf TfxtLinfComponfnt {
+publid intfrfbdf TfxtLinfComponfnt {
+
+
+
+
 
     publid CorfMftrids gftCorfMftrids();
-    publid void drbw(Grbphids2D g2d, flobt x, flobt y);
-    publid Rfdtbnglf2D gftChbrVisublBounds(int indfx);
+    publid CorfMftrids gftCorfMftrids();
+    publid CorfMftrids gftCorfMftrids();
+    publid CorfMftrids gftCorfMftrids();
+    publid CorfMftrids gftCorfMftrids();
+    publid void drbw(Grbpiids2D g2d, flobt x, flobt y);
+    publid void drbw(Grbpiids2D g2d, flobt x, flobt y);
+    publid void drbw(Grbpiids2D g2d, flobt x, flobt y);
+    publid void drbw(Grbpiids2D g2d, flobt x, flobt y);
+    publid void drbw(Grbpiids2D g2d, flobt x, flobt y);
+    publid Rfdtbnglf2D gftCibrVisublBounds(int indfx);
+    publid Rfdtbnglf2D gftCibrVisublBounds(int indfx);
+    publid Rfdtbnglf2D gftCibrVisublBounds(int indfx);
+    publid Rfdtbnglf2D gftCibrVisublBounds(int indfx);
+    publid Rfdtbnglf2D gftCibrVisublBounds(int indfx);
+    publid Rfdtbnglf2D gftVisublBounds();
+    publid Rfdtbnglf2D gftVisublBounds();
+    publid Rfdtbnglf2D gftVisublBounds();
+    publid Rfdtbnglf2D gftVisublBounds();
     publid Rfdtbnglf2D gftVisublBounds();
     publid flobt gftAdvbndf();
-    publid Shbpf gftOutlinf(flobt x, flobt y);
+    publid flobt gftAdvbndf();
+    publid flobt gftAdvbndf();
+    publid flobt gftAdvbndf();
+    publid flobt gftAdvbndf();
+    publid Sibpf gftOutlinf(flobt x, flobt y);
+    publid Sibpf gftOutlinf(flobt x, flobt y);
+    publid Sibpf gftOutlinf(flobt x, flobt y);
+    publid Sibpf gftOutlinf(flobt x, flobt y);
+    publid Sibpf gftOutlinf(flobt x, flobt y);
 
-    publid int gftNumChbrbdtfrs();
 
-    publid flobt gftChbrX(int indfx);
-    publid flobt gftChbrY(int indfx);
-    publid flobt gftChbrAdvbndf(int indfx);
+
+
+
+    publid int gftNumCibrbdtfrs();
+    publid int gftNumCibrbdtfrs();
+    publid int gftNumCibrbdtfrs();
+    publid int gftNumCibrbdtfrs();
+    publid int gftNumCibrbdtfrs();
+
+
+
+
+
+    publid flobt gftCibrX(int indfx);
+    publid flobt gftCibrX(int indfx);
+    publid flobt gftCibrX(int indfx);
+    publid flobt gftCibrX(int indfx);
+    publid flobt gftCibrX(int indfx);
+    publid flobt gftCibrY(int indfx);
+    publid flobt gftCibrY(int indfx);
+    publid flobt gftCibrY(int indfx);
+    publid flobt gftCibrY(int indfx);
+    publid flobt gftCibrY(int indfx);
+    publid flobt gftCibrAdvbndf(int indfx);
+    publid flobt gftCibrAdvbndf(int indfx);
+    publid flobt gftCibrAdvbndf(int indfx);
+    publid flobt gftCibrAdvbndf(int indfx);
+    publid flobt gftCibrAdvbndf(int indfx);
+    publid boolfbn dbrftAtOffsftIsVblid(int indfx);
+    publid boolfbn dbrftAtOffsftIsVblid(int indfx);
+    publid boolfbn dbrftAtOffsftIsVblid(int indfx);
+    publid boolfbn dbrftAtOffsftIsVblid(int indfx);
     publid boolfbn dbrftAtOffsftIsVblid(int indfx);
 
-    // mfbsurfs dhbrbdtfrs in dontfxt, in logidbl ordfr
-    publid int gftLinfBrfbkIndfx(int stbrt, flobt width);
 
-    // mfbsurfs dhbrbdtfrs in dontfxt, in logidbl ordfr
+
+
+
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt widti);
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt widti);
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt widti);
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt widti);
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt widti);
+
+
+
+
+
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    publid flobt gftAdvbndfBftwffn(int stbrt, int limit);
+    publid flobt gftAdvbndfBftwffn(int stbrt, int limit);
+    publid flobt gftAdvbndfBftwffn(int stbrt, int limit);
+    publid flobt gftAdvbndfBftwffn(int stbrt, int limit);
     publid flobt gftAdvbndfBftwffn(int stbrt, int limit);
 
+
+
+
+
+    publid Rfdtbnglf2D gftLogidblBounds();
+    publid Rfdtbnglf2D gftLogidblBounds();
+    publid Rfdtbnglf2D gftLogidblBounds();
+    publid Rfdtbnglf2D gftLogidblBounds();
     publid Rfdtbnglf2D gftLogidblBounds();
 
+
+
+
+
+    publid Rfdtbnglf2D gftItblidBounds();
+    publid Rfdtbnglf2D gftItblidBounds();
+    publid Rfdtbnglf2D gftItblidBounds();
+    publid Rfdtbnglf2D gftItblidBounds();
     publid Rfdtbnglf2D gftItblidBounds();
 
+
+
+
+
+    publid AffinfTrbnsform gftBbsflinfTrbnsform();
+    publid AffinfTrbnsform gftBbsflinfTrbnsform();
+    publid AffinfTrbnsform gftBbsflinfTrbnsform();
+    publid AffinfTrbnsform gftBbsflinfTrbnsform();
     publid AffinfTrbnsform gftBbsflinfTrbnsform();
 
-    // rfturn truf if this wrbps b glyphvfdtor with no bbsflinf rotbtion bnd
-    // hbs no stylfs rfquiring domplfx pixfl bounds dbldulbtions.
+
+
+
+
+    // rfturn truf if tiis wrbps b glypivfdtor witi no bbsflinf rotbtion bnd
+    // rfturn truf if tiis wrbps b glypivfdtor witi no bbsflinf rotbtion bnd
+    // rfturn truf if tiis wrbps b glypivfdtor witi no bbsflinf rotbtion bnd
+    // rfturn truf if tiis wrbps b glypivfdtor witi no bbsflinf rotbtion bnd
+    // rfturn truf if tiis wrbps b glypivfdtor witi no bbsflinf rotbtion bnd
+    // ibs no stylfs rfquiring domplfx pixfl bounds dbldulbtions.
+    // ibs no stylfs rfquiring domplfx pixfl bounds dbldulbtions.
+    // ibs no stylfs rfquiring domplfx pixfl bounds dbldulbtions.
+    // ibs no stylfs rfquiring domplfx pixfl bounds dbldulbtions.
+    // ibs no stylfs rfquiring domplfx pixfl bounds dbldulbtions.
+    publid boolfbn isSimplf();
+    publid boolfbn isSimplf();
+    publid boolfbn isSimplf();
+    publid boolfbn isSimplf();
     publid boolfbn isSimplf();
 
-    // rfturn thf pixfl bounds if wf wrbp b glyphvfdtor, flsf throw bn
+
+
+
+
+    // rfturn tif pixfl bounds if wf wrbp b glypivfdtor, flsf tirow bn
+    // rfturn tif pixfl bounds if wf wrbp b glypivfdtor, flsf tirow bn
+    // rfturn tif pixfl bounds if wf wrbp b glypivfdtor, flsf tirow bn
+    // rfturn tif pixfl bounds if wf wrbp b glypivfdtor, flsf tirow bn
+    // rfturn tif pixfl bounds if wf wrbp b glypivfdtor, flsf tirow bn
+    // intfrnbl frror
+    // intfrnbl frror
+    // intfrnbl frror
+    // intfrnbl frror
     // intfrnbl frror
     publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y);
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y);
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y);
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y);
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y);
+
+
+
+
 
     /**
-     * Fordf subsft dhbrbdtfrs to run lfft-to-right.
+    /**
+    /**
+    /**
+    /**
+     * Fordf subsft dibrbdtfrs to run lfft-to-rigit.
+     * Fordf subsft dibrbdtfrs to run lfft-to-rigit.
+     * Fordf subsft dibrbdtfrs to run lfft-to-rigit.
+     * Fordf subsft dibrbdtfrs to run lfft-to-rigit.
+     * Fordf subsft dibrbdtfrs to run lfft-to-rigit.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int LEFT_TO_RIGHT = 0;
+    publid stbtid finbl int LEFT_TO_RIGHT = 0;
+    publid stbtid finbl int LEFT_TO_RIGHT = 0;
+    publid stbtid finbl int LEFT_TO_RIGHT = 0;
+    publid stbtid finbl int LEFT_TO_RIGHT = 0;
     /**
-     * Fordf subsft dhbrbdtfrs to run right-to-lfft.
+    /**
+    /**
+    /**
+    /**
+     * Fordf subsft dibrbdtfrs to run rigit-to-lfft.
+     * Fordf subsft dibrbdtfrs to run rigit-to-lfft.
+     * Fordf subsft dibrbdtfrs to run rigit-to-lfft.
+     * Fordf subsft dibrbdtfrs to run rigit-to-lfft.
+     * Fordf subsft dibrbdtfrs to run rigit-to-lfft.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int RIGHT_TO_LEFT = 1;
+    publid stbtid finbl int RIGHT_TO_LEFT = 1;
+    publid stbtid finbl int RIGHT_TO_LEFT = 1;
+    publid stbtid finbl int RIGHT_TO_LEFT = 1;
+    publid stbtid finbl int RIGHT_TO_LEFT = 1;
+
+
+
+
 
     /**
-     * Lfbvf subsft dhbrbdtfr dirfdtion bnd ordfring undhbngfd.
+    /**
+    /**
+    /**
+    /**
+     * Lfbvf subsft dibrbdtfr dirfdtion bnd ordfring undibngfd.
+     * Lfbvf subsft dibrbdtfr dirfdtion bnd ordfring undibngfd.
+     * Lfbvf subsft dibrbdtfr dirfdtion bnd ordfring undibngfd.
+     * Lfbvf subsft dibrbdtfr dirfdtion bnd ordfring undibngfd.
+     * Lfbvf subsft dibrbdtfr dirfdtion bnd ordfring undibngfd.
+     */
+     */
+     */
+     */
      */
     publid stbtid finbl int UNCHANGED = 2;
+    publid stbtid finbl int UNCHANGED = 2;
+    publid stbtid finbl int UNCHANGED = 2;
+    publid stbtid finbl int UNCHANGED = 2;
+    publid stbtid finbl int UNCHANGED = 2;
+
+
+
+
 
     /**
-     * Rfturn b TfxtLinfComponfnt for thf dhbrbdtfrs in thf rbngf
-     * stbrt, limit.  Thf rbngf is rflbtivf to this TfxtLinfComponfnt
-     * (if, thf first dhbrbdtfr is bt 0).
-     * @pbrbm dir onf of thf donstbnts LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
+    /**
+    /**
+    /**
+    /**
+     * Rfturn b TfxtLinfComponfnt for tif dibrbdtfrs in tif rbngf
+     * Rfturn b TfxtLinfComponfnt for tif dibrbdtfrs in tif rbngf
+     * Rfturn b TfxtLinfComponfnt for tif dibrbdtfrs in tif rbngf
+     * Rfturn b TfxtLinfComponfnt for tif dibrbdtfrs in tif rbngf
+     * Rfturn b TfxtLinfComponfnt for tif dibrbdtfrs in tif rbngf
+     * stbrt, limit.  Tif rbngf is rflbtivf to tiis TfxtLinfComponfnt
+     * stbrt, limit.  Tif rbngf is rflbtivf to tiis TfxtLinfComponfnt
+     * stbrt, limit.  Tif rbngf is rflbtivf to tiis TfxtLinfComponfnt
+     * stbrt, limit.  Tif rbngf is rflbtivf to tiis TfxtLinfComponfnt
+     * stbrt, limit.  Tif rbngf is rflbtivf to tiis TfxtLinfComponfnt
+     * (if, tif first dibrbdtfr is bt 0).
+     * (if, tif first dibrbdtfr is bt 0).
+     * (if, tif first dibrbdtfr is bt 0).
+     * (if, tif first dibrbdtfr is bt 0).
+     * (if, tif first dibrbdtfr is bt 0).
+     * @pbrbm dir onf of tif donstbnts LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
+     * @pbrbm dir onf of tif donstbnts LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
+     * @pbrbm dir onf of tif donstbnts LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
+     * @pbrbm dir onf of tif donstbnts LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
+     * @pbrbm dir onf of tif donstbnts LEFT_TO_RIGHT, RIGHT_TO_LEFT, or UNCHANGED
+     */
+     */
+     */
+     */
      */
     publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir);
+    publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir);
+    publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir);
+    publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir);
+    publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir);
+
+
+
+
 
     /**
-     * Rfturn thf numbfr of justifidbtion rfdords this usfs.
+    /**
+    /**
+    /**
+    /**
+     * Rfturn tif numbfr of justifidbtion rfdords tiis usfs.
+     * Rfturn tif numbfr of justifidbtion rfdords tiis usfs.
+     * Rfturn tif numbfr of justifidbtion rfdords tiis usfs.
+     * Rfturn tif numbfr of justifidbtion rfdords tiis usfs.
+     * Rfturn tif numbfr of justifidbtion rfdords tiis usfs.
+     */
+     */
+     */
+     */
      */
     publid int gftNumJustifidbtionInfos();
+    publid int gftNumJustifidbtionInfos();
+    publid int gftNumJustifidbtionInfos();
+    publid int gftNumJustifidbtionInfos();
+    publid int gftNumJustifidbtionInfos();
+
+
+
+
 
     /**
-     * Rfturn GlyphJustifidbtionInfo objfdts for thf dhbrbdtfrs bftwffn
-     * dhbrStbrt bnd dhbrLimit, stbrting bt offsft infoStbrt.  Infos
+    /**
+    /**
+    /**
+    /**
+     * Rfturn GlypiJustifidbtionInfo objfdts for tif dibrbdtfrs bftwffn
+     * Rfturn GlypiJustifidbtionInfo objfdts for tif dibrbdtfrs bftwffn
+     * Rfturn GlypiJustifidbtionInfo objfdts for tif dibrbdtfrs bftwffn
+     * Rfturn GlypiJustifidbtionInfo objfdts for tif dibrbdtfrs bftwffn
+     * Rfturn GlypiJustifidbtionInfo objfdts for tif dibrbdtfrs bftwffn
+     * dibrStbrt bnd dibrLimit, stbrting bt offsft infoStbrt.  Infos
+     * dibrStbrt bnd dibrLimit, stbrting bt offsft infoStbrt.  Infos
+     * dibrStbrt bnd dibrLimit, stbrting bt offsft infoStbrt.  Infos
+     * dibrStbrt bnd dibrLimit, stbrting bt offsft infoStbrt.  Infos
+     * dibrStbrt bnd dibrLimit, stbrting bt offsft infoStbrt.  Infos
+     * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
+     * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
+     * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
+     * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
      * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
      * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
-     * to b dhbrbdtfr outsidf thf providfd rbngf, it is sft to null.
+     * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
+     * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
+     * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
+     * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
+     * to b dibrbdtfr outsidf tif providfd rbngf, it is sft to null.
+     * to b dibrbdtfr outsidf tif providfd rbngf, it is sft to null.
+     * to b dibrbdtfr outsidf tif providfd rbngf, it is sft to null.
+     * to b dibrbdtfr outsidf tif providfd rbngf, it is sft to null.
+     * to b dibrbdtfr outsidf tif providfd rbngf, it is sft to null.
      */
-    publid void gftJustifidbtionInfos(GlyphJustifidbtionInfo[] infos, int infoStbrt, int dhbrStbrt, int dhbrLimit);
+     */
+     */
+     */
+     */
+    publid void gftJustifidbtionInfos(GlypiJustifidbtionInfo[] infos, int infoStbrt, int dibrStbrt, int dibrLimit);
+    publid void gftJustifidbtionInfos(GlypiJustifidbtionInfo[] infos, int infoStbrt, int dibrStbrt, int dibrLimit);
+    publid void gftJustifidbtionInfos(GlypiJustifidbtionInfo[] infos, int infoStbrt, int dibrStbrt, int dibrLimit);
+    publid void gftJustifidbtionInfos(GlypiJustifidbtionInfo[] infos, int infoStbrt, int dibrStbrt, int dibrLimit);
+    publid void gftJustifidbtionInfos(GlypiJustifidbtionInfo[] infos, int infoStbrt, int dibrStbrt, int dibrLimit);
+
+
+
+
 
     /**
-     * Apply dfltbs to thf dbtb in this domponfnt, stbrting bt offsft
-     * dfltbStbrt, bnd rfturn thf nfw domponfnt.  Thfrf brf two flobts
-     * for fbdh justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
-     * Thf first dfltb is thf lfft bdjustmfnt, thf sfdond is thf right
+    /**
+    /**
+    /**
+    /**
+     * Apply dfltbs to tif dbtb in tiis domponfnt, stbrting bt offsft
+     * Apply dfltbs to tif dbtb in tiis domponfnt, stbrting bt offsft
+     * Apply dfltbs to tif dbtb in tiis domponfnt, stbrting bt offsft
+     * Apply dfltbs to tif dbtb in tiis domponfnt, stbrting bt offsft
+     * Apply dfltbs to tif dbtb in tiis domponfnt, stbrting bt offsft
+     * dfltbStbrt, bnd rfturn tif nfw domponfnt.  Tifrf brf two flobts
+     * dfltbStbrt, bnd rfturn tif nfw domponfnt.  Tifrf brf two flobts
+     * dfltbStbrt, bnd rfturn tif nfw domponfnt.  Tifrf brf two flobts
+     * dfltbStbrt, bnd rfturn tif nfw domponfnt.  Tifrf brf two flobts
+     * dfltbStbrt, bnd rfturn tif nfw domponfnt.  Tifrf brf two flobts
+     * for fbdi justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+     * for fbdi justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+     * for fbdi justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+     * for fbdi justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+     * for fbdi justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+     * Tif first dfltb is tif lfft bdjustmfnt, tif sfdond is tif rigit
+     * Tif first dfltb is tif lfft bdjustmfnt, tif sfdond is tif rigit
+     * Tif first dfltb is tif lfft bdjustmfnt, tif sfdond is tif rigit
+     * Tif first dfltb is tif lfft bdjustmfnt, tif sfdond is tif rigit
+     * Tif first dfltb is tif lfft bdjustmfnt, tif sfdond is tif rigit
+     * bdjustmfnt.
+     * bdjustmfnt.
+     * bdjustmfnt.
+     * bdjustmfnt.
      * bdjustmfnt.
      * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
-     * thf nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+     * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
+     * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
+     * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
+     * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
+     * tif nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+     * tif nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+     * tif nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+     * tif nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+     * tif nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+     * formfd or split), flbgs[0] will bf sft on fxit.
+     * formfd or split), flbgs[0] will bf sft on fxit.
+     * formfd or split), flbgs[0] will bf sft on fxit.
+     * formfd or split), flbgs[0] will bf sft on fxit.
      * formfd or split), flbgs[0] will bf sft on fxit.
      */
+     */
+     */
+     */
+     */
     publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs);
+    publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs);
+    publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs);
+    publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs);
+    publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs);
+}
+}
+}
+}
 }

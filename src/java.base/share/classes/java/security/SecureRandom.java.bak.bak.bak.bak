@@ -1,677 +1,3385 @@
 /*
- * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf jbvb.sfdurity;
-
-import jbvb.util.*;
-import jbvb.util.rfgfx.*;
-
-import jbvb.sfdurity.Providfr.Sfrvidf;
-
-import sun.sfdurity.jdb.*;
-import sun.sfdurity.jdb.GftInstbndf.Instbndf;
-
-/**
- * This dlbss providfs b dryptogrbphidblly strong rbndom numbfr
- * gfnfrbtor (RNG).
- *
- * <p>A dryptogrbphidblly strong rbndom numbfr
- * minimblly domplifs with thf stbtistidbl rbndom numbfr gfnfrbtor tfsts
- * spfdififd in <b hrff="http://dsrd.nist.gov/dryptvbl/140-2.htm">
- * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbphid Modulfs</i></b>,
- * sfdtion 4.9.1.
- * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
- * Thfrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
- * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
- * dryptogrbphidblly strong, bs dfsdribfd in
- * <b hrff="http://www.iftf.org/rfd/rfd1750.txt">
- * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
- *
- * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib thf
- * no-brgumfnt donstrudtor or onf of thf {@dodf gftInstbndf} mfthods:
- *
- * <prf>
- *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
- * </prf>
- *
- * <p> Mbny SfdurfRbndom implfmfntbtions brf in thf form of b psfudo-rbndom
- * numbfr gfnfrbtor (PRNG), whidh mfbns thfy usf b dftfrministid blgorithm
- * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
- * Othfr implfmfntbtions mby produdf truf rbndom numbfrs,
- * bnd yft othfrs mby usf b dombinbtion of both tfdhniqufs.
- *
- * <p> Typidbl dbllfrs of SfdurfRbndom invokf thf following mfthods
- * to rftrifvf rbndom bytfs:
- *
- * <prf>
- *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
- *      bytf bytfs[] = nfw bytf[20];
- *      rbndom.nfxtBytfs(bytfs);
- * </prf>
- *
- * <p> Cbllfrs mby blso invokf thf {@dodf gfnfrbtfSffd} mfthod
- * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd othfr rbndom numbfr
- * gfnfrbtors, for fxbmplf):
- * <prf>
- *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
- * </prf>
- *
- * Notf: Dfpfnding on thf implfmfntbtion, thf {@dodf gfnfrbtfSffd} bnd
- * {@dodf nfxtBytfs} mfthods mby blodk bs fntropy is bfing gbthfrfd,
- * for fxbmplf, if thfy nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
- * opfrbting systfms.
- *
- * @sff jbvb.sfdurity.SfdurfRbndomSpi
- * @sff jbvb.util.Rbndom
- *
- * @buthor Bfnjbmin Rfnbud
- * @buthor Josh Blodh
+ */
+ */
+ */
  */
 
+
+
+
+
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+
+
+
+
+
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import jbvb.util.rfgfx.*;
+import jbvb.util.rfgfx.*;
+import jbvb.util.rfgfx.*;
+import jbvb.util.rfgfx.*;
+
+
+
+
+
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+
+
+
+
+
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Tiis dlbss providfs b dryptogrbpiidblly strong rbndom numbfr
+ * Tiis dlbss providfs b dryptogrbpiidblly strong rbndom numbfr
+ * Tiis dlbss providfs b dryptogrbpiidblly strong rbndom numbfr
+ * Tiis dlbss providfs b dryptogrbpiidblly strong rbndom numbfr
+ * Tiis dlbss providfs b dryptogrbpiidblly strong rbndom numbfr
+ * gfnfrbtor (RNG).
+ * gfnfrbtor (RNG).
+ * gfnfrbtor (RNG).
+ * gfnfrbtor (RNG).
+ * gfnfrbtor (RNG).
+ *
+ *
+ *
+ *
+ *
+ * <p>A dryptogrbpiidblly strong rbndom numbfr
+ * <p>A dryptogrbpiidblly strong rbndom numbfr
+ * <p>A dryptogrbpiidblly strong rbndom numbfr
+ * <p>A dryptogrbpiidblly strong rbndom numbfr
+ * <p>A dryptogrbpiidblly strong rbndom numbfr
+ * minimblly domplifs witi tif stbtistidbl rbndom numbfr gfnfrbtor tfsts
+ * minimblly domplifs witi tif stbtistidbl rbndom numbfr gfnfrbtor tfsts
+ * minimblly domplifs witi tif stbtistidbl rbndom numbfr gfnfrbtor tfsts
+ * minimblly domplifs witi tif stbtistidbl rbndom numbfr gfnfrbtor tfsts
+ * minimblly domplifs witi tif stbtistidbl rbndom numbfr gfnfrbtor tfsts
+ * spfdififd in <b irff="ittp://dsrd.nist.gov/dryptvbl/140-2.itm">
+ * spfdififd in <b irff="ittp://dsrd.nist.gov/dryptvbl/140-2.itm">
+ * spfdififd in <b irff="ittp://dsrd.nist.gov/dryptvbl/140-2.itm">
+ * spfdififd in <b irff="ittp://dsrd.nist.gov/dryptvbl/140-2.itm">
+ * spfdififd in <b irff="ittp://dsrd.nist.gov/dryptvbl/140-2.itm">
+ * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbpiid Modulfs</i></b>,
+ * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbpiid Modulfs</i></b>,
+ * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbpiid Modulfs</i></b>,
+ * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbpiid Modulfs</i></b>,
+ * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbpiid Modulfs</i></b>,
+ * sfdtion 4.9.1.
+ * sfdtion 4.9.1.
+ * sfdtion 4.9.1.
+ * sfdtion 4.9.1.
+ * sfdtion 4.9.1.
+ * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
+ * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
+ * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
+ * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
+ * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
+ * Tifrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
+ * Tifrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
+ * Tifrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
+ * Tifrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
+ * Tifrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
+ * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
+ * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
+ * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
+ * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
+ * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
+ * dryptogrbpiidblly strong, bs dfsdribfd in
+ * dryptogrbpiidblly strong, bs dfsdribfd in
+ * dryptogrbpiidblly strong, bs dfsdribfd in
+ * dryptogrbpiidblly strong, bs dfsdribfd in
+ * dryptogrbpiidblly strong, bs dfsdribfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd1750.txt">
+ * <b irff="ittp://www.iftf.org/rfd/rfd1750.txt">
+ * <b irff="ittp://www.iftf.org/rfd/rfd1750.txt">
+ * <b irff="ittp://www.iftf.org/rfd/rfd1750.txt">
+ * <b irff="ittp://www.iftf.org/rfd/rfd1750.txt">
+ * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
+ * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
+ * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
+ * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
+ * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
+ *
+ *
+ *
+ *
+ *
+ * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib tif
+ * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib tif
+ * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib tif
+ * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib tif
+ * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib tif
+ * no-brgumfnt donstrudtor or onf of tif {@dodf gftInstbndf} mftiods:
+ * no-brgumfnt donstrudtor or onf of tif {@dodf gftInstbndf} mftiods:
+ * no-brgumfnt donstrudtor or onf of tif {@dodf gftInstbndf} mftiods:
+ * no-brgumfnt donstrudtor or onf of tif {@dodf gftInstbndf} mftiods:
+ * no-brgumfnt donstrudtor or onf of tif {@dodf gftInstbndf} mftiods:
+ *
+ *
+ *
+ *
+ *
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ *
+ *
+ *
+ *
+ *
+ * <p> Mbny SfdurfRbndom implfmfntbtions brf in tif form of b psfudo-rbndom
+ * <p> Mbny SfdurfRbndom implfmfntbtions brf in tif form of b psfudo-rbndom
+ * <p> Mbny SfdurfRbndom implfmfntbtions brf in tif form of b psfudo-rbndom
+ * <p> Mbny SfdurfRbndom implfmfntbtions brf in tif form of b psfudo-rbndom
+ * <p> Mbny SfdurfRbndom implfmfntbtions brf in tif form of b psfudo-rbndom
+ * numbfr gfnfrbtor (PRNG), wiidi mfbns tify usf b dftfrministid blgoritim
+ * numbfr gfnfrbtor (PRNG), wiidi mfbns tify usf b dftfrministid blgoritim
+ * numbfr gfnfrbtor (PRNG), wiidi mfbns tify usf b dftfrministid blgoritim
+ * numbfr gfnfrbtor (PRNG), wiidi mfbns tify usf b dftfrministid blgoritim
+ * numbfr gfnfrbtor (PRNG), wiidi mfbns tify usf b dftfrministid blgoritim
+ * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
+ * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
+ * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
+ * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
+ * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
+ * Otifr implfmfntbtions mby produdf truf rbndom numbfrs,
+ * Otifr implfmfntbtions mby produdf truf rbndom numbfrs,
+ * Otifr implfmfntbtions mby produdf truf rbndom numbfrs,
+ * Otifr implfmfntbtions mby produdf truf rbndom numbfrs,
+ * Otifr implfmfntbtions mby produdf truf rbndom numbfrs,
+ * bnd yft otifrs mby usf b dombinbtion of boti tfdiniqufs.
+ * bnd yft otifrs mby usf b dombinbtion of boti tfdiniqufs.
+ * bnd yft otifrs mby usf b dombinbtion of boti tfdiniqufs.
+ * bnd yft otifrs mby usf b dombinbtion of boti tfdiniqufs.
+ * bnd yft otifrs mby usf b dombinbtion of boti tfdiniqufs.
+ *
+ *
+ *
+ *
+ *
+ * <p> Typidbl dbllfrs of SfdurfRbndom invokf tif following mftiods
+ * <p> Typidbl dbllfrs of SfdurfRbndom invokf tif following mftiods
+ * <p> Typidbl dbllfrs of SfdurfRbndom invokf tif following mftiods
+ * <p> Typidbl dbllfrs of SfdurfRbndom invokf tif following mftiods
+ * <p> Typidbl dbllfrs of SfdurfRbndom invokf tif following mftiods
+ * to rftrifvf rbndom bytfs:
+ * to rftrifvf rbndom bytfs:
+ * to rftrifvf rbndom bytfs:
+ * to rftrifvf rbndom bytfs:
+ * to rftrifvf rbndom bytfs:
+ *
+ *
+ *
+ *
+ *
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      bytf bytfs[] = nfw bytf[20];
+ *      bytf bytfs[] = nfw bytf[20];
+ *      bytf bytfs[] = nfw bytf[20];
+ *      bytf bytfs[] = nfw bytf[20];
+ *      bytf bytfs[] = nfw bytf[20];
+ *      rbndom.nfxtBytfs(bytfs);
+ *      rbndom.nfxtBytfs(bytfs);
+ *      rbndom.nfxtBytfs(bytfs);
+ *      rbndom.nfxtBytfs(bytfs);
+ *      rbndom.nfxtBytfs(bytfs);
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ *
+ *
+ *
+ *
+ *
+ * <p> Cbllfrs mby blso invokf tif {@dodf gfnfrbtfSffd} mftiod
+ * <p> Cbllfrs mby blso invokf tif {@dodf gfnfrbtfSffd} mftiod
+ * <p> Cbllfrs mby blso invokf tif {@dodf gfnfrbtfSffd} mftiod
+ * <p> Cbllfrs mby blso invokf tif {@dodf gfnfrbtfSffd} mftiod
+ * <p> Cbllfrs mby blso invokf tif {@dodf gfnfrbtfSffd} mftiod
+ * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd otifr rbndom numbfr
+ * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd otifr rbndom numbfr
+ * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd otifr rbndom numbfr
+ * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd otifr rbndom numbfr
+ * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd otifr rbndom numbfr
+ * gfnfrbtors, for fxbmplf):
+ * gfnfrbtors, for fxbmplf):
+ * gfnfrbtors, for fxbmplf):
+ * gfnfrbtors, for fxbmplf):
+ * gfnfrbtors, for fxbmplf):
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ * <prf>
+ *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
+ *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
+ *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
+ *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
+ *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ * </prf>
+ *
+ *
+ *
+ *
+ *
+ * Notf: Dfpfnding on tif implfmfntbtion, tif {@dodf gfnfrbtfSffd} bnd
+ * Notf: Dfpfnding on tif implfmfntbtion, tif {@dodf gfnfrbtfSffd} bnd
+ * Notf: Dfpfnding on tif implfmfntbtion, tif {@dodf gfnfrbtfSffd} bnd
+ * Notf: Dfpfnding on tif implfmfntbtion, tif {@dodf gfnfrbtfSffd} bnd
+ * Notf: Dfpfnding on tif implfmfntbtion, tif {@dodf gfnfrbtfSffd} bnd
+ * {@dodf nfxtBytfs} mftiods mby blodk bs fntropy is bfing gbtifrfd,
+ * {@dodf nfxtBytfs} mftiods mby blodk bs fntropy is bfing gbtifrfd,
+ * {@dodf nfxtBytfs} mftiods mby blodk bs fntropy is bfing gbtifrfd,
+ * {@dodf nfxtBytfs} mftiods mby blodk bs fntropy is bfing gbtifrfd,
+ * {@dodf nfxtBytfs} mftiods mby blodk bs fntropy is bfing gbtifrfd,
+ * for fxbmplf, if tify nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
+ * for fxbmplf, if tify nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
+ * for fxbmplf, if tify nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
+ * for fxbmplf, if tify nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
+ * for fxbmplf, if tify nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
+ * opfrbting systfms.
+ * opfrbting systfms.
+ * opfrbting systfms.
+ * opfrbting systfms.
+ * opfrbting systfms.
+ *
+ *
+ *
+ *
+ *
+ * @sff jbvb.sfdurity.SfdurfRbndomSpi
+ * @sff jbvb.sfdurity.SfdurfRbndomSpi
+ * @sff jbvb.sfdurity.SfdurfRbndomSpi
+ * @sff jbvb.sfdurity.SfdurfRbndomSpi
+ * @sff jbvb.sfdurity.SfdurfRbndomSpi
+ * @sff jbvb.util.Rbndom
+ * @sff jbvb.util.Rbndom
+ * @sff jbvb.util.Rbndom
+ * @sff jbvb.util.Rbndom
+ * @sff jbvb.util.Rbndom
+ *
+ *
+ *
+ *
+ *
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ * @butior Bfnjbmin Rfnbud
+ * @butior Josi Blodi
+ * @butior Josi Blodi
+ * @butior Josi Blodi
+ * @butior Josi Blodi
+ * @butior Josi Blodi
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid dlbss SfdurfRbndom fxtfnds jbvb.util.Rbndom {
+publid dlbss SfdurfRbndom fxtfnds jbvb.util.Rbndom {
+publid dlbss SfdurfRbndom fxtfnds jbvb.util.Rbndom {
+publid dlbss SfdurfRbndom fxtfnds jbvb.util.Rbndom {
 publid dlbss SfdurfRbndom fxtfnds jbvb.util.Rbndom {
 
+
+
+
+
     /**
-     * Thf providfr.
+    /**
+    /**
+    /**
+    /**
+     * Tif providfr.
+     * Tif providfr.
+     * Tif providfr.
+     * Tif providfr.
+     * Tif providfr.
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     privbtf Providfr providfr = null;
+    privbtf Providfr providfr = null;
+    privbtf Providfr providfr = null;
+    privbtf Providfr providfr = null;
+    privbtf Providfr providfr = null;
+
+
+
+
 
     /**
-     * Thf providfr implfmfntbtion.
+    /**
+    /**
+    /**
+    /**
+     * Tif providfr implfmfntbtion.
+     * Tif providfr implfmfntbtion.
+     * Tif providfr implfmfntbtion.
+     * Tif providfr implfmfntbtion.
+     * Tif providfr implfmfntbtion.
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     */
+     */
+     */
+     */
      */
     privbtf SfdurfRbndomSpi sfdurfRbndomSpi = null;
+    privbtf SfdurfRbndomSpi sfdurfRbndomSpi = null;
+    privbtf SfdurfRbndomSpi sfdurfRbndomSpi = null;
+    privbtf SfdurfRbndomSpi sfdurfRbndomSpi = null;
+    privbtf SfdurfRbndomSpi sfdurfRbndomSpi = null;
+
+
+
+
 
     /*
-     * Thf blgorithm nbmf of null if unknown.
+    /*
+    /*
+    /*
+    /*
+     * Tif blgoritim nbmf of null if unknown.
+     * Tif blgoritim nbmf of null if unknown.
+     * Tif blgoritim nbmf of null if unknown.
+     * Tif blgoritim nbmf of null if unknown.
+     * Tif blgoritim nbmf of null if unknown.
+     *
+     *
+     *
+     *
      *
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
      * @sindf 1.5
      */
-    privbtf String blgorithm;
+     */
+     */
+     */
+     */
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+    privbtf String blgoritim;
+
+
+
+
 
     // Sffd Gfnfrbtor
+    // Sffd Gfnfrbtor
+    // Sffd Gfnfrbtor
+    // Sffd Gfnfrbtor
+    // Sffd Gfnfrbtor
+    privbtf stbtid volbtilf SfdurfRbndom sffdGfnfrbtor = null;
+    privbtf stbtid volbtilf SfdurfRbndom sffdGfnfrbtor = null;
+    privbtf stbtid volbtilf SfdurfRbndom sffdGfnfrbtor = null;
+    privbtf stbtid volbtilf SfdurfRbndom sffdGfnfrbtor = null;
     privbtf stbtid volbtilf SfdurfRbndom sffdGfnfrbtor = null;
 
+
+
+
+
     /**
-     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting thf
-     * dffbult rbndom numbfr blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
      *
-     * <p> This donstrudtor trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
-     * stbrting with thf most prfffrrfd Providfr.
-     * A nfw SfdurfRbndom objfdt fndbpsulbting thf
-     * SfdurfRbndomSpi implfmfntbtion from thf first
-     * Providfr thbt supports b SfdurfRbndom (RNG) blgorithm is rfturnfd.
-     * If nonf of thf Providfrs support b RNG blgorithm,
-     * thfn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
      *
-     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
-     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
      *
-     * <p> Sff thf SfdurfRbndom sfdtion in thf <b hrff=
-     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
-     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
-     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
      *
-     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
-     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
-     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
-     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
-     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     *
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     *
+     *
+     *
+     *
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     *
+     *
+     *
+     *
+     *
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
      * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     */
+     */
+     */
+     */
      */
     publid SfdurfRbndom() {
+    publid SfdurfRbndom() {
+    publid SfdurfRbndom() {
+    publid SfdurfRbndom() {
+    publid SfdurfRbndom() {
         /*
-         * This dbll to our supfrdlbss donstrudtor will rfsult in b dbll
-         * to our own {@dodf sftSffd} mfthod, whidh will rfturn
-         * immfdibtfly whfn it is pbssfd zfro.
+        /*
+        /*
+        /*
+        /*
+         * Tiis dbll to our supfrdlbss donstrudtor will rfsult in b dbll
+         * Tiis dbll to our supfrdlbss donstrudtor will rfsult in b dbll
+         * Tiis dbll to our supfrdlbss donstrudtor will rfsult in b dbll
+         * Tiis dbll to our supfrdlbss donstrudtor will rfsult in b dbll
+         * Tiis dbll to our supfrdlbss donstrudtor will rfsult in b dbll
+         * to our own {@dodf sftSffd} mftiod, wiidi will rfturn
+         * to our own {@dodf sftSffd} mftiod, wiidi will rfturn
+         * to our own {@dodf sftSffd} mftiod, wiidi will rfturn
+         * to our own {@dodf sftSffd} mftiod, wiidi will rfturn
+         * to our own {@dodf sftSffd} mftiod, wiidi will rfturn
+         * immfdibtfly wifn it is pbssfd zfro.
+         * immfdibtfly wifn it is pbssfd zfro.
+         * immfdibtfly wifn it is pbssfd zfro.
+         * immfdibtfly wifn it is pbssfd zfro.
+         * immfdibtfly wifn it is pbssfd zfro.
          */
+         */
+         */
+         */
+         */
+        supfr(0);
+        supfr(0);
+        supfr(0);
+        supfr(0);
         supfr(0);
         gftDffbultPRNG(fblsf, null);
+        gftDffbultPRNG(fblsf, null);
+        gftDffbultPRNG(fblsf, null);
+        gftDffbultPRNG(fblsf, null);
+        gftDffbultPRNG(fblsf, null);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting thf
-     * dffbult rbndom numbfr blgorithm.
-     * Thf SfdurfRbndom instbndf is sffdfd with thf spfdififd sffd bytfs.
+    /**
+    /**
+    /**
+    /**
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
+     * dffbult rbndom numbfr blgoritim.
+     * Tif SfdurfRbndom instbndf is sffdfd witi tif spfdififd sffd bytfs.
+     * Tif SfdurfRbndom instbndf is sffdfd witi tif spfdififd sffd bytfs.
+     * Tif SfdurfRbndom instbndf is sffdfd witi tif spfdififd sffd bytfs.
+     * Tif SfdurfRbndom instbndf is sffdfd witi tif spfdififd sffd bytfs.
+     * Tif SfdurfRbndom instbndf is sffdfd witi tif spfdififd sffd bytfs.
      *
-     * <p> This donstrudtor trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
-     * stbrting with thf most prfffrrfd Providfr.
-     * A nfw SfdurfRbndom objfdt fndbpsulbting thf
-     * SfdurfRbndomSpi implfmfntbtion from thf first
-     * Providfr thbt supports b SfdurfRbndom (RNG) blgorithm is rfturnfd.
-     * If nonf of thf Providfrs support b RNG blgorithm,
-     * thfn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
      *
-     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
-     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
      *
-     * <p> Sff thf SfdurfRbndom sfdtion in thf <b hrff=
-     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
-     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
-     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
      *
-     * @pbrbm sffd thf sffd.
+     *
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     *
+     *
+     *
+     *
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     */
+     */
+     */
+     */
      */
     publid SfdurfRbndom(bytf sffd[]) {
+    publid SfdurfRbndom(bytf sffd[]) {
+    publid SfdurfRbndom(bytf sffd[]) {
+    publid SfdurfRbndom(bytf sffd[]) {
+    publid SfdurfRbndom(bytf sffd[]) {
+        supfr(0);
+        supfr(0);
+        supfr(0);
+        supfr(0);
         supfr(0);
         gftDffbultPRNG(truf, sffd);
+        gftDffbultPRNG(truf, sffd);
+        gftDffbultPRNG(truf, sffd);
+        gftDffbultPRNG(truf, sffd);
+        gftDffbultPRNG(truf, sffd);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf void gftDffbultPRNG(boolfbn sftSffd, bytf[] sffd) {
-        String prng = gftPrngAlgorithm();
+    privbtf void gftDffbultPRNG(boolfbn sftSffd, bytf[] sffd) {
+    privbtf void gftDffbultPRNG(boolfbn sftSffd, bytf[] sffd) {
+    privbtf void gftDffbultPRNG(boolfbn sftSffd, bytf[] sffd) {
+    privbtf void gftDffbultPRNG(boolfbn sftSffd, bytf[] sffd) {
+        String prng = gftPrngAlgoritim();
+        String prng = gftPrngAlgoritim();
+        String prng = gftPrngAlgoritim();
+        String prng = gftPrngAlgoritim();
+        String prng = gftPrngAlgoritim();
         if (prng == null) {
-            // bummfr, gft thf SUN implfmfntbtion
+        if (prng == null) {
+        if (prng == null) {
+        if (prng == null) {
+        if (prng == null) {
+            // bummfr, gft tif SUN implfmfntbtion
+            // bummfr, gft tif SUN implfmfntbtion
+            // bummfr, gft tif SUN implfmfntbtion
+            // bummfr, gft tif SUN implfmfntbtion
+            // bummfr, gft tif SUN implfmfntbtion
             prng = "SHA1PRNG";
-            this.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
-            this.providfr = Providfrs.gftSunProvidfr();
+            prng = "SHA1PRNG";
+            prng = "SHA1PRNG";
+            prng = "SHA1PRNG";
+            prng = "SHA1PRNG";
+            tiis.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
+            tiis.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
+            tiis.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
+            tiis.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
+            tiis.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
+            tiis.providfr = Providfrs.gftSunProvidfr();
+            tiis.providfr = Providfrs.gftSunProvidfr();
+            tiis.providfr = Providfrs.gftSunProvidfr();
+            tiis.providfr = Providfrs.gftSunProvidfr();
+            tiis.providfr = Providfrs.gftSunProvidfr();
             if (sftSffd) {
-                this.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+            if (sftSffd) {
+            if (sftSffd) {
+            if (sftSffd) {
+            if (sftSffd) {
+                tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+            }
+            }
+            }
+            }
             }
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            try {
+            try {
+            try {
+            try {
             try {
                 SfdurfRbndom rbndom = SfdurfRbndom.gftInstbndf(prng);
-                this.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
-                this.providfr = rbndom.gftProvidfr();
+                SfdurfRbndom rbndom = SfdurfRbndom.gftInstbndf(prng);
+                SfdurfRbndom rbndom = SfdurfRbndom.gftInstbndf(prng);
+                SfdurfRbndom rbndom = SfdurfRbndom.gftInstbndf(prng);
+                SfdurfRbndom rbndom = SfdurfRbndom.gftInstbndf(prng);
+                tiis.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
+                tiis.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
+                tiis.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
+                tiis.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
+                tiis.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
+                tiis.providfr = rbndom.gftProvidfr();
+                tiis.providfr = rbndom.gftProvidfr();
+                tiis.providfr = rbndom.gftProvidfr();
+                tiis.providfr = rbndom.gftProvidfr();
+                tiis.providfr = rbndom.gftProvidfr();
                 if (sftSffd) {
-                    this.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                if (sftSffd) {
+                if (sftSffd) {
+                if (sftSffd) {
+                if (sftSffd) {
+                    tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                    tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                    tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                    tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                    tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
                 }
-            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
-                // nfvfr hbppfns, bfdbusf wf mbdf surf thf blgorithm fxists
-                throw nfw RuntimfExdfption(nsbf);
+                }
+                }
+                }
+                }
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                // nfvfr ibppfns, bfdbusf wf mbdf surf tif blgoritim fxists
+                // nfvfr ibppfns, bfdbusf wf mbdf surf tif blgoritim fxists
+                // nfvfr ibppfns, bfdbusf wf mbdf surf tif blgoritim fxists
+                // nfvfr ibppfns, bfdbusf wf mbdf surf tif blgoritim fxists
+                // nfvfr ibppfns, bfdbusf wf mbdf surf tif blgoritim fxists
+                tirow nfw RuntimfExdfption(nsbf);
+                tirow nfw RuntimfExdfption(nsbf);
+                tirow nfw RuntimfExdfption(nsbf);
+                tirow nfw RuntimfExdfption(nsbf);
+                tirow nfw RuntimfExdfption(nsbf);
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         // JDK 1.1 bbsfd implfmfntbtions subdlbss SfdurfRbndom instfbd of
-        // SfdurfRbndomSpi. Thfy will blso go through this dodf pbth bfdbusf
-        // thfy must dbll b SfdurfRbndom donstrudtor bs it is thfir supfrdlbss.
-        // If wf brf dfbling with sudh bn implfmfntbtion, do not sft thf
-        // blgorithm vbluf bs it would bf inbddurbtf.
+        // JDK 1.1 bbsfd implfmfntbtions subdlbss SfdurfRbndom instfbd of
+        // JDK 1.1 bbsfd implfmfntbtions subdlbss SfdurfRbndom instfbd of
+        // JDK 1.1 bbsfd implfmfntbtions subdlbss SfdurfRbndom instfbd of
+        // JDK 1.1 bbsfd implfmfntbtions subdlbss SfdurfRbndom instfbd of
+        // SfdurfRbndomSpi. Tify will blso go tirougi tiis dodf pbti bfdbusf
+        // SfdurfRbndomSpi. Tify will blso go tirougi tiis dodf pbti bfdbusf
+        // SfdurfRbndomSpi. Tify will blso go tirougi tiis dodf pbti bfdbusf
+        // SfdurfRbndomSpi. Tify will blso go tirougi tiis dodf pbti bfdbusf
+        // SfdurfRbndomSpi. Tify will blso go tirougi tiis dodf pbti bfdbusf
+        // tify must dbll b SfdurfRbndom donstrudtor bs it is tifir supfrdlbss.
+        // tify must dbll b SfdurfRbndom donstrudtor bs it is tifir supfrdlbss.
+        // tify must dbll b SfdurfRbndom donstrudtor bs it is tifir supfrdlbss.
+        // tify must dbll b SfdurfRbndom donstrudtor bs it is tifir supfrdlbss.
+        // tify must dbll b SfdurfRbndom donstrudtor bs it is tifir supfrdlbss.
+        // If wf brf dfbling witi sudi bn implfmfntbtion, do not sft tif
+        // If wf brf dfbling witi sudi bn implfmfntbtion, do not sft tif
+        // If wf brf dfbling witi sudi bn implfmfntbtion, do not sft tif
+        // If wf brf dfbling witi sudi bn implfmfntbtion, do not sft tif
+        // If wf brf dfbling witi sudi bn implfmfntbtion, do not sft tif
+        // blgoritim vbluf bs it would bf inbddurbtf.
+        // blgoritim vbluf bs it would bf inbddurbtf.
+        // blgoritim vbluf bs it would bf inbddurbtf.
+        // blgoritim vbluf bs it would bf inbddurbtf.
+        // blgoritim vbluf bs it would bf inbddurbtf.
         if (gftClbss() == SfdurfRbndom.dlbss) {
-            this.blgorithm = prng;
+        if (gftClbss() == SfdurfRbndom.dlbss) {
+        if (gftClbss() == SfdurfRbndom.dlbss) {
+        if (gftClbss() == SfdurfRbndom.dlbss) {
+        if (gftClbss() == SfdurfRbndom.dlbss) {
+            tiis.blgoritim = prng;
+            tiis.blgoritim = prng;
+            tiis.blgoritim = prng;
+            tiis.blgoritim = prng;
+            tiis.blgoritim = prng;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b SfdurfRbndom objfdt.
+     * Crfbtfs b SfdurfRbndom objfdt.
+     * Crfbtfs b SfdurfRbndom objfdt.
+     * Crfbtfs b SfdurfRbndom objfdt.
+     * Crfbtfs b SfdurfRbndom objfdt.
      *
-     * @pbrbm sfdurfRbndomSpi thf SfdurfRbndom implfmfntbtion.
-     * @pbrbm providfr thf providfr.
+     *
+     *
+     *
+     *
+     * @pbrbm sfdurfRbndomSpi tif SfdurfRbndom implfmfntbtion.
+     * @pbrbm sfdurfRbndomSpi tif SfdurfRbndom implfmfntbtion.
+     * @pbrbm sfdurfRbndomSpi tif SfdurfRbndom implfmfntbtion.
+     * @pbrbm sfdurfRbndomSpi tif SfdurfRbndom implfmfntbtion.
+     * @pbrbm sfdurfRbndomSpi tif SfdurfRbndom implfmfntbtion.
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     */
+     */
+     */
+     */
      */
     protfdtfd SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi,
+    protfdtfd SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi,
+    protfdtfd SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi,
+    protfdtfd SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi,
+    protfdtfd SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi,
                            Providfr providfr) {
-        this(sfdurfRbndomSpi, providfr, null);
+                           Providfr providfr) {
+                           Providfr providfr) {
+                           Providfr providfr) {
+                           Providfr providfr) {
+        tiis(sfdurfRbndomSpi, providfr, null);
+        tiis(sfdurfRbndomSpi, providfr, null);
+        tiis(sfdurfRbndomSpi, providfr, null);
+        tiis(sfdurfRbndomSpi, providfr, null);
+        tiis(sfdurfRbndomSpi, providfr, null);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi, Providfr providfr,
-            String blgorithm) {
+    privbtf SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi, Providfr providfr,
+    privbtf SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi, Providfr providfr,
+    privbtf SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi, Providfr providfr,
+    privbtf SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi, Providfr providfr,
+            String blgoritim) {
+            String blgoritim) {
+            String blgoritim) {
+            String blgoritim) {
+            String blgoritim) {
         supfr(0);
-        this.sfdurfRbndomSpi = sfdurfRbndomSpi;
-        this.providfr = providfr;
-        this.blgorithm = blgorithm;
+        supfr(0);
+        supfr(0);
+        supfr(0);
+        supfr(0);
+        tiis.sfdurfRbndomSpi = sfdurfRbndomSpi;
+        tiis.sfdurfRbndomSpi = sfdurfRbndomSpi;
+        tiis.sfdurfRbndomSpi = sfdurfRbndomSpi;
+        tiis.sfdurfRbndomSpi = sfdurfRbndomSpi;
+        tiis.sfdurfRbndomSpi = sfdurfRbndomSpi;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.providfr = providfr;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+        tiis.blgoritim = blgoritim;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b SfdurfRbndom objfdt thbt implfmfnts thf spfdififd
-     * Rbndom Numbfr Gfnfrbtor (RNG) blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
      *
-     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
-     * stbrting with thf most prfffrrfd Providfr.
-     * A nfw SfdurfRbndom objfdt fndbpsulbting thf
-     * SfdurfRbndomSpi implfmfntbtion from thf first
-     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
      *
-     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
-     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
      *
-     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
-     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
-     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
-     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
-     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     *
+     *
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     *
+     *
+     *
+     *
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
      * prfviously dbllfd.
      *
-     * @pbrbm blgorithm thf nbmf of thf RNG blgorithm.
-     * Sff thf SfdurfRbndom sfdtion in thf <b hrff=
-     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
-     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
-     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
      *
-     * @rfturn thf nfw SfdurfRbndom objfdt.
      *
-     * @fxdfption NoSudhAlgorithmExdfption if no Providfr supports b
-     *          SfdurfRbndomSpi implfmfntbtion for thf
-     *          spfdififd blgorithm.
+     *
+     *
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     *          SfdurfRbndomSpi implfmfntbtion for tif
+     *          SfdurfRbndomSpi implfmfntbtion for tif
+     *          SfdurfRbndomSpi implfmfntbtion for tif
+     *          SfdurfRbndomSpi implfmfntbtion for tif
+     *          SfdurfRbndomSpi implfmfntbtion for tif
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     *          spfdififd blgoritim.
+     *
+     *
+     *
+     *
      *
      * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     *
+     *
+     *
+     *
      *
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      */
-    publid stbtid SfdurfRbndom gftInstbndf(String blgorithm)
-            throws NoSudhAlgorithmExdfption {
+     */
+     */
+     */
+     */
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
         Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
-            SfdurfRbndomSpi.dlbss, blgorithm);
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgoritim);
+            SfdurfRbndomSpi.dlbss, blgoritim);
+            SfdurfRbndomSpi.dlbss, blgoritim);
+            SfdurfRbndomSpi.dlbss, blgoritim);
+            SfdurfRbndomSpi.dlbss, blgoritim);
         rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
-            instbndf.providfr, blgorithm);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b SfdurfRbndom objfdt thbt implfmfnts thf spfdififd
-     * Rbndom Numbfr Gfnfrbtor (RNG) blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
      *
-     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting thf
-     * SfdurfRbndomSpi implfmfntbtion from thf spfdififd providfr
-     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
-     * in thf sfdurity providfr list.
      *
-     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
-     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
      *
-     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
-     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
-     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
-     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
-     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     *
+     *
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     * in tif sfdurity providfr list.
+     *
+     *
+     *
+     *
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     *
+     *
+     *
+     *
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
      * prfviously dbllfd.
      *
-     * @pbrbm blgorithm thf nbmf of thf RNG blgorithm.
-     * Sff thf SfdurfRbndom sfdtion in thf <b hrff=
-     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
-     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
-     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
      *
-     * @pbrbm providfr thf nbmf of thf providfr.
      *
-     * @rfturn thf nfw SfdurfRbndom objfdt.
      *
-     * @fxdfption NoSudhAlgorithmExdfption if b SfdurfRbndomSpi
-     *          implfmfntbtion for thf spfdififd blgorithm is not
-     *          bvbilbblf from thf spfdififd providfr.
      *
-     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr is not
-     *          rfgistfrfd in thf sfdurity providfr list.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
      *
-     * @fxdfption IllfgblArgumfntExdfption if thf providfr nbmf is null
+     *
+     *
+     *
+     *
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     * @pbrbm providfr tif nbmf of tif providfr.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *          bvbilbblf from tif spfdififd providfr.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *          rfgistfrfd in tif sfdurity providfr list.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     *          or fmpty.
+     *          or fmpty.
+     *          or fmpty.
+     *          or fmpty.
      *          or fmpty.
      *
+     *
+     *
+     *
+     *
      * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     *
+     *
+     *
+     *
      *
      * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
+     * @sindf 1.2
      */
-    publid stbtid SfdurfRbndom gftInstbndf(String blgorithm, String providfr)
-            throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+     */
+     */
+     */
+     */
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim, String providfr)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim, String providfr)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim, String providfr)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim, String providfr)
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim, String providfr)
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
         Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
-            SfdurfRbndomSpi.dlbss, blgorithm, providfr);
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
         rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
-            instbndf.providfr, blgorithm);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns b SfdurfRbndom objfdt thbt implfmfnts thf spfdififd
-     * Rbndom Numbfr Gfnfrbtor (RNG) blgorithm.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
      *
-     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting thf
-     * SfdurfRbndomSpi implfmfntbtion from thf spfdififd Providfr
-     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
-     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
      *
-     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
-     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
-     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
-     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
-     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     *
+     *
+     *
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd Providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd Providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd Providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd Providfr
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     *
+     *
+     *
+     *
+     *
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
+     * prfviously dbllfd.
      * prfviously dbllfd.
      *
-     * @pbrbm blgorithm thf nbmf of thf RNG blgorithm.
-     * Sff thf SfdurfRbndom sfdtion in thf <b hrff=
-     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
-     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
-     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
      *
-     * @pbrbm providfr thf providfr.
      *
-     * @rfturn thf nfw SfdurfRbndom objfdt.
      *
-     * @fxdfption NoSudhAlgorithmExdfption if b SfdurfRbndomSpi
-     *          implfmfntbtion for thf spfdififd blgorithm is not bvbilbblf
-     *          from thf spfdififd Providfr objfdt.
      *
-     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd providfr is null.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     * @pbrbm providfr tif providfr.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *          from tif spfdififd Providfr objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr is null.
+     *
+     *
+     *
+     *
      *
      * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     * @sff Providfr
+     *
+     *
+     *
+     *
      *
      * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
+     * @sindf 1.4
      */
-    publid stbtid SfdurfRbndom gftInstbndf(String blgorithm,
-            Providfr providfr) throws NoSudhAlgorithmExdfption {
+     */
+     */
+     */
+     */
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim,
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim,
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim,
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim,
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim,
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
         Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
-            SfdurfRbndomSpi.dlbss, blgorithm, providfr);
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
         rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
-            instbndf.providfr, blgorithm);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+            instbndf.providfr, blgoritim);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf SfdurfRbndomSpi of this SfdurfRbndom objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif SfdurfRbndomSpi of tiis SfdurfRbndom objfdt.
+     * Rfturns tif SfdurfRbndomSpi of tiis SfdurfRbndom objfdt.
+     * Rfturns tif SfdurfRbndomSpi of tiis SfdurfRbndom objfdt.
+     * Rfturns tif SfdurfRbndomSpi of tiis SfdurfRbndom objfdt.
+     * Rfturns tif SfdurfRbndomSpi of tiis SfdurfRbndom objfdt.
+     */
+     */
+     */
+     */
      */
     SfdurfRbndomSpi gftSfdurfRbndomSpi() {
+    SfdurfRbndomSpi gftSfdurfRbndomSpi() {
+    SfdurfRbndomSpi gftSfdurfRbndomSpi() {
+    SfdurfRbndomSpi gftSfdurfRbndomSpi() {
+    SfdurfRbndomSpi gftSfdurfRbndomSpi() {
+        rfturn sfdurfRbndomSpi;
+        rfturn sfdurfRbndomSpi;
+        rfturn sfdurfRbndomSpi;
+        rfturn sfdurfRbndomSpi;
         rfturn sfdurfRbndomSpi;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf providfr of this SfdurfRbndom objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif providfr of tiis SfdurfRbndom objfdt.
+     * Rfturns tif providfr of tiis SfdurfRbndom objfdt.
+     * Rfturns tif providfr of tiis SfdurfRbndom objfdt.
+     * Rfturns tif providfr of tiis SfdurfRbndom objfdt.
+     * Rfturns tif providfr of tiis SfdurfRbndom objfdt.
      *
-     * @rfturn thf providfr of this SfdurfRbndom objfdt.
+     *
+     *
+     *
+     *
+     * @rfturn tif providfr of tiis SfdurfRbndom objfdt.
+     * @rfturn tif providfr of tiis SfdurfRbndom objfdt.
+     * @rfturn tif providfr of tiis SfdurfRbndom objfdt.
+     * @rfturn tif providfr of tiis SfdurfRbndom objfdt.
+     * @rfturn tif providfr of tiis SfdurfRbndom objfdt.
+     */
+     */
+     */
+     */
      */
     publid finbl Providfr gftProvidfr() {
+    publid finbl Providfr gftProvidfr() {
+    publid finbl Providfr gftProvidfr() {
+    publid finbl Providfr gftProvidfr() {
+    publid finbl Providfr gftProvidfr() {
+        rfturn providfr;
+        rfturn providfr;
+        rfturn providfr;
+        rfturn providfr;
         rfturn providfr;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns thf nbmf of thf blgorithm implfmfntfd by this SfdurfRbndom
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nbmf of tif blgoritim implfmfntfd by tiis SfdurfRbndom
+     * Rfturns tif nbmf of tif blgoritim implfmfntfd by tiis SfdurfRbndom
+     * Rfturns tif nbmf of tif blgoritim implfmfntfd by tiis SfdurfRbndom
+     * Rfturns tif nbmf of tif blgoritim implfmfntfd by tiis SfdurfRbndom
+     * Rfturns tif nbmf of tif blgoritim implfmfntfd by tiis SfdurfRbndom
+     * objfdt.
+     * objfdt.
+     * objfdt.
+     * objfdt.
      * objfdt.
      *
-     * @rfturn thf nbmf of thf blgorithm or {@dodf unknown}
-     *          if thf blgorithm nbmf dbnnot bf dftfrminfd.
+     *
+     *
+     *
+     *
+     * @rfturn tif nbmf of tif blgoritim or {@dodf unknown}
+     * @rfturn tif nbmf of tif blgoritim or {@dodf unknown}
+     * @rfturn tif nbmf of tif blgoritim or {@dodf unknown}
+     * @rfturn tif nbmf of tif blgoritim or {@dodf unknown}
+     * @rfturn tif nbmf of tif blgoritim or {@dodf unknown}
+     *          if tif blgoritim nbmf dbnnot bf dftfrminfd.
+     *          if tif blgoritim nbmf dbnnot bf dftfrminfd.
+     *          if tif blgoritim nbmf dbnnot bf dftfrminfd.
+     *          if tif blgoritim nbmf dbnnot bf dftfrminfd.
+     *          if tif blgoritim nbmf dbnnot bf dftfrminfd.
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
      * @sindf 1.5
      */
-    publid String gftAlgorithm() {
-        rfturn (blgorithm != null) ? blgorithm : "unknown";
+     */
+     */
+     */
+     */
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+    publid String gftAlgoritim() {
+        rfturn (blgoritim != null) ? blgoritim : "unknown";
+        rfturn (blgoritim != null) ? blgoritim : "unknown";
+        rfturn (blgoritim != null) ? blgoritim : "unknown";
+        rfturn (blgoritim != null) ? blgoritim : "unknown";
+        rfturn (blgoritim != null) ? blgoritim : "unknown";
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfsffds this rbndom objfdt. Thf givfn sffd supplfmfnts, rbthfr thbn
-     * rfplbdfs, thf fxisting sffd. Thus, rfpfbtfd dblls brf gubrbntffd
+    /**
+    /**
+    /**
+    /**
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * nfvfr to rfdudf rbndomnfss.
+     * nfvfr to rfdudf rbndomnfss.
+     * nfvfr to rfdudf rbndomnfss.
+     * nfvfr to rfdudf rbndomnfss.
      * nfvfr to rfdudf rbndomnfss.
      *
-     * @pbrbm sffd thf sffd.
+     *
+     *
+     *
+     *
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     *
+     *
+     *
+     *
      *
      * @sff #gftSffd
+     * @sff #gftSffd
+     * @sff #gftSffd
+     * @sff #gftSffd
+     * @sff #gftSffd
      */
-    syndhronizfd publid void sftSffd(bytf[] sffd) {
+     */
+     */
+     */
+     */
+    syndironizfd publid void sftSffd(bytf[] sffd) {
+    syndironizfd publid void sftSffd(bytf[] sffd) {
+    syndironizfd publid void sftSffd(bytf[] sffd) {
+    syndironizfd publid void sftSffd(bytf[] sffd) {
+    syndironizfd publid void sftSffd(bytf[] sffd) {
+        sfdurfRbndomSpi.fnginfSftSffd(sffd);
+        sfdurfRbndomSpi.fnginfSftSffd(sffd);
+        sfdurfRbndomSpi.fnginfSftSffd(sffd);
+        sfdurfRbndomSpi.fnginfSftSffd(sffd);
         sfdurfRbndomSpi.fnginfSftSffd(sffd);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfsffds this rbndom objfdt, using thf fight bytfs dontbinfd
-     * in thf givfn {@dodf long sffd}. Thf givfn sffd supplfmfnts,
-     * rbthfr thbn rfplbdfs, thf fxisting sffd. Thus, rfpfbtfd dblls
+    /**
+    /**
+    /**
+    /**
+     * Rfsffds tiis rbndom objfdt, using tif figit bytfs dontbinfd
+     * Rfsffds tiis rbndom objfdt, using tif figit bytfs dontbinfd
+     * Rfsffds tiis rbndom objfdt, using tif figit bytfs dontbinfd
+     * Rfsffds tiis rbndom objfdt, using tif figit bytfs dontbinfd
+     * Rfsffds tiis rbndom objfdt, using tif figit bytfs dontbinfd
+     * in tif givfn {@dodf long sffd}. Tif givfn sffd supplfmfnts,
+     * in tif givfn {@dodf long sffd}. Tif givfn sffd supplfmfnts,
+     * in tif givfn {@dodf long sffd}. Tif givfn sffd supplfmfnts,
+     * in tif givfn {@dodf long sffd}. Tif givfn sffd supplfmfnts,
+     * in tif givfn {@dodf long sffd}. Tif givfn sffd supplfmfnts,
+     * rbtifr tibn rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls
+     * rbtifr tibn rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls
+     * rbtifr tibn rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls
+     * rbtifr tibn rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls
+     * rbtifr tibn rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls
+     * brf gubrbntffd nfvfr to rfdudf rbndomnfss.
+     * brf gubrbntffd nfvfr to rfdudf rbndomnfss.
+     * brf gubrbntffd nfvfr to rfdudf rbndomnfss.
+     * brf gubrbntffd nfvfr to rfdudf rbndomnfss.
      * brf gubrbntffd nfvfr to rfdudf rbndomnfss.
      *
-     * <p>This mfthod is dffinfd for dompbtibility with
+     *
+     *
+     *
+     *
+     * <p>Tiis mftiod is dffinfd for dompbtibility witi
+     * <p>Tiis mftiod is dffinfd for dompbtibility witi
+     * <p>Tiis mftiod is dffinfd for dompbtibility witi
+     * <p>Tiis mftiod is dffinfd for dompbtibility witi
+     * <p>Tiis mftiod is dffinfd for dompbtibility witi
+     * {@dodf jbvb.util.Rbndom}.
+     * {@dodf jbvb.util.Rbndom}.
+     * {@dodf jbvb.util.Rbndom}.
+     * {@dodf jbvb.util.Rbndom}.
      * {@dodf jbvb.util.Rbndom}.
      *
-     * @pbrbm sffd thf sffd.
+     *
+     *
+     *
+     *
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     * @pbrbm sffd tif sffd.
+     *
+     *
+     *
+     *
      *
      * @sff #gftSffd
+     * @sff #gftSffd
+     * @sff #gftSffd
+     * @sff #gftSffd
+     * @sff #gftSffd
      */
+     */
+     */
+     */
+     */
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
     @Ovfrridf
     publid void sftSffd(long sffd) {
+    publid void sftSffd(long sffd) {
+    publid void sftSffd(long sffd) {
+    publid void sftSffd(long sffd) {
+    publid void sftSffd(long sffd) {
         /*
-         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny othfr dblls
-         * unfortunbtf fnough to bf pbssing 0).  It's dritidbl thbt wf
-         * ignorf dbll from supfrdlbss donstrudtor, bs digfst hbs not
-         * yft bffn initiblizfd bt thbt point.
+        /*
+        /*
+        /*
+        /*
+         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny otifr dblls
+         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny otifr dblls
+         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny otifr dblls
+         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny otifr dblls
+         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny otifr dblls
+         * unfortunbtf fnougi to bf pbssing 0).  It's dritidbl tibt wf
+         * unfortunbtf fnougi to bf pbssing 0).  It's dritidbl tibt wf
+         * unfortunbtf fnougi to bf pbssing 0).  It's dritidbl tibt wf
+         * unfortunbtf fnougi to bf pbssing 0).  It's dritidbl tibt wf
+         * unfortunbtf fnougi to bf pbssing 0).  It's dritidbl tibt wf
+         * ignorf dbll from supfrdlbss donstrudtor, bs digfst ibs not
+         * ignorf dbll from supfrdlbss donstrudtor, bs digfst ibs not
+         * ignorf dbll from supfrdlbss donstrudtor, bs digfst ibs not
+         * ignorf dbll from supfrdlbss donstrudtor, bs digfst ibs not
+         * ignorf dbll from supfrdlbss donstrudtor, bs digfst ibs not
+         * yft bffn initiblizfd bt tibt point.
+         * yft bffn initiblizfd bt tibt point.
+         * yft bffn initiblizfd bt tibt point.
+         * yft bffn initiblizfd bt tibt point.
+         * yft bffn initiblizfd bt tibt point.
+         */
+         */
+         */
+         */
          */
         if (sffd != 0) {
+        if (sffd != 0) {
+        if (sffd != 0) {
+        if (sffd != 0) {
+        if (sffd != 0) {
+            sfdurfRbndomSpi.fnginfSftSffd(longToBytfArrby(sffd));
+            sfdurfRbndomSpi.fnginfSftSffd(longToBytfArrby(sffd));
+            sfdurfRbndomSpi.fnginfSftSffd(longToBytfArrby(sffd));
+            sfdurfRbndomSpi.fnginfSftSffd(longToBytfArrby(sffd));
             sfdurfRbndomSpi.fnginfSftSffd(longToBytfArrby(sffd));
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
      *
-     * <p> If b dbll to {@dodf sftSffd} hbd not oddurrfd prfviously,
-     * thf first dbll to this mfthod fordfs this SfdurfRbndom objfdt
-     * to sffd itsflf.  This sflf-sffding will not oddur if
+     *
+     *
+     *
+     *
+     * <p> If b dbll to {@dodf sftSffd} ibd not oddurrfd prfviously,
+     * <p> If b dbll to {@dodf sftSffd} ibd not oddurrfd prfviously,
+     * <p> If b dbll to {@dodf sftSffd} ibd not oddurrfd prfviously,
+     * <p> If b dbll to {@dodf sftSffd} ibd not oddurrfd prfviously,
+     * <p> If b dbll to {@dodf sftSffd} ibd not oddurrfd prfviously,
+     * tif first dbll to tiis mftiod fordfs tiis SfdurfRbndom objfdt
+     * tif first dbll to tiis mftiod fordfs tiis SfdurfRbndom objfdt
+     * tif first dbll to tiis mftiod fordfs tiis SfdurfRbndom objfdt
+     * tif first dbll to tiis mftiod fordfs tiis SfdurfRbndom objfdt
+     * tif first dbll to tiis mftiod fordfs tiis SfdurfRbndom objfdt
+     * to sffd itsflf.  Tiis sflf-sffding will not oddur if
+     * to sffd itsflf.  Tiis sflf-sffding will not oddur if
+     * to sffd itsflf.  Tiis sflf-sffding will not oddur if
+     * to sffd itsflf.  Tiis sflf-sffding will not oddur if
+     * to sffd itsflf.  Tiis sflf-sffding will not oddur if
+     * {@dodf sftSffd} wbs prfviously dbllfd.
+     * {@dodf sftSffd} wbs prfviously dbllfd.
+     * {@dodf sftSffd} wbs prfviously dbllfd.
+     * {@dodf sftSffd} wbs prfviously dbllfd.
      * {@dodf sftSffd} wbs prfviously dbllfd.
      *
-     * @pbrbm bytfs thf brrby to bf fillfd in with rbndom bytfs.
+     *
+     *
+     *
+     *
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
-    syndhronizfd publid void nfxtBytfs(bytf[] bytfs) {
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    syndironizfd publid void nfxtBytfs(bytf[] bytfs) {
+    syndironizfd publid void nfxtBytfs(bytf[] bytfs) {
+    syndironizfd publid void nfxtBytfs(bytf[] bytfs) {
+    syndironizfd publid void nfxtBytfs(bytf[] bytfs) {
+    syndironizfd publid void nfxtBytfs(bytf[] bytfs) {
+        sfdurfRbndomSpi.fnginfNfxtBytfs(bytfs);
+        sfdurfRbndomSpi.fnginfNfxtBytfs(bytfs);
+        sfdurfRbndomSpi.fnginfNfxtBytfs(bytfs);
+        sfdurfRbndomSpi.fnginfNfxtBytfs(bytfs);
         sfdurfRbndomSpi.fnginfNfxtBytfs(bytfs);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Gfnfrbtfs bn intfgfr dontbining thf usfr-spfdififd numbfr of
-     * psfudo-rbndom bits (right justififd, with lfbding zfros).  This
-     * mfthod ovfrridfs b {@dodf jbvb.util.Rbndom} mfthod, bnd sfrvfs
-     * to providf b sourdf of rbndom bits to bll of thf mfthods inhfritfd
-     * from thbt dlbss (for fxbmplf, {@dodf nfxtInt},
+    /**
+    /**
+    /**
+    /**
+     * Gfnfrbtfs bn intfgfr dontbining tif usfr-spfdififd numbfr of
+     * Gfnfrbtfs bn intfgfr dontbining tif usfr-spfdififd numbfr of
+     * Gfnfrbtfs bn intfgfr dontbining tif usfr-spfdififd numbfr of
+     * Gfnfrbtfs bn intfgfr dontbining tif usfr-spfdififd numbfr of
+     * Gfnfrbtfs bn intfgfr dontbining tif usfr-spfdififd numbfr of
+     * psfudo-rbndom bits (rigit justififd, witi lfbding zfros).  Tiis
+     * psfudo-rbndom bits (rigit justififd, witi lfbding zfros).  Tiis
+     * psfudo-rbndom bits (rigit justififd, witi lfbding zfros).  Tiis
+     * psfudo-rbndom bits (rigit justififd, witi lfbding zfros).  Tiis
+     * psfudo-rbndom bits (rigit justififd, witi lfbding zfros).  Tiis
+     * mftiod ovfrridfs b {@dodf jbvb.util.Rbndom} mftiod, bnd sfrvfs
+     * mftiod ovfrridfs b {@dodf jbvb.util.Rbndom} mftiod, bnd sfrvfs
+     * mftiod ovfrridfs b {@dodf jbvb.util.Rbndom} mftiod, bnd sfrvfs
+     * mftiod ovfrridfs b {@dodf jbvb.util.Rbndom} mftiod, bnd sfrvfs
+     * mftiod ovfrridfs b {@dodf jbvb.util.Rbndom} mftiod, bnd sfrvfs
+     * to providf b sourdf of rbndom bits to bll of tif mftiods inifritfd
+     * to providf b sourdf of rbndom bits to bll of tif mftiods inifritfd
+     * to providf b sourdf of rbndom bits to bll of tif mftiods inifritfd
+     * to providf b sourdf of rbndom bits to bll of tif mftiods inifritfd
+     * to providf b sourdf of rbndom bits to bll of tif mftiods inifritfd
+     * from tibt dlbss (for fxbmplf, {@dodf nfxtInt},
+     * from tibt dlbss (for fxbmplf, {@dodf nfxtInt},
+     * from tibt dlbss (for fxbmplf, {@dodf nfxtInt},
+     * from tibt dlbss (for fxbmplf, {@dodf nfxtInt},
+     * from tibt dlbss (for fxbmplf, {@dodf nfxtInt},
+     * {@dodf nfxtLong}, bnd {@dodf nfxtFlobt}).
+     * {@dodf nfxtLong}, bnd {@dodf nfxtFlobt}).
+     * {@dodf nfxtLong}, bnd {@dodf nfxtFlobt}).
+     * {@dodf nfxtLong}, bnd {@dodf nfxtFlobt}).
      * {@dodf nfxtLong}, bnd {@dodf nfxtFlobt}).
      *
-     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, whfrf
+     *
+     *
+     *
+     *
+     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, wifrf
+     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, wifrf
+     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, wifrf
+     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, wifrf
+     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, wifrf
+     * {@dodf 0 <= numBits <= 32}.
+     * {@dodf 0 <= numBits <= 32}.
+     * {@dodf 0 <= numBits <= 32}.
+     * {@dodf 0 <= numBits <= 32}.
      * {@dodf 0 <= numBits <= 32}.
      *
-     * @rfturn bn {@dodf int} dontbining thf usfr-spfdififd numbfr
-     * of psfudo-rbndom bits (right justififd, with lfbding zfros).
+     *
+     *
+     *
+     *
+     * @rfturn bn {@dodf int} dontbining tif usfr-spfdififd numbfr
+     * @rfturn bn {@dodf int} dontbining tif usfr-spfdififd numbfr
+     * @rfturn bn {@dodf int} dontbining tif usfr-spfdififd numbfr
+     * @rfturn bn {@dodf int} dontbining tif usfr-spfdififd numbfr
+     * @rfturn bn {@dodf int} dontbining tif usfr-spfdififd numbfr
+     * of psfudo-rbndom bits (rigit justififd, witi lfbding zfros).
+     * of psfudo-rbndom bits (rigit justififd, witi lfbding zfros).
+     * of psfudo-rbndom bits (rigit justififd, witi lfbding zfros).
+     * of psfudo-rbndom bits (rigit justififd, witi lfbding zfros).
+     * of psfudo-rbndom bits (rigit justififd, witi lfbding zfros).
+     */
+     */
+     */
+     */
      */
     @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    @Ovfrridf
+    finbl protfdtfd int nfxt(int numBits) {
+    finbl protfdtfd int nfxt(int numBits) {
+    finbl protfdtfd int nfxt(int numBits) {
+    finbl protfdtfd int nfxt(int numBits) {
     finbl protfdtfd int nfxt(int numBits) {
         int numBytfs = (numBits+7)/8;
+        int numBytfs = (numBits+7)/8;
+        int numBytfs = (numBits+7)/8;
+        int numBytfs = (numBits+7)/8;
+        int numBytfs = (numBits+7)/8;
+        bytf b[] = nfw bytf[numBytfs];
+        bytf b[] = nfw bytf[numBytfs];
+        bytf b[] = nfw bytf[numBytfs];
+        bytf b[] = nfw bytf[numBytfs];
         bytf b[] = nfw bytf[numBytfs];
         int nfxt = 0;
+        int nfxt = 0;
+        int nfxt = 0;
+        int nfxt = 0;
+        int nfxt = 0;
+
+
+
+
 
         nfxtBytfs(b);
+        nfxtBytfs(b);
+        nfxtBytfs(b);
+        nfxtBytfs(b);
+        nfxtBytfs(b);
+        for (int i = 0; i < numBytfs; i++) {
+        for (int i = 0; i < numBytfs; i++) {
+        for (int i = 0; i < numBytfs; i++) {
+        for (int i = 0; i < numBytfs; i++) {
         for (int i = 0; i < numBytfs; i++) {
             nfxt = (nfxt << 8) + (b[i] & 0xFF);
+            nfxt = (nfxt << 8) + (b[i] & 0xFF);
+            nfxt = (nfxt << 8) + (b[i] & 0xFF);
+            nfxt = (nfxt << 8) + (b[i] & 0xFF);
+            nfxt = (nfxt << 8) + (b[i] & 0xFF);
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn nfxt >>> (numBytfs*8 - numBits);
+        rfturn nfxt >>> (numBytfs*8 - numBits);
+        rfturn nfxt >>> (numBytfs*8 - numBits);
+        rfturn nfxt >>> (numBytfs*8 - numBits);
+        rfturn nfxt >>> (numBytfs*8 - numBits);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf givfn numbfr of sffd bytfs, domputfd using thf sffd
-     * gfnfrbtion blgorithm thbt this dlbss usfs to sffd itsflf.  This
-     * dbll mby bf usfd to sffd othfr rbndom numbfr gfnfrbtors.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
      *
-     * <p>This mfthod is only indludfd for bbdkwbrds dompbtibility.
-     * Thf dbllfr is fndourbgfd to usf onf of thf bltfrnbtivf
-     * {@dodf gftInstbndf} mfthods to obtbin b SfdurfRbndom objfdt, bnd
-     * thfn dbll thf {@dodf gfnfrbtfSffd} mfthod to obtbin sffd bytfs
-     * from thbt objfdt.
      *
-     * @pbrbm numBytfs thf numbfr of sffd bytfs to gfnfrbtf.
      *
-     * @rfturn thf sffd bytfs.
+     *
+     *
+     * <p>Tiis mftiod is only indludfd for bbdkwbrds dompbtibility.
+     * <p>Tiis mftiod is only indludfd for bbdkwbrds dompbtibility.
+     * <p>Tiis mftiod is only indludfd for bbdkwbrds dompbtibility.
+     * <p>Tiis mftiod is only indludfd for bbdkwbrds dompbtibility.
+     * <p>Tiis mftiod is only indludfd for bbdkwbrds dompbtibility.
+     * Tif dbllfr is fndourbgfd to usf onf of tif bltfrnbtivf
+     * Tif dbllfr is fndourbgfd to usf onf of tif bltfrnbtivf
+     * Tif dbllfr is fndourbgfd to usf onf of tif bltfrnbtivf
+     * Tif dbllfr is fndourbgfd to usf onf of tif bltfrnbtivf
+     * Tif dbllfr is fndourbgfd to usf onf of tif bltfrnbtivf
+     * {@dodf gftInstbndf} mftiods to obtbin b SfdurfRbndom objfdt, bnd
+     * {@dodf gftInstbndf} mftiods to obtbin b SfdurfRbndom objfdt, bnd
+     * {@dodf gftInstbndf} mftiods to obtbin b SfdurfRbndom objfdt, bnd
+     * {@dodf gftInstbndf} mftiods to obtbin b SfdurfRbndom objfdt, bnd
+     * {@dodf gftInstbndf} mftiods to obtbin b SfdurfRbndom objfdt, bnd
+     * tifn dbll tif {@dodf gfnfrbtfSffd} mftiod to obtbin sffd bytfs
+     * tifn dbll tif {@dodf gfnfrbtfSffd} mftiod to obtbin sffd bytfs
+     * tifn dbll tif {@dodf gfnfrbtfSffd} mftiod to obtbin sffd bytfs
+     * tifn dbll tif {@dodf gfnfrbtfSffd} mftiod to obtbin sffd bytfs
+     * tifn dbll tif {@dodf gfnfrbtfSffd} mftiod to obtbin sffd bytfs
+     * from tibt objfdt.
+     * from tibt objfdt.
+     * from tibt objfdt.
+     * from tibt objfdt.
+     * from tibt objfdt.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     *
+     *
+     *
+     *
      *
      * @sff #sftSffd
+     * @sff #sftSffd
+     * @sff #sftSffd
+     * @sff #sftSffd
+     * @sff #sftSffd
+     */
+     */
+     */
+     */
      */
     publid stbtid bytf[] gftSffd(int numBytfs) {
+    publid stbtid bytf[] gftSffd(int numBytfs) {
+    publid stbtid bytf[] gftSffd(int numBytfs) {
+    publid stbtid bytf[] gftSffd(int numBytfs) {
+    publid stbtid bytf[] gftSffd(int numBytfs) {
+        if (sffdGfnfrbtor == null) {
+        if (sffdGfnfrbtor == null) {
+        if (sffdGfnfrbtor == null) {
+        if (sffdGfnfrbtor == null) {
         if (sffdGfnfrbtor == null) {
             sffdGfnfrbtor = nfw SfdurfRbndom();
+            sffdGfnfrbtor = nfw SfdurfRbndom();
+            sffdGfnfrbtor = nfw SfdurfRbndom();
+            sffdGfnfrbtor = nfw SfdurfRbndom();
+            sffdGfnfrbtor = nfw SfdurfRbndom();
+        }
+        }
+        }
+        }
         }
         rfturn sffdGfnfrbtor.gfnfrbtfSffd(numBytfs);
+        rfturn sffdGfnfrbtor.gfnfrbtfSffd(numBytfs);
+        rfturn sffdGfnfrbtor.gfnfrbtfSffd(numBytfs);
+        rfturn sffdGfnfrbtor.gfnfrbtfSffd(numBytfs);
+        rfturn sffdGfnfrbtor.gfnfrbtfSffd(numBytfs);
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf givfn numbfr of sffd bytfs, domputfd using thf sffd
-     * gfnfrbtion blgorithm thbt this dlbss usfs to sffd itsflf.  This
-     * dbll mby bf usfd to sffd othfr rbndom numbfr gfnfrbtors.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
      *
-     * @pbrbm numBytfs thf numbfr of sffd bytfs to gfnfrbtf.
      *
-     * @rfturn thf sffd bytfs.
+     *
+     *
+     *
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     * @rfturn tif sffd bytfs.
+     */
+     */
+     */
+     */
      */
     publid bytf[] gfnfrbtfSffd(int numBytfs) {
+    publid bytf[] gfnfrbtfSffd(int numBytfs) {
+    publid bytf[] gfnfrbtfSffd(int numBytfs) {
+    publid bytf[] gfnfrbtfSffd(int numBytfs) {
+    publid bytf[] gfnfrbtfSffd(int numBytfs) {
+        rfturn sfdurfRbndomSpi.fnginfGfnfrbtfSffd(numBytfs);
+        rfturn sfdurfRbndomSpi.fnginfGfnfrbtfSffd(numBytfs);
+        rfturn sfdurfRbndomSpi.fnginfGfnfrbtfSffd(numBytfs);
+        rfturn sfdurfRbndomSpi.fnginfGfnfrbtfSffd(numBytfs);
         rfturn sfdurfRbndomSpi.fnginfGfnfrbtfSffd(numBytfs);
     }
+    }
+    }
+    }
+    }
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * bytf first).
+     * bytf first).
+     * bytf first).
+     * bytf first).
      * bytf first).
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
     privbtf stbtid bytf[] longToBytfArrby(long l) {
         bytf[] rftVbl = nfw bytf[8];
+        bytf[] rftVbl = nfw bytf[8];
+        bytf[] rftVbl = nfw bytf[8];
+        bytf[] rftVbl = nfw bytf[8];
+        bytf[] rftVbl = nfw bytf[8];
+
+
+
+
 
         for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
+            rftVbl[i] = (bytf) l;
+            rftVbl[i] = (bytf) l;
+            rftVbl[i] = (bytf) l;
+            rftVbl[i] = (bytf) l;
             rftVbl[i] = (bytf) l;
             l >>= 8;
+            l >>= 8;
+            l >>= 8;
+            l >>= 8;
+            l >>= 8;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         rfturn rftVbl;
+        rfturn rftVbl;
+        rfturn rftVbl;
+        rfturn rftVbl;
+        rfturn rftVbl;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Gfts b dffbult PRNG blgorithm by looking through bll rfgistfrfd
-     * providfrs. Rfturns thf first PRNG blgorithm of thf first providfr thbt
-     * hbs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of thf
+    /**
+    /**
+    /**
+    /**
+     * Gfts b dffbult PRNG blgoritim by looking tirougi bll rfgistfrfd
+     * Gfts b dffbult PRNG blgoritim by looking tirougi bll rfgistfrfd
+     * Gfts b dffbult PRNG blgoritim by looking tirougi bll rfgistfrfd
+     * Gfts b dffbult PRNG blgoritim by looking tirougi bll rfgistfrfd
+     * Gfts b dffbult PRNG blgoritim by looking tirougi bll rfgistfrfd
+     * providfrs. Rfturns tif first PRNG blgoritim of tif first providfr tibt
+     * providfrs. Rfturns tif first PRNG blgoritim of tif first providfr tibt
+     * providfrs. Rfturns tif first PRNG blgoritim of tif first providfr tibt
+     * providfrs. Rfturns tif first PRNG blgoritim of tif first providfr tibt
+     * providfrs. Rfturns tif first PRNG blgoritim of tif first providfr tibt
+     * ibs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of tif
+     * ibs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of tif
+     * ibs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of tif
+     * ibs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of tif
+     * ibs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of tif
+     * rfgistfrfd providfrs supplifs b SfdurfRbndom implfmfntbtion.
+     * rfgistfrfd providfrs supplifs b SfdurfRbndom implfmfntbtion.
+     * rfgistfrfd providfrs supplifs b SfdurfRbndom implfmfntbtion.
+     * rfgistfrfd providfrs supplifs b SfdurfRbndom implfmfntbtion.
      * rfgistfrfd providfrs supplifs b SfdurfRbndom implfmfntbtion.
      */
-    privbtf stbtid String gftPrngAlgorithm() {
+     */
+     */
+     */
+     */
+    privbtf stbtid String gftPrngAlgoritim() {
+    privbtf stbtid String gftPrngAlgoritim() {
+    privbtf stbtid String gftPrngAlgoritim() {
+    privbtf stbtid String gftPrngAlgoritim() {
+    privbtf stbtid String gftPrngAlgoritim() {
+        for (Providfr p : Providfrs.gftProvidfrList().providfrs()) {
+        for (Providfr p : Providfrs.gftProvidfrList().providfrs()) {
+        for (Providfr p : Providfrs.gftProvidfrList().providfrs()) {
+        for (Providfr p : Providfrs.gftProvidfrList().providfrs()) {
         for (Providfr p : Providfrs.gftProvidfrList().providfrs()) {
             for (Sfrvidf s : p.gftSfrvidfs()) {
+            for (Sfrvidf s : p.gftSfrvidfs()) {
+            for (Sfrvidf s : p.gftSfrvidfs()) {
+            for (Sfrvidf s : p.gftSfrvidfs()) {
+            for (Sfrvidf s : p.gftSfrvidfs()) {
                 if (s.gftTypf().fqubls("SfdurfRbndom")) {
-                    rfturn s.gftAlgorithm();
+                if (s.gftTypf().fqubls("SfdurfRbndom")) {
+                if (s.gftTypf().fqubls("SfdurfRbndom")) {
+                if (s.gftTypf().fqubls("SfdurfRbndom")) {
+                if (s.gftTypf().fqubls("SfdurfRbndom")) {
+                    rfturn s.gftAlgoritim();
+                    rfturn s.gftAlgoritim();
+                    rfturn s.gftAlgoritim();
+                    rfturn s.gftAlgoritim();
+                    rfturn s.gftAlgoritim();
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
+        rfturn null;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * Lbzily initiblizf sindf Pbttfrn.dompilf() is hfbvy.
+    /*
+    /*
+    /*
+    /*
+     * Lbzily initiblizf sindf Pbttfrn.dompilf() is ifbvy.
+     * Lbzily initiblizf sindf Pbttfrn.dompilf() is ifbvy.
+     * Lbzily initiblizf sindf Pbttfrn.dompilf() is ifbvy.
+     * Lbzily initiblizf sindf Pbttfrn.dompilf() is ifbvy.
+     * Lbzily initiblizf sindf Pbttfrn.dompilf() is ifbvy.
+     * Efffdtivf Jbvb (2nd Edition), Itfm 71.
+     * Efffdtivf Jbvb (2nd Edition), Itfm 71.
+     * Efffdtivf Jbvb (2nd Edition), Itfm 71.
+     * Efffdtivf Jbvb (2nd Edition), Itfm 71.
      * Efffdtivf Jbvb (2nd Edition), Itfm 71.
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl dlbss StrongPbttfrnHoldfr {
+    privbtf stbtid finbl dlbss StrongPbttfrnHoldfr {
+    privbtf stbtid finbl dlbss StrongPbttfrnHoldfr {
+    privbtf stbtid finbl dlbss StrongPbttfrnHoldfr {
     privbtf stbtid finbl dlbss StrongPbttfrnHoldfr {
         /*
+        /*
+        /*
+        /*
+        /*
          * Entrifs brf blg:prov sfpbrbtfd by ,
-         * Allow for prfpfndfd/bppfndfd whitfspbdf bftwffn fntrifs.
+         * Entrifs brf blg:prov sfpbrbtfd by ,
+         * Entrifs brf blg:prov sfpbrbtfd by ,
+         * Entrifs brf blg:prov sfpbrbtfd by ,
+         * Entrifs brf blg:prov sfpbrbtfd by ,
+         * Allow for prfpfndfd/bppfndfd wiitfspbdf bftwffn fntrifs.
+         * Allow for prfpfndfd/bppfndfd wiitfspbdf bftwffn fntrifs.
+         * Allow for prfpfndfd/bppfndfd wiitfspbdf bftwffn fntrifs.
+         * Allow for prfpfndfd/bppfndfd wiitfspbdf bftwffn fntrifs.
+         * Allow for prfpfndfd/bppfndfd wiitfspbdf bftwffn fntrifs.
+         *
+         *
+         *
+         *
          *
          * Cbpturf groups:
+         * Cbpturf groups:
+         * Cbpturf groups:
+         * Cbpturf groups:
+         * Cbpturf groups:
+         *     1 - blg
+         *     1 - blg
+         *     1 - blg
+         *     1 - blg
          *     1 - blg
          *     2 - :prov (optionbl)
+         *     2 - :prov (optionbl)
+         *     2 - :prov (optionbl)
+         *     2 - :prov (optionbl)
+         *     2 - :prov (optionbl)
+         *     3 - prov (optionbl)
+         *     3 - prov (optionbl)
+         *     3 - prov (optionbl)
+         *     3 - prov (optionbl)
          *     3 - prov (optionbl)
          *     4 - ,nfxtEntry (optionbl)
+         *     4 - ,nfxtEntry (optionbl)
+         *     4 - ,nfxtEntry (optionbl)
+         *     4 - ,nfxtEntry (optionbl)
+         *     4 - ,nfxtEntry (optionbl)
+         *     5 - nfxtEntry (optionbl)
+         *     5 - nfxtEntry (optionbl)
+         *     5 - nfxtEntry (optionbl)
+         *     5 - nfxtEntry (optionbl)
          *     5 - nfxtEntry (optionbl)
          */
+         */
+         */
+         */
+         */
+        privbtf stbtid Pbttfrn pbttfrn =
+        privbtf stbtid Pbttfrn pbttfrn =
+        privbtf stbtid Pbttfrn pbttfrn =
+        privbtf stbtid Pbttfrn pbttfrn =
         privbtf stbtid Pbttfrn pbttfrn =
             Pbttfrn.dompilf(
+            Pbttfrn.dompilf(
+            Pbttfrn.dompilf(
+            Pbttfrn.dompilf(
+            Pbttfrn.dompilf(
+                "\\s*([\\S&&[^:,]]*)(\\:([\\S&&[^,]]*))?\\s*(\\,(.*))?");
+                "\\s*([\\S&&[^:,]]*)(\\:([\\S&&[^,]]*))?\\s*(\\,(.*))?");
+                "\\s*([\\S&&[^:,]]*)(\\:([\\S&&[^,]]*))?\\s*(\\,(.*))?");
+                "\\s*([\\S&&[^:,]]*)(\\:([\\S&&[^,]]*))?\\s*(\\,(.*))?");
                 "\\s*([\\S&&[^:,]]*)(\\:([\\S&&[^,]]*))?\\s*(\\,(.*))?");
     }
-
-    /**
-     * Rfturns b {@dodf SfdurfRbndom} objfdt thbt wbs sflfdtfd by using
-     * thf blgorithms/providfrs spfdififd in thf {@dodf
-     * sfdurfrbndom.strongAlgorithms} {@link Sfdurity} propfrty.
-     * <p>
-     * Somf situbtions rfquirf strong rbndom vblufs, sudh bs whfn
-     * drfbting high-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
-     * kfys.  To hflp guidf bpplidbtions in sflfdting b suitbblf strong
-     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
-     * indludf b list of known strong {@dodf SfdurfRbndom}
-     * implfmfntbtions in thf {@dodf sfdurfrbndom.strongAlgorithms}
-     * Sfdurity propfrty.
-     * <p>
-     * Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to
-     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
-     *
-     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
-     * by thf {@dodf sfdurfrbndom.strongAlgorithms} Sfdurity propfrty
-     *
-     * @throws NoSudhAlgorithmExdfption if no blgorithm is bvbilbblf
-     *
-     * @sff Sfdurity#gftPropfrty(String)
-     *
-     * @sindf 1.8
-     */
-    publid stbtid SfdurfRbndom gftInstbndfStrong()
-            throws NoSudhAlgorithmExdfption {
-
-        String propfrty = AddfssControllfr.doPrivilfgfd(
-            nfw PrivilfgfdAdtion<String>() {
-                @Ovfrridf
-                publid String run() {
-                    rfturn Sfdurity.gftPropfrty(
-                        "sfdurfrbndom.strongAlgorithms");
-                }
-            });
-
-        if ((propfrty == null) || (propfrty.lfngth() == 0)) {
-            throw nfw NoSudhAlgorithmExdfption(
-                "Null/fmpty sfdurfrbndom.strongAlgorithms Sfdurity Propfrty");
-        }
-
-        String rfmbindfr = propfrty;
-        whilf (rfmbindfr != null) {
-            Mbtdhfr m;
-            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdhfr(
-                    rfmbindfr)).mbtdhfs()) {
-
-                String blg = m.group(1);
-                String prov = m.group(3);
-
-                try {
-                    if (prov == null) {
-                        rfturn SfdurfRbndom.gftInstbndf(blg);
-                    } flsf {
-                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
-                    }
-                } dbtdh (NoSudhAlgorithmExdfption |
-                        NoSudhProvidfrExdfption f) {
-                }
-                rfmbindfr = m.group(5);
-            } flsf {
-                rfmbindfr = null;
-            }
-        }
-
-        throw nfw NoSudhAlgorithmExdfption(
-            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
+    }
+    }
+    }
     }
 
-    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf with JDK1.1
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b {@dodf SfdurfRbndom} objfdt tibt wbs sflfdtfd by using
+     * Rfturns b {@dodf SfdurfRbndom} objfdt tibt wbs sflfdtfd by using
+     * Rfturns b {@dodf SfdurfRbndom} objfdt tibt wbs sflfdtfd by using
+     * Rfturns b {@dodf SfdurfRbndom} objfdt tibt wbs sflfdtfd by using
+     * Rfturns b {@dodf SfdurfRbndom} objfdt tibt wbs sflfdtfd by using
+     * tif blgoritims/providfrs spfdififd in tif {@dodf
+     * tif blgoritims/providfrs spfdififd in tif {@dodf
+     * tif blgoritims/providfrs spfdififd in tif {@dodf
+     * tif blgoritims/providfrs spfdififd in tif {@dodf
+     * tif blgoritims/providfrs spfdififd in tif {@dodf
+     * sfdurfrbndom.strongAlgoritims} {@link Sfdurity} propfrty.
+     * sfdurfrbndom.strongAlgoritims} {@link Sfdurity} propfrty.
+     * sfdurfrbndom.strongAlgoritims} {@link Sfdurity} propfrty.
+     * sfdurfrbndom.strongAlgoritims} {@link Sfdurity} propfrty.
+     * sfdurfrbndom.strongAlgoritims} {@link Sfdurity} propfrty.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Somf situbtions rfquirf strong rbndom vblufs, sudi bs wifn
+     * Somf situbtions rfquirf strong rbndom vblufs, sudi bs wifn
+     * Somf situbtions rfquirf strong rbndom vblufs, sudi bs wifn
+     * Somf situbtions rfquirf strong rbndom vblufs, sudi bs wifn
+     * Somf situbtions rfquirf strong rbndom vblufs, sudi bs wifn
+     * drfbting iigi-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
+     * drfbting iigi-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
+     * drfbting iigi-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
+     * drfbting iigi-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
+     * drfbting iigi-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
+     * kfys.  To iflp guidf bpplidbtions in sflfdting b suitbblf strong
+     * kfys.  To iflp guidf bpplidbtions in sflfdting b suitbblf strong
+     * kfys.  To iflp guidf bpplidbtions in sflfdting b suitbblf strong
+     * kfys.  To iflp guidf bpplidbtions in sflfdting b suitbblf strong
+     * kfys.  To iflp guidf bpplidbtions in sflfdting b suitbblf strong
+     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
+     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
+     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
+     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
+     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
+     * indludf b list of known strong {@dodf SfdurfRbndom}
+     * indludf b list of known strong {@dodf SfdurfRbndom}
+     * indludf b list of known strong {@dodf SfdurfRbndom}
+     * indludf b list of known strong {@dodf SfdurfRbndom}
+     * indludf b list of known strong {@dodf SfdurfRbndom}
+     * implfmfntbtions in tif {@dodf sfdurfrbndom.strongAlgoritims}
+     * implfmfntbtions in tif {@dodf sfdurfrbndom.strongAlgoritims}
+     * implfmfntbtions in tif {@dodf sfdurfrbndom.strongAlgoritims}
+     * implfmfntbtions in tif {@dodf sfdurfrbndom.strongAlgoritims}
+     * implfmfntbtions in tif {@dodf sfdurfrbndom.strongAlgoritims}
+     * Sfdurity propfrty.
+     * Sfdurity propfrty.
+     * Sfdurity propfrty.
+     * Sfdurity propfrty.
+     * Sfdurity propfrty.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to
+     * Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to
+     * Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to
+     * Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to
+     * Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to
+     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
+     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
+     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
+     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
+     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
+     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
+     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
+     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
+     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
+     * by tif {@dodf sfdurfrbndom.strongAlgoritims} Sfdurity propfrty
+     * by tif {@dodf sfdurfrbndom.strongAlgoritims} Sfdurity propfrty
+     * by tif {@dodf sfdurfrbndom.strongAlgoritims} Sfdurity propfrty
+     * by tif {@dodf sfdurfrbndom.strongAlgoritims} Sfdurity propfrty
+     * by tif {@dodf sfdurfrbndom.strongAlgoritims} Sfdurity propfrty
+     *
+     *
+     *
+     *
+     *
+     * @tirows NoSudiAlgoritimExdfption if no blgoritim is bvbilbblf
+     * @tirows NoSudiAlgoritimExdfption if no blgoritim is bvbilbblf
+     * @tirows NoSudiAlgoritimExdfption if no blgoritim is bvbilbblf
+     * @tirows NoSudiAlgoritimExdfption if no blgoritim is bvbilbblf
+     * @tirows NoSudiAlgoritimExdfption if no blgoritim is bvbilbblf
+     *
+     *
+     *
+     *
+     *
+     * @sff Sfdurity#gftPropfrty(String)
+     * @sff Sfdurity#gftPropfrty(String)
+     * @sff Sfdurity#gftPropfrty(String)
+     * @sff Sfdurity#gftPropfrty(String)
+     * @sff Sfdurity#gftPropfrty(String)
+     *
+     *
+     *
+     *
+     *
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     * @sindf 1.8
+     */
+     */
+     */
+     */
+     */
+    publid stbtid SfdurfRbndom gftInstbndfStrong()
+    publid stbtid SfdurfRbndom gftInstbndfStrong()
+    publid stbtid SfdurfRbndom gftInstbndfStrong()
+    publid stbtid SfdurfRbndom gftInstbndfStrong()
+    publid stbtid SfdurfRbndom gftInstbndfStrong()
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+            tirows NoSudiAlgoritimExdfption {
+
+
+
+
+
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+            nfw PrivilfgfdAdtion<String>() {
+            nfw PrivilfgfdAdtion<String>() {
+            nfw PrivilfgfdAdtion<String>() {
+            nfw PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                @Ovfrridf
+                @Ovfrridf
+                @Ovfrridf
+                @Ovfrridf
+                publid String run() {
+                publid String run() {
+                publid String run() {
+                publid String run() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(
+                    rfturn Sfdurity.gftPropfrty(
+                    rfturn Sfdurity.gftPropfrty(
+                    rfturn Sfdurity.gftPropfrty(
+                    rfturn Sfdurity.gftPropfrty(
+                        "sfdurfrbndom.strongAlgoritims");
+                        "sfdurfrbndom.strongAlgoritims");
+                        "sfdurfrbndom.strongAlgoritims");
+                        "sfdurfrbndom.strongAlgoritims");
+                        "sfdurfrbndom.strongAlgoritims");
+                }
+                }
+                }
+                }
+                }
+            });
+            });
+            });
+            });
+            });
+
+
+
+
+
+        if ((propfrty == null) || (propfrty.lfngti() == 0)) {
+        if ((propfrty == null) || (propfrty.lfngti() == 0)) {
+        if ((propfrty == null) || (propfrty.lfngti() == 0)) {
+        if ((propfrty == null) || (propfrty.lfngti() == 0)) {
+        if ((propfrty == null) || (propfrty.lfngti() == 0)) {
+            tirow nfw NoSudiAlgoritimExdfption(
+            tirow nfw NoSudiAlgoritimExdfption(
+            tirow nfw NoSudiAlgoritimExdfption(
+            tirow nfw NoSudiAlgoritimExdfption(
+            tirow nfw NoSudiAlgoritimExdfption(
+                "Null/fmpty sfdurfrbndom.strongAlgoritims Sfdurity Propfrty");
+                "Null/fmpty sfdurfrbndom.strongAlgoritims Sfdurity Propfrty");
+                "Null/fmpty sfdurfrbndom.strongAlgoritims Sfdurity Propfrty");
+                "Null/fmpty sfdurfrbndom.strongAlgoritims Sfdurity Propfrty");
+                "Null/fmpty sfdurfrbndom.strongAlgoritims Sfdurity Propfrty");
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        String rfmbindfr = propfrty;
+        String rfmbindfr = propfrty;
+        String rfmbindfr = propfrty;
+        String rfmbindfr = propfrty;
+        String rfmbindfr = propfrty;
+        wiilf (rfmbindfr != null) {
+        wiilf (rfmbindfr != null) {
+        wiilf (rfmbindfr != null) {
+        wiilf (rfmbindfr != null) {
+        wiilf (rfmbindfr != null) {
+            Mbtdifr m;
+            Mbtdifr m;
+            Mbtdifr m;
+            Mbtdifr m;
+            Mbtdifr m;
+            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdifr(
+            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdifr(
+            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdifr(
+            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdifr(
+            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdifr(
+                    rfmbindfr)).mbtdifs()) {
+                    rfmbindfr)).mbtdifs()) {
+                    rfmbindfr)).mbtdifs()) {
+                    rfmbindfr)).mbtdifs()) {
+                    rfmbindfr)).mbtdifs()) {
+
+
+
+
+
+                String blg = m.group(1);
+                String blg = m.group(1);
+                String blg = m.group(1);
+                String blg = m.group(1);
+                String blg = m.group(1);
+                String prov = m.group(3);
+                String prov = m.group(3);
+                String prov = m.group(3);
+                String prov = m.group(3);
+                String prov = m.group(3);
+
+
+
+
+
+                try {
+                try {
+                try {
+                try {
+                try {
+                    if (prov == null) {
+                    if (prov == null) {
+                    if (prov == null) {
+                    if (prov == null) {
+                    if (prov == null) {
+                        rfturn SfdurfRbndom.gftInstbndf(blg);
+                        rfturn SfdurfRbndom.gftInstbndf(blg);
+                        rfturn SfdurfRbndom.gftInstbndf(blg);
+                        rfturn SfdurfRbndom.gftInstbndf(blg);
+                        rfturn SfdurfRbndom.gftInstbndf(blg);
+                    } flsf {
+                    } flsf {
+                    } flsf {
+                    } flsf {
+                    } flsf {
+                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
+                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
+                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
+                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
+                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
+                    }
+                    }
+                    }
+                    }
+                    }
+                } dbtdi (NoSudiAlgoritimExdfption |
+                } dbtdi (NoSudiAlgoritimExdfption |
+                } dbtdi (NoSudiAlgoritimExdfption |
+                } dbtdi (NoSudiAlgoritimExdfption |
+                } dbtdi (NoSudiAlgoritimExdfption |
+                        NoSudiProvidfrExdfption f) {
+                        NoSudiProvidfrExdfption f) {
+                        NoSudiProvidfrExdfption f) {
+                        NoSudiProvidfrExdfption f) {
+                        NoSudiProvidfrExdfption f) {
+                }
+                }
+                }
+                }
+                }
+                rfmbindfr = m.group(5);
+                rfmbindfr = m.group(5);
+                rfmbindfr = m.group(5);
+                rfmbindfr = m.group(5);
+                rfmbindfr = m.group(5);
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
+                rfmbindfr = null;
+                rfmbindfr = null;
+                rfmbindfr = null;
+                rfmbindfr = null;
+                rfmbindfr = null;
+            }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
+        }
+
+
+
+
+
+        tirow nfw NoSudiAlgoritimExdfption(
+        tirow nfw NoSudiAlgoritimExdfption(
+        tirow nfw NoSudiAlgoritimExdfption(
+        tirow nfw NoSudiAlgoritimExdfption(
+        tirow nfw NoSudiAlgoritimExdfption(
+            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
+            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
+            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
+            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
+            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf witi JDK1.1
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf witi JDK1.1
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf witi JDK1.1
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf witi JDK1.1
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf witi JDK1.1
+    stbtid finbl long sfriblVfrsionUID = 4940670005562187L;
+    stbtid finbl long sfriblVfrsionUID = 4940670005562187L;
+    stbtid finbl long sfriblVfrsionUID = 4940670005562187L;
+    stbtid finbl long sfriblVfrsionUID = 4940670005562187L;
     stbtid finbl long sfriblVfrsionUID = 4940670005562187L;
 
+
+
+
+
+    // Rftbin unusfd vblufs sfriblizfd from JDK1.1
+    // Rftbin unusfd vblufs sfriblizfd from JDK1.1
+    // Rftbin unusfd vblufs sfriblizfd from JDK1.1
+    // Rftbin unusfd vblufs sfriblizfd from JDK1.1
     // Rftbin unusfd vblufs sfriblizfd from JDK1.1
     /**
+    /**
+    /**
+    /**
+    /**
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf bytf[] stbtf;
+    privbtf bytf[] stbtf;
+    privbtf bytf[] stbtf;
+    privbtf bytf[] stbtf;
+    privbtf bytf[] stbtf;
+    /**
+    /**
+    /**
+    /**
     /**
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf MfssbgfDigfst digfst = null;
+    privbtf MfssbgfDigfst digfst = null;
+    privbtf MfssbgfDigfst digfst = null;
+    privbtf MfssbgfDigfst digfst = null;
+    privbtf MfssbgfDigfst digfst = null;
     /**
+    /**
+    /**
+    /**
+    /**
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      *
-     * Wf know thbt thf MfssbgfDigfst dlbss dofs not implfmfnt
-     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf this fifld is no longfr
-     * usfd, it will blwbys bf NULL bnd won't bfffdt thf sfriblizbtion
-     * of thf SfdurfRbndom dlbss itsflf.
+     *
+     *
+     *
+     *
+     * Wf know tibt tif MfssbgfDigfst dlbss dofs not implfmfnt
+     * Wf know tibt tif MfssbgfDigfst dlbss dofs not implfmfnt
+     * Wf know tibt tif MfssbgfDigfst dlbss dofs not implfmfnt
+     * Wf know tibt tif MfssbgfDigfst dlbss dofs not implfmfnt
+     * Wf know tibt tif MfssbgfDigfst dlbss dofs not implfmfnt
+     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf tiis fifld is no longfr
+     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf tiis fifld is no longfr
+     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf tiis fifld is no longfr
+     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf tiis fifld is no longfr
+     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf tiis fifld is no longfr
+     * usfd, it will blwbys bf NULL bnd won't bfffdt tif sfriblizbtion
+     * usfd, it will blwbys bf NULL bnd won't bfffdt tif sfriblizbtion
+     * usfd, it will blwbys bf NULL bnd won't bfffdt tif sfriblizbtion
+     * usfd, it will blwbys bf NULL bnd won't bfffdt tif sfriblizbtion
+     * usfd, it will blwbys bf NULL bnd won't bfffdt tif sfriblizbtion
+     * of tif SfdurfRbndom dlbss itsflf.
+     * of tif SfdurfRbndom dlbss itsflf.
+     * of tif SfdurfRbndom dlbss itsflf.
+     * of tif SfdurfRbndom dlbss itsflf.
+     * of tif SfdurfRbndom dlbss itsflf.
+     */
+     */
+     */
+     */
      */
     privbtf bytf[] rbndomBytfs;
+    privbtf bytf[] rbndomBytfs;
+    privbtf bytf[] rbndomBytfs;
+    privbtf bytf[] rbndomBytfs;
+    privbtf bytf[] rbndomBytfs;
+    /**
+    /**
+    /**
+    /**
     /**
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf int rbndomBytfsUsfd;
+    privbtf int rbndomBytfsUsfd;
+    privbtf int rbndomBytfsUsfd;
+    privbtf int rbndomBytfsUsfd;
+    privbtf int rbndomBytfsUsfd;
+    /**
+    /**
+    /**
+    /**
     /**
      * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     */
+     */
+     */
+     */
      */
     privbtf long dountfr;
+    privbtf long dountfr;
+    privbtf long dountfr;
+    privbtf long dountfr;
+    privbtf long dountfr;
+}
+}
+}
+}
 }

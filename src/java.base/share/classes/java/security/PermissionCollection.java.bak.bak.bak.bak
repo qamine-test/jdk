@@ -1,195 +1,975 @@
 /*
- * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+pbdkbgf jbvb.sfdurity;
+
+
+
+
 
 import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+
+
+
+
 
 /**
+/**
+/**
+/**
+/**
+ * Abstrbdt dlbss rfprfsfnting b dollfdtion of Pfrmission objfdts.
+ * Abstrbdt dlbss rfprfsfnting b dollfdtion of Pfrmission objfdts.
+ * Abstrbdt dlbss rfprfsfnting b dollfdtion of Pfrmission objfdts.
+ * Abstrbdt dlbss rfprfsfnting b dollfdtion of Pfrmission objfdts.
  * Abstrbdt dlbss rfprfsfnting b dollfdtion of Pfrmission objfdts.
  *
- * <p>With b PfrmissionCollfdtion, you dbn:
+ *
+ *
+ *
+ *
+ * <p>Witi b PfrmissionCollfdtion, you dbn:
+ * <p>Witi b PfrmissionCollfdtion, you dbn:
+ * <p>Witi b PfrmissionCollfdtion, you dbn:
+ * <p>Witi b PfrmissionCollfdtion, you dbn:
+ * <p>Witi b PfrmissionCollfdtion, you dbn:
  * <UL>
- * <LI> bdd b pfrmission to thf dollfdtion using thf {@dodf bdd} mfthod.
- * <LI> dhfdk to sff if b pbrtidulbr pfrmission is implifd in thf
- *      dollfdtion, using thf {@dodf implifs} mfthod.
- * <LI> fnumfrbtf bll thf pfrmissions, using thf {@dodf flfmfnts} mfthod.
+ * <UL>
+ * <UL>
+ * <UL>
+ * <UL>
+ * <LI> bdd b pfrmission to tif dollfdtion using tif {@dodf bdd} mftiod.
+ * <LI> bdd b pfrmission to tif dollfdtion using tif {@dodf bdd} mftiod.
+ * <LI> bdd b pfrmission to tif dollfdtion using tif {@dodf bdd} mftiod.
+ * <LI> bdd b pfrmission to tif dollfdtion using tif {@dodf bdd} mftiod.
+ * <LI> bdd b pfrmission to tif dollfdtion using tif {@dodf bdd} mftiod.
+ * <LI> difdk to sff if b pbrtidulbr pfrmission is implifd in tif
+ * <LI> difdk to sff if b pbrtidulbr pfrmission is implifd in tif
+ * <LI> difdk to sff if b pbrtidulbr pfrmission is implifd in tif
+ * <LI> difdk to sff if b pbrtidulbr pfrmission is implifd in tif
+ * <LI> difdk to sff if b pbrtidulbr pfrmission is implifd in tif
+ *      dollfdtion, using tif {@dodf implifs} mftiod.
+ *      dollfdtion, using tif {@dodf implifs} mftiod.
+ *      dollfdtion, using tif {@dodf implifs} mftiod.
+ *      dollfdtion, using tif {@dodf implifs} mftiod.
+ *      dollfdtion, using tif {@dodf implifs} mftiod.
+ * <LI> fnumfrbtf bll tif pfrmissions, using tif {@dodf flfmfnts} mftiod.
+ * <LI> fnumfrbtf bll tif pfrmissions, using tif {@dodf flfmfnts} mftiod.
+ * <LI> fnumfrbtf bll tif pfrmissions, using tif {@dodf flfmfnts} mftiod.
+ * <LI> fnumfrbtf bll tif pfrmissions, using tif {@dodf flfmfnts} mftiod.
+ * <LI> fnumfrbtf bll tif pfrmissions, using tif {@dodf flfmfnts} mftiod.
+ * </UL>
+ * </UL>
+ * </UL>
+ * </UL>
  * </UL>
  *
- * <p>Whfn it is dfsirbblf to group togfthfr b numbfr of Pfrmission objfdts
- * of thf sbmf typf, thf {@dodf nfwPfrmissionCollfdtion} mfthod on thbt
- * pbrtidulbr typf of Pfrmission objfdt should first bf dbllfd. Thf dffbult
- * bfhbvior (from thf Pfrmission dlbss) is to simply rfturn null.
- * Subdlbssfs of dlbss Pfrmission ovfrridf thf mfthod if thfy nffd to storf
- * thfir pfrmissions in b pbrtidulbr PfrmissionCollfdtion objfdt in ordfr
- * to providf thf dorrfdt sfmbntids whfn thf
- * {@dodf PfrmissionCollfdtion.implifs} mfthod is dbllfd.
- * If b non-null vbluf is rfturnfd, thbt PfrmissionCollfdtion must bf usfd.
- * If null is rfturnfd, thfn thf dbllfr of {@dodf nfwPfrmissionCollfdtion}
- * is frff to storf pfrmissions of thf
- * givfn typf in bny PfrmissionCollfdtion thfy dhoosf
- * (onf thbt usfs b Hbshtbblf, onf thbt usfs b Vfdtor, ftd).
  *
- * <p>Thf PfrmissionCollfdtion rfturnfd by thf
+ *
+ *
+ *
+ * <p>Wifn it is dfsirbblf to group togftifr b numbfr of Pfrmission objfdts
+ * <p>Wifn it is dfsirbblf to group togftifr b numbfr of Pfrmission objfdts
+ * <p>Wifn it is dfsirbblf to group togftifr b numbfr of Pfrmission objfdts
+ * <p>Wifn it is dfsirbblf to group togftifr b numbfr of Pfrmission objfdts
+ * <p>Wifn it is dfsirbblf to group togftifr b numbfr of Pfrmission objfdts
+ * of tif sbmf typf, tif {@dodf nfwPfrmissionCollfdtion} mftiod on tibt
+ * of tif sbmf typf, tif {@dodf nfwPfrmissionCollfdtion} mftiod on tibt
+ * of tif sbmf typf, tif {@dodf nfwPfrmissionCollfdtion} mftiod on tibt
+ * of tif sbmf typf, tif {@dodf nfwPfrmissionCollfdtion} mftiod on tibt
+ * of tif sbmf typf, tif {@dodf nfwPfrmissionCollfdtion} mftiod on tibt
+ * pbrtidulbr typf of Pfrmission objfdt siould first bf dbllfd. Tif dffbult
+ * pbrtidulbr typf of Pfrmission objfdt siould first bf dbllfd. Tif dffbult
+ * pbrtidulbr typf of Pfrmission objfdt siould first bf dbllfd. Tif dffbult
+ * pbrtidulbr typf of Pfrmission objfdt siould first bf dbllfd. Tif dffbult
+ * pbrtidulbr typf of Pfrmission objfdt siould first bf dbllfd. Tif dffbult
+ * bfibvior (from tif Pfrmission dlbss) is to simply rfturn null.
+ * bfibvior (from tif Pfrmission dlbss) is to simply rfturn null.
+ * bfibvior (from tif Pfrmission dlbss) is to simply rfturn null.
+ * bfibvior (from tif Pfrmission dlbss) is to simply rfturn null.
+ * bfibvior (from tif Pfrmission dlbss) is to simply rfturn null.
+ * Subdlbssfs of dlbss Pfrmission ovfrridf tif mftiod if tify nffd to storf
+ * Subdlbssfs of dlbss Pfrmission ovfrridf tif mftiod if tify nffd to storf
+ * Subdlbssfs of dlbss Pfrmission ovfrridf tif mftiod if tify nffd to storf
+ * Subdlbssfs of dlbss Pfrmission ovfrridf tif mftiod if tify nffd to storf
+ * Subdlbssfs of dlbss Pfrmission ovfrridf tif mftiod if tify nffd to storf
+ * tifir pfrmissions in b pbrtidulbr PfrmissionCollfdtion objfdt in ordfr
+ * tifir pfrmissions in b pbrtidulbr PfrmissionCollfdtion objfdt in ordfr
+ * tifir pfrmissions in b pbrtidulbr PfrmissionCollfdtion objfdt in ordfr
+ * tifir pfrmissions in b pbrtidulbr PfrmissionCollfdtion objfdt in ordfr
+ * tifir pfrmissions in b pbrtidulbr PfrmissionCollfdtion objfdt in ordfr
+ * to providf tif dorrfdt sfmbntids wifn tif
+ * to providf tif dorrfdt sfmbntids wifn tif
+ * to providf tif dorrfdt sfmbntids wifn tif
+ * to providf tif dorrfdt sfmbntids wifn tif
+ * to providf tif dorrfdt sfmbntids wifn tif
+ * {@dodf PfrmissionCollfdtion.implifs} mftiod is dbllfd.
+ * {@dodf PfrmissionCollfdtion.implifs} mftiod is dbllfd.
+ * {@dodf PfrmissionCollfdtion.implifs} mftiod is dbllfd.
+ * {@dodf PfrmissionCollfdtion.implifs} mftiod is dbllfd.
+ * {@dodf PfrmissionCollfdtion.implifs} mftiod is dbllfd.
+ * If b non-null vbluf is rfturnfd, tibt PfrmissionCollfdtion must bf usfd.
+ * If b non-null vbluf is rfturnfd, tibt PfrmissionCollfdtion must bf usfd.
+ * If b non-null vbluf is rfturnfd, tibt PfrmissionCollfdtion must bf usfd.
+ * If b non-null vbluf is rfturnfd, tibt PfrmissionCollfdtion must bf usfd.
+ * If b non-null vbluf is rfturnfd, tibt PfrmissionCollfdtion must bf usfd.
+ * If null is rfturnfd, tifn tif dbllfr of {@dodf nfwPfrmissionCollfdtion}
+ * If null is rfturnfd, tifn tif dbllfr of {@dodf nfwPfrmissionCollfdtion}
+ * If null is rfturnfd, tifn tif dbllfr of {@dodf nfwPfrmissionCollfdtion}
+ * If null is rfturnfd, tifn tif dbllfr of {@dodf nfwPfrmissionCollfdtion}
+ * If null is rfturnfd, tifn tif dbllfr of {@dodf nfwPfrmissionCollfdtion}
+ * is frff to storf pfrmissions of tif
+ * is frff to storf pfrmissions of tif
+ * is frff to storf pfrmissions of tif
+ * is frff to storf pfrmissions of tif
+ * is frff to storf pfrmissions of tif
+ * givfn typf in bny PfrmissionCollfdtion tify dioosf
+ * givfn typf in bny PfrmissionCollfdtion tify dioosf
+ * givfn typf in bny PfrmissionCollfdtion tify dioosf
+ * givfn typf in bny PfrmissionCollfdtion tify dioosf
+ * givfn typf in bny PfrmissionCollfdtion tify dioosf
+ * (onf tibt usfs b Hbsitbblf, onf tibt usfs b Vfdtor, ftd).
+ * (onf tibt usfs b Hbsitbblf, onf tibt usfs b Vfdtor, ftd).
+ * (onf tibt usfs b Hbsitbblf, onf tibt usfs b Vfdtor, ftd).
+ * (onf tibt usfs b Hbsitbblf, onf tibt usfs b Vfdtor, ftd).
+ * (onf tibt usfs b Hbsitbblf, onf tibt usfs b Vfdtor, ftd).
+ *
+ *
+ *
+ *
+ *
+ * <p>Tif PfrmissionCollfdtion rfturnfd by tif
+ * <p>Tif PfrmissionCollfdtion rfturnfd by tif
+ * <p>Tif PfrmissionCollfdtion rfturnfd by tif
+ * <p>Tif PfrmissionCollfdtion rfturnfd by tif
+ * <p>Tif PfrmissionCollfdtion rfturnfd by tif
  * {@dodf Pfrmission.nfwPfrmissionCollfdtion}
- * mfthod is b homogfnfous dollfdtion, whidh storfs only Pfrmission objfdts
+ * {@dodf Pfrmission.nfwPfrmissionCollfdtion}
+ * {@dodf Pfrmission.nfwPfrmissionCollfdtion}
+ * {@dodf Pfrmission.nfwPfrmissionCollfdtion}
+ * {@dodf Pfrmission.nfwPfrmissionCollfdtion}
+ * mftiod is b iomogfnfous dollfdtion, wiidi storfs only Pfrmission objfdts
+ * mftiod is b iomogfnfous dollfdtion, wiidi storfs only Pfrmission objfdts
+ * mftiod is b iomogfnfous dollfdtion, wiidi storfs only Pfrmission objfdts
+ * mftiod is b iomogfnfous dollfdtion, wiidi storfs only Pfrmission objfdts
+ * mftiod is b iomogfnfous dollfdtion, wiidi storfs only Pfrmission objfdts
  * for b givfn Pfrmission typf.  A PfrmissionCollfdtion mby blso bf
- * hftfrogfnfous.  For fxbmplf, Pfrmissions is b PfrmissionCollfdtion
- * subdlbss thbt rfprfsfnts b dollfdtion of PfrmissionCollfdtions.
- * Thbt is, its mfmbfrs brf fbdh b homogfnfous PfrmissionCollfdtion.
- * For fxbmplf, b Pfrmissions objfdt might hbvf b FilfPfrmissionCollfdtion
- * for bll thf FilfPfrmission objfdts, b SodkftPfrmissionCollfdtion for bll thf
- * SodkftPfrmission objfdts, bnd so on. Its {@dodf bdd} mfthod bdds b
- * pfrmission to thf bppropribtf dollfdtion.
+ * for b givfn Pfrmission typf.  A PfrmissionCollfdtion mby blso bf
+ * for b givfn Pfrmission typf.  A PfrmissionCollfdtion mby blso bf
+ * for b givfn Pfrmission typf.  A PfrmissionCollfdtion mby blso bf
+ * for b givfn Pfrmission typf.  A PfrmissionCollfdtion mby blso bf
+ * iftfrogfnfous.  For fxbmplf, Pfrmissions is b PfrmissionCollfdtion
+ * iftfrogfnfous.  For fxbmplf, Pfrmissions is b PfrmissionCollfdtion
+ * iftfrogfnfous.  For fxbmplf, Pfrmissions is b PfrmissionCollfdtion
+ * iftfrogfnfous.  For fxbmplf, Pfrmissions is b PfrmissionCollfdtion
+ * iftfrogfnfous.  For fxbmplf, Pfrmissions is b PfrmissionCollfdtion
+ * subdlbss tibt rfprfsfnts b dollfdtion of PfrmissionCollfdtions.
+ * subdlbss tibt rfprfsfnts b dollfdtion of PfrmissionCollfdtions.
+ * subdlbss tibt rfprfsfnts b dollfdtion of PfrmissionCollfdtions.
+ * subdlbss tibt rfprfsfnts b dollfdtion of PfrmissionCollfdtions.
+ * subdlbss tibt rfprfsfnts b dollfdtion of PfrmissionCollfdtions.
+ * Tibt is, its mfmbfrs brf fbdi b iomogfnfous PfrmissionCollfdtion.
+ * Tibt is, its mfmbfrs brf fbdi b iomogfnfous PfrmissionCollfdtion.
+ * Tibt is, its mfmbfrs brf fbdi b iomogfnfous PfrmissionCollfdtion.
+ * Tibt is, its mfmbfrs brf fbdi b iomogfnfous PfrmissionCollfdtion.
+ * Tibt is, its mfmbfrs brf fbdi b iomogfnfous PfrmissionCollfdtion.
+ * For fxbmplf, b Pfrmissions objfdt migit ibvf b FilfPfrmissionCollfdtion
+ * For fxbmplf, b Pfrmissions objfdt migit ibvf b FilfPfrmissionCollfdtion
+ * For fxbmplf, b Pfrmissions objfdt migit ibvf b FilfPfrmissionCollfdtion
+ * For fxbmplf, b Pfrmissions objfdt migit ibvf b FilfPfrmissionCollfdtion
+ * For fxbmplf, b Pfrmissions objfdt migit ibvf b FilfPfrmissionCollfdtion
+ * for bll tif FilfPfrmission objfdts, b SodkftPfrmissionCollfdtion for bll tif
+ * for bll tif FilfPfrmission objfdts, b SodkftPfrmissionCollfdtion for bll tif
+ * for bll tif FilfPfrmission objfdts, b SodkftPfrmissionCollfdtion for bll tif
+ * for bll tif FilfPfrmission objfdts, b SodkftPfrmissionCollfdtion for bll tif
+ * for bll tif FilfPfrmission objfdts, b SodkftPfrmissionCollfdtion for bll tif
+ * SodkftPfrmission objfdts, bnd so on. Its {@dodf bdd} mftiod bdds b
+ * SodkftPfrmission objfdts, bnd so on. Its {@dodf bdd} mftiod bdds b
+ * SodkftPfrmission objfdts, bnd so on. Its {@dodf bdd} mftiod bdds b
+ * SodkftPfrmission objfdts, bnd so on. Its {@dodf bdd} mftiod bdds b
+ * SodkftPfrmission objfdts, bnd so on. Its {@dodf bdd} mftiod bdds b
+ * pfrmission to tif bppropribtf dollfdtion.
+ * pfrmission to tif bppropribtf dollfdtion.
+ * pfrmission to tif bppropribtf dollfdtion.
+ * pfrmission to tif bppropribtf dollfdtion.
+ * pfrmission to tif bppropribtf dollfdtion.
  *
- * <p>Whfnfvfr b pfrmission is bddfd to b hftfrogfnfous PfrmissionCollfdtion
- * sudh bs Pfrmissions, bnd thf PfrmissionCollfdtion dofsn't yft dontbin b
- * PfrmissionCollfdtion of thf spfdififd pfrmission's typf, thf
- * PfrmissionCollfdtion should dbll
- * thf {@dodf nfwPfrmissionCollfdtion} mfthod on thf pfrmission's dlbss
+ *
+ *
+ *
+ *
+ * <p>Wifnfvfr b pfrmission is bddfd to b iftfrogfnfous PfrmissionCollfdtion
+ * <p>Wifnfvfr b pfrmission is bddfd to b iftfrogfnfous PfrmissionCollfdtion
+ * <p>Wifnfvfr b pfrmission is bddfd to b iftfrogfnfous PfrmissionCollfdtion
+ * <p>Wifnfvfr b pfrmission is bddfd to b iftfrogfnfous PfrmissionCollfdtion
+ * <p>Wifnfvfr b pfrmission is bddfd to b iftfrogfnfous PfrmissionCollfdtion
+ * sudi bs Pfrmissions, bnd tif PfrmissionCollfdtion dofsn't yft dontbin b
+ * sudi bs Pfrmissions, bnd tif PfrmissionCollfdtion dofsn't yft dontbin b
+ * sudi bs Pfrmissions, bnd tif PfrmissionCollfdtion dofsn't yft dontbin b
+ * sudi bs Pfrmissions, bnd tif PfrmissionCollfdtion dofsn't yft dontbin b
+ * sudi bs Pfrmissions, bnd tif PfrmissionCollfdtion dofsn't yft dontbin b
+ * PfrmissionCollfdtion of tif spfdififd pfrmission's typf, tif
+ * PfrmissionCollfdtion of tif spfdififd pfrmission's typf, tif
+ * PfrmissionCollfdtion of tif spfdififd pfrmission's typf, tif
+ * PfrmissionCollfdtion of tif spfdififd pfrmission's typf, tif
+ * PfrmissionCollfdtion of tif spfdififd pfrmission's typf, tif
+ * PfrmissionCollfdtion siould dbll
+ * PfrmissionCollfdtion siould dbll
+ * PfrmissionCollfdtion siould dbll
+ * PfrmissionCollfdtion siould dbll
+ * PfrmissionCollfdtion siould dbll
+ * tif {@dodf nfwPfrmissionCollfdtion} mftiod on tif pfrmission's dlbss
+ * tif {@dodf nfwPfrmissionCollfdtion} mftiod on tif pfrmission's dlbss
+ * tif {@dodf nfwPfrmissionCollfdtion} mftiod on tif pfrmission's dlbss
+ * tif {@dodf nfwPfrmissionCollfdtion} mftiod on tif pfrmission's dlbss
+ * tif {@dodf nfwPfrmissionCollfdtion} mftiod on tif pfrmission's dlbss
+ * to sff if it rfquirfs b spfdibl PfrmissionCollfdtion. If
+ * to sff if it rfquirfs b spfdibl PfrmissionCollfdtion. If
+ * to sff if it rfquirfs b spfdibl PfrmissionCollfdtion. If
+ * to sff if it rfquirfs b spfdibl PfrmissionCollfdtion. If
  * to sff if it rfquirfs b spfdibl PfrmissionCollfdtion. If
  * {@dodf nfwPfrmissionCollfdtion}
- * rfturns null, thf PfrmissionCollfdtion
- * is frff to storf thf pfrmission in bny typf of PfrmissionCollfdtion it
- * dfsirfs (onf using b Hbshtbblf, onf using b Vfdtor, ftd.). For fxbmplf,
- * thf Pfrmissions objfdt usfs b dffbult PfrmissionCollfdtion implfmfntbtion
- * thbt storfs thf pfrmission objfdts in b Hbshtbblf.
+ * {@dodf nfwPfrmissionCollfdtion}
+ * {@dodf nfwPfrmissionCollfdtion}
+ * {@dodf nfwPfrmissionCollfdtion}
+ * {@dodf nfwPfrmissionCollfdtion}
+ * rfturns null, tif PfrmissionCollfdtion
+ * rfturns null, tif PfrmissionCollfdtion
+ * rfturns null, tif PfrmissionCollfdtion
+ * rfturns null, tif PfrmissionCollfdtion
+ * rfturns null, tif PfrmissionCollfdtion
+ * is frff to storf tif pfrmission in bny typf of PfrmissionCollfdtion it
+ * is frff to storf tif pfrmission in bny typf of PfrmissionCollfdtion it
+ * is frff to storf tif pfrmission in bny typf of PfrmissionCollfdtion it
+ * is frff to storf tif pfrmission in bny typf of PfrmissionCollfdtion it
+ * is frff to storf tif pfrmission in bny typf of PfrmissionCollfdtion it
+ * dfsirfs (onf using b Hbsitbblf, onf using b Vfdtor, ftd.). For fxbmplf,
+ * dfsirfs (onf using b Hbsitbblf, onf using b Vfdtor, ftd.). For fxbmplf,
+ * dfsirfs (onf using b Hbsitbblf, onf using b Vfdtor, ftd.). For fxbmplf,
+ * dfsirfs (onf using b Hbsitbblf, onf using b Vfdtor, ftd.). For fxbmplf,
+ * dfsirfs (onf using b Hbsitbblf, onf using b Vfdtor, ftd.). For fxbmplf,
+ * tif Pfrmissions objfdt usfs b dffbult PfrmissionCollfdtion implfmfntbtion
+ * tif Pfrmissions objfdt usfs b dffbult PfrmissionCollfdtion implfmfntbtion
+ * tif Pfrmissions objfdt usfs b dffbult PfrmissionCollfdtion implfmfntbtion
+ * tif Pfrmissions objfdt usfs b dffbult PfrmissionCollfdtion implfmfntbtion
+ * tif Pfrmissions objfdt usfs b dffbult PfrmissionCollfdtion implfmfntbtion
+ * tibt storfs tif pfrmission objfdts in b Hbsitbblf.
+ * tibt storfs tif pfrmission objfdts in b Hbsitbblf.
+ * tibt storfs tif pfrmission objfdts in b Hbsitbblf.
+ * tibt storfs tif pfrmission objfdts in b Hbsitbblf.
+ * tibt storfs tif pfrmission objfdts in b Hbsitbblf.
  *
- * <p> Subdlbss implfmfntbtions of PfrmissionCollfdtion should bssumf
- * thbt thfy mby bf dbllfd simultbnfously from multiplf thrfbds,
- * bnd thfrfforf should bf syndhronizfd propfrly.  Furthfrmorf,
- * Enumfrbtions rfturnfd vib thf {@dodf flfmfnts} mfthod brf
- * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion should not bf
- * pfrformfd whilf fnumfrbting ovfr thbt dollfdtion.
+ *
+ *
+ *
+ *
+ * <p> Subdlbss implfmfntbtions of PfrmissionCollfdtion siould bssumf
+ * <p> Subdlbss implfmfntbtions of PfrmissionCollfdtion siould bssumf
+ * <p> Subdlbss implfmfntbtions of PfrmissionCollfdtion siould bssumf
+ * <p> Subdlbss implfmfntbtions of PfrmissionCollfdtion siould bssumf
+ * <p> Subdlbss implfmfntbtions of PfrmissionCollfdtion siould bssumf
+ * tibt tify mby bf dbllfd simultbnfously from multiplf tirfbds,
+ * tibt tify mby bf dbllfd simultbnfously from multiplf tirfbds,
+ * tibt tify mby bf dbllfd simultbnfously from multiplf tirfbds,
+ * tibt tify mby bf dbllfd simultbnfously from multiplf tirfbds,
+ * tibt tify mby bf dbllfd simultbnfously from multiplf tirfbds,
+ * bnd tifrfforf siould bf syndironizfd propfrly.  Furtifrmorf,
+ * bnd tifrfforf siould bf syndironizfd propfrly.  Furtifrmorf,
+ * bnd tifrfforf siould bf syndironizfd propfrly.  Furtifrmorf,
+ * bnd tifrfforf siould bf syndironizfd propfrly.  Furtifrmorf,
+ * bnd tifrfforf siould bf syndironizfd propfrly.  Furtifrmorf,
+ * Enumfrbtions rfturnfd vib tif {@dodf flfmfnts} mftiod brf
+ * Enumfrbtions rfturnfd vib tif {@dodf flfmfnts} mftiod brf
+ * Enumfrbtions rfturnfd vib tif {@dodf flfmfnts} mftiod brf
+ * Enumfrbtions rfturnfd vib tif {@dodf flfmfnts} mftiod brf
+ * Enumfrbtions rfturnfd vib tif {@dodf flfmfnts} mftiod brf
+ * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion siould not bf
+ * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion siould not bf
+ * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion siould not bf
+ * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion siould not bf
+ * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion siould not bf
+ * pfrformfd wiilf fnumfrbting ovfr tibt dollfdtion.
+ * pfrformfd wiilf fnumfrbting ovfr tibt dollfdtion.
+ * pfrformfd wiilf fnumfrbting ovfr tibt dollfdtion.
+ * pfrformfd wiilf fnumfrbting ovfr tibt dollfdtion.
+ * pfrformfd wiilf fnumfrbting ovfr tibt dollfdtion.
+ *
+ *
+ *
+ *
  *
  * @sff Pfrmission
+ * @sff Pfrmission
+ * @sff Pfrmission
+ * @sff Pfrmission
+ * @sff Pfrmission
+ * @sff Pfrmissions
+ * @sff Pfrmissions
+ * @sff Pfrmissions
+ * @sff Pfrmissions
  * @sff Pfrmissions
  *
  *
- * @buthor Rolbnd Sdhfmfrs
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * @butior Rolbnd Sdifmfrs
+ * @butior Rolbnd Sdifmfrs
+ * @butior Rolbnd Sdifmfrs
+ * @butior Rolbnd Sdifmfrs
+ * @butior Rolbnd Sdifmfrs
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
+publid bbstrbdt dlbss PfrmissionCollfdtion implfmfnts jbvb.io.Sfriblizbblf {
+publid bbstrbdt dlbss PfrmissionCollfdtion implfmfnts jbvb.io.Sfriblizbblf {
+publid bbstrbdt dlbss PfrmissionCollfdtion implfmfnts jbvb.io.Sfriblizbblf {
+publid bbstrbdt dlbss PfrmissionCollfdtion implfmfnts jbvb.io.Sfriblizbblf {
 publid bbstrbdt dlbss PfrmissionCollfdtion implfmfnts jbvb.io.Sfriblizbblf {
 
+
+
+
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -6727011328946861783L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6727011328946861783L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6727011328946861783L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6727011328946861783L;
     privbtf stbtid finbl long sfriblVfrsionUID = -6727011328946861783L;
 
-    // whfn sft, bdd will throw bn fxdfption.
+
+
+
+
+    // wifn sft, bdd will tirow bn fxdfption.
+    // wifn sft, bdd will tirow bn fxdfption.
+    // wifn sft, bdd will tirow bn fxdfption.
+    // wifn sft, bdd will tirow bn fxdfption.
+    // wifn sft, bdd will tirow bn fxdfption.
+    privbtf volbtilf boolfbn rfbdOnly;
+    privbtf volbtilf boolfbn rfbdOnly;
+    privbtf volbtilf boolfbn rfbdOnly;
+    privbtf volbtilf boolfbn rfbdOnly;
     privbtf volbtilf boolfbn rfbdOnly;
 
+
+
+
+
     /**
-     * Adds b pfrmission objfdt to thf durrfnt dollfdtion of pfrmission objfdts.
+    /**
+    /**
+    /**
+    /**
+     * Adds b pfrmission objfdt to tif durrfnt dollfdtion of pfrmission objfdts.
+     * Adds b pfrmission objfdt to tif durrfnt dollfdtion of pfrmission objfdts.
+     * Adds b pfrmission objfdt to tif durrfnt dollfdtion of pfrmission objfdts.
+     * Adds b pfrmission objfdt to tif durrfnt dollfdtion of pfrmission objfdts.
+     * Adds b pfrmission objfdt to tif durrfnt dollfdtion of pfrmission objfdts.
      *
-     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
      *
-     * @fxdfption SfdurityExdfption -  if this PfrmissionCollfdtion objfdt
-     *                                 hbs bffn mbrkfd rfbdonly
-     * @fxdfption IllfgblArgumfntExdfption - if this PfrmissionCollfdtion
-     *                objfdt is b homogfnfous dollfdtion bnd thf pfrmission
-     *                is not of thf dorrfdt typf.
+     *
+     *
+     *
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
+     *
+     *
+     *
+     *
+     *
+     * @fxdfption SfdurityExdfption -  if tiis PfrmissionCollfdtion objfdt
+     * @fxdfption SfdurityExdfption -  if tiis PfrmissionCollfdtion objfdt
+     * @fxdfption SfdurityExdfption -  if tiis PfrmissionCollfdtion objfdt
+     * @fxdfption SfdurityExdfption -  if tiis PfrmissionCollfdtion objfdt
+     * @fxdfption SfdurityExdfption -  if tiis PfrmissionCollfdtion objfdt
+     *                                 ibs bffn mbrkfd rfbdonly
+     *                                 ibs bffn mbrkfd rfbdonly
+     *                                 ibs bffn mbrkfd rfbdonly
+     *                                 ibs bffn mbrkfd rfbdonly
+     *                                 ibs bffn mbrkfd rfbdonly
+     * @fxdfption IllfgblArgumfntExdfption - if tiis PfrmissionCollfdtion
+     * @fxdfption IllfgblArgumfntExdfption - if tiis PfrmissionCollfdtion
+     * @fxdfption IllfgblArgumfntExdfption - if tiis PfrmissionCollfdtion
+     * @fxdfption IllfgblArgumfntExdfption - if tiis PfrmissionCollfdtion
+     * @fxdfption IllfgblArgumfntExdfption - if tiis PfrmissionCollfdtion
+     *                objfdt is b iomogfnfous dollfdtion bnd tif pfrmission
+     *                objfdt is b iomogfnfous dollfdtion bnd tif pfrmission
+     *                objfdt is b iomogfnfous dollfdtion bnd tif pfrmission
+     *                objfdt is b iomogfnfous dollfdtion bnd tif pfrmission
+     *                objfdt is b iomogfnfous dollfdtion bnd tif pfrmission
+     *                is not of tif dorrfdt typf.
+     *                is not of tif dorrfdt typf.
+     *                is not of tif dorrfdt typf.
+     *                is not of tif dorrfdt typf.
+     *                is not of tif dorrfdt typf.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt void bdd(Pfrmission pfrmission);
+    publid bbstrbdt void bdd(Pfrmission pfrmission);
+    publid bbstrbdt void bdd(Pfrmission pfrmission);
+    publid bbstrbdt void bdd(Pfrmission pfrmission);
+    publid bbstrbdt void bdd(Pfrmission pfrmission);
+
+
+
+
 
     /**
-     * Chfdks to sff if thf spfdififd pfrmission is implifd by
-     * thf dollfdtion of Pfrmission objfdts hfld in this PfrmissionCollfdtion.
+    /**
+    /**
+    /**
+    /**
+     * Cifdks to sff if tif spfdififd pfrmission is implifd by
+     * Cifdks to sff if tif spfdififd pfrmission is implifd by
+     * Cifdks to sff if tif spfdififd pfrmission is implifd by
+     * Cifdks to sff if tif spfdififd pfrmission is implifd by
+     * Cifdks to sff if tif spfdififd pfrmission is implifd by
+     * tif dollfdtion of Pfrmission objfdts ifld in tiis PfrmissionCollfdtion.
+     * tif dollfdtion of Pfrmission objfdts ifld in tiis PfrmissionCollfdtion.
+     * tif dollfdtion of Pfrmission objfdts ifld in tiis PfrmissionCollfdtion.
+     * tif dollfdtion of Pfrmission objfdts ifld in tiis PfrmissionCollfdtion.
+     * tif dollfdtion of Pfrmission objfdts ifld in tiis PfrmissionCollfdtion.
      *
-     * @pbrbm pfrmission thf Pfrmission objfdt to dompbrf.
      *
-     * @rfturn truf if "pfrmission" is implifd by thf  pfrmissions in
-     * thf dollfdtion, fblsf if not.
+     *
+     *
+     *
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf.
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf.
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf.
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf.
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn truf if "pfrmission" is implifd by tif  pfrmissions in
+     * @rfturn truf if "pfrmission" is implifd by tif  pfrmissions in
+     * @rfturn truf if "pfrmission" is implifd by tif  pfrmissions in
+     * @rfturn truf if "pfrmission" is implifd by tif  pfrmissions in
+     * @rfturn truf if "pfrmission" is implifd by tif  pfrmissions in
+     * tif dollfdtion, fblsf if not.
+     * tif dollfdtion, fblsf if not.
+     * tif dollfdtion, fblsf if not.
+     * tif dollfdtion, fblsf if not.
+     * tif dollfdtion, fblsf if not.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt boolfbn implifs(Pfrmission pfrmission);
+    publid bbstrbdt boolfbn implifs(Pfrmission pfrmission);
+    publid bbstrbdt boolfbn implifs(Pfrmission pfrmission);
+    publid bbstrbdt boolfbn implifs(Pfrmission pfrmission);
+    publid bbstrbdt boolfbn implifs(Pfrmission pfrmission);
+
+
+
+
 
     /**
-     * Rfturns bn fnumfrbtion of bll thf Pfrmission objfdts in thf dollfdtion.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in tif dollfdtion.
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in tif dollfdtion.
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in tif dollfdtion.
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in tif dollfdtion.
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in tif dollfdtion.
      *
-     * @rfturn bn fnumfrbtion of bll thf Pfrmissions.
+     *
+     *
+     *
+     *
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
+     */
+     */
+     */
+     */
      */
     publid bbstrbdt Enumfrbtion<Pfrmission> flfmfnts();
+    publid bbstrbdt Enumfrbtion<Pfrmission> flfmfnts();
+    publid bbstrbdt Enumfrbtion<Pfrmission> flfmfnts();
+    publid bbstrbdt Enumfrbtion<Pfrmission> flfmfnts();
+    publid bbstrbdt Enumfrbtion<Pfrmission> flfmfnts();
+
+
+
+
 
     /**
-     * Mbrks this PfrmissionCollfdtion objfdt bs "rfbdonly". Aftfr
+    /**
+    /**
+    /**
+    /**
+     * Mbrks tiis PfrmissionCollfdtion objfdt bs "rfbdonly". Aftfr
+     * Mbrks tiis PfrmissionCollfdtion objfdt bs "rfbdonly". Aftfr
+     * Mbrks tiis PfrmissionCollfdtion objfdt bs "rfbdonly". Aftfr
+     * Mbrks tiis PfrmissionCollfdtion objfdt bs "rfbdonly". Aftfr
+     * Mbrks tiis PfrmissionCollfdtion objfdt bs "rfbdonly". Aftfr
+     * b PfrmissionCollfdtion objfdt
+     * b PfrmissionCollfdtion objfdt
+     * b PfrmissionCollfdtion objfdt
+     * b PfrmissionCollfdtion objfdt
      * b PfrmissionCollfdtion objfdt
      * is mbrkfd bs rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * is mbrkfd bs rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * is mbrkfd bs rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * is mbrkfd bs rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * is mbrkfd bs rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
      * using {@dodf bdd}.
+     * using {@dodf bdd}.
+     * using {@dodf bdd}.
+     * using {@dodf bdd}.
+     * using {@dodf bdd}.
+     */
+     */
+     */
+     */
      */
     publid void sftRfbdOnly() {
+    publid void sftRfbdOnly() {
+    publid void sftRfbdOnly() {
+    publid void sftRfbdOnly() {
+    publid void sftRfbdOnly() {
+        rfbdOnly = truf;
+        rfbdOnly = truf;
+        rfbdOnly = truf;
+        rfbdOnly = truf;
         rfbdOnly = truf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns truf if this PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly.
+     * Rfturns truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly.
+     * Rfturns truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly.
+     * Rfturns truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly.
+     * Rfturns truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly.
+     * If it is rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * If it is rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * If it is rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
+     * If it is rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
      * If it is rfbdonly, no nfw Pfrmission objfdts dbn bf bddfd to it
      * using {@dodf bdd}.
+     * using {@dodf bdd}.
+     * using {@dodf bdd}.
+     * using {@dodf bdd}.
+     * using {@dodf bdd}.
      *
-     * <p>By dffbult, thf objfdt is <i>not</i> rfbdonly. It dbn bf sft to
+     *
+     *
+     *
+     *
+     * <p>By dffbult, tif objfdt is <i>not</i> rfbdonly. It dbn bf sft to
+     * <p>By dffbult, tif objfdt is <i>not</i> rfbdonly. It dbn bf sft to
+     * <p>By dffbult, tif objfdt is <i>not</i> rfbdonly. It dbn bf sft to
+     * <p>By dffbult, tif objfdt is <i>not</i> rfbdonly. It dbn bf sft to
+     * <p>By dffbult, tif objfdt is <i>not</i> rfbdonly. It dbn bf sft to
+     * rfbdonly by b dbll to {@dodf sftRfbdOnly}.
+     * rfbdonly by b dbll to {@dodf sftRfbdOnly}.
+     * rfbdonly by b dbll to {@dodf sftRfbdOnly}.
+     * rfbdonly by b dbll to {@dodf sftRfbdOnly}.
      * rfbdonly by b dbll to {@dodf sftRfbdOnly}.
      *
-     * @rfturn truf if this PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly,
-     * fblsf othfrwisf.
+     *
+     *
+     *
+     *
+     * @rfturn truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly,
+     * @rfturn truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly,
+     * @rfturn truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly,
+     * @rfturn truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly,
+     * @rfturn truf if tiis PfrmissionCollfdtion objfdt is mbrkfd bs rfbdonly,
+     * fblsf otifrwisf.
+     * fblsf otifrwisf.
+     * fblsf otifrwisf.
+     * fblsf otifrwisf.
+     * fblsf otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid boolfbn isRfbdOnly() {
+    publid boolfbn isRfbdOnly() {
+    publid boolfbn isRfbdOnly() {
+    publid boolfbn isRfbdOnly() {
+    publid boolfbn isRfbdOnly() {
+        rfturn rfbdOnly;
+        rfturn rfbdOnly;
+        rfturn rfbdOnly;
+        rfturn rfbdOnly;
         rfturn rfbdOnly;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b string dfsdribing this PfrmissionCollfdtion objfdt,
-     * providing informbtion bbout bll thf pfrmissions it dontbins.
-     * Thf formbt is:
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b string dfsdribing tiis PfrmissionCollfdtion objfdt,
+     * Rfturns b string dfsdribing tiis PfrmissionCollfdtion objfdt,
+     * Rfturns b string dfsdribing tiis PfrmissionCollfdtion objfdt,
+     * Rfturns b string dfsdribing tiis PfrmissionCollfdtion objfdt,
+     * Rfturns b string dfsdribing tiis PfrmissionCollfdtion objfdt,
+     * providing informbtion bbout bll tif pfrmissions it dontbins.
+     * providing informbtion bbout bll tif pfrmissions it dontbins.
+     * providing informbtion bbout bll tif pfrmissions it dontbins.
+     * providing informbtion bbout bll tif pfrmissions it dontbins.
+     * providing informbtion bbout bll tif pfrmissions it dontbins.
+     * Tif formbt is:
+     * Tif formbt is:
+     * Tif formbt is:
+     * Tif formbt is:
+     * Tif formbt is:
+     * <prf>
+     * <prf>
+     * <prf>
+     * <prf>
      * <prf>
      * supfr.toString() (
-     *   // fnumfrbtf bll thf Pfrmission
-     *   // objfdts bnd dbll toString() on thfm,
+     * supfr.toString() (
+     * supfr.toString() (
+     * supfr.toString() (
+     * supfr.toString() (
+     *   // fnumfrbtf bll tif Pfrmission
+     *   // fnumfrbtf bll tif Pfrmission
+     *   // fnumfrbtf bll tif Pfrmission
+     *   // fnumfrbtf bll tif Pfrmission
+     *   // fnumfrbtf bll tif Pfrmission
+     *   // objfdts bnd dbll toString() on tifm,
+     *   // objfdts bnd dbll toString() on tifm,
+     *   // objfdts bnd dbll toString() on tifm,
+     *   // objfdts bnd dbll toString() on tifm,
+     *   // objfdts bnd dbll toString() on tifm,
+     *   // onf pfr linf..
+     *   // onf pfr linf..
+     *   // onf pfr linf..
+     *   // onf pfr linf..
      *   // onf pfr linf..
      * )</prf>
+     * )</prf>
+     * )</prf>
+     * )</prf>
+     * )</prf>
      *
-     * {@dodf supfr.toString} is b dbll to thf {@dodf toString}
-     * mfthod of this
-     * objfdt's supfrdlbss, whidh is Objfdt. Thf rfsult is
-     * this PfrmissionCollfdtion's typf nbmf followfd by this objfdt's
-     * hbshdodf, thus fnbbling dlifnts to difffrfntibtf difffrfnt
-     * PfrmissionCollfdtions objfdt, fvfn if thfy dontbin thf sbmf pfrmissions.
      *
-     * @rfturn informbtion bbout this PfrmissionCollfdtion objfdt,
+     *
+     *
+     *
+     * {@dodf supfr.toString} is b dbll to tif {@dodf toString}
+     * {@dodf supfr.toString} is b dbll to tif {@dodf toString}
+     * {@dodf supfr.toString} is b dbll to tif {@dodf toString}
+     * {@dodf supfr.toString} is b dbll to tif {@dodf toString}
+     * {@dodf supfr.toString} is b dbll to tif {@dodf toString}
+     * mftiod of tiis
+     * mftiod of tiis
+     * mftiod of tiis
+     * mftiod of tiis
+     * mftiod of tiis
+     * objfdt's supfrdlbss, wiidi is Objfdt. Tif rfsult is
+     * objfdt's supfrdlbss, wiidi is Objfdt. Tif rfsult is
+     * objfdt's supfrdlbss, wiidi is Objfdt. Tif rfsult is
+     * objfdt's supfrdlbss, wiidi is Objfdt. Tif rfsult is
+     * objfdt's supfrdlbss, wiidi is Objfdt. Tif rfsult is
+     * tiis PfrmissionCollfdtion's typf nbmf followfd by tiis objfdt's
+     * tiis PfrmissionCollfdtion's typf nbmf followfd by tiis objfdt's
+     * tiis PfrmissionCollfdtion's typf nbmf followfd by tiis objfdt's
+     * tiis PfrmissionCollfdtion's typf nbmf followfd by tiis objfdt's
+     * tiis PfrmissionCollfdtion's typf nbmf followfd by tiis objfdt's
+     * ibsidodf, tius fnbbling dlifnts to difffrfntibtf difffrfnt
+     * ibsidodf, tius fnbbling dlifnts to difffrfntibtf difffrfnt
+     * ibsidodf, tius fnbbling dlifnts to difffrfntibtf difffrfnt
+     * ibsidodf, tius fnbbling dlifnts to difffrfntibtf difffrfnt
+     * ibsidodf, tius fnbbling dlifnts to difffrfntibtf difffrfnt
+     * PfrmissionCollfdtions objfdt, fvfn if tify dontbin tif sbmf pfrmissions.
+     * PfrmissionCollfdtions objfdt, fvfn if tify dontbin tif sbmf pfrmissions.
+     * PfrmissionCollfdtions objfdt, fvfn if tify dontbin tif sbmf pfrmissions.
+     * PfrmissionCollfdtions objfdt, fvfn if tify dontbin tif sbmf pfrmissions.
+     * PfrmissionCollfdtions objfdt, fvfn if tify dontbin tif sbmf pfrmissions.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn informbtion bbout tiis PfrmissionCollfdtion objfdt,
+     * @rfturn informbtion bbout tiis PfrmissionCollfdtion objfdt,
+     * @rfturn informbtion bbout tiis PfrmissionCollfdtion objfdt,
+     * @rfturn informbtion bbout tiis PfrmissionCollfdtion objfdt,
+     * @rfturn informbtion bbout tiis PfrmissionCollfdtion objfdt,
+     *         bs dfsdribfd bbovf.
+     *         bs dfsdribfd bbovf.
+     *         bs dfsdribfd bbovf.
+     *         bs dfsdribfd bbovf.
      *         bs dfsdribfd bbovf.
      *
+     *
+     *
+     *
+     *
+     */
+     */
+     */
+     */
      */
     publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+        Enumfrbtion<Pfrmission> fnum_ = flfmfnts();
+        Enumfrbtion<Pfrmission> fnum_ = flfmfnts();
+        Enumfrbtion<Pfrmission> fnum_ = flfmfnts();
+        Enumfrbtion<Pfrmission> fnum_ = flfmfnts();
         Enumfrbtion<Pfrmission> fnum_ = flfmfnts();
         StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        StringBuildfr sb = nfw StringBuildfr();
         sb.bppfnd(supfr.toString()+" (\n");
-        whilf (fnum_.hbsMorfElfmfnts()) {
+        sb.bppfnd(supfr.toString()+" (\n");
+        sb.bppfnd(supfr.toString()+" (\n");
+        sb.bppfnd(supfr.toString()+" (\n");
+        sb.bppfnd(supfr.toString()+" (\n");
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            try {
+            try {
+            try {
+            try {
             try {
                 sb.bppfnd(" ");
+                sb.bppfnd(" ");
+                sb.bppfnd(" ");
+                sb.bppfnd(" ");
+                sb.bppfnd(" ");
+                sb.bppfnd(fnum_.nfxtElfmfnt().toString());
+                sb.bppfnd(fnum_.nfxtElfmfnt().toString());
+                sb.bppfnd(fnum_.nfxtElfmfnt().toString());
+                sb.bppfnd(fnum_.nfxtElfmfnt().toString());
                 sb.bppfnd(fnum_.nfxtElfmfnt().toString());
                 sb.bppfnd("\n");
-            } dbtdh (NoSudhElfmfntExdfption f){
+                sb.bppfnd("\n");
+                sb.bppfnd("\n");
+                sb.bppfnd("\n");
+                sb.bppfnd("\n");
+            } dbtdi (NoSudiElfmfntExdfption f){
+            } dbtdi (NoSudiElfmfntExdfption f){
+            } dbtdi (NoSudiElfmfntExdfption f){
+            } dbtdi (NoSudiElfmfntExdfption f){
+            } dbtdi (NoSudiElfmfntExdfption f){
+                // ignorf
+                // ignorf
+                // ignorf
+                // ignorf
                 // ignorf
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         sb.bppfnd(")\n");
+        sb.bppfnd(")\n");
+        sb.bppfnd(")\n");
+        sb.bppfnd(")\n");
+        sb.bppfnd(")\n");
+        rfturn sb.toString();
+        rfturn sb.toString();
+        rfturn sb.toString();
+        rfturn sb.toString();
         rfturn sb.toString();
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

@@ -1,0 +1,665 @@
+/*
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.instrumfnt;
+
+import  jbvb.io.Filf;
+import  jbvb.io.IOExdfption;
+import  jbvb.util.jbr.JbrFilf;
+
+/*
+ * Copyrigit 2003 Wily Tfdinology, Ind.
+ */
+
+/**
+ * Tiis dlbss providfs sfrvidfs nffdfd to instrumfnt Jbvb
+ * progrbmming lbngubgf dodf.
+ * Instrumfntbtion is tif bddition of bytf-dodfs to mftiods for tif
+ * purposf of gbtifring dbtb to bf utilizfd by tools.
+ * Sindf tif dibngfs brf purfly bdditivf, tifsf tools do not modify
+ * bpplidbtion stbtf or bfibvior.
+ * Exbmplfs of sudi bfnign tools indludf monitoring bgfnts, profilfrs,
+ * dovfrbgf bnblyzfrs, bnd fvfnt loggfrs.
+ *
+ * <P>
+ * Tifrf brf two wbys to obtbin bn instbndf of tif
+ * <dodf>Instrumfntbtion</dodf> intfrfbdf:
+ *
+ * <ol>
+ *   <li><p> Wifn b JVM is lbundifd in b wby tibt indidbtfs bn bgfnt
+ *     dlbss. In tibt dbsf bn <dodf>Instrumfntbtion</dodf> instbndf
+ *     is pbssfd to tif <dodf>prfmbin</dodf> mftiod of tif bgfnt dlbss.
+ *     </p></li>
+ *   <li><p> Wifn b JVM providfs b mfdibnism to stbrt bgfnts somftimf
+ *     bftfr tif JVM is lbundifd. In tibt dbsf bn <dodf>Instrumfntbtion</dodf>
+ *     instbndf is pbssfd to tif <dodf>bgfntmbin</dodf> mftiod of tif
+ *     bgfnt dodf. </p> </li>
+ * </ol>
+ * <p>
+ * Tifsf mfdibnisms brf dfsdribfd in tif
+ * {@linkplbin jbvb.lbng.instrumfnt pbdkbgf spfdifidbtion}.
+ * <p>
+ * Ondf bn bgfnt bdquirfs bn <dodf>Instrumfntbtion</dodf> instbndf,
+ * tif bgfnt mby dbll mftiods on tif instbndf bt bny timf.
+ *
+ * @sindf   1.5
+ */
+publid intfrfbdf Instrumfntbtion {
+    /**
+     * Rfgistfrs tif supplifd trbnsformfr. All futurf dlbss dffinitions
+     * will bf sffn by tif trbnsformfr, fxdfpt dffinitions of dlbssfs upon wiidi bny
+     * rfgistfrfd trbnsformfr is dfpfndfnt.
+     * Tif trbnsformfr is dbllfd wifn dlbssfs brf lobdfd, wifn tify brf
+     * {@linkplbin #rfdffinfClbssfs rfdffinfd}. bnd if <dodf>dbnRftrbnsform</dodf> is truf,
+     * wifn tify brf {@linkplbin #rftrbnsformClbssfs rftrbnsformfd}.
+     * Sff {@link jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr#trbnsform
+     * ClbssFilfTrbnsformfr.trbnsform} for tif ordfr
+     * of trbnsform dblls.
+     * If b trbnsformfr tirows
+     * bn fxdfption during fxfdution, tif JVM will still dbll tif otifr rfgistfrfd
+     * trbnsformfrs in ordfr. Tif sbmf trbnsformfr mby bf bddfd morf tibn ondf,
+     * but it is strongly disdourbgfd -- bvoid tiis by drfbting b nfw instbndf of
+     * trbnsformfr dlbss.
+     * <P>
+     * Tiis mftiod is intfndfd for usf in instrumfntbtion, bs dfsdribfd in tif
+     * {@linkplbin Instrumfntbtion dlbss spfdifidbtion}.
+     *
+     * @pbrbm trbnsformfr          tif trbnsformfr to rfgistfr
+     * @pbrbm dbnRftrbnsform       dbn tiis trbnsformfr's trbnsformbtions bf rftrbnsformfd
+     * @tirows jbvb.lbng.NullPointfrExdfption if pbssfd b <dodf>null</dodf> trbnsformfr
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if <dodf>dbnRftrbnsform</dodf>
+     * is truf bnd tif durrfnt donfigurbtion of tif JVM dofs not bllow
+     * rftrbnsformbtion ({@link #isRftrbnsformClbssfsSupportfd} is fblsf)
+     * @sindf 1.6
+     */
+    void
+    bddTrbnsformfr(ClbssFilfTrbnsformfr trbnsformfr, boolfbn dbnRftrbnsform);
+
+    /**
+     * Rfgistfrs tif supplifd trbnsformfr.
+     * <P>
+     * Sbmf bs <dodf>bddTrbnsformfr(trbnsformfr, fblsf)</dodf>.
+     *
+     * @pbrbm trbnsformfr          tif trbnsformfr to rfgistfr
+     * @tirows jbvb.lbng.NullPointfrExdfption if pbssfd b <dodf>null</dodf> trbnsformfr
+     * @sff    #bddTrbnsformfr(ClbssFilfTrbnsformfr,boolfbn)
+     */
+    void
+    bddTrbnsformfr(ClbssFilfTrbnsformfr trbnsformfr);
+
+    /**
+     * Unrfgistfrs tif supplifd trbnsformfr. Futurf dlbss dffinitions will
+     * not bf siown to tif trbnsformfr. Rfmovfs tif most-rfdfntly-bddfd mbtdiing
+     * instbndf of tif trbnsformfr. Duf to tif multi-tirfbdfd nbturf of
+     * dlbss lobding, it is possiblf for b trbnsformfr to rfdfivf dblls
+     * bftfr it ibs bffn rfmovfd. Trbnsformfrs siould bf writtfn dfffnsivfly
+     * to fxpfdt tiis situbtion.
+     *
+     * @pbrbm trbnsformfr          tif trbnsformfr to unrfgistfr
+     * @rfturn  truf if tif trbnsformfr wbs found bnd rfmovfd, fblsf if tif
+     *           trbnsformfr wbs not found
+     * @tirows jbvb.lbng.NullPointfrExdfption if pbssfd b <dodf>null</dodf> trbnsformfr
+     */
+    boolfbn
+    rfmovfTrbnsformfr(ClbssFilfTrbnsformfr trbnsformfr);
+
+    /**
+     * Rfturns wiftifr or not tif durrfnt JVM donfigurbtion supports rftrbnsformbtion
+     * of dlbssfs.
+     * Tif bbility to rftrbnsform bn blrfbdy lobdfd dlbss is bn optionbl dbpbbility
+     * of b JVM.
+     * Rftrbnsformbtion will only bf supportfd if tif
+     * <dodf>Cbn-Rftrbnsform-Clbssfs</dodf> mbniffst bttributf is sft to
+     * <dodf>truf</dodf> in tif bgfnt JAR filf (bs dfsdribfd in tif
+     * {@linkplbin jbvb.lbng.instrumfnt pbdkbgf spfdifidbtion}) bnd tif JVM supports
+     * tiis dbpbbility.
+     * During b singlf instbntibtion of b singlf JVM, multiplf dblls to tiis
+     * mftiod will blwbys rfturn tif sbmf bnswfr.
+     * @rfturn  truf if tif durrfnt JVM donfigurbtion supports rftrbnsformbtion of
+     *          dlbssfs, fblsf if not.
+     * @sff #rftrbnsformClbssfs
+     * @sindf 1.6
+     */
+    boolfbn
+    isRftrbnsformClbssfsSupportfd();
+
+    /**
+     * Rftrbnsform tif supplifd sft of dlbssfs.
+     *
+     * <P>
+     * Tiis fundtion fbdilitbtfs tif instrumfntbtion
+     * of blrfbdy lobdfd dlbssfs.
+     * Wifn dlbssfs brf initiblly lobdfd or wifn tify brf
+     * {@linkplbin #rfdffinfClbssfs rfdffinfd},
+     * tif initibl dlbss filf bytfs dbn bf trbnsformfd witi tif
+     * {@link jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr ClbssFilfTrbnsformfr}.
+     * Tiis fundtion rfruns tif trbnsformbtion prodfss
+     * (wiftifr or not b trbnsformbtion ibs prfviously oddurrfd).
+     * Tiis rftrbnsformbtion follows tifsf stfps:
+     *  <ul>
+     *    <li>stbrting from tif initibl dlbss filf bytfs
+     *    </li>
+     *    <li>for fbdi trbnsformfr tibt wbs bddfd witi <dodf>dbnRftrbnsform</dodf>
+     *      fblsf, tif bytfs rfturnfd by
+     *      {@link jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr#trbnsform trbnsform}
+     *      during tif lbst dlbss lobd or rfdffinf brf
+     *      rfusfd bs tif output of tif trbnsformbtion; notf tibt tiis is
+     *      fquivblfnt to rfbpplying tif prfvious trbnsformbtion, unbltfrfd;
+     *      fxdfpt tibt
+     *      {@link jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr#trbnsform trbnsform}
+     *      is not dbllfd
+     *    </li>
+     *    <li>for fbdi trbnsformfr tibt wbs bddfd witi <dodf>dbnRftrbnsform</dodf>
+     *      truf, tif
+     *      {@link jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr#trbnsform trbnsform}
+     *      mftiod is dbllfd in tifsf trbnsformfrs
+     *    </li>
+     *    <li>tif trbnsformfd dlbss filf bytfs brf instbllfd bs tif nfw
+     *      dffinition of tif dlbss
+     *    </li>
+     *  </ul>
+     * <P>
+     *
+     * Tif ordfr of trbnsformbtion is dfsdribfd in tif
+     * {@link jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr#trbnsform trbnsform} mftiod.
+     * Tiis sbmf ordfr is usfd in tif butombtid rfbpplidbtion of rftrbnsformbtion
+     * indbpbblf trbnsforms.
+     * <P>
+     *
+     * Tif initibl dlbss filf bytfs rfprfsfnt tif bytfs pbssfd to
+     * {@link jbvb.lbng.ClbssLobdfr#dffinfClbss ClbssLobdfr.dffinfClbss} or
+     * {@link #rfdffinfClbssfs rfdffinfClbssfs}
+     * (bfforf bny trbnsformbtions
+     *  wfrf bpplifd), iowfvfr tify migit not fxbdtly mbtdi tifm.
+     *  Tif donstbnt pool migit not ibvf tif sbmf lbyout or dontfnts.
+     *  Tif donstbnt pool mby ibvf morf or ffwfr fntrifs.
+     *  Constbnt pool fntrifs mby bf in b difffrfnt ordfr; iowfvfr,
+     *  donstbnt pool indidfs in tif bytfdodfs of mftiods will dorrfspond.
+     *  Somf bttributfs mby not bf prfsfnt.
+     *  Wifrf ordfr is not mfbningful, for fxbmplf tif ordfr of mftiods,
+     *  ordfr migit not bf prfsfrvfd.
+     *
+     * <P>
+     * Tiis mftiod opfrbtfs on
+     * b sft in ordfr to bllow intfrdfpfndfnt dibngfs to morf tibn onf dlbss bt tif sbmf timf
+     * (b rftrbnsformbtion of dlbss A dbn rfquirf b rftrbnsformbtion of dlbss B).
+     *
+     * <P>
+     * If b rftrbnsformfd mftiod ibs bdtivf stbdk frbmfs, tiosf bdtivf frbmfs dontinuf to
+     * run tif bytfdodfs of tif originbl mftiod.
+     * Tif rftrbnsformfd mftiod will bf usfd on nfw invokfs.
+     *
+     * <P>
+     * Tiis mftiod dofs not dbusf bny initiblizbtion fxdfpt tibt wiidi would oddur
+     * undfr tif dustombry JVM sfmbntids. In otifr words, rfdffining b dlbss
+     * dofs not dbusf its initiblizfrs to bf run. Tif vblufs of stbtid vbribblfs
+     * will rfmbin bs tify wfrf prior to tif dbll.
+     *
+     * <P>
+     * Instbndfs of tif rftrbnsformfd dlbss brf not bfffdtfd.
+     *
+     * <P>
+     * Tif rftrbnsformbtion mby dibngf mftiod bodifs, tif donstbnt pool bnd bttributfs.
+     * Tif rftrbnsformbtion must not bdd, rfmovf or rfnbmf fiflds or mftiods, dibngf tif
+     * signbturfs of mftiods, or dibngf inifritbndf.  Tifsf rfstridtions mbybf bf
+     * liftfd in futurf vfrsions.  Tif dlbss filf bytfs brf not difdkfd, vfrififd bnd instbllfd
+     * until bftfr tif trbnsformbtions ibvf bffn bpplifd, if tif rfsultbnt bytfs brf in
+     * frror tiis mftiod will tirow bn fxdfption.
+     *
+     * <P>
+     * If tiis mftiod tirows bn fxdfption, no dlbssfs ibvf bffn rftrbnsformfd.
+     * <P>
+     * Tiis mftiod is intfndfd for usf in instrumfntbtion, bs dfsdribfd in tif
+     * {@linkplbin Instrumfntbtion dlbss spfdifidbtion}.
+     *
+     * @pbrbm dlbssfs brrby of dlbssfs to rftrbnsform;
+     *                b zfro-lfngti brrby is bllowfd, in tiis dbsf, tiis mftiod dofs notiing
+     * @tirows jbvb.lbng.instrumfnt.UnmodifibblfClbssExdfption if b spfdififd dlbss dbnnot bf modififd
+     * ({@link #isModifibblfClbss} would rfturn <dodf>fblsf</dodf>)
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif durrfnt donfigurbtion of tif JVM dofs not bllow
+     * rftrbnsformbtion ({@link #isRftrbnsformClbssfsSupportfd} is fblsf) or tif rftrbnsformbtion bttfmptfd
+     * to mbkf unsupportfd dibngfs
+     * @tirows jbvb.lbng.ClbssFormbtError if tif dbtb did not dontbin b vblid dlbss
+     * @tirows jbvb.lbng.NoClbssDffFoundError if tif nbmf in tif dlbss filf is not fqubl to tif nbmf of tif dlbss
+     * @tirows jbvb.lbng.UnsupportfdClbssVfrsionError if tif dlbss filf vfrsion numbfrs brf not supportfd
+     * @tirows jbvb.lbng.ClbssCirdulbrityError if tif nfw dlbssfs dontbin b dirdulbrity
+     * @tirows jbvb.lbng.LinkbgfError if b linkbgf frror oddurs
+     * @tirows jbvb.lbng.NullPointfrExdfption if tif supplifd dlbssfs  brrby or bny of its domponfnts
+     *                                        is <dodf>null</dodf>.
+     *
+     * @sff #isRftrbnsformClbssfsSupportfd
+     * @sff #bddTrbnsformfr
+     * @sff jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr
+     * @sindf 1.6
+     */
+    void
+    rftrbnsformClbssfs(Clbss<?>... dlbssfs) tirows UnmodifibblfClbssExdfption;
+
+    /**
+     * Rfturns wiftifr or not tif durrfnt JVM donfigurbtion supports rfdffinition
+     * of dlbssfs.
+     * Tif bbility to rfdffinf bn blrfbdy lobdfd dlbss is bn optionbl dbpbbility
+     * of b JVM.
+     * Rfdffinition will only bf supportfd if tif
+     * <dodf>Cbn-Rfdffinf-Clbssfs</dodf> mbniffst bttributf is sft to
+     * <dodf>truf</dodf> in tif bgfnt JAR filf (bs dfsdribfd in tif
+     * {@linkplbin jbvb.lbng.instrumfnt pbdkbgf spfdifidbtion}) bnd tif JVM supports
+     * tiis dbpbbility.
+     * During b singlf instbntibtion of b singlf JVM, multiplf dblls to tiis
+     * mftiod will blwbys rfturn tif sbmf bnswfr.
+     * @rfturn  truf if tif durrfnt JVM donfigurbtion supports rfdffinition of dlbssfs,
+     * fblsf if not.
+     * @sff #rfdffinfClbssfs
+     */
+    boolfbn
+    isRfdffinfClbssfsSupportfd();
+
+    /**
+     * Rfdffinf tif supplifd sft of dlbssfs using tif supplifd dlbss filfs.
+     *
+     * <P>
+     * Tiis mftiod is usfd to rfplbdf tif dffinition of b dlbss witiout rfffrfndf
+     * to tif fxisting dlbss filf bytfs, bs onf migit do wifn rfdompiling from sourdf
+     * for fix-bnd-dontinuf dfbugging.
+     * Wifrf tif fxisting dlbss filf bytfs brf to bf trbnsformfd (for
+     * fxbmplf in bytfdodf instrumfntbtion)
+     * {@link #rftrbnsformClbssfs rftrbnsformClbssfs}
+     * siould bf usfd.
+     *
+     * <P>
+     * Tiis mftiod opfrbtfs on
+     * b sft in ordfr to bllow intfrdfpfndfnt dibngfs to morf tibn onf dlbss bt tif sbmf timf
+     * (b rfdffinition of dlbss A dbn rfquirf b rfdffinition of dlbss B).
+     *
+     * <P>
+     * If b rfdffinfd mftiod ibs bdtivf stbdk frbmfs, tiosf bdtivf frbmfs dontinuf to
+     * run tif bytfdodfs of tif originbl mftiod.
+     * Tif rfdffinfd mftiod will bf usfd on nfw invokfs.
+     *
+     * <P>
+     * Tiis mftiod dofs not dbusf bny initiblizbtion fxdfpt tibt wiidi would oddur
+     * undfr tif dustombry JVM sfmbntids. In otifr words, rfdffining b dlbss
+     * dofs not dbusf its initiblizfrs to bf run. Tif vblufs of stbtid vbribblfs
+     * will rfmbin bs tify wfrf prior to tif dbll.
+     *
+     * <P>
+     * Instbndfs of tif rfdffinfd dlbss brf not bfffdtfd.
+     *
+     * <P>
+     * Tif rfdffinition mby dibngf mftiod bodifs, tif donstbnt pool bnd bttributfs.
+     * Tif rfdffinition must not bdd, rfmovf or rfnbmf fiflds or mftiods, dibngf tif
+     * signbturfs of mftiods, or dibngf inifritbndf.  Tifsf rfstridtions mbybf bf
+     * liftfd in futurf vfrsions.  Tif dlbss filf bytfs brf not difdkfd, vfrififd bnd instbllfd
+     * until bftfr tif trbnsformbtions ibvf bffn bpplifd, if tif rfsultbnt bytfs brf in
+     * frror tiis mftiod will tirow bn fxdfption.
+     *
+     * <P>
+     * If tiis mftiod tirows bn fxdfption, no dlbssfs ibvf bffn rfdffinfd.
+     * <P>
+     * Tiis mftiod is intfndfd for usf in instrumfntbtion, bs dfsdribfd in tif
+     * {@linkplbin Instrumfntbtion dlbss spfdifidbtion}.
+     *
+     * @pbrbm dffinitions brrby of dlbssfs to rfdffinf witi dorrfsponding dffinitions;
+     *                    b zfro-lfngti brrby is bllowfd, in tiis dbsf, tiis mftiod dofs notiing
+     * @tirows jbvb.lbng.instrumfnt.UnmodifibblfClbssExdfption if b spfdififd dlbss dbnnot bf modififd
+     * ({@link #isModifibblfClbss} would rfturn <dodf>fblsf</dodf>)
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif durrfnt donfigurbtion of tif JVM dofs not bllow
+     * rfdffinition ({@link #isRfdffinfClbssfsSupportfd} is fblsf) or tif rfdffinition bttfmptfd
+     * to mbkf unsupportfd dibngfs
+     * @tirows jbvb.lbng.ClbssFormbtError if tif dbtb did not dontbin b vblid dlbss
+     * @tirows jbvb.lbng.NoClbssDffFoundError if tif nbmf in tif dlbss filf is not fqubl to tif nbmf of tif dlbss
+     * @tirows jbvb.lbng.UnsupportfdClbssVfrsionError if tif dlbss filf vfrsion numbfrs brf not supportfd
+     * @tirows jbvb.lbng.ClbssCirdulbrityError if tif nfw dlbssfs dontbin b dirdulbrity
+     * @tirows jbvb.lbng.LinkbgfError if b linkbgf frror oddurs
+     * @tirows jbvb.lbng.NullPointfrExdfption if tif supplifd dffinitions brrby or bny of its domponfnts
+     * is <dodf>null</dodf>
+     * @tirows jbvb.lbng.ClbssNotFoundExdfption Cbn nfvfr bf tirown (prfsfnt for dompbtibility rfbsons only)
+     *
+     * @sff #isRfdffinfClbssfsSupportfd
+     * @sff #bddTrbnsformfr
+     * @sff jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr
+     */
+    void
+    rfdffinfClbssfs(ClbssDffinition... dffinitions)
+        tirows  ClbssNotFoundExdfption, UnmodifibblfClbssExdfption;
+
+
+    /**
+     * Dftfrminfs wiftifr b dlbss is modifibblf by
+     * {@linkplbin #rftrbnsformClbssfs rftrbnsformbtion}
+     * or {@linkplbin #rfdffinfClbssfs rfdffinition}.
+     * If b dlbss is modifibblf tifn tiis mftiod rfturns <dodf>truf</dodf>.
+     * If b dlbss is not modifibblf tifn tiis mftiod rfturns <dodf>fblsf</dodf>.
+     * <P>
+     * For b dlbss to bf rftrbnsformfd, {@link #isRftrbnsformClbssfsSupportfd} must blso bf truf.
+     * But tif vbluf of <dodf>isRftrbnsformClbssfsSupportfd()</dodf> dofs not influfndf tif vbluf
+     * rfturnfd by tiis fundtion.
+     * For b dlbss to bf rfdffinfd, {@link #isRfdffinfClbssfsSupportfd} must blso bf truf.
+     * But tif vbluf of <dodf>isRfdffinfClbssfsSupportfd()</dodf> dofs not influfndf tif vbluf
+     * rfturnfd by tiis fundtion.
+     * <P>
+     * Primitivf dlbssfs (for fxbmplf, <dodf>jbvb.lbng.Intfgfr.TYPE</dodf>)
+     * bnd brrby dlbssfs brf nfvfr modifibblf.
+     *
+     * @pbrbm tifClbss tif dlbss to difdk for bfing modifibblf
+     * @rfturn wiftifr or not tif brgumfnt dlbss is modifibblf
+     * @tirows jbvb.lbng.NullPointfrExdfption if tif spfdififd dlbss is <dodf>null</dodf>.
+     *
+     * @sff #rftrbnsformClbssfs
+     * @sff #isRftrbnsformClbssfsSupportfd
+     * @sff #rfdffinfClbssfs
+     * @sff #isRfdffinfClbssfsSupportfd
+     * @sindf 1.6
+     */
+    boolfbn
+    isModifibblfClbss(Clbss<?> tifClbss);
+
+    /**
+     * Rfturns bn brrby of bll dlbssfs durrfntly lobdfd by tif JVM.
+     *
+     * @rfturn bn brrby dontbining bll tif dlbssfs lobdfd by tif JVM, zfro-lfngti if tifrf brf nonf
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    Clbss[]
+    gftAllLobdfdClbssfs();
+
+    /**
+     * Rfturns bn brrby of bll dlbssfs for wiidi <dodf>lobdfr</dodf> is bn initibting lobdfr.
+     * If tif supplifd lobdfr is <dodf>null</dodf>, dlbssfs initibtfd by tif bootstrbp dlbss
+     * lobdfr brf rfturnfd.
+     *
+     * @pbrbm lobdfr          tif lobdfr wiosf initibtfd dlbss list will bf rfturnfd
+     * @rfturn bn brrby dontbining bll tif dlbssfs for wiidi lobdfr is bn initibting lobdfr,
+     *          zfro-lfngti if tifrf brf nonf
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    Clbss[]
+    gftInitibtfdClbssfs(ClbssLobdfr lobdfr);
+
+    /**
+     * Rfturns bn implfmfntbtion-spfdifid bpproximbtion of tif bmount of storbgf donsumfd by
+     * tif spfdififd objfdt. Tif rfsult mby indludf somf or bll of tif objfdt's ovfrifbd,
+     * bnd tius is usfful for dompbrison witiin bn implfmfntbtion but not bftwffn implfmfntbtions.
+     *
+     * Tif fstimbtf mby dibngf during b singlf invodbtion of tif JVM.
+     *
+     * @pbrbm objfdtToSizf     tif objfdt to sizf
+     * @rfturn bn implfmfntbtion-spfdifid bpproximbtion of tif bmount of storbgf donsumfd by tif spfdififd objfdt
+     * @tirows jbvb.lbng.NullPointfrExdfption if tif supplifd Objfdt is <dodf>null</dodf>.
+     */
+    long
+    gftObjfdtSizf(Objfdt objfdtToSizf);
+
+
+    /**
+     * Spfdififs b JAR filf witi instrumfntbtion dlbssfs to bf dffinfd by tif
+     * bootstrbp dlbss lobdfr.
+     *
+     * <p> Wifn tif virtubl mbdiinf's built-in dlbss lobdfr, known bs tif "bootstrbp
+     * dlbss lobdfr", unsuddfssfully sfbrdifs for b dlbss, tif fntrifs in tif {@link
+     * jbvb.util.jbr.JbrFilf JAR filf} will bf sfbrdifd bs wfll.
+     *
+     * <p> Tiis mftiod mby bf usfd multiplf timfs to bdd multiplf JAR filfs to bf
+     * sfbrdifd in tif ordfr tibt tiis mftiod wbs invokfd.
+     *
+     * <p> Tif bgfnt siould tbkf dbrf to fnsurf tibt tif JAR dofs not dontbin bny
+     * dlbssfs or rfsourdfs otifr tibn tiosf to bf dffinfd by tif bootstrbp
+     * dlbss lobdfr for tif purposf of instrumfntbtion.
+     * Fbilurf to obsfrvf tiis wbrning dould rfsult in unfxpfdtfd
+     * bfibvior tibt is diffidult to dibgnosf. For fxbmplf, supposf tifrf is b
+     * lobdfr L, bnd L's pbrfnt for dflfgbtion is tif bootstrbp dlbss lobdfr.
+     * Furtifrmorf, b mftiod in dlbss C, b dlbss dffinfd by L, mbkfs rfffrfndf to
+     * b non-publid bddfssor dlbss C$1. If tif JAR filf dontbins b dlbss C$1 tifn
+     * tif dflfgbtion to tif bootstrbp dlbss lobdfr will dbusf C$1 to bf dffinfd
+     * by tif bootstrbp dlbss lobdfr. In tiis fxbmplf bn <dodf>IllfgblAddfssError</dodf>
+     * will bf tirown tibt mby dbusf tif bpplidbtion to fbil. Onf bpprobdi to
+     * bvoiding tifsf typfs of issufs, is to usf b uniquf pbdkbgf nbmf for tif
+     * instrumfntbtion dlbssfs.
+     *
+     * <p>
+     * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
+     * spfdififs tibt b subsfqufnt bttfmpt to rfsolvf b symbolid
+     * rfffrfndf tibt tif Jbvb virtubl mbdiinf ibs prfviously unsuddfssfully bttfmptfd
+     * to rfsolvf blwbys fbils witi tif sbmf frror tibt wbs tirown bs b rfsult of tif
+     * initibl rfsolution bttfmpt. Consfqufntly, if tif JAR filf dontbins bn fntry
+     * tibt dorrfsponds to b dlbss for wiidi tif Jbvb virtubl mbdiinf ibs
+     * unsuddfssfully bttfmptfd to rfsolvf b rfffrfndf, tifn subsfqufnt bttfmpts to
+     * rfsolvf tibt rfffrfndf will fbil witi tif sbmf frror bs tif initibl bttfmpt.
+     *
+     * @pbrbm   jbrfilf
+     *          Tif JAR filf to bf sfbrdifd wifn tif bootstrbp dlbss lobdfr
+     *          unsuddfssfully sfbrdifs for b dlbss.
+     *
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>jbrfilf</dodf> is <dodf>null</dodf>.
+     *
+     * @sff     #bppfndToSystfmClbssLobdfrSfbrdi
+     * @sff     jbvb.lbng.ClbssLobdfr
+     * @sff     jbvb.util.jbr.JbrFilf
+     *
+     * @sindf 1.6
+     */
+    void
+    bppfndToBootstrbpClbssLobdfrSfbrdi(JbrFilf jbrfilf);
+
+    /**
+     * Spfdififs b JAR filf witi instrumfntbtion dlbssfs to bf dffinfd by tif
+     * systfm dlbss lobdfr.
+     *
+     * Wifn tif systfm dlbss lobdfr for dflfgbtion (sff
+     * {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr gftSystfmClbssLobdfr()})
+     * unsuddfssfully sfbrdifs for b dlbss, tif fntrifs in tif {@link
+     * jbvb.util.jbr.JbrFilf JbrFilf} will bf sfbrdifd bs wfll.
+     *
+     * <p> Tiis mftiod mby bf usfd multiplf timfs to bdd multiplf JAR filfs to bf
+     * sfbrdifd in tif ordfr tibt tiis mftiod wbs invokfd.
+     *
+     * <p> Tif bgfnt siould tbkf dbrf to fnsurf tibt tif JAR dofs not dontbin bny
+     * dlbssfs or rfsourdfs otifr tibn tiosf to bf dffinfd by tif systfm dlbss
+     * lobdfr for tif purposf of instrumfntbtion.
+     * Fbilurf to obsfrvf tiis wbrning dould rfsult in unfxpfdtfd
+     * bfibvior tibt is diffidult to dibgnosf (sff
+     * {@link #bppfndToBootstrbpClbssLobdfrSfbrdi
+     * bppfndToBootstrbpClbssLobdfrSfbrdi}).
+     *
+     * <p> Tif systfm dlbss lobdfr supports bdding b JAR filf to bf sfbrdifd if
+     * it implfmfnts b mftiod nbmfd <dodf>bppfndToClbssPbtiForInstrumfntbtion</dodf>
+     * wiidi tbkfs b singlf pbrbmftfr of typf <dodf>jbvb.lbng.String</dodf>. Tif
+     * mftiod is not rfquirfd to ibvf <dodf>publid</dodf> bddfss. Tif nbmf of
+     * tif JAR filf is obtbinfd by invoking tif {@link jbvb.util.zip.ZipFilf#gftNbmf
+     * gftNbmf()} mftiod on tif <dodf>jbrfilf</dodf> bnd tiis is providfd bs tif
+     * pbrbmftfr to tif <dodf>bppfndToClbssPbtiForInstrumfntbtion</dodf> mftiod.
+     *
+     * <p>
+     * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
+     * spfdififs tibt b subsfqufnt bttfmpt to rfsolvf b symbolid
+     * rfffrfndf tibt tif Jbvb virtubl mbdiinf ibs prfviously unsuddfssfully bttfmptfd
+     * to rfsolvf blwbys fbils witi tif sbmf frror tibt wbs tirown bs b rfsult of tif
+     * initibl rfsolution bttfmpt. Consfqufntly, if tif JAR filf dontbins bn fntry
+     * tibt dorrfsponds to b dlbss for wiidi tif Jbvb virtubl mbdiinf ibs
+     * unsuddfssfully bttfmptfd to rfsolvf b rfffrfndf, tifn subsfqufnt bttfmpts to
+     * rfsolvf tibt rfffrfndf will fbil witi tif sbmf frror bs tif initibl bttfmpt.
+     *
+     * <p> Tiis mftiod dofs not dibngf tif vbluf of <dodf>jbvb.dlbss.pbti</dodf>
+     * {@link jbvb.lbng.Systfm#gftPropfrtifs systfm propfrty}.
+     *
+     * @pbrbm   jbrfilf
+     *          Tif JAR filf to bf sfbrdifd wifn tif systfm dlbss lobdfr
+     *          unsuddfssfully sfbrdifs for b dlbss.
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif systfm dlbss lobdfr dofs not support bppfnding b
+     *          b JAR filf to bf sfbrdifd.
+     *
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>jbrfilf</dodf> is <dodf>null</dodf>.
+     *
+     * @sff     #bppfndToBootstrbpClbssLobdfrSfbrdi
+     * @sff     jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr
+     * @sff     jbvb.util.jbr.JbrFilf
+     * @sindf 1.6
+     */
+    void
+    bppfndToSystfmClbssLobdfrSfbrdi(JbrFilf jbrfilf);
+
+    /**
+     * Rfturns wiftifr tif durrfnt JVM donfigurbtion supports
+     * {@linkplbin #sftNbtivfMftiodPrffix(ClbssFilfTrbnsformfr,String)
+     * sftting b nbtivf mftiod prffix}.
+     * Tif bbility to sft b nbtivf mftiod prffix is bn optionbl
+     * dbpbbility of b JVM.
+     * Sftting b nbtivf mftiod prffix will only bf supportfd if tif
+     * <dodf>Cbn-Sft-Nbtivf-Mftiod-Prffix</dodf> mbniffst bttributf is sft to
+     * <dodf>truf</dodf> in tif bgfnt JAR filf (bs dfsdribfd in tif
+     * {@linkplbin jbvb.lbng.instrumfnt pbdkbgf spfdifidbtion}) bnd tif JVM supports
+     * tiis dbpbbility.
+     * During b singlf instbntibtion of b singlf JVM, multiplf
+     * dblls to tiis mftiod will blwbys rfturn tif sbmf bnswfr.
+     * @rfturn  truf if tif durrfnt JVM donfigurbtion supports
+     * sftting b nbtivf mftiod prffix, fblsf if not.
+     * @sff #sftNbtivfMftiodPrffix
+     * @sindf 1.6
+     */
+    boolfbn
+    isNbtivfMftiodPrffixSupportfd();
+
+    /**
+     * Tiis mftiod modififs tif fbilurf ibndling of
+     * nbtivf mftiod rfsolution by bllowing rftry
+     * witi b prffix bpplifd to tif nbmf.
+     * Wifn usfd witi tif
+     * {@link jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr ClbssFilfTrbnsformfr},
+     * it fnbblfs nbtivf mftiods to bf
+     * instrumfntfd.
+     * <p>
+     * Sindf nbtivf mftiods dbnnot bf dirfdtly instrumfntfd
+     * (tify ibvf no bytfdodfs), tify must bf wrbppfd witi
+     * b non-nbtivf mftiod wiidi dbn bf instrumfntfd.
+     * For fxbmplf, if wf ibd:
+     * <prf>
+     *   nbtivf boolfbn foo(int x);</prf>
+     * <p>
+     * Wf dould trbnsform tif dlbss filf (witi tif
+     * ClbssFilfTrbnsformfr during tif initibl dffinition
+     * of tif dlbss) so tibt tiis bfdomfs:
+     * <prf>
+     *   boolfbn foo(int x) {
+     *     <i>... rfdord fntry to foo ...</i>
+     *     rfturn wrbppfd_foo(x);
+     *   }
+     *
+     *   nbtivf boolfbn wrbppfd_foo(int x);</prf>
+     * <p>
+     * Wifrf <dodf>foo</dodf> bfdomfs b wrbppfr for tif bdtubl nbtivf
+     * mftiod witi tif bppfndfd prffix "wrbppfd_".  Notf tibt
+     * "wrbppfd_" would bf b poor dioidf of prffix sindf it
+     * migit dondfivbbly form tif nbmf of bn fxisting mftiod
+     * tius somftiing likf "$$$MyAgfntWrbppfd$$$_" would bf
+     * bfttfr but would mbkf tifsf fxbmplfs lfss rfbdbblf.
+     * <p>
+     * Tif wrbppfr will bllow dbtb to bf dollfdtfd on tif nbtivf
+     * mftiod dbll, but now tif problfm bfdomfs linking up tif
+     * wrbppfd mftiod witi tif nbtivf implfmfntbtion.
+     * Tibt is, tif mftiod <dodf>wrbppfd_foo</dodf> nffds to bf
+     * rfsolvfd to tif nbtivf implfmfntbtion of <dodf>foo</dodf>,
+     * wiidi migit bf:
+     * <prf>
+     *   Jbvb_somfPbdkbgf_somfClbss_foo(JNIEnv* fnv, jint x)</prf>
+     * <p>
+     * Tiis fundtion bllows tif prffix to bf spfdififd bnd tif
+     * propfr rfsolution to oddur.
+     * Spfdifidblly, wifn tif stbndbrd rfsolution fbils, tif
+     * rfsolution is rftrifd tbking tif prffix into donsidfrbtion.
+     * Tifrf brf two wbys tibt rfsolution oddurs, fxplidit
+     * rfsolution witi tif JNI fundtion <dodf>RfgistfrNbtivfs</dodf>
+     * bnd tif normbl butombtid rfsolution.  For
+     * <dodf>RfgistfrNbtivfs</dodf>, tif JVM will bttfmpt tiis
+     * bssodibtion:
+     * <prf>{@dodf
+     *   mftiod(foo) -> nbtivfImplfmfntbtion(foo)
+     * }</prf>
+     * <p>
+     * Wifn tiis fbils, tif rfsolution will bf rftrifd witi
+     * tif spfdififd prffix prfpfndfd to tif mftiod nbmf,
+     * yiflding tif dorrfdt rfsolution:
+     * <prf>{@dodf
+     *   mftiod(wrbppfd_foo) -> nbtivfImplfmfntbtion(foo)
+     * }</prf>
+     * <p>
+     * For butombtid rfsolution, tif JVM will bttfmpt:
+     * <prf>{@dodf
+     *   mftiod(wrbppfd_foo) -> nbtivfImplfmfntbtion(wrbppfd_foo)
+     * }</prf>
+     * <p>
+     * Wifn tiis fbils, tif rfsolution will bf rftrifd witi
+     * tif spfdififd prffix dflftfd from tif implfmfntbtion nbmf,
+     * yiflding tif dorrfdt rfsolution:
+     * <prf>{@dodf
+     *   mftiod(wrbppfd_foo) -> nbtivfImplfmfntbtion(foo)
+     * }</prf>
+     * <p>
+     * Notf tibt sindf tif prffix is only usfd wifn stbndbrd
+     * rfsolution fbils, nbtivf mftiods dbn bf wrbppfd sflfdtivfly.
+     * <p>
+     * Sindf fbdi <dodf>ClbssFilfTrbnsformfr</dodf>
+     * dbn do its own trbnsformbtion of tif bytfdodfs, morf
+     * tibn onf lbyfr of wrbppfrs mby bf bpplifd. Tius fbdi
+     * trbnsformfr nffds its own prffix.  Sindf trbnsformbtions
+     * brf bpplifd in ordfr, tif prffixfs, if bpplifd, will
+     * bf bpplifd in tif sbmf ordfr
+     * (sff {@link #bddTrbnsformfr(ClbssFilfTrbnsformfr,boolfbn) bddTrbnsformfr}).
+     * Tius if tirff trbnsformfrs bpplifd
+     * wrbppfrs, <dodf>foo</dodf> migit bfdomf
+     * <dodf>$trbns3_$trbns2_$trbns1_foo</dodf>.  But if, sby,
+     * tif sfdond trbnsformfr did not bpply b wrbppfr to
+     * <dodf>foo</dodf> it would bf just
+     * <dodf>$trbns3_$trbns1_foo</dodf>.  To bf bblf to
+     * fffidifntly dftfrminf tif sfqufndf of prffixfs,
+     * bn intfrmfdibtf prffix is only bpplifd if its non-nbtivf
+     * wrbppfr fxists.  Tius, in tif lbst fxbmplf, fvfn tiougi
+     * <dodf>$trbns1_foo</dodf> is not b nbtivf mftiod, tif
+     * <dodf>$trbns1_</dodf> prffix is bpplifd sindf
+     * <dodf>$trbns1_foo</dodf> fxists.
+     *
+     * @pbrbm   trbnsformfr
+     *          Tif ClbssFilfTrbnsformfr wiidi wrbps using tiis prffix.
+     * @pbrbm   prffix
+     *          Tif prffix to bpply to wrbppfd nbtivf mftiods wifn
+     *          rftrying b fbilfd nbtivf mftiod rfsolution. If prffix
+     *          is fitifr <dodf>null</dodf> or tif fmpty string, tifn
+     *          fbilfd nbtivf mftiod rfsolutions brf not rftrifd for
+     *          tiis trbnsformfr.
+     * @tirows jbvb.lbng.NullPointfrExdfption if pbssfd b <dodf>null</dodf> trbnsformfr.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif durrfnt donfigurbtion of
+     *           tif JVM dofs not bllow sftting b nbtivf mftiod prffix
+     *           ({@link #isNbtivfMftiodPrffixSupportfd} is fblsf).
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif trbnsformfr is not rfgistfrfd
+     *           (sff {@link #bddTrbnsformfr(ClbssFilfTrbnsformfr,boolfbn) bddTrbnsformfr}).
+     *
+     * @sindf 1.6
+     */
+    void
+    sftNbtivfMftiodPrffix(ClbssFilfTrbnsformfr trbnsformfr, String prffix);
+}

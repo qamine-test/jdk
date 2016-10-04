@@ -1,307 +1,1535 @@
 /*
+/*
+/*
+/*
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
- * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
- * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+/*
+/*
+/*
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ * filf:
+ * filf:
+ * filf:
  * filf:
  *
- * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
- * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
- * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ *
+ *
+ *
+ *
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+ */
+ */
+ */
  */
 
+
+
+
+
 /**
- * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  This
+/**
+/**
+/**
+/**
+ * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  Tiis
+ * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  Tiis
+ * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  Tiis
+ * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  Tiis
+ * Utility dlbssfs dommonly usfful in dondurrfnt progrbmming.  Tiis
  * pbdkbgf indludfs b ffw smbll stbndbrdizfd fxtfnsiblf frbmfworks, bs
- * wfll bs somf dlbssfs thbt providf usfful fundtionblity bnd brf
- * othfrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
- * dfsdriptions of thf mbin domponfnts.  Sff blso thf
+ * pbdkbgf indludfs b ffw smbll stbndbrdizfd fxtfnsiblf frbmfworks, bs
+ * pbdkbgf indludfs b ffw smbll stbndbrdizfd fxtfnsiblf frbmfworks, bs
+ * pbdkbgf indludfs b ffw smbll stbndbrdizfd fxtfnsiblf frbmfworks, bs
+ * pbdkbgf indludfs b ffw smbll stbndbrdizfd fxtfnsiblf frbmfworks, bs
+ * wfll bs somf dlbssfs tibt providf usfful fundtionblity bnd brf
+ * wfll bs somf dlbssfs tibt providf usfful fundtionblity bnd brf
+ * wfll bs somf dlbssfs tibt providf usfful fundtionblity bnd brf
+ * wfll bs somf dlbssfs tibt providf usfful fundtionblity bnd brf
+ * wfll bs somf dlbssfs tibt providf usfful fundtionblity bnd brf
+ * otifrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
+ * otifrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
+ * otifrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
+ * otifrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
+ * otifrwisf tfdious or diffidult to implfmfnt.  Hfrf brf briff
+ * dfsdriptions of tif mbin domponfnts.  Sff blso tif
+ * dfsdriptions of tif mbin domponfnts.  Sff blso tif
+ * dfsdriptions of tif mbin domponfnts.  Sff blso tif
+ * dfsdriptions of tif mbin domponfnts.  Sff blso tif
+ * dfsdriptions of tif mbin domponfnts.  Sff blso tif
+ * {@link jbvb.util.dondurrfnt.lodks} bnd
+ * {@link jbvb.util.dondurrfnt.lodks} bnd
+ * {@link jbvb.util.dondurrfnt.lodks} bnd
+ * {@link jbvb.util.dondurrfnt.lodks} bnd
  * {@link jbvb.util.dondurrfnt.lodks} bnd
  * {@link jbvb.util.dondurrfnt.btomid} pbdkbgfs.
+ * {@link jbvb.util.dondurrfnt.btomid} pbdkbgfs.
+ * {@link jbvb.util.dondurrfnt.btomid} pbdkbgfs.
+ * {@link jbvb.util.dondurrfnt.btomid} pbdkbgfs.
+ * {@link jbvb.util.dondurrfnt.btomid} pbdkbgfs.
  *
- * <h2>Exfdutors</h2>
+ *
+ *
+ *
+ *
+ * <i2>Exfdutors</i2>
+ * <i2>Exfdutors</i2>
+ * <i2>Exfdutors</i2>
+ * <i2>Exfdutors</i2>
+ * <i2>Exfdutors</i2>
+ *
+ *
+ *
+ *
  *
  * <b>Intfrfbdfs.</b>
+ * <b>Intfrfbdfs.</b>
+ * <b>Intfrfbdfs.</b>
+ * <b>Intfrfbdfs.</b>
+ * <b>Intfrfbdfs.</b>
+ *
+ *
+ *
+ *
  *
  * {@link jbvb.util.dondurrfnt.Exfdutor} is b simplf stbndbrdizfd
- * intfrfbdf for dffining dustom thrfbd-likf subsystfms, indluding
- * thrfbd pools, bsyndhronous I/O, bnd lightwfight tbsk frbmfworks.
- * Dfpfnding on whidh dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
- * fxfdutf in b nfwly drfbtfd thrfbd, bn fxisting tbsk-fxfdution thrfbd,
- * or thf thrfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * {@link jbvb.util.dondurrfnt.Exfdutor} is b simplf stbndbrdizfd
+ * {@link jbvb.util.dondurrfnt.Exfdutor} is b simplf stbndbrdizfd
+ * {@link jbvb.util.dondurrfnt.Exfdutor} is b simplf stbndbrdizfd
+ * {@link jbvb.util.dondurrfnt.Exfdutor} is b simplf stbndbrdizfd
+ * intfrfbdf for dffining dustom tirfbd-likf subsystfms, indluding
+ * intfrfbdf for dffining dustom tirfbd-likf subsystfms, indluding
+ * intfrfbdf for dffining dustom tirfbd-likf subsystfms, indluding
+ * intfrfbdf for dffining dustom tirfbd-likf subsystfms, indluding
+ * intfrfbdf for dffining dustom tirfbd-likf subsystfms, indluding
+ * tirfbd pools, bsyndironous I/O, bnd ligitwfigit tbsk frbmfworks.
+ * tirfbd pools, bsyndironous I/O, bnd ligitwfigit tbsk frbmfworks.
+ * tirfbd pools, bsyndironous I/O, bnd ligitwfigit tbsk frbmfworks.
+ * tirfbd pools, bsyndironous I/O, bnd ligitwfigit tbsk frbmfworks.
+ * tirfbd pools, bsyndironous I/O, bnd ligitwfigit tbsk frbmfworks.
+ * Dfpfnding on wiidi dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
+ * Dfpfnding on wiidi dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
+ * Dfpfnding on wiidi dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
+ * Dfpfnding on wiidi dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
+ * Dfpfnding on wiidi dondrftf Exfdutor dlbss is bfing usfd, tbsks mby
+ * fxfdutf in b nfwly drfbtfd tirfbd, bn fxisting tbsk-fxfdution tirfbd,
+ * fxfdutf in b nfwly drfbtfd tirfbd, bn fxisting tbsk-fxfdution tirfbd,
+ * fxfdutf in b nfwly drfbtfd tirfbd, bn fxisting tbsk-fxfdution tirfbd,
+ * fxfdutf in b nfwly drfbtfd tirfbd, bn fxisting tbsk-fxfdution tirfbd,
+ * fxfdutf in b nfwly drfbtfd tirfbd, bn fxisting tbsk-fxfdution tirfbd,
+ * or tif tirfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * or tif tirfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * or tif tirfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * or tif tirfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * or tif tirfbd dblling {@link jbvb.util.dondurrfnt.Exfdutor#fxfdutf
+ * fxfdutf}, bnd mby fxfdutf sfqufntiblly or dondurrfntly.
+ * fxfdutf}, bnd mby fxfdutf sfqufntiblly or dondurrfntly.
+ * fxfdutf}, bnd mby fxfdutf sfqufntiblly or dondurrfntly.
+ * fxfdutf}, bnd mby fxfdutf sfqufntiblly or dondurrfntly.
  * fxfdutf}, bnd mby fxfdutf sfqufntiblly or dondurrfntly.
  *
- * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
- * domplftf bsyndhronous tbsk fxfdution frbmfwork.  An
- * ExfdutorSfrvidf mbnbgfs qufuing bnd sdhfduling of tbsks,
- * bnd bllows dontrollfd shutdown.
  *
- * Thf {@link jbvb.util.dondurrfnt.SdhfdulfdExfdutorSfrvidf}
+ *
+ *
+ *
+ * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
+ * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
+ * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
+ * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
+ * {@link jbvb.util.dondurrfnt.ExfdutorSfrvidf} providfs b morf
+ * domplftf bsyndironous tbsk fxfdution frbmfwork.  An
+ * domplftf bsyndironous tbsk fxfdution frbmfwork.  An
+ * domplftf bsyndironous tbsk fxfdution frbmfwork.  An
+ * domplftf bsyndironous tbsk fxfdution frbmfwork.  An
+ * domplftf bsyndironous tbsk fxfdution frbmfwork.  An
+ * ExfdutorSfrvidf mbnbgfs qufuing bnd sdifduling of tbsks,
+ * ExfdutorSfrvidf mbnbgfs qufuing bnd sdifduling of tbsks,
+ * ExfdutorSfrvidf mbnbgfs qufuing bnd sdifduling of tbsks,
+ * ExfdutorSfrvidf mbnbgfs qufuing bnd sdifduling of tbsks,
+ * ExfdutorSfrvidf mbnbgfs qufuing bnd sdifduling of tbsks,
+ * bnd bllows dontrollfd siutdown.
+ * bnd bllows dontrollfd siutdown.
+ * bnd bllows dontrollfd siutdown.
+ * bnd bllows dontrollfd siutdown.
+ * bnd bllows dontrollfd siutdown.
+ *
+ *
+ *
+ *
+ *
+ * Tif {@link jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf}
+ * Tif {@link jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf}
+ * Tif {@link jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf}
+ * Tif {@link jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf}
+ * Tif {@link jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf}
+ * subintfrfbdf bnd bssodibtfd intfrfbdfs bdd support for
+ * subintfrfbdf bnd bssodibtfd intfrfbdfs bdd support for
+ * subintfrfbdf bnd bssodibtfd intfrfbdfs bdd support for
+ * subintfrfbdf bnd bssodibtfd intfrfbdfs bdd support for
  * subintfrfbdf bnd bssodibtfd intfrfbdfs bdd support for
  * dflbyfd bnd pfriodid tbsk fxfdution.  ExfdutorSfrvidfs
- * providf mfthods brrbnging bsyndhronous fxfdution of bny
+ * dflbyfd bnd pfriodid tbsk fxfdution.  ExfdutorSfrvidfs
+ * dflbyfd bnd pfriodid tbsk fxfdution.  ExfdutorSfrvidfs
+ * dflbyfd bnd pfriodid tbsk fxfdution.  ExfdutorSfrvidfs
+ * dflbyfd bnd pfriodid tbsk fxfdution.  ExfdutorSfrvidfs
+ * providf mftiods brrbnging bsyndironous fxfdution of bny
+ * providf mftiods brrbnging bsyndironous fxfdution of bny
+ * providf mftiods brrbnging bsyndironous fxfdution of bny
+ * providf mftiods brrbnging bsyndironous fxfdution of bny
+ * providf mftiods brrbnging bsyndironous fxfdution of bny
  * fundtion fxprfssfd bs {@link jbvb.util.dondurrfnt.Cbllbblf},
- * thf rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
+ * fundtion fxprfssfd bs {@link jbvb.util.dondurrfnt.Cbllbblf},
+ * fundtion fxprfssfd bs {@link jbvb.util.dondurrfnt.Cbllbblf},
+ * fundtion fxprfssfd bs {@link jbvb.util.dondurrfnt.Cbllbblf},
+ * fundtion fxprfssfd bs {@link jbvb.util.dondurrfnt.Cbllbblf},
+ * tif rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
+ * tif rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
+ * tif rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
+ * tif rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
+ * tif rfsult-bfbring bnblog of {@link jbvb.lbng.Runnbblf}.
  *
- * A {@link jbvb.util.dondurrfnt.Futurf} rfturns thf rfsults of
- * b fundtion, bllows dftfrminbtion of whfthfr fxfdution hbs
+ *
+ *
+ *
+ *
+ * A {@link jbvb.util.dondurrfnt.Futurf} rfturns tif rfsults of
+ * A {@link jbvb.util.dondurrfnt.Futurf} rfturns tif rfsults of
+ * A {@link jbvb.util.dondurrfnt.Futurf} rfturns tif rfsults of
+ * A {@link jbvb.util.dondurrfnt.Futurf} rfturns tif rfsults of
+ * A {@link jbvb.util.dondurrfnt.Futurf} rfturns tif rfsults of
+ * b fundtion, bllows dftfrminbtion of wiftifr fxfdution ibs
+ * b fundtion, bllows dftfrminbtion of wiftifr fxfdution ibs
+ * b fundtion, bllows dftfrminbtion of wiftifr fxfdution ibs
+ * b fundtion, bllows dftfrminbtion of wiftifr fxfdution ibs
+ * b fundtion, bllows dftfrminbtion of wiftifr fxfdution ibs
+ * domplftfd, bnd providfs b mfbns to dbndfl fxfdution.
+ * domplftfd, bnd providfs b mfbns to dbndfl fxfdution.
+ * domplftfd, bnd providfs b mfbns to dbndfl fxfdution.
+ * domplftfd, bnd providfs b mfbns to dbndfl fxfdution.
  * domplftfd, bnd providfs b mfbns to dbndfl fxfdution.
  *
+ *
+ *
+ *
+ *
  * A {@link jbvb.util.dondurrfnt.RunnbblfFuturf} is b {@dodf Futurf}
- * thbt possfssfs b {@dodf run} mfthod thbt upon fxfdution,
+ * A {@link jbvb.util.dondurrfnt.RunnbblfFuturf} is b {@dodf Futurf}
+ * A {@link jbvb.util.dondurrfnt.RunnbblfFuturf} is b {@dodf Futurf}
+ * A {@link jbvb.util.dondurrfnt.RunnbblfFuturf} is b {@dodf Futurf}
+ * A {@link jbvb.util.dondurrfnt.RunnbblfFuturf} is b {@dodf Futurf}
+ * tibt possfssfs b {@dodf run} mftiod tibt upon fxfdution,
+ * tibt possfssfs b {@dodf run} mftiod tibt upon fxfdution,
+ * tibt possfssfs b {@dodf run} mftiod tibt upon fxfdution,
+ * tibt possfssfs b {@dodf run} mftiod tibt upon fxfdution,
+ * tibt possfssfs b {@dodf run} mftiod tibt upon fxfdution,
+ * sfts its rfsults.
+ * sfts its rfsults.
+ * sfts its rfsults.
+ * sfts its rfsults.
  * sfts its rfsults.
  *
+ *
+ *
+ *
+ *
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * <p>
  *
+ *
+ *
+ *
+ *
+ * <b>Implfmfntbtions.</b>
+ * <b>Implfmfntbtions.</b>
+ * <b>Implfmfntbtions.</b>
+ * <b>Implfmfntbtions.</b>
  * <b>Implfmfntbtions.</b>
  *
- * Clbssfs {@link jbvb.util.dondurrfnt.ThrfbdPoolExfdutor} bnd
- * {@link jbvb.util.dondurrfnt.SdhfdulfdThrfbdPoolExfdutor}
- * providf tunbblf, flfxiblf thrfbd pools.
  *
- * Thf {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
- * fbdtory mfthods for thf most dommon kinds bnd donfigurbtions
- * of Exfdutors, bs wfll bs b ffw utility mfthods for using
- * thfm.  Othfr utilitifs bbsfd on {@dodf Exfdutors} indludf thf
+ *
+ *
+ *
+ * Clbssfs {@link jbvb.util.dondurrfnt.TirfbdPoolExfdutor} bnd
+ * Clbssfs {@link jbvb.util.dondurrfnt.TirfbdPoolExfdutor} bnd
+ * Clbssfs {@link jbvb.util.dondurrfnt.TirfbdPoolExfdutor} bnd
+ * Clbssfs {@link jbvb.util.dondurrfnt.TirfbdPoolExfdutor} bnd
+ * Clbssfs {@link jbvb.util.dondurrfnt.TirfbdPoolExfdutor} bnd
+ * {@link jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor}
+ * {@link jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor}
+ * {@link jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor}
+ * {@link jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor}
+ * {@link jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor}
+ * providf tunbblf, flfxiblf tirfbd pools.
+ * providf tunbblf, flfxiblf tirfbd pools.
+ * providf tunbblf, flfxiblf tirfbd pools.
+ * providf tunbblf, flfxiblf tirfbd pools.
+ * providf tunbblf, flfxiblf tirfbd pools.
+ *
+ *
+ *
+ *
+ *
+ * Tif {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.Exfdutors} dlbss providfs
+ * fbdtory mftiods for tif most dommon kinds bnd donfigurbtions
+ * fbdtory mftiods for tif most dommon kinds bnd donfigurbtions
+ * fbdtory mftiods for tif most dommon kinds bnd donfigurbtions
+ * fbdtory mftiods for tif most dommon kinds bnd donfigurbtions
+ * fbdtory mftiods for tif most dommon kinds bnd donfigurbtions
+ * of Exfdutors, bs wfll bs b ffw utility mftiods for using
+ * of Exfdutors, bs wfll bs b ffw utility mftiods for using
+ * of Exfdutors, bs wfll bs b ffw utility mftiods for using
+ * of Exfdutors, bs wfll bs b ffw utility mftiods for using
+ * of Exfdutors, bs wfll bs b ffw utility mftiods for using
+ * tifm.  Otifr utilitifs bbsfd on {@dodf Exfdutors} indludf tif
+ * tifm.  Otifr utilitifs bbsfd on {@dodf Exfdutors} indludf tif
+ * tifm.  Otifr utilitifs bbsfd on {@dodf Exfdutors} indludf tif
+ * tifm.  Otifr utilitifs bbsfd on {@dodf Exfdutors} indludf tif
+ * tifm.  Otifr utilitifs bbsfd on {@dodf Exfdutors} indludf tif
+ * dondrftf dlbss {@link jbvb.util.dondurrfnt.FuturfTbsk}
+ * dondrftf dlbss {@link jbvb.util.dondurrfnt.FuturfTbsk}
+ * dondrftf dlbss {@link jbvb.util.dondurrfnt.FuturfTbsk}
+ * dondrftf dlbss {@link jbvb.util.dondurrfnt.FuturfTbsk}
  * dondrftf dlbss {@link jbvb.util.dondurrfnt.FuturfTbsk}
  * providing b dommon fxtfnsiblf implfmfntbtion of Futurfs, bnd
- * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, thbt
- * bssists in doordinbting thf prodfssing of groups of
- * bsyndhronous tbsks.
+ * providing b dommon fxtfnsiblf implfmfntbtion of Futurfs, bnd
+ * providing b dommon fxtfnsiblf implfmfntbtion of Futurfs, bnd
+ * providing b dommon fxtfnsiblf implfmfntbtion of Futurfs, bnd
+ * providing b dommon fxtfnsiblf implfmfntbtion of Futurfs, bnd
+ * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, tibt
+ * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, tibt
+ * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, tibt
+ * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, tibt
+ * {@link jbvb.util.dondurrfnt.ExfdutorComplftionSfrvidf}, tibt
+ * bssists in doordinbting tif prodfssing of groups of
+ * bssists in doordinbting tif prodfssing of groups of
+ * bssists in doordinbting tif prodfssing of groups of
+ * bssists in doordinbting tif prodfssing of groups of
+ * bssists in doordinbting tif prodfssing of groups of
+ * bsyndironous tbsks.
+ * bsyndironous tbsks.
+ * bsyndironous tbsks.
+ * bsyndironous tbsks.
+ * bsyndironous tbsks.
+ *
+ *
+ *
+ *
  *
  * <p>Clbss {@link jbvb.util.dondurrfnt.ForkJoinPool} providfs bn
+ * <p>Clbss {@link jbvb.util.dondurrfnt.ForkJoinPool} providfs bn
+ * <p>Clbss {@link jbvb.util.dondurrfnt.ForkJoinPool} providfs bn
+ * <p>Clbss {@link jbvb.util.dondurrfnt.ForkJoinPool} providfs bn
+ * <p>Clbss {@link jbvb.util.dondurrfnt.ForkJoinPool} providfs bn
  * Exfdutor primbrily dfsignfd for prodfssing instbndfs of {@link
- * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Thfsf
- * dlbssfs fmploy b work-stfbling sdhfdulfr thbt bttbins high
- * throughput for tbsks donforming to rfstridtions thbt oftfn hold in
+ * Exfdutor primbrily dfsignfd for prodfssing instbndfs of {@link
+ * Exfdutor primbrily dfsignfd for prodfssing instbndfs of {@link
+ * Exfdutor primbrily dfsignfd for prodfssing instbndfs of {@link
+ * Exfdutor primbrily dfsignfd for prodfssing instbndfs of {@link
+ * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Tifsf
+ * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Tifsf
+ * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Tifsf
+ * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Tifsf
+ * jbvb.util.dondurrfnt.ForkJoinTbsk} bnd its subdlbssfs.  Tifsf
+ * dlbssfs fmploy b work-stfbling sdifdulfr tibt bttbins iigi
+ * dlbssfs fmploy b work-stfbling sdifdulfr tibt bttbins iigi
+ * dlbssfs fmploy b work-stfbling sdifdulfr tibt bttbins iigi
+ * dlbssfs fmploy b work-stfbling sdifdulfr tibt bttbins iigi
+ * dlbssfs fmploy b work-stfbling sdifdulfr tibt bttbins iigi
+ * tirougiput for tbsks donforming to rfstridtions tibt oftfn iold in
+ * tirougiput for tbsks donforming to rfstridtions tibt oftfn iold in
+ * tirougiput for tbsks donforming to rfstridtions tibt oftfn iold in
+ * tirougiput for tbsks donforming to rfstridtions tibt oftfn iold in
+ * tirougiput for tbsks donforming to rfstridtions tibt oftfn iold in
+ * domputbtion-intfnsivf pbrbllfl prodfssing.
+ * domputbtion-intfnsivf pbrbllfl prodfssing.
+ * domputbtion-intfnsivf pbrbllfl prodfssing.
+ * domputbtion-intfnsivf pbrbllfl prodfssing.
  * domputbtion-intfnsivf pbrbllfl prodfssing.
  *
- * <h2>Qufufs</h2>
  *
- * Thf {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
- * supplifs bn fffidifnt sdblbblf thrfbd-sbff non-blodking FIFO qufuf.
- * Thf {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
- * similbr, but bdditionblly supports thf {@link jbvb.util.Dfquf}
+ *
+ *
+ *
+ * <i2>Qufufs</i2>
+ * <i2>Qufufs</i2>
+ * <i2>Qufufs</i2>
+ * <i2>Qufufs</i2>
+ * <i2>Qufufs</i2>
+ *
+ *
+ *
+ *
+ *
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf} dlbss
+ * supplifs bn fffidifnt sdblbblf tirfbd-sbff non-blodking FIFO qufuf.
+ * supplifs bn fffidifnt sdblbblf tirfbd-sbff non-blodking FIFO qufuf.
+ * supplifs bn fffidifnt sdblbblf tirfbd-sbff non-blodking FIFO qufuf.
+ * supplifs bn fffidifnt sdblbblf tirfbd-sbff non-blodking FIFO qufuf.
+ * supplifs bn fffidifnt sdblbblf tirfbd-sbff non-blodking FIFO qufuf.
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
+ * Tif {@link jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf} dlbss is
+ * similbr, but bdditionblly supports tif {@link jbvb.util.Dfquf}
+ * similbr, but bdditionblly supports tif {@link jbvb.util.Dfquf}
+ * similbr, but bdditionblly supports tif {@link jbvb.util.Dfquf}
+ * similbr, but bdditionblly supports tif {@link jbvb.util.Dfquf}
+ * similbr, but bdditionblly supports tif {@link jbvb.util.Dfquf}
+ * intfrfbdf.
+ * intfrfbdf.
+ * intfrfbdf.
+ * intfrfbdf.
  * intfrfbdf.
  *
+ *
+ *
+ *
+ *
  * <p>Fivf implfmfntbtions in {@dodf jbvb.util.dondurrfnt} support
- * thf fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
- * intfrfbdf, thbt dffinfs blodking vfrsions of put bnd tbkf:
+ * <p>Fivf implfmfntbtions in {@dodf jbvb.util.dondurrfnt} support
+ * <p>Fivf implfmfntbtions in {@dodf jbvb.util.dondurrfnt} support
+ * <p>Fivf implfmfntbtions in {@dodf jbvb.util.dondurrfnt} support
+ * <p>Fivf implfmfntbtions in {@dodf jbvb.util.dondurrfnt} support
+ * tif fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
+ * tif fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
+ * tif fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
+ * tif fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
+ * tif fxtfndfd {@link jbvb.util.dondurrfnt.BlodkingQufuf}
+ * intfrfbdf, tibt dffinfs blodking vfrsions of put bnd tbkf:
+ * intfrfbdf, tibt dffinfs blodking vfrsions of put bnd tbkf:
+ * intfrfbdf, tibt dffinfs blodking vfrsions of put bnd tbkf:
+ * intfrfbdf, tibt dffinfs blodking vfrsions of put bnd tbkf:
+ * intfrfbdf, tibt dffinfs blodking vfrsions of put bnd tbkf:
+ * {@link jbvb.util.dondurrfnt.LinkfdBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.LinkfdBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.LinkfdBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.LinkfdBlodkingQufuf},
  * {@link jbvb.util.dondurrfnt.LinkfdBlodkingQufuf},
  * {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf},
- * {@link jbvb.util.dondurrfnt.SyndhronousQufuf},
+ * {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.ArrbyBlodkingQufuf},
+ * {@link jbvb.util.dondurrfnt.SyndironousQufuf},
+ * {@link jbvb.util.dondurrfnt.SyndironousQufuf},
+ * {@link jbvb.util.dondurrfnt.SyndironousQufuf},
+ * {@link jbvb.util.dondurrfnt.SyndironousQufuf},
+ * {@link jbvb.util.dondurrfnt.SyndironousQufuf},
+ * {@link jbvb.util.dondurrfnt.PriorityBlodkingQufuf}, bnd
+ * {@link jbvb.util.dondurrfnt.PriorityBlodkingQufuf}, bnd
+ * {@link jbvb.util.dondurrfnt.PriorityBlodkingQufuf}, bnd
+ * {@link jbvb.util.dondurrfnt.PriorityBlodkingQufuf}, bnd
  * {@link jbvb.util.dondurrfnt.PriorityBlodkingQufuf}, bnd
  * {@link jbvb.util.dondurrfnt.DflbyQufuf}.
- * Thf difffrfnt dlbssfs dovfr thf most dommon usbgf dontfxts
+ * {@link jbvb.util.dondurrfnt.DflbyQufuf}.
+ * {@link jbvb.util.dondurrfnt.DflbyQufuf}.
+ * {@link jbvb.util.dondurrfnt.DflbyQufuf}.
+ * {@link jbvb.util.dondurrfnt.DflbyQufuf}.
+ * Tif difffrfnt dlbssfs dovfr tif most dommon usbgf dontfxts
+ * Tif difffrfnt dlbssfs dovfr tif most dommon usbgf dontfxts
+ * Tif difffrfnt dlbssfs dovfr tif most dommon usbgf dontfxts
+ * Tif difffrfnt dlbssfs dovfr tif most dommon usbgf dontfxts
+ * Tif difffrfnt dlbssfs dovfr tif most dommon usbgf dontfxts
+ * for produdfr-donsumfr, mfssbging, pbrbllfl tbsking, bnd
+ * for produdfr-donsumfr, mfssbging, pbrbllfl tbsking, bnd
+ * for produdfr-donsumfr, mfssbging, pbrbllfl tbsking, bnd
+ * for produdfr-donsumfr, mfssbging, pbrbllfl tbsking, bnd
  * for produdfr-donsumfr, mfssbging, pbrbllfl tbsking, bnd
  * rflbtfd dondurrfnt dfsigns.
+ * rflbtfd dondurrfnt dfsigns.
+ * rflbtfd dondurrfnt dfsigns.
+ * rflbtfd dondurrfnt dfsigns.
+ * rflbtfd dondurrfnt dfsigns.
+ *
+ *
+ *
+ *
  *
  * <p>Extfndfd intfrfbdf {@link jbvb.util.dondurrfnt.TrbnsffrQufuf},
+ * <p>Extfndfd intfrfbdf {@link jbvb.util.dondurrfnt.TrbnsffrQufuf},
+ * <p>Extfndfd intfrfbdf {@link jbvb.util.dondurrfnt.TrbnsffrQufuf},
+ * <p>Extfndfd intfrfbdf {@link jbvb.util.dondurrfnt.TrbnsffrQufuf},
+ * <p>Extfndfd intfrfbdf {@link jbvb.util.dondurrfnt.TrbnsffrQufuf},
  * bnd implfmfntbtion {@link jbvb.util.dondurrfnt.LinkfdTrbnsffrQufuf}
- * introdudf b syndhronous {@dodf trbnsffr} mfthod (blong with rflbtfd
- * ffbturfs) in whidh b produdfr mby optionblly blodk bwbiting its
+ * bnd implfmfntbtion {@link jbvb.util.dondurrfnt.LinkfdTrbnsffrQufuf}
+ * bnd implfmfntbtion {@link jbvb.util.dondurrfnt.LinkfdTrbnsffrQufuf}
+ * bnd implfmfntbtion {@link jbvb.util.dondurrfnt.LinkfdTrbnsffrQufuf}
+ * bnd implfmfntbtion {@link jbvb.util.dondurrfnt.LinkfdTrbnsffrQufuf}
+ * introdudf b syndironous {@dodf trbnsffr} mftiod (blong witi rflbtfd
+ * introdudf b syndironous {@dodf trbnsffr} mftiod (blong witi rflbtfd
+ * introdudf b syndironous {@dodf trbnsffr} mftiod (blong witi rflbtfd
+ * introdudf b syndironous {@dodf trbnsffr} mftiod (blong witi rflbtfd
+ * introdudf b syndironous {@dodf trbnsffr} mftiod (blong witi rflbtfd
+ * ffbturfs) in wiidi b produdfr mby optionblly blodk bwbiting its
+ * ffbturfs) in wiidi b produdfr mby optionblly blodk bwbiting its
+ * ffbturfs) in wiidi b produdfr mby optionblly blodk bwbiting its
+ * ffbturfs) in wiidi b produdfr mby optionblly blodk bwbiting its
+ * ffbturfs) in wiidi b produdfr mby optionblly blodk bwbiting its
+ * donsumfr.
+ * donsumfr.
+ * donsumfr.
+ * donsumfr.
  * donsumfr.
  *
- * <p>Thf {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
- * fxtfnds {@dodf BlodkingQufuf} to support both FIFO bnd LIFO
+ *
+ *
+ *
+ *
+ * <p>Tif {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
+ * <p>Tif {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
+ * <p>Tif {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
+ * <p>Tif {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
+ * <p>Tif {@link jbvb.util.dondurrfnt.BlodkingDfquf} intfrfbdf
+ * fxtfnds {@dodf BlodkingQufuf} to support boti FIFO bnd LIFO
+ * fxtfnds {@dodf BlodkingQufuf} to support boti FIFO bnd LIFO
+ * fxtfnds {@dodf BlodkingQufuf} to support boti FIFO bnd LIFO
+ * fxtfnds {@dodf BlodkingQufuf} to support boti FIFO bnd LIFO
+ * fxtfnds {@dodf BlodkingQufuf} to support boti FIFO bnd LIFO
+ * (stbdk-bbsfd) opfrbtions.
+ * (stbdk-bbsfd) opfrbtions.
+ * (stbdk-bbsfd) opfrbtions.
+ * (stbdk-bbsfd) opfrbtions.
  * (stbdk-bbsfd) opfrbtions.
  * Clbss {@link jbvb.util.dondurrfnt.LinkfdBlodkingDfquf}
+ * Clbss {@link jbvb.util.dondurrfnt.LinkfdBlodkingDfquf}
+ * Clbss {@link jbvb.util.dondurrfnt.LinkfdBlodkingDfquf}
+ * Clbss {@link jbvb.util.dondurrfnt.LinkfdBlodkingDfquf}
+ * Clbss {@link jbvb.util.dondurrfnt.LinkfdBlodkingDfquf}
+ * providfs bn implfmfntbtion.
+ * providfs bn implfmfntbtion.
+ * providfs bn implfmfntbtion.
+ * providfs bn implfmfntbtion.
  * providfs bn implfmfntbtion.
  *
- * <h2>Timing</h2>
  *
- * Thf {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ *
+ *
+ *
+ * <i2>Timing</i2>
+ * <i2>Timing</i2>
+ * <i2>Timing</i2>
+ * <i2>Timing</i2>
+ * <i2>Timing</i2>
+ *
+ *
+ *
+ *
+ *
+ * Tif {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ * Tif {@link jbvb.util.dondurrfnt.TimfUnit} dlbss providfs
+ * multiplf grbnulbritifs (indluding nbnosfdonds) for
+ * multiplf grbnulbritifs (indluding nbnosfdonds) for
+ * multiplf grbnulbritifs (indluding nbnosfdonds) for
+ * multiplf grbnulbritifs (indluding nbnosfdonds) for
  * multiplf grbnulbritifs (indluding nbnosfdonds) for
  * spfdifying bnd dontrolling timf-out bbsfd opfrbtions.  Most
- * dlbssfs in thf pbdkbgf dontbin opfrbtions bbsfd on timf-outs
- * in bddition to indffinitf wbits.  In bll dbsfs thbt
- * timf-outs brf usfd, thf timf-out spfdififs thf minimum timf
- * thbt thf mfthod should wbit bfforf indidbting thbt it
+ * spfdifying bnd dontrolling timf-out bbsfd opfrbtions.  Most
+ * spfdifying bnd dontrolling timf-out bbsfd opfrbtions.  Most
+ * spfdifying bnd dontrolling timf-out bbsfd opfrbtions.  Most
+ * spfdifying bnd dontrolling timf-out bbsfd opfrbtions.  Most
+ * dlbssfs in tif pbdkbgf dontbin opfrbtions bbsfd on timf-outs
+ * dlbssfs in tif pbdkbgf dontbin opfrbtions bbsfd on timf-outs
+ * dlbssfs in tif pbdkbgf dontbin opfrbtions bbsfd on timf-outs
+ * dlbssfs in tif pbdkbgf dontbin opfrbtions bbsfd on timf-outs
+ * dlbssfs in tif pbdkbgf dontbin opfrbtions bbsfd on timf-outs
+ * in bddition to indffinitf wbits.  In bll dbsfs tibt
+ * in bddition to indffinitf wbits.  In bll dbsfs tibt
+ * in bddition to indffinitf wbits.  In bll dbsfs tibt
+ * in bddition to indffinitf wbits.  In bll dbsfs tibt
+ * in bddition to indffinitf wbits.  In bll dbsfs tibt
+ * timf-outs brf usfd, tif timf-out spfdififs tif minimum timf
+ * timf-outs brf usfd, tif timf-out spfdififs tif minimum timf
+ * timf-outs brf usfd, tif timf-out spfdififs tif minimum timf
+ * timf-outs brf usfd, tif timf-out spfdififs tif minimum timf
+ * timf-outs brf usfd, tif timf-out spfdififs tif minimum timf
+ * tibt tif mftiod siould wbit bfforf indidbting tibt it
+ * tibt tif mftiod siould wbit bfforf indidbting tibt it
+ * tibt tif mftiod siould wbit bfforf indidbting tibt it
+ * tibt tif mftiod siould wbit bfforf indidbting tibt it
+ * tibt tif mftiod siould wbit bfforf indidbting tibt it
  * timfd-out.  Implfmfntbtions mbkf b &quot;bfst fffort&quot;
- * to dftfdt timf-outs bs soon bs possiblf bftfr thfy oddur.
+ * timfd-out.  Implfmfntbtions mbkf b &quot;bfst fffort&quot;
+ * timfd-out.  Implfmfntbtions mbkf b &quot;bfst fffort&quot;
+ * timfd-out.  Implfmfntbtions mbkf b &quot;bfst fffort&quot;
+ * timfd-out.  Implfmfntbtions mbkf b &quot;bfst fffort&quot;
+ * to dftfdt timf-outs bs soon bs possiblf bftfr tify oddur.
+ * to dftfdt timf-outs bs soon bs possiblf bftfr tify oddur.
+ * to dftfdt timf-outs bs soon bs possiblf bftfr tify oddur.
+ * to dftfdt timf-outs bs soon bs possiblf bftfr tify oddur.
+ * to dftfdt timf-outs bs soon bs possiblf bftfr tify oddur.
  * Howfvfr, bn indffinitf bmount of timf mby flbpsf bftwffn b
- * timf-out bfing dftfdtfd bnd b thrfbd bdtublly fxfduting
- * bgbin bftfr thbt timf-out.  All mfthods thbt bddfpt timfout
- * pbrbmftfrs trfbt vblufs lfss thbn or fqubl to zfro to mfbn
+ * Howfvfr, bn indffinitf bmount of timf mby flbpsf bftwffn b
+ * Howfvfr, bn indffinitf bmount of timf mby flbpsf bftwffn b
+ * Howfvfr, bn indffinitf bmount of timf mby flbpsf bftwffn b
+ * Howfvfr, bn indffinitf bmount of timf mby flbpsf bftwffn b
+ * timf-out bfing dftfdtfd bnd b tirfbd bdtublly fxfduting
+ * timf-out bfing dftfdtfd bnd b tirfbd bdtublly fxfduting
+ * timf-out bfing dftfdtfd bnd b tirfbd bdtublly fxfduting
+ * timf-out bfing dftfdtfd bnd b tirfbd bdtublly fxfduting
+ * timf-out bfing dftfdtfd bnd b tirfbd bdtublly fxfduting
+ * bgbin bftfr tibt timf-out.  All mftiods tibt bddfpt timfout
+ * bgbin bftfr tibt timf-out.  All mftiods tibt bddfpt timfout
+ * bgbin bftfr tibt timf-out.  All mftiods tibt bddfpt timfout
+ * bgbin bftfr tibt timf-out.  All mftiods tibt bddfpt timfout
+ * bgbin bftfr tibt timf-out.  All mftiods tibt bddfpt timfout
+ * pbrbmftfrs trfbt vblufs lfss tibn or fqubl to zfro to mfbn
+ * pbrbmftfrs trfbt vblufs lfss tibn or fqubl to zfro to mfbn
+ * pbrbmftfrs trfbt vblufs lfss tibn or fqubl to zfro to mfbn
+ * pbrbmftfrs trfbt vblufs lfss tibn or fqubl to zfro to mfbn
+ * pbrbmftfrs trfbt vblufs lfss tibn or fqubl to zfro to mfbn
+ * not to wbit bt bll.  To wbit "forfvfr", you dbn usf b vbluf
+ * not to wbit bt bll.  To wbit "forfvfr", you dbn usf b vbluf
+ * not to wbit bt bll.  To wbit "forfvfr", you dbn usf b vbluf
+ * not to wbit bt bll.  To wbit "forfvfr", you dbn usf b vbluf
  * not to wbit bt bll.  To wbit "forfvfr", you dbn usf b vbluf
  * of {@dodf Long.MAX_VALUE}.
+ * of {@dodf Long.MAX_VALUE}.
+ * of {@dodf Long.MAX_VALUE}.
+ * of {@dodf Long.MAX_VALUE}.
+ * of {@dodf Long.MAX_VALUE}.
  *
- * <h2>Syndhronizfrs</h2>
  *
- * Fivf dlbssfs bid dommon spfdibl-purposf syndhronizbtion idioms.
+ *
+ *
+ *
+ * <i2>Syndironizfrs</i2>
+ * <i2>Syndironizfrs</i2>
+ * <i2>Syndironizfrs</i2>
+ * <i2>Syndironizfrs</i2>
+ * <i2>Syndironizfrs</i2>
+ *
+ *
+ *
+ *
+ *
+ * Fivf dlbssfs bid dommon spfdibl-purposf syndironizbtion idioms.
+ * Fivf dlbssfs bid dommon spfdibl-purposf syndironizbtion idioms.
+ * Fivf dlbssfs bid dommon spfdibl-purposf syndironizbtion idioms.
+ * Fivf dlbssfs bid dommon spfdibl-purposf syndironizbtion idioms.
+ * Fivf dlbssfs bid dommon spfdibl-purposf syndironizbtion idioms.
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
  * <ul>
  *
- * <li>{@link jbvb.util.dondurrfnt.Sfmbphorf} is b dlbssid dondurrfndy tool.
  *
- * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdh} is b vfry simplf yft
+ *
+ *
+ *
+ * <li>{@link jbvb.util.dondurrfnt.Sfmbpiorf} is b dlbssid dondurrfndy tool.
+ * <li>{@link jbvb.util.dondurrfnt.Sfmbpiorf} is b dlbssid dondurrfndy tool.
+ * <li>{@link jbvb.util.dondurrfnt.Sfmbpiorf} is b dlbssid dondurrfndy tool.
+ * <li>{@link jbvb.util.dondurrfnt.Sfmbpiorf} is b dlbssid dondurrfndy tool.
+ * <li>{@link jbvb.util.dondurrfnt.Sfmbpiorf} is b dlbssid dondurrfndy tool.
+ *
+ *
+ *
+ *
+ *
+ * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdi} is b vfry simplf yft
+ * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdi} is b vfry simplf yft
+ * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdi} is b vfry simplf yft
+ * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdi} is b vfry simplf yft
+ * <li>{@link jbvb.util.dondurrfnt.CountDownLbtdi} is b vfry simplf yft
  * vfry dommon utility for blodking until b givfn numbfr of signbls,
- * fvfnts, or donditions hold.
+ * vfry dommon utility for blodking until b givfn numbfr of signbls,
+ * vfry dommon utility for blodking until b givfn numbfr of signbls,
+ * vfry dommon utility for blodking until b givfn numbfr of signbls,
+ * vfry dommon utility for blodking until b givfn numbfr of signbls,
+ * fvfnts, or donditions iold.
+ * fvfnts, or donditions iold.
+ * fvfnts, or donditions iold.
+ * fvfnts, or donditions iold.
+ * fvfnts, or donditions iold.
+ *
+ *
+ *
+ *
  *
  * <li>A {@link jbvb.util.dondurrfnt.CydlidBbrrifr} is b rfsfttbblf
- * multiwby syndhronizbtion point usfful in somf stylfs of pbrbllfl
+ * <li>A {@link jbvb.util.dondurrfnt.CydlidBbrrifr} is b rfsfttbblf
+ * <li>A {@link jbvb.util.dondurrfnt.CydlidBbrrifr} is b rfsfttbblf
+ * <li>A {@link jbvb.util.dondurrfnt.CydlidBbrrifr} is b rfsfttbblf
+ * <li>A {@link jbvb.util.dondurrfnt.CydlidBbrrifr} is b rfsfttbblf
+ * multiwby syndironizbtion point usfful in somf stylfs of pbrbllfl
+ * multiwby syndironizbtion point usfful in somf stylfs of pbrbllfl
+ * multiwby syndironizbtion point usfful in somf stylfs of pbrbllfl
+ * multiwby syndironizbtion point usfful in somf stylfs of pbrbllfl
+ * multiwby syndironizbtion point usfful in somf stylfs of pbrbllfl
+ * progrbmming.
+ * progrbmming.
+ * progrbmming.
+ * progrbmming.
  * progrbmming.
  *
- * <li>A {@link jbvb.util.dondurrfnt.Phbsfr} providfs
- * b morf flfxiblf form of bbrrifr thbt mby bf usfd to dontrol phbsfd
- * domputbtion bmong multiplf thrfbds.
  *
- * <li>An {@link jbvb.util.dondurrfnt.Exdhbngfr} bllows two thrfbds to
- * fxdhbngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ *
+ *
+ *
+ * <li>A {@link jbvb.util.dondurrfnt.Pibsfr} providfs
+ * <li>A {@link jbvb.util.dondurrfnt.Pibsfr} providfs
+ * <li>A {@link jbvb.util.dondurrfnt.Pibsfr} providfs
+ * <li>A {@link jbvb.util.dondurrfnt.Pibsfr} providfs
+ * <li>A {@link jbvb.util.dondurrfnt.Pibsfr} providfs
+ * b morf flfxiblf form of bbrrifr tibt mby bf usfd to dontrol pibsfd
+ * b morf flfxiblf form of bbrrifr tibt mby bf usfd to dontrol pibsfd
+ * b morf flfxiblf form of bbrrifr tibt mby bf usfd to dontrol pibsfd
+ * b morf flfxiblf form of bbrrifr tibt mby bf usfd to dontrol pibsfd
+ * b morf flfxiblf form of bbrrifr tibt mby bf usfd to dontrol pibsfd
+ * domputbtion bmong multiplf tirfbds.
+ * domputbtion bmong multiplf tirfbds.
+ * domputbtion bmong multiplf tirfbds.
+ * domputbtion bmong multiplf tirfbds.
+ * domputbtion bmong multiplf tirfbds.
+ *
+ *
+ *
+ *
+ *
+ * <li>An {@link jbvb.util.dondurrfnt.Exdibngfr} bllows two tirfbds to
+ * <li>An {@link jbvb.util.dondurrfnt.Exdibngfr} bllows two tirfbds to
+ * <li>An {@link jbvb.util.dondurrfnt.Exdibngfr} bllows two tirfbds to
+ * <li>An {@link jbvb.util.dondurrfnt.Exdibngfr} bllows two tirfbds to
+ * <li>An {@link jbvb.util.dondurrfnt.Exdibngfr} bllows two tirfbds to
+ * fxdibngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ * fxdibngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ * fxdibngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ * fxdibngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ * fxdibngf objfdts bt b rfndfzvous point, bnd is usfful in sfvfrbl
+ * pipflinf dfsigns.
+ * pipflinf dfsigns.
+ * pipflinf dfsigns.
+ * pipflinf dfsigns.
  * pipflinf dfsigns.
  *
+ *
+ *
+ *
+ *
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  * </ul>
  *
- * <h2>Condurrfnt Collfdtions</h2>
  *
- * Bfsidfs Qufufs, this pbdkbgf supplifs Collfdtion implfmfntbtions
- * dfsignfd for usf in multithrfbdfd dontfxts:
- * {@link jbvb.util.dondurrfnt.CondurrfntHbshMbp},
+ *
+ *
+ *
+ * <i2>Condurrfnt Collfdtions</i2>
+ * <i2>Condurrfnt Collfdtions</i2>
+ * <i2>Condurrfnt Collfdtions</i2>
+ * <i2>Condurrfnt Collfdtions</i2>
+ * <i2>Condurrfnt Collfdtions</i2>
+ *
+ *
+ *
+ *
+ *
+ * Bfsidfs Qufufs, tiis pbdkbgf supplifs Collfdtion implfmfntbtions
+ * Bfsidfs Qufufs, tiis pbdkbgf supplifs Collfdtion implfmfntbtions
+ * Bfsidfs Qufufs, tiis pbdkbgf supplifs Collfdtion implfmfntbtions
+ * Bfsidfs Qufufs, tiis pbdkbgf supplifs Collfdtion implfmfntbtions
+ * Bfsidfs Qufufs, tiis pbdkbgf supplifs Collfdtion implfmfntbtions
+ * dfsignfd for usf in multitirfbdfd dontfxts:
+ * dfsignfd for usf in multitirfbdfd dontfxts:
+ * dfsignfd for usf in multitirfbdfd dontfxts:
+ * dfsignfd for usf in multitirfbdfd dontfxts:
+ * dfsignfd for usf in multitirfbdfd dontfxts:
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListMbp},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListMbp},
  * {@link jbvb.util.dondurrfnt.CondurrfntSkipListMbp},
  * {@link jbvb.util.dondurrfnt.CondurrfntSkipListSft},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListSft},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListSft},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListSft},
+ * {@link jbvb.util.dondurrfnt.CondurrfntSkipListSft},
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbyList}, bnd
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbyList}, bnd
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbyList}, bnd
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbyList}, bnd
  * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbyList}, bnd
  * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbySft}.
- * Whfn mbny thrfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
- * {@dodf CondurrfntHbshMbp} is normblly prfffrbblf to b syndhronizfd
- * {@dodf HbshMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
- * prfffrbblf to b syndhronizfd {@dodf TrffMbp}.
- * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndhronizfd
- * {@dodf ArrbyList} whfn thf fxpfdtfd numbfr of rfbds bnd trbvfrsbls
- * grfbtly outnumbfr thf numbfr of updbtfs to b list.
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbySft}.
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbySft}.
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbySft}.
+ * {@link jbvb.util.dondurrfnt.CopyOnWritfArrbySft}.
+ * Wifn mbny tirfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
+ * Wifn mbny tirfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
+ * Wifn mbny tirfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
+ * Wifn mbny tirfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
+ * Wifn mbny tirfbds brf fxpfdtfd to bddfss b givfn dollfdtion, b
+ * {@dodf CondurrfntHbsiMbp} is normblly prfffrbblf to b syndironizfd
+ * {@dodf CondurrfntHbsiMbp} is normblly prfffrbblf to b syndironizfd
+ * {@dodf CondurrfntHbsiMbp} is normblly prfffrbblf to b syndironizfd
+ * {@dodf CondurrfntHbsiMbp} is normblly prfffrbblf to b syndironizfd
+ * {@dodf CondurrfntHbsiMbp} is normblly prfffrbblf to b syndironizfd
+ * {@dodf HbsiMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
+ * {@dodf HbsiMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
+ * {@dodf HbsiMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
+ * {@dodf HbsiMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
+ * {@dodf HbsiMbp}, bnd b {@dodf CondurrfntSkipListMbp} is normblly
+ * prfffrbblf to b syndironizfd {@dodf TrffMbp}.
+ * prfffrbblf to b syndironizfd {@dodf TrffMbp}.
+ * prfffrbblf to b syndironizfd {@dodf TrffMbp}.
+ * prfffrbblf to b syndironizfd {@dodf TrffMbp}.
+ * prfffrbblf to b syndironizfd {@dodf TrffMbp}.
+ * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndironizfd
+ * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndironizfd
+ * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndironizfd
+ * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndironizfd
+ * A {@dodf CopyOnWritfArrbyList} is prfffrbblf to b syndironizfd
+ * {@dodf ArrbyList} wifn tif fxpfdtfd numbfr of rfbds bnd trbvfrsbls
+ * {@dodf ArrbyList} wifn tif fxpfdtfd numbfr of rfbds bnd trbvfrsbls
+ * {@dodf ArrbyList} wifn tif fxpfdtfd numbfr of rfbds bnd trbvfrsbls
+ * {@dodf ArrbyList} wifn tif fxpfdtfd numbfr of rfbds bnd trbvfrsbls
+ * {@dodf ArrbyList} wifn tif fxpfdtfd numbfr of rfbds bnd trbvfrsbls
+ * grfbtly outnumbfr tif numbfr of updbtfs to b list.
+ * grfbtly outnumbfr tif numbfr of updbtfs to b list.
+ * grfbtly outnumbfr tif numbfr of updbtfs to b list.
+ * grfbtly outnumbfr tif numbfr of updbtfs to b list.
+ * grfbtly outnumbfr tif numbfr of updbtfs to b list.
  *
- * <p>Thf "Condurrfnt" prffix usfd with somf dlbssfs in this pbdkbgf
- * is b shorthbnd indidbting sfvfrbl difffrfndfs from similbr
- * "syndhronizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbshtbblf} bnd
- * {@dodf Collfdtions.syndhronizfdMbp(nfw HbshMbp())} brf
- * syndhronizfd.  But {@link
- * jbvb.util.dondurrfnt.CondurrfntHbshMbp} is "dondurrfnt".  A
- * dondurrfnt dollfdtion is thrfbd-sbff, but not govfrnfd by b
- * singlf fxdlusion lodk.  In thf pbrtidulbr dbsf of
- * CondurrfntHbshMbp, it sbffly pfrmits bny numbfr of
+ *
+ *
+ *
+ *
+ * <p>Tif "Condurrfnt" prffix usfd witi somf dlbssfs in tiis pbdkbgf
+ * <p>Tif "Condurrfnt" prffix usfd witi somf dlbssfs in tiis pbdkbgf
+ * <p>Tif "Condurrfnt" prffix usfd witi somf dlbssfs in tiis pbdkbgf
+ * <p>Tif "Condurrfnt" prffix usfd witi somf dlbssfs in tiis pbdkbgf
+ * <p>Tif "Condurrfnt" prffix usfd witi somf dlbssfs in tiis pbdkbgf
+ * is b siortibnd indidbting sfvfrbl difffrfndfs from similbr
+ * is b siortibnd indidbting sfvfrbl difffrfndfs from similbr
+ * is b siortibnd indidbting sfvfrbl difffrfndfs from similbr
+ * is b siortibnd indidbting sfvfrbl difffrfndfs from similbr
+ * is b siortibnd indidbting sfvfrbl difffrfndfs from similbr
+ * "syndironizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbsitbblf} bnd
+ * "syndironizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbsitbblf} bnd
+ * "syndironizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbsitbblf} bnd
+ * "syndironizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbsitbblf} bnd
+ * "syndironizfd" dlbssfs.  For fxbmplf {@dodf jbvb.util.Hbsitbblf} bnd
+ * {@dodf Collfdtions.syndironizfdMbp(nfw HbsiMbp())} brf
+ * {@dodf Collfdtions.syndironizfdMbp(nfw HbsiMbp())} brf
+ * {@dodf Collfdtions.syndironizfdMbp(nfw HbsiMbp())} brf
+ * {@dodf Collfdtions.syndironizfdMbp(nfw HbsiMbp())} brf
+ * {@dodf Collfdtions.syndironizfdMbp(nfw HbsiMbp())} brf
+ * syndironizfd.  But {@link
+ * syndironizfd.  But {@link
+ * syndironizfd.  But {@link
+ * syndironizfd.  But {@link
+ * syndironizfd.  But {@link
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} is "dondurrfnt".  A
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} is "dondurrfnt".  A
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} is "dondurrfnt".  A
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} is "dondurrfnt".  A
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} is "dondurrfnt".  A
+ * dondurrfnt dollfdtion is tirfbd-sbff, but not govfrnfd by b
+ * dondurrfnt dollfdtion is tirfbd-sbff, but not govfrnfd by b
+ * dondurrfnt dollfdtion is tirfbd-sbff, but not govfrnfd by b
+ * dondurrfnt dollfdtion is tirfbd-sbff, but not govfrnfd by b
+ * dondurrfnt dollfdtion is tirfbd-sbff, but not govfrnfd by b
+ * singlf fxdlusion lodk.  In tif pbrtidulbr dbsf of
+ * singlf fxdlusion lodk.  In tif pbrtidulbr dbsf of
+ * singlf fxdlusion lodk.  In tif pbrtidulbr dbsf of
+ * singlf fxdlusion lodk.  In tif pbrtidulbr dbsf of
+ * singlf fxdlusion lodk.  In tif pbrtidulbr dbsf of
+ * CondurrfntHbsiMbp, it sbffly pfrmits bny numbfr of
+ * CondurrfntHbsiMbp, it sbffly pfrmits bny numbfr of
+ * CondurrfntHbsiMbp, it sbffly pfrmits bny numbfr of
+ * CondurrfntHbsiMbp, it sbffly pfrmits bny numbfr of
+ * CondurrfntHbsiMbp, it sbffly pfrmits bny numbfr of
  * dondurrfnt rfbds bs wfll bs b tunbblf numbfr of dondurrfnt
- * writfs.  "Syndhronizfd" dlbssfs dbn bf usfful whfn you nffd
+ * dondurrfnt rfbds bs wfll bs b tunbblf numbfr of dondurrfnt
+ * dondurrfnt rfbds bs wfll bs b tunbblf numbfr of dondurrfnt
+ * dondurrfnt rfbds bs wfll bs b tunbblf numbfr of dondurrfnt
+ * dondurrfnt rfbds bs wfll bs b tunbblf numbfr of dondurrfnt
+ * writfs.  "Syndironizfd" dlbssfs dbn bf usfful wifn you nffd
+ * writfs.  "Syndironizfd" dlbssfs dbn bf usfful wifn you nffd
+ * writfs.  "Syndironizfd" dlbssfs dbn bf usfful wifn you nffd
+ * writfs.  "Syndironizfd" dlbssfs dbn bf usfful wifn you nffd
+ * writfs.  "Syndironizfd" dlbssfs dbn bf usfful wifn you nffd
  * to prfvfnt bll bddfss to b dollfdtion vib b singlf lodk, bt
- * thf fxpfnsf of poorfr sdblbbility.  In othfr dbsfs in whidh
- * multiplf thrfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
+ * to prfvfnt bll bddfss to b dollfdtion vib b singlf lodk, bt
+ * to prfvfnt bll bddfss to b dollfdtion vib b singlf lodk, bt
+ * to prfvfnt bll bddfss to b dollfdtion vib b singlf lodk, bt
+ * to prfvfnt bll bddfss to b dollfdtion vib b singlf lodk, bt
+ * tif fxpfnsf of poorfr sdblbbility.  In otifr dbsfs in wiidi
+ * tif fxpfnsf of poorfr sdblbbility.  In otifr dbsfs in wiidi
+ * tif fxpfnsf of poorfr sdblbbility.  In otifr dbsfs in wiidi
+ * tif fxpfnsf of poorfr sdblbbility.  In otifr dbsfs in wiidi
+ * tif fxpfnsf of poorfr sdblbbility.  In otifr dbsfs in wiidi
+ * multiplf tirfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
+ * multiplf tirfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
+ * multiplf tirfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
+ * multiplf tirfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
+ * multiplf tirfbds brf fxpfdtfd to bddfss b dommon dollfdtion,
  * "dondurrfnt" vfrsions brf normblly prfffrbblf.  And
- * unsyndhronizfd dollfdtions brf prfffrbblf whfn fithfr
- * dollfdtions brf unshbrfd, or brf bddfssiblf only whfn
- * holding othfr lodks.
+ * "dondurrfnt" vfrsions brf normblly prfffrbblf.  And
+ * "dondurrfnt" vfrsions brf normblly prfffrbblf.  And
+ * "dondurrfnt" vfrsions brf normblly prfffrbblf.  And
+ * "dondurrfnt" vfrsions brf normblly prfffrbblf.  And
+ * unsyndironizfd dollfdtions brf prfffrbblf wifn fitifr
+ * unsyndironizfd dollfdtions brf prfffrbblf wifn fitifr
+ * unsyndironizfd dollfdtions brf prfffrbblf wifn fitifr
+ * unsyndironizfd dollfdtions brf prfffrbblf wifn fitifr
+ * unsyndironizfd dollfdtions brf prfffrbblf wifn fitifr
+ * dollfdtions brf unsibrfd, or brf bddfssiblf only wifn
+ * dollfdtions brf unsibrfd, or brf bddfssiblf only wifn
+ * dollfdtions brf unsibrfd, or brf bddfssiblf only wifn
+ * dollfdtions brf unsibrfd, or brf bddfssiblf only wifn
+ * dollfdtions brf unsibrfd, or brf bddfssiblf only wifn
+ * iolding otifr lodks.
+ * iolding otifr lodks.
+ * iolding otifr lodks.
+ * iolding otifr lodks.
+ * iolding otifr lodks.
+ *
+ *
+ *
+ *
  *
  * <p id="Wfbkly">Most dondurrfnt Collfdtion implfmfntbtions
- * (indluding most Qufufs) blso difffr from thf usubl {@dodf jbvb.util}
- * donvfntions in thbt thfir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
+ * <p id="Wfbkly">Most dondurrfnt Collfdtion implfmfntbtions
+ * <p id="Wfbkly">Most dondurrfnt Collfdtion implfmfntbtions
+ * <p id="Wfbkly">Most dondurrfnt Collfdtion implfmfntbtions
+ * <p id="Wfbkly">Most dondurrfnt Collfdtion implfmfntbtions
+ * (indluding most Qufufs) blso difffr from tif usubl {@dodf jbvb.util}
+ * (indluding most Qufufs) blso difffr from tif usubl {@dodf jbvb.util}
+ * (indluding most Qufufs) blso difffr from tif usubl {@dodf jbvb.util}
+ * (indluding most Qufufs) blso difffr from tif usubl {@dodf jbvb.util}
+ * (indluding most Qufufs) blso difffr from tif usubl {@dodf jbvb.util}
+ * donvfntions in tibt tifir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
+ * donvfntions in tibt tifir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
+ * donvfntions in tibt tifir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
+ * donvfntions in tibt tifir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
+ * donvfntions in tibt tifir {@linkplbin jbvb.util.Itfrbtor Itfrbtors}
  * bnd {@linkplbin jbvb.util.Splitfrbtor Splitfrbtors} providf
- * <fm>wfbkly donsistfnt</fm> rbthfr thbn fbst-fbil trbvfrsbl:
+ * bnd {@linkplbin jbvb.util.Splitfrbtor Splitfrbtors} providf
+ * bnd {@linkplbin jbvb.util.Splitfrbtor Splitfrbtors} providf
+ * bnd {@linkplbin jbvb.util.Splitfrbtor Splitfrbtors} providf
+ * bnd {@linkplbin jbvb.util.Splitfrbtor Splitfrbtors} providf
+ * <fm>wfbkly donsistfnt</fm> rbtifr tibn fbst-fbil trbvfrsbl:
+ * <fm>wfbkly donsistfnt</fm> rbtifr tibn fbst-fbil trbvfrsbl:
+ * <fm>wfbkly donsistfnt</fm> rbtifr tibn fbst-fbil trbvfrsbl:
+ * <fm>wfbkly donsistfnt</fm> rbtifr tibn fbst-fbil trbvfrsbl:
+ * <fm>wfbkly donsistfnt</fm> rbtifr tibn fbst-fbil trbvfrsbl:
  * <ul>
- * <li>thfy mby prodffd dondurrfntly with othfr opfrbtions
- * <li>thfy will nfvfr throw {@link jbvb.util.CondurrfntModifidbtionExdfption
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <li>tify mby prodffd dondurrfntly witi otifr opfrbtions
+ * <li>tify mby prodffd dondurrfntly witi otifr opfrbtions
+ * <li>tify mby prodffd dondurrfntly witi otifr opfrbtions
+ * <li>tify mby prodffd dondurrfntly witi otifr opfrbtions
+ * <li>tify mby prodffd dondurrfntly witi otifr opfrbtions
+ * <li>tify will nfvfr tirow {@link jbvb.util.CondurrfntModifidbtionExdfption
+ * <li>tify will nfvfr tirow {@link jbvb.util.CondurrfntModifidbtionExdfption
+ * <li>tify will nfvfr tirow {@link jbvb.util.CondurrfntModifidbtionExdfption
+ * <li>tify will nfvfr tirow {@link jbvb.util.CondurrfntModifidbtionExdfption
+ * <li>tify will nfvfr tirow {@link jbvb.util.CondurrfntModifidbtionExdfption
  * CondurrfntModifidbtionExdfption}
- * <li>thfy brf gubrbntffd to trbvfrsf flfmfnts bs thfy fxistfd upon
+ * CondurrfntModifidbtionExdfption}
+ * CondurrfntModifidbtionExdfption}
+ * CondurrfntModifidbtionExdfption}
+ * CondurrfntModifidbtionExdfption}
+ * <li>tify brf gubrbntffd to trbvfrsf flfmfnts bs tify fxistfd upon
+ * <li>tify brf gubrbntffd to trbvfrsf flfmfnts bs tify fxistfd upon
+ * <li>tify brf gubrbntffd to trbvfrsf flfmfnts bs tify fxistfd upon
+ * <li>tify brf gubrbntffd to trbvfrsf flfmfnts bs tify fxistfd upon
+ * <li>tify brf gubrbntffd to trbvfrsf flfmfnts bs tify fxistfd upon
+ * donstrudtion fxbdtly ondf, bnd mby (but brf not gubrbntffd to)
+ * donstrudtion fxbdtly ondf, bnd mby (but brf not gubrbntffd to)
+ * donstrudtion fxbdtly ondf, bnd mby (but brf not gubrbntffd to)
+ * donstrudtion fxbdtly ondf, bnd mby (but brf not gubrbntffd to)
  * donstrudtion fxbdtly ondf, bnd mby (but brf not gubrbntffd to)
  * rfflfdt bny modifidbtions subsfqufnt to donstrudtion.
+ * rfflfdt bny modifidbtions subsfqufnt to donstrudtion.
+ * rfflfdt bny modifidbtions subsfqufnt to donstrudtion.
+ * rfflfdt bny modifidbtions subsfqufnt to donstrudtion.
+ * rfflfdt bny modifidbtions subsfqufnt to donstrudtion.
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  * </ul>
  *
- * <h2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</h2>
  *
- * <b hrff="http://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/html/jls-17.html#jls-17.4.5">
- * Chbptfr 17 of thf Jbvb Lbngubgf Spfdifidbtion</b> dffinfs thf
- * <i>hbppfns-bfforf</i> rflbtion on mfmory opfrbtions sudh bs rfbds bnd
- * writfs of shbrfd vbribblfs.  Thf rfsults of b writf by onf thrfbd brf
- * gubrbntffd to bf visiblf to b rfbd by bnothfr thrfbd only if thf writf
- * opfrbtion <i>hbppfns-bfforf</i> thf rfbd opfrbtion.  Thf
- * {@dodf syndhronizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs thf
- * {@dodf Thrfbd.stbrt()} bnd {@dodf Thrfbd.join()} mfthods, dbn form
- * <i>hbppfns-bfforf</i> rflbtionships.  In pbrtidulbr:
+ *
+ *
+ *
+ * <i2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</i2>
+ * <i2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</i2>
+ * <i2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</i2>
+ * <i2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</i2>
+ * <i2 id="MfmoryVisibility">Mfmory Consistfndy Propfrtifs</i2>
+ *
+ *
+ *
+ *
+ *
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4.5">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4.5">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4.5">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4.5">
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4.5">
+ * Cibptfr 17 of tif Jbvb Lbngubgf Spfdifidbtion</b> dffinfs tif
+ * Cibptfr 17 of tif Jbvb Lbngubgf Spfdifidbtion</b> dffinfs tif
+ * Cibptfr 17 of tif Jbvb Lbngubgf Spfdifidbtion</b> dffinfs tif
+ * Cibptfr 17 of tif Jbvb Lbngubgf Spfdifidbtion</b> dffinfs tif
+ * Cibptfr 17 of tif Jbvb Lbngubgf Spfdifidbtion</b> dffinfs tif
+ * <i>ibppfns-bfforf</i> rflbtion on mfmory opfrbtions sudi bs rfbds bnd
+ * <i>ibppfns-bfforf</i> rflbtion on mfmory opfrbtions sudi bs rfbds bnd
+ * <i>ibppfns-bfforf</i> rflbtion on mfmory opfrbtions sudi bs rfbds bnd
+ * <i>ibppfns-bfforf</i> rflbtion on mfmory opfrbtions sudi bs rfbds bnd
+ * <i>ibppfns-bfforf</i> rflbtion on mfmory opfrbtions sudi bs rfbds bnd
+ * writfs of sibrfd vbribblfs.  Tif rfsults of b writf by onf tirfbd brf
+ * writfs of sibrfd vbribblfs.  Tif rfsults of b writf by onf tirfbd brf
+ * writfs of sibrfd vbribblfs.  Tif rfsults of b writf by onf tirfbd brf
+ * writfs of sibrfd vbribblfs.  Tif rfsults of b writf by onf tirfbd brf
+ * writfs of sibrfd vbribblfs.  Tif rfsults of b writf by onf tirfbd brf
+ * gubrbntffd to bf visiblf to b rfbd by bnotifr tirfbd only if tif writf
+ * gubrbntffd to bf visiblf to b rfbd by bnotifr tirfbd only if tif writf
+ * gubrbntffd to bf visiblf to b rfbd by bnotifr tirfbd only if tif writf
+ * gubrbntffd to bf visiblf to b rfbd by bnotifr tirfbd only if tif writf
+ * gubrbntffd to bf visiblf to b rfbd by bnotifr tirfbd only if tif writf
+ * opfrbtion <i>ibppfns-bfforf</i> tif rfbd opfrbtion.  Tif
+ * opfrbtion <i>ibppfns-bfforf</i> tif rfbd opfrbtion.  Tif
+ * opfrbtion <i>ibppfns-bfforf</i> tif rfbd opfrbtion.  Tif
+ * opfrbtion <i>ibppfns-bfforf</i> tif rfbd opfrbtion.  Tif
+ * opfrbtion <i>ibppfns-bfforf</i> tif rfbd opfrbtion.  Tif
+ * {@dodf syndironizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs tif
+ * {@dodf syndironizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs tif
+ * {@dodf syndironizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs tif
+ * {@dodf syndironizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs tif
+ * {@dodf syndironizfd} bnd {@dodf volbtilf} donstrudts, bs wfll bs tif
+ * {@dodf Tirfbd.stbrt()} bnd {@dodf Tirfbd.join()} mftiods, dbn form
+ * {@dodf Tirfbd.stbrt()} bnd {@dodf Tirfbd.join()} mftiods, dbn form
+ * {@dodf Tirfbd.stbrt()} bnd {@dodf Tirfbd.join()} mftiods, dbn form
+ * {@dodf Tirfbd.stbrt()} bnd {@dodf Tirfbd.join()} mftiods, dbn form
+ * {@dodf Tirfbd.stbrt()} bnd {@dodf Tirfbd.join()} mftiods, dbn form
+ * <i>ibppfns-bfforf</i> rflbtionsiips.  In pbrtidulbr:
+ * <i>ibppfns-bfforf</i> rflbtionsiips.  In pbrtidulbr:
+ * <i>ibppfns-bfforf</i> rflbtionsiips.  In pbrtidulbr:
+ * <i>ibppfns-bfforf</i> rflbtionsiips.  In pbrtidulbr:
+ * <i>ibppfns-bfforf</i> rflbtionsiips.  In pbrtidulbr:
+ *
+ *
+ *
+ *
  *
  * <ul>
- *   <li>Ebdh bdtion in b thrfbd <i>hbppfns-bfforf</i> fvfry bdtion in thbt
- *   thrfbd thbt domfs lbtfr in thf progrbm's ordfr.
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ *   <li>Ebdi bdtion in b tirfbd <i>ibppfns-bfforf</i> fvfry bdtion in tibt
+ *   <li>Ebdi bdtion in b tirfbd <i>ibppfns-bfforf</i> fvfry bdtion in tibt
+ *   <li>Ebdi bdtion in b tirfbd <i>ibppfns-bfforf</i> fvfry bdtion in tibt
+ *   <li>Ebdi bdtion in b tirfbd <i>ibppfns-bfforf</i> fvfry bdtion in tibt
+ *   <li>Ebdi bdtion in b tirfbd <i>ibppfns-bfforf</i> fvfry bdtion in tibt
+ *   tirfbd tibt domfs lbtfr in tif progrbm's ordfr.
+ *   tirfbd tibt domfs lbtfr in tif progrbm's ordfr.
+ *   tirfbd tibt domfs lbtfr in tif progrbm's ordfr.
+ *   tirfbd tibt domfs lbtfr in tif progrbm's ordfr.
+ *   tirfbd tibt domfs lbtfr in tif progrbm's ordfr.
  *
- *   <li>An unlodk ({@dodf syndhronizfd} blodk or mfthod fxit) of b
- *   monitor <i>hbppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndhronizfd}
- *   blodk or mfthod fntry) of thbt sbmf monitor.  And bfdbusf
- *   thf <i>hbppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
- *   of b thrfbd prior to unlodking <i>hbppfn-bfforf</i> bll bdtions
- *   subsfqufnt to bny thrfbd lodking thbt monitor.
  *
- *   <li>A writf to b {@dodf volbtilf} fifld <i>hbppfns-bfforf</i> fvfry
- *   subsfqufnt rfbd of thbt sbmf fifld.  Writfs bnd rfbds of
- *   {@dodf volbtilf} fiflds hbvf similbr mfmory donsistfndy ffffdts
+ *
+ *
+ *
+ *   <li>An unlodk ({@dodf syndironizfd} blodk or mftiod fxit) of b
+ *   <li>An unlodk ({@dodf syndironizfd} blodk or mftiod fxit) of b
+ *   <li>An unlodk ({@dodf syndironizfd} blodk or mftiod fxit) of b
+ *   <li>An unlodk ({@dodf syndironizfd} blodk or mftiod fxit) of b
+ *   <li>An unlodk ({@dodf syndironizfd} blodk or mftiod fxit) of b
+ *   monitor <i>ibppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndironizfd}
+ *   monitor <i>ibppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndironizfd}
+ *   monitor <i>ibppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndironizfd}
+ *   monitor <i>ibppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndironizfd}
+ *   monitor <i>ibppfns-bfforf</i> fvfry subsfqufnt lodk ({@dodf syndironizfd}
+ *   blodk or mftiod fntry) of tibt sbmf monitor.  And bfdbusf
+ *   blodk or mftiod fntry) of tibt sbmf monitor.  And bfdbusf
+ *   blodk or mftiod fntry) of tibt sbmf monitor.  And bfdbusf
+ *   blodk or mftiod fntry) of tibt sbmf monitor.  And bfdbusf
+ *   blodk or mftiod fntry) of tibt sbmf monitor.  And bfdbusf
+ *   tif <i>ibppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
+ *   tif <i>ibppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
+ *   tif <i>ibppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
+ *   tif <i>ibppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
+ *   tif <i>ibppfns-bfforf</i> rflbtion is trbnsitivf, bll bdtions
+ *   of b tirfbd prior to unlodking <i>ibppfn-bfforf</i> bll bdtions
+ *   of b tirfbd prior to unlodking <i>ibppfn-bfforf</i> bll bdtions
+ *   of b tirfbd prior to unlodking <i>ibppfn-bfforf</i> bll bdtions
+ *   of b tirfbd prior to unlodking <i>ibppfn-bfforf</i> bll bdtions
+ *   of b tirfbd prior to unlodking <i>ibppfn-bfforf</i> bll bdtions
+ *   subsfqufnt to bny tirfbd lodking tibt monitor.
+ *   subsfqufnt to bny tirfbd lodking tibt monitor.
+ *   subsfqufnt to bny tirfbd lodking tibt monitor.
+ *   subsfqufnt to bny tirfbd lodking tibt monitor.
+ *   subsfqufnt to bny tirfbd lodking tibt monitor.
+ *
+ *
+ *
+ *
+ *
+ *   <li>A writf to b {@dodf volbtilf} fifld <i>ibppfns-bfforf</i> fvfry
+ *   <li>A writf to b {@dodf volbtilf} fifld <i>ibppfns-bfforf</i> fvfry
+ *   <li>A writf to b {@dodf volbtilf} fifld <i>ibppfns-bfforf</i> fvfry
+ *   <li>A writf to b {@dodf volbtilf} fifld <i>ibppfns-bfforf</i> fvfry
+ *   <li>A writf to b {@dodf volbtilf} fifld <i>ibppfns-bfforf</i> fvfry
+ *   subsfqufnt rfbd of tibt sbmf fifld.  Writfs bnd rfbds of
+ *   subsfqufnt rfbd of tibt sbmf fifld.  Writfs bnd rfbds of
+ *   subsfqufnt rfbd of tibt sbmf fifld.  Writfs bnd rfbds of
+ *   subsfqufnt rfbd of tibt sbmf fifld.  Writfs bnd rfbds of
+ *   subsfqufnt rfbd of tibt sbmf fifld.  Writfs bnd rfbds of
+ *   {@dodf volbtilf} fiflds ibvf similbr mfmory donsistfndy ffffdts
+ *   {@dodf volbtilf} fiflds ibvf similbr mfmory donsistfndy ffffdts
+ *   {@dodf volbtilf} fiflds ibvf similbr mfmory donsistfndy ffffdts
+ *   {@dodf volbtilf} fiflds ibvf similbr mfmory donsistfndy ffffdts
+ *   {@dodf volbtilf} fiflds ibvf similbr mfmory donsistfndy ffffdts
+ *   bs fntfring bnd fxiting monitors, but do <fm>not</fm> fntbil
+ *   bs fntfring bnd fxiting monitors, but do <fm>not</fm> fntbil
+ *   bs fntfring bnd fxiting monitors, but do <fm>not</fm> fntbil
+ *   bs fntfring bnd fxiting monitors, but do <fm>not</fm> fntbil
  *   bs fntfring bnd fxiting monitors, but do <fm>not</fm> fntbil
  *   mutubl fxdlusion lodking.
+ *   mutubl fxdlusion lodking.
+ *   mutubl fxdlusion lodking.
+ *   mutubl fxdlusion lodking.
+ *   mutubl fxdlusion lodking.
  *
- *   <li>A dbll to {@dodf stbrt} on b thrfbd <i>hbppfns-bfforf</i> bny
- *   bdtion in thf stbrtfd thrfbd.
  *
- *   <li>All bdtions in b thrfbd <i>hbppfn-bfforf</i> bny othfr thrfbd
- *   suddfssfully rfturns from b {@dodf join} on thbt thrfbd.
  *
+ *
+ *
+ *   <li>A dbll to {@dodf stbrt} on b tirfbd <i>ibppfns-bfforf</i> bny
+ *   <li>A dbll to {@dodf stbrt} on b tirfbd <i>ibppfns-bfforf</i> bny
+ *   <li>A dbll to {@dodf stbrt} on b tirfbd <i>ibppfns-bfforf</i> bny
+ *   <li>A dbll to {@dodf stbrt} on b tirfbd <i>ibppfns-bfforf</i> bny
+ *   <li>A dbll to {@dodf stbrt} on b tirfbd <i>ibppfns-bfforf</i> bny
+ *   bdtion in tif stbrtfd tirfbd.
+ *   bdtion in tif stbrtfd tirfbd.
+ *   bdtion in tif stbrtfd tirfbd.
+ *   bdtion in tif stbrtfd tirfbd.
+ *   bdtion in tif stbrtfd tirfbd.
+ *
+ *
+ *
+ *
+ *
+ *   <li>All bdtions in b tirfbd <i>ibppfn-bfforf</i> bny otifr tirfbd
+ *   <li>All bdtions in b tirfbd <i>ibppfn-bfforf</i> bny otifr tirfbd
+ *   <li>All bdtions in b tirfbd <i>ibppfn-bfforf</i> bny otifr tirfbd
+ *   <li>All bdtions in b tirfbd <i>ibppfn-bfforf</i> bny otifr tirfbd
+ *   <li>All bdtions in b tirfbd <i>ibppfn-bfforf</i> bny otifr tirfbd
+ *   suddfssfully rfturns from b {@dodf join} on tibt tirfbd.
+ *   suddfssfully rfturns from b {@dodf join} on tibt tirfbd.
+ *   suddfssfully rfturns from b {@dodf join} on tibt tirfbd.
+ *   suddfssfully rfturns from b {@dodf join} on tibt tirfbd.
+ *   suddfssfully rfturns from b {@dodf join} on tibt tirfbd.
+ *
+ *
+ *
+ *
+ *
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
  * </ul>
  *
  *
- * Thf mfthods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
- * subpbdkbgfs fxtfnd thfsf gubrbntffs to highfr-lfvfl
- * syndhronizbtion.  In pbrtidulbr:
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * Tif mftiods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
+ * Tif mftiods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
+ * Tif mftiods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
+ * Tif mftiods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
+ * Tif mftiods of bll dlbssfs in {@dodf jbvb.util.dondurrfnt} bnd its
+ * subpbdkbgfs fxtfnd tifsf gubrbntffs to iigifr-lfvfl
+ * subpbdkbgfs fxtfnd tifsf gubrbntffs to iigifr-lfvfl
+ * subpbdkbgfs fxtfnd tifsf gubrbntffs to iigifr-lfvfl
+ * subpbdkbgfs fxtfnd tifsf gubrbntffs to iigifr-lfvfl
+ * subpbdkbgfs fxtfnd tifsf gubrbntffs to iigifr-lfvfl
+ * syndironizbtion.  In pbrtidulbr:
+ * syndironizbtion.  In pbrtidulbr:
+ * syndironizbtion.  In pbrtidulbr:
+ * syndironizbtion.  In pbrtidulbr:
+ * syndironizbtion.  In pbrtidulbr:
+ *
+ *
+ *
+ *
  *
  * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
+ * <ul>
  *
- *   <li>Adtions in b thrfbd prior to plbding bn objfdt into bny dondurrfnt
- *   dollfdtion <i>hbppfn-bfforf</i> bdtions subsfqufnt to thf bddfss or
- *   rfmovbl of thbt flfmfnt from thf dollfdtion in bnothfr thrfbd.
  *
- *   <li>Adtions in b thrfbd prior to thf submission of b {@dodf Runnbblf}
- *   to bn {@dodf Exfdutor} <i>hbppfn-bfforf</i> its fxfdution bfgins.
+ *
+ *
+ *
+ *   <li>Adtions in b tirfbd prior to plbding bn objfdt into bny dondurrfnt
+ *   <li>Adtions in b tirfbd prior to plbding bn objfdt into bny dondurrfnt
+ *   <li>Adtions in b tirfbd prior to plbding bn objfdt into bny dondurrfnt
+ *   <li>Adtions in b tirfbd prior to plbding bn objfdt into bny dondurrfnt
+ *   <li>Adtions in b tirfbd prior to plbding bn objfdt into bny dondurrfnt
+ *   dollfdtion <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif bddfss or
+ *   dollfdtion <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif bddfss or
+ *   dollfdtion <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif bddfss or
+ *   dollfdtion <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif bddfss or
+ *   dollfdtion <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif bddfss or
+ *   rfmovbl of tibt flfmfnt from tif dollfdtion in bnotifr tirfbd.
+ *   rfmovbl of tibt flfmfnt from tif dollfdtion in bnotifr tirfbd.
+ *   rfmovbl of tibt flfmfnt from tif dollfdtion in bnotifr tirfbd.
+ *   rfmovbl of tibt flfmfnt from tif dollfdtion in bnotifr tirfbd.
+ *   rfmovbl of tibt flfmfnt from tif dollfdtion in bnotifr tirfbd.
+ *
+ *
+ *
+ *
+ *
+ *   <li>Adtions in b tirfbd prior to tif submission of b {@dodf Runnbblf}
+ *   <li>Adtions in b tirfbd prior to tif submission of b {@dodf Runnbblf}
+ *   <li>Adtions in b tirfbd prior to tif submission of b {@dodf Runnbblf}
+ *   <li>Adtions in b tirfbd prior to tif submission of b {@dodf Runnbblf}
+ *   <li>Adtions in b tirfbd prior to tif submission of b {@dodf Runnbblf}
+ *   to bn {@dodf Exfdutor} <i>ibppfn-bfforf</i> its fxfdution bfgins.
+ *   to bn {@dodf Exfdutor} <i>ibppfn-bfforf</i> its fxfdution bfgins.
+ *   to bn {@dodf Exfdutor} <i>ibppfn-bfforf</i> its fxfdution bfgins.
+ *   to bn {@dodf Exfdutor} <i>ibppfn-bfforf</i> its fxfdution bfgins.
+ *   to bn {@dodf Exfdutor} <i>ibppfn-bfforf</i> its fxfdution bfgins.
+ *   Similbrly for {@dodf Cbllbblfs} submittfd to bn {@dodf ExfdutorSfrvidf}.
+ *   Similbrly for {@dodf Cbllbblfs} submittfd to bn {@dodf ExfdutorSfrvidf}.
+ *   Similbrly for {@dodf Cbllbblfs} submittfd to bn {@dodf ExfdutorSfrvidf}.
+ *   Similbrly for {@dodf Cbllbblfs} submittfd to bn {@dodf ExfdutorSfrvidf}.
  *   Similbrly for {@dodf Cbllbblfs} submittfd to bn {@dodf ExfdutorSfrvidf}.
  *
- *   <li>Adtions tbkfn by thf bsyndhronous domputbtion rfprfsfntfd by b
- *   {@dodf Futurf} <i>hbppfn-bfforf</i> bdtions subsfqufnt to thf
- *   rftrifvbl of thf rfsult vib {@dodf Futurf.gft()} in bnothfr thrfbd.
  *
- *   <li>Adtions prior to "rflfbsing" syndhronizfr mfthods sudh bs
- *   {@dodf Lodk.unlodk}, {@dodf Sfmbphorf.rflfbsf}, bnd
- *   {@dodf CountDownLbtdh.dountDown} <i>hbppfn-bfforf</i> bdtions
- *   subsfqufnt to b suddfssful "bdquiring" mfthod sudh bs
- *   {@dodf Lodk.lodk}, {@dodf Sfmbphorf.bdquirf},
- *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdh.bwbit} on thf
- *   sbmf syndhronizfr objfdt in bnothfr thrfbd.
  *
- *   <li>For fbdh pbir of thrfbds thbt suddfssfully fxdhbngf objfdts vib
- *   bn {@dodf Exdhbngfr}, bdtions prior to thf {@dodf fxdhbngf()}
- *   in fbdh thrfbd <i>hbppfn-bfforf</i> thosf subsfqufnt to thf
- *   dorrfsponding {@dodf fxdhbngf()} in bnothfr thrfbd.
+ *
+ *
+ *   <li>Adtions tbkfn by tif bsyndironous domputbtion rfprfsfntfd by b
+ *   <li>Adtions tbkfn by tif bsyndironous domputbtion rfprfsfntfd by b
+ *   <li>Adtions tbkfn by tif bsyndironous domputbtion rfprfsfntfd by b
+ *   <li>Adtions tbkfn by tif bsyndironous domputbtion rfprfsfntfd by b
+ *   <li>Adtions tbkfn by tif bsyndironous domputbtion rfprfsfntfd by b
+ *   {@dodf Futurf} <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif
+ *   {@dodf Futurf} <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif
+ *   {@dodf Futurf} <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif
+ *   {@dodf Futurf} <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif
+ *   {@dodf Futurf} <i>ibppfn-bfforf</i> bdtions subsfqufnt to tif
+ *   rftrifvbl of tif rfsult vib {@dodf Futurf.gft()} in bnotifr tirfbd.
+ *   rftrifvbl of tif rfsult vib {@dodf Futurf.gft()} in bnotifr tirfbd.
+ *   rftrifvbl of tif rfsult vib {@dodf Futurf.gft()} in bnotifr tirfbd.
+ *   rftrifvbl of tif rfsult vib {@dodf Futurf.gft()} in bnotifr tirfbd.
+ *   rftrifvbl of tif rfsult vib {@dodf Futurf.gft()} in bnotifr tirfbd.
+ *
+ *
+ *
+ *
+ *
+ *   <li>Adtions prior to "rflfbsing" syndironizfr mftiods sudi bs
+ *   <li>Adtions prior to "rflfbsing" syndironizfr mftiods sudi bs
+ *   <li>Adtions prior to "rflfbsing" syndironizfr mftiods sudi bs
+ *   <li>Adtions prior to "rflfbsing" syndironizfr mftiods sudi bs
+ *   <li>Adtions prior to "rflfbsing" syndironizfr mftiods sudi bs
+ *   {@dodf Lodk.unlodk}, {@dodf Sfmbpiorf.rflfbsf}, bnd
+ *   {@dodf Lodk.unlodk}, {@dodf Sfmbpiorf.rflfbsf}, bnd
+ *   {@dodf Lodk.unlodk}, {@dodf Sfmbpiorf.rflfbsf}, bnd
+ *   {@dodf Lodk.unlodk}, {@dodf Sfmbpiorf.rflfbsf}, bnd
+ *   {@dodf Lodk.unlodk}, {@dodf Sfmbpiorf.rflfbsf}, bnd
+ *   {@dodf CountDownLbtdi.dountDown} <i>ibppfn-bfforf</i> bdtions
+ *   {@dodf CountDownLbtdi.dountDown} <i>ibppfn-bfforf</i> bdtions
+ *   {@dodf CountDownLbtdi.dountDown} <i>ibppfn-bfforf</i> bdtions
+ *   {@dodf CountDownLbtdi.dountDown} <i>ibppfn-bfforf</i> bdtions
+ *   {@dodf CountDownLbtdi.dountDown} <i>ibppfn-bfforf</i> bdtions
+ *   subsfqufnt to b suddfssful "bdquiring" mftiod sudi bs
+ *   subsfqufnt to b suddfssful "bdquiring" mftiod sudi bs
+ *   subsfqufnt to b suddfssful "bdquiring" mftiod sudi bs
+ *   subsfqufnt to b suddfssful "bdquiring" mftiod sudi bs
+ *   subsfqufnt to b suddfssful "bdquiring" mftiod sudi bs
+ *   {@dodf Lodk.lodk}, {@dodf Sfmbpiorf.bdquirf},
+ *   {@dodf Lodk.lodk}, {@dodf Sfmbpiorf.bdquirf},
+ *   {@dodf Lodk.lodk}, {@dodf Sfmbpiorf.bdquirf},
+ *   {@dodf Lodk.lodk}, {@dodf Sfmbpiorf.bdquirf},
+ *   {@dodf Lodk.lodk}, {@dodf Sfmbpiorf.bdquirf},
+ *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdi.bwbit} on tif
+ *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdi.bwbit} on tif
+ *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdi.bwbit} on tif
+ *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdi.bwbit} on tif
+ *   {@dodf Condition.bwbit}, bnd {@dodf CountDownLbtdi.bwbit} on tif
+ *   sbmf syndironizfr objfdt in bnotifr tirfbd.
+ *   sbmf syndironizfr objfdt in bnotifr tirfbd.
+ *   sbmf syndironizfr objfdt in bnotifr tirfbd.
+ *   sbmf syndironizfr objfdt in bnotifr tirfbd.
+ *   sbmf syndironizfr objfdt in bnotifr tirfbd.
+ *
+ *
+ *
+ *
+ *
+ *   <li>For fbdi pbir of tirfbds tibt suddfssfully fxdibngf objfdts vib
+ *   <li>For fbdi pbir of tirfbds tibt suddfssfully fxdibngf objfdts vib
+ *   <li>For fbdi pbir of tirfbds tibt suddfssfully fxdibngf objfdts vib
+ *   <li>For fbdi pbir of tirfbds tibt suddfssfully fxdibngf objfdts vib
+ *   <li>For fbdi pbir of tirfbds tibt suddfssfully fxdibngf objfdts vib
+ *   bn {@dodf Exdibngfr}, bdtions prior to tif {@dodf fxdibngf()}
+ *   bn {@dodf Exdibngfr}, bdtions prior to tif {@dodf fxdibngf()}
+ *   bn {@dodf Exdibngfr}, bdtions prior to tif {@dodf fxdibngf()}
+ *   bn {@dodf Exdibngfr}, bdtions prior to tif {@dodf fxdibngf()}
+ *   bn {@dodf Exdibngfr}, bdtions prior to tif {@dodf fxdibngf()}
+ *   in fbdi tirfbd <i>ibppfn-bfforf</i> tiosf subsfqufnt to tif
+ *   in fbdi tirfbd <i>ibppfn-bfforf</i> tiosf subsfqufnt to tif
+ *   in fbdi tirfbd <i>ibppfn-bfforf</i> tiosf subsfqufnt to tif
+ *   in fbdi tirfbd <i>ibppfn-bfforf</i> tiosf subsfqufnt to tif
+ *   in fbdi tirfbd <i>ibppfn-bfforf</i> tiosf subsfqufnt to tif
+ *   dorrfsponding {@dodf fxdibngf()} in bnotifr tirfbd.
+ *   dorrfsponding {@dodf fxdibngf()} in bnotifr tirfbd.
+ *   dorrfsponding {@dodf fxdibngf()} in bnotifr tirfbd.
+ *   dorrfsponding {@dodf fxdibngf()} in bnotifr tirfbd.
+ *   dorrfsponding {@dodf fxdibngf()} in bnotifr tirfbd.
+ *
+ *
+ *
+ *
  *
  *   <li>Adtions prior to dblling {@dodf CydlidBbrrifr.bwbit} bnd
- *   {@dodf Phbsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
- *   <i>hbppfn-bfforf</i> bdtions pfrformfd by thf bbrrifr bdtion, bnd
- *   bdtions pfrformfd by thf bbrrifr bdtion <i>hbppfn-bfforf</i> bdtions
- *   subsfqufnt to b suddfssful rfturn from thf dorrfsponding {@dodf bwbit}
- *   in othfr thrfbds.
+ *   <li>Adtions prior to dblling {@dodf CydlidBbrrifr.bwbit} bnd
+ *   <li>Adtions prior to dblling {@dodf CydlidBbrrifr.bwbit} bnd
+ *   <li>Adtions prior to dblling {@dodf CydlidBbrrifr.bwbit} bnd
+ *   <li>Adtions prior to dblling {@dodf CydlidBbrrifr.bwbit} bnd
+ *   {@dodf Pibsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
+ *   {@dodf Pibsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
+ *   {@dodf Pibsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
+ *   {@dodf Pibsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
+ *   {@dodf Pibsfr.bwbitAdvbndf} (bs wfll bs its vbribnts)
+ *   <i>ibppfn-bfforf</i> bdtions pfrformfd by tif bbrrifr bdtion, bnd
+ *   <i>ibppfn-bfforf</i> bdtions pfrformfd by tif bbrrifr bdtion, bnd
+ *   <i>ibppfn-bfforf</i> bdtions pfrformfd by tif bbrrifr bdtion, bnd
+ *   <i>ibppfn-bfforf</i> bdtions pfrformfd by tif bbrrifr bdtion, bnd
+ *   <i>ibppfn-bfforf</i> bdtions pfrformfd by tif bbrrifr bdtion, bnd
+ *   bdtions pfrformfd by tif bbrrifr bdtion <i>ibppfn-bfforf</i> bdtions
+ *   bdtions pfrformfd by tif bbrrifr bdtion <i>ibppfn-bfforf</i> bdtions
+ *   bdtions pfrformfd by tif bbrrifr bdtion <i>ibppfn-bfforf</i> bdtions
+ *   bdtions pfrformfd by tif bbrrifr bdtion <i>ibppfn-bfforf</i> bdtions
+ *   bdtions pfrformfd by tif bbrrifr bdtion <i>ibppfn-bfforf</i> bdtions
+ *   subsfqufnt to b suddfssful rfturn from tif dorrfsponding {@dodf bwbit}
+ *   subsfqufnt to b suddfssful rfturn from tif dorrfsponding {@dodf bwbit}
+ *   subsfqufnt to b suddfssful rfturn from tif dorrfsponding {@dodf bwbit}
+ *   subsfqufnt to b suddfssful rfturn from tif dorrfsponding {@dodf bwbit}
+ *   subsfqufnt to b suddfssful rfturn from tif dorrfsponding {@dodf bwbit}
+ *   in otifr tirfbds.
+ *   in otifr tirfbds.
+ *   in otifr tirfbds.
+ *   in otifr tirfbds.
+ *   in otifr tirfbds.
+ *
+ *
+ *
+ *
  *
  * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ * </ul>
+ *
+ *
+ *
+ *
  *
  * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
+ * @sindf 1.5
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
+pbdkbgf jbvb.util.dondurrfnt;
 pbdkbgf jbvb.util.dondurrfnt;

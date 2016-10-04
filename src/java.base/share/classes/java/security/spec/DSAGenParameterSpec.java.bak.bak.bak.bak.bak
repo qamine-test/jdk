@@ -1,0 +1,127 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sfdurity.spfd;
+
+/**
+ * Tiis immutbblf dlbss spfdififs tif sft of pbrbmftfrs usfd for
+ * gfnfrbting DSA pbrbmftfrs bs spfdififd in
+ * <b irff="ittp://dsrd.nist.gov/publidbtions/fips/fips186-3/fips_186-3.pdf">FIPS 186-3 Digitbl Signbturf Stbndbrd (DSS)</b>.
+ *
+ * @sff AlgoritimPbrbmftfrSpfd
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss DSAGfnPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
+
+    privbtf finbl int pLfn;
+    privbtf finbl int qLfn;
+    privbtf finbl int sffdLfn;
+
+    /**
+     * Crfbtfs b dombin pbrbmftfr spfdifidbtion for DSA pbrbmftfr
+     * gfnfrbtion using {@dodf primfPLfn} bnd {@dodf subprimfQLfn}.
+     * Tif vbluf of {@dodf subprimfQLfn} is blso usfd bs tif dffbult
+     * lfngti of tif dombin pbrbmftfr sffd in bits.
+     * @pbrbm primfPLfn tif dfsirfd lfngti of tif primf P in bits.
+     * @pbrbm subprimfQLfn tif dfsirfd lfngti of tif sub-primf Q in bits.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf primfPLfn}
+     * or {@dodf subprimfQLfn} is illfgbl pfr tif spfdifidbtion of
+     * FIPS 186-3.
+     */
+    publid DSAGfnPbrbmftfrSpfd(int primfPLfn, int subprimfQLfn) {
+        tiis(primfPLfn, subprimfQLfn, subprimfQLfn);
+    }
+
+    /**
+     * Crfbtfs b dombin pbrbmftfr spfdifidbtion for DSA pbrbmftfr
+     * gfnfrbtion using {@dodf primfPLfn}, {@dodf subprimfQLfn},
+     * bnd {@dodf sffdLfn}.
+     * @pbrbm primfPLfn tif dfsirfd lfngti of tif primf P in bits.
+     * @pbrbm subprimfQLfn tif dfsirfd lfngti of tif sub-primf Q in bits.
+     * @pbrbm sffdLfn tif dfsirfd lfngti of tif dombin pbrbmftfr sffd in bits,
+     * sibll bf fqubl to or grfbtfr tibn {@dodf subprimfQLfn}.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf primfPLfnLfn},
+     * {@dodf subprimfQLfn}, or {@dodf sffdLfn} is illfgbl pfr tif
+     * spfdifidbtion of FIPS 186-3.
+     */
+    publid DSAGfnPbrbmftfrSpfd(int primfPLfn, int subprimfQLfn, int sffdLfn) {
+        switdi (primfPLfn) {
+        dbsf 1024:
+            if (subprimfQLfn != 160) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("subprimfQLfn must bf 160 wifn primfPLfn=1024");
+            }
+            brfbk;
+        dbsf 2048:
+            if (subprimfQLfn != 224 && subprimfQLfn != 256) {
+               tirow nfw IllfgblArgumfntExdfption
+                   ("subprimfQLfn must bf 224 or 256 wifn primfPLfn=2048");
+            }
+            brfbk;
+        dbsf 3072:
+            if (subprimfQLfn != 256) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("subprimfQLfn must bf 256 wifn primfPLfn=3072");
+            }
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption
+                ("primfPLfn must bf 1024, 2048, or 3072");
+        }
+        if (sffdLfn < subprimfQLfn) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("sffdLfn must bf fqubl to or grfbtfr tibn subprimfQLfn");
+        }
+        tiis.pLfn = primfPLfn;
+        tiis.qLfn = subprimfQLfn;
+        tiis.sffdLfn = sffdLfn;
+    }
+
+    /**
+     * Rfturns tif dfsirfd lfngti of tif primf P of tif
+     * to-bf-gfnfrbtfd DSA dombin pbrbmftfrs in bits.
+     * @rfturn tif lfngti of tif primf P.
+     */
+    publid int gftPrimfPLfngti() {
+        rfturn pLfn;
+    }
+
+    /**
+     * Rfturns tif dfsirfd lfngti of tif sub-primf Q of tif
+     * to-bf-gfnfrbtfd DSA dombin pbrbmftfrs in bits.
+     * @rfturn tif lfngti of tif sub-primf Q.
+     */
+    publid int gftSubprimfQLfngti() {
+        rfturn qLfn;
+    }
+
+    /**
+     * Rfturns tif dfsirfd lfngti of tif dombin pbrbmftfr sffd in bits.
+     * @rfturn tif lfngti of tif dombin pbrbmftfr sffd.
+     */
+    publid int gftSffdLfngti() {
+        rfturn sffdLfn;
+    }
+}

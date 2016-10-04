@@ -1,159 +1,795 @@
 /*
- * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
+pbdkbgf jbvb.bwt;
 pbdkbgf jbvb.bwt;
 
+
+
+
+
 /**
- * Thf <dodf>ChfdkboxGroup</dodf> dlbss is usfd to group togfthfr
- * b sft of <dodf>Chfdkbox</dodf> buttons.
+/**
+/**
+/**
+/**
+ * Tif <dodf>CifdkboxGroup</dodf> dlbss is usfd to group togftifr
+ * Tif <dodf>CifdkboxGroup</dodf> dlbss is usfd to group togftifr
+ * Tif <dodf>CifdkboxGroup</dodf> dlbss is usfd to group togftifr
+ * Tif <dodf>CifdkboxGroup</dodf> dlbss is usfd to group togftifr
+ * Tif <dodf>CifdkboxGroup</dodf> dlbss is usfd to group togftifr
+ * b sft of <dodf>Cifdkbox</dodf> buttons.
+ * b sft of <dodf>Cifdkbox</dodf> buttons.
+ * b sft of <dodf>Cifdkbox</dodf> buttons.
+ * b sft of <dodf>Cifdkbox</dodf> buttons.
+ * b sft of <dodf>Cifdkbox</dodf> buttons.
  * <p>
- * Exbdtly onf dhfdk box button in b <dodf>ChfdkboxGroup</dodf> dbn
- * bf in thf "on" stbtf bt bny givfn timf. Pushing bny
- * button sfts its stbtf to "on" bnd fordfs bny othfr button thbt
- * is in thf "on" stbtf into thf "off" stbtf.
  * <p>
- * Thf following dodf fxbmplf produdfs b nfw dhfdk box group,
- * with thrff dhfdk boxfs:
+ * <p>
+ * <p>
+ * <p>
+ * Exbdtly onf difdk box button in b <dodf>CifdkboxGroup</dodf> dbn
+ * Exbdtly onf difdk box button in b <dodf>CifdkboxGroup</dodf> dbn
+ * Exbdtly onf difdk box button in b <dodf>CifdkboxGroup</dodf> dbn
+ * Exbdtly onf difdk box button in b <dodf>CifdkboxGroup</dodf> dbn
+ * Exbdtly onf difdk box button in b <dodf>CifdkboxGroup</dodf> dbn
+ * bf in tif "on" stbtf bt bny givfn timf. Pusiing bny
+ * bf in tif "on" stbtf bt bny givfn timf. Pusiing bny
+ * bf in tif "on" stbtf bt bny givfn timf. Pusiing bny
+ * bf in tif "on" stbtf bt bny givfn timf. Pusiing bny
+ * bf in tif "on" stbtf bt bny givfn timf. Pusiing bny
+ * button sfts its stbtf to "on" bnd fordfs bny otifr button tibt
+ * button sfts its stbtf to "on" bnd fordfs bny otifr button tibt
+ * button sfts its stbtf to "on" bnd fordfs bny otifr button tibt
+ * button sfts its stbtf to "on" bnd fordfs bny otifr button tibt
+ * button sfts its stbtf to "on" bnd fordfs bny otifr button tibt
+ * is in tif "on" stbtf into tif "off" stbtf.
+ * is in tif "on" stbtf into tif "off" stbtf.
+ * is in tif "on" stbtf into tif "off" stbtf.
+ * is in tif "on" stbtf into tif "off" stbtf.
+ * is in tif "on" stbtf into tif "off" stbtf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Tif following dodf fxbmplf produdfs b nfw difdk box group,
+ * Tif following dodf fxbmplf produdfs b nfw difdk box group,
+ * Tif following dodf fxbmplf produdfs b nfw difdk box group,
+ * Tif following dodf fxbmplf produdfs b nfw difdk box group,
+ * Tif following dodf fxbmplf produdfs b nfw difdk box group,
+ * witi tirff difdk boxfs:
+ * witi tirff difdk boxfs:
+ * witi tirff difdk boxfs:
+ * witi tirff difdk boxfs:
+ * witi tirff difdk boxfs:
  *
- * <hr><blodkquotf><prf>
+ *
+ *
+ *
+ *
+ * <ir><blodkquotf><prf>
+ * <ir><blodkquotf><prf>
+ * <ir><blodkquotf><prf>
+ * <ir><blodkquotf><prf>
+ * <ir><blodkquotf><prf>
  * sftLbyout(nfw GridLbyout(3, 1));
- * ChfdkboxGroup dbg = nfw ChfdkboxGroup();
- * bdd(nfw Chfdkbox("onf", dbg, truf));
- * bdd(nfw Chfdkbox("two", dbg, fblsf));
- * bdd(nfw Chfdkbox("thrff", dbg, fblsf));
- * </prf></blodkquotf><hr>
+ * sftLbyout(nfw GridLbyout(3, 1));
+ * sftLbyout(nfw GridLbyout(3, 1));
+ * sftLbyout(nfw GridLbyout(3, 1));
+ * sftLbyout(nfw GridLbyout(3, 1));
+ * CifdkboxGroup dbg = nfw CifdkboxGroup();
+ * CifdkboxGroup dbg = nfw CifdkboxGroup();
+ * CifdkboxGroup dbg = nfw CifdkboxGroup();
+ * CifdkboxGroup dbg = nfw CifdkboxGroup();
+ * CifdkboxGroup dbg = nfw CifdkboxGroup();
+ * bdd(nfw Cifdkbox("onf", dbg, truf));
+ * bdd(nfw Cifdkbox("onf", dbg, truf));
+ * bdd(nfw Cifdkbox("onf", dbg, truf));
+ * bdd(nfw Cifdkbox("onf", dbg, truf));
+ * bdd(nfw Cifdkbox("onf", dbg, truf));
+ * bdd(nfw Cifdkbox("two", dbg, fblsf));
+ * bdd(nfw Cifdkbox("two", dbg, fblsf));
+ * bdd(nfw Cifdkbox("two", dbg, fblsf));
+ * bdd(nfw Cifdkbox("two", dbg, fblsf));
+ * bdd(nfw Cifdkbox("two", dbg, fblsf));
+ * bdd(nfw Cifdkbox("tirff", dbg, fblsf));
+ * bdd(nfw Cifdkbox("tirff", dbg, fblsf));
+ * bdd(nfw Cifdkbox("tirff", dbg, fblsf));
+ * bdd(nfw Cifdkbox("tirff", dbg, fblsf));
+ * bdd(nfw Cifdkbox("tirff", dbg, fblsf));
+ * </prf></blodkquotf><ir>
+ * </prf></blodkquotf><ir>
+ * </prf></blodkquotf><ir>
+ * </prf></blodkquotf><ir>
+ * </prf></blodkquotf><ir>
  * <p>
- * This imbgf dfpidts thf dhfdk box group drfbtfd by this fxbmplf:
  * <p>
- * <img srd="dod-filfs/ChfdkboxGroup-1.gif"
- * blt="Shows thrff dhfdkboxfs, brrbngfd vfrtidblly, lbbflfd onf, two, bnd thrff. Chfdkbox onf is in thf on stbtf."
+ * <p>
+ * <p>
+ * <p>
+ * Tiis imbgf dfpidts tif difdk box group drfbtfd by tiis fxbmplf:
+ * Tiis imbgf dfpidts tif difdk box group drfbtfd by tiis fxbmplf:
+ * Tiis imbgf dfpidts tif difdk box group drfbtfd by tiis fxbmplf:
+ * Tiis imbgf dfpidts tif difdk box group drfbtfd by tiis fxbmplf:
+ * Tiis imbgf dfpidts tif difdk box group drfbtfd by tiis fxbmplf:
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <img srd="dod-filfs/CifdkboxGroup-1.gif"
+ * <img srd="dod-filfs/CifdkboxGroup-1.gif"
+ * <img srd="dod-filfs/CifdkboxGroup-1.gif"
+ * <img srd="dod-filfs/CifdkboxGroup-1.gif"
+ * <img srd="dod-filfs/CifdkboxGroup-1.gif"
+ * blt="Siows tirff difdkboxfs, brrbngfd vfrtidblly, lbbflfd onf, two, bnd tirff. Cifdkbox onf is in tif on stbtf."
+ * blt="Siows tirff difdkboxfs, brrbngfd vfrtidblly, lbbflfd onf, two, bnd tirff. Cifdkbox onf is in tif on stbtf."
+ * blt="Siows tirff difdkboxfs, brrbngfd vfrtidblly, lbbflfd onf, two, bnd tirff. Cifdkbox onf is in tif on stbtf."
+ * blt="Siows tirff difdkboxfs, brrbngfd vfrtidblly, lbbflfd onf, two, bnd tirff. Cifdkbox onf is in tif on stbtf."
+ * blt="Siows tirff difdkboxfs, brrbngfd vfrtidblly, lbbflfd onf, two, bnd tirff. Cifdkbox onf is in tif on stbtf."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  *
- * @buthor      Sbmi Shbio
- * @sff         jbvb.bwt.Chfdkbox
+ *
+ *
+ *
+ *
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @butior      Sbmi Sibio
+ * @sff         jbvb.bwt.Cifdkbox
+ * @sff         jbvb.bwt.Cifdkbox
+ * @sff         jbvb.bwt.Cifdkbox
+ * @sff         jbvb.bwt.Cifdkbox
+ * @sff         jbvb.bwt.Cifdkbox
+ * @sindf       1.0
+ * @sindf       1.0
+ * @sindf       1.0
+ * @sindf       1.0
  * @sindf       1.0
  */
-publid dlbss ChfdkboxGroup implfmfnts jbvb.io.Sfriblizbblf {
+ */
+ */
+ */
+ */
+publid dlbss CifdkboxGroup implfmfnts jbvb.io.Sfriblizbblf {
+publid dlbss CifdkboxGroup implfmfnts jbvb.io.Sfriblizbblf {
+publid dlbss CifdkboxGroup implfmfnts jbvb.io.Sfriblizbblf {
+publid dlbss CifdkboxGroup implfmfnts jbvb.io.Sfriblizbblf {
+publid dlbss CifdkboxGroup implfmfnts jbvb.io.Sfriblizbblf {
     /**
-     * Thf durrfnt dhoidf.
+    /**
+    /**
+    /**
+    /**
+     * Tif durrfnt dioidf.
+     * Tif durrfnt dioidf.
+     * Tif durrfnt dioidf.
+     * Tif durrfnt dioidf.
+     * Tif durrfnt dioidf.
+     * @sfribl
+     * @sfribl
+     * @sfribl
+     * @sfribl
      * @sfribl
      * @sff #gftCurrfnt()
-     * @sff #sftCurrfnt(Chfdkbox)
+     * @sff #gftCurrfnt()
+     * @sff #gftCurrfnt()
+     * @sff #gftCurrfnt()
+     * @sff #gftCurrfnt()
+     * @sff #sftCurrfnt(Cifdkbox)
+     * @sff #sftCurrfnt(Cifdkbox)
+     * @sff #sftCurrfnt(Cifdkbox)
+     * @sff #sftCurrfnt(Cifdkbox)
+     * @sff #sftCurrfnt(Cifdkbox)
      */
-    Chfdkbox sflfdtfdChfdkbox = null;
+     */
+     */
+     */
+     */
+    Cifdkbox sflfdtfdCifdkbox = null;
+    Cifdkbox sflfdtfdCifdkbox = null;
+    Cifdkbox sflfdtfdCifdkbox = null;
+    Cifdkbox sflfdtfdCifdkbox = null;
+    Cifdkbox sflfdtfdCifdkbox = null;
+
+
+
+
 
     /*
+    /*
+    /*
+    /*
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
+     * JDK 1.1 sfriblVfrsionUID
      * JDK 1.1 sfriblVfrsionUID
      */
+     */
+     */
+     */
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3729780091441768983L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3729780091441768983L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3729780091441768983L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3729780091441768983L;
     privbtf stbtid finbl long sfriblVfrsionUID = 3729780091441768983L;
 
-    /**
-     * Crfbtfs b nfw instbndf of <dodf>ChfdkboxGroup</dodf>.
-     */
-    publid ChfdkboxGroup() {
-    }
+
+
+
 
     /**
-     * Gfts thf durrfnt dhoidf from this dhfdk box group.
-     * Thf durrfnt dhoidf is thf dhfdk box in this
-     * group thbt is durrfntly in thf "on" stbtf,
-     * or <dodf>null</dodf> if bll dhfdk boxfs in thf
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nfw instbndf of <dodf>CifdkboxGroup</dodf>.
+     * Crfbtfs b nfw instbndf of <dodf>CifdkboxGroup</dodf>.
+     * Crfbtfs b nfw instbndf of <dodf>CifdkboxGroup</dodf>.
+     * Crfbtfs b nfw instbndf of <dodf>CifdkboxGroup</dodf>.
+     * Crfbtfs b nfw instbndf of <dodf>CifdkboxGroup</dodf>.
+     */
+     */
+     */
+     */
+     */
+    publid CifdkboxGroup() {
+    publid CifdkboxGroup() {
+    publid CifdkboxGroup() {
+    publid CifdkboxGroup() {
+    publid CifdkboxGroup() {
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Gfts tif durrfnt dioidf from tiis difdk box group.
+     * Gfts tif durrfnt dioidf from tiis difdk box group.
+     * Gfts tif durrfnt dioidf from tiis difdk box group.
+     * Gfts tif durrfnt dioidf from tiis difdk box group.
+     * Gfts tif durrfnt dioidf from tiis difdk box group.
+     * Tif durrfnt dioidf is tif difdk box in tiis
+     * Tif durrfnt dioidf is tif difdk box in tiis
+     * Tif durrfnt dioidf is tif difdk box in tiis
+     * Tif durrfnt dioidf is tif difdk box in tiis
+     * Tif durrfnt dioidf is tif difdk box in tiis
+     * group tibt is durrfntly in tif "on" stbtf,
+     * group tibt is durrfntly in tif "on" stbtf,
+     * group tibt is durrfntly in tif "on" stbtf,
+     * group tibt is durrfntly in tif "on" stbtf,
+     * group tibt is durrfntly in tif "on" stbtf,
+     * or <dodf>null</dodf> if bll difdk boxfs in tif
+     * or <dodf>null</dodf> if bll difdk boxfs in tif
+     * or <dodf>null</dodf> if bll difdk boxfs in tif
+     * or <dodf>null</dodf> if bll difdk boxfs in tif
+     * or <dodf>null</dodf> if bll difdk boxfs in tif
      * group brf off.
-     * @rfturn   thf dhfdk box thbt is durrfntly in thf
+     * group brf off.
+     * group brf off.
+     * group brf off.
+     * group brf off.
+     * @rfturn   tif difdk box tibt is durrfntly in tif
+     * @rfturn   tif difdk box tibt is durrfntly in tif
+     * @rfturn   tif difdk box tibt is durrfntly in tif
+     * @rfturn   tif difdk box tibt is durrfntly in tif
+     * @rfturn   tif difdk box tibt is durrfntly in tif
      *                 "on" stbtf, or <dodf>null</dodf>.
-     * @sff      jbvb.bwt.Chfdkbox
-     * @sff      jbvb.bwt.ChfdkboxGroup#sftSflfdtfdChfdkbox
+     *                 "on" stbtf, or <dodf>null</dodf>.
+     *                 "on" stbtf, or <dodf>null</dodf>.
+     *                 "on" stbtf, or <dodf>null</dodf>.
+     *                 "on" stbtf, or <dodf>null</dodf>.
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#sftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#sftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#sftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#sftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#sftSflfdtfdCifdkbox
+     * @sindf    1.1
+     * @sindf    1.1
+     * @sindf    1.1
+     * @sindf    1.1
      * @sindf    1.1
      */
-    publid Chfdkbox gftSflfdtfdChfdkbox() {
+     */
+     */
+     */
+     */
+    publid Cifdkbox gftSflfdtfdCifdkbox() {
+    publid Cifdkbox gftSflfdtfdCifdkbox() {
+    publid Cifdkbox gftSflfdtfdCifdkbox() {
+    publid Cifdkbox gftSflfdtfdCifdkbox() {
+    publid Cifdkbox gftSflfdtfdCifdkbox() {
+        rfturn gftCurrfnt();
+        rfturn gftCurrfnt();
+        rfturn gftCurrfnt();
+        rfturn gftCurrfnt();
         rfturn gftCurrfnt();
     }
-
-    /**
-     * Rfturns thf durrfnt dhoidf from this dhfdk box group
-     * or {@dodf null} if nonf of dhfdkboxfs brf sflfdtfd.
-     *
-     * @rfturn thf sflfdtfd dhfdkbox
-     * @dfprfdbtfd As of JDK vfrsion 1.1,
-     * rfplbdfd by <dodf>gftSflfdtfdChfdkbox()</dodf>.
-     */
-    @Dfprfdbtfd
-    publid Chfdkbox gftCurrfnt() {
-        rfturn sflfdtfdChfdkbox;
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Sfts thf durrfntly sflfdtfd dhfdk box in this group
-     * to bf thf spfdififd dhfdk box.
-     * This mfthod sfts thf stbtf of thbt dhfdk box to "on" bnd
-     * sfts bll othfr dhfdk boxfs in thf group to bf off.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif durrfnt dioidf from tiis difdk box group
+     * Rfturns tif durrfnt dioidf from tiis difdk box group
+     * Rfturns tif durrfnt dioidf from tiis difdk box group
+     * Rfturns tif durrfnt dioidf from tiis difdk box group
+     * Rfturns tif durrfnt dioidf from tiis difdk box group
+     * or {@dodf null} if nonf of difdkboxfs brf sflfdtfd.
+     * or {@dodf null} if nonf of difdkboxfs brf sflfdtfd.
+     * or {@dodf null} if nonf of difdkboxfs brf sflfdtfd.
+     * or {@dodf null} if nonf of difdkboxfs brf sflfdtfd.
+     * or {@dodf null} if nonf of difdkboxfs brf sflfdtfd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif sflfdtfd difdkbox
+     * @rfturn tif sflfdtfd difdkbox
+     * @rfturn tif sflfdtfd difdkbox
+     * @rfturn tif sflfdtfd difdkbox
+     * @rfturn tif sflfdtfd difdkbox
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftSflfdtfdCifdkbox()</dodf>.
+     * rfplbdfd by <dodf>gftSflfdtfdCifdkbox()</dodf>.
+     * rfplbdfd by <dodf>gftSflfdtfdCifdkbox()</dodf>.
+     * rfplbdfd by <dodf>gftSflfdtfdCifdkbox()</dodf>.
+     * rfplbdfd by <dodf>gftSflfdtfdCifdkbox()</dodf>.
+     */
+     */
+     */
+     */
+     */
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    publid Cifdkbox gftCurrfnt() {
+    publid Cifdkbox gftCurrfnt() {
+    publid Cifdkbox gftCurrfnt() {
+    publid Cifdkbox gftCurrfnt() {
+    publid Cifdkbox gftCurrfnt() {
+        rfturn sflfdtfdCifdkbox;
+        rfturn sflfdtfdCifdkbox;
+        rfturn sflfdtfdCifdkbox;
+        rfturn sflfdtfdCifdkbox;
+        rfturn sflfdtfdCifdkbox;
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * to bf tif spfdififd difdk box.
+     * to bf tif spfdififd difdk box.
+     * to bf tif spfdififd difdk box.
+     * to bf tif spfdififd difdk box.
+     * to bf tif spfdififd difdk box.
+     * Tiis mftiod sfts tif stbtf of tibt difdk box to "on" bnd
+     * Tiis mftiod sfts tif stbtf of tibt difdk box to "on" bnd
+     * Tiis mftiod sfts tif stbtf of tibt difdk box to "on" bnd
+     * Tiis mftiod sfts tif stbtf of tibt difdk box to "on" bnd
+     * Tiis mftiod sfts tif stbtf of tibt difdk box to "on" bnd
+     * sfts bll otifr difdk boxfs in tif group to bf off.
+     * sfts bll otifr difdk boxfs in tif group to bf off.
+     * sfts bll otifr difdk boxfs in tif group to bf off.
+     * sfts bll otifr difdk boxfs in tif group to bf off.
+     * sfts bll otifr difdk boxfs in tif group to bf off.
      * <p>
-     * If thf dhfdk box brgumfnt is <tt>null</tt>, bll dhfdk boxfs
-     * in this dhfdk box group brf dfsflfdtfd. If thf dhfdk box brgumfnt
-     * bflongs to b difffrfnt dhfdk box group, this mfthod dofs
-     * nothing.
-     * @pbrbm     box   thf <dodf>Chfdkbox</dodf> to sft bs thf
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * If tif difdk box brgumfnt is <tt>null</tt>, bll difdk boxfs
+     * If tif difdk box brgumfnt is <tt>null</tt>, bll difdk boxfs
+     * If tif difdk box brgumfnt is <tt>null</tt>, bll difdk boxfs
+     * If tif difdk box brgumfnt is <tt>null</tt>, bll difdk boxfs
+     * If tif difdk box brgumfnt is <tt>null</tt>, bll difdk boxfs
+     * in tiis difdk box group brf dfsflfdtfd. If tif difdk box brgumfnt
+     * in tiis difdk box group brf dfsflfdtfd. If tif difdk box brgumfnt
+     * in tiis difdk box group brf dfsflfdtfd. If tif difdk box brgumfnt
+     * in tiis difdk box group brf dfsflfdtfd. If tif difdk box brgumfnt
+     * in tiis difdk box group brf dfsflfdtfd. If tif difdk box brgumfnt
+     * bflongs to b difffrfnt difdk box group, tiis mftiod dofs
+     * bflongs to b difffrfnt difdk box group, tiis mftiod dofs
+     * bflongs to b difffrfnt difdk box group, tiis mftiod dofs
+     * bflongs to b difffrfnt difdk box group, tiis mftiod dofs
+     * bflongs to b difffrfnt difdk box group, tiis mftiod dofs
+     * notiing.
+     * notiing.
+     * notiing.
+     * notiing.
+     * notiing.
+     * @pbrbm     box   tif <dodf>Cifdkbox</dodf> to sft bs tif
+     * @pbrbm     box   tif <dodf>Cifdkbox</dodf> to sft bs tif
+     * @pbrbm     box   tif <dodf>Cifdkbox</dodf> to sft bs tif
+     * @pbrbm     box   tif <dodf>Cifdkbox</dodf> to sft bs tif
+     * @pbrbm     box   tif <dodf>Cifdkbox</dodf> to sft bs tif
      *                      durrfnt sflfdtion.
-     * @sff      jbvb.bwt.Chfdkbox
-     * @sff      jbvb.bwt.ChfdkboxGroup#gftSflfdtfdChfdkbox
+     *                      durrfnt sflfdtion.
+     *                      durrfnt sflfdtion.
+     *                      durrfnt sflfdtion.
+     *                      durrfnt sflfdtion.
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.Cifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#gftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#gftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#gftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#gftSflfdtfdCifdkbox
+     * @sff      jbvb.bwt.CifdkboxGroup#gftSflfdtfdCifdkbox
+     * @sindf    1.1
+     * @sindf    1.1
+     * @sindf    1.1
+     * @sindf    1.1
      * @sindf    1.1
      */
-    publid void sftSflfdtfdChfdkbox(Chfdkbox box) {
+     */
+     */
+     */
+     */
+    publid void sftSflfdtfdCifdkbox(Cifdkbox box) {
+    publid void sftSflfdtfdCifdkbox(Cifdkbox box) {
+    publid void sftSflfdtfdCifdkbox(Cifdkbox box) {
+    publid void sftSflfdtfdCifdkbox(Cifdkbox box) {
+    publid void sftSflfdtfdCifdkbox(Cifdkbox box) {
+        sftCurrfnt(box);
+        sftCurrfnt(box);
+        sftCurrfnt(box);
+        sftCurrfnt(box);
         sftCurrfnt(box);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Sfts thf durrfntly sflfdtfd dhfdk box in this group
-     * to bf thf spfdififd dhfdk box bnd unsfts bll othfrs.
+    /**
+    /**
+    /**
+    /**
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * Sfts tif durrfntly sflfdtfd difdk box in tiis group
+     * to bf tif spfdififd difdk box bnd unsfts bll otifrs.
+     * to bf tif spfdififd difdk box bnd unsfts bll otifrs.
+     * to bf tif spfdififd difdk box bnd unsfts bll otifrs.
+     * to bf tif spfdififd difdk box bnd unsfts bll otifrs.
+     * to bf tif spfdififd difdk box bnd unsfts bll otifrs.
      *
-     * @pbrbm  box thf {@dodf Chfdkbox} to sft bs thf
+     *
+     *
+     *
+     *
+     * @pbrbm  box tif {@dodf Cifdkbox} to sft bs tif
+     * @pbrbm  box tif {@dodf Cifdkbox} to sft bs tif
+     * @pbrbm  box tif {@dodf Cifdkbox} to sft bs tif
+     * @pbrbm  box tif {@dodf Cifdkbox} to sft bs tif
+     * @pbrbm  box tif {@dodf Cifdkbox} to sft bs tif
+     *         durrfnt sflfdtion.
+     *         durrfnt sflfdtion.
+     *         durrfnt sflfdtion.
+     *         durrfnt sflfdtion.
      *         durrfnt sflfdtion.
      * @dfprfdbtfd As of JDK vfrsion 1.1,
-     * rfplbdfd by <dodf>sftSflfdtfdChfdkbox(Chfdkbox)</dodf>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftSflfdtfdCifdkbox(Cifdkbox)</dodf>.
+     * rfplbdfd by <dodf>sftSflfdtfdCifdkbox(Cifdkbox)</dodf>.
+     * rfplbdfd by <dodf>sftSflfdtfdCifdkbox(Cifdkbox)</dodf>.
+     * rfplbdfd by <dodf>sftSflfdtfdCifdkbox(Cifdkbox)</dodf>.
+     * rfplbdfd by <dodf>sftSflfdtfdCifdkbox(Cifdkbox)</dodf>.
+     */
+     */
+     */
+     */
      */
     @Dfprfdbtfd
-    publid syndhronizfd void sftCurrfnt(Chfdkbox box) {
-        if (box != null && box.group != this) {
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    @Dfprfdbtfd
+    publid syndironizfd void sftCurrfnt(Cifdkbox box) {
+    publid syndironizfd void sftCurrfnt(Cifdkbox box) {
+    publid syndironizfd void sftCurrfnt(Cifdkbox box) {
+    publid syndironizfd void sftCurrfnt(Cifdkbox box) {
+    publid syndironizfd void sftCurrfnt(Cifdkbox box) {
+        if (box != null && box.group != tiis) {
+        if (box != null && box.group != tiis) {
+        if (box != null && box.group != tiis) {
+        if (box != null && box.group != tiis) {
+        if (box != null && box.group != tiis) {
+            rfturn;
+            rfturn;
+            rfturn;
+            rfturn;
             rfturn;
         }
-        Chfdkbox oldChoidf = this.sflfdtfdChfdkbox;
-        this.sflfdtfdChfdkbox = box;
-        if (oldChoidf != null && oldChoidf != box && oldChoidf.group == this) {
-            oldChoidf.sftStbtf(fblsf);
         }
-        if (box != null && oldChoidf != box && !box.gftStbtf()) {
+        }
+        }
+        }
+        Cifdkbox oldCioidf = tiis.sflfdtfdCifdkbox;
+        Cifdkbox oldCioidf = tiis.sflfdtfdCifdkbox;
+        Cifdkbox oldCioidf = tiis.sflfdtfdCifdkbox;
+        Cifdkbox oldCioidf = tiis.sflfdtfdCifdkbox;
+        Cifdkbox oldCioidf = tiis.sflfdtfdCifdkbox;
+        tiis.sflfdtfdCifdkbox = box;
+        tiis.sflfdtfdCifdkbox = box;
+        tiis.sflfdtfdCifdkbox = box;
+        tiis.sflfdtfdCifdkbox = box;
+        tiis.sflfdtfdCifdkbox = box;
+        if (oldCioidf != null && oldCioidf != box && oldCioidf.group == tiis) {
+        if (oldCioidf != null && oldCioidf != box && oldCioidf.group == tiis) {
+        if (oldCioidf != null && oldCioidf != box && oldCioidf.group == tiis) {
+        if (oldCioidf != null && oldCioidf != box && oldCioidf.group == tiis) {
+        if (oldCioidf != null && oldCioidf != box && oldCioidf.group == tiis) {
+            oldCioidf.sftStbtf(fblsf);
+            oldCioidf.sftStbtf(fblsf);
+            oldCioidf.sftStbtf(fblsf);
+            oldCioidf.sftStbtf(fblsf);
+            oldCioidf.sftStbtf(fblsf);
+        }
+        }
+        }
+        }
+        }
+        if (box != null && oldCioidf != box && !box.gftStbtf()) {
+        if (box != null && oldCioidf != box && !box.gftStbtf()) {
+        if (box != null && oldCioidf != box && !box.gftStbtf()) {
+        if (box != null && oldCioidf != box && !box.gftStbtf()) {
+        if (box != null && oldCioidf != box && !box.gftStbtf()) {
+            box.sftStbtfIntfrnbl(truf);
+            box.sftStbtfIntfrnbl(truf);
+            box.sftStbtfIntfrnbl(truf);
+            box.sftStbtfIntfrnbl(truf);
             box.sftStbtfIntfrnbl(truf);
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b string rfprfsfntbtion of this dhfdk box group,
-     * indluding thf vbluf of its durrfnt sflfdtion.
-     * @rfturn    b string rfprfsfntbtion of this dhfdk box group.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis difdk box group,
+     * Rfturns b string rfprfsfntbtion of tiis difdk box group,
+     * Rfturns b string rfprfsfntbtion of tiis difdk box group,
+     * Rfturns b string rfprfsfntbtion of tiis difdk box group,
+     * Rfturns b string rfprfsfntbtion of tiis difdk box group,
+     * indluding tif vbluf of its durrfnt sflfdtion.
+     * indluding tif vbluf of its durrfnt sflfdtion.
+     * indluding tif vbluf of its durrfnt sflfdtion.
+     * indluding tif vbluf of its durrfnt sflfdtion.
+     * indluding tif vbluf of its durrfnt sflfdtion.
+     * @rfturn    b string rfprfsfntbtion of tiis difdk box group.
+     * @rfturn    b string rfprfsfntbtion of tiis difdk box group.
+     * @rfturn    b string rfprfsfntbtion of tiis difdk box group.
+     * @rfturn    b string rfprfsfntbtion of tiis difdk box group.
+     * @rfturn    b string rfprfsfntbtion of tiis difdk box group.
+     */
+     */
+     */
+     */
      */
     publid String toString() {
-        rfturn gftClbss().gftNbmf() + "[sflfdtfdChfdkbox=" + sflfdtfdChfdkbox + "]";
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[sflfdtfdCifdkbox=" + sflfdtfdCifdkbox + "]";
+        rfturn gftClbss().gftNbmf() + "[sflfdtfdCifdkbox=" + sflfdtfdCifdkbox + "]";
+        rfturn gftClbss().gftNbmf() + "[sflfdtfdCifdkbox=" + sflfdtfdCifdkbox + "]";
+        rfturn gftClbss().gftNbmf() + "[sflfdtfdCifdkbox=" + sflfdtfdCifdkbox + "]";
+        rfturn gftClbss().gftNbmf() + "[sflfdtfdCifdkbox=" + sflfdtfdCifdkbox + "]";
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

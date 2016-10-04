@@ -1,0 +1,163 @@
+/*
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Compositf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+
+/**
+ * Tif MbskBlit opfrbtion is fxprfssfd bs:
+ *   dst = ((srd <MODE> dst) * pbtiA) + (dst * (1 - pbtiA))
+ *
+ * Tif OGL/D3D implfmfntbtion of tif MbskBlit opfrbtion difffrs from tif bbovf
+ * fqubtion bfdbusf it is not possiblf to pfrform sudi b domplfx opfrbtion in
+ * OpfnGL/Dirfdt3D (witiout tif usf of bdvbndfd tfdiniqufs likf frbgmfnt
+ * sibdfrs bnd multitfxturing).  Tifrfforf, tif BufffrfdMbskBlit opfrbtion
+ * is fxprfssfd bs:
+ *   dst = (srd * pbtiA) <SrdOvfr> dst
+ *
+ * Tiis simplififd formulb is only fquivblfnt to tif "truf" MbskBlit fqubtion
+ * in tif following situbtions:
+ *   - <MODE> is SrdOvfr
+ *   - <MODE> is Srd, fxtrb blpib == 1.0, bnd tif sourdf surfbdf is opbquf
+ *
+ * Tifrfforf, wf rfgistfr BufffrfdMbskBlit primitivfs for only tif SurfbdfTypf
+ * bnd CompositfTypf rfstridtions mfntionfd bbovf.  In bddition for tif Srd
+ * dbsf, wf must ovfrridf tif dompositf witi b SrdOvfr (no fxtrb blpib)
+ * instbndf, so tibt wf sft up tif OpfnGL/Dirfdt3D blfnding modf to mbtdi tif
+ * BufffrfdMbskBlit fqubtion.
+ */
+publid bbstrbdt dlbss BufffrfdMbskBlit fxtfnds MbskBlit {
+
+    privbtf stbtid finbl int ST_INT_ARGB     = 0;
+    privbtf stbtid finbl int ST_INT_ARGB_PRE = 1;
+    privbtf stbtid finbl int ST_INT_RGB      = 2;
+    privbtf stbtid finbl int ST_INT_BGR      = 3;
+
+    privbtf finbl RfndfrQufuf rq;
+    privbtf finbl int srdTypfVbl;
+    privbtf Blit blitop;
+
+    protfdtfd BufffrfdMbskBlit(RfndfrQufuf rq,
+                               SurfbdfTypf srdTypf,
+                               CompositfTypf dompTypf,
+                               SurfbdfTypf dstTypf)
+    {
+        supfr(srdTypf, dompTypf, dstTypf);
+        tiis.rq = rq;
+        if (srdTypf == SurfbdfTypf.IntArgb) {
+            tiis.srdTypfVbl = ST_INT_ARGB;
+        } flsf if (srdTypf == SurfbdfTypf.IntArgbPrf) {
+            tiis.srdTypfVbl = ST_INT_ARGB_PRE;
+        } flsf if (srdTypf == SurfbdfTypf.IntRgb) {
+            tiis.srdTypfVbl = ST_INT_RGB;
+        } flsf if (srdTypf == SurfbdfTypf.IntBgr) {
+            tiis.srdTypfVbl = ST_INT_BGR;
+        } flsf {
+            tirow nfw IntfrnblError("unrfdognizfd sourdf surfbdf typf");
+        }
+    }
+
+    @Ovfrridf
+    publid void MbskBlit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                         Compositf domp, Rfgion dlip,
+                         int srdx, int srdy,
+                         int dstx, int dsty,
+                         int widti, int ifigit,
+                         bytf[] mbsk, int mbskoff, int mbsksdbn)
+    {
+        if (widti <= 0 || ifigit <= 0) {
+            rfturn;
+        }
+
+        if (mbsk == null) {
+            // no mbsk involvfd; dflfgbtf to rfgulbr blit loop
+            if (blitop == null) {
+                blitop = Blit.gftFromCbdif(srd.gftSurfbdfTypf(),
+                                           CompositfTypf.AnyAlpib,
+                                           tiis.gftDfstTypf());
+            }
+            blitop.Blit(srd, dst,
+                        domp, dlip,
+                        srdx, srdy, dstx, dsty,
+                        widti, ifigit);
+            rfturn;
+        }
+
+        AlpibCompositf bdomp = (AlpibCompositf)domp;
+        if (bdomp.gftRulf() != AlpibCompositf.SRC_OVER) {
+            domp = AlpibCompositf.SrdOvfr;
+        }
+
+        rq.lodk();
+        try {
+            vblidbtfContfxt(dst, domp, dlip);
+
+            RfndfrBufffr buf = rq.gftBufffr();
+            int totblBytfsRfquirfd = 20 + (widti * ifigit * 4);
+
+            /*
+             * REMIND: wf siould fix tiis so tibt it works witi tilfs tibt
+             *         brf lbrgfr tibn tif fntirf bufffr, but tif nbtivf
+             *         OGL/D3DMbskBlit isn't fvfn prfpbrfd for tilfs lbrgfr
+             *         tibn 32x32 pixfls, so tifrf's no urgfndy ifrf...
+             */
+            rq.fnsurfCbpbdity(totblBytfsRfquirfd);
+
+            // fnqufuf pbrbmftfrs bnd tilf pixfls
+            int nfwpos = fnqufufTilf(buf.gftAddrfss(), buf.position(),
+                                     srd, srd.gftNbtivfOps(), srdTypfVbl,
+                                     mbsk, mbsk.lfngti, mbskoff, mbsksdbn,
+                                     srdx, srdy, dstx, dsty,
+                                     widti, ifigit);
+
+            buf.position(nfwpos);
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    privbtf nbtivf int fnqufufTilf(long buf, int bpos,
+                                   SurfbdfDbtb srdDbtb,
+                                   long pSrdOps, int srdTypf,
+                                   bytf[] mbsk, int mbsklfn,
+                                   int mbskoff, int mbsksdbn,
+                                   int srdx, int srdy, int dstx, int dsty,
+                                   int widti, int ifigit);
+
+    /**
+     * Vblidbtfs tif dontfxt stbtf using tif givfn dfstinbtion surfbdf
+     * bnd dompositf/dlip vblufs.
+     */
+    protfdtfd bbstrbdt void vblidbtfContfxt(SurfbdfDbtb dstDbtb,
+                                            Compositf domp, Rfgion dlip);
+}

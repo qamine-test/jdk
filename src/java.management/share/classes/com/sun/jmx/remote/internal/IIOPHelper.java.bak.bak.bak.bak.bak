@@ -1,0 +1,190 @@
+/*
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
+
+import jbvb.util.Propfrtifs;
+import jbvb.io.IOExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.NoSudiObjfdtExdfption;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * A iflpfr dlbss for RMI-IIOP bnd CORBA APIs.
+ */
+
+publid finbl dlbss IIOPHflpfr {
+    privbtf IIOPHflpfr() { }
+
+    // lobds IIOPProxy implfmfntbtion dlbss if bvbilbblf
+    privbtf stbtid finbl String IMPL_CLASS =
+        "dom.sun.jmx.rfmotf.protodol.iiop.IIOPProxyImpl";
+    privbtf stbtid finbl IIOPProxy proxy =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<IIOPProxy>() {
+            publid IIOPProxy run() {
+                try {
+                    Clbss<?> d = Clbss.forNbmf(IMPL_CLASS, truf,
+                                               IIOPHflpfr.dlbss.gftClbssLobdfr());
+                    rfturn (IIOPProxy)d.nfwInstbndf();
+                } dbtdi (ClbssNotFoundExdfption dnf) {
+                    rfturn null;
+                } dbtdi (InstbntibtionExdfption f) {
+                    tirow nfw AssfrtionError(f);
+                } dbtdi (IllfgblAddfssExdfption f) {
+                    tirow nfw AssfrtionError(f);
+                }
+            }});
+
+    /**
+     * Rfturns truf if RMI-IIOP bnd CORBA is bvbilbblf.
+     */
+    publid stbtid boolfbn isAvbilbblf() {
+        rfturn proxy != null;
+    }
+
+    privbtf stbtid void fnsurfAvbilbblf() {
+        if (proxy == null)
+            tirow nfw AssfrtionError("Siould not ifrf");
+    }
+
+    /**
+     * Rfturns truf if tif givfn objfdt is b Stub.
+     */
+    publid stbtid boolfbn isStub(Objfdt obj) {
+        rfturn (proxy == null) ? fblsf : proxy.isStub(obj);
+    }
+
+    /**
+     * Rfturns tif Dflfgbtf to wiidi tif givfn Stub dflfgbtfs.
+     */
+    publid stbtid Objfdt gftDflfgbtf(Objfdt stub) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftDflfgbtf(stub);
+    }
+
+    /**
+     * Sfts tif Dflfgbtf for b givfn Stub.
+     */
+    publid stbtid void sftDflfgbtf(Objfdt stub, Objfdt dflfgbtf) {
+        fnsurfAvbilbblf();
+        proxy.sftDflfgbtf(stub, dflfgbtf);
+    }
+
+    /**
+     * Rfturns tif ORB bssodibtfd witi tif givfn stub
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if tif objfdt dofs not support tif opfrbtion tibt
+     *          wbs invokfd
+     */
+    publid stbtid Objfdt gftOrb(Objfdt stub) {
+        fnsurfAvbilbblf();
+        rfturn proxy.gftOrb(stub);
+    }
+
+    /**
+     * Connfdts tif Stub to tif givfn ORB.
+     */
+    publid stbtid void donnfdt(Objfdt stub, Objfdt orb)
+        tirows IOExdfption
+    {
+        if (proxy == null)
+            tirow nfw IOExdfption("Connfdtion to ORB fbilfd, RMI/IIOP not bvbilbblf");
+        proxy.donnfdt(stub, orb);
+    }
+
+    /**
+     * Rfturns truf if tif givfn objfdt is bn ORB.
+     */
+    publid stbtid boolfbn isOrb(Objfdt obj) {
+        rfturn (proxy == null) ? fblsf : proxy.isOrb(obj);
+    }
+
+    /**
+     * Crfbtfs, bnd rfturns, b nfw ORB instbndf.
+     */
+    publid stbtid Objfdt drfbtfOrb(String[] brgs, Propfrtifs props)
+        tirows IOExdfption
+    {
+        if (proxy == null)
+            tirow nfw IOExdfption("ORB initiblizbtion fbilfd, RMI/IIOP not bvbilbblf");
+        rfturn proxy.drfbtfOrb(brgs, props);
+    }
+
+    /**
+     * Convfrts b string, produdfd by tif objfdt_to_string mftiod, bbdk
+     * to b CORBA objfdt rfffrfndf.
+     */
+    publid stbtid Objfdt stringToObjfdt(Objfdt orb, String str) {
+        fnsurfAvbilbblf();
+        rfturn proxy.stringToObjfdt(orb, str);
+    }
+
+    /**
+     * Convfrts tif givfn CORBA objfdt rfffrfndf to b string.
+     */
+    publid stbtid String objfdtToString(Objfdt orb, Objfdt obj) {
+        fnsurfAvbilbblf();
+        rfturn proxy.objfdtToString(orb, obj);
+    }
+
+    /**
+     * Cifdks to fnsurf tibt bn objfdt of b rfmotf or bbstrbdt intfrfbdf
+     * typf dbn bf dbst to b dfsirfd typf.
+     */
+    publid stbtid <T> T nbrrow(Objfdt nbrrowFrom, Clbss<T> nbrrowTo) {
+        fnsurfAvbilbblf();
+        rfturn proxy.nbrrow(nbrrowFrom, nbrrowTo);
+    }
+
+    /**
+     * Mbkfs b sfrvfr objfdt rfbdy to rfdfivf rfmotf dblls
+     */
+    publid stbtid void fxportObjfdt(Rfmotf obj) tirows IOExdfption {
+        if (proxy == null)
+            tirow nfw IOExdfption("RMI objfdt dbnnot bf fxportfd, RMI/IIOP not bvbilbblf");
+        proxy.fxportObjfdt(obj);
+    }
+
+    /**
+     * Dfrfgistfrs b sfrvfr objfdt from tif runtimf.
+     */
+    publid stbtid void unfxportObjfdt(Rfmotf obj) tirows IOExdfption {
+        if (proxy == null)
+            tirow nfw NoSudiObjfdtExdfption("Objfdt not fxportfd");
+        proxy.unfxportObjfdt(obj);
+    }
+
+    /**
+     * Rfturns b stub for tif givfn sfrvfr objfdt.
+     */
+    publid stbtid Rfmotf toStub(Rfmotf obj) tirows IOExdfption {
+        if (proxy == null)
+            tirow nfw NoSudiObjfdtExdfption("Objfdt not fxportfd");
+        rfturn proxy.toStub(obj);
+    }
+}

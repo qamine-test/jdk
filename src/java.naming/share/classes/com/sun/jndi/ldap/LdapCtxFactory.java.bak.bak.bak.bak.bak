@@ -1,0 +1,264 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.ObjfdtFbdtory;
+import jbvbx.nbming.spi.InitiblContfxtFbdtory;
+import jbvbx.nbming.ldbp.Control;
+
+import dom.sun.jndi.url.ldbp.ldbpURLContfxtFbdtory;
+
+finbl publid dlbss LdbpCtxFbdtory implfmfnts ObjfdtFbdtory, InitiblContfxtFbdtory {
+    /**
+     * Tif typf of fbdi bddrfss in bn LDAP rfffrfndf.
+     */
+    publid finbl stbtid String ADDRESS_TYPE = "URL";
+
+    // ----------------- ObjfdtFbdtory intfrfbdf --------------------
+
+    publid Objfdt gftObjfdtInstbndf(Objfdt rff, Nbmf nbmf, Contfxt nbmfCtx,
+        Hbsitbblf<?,?> fnv) tirows Exdfption {
+
+        if (!isLdbpRff(rff)) {
+            rfturn null;
+        }
+        ObjfdtFbdtory fbdtory = nfw ldbpURLContfxtFbdtory();
+        String[] urls = gftURLs((Rfffrfndf)rff);
+        rfturn fbdtory.gftObjfdtInstbndf(urls, nbmf, nbmfCtx, fnv);
+    }
+
+    // ----------------- InitiblContfxt intfrfbdf  --------------------
+
+    publid Contfxt gftInitiblContfxt(Hbsitbblf<?,?> fnvprops)
+        tirows NbmingExdfption {
+
+        try {
+            String providfrUrl = (fnvprops != null) ?
+                (String)fnvprops.gft(Contfxt.PROVIDER_URL) : null;
+
+            // If URL not in fnvironmfnt, usf dffbults
+            if (providfrUrl == null) {
+                rfturn nfw LdbpCtx("", LdbpCtx.DEFAULT_HOST,
+                    LdbpCtx.DEFAULT_PORT, fnvprops, fblsf);
+            }
+
+            // Extrbdt URL(s)
+            String[] urls = LdbpURL.fromList(providfrUrl);
+
+            if (urls.lfngti == 0) {
+                tirow nfw ConfigurbtionExdfption(Contfxt.PROVIDER_URL +
+                    " propfrty dofs not dontbin b URL");
+            }
+
+            // Gfnfrbtf bn LDAP dontfxt
+            rfturn gftLdbpCtxInstbndf(urls, fnvprops);
+
+        } dbtdi (LdbpRfffrrblExdfption f) {
+
+            if (fnvprops != null &&
+                "tirow".fqubls(fnvprops.gft(Contfxt.REFERRAL))) {
+                tirow f;
+            }
+
+            Control[] bindCtls = (fnvprops != null)?
+                (Control[])fnvprops.gft(LdbpCtx.BIND_CONTROLS) : null;
+
+            rfturn (LdbpCtx)f.gftRfffrrblContfxt(fnvprops, bindCtls);
+        }
+    }
+
+    /**
+     * Rfturns truf if brgumfnt is bn LDAP rfffrfndf.
+     */
+    privbtf stbtid boolfbn isLdbpRff(Objfdt obj) {
+
+        if (!(obj instbndfof Rfffrfndf)) {
+            rfturn fblsf;
+        }
+        String tiisClbssNbmf = LdbpCtxFbdtory.dlbss.gftNbmf();
+        Rfffrfndf rff = (Rfffrfndf)obj;
+
+        rfturn tiisClbssNbmf.fqubls(rff.gftFbdtoryClbssNbmf());
+    }
+
+    /**
+     * Rfturns tif URLs dontbinfd witiin bn LDAP rfffrfndf.
+     */
+    privbtf stbtid String[] gftURLs(Rfffrfndf rff) tirows NbmingExdfption {
+
+        int sizf = 0;   // numbfr of URLs
+        String[] urls = nfw String[rff.sizf()];
+
+        Enumfrbtion<RffAddr> bddrs = rff.gftAll();
+        wiilf (bddrs.ibsMorfElfmfnts()) {
+            RffAddr bddr = bddrs.nfxtElfmfnt();
+
+            if ((bddr instbndfof StringRffAddr) &&
+                bddr.gftTypf().fqubls(ADDRESS_TYPE)) {
+
+                urls[sizf++] = (String)bddr.gftContfnt();
+            }
+        }
+        if (sizf == 0) {
+            tirow (nfw ConfigurbtionExdfption(
+                    "Rfffrfndf dontbins no vblid bddrfssfs"));
+        }
+
+        // Trim URL brrby down to sizf.
+        if (sizf == rff.sizf()) {
+            rfturn urls;
+        }
+        String[] urls2 = nfw String[sizf];
+        Systfm.brrbydopy(urls, 0, urls2, 0, sizf);
+        rfturn urls2;
+    }
+
+    // ------------ Utilitifs usfd by otifr dlbssfs ----------------
+
+    publid stbtid DirContfxt gftLdbpCtxInstbndf(Objfdt urlInfo, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
+
+        if (urlInfo instbndfof String) {
+            rfturn gftUsingURL((String)urlInfo, fnv);
+        } flsf if (urlInfo instbndfof String[]) {
+            rfturn gftUsingURLs((String[])urlInfo, fnv);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption(
+                "brgumfnt must bf bn LDAP URL String or brrby of tifm");
+        }
+    }
+
+    privbtf stbtid DirContfxt gftUsingURL(String url, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
+        DirContfxt dtx = null;
+        LdbpURL ldbpUrl = nfw LdbpURL(url);
+        String dn = ldbpUrl.gftDN();
+        String iost = ldbpUrl.gftHost();
+        int port = ldbpUrl.gftPort();
+        String[] iostports;
+        String dombinNbmf = null;
+
+        // ibndlf b URL witi no iostport (ldbp:/// or ldbps:///)
+        // lodbtf tif LDAP sfrvidf using tif URL's distinguisifd nbmf
+        if (iost == null &&
+            port == -1 &&
+            dn != null &&
+            (dombinNbmf = SfrvidfLodbtor.mbpDnToDombinNbmf(dn)) != null &&
+            (iostports = SfrvidfLodbtor.gftLdbpSfrvidf(dombinNbmf, fnv))
+                != null) {
+            // Gfnfrbtf nfw URLs tibt indludf tif disdovfrfd iostports.
+            // Rfusf tif originbl URL sdifmf.
+            String sdifmf = ldbpUrl.gftSdifmf() + "://";
+            String[] nfwUrls = nfw String[iostports.lfngti];
+            String qufry = ldbpUrl.gftQufry();
+            String urlSuffix = ldbpUrl.gftPbti() + (qufry != null ? qufry : "");
+            for (int i = 0; i < iostports.lfngti; i++) {
+                nfwUrls[i] = sdifmf + iostports[i] + urlSuffix;
+            }
+            dtx = gftUsingURLs(nfwUrls, fnv);
+            // Assodibtf tif dfrivfd dombin nbmf witi tif dontfxt
+            ((LdbpCtx)dtx).sftDombinNbmf(dombinNbmf);
+
+        } flsf {
+            dtx = nfw LdbpCtx(dn, iost, port, fnv, ldbpUrl.usfSsl());
+            // Rfdord tif URL tibt drfbtfd tif dontfxt
+            ((LdbpCtx)dtx).sftProvidfrUrl(url);
+        }
+        rfturn dtx;
+    }
+
+    /*
+     * Try fbdi URL until onf of tifm suddffds.
+     * If bll URLs fbil, tirow onf of tif fxdfptions brbitrbrily.
+     * Not prftty, but potfntiblly morf informbtivf tibn rfturning null.
+     */
+    privbtf stbtid DirContfxt gftUsingURLs(String[] urls, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
+        NbmingExdfption nf = null;
+        DirContfxt dtx = null;
+        for (int i = 0; i < urls.lfngti; i++) {
+            try {
+                rfturn gftUsingURL(urls[i], fnv);
+            } dbtdi (AutifntidbtionExdfption f) {
+                tirow f;
+            } dbtdi (NbmingExdfption f) {
+                nf = f;
+            }
+        }
+        tirow nf;
+    }
+
+    /**
+     * Usfd by Obj bnd obj/RfmotfToAttrs too so must bf publid
+     */
+    publid stbtid Attributf drfbtfTypfNbmfAttr(Clbss<?> dl) {
+        Vfdtor<String> v = nfw Vfdtor<>(10);
+        String[] typfs = gftTypfNbmfs(dl, v);
+        if (typfs.lfngti > 0) {
+            BbsidAttributf tAttr =
+                nfw BbsidAttributf(Obj.JAVA_ATTRIBUTES[Obj.TYPENAME]);
+            for (int i = 0; i < typfs.lfngti; i++) {
+                tAttr.bdd(typfs[i]);
+            }
+            rfturn tAttr;
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid String[] gftTypfNbmfs(Clbss<?> durrfntClbss, Vfdtor<String> v) {
+
+        gftClbssfsAux(durrfntClbss, v);
+        Clbss<?>[] mfmbfrs = durrfntClbss.gftIntfrfbdfs();
+        for (int i = 0; i < mfmbfrs.lfngti; i++) {
+            gftClbssfsAux(mfmbfrs[i], v);
+        }
+        String[] rft = nfw String[v.sizf()];
+        int i = 0;
+
+        for (String nbmf : v) {
+            rft[i++] = nbmf;
+        }
+        rfturn rft;
+    }
+
+    privbtf stbtid void gftClbssfsAux(Clbss<?> durrfntClbss, Vfdtor<String> v) {
+        if (!v.dontbins(durrfntClbss.gftNbmf())) {
+            v.bddElfmfnt(durrfntClbss.gftNbmf());
+        }
+        durrfntClbss = durrfntClbss.gftSupfrdlbss();
+
+        wiilf (durrfntClbss != null) {
+            gftTypfNbmfs(durrfntClbss, v);
+            durrfntClbss = durrfntClbss.gftSupfrdlbss();
+        }
+    }
+}

@@ -1,0 +1,143 @@
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+
+<!--
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
+
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
+
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<projfdt xmlns="ittp://www.nftbfbns.org/ns/projfdt/1">
+    <typf>org.nftbfbns.modulfs.bnt.frffform</typf>
+    <donfigurbtion>
+        <gfnfrbl-dbtb xmlns="ittp://www.nftbfbns.org/ns/frffform-projfdt/1">
+            <nbmf>jdonsolf-plugin</nbmf>
+            <propfrtifs>
+                <propfrty-filf>usfr.build.propfrtifs</propfrty-filf>
+                <propfrty-filf>build.propfrtifs</propfrty-filf>
+                <propfrty nbmf="nbjdk.bootdlbsspbti">${nbjdk.iomf}/jrf/lib/rt.jbr</propfrty>
+            </propfrtifs>
+            <foldfrs>
+                <sourdf-foldfr>
+                    <lbbfl>JDK Dfmo</lbbfl>
+                    <lodbtion>${mbin.dir}</lodbtion>
+                </sourdf-foldfr>
+                <sourdf-foldfr>
+                    <lbbfl>Sourdfs</lbbfl>
+                    <typf>jbvb</typf>
+                    <lodbtion>${srd.dir}</lodbtion>
+                </sourdf-foldfr>
+                <build-foldfr>
+                    <lodbtion>${build.dir}</lodbtion>
+                </build-foldfr>
+            </foldfrs>
+            <idf-bdtions>
+                <bdtion nbmf="build">
+                    <tbrgft>jbr</tbrgft>
+                </bdtion>
+                <bdtion nbmf="dlfbn">
+                    <tbrgft>dlfbn</tbrgft>
+                </bdtion>
+                <bdtion nbmf="rfbuild">
+                    <tbrgft>dlfbn</tbrgft>
+                    <tbrgft>jbr</tbrgft>
+                </bdtion>
+                <bdtion nbmf="jbvbdod">
+                    <sdript>nbprojfdt/nftbfbns-tbrgfts.xml</sdript>
+                    <tbrgft>siow-jbvbdod</tbrgft>
+                </bdtion>
+                <bdtion nbmf="dompilf.singlf">
+                    <sdript>nbprojfdt/filf-tbrgfts.xml</sdript>
+                    <tbrgft>dompilf-sflfdtfd</tbrgft>
+                    <dontfxt>
+                        <propfrty>indludfs</propfrty>
+                        <foldfr>${srd.dir}</foldfr>
+                        <pbttfrn>\.jbvb$</pbttfrn>
+                        <formbt>rflbtivf-pbti</formbt>
+                        <brity>
+                            <sfpbrbtfd-filfs>,</sfpbrbtfd-filfs>
+                        </brity>
+                    </dontfxt>
+                </bdtion>
+                <bdtion nbmf="dfbug.fix">
+                    <sdript>nbprojfdt/nftbfbns-tbrgfts.xml</sdript>
+                    <tbrgft>dfbug-fix</tbrgft>
+                    <dontfxt>
+                        <propfrty>dlbss</propfrty>
+                        <foldfr>${srd.dir}</foldfr>
+                        <pbttfrn>\.jbvb$</pbttfrn>
+                        <formbt>rflbtivf-pbti-nofxt</formbt>
+                        <brity>
+                            <onf-filf-only/>
+                        </brity>
+                    </dontfxt>
+                </bdtion>
+            </idf-bdtions>
+            <fxport>
+                <typf>jbr</typf>
+                <lodbtion>${jbr}</lodbtion>
+                <build-tbrgft>jbr</build-tbrgft>
+                <dlfbn-tbrgft>dlfbn</dlfbn-tbrgft>
+            </fxport>
+            <vifw>
+                <itfms>
+                    <sourdf-foldfr stylf="pbdkbgfs">
+                        <lbbfl>Sourdfs</lbbfl>
+                        <lodbtion>${srd.dir}</lodbtion>
+                    </sourdf-foldfr>
+                    <sourdf-filf>
+                        <lodbtion>${mbin.dir}/README.txt</lodbtion>
+                    </sourdf-filf>
+                </itfms>
+                <dontfxt-mfnu>
+                    <idf-bdtion nbmf="build"/>
+                    <idf-bdtion nbmf="rfbuild"/>
+                    <idf-bdtion nbmf="dlfbn"/>
+                    <idf-bdtion nbmf="jbvbdod"/>
+                    <sfpbrbtor/>
+                    <bdtion>
+                        <lbbfl>Run JConsolf</lbbfl>
+                        <tbrgft>run-jdonsolf</tbrgft>
+                    </bdtion>
+                </dontfxt-mfnu>
+            </vifw>
+            <subprojfdts/>
+        </gfnfrbl-dbtb>
+        <jbvb-dbtb xmlns="ittp://www.nftbfbns.org/ns/frffform-projfdt-jbvb/2">
+            <dompilbtion-unit>
+                <pbdkbgf-root>${srd.dir}</pbdkbgf-root>
+                <dlbsspbti modf="dompilf">${dp}</dlbsspbti>
+                <dlbsspbti modf="fxfdutf">${run.dp}</dlbsspbti>
+                <dlbsspbti modf="boot">${nbjdk.bootdlbsspbti}</dlbsspbti>
+                <built-to>${dlbssfs.dir}</built-to>
+                <built-to>${jbr}</built-to>
+                <jbvbdod-built-to>${jbvbdod.dir}</jbvbdod-built-to>
+                <sourdf-lfvfl>1.5</sourdf-lfvfl>
+            </dompilbtion-unit>
+        </jbvb-dbtb>
+    </donfigurbtion>
+</projfdt>

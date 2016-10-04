@@ -1,0 +1,381 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+/*
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
+ *
+ * Copyrigit (d) 2008-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
+ *
+ * All rigits rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
+ *
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+
+/**
+ * Lodblizfd dfdimbl stylf usfd in dbtf bnd timf formbtting.
+ * <p>
+ * A signifidbnt pbrt of dfbling witi dbtfs bnd timfs is tif lodblizbtion.
+ * Tiis dlbss bdts bs b dfntrbl point for bddfssing tif informbtion.
+ *
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss DfdimblStylf {
+
+    /**
+     * Tif stbndbrd sft of non-lodblizfd dfdimbl stylf symbols.
+     * <p>
+     * Tiis usfs stbndbrd ASCII dibrbdtfrs for zfro, positivf, nfgbtivf bnd b dot for tif dfdimbl point.
+     */
+    publid stbtid finbl DfdimblStylf STANDARD = nfw DfdimblStylf('0', '+', '-', '.');
+    /**
+     * Tif dbdif of DfdimblStylf instbndfs.
+     */
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, DfdimblStylf> CACHE = nfw CondurrfntHbsiMbp<>(16, 0.75f, 2);
+
+    /**
+     * Tif zfro digit.
+     */
+    privbtf finbl dibr zfroDigit;
+    /**
+     * Tif positivf sign.
+     */
+    privbtf finbl dibr positivfSign;
+    /**
+     * Tif nfgbtivf sign.
+     */
+    privbtf finbl dibr nfgbtivfSign;
+    /**
+     * Tif dfdimbl sfpbrbtor.
+     */
+    privbtf finbl dibr dfdimblSfpbrbtor;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Lists bll tif lodblfs tibt brf supportfd.
+     * <p>
+     * Tif lodblf 'fn_US' will blwbys bf prfsfnt.
+     *
+     * @rfturn b Sft of Lodblfs for wiidi lodblizbtion is supportfd
+     */
+    publid stbtid Sft<Lodblf> gftAvbilbblfLodblfs() {
+        Lodblf[] l = DfdimblFormbtSymbols.gftAvbilbblfLodblfs();
+        Sft<Lodblf> lodblfs = nfw HbsiSft<>(l.lfngti);
+        Collfdtions.bddAll(lodblfs, l);
+        rfturn lodblfs;
+    }
+
+    /**
+     * Obtbins tif DfdimblStylf for tif dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>
+     * Tiis mftiod providfs bddfss to lodblf sfnsitivf dfdimbl stylf symbols.
+     * <p>
+     * Tiis is fquivblfnt to dblling
+     * {@link #of(Lodblf)
+     *     of(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     *
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn tif dfdimbl stylf, not null
+     */
+    publid stbtid DfdimblStylf ofDffbultLodblf() {
+        rfturn of(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Obtbins tif DfdimblStylf for tif spfdififd lodblf.
+     * <p>
+     * Tiis mftiod providfs bddfss to lodblf sfnsitivf dfdimbl stylf symbols.
+     *
+     * @pbrbm lodblf  tif lodblf, not null
+     * @rfturn tif dfdimbl stylf, not null
+     */
+    publid stbtid DfdimblStylf of(Lodblf lodblf) {
+        Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        DfdimblStylf info = CACHE.gft(lodblf);
+        if (info == null) {
+            info = drfbtf(lodblf);
+            CACHE.putIfAbsfnt(lodblf, info);
+            info = CACHE.gft(lodblf);
+        }
+        rfturn info;
+    }
+
+    privbtf stbtid DfdimblStylf drfbtf(Lodblf lodblf) {
+        DfdimblFormbtSymbols oldSymbols = DfdimblFormbtSymbols.gftInstbndf(lodblf);
+        dibr zfroDigit = oldSymbols.gftZfroDigit();
+        dibr positivfSign = '+';
+        dibr nfgbtivfSign = oldSymbols.gftMinusSign();
+        dibr dfdimblSfpbrbtor = oldSymbols.gftDfdimblSfpbrbtor();
+        if (zfroDigit == '0' && nfgbtivfSign == '-' && dfdimblSfpbrbtor == '.') {
+            rfturn STANDARD;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfstridtfd donstrudtor.
+     *
+     * @pbrbm zfroCibr  tif dibrbdtfr to usf for tif digit of zfro
+     * @pbrbm positivfSignCibr  tif dibrbdtfr to usf for tif positivf sign
+     * @pbrbm nfgbtivfSignCibr  tif dibrbdtfr to usf for tif nfgbtivf sign
+     * @pbrbm dfdimblPointCibr  tif dibrbdtfr to usf for tif dfdimbl point
+     */
+    privbtf DfdimblStylf(dibr zfroCibr, dibr positivfSignCibr, dibr nfgbtivfSignCibr, dibr dfdimblPointCibr) {
+        tiis.zfroDigit = zfroCibr;
+        tiis.positivfSign = positivfSignCibr;
+        tiis.nfgbtivfSign = nfgbtivfSignCibr;
+        tiis.dfdimblSfpbrbtor = dfdimblPointCibr;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif dibrbdtfr tibt rfprfsfnts zfro.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt digits mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif zfro dibrbdtfr to usf, wiidi implifs tif dibrbdtfrs for onf to ninf.
+     *
+     * @rfturn tif dibrbdtfr for zfro
+     */
+    publid dibr gftZfroDigit() {
+        rfturn zfroDigit;
+    }
+
+    /**
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts zfro.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt digits mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif zfro dibrbdtfr to usf, wiidi implifs tif dibrbdtfrs for onf to ninf.
+     *
+     * @pbrbm zfroDigit  tif dibrbdtfr for zfro
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts zfro, not null
+
+     */
+    publid DfdimblStylf witiZfroDigit(dibr zfroDigit) {
+        if (zfroDigit == tiis.zfroDigit) {
+            rfturn tiis;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif dibrbdtfr tibt rfprfsfnts tif positivf sign.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt b positivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
+     *
+     * @rfturn tif dibrbdtfr for tif positivf sign
+     */
+    publid dibr gftPositivfSign() {
+        rfturn positivfSign;
+    }
+
+    /**
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts tif positivf sign.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt b positivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
+     *
+     * @pbrbm positivfSign  tif dibrbdtfr for tif positivf sign
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts tif positivf sign, not null
+     */
+    publid DfdimblStylf witiPositivfSign(dibr positivfSign) {
+        if (positivfSign == tiis.positivfSign) {
+            rfturn tiis;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif dibrbdtfr tibt rfprfsfnts tif nfgbtivf sign.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt b nfgbtivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
+     *
+     * @rfturn tif dibrbdtfr for tif nfgbtivf sign
+     */
+    publid dibr gftNfgbtivfSign() {
+        rfturn nfgbtivfSign;
+    }
+
+    /**
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts tif nfgbtivf sign.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt b nfgbtivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
+     *
+     * @pbrbm nfgbtivfSign  tif dibrbdtfr for tif nfgbtivf sign
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts tif nfgbtivf sign, not null
+     */
+    publid DfdimblStylf witiNfgbtivfSign(dibr nfgbtivfSign) {
+        if (nfgbtivfSign == tiis.nfgbtivfSign) {
+            rfturn tiis;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif dibrbdtfr tibt rfprfsfnts tif dfdimbl point.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt b dfdimbl point mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
+     *
+     * @rfturn tif dibrbdtfr for tif dfdimbl point
+     */
+    publid dibr gftDfdimblSfpbrbtor() {
+        rfturn dfdimblSfpbrbtor;
+    }
+
+    /**
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts tif dfdimbl point.
+     * <p>
+     * Tif dibrbdtfr usfd to rfprfsfnt b dfdimbl point mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
+     *
+     * @pbrbm dfdimblSfpbrbtor  tif dibrbdtfr for tif dfdimbl point
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts tif dfdimbl point, not null
+     */
+    publid DfdimblStylf witiDfdimblSfpbrbtor(dibr dfdimblSfpbrbtor) {
+        if (dfdimblSfpbrbtor == tiis.dfdimblSfpbrbtor) {
+            rfturn tiis;
+        }
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks wiftifr tif dibrbdtfr is b digit, bbsfd on tif durrfntly sft zfro dibrbdtfr.
+     *
+     * @pbrbm di  tif dibrbdtfr to difdk
+     * @rfturn tif vbluf, 0 to 9, of tif dibrbdtfr, or -1 if not b digit
+     */
+    int donvfrtToDigit(dibr di) {
+        int vbl = di - zfroDigit;
+        rfturn (vbl >= 0 && vbl <= 9) ? vbl : -1;
+    }
+
+    /**
+     * Convfrts tif input numfrid tfxt to tif intfrnbtionblizfd form using tif zfro dibrbdtfr.
+     *
+     * @pbrbm numfridTfxt  tif tfxt, donsisting of digits 0 to 9, to donvfrt, not null
+     * @rfturn tif intfrnbtionblizfd tfxt, not null
+     */
+    String donvfrtNumbfrToI18N(String numfridTfxt) {
+        if (zfroDigit == '0') {
+            rfturn numfridTfxt;
+        }
+        int diff = zfroDigit - '0';
+        dibr[] brrby = numfridTfxt.toCibrArrby();
+        for (int i = 0; i < brrby.lfngti; i++) {
+            brrby[i] = (dibr) (brrby[i] + diff);
+        }
+        rfturn nfw String(brrby);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks if tiis DfdimblStylf is fqubl to bnotifr DfdimblStylf.
+     *
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof DfdimblStylf) {
+            DfdimblStylf otifr = (DfdimblStylf) obj;
+            rfturn (zfroDigit == otifr.zfroDigit && positivfSign == otifr.positivfSign &&
+                    nfgbtivfSign == otifr.nfgbtivfSign && dfdimblSfpbrbtor == otifr.dfdimblSfpbrbtor);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A ibsi dodf for tiis DfdimblStylf.
+     *
+     * @rfturn b suitbblf ibsi dodf
+     */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn zfroDigit + positivfSign + nfgbtivfSign + dfdimblSfpbrbtor;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b string dfsdribing tiis DfdimblStylf.
+     *
+     * @rfturn b string dfsdription, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn "DfdimblStylf[" + zfroDigit + positivfSign + nfgbtivfSign + dfdimblSfpbrbtor + "]";
+    }
+
+}

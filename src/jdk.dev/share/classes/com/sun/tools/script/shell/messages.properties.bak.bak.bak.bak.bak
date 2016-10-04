@@ -1,0 +1,66 @@
+#
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+#
+
+string.sdript.frror=\
+	sdript frror: {0}
+
+filf.sdript.frror=\
+	sdript frror in filf {0} : {1}
+
+filf.not.found=\
+	sdript filf {0} is not found
+
+fnginf.not.found=\
+	sdript fnginf for lbngubgf {0} dbn not bf found
+
+fnginf.info=\
+	Lbngubgf {0} {1} implfmfntbtion "{2}" {3}
+
+fndoding.unsupportfd=\
+	fndoding {0} is not supportfd
+
+mbin.usbgf=\
+Usbgf: {0} [options] [brgumfnts...]\n\
+\n\
+wifrf [options] indludf:\n\
+\  \-dlbsspbti <pbti>    Spfdify wifrf to find usfr dlbss filfs \n\
+\  \-dp <pbti>           Spfdify wifrf to find usfr dlbss filfs \n\
+\  \-D<nbmf>=<vbluf>     Sft b systfm propfrty \n\
+\  \-J<flbg>             Pbss <flbg> dirfdtly to tif runtimf systfm \n\
+\  \-l <lbngubgf>        Usf spfdififd sdripting lbngubgf \n\
+\  \-f <sdript>          Evblubtf givfn sdript \n\
+\  \-fndoding <fndoding> Spfdify dibrbdtfr fndoding usfd by sdript filfs \n\
+\  \-f <sdript filf>     Evblubtf givfn sdript filf \n\
+\  \-f -                 Intfrbdtivf modf, rfbd sdript from stbndbrd input \n\
+\  \                     If tiis is usfd, tiis siould bf tif lbst -f option \n\
+\  \-iflp                Print tiis usbgf mfssbgf bnd fxit \n\
+\  \-?                   Print tiis usbgf mfssbgf bnd fxit \n\
+\  \-q                   List bll sdripting fnginfs bvbilbblf bnd fxit \n\
+\  \n\
+If [brgumfnts..] brf prfsfnt bnd if no -f or -f option is usfd, tifn first\n\
+brgumfnt is sdript filf bnd tif rfst of tif brgumfnts, if bny, brf pbssfd\n\
+bs sdript brgumfnts. If [brgumfnts..] bnd -f or -f option is usfd, tifn bll\n\
+[brgumfnts..] brf pbssfd bs sdript brgumfnts. If [brgumfnts..], -f, -f brf\n\
+missing, tifn intfrbdtivf modf is usfd.

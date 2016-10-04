@@ -1,214 +1,1070 @@
 /*
- * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
-
-pbdkbgf sun.sfdurity.jgss.spi;
-
-import org.iftf.jgss.*;
-import jbvb.sfdurity.Providfr;
-
-/**
- * This intfrfbdf is implfmfntfd by thf fbdtory dlbss for fvfry
- * plugin mfdhbnism. Thf GSSMbnbgfr lodbtfs bn implfmfntbtion of this
- * intfrfbdf by qufrying thf sfdurity providfrs instbllfd on thf
- * systfm. For b providfr to support b mfdhbnism dffinfd by Oid x.y.z,
- * thf providfr mbstfr filf would hbvf to dontbin b mbpping from thf
- * propfrty "GssApiMfdhbnism.x.y.z" to bn implfmfntbtion dlbss thbt sfrvfs
- * bs thf fbdtory for thbt mfdhbnism.
- * <p>
- * f.g., If b providfr mbstfr filf dontbinfd thf b mbpping from thf
- * propfrty "GssApiMfdhbnism.1.2.840.113554.1.2.2" to thf dlbss nbmf
- * "dom.foo.krb5.Krb5GssFbdtory", thfn thf GSS-API frbmfwork would bssumf
- * thbt dom.foo.krb5.Krb5GssFbdtory implfmfnts thf MfdhbnismFbdtory
- * intfrfbdf bnd thbt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
- * supporting this mfdhbnism.
- *
- * @buthor Mbybnk Upbdhyby
+ */
+ */
+ */
  */
 
-publid intfrfbdf MfdhbnismFbdtory {
+
+
+
+
+pbdkbgf sun.sfdurity.jgss.spi;
+pbdkbgf sun.sfdurity.jgss.spi;
+pbdkbgf sun.sfdurity.jgss.spi;
+pbdkbgf sun.sfdurity.jgss.spi;
+pbdkbgf sun.sfdurity.jgss.spi;
+
+
+
+
+
+import org.iftf.jgss.*;
+import org.iftf.jgss.*;
+import org.iftf.jgss.*;
+import org.iftf.jgss.*;
+import org.iftf.jgss.*;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Providfr;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Tiis intfrfbdf is implfmfntfd by tif fbdtory dlbss for fvfry
+ * Tiis intfrfbdf is implfmfntfd by tif fbdtory dlbss for fvfry
+ * Tiis intfrfbdf is implfmfntfd by tif fbdtory dlbss for fvfry
+ * Tiis intfrfbdf is implfmfntfd by tif fbdtory dlbss for fvfry
+ * Tiis intfrfbdf is implfmfntfd by tif fbdtory dlbss for fvfry
+ * plugin mfdibnism. Tif GSSMbnbgfr lodbtfs bn implfmfntbtion of tiis
+ * plugin mfdibnism. Tif GSSMbnbgfr lodbtfs bn implfmfntbtion of tiis
+ * plugin mfdibnism. Tif GSSMbnbgfr lodbtfs bn implfmfntbtion of tiis
+ * plugin mfdibnism. Tif GSSMbnbgfr lodbtfs bn implfmfntbtion of tiis
+ * plugin mfdibnism. Tif GSSMbnbgfr lodbtfs bn implfmfntbtion of tiis
+ * intfrfbdf by qufrying tif sfdurity providfrs instbllfd on tif
+ * intfrfbdf by qufrying tif sfdurity providfrs instbllfd on tif
+ * intfrfbdf by qufrying tif sfdurity providfrs instbllfd on tif
+ * intfrfbdf by qufrying tif sfdurity providfrs instbllfd on tif
+ * intfrfbdf by qufrying tif sfdurity providfrs instbllfd on tif
+ * systfm. For b providfr to support b mfdibnism dffinfd by Oid x.y.z,
+ * systfm. For b providfr to support b mfdibnism dffinfd by Oid x.y.z,
+ * systfm. For b providfr to support b mfdibnism dffinfd by Oid x.y.z,
+ * systfm. For b providfr to support b mfdibnism dffinfd by Oid x.y.z,
+ * systfm. For b providfr to support b mfdibnism dffinfd by Oid x.y.z,
+ * tif providfr mbstfr filf would ibvf to dontbin b mbpping from tif
+ * tif providfr mbstfr filf would ibvf to dontbin b mbpping from tif
+ * tif providfr mbstfr filf would ibvf to dontbin b mbpping from tif
+ * tif providfr mbstfr filf would ibvf to dontbin b mbpping from tif
+ * tif providfr mbstfr filf would ibvf to dontbin b mbpping from tif
+ * propfrty "GssApiMfdibnism.x.y.z" to bn implfmfntbtion dlbss tibt sfrvfs
+ * propfrty "GssApiMfdibnism.x.y.z" to bn implfmfntbtion dlbss tibt sfrvfs
+ * propfrty "GssApiMfdibnism.x.y.z" to bn implfmfntbtion dlbss tibt sfrvfs
+ * propfrty "GssApiMfdibnism.x.y.z" to bn implfmfntbtion dlbss tibt sfrvfs
+ * propfrty "GssApiMfdibnism.x.y.z" to bn implfmfntbtion dlbss tibt sfrvfs
+ * bs tif fbdtory for tibt mfdibnism.
+ * bs tif fbdtory for tibt mfdibnism.
+ * bs tif fbdtory for tibt mfdibnism.
+ * bs tif fbdtory for tibt mfdibnism.
+ * bs tif fbdtory for tibt mfdibnism.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * f.g., If b providfr mbstfr filf dontbinfd tif b mbpping from tif
+ * f.g., If b providfr mbstfr filf dontbinfd tif b mbpping from tif
+ * f.g., If b providfr mbstfr filf dontbinfd tif b mbpping from tif
+ * f.g., If b providfr mbstfr filf dontbinfd tif b mbpping from tif
+ * f.g., If b providfr mbstfr filf dontbinfd tif b mbpping from tif
+ * propfrty "GssApiMfdibnism.1.2.840.113554.1.2.2" to tif dlbss nbmf
+ * propfrty "GssApiMfdibnism.1.2.840.113554.1.2.2" to tif dlbss nbmf
+ * propfrty "GssApiMfdibnism.1.2.840.113554.1.2.2" to tif dlbss nbmf
+ * propfrty "GssApiMfdibnism.1.2.840.113554.1.2.2" to tif dlbss nbmf
+ * propfrty "GssApiMfdibnism.1.2.840.113554.1.2.2" to tif dlbss nbmf
+ * "dom.foo.krb5.Krb5GssFbdtory", tifn tif GSS-API frbmfwork would bssumf
+ * "dom.foo.krb5.Krb5GssFbdtory", tifn tif GSS-API frbmfwork would bssumf
+ * "dom.foo.krb5.Krb5GssFbdtory", tifn tif GSS-API frbmfwork would bssumf
+ * "dom.foo.krb5.Krb5GssFbdtory", tifn tif GSS-API frbmfwork would bssumf
+ * "dom.foo.krb5.Krb5GssFbdtory", tifn tif GSS-API frbmfwork would bssumf
+ * tibt dom.foo.krb5.Krb5GssFbdtory implfmfnts tif MfdibnismFbdtory
+ * tibt dom.foo.krb5.Krb5GssFbdtory implfmfnts tif MfdibnismFbdtory
+ * tibt dom.foo.krb5.Krb5GssFbdtory implfmfnts tif MfdibnismFbdtory
+ * tibt dom.foo.krb5.Krb5GssFbdtory implfmfnts tif MfdibnismFbdtory
+ * tibt dom.foo.krb5.Krb5GssFbdtory implfmfnts tif MfdibnismFbdtory
+ * intfrfbdf bnd tibt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
+ * intfrfbdf bnd tibt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
+ * intfrfbdf bnd tibt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
+ * intfrfbdf bnd tibt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
+ * intfrfbdf bnd tibt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
+ * supporting tiis mfdibnism.
+ * supporting tiis mfdibnism.
+ * supporting tiis mfdibnism.
+ * supporting tiis mfdibnism.
+ * supporting tiis mfdibnism.
+ *
+ *
+ *
+ *
+ *
+ * @butior Mbybnk Upbdiyby
+ * @butior Mbybnk Upbdiyby
+ * @butior Mbybnk Upbdiyby
+ * @butior Mbybnk Upbdiyby
+ * @butior Mbybnk Upbdiyby
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid intfrfbdf MfdibnismFbdtory {
+publid intfrfbdf MfdibnismFbdtory {
+publid intfrfbdf MfdibnismFbdtory {
+publid intfrfbdf MfdibnismFbdtory {
+publid intfrfbdf MfdibnismFbdtory {
+
+
+
+
 
     /**
-     * Rfturns thf Oid of thf mfdhbnism thbt this fbdtory supports.
-     * @rfturn thf Oid
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Oid of tif mfdibnism tibt tiis fbdtory supports.
+     * Rfturns tif Oid of tif mfdibnism tibt tiis fbdtory supports.
+     * Rfturns tif Oid of tif mfdibnism tibt tiis fbdtory supports.
+     * Rfturns tif Oid of tif mfdibnism tibt tiis fbdtory supports.
+     * Rfturns tif Oid of tif mfdibnism tibt tiis fbdtory supports.
+     * @rfturn tif Oid
+     * @rfturn tif Oid
+     * @rfturn tif Oid
+     * @rfturn tif Oid
+     * @rfturn tif Oid
      */
-    publid Oid gftMfdhbnismOid();
+     */
+     */
+     */
+     */
+    publid Oid gftMfdibnismOid();
+    publid Oid gftMfdibnismOid();
+    publid Oid gftMfdibnismOid();
+    publid Oid gftMfdibnismOid();
+    publid Oid gftMfdibnismOid();
+
+
+
+
 
     /**
-     * Rfturns thf providfr thbt this fbdtory dbmf from.
-     * @rfturn thf providfr
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif providfr tibt tiis fbdtory dbmf from.
+     * Rfturns tif providfr tibt tiis fbdtory dbmf from.
+     * Rfturns tif providfr tibt tiis fbdtory dbmf from.
+     * Rfturns tif providfr tibt tiis fbdtory dbmf from.
+     * Rfturns tif providfr tibt tiis fbdtory dbmf from.
+     * @rfturn tif providfr
+     * @rfturn tif providfr
+     * @rfturn tif providfr
+     * @rfturn tif providfr
+     * @rfturn tif providfr
+     */
+     */
+     */
+     */
      */
     publid Providfr gftProvidfr();
+    publid Providfr gftProvidfr();
+    publid Providfr gftProvidfr();
+    publid Providfr gftProvidfr();
+    publid Providfr gftProvidfr();
+
+
+
+
 
     /**
-     * Rfturns thf GSS-API nbmftypfs thbt this mfdhbnism dbn
-     * support. Hbving this mfthod hflps thf GSS-Frbmfwork dfdidf quidkly
-     * if b dfrtbin mfdhbnism dbn bf skippfd whfn importing b nbmf.
-     * @rfturn bn brrby of thf Oid's dorrfsponding to thf difffrfnt GSS-API
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif GSS-API nbmftypfs tibt tiis mfdibnism dbn
+     * Rfturns tif GSS-API nbmftypfs tibt tiis mfdibnism dbn
+     * Rfturns tif GSS-API nbmftypfs tibt tiis mfdibnism dbn
+     * Rfturns tif GSS-API nbmftypfs tibt tiis mfdibnism dbn
+     * Rfturns tif GSS-API nbmftypfs tibt tiis mfdibnism dbn
+     * support. Hbving tiis mftiod iflps tif GSS-Frbmfwork dfdidf quidkly
+     * support. Hbving tiis mftiod iflps tif GSS-Frbmfwork dfdidf quidkly
+     * support. Hbving tiis mftiod iflps tif GSS-Frbmfwork dfdidf quidkly
+     * support. Hbving tiis mftiod iflps tif GSS-Frbmfwork dfdidf quidkly
+     * support. Hbving tiis mftiod iflps tif GSS-Frbmfwork dfdidf quidkly
+     * if b dfrtbin mfdibnism dbn bf skippfd wifn importing b nbmf.
+     * if b dfrtbin mfdibnism dbn bf skippfd wifn importing b nbmf.
+     * if b dfrtbin mfdibnism dbn bf skippfd wifn importing b nbmf.
+     * if b dfrtbin mfdibnism dbn bf skippfd wifn importing b nbmf.
+     * if b dfrtbin mfdibnism dbn bf skippfd wifn importing b nbmf.
+     * @rfturn bn brrby of tif Oid's dorrfsponding to tif difffrfnt GSS-API
+     * @rfturn bn brrby of tif Oid's dorrfsponding to tif difffrfnt GSS-API
+     * @rfturn bn brrby of tif Oid's dorrfsponding to tif difffrfnt GSS-API
+     * @rfturn bn brrby of tif Oid's dorrfsponding to tif difffrfnt GSS-API
+     * @rfturn bn brrby of tif Oid's dorrfsponding to tif difffrfnt GSS-API
+     * nbmftypfs supportfd
+     * nbmftypfs supportfd
+     * nbmftypfs supportfd
+     * nbmftypfs supportfd
      * nbmftypfs supportfd
      * @sff org.iftf.jgss.GSSNbmf
+     * @sff org.iftf.jgss.GSSNbmf
+     * @sff org.iftf.jgss.GSSNbmf
+     * @sff org.iftf.jgss.GSSNbmf
+     * @sff org.iftf.jgss.GSSNbmf
      */
-    publid Oid[] gftNbmfTypfs() throws GSSExdfption;
+     */
+     */
+     */
+     */
+    publid Oid[] gftNbmfTypfs() tirows GSSExdfption;
+    publid Oid[] gftNbmfTypfs() tirows GSSExdfption;
+    publid Oid[] gftNbmfTypfs() tirows GSSExdfption;
+    publid Oid[] gftNbmfTypfs() tirows GSSExdfption;
+    publid Oid[] gftNbmfTypfs() tirows GSSExdfption;
+
+
+
+
 
     /**
-     * Crfbtfs b drfdfntibl flfmfnt for this mfdhbnism to bf indludfd bs
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b drfdfntibl flfmfnt for tiis mfdibnism to bf indludfd bs
+     * Crfbtfs b drfdfntibl flfmfnt for tiis mfdibnism to bf indludfd bs
+     * Crfbtfs b drfdfntibl flfmfnt for tiis mfdibnism to bf indludfd bs
+     * Crfbtfs b drfdfntibl flfmfnt for tiis mfdibnism to bf indludfd bs
+     * Crfbtfs b drfdfntibl flfmfnt for tiis mfdibnism to bf indludfd bs
+     * pbrt of b GSSCrfdfntibl implfmfntbtion. A GSSCrfdfntibl is
+     * pbrt of b GSSCrfdfntibl implfmfntbtion. A GSSCrfdfntibl is
+     * pbrt of b GSSCrfdfntibl implfmfntbtion. A GSSCrfdfntibl is
+     * pbrt of b GSSCrfdfntibl implfmfntbtion. A GSSCrfdfntibl is
      * pbrt of b GSSCrfdfntibl implfmfntbtion. A GSSCrfdfntibl is
      * dondfptublly b dontbinfr dlbss of sfvfrbl drfdfntibl flfmfnts from
-     * difffrfnt mfdhbnisms. A GSS-API drfdfntibl dbn bf usfd fithfr for
-     * initibting GSS sfdurity dontfxts or for bddfpting thfm. This mfthod
-     * blso bddfpts pbrbmftfrs thbt indidbtf whbt usbgf is fxpfdtfd bnd how
-     * long thf liff of thf drfdfntibl should bf. It is not nfdfssbry thbt
-     * thf mfdhbnism honor thf rfqufst for lifftimf. An bpplidbtion will
-     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf whbt lifftimf it
+     * dondfptublly b dontbinfr dlbss of sfvfrbl drfdfntibl flfmfnts from
+     * dondfptublly b dontbinfr dlbss of sfvfrbl drfdfntibl flfmfnts from
+     * dondfptublly b dontbinfr dlbss of sfvfrbl drfdfntibl flfmfnts from
+     * dondfptublly b dontbinfr dlbss of sfvfrbl drfdfntibl flfmfnts from
+     * difffrfnt mfdibnisms. A GSS-API drfdfntibl dbn bf usfd fitifr for
+     * difffrfnt mfdibnisms. A GSS-API drfdfntibl dbn bf usfd fitifr for
+     * difffrfnt mfdibnisms. A GSS-API drfdfntibl dbn bf usfd fitifr for
+     * difffrfnt mfdibnisms. A GSS-API drfdfntibl dbn bf usfd fitifr for
+     * difffrfnt mfdibnisms. A GSS-API drfdfntibl dbn bf usfd fitifr for
+     * initibting GSS sfdurity dontfxts or for bddfpting tifm. Tiis mftiod
+     * initibting GSS sfdurity dontfxts or for bddfpting tifm. Tiis mftiod
+     * initibting GSS sfdurity dontfxts or for bddfpting tifm. Tiis mftiod
+     * initibting GSS sfdurity dontfxts or for bddfpting tifm. Tiis mftiod
+     * initibting GSS sfdurity dontfxts or for bddfpting tifm. Tiis mftiod
+     * blso bddfpts pbrbmftfrs tibt indidbtf wibt usbgf is fxpfdtfd bnd iow
+     * blso bddfpts pbrbmftfrs tibt indidbtf wibt usbgf is fxpfdtfd bnd iow
+     * blso bddfpts pbrbmftfrs tibt indidbtf wibt usbgf is fxpfdtfd bnd iow
+     * blso bddfpts pbrbmftfrs tibt indidbtf wibt usbgf is fxpfdtfd bnd iow
+     * blso bddfpts pbrbmftfrs tibt indidbtf wibt usbgf is fxpfdtfd bnd iow
+     * long tif liff of tif drfdfntibl siould bf. It is not nfdfssbry tibt
+     * long tif liff of tif drfdfntibl siould bf. It is not nfdfssbry tibt
+     * long tif liff of tif drfdfntibl siould bf. It is not nfdfssbry tibt
+     * long tif liff of tif drfdfntibl siould bf. It is not nfdfssbry tibt
+     * long tif liff of tif drfdfntibl siould bf. It is not nfdfssbry tibt
+     * tif mfdibnism ionor tif rfqufst for lifftimf. An bpplidbtion will
+     * tif mfdibnism ionor tif rfqufst for lifftimf. An bpplidbtion will
+     * tif mfdibnism ionor tif rfqufst for lifftimf. An bpplidbtion will
+     * tif mfdibnism ionor tif rfqufst for lifftimf. An bpplidbtion will
+     * tif mfdibnism ionor tif rfqufst for lifftimf. An bpplidbtion will
+     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf wibt lifftimf it
+     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf wibt lifftimf it
+     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf wibt lifftimf it
+     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf wibt lifftimf it
+     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf wibt lifftimf it
+     * got bbdk.<p>
+     * got bbdk.<p>
+     * got bbdk.<p>
+     * got bbdk.<p>
      * got bbdk.<p>
      *
-     * <b>Not bll mfdhbnisms support thf dondfpt of onf drfdfntibl flfmfnt
-     * thbt dbn bf usfd for both initibting bnd bddfpting b dontfxt. In thf
-     * fvfnt thbt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
-     * drfdfntibl from sudh b mfdhbnism, thf GSS frbmfwork will nffd to
-     * obtbin two difffrfnt drfdfntibl flfmfnts from thf mfdhbnism, onf
-     * thbt will hbvf usbgf INITIATE_ONLY bnd bnothfr thbt will hbvf usbgf
-     * ACCEPT_ONLY. Thf mfdhbnism will hflp thf GSS-API rfblizf this by
-     * rfturning b drfdfntibl flfmfnt with usbgf INITIATE_ONLY or
-     * ACCEPT_ONLY prompting it to mbkf bnothfr dbll to
-     * gftCrfdfntiblElfmfnt, this timf with thf othfr usbgf modf. Thf
-     * mfdhbnism indidbtfs thf missing modf by rfturning b 0 lifftimf for
+     *
+     *
+     *
+     *
+     * <b>Not bll mfdibnisms support tif dondfpt of onf drfdfntibl flfmfnt
+     * <b>Not bll mfdibnisms support tif dondfpt of onf drfdfntibl flfmfnt
+     * <b>Not bll mfdibnisms support tif dondfpt of onf drfdfntibl flfmfnt
+     * <b>Not bll mfdibnisms support tif dondfpt of onf drfdfntibl flfmfnt
+     * <b>Not bll mfdibnisms support tif dondfpt of onf drfdfntibl flfmfnt
+     * tibt dbn bf usfd for boti initibting bnd bddfpting b dontfxt. In tif
+     * tibt dbn bf usfd for boti initibting bnd bddfpting b dontfxt. In tif
+     * tibt dbn bf usfd for boti initibting bnd bddfpting b dontfxt. In tif
+     * tibt dbn bf usfd for boti initibting bnd bddfpting b dontfxt. In tif
+     * tibt dbn bf usfd for boti initibting bnd bddfpting b dontfxt. In tif
+     * fvfnt tibt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
+     * fvfnt tibt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
+     * fvfnt tibt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
+     * fvfnt tibt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
+     * fvfnt tibt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
+     * drfdfntibl from sudi b mfdibnism, tif GSS frbmfwork will nffd to
+     * drfdfntibl from sudi b mfdibnism, tif GSS frbmfwork will nffd to
+     * drfdfntibl from sudi b mfdibnism, tif GSS frbmfwork will nffd to
+     * drfdfntibl from sudi b mfdibnism, tif GSS frbmfwork will nffd to
+     * drfdfntibl from sudi b mfdibnism, tif GSS frbmfwork will nffd to
+     * obtbin two difffrfnt drfdfntibl flfmfnts from tif mfdibnism, onf
+     * obtbin two difffrfnt drfdfntibl flfmfnts from tif mfdibnism, onf
+     * obtbin two difffrfnt drfdfntibl flfmfnts from tif mfdibnism, onf
+     * obtbin two difffrfnt drfdfntibl flfmfnts from tif mfdibnism, onf
+     * obtbin two difffrfnt drfdfntibl flfmfnts from tif mfdibnism, onf
+     * tibt will ibvf usbgf INITIATE_ONLY bnd bnotifr tibt will ibvf usbgf
+     * tibt will ibvf usbgf INITIATE_ONLY bnd bnotifr tibt will ibvf usbgf
+     * tibt will ibvf usbgf INITIATE_ONLY bnd bnotifr tibt will ibvf usbgf
+     * tibt will ibvf usbgf INITIATE_ONLY bnd bnotifr tibt will ibvf usbgf
+     * tibt will ibvf usbgf INITIATE_ONLY bnd bnotifr tibt will ibvf usbgf
+     * ACCEPT_ONLY. Tif mfdibnism will iflp tif GSS-API rfblizf tiis by
+     * ACCEPT_ONLY. Tif mfdibnism will iflp tif GSS-API rfblizf tiis by
+     * ACCEPT_ONLY. Tif mfdibnism will iflp tif GSS-API rfblizf tiis by
+     * ACCEPT_ONLY. Tif mfdibnism will iflp tif GSS-API rfblizf tiis by
+     * ACCEPT_ONLY. Tif mfdibnism will iflp tif GSS-API rfblizf tiis by
+     * rfturning b drfdfntibl flfmfnt witi usbgf INITIATE_ONLY or
+     * rfturning b drfdfntibl flfmfnt witi usbgf INITIATE_ONLY or
+     * rfturning b drfdfntibl flfmfnt witi usbgf INITIATE_ONLY or
+     * rfturning b drfdfntibl flfmfnt witi usbgf INITIATE_ONLY or
+     * rfturning b drfdfntibl flfmfnt witi usbgf INITIATE_ONLY or
+     * ACCEPT_ONLY prompting it to mbkf bnotifr dbll to
+     * ACCEPT_ONLY prompting it to mbkf bnotifr dbll to
+     * ACCEPT_ONLY prompting it to mbkf bnotifr dbll to
+     * ACCEPT_ONLY prompting it to mbkf bnotifr dbll to
+     * ACCEPT_ONLY prompting it to mbkf bnotifr dbll to
+     * gftCrfdfntiblElfmfnt, tiis timf witi tif otifr usbgf modf. Tif
+     * gftCrfdfntiblElfmfnt, tiis timf witi tif otifr usbgf modf. Tif
+     * gftCrfdfntiblElfmfnt, tiis timf witi tif otifr usbgf modf. Tif
+     * gftCrfdfntiblElfmfnt, tiis timf witi tif otifr usbgf modf. Tif
+     * gftCrfdfntiblElfmfnt, tiis timf witi tif otifr usbgf modf. Tif
+     * mfdibnism indidbtfs tif missing modf by rfturning b 0 lifftimf for
+     * mfdibnism indidbtfs tif missing modf by rfturning b 0 lifftimf for
+     * mfdibnism indidbtfs tif missing modf by rfturning b 0 lifftimf for
+     * mfdibnism indidbtfs tif missing modf by rfturning b 0 lifftimf for
+     * mfdibnism indidbtfs tif missing modf by rfturning b 0 lifftimf for
+     * it.</b>
+     * it.</b>
+     * it.</b>
+     * it.</b>
      * it.</b>
      *
-     * @pbrbm nbmf thf mfdhbnism lfvfl nbmf flfmfnt for thf fntity whosf
-     * drfdfntibl is dfsirfd. A null vbluf indidbtfs thbt b mfdhbnism
-     * dfpfndfnt dffbult dhoidf is to bf mbdf.
-     * @pbrbm initLifftimf indidbtfs thf lifftimf (in sfdonds) thbt is
-     * rfqufstfd for this drfdfntibl to bf usfd bt thf dontfxt initibtor's
-     * fnd. This vbluf should bf ignorfd if thf usbgf is
-     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in thf
+     *
+     *
+     *
+     *
+     * @pbrbm nbmf tif mfdibnism lfvfl nbmf flfmfnt for tif fntity wiosf
+     * @pbrbm nbmf tif mfdibnism lfvfl nbmf flfmfnt for tif fntity wiosf
+     * @pbrbm nbmf tif mfdibnism lfvfl nbmf flfmfnt for tif fntity wiosf
+     * @pbrbm nbmf tif mfdibnism lfvfl nbmf flfmfnt for tif fntity wiosf
+     * @pbrbm nbmf tif mfdibnism lfvfl nbmf flfmfnt for tif fntity wiosf
+     * drfdfntibl is dfsirfd. A null vbluf indidbtfs tibt b mfdibnism
+     * drfdfntibl is dfsirfd. A null vbluf indidbtfs tibt b mfdibnism
+     * drfdfntibl is dfsirfd. A null vbluf indidbtfs tibt b mfdibnism
+     * drfdfntibl is dfsirfd. A null vbluf indidbtfs tibt b mfdibnism
+     * drfdfntibl is dfsirfd. A null vbluf indidbtfs tibt b mfdibnism
+     * dfpfndfnt dffbult dioidf is to bf mbdf.
+     * dfpfndfnt dffbult dioidf is to bf mbdf.
+     * dfpfndfnt dffbult dioidf is to bf mbdf.
+     * dfpfndfnt dffbult dioidf is to bf mbdf.
+     * dfpfndfnt dffbult dioidf is to bf mbdf.
+     * @pbrbm initLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm initLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm initLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm initLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm initLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt initibtor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt initibtor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt initibtor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt initibtor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt initibtor's
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
      * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
-     * @pbrbm bddfptLifftimf indidbtfs thf lifftimf (in sfdonds) thbt is
-     * rfqufstfd for this drfdfntibl to bf usfd bt thf dontfxt bddfptor's
-     * fnd. This vbluf should bf ignorfd if thf usbgf is
-     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in thf
      * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
-     * @pbrbm usbgf Onf of thf vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * @pbrbm bddfptLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm bddfptLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm bddfptLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm bddfptLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * @pbrbm bddfptLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt bddfptor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt bddfptor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt bddfptor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt bddfptor's
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt bddfptor's
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * @pbrbm usbgf Onf of tif vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * @pbrbm usbgf Onf of tif vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * @pbrbm usbgf Onf of tif vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * @pbrbm usbgf Onf of tif vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * @pbrbm usbgf Onf of tif vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * GSSCrfdfntibl.ACCEPT_ONLY, bnd GSSCrfdfntibl.INITIATE_AND_ACCEPT.
+     * GSSCrfdfntibl.ACCEPT_ONLY, bnd GSSCrfdfntibl.INITIATE_AND_ACCEPT.
+     * GSSCrfdfntibl.ACCEPT_ONLY, bnd GSSCrfdfntibl.INITIATE_AND_ACCEPT.
+     * GSSCrfdfntibl.ACCEPT_ONLY, bnd GSSCrfdfntibl.INITIATE_AND_ACCEPT.
      * GSSCrfdfntibl.ACCEPT_ONLY, bnd GSSCrfdfntibl.INITIATE_AND_ACCEPT.
      * @sff org.iftf.jgss.GSSCrfdfntibl
-     * @throws GSSExdfption if onf of thf frror situbtions dfsdribfd in RFC
-     * 2743 with thf GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
+     * @sff org.iftf.jgss.GSSCrfdfntibl
+     * @sff org.iftf.jgss.GSSCrfdfntibl
+     * @sff org.iftf.jgss.GSSCrfdfntibl
+     * @sff org.iftf.jgss.GSSCrfdfntibl
+     * @tirows GSSExdfption if onf of tif frror situbtions dfsdribfd in RFC
+     * @tirows GSSExdfption if onf of tif frror situbtions dfsdribfd in RFC
+     * @tirows GSSExdfption if onf of tif frror situbtions dfsdribfd in RFC
+     * @tirows GSSExdfption if onf of tif frror situbtions dfsdribfd in RFC
+     * @tirows GSSExdfption if onf of tif frror situbtions dfsdribfd in RFC
+     * 2743 witi tif GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
+     * 2743 witi tif GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
+     * 2743 witi tif GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
+     * 2743 witi tif GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
+     * 2743 witi tif GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
+     */
+     */
+     */
+     */
      */
     publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
-      int initLifftimf, int bddfptLifftimf, int usbgf) throws GSSExdfption;
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+      int initLifftimf, int bddfptLifftimf, int usbgf) tirows GSSExdfption;
+      int initLifftimf, int bddfptLifftimf, int usbgf) tirows GSSExdfption;
+      int initLifftimf, int bddfptLifftimf, int usbgf) tirows GSSExdfption;
+      int initLifftimf, int bddfptLifftimf, int usbgf) tirows GSSExdfption;
+      int initLifftimf, int bddfptLifftimf, int usbgf) tirows GSSExdfption;
+
+
+
+
 
     /**
-     * Crfbtfs b nbmf flfmfnt for this mfdhbnism to bf indludfd bs pbrt of
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b nbmf flfmfnt for tiis mfdibnism to bf indludfd bs pbrt of
+     * Crfbtfs b nbmf flfmfnt for tiis mfdibnism to bf indludfd bs pbrt of
+     * Crfbtfs b nbmf flfmfnt for tiis mfdibnism to bf indludfd bs pbrt of
+     * Crfbtfs b nbmf flfmfnt for tiis mfdibnism to bf indludfd bs pbrt of
+     * Crfbtfs b nbmf flfmfnt for tiis mfdibnism to bf indludfd bs pbrt of
      * b GSSNbmf implfmfntbtion. A GSSNbmf is dondfptublly b dontbinfr
-     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdhbnisms. A GSSNbmf
-     * dbn bf drfbtfd fithfr with b String or with b sfqufndf of
-     * bytfs. This fbdtory mfthod bddfpts thf nbmf in b String. Sudh b nbmf
+     * b GSSNbmf implfmfntbtion. A GSSNbmf is dondfptublly b dontbinfr
+     * b GSSNbmf implfmfntbtion. A GSSNbmf is dondfptublly b dontbinfr
+     * b GSSNbmf implfmfntbtion. A GSSNbmf is dondfptublly b dontbinfr
+     * b GSSNbmf implfmfntbtion. A GSSNbmf is dondfptublly b dontbinfr
+     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdibnisms. A GSSNbmf
+     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdibnisms. A GSSNbmf
+     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdibnisms. A GSSNbmf
+     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdibnisms. A GSSNbmf
+     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdibnisms. A GSSNbmf
+     * dbn bf drfbtfd fitifr witi b String or witi b sfqufndf of
+     * dbn bf drfbtfd fitifr witi b String or witi b sfqufndf of
+     * dbn bf drfbtfd fitifr witi b String or witi b sfqufndf of
+     * dbn bf drfbtfd fitifr witi b String or witi b sfqufndf of
+     * dbn bf drfbtfd fitifr witi b String or witi b sfqufndf of
+     * bytfs. Tiis fbdtory mftiod bddfpts tif nbmf in b String. Sudi b nbmf
+     * bytfs. Tiis fbdtory mftiod bddfpts tif nbmf in b String. Sudi b nbmf
+     * bytfs. Tiis fbdtory mftiod bddfpts tif nbmf in b String. Sudi b nbmf
+     * bytfs. Tiis fbdtory mftiod bddfpts tif nbmf in b String. Sudi b nbmf
+     * bytfs. Tiis fbdtory mftiod bddfpts tif nbmf in b String. Sudi b nbmf
      * dbn gfnfrblly bf bssumfd to bf printbblf bnd mby bf rfturnfd from
-     * thf nbmf flfmfnt's toString() mfthod.
+     * dbn gfnfrblly bf bssumfd to bf printbblf bnd mby bf rfturnfd from
+     * dbn gfnfrblly bf bssumfd to bf printbblf bnd mby bf rfturnfd from
+     * dbn gfnfrblly bf bssumfd to bf printbblf bnd mby bf rfturnfd from
+     * dbn gfnfrblly bf bssumfd to bf printbblf bnd mby bf rfturnfd from
+     * tif nbmf flfmfnt's toString() mftiod.
+     * tif nbmf flfmfnt's toString() mftiod.
+     * tif nbmf flfmfnt's toString() mftiod.
+     * tif nbmf flfmfnt's toString() mftiod.
+     * tif nbmf flfmfnt's toString() mftiod.
      *
-     * @pbrbm nbmfStr b string dontbining thf dhbrbdtfrs dfsdribing this
-     * fntity to thf mfdhbnism
-     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to how thf mfdhbnism should
-     * intfrprft thf nbmfStr
-     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 for
-     * thf GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     *
+     *
+     *
+     *
+     * @pbrbm nbmfStr b string dontbining tif dibrbdtfrs dfsdribing tiis
+     * @pbrbm nbmfStr b string dontbining tif dibrbdtfrs dfsdribing tiis
+     * @pbrbm nbmfStr b string dontbining tif dibrbdtfrs dfsdribing tiis
+     * @pbrbm nbmfStr b string dontbining tif dibrbdtfrs dfsdribing tiis
+     * @pbrbm nbmfStr b string dontbining tif dibrbdtfrs dfsdribing tiis
+     * fntity to tif mfdibnism
+     * fntity to tif mfdibnism
+     * fntity to tif mfdibnism
+     * fntity to tif mfdibnism
+     * fntity to tif mfdibnism
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     */
+     */
+     */
+     */
      */
     publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
-        throws GSSExdfption;
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+
+
+
+
 
     /**
-     * This is b vbribtion of thf fbdtory mfthod thbt bddfpts b String for
-     * thf dhbrbdtfrs thbt mbkf up thf nbmf. Usublly thf String dhbrbdtfrs
-     * brf bssumfd to bf printbblf. Thf bytfs pbssfd in to this mfthod hbvf
-     * to bf donvfrtfd to dhbrbdtfrs using somf fndoding of thf mfdhbnism's
-     * dhoidf. It is rfdommfndfd thbt UTF-8 bf usfd. (Notf thbt UTF-8
-     * prfsfrvfs thf fndoding for 7-bit ASCII dhbrbdtfrs.)
+    /**
+    /**
+    /**
+    /**
+     * Tiis is b vbribtion of tif fbdtory mftiod tibt bddfpts b String for
+     * Tiis is b vbribtion of tif fbdtory mftiod tibt bddfpts b String for
+     * Tiis is b vbribtion of tif fbdtory mftiod tibt bddfpts b String for
+     * Tiis is b vbribtion of tif fbdtory mftiod tibt bddfpts b String for
+     * Tiis is b vbribtion of tif fbdtory mftiod tibt bddfpts b String for
+     * tif dibrbdtfrs tibt mbkf up tif nbmf. Usublly tif String dibrbdtfrs
+     * tif dibrbdtfrs tibt mbkf up tif nbmf. Usublly tif String dibrbdtfrs
+     * tif dibrbdtfrs tibt mbkf up tif nbmf. Usublly tif String dibrbdtfrs
+     * tif dibrbdtfrs tibt mbkf up tif nbmf. Usublly tif String dibrbdtfrs
+     * tif dibrbdtfrs tibt mbkf up tif nbmf. Usublly tif String dibrbdtfrs
+     * brf bssumfd to bf printbblf. Tif bytfs pbssfd in to tiis mftiod ibvf
+     * brf bssumfd to bf printbblf. Tif bytfs pbssfd in to tiis mftiod ibvf
+     * brf bssumfd to bf printbblf. Tif bytfs pbssfd in to tiis mftiod ibvf
+     * brf bssumfd to bf printbblf. Tif bytfs pbssfd in to tiis mftiod ibvf
+     * brf bssumfd to bf printbblf. Tif bytfs pbssfd in to tiis mftiod ibvf
+     * to bf donvfrtfd to dibrbdtfrs using somf fndoding of tif mfdibnism's
+     * to bf donvfrtfd to dibrbdtfrs using somf fndoding of tif mfdibnism's
+     * to bf donvfrtfd to dibrbdtfrs using somf fndoding of tif mfdibnism's
+     * to bf donvfrtfd to dibrbdtfrs using somf fndoding of tif mfdibnism's
+     * to bf donvfrtfd to dibrbdtfrs using somf fndoding of tif mfdibnism's
+     * dioidf. It is rfdommfndfd tibt UTF-8 bf usfd. (Notf tibt UTF-8
+     * dioidf. It is rfdommfndfd tibt UTF-8 bf usfd. (Notf tibt UTF-8
+     * dioidf. It is rfdommfndfd tibt UTF-8 bf usfd. (Notf tibt UTF-8
+     * dioidf. It is rfdommfndfd tibt UTF-8 bf usfd. (Notf tibt UTF-8
+     * dioidf. It is rfdommfndfd tibt UTF-8 bf usfd. (Notf tibt UTF-8
+     * prfsfrvfs tif fndoding for 7-bit ASCII dibrbdtfrs.)
+     * prfsfrvfs tif fndoding for 7-bit ASCII dibrbdtfrs.)
+     * prfsfrvfs tif fndoding for 7-bit ASCII dibrbdtfrs.)
+     * prfsfrvfs tif fndoding for 7-bit ASCII dibrbdtfrs.)
+     * prfsfrvfs tif fndoding for 7-bit ASCII dibrbdtfrs.)
      * <p>
-     * An fxportfd nbmf will gfnfrblly bf pbssfd in using this mfthod.
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * An fxportfd nbmf will gfnfrblly bf pbssfd in using tiis mftiod.
+     * An fxportfd nbmf will gfnfrblly bf pbssfd in using tiis mftiod.
+     * An fxportfd nbmf will gfnfrblly bf pbssfd in using tiis mftiod.
+     * An fxportfd nbmf will gfnfrblly bf pbssfd in using tiis mftiod.
+     * An fxportfd nbmf will gfnfrblly bf pbssfd in using tiis mftiod.
      *
-     * @pbrbm nbmfBytfs thf bytfs dfsdribing this fntity to thf mfdhbnism
-     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to how thf mfdhbnism should
-     * intfrprft thf nbmfStr
-     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 for
-     * thf GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     *
+     *
+     *
+     *
+     * @pbrbm nbmfBytfs tif bytfs dfsdribing tiis fntity to tif mfdibnism
+     * @pbrbm nbmfBytfs tif bytfs dfsdribing tiis fntity to tif mfdibnism
+     * @pbrbm nbmfBytfs tif bytfs dfsdribing tiis fntity to tif mfdibnism
+     * @pbrbm nbmfBytfs tif bytfs dfsdribing tiis fntity to tif mfdibnism
+     * @pbrbm nbmfBytfs tif bytfs dfsdribing tiis fntity to tif mfdibnism
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * intfrprft tif nbmfStr
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
+     */
+     */
+     */
+     */
      */
     publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
-        throws GSSExdfption;
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+
+
+
+
 
     /**
-     * Crfbtfs b sfdurity dontfxt for this mfdhbnism so thbt it dbn bf usfd
-     * on thf dontfxt initibtor's sidf.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibt it dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibt it dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibt it dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibt it dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibt it dbn bf usfd
+     * on tif dontfxt initibtor's sidf.
+     * on tif dontfxt initibtor's sidf.
+     * on tif dontfxt initibtor's sidf.
+     * on tif dontfxt initibtor's sidf.
+     * on tif dontfxt initibtor's sidf.
      *
-     * @pbrbm pffr thf nbmf flfmfnt from this mfdhbnism thbt rfprfsfnts thf
+     *
+     *
+     *
+     *
+     * @pbrbm pffr tif nbmf flfmfnt from tiis mfdibnism tibt rfprfsfnts tif
+     * @pbrbm pffr tif nbmf flfmfnt from tiis mfdibnism tibt rfprfsfnts tif
+     * @pbrbm pffr tif nbmf flfmfnt from tiis mfdibnism tibt rfprfsfnts tif
+     * @pbrbm pffr tif nbmf flfmfnt from tiis mfdibnism tibt rfprfsfnts tif
+     * @pbrbm pffr tif nbmf flfmfnt from tiis mfdibnism tibt rfprfsfnts tif
      * pffr
-     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for thf dontfxt
-     * initibtor obtbinfd prfviously from this mfdhbnism. Thf idfntity of
-     * thf dontfxt initibtor dbn bf obtbinfd from this drfdfntibl. Pbssing
-     * b vbluf of null hfrf indidbtfs thbt b dffbult fntity of thf
-     * mfdhbnism's dhoidf should bf bssumfd to bf thf dontfxt initibtor bnd
-     * thbt dffbult drfdfntibls should bf bpplifd.
-     * @pbrbm lifftimf thf rfqufstfd lifftimf (in sfdonds) for thf sfdurity
-     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in thf
+     * pffr
+     * pffr
+     * pffr
+     * pffr
+     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for tif dontfxt
+     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for tif dontfxt
+     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for tif dontfxt
+     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for tif dontfxt
+     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for tif dontfxt
+     * initibtor obtbinfd prfviously from tiis mfdibnism. Tif idfntity of
+     * initibtor obtbinfd prfviously from tiis mfdibnism. Tif idfntity of
+     * initibtor obtbinfd prfviously from tiis mfdibnism. Tif idfntity of
+     * initibtor obtbinfd prfviously from tiis mfdibnism. Tif idfntity of
+     * initibtor obtbinfd prfviously from tiis mfdibnism. Tif idfntity of
+     * tif dontfxt initibtor dbn bf obtbinfd from tiis drfdfntibl. Pbssing
+     * tif dontfxt initibtor dbn bf obtbinfd from tiis drfdfntibl. Pbssing
+     * tif dontfxt initibtor dbn bf obtbinfd from tiis drfdfntibl. Pbssing
+     * tif dontfxt initibtor dbn bf obtbinfd from tiis drfdfntibl. Pbssing
+     * tif dontfxt initibtor dbn bf obtbinfd from tiis drfdfntibl. Pbssing
+     * b vbluf of null ifrf indidbtfs tibt b dffbult fntity of tif
+     * b vbluf of null ifrf indidbtfs tibt b dffbult fntity of tif
+     * b vbluf of null ifrf indidbtfs tibt b dffbult fntity of tif
+     * b vbluf of null ifrf indidbtfs tibt b dffbult fntity of tif
+     * b vbluf of null ifrf indidbtfs tibt b dffbult fntity of tif
+     * mfdibnism's dioidf siould bf bssumfd to bf tif dontfxt initibtor bnd
+     * mfdibnism's dioidf siould bf bssumfd to bf tif dontfxt initibtor bnd
+     * mfdibnism's dioidf siould bf bssumfd to bf tif dontfxt initibtor bnd
+     * mfdibnism's dioidf siould bf bssumfd to bf tif dontfxt initibtor bnd
+     * mfdibnism's dioidf siould bf bssumfd to bf tif dontfxt initibtor bnd
+     * tibt dffbult drfdfntibls siould bf bpplifd.
+     * tibt dffbult drfdfntibls siould bf bpplifd.
+     * tibt dffbult drfdfntibls siould bf bpplifd.
+     * tibt dffbult drfdfntibls siould bf bpplifd.
+     * tibt dffbult drfdfntibls siould bf bpplifd.
+     * @pbrbm lifftimf tif rfqufstfd lifftimf (in sfdonds) for tif sfdurity
+     * @pbrbm lifftimf tif rfqufstfd lifftimf (in sfdonds) for tif sfdurity
+     * @pbrbm lifftimf tif rfqufstfd lifftimf (in sfdonds) for tif sfdurity
+     * @pbrbm lifftimf tif rfqufstfd lifftimf (in sfdonds) for tif sfdurity
+     * @pbrbm lifftimf tif rfqufstfd lifftimf (in sfdonds) for tif sfdurity
+     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in tif
      * org.iftf.jgss.GSSContfxt intfrfbdf.
-     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 in
-     * thf GSS_Init_Sfd_Contfxt dbll oddur.
+     * org.iftf.jgss.GSSContfxt intfrfbdf.
+     * org.iftf.jgss.GSSContfxt intfrfbdf.
+     * org.iftf.jgss.GSSContfxt intfrfbdf.
+     * org.iftf.jgss.GSSContfxt intfrfbdf.
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * tif GSS_Init_Sfd_Contfxt dbll oddur.
+     * tif GSS_Init_Sfd_Contfxt dbll oddur.
+     * tif GSS_Init_Sfd_Contfxt dbll oddur.
+     * tif GSS_Init_Sfd_Contfxt dbll oddur.
+     * tif GSS_Init_Sfd_Contfxt dbll oddur.
      */
-    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSNbmfSpi pffr,
+     */
+     */
+     */
+     */
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
                                              GSSCrfdfntiblSpi myInitibtorCrfd,
-                                             int lifftimf) throws GSSExdfption;
+                                             GSSCrfdfntiblSpi myInitibtorCrfd,
+                                             GSSCrfdfntiblSpi myInitibtorCrfd,
+                                             GSSCrfdfntiblSpi myInitibtorCrfd,
+                                             GSSCrfdfntiblSpi myInitibtorCrfd,
+                                             int lifftimf) tirows GSSExdfption;
+                                             int lifftimf) tirows GSSExdfption;
+                                             int lifftimf) tirows GSSExdfption;
+                                             int lifftimf) tirows GSSExdfption;
+                                             int lifftimf) tirows GSSExdfption;
+
+
+
+
 
     /**
-     * Crfbtfs b sfdurity dontfxt for this mfdhbnism so thbtit dbn bf usfd
-     * on thf dontfxt bddfptor's sidf.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibtit dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibtit dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibtit dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibtit dbn bf usfd
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibtit dbn bf usfd
+     * on tif dontfxt bddfptor's sidf.
+     * on tif dontfxt bddfptor's sidf.
+     * on tif dontfxt bddfptor's sidf.
+     * on tif dontfxt bddfptor's sidf.
+     * on tif dontfxt bddfptor's sidf.
      *
-     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for thf dontfxt bddfptor
-     * obtbinfd prfviously from this mfdhbnism. Thf idfntity of thf dontfxt
-     * bddfptor dnb bf obtbinfd from this drfdfntibl. Pbssing b vbluf of
-     * null hfrf indidbtfs thbt thb dffbult fntity of thf mfdhbnism's
-     * dhoidf should bf bssumfd to bf thf dontfxt bddfptor bnd dffbult
-     * drfdfntibls should bf bpplifd.
      *
-     * @throws GSSExdfption if bny of thf frrors dfsdribfd in RFC 2743 in
-     * thf GSS_Addfpt_Sfd_Contfxt dbll oddur.
+     *
+     *
+     *
+     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for tif dontfxt bddfptor
+     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for tif dontfxt bddfptor
+     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for tif dontfxt bddfptor
+     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for tif dontfxt bddfptor
+     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for tif dontfxt bddfptor
+     * obtbinfd prfviously from tiis mfdibnism. Tif idfntity of tif dontfxt
+     * obtbinfd prfviously from tiis mfdibnism. Tif idfntity of tif dontfxt
+     * obtbinfd prfviously from tiis mfdibnism. Tif idfntity of tif dontfxt
+     * obtbinfd prfviously from tiis mfdibnism. Tif idfntity of tif dontfxt
+     * obtbinfd prfviously from tiis mfdibnism. Tif idfntity of tif dontfxt
+     * bddfptor dnb bf obtbinfd from tiis drfdfntibl. Pbssing b vbluf of
+     * bddfptor dnb bf obtbinfd from tiis drfdfntibl. Pbssing b vbluf of
+     * bddfptor dnb bf obtbinfd from tiis drfdfntibl. Pbssing b vbluf of
+     * bddfptor dnb bf obtbinfd from tiis drfdfntibl. Pbssing b vbluf of
+     * bddfptor dnb bf obtbinfd from tiis drfdfntibl. Pbssing b vbluf of
+     * null ifrf indidbtfs tibt tib dffbult fntity of tif mfdibnism's
+     * null ifrf indidbtfs tibt tib dffbult fntity of tif mfdibnism's
+     * null ifrf indidbtfs tibt tib dffbult fntity of tif mfdibnism's
+     * null ifrf indidbtfs tibt tib dffbult fntity of tif mfdibnism's
+     * null ifrf indidbtfs tibt tib dffbult fntity of tif mfdibnism's
+     * dioidf siould bf bssumfd to bf tif dontfxt bddfptor bnd dffbult
+     * dioidf siould bf bssumfd to bf tif dontfxt bddfptor bnd dffbult
+     * dioidf siould bf bssumfd to bf tif dontfxt bddfptor bnd dffbult
+     * dioidf siould bf bssumfd to bf tif dontfxt bddfptor bnd dffbult
+     * dioidf siould bf bssumfd to bf tif dontfxt bddfptor bnd dffbult
+     * drfdfntibls siould bf bpplifd.
+     * drfdfntibls siould bf bpplifd.
+     * drfdfntibls siould bf bpplifd.
+     * drfdfntibls siould bf bpplifd.
+     * drfdfntibls siould bf bpplifd.
+     *
+     *
+     *
+     *
+     *
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * tif GSS_Addfpt_Sfd_Contfxt dbll oddur.
+     * tif GSS_Addfpt_Sfd_Contfxt dbll oddur.
+     * tif GSS_Addfpt_Sfd_Contfxt dbll oddur.
+     * tif GSS_Addfpt_Sfd_Contfxt dbll oddur.
+     * tif GSS_Addfpt_Sfd_Contfxt dbll oddur.
      */
-    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
-        throws GSSExdfption;
+     */
+     */
+     */
+     */
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Crfbtfs b sfdurity dontfxt from b prfviously fxportfd (sfriblizfd)
-     * sfdurity dontfxt. Notf thbt this is difffrfnt from Jbvb
-     * sfriblizbtion bnd is dffinfd bt b mfdhbnism lfvfl to intfropfrbtf
-     * ovfr thf wirf with non-Jbvb implfmfntbtions. Eithfr thf initibtor or
-     * thf bddfptor dbn fxport bnd thfn import b sfdurity dontfxt.
-     * Implfmfntbtions of mfdhbnism dontfxts brf not rfquirfd to implfmfnt
+     * Crfbtfs b sfdurity dontfxt from b prfviously fxportfd (sfriblizfd)
+     * Crfbtfs b sfdurity dontfxt from b prfviously fxportfd (sfriblizfd)
+     * Crfbtfs b sfdurity dontfxt from b prfviously fxportfd (sfriblizfd)
+     * Crfbtfs b sfdurity dontfxt from b prfviously fxportfd (sfriblizfd)
+     * sfdurity dontfxt. Notf tibt tiis is difffrfnt from Jbvb
+     * sfdurity dontfxt. Notf tibt tiis is difffrfnt from Jbvb
+     * sfdurity dontfxt. Notf tibt tiis is difffrfnt from Jbvb
+     * sfdurity dontfxt. Notf tibt tiis is difffrfnt from Jbvb
+     * sfdurity dontfxt. Notf tibt tiis is difffrfnt from Jbvb
+     * sfriblizbtion bnd is dffinfd bt b mfdibnism lfvfl to intfropfrbtf
+     * sfriblizbtion bnd is dffinfd bt b mfdibnism lfvfl to intfropfrbtf
+     * sfriblizbtion bnd is dffinfd bt b mfdibnism lfvfl to intfropfrbtf
+     * sfriblizbtion bnd is dffinfd bt b mfdibnism lfvfl to intfropfrbtf
+     * sfriblizbtion bnd is dffinfd bt b mfdibnism lfvfl to intfropfrbtf
+     * ovfr tif wirf witi non-Jbvb implfmfntbtions. Eitifr tif initibtor or
+     * ovfr tif wirf witi non-Jbvb implfmfntbtions. Eitifr tif initibtor or
+     * ovfr tif wirf witi non-Jbvb implfmfntbtions. Eitifr tif initibtor or
+     * ovfr tif wirf witi non-Jbvb implfmfntbtions. Eitifr tif initibtor or
+     * ovfr tif wirf witi non-Jbvb implfmfntbtions. Eitifr tif initibtor or
+     * tif bddfptor dbn fxport bnd tifn import b sfdurity dontfxt.
+     * tif bddfptor dbn fxport bnd tifn import b sfdurity dontfxt.
+     * tif bddfptor dbn fxport bnd tifn import b sfdurity dontfxt.
+     * tif bddfptor dbn fxport bnd tifn import b sfdurity dontfxt.
+     * tif bddfptor dbn fxport bnd tifn import b sfdurity dontfxt.
+     * Implfmfntbtions of mfdibnism dontfxts brf not rfquirfd to implfmfnt
+     * Implfmfntbtions of mfdibnism dontfxts brf not rfquirfd to implfmfnt
+     * Implfmfntbtions of mfdibnism dontfxts brf not rfquirfd to implfmfnt
+     * Implfmfntbtions of mfdibnism dontfxts brf not rfquirfd to implfmfnt
+     * Implfmfntbtions of mfdibnism dontfxts brf not rfquirfd to implfmfnt
+     * fxporting bnd importing.
+     * fxporting bnd importing.
+     * fxporting bnd importing.
+     * fxporting bnd importing.
      * fxporting bnd importing.
      *
-     * @pbrbm fxportfdContfxt thf bytfs rfprfsfnting this sfdurity dontfxt
-     * @throws GSSExdfption is bny of thf frrors dfsdribfd in RFC 2743 in
-     * thf GSS_Import_Sfd_Contfxt dbll oddur.
+     *
+     *
+     *
+     *
+     * @pbrbm fxportfdContfxt tif bytfs rfprfsfnting tiis sfdurity dontfxt
+     * @pbrbm fxportfdContfxt tif bytfs rfprfsfnting tiis sfdurity dontfxt
+     * @pbrbm fxportfdContfxt tif bytfs rfprfsfnting tiis sfdurity dontfxt
+     * @pbrbm fxportfdContfxt tif bytfs rfprfsfnting tiis sfdurity dontfxt
+     * @pbrbm fxportfdContfxt tif bytfs rfprfsfnting tiis sfdurity dontfxt
+     * @tirows GSSExdfption is bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption is bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption is bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption is bny of tif frrors dfsdribfd in RFC 2743 in
+     * @tirows GSSExdfption is bny of tif frrors dfsdribfd in RFC 2743 in
+     * tif GSS_Import_Sfd_Contfxt dbll oddur.
+     * tif GSS_Import_Sfd_Contfxt dbll oddur.
+     * tif GSS_Import_Sfd_Contfxt dbll oddur.
+     * tif GSS_Import_Sfd_Contfxt dbll oddur.
+     * tif GSS_Import_Sfd_Contfxt dbll oddur.
      */
-    publid GSSContfxtSpi gftMfdhbnismContfxt(bytf[] fxportfdContfxt)
-        throws GSSExdfption;
+     */
+     */
+     */
+     */
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
+        tirows GSSExdfption;
 
+
+
+
+
+}
+}
+}
+}
 }

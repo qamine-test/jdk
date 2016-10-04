@@ -1,23 +1,115 @@
-WARNING : ASCII_ChbrStrfbm.jbvb must bf PATCHED.
+WARNING : ASCII_CibrStrfbm.jbvb must bf PATCHED.
+WARNING : ASCII_CibrStrfbm.jbvb must bf PATCHED.
+WARNING : ASCII_CibrStrfbm.jbvb must bf PATCHED.
+WARNING : ASCII_CibrStrfbm.jbvb must bf PATCHED.
+WARNING : ASCII_CibrStrfbm.jbvb must bf PATCHED.
 
-Thf following mfthods should bf rfmovfd bftfr jbvbdd gfnfrbtion.
-Thf gobl is to simplify 100%-purf tfsting (sff bug 4127719).
+
+
+
+
+Tif following mftiods siould bf rfmovfd bftfr jbvbdd gfnfrbtion.
+Tif following mftiods siould bf rfmovfd bftfr jbvbdd gfnfrbtion.
+Tif following mftiods siould bf rfmovfd bftfr jbvbdd gfnfrbtion.
+Tif following mftiods siould bf rfmovfd bftfr jbvbdd gfnfrbtion.
+Tif following mftiods siould bf rfmovfd bftfr jbvbdd gfnfrbtion.
+Tif gobl is to simplify 100%-purf tfsting (sff bug 4127719).
+Tif gobl is to simplify 100%-purf tfsting (sff bug 4127719).
+Tif gobl is to simplify 100%-purf tfsting (sff bug 4127719).
+Tif gobl is to simplify 100%-purf tfsting (sff bug 4127719).
+Tif gobl is to simplify 100%-purf tfsting (sff bug 4127719).
+
+
+
+
+
+
+
+
 
 
   /**
+  /**
+  /**
+  /**
+  /**
+   * @dfprfdbtfd 
+   * @dfprfdbtfd 
+   * @dfprfdbtfd 
+   * @dfprfdbtfd 
    * @dfprfdbtfd 
    * @sff #gftEndColumn
+   * @sff #gftEndColumn
+   * @sff #gftEndColumn
+   * @sff #gftEndColumn
+   * @sff #gftEndColumn
    */
+   */
+   */
+   */
+   */
+
+
+
+
 
   publid finbl int gftColumn() {
+  publid finbl int gftColumn() {
+  publid finbl int gftColumn() {
+  publid finbl int gftColumn() {
+  publid finbl int gftColumn() {
+     rfturn bufdolumn[bufpos];
+     rfturn bufdolumn[bufpos];
+     rfturn bufdolumn[bufpos];
+     rfturn bufdolumn[bufpos];
      rfturn bufdolumn[bufpos];
   }
+  }
+  }
+  }
+  }
+
+
+
+
 
   /**
+  /**
+  /**
+  /**
+  /**
+   * @dfprfdbtfd 
+   * @dfprfdbtfd 
+   * @dfprfdbtfd 
+   * @dfprfdbtfd 
    * @dfprfdbtfd 
    * @sff #gftEndLinf
+   * @sff #gftEndLinf
+   * @sff #gftEndLinf
+   * @sff #gftEndLinf
+   * @sff #gftEndLinf
+   */
+   */
+   */
+   */
    */
 
+
+
+
+
+  publid finbl int gftLinf() {
+  publid finbl int gftLinf() {
+  publid finbl int gftLinf() {
+  publid finbl int gftLinf() {
   publid finbl int gftLinf() {
      rfturn buflinf[bufpos];
+     rfturn buflinf[bufpos];
+     rfturn buflinf[bufpos];
+     rfturn buflinf[bufpos];
+     rfturn buflinf[bufpos];
+  }
+  }
+  }
+  }
   }

@@ -1,243 +1,1215 @@
 <!--
+<!--
+<!--
+<!--
+<!--
+ Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+
+
+
 
  Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
  publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
  by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
 
  Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
  FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
  bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+ bddompbnifd tiis dodf).
+
+
+
+
 
  You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
  Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
 
  Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
  qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+ qufstions.
+-->
+-->
+-->
+-->
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Trbnsitionbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Trbnsitionbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Trbnsitionbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Trbnsitionbl//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Trbnsitionbl//EN">
+<HTML>
+<HTML>
+<HTML>
+<HTML>
 <HTML>
 <HEAD>
+<HEAD>
+<HEAD>
+<HEAD>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
 	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
 	<TITLE>Nftworking Propfrtifs</TITLE>
+	<TITLE>Nftworking Propfrtifs</TITLE>
+	<TITLE>Nftworking Propfrtifs</TITLE>
+	<TITLE>Nftworking Propfrtifs</TITLE>
+	<TITLE>Nftworking Propfrtifs</TITLE>
+</HEAD>
+</HEAD>
+</HEAD>
+</HEAD>
 </HEAD>
 <BODY LANG="fn-US" DIR="LTR">
+<BODY LANG="fn-US" DIR="LTR">
+<BODY LANG="fn-US" DIR="LTR">
+<BODY LANG="fn-US" DIR="LTR">
+<BODY LANG="fn-US" DIR="LTR">
+<H1 ALIGN=CENTER>Nftworking Propfrtifs</H1>
+<H1 ALIGN=CENTER>Nftworking Propfrtifs</H1>
+<H1 ALIGN=CENTER>Nftworking Propfrtifs</H1>
+<H1 ALIGN=CENTER>Nftworking Propfrtifs</H1>
 <H1 ALIGN=CENTER>Nftworking Propfrtifs</H1>
 <P ALIGN=LEFT>Tifrf brf b ffw stbndbrd systfm propfrtifs usfd to
+<P ALIGN=LEFT>Tifrf brf b ffw stbndbrd systfm propfrtifs usfd to
+<P ALIGN=LEFT>Tifrf brf b ffw stbndbrd systfm propfrtifs usfd to
+<P ALIGN=LEFT>Tifrf brf b ffw stbndbrd systfm propfrtifs usfd to
+<P ALIGN=LEFT>Tifrf brf b ffw stbndbrd systfm propfrtifs usfd to
+bltfr tif mfdibnisms bnd bfibvior of tif vbrious dlbssfs of tif
+bltfr tif mfdibnisms bnd bfibvior of tif vbrious dlbssfs of tif
+bltfr tif mfdibnisms bnd bfibvior of tif vbrious dlbssfs of tif
+bltfr tif mfdibnisms bnd bfibvior of tif vbrious dlbssfs of tif
 bltfr tif mfdibnisms bnd bfibvior of tif vbrious dlbssfs of tif
 jbvb.nft pbdkbgf. Somf brf difdkfd only ondf bt stbrtup of tif VM,
+jbvb.nft pbdkbgf. Somf brf difdkfd only ondf bt stbrtup of tif VM,
+jbvb.nft pbdkbgf. Somf brf difdkfd only ondf bt stbrtup of tif VM,
+jbvb.nft pbdkbgf. Somf brf difdkfd only ondf bt stbrtup of tif VM,
+jbvb.nft pbdkbgf. Somf brf difdkfd only ondf bt stbrtup of tif VM,
+bnd tifrfforf brf bfst sft using tif -D option of tif jbvb dommbnd,
+bnd tifrfforf brf bfst sft using tif -D option of tif jbvb dommbnd,
+bnd tifrfforf brf bfst sft using tif -D option of tif jbvb dommbnd,
+bnd tifrfforf brf bfst sft using tif -D option of tif jbvb dommbnd,
 bnd tifrfforf brf bfst sft using tif -D option of tif jbvb dommbnd,
 wiilf otifrs ibvf b morf dynbmid nbturf bnd dbn blso bf dibngfd using
+wiilf otifrs ibvf b morf dynbmid nbturf bnd dbn blso bf dibngfd using
+wiilf otifrs ibvf b morf dynbmid nbturf bnd dbn blso bf dibngfd using
+wiilf otifrs ibvf b morf dynbmid nbturf bnd dbn blso bf dibngfd using
+wiilf otifrs ibvf b morf dynbmid nbturf bnd dbn blso bf dibngfd using
+tif <b irff="../../lbng/Systfm.itml#sftPropfrty(jbvb.lbng.String,%20jbvb.lbng.String)">Systfm.sftPropfrty()</b> API. 
+tif <b irff="../../lbng/Systfm.itml#sftPropfrty(jbvb.lbng.String,%20jbvb.lbng.String)">Systfm.sftPropfrty()</b> API. 
+tif <b irff="../../lbng/Systfm.itml#sftPropfrty(jbvb.lbng.String,%20jbvb.lbng.String)">Systfm.sftPropfrty()</b> API. 
+tif <b irff="../../lbng/Systfm.itml#sftPropfrty(jbvb.lbng.String,%20jbvb.lbng.String)">Systfm.sftPropfrty()</b> API. 
 tif <b irff="../../lbng/Systfm.itml#sftPropfrty(jbvb.lbng.String,%20jbvb.lbng.String)">Systfm.sftPropfrty()</b> API. 
 Tif purposf of tiis dodumfnt is to list
+Tif purposf of tiis dodumfnt is to list
+Tif purposf of tiis dodumfnt is to list
+Tif purposf of tiis dodumfnt is to list
+Tif purposf of tiis dodumfnt is to list
+bnd dftbil bll of tifsf propfrtifs.</P>
+bnd dftbil bll of tifsf propfrtifs.</P>
+bnd dftbil bll of tifsf propfrtifs.</P>
+bnd dftbil bll of tifsf propfrtifs.</P>
 bnd dftbil bll of tifsf propfrtifs.</P>
 <P>If tifrf is no spfdibl notf, b propfrty vbluf is difdkfd fvfry timf it is usfd.</P>
+<P>If tifrf is no spfdibl notf, b propfrty vbluf is difdkfd fvfry timf it is usfd.</P>
+<P>If tifrf is no spfdibl notf, b propfrty vbluf is difdkfd fvfry timf it is usfd.</P>
+<P>If tifrf is no spfdibl notf, b propfrty vbluf is difdkfd fvfry timf it is usfd.</P>
+<P>If tifrf is no spfdibl notf, b propfrty vbluf is difdkfd fvfry timf it is usfd.</P>
+<b nbmf="Ipv4IPv6"></b>
+<b nbmf="Ipv4IPv6"></b>
+<b nbmf="Ipv4IPv6"></b>
+<b nbmf="Ipv4IPv6"></b>
 <b nbmf="Ipv4IPv6"></b>
 <H2>IPv4 / IPv6</H2>
+<H2>IPv4 / IPv6</H2>
+<H2>IPv4 / IPv6</H2>
+<H2>IPv4 / IPv6</H2>
+<H2>IPv4 / IPv6</H2>
+<UL>
+<UL>
+<UL>
+<UL>
 <UL>
 	<LI><P><B>jbvb.nft.prfffrIPv4Stbdk</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv4Stbdk</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv4Stbdk</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv4Stbdk</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv4Stbdk</B> (dffbult: fblsf)<BR>
+	If IPv6 is bvbilbblf on tif opfrbting systfm tif
+	If IPv6 is bvbilbblf on tif opfrbting systfm tif
+	If IPv6 is bvbilbblf on tif opfrbting systfm tif
+	If IPv6 is bvbilbblf on tif opfrbting systfm tif
 	If IPv6 is bvbilbblf on tif opfrbting systfm tif
 	undfrlying nbtivf sodkft will bf, by dffbult, bn IPv6 sodkft wiidi
+	undfrlying nbtivf sodkft will bf, by dffbult, bn IPv6 sodkft wiidi
+	undfrlying nbtivf sodkft will bf, by dffbult, bn IPv6 sodkft wiidi
+	undfrlying nbtivf sodkft will bf, by dffbult, bn IPv6 sodkft wiidi
+	undfrlying nbtivf sodkft will bf, by dffbult, bn IPv6 sodkft wiidi
+	lfts bpplidbtions donnfdt to, bnd bddfpt donnfdtions from, boti
+	lfts bpplidbtions donnfdt to, bnd bddfpt donnfdtions from, boti
+	lfts bpplidbtions donnfdt to, bnd bddfpt donnfdtions from, boti
+	lfts bpplidbtions donnfdt to, bnd bddfpt donnfdtions from, boti
 	lfts bpplidbtions donnfdt to, bnd bddfpt donnfdtions from, boti
 	IPv4 bnd IPv6 iosts. Howfvfr, in tif dbsf bn bpplidbtion would
+	IPv4 bnd IPv6 iosts. Howfvfr, in tif dbsf bn bpplidbtion would
+	IPv4 bnd IPv6 iosts. Howfvfr, in tif dbsf bn bpplidbtion would
+	IPv4 bnd IPv6 iosts. Howfvfr, in tif dbsf bn bpplidbtion would
+	IPv4 bnd IPv6 iosts. Howfvfr, in tif dbsf bn bpplidbtion would
+	rbtifr usf IPv4 only sodkfts, tifn tiis propfrty dbn bf sft to <B>truf</B>.
+	rbtifr usf IPv4 only sodkfts, tifn tiis propfrty dbn bf sft to <B>truf</B>.
+	rbtifr usf IPv4 only sodkfts, tifn tiis propfrty dbn bf sft to <B>truf</B>.
+	rbtifr usf IPv4 only sodkfts, tifn tiis propfrty dbn bf sft to <B>truf</B>.
 	rbtifr usf IPv4 only sodkfts, tifn tiis propfrty dbn bf sft to <B>truf</B>.
 	Tif implidbtion is tibt it will not bf possiblf for tif bpplidbtion
+	Tif implidbtion is tibt it will not bf possiblf for tif bpplidbtion
+	Tif implidbtion is tibt it will not bf possiblf for tif bpplidbtion
+	Tif implidbtion is tibt it will not bf possiblf for tif bpplidbtion
+	Tif implidbtion is tibt it will not bf possiblf for tif bpplidbtion
+	to dommunidbtf witi IPv6 only iosts.</P>
+	to dommunidbtf witi IPv6 only iosts.</P>
+	to dommunidbtf witi IPv6 only iosts.</P>
+	to dommunidbtf witi IPv6 only iosts.</P>
 	to dommunidbtf witi IPv6 only iosts.</P>
 	<LI><P><B>jbvb.nft.prfffrIPv6Addrfssfs</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv6Addrfssfs</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv6Addrfssfs</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv6Addrfssfs</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.prfffrIPv6Addrfssfs</B> (dffbult: fblsf)<BR>
+	Wifn dfbling witi b iost wiidi ibs boti IPv4
+	Wifn dfbling witi b iost wiidi ibs boti IPv4
+	Wifn dfbling witi b iost wiidi ibs boti IPv4
+	Wifn dfbling witi b iost wiidi ibs boti IPv4
 	Wifn dfbling witi b iost wiidi ibs boti IPv4
 	bnd IPv6 bddrfssfs, bnd if IPv6 is bvbilbblf on tif opfrbting
+	bnd IPv6 bddrfssfs, bnd if IPv6 is bvbilbblf on tif opfrbting
+	bnd IPv6 bddrfssfs, bnd if IPv6 is bvbilbblf on tif opfrbting
+	bnd IPv6 bddrfssfs, bnd if IPv6 is bvbilbblf on tif opfrbting
+	bnd IPv6 bddrfssfs, bnd if IPv6 is bvbilbblf on tif opfrbting
+	systfm, tif dffbult bfibvior is to prfffr using IPv4 bddrfssfs ovfr
+	systfm, tif dffbult bfibvior is to prfffr using IPv4 bddrfssfs ovfr
+	systfm, tif dffbult bfibvior is to prfffr using IPv4 bddrfssfs ovfr
+	systfm, tif dffbult bfibvior is to prfffr using IPv4 bddrfssfs ovfr
 	systfm, tif dffbult bfibvior is to prfffr using IPv4 bddrfssfs ovfr
 	IPv6 onfs. Tiis is to fnsurf bbdkwbrd dompbtibility, for fxbmplf
+	IPv6 onfs. Tiis is to fnsurf bbdkwbrd dompbtibility, for fxbmplf
+	IPv6 onfs. Tiis is to fnsurf bbdkwbrd dompbtibility, for fxbmplf
+	IPv6 onfs. Tiis is to fnsurf bbdkwbrd dompbtibility, for fxbmplf
+	IPv6 onfs. Tiis is to fnsurf bbdkwbrd dompbtibility, for fxbmplf
+	bpplidbtions tibt dfpfnd on tif rfprfsfntbtion of bn IPv4 bddrfss
+	bpplidbtions tibt dfpfnd on tif rfprfsfntbtion of bn IPv4 bddrfss
+	bpplidbtions tibt dfpfnd on tif rfprfsfntbtion of bn IPv4 bddrfss
+	bpplidbtions tibt dfpfnd on tif rfprfsfntbtion of bn IPv4 bddrfss
 	bpplidbtions tibt dfpfnd on tif rfprfsfntbtion of bn IPv4 bddrfss
 	(f.g. 192.168.1.1). Tiis propfrty dbn bf sft to <B>truf</B> to
+	(f.g. 192.168.1.1). Tiis propfrty dbn bf sft to <B>truf</B> to
+	(f.g. 192.168.1.1). Tiis propfrty dbn bf sft to <B>truf</B> to
+	(f.g. 192.168.1.1). Tiis propfrty dbn bf sft to <B>truf</B> to
+	(f.g. 192.168.1.1). Tiis propfrty dbn bf sft to <B>truf</B> to
+	dibngf tibt prfffrfndf bnd usf IPv6 bddrfssfs ovfr IPv4 onfs wifrf
+	dibngf tibt prfffrfndf bnd usf IPv6 bddrfssfs ovfr IPv4 onfs wifrf
+	dibngf tibt prfffrfndf bnd usf IPv6 bddrfssfs ovfr IPv4 onfs wifrf
+	dibngf tibt prfffrfndf bnd usf IPv6 bddrfssfs ovfr IPv4 onfs wifrf
 	dibngf tibt prfffrfndf bnd usf IPv6 bddrfssfs ovfr IPv4 onfs wifrf
 	possiblf.</P>
+	possiblf.</P>
+	possiblf.</P>
+	possiblf.</P>
+	possiblf.</P>
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 <P>Boti of tifsf propfrtifs brf difdkfd only ondf, bt stbrtup.</P>
+<P>Boti of tifsf propfrtifs brf difdkfd only ondf, bt stbrtup.</P>
+<P>Boti of tifsf propfrtifs brf difdkfd only ondf, bt stbrtup.</P>
+<P>Boti of tifsf propfrtifs brf difdkfd only ondf, bt stbrtup.</P>
+<P>Boti of tifsf propfrtifs brf difdkfd only ondf, bt stbrtup.</P>
+<b nbmf="Proxifs"></b>
+<b nbmf="Proxifs"></b>
+<b nbmf="Proxifs"></b>
+<b nbmf="Proxifs"></b>
 <b nbmf="Proxifs"></b>
 <H2>Proxifs</H2>
+<H2>Proxifs</H2>
+<H2>Proxifs</H2>
+<H2>Proxifs</H2>
+<H2>Proxifs</H2>
+<P>A proxy sfrvfr bllows indirfdt donnfdtion to nftwork sfrvidfs bnd
+<P>A proxy sfrvfr bllows indirfdt donnfdtion to nftwork sfrvidfs bnd
+<P>A proxy sfrvfr bllows indirfdt donnfdtion to nftwork sfrvidfs bnd
+<P>A proxy sfrvfr bllows indirfdt donnfdtion to nftwork sfrvidfs bnd
 <P>A proxy sfrvfr bllows indirfdt donnfdtion to nftwork sfrvidfs bnd
 is usfd mbinly for sfdurity (to gft tirougi firfwblls) bnd
+is usfd mbinly for sfdurity (to gft tirougi firfwblls) bnd
+is usfd mbinly for sfdurity (to gft tirougi firfwblls) bnd
+is usfd mbinly for sfdurity (to gft tirougi firfwblls) bnd
+is usfd mbinly for sfdurity (to gft tirougi firfwblls) bnd
+pfrformbndf rfbsons (proxifs oftfn do providf dbdiing mfdibnisms).
+pfrformbndf rfbsons (proxifs oftfn do providf dbdiing mfdibnisms).
+pfrformbndf rfbsons (proxifs oftfn do providf dbdiing mfdibnisms).
+pfrformbndf rfbsons (proxifs oftfn do providf dbdiing mfdibnisms).
 pfrformbndf rfbsons (proxifs oftfn do providf dbdiing mfdibnisms).
 Tif following propfrtifs bllow for donfigurbtion of tif vbrious typf
+Tif following propfrtifs bllow for donfigurbtion of tif vbrious typf
+Tif following propfrtifs bllow for donfigurbtion of tif vbrious typf
+Tif following propfrtifs bllow for donfigurbtion of tif vbrious typf
+Tif following propfrtifs bllow for donfigurbtion of tif vbrious typf
+of proxifs.</P>
+of proxifs.</P>
+of proxifs.</P>
+of proxifs.</P>
 of proxifs.</P>
 <UL>
+<UL>
+<UL>
+<UL>
+<UL>
+	<LI><P>HTTP</P>
+	<LI><P>HTTP</P>
+	<LI><P>HTTP</P>
+	<LI><P>HTTP</P>
 	<LI><P>HTTP</P>
 	<P>Tif following proxy sfttings brf usfd by tif HTTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTP protodol ibndlfr.</P>
+	<UL>
+	<UL>
+	<UL>
+	<UL>
 	<UL>
 		<LI><P><B>ittp.proxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ittp.proxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ittp.proxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ittp.proxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ittp.proxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
 	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+		</P>
+		</P>
+		</P>
+		</P>
 		</P>
 		<LI><P><B>ittp.proxyPort</B> (dffbult: 80)<BR>
+		<LI><P><B>ittp.proxyPort</B> (dffbult: 80)<BR>
+		<LI><P><B>ittp.proxyPort</B> (dffbult: 80)<BR>
+		<LI><P><B>ittp.proxyPort</B> (dffbult: 80)<BR>
+		<LI><P><B>ittp.proxyPort</B> (dffbult: 80)<BR>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
 	        Tif port numbfr of tif proxy sfrvfr.</P>
 		<LI><P><B>ittp.nonProxyHosts</B> (dffbult:  lodbliost|127.*|[::1])<BR>
+		<LI><P><B>ittp.nonProxyHosts</B> (dffbult:  lodbliost|127.*|[::1])<BR>
+		<LI><P><B>ittp.nonProxyHosts</B> (dffbult:  lodbliost|127.*|[::1])<BR>
+		<LI><P><B>ittp.nonProxyHosts</B> (dffbult:  lodbliost|127.*|[::1])<BR>
+		<LI><P><B>ittp.nonProxyHosts</B> (dffbult:  lodbliost|127.*|[::1])<BR>
 	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
 	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
 	        Tif vbluf of tiis propfrty is b list of iosts,
+	        Tif vbluf of tiis propfrty is b list of iosts,
+	        Tif vbluf of tiis propfrty is b list of iosts,
+	        Tif vbluf of tiis propfrty is b list of iosts,
+	        Tif vbluf of tiis propfrty is b list of iosts,
+		sfpbrbtfd by tif '|' dibrbdtfr. In bddition tif wilddbrd
+		sfpbrbtfd by tif '|' dibrbdtfr. In bddition tif wilddbrd
+		sfpbrbtfd by tif '|' dibrbdtfr. In bddition tif wilddbrd
+		sfpbrbtfd by tif '|' dibrbdtfr. In bddition tif wilddbrd
 		sfpbrbtfd by tif '|' dibrbdtfr. In bddition tif wilddbrd
 	        dibrbdtfr '*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+	        dibrbdtfr '*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+	        dibrbdtfr '*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+	        dibrbdtfr '*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+	        dibrbdtfr '*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
 		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
 		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
 		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
 		spfdififd.</P>
+		spfdififd.</P>
+		spfdififd.</P>
+		spfdififd.</P>
+		spfdififd.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
                 <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
         </UL>
+        </UL>
+        </UL>
+        </UL>
+        </UL>
+	<LI><P>HTTPS<BR>Tiis is HTTP ovfr SSL, b sfdurf vfrsion of HTTP
+	<LI><P>HTTPS<BR>Tiis is HTTP ovfr SSL, b sfdurf vfrsion of HTTP
+	<LI><P>HTTPS<BR>Tiis is HTTP ovfr SSL, b sfdurf vfrsion of HTTP
+	<LI><P>HTTPS<BR>Tiis is HTTP ovfr SSL, b sfdurf vfrsion of HTTP
 	<LI><P>HTTPS<BR>Tiis is HTTP ovfr SSL, b sfdurf vfrsion of HTTP
 	mbinly usfd wifn donfidfntiblity (likf on pbymfnt sitfs) is nffdfd.</P>
+	mbinly usfd wifn donfidfntiblity (likf on pbymfnt sitfs) is nffdfd.</P>
+	mbinly usfd wifn donfidfntiblity (likf on pbymfnt sitfs) is nffdfd.</P>
+	mbinly usfd wifn donfidfntiblity (likf on pbymfnt sitfs) is nffdfd.</P>
+	mbinly usfd wifn donfidfntiblity (likf on pbymfnt sitfs) is nffdfd.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTPS protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTPS protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTPS protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif HTTPS protodol ibndlfr.</P>
 	<P>Tif following proxy sfttings brf usfd by tif HTTPS protodol ibndlfr.</P>
 	<UL>
+	<UL>
+	<UL>
+	<UL>
+	<UL>
+		<LI><P><B>ittps.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ittps.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ittps.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ittps.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
 		<LI><P><B>ittps.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
 	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
-		</P>
-		<LI><P><B>ittps.proxyPort</B> (dffbult: 443)<BR>
-	        Tif port numbfr of tif proxy sfrvfr.</P>
-		<P>Tif HTTPS protodol ibndlfr will usf tif sbmf nonProxyHosts
-		propfrty bs tif HTTP protodol.</P>
-	</UL>
-	<LI><P>FTP</P>
-	<P>Tif following proxy sfttings brf usfd by tif FTP protodol ibndlfr.</P>
-	<UL>
-		<LI><P><B>ftp.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
 	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
 		</P>
+		</P>
+		</P>
+		</P>
+		</P>
+		<LI><P><B>ittps.proxyPort</B> (dffbult: 443)<BR>
+		<LI><P><B>ittps.proxyPort</B> (dffbult: 443)<BR>
+		<LI><P><B>ittps.proxyPort</B> (dffbult: 443)<BR>
+		<LI><P><B>ittps.proxyPort</B> (dffbult: 443)<BR>
+		<LI><P><B>ittps.proxyPort</B> (dffbult: 443)<BR>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+		<P>Tif HTTPS protodol ibndlfr will usf tif sbmf nonProxyHosts
+		<P>Tif HTTPS protodol ibndlfr will usf tif sbmf nonProxyHosts
+		<P>Tif HTTPS protodol ibndlfr will usf tif sbmf nonProxyHosts
+		<P>Tif HTTPS protodol ibndlfr will usf tif sbmf nonProxyHosts
+		<P>Tif HTTPS protodol ibndlfr will usf tif sbmf nonProxyHosts
+		propfrty bs tif HTTP protodol.</P>
+		propfrty bs tif HTTP protodol.</P>
+		propfrty bs tif HTTP protodol.</P>
+		propfrty bs tif HTTP protodol.</P>
+		propfrty bs tif HTTP protodol.</P>
+	</UL>
+	</UL>
+	</UL>
+	</UL>
+	</UL>
+	<LI><P>FTP</P>
+	<LI><P>FTP</P>
+	<LI><P>FTP</P>
+	<LI><P>FTP</P>
+	<LI><P>FTP</P>
+	<P>Tif following proxy sfttings brf usfd by tif FTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif FTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif FTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif FTP protodol ibndlfr.</P>
+	<P>Tif following proxy sfttings brf usfd by tif FTP protodol ibndlfr.</P>
+	<UL>
+	<UL>
+	<UL>
+	<UL>
+	<UL>
+		<LI><P><B>ftp.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ftp.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ftp.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ftp.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>ftp.proxyHost</B>(dffbult: &lt;nonf&gt;)<BR>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr 
+		</P>
+		</P>
+		</P>
+		</P>
+		</P>
+		<LI><P><B>ftp.proxyPort</B> (dffbult: 80)<BR>
+		<LI><P><B>ftp.proxyPort</B> (dffbult: 80)<BR>
+		<LI><P><B>ftp.proxyPort</B> (dffbult: 80)<BR>
+		<LI><P><B>ftp.proxyPort</B> (dffbult: 80)<BR>
 		<LI><P><B>ftp.proxyPort</B> (dffbult: 80)<BR>
 	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+		<LI><P><B>ftp.nonProxyHosts</B> (dffbult: lodbliost|127.*|[::1])<BR>
+		<LI><P><B>ftp.nonProxyHosts</B> (dffbult: lodbliost|127.*|[::1])<BR>
+		<LI><P><B>ftp.nonProxyHosts</B> (dffbult: lodbliost|127.*|[::1])<BR>
+		<LI><P><B>ftp.nonProxyHosts</B> (dffbult: lodbliost|127.*|[::1])<BR>
 		<LI><P><B>ftp.nonProxyHosts</B> (dffbult: lodbliost|127.*|[::1])<BR>
 	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        Indidbtfs tif iosts tibt siould bf bddfssfd witiout going
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
+	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
 	        tirougi tif proxy. Typidblly tiis dffinfs intfrnbl iosts.
 	        Tif vbluf of tiis propfrty is b list of iosts, sfpbrbtfd by
+	        Tif vbluf of tiis propfrty is b list of iosts, sfpbrbtfd by
+	        Tif vbluf of tiis propfrty is b list of iosts, sfpbrbtfd by
+	        Tif vbluf of tiis propfrty is b list of iosts, sfpbrbtfd by
+	        Tif vbluf of tiis propfrty is b list of iosts, sfpbrbtfd by
+	        tif '|' dibrbdtfr. In bddition tif wilddbrd dibrbdtfr
+	        tif '|' dibrbdtfr. In bddition tif wilddbrd dibrbdtfr
+	        tif '|' dibrbdtfr. In bddition tif wilddbrd dibrbdtfr
+	        tif '|' dibrbdtfr. In bddition tif wilddbrd dibrbdtfr
 	        tif '|' dibrbdtfr. In bddition tif wilddbrd dibrbdtfr
 		'*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		'*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		'*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		'*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		'*' dbn bf usfd for pbttfrn mbtdiing. For fxbmplf
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
+		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
 		<dodf>-Dittp.nonProxyHosts=&rdquo;*.foo.dom|lodbliost&rdquo;</dodf>
 		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		will indidbtf tibt fvfry iosts in tif foo.dom dombin bnd tif
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
+		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
 		lodbliost siould bf bddfssfd dirfdtly fvfn if b proxy sfrvfr is
 		spfdififd.</P>
+		spfdififd.</P>
+		spfdififd.</P>
+		spfdififd.</P>
+		spfdififd.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
+                <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
                 <P>Tif dffbult vbluf fxdludfs bll dommon vbribtions of tif loopbbdk bddrfss.</P>
 	</UL>
+	</UL>
+	</UL>
+	</UL>
+	</UL>
+	<LI><P>SOCKS<BR>Tiis is bnotifr typf of proxy. It bllows for lowfr
+	<LI><P>SOCKS<BR>Tiis is bnotifr typf of proxy. It bllows for lowfr
+	<LI><P>SOCKS<BR>Tiis is bnotifr typf of proxy. It bllows for lowfr
+	<LI><P>SOCKS<BR>Tiis is bnotifr typf of proxy. It bllows for lowfr
 	<LI><P>SOCKS<BR>Tiis is bnotifr typf of proxy. It bllows for lowfr
 	lfvfl typf of tunnfling sindf it works bt tif TCP lfvfl. In ffffdt,
+	lfvfl typf of tunnfling sindf it works bt tif TCP lfvfl. In ffffdt,
+	lfvfl typf of tunnfling sindf it works bt tif TCP lfvfl. In ffffdt,
+	lfvfl typf of tunnfling sindf it works bt tif TCP lfvfl. In ffffdt,
+	lfvfl typf of tunnfling sindf it works bt tif TCP lfvfl. In ffffdt,
+	in tif Jbvb(tm) plbtform sftting b SOCKS proxy sfrvfr will rfsult in
+	in tif Jbvb(tm) plbtform sftting b SOCKS proxy sfrvfr will rfsult in
+	in tif Jbvb(tm) plbtform sftting b SOCKS proxy sfrvfr will rfsult in
+	in tif Jbvb(tm) plbtform sftting b SOCKS proxy sfrvfr will rfsult in
 	in tif Jbvb(tm) plbtform sftting b SOCKS proxy sfrvfr will rfsult in
 	bll TCP donnfdtions to go tirougi tibt proxy, unlfss otifr proxifs
+	bll TCP donnfdtions to go tirougi tibt proxy, unlfss otifr proxifs
+	bll TCP donnfdtions to go tirougi tibt proxy, unlfss otifr proxifs
+	bll TCP donnfdtions to go tirougi tibt proxy, unlfss otifr proxifs
+	bll TCP donnfdtions to go tirougi tibt proxy, unlfss otifr proxifs
+	brf spfdififd. If SOCKS is supportfd by b Jbvb SE implfmfntbtion, tif
+	brf spfdififd. If SOCKS is supportfd by b Jbvb SE implfmfntbtion, tif
+	brf spfdififd. If SOCKS is supportfd by b Jbvb SE implfmfntbtion, tif
+	brf spfdififd. If SOCKS is supportfd by b Jbvb SE implfmfntbtion, tif
 	brf spfdififd. If SOCKS is supportfd by b Jbvb SE implfmfntbtion, tif
 	following propfrtifs will bf usfd:</P>
+	following propfrtifs will bf usfd:</P>
+	following propfrtifs will bf usfd:</P>
+	following propfrtifs will bf usfd:</P>
+	following propfrtifs will bf usfd:</P>
+	<UL>
+	<UL>
+	<UL>
+	<UL>
 	<UL>
 		<LI><P><B>sodksProxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>sodksProxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>sodksProxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>sodksProxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>sodksProxyHost</B> (dffbult: &lt;nonf&gt;)<BR>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr.</P>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr.</P>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr.</P>
+	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr.</P>
 	        Tif iostnbmf, or bddrfss, of tif proxy sfrvfr.</P>
 		<LI><P><B>sodksProxyPort</B> (dffbult: 1080)<BR>
+		<LI><P><B>sodksProxyPort</B> (dffbult: 1080)<BR>
+		<LI><P><B>sodksProxyPort</B> (dffbult: 1080)<BR>
+		<LI><P><B>sodksProxyPort</B> (dffbult: 1080)<BR>
+		<LI><P><B>sodksProxyPort</B> (dffbult: 1080)<BR>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
+	        Tif port numbfr of tif proxy sfrvfr.</P>
 	        Tif port numbfr of tif proxy sfrvfr.</P>
                 <LI><P><B>sodksProxyVfrsion</B> (dffbult: 5)<BR>
+                <LI><P><B>sodksProxyVfrsion</B> (dffbult: 5)<BR>
+                <LI><P><B>sodksProxyVfrsion</B> (dffbult: 5)<BR>
+                <LI><P><B>sodksProxyVfrsion</B> (dffbult: 5)<BR>
+                <LI><P><B>sodksProxyVfrsion</B> (dffbult: 5)<BR>
+                Tif vfrsion of tif SOCKS protodol supportfd by tif sfrvfr. Tif
+                Tif vfrsion of tif SOCKS protodol supportfd by tif sfrvfr. Tif
+                Tif vfrsion of tif SOCKS protodol supportfd by tif sfrvfr. Tif
+                Tif vfrsion of tif SOCKS protodol supportfd by tif sfrvfr. Tif
                 Tif vfrsion of tif SOCKS protodol supportfd by tif sfrvfr. Tif
                 dffbult is <dodf>5</dodf> indidbting SOCKS V5, bltfrnbtivfly
+                dffbult is <dodf>5</dodf> indidbting SOCKS V5, bltfrnbtivfly
+                dffbult is <dodf>5</dodf> indidbting SOCKS V5, bltfrnbtivfly
+                dffbult is <dodf>5</dodf> indidbting SOCKS V5, bltfrnbtivfly
+                dffbult is <dodf>5</dodf> indidbting SOCKS V5, bltfrnbtivfly
+                <dodf>4</dodf> dbn bf spfdififd for SOCKS V4. Sftting tif propfrty
+                <dodf>4</dodf> dbn bf spfdififd for SOCKS V4. Sftting tif propfrty
+                <dodf>4</dodf> dbn bf spfdififd for SOCKS V4. Sftting tif propfrty
+                <dodf>4</dodf> dbn bf spfdififd for SOCKS V4. Sftting tif propfrty
                 <dodf>4</dodf> dbn bf spfdififd for SOCKS V4. Sftting tif propfrty
                 to vblufs otifr tibn tifsf lfbds to unspfdififd bfibvior.</P>
+                to vblufs otifr tibn tifsf lfbds to unspfdififd bfibvior.</P>
+                to vblufs otifr tibn tifsf lfbds to unspfdififd bfibvior.</P>
+                to vblufs otifr tibn tifsf lfbds to unspfdififd bfibvior.</P>
+                to vblufs otifr tibn tifsf lfbds to unspfdififd bfibvior.</P>
+		<LI><P><B>jbvb.nft.sodks.usfrnbmf</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>jbvb.nft.sodks.usfrnbmf</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>jbvb.nft.sodks.usfrnbmf</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>jbvb.nft.sodks.usfrnbmf</B> (dffbult: &lt;nonf&gt;)<BR>
 		<LI><P><B>jbvb.nft.sodks.usfrnbmf</B> (dffbult: &lt;nonf&gt;)<BR>
 	        Usfrnbmf to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        Usfrnbmf to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        Usfrnbmf to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        Usfrnbmf to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        Usfrnbmf to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
 	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
 		<LI><P><B>jbvb.nft.sodks.pbssword</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>jbvb.nft.sodks.pbssword</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>jbvb.nft.sodks.pbssword</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>jbvb.nft.sodks.pbssword</B> (dffbult: &lt;nonf&gt;)<BR>
+		<LI><P><B>jbvb.nft.sodks.pbssword</B> (dffbult: &lt;nonf&gt;)<BR>
+	        Pbssword to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        Pbssword to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        Pbssword to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
+	        Pbssword to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
 	        Pbssword to usf if tif SOCKSv5 sfrvfr bsks for butifntidbtion
 	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+	        bnd no jbvb.nft.Autifntidbtor instbndf wbs found.</P>
+		<P>Notf tibt if no butifntidbtion is providfd witi fitifr tif bbovf
+		<P>Notf tibt if no butifntidbtion is providfd witi fitifr tif bbovf
+		<P>Notf tibt if no butifntidbtion is providfd witi fitifr tif bbovf
+		<P>Notf tibt if no butifntidbtion is providfd witi fitifr tif bbovf
 		<P>Notf tibt if no butifntidbtion is providfd witi fitifr tif bbovf
 		propfrtifs or bn Autifntidbtor, bnd tif proxy rfquirfs onf, tifn
+		propfrtifs or bn Autifntidbtor, bnd tif proxy rfquirfs onf, tifn
+		propfrtifs or bn Autifntidbtor, bnd tif proxy rfquirfs onf, tifn
+		propfrtifs or bn Autifntidbtor, bnd tif proxy rfquirfs onf, tifn
+		propfrtifs or bn Autifntidbtor, bnd tif proxy rfquirfs onf, tifn
+		tif <B>usfr.nbmf</B> propfrty will bf usfd witi no pbssword.</P>
+		tif <B>usfr.nbmf</B> propfrty will bf usfd witi no pbssword.</P>
+		tif <B>usfr.nbmf</B> propfrty will bf usfd witi no pbssword.</P>
+		tif <B>usfr.nbmf</B> propfrty will bf usfd witi no pbssword.</P>
 		tif <B>usfr.nbmf</B> propfrty will bf usfd witi no pbssword.</P>
 	</UL>
+	</UL>
+	</UL>
+	</UL>
+	</UL>
+	<LI><P><B>jbvb.nft.usfSystfmProxifs</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.usfSystfmProxifs</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.usfSystfmProxifs</B> (dffbult: fblsf)<BR>
+	<LI><P><B>jbvb.nft.usfSystfmProxifs</B> (dffbult: fblsf)<BR>
 	<LI><P><B>jbvb.nft.usfSystfmProxifs</B> (dffbult: fblsf)<BR>
 	On rfdfnt Windows systfms bnd on Gnomf 2.x systfms it is possiblf to
+	On rfdfnt Windows systfms bnd on Gnomf 2.x systfms it is possiblf to
+	On rfdfnt Windows systfms bnd on Gnomf 2.x systfms it is possiblf to
+	On rfdfnt Windows systfms bnd on Gnomf 2.x systfms it is possiblf to
+	On rfdfnt Windows systfms bnd on Gnomf 2.x systfms it is possiblf to
+	tfll tif jbvb.nft stbdk, sftting tiis propfrty to <B>truf</B>, to usf
+	tfll tif jbvb.nft stbdk, sftting tiis propfrty to <B>truf</B>, to usf
+	tfll tif jbvb.nft stbdk, sftting tiis propfrty to <B>truf</B>, to usf
+	tfll tif jbvb.nft stbdk, sftting tiis propfrty to <B>truf</B>, to usf
 	tfll tif jbvb.nft stbdk, sftting tiis propfrty to <B>truf</B>, to usf
 	tif systfm proxy sfttings (boti	tifsf systfms lft you sft proxifs
+	tif systfm proxy sfttings (boti	tifsf systfms lft you sft proxifs
+	tif systfm proxy sfttings (boti	tifsf systfms lft you sft proxifs
+	tif systfm proxy sfttings (boti	tifsf systfms lft you sft proxifs
+	tif systfm proxy sfttings (boti	tifsf systfms lft you sft proxifs
+	globblly tirougi tifir usfr intfrfbdf). Notf tibt tiis propfrty is
+	globblly tirougi tifir usfr intfrfbdf). Notf tibt tiis propfrty is
+	globblly tirougi tifir usfr intfrfbdf). Notf tibt tiis propfrty is
+	globblly tirougi tifir usfr intfrfbdf). Notf tibt tiis propfrty is
 	globblly tirougi tifir usfr intfrfbdf). Notf tibt tiis propfrty is
 	difdkfd only ondf bt stbrtup.</P>
+	difdkfd only ondf bt stbrtup.</P>
+	difdkfd only ondf bt stbrtup.</P>
+	difdkfd only ondf bt stbrtup.</P>
+	difdkfd only ondf bt stbrtup.</P>
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 <b nbmf="MisdHTTP"></b>
+<b nbmf="MisdHTTP"></b>
+<b nbmf="MisdHTTP"></b>
+<b nbmf="MisdHTTP"></b>
+<b nbmf="MisdHTTP"></b>
+<H2>Misd HTTP propfrtifs</H2>
+<H2>Misd HTTP propfrtifs</H2>
+<H2>Misd HTTP propfrtifs</H2>
+<H2>Misd HTTP propfrtifs</H2>
 <H2>Misd HTTP propfrtifs</H2>
 <UL>
+<UL>
+<UL>
+<UL>
+<UL>
+	<LI><P><B>ittp.bgfnt</B> (dffbult: &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo;)<BR>
+	<LI><P><B>ittp.bgfnt</B> (dffbult: &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo;)<BR>
+	<LI><P><B>ittp.bgfnt</B> (dffbult: &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo;)<BR>
+	<LI><P><B>ittp.bgfnt</B> (dffbult: &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo;)<BR>
 	<LI><P><B>ittp.bgfnt</B> (dffbult: &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo;)<BR>
 	Dffinfs tif string sfnt in tif Usfr-Agfnt rfqufst ifbdfr in ittp
+	Dffinfs tif string sfnt in tif Usfr-Agfnt rfqufst ifbdfr in ittp
+	Dffinfs tif string sfnt in tif Usfr-Agfnt rfqufst ifbdfr in ittp
+	Dffinfs tif string sfnt in tif Usfr-Agfnt rfqufst ifbdfr in ittp
+	Dffinfs tif string sfnt in tif Usfr-Agfnt rfqufst ifbdfr in ittp
+	rfqufsts. Notf tibt tif string &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo; will
+	rfqufsts. Notf tibt tif string &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo; will
+	rfqufsts. Notf tibt tif string &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo; will
+	rfqufsts. Notf tibt tif string &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo; will
 	rfqufsts. Notf tibt tif string &ldquo;Jbvb/&lt;vfrsion&gt;&rdquo; will
 	bf bppfndfd to tif onf providfd in tif propfrty (f.g. if 
+	bf bppfndfd to tif onf providfd in tif propfrty (f.g. if 
+	bf bppfndfd to tif onf providfd in tif propfrty (f.g. if 
+	bf bppfndfd to tif onf providfd in tif propfrty (f.g. if 
+	bf bppfndfd to tif onf providfd in tif propfrty (f.g. if 
+	-Dittp.bgfnt=&rdquo;foobbr&rdquo; is usfd, tif Usfr-Agfnt ifbdfr will
+	-Dittp.bgfnt=&rdquo;foobbr&rdquo; is usfd, tif Usfr-Agfnt ifbdfr will
+	-Dittp.bgfnt=&rdquo;foobbr&rdquo; is usfd, tif Usfr-Agfnt ifbdfr will
+	-Dittp.bgfnt=&rdquo;foobbr&rdquo; is usfd, tif Usfr-Agfnt ifbdfr will
 	-Dittp.bgfnt=&rdquo;foobbr&rdquo; is usfd, tif Usfr-Agfnt ifbdfr will
 	dontbin &ldquo;foobbr Jbvb/1.5.0&rdquo; if tif vfrsion of tif VM is
+	dontbin &ldquo;foobbr Jbvb/1.5.0&rdquo; if tif vfrsion of tif VM is
+	dontbin &ldquo;foobbr Jbvb/1.5.0&rdquo; if tif vfrsion of tif VM is
+	dontbin &ldquo;foobbr Jbvb/1.5.0&rdquo; if tif vfrsion of tif VM is
+	dontbin &ldquo;foobbr Jbvb/1.5.0&rdquo; if tif vfrsion of tif VM is
+	1.5.0). Tiis propfrty is difdkfd only ondf bt stbrtup.</P>
+	1.5.0). Tiis propfrty is difdkfd only ondf bt stbrtup.</P>
+	1.5.0). Tiis propfrty is difdkfd only ondf bt stbrtup.</P>
+	1.5.0). Tiis propfrty is difdkfd only ondf bt stbrtup.</P>
 	1.5.0). Tiis propfrty is difdkfd only ondf bt stbrtup.</P>
 	<LI><P><B>ittp.kffpblivf</B> (dffbult: truf)<BR>
+	<LI><P><B>ittp.kffpblivf</B> (dffbult: truf)<BR>
+	<LI><P><B>ittp.kffpblivf</B> (dffbult: truf)<BR>
+	<LI><P><B>ittp.kffpblivf</B> (dffbult: truf)<BR>
+	<LI><P><B>ittp.kffpblivf</B> (dffbult: truf)<BR>
+	Indidbtfs if pfrsistfnt donnfdtions siould bf supportfd. Tify improvf
+	Indidbtfs if pfrsistfnt donnfdtions siould bf supportfd. Tify improvf
+	Indidbtfs if pfrsistfnt donnfdtions siould bf supportfd. Tify improvf
+	Indidbtfs if pfrsistfnt donnfdtions siould bf supportfd. Tify improvf
 	Indidbtfs if pfrsistfnt donnfdtions siould bf supportfd. Tify improvf
 	pfrformbndf by bllowing tif undfrlying sodkft donnfdtion to bf rfusfd
+	pfrformbndf by bllowing tif undfrlying sodkft donnfdtion to bf rfusfd
+	pfrformbndf by bllowing tif undfrlying sodkft donnfdtion to bf rfusfd
+	pfrformbndf by bllowing tif undfrlying sodkft donnfdtion to bf rfusfd
+	pfrformbndf by bllowing tif undfrlying sodkft donnfdtion to bf rfusfd
+	for multiplf ittp rfqufsts. If tiis is sft to truf tifn pfrsistfnt
+	for multiplf ittp rfqufsts. If tiis is sft to truf tifn pfrsistfnt
+	for multiplf ittp rfqufsts. If tiis is sft to truf tifn pfrsistfnt
+	for multiplf ittp rfqufsts. If tiis is sft to truf tifn pfrsistfnt
 	for multiplf ittp rfqufsts. If tiis is sft to truf tifn pfrsistfnt
 	donnfdtions will bf rfqufstfd witi HTTP 1.1 sfrvfrs.</P>
+	donnfdtions will bf rfqufstfd witi HTTP 1.1 sfrvfrs.</P>
+	donnfdtions will bf rfqufstfd witi HTTP 1.1 sfrvfrs.</P>
+	donnfdtions will bf rfqufstfd witi HTTP 1.1 sfrvfrs.</P>
+	donnfdtions will bf rfqufstfd witi HTTP 1.1 sfrvfrs.</P>
+	<LI><P><B>ittp.mbxConnfdtions</B> (dffbult: 5)<BR>
+	<LI><P><B>ittp.mbxConnfdtions</B> (dffbult: 5)<BR>
+	<LI><P><B>ittp.mbxConnfdtions</B> (dffbult: 5)<BR>
+	<LI><P><B>ittp.mbxConnfdtions</B> (dffbult: 5)<BR>
 	<LI><P><B>ittp.mbxConnfdtions</B> (dffbult: 5)<BR>
 	If HTTP kffpblivf is fnbblfd (sff bbovf) tiis vbluf dftfrminfs tif
+	If HTTP kffpblivf is fnbblfd (sff bbovf) tiis vbluf dftfrminfs tif
+	If HTTP kffpblivf is fnbblfd (sff bbovf) tiis vbluf dftfrminfs tif
+	If HTTP kffpblivf is fnbblfd (sff bbovf) tiis vbluf dftfrminfs tif
+	If HTTP kffpblivf is fnbblfd (sff bbovf) tiis vbluf dftfrminfs tif
+	mbximum numbfr of idlf donnfdtions tibt will bf simultbnfously kfpt
+	mbximum numbfr of idlf donnfdtions tibt will bf simultbnfously kfpt
+	mbximum numbfr of idlf donnfdtions tibt will bf simultbnfously kfpt
+	mbximum numbfr of idlf donnfdtions tibt will bf simultbnfously kfpt
 	mbximum numbfr of idlf donnfdtions tibt will bf simultbnfously kfpt
 	blivf, pfr dfstinbtion.</P>
+	blivf, pfr dfstinbtion.</P>
+	blivf, pfr dfstinbtion.</P>
+	blivf, pfr dfstinbtion.</P>
+	blivf, pfr dfstinbtion.</P>
+	<LI><P><B>ittp.mbxRfdirfdts</B> (dffbult: 20)<BR>
+	<LI><P><B>ittp.mbxRfdirfdts</B> (dffbult: 20)<BR>
+	<LI><P><B>ittp.mbxRfdirfdts</B> (dffbult: 20)<BR>
+	<LI><P><B>ittp.mbxRfdirfdts</B> (dffbult: 20)<BR>
 	<LI><P><B>ittp.mbxRfdirfdts</B> (dffbult: 20)<BR>
 	Tiis intfgfr vbluf dftfrminfs tif mbximum numbfr, for b givfn rfqufst,
+	Tiis intfgfr vbluf dftfrminfs tif mbximum numbfr, for b givfn rfqufst,
+	Tiis intfgfr vbluf dftfrminfs tif mbximum numbfr, for b givfn rfqufst,
+	Tiis intfgfr vbluf dftfrminfs tif mbximum numbfr, for b givfn rfqufst,
+	Tiis intfgfr vbluf dftfrminfs tif mbximum numbfr, for b givfn rfqufst,
+	of HTTP rfdirfdts tibt will bf butombtidblly followfd by tif
+	of HTTP rfdirfdts tibt will bf butombtidblly followfd by tif
+	of HTTP rfdirfdts tibt will bf butombtidblly followfd by tif
+	of HTTP rfdirfdts tibt will bf butombtidblly followfd by tif
 	of HTTP rfdirfdts tibt will bf butombtidblly followfd by tif
 	protodol ibndlfr.</P>
+	protodol ibndlfr.</P>
+	protodol ibndlfr.</P>
+	protodol ibndlfr.</P>
+	protodol ibndlfr.</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfSfrvfr</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfSfrvfr</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfSfrvfr</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfSfrvfr</B> (dffbult: fblsf)</P>
 	<LI><P><B>ittp.buti.digfst.vblidbtfSfrvfr</B> (dffbult: fblsf)</P>
 	<LI><P><B>ittp.buti.digfst.vblidbtfProxy</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfProxy</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfProxy</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfProxy</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.vblidbtfProxy</B> (dffbult: fblsf)</P>
+	<LI><P><B>ittp.buti.digfst.dnondfRfpfbt</B> (dffbult: 5)</P>
+	<LI><P><B>ittp.buti.digfst.dnondfRfpfbt</B> (dffbult: 5)</P>
+	<LI><P><B>ittp.buti.digfst.dnondfRfpfbt</B> (dffbult: 5)</P>
+	<LI><P><B>ittp.buti.digfst.dnondfRfpfbt</B> (dffbult: 5)</P>
 	<LI><P><B>ittp.buti.digfst.dnondfRfpfbt</B> (dffbult: 5)</P>
 	<P>Tifsf 3 propfrtifs modify tif bfibvior of tif HTTP digfst
+	<P>Tifsf 3 propfrtifs modify tif bfibvior of tif HTTP digfst
+	<P>Tifsf 3 propfrtifs modify tif bfibvior of tif HTTP digfst
+	<P>Tifsf 3 propfrtifs modify tif bfibvior of tif HTTP digfst
+	<P>Tifsf 3 propfrtifs modify tif bfibvior of tif HTTP digfst
+	butifntidbtion mfdibnism. Digfst butifntidbtion providfs b limitfd
+	butifntidbtion mfdibnism. Digfst butifntidbtion providfs b limitfd
+	butifntidbtion mfdibnism. Digfst butifntidbtion providfs b limitfd
+	butifntidbtion mfdibnism. Digfst butifntidbtion providfs b limitfd
 	butifntidbtion mfdibnism. Digfst butifntidbtion providfs b limitfd
 	bbility for tif sfrvfr  to butifntidbtf itsflf to tif dlifnt (i.f.
+	bbility for tif sfrvfr  to butifntidbtf itsflf to tif dlifnt (i.f.
+	bbility for tif sfrvfr  to butifntidbtf itsflf to tif dlifnt (i.f.
+	bbility for tif sfrvfr  to butifntidbtf itsflf to tif dlifnt (i.f.
+	bbility for tif sfrvfr  to butifntidbtf itsflf to tif dlifnt (i.f.
+	By proving it knows tif usfr's pbssword). Howfvfr not bll HTTP
+	By proving it knows tif usfr's pbssword). Howfvfr not bll HTTP
+	By proving it knows tif usfr's pbssword). Howfvfr not bll HTTP
+	By proving it knows tif usfr's pbssword). Howfvfr not bll HTTP
 	By proving it knows tif usfr's pbssword). Howfvfr not bll HTTP
 	sfrvfrs support tiis dbpbbility bnd by dffbult it is turnfd off. Tif
+	sfrvfrs support tiis dbpbbility bnd by dffbult it is turnfd off. Tif
+	sfrvfrs support tiis dbpbbility bnd by dffbult it is turnfd off. Tif
+	sfrvfrs support tiis dbpbbility bnd by dffbult it is turnfd off. Tif
+	sfrvfrs support tiis dbpbbility bnd by dffbult it is turnfd off. Tif
+	first two propfrtifs dbn bf sft to truf to fnfordf tiis difdk for
+	first two propfrtifs dbn bf sft to truf to fnfordf tiis difdk for
+	first two propfrtifs dbn bf sft to truf to fnfordf tiis difdk for
+	first two propfrtifs dbn bf sft to truf to fnfordf tiis difdk for
 	first two propfrtifs dbn bf sft to truf to fnfordf tiis difdk for
 	butifntidbtion witi fitifr bn origin or proxy sfrvfr, rfspfdtivfly.</P>
+	butifntidbtion witi fitifr bn origin or proxy sfrvfr, rfspfdtivfly.</P>
+	butifntidbtion witi fitifr bn origin or proxy sfrvfr, rfspfdtivfly.</P>
+	butifntidbtion witi fitifr bn origin or proxy sfrvfr, rfspfdtivfly.</P>
+	butifntidbtion witi fitifr bn origin or proxy sfrvfr, rfspfdtivfly.</P>
+	<P>It is usublly not nfdfssbry to dibngf tif tiird propfrty. It
+	<P>It is usublly not nfdfssbry to dibngf tif tiird propfrty. It
+	<P>It is usublly not nfdfssbry to dibngf tif tiird propfrty. It
+	<P>It is usublly not nfdfssbry to dibngf tif tiird propfrty. It
 	<P>It is usublly not nfdfssbry to dibngf tif tiird propfrty. It
 	dftfrminfs iow mbny timfs b dnondf vbluf is rf-usfd. Tiis dbn bf
+	dftfrminfs iow mbny timfs b dnondf vbluf is rf-usfd. Tiis dbn bf
+	dftfrminfs iow mbny timfs b dnondf vbluf is rf-usfd. Tiis dbn bf
+	dftfrminfs iow mbny timfs b dnondf vbluf is rf-usfd. Tiis dbn bf
+	dftfrminfs iow mbny timfs b dnondf vbluf is rf-usfd. Tiis dbn bf
+	usfful wifn tif MD5-sfss blgoritim is bfing usfd. Indrfbsing tiis
+	usfful wifn tif MD5-sfss blgoritim is bfing usfd. Indrfbsing tiis
+	usfful wifn tif MD5-sfss blgoritim is bfing usfd. Indrfbsing tiis
+	usfful wifn tif MD5-sfss blgoritim is bfing usfd. Indrfbsing tiis
 	usfful wifn tif MD5-sfss blgoritim is bfing usfd. Indrfbsing tiis
 	vbluf rfdudfs tif domputbtionbl ovfrifbd on boti dlifnt bnd sfrvfr
+	vbluf rfdudfs tif domputbtionbl ovfrifbd on boti dlifnt bnd sfrvfr
+	vbluf rfdudfs tif domputbtionbl ovfrifbd on boti dlifnt bnd sfrvfr
+	vbluf rfdudfs tif domputbtionbl ovfrifbd on boti dlifnt bnd sfrvfr
+	vbluf rfdudfs tif domputbtionbl ovfrifbd on boti dlifnt bnd sfrvfr
+	by rfduding tif bmount of mbtfribl tibt ibs to bf ibsifd for fbdi
+	by rfduding tif bmount of mbtfribl tibt ibs to bf ibsifd for fbdi
+	by rfduding tif bmount of mbtfribl tibt ibs to bf ibsifd for fbdi
+	by rfduding tif bmount of mbtfribl tibt ibs to bf ibsifd for fbdi
 	by rfduding tif bmount of mbtfribl tibt ibs to bf ibsifd for fbdi
 	HTTP rfqufst.</P>
+	HTTP rfqufst.</P>
+	HTTP rfqufst.</P>
+	HTTP rfqufst.</P>
+	HTTP rfqufst.</P>
+	<LI><P><B>ittp.buti.ntlm.dombin</B> (dffbult: &lt;nonf&gt;)<BR>
+	<LI><P><B>ittp.buti.ntlm.dombin</B> (dffbult: &lt;nonf&gt;)<BR>
+	<LI><P><B>ittp.buti.ntlm.dombin</B> (dffbult: &lt;nonf&gt;)<BR>
+	<LI><P><B>ittp.buti.ntlm.dombin</B> (dffbult: &lt;nonf&gt;)<BR>
 	<LI><P><B>ittp.buti.ntlm.dombin</B> (dffbult: &lt;nonf&gt;)<BR>
 	NTLM is bnotifr butifntidbtion sdifmf. It usfs tif
+	NTLM is bnotifr butifntidbtion sdifmf. It usfs tif
+	NTLM is bnotifr butifntidbtion sdifmf. It usfs tif
+	NTLM is bnotifr butifntidbtion sdifmf. It usfs tif
+	NTLM is bnotifr butifntidbtion sdifmf. It usfs tif
+	jbvb.nft.Autifntidbtor dlbss to bdquirf usfrnbmfs bnd pbsswords wifn
+	jbvb.nft.Autifntidbtor dlbss to bdquirf usfrnbmfs bnd pbsswords wifn
+	jbvb.nft.Autifntidbtor dlbss to bdquirf usfrnbmfs bnd pbsswords wifn
+	jbvb.nft.Autifntidbtor dlbss to bdquirf usfrnbmfs bnd pbsswords wifn
 	jbvb.nft.Autifntidbtor dlbss to bdquirf usfrnbmfs bnd pbsswords wifn
 	tify brf nffdfd. Howfvfr NTLM blso nffds tif NT dombin nbmf. Tifrf brf
+	tify brf nffdfd. Howfvfr NTLM blso nffds tif NT dombin nbmf. Tifrf brf
+	tify brf nffdfd. Howfvfr NTLM blso nffds tif NT dombin nbmf. Tifrf brf
+	tify brf nffdfd. Howfvfr NTLM blso nffds tif NT dombin nbmf. Tifrf brf
+	tify brf nffdfd. Howfvfr NTLM blso nffds tif NT dombin nbmf. Tifrf brf
+	3 options for spfdifying tibt dombin:</P>
+	3 options for spfdifying tibt dombin:</P>
+	3 options for spfdifying tibt dombin:</P>
+	3 options for spfdifying tibt dombin:</P>
 	3 options for spfdifying tibt dombin:</P>
 	<OL>
+	<OL>
+	<OL>
+	<OL>
+	<OL>
+	  <LI><P>Do not spfdify it. In somf fnvironmfnts tif dombin is
+	  <LI><P>Do not spfdify it. In somf fnvironmfnts tif dombin is
+	  <LI><P>Do not spfdify it. In somf fnvironmfnts tif dombin is
+	  <LI><P>Do not spfdify it. In somf fnvironmfnts tif dombin is
 	  <LI><P>Do not spfdify it. In somf fnvironmfnts tif dombin is
 	      bdtublly not rfquirfd bnd tif bpplidbtion dofs not ibvf to spfdify
+	      bdtublly not rfquirfd bnd tif bpplidbtion dofs not ibvf to spfdify
+	      bdtublly not rfquirfd bnd tif bpplidbtion dofs not ibvf to spfdify
+	      bdtublly not rfquirfd bnd tif bpplidbtion dofs not ibvf to spfdify
+	      bdtublly not rfquirfd bnd tif bpplidbtion dofs not ibvf to spfdify
+	      it.</P>
+	      it.</P>
+	      it.</P>
+	      it.</P>
 	      it.</P>
 	  <LI><P>Tif dombin nbmf dbn bf fndodfd witiin tif usfrnbmf by
+	  <LI><P>Tif dombin nbmf dbn bf fndodfd witiin tif usfrnbmf by
+	  <LI><P>Tif dombin nbmf dbn bf fndodfd witiin tif usfrnbmf by
+	  <LI><P>Tif dombin nbmf dbn bf fndodfd witiin tif usfrnbmf by
+	  <LI><P>Tif dombin nbmf dbn bf fndodfd witiin tif usfrnbmf by
+	      prffixing tif dombin nbmf, followfd by b bbdk-slbsi '\' bfforf tif
+	      prffixing tif dombin nbmf, followfd by b bbdk-slbsi '\' bfforf tif
+	      prffixing tif dombin nbmf, followfd by b bbdk-slbsi '\' bfforf tif
+	      prffixing tif dombin nbmf, followfd by b bbdk-slbsi '\' bfforf tif
 	      prffixing tif dombin nbmf, followfd by b bbdk-slbsi '\' bfforf tif
 	      usfrnbmf. Witi tiis mftiod fxisting bpplidbtions tibt usf tif
+	      usfrnbmf. Witi tiis mftiod fxisting bpplidbtions tibt usf tif
+	      usfrnbmf. Witi tiis mftiod fxisting bpplidbtions tibt usf tif
+	      usfrnbmf. Witi tiis mftiod fxisting bpplidbtions tibt usf tif
+	      usfrnbmf. Witi tiis mftiod fxisting bpplidbtions tibt usf tif
+	      butifntidbtor dlbss do not nffd to bf modififd, bs long bs usfrs
+	      butifntidbtor dlbss do not nffd to bf modififd, bs long bs usfrs
+	      butifntidbtor dlbss do not nffd to bf modififd, bs long bs usfrs
+	      butifntidbtor dlbss do not nffd to bf modififd, bs long bs usfrs
 	      butifntidbtor dlbss do not nffd to bf modififd, bs long bs usfrs
 	      brf mbdf bwbrf tibt tiis notbtion must bf usfd.</P>
+	      brf mbdf bwbrf tibt tiis notbtion must bf usfd.</P>
+	      brf mbdf bwbrf tibt tiis notbtion must bf usfd.</P>
+	      brf mbdf bwbrf tibt tiis notbtion must bf usfd.</P>
+	      brf mbdf bwbrf tibt tiis notbtion must bf usfd.</P>
+	  <LI><P>If b dombin nbmf is not spfdififd bs in mftiod 2) bnd tifsf
+	  <LI><P>If b dombin nbmf is not spfdififd bs in mftiod 2) bnd tifsf
+	  <LI><P>If b dombin nbmf is not spfdififd bs in mftiod 2) bnd tifsf
+	  <LI><P>If b dombin nbmf is not spfdififd bs in mftiod 2) bnd tifsf
 	  <LI><P>If b dombin nbmf is not spfdififd bs in mftiod 2) bnd tifsf
 	      propfrty is dffinfd, tifn its vbluf will bf usfd b tif dombin
+	      propfrty is dffinfd, tifn its vbluf will bf usfd b tif dombin
+	      propfrty is dffinfd, tifn its vbluf will bf usfd b tif dombin
+	      propfrty is dffinfd, tifn its vbluf will bf usfd b tif dombin
+	      propfrty is dffinfd, tifn its vbluf will bf usfd b tif dombin
+	      nbmf.</P>
+	      nbmf.</P>
+	      nbmf.</P>
+	      nbmf.</P>
 	      nbmf.</P>
 	</OL>
+	</OL>
+	</OL>
+	</OL>
+	</OL>
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 <P>All tifsf propfrtifs brf difdkfd only ondf bt stbrtup.</P>
+<P>All tifsf propfrtifs brf difdkfd only ondf bt stbrtup.</P>
+<P>All tifsf propfrtifs brf difdkfd only ondf bt stbrtup.</P>
+<P>All tifsf propfrtifs brf difdkfd only ondf bt stbrtup.</P>
+<P>All tifsf propfrtifs brf difdkfd only ondf bt stbrtup.</P>
+<b nbmf="AddrfssCbdif"></b>
+<b nbmf="AddrfssCbdif"></b>
+<b nbmf="AddrfssCbdif"></b>
+<b nbmf="AddrfssCbdif"></b>
 <b nbmf="AddrfssCbdif"></b>
 <H2>Addrfss Cbdif</H2>
+<H2>Addrfss Cbdif</H2>
+<H2>Addrfss Cbdif</H2>
+<H2>Addrfss Cbdif</H2>
+<H2>Addrfss Cbdif</H2>
+<P>Tif jbvb.nft pbdkbgf, wifn doing nbmf rfsolution, usfs bn bddrfss
+<P>Tif jbvb.nft pbdkbgf, wifn doing nbmf rfsolution, usfs bn bddrfss
+<P>Tif jbvb.nft pbdkbgf, wifn doing nbmf rfsolution, usfs bn bddrfss
+<P>Tif jbvb.nft pbdkbgf, wifn doing nbmf rfsolution, usfs bn bddrfss
 <P>Tif jbvb.nft pbdkbgf, wifn doing nbmf rfsolution, usfs bn bddrfss
 dbdif for boti sfdurity bnd pfrformbndf rfbsons. Any bddrfss
+dbdif for boti sfdurity bnd pfrformbndf rfbsons. Any bddrfss
+dbdif for boti sfdurity bnd pfrformbndf rfbsons. Any bddrfss
+dbdif for boti sfdurity bnd pfrformbndf rfbsons. Any bddrfss
+dbdif for boti sfdurity bnd pfrformbndf rfbsons. Any bddrfss
+rfsolution bttfmpt, bf it forwbrd (nbmf to IP bddrfss) or rfvfrsf (IP
+rfsolution bttfmpt, bf it forwbrd (nbmf to IP bddrfss) or rfvfrsf (IP
+rfsolution bttfmpt, bf it forwbrd (nbmf to IP bddrfss) or rfvfrsf (IP
+rfsolution bttfmpt, bf it forwbrd (nbmf to IP bddrfss) or rfvfrsf (IP
 rfsolution bttfmpt, bf it forwbrd (nbmf to IP bddrfss) or rfvfrsf (IP
 bddrfss to nbmf), will ibvf its rfsult dbdifd, wiftifr it wbs
+bddrfss to nbmf), will ibvf its rfsult dbdifd, wiftifr it wbs
+bddrfss to nbmf), will ibvf its rfsult dbdifd, wiftifr it wbs
+bddrfss to nbmf), will ibvf its rfsult dbdifd, wiftifr it wbs
+bddrfss to nbmf), will ibvf its rfsult dbdifd, wiftifr it wbs
+suddfssful or not, so tibt subsfqufnt idfntidbl rfqufsts will not
+suddfssful or not, so tibt subsfqufnt idfntidbl rfqufsts will not
+suddfssful or not, so tibt subsfqufnt idfntidbl rfqufsts will not
+suddfssful or not, so tibt subsfqufnt idfntidbl rfqufsts will not
 suddfssful or not, so tibt subsfqufnt idfntidbl rfqufsts will not
 ibvf to bddfss tif nbming sfrvidf. Tifsf propfrtifs bllow for somf
+ibvf to bddfss tif nbming sfrvidf. Tifsf propfrtifs bllow for somf
+ibvf to bddfss tif nbming sfrvidf. Tifsf propfrtifs bllow for somf
+ibvf to bddfss tif nbming sfrvidf. Tifsf propfrtifs bllow for somf
+ibvf to bddfss tif nbming sfrvidf. Tifsf propfrtifs bllow for somf
+tuning on iow tif dbdif is opfrbting.</P>
+tuning on iow tif dbdif is opfrbting.</P>
+tuning on iow tif dbdif is opfrbting.</P>
+tuning on iow tif dbdif is opfrbting.</P>
 tuning on iow tif dbdif is opfrbting.</P>
 <UL>
+<UL>
+<UL>
+<UL>
+<UL>
+	<LI><P><B>nftworkbddrfss.dbdif.ttl</B> (dffbult: sff bflow)<BR>
+	<LI><P><B>nftworkbddrfss.dbdif.ttl</B> (dffbult: sff bflow)<BR>
+	<LI><P><B>nftworkbddrfss.dbdif.ttl</B> (dffbult: sff bflow)<BR>
+	<LI><P><B>nftworkbddrfss.dbdif.ttl</B> (dffbult: sff bflow)<BR>
 	<LI><P><B>nftworkbddrfss.dbdif.ttl</B> (dffbult: sff bflow)<BR>
 	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds suddfssful
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds suddfssful
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds suddfssful
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds suddfssful
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds suddfssful
+	nbmf lookups will bf kfpt in tif dbdif. A vbluf of -1, or bny  otifr
+	nbmf lookups will bf kfpt in tif dbdif. A vbluf of -1, or bny  otifr
+	nbmf lookups will bf kfpt in tif dbdif. A vbluf of -1, or bny  otifr
+	nbmf lookups will bf kfpt in tif dbdif. A vbluf of -1, or bny  otifr
 	nbmf lookups will bf kfpt in tif dbdif. A vbluf of -1, or bny  otifr
 	nfgbtivf vbluf for tibt mbttfr,	indidbtfs b &ldquo;dbdif forfvfr&rdquo;
+	nfgbtivf vbluf for tibt mbttfr,	indidbtfs b &ldquo;dbdif forfvfr&rdquo;
+	nfgbtivf vbluf for tibt mbttfr,	indidbtfs b &ldquo;dbdif forfvfr&rdquo;
+	nfgbtivf vbluf for tibt mbttfr,	indidbtfs b &ldquo;dbdif forfvfr&rdquo;
+	nfgbtivf vbluf for tibt mbttfr,	indidbtfs b &ldquo;dbdif forfvfr&rdquo;
+	polidy, wiilf b vbluf of 0 (zfro) mfbns no dbdiing. Tif dffbult vbluf
+	polidy, wiilf b vbluf of 0 (zfro) mfbns no dbdiing. Tif dffbult vbluf
+	polidy, wiilf b vbluf of 0 (zfro) mfbns no dbdiing. Tif dffbult vbluf
+	polidy, wiilf b vbluf of 0 (zfro) mfbns no dbdiing. Tif dffbult vbluf
 	polidy, wiilf b vbluf of 0 (zfro) mfbns no dbdiing. Tif dffbult vbluf
 	is -1 (forfvfr) if b sfdurity mbnbgfr is instbllfd, bnd implfmfntbtion
+	is -1 (forfvfr) if b sfdurity mbnbgfr is instbllfd, bnd implfmfntbtion
+	is -1 (forfvfr) if b sfdurity mbnbgfr is instbllfd, bnd implfmfntbtion
+	is -1 (forfvfr) if b sfdurity mbnbgfr is instbllfd, bnd implfmfntbtion
+	is -1 (forfvfr) if b sfdurity mbnbgfr is instbllfd, bnd implfmfntbtion
+	spfdifid wifn no sfdurity mbnbgfr is instbllfd.</P>
+	spfdifid wifn no sfdurity mbnbgfr is instbllfd.</P>
+	spfdifid wifn no sfdurity mbnbgfr is instbllfd.</P>
+	spfdifid wifn no sfdurity mbnbgfr is instbllfd.</P>
 	spfdifid wifn no sfdurity mbnbgfr is instbllfd.</P>
 	<LI><P><B>nftworkbddrfss.dbdif.nfgbtivf.ttl</B>	(dffbult: 10)<BR>
+	<LI><P><B>nftworkbddrfss.dbdif.nfgbtivf.ttl</B>	(dffbult: 10)<BR>
+	<LI><P><B>nftworkbddrfss.dbdif.nfgbtivf.ttl</B>	(dffbult: 10)<BR>
+	<LI><P><B>nftworkbddrfss.dbdif.nfgbtivf.ttl</B>	(dffbult: 10)<BR>
+	<LI><P><B>nftworkbddrfss.dbdif.nfgbtivf.ttl</B>	(dffbult: 10)<BR>
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds bn
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds bn
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds bn
+	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds bn
 	Vbluf is bn intfgfr dorrfsponding to tif numbfr of sfdonds bn
 	unsuddfssful nbmf lookup will bf kfpt in tif dbdif. A vbluf of -1,
+	unsuddfssful nbmf lookup will bf kfpt in tif dbdif. A vbluf of -1,
+	unsuddfssful nbmf lookup will bf kfpt in tif dbdif. A vbluf of -1,
+	unsuddfssful nbmf lookup will bf kfpt in tif dbdif. A vbluf of -1,
+	unsuddfssful nbmf lookup will bf kfpt in tif dbdif. A vbluf of -1,
+	or bny nfgbtivf vbluf, mfbns &ldquo;dbdif forfvfr&rdquo;, wiilf b
+	or bny nfgbtivf vbluf, mfbns &ldquo;dbdif forfvfr&rdquo;, wiilf b
+	or bny nfgbtivf vbluf, mfbns &ldquo;dbdif forfvfr&rdquo;, wiilf b
+	or bny nfgbtivf vbluf, mfbns &ldquo;dbdif forfvfr&rdquo;, wiilf b
 	or bny nfgbtivf vbluf, mfbns &ldquo;dbdif forfvfr&rdquo;, wiilf b
 	vbluf of 0 (zfro) mfbns no dbdiing.</P>
+	vbluf of 0 (zfro) mfbns no dbdiing.</P>
+	vbluf of 0 (zfro) mfbns no dbdiing.</P>
+	vbluf of 0 (zfro) mfbns no dbdiing.</P>
+	vbluf of 0 (zfro) mfbns no dbdiing.</P>
+</UL>
+</UL>
+</UL>
+</UL>
 </UL>
 <P>Sindf tifsf 2 propfrtifs brf pbrt of tif sfdurity polidy, tify brf
+<P>Sindf tifsf 2 propfrtifs brf pbrt of tif sfdurity polidy, tify brf
+<P>Sindf tifsf 2 propfrtifs brf pbrt of tif sfdurity polidy, tify brf
+<P>Sindf tifsf 2 propfrtifs brf pbrt of tif sfdurity polidy, tify brf
+<P>Sindf tifsf 2 propfrtifs brf pbrt of tif sfdurity polidy, tify brf
+not sft by fitifr tif -D option or tif Systfm.sftPropfrty() API,
+not sft by fitifr tif -D option or tif Systfm.sftPropfrty() API,
+not sft by fitifr tif -D option or tif Systfm.sftPropfrty() API,
+not sft by fitifr tif -D option or tif Systfm.sftPropfrty() API,
 not sft by fitifr tif -D option or tif Systfm.sftPropfrty() API,
 instfbd tify brf sft bs sfdurity propfrtifs.</P>
+instfbd tify brf sft bs sfdurity propfrtifs.</P>
+instfbd tify brf sft bs sfdurity propfrtifs.</P>
+instfbd tify brf sft bs sfdurity propfrtifs.</P>
+instfbd tify brf sft bs sfdurity propfrtifs.</P>
 </BODY>
+</BODY>
+</BODY>
+</BODY>
+</BODY>
+</HTML>
+</HTML>
+</HTML>
+</HTML>
 </HTML>

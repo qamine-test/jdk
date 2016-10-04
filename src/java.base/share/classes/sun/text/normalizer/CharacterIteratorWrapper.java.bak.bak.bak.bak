@@ -1,146 +1,730 @@
 /*
- * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
+/*
+/*
+/*
+/*
  *******************************************************************************
- * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
  *                                                                             *
- * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
- * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
- * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
- * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ *                                                                             *
+ *                                                                             *
+ *                                                                             *
+ *                                                                             *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
+ * to rfmovfd.                                                                 *
  * to rfmovfd.                                                                 *
  *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
+ *******************************************************************************
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
+pbdkbgf sun.tfxt.normblizfr;
 
-import jbvb.tfxt.ChbrbdtfrItfrbtor;
+
+
+
+
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+
+
+
+
 
 /**
- * This dlbss is b wrbppfr bround ChbrbdtfrItfrbtor bnd implfmfnts thf
- * UChbrbdtfrItfrbtor protodol
- * @buthor rbm
+/**
+/**
+/**
+/**
+ * Tiis dlbss is b wrbppfr bround CibrbdtfrItfrbtor bnd implfmfnts tif
+ * Tiis dlbss is b wrbppfr bround CibrbdtfrItfrbtor bnd implfmfnts tif
+ * Tiis dlbss is b wrbppfr bround CibrbdtfrItfrbtor bnd implfmfnts tif
+ * Tiis dlbss is b wrbppfr bround CibrbdtfrItfrbtor bnd implfmfnts tif
+ * Tiis dlbss is b wrbppfr bround CibrbdtfrItfrbtor bnd implfmfnts tif
+ * UCibrbdtfrItfrbtor protodol
+ * UCibrbdtfrItfrbtor protodol
+ * UCibrbdtfrItfrbtor protodol
+ * UCibrbdtfrItfrbtor protodol
+ * UCibrbdtfrItfrbtor protodol
+ * @butior rbm
+ * @butior rbm
+ * @butior rbm
+ * @butior rbm
+ * @butior rbm
+ */
+ */
+ */
+ */
  */
 
-publid dlbss ChbrbdtfrItfrbtorWrbppfr fxtfnds UChbrbdtfrItfrbtor {
 
-    privbtf ChbrbdtfrItfrbtor itfrbtor;
 
-    publid ChbrbdtfrItfrbtorWrbppfr(ChbrbdtfrItfrbtor itfr){
+
+
+publid dlbss CibrbdtfrItfrbtorWrbppfr fxtfnds UCibrbdtfrItfrbtor {
+publid dlbss CibrbdtfrItfrbtorWrbppfr fxtfnds UCibrbdtfrItfrbtor {
+publid dlbss CibrbdtfrItfrbtorWrbppfr fxtfnds UCibrbdtfrItfrbtor {
+publid dlbss CibrbdtfrItfrbtorWrbppfr fxtfnds UCibrbdtfrItfrbtor {
+publid dlbss CibrbdtfrItfrbtorWrbppfr fxtfnds UCibrbdtfrItfrbtor {
+
+
+
+
+
+    privbtf CibrbdtfrItfrbtor itfrbtor;
+    privbtf CibrbdtfrItfrbtor itfrbtor;
+    privbtf CibrbdtfrItfrbtor itfrbtor;
+    privbtf CibrbdtfrItfrbtor itfrbtor;
+    privbtf CibrbdtfrItfrbtor itfrbtor;
+
+
+
+
+
+    publid CibrbdtfrItfrbtorWrbppfr(CibrbdtfrItfrbtor itfr){
+    publid CibrbdtfrItfrbtorWrbppfr(CibrbdtfrItfrbtor itfr){
+    publid CibrbdtfrItfrbtorWrbppfr(CibrbdtfrItfrbtor itfr){
+    publid CibrbdtfrItfrbtorWrbppfr(CibrbdtfrItfrbtor itfr){
+    publid CibrbdtfrItfrbtorWrbppfr(CibrbdtfrItfrbtor itfr){
         if(itfr==null){
-            throw nfw IllfgblArgumfntExdfption();
+        if(itfr==null){
+        if(itfr==null){
+        if(itfr==null){
+        if(itfr==null){
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+            tirow nfw IllfgblArgumfntExdfption();
+        }
+        }
+        }
+        }
         }
         itfrbtor     = itfr;
+        itfrbtor     = itfr;
+        itfrbtor     = itfr;
+        itfrbtor     = itfr;
+        itfrbtor     = itfr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * @sff UChbrbdtfrItfrbtor#durrfnt()
+    /**
+    /**
+    /**
+    /**
+     * @sff UCibrbdtfrItfrbtor#durrfnt()
+     * @sff UCibrbdtfrItfrbtor#durrfnt()
+     * @sff UCibrbdtfrItfrbtor#durrfnt()
+     * @sff UCibrbdtfrItfrbtor#durrfnt()
+     * @sff UCibrbdtfrItfrbtor#durrfnt()
+     */
+     */
+     */
+     */
      */
     publid int durrfnt() {
+    publid int durrfnt() {
+    publid int durrfnt() {
+    publid int durrfnt() {
+    publid int durrfnt() {
         int d = itfrbtor.durrfnt();
-        if(d==ChbrbdtfrItfrbtor.DONE){
+        int d = itfrbtor.durrfnt();
+        int d = itfrbtor.durrfnt();
+        int d = itfrbtor.durrfnt();
+        int d = itfrbtor.durrfnt();
+        if(d==CibrbdtfrItfrbtor.DONE){
+        if(d==CibrbdtfrItfrbtor.DONE){
+        if(d==CibrbdtfrItfrbtor.DONE){
+        if(d==CibrbdtfrItfrbtor.DONE){
+        if(d==CibrbdtfrItfrbtor.DONE){
           rfturn DONE;
+          rfturn DONE;
+          rfturn DONE;
+          rfturn DONE;
+          rfturn DONE;
+        }
+        }
+        }
+        }
         }
         rfturn d;
+        rfturn d;
+        rfturn d;
+        rfturn d;
+        rfturn d;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * @sff UChbrbdtfrItfrbtor#gftLfngth()
+    /**
+    /**
+    /**
+    /**
+     * @sff UCibrbdtfrItfrbtor#gftLfngti()
+     * @sff UCibrbdtfrItfrbtor#gftLfngti()
+     * @sff UCibrbdtfrItfrbtor#gftLfngti()
+     * @sff UCibrbdtfrItfrbtor#gftLfngti()
+     * @sff UCibrbdtfrItfrbtor#gftLfngti()
      */
-    publid int gftLfngth() {
+     */
+     */
+     */
+     */
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+    publid int gftLfngti() {
+        rfturn (itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx());
+        rfturn (itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx());
+        rfturn (itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx());
+        rfturn (itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx());
         rfturn (itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * @sff UChbrbdtfrItfrbtor#gftIndfx()
+    /**
+    /**
+    /**
+    /**
+     * @sff UCibrbdtfrItfrbtor#gftIndfx()
+     * @sff UCibrbdtfrItfrbtor#gftIndfx()
+     * @sff UCibrbdtfrItfrbtor#gftIndfx()
+     * @sff UCibrbdtfrItfrbtor#gftIndfx()
+     * @sff UCibrbdtfrItfrbtor#gftIndfx()
+     */
+     */
+     */
+     */
      */
     publid int gftIndfx() {
+    publid int gftIndfx() {
+    publid int gftIndfx() {
+    publid int gftIndfx() {
+    publid int gftIndfx() {
+        rfturn itfrbtor.gftIndfx();
+        rfturn itfrbtor.gftIndfx();
+        rfturn itfrbtor.gftIndfx();
+        rfturn itfrbtor.gftIndfx();
         rfturn itfrbtor.gftIndfx();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * @sff UChbrbdtfrItfrbtor#nfxt()
+    /**
+    /**
+    /**
+    /**
+     * @sff UCibrbdtfrItfrbtor#nfxt()
+     * @sff UCibrbdtfrItfrbtor#nfxt()
+     * @sff UCibrbdtfrItfrbtor#nfxt()
+     * @sff UCibrbdtfrItfrbtor#nfxt()
+     * @sff UCibrbdtfrItfrbtor#nfxt()
+     */
+     */
+     */
+     */
      */
     publid int nfxt() {
+    publid int nfxt() {
+    publid int nfxt() {
+    publid int nfxt() {
+    publid int nfxt() {
+        int i = itfrbtor.durrfnt();
+        int i = itfrbtor.durrfnt();
+        int i = itfrbtor.durrfnt();
+        int i = itfrbtor.durrfnt();
         int i = itfrbtor.durrfnt();
         itfrbtor.nfxt();
-        if(i==ChbrbdtfrItfrbtor.DONE){
+        itfrbtor.nfxt();
+        itfrbtor.nfxt();
+        itfrbtor.nfxt();
+        itfrbtor.nfxt();
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+          rfturn DONE;
+          rfturn DONE;
+          rfturn DONE;
+          rfturn DONE;
           rfturn DONE;
         }
+        }
+        }
+        }
+        }
+        rfturn i;
+        rfturn i;
+        rfturn i;
+        rfturn i;
         rfturn i;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * @sff UChbrbdtfrItfrbtor#prfvious()
+    /**
+    /**
+    /**
+    /**
+     * @sff UCibrbdtfrItfrbtor#prfvious()
+     * @sff UCibrbdtfrItfrbtor#prfvious()
+     * @sff UCibrbdtfrItfrbtor#prfvious()
+     * @sff UCibrbdtfrItfrbtor#prfvious()
+     * @sff UCibrbdtfrItfrbtor#prfvious()
+     */
+     */
+     */
+     */
      */
     publid int prfvious() {
+    publid int prfvious() {
+    publid int prfvious() {
+    publid int prfvious() {
+    publid int prfvious() {
         int i = itfrbtor.prfvious();
-        if(i==ChbrbdtfrItfrbtor.DONE){
+        int i = itfrbtor.prfvious();
+        int i = itfrbtor.prfvious();
+        int i = itfrbtor.prfvious();
+        int i = itfrbtor.prfvious();
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+        if(i==CibrbdtfrItfrbtor.DONE){
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
+            rfturn DONE;
             rfturn DONE;
         }
+        }
+        }
+        }
+        }
+        rfturn i;
+        rfturn i;
+        rfturn i;
+        rfturn i;
         rfturn i;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * @sff UChbrbdtfrItfrbtor#sftIndfx(int)
+    /**
+    /**
+    /**
+    /**
+     * @sff UCibrbdtfrItfrbtor#sftIndfx(int)
+     * @sff UCibrbdtfrItfrbtor#sftIndfx(int)
+     * @sff UCibrbdtfrItfrbtor#sftIndfx(int)
+     * @sff UCibrbdtfrItfrbtor#sftIndfx(int)
+     * @sff UCibrbdtfrItfrbtor#sftIndfx(int)
+     */
+     */
+     */
+     */
      */
     publid void sftIndfx(int indfx) {
+    publid void sftIndfx(int indfx) {
+    publid void sftIndfx(int indfx) {
+    publid void sftIndfx(int indfx) {
+    publid void sftIndfx(int indfx) {
+        itfrbtor.sftIndfx(indfx);
+        itfrbtor.sftIndfx(indfx);
+        itfrbtor.sftIndfx(indfx);
+        itfrbtor.sftIndfx(indfx);
         itfrbtor.sftIndfx(indfx);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     //// for StringPrfp
+    //// for StringPrfp
+    //// for StringPrfp
+    //// for StringPrfp
+    //// for StringPrfp
     /**
-     * @sff UChbrbdtfrItfrbtor#gftTfxt(dhbr[])
+    /**
+    /**
+    /**
+    /**
+     * @sff UCibrbdtfrItfrbtor#gftTfxt(dibr[])
+     * @sff UCibrbdtfrItfrbtor#gftTfxt(dibr[])
+     * @sff UCibrbdtfrItfrbtor#gftTfxt(dibr[])
+     * @sff UCibrbdtfrItfrbtor#gftTfxt(dibr[])
+     * @sff UCibrbdtfrItfrbtor#gftTfxt(dibr[])
      */
-    publid int gftTfxt(dhbr[] fillIn, int offsft){
-        int lfngth =itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx();
+     */
+     */
+     */
+     */
+    publid int gftTfxt(dibr[] fillIn, int offsft){
+    publid int gftTfxt(dibr[] fillIn, int offsft){
+    publid int gftTfxt(dibr[] fillIn, int offsft){
+    publid int gftTfxt(dibr[] fillIn, int offsft){
+    publid int gftTfxt(dibr[] fillIn, int offsft){
+        int lfngti =itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx();
+        int lfngti =itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx();
+        int lfngti =itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx();
+        int lfngti =itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx();
+        int lfngti =itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx();
         int durrfntIndfx = itfrbtor.gftIndfx();
-        if(offsft < 0 || offsft + lfngth > fillIn.lfngth){
-            throw nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngth));
+        int durrfntIndfx = itfrbtor.gftIndfx();
+        int durrfntIndfx = itfrbtor.gftIndfx();
+        int durrfntIndfx = itfrbtor.gftIndfx();
+        int durrfntIndfx = itfrbtor.gftIndfx();
+        if(offsft < 0 || offsft + lfngti > fillIn.lfngti){
+        if(offsft < 0 || offsft + lfngti > fillIn.lfngti){
+        if(offsft < 0 || offsft + lfngti > fillIn.lfngti){
+        if(offsft < 0 || offsft + lfngti > fillIn.lfngti){
+        if(offsft < 0 || offsft + lfngti > fillIn.lfngti){
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+            tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngti));
+        }
+        }
+        }
+        }
         }
 
-        for (dhbr dh = itfrbtor.first(); dh != ChbrbdtfrItfrbtor.DONE; dh = itfrbtor.nfxt()) {
-            fillIn[offsft++] = dh;
+
+
+
+
+        for (dibr di = itfrbtor.first(); di != CibrbdtfrItfrbtor.DONE; di = itfrbtor.nfxt()) {
+        for (dibr di = itfrbtor.first(); di != CibrbdtfrItfrbtor.DONE; di = itfrbtor.nfxt()) {
+        for (dibr di = itfrbtor.first(); di != CibrbdtfrItfrbtor.DONE; di = itfrbtor.nfxt()) {
+        for (dibr di = itfrbtor.first(); di != CibrbdtfrItfrbtor.DONE; di = itfrbtor.nfxt()) {
+        for (dibr di = itfrbtor.first(); di != CibrbdtfrItfrbtor.DONE; di = itfrbtor.nfxt()) {
+            fillIn[offsft++] = di;
+            fillIn[offsft++] = di;
+            fillIn[offsft++] = di;
+            fillIn[offsft++] = di;
+            fillIn[offsft++] = di;
+        }
+        }
+        }
+        }
         }
         itfrbtor.sftIndfx(durrfntIndfx);
+        itfrbtor.sftIndfx(durrfntIndfx);
+        itfrbtor.sftIndfx(durrfntIndfx);
+        itfrbtor.sftIndfx(durrfntIndfx);
+        itfrbtor.sftIndfx(durrfntIndfx);
 
-        rfturn lfngth;
+
+
+
+
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
+        rfturn lfngti;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Crfbtfs b dlonf of this itfrbtor.  Clonfs thf undfrlying dhbrbdtfr itfrbtor.
-     * @sff UChbrbdtfrItfrbtor#dlonf()
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs b dlonf of tiis itfrbtor.  Clonfs tif undfrlying dibrbdtfr itfrbtor.
+     * Crfbtfs b dlonf of tiis itfrbtor.  Clonfs tif undfrlying dibrbdtfr itfrbtor.
+     * Crfbtfs b dlonf of tiis itfrbtor.  Clonfs tif undfrlying dibrbdtfr itfrbtor.
+     * Crfbtfs b dlonf of tiis itfrbtor.  Clonfs tif undfrlying dibrbdtfr itfrbtor.
+     * Crfbtfs b dlonf of tiis itfrbtor.  Clonfs tif undfrlying dibrbdtfr itfrbtor.
+     * @sff UCibrbdtfrItfrbtor#dlonf()
+     * @sff UCibrbdtfrItfrbtor#dlonf()
+     * @sff UCibrbdtfrItfrbtor#dlonf()
+     * @sff UCibrbdtfrItfrbtor#dlonf()
+     * @sff UCibrbdtfrItfrbtor#dlonf()
+     */
+     */
+     */
+     */
      */
     publid Objfdt dlonf(){
+    publid Objfdt dlonf(){
+    publid Objfdt dlonf(){
+    publid Objfdt dlonf(){
+    publid Objfdt dlonf(){
         try {
-            ChbrbdtfrItfrbtorWrbppfr rfsult = (ChbrbdtfrItfrbtorWrbppfr) supfr.dlonf();
-            rfsult.itfrbtor = (ChbrbdtfrItfrbtor)this.itfrbtor.dlonf();
+        try {
+        try {
+        try {
+        try {
+            CibrbdtfrItfrbtorWrbppfr rfsult = (CibrbdtfrItfrbtorWrbppfr) supfr.dlonf();
+            CibrbdtfrItfrbtorWrbppfr rfsult = (CibrbdtfrItfrbtorWrbppfr) supfr.dlonf();
+            CibrbdtfrItfrbtorWrbppfr rfsult = (CibrbdtfrItfrbtorWrbppfr) supfr.dlonf();
+            CibrbdtfrItfrbtorWrbppfr rfsult = (CibrbdtfrItfrbtorWrbppfr) supfr.dlonf();
+            CibrbdtfrItfrbtorWrbppfr rfsult = (CibrbdtfrItfrbtorWrbppfr) supfr.dlonf();
+            rfsult.itfrbtor = (CibrbdtfrItfrbtor)tiis.itfrbtor.dlonf();
+            rfsult.itfrbtor = (CibrbdtfrItfrbtor)tiis.itfrbtor.dlonf();
+            rfsult.itfrbtor = (CibrbdtfrItfrbtor)tiis.itfrbtor.dlonf();
+            rfsult.itfrbtor = (CibrbdtfrItfrbtor)tiis.itfrbtor.dlonf();
+            rfsult.itfrbtor = (CibrbdtfrItfrbtor)tiis.itfrbtor.dlonf();
             rfturn rfsult;
-        } dbtdh (ClonfNotSupportfdExdfption f) {
-            rfturn null; // only invokfd if bbd undfrlying dhbrbdtfr itfrbtor
+            rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            rfturn null; // only invokfd if bbd undfrlying dibrbdtfr itfrbtor
+            rfturn null; // only invokfd if bbd undfrlying dibrbdtfr itfrbtor
+            rfturn null; // only invokfd if bbd undfrlying dibrbdtfr itfrbtor
+            rfturn null; // only invokfd if bbd undfrlying dibrbdtfr itfrbtor
+            rfturn null; // only invokfd if bbd undfrlying dibrbdtfr itfrbtor
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

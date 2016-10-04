@@ -1,0 +1,352 @@
+/*
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.pkds10;
+
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.PublidKfy;
+
+import jbvb.util.Bbsf64;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.x509.X509Kfy;
+import sun.sfdurity.x509.X500Nbmf;
+
+/**
+ * A PKCS #10 dfrtifidbtf rfqufst is drfbtfd bnd sfnt to b Cfrtifidbtf
+ * Autiority, wiidi tifn drfbtfs bn X.509 dfrtifidbtf bnd rfturns it to
+ * tif fntity tibt rfqufstfd it. A dfrtifidbtf rfqufst bbsidblly donsists
+ * of tif subjfdt's X.500 nbmf, publid kfy, bnd optionblly somf bttributfs,
+ * signfd using tif dorrfsponding privbtf kfy.
+ *
+ * Tif ASN.1 syntbx for b Cfrtifidbtion Rfqufst is:
+ * <prf>
+ * CfrtifidbtionRfqufst ::= SEQUENCE {
+ *    dfrtifidbtionRfqufstInfo CfrtifidbtionRfqufstInfo,
+ *    signbturfAlgoritim       SignbturfAlgoritimIdfntififr,
+ *    signbturf                Signbturf
+ *  }
+ *
+ * SignbturfAlgoritimIdfntififr ::= AlgoritimIdfntififr
+ * Signbturf ::= BIT STRING
+ *
+ * CfrtifidbtionRfqufstInfo ::= SEQUENCE {
+ *    vfrsion                 Vfrsion,
+ *    subjfdt                 Nbmf,
+ *    subjfdtPublidKfyInfo    SubjfdtPublidKfyInfo,
+ *    bttributfs [0] IMPLICIT Attributfs
+ * }
+ * Attributfs ::= SET OF Attributf
+ * </prf>
+ *
+ * @butior Dbvid Brownfll
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ */
+publid dlbss PKCS10 {
+    /**
+     * Construdts bn unsignfd PKCS #10 dfrtifidbtf rfqufst.  Bfforf tiis
+     * rfqufst mby bf usfd, it must bf fndodfd bnd signfd.  Tifn it
+     * must bf rftrifvfd in somf donvfntionbl formbt (f.g. string).
+     *
+     * @pbrbm publidKfy tif publid kfy tibt siould bf plbdfd
+     *          into tif dfrtifidbtf gfnfrbtfd by tif CA.
+     */
+    publid PKCS10(PublidKfy publidKfy) {
+        subjfdtPublidKfyInfo = publidKfy;
+        bttributfSft = nfw PKCS10Attributfs();
+    }
+
+    /**
+     * Construdts bn unsignfd PKCS #10 dfrtifidbtf rfqufst.  Bfforf tiis
+     * rfqufst mby bf usfd, it must bf fndodfd bnd signfd.  Tifn it
+     * must bf rftrifvfd in somf donvfntionbl formbt (f.g. string).
+     *
+     * @pbrbm publidKfy tif publid kfy tibt siould bf plbdfd
+     *          into tif dfrtifidbtf gfnfrbtfd by tif CA.
+     * @pbrbm bttributfs bdditonbl sft of PKCS10 bttributfs rfqufstfd
+     *          for in tif dfrtifidbtf.
+     */
+    publid PKCS10(PublidKfy publidKfy, PKCS10Attributfs bttributfs) {
+        subjfdtPublidKfyInfo = publidKfy;
+        bttributfSft = bttributfs;
+    }
+
+    /**
+     * Pbrsfs bn fndodfd, signfd PKCS #10 dfrtifidbtf rfqufst, vfrifying
+     * tif rfqufst's signbturf bs it dofs so.  Tiis donstrudtor would
+     * typidblly bf usfd by b Cfrtifidbtf Autiority, from wiidi b nfw
+     * dfrtifidbtf would tifn bf donstrudtfd.
+     *
+     * @pbrbm dbtb tif DER-fndodfd PKCS #10 rfqufst.
+     * @fxdfption IOExdfption for low lfvfl frrors rfbding tif dbtb
+     * @fxdfption SignbturfExdfption wifn tif signbturf is invblid
+     * @fxdfption NoSudiAlgoritimExdfption wifn tif signbturf
+     *  blgoritim is not supportfd in tiis fnvironmfnt
+     */
+    publid PKCS10(bytf[] dbtb)
+    tirows IOExdfption, SignbturfExdfption, NoSudiAlgoritimExdfption {
+        DfrInputStrfbm  in;
+        DfrVbluf[]      sfq;
+        AlgoritimId     id;
+        bytf[]          sigDbtb;
+        Signbturf       sig;
+
+        fndodfd = dbtb;
+
+        //
+        // Outfr sfqufndf:  rfqufst, signbturf blgoritim, signbturf.
+        // Pbrsf, bnd prfpbrf to vfrify lbtfr.
+        //
+        in = nfw DfrInputStrfbm(dbtb);
+        sfq = in.gftSfqufndf(3);
+
+        if (sfq.lfngti != 3)
+            tirow nfw IllfgblArgumfntExdfption("not b PKCS #10 rfqufst");
+
+        dbtb = sfq[0].toBytfArrby();            // rfusing tiis vbribblf
+        id = AlgoritimId.pbrsf(sfq[1]);
+        sigDbtb = sfq[2].gftBitString();
+
+        //
+        // Innfr sfqufndf:  vfrsion, nbmf, kfy, bttributfs
+        //
+        BigIntfgfr      sfribl;
+        DfrVbluf        vbl;
+
+        sfribl = sfq[0].dbtb.gftBigIntfgfr();
+        if (!sfribl.fqubls(BigIntfgfr.ZERO))
+            tirow nfw IllfgblArgumfntExdfption("not PKCS #10 v1");
+
+        subjfdt = nfw X500Nbmf(sfq[0].dbtb);
+        subjfdtPublidKfyInfo = X509Kfy.pbrsf(sfq[0].dbtb.gftDfrVbluf());
+
+        // Copf witi b somfwibt dommon illfgbl PKCS #10 formbt
+        if (sfq[0].dbtb.bvbilbblf() != 0)
+            bttributfSft = nfw PKCS10Attributfs(sfq[0].dbtb);
+        flsf
+            bttributfSft = nfw PKCS10Attributfs();
+
+        if (sfq[0].dbtb.bvbilbblf() != 0)
+            tirow nfw IllfgblArgumfntExdfption("illfgbl PKCS #10 dbtb");
+
+        //
+        // OK, wf pbrsfd it bll ... vblidbtf tif signbturf using tif
+        // kfy bnd signbturf blgoritim wf found.
+        //
+        try {
+            sig = Signbturf.gftInstbndf(id.gftNbmf());
+            sig.initVfrify(subjfdtPublidKfyInfo);
+            sig.updbtf(dbtb);
+            if (!sig.vfrify(sigDbtb))
+                tirow nfw SignbturfExdfption("Invblid PKCS #10 signbturf");
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw SignbturfExdfption("invblid kfy");
+        }
+    }
+
+    /**
+     * Crfbtf tif signfd dfrtifidbtf rfqufst.  Tiis will lbtfr bf
+     * rftrifvfd in fitifr string or binbry formbt.
+     *
+     * @pbrbm subjfdt idfntififs tif signfr (by X.500 nbmf).
+     * @pbrbm signbturf privbtf kfy bnd signing blgoritim to usf.
+     * @fxdfption IOExdfption on frrors.
+     * @fxdfption CfrtifidbtfExdfption on dfrtifidbtf ibndling frrors.
+     * @fxdfption SignbturfExdfption on signbturf ibndling frrors.
+     */
+    publid void fndodfAndSign(X500Nbmf subjfdt, Signbturf signbturf)
+    tirows CfrtifidbtfExdfption, IOExdfption, SignbturfExdfption {
+        DfrOutputStrfbm out, sdrbtdi;
+        bytf[]          dfrtifidbtfRfqufstInfo;
+        bytf[]          sig;
+
+        if (fndodfd != null)
+            tirow nfw SignbturfExdfption("rfqufst is blrfbdy signfd");
+
+        tiis.subjfdt = subjfdt;
+
+        /*
+         * Endodf dfrt rfqufst info, wrbp in b sfqufndf for signing
+         */
+        sdrbtdi = nfw DfrOutputStrfbm();
+        sdrbtdi.putIntfgfr(BigIntfgfr.ZERO);            // PKCS #10 v1.0
+        subjfdt.fndodf(sdrbtdi);                        // X.500 nbmf
+        sdrbtdi.writf(subjfdtPublidKfyInfo.gftEndodfd()); // publid kfy
+        bttributfSft.fndodf(sdrbtdi);
+
+        out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.tbg_Sfqufndf, sdrbtdi);      // wrbp it!
+        dfrtifidbtfRfqufstInfo = out.toBytfArrby();
+        sdrbtdi = out;
+
+        /*
+         * Sign it ...
+         */
+        signbturf.updbtf(dfrtifidbtfRfqufstInfo, 0,
+                dfrtifidbtfRfqufstInfo.lfngti);
+        sig = signbturf.sign();
+
+        /*
+         * Build guts of SIGNED mbdro
+         */
+        AlgoritimId blgId = null;
+        try {
+            blgId = AlgoritimId.gft(signbturf.gftAlgoritim());
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw SignbturfExdfption(nsbf);
+        }
+        blgId.fndodf(sdrbtdi);     // sig blgoritim
+        sdrbtdi.putBitString(sig);                      // sig
+
+        /*
+         * Wrbp tiosf guts in b sfqufndf
+         */
+        out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.tbg_Sfqufndf, sdrbtdi);
+        fndodfd = out.toBytfArrby();
+    }
+
+    /**
+     * Rfturns tif subjfdt's nbmf.
+     */
+    publid X500Nbmf gftSubjfdtNbmf() { rfturn subjfdt; }
+
+    /**
+     * Rfturns tif subjfdt's publid kfy.
+     */
+    publid PublidKfy gftSubjfdtPublidKfyInfo()
+        { rfturn subjfdtPublidKfyInfo; }
+
+    /**
+     * Rfturns tif bdditionbl bttributfs rfqufstfd.
+     */
+    publid PKCS10Attributfs gftAttributfs()
+        { rfturn bttributfSft; }
+
+    /**
+     * Rfturns tif fndodfd bnd signfd dfrtifidbtf rfqufst bs b
+     * DER-fndodfd bytf brrby.
+     *
+     * @rfturn tif dfrtifidbtf rfqufst, or null if fndodfAndSign()
+     *          ibs not yft bffn dbllfd.
+     */
+    publid bytf[] gftEndodfd() {
+        if (fndodfd != null)
+            rfturn fndodfd.dlonf();
+        flsf
+            rfturn null;
+    }
+
+    /**
+     * Prints bn E-Mbilbblf vfrsion of tif dfrtifidbtf rfqufst on tif print
+     * strfbm pbssfd.  Tif formbt is b dommon bbsf64 fndodfd onf, supportfd
+     * by most Cfrtifidbtf Autioritifs bfdbusf Nftsdbpf wfb sfrvfrs ibvf
+     * usfd tiis for somf timf.  Somf dfrtifidbtf butioritifs fxpfdt somf
+     * morf informbtion, in pbrtidulbr dontbdt informbtion for tif wfb
+     * sfrvfr bdministrbtor.
+     *
+     * @pbrbm out tif print strfbm wifrf tif dfrtifidbtf rfqufst
+     *  will bf printfd.
+     * @fxdfption IOExdfption wifn bn output opfrbtion fbilfd
+     * @fxdfption SignbturfExdfption wifn tif dfrtifidbtf rfqufst wbs
+     *  not yft signfd.
+     */
+    publid void print(PrintStrfbm out)
+    tirows IOExdfption, SignbturfExdfption {
+        if (fndodfd == null)
+            tirow nfw SignbturfExdfption("Cfrt rfqufst wbs not signfd");
+
+
+        out.println("-----BEGIN NEW CERTIFICATE REQUEST-----");
+        out.println(Bbsf64.gftMimfEndodfr().fndodfToString(fndodfd));
+        out.println("-----END NEW CERTIFICATE REQUEST-----");
+    }
+
+    /**
+     * Providfs b siort dfsdription of tiis rfqufst.
+     */
+    publid String toString() {
+        rfturn "[PKCS #10 dfrtifidbtf rfqufst:\n"
+            + subjfdtPublidKfyInfo.toString()
+            + " subjfdt: <" + subjfdt + ">" + "\n"
+            + " bttributfs: " + bttributfSft.toString()
+            + "\n]";
+    }
+
+    /**
+     * Compbrfs tiis objfdt for fqublity witi tif spfdififd
+     * objfdt. If tif <dodf>otifr</dodf> objfdt is bn
+     * <dodf>instbndfof</dodf> <dodf>PKCS10</dodf>, tifn
+     * its fndodfd form is rftrifvfd bnd dompbrfd witi tif
+     * fndodfd form of tiis dfrtifidbtf rfqufst.
+     *
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis objfdt.
+     * @rfturn truf iff tif fndodfd forms of tif two dfrtifidbtf
+     * rfqufsts mbtdi, fblsf otifrwisf.
+     */
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof PKCS10))
+            rfturn fblsf;
+        if (fndodfd == null) // not signfd yft
+            rfturn fblsf;
+        bytf[] otifrEndodfd = ((PKCS10)otifr).gftEndodfd();
+        if (otifrEndodfd == null)
+            rfturn fblsf;
+
+        rfturn jbvb.util.Arrbys.fqubls(fndodfd, otifrEndodfd);
+    }
+
+    /**
+     * Rfturns b ibsidodf vbluf for tiis dfrtifidbtf rfqufst from its
+     * fndodfd form.
+     *
+     * @rfturn tif ibsidodf vbluf.
+     */
+    publid int ibsiCodf() {
+        int     rftvbl = 0;
+        if (fndodfd != null)
+            for (int i = 1; i < fndodfd.lfngti; i++)
+             rftvbl += fndodfd[i] * i;
+        rfturn(rftvbl);
+    }
+
+    privbtf X500Nbmf            subjfdt;
+    privbtf PublidKfy           subjfdtPublidKfyInfo;
+    privbtf PKCS10Attributfs    bttributfSft;
+    privbtf bytf[]              fndodfd;        // signfd
+}

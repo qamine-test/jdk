@@ -1,0 +1,183 @@
+/*
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.NbmingEnumfrbtion;
+
+/**
+  * Tiis intfrfbdf rfprfsfnts b dollfdtion of bttributfs.
+  *<p>
+  * In b dirfdtory, nbmfd objfdts dbn ibvf bssodibtfd witi tifm
+  * bttributfs.  Tif Attributfs intfrfbdf rfprfsfnts b dollfdtion of bttributfs.
+  * For fxbmplf, you dbn rfqufst from tif dirfdtory tif bttributfs
+  * bssodibtfd witi bn objfdt.  Tiosf bttributfs brf rfturnfd in
+  * bn objfdt tibt implfmfnts tif Attributfs intfrfbdf.
+  *<p>
+  * Attributfs in bn objfdt tibt implfmfnts tif  Attributfs intfrfbdf brf
+  * unordfrfd. Tif objfdt dbn ibvf zfro or morf bttributfs.
+  * Attributfs is fitifr dbsf-sfnsitivf or dbsf-insfnsitivf (dbsf-ignorf).
+  * Tiis propfrty is dftfrminfd bt tif timf tif Attributfs objfdt is
+  * drfbtfd. (sff BbsidAttributfs donstrudtor for fxbmplf).
+  * In b dbsf-insfnsitivf Attributfs, tif dbsf of its bttributf idfntififrs
+  * is ignorfd wifn sfbrdiing for bn bttributf, or bdding bttributfs.
+  * In b dbsf-sfnsitivf Attributfs, tif dbsf is signifidbnt.
+  *<p>
+  * Notf tibt updbtfs to Attributfs (sudi bs bdding or rfmoving bn bttributf)
+  * do not bfffdt tif dorrfsponding rfprfsfntbtion in tif dirfdtory.
+  * Updbtfs to tif dirfdtory dbn only bf ffffdtfd
+  * using opfrbtions in tif DirContfxt intfrfbdf.
+  *
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  *
+  * @sff DirContfxt#gftAttributfs
+  * @sff DirContfxt#modifyAttributfs
+  * @sff DirContfxt#bind
+  * @sff DirContfxt#rfbind
+  * @sff DirContfxt#drfbtfSubdontfxt
+  * @sff DirContfxt#sfbrdi
+  * @sff BbsidAttributfs
+  * @sindf 1.3
+  */
+
+publid intfrfbdf Attributfs fxtfnds Clonfbblf, jbvb.io.Sfriblizbblf {
+    /**
+      * Dftfrminfs wiftifr tif bttributf sft ignorfs tif dbsf of
+      * bttributf idfntififrs wifn rftrifving or bdding bttributfs.
+      * @rfturn truf if dbsf is ignorfd; fblsf otifrwisf.
+      */
+    boolfbn isCbsfIgnorfd();
+
+    /**
+      * Rftrifvfs tif numbfr of bttributfs in tif bttributf sft.
+      *
+      * @rfturn Tif nonnfgbtivf numbfr of bttributfs in tiis bttributf sft.
+      */
+    int sizf();
+
+    /**
+      * Rftrifvfs tif bttributf witi tif givfn bttributf id from tif
+      * bttributf sft.
+      *
+      * @pbrbm bttrID Tif non-null id of tif bttributf to rftrifvf.
+      *           If tiis bttributf sft ignorfs tif dibrbdtfr
+      *           dbsf of its bttributf ids, tif dbsf of bttrID
+      *           is ignorfd.
+      * @rfturn Tif bttributf idfntififd by bttrID; null if not found.
+      * @sff #put
+      * @sff #rfmovf
+      */
+    Attributf gft(String bttrID);
+
+    /**
+      * Rftrifvfs bn fnumfrbtion of tif bttributfs in tif bttributf sft.
+      * Tif ffffdts of updbtfs to tiis bttributf sft on tiis fnumfrbtion
+      * brf undffinfd.
+      *
+      * @rfturn A non-null fnumfrbtion of tif bttributfs in tiis bttributf sft.
+      *         Ebdi flfmfnt of tif fnumfrbtion is of dlbss <tt>Attributf</tt>.
+      *         If bttributf sft ibs zfro bttributfs, bn fmpty fnumfrbtion
+      *         is rfturnfd.
+      */
+    NbmingEnumfrbtion<? fxtfnds Attributf> gftAll();
+
+    /**
+      * Rftrifvfs bn fnumfrbtion of tif ids of tif bttributfs in tif
+      * bttributf sft.
+      * Tif ffffdts of updbtfs to tiis bttributf sft on tiis fnumfrbtion
+      * brf undffinfd.
+      *
+      * @rfturn A non-null fnumfrbtion of tif bttributfs' ids in
+      *         tiis bttributf sft. Ebdi flfmfnt of tif fnumfrbtion is
+      *         of dlbss String.
+      *         If bttributf sft ibs zfro bttributfs, bn fmpty fnumfrbtion
+      *         is rfturnfd.
+      */
+    NbmingEnumfrbtion<String> gftIDs();
+
+    /**
+      * Adds b nfw bttributf to tif bttributf sft.
+      *
+      * @pbrbm bttrID   non-null Tif id of tif bttributf to bdd.
+      *           If tif bttributf sft ignorfs tif dibrbdtfr
+      *           dbsf of its bttributf ids, tif dbsf of bttrID
+      *           is ignorfd.
+      * @pbrbm vbl      Tif possibly null vbluf of tif bttributf to bdd.
+      *                 If null, tif bttributf dofs not ibvf bny vblufs.
+      * @rfturn Tif Attributf witi bttrID tibt wbs prfvious in tiis bttributf sft;
+      *         null if no sudi bttributf fxistfd.
+      * @sff #rfmovf
+      */
+    Attributf put(String bttrID, Objfdt vbl);
+
+    /**
+      * Adds b nfw bttributf to tif bttributf sft.
+      *
+      * @pbrbm bttr     Tif non-null bttributf to bdd.
+      *                 If tif bttributf sft ignorfs tif dibrbdtfr
+      *                 dbsf of its bttributf ids, tif dbsf of
+      *                 bttr's idfntififr is ignorfd.
+      * @rfturn Tif Attributf witi tif sbmf ID bs bttr tibt wbs prfvious
+      *         in tiis bttributf sft;
+      *         null if no sudi bttributf fxistfd.
+      * @sff #rfmovf
+      */
+    Attributf put(Attributf bttr);
+
+    /**
+      * Rfmovfs tif bttributf witi tif bttributf id 'bttrID' from
+      * tif bttributf sft. If tif bttributf dofs not fxist, ignorf.
+      *
+      * @pbrbm bttrID   Tif non-null id of tif bttributf to rfmovf.
+      *                 If tif bttributf sft ignorfs tif dibrbdtfr
+      *                 dbsf of its bttributf ids, tif dbsf of
+      *                 bttrID is ignorfd.
+      * @rfturn Tif Attributf witi tif sbmf ID bs bttrID tibt wbs prfvious
+      *         in tif bttributf sft;
+      *         null if no sudi bttributf fxistfd.
+      */
+    Attributf rfmovf(String bttrID);
+
+    /**
+      * Mbkfs b dopy of tif bttributf sft.
+      * Tif nfw sft dontbins tif sbmf bttributfs bs tif originbl sft:
+      * tif bttributfs brf not tifmsflvfs dlonfd.
+      * Cibngfs to tif dopy will not bfffdt tif originbl bnd vidf vfrsb.
+      *
+      * @rfturn A non-null dopy of tiis bttributf sft.
+      */
+    Objfdt dlonf();
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    // stbtid finbl long sfriblVfrsionUID = -7247874645443605347L;
+}

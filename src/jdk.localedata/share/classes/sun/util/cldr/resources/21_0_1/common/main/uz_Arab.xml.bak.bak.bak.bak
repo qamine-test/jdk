@@ -1,185 +1,925 @@
 <?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
+<ldml>
+<ldml>
+<ldml>
+<ldml>
+	<idfntity>
+	<idfntity>
+	<idfntity>
+	<idfntity>
 	<idfntity>
 		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
 		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+		<lbngubgf typf="uz"/>
+		<sdript typf="Arbb"/>
+		<sdript typf="Arbb"/>
+		<sdript typf="Arbb"/>
+		<sdript typf="Arbb"/>
 		<sdript typf="Arbb"/>
 	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
+	<lodblfDisplbyNbmfs>
 	<lodblfDisplbyNbmfs>
 		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+		<lbngubgfs>
+			<lbngubgf typf="fb">دری</lbngubgf>
+			<lbngubgf typf="fb">دری</lbngubgf>
+			<lbngubgf typf="fb">دری</lbngubgf>
+			<lbngubgf typf="fb">دری</lbngubgf>
 			<lbngubgf typf="fb">دری</lbngubgf>
 			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="ps">پشتو</lbngubgf>
+			<lbngubgf typf="uz">اۉزبېک</lbngubgf>
+			<lbngubgf typf="uz">اۉزبېک</lbngubgf>
+			<lbngubgf typf="uz">اۉزبېک</lbngubgf>
+			<lbngubgf typf="uz">اۉزبېک</lbngubgf>
 			<lbngubgf typf="uz">اۉزبېک</lbngubgf>
 		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		</lbngubgfs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
+		<tfrritorifs>
 		<tfrritorifs>
 			<tfrritory typf="AF">افغانستان</tfrritory>
+			<tfrritory typf="AF">افغانستان</tfrritory>
+			<tfrritory typf="AF">افغانستان</tfrritory>
+			<tfrritory typf="AF">افغانستان</tfrritory>
+			<tfrritory typf="AF">افغانستان</tfrritory>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
+		</tfrritorifs>
 		</tfrritorifs>
 	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
+	</lodblfDisplbyNbmfs>
 	<lbyout>
-		<orifntbtion dhbrbdtfrs="right-to-lfft"/>
+	<lbyout>
+	<lbyout>
+	<lbyout>
+	<lbyout>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
 	</lbyout>
-	<dhbrbdtfrs>
-		<fxfmplbrChbrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrChbrbdtfrs>
-		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrChbrbdtfrs>
-	</dhbrbdtfrs>
+	</lbyout>
+	</lbyout>
+	</lbyout>
+	</lbyout>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0654 \u0670 ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u200C\u200D]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ أ ؤ ئ ا ب پ ة ت ث ټ ج چ ح خ ځ څ د ذ ډ ر ز ړ ږ ژ س ش ښ ص ض ط ظ ع غ ف ق ک ګ گ ل م ن ڼ ه و ۇ ۉ ي ی ۍ ې]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
+	<dbtfs>
 	<dbtfs>
 		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
+		<dblfndbrs>
 			<dblfndbr typf="grfgoribn">
-				<months>
-					<monthContfxt typf="formbt">
-						<monthWidth typf="bbbrfvibtfd">
-							<month typf="1" drbft="undonfirmfd">جنو</month>
-							<month typf="2" drbft="undonfirmfd">فبر</month>
-							<month typf="3" drbft="undonfirmfd">مار</month>
-							<month typf="4" drbft="undonfirmfd">اپر</month>
-							<month typf="5" drbft="undonfirmfd">مـی</month>
-							<month typf="6" drbft="undonfirmfd">جون</month>
-							<month typf="7" drbft="undonfirmfd">جول</month>
-							<month typf="8" drbft="undonfirmfd">اگس</month>
-							<month typf="9" drbft="undonfirmfd">سپت</month>
-							<month typf="10" drbft="undonfirmfd">اکت</month>
-							<month typf="11" drbft="undonfirmfd">نوم</month>
-							<month typf="12" drbft="undonfirmfd">دسم</month>
-						</monthWidth>
-						<monthWidth typf="widf">
-							<month typf="1" drbft="undonfirmfd">جنوری</month>
-							<month typf="2" drbft="undonfirmfd">فبروری</month>
-							<month typf="3" drbft="undonfirmfd">مارچ</month>
-							<month typf="4" drbft="undonfirmfd">اپریل</month>
-							<month typf="5" drbft="undonfirmfd">می</month>
-							<month typf="6" drbft="undonfirmfd">جون</month>
-							<month typf="7" drbft="undonfirmfd">جولای</month>
-							<month typf="8" drbft="undonfirmfd">اگست</month>
-							<month typf="9" drbft="undonfirmfd">سپتمبر</month>
-							<month typf="10" drbft="undonfirmfd">اکتوبر</month>
-							<month typf="11" drbft="undonfirmfd">نومبر</month>
-							<month typf="12" drbft="undonfirmfd">دسمبر</month>
-						</monthWidth>
-					</monthContfxt>
-				</months>
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+			<dblfndbr typf="grfgoribn">
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+				<montis>
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">جنو</monti>
+							<monti typf="1" drbft="undonfirmfd">جنو</monti>
+							<monti typf="1" drbft="undonfirmfd">جنو</monti>
+							<monti typf="1" drbft="undonfirmfd">جنو</monti>
+							<monti typf="1" drbft="undonfirmfd">جنو</monti>
+							<monti typf="2" drbft="undonfirmfd">فبر</monti>
+							<monti typf="2" drbft="undonfirmfd">فبر</monti>
+							<monti typf="2" drbft="undonfirmfd">فبر</monti>
+							<monti typf="2" drbft="undonfirmfd">فبر</monti>
+							<monti typf="2" drbft="undonfirmfd">فبر</monti>
+							<monti typf="3" drbft="undonfirmfd">مار</monti>
+							<monti typf="3" drbft="undonfirmfd">مار</monti>
+							<monti typf="3" drbft="undonfirmfd">مار</monti>
+							<monti typf="3" drbft="undonfirmfd">مار</monti>
+							<monti typf="3" drbft="undonfirmfd">مار</monti>
+							<monti typf="4" drbft="undonfirmfd">اپر</monti>
+							<monti typf="4" drbft="undonfirmfd">اپر</monti>
+							<monti typf="4" drbft="undonfirmfd">اپر</monti>
+							<monti typf="4" drbft="undonfirmfd">اپر</monti>
+							<monti typf="4" drbft="undonfirmfd">اپر</monti>
+							<monti typf="5" drbft="undonfirmfd">مـی</monti>
+							<monti typf="5" drbft="undonfirmfd">مـی</monti>
+							<monti typf="5" drbft="undonfirmfd">مـی</monti>
+							<monti typf="5" drbft="undonfirmfd">مـی</monti>
+							<monti typf="5" drbft="undonfirmfd">مـی</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="7" drbft="undonfirmfd">جول</monti>
+							<monti typf="7" drbft="undonfirmfd">جول</monti>
+							<monti typf="7" drbft="undonfirmfd">جول</monti>
+							<monti typf="7" drbft="undonfirmfd">جول</monti>
+							<monti typf="7" drbft="undonfirmfd">جول</monti>
+							<monti typf="8" drbft="undonfirmfd">اگس</monti>
+							<monti typf="8" drbft="undonfirmfd">اگس</monti>
+							<monti typf="8" drbft="undonfirmfd">اگس</monti>
+							<monti typf="8" drbft="undonfirmfd">اگس</monti>
+							<monti typf="8" drbft="undonfirmfd">اگس</monti>
+							<monti typf="9" drbft="undonfirmfd">سپت</monti>
+							<monti typf="9" drbft="undonfirmfd">سپت</monti>
+							<monti typf="9" drbft="undonfirmfd">سپت</monti>
+							<monti typf="9" drbft="undonfirmfd">سپت</monti>
+							<monti typf="9" drbft="undonfirmfd">سپت</monti>
+							<monti typf="10" drbft="undonfirmfd">اکت</monti>
+							<monti typf="10" drbft="undonfirmfd">اکت</monti>
+							<monti typf="10" drbft="undonfirmfd">اکت</monti>
+							<monti typf="10" drbft="undonfirmfd">اکت</monti>
+							<monti typf="10" drbft="undonfirmfd">اکت</monti>
+							<monti typf="11" drbft="undonfirmfd">نوم</monti>
+							<monti typf="11" drbft="undonfirmfd">نوم</monti>
+							<monti typf="11" drbft="undonfirmfd">نوم</monti>
+							<monti typf="11" drbft="undonfirmfd">نوم</monti>
+							<monti typf="11" drbft="undonfirmfd">نوم</monti>
+							<monti typf="12" drbft="undonfirmfd">دسم</monti>
+							<monti typf="12" drbft="undonfirmfd">دسم</monti>
+							<monti typf="12" drbft="undonfirmfd">دسم</monti>
+							<monti typf="12" drbft="undonfirmfd">دسم</monti>
+							<monti typf="12" drbft="undonfirmfd">دسم</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">جنوری</monti>
+							<monti typf="1" drbft="undonfirmfd">جنوری</monti>
+							<monti typf="1" drbft="undonfirmfd">جنوری</monti>
+							<monti typf="1" drbft="undonfirmfd">جنوری</monti>
+							<monti typf="1" drbft="undonfirmfd">جنوری</monti>
+							<monti typf="2" drbft="undonfirmfd">فبروری</monti>
+							<monti typf="2" drbft="undonfirmfd">فبروری</monti>
+							<monti typf="2" drbft="undonfirmfd">فبروری</monti>
+							<monti typf="2" drbft="undonfirmfd">فبروری</monti>
+							<monti typf="2" drbft="undonfirmfd">فبروری</monti>
+							<monti typf="3" drbft="undonfirmfd">مارچ</monti>
+							<monti typf="3" drbft="undonfirmfd">مارچ</monti>
+							<monti typf="3" drbft="undonfirmfd">مارچ</monti>
+							<monti typf="3" drbft="undonfirmfd">مارچ</monti>
+							<monti typf="3" drbft="undonfirmfd">مارچ</monti>
+							<monti typf="4" drbft="undonfirmfd">اپریل</monti>
+							<monti typf="4" drbft="undonfirmfd">اپریل</monti>
+							<monti typf="4" drbft="undonfirmfd">اپریل</monti>
+							<monti typf="4" drbft="undonfirmfd">اپریل</monti>
+							<monti typf="4" drbft="undonfirmfd">اپریل</monti>
+							<monti typf="5" drbft="undonfirmfd">می</monti>
+							<monti typf="5" drbft="undonfirmfd">می</monti>
+							<monti typf="5" drbft="undonfirmfd">می</monti>
+							<monti typf="5" drbft="undonfirmfd">می</monti>
+							<monti typf="5" drbft="undonfirmfd">می</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="6" drbft="undonfirmfd">جون</monti>
+							<monti typf="7" drbft="undonfirmfd">جولای</monti>
+							<monti typf="7" drbft="undonfirmfd">جولای</monti>
+							<monti typf="7" drbft="undonfirmfd">جولای</monti>
+							<monti typf="7" drbft="undonfirmfd">جولای</monti>
+							<monti typf="7" drbft="undonfirmfd">جولای</monti>
+							<monti typf="8" drbft="undonfirmfd">اگست</monti>
+							<monti typf="8" drbft="undonfirmfd">اگست</monti>
+							<monti typf="8" drbft="undonfirmfd">اگست</monti>
+							<monti typf="8" drbft="undonfirmfd">اگست</monti>
+							<monti typf="8" drbft="undonfirmfd">اگست</monti>
+							<monti typf="9" drbft="undonfirmfd">سپتمبر</monti>
+							<monti typf="9" drbft="undonfirmfd">سپتمبر</monti>
+							<monti typf="9" drbft="undonfirmfd">سپتمبر</monti>
+							<monti typf="9" drbft="undonfirmfd">سپتمبر</monti>
+							<monti typf="9" drbft="undonfirmfd">سپتمبر</monti>
+							<monti typf="10" drbft="undonfirmfd">اکتوبر</monti>
+							<monti typf="10" drbft="undonfirmfd">اکتوبر</monti>
+							<monti typf="10" drbft="undonfirmfd">اکتوبر</monti>
+							<monti typf="10" drbft="undonfirmfd">اکتوبر</monti>
+							<monti typf="10" drbft="undonfirmfd">اکتوبر</monti>
+							<monti typf="11" drbft="undonfirmfd">نومبر</monti>
+							<monti typf="11" drbft="undonfirmfd">نومبر</monti>
+							<monti typf="11" drbft="undonfirmfd">نومبر</monti>
+							<monti typf="11" drbft="undonfirmfd">نومبر</monti>
+							<monti typf="11" drbft="undonfirmfd">نومبر</monti>
+							<monti typf="12" drbft="undonfirmfd">دسمبر</monti>
+							<monti typf="12" drbft="undonfirmfd">دسمبر</monti>
+							<monti typf="12" drbft="undonfirmfd">دسمبر</monti>
+							<monti typf="12" drbft="undonfirmfd">دسمبر</monti>
+							<monti typf="12" drbft="undonfirmfd">دسمبر</monti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+						</montiWidti>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+					</montiContfxt>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				</montis>
+				<dbys>
+				<dbys>
+				<dbys>
+				<dbys>
 				<dbys>
 					<dbyContfxt typf="formbt">
-						<dbyWidth typf="bbbrfvibtfd">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">ی.</dby>
+							<dby typf="sun" drbft="undonfirmfd">ی.</dby>
+							<dby typf="sun" drbft="undonfirmfd">ی.</dby>
+							<dby typf="sun" drbft="undonfirmfd">ی.</dby>
 							<dby typf="sun" drbft="undonfirmfd">ی.</dby>
 							<dby typf="mon" drbft="undonfirmfd">د.</dby>
+							<dby typf="mon" drbft="undonfirmfd">د.</dby>
+							<dby typf="mon" drbft="undonfirmfd">د.</dby>
+							<dby typf="mon" drbft="undonfirmfd">د.</dby>
+							<dby typf="mon" drbft="undonfirmfd">د.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">س.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">س.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">س.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">س.</dby>
 							<dby typf="tuf" drbft="undonfirmfd">س.</dby>
 							<dby typf="wfd" drbft="undonfirmfd">چ.</dby>
-							<dby typf="thu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چ.</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پ.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ج.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ج.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ج.</dby>
+							<dby typf="fri" drbft="undonfirmfd">ج.</dby>
 							<dby typf="fri" drbft="undonfirmfd">ج.</dby>
 							<dby typf="sbt" drbft="undonfirmfd">ش.</dby>
-						</dbyWidth>
-						<dbyWidth typf="widf">
+							<dby typf="sbt" drbft="undonfirmfd">ش.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ش.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ش.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ش.</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">یکشنبه</dby>
+							<dby typf="sun" drbft="undonfirmfd">یکشنبه</dby>
+							<dby typf="sun" drbft="undonfirmfd">یکشنبه</dby>
+							<dby typf="sun" drbft="undonfirmfd">یکشنبه</dby>
 							<dby typf="sun" drbft="undonfirmfd">یکشنبه</dby>
 							<dby typf="mon" drbft="undonfirmfd">دوشنبه</dby>
+							<dby typf="mon" drbft="undonfirmfd">دوشنبه</dby>
+							<dby typf="mon" drbft="undonfirmfd">دوشنبه</dby>
+							<dby typf="mon" drbft="undonfirmfd">دوشنبه</dby>
+							<dby typf="mon" drbft="undonfirmfd">دوشنبه</dby>
+							<dby typf="tuf" drbft="undonfirmfd">سه‌شنبه</dby>
+							<dby typf="tuf" drbft="undonfirmfd">سه‌شنبه</dby>
+							<dby typf="tuf" drbft="undonfirmfd">سه‌شنبه</dby>
+							<dby typf="tuf" drbft="undonfirmfd">سه‌شنبه</dby>
 							<dby typf="tuf" drbft="undonfirmfd">سه‌شنبه</dby>
 							<dby typf="wfd" drbft="undonfirmfd">چهارشنبه</dby>
-							<dby typf="thu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چهارشنبه</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چهارشنبه</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چهارشنبه</dby>
+							<dby typf="wfd" drbft="undonfirmfd">چهارشنبه</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="tiu" drbft="undonfirmfd">پنجشنبه</dby>
+							<dby typf="fri" drbft="undonfirmfd">جمعه</dby>
+							<dby typf="fri" drbft="undonfirmfd">جمعه</dby>
+							<dby typf="fri" drbft="undonfirmfd">جمعه</dby>
+							<dby typf="fri" drbft="undonfirmfd">جمعه</dby>
 							<dby typf="fri" drbft="undonfirmfd">جمعه</dby>
 							<dby typf="sbt" drbft="undonfirmfd">شنبه</dby>
-						</dbyWidth>
+							<dby typf="sbt" drbft="undonfirmfd">شنبه</dby>
+							<dby typf="sbt" drbft="undonfirmfd">شنبه</dby>
+							<dby typf="sbt" drbft="undonfirmfd">شنبه</dby>
+							<dby typf="sbt" drbft="undonfirmfd">شنبه</dby>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+						</dbyWidti>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
+					</dbyContfxt>
 					</dbyContfxt>
 				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				</dbys>
+				<frbs>
+				<frbs>
+				<frbs>
+				<frbs>
 				<frbs>
 					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">ق.م.</frb>
+						<frb typf="0" drbft="undonfirmfd">ق.م.</frb>
+						<frb typf="0" drbft="undonfirmfd">ق.م.</frb>
+						<frb typf="0" drbft="undonfirmfd">ق.م.</frb>
 						<frb typf="0" drbft="undonfirmfd">ق.م.</frb>
 						<frb typf="1" drbft="undonfirmfd">م.</frb>
+						<frb typf="1" drbft="undonfirmfd">م.</frb>
+						<frb typf="1" drbft="undonfirmfd">م.</frb>
+						<frb typf="1" drbft="undonfirmfd">م.</frb>
+						<frb typf="1" drbft="undonfirmfd">م.</frb>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
+					</frbAbbr>
 					</frbAbbr>
 				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
+				</frbs>
 				<dbtfFormbts>
-					<dbtfFormbtLfngth typf="full">
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">y نچی ییل d نچی MMMM EEEE کونی</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y نچی ییل d نچی MMMM EEEE کونی</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y نچی ییل d نچی MMMM EEEE کونی</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y نچی ییل d نچی MMMM EEEE کونی</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">y نچی ییل d نچی MMMM EEEE کونی</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="long">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d نچی MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d نچی MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d نچی MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d نچی MMMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d نچی MMMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="mfdium">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">d MMM y</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
-					<dbtfFormbtLfngth typf="short">
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
+						<dbtfFormbt>
 						<dbtfFormbt>
 							<pbttfrn drbft="undonfirmfd">yyyy/M/d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yyyy/M/d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yyyy/M/d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yyyy/M/d</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">yyyy/M/d</pbttfrn>
 						</dbtfFormbt>
-					</dbtfFormbtLfngth>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
+				</dbtfFormbts>
 				</dbtfFormbts>
 				<timfFormbts>
-					<timfFormbtLfngth typf="full">
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn drbft="undonfirmfd">H:mm:ss (zzzz)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (zzzz)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (zzzz)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (zzzz)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (zzzz)</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="long">
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn drbft="undonfirmfd">H:mm:ss (z)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (z)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (z)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (z)</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss (z)</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="mfdium">
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm:ss</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
-					<timfFormbtLfngth typf="short">
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
+						<timfFormbt>
 						<timfFormbt>
 							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
+							<pbttfrn drbft="undonfirmfd">H:mm</pbttfrn>
 						</timfFormbt>
-					</timfFormbtLfngth>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
+				</timfFormbts>
 				</timfFormbts>
 				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
+					<bvbilbblfFormbts>
 					<bvbilbblfFormbts>
 						<dbtfFormbtItfm id="Md" drbft="undonfirmfd">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md" drbft="undonfirmfd">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md" drbft="undonfirmfd">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md" drbft="undonfirmfd">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md" drbft="undonfirmfd">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d نچی MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d نچی MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d نچی MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d نچی MMMM</dbtfFormbtItfm>
 						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d نچی MMMM</dbtfFormbtItfm>
 					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
+				</dbtfTimfFormbts>
 				</dbtfTimfFormbts>
 			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+			</dblfndbr>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
+		</dblfndbrs>
 		</dblfndbrs>
 		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+		<timfZonfNbmfs>
+			<zonf typf="Asib/Kbbul">
+			<zonf typf="Asib/Kbbul">
+			<zonf typf="Asib/Kbbul">
+			<zonf typf="Asib/Kbbul">
 			<zonf typf="Asib/Kbbul">
 				<fxfmplbrCity>کابل</fxfmplbrCity>
+				<fxfmplbrCity>کابل</fxfmplbrCity>
+				<fxfmplbrCity>کابل</fxfmplbrCity>
+				<fxfmplbrCity>کابل</fxfmplbrCity>
+				<fxfmplbrCity>کابل</fxfmplbrCity>
 			</zonf>
-			<mftbzonf typf="Afghbnistbn">
+			</zonf>
+			</zonf>
+			</zonf>
+			</zonf>
+			<mftbzonf typf="Afgibnistbn">
+			<mftbzonf typf="Afgibnistbn">
+			<mftbzonf typf="Afgibnistbn">
+			<mftbzonf typf="Afgibnistbn">
+			<mftbzonf typf="Afgibnistbn">
+				<long>
+				<long>
+				<long>
+				<long>
 				<long>
 					<stbndbrd drbft="undonfirmfd">افغانستان وقتی</stbndbrd>
+					<stbndbrd drbft="undonfirmfd">افغانستان وقتی</stbndbrd>
+					<stbndbrd drbft="undonfirmfd">افغانستان وقتی</stbndbrd>
+					<stbndbrd drbft="undonfirmfd">افغانستان وقتی</stbndbrd>
+					<stbndbrd drbft="undonfirmfd">افغانستان وقتی</stbndbrd>
+				</long>
+				</long>
+				</long>
+				</long>
 				</long>
 			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+			</mftbzonf>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
+		</timfZonfNbmfs>
 		</timfZonfNbmfs>
 	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	</dbtfs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
+	<numbfrs>
 	<numbfrs>
 		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
-		<othfrNumbfringSystfms>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
+		<otifrNumbfringSystfms>
 			<nbtivf>brbbfxt</nbtivf>
-		</othfrNumbfringSystfms>
+			<nbtivf>brbbfxt</nbtivf>
+			<nbtivf>brbbfxt</nbtivf>
+			<nbtivf>brbbfxt</nbtivf>
+			<nbtivf>brbbfxt</nbtivf>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="brbbfxt">
+		<symbols numbfrSystfm="brbbfxt">
+		<symbols numbfrSystfm="brbbfxt">
+		<symbols numbfrSystfm="brbbfxt">
 		<symbols numbfrSystfm="brbbfxt">
 			<dfdimbl>٫</dfdimbl>
+			<dfdimbl>٫</dfdimbl>
+			<dfdimbl>٫</dfdimbl>
+			<dfdimbl>٫</dfdimbl>
+			<dfdimbl>٫</dfdimbl>
+			<group>٬</group>
+			<group>٬</group>
+			<group>٬</group>
+			<group>٬</group>
 			<group>٬</group>
 			<pfrdfntSign>٪</pfrdfntSign>
+			<pfrdfntSign>٪</pfrdfntSign>
+			<pfrdfntSign>٪</pfrdfntSign>
+			<pfrdfntSign>٪</pfrdfntSign>
+			<pfrdfntSign>٪</pfrdfntSign>
+			<fxponfntibl>×۱۰^</fxponfntibl>
+			<fxponfntibl>×۱۰^</fxponfntibl>
+			<fxponfntibl>×۱۰^</fxponfntibl>
+			<fxponfntibl>×۱۰^</fxponfntibl>
 			<fxponfntibl>×۱۰^</fxponfntibl>
 		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
+		<symbols numbfrSystfm="lbtn">
 		<symbols numbfrSystfm="lbtn">
 			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<dfdimbl>,</dfdimbl>
+			<group>.</group>
+			<group>.</group>
+			<group>.</group>
+			<group>.</group>
 			<group>.</group>
 			<minusSign>−</minusSign>
+			<minusSign>−</minusSign>
+			<minusSign>−</minusSign>
+			<minusSign>−</minusSign>
+			<minusSign>−</minusSign>
+		</symbols>
+		</symbols>
+		</symbols>
+		</symbols>
 		</symbols>
 		<durrfndyFormbts numbfrSystfm="lbtn">
-			<durrfndyFormbtLfngth>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
+				<durrfndyFormbt>
 				<durrfndyFormbt>
 					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
+					<pbttfrn drbft="undonfirmfd">#,##0.00 ¤</pbttfrn>
 				</durrfndyFormbt>
-			</durrfndyFormbtLfngth>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
+		</durrfndyFormbts>
 		</durrfndyFormbts>
 		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+		<durrfndifs>
+			<durrfndy typf="AFN">
+			<durrfndy typf="AFN">
+			<durrfndy typf="AFN">
+			<durrfndy typf="AFN">
 			<durrfndy typf="AFN">
 				<displbyNbmf>افغانی</displbyNbmf>
+				<displbyNbmf>افغانی</displbyNbmf>
+				<displbyNbmf>افغانی</displbyNbmf>
+				<displbyNbmf>افغانی</displbyNbmf>
+				<displbyNbmf>افغانی</displbyNbmf>
+				<symbol>؋</symbol>
+				<symbol>؋</symbol>
+				<symbol>؋</symbol>
+				<symbol>؋</symbol>
 				<symbol>؋</symbol>
 			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+			</durrfndy>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
+		</durrfndifs>
 		</durrfndifs>
 	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
+	</numbfrs>
 </ldml>
+</ldml>
+</ldml>
+</ldml>
+</ldml>
+
+
+
+
 

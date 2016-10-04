@@ -1,259 +1,1295 @@
 /*
- * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+
+
+
+
 
 import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOExdfption;
 import jbvb.io.IOExdfption;
 import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
 import jbvb.io.ObjfdtInputStrfbm;
 import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.ObjfdtStrfbmExdfption;
+
+
+
+
 
 /**
- * This is thf dommon bbsf dlbss of bll Jbvb lbngubgf fnumfrbtion typfs.
+/**
+/**
+/**
+/**
+ * Tiis is tif dommon bbsf dlbss of bll Jbvb lbngubgf fnumfrbtion typfs.
+ * Tiis is tif dommon bbsf dlbss of bll Jbvb lbngubgf fnumfrbtion typfs.
+ * Tiis is tif dommon bbsf dlbss of bll Jbvb lbngubgf fnumfrbtion typfs.
+ * Tiis is tif dommon bbsf dlbss of bll Jbvb lbngubgf fnumfrbtion typfs.
+ * Tiis is tif dommon bbsf dlbss of bll Jbvb lbngubgf fnumfrbtion typfs.
  *
- * Morf informbtion bbout fnums, indluding dfsdriptions of thf
- * impliditly dfdlbrfd mfthods synthfsizfd by thf dompilfr, dbn bf
+ *
+ *
+ *
+ *
+ * Morf informbtion bbout fnums, indluding dfsdriptions of tif
+ * Morf informbtion bbout fnums, indluding dfsdriptions of tif
+ * Morf informbtion bbout fnums, indluding dfsdriptions of tif
+ * Morf informbtion bbout fnums, indluding dfsdriptions of tif
+ * Morf informbtion bbout fnums, indluding dfsdriptions of tif
+ * impliditly dfdlbrfd mftiods syntifsizfd by tif dompilfr, dbn bf
+ * impliditly dfdlbrfd mftiods syntifsizfd by tif dompilfr, dbn bf
+ * impliditly dfdlbrfd mftiods syntifsizfd by tif dompilfr, dbn bf
+ * impliditly dfdlbrfd mftiods syntifsizfd by tif dompilfr, dbn bf
+ * impliditly dfdlbrfd mftiods syntifsizfd by tif dompilfr, dbn bf
  * found in sfdtion 8.9 of
- * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ * found in sfdtion 8.9 of
+ * found in sfdtion 8.9 of
+ * found in sfdtion 8.9 of
+ * found in sfdtion 8.9 of
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
  *
- * <p> Notf thbt whfn using bn fnumfrbtion typf bs thf typf of b sft
- * or bs thf typf of thf kfys in b mbp, spfdiblizfd bnd fffidifnt
+ *
+ *
+ *
+ *
+ * <p> Notf tibt wifn using bn fnumfrbtion typf bs tif typf of b sft
+ * <p> Notf tibt wifn using bn fnumfrbtion typf bs tif typf of b sft
+ * <p> Notf tibt wifn using bn fnumfrbtion typf bs tif typf of b sft
+ * <p> Notf tibt wifn using bn fnumfrbtion typf bs tif typf of b sft
+ * <p> Notf tibt wifn using bn fnumfrbtion typf bs tif typf of b sft
+ * or bs tif typf of tif kfys in b mbp, spfdiblizfd bnd fffidifnt
+ * or bs tif typf of tif kfys in b mbp, spfdiblizfd bnd fffidifnt
+ * or bs tif typf of tif kfys in b mbp, spfdiblizfd bnd fffidifnt
+ * or bs tif typf of tif kfys in b mbp, spfdiblizfd bnd fffidifnt
+ * or bs tif typf of tif kfys in b mbp, spfdiblizfd bnd fffidifnt
+ * {@linkplbin jbvb.util.EnumSft sft} bnd {@linkplbin
+ * {@linkplbin jbvb.util.EnumSft sft} bnd {@linkplbin
+ * {@linkplbin jbvb.util.EnumSft sft} bnd {@linkplbin
+ * {@linkplbin jbvb.util.EnumSft sft} bnd {@linkplbin
  * {@linkplbin jbvb.util.EnumSft sft} bnd {@linkplbin
  * jbvb.util.EnumMbp mbp} implfmfntbtions brf bvbilbblf.
+ * jbvb.util.EnumMbp mbp} implfmfntbtions brf bvbilbblf.
+ * jbvb.util.EnumMbp mbp} implfmfntbtions brf bvbilbblf.
+ * jbvb.util.EnumMbp mbp} implfmfntbtions brf bvbilbblf.
+ * jbvb.util.EnumMbp mbp} implfmfntbtions brf bvbilbblf.
  *
- * @pbrbm <E> Thf fnum typf subdlbss
- * @buthor  Josh Blodh
- * @buthor  Nfbl Gbftfr
+ *
+ *
+ *
+ *
+ * @pbrbm <E> Tif fnum typf subdlbss
+ * @pbrbm <E> Tif fnum typf subdlbss
+ * @pbrbm <E> Tif fnum typf subdlbss
+ * @pbrbm <E> Tif fnum typf subdlbss
+ * @pbrbm <E> Tif fnum typf subdlbss
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @butior  Nfbl Gbftfr
+ * @butior  Nfbl Gbftfr
+ * @butior  Nfbl Gbftfr
+ * @butior  Nfbl Gbftfr
+ * @sff     Clbss#gftEnumConstbnts()
+ * @sff     Clbss#gftEnumConstbnts()
+ * @sff     Clbss#gftEnumConstbnts()
+ * @sff     Clbss#gftEnumConstbnts()
  * @sff     Clbss#gftEnumConstbnts()
  * @sff     jbvb.util.EnumSft
+ * @sff     jbvb.util.EnumSft
+ * @sff     jbvb.util.EnumSft
+ * @sff     jbvb.util.EnumSft
+ * @sff     jbvb.util.EnumSft
+ * @sff     jbvb.util.EnumMbp
+ * @sff     jbvb.util.EnumMbp
+ * @sff     jbvb.util.EnumMbp
+ * @sff     jbvb.util.EnumMbp
  * @sff     jbvb.util.EnumMbp
  * @sindf   1.5
+ * @sindf   1.5
+ * @sindf   1.5
+ * @sindf   1.5
+ * @sindf   1.5
+ */
+ */
+ */
+ */
  */
 @SupprfssWbrnings("sfribl") // No sfriblVfrsionUID nffdfd duf to
+@SupprfssWbrnings("sfribl") // No sfriblVfrsionUID nffdfd duf to
+@SupprfssWbrnings("sfribl") // No sfriblVfrsionUID nffdfd duf to
+@SupprfssWbrnings("sfribl") // No sfriblVfrsionUID nffdfd duf to
+@SupprfssWbrnings("sfribl") // No sfriblVfrsionUID nffdfd duf to
+                            // spfdibl-dbsing of fnum typfs.
+                            // spfdibl-dbsing of fnum typfs.
+                            // spfdibl-dbsing of fnum typfs.
+                            // spfdibl-dbsing of fnum typfs.
                             // spfdibl-dbsing of fnum typfs.
 publid bbstrbdt dlbss Enum<E fxtfnds Enum<E>>
+publid bbstrbdt dlbss Enum<E fxtfnds Enum<E>>
+publid bbstrbdt dlbss Enum<E fxtfnds Enum<E>>
+publid bbstrbdt dlbss Enum<E fxtfnds Enum<E>>
+publid bbstrbdt dlbss Enum<E fxtfnds Enum<E>>
+        implfmfnts Compbrbblf<E>, Sfriblizbblf {
+        implfmfnts Compbrbblf<E>, Sfriblizbblf {
+        implfmfnts Compbrbblf<E>, Sfriblizbblf {
+        implfmfnts Compbrbblf<E>, Sfriblizbblf {
         implfmfnts Compbrbblf<E>, Sfriblizbblf {
     /**
-     * Thf nbmf of this fnum donstbnt, bs dfdlbrfd in thf fnum dfdlbrbtion.
-     * Most progrbmmfrs should usf thf {@link #toString} mfthod rbthfr thbn
-     * bddfssing this fifld.
+    /**
+    /**
+    /**
+    /**
+     * Tif nbmf of tiis fnum donstbnt, bs dfdlbrfd in tif fnum dfdlbrbtion.
+     * Tif nbmf of tiis fnum donstbnt, bs dfdlbrfd in tif fnum dfdlbrbtion.
+     * Tif nbmf of tiis fnum donstbnt, bs dfdlbrfd in tif fnum dfdlbrbtion.
+     * Tif nbmf of tiis fnum donstbnt, bs dfdlbrfd in tif fnum dfdlbrbtion.
+     * Tif nbmf of tiis fnum donstbnt, bs dfdlbrfd in tif fnum dfdlbrbtion.
+     * Most progrbmmfrs siould usf tif {@link #toString} mftiod rbtifr tibn
+     * Most progrbmmfrs siould usf tif {@link #toString} mftiod rbtifr tibn
+     * Most progrbmmfrs siould usf tif {@link #toString} mftiod rbtifr tibn
+     * Most progrbmmfrs siould usf tif {@link #toString} mftiod rbtifr tibn
+     * Most progrbmmfrs siould usf tif {@link #toString} mftiod rbtifr tibn
+     * bddfssing tiis fifld.
+     * bddfssing tiis fifld.
+     * bddfssing tiis fifld.
+     * bddfssing tiis fifld.
+     * bddfssing tiis fifld.
+     */
+     */
+     */
+     */
      */
     privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+
+
+
+
 
     /**
-     * Rfturns thf nbmf of this fnum donstbnt, fxbdtly bs dfdlbrfd in its
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nbmf of tiis fnum donstbnt, fxbdtly bs dfdlbrfd in its
+     * Rfturns tif nbmf of tiis fnum donstbnt, fxbdtly bs dfdlbrfd in its
+     * Rfturns tif nbmf of tiis fnum donstbnt, fxbdtly bs dfdlbrfd in its
+     * Rfturns tif nbmf of tiis fnum donstbnt, fxbdtly bs dfdlbrfd in its
+     * Rfturns tif nbmf of tiis fnum donstbnt, fxbdtly bs dfdlbrfd in its
+     * fnum dfdlbrbtion.
+     * fnum dfdlbrbtion.
+     * fnum dfdlbrbtion.
+     * fnum dfdlbrbtion.
      * fnum dfdlbrbtion.
      *
-     * <b>Most progrbmmfrs should usf thf {@link #toString} mfthod in
-     * prfffrfndf to this onf, bs thf toString mfthod mby rfturn
-     * b morf usfr-frifndly nbmf.</b>  This mfthod is dfsignfd primbrily for
-     * usf in spfdiblizfd situbtions whfrf dorrfdtnfss dfpfnds on gftting thf
-     * fxbdt nbmf, whidh will not vbry from rflfbsf to rflfbsf.
      *
-     * @rfturn thf nbmf of this fnum donstbnt
+     *
+     *
+     *
+     * <b>Most progrbmmfrs siould usf tif {@link #toString} mftiod in
+     * <b>Most progrbmmfrs siould usf tif {@link #toString} mftiod in
+     * <b>Most progrbmmfrs siould usf tif {@link #toString} mftiod in
+     * <b>Most progrbmmfrs siould usf tif {@link #toString} mftiod in
+     * <b>Most progrbmmfrs siould usf tif {@link #toString} mftiod in
+     * prfffrfndf to tiis onf, bs tif toString mftiod mby rfturn
+     * prfffrfndf to tiis onf, bs tif toString mftiod mby rfturn
+     * prfffrfndf to tiis onf, bs tif toString mftiod mby rfturn
+     * prfffrfndf to tiis onf, bs tif toString mftiod mby rfturn
+     * prfffrfndf to tiis onf, bs tif toString mftiod mby rfturn
+     * b morf usfr-frifndly nbmf.</b>  Tiis mftiod is dfsignfd primbrily for
+     * b morf usfr-frifndly nbmf.</b>  Tiis mftiod is dfsignfd primbrily for
+     * b morf usfr-frifndly nbmf.</b>  Tiis mftiod is dfsignfd primbrily for
+     * b morf usfr-frifndly nbmf.</b>  Tiis mftiod is dfsignfd primbrily for
+     * b morf usfr-frifndly nbmf.</b>  Tiis mftiod is dfsignfd primbrily for
+     * usf in spfdiblizfd situbtions wifrf dorrfdtnfss dfpfnds on gftting tif
+     * usf in spfdiblizfd situbtions wifrf dorrfdtnfss dfpfnds on gftting tif
+     * usf in spfdiblizfd situbtions wifrf dorrfdtnfss dfpfnds on gftting tif
+     * usf in spfdiblizfd situbtions wifrf dorrfdtnfss dfpfnds on gftting tif
+     * usf in spfdiblizfd situbtions wifrf dorrfdtnfss dfpfnds on gftting tif
+     * fxbdt nbmf, wiidi will not vbry from rflfbsf to rflfbsf.
+     * fxbdt nbmf, wiidi will not vbry from rflfbsf to rflfbsf.
+     * fxbdt nbmf, wiidi will not vbry from rflfbsf to rflfbsf.
+     * fxbdt nbmf, wiidi will not vbry from rflfbsf to rflfbsf.
+     * fxbdt nbmf, wiidi will not vbry from rflfbsf to rflfbsf.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     */
+     */
+     */
+     */
      */
     publid finbl String nbmf() {
+    publid finbl String nbmf() {
+    publid finbl String nbmf() {
+    publid finbl String nbmf() {
+    publid finbl String nbmf() {
+        rfturn nbmf;
+        rfturn nbmf;
+        rfturn nbmf;
+        rfturn nbmf;
         rfturn nbmf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Thf ordinbl of this fnumfrbtion donstbnt (its position
-     * in thf fnum dfdlbrbtion, whfrf thf initibl donstbnt is bssignfd
+    /**
+    /**
+    /**
+    /**
+     * Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * bn ordinbl of zfro).
+     * bn ordinbl of zfro).
+     * bn ordinbl of zfro).
+     * bn ordinbl of zfro).
      * bn ordinbl of zfro).
      *
-     * Most progrbmmfrs will hbvf no usf for this fifld.  It is dfsignfd
-     * for usf by sophistidbtfd fnum-bbsfd dbtb strudturfs, sudh bs
+     *
+     *
+     *
+     *
+     * Most progrbmmfrs will ibvf no usf for tiis fifld.  It is dfsignfd
+     * Most progrbmmfrs will ibvf no usf for tiis fifld.  It is dfsignfd
+     * Most progrbmmfrs will ibvf no usf for tiis fifld.  It is dfsignfd
+     * Most progrbmmfrs will ibvf no usf for tiis fifld.  It is dfsignfd
+     * Most progrbmmfrs will ibvf no usf for tiis fifld.  It is dfsignfd
+     * for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi bs
+     * for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi bs
+     * for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi bs
+     * for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi bs
+     * for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi bs
+     * {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     * {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     * {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     * {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
      * {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
      */
+     */
+     */
+     */
+     */
+    privbtf finbl int ordinbl;
+    privbtf finbl int ordinbl;
+    privbtf finbl int ordinbl;
+    privbtf finbl int ordinbl;
     privbtf finbl int ordinbl;
 
+
+
+
+
     /**
-     * Rfturns thf ordinbl of this fnumfrbtion donstbnt (its position
-     * in its fnum dfdlbrbtion, whfrf thf initibl donstbnt is bssignfd
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Rfturns tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Rfturns tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Rfturns tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * Rfturns tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * in its fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in its fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in its fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in its fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * in its fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     * bn ordinbl of zfro).
+     * bn ordinbl of zfro).
+     * bn ordinbl of zfro).
+     * bn ordinbl of zfro).
      * bn ordinbl of zfro).
      *
-     * Most progrbmmfrs will hbvf no usf for this mfthod.  It is
-     * dfsignfd for usf by sophistidbtfd fnum-bbsfd dbtb strudturfs, sudh
+     *
+     *
+     *
+     *
+     * Most progrbmmfrs will ibvf no usf for tiis mftiod.  It is
+     * Most progrbmmfrs will ibvf no usf for tiis mftiod.  It is
+     * Most progrbmmfrs will ibvf no usf for tiis mftiod.  It is
+     * Most progrbmmfrs will ibvf no usf for tiis mftiod.  It is
+     * Most progrbmmfrs will ibvf no usf for tiis mftiod.  It is
+     * dfsignfd for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi
+     * dfsignfd for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi
+     * dfsignfd for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi
+     * dfsignfd for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi
+     * dfsignfd for usf by sopiistidbtfd fnum-bbsfd dbtb strudturfs, sudi
+     * bs {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     * bs {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     * bs {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     * bs {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
      * bs {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
      *
-     * @rfturn thf ordinbl of this fnumfrbtion donstbnt
+     *
+     *
+     *
+     *
+     * @rfturn tif ordinbl of tiis fnumfrbtion donstbnt
+     * @rfturn tif ordinbl of tiis fnumfrbtion donstbnt
+     * @rfturn tif ordinbl of tiis fnumfrbtion donstbnt
+     * @rfturn tif ordinbl of tiis fnumfrbtion donstbnt
+     * @rfturn tif ordinbl of tiis fnumfrbtion donstbnt
+     */
+     */
+     */
+     */
      */
     publid finbl int ordinbl() {
+    publid finbl int ordinbl() {
+    publid finbl int ordinbl() {
+    publid finbl int ordinbl() {
+    publid finbl int ordinbl() {
+        rfturn ordinbl;
+        rfturn ordinbl;
+        rfturn ordinbl;
+        rfturn ordinbl;
         rfturn ordinbl;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Solf donstrudtor.  Progrbmmfrs dbnnot invokf this donstrudtor.
-     * It is for usf by dodf fmittfd by thf dompilfr in rfsponsf to
+    /**
+    /**
+    /**
+    /**
+     * Solf donstrudtor.  Progrbmmfrs dbnnot invokf tiis donstrudtor.
+     * Solf donstrudtor.  Progrbmmfrs dbnnot invokf tiis donstrudtor.
+     * Solf donstrudtor.  Progrbmmfrs dbnnot invokf tiis donstrudtor.
+     * Solf donstrudtor.  Progrbmmfrs dbnnot invokf tiis donstrudtor.
+     * Solf donstrudtor.  Progrbmmfrs dbnnot invokf tiis donstrudtor.
+     * It is for usf by dodf fmittfd by tif dompilfr in rfsponsf to
+     * It is for usf by dodf fmittfd by tif dompilfr in rfsponsf to
+     * It is for usf by dodf fmittfd by tif dompilfr in rfsponsf to
+     * It is for usf by dodf fmittfd by tif dompilfr in rfsponsf to
+     * It is for usf by dodf fmittfd by tif dompilfr in rfsponsf to
+     * fnum typf dfdlbrbtions.
+     * fnum typf dfdlbrbtions.
+     * fnum typf dfdlbrbtions.
+     * fnum typf dfdlbrbtions.
      * fnum typf dfdlbrbtions.
      *
-     * @pbrbm nbmf - Thf nbmf of this fnum donstbnt, whidh is thf idfntififr
+     *
+     *
+     *
+     *
+     * @pbrbm nbmf - Tif nbmf of tiis fnum donstbnt, wiidi is tif idfntififr
+     * @pbrbm nbmf - Tif nbmf of tiis fnum donstbnt, wiidi is tif idfntififr
+     * @pbrbm nbmf - Tif nbmf of tiis fnum donstbnt, wiidi is tif idfntififr
+     * @pbrbm nbmf - Tif nbmf of tiis fnum donstbnt, wiidi is tif idfntififr
+     * @pbrbm nbmf - Tif nbmf of tiis fnum donstbnt, wiidi is tif idfntififr
      *               usfd to dfdlbrf it.
-     * @pbrbm ordinbl - Thf ordinbl of this fnumfrbtion donstbnt (its position
-     *         in thf fnum dfdlbrbtion, whfrf thf initibl donstbnt is bssignfd
+     *               usfd to dfdlbrf it.
+     *               usfd to dfdlbrf it.
+     *               usfd to dfdlbrf it.
+     *               usfd to dfdlbrf it.
+     * @pbrbm ordinbl - Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * @pbrbm ordinbl - Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * @pbrbm ordinbl - Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * @pbrbm ordinbl - Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     * @pbrbm ordinbl - Tif ordinbl of tiis fnumfrbtion donstbnt (its position
+     *         in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     *         in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     *         in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     *         in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     *         in tif fnum dfdlbrbtion, wifrf tif initibl donstbnt is bssignfd
+     *         bn ordinbl of zfro).
+     *         bn ordinbl of zfro).
+     *         bn ordinbl of zfro).
+     *         bn ordinbl of zfro).
      *         bn ordinbl of zfro).
      */
+     */
+     */
+     */
+     */
     protfdtfd Enum(String nbmf, int ordinbl) {
-        this.nbmf = nbmf;
-        this.ordinbl = ordinbl;
+    protfdtfd Enum(String nbmf, int ordinbl) {
+    protfdtfd Enum(String nbmf, int ordinbl) {
+    protfdtfd Enum(String nbmf, int ordinbl) {
+    protfdtfd Enum(String nbmf, int ordinbl) {
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.ordinbl = ordinbl;
+        tiis.ordinbl = ordinbl;
+        tiis.ordinbl = ordinbl;
+        tiis.ordinbl = ordinbl;
+        tiis.ordinbl = ordinbl;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf nbmf of this fnum donstbnt, bs dontbinfd in thf
-     * dfdlbrbtion.  This mfthod mby bf ovfrriddfn, though it typidblly
-     * isn't nfdfssbry or dfsirbblf.  An fnum typf should ovfrridf this
-     * mfthod whfn b morf "progrbmmfr-frifndly" string form fxists.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif nbmf of tiis fnum donstbnt, bs dontbinfd in tif
+     * Rfturns tif nbmf of tiis fnum donstbnt, bs dontbinfd in tif
+     * Rfturns tif nbmf of tiis fnum donstbnt, bs dontbinfd in tif
+     * Rfturns tif nbmf of tiis fnum donstbnt, bs dontbinfd in tif
+     * Rfturns tif nbmf of tiis fnum donstbnt, bs dontbinfd in tif
+     * dfdlbrbtion.  Tiis mftiod mby bf ovfrriddfn, tiougi it typidblly
+     * dfdlbrbtion.  Tiis mftiod mby bf ovfrriddfn, tiougi it typidblly
+     * dfdlbrbtion.  Tiis mftiod mby bf ovfrriddfn, tiougi it typidblly
+     * dfdlbrbtion.  Tiis mftiod mby bf ovfrriddfn, tiougi it typidblly
+     * dfdlbrbtion.  Tiis mftiod mby bf ovfrriddfn, tiougi it typidblly
+     * isn't nfdfssbry or dfsirbblf.  An fnum typf siould ovfrridf tiis
+     * isn't nfdfssbry or dfsirbblf.  An fnum typf siould ovfrridf tiis
+     * isn't nfdfssbry or dfsirbblf.  An fnum typf siould ovfrridf tiis
+     * isn't nfdfssbry or dfsirbblf.  An fnum typf siould ovfrridf tiis
+     * isn't nfdfssbry or dfsirbblf.  An fnum typf siould ovfrridf tiis
+     * mftiod wifn b morf "progrbmmfr-frifndly" string form fxists.
+     * mftiod wifn b morf "progrbmmfr-frifndly" string form fxists.
+     * mftiod wifn b morf "progrbmmfr-frifndly" string form fxists.
+     * mftiod wifn b morf "progrbmmfr-frifndly" string form fxists.
+     * mftiod wifn b morf "progrbmmfr-frifndly" string form fxists.
      *
-     * @rfturn thf nbmf of this fnum donstbnt
+     *
+     *
+     *
+     *
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     * @rfturn tif nbmf of tiis fnum donstbnt
+     */
+     */
+     */
+     */
      */
     publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+        rfturn nbmf;
+        rfturn nbmf;
+        rfturn nbmf;
+        rfturn nbmf;
         rfturn nbmf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns truf if thf spfdififd objfdt is fqubl to this
+    /**
+    /**
+    /**
+    /**
+     * Rfturns truf if tif spfdififd objfdt is fqubl to tiis
+     * Rfturns truf if tif spfdififd objfdt is fqubl to tiis
+     * Rfturns truf if tif spfdififd objfdt is fqubl to tiis
+     * Rfturns truf if tif spfdififd objfdt is fqubl to tiis
+     * Rfturns truf if tif spfdififd objfdt is fqubl to tiis
+     * fnum donstbnt.
+     * fnum donstbnt.
+     * fnum donstbnt.
+     * fnum donstbnt.
      * fnum donstbnt.
      *
-     * @pbrbm othfr thf objfdt to bf dompbrfd for fqublity with this objfdt.
-     * @rfturn  truf if thf spfdififd objfdt is fqubl to this
+     *
+     *
+     *
+     *
+     * @pbrbm otifr tif objfdt to bf dompbrfd for fqublity witi tiis objfdt.
+     * @pbrbm otifr tif objfdt to bf dompbrfd for fqublity witi tiis objfdt.
+     * @pbrbm otifr tif objfdt to bf dompbrfd for fqublity witi tiis objfdt.
+     * @pbrbm otifr tif objfdt to bf dompbrfd for fqublity witi tiis objfdt.
+     * @pbrbm otifr tif objfdt to bf dompbrfd for fqublity witi tiis objfdt.
+     * @rfturn  truf if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn  truf if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn  truf if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn  truf if tif spfdififd objfdt is fqubl to tiis
+     * @rfturn  truf if tif spfdififd objfdt is fqubl to tiis
+     *          fnum donstbnt.
+     *          fnum donstbnt.
+     *          fnum donstbnt.
+     *          fnum donstbnt.
      *          fnum donstbnt.
      */
-    publid finbl boolfbn fqubls(Objfdt othfr) {
-        rfturn this==othfr;
-    }
-
-    /**
-     * Rfturns b hbsh dodf for this fnum donstbnt.
-     *
-     * @rfturn b hbsh dodf for this fnum donstbnt.
      */
-    publid finbl int hbshCodf() {
-        rfturn supfr.hbshCodf();
+     */
+     */
+     */
+    publid finbl boolfbn fqubls(Objfdt otifr) {
+    publid finbl boolfbn fqubls(Objfdt otifr) {
+    publid finbl boolfbn fqubls(Objfdt otifr) {
+    publid finbl boolfbn fqubls(Objfdt otifr) {
+    publid finbl boolfbn fqubls(Objfdt otifr) {
+        rfturn tiis==otifr;
+        rfturn tiis==otifr;
+        rfturn tiis==otifr;
+        rfturn tiis==otifr;
+        rfturn tiis==otifr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Throws ClonfNotSupportfdExdfption.  This gubrbntffs thbt fnums
-     * brf nfvfr dlonfd, whidh is nfdfssbry to prfsfrvf thfir "singlfton"
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b ibsi dodf for tiis fnum donstbnt.
+     * Rfturns b ibsi dodf for tiis fnum donstbnt.
+     * Rfturns b ibsi dodf for tiis fnum donstbnt.
+     * Rfturns b ibsi dodf for tiis fnum donstbnt.
+     * Rfturns b ibsi dodf for tiis fnum donstbnt.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn b ibsi dodf for tiis fnum donstbnt.
+     * @rfturn b ibsi dodf for tiis fnum donstbnt.
+     * @rfturn b ibsi dodf for tiis fnum donstbnt.
+     * @rfturn b ibsi dodf for tiis fnum donstbnt.
+     * @rfturn b ibsi dodf for tiis fnum donstbnt.
+     */
+     */
+     */
+     */
+     */
+    publid finbl int ibsiCodf() {
+    publid finbl int ibsiCodf() {
+    publid finbl int ibsiCodf() {
+    publid finbl int ibsiCodf() {
+    publid finbl int ibsiCodf() {
+        rfturn supfr.ibsiCodf();
+        rfturn supfr.ibsiCodf();
+        rfturn supfr.ibsiCodf();
+        rfturn supfr.ibsiCodf();
+        rfturn supfr.ibsiCodf();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tirows ClonfNotSupportfdExdfption.  Tiis gubrbntffs tibt fnums
+     * Tirows ClonfNotSupportfdExdfption.  Tiis gubrbntffs tibt fnums
+     * Tirows ClonfNotSupportfdExdfption.  Tiis gubrbntffs tibt fnums
+     * Tirows ClonfNotSupportfdExdfption.  Tiis gubrbntffs tibt fnums
+     * Tirows ClonfNotSupportfdExdfption.  Tiis gubrbntffs tibt fnums
+     * brf nfvfr dlonfd, wiidi is nfdfssbry to prfsfrvf tifir "singlfton"
+     * brf nfvfr dlonfd, wiidi is nfdfssbry to prfsfrvf tifir "singlfton"
+     * brf nfvfr dlonfd, wiidi is nfdfssbry to prfsfrvf tifir "singlfton"
+     * brf nfvfr dlonfd, wiidi is nfdfssbry to prfsfrvf tifir "singlfton"
+     * brf nfvfr dlonfd, wiidi is nfdfssbry to prfsfrvf tifir "singlfton"
+     * stbtus.
+     * stbtus.
+     * stbtus.
+     * stbtus.
      * stbtus.
      *
+     *
+     *
+     *
+     *
+     * @rfturn (nfvfr rfturns)
+     * @rfturn (nfvfr rfturns)
+     * @rfturn (nfvfr rfturns)
+     * @rfturn (nfvfr rfturns)
      * @rfturn (nfvfr rfturns)
      */
-    protfdtfd finbl Objfdt dlonf() throws ClonfNotSupportfdExdfption {
-        throw nfw ClonfNotSupportfdExdfption();
+     */
+     */
+     */
+     */
+    protfdtfd finbl Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+    protfdtfd finbl Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+    protfdtfd finbl Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+    protfdtfd finbl Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+    protfdtfd finbl Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        tirow nfw ClonfNotSupportfdExdfption();
+        tirow nfw ClonfNotSupportfdExdfption();
+        tirow nfw ClonfNotSupportfdExdfption();
+        tirow nfw ClonfNotSupportfdExdfption();
+        tirow nfw ClonfNotSupportfdExdfption();
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Compbrfs this fnum with thf spfdififd objfdt for ordfr.  Rfturns b
-     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this objfdt is lfss
-     * thbn, fqubl to, or grfbtfr thbn thf spfdififd objfdt.
+    /**
+    /**
+    /**
+    /**
+     * Compbrfs tiis fnum witi tif spfdififd objfdt for ordfr.  Rfturns b
+     * Compbrfs tiis fnum witi tif spfdififd objfdt for ordfr.  Rfturns b
+     * Compbrfs tiis fnum witi tif spfdififd objfdt for ordfr.  Rfturns b
+     * Compbrfs tiis fnum witi tif spfdififd objfdt for ordfr.  Rfturns b
+     * Compbrfs tiis fnum witi tif spfdififd objfdt for ordfr.  Rfturns b
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis objfdt is lfss
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis objfdt is lfss
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis objfdt is lfss
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis objfdt is lfss
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis objfdt is lfss
+     * tibn, fqubl to, or grfbtfr tibn tif spfdififd objfdt.
+     * tibn, fqubl to, or grfbtfr tibn tif spfdififd objfdt.
+     * tibn, fqubl to, or grfbtfr tibn tif spfdififd objfdt.
+     * tibn, fqubl to, or grfbtfr tibn tif spfdififd objfdt.
+     * tibn, fqubl to, or grfbtfr tibn tif spfdififd objfdt.
      *
-     * Enum donstbnts brf only dompbrbblf to othfr fnum donstbnts of thf
-     * sbmf fnum typf.  Thf nbturbl ordfr implfmfntfd by this
-     * mfthod is thf ordfr in whidh thf donstbnts brf dfdlbrfd.
+     *
+     *
+     *
+     *
+     * Enum donstbnts brf only dompbrbblf to otifr fnum donstbnts of tif
+     * Enum donstbnts brf only dompbrbblf to otifr fnum donstbnts of tif
+     * Enum donstbnts brf only dompbrbblf to otifr fnum donstbnts of tif
+     * Enum donstbnts brf only dompbrbblf to otifr fnum donstbnts of tif
+     * Enum donstbnts brf only dompbrbblf to otifr fnum donstbnts of tif
+     * sbmf fnum typf.  Tif nbturbl ordfr implfmfntfd by tiis
+     * sbmf fnum typf.  Tif nbturbl ordfr implfmfntfd by tiis
+     * sbmf fnum typf.  Tif nbturbl ordfr implfmfntfd by tiis
+     * sbmf fnum typf.  Tif nbturbl ordfr implfmfntfd by tiis
+     * sbmf fnum typf.  Tif nbturbl ordfr implfmfntfd by tiis
+     * mftiod is tif ordfr in wiidi tif donstbnts brf dfdlbrfd.
+     * mftiod is tif ordfr in wiidi tif donstbnts brf dfdlbrfd.
+     * mftiod is tif ordfr in wiidi tif donstbnts brf dfdlbrfd.
+     * mftiod is tif ordfr in wiidi tif donstbnts brf dfdlbrfd.
+     * mftiod is tif ordfr in wiidi tif donstbnts brf dfdlbrfd.
+     */
+     */
+     */
+     */
      */
     publid finbl int dompbrfTo(E o) {
-        Enum<?> othfr = (Enum<?>)o;
-        Enum<E> sflf = this;
-        if (sflf.gftClbss() != othfr.gftClbss() && // optimizbtion
-            sflf.gftDfdlbringClbss() != othfr.gftDfdlbringClbss())
-            throw nfw ClbssCbstExdfption();
-        rfturn sflf.ordinbl - othfr.ordinbl;
+    publid finbl int dompbrfTo(E o) {
+    publid finbl int dompbrfTo(E o) {
+    publid finbl int dompbrfTo(E o) {
+    publid finbl int dompbrfTo(E o) {
+        Enum<?> otifr = (Enum<?>)o;
+        Enum<?> otifr = (Enum<?>)o;
+        Enum<?> otifr = (Enum<?>)o;
+        Enum<?> otifr = (Enum<?>)o;
+        Enum<?> otifr = (Enum<?>)o;
+        Enum<E> sflf = tiis;
+        Enum<E> sflf = tiis;
+        Enum<E> sflf = tiis;
+        Enum<E> sflf = tiis;
+        Enum<E> sflf = tiis;
+        if (sflf.gftClbss() != otifr.gftClbss() && // optimizbtion
+        if (sflf.gftClbss() != otifr.gftClbss() && // optimizbtion
+        if (sflf.gftClbss() != otifr.gftClbss() && // optimizbtion
+        if (sflf.gftClbss() != otifr.gftClbss() && // optimizbtion
+        if (sflf.gftClbss() != otifr.gftClbss() && // optimizbtion
+            sflf.gftDfdlbringClbss() != otifr.gftDfdlbringClbss())
+            sflf.gftDfdlbringClbss() != otifr.gftDfdlbringClbss())
+            sflf.gftDfdlbringClbss() != otifr.gftDfdlbringClbss())
+            sflf.gftDfdlbringClbss() != otifr.gftDfdlbringClbss())
+            sflf.gftDfdlbringClbss() != otifr.gftDfdlbringClbss())
+            tirow nfw ClbssCbstExdfption();
+            tirow nfw ClbssCbstExdfption();
+            tirow nfw ClbssCbstExdfption();
+            tirow nfw ClbssCbstExdfption();
+            tirow nfw ClbssCbstExdfption();
+        rfturn sflf.ordinbl - otifr.ordinbl;
+        rfturn sflf.ordinbl - otifr.ordinbl;
+        rfturn sflf.ordinbl - otifr.ordinbl;
+        rfturn sflf.ordinbl - otifr.ordinbl;
+        rfturn sflf.ordinbl - otifr.ordinbl;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf Clbss objfdt dorrfsponding to this fnum donstbnt's
-     * fnum typf.  Two fnum donstbnts f1 bnd  f2 brf of thf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * Rfturns tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * Rfturns tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * Rfturns tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * Rfturns tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * fnum typf.  Two fnum donstbnts f1 bnd  f2 brf of tif
+     * fnum typf.  Two fnum donstbnts f1 bnd  f2 brf of tif
+     * fnum typf.  Two fnum donstbnts f1 bnd  f2 brf of tif
+     * fnum typf.  Two fnum donstbnts f1 bnd  f2 brf of tif
+     * fnum typf.  Two fnum donstbnts f1 bnd  f2 brf of tif
+     * sbmf fnum typf if bnd only if
+     * sbmf fnum typf if bnd only if
+     * sbmf fnum typf if bnd only if
+     * sbmf fnum typf if bnd only if
      * sbmf fnum typf if bnd only if
      *   f1.gftDfdlbringClbss() == f2.gftDfdlbringClbss().
-     * (Thf vbluf rfturnfd by this mfthod mby difffr from thf onf rfturnfd
-     * by thf {@link Objfdt#gftClbss} mfthod for fnum donstbnts with
+     *   f1.gftDfdlbringClbss() == f2.gftDfdlbringClbss().
+     *   f1.gftDfdlbringClbss() == f2.gftDfdlbringClbss().
+     *   f1.gftDfdlbringClbss() == f2.gftDfdlbringClbss().
+     *   f1.gftDfdlbringClbss() == f2.gftDfdlbringClbss().
+     * (Tif vbluf rfturnfd by tiis mftiod mby difffr from tif onf rfturnfd
+     * (Tif vbluf rfturnfd by tiis mftiod mby difffr from tif onf rfturnfd
+     * (Tif vbluf rfturnfd by tiis mftiod mby difffr from tif onf rfturnfd
+     * (Tif vbluf rfturnfd by tiis mftiod mby difffr from tif onf rfturnfd
+     * (Tif vbluf rfturnfd by tiis mftiod mby difffr from tif onf rfturnfd
+     * by tif {@link Objfdt#gftClbss} mftiod for fnum donstbnts witi
+     * by tif {@link Objfdt#gftClbss} mftiod for fnum donstbnts witi
+     * by tif {@link Objfdt#gftClbss} mftiod for fnum donstbnts witi
+     * by tif {@link Objfdt#gftClbss} mftiod for fnum donstbnts witi
+     * by tif {@link Objfdt#gftClbss} mftiod for fnum donstbnts witi
+     * donstbnt-spfdifid dlbss bodifs.)
+     * donstbnt-spfdifid dlbss bodifs.)
+     * donstbnt-spfdifid dlbss bodifs.)
+     * donstbnt-spfdifid dlbss bodifs.)
      * donstbnt-spfdifid dlbss bodifs.)
      *
-     * @rfturn thf Clbss objfdt dorrfsponding to this fnum donstbnt's
+     *
+     *
+     *
+     *
+     * @rfturn tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * @rfturn tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * @rfturn tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * @rfturn tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     * @rfturn tif Clbss objfdt dorrfsponding to tiis fnum donstbnt's
+     *     fnum typf
+     *     fnum typf
+     *     fnum typf
+     *     fnum typf
      *     fnum typf
      */
-    @SupprfssWbrnings("undhfdkfd")
+     */
+     */
+     */
+     */
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl Clbss<E> gftDfdlbringClbss() {
+    publid finbl Clbss<E> gftDfdlbringClbss() {
+    publid finbl Clbss<E> gftDfdlbringClbss() {
+    publid finbl Clbss<E> gftDfdlbringClbss() {
     publid finbl Clbss<E> gftDfdlbringClbss() {
         Clbss<?> dlbzz = gftClbss();
+        Clbss<?> dlbzz = gftClbss();
+        Clbss<?> dlbzz = gftClbss();
+        Clbss<?> dlbzz = gftClbss();
+        Clbss<?> dlbzz = gftClbss();
+        Clbss<?> zupfr = dlbzz.gftSupfrdlbss();
+        Clbss<?> zupfr = dlbzz.gftSupfrdlbss();
+        Clbss<?> zupfr = dlbzz.gftSupfrdlbss();
+        Clbss<?> zupfr = dlbzz.gftSupfrdlbss();
         Clbss<?> zupfr = dlbzz.gftSupfrdlbss();
         rfturn (zupfr == Enum.dlbss) ? (Clbss<E>)dlbzz : (Clbss<E>)zupfr;
+        rfturn (zupfr == Enum.dlbss) ? (Clbss<E>)dlbzz : (Clbss<E>)zupfr;
+        rfturn (zupfr == Enum.dlbss) ? (Clbss<E>)dlbzz : (Clbss<E>)zupfr;
+        rfturn (zupfr == Enum.dlbss) ? (Clbss<E>)dlbzz : (Clbss<E>)zupfr;
+        rfturn (zupfr == Enum.dlbss) ? (Clbss<E>)dlbzz : (Clbss<E>)zupfr;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf fnum donstbnt of thf spfdififd fnum typf with thf
-     * spfdififd nbmf.  Thf nbmf must mbtdh fxbdtly bn idfntififr usfd
-     * to dfdlbrf bn fnum donstbnt in this typf.  (Extrbnfous whitfspbdf
-     * dhbrbdtfrs brf not pfrmittfd.)
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * Rfturns tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * Rfturns tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * Rfturns tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * Rfturns tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * spfdififd nbmf.  Tif nbmf must mbtdi fxbdtly bn idfntififr usfd
+     * spfdififd nbmf.  Tif nbmf must mbtdi fxbdtly bn idfntififr usfd
+     * spfdififd nbmf.  Tif nbmf must mbtdi fxbdtly bn idfntififr usfd
+     * spfdififd nbmf.  Tif nbmf must mbtdi fxbdtly bn idfntififr usfd
+     * spfdififd nbmf.  Tif nbmf must mbtdi fxbdtly bn idfntififr usfd
+     * to dfdlbrf bn fnum donstbnt in tiis typf.  (Extrbnfous wiitfspbdf
+     * to dfdlbrf bn fnum donstbnt in tiis typf.  (Extrbnfous wiitfspbdf
+     * to dfdlbrf bn fnum donstbnt in tiis typf.  (Extrbnfous wiitfspbdf
+     * to dfdlbrf bn fnum donstbnt in tiis typf.  (Extrbnfous wiitfspbdf
+     * to dfdlbrf bn fnum donstbnt in tiis typf.  (Extrbnfous wiitfspbdf
+     * dibrbdtfrs brf not pfrmittfd.)
+     * dibrbdtfrs brf not pfrmittfd.)
+     * dibrbdtfrs brf not pfrmittfd.)
+     * dibrbdtfrs brf not pfrmittfd.)
+     * dibrbdtfrs brf not pfrmittfd.)
      *
-     * <p>Notf thbt for b pbrtidulbr fnum typf {@dodf T}, thf
+     *
+     *
+     *
+     *
+     * <p>Notf tibt for b pbrtidulbr fnum typf {@dodf T}, tif
+     * <p>Notf tibt for b pbrtidulbr fnum typf {@dodf T}, tif
+     * <p>Notf tibt for b pbrtidulbr fnum typf {@dodf T}, tif
+     * <p>Notf tibt for b pbrtidulbr fnum typf {@dodf T}, tif
+     * <p>Notf tibt for b pbrtidulbr fnum typf {@dodf T}, tif
      * impliditly dfdlbrfd {@dodf publid stbtid T vblufOf(String)}
-     * mfthod on thbt fnum mby bf usfd instfbd of this mfthod to mbp
-     * from b nbmf to thf dorrfsponding fnum donstbnt.  All thf
-     * donstbnts of bn fnum typf dbn bf obtbinfd by dblling thf
-     * implidit {@dodf publid stbtid T[] vblufs()} mfthod of thbt
+     * impliditly dfdlbrfd {@dodf publid stbtid T vblufOf(String)}
+     * impliditly dfdlbrfd {@dodf publid stbtid T vblufOf(String)}
+     * impliditly dfdlbrfd {@dodf publid stbtid T vblufOf(String)}
+     * impliditly dfdlbrfd {@dodf publid stbtid T vblufOf(String)}
+     * mftiod on tibt fnum mby bf usfd instfbd of tiis mftiod to mbp
+     * mftiod on tibt fnum mby bf usfd instfbd of tiis mftiod to mbp
+     * mftiod on tibt fnum mby bf usfd instfbd of tiis mftiod to mbp
+     * mftiod on tibt fnum mby bf usfd instfbd of tiis mftiod to mbp
+     * mftiod on tibt fnum mby bf usfd instfbd of tiis mftiod to mbp
+     * from b nbmf to tif dorrfsponding fnum donstbnt.  All tif
+     * from b nbmf to tif dorrfsponding fnum donstbnt.  All tif
+     * from b nbmf to tif dorrfsponding fnum donstbnt.  All tif
+     * from b nbmf to tif dorrfsponding fnum donstbnt.  All tif
+     * from b nbmf to tif dorrfsponding fnum donstbnt.  All tif
+     * donstbnts of bn fnum typf dbn bf obtbinfd by dblling tif
+     * donstbnts of bn fnum typf dbn bf obtbinfd by dblling tif
+     * donstbnts of bn fnum typf dbn bf obtbinfd by dblling tif
+     * donstbnts of bn fnum typf dbn bf obtbinfd by dblling tif
+     * donstbnts of bn fnum typf dbn bf obtbinfd by dblling tif
+     * implidit {@dodf publid stbtid T[] vblufs()} mftiod of tibt
+     * implidit {@dodf publid stbtid T[] vblufs()} mftiod of tibt
+     * implidit {@dodf publid stbtid T[] vblufs()} mftiod of tibt
+     * implidit {@dodf publid stbtid T[] vblufs()} mftiod of tibt
+     * implidit {@dodf publid stbtid T[] vblufs()} mftiod of tibt
+     * typf.
+     * typf.
+     * typf.
+     * typf.
      * typf.
      *
-     * @pbrbm <T> Thf fnum typf whosf donstbnt is to bf rfturnfd
-     * @pbrbm fnumTypf thf {@dodf Clbss} objfdt of thf fnum typf from whidh
+     *
+     *
+     *
+     *
+     * @pbrbm <T> Tif fnum typf wiosf donstbnt is to bf rfturnfd
+     * @pbrbm <T> Tif fnum typf wiosf donstbnt is to bf rfturnfd
+     * @pbrbm <T> Tif fnum typf wiosf donstbnt is to bf rfturnfd
+     * @pbrbm <T> Tif fnum typf wiosf donstbnt is to bf rfturnfd
+     * @pbrbm <T> Tif fnum typf wiosf donstbnt is to bf rfturnfd
+     * @pbrbm fnumTypf tif {@dodf Clbss} objfdt of tif fnum typf from wiidi
+     * @pbrbm fnumTypf tif {@dodf Clbss} objfdt of tif fnum typf from wiidi
+     * @pbrbm fnumTypf tif {@dodf Clbss} objfdt of tif fnum typf from wiidi
+     * @pbrbm fnumTypf tif {@dodf Clbss} objfdt of tif fnum typf from wiidi
+     * @pbrbm fnumTypf tif {@dodf Clbss} objfdt of tif fnum typf from wiidi
      *      to rfturn b donstbnt
-     * @pbrbm nbmf thf nbmf of thf donstbnt to rfturn
-     * @rfturn thf fnum donstbnt of thf spfdififd fnum typf with thf
+     *      to rfturn b donstbnt
+     *      to rfturn b donstbnt
+     *      to rfturn b donstbnt
+     *      to rfturn b donstbnt
+     * @pbrbm nbmf tif nbmf of tif donstbnt to rfturn
+     * @pbrbm nbmf tif nbmf of tif donstbnt to rfturn
+     * @pbrbm nbmf tif nbmf of tif donstbnt to rfturn
+     * @pbrbm nbmf tif nbmf of tif donstbnt to rfturn
+     * @pbrbm nbmf tif nbmf of tif donstbnt to rfturn
+     * @rfturn tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * @rfturn tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * @rfturn tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * @rfturn tif fnum donstbnt of tif spfdififd fnum typf witi tif
+     * @rfturn tif fnum donstbnt of tif spfdififd fnum typf witi tif
      *      spfdififd nbmf
-     * @throws IllfgblArgumfntExdfption if thf spfdififd fnum typf hbs
-     *         no donstbnt with thf spfdififd nbmf, or thf spfdififd
+     *      spfdififd nbmf
+     *      spfdififd nbmf
+     *      spfdififd nbmf
+     *      spfdififd nbmf
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd fnum typf ibs
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd fnum typf ibs
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd fnum typf ibs
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd fnum typf ibs
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd fnum typf ibs
+     *         no donstbnt witi tif spfdififd nbmf, or tif spfdififd
+     *         no donstbnt witi tif spfdififd nbmf, or tif spfdififd
+     *         no donstbnt witi tif spfdififd nbmf, or tif spfdififd
+     *         no donstbnt witi tif spfdififd nbmf, or tif spfdififd
+     *         no donstbnt witi tif spfdififd nbmf, or tif spfdififd
      *         dlbss objfdt dofs not rfprfsfnt bn fnum typf
-     * @throws NullPointfrExdfption if {@dodf fnumTypf} or {@dodf nbmf}
+     *         dlbss objfdt dofs not rfprfsfnt bn fnum typf
+     *         dlbss objfdt dofs not rfprfsfnt bn fnum typf
+     *         dlbss objfdt dofs not rfprfsfnt bn fnum typf
+     *         dlbss objfdt dofs not rfprfsfnt bn fnum typf
+     * @tirows NullPointfrExdfption if {@dodf fnumTypf} or {@dodf nbmf}
+     * @tirows NullPointfrExdfption if {@dodf fnumTypf} or {@dodf nbmf}
+     * @tirows NullPointfrExdfption if {@dodf fnumTypf} or {@dodf nbmf}
+     * @tirows NullPointfrExdfption if {@dodf fnumTypf} or {@dodf nbmf}
+     * @tirows NullPointfrExdfption if {@dodf fnumTypf} or {@dodf nbmf}
+     *         is null
+     *         is null
+     *         is null
+     *         is null
      *         is null
      * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     * @sindf 1.5
+     */
+     */
+     */
+     */
      */
     publid stbtid <T fxtfnds Enum<T>> T vblufOf(Clbss<T> fnumTypf,
+    publid stbtid <T fxtfnds Enum<T>> T vblufOf(Clbss<T> fnumTypf,
+    publid stbtid <T fxtfnds Enum<T>> T vblufOf(Clbss<T> fnumTypf,
+    publid stbtid <T fxtfnds Enum<T>> T vblufOf(Clbss<T> fnumTypf,
+    publid stbtid <T fxtfnds Enum<T>> T vblufOf(Clbss<T> fnumTypf,
+                                                String nbmf) {
+                                                String nbmf) {
+                                                String nbmf) {
+                                                String nbmf) {
                                                 String nbmf) {
         T rfsult = fnumTypf.fnumConstbntDirfdtory().gft(nbmf);
+        T rfsult = fnumTypf.fnumConstbntDirfdtory().gft(nbmf);
+        T rfsult = fnumTypf.fnumConstbntDirfdtory().gft(nbmf);
+        T rfsult = fnumTypf.fnumConstbntDirfdtory().gft(nbmf);
+        T rfsult = fnumTypf.fnumConstbntDirfdtory().gft(nbmf);
+        if (rfsult != null)
+        if (rfsult != null)
+        if (rfsult != null)
+        if (rfsult != null)
         if (rfsult != null)
             rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
+            rfturn rfsult;
         if (nbmf == null)
-            throw nfw NullPointfrExdfption("Nbmf is null");
-        throw nfw IllfgblArgumfntExdfption(
+        if (nbmf == null)
+        if (nbmf == null)
+        if (nbmf == null)
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption("Nbmf is null");
+            tirow nfw NullPointfrExdfption("Nbmf is null");
+            tirow nfw NullPointfrExdfption("Nbmf is null");
+            tirow nfw NullPointfrExdfption("Nbmf is null");
+            tirow nfw NullPointfrExdfption("Nbmf is null");
+        tirow nfw IllfgblArgumfntExdfption(
+        tirow nfw IllfgblArgumfntExdfption(
+        tirow nfw IllfgblArgumfntExdfption(
+        tirow nfw IllfgblArgumfntExdfption(
+        tirow nfw IllfgblArgumfntExdfption(
+            "No fnum donstbnt " + fnumTypf.gftCbnonidblNbmf() + "." + nbmf);
+            "No fnum donstbnt " + fnumTypf.gftCbnonidblNbmf() + "." + nbmf);
+            "No fnum donstbnt " + fnumTypf.gftCbnonidblNbmf() + "." + nbmf);
+            "No fnum donstbnt " + fnumTypf.gftCbnonidblNbmf() + "." + nbmf);
             "No fnum donstbnt " + fnumTypf.gftCbnonidblNbmf() + "." + nbmf);
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * fnum dlbssfs dbnnot hbvf finblizf mfthods.
+    /**
+    /**
+    /**
+    /**
+     * fnum dlbssfs dbnnot ibvf finblizf mftiods.
+     * fnum dlbssfs dbnnot ibvf finblizf mftiods.
+     * fnum dlbssfs dbnnot ibvf finblizf mftiods.
+     * fnum dlbssfs dbnnot ibvf finblizf mftiods.
+     * fnum dlbssfs dbnnot ibvf finblizf mftiods.
+     */
+     */
+     */
+     */
      */
     protfdtfd finbl void finblizf() { }
+    protfdtfd finbl void finblizf() { }
+    protfdtfd finbl void finblizf() { }
+    protfdtfd finbl void finblizf() { }
+    protfdtfd finbl void finblizf() { }
+
+
+
+
 
     /**
+    /**
+    /**
+    /**
+    /**
+     * prfvfnt dffbult dfsfriblizbtion
+     * prfvfnt dffbult dfsfriblizbtion
+     * prfvfnt dffbult dfsfriblizbtion
+     * prfvfnt dffbult dfsfriblizbtion
      * prfvfnt dffbult dfsfriblizbtion
      */
-    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) throws IOExdfption,
+     */
+     */
+     */
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption,
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption,
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption,
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption,
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption,
         ClbssNotFoundExdfption {
-        throw nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        ClbssNotFoundExdfption {
+        ClbssNotFoundExdfption {
+        ClbssNotFoundExdfption {
+        ClbssNotFoundExdfption {
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+    }
+    }
+    }
+    }
     }
 
-    privbtf void rfbdObjfdtNoDbtb() throws ObjfdtStrfbmExdfption {
-        throw nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+
+
+
+
+    privbtf void rfbdObjfdtNoDbtb() tirows ObjfdtStrfbmExdfption {
+    privbtf void rfbdObjfdtNoDbtb() tirows ObjfdtStrfbmExdfption {
+    privbtf void rfbdObjfdtNoDbtb() tirows ObjfdtStrfbmExdfption {
+    privbtf void rfbdObjfdtNoDbtb() tirows ObjfdtStrfbmExdfption {
+    privbtf void rfbdObjfdtNoDbtb() tirows ObjfdtStrfbmExdfption {
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+        tirow nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

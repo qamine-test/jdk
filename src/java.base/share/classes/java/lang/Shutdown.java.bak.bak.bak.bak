@@ -1,238 +1,1190 @@
 /*
- * Copyright (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
 
+
+
+
+
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
+pbdkbgf jbvb.lbng;
 pbdkbgf jbvb.lbng;
 
 
+
+
+
+
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * Pbdkbgf-privbtf utility dlbss dontbining dbtb strudturfs bnd logid
- * govfrning thf virtubl-mbdhinf shutdown sfqufndf.
+ * Pbdkbgf-privbtf utility dlbss dontbining dbtb strudturfs bnd logid
+ * Pbdkbgf-privbtf utility dlbss dontbining dbtb strudturfs bnd logid
+ * Pbdkbgf-privbtf utility dlbss dontbining dbtb strudturfs bnd logid
+ * Pbdkbgf-privbtf utility dlbss dontbining dbtb strudturfs bnd logid
+ * govfrning tif virtubl-mbdiinf siutdown sfqufndf.
+ * govfrning tif virtubl-mbdiinf siutdown sfqufndf.
+ * govfrning tif virtubl-mbdiinf siutdown sfqufndf.
+ * govfrning tif virtubl-mbdiinf siutdown sfqufndf.
+ * govfrning tif virtubl-mbdiinf siutdown sfqufndf.
  *
- * @buthor   Mbrk Rfinhold
+ *
+ *
+ *
+ *
+ * @butior   Mbrk Rfiniold
+ * @butior   Mbrk Rfiniold
+ * @butior   Mbrk Rfiniold
+ * @butior   Mbrk Rfiniold
+ * @butior   Mbrk Rfiniold
+ * @sindf    1.3
+ * @sindf    1.3
+ * @sindf    1.3
+ * @sindf    1.3
  * @sindf    1.3
  */
+ */
+ */
+ */
+ */
 
-dlbss Shutdown {
 
-    /* Shutdown stbtf */
+
+
+
+dlbss Siutdown {
+dlbss Siutdown {
+dlbss Siutdown {
+dlbss Siutdown {
+dlbss Siutdown {
+
+
+
+
+
+    /* Siutdown stbtf */
+    /* Siutdown stbtf */
+    /* Siutdown stbtf */
+    /* Siutdown stbtf */
+    /* Siutdown stbtf */
+    privbtf stbtid finbl int RUNNING = 0;
+    privbtf stbtid finbl int RUNNING = 0;
+    privbtf stbtid finbl int RUNNING = 0;
+    privbtf stbtid finbl int RUNNING = 0;
     privbtf stbtid finbl int RUNNING = 0;
     privbtf stbtid finbl int HOOKS = 1;
+    privbtf stbtid finbl int HOOKS = 1;
+    privbtf stbtid finbl int HOOKS = 1;
+    privbtf stbtid finbl int HOOKS = 1;
+    privbtf stbtid finbl int HOOKS = 1;
+    privbtf stbtid finbl int FINALIZERS = 2;
+    privbtf stbtid finbl int FINALIZERS = 2;
+    privbtf stbtid finbl int FINALIZERS = 2;
+    privbtf stbtid finbl int FINALIZERS = 2;
     privbtf stbtid finbl int FINALIZERS = 2;
     privbtf stbtid int stbtf = RUNNING;
+    privbtf stbtid int stbtf = RUNNING;
+    privbtf stbtid int stbtf = RUNNING;
+    privbtf stbtid int stbtf = RUNNING;
+    privbtf stbtid int stbtf = RUNNING;
 
-    /* Should wf run bll finblizfrs upon fxit? */
+
+
+
+
+    /* Siould wf run bll finblizfrs upon fxit? */
+    /* Siould wf run bll finblizfrs upon fxit? */
+    /* Siould wf run bll finblizfrs upon fxit? */
+    /* Siould wf run bll finblizfrs upon fxit? */
+    /* Siould wf run bll finblizfrs upon fxit? */
+    privbtf stbtid boolfbn runFinblizfrsOnExit = fblsf;
+    privbtf stbtid boolfbn runFinblizfrsOnExit = fblsf;
+    privbtf stbtid boolfbn runFinblizfrsOnExit = fblsf;
+    privbtf stbtid boolfbn runFinblizfrsOnExit = fblsf;
     privbtf stbtid boolfbn runFinblizfrsOnExit = fblsf;
 
-    // Thf systfm shutdown hooks brf rfgistfrfd with b prfdffinfd slot.
-    // Thf list of shutdown hooks is bs follows:
-    // (0) Consolf rfstorf hook
-    // (1) Applidbtion hooks
-    // (2) DflftfOnExit hook
-    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
-    privbtf stbtid finbl Runnbblf[] hooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
 
-    // thf indfx of thf durrfntly running shutdown hook to thf hooks brrby
+
+
+
+    // Tif systfm siutdown iooks brf rfgistfrfd witi b prfdffinfd slot.
+    // Tif systfm siutdown iooks brf rfgistfrfd witi b prfdffinfd slot.
+    // Tif systfm siutdown iooks brf rfgistfrfd witi b prfdffinfd slot.
+    // Tif systfm siutdown iooks brf rfgistfrfd witi b prfdffinfd slot.
+    // Tif systfm siutdown iooks brf rfgistfrfd witi b prfdffinfd slot.
+    // Tif list of siutdown iooks is bs follows:
+    // Tif list of siutdown iooks is bs follows:
+    // Tif list of siutdown iooks is bs follows:
+    // Tif list of siutdown iooks is bs follows:
+    // Tif list of siutdown iooks is bs follows:
+    // (0) Consolf rfstorf iook
+    // (0) Consolf rfstorf iook
+    // (0) Consolf rfstorf iook
+    // (0) Consolf rfstorf iook
+    // (0) Consolf rfstorf iook
+    // (1) Applidbtion iooks
+    // (1) Applidbtion iooks
+    // (1) Applidbtion iooks
+    // (1) Applidbtion iooks
+    // (1) Applidbtion iooks
+    // (2) DflftfOnExit iook
+    // (2) DflftfOnExit iook
+    // (2) DflftfOnExit iook
+    // (2) DflftfOnExit iook
+    // (2) DflftfOnExit iook
+    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
+    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
+    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
+    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
+    privbtf stbtid finbl int MAX_SYSTEM_HOOKS = 10;
+    privbtf stbtid finbl Runnbblf[] iooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
+    privbtf stbtid finbl Runnbblf[] iooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
+    privbtf stbtid finbl Runnbblf[] iooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
+    privbtf stbtid finbl Runnbblf[] iooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
+    privbtf stbtid finbl Runnbblf[] iooks = nfw Runnbblf[MAX_SYSTEM_HOOKS];
+
+
+
+
+
+    // tif indfx of tif durrfntly running siutdown iook to tif iooks brrby
+    // tif indfx of tif durrfntly running siutdown iook to tif iooks brrby
+    // tif indfx of tif durrfntly running siutdown iook to tif iooks brrby
+    // tif indfx of tif durrfntly running siutdown iook to tif iooks brrby
+    // tif indfx of tif durrfntly running siutdown iook to tif iooks brrby
+    privbtf stbtid int durrfntRunningHook = 0;
+    privbtf stbtid int durrfntRunningHook = 0;
+    privbtf stbtid int durrfntRunningHook = 0;
+    privbtf stbtid int durrfntRunningHook = 0;
     privbtf stbtid int durrfntRunningHook = 0;
 
-    /* Thf prfdfding stbtid fiflds brf protfdtfd by this lodk */
+
+
+
+
+    /* Tif prfdfding stbtid fiflds brf protfdtfd by tiis lodk */
+    /* Tif prfdfding stbtid fiflds brf protfdtfd by tiis lodk */
+    /* Tif prfdfding stbtid fiflds brf protfdtfd by tiis lodk */
+    /* Tif prfdfding stbtid fiflds brf protfdtfd by tiis lodk */
+    /* Tif prfdfding stbtid fiflds brf protfdtfd by tiis lodk */
+    privbtf stbtid dlbss Lodk { };
+    privbtf stbtid dlbss Lodk { };
+    privbtf stbtid dlbss Lodk { };
+    privbtf stbtid dlbss Lodk { };
     privbtf stbtid dlbss Lodk { };
     privbtf stbtid Objfdt lodk = nfw Lodk();
+    privbtf stbtid Objfdt lodk = nfw Lodk();
+    privbtf stbtid Objfdt lodk = nfw Lodk();
+    privbtf stbtid Objfdt lodk = nfw Lodk();
+    privbtf stbtid Objfdt lodk = nfw Lodk();
 
-    /* Lodk objfdt for thf nbtivf hblt mfthod */
-    privbtf stbtid Objfdt hbltLodk = nfw Lodk();
+
+
+
+
+    /* Lodk objfdt for tif nbtivf iblt mftiod */
+    /* Lodk objfdt for tif nbtivf iblt mftiod */
+    /* Lodk objfdt for tif nbtivf iblt mftiod */
+    /* Lodk objfdt for tif nbtivf iblt mftiod */
+    /* Lodk objfdt for tif nbtivf iblt mftiod */
+    privbtf stbtid Objfdt ibltLodk = nfw Lodk();
+    privbtf stbtid Objfdt ibltLodk = nfw Lodk();
+    privbtf stbtid Objfdt ibltLodk = nfw Lodk();
+    privbtf stbtid Objfdt ibltLodk = nfw Lodk();
+    privbtf stbtid Objfdt ibltLodk = nfw Lodk();
+
+
+
+
 
     /* Invokfd by Runtimf.runFinblizfrsOnExit */
+    /* Invokfd by Runtimf.runFinblizfrsOnExit */
+    /* Invokfd by Runtimf.runFinblizfrsOnExit */
+    /* Invokfd by Runtimf.runFinblizfrsOnExit */
+    /* Invokfd by Runtimf.runFinblizfrsOnExit */
     stbtid void sftRunFinblizfrsOnExit(boolfbn run) {
-        syndhronizfd (lodk) {
+    stbtid void sftRunFinblizfrsOnExit(boolfbn run) {
+    stbtid void sftRunFinblizfrsOnExit(boolfbn run) {
+    stbtid void sftRunFinblizfrsOnExit(boolfbn run) {
+    stbtid void sftRunFinblizfrsOnExit(boolfbn run) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+            runFinblizfrsOnExit = run;
+            runFinblizfrsOnExit = run;
+            runFinblizfrsOnExit = run;
+            runFinblizfrsOnExit = run;
             runFinblizfrsOnExit = run;
         }
+        }
+        }
+        }
+        }
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+
+
+
 
 
     /**
-     * Add b nfw shutdown hook.  Chfdks thf shutdown stbtf bnd thf hook itsflf,
-     * but dofs not do bny sfdurity dhfdks.
+    /**
+    /**
+    /**
+    /**
+     * Add b nfw siutdown iook.  Cifdks tif siutdown stbtf bnd tif iook itsflf,
+     * Add b nfw siutdown iook.  Cifdks tif siutdown stbtf bnd tif iook itsflf,
+     * Add b nfw siutdown iook.  Cifdks tif siutdown stbtf bnd tif iook itsflf,
+     * Add b nfw siutdown iook.  Cifdks tif siutdown stbtf bnd tif iook itsflf,
+     * Add b nfw siutdown iook.  Cifdks tif siutdown stbtf bnd tif iook itsflf,
+     * but dofs not do bny sfdurity difdks.
+     * but dofs not do bny sfdurity difdks.
+     * but dofs not do bny sfdurity difdks.
+     * but dofs not do bny sfdurity difdks.
+     * but dofs not do bny sfdurity difdks.
      *
-     * Thf rfgistfrShutdownInProgrfss pbrbmftfr should bf fblsf fxdfpt
-     * rfgistfring thf DflftfOnExitHook sindf thf first filf mby
-     * bf bddfd to thf dflftf on fxit list by thf bpplidbtion shutdown
-     * hooks.
      *
-     * @pbrbms slot  thf slot in thf shutdown hook brrby, whosf flfmfnt
-     *               will bf invokfd in ordfr during shutdown
-     * @pbrbms rfgistfrShutdownInProgrfss truf to bllow thf hook
-     *               to bf rfgistfrfd fvfn if thf shutdown is in progrfss.
-     * @pbrbms hook  thf hook to bf rfgistfrfd
      *
-     * @throw IllfgblStbtfExdfption
-     *        if rfgistfrShutdownInProgrfss is fblsf bnd shutdown is in progrfss; or
-     *        if rfgistfrShutdownInProgrfss is truf bnd thf shutdown prodfss
-     *           blrfbdy pbssfs thf givfn slot
+     *
+     *
+     * Tif rfgistfrSiutdownInProgrfss pbrbmftfr siould bf fblsf fxdfpt
+     * Tif rfgistfrSiutdownInProgrfss pbrbmftfr siould bf fblsf fxdfpt
+     * Tif rfgistfrSiutdownInProgrfss pbrbmftfr siould bf fblsf fxdfpt
+     * Tif rfgistfrSiutdownInProgrfss pbrbmftfr siould bf fblsf fxdfpt
+     * Tif rfgistfrSiutdownInProgrfss pbrbmftfr siould bf fblsf fxdfpt
+     * rfgistfring tif DflftfOnExitHook sindf tif first filf mby
+     * rfgistfring tif DflftfOnExitHook sindf tif first filf mby
+     * rfgistfring tif DflftfOnExitHook sindf tif first filf mby
+     * rfgistfring tif DflftfOnExitHook sindf tif first filf mby
+     * rfgistfring tif DflftfOnExitHook sindf tif first filf mby
+     * bf bddfd to tif dflftf on fxit list by tif bpplidbtion siutdown
+     * bf bddfd to tif dflftf on fxit list by tif bpplidbtion siutdown
+     * bf bddfd to tif dflftf on fxit list by tif bpplidbtion siutdown
+     * bf bddfd to tif dflftf on fxit list by tif bpplidbtion siutdown
+     * bf bddfd to tif dflftf on fxit list by tif bpplidbtion siutdown
+     * iooks.
+     * iooks.
+     * iooks.
+     * iooks.
+     * iooks.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbms slot  tif slot in tif siutdown iook brrby, wiosf flfmfnt
+     * @pbrbms slot  tif slot in tif siutdown iook brrby, wiosf flfmfnt
+     * @pbrbms slot  tif slot in tif siutdown iook brrby, wiosf flfmfnt
+     * @pbrbms slot  tif slot in tif siutdown iook brrby, wiosf flfmfnt
+     * @pbrbms slot  tif slot in tif siutdown iook brrby, wiosf flfmfnt
+     *               will bf invokfd in ordfr during siutdown
+     *               will bf invokfd in ordfr during siutdown
+     *               will bf invokfd in ordfr during siutdown
+     *               will bf invokfd in ordfr during siutdown
+     *               will bf invokfd in ordfr during siutdown
+     * @pbrbms rfgistfrSiutdownInProgrfss truf to bllow tif iook
+     * @pbrbms rfgistfrSiutdownInProgrfss truf to bllow tif iook
+     * @pbrbms rfgistfrSiutdownInProgrfss truf to bllow tif iook
+     * @pbrbms rfgistfrSiutdownInProgrfss truf to bllow tif iook
+     * @pbrbms rfgistfrSiutdownInProgrfss truf to bllow tif iook
+     *               to bf rfgistfrfd fvfn if tif siutdown is in progrfss.
+     *               to bf rfgistfrfd fvfn if tif siutdown is in progrfss.
+     *               to bf rfgistfrfd fvfn if tif siutdown is in progrfss.
+     *               to bf rfgistfrfd fvfn if tif siutdown is in progrfss.
+     *               to bf rfgistfrfd fvfn if tif siutdown is in progrfss.
+     * @pbrbms iook  tif iook to bf rfgistfrfd
+     * @pbrbms iook  tif iook to bf rfgistfrfd
+     * @pbrbms iook  tif iook to bf rfgistfrfd
+     * @pbrbms iook  tif iook to bf rfgistfrfd
+     * @pbrbms iook  tif iook to bf rfgistfrfd
+     *
+     *
+     *
+     *
+     *
+     * @tirow IllfgblStbtfExdfption
+     * @tirow IllfgblStbtfExdfption
+     * @tirow IllfgblStbtfExdfption
+     * @tirow IllfgblStbtfExdfption
+     * @tirow IllfgblStbtfExdfption
+     *        if rfgistfrSiutdownInProgrfss is fblsf bnd siutdown is in progrfss; or
+     *        if rfgistfrSiutdownInProgrfss is fblsf bnd siutdown is in progrfss; or
+     *        if rfgistfrSiutdownInProgrfss is fblsf bnd siutdown is in progrfss; or
+     *        if rfgistfrSiutdownInProgrfss is fblsf bnd siutdown is in progrfss; or
+     *        if rfgistfrSiutdownInProgrfss is fblsf bnd siutdown is in progrfss; or
+     *        if rfgistfrSiutdownInProgrfss is truf bnd tif siutdown prodfss
+     *        if rfgistfrSiutdownInProgrfss is truf bnd tif siutdown prodfss
+     *        if rfgistfrSiutdownInProgrfss is truf bnd tif siutdown prodfss
+     *        if rfgistfrSiutdownInProgrfss is truf bnd tif siutdown prodfss
+     *        if rfgistfrSiutdownInProgrfss is truf bnd tif siutdown prodfss
+     *           blrfbdy pbssfs tif givfn slot
+     *           blrfbdy pbssfs tif givfn slot
+     *           blrfbdy pbssfs tif givfn slot
+     *           blrfbdy pbssfs tif givfn slot
+     *           blrfbdy pbssfs tif givfn slot
      */
-    stbtid void bdd(int slot, boolfbn rfgistfrShutdownInProgrfss, Runnbblf hook) {
-        syndhronizfd (lodk) {
-            if (hooks[slot] != null)
-                throw nfw IntfrnblError("Shutdown hook bt slot " + slot + " blrfbdy rfgistfrfd");
+     */
+     */
+     */
+     */
+    stbtid void bdd(int slot, boolfbn rfgistfrSiutdownInProgrfss, Runnbblf iook) {
+    stbtid void bdd(int slot, boolfbn rfgistfrSiutdownInProgrfss, Runnbblf iook) {
+    stbtid void bdd(int slot, boolfbn rfgistfrSiutdownInProgrfss, Runnbblf iook) {
+    stbtid void bdd(int slot, boolfbn rfgistfrSiutdownInProgrfss, Runnbblf iook) {
+    stbtid void bdd(int slot, boolfbn rfgistfrSiutdownInProgrfss, Runnbblf iook) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+            if (iooks[slot] != null)
+            if (iooks[slot] != null)
+            if (iooks[slot] != null)
+            if (iooks[slot] != null)
+            if (iooks[slot] != null)
+                tirow nfw IntfrnblError("Siutdown iook bt slot " + slot + " blrfbdy rfgistfrfd");
+                tirow nfw IntfrnblError("Siutdown iook bt slot " + slot + " blrfbdy rfgistfrfd");
+                tirow nfw IntfrnblError("Siutdown iook bt slot " + slot + " blrfbdy rfgistfrfd");
+                tirow nfw IntfrnblError("Siutdown iook bt slot " + slot + " blrfbdy rfgistfrfd");
+                tirow nfw IntfrnblError("Siutdown iook bt slot " + slot + " blrfbdy rfgistfrfd");
 
-            if (!rfgistfrShutdownInProgrfss) {
+
+
+
+
+            if (!rfgistfrSiutdownInProgrfss) {
+            if (!rfgistfrSiutdownInProgrfss) {
+            if (!rfgistfrSiutdownInProgrfss) {
+            if (!rfgistfrSiutdownInProgrfss) {
+            if (!rfgistfrSiutdownInProgrfss) {
                 if (stbtf > RUNNING)
-                    throw nfw IllfgblStbtfExdfption("Shutdown in progrfss");
+                if (stbtf > RUNNING)
+                if (stbtf > RUNNING)
+                if (stbtf > RUNNING)
+                if (stbtf > RUNNING)
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+            } flsf {
+            } flsf {
+            } flsf {
+            } flsf {
             } flsf {
                 if (stbtf > HOOKS || (stbtf == HOOKS && slot <= durrfntRunningHook))
-                    throw nfw IllfgblStbtfExdfption("Shutdown in progrfss");
+                if (stbtf > HOOKS || (stbtf == HOOKS && slot <= durrfntRunningHook))
+                if (stbtf > HOOKS || (stbtf == HOOKS && slot <= durrfntRunningHook))
+                if (stbtf > HOOKS || (stbtf == HOOKS && slot <= durrfntRunningHook))
+                if (stbtf > HOOKS || (stbtf == HOOKS && slot <= durrfntRunningHook))
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+                    tirow nfw IllfgblStbtfExdfption("Siutdown in progrfss");
+            }
+            }
+            }
+            }
             }
 
-            hooks[slot] = hook;
+
+
+
+
+            iooks[slot] = iook;
+            iooks[slot] = iook;
+            iooks[slot] = iook;
+            iooks[slot] = iook;
+            iooks[slot] = iook;
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    /* Run bll rfgistfrfd shutdown hooks
+
+
+
+
+    /* Run bll rfgistfrfd siutdown iooks
+    /* Run bll rfgistfrfd siutdown iooks
+    /* Run bll rfgistfrfd siutdown iooks
+    /* Run bll rfgistfrfd siutdown iooks
+    /* Run bll rfgistfrfd siutdown iooks
+     */
+     */
+     */
+     */
      */
     privbtf stbtid void runHooks() {
+    privbtf stbtid void runHooks() {
+    privbtf stbtid void runHooks() {
+    privbtf stbtid void runHooks() {
+    privbtf stbtid void runHooks() {
+        for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
+        for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
+        for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
+        for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
         for (int i=0; i < MAX_SYSTEM_HOOKS; i++) {
             try {
-                Runnbblf hook;
-                syndhronizfd (lodk) {
-                    // bdquirf thf lodk to mbkf surf thf hook rfgistfrfd during
-                    // shutdown is visiblf hfrf.
+            try {
+            try {
+            try {
+            try {
+                Runnbblf iook;
+                Runnbblf iook;
+                Runnbblf iook;
+                Runnbblf iook;
+                Runnbblf iook;
+                syndironizfd (lodk) {
+                syndironizfd (lodk) {
+                syndironizfd (lodk) {
+                syndironizfd (lodk) {
+                syndironizfd (lodk) {
+                    // bdquirf tif lodk to mbkf surf tif iook rfgistfrfd during
+                    // bdquirf tif lodk to mbkf surf tif iook rfgistfrfd during
+                    // bdquirf tif lodk to mbkf surf tif iook rfgistfrfd during
+                    // bdquirf tif lodk to mbkf surf tif iook rfgistfrfd during
+                    // bdquirf tif lodk to mbkf surf tif iook rfgistfrfd during
+                    // siutdown is visiblf ifrf.
+                    // siutdown is visiblf ifrf.
+                    // siutdown is visiblf ifrf.
+                    // siutdown is visiblf ifrf.
+                    // siutdown is visiblf ifrf.
                     durrfntRunningHook = i;
-                    hook = hooks[i];
+                    durrfntRunningHook = i;
+                    durrfntRunningHook = i;
+                    durrfntRunningHook = i;
+                    durrfntRunningHook = i;
+                    iook = iooks[i];
+                    iook = iooks[i];
+                    iook = iooks[i];
+                    iook = iooks[i];
+                    iook = iooks[i];
                 }
-                if (hook != null) hook.run();
-            } dbtdh(Throwbblf t) {
-                if (t instbndfof ThrfbdDfbth) {
-                    ThrfbdDfbth td = (ThrfbdDfbth)t;
-                    throw td;
+                }
+                }
+                }
+                }
+                if (iook != null) iook.run();
+                if (iook != null) iook.run();
+                if (iook != null) iook.run();
+                if (iook != null) iook.run();
+                if (iook != null) iook.run();
+            } dbtdi(Tirowbblf t) {
+            } dbtdi(Tirowbblf t) {
+            } dbtdi(Tirowbblf t) {
+            } dbtdi(Tirowbblf t) {
+            } dbtdi(Tirowbblf t) {
+                if (t instbndfof TirfbdDfbti) {
+                if (t instbndfof TirfbdDfbti) {
+                if (t instbndfof TirfbdDfbti) {
+                if (t instbndfof TirfbdDfbti) {
+                if (t instbndfof TirfbdDfbti) {
+                    TirfbdDfbti td = (TirfbdDfbti)t;
+                    TirfbdDfbti td = (TirfbdDfbti)t;
+                    TirfbdDfbti td = (TirfbdDfbti)t;
+                    TirfbdDfbti td = (TirfbdDfbti)t;
+                    TirfbdDfbti td = (TirfbdDfbti)t;
+                    tirow td;
+                    tirow td;
+                    tirow td;
+                    tirow td;
+                    tirow td;
+                }
+                }
+                }
+                }
                 }
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    /* Thf hblt mfthod is syndhronizfd on thf hblt lodk
-     * to bvoid dorruption of thf dflftf-on-shutdown filf list.
-     * It invokfs thf truf nbtivf hblt mfthod.
+
+
+
+
+    /* Tif iblt mftiod is syndironizfd on tif iblt lodk
+    /* Tif iblt mftiod is syndironizfd on tif iblt lodk
+    /* Tif iblt mftiod is syndironizfd on tif iblt lodk
+    /* Tif iblt mftiod is syndironizfd on tif iblt lodk
+    /* Tif iblt mftiod is syndironizfd on tif iblt lodk
+     * to bvoid dorruption of tif dflftf-on-siutdown filf list.
+     * to bvoid dorruption of tif dflftf-on-siutdown filf list.
+     * to bvoid dorruption of tif dflftf-on-siutdown filf list.
+     * to bvoid dorruption of tif dflftf-on-siutdown filf list.
+     * to bvoid dorruption of tif dflftf-on-siutdown filf list.
+     * It invokfs tif truf nbtivf iblt mftiod.
+     * It invokfs tif truf nbtivf iblt mftiod.
+     * It invokfs tif truf nbtivf iblt mftiod.
+     * It invokfs tif truf nbtivf iblt mftiod.
+     * It invokfs tif truf nbtivf iblt mftiod.
      */
-    stbtid void hblt(int stbtus) {
-        syndhronizfd (hbltLodk) {
-            hblt0(stbtus);
+     */
+     */
+     */
+     */
+    stbtid void iblt(int stbtus) {
+    stbtid void iblt(int stbtus) {
+    stbtid void iblt(int stbtus) {
+    stbtid void iblt(int stbtus) {
+    stbtid void iblt(int stbtus) {
+        syndironizfd (ibltLodk) {
+        syndironizfd (ibltLodk) {
+        syndironizfd (ibltLodk) {
+        syndironizfd (ibltLodk) {
+        syndironizfd (ibltLodk) {
+            iblt0(stbtus);
+            iblt0(stbtus);
+            iblt0(stbtus);
+            iblt0(stbtus);
+            iblt0(stbtus);
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
 
-    stbtid nbtivf void hblt0(int stbtus);
 
-    /* Wormholf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+
+
+
+    stbtid nbtivf void iblt0(int stbtus);
+    stbtid nbtivf void iblt0(int stbtus);
+    stbtid nbtivf void iblt0(int stbtus);
+    stbtid nbtivf void iblt0(int stbtus);
+    stbtid nbtivf void iblt0(int stbtus);
+
+
+
+
+
+    /* Wormiolf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+    /* Wormiolf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+    /* Wormiolf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+    /* Wormiolf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+    /* Wormiolf for invoking jbvb.lbng.rff.Finblizfr.runAllFinblizfrs */
+    privbtf stbtid nbtivf void runAllFinblizfrs();
+    privbtf stbtid nbtivf void runAllFinblizfrs();
+    privbtf stbtid nbtivf void runAllFinblizfrs();
+    privbtf stbtid nbtivf void runAllFinblizfrs();
     privbtf stbtid nbtivf void runAllFinblizfrs();
 
 
-    /* Thf bdtubl shutdown sfqufndf is dffinfd hfrf.
+
+
+
+
+
+
+
+
+    /* Tif bdtubl siutdown sfqufndf is dffinfd ifrf.
+    /* Tif bdtubl siutdown sfqufndf is dffinfd ifrf.
+    /* Tif bdtubl siutdown sfqufndf is dffinfd ifrf.
+    /* Tif bdtubl siutdown sfqufndf is dffinfd ifrf.
+    /* Tif bdtubl siutdown sfqufndf is dffinfd ifrf.
      *
-     * If it wfrfn't for runFinblizfrsOnExit, this would bf simplf -- wf'd just
-     * run thf hooks bnd thfn hblt.  Instfbd wf nffd to kffp trbdk of whfthfr
-     * wf'rf running hooks or finblizfrs.  In thf lbttfr dbsf b finblizfr dould
-     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, whilf in thf formfr dbsf
-     * bny furthfr invodbtions of fxit(n), for bny n, simply stbll.  Notf thbt
-     * if on-fxit finblizfrs brf fnbblfd thfy'rf run iff thf shutdown is
-     * initibtfd by bn fxit(0); thfy'rf nfvfr run on fxit(n) for n != 0 or in
+     *
+     *
+     *
+     *
+     * If it wfrfn't for runFinblizfrsOnExit, tiis would bf simplf -- wf'd just
+     * If it wfrfn't for runFinblizfrsOnExit, tiis would bf simplf -- wf'd just
+     * If it wfrfn't for runFinblizfrsOnExit, tiis would bf simplf -- wf'd just
+     * If it wfrfn't for runFinblizfrsOnExit, tiis would bf simplf -- wf'd just
+     * If it wfrfn't for runFinblizfrsOnExit, tiis would bf simplf -- wf'd just
+     * run tif iooks bnd tifn iblt.  Instfbd wf nffd to kffp trbdk of wiftifr
+     * run tif iooks bnd tifn iblt.  Instfbd wf nffd to kffp trbdk of wiftifr
+     * run tif iooks bnd tifn iblt.  Instfbd wf nffd to kffp trbdk of wiftifr
+     * run tif iooks bnd tifn iblt.  Instfbd wf nffd to kffp trbdk of wiftifr
+     * run tif iooks bnd tifn iblt.  Instfbd wf nffd to kffp trbdk of wiftifr
+     * wf'rf running iooks or finblizfrs.  In tif lbttfr dbsf b finblizfr dould
+     * wf'rf running iooks or finblizfrs.  In tif lbttfr dbsf b finblizfr dould
+     * wf'rf running iooks or finblizfrs.  In tif lbttfr dbsf b finblizfr dould
+     * wf'rf running iooks or finblizfrs.  In tif lbttfr dbsf b finblizfr dould
+     * wf'rf running iooks or finblizfrs.  In tif lbttfr dbsf b finblizfr dould
+     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, wiilf in tif formfr dbsf
+     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, wiilf in tif formfr dbsf
+     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, wiilf in tif formfr dbsf
+     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, wiilf in tif formfr dbsf
+     * invokf fxit(1) to dbusf immfdibtf tfrminbtion, wiilf in tif formfr dbsf
+     * bny furtifr invodbtions of fxit(n), for bny n, simply stbll.  Notf tibt
+     * bny furtifr invodbtions of fxit(n), for bny n, simply stbll.  Notf tibt
+     * bny furtifr invodbtions of fxit(n), for bny n, simply stbll.  Notf tibt
+     * bny furtifr invodbtions of fxit(n), for bny n, simply stbll.  Notf tibt
+     * bny furtifr invodbtions of fxit(n), for bny n, simply stbll.  Notf tibt
+     * if on-fxit finblizfrs brf fnbblfd tify'rf run iff tif siutdown is
+     * if on-fxit finblizfrs brf fnbblfd tify'rf run iff tif siutdown is
+     * if on-fxit finblizfrs brf fnbblfd tify'rf run iff tif siutdown is
+     * if on-fxit finblizfrs brf fnbblfd tify'rf run iff tif siutdown is
+     * if on-fxit finblizfrs brf fnbblfd tify'rf run iff tif siutdown is
+     * initibtfd by bn fxit(0); tify'rf nfvfr run on fxit(n) for n != 0 or in
+     * initibtfd by bn fxit(0); tify'rf nfvfr run on fxit(n) for n != 0 or in
+     * initibtfd by bn fxit(0); tify'rf nfvfr run on fxit(n) for n != 0 or in
+     * initibtfd by bn fxit(0); tify'rf nfvfr run on fxit(n) for n != 0 or in
+     * initibtfd by bn fxit(0); tify'rf nfvfr run on fxit(n) for n != 0 or in
+     * rfsponsf to SIGINT, SIGTERM, ftd.
+     * rfsponsf to SIGINT, SIGTERM, ftd.
+     * rfsponsf to SIGINT, SIGTERM, ftd.
+     * rfsponsf to SIGINT, SIGTERM, ftd.
      * rfsponsf to SIGINT, SIGTERM, ftd.
      */
+     */
+     */
+     */
+     */
     privbtf stbtid void sfqufndf() {
-        syndhronizfd (lodk) {
-            /* Gubrd bgbinst thf possibility of b dbfmon thrfbd invoking fxit
-             * bftfr DfstroyJbvbVM initibtfs thf shutdown sfqufndf
+    privbtf stbtid void sfqufndf() {
+    privbtf stbtid void sfqufndf() {
+    privbtf stbtid void sfqufndf() {
+    privbtf stbtid void sfqufndf() {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+            /* Gubrd bgbinst tif possibility of b dbfmon tirfbd invoking fxit
+            /* Gubrd bgbinst tif possibility of b dbfmon tirfbd invoking fxit
+            /* Gubrd bgbinst tif possibility of b dbfmon tirfbd invoking fxit
+            /* Gubrd bgbinst tif possibility of b dbfmon tirfbd invoking fxit
+            /* Gubrd bgbinst tif possibility of b dbfmon tirfbd invoking fxit
+             * bftfr DfstroyJbvbVM initibtfs tif siutdown sfqufndf
+             * bftfr DfstroyJbvbVM initibtfs tif siutdown sfqufndf
+             * bftfr DfstroyJbvbVM initibtfs tif siutdown sfqufndf
+             * bftfr DfstroyJbvbVM initibtfs tif siutdown sfqufndf
+             * bftfr DfstroyJbvbVM initibtfs tif siutdown sfqufndf
+             */
+             */
+             */
+             */
              */
             if (stbtf != HOOKS) rfturn;
+            if (stbtf != HOOKS) rfturn;
+            if (stbtf != HOOKS) rfturn;
+            if (stbtf != HOOKS) rfturn;
+            if (stbtf != HOOKS) rfturn;
+        }
+        }
+        }
+        }
         }
         runHooks();
+        runHooks();
+        runHooks();
+        runHooks();
+        runHooks();
         boolfbn rfof;
-        syndhronizfd (lodk) {
+        boolfbn rfof;
+        boolfbn rfof;
+        boolfbn rfof;
+        boolfbn rfof;
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+            stbtf = FINALIZERS;
+            stbtf = FINALIZERS;
+            stbtf = FINALIZERS;
+            stbtf = FINALIZERS;
             stbtf = FINALIZERS;
             rfof = runFinblizfrsOnExit;
+            rfof = runFinblizfrsOnExit;
+            rfof = runFinblizfrsOnExit;
+            rfof = runFinblizfrsOnExit;
+            rfof = runFinblizfrsOnExit;
+        }
+        }
+        }
+        }
         }
         if (rfof) runAllFinblizfrs();
+        if (rfof) runAllFinblizfrs();
+        if (rfof) runAllFinblizfrs();
+        if (rfof) runAllFinblizfrs();
+        if (rfof) runAllFinblizfrs();
+    }
+    }
+    }
+    }
     }
 
 
-    /* Invokfd by Runtimf.fxit, whidh dofs bll thf sfdurity dhfdks.
-     * Also invokfd by hbndlfrs for systfm-providfd tfrminbtion fvfnts,
-     * whidh should pbss b nonzfro stbtus dodf.
+
+
+
+
+
+
+
+
+    /* Invokfd by Runtimf.fxit, wiidi dofs bll tif sfdurity difdks.
+    /* Invokfd by Runtimf.fxit, wiidi dofs bll tif sfdurity difdks.
+    /* Invokfd by Runtimf.fxit, wiidi dofs bll tif sfdurity difdks.
+    /* Invokfd by Runtimf.fxit, wiidi dofs bll tif sfdurity difdks.
+    /* Invokfd by Runtimf.fxit, wiidi dofs bll tif sfdurity difdks.
+     * Also invokfd by ibndlfrs for systfm-providfd tfrminbtion fvfnts,
+     * Also invokfd by ibndlfrs for systfm-providfd tfrminbtion fvfnts,
+     * Also invokfd by ibndlfrs for systfm-providfd tfrminbtion fvfnts,
+     * Also invokfd by ibndlfrs for systfm-providfd tfrminbtion fvfnts,
+     * Also invokfd by ibndlfrs for systfm-providfd tfrminbtion fvfnts,
+     * wiidi siould pbss b nonzfro stbtus dodf.
+     * wiidi siould pbss b nonzfro stbtus dodf.
+     * wiidi siould pbss b nonzfro stbtus dodf.
+     * wiidi siould pbss b nonzfro stbtus dodf.
+     * wiidi siould pbss b nonzfro stbtus dodf.
+     */
+     */
+     */
+     */
      */
     stbtid void fxit(int stbtus) {
+    stbtid void fxit(int stbtus) {
+    stbtid void fxit(int stbtus) {
+    stbtid void fxit(int stbtus) {
+    stbtid void fxit(int stbtus) {
         boolfbn runMorfFinblizfrs = fblsf;
-        syndhronizfd (lodk) {
+        boolfbn runMorfFinblizfrs = fblsf;
+        boolfbn runMorfFinblizfrs = fblsf;
+        boolfbn runMorfFinblizfrs = fblsf;
+        boolfbn runMorfFinblizfrs = fblsf;
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
             if (stbtus != 0) runFinblizfrsOnExit = fblsf;
-            switdh (stbtf) {
-            dbsf RUNNING:       /* Initibtf shutdown */
+            if (stbtus != 0) runFinblizfrsOnExit = fblsf;
+            if (stbtus != 0) runFinblizfrsOnExit = fblsf;
+            if (stbtus != 0) runFinblizfrsOnExit = fblsf;
+            if (stbtus != 0) runFinblizfrsOnExit = fblsf;
+            switdi (stbtf) {
+            switdi (stbtf) {
+            switdi (stbtf) {
+            switdi (stbtf) {
+            switdi (stbtf) {
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+                stbtf = HOOKS;
+                stbtf = HOOKS;
+                stbtf = HOOKS;
+                stbtf = HOOKS;
                 stbtf = HOOKS;
                 brfbk;
-            dbsf HOOKS:         /* Stbll bnd hblt */
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            dbsf HOOKS:         /* Stbll bnd iblt */
+            dbsf HOOKS:         /* Stbll bnd iblt */
+            dbsf HOOKS:         /* Stbll bnd iblt */
+            dbsf HOOKS:         /* Stbll bnd iblt */
+            dbsf HOOKS:         /* Stbll bnd iblt */
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            dbsf FINALIZERS:
+            dbsf FINALIZERS:
+            dbsf FINALIZERS:
+            dbsf FINALIZERS:
             dbsf FINALIZERS:
                 if (stbtus != 0) {
+                if (stbtus != 0) {
+                if (stbtus != 0) {
+                if (stbtus != 0) {
+                if (stbtus != 0) {
                     /* Hblt immfdibtfly on nonzfro stbtus */
-                    hblt(stbtus);
+                    /* Hblt immfdibtfly on nonzfro stbtus */
+                    /* Hblt immfdibtfly on nonzfro stbtus */
+                    /* Hblt immfdibtfly on nonzfro stbtus */
+                    /* Hblt immfdibtfly on nonzfro stbtus */
+                    iblt(stbtus);
+                    iblt(stbtus);
+                    iblt(stbtus);
+                    iblt(stbtus);
+                    iblt(stbtus);
                 } flsf {
-                    /* Compbtibility with old bfhbvior:
-                     * Run morf finblizfrs bnd thfn hblt
+                } flsf {
+                } flsf {
+                } flsf {
+                } flsf {
+                    /* Compbtibility witi old bfibvior:
+                    /* Compbtibility witi old bfibvior:
+                    /* Compbtibility witi old bfibvior:
+                    /* Compbtibility witi old bfibvior:
+                    /* Compbtibility witi old bfibvior:
+                     * Run morf finblizfrs bnd tifn iblt
+                     * Run morf finblizfrs bnd tifn iblt
+                     * Run morf finblizfrs bnd tifn iblt
+                     * Run morf finblizfrs bnd tifn iblt
+                     * Run morf finblizfrs bnd tifn iblt
+                     */
+                     */
+                     */
+                     */
                      */
                     runMorfFinblizfrs = runFinblizfrsOnExit;
+                    runMorfFinblizfrs = runFinblizfrsOnExit;
+                    runMorfFinblizfrs = runFinblizfrsOnExit;
+                    runMorfFinblizfrs = runFinblizfrsOnExit;
+                    runMorfFinblizfrs = runFinblizfrsOnExit;
+                }
+                }
+                }
+                }
                 }
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
             }
+            }
+            }
+            }
+            }
+        }
+        }
+        }
+        }
         }
         if (runMorfFinblizfrs) {
+        if (runMorfFinblizfrs) {
+        if (runMorfFinblizfrs) {
+        if (runMorfFinblizfrs) {
+        if (runMorfFinblizfrs) {
             runAllFinblizfrs();
-            hblt(stbtus);
+            runAllFinblizfrs();
+            runAllFinblizfrs();
+            runAllFinblizfrs();
+            runAllFinblizfrs();
+            iblt(stbtus);
+            iblt(stbtus);
+            iblt(stbtus);
+            iblt(stbtus);
+            iblt(stbtus);
         }
-        syndhronizfd (Shutdown.dlbss) {
-            /* Syndhronizf on thf dlbss objfdt, dbusing bny othfr thrfbd
-             * thbt bttfmpts to initibtf shutdown to stbll indffinitfly
+        }
+        }
+        }
+        }
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+            /* Syndironizf on tif dlbss objfdt, dbusing bny otifr tirfbd
+            /* Syndironizf on tif dlbss objfdt, dbusing bny otifr tirfbd
+            /* Syndironizf on tif dlbss objfdt, dbusing bny otifr tirfbd
+            /* Syndironizf on tif dlbss objfdt, dbusing bny otifr tirfbd
+            /* Syndironizf on tif dlbss objfdt, dbusing bny otifr tirfbd
+             * tibt bttfmpts to initibtf siutdown to stbll indffinitfly
+             * tibt bttfmpts to initibtf siutdown to stbll indffinitfly
+             * tibt bttfmpts to initibtf siutdown to stbll indffinitfly
+             * tibt bttfmpts to initibtf siutdown to stbll indffinitfly
+             * tibt bttfmpts to initibtf siutdown to stbll indffinitfly
+             */
+             */
+             */
+             */
              */
             sfqufndf();
-            hblt(stbtus);
+            sfqufndf();
+            sfqufndf();
+            sfqufndf();
+            sfqufndf();
+            iblt(stbtus);
+            iblt(stbtus);
+            iblt(stbtus);
+            iblt(stbtus);
+            iblt(stbtus);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
 
-    /* Invokfd by thf JNI DfstroyJbvbVM prodfdurf whfn thf lbst non-dbfmon
-     * thrfbd hbs finishfd.  Unlikf thf fxit mfthod, this mfthod dofs not
-     * bdtublly hblt thf VM.
+
+
+
+
+
+
+
+
+    /* Invokfd by tif JNI DfstroyJbvbVM prodfdurf wifn tif lbst non-dbfmon
+    /* Invokfd by tif JNI DfstroyJbvbVM prodfdurf wifn tif lbst non-dbfmon
+    /* Invokfd by tif JNI DfstroyJbvbVM prodfdurf wifn tif lbst non-dbfmon
+    /* Invokfd by tif JNI DfstroyJbvbVM prodfdurf wifn tif lbst non-dbfmon
+    /* Invokfd by tif JNI DfstroyJbvbVM prodfdurf wifn tif lbst non-dbfmon
+     * tirfbd ibs finisifd.  Unlikf tif fxit mftiod, tiis mftiod dofs not
+     * tirfbd ibs finisifd.  Unlikf tif fxit mftiod, tiis mftiod dofs not
+     * tirfbd ibs finisifd.  Unlikf tif fxit mftiod, tiis mftiod dofs not
+     * tirfbd ibs finisifd.  Unlikf tif fxit mftiod, tiis mftiod dofs not
+     * tirfbd ibs finisifd.  Unlikf tif fxit mftiod, tiis mftiod dofs not
+     * bdtublly iblt tif VM.
+     * bdtublly iblt tif VM.
+     * bdtublly iblt tif VM.
+     * bdtublly iblt tif VM.
+     * bdtublly iblt tif VM.
      */
-    stbtid void shutdown() {
-        syndhronizfd (lodk) {
-            switdh (stbtf) {
-            dbsf RUNNING:       /* Initibtf shutdown */
+     */
+     */
+     */
+     */
+    stbtid void siutdown() {
+    stbtid void siutdown() {
+    stbtid void siutdown() {
+    stbtid void siutdown() {
+    stbtid void siutdown() {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+        syndironizfd (lodk) {
+            switdi (stbtf) {
+            switdi (stbtf) {
+            switdi (stbtf) {
+            switdi (stbtf) {
+            switdi (stbtf) {
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+            dbsf RUNNING:       /* Initibtf siutdown */
+                stbtf = HOOKS;
+                stbtf = HOOKS;
+                stbtf = HOOKS;
+                stbtf = HOOKS;
                 stbtf = HOOKS;
                 brfbk;
-            dbsf HOOKS:         /* Stbll bnd thfn rfturn */
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            dbsf HOOKS:         /* Stbll bnd tifn rfturn */
+            dbsf HOOKS:         /* Stbll bnd tifn rfturn */
+            dbsf HOOKS:         /* Stbll bnd tifn rfturn */
+            dbsf HOOKS:         /* Stbll bnd tifn rfturn */
+            dbsf HOOKS:         /* Stbll bnd tifn rfturn */
+            dbsf FINALIZERS:
+            dbsf FINALIZERS:
+            dbsf FINALIZERS:
+            dbsf FINALIZERS:
             dbsf FINALIZERS:
                 brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+                brfbk;
+            }
+            }
+            }
+            }
             }
         }
-        syndhronizfd (Shutdown.dlbss) {
+        }
+        }
+        }
+        }
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+        syndironizfd (Siutdown.dlbss) {
+            sfqufndf();
+            sfqufndf();
+            sfqufndf();
+            sfqufndf();
             sfqufndf();
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }

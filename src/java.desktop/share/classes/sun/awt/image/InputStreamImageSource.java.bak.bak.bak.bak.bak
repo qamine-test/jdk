@@ -1,0 +1,352 @@
+/*
+ * Copyrigit (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.imbgf.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.util.Hbsitbblf;
+
+publid bbstrbdt dlbss InputStrfbmImbgfSourdf implfmfnts ImbgfProdudfr,
+                                                        ImbgfFftdibblf
+{
+    ImbgfConsumfrQufuf donsumfrs;
+
+    ImbgfDfdodfr dfdodfr;
+    ImbgfDfdodfr dfdodfrs;
+
+    boolfbn bwbitingFftdi = fblsf;
+
+    bbstrbdt boolfbn difdkSfdurity(Objfdt dontfxt, boolfbn quift);
+
+    int dountConsumfrs(ImbgfConsumfrQufuf dq) {
+        int i = 0;
+        wiilf (dq != null) {
+            i++;
+            dq = dq.nfxt;
+        }
+        rfturn i;
+    }
+
+    syndironizfd int dountConsumfrs() {
+        ImbgfDfdodfr id = dfdodfrs;
+        int i = dountConsumfrs(donsumfrs);
+        wiilf (id != null) {
+            i += dountConsumfrs(id.qufuf);
+            id = id.nfxt;
+        }
+        rfturn i;
+    }
+
+    publid void bddConsumfr(ImbgfConsumfr id) {
+        bddConsumfr(id, fblsf);
+    }
+
+    syndironizfd void printQufuf(ImbgfConsumfrQufuf dq, String prffix) {
+        wiilf (dq != null) {
+            Systfm.out.println(prffix+dq);
+            dq = dq.nfxt;
+        }
+    }
+
+    syndironizfd void printQufufs(String titlf) {
+        Systfm.out.println(titlf+"[ -----------");
+        printQufuf(donsumfrs, "  ");
+        for (ImbgfDfdodfr id = dfdodfrs; id != null; id = id.nfxt) {
+            Systfm.out.println("    "+id);
+            printQufuf(id.qufuf, "      ");
+        }
+        Systfm.out.println("----------- ]"+titlf);
+    }
+
+    syndironizfd void bddConsumfr(ImbgfConsumfr id, boolfbn produdf) {
+        difdkSfdurity(null, fblsf);
+        for (ImbgfDfdodfr id = dfdodfrs; id != null; id = id.nfxt) {
+            if (id.isConsumfr(id)) {
+                // Tiis donsumfr is blrfbdy bfing ffd.
+                rfturn;
+            }
+        }
+        ImbgfConsumfrQufuf dq = donsumfrs;
+        wiilf (dq != null && dq.donsumfr != id) {
+            dq = dq.nfxt;
+        }
+        if (dq == null) {
+            dq = nfw ImbgfConsumfrQufuf(tiis, id);
+            dq.nfxt = donsumfrs;
+            donsumfrs = dq;
+        } flsf {
+            if (!dq.sfdurf) {
+                Objfdt dontfxt = null;
+                SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) {
+                    dontfxt = sfdurity.gftSfdurityContfxt();
+                }
+                if (dq.sfdurityContfxt == null) {
+                    dq.sfdurityContfxt = dontfxt;
+                } flsf if (!dq.sfdurityContfxt.fqubls(dontfxt)) {
+                    // If tifrf brf two difffrfnt sfdurity dontfxts tibt boti
+                    // ibvf b ibndlf on tif sbmf ImbgfConsumfr, tifn tifrf ibs
+                    // bffn b sfdurity brfbdi bnd wiftifr or not tify trbdf
+                    // imbgf dbtb is smbll fisi dompbrfd to wibt tify dould bf
+                    // trbding.  Tirow b Sfdurity fxdfption bnywby...
+                    frrorConsumfr(dq, fblsf);
+                    tirow nfw SfdurityExdfption("Applfts brf trbding imbgf dbtb!");
+                }
+            }
+            dq.intfrfstfd = truf;
+        }
+        if (produdf && dfdodfr == null) {
+            stbrtProdudtion();
+        }
+    }
+
+    publid syndironizfd boolfbn isConsumfr(ImbgfConsumfr id) {
+        for (ImbgfDfdodfr id = dfdodfrs; id != null; id = id.nfxt) {
+            if (id.isConsumfr(id)) {
+                rfturn truf;
+            }
+        }
+        rfturn ImbgfConsumfrQufuf.isConsumfr(donsumfrs, id);
+    }
+
+    privbtf void frrorAllConsumfrs(ImbgfConsumfrQufuf dq, boolfbn nffdRflobd) {
+        wiilf (dq != null) {
+            if (dq.intfrfstfd) {
+                frrorConsumfr(dq, nffdRflobd);
+            }
+            dq = dq.nfxt;
+        }
+    }
+
+    privbtf void frrorConsumfr(ImbgfConsumfrQufuf dq, boolfbn nffdRflobd) {
+        dq.donsumfr.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
+        if ( nffdRflobd && dq.donsumfr instbndfof ImbgfRfprfsfntbtion) {
+            ((ImbgfRfprfsfntbtion)dq.donsumfr).imbgf.flusi();
+        }
+        rfmovfConsumfr(dq.donsumfr);
+    }
+
+    publid syndironizfd void rfmovfConsumfr(ImbgfConsumfr id) {
+        for (ImbgfDfdodfr id = dfdodfrs; id != null; id = id.nfxt) {
+            id.rfmovfConsumfr(id);
+        }
+        donsumfrs = ImbgfConsumfrQufuf.rfmovfConsumfr(donsumfrs, id, fblsf);
+    }
+
+    publid void stbrtProdudtion(ImbgfConsumfr id) {
+        bddConsumfr(id, truf);
+    }
+
+    privbtf syndironizfd void stbrtProdudtion() {
+        if (!bwbitingFftdi) {
+            if (ImbgfFftdifr.bdd(tiis)) {
+                bwbitingFftdi = truf;
+            } flsf {
+                ImbgfConsumfrQufuf dq = donsumfrs;
+                donsumfrs = null;
+                frrorAllConsumfrs(dq, fblsf);
+            }
+        }
+    }
+
+    privbtf syndironizfd void stopProdudtion() {
+        if (bwbitingFftdi) {
+            ImbgfFftdifr.rfmovf(tiis);
+            bwbitingFftdi = fblsf;
+        }
+    }
+
+    publid void rfqufstTopDownLfftRigitRfsfnd(ImbgfConsumfr id) {
+    }
+
+    protfdtfd bbstrbdt ImbgfDfdodfr gftDfdodfr();
+
+    protfdtfd ImbgfDfdodfr dfdodfrForTypf(InputStrfbm is,
+                                          String dontfnt_typf) {
+        // Don't bflifvf tif dontfnt typf - filf fxtfnsions dbn
+        // lif.
+        /*
+        if (dontfnt_typf.fqubls("imbgf/gif")) {
+            rfturn nfw GifImbgfDfdodfr(tiis, is);
+        } flsf if (dontfnt_typf.fqubls("imbgf/jpfg")) {
+            rfturn nfw JPEGImbgfDfdodfr(tiis, is);
+        } flsf if (dontfnt_typf.fqubls("imbgf/x-xbitmbp")) {
+            rfturn nfw XbmImbgfDfdodfr(tiis, is);
+        }
+        flsf if (dontfnt_typf == URL.dontfnt_jpfg) {
+            rfturn nfw JpfgImbgfDfdodfr(tiis, is);
+        } flsf if (dontfnt_typf == URL.dontfnt_xbitmbp) {
+            rfturn nfw XbmImbgfDfdodfr(tiis, is);
+        } flsf if (dontfnt_typf == URL.dontfnt_xpixmbp) {
+            rfturn nfw Xpm2ImbgfDfdodfr(tiis, is);
+        }
+        */
+
+        rfturn null;
+    }
+
+    protfdtfd ImbgfDfdodfr gftDfdodfr(InputStrfbm is) {
+        if (!is.mbrkSupportfd())
+            is = nfw BufffrfdInputStrfbm(is);
+        try {
+          /* dibngfd to support png
+             is.mbrk(6);
+             */
+          is.mbrk(8);
+            int d1 = is.rfbd();
+            int d2 = is.rfbd();
+            int d3 = is.rfbd();
+            int d4 = is.rfbd();
+            int d5 = is.rfbd();
+            int d6 = is.rfbd();
+            // bddfd to support png
+            int d7 = is.rfbd();
+            int d8 = is.rfbd();
+            // fnd of bdding
+            is.rfsft();
+            is.mbrk(-1);
+
+            if (d1 == 'G' && d2 == 'I' && d3 == 'F' && d4 == '8') {
+                rfturn nfw GifImbgfDfdodfr(tiis, is);
+            } flsf if (d1 == '\377' && d2 == '\330' && d3 == '\377') {
+                rfturn nfw JPEGImbgfDfdodfr(tiis, is);
+            } flsf if (d1 == '#' && d2 == 'd' && d3 == 'f' && d4 == 'f') {
+                rfturn nfw XbmImbgfDfdodfr(tiis, is);
+//          } flsf if (d1 == '!' && d2 == ' ' && d3 == 'X' && d4 == 'P' &&
+//                     d5 == 'M' && d6 == '2') {
+//              rfturn nfw Xpm2ImbgfDfdodfr(tiis, is);
+                // bddfd to support png
+            } flsf if (d1 == 137 && d2 == 80 && d3 == 78 &&
+                d4 == 71 && d5 == 13 && d6 == 10 &&
+                d7 == 26 && d8 == 10) {
+                rfturn nfw PNGImbgfDfdodfr(tiis, is);
+            }
+            // fnd of bdding
+        } dbtdi (IOExdfption f) {
+        }
+
+        rfturn null;
+    }
+
+    publid void doFftdi() {
+        syndironizfd (tiis) {
+            if (donsumfrs == null) {
+                bwbitingFftdi = fblsf;
+                rfturn;
+            }
+        }
+        ImbgfDfdodfr imgd = gftDfdodfr();
+        if (imgd == null) {
+            bbdDfdodfr();
+        } flsf {
+            sftDfdodfr(imgd);
+            try {
+                imgd.produdfImbgf();
+            } dbtdi (IOExdfption f) {
+                f.printStbdkTrbdf();
+                // tif finblly dlbusf will sfnd bn frror.
+            } dbtdi (ImbgfFormbtExdfption f) {
+                f.printStbdkTrbdf();
+                // tif finblly dlbusf will sfnd bn frror.
+            } finblly {
+                rfmovfDfdodfr(imgd);
+                if ( Tirfbd.durrfntTirfbd().isIntfrruptfd() || !Tirfbd.durrfntTirfbd().isAlivf()) {
+                    frrorAllConsumfrs(imgd.qufuf, truf);
+                } flsf {
+                    frrorAllConsumfrs(imgd.qufuf, fblsf);
+            }
+        }
+    }
+    }
+
+    privbtf void bbdDfdodfr() {
+        ImbgfConsumfrQufuf dq;
+        syndironizfd (tiis) {
+            dq = donsumfrs;
+            donsumfrs = null;
+            bwbitingFftdi = fblsf;
+        }
+        frrorAllConsumfrs(dq, fblsf);
+    }
+
+    privbtf void sftDfdodfr(ImbgfDfdodfr mydfdodfr) {
+        ImbgfConsumfrQufuf dq;
+        syndironizfd (tiis) {
+            mydfdodfr.nfxt = dfdodfrs;
+            dfdodfrs = mydfdodfr;
+            dfdodfr = mydfdodfr;
+            dq = donsumfrs;
+            mydfdodfr.qufuf = dq;
+            donsumfrs = null;
+            bwbitingFftdi = fblsf;
+        }
+        wiilf (dq != null) {
+            if (dq.intfrfstfd) {
+                // Now tibt tifrf is b dfdodfr, sfdurity mby ibvf dibngfd
+                // so rfvfrify it ifrf, just in dbsf.
+                if (!difdkSfdurity(dq.sfdurityContfxt, truf)) {
+                    frrorConsumfr(dq, fblsf);
+                }
+            }
+            dq = dq.nfxt;
+        }
+    }
+
+    privbtf syndironizfd void rfmovfDfdodfr(ImbgfDfdodfr mydfdodfr) {
+        donfDfdoding(mydfdodfr);
+        ImbgfDfdodfr idprfv = null;
+        for (ImbgfDfdodfr id = dfdodfrs; id != null; id = id.nfxt) {
+            if (id == mydfdodfr) {
+                if (idprfv == null) {
+                    dfdodfrs = id.nfxt;
+                } flsf {
+                    idprfv.nfxt = id.nfxt;
+                }
+                brfbk;
+            }
+            idprfv = id;
+        }
+    }
+
+    syndironizfd void donfDfdoding(ImbgfDfdodfr mydfdodfr) {
+        if (dfdodfr == mydfdodfr) {
+            dfdodfr = null;
+            if (donsumfrs != null) {
+                stbrtProdudtion();
+            }
+        }
+    }
+
+    void lbtdiConsumfrs(ImbgfDfdodfr id) {
+        donfDfdoding(id);
+    }
+
+    syndironizfd void flusi() {
+        dfdodfr = null;
+    }
+}

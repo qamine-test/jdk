@@ -1,323 +1,1615 @@
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+# Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+#
+#
+#
 #
 # Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
 # publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
 # by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
 #
 # Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
 # bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
 #
 # You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
 # Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
 #
 # Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
 # qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
+
+
+
+
 
 #
+#
+#
+#
+#
+#	PostSdript printfr propfrty filf for Jbvb 2D printing.
+#	PostSdript printfr propfrty filf for Jbvb 2D printing.
+#	PostSdript printfr propfrty filf for Jbvb 2D printing.
+#	PostSdript printfr propfrty filf for Jbvb 2D printing.
 #	PostSdript printfr propfrty filf for Jbvb 2D printing.
 #
+#
+#
+#
+#
+# WARNING: Tiis is bn intfrnbl implfmfntbtion filf, not b publid filf.
+# WARNING: Tiis is bn intfrnbl implfmfntbtion filf, not b publid filf.
+# WARNING: Tiis is bn intfrnbl implfmfntbtion filf, not b publid filf.
+# WARNING: Tiis is bn intfrnbl implfmfntbtion filf, not b publid filf.
 # WARNING: Tiis is bn intfrnbl implfmfntbtion filf, not b publid filf.
 # Any dustomisbtion or rflibndf on tif fxistfndf of tiis filf bnd its
+# Any dustomisbtion or rflibndf on tif fxistfndf of tiis filf bnd its
+# Any dustomisbtion or rflibndf on tif fxistfndf of tiis filf bnd its
+# Any dustomisbtion or rflibndf on tif fxistfndf of tiis filf bnd its
+# Any dustomisbtion or rflibndf on tif fxistfndf of tiis filf bnd its
 # dontfnts or syntbx is disdourbgfd bnd unsupportfd.
+# dontfnts or syntbx is disdourbgfd bnd unsupportfd.
+# dontfnts or syntbx is disdourbgfd bnd unsupportfd.
+# dontfnts or syntbx is disdourbgfd bnd unsupportfd.
+# dontfnts or syntbx is disdourbgfd bnd unsupportfd.
+# It mby bf indompbtibly dibngfd or rfmovfd witiout bny notidf.
+# It mby bf indompbtibly dibngfd or rfmovfd witiout bny notidf.
+# It mby bf indompbtibly dibngfd or rfmovfd witiout bny notidf.
+# It mby bf indompbtibly dibngfd or rfmovfd witiout bny notidf.
 # It mby bf indompbtibly dibngfd or rfmovfd witiout bny notidf.
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+font.num=35
+font.num=35
+font.num=35
+font.num=35
 font.num=35
 #
+#
+#
+#
+#
+# Lfgbdy logidbl font fbmily nbmfs bnd logidbl font blibsfs siould bll
+# Lfgbdy logidbl font fbmily nbmfs bnd logidbl font blibsfs siould bll
+# Lfgbdy logidbl font fbmily nbmfs bnd logidbl font blibsfs siould bll
+# Lfgbdy logidbl font fbmily nbmfs bnd logidbl font blibsfs siould bll
 # Lfgbdy logidbl font fbmily nbmfs bnd logidbl font blibsfs siould bll
 # mbp to tif primbry logidbl font nbmfs.
+# mbp to tif primbry logidbl font nbmfs.
+# mbp to tif primbry logidbl font nbmfs.
+# mbp to tif primbry logidbl font nbmfs.
+# mbp to tif primbry logidbl font nbmfs.
+#
+#
+#
+#
 #
 sfrif=sfrif
+sfrif=sfrif
+sfrif=sfrif
+sfrif=sfrif
+sfrif=sfrif
+timfs=sfrif
+timfs=sfrif
+timfs=sfrif
+timfs=sfrif
 timfs=sfrif
 timfsrombn=sfrif
+timfsrombn=sfrif
+timfsrombn=sfrif
+timfsrombn=sfrif
+timfsrombn=sfrif
+sbnssfrif=sbnssfrif
+sbnssfrif=sbnssfrif
+sbnssfrif=sbnssfrif
+sbnssfrif=sbnssfrif
 sbnssfrif=sbnssfrif
 iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+iflvftidb=sbnssfrif
+diblog=sbnssfrif
+diblog=sbnssfrif
+diblog=sbnssfrif
+diblog=sbnssfrif
 diblog=sbnssfrif
 dibloginput=monospbdfd
+dibloginput=monospbdfd
+dibloginput=monospbdfd
+dibloginput=monospbdfd
+dibloginput=monospbdfd
+monospbdfd=monospbdfd
+monospbdfd=monospbdfd
+monospbdfd=monospbdfd
+monospbdfd=monospbdfd
 monospbdfd=monospbdfd
 dourifr=monospbdfd
+dourifr=monospbdfd
+dourifr=monospbdfd
+dourifr=monospbdfd
+dourifr=monospbdfd
+#
+#
+#
+#
 #
 # Nfxt, piysidbl fonts wiidi dbn bf sbffly mbppfd to stbndbrd postsdript fonts
+# Nfxt, piysidbl fonts wiidi dbn bf sbffly mbppfd to stbndbrd postsdript fonts
+# Nfxt, piysidbl fonts wiidi dbn bf sbffly mbppfd to stbndbrd postsdript fonts
+# Nfxt, piysidbl fonts wiidi dbn bf sbffly mbppfd to stbndbrd postsdript fonts
+# Nfxt, piysidbl fonts wiidi dbn bf sbffly mbppfd to stbndbrd postsdript fonts
+# Tifsf kfys gfnfrblly mbp to b vbluf wiidi is tif sbmf bs tif kfy, so
+# Tifsf kfys gfnfrblly mbp to b vbluf wiidi is tif sbmf bs tif kfy, so
+# Tifsf kfys gfnfrblly mbp to b vbluf wiidi is tif sbmf bs tif kfy, so
+# Tifsf kfys gfnfrblly mbp to b vbluf wiidi is tif sbmf bs tif kfy, so
 # Tifsf kfys gfnfrblly mbp to b vbluf wiidi is tif sbmf bs tif kfy, so
 # tif kfy/vbluf is just b wby to sby tif font ibs b mbpping.
+# tif kfy/vbluf is just b wby to sby tif font ibs b mbpping.
+# tif kfy/vbluf is just b wby to sby tif font ibs b mbpping.
+# tif kfy/vbluf is just b wby to sby tif font ibs b mbpping.
+# tif kfy/vbluf is just b wby to sby tif font ibs b mbpping.
+# Somftimfs iowfvfr wf mbp morf tibn onf sdrffn font to tif sbmf PS font.
+# Somftimfs iowfvfr wf mbp morf tibn onf sdrffn font to tif sbmf PS font.
+# Somftimfs iowfvfr wf mbp morf tibn onf sdrffn font to tif sbmf PS font.
+# Somftimfs iowfvfr wf mbp morf tibn onf sdrffn font to tif sbmf PS font.
 # Somftimfs iowfvfr wf mbp morf tibn onf sdrffn font to tif sbmf PS font.
 #
+#
+#
+#
+#
+bvbntgbrdf=bvbntgbrdf_book
+bvbntgbrdf=bvbntgbrdf_book
+bvbntgbrdf=bvbntgbrdf_book
+bvbntgbrdf=bvbntgbrdf_book
 bvbntgbrdf=bvbntgbrdf_book
 bvbntgbrdf_book=bvbntgbrdf_book
+bvbntgbrdf_book=bvbntgbrdf_book
+bvbntgbrdf_book=bvbntgbrdf_book
+bvbntgbrdf_book=bvbntgbrdf_book
+bvbntgbrdf_book=bvbntgbrdf_book
+bvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+bvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+bvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+bvbntgbrdf_dfmi=bvbntgbrdf_dfmi
 bvbntgbrdf_dfmi=bvbntgbrdf_dfmi
 bvbntgbrdf_book_obliquf=bvbntgbrdf_book_obliquf
+bvbntgbrdf_book_obliquf=bvbntgbrdf_book_obliquf
+bvbntgbrdf_book_obliquf=bvbntgbrdf_book_obliquf
+bvbntgbrdf_book_obliquf=bvbntgbrdf_book_obliquf
+bvbntgbrdf_book_obliquf=bvbntgbrdf_book_obliquf
+bvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+bvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+bvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+bvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
 bvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
 #
+#
+#
+#
+#
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
 itdbvbntgbrdf=bvbntgbrdf_book
 itdbvbntgbrdf=bvbntgbrdf_book
 itdbvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+itdbvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+itdbvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+itdbvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+itdbvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+itdbvbntgbrdf_obliquf=bvbntgbrdf_book_obliquf
+itdbvbntgbrdf_obliquf=bvbntgbrdf_book_obliquf
+itdbvbntgbrdf_obliquf=bvbntgbrdf_book_obliquf
+itdbvbntgbrdf_obliquf=bvbntgbrdf_book_obliquf
 itdbvbntgbrdf_obliquf=bvbntgbrdf_book_obliquf
 itdbvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+itdbvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+itdbvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+itdbvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+itdbvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+#
+#
+#
+#
 #
 bookmbn=bookmbn_ligit
+bookmbn=bookmbn_ligit
+bookmbn=bookmbn_ligit
+bookmbn=bookmbn_ligit
+bookmbn=bookmbn_ligit
+bookmbn_ligit=bookmbn_ligit
+bookmbn_ligit=bookmbn_ligit
+bookmbn_ligit=bookmbn_ligit
+bookmbn_ligit=bookmbn_ligit
 bookmbn_ligit=bookmbn_ligit
 bookmbn_dfmi=bookmbn_dfmi
+bookmbn_dfmi=bookmbn_dfmi
+bookmbn_dfmi=bookmbn_dfmi
+bookmbn_dfmi=bookmbn_dfmi
+bookmbn_dfmi=bookmbn_dfmi
+bookmbn_ligit_itblid=bookmbn_ligit_itblid
+bookmbn_ligit_itblid=bookmbn_ligit_itblid
+bookmbn_ligit_itblid=bookmbn_ligit_itblid
+bookmbn_ligit_itblid=bookmbn_ligit_itblid
 bookmbn_ligit_itblid=bookmbn_ligit_itblid
 bookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+bookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+bookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+bookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+bookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+#
+#
+#
+#
 #
 # Exdludf "iflvftidb" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "iflvftidb" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "iflvftidb" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "iflvftidb" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "iflvftidb" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+iflvftidb_bold=iflvftidb_bold
+iflvftidb_bold=iflvftidb_bold
+iflvftidb_bold=iflvftidb_bold
+iflvftidb_bold=iflvftidb_bold
 iflvftidb_bold=iflvftidb_bold
 iflvftidb_obliquf=iflvftidb_obliquf
+iflvftidb_obliquf=iflvftidb_obliquf
+iflvftidb_obliquf=iflvftidb_obliquf
+iflvftidb_obliquf=iflvftidb_obliquf
+iflvftidb_obliquf=iflvftidb_obliquf
+iflvftidb_bold_obliquf=iflvftidb_bold_obliquf
+iflvftidb_bold_obliquf=iflvftidb_bold_obliquf
+iflvftidb_bold_obliquf=iflvftidb_bold_obliquf
+iflvftidb_bold_obliquf=iflvftidb_bold_obliquf
 iflvftidb_bold_obliquf=iflvftidb_bold_obliquf
 #
+#
+#
+#
+#
+itdbookmbn_ligit=bookmbn_ligit
+itdbookmbn_ligit=bookmbn_ligit
+itdbookmbn_ligit=bookmbn_ligit
+itdbookmbn_ligit=bookmbn_ligit
 itdbookmbn_ligit=bookmbn_ligit
 itdbookmbn_dfmi=bookmbn_dfmi
+itdbookmbn_dfmi=bookmbn_dfmi
+itdbookmbn_dfmi=bookmbn_dfmi
+itdbookmbn_dfmi=bookmbn_dfmi
+itdbookmbn_dfmi=bookmbn_dfmi
+itdbookmbn_ligit_itblid=bookmbn_ligit_itblid
+itdbookmbn_ligit_itblid=bookmbn_ligit_itblid
+itdbookmbn_ligit_itblid=bookmbn_ligit_itblid
+itdbookmbn_ligit_itblid=bookmbn_ligit_itblid
 itdbookmbn_ligit_itblid=bookmbn_ligit_itblid
 itdbookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+itdbookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+itdbookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+itdbookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+itdbookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+#
+#
+#
+#
 #
 # Exdludf "dourifr" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "dourifr" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "dourifr" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "dourifr" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "dourifr" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+dourifr_bold=dourifr_bold
+dourifr_bold=dourifr_bold
+dourifr_bold=dourifr_bold
+dourifr_bold=dourifr_bold
 dourifr_bold=dourifr_bold
 dourifr_obliquf=dourifr_obliquf
+dourifr_obliquf=dourifr_obliquf
+dourifr_obliquf=dourifr_obliquf
+dourifr_obliquf=dourifr_obliquf
+dourifr_obliquf=dourifr_obliquf
+dourifr_bold_obliquf=dourifr_bold_obliquf
+dourifr_bold_obliquf=dourifr_bold_obliquf
+dourifr_bold_obliquf=dourifr_bold_obliquf
+dourifr_bold_obliquf=dourifr_bold_obliquf
 dourifr_bold_obliquf=dourifr_bold_obliquf
 #
+#
+#
+#
+#
+dourifr_nfw=dourifr
+dourifr_nfw=dourifr
+dourifr_nfw=dourifr
+dourifr_nfw=dourifr
 dourifr_nfw=dourifr
 dourifr_nfw_bold=dourifr_bold
+dourifr_nfw_bold=dourifr_bold
+dourifr_nfw_bold=dourifr_bold
+dourifr_nfw_bold=dourifr_bold
+dourifr_nfw_bold=dourifr_bold
+#
+#
+#
+#
 #
 monotypf_dfntury_sdioolbook=nfwdfnturysdioolbook
+monotypf_dfntury_sdioolbook=nfwdfnturysdioolbook
+monotypf_dfntury_sdioolbook=nfwdfnturysdioolbook
+monotypf_dfntury_sdioolbook=nfwdfnturysdioolbook
+monotypf_dfntury_sdioolbook=nfwdfnturysdioolbook
+monotypf_dfntury_sdioolbook_bold=nfwdfnturysdioolbook_bold
+monotypf_dfntury_sdioolbook_bold=nfwdfnturysdioolbook_bold
+monotypf_dfntury_sdioolbook_bold=nfwdfnturysdioolbook_bold
+monotypf_dfntury_sdioolbook_bold=nfwdfnturysdioolbook_bold
 monotypf_dfntury_sdioolbook_bold=nfwdfnturysdioolbook_bold
 monotypf_dfntury_sdioolbook_itblid=nfwdfnturysdioolbook_itblid
+monotypf_dfntury_sdioolbook_itblid=nfwdfnturysdioolbook_itblid
+monotypf_dfntury_sdioolbook_itblid=nfwdfnturysdioolbook_itblid
+monotypf_dfntury_sdioolbook_itblid=nfwdfnturysdioolbook_itblid
+monotypf_dfntury_sdioolbook_itblid=nfwdfnturysdioolbook_itblid
+monotypf_dfntury_sdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+monotypf_dfntury_sdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+monotypf_dfntury_sdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+monotypf_dfntury_sdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
 monotypf_dfntury_sdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
 #
+#
+#
+#
+#
+nfwdfnturysdioolbook=nfwdfnturysdioolbook
+nfwdfnturysdioolbook=nfwdfnturysdioolbook
+nfwdfnturysdioolbook=nfwdfnturysdioolbook
+nfwdfnturysdioolbook=nfwdfnturysdioolbook
 nfwdfnturysdioolbook=nfwdfnturysdioolbook
 nfwdfnturysdioolbook_bold=nfwdfnturysdioolbook_bold
+nfwdfnturysdioolbook_bold=nfwdfnturysdioolbook_bold
+nfwdfnturysdioolbook_bold=nfwdfnturysdioolbook_bold
+nfwdfnturysdioolbook_bold=nfwdfnturysdioolbook_bold
+nfwdfnturysdioolbook_bold=nfwdfnturysdioolbook_bold
+nfwdfnturysdioolbook_itblid=nfwdfnturysdioolbook_itblid
+nfwdfnturysdioolbook_itblid=nfwdfnturysdioolbook_itblid
+nfwdfnturysdioolbook_itblid=nfwdfnturysdioolbook_itblid
+nfwdfnturysdioolbook_itblid=nfwdfnturysdioolbook_itblid
 nfwdfnturysdioolbook_itblid=nfwdfnturysdioolbook_itblid
 nfwdfnturysdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+nfwdfnturysdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+nfwdfnturysdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+nfwdfnturysdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+nfwdfnturysdioolbook_bold_itblid=nfwdfnturysdioolbook_bold_itblid
+#
+#
+#
+#
 #
 pblbtino=pblbtino
+pblbtino=pblbtino
+pblbtino=pblbtino
+pblbtino=pblbtino
+pblbtino=pblbtino
+pblbtino_bold=pblbtino_bold
+pblbtino_bold=pblbtino_bold
+pblbtino_bold=pblbtino_bold
+pblbtino_bold=pblbtino_bold
 pblbtino_bold=pblbtino_bold
 pblbtino_itblid=pblbtino_itblid
+pblbtino_itblid=pblbtino_itblid
+pblbtino_itblid=pblbtino_itblid
+pblbtino_itblid=pblbtino_itblid
+pblbtino_itblid=pblbtino_itblid
+pblbtino_bold_itblid=pblbtino_bold_itblid
+pblbtino_bold_itblid=pblbtino_bold_itblid
+pblbtino_bold_itblid=pblbtino_bold_itblid
+pblbtino_bold_itblid=pblbtino_bold_itblid
 pblbtino_bold_itblid=pblbtino_bold_itblid
 #
+#
+#
+#
+#
+# Exdludf "timfs" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "timfs" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "timfs" on its own bs tibt's b lfgbdy nbmf for b logidbl font
+# Exdludf "timfs" on its own bs tibt's b lfgbdy nbmf for b logidbl font
 # Exdludf "timfs" on its own bs tibt's b lfgbdy nbmf for b logidbl font
 timfs_bold=timfs_rombn_bold
+timfs_bold=timfs_rombn_bold
+timfs_bold=timfs_rombn_bold
+timfs_bold=timfs_rombn_bold
+timfs_bold=timfs_rombn_bold
+timfs_itblid=timfs_rombn_itblid
+timfs_itblid=timfs_rombn_itblid
+timfs_itblid=timfs_rombn_itblid
+timfs_itblid=timfs_rombn_itblid
 timfs_itblid=timfs_rombn_itblid
 timfs_bold_itblid=timfs_rombn_bold_itblid
+timfs_bold_itblid=timfs_rombn_bold_itblid
+timfs_bold_itblid=timfs_rombn_bold_itblid
+timfs_bold_itblid=timfs_rombn_bold_itblid
+timfs_bold_itblid=timfs_rombn_bold_itblid
+#
+#
+#
+#
 #
 timfs_rombn=timfs_rombn
+timfs_rombn=timfs_rombn
+timfs_rombn=timfs_rombn
+timfs_rombn=timfs_rombn
+timfs_rombn=timfs_rombn
+timfs_rombn_bold=timfs_rombn_bold
+timfs_rombn_bold=timfs_rombn_bold
+timfs_rombn_bold=timfs_rombn_bold
+timfs_rombn_bold=timfs_rombn_bold
 timfs_rombn_bold=timfs_rombn_bold
 timfs_rombn_itblid=timfs_rombn_itblid
+timfs_rombn_itblid=timfs_rombn_itblid
+timfs_rombn_itblid=timfs_rombn_itblid
+timfs_rombn_itblid=timfs_rombn_itblid
+timfs_rombn_itblid=timfs_rombn_itblid
+timfs_rombn_bold_itblid=timfs_rombn_bold_itblid
+timfs_rombn_bold_itblid=timfs_rombn_bold_itblid
+timfs_rombn_bold_itblid=timfs_rombn_bold_itblid
+timfs_rombn_bold_itblid=timfs_rombn_bold_itblid
 timfs_rombn_bold_itblid=timfs_rombn_bold_itblid
 #
+#
+#
+#
+#
+timfs_nfw_rombn=timfs_rombn
+timfs_nfw_rombn=timfs_rombn
+timfs_nfw_rombn=timfs_rombn
+timfs_nfw_rombn=timfs_rombn
 timfs_nfw_rombn=timfs_rombn
 timfs_nfw_rombn_bold=timfs_rombn_bold
+timfs_nfw_rombn_bold=timfs_rombn_bold
+timfs_nfw_rombn_bold=timfs_rombn_bold
+timfs_nfw_rombn_bold=timfs_rombn_bold
+timfs_nfw_rombn_bold=timfs_rombn_bold
+timfs_nfw_rombn_itblid=timfs_rombn_itblid
+timfs_nfw_rombn_itblid=timfs_rombn_itblid
+timfs_nfw_rombn_itblid=timfs_rombn_itblid
+timfs_nfw_rombn_itblid=timfs_rombn_itblid
 timfs_nfw_rombn_itblid=timfs_rombn_itblid
 timfs_nfw_rombn_bold_itblid=timfs_rombn_bold_itblid
+timfs_nfw_rombn_bold_itblid=timfs_rombn_bold_itblid
+timfs_nfw_rombn_bold_itblid=timfs_rombn_bold_itblid
+timfs_nfw_rombn_bold_itblid=timfs_rombn_bold_itblid
+timfs_nfw_rombn_bold_itblid=timfs_rombn_bold_itblid
+#
+#
+#
+#
 #
 zbpfdibndfry_itblid=zbpfdibndfry_itblid
+zbpfdibndfry_itblid=zbpfdibndfry_itblid
+zbpfdibndfry_itblid=zbpfdibndfry_itblid
+zbpfdibndfry_itblid=zbpfdibndfry_itblid
+zbpfdibndfry_itblid=zbpfdibndfry_itblid
+itdzbpfdibndfry_itblid=zbpfdibndfry_itblid
+itdzbpfdibndfry_itblid=zbpfdibndfry_itblid
+itdzbpfdibndfry_itblid=zbpfdibndfry_itblid
+itdzbpfdibndfry_itblid=zbpfdibndfry_itblid
 itdzbpfdibndfry_itblid=zbpfdibndfry_itblid
 #
+#
+#
+#
+#
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
 # Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
 # for tif logidbl fonts.
+# for tif logidbl fonts.
+# for tif logidbl fonts.
+# for tif logidbl fonts.
+# for tif logidbl fonts.
+#
+#
+#
+#
 #
 sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.bold=Timfs-Bold
+sfrif.lbtin1.bold=Timfs-Bold
+sfrif.lbtin1.bold=Timfs-Bold
+sfrif.lbtin1.bold=Timfs-Bold
 sfrif.lbtin1.bold=Timfs-Bold
 sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
 sfrif.lbtin1.bolditblid=Timfs-BoldItblid
 sfrif.symbol.plbin=Symbol
+sfrif.symbol.plbin=Symbol
+sfrif.symbol.plbin=Symbol
+sfrif.symbol.plbin=Symbol
+sfrif.symbol.plbin=Symbol
+sfrif.dingbbts.plbin=ZbpfDingbbts
+sfrif.dingbbts.plbin=ZbpfDingbbts
+sfrif.dingbbts.plbin=ZbpfDingbbts
+sfrif.dingbbts.plbin=ZbpfDingbbts
 sfrif.dingbbts.plbin=ZbpfDingbbts
 sfrif.symbol.bold=Symbol
+sfrif.symbol.bold=Symbol
+sfrif.symbol.bold=Symbol
+sfrif.symbol.bold=Symbol
+sfrif.symbol.bold=Symbol
+sfrif.dingbbts.bold=ZbpfDingbbts
+sfrif.dingbbts.bold=ZbpfDingbbts
+sfrif.dingbbts.bold=ZbpfDingbbts
+sfrif.dingbbts.bold=ZbpfDingbbts
 sfrif.dingbbts.bold=ZbpfDingbbts
 sfrif.symbol.itblid=Symbol
+sfrif.symbol.itblid=Symbol
+sfrif.symbol.itblid=Symbol
+sfrif.symbol.itblid=Symbol
+sfrif.symbol.itblid=Symbol
+sfrif.dingbbts.itblid=ZbpfDingbbts
+sfrif.dingbbts.itblid=ZbpfDingbbts
+sfrif.dingbbts.itblid=ZbpfDingbbts
+sfrif.dingbbts.itblid=ZbpfDingbbts
 sfrif.dingbbts.itblid=ZbpfDingbbts
 sfrif.symbol.bolditblid=Symbol
+sfrif.symbol.bolditblid=Symbol
+sfrif.symbol.bolditblid=Symbol
+sfrif.symbol.bolditblid=Symbol
+sfrif.symbol.bolditblid=Symbol
+sfrif.dingbbts.bolditblid=ZbpfDingbbts
+sfrif.dingbbts.bolditblid=ZbpfDingbbts
+sfrif.dingbbts.bolditblid=ZbpfDingbbts
+sfrif.dingbbts.bolditblid=ZbpfDingbbts
 sfrif.dingbbts.bolditblid=ZbpfDingbbts
 #
+#
+#
+#
+#
+sbnssfrif.lbtin1.plbin=Hflvftidb
+sbnssfrif.lbtin1.plbin=Hflvftidb
+sbnssfrif.lbtin1.plbin=Hflvftidb
+sbnssfrif.lbtin1.plbin=Hflvftidb
 sbnssfrif.lbtin1.plbin=Hflvftidb
 sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
 sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
 sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.symbol.plbin=Symbol
+sbnssfrif.symbol.plbin=Symbol
+sbnssfrif.symbol.plbin=Symbol
+sbnssfrif.symbol.plbin=Symbol
 sbnssfrif.symbol.plbin=Symbol
 sbnssfrif.dingbbts.plbin=ZbpfDingbbts
+sbnssfrif.dingbbts.plbin=ZbpfDingbbts
+sbnssfrif.dingbbts.plbin=ZbpfDingbbts
+sbnssfrif.dingbbts.plbin=ZbpfDingbbts
+sbnssfrif.dingbbts.plbin=ZbpfDingbbts
+sbnssfrif.symbol.bold=Symbol
+sbnssfrif.symbol.bold=Symbol
+sbnssfrif.symbol.bold=Symbol
+sbnssfrif.symbol.bold=Symbol
 sbnssfrif.symbol.bold=Symbol
 sbnssfrif.dingbbts.bold=ZbpfDingbbts
+sbnssfrif.dingbbts.bold=ZbpfDingbbts
+sbnssfrif.dingbbts.bold=ZbpfDingbbts
+sbnssfrif.dingbbts.bold=ZbpfDingbbts
+sbnssfrif.dingbbts.bold=ZbpfDingbbts
+sbnssfrif.symbol.itblid=Symbol
+sbnssfrif.symbol.itblid=Symbol
+sbnssfrif.symbol.itblid=Symbol
+sbnssfrif.symbol.itblid=Symbol
 sbnssfrif.symbol.itblid=Symbol
 sbnssfrif.dingbbts.itblid=ZbpfDingbbts
+sbnssfrif.dingbbts.itblid=ZbpfDingbbts
+sbnssfrif.dingbbts.itblid=ZbpfDingbbts
+sbnssfrif.dingbbts.itblid=ZbpfDingbbts
+sbnssfrif.dingbbts.itblid=ZbpfDingbbts
+sbnssfrif.symbol.bolditblid=Symbol
+sbnssfrif.symbol.bolditblid=Symbol
+sbnssfrif.symbol.bolditblid=Symbol
+sbnssfrif.symbol.bolditblid=Symbol
 sbnssfrif.symbol.bolditblid=Symbol
 sbnssfrif.dingbbts.bolditblid=ZbpfDingbbts
+sbnssfrif.dingbbts.bolditblid=ZbpfDingbbts
+sbnssfrif.dingbbts.bolditblid=ZbpfDingbbts
+sbnssfrif.dingbbts.bolditblid=ZbpfDingbbts
+sbnssfrif.dingbbts.bolditblid=ZbpfDingbbts
+#
+#
+#
+#
 #
 monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.bold=Courifr-Bold
+monospbdfd.lbtin1.bold=Courifr-Bold
+monospbdfd.lbtin1.bold=Courifr-Bold
+monospbdfd.lbtin1.bold=Courifr-Bold
 monospbdfd.lbtin1.bold=Courifr-Bold
 monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
 monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
 monospbdfd.symbol.plbin=Symbol
+monospbdfd.symbol.plbin=Symbol
+monospbdfd.symbol.plbin=Symbol
+monospbdfd.symbol.plbin=Symbol
+monospbdfd.symbol.plbin=Symbol
+monospbdfd.dingbbts.plbin=ZbpfDingbbts
+monospbdfd.dingbbts.plbin=ZbpfDingbbts
+monospbdfd.dingbbts.plbin=ZbpfDingbbts
+monospbdfd.dingbbts.plbin=ZbpfDingbbts
 monospbdfd.dingbbts.plbin=ZbpfDingbbts
 monospbdfd.symbol.bold=Symbol
+monospbdfd.symbol.bold=Symbol
+monospbdfd.symbol.bold=Symbol
+monospbdfd.symbol.bold=Symbol
+monospbdfd.symbol.bold=Symbol
+monospbdfd.dingbbts.bold=ZbpfDingbbts
+monospbdfd.dingbbts.bold=ZbpfDingbbts
+monospbdfd.dingbbts.bold=ZbpfDingbbts
+monospbdfd.dingbbts.bold=ZbpfDingbbts
 monospbdfd.dingbbts.bold=ZbpfDingbbts
 monospbdfd.symbol.itblid=Symbol
+monospbdfd.symbol.itblid=Symbol
+monospbdfd.symbol.itblid=Symbol
+monospbdfd.symbol.itblid=Symbol
+monospbdfd.symbol.itblid=Symbol
+monospbdfd.dingbbts.itblid=ZbpfDingbbts
+monospbdfd.dingbbts.itblid=ZbpfDingbbts
+monospbdfd.dingbbts.itblid=ZbpfDingbbts
+monospbdfd.dingbbts.itblid=ZbpfDingbbts
 monospbdfd.dingbbts.itblid=ZbpfDingbbts
 monospbdfd.symbol.bolditblid=Symbol
+monospbdfd.symbol.bolditblid=Symbol
+monospbdfd.symbol.bolditblid=Symbol
+monospbdfd.symbol.bolditblid=Symbol
+monospbdfd.symbol.bolditblid=Symbol
+monospbdfd.dingbbts.bolditblid=ZbpfDingbbts
+monospbdfd.dingbbts.bolditblid=ZbpfDingbbts
+monospbdfd.dingbbts.bolditblid=ZbpfDingbbts
+monospbdfd.dingbbts.bolditblid=ZbpfDingbbts
 monospbdfd.dingbbts.bolditblid=ZbpfDingbbts
 #
+#
+#
+#
+#
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
+# Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
 # Nfxt tif mbpping of tif font nbmf + dibrsft + stylf to Postsdript font nbmf
 # for tif piysidbl fonts. Sindf tifsf blwbys rfport stylf bs plbin, tif
+# for tif piysidbl fonts. Sindf tifsf blwbys rfport stylf bs plbin, tif
+# for tif piysidbl fonts. Sindf tifsf blwbys rfport stylf bs plbin, tif
+# for tif piysidbl fonts. Sindf tifsf blwbys rfport stylf bs plbin, tif
+# for tif piysidbl fonts. Sindf tifsf blwbys rfport stylf bs plbin, tif
+# stylf kfy is blwbys plbin. So wf mbp using tif fbdf nbmf to tif dorrfdt
+# stylf kfy is blwbys plbin. So wf mbp using tif fbdf nbmf to tif dorrfdt
+# stylf kfy is blwbys plbin. So wf mbp using tif fbdf nbmf to tif dorrfdt
+# stylf kfy is blwbys plbin. So wf mbp using tif fbdf nbmf to tif dorrfdt
 # stylf kfy is blwbys plbin. So wf mbp using tif fbdf nbmf to tif dorrfdt
 # stylf for tif postsdript font. Tiis is possiblf sindf tif fbdf nbmfs dbn
+# stylf for tif postsdript font. Tiis is possiblf sindf tif fbdf nbmfs dbn
+# stylf for tif postsdript font. Tiis is possiblf sindf tif fbdf nbmfs dbn
+# stylf for tif postsdript font. Tiis is possiblf sindf tif fbdf nbmfs dbn
+# stylf for tif postsdript font. Tiis is possiblf sindf tif fbdf nbmfs dbn
+# bf rfplifd upon to bf difffrfnt for fbdi stylf.
+# bf rfplifd upon to bf difffrfnt for fbdi stylf.
+# bf rfplifd upon to bf difffrfnt for fbdi stylf.
+# bf rfplifd upon to bf difffrfnt for fbdi stylf.
 # bf rfplifd upon to bf difffrfnt for fbdi stylf.
 # Howfvfr bn bpplidbtion mby try to drfbtf b Font bpplying b stylf to bn
+# Howfvfr bn bpplidbtion mby try to drfbtf b Font bpplying b stylf to bn
+# Howfvfr bn bpplidbtion mby try to drfbtf b Font bpplying b stylf to bn
+# Howfvfr bn bpplidbtion mby try to drfbtf b Font bpplying b stylf to bn
+# Howfvfr bn bpplidbtion mby try to drfbtf b Font bpplying b stylf to bn
+# piysidbl nbmf. Wf wbnt to mbp to tif dorrfdt Postsdript font tifrf too
+# piysidbl nbmf. Wf wbnt to mbp to tif dorrfdt Postsdript font tifrf too
+# piysidbl nbmf. Wf wbnt to mbp to tif dorrfdt Postsdript font tifrf too
+# piysidbl nbmf. Wf wbnt to mbp to tif dorrfdt Postsdript font tifrf too
 # piysidbl nbmf. Wf wbnt to mbp to tif dorrfdt Postsdript font tifrf too
 # if possiblf but wf do not mbp dbsfs wifrf tif bpplidbtion trifs to
+# if possiblf but wf do not mbp dbsfs wifrf tif bpplidbtion trifs to
+# if possiblf but wf do not mbp dbsfs wifrf tif bpplidbtion trifs to
+# if possiblf but wf do not mbp dbsfs wifrf tif bpplidbtion trifs to
+# if possiblf but wf do not mbp dbsfs wifrf tif bpplidbtion trifs to
+# bugmfnt b stylf (fg bsk for b bold vfrsion of b bold font)
+# bugmfnt b stylf (fg bsk for b bold vfrsion of b bold font)
+# bugmfnt b stylf (fg bsk for b bold vfrsion of b bold font)
+# bugmfnt b stylf (fg bsk for b bold vfrsion of b bold font)
 # bugmfnt b stylf (fg bsk for b bold vfrsion of b bold font)
 # Dfffr to tif 2D pbdkbgf to bttfmpt drfbtf bn brtifidiblly stylfd vfrsion
+# Dfffr to tif 2D pbdkbgf to bttfmpt drfbtf bn brtifidiblly stylfd vfrsion
+# Dfffr to tif 2D pbdkbgf to bttfmpt drfbtf bn brtifidiblly stylfd vfrsion
+# Dfffr to tif 2D pbdkbgf to bttfmpt drfbtf bn brtifidiblly stylfd vfrsion
+# Dfffr to tif 2D pbdkbgf to bttfmpt drfbtf bn brtifidiblly stylfd vfrsion
+#
+#
+#
+#
 #
 bvbntgbrdf_book.lbtin1.plbin=AvbntGbrdf-Book
+bvbntgbrdf_book.lbtin1.plbin=AvbntGbrdf-Book
+bvbntgbrdf_book.lbtin1.plbin=AvbntGbrdf-Book
+bvbntgbrdf_book.lbtin1.plbin=AvbntGbrdf-Book
+bvbntgbrdf_book.lbtin1.plbin=AvbntGbrdf-Book
+bvbntgbrdf_dfmi.lbtin1.plbin=AvbntGbrdf-Dfmi
+bvbntgbrdf_dfmi.lbtin1.plbin=AvbntGbrdf-Dfmi
+bvbntgbrdf_dfmi.lbtin1.plbin=AvbntGbrdf-Dfmi
+bvbntgbrdf_dfmi.lbtin1.plbin=AvbntGbrdf-Dfmi
 bvbntgbrdf_dfmi.lbtin1.plbin=AvbntGbrdf-Dfmi
 bvbntgbrdf_book_obliquf.lbtin1.plbin=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book_obliquf.lbtin1.plbin=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book_obliquf.lbtin1.plbin=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book_obliquf.lbtin1.plbin=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book_obliquf.lbtin1.plbin=AvbntGbrdf-BookObliquf
+bvbntgbrdf_dfmi_obliquf.lbtin1.plbin=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi_obliquf.lbtin1.plbin=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi_obliquf.lbtin1.plbin=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi_obliquf.lbtin1.plbin=AvbntGbrdf-DfmiObliquf
 bvbntgbrdf_dfmi_obliquf.lbtin1.plbin=AvbntGbrdf-DfmiObliquf
 #
+#
+#
+#
+#
+bvbntgbrdf_book.lbtin1.bold=AvbntGbrdf-Dfmi
+bvbntgbrdf_book.lbtin1.bold=AvbntGbrdf-Dfmi
+bvbntgbrdf_book.lbtin1.bold=AvbntGbrdf-Dfmi
+bvbntgbrdf_book.lbtin1.bold=AvbntGbrdf-Dfmi
 bvbntgbrdf_book.lbtin1.bold=AvbntGbrdf-Dfmi
 bvbntgbrdf_book.lbtin1.itblid=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book.lbtin1.itblid=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book.lbtin1.itblid=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book.lbtin1.itblid=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book.lbtin1.itblid=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book.lbtin1.bolditblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book.lbtin1.bolditblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book.lbtin1.bolditblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book.lbtin1.bolditblid=AvbntGbrdf-DfmiObliquf
 bvbntgbrdf_book.lbtin1.bolditblid=AvbntGbrdf-DfmiObliquf
 bvbntgbrdf_dfmi.lbtin1.itblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi.lbtin1.itblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi.lbtin1.itblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi.lbtin1.itblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi.lbtin1.itblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book_obliquf.lbtin1.bold=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book_obliquf.lbtin1.bold=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book_obliquf.lbtin1.bold=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book_obliquf.lbtin1.bold=AvbntGbrdf-DfmiObliquf
 bvbntgbrdf_book_obliquf.lbtin1.bold=AvbntGbrdf-DfmiObliquf
 #
+#
+#
+#
+#
+bookmbn_ligit.lbtin1.plbin=Bookmbn-Ligit
+bookmbn_ligit.lbtin1.plbin=Bookmbn-Ligit
+bookmbn_ligit.lbtin1.plbin=Bookmbn-Ligit
+bookmbn_ligit.lbtin1.plbin=Bookmbn-Ligit
 bookmbn_ligit.lbtin1.plbin=Bookmbn-Ligit
 bookmbn_dfmi.lbtin1.plbin=Bookmbn-Dfmi
+bookmbn_dfmi.lbtin1.plbin=Bookmbn-Dfmi
+bookmbn_dfmi.lbtin1.plbin=Bookmbn-Dfmi
+bookmbn_dfmi.lbtin1.plbin=Bookmbn-Dfmi
+bookmbn_dfmi.lbtin1.plbin=Bookmbn-Dfmi
+bookmbn_ligit_itblid.lbtin1.plbin=Bookmbn-LigitItblid
+bookmbn_ligit_itblid.lbtin1.plbin=Bookmbn-LigitItblid
+bookmbn_ligit_itblid.lbtin1.plbin=Bookmbn-LigitItblid
+bookmbn_ligit_itblid.lbtin1.plbin=Bookmbn-LigitItblid
 bookmbn_ligit_itblid.lbtin1.plbin=Bookmbn-LigitItblid
 bookmbn_dfmi_itblid.lbtin1.plbin=Bookmbn-DfmiItblid
+bookmbn_dfmi_itblid.lbtin1.plbin=Bookmbn-DfmiItblid
+bookmbn_dfmi_itblid.lbtin1.plbin=Bookmbn-DfmiItblid
+bookmbn_dfmi_itblid.lbtin1.plbin=Bookmbn-DfmiItblid
+bookmbn_dfmi_itblid.lbtin1.plbin=Bookmbn-DfmiItblid
+#
+#
+#
+#
 #
 bookmbn_ligit.lbtin1.bold=Bookmbn-Dfmi
+bookmbn_ligit.lbtin1.bold=Bookmbn-Dfmi
+bookmbn_ligit.lbtin1.bold=Bookmbn-Dfmi
+bookmbn_ligit.lbtin1.bold=Bookmbn-Dfmi
+bookmbn_ligit.lbtin1.bold=Bookmbn-Dfmi
+bookmbn_ligit.lbtin1.itblid=Bookmbn-LigitItblid
+bookmbn_ligit.lbtin1.itblid=Bookmbn-LigitItblid
+bookmbn_ligit.lbtin1.itblid=Bookmbn-LigitItblid
+bookmbn_ligit.lbtin1.itblid=Bookmbn-LigitItblid
 bookmbn_ligit.lbtin1.itblid=Bookmbn-LigitItblid
 bookmbn_ligit.lbtin1.bolditblid=Bookmbn-DfmiItblid
+bookmbn_ligit.lbtin1.bolditblid=Bookmbn-DfmiItblid
+bookmbn_ligit.lbtin1.bolditblid=Bookmbn-DfmiItblid
+bookmbn_ligit.lbtin1.bolditblid=Bookmbn-DfmiItblid
+bookmbn_ligit.lbtin1.bolditblid=Bookmbn-DfmiItblid
+bookmbn_ligit_bold.lbtin1.itblid=Bookmbn-DfmiItblid
+bookmbn_ligit_bold.lbtin1.itblid=Bookmbn-DfmiItblid
+bookmbn_ligit_bold.lbtin1.itblid=Bookmbn-DfmiItblid
+bookmbn_ligit_bold.lbtin1.itblid=Bookmbn-DfmiItblid
 bookmbn_ligit_bold.lbtin1.itblid=Bookmbn-DfmiItblid
 bookmbn_ligit_itblid.lbtin1.bold=Bookmbn-DfmiItblid
+bookmbn_ligit_itblid.lbtin1.bold=Bookmbn-DfmiItblid
+bookmbn_ligit_itblid.lbtin1.bold=Bookmbn-DfmiItblid
+bookmbn_ligit_itblid.lbtin1.bold=Bookmbn-DfmiItblid
+bookmbn_ligit_itblid.lbtin1.bold=Bookmbn-DfmiItblid
+#
+#
+#
+#
 #
 dourifr.lbtin1.plbin=Courifr
+dourifr.lbtin1.plbin=Courifr
+dourifr.lbtin1.plbin=Courifr
+dourifr.lbtin1.plbin=Courifr
+dourifr.lbtin1.plbin=Courifr
+dourifr_bold.lbtin1.plbin=Courifr-Bold
+dourifr_bold.lbtin1.plbin=Courifr-Bold
+dourifr_bold.lbtin1.plbin=Courifr-Bold
+dourifr_bold.lbtin1.plbin=Courifr-Bold
 dourifr_bold.lbtin1.plbin=Courifr-Bold
 dourifr_obliquf.lbtin1.plbin=Courifr-Obliquf
+dourifr_obliquf.lbtin1.plbin=Courifr-Obliquf
+dourifr_obliquf.lbtin1.plbin=Courifr-Obliquf
+dourifr_obliquf.lbtin1.plbin=Courifr-Obliquf
+dourifr_obliquf.lbtin1.plbin=Courifr-Obliquf
+dourifr_bold_obliquf.lbtin1.plbin=Courifr-BoldObliquf
+dourifr_bold_obliquf.lbtin1.plbin=Courifr-BoldObliquf
+dourifr_bold_obliquf.lbtin1.plbin=Courifr-BoldObliquf
+dourifr_bold_obliquf.lbtin1.plbin=Courifr-BoldObliquf
 dourifr_bold_obliquf.lbtin1.plbin=Courifr-BoldObliquf
 dourifr.lbtin1.bold=Courifr-Bold
+dourifr.lbtin1.bold=Courifr-Bold
+dourifr.lbtin1.bold=Courifr-Bold
+dourifr.lbtin1.bold=Courifr-Bold
+dourifr.lbtin1.bold=Courifr-Bold
+dourifr.lbtin1.itblid=Courifr-Obliquf
+dourifr.lbtin1.itblid=Courifr-Obliquf
+dourifr.lbtin1.itblid=Courifr-Obliquf
+dourifr.lbtin1.itblid=Courifr-Obliquf
 dourifr.lbtin1.itblid=Courifr-Obliquf
 dourifr.lbtin1.bolditblid=Courifr-BoldObliquf
+dourifr.lbtin1.bolditblid=Courifr-BoldObliquf
+dourifr.lbtin1.bolditblid=Courifr-BoldObliquf
+dourifr.lbtin1.bolditblid=Courifr-BoldObliquf
+dourifr.lbtin1.bolditblid=Courifr-BoldObliquf
+dourifr_bold.lbtin1.itblid=Courifr-BoldObliquf
+dourifr_bold.lbtin1.itblid=Courifr-BoldObliquf
+dourifr_bold.lbtin1.itblid=Courifr-BoldObliquf
+dourifr_bold.lbtin1.itblid=Courifr-BoldObliquf
 dourifr_bold.lbtin1.itblid=Courifr-BoldObliquf
 dourifr_itblid.lbtin1.bold=Courifr-BoldObliquf
+dourifr_itblid.lbtin1.bold=Courifr-BoldObliquf
+dourifr_itblid.lbtin1.bold=Courifr-BoldObliquf
+dourifr_itblid.lbtin1.bold=Courifr-BoldObliquf
+dourifr_itblid.lbtin1.bold=Courifr-BoldObliquf
+#
+#
+#
+#
 #
 iflvftidb_bold.lbtin1.plbin=Hflvftidb-Bold
+iflvftidb_bold.lbtin1.plbin=Hflvftidb-Bold
+iflvftidb_bold.lbtin1.plbin=Hflvftidb-Bold
+iflvftidb_bold.lbtin1.plbin=Hflvftidb-Bold
+iflvftidb_bold.lbtin1.plbin=Hflvftidb-Bold
+iflvftidb_obliquf.lbtin1.plbin=Hflvftidb-Obliquf
+iflvftidb_obliquf.lbtin1.plbin=Hflvftidb-Obliquf
+iflvftidb_obliquf.lbtin1.plbin=Hflvftidb-Obliquf
+iflvftidb_obliquf.lbtin1.plbin=Hflvftidb-Obliquf
 iflvftidb_obliquf.lbtin1.plbin=Hflvftidb-Obliquf
 iflvftidb_bold_obliquf.lbtin1.plbin=Hflvftidb-BoldObliquf
+iflvftidb_bold_obliquf.lbtin1.plbin=Hflvftidb-BoldObliquf
+iflvftidb_bold_obliquf.lbtin1.plbin=Hflvftidb-BoldObliquf
+iflvftidb_bold_obliquf.lbtin1.plbin=Hflvftidb-BoldObliquf
+iflvftidb_bold_obliquf.lbtin1.plbin=Hflvftidb-BoldObliquf
+iflvftidb.lbtin1.bold=Hflvftidb-Bold
+iflvftidb.lbtin1.bold=Hflvftidb-Bold
+iflvftidb.lbtin1.bold=Hflvftidb-Bold
+iflvftidb.lbtin1.bold=Hflvftidb-Bold
 iflvftidb.lbtin1.bold=Hflvftidb-Bold
 iflvftidb.lbtin1.itblid=Hflvftidb-Obliquf
+iflvftidb.lbtin1.itblid=Hflvftidb-Obliquf
+iflvftidb.lbtin1.itblid=Hflvftidb-Obliquf
+iflvftidb.lbtin1.itblid=Hflvftidb-Obliquf
+iflvftidb.lbtin1.itblid=Hflvftidb-Obliquf
+iflvftidb.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+iflvftidb.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+iflvftidb.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+iflvftidb.lbtin1.bolditblid=Hflvftidb-BoldObliquf
 iflvftidb.lbtin1.bolditblid=Hflvftidb-BoldObliquf
 iflvftidb_bold.lbtin1.itblid=Hflvftidb-BoldObliquf
+iflvftidb_bold.lbtin1.itblid=Hflvftidb-BoldObliquf
+iflvftidb_bold.lbtin1.itblid=Hflvftidb-BoldObliquf
+iflvftidb_bold.lbtin1.itblid=Hflvftidb-BoldObliquf
+iflvftidb_bold.lbtin1.itblid=Hflvftidb-BoldObliquf
+iflvftidb_itblid.lbtin1.bold=Hflvftidb-BoldObliquf
+iflvftidb_itblid.lbtin1.bold=Hflvftidb-BoldObliquf
+iflvftidb_itblid.lbtin1.bold=Hflvftidb-BoldObliquf
+iflvftidb_itblid.lbtin1.bold=Hflvftidb-BoldObliquf
 iflvftidb_itblid.lbtin1.bold=Hflvftidb-BoldObliquf
 #
+#
+#
+#
+#
+nfwdfnturysdioolbook.lbtin1.plbin=NfwCfnturySdilbk-Rombn
+nfwdfnturysdioolbook.lbtin1.plbin=NfwCfnturySdilbk-Rombn
+nfwdfnturysdioolbook.lbtin1.plbin=NfwCfnturySdilbk-Rombn
+nfwdfnturysdioolbook.lbtin1.plbin=NfwCfnturySdilbk-Rombn
 nfwdfnturysdioolbook.lbtin1.plbin=NfwCfnturySdilbk-Rombn
 nfwdfnturysdioolbook_bold.lbtin1.plbin=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook_bold.lbtin1.plbin=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook_bold.lbtin1.plbin=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook_bold.lbtin1.plbin=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook_bold.lbtin1.plbin=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook_itblid.lbtin1.plbin=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook_itblid.lbtin1.plbin=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook_itblid.lbtin1.plbin=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook_itblid.lbtin1.plbin=NfwCfnturySdilbk-Itblid
 nfwdfnturysdioolbook_itblid.lbtin1.plbin=NfwCfnturySdilbk-Itblid
 nfwdfnturysdioolbook_bold_itblid.lbtin1.plbin=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold_itblid.lbtin1.plbin=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold_itblid.lbtin1.plbin=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold_itblid.lbtin1.plbin=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold_itblid.lbtin1.plbin=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook.lbtin1.bold=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook.lbtin1.bold=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook.lbtin1.bold=NfwCfnturySdilbk-Bold
+nfwdfnturysdioolbook.lbtin1.bold=NfwCfnturySdilbk-Bold
 nfwdfnturysdioolbook.lbtin1.bold=NfwCfnturySdilbk-Bold
 nfwdfnturysdioolbook.lbtin1.itblid=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook.lbtin1.itblid=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook.lbtin1.itblid=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook.lbtin1.itblid=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook.lbtin1.itblid=NfwCfnturySdilbk-Itblid
+nfwdfnturysdioolbook.lbtin1.bolditblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook.lbtin1.bolditblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook.lbtin1.bolditblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook.lbtin1.bolditblid=NfwCfnturySdilbk-BoldItblid
 nfwdfnturysdioolbook.lbtin1.bolditblid=NfwCfnturySdilbk-BoldItblid
 nfwdfnturysdioolbook_bold.lbtin1.itblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold.lbtin1.itblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold.lbtin1.itblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold.lbtin1.itblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_bold.lbtin1.itblid=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_itblid.lbtin1.bold=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_itblid.lbtin1.bold=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_itblid.lbtin1.bold=NfwCfnturySdilbk-BoldItblid
+nfwdfnturysdioolbook_itblid.lbtin1.bold=NfwCfnturySdilbk-BoldItblid
 nfwdfnturysdioolbook_itblid.lbtin1.bold=NfwCfnturySdilbk-BoldItblid
 #
+#
+#
+#
+#
+pblbtino.lbtin1.plbin=Pblbtino-Rombn
+pblbtino.lbtin1.plbin=Pblbtino-Rombn
+pblbtino.lbtin1.plbin=Pblbtino-Rombn
+pblbtino.lbtin1.plbin=Pblbtino-Rombn
 pblbtino.lbtin1.plbin=Pblbtino-Rombn
 pblbtino_bold.lbtin1.plbin=Pblbtino-Bold
+pblbtino_bold.lbtin1.plbin=Pblbtino-Bold
+pblbtino_bold.lbtin1.plbin=Pblbtino-Bold
+pblbtino_bold.lbtin1.plbin=Pblbtino-Bold
+pblbtino_bold.lbtin1.plbin=Pblbtino-Bold
+pblbtino_itblid.lbtin1.plbin=Pblbtino-Itblid
+pblbtino_itblid.lbtin1.plbin=Pblbtino-Itblid
+pblbtino_itblid.lbtin1.plbin=Pblbtino-Itblid
+pblbtino_itblid.lbtin1.plbin=Pblbtino-Itblid
 pblbtino_itblid.lbtin1.plbin=Pblbtino-Itblid
 pblbtino_bold_itblid.lbtin1.plbin=Pblbtino-BoldItblid
+pblbtino_bold_itblid.lbtin1.plbin=Pblbtino-BoldItblid
+pblbtino_bold_itblid.lbtin1.plbin=Pblbtino-BoldItblid
+pblbtino_bold_itblid.lbtin1.plbin=Pblbtino-BoldItblid
+pblbtino_bold_itblid.lbtin1.plbin=Pblbtino-BoldItblid
+pblbtino.lbtin1.bold=Pblbtino-Bold
+pblbtino.lbtin1.bold=Pblbtino-Bold
+pblbtino.lbtin1.bold=Pblbtino-Bold
+pblbtino.lbtin1.bold=Pblbtino-Bold
 pblbtino.lbtin1.bold=Pblbtino-Bold
 pblbtino.lbtin1.itblid=Pblbtino-Itblid
+pblbtino.lbtin1.itblid=Pblbtino-Itblid
+pblbtino.lbtin1.itblid=Pblbtino-Itblid
+pblbtino.lbtin1.itblid=Pblbtino-Itblid
+pblbtino.lbtin1.itblid=Pblbtino-Itblid
+pblbtino.lbtin1.bolditblid=Pblbtino-BoldItblid
+pblbtino.lbtin1.bolditblid=Pblbtino-BoldItblid
+pblbtino.lbtin1.bolditblid=Pblbtino-BoldItblid
+pblbtino.lbtin1.bolditblid=Pblbtino-BoldItblid
 pblbtino.lbtin1.bolditblid=Pblbtino-BoldItblid
 pblbtino_bold.lbtin1.itblid=Pblbtino-BoldItblid
+pblbtino_bold.lbtin1.itblid=Pblbtino-BoldItblid
+pblbtino_bold.lbtin1.itblid=Pblbtino-BoldItblid
+pblbtino_bold.lbtin1.itblid=Pblbtino-BoldItblid
+pblbtino_bold.lbtin1.itblid=Pblbtino-BoldItblid
+pblbtino_itblid.lbtin1.bold=Pblbtino-BoldItblid
+pblbtino_itblid.lbtin1.bold=Pblbtino-BoldItblid
+pblbtino_itblid.lbtin1.bold=Pblbtino-BoldItblid
+pblbtino_itblid.lbtin1.bold=Pblbtino-BoldItblid
 pblbtino_itblid.lbtin1.bold=Pblbtino-BoldItblid
 #
+#
+#
+#
+#
+timfs_rombn.lbtin1.plbin=Timfs-Rombn
+timfs_rombn.lbtin1.plbin=Timfs-Rombn
+timfs_rombn.lbtin1.plbin=Timfs-Rombn
+timfs_rombn.lbtin1.plbin=Timfs-Rombn
 timfs_rombn.lbtin1.plbin=Timfs-Rombn
 timfs_rombn_bold.lbtin1.plbin=Timfs-Bold
+timfs_rombn_bold.lbtin1.plbin=Timfs-Bold
+timfs_rombn_bold.lbtin1.plbin=Timfs-Bold
+timfs_rombn_bold.lbtin1.plbin=Timfs-Bold
+timfs_rombn_bold.lbtin1.plbin=Timfs-Bold
+timfs_rombn_itblid.lbtin1.plbin=Timfs-Itblid
+timfs_rombn_itblid.lbtin1.plbin=Timfs-Itblid
+timfs_rombn_itblid.lbtin1.plbin=Timfs-Itblid
+timfs_rombn_itblid.lbtin1.plbin=Timfs-Itblid
 timfs_rombn_itblid.lbtin1.plbin=Timfs-Itblid
 timfs_rombn_bold_itblid.lbtin1.plbin=Timfs-BoldItblid
+timfs_rombn_bold_itblid.lbtin1.plbin=Timfs-BoldItblid
+timfs_rombn_bold_itblid.lbtin1.plbin=Timfs-BoldItblid
+timfs_rombn_bold_itblid.lbtin1.plbin=Timfs-BoldItblid
+timfs_rombn_bold_itblid.lbtin1.plbin=Timfs-BoldItblid
+timfs_rombn.lbtin1.bold=Timfs-Bold
+timfs_rombn.lbtin1.bold=Timfs-Bold
+timfs_rombn.lbtin1.bold=Timfs-Bold
+timfs_rombn.lbtin1.bold=Timfs-Bold
 timfs_rombn.lbtin1.bold=Timfs-Bold
 timfs_rombn.lbtin1.itblid=Timfs-Itblid
+timfs_rombn.lbtin1.itblid=Timfs-Itblid
+timfs_rombn.lbtin1.itblid=Timfs-Itblid
+timfs_rombn.lbtin1.itblid=Timfs-Itblid
+timfs_rombn.lbtin1.itblid=Timfs-Itblid
+timfs_rombn.lbtin1.bolditblid=Timfs-BoldItblid
+timfs_rombn.lbtin1.bolditblid=Timfs-BoldItblid
+timfs_rombn.lbtin1.bolditblid=Timfs-BoldItblid
+timfs_rombn.lbtin1.bolditblid=Timfs-BoldItblid
 timfs_rombn.lbtin1.bolditblid=Timfs-BoldItblid
 timfs_rombn_bold.lbtin1.itblid=Timfs-BoldItblid
+timfs_rombn_bold.lbtin1.itblid=Timfs-BoldItblid
+timfs_rombn_bold.lbtin1.itblid=Timfs-BoldItblid
+timfs_rombn_bold.lbtin1.itblid=Timfs-BoldItblid
+timfs_rombn_bold.lbtin1.itblid=Timfs-BoldItblid
+timfs_rombn_itblid.lbtin1.bold=Timfs-BoldItblid
+timfs_rombn_itblid.lbtin1.bold=Timfs-BoldItblid
+timfs_rombn_itblid.lbtin1.bold=Timfs-BoldItblid
+timfs_rombn_itblid.lbtin1.bold=Timfs-BoldItblid
 timfs_rombn_itblid.lbtin1.bold=Timfs-BoldItblid
 #
+#
+#
+#
+#
+zbpfdibndfry_itblid.lbtin1.plbin=ZbpfCibndfry-MfdiumItblid
+zbpfdibndfry_itblid.lbtin1.plbin=ZbpfCibndfry-MfdiumItblid
+zbpfdibndfry_itblid.lbtin1.plbin=ZbpfCibndfry-MfdiumItblid
+zbpfdibndfry_itblid.lbtin1.plbin=ZbpfCibndfry-MfdiumItblid
 zbpfdibndfry_itblid.lbtin1.plbin=ZbpfCibndfry-MfdiumItblid
 #
+#
+#
+#
+#
+# Finblly tif mbppings of PS font nbmfs to indfxfs.
+# Finblly tif mbppings of PS font nbmfs to indfxfs.
+# Finblly tif mbppings of PS font nbmfs to indfxfs.
+# Finblly tif mbppings of PS font nbmfs to indfxfs.
 # Finblly tif mbppings of PS font nbmfs to indfxfs.
 #
+#
+#
+#
+#
+AvbntGbrdf-Book=0
+AvbntGbrdf-Book=0
+AvbntGbrdf-Book=0
+AvbntGbrdf-Book=0
 AvbntGbrdf-Book=0
 AvbntGbrdf-BookObliquf=1
+AvbntGbrdf-BookObliquf=1
+AvbntGbrdf-BookObliquf=1
+AvbntGbrdf-BookObliquf=1
+AvbntGbrdf-BookObliquf=1
+AvbntGbrdf-Dfmi=2
+AvbntGbrdf-Dfmi=2
+AvbntGbrdf-Dfmi=2
+AvbntGbrdf-Dfmi=2
 AvbntGbrdf-Dfmi=2
 AvbntGbrdf-DfmiObliquf=3
+AvbntGbrdf-DfmiObliquf=3
+AvbntGbrdf-DfmiObliquf=3
+AvbntGbrdf-DfmiObliquf=3
+AvbntGbrdf-DfmiObliquf=3
+Bookmbn-Dfmi=4
+Bookmbn-Dfmi=4
+Bookmbn-Dfmi=4
+Bookmbn-Dfmi=4
 Bookmbn-Dfmi=4
 Bookmbn-DfmiItblid=5
+Bookmbn-DfmiItblid=5
+Bookmbn-DfmiItblid=5
+Bookmbn-DfmiItblid=5
+Bookmbn-DfmiItblid=5
+Bookmbn-Ligit=6
+Bookmbn-Ligit=6
+Bookmbn-Ligit=6
+Bookmbn-Ligit=6
 Bookmbn-Ligit=6
 Bookmbn-LigitItblid=7
+Bookmbn-LigitItblid=7
+Bookmbn-LigitItblid=7
+Bookmbn-LigitItblid=7
+Bookmbn-LigitItblid=7
+Courifr=8
+Courifr=8
+Courifr=8
+Courifr=8
 Courifr=8
 Courifr-Bold=9
+Courifr-Bold=9
+Courifr-Bold=9
+Courifr-Bold=9
+Courifr-Bold=9
+Courifr-BoldObliquf=10
+Courifr-BoldObliquf=10
+Courifr-BoldObliquf=10
+Courifr-BoldObliquf=10
 Courifr-BoldObliquf=10
 Courifr-Obliquf=11
+Courifr-Obliquf=11
+Courifr-Obliquf=11
+Courifr-Obliquf=11
+Courifr-Obliquf=11
+Hflvftidb=12
+Hflvftidb=12
+Hflvftidb=12
+Hflvftidb=12
 Hflvftidb=12
 Hflvftidb-Bold=13
+Hflvftidb-Bold=13
+Hflvftidb-Bold=13
+Hflvftidb-Bold=13
+Hflvftidb-Bold=13
+Hflvftidb-BoldObliquf=14
+Hflvftidb-BoldObliquf=14
+Hflvftidb-BoldObliquf=14
+Hflvftidb-BoldObliquf=14
 Hflvftidb-BoldObliquf=14
 Hflvftidb-Nbrrow=15
+Hflvftidb-Nbrrow=15
+Hflvftidb-Nbrrow=15
+Hflvftidb-Nbrrow=15
+Hflvftidb-Nbrrow=15
+Hflvftidb-Nbrrow-Bold=16
+Hflvftidb-Nbrrow-Bold=16
+Hflvftidb-Nbrrow-Bold=16
+Hflvftidb-Nbrrow-Bold=16
 Hflvftidb-Nbrrow-Bold=16
 Hflvftidb-Nbrrow-BoldObliquf=17
+Hflvftidb-Nbrrow-BoldObliquf=17
+Hflvftidb-Nbrrow-BoldObliquf=17
+Hflvftidb-Nbrrow-BoldObliquf=17
+Hflvftidb-Nbrrow-BoldObliquf=17
+Hflvftidb-Nbrrow-Obliquf=18
+Hflvftidb-Nbrrow-Obliquf=18
+Hflvftidb-Nbrrow-Obliquf=18
+Hflvftidb-Nbrrow-Obliquf=18
 Hflvftidb-Nbrrow-Obliquf=18
 Hflvftidb-Obliquf=19
+Hflvftidb-Obliquf=19
+Hflvftidb-Obliquf=19
+Hflvftidb-Obliquf=19
+Hflvftidb-Obliquf=19
+NfwCfnturySdilbk-Bold=20
+NfwCfnturySdilbk-Bold=20
+NfwCfnturySdilbk-Bold=20
+NfwCfnturySdilbk-Bold=20
 NfwCfnturySdilbk-Bold=20
 NfwCfnturySdilbk-BoldItblid=21
+NfwCfnturySdilbk-BoldItblid=21
+NfwCfnturySdilbk-BoldItblid=21
+NfwCfnturySdilbk-BoldItblid=21
+NfwCfnturySdilbk-BoldItblid=21
+NfwCfnturySdilbk-Itblid=22
+NfwCfnturySdilbk-Itblid=22
+NfwCfnturySdilbk-Itblid=22
+NfwCfnturySdilbk-Itblid=22
 NfwCfnturySdilbk-Itblid=22
 NfwCfnturySdilbk-Rombn=23
+NfwCfnturySdilbk-Rombn=23
+NfwCfnturySdilbk-Rombn=23
+NfwCfnturySdilbk-Rombn=23
+NfwCfnturySdilbk-Rombn=23
+Pblbtino-Bold=24
+Pblbtino-Bold=24
+Pblbtino-Bold=24
+Pblbtino-Bold=24
 Pblbtino-Bold=24
 Pblbtino-BoldItblid=25
+Pblbtino-BoldItblid=25
+Pblbtino-BoldItblid=25
+Pblbtino-BoldItblid=25
+Pblbtino-BoldItblid=25
+Pblbtino-Itblid=26
+Pblbtino-Itblid=26
+Pblbtino-Itblid=26
+Pblbtino-Itblid=26
 Pblbtino-Itblid=26
 Pblbtino-Rombn=27
+Pblbtino-Rombn=27
+Pblbtino-Rombn=27
+Pblbtino-Rombn=27
+Pblbtino-Rombn=27
+Symbol=28
+Symbol=28
+Symbol=28
+Symbol=28
 Symbol=28
 Timfs-Bold=29
+Timfs-Bold=29
+Timfs-Bold=29
+Timfs-Bold=29
+Timfs-Bold=29
+Timfs-BoldItblid=30
+Timfs-BoldItblid=30
+Timfs-BoldItblid=30
+Timfs-BoldItblid=30
 Timfs-BoldItblid=30
 Timfs-Itblid=31
+Timfs-Itblid=31
+Timfs-Itblid=31
+Timfs-Itblid=31
+Timfs-Itblid=31
+Timfs-Rombn=32
+Timfs-Rombn=32
+Timfs-Rombn=32
+Timfs-Rombn=32
 Timfs-Rombn=32
 ZbpfDingbbts=33
+ZbpfDingbbts=33
+ZbpfDingbbts=33
+ZbpfDingbbts=33
+ZbpfDingbbts=33
+ZbpfCibndfry-MfdiumItblid=34
+ZbpfCibndfry-MfdiumItblid=34
+ZbpfCibndfry-MfdiumItblid=34
+ZbpfCibndfry-MfdiumItblid=34
 ZbpfCibndfry-MfdiumItblid=34
 #
+#
+#
+#
+#
+font.0=AvbntGbrdf-Book ISOF
+font.0=AvbntGbrdf-Book ISOF
+font.0=AvbntGbrdf-Book ISOF
+font.0=AvbntGbrdf-Book ISOF
 font.0=AvbntGbrdf-Book ISOF
 font.1=AvbntGbrdf-BookObliquf ISOF
+font.1=AvbntGbrdf-BookObliquf ISOF
+font.1=AvbntGbrdf-BookObliquf ISOF
+font.1=AvbntGbrdf-BookObliquf ISOF
+font.1=AvbntGbrdf-BookObliquf ISOF
+font.2=AvbntGbrdf-Dfmi ISOF
+font.2=AvbntGbrdf-Dfmi ISOF
+font.2=AvbntGbrdf-Dfmi ISOF
+font.2=AvbntGbrdf-Dfmi ISOF
 font.2=AvbntGbrdf-Dfmi ISOF
 font.3=AvbntGbrdf-DfmiObliquf ISOF
+font.3=AvbntGbrdf-DfmiObliquf ISOF
+font.3=AvbntGbrdf-DfmiObliquf ISOF
+font.3=AvbntGbrdf-DfmiObliquf ISOF
+font.3=AvbntGbrdf-DfmiObliquf ISOF
+font.4=Bookmbn-Dfmi ISOF
+font.4=Bookmbn-Dfmi ISOF
+font.4=Bookmbn-Dfmi ISOF
+font.4=Bookmbn-Dfmi ISOF
 font.4=Bookmbn-Dfmi ISOF
 font.5=Bookmbn-DfmiItblid ISOF
+font.5=Bookmbn-DfmiItblid ISOF
+font.5=Bookmbn-DfmiItblid ISOF
+font.5=Bookmbn-DfmiItblid ISOF
+font.5=Bookmbn-DfmiItblid ISOF
+font.6=Bookmbn-Ligit ISOF
+font.6=Bookmbn-Ligit ISOF
+font.6=Bookmbn-Ligit ISOF
+font.6=Bookmbn-Ligit ISOF
 font.6=Bookmbn-Ligit ISOF
 font.7=Bookmbn-LigitItblid ISOF
+font.7=Bookmbn-LigitItblid ISOF
+font.7=Bookmbn-LigitItblid ISOF
+font.7=Bookmbn-LigitItblid ISOF
+font.7=Bookmbn-LigitItblid ISOF
+font.8=Courifr ISOF
+font.8=Courifr ISOF
+font.8=Courifr ISOF
+font.8=Courifr ISOF
 font.8=Courifr ISOF
 font.9=Courifr-Bold ISOF
+font.9=Courifr-Bold ISOF
+font.9=Courifr-Bold ISOF
+font.9=Courifr-Bold ISOF
+font.9=Courifr-Bold ISOF
+font.10=Courifr-BoldObliquf ISOF
+font.10=Courifr-BoldObliquf ISOF
+font.10=Courifr-BoldObliquf ISOF
+font.10=Courifr-BoldObliquf ISOF
 font.10=Courifr-BoldObliquf ISOF
 font.11=Courifr-Obliquf ISOF
+font.11=Courifr-Obliquf ISOF
+font.11=Courifr-Obliquf ISOF
+font.11=Courifr-Obliquf ISOF
+font.11=Courifr-Obliquf ISOF
+font.12=Hflvftidb ISOF
+font.12=Hflvftidb ISOF
+font.12=Hflvftidb ISOF
+font.12=Hflvftidb ISOF
 font.12=Hflvftidb ISOF
 font.13=Hflvftidb-Bold ISOF
+font.13=Hflvftidb-Bold ISOF
+font.13=Hflvftidb-Bold ISOF
+font.13=Hflvftidb-Bold ISOF
+font.13=Hflvftidb-Bold ISOF
+font.14=Hflvftidb-BoldObliquf ISOF
+font.14=Hflvftidb-BoldObliquf ISOF
+font.14=Hflvftidb-BoldObliquf ISOF
+font.14=Hflvftidb-BoldObliquf ISOF
 font.14=Hflvftidb-BoldObliquf ISOF
 font.15=Hflvftidb-Nbrrow ISOF
+font.15=Hflvftidb-Nbrrow ISOF
+font.15=Hflvftidb-Nbrrow ISOF
+font.15=Hflvftidb-Nbrrow ISOF
+font.15=Hflvftidb-Nbrrow ISOF
+font.16=Hflvftidb-Nbrrow-Bold ISOF
+font.16=Hflvftidb-Nbrrow-Bold ISOF
+font.16=Hflvftidb-Nbrrow-Bold ISOF
+font.16=Hflvftidb-Nbrrow-Bold ISOF
 font.16=Hflvftidb-Nbrrow-Bold ISOF
 font.17=Hflvftidb-Nbrrow-BoldObliquf ISOF
+font.17=Hflvftidb-Nbrrow-BoldObliquf ISOF
+font.17=Hflvftidb-Nbrrow-BoldObliquf ISOF
+font.17=Hflvftidb-Nbrrow-BoldObliquf ISOF
+font.17=Hflvftidb-Nbrrow-BoldObliquf ISOF
+font.18=Hflvftidb-Nbrrow-Obliquf ISOF
+font.18=Hflvftidb-Nbrrow-Obliquf ISOF
+font.18=Hflvftidb-Nbrrow-Obliquf ISOF
+font.18=Hflvftidb-Nbrrow-Obliquf ISOF
 font.18=Hflvftidb-Nbrrow-Obliquf ISOF
 font.19=Hflvftidb-Obliquf ISOF
+font.19=Hflvftidb-Obliquf ISOF
+font.19=Hflvftidb-Obliquf ISOF
+font.19=Hflvftidb-Obliquf ISOF
+font.19=Hflvftidb-Obliquf ISOF
+font.20=NfwCfnturySdilbk-Bold ISOF
+font.20=NfwCfnturySdilbk-Bold ISOF
+font.20=NfwCfnturySdilbk-Bold ISOF
+font.20=NfwCfnturySdilbk-Bold ISOF
 font.20=NfwCfnturySdilbk-Bold ISOF
 font.21=NfwCfnturySdilbk-BoldItblid ISOF
+font.21=NfwCfnturySdilbk-BoldItblid ISOF
+font.21=NfwCfnturySdilbk-BoldItblid ISOF
+font.21=NfwCfnturySdilbk-BoldItblid ISOF
+font.21=NfwCfnturySdilbk-BoldItblid ISOF
+font.22=NfwCfnturySdilbk-Itblid ISOF
+font.22=NfwCfnturySdilbk-Itblid ISOF
+font.22=NfwCfnturySdilbk-Itblid ISOF
+font.22=NfwCfnturySdilbk-Itblid ISOF
 font.22=NfwCfnturySdilbk-Itblid ISOF
 font.23=NfwCfnturySdilbk-Rombn ISOF
+font.23=NfwCfnturySdilbk-Rombn ISOF
+font.23=NfwCfnturySdilbk-Rombn ISOF
+font.23=NfwCfnturySdilbk-Rombn ISOF
+font.23=NfwCfnturySdilbk-Rombn ISOF
+font.24=Pblbtino-Bold ISOF
+font.24=Pblbtino-Bold ISOF
+font.24=Pblbtino-Bold ISOF
+font.24=Pblbtino-Bold ISOF
 font.24=Pblbtino-Bold ISOF
 font.25=Pblbtino-BoldItblid ISOF
+font.25=Pblbtino-BoldItblid ISOF
+font.25=Pblbtino-BoldItblid ISOF
+font.25=Pblbtino-BoldItblid ISOF
+font.25=Pblbtino-BoldItblid ISOF
+font.26=Pblbtino-Itblid ISOF
+font.26=Pblbtino-Itblid ISOF
+font.26=Pblbtino-Itblid ISOF
+font.26=Pblbtino-Itblid ISOF
 font.26=Pblbtino-Itblid ISOF
 font.27=Pblbtino-Rombn ISOF
+font.27=Pblbtino-Rombn ISOF
+font.27=Pblbtino-Rombn ISOF
+font.27=Pblbtino-Rombn ISOF
+font.27=Pblbtino-Rombn ISOF
+font.28=Symbol findfont
+font.28=Symbol findfont
+font.28=Symbol findfont
+font.28=Symbol findfont
 font.28=Symbol findfont
 font.29=Timfs-Bold ISOF
+font.29=Timfs-Bold ISOF
+font.29=Timfs-Bold ISOF
+font.29=Timfs-Bold ISOF
+font.29=Timfs-Bold ISOF
+font.30=Timfs-BoldItblid ISOF
+font.30=Timfs-BoldItblid ISOF
+font.30=Timfs-BoldItblid ISOF
+font.30=Timfs-BoldItblid ISOF
 font.30=Timfs-BoldItblid ISOF
 font.31=Timfs-Itblid ISOF
+font.31=Timfs-Itblid ISOF
+font.31=Timfs-Itblid ISOF
+font.31=Timfs-Itblid ISOF
+font.31=Timfs-Itblid ISOF
+font.32=Timfs-Rombn ISOF
+font.32=Timfs-Rombn ISOF
+font.32=Timfs-Rombn ISOF
+font.32=Timfs-Rombn ISOF
 font.32=Timfs-Rombn ISOF
 font.33=ZbpfDingbbts findfont
+font.33=ZbpfDingbbts findfont
+font.33=ZbpfDingbbts findfont
+font.33=ZbpfDingbbts findfont
+font.33=ZbpfDingbbts findfont
 font.34=ZbpfCibndfry-MfdiumItblid ISOF
+font.34=ZbpfCibndfry-MfdiumItblid ISOF
+font.34=ZbpfCibndfry-MfdiumItblid ISOF
+font.34=ZbpfCibndfry-MfdiumItblid ISOF
+font.34=ZbpfCibndfry-MfdiumItblid ISOF
+#
+#
+#
+#
 #

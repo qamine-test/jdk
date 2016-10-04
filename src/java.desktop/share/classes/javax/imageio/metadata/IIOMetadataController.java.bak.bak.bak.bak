@@ -1,86 +1,430 @@
 /*
- * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvbx.imbgfio.mftbdbtb;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+
+
+
+
 
 /**
- * An intfrfbdf to bf implfmfntfd by objfdts thbt dbn dftfrminf thf
- * sfttings of bn <dodf>IIOMftbdbtb</dodf> objfdt, fithfr by putting
- * up b GUI to obtbin vblufs from b usfr, or by othfr mfbns.  This
- * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mfthod
- * thbt invokfs thf dontrollfr, without rfgbrd for how thf dontrollfr
- * obtbins vblufs (<i>i.f.</i>, whfthfr thf dontrollfr puts up b GUI
- * or mfrfly domputfs b sft of vblufs is irrflfvbnt to this
+/**
+/**
+/**
+/**
+ * An intfrfbdf to bf implfmfntfd by objfdts tibt dbn dftfrminf tif
+ * An intfrfbdf to bf implfmfntfd by objfdts tibt dbn dftfrminf tif
+ * An intfrfbdf to bf implfmfntfd by objfdts tibt dbn dftfrminf tif
+ * An intfrfbdf to bf implfmfntfd by objfdts tibt dbn dftfrminf tif
+ * An intfrfbdf to bf implfmfntfd by objfdts tibt dbn dftfrminf tif
+ * sfttings of bn <dodf>IIOMftbdbtb</dodf> objfdt, fitifr by putting
+ * sfttings of bn <dodf>IIOMftbdbtb</dodf> objfdt, fitifr by putting
+ * sfttings of bn <dodf>IIOMftbdbtb</dodf> objfdt, fitifr by putting
+ * sfttings of bn <dodf>IIOMftbdbtb</dodf> objfdt, fitifr by putting
+ * sfttings of bn <dodf>IIOMftbdbtb</dodf> objfdt, fitifr by putting
+ * up b GUI to obtbin vblufs from b usfr, or by otifr mfbns.  Tiis
+ * up b GUI to obtbin vblufs from b usfr, or by otifr mfbns.  Tiis
+ * up b GUI to obtbin vblufs from b usfr, or by otifr mfbns.  Tiis
+ * up b GUI to obtbin vblufs from b usfr, or by otifr mfbns.  Tiis
+ * up b GUI to obtbin vblufs from b usfr, or by otifr mfbns.  Tiis
+ * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mftiod
+ * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mftiod
+ * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mftiod
+ * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mftiod
+ * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mftiod
+ * tibt invokfs tif dontrollfr, witiout rfgbrd for iow tif dontrollfr
+ * tibt invokfs tif dontrollfr, witiout rfgbrd for iow tif dontrollfr
+ * tibt invokfs tif dontrollfr, witiout rfgbrd for iow tif dontrollfr
+ * tibt invokfs tif dontrollfr, witiout rfgbrd for iow tif dontrollfr
+ * tibt invokfs tif dontrollfr, witiout rfgbrd for iow tif dontrollfr
+ * obtbins vblufs (<i>i.f.</i>, wiftifr tif dontrollfr puts up b GUI
+ * obtbins vblufs (<i>i.f.</i>, wiftifr tif dontrollfr puts up b GUI
+ * obtbins vblufs (<i>i.f.</i>, wiftifr tif dontrollfr puts up b GUI
+ * obtbins vblufs (<i>i.f.</i>, wiftifr tif dontrollfr puts up b GUI
+ * obtbins vblufs (<i>i.f.</i>, wiftifr tif dontrollfr puts up b GUI
+ * or mfrfly domputfs b sft of vblufs is irrflfvbnt to tiis
+ * or mfrfly domputfs b sft of vblufs is irrflfvbnt to tiis
+ * or mfrfly domputfs b sft of vblufs is irrflfvbnt to tiis
+ * or mfrfly domputfs b sft of vblufs is irrflfvbnt to tiis
+ * or mfrfly domputfs b sft of vblufs is irrflfvbnt to tiis
+ * intfrfbdf).
+ * intfrfbdf).
+ * intfrfbdf).
+ * intfrfbdf).
  * intfrfbdf).
  *
- * <p> Within thf <dodf>bdtivbtf</dodf> mfthod, b dontrollfr obtbins
- * initibl vblufs by qufrying thf <dodf>IIOMftbdbtb</dodf> objfdt's
- * sfttings, fithfr using thf XML DOM trff or b plug-in spfdifid
- * intfrfbdf, modififs vblufs by whbtfvfr mfbns, thfn modififs thf
- * <dodf>IIOMftbdbtb</dodf> objfdt's sfttings, using fithfr thf
- * <dodf>sftFromTrff</dodf> or <dodf>mfrgfTrff</dodf> mfthods, or b
+ *
+ *
+ *
+ *
+ * <p> Witiin tif <dodf>bdtivbtf</dodf> mftiod, b dontrollfr obtbins
+ * <p> Witiin tif <dodf>bdtivbtf</dodf> mftiod, b dontrollfr obtbins
+ * <p> Witiin tif <dodf>bdtivbtf</dodf> mftiod, b dontrollfr obtbins
+ * <p> Witiin tif <dodf>bdtivbtf</dodf> mftiod, b dontrollfr obtbins
+ * <p> Witiin tif <dodf>bdtivbtf</dodf> mftiod, b dontrollfr obtbins
+ * initibl vblufs by qufrying tif <dodf>IIOMftbdbtb</dodf> objfdt's
+ * initibl vblufs by qufrying tif <dodf>IIOMftbdbtb</dodf> objfdt's
+ * initibl vblufs by qufrying tif <dodf>IIOMftbdbtb</dodf> objfdt's
+ * initibl vblufs by qufrying tif <dodf>IIOMftbdbtb</dodf> objfdt's
+ * initibl vblufs by qufrying tif <dodf>IIOMftbdbtb</dodf> objfdt's
+ * sfttings, fitifr using tif XML DOM trff or b plug-in spfdifid
+ * sfttings, fitifr using tif XML DOM trff or b plug-in spfdifid
+ * sfttings, fitifr using tif XML DOM trff or b plug-in spfdifid
+ * sfttings, fitifr using tif XML DOM trff or b plug-in spfdifid
+ * sfttings, fitifr using tif XML DOM trff or b plug-in spfdifid
+ * intfrfbdf, modififs vblufs by wibtfvfr mfbns, tifn modififs tif
+ * intfrfbdf, modififs vblufs by wibtfvfr mfbns, tifn modififs tif
+ * intfrfbdf, modififs vblufs by wibtfvfr mfbns, tifn modififs tif
+ * intfrfbdf, modififs vblufs by wibtfvfr mfbns, tifn modififs tif
+ * intfrfbdf, modififs vblufs by wibtfvfr mfbns, tifn modififs tif
+ * <dodf>IIOMftbdbtb</dodf> objfdt's sfttings, using fitifr tif
+ * <dodf>IIOMftbdbtb</dodf> objfdt's sfttings, using fitifr tif
+ * <dodf>IIOMftbdbtb</dodf> objfdt's sfttings, using fitifr tif
+ * <dodf>IIOMftbdbtb</dodf> objfdt's sfttings, using fitifr tif
+ * <dodf>IIOMftbdbtb</dodf> objfdt's sfttings, using fitifr tif
+ * <dodf>sftFromTrff</dodf> or <dodf>mfrgfTrff</dodf> mftiods, or b
+ * <dodf>sftFromTrff</dodf> or <dodf>mfrgfTrff</dodf> mftiods, or b
+ * <dodf>sftFromTrff</dodf> or <dodf>mfrgfTrff</dodf> mftiods, or b
+ * <dodf>sftFromTrff</dodf> or <dodf>mfrgfTrff</dodf> mftiods, or b
+ * <dodf>sftFromTrff</dodf> or <dodf>mfrgfTrff</dodf> mftiods, or b
  * plug-in spfdifid intfrfbdf.  In gfnfrbl, bpplidbtions mby fxpfdt
- * thbt whfn thf <dodf>bdtivbtf</dodf> mfthod rfturns
- * <dodf>truf</dodf>, thf <dodf>IIOMftbdbtb</dodf> objfdt is rfbdy for
+ * plug-in spfdifid intfrfbdf.  In gfnfrbl, bpplidbtions mby fxpfdt
+ * plug-in spfdifid intfrfbdf.  In gfnfrbl, bpplidbtions mby fxpfdt
+ * plug-in spfdifid intfrfbdf.  In gfnfrbl, bpplidbtions mby fxpfdt
+ * plug-in spfdifid intfrfbdf.  In gfnfrbl, bpplidbtions mby fxpfdt
+ * tibt wifn tif <dodf>bdtivbtf</dodf> mftiod rfturns
+ * tibt wifn tif <dodf>bdtivbtf</dodf> mftiod rfturns
+ * tibt wifn tif <dodf>bdtivbtf</dodf> mftiod rfturns
+ * tibt wifn tif <dodf>bdtivbtf</dodf> mftiod rfturns
+ * tibt wifn tif <dodf>bdtivbtf</dodf> mftiod rfturns
+ * <dodf>truf</dodf>, tif <dodf>IIOMftbdbtb</dodf> objfdt is rfbdy for
+ * <dodf>truf</dodf>, tif <dodf>IIOMftbdbtb</dodf> objfdt is rfbdy for
+ * <dodf>truf</dodf>, tif <dodf>IIOMftbdbtb</dodf> objfdt is rfbdy for
+ * <dodf>truf</dodf>, tif <dodf>IIOMftbdbtb</dodf> objfdt is rfbdy for
+ * <dodf>truf</dodf>, tif <dodf>IIOMftbdbtb</dodf> objfdt is rfbdy for
+ * usf in b writf opfrbtion.
+ * usf in b writf opfrbtion.
+ * usf in b writf opfrbtion.
+ * usf in b writf opfrbtion.
  * usf in b writf opfrbtion.
  *
- * <p> Vfndors mby dhoosf to providf GUIs for thf
- * <dodf>IIOMftbdbtb</dodf> subdlbssfs thfy dffinf for b pbrtidulbr
- * plug-in.  Thfsf dbn bf sft up bs dffbult dontrollfrs in thf
+ *
+ *
+ *
+ *
+ * <p> Vfndors mby dioosf to providf GUIs for tif
+ * <p> Vfndors mby dioosf to providf GUIs for tif
+ * <p> Vfndors mby dioosf to providf GUIs for tif
+ * <p> Vfndors mby dioosf to providf GUIs for tif
+ * <p> Vfndors mby dioosf to providf GUIs for tif
+ * <dodf>IIOMftbdbtb</dodf> subdlbssfs tify dffinf for b pbrtidulbr
+ * <dodf>IIOMftbdbtb</dodf> subdlbssfs tify dffinf for b pbrtidulbr
+ * <dodf>IIOMftbdbtb</dodf> subdlbssfs tify dffinf for b pbrtidulbr
+ * <dodf>IIOMftbdbtb</dodf> subdlbssfs tify dffinf for b pbrtidulbr
+ * <dodf>IIOMftbdbtb</dodf> subdlbssfs tify dffinf for b pbrtidulbr
+ * plug-in.  Tifsf dbn bf sft up bs dffbult dontrollfrs in tif
+ * plug-in.  Tifsf dbn bf sft up bs dffbult dontrollfrs in tif
+ * plug-in.  Tifsf dbn bf sft up bs dffbult dontrollfrs in tif
+ * plug-in.  Tifsf dbn bf sft up bs dffbult dontrollfrs in tif
+ * plug-in.  Tifsf dbn bf sft up bs dffbult dontrollfrs in tif
+ * dorrfsponding <dodf>IIOMftbdbtb</dodf> subdlbssfs.
+ * dorrfsponding <dodf>IIOMftbdbtb</dodf> subdlbssfs.
+ * dorrfsponding <dodf>IIOMftbdbtb</dodf> subdlbssfs.
+ * dorrfsponding <dodf>IIOMftbdbtb</dodf> subdlbssfs.
  * dorrfsponding <dodf>IIOMftbdbtb</dodf> subdlbssfs.
  *
- * <p> Altfrnbtivfly, bn blgorithmid prodfss sudh bs b dbtbbbsf lookup
- * or thf pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
- * whidh dbsf thf <dodf>bdtivbtf</dodf> mfthod would simply look up or
- * domputf thf sfttings, dbll mfthods on <dodf>IIOMftbdbtb</dodf> to
+ *
+ *
+ *
+ *
+ * <p> Altfrnbtivfly, bn blgoritimid prodfss sudi bs b dbtbbbsf lookup
+ * <p> Altfrnbtivfly, bn blgoritimid prodfss sudi bs b dbtbbbsf lookup
+ * <p> Altfrnbtivfly, bn blgoritimid prodfss sudi bs b dbtbbbsf lookup
+ * <p> Altfrnbtivfly, bn blgoritimid prodfss sudi bs b dbtbbbsf lookup
+ * <p> Altfrnbtivfly, bn blgoritimid prodfss sudi bs b dbtbbbsf lookup
+ * or tif pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
+ * or tif pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
+ * or tif pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
+ * or tif pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
+ * or tif pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
+ * wiidi dbsf tif <dodf>bdtivbtf</dodf> mftiod would simply look up or
+ * wiidi dbsf tif <dodf>bdtivbtf</dodf> mftiod would simply look up or
+ * wiidi dbsf tif <dodf>bdtivbtf</dodf> mftiod would simply look up or
+ * wiidi dbsf tif <dodf>bdtivbtf</dodf> mftiod would simply look up or
+ * wiidi dbsf tif <dodf>bdtivbtf</dodf> mftiod would simply look up or
+ * domputf tif sfttings, dbll mftiods on <dodf>IIOMftbdbtb</dodf> to
+ * domputf tif sfttings, dbll mftiods on <dodf>IIOMftbdbtb</dodf> to
+ * domputf tif sfttings, dbll mftiods on <dodf>IIOMftbdbtb</dodf> to
+ * domputf tif sfttings, dbll mftiods on <dodf>IIOMftbdbtb</dodf> to
+ * domputf tif sfttings, dbll mftiods on <dodf>IIOMftbdbtb</dodf> to
+ * sft its stbtf, bnd rfturn <dodf>truf</dodf>.
+ * sft its stbtf, bnd rfturn <dodf>truf</dodf>.
+ * sft its stbtf, bnd rfturn <dodf>truf</dodf>.
+ * sft its stbtf, bnd rfturn <dodf>truf</dodf>.
  * sft its stbtf, bnd rfturn <dodf>truf</dodf>.
  *
+ *
+ *
+ *
+ *
+ * @sff IIOMftbdbtb#sftControllfr
+ * @sff IIOMftbdbtb#sftControllfr
+ * @sff IIOMftbdbtb#sftControllfr
+ * @sff IIOMftbdbtb#sftControllfr
  * @sff IIOMftbdbtb#sftControllfr
  * @sff IIOMftbdbtb#gftControllfr
+ * @sff IIOMftbdbtb#gftControllfr
+ * @sff IIOMftbdbtb#gftControllfr
+ * @sff IIOMftbdbtb#gftControllfr
+ * @sff IIOMftbdbtb#gftControllfr
  * @sff IIOMftbdbtb#gftDffbultControllfr
- * @sff IIOMftbdbtb#hbsControllfr
+ * @sff IIOMftbdbtb#gftDffbultControllfr
+ * @sff IIOMftbdbtb#gftDffbultControllfr
+ * @sff IIOMftbdbtb#gftDffbultControllfr
+ * @sff IIOMftbdbtb#gftDffbultControllfr
+ * @sff IIOMftbdbtb#ibsControllfr
+ * @sff IIOMftbdbtb#ibsControllfr
+ * @sff IIOMftbdbtb#ibsControllfr
+ * @sff IIOMftbdbtb#ibsControllfr
+ * @sff IIOMftbdbtb#ibsControllfr
+ * @sff IIOMftbdbtb#bdtivbtfControllfr
+ * @sff IIOMftbdbtb#bdtivbtfControllfr
+ * @sff IIOMftbdbtb#bdtivbtfControllfr
+ * @sff IIOMftbdbtb#bdtivbtfControllfr
  * @sff IIOMftbdbtb#bdtivbtfControllfr
  *
+ *
+ *
+ *
+ *
+ */
+ */
+ */
+ */
  */
 publid intfrfbdf IIOMftbdbtbControllfr {
+publid intfrfbdf IIOMftbdbtbControllfr {
+publid intfrfbdf IIOMftbdbtbControllfr {
+publid intfrfbdf IIOMftbdbtbControllfr {
+publid intfrfbdf IIOMftbdbtbControllfr {
+
+
+
+
 
     /**
-     * Adtivbtfs thf dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
-     * bll sfttings in thf <dodf>IIOMftbdbtb</dodf> objfdt should bf
+    /**
+    /**
+    /**
+    /**
+     * Adtivbtfs tif dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
+     * Adtivbtfs tif dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
+     * Adtivbtfs tif dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
+     * Adtivbtfs tif dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
+     * Adtivbtfs tif dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
+     * bll sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt siould bf
+     * bll sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt siould bf
+     * bll sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt siould bf
+     * bll sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt siould bf
+     * bll sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt siould bf
      * rfbdy for usf in b writf opfrbtion.  If <dodf>fblsf</dodf> is
-     * rfturnfd, no sfttings in thf <dodf>IIOMftbdbtb</dodf> objfdt
-     * will bf disturbfd (<i>i.f.</i>, thf usfr dbndflfd thf
+     * rfbdy for usf in b writf opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfbdy for usf in b writf opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfbdy for usf in b writf opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfbdy for usf in b writf opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfturnfd, no sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfturnfd, no sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfturnfd, no sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfturnfd, no sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfturnfd, no sfttings in tif <dodf>IIOMftbdbtb</dodf> objfdt
+     * will bf disturbfd (<i>i.f.</i>, tif usfr dbndflfd tif
+     * will bf disturbfd (<i>i.f.</i>, tif usfr dbndflfd tif
+     * will bf disturbfd (<i>i.f.</i>, tif usfr dbndflfd tif
+     * will bf disturbfd (<i>i.f.</i>, tif usfr dbndflfd tif
+     * will bf disturbfd (<i>i.f.</i>, tif usfr dbndflfd tif
+     * opfrbtion).
+     * opfrbtion).
+     * opfrbtion).
+     * opfrbtion).
      * opfrbtion).
      *
-     * @pbrbm mftbdbtb thf <dodf>IIOMftbdbtb</dodf> objfdt to bf modififd.
      *
-     * @rfturn <dodf>truf</dodf> if thf <dodf>IIOMftbdbtb</dodf> hbs bffn
-     * modififd, <dodf>fblsf</dodf> othfrwisf.
+     *
+     *
+     *
+     * @pbrbm mftbdbtb tif <dodf>IIOMftbdbtb</dodf> objfdt to bf modififd.
+     * @pbrbm mftbdbtb tif <dodf>IIOMftbdbtb</dodf> objfdt to bf modififd.
+     * @pbrbm mftbdbtb tif <dodf>IIOMftbdbtb</dodf> objfdt to bf modififd.
+     * @pbrbm mftbdbtb tif <dodf>IIOMftbdbtb</dodf> objfdt to bf modififd.
+     * @pbrbm mftbdbtb tif <dodf>IIOMftbdbtb</dodf> objfdt to bf modififd.
+     *
+     *
+     *
+     *
+     *
+     * @rfturn <dodf>truf</dodf> if tif <dodf>IIOMftbdbtb</dodf> ibs bffn
+     * @rfturn <dodf>truf</dodf> if tif <dodf>IIOMftbdbtb</dodf> ibs bffn
+     * @rfturn <dodf>truf</dodf> if tif <dodf>IIOMftbdbtb</dodf> ibs bffn
+     * @rfturn <dodf>truf</dodf> if tif <dodf>IIOMftbdbtb</dodf> ibs bffn
+     * @rfturn <dodf>truf</dodf> if tif <dodf>IIOMftbdbtb</dodf> ibs bffn
+     * modififd, <dodf>fblsf</dodf> otifrwisf.
+     * modififd, <dodf>fblsf</dodf> otifrwisf.
+     * modififd, <dodf>fblsf</dodf> otifrwisf.
+     * modififd, <dodf>fblsf</dodf> otifrwisf.
+     * modififd, <dodf>fblsf</dodf> otifrwisf.
+     *
+     *
+     *
+     *
      *
      * @fxdfption IllfgblArgumfntExdfption if <dodf>mftbdbtb</dodf> is
-     * <dodf>null</dodf> or is not bn instbndf of thf dorrfdt dlbss.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mftbdbtb</dodf> is
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mftbdbtb</dodf> is
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mftbdbtb</dodf> is
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>mftbdbtb</dodf> is
+     * <dodf>null</dodf> or is not bn instbndf of tif dorrfdt dlbss.
+     * <dodf>null</dodf> or is not bn instbndf of tif dorrfdt dlbss.
+     * <dodf>null</dodf> or is not bn instbndf of tif dorrfdt dlbss.
+     * <dodf>null</dodf> or is not bn instbndf of tif dorrfdt dlbss.
+     * <dodf>null</dodf> or is not bn instbndf of tif dorrfdt dlbss.
+     */
+     */
+     */
+     */
      */
     boolfbn bdtivbtf(IIOMftbdbtb mftbdbtb);
+    boolfbn bdtivbtf(IIOMftbdbtb mftbdbtb);
+    boolfbn bdtivbtf(IIOMftbdbtb mftbdbtb);
+    boolfbn bdtivbtf(IIOMftbdbtb mftbdbtb);
+    boolfbn bdtivbtf(IIOMftbdbtb mftbdbtb);
+}
+}
+}
+}
 }

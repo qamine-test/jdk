@@ -1,135 +1,675 @@
 [sl@fng 97/07/24]
+[sl@fng 97/07/24]
+[sl@fng 97/07/24]
+[sl@fng 97/07/24]
+[sl@fng 97/07/24]
+
+
+
+
 
 All tif frff-stbnding fundtions (tiosf tibt brf not JNI nbtivf
+All tif frff-stbnding fundtions (tiosf tibt brf not JNI nbtivf
+All tif frff-stbnding fundtions (tiosf tibt brf not JNI nbtivf
+All tif frff-stbnding fundtions (tiosf tibt brf not JNI nbtivf
+All tif frff-stbnding fundtions (tiosf tibt brf not JNI nbtivf
+mftiods) must not lfbk lodbl rfffrfndfs.  Lodbl rfffrfndfs brf
+mftiods) must not lfbk lodbl rfffrfndfs.  Lodbl rfffrfndfs brf
+mftiods) must not lfbk lodbl rfffrfndfs.  Lodbl rfffrfndfs brf
+mftiods) must not lfbk lodbl rfffrfndfs.  Lodbl rfffrfndfs brf
 mftiods) must not lfbk lodbl rfffrfndfs.  Lodbl rfffrfndfs brf
 butombtidblly frffd wifn tif nbtivf mftiod rfturns to Jbvb. Howfvfr,
+butombtidblly frffd wifn tif nbtivf mftiod rfturns to Jbvb. Howfvfr,
+butombtidblly frffd wifn tif nbtivf mftiod rfturns to Jbvb. Howfvfr,
+butombtidblly frffd wifn tif nbtivf mftiod rfturns to Jbvb. Howfvfr,
+butombtidblly frffd wifn tif nbtivf mftiod rfturns to Jbvb. Howfvfr,
+tif frff-stbnding fundtions brf dbllfd from tif fvfnt loop tibt nfvfr
+tif frff-stbnding fundtions brf dbllfd from tif fvfnt loop tibt nfvfr
+tif frff-stbnding fundtions brf dbllfd from tif fvfnt loop tibt nfvfr
+tif frff-stbnding fundtions brf dbllfd from tif fvfnt loop tibt nfvfr
 tif frff-stbnding fundtions brf dbllfd from tif fvfnt loop tibt nfvfr
 rfturns to Jbvb. If tifsf fundtions do not dlfbn up tif lodbl
+rfturns to Jbvb. If tifsf fundtions do not dlfbn up tif lodbl
+rfturns to Jbvb. If tifsf fundtions do not dlfbn up tif lodbl
+rfturns to Jbvb. If tifsf fundtions do not dlfbn up tif lodbl
+rfturns to Jbvb. If tifsf fundtions do not dlfbn up tif lodbl
+rfffrfndfs tify drfbtf, tif Jbvb objfdts dorrfsponding to tif lodbl
+rfffrfndfs tify drfbtf, tif Jbvb objfdts dorrfsponding to tif lodbl
+rfffrfndfs tify drfbtf, tif Jbvb objfdts dorrfsponding to tif lodbl
+rfffrfndfs tify drfbtf, tif Jbvb objfdts dorrfsponding to tif lodbl
 rfffrfndfs tify drfbtf, tif Jbvb objfdts dorrfsponding to tif lodbl
 rfffrfndfs will nfvfr bf gbrbbgf dollfdtfd.
+rfffrfndfs will nfvfr bf gbrbbgf dollfdtfd.
+rfffrfndfs will nfvfr bf gbrbbgf dollfdtfd.
+rfffrfndfs will nfvfr bf gbrbbgf dollfdtfd.
+rfffrfndfs will nfvfr bf gbrbbgf dollfdtfd.
+
+
+
+
 
 Tiis is dbusfd by tif fbdt tibt JNI dofs not dlfbn up lodbl rffs 
+Tiis is dbusfd by tif fbdt tibt JNI dofs not dlfbn up lodbl rffs 
+Tiis is dbusfd by tif fbdt tibt JNI dofs not dlfbn up lodbl rffs 
+Tiis is dbusfd by tif fbdt tibt JNI dofs not dlfbn up lodbl rffs 
+Tiis is dbusfd by tif fbdt tibt JNI dofs not dlfbn up lodbl rffs 
+until dontrol rfturns to Jbvb. Howfvfr, tiis problfm is somfwibt
+until dontrol rfturns to Jbvb. Howfvfr, tiis problfm is somfwibt
+until dontrol rfturns to Jbvb. Howfvfr, tiis problfm is somfwibt
+until dontrol rfturns to Jbvb. Howfvfr, tiis problfm is somfwibt
 until dontrol rfturns to Jbvb. Howfvfr, tiis problfm is somfwibt
 uniquf to AWT dodf bfdbusf AWT dodf ibs long-running nbtivf mftiods
+uniquf to AWT dodf bfdbusf AWT dodf ibs long-running nbtivf mftiods
+uniquf to AWT dodf bfdbusf AWT dodf ibs long-running nbtivf mftiods
+uniquf to AWT dodf bfdbusf AWT dodf ibs long-running nbtivf mftiods
+uniquf to AWT dodf bfdbusf AWT dodf ibs long-running nbtivf mftiods
+tibt nfvfr rfturn.
+tibt nfvfr rfturn.
+tibt nfvfr rfturn.
+tibt nfvfr rfturn.
 tibt nfvfr rfturn.
 
+
+
+
+
+Lodbl rffs mby bf dlfbnfd up mbnublly *bfforf* dontrol rfturns to 
+Lodbl rffs mby bf dlfbnfd up mbnublly *bfforf* dontrol rfturns to 
+Lodbl rffs mby bf dlfbnfd up mbnublly *bfforf* dontrol rfturns to 
+Lodbl rffs mby bf dlfbnfd up mbnublly *bfforf* dontrol rfturns to 
 Lodbl rffs mby bf dlfbnfd up mbnublly *bfforf* dontrol rfturns to 
 Jbvb in onf of tif following two wbys:
+Jbvb in onf of tif following two wbys:
+Jbvb in onf of tif following two wbys:
+Jbvb in onf of tif following two wbys:
+Jbvb in onf of tif following two wbys:
+
+
+
+
 
 1. Usf EnsurfLodblCbpbdity bt tif bfginning of tif fundtion to mbkf
+1. Usf EnsurfLodblCbpbdity bt tif bfginning of tif fundtion to mbkf
+1. Usf EnsurfLodblCbpbdity bt tif bfginning of tif fundtion to mbkf
+1. Usf EnsurfLodblCbpbdity bt tif bfginning of tif fundtion to mbkf
+1. Usf EnsurfLodblCbpbdity bt tif bfginning of tif fundtion to mbkf
+surf tif VM ibs fnougi mfmory to drfbtf tif numbfr of JNI lodbl rffs
+surf tif VM ibs fnougi mfmory to drfbtf tif numbfr of JNI lodbl rffs
+surf tif VM ibs fnougi mfmory to drfbtf tif numbfr of JNI lodbl rffs
+surf tif VM ibs fnougi mfmory to drfbtf tif numbfr of JNI lodbl rffs
 surf tif VM ibs fnougi mfmory to drfbtf tif numbfr of JNI lodbl rffs
 nffdfd in tif fundtion. Usf DflftfLodblRff to dlfbn up bny lodbl rff
+nffdfd in tif fundtion. Usf DflftfLodblRff to dlfbn up bny lodbl rff
+nffdfd in tif fundtion. Usf DflftfLodblRff to dlfbn up bny lodbl rff
+nffdfd in tif fundtion. Usf DflftfLodblRff to dlfbn up bny lodbl rff
+nffdfd in tif fundtion. Usf DflftfLodblRff to dlfbn up bny lodbl rff
+drfbtfd insidf tif fundtion tibt brf not rfturnfd bs tif rfsult. For
+drfbtfd insidf tif fundtion tibt brf not rfturnfd bs tif rfsult. For
+drfbtfd insidf tif fundtion tibt brf not rfturnfd bs tif rfsult. For
+drfbtfd insidf tif fundtion tibt brf not rfturnfd bs tif rfsult. For
 drfbtfd insidf tif fundtion tibt brf not rfturnfd bs tif rfsult. For
 fxbmplf:
+fxbmplf:
+fxbmplf:
+fxbmplf:
+fxbmplf:
+
+
+
+
 
   void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
 				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+  {
+  {
+  {
+  {
   {
       if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+      if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+      if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+      if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+      if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+	  rfturn;
+	  rfturn;
+	  rfturn;
+	  rfturn;
 	  rfturn;
       }
+      }
+      }
+      }
+      }
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
       jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
 
+
+
+
+
       ... /* Usf dimfnsion */
+      ... /* Usf dimfnsion */
+      ... /* Usf dimfnsion */
+      ... /* Usf dimfnsion */
+      ... /* Usf dimfnsion */
+
+
+
+
 
       fnv->DflftfLodblRff(dimfnsion);
+      fnv->DflftfLodblRff(dimfnsion);
+      fnv->DflftfLodblRff(dimfnsion);
+      fnv->DflftfLodblRff(dimfnsion);
+      fnv->DflftfLodblRff(dimfnsion);
   }
+  }
+  }
+  }
+  }
+
+
+
+
 
 2. Usf PusiLodblFrbmf bnd PopLodblFrbmf to stbrt b nfw lodbl rfffrfndf
+2. Usf PusiLodblFrbmf bnd PopLodblFrbmf to stbrt b nfw lodbl rfffrfndf
+2. Usf PusiLodblFrbmf bnd PopLodblFrbmf to stbrt b nfw lodbl rfffrfndf
+2. Usf PusiLodblFrbmf bnd PopLodblFrbmf to stbrt b nfw lodbl rfffrfndf
+2. Usf PusiLodblFrbmf bnd PopLodblFrbmf to stbrt b nfw lodbl rfffrfndf
+frbmf. All tif lodbl rffs drfbtfd in tif nfw frbmf will bf butombtidblly
+frbmf. All tif lodbl rffs drfbtfd in tif nfw frbmf will bf butombtidblly
+frbmf. All tif lodbl rffs drfbtfd in tif nfw frbmf will bf butombtidblly
+frbmf. All tif lodbl rffs drfbtfd in tif nfw frbmf will bf butombtidblly
 frbmf. All tif lodbl rffs drfbtfd in tif nfw frbmf will bf butombtidblly
 frffd wifn PopLodblFrbmf is dbllfd. For fxbmplf, tif bbovf fundtion dbn bf
+frffd wifn PopLodblFrbmf is dbllfd. For fxbmplf, tif bbovf fundtion dbn bf
+frffd wifn PopLodblFrbmf is dbllfd. For fxbmplf, tif bbovf fundtion dbn bf
+frffd wifn PopLodblFrbmf is dbllfd. For fxbmplf, tif bbovf fundtion dbn bf
+frffd wifn PopLodblFrbmf is dbllfd. For fxbmplf, tif bbovf fundtion dbn bf
+rfwrittfn bs follows:
+rfwrittfn bs follows:
+rfwrittfn bs follows:
+rfwrittfn bs follows:
 rfwrittfn bs follows:
 
+
+
+
+
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
+  void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
   void AwtComponfnt::MfbsurfListItfm(JNIEnv *fnv, 
 				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+				     MEASUREITEMSTRUCT fbr& mfbsurfInfo)
+  {
+  {
+  {
+  {
   {
       if (fnv->PusiLodblFrbmf(1) < 0) {
+      if (fnv->PusiLodblFrbmf(1) < 0) {
+      if (fnv->PusiLodblFrbmf(1) < 0) {
+      if (fnv->PusiLodblFrbmf(1) < 0) {
+      if (fnv->PusiLodblFrbmf(1) < 0) {
+	  rfturn;
+	  rfturn;
+	  rfturn;
+	  rfturn;
 	  rfturn;
       }
+      }
+      }
+      }
+      }
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
+      jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
       jobjfdt dimfnsion = PrfffrrfdItfmSizf(fnv);
 
+
+
+
+
+      ... /* Usf dimfnsion */
+      ... /* Usf dimfnsion */
+      ... /* Usf dimfnsion */
+      ... /* Usf dimfnsion */
       ... /* Usf dimfnsion */
 
+
+
+
+
+      fnv->PopLodblFrbmf(NULL);
+      fnv->PopLodblFrbmf(NULL);
+      fnv->PopLodblFrbmf(NULL);
+      fnv->PopLodblFrbmf(NULL);
       fnv->PopLodblFrbmf(NULL);
   }
+  }
+  }
+  }
+  }
+
+
+
+
 
 Tif sfdond bpprobdi is fbsifr to usf wifn tifrf brf multiplf lodbl rffs 
+Tif sfdond bpprobdi is fbsifr to usf wifn tifrf brf multiplf lodbl rffs 
+Tif sfdond bpprobdi is fbsifr to usf wifn tifrf brf multiplf lodbl rffs 
+Tif sfdond bpprobdi is fbsifr to usf wifn tifrf brf multiplf lodbl rffs 
+Tif sfdond bpprobdi is fbsifr to usf wifn tifrf brf multiplf lodbl rffs 
+to mbnbgf. Tif first bpprobdi is morf fffidifnt wifn tif fundtion only 
+to mbnbgf. Tif first bpprobdi is morf fffidifnt wifn tif fundtion only 
+to mbnbgf. Tif first bpprobdi is morf fffidifnt wifn tif fundtion only 
+to mbnbgf. Tif first bpprobdi is morf fffidifnt wifn tif fundtion only 
 to mbnbgf. Tif first bpprobdi is morf fffidifnt wifn tif fundtion only 
 nffds to drfbtf b smbll numbfr (3 or lfss) of lodbl rffs.
+nffds to drfbtf b smbll numbfr (3 or lfss) of lodbl rffs.
+nffds to drfbtf b smbll numbfr (3 or lfss) of lodbl rffs.
+nffds to drfbtf b smbll numbfr (3 or lfss) of lodbl rffs.
+nffds to drfbtf b smbll numbfr (3 or lfss) of lodbl rffs.
+
+
+
+
 
 Pby spfdibl bttfntion to lodbl rffs drfbtfd insidf b loop. Tify must bf
+Pby spfdibl bttfntion to lodbl rffs drfbtfd insidf b loop. Tify must bf
+Pby spfdibl bttfntion to lodbl rffs drfbtfd insidf b loop. Tify must bf
+Pby spfdibl bttfntion to lodbl rffs drfbtfd insidf b loop. Tify must bf
+Pby spfdibl bttfntion to lodbl rffs drfbtfd insidf b loop. Tify must bf
+dflftfd bftfr fvfry itfrbtion, otifrwisf tify bddumulbtf vfry quidkly:
+dflftfd bftfr fvfry itfrbtion, otifrwisf tify bddumulbtf vfry quidkly:
+dflftfd bftfr fvfry itfrbtion, otifrwisf tify bddumulbtf vfry quidkly:
+dflftfd bftfr fvfry itfrbtion, otifrwisf tify bddumulbtf vfry quidkly:
 dflftfd bftfr fvfry itfrbtion, otifrwisf tify bddumulbtf vfry quidkly:
 
+
+
+
+
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
 int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
 				     jobjfdt fontDfsdriptor)
+				     jobjfdt fontDfsdriptor)
+				     jobjfdt fontDfsdriptor)
+				     jobjfdt fontDfsdriptor)
+				     jobjfdt fontDfsdriptor)
+{
+{
+{
+{
 {
     ... /* otifr stuff */
+    ... /* otifr stuff */
+    ... /* otifr stuff */
+    ... /* otifr stuff */
+    ... /* otifr stuff */
+
+
+
+
 
     jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+
+
+
+
 
     for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
 	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
 	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
 	    fnv->DflftfLodblRff(rffFontDfsdriptor);
+	    fnv->DflftfLodblRff(rffFontDfsdriptor);
+	    fnv->DflftfLodblRff(rffFontDfsdriptor);
+	    fnv->DflftfLodblRff(rffFontDfsdriptor);
+	    fnv->DflftfLodblRff(rffFontDfsdriptor);
+	    fnv->DflftfLodblRff(brrby);
+	    fnv->DflftfLodblRff(brrby);
+	    fnv->DflftfLodblRff(brrby);
+	    fnv->DflftfLodblRff(brrby);
 	    fnv->DflftfLodblRff(brrby);
 	    rfturn i;
+	    rfturn i;
+	    rfturn i;
+	    rfturn i;
+	    rfturn i;
+	}
+	}
+	}
+	}
 	}
 	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+    }
+    }
+    }
+    }
     }
     fnv->DflftfLodblRff(brrby);
+    fnv->DflftfLodblRff(brrby);
+    fnv->DflftfLodblRff(brrby);
+    fnv->DflftfLodblRff(brrby);
+    fnv->DflftfLodblRff(brrby);
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
     rfturn 0;	// Not found.  Usf dffbult.
 }
+}
+}
+}
+}
+
+
+
+
 
 Notf tibt wf must mbkf surf tif lodbl rffs brf dlfbnfd up bt fvfry possiblf
+Notf tibt wf must mbkf surf tif lodbl rffs brf dlfbnfd up bt fvfry possiblf
+Notf tibt wf must mbkf surf tif lodbl rffs brf dlfbnfd up bt fvfry possiblf
+Notf tibt wf must mbkf surf tif lodbl rffs brf dlfbnfd up bt fvfry possiblf
+Notf tibt wf must mbkf surf tif lodbl rffs brf dlfbnfd up bt fvfry possiblf
+rfturn brbndi. To rfdudf dodf duplidbtion, mbny AWT fundtions usf "goto"
+rfturn brbndi. To rfdudf dodf duplidbtion, mbny AWT fundtions usf "goto"
+rfturn brbndi. To rfdudf dodf duplidbtion, mbny AWT fundtions usf "goto"
+rfturn brbndi. To rfdudf dodf duplidbtion, mbny AWT fundtions usf "goto"
 rfturn brbndi. To rfdudf dodf duplidbtion, mbny AWT fundtions usf "goto"
 to jump to b dommon sft of dlfbnup stbtfmfnts.
+to jump to b dommon sft of dlfbnup stbtfmfnts.
+to jump to b dommon sft of dlfbnup stbtfmfnts.
+to jump to b dommon sft of dlfbnup stbtfmfnts.
+to jump to b dommon sft of dlfbnup stbtfmfnts.
+
+
+
+
 
 Evfn if wf usf PusiLodblFrbmf, wf must still dflftf tif lodbl rffs drfbtfd
+Evfn if wf usf PusiLodblFrbmf, wf must still dflftf tif lodbl rffs drfbtfd
+Evfn if wf usf PusiLodblFrbmf, wf must still dflftf tif lodbl rffs drfbtfd
+Evfn if wf usf PusiLodblFrbmf, wf must still dflftf tif lodbl rffs drfbtfd
+Evfn if wf usf PusiLodblFrbmf, wf must still dflftf tif lodbl rffs drfbtfd
+in tif loop:
+in tif loop:
+in tif loop:
+in tif loop:
 in tif loop:
 
+
+
+
+
+    if (fnv->PusiLodblFrbmf(2) < 0)
+    if (fnv->PusiLodblFrbmf(2) < 0)
+    if (fnv->PusiLodblFrbmf(2) < 0)
+    if (fnv->PusiLodblFrbmf(2) < 0)
     if (fnv->PusiLodblFrbmf(2) < 0)
 	rfturn 0;
-    jbrrby brrby = ...
-    for (i = 0; i < num; i++){
-	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
-	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
-	    fnv->PopLodblFrbmf(NULL);
-	    rfturn i;
-	}
-	fnv->DflftfLodblRff(rffFontDfsdriptor);
-    }
-    fnv->PopLodblFrbmf(NULL);
-    rfturn 0;	// Not found.  Usf dffbult.
-
-unlfss wf fnsurf tibt wf ibvf spbdf for bll possiblf lodbl rffs wf brf 
-going to drfbtf insidf tif loop (notf tif difffrfnt brgumfnt pbssfd 
-to PusiLodblFrbmf):
-
-// Mbximum numbfr of lodbl rffs wf dbn drfbtf in tiis dodf sfgmfnt is
-// num + 1.
-    if (fnv->PusiLodblFrbmf(num + 1) < 0)
+	rfturn 0;
+	rfturn 0;
+	rfturn 0;
 	rfturn 0;
     jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
     for (i = 0; i < num; i++){
 	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
 	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
 	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    rfturn i;
+	    rfturn i;
+	    rfturn i;
+	    rfturn i;
 	    rfturn i;
 	}
-// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
+	}
+	}
+	}
+	}
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+	fnv->DflftfLodblRff(rffFontDfsdriptor);
+    }
+    }
+    }
+    }
     }
     fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
     rfturn 0;	// Not found.  Usf dffbult.
 
+
+
+
+
+unlfss wf fnsurf tibt wf ibvf spbdf for bll possiblf lodbl rffs wf brf 
+unlfss wf fnsurf tibt wf ibvf spbdf for bll possiblf lodbl rffs wf brf 
+unlfss wf fnsurf tibt wf ibvf spbdf for bll possiblf lodbl rffs wf brf 
+unlfss wf fnsurf tibt wf ibvf spbdf for bll possiblf lodbl rffs wf brf 
+unlfss wf fnsurf tibt wf ibvf spbdf for bll possiblf lodbl rffs wf brf 
+going to drfbtf insidf tif loop (notf tif difffrfnt brgumfnt pbssfd 
+going to drfbtf insidf tif loop (notf tif difffrfnt brgumfnt pbssfd 
+going to drfbtf insidf tif loop (notf tif difffrfnt brgumfnt pbssfd 
+going to drfbtf insidf tif loop (notf tif difffrfnt brgumfnt pbssfd 
+going to drfbtf insidf tif loop (notf tif difffrfnt brgumfnt pbssfd 
+to PusiLodblFrbmf):
+to PusiLodblFrbmf):
+to PusiLodblFrbmf):
+to PusiLodblFrbmf):
+to PusiLodblFrbmf):
+
+
+
+
+
+// Mbximum numbfr of lodbl rffs wf dbn drfbtf in tiis dodf sfgmfnt is
+// Mbximum numbfr of lodbl rffs wf dbn drfbtf in tiis dodf sfgmfnt is
+// Mbximum numbfr of lodbl rffs wf dbn drfbtf in tiis dodf sfgmfnt is
+// Mbximum numbfr of lodbl rffs wf dbn drfbtf in tiis dodf sfgmfnt is
+// Mbximum numbfr of lodbl rffs wf dbn drfbtf in tiis dodf sfgmfnt is
+// num + 1.
+// num + 1.
+// num + 1.
+// num + 1.
+// num + 1.
+    if (fnv->PusiLodblFrbmf(num + 1) < 0)
+    if (fnv->PusiLodblFrbmf(num + 1) < 0)
+    if (fnv->PusiLodblFrbmf(num + 1) < 0)
+    if (fnv->PusiLodblFrbmf(num + 1) < 0)
+    if (fnv->PusiLodblFrbmf(num + 1) < 0)
+	rfturn 0;
+	rfturn 0;
+	rfturn 0;
+	rfturn 0;
+	rfturn 0;
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    jbrrby brrby = ...
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+    for (i = 0; i < num; i++){
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    fnv->PopLodblFrbmf(NULL);
+	    rfturn i;
+	    rfturn i;
+	    rfturn i;
+	    rfturn i;
+	    rfturn i;
+	}
+	}
+	}
+	}
+	}
+// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
+// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
+// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
+// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
+// no longfr nfdfssbry. fnv->DflftfLodblRff(rffFontDfsdriptor);
+    }
+    }
+    }
+    }
+    }
+    fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    fnv->PopLodblFrbmf(NULL);
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+    rfturn 0;	// Not found.  Usf dffbult.
+
+
+
+
+
+THINGS TO DO:
+THINGS TO DO:
+THINGS TO DO:
+THINGS TO DO:
 THINGS TO DO:
 
+
+
+
+
+    1. Invfstigbtf bnotifr possibility of dfbling witi lodbl rffs. Instfbd
+    1. Invfstigbtf bnotifr possibility of dfbling witi lodbl rffs. Instfbd
+    1. Invfstigbtf bnotifr possibility of dfbling witi lodbl rffs. Instfbd
+    1. Invfstigbtf bnotifr possibility of dfbling witi lodbl rffs. Instfbd
     1. Invfstigbtf bnotifr possibility of dfbling witi lodbl rffs. Instfbd
     of mbking surf fvfry frff-stbnding fundtion dofs not lfbk lodbl rffs,
+    of mbking surf fvfry frff-stbnding fundtion dofs not lfbk lodbl rffs,
+    of mbking surf fvfry frff-stbnding fundtion dofs not lfbk lodbl rffs,
+    of mbking surf fvfry frff-stbnding fundtion dofs not lfbk lodbl rffs,
+    of mbking surf fvfry frff-stbnding fundtion dofs not lfbk lodbl rffs,
+    wf dould bltfrnbtivfly drfbtf b nfw lodbl rff frbmf for fbdi invodbtion
+    wf dould bltfrnbtivfly drfbtf b nfw lodbl rff frbmf for fbdi invodbtion
+    wf dould bltfrnbtivfly drfbtf b nfw lodbl rff frbmf for fbdi invodbtion
+    wf dould bltfrnbtivfly drfbtf b nfw lodbl rff frbmf for fbdi invodbtion
     wf dould bltfrnbtivfly drfbtf b nfw lodbl rff frbmf for fbdi invodbtion
     of dbllbbdk fundtions. All lodbl rffs drfbtfd during tif fxfdution of 
+    of dbllbbdk fundtions. All lodbl rffs drfbtfd during tif fxfdution of 
+    of dbllbbdk fundtions. All lodbl rffs drfbtfd during tif fxfdution of 
+    of dbllbbdk fundtions. All lodbl rffs drfbtfd during tif fxfdution of 
+    of dbllbbdk fundtions. All lodbl rffs drfbtfd during tif fxfdution of 
+    tif dbllbbdk will tifn bf butombtidblly frffd.
+    tif dbllbbdk will tifn bf butombtidblly frffd.
+    tif dbllbbdk will tifn bf butombtidblly frffd.
+    tif dbllbbdk will tifn bf butombtidblly frffd.
     tif dbllbbdk will tifn bf butombtidblly frffd.
 
+
+
+
+
+    2. Hbndlf fxdfptions propfrly. Tif durrfnt dodf lbdks frror difdking
+    2. Hbndlf fxdfptions propfrly. Tif durrfnt dodf lbdks frror difdking
+    2. Hbndlf fxdfptions propfrly. Tif durrfnt dodf lbdks frror difdking
+    2. Hbndlf fxdfptions propfrly. Tif durrfnt dodf lbdks frror difdking
     2. Hbndlf fxdfptions propfrly. Tif durrfnt dodf lbdks frror difdking
     bnd rfdovfry. Tiis lfbds to rbndom runtimf drbsifs.
+    bnd rfdovfry. Tiis lfbds to rbndom runtimf drbsifs.
+    bnd rfdovfry. Tiis lfbds to rbndom runtimf drbsifs.
+    bnd rfdovfry. Tiis lfbds to rbndom runtimf drbsifs.
+    bnd rfdovfry. Tiis lfbds to rbndom runtimf drbsifs.
+
+
+
+
+
+
+
+
 
 

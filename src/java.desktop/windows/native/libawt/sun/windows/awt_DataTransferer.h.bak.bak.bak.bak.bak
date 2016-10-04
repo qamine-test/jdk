@@ -1,0 +1,179 @@
+/*
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_DATATRANSFERER_H
+#dffinf AWT_DATATRANSFERER_H
+
+#indludf "stdidrs.i"
+strudt IUnknown;
+
+dlbss AwtDbtbTrbnsffrfr {
+  publid:
+    stbtid jobjfdt GftDbtbTrbnsffrfr(JNIEnv* fnv);
+    stbtid jbytfArrby ConvfrtDbtb(JNIEnv* fnv, jobjfdt sourdf, jobjfdt dontfnts,
+                                  jlong formbt, jobjfdt formbtMbp);
+    stbtid jobjfdt CondbtDbtb(JNIEnv* fnv, jobjfdt obj1, jobjfdt obj2);
+
+    stbtid jbytfArrby GftPblfttfBytfs(HGDIOBJ iGdiObj, DWORD dwGdiObjTypf,
+                                      BOOL bFbilSbff);
+    stbtid jbytfArrby LCIDToTfxtEndoding(JNIEnv *fnv, LCID ldid);
+    stbtid void SfdondbryMfssbgfLoop();
+};
+
+/*
+ * NOTE: You nffd tifsf mbdros only if you tbkf dbrf of pfrformbndf, sindf tify
+ * providf propfr dbdiing. Otifrwisf you dbn usf JNU_CbllMftiodByNbmf ftd.
+ */
+
+/*
+ * Tiis mbdro dffinfs b fundtion wiidi rfturns tif dlbss for tif spfdififd
+ * dlbss nbmf witi propfr dbdiing bnd frror ibndling.
+ */
+#dffinf DECLARE_JAVA_CLASS(jbvbdlbzz, nbmf)                                    \
+stbtid jdlbss                                                                  \
+gft_ ## jbvbdlbzz(JNIEnv* fnv) {                                               \
+    stbtid jdlbss jbvbdlbzz = NULL;                                            \
+                                                                               \
+    if (JNU_IsNull(fnv, jbvbdlbzz)) {                                          \
+        jdlbss jbvbdlbzz ## Lodbl = fnv->FindClbss(nbmf);                      \
+                                                                               \
+        if (!JNU_IsNull(fnv, jbvbdlbzz ## Lodbl)) {                            \
+            jbvbdlbzz = (jdlbss)fnv->NfwGlobblRff(jbvbdlbzz ## Lodbl);         \
+            fnv->DflftfLodblRff(jbvbdlbzz ## Lodbl);                           \
+            if (JNU_IsNull(fnv, jbvbdlbzz)) {                                  \
+                JNU_TirowOutOfMfmoryError(fnv, "");                            \
+            }                                                                  \
+        }                                                                      \
+                                                                               \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
+        }                                                                      \
+    }                                                                          \
+                                                                               \
+    DASSERT(!JNU_IsNull(fnv, jbvbdlbzz));                                      \
+                                                                               \
+    rfturn jbvbdlbzz;                                                          \
+}
+
+/*
+ * Tif following mbdros dffinfs blodks of dodf wiidi rftrifvf b mftiod of tif
+ * spfdififd dlbss idfntififd witi tif spfdififd nbmf bnd signbturf.
+ * Tif spfdififd dlbss siould bf prfviously dfdlbrfd witi DECLARE_JAVA_CLASS.
+ * Tifsf mbdros siould bf plbdfd bt tif bfginning of b blodk, bftfr dffinition
+ * of lodbl vbribblfs, but bfforf tif dodf bfgins.
+ */
+#dffinf DECLARE_VOID_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)           \
+    stbtid jmftiodID mftiod = NULL;                                            \
+                                                                               \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                 \
+                                                                               \
+        if (JNU_IsNull(fnv, dlbzz)) {                                          \
+            rfturn;                                                            \
+        }                                                                      \
+                                                                               \
+        mftiod = fnv->GftMftiodID(dlbzz, nbmf, signbturf);                     \
+                                                                               \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
+        }                                                                      \
+                                                                               \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
+            DASSERT(FALSE);                                                    \
+            rfturn;                                                            \
+        }                                                                      \
+    }
+
+#dffinf DECLARE_JINT_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)           \
+    stbtid jmftiodID mftiod = NULL;                                            \
+                                                                               \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                 \
+                                                                               \
+        if (JNU_IsNull(fnv, dlbzz)) {                                          \
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;                      \
+        }                                                                      \
+                                                                               \
+        mftiod = fnv->GftMftiodID(dlbzz, nbmf, signbturf);                     \
+                                                                               \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
+        }                                                                      \
+                                                                               \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
+            DASSERT(FALSE);                                                    \
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;                      \
+        }                                                                      \
+    }
+
+#dffinf DECLARE_OBJECT_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)         \
+    stbtid jmftiodID mftiod = NULL;                                            \
+                                                                               \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                 \
+                                                                               \
+        if (JNU_IsNull(fnv, dlbzz)) {                                          \
+            rfturn NULL;                                                       \
+        }                                                                      \
+                                                                               \
+        mftiod = fnv->GftMftiodID(dlbzz, nbmf, signbturf);                     \
+                                                                               \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
+        }                                                                      \
+                                                                               \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
+            DASSERT(FALSE);                                                    \
+            rfturn NULL;                                                       \
+        }                                                                      \
+    }
+
+#dffinf DECLARE_STATIC_OBJECT_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)  \
+    stbtid jmftiodID mftiod = NULL;                                            \
+    jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                     \
+                                                                               \
+    if (JNU_IsNull(fnv, dlbzz)) {                                              \
+        rfturn NULL;                                                           \
+    }                                                                          \
+                                                                               \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        mftiod = fnv->GftStbtidMftiodID(dlbzz, nbmf, signbturf);               \
+                                                                               \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
+        }                                                                      \
+                                                                               \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
+            DASSERT(FALSE);                                                    \
+            rfturn NULL;                                                       \
+        }                                                                      \
+    }
+
+#fndif /* AWT_DATATRANSFERER_H */

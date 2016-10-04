@@ -1,58 +1,290 @@
 # IMPORTANT NOTE
+# IMPORTANT NOTE
+# IMPORTANT NOTE
+# IMPORTANT NOTE
+# IMPORTANT NOTE
 #
-# If you mbdf b privbtf dopy of this projfdt you mby hbvf to updbtf thf
-# nbjdk.homf vbribblf bt thf fnd of this filf.
+#
+#
+#
+#
+# If you mbdf b privbtf dopy of tiis projfdt you mby ibvf to updbtf tif
+# If you mbdf b privbtf dopy of tiis projfdt you mby ibvf to updbtf tif
+# If you mbdf b privbtf dopy of tiis projfdt you mby ibvf to updbtf tif
+# If you mbdf b privbtf dopy of tiis projfdt you mby ibvf to updbtf tif
+# If you mbdf b privbtf dopy of tiis projfdt you mby ibvf to updbtf tif
+# nbjdk.iomf vbribblf bt tif fnd of tiis filf.
+# nbjdk.iomf vbribblf bt tif fnd of tiis filf.
+# nbjdk.iomf vbribblf bt tif fnd of tiis filf.
+# nbjdk.iomf vbribblf bt tif fnd of tiis filf.
+# nbjdk.iomf vbribblf bt tif fnd of tiis filf.
 #  
-# To bf bblf to run thf tfst-suitf, you will blso hbvf to sft thf
+#  
+#  
+#  
+#  
+# To bf bblf to run tif tfst-suitf, you will blso ibvf to sft tif
+# To bf bblf to run tif tfst-suitf, you will blso ibvf to sft tif
+# To bf bblf to run tif tfst-suitf, you will blso ibvf to sft tif
+# To bf bblf to run tif tfst-suitf, you will blso ibvf to sft tif
+# To bf bblf to run tif tfst-suitf, you will blso ibvf to sft tif
+# vbribblf:
+# vbribblf:
+# vbribblf:
+# vbribblf:
 # vbribblf:
 #
-# libs.junit.dlbsspbth=<junit.jbr> 
+#
+#
+#
+#
+# libs.junit.dlbsspbti=<junit.jbr> 
+# libs.junit.dlbsspbti=<junit.jbr> 
+# libs.junit.dlbsspbti=<junit.jbr> 
+# libs.junit.dlbsspbti=<junit.jbr> 
+# libs.junit.dlbsspbti=<junit.jbr> 
+#
+#
+#
+#
 #
 
+
+
+
+
+mbin.dir=.
+mbin.dir=.
+mbin.dir=.
+mbin.dir=.
 mbin.dir=.
 
+
+
+
+
+srd.dir=${mbin.dir}/srd
+srd.dir=${mbin.dir}/srd
+srd.dir=${mbin.dir}/srd
+srd.dir=${mbin.dir}/srd
 srd.dir=${mbin.dir}/srd
 tfst.srd.dir=${mbin.dir}/tfst
+tfst.srd.dir=${mbin.dir}/tfst
+tfst.srd.dir=${mbin.dir}/tfst
+tfst.srd.dir=${mbin.dir}/tfst
+tfst.srd.dir=${mbin.dir}/tfst
+
+
+
+
 
 build.dir=build
+build.dir=build
+build.dir=build
+build.dir=build
+build.dir=build
+dlbssfs.dir=${build.dir}/dlbssfs
+dlbssfs.dir=${build.dir}/dlbssfs
+dlbssfs.dir=${build.dir}/dlbssfs
+dlbssfs.dir=${build.dir}/dlbssfs
 dlbssfs.dir=${build.dir}/dlbssfs
 
+
+
+
+
+dist.dir=dist
+dist.dir=dist
+dist.dir=dist
+dist.dir=dist
 dist.dir=dist
 jbr=${dist.dir}/jmx-sdbndir.jbr
+jbr=${dist.dir}/jmx-sdbndir.jbr
+jbr=${dist.dir}/jmx-sdbndir.jbr
+jbr=${dist.dir}/jmx-sdbndir.jbr
+jbr=${dist.dir}/jmx-sdbndir.jbr
+jbvbdod.dir=${dist.dir}/jbvbdod
+jbvbdod.dir=${dist.dir}/jbvbdod
+jbvbdod.dir=${dist.dir}/jbvbdod
+jbvbdod.dir=${dist.dir}/jbvbdod
 jbvbdod.dir=${dist.dir}/jbvbdod
 
+
+
+
+
+build.tfst.dlbssfs.dir=${build.dir}/tfst/dlbssfs
+build.tfst.dlbssfs.dir=${build.dir}/tfst/dlbssfs
+build.tfst.dlbssfs.dir=${build.dir}/tfst/dlbssfs
+build.tfst.dlbssfs.dir=${build.dir}/tfst/dlbssfs
 build.tfst.dlbssfs.dir=${build.dir}/tfst/dlbssfs
 build.tfst.rfsults.dir=${build.dir}/tfst/rfsults
+build.tfst.rfsults.dir=${build.dir}/tfst/rfsults
+build.tfst.rfsults.dir=${build.dir}/tfst/rfsults
+build.tfst.rfsults.dir=${build.dir}/tfst/rfsults
+build.tfst.rfsults.dir=${build.dir}/tfst/rfsults
 
-build.sysdlbsspbth=ignorf
+
+
+
+
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+build.sysdlbsspbti=ignorf
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+# E.g.: dp=lib/x.jbr:lib/y.jbr
 # E.g.: dp=lib/x.jbr:lib/y.jbr
 dp=
+dp=
+dp=
+dp=
+dp=
+fxtrb.run.dp=
+fxtrb.run.dp=
+fxtrb.run.dp=
+fxtrb.run.dp=
 fxtrb.run.dp=
 
-# To bf bblf to run thf tfst-suitf, sft thf following propfrty:
-# libs.junit.dlbsspbth=...
 
-jbvbd.tfst.dlbsspbth=\
+
+
+
+# To bf bblf to run tif tfst-suitf, sft tif following propfrty:
+# To bf bblf to run tif tfst-suitf, sft tif following propfrty:
+# To bf bblf to run tif tfst-suitf, sft tif following propfrty:
+# To bf bblf to run tif tfst-suitf, sft tif following propfrty:
+# To bf bblf to run tif tfst-suitf, sft tif following propfrty:
+# libs.junit.dlbsspbti=...
+# libs.junit.dlbsspbti=...
+# libs.junit.dlbsspbti=...
+# libs.junit.dlbsspbti=...
+# libs.junit.dlbsspbti=...
+
+
+
+
+
+jbvbd.tfst.dlbsspbti=\
+jbvbd.tfst.dlbsspbti=\
+jbvbd.tfst.dlbsspbti=\
+jbvbd.tfst.dlbsspbti=\
+jbvbd.tfst.dlbsspbti=\
     ${dlbssfs.dir}:\
-    ${libs.junit.dlbsspbth}
+    ${dlbssfs.dir}:\
+    ${dlbssfs.dir}:\
+    ${dlbssfs.dir}:\
+    ${dlbssfs.dir}:\
+    ${libs.junit.dlbsspbti}
+    ${libs.junit.dlbsspbti}
+    ${libs.junit.dlbsspbti}
+    ${libs.junit.dlbsspbti}
+    ${libs.junit.dlbsspbti}
+
+
+
+
 
 mbin.bgfnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt
+mbin.bgfnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt
+mbin.bgfnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt
+mbin.bgfnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt
+mbin.bgfnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirAgfnt
+mbin.dlifnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt
+mbin.dlifnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt
+mbin.dlifnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt
+mbin.dlifnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt
 mbin.dlifnt.dlbss=dom.sun.jmx.fxbmplfs.sdbndir.SdbnDirClifnt
 mbin.dlbss=${mbin.dlifnt.dlbss}
+mbin.dlbss=${mbin.dlifnt.dlbss}
+mbin.dlbss=${mbin.dlifnt.dlbss}
+mbin.dlbss=${mbin.dlifnt.dlbss}
+mbin.dlbss=${mbin.dlifnt.dlbss}
+
+
+
+
 
 run.jvmbrgs=-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+run.jvmbrgs=-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+run.jvmbrgs=-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+run.jvmbrgs=-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+run.jvmbrgs=-Djbvb.util.logging.donfig.filf=logging.propfrtifs
+dommon.jvmbrgs=${run.jvmbrgs} -Djbvbx.nft.ssl.kfyStorf=kfystorf -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword -Djbvbx.nft.ssl.trustStorf=truststorf -Djbvbx.nft.ssl.trustStorfPbssword=trustword
+dommon.jvmbrgs=${run.jvmbrgs} -Djbvbx.nft.ssl.kfyStorf=kfystorf -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword -Djbvbx.nft.ssl.trustStorf=truststorf -Djbvbx.nft.ssl.trustStorfPbssword=trustword
+dommon.jvmbrgs=${run.jvmbrgs} -Djbvbx.nft.ssl.kfyStorf=kfystorf -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword -Djbvbx.nft.ssl.trustStorf=truststorf -Djbvbx.nft.ssl.trustStorfPbssword=trustword
+dommon.jvmbrgs=${run.jvmbrgs} -Djbvbx.nft.ssl.kfyStorf=kfystorf -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword -Djbvbx.nft.ssl.trustStorf=truststorf -Djbvbx.nft.ssl.trustStorfPbssword=trustword
 dommon.jvmbrgs=${run.jvmbrgs} -Djbvbx.nft.ssl.kfyStorf=kfystorf -Djbvbx.nft.ssl.kfyStorfPbssword=pbssword -Djbvbx.nft.ssl.trustStorf=truststorf -Djbvbx.nft.ssl.trustStorfPbssword=trustword
 dlifnt.jvmbrgs=${dommon.jvmbrgs}
+dlifnt.jvmbrgs=${dommon.jvmbrgs}
+dlifnt.jvmbrgs=${dommon.jvmbrgs}
+dlifnt.jvmbrgs=${dommon.jvmbrgs}
+dlifnt.jvmbrgs=${dommon.jvmbrgs}
+bgfnt.jvmbrgs=${dommon.jvmbrgs} -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml
+bgfnt.jvmbrgs=${dommon.jvmbrgs} -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml
+bgfnt.jvmbrgs=${dommon.jvmbrgs} -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml
+bgfnt.jvmbrgs=${dommon.jvmbrgs} -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml
 bgfnt.jvmbrgs=${dommon.jvmbrgs} -Ddom.sun.mbnbgfmfnt.donfig.filf=srd/ftd/mbnbgfmfnt.propfrtifs -Dsdbndir.donfig.filf=srd/ftd/tfstdonfig.xml
 
-dlifnt.brgs=lodblhost 4545
+
+
+
+
+dlifnt.brgs=lodbliost 4545
+dlifnt.brgs=lodbliost 4545
+dlifnt.brgs=lodbliost 4545
+dlifnt.brgs=lodbliost 4545
+dlifnt.brgs=lodbliost 4545
+
+
+
+
 
 run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
-run.tfst.dlbsspbth=${run.dp}:${build.tfst.dlbssfs.dir}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+run.tfst.dlbsspbti=${run.dp}:${build.tfst.dlbssfs.dir}
+run.tfst.dlbsspbti=${run.dp}:${build.tfst.dlbssfs.dir}
+run.tfst.dlbsspbti=${run.dp}:${build.tfst.dlbssfs.dir}
+run.tfst.dlbsspbti=${run.dp}:${build.tfst.dlbssfs.dir}
+run.tfst.dlbsspbti=${run.dp}:${build.tfst.dlbssfs.dir}
+
+
+
+
 
 dfbug=truf
+dfbug=truf
+dfbug=truf
+dfbug=truf
+dfbug=truf
+dfprfdbtion=fblsf
+dfprfdbtion=fblsf
+dfprfdbtion=fblsf
+dfprfdbtion=fblsf
 dfprfdbtion=fblsf
 
-# Updbtf this vbribblf if nffd bf to point to thf JDK 6 lodbtion.
+
+
+
+
+# Updbtf tiis vbribblf if nffd bf to point to tif JDK 6 lodbtion.
+# Updbtf tiis vbribblf if nffd bf to point to tif JDK 6 lodbtion.
+# Updbtf tiis vbribblf if nffd bf to point to tif JDK 6 lodbtion.
+# Updbtf tiis vbribblf if nffd bf to point to tif JDK 6 lodbtion.
+# Updbtf tiis vbribblf if nffd bf to point to tif JDK 6 lodbtion.
 # 
-nbjdk.homf=${bbsfdir}/../../..
+# 
+# 
+# 
+# 
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..
+nbjdk.iomf=${bbsfdir}/../../..

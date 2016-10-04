@@ -1,217 +1,1085 @@
 '\" t
-.\"  Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+'\" t
+'\" t
+'\" t
+'\" t
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\"
+.\"
+.\"
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-.\" publishfd by thf Frff Softwbrf Foundbtion.
 .\"
-.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
-.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-.\" bddompbnifd this dodf).
 .\"
-.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\" bddompbnifd tiis dodf).
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\"
+.\"
+.\"
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
+.\" qufstions.
 .\" qufstions.
 .\"
-.\"     Ardh: gfnfrid
+.\"
+.\"
+.\"
+.\"
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
+.\"     Softwbrf: JDK 8
 .\"     Softwbrf: JDK 8
 .\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
 .\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
 .\"     Titlf: wsimport.1
+.\"     Titlf: wsimport.1
+.\"     Titlf: wsimport.1
+.\"     Titlf: wsimport.1
+.\"     Titlf: wsimport.1
+.\"
+.\"
+.\"
+.\"
 .\"
 .if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.if n .pl 99999
+.TH wsimport 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.TH wsimport 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.TH wsimport 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.TH wsimport 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
 .TH wsimport 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.dfbibn.org/507673
-.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
+.fl       .ds Aq '
 .fl       .ds Aq '
 .\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
+.\" * sft dffbult formbtting
 .\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbblf hyphfnbtion
-.nh
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.\" disbblf iypifnbtion
+.ni
+.ni
+.ni
+.ni
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
+.bd l
+.bd l
+.bd l
+.bd l
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
+.\" -----------------------------------------------------------------
 .\" -----------------------------------------------------------------
 
+
+
+
+
 .SH NAME    
-wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts thbt dbn bf pbdkbgfd in b wfb bpplidbtion brdhivf (WAR) filf bnd providfs bn Ant tbsk\&.
+.SH NAME    
+.SH NAME    
+.SH NAME    
+.SH NAME    
+wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts tibt dbn bf pbdkbgfd in b wfb bpplidbtion brdiivf (WAR) filf bnd providfs bn Ant tbsk\&.
+wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts tibt dbn bf pbdkbgfd in b wfb bpplidbtion brdiivf (WAR) filf bnd providfs bn Ant tbsk\&.
+wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts tibt dbn bf pbdkbgfd in b wfb bpplidbtion brdiivf (WAR) filf bnd providfs bn Ant tbsk\&.
+wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts tibt dbn bf pbdkbgfd in b wfb bpplidbtion brdiivf (WAR) filf bnd providfs bn Ant tbsk\&.
+wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts tibt dbn bf pbdkbgfd in b wfb bpplidbtion brdiivf (WAR) filf bnd providfs bn Ant tbsk\&.
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
+.SH SYNOPSIS    
 .SH SYNOPSIS    
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+
+
+
+
 
 \fBwsimport\fR [ \fIoptions\fR ] \fIwsdl\fR
+\fBwsimport\fR [ \fIoptions\fR ] \fIwsdl\fR
+\fBwsimport\fR [ \fIoptions\fR ] \fIwsdl\fR
+\fBwsimport\fR [ \fIoptions\fR ] \fIwsdl\fR
+\fBwsimport\fR [ \fIoptions\fR ] \fIwsdl\fR
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIoptions\fR
-Thf dommbnd-linf options\&. Sff Options\&.
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
+.TP     
+.TP     
+.TP     
+.TP     
 .TP     
 \fIwsdl\fR
-Thf filf thbt dontbins thf mbdhinf-rfbdbblf dfsdription of how thf wfb sfrvidf dbn bf dbllfd, whbt pbrbmftfrs it fxpfdts, bnd whbt dbtb strudturfs it rfturns\&.
+\fIwsdl\fR
+\fIwsdl\fR
+\fIwsdl\fR
+\fIwsdl\fR
+Tif filf tibt dontbins tif mbdiinf-rfbdbblf dfsdription of iow tif wfb sfrvidf dbn bf dbllfd, wibt pbrbmftfrs it fxpfdts, bnd wibt dbtb strudturfs it rfturns\&.
+Tif filf tibt dontbins tif mbdiinf-rfbdbblf dfsdription of iow tif wfb sfrvidf dbn bf dbllfd, wibt pbrbmftfrs it fxpfdts, bnd wibt dbtb strudturfs it rfturns\&.
+Tif filf tibt dontbins tif mbdiinf-rfbdbblf dfsdription of iow tif wfb sfrvidf dbn bf dbllfd, wibt pbrbmftfrs it fxpfdts, bnd wibt dbtb strudturfs it rfturns\&.
+Tif filf tibt dontbins tif mbdiinf-rfbdbblf dfsdription of iow tif wfb sfrvidf dbn bf dbllfd, wibt pbrbmftfrs it fxpfdts, bnd wibt dbtb strudturfs it rfturns\&.
+Tif filf tibt dontbins tif mbdiinf-rfbdbblf dfsdription of iow tif wfb sfrvidf dbn bf dbllfd, wibt pbrbmftfrs it fxpfdts, bnd wibt dbtb strudturfs it rfturns\&.
 .SH DESCRIPTION    
-Thf \f3wsimport\fR dommbnd gfnfrbtfs thf following JAX-WS portbblf brtifbdts\&. Thfsf brtifbdts dbn bf pbdkbgfd in b WAR filf with thf WSDL bnd sdhfmb dodumfnts bnd thf fndpoint implfmfntbtion to bf dfployfd\&. Thf \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff thf Tools tbb of thf Wsimport Ant Tbsk pbgf bt http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+.SH DESCRIPTION    
+Tif \f3wsimport\fR dommbnd gfnfrbtfs tif following JAX-WS portbblf brtifbdts\&. Tifsf brtifbdts dbn bf pbdkbgfd in b WAR filf witi tif WSDL bnd sdifmb dodumfnts bnd tif fndpoint implfmfntbtion to bf dfployfd\&. Tif \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff tif Tools tbb of tif Wsimport Ant Tbsk pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \f3wsimport\fR dommbnd gfnfrbtfs tif following JAX-WS portbblf brtifbdts\&. Tifsf brtifbdts dbn bf pbdkbgfd in b WAR filf witi tif WSDL bnd sdifmb dodumfnts bnd tif fndpoint implfmfntbtion to bf dfployfd\&. Tif \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff tif Tools tbb of tif Wsimport Ant Tbsk pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \f3wsimport\fR dommbnd gfnfrbtfs tif following JAX-WS portbblf brtifbdts\&. Tifsf brtifbdts dbn bf pbdkbgfd in b WAR filf witi tif WSDL bnd sdifmb dodumfnts bnd tif fndpoint implfmfntbtion to bf dfployfd\&. Tif \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff tif Tools tbb of tif Wsimport Ant Tbsk pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \f3wsimport\fR dommbnd gfnfrbtfs tif following JAX-WS portbblf brtifbdts\&. Tifsf brtifbdts dbn bf pbdkbgfd in b WAR filf witi tif WSDL bnd sdifmb dodumfnts bnd tif fndpoint implfmfntbtion to bf dfployfd\&. Tif \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff tif Tools tbb of tif Wsimport Ant Tbsk pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \f3wsimport\fR dommbnd gfnfrbtfs tif following JAX-WS portbblf brtifbdts\&. Tifsf brtifbdts dbn bf pbdkbgfd in b WAR filf witi tif WSDL bnd sdifmb dodumfnts bnd tif fndpoint implfmfntbtion to bf dfployfd\&. Tif \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff tif Tools tbb of tif Wsimport Ant Tbsk pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 Sfrvidf Endpoint Intfrfbdf (SEI)
+Sfrvidf Endpoint Intfrfbdf (SEI)
+Sfrvidf Endpoint Intfrfbdf (SEI)
+Sfrvidf Endpoint Intfrfbdf (SEI)
+Sfrvidf Endpoint Intfrfbdf (SEI)
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 Sfrvidf
+Sfrvidf
+Sfrvidf
+Sfrvidf
+Sfrvidf
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 Exdfption dlbss is mbppfd from \f3wsdl:fbult\fR (if bny)
+Exdfption dlbss is mbppfd from \f3wsdl:fbult\fR (if bny)
+Exdfption dlbss is mbppfd from \f3wsdl:fbult\fR (if bny)
+Exdfption dlbss is mbppfd from \f3wsdl:fbult\fR (if bny)
+Exdfption dlbss is mbppfd from \f3wsdl:fbult\fR (if bny)
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 Asynd Rfsponsf Bfbn is dfrivfd from rfsponsf \f3wsdl:mfssbgf\fR (if bny)
+Asynd Rfsponsf Bfbn is dfrivfd from rfsponsf \f3wsdl:mfssbgf\fR (if bny)
+Asynd Rfsponsf Bfbn is dfrivfd from rfsponsf \f3wsdl:mfssbgf\fR (if bny)
+Asynd Rfsponsf Bfbn is dfrivfd from rfsponsf \f3wsdl:mfssbgf\fR (if bny)
+Asynd Rfsponsf Bfbn is dfrivfd from rfsponsf \f3wsdl:mfssbgf\fR (if bny)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdhfmb typfs)
+\(bu
+\(bu
+\(bu
+\(bu
+JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdifmb typfs)
+JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdifmb typfs)
+JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdifmb typfs)
+JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdifmb typfs)
+JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdifmb typfs)
 .PP
-To stbrt thf \f3wsgfn\fR dommbnd, do thf following:
+.PP
+.PP
+.PP
+.PP
+To stbrt tif \f3wsgfn\fR dommbnd, do tif following:
+To stbrt tif \f3wsgfn\fR dommbnd, do tif following:
+To stbrt tif \f3wsgfn\fR dommbnd, do tif following:
+To stbrt tif \f3wsgfn\fR dommbnd, do tif following:
+To stbrt tif \f3wsgfn\fR dommbnd, do tif following:
+.PP
+.PP
+.PP
+.PP
 .PP
 \fIOrbdlf Solbris/Linux\fR:
+\fIOrbdlf Solbris/Linux\fR:
+\fIOrbdlf Solbris/Linux\fR:
+\fIOrbdlf Solbris/Linux\fR:
+\fIOrbdlf Solbris/Linux\fR:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3/bin/wsimport\&.sh \-hflp\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3/bin/wsimport\&.si \-iflp\fP
+\f3/bin/wsimport\&.si \-iflp\fP
+\f3/bin/wsimport\&.si \-iflp\fP
+\f3/bin/wsimport\&.si \-iflp\fP
+\f3/bin/wsimport\&.si \-iflp\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 \fIWindows\fR:
+\fIWindows\fR:
+\fIWindows\fR:
+\fIWindows\fR:
+\fIWindows\fR:
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3\fbin\fwsimport\&.bbt \-hflp\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fbin\fwsimport\&.bbt \-iflp\fP
+\f3\fbin\fwsimport\&.bbt \-iflp\fP
+\f3\fbin\fwsimport\&.bbt \-iflp\fP
+\f3\fbin\fwsimport\&.bbt \-iflp\fP
+\f3\fbin\fwsimport\&.bbt \-iflp\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .nf     
+.nf     
+.nf     
+.nf     
+.nf     
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
 \f3\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.SH OPTIONS    
+.TP
+.TP
+.TP
+.TP
 .TP
 -d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
+-d \fIdirfdtory\fR
 .br
-Spfdififs whfrf to plbdf gfnfrbtfd output filfs\&.
+.br
+.br
+.br
+.br
+Spfdififs wifrf to plbdf gfnfrbtfd output filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd output filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd output filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd output filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd output filfs\&.
 .TP
--b \fIpbth\fR
+.TP
+.TP
+.TP
+.TP
+-b \fIpbti\fR
+-b \fIpbti\fR
+-b \fIpbti\fR
+-b \fIpbti\fR
+-b \fIpbti\fR
 .br
-Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd with thf \f3-b\fR option\&. You dbn usf thfsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff thf \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+.br
+.br
+.br
+.br
+Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd witi tif \f3-b\fR option\&. You dbn usf tifsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd witi tif \f3-b\fR option\&. You dbn usf tifsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd witi tif \f3-b\fR option\&. You dbn usf tifsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd witi tif \f3-b\fR option\&. You dbn usf tifsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd witi tif \f3-b\fR option\&. You dbn usf tifsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+.TP
+.TP
+.TP
+.TP
 .TP
 -B \fIjbxbOption\fR
+-B \fIjbxbOption\fR
+-B \fIjbxbOption\fR
+-B \fIjbxbOption\fR
+-B \fIjbxbOption\fR
 .br
-Pbssfs thf \f3jbxbOption\fR option to thf JAXB sdhfmb dompilfr\&.
+.br
+.br
+.br
+.br
+Pbssfs tif \f3jbxbOption\fR option to tif JAXB sdifmb dompilfr\&.
+Pbssfs tif \f3jbxbOption\fR option to tif JAXB sdifmb dompilfr\&.
+Pbssfs tif \f3jbxbOption\fR option to tif JAXB sdifmb dompilfr\&.
+Pbssfs tif \f3jbxbOption\fR option to tif JAXB sdifmb dompilfr\&.
+Pbssfs tif \f3jbxbOption\fR option to tif JAXB sdifmb dompilfr\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -dbtblog
+-dbtblog
+-dbtblog
+-dbtblog
+-dbtblog
 .br
-Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Thf \f3-dbtblog\fR option supports thf TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff thf \fIUsfrs Guidf\fR tbb of thf Cbtblog Support pbgf bt http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.html
+.br
+.br
+.br
+.br
+Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Tif \f3-dbtblog\fR option supports tif TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff tif \fIUsfrs Guidf\fR tbb of tif Cbtblog Support pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Tif \f3-dbtblog\fR option supports tif TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff tif \fIUsfrs Guidf\fR tbb of tif Cbtblog Support pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Tif \f3-dbtblog\fR option supports tif TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff tif \fIUsfrs Guidf\fR tbb of tif Cbtblog Support pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Tif \f3-dbtblog\fR option supports tif TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff tif \fIUsfrs Guidf\fR tbb of tif Cbtblog Support pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Tif \f3-dbtblog\fR option supports tif TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff tif \fIUsfrs Guidf\fR tbb of tif Cbtblog Support pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+.TP
+.TP
+.TP
+.TP
 .TP
 -fxtfnsion
+-fxtfnsion
+-fxtfnsion
+-fxtfnsion
+-fxtfnsion
 .br
-Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions thbt brf not portbblf or thbt do not work with othfr implfmfntbtions\&.
+.br
+.br
+.br
+.br
+Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions tibt brf not portbblf or tibt do not work witi otifr implfmfntbtions\&.
+Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions tibt brf not portbblf or tibt do not work witi otifr implfmfntbtions\&.
+Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions tibt brf not portbblf or tibt do not work witi otifr implfmfntbtions\&.
+Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions tibt brf not portbblf or tibt do not work witi otifr implfmfntbtions\&.
+Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions tibt brf not portbblf or tibt do not work witi otifr implfmfntbtions\&.
 .TP
--hflp
-.br
-Displbys b hflp mfssbgf for thf \f3wsimport\fR dommbnd\&.
 .TP
--httpproxy: \fIhost\fR:\fIport\fR
+.TP
+.TP
+.TP
+-iflp
+-iflp
+-iflp
+-iflp
+-iflp
 .br
-Spfdififs bn HTTP proxy sfrvfr\&. Thf dffbult is 8080\&.
+.br
+.br
+.br
+.br
+Displbys b iflp mfssbgf for tif \f3wsimport\fR dommbnd\&.
+Displbys b iflp mfssbgf for tif \f3wsimport\fR dommbnd\&.
+Displbys b iflp mfssbgf for tif \f3wsimport\fR dommbnd\&.
+Displbys b iflp mfssbgf for tif \f3wsimport\fR dommbnd\&.
+Displbys b iflp mfssbgf for tif \f3wsimport\fR dommbnd\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-ittpproxy: \fIiost\fR:\fIport\fR
+-ittpproxy: \fIiost\fR:\fIport\fR
+-ittpproxy: \fIiost\fR:\fIport\fR
+-ittpproxy: \fIiost\fR:\fIport\fR
+-ittpproxy: \fIiost\fR:\fIport\fR
+.br
+.br
+.br
+.br
+.br
+Spfdififs bn HTTP proxy sfrvfr\&. Tif dffbult is 8080\&.
+Spfdififs bn HTTP proxy sfrvfr\&. Tif dffbult is 8080\&.
+Spfdififs bn HTTP proxy sfrvfr\&. Tif dffbult is 8080\&.
+Spfdififs bn HTTP proxy sfrvfr\&. Tif dffbult is 8080\&.
+Spfdififs bn HTTP proxy sfrvfr\&. Tif dffbult is 8080\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -kffp
+-kffp
+-kffp
+-kffp
+-kffp
+.br
+.br
+.br
+.br
 .br
 Kffps gfnfrbtfd filfs\&.
+Kffps gfnfrbtfd filfs\&.
+Kffps gfnfrbtfd filfs\&.
+Kffps gfnfrbtfd filfs\&.
+Kffps gfnfrbtfd filfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -p \fInbmf\fR
+-p \fInbmf\fR
+-p \fInbmf\fR
+-p \fInbmf\fR
+-p \fInbmf\fR
 .br
-Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf thf WSDL bnd sdhfmb binding dustomizbtions, bnd thf dffbult blgorithm dffinfd in thf spfdifidbtion\&.
+.br
+.br
+.br
+.br
+Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf tif WSDL bnd sdifmb binding dustomizbtions, bnd tif dffbult blgoritim dffinfd in tif spfdifidbtion\&.
+Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf tif WSDL bnd sdifmb binding dustomizbtions, bnd tif dffbult blgoritim dffinfd in tif spfdifidbtion\&.
+Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf tif WSDL bnd sdifmb binding dustomizbtions, bnd tif dffbult blgoritim dffinfd in tif spfdifidbtion\&.
+Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf tif WSDL bnd sdifmb binding dustomizbtions, bnd tif dffbult blgoritim dffinfd in tif spfdifidbtion\&.
+Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf tif WSDL bnd sdifmb binding dustomizbtions, bnd tif dffbult blgoritim dffinfd in tif spfdifidbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -s \fIdirfdtory\fR
+-s \fIdirfdtory\fR
+-s \fIdirfdtory\fR
+-s \fIdirfdtory\fR
+-s \fIdirfdtory\fR
 .br
-Spfdififs whfrf to plbdf gfnfrbtfd sourdf filfs\&.
+.br
+.br
+.br
+.br
+Spfdififs wifrf to plbdf gfnfrbtfd sourdf filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd sourdf filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd sourdf filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd sourdf filfs\&.
+Spfdififs wifrf to plbdf gfnfrbtfd sourdf filfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -vfrbosf
+-vfrbosf
+-vfrbosf
+-vfrbosf
+-vfrbosf
+.br
+.br
+.br
+.br
 .br
 Displbys dompilfr mfssbgfs\&.
+Displbys dompilfr mfssbgfs\&.
+Displbys dompilfr mfssbgfs\&.
+Displbys dompilfr mfssbgfs\&.
+Displbys dompilfr mfssbgfs\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+-vfrsion
+.br
+.br
+.br
+.br
 .br
 Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+Prints rflfbsf informbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -wsdllodbtion \fIlodbtion\fR
+-wsdllodbtion \fIlodbtion\fR
+-wsdllodbtion \fIlodbtion\fR
+-wsdllodbtion \fIlodbtion\fR
+-wsdllodbtion \fIlodbtion\fR
 .br
-Spfdififs thf \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
+.br
+.br
+.br
+.br
+Spfdififs tif \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
+Spfdififs tif \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
+Spfdififs tif \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
+Spfdififs tif \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
+Spfdififs tif \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -tbrgft
+-tbrgft
+-tbrgft
+-tbrgft
+-tbrgft
 .br
-Gfnfrbtfs dodf bddording to thf spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for thf JAX-WS 2\&.0 spfdifidbtion\&.
+.br
+.br
+.br
+.br
+Gfnfrbtfs dodf bddording to tif spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for tif JAX-WS 2\&.0 spfdifidbtion\&.
+Gfnfrbtfs dodf bddording to tif spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for tif JAX-WS 2\&.0 spfdifidbtion\&.
+Gfnfrbtfs dodf bddording to tif spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for tif JAX-WS 2\&.0 spfdifidbtion\&.
+Gfnfrbtfs dodf bddording to tif spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for tif JAX-WS 2\&.0 spfdifidbtion\&.
+Gfnfrbtfs dodf bddording to tif spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for tif JAX-WS 2\&.0 spfdifidbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -quift
+-quift
+-quift
+-quift
+-quift
 .br
-Supprfssfs thf \f3wsimport\fR dommbnd output\&.
+.br
+.br
+.br
+.br
+Supprfssfs tif \f3wsimport\fR dommbnd output\&.
+Supprfssfs tif \f3wsimport\fR dommbnd output\&.
+Supprfssfs tif \f3wsimport\fR dommbnd output\&.
+Supprfssfs tif \f3wsimport\fR dommbnd output\&.
+Supprfssfs tif \f3wsimport\fR dommbnd output\&.
 .PP
-Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using thf \f3-b\fR option, bnd thfy dbn bf usfd to dustomizf vbrious things sudh bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in thf dustomizbtion dodumfntbtion bt https://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.html
+.PP
+.PP
+.PP
+.PP
+Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using tif \f3-b\fR option, bnd tify dbn bf usfd to dustomizf vbrious tiings sudi bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in tif dustomizbtion dodumfntbtion bt ittps://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.itml
+Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using tif \f3-b\fR option, bnd tify dbn bf usfd to dustomizf vbrious tiings sudi bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in tif dustomizbtion dodumfntbtion bt ittps://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.itml
+Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using tif \f3-b\fR option, bnd tify dbn bf usfd to dustomizf vbrious tiings sudi bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in tif dustomizbtion dodumfntbtion bt ittps://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.itml
+Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using tif \f3-b\fR option, bnd tify dbn bf usfd to dustomizf vbrious tiings sudi bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in tif dustomizbtion dodumfntbtion bt ittps://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.itml
+Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using tif \f3-b\fR option, bnd tify dbn bf usfd to dustomizf vbrious tiings sudi bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in tif dustomizbtion dodumfntbtion bt ittps://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.itml
+.SH NONSTANDARD\ OPTIONS    
+.SH NONSTANDARD\ OPTIONS    
+.SH NONSTANDARD\ OPTIONS    
+.SH NONSTANDARD\ OPTIONS    
 .SH NONSTANDARD\ OPTIONS    
 .TP
+.TP
+.TP
+.TP
+.TP
+-XbdditionblHfbdfrs
+-XbdditionblHfbdfrs
+-XbdditionblHfbdfrs
+-XbdditionblHfbdfrs
 -XbdditionblHfbdfrs
 .br
-Mbps hfbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mfthod pbrbmftfrs\&.
-.TP
--Xbuthfilf \fIfilf\fR
 .br
-Thf WSDL URI thbt spfdififs thf filf thbt dontbins buthorizbtion informbtion\&. This URI is in thf following formbt:
+.br
+.br
+.br
+Mbps ifbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mftiod pbrbmftfrs\&.
+Mbps ifbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mftiod pbrbmftfrs\&.
+Mbps ifbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mftiod pbrbmftfrs\&.
+Mbps ifbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mftiod pbrbmftfrs\&.
+Mbps ifbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mftiod pbrbmftfrs\&.
+.TP
+.TP
+.TP
+.TP
+.TP
+-Xbutifilf \fIfilf\fR
+-Xbutifilf \fIfilf\fR
+-Xbutifilf \fIfilf\fR
+-Xbutifilf \fIfilf\fR
+-Xbutifilf \fIfilf\fR
+.br
+.br
+.br
+.br
+.br
+Tif WSDL URI tibt spfdififs tif filf tibt dontbins butiorizbtion informbtion\&. Tiis URI is in tif following formbt:
+Tif WSDL URI tibt spfdififs tif filf tibt dontbins butiorizbtion informbtion\&. Tiis URI is in tif following formbt:
+Tif WSDL URI tibt spfdififs tif filf tibt dontbins butiorizbtion informbtion\&. Tiis URI is in tif following formbt:
+Tif WSDL URI tibt spfdififs tif filf tibt dontbins butiorizbtion informbtion\&. Tiis URI is in tif following formbt:
+Tif WSDL URI tibt spfdififs tif filf tibt dontbins butiorizbtion informbtion\&. Tiis URI is in tif following formbt:
 
-http://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIhost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
+
+
+
+
+ittp://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIiost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
+ittp://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIiost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
+ittp://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIiost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
+ittp://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIiost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
+ittp://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIiost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -Xdfbug
+-Xdfbug
+-Xdfbug
+-Xdfbug
+-Xdfbug
+.br
+.br
+.br
+.br
 .br
 Prints dfbugging informbtion\&.
+Prints dfbugging informbtion\&.
+Prints dfbugging informbtion\&.
+Prints dfbugging informbtion\&.
+Prints dfbugging informbtion\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -Xno-bddrfssing-dbtbbinding
+-Xno-bddrfssing-dbtbbinding
+-Xno-bddrfssing-dbtbbinding
+-Xno-bddrfssing-dbtbbinding
+-Xno-bddrfssing-dbtbbinding
+.br
+.br
+.br
+.br
 .br
 Enbblfs binding of W3C EndpointRfffrfndfTypf to Jbvb\&.
+Enbblfs binding of W3C EndpointRfffrfndfTypf to Jbvb\&.
+Enbblfs binding of W3C EndpointRfffrfndfTypf to Jbvb\&.
+Enbblfs binding of W3C EndpointRfffrfndfTypf to Jbvb\&.
+Enbblfs binding of W3C EndpointRfffrfndfTypf to Jbvb\&.
+.TP
+.TP
+.TP
+.TP
 .TP
 -Xnodompilf
+-Xnodompilf
+-Xnodompilf
+-Xnodompilf
+-Xnodompilf
 .br
-Dofs not dompilf thf gfnfrbtfd Jbvb filfs\&.
+.br
+.br
+.br
+.br
+Dofs not dompilf tif gfnfrbtfd Jbvb filfs\&.
+Dofs not dompilf tif gfnfrbtfd Jbvb filfs\&.
+Dofs not dompilf tif gfnfrbtfd Jbvb filfs\&.
+Dofs not dompilf tif gfnfrbtfd Jbvb filfs\&.
+Dofs not dompilf tif gfnfrbtfd Jbvb filfs\&.
 .SH EXAMPLE    
-Thf following fxbmplf gfnfrbtfs thf Jbvb brtifbdts bnd dompilfs thf brtifbdts by importing \f3http://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
+.SH EXAMPLE    
+.SH EXAMPLE    
+.SH EXAMPLE    
+.SH EXAMPLE    
+Tif following fxbmplf gfnfrbtfs tif Jbvb brtifbdts bnd dompilfs tif brtifbdts by importing \f3ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
+Tif following fxbmplf gfnfrbtfs tif Jbvb brtifbdts bnd dompilfs tif brtifbdts by importing \f3ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
+Tif following fxbmplf gfnfrbtfs tif Jbvb brtifbdts bnd dompilfs tif brtifbdts by importing \f3ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
+Tif following fxbmplf gfnfrbtfs tif Jbvb brtifbdts bnd dompilfs tif brtifbdts by importing \f3ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
+Tif following fxbmplf gfnfrbtfs tif Jbvb brtifbdts bnd dompilfs tif brtifbdts by importing \f3ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
+.sp     
+.sp     
+.sp     
+.sp     
 .sp     
 .nf     
-\f3wsimport \-p stodkquotf http://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
+.nf     
+.nf     
+.nf     
+.nf     
+\f3wsimport \-p stodkquotf ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
+\f3wsimport \-p stodkquotf ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
+\f3wsimport \-p stodkquotf ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
+\f3wsimport \-p stodkquotf ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
+\f3wsimport \-p stodkquotf ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
 .fi     
+.fi     
+.fi     
+.fi     
+.fi     
+.nf     
+.nf     
+.nf     
+.nf     
 .nf     
 \f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+\f3\fP
+.fi     
+.fi     
+.fi     
+.fi     
 .fi     
 .sp     
+.sp     
+.sp     
+.sp     
+.sp     
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
+.SH SEE\ ALSO    
 .SH SEE\ ALSO    
 .TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+\(bu
+\(bu
+\(bu
+\(bu
 \(bu
 wsgfn(1)
+wsgfn(1)
+wsgfn(1)
+wsgfn(1)
+wsgfn(1)
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Thf Tools tbb of Wsimport Ant Tbsk pbgf http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Tif Tools tbb of Wsimport Ant Tbsk pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif Tools tbb of Wsimport Ant Tbsk pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif Tools tbb of Wsimport Ant Tbsk pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif Tools tbb of Wsimport Ant Tbsk pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif Tools tbb of Wsimport Ant Tbsk pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Thf \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Tif \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Tif \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Tif \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Tif \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+Tif \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
+.TP 0.2i    
 .TP 0.2i    
 \(bu
-Thf \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+\(bu
+\(bu
+\(bu
+\(bu
+Tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+Tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
+.RE
+.RE
+.RE
+.RE
 .RE
 .br
+.br
+.br
+.br
+.br
 'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'pl 8.5i
+'bp
+'bp
+'bp
+'bp
 'bp

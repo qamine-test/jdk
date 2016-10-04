@@ -1,404 +1,2020 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
-<html>
-<hfbd>
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<itml>
+<itml>
+<itml>
+<itml>
+<itml>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<ifbd>
+<titlf>jbvbx.print.bttributf pbdkbgf</titlf>
+<titlf>jbvbx.print.bttributf pbdkbgf</titlf>
+<titlf>jbvbx.print.bttributf pbdkbgf</titlf>
+<titlf>jbvbx.print.bttributf pbdkbgf</titlf>
 <titlf>jbvbx.print.bttributf pbdkbgf</titlf>
 <!--
-Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+<!--
+<!--
+<!--
+<!--
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 
-This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-bddompbnifd this dodf).
 
-You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+
+
+
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+bddompbnifd tiis dodf).
+
+
+
+
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+
+
+
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+qufstions.
+qufstions.
+qufstions.
 qufstions.
 -->
-</hfbd>
-<body bgdolor="whitf">
+-->
+-->
+-->
+-->
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+</ifbd>
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
+<body bgdolor="wiitf">
 Providfs dlbssfs bnd intfrfbdfs
-thbt dfsdribf thf typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
-Sfrvidf bttributfs bnd how thfy dbn bf dollfdtfd into bttributf sfts.
-<H3>Whbt is bn Attributf?</H3>
-Whfn sftting up b print job,
-b dlifnt spfdififs two things:
+Providfs dlbssfs bnd intfrfbdfs
+Providfs dlbssfs bnd intfrfbdfs
+Providfs dlbssfs bnd intfrfbdfs
+Providfs dlbssfs bnd intfrfbdfs
+tibt dfsdribf tif typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
+tibt dfsdribf tif typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
+tibt dfsdribf tif typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
+tibt dfsdribf tif typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
+tibt dfsdribf tif typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
+Sfrvidf bttributfs bnd iow tify dbn bf dollfdtfd into bttributf sfts.
+Sfrvidf bttributfs bnd iow tify dbn bf dollfdtfd into bttributf sfts.
+Sfrvidf bttributfs bnd iow tify dbn bf dollfdtfd into bttributf sfts.
+Sfrvidf bttributfs bnd iow tify dbn bf dollfdtfd into bttributf sfts.
+Sfrvidf bttributfs bnd iow tify dbn bf dollfdtfd into bttributf sfts.
+<H3>Wibt is bn Attributf?</H3>
+<H3>Wibt is bn Attributf?</H3>
+<H3>Wibt is bn Attributf?</H3>
+<H3>Wibt is bn Attributf?</H3>
+<H3>Wibt is bn Attributf?</H3>
+Wifn sftting up b print job,
+Wifn sftting up b print job,
+Wifn sftting up b print job,
+Wifn sftting up b print job,
+Wifn sftting up b print job,
+b dlifnt spfdififs two tiings:
+b dlifnt spfdififs two tiings:
+b dlifnt spfdififs two tiings:
+b dlifnt spfdififs two tiings:
+b dlifnt spfdififs two tiings:
 <B>print dbtb</B> bnd <B>prodfssing instrudtions.</B>
-Thf print dbtb is thf bdtubl dontfnt to bf printfd.
-Thf prodfssing instrudtions tfll thf printfr how to print thf print dbtb,
-sudh bs: whbt mfdib to usf, how mbny dopifs to print, bnd 
-whfthfr to print on onf or both sidfs of b shfft.  Thf dlifnt spfdififs
-thfsf prodfssing instrudtions with thf bttributf dffinitions of thf Jbvb 
+<B>print dbtb</B> bnd <B>prodfssing instrudtions.</B>
+<B>print dbtb</B> bnd <B>prodfssing instrudtions.</B>
+<B>print dbtb</B> bnd <B>prodfssing instrudtions.</B>
+<B>print dbtb</B> bnd <B>prodfssing instrudtions.</B>
+Tif print dbtb is tif bdtubl dontfnt to bf printfd.
+Tif print dbtb is tif bdtubl dontfnt to bf printfd.
+Tif print dbtb is tif bdtubl dontfnt to bf printfd.
+Tif print dbtb is tif bdtubl dontfnt to bf printfd.
+Tif print dbtb is tif bdtubl dontfnt to bf printfd.
+Tif prodfssing instrudtions tfll tif printfr iow to print tif print dbtb,
+Tif prodfssing instrudtions tfll tif printfr iow to print tif print dbtb,
+Tif prodfssing instrudtions tfll tif printfr iow to print tif print dbtb,
+Tif prodfssing instrudtions tfll tif printfr iow to print tif print dbtb,
+Tif prodfssing instrudtions tfll tif printfr iow to print tif print dbtb,
+sudi bs: wibt mfdib to usf, iow mbny dopifs to print, bnd 
+sudi bs: wibt mfdib to usf, iow mbny dopifs to print, bnd 
+sudi bs: wibt mfdib to usf, iow mbny dopifs to print, bnd 
+sudi bs: wibt mfdib to usf, iow mbny dopifs to print, bnd 
+sudi bs: wibt mfdib to usf, iow mbny dopifs to print, bnd 
+wiftifr to print on onf or boti sidfs of b sifft.  Tif dlifnt spfdififs
+wiftifr to print on onf or boti sidfs of b sifft.  Tif dlifnt spfdififs
+wiftifr to print on onf or boti sidfs of b sifft.  Tif dlifnt spfdififs
+wiftifr to print on onf or boti sidfs of b sifft.  Tif dlifnt spfdififs
+wiftifr to print on onf or boti sidfs of b sifft.  Tif dlifnt spfdififs
+tifsf prodfssing instrudtions witi tif bttributf dffinitions of tif Jbvb 
+tifsf prodfssing instrudtions witi tif bttributf dffinitions of tif Jbvb 
+tifsf prodfssing instrudtions witi tif bttributf dffinitions of tif Jbvb 
+tifsf prodfssing instrudtions witi tif bttributf dffinitions of tif Jbvb 
+tifsf prodfssing instrudtions witi tif bttributf dffinitions of tif Jbvb 
+Print Sfrvidf API.
+Print Sfrvidf API.
+Print Sfrvidf API.
+Print Sfrvidf API.
 Print Sfrvidf API.
 <P>
-Thf print dbtb bnd thf prodfssing instrudtions
-brf sfpbrbtf fntitifs.  This mfbns thbt:
+<P>
+<P>
+<P>
+<P>
+Tif print dbtb bnd tif prodfssing instrudtions
+Tif print dbtb bnd tif prodfssing instrudtions
+Tif print dbtb bnd tif prodfssing instrudtions
+Tif print dbtb bnd tif prodfssing instrudtions
+Tif print dbtb bnd tif prodfssing instrudtions
+brf sfpbrbtf fntitifs.  Tiis mfbns tibt:
+brf sfpbrbtf fntitifs.  Tiis mfbns tibt:
+brf sfpbrbtf fntitifs.  Tiis mfbns tibt:
+brf sfpbrbtf fntitifs.  Tiis mfbns tibt:
+brf sfpbrbtf fntitifs.  Tiis mfbns tibt:
 <ul>
-<li>You dbn print thf sbmf print dbtb
+<ul>
+<ul>
+<ul>
+<ul>
+<li>You dbn print tif sbmf print dbtb
+<li>You dbn print tif sbmf print dbtb
+<li>You dbn print tif sbmf print dbtb
+<li>You dbn print tif sbmf print dbtb
+<li>You dbn print tif sbmf print dbtb
+bt difffrfnt timfs using difffrfnt prodfssing instrudtions.
+bt difffrfnt timfs using difffrfnt prodfssing instrudtions.
+bt difffrfnt timfs using difffrfnt prodfssing instrudtions.
+bt difffrfnt timfs using difffrfnt prodfssing instrudtions.
 bt difffrfnt timfs using difffrfnt prodfssing instrudtions.
 <br>
+<br>
+<br>
+<br>
+<br>
 For fxbmplf, you dbn print b slidf prfsfntbtion
-on US lfttfr-sizfd whitf pbpfr,
+For fxbmplf, you dbn print b slidf prfsfntbtion
+For fxbmplf, you dbn print b slidf prfsfntbtion
+For fxbmplf, you dbn print b slidf prfsfntbtion
+For fxbmplf, you dbn print b slidf prfsfntbtion
+on US lfttfr-sizfd wiitf pbpfr,
+on US lfttfr-sizfd wiitf pbpfr,
+on US lfttfr-sizfd wiitf pbpfr,
+on US lfttfr-sizfd wiitf pbpfr,
+on US lfttfr-sizfd wiitf pbpfr,
 doublf-sidfd, stbplfd, 20 dopifs
-to mbkf hbndouts for b tblk;
-bnd you dould print thf sbmf slidf prfsfntbtion
+doublf-sidfd, stbplfd, 20 dopifs
+doublf-sidfd, stbplfd, 20 dopifs
+doublf-sidfd, stbplfd, 20 dopifs
+doublf-sidfd, stbplfd, 20 dopifs
+to mbkf ibndouts for b tblk;
+to mbkf ibndouts for b tblk;
+to mbkf ibndouts for b tblk;
+to mbkf ibndouts for b tblk;
+to mbkf ibndouts for b tblk;
+bnd you dould print tif sbmf slidf prfsfntbtion
+bnd you dould print tif sbmf slidf prfsfntbtion
+bnd you dould print tif sbmf slidf prfsfntbtion
+bnd you dould print tif sbmf slidf prfsfntbtion
+bnd you dould print tif sbmf slidf prfsfntbtion
+on US lfttfr-sizfd trbnspbrfndifs,
+on US lfttfr-sizfd trbnspbrfndifs,
+on US lfttfr-sizfd trbnspbrfndifs,
+on US lfttfr-sizfd trbnspbrfndifs,
 on US lfttfr-sizfd trbnspbrfndifs,
 singlf-sidfd, onf dopy
-to mbkf thf bdtubl slidfs for thf tblk.
-<li>You dbn usf thf sbmf prodfssing instrudtions
+singlf-sidfd, onf dopy
+singlf-sidfd, onf dopy
+singlf-sidfd, onf dopy
+singlf-sidfd, onf dopy
+to mbkf tif bdtubl slidfs for tif tblk.
+to mbkf tif bdtubl slidfs for tif tblk.
+to mbkf tif bdtubl slidfs for tif tblk.
+to mbkf tif bdtubl slidfs for tif tblk.
+to mbkf tif bdtubl slidfs for tif tblk.
+<li>You dbn usf tif sbmf prodfssing instrudtions
+<li>You dbn usf tif sbmf prodfssing instrudtions
+<li>You dbn usf tif sbmf prodfssing instrudtions
+<li>You dbn usf tif sbmf prodfssing instrudtions
+<li>You dbn usf tif sbmf prodfssing instrudtions
+bt difffrfnt timfs to print difffrfnt dbtb.
+bt difffrfnt timfs to print difffrfnt dbtb.
+bt difffrfnt timfs to print difffrfnt dbtb.
+bt difffrfnt timfs to print difffrfnt dbtb.
 bt difffrfnt timfs to print difffrfnt dbtb.
 For fxbmplf, you dould sft your dffbult prodfssing 
+For fxbmplf, you dould sft your dffbult prodfssing 
+For fxbmplf, you dould sft your dffbult prodfssing 
+For fxbmplf, you dould sft your dffbult prodfssing 
+For fxbmplf, you dould sft your dffbult prodfssing 
 instrudtions to: US lfttfr-sizfd pbpfr, doublf sidfd, stbplfd.
-Whfnfvfr you print b job, it prints with thfsf sfttings,
-unlfss you fxpliditly ovfrridf thfm.
+instrudtions to: US lfttfr-sizfd pbpfr, doublf sidfd, stbplfd.
+instrudtions to: US lfttfr-sizfd pbpfr, doublf sidfd, stbplfd.
+instrudtions to: US lfttfr-sizfd pbpfr, doublf sidfd, stbplfd.
+instrudtions to: US lfttfr-sizfd pbpfr, doublf sidfd, stbplfd.
+Wifnfvfr you print b job, it prints witi tifsf sfttings,
+Wifnfvfr you print b job, it prints witi tifsf sfttings,
+Wifnfvfr you print b job, it prints witi tifsf sfttings,
+Wifnfvfr you print b job, it prints witi tifsf sfttings,
+Wifnfvfr you print b job, it prints witi tifsf sfttings,
+unlfss you fxpliditly ovfrridf tifm.
+unlfss you fxpliditly ovfrridf tifm.
+unlfss you fxpliditly ovfrridf tifm.
+unlfss you fxpliditly ovfrridf tifm.
+unlfss you fxpliditly ovfrridf tifm.
+</ul>
+</ul>
+</ul>
+</ul>
 </ul>
 <P>
+<P>
+<P>
+<P>
+<P>
 
-Thf prodfssing instrudtion dofs not spfdify how thf print job 
-prodfssfs thf rfqufst; fbdh prodfssing instrudtion is only b dfsdription 
-of thf rfsults of b print job.  Thf print job dftfrminfs thf mbnnfr in
-whidh it bdhifvfs thf rfsults spfdififd by thf prodfssing instrudtions.
+
+
+
+
+Tif prodfssing instrudtion dofs not spfdify iow tif print job 
+Tif prodfssing instrudtion dofs not spfdify iow tif print job 
+Tif prodfssing instrudtion dofs not spfdify iow tif print job 
+Tif prodfssing instrudtion dofs not spfdify iow tif print job 
+Tif prodfssing instrudtion dofs not spfdify iow tif print job 
+prodfssfs tif rfqufst; fbdi prodfssing instrudtion is only b dfsdription 
+prodfssfs tif rfqufst; fbdi prodfssing instrudtion is only b dfsdription 
+prodfssfs tif rfqufst; fbdi prodfssing instrudtion is only b dfsdription 
+prodfssfs tif rfqufst; fbdi prodfssing instrudtion is only b dfsdription 
+prodfssfs tif rfqufst; fbdi prodfssing instrudtion is only b dfsdription 
+of tif rfsults of b print job.  Tif print job dftfrminfs tif mbnnfr in
+of tif rfsults of b print job.  Tif print job dftfrminfs tif mbnnfr in
+of tif rfsults of b print job.  Tif print job dftfrminfs tif mbnnfr in
+of tif rfsults of b print job.  Tif print job dftfrminfs tif mbnnfr in
+of tif rfsults of b print job.  Tif print job dftfrminfs tif mbnnfr in
+wiidi it bdiifvfs tif rfsults spfdififd by tif prodfssing instrudtions.
+wiidi it bdiifvfs tif rfsults spfdififd by tif prodfssing instrudtions.
+wiidi it bdiifvfs tif rfsults spfdififd by tif prodfssing instrudtions.
+wiidi it bdiifvfs tif rfsults spfdififd by tif prodfssing instrudtions.
+wiidi it bdiifvfs tif rfsults spfdififd by tif prodfssing instrudtions.
+Rfprfsfnting prodfssing instrudtions bs dfsdriptivf itfms
+Rfprfsfnting prodfssing instrudtions bs dfsdriptivf itfms
+Rfprfsfnting prodfssing instrudtions bs dfsdriptivf itfms
+Rfprfsfnting prodfssing instrudtions bs dfsdriptivf itfms
 Rfprfsfnting prodfssing instrudtions bs dfsdriptivf itfms
 providfs morf flfxibility for implfmfnting print jobs.
-<h4>Attributf Cbtfgorifs bnd Vblufs</h4>
-Ebdh printfr hbs b sft of dbpbbilitifs, sudh bs thf bbility to print on
-difffrfnt pbpfr sizfs or thf bbility to print morf thbn onf dopy.  Ebdh of 
-thf dbpbbilitifs hbs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
-dbpbbility might hbvf this rbngf of vblufs: [lbndsdbpf, portrbit]. 
-For fbdh print rfqufst, thf dbpbbility is sft to onf of thfsf vblufs.  Thf 
-Jbvb Print Sfrvidf API usfs thf tfrm <b>bttributf dbtfgory</b> to rfffr to
-b printfr dbpbbility bnd thf tfrm <b>bttributf vbluf</b> to rfffr to thf vbluf
-of thf dbpbbility.
+providfs morf flfxibility for implfmfnting print jobs.
+providfs morf flfxibility for implfmfnting print jobs.
+providfs morf flfxibility for implfmfnting print jobs.
+providfs morf flfxibility for implfmfnting print jobs.
+<i4>Attributf Cbtfgorifs bnd Vblufs</i4>
+<i4>Attributf Cbtfgorifs bnd Vblufs</i4>
+<i4>Attributf Cbtfgorifs bnd Vblufs</i4>
+<i4>Attributf Cbtfgorifs bnd Vblufs</i4>
+<i4>Attributf Cbtfgorifs bnd Vblufs</i4>
+Ebdi printfr ibs b sft of dbpbbilitifs, sudi bs tif bbility to print on
+Ebdi printfr ibs b sft of dbpbbilitifs, sudi bs tif bbility to print on
+Ebdi printfr ibs b sft of dbpbbilitifs, sudi bs tif bbility to print on
+Ebdi printfr ibs b sft of dbpbbilitifs, sudi bs tif bbility to print on
+Ebdi printfr ibs b sft of dbpbbilitifs, sudi bs tif bbility to print on
+difffrfnt pbpfr sizfs or tif bbility to print morf tibn onf dopy.  Ebdi of 
+difffrfnt pbpfr sizfs or tif bbility to print morf tibn onf dopy.  Ebdi of 
+difffrfnt pbpfr sizfs or tif bbility to print morf tibn onf dopy.  Ebdi of 
+difffrfnt pbpfr sizfs or tif bbility to print morf tibn onf dopy.  Ebdi of 
+difffrfnt pbpfr sizfs or tif bbility to print morf tibn onf dopy.  Ebdi of 
+tif dbpbbilitifs ibs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
+tif dbpbbilitifs ibs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
+tif dbpbbilitifs ibs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
+tif dbpbbilitifs ibs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
+tif dbpbbilitifs ibs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
+dbpbbility migit ibvf tiis rbngf of vblufs: [lbndsdbpf, portrbit]. 
+dbpbbility migit ibvf tiis rbngf of vblufs: [lbndsdbpf, portrbit]. 
+dbpbbility migit ibvf tiis rbngf of vblufs: [lbndsdbpf, portrbit]. 
+dbpbbility migit ibvf tiis rbngf of vblufs: [lbndsdbpf, portrbit]. 
+dbpbbility migit ibvf tiis rbngf of vblufs: [lbndsdbpf, portrbit]. 
+For fbdi print rfqufst, tif dbpbbility is sft to onf of tifsf vblufs.  Tif 
+For fbdi print rfqufst, tif dbpbbility is sft to onf of tifsf vblufs.  Tif 
+For fbdi print rfqufst, tif dbpbbility is sft to onf of tifsf vblufs.  Tif 
+For fbdi print rfqufst, tif dbpbbility is sft to onf of tifsf vblufs.  Tif 
+For fbdi print rfqufst, tif dbpbbility is sft to onf of tifsf vblufs.  Tif 
+Jbvb Print Sfrvidf API usfs tif tfrm <b>bttributf dbtfgory</b> to rfffr to
+Jbvb Print Sfrvidf API usfs tif tfrm <b>bttributf dbtfgory</b> to rfffr to
+Jbvb Print Sfrvidf API usfs tif tfrm <b>bttributf dbtfgory</b> to rfffr to
+Jbvb Print Sfrvidf API usfs tif tfrm <b>bttributf dbtfgory</b> to rfffr to
+Jbvb Print Sfrvidf API usfs tif tfrm <b>bttributf dbtfgory</b> to rfffr to
+b printfr dbpbbility bnd tif tfrm <b>bttributf vbluf</b> to rfffr to tif vbluf
+b printfr dbpbbility bnd tif tfrm <b>bttributf vbluf</b> to rfffr to tif vbluf
+b printfr dbpbbility bnd tif tfrm <b>bttributf vbluf</b> to rfffr to tif vbluf
+b printfr dbpbbility bnd tif tfrm <b>bttributf vbluf</b> to rfffr to tif vbluf
+b printfr dbpbbility bnd tif tfrm <b>bttributf vbluf</b> to rfffr to tif vbluf
+of tif dbpbbility.
+of tif dbpbbility.
+of tif dbpbbility.
+of tif dbpbbility.
+of tif dbpbbility.
 <p>
-In thf Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
-dlbss implfmfnting thf <b hrff="Attributf.html">Attributf</b> intfrfbdf.  
-Attributf vblufs brf instbndfs of sudh b dlbss or 
-onf of its subdlbssfs.  For fxbmplf, to spfdify thf numbfr of dopifs, bn 
-bpplidbtion donstrudts bn instbndf of thf 
-<b hrff="stbndbrd/Copifs.html">Copifs</b> dlbss with thf 
-numbfr of dfsirfd dopifs bnd usfs thf <dodf>Copifs</dodf> instbndf bs pbrt of 
-thf print rfqufst.  In this dbsf, thf <dodf>Copifs</dodf> dlbss rfprfsfnts thf 
-bttributf dbtfgory, bnd thf <dodf>Copifs</dodf> instbndf rfprfsfnts thf 
+<p>
+<p>
+<p>
+<p>
+In tif Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
+In tif Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
+In tif Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
+In tif Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
+In tif Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
+dlbss implfmfnting tif <b irff="Attributf.itml">Attributf</b> intfrfbdf.  
+dlbss implfmfnting tif <b irff="Attributf.itml">Attributf</b> intfrfbdf.  
+dlbss implfmfnting tif <b irff="Attributf.itml">Attributf</b> intfrfbdf.  
+dlbss implfmfnting tif <b irff="Attributf.itml">Attributf</b> intfrfbdf.  
+dlbss implfmfnting tif <b irff="Attributf.itml">Attributf</b> intfrfbdf.  
+Attributf vblufs brf instbndfs of sudi b dlbss or 
+Attributf vblufs brf instbndfs of sudi b dlbss or 
+Attributf vblufs brf instbndfs of sudi b dlbss or 
+Attributf vblufs brf instbndfs of sudi b dlbss or 
+Attributf vblufs brf instbndfs of sudi b dlbss or 
+onf of its subdlbssfs.  For fxbmplf, to spfdify tif numbfr of dopifs, bn 
+onf of its subdlbssfs.  For fxbmplf, to spfdify tif numbfr of dopifs, bn 
+onf of its subdlbssfs.  For fxbmplf, to spfdify tif numbfr of dopifs, bn 
+onf of its subdlbssfs.  For fxbmplf, to spfdify tif numbfr of dopifs, bn 
+onf of its subdlbssfs.  For fxbmplf, to spfdify tif numbfr of dopifs, bn 
+bpplidbtion donstrudts bn instbndf of tif 
+bpplidbtion donstrudts bn instbndf of tif 
+bpplidbtion donstrudts bn instbndf of tif 
+bpplidbtion donstrudts bn instbndf of tif 
+bpplidbtion donstrudts bn instbndf of tif 
+<b irff="stbndbrd/Copifs.itml">Copifs</b> dlbss witi tif 
+<b irff="stbndbrd/Copifs.itml">Copifs</b> dlbss witi tif 
+<b irff="stbndbrd/Copifs.itml">Copifs</b> dlbss witi tif 
+<b irff="stbndbrd/Copifs.itml">Copifs</b> dlbss witi tif 
+<b irff="stbndbrd/Copifs.itml">Copifs</b> dlbss witi tif 
+numbfr of dfsirfd dopifs bnd usfs tif <dodf>Copifs</dodf> instbndf bs pbrt of 
+numbfr of dfsirfd dopifs bnd usfs tif <dodf>Copifs</dodf> instbndf bs pbrt of 
+numbfr of dfsirfd dopifs bnd usfs tif <dodf>Copifs</dodf> instbndf bs pbrt of 
+numbfr of dfsirfd dopifs bnd usfs tif <dodf>Copifs</dodf> instbndf bs pbrt of 
+numbfr of dfsirfd dopifs bnd usfs tif <dodf>Copifs</dodf> instbndf bs pbrt of 
+tif print rfqufst.  In tiis dbsf, tif <dodf>Copifs</dodf> dlbss rfprfsfnts tif 
+tif print rfqufst.  In tiis dbsf, tif <dodf>Copifs</dodf> dlbss rfprfsfnts tif 
+tif print rfqufst.  In tiis dbsf, tif <dodf>Copifs</dodf> dlbss rfprfsfnts tif 
+tif print rfqufst.  In tiis dbsf, tif <dodf>Copifs</dodf> dlbss rfprfsfnts tif 
+tif print rfqufst.  In tiis dbsf, tif <dodf>Copifs</dodf> dlbss rfprfsfnts tif 
+bttributf dbtfgory, bnd tif <dodf>Copifs</dodf> instbndf rfprfsfnts tif 
+bttributf dbtfgory, bnd tif <dodf>Copifs</dodf> instbndf rfprfsfnts tif 
+bttributf dbtfgory, bnd tif <dodf>Copifs</dodf> instbndf rfprfsfnts tif 
+bttributf dbtfgory, bnd tif <dodf>Copifs</dodf> instbndf rfprfsfnts tif 
+bttributf dbtfgory, bnd tif <dodf>Copifs</dodf> instbndf rfprfsfnts tif 
+bttributf vbluf.
+bttributf vbluf.
+bttributf vbluf.
+bttributf vbluf.
 bttributf vbluf.
 
-<h4><b nbmf="rolf"></b>Attributf Rolfs</h4>
 
-Whfn submitting b print job to b printfr, thf dlifnt providfs thf
-bttributfs dfsdribing thf dhbrbdtfristids of thf print dbtb, sudh bs
-thf dodumfnt nbmf, bnd how thf print dbtb should bf printfd, sudh bs
+
+
+
+<i4><b nbmf="rolf"></b>Attributf Rolfs</i4>
+<i4><b nbmf="rolf"></b>Attributf Rolfs</i4>
+<i4><b nbmf="rolf"></b>Attributf Rolfs</i4>
+<i4><b nbmf="rolf"></b>Attributf Rolfs</i4>
+<i4><b nbmf="rolf"></b>Attributf Rolfs</i4>
+
+
+
+
+
+Wifn submitting b print job to b printfr, tif dlifnt providfs tif
+Wifn submitting b print job to b printfr, tif dlifnt providfs tif
+Wifn submitting b print job to b printfr, tif dlifnt providfs tif
+Wifn submitting b print job to b printfr, tif dlifnt providfs tif
+Wifn submitting b print job to b printfr, tif dlifnt providfs tif
+bttributfs dfsdribing tif dibrbdtfristids of tif print dbtb, sudi bs
+bttributfs dfsdribing tif dibrbdtfristids of tif print dbtb, sudi bs
+bttributfs dfsdribing tif dibrbdtfristids of tif print dbtb, sudi bs
+bttributfs dfsdribing tif dibrbdtfristids of tif print dbtb, sudi bs
+bttributfs dfsdribing tif dibrbdtfristids of tif print dbtb, sudi bs
+tif dodumfnt nbmf, bnd iow tif print dbtb siould bf printfd, sudi bs
+tif dodumfnt nbmf, bnd iow tif print dbtb siould bf printfd, sudi bs
+tif dodumfnt nbmf, bnd iow tif print dbtb siould bf printfd, sudi bs
+tif dodumfnt nbmf, bnd iow tif print dbtb siould bf printfd, sudi bs
+tif dodumfnt nbmf, bnd iow tif print dbtb siould bf printfd, sudi bs
 doublf-sidfd, fivf dopifs.  If b print job donsists of multiplf
-pifdfs of print dbtb, difffrfnt pifdfs might hbvf difffrfnt prodfssing
-instrudtions, sudh bs 8 x 11 indh mfdib for thf first dodumfnt, bnd
-11 x 17 indh mfdib for bnothfr dodumfnt.
+doublf-sidfd, fivf dopifs.  If b print job donsists of multiplf
+doublf-sidfd, fivf dopifs.  If b print job donsists of multiplf
+doublf-sidfd, fivf dopifs.  If b print job donsists of multiplf
+doublf-sidfd, fivf dopifs.  If b print job donsists of multiplf
+pifdfs of print dbtb, difffrfnt pifdfs migit ibvf difffrfnt prodfssing
+pifdfs of print dbtb, difffrfnt pifdfs migit ibvf difffrfnt prodfssing
+pifdfs of print dbtb, difffrfnt pifdfs migit ibvf difffrfnt prodfssing
+pifdfs of print dbtb, difffrfnt pifdfs migit ibvf difffrfnt prodfssing
+pifdfs of print dbtb, difffrfnt pifdfs migit ibvf difffrfnt prodfssing
+instrudtions, sudi bs 8 x 11 indi mfdib for tif first dodumfnt, bnd
+instrudtions, sudi bs 8 x 11 indi mfdib for tif first dodumfnt, bnd
+instrudtions, sudi bs 8 x 11 indi mfdib for tif first dodumfnt, bnd
+instrudtions, sudi bs 8 x 11 indi mfdib for tif first dodumfnt, bnd
+instrudtions, sudi bs 8 x 11 indi mfdib for tif first dodumfnt, bnd
+11 x 17 indi mfdib for bnotifr dodumfnt.
+11 x 17 indi mfdib for bnotifr dodumfnt.
+11 x 17 indi mfdib for bnotifr dodumfnt.
+11 x 17 indi mfdib for bnotifr dodumfnt.
+11 x 17 indi mfdib for bnotifr dodumfnt.
 <p>
-Ondf thf printfr stbrts prodfssing thf print job,
-bdditionbl informbtion bbout thf job bfdomfs bvbilbblf, whidh might indludf:
-thf job stbtf (sudh bs <i>domplftfd</i> or <i>qufufd</i>) bnd
-thf numbfr of pbgfs printfd so fbr.  Thfsf pifdfs of informbtion brf blso
-bttributfs.  Attributfs dbn blso dfsdribf thf printfr itsflf, sudh bs:
-thf printfr nbmf, thf printfr lodbtion, bnd thf numbfr of jobs qufufd. 
+<p>
+<p>
+<p>
+<p>
+Ondf tif printfr stbrts prodfssing tif print job,
+Ondf tif printfr stbrts prodfssing tif print job,
+Ondf tif printfr stbrts prodfssing tif print job,
+Ondf tif printfr stbrts prodfssing tif print job,
+Ondf tif printfr stbrts prodfssing tif print job,
+bdditionbl informbtion bbout tif job bfdomfs bvbilbblf, wiidi migit indludf:
+bdditionbl informbtion bbout tif job bfdomfs bvbilbblf, wiidi migit indludf:
+bdditionbl informbtion bbout tif job bfdomfs bvbilbblf, wiidi migit indludf:
+bdditionbl informbtion bbout tif job bfdomfs bvbilbblf, wiidi migit indludf:
+bdditionbl informbtion bbout tif job bfdomfs bvbilbblf, wiidi migit indludf:
+tif job stbtf (sudi bs <i>domplftfd</i> or <i>qufufd</i>) bnd
+tif job stbtf (sudi bs <i>domplftfd</i> or <i>qufufd</i>) bnd
+tif job stbtf (sudi bs <i>domplftfd</i> or <i>qufufd</i>) bnd
+tif job stbtf (sudi bs <i>domplftfd</i> or <i>qufufd</i>) bnd
+tif job stbtf (sudi bs <i>domplftfd</i> or <i>qufufd</i>) bnd
+tif numbfr of pbgfs printfd so fbr.  Tifsf pifdfs of informbtion brf blso
+tif numbfr of pbgfs printfd so fbr.  Tifsf pifdfs of informbtion brf blso
+tif numbfr of pbgfs printfd so fbr.  Tifsf pifdfs of informbtion brf blso
+tif numbfr of pbgfs printfd so fbr.  Tifsf pifdfs of informbtion brf blso
+tif numbfr of pbgfs printfd so fbr.  Tifsf pifdfs of informbtion brf blso
+bttributfs.  Attributfs dbn blso dfsdribf tif printfr itsflf, sudi bs:
+bttributfs.  Attributfs dbn blso dfsdribf tif printfr itsflf, sudi bs:
+bttributfs.  Attributfs dbn blso dfsdribf tif printfr itsflf, sudi bs:
+bttributfs.  Attributfs dbn blso dfsdribf tif printfr itsflf, sudi bs:
+bttributfs.  Attributfs dbn blso dfsdribf tif printfr itsflf, sudi bs:
+tif printfr nbmf, tif printfr lodbtion, bnd tif numbfr of jobs qufufd. 
+tif printfr nbmf, tif printfr lodbtion, bnd tif numbfr of jobs qufufd. 
+tif printfr nbmf, tif printfr lodbtion, bnd tif numbfr of jobs qufufd. 
+tif printfr nbmf, tif printfr lodbtion, bnd tif numbfr of jobs qufufd. 
+tif printfr nbmf, tif printfr lodbtion, bnd tif numbfr of jobs qufufd. 
+<p>
+<p>
+<p>
+<p>
 <p>
 
-Thf Jbvb Print Sfrvidf API dffinfs thfsf difffrfnt kinds of bttributfs 
-with fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
+
+
+
+
+Tif Jbvb Print Sfrvidf API dffinfs tifsf difffrfnt kinds of bttributfs 
+Tif Jbvb Print Sfrvidf API dffinfs tifsf difffrfnt kinds of bttributfs 
+Tif Jbvb Print Sfrvidf API dffinfs tifsf difffrfnt kinds of bttributfs 
+Tif Jbvb Print Sfrvidf API dffinfs tifsf difffrfnt kinds of bttributfs 
+Tif Jbvb Print Sfrvidf API dffinfs tifsf difffrfnt kinds of bttributfs 
+witi fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
+witi fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
+witi fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
+witi fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
+witi fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
 <ul>
-<li><A HREF="DodAttributf.html">DodAttributf</A> spfdififs b dhbrbdtfristid
-of bn individubl dodumfnt bnd thf print job sfttings to bf bpplifd to bn
+<ul>
+<ul>
+<ul>
+<ul>
+<li><A HREF="DodAttributf.itml">DodAttributf</A> spfdififs b dibrbdtfristid
+<li><A HREF="DodAttributf.itml">DodAttributf</A> spfdififs b dibrbdtfristid
+<li><A HREF="DodAttributf.itml">DodAttributf</A> spfdififs b dibrbdtfristid
+<li><A HREF="DodAttributf.itml">DodAttributf</A> spfdififs b dibrbdtfristid
+<li><A HREF="DodAttributf.itml">DodAttributf</A> spfdififs b dibrbdtfristid
+of bn individubl dodumfnt bnd tif print job sfttings to bf bpplifd to bn
+of bn individubl dodumfnt bnd tif print job sfttings to bf bpplifd to bn
+of bn individubl dodumfnt bnd tif print job sfttings to bf bpplifd to bn
+of bn individubl dodumfnt bnd tif print job sfttings to bf bpplifd to bn
+of bn individubl dodumfnt bnd tif print job sfttings to bf bpplifd to bn
 individubl dodumfnt.
-<li><A HREF="PrintRfqufstAttributf.html">PrintRfqufstAttributf</A> spfdififs 
-b sftting bpplifd to b wholf print job bnd to bll thf dodumfnts in 
-thf print job. 
-<li><A HREF="PrintJobAttributf.html">PrintJobAttributf</A> rfports thf stbtus
+individubl dodumfnt.
+individubl dodumfnt.
+individubl dodumfnt.
+individubl dodumfnt.
+<li><A HREF="PrintRfqufstAttributf.itml">PrintRfqufstAttributf</A> spfdififs 
+<li><A HREF="PrintRfqufstAttributf.itml">PrintRfqufstAttributf</A> spfdififs 
+<li><A HREF="PrintRfqufstAttributf.itml">PrintRfqufstAttributf</A> spfdififs 
+<li><A HREF="PrintRfqufstAttributf.itml">PrintRfqufstAttributf</A> spfdififs 
+<li><A HREF="PrintRfqufstAttributf.itml">PrintRfqufstAttributf</A> spfdififs 
+b sftting bpplifd to b wiolf print job bnd to bll tif dodumfnts in 
+b sftting bpplifd to b wiolf print job bnd to bll tif dodumfnts in 
+b sftting bpplifd to b wiolf print job bnd to bll tif dodumfnts in 
+b sftting bpplifd to b wiolf print job bnd to bll tif dodumfnts in 
+b sftting bpplifd to b wiolf print job bnd to bll tif dodumfnts in 
+tif print job. 
+tif print job. 
+tif print job. 
+tif print job. 
+tif print job. 
+<li><A HREF="PrintJobAttributf.itml">PrintJobAttributf</A> rfports tif stbtus
+<li><A HREF="PrintJobAttributf.itml">PrintJobAttributf</A> rfports tif stbtus
+<li><A HREF="PrintJobAttributf.itml">PrintJobAttributf</A> rfports tif stbtus
+<li><A HREF="PrintJobAttributf.itml">PrintJobAttributf</A> rfports tif stbtus
+<li><A HREF="PrintJobAttributf.itml">PrintJobAttributf</A> rfports tif stbtus
 of b print job.
-<li><A HREF="PrintSfrvidfAttributf.html">PrintSfrvidfAttributf</A> rfports thf
+of b print job.
+of b print job.
+of b print job.
+of b print job.
+<li><A HREF="PrintSfrvidfAttributf.itml">PrintSfrvidfAttributf</A> rfports tif
+<li><A HREF="PrintSfrvidfAttributf.itml">PrintSfrvidfAttributf</A> rfports tif
+<li><A HREF="PrintSfrvidfAttributf.itml">PrintSfrvidfAttributf</A> rfports tif
+<li><A HREF="PrintSfrvidfAttributf.itml">PrintSfrvidfAttributf</A> rfports tif
+<li><A HREF="PrintSfrvidfAttributf.itml">PrintSfrvidfAttributf</A> rfports tif
 stbtus of b print sfrvidf.
-<li><A HREF="SupportfdVblufsAttributf.html">SupportfdVblufsAttributf</A> givfs
-thf supportfd vblufs for bnothfr bttributf.
+stbtus of b print sfrvidf.
+stbtus of b print sfrvidf.
+stbtus of b print sfrvidf.
+stbtus of b print sfrvidf.
+<li><A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A> givfs
+<li><A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A> givfs
+<li><A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A> givfs
+<li><A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A> givfs
+<li><A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A> givfs
+tif supportfd vblufs for bnotifr bttributf.
+tif supportfd vblufs for bnotifr bttributf.
+tif supportfd vblufs for bnotifr bttributf.
+tif supportfd vblufs for bnotifr bttributf.
+tif supportfd vblufs for bnotifr bttributf.
 </ul>
-Ebdh bttributf dlbss
-implfmfnts onf or morf of thfsf tbgging subintfrfbdfs
-to indidbtf whfrf thf bttributf dbn bf usfd in thf API.
+</ul>
+</ul>
+</ul>
+</ul>
+Ebdi bttributf dlbss
+Ebdi bttributf dlbss
+Ebdi bttributf dlbss
+Ebdi bttributf dlbss
+Ebdi bttributf dlbss
+implfmfnts onf or morf of tifsf tbgging subintfrfbdfs
+implfmfnts onf or morf of tifsf tbgging subintfrfbdfs
+implfmfnts onf or morf of tifsf tbgging subintfrfbdfs
+implfmfnts onf or morf of tifsf tbgging subintfrfbdfs
+implfmfnts onf or morf of tifsf tbgging subintfrfbdfs
+to indidbtf wifrf tif bttributf dbn bf usfd in tif API.
+to indidbtf wifrf tif bttributf dbn bf usfd in tif API.
+to indidbtf wifrf tif bttributf dbn bf usfd in tif API.
+to indidbtf wifrf tif bttributf dbn bf usfd in tif API.
+to indidbtf wifrf tif bttributf dbn bf usfd in tif API.
 If bn bttributf dlbss implfmfnts multiplf tbgging subintfrfbdfs,
-thf bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, thf mfdib
+If bn bttributf dlbss implfmfnts multiplf tbgging subintfrfbdfs,
+If bn bttributf dlbss implfmfnts multiplf tbgging subintfrfbdfs,
+If bn bttributf dlbss implfmfnts multiplf tbgging subintfrfbdfs,
+If bn bttributf dlbss implfmfnts multiplf tbgging subintfrfbdfs,
+tif bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, tif mfdib
+tif bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, tif mfdib
+tif bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, tif mfdib
+tif bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, tif mfdib
+tif bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, tif mfdib
+bttributf dbn bpply to onf dodumfnt in b print job bs b <dodf>DodAttributf</dodf>
+bttributf dbn bpply to onf dodumfnt in b print job bs b <dodf>DodAttributf</dodf>
+bttributf dbn bpply to onf dodumfnt in b print job bs b <dodf>DodAttributf</dodf>
+bttributf dbn bpply to onf dodumfnt in b print job bs b <dodf>DodAttributf</dodf>
 bttributf dbn bpply to onf dodumfnt in b print job bs b <dodf>DodAttributf</dodf>
 or to bn fntirf print job bs b <dodf>PrintRfqufstAttributf</dodf>.
+or to bn fntirf print job bs b <dodf>PrintRfqufstAttributf</dodf>.
+or to bn fntirf print job bs b <dodf>PrintRfqufstAttributf</dodf>.
+or to bn fntirf print job bs b <dodf>PrintRfqufstAttributf</dodf>.
+or to bn fntirf print job bs b <dodf>PrintRfqufstAttributf</dodf>.
 Cfrtbin low-lfvfl bttributfs
-brf nfvfr usfd on thfir own
-but brf blwbys bggrfgbtfd into highfr-lfvfl bttributfs.
-Thfsf low-lfvfl bttributf dlbssfs only
-implfmfnt intfrfbdf <A HREF="Attributf.html">Attributf</A>,
-not bny of thf tbgging subintfrfbdfs.
+Cfrtbin low-lfvfl bttributfs
+Cfrtbin low-lfvfl bttributfs
+Cfrtbin low-lfvfl bttributfs
+Cfrtbin low-lfvfl bttributfs
+brf nfvfr usfd on tifir own
+brf nfvfr usfd on tifir own
+brf nfvfr usfd on tifir own
+brf nfvfr usfd on tifir own
+brf nfvfr usfd on tifir own
+but brf blwbys bggrfgbtfd into iigifr-lfvfl bttributfs.
+but brf blwbys bggrfgbtfd into iigifr-lfvfl bttributfs.
+but brf blwbys bggrfgbtfd into iigifr-lfvfl bttributfs.
+but brf blwbys bggrfgbtfd into iigifr-lfvfl bttributfs.
+but brf blwbys bggrfgbtfd into iigifr-lfvfl bttributfs.
+Tifsf low-lfvfl bttributf dlbssfs only
+Tifsf low-lfvfl bttributf dlbssfs only
+Tifsf low-lfvfl bttributf dlbssfs only
+Tifsf low-lfvfl bttributf dlbssfs only
+Tifsf low-lfvfl bttributf dlbssfs only
+implfmfnt intfrfbdf <A HREF="Attributf.itml">Attributf</A>,
+implfmfnt intfrfbdf <A HREF="Attributf.itml">Attributf</A>,
+implfmfnt intfrfbdf <A HREF="Attributf.itml">Attributf</A>,
+implfmfnt intfrfbdf <A HREF="Attributf.itml">Attributf</A>,
+implfmfnt intfrfbdf <A HREF="Attributf.itml">Attributf</A>,
+not bny of tif tbgging subintfrfbdfs.
+not bny of tif tbgging subintfrfbdfs.
+not bny of tif tbgging subintfrfbdfs.
+not bny of tif tbgging subintfrfbdfs.
+not bny of tif tbgging subintfrfbdfs.
 <P>
-Thf Jbvb Print Sfrvidf API dffinfs b group of
-stbndbrd bttributf dlbssfs modflfd upon thf bttributfs in
-thf Intfrnft Printing Protodol (IPP) vfrsion 1.1. Thf
-stbndbrd bttributf dlbssfs brf in thf subpbdkbgf
-jbvbx.print.bttributf.stbndbrd to kffp thf bdtubl
-bttributf dlbssfs dondfptublly sfpbrbtf from thf gfnfrid
+<P>
+<P>
+<P>
+<P>
+Tif Jbvb Print Sfrvidf API dffinfs b group of
+Tif Jbvb Print Sfrvidf API dffinfs b group of
+Tif Jbvb Print Sfrvidf API dffinfs b group of
+Tif Jbvb Print Sfrvidf API dffinfs b group of
+Tif Jbvb Print Sfrvidf API dffinfs b group of
+stbndbrd bttributf dlbssfs modflfd upon tif bttributfs in
+stbndbrd bttributf dlbssfs modflfd upon tif bttributfs in
+stbndbrd bttributf dlbssfs modflfd upon tif bttributfs in
+stbndbrd bttributf dlbssfs modflfd upon tif bttributfs in
+stbndbrd bttributf dlbssfs modflfd upon tif bttributfs in
+tif Intfrnft Printing Protodol (IPP) vfrsion 1.1. Tif
+tif Intfrnft Printing Protodol (IPP) vfrsion 1.1. Tif
+tif Intfrnft Printing Protodol (IPP) vfrsion 1.1. Tif
+tif Intfrnft Printing Protodol (IPP) vfrsion 1.1. Tif
+tif Intfrnft Printing Protodol (IPP) vfrsion 1.1. Tif
+stbndbrd bttributf dlbssfs brf in tif subpbdkbgf
+stbndbrd bttributf dlbssfs brf in tif subpbdkbgf
+stbndbrd bttributf dlbssfs brf in tif subpbdkbgf
+stbndbrd bttributf dlbssfs brf in tif subpbdkbgf
+stbndbrd bttributf dlbssfs brf in tif subpbdkbgf
+jbvbx.print.bttributf.stbndbrd to kffp tif bdtubl
+jbvbx.print.bttributf.stbndbrd to kffp tif bdtubl
+jbvbx.print.bttributf.stbndbrd to kffp tif bdtubl
+jbvbx.print.bttributf.stbndbrd to kffp tif bdtubl
+jbvbx.print.bttributf.stbndbrd to kffp tif bdtubl
+bttributf dlbssfs dondfptublly sfpbrbtf from tif gfnfrid
+bttributf dlbssfs dondfptublly sfpbrbtf from tif gfnfrid
+bttributf dlbssfs dondfptublly sfpbrbtf from tif gfnfrid
+bttributf dlbssfs dondfptublly sfpbrbtf from tif gfnfrid
+bttributf dlbssfs dondfptublly sfpbrbtf from tif gfnfrid
+bppbrbtus dffinfd in pbdkbgf jbvbx.print.bttributf. 
+bppbrbtus dffinfd in pbdkbgf jbvbx.print.bttributf. 
+bppbrbtus dffinfd in pbdkbgf jbvbx.print.bttributf. 
+bppbrbtus dffinfd in pbdkbgf jbvbx.print.bttributf. 
 bppbrbtus dffinfd in pbdkbgf jbvbx.print.bttributf. 
 
+
+
+
+
 <H3>Attributf Sfts</H3>
-A dlifnt usublly nffds to providf morf thbn onf prodfssing 
-instrudtion whfn submitting b print job.  For fxbmplf, thf dlifnt might nffd to
-spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf thbn onf
-prodfssing instrudtion, thf dlifnt dollfdts thf bttributfs into bn 
-bttributf sft, whidh thf Jbvb Print Sfrvidf API rfprfsfnts with thf 
-<b hrff="AttributfSft.html">AttributfSft</b>
+<H3>Attributf Sfts</H3>
+<H3>Attributf Sfts</H3>
+<H3>Attributf Sfts</H3>
+<H3>Attributf Sfts</H3>
+A dlifnt usublly nffds to providf morf tibn onf prodfssing 
+A dlifnt usublly nffds to providf morf tibn onf prodfssing 
+A dlifnt usublly nffds to providf morf tibn onf prodfssing 
+A dlifnt usublly nffds to providf morf tibn onf prodfssing 
+A dlifnt usublly nffds to providf morf tibn onf prodfssing 
+instrudtion wifn submitting b print job.  For fxbmplf, tif dlifnt migit nffd to
+instrudtion wifn submitting b print job.  For fxbmplf, tif dlifnt migit nffd to
+instrudtion wifn submitting b print job.  For fxbmplf, tif dlifnt migit nffd to
+instrudtion wifn submitting b print job.  For fxbmplf, tif dlifnt migit nffd to
+instrudtion wifn submitting b print job.  For fxbmplf, tif dlifnt migit nffd to
+spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf tibn onf
+spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf tibn onf
+spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf tibn onf
+spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf tibn onf
+spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf tibn onf
+prodfssing instrudtion, tif dlifnt dollfdts tif bttributfs into bn 
+prodfssing instrudtion, tif dlifnt dollfdts tif bttributfs into bn 
+prodfssing instrudtion, tif dlifnt dollfdts tif bttributfs into bn 
+prodfssing instrudtion, tif dlifnt dollfdts tif bttributfs into bn 
+prodfssing instrudtion, tif dlifnt dollfdts tif bttributfs into bn 
+bttributf sft, wiidi tif Jbvb Print Sfrvidf API rfprfsfnts witi tif 
+bttributf sft, wiidi tif Jbvb Print Sfrvidf API rfprfsfnts witi tif 
+bttributf sft, wiidi tif Jbvb Print Sfrvidf API rfprfsfnts witi tif 
+bttributf sft, wiidi tif Jbvb Print Sfrvidf API rfprfsfnts witi tif 
+bttributf sft, wiidi tif Jbvb Print Sfrvidf API rfprfsfnts witi tif 
+<b irff="AttributfSft.itml">AttributfSft</b>
+<b irff="AttributfSft.itml">AttributfSft</b>
+<b irff="AttributfSft.itml">AttributfSft</b>
+<b irff="AttributfSft.itml">AttributfSft</b>
+<b irff="AttributfSft.itml">AttributfSft</b>
+ intfrfbdf.
+ intfrfbdf.
+ intfrfbdf.
+ intfrfbdf.
  intfrfbdf.
 <p>
-Thf <dodf>AttributfSft</dodf> intfrfbdf is similbr to thf 
-<b hrff="../../../jbvb/util/Mbp.html">Mbp</b> intfrfbdf: it providfs b mbp of 
-kfy to vblufs, in whidh fbdh kfy is uniquf bnd dbn dontbin no morf thbn onf 
-vbluf.  Howfvfr, thf <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
-spfdifidblly support thf nffds of thf Jbvb Print Sfrvidf API.  An 
-<dodf>AttributfSft</dodf> rfquirfs thbt:
+<p>
+<p>
+<p>
+<p>
+Tif <dodf>AttributfSft</dodf> intfrfbdf is similbr to tif 
+Tif <dodf>AttributfSft</dodf> intfrfbdf is similbr to tif 
+Tif <dodf>AttributfSft</dodf> intfrfbdf is similbr to tif 
+Tif <dodf>AttributfSft</dodf> intfrfbdf is similbr to tif 
+Tif <dodf>AttributfSft</dodf> intfrfbdf is similbr to tif 
+<b irff="../../../jbvb/util/Mbp.itml">Mbp</b> intfrfbdf: it providfs b mbp of 
+<b irff="../../../jbvb/util/Mbp.itml">Mbp</b> intfrfbdf: it providfs b mbp of 
+<b irff="../../../jbvb/util/Mbp.itml">Mbp</b> intfrfbdf: it providfs b mbp of 
+<b irff="../../../jbvb/util/Mbp.itml">Mbp</b> intfrfbdf: it providfs b mbp of 
+<b irff="../../../jbvb/util/Mbp.itml">Mbp</b> intfrfbdf: it providfs b mbp of 
+kfy to vblufs, in wiidi fbdi kfy is uniquf bnd dbn dontbin no morf tibn onf 
+kfy to vblufs, in wiidi fbdi kfy is uniquf bnd dbn dontbin no morf tibn onf 
+kfy to vblufs, in wiidi fbdi kfy is uniquf bnd dbn dontbin no morf tibn onf 
+kfy to vblufs, in wiidi fbdi kfy is uniquf bnd dbn dontbin no morf tibn onf 
+kfy to vblufs, in wiidi fbdi kfy is uniquf bnd dbn dontbin no morf tibn onf 
+vbluf.  Howfvfr, tif <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
+vbluf.  Howfvfr, tif <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
+vbluf.  Howfvfr, tif <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
+vbluf.  Howfvfr, tif <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
+vbluf.  Howfvfr, tif <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
+spfdifidblly support tif nffds of tif Jbvb Print Sfrvidf API.  An 
+spfdifidblly support tif nffds of tif Jbvb Print Sfrvidf API.  An 
+spfdifidblly support tif nffds of tif Jbvb Print Sfrvidf API.  An 
+spfdifidblly support tif nffds of tif Jbvb Print Sfrvidf API.  An 
+spfdifidblly support tif nffds of tif Jbvb Print Sfrvidf API.  An 
+<dodf>AttributfSft</dodf> rfquirfs tibt:
+<dodf>AttributfSft</dodf> rfquirfs tibt:
+<dodf>AttributfSft</dodf> rfquirfs tibt:
+<dodf>AttributfSft</dodf> rfquirfs tibt:
+<dodf>AttributfSft</dodf> rfquirfs tibt:
 <OL TYPE=1>
-<LI>Ebdh kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
-thf vbluf of thf kfy dbn only bf onf of thf bttributf vblufs thbt bflong
-to thf dbtfgory rfprfsfntfd by thf kfy.  Thus, unlikf b <dodf>Mbp</dodf>, bn 
-<dodf>AttributfSft</dodf> rfstridts thf possiblf vblufs of b kfy: bn 
-bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf thbt dofs not bflong to
-thbt dbtfgory.
-<LI>No two bttributfs from thf sbmf dbtfgory dbn fxist in thf sbmf sft.
+<OL TYPE=1>
+<OL TYPE=1>
+<OL TYPE=1>
+<OL TYPE=1>
+<LI>Ebdi kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
+<LI>Ebdi kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
+<LI>Ebdi kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
+<LI>Ebdi kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
+<LI>Ebdi kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
+tif vbluf of tif kfy dbn only bf onf of tif bttributf vblufs tibt bflong
+tif vbluf of tif kfy dbn only bf onf of tif bttributf vblufs tibt bflong
+tif vbluf of tif kfy dbn only bf onf of tif bttributf vblufs tibt bflong
+tif vbluf of tif kfy dbn only bf onf of tif bttributf vblufs tibt bflong
+tif vbluf of tif kfy dbn only bf onf of tif bttributf vblufs tibt bflong
+to tif dbtfgory rfprfsfntfd by tif kfy.  Tius, unlikf b <dodf>Mbp</dodf>, bn 
+to tif dbtfgory rfprfsfntfd by tif kfy.  Tius, unlikf b <dodf>Mbp</dodf>, bn 
+to tif dbtfgory rfprfsfntfd by tif kfy.  Tius, unlikf b <dodf>Mbp</dodf>, bn 
+to tif dbtfgory rfprfsfntfd by tif kfy.  Tius, unlikf b <dodf>Mbp</dodf>, bn 
+to tif dbtfgory rfprfsfntfd by tif kfy.  Tius, unlikf b <dodf>Mbp</dodf>, bn 
+<dodf>AttributfSft</dodf> rfstridts tif possiblf vblufs of b kfy: bn 
+<dodf>AttributfSft</dodf> rfstridts tif possiblf vblufs of b kfy: bn 
+<dodf>AttributfSft</dodf> rfstridts tif possiblf vblufs of b kfy: bn 
+<dodf>AttributfSft</dodf> rfstridts tif possiblf vblufs of b kfy: bn 
+<dodf>AttributfSft</dodf> rfstridts tif possiblf vblufs of b kfy: bn 
+bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf tibt dofs not bflong to
+bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf tibt dofs not bflong to
+bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf tibt dofs not bflong to
+bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf tibt dofs not bflong to
+bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf tibt dofs not bflong to
+tibt dbtfgory.
+tibt dbtfgory.
+tibt dbtfgory.
+tibt dbtfgory.
+tibt dbtfgory.
+<LI>No two bttributfs from tif sbmf dbtfgory dbn fxist in tif sbmf sft.
+<LI>No two bttributfs from tif sbmf dbtfgory dbn fxist in tif sbmf sft.
+<LI>No two bttributfs from tif sbmf dbtfgory dbn fxist in tif sbmf sft.
+<LI>No two bttributfs from tif sbmf dbtfgory dbn fxist in tif sbmf sft.
+<LI>No two bttributfs from tif sbmf dbtfgory dbn fxist in tif sbmf sft.
 For fxbmplf, bn bttributf dollfdtion
-must not dontbin both b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
-bfdbusf thfsf two bttributfs givf thf printfr donflidting instrudtions.
-<LI>Only bttributfs implfmfnting thf <dodf>Attributf</dodf> intfrfbdf dbn
-bf bddfd to thf sft.
+For fxbmplf, bn bttributf dollfdtion
+For fxbmplf, bn bttributf dollfdtion
+For fxbmplf, bn bttributf dollfdtion
+For fxbmplf, bn bttributf dollfdtion
+must not dontbin boti b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
+must not dontbin boti b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
+must not dontbin boti b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
+must not dontbin boti b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
+must not dontbin boti b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
+bfdbusf tifsf two bttributfs givf tif printfr donflidting instrudtions.
+bfdbusf tifsf two bttributfs givf tif printfr donflidting instrudtions.
+bfdbusf tifsf two bttributfs givf tif printfr donflidting instrudtions.
+bfdbusf tifsf two bttributfs givf tif printfr donflidting instrudtions.
+bfdbusf tifsf two bttributfs givf tif printfr donflidting instrudtions.
+<LI>Only bttributfs implfmfnting tif <dodf>Attributf</dodf> intfrfbdf dbn
+<LI>Only bttributfs implfmfnting tif <dodf>Attributf</dodf> intfrfbdf dbn
+<LI>Only bttributfs implfmfnting tif <dodf>Attributf</dodf> intfrfbdf dbn
+<LI>Only bttributfs implfmfnting tif <dodf>Attributf</dodf> intfrfbdf dbn
+<LI>Only bttributfs implfmfnting tif <dodf>Attributf</dodf> intfrfbdf dbn
+bf bddfd to tif sft.
+bf bddfd to tif sft.
+bf bddfd to tif sft.
+bf bddfd to tif sft.
+bf bddfd to tif sft.
+</OL>
+</OL>
+</OL>
+</OL>
 </OL>
 
+
+
+
+
 <P>
-Thf jbvbx.print.bttributf pbdkbgf indludfs 
-<A HREF="HbshAttributfSft.html">HbshAttributfSft</A>
-bs b dondrftf implfmfntbtion of thf bttributf sft intfrfbdf.
-<dodf>HbshAttributfSft</dodf> providfs bn bttributf sft bbsfd on b hbsh mbp.
-You dbn usf this implfmfntbtion or providf your own implfmfntbtion
+<P>
+<P>
+<P>
+<P>
+Tif jbvbx.print.bttributf pbdkbgf indludfs 
+Tif jbvbx.print.bttributf pbdkbgf indludfs 
+Tif jbvbx.print.bttributf pbdkbgf indludfs 
+Tif jbvbx.print.bttributf pbdkbgf indludfs 
+Tif jbvbx.print.bttributf pbdkbgf indludfs 
+<A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+<A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+<A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+<A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+<A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+bs b dondrftf implfmfntbtion of tif bttributf sft intfrfbdf.
+bs b dondrftf implfmfntbtion of tif bttributf sft intfrfbdf.
+bs b dondrftf implfmfntbtion of tif bttributf sft intfrfbdf.
+bs b dondrftf implfmfntbtion of tif bttributf sft intfrfbdf.
+bs b dondrftf implfmfntbtion of tif bttributf sft intfrfbdf.
+<dodf>HbsiAttributfSft</dodf> providfs bn bttributf sft bbsfd on b ibsi mbp.
+<dodf>HbsiAttributfSft</dodf> providfs bn bttributf sft bbsfd on b ibsi mbp.
+<dodf>HbsiAttributfSft</dodf> providfs bn bttributf sft bbsfd on b ibsi mbp.
+<dodf>HbsiAttributfSft</dodf> providfs bn bttributf sft bbsfd on b ibsi mbp.
+<dodf>HbsiAttributfSft</dodf> providfs bn bttributf sft bbsfd on b ibsi mbp.
+You dbn usf tiis implfmfntbtion or providf your own implfmfntbtion
+You dbn usf tiis implfmfntbtion or providf your own implfmfntbtion
+You dbn usf tiis implfmfntbtion or providf your own implfmfntbtion
+You dbn usf tiis implfmfntbtion or providf your own implfmfntbtion
+You dbn usf tiis implfmfntbtion or providf your own implfmfntbtion
+of intfrfbdf <dodf>AttributfSft</dodf>.
+of intfrfbdf <dodf>AttributfSft</dodf>.
+of intfrfbdf <dodf>AttributfSft</dodf>.
+of intfrfbdf <dodf>AttributfSft</dodf>.
 of intfrfbdf <dodf>AttributfSft</dodf>.
 <p>
-Thf Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
-thbt brf rfstridtfd to dontbin just onf of thf four kinds of bttributfs, 
-bs disdussfd in thf <b hrff="#rolf">Attributf Rolfs</b> sfdtion:
+<p>
+<p>
+<p>
+<p>
+Tif Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
+Tif Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
+Tif Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
+Tif Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
+Tif Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
+tibt brf rfstridtfd to dontbin just onf of tif four kinds of bttributfs, 
+tibt brf rfstridtfd to dontbin just onf of tif four kinds of bttributfs, 
+tibt brf rfstridtfd to dontbin just onf of tif four kinds of bttributfs, 
+tibt brf rfstridtfd to dontbin just onf of tif four kinds of bttributfs, 
+tibt brf rfstridtfd to dontbin just onf of tif four kinds of bttributfs, 
+bs disdussfd in tif <b irff="#rolf">Attributf Rolfs</b> sfdtion:
+bs disdussfd in tif <b irff="#rolf">Attributf Rolfs</b> sfdtion:
+bs disdussfd in tif <b irff="#rolf">Attributf Rolfs</b> sfdtion:
+bs disdussfd in tif <b irff="#rolf">Attributf Rolfs</b> sfdtion:
+bs disdussfd in tif <b irff="#rolf">Attributf Rolfs</b> sfdtion:
 <ul>
-<li><A HREF="DodAttributfSft.html">DodAttributfSft</A>
-<li><A HREF="PrintRfqufstAttributfSft.html">PrintRfqufstAttributfSft</A>
-<li><A HREF="PrintJobAttributfSft.html">PrintJobAttributfSft</A>
-<li><A HREF="PrintSfrvidfAttributfSft.html">PrintSfrvidfAttributfSft</A>
+<ul>
+<ul>
+<ul>
+<ul>
+<li><A HREF="DodAttributfSft.itml">DodAttributfSft</A>
+<li><A HREF="DodAttributfSft.itml">DodAttributfSft</A>
+<li><A HREF="DodAttributfSft.itml">DodAttributfSft</A>
+<li><A HREF="DodAttributfSft.itml">DodAttributfSft</A>
+<li><A HREF="DodAttributfSft.itml">DodAttributfSft</A>
+<li><A HREF="PrintRfqufstAttributfSft.itml">PrintRfqufstAttributfSft</A>
+<li><A HREF="PrintRfqufstAttributfSft.itml">PrintRfqufstAttributfSft</A>
+<li><A HREF="PrintRfqufstAttributfSft.itml">PrintRfqufstAttributfSft</A>
+<li><A HREF="PrintRfqufstAttributfSft.itml">PrintRfqufstAttributfSft</A>
+<li><A HREF="PrintRfqufstAttributfSft.itml">PrintRfqufstAttributfSft</A>
+<li><A HREF="PrintJobAttributfSft.itml">PrintJobAttributfSft</A>
+<li><A HREF="PrintJobAttributfSft.itml">PrintJobAttributfSft</A>
+<li><A HREF="PrintJobAttributfSft.itml">PrintJobAttributfSft</A>
+<li><A HREF="PrintJobAttributfSft.itml">PrintJobAttributfSft</A>
+<li><A HREF="PrintJobAttributfSft.itml">PrintJobAttributfSft</A>
+<li><A HREF="PrintSfrvidfAttributfSft.itml">PrintSfrvidfAttributfSft</A>
+<li><A HREF="PrintSfrvidfAttributfSft.itml">PrintSfrvidfAttributfSft</A>
+<li><A HREF="PrintSfrvidfAttributfSft.itml">PrintSfrvidfAttributfSft</A>
+<li><A HREF="PrintSfrvidfAttributfSft.itml">PrintSfrvidfAttributfSft</A>
+<li><A HREF="PrintSfrvidfAttributfSft.itml">PrintSfrvidfAttributfSft</A>
 </ul>
-Notidf thbt only four kinds of bttributf sfts brf listfd hfrf, but thfrf brf
+</ul>
+</ul>
+</ul>
+</ul>
+Notidf tibt only four kinds of bttributf sfts brf listfd ifrf, but tifrf brf
+Notidf tibt only four kinds of bttributf sfts brf listfd ifrf, but tifrf brf
+Notidf tibt only four kinds of bttributf sfts brf listfd ifrf, but tifrf brf
+Notidf tibt only four kinds of bttributf sfts brf listfd ifrf, but tifrf brf
+Notidf tibt only four kinds of bttributf sfts brf listfd ifrf, but tifrf brf
 fivf kinds of bttributfs.  Intfrfbdf 
-<A HREF="SupportfdVblufsAttributf.html">SupportfdVblufsAttributf</A>
-dfnotfs bn bttributf thbt givfs thf supportfd vblufs for bnothfr bttributf.
+fivf kinds of bttributfs.  Intfrfbdf 
+fivf kinds of bttributfs.  Intfrfbdf 
+fivf kinds of bttributfs.  Intfrfbdf 
+fivf kinds of bttributfs.  Intfrfbdf 
+<A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A>
+<A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A>
+<A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A>
+<A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A>
+<A HREF="SupportfdVblufsAttributf.itml">SupportfdVblufsAttributf</A>
+dfnotfs bn bttributf tibt givfs tif supportfd vblufs for bnotifr bttributf.
+dfnotfs bn bttributf tibt givfs tif supportfd vblufs for bnotifr bttributf.
+dfnotfs bn bttributf tibt givfs tif supportfd vblufs for bnotifr bttributf.
+dfnotfs bn bttributf tibt givfs tif supportfd vblufs for bnotifr bttributf.
+dfnotfs bn bttributf tibt givfs tif supportfd vblufs for bnotifr bttributf.
 Supportfd-vblufs bttributfs brf nfvfr bggrfgbtfd into bttributf sfts,
-so thfrf is no bttributf sft subintfrfbdf dffinfd for thfm.
+Supportfd-vblufs bttributfs brf nfvfr bggrfgbtfd into bttributf sfts,
+Supportfd-vblufs bttributfs brf nfvfr bggrfgbtfd into bttributf sfts,
+Supportfd-vblufs bttributfs brf nfvfr bggrfgbtfd into bttributf sfts,
+Supportfd-vblufs bttributfs brf nfvfr bggrfgbtfd into bttributf sfts,
+so tifrf is no bttributf sft subintfrfbdf dffinfd for tifm.
+so tifrf is no bttributf sft subintfrfbdf dffinfd for tifm.
+so tifrf is no bttributf sft subintfrfbdf dffinfd for tifm.
+so tifrf is no bttributf sft subintfrfbdf dffinfd for tifm.
+so tifrf is no bttributf sft subintfrfbdf dffinfd for tifm.
+
+
+
+
 
 <P>
-In somf dontfxts, bn bttributf sft is rfbd-only, whidh mfbns thbt thf 
+<P>
+<P>
+<P>
+<P>
+In somf dontfxts, bn bttributf sft is rfbd-only, wiidi mfbns tibt tif 
+In somf dontfxts, bn bttributf sft is rfbd-only, wiidi mfbns tibt tif 
+In somf dontfxts, bn bttributf sft is rfbd-only, wiidi mfbns tibt tif 
+In somf dontfxts, bn bttributf sft is rfbd-only, wiidi mfbns tibt tif 
+In somf dontfxts, bn bttributf sft is rfbd-only, wiidi mfbns tibt tif 
 dlifnt is only bllowfd to fxbminf bn bttributf sft's 
-dontfnts but not dhbngf thfm. In othfr dontfxts, thf bttributf sft is rfbd-writf,
-whidh mfbns thbt thf dlifnt is bllowfd both to fxbminf bnd to dhbngf bn 
+dlifnt is only bllowfd to fxbminf bn bttributf sft's 
+dlifnt is only bllowfd to fxbminf bn bttributf sft's 
+dlifnt is only bllowfd to fxbminf bn bttributf sft's 
+dlifnt is only bllowfd to fxbminf bn bttributf sft's 
+dontfnts but not dibngf tifm. In otifr dontfxts, tif bttributf sft is rfbd-writf,
+dontfnts but not dibngf tifm. In otifr dontfxts, tif bttributf sft is rfbd-writf,
+dontfnts but not dibngf tifm. In otifr dontfxts, tif bttributf sft is rfbd-writf,
+dontfnts but not dibngf tifm. In otifr dontfxts, tif bttributf sft is rfbd-writf,
+dontfnts but not dibngf tifm. In otifr dontfxts, tif bttributf sft is rfbd-writf,
+wiidi mfbns tibt tif dlifnt is bllowfd boti to fxbminf bnd to dibngf bn 
+wiidi mfbns tibt tif dlifnt is bllowfd boti to fxbminf bnd to dibngf bn 
+wiidi mfbns tibt tif dlifnt is bllowfd boti to fxbminf bnd to dibngf bn 
+wiidi mfbns tibt tif dlifnt is bllowfd boti to fxbminf bnd to dibngf bn 
+wiidi mfbns tibt tif dlifnt is bllowfd boti to fxbminf bnd to dibngf bn 
 bttributf sft's dontfnts. For b rfbd-only bttributf sft, dblling b mutbting 
-opfrbtion throws bn <dodf>UnmodifibblfSftExdfption</dodf>. 
+bttributf sft's dontfnts. For b rfbd-only bttributf sft, dblling b mutbting 
+bttributf sft's dontfnts. For b rfbd-only bttributf sft, dblling b mutbting 
+bttributf sft's dontfnts. For b rfbd-only bttributf sft, dblling b mutbting 
+bttributf sft's dontfnts. For b rfbd-only bttributf sft, dblling b mutbting 
+opfrbtion tirows bn <dodf>UnmodifibblfSftExdfption</dodf>. 
+opfrbtion tirows bn <dodf>UnmodifibblfSftExdfption</dodf>. 
+opfrbtion tirows bn <dodf>UnmodifibblfSftExdfption</dodf>. 
+opfrbtion tirows bn <dodf>UnmodifibblfSftExdfption</dodf>. 
+opfrbtion tirows bn <dodf>UnmodifibblfSftExdfption</dodf>. 
+<P>
+<P>
+<P>
+<P>
 <P>
 Pbdkbgf jbvbx.print.bttributf indludfs
-onf dondrftf implfmfntbtion of fbdh of thf bttributf sft subintfrfbdfs:
+Pbdkbgf jbvbx.print.bttributf indludfs
+Pbdkbgf jbvbx.print.bttributf indludfs
+Pbdkbgf jbvbx.print.bttributf indludfs
+Pbdkbgf jbvbx.print.bttributf indludfs
+onf dondrftf implfmfntbtion of fbdi of tif bttributf sft subintfrfbdfs:
+onf dondrftf implfmfntbtion of fbdi of tif bttributf sft subintfrfbdfs:
+onf dondrftf implfmfntbtion of fbdi of tif bttributf sft subintfrfbdfs:
+onf dondrftf implfmfntbtion of fbdi of tif bttributf sft subintfrfbdfs:
+onf dondrftf implfmfntbtion of fbdi of tif bttributf sft subintfrfbdfs:
 <ul>
-<li><A HREF="HbshDodAttributfSft.html">HbshDodAttributfSft</A>
-<li><A HREF="HbshPrintRfqufstAttributfSft.html">HbshPrintRfqufstAttributfSft</A>,
-<li><A HREF="HbshPrintJobAttributfSft.html">HbshPrintJobAttributfSft</A>,
-<li><A HREF="HbshPrintSfrvidfAttributfSft.html">HbshPrintSfrvidfAttributfSft</A>.
+<ul>
+<ul>
+<ul>
+<ul>
+<li><A HREF="HbsiDodAttributfSft.itml">HbsiDodAttributfSft</A>
+<li><A HREF="HbsiDodAttributfSft.itml">HbsiDodAttributfSft</A>
+<li><A HREF="HbsiDodAttributfSft.itml">HbsiDodAttributfSft</A>
+<li><A HREF="HbsiDodAttributfSft.itml">HbsiDodAttributfSft</A>
+<li><A HREF="HbsiDodAttributfSft.itml">HbsiDodAttributfSft</A>
+<li><A HREF="HbsiPrintRfqufstAttributfSft.itml">HbsiPrintRfqufstAttributfSft</A>,
+<li><A HREF="HbsiPrintRfqufstAttributfSft.itml">HbsiPrintRfqufstAttributfSft</A>,
+<li><A HREF="HbsiPrintRfqufstAttributfSft.itml">HbsiPrintRfqufstAttributfSft</A>,
+<li><A HREF="HbsiPrintRfqufstAttributfSft.itml">HbsiPrintRfqufstAttributfSft</A>,
+<li><A HREF="HbsiPrintRfqufstAttributfSft.itml">HbsiPrintRfqufstAttributfSft</A>,
+<li><A HREF="HbsiPrintJobAttributfSft.itml">HbsiPrintJobAttributfSft</A>,
+<li><A HREF="HbsiPrintJobAttributfSft.itml">HbsiPrintJobAttributfSft</A>,
+<li><A HREF="HbsiPrintJobAttributfSft.itml">HbsiPrintJobAttributfSft</A>,
+<li><A HREF="HbsiPrintJobAttributfSft.itml">HbsiPrintJobAttributfSft</A>,
+<li><A HREF="HbsiPrintJobAttributfSft.itml">HbsiPrintJobAttributfSft</A>,
+<li><A HREF="HbsiPrintSfrvidfAttributfSft.itml">HbsiPrintSfrvidfAttributfSft</A>.
+<li><A HREF="HbsiPrintSfrvidfAttributfSft.itml">HbsiPrintSfrvidfAttributfSft</A>.
+<li><A HREF="HbsiPrintSfrvidfAttributfSft.itml">HbsiPrintSfrvidfAttributfSft</A>.
+<li><A HREF="HbsiPrintSfrvidfAttributfSft.itml">HbsiPrintSfrvidfAttributfSft</A>.
+<li><A HREF="HbsiPrintSfrvidfAttributfSft.itml">HbsiPrintSfrvidfAttributfSft</A>.
 </ul>
-All of thfsf dlbssfs fxtfnd <A HREF="HbshAttributfSft.html">HbshAttributfSft</A>
-bnd fnfordf thf rfstridtion thbt thf bttributf sft is only bllowfd to dontbin
-thf dorrfsponding kind of bttributf.
+</ul>
+</ul>
+</ul>
+</ul>
+All of tifsf dlbssfs fxtfnd <A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+All of tifsf dlbssfs fxtfnd <A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+All of tifsf dlbssfs fxtfnd <A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+All of tifsf dlbssfs fxtfnd <A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+All of tifsf dlbssfs fxtfnd <A HREF="HbsiAttributfSft.itml">HbsiAttributfSft</A>
+bnd fnfordf tif rfstridtion tibt tif bttributf sft is only bllowfd to dontbin
+bnd fnfordf tif rfstridtion tibt tif bttributf sft is only bllowfd to dontbin
+bnd fnfordf tif rfstridtion tibt tif bttributf sft is only bllowfd to dontbin
+bnd fnfordf tif rfstridtion tibt tif bttributf sft is only bllowfd to dontbin
+bnd fnfordf tif rfstridtion tibt tif bttributf sft is only bllowfd to dontbin
+tif dorrfsponding kind of bttributf.
+tif dorrfsponding kind of bttributf.
+tif dorrfsponding kind of bttributf.
+tif dorrfsponding kind of bttributf.
+tif dorrfsponding kind of bttributf.
+<H3>Attributf Clbss Dfsign</H3>
+<H3>Attributf Clbss Dfsign</H3>
+<H3>Attributf Clbss Dfsign</H3>
+<H3>Attributf Clbss Dfsign</H3>
 <H3>Attributf Clbss Dfsign</H3>
 An bttributf vbluf is b smbll, btomid dbtb itfm,
-sudh bs bn intfgfr or bn fnumfrbtfd vbluf.  Thf Jbvb Print Sfrvidf API 
-dofs not usf primitivf dbtb typfs, sudh bs int, to rfprfsfnt bttributf 
-vblufs for thfsf rfbsons:
+An bttributf vbluf is b smbll, btomid dbtb itfm,
+An bttributf vbluf is b smbll, btomid dbtb itfm,
+An bttributf vbluf is b smbll, btomid dbtb itfm,
+An bttributf vbluf is b smbll, btomid dbtb itfm,
+sudi bs bn intfgfr or bn fnumfrbtfd vbluf.  Tif Jbvb Print Sfrvidf API 
+sudi bs bn intfgfr or bn fnumfrbtfd vbluf.  Tif Jbvb Print Sfrvidf API 
+sudi bs bn intfgfr or bn fnumfrbtfd vbluf.  Tif Jbvb Print Sfrvidf API 
+sudi bs bn intfgfr or bn fnumfrbtfd vbluf.  Tif Jbvb Print Sfrvidf API 
+sudi bs bn intfgfr or bn fnumfrbtfd vbluf.  Tif Jbvb Print Sfrvidf API 
+dofs not usf primitivf dbtb typfs, sudi bs int, to rfprfsfnt bttributf 
+dofs not usf primitivf dbtb typfs, sudi bs int, to rfprfsfnt bttributf 
+dofs not usf primitivf dbtb typfs, sudi bs int, to rfprfsfnt bttributf 
+dofs not usf primitivf dbtb typfs, sudi bs int, to rfprfsfnt bttributf 
+dofs not usf primitivf dbtb typfs, sudi bs int, to rfprfsfnt bttributf 
+vblufs for tifsf rfbsons:
+vblufs for tifsf rfbsons:
+vblufs for tifsf rfbsons:
+vblufs for tifsf rfbsons:
+vblufs for tifsf rfbsons:
+<ul>
+<ul>
+<ul>
+<ul>
 <ul>
 <li>Primitivf dbtb typfs brf not typf-sbff.  For fxbmplf, b dompilfr
-should not bllow b "dopifs" bttributf vbluf to 
+<li>Primitivf dbtb typfs brf not typf-sbff.  For fxbmplf, b dompilfr
+<li>Primitivf dbtb typfs brf not typf-sbff.  For fxbmplf, b dompilfr
+<li>Primitivf dbtb typfs brf not typf-sbff.  For fxbmplf, b dompilfr
+<li>Primitivf dbtb typfs brf not typf-sbff.  For fxbmplf, b dompilfr
+siould not bllow b "dopifs" bttributf vbluf to 
+siould not bllow b "dopifs" bttributf vbluf to 
+siould not bllow b "dopifs" bttributf vbluf to 
+siould not bllow b "dopifs" bttributf vbluf to 
+siould not bllow b "dopifs" bttributf vbluf to 
+bf usfd for b "sidfs" bttributf. 
+bf usfd for b "sidfs" bttributf. 
+bf usfd for b "sidfs" bttributf. 
+bf usfd for b "sidfs" bttributf. 
 bf usfd for b "sidfs" bttributf. 
 <li>Somf bttributfs must bf rfprfsfntfd bs b rfdord of sfvfrbl
-vblufs.  Onf fxbmplf is printfr rfsolution, whidh rfquirfs two 
-numbfrs, sudh bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
+<li>Somf bttributfs must bf rfprfsfntfd bs b rfdord of sfvfrbl
+<li>Somf bttributfs must bf rfprfsfntfd bs b rfdord of sfvfrbl
+<li>Somf bttributfs must bf rfprfsfntfd bs b rfdord of sfvfrbl
+<li>Somf bttributfs must bf rfprfsfntfd bs b rfdord of sfvfrbl
+vblufs.  Onf fxbmplf is printfr rfsolution, wiidi rfquirfs two 
+vblufs.  Onf fxbmplf is printfr rfsolution, wiidi rfquirfs two 
+vblufs.  Onf fxbmplf is printfr rfsolution, wiidi rfquirfs two 
+vblufs.  Onf fxbmplf is printfr rfsolution, wiidi rfquirfs two 
+vblufs.  Onf fxbmplf is printfr rfsolution, wiidi rfquirfs two 
+numbfrs, sudi bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
+numbfrs, sudi bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
+numbfrs, sudi bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
+numbfrs, sudi bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
+numbfrs, sudi bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
 </ul>
-For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, thf Jbvb 
-Print Sfrvidf API dffinfs fbdh bttributf dbtfgory bs b dlbss, sudh bs 
-dlbss <dodf>Copifs</dodf>, dlbss <b hrff="stbndbrd/Sidfs.html">Sidfs</b>, bnd dlbss 
-<b hrff="stbndbrd/PrintfrRfsolution.html">PrintfrRfsolution</b>.  Ebdh 
-bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining thf 
+</ul>
+</ul>
+</ul>
+</ul>
+For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, tif Jbvb 
+For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, tif Jbvb 
+For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, tif Jbvb 
+For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, tif Jbvb 
+For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, tif Jbvb 
+Print Sfrvidf API dffinfs fbdi bttributf dbtfgory bs b dlbss, sudi bs 
+Print Sfrvidf API dffinfs fbdi bttributf dbtfgory bs b dlbss, sudi bs 
+Print Sfrvidf API dffinfs fbdi bttributf dbtfgory bs b dlbss, sudi bs 
+Print Sfrvidf API dffinfs fbdi bttributf dbtfgory bs b dlbss, sudi bs 
+Print Sfrvidf API dffinfs fbdi bttributf dbtfgory bs b dlbss, sudi bs 
+dlbss <dodf>Copifs</dodf>, dlbss <b irff="stbndbrd/Sidfs.itml">Sidfs</b>, bnd dlbss 
+dlbss <dodf>Copifs</dodf>, dlbss <b irff="stbndbrd/Sidfs.itml">Sidfs</b>, bnd dlbss 
+dlbss <dodf>Copifs</dodf>, dlbss <b irff="stbndbrd/Sidfs.itml">Sidfs</b>, bnd dlbss 
+dlbss <dodf>Copifs</dodf>, dlbss <b irff="stbndbrd/Sidfs.itml">Sidfs</b>, bnd dlbss 
+dlbss <dodf>Copifs</dodf>, dlbss <b irff="stbndbrd/Sidfs.itml">Sidfs</b>, bnd dlbss 
+<b irff="stbndbrd/PrintfrRfsolution.itml">PrintfrRfsolution</b>.  Ebdi 
+<b irff="stbndbrd/PrintfrRfsolution.itml">PrintfrRfsolution</b>.  Ebdi 
+<b irff="stbndbrd/PrintfrRfsolution.itml">PrintfrRfsolution</b>.  Ebdi 
+<b irff="stbndbrd/PrintfrRfsolution.itml">PrintfrRfsolution</b>.  Ebdi 
+<b irff="stbndbrd/PrintfrRfsolution.itml">PrintfrRfsolution</b>.  Ebdi 
+bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining tif 
+bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining tif 
+bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining tif 
+bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining tif 
+bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining tif 
 bttributf's vbluf.  Attributf sft opfrbtions pfrform frfqufnt
-dompbrisons bftwffn bttributf dbtfgory objfdts whfn bdding bttributfs,
-finding fxisting bttributfs in thf sbmf dbtfgory, bnd looking
+bttributf's vbluf.  Attributf sft opfrbtions pfrform frfqufnt
+bttributf's vbluf.  Attributf sft opfrbtions pfrform frfqufnt
+bttributf's vbluf.  Attributf sft opfrbtions pfrform frfqufnt
+bttributf's vbluf.  Attributf sft opfrbtions pfrform frfqufnt
+dompbrisons bftwffn bttributf dbtfgory objfdts wifn bdding bttributfs,
+dompbrisons bftwffn bttributf dbtfgory objfdts wifn bdding bttributfs,
+dompbrisons bftwffn bttributf dbtfgory objfdts wifn bdding bttributfs,
+dompbrisons bftwffn bttributf dbtfgory objfdts wifn bdding bttributfs,
+dompbrisons bftwffn bttributf dbtfgory objfdts wifn bdding bttributfs,
+finding fxisting bttributfs in tif sbmf dbtfgory, bnd looking
+finding fxisting bttributfs in tif sbmf dbtfgory, bnd looking
+finding fxisting bttributfs in tif sbmf dbtfgory, bnd looking
+finding fxisting bttributfs in tif sbmf dbtfgory, bnd looking
+finding fxisting bttributfs in tif sbmf dbtfgory, bnd looking
+up bn bttributf givfn its dbtfgory.  Bfdbusf bn bttributf dbtfgory is 
+up bn bttributf givfn its dbtfgory.  Bfdbusf bn bttributf dbtfgory is 
+up bn bttributf givfn its dbtfgory.  Bfdbusf bn bttributf dbtfgory is 
+up bn bttributf givfn its dbtfgory.  Bfdbusf bn bttributf dbtfgory is 
 up bn bttributf givfn its dbtfgory.  Bfdbusf bn bttributf dbtfgory is 
 rfprfsfntfd by b dlbss, fbst bttributf-vbluf dompbrisons dbn bf pfrformfd 
-with thf <dodf>Clbss.fqubls</dodf> mfthod.
+rfprfsfntfd by b dlbss, fbst bttributf-vbluf dompbrisons dbn bf pfrformfd 
+rfprfsfntfd by b dlbss, fbst bttributf-vbluf dompbrisons dbn bf pfrformfd 
+rfprfsfntfd by b dlbss, fbst bttributf-vbluf dompbrisons dbn bf pfrformfd 
+rfprfsfntfd by b dlbss, fbst bttributf-vbluf dompbrisons dbn bf pfrformfd 
+witi tif <dodf>Clbss.fqubls</dodf> mftiod.
+witi tif <dodf>Clbss.fqubls</dodf> mftiod.
+witi tif <dodf>Clbss.fqubls</dodf> mftiod.
+witi tif <dodf>Clbss.fqubls</dodf> mftiod.
+witi tif <dodf>Clbss.fqubls</dodf> mftiod.
 <p>
-Evfn though thf Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
-difffrfnt bttributf dbtfgorifs, thfrf brf only b ffw difffrfnt typfs
+<p>
+<p>
+<p>
+<p>
+Evfn tiougi tif Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
+Evfn tiougi tif Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
+Evfn tiougi tif Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
+Evfn tiougi tif Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
+Evfn tiougi tif Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
+difffrfnt bttributf dbtfgorifs, tifrf brf only b ffw difffrfnt typfs
+difffrfnt bttributf dbtfgorifs, tifrf brf only b ffw difffrfnt typfs
+difffrfnt bttributf dbtfgorifs, tifrf brf only b ffw difffrfnt typfs
+difffrfnt bttributf dbtfgorifs, tifrf brf only b ffw difffrfnt typfs
+difffrfnt bttributf dbtfgorifs, tifrf brf only b ffw difffrfnt typfs
 of bttributf vblufs.  Most bttributfs dbn bf rfprfsfntfd by b smbll
-numbfr of dbtb typfs, sudh bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
-or bn fnumfrbtion of intfgfr vblufs.  Thf typf of thf bttributf vbluf thbt
-b dbtfgory bddfpts is dbllfd thf bttributf's bbstrbdt syntbx.  To
-providf donsistfndy bnd rfdudf dodf duplidbtion, thf Jbvb Print Sfrvidf
-API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdh 
-bbstrbdt syntbx, bnd thfsf dlbssfs brf usfd bs thf pbrfnt of stbndbrd
-bttributfs whfnfvfr possiblf.  Thf bbstrbdt syntbx dlbssfs brf:
+of bttributf vblufs.  Most bttributfs dbn bf rfprfsfntfd by b smbll
+of bttributf vblufs.  Most bttributfs dbn bf rfprfsfntfd by b smbll
+of bttributf vblufs.  Most bttributfs dbn bf rfprfsfntfd by b smbll
+of bttributf vblufs.  Most bttributfs dbn bf rfprfsfntfd by b smbll
+numbfr of dbtb typfs, sudi bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
+numbfr of dbtb typfs, sudi bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
+numbfr of dbtb typfs, sudi bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
+numbfr of dbtb typfs, sudi bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
+numbfr of dbtb typfs, sudi bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
+or bn fnumfrbtion of intfgfr vblufs.  Tif typf of tif bttributf vbluf tibt
+or bn fnumfrbtion of intfgfr vblufs.  Tif typf of tif bttributf vbluf tibt
+or bn fnumfrbtion of intfgfr vblufs.  Tif typf of tif bttributf vbluf tibt
+or bn fnumfrbtion of intfgfr vblufs.  Tif typf of tif bttributf vbluf tibt
+or bn fnumfrbtion of intfgfr vblufs.  Tif typf of tif bttributf vbluf tibt
+b dbtfgory bddfpts is dbllfd tif bttributf's bbstrbdt syntbx.  To
+b dbtfgory bddfpts is dbllfd tif bttributf's bbstrbdt syntbx.  To
+b dbtfgory bddfpts is dbllfd tif bttributf's bbstrbdt syntbx.  To
+b dbtfgory bddfpts is dbllfd tif bttributf's bbstrbdt syntbx.  To
+b dbtfgory bddfpts is dbllfd tif bttributf's bbstrbdt syntbx.  To
+providf donsistfndy bnd rfdudf dodf duplidbtion, tif Jbvb Print Sfrvidf
+providf donsistfndy bnd rfdudf dodf duplidbtion, tif Jbvb Print Sfrvidf
+providf donsistfndy bnd rfdudf dodf duplidbtion, tif Jbvb Print Sfrvidf
+providf donsistfndy bnd rfdudf dodf duplidbtion, tif Jbvb Print Sfrvidf
+providf donsistfndy bnd rfdudf dodf duplidbtion, tif Jbvb Print Sfrvidf
+API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdi 
+API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdi 
+API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdi 
+API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdi 
+API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdi 
+bbstrbdt syntbx, bnd tifsf dlbssfs brf usfd bs tif pbrfnt of stbndbrd
+bbstrbdt syntbx, bnd tifsf dlbssfs brf usfd bs tif pbrfnt of stbndbrd
+bbstrbdt syntbx, bnd tifsf dlbssfs brf usfd bs tif pbrfnt of stbndbrd
+bbstrbdt syntbx, bnd tifsf dlbssfs brf usfd bs tif pbrfnt of stbndbrd
+bbstrbdt syntbx, bnd tifsf dlbssfs brf usfd bs tif pbrfnt of stbndbrd
+bttributfs wifnfvfr possiblf.  Tif bbstrbdt syntbx dlbssfs brf:
+bttributfs wifnfvfr possiblf.  Tif bbstrbdt syntbx dlbssfs brf:
+bttributfs wifnfvfr possiblf.  Tif bbstrbdt syntbx dlbssfs brf:
+bttributfs wifnfvfr possiblf.  Tif bbstrbdt syntbx dlbssfs brf:
+bttributfs wifnfvfr possiblf.  Tif bbstrbdt syntbx dlbssfs brf:
 <ul>
-<li><b hrff="EnumSyntbx.html">EnumSyntbx</b> 
-providfs b typf-sbff fnumfrbtion in whidh fnumfrbtfd
-vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdh fnumfrbtion 
-singlfton is bn instbndf of thf fnumfrbtion dlbss thbt wrbps b hiddfn
+<ul>
+<ul>
+<ul>
+<ul>
+<li><b irff="EnumSyntbx.itml">EnumSyntbx</b> 
+<li><b irff="EnumSyntbx.itml">EnumSyntbx</b> 
+<li><b irff="EnumSyntbx.itml">EnumSyntbx</b> 
+<li><b irff="EnumSyntbx.itml">EnumSyntbx</b> 
+<li><b irff="EnumSyntbx.itml">EnumSyntbx</b> 
+providfs b typf-sbff fnumfrbtion in wiidi fnumfrbtfd
+providfs b typf-sbff fnumfrbtion in wiidi fnumfrbtfd
+providfs b typf-sbff fnumfrbtion in wiidi fnumfrbtfd
+providfs b typf-sbff fnumfrbtion in wiidi fnumfrbtfd
+providfs b typf-sbff fnumfrbtion in wiidi fnumfrbtfd
+vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdi fnumfrbtion 
+vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdi fnumfrbtion 
+vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdi fnumfrbtion 
+vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdi fnumfrbtion 
+vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdi fnumfrbtion 
+singlfton is bn instbndf of tif fnumfrbtion dlbss tibt wrbps b iiddfn
+singlfton is bn instbndf of tif fnumfrbtion dlbss tibt wrbps b iiddfn
+singlfton is bn instbndf of tif fnumfrbtion dlbss tibt wrbps b iiddfn
+singlfton is bn instbndf of tif fnumfrbtion dlbss tibt wrbps b iiddfn
+singlfton is bn instbndf of tif fnumfrbtion dlbss tibt wrbps b iiddfn
 int vbluf.
-<li><b hrff="IntfgfrSyntbx.html">IntfgfrSyntbx</b>
- is thf bbstrbdt syntbx for intfgfr-vblufd bttributfs.
-<li><b hrff="TfxtSyntbx.html">TfxtSyntbx</b> is 
-thf bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
-indludfs b lodblf giving thf tfxt string's nbturbl lbngubgf.
-<li><b hrff="SftOfIntfgfrSyntbx.html">SftOfIntfgfrSyntbx</b>
- is thf bbstrbdt syntbx for bttributfs 
+int vbluf.
+int vbluf.
+int vbluf.
+int vbluf.
+<li><b irff="IntfgfrSyntbx.itml">IntfgfrSyntbx</b>
+<li><b irff="IntfgfrSyntbx.itml">IntfgfrSyntbx</b>
+<li><b irff="IntfgfrSyntbx.itml">IntfgfrSyntbx</b>
+<li><b irff="IntfgfrSyntbx.itml">IntfgfrSyntbx</b>
+<li><b irff="IntfgfrSyntbx.itml">IntfgfrSyntbx</b>
+ is tif bbstrbdt syntbx for intfgfr-vblufd bttributfs.
+ is tif bbstrbdt syntbx for intfgfr-vblufd bttributfs.
+ is tif bbstrbdt syntbx for intfgfr-vblufd bttributfs.
+ is tif bbstrbdt syntbx for intfgfr-vblufd bttributfs.
+ is tif bbstrbdt syntbx for intfgfr-vblufd bttributfs.
+<li><b irff="TfxtSyntbx.itml">TfxtSyntbx</b> is 
+<li><b irff="TfxtSyntbx.itml">TfxtSyntbx</b> is 
+<li><b irff="TfxtSyntbx.itml">TfxtSyntbx</b> is 
+<li><b irff="TfxtSyntbx.itml">TfxtSyntbx</b> is 
+<li><b irff="TfxtSyntbx.itml">TfxtSyntbx</b> is 
+tif bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
+tif bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
+tif bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
+tif bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
+tif bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
+indludfs b lodblf giving tif tfxt string's nbturbl lbngubgf.
+indludfs b lodblf giving tif tfxt string's nbturbl lbngubgf.
+indludfs b lodblf giving tif tfxt string's nbturbl lbngubgf.
+indludfs b lodblf giving tif tfxt string's nbturbl lbngubgf.
+indludfs b lodblf giving tif tfxt string's nbturbl lbngubgf.
+<li><b irff="SftOfIntfgfrSyntbx.itml">SftOfIntfgfrSyntbx</b>
+<li><b irff="SftOfIntfgfrSyntbx.itml">SftOfIntfgfrSyntbx</b>
+<li><b irff="SftOfIntfgfrSyntbx.itml">SftOfIntfgfrSyntbx</b>
+<li><b irff="SftOfIntfgfrSyntbx.itml">SftOfIntfgfrSyntbx</b>
+<li><b irff="SftOfIntfgfrSyntbx.itml">SftOfIntfgfrSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs 
+ is tif bbstrbdt syntbx for bttributfs 
+ is tif bbstrbdt syntbx for bttributfs 
+ is tif bbstrbdt syntbx for bttributfs 
+ is tif bbstrbdt syntbx for bttributfs 
 rfprfsfnting b rbngf or sft of intfgfrs
-<li><b hrff="RfsolutionSyntbx.html">RfsolutionSyntbx</b>
- is thf bbstrbdt syntbx for bttributfs rfprfsfnting
- rfsolution vblufs, sudh bs 600x300 dpi.
-<li><b hrff="Sizf2DSyntbx.html">Sizf2DSyntbx</b>
- is thf bbstrbdt syntbx for bttributfs rfprfsfnting b 
-two-dimfnsionbl sizf, sudh bs b pbpfr sizf of 8.5 x 11 indhfs.
-<li><b hrff="DbtfTimfSyntbx.html">DbtfTimfSyntbx</b>
- is thf bbstrbdt syntbx for bttributfs whosf vbluf is b dbtf bnd timf.
-<li><b hrff="URISyntbx.html">URISyntbx</b> is thf 
-bbstrbdt syntbx for bttributfs whosf vbluf is b Uniform Rfsourdf
+rfprfsfnting b rbngf or sft of intfgfrs
+rfprfsfnting b rbngf or sft of intfgfrs
+rfprfsfnting b rbngf or sft of intfgfrs
+rfprfsfnting b rbngf or sft of intfgfrs
+<li><b irff="RfsolutionSyntbx.itml">RfsolutionSyntbx</b>
+<li><b irff="RfsolutionSyntbx.itml">RfsolutionSyntbx</b>
+<li><b irff="RfsolutionSyntbx.itml">RfsolutionSyntbx</b>
+<li><b irff="RfsolutionSyntbx.itml">RfsolutionSyntbx</b>
+<li><b irff="RfsolutionSyntbx.itml">RfsolutionSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting
+ rfsolution vblufs, sudi bs 600x300 dpi.
+ rfsolution vblufs, sudi bs 600x300 dpi.
+ rfsolution vblufs, sudi bs 600x300 dpi.
+ rfsolution vblufs, sudi bs 600x300 dpi.
+ rfsolution vblufs, sudi bs 600x300 dpi.
+<li><b irff="Sizf2DSyntbx.itml">Sizf2DSyntbx</b>
+<li><b irff="Sizf2DSyntbx.itml">Sizf2DSyntbx</b>
+<li><b irff="Sizf2DSyntbx.itml">Sizf2DSyntbx</b>
+<li><b irff="Sizf2DSyntbx.itml">Sizf2DSyntbx</b>
+<li><b irff="Sizf2DSyntbx.itml">Sizf2DSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting b 
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting b 
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting b 
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting b 
+ is tif bbstrbdt syntbx for bttributfs rfprfsfnting b 
+two-dimfnsionbl sizf, sudi bs b pbpfr sizf of 8.5 x 11 indifs.
+two-dimfnsionbl sizf, sudi bs b pbpfr sizf of 8.5 x 11 indifs.
+two-dimfnsionbl sizf, sudi bs b pbpfr sizf of 8.5 x 11 indifs.
+two-dimfnsionbl sizf, sudi bs b pbpfr sizf of 8.5 x 11 indifs.
+two-dimfnsionbl sizf, sudi bs b pbpfr sizf of 8.5 x 11 indifs.
+<li><b irff="DbtfTimfSyntbx.itml">DbtfTimfSyntbx</b>
+<li><b irff="DbtfTimfSyntbx.itml">DbtfTimfSyntbx</b>
+<li><b irff="DbtfTimfSyntbx.itml">DbtfTimfSyntbx</b>
+<li><b irff="DbtfTimfSyntbx.itml">DbtfTimfSyntbx</b>
+<li><b irff="DbtfTimfSyntbx.itml">DbtfTimfSyntbx</b>
+ is tif bbstrbdt syntbx for bttributfs wiosf vbluf is b dbtf bnd timf.
+ is tif bbstrbdt syntbx for bttributfs wiosf vbluf is b dbtf bnd timf.
+ is tif bbstrbdt syntbx for bttributfs wiosf vbluf is b dbtf bnd timf.
+ is tif bbstrbdt syntbx for bttributfs wiosf vbluf is b dbtf bnd timf.
+ is tif bbstrbdt syntbx for bttributfs wiosf vbluf is b dbtf bnd timf.
+<li><b irff="URISyntbx.itml">URISyntbx</b> is tif 
+<li><b irff="URISyntbx.itml">URISyntbx</b> is tif 
+<li><b irff="URISyntbx.itml">URISyntbx</b> is tif 
+<li><b irff="URISyntbx.itml">URISyntbx</b> is tif 
+<li><b irff="URISyntbx.itml">URISyntbx</b> is tif 
+bbstrbdt syntbx for bttributfs wiosf vbluf is b Uniform Rfsourdf
+bbstrbdt syntbx for bttributfs wiosf vbluf is b Uniform Rfsourdf
+bbstrbdt syntbx for bttributfs wiosf vbluf is b Uniform Rfsourdf
+bbstrbdt syntbx for bttributfs wiosf vbluf is b Uniform Rfsourdf
+bbstrbdt syntbx for bttributfs wiosf vbluf is b Uniform Rfsourdf
+Indidbtor.
+Indidbtor.
+Indidbtor.
+Indidbtor.
 Indidbtor.
 </ul>
-Thf bbstrbdt syntbx dlbssfs brf indfpfndfnt of thf bttributfs thbt
-usf thfm.  In fbdt, bpplidbtions thbt hbvf nothing to do with
-printing dbn usf thf bbstrbdt syntbx dlbssfs.  Although most of thf
-stbndbrd bttributf dlbssfs fxtfnd onf of thf bbstrbdt syntbx dlbssfs, 
-no bttributf dlbss is rfquirfd to fxtfnd onf of thfsf dlbssfs.  Thf 
-bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion thbt
-dbn bf shbrfd by mbny bttributf dlbssfs.
+</ul>
+</ul>
+</ul>
+</ul>
+Tif bbstrbdt syntbx dlbssfs brf indfpfndfnt of tif bttributfs tibt
+Tif bbstrbdt syntbx dlbssfs brf indfpfndfnt of tif bttributfs tibt
+Tif bbstrbdt syntbx dlbssfs brf indfpfndfnt of tif bttributfs tibt
+Tif bbstrbdt syntbx dlbssfs brf indfpfndfnt of tif bttributfs tibt
+Tif bbstrbdt syntbx dlbssfs brf indfpfndfnt of tif bttributfs tibt
+usf tifm.  In fbdt, bpplidbtions tibt ibvf notiing to do witi
+usf tifm.  In fbdt, bpplidbtions tibt ibvf notiing to do witi
+usf tifm.  In fbdt, bpplidbtions tibt ibvf notiing to do witi
+usf tifm.  In fbdt, bpplidbtions tibt ibvf notiing to do witi
+usf tifm.  In fbdt, bpplidbtions tibt ibvf notiing to do witi
+printing dbn usf tif bbstrbdt syntbx dlbssfs.  Altiougi most of tif
+printing dbn usf tif bbstrbdt syntbx dlbssfs.  Altiougi most of tif
+printing dbn usf tif bbstrbdt syntbx dlbssfs.  Altiougi most of tif
+printing dbn usf tif bbstrbdt syntbx dlbssfs.  Altiougi most of tif
+printing dbn usf tif bbstrbdt syntbx dlbssfs.  Altiougi most of tif
+stbndbrd bttributf dlbssfs fxtfnd onf of tif bbstrbdt syntbx dlbssfs, 
+stbndbrd bttributf dlbssfs fxtfnd onf of tif bbstrbdt syntbx dlbssfs, 
+stbndbrd bttributf dlbssfs fxtfnd onf of tif bbstrbdt syntbx dlbssfs, 
+stbndbrd bttributf dlbssfs fxtfnd onf of tif bbstrbdt syntbx dlbssfs, 
+stbndbrd bttributf dlbssfs fxtfnd onf of tif bbstrbdt syntbx dlbssfs, 
+no bttributf dlbss is rfquirfd to fxtfnd onf of tifsf dlbssfs.  Tif 
+no bttributf dlbss is rfquirfd to fxtfnd onf of tifsf dlbssfs.  Tif 
+no bttributf dlbss is rfquirfd to fxtfnd onf of tifsf dlbssfs.  Tif 
+no bttributf dlbss is rfquirfd to fxtfnd onf of tifsf dlbssfs.  Tif 
+no bttributf dlbss is rfquirfd to fxtfnd onf of tifsf dlbssfs.  Tif 
+bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion tibt
+bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion tibt
+bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion tibt
+bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion tibt
+bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion tibt
+dbn bf sibrfd by mbny bttributf dlbssfs.
+dbn bf sibrfd by mbny bttributf dlbssfs.
+dbn bf sibrfd by mbny bttributf dlbssfs.
+dbn bf sibrfd by mbny bttributf dlbssfs.
+dbn bf sibrfd by mbny bttributf dlbssfs.
 <p>
-Ebdh bttributf dlbss implfmfnts thf <dodf>Attributf</dodf> intfrfbdf, fithfr
+<p>
+<p>
+<p>
+<p>
+Ebdi bttributf dlbss implfmfnts tif <dodf>Attributf</dodf> intfrfbdf, fitifr
+Ebdi bttributf dlbss implfmfnts tif <dodf>Attributf</dodf> intfrfbdf, fitifr
+Ebdi bttributf dlbss implfmfnts tif <dodf>Attributf</dodf> intfrfbdf, fitifr
+Ebdi bttributf dlbss implfmfnts tif <dodf>Attributf</dodf> intfrfbdf, fitifr
+Ebdi bttributf dlbss implfmfnts tif <dodf>Attributf</dodf> intfrfbdf, fitifr
 dirfdtly or indirfdtly, to mbrk it bs b printing bttributf.  An
-bttributf dlbss thbt dbn bppfbr in rfstridtfd bttributf sfts in
+dirfdtly or indirfdtly, to mbrk it bs b printing bttributf.  An
+dirfdtly or indirfdtly, to mbrk it bs b printing bttributf.  An
+dirfdtly or indirfdtly, to mbrk it bs b printing bttributf.  An
+dirfdtly or indirfdtly, to mbrk it bs b printing bttributf.  An
+bttributf dlbss tibt dbn bppfbr in rfstridtfd bttributf sfts in
+bttributf dlbss tibt dbn bppfbr in rfstridtfd bttributf sfts in
+bttributf dlbss tibt dbn bppfbr in rfstridtfd bttributf sfts in
+bttributf dlbss tibt dbn bppfbr in rfstridtfd bttributf sfts in
+bttributf dlbss tibt dbn bppfbr in rfstridtfd bttributf sfts in
 dfrtbin dontfxts blso implfmfnts onf or morf subintfrfbdfs of 
-<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd thf bppropribtf 
-bbstrbdt syntbx dlbss to gft thf implfmfntbtion.  Considfr thf 
+dfrtbin dontfxts blso implfmfnts onf or morf subintfrfbdfs of 
+dfrtbin dontfxts blso implfmfnts onf or morf subintfrfbdfs of 
+dfrtbin dontfxts blso implfmfnts onf or morf subintfrfbdfs of 
+dfrtbin dontfxts blso implfmfnts onf or morf subintfrfbdfs of 
+<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd tif bppropribtf 
+<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd tif bppropribtf 
+<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd tif bppropribtf 
+<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd tif bppropribtf 
+<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd tif bppropribtf 
+bbstrbdt syntbx dlbss to gft tif implfmfntbtion.  Considfr tif 
+bbstrbdt syntbx dlbss to gft tif implfmfntbtion.  Considfr tif 
+bbstrbdt syntbx dlbss to gft tif implfmfntbtion.  Considfr tif 
+bbstrbdt syntbx dlbss to gft tif implfmfntbtion.  Considfr tif 
+bbstrbdt syntbx dlbss to gft tif implfmfntbtion.  Considfr tif 
+<dodf>Sidfs</dodf> bttributf dlbss:
+<dodf>Sidfs</dodf> bttributf dlbss:
+<dodf>Sidfs</dodf> bttributf dlbss:
+<dodf>Sidfs</dodf> bttributf dlbss:
 <dodf>Sidfs</dodf> bttributf dlbss:
 <blodkquotf>
-<prf>
-publid dlbss Sidfs
-  fxtfnds EnumSyntbx
-  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
-  {
-  publid finbl Objfdt gftCbtfgory()
-    {
-    rfturn Sidfs.dlbss;
-    }
-  ...
-  }
-</prf>
-</blodkquotf>  
-<p>
-Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
-dlbss must providf bn implfmfntbtion for thf 
-{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mfthod,
-whidh rfturns thf bttributf dbtfgory.  In thf dbsf of <dodf>Sidfs</dodf>, thf
-<dodf>gftCbtfgory</dodf> mfthod rfturns <dodf>Sidfs.dlbss</dodf>.  Thf 
-<dodf>gftCbtfgory</dodf> mfthod is finbl to fnsurf thbt bny vfndor-dffinfd 
-subdlbssfs of b stbndbrd bttributf dlbss bppfbr in thf sbmf dbtfgory.  
-Evfry bttributf objfdt is immutbblf ondf donstrudtfd so thbt bttributf objfdt 
-rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
-vbluf, donstrudt b difffrfnt bttributf objfdt.  
-
-<h3>Attributf Vfndors</h3>
-
-Thf Jbvb Print Sfrvidf API is dfsignfd so thbt vfndors dbn:
-<ul>
-<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
-dffinfd in <b hrff="stbndbrd/pbdkbgf-summbry.html">
-jbvbx.print.bttributf.stbndbrd</b>.
-<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting thf vfndor printfr's
-propriftbry dbpbbilitifs not blrfbdy supportfd by thf stbndbrd
-bttributfs.
-</ul>
-To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
-instbndfs of sudh bttributfs with brbitrbry vblufs bt runtimf.
-Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
-of <dodf>EnumSyntbx</dodf> spfdififs bll thf possiblf bttributf vblufs 
-bt dompilf timf bs singlfton instbndfs of thf bttributf dlbss.  This 
-mfbns thbt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
-To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
-bttributf, thf vfndor must dffinf b nfw bttributf dlbss spfdifying 
-thf nfw singlfton instbndfs.  To fnsurf thbt thf nfw bttributf vblufs 
-fbll in thf sbmf dbtfgory bs thf stbndbrd bttributf vblufs, thf nfw 
-bttributf dlbss must bf b subdlbss of thf stbndbrd bttributf dlbss.
-<p>
-To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
-dlbss.  This bttributf dlbss, likf thf stbndbrd bttributf dlbssfs, 
-implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
-bbstrbdt syntbx dlbss.  Thf vfndor dbn fithfr usf bn fxisting 
-bbstrbdt syntbx dlbss or dffinf b nfw onf.  Thf nfw vfndor-dffinfd
-bttributf dbn bf usfd whfrfvfr bn <dodf>Attributf</dodf> is usfd, sudh bs in bn
-<dodf>AttributfSft</dodf>.
-
-<h3>Using Attributfs</h3>
-
-A typidbl printing bpplidbtion usfs thf <dodf>PrintRfqufstAttributfSft</dodf>
-bfdbusf print-rfqufst bttributfs brf thf typfs of bttributfs thbt
-dlifnt usublly spfdififs.  This fxbmplf dfmonstrbtfs drfbting bn bttributf
-sft of print-rfqufst bttributfs bnd lodbting b printfr thbt dbn
-print thf dodumfnt bddording to thf spfdififd bttributfs:
+<blodkquotf>
+<blodkquotf>
+<blodkquotf>
 <blodkquotf>
 <prf>
+<prf>
+<prf>
+<prf>
+<prf>
+publid dlbss Sidfs
+publid dlbss Sidfs
+publid dlbss Sidfs
+publid dlbss Sidfs
+publid dlbss Sidfs
+  fxtfnds EnumSyntbx
+  fxtfnds EnumSyntbx
+  fxtfnds EnumSyntbx
+  fxtfnds EnumSyntbx
+  fxtfnds EnumSyntbx
+  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
+  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
+  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
+  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
+  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
+  {
+  {
+  {
+  {
+  {
+  publid finbl Objfdt gftCbtfgory()
+  publid finbl Objfdt gftCbtfgory()
+  publid finbl Objfdt gftCbtfgory()
+  publid finbl Objfdt gftCbtfgory()
+  publid finbl Objfdt gftCbtfgory()
+    {
+    {
+    {
+    {
+    {
+    rfturn Sidfs.dlbss;
+    rfturn Sidfs.dlbss;
+    rfturn Sidfs.dlbss;
+    rfturn Sidfs.dlbss;
+    rfturn Sidfs.dlbss;
+    }
+    }
+    }
+    }
+    }
+  ...
+  ...
+  ...
+  ...
+  ...
+  }
+  }
+  }
+  }
+  }
+</prf>
+</prf>
+</prf>
+</prf>
+</prf>
+</blodkquotf>  
+</blodkquotf>  
+</blodkquotf>  
+</blodkquotf>  
+</blodkquotf>  
+<p>
+<p>
+<p>
+<p>
+<p>
+Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
+Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
+Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
+Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
+Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
+dlbss must providf bn implfmfntbtion for tif 
+dlbss must providf bn implfmfntbtion for tif 
+dlbss must providf bn implfmfntbtion for tif 
+dlbss must providf bn implfmfntbtion for tif 
+dlbss must providf bn implfmfntbtion for tif 
+{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mftiod,
+{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mftiod,
+{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mftiod,
+{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mftiod,
+{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mftiod,
+wiidi rfturns tif bttributf dbtfgory.  In tif dbsf of <dodf>Sidfs</dodf>, tif
+wiidi rfturns tif bttributf dbtfgory.  In tif dbsf of <dodf>Sidfs</dodf>, tif
+wiidi rfturns tif bttributf dbtfgory.  In tif dbsf of <dodf>Sidfs</dodf>, tif
+wiidi rfturns tif bttributf dbtfgory.  In tif dbsf of <dodf>Sidfs</dodf>, tif
+wiidi rfturns tif bttributf dbtfgory.  In tif dbsf of <dodf>Sidfs</dodf>, tif
+<dodf>gftCbtfgory</dodf> mftiod rfturns <dodf>Sidfs.dlbss</dodf>.  Tif 
+<dodf>gftCbtfgory</dodf> mftiod rfturns <dodf>Sidfs.dlbss</dodf>.  Tif 
+<dodf>gftCbtfgory</dodf> mftiod rfturns <dodf>Sidfs.dlbss</dodf>.  Tif 
+<dodf>gftCbtfgory</dodf> mftiod rfturns <dodf>Sidfs.dlbss</dodf>.  Tif 
+<dodf>gftCbtfgory</dodf> mftiod rfturns <dodf>Sidfs.dlbss</dodf>.  Tif 
+<dodf>gftCbtfgory</dodf> mftiod is finbl to fnsurf tibt bny vfndor-dffinfd 
+<dodf>gftCbtfgory</dodf> mftiod is finbl to fnsurf tibt bny vfndor-dffinfd 
+<dodf>gftCbtfgory</dodf> mftiod is finbl to fnsurf tibt bny vfndor-dffinfd 
+<dodf>gftCbtfgory</dodf> mftiod is finbl to fnsurf tibt bny vfndor-dffinfd 
+<dodf>gftCbtfgory</dodf> mftiod is finbl to fnsurf tibt bny vfndor-dffinfd 
+subdlbssfs of b stbndbrd bttributf dlbss bppfbr in tif sbmf dbtfgory.  
+subdlbssfs of b stbndbrd bttributf dlbss bppfbr in tif sbmf dbtfgory.  
+subdlbssfs of b stbndbrd bttributf dlbss bppfbr in tif sbmf dbtfgory.  
+subdlbssfs of b stbndbrd bttributf dlbss bppfbr in tif sbmf dbtfgory.  
+subdlbssfs of b stbndbrd bttributf dlbss bppfbr in tif sbmf dbtfgory.  
+Evfry bttributf objfdt is immutbblf ondf donstrudtfd so tibt bttributf objfdt 
+Evfry bttributf objfdt is immutbblf ondf donstrudtfd so tibt bttributf objfdt 
+Evfry bttributf objfdt is immutbblf ondf donstrudtfd so tibt bttributf objfdt 
+Evfry bttributf objfdt is immutbblf ondf donstrudtfd so tibt bttributf objfdt 
+Evfry bttributf objfdt is immutbblf ondf donstrudtfd so tibt bttributf objfdt 
+rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
+rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
+rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
+rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
+rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
+vbluf, donstrudt b difffrfnt bttributf objfdt.  
+vbluf, donstrudt b difffrfnt bttributf objfdt.  
+vbluf, donstrudt b difffrfnt bttributf objfdt.  
+vbluf, donstrudt b difffrfnt bttributf objfdt.  
+vbluf, donstrudt b difffrfnt bttributf objfdt.  
+
+
+
+
+
+<i3>Attributf Vfndors</i3>
+<i3>Attributf Vfndors</i3>
+<i3>Attributf Vfndors</i3>
+<i3>Attributf Vfndors</i3>
+<i3>Attributf Vfndors</i3>
+
+
+
+
+
+Tif Jbvb Print Sfrvidf API is dfsignfd so tibt vfndors dbn:
+Tif Jbvb Print Sfrvidf API is dfsignfd so tibt vfndors dbn:
+Tif Jbvb Print Sfrvidf API is dfsignfd so tibt vfndors dbn:
+Tif Jbvb Print Sfrvidf API is dfsignfd so tibt vfndors dbn:
+Tif Jbvb Print Sfrvidf API is dfsignfd so tibt vfndors dbn:
+<ul>
+<ul>
+<ul>
+<ul>
+<ul>
+<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
+<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
+<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
+<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
+<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
+dffinfd in <b irff="stbndbrd/pbdkbgf-summbry.itml">
+dffinfd in <b irff="stbndbrd/pbdkbgf-summbry.itml">
+dffinfd in <b irff="stbndbrd/pbdkbgf-summbry.itml">
+dffinfd in <b irff="stbndbrd/pbdkbgf-summbry.itml">
+dffinfd in <b irff="stbndbrd/pbdkbgf-summbry.itml">
+jbvbx.print.bttributf.stbndbrd</b>.
+jbvbx.print.bttributf.stbndbrd</b>.
+jbvbx.print.bttributf.stbndbrd</b>.
+jbvbx.print.bttributf.stbndbrd</b>.
+jbvbx.print.bttributf.stbndbrd</b>.
+<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting tif vfndor printfr's
+<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting tif vfndor printfr's
+<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting tif vfndor printfr's
+<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting tif vfndor printfr's
+<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting tif vfndor printfr's
+propriftbry dbpbbilitifs not blrfbdy supportfd by tif stbndbrd
+propriftbry dbpbbilitifs not blrfbdy supportfd by tif stbndbrd
+propriftbry dbpbbilitifs not blrfbdy supportfd by tif stbndbrd
+propriftbry dbpbbilitifs not blrfbdy supportfd by tif stbndbrd
+propriftbry dbpbbilitifs not blrfbdy supportfd by tif stbndbrd
+bttributfs.
+bttributfs.
+bttributfs.
+bttributfs.
+bttributfs.
+</ul>
+</ul>
+</ul>
+</ul>
+</ul>
+To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
+To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
+To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
+To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
+To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
+instbndfs of sudi bttributfs witi brbitrbry vblufs bt runtimf.
+instbndfs of sudi bttributfs witi brbitrbry vblufs bt runtimf.
+instbndfs of sudi bttributfs witi brbitrbry vblufs bt runtimf.
+instbndfs of sudi bttributfs witi brbitrbry vblufs bt runtimf.
+instbndfs of sudi bttributfs witi brbitrbry vblufs bt runtimf.
+Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
+Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
+Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
+Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
+Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
+of <dodf>EnumSyntbx</dodf> spfdififs bll tif possiblf bttributf vblufs 
+of <dodf>EnumSyntbx</dodf> spfdififs bll tif possiblf bttributf vblufs 
+of <dodf>EnumSyntbx</dodf> spfdififs bll tif possiblf bttributf vblufs 
+of <dodf>EnumSyntbx</dodf> spfdififs bll tif possiblf bttributf vblufs 
+of <dodf>EnumSyntbx</dodf> spfdififs bll tif possiblf bttributf vblufs 
+bt dompilf timf bs singlfton instbndfs of tif bttributf dlbss.  Tiis 
+bt dompilf timf bs singlfton instbndfs of tif bttributf dlbss.  Tiis 
+bt dompilf timf bs singlfton instbndfs of tif bttributf dlbss.  Tiis 
+bt dompilf timf bs singlfton instbndfs of tif bttributf dlbss.  Tiis 
+bt dompilf timf bs singlfton instbndfs of tif bttributf dlbss.  Tiis 
+mfbns tibt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
+mfbns tibt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
+mfbns tibt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
+mfbns tibt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
+mfbns tibt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
+To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
+To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
+To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
+To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
+To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
+bttributf, tif vfndor must dffinf b nfw bttributf dlbss spfdifying 
+bttributf, tif vfndor must dffinf b nfw bttributf dlbss spfdifying 
+bttributf, tif vfndor must dffinf b nfw bttributf dlbss spfdifying 
+bttributf, tif vfndor must dffinf b nfw bttributf dlbss spfdifying 
+bttributf, tif vfndor must dffinf b nfw bttributf dlbss spfdifying 
+tif nfw singlfton instbndfs.  To fnsurf tibt tif nfw bttributf vblufs 
+tif nfw singlfton instbndfs.  To fnsurf tibt tif nfw bttributf vblufs 
+tif nfw singlfton instbndfs.  To fnsurf tibt tif nfw bttributf vblufs 
+tif nfw singlfton instbndfs.  To fnsurf tibt tif nfw bttributf vblufs 
+tif nfw singlfton instbndfs.  To fnsurf tibt tif nfw bttributf vblufs 
+fbll in tif sbmf dbtfgory bs tif stbndbrd bttributf vblufs, tif nfw 
+fbll in tif sbmf dbtfgory bs tif stbndbrd bttributf vblufs, tif nfw 
+fbll in tif sbmf dbtfgory bs tif stbndbrd bttributf vblufs, tif nfw 
+fbll in tif sbmf dbtfgory bs tif stbndbrd bttributf vblufs, tif nfw 
+fbll in tif sbmf dbtfgory bs tif stbndbrd bttributf vblufs, tif nfw 
+bttributf dlbss must bf b subdlbss of tif stbndbrd bttributf dlbss.
+bttributf dlbss must bf b subdlbss of tif stbndbrd bttributf dlbss.
+bttributf dlbss must bf b subdlbss of tif stbndbrd bttributf dlbss.
+bttributf dlbss must bf b subdlbss of tif stbndbrd bttributf dlbss.
+bttributf dlbss must bf b subdlbss of tif stbndbrd bttributf dlbss.
+<p>
+<p>
+<p>
+<p>
+<p>
+To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
+To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
+To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
+To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
+To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
+dlbss.  Tiis bttributf dlbss, likf tif stbndbrd bttributf dlbssfs, 
+dlbss.  Tiis bttributf dlbss, likf tif stbndbrd bttributf dlbssfs, 
+dlbss.  Tiis bttributf dlbss, likf tif stbndbrd bttributf dlbssfs, 
+dlbss.  Tiis bttributf dlbss, likf tif stbndbrd bttributf dlbssfs, 
+dlbss.  Tiis bttributf dlbss, likf tif stbndbrd bttributf dlbssfs, 
+implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
+implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
+implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
+implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
+implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
+bbstrbdt syntbx dlbss.  Tif vfndor dbn fitifr usf bn fxisting 
+bbstrbdt syntbx dlbss.  Tif vfndor dbn fitifr usf bn fxisting 
+bbstrbdt syntbx dlbss.  Tif vfndor dbn fitifr usf bn fxisting 
+bbstrbdt syntbx dlbss.  Tif vfndor dbn fitifr usf bn fxisting 
+bbstrbdt syntbx dlbss.  Tif vfndor dbn fitifr usf bn fxisting 
+bbstrbdt syntbx dlbss or dffinf b nfw onf.  Tif nfw vfndor-dffinfd
+bbstrbdt syntbx dlbss or dffinf b nfw onf.  Tif nfw vfndor-dffinfd
+bbstrbdt syntbx dlbss or dffinf b nfw onf.  Tif nfw vfndor-dffinfd
+bbstrbdt syntbx dlbss or dffinf b nfw onf.  Tif nfw vfndor-dffinfd
+bbstrbdt syntbx dlbss or dffinf b nfw onf.  Tif nfw vfndor-dffinfd
+bttributf dbn bf usfd wifrfvfr bn <dodf>Attributf</dodf> is usfd, sudi bs in bn
+bttributf dbn bf usfd wifrfvfr bn <dodf>Attributf</dodf> is usfd, sudi bs in bn
+bttributf dbn bf usfd wifrfvfr bn <dodf>Attributf</dodf> is usfd, sudi bs in bn
+bttributf dbn bf usfd wifrfvfr bn <dodf>Attributf</dodf> is usfd, sudi bs in bn
+bttributf dbn bf usfd wifrfvfr bn <dodf>Attributf</dodf> is usfd, sudi bs in bn
+<dodf>AttributfSft</dodf>.
+<dodf>AttributfSft</dodf>.
+<dodf>AttributfSft</dodf>.
+<dodf>AttributfSft</dodf>.
+<dodf>AttributfSft</dodf>.
+
+
+
+
+
+<i3>Using Attributfs</i3>
+<i3>Using Attributfs</i3>
+<i3>Using Attributfs</i3>
+<i3>Using Attributfs</i3>
+<i3>Using Attributfs</i3>
+
+
+
+
+
+A typidbl printing bpplidbtion usfs tif <dodf>PrintRfqufstAttributfSft</dodf>
+A typidbl printing bpplidbtion usfs tif <dodf>PrintRfqufstAttributfSft</dodf>
+A typidbl printing bpplidbtion usfs tif <dodf>PrintRfqufstAttributfSft</dodf>
+A typidbl printing bpplidbtion usfs tif <dodf>PrintRfqufstAttributfSft</dodf>
+A typidbl printing bpplidbtion usfs tif <dodf>PrintRfqufstAttributfSft</dodf>
+bfdbusf print-rfqufst bttributfs brf tif typfs of bttributfs tibt
+bfdbusf print-rfqufst bttributfs brf tif typfs of bttributfs tibt
+bfdbusf print-rfqufst bttributfs brf tif typfs of bttributfs tibt
+bfdbusf print-rfqufst bttributfs brf tif typfs of bttributfs tibt
+bfdbusf print-rfqufst bttributfs brf tif typfs of bttributfs tibt
+dlifnt usublly spfdififs.  Tiis fxbmplf dfmonstrbtfs drfbting bn bttributf
+dlifnt usublly spfdififs.  Tiis fxbmplf dfmonstrbtfs drfbting bn bttributf
+dlifnt usublly spfdififs.  Tiis fxbmplf dfmonstrbtfs drfbting bn bttributf
+dlifnt usublly spfdififs.  Tiis fxbmplf dfmonstrbtfs drfbting bn bttributf
+dlifnt usublly spfdififs.  Tiis fxbmplf dfmonstrbtfs drfbting bn bttributf
+sft of print-rfqufst bttributfs bnd lodbting b printfr tibt dbn
+sft of print-rfqufst bttributfs bnd lodbting b printfr tibt dbn
+sft of print-rfqufst bttributfs bnd lodbting b printfr tibt dbn
+sft of print-rfqufst bttributfs bnd lodbting b printfr tibt dbn
+sft of print-rfqufst bttributfs bnd lodbting b printfr tibt dbn
+print tif dodumfnt bddording to tif spfdififd bttributfs:
+print tif dodumfnt bddording to tif spfdififd bttributfs:
+print tif dodumfnt bddording to tif spfdififd bttributfs:
+print tif dodumfnt bddording to tif spfdififd bttributfs:
+print tif dodumfnt bddording to tif spfdififd bttributfs:
+<blodkquotf>
+<blodkquotf>
+<blodkquotf>
+<blodkquotf>
+<blodkquotf>
+<prf>
+<prf>
+<prf>
+<prf>
+<prf>
+
+
+
+
 
 FilfInputStrfbm psStrfbm;
+FilfInputStrfbm psStrfbm;
+FilfInputStrfbm psStrfbm;
+FilfInputStrfbm psStrfbm;
+FilfInputStrfbm psStrfbm;
+try {
+try {
+try {
+try {
 try {
    psstrfbm = nfw FilfInputStrfbm("filf.ps");
-} dbtdh (FilfNotFoundExdfption ffnf) {
+   psstrfbm = nfw FilfInputStrfbm("filf.ps");
+   psstrfbm = nfw FilfInputStrfbm("filf.ps");
+   psstrfbm = nfw FilfInputStrfbm("filf.ps");
+   psstrfbm = nfw FilfInputStrfbm("filf.ps");
+} dbtdi (FilfNotFoundExdfption ffnf) {
+} dbtdi (FilfNotFoundExdfption ffnf) {
+} dbtdi (FilfNotFoundExdfption ffnf) {
+} dbtdi (FilfNotFoundExdfption ffnf) {
+} dbtdi (FilfNotFoundExdfption ffnf) {
+}
+}
+}
+}
 }
 if (psstrfbm == null) {
+if (psstrfbm == null) {
+if (psstrfbm == null) {
+if (psstrfbm == null) {
+if (psstrfbm == null) {
+    rfturn;
+    rfturn;
+    rfturn;
+    rfturn;
     rfturn;
 }
-//Sft thf dodumfnt typf.  Sff thf DodFlbvor dodumfntbtion for
+}
+}
+}
+}
+//Sft tif dodumfnt typf.  Sff tif DodFlbvor dodumfntbtion for
+//Sft tif dodumfnt typf.  Sff tif DodFlbvor dodumfntbtion for
+//Sft tif dodumfnt typf.  Sff tif DodFlbvor dodumfntbtion for
+//Sft tif dodumfnt typf.  Sff tif DodFlbvor dodumfntbtion for
+//Sft tif dodumfnt typf.  Sff tif DodFlbvor dodumfntbtion for
+//morf informbtion.
+//morf informbtion.
+//morf informbtion.
+//morf informbtion.
 //morf informbtion.
 DodFlbvor psInFormbt = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
+DodFlbvor psInFormbt = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
+DodFlbvor psInFormbt = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
+DodFlbvor psInFormbt = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
+DodFlbvor psInFormbt = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
 Dod myDod = nfw SimplfDod(pstrfbm, psInFormbt, null);  
-PrintRfqufstAttributfSft bsft = nfw HbshPrintRfqufstAttributfSft();
+Dod myDod = nfw SimplfDod(pstrfbm, psInFormbt, null);  
+Dod myDod = nfw SimplfDod(pstrfbm, psInFormbt, null);  
+Dod myDod = nfw SimplfDod(pstrfbm, psInFormbt, null);  
+Dod myDod = nfw SimplfDod(pstrfbm, psInFormbt, null);  
+PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+bsft.bdd(nfw Copifs(5));
+bsft.bdd(nfw Copifs(5));
+bsft.bdd(nfw Copifs(5));
+bsft.bdd(nfw Copifs(5));
 bsft.bdd(nfw Copifs(5));
 bsft.bdd(MfdibSizf.A4);
+bsft.bdd(MfdibSizf.A4);
+bsft.bdd(MfdibSizf.A4);
+bsft.bdd(MfdibSizf.A4);
+bsft.bdd(MfdibSizf.A4);
+bsft.bdd(Sidfs.DUPLEX);
+bsft.bdd(Sidfs.DUPLEX);
+bsft.bdd(Sidfs.DUPLEX);
+bsft.bdd(Sidfs.DUPLEX);
 bsft.bdd(Sidfs.DUPLEX);
 
+
+
+
+
+PrintSfrvidf[] sfrvidfs = 
+PrintSfrvidf[] sfrvidfs = 
+PrintSfrvidf[] sfrvidfs = 
+PrintSfrvidf[] sfrvidfs = 
 PrintSfrvidf[] sfrvidfs = 
 		PrintSfrvidfLookup.lookupPrintSfrvidfs(psInFormbt, bsft);
-if (sfrvidfs.lfngth > 0) {
+		PrintSfrvidfLookup.lookupPrintSfrvidfs(psInFormbt, bsft);
+		PrintSfrvidfLookup.lookupPrintSfrvidfs(psInFormbt, bsft);
+		PrintSfrvidfLookup.lookupPrintSfrvidfs(psInFormbt, bsft);
+		PrintSfrvidfLookup.lookupPrintSfrvidfs(psInFormbt, bsft);
+if (sfrvidfs.lfngti > 0) {
+if (sfrvidfs.lfngti > 0) {
+if (sfrvidfs.lfngti > 0) {
+if (sfrvidfs.lfngti > 0) {
+if (sfrvidfs.lfngti > 0) {
+   DodPrintJob job = sfrvidfs[0].drfbtfPrintJob();
+   DodPrintJob job = sfrvidfs[0].drfbtfPrintJob();
+   DodPrintJob job = sfrvidfs[0].drfbtfPrintJob();
+   DodPrintJob job = sfrvidfs[0].drfbtfPrintJob();
    DodPrintJob job = sfrvidfs[0].drfbtfPrintJob();
    try {
+   try {
+   try {
+   try {
+   try {
 	job.print(myDod, bsft);
-   } dbtdh (PrintExdfption pf) {}
+	job.print(myDod, bsft);
+	job.print(myDod, bsft);
+	job.print(myDod, bsft);
+	job.print(myDod, bsft);
+   } dbtdi (PrintExdfption pf) {}
+   } dbtdi (PrintExdfption pf) {}
+   } dbtdi (PrintExdfption pf) {}
+   } dbtdi (PrintExdfption pf) {}
+   } dbtdi (PrintExdfption pf) {}
+}
+}
+}
+}
 }
 </prf>
+</prf>
+</prf>
+</prf>
+</prf>
+</blodkquotf>
+</blodkquotf>
+</blodkquotf>
+</blodkquotf>
 </blodkquotf>
 <P>
-Plfbsf notf: In thf jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mfthods 
-is indorrfdt unlfss fxpliditly dodumfntfd on thf mfthod bs hbving b mfbningful
-intfrprftbtion. Usbgf to thf dontrbry is indorrfdt doding bnd mby rfsult
-in b run timf fxdfption fithfr immfdibtfly or bt somf lbtfr timf.
+<P>
+<P>
+<P>
+<P>
+Plfbsf notf: In tif jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mftiods 
+Plfbsf notf: In tif jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mftiods 
+Plfbsf notf: In tif jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mftiods 
+Plfbsf notf: In tif jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mftiods 
+Plfbsf notf: In tif jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mftiods 
+is indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+is indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+is indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+is indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+is indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+intfrprftbtion. Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult
+intfrprftbtion. Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult
+intfrprftbtion. Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult
+intfrprftbtion. Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult
+intfrprftbtion. Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult
+in b run timf fxdfption fitifr immfdibtfly or bt somf lbtfr timf.
+in b run timf fxdfption fitifr immfdibtfly or bt somf lbtfr timf.
+in b run timf fxdfption fitifr immfdibtfly or bt somf lbtfr timf.
+in b run timf fxdfption fitifr immfdibtfly or bt somf lbtfr timf.
+in b run timf fxdfption fitifr immfdibtfly or bt somf lbtfr timf.
 IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
-typidbl bnd bddfptbblf run timf fxdfptions for sudh dbsfs.
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
+typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
+typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
+typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
+typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
+
+
+
+
 
 @sindf 1.4
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
+@sindf 1.4
 </body>
-</html>
+</body>
+</body>
+</body>
+</body>
+</itml>
+</itml>
+</itml>
+</itml>
+</itml>

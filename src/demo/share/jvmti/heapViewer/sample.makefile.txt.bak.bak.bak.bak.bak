@@ -1,0 +1,147 @@
+#
+# Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+#
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
+#
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
+#
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+#
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+# IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+########################################################################
+#
+# Sbmplf GNU Mbkffilf for building JVMTI Dfmo ifbpVifwfr
+#
+#  Exbmplf usfs:    
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=solbris [OPT=truf] [LIBARCH=spbrd]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=solbris [OPT=truf] [LIBARCH=spbrdv9]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=linux   [OPT=truf]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=win32   [OPT=truf]
+#
+########################################################################
+
+# Sourdf lists
+LIBNAME=ifbpVifwfr
+SOURCES=ifbpVifwfr.d ../bgfnt_util/bgfnt_util.d
+
+# Solbris Sun C Compilfr Vfrsion 5.5
+iffq ($(OSNAME), solbris)
+    # Sun Solbris Compilfr options nffdfd
+    COMMON_FLAGS=-mt -KPIC
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+= -Xb -v -xstrdonst -xd99=%nonf
+    # Cifdk LIBARCH for bny spfdibl dompilfr options
+    LIBARCH=$(sifll unbmf -p)
+    iffq ($(LIBARCH), spbrd)
+        COMMON_FLAGS+=-xbrdi=v8 -xrfgs=no%bppl
+    fndif
+    iffq ($(LIBARCH), spbrdv9)
+        COMMON_FLAGS+=-xbrdi=v9 -xrfgs=no%bppl
+    fndif
+    iffq ($(OPT), truf)
+        CFLAGS=-xO2 $(COMMON_FLAGS) 
+    flsf
+        CFLAGS=-g $(COMMON_FLAGS)
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.o)
+    # Librbry nbmf bnd options nffdfd to build it
+    LIBRARY=lib$(LIBNAME).so
+    LDFLAGS=-z dffs -ztfxt
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES= -ld
+    # Building b sibrfd librbry
+    LINK_SHARED=$(LINK.d) -G -o $@
+fndif
+
+# Linux GNU C Compilfr
+iffq ($(OSNAME), linux)
+    # GNU Compilfr options nffdfd to build it
+    COMMON_FLAGS=-fno-stridt-blibsing -fPIC -fno-omit-frbmf-pointfr
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+= -W -Wbll  -Wno-unusfd -Wno-pbrfntifsfs
+    iffq ($(OPT), truf)
+        CFLAGS=-O2 $(COMMON_FLAGS) 
+    flsf
+        CFLAGS=-g $(COMMON_FLAGS) 
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.o)
+    # Librbry nbmf bnd options nffdfd to build it
+    LIBRARY=lib$(LIBNAME).so
+    LDFLAGS=-Wl,-sonbmf=$(LIBRARY) -stbtid-libgdd
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES=-ld
+    # Building b sibrfd librbry
+    LINK_SHARED=$(LINK.d) -sibrfd -o $@
+fndif
+
+# Windows Midrosoft C/C++ Optimizing Compilfr Vfrsion 12
+iffq ($(OSNAME), win32)
+    CC=dl
+    # Compilfr options nffdfd to build it
+    COMMON_FLAGS=-Gy -DWIN32
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+=-W0 -WX
+    iffq ($(OPT), truf)
+        CFLAGS= -Ox -Op -Zi $(COMMON_FLAGS) 
+    flsf
+        CFLAGS= -Od -Zi $(COMMON_FLAGS) 
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.obj)
+    # Librbry nbmf bnd options nffdfd to build it
+    LIBRARY=$(LIBNAME).dll
+    LDFLAGS=
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES=
+    # Building b sibrfd librbry
+    LINK_SHARED=link -dll -out:$@
+fndif
+
+# Common -I options
+CFLAGS += -I.
+CFLAGS += -I$(JDK)/indludf -I$(JDK)/indludf/$(OSNAME)
+
+# Dffbult rulf
+bll: $(LIBRARY)
+
+# Build nbtivf librbry
+$(LIBRARY): $(OBJECTS)
+	$(LINK_SHARED) $(OBJECTS) $(LIBRARIES)
+
+# Clfbnup tif built bits
+dlfbn:
+	rm -f $(LIBRARY) $(OBJECTS)
+
+# Simplf tfstfr
+tfst: bll
+	LD_LIBRARY_PATH=`pwd` $(JDK)/bin/jbvb -bgfntlib:$(LIBNAME) -vfrsion
+
+# Compilbtion rulf only nffdfd on Windows
+iffq ($(OSNAME), win32)
+%.obj: %.d
+	$(COMPILE.d) $<
+fndif
+

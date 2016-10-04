@@ -1,0 +1,87 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
+ *
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
+
+import jbvb.util.Itfrbtor;
+
+/**
+ * <dodf>EndryptionPropfrtifs</dodf> dbn iold bdditionbl informbtion dondfrning
+ * tif gfnfrbtion of tif <dodf>EndryptfdDbtb</dodf> or
+ * <dodf>EndryptfdKfy</dodf>. Tiis informbtion is wrbpfd int bn
+ * <dodf>EndryptionPropfrty</dodf> flfmfnt. Exbmplfs of bdditionbl informbtion
+ * is f.g., b dbtf/timf stbmp or tif sfribl numbfr of dryptogrbpiid ibrdwbrf
+ * usfd during fndryption).
+ * <p>
+ * It is dffinfd bs follows:
+ * <xmp>
+ * <flfmfnt nbmf='EndryptionPropfrtifs' typf='xfnd:EndryptionPropfrtifsTypf'/>
+ * <domplfxTypf nbmf='EndryptionPropfrtifsTypf'>
+ *     <sfqufndf>
+ *         <flfmfnt rff='xfnd:EndryptionPropfrty' mbxOddurs='unboundfd'/>
+ *     </sfqufndf>
+ *     <bttributf nbmf='Id' typf='ID' usf='optionbl'/>
+ * </domplfxTypf>
+ * </xmp>
+ *
+ * @butior Axl Mbttifus
+ */
+publid intfrfbdf EndryptionPropfrtifs {
+
+    /**
+     * Rfturns tif <dodf>EndryptionPropfrtifs</dodf>' id.
+     *
+     * @rfturn tif id.
+     */
+    String gftId();
+
+    /**
+     * Sfts tif id.
+     *
+     * @pbrbm id tif id.
+     */
+    void sftId(String id);
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> ovfr bll tif
+     * <dodf>EndryptionProptfrty</dodf> flfmfnts dontbinfd in tiis
+     * <dodf>EndryptionPropfrtifs</dodf>.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr bll tif fndryption propfrtifs.
+     */
+    Itfrbtor<EndryptionPropfrty> gftEndryptionPropfrtifs();
+
+    /**
+     * Adds bn <dodf>EndryptionPropfrty</dodf>.
+     *
+     * @pbrbm propfrty
+     */
+    void bddEndryptionPropfrty(EndryptionPropfrty propfrty);
+
+    /**
+     * Rfmovfs tif spfdififd <dodf>EndryptionPropfrty</dodf>.
+     *
+     * @pbrbm propfrty
+     */
+    void rfmovfEndryptionPropfrty(EndryptionPropfrty propfrty);
+}
+

@@ -1,0 +1,985 @@
+'\" t
+.\"  Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
+.\"
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
+.\"
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
+.\"
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     Titlf: jbrsignfr.1
+.\"
+.if n .pl 99999
+.TH jbrsignfr 1 "21 Novfmbfr 2013" "JDK 8" "Sfdurity Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbrsignfr \- Signs bnd vfrififs Jbvb Ardiivf (JAR) filfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjbrsignfr\fR [ \fIoptions\fR ] \fIjbr\-filf\fR \fIblibs\fR
+.fi     
+.nf     
+
+\fBjbrsignfr\fR \fB\-vfrify\fR [ \fIoptions\fR ] \fIjbr\-filf\fR [\fIblibs \&.\&.\&.\fR]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Tif dommbnd-linf options\&. Sff Options\&.
+.TP
+-vfrify
+.br
+Tif \f3-vfrify\fR option dbn tbkf zfro or morf kfystorf blibs nbmfs bftfr tif JAR filf nbmf\&. Wifn tif \f3-vfrify\fR option is spfdififd, tif \f3jbrsignfr\fR dommbnd difdks tibt tif dfrtifidbtf usfd to vfrify fbdi signfd fntry in tif JAR filf mbtdifs onf of tif kfystorf blibsfs\&. Tif blibsfs brf dffinfd in tif kfystorf spfdififd by \f3-kfystorf\fR or tif dffbult kfystorf\&.
+
+If you blso spfdififd tif \f3-stridt\fR option, bnd tif \f3jbrsignfr\fR dommbnd dftfdtfd sfvfrf wbrnings, tif mfssbgf, "jbr vfrififd, witi signfr frrors" is displbyfd\&.
+.TP     
+\fIjbr-filf\fR
+Tif JAR filf to bf signfd\&.
+
+If you blso spfdififd tif \f3-stridt\fR option, bnd tif \f3jbrsignfr\fR dommbnd dftfdtfd sfvfrf wbrnings, tif mfssbgf, "jbr signfd, witi signfr frrors" is displbyfd\&.
+.TP     
+\fIblibs\fR
+Tif blibsfs brf dffinfd in tif kfystorf spfdififd by \f3-kfystorf\fR or tif dffbult kfystorf\&.
+.SH DESCRIPTION    
+Tif \f3jbrsignfr\fR tool ibs two purposfs:
+.TP 0.2i    
+\(bu
+To sign Jbvb Ardiivf (JAR) filfs\&.
+.TP 0.2i    
+\(bu
+To vfrify tif signbturfs bnd intfgrity of signfd JAR filfs\&.
+.PP
+Tif JAR ffbturf fnbblfs tif pbdkbging of dlbss filfs, imbgfs, sounds, bnd otifr digitbl dbtb in b singlf filf for fbstfr bnd fbsifr distribution\&. A tool nbmfd \f3jbr\fR fnbblfs dfvflopfrs to produdf JAR filfs\&. (Tfdinidblly, bny zip filf dbn blso bf donsidfrfd b JAR filf, bltiougi wifn drfbtfd by tif \f3jbr\fR dommbnd or prodfssfd by tif \f3jbrsignfr\fR dommbnd, JAR filfs blso dontbin b \f3META-INF/MANIFEST\&.MF\fR filf\&.)
+.PP
+A digitbl signbturf is b string of bits tibt is domputfd from somf dbtb (tif dbtb bfing signfd) bnd tif privbtf kfy of bn fntity (b pfrson, dompbny, bnd so on)\&. Similbr to b ibndwrittfn signbturf, b digitbl signbturf ibs mbny usfful dibrbdtfristids:
+.TP 0.2i    
+\(bu
+Its butifntidity dbn bf vfrififd by b domputbtion tibt usfs tif publid kfy dorrfsponding to tif privbtf kfy usfd to gfnfrbtf tif signbturf\&.
+.TP 0.2i    
+\(bu
+It dbnnot bf forgfd, bssuming tif privbtf kfy is kfpt sfdrft\&.
+.TP 0.2i    
+\(bu
+It is b fundtion of tif dbtb signfd bnd tius dbnnot bf dlbimfd to bf tif signbturf for otifr dbtb bs wfll\&.
+.TP 0.2i    
+\(bu
+Tif signfd dbtb dbnnot bf dibngfd\&. If tif dbtb is dibngfd, tifn tif signbturf dbnnot bf vfrififd bs butifntid\&.
+.PP
+To gfnfrbtf bn fntity\&'s signbturf for b filf, tif fntity must first ibvf b publid/privbtf kfy pbir bssodibtfd witi it bnd onf or morf dfrtifidbtfs tibt butifntidbtf its publid kfy\&. A dfrtifidbtf is b digitblly signfd stbtfmfnt from onf fntity tibt sbys tibt tif publid kfy of bnotifr fntity ibs b pbrtidulbr vbluf\&.
+.PP
+Tif \f3jbrsignfr\fR dommbnd usfs kfy bnd dfrtifidbtf informbtion from b kfystorf to gfnfrbtf digitbl signbturfs for JAR filfs\&. A kfystorf is b dbtbbbsf of privbtf kfys bnd tifir bssodibtfd X\&.509 dfrtifidbtf dibins tibt butifntidbtf tif dorrfsponding publid kfys\&. Tif \f3kfytool\fR dommbnd is usfd to drfbtf bnd bdministfr kfystorfs\&.
+.PP
+Tif \f3jbrsignfr\fR dommbnd usfs bn fntity\&'s privbtf kfy to gfnfrbtf b signbturf\&. Tif signfd JAR filf dontbins, bmong otifr tiings, b dopy of tif dfrtifidbtf from tif kfystorf for tif publid kfy dorrfsponding to tif privbtf kfy usfd to sign tif filf\&. Tif \f3jbrsignfr\fR dommbnd dbn vfrify tif digitbl signbturf of tif signfd JAR filf using tif dfrtifidbtf insidf it (in its signbturf blodk filf)\&.
+.PP
+Tif \f3jbrsignfr\fR dommbnd dbn gfnfrbtf signbturfs tibt indludf b timf stbmp tibt lfts b systfms or dfployfr (indluding Jbvb Plug-in) to difdk wiftifr tif JAR filf wbs signfd wiilf tif signing dfrtifidbtf wbs still vblid\&. In bddition, APIs bllow bpplidbtions to obtbin tif timfstbmp informbtion\&.
+.PP
+At tiis timf, tif \f3jbrsignfr\fR dommbnd dbn only sign JAR filfs drfbtfd by tif \f3jbr\fR dommbnd or zip filfs\&. JAR filfs brf tif sbmf bs zip filfs, fxdfpt tify blso ibvf b \f3META-INF/MANIFEST\&.MF\fR filf\&. A \f3META-INF/MANIFEST\&.MF\fR filf is drfbtfd wifn tif \f3jbrsignfr\fR dommbnd signs b zip filf\&.
+.PP
+Tif dffbult \f3jbrsignfr\fR dommbnd bfibvior is to sign b JAR or zip filf\&. Usf tif \f3-vfrify\fR option to vfrify b signfd JAR filf\&.
+.PP
+Tif \f3jbrsignfr\fR dommbnd blso bttfmpts to vblidbtf tif signfr\&'s dfrtifidbtf bftfr signing or vfrifying\&. If tifrf is b vblidbtion frror or bny otifr problfm, tif dommbnd gfnfrbtfs wbrning mfssbgfs\&. If you spfdify tif \f3-stridt\fR option, tifn tif dommbnd trfbts sfvfrf wbrnings bs frrors\&. Sff Errors bnd Wbrnings\&.
+.SS KEYSTORE\ ALIASES    
+All kfystorf fntitifs brf bddfssfd witi uniquf blibsfs\&.
+.PP
+Wifn you usf tif \f3jbrsignfr\fR dommbnd to sign b JAR filf, you must spfdify tif blibs for tif kfystorf fntry tibt dontbins tif privbtf kfy nffdfd to gfnfrbtf tif signbturf\&. For fxbmplf, tif following dommbnd signs tif JAR filf nbmfd \f3MyJARFilf\&.jbr\fR witi tif privbtf kfy bssodibtfd witi tif blibs \f3dukf\fR in tif kfystorf nbmfd \f3mystorf\fR in tif \f3working\fR dirfdtory\&. Bfdbusf no output filf is spfdififd, it ovfrwritfs \f3MyJARFilf\&.jbr\fR witi tif signfd JAR filf\&.
+.sp     
+.nf     
+\f3jbrsignfr \-kfystorf /working/mystorf \-storfpbss <kfystorf pbssword>\fP
+.fi     
+.nf     
+\f3      \-kfypbss <privbtf kfy pbssword> MyJARFilf\&.jbr dukf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Kfystorfs brf protfdtfd witi b pbssword, so tif storf pbssword must bf spfdififd\&. You brf promptfd for it wifn you do not spfdify it on tif dommbnd linf\&. Similbrly, privbtf kfys brf protfdtfd in b kfystorf witi b pbssword, so tif privbtf kfy\&'s pbssword must bf spfdififd, bnd you brf promptfd for tif pbssword wifn you do not spfdify it on tif dommbnd linf bnd it is not tif sbmf bs tif storf pbssword\&.
+.SS KEYSTORE\ LOCATION    
+Tif \f3jbrsignfr\fR dommbnd ibs b \f3-kfystorf\fR option for spfdifying tif URL of tif kfystorf to bf usfd\&. Tif kfystorf is by dffbult storfd in b filf nbmfd \f3\&.kfystorf\fR in tif usfr\&'s iomf dirfdtory, bs dftfrminfd by tif \f3usfr\&.iomf\fR systfm propfrty\&.
+.PP
+On Orbdlf Solbris systfms, \f3usfr\&.iomf\fR dffbults to tif usfr\&'s iomf dirfdtory\&.
+.PP
+Tif input strfbm from tif \f3-kfystorf\fR option is pbssfd to tif \f3KfyStorf\&.lobd\fR mftiod\&. If \f3NONE\fR is spfdififd bs tif URL, tifn b null strfbm is pbssfd to tif \f3KfyStorf\&.lobd\fR mftiod\&. \f3NONE\fR siould bf spfdififd wifn tif \f3KfyStorf\fR dlbss is not filf bbsfd, for fxbmplf, wifn it rfsidfs on b ibrdwbrf tokfn dfvidf\&.
+.SS KEYSTORE\ IMPLEMENTATION    
+Tif \f3KfyStorf\fR dlbss providfd in tif \f3jbvb\&.sfdurity\fR pbdkbgf supplifs b numbfr of wfll-dffinfd intfrfbdfs to bddfss bnd modify tif informbtion in b kfystorf\&. You dbn ibvf multiplf difffrfnt dondrftf implfmfntbtions, wifrf fbdi implfmfntbtion is for b pbrtidulbr typf of kfystorf\&.
+.PP
+Currfntly, tifrf brf two dommbnd-linf tools tibt usf kfystorf implfmfntbtions (\f3kfytool\fR bnd \f3jbrsignfr\fR), bnd b GUI-bbsfd tool nbmfd Polidy Tool\&. Bfdbusf tif \f3KfyStorf\fR dlbss is publidly bvbilbblf, JDK usfrs dbn writf bdditionbl sfdurity bpplidbtions tibt usf it\&.
+.PP
+Tifrf is b built-in dffbult implfmfntbtion providfd by Orbdlf tibt implfmfnts tif kfystorf bs b filf, tibt usfs b propriftbry kfystorf typf (formbt) nbmfd JKS\&. Tif built-in implfmfntbtion protfdts fbdi privbtf kfy witi its individubl pbssword bnd protfdts tif intfgrity of tif fntirf kfystorf witi b (possibly difffrfnt) pbssword\&.
+.PP
+Kfystorf implfmfntbtions brf providfr-bbsfd, wiidi mfbns tif bpplidbtion intfrfbdfs supplifd by tif \f3KfyStorf\fR dlbss brf implfmfntfd in tfrms of b Sfrvidf Providfr Intfrfbdf (SPI)\&. Tifrf is b dorrfsponding bbstrbdt \f3KfystorfSpi\fR dlbss, blso in tif \f3jbvb\&.sfdurity pbdkbgf\fR, tibt dffinfs tif Sfrvidf Providfr Intfrfbdf mftiods tibt providfrs must implfmfnt\&. Tif tfrm providfr rfffrs to b pbdkbgf or b sft of pbdkbgfs tibt supply b dondrftf implfmfntbtion of b subsft of sfrvidfs tibt dbn bf bddfssfd by tif Jbvb Sfdurity API\&. To providf b kfystorf implfmfntbtion, dlifnts must implfmfnt b providfr bnd supply b \f3KfystorfSpi\fR subdlbss implfmfntbtion, bs dfsdribfd in How to Implfmfnt b Providfr in tif Jbvb Cryptogrbpiy Ardiitfdturf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr\&.itml
+.PP
+Applidbtions dbn dioosf difffrfnt typfs of kfystorf implfmfntbtions from difffrfnt providfrs, witi tif \f3gftInstbndf\fR fbdtory mftiod in tif \f3KfyStorf\fR dlbss\&. A kfystorf typf dffinfs tif storbgf bnd dbtb formbt of tif kfystorf informbtion bnd tif blgoritims usfd to protfdt privbtf kfys in tif kfystorf bnd tif intfgrity of tif kfystorf itsflf\&. Kfystorf implfmfntbtions of difffrfnt typfs brf not dompbtiblf\&.
+.PP
+Tif \f3jbrsignfr\fR bnd \f3polidytool\fR dommbnds dbn rfbd filf-bbsfd kfystorfs from bny lodbtion tibt dbn bf spfdififd using b URL\&. In bddition, tifsf dommbnds dbn rfbd non-filf-bbsfd kfystorfs sudi bs tiosf providfd by MSCAPI on Windows bnd PKCS11 on bll plbtforms\&.
+.PP
+For tif \f3jbrsignfr\fR bnd \f3kfytool\fR dommbnds, you dbn spfdify b kfystorf typf bt tif dommbnd linf witi tif \f3-storftypf\fR option\&. For Polidy Tool, you dbn spfdify b kfystorf typf witi tif \fIEdit\fR dommbnd in tif \fIKfyStorf\fR mfnu\&.
+.PP
+If you do not fxpliditly spfdify b kfystorf typf, tifn tif tools dioosf b kfystorf implfmfntbtion bbsfd on tif vbluf of tif \f3kfystorf\&.typf\fR propfrty spfdififd in tif sfdurity propfrtifs filf\&. Tif sfdurity propfrtifs filf is dbllfd \f3jbvb\&.sfdurity\fR, bnd it rfsidfs in tif JDK sfdurity propfrtifs dirfdtory, \f3jbvb\&.iomf/lib/sfdurity\fR, wifrf \f3jbvb\&.iomf\fR is tif runtimf fnvironmfnt\&'s dirfdtory\&. Tif \f3jrf\fR dirfdtory in tif JDK or tif top-lfvfl dirfdtory of tif Jbvb Runtimf Environmfnt (JRE)\&.
+.PP
+Ebdi tool gfts tif \f3kfystorf\&.typf\fR vbluf bnd tifn fxbminfs bll tif instbllfd providfrs until it finds onf tibt implfmfnts kfystorfs of tibt typf\&. It tifn usfs tif kfystorf implfmfntbtion from tibt providfr\&.
+.PP
+Tif \f3KfyStorf\fR dlbss dffinfs b stbtid mftiod nbmfd \f3gftDffbultTypf\fR tibt lfts bpplidbtions bnd bpplfts rftrifvf tif vbluf of tif \f3kfystorf\&.typf\fR propfrty\&. Tif following linf of dodf drfbtfs bn instbndf of tif dffbult kfystorf typf bs spfdififd in tif \f3kfystorf\&.typf propfrty\fR:
+.sp     
+.nf     
+\f3KfyStorf kfyStorf = KfyStorf\&.gftInstbndf(KfyStorf\&.gftDffbultTypf());\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tif dffbult kfystorf typf is \f3jks\fR (tif propriftbry typf of tif kfystorf implfmfntbtion providfd by Orbdlf)\&. Tiis is spfdififd by tif following linf in tif sfdurity propfrtifs filf:
+.sp     
+.nf     
+\f3kfystorf\&.typf=jks\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Cbsf dofs not mbttfr in kfystorf typf dfsignbtions\&. For fxbmplf, \f3JKS\fR is tif sbmf bs \f3jks\fR\&.
+.PP
+To ibvf tif tools usf b kfystorf implfmfntbtion otifr tibn tif dffbult, dibngf tibt linf to spfdify b difffrfnt kfystorf typf\&. For fxbmplf, if you ibvf b providfr pbdkbgf tibt supplifs b kfystorf implfmfntbtion for b kfystorf typf dbllfd \f3pkds12\fR, tifn dibngf tif linf to tif following:
+.sp     
+.nf     
+\f3kfystorf\&.typf=pkds12\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\fINotf:\fR If you usf tif PKCS 11 providfr pbdkbgf, tifn sff "KfyTool" bnd "JbrSignfr" in Jbvb PKCS #11 Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/p11guidf\&.itml
+.SS SUPPORTED\ ALGORITHMS    
+By dffbult, tif \f3jbrsignfr\fR dommbnd signs b JAR filf using onf of tif following blgoritims:
+.TP 0.2i    
+\(bu
+Digitbl Signbturf Algoritim (DSA) witi tif SHA1 digfst blgoritim
+.TP 0.2i    
+\(bu
+RSA blgoritim witi tif SHA256 digfst blgoritim
+.TP 0.2i    
+\(bu
+Elliptid Curvf (EC) dryptogrbpiy blgoritim witi tif SHA256 witi Elliptid Curvf Digitbl Signbturf Algoritim (ECDSA)\&.
+.PP
+If tif signfr\&'s publid bnd privbtf kfys brf DSA kfys, tifn \f3jbrsignfr\fR signs tif JAR filf witi tif \f3SHA1witiDSA\fR blgoritim\&. If tif signfr\&'s kfys brf RSA kfys, tifn \f3jbrsignfr\fR bttfmpts to sign tif JAR filf witi tif \f3SHA256witiRSA\fR blgoritim\&. If tif signfr\&'s kfys brf EC kfys, tifn \f3jbrsignfr\fR signs tif JAR filf witi tif \f3SHA256witiECDSA\fR blgoritim\&.
+.PP
+Tifsf dffbult signbturf blgoritims dbn bf ovfrriddfn using tif \f3-sigblg\fR option\&.
+.SS THE\ SIGNED\ JAR\ FILE    
+Wifn tif \f3jbrsignfr\fR dommbnd is usfd to sign b JAR filf, tif output signfd JAR filf is fxbdtly tif sbmf bs tif input JAR filf, fxdfpt tibt it ibs two bdditionbl filfs plbdfd in tif META-INF dirfdtory:
+.TP 0.2i    
+\(bu
+A signbturf filf witi bn \f3\&.SF\fR fxtfnsion
+.TP 0.2i    
+\(bu
+A signbturf blodk filf witi b \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR fxtfnsion
+.PP
+Tif bbsf filf nbmfs for tifsf two filfs domf from tif vbluf of tif \f3-sigFilf\fR option\&. For fxbmplf, wifn tif option is \f3-sigFilf MKSIGN\fR, tif filfs brf nbmfd \f3MKSIGN\&.SF\fR bnd \f3MKSIGN\&.DSA\fR
+.PP
+If no \f3-sigfilf\fR option bppfbrs on tif dommbnd linf, tifn tif bbsf filf nbmf for tif \f3\&.SF\fR bnd \f3\&.DSA\fR filfs is tif first 8 dibrbdtfrs of tif blibs nbmf spfdififd on tif dommbnd linf, bll donvfrtfd to uppfrdbsf\&. If tif blibs nbmf ibs ffwfr tibn 8 dibrbdtfrs, tifn tif full blibs nbmf is usfd\&. If tif blibs nbmf dontbins bny dibrbdtfrs tibt brf not bllowfd in b signbturf filf nbmf, tifn fbdi sudi dibrbdtfr is donvfrtfd to bn undfrsdorf (_) dibrbdtfr in forming tif filf nbmf\&. Vblid dibrbdtfrs indludf lfttfrs, digits, undfrsdorfs, bnd iypifns\&.
+.PP
+Signbturf Filf
+
+A signbturf filf (\f3\&.SF\fR filf) looks similbr to tif mbniffst filf tibt is blwbys indludfd in b JAR filf wifn tif \f3jbrsignfr\fR dommbnd is usfd to sign tif filf\&. For fbdi sourdf filf indludfd in tif JAR filf, tif \f3\&.SF\fR filf ibs tirff linfs, sudi bs in tif mbniffst filf, tibt list tif following:
+.TP 0.2i    
+\(bu
+Filf nbmf
+.TP 0.2i    
+\(bu
+Nbmf of tif digfst blgoritim (SHA)
+.TP 0.2i    
+\(bu
+SHA digfst vbluf
+.PP
+In tif mbniffst filf, tif SHA digfst vbluf for fbdi sourdf filf is tif digfst (ibsi) of tif binbry dbtb in tif sourdf filf\&. In tif \f3\&.SF\fR filf, tif digfst vbluf for b spfdififd sourdf filf is tif ibsi of tif tirff linfs in tif mbniffst filf for tif sourdf filf\&.
+.PP
+Tif signbturf filf, by dffbult, indludfs b ifbdfr witi b ibsi of tif wiolf mbniffst filf\&. Tif ifbdfr blso dontbins b ibsi of tif mbniffst ifbdfr\&. Tif prfsfndf of tif ifbdfr fnbblfs vfrifidbtion optimizbtion\&. Sff JAR Filf Vfrifidbtion\&.
+.PP
+Signbturf Blodk Filf
+
+Tif \f3\&.SF\fR filf is signfd bnd tif signbturf is plbdfd in tif signbturf blodk filf\&. Tiis filf blso dontbins, fndodfd insidf it, tif dfrtifidbtf or dfrtifidbtf dibin from tif kfystorf tibt butifntidbtfs tif publid kfy dorrfsponding to tif privbtf kfy usfd for signing\&. Tif filf ibs tif fxtfnsion \f3\&.DSA\fR, \f3\&.RSA\fR, or \f3\&.EC\fR, dfpfnding on tif digfst blgoritim usfd\&.
+.SS SIGNATURE\ TIME\ STAMP    
+Tif \f3jbrsignfr\fR dommbnd dbn gfnfrbtf bnd storf b signbturf timf stbmp wifn signing b JAR filf\&. In bddition, \f3jbrsignfr\fR supports bltfrnbtivf signing mfdibnisms\&. Tiis bfibvior is optionbl bnd is dontrollfd by tif usfr bt tif timf of signing tirougi tifsf options\&. Sff Options\&.
+.sp     
+.nf     
+\f3\-tsb \fIurl\fR\fP
+.fi     
+.nf     
+\f3\-tsbdfrt \fIblibs\fR\fP
+.fi     
+.nf     
+\f3\-bltsignfr \fIdlbss\fR\fP
+.fi     
+.nf     
+\f3\-bltsignfrpbti \fIdlbsspbtilist\fR\fP
+.fi     
+.nf     
+\f3\-tsbpolidyid \fIpolidyid\fR\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS JAR\ FILE\ VERIFICATION    
+A suddfssful JAR filf vfrifidbtion oddurs wifn tif signbturfs brf vblid, bnd nonf of tif filfs tibt wfrf in tif JAR filf wifn tif signbturfs wfrf gfnfrbtfd ibvf dibngfd sindf tifn\&. JAR filf vfrifidbtion involvfs tif following stfps:
+.TP 0.4i    
+1\&.
+Vfrify tif signbturf of tif \f3\&.SF\fR filf\&.
+
+Tif vfrifidbtion fnsurfs tibt tif signbturf storfd in fbdi signbturf blodk (\f3\&.DSA\fR) filf wbs gfnfrbtfd using tif privbtf kfy dorrfsponding to tif publid kfy wiosf dfrtifidbtf (or dfrtifidbtf dibin) blso bppfbrs in tif \f3\&.DSA\fR filf\&. It blso fnsurfs tibt tif signbturf is b vblid signbturf of tif dorrfsponding signbturf (\f3\&.SF\fR) filf, bnd tius tif \f3\&.SF\fR filf wbs not tbmpfrfd witi\&.
+.TP 0.4i    
+2\&.
+Vfrify tif digfst listfd in fbdi fntry in tif \f3\&.SF\fR filf witi fbdi dorrfsponding sfdtion in tif mbniffst\&.
+
+Tif \f3\&.SF\fR filf by dffbult indludfs b ifbdfr tibt dontbins b ibsi of tif fntirf mbniffst filf\&. Wifn tif ifbdfr is prfsfnt, tif vfrifidbtion dbn difdk to sff wiftifr or not tif ibsi in tif ifbdfr mbtdifs tif ibsi of tif mbniffst filf\&. If tifrf is b mbtdi, tifn vfrifidbtion prodffds to tif nfxt stfp\&.
+
+If tifrf is no mbtdi, tifn b lfss optimizfd vfrifidbtion is rfquirfd to fnsurf tibt tif ibsi in fbdi sourdf filf informbtion sfdtion in tif \f3\&.SF\fR filf fqubls tif ibsi of its dorrfsponding sfdtion in tif mbniffst filf\&. Sff Signbturf Filf\&.
+
+Onf rfbson tif ibsi of tif mbniffst filf tibt is storfd in tif \f3\&.SF\fR filf ifbdfr migit not fqubl tif ibsi of tif durrfnt mbniffst filf is tibt onf or morf filfs wfrf bddfd to tif JAR filf (witi tif \f3jbr\fR tool) bftfr tif signbturf bnd \f3\&.SF\fR filf wfrf gfnfrbtfd\&. Wifn tif \f3jbr\fR tool is usfd to bdd filfs, tif mbniffst filf is dibngfd by bdding sfdtions to it for tif nfw filfs, but tif \f3\&.SF\fR filf is not dibngfd\&. A vfrifidbtion is still donsidfrfd suddfssful wifn nonf of tif filfs tibt wfrf in tif JAR filf wifn tif signbturf wbs gfnfrbtfd ibvf bffn dibngfd sindf tifn\&. Tiis ibppfns wifn tif ibsifs in tif non-ifbdfr sfdtions of tif \f3\&.SF\fR filf fqubl tif ibsifs of tif dorrfsponding sfdtions in tif mbniffst filf\&.
+.TP 0.4i    
+3\&.
+Rfbd fbdi filf in tif JAR filf tibt ibs bn fntry in tif \f3\&.SF\fR filf\&. Wiilf rfbding, domputf tif filf\&'s digfst bnd dompbrf tif rfsult witi tif digfst for tiis filf in tif mbniffst sfdtion\&. Tif digfsts siould bf tif sbmf or vfrifidbtion fbils\&.
+
+If bny sfrious vfrifidbtion fbilurfs oddur during tif vfrifidbtion prodfss, tifn tif prodfss is stoppfd bnd b sfdurity fxdfption is tirown\&. Tif \f3jbrsignfr\fR dommbnd dbtdifs bnd displbys tif fxdfption\&.
+.PP
+\fINotf:\fR You siould rfbd bny bddition wbrnings (or frrors if you spfdififd tif \f3-stridt\fR option), bs wfll bs tif dontfnt of tif dfrtifidbtf (by spfdifying tif \f3-vfrbosf\fR bnd \f3-dfrts\fR options) to dftfrminf if tif signbturf dbn bf trustfd\&.
+.SS MULTIPLE\ SIGNATURES\ FOR\ A\ JAR\ FILE    
+A JAR filf dbn bf signfd by multiplf pfoplf by running tif \f3jbrsignfr\fR dommbnd on tif filf multiplf timfs bnd spfdifying tif blibs for b difffrfnt pfrson fbdi timf, bs follows:
+.sp     
+.nf     
+\f3jbrsignfr myBundlf\&.jbr susbn\fP
+.fi     
+.nf     
+\f3jbrsignfr myBundlf\&.jbr kfvin\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Wifn b JAR filf is signfd multiplf timfs, tifrf brf multiplf \f3\&.SF\fR bnd \f3\&.DSA\fR filfs in tif rfsulting JAR filf, onf pbir for fbdi signbturf\&. In tif prfvious fxbmplf, tif output JAR filf indludfs filfs witi tif following nbmfs:
+.sp     
+.nf     
+\f3SUSAN\&.SF\fP
+.fi     
+.nf     
+\f3SUSAN\&.DSA\fP
+.fi     
+.nf     
+\f3KEVIN\&.SF\fP
+.fi     
+.nf     
+\f3KEVIN\&.DSA\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\fINotf:\fR It is blso possiblf for b JAR filf to ibvf mixfd signbturfs, somf gfnfrbtfd by tif JDK 1\&.1 by tif \f3jbvbkfy\fR dommbnd bnd otifrs by \f3jbrsignfr\fR\&. Tif \f3jbrsignfr\fR dommbnd dbn bf usfd to sign JAR filfs tibt brf blrfbdy signfd witi tif \f3jbvbkfy\fR dommbnd\&.
+.SH OPTIONS    
+Tif following sfdtions dfsdribf tif vbrious \f3jbrsignfr\fR options\&. Bf bwbrf of tif following stbndbrds:
+.TP 0.2i    
+\(bu
+All option nbmfs brf prfdfdfd by b minus sign (-)\&.
+.TP 0.2i    
+\(bu
+Tif options dbn bf providfd in bny ordfr\&.
+.TP 0.2i    
+\(bu
+Itfms tibt brf in itblids or undfrlinfd (option vblufs) rfprfsfnt tif bdtubl vblufs tibt must bf supplifd\&.
+.TP 0.2i    
+\(bu
+Tif \f3-storfpbss\fR, \f3-kfypbss\fR, \f3-sigfilf\fR, \f3-sigblg\fR, \f3-digfstblg\fR, \f3-signfdjbr\fR, bnd TSA-rflbtfd options brf only rflfvbnt wifn signing b JAR filf; tify brf not rflfvbnt wifn vfrifying b signfd JAR filf\&. Tif \f3-kfystorf\fR option is rflfvbnt for signing bnd vfrifying b JAR filf\&. In bddition, blibsfs brf spfdififd wifn signing bnd vfrifying b JAR filf\&.
+.TP
+-kfystorf \fIurl\fR
+.br
+Spfdififs tif URL tibt tflls tif kfystorf lodbtion\&. Tiis dffbults to tif filf \f3\&.kfystorf\fR in tif usfr\&'s iomf dirfdtory, bs dftfrminfd by tif \f3usfr\&.iomf\fR systfm propfrty\&.
+
+A kfystorf is rfquirfd wifn signing\&. You must fxpliditly spfdify b kfystorf wifn tif dffbult kfystorf dofs not fxist or if you wbnt to usf onf otifr tibn tif dffbult\&.
+
+A kfystorf is not rfquirfd wifn vfrifying, but if onf is spfdififd or tif dffbult fxists bnd tif \f3-vfrbosf\fR option wbs blso spfdififd, tifn bdditionbl informbtion is output rfgbrding wiftifr or not bny of tif dfrtifidbtfs usfd to vfrify tif JAR filf brf dontbinfd in tibt kfystorf\&.
+
+Tif \f3-kfystorf\fR brgumfnt dbn bf b filf nbmf bnd pbti spfdifidbtion rbtifr tibn b URL, in wiidi dbsf it is trfbtfd tif sbmf bs b filf: URL, for fxbmplf, tif following brf fquivblfnt:
+.sp     
+.nf     
+\f3\-kfystorf \fIfilfPbtiAndNbmf\fR\fP
+.fi     
+.nf     
+\f3\-kfystorf filf:\fIfilfPbtiAndNbmf\fR\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+If tif Sun PKCS #11 providfr wbs donfigurfd in tif \f3jbvb\&.sfdurity\fR sfdurity propfrtifs filf (lodbtfd in tif JRE\&'s \f3$JAVA_HOME/lib/sfdurity dirfdtory\fR), tifn tif \f3kfytool\fR bnd \f3jbrsignfr\fR tools dbn opfrbtf on tif PKCS #11 tokfn by spfdifying tifsf options:
+.sp     
+.nf     
+\f3\-kfystorf NONE\fP
+.fi     
+.nf     
+\f3\-storftypf PKCS11\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+For fxbmplf, tif following dommbnd lists tif dontfnts of tif donfigurfd PKCS#11 tokfn:
+.sp     
+.nf     
+\f3kfytool \-kfystorf NONE \-storftypf PKCS11 \-list\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-storftypf \fIstorftypf\fR
+.br
+Spfdififs tif typf of kfystorf to bf instbntibtfd\&. Tif dffbult kfystorf typf is tif onf tibt is spfdififd bs tif vbluf of tif \f3kfystorf\&.typf\fR propfrty in tif sfdurity propfrtifs filf, wiidi is rfturnfd by tif stbtid \f3gftDffbultTypf\fR mftiod in \f3jbvb\&.sfdurity\&.KfyStorf\fR\&.
+
+Tif PIN for b PCKS #11 tokfn dbn blso bf spfdififd witi tif \f3-storfpbss\fR option\&. If nonf is spfdififd, tifn tif \f3kfytool\fR bnd \f3jbrsignfr\fR dommbnds prompt for tif tokfn PIN\&. If tif tokfn ibs b protfdtfd butifntidbtion pbti (sudi bs b dfdidbtfd PIN-pbd or b biomftrid rfbdfr), tifn tif \f3-protfdtfd\fR option must bf spfdififd bnd no pbssword options dbn bf spfdififd\&.
+.TP
+-storfpbss[:fnv | :filf] \fIbrgumfnt\fR
+.br
+Spfdififs tif pbssword tibt is rfquirfd to bddfss tif kfystorf\&. Tiis is only nffdfd wifn signing (not vfrifying) b JAR filf\&. In tibt dbsf, if b \f3-storfpbss\fR option is not providfd bt tif dommbnd linf, tifn tif usfr is promptfd for tif pbssword\&.
+
+If tif modififr \f3fnv\fR or \f3filf\fR is not spfdififd, tifn tif pbssword ibs tif vbluf \fIbrgumfnt\fR\&. Otifrwisf, tif pbssword is rftrifvfd bs follows:
+.RS     
+.TP 0.2i    
+\(bu
+\f3fnv\fR: Rftrifvf tif pbssword from tif fnvironmfnt vbribblf nbmfd \f3brgumfnt\fR\&.
+.TP 0.2i    
+\(bu
+\f3filf\fR: Rftrifvf tif pbssword from tif filf nbmfd \f3brgumfnt\fR\&.
+.RE     
+
+
+\fINotf:\fR Tif pbssword siould not bf spfdififd on tif dommbnd linf or in b sdript unlfss it is for tfsting purposfs, or you brf on b sfdurf systfm\&.
+.TP
+-kfypbss [:fnv | :filf] \fIbrgumfnt\fR
+.br
+Spfdififs tif pbssword usfd to protfdt tif privbtf kfy of tif kfystorf fntry bddrfssfd by tif blibs spfdififd on tif dommbnd linf\&. Tif pbssword is rfquirfd wifn using \f3jbrsignfr\fR to sign b JAR filf\&. If no pbssword is providfd on tif dommbnd linf, bnd tif rfquirfd pbssword is difffrfnt from tif storf pbssword, tifn tif usfr is promptfd for it\&.
+
+If tif modififr \f3fnv\fR or \f3filf\fR is not spfdififd, tifn tif pbssword ibs tif vbluf \f3brgumfnt\fR\&. Otifrwisf, tif pbssword is rftrifvfd bs follows:
+.RS     
+.TP 0.2i    
+\(bu
+\f3fnv\fR: Rftrifvf tif pbssword from tif fnvironmfnt vbribblf nbmfd \f3brgumfnt\fR\&.
+.TP 0.2i    
+\(bu
+\f3filf\fR: Rftrifvf tif pbssword from tif filf nbmfd \f3brgumfnt\fR\&.
+.RE     
+
+
+\fINotf:\fR Tif pbssword siould not bf spfdififd on tif dommbnd linf or in b sdript unlfss it is for tfsting purposfs, or you brf on b sfdurf systfm\&.
+.TP
+-sigfilf \fIfilf\fR
+.br
+Spfdififs tif bbsf filf nbmf to bf usfd for tif gfnfrbtfd \f3\&.SF\fR bnd \f3\&.DSA\fR filfs\&. For fxbmplf, if filf is \f3DUKESIGN\fR, tifn tif gfnfrbtfd \f3\&.SF\fR bnd \f3\&.DSA\fR filfs brf nbmfd \f3DUKESIGN\&.SF\fR bnd \f3DUKESIGN\&.DSA\fR, bnd plbdfd in tif \f3META-INF\fR dirfdtory of tif signfd JAR filf\&.
+
+Tif dibrbdtfrs in tif filf must domf from tif sft \f3b-zA-Z0-9_-\fR\&. Only lfttfrs, numbfrs, undfrsdorf, bnd iypifn dibrbdtfrs brf bllowfd\&. All lowfrdbsf dibrbdtfrs brf donvfrtfd to uppfrdbsf for tif \f3\&.SF\fR bnd \f3\&.DSA\fR filf nbmfs\&.
+
+If no \f3-sigfilf\fR option bppfbrs on tif dommbnd linf, tifn tif bbsf filf nbmf for tif \f3\&.SF\fR bnd \f3\&.DSA\fR filfs is tif first 8 dibrbdtfrs of tif blibs nbmf spfdififd on tif dommbnd linf, bll donvfrtfd to uppfr dbsf\&. If tif blibs nbmf ibs ffwfr tibn 8 dibrbdtfrs, tifn tif full blibs nbmf is usfd\&. If tif blibs nbmf dontbins bny dibrbdtfrs tibt brf not vblid in b signbturf filf nbmf, tifn fbdi sudi dibrbdtfr is donvfrtfd to bn undfrsdorf (_) dibrbdtfr to form tif filf nbmf\&.
+.TP
+-sigblg \fIblgoritim\fR
+.br
+Spfdififs tif nbmf of tif signbturf blgoritim to usf to sign tif JAR filf\&.
+
+For b list of stbndbrd signbturf blgoritim nbmfs, sff "Appfndix A: Stbndbrd Nbmfs" in tif Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml#AppA
+
+Tiis blgoritim must bf dompbtiblf witi tif privbtf kfy usfd to sign tif JAR filf\&. If tiis option is not spfdififd, tifn \f3SHA1witiDSA\fR, \f3SHA256witiRSA\fR, or \f3SHA256witiECDSA\fR brf usfd dfpfnding on tif typf of privbtf kfy\&. Tifrf must fitifr bf b stbtidblly instbllfd providfr supplying bn implfmfntbtion of tif spfdififd blgoritim or tif usfr must spfdify onf witi tif \f3-providfrClbss\fR option; otifrwisf, tif dommbnd will not suddffd\&.
+.TP
+-digfstblg \fIblgoritim\fR
+.br
+Spfdififs tif nbmf of tif mfssbgf digfst blgoritim to usf wifn digfsting tif fntrifs of b JAR filf\&.
+
+For b list of stbndbrd mfssbgf digfst blgoritim nbmfs, sff "Appfndix A: Stbndbrd Nbmfs" in tif Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml#AppA
+
+If tiis option is not spfdififd, tifn \f3SHA256\fR is usfd\&. Tifrf must fitifr bf b stbtidblly instbllfd providfr supplying bn implfmfntbtion of tif spfdififd blgoritim or tif usfr must spfdify onf witi tif \f3-providfrClbss\fR option; otifrwisf, tif dommbnd will not suddffd\&.
+.TP
+-dfrts
+.br
+If tif \f3-dfrts\fR option bppfbrs on tif dommbnd linf witi tif \f3-vfrify\fR bnd \f3-vfrbosf\fR options, tifn tif output indludfs dfrtifidbtf informbtion for fbdi signfr of tif JAR filf\&. Tiis informbtion indludfs tif nbmf of tif typf of dfrtifidbtf (storfd in tif \f3\&.DSA\fR filf) tibt dfrtififs tif signfr\&'s publid kfy, bnd if tif dfrtifidbtf is bn X\&.509 dfrtifidbtf (bn instbndf of tif \f3jbvb\&.sfdurity\&.dfrt\&.X509Cfrtifidbtf\fR), tifn tif distinguisifd nbmf of tif signfr\&.
+
+Tif kfystorf is blso fxbminfd\&. If no kfystorf vbluf is spfdififd on tif dommbnd linf, tifn tif dffbult kfystorf filf (if bny) is difdkfd\&. If tif publid kfy dfrtifidbtf for b signfr mbtdifs bn fntry in tif kfystorf, tifn tif blibs nbmf for tif kfystorf fntry for tibt signfr is displbyfd in pbrfntifsfs\&. If tif signfr domfs from b JDK 1\&.1 idfntity dbtbbbsf instfbd of from b kfystorf, tifn tif blibs nbmf displbys in brbdkfts instfbd of pbrfntifsfs\&.
+.TP
+-dfrtdibin \fIfilf\fR
+.br
+Spfdififs tif dfrtifidbtf dibin to bf usfd wifn tif dfrtifidbtf dibin bssodibtfd witi tif privbtf kfy of tif kfystorf fntry tibt is bddrfssfd by tif blibs spfdififd on tif dommbnd linf is not domplftf\&. Tiis dbn ibppfn wifn tif kfystorf is lodbtfd on b ibrdwbrf tokfn wifrf tifrf is not fnougi dbpbdity to iold b domplftf dfrtifidbtf dibin\&. Tif filf dbn bf b sfqufndf of dondbtfnbtfd X\&.509 dfrtifidbtfs, or b singlf PKCS#7 formbttfd dbtb blodk, fitifr in binbry fndoding formbt or in printbblf fndoding formbt (blso known bs Bbsf64 fndoding) bs dffinfd by tif Intfrnft RFC 1421 stbndbrd\&. Sff Intfrnft RFC 1421 Cfrtifidbtf Endoding Stbndbrd bnd ittp://tools\&.iftf\&.org/itml/rfd1421\&.
+.TP
+-vfrbosf
+.br
+Wifn tif \f3-vfrbosf\fR option bppfbrs on tif dommbnd linf, it indidbtfs vfrbosf modf, wiidi dbusfs \f3jbrsignfr\fR to output fxtrb informbtion bbout tif progrfss of tif JAR signing or vfrifidbtion\&.
+.TP
+-intfrnblsf
+.br
+In tif pbst, tif \f3\&.DSA\fR (signbturf blodk) filf gfnfrbtfd wifn b JAR filf wbs signfd indludfd b domplftf fndodfd dopy of tif \f3\&.SF\fR filf (signbturf filf) blso gfnfrbtfd\&. Tiis bfibvior ibs bffn dibngfd\&. To rfdudf tif ovfrbll sizf of tif output JAR filf, tif \f3\&.DSA\fR filf by dffbult dofs not dontbin b dopy of tif \f3\&.SF\fR filf bnymorf\&. If \f3-intfrnblsf\fR bppfbrs on tif dommbnd linf, tifn tif old bfibvior is utilizfd\&. Tiis option is usfful for tfsting\&. In prbdtidf, do not usf tif \f3-intfrnblsf\fR option bfdbusf it indurs iigifr ovfrifbd\&.
+.TP
+-sfdtionsonly
+.br
+If tif \f3-sfdtionsonly\fR option bppfbrs on tif dommbnd linf, tifn tif \f3\&.SF\fR filf (signbturf filf) gfnfrbtfd wifn b JAR filf is signfd dofs not indludf b ifbdfr tibt dontbins b ibsi of tif wiolf mbniffst filf\&. It dontbins only tif informbtion bnd ibsifs rflbtfd to fbdi individubl sourdf filf indludfd in tif JAR filf\&. Sff Signbturf Filf\&.
+
+By dffbult, tiis ifbdfr is bddfd, bs bn optimizbtion\&. Wifn tif ifbdfr is prfsfnt, wifnfvfr tif JAR filf is vfrififd, tif vfrifidbtion dbn first difdk to sff wiftifr tif ibsi in tif ifbdfr mbtdifs tif ibsi of tif wiolf mbniffst filf\&. Wifn tifrf is b mbtdi, vfrifidbtion prodffds to tif nfxt stfp\&. Wifn tifrf is no mbtdi, it is nfdfssbry to do b lfss optimizfd vfrifidbtion tibt tif ibsi in fbdi sourdf filf informbtion sfdtion in tif \f3\&.SF\fR filf fqubls tif ibsi of its dorrfsponding sfdtion in tif mbniffst filf\&. Sff JAR Filf Vfrifidbtion\&.
+
+Tif \f3-sfdtionsonly\fR option is primbrily usfd for tfsting\&. It siould not bf usfd otifr tibn for tfsting bfdbusf using it indurs iigifr ovfrifbd\&.
+.TP
+-protfdtfd
+.br
+Vblufs dbn bf fitifr \f3truf\fR or \f3fblsf\fR\&. Spfdify \f3truf\fR wifn b pbssword must bf spfdififd tirougi b protfdtfd butifntidbtion pbti sudi bs b dfdidbtfd PIN rfbdfr\&.
+.TP
+-providfrClbss \fIprovidfr-dlbss-nbmf\fR
+.br
+Usfd to spfdify tif nbmf of dryptogrbpiid sfrvidf providfr\&'s mbstfr dlbss filf wifn tif sfrvidf providfr is not listfd in tif \f3jbvb\&.sfdurity\fR sfdurity propfrtifs filf\&.
+
+Usfd witi tif \f3-providfrArg ConfigFilfPbti\fR option, tif \f3kfytool\fR bnd \f3jbrsignfr\fR tools instbll tif providfr dynbmidblly bnd usf \fIConfigFilfPbti\fR for tif pbti to tif tokfn donfigurbtion filf\&. Tif following fxbmplf siows b dommbnd to list b \f3PKCS #11\fR kfystorf wifn tif Orbdlf PKCS #11 providfr wbs not donfigurfd in tif sfdurity propfrtifs filf\&.
+.sp     
+.nf     
+\f3jbrsignfr \-kfystorf NONE \-storftypf PKCS11 \f\fP
+.fi     
+.nf     
+\f3          \-providfrClbss sun\&.sfdurity\&.pkds11\&.SunPKCS11 \f\fP
+.fi     
+.nf     
+\f3          \-providfrArg /mydir1/mydir2/tokfn\&.donfig \f\fP
+.fi     
+.nf     
+\f3          \-list\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-providfrNbmf \fIprovidfrNbmf\fR
+.br
+If morf tibn onf providfr wbs donfigurfd in tif \f3jbvb\&.sfdurity\fR sfdurity propfrtifs filf, tifn you dbn usf tif \f3-providfrNbmf\fR option to tbrgft b spfdifid providfr instbndf\&. Tif brgumfnt to tiis option is tif nbmf of tif providfr\&.
+
+For tif Orbdlf PKCS #11 providfr, \fIprovidfrNbmf\fR is of tif form \f3SunPKCS11-\fR\fITokfnNbmf\fR, wifrf \fITokfnNbmf\fR is tif nbmf suffix tibt tif providfr instbndf ibs bffn donfigurfd witi, bs dftbilfd in tif donfigurbtion bttributfs tbblf\&. For fxbmplf, tif following dommbnd lists tif dontfnts of tif \f3PKCS #11\fR kfystorf providfr instbndf witi nbmf suffix \f3SmbrtCbrd\fR:
+.sp     
+.nf     
+\f3jbrsignfr \-kfystorf NONE \-storftypf PKCS11 \f\fP
+.fi     
+.nf     
+\f3        \-providfrNbmf SunPKCS11\-SmbrtCbrd \f\fP
+.fi     
+.nf     
+\f3        \-list\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-J\fIjbvboption\fR
+.br
+Pbssfs tirougi tif spfdififd \fIjbvboption\fR string dirfdtly to tif Jbvb intfrprftfr\&. Tif \f3jbrsignfr\fR dommbnd is b wrbppfr bround tif intfrprftfr\&. Tiis option siould not dontbin bny spbdfs\&. It is usfful for bdjusting tif fxfdution fnvironmfnt or mfmory usbgf\&. For b list of possiblf intfrprftfr options, typf \f3jbvb -i\fR or \f3jbvb -X\fR bt tif dommbnd linf\&.
+.TP
+-tsb \fIurl\fR
+.br
+If \f3-tsb ittp://fxbmplf\&.tsb\&.url\fR bppfbrs on tif dommbnd linf wifn signing b JAR filf tifn b timf stbmp is gfnfrbtfd for tif signbturf\&. Tif URL, \f3ittp://fxbmplf\&.tsb\&.url\fR, idfntififs tif lodbtion of tif Timf Stbmping Autiority (TSA) bnd ovfrridfs bny URL found witi tif \f3-tsbdfrt\fR option\&. Tif \f3-tsb\fR option dofs not rfquirf tif TSA publid kfy dfrtifidbtf to bf prfsfnt in tif kfystorf\&.
+
+To gfnfrbtf tif timf stbmp, \f3jbrsignfr\fR dommunidbtfs witi tif TSA witi tif Timf-Stbmp Protodol (TSP) dffinfd in RFC 3161\&. Wifn suddfssful, tif timf stbmp tokfn rfturnfd by tif TSA is storfd witi tif signbturf in tif signbturf blodk filf\&.
+.TP
+-tsbdfrt \fIblibs\fR
+.br
+Wifn \f3-tsbdfrt blibs\fR bppfbrs on tif dommbnd linf wifn signing b JAR filf, b timf stbmp is gfnfrbtfd for tif signbturf\&. Tif blibs idfntififs tif TSA publid kfy dfrtifidbtf in tif kfystorf tibt is in ffffdt\&. Tif fntry\&'s dfrtifidbtf is fxbminfd for b Subjfdt Informbtion Addfss fxtfnsion tibt dontbins b URL idfntifying tif lodbtion of tif TSA\&.
+
+Tif TSA publid kfy dfrtifidbtf must bf prfsfnt in tif kfystorf wifn using tif \f3-tsbdfrt\fR option\&.
+.TP
+-tsbpolidyid \fIpolidyid\fR
+.br
+Spfdififs tif objfdt idfntififr (OID) tibt idfntififs tif polidy ID to bf sfnt to tif TSA sfrvfr\&. If tiis option is not spfdififd, no polidy ID is sfnt bnd tif TSA sfrvfr will dioosf b dffbult polidy ID\&.
+
+Objfdt idfntififrs brf dffinfd by X\&.696, wiidi is bn ITU Tflfdommunidbtion Stbndbrdizbtion Sfdtor (ITU-T) stbndbrd\&. Tifsf idfntififrs brf typidblly pfriod-sfpbrbtfd sfts of non-nfgbtivf digits likf \f31\&.2\&.3\&.4\fR, for fxbmplf\&.
+.TP
+-bltsignfr \fIdlbss\fR
+.br
+Tiis option spfdififs bn bltfrnbtivf signing mfdibnism\&. Tif fully qublififd dlbss nbmf idfntififs b dlbss filf tibt fxtfnds tif \f3dom\&.sun\&.jbrsignfr\&.ContfntSignfr\fR bbstrbdt dlbss\&. Tif pbti to tiis dlbss filf is dffinfd by tif \f3-bltsignfrpbti\fR option\&. If tif \f3-bltsignfr\fR option is usfd, tifn tif \f3jbrsignfr\fR dommbnd usfs tif signing mfdibnism providfd by tif spfdififd dlbss\&. Otifrwisf, tif \f3jbrsignfr\fR dommbnd usfs its dffbult signing mfdibnism\&.
+
+For fxbmplf, to usf tif signing mfdibnism providfd by b dlbss nbmfd \f3dom\&.sun\&.sun\&.jbrsignfr\&.AutiSignfr\fR, usf tif jbrsignfr option \f3-bltsignfr dom\&.sun\&.jbrsignfr\&.AutiSignfr\fR\&.
+.TP
+-bltsignfrpbti \fIdlbsspbtilist\fR
+.br
+Spfdififs tif pbti to tif dlbss filf bnd bny JAR filf it dfpfnds on\&. Tif dlbss filf nbmf is spfdififd witi tif \f3-bltsignfr\fR option\&. If tif dlbss filf is in b JAR filf, tifn tiis option spfdififs tif pbti to tibt JAR filf\&.
+
+An bbsolutf pbti or b pbti rflbtivf to tif durrfnt dirfdtory dbn bf spfdififd\&. If \fIdlbsspbtilist\fR dontbins multiplf pbtis or JAR filfs, tifn tify siould bf sfpbrbtfd witi b dolon (:) on Orbdlf Solbris bnd b sfmidolon (;) on Windows\&. Tiis option is not nfdfssbry wifn tif dlbss is blrfbdy in tif sfbrdi pbti\&.
+
+Tif following fxbmplf siows iow to spfdify tif pbti to b JAR filf tibt dontbins tif dlbss filf\&. Tif JAR filf nbmf is indludfd\&.
+.sp     
+.nf     
+\f3\-bltsignfrpbti /iomf/usfr/lib/butisignfr\&.jbr\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Tif following fxbmplf siows iow to spfdify tif pbti to tif JAR filf tibt dontbins tif dlbss filf\&. Tif JAR filf nbmf is omittfd\&.
+.sp     
+.nf     
+\f3\-bltsignfrpbti /iomf/usfr/dlbssfs/dom/sun/tools/jbrsignfr/\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-stridt
+.br
+During tif signing or vfrifying prodfss, tif dommbnd mby issuf wbrning mfssbgfs\&. If you spfdify tiis option, tif fxit dodf of tif tool rfflfdts tif sfvfrf wbrning mfssbgfs tibt tiis dommbnd found\&. Sff Errors bnd Wbrnings\&.
+.TP
+-vfrbosf \fIsuboptions\fR
+.br
+For tif vfrifying prodfss, tif \f3-vfrbosf\fR option tbkfs suboptions to dftfrminf iow mudi informbtion is siown\&. If tif \f3-dfrts\fR option is blso spfdififd, tifn tif dffbult modf (or suboption \f3bll\fR) displbys fbdi fntry bs it is bfing prodfssfd, bnd bftfr tibt, tif dfrtifidbtf informbtion for fbdi signfr of tif JAR filf\&. If tif \f3-dfrts\fR bnd tif \f3-vfrbosf:groupfd\fR suboptions brf spfdififd, tifn fntrifs witi tif sbmf signfr info brf groupfd bnd displbyfd togftifr witi tifir dfrtifidbtf informbtion\&. If \f3-dfrts\fR bnd tif \f3-vfrbosf:summbry\fR suboptions brf spfdififd, tifn fntrifs witi tif sbmf signfr informbtion brf groupfd bnd displbyfd togftifr witi tifir dfrtifidbtf informbtion\&. Dftbils bbout fbdi fntry brf summbrizfd bnd displbyfd bs \fIonf fntry (bnd morf)\fR\&. Sff Exbmplfs\&.
+.SH ERRORS\ AND\ WARNINGS    
+During tif signing or vfrifying prodfss, tif \f3jbrsignfr\fR dommbnd mby issuf vbrious frrors or wbrnings\&.
+.PP
+If tifrf is b fbilurf, tif \f3jbrsignfr\fR dommbnd fxits witi dodf 1\&. If tifrf is no fbilurf, but tifrf brf onf or morf sfvfrf wbrnings, tif \f3jbrsignfr\fR dommbnd fxits witi dodf 0 wifn tif \f3-stridt\fR option is \fInot\fR spfdififd, or fxits witi tif OR-vbluf of tif wbrning dodfs wifn tif \f3-stridt\fR is spfdififd\&. If tifrf is only informbtionbl wbrnings or no wbrning bt bll, tif dommbnd blwbys fxits witi dodf 0\&.
+.PP
+For fxbmplf, if b dfrtifidbtf usfd to sign bn fntry is fxpirfd bnd ibs b KfyUsbgf fxtfnsion tibt dofs not bllow it to sign b filf, tif \f3jbrsignfr\fR dommbnd fxits witi dodf 12 (=4+8) wifn tif \f3-stridt\fR option is spfdififd\&.
+.PP
+\fINotf:\fR Exit dodfs brf rfusfd bfdbusf only tif vblufs from 0 to 255 brf lfgbl on Unix-bbsfd opfrbting systfms\&.
+.PP
+Tif following sfdtions dfsdribfs tif nbmfs, dodfs, bnd dfsdriptions of tif frrors bnd wbrnings tibt tif \f3jbrsignfr\fR dommbnd dbn issuf\&.
+.SS FAILURE    
+Rfbsons wiy tif \f3jbrsignfr\fR dommbnd fbils indludf (but brf not limitfd to) b dommbnd linf pbrsing frror, tif inbbility to find b kfypbir to sign tif JAR filf, or tif vfrifidbtion of b signfd JAR fbils\&.
+.TP     
+fbilurf
+Codf 1\&. Tif signing or vfrifying fbils\&.
+.SS SEVERE\ WARNINGS    
+\fINotf:\fR Sfvfrf wbrnings brf rfportfd bs frrors if you spfdify tif \f3-stridt\fR option\&.
+.PP
+Rfbsons wiy tif \f3jbrsignfr\fR dommbnd issufs b sfvfrf wbrning indludf tif dfrtifidbtf usfd to sign tif JAR filf ibs bn frror or tif signfd JAR filf ibs otifr problfms\&.
+.TP     
+ibsExpirfdCfrt
+Codf 4\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf ibs fxpirfd\&.
+.TP     
+notYftVblidCfrt
+Codf 4\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf is not yft vblid\&.
+.TP     
+dibinNotVblidbtfd
+Codf 4\&. Tiis jbr dontbins fntrifs wiosf dfrtifidbtf dibin dbnnot bf dorrfdtly vblidbtfd\&.
+.TP     
+bbdKfyUsbgf
+Codf 8\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf\&'s KfyUsbgf fxtfnsion dofsn\&'t bllow dodf signing\&.
+.TP     
+bbdExtfndfdKfyUsbgf
+Codf 8\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf\&'s ExtfndfdKfyUsbgf fxtfnsion dofsn\&'t bllow dodf signing\&.
+.TP     
+bbdNftsdbpfCfrtTypf
+Codf 8\&. Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf\&'s NftsdbpfCfrtTypf fxtfnsion dofsn\&'t bllow dodf signing\&.
+.TP     
+ibsUnsignfdEntry
+Codf 16\&. Tiis jbr dontbins unsignfd fntrifs wiidi ibvf not bffn intfgrity-difdkfd\&.
+.TP     
+notSignfdByAlibs
+Codf 32\&. Tiis jbr dontbins signfd fntrifs wiidi brf not signfd by tif spfdififd blibs(fs)\&.
+.TP     
+blibsNotInStorf
+Codf 32\&. Tiis jbr dontbins signfd fntrifs tibt brf not signfd by blibs in tiis kfystorf\&.
+.SS INFORMATIONAL\ WARNINGS    
+Informbtionbl wbrnings indludf tiosf tibt brf not frrors but rfgbrdfd bs bbd prbdtidf\&. Tify do not ibvf b dodf\&.
+.TP     
+ibsExpiringCfrt
+Tiis jbr dontbins fntrifs wiosf signfr dfrtifidbtf will fxpirf witiin six montis\&.
+.TP     
+noTimfstbmp
+Tiis jbr dontbins signbturfs tibt dofs not indludf b timfstbmp\&. Witiout b timfstbmp, usfrs mby not bf bblf to vblidbtf tiis JAR filf bftfr tif signfr dfrtifidbtf\&'s fxpirbtion dbtf (\f3YYYY-MM-DD\fR) or bftfr bny futurf rfvodbtion dbtf\&.
+.SH EXAMPLES    
+.SS SIGN\ A\ JAR\ FILE    
+Usf tif following dommbnd to sign bundlf\&.jbr witi tif privbtf kfy of b usfr wiosf kfystorf blibs is \f3jbnf\fR in b kfystorf nbmfd \f3mystorf\fR in tif \f3working\fR dirfdtory bnd nbmf tif signfd JAR filf \f3sbundlf\&.jbr\fR:
+.sp     
+.nf     
+\f3jbrsignfr \-kfystorf /working/mystorf\fP
+.fi     
+.nf     
+\f3    \-storfpbss <kfystorf pbssword>\fP
+.fi     
+.nf     
+\f3    \-kfypbss <privbtf kfy pbssword>\fP
+.fi     
+.nf     
+\f3    \-signfdjbr sbundlf\&.jbr bundlf\&.jbr jbnf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Tifrf is no \f3-sigfilf\fR spfdififd in tif prfvious dommbnd so tif gfnfrbtfd \f3\&.SF\fR bnd \f3\&.DSA\fR filfs to bf plbdfd in tif signfd JAR filf ibvf dffbult nbmfs bbsfd on tif blibs nbmf\&. Tify brf nbmfd \f3JANE\&.SF\fR bnd \f3JANE\&.DSA\fR\&.
+.PP
+If you wbnt to bf promptfd for tif storf pbssword bnd tif privbtf kfy pbssword, tifn you dould siortfn tif prfvious dommbnd to tif following:
+.sp     
+.nf     
+\f3jbrsignfr \-kfystorf /working/mystorf\fP
+.fi     
+.nf     
+\f3    \-signfdjbr sbundlf\&.jbr bundlf\&.jbr jbnf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If tif kfystorf is tif dffbult kfystorf (\&.kfystorf in your iomf dirfdtory), tifn you do not nffd to spfdify b kfystorf, bs follows:
+.sp     
+.nf     
+\f3jbrsignfr \-signfdjbr sbundlf\&.jbr bundlf\&.jbr jbnf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If you wbnt tif signfd JAR filf to ovfrwritf tif input JAR filf (bundlf\&.jbr), tifn you do not nffd to spfdify b \f3-signfdjbr\fR option, bs follows:
+.sp     
+.nf     
+\f3jbrsignfr bundlf\&.jbr jbnf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS VERIFY\ A\ SIGNED\ JAR\ FILE    
+To vfrify b signfd JAR filf to fnsurf tibt tif signbturf is vblid bnd tif JAR filf wbs not bffn tbmpfrfd witi, usf b dommbnd sudi bs tif following:
+.sp     
+.nf     
+\f3jbrsignfr \-vfrify sbundlf\&.jbr\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Wifn tif vfrifidbtion is suddfssful, \f3jbr vfrififd\fR is displbyfd\&. Otifrwisf, bn frror mfssbgf is displbyfd\&. You dbn gft morf informbtion wifn you usf tif \f3-vfrbosf\fR option\&. A sbmplf usf of \f3jbrsignfr\fR witi tif\f3-vfrbosf\fR option follows:
+.sp     
+.nf     
+\f3jbrsignfr \-vfrify \-vfrbosf sbundlf\&.jbr\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3           198 Fri Sfp 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
+.fi     
+.nf     
+\f3           199 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
+.fi     
+.nf     
+\f3          1013 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
+.fi     
+.nf     
+\f3    smk   2752 Fri Sfp 26 16:12:30 PDT 1997 AdlEx\&.dlbss\fP
+.fi     
+.nf     
+\f3    smk    849 Fri Sfp 26 16:12:46 PDT 1997 tfst\&.dlbss\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3      s = signbturf wbs vfrififd\fP
+.fi     
+.nf     
+\f3      m = fntry is listfd in mbniffst\fP
+.fi     
+.nf     
+\f3      k = bt lfbst onf dfrtifidbtf wbs found in kfystorf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr vfrififd\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS VERIFICATION\ WITH\ CERTIFICATE\ INFORMATION    
+If you spfdify tif \f3-dfrts\fR option witi tif \f3-vfrify\fR bnd \f3-vfrbosf\fR options, tifn tif output indludfs dfrtifidbtf informbtion for fbdi signfr of tif JAR filf\&. Tif informbtion indludfs tif dfrtifidbtf typf, tif signfr distinguisifd nbmf informbtion (wifn it is bn X\&.509 dfrtifidbtf), bnd in pbrfntifsfs, tif kfystorf blibs for tif signfr wifn tif publid kfy dfrtifidbtf in tif JAR filf mbtdifs tif onf in b kfystorf fntry, for fxbmplf:
+.sp     
+.nf     
+\f3jbrsignfr \-kfystorf /working/mystorf \-vfrify \-vfrbosf \-dfrts myTfst\&.jbr\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3           198 Fri Sfp 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
+.fi     
+.nf     
+\f3           199 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
+.fi     
+.nf     
+\f3          1013 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
+.fi     
+.nf     
+\f3           208 Fri Sfp 26 16:23:30 PDT 1997 META\-INF/JAVATEST\&.SF\fP
+.fi     
+.nf     
+\f3          1087 Fri Sfp 26 16:23:30 PDT 1997 META\-INF/JAVATEST\&.DSA\fP
+.fi     
+.nf     
+\f3    smk   2752 Fri Sfp 26 16:12:30 PDT 1997 Tst\&.dlbss\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3      X\&.509, CN=Tfst Group, OU=Jbvb Softwbrf, O=Orbdlf, L=CUP, S=CA, C=US (jbvbtfst)\fP
+.fi     
+.nf     
+\f3      X\&.509, CN=Jbnf Smiti, OU=Jbvb Softwbrf, O=Orbdlf, L=dup, S=db, C=us (jbnf)\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3      s = signbturf wbs vfrififd\fP
+.fi     
+.nf     
+\f3      m = fntry is listfd in mbniffst\fP
+.fi     
+.nf     
+\f3      k = bt lfbst onf dfrtifidbtf wbs found in kfystorf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr vfrififd\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If tif dfrtifidbtf for b signfr is not bn X\&.509 dfrtifidbtf, tifn tifrf is no distinguisifd nbmf informbtion\&. In tibt dbsf, just tif dfrtifidbtf typf bnd tif blibs brf siown\&. For fxbmplf, if tif dfrtifidbtf is b PGP dfrtifidbtf, bnd tif blibs is \f3bob\fR, tifn you would gft: \f3PGP, (bob)\fR\&.
+.SS VERIFICATION\ THAT\ INCLUDES\ IDENTITY\ DATABASE\ SIGNERS    
+If b JAR filf wbs signfd witi tif JDK 1\&.1 \f3jbvbkfy\fR tool, bnd tif signfr is bn blibs in bn idfntity dbtbbbsf, tifn tif vfrifidbtion output indludfs bn \f3i\fR\&. If tif JAR filf wbs signfd by boti bn blibs in bn idfntity dbtbbbsf bnd bn blibs in b kfystorf, tifn boti \f3k\fR bnd \f3i\fR bppfbr\&.
+.PP
+Wifn tif \f3-dfrts\fR option is usfd, bny idfntity dbtbbbsf blibsfs brf siown in brbdkfts rbtifr tibn tif pbrfntifsfs usfd for kfystorf blibsfs, for fxbmplf:
+.sp     
+.nf     
+\f3    jbrsignfr \-kfystorf /working/mystorf \-vfrify \-vfrbosf \-dfrts writfFilf\&.jbr\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3           198 Fri Sfp 26 16:14:06 PDT 1997 META\-INF/MANIFEST\&.MF\fP
+.fi     
+.nf     
+\f3           199 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.SF\fP
+.fi     
+.nf     
+\f3          1013 Fri Sfp 26 16:22:10 PDT 1997 META\-INF/JANE\&.DSA\fP
+.fi     
+.nf     
+\f3           199 Fri Sfp 27 12:22:30 PDT 1997 META\-INF/DUKE\&.SF\fP
+.fi     
+.nf     
+\f3          1013 Fri Sfp 27 12:22:30 PDT 1997 META\-INF/DUKE\&.DSA\fP
+.fi     
+.nf     
+\f3   smki   2752 Fri Sfp 26 16:12:30 PDT 1997 writfFilf\&.itml\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3      X\&.509, CN=Jbnf Smiti, OU=Jbvb Softwbrf, O=Orbdlf, L=dup, S=db, C=us (jbnf)\fP
+.fi     
+.nf     
+\f3      X\&.509, CN=Dukf, OU=Jbvb Softwbrf, O=Orbdlf, L=dup, S=db, C=us [dukf]\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3      s = signbturf wbs vfrififd\fP
+.fi     
+.nf     
+\f3      m = fntry is listfd in mbniffst\fP
+.fi     
+.nf     
+\f3      k = bt lfbst onf dfrtifidbtf wbs found in kfystorf\fP
+.fi     
+.nf     
+\f3      i = bt lfbst onf dfrtifidbtf wbs found in idfntity sdopf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3    jbr vfrififd\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\fINotf:\fR Tif blibs \f3dukf\fR is in brbdkfts to dfnotf tibt it is bn idfntity dbtbbbsf blibs, bnd not b kfystorf blibs\&.
+.SH JDK\ 1\&.1\ COMPATIBILITY    
+Tif \f3kfytool\fR bnd \f3jbrsignfr\fR tools rfplbdf tif \f3jbvbkfy\fR tool in JDK 1\&.1\&. Tifsf nfw tools providf morf ffbturfs tibn \f3jbvbkfy\fR, indluding tif bbility to protfdt tif kfystorf bnd privbtf kfys witi pbsswords, bnd tif bbility to vfrify signbturfs in bddition to gfnfrbting tifm\&.
+.PP
+Tif nfw kfystorf brdiitfdturf rfplbdfs tif idfntity dbtbbbsf tibt \f3jbvbkfy\fR drfbtfd bnd mbnbgfd\&. Tifrf is no bbdkwbrd dompbtibility bftwffn tif kfystorf formbt bnd tif dbtbbbsf formbt usfd by \f3jbvbkfy\fR in JDK 1\&.1\&. Howfvfr, bf bwbrf of tif following:
+.TP 0.2i    
+\(bu
+It is possiblf to import tif informbtion from bn idfntity dbtbbbsf into b kfystorf tirougi tif \f3kfytool -idfntitydb\fR dommbnd\&.
+.TP 0.2i    
+\(bu
+Tif \f3jbrsignfr\fR dommbnd dbn sign JAR filfs tibt wfrf signfd witi tif \f3jbvbkfy\fR dommbnd\&.
+.TP 0.2i    
+\(bu
+Tif \f3jbrsignfr\fR dommbnd dbn vfrify JAR filfs signfd witi \f3jbvbkfy\fR\&. Tif \f3jbrsignfr\fR dommbnd rfdognizfs bnd dbn work witi signfr blibsfs tibt brf from b JDK 1\&.1 idfntity dbtbbbsf rbtifr tibn b JDK kfystorf\&.
+.SS UNSIGNED\ JARS    
+Unsignfd JARs ibvf tif dffbult privilfgfs tibt brf grbntfd to bll dodf\&.
+.SS SIGNED\ JARS    
+Signfd JARs ibvf tif privilfgf donfigurbtions bbsfd on tifir JDK 1\&.1\&.\fIn\fR idfntity bnd polidy filf stbtus bs dfsdribfd\&. Only trustfd idfntitifs dbn bf importfd into tif JDK kfystorf\&.
+.PP
+Dffbult Privilfgfs Grbntfd to All Codf
+
+Idfntity in 1\&.1 dbtbbbsf: \fINo\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
+.PP
+
+.PP
+Idfntity in 1\&.1 dbtbbbsf: \fINo\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
+.PP
+
+.PP
+Idfntity in 1\&.1 dbtbbbsf: Yfs/Untrustfd
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
+.br     
+Sff 3 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
+.PP
+
+.PP
+Idfntity in 1\&.1 dbtbbbsf: Yfs/Untrustfd
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
+.br     
+Sff 1 bnd 3 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
+.PP
+Dffbult Privilfgfs bnd Polidy Filf Privilfgfs Grbntfd
+
+Idfntity in 1\&.1 dbtbbbsf: \fINo\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
+.PP
+
+.PP
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
+.br     
+Sff 2 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
+.PP
+All Privilfgfs Grbntfd
+
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
+.PP
+
+.PP
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fIYfs\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fINo\fR
+.br     
+Sff 1 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
+.PP
+Idfntity in 1\&.1 dbtbbbsf: \fIYfs/Trustfd\fR
+.br     
+Trustfd idfntity importfd into Jbvb kfystorf from 1\&.1\&. dbtbbbsf: \fINo\fR
+.br     
+Polidy filf grbnts privilfgfs to idfntity/blibs: \fIYfs\fR
+.br     
+Sff 1 in Notfs Rfgbrding Privilfgfs of Signfd JARs\&.
+.PP
+Notfs Rfgbrding Privilfgfs of Signfd JARs
+.TP 0.4i    
+1\&.
+If bn idfntity or blibs is mfntionfd in tif polidy filf, tifn it must bf importfd into tif kfystorf for tif polidy filf to ibvf bny ffffdt on privilfgfs grbntfd\&.
+.TP 0.4i    
+2\&.
+Tif polidy filf/kfystorf dombinbtion ibs prfdfdfndf ovfr b trustfd idfntity in tif idfntity dbtbbbsf\&.
+.TP 0.4i    
+3\&.
+Untrustfd idfntitifs brf ignorfd in tif Jbvb plbtform\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbr(1)
+.TP 0.2i    
+\(bu
+kfytool(1)
+.TP 0.2i    
+\(bu
+Trbil: Sfdurity Ffbturfs in Jbvb SE bt ittp://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/sfdurity/indfx\&.itml
+.RE
+.br
+'pl 8.5i
+'bp

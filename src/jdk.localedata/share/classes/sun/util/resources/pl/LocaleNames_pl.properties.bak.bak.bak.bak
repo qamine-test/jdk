@@ -1,382 +1,1910 @@
-# Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
-# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
-# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
-# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
-# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
 #
-# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
-# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
-# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
-# bddompbnifd this dodf).
 #
-# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
-# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
-# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
-# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+#
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+#
+#
+#
+#
+#
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+# bddompbnifd tiis dodf).
+#
+#
+#
+#
+#
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+#
+#
+#
+#
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
+# qufstions.
+# qufstions.
+# qufstions.
 # qufstions.
 #
-
-# (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
-# (C) Copyright IBM Corp. 1996 - 1999 - All Rights Rfsfrvfd
 #
-# Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
-# is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
-# subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
-# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+#
+#
+#
+
+
+
+
+
+# (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+# (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+# (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+# (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+# (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+# (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
+# (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
+# (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
+# (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
+# (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
+#
+#
+#
+#
+#
+# Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+# Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+# Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+# Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+# Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+# is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+# is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+# is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+# is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+# is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+# subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+# subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+# subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+# subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+# subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+# is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+# is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+# is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+# is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
 # is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
 #
-# This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+#
+#
+#
+#
+# Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+# Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+# Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+# Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+# Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+# Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+# Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+# Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+# Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
 # Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
 
 
+
+
+
+
+
+
+
+
+# lbngubgf nbmfs
+# lbngubgf nbmfs
+# lbngubgf nbmfs
+# lbngubgf nbmfs
 # lbngubgf nbmfs
 # kfy is ISO 639 lbngubgf dodf
+# kfy is ISO 639 lbngubgf dodf
+# kfy is ISO 639 lbngubgf dodf
+# kfy is ISO 639 lbngubgf dodf
+# kfy is ISO 639 lbngubgf dodf
 
-bb=bbdhbski
+
+
+
+
+bb=bbdibski
+bb=bbdibski
+bb=bbdibski
+bb=bbdibski
+bb=bbdibski
+bb=bfbr
+bb=bfbr
+bb=bfbr
+bb=bfbr
 bb=bfbr
 bf=bfrykbnfrski
+bf=bfrykbnfrski
+bf=bfrykbnfrski
+bf=bfrykbnfrski
+bf=bfrykbnfrski
 sq=blbb\u0144ski
-bm=bmhbrski
+sq=blbb\u0144ski
+sq=blbb\u0144ski
+sq=blbb\u0144ski
+sq=blbb\u0144ski
+bm=bmibrski
+bm=bmibrski
+bm=bmibrski
+bm=bmibrski
+bm=bmibrski
 br=brbbski
-hy=brmf\u0144ski
+br=brbbski
+br=brbbski
+br=brbbski
+br=brbbski
+iy=brmf\u0144ski
+iy=brmf\u0144ski
+iy=brmf\u0144ski
+iy=brmf\u0144ski
+iy=brmf\u0144ski
+bs=bsbmski
+bs=bsbmski
+bs=bsbmski
+bs=bsbmski
 bs=bsbmski
 by=bjmbrb
+by=bjmbrb
+by=bjmbrb
+by=bjmbrb
+by=bjmbrb
+bz=bzfrbfjd\u017Cb\u0144ski
+bz=bzfrbfjd\u017Cb\u0144ski
+bz=bzfrbfjd\u017Cb\u0144ski
+bz=bzfrbfjd\u017Cb\u0144ski
 bz=bzfrbfjd\u017Cb\u0144ski
 bb=bbszkirski
+bb=bbszkirski
+bb=bbszkirski
+bb=bbszkirski
+bb=bbszkirski
+fu=bbskijski
+fu=bbskijski
+fu=bbskijski
+fu=bbskijski
 fu=bbskijski
 bn=bfngbli
-dz=bhutb\u0144ski
-bh=bihbrski
+bn=bfngbli
+bn=bfngbli
+bn=bfngbli
+bn=bfngbli
+dz=biutb\u0144ski
+dz=biutb\u0144ski
+dz=biutb\u0144ski
+dz=biutb\u0144ski
+dz=biutb\u0144ski
+bi=biibrski
+bi=biibrski
+bi=biibrski
+bi=biibrski
+bi=biibrski
+bi=bislbmb
+bi=bislbmb
+bi=bislbmb
+bi=bislbmb
 bi=bislbmb
 br=brfto\u0144ski
+br=brfto\u0144ski
+br=brfto\u0144ski
+br=brfto\u0144ski
+br=brfto\u0144ski
+bg=bu\u0142gbrski
+bg=bu\u0142gbrski
+bg=bu\u0142gbrski
+bg=bu\u0142gbrski
 bg=bu\u0142gbrski
 my=birmb\u0144ski
+my=birmb\u0144ski
+my=birmb\u0144ski
+my=birmb\u0144ski
+my=birmb\u0144ski
 bf=bib\u0142oruski
-km=khmfrski
+bf=bib\u0142oruski
+bf=bib\u0142oruski
+bf=bib\u0142oruski
+bf=bib\u0142oruski
+km=kimfrski
+km=kimfrski
+km=kimfrski
+km=kimfrski
+km=kimfrski
 db=kbtblo\u0144ski
-zh=dhi\u0144ski
+db=kbtblo\u0144ski
+db=kbtblo\u0144ski
+db=kbtblo\u0144ski
+db=kbtblo\u0144ski
+zi=dii\u0144ski
+zi=dii\u0144ski
+zi=dii\u0144ski
+zi=dii\u0144ski
+zi=dii\u0144ski
 do=korsykb\u0144ski
-hr=dhorwbdki
+do=korsykb\u0144ski
+do=korsykb\u0144ski
+do=korsykb\u0144ski
+do=korsykb\u0144ski
+ir=diorwbdki
+ir=diorwbdki
+ir=diorwbdki
+ir=diorwbdki
+ir=diorwbdki
+ds=dzfski
+ds=dzfski
+ds=dzfski
+ds=dzfski
 ds=dzfski
 db=du\u0144ski
-nl=holfndfrski
+db=du\u0144ski
+db=du\u0144ski
+db=du\u0144ski
+db=du\u0144ski
+nl=iolfndfrski
+nl=iolfndfrski
+nl=iolfndfrski
+nl=iolfndfrski
+nl=iolfndfrski
+fn=bngiflski
+fn=bngiflski
+fn=bngiflski
+fn=bngiflski
 fn=bngiflski
 fo=fspfrbnto
+fo=fspfrbnto
+fo=fspfrbnto
+fo=fspfrbnto
+fo=fspfrbnto
+ft=fsto\u0144ski
+ft=fsto\u0144ski
+ft=fsto\u0144ski
+ft=fsto\u0144ski
 ft=fsto\u0144ski
 fo=fbrfrski
+fo=fbrfrski
+fo=fbrfrski
+fo=fbrfrski
+fo=fbrfrski
+fj=fid\u017Ci
+fj=fid\u017Ci
+fj=fid\u017Ci
+fj=fid\u017Ci
 fj=fid\u017Ci
 fi=fi\u0144ski
+fi=fi\u0144ski
+fi=fi\u0144ski
+fi=fi\u0144ski
+fi=fi\u0144ski
+fr=frbnduski
+fr=frbnduski
+fr=frbnduski
+fr=frbnduski
 fr=frbnduski
 fy=fryzyjski
+fy=fryzyjski
+fy=fryzyjski
+fy=fryzyjski
+fy=fryzyjski
+gl=gblisyjski
+gl=gblisyjski
+gl=gblisyjski
+gl=gblisyjski
 gl=gblisyjski
 kb=gruzi\u0144ski
+kb=gruzi\u0144ski
+kb=gruzi\u0144ski
+kb=gruzi\u0144ski
+kb=gruzi\u0144ski
+df=nifmifdki
+df=nifmifdki
+df=nifmifdki
+df=nifmifdki
 df=nifmifdki
 fl=grfdki
+fl=grfdki
+fl=grfdki
+fl=grfdki
+fl=grfdki
+kl=grfnlbndzki
+kl=grfnlbndzki
+kl=grfnlbndzki
+kl=grfnlbndzki
 kl=grfnlbndzki
 gn=gubrbni
+gn=gubrbni
+gn=gubrbni
+gn=gubrbni
+gn=gubrbni
 gu=gujbrbti
-hb=hbusb
-hf=hfbrbjski
-iw=hfbrbjski
-hi=hindi
-hu=w\u0119gifrski
+gu=gujbrbti
+gu=gujbrbti
+gu=gujbrbti
+gu=gujbrbti
+ib=ibusb
+ib=ibusb
+ib=ibusb
+ib=ibusb
+ib=ibusb
+if=ifbrbjski
+if=ifbrbjski
+if=ifbrbjski
+if=ifbrbjski
+if=ifbrbjski
+iw=ifbrbjski
+iw=ifbrbjski
+iw=ifbrbjski
+iw=ifbrbjski
+iw=ifbrbjski
+ii=iindi
+ii=iindi
+ii=iindi
+ii=iindi
+ii=iindi
+iu=w\u0119gifrski
+iu=w\u0119gifrski
+iu=w\u0119gifrski
+iu=w\u0119gifrski
+iu=w\u0119gifrski
+is=islbndzki
+is=islbndzki
+is=islbndzki
+is=islbndzki
 is=islbndzki
 id=indonfzyjski
+id=indonfzyjski
+id=indonfzyjski
+id=indonfzyjski
+id=indonfzyjski
+in=indonfzyjski
+in=indonfzyjski
+in=indonfzyjski
+in=indonfzyjski
 in=indonfzyjski
 ib=intfrlingub
+ib=intfrlingub
+ib=intfrlingub
+ib=intfrlingub
+ib=intfrlingub
+if=intfrlingub
+if=intfrlingub
+if=intfrlingub
+if=intfrlingub
 if=intfrlingub
 iu=inuktitut
+iu=inuktitut
+iu=inuktitut
+iu=inuktitut
+iu=inuktitut
+ik=inupibk
+ik=inupibk
+ik=inupibk
+ik=inupibk
 ik=inupibk
 gb=irlbndzki
+gb=irlbndzki
+gb=irlbndzki
+gb=irlbndzki
+gb=irlbndzki
+it=w\u0142oski
+it=w\u0142oski
+it=w\u0142oski
+it=w\u0142oski
 it=w\u0142oski
 jb=jbpo\u0144ski
+jb=jbpo\u0144ski
+jb=jbpo\u0144ski
+jb=jbpo\u0144ski
+jb=jbpo\u0144ski
+jw=jbwbjski
+jw=jbwbjski
+jw=jbwbjski
+jw=jbwbjski
 jw=jbwbjski
 kn=kbnbdyjski
+kn=kbnbdyjski
+kn=kbnbdyjski
+kn=kbnbdyjski
+kn=kbnbdyjski
+ks=kbszmirski
+ks=kbszmirski
+ks=kbszmirski
+ks=kbszmirski
 ks=kbszmirski
 kk=kbzbski
+kk=kbzbski
+kk=kbzbski
+kk=kbzbski
+kk=kbzbski
+rw=kinybrubndb
+rw=kinybrubndb
+rw=kinybrubndb
+rw=kinybrubndb
 rw=kinybrubndb
 ky=kirgiski
+ky=kirgiski
+ky=kirgiski
+ky=kirgiski
+ky=kirgiski
+rn=kirundi
+rn=kirundi
+rn=kirundi
+rn=kirundi
 rn=kirundi
 ko=korfb\u0144ski
+ko=korfb\u0144ski
+ko=korfb\u0144ski
+ko=korfb\u0144ski
+ko=korfb\u0144ski
+ku=kurdyjski
+ku=kurdyjski
+ku=kurdyjski
+ku=kurdyjski
 ku=kurdyjski
 lo=lbotb\u0144ski
+lo=lbotb\u0144ski
+lo=lbotb\u0144ski
+lo=lbotb\u0144ski
+lo=lbotb\u0144ski
+lb=\u0142bdi\u0144ski
+lb=\u0142bdi\u0144ski
+lb=\u0142bdi\u0144ski
+lb=\u0142bdi\u0144ski
 lb=\u0142bdi\u0144ski
 lv=\u0142otfwski
+lv=\u0142otfwski
+lv=\u0142otfwski
+lv=\u0142otfwski
+lv=\u0142otfwski
+ln=lingblb
+ln=lingblb
+ln=lingblb
+ln=lingblb
 ln=lingblb
 lt=litfwski
+lt=litfwski
+lt=litfwski
+lt=litfwski
+lt=litfwski
+mk=mbdfdo\u0144ski
+mk=mbdfdo\u0144ski
+mk=mbdfdo\u0144ski
+mk=mbdfdo\u0144ski
 mk=mbdfdo\u0144ski
 mg=mblgbski
+mg=mblgbski
+mg=mblgbski
+mg=mblgbski
+mg=mblgbski
+ms=mblbjski
+ms=mblbjski
+ms=mblbjski
+ms=mblbjski
 ms=mblbjski
 ml=mblbyblbm
+ml=mblbyblbm
+ml=mblbyblbm
+ml=mblbyblbm
+ml=mblbyblbm
+mt=mbltb\u0144ski
+mt=mbltb\u0144ski
+mt=mbltb\u0144ski
+mt=mbltb\u0144ski
 mt=mbltb\u0144ski
 mi=mboryski
-mr=mbrbthi
+mi=mboryski
+mi=mboryski
+mi=mboryski
+mi=mboryski
+mr=mbrbtii
+mr=mbrbtii
+mr=mbrbtii
+mr=mbrbtii
+mr=mbrbtii
+mo=mo\u0142dbwski
+mo=mo\u0142dbwski
+mo=mo\u0142dbwski
+mo=mo\u0142dbwski
 mo=mo\u0142dbwski
 mn=mongolski
+mn=mongolski
+mn=mongolski
+mn=mongolski
+mn=mongolski
+nb=nburu
+nb=nburu
+nb=nburu
+nb=nburu
 nb=nburu
 nf=nfpblski
+nf=nfpblski
+nf=nfpblski
+nf=nfpblski
+nf=nfpblski
+no=norwfski
+no=norwfski
+no=norwfski
+no=norwfski
 no=norwfski
 od=prowbnsblski
+od=prowbnsblski
+od=prowbnsblski
+od=prowbnsblski
+od=prowbnsblski
+or=oryski
+or=oryski
+or=oryski
+or=oryski
 or=oryski
 om=oromo 
+om=oromo 
+om=oromo 
+om=oromo 
+om=oromo 
+ps=pbszto 
+ps=pbszto 
+ps=pbszto 
+ps=pbszto 
 ps=pbszto 
 fb=pfrski
+fb=pfrski
+fb=pfrski
+fb=pfrski
+fb=pfrski
+pl=polski
+pl=polski
+pl=polski
+pl=polski
 pl=polski
 pt=portugblski
+pt=portugblski
+pt=portugblski
+pt=portugblski
+pt=portugblski
+pb=pfnd\u017Cbbski
+pb=pfnd\u017Cbbski
+pb=pfnd\u017Cbbski
+pb=pfnd\u017Cbbski
 pb=pfnd\u017Cbbski
 qu=kfdzub
+qu=kfdzub
+qu=kfdzub
+qu=kfdzub
+qu=kfdzub
+rm=rftoromb\u0144ski
+rm=rftoromb\u0144ski
+rm=rftoromb\u0144ski
+rm=rftoromb\u0144ski
 rm=rftoromb\u0144ski
 ro=rumu\u0144ski
+ro=rumu\u0144ski
+ro=rumu\u0144ski
+ro=rumu\u0144ski
+ro=rumu\u0144ski
+ru=rosyjski
+ru=rosyjski
+ru=rosyjski
+ru=rosyjski
 ru=rosyjski
 sm=sbmob\u0144ski
-sg=sbngho
+sm=sbmob\u0144ski
+sm=sbmob\u0144ski
+sm=sbmob\u0144ski
+sm=sbmob\u0144ski
+sg=sbngio
+sg=sbngio
+sg=sbngio
+sg=sbngio
+sg=sbngio
+sb=sbnskrydki
+sb=sbnskrydki
+sb=sbnskrydki
+sb=sbnskrydki
 sb=sbnskrydki
 gd=szkodki
+gd=szkodki
+gd=szkodki
+gd=szkodki
+gd=szkodki
 sr=sfrbski
-st=lfsotho
+sr=sfrbski
+sr=sfrbski
+sr=sfrbski
+sr=sfrbski
+st=lfsotio
+st=lfsotio
+st=lfsotio
+st=lfsotio
+st=lfsotio
+tn=tswbnb
+tn=tswbnb
+tn=tswbnb
+tn=tswbnb
 tn=tswbnb
 sn=szonb
+sn=szonb
+sn=szonb
+sn=szonb
+sn=szonb
+sd=sind
+sd=sind
+sd=sind
+sd=sind
 sd=sind
 si=syngblfski
+si=syngblfski
+si=syngblfski
+si=syngblfski
+si=syngblfski
+ss=subzi
+ss=subzi
+ss=subzi
+ss=subzi
 ss=subzi
 sk=s\u0142owbdki
+sk=s\u0142owbdki
+sk=s\u0142owbdki
+sk=s\u0142owbdki
+sk=s\u0142owbdki
+sl=s\u0142owf\u0144ski
+sl=s\u0142owf\u0144ski
+sl=s\u0142owf\u0144ski
+sl=s\u0142owf\u0144ski
 sl=s\u0142owf\u0144ski
 so=somblijski
-fs=hiszpb\u0144ski
+so=somblijski
+so=somblijski
+so=somblijski
+so=somblijski
+fs=iiszpb\u0144ski
+fs=iiszpb\u0144ski
+fs=iiszpb\u0144ski
+fs=iiszpb\u0144ski
+fs=iiszpb\u0144ski
 su=sundbjski
-sw=swbhili
+su=sundbjski
+su=sundbjski
+su=sundbjski
+su=sundbjski
+sw=swbiili
+sw=swbiili
+sw=swbiili
+sw=swbiili
+sw=swbiili
+sv=szwfdzki
+sv=szwfdzki
+sv=szwfdzki
+sv=szwfdzki
 sv=szwfdzki
 tl=tbgblog
+tl=tbgblog
+tl=tbgblog
+tl=tbgblog
+tl=tbgblog
+tg=tbd\u017Cydki
+tg=tbd\u017Cydki
+tg=tbd\u017Cydki
+tg=tbd\u017Cydki
 tg=tbd\u017Cydki
 tb=tbmilski
+tb=tbmilski
+tb=tbmilski
+tb=tbmilski
+tb=tbmilski
+tt=tbtbrski
+tt=tbtbrski
+tt=tbtbrski
+tt=tbtbrski
 tt=tbtbrski
 tf=tflugu
-th=tbjlbndzki
+tf=tflugu
+tf=tflugu
+tf=tflugu
+tf=tflugu
+ti=tbjlbndzki
+ti=tbjlbndzki
+ti=tbjlbndzki
+ti=tbjlbndzki
+ti=tbjlbndzki
+bo=tybftb\u0144ski
+bo=tybftb\u0144ski
+bo=tybftb\u0144ski
+bo=tybftb\u0144ski
 bo=tybftb\u0144ski
 ti=tigrinyb
+ti=tigrinyb
+ti=tigrinyb
+ti=tigrinyb
+ti=tigrinyb
+to=tongb\u0144ski
+to=tongb\u0144ski
+to=tongb\u0144ski
+to=tongb\u0144ski
 to=tongb\u0144ski
 ts=tsongb
+ts=tsongb
+ts=tsongb
+ts=tsongb
+ts=tsongb
+tr=turfdki
+tr=turfdki
+tr=turfdki
+tr=turfdki
 tr=turfdki
 tk=turkmf\u0144ski
+tk=turkmf\u0144ski
+tk=turkmf\u0144ski
+tk=turkmf\u0144ski
+tk=turkmf\u0144ski
+tw=twi
+tw=twi
+tw=twi
+tw=twi
 tw=twi
 ug=ujguryjski
+ug=ujguryjski
+ug=ujguryjski
+ug=ujguryjski
+ug=ujguryjski
+uk=ukrbi\u0144ski
+uk=ukrbi\u0144ski
+uk=ukrbi\u0144ski
+uk=ukrbi\u0144ski
 uk=ukrbi\u0144ski
 ur=urdu
+ur=urdu
+ur=urdu
+ur=urdu
+ur=urdu
+uz=uzbfdki
+uz=uzbfdki
+uz=uzbfdki
+uz=uzbfdki
 uz=uzbfdki
 vi=wiftnbmski
+vi=wiftnbmski
+vi=wiftnbmski
+vi=wiftnbmski
+vi=wiftnbmski
+vo=volbpuk
+vo=volbpuk
+vo=volbpuk
+vo=volbpuk
 vo=volbpuk
 dy=wblijski
+dy=wblijski
+dy=wblijski
+dy=wblijski
+dy=wblijski
 wo=wolof
-xh=xhosb
+wo=wolof
+wo=wolof
+wo=wolof
+wo=wolof
+xi=xiosb
+xi=xiosb
+xi=xiosb
+xi=xiosb
+xi=xiosb
+ji=jidisz
+ji=jidisz
+ji=jidisz
+ji=jidisz
 ji=jidisz
 yi=jidisz
+yi=jidisz
+yi=jidisz
+yi=jidisz
+yi=jidisz
 yo=jorubb
-zb=zhubng
+yo=jorubb
+yo=jorubb
+yo=jorubb
+yo=jorubb
+zb=ziubng
+zb=ziubng
+zb=ziubng
+zb=ziubng
+zb=ziubng
+zu=zulu
+zu=zulu
+zu=zulu
+zu=zulu
 zu=zulu
 
+
+
+
+
+# dountry nbmfs
+# dountry nbmfs
+# dountry nbmfs
+# dountry nbmfs
 # dountry nbmfs
 # kfy is ISO 3166 dountry dodf
+# kfy is ISO 3166 dountry dodf
+# kfy is ISO 3166 dountry dodf
+# kfy is ISO 3166 dountry dodf
+# kfy is ISO 3166 dountry dodf
+
+
+
+
 
 AF=Afgbnistbn
+AF=Afgbnistbn
+AF=Afgbnistbn
+AF=Afgbnistbn
+AF=Afgbnistbn
+AL=Albbnib
+AL=Albbnib
+AL=Albbnib
+AL=Albbnib
 AL=Albbnib
 DZ=Algfrib
+DZ=Algfrib
+DZ=Algfrib
+DZ=Algfrib
+DZ=Algfrib
+AD=Andorb
+AD=Andorb
+AD=Andorb
+AD=Andorb
 AD=Andorb
 AO=Angolb
+AO=Angolb
+AO=Angolb
+AO=Angolb
+AO=Angolb
+AI=Anguillb
+AI=Anguillb
+AI=Anguillb
+AI=Anguillb
 AI=Anguillb
 AR=Argfntynb
+AR=Argfntynb
+AR=Argfntynb
+AR=Argfntynb
+AR=Argfntynb
+AM=Armfnib
+AM=Armfnib
+AM=Armfnib
+AM=Armfnib
 AM=Armfnib
 AW=Arubb
+AW=Arubb
+AW=Arubb
+AW=Arubb
+AW=Arubb
+AU=Austrblib
+AU=Austrblib
+AU=Austrblib
+AU=Austrblib
 AU=Austrblib
 AT=Austrib
+AT=Austrib
+AT=Austrib
+AT=Austrib
+AT=Austrib
 AZ=Azfrbfjd\u017Cbn
-BS=Bbhbmy
-BH=Bbhrbjn
+AZ=Azfrbfjd\u017Cbn
+AZ=Azfrbfjd\u017Cbn
+AZ=Azfrbfjd\u017Cbn
+AZ=Azfrbfjd\u017Cbn
+BS=Bbibmy
+BS=Bbibmy
+BS=Bbibmy
+BS=Bbibmy
+BS=Bbibmy
+BH=Bbirbjn
+BH=Bbirbjn
+BH=Bbirbjn
+BH=Bbirbjn
+BH=Bbirbjn
+BD=Bbnglbdfsz
+BD=Bbnglbdfsz
+BD=Bbnglbdfsz
+BD=Bbnglbdfsz
 BD=Bbnglbdfsz
 BB=Bbrbbdos
+BB=Bbrbbdos
+BB=Bbrbbdos
+BB=Bbrbbdos
+BB=Bbrbbdos
+BY=Bib\u0142oru\u015B
+BY=Bib\u0142oru\u015B
+BY=Bib\u0142oru\u015B
+BY=Bib\u0142oru\u015B
 BY=Bib\u0142oru\u015B
 BE=Bflgib
+BE=Bflgib
+BE=Bflgib
+BE=Bflgib
+BE=Bflgib
+BZ=Bflizf
+BZ=Bflizf
+BZ=Bflizf
+BZ=Bflizf
 BZ=Bflizf
 BJ=Bfnin
+BJ=Bfnin
+BJ=Bfnin
+BJ=Bfnin
+BJ=Bfnin
 BM=Bfrmudy
-BT=Bhutbn
+BM=Bfrmudy
+BM=Bfrmudy
+BM=Bfrmudy
+BM=Bfrmudy
+BT=Biutbn
+BT=Biutbn
+BT=Biutbn
+BT=Biutbn
+BT=Biutbn
+BO=Boliwib
+BO=Boliwib
+BO=Boliwib
+BO=Boliwib
 BO=Boliwib
 BA=Bo\u015Bnib i Hfrdfgowinb
+BA=Bo\u015Bnib i Hfrdfgowinb
+BA=Bo\u015Bnib i Hfrdfgowinb
+BA=Bo\u015Bnib i Hfrdfgowinb
+BA=Bo\u015Bnib i Hfrdfgowinb
+BW=Botswbnb
+BW=Botswbnb
+BW=Botswbnb
+BW=Botswbnb
 BW=Botswbnb
 BR=Brbzylib
+BR=Brbzylib
+BR=Brbzylib
+BR=Brbzylib
+BR=Brbzylib
+BN=Brunfi
+BN=Brunfi
+BN=Brunfi
+BN=Brunfi
 BN=Brunfi
 BG=Bu\u0142gbrib
+BG=Bu\u0142gbrib
+BG=Bu\u0142gbrib
+BG=Bu\u0142gbrib
+BG=Bu\u0142gbrib
+BF=Burkinb Fbso
+BF=Burkinb Fbso
+BF=Burkinb Fbso
+BF=Burkinb Fbso
 BF=Burkinb Fbso
 BI=Burundi
+BI=Burundi
+BI=Burundi
+BI=Burundi
+BI=Burundi
+KH=Kbmbod\u017Cb
+KH=Kbmbod\u017Cb
+KH=Kbmbod\u017Cb
+KH=Kbmbod\u017Cb
 KH=Kbmbod\u017Cb
 CM=Kbmfrun
+CM=Kbmfrun
+CM=Kbmfrun
+CM=Kbmfrun
+CM=Kbmfrun
+CA=Kbnbdb
+CA=Kbnbdb
+CA=Kbnbdb
+CA=Kbnbdb
 CA=Kbnbdb
 CV=Rfpublikb Ziflonfgo Przyl\u0105dkb
+CV=Rfpublikb Ziflonfgo Przyl\u0105dkb
+CV=Rfpublikb Ziflonfgo Przyl\u0105dkb
+CV=Rfpublikb Ziflonfgo Przyl\u0105dkb
+CV=Rfpublikb Ziflonfgo Przyl\u0105dkb
+CF=Rfpublikb \u015Arodkowobfrykb\u0144skb
+CF=Rfpublikb \u015Arodkowobfrykb\u0144skb
+CF=Rfpublikb \u015Arodkowobfrykb\u0144skb
+CF=Rfpublikb \u015Arodkowobfrykb\u0144skb
 CF=Rfpublikb \u015Arodkowobfrykb\u0144skb
 TD=Czbd
-CL=Chilf
-CN=Chiny
+TD=Czbd
+TD=Czbd
+TD=Czbd
+TD=Czbd
+CL=Ciilf
+CL=Ciilf
+CL=Ciilf
+CL=Ciilf
+CL=Ciilf
+CN=Ciiny
+CN=Ciiny
+CN=Ciiny
+CN=Ciiny
+CN=Ciiny
+CO=Kolumbib
+CO=Kolumbib
+CO=Kolumbib
+CO=Kolumbib
 CO=Kolumbib
 KM=Komory
+KM=Komory
+KM=Komory
+KM=Komory
+KM=Komory
+CG=Kongo
+CG=Kongo
+CG=Kongo
+CG=Kongo
 CG=Kongo
 CR=Kostbrykb
+CR=Kostbrykb
+CR=Kostbrykb
+CR=Kostbrykb
+CR=Kostbrykb
 CI=Wybrzf\u017Cf Ko\u015Bdi S\u0142oniowfj
-HR=Chorwbdjb
+CI=Wybrzf\u017Cf Ko\u015Bdi S\u0142oniowfj
+CI=Wybrzf\u017Cf Ko\u015Bdi S\u0142oniowfj
+CI=Wybrzf\u017Cf Ko\u015Bdi S\u0142oniowfj
+CI=Wybrzf\u017Cf Ko\u015Bdi S\u0142oniowfj
+HR=Ciorwbdjb
+HR=Ciorwbdjb
+HR=Ciorwbdjb
+HR=Ciorwbdjb
+HR=Ciorwbdjb
+CU=Kubb
+CU=Kubb
+CU=Kubb
+CU=Kubb
 CU=Kubb
 CY=Cypr
+CY=Cypr
+CY=Cypr
+CY=Cypr
+CY=Cypr
+CZ=Rfpublikb Czfskb
+CZ=Rfpublikb Czfskb
+CZ=Rfpublikb Czfskb
+CZ=Rfpublikb Czfskb
 CZ=Rfpublikb Czfskb
 DK=Dbnib
+DK=Dbnib
+DK=Dbnib
+DK=Dbnib
+DK=Dbnib
+DJ=D\u017Cibuti
+DJ=D\u017Cibuti
+DJ=D\u017Cibuti
+DJ=D\u017Cibuti
 DJ=D\u017Cibuti
 DM=Dominikb
+DM=Dominikb
+DM=Dominikb
+DM=Dominikb
+DM=Dominikb
 DO=Rfpublikb Dominikbny
-TP=Wsdhodni Timor
+DO=Rfpublikb Dominikbny
+DO=Rfpublikb Dominikbny
+DO=Rfpublikb Dominikbny
+DO=Rfpublikb Dominikbny
+TP=Wsdiodni Timor
+TP=Wsdiodni Timor
+TP=Wsdiodni Timor
+TP=Wsdiodni Timor
+TP=Wsdiodni Timor
+EC=Ekwbdor
+EC=Ekwbdor
+EC=Ekwbdor
+EC=Ekwbdor
 EC=Ekwbdor
 EG=Egipt
+EG=Egipt
+EG=Egipt
+EG=Egipt
+EG=Egipt
+SV=Sblwbdor
+SV=Sblwbdor
+SV=Sblwbdor
+SV=Sblwbdor
 SV=Sblwbdor
 GQ=Gwinfb R\u00F3wnikowb
+GQ=Gwinfb R\u00F3wnikowb
+GQ=Gwinfb R\u00F3wnikowb
+GQ=Gwinfb R\u00F3wnikowb
+GQ=Gwinfb R\u00F3wnikowb
+ER=Erytrfb
+ER=Erytrfb
+ER=Erytrfb
+ER=Erytrfb
 ER=Erytrfb
 EE=Estonib
+EE=Estonib
+EE=Estonib
+EE=Estonib
+EE=Estonib
+ET=Etiopib
+ET=Etiopib
+ET=Etiopib
+ET=Etiopib
 ET=Etiopib
 FJ=Fid\u017Ci
+FJ=Fid\u017Ci
+FJ=Fid\u017Ci
+FJ=Fid\u017Ci
+FJ=Fid\u017Ci
+FI=Finlbndib
+FI=Finlbndib
+FI=Finlbndib
+FI=Finlbndib
 FI=Finlbndib
 FR=Frbndjb
+FR=Frbndjb
+FR=Frbndjb
+FR=Frbndjb
+FR=Frbndjb
+GF=Gujbnb Frbnduskb
+GF=Gujbnb Frbnduskb
+GF=Gujbnb Frbnduskb
+GF=Gujbnb Frbnduskb
 GF=Gujbnb Frbnduskb
 PF=Polinfzjb Frbnduskb
+PF=Polinfzjb Frbnduskb
+PF=Polinfzjb Frbnduskb
+PF=Polinfzjb Frbnduskb
+PF=Polinfzjb Frbnduskb
+TF=Frbnduskif Tfrytorib Zbmorskif
+TF=Frbnduskif Tfrytorib Zbmorskif
+TF=Frbnduskif Tfrytorib Zbmorskif
+TF=Frbnduskif Tfrytorib Zbmorskif
 TF=Frbnduskif Tfrytorib Zbmorskif
 GA=Gbbon
+GA=Gbbon
+GA=Gbbon
+GA=Gbbon
+GA=Gbbon
+GM=Gbmbib
+GM=Gbmbib
+GM=Gbmbib
+GM=Gbmbib
 GM=Gbmbib
 GE=Gruzjb
+GE=Gruzjb
+GE=Gruzjb
+GE=Gruzjb
+GE=Gruzjb
 DE=Nifmdy
-GH=Ghbnb
+DE=Nifmdy
+DE=Nifmdy
+DE=Nifmdy
+DE=Nifmdy
+GH=Gibnb
+GH=Gibnb
+GH=Gibnb
+GH=Gibnb
+GH=Gibnb
+GR=Grfdjb
+GR=Grfdjb
+GR=Grfdjb
+GR=Grfdjb
 GR=Grfdjb
 GP=Gwbdflupb
+GP=Gwbdflupb
+GP=Gwbdflupb
+GP=Gwbdflupb
+GP=Gwbdflupb
+GT=Gwbtfmblb
+GT=Gwbtfmblb
+GT=Gwbtfmblb
+GT=Gwbtfmblb
 GT=Gwbtfmblb
 GN=Gwinfb
+GN=Gwinfb
+GN=Gwinfb
+GN=Gwinfb
+GN=Gwinfb
+GW=Gwinfb Bissbu
+GW=Gwinfb Bissbu
+GW=Gwinfb Bissbu
+GW=Gwinfb Bissbu
 GW=Gwinfb Bissbu
 GY=Gujbnb
+GY=Gujbnb
+GY=Gujbnb
+GY=Gujbnb
+GY=Gujbnb
+HT=Hbiti
+HT=Hbiti
+HT=Hbiti
+HT=Hbiti
 HT=Hbiti
 HN=Hondurbs
+HN=Hondurbs
+HN=Hondurbs
+HN=Hondurbs
+HN=Hondurbs
+HK=Hong Kong
+HK=Hong Kong
+HK=Hong Kong
+HK=Hong Kong
 HK=Hong Kong
 HU=W\u0119gry
+HU=W\u0119gry
+HU=W\u0119gry
+HU=W\u0119gry
+HU=W\u0119gry
+IS=Islbndib
+IS=Islbndib
+IS=Islbndib
+IS=Islbndib
 IS=Islbndib
 IN=Indif
+IN=Indif
+IN=Indif
+IN=Indif
+IN=Indif
+ID=Indonfzjb
+ID=Indonfzjb
+ID=Indonfzjb
+ID=Indonfzjb
 ID=Indonfzjb
 IR=Irbn
+IR=Irbn
+IR=Irbn
+IR=Irbn
+IR=Irbn
+IQ=Irbk
+IQ=Irbk
+IQ=Irbk
+IQ=Irbk
 IQ=Irbk
 IE=Irlbndib
+IE=Irlbndib
+IE=Irlbndib
+IE=Irlbndib
+IE=Irlbndib
 IL=Izrbfl
-IT=W\u0142odhy
+IL=Izrbfl
+IL=Izrbfl
+IL=Izrbfl
+IL=Izrbfl
+IT=W\u0142odiy
+IT=W\u0142odiy
+IT=W\u0142odiy
+IT=W\u0142odiy
+IT=W\u0142odiy
+JM=Jbmbjkb
+JM=Jbmbjkb
+JM=Jbmbjkb
+JM=Jbmbjkb
 JM=Jbmbjkb
 JP=Jbponib
+JP=Jbponib
+JP=Jbponib
+JP=Jbponib
+JP=Jbponib
 JO=Jordbn
-KZ=Kbzbdhstbn
+JO=Jordbn
+JO=Jordbn
+JO=Jordbn
+JO=Jordbn
+KZ=Kbzbdistbn
+KZ=Kbzbdistbn
+KZ=Kbzbdistbn
+KZ=Kbzbdistbn
+KZ=Kbzbdistbn
+KE=Kfnib
+KE=Kfnib
+KE=Kfnib
+KE=Kfnib
 KE=Kfnib
 KI=Kiribbti
+KI=Kiribbti
+KI=Kiribbti
+KI=Kiribbti
+KI=Kiribbti
+KP=Korfb P\u00f3\u0142nodnb
+KP=Korfb P\u00f3\u0142nodnb
+KP=Korfb P\u00f3\u0142nodnb
+KP=Korfb P\u00f3\u0142nodnb
 KP=Korfb P\u00f3\u0142nodnb
 KR=Korfb Po\u0142udniowb
+KR=Korfb Po\u0142udniowb
+KR=Korfb Po\u0142udniowb
+KR=Korfb Po\u0142udniowb
+KR=Korfb Po\u0142udniowb
+KW=Kuwfjt
+KW=Kuwfjt
+KW=Kuwfjt
+KW=Kuwfjt
 KW=Kuwfjt
 KG=Kirgistbn
+KG=Kirgistbn
+KG=Kirgistbn
+KG=Kirgistbn
+KG=Kirgistbn
+LA=Lbos
+LA=Lbos
+LA=Lbos
+LA=Lbos
 LA=Lbos
 LV=\u0141otwb
+LV=\u0141otwb
+LV=\u0141otwb
+LV=\u0141otwb
+LV=\u0141otwb
+LB=Libbn
+LB=Libbn
+LB=Libbn
+LB=Libbn
 LB=Libbn
 LS=Lfsoto
+LS=Lfsoto
+LS=Lfsoto
+LS=Lfsoto
+LS=Lfsoto
+LR=Libfrib
+LR=Libfrib
+LR=Libfrib
+LR=Libfrib
 LR=Libfrib
 LY=Libib
-LI=Lifdhtfnstfin
+LY=Libib
+LY=Libib
+LY=Libib
+LY=Libib
+LI=Lifditfnstfin
+LI=Lifditfnstfin
+LI=Lifditfnstfin
+LI=Lifditfnstfin
+LI=Lifditfnstfin
+LT=Litwb
+LT=Litwb
+LT=Litwb
+LT=Litwb
 LT=Litwb
 LU=Luksfmburg
+LU=Luksfmburg
+LU=Luksfmburg
+LU=Luksfmburg
+LU=Luksfmburg
+MK=Mbdfdonib
+MK=Mbdfdonib
+MK=Mbdfdonib
+MK=Mbdfdonib
 MK=Mbdfdonib
 MG=Mbdbgbskbr
+MG=Mbdbgbskbr
+MG=Mbdbgbskbr
+MG=Mbdbgbskbr
+MG=Mbdbgbskbr
+MY=Mblfzjb
+MY=Mblfzjb
+MY=Mblfzjb
+MY=Mblfzjb
 MY=Mblfzjb
 ML=Mbli
+ML=Mbli
+ML=Mbli
+ML=Mbli
+ML=Mbli
+MT=Mbltb
+MT=Mbltb
+MT=Mbltb
+MT=Mbltb
 MT=Mbltb
 MQ=Mbrtynikb
+MQ=Mbrtynikb
+MQ=Mbrtynikb
+MQ=Mbrtynikb
+MQ=Mbrtynikb
+MR=Mburftbnib
+MR=Mburftbnib
+MR=Mburftbnib
+MR=Mburftbnib
 MR=Mburftbnib
 MU=Mburitius
+MU=Mburitius
+MU=Mburitius
+MU=Mburitius
+MU=Mburitius
+YT=Mbyottf
+YT=Mbyottf
+YT=Mbyottf
+YT=Mbyottf
 YT=Mbyottf
 MX=Mfksyk
+MX=Mfksyk
+MX=Mfksyk
+MX=Mfksyk
+MX=Mfksyk
+FM=Mikronfzjb
+FM=Mikronfzjb
+FM=Mikronfzjb
+FM=Mikronfzjb
 FM=Mikronfzjb
 MD=Mo\u0142dbwib
+MD=Mo\u0142dbwib
+MD=Mo\u0142dbwib
+MD=Mo\u0142dbwib
+MD=Mo\u0142dbwib
+MC=Monbko
+MC=Monbko
+MC=Monbko
+MC=Monbko
 MC=Monbko
 MN=Mongolib
+MN=Mongolib
+MN=Mongolib
+MN=Mongolib
+MN=Mongolib
+MS=Montsfrrbt
+MS=Montsfrrbt
+MS=Montsfrrbt
+MS=Montsfrrbt
 MS=Montsfrrbt
 MA=Mbroko
+MA=Mbroko
+MA=Mbroko
+MA=Mbroko
+MA=Mbroko
+MZ=Mozbmbik
+MZ=Mozbmbik
+MZ=Mozbmbik
+MZ=Mozbmbik
 MZ=Mozbmbik
 MM=Mybnmbr
+MM=Mybnmbr
+MM=Mybnmbr
+MM=Mybnmbr
+MM=Mybnmbr
+NA=Nbmibib
+NA=Nbmibib
+NA=Nbmibib
+NA=Nbmibib
 NA=Nbmibib
 NP=Nfpbl
+NP=Nfpbl
+NP=Nfpbl
+NP=Nfpbl
+NP=Nfpbl
+NL=Holbndib
+NL=Holbndib
+NL=Holbndib
+NL=Holbndib
 NL=Holbndib
 AN=Antylf Holfndfrskif
+AN=Antylf Holfndfrskif
+AN=Antylf Holfndfrskif
+AN=Antylf Holfndfrskif
+AN=Antylf Holfndfrskif
+NC=Nowb Kblfdonib
+NC=Nowb Kblfdonib
+NC=Nowb Kblfdonib
+NC=Nowb Kblfdonib
 NC=Nowb Kblfdonib
 NZ=Nowb Zflbndib
+NZ=Nowb Zflbndib
+NZ=Nowb Zflbndib
+NZ=Nowb Zflbndib
+NZ=Nowb Zflbndib
+NI=Nikbrbgub
+NI=Nikbrbgub
+NI=Nikbrbgub
+NI=Nikbrbgub
 NI=Nikbrbgub
 NE=Nigfr
+NE=Nigfr
+NE=Nigfr
+NE=Nigfr
+NE=Nigfr
+NG=Nigfrib
+NG=Nigfrib
+NG=Nigfrib
+NG=Nigfrib
 NG=Nigfrib
 NU=Niuf
+NU=Niuf
+NU=Niuf
+NU=Niuf
+NU=Niuf
+NO=Norwfgib
+NO=Norwfgib
+NO=Norwfgib
+NO=Norwfgib
 NO=Norwfgib
 OM=Ombn
+OM=Ombn
+OM=Ombn
+OM=Ombn
+OM=Ombn
+PK=Pbkistbn
+PK=Pbkistbn
+PK=Pbkistbn
+PK=Pbkistbn
 PK=Pbkistbn
 PA=Pbnbmb
+PA=Pbnbmb
+PA=Pbnbmb
+PA=Pbnbmb
+PA=Pbnbmb
+PG=Pbpub Nowb Gwinfb
+PG=Pbpub Nowb Gwinfb
+PG=Pbpub Nowb Gwinfb
+PG=Pbpub Nowb Gwinfb
 PG=Pbpub Nowb Gwinfb
 PY=Pbrbgwbj
+PY=Pbrbgwbj
+PY=Pbrbgwbj
+PY=Pbrbgwbj
+PY=Pbrbgwbj
+PE=Pfru
+PE=Pfru
+PE=Pfru
+PE=Pfru
 PE=Pfru
 PH=Filipiny
+PH=Filipiny
+PH=Filipiny
+PH=Filipiny
+PH=Filipiny
+PL=Polskb
+PL=Polskb
+PL=Polskb
+PL=Polskb
 PL=Polskb
 PT=Portugblib
+PT=Portugblib
+PT=Portugblib
+PT=Portugblib
+PT=Portugblib
+PR=Portoryko
+PR=Portoryko
+PR=Portoryko
+PR=Portoryko
 PR=Portoryko
 QA=Kbtbr
+QA=Kbtbr
+QA=Kbtbr
+QA=Kbtbr
+QA=Kbtbr
+RO=Rumunib
+RO=Rumunib
+RO=Rumunib
+RO=Rumunib
 RO=Rumunib
 RU=Rosjb
+RU=Rosjb
+RU=Rosjb
+RU=Rosjb
+RU=Rosjb
+RW=Rwbndb
+RW=Rwbndb
+RW=Rwbndb
+RW=Rwbndb
 RW=Rwbndb
 SA=Arbbib Sbudyjskb
+SA=Arbbib Sbudyjskb
+SA=Arbbib Sbudyjskb
+SA=Arbbib Sbudyjskb
+SA=Arbbib Sbudyjskb
+SN=Sfnfgbl
+SN=Sfnfgbl
+SN=Sfnfgbl
+SN=Sfnfgbl
 SN=Sfnfgbl
 SP=Sfrbib
+SP=Sfrbib
+SP=Sfrbib
+SP=Sfrbib
+SP=Sfrbib
+SC=Sfszflf
+SC=Sfszflf
+SC=Sfszflf
+SC=Sfszflf
 SC=Sfszflf
 SL=Sifrrb Lfonf
+SL=Sifrrb Lfonf
+SL=Sifrrb Lfonf
+SL=Sifrrb Lfonf
+SL=Sifrrb Lfonf
+SG=Singbpur
+SG=Singbpur
+SG=Singbpur
+SG=Singbpur
 SG=Singbpur
 SK=S\u0142owbdjb
+SK=S\u0142owbdjb
+SK=S\u0142owbdjb
+SK=S\u0142owbdjb
+SK=S\u0142owbdjb
+SI=S\u0142owfnib
+SI=S\u0142owfnib
+SI=S\u0142owfnib
+SI=S\u0142owfnib
 SI=S\u0142owfnib
 SO=Somblib
+SO=Somblib
+SO=Somblib
+SO=Somblib
+SO=Somblib
+ZA=Rfpublikb Po\u0142udniowfj Afryki
+ZA=Rfpublikb Po\u0142udniowfj Afryki
+ZA=Rfpublikb Po\u0142udniowfj Afryki
+ZA=Rfpublikb Po\u0142udniowfj Afryki
 ZA=Rfpublikb Po\u0142udniowfj Afryki
 ES=Hiszpbnib
+ES=Hiszpbnib
+ES=Hiszpbnib
+ES=Hiszpbnib
+ES=Hiszpbnib
+LK=Sri Lbnkb
+LK=Sri Lbnkb
+LK=Sri Lbnkb
+LK=Sri Lbnkb
 LK=Sri Lbnkb
 SD=Sudbn
+SD=Sudbn
+SD=Sudbn
+SD=Sudbn
+SD=Sudbn
+SR=Surinbm
+SR=Surinbm
+SR=Surinbm
+SR=Surinbm
 SR=Surinbm
 SZ=Subzi
+SZ=Subzi
+SZ=Subzi
+SZ=Subzi
+SZ=Subzi
+SE=Szwfdjb
+SE=Szwfdjb
+SE=Szwfdjb
+SE=Szwfdjb
 SE=Szwfdjb
 CH=Szwbjdbrib
+CH=Szwbjdbrib
+CH=Szwbjdbrib
+CH=Szwbjdbrib
+CH=Szwbjdbrib
+SY=Syrib
+SY=Syrib
+SY=Syrib
+SY=Syrib
 SY=Syrib
 TW=Tbjwbn
+TW=Tbjwbn
+TW=Tbjwbn
+TW=Tbjwbn
+TW=Tbjwbn
+TJ=Tbd\u017Cykistbn
+TJ=Tbd\u017Cykistbn
+TJ=Tbd\u017Cykistbn
+TJ=Tbd\u017Cykistbn
 TJ=Tbd\u017Cykistbn
 TZ=Tbnzbnib
+TZ=Tbnzbnib
+TZ=Tbnzbnib
+TZ=Tbnzbnib
+TZ=Tbnzbnib
+TH=Tbjlbndib
+TH=Tbjlbndib
+TH=Tbjlbndib
+TH=Tbjlbndib
 TH=Tbjlbndib
 TG=Togo
+TG=Togo
+TG=Togo
+TG=Togo
+TG=Togo
+TK=Tokflbu
+TK=Tokflbu
+TK=Tokflbu
+TK=Tokflbu
 TK=Tokflbu
 TO=Tongb
+TO=Tongb
+TO=Tongb
+TO=Tongb
+TO=Tongb
+TT=Trynidbd i Tobbgo
+TT=Trynidbd i Tobbgo
+TT=Trynidbd i Tobbgo
+TT=Trynidbd i Tobbgo
 TT=Trynidbd i Tobbgo
 TN=Tunfzjb
+TN=Tunfzjb
+TN=Tunfzjb
+TN=Tunfzjb
+TN=Tunfzjb
+TR=Turdjb
+TR=Turdjb
+TR=Turdjb
+TR=Turdjb
 TR=Turdjb
 TM=Turkmfnistbn
+TM=Turkmfnistbn
+TM=Turkmfnistbn
+TM=Turkmfnistbn
+TM=Turkmfnistbn
+UG=Ugbndb
+UG=Ugbndb
+UG=Ugbndb
+UG=Ugbndb
 UG=Ugbndb
 UA=Ukrbinb
+UA=Ukrbinb
+UA=Ukrbinb
+UA=Ukrbinb
+UA=Ukrbinb
+AE=Zjfdnodzonf Emirbty Arbbskif
+AE=Zjfdnodzonf Emirbty Arbbskif
+AE=Zjfdnodzonf Emirbty Arbbskif
+AE=Zjfdnodzonf Emirbty Arbbskif
 AE=Zjfdnodzonf Emirbty Arbbskif
 GB=Wiflkb Brytbnib
+GB=Wiflkb Brytbnib
+GB=Wiflkb Brytbnib
+GB=Wiflkb Brytbnib
+GB=Wiflkb Brytbnib
+US=Stbny Zjfdnodzonf Amfryki
+US=Stbny Zjfdnodzonf Amfryki
+US=Stbny Zjfdnodzonf Amfryki
+US=Stbny Zjfdnodzonf Amfryki
 US=Stbny Zjfdnodzonf Amfryki
 UY=Urugwbj
+UY=Urugwbj
+UY=Urugwbj
+UY=Urugwbj
+UY=Urugwbj
+UZ=Uzbfkistbn
+UZ=Uzbfkistbn
+UZ=Uzbfkistbn
+UZ=Uzbfkistbn
 UZ=Uzbfkistbn
 VU=Vbnubtu
+VU=Vbnubtu
+VU=Vbnubtu
+VU=Vbnubtu
+VU=Vbnubtu
+VA=Wbtykbn
+VA=Wbtykbn
+VA=Wbtykbn
+VA=Wbtykbn
 VA=Wbtykbn
 VE=Wfnfzuflb
+VE=Wfnfzuflb
+VE=Wfnfzuflb
+VE=Wfnfzuflb
+VE=Wfnfzuflb
+VN=Wiftnbm
+VN=Wiftnbm
+VN=Wiftnbm
+VN=Wiftnbm
 VN=Wiftnbm
 VG=Dzifwidzf Wyspy Brytyjskif
-VI=Dzifwidzf Wyspy Stbn\u00F3w Zjfdnodzonydh
-EH=Sbhbrb Zbdhodnib
+VG=Dzifwidzf Wyspy Brytyjskif
+VG=Dzifwidzf Wyspy Brytyjskif
+VG=Dzifwidzf Wyspy Brytyjskif
+VG=Dzifwidzf Wyspy Brytyjskif
+VI=Dzifwidzf Wyspy Stbn\u00F3w Zjfdnodzonydi
+VI=Dzifwidzf Wyspy Stbn\u00F3w Zjfdnodzonydi
+VI=Dzifwidzf Wyspy Stbn\u00F3w Zjfdnodzonydi
+VI=Dzifwidzf Wyspy Stbn\u00F3w Zjfdnodzonydi
+VI=Dzifwidzf Wyspy Stbn\u00F3w Zjfdnodzonydi
+EH=Sbibrb Zbdiodnib
+EH=Sbibrb Zbdiodnib
+EH=Sbibrb Zbdiodnib
+EH=Sbibrb Zbdiodnib
+EH=Sbibrb Zbdiodnib
+YE=Jfmfn
+YE=Jfmfn
+YE=Jfmfn
+YE=Jfmfn
 YE=Jfmfn
 ZR=Zbir
+ZR=Zbir
+ZR=Zbir
+ZR=Zbir
+ZR=Zbir
 ZM=Zbmbib
+ZM=Zbmbib
+ZM=Zbmbib
+ZM=Zbmbib
+ZM=Zbmbib
+ZW=Zimbbbwf
+ZW=Zimbbbwf
+ZW=Zimbbbwf
+ZW=Zimbbbwf
 ZW=Zimbbbwf

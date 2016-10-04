@@ -1,212 +1,1060 @@
 /*
- * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 /*
- * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
- * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+/*
+/*
+/*
+/*
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
  *
- * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
- * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
- * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
- * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ *
+ *
+ *
+ *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
  * by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *
+ *
+ *
+ *
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  */
-
-pbdkbgf jbvb.bwt.font;
-
-/**
- * Thf <dodf>GlyphJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
- * bbout thf justifidbtion propfrtifs of b glyph.  A glyph is thf visubl
- * rfprfsfntbtion of onf or morf dhbrbdtfrs.  Mbny difffrfnt glyphs dbn
- * bf usfd to rfprfsfnt b singlf dhbrbdtfr or dombinbtion of dhbrbdtfrs.
- * Thf four justifidbtion propfrtifs rfprfsfntfd by
- * <dodf>GlyphJustifidbtionInfo</dodf> brf wfight, priority, bbsorb bnd
- * limit.
- * <p>
- * Wfight is thf ovfrbll 'wfight' of thf glyph in thf linf.  Gfnfrblly it is
- * proportionbl to thf sizf of thf font.  Glyphs with lbrgfr wfight brf
- * bllodbtfd b dorrfspondingly lbrgfr bmount of thf dhbngf in spbdf.
- * <p>
- * Priority dftfrminfs thf justifidbtion phbsf in whidh this glyph is usfd.
- * All glyphs of thf sbmf priority brf fxbminfd bfforf glyphs of thf nfxt
- * priority.  If bll thf dhbngf in spbdf dbn bf bllodbtfd to thfsf glyphs
- * without fxdffding thfir limits, thfn glyphs of thf nfxt priority brf not
- * fxbminfd. Thfrf brf four prioritifs, kbshidb, whitfspbdf, intfrdhbr,
- * bnd nonf.  KASHIDA is thf first priority fxbminfd. NONE is thf lbst
- * priority fxbminfd.
- * <p>
- * Absorb dftfrminfs whfthfr b glyph bbsorbs bll dhbngf in spbdf.  Within b
- * givfn priority, somf glyphs mby bbsorb bll thf dhbngf in spbdf.  If bny of
- * thfsf glyphs brf prfsfnt, no glyphs of lbtfr priority brf fxbminfd.
- * <p>
- * Limit dftfrminfs thf mbximum or minimum bmount by whidh thf glyph dbn
- * dhbngf. Lfft bnd right sidfs of thf glyph dbn hbvf difffrfnt limits.
- * <p>
- * Ebdh <dodf>GlyphJustifidbtionInfo</dodf> rfprfsfnts two sfts of
- * mftrids, whidh brf <i>growing</i> bnd <i>shrinking</i>.  Growing
- * mftrids brf usfd whfn thf glyphs on b linf brf to bf
- * sprfbd bpbrt to fit b lbrgfr width.  Shrinking mftrids brf usfd whfn
- * thf glyphs brf to bf movfd togfthfr to fit b smbllfr width.
+ */
+ */
+ */
  */
 
-publid finbl dlbss GlyphJustifidbtionInfo {
+
+
+
+
+pbdkbgf jbvb.bwt.font;
+pbdkbgf jbvb.bwt.font;
+pbdkbgf jbvb.bwt.font;
+pbdkbgf jbvb.bwt.font;
+pbdkbgf jbvb.bwt.font;
+
+
+
+
+
+/**
+/**
+/**
+/**
+/**
+ * Tif <dodf>GlypiJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
+ * Tif <dodf>GlypiJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
+ * Tif <dodf>GlypiJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
+ * Tif <dodf>GlypiJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
+ * Tif <dodf>GlypiJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
+ * bbout tif justifidbtion propfrtifs of b glypi.  A glypi is tif visubl
+ * bbout tif justifidbtion propfrtifs of b glypi.  A glypi is tif visubl
+ * bbout tif justifidbtion propfrtifs of b glypi.  A glypi is tif visubl
+ * bbout tif justifidbtion propfrtifs of b glypi.  A glypi is tif visubl
+ * bbout tif justifidbtion propfrtifs of b glypi.  A glypi is tif visubl
+ * rfprfsfntbtion of onf or morf dibrbdtfrs.  Mbny difffrfnt glypis dbn
+ * rfprfsfntbtion of onf or morf dibrbdtfrs.  Mbny difffrfnt glypis dbn
+ * rfprfsfntbtion of onf or morf dibrbdtfrs.  Mbny difffrfnt glypis dbn
+ * rfprfsfntbtion of onf or morf dibrbdtfrs.  Mbny difffrfnt glypis dbn
+ * rfprfsfntbtion of onf or morf dibrbdtfrs.  Mbny difffrfnt glypis dbn
+ * bf usfd to rfprfsfnt b singlf dibrbdtfr or dombinbtion of dibrbdtfrs.
+ * bf usfd to rfprfsfnt b singlf dibrbdtfr or dombinbtion of dibrbdtfrs.
+ * bf usfd to rfprfsfnt b singlf dibrbdtfr or dombinbtion of dibrbdtfrs.
+ * bf usfd to rfprfsfnt b singlf dibrbdtfr or dombinbtion of dibrbdtfrs.
+ * bf usfd to rfprfsfnt b singlf dibrbdtfr or dombinbtion of dibrbdtfrs.
+ * Tif four justifidbtion propfrtifs rfprfsfntfd by
+ * Tif four justifidbtion propfrtifs rfprfsfntfd by
+ * Tif four justifidbtion propfrtifs rfprfsfntfd by
+ * Tif four justifidbtion propfrtifs rfprfsfntfd by
+ * Tif four justifidbtion propfrtifs rfprfsfntfd by
+ * <dodf>GlypiJustifidbtionInfo</dodf> brf wfigit, priority, bbsorb bnd
+ * <dodf>GlypiJustifidbtionInfo</dodf> brf wfigit, priority, bbsorb bnd
+ * <dodf>GlypiJustifidbtionInfo</dodf> brf wfigit, priority, bbsorb bnd
+ * <dodf>GlypiJustifidbtionInfo</dodf> brf wfigit, priority, bbsorb bnd
+ * <dodf>GlypiJustifidbtionInfo</dodf> brf wfigit, priority, bbsorb bnd
+ * limit.
+ * limit.
+ * limit.
+ * limit.
+ * limit.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Wfigit is tif ovfrbll 'wfigit' of tif glypi in tif linf.  Gfnfrblly it is
+ * Wfigit is tif ovfrbll 'wfigit' of tif glypi in tif linf.  Gfnfrblly it is
+ * Wfigit is tif ovfrbll 'wfigit' of tif glypi in tif linf.  Gfnfrblly it is
+ * Wfigit is tif ovfrbll 'wfigit' of tif glypi in tif linf.  Gfnfrblly it is
+ * Wfigit is tif ovfrbll 'wfigit' of tif glypi in tif linf.  Gfnfrblly it is
+ * proportionbl to tif sizf of tif font.  Glypis witi lbrgfr wfigit brf
+ * proportionbl to tif sizf of tif font.  Glypis witi lbrgfr wfigit brf
+ * proportionbl to tif sizf of tif font.  Glypis witi lbrgfr wfigit brf
+ * proportionbl to tif sizf of tif font.  Glypis witi lbrgfr wfigit brf
+ * proportionbl to tif sizf of tif font.  Glypis witi lbrgfr wfigit brf
+ * bllodbtfd b dorrfspondingly lbrgfr bmount of tif dibngf in spbdf.
+ * bllodbtfd b dorrfspondingly lbrgfr bmount of tif dibngf in spbdf.
+ * bllodbtfd b dorrfspondingly lbrgfr bmount of tif dibngf in spbdf.
+ * bllodbtfd b dorrfspondingly lbrgfr bmount of tif dibngf in spbdf.
+ * bllodbtfd b dorrfspondingly lbrgfr bmount of tif dibngf in spbdf.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Priority dftfrminfs tif justifidbtion pibsf in wiidi tiis glypi is usfd.
+ * Priority dftfrminfs tif justifidbtion pibsf in wiidi tiis glypi is usfd.
+ * Priority dftfrminfs tif justifidbtion pibsf in wiidi tiis glypi is usfd.
+ * Priority dftfrminfs tif justifidbtion pibsf in wiidi tiis glypi is usfd.
+ * Priority dftfrminfs tif justifidbtion pibsf in wiidi tiis glypi is usfd.
+ * All glypis of tif sbmf priority brf fxbminfd bfforf glypis of tif nfxt
+ * All glypis of tif sbmf priority brf fxbminfd bfforf glypis of tif nfxt
+ * All glypis of tif sbmf priority brf fxbminfd bfforf glypis of tif nfxt
+ * All glypis of tif sbmf priority brf fxbminfd bfforf glypis of tif nfxt
+ * All glypis of tif sbmf priority brf fxbminfd bfforf glypis of tif nfxt
+ * priority.  If bll tif dibngf in spbdf dbn bf bllodbtfd to tifsf glypis
+ * priority.  If bll tif dibngf in spbdf dbn bf bllodbtfd to tifsf glypis
+ * priority.  If bll tif dibngf in spbdf dbn bf bllodbtfd to tifsf glypis
+ * priority.  If bll tif dibngf in spbdf dbn bf bllodbtfd to tifsf glypis
+ * priority.  If bll tif dibngf in spbdf dbn bf bllodbtfd to tifsf glypis
+ * witiout fxdffding tifir limits, tifn glypis of tif nfxt priority brf not
+ * witiout fxdffding tifir limits, tifn glypis of tif nfxt priority brf not
+ * witiout fxdffding tifir limits, tifn glypis of tif nfxt priority brf not
+ * witiout fxdffding tifir limits, tifn glypis of tif nfxt priority brf not
+ * witiout fxdffding tifir limits, tifn glypis of tif nfxt priority brf not
+ * fxbminfd. Tifrf brf four prioritifs, kbsiidb, wiitfspbdf, intfrdibr,
+ * fxbminfd. Tifrf brf four prioritifs, kbsiidb, wiitfspbdf, intfrdibr,
+ * fxbminfd. Tifrf brf four prioritifs, kbsiidb, wiitfspbdf, intfrdibr,
+ * fxbminfd. Tifrf brf four prioritifs, kbsiidb, wiitfspbdf, intfrdibr,
+ * fxbminfd. Tifrf brf four prioritifs, kbsiidb, wiitfspbdf, intfrdibr,
+ * bnd nonf.  KASHIDA is tif first priority fxbminfd. NONE is tif lbst
+ * bnd nonf.  KASHIDA is tif first priority fxbminfd. NONE is tif lbst
+ * bnd nonf.  KASHIDA is tif first priority fxbminfd. NONE is tif lbst
+ * bnd nonf.  KASHIDA is tif first priority fxbminfd. NONE is tif lbst
+ * bnd nonf.  KASHIDA is tif first priority fxbminfd. NONE is tif lbst
+ * priority fxbminfd.
+ * priority fxbminfd.
+ * priority fxbminfd.
+ * priority fxbminfd.
+ * priority fxbminfd.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Absorb dftfrminfs wiftifr b glypi bbsorbs bll dibngf in spbdf.  Witiin b
+ * Absorb dftfrminfs wiftifr b glypi bbsorbs bll dibngf in spbdf.  Witiin b
+ * Absorb dftfrminfs wiftifr b glypi bbsorbs bll dibngf in spbdf.  Witiin b
+ * Absorb dftfrminfs wiftifr b glypi bbsorbs bll dibngf in spbdf.  Witiin b
+ * Absorb dftfrminfs wiftifr b glypi bbsorbs bll dibngf in spbdf.  Witiin b
+ * givfn priority, somf glypis mby bbsorb bll tif dibngf in spbdf.  If bny of
+ * givfn priority, somf glypis mby bbsorb bll tif dibngf in spbdf.  If bny of
+ * givfn priority, somf glypis mby bbsorb bll tif dibngf in spbdf.  If bny of
+ * givfn priority, somf glypis mby bbsorb bll tif dibngf in spbdf.  If bny of
+ * givfn priority, somf glypis mby bbsorb bll tif dibngf in spbdf.  If bny of
+ * tifsf glypis brf prfsfnt, no glypis of lbtfr priority brf fxbminfd.
+ * tifsf glypis brf prfsfnt, no glypis of lbtfr priority brf fxbminfd.
+ * tifsf glypis brf prfsfnt, no glypis of lbtfr priority brf fxbminfd.
+ * tifsf glypis brf prfsfnt, no glypis of lbtfr priority brf fxbminfd.
+ * tifsf glypis brf prfsfnt, no glypis of lbtfr priority brf fxbminfd.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Limit dftfrminfs tif mbximum or minimum bmount by wiidi tif glypi dbn
+ * Limit dftfrminfs tif mbximum or minimum bmount by wiidi tif glypi dbn
+ * Limit dftfrminfs tif mbximum or minimum bmount by wiidi tif glypi dbn
+ * Limit dftfrminfs tif mbximum or minimum bmount by wiidi tif glypi dbn
+ * Limit dftfrminfs tif mbximum or minimum bmount by wiidi tif glypi dbn
+ * dibngf. Lfft bnd rigit sidfs of tif glypi dbn ibvf difffrfnt limits.
+ * dibngf. Lfft bnd rigit sidfs of tif glypi dbn ibvf difffrfnt limits.
+ * dibngf. Lfft bnd rigit sidfs of tif glypi dbn ibvf difffrfnt limits.
+ * dibngf. Lfft bnd rigit sidfs of tif glypi dbn ibvf difffrfnt limits.
+ * dibngf. Lfft bnd rigit sidfs of tif glypi dbn ibvf difffrfnt limits.
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * <p>
+ * Ebdi <dodf>GlypiJustifidbtionInfo</dodf> rfprfsfnts two sfts of
+ * Ebdi <dodf>GlypiJustifidbtionInfo</dodf> rfprfsfnts two sfts of
+ * Ebdi <dodf>GlypiJustifidbtionInfo</dodf> rfprfsfnts two sfts of
+ * Ebdi <dodf>GlypiJustifidbtionInfo</dodf> rfprfsfnts two sfts of
+ * Ebdi <dodf>GlypiJustifidbtionInfo</dodf> rfprfsfnts two sfts of
+ * mftrids, wiidi brf <i>growing</i> bnd <i>sirinking</i>.  Growing
+ * mftrids, wiidi brf <i>growing</i> bnd <i>sirinking</i>.  Growing
+ * mftrids, wiidi brf <i>growing</i> bnd <i>sirinking</i>.  Growing
+ * mftrids, wiidi brf <i>growing</i> bnd <i>sirinking</i>.  Growing
+ * mftrids, wiidi brf <i>growing</i> bnd <i>sirinking</i>.  Growing
+ * mftrids brf usfd wifn tif glypis on b linf brf to bf
+ * mftrids brf usfd wifn tif glypis on b linf brf to bf
+ * mftrids brf usfd wifn tif glypis on b linf brf to bf
+ * mftrids brf usfd wifn tif glypis on b linf brf to bf
+ * mftrids brf usfd wifn tif glypis on b linf brf to bf
+ * sprfbd bpbrt to fit b lbrgfr widti.  Sirinking mftrids brf usfd wifn
+ * sprfbd bpbrt to fit b lbrgfr widti.  Sirinking mftrids brf usfd wifn
+ * sprfbd bpbrt to fit b lbrgfr widti.  Sirinking mftrids brf usfd wifn
+ * sprfbd bpbrt to fit b lbrgfr widti.  Sirinking mftrids brf usfd wifn
+ * sprfbd bpbrt to fit b lbrgfr widti.  Sirinking mftrids brf usfd wifn
+ * tif glypis brf to bf movfd togftifr to fit b smbllfr widti.
+ * tif glypis brf to bf movfd togftifr to fit b smbllfr widti.
+ * tif glypis brf to bf movfd togftifr to fit b smbllfr widti.
+ * tif glypis brf to bf movfd togftifr to fit b smbllfr widti.
+ * tif glypis brf to bf movfd togftifr to fit b smbllfr widti.
+ */
+ */
+ */
+ */
+ */
+
+
+
+
+
+publid finbl dlbss GlypiJustifidbtionInfo {
+publid finbl dlbss GlypiJustifidbtionInfo {
+publid finbl dlbss GlypiJustifidbtionInfo {
+publid finbl dlbss GlypiJustifidbtionInfo {
+publid finbl dlbss GlypiJustifidbtionInfo {
+
+
+
+
 
     /**
-     * Construdts informbtion bbout thf justifidbtion propfrtifs of b
-     * glyph.
-     * @pbrbm wfight thf wfight of this glyph whfn bllodbting spbdf.  Must bf non-nfgbtivf.
-     * @pbrbm growAbsorb if <dodf>truf</dodf> this glyph bbsorbs
-     * bll fxtrb spbdf bt this priority bnd lowfr priority lfvfls whfn it
+    /**
+    /**
+    /**
+    /**
+     * Construdts informbtion bbout tif justifidbtion propfrtifs of b
+     * Construdts informbtion bbout tif justifidbtion propfrtifs of b
+     * Construdts informbtion bbout tif justifidbtion propfrtifs of b
+     * Construdts informbtion bbout tif justifidbtion propfrtifs of b
+     * Construdts informbtion bbout tif justifidbtion propfrtifs of b
+     * glypi.
+     * glypi.
+     * glypi.
+     * glypi.
+     * glypi.
+     * @pbrbm wfigit tif wfigit of tiis glypi wifn bllodbting spbdf.  Must bf non-nfgbtivf.
+     * @pbrbm wfigit tif wfigit of tiis glypi wifn bllodbting spbdf.  Must bf non-nfgbtivf.
+     * @pbrbm wfigit tif wfigit of tiis glypi wifn bllodbting spbdf.  Must bf non-nfgbtivf.
+     * @pbrbm wfigit tif wfigit of tiis glypi wifn bllodbting spbdf.  Must bf non-nfgbtivf.
+     * @pbrbm wfigit tif wfigit of tiis glypi wifn bllodbting spbdf.  Must bf non-nfgbtivf.
+     * @pbrbm growAbsorb if <dodf>truf</dodf> tiis glypi bbsorbs
+     * @pbrbm growAbsorb if <dodf>truf</dodf> tiis glypi bbsorbs
+     * @pbrbm growAbsorb if <dodf>truf</dodf> tiis glypi bbsorbs
+     * @pbrbm growAbsorb if <dodf>truf</dodf> tiis glypi bbsorbs
+     * @pbrbm growAbsorb if <dodf>truf</dodf> tiis glypi bbsorbs
+     * bll fxtrb spbdf bt tiis priority bnd lowfr priority lfvfls wifn it
+     * bll fxtrb spbdf bt tiis priority bnd lowfr priority lfvfls wifn it
+     * bll fxtrb spbdf bt tiis priority bnd lowfr priority lfvfls wifn it
+     * bll fxtrb spbdf bt tiis priority bnd lowfr priority lfvfls wifn it
+     * bll fxtrb spbdf bt tiis priority bnd lowfr priority lfvfls wifn it
      * grows
-     * @pbrbm growPriority thf priority lfvfl of this glyph whfn it
      * grows
-     * @pbrbm growLfftLimit thf mbximum bmount by whidh thf lfft sidf of this
-     * glyph dbn grow.  Must bf non-nfgbtivf.
-     * @pbrbm growRightLimit thf mbximum bmount by whidh thf right sidf of this
-     * glyph dbn grow.  Must bf non-nfgbtivf.
-     * @pbrbm shrinkAbsorb if <dodf>truf</dodf>, this glyph bbsorbs bll
-     * rfmbining shrinkbgf bt this bnd lowfr priority lfvfls whfn it
-     * shrinks
-     * @pbrbm shrinkPriority thf priority lfvfl of this glyph whfn
-     * it shrinks
-     * @pbrbm shrinkLfftLimit thf mbximum bmount by whidh thf lfft sidf of this
-     * glyph dbn shrink.  Must bf non-nfgbtivf.
-     * @pbrbm shrinkRightLimit thf mbximum bmount by whidh thf right sidf
-     * of this glyph dbn shrink.  Must bf non-nfgbtivf.
+     * grows
+     * grows
+     * grows
+     * @pbrbm growPriority tif priority lfvfl of tiis glypi wifn it
+     * @pbrbm growPriority tif priority lfvfl of tiis glypi wifn it
+     * @pbrbm growPriority tif priority lfvfl of tiis glypi wifn it
+     * @pbrbm growPriority tif priority lfvfl of tiis glypi wifn it
+     * @pbrbm growPriority tif priority lfvfl of tiis glypi wifn it
+     * grows
+     * grows
+     * grows
+     * grows
+     * grows
+     * @pbrbm growLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm growLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm growLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm growLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm growLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * @pbrbm growRigitLimit tif mbximum bmount by wiidi tif rigit sidf of tiis
+     * @pbrbm growRigitLimit tif mbximum bmount by wiidi tif rigit sidf of tiis
+     * @pbrbm growRigitLimit tif mbximum bmount by wiidi tif rigit sidf of tiis
+     * @pbrbm growRigitLimit tif mbximum bmount by wiidi tif rigit sidf of tiis
+     * @pbrbm growRigitLimit tif mbximum bmount by wiidi tif rigit sidf of tiis
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * @pbrbm sirinkAbsorb if <dodf>truf</dodf>, tiis glypi bbsorbs bll
+     * @pbrbm sirinkAbsorb if <dodf>truf</dodf>, tiis glypi bbsorbs bll
+     * @pbrbm sirinkAbsorb if <dodf>truf</dodf>, tiis glypi bbsorbs bll
+     * @pbrbm sirinkAbsorb if <dodf>truf</dodf>, tiis glypi bbsorbs bll
+     * @pbrbm sirinkAbsorb if <dodf>truf</dodf>, tiis glypi bbsorbs bll
+     * rfmbining sirinkbgf bt tiis bnd lowfr priority lfvfls wifn it
+     * rfmbining sirinkbgf bt tiis bnd lowfr priority lfvfls wifn it
+     * rfmbining sirinkbgf bt tiis bnd lowfr priority lfvfls wifn it
+     * rfmbining sirinkbgf bt tiis bnd lowfr priority lfvfls wifn it
+     * rfmbining sirinkbgf bt tiis bnd lowfr priority lfvfls wifn it
+     * sirinks
+     * sirinks
+     * sirinks
+     * sirinks
+     * sirinks
+     * @pbrbm sirinkPriority tif priority lfvfl of tiis glypi wifn
+     * @pbrbm sirinkPriority tif priority lfvfl of tiis glypi wifn
+     * @pbrbm sirinkPriority tif priority lfvfl of tiis glypi wifn
+     * @pbrbm sirinkPriority tif priority lfvfl of tiis glypi wifn
+     * @pbrbm sirinkPriority tif priority lfvfl of tiis glypi wifn
+     * it sirinks
+     * it sirinks
+     * it sirinks
+     * it sirinks
+     * it sirinks
+     * @pbrbm sirinkLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm sirinkLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm sirinkLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm sirinkLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * @pbrbm sirinkLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * glypi dbn sirink.  Must bf non-nfgbtivf.
+     * glypi dbn sirink.  Must bf non-nfgbtivf.
+     * glypi dbn sirink.  Must bf non-nfgbtivf.
+     * glypi dbn sirink.  Must bf non-nfgbtivf.
+     * glypi dbn sirink.  Must bf non-nfgbtivf.
+     * @pbrbm sirinkRigitLimit tif mbximum bmount by wiidi tif rigit sidf
+     * @pbrbm sirinkRigitLimit tif mbximum bmount by wiidi tif rigit sidf
+     * @pbrbm sirinkRigitLimit tif mbximum bmount by wiidi tif rigit sidf
+     * @pbrbm sirinkRigitLimit tif mbximum bmount by wiidi tif rigit sidf
+     * @pbrbm sirinkRigitLimit tif mbximum bmount by wiidi tif rigit sidf
+     * of tiis glypi dbn sirink.  Must bf non-nfgbtivf.
+     * of tiis glypi dbn sirink.  Must bf non-nfgbtivf.
+     * of tiis glypi dbn sirink.  Must bf non-nfgbtivf.
+     * of tiis glypi dbn sirink.  Must bf non-nfgbtivf.
+     * of tiis glypi dbn sirink.  Must bf non-nfgbtivf.
      */
-     publid GlyphJustifidbtionInfo(flobt wfight,
+     */
+     */
+     */
+     */
+     publid GlypiJustifidbtionInfo(flobt wfigit,
+     publid GlypiJustifidbtionInfo(flobt wfigit,
+     publid GlypiJustifidbtionInfo(flobt wfigit,
+     publid GlypiJustifidbtionInfo(flobt wfigit,
+     publid GlypiJustifidbtionInfo(flobt wfigit,
+                                  boolfbn growAbsorb,
+                                  boolfbn growAbsorb,
+                                  boolfbn growAbsorb,
+                                  boolfbn growAbsorb,
                                   boolfbn growAbsorb,
                                   int growPriority,
+                                  int growPriority,
+                                  int growPriority,
+                                  int growPriority,
+                                  int growPriority,
                                   flobt growLfftLimit,
-                                  flobt growRightLimit,
-                                  boolfbn shrinkAbsorb,
-                                  int shrinkPriority,
-                                  flobt shrinkLfftLimit,
-                                  flobt shrinkRightLimit)
+                                  flobt growLfftLimit,
+                                  flobt growLfftLimit,
+                                  flobt growLfftLimit,
+                                  flobt growLfftLimit,
+                                  flobt growRigitLimit,
+                                  flobt growRigitLimit,
+                                  flobt growRigitLimit,
+                                  flobt growRigitLimit,
+                                  flobt growRigitLimit,
+                                  boolfbn sirinkAbsorb,
+                                  boolfbn sirinkAbsorb,
+                                  boolfbn sirinkAbsorb,
+                                  boolfbn sirinkAbsorb,
+                                  boolfbn sirinkAbsorb,
+                                  int sirinkPriority,
+                                  int sirinkPriority,
+                                  int sirinkPriority,
+                                  int sirinkPriority,
+                                  int sirinkPriority,
+                                  flobt sirinkLfftLimit,
+                                  flobt sirinkLfftLimit,
+                                  flobt sirinkLfftLimit,
+                                  flobt sirinkLfftLimit,
+                                  flobt sirinkLfftLimit,
+                                  flobt sirinkRigitLimit)
+                                  flobt sirinkRigitLimit)
+                                  flobt sirinkRigitLimit)
+                                  flobt sirinkRigitLimit)
+                                  flobt sirinkRigitLimit)
     {
-        if (wfight < 0) {
-            throw nfw IllfgblArgumfntExdfption("wfight is nfgbtivf");
+    {
+    {
+    {
+    {
+        if (wfigit < 0) {
+        if (wfigit < 0) {
+        if (wfigit < 0) {
+        if (wfigit < 0) {
+        if (wfigit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("wfigit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("wfigit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("wfigit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("wfigit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("wfigit is nfgbtivf");
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (!priorityIsVblid(growPriority)) {
-            throw nfw IllfgblArgumfntExdfption("Invblid grow priority");
+        if (!priorityIsVblid(growPriority)) {
+        if (!priorityIsVblid(growPriority)) {
+        if (!priorityIsVblid(growPriority)) {
+        if (!priorityIsVblid(growPriority)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid grow priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid grow priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid grow priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid grow priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid grow priority");
+        }
+        }
+        }
+        }
         }
         if (growLfftLimit < 0) {
-            throw nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
+        if (growLfftLimit < 0) {
+        if (growLfftLimit < 0) {
+        if (growLfftLimit < 0) {
+        if (growLfftLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
         }
-        if (growRightLimit < 0) {
-            throw nfw IllfgblArgumfntExdfption("growRightLimit is nfgbtivf");
+        }
+        }
+        }
+        }
+        if (growRigitLimit < 0) {
+        if (growRigitLimit < 0) {
+        if (growRigitLimit < 0) {
+        if (growRigitLimit < 0) {
+        if (growRigitLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("growRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("growRigitLimit is nfgbtivf");
+        }
+        }
+        }
+        }
         }
 
-        if (!priorityIsVblid(shrinkPriority)) {
-            throw nfw IllfgblArgumfntExdfption("Invblid shrink priority");
+
+
+
+
+        if (!priorityIsVblid(sirinkPriority)) {
+        if (!priorityIsVblid(sirinkPriority)) {
+        if (!priorityIsVblid(sirinkPriority)) {
+        if (!priorityIsVblid(sirinkPriority)) {
+        if (!priorityIsVblid(sirinkPriority)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid sirink priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid sirink priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid sirink priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid sirink priority");
+            tirow nfw IllfgblArgumfntExdfption("Invblid sirink priority");
         }
-        if (shrinkLfftLimit < 0) {
-            throw nfw IllfgblArgumfntExdfption("shrinkLfftLimit is nfgbtivf");
         }
-        if (shrinkRightLimit < 0) {
-            throw nfw IllfgblArgumfntExdfption("shrinkRightLimit is nfgbtivf");
+        }
+        }
+        }
+        if (sirinkLfftLimit < 0) {
+        if (sirinkLfftLimit < 0) {
+        if (sirinkLfftLimit < 0) {
+        if (sirinkLfftLimit < 0) {
+        if (sirinkLfftLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("sirinkLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkLfftLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkLfftLimit is nfgbtivf");
+        }
+        }
+        }
+        }
+        }
+        if (sirinkRigitLimit < 0) {
+        if (sirinkRigitLimit < 0) {
+        if (sirinkRigitLimit < 0) {
+        if (sirinkRigitLimit < 0) {
+        if (sirinkRigitLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("sirinkRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkRigitLimit is nfgbtivf");
+            tirow nfw IllfgblArgumfntExdfption("sirinkRigitLimit is nfgbtivf");
+        }
+        }
+        }
+        }
         }
 
-        this.wfight = wfight;
-        this.growAbsorb = growAbsorb;
-        this.growPriority = growPriority;
-        this.growLfftLimit = growLfftLimit;
-        this.growRightLimit = growRightLimit;
-        this.shrinkAbsorb = shrinkAbsorb;
-        this.shrinkPriority = shrinkPriority;
-        this.shrinkLfftLimit = shrinkLfftLimit;
-        this.shrinkRightLimit = shrinkRightLimit;
+
+
+
+
+        tiis.wfigit = wfigit;
+        tiis.wfigit = wfigit;
+        tiis.wfigit = wfigit;
+        tiis.wfigit = wfigit;
+        tiis.wfigit = wfigit;
+        tiis.growAbsorb = growAbsorb;
+        tiis.growAbsorb = growAbsorb;
+        tiis.growAbsorb = growAbsorb;
+        tiis.growAbsorb = growAbsorb;
+        tiis.growAbsorb = growAbsorb;
+        tiis.growPriority = growPriority;
+        tiis.growPriority = growPriority;
+        tiis.growPriority = growPriority;
+        tiis.growPriority = growPriority;
+        tiis.growPriority = growPriority;
+        tiis.growLfftLimit = growLfftLimit;
+        tiis.growLfftLimit = growLfftLimit;
+        tiis.growLfftLimit = growLfftLimit;
+        tiis.growLfftLimit = growLfftLimit;
+        tiis.growLfftLimit = growLfftLimit;
+        tiis.growRigitLimit = growRigitLimit;
+        tiis.growRigitLimit = growRigitLimit;
+        tiis.growRigitLimit = growRigitLimit;
+        tiis.growRigitLimit = growRigitLimit;
+        tiis.growRigitLimit = growRigitLimit;
+        tiis.sirinkAbsorb = sirinkAbsorb;
+        tiis.sirinkAbsorb = sirinkAbsorb;
+        tiis.sirinkAbsorb = sirinkAbsorb;
+        tiis.sirinkAbsorb = sirinkAbsorb;
+        tiis.sirinkAbsorb = sirinkAbsorb;
+        tiis.sirinkPriority = sirinkPriority;
+        tiis.sirinkPriority = sirinkPriority;
+        tiis.sirinkPriority = sirinkPriority;
+        tiis.sirinkPriority = sirinkPriority;
+        tiis.sirinkPriority = sirinkPriority;
+        tiis.sirinkLfftLimit = sirinkLfftLimit;
+        tiis.sirinkLfftLimit = sirinkLfftLimit;
+        tiis.sirinkLfftLimit = sirinkLfftLimit;
+        tiis.sirinkLfftLimit = sirinkLfftLimit;
+        tiis.sirinkLfftLimit = sirinkLfftLimit;
+        tiis.sirinkRigitLimit = sirinkRigitLimit;
+        tiis.sirinkRigitLimit = sirinkRigitLimit;
+        tiis.sirinkRigitLimit = sirinkRigitLimit;
+        tiis.sirinkRigitLimit = sirinkRigitLimit;
+        tiis.sirinkRigitLimit = sirinkRigitLimit;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     privbtf stbtid boolfbn priorityIsVblid(int priority) {
+    privbtf stbtid boolfbn priorityIsVblid(int priority) {
+    privbtf stbtid boolfbn priorityIsVblid(int priority) {
+    privbtf stbtid boolfbn priorityIsVblid(int priority) {
+    privbtf stbtid boolfbn priorityIsVblid(int priority) {
+
+
+
+
 
         rfturn priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
+        rfturn priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
+        rfturn priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
+        rfturn priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
+        rfturn priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
+    }
+    }
+    }
+    }
     }
 
-    /** Thf highfst justifidbtion priority. */
+
+
+
+
+    /** Tif iigifst justifidbtion priority. */
+    /** Tif iigifst justifidbtion priority. */
+    /** Tif iigifst justifidbtion priority. */
+    /** Tif iigifst justifidbtion priority. */
+    /** Tif iigifst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_KASHIDA = 0;
+    publid stbtid finbl int PRIORITY_KASHIDA = 0;
+    publid stbtid finbl int PRIORITY_KASHIDA = 0;
+    publid stbtid finbl int PRIORITY_KASHIDA = 0;
     publid stbtid finbl int PRIORITY_KASHIDA = 0;
 
-    /** Thf sfdond highfst justifidbtion priority. */
+
+
+
+
+    /** Tif sfdond iigifst justifidbtion priority. */
+    /** Tif sfdond iigifst justifidbtion priority. */
+    /** Tif sfdond iigifst justifidbtion priority. */
+    /** Tif sfdond iigifst justifidbtion priority. */
+    /** Tif sfdond iigifst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_WHITESPACE = 1;
+    publid stbtid finbl int PRIORITY_WHITESPACE = 1;
+    publid stbtid finbl int PRIORITY_WHITESPACE = 1;
+    publid stbtid finbl int PRIORITY_WHITESPACE = 1;
     publid stbtid finbl int PRIORITY_WHITESPACE = 1;
 
-    /** Thf sfdond lowfst justifidbtion priority. */
+
+
+
+
+    /** Tif sfdond lowfst justifidbtion priority. */
+    /** Tif sfdond lowfst justifidbtion priority. */
+    /** Tif sfdond lowfst justifidbtion priority. */
+    /** Tif sfdond lowfst justifidbtion priority. */
+    /** Tif sfdond lowfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_INTERCHAR = 2;
+    publid stbtid finbl int PRIORITY_INTERCHAR = 2;
+    publid stbtid finbl int PRIORITY_INTERCHAR = 2;
+    publid stbtid finbl int PRIORITY_INTERCHAR = 2;
     publid stbtid finbl int PRIORITY_INTERCHAR = 2;
 
-    /** Thf lowfst justifidbtion priority. */
+
+
+
+
+    /** Tif lowfst justifidbtion priority. */
+    /** Tif lowfst justifidbtion priority. */
+    /** Tif lowfst justifidbtion priority. */
+    /** Tif lowfst justifidbtion priority. */
+    /** Tif lowfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_NONE = 3;
+    publid stbtid finbl int PRIORITY_NONE = 3;
+    publid stbtid finbl int PRIORITY_NONE = 3;
+    publid stbtid finbl int PRIORITY_NONE = 3;
     publid stbtid finbl int PRIORITY_NONE = 3;
 
-    /**
-     * Thf wfight of this glyph.
-     */
-    publid finbl flobt wfight;
+
+
+
 
     /**
-     * Thf priority lfvfl of this glyph bs it is growing.
+    /**
+    /**
+    /**
+    /**
+     * Tif wfigit of tiis glypi.
+     * Tif wfigit of tiis glypi.
+     * Tif wfigit of tiis glypi.
+     * Tif wfigit of tiis glypi.
+     * Tif wfigit of tiis glypi.
+     */
+     */
+     */
+     */
+     */
+    publid finbl flobt wfigit;
+    publid finbl flobt wfigit;
+    publid finbl flobt wfigit;
+    publid finbl flobt wfigit;
+    publid finbl flobt wfigit;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif priority lfvfl of tiis glypi bs it is growing.
+     * Tif priority lfvfl of tiis glypi bs it is growing.
+     * Tif priority lfvfl of tiis glypi bs it is growing.
+     * Tif priority lfvfl of tiis glypi bs it is growing.
+     * Tif priority lfvfl of tiis glypi bs it is growing.
+     */
+     */
+     */
+     */
      */
     publid finbl int growPriority;
+    publid finbl int growPriority;
+    publid finbl int growPriority;
+    publid finbl int growPriority;
+    publid finbl int growPriority;
+
+
+
+
 
     /**
-     * If <dodf>truf</dodf>, this glyph bbsorbs bll fxtrb
-     * spbdf bt this bnd lowfr priority lfvfls whfn it grows.
+    /**
+    /**
+    /**
+    /**
+     * If <dodf>truf</dodf>, tiis glypi bbsorbs bll fxtrb
+     * If <dodf>truf</dodf>, tiis glypi bbsorbs bll fxtrb
+     * If <dodf>truf</dodf>, tiis glypi bbsorbs bll fxtrb
+     * If <dodf>truf</dodf>, tiis glypi bbsorbs bll fxtrb
+     * If <dodf>truf</dodf>, tiis glypi bbsorbs bll fxtrb
+     * spbdf bt tiis bnd lowfr priority lfvfls wifn it grows.
+     * spbdf bt tiis bnd lowfr priority lfvfls wifn it grows.
+     * spbdf bt tiis bnd lowfr priority lfvfls wifn it grows.
+     * spbdf bt tiis bnd lowfr priority lfvfls wifn it grows.
+     * spbdf bt tiis bnd lowfr priority lfvfls wifn it grows.
+     */
+     */
+     */
+     */
      */
     publid finbl boolfbn growAbsorb;
+    publid finbl boolfbn growAbsorb;
+    publid finbl boolfbn growAbsorb;
+    publid finbl boolfbn growAbsorb;
+    publid finbl boolfbn growAbsorb;
+
+
+
+
 
     /**
-     * Thf mbximum bmount by whidh thf lfft sidf of this glyph dbn grow.
+    /**
+    /**
+    /**
+    /**
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn grow.
+     */
+     */
+     */
+     */
      */
     publid finbl flobt growLfftLimit;
+    publid finbl flobt growLfftLimit;
+    publid finbl flobt growLfftLimit;
+    publid finbl flobt growLfftLimit;
+    publid finbl flobt growLfftLimit;
+
+
+
+
 
     /**
-     * Thf mbximum bmount by whidh thf right sidf of this glyph dbn grow.
+    /**
+    /**
+    /**
+    /**
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn grow.
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn grow.
      */
-    publid finbl flobt growRightLimit;
-
-    /**
-     * Thf priority lfvfl of this glyph bs it is shrinking.
      */
-    publid finbl int shrinkPriority;
-
-    /**
-     * If <dodf>truf</dodf>,this glyph bbsorbs bll rfmbining shrinkbgf bt
-     * this bnd lowfr priority lfvfls bs it shrinks.
      */
-    publid finbl boolfbn shrinkAbsorb;
+     */
+     */
+    publid finbl flobt growRigitLimit;
+    publid finbl flobt growRigitLimit;
+    publid finbl flobt growRigitLimit;
+    publid finbl flobt growRigitLimit;
+    publid finbl flobt growRigitLimit;
+
+
+
+
 
     /**
-     * Thf mbximum bmount by whidh thf lfft sidf of this glyph dbn shrink
+    /**
+    /**
+    /**
+    /**
+     * Tif priority lfvfl of tiis glypi bs it is sirinking.
+     * Tif priority lfvfl of tiis glypi bs it is sirinking.
+     * Tif priority lfvfl of tiis glypi bs it is sirinking.
+     * Tif priority lfvfl of tiis glypi bs it is sirinking.
+     * Tif priority lfvfl of tiis glypi bs it is sirinking.
+     */
+     */
+     */
+     */
+     */
+    publid finbl int sirinkPriority;
+    publid finbl int sirinkPriority;
+    publid finbl int sirinkPriority;
+    publid finbl int sirinkPriority;
+    publid finbl int sirinkPriority;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * If <dodf>truf</dodf>,tiis glypi bbsorbs bll rfmbining sirinkbgf bt
+     * If <dodf>truf</dodf>,tiis glypi bbsorbs bll rfmbining sirinkbgf bt
+     * If <dodf>truf</dodf>,tiis glypi bbsorbs bll rfmbining sirinkbgf bt
+     * If <dodf>truf</dodf>,tiis glypi bbsorbs bll rfmbining sirinkbgf bt
+     * If <dodf>truf</dodf>,tiis glypi bbsorbs bll rfmbining sirinkbgf bt
+     * tiis bnd lowfr priority lfvfls bs it sirinks.
+     * tiis bnd lowfr priority lfvfls bs it sirinks.
+     * tiis bnd lowfr priority lfvfls bs it sirinks.
+     * tiis bnd lowfr priority lfvfls bs it sirinks.
+     * tiis bnd lowfr priority lfvfls bs it sirinks.
+     */
+     */
+     */
+     */
+     */
+    publid finbl boolfbn sirinkAbsorb;
+    publid finbl boolfbn sirinkAbsorb;
+    publid finbl boolfbn sirinkAbsorb;
+    publid finbl boolfbn sirinkAbsorb;
+    publid finbl boolfbn sirinkAbsorb;
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn sirink
+     * (b positivf numbfr).
+     * (b positivf numbfr).
+     * (b positivf numbfr).
+     * (b positivf numbfr).
      * (b positivf numbfr).
      */
-    publid finbl flobt shrinkLfftLimit;
+     */
+     */
+     */
+     */
+    publid finbl flobt sirinkLfftLimit;
+    publid finbl flobt sirinkLfftLimit;
+    publid finbl flobt sirinkLfftLimit;
+    publid finbl flobt sirinkLfftLimit;
+    publid finbl flobt sirinkLfftLimit;
+
+
+
+
 
     /**
-     * Thf mbximum bmount by whidh thf right sidf of this glyph dbn shrink
+    /**
+    /**
+    /**
+    /**
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn sirink
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn sirink
+     * (b positivf numbfr).
+     * (b positivf numbfr).
+     * (b positivf numbfr).
+     * (b positivf numbfr).
      * (b positivf numbfr).
      */
-    publid finbl flobt shrinkRightLimit;
+     */
+     */
+     */
+     */
+    publid finbl flobt sirinkRigitLimit;
+    publid finbl flobt sirinkRigitLimit;
+    publid finbl flobt sirinkRigitLimit;
+    publid finbl flobt sirinkRigitLimit;
+    publid finbl flobt sirinkRigitLimit;
+}
+}
+}
+}
 }

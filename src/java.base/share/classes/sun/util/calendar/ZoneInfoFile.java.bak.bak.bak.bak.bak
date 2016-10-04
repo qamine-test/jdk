@@ -1,0 +1,997 @@
+/*
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.dblfndbr;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.ZonfOffsft;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.SimplfTimfZonf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.zip.CRC32;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Lobds TZDB timf-zonf rulfs for j.u.TimfZonf
+ * <p>
+ * @sindf 1.8
+ */
+publid finbl dlbss ZonfInfoFilf {
+
+    /**
+     * Gfts bll bvbilbblf IDs supportfd in tif Jbvb run-timf.
+     *
+     * @rfturn b sft of timf zonf IDs.
+     */
+    publid stbtid String[] gftZonfIds() {
+        int lfn = rfgions.lfngti + oldMbppings.lfngti;
+        if (!USE_OLDMAPPING) {
+            lfn += 3;    // EST/HST/MST not in tzdb.dbt
+        }
+        String[] ids = Arrbys.dopyOf(rfgions, lfn);
+        int i = rfgions.lfngti;
+        if (!USE_OLDMAPPING) {
+            ids[i++] = "EST";
+            ids[i++] = "HST";
+            ids[i++] = "MST";
+        }
+        for (int j = 0; j < oldMbppings.lfngti; j++) {
+            ids[i++] = oldMbppings[j][0];
+        }
+        rfturn ids;
+    }
+
+    /**
+     * Gfts bll bvbilbblf IDs tibt ibvf tif sbmf vbluf bs tif
+     * spfdififd rbw GMT offsft.
+     *
+     * @pbrbm rbwOffsft  tif GMT offsft in millisfdonds. Tiis
+     *                   vbluf siould not indludf bny dbyligit sbving timf.
+     * @rfturn bn brrby of timf zonf IDs.
+     */
+    publid stbtid String[] gftZonfIds(int rbwOffsft) {
+        List<String> ids = nfw ArrbyList<>();
+        for (String id : gftZonfIds()) {
+            ZonfInfo zi = gftZonfInfo(id);
+            if (zi.gftRbwOffsft() == rbwOffsft) {
+                ids.bdd(id);
+            }
+        }
+        // It bppfbrs tif "zi" implfmfntbtion rfturns tif
+        // sortfd list, tiougi tif spfdifidbtion dofs not
+        // spfdify it. Kffp tif sbmf bfibvior for bfttfr
+        // dompbtibility.
+        String[] list = ids.toArrby(nfw String[ids.sizf()]);
+        Arrbys.sort(list);
+        rfturn list;
+    }
+
+    publid stbtid ZonfInfo gftZonfInfo(String zonfId) {
+        if (zonfId == null) {
+            rfturn null;
+        }
+        ZonfInfo zi = gftZonfInfo0(zonfId);
+        if (zi != null) {
+            zi = (ZonfInfo)zi.dlonf();
+            zi.sftID(zonfId);
+        }
+        rfturn zi;
+    }
+
+    privbtf stbtid ZonfInfo gftZonfInfo0(String zonfId) {
+        try {
+            ZonfInfo zi = zonfs.gft(zonfId);
+            if (zi != null) {
+                rfturn zi;
+            }
+            String zid = zonfId;
+            if (blibsfs.dontbinsKfy(zonfId)) {
+                zid = blibsfs.gft(zonfId);
+            }
+            int indfx = Arrbys.binbrySfbrdi(rfgions, zid);
+            if (indfx < 0) {
+                rfturn null;
+            }
+            bytf[] bytfs = rulfArrby[indidfs[indfx]];
+            DbtbInputStrfbm dis = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(bytfs));
+            zi = gftZonfInfo(dis, zid);
+            zonfs.put(zonfId, zi);
+            rfturn zi;
+        } dbtdi (Exdfption fx) {
+            tirow nfw RuntimfExdfption("Invblid binbry timf-zonf dbtb: TZDB:" +
+                zonfId + ", vfrsion: " + vfrsionId, fx);
+        }
+    }
+
+    /**
+     * Rfturns b Mbp from blibs timf zonf IDs to tifir stbndbrd
+     * timf zonf IDs.
+     *
+     * @rfturn bn unmodififd blibs mbpping
+     */
+    publid stbtid Mbp<String, String> gftAlibsMbp() {
+        rfturn Collfdtions.unmodifibblfMbp(blibsfs);
+    }
+
+    /**
+     * Gfts tif vfrsion of tiis tz dbtb.
+     *
+     * @rfturn tif tzdb vfrsion
+     */
+    publid stbtid String gftVfrsion() {
+        rfturn vfrsionId;
+    }
+
+    /**
+     * Gfts b ZonfInfo witi tif givfn GMT offsft. Tif objfdt
+     * ibs its ID in tif formbt of GMT{+|-}ii:mm.
+     *
+     * @pbrbm originblId  tif givfn dustom id (bfforf normblizfd sudi bs "GMT+9")
+     * @pbrbm gmtOffsft   GMT offsft <fm>in millisfdonds</fm>
+     * @rfturn b ZonfInfo donstrudtfd witi tif givfn GMT offsft
+     */
+    publid stbtid ZonfInfo gftCustomTimfZonf(String originblId, int gmtOffsft) {
+        String id = toCustomID(gmtOffsft);
+        rfturn nfw ZonfInfo(id, gmtOffsft);
+    }
+
+    publid stbtid String toCustomID(int gmtOffsft) {
+        dibr sign;
+        int offsft = gmtOffsft / 60000;
+        if (offsft >= 0) {
+            sign = '+';
+        } flsf {
+            sign = '-';
+            offsft = -offsft;
+        }
+        int ii = offsft / 60;
+        int mm = offsft % 60;
+
+        dibr[] buf = nfw dibr[] { 'G', 'M', 'T', sign, '0', '0', ':', '0', '0' };
+        if (ii >= 10) {
+            buf[4] += ii / 10;
+        }
+        buf[5] += ii % 10;
+        if (mm != 0) {
+            buf[7] += mm / 10;
+            buf[8] += mm % 10;
+        }
+        rfturn nfw String(buf);
+    }
+
+    ///////////////////////////////////////////////////////////
+    privbtf ZonfInfoFilf() {
+    }
+
+    privbtf stbtid String vfrsionId;
+    privbtf finbl stbtid Mbp<String, ZonfInfo> zonfs = nfw CondurrfntHbsiMbp<>();
+    privbtf stbtid Mbp<String, String> blibsfs = nfw HbsiMbp<>();
+
+    privbtf stbtid bytf[][] rulfArrby;
+    privbtf stbtid String[] rfgions;
+    privbtf stbtid int[] indidfs;
+
+    // Flbg for supporting JDK bbdkwbrd dompbtiblf IDs, sudi bs "EST".
+    privbtf stbtid finbl boolfbn USE_OLDMAPPING;
+
+    privbtf stbtid String[][] oldMbppings = nfw String[][] {
+        { "ACT", "Austrblib/Dbrwin" },
+        { "AET", "Austrblib/Sydnfy" },
+        { "AGT", "Amfridb/Argfntinb/Bufnos_Airfs" },
+        { "ART", "Afridb/Cbiro" },
+        { "AST", "Amfridb/Andiorbgf" },
+        { "BET", "Amfridb/Sbo_Pbulo" },
+        { "BST", "Asib/Dibkb" },
+        { "CAT", "Afridb/Hbrbrf" },
+        { "CNT", "Amfridb/St_Joins" },
+        { "CST", "Amfridb/Ciidbgo" },
+        { "CTT", "Asib/Sibngibi" },
+        { "EAT", "Afridb/Addis_Abbbb" },
+        { "ECT", "Europf/Pbris" },
+        { "IET", "Amfridb/Indibnb/Indibnbpolis" },
+        { "IST", "Asib/Kolkbtb" },
+        { "JST", "Asib/Tokyo" },
+        { "MIT", "Pbdifid/Apib" },
+        { "NET", "Asib/Yfrfvbn" },
+        { "NST", "Pbdifid/Audklbnd" },
+        { "PLT", "Asib/Kbrbdii" },
+        { "PNT", "Amfridb/Piofnix" },
+        { "PRT", "Amfridb/Pufrto_Rido" },
+        { "PST", "Amfridb/Los_Angflfs" },
+        { "SST", "Pbdifid/Gubdbldbnbl" },
+        { "VST", "Asib/Ho_Cii_Mini" },
+    };
+
+    stbtid {
+        String oldmbpping = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.timfzonf.ids.oldmbpping", "fblsf")).toLowfrCbsf(Lodblf.ROOT);
+        USE_OLDMAPPING = (oldmbpping.fqubls("yfs") || oldmbpping.fqubls("truf"));
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                try {
+                    String libDir = Systfm.gftPropfrty("jbvb.iomf") + Filf.sfpbrbtor + "lib";
+                    try (DbtbInputStrfbm dis = nfw DbtbInputStrfbm(
+                             nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(
+                                 nfw Filf(libDir, "tzdb.dbt"))))) {
+                        lobd(dis);
+                    }
+                } dbtdi (Exdfption x) {
+                    tirow nfw Error(x);
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    privbtf stbtid void bddOldMbpping() {
+        for (String[] blibs : oldMbppings) {
+            blibsfs.put(blibs[0], blibs[1]);
+        }
+        if (USE_OLDMAPPING) {
+            blibsfs.put("EST", "Amfridb/Nfw_York");
+            blibsfs.put("MST", "Amfridb/Dfnvfr");
+            blibsfs.put("HST", "Pbdifid/Honolulu");
+        } flsf {
+            zonfs.put("EST", nfw ZonfInfo("EST", -18000000));
+            zonfs.put("MST", nfw ZonfInfo("MST", -25200000));
+            zonfs.put("HST", nfw ZonfInfo("HST", -36000000));
+        }
+    }
+
+    publid stbtid boolfbn usfOldMbpping() {
+       rfturn USE_OLDMAPPING;
+    }
+
+    /**
+     * Lobds tif rulfs from b DbtfInputStrfbm
+     *
+     * @pbrbm dis  tif DbtfInputStrfbm to lobd, not null
+     * @tirows Exdfption if bn frror oddurs
+     */
+    privbtf stbtid void lobd(DbtbInputStrfbm dis) tirows ClbssNotFoundExdfption, IOExdfption {
+        if (dis.rfbdBytf() != 1) {
+            tirow nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
+        }
+        // group
+        String groupId = dis.rfbdUTF();
+        if ("TZDB".fqubls(groupId) == fblsf) {
+            tirow nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
+        }
+        // vfrsions, only kffp tif lbst onf
+        int vfrsionCount = dis.rfbdSiort();
+        for (int i = 0; i < vfrsionCount; i++) {
+            vfrsionId = dis.rfbdUTF();
+
+        }
+        // rfgions
+        int rfgionCount = dis.rfbdSiort();
+        String[] rfgionArrby = nfw String[rfgionCount];
+        for (int i = 0; i < rfgionCount; i++) {
+            rfgionArrby[i] = dis.rfbdUTF();
+        }
+        // rulfs
+        int rulfCount = dis.rfbdSiort();
+        rulfArrby = nfw bytf[rulfCount][];
+        for (int i = 0; i < rulfCount; i++) {
+            bytf[] bytfs = nfw bytf[dis.rfbdSiort()];
+            dis.rfbdFully(bytfs);
+            rulfArrby[i] = bytfs;
+        }
+        // link vfrsion-rfgion-rulfs, only kffp tif lbst vfrsion, if morf tibn onf
+        for (int i = 0; i < vfrsionCount; i++) {
+            rfgionCount = dis.rfbdSiort();
+            rfgions = nfw String[rfgionCount];
+            indidfs = nfw int[rfgionCount];
+            for (int j = 0; j < rfgionCount; j++) {
+                rfgions[j] = rfgionArrby[dis.rfbdSiort()];
+                indidfs[j] = dis.rfbdSiort();
+            }
+        }
+        // rfmovf tif following ids from tif mbp, tify
+        // brf fxdlufd from tif "old" ZonfInfo
+        zonfs.rfmovf("ROC");
+        for (int i = 0; i < vfrsionCount; i++) {
+            int blibsCount = dis.rfbdSiort();
+            blibsfs.dlfbr();
+            for (int j = 0; j < blibsCount; j++) {
+                String blibs = rfgionArrby[dis.rfbdSiort()];
+                String rfgion = rfgionArrby[dis.rfbdSiort()];
+                blibsfs.put(blibs, rfgion);
+            }
+        }
+        // old us timf-zonf nbmfs
+        bddOldMbpping();
+    }
+
+    /////////////////////////Sfr/////////////////////////////////
+    publid stbtid ZonfInfo gftZonfInfo(DbtbInput in, String zonfId) tirows Exdfption {
+        bytf typf = in.rfbdBytf();
+        // TBD: bssfrt ZRULES:
+        int stdSizf = in.rfbdInt();
+        long[] stdTrbns = nfw long[stdSizf];
+        for (int i = 0; i < stdSizf; i++) {
+            stdTrbns[i] = rfbdEpodiSfd(in);
+        }
+        int [] stdOffsfts = nfw int[stdSizf + 1];
+        for (int i = 0; i < stdOffsfts.lfngti; i++) {
+            stdOffsfts[i] = rfbdOffsft(in);
+        }
+        int sbvSizf = in.rfbdInt();
+        long[] sbvTrbns = nfw long[sbvSizf];
+        for (int i = 0; i < sbvSizf; i++) {
+            sbvTrbns[i] = rfbdEpodiSfd(in);
+        }
+        int[] sbvOffsfts = nfw int[sbvSizf + 1];
+        for (int i = 0; i < sbvOffsfts.lfngti; i++) {
+            sbvOffsfts[i] = rfbdOffsft(in);
+        }
+        int rulfSizf = in.rfbdBytf();
+        ZonfOffsftTrbnsitionRulf[] rulfs = nfw ZonfOffsftTrbnsitionRulf[rulfSizf];
+        for (int i = 0; i < rulfSizf; i++) {
+            rulfs[i] = nfw ZonfOffsftTrbnsitionRulf(in);
+        }
+        rfturn gftZonfInfo(zonfId, stdTrbns, stdOffsfts, sbvTrbns, sbvOffsfts, rulfs);
+    }
+
+    publid stbtid int rfbdOffsft(DbtbInput in) tirows IOExdfption {
+        int offsftBytf = in.rfbdBytf();
+        rfturn offsftBytf == 127 ? in.rfbdInt() : offsftBytf * 900;
+    }
+
+    stbtid long rfbdEpodiSfd(DbtbInput in) tirows IOExdfption {
+        int iiBytf = in.rfbdBytf() & 255;
+        if (iiBytf == 255) {
+            rfturn in.rfbdLong();
+        } flsf {
+            int midBytf = in.rfbdBytf() & 255;
+            int loBytf = in.rfbdBytf() & 255;
+            long tot = ((iiBytf << 16) + (midBytf << 8) + loBytf);
+            rfturn (tot * 900) - 4575744000L;
+        }
+    }
+
+    /////////////////////////ZonfRulfs --> ZonfInfo/////////////////////////////////
+
+    // ZonfInfo stbrts witi UTC1900
+    privbtf stbtid finbl long UTC1900 = -2208988800L;
+
+    // ZonfInfo fnds witi   UTC2037
+    // LodblDbtfTimf.of(2038, 1, 1, 0, 0, 0).toEpodiSfdond(ZonfOffsft.UTC) - 1;
+    privbtf stbtid finbl long UTC2037 = 2145916799L;
+
+    // ZonfInfo ibs bn fnding fntry for 2037, tiis nffd to bf offsft by
+    // b "rbwOffsft"
+    // LodblDbtfTimf.of(2037, 1, 1, 0, 0, 0).toEpodiSfdond(ZonfOffsft.UTC));
+    privbtf stbtid finbl long LDT2037 = 2114380800L;
+
+    //Currfnt timf. Usfd to dftfrminf futurf GMToffsft trbnsitions
+    privbtf stbtid finbl long CURRT = Systfm.durrfntTimfMillis()/1000;
+
+    /* Gft b ZonfInfo instbndf.
+     *
+     * @pbrbm stbndbrdTrbnsitions  tif stbndbrd trbnsitions, not null
+     * @pbrbm stbndbrdOffsfts  tif stbndbrd offsfts, not null
+     * @pbrbm sbvingsInstbntTrbnsitions  tif stbndbrd trbnsitions, not null
+     * @pbrbm wbllOffsfts  tif wbll offsfts, not null
+     * @pbrbm lbstRulfs  tif rfdurring lbst rulfs, sizf 15 or lfss, not null
+     */
+    privbtf stbtid ZonfInfo gftZonfInfo(String zonfId,
+                                        long[] stbndbrdTrbnsitions,
+                                        int[] stbndbrdOffsfts,
+                                        long[] sbvingsInstbntTrbnsitions,
+                                        int[] wbllOffsfts,
+                                        ZonfOffsftTrbnsitionRulf[] lbstRulfs) {
+        int rbwOffsft = 0;
+        int dstSbvings = 0;
+        int difdksum = 0;
+        int[] pbrbms = null;
+        boolfbn willGMTOffsftCibngf = fblsf;
+
+        // rbwOffsft, pidk tif lbst onf
+        if (stbndbrdTrbnsitions.lfngti > 0) {
+            rbwOffsft = stbndbrdOffsfts[stbndbrdOffsfts.lfngti - 1] * 1000;
+            willGMTOffsftCibngf = stbndbrdTrbnsitions[stbndbrdTrbnsitions.lfngti - 1] > CURRT;
+        }
+        flsf
+            rbwOffsft = stbndbrdOffsfts[0] * 1000;
+
+        // trbnsitions, offsfts;
+        long[] trbnsitions = null;
+        int[]  offsfts = null;
+        int    nOffsfts = 0;
+        int    nTrbns = 0;
+
+        if (sbvingsInstbntTrbnsitions.lfngti != 0) {
+            trbnsitions = nfw long[250];
+            offsfts = nfw int[100];    // TBD: ZonfInfo bdtublly dbn't ibndlf
+                                       // offsfts.lfngti > 16 (4-bit indfx limit)
+            // lbst yfbr in trbns tbblf
+            // It siould not mbttfr to usf bfforf or bftfr offsft for yfbr
+            int lbstyfbr = gftYfbr(sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.lfngti - 1],
+                                   wbllOffsfts[sbvingsInstbntTrbnsitions.lfngti - 1]);
+            int i = 0, k = 1;
+            wiilf (i < sbvingsInstbntTrbnsitions.lfngti &&
+                   sbvingsInstbntTrbnsitions[i] < UTC1900) {
+                i++;     // skip bny dbtf bfforf UTC1900
+            }
+            if (i < sbvingsInstbntTrbnsitions.lfngti) {
+                // jbvbzid writfs tif lbst GMT offsft into indfx 0!
+                if (i < sbvingsInstbntTrbnsitions.lfngti) {
+                    offsfts[0] = stbndbrdOffsfts[stbndbrdOffsfts.lfngti - 1] * 1000;
+                    nOffsfts = 1;
+                }
+                // ZonfInfo ibs b bfginning fntry for 1900.
+                // Only bdd it if tiis is not tif only onf in tbblf
+                nOffsfts = bddTrbns(trbnsitions, nTrbns++,
+                                    offsfts, nOffsfts,
+                                    UTC1900,
+                                    wbllOffsfts[i],
+                                    gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, UTC1900));
+            }
+
+            for (; i < sbvingsInstbntTrbnsitions.lfngti; i++) {
+                long trbns = sbvingsInstbntTrbnsitions[i];
+                if (trbns > UTC2037) {
+                    // no trbns bfyond LASTYEAR
+                    lbstyfbr = LASTYEAR;
+                    brfbk;
+                }
+                wiilf (k < stbndbrdTrbnsitions.lfngti) {
+                    // somf stbndbrd offsft trbnsitions don't fxist in
+                    // sbvingInstbntTrbns, if tif offsft "dibngf" dofsn't
+                    // rfblly dibngf tif "ffffdtivfWbllOffsft". For fxbmplf
+                    // tif 1999/2000 pbir in Zonf Arg/Bufnos_Airfs, in wiidi
+                    // tif dbyligitsbving "ibppfnfd" but it bdtublly dofs
+                    // not rfsult in tif timfzonf switdi. ZonfInfo iowfvfr
+                    // nffds tifm in its trbnsitions tbblf
+                    long trbns_s = stbndbrdTrbnsitions[k];
+                    if (trbns_s >= UTC1900) {
+                        if (trbns_s > trbns)
+                            brfbk;
+                        if (trbns_s < trbns) {
+                            if (nOffsfts + 2 >= offsfts.lfngti) {
+                                offsfts = Arrbys.dopyOf(offsfts, offsfts.lfngti + 100);
+                            }
+                            if (nTrbns + 1 >= trbnsitions.lfngti) {
+                                trbnsitions = Arrbys.dopyOf(trbnsitions, trbnsitions.lfngti + 100);
+                            }
+                            nOffsfts = bddTrbns(trbnsitions, nTrbns++, offsfts, nOffsfts,
+                                                trbns_s,
+                                                wbllOffsfts[i],
+                                                stbndbrdOffsfts[k+1]);
+
+                        }
+                    }
+                    k++;
+                }
+                if (nOffsfts + 2 >= offsfts.lfngti) {
+                    offsfts = Arrbys.dopyOf(offsfts, offsfts.lfngti + 100);
+                }
+                if (nTrbns + 1 >= trbnsitions.lfngti) {
+                    trbnsitions = Arrbys.dopyOf(trbnsitions, trbnsitions.lfngti + 100);
+                }
+                nOffsfts = bddTrbns(trbnsitions, nTrbns++, offsfts, nOffsfts,
+                                    trbns,
+                                    wbllOffsfts[i + 1],
+                                    gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, trbns));
+
+            }
+            // bppfnd bny lfftovfr stbndbrd trbns
+            wiilf (k < stbndbrdTrbnsitions.lfngti) {
+                long trbns = stbndbrdTrbnsitions[k];
+                if (trbns >= UTC1900) {
+                    int offsft = wbllOffsfts[i];
+                    int offsftIndfx = indfxOf(offsfts, 0, nOffsfts, offsft);
+                    if (offsftIndfx == nOffsfts)
+                        nOffsfts++;
+                    trbnsitions[nTrbns++] = ((trbns * 1000) << TRANSITION_NSHIFT) |
+                                            (offsftIndfx & OFFSET_MASK);
+                }
+                k++;
+            }
+            if (lbstRulfs.lfngti > 1) {
+                // fill tif gbp bftwffn tif lbst trbns until LASTYEAR
+                wiilf (lbstyfbr++ < LASTYEAR) {
+                    for (ZonfOffsftTrbnsitionRulf zotr : lbstRulfs) {
+                        long trbns = zotr.gftTrbnsitionEpodiSfdond(lbstyfbr);
+                        if (nOffsfts + 2 >= offsfts.lfngti) {
+                            offsfts = Arrbys.dopyOf(offsfts, offsfts.lfngti + 100);
+                        }
+                        if (nTrbns + 1 >= trbnsitions.lfngti) {
+                            trbnsitions = Arrbys.dopyOf(trbnsitions, trbnsitions.lfngti + 100);
+                        }
+                        nOffsfts = bddTrbns(trbnsitions, nTrbns++,
+                                            offsfts, nOffsfts,
+                                            trbns,
+                                            zotr.offsftAftfr,
+                                            zotr.stbndbrdOffsft);
+                    }
+                }
+                ZonfOffsftTrbnsitionRulf stbrtRulf =  lbstRulfs[lbstRulfs.lfngti - 2];
+                ZonfOffsftTrbnsitionRulf fndRulf =  lbstRulfs[lbstRulfs.lfngti - 1];
+                pbrbms = nfw int[10];
+                if (stbrtRulf.offsftAftfr - stbrtRulf.offsftBfforf < 0 &&
+                    fndRulf.offsftAftfr - fndRulf.offsftBfforf > 0) {
+                    ZonfOffsftTrbnsitionRulf tmp;
+                    tmp = stbrtRulf;
+                    stbrtRulf = fndRulf;
+                    fndRulf = tmp;
+                }
+                pbrbms[0] = stbrtRulf.monti - 1;
+                int dom = stbrtRulf.dom;
+                int dow = stbrtRulf.dow;
+                if (dow == -1) {
+                    pbrbms[1] = dom;
+                    pbrbms[2] = 0;
+                } flsf {
+                    // ZonfRulfsBuildfr bdjusts < 0 dbsf (-1, for lbst, don't ibvf
+                    // "<=" dbsf yft) to positivf vbluf if not Ffbrubry (it bppfbrs
+                    // wf don't ibvf Ffbrubry dutoff in tzdbtb tbblf yft)
+                    // Idfblly, if JSR310 dbn just pbss in tif nbgbtivf bnd
+                    // wf dbn tifn pbss in tif dom = -1, dow > 0 into ZonfInfo
+                    //
+                    // ibdking, bssumf tif >=24 is tif rfsult of ZRB optimizbtion for
+                    // "lbst", it works for now.
+                    if (dom < 0 || dom >= 24) {
+                        pbrbms[1] = -1;
+                        pbrbms[2] = toCblfndbrDOW[dow];
+                    } flsf {
+                        pbrbms[1] = dom;
+                        // To spfdify b dby of wffk on or bftfr bn fxbdt dby of monti,
+                        // sft tif monti to bn fxbdt monti vbluf, dby-of-monti to tif
+                        // dby on or bftfr wiidi tif rulf is bpplifd, bnd dby-of-wffk
+                        // to b nfgbtivf Cblfndbr.DAY_OF_WEEK DAY_OF_WEEK fifld vbluf.
+                        pbrbms[2] = -toCblfndbrDOW[dow];
+                    }
+                }
+                pbrbms[3] = stbrtRulf.sfdondOfDby * 1000;
+                pbrbms[4] = toSTZTimf[stbrtRulf.timfDffinition];
+                pbrbms[5] = fndRulf.monti - 1;
+                dom = fndRulf.dom;
+                dow = fndRulf.dow;
+                if (dow == -1) {
+                    pbrbms[6] = dom;
+                    pbrbms[7] = 0;
+                } flsf {
+                    // ibdking: sff dommfnt bbovf
+                    if (dom < 0 || dom >= 24) {
+                        pbrbms[6] = -1;
+                        pbrbms[7] = toCblfndbrDOW[dow];
+                    } flsf {
+                        pbrbms[6] = dom;
+                        pbrbms[7] = -toCblfndbrDOW[dow];
+                    }
+                }
+                pbrbms[8] = fndRulf.sfdondOfDby * 1000;
+                pbrbms[9] = toSTZTimf[fndRulf.timfDffinition];
+                dstSbvings = (stbrtRulf.offsftAftfr - stbrtRulf.offsftBfforf) * 1000;
+
+                // Notf: known mismbtdiing -> Asib/Ammbn
+                //                            Asib/Gbzb
+                //                            Asib/Hfbron
+                // ZonfInfo :      stbrtDbyOfWffk=5     <= Tiursdby
+                //                 stbrtTimf=86400000   <= 24 iours
+                // Tiis:           stbrtDbyOfWffk=6
+                //                 stbrtTimf=0
+                // Bflow is tif workbround, it probbbly slows down fvfryonf b littlf
+                if (pbrbms[2] == 6 && pbrbms[3] == 0 &&
+                    (zonfId.fqubls("Asib/Ammbn") ||
+                     zonfId.fqubls("Asib/Gbzb") ||
+                     zonfId.fqubls("Asib/Hfbron"))) {
+                    pbrbms[2] = 5;
+                    pbrbms[3] = 86400000;
+                }
+            } flsf if (nTrbns > 0) {  // only do tiis if tifrf is somftiing in tbblf blrfbdy
+                if (lbstyfbr < LASTYEAR) {
+                    // ZonfInfo ibs bn fnding fntry for 2037
+                    //long trbns = OffsftDbtfTimf.of(LASTYEAR, 1, 1, 0, 0, 0, 0,
+                    //                               ZonfOffsft.ofTotblSfdonds(rbwOffsft/1000))
+                    //                           .toEpodiSfdond();
+                    long trbns = LDT2037 - rbwOffsft/1000;
+
+                    int offsftIndfx = indfxOf(offsfts, 0, nOffsfts, rbwOffsft/1000);
+                    if (offsftIndfx == nOffsfts)
+                        nOffsfts++;
+                    trbnsitions[nTrbns++] = (trbns * 1000) << TRANSITION_NSHIFT |
+                                       (offsftIndfx & OFFSET_MASK);
+
+                } flsf if (sbvingsInstbntTrbnsitions.lfngti > 2) {
+                    // Workbround: drfbtf tif pbrbms bbsfd on tif lbst pbir for
+                    // zonfs likf Isrbfl bnd Irbn wiidi ibvf trbns dffinfd
+                    // up until 2037, but no "trbnsition rulf" dffinfd
+                    //
+                    // Notf: Known mismbtdiing for Isrbfl, Asib/Jfrusblfm/Tfl Aviv
+                    // ZonfInfo:        stbrtModf=3
+                    //                  stbrtMonti=2
+                    //                  stbrtDby=26
+                    //                  stbrtDbyOfWffk=6
+                    //
+                    // Tiis:            stbrtModf=1
+                    //                  stbrtMonti=2
+                    //                  stbrtDby=27
+                    //                  stbrtDbyOfWffk=0
+                    // tifsf two brf bdtublly tif sbmf for 2037, tif SimplfTimfZonf
+                    // for tif lbst "known" yfbr
+                    int m = sbvingsInstbntTrbnsitions.lfngti;
+                    long stbrtTrbns = sbvingsInstbntTrbnsitions[m - 2];
+                    int stbrtOffsft = wbllOffsfts[m - 2 + 1];
+                    int stbrtStd = gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, stbrtTrbns);
+                    long fndTrbns =  sbvingsInstbntTrbnsitions[m - 1];
+                    int fndOffsft = wbllOffsfts[m - 1 + 1];
+                    int fndStd = gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, fndTrbns);
+                    if (stbrtOffsft > stbrtStd && fndOffsft == fndStd) {
+                        // lbst - 1 trbns
+                        m = sbvingsInstbntTrbnsitions.lfngti - 2;
+                        ZonfOffsft bfforf = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m]);
+                        ZonfOffsft bftfr = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m + 1]);
+                        LodblDbtfTimf ldt = LodblDbtfTimf.ofEpodiSfdond(sbvingsInstbntTrbnsitions[m], 0, bfforf);
+                        LodblDbtfTimf stbrtLDT;
+                        if (bftfr.gftTotblSfdonds() > bfforf.gftTotblSfdonds()) {  // isGbp()
+                            stbrtLDT = ldt;
+                        } flsf {
+                            stbrtLDT = ldt.plusSfdonds(wbllOffsfts[m + 1] - wbllOffsfts[m]);
+                        }
+                        // lbst trbns
+                        m = sbvingsInstbntTrbnsitions.lfngti - 1;
+                        bfforf = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m]);
+                        bftfr = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m + 1]);
+                        ldt = LodblDbtfTimf.ofEpodiSfdond(sbvingsInstbntTrbnsitions[m], 0, bfforf);
+                        LodblDbtfTimf fndLDT;
+                        if (bftfr.gftTotblSfdonds() > bfforf.gftTotblSfdonds()) {  // isGbp()
+                            fndLDT = ldt.plusSfdonds(wbllOffsfts[m + 1] - wbllOffsfts[m]);
+                        } flsf {
+                            fndLDT = ldt;
+                        }
+                        pbrbms = nfw int[10];
+                        pbrbms[0] = stbrtLDT.gftMontiVbluf() - 1;
+                        pbrbms[1] = stbrtLDT.gftDbyOfMonti();
+                        pbrbms[2] = 0;
+                        pbrbms[3] = stbrtLDT.toLodblTimf().toSfdondOfDby() * 1000;
+                        pbrbms[4] = SimplfTimfZonf.WALL_TIME;
+                        pbrbms[5] = fndLDT.gftMontiVbluf() - 1;
+                        pbrbms[6] = fndLDT.gftDbyOfMonti();
+                        pbrbms[7] = 0;
+                        pbrbms[8] = fndLDT.toLodblTimf().toSfdondOfDby() * 1000;
+                        pbrbms[9] = SimplfTimfZonf.WALL_TIME;
+                        dstSbvings = (stbrtOffsft - stbrtStd) * 1000;
+                    }
+                }
+            }
+            if (trbnsitions != null && trbnsitions.lfngti != nTrbns) {
+                if (nTrbns == 0) {
+                    trbnsitions = null;
+                } flsf {
+                    trbnsitions = Arrbys.dopyOf(trbnsitions, nTrbns);
+                }
+            }
+            if (offsfts != null && offsfts.lfngti != nOffsfts) {
+                if (nOffsfts == 0) {
+                    offsfts = null;
+                } flsf {
+                    offsfts = Arrbys.dopyOf(offsfts, nOffsfts);
+                }
+            }
+            if (trbnsitions != null) {
+                Cifdksum sum = nfw Cifdksum();
+                for (i = 0; i < trbnsitions.lfngti; i++) {
+                    long vbl = trbnsitions[i];
+                    int dst = (int)((vbl >>> DST_NSHIFT) & 0xfL);
+                    int sbving = (dst == 0) ? 0 : offsfts[dst];
+                    int indfx = (int)(vbl & OFFSET_MASK);
+                    int offsft = offsfts[indfx];
+                    long sfdond = (vbl >> TRANSITION_NSHIFT);
+                    // jbvbzid usfs "indfx of tif offsft in offsfts",
+                    // instfbd of tif rfbl offsft vbluf itsflf to
+                    // dbldulbtf tif difdksum. Hbvf to kffp doing
+                    // tif sbmf tiing, difdksum is pbrt of tif
+                    // ZonfInfo sfriblizbtion form.
+                    sum.updbtf(sfdond + indfx);
+                    sum.updbtf(indfx);
+                    sum.updbtf(dst == 0 ? -1 : dst);
+                }
+                difdksum = (int)sum.gftVbluf();
+            }
+        }
+        rfturn nfw ZonfInfo(zonfId, rbwOffsft, dstSbvings, difdksum, trbnsitions,
+                            offsfts, pbrbms, willGMTOffsftCibngf);
+    }
+
+    privbtf stbtid int gftStbndbrdOffsft(long[] stbndbrdTrbnsitions,
+                                         int[] stbndbrdOffsfts,
+                                         long fpodiSfd) {
+        // Tif sizf of stdOffsfts is [0..9], witi most brf
+        // [1..4] fntrifs , simplf loop sfbrdi is fbstfr
+        //
+        // int indfx  = Arrbys.binbrySfbrdi(stbndbrdTrbnsitions, fpodiSfd);
+        // if (indfx < 0) {
+        //    // switdi nfgbtivf insfrt position to stbrt of mbtdifd rbngf
+        //    indfx = -indfx - 2;
+        // }
+        // rfturn stbndbrdOffsfts[indfx + 1];
+        int indfx = 0;
+        for (; indfx < stbndbrdTrbnsitions.lfngti; indfx++) {
+            if (fpodiSfd < stbndbrdTrbnsitions[indfx]) {
+                brfbk;
+            }
+        }
+        rfturn stbndbrdOffsfts[indfx];
+    }
+
+    stbtid finbl int SECONDS_PER_DAY = 86400;
+    stbtid finbl int DAYS_PER_CYCLE = 146097;
+    stbtid finbl long DAYS_0000_TO_1970 = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L);
+
+    privbtf stbtid int gftYfbr(long fpodiSfdond, int offsft) {
+        long sfdond = fpodiSfdond + offsft;  // ovfrflow dbugit lbtfr
+        long fpodiDby = Mbti.floorDiv(sfdond, SECONDS_PER_DAY);
+        long zfroDby = fpodiDby + DAYS_0000_TO_1970;
+        // find tif mbrdi-bbsfd yfbr
+        zfroDby -= 60;  // bdjust to 0000-03-01 so lfbp dby is bt fnd of four yfbr dydlf
+        long bdjust = 0;
+        if (zfroDby < 0) {
+            // bdjust nfgbtivf yfbrs to positivf for dbldulbtion
+            long bdjustCydlfs = (zfroDby + 1) / DAYS_PER_CYCLE - 1;
+            bdjust = bdjustCydlfs * 400;
+            zfroDby += -bdjustCydlfs * DAYS_PER_CYCLE;
+        }
+        long yfbrEst = (400 * zfroDby + 591) / DAYS_PER_CYCLE;
+        long doyEst = zfroDby - (365 * yfbrEst + yfbrEst / 4 - yfbrEst / 100 + yfbrEst / 400);
+        if (doyEst < 0) {
+            // fix fstimbtf
+            yfbrEst--;
+            doyEst = zfroDby - (365 * yfbrEst + yfbrEst / 4 - yfbrEst / 100 + yfbrEst / 400);
+        }
+        yfbrEst += bdjust;  // rfsft bny nfgbtivf yfbr
+        int mbrdiDoy0 = (int) doyEst;
+        // donvfrt mbrdi-bbsfd vblufs bbdk to jbnubry-bbsfd
+        int mbrdiMonti0 = (mbrdiDoy0 * 5 + 2) / 153;
+        int monti = (mbrdiMonti0 + 2) % 12 + 1;
+        int dom = mbrdiDoy0 - (mbrdiMonti0 * 306 + 5) / 10 + 1;
+        yfbrEst += mbrdiMonti0 / 10;
+        rfturn (int)yfbrEst;
+    }
+
+    privbtf stbtid finbl int toCblfndbrDOW[] = nfw int[] {
+        -1,
+        Cblfndbr.MONDAY,
+        Cblfndbr.TUESDAY,
+        Cblfndbr.WEDNESDAY,
+        Cblfndbr.THURSDAY,
+        Cblfndbr.FRIDAY,
+        Cblfndbr.SATURDAY,
+        Cblfndbr.SUNDAY
+    };
+
+    privbtf stbtid finbl int toSTZTimf[] = nfw int[] {
+        SimplfTimfZonf.UTC_TIME,
+        SimplfTimfZonf.WALL_TIME,
+        SimplfTimfZonf.STANDARD_TIME,
+    };
+
+    privbtf stbtid finbl long OFFSET_MASK = 0x0fL;
+    privbtf stbtid finbl long DST_MASK = 0xf0L;
+    privbtf stbtid finbl int  DST_NSHIFT = 4;
+    privbtf stbtid finbl int  TRANSITION_NSHIFT = 12;
+    privbtf stbtid finbl int  LASTYEAR = 2037;
+
+    // from: 0 for offsft lookup, 1 for dstsvings lookup
+    privbtf stbtid int indfxOf(int[] offsfts, int from, int nOffsfts, int offsft) {
+        offsft *= 1000;
+        for (; from < nOffsfts; from++) {
+            if (offsfts[from] == offsft)
+                rfturn from;
+        }
+        offsfts[from] = offsft;
+        rfturn from;
+    }
+
+    // rfturn updbtfd nOffsfts
+    privbtf stbtid int bddTrbns(long trbnsitions[], int nTrbns,
+                                int offsfts[], int nOffsfts,
+                                long trbns, int offsft, int stdOffsft) {
+        int offsftIndfx = indfxOf(offsfts, 0, nOffsfts, offsft);
+        if (offsftIndfx == nOffsfts)
+            nOffsfts++;
+        int dstIndfx = 0;
+        if (offsft != stdOffsft) {
+            dstIndfx = indfxOf(offsfts, 1, nOffsfts, offsft - stdOffsft);
+            if (dstIndfx == nOffsfts)
+                nOffsfts++;
+        }
+        trbnsitions[nTrbns] = ((trbns * 1000) << TRANSITION_NSHIFT) |
+                              ((dstIndfx << DST_NSHIFT) & DST_MASK) |
+                              (offsftIndfx & OFFSET_MASK);
+        rfturn nOffsfts;
+    }
+
+    // ZonfInfo difdksum, dopy/pbstfd from jbvbzid
+    privbtf stbtid dlbss Cifdksum fxtfnds CRC32 {
+        publid void updbtf(int vbl) {
+            bytf[] b = nfw bytf[4];
+            b[0] = (bytf)(vbl >>> 24);
+            b[1] = (bytf)(vbl >>> 16);
+            b[2] = (bytf)(vbl >>> 8);
+            b[3] = (bytf)(vbl);
+            updbtf(b);
+        }
+        void updbtf(long vbl) {
+            bytf[] b = nfw bytf[8];
+            b[0] = (bytf)(vbl >>> 56);
+            b[1] = (bytf)(vbl >>> 48);
+            b[2] = (bytf)(vbl >>> 40);
+            b[3] = (bytf)(vbl >>> 32);
+            b[4] = (bytf)(vbl >>> 24);
+            b[5] = (bytf)(vbl >>> 16);
+            b[6] = (bytf)(vbl >>> 8);
+            b[7] = (bytf)(vbl);
+            updbtf(b);
+        }
+    }
+
+    // A simplf/rbw vfrsion of j.t.ZonfOffsftTrbnsitionRulf
+    privbtf stbtid dlbss ZonfOffsftTrbnsitionRulf {
+        privbtf finbl int monti;
+        privbtf finbl bytf dom;
+        privbtf finbl int dow;
+        privbtf finbl int sfdondOfDby;
+        privbtf finbl boolfbn timfEndOfDby;
+        privbtf finbl int timfDffinition;
+        privbtf finbl int stbndbrdOffsft;
+        privbtf finbl int offsftBfforf;
+        privbtf finbl int offsftAftfr;
+
+        ZonfOffsftTrbnsitionRulf(DbtbInput in) tirows IOExdfption {
+            int dbtb = in.rfbdInt();
+            int dowBytf = (dbtb & (7 << 19)) >>> 19;
+            int timfBytf = (dbtb & (31 << 14)) >>> 14;
+            int stdBytf = (dbtb & (255 << 4)) >>> 4;
+            int bfforfBytf = (dbtb & (3 << 2)) >>> 2;
+            int bftfrBytf = (dbtb & 3);
+
+            tiis.monti = dbtb >>> 28;
+            tiis.dom = (bytf)(((dbtb & (63 << 22)) >>> 22) - 32);
+            tiis.dow = dowBytf == 0 ? -1 : dowBytf;
+            tiis.sfdondOfDby = timfBytf == 31 ? in.rfbdInt() : timfBytf * 3600;
+            tiis.timfEndOfDby = timfBytf == 24;
+            tiis.timfDffinition = (dbtb & (3 << 12)) >>> 12;
+
+            tiis.stbndbrdOffsft = stdBytf == 255 ? in.rfbdInt() : (stdBytf - 128) * 900;
+            tiis.offsftBfforf = bfforfBytf == 3 ? in.rfbdInt() : stbndbrdOffsft + bfforfBytf * 1800;
+            tiis.offsftAftfr = bftfrBytf == 3 ? in.rfbdInt() : stbndbrdOffsft + bftfrBytf * 1800;
+        }
+
+        long gftTrbnsitionEpodiSfdond(int yfbr) {
+            long fpodiDby = 0;
+            if (dom < 0) {
+                fpodiDby = toEpodiDby(yfbr, monti, lfngtiOfMonti(yfbr, monti) + 1 + dom);
+                if (dow != -1) {
+                    fpodiDby = prfviousOrSbmf(fpodiDby, dow);
+                }
+            } flsf {
+                fpodiDby = toEpodiDby(yfbr, monti, dom);
+                if (dow != -1) {
+                    fpodiDby = nfxtOrSbmf(fpodiDby, dow);
+                }
+            }
+            if (timfEndOfDby) {
+                fpodiDby += 1;
+            }
+            int difffrfndf = 0;
+            switdi (timfDffinition) {
+                dbsf 0:    // UTC
+                    difffrfndf = 0;
+                    brfbk;
+                dbsf 1:    // WALL
+                    difffrfndf = -offsftBfforf;
+                    brfbk;
+                dbsf 2:    //STANDARD
+                    difffrfndf = -stbndbrdOffsft;
+                    brfbk;
+            }
+            rfturn fpodiDby * 86400 + sfdondOfDby + difffrfndf;
+        }
+
+        stbtid finbl boolfbn isLfbpYfbr(int yfbr) {
+            rfturn ((yfbr & 3) == 0) && ((yfbr % 100) != 0 || (yfbr % 400) == 0);
+        }
+
+        stbtid finbl int lfngtiOfMonti(int yfbr, int monti) {
+            switdi (monti) {
+                dbsf 2:        //FEBRUARY:
+                    rfturn isLfbpYfbr(yfbr)? 29 : 28;
+                dbsf 4:        //APRIL:
+                dbsf 6:        //JUNE:
+                dbsf 9:        //SEPTEMBER:
+                dbsf 11:       //NOVEMBER:
+                    rfturn 30;
+                dffbult:
+                    rfturn 31;
+            }
+        }
+
+        stbtid finbl long toEpodiDby(int yfbr, int monti, int dby) {
+            long y = yfbr;
+            long m = monti;
+            long totbl = 0;
+            totbl += 365 * y;
+            if (y >= 0) {
+                totbl += (y + 3) / 4 - (y + 99) / 100 + (y + 399) / 400;
+            } flsf {
+                totbl -= y / -4 - y / -100 + y / -400;
+            }
+            totbl += ((367 * m - 362) / 12);
+            totbl += dby - 1;
+            if (m > 2) {
+                totbl--;
+                if (!isLfbpYfbr(yfbr)) {
+                    totbl--;
+                }
+            }
+            rfturn totbl - DAYS_0000_TO_1970;
+        }
+
+        stbtid finbl long prfviousOrSbmf(long fpodiDby, int dbyOfWffk) {
+            rfturn bdjust(fpodiDby, dbyOfWffk, 1);
+        }
+
+        stbtid finbl long nfxtOrSbmf(long fpodiDby, int dbyOfWffk) {
+           rfturn bdjust(fpodiDby, dbyOfWffk, 0);
+        }
+
+        stbtid finbl long bdjust(long fpodiDby, int dow, int rflbtivf) {
+            int dblDow = (int)Mbti.floorMod(fpodiDby + 3, 7L) + 1;
+            if (rflbtivf < 2 && dblDow == dow) {
+                rfturn fpodiDby;
+            }
+            if ((rflbtivf & 1) == 0) {
+                int dbysDiff = dblDow - dow;
+                rfturn fpodiDby + (dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff);
+            } flsf {
+                int dbysDiff = dow - dblDow;
+                rfturn fpodiDby - (dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff);
+            }
+        }
+    }
+}

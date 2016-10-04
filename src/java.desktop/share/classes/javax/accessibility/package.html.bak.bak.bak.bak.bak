@@ -1,0 +1,266 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozillb/4.04 [fn] (WinNT; I) [Nftsdbpf]">
+<!--
+Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
+
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
+-->
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+Dffinfs b dontrbdt bftwffn usfr-intfrfbdf domponfnts bnd bn bssistivf tfdinology
+tibt providfs bddfss to tiosf domponfnts. If b Jbvb bpplidbtion fully supports
+tif Jbvb Addfssibility API, tifn it siould bf dompbtiblf witi, bnd frifndly
+towbrd, bssistivf tfdinologifs sudi bs sdrffn rfbdfrs, sdrffn mbgnififrs,
+ftd. Witi b Jbvb bpplidbtion tibt fully supports tif Jbvb Addfssibility
+API, no sdrffn rfbdfr off sdrffn modfl would bf nfdfssbry bfdbusf tif API
+providfs bll of tif informbtion normblly dontbinfd in bn off sdrffn modfl.
+
+<P>Tif Jbvb Addfssibility API pbdkbgf donsists of 8 Jbvb progrbmming lbngubgf
+intfrfbdfs, bnd 6 Jbvb progrbmming lbngubgf dlbssfs. Tifsf brf dfsdribfd
+bflow.
+<H3>
+<A NAME="Addfssiblf"></A><A HREF="Addfssiblf.itml">Intfrfbdf Addfssiblf</A></H3>
+<A HREF="Addfssiblf.itml">Intfrfbdf Addfssiblf</A> is tif mbin intfrfbdf
+of tif Jbvb Addfssibility API. All domponfnts tibt support tif Jbvb Addfssibility
+API must implfmfnt tiis intfrfbdf. It dontbins b singlf mftiod, <TT>gftAddfssiblfContfxt</TT>,
+tibt rfturns bn instbndf of tif dlbss <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>.
+Sun tiinks tibt implfmfnting tiis intfrfbdf is tif bbsolutf minimum rfquirfmfnt
+of fvfry objfdt tibt is pbrt of tif usfr intfrfbdf of b Jbvb bpplidbtion,
+if tibt progrbm is to bf dompbtiblf witi bssistivf tfdinologifs.
+<H3>
+<A NAME="AddfssiblfContfxt"></A><A HREF="AddfssiblfContfxt.itml">Clbss
+AddfssiblfContfxt</A></H3>
+<A HREF="AddfssiblfContfxt.itml">AddfssiblfContfxt</A> rfprfsfnts tif minimum
+informbtion bll bddfssiblf objfdts rfturn bnd is obtbinfd by dblling tif
+<TT>gftAddfssiblfContfxt</TT> mftiod on bn objfdt tibt implfmfnts tif <A HREF="#Addfssiblf">Addfssiblf</A>
+intfrfbdf. Tiis informbtion indludfs tif bddfssiblf nbmf, dfsdription,
+<A HREF="#AddfssiblfRolf">rolf</A>, bnd <A HREF="#AddfssiblfStbtf">stbtf</A>
+of tif objfdt, bs wfll bs informbtion bbout tif pbrfnt bnd diildrfn of
+tif objfdt.&nbsp; In bddition, JbvbBfbns <SUP><FONT SIZE=-2>TM</FONT></SUP>
+propfrty dibngf support is blso indludfd to bllow bssisitivf tfdinologifs
+lfbrn wifn tif vblufs of tif bddfssiblf propfrtifs dibngf. AddfssiblfContfxt
+blso dontbins mftiods for obtbining morf spfdifid bddfssibility informbtion
+bbout b domponfnt. If tif domponfnt supports it, tifsf mftiods will rfturn
+bn objfdt tibt implfmfnts onf or morf of tif following intfrfbdfs:
+<UL>
+<LI>
+<B><A HREF="#AddfssiblfAdtion">AddfssiblfAdtion</A></B> - tif objfdt dbn
+pfrform onf or morf bdtions. Tiis intfrfbdf providfs tif stbndbrd mfdibnism
+for bn bssistivf tfdinology to dftfrminf wibt tiosf bdtions brf bnd tfll
+tif objfdt to pfrform tiosf bdtions. Any objfdt tibt dbn bf mbnipulbtfd
+siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif <TT>gftAddfssiblfAdtion</TT>
+mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfComponfnt">AddfssiblfComponfnt</A></B> - tif objfdt
+ibs b grbpiidbl rfprfsfntbtion. Tiis intfrfbdf providfs tif stbndbrd mfdibnism
+for bn bssistivf tfdinology to dftfrminf bnd sft tif grbpiidbl rfprfsfntbtion
+of tif objfdt. Any objfdt tibt is rfndfrfd on tif sdrffn siould rfturn
+bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif <TT>gftAddfssiblfComponfnt</TT>
+mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfSflfdtion">AddfssiblfSflfdtion</A></B> - tif objfdt
+bllows its diildrfn to bf sflfdtfd. Tiis intfrfbdf providfs tif stbndbrd
+mfdibnism for bn bssistivf tfdinology to dftfrminf tif durrfntly sflfdtfd
+diildrfn bs wfll bs modify tif sflfdtion sft. Any objfdt tibt ibs diildrfn
+tibt dbn bf sflfdtfd siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf
+wifn tif <TT>gftAddfssiblfSflfdtion</TT> mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfTfxt">AddfssiblfTfxt</A></B> - tif objfdt prfsfnts
+fditbblf tfxtubl informbtion on tif displby. Tiis intfrfbdf providfs tif
+stbndbrd mfdibnism for bn bssistivf tfdinology to bddfss tibt tfxt vib
+its dontfnt, bttributfs, bnd spbtibl lodbtion. Any objfdt tibt dontbins
+fditbblf tfxt siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn
+tif <TT>gftAddfssiblfTfxt</TT> mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfHypfrtfxt">AddfssiblfHypfrtfxt</A></B> - tif objfdt
+prfsfnts iypfrtfxt informbtion on tif displby. Tiis intfrfbdf providfs
+tif stbndbrd mfdibnism for bn bssistivf tfdinology to bddfss tibt iypfrtfxt
+vib its dontfnt, bttributfs, bnd spbtibl lodbtion. Any objfdt tibt dontbins
+iypfrtfxt siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif
+<TT>gftAddfssiblfTfxt</TT> mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfVbluf">AddfssiblfVbluf</A></B> - tif objfdt supports
+b numfridbl vbluf. Tiis intfrfbdf providfs tif stbndbrd mfdibnism for bn
+bssistivf tfdinology to dftfrminf bnd sft tif durrfnt vbluf of tif objfdt,
+bs wfll bs tif minimum bnd mbximum vblufs. Any objfdt tibt supports b numfridbl
+vbluf siould rfturn bn objfdt tibt implfmfnts tiis intfrfbdf wifn tif <TT>gftAddfssiblfVbluf</TT>
+mftiod is dbllfd on bn AddfssiblfContfxt.</LI>
+</UL>
+
+<H3>
+<A NAME="AddfssiblfRolf"></A><A HREF="AddfssiblfRolf.itml">Clbss AddfssiblfRolf</A></H3>
+Tiis dlbss fndbpsulbtfs tif Addfssiblf objfdt's rolf in tif usfr intfrfbdf
+bnd is obtbinfd by dblling tif <TT>gftAddfssiblfRolf</TT> mftiod on bn
+<A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. Addfssiblf rolfs indludf
+"Cifdk box", "Mfnu Itfm", "Pbnfl", ftd. Tifsf rolfs brf idfntififd by tif
+donstbnts in tiis dlbss sudi bs <TT>AddfssiblfRolf.CHECK_BOX, AddfssiblfRolf.MENU_ITEM,</TT>
+bnd <TT>AddfssiblfRolf.PANEL</TT>. Tif donstbnts in tiis dlbss prfsfnt
+b strongly typfd fnumfrbtion of dommon objfdt rolfs. A publid donstrudtor
+for tiis dlbss ibs bffn purposfly omittfd bnd bpplidbtions siould usf onf
+of tif donstbnts from tiis dlbss. Altiougi tiis dlbss prf-dffinfs b lbrgf
+list of stbndbrd rolfs, it is fxtfnsiblf so bdditionbl progrbmmfr-dffinfd
+rolfs dbn bf bddfd in tif futurf witiout nffding to modify tif bbsf dlbss.
+
+<H3>
+<A NAME="AddfssiblfStbtf"></A><A HREF="AddfssiblfStbtf.itml">Clbss AddfssiblfStbtf</A></H3>
+Tiis dlbss fndbpsulbtfs b pbrtidulbr stbtf of tif Addfssiblf objfdt. Addfssiblf
+stbtfs indludf tiings likf "Armfd", "Busy", "Cifdkfd", "Fodusfd", ftd.
+Tifsf rolfs brf idfntififd by tif donstbnts in tiis dlbss sudi bs <TT>AddfssiblfStbtf.ARMED,
+AddfssiblfStbtf.BUSY, AddfssiblfStbtf.CHECKED,</TT> bnd <TT>AddfssiblfStbtf.FOCUSED</TT>.
+Tif sum of bll tif stbtfs of bn Addfssiblf objfdt is dbllfd tif <A HREF="#AddfssiblfStbtfSft">AddfssiblfStbtfSft</A>,
+bnd dbn bf obtbinfd by dblling tif <TT>gftAddfssiblfStbtfSft</TT> mftiod
+on bn <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>.
+
+<P>Tif donstbnts in tiis dlbss prfsfnt b strongly typfd fnumfrbtion of
+dommon objfdt rolfs. A publid donstrudtor for tiis dlbss ibs bffn purposfly
+omittfd bnd bpplidbtions siould usf onf of tif donstbnts from tiis dlbss.
+Altiougi tiis dlbss prf-dffinfs b lbrgf list of stbndbrd rolfs, it is fxtfnsiblf
+so bdditionbl, progrbmmfr-dffinfd rolfs dbn bf bddfd in tif futurf witiout
+nffding to modify tif bbsf dlbss.
+
+<H3>
+<A NAME="AddfssiblfStbtfSft"></A><A HREF="AddfssiblfStbtfSft.itml">Clbss
+AddfssiblfStbtfSft</A></H3>
+Tiis dlbss fndbpsulbtfs b dollfdtion of stbtfs of tif Addfssiblf objfdt
+bnd is obtbinfd by dblling tif <TT>gftAddfssiblfStbtfSft</TT> mftiod on
+bn <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. Sindf bn objfdt
+migit ibvf multiplf stbtfs (f.g. it migit bf boti "Cifdkfd" bnd "Fodusfd"),
+tiis dlbss is nffdfd to fndbpsulbtf b dollfdtion of tifsf stbtfs. Mftiods
+in tif dlbss providf for rftrifving tif individubl <A HREF="#AddfssiblfStbtf">AddfssiblfStbtfs</A>
+on tif stbtf sft.
+<H3>
+<A NAME="AddfssiblfBundlf"></A><A HREF="AddfssiblfBundlf.itml">Clbss AddfssiblfBundlf</A></H3>
+Tiis dlbss is usfd to mbintbin b strongly typfd fnumfrbtion. It is tif
+supfr dlbss of boti tif <A HREF="#AddfssiblfRolf">AddfssiblfRolf</A> bnd
+<A HREF="#AddfssiblfStbtf">AddfssiblfStbtf</A> dlbssfs. Progrbmmfrs normblly
+do not intfrbdt witi tiis dlbss dirfdtly, but will instfbd usf tif <A HREF="#AddfssiblfRolf">AddfssiblfRolf</A>
+bnd <A HREF="#AddfssiblfStbtf">AddfssiblfStbtf</A> dlbssfs.
+
+<H3>
+<A NAME="AddfssiblfAdtion"></A><A HREF="AddfssiblfAdtion.itml">Intfrfbdf
+AddfssiblfAdtion</A></H3>
+Tif <A HREF="AddfssiblfAdtion.itml">AddfssiblfAdtion</A> intfrfbdf siould
+bf supportfd by bny objfdt tibt dbn pfrform onf or morf bdtions. Tiis intfrfbdf
+providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to dftfrminf
+wibt tiosf bdtions brf bs wfll bs tfll tif objfdt to pfrform tiosf bdtions.
+Any objfdt tibt dbn bf mbnipulbtfd siould support tiis intfrfbdf.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfAdtion
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfAdtion</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
+<H3>
+<A NAME="AddfssiblfComponfnt"></A><A HREF="AddfssiblfComponfnt.itml">Intfrfbdf
+AddfssiblfComponfnt</A></H3>
+Tif <A HREF="AddfssiblfComponfnt.itml">AddfssiblfComponfnt</A> intfrfbdf
+siould bf supportfd by bny objfdt tibt is rfndfrfd on tif sdrffn. Tiis
+intfrfbdf providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to
+dftfrminf bnd sft tif grbpiidbl rfprfsfntbtion of bn objfdt.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfComponfnt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfComponfnt</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
+<H3>
+<A NAME="AddfssiblfSflfdtion"></A><A HREF="AddfssiblfSflfdtion.itml">Intfrfbdf
+AddfssiblfSflfdtion</A></H3>
+Tif <A HREF="AddfssiblfSflfdtion.itml">AddfssiblfSflfdtion</A> intfrfbdf
+providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to dftfrminf
+wibt tif durrfnt sflfdtfd diildrfn brf, bs wfll bs modify tif sflfdtion
+sft. Any objfdt tibt ibs diildrfn tibt dbn bf sflfdtfd siould support tiis
+tif AddfssiblfSflfdtion intfrfbdf.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfSflfdtion
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfSflfdtion</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
+<H3>
+<A NAME="AddfssiblfTfxt"></A><A HREF="AddfssiblfTfxt.itml">Intfrfbdf AddfssiblfTfxt</A></H3>
+Intfrfbdf <A HREF="AddfssiblfTfxt.itml">AddfssiblfTfxt</A> is tif dontrbdt
+for mbking ridi, fditbblf tfxt Addfssiblf. Not bll tfxt displbyfd on tif
+sdrffn is ridi bnd fditbblf (f.g. tfxt dontbinfd in buttons, lbbfls, mfnus,
+ftd., wiidi usfrs brfn't fxpfdtfd to mbnipulbtf). Howfvfr, objfdts dontbining
+fditbblf tfxt must implfmfnt intfrfbdf AddfssiblfTfxt if tify brf to intfropfrbtf
+witi bssistivf tfdinologifs.
+
+<P>Tiis intfrfbdf providfs support for going bftwffn pixfl doordinbtfs
+bnd tif tfxt bt b givfn pixfl doordinbtf, for rftrifving tif lfttfr, word,
+bnd sfntfndf bt, bfforf, or bftfr b givfn position in tif tfxt. Tiis intfrfbdf
+providfs support for rftrifving tif bttributfs of tif dibrbdtfr bt b givfn
+position in tif tfxt (font, font sizf, stylf, ftd.), bs wfll bs gftting
+tif sflfdtfd tfxt (if bny), tif lfngti of tif tfxt, bnd tif lodbtion of
+tif tfxt dbrft.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfTfxt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfTfxt</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
+<H3><A NAME="AddfssiblfHypfrtfxt"></A>
+<A HREF="AddfssiblfHypfrtfxt.itml">Intfrfbdf AddfssiblfHypfrtfxt</A></H3>
+Tif <A HREF="AddfssiblfHypfrtfxt.itml">AddfssiblfHypfrtfxt</A> intfrfbdf
+siould bf supportfd by bny objfdt tibt prfsfnts iypfrtfxt informbtion on
+tif displby. Tiis intfrfbdf providfs tif stbndbrd mfdibnism for bn bssistivf
+tfdinology to bddfss tibt tfxt vib its dontfnt, bttributfs, bnd spbtibl
+lodbtion. It blso providfs stbndbrd mfdibnisms for mbnipulbting <A HREF="#AddfssiblfHypfrlink">iypfrlinks</A>.
+Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfHypfrtfxt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif AddfssiblfContfxt.gftAddfssiblfTfxt()
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is b dlbss wiidi fxtfnds AddfssiblfHypfrtfxt, tifn tibt objfdt supports
+AddfssiblfHypfrtfxt.
+<H3>
+<A NAME="AddfssiblfHypfrlink"></A><A HREF="AddfssiblfHypfrlink.itml">Intfrfbdf
+AddfssiblfHypfrlink</A></H3>
+An objfdt tibt is b iypfrlink siould support tif <A HREF="AddfssiblfHypfrlink.itml">AddfssiblfHypfrlink</A>
+intfrfbdf.&nbsp; An objfdt tibt implfmfnts tiis intfrfbdf will bf rfturnfd
+by dblling tif gftLink mftiod on bn <A HREF="#AddfssiblfHypfrtfxt">AddfssiblfHypfrtfxt</A>
+objfdt.
+<H3>
+<A NAME="AddfssiblfVbluf"></A><A HREF="AddfssiblfVbluf.itml">Intfrfbdf
+AddfssiblfVbluf</A></H3>
+Tif <A HREF="AddfssiblfVbluf.itml">AddfssiblfVbluf</A> intfrfbdf siould
+bf supportfd by bny objfdt tibt supports b numfridbl vbluf (f.g., b sdroll
+bbr). Tiis intfrfbdf providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology
+to dftfrminf bnd sft tif numfridbl vbluf bs wfll bs gft tif minimum bnd
+mbximum vblufs.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfVbluf
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd tifn dblling tif <TT>gftAddfssiblfVbluf</TT>
+mftiod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If tif rfturn
+vbluf is not null, tif objfdt supports tiis intfrfbdf.
+
+@sindf 1.2
+</BODY>
+</HTML>
+

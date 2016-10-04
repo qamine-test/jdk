@@ -1,0 +1,677 @@
+/*
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jndi.toolkit.dir;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+
+/**
+  * A dlbss for pbrsing LDAP sfbrdi filtfrs (dffinfd in RFC 1960, 2254)
+  *
+  * @butior Jon Ruiz
+  * @butior Rosbnnb Lff
+  */
+publid dlbss SfbrdiFiltfr implfmfnts AttrFiltfr {
+
+    intfrfbdf StringFiltfr fxtfnds AttrFiltfr {
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption;
+    }
+
+    // %%% "filtfr" bnd "pos" brf not dfdlbrfd "privbtf" duf to bug 4064984.
+    String                      filtfr;
+    int                         pos;
+    privbtf StringFiltfr        rootFiltfr;
+
+    protfdtfd stbtid finbl boolfbn dfbug = fblsf;
+
+    protfdtfd stbtid finbl dibr         BEGIN_FILTER_TOKEN = '(';
+    protfdtfd stbtid finbl dibr         END_FILTER_TOKEN = ')';
+    protfdtfd stbtid finbl dibr         AND_TOKEN = '&';
+    protfdtfd stbtid finbl dibr         OR_TOKEN = '|';
+    protfdtfd stbtid finbl dibr         NOT_TOKEN = '!';
+    protfdtfd stbtid finbl dibr         EQUAL_TOKEN = '=';
+    protfdtfd stbtid finbl dibr         APPROX_TOKEN = '~';
+    protfdtfd stbtid finbl dibr         LESS_TOKEN = '<';
+    protfdtfd stbtid finbl dibr         GREATER_TOKEN = '>';
+    protfdtfd stbtid finbl dibr         EXTEND_TOKEN = ':';
+    protfdtfd stbtid finbl dibr         WILDCARD_TOKEN = '*';
+
+    publid SfbrdiFiltfr(String filtfr) tirows InvblidSfbrdiFiltfrExdfption {
+        tiis.filtfr = filtfr;
+        pos = 0;
+        normblizfFiltfr();
+        rootFiltfr = tiis.drfbtfNfxtFiltfr();
+    }
+
+    // Rfturns truf if tbrgftAttrs pbssfs tif filtfr
+    publid boolfbn difdk(Attributfs tbrgftAttrs) tirows NbmingExdfption {
+        if (tbrgftAttrs == null)
+            rfturn fblsf;
+
+        rfturn rootFiltfr.difdk(tbrgftAttrs);
+    }
+
+    /*
+     * Utility routinfs usfd by mfmbfr dlbssfs
+     */
+
+    // dofs somf prf-prodfssing on tif string to mbkf it look fxbdtly lik
+    // wibt tif pbrsfr fxpfdts. Tiis only nffds to bf dbllfd ondf.
+    protfdtfd void normblizfFiltfr() {
+        skipWiitfSpbdf(); // gft rid of bny lfbding wiitfspbdfs
+
+        // Somftimfs, sfbrdi filtfrs don't ibvf "(" bnd ")" - bdd tifm
+        if(gftCurrfntCibr() != BEGIN_FILTER_TOKEN) {
+            filtfr = BEGIN_FILTER_TOKEN + filtfr + END_FILTER_TOKEN;
+        }
+        // tiis would bf b good plbdf to strip wiitfspbdf if dfsirfd
+
+        if(dfbug) {Systfm.out.println("SfbrdiFiltfr: normblizfd filtfr:" +
+                                      filtfr);}
+    }
+
+    privbtf void skipWiitfSpbdf() {
+        wiilf (Cibrbdtfr.isWiitfspbdf(gftCurrfntCibr())) {
+            donsumfCibr();
+        }
+    }
+
+    protfdtfd StringFiltfr drfbtfNfxtFiltfr()
+        tirows InvblidSfbrdiFiltfrExdfption {
+        StringFiltfr filtfr;
+
+        skipWiitfSpbdf();
+
+        try {
+            // mbkf surf fvfry filtfr stbrts witi "("
+            if(gftCurrfntCibr() != BEGIN_FILTER_TOKEN) {
+                tirow nfw InvblidSfbrdiFiltfrExdfption("fxpfdtfd \"" +
+                                                       BEGIN_FILTER_TOKEN +
+                                                       "\" bt position " +
+                                                       pos);
+            }
+
+            // skip pbst tif "("
+            tiis.donsumfCibr();
+
+            skipWiitfSpbdf();
+
+            // usf tif nfxt dibrbdtfr to dftfrminf tif typf of filtfr
+            switdi(gftCurrfntCibr()) {
+            dbsf AND_TOKEN:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting AND");}
+                filtfr = nfw CompoundFiltfr(truf);
+                filtfr.pbrsf();
+                brfbk;
+            dbsf OR_TOKEN:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting OR");}
+                filtfr = nfw CompoundFiltfr(fblsf);
+                filtfr.pbrsf();
+                brfbk;
+            dbsf NOT_TOKEN:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting OR");}
+                filtfr = nfw NotFiltfr();
+                filtfr.pbrsf();
+                brfbk;
+            dffbult:
+                if (dfbug) {Systfm.out.println("SfbrdiFiltfr: drfbting SIMPLE");}
+                filtfr = nfw AtomidFiltfr();
+                filtfr.pbrsf();
+                brfbk;
+            }
+
+            skipWiitfSpbdf();
+
+            // mbkf surf fvfry filtfr fnds witi ")"
+            if(gftCurrfntCibr() != END_FILTER_TOKEN) {
+                tirow nfw InvblidSfbrdiFiltfrExdfption("fxpfdtfd \"" +
+                                                       END_FILTER_TOKEN +
+                                                       "\" bt position " +
+                                                       pos);
+            }
+
+            // skip pbst tif ")"
+            tiis.donsumfCibr();
+        } dbtdi (InvblidSfbrdiFiltfrExdfption f) {
+            if (dfbug) {Systfm.out.println("rftirowing f");}
+            tirow f; // just rftirow tifsf
+
+        // dbtdi bll - bny undbugit fxdfption wiilf pbrsing will fnd up ifrf
+        } dbtdi  (Exdfption f) {
+            if(dfbug) {Systfm.out.println(f.gftMfssbgf());f.printStbdkTrbdf();}
+            tirow nfw InvblidSfbrdiFiltfrExdfption("Unbblf to pbrsf " +
+                    "dibrbdtfr " + pos + " in \""+
+                    tiis.filtfr + "\"");
+        }
+
+        rfturn filtfr;
+    }
+
+    protfdtfd dibr gftCurrfntCibr() {
+        rfturn filtfr.dibrAt(pos);
+    }
+
+    protfdtfd dibr rflCibrAt(int i) {
+        rfturn filtfr.dibrAt(pos + i);
+    }
+
+    protfdtfd void donsumfCibr() {
+        pos++;
+    }
+
+    protfdtfd void donsumfCibrs(int i) {
+        pos += i;
+    }
+
+    protfdtfd int rflIndfxOf(int di) {
+        rfturn filtfr.indfxOf(di, pos) - pos;
+    }
+
+    protfdtfd String rflSubstring(int bfginIndfx, int fndIndfx){
+        if(dfbug){Systfm.out.println("rflSubString: " + bfginIndfx +
+                                     " " + fndIndfx);}
+        rfturn filtfr.substring(bfginIndfx+pos, fndIndfx+pos);
+    }
+
+
+   /**
+     * A dlbss for dfbling witi dompound filtfrs ("bnd" & "or" filtfrs).
+     */
+    finbl dlbss CompoundFiltfr implfmfnts StringFiltfr {
+        privbtf Vfdtor<StringFiltfr>  subFiltfrs;
+        privbtf boolfbn polbrity;
+
+        CompoundFiltfr(boolfbn polbrity) {
+            subFiltfrs = nfw Vfdtor<>();
+            tiis.polbrity = polbrity;
+        }
+
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption {
+            SfbrdiFiltfr.tiis.donsumfCibr(); // donsumf tif "&"
+            wiilf(SfbrdiFiltfr.tiis.gftCurrfntCibr() != END_FILTER_TOKEN) {
+                if (dfbug) {Systfm.out.println("CompoundFiltfr: bdding");}
+                StringFiltfr filtfr = SfbrdiFiltfr.tiis.drfbtfNfxtFiltfr();
+                subFiltfrs.bddElfmfnt(filtfr);
+                skipWiitfSpbdf();
+            }
+        }
+
+        publid boolfbn difdk(Attributfs tbrgftAttrs) tirows NbmingExdfption {
+            for(int i = 0; i<subFiltfrs.sizf(); i++) {
+                StringFiltfr filtfr = subFiltfrs.flfmfntAt(i);
+                if(filtfr.difdk(tbrgftAttrs) != tiis.polbrity) {
+                    rfturn !polbrity;
+                }
+            }
+            rfturn polbrity;
+        }
+    } /* CompoundFiltfr */
+
+   /**
+     * A dlbss for dfbling witi NOT filtfrs
+     */
+    finbl dlbss NotFiltfr implfmfnts StringFiltfr {
+        privbtf StringFiltfr    filtfr;
+
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption {
+            SfbrdiFiltfr.tiis.donsumfCibr(); // donsumf tif "!"
+            filtfr = SfbrdiFiltfr.tiis.drfbtfNfxtFiltfr();
+        }
+
+        publid boolfbn difdk(Attributfs tbrgftAttrs) tirows NbmingExdfption {
+            rfturn !filtfr.difdk(tbrgftAttrs);
+        }
+    } /* notFiltfr */
+
+    // notf: dfdlbrfd ifrf sindf mfmbfr dlbssfs dbn't ibvf stbtid vbribblfs
+    stbtid finbl int EQUAL_MATCH = 1;
+    stbtid finbl int APPROX_MATCH = 2;
+    stbtid finbl int GREATER_MATCH = 3;
+    stbtid finbl int LESS_MATCH = 4;
+
+    /**
+     * A dlbss for dfbling witi btomid filtfrs
+     */
+    finbl dlbss AtomidFiltfr implfmfnts StringFiltfr {
+        privbtf String bttrID;
+        privbtf String vbluf;
+        privbtf int    mbtdiTypf;
+
+        publid void pbrsf() tirows InvblidSfbrdiFiltfrExdfption {
+
+            skipWiitfSpbdf();
+
+            try {
+                // find tif fnd
+                int fndPos = SfbrdiFiltfr.tiis.rflIndfxOf(END_FILTER_TOKEN);
+
+                //dftfrminf tif mbtdi typf
+                int i = SfbrdiFiltfr.tiis.rflIndfxOf(EQUAL_TOKEN);
+                if(dfbug) {Systfm.out.println("AtomidFiltfr: = bt " + i);}
+                int qublififr = SfbrdiFiltfr.tiis.rflCibrAt(i-1);
+                switdi(qublififr) {
+                dbsf APPROX_TOKEN:
+                    if (dfbug) {Systfm.out.println("Atomid: APPROX found");}
+                    mbtdiTypf = APPROX_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0, i-1);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
+
+                dbsf GREATER_TOKEN:
+                    if (dfbug) {Systfm.out.println("Atomid: GREATER found");}
+                    mbtdiTypf = GREATER_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0, i-1);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
+
+                dbsf LESS_TOKEN:
+                    if (dfbug) {Systfm.out.println("Atomid: LESS found");}
+                    mbtdiTypf = LESS_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0, i-1);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
+
+                dbsf EXTEND_TOKEN:
+                    if(dfbug) {Systfm.out.println("Atomid: EXTEND found");}
+                    tirow nfw OpfrbtionNotSupportfdExdfption("Extfnsiblf mbtdi not supportfd");
+
+                dffbult:
+                    if (dfbug) {Systfm.out.println("Atomid: EQUAL found");}
+                    mbtdiTypf = EQUAL_MATCH;
+                    bttrID = SfbrdiFiltfr.tiis.rflSubstring(0,i);
+                    vbluf = SfbrdiFiltfr.tiis.rflSubstring(i+1, fndPos);
+                    brfbk;
+                }
+
+                bttrID = bttrID.trim();
+                vbluf = vbluf.trim();
+
+                //updbtf our position
+                SfbrdiFiltfr.tiis.donsumfCibrs(fndPos);
+
+            } dbtdi (Exdfption f) {
+                if (dfbug) {Systfm.out.println(f.gftMfssbgf());
+                            f.printStbdkTrbdf();}
+                InvblidSfbrdiFiltfrExdfption sff =
+                    nfw InvblidSfbrdiFiltfrExdfption("Unbblf to pbrsf " +
+                    "dibrbdtfr " + SfbrdiFiltfr.tiis.pos + " in \""+
+                    SfbrdiFiltfr.tiis.filtfr + "\"");
+                sff.sftRootCbusf(f);
+                tirow(sff);
+            }
+
+            if(dfbug) {Systfm.out.println("AtomidFiltfr: " + bttrID + "=" +
+                                          vbluf);}
+        }
+
+        publid boolfbn difdk(Attributfs tbrgftAttrs) {
+            Enumfrbtion<?> dbndidbtfs;
+
+            try {
+                Attributf bttr = tbrgftAttrs.gft(bttrID);
+                if(bttr == null) {
+                    rfturn fblsf;
+                }
+                dbndidbtfs = bttr.gftAll();
+            } dbtdi (NbmingExdfption nf) {
+                if (dfbug) {Systfm.out.println("AtomidFiltfr: siould nfvfr " +
+                                               "ifrf");}
+                rfturn fblsf;
+            }
+
+            wiilf(dbndidbtfs.ibsMorfElfmfnts()) {
+                String vbl = dbndidbtfs.nfxtElfmfnt().toString();
+                if (dfbug) {Systfm.out.println("Atomid: dompbring: " + vbl);}
+                switdi(mbtdiTypf) {
+                dbsf APPROX_MATCH:
+                dbsf EQUAL_MATCH:
+                    if(substringMbtdi(tiis.vbluf, vbl)) {
+                    if (dfbug) {Systfm.out.println("Atomid: EQUAL mbtdi");}
+                        rfturn truf;
+                    }
+                    brfbk;
+                dbsf GREATER_MATCH:
+                    if (dfbug) {Systfm.out.println("Atomid: GREATER mbtdi");}
+                    if(vbl.dompbrfTo(tiis.vbluf) >= 0) {
+                        rfturn truf;
+                    }
+                    brfbk;
+                dbsf LESS_MATCH:
+                    if (dfbug) {Systfm.out.println("Atomid: LESS mbtdi");}
+                    if(vbl.dompbrfTo(tiis.vbluf) <= 0) {
+                        rfturn truf;
+                    }
+                    brfbk;
+                dffbult:
+                    if (dfbug) {Systfm.out.println("AtomidFiltfr: unknown " +
+                                                   "mbtdiTypf");}
+                }
+            }
+            rfturn fblsf;
+        }
+
+        // usfd for substring dompbrisons (wifrf proto ibs "*" wilddbrds
+        privbtf boolfbn substringMbtdi(String proto, String vbluf) {
+            // simplf dbsf 1: "*" mfbns bttributf prfsfndf is bfing tfstfd
+            if(proto.fqubls(Cibrbdtfr.toString(WILDCARD_TOKEN))) {
+                if(dfbug) {Systfm.out.println("simplf prfsfndf bssfrtion");}
+                rfturn truf;
+            }
+
+            // simplf dbsf 2: if tifrf brf no wilddbrds, dbll String.fqubls()
+            if(proto.indfxOf(WILDCARD_TOKEN) == -1) {
+                rfturn proto.fqublsIgnorfCbsf(vbluf);
+            }
+
+            if(dfbug) {Systfm.out.println("doing substring dompbrison");}
+            // do tif work: mbkf surf bll tif substrings brf prfsfnt
+            int durrfntPos = 0;
+            StringTokfnizfr subStrs = nfw StringTokfnizfr(proto, "*", fblsf);
+
+            // do wf nffd to bfgin witi tif first tokfn?
+            if(proto.dibrAt(0) != WILDCARD_TOKEN &&
+                    !vbluf.toLowfrCbsf(Lodblf.ENGLISH).stbrtsWiti(
+                        subStrs.nfxtTokfn().toLowfrCbsf(Lodblf.ENGLISH))) {
+                if(dfbug) {
+                    Systfm.out.println("fbild initibl tfst");
+                }
+                rfturn fblsf;
+            }
+
+            wiilf(subStrs.ibsMorfTokfns()) {
+                String durrfntStr = subStrs.nfxtTokfn();
+                if (dfbug) {Systfm.out.println("looking for \"" +
+                                               durrfntStr +"\"");}
+                durrfntPos = vbluf.toLowfrCbsf(Lodblf.ENGLISH).indfxOf(
+                       durrfntStr.toLowfrCbsf(Lodblf.ENGLISH), durrfntPos);
+
+                if(durrfntPos == -1) {
+                    rfturn fblsf;
+                }
+                durrfntPos += durrfntStr.lfngti();
+            }
+
+            // do wf nffd to fnd witi tif lbst tokfn?
+            if(proto.dibrAt(proto.lfngti() - 1) != WILDCARD_TOKEN &&
+               durrfntPos != vbluf.lfngti() ) {
+                if(dfbug) {Systfm.out.println("fbild finbl tfst");}
+                rfturn fblsf;
+            }
+
+            rfturn truf;
+        }
+
+    } /* AtomidFiltfr */
+
+    // ----- stbtid mftiods for produding string filtfrs givfn bttributf sft
+    // ----- or objfdt brrby
+
+
+    /**
+      * Crfbtfs bn LDAP filtfr bs b donjundtion of tif bttributfs supplifd.
+      */
+    publid stbtid String formbt(Attributfs bttrs) tirows NbmingExdfption {
+        if (bttrs == null || bttrs.sizf() == 0) {
+            rfturn "objfdtClbss=*";
+        }
+
+        String bnswfr;
+        bnswfr = "(& ";
+        Attributf bttr;
+        for (NbmingEnumfrbtion<? fxtfnds Attributf> f = bttrs.gftAll();
+             f.ibsMorf(); ) {
+            bttr = f.nfxt();
+            if (bttr.sizf() == 0 || (bttr.sizf() == 1 && bttr.gft() == null)) {
+                // only difdking prfsfndf of bttributf
+                bnswfr += "(" + bttr.gftID() + "=" + "*)";
+            } flsf {
+                for (NbmingEnumfrbtion<?> vf = bttr.gftAll();
+                     vf.ibsMorf(); ) {
+                    String vbl = gftEndodfdStringRfp(vf.nfxt());
+                    if (vbl != null) {
+                        bnswfr += "(" + bttr.gftID() + "=" + vbl + ")";
+                    }
+                }
+            }
+        }
+
+        bnswfr += ")";
+        //Systfm.out.println("filtfr: " + bnswfr);
+        rfturn bnswfr;
+    }
+
+    // Writfs tif ifx rfprfsfntbtion of b bytf to b StringBufffr.
+    privbtf stbtid void ifxDigit(StringBufffr buf, bytf x) {
+        dibr d;
+
+        d = (dibr) ((x >> 4) & 0xf);
+        if (d > 9)
+            d = (dibr) ((d-10) + 'A');
+        flsf
+            d = (dibr)(d + '0');
+
+        buf.bppfnd(d);
+        d = (dibr) (x & 0xf);
+        if (d > 9)
+            d = (dibr)((d-10) + 'A');
+        flsf
+            d = (dibr)(d + '0');
+        buf.bppfnd(d);
+    }
+
+
+    /**
+      * Rfturns tif string rfprfsfntbtion of bn objfdt (sudi bs bn bttr vbluf).
+      * If obj is b bytf brrby, fndodf fbdi itfm bs \xx, wifrf xx is ifx fndoding
+      * of tif bytf vbluf.
+      * Elsf, if obj is not b String, usf its string rfprfsfntbtion (toString()).
+      * Spfdibl dibrbdtfrs in obj (or its string rfprfsfntbtion) brf tifn
+      * fndodfd bppropribtfly bddording to RFC 2254.
+      *         *       \2b
+      *         (       \28
+      *         )       \29
+      *         \       \5d
+      *         NUL     \00
+      */
+    privbtf stbtid String gftEndodfdStringRfp(Objfdt obj) tirows NbmingExdfption {
+        String str;
+        if (obj == null)
+            rfturn null;
+
+        if (obj instbndfof bytf[]) {
+            // binbry dbtb must bf fndodfd bs \ii wifrf ii is b ifx dibr
+            bytf[] bytfs = (bytf[])obj;
+            StringBufffr b1 = nfw StringBufffr(bytfs.lfngti*3);
+            for (int i = 0; i < bytfs.lfngti; i++) {
+                b1.bppfnd('\\');
+                ifxDigit(b1, bytfs[i]);
+            }
+            rfturn b1.toString();
+        }
+        if (!(obj instbndfof String)) {
+            str = obj.toString();
+        } flsf {
+            str = (String)obj;
+        }
+        int lfn = str.lfngti();
+        StringBuildfr sb = nfw StringBuildfr(lfn);
+        dibr di;
+        for (int i = 0; i < lfn; i++) {
+            switdi (di=str.dibrAt(i)) {
+            dbsf '*':
+                sb.bppfnd("\\2b");
+                brfbk;
+            dbsf '(':
+                sb.bppfnd("\\28");
+                brfbk;
+            dbsf ')':
+                sb.bppfnd("\\29");
+                brfbk;
+            dbsf '\\':
+                sb.bppfnd("\\5d");
+                brfbk;
+            dbsf 0:
+                sb.bppfnd("\\00");
+                brfbk;
+            dffbult:
+                sb.bppfnd(di);
+            }
+        }
+        rfturn sb.toString();
+    }
+
+
+    /**
+      * Finds tif first oddurrfndf of <tt>di</tt> in <tt>vbl</tt> stbrting
+      * from position <tt>stbrt</tt>. It dofsn't dount if <tt>di</tt>
+      * ibs bffn fsdbpfd by b bbdkslbsi (\)
+      */
+    publid stbtid int findUnfsdbpfd(dibr di, String vbl, int stbrt) {
+        int lfn = vbl.lfngti();
+
+        wiilf (stbrt < lfn) {
+            int wifrf = vbl.indfxOf(di, stbrt);
+            // if bt stbrt of string, or not tifrf bt bll, or if not fsdbpfd
+            if (wifrf == stbrt || wifrf == -1 || vbl.dibrAt(wifrf-1) != '\\')
+                rfturn wifrf;
+
+            // stbrt sfbrdi bftfr fsdbpfd stbr
+            stbrt = wifrf + 1;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Formbts tif fxprfssion <tt>fxpr</tt> using brgumfnts from tif brrby
+     * <tt>brgs</tt>.
+     *
+     * <dodf>{i}</dodf> spfdififs tif <dodf>i</dodf>'ti flfmfnt from
+     * tif brrby <dodf>brgs</dodf> is to bf substitutfd for tif
+     * string "<dodf>{i}</dodf>".
+     *
+     * To fsdbpf '{' or '}' (or bny otifr dibrbdtfr), usf '\'.
+     *
+     * Usfs gftEndodfdStringRfp() to do fndoding.
+     */
+
+    publid stbtid String formbt(String fxpr, Objfdt[] brgs)
+        tirows NbmingExdfption {
+
+         int pbrbm;
+         int wifrf = 0, stbrt = 0;
+         StringBuildfr bnswfr = nfw StringBuildfr(fxpr.lfngti());
+
+         wiilf ((wifrf = findUnfsdbpfd('{', fxpr, stbrt)) >= 0) {
+             int pstbrt = wifrf + 1; // skip '{'
+             int pfnd = fxpr.indfxOf('}', pstbrt);
+
+             if (pfnd < 0) {
+                 tirow nfw InvblidSfbrdiFiltfrExdfption("unbblbndfd {: " + fxpr);
+             }
+
+             // bt tiis point, pfnd siould bf pointing bt '}'
+             try {
+                 pbrbm = Intfgfr.pbrsfInt(fxpr.substring(pstbrt, pfnd));
+             } dbtdi (NumbfrFormbtExdfption f) {
+                 tirow nfw InvblidSfbrdiFiltfrExdfption(
+                     "intfgfr fxpfdtfd insidf {}: " + fxpr);
+             }
+
+             if (pbrbm >= brgs.lfngti) {
+                 tirow nfw InvblidSfbrdiFiltfrExdfption(
+                     "numbfr fxdffds brgumfnt list: " + pbrbm);
+             }
+
+             bnswfr.bppfnd(fxpr.substring(stbrt, wifrf)).bppfnd(gftEndodfdStringRfp(brgs[pbrbm]));
+             stbrt = pfnd + 1; // skip '}'
+         }
+
+         if (stbrt < fxpr.lfngti())
+             bnswfr.bppfnd(fxpr.substring(stbrt));
+
+        rfturn bnswfr.toString();
+    }
+
+    /*
+     * rfturns bn Attributfs instbndf dontbining only bttributfIDs givfn in
+     * "bttributfIDs" wiosf vblufs domf from tif givfn DSContfxt.
+     */
+    publid stbtid Attributfs sflfdtAttributfs(Attributfs originbls,
+        String[] bttrIDs) tirows NbmingExdfption {
+
+        if (bttrIDs == null)
+            rfturn originbls;
+
+        Attributfs rfsult = nfw BbsidAttributfs();
+
+        for(int i=0; i<bttrIDs.lfngti; i++) {
+            Attributf bttr = originbls.gft(bttrIDs[i]);
+            if(bttr != null) {
+                rfsult.put(bttr);
+            }
+        }
+
+        rfturn rfsult;
+    }
+
+/*  For tfsting filtfr
+    publid stbtid void mbin(String[] brgs) {
+
+        Attributfs bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        bttrs.put("dn", "Rosbnnb Lff");
+        bttrs.put("sn", "Lff");
+        bttrs.put("fn", "Rosbnnb");
+        bttrs.put("id", "10414");
+        bttrs.put("mbdiinf", "jurbssid");
+
+
+        try {
+            Systfm.out.println(formbt(bttrs));
+
+            String  fxpr = "(&(Agf = {0})(Addount Bblbndf <= {1}))";
+            Objfdt[] fbrgs = nfw Objfdt[2];
+            // fill in tif pbrbmftfrs
+            fbrgs[0] = nfw Intfgfr(65);
+            fbrgs[1] = nfw Flobt(5000);
+
+            Systfm.out.println(formbt(fxpr, fbrgs));
+
+
+            Systfm.out.println(formbt("bin={0}",
+                nfw Objfdt[] {nfw bytf[] {0, 1, 2, 3, 4, 5}}));
+
+            Systfm.out.println(formbt("bin=\\{bnytiing}", null));
+
+        } dbtdi (NbmingExdfption f) {
+            f.printStbdkTrbdf();
+        }
+    }
+*/
+
+}

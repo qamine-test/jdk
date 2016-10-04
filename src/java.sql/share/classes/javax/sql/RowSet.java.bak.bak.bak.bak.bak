@@ -1,0 +1,2186 @@
+/*
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.mbti.*;
+import jbvb.util.*;
+
+/**
+ * Tif intfrfbdf tibt bdds support to tif JDBC API for tif
+ * JbvbBfbns&trbdf; domponfnt modfl.
+ * A rowsft, wiidi dbn bf usfd bs b JbvbBfbns domponfnt in
+ * b visubl Bfbn dfvflopmfnt fnvironmfnt, dbn bf drfbtfd bnd
+ * donfigurfd bt dfsign timf bnd fxfdutfd bt run timf.
+ * <P>
+ * Tif <dodf>RowSft</dodf>
+ * intfrfbdf providfs b sft of JbvbBfbns propfrtifs tibt bllow b <dodf>RowSft</dodf>
+ * instbndf to bf donfigurfd to donnfdt to b JDBC dbtb sourdf bnd rfbd
+ * somf dbtb from tif dbtb sourdf.  A group of sfttfr mftiods (<dodf>sftInt</dodf>,
+ * <dodf>sftBytfs</dodf>, <dodf>sftString</dodf>, bnd so on)
+ * providf b wby to pbss input pbrbmftfrs to b rowsft's dommbnd propfrty.
+ * Tiis dommbnd is tif SQL qufry tif rowsft usfs wifn it gfts its dbtb from
+ * b rflbtionbl dbtbbbsf, wiidi is gfnfrblly tif dbsf.
+ * <P>
+ * Tif <dodf>RowSft</dodf>
+ * intfrfbdf supports JbvbBfbns fvfnts, bllowing otifr domponfnts in bn
+ * bpplidbtion to bf notififd wifn bn fvfnt oddurs on b rowsft,
+ * sudi bs b dibngf in its vbluf.
+ *
+ * <P>Tif <dodf>RowSft</dodf> intfrfbdf is uniquf in tibt it is intfndfd to bf
+ * implfmfntfd using tif rfst of tif JDBC API.  In otifr words, b
+ * <dodf>RowSft</dodf> implfmfntbtion is b lbyfr of softwbrf tibt fxfdutfs "on top"
+ * of b JDBC drivfr.  Implfmfntbtions of tif <dodf>RowSft</dodf> intfrfbdf dbn
+ * bf providfd by bnyonf, indluding JDBC drivfr vfndors wio wbnt to
+ * providf b <dodf>RowSft</dodf> implfmfntbtion bs pbrt of tifir JDBC produdts.
+ * <P>
+ * A <dodf>RowSft</dodf> objfdt mby mbkf b donnfdtion witi b dbtb sourdf bnd
+ * mbintbin tibt donnfdtion tirougiout its liff dydlf, in wiidi dbsf it is
+ * dbllfd b <i>donnfdtfd</i> rowsft.  A rowsft mby blso mbkf b donnfdtion witi
+ * b dbtb sourdf, gft dbtb from it, bnd tifn dlosf tif donnfdtion. Sudi b rowsft
+ * is dbllfd b <i>disdonnfdtfd</i> rowsft.  A disdonnfdtfd rowsft mby mbkf
+ * dibngfs to its dbtb wiilf it is disdonnfdtfd bnd tifn sfnd tif dibngfs bbdk
+ * to tif originbl sourdf of tif dbtb, but it must rffstbblisi b donnfdtion to do so.
+ * <P>
+ * A disdonnfdtfd rowsft mby ibvf b rfbdfr (b <dodf>RowSftRfbdfr</dodf> objfdt)
+ * bnd b writfr (b <dodf>RowSftWritfr</dodf> objfdt) bssodibtfd witi it.
+ * Tif rfbdfr mby bf implfmfntfd in mbny difffrfnt wbys to populbtf b rowsft
+ * witi dbtb, indluding gftting dbtb from b non-rflbtionbl dbtb sourdf. Tif
+ * writfr dbn blso bf implfmfntfd in mbny difffrfnt wbys to propbgbtf dibngfs
+ * mbdf to tif rowsft's dbtb bbdk to tif undfrlying dbtb sourdf.
+ * <P>
+ * Rowsfts brf fbsy to usf.  Tif <dodf>RowSft</dodf> intfrfbdf fxtfnds tif stbndbrd
+ * <dodf>jbvb.sql.RfsultSft</dodf> intfrfbdf.  Tif <dodf>RowSftMftbDbtb</dodf>
+ * intfrfbdf fxtfnds tif <dodf>jbvb.sql.RfsultSftMftbDbtb</dodf> intfrfbdf.
+ * Tius, dfvflopfrs fbmilibr
+ * witi tif JDBC API will ibvf to lfbrn b minimbl numbfr of nfw APIs to
+ * usf rowsfts.  In bddition, tiird-pbrty softwbrf tools tibt work witi
+ * JDBC <dodf>RfsultSft</dodf> objfdts will blso fbsily bf mbdf to work witi rowsfts.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf RowSft fxtfnds RfsultSft {
+
+  //-----------------------------------------------------------------------
+  // Propfrtifs
+  //-----------------------------------------------------------------------
+
+  //-----------------------------------------------------------------------
+  // Tif following propfrtifs mby bf usfd to drfbtf b Connfdtion.
+  //-----------------------------------------------------------------------
+
+  /**
+   * Rftrifvfs tif url propfrty tiis <dodf>RowSft</dodf> objfdt will usf to
+   * drfbtf b donnfdtion if it usfs tif <dodf>DrivfrMbnbgfr</dodf>
+   * instfbd of b <dodf>DbtbSourdf</dodf> objfdt to fstbblisi tif donnfdtion.
+   * Tif dffbult vbluf is <dodf>null</dodf>.
+   *
+   * @rfturn b string url
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #sftUrl
+   */
+  String gftUrl() tirows SQLExdfption;
+
+  /**
+   * Sfts tif URL tiis <dodf>RowSft</dodf> objfdt will usf wifn it usfs tif
+   * <dodf>DrivfrMbnbgfr</dodf> to drfbtf b donnfdtion.
+   *
+   * Sftting tiis propfrty is optionbl.  If b URL is usfd, b JDBC drivfr
+   * tibt bddfpts tif URL must bf lobdfd bfforf tif
+   * rowsft is usfd to donnfdt to b dbtbbbsf.  Tif rowsft will usf tif URL
+   * intfrnblly to drfbtf b dbtbbbsf donnfdtion wifn rfbding or writing
+   * dbtb.  Eitifr b URL or b dbtb sourdf nbmf is usfd to drfbtf b
+   * donnfdtion, wiidifvfr wbs sft to non null vbluf most rfdfntly.
+   *
+   * @pbrbm url b string vbluf; mby bf <dodf>null</dodf>
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftUrl
+   */
+  void sftUrl(String url) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif logidbl nbmf tibt idfntififs tif dbtb sourdf for tiis
+   * <dodf>RowSft</dodf> objfdt.
+   *
+   * @rfturn b dbtb sourdf nbmf
+   * @sff #sftDbtbSourdfNbmf
+   * @sff #sftUrl
+   */
+  String gftDbtbSourdfNbmf();
+
+  /**
+   * Sfts tif dbtb sourdf nbmf propfrty for tiis <dodf>RowSft</dodf> objfdt to tif
+   * givfn <dodf>String</dodf>.
+   * <P>
+   * Tif vbluf of tif dbtb sourdf nbmf propfrty dbn bf usfd to do b lookup of
+   * b <dodf>DbtbSourdf</dodf> objfdt tibt ibs bffn rfgistfrfd witi b nbming
+   * sfrvidf.  Aftfr bfing rftrifvfd, tif <dodf>DbtbSourdf</dodf> objfdt dbn bf
+   * usfd to drfbtf b donnfdtion to tif dbtb sourdf tibt it rfprfsfnts.
+   *
+   * @pbrbm nbmf tif logidbl nbmf of tif dbtb sourdf for tiis <dodf>RowSft</dodf>
+   *        objfdt; mby bf <dodf>null</dodf>
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftDbtbSourdfNbmf
+   */
+  void sftDbtbSourdfNbmf(String nbmf) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif usfrnbmf usfd to drfbtf b dbtbbbsf donnfdtion for tiis
+   * <dodf>RowSft</dodf> objfdt.
+   * Tif usfrnbmf propfrty is sft bt run timf bfforf dblling tif mftiod
+   * <dodf>fxfdutf</dodf>.  It is
+   * not usublly pbrt of tif sfriblizfd stbtf of b <dodf>RowSft</dodf> objfdt.
+   *
+   * @rfturn tif usfrnbmf propfrty
+   * @sff #sftUsfrnbmf
+   */
+  String gftUsfrnbmf();
+
+  /**
+   * Sfts tif usfrnbmf propfrty for tiis <dodf>RowSft</dodf> objfdt to tif
+   * givfn <dodf>String</dodf>.
+   *
+   * @pbrbm nbmf b usfr nbmf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftUsfrnbmf
+   */
+  void sftUsfrnbmf(String nbmf) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif pbssword usfd to drfbtf b dbtbbbsf donnfdtion.
+   * Tif pbssword propfrty is sft bt run timf bfforf dblling tif mftiod
+   * <dodf>fxfdutf</dodf>.  It is not usublly pbrt of tif sfriblizfd stbtf
+   * of b <dodf>RowSft</dodf> objfdt.
+   *
+   * @rfturn tif pbssword for mbking b dbtbbbsf donnfdtion
+   * @sff #sftPbssword
+   */
+  String gftPbssword();
+
+  /**
+   * Sfts tif dbtbbbsf pbssword for tiis <dodf>RowSft</dodf> objfdt to
+   * tif givfn <dodf>String</dodf>.
+   *
+   * @pbrbm pbssword tif pbssword string
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftPbssword
+   */
+  void sftPbssword(String pbssword) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif trbnsbdtion isolbtion lfvfl sft for tiis
+   * <dodf>RowSft</dodf> objfdt.
+   *
+   * @rfturn tif trbnsbdtion isolbtion lfvfl; onf of
+   *      <dodf>Connfdtion.TRANSACTION_READ_UNCOMMITTED</dodf>,
+   *      <dodf>Connfdtion.TRANSACTION_READ_COMMITTED</dodf>,
+   *      <dodf>Connfdtion.TRANSACTION_REPEATABLE_READ</dodf>, or
+   *      <dodf>Connfdtion.TRANSACTION_SERIALIZABLE</dodf>
+   * @sff #sftTrbnsbdtionIsolbtion
+   */
+  int gftTrbnsbdtionIsolbtion();
+
+  /**
+   * Sfts tif trbnsbdtion isolbtion lfvfl for tiis <dodf>RowSft</dodf> objfdt.
+   *
+   * @pbrbm lfvfl tif trbnsbdtion isolbtion lfvfl; onf of
+   *      <dodf>Connfdtion.TRANSACTION_READ_UNCOMMITTED</dodf>,
+   *      <dodf>Connfdtion.TRANSACTION_READ_COMMITTED</dodf>,
+   *      <dodf>Connfdtion.TRANSACTION_REPEATABLE_READ</dodf>, or
+   *      <dodf>Connfdtion.TRANSACTION_SERIALIZABLE</dodf>
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftTrbnsbdtionIsolbtion
+   */
+  void sftTrbnsbdtionIsolbtion(int lfvfl) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif <dodf>Mbp</dodf> objfdt bssodibtfd witi tiis
+   * <dodf>RowSft</dodf> objfdt, wiidi spfdififs tif dustom mbpping
+   * of SQL usfr-dffinfd typfs, if bny.  Tif dffbult is for tif
+   * typf mbp to bf fmpty.
+   *
+   * @rfturn b <dodf>jbvb.util.Mbp</dodf> objfdt dontbining tif nbmfs of
+   *         SQL usfr-dffinfd typfs bnd tif Jbvb dlbssfs to wiidi tify brf
+   *         to bf mbppfd
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #sftTypfMbp
+   */
+   jbvb.util.Mbp<String,Clbss<?>> gftTypfMbp() tirows SQLExdfption;
+
+  /**
+   * Instblls tif givfn <dodf>jbvb.util.Mbp</dodf> objfdt bs tif dffbult
+   * typf mbp for tiis <dodf>RowSft</dodf> objfdt. Tiis typf mbp will bf
+   * usfd unlfss bnotifr typf mbp is supplifd bs b mftiod pbrbmftfr.
+   *
+   * @pbrbm mbp  b <dodf>jbvb.util.Mbp</dodf> objfdt dontbining tif nbmfs of
+   *         SQL usfr-dffinfd typfs bnd tif Jbvb dlbssfs to wiidi tify brf
+   *         to bf mbppfd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftTypfMbp
+   */
+   void sftTypfMbp(jbvb.util.Mbp<String,Clbss<?>> mbp) tirows SQLExdfption;
+
+  //-----------------------------------------------------------------------
+  // Tif following propfrtifs mby bf usfd to drfbtf b Stbtfmfnt.
+  //-----------------------------------------------------------------------
+
+  /**
+   * Rftrifvfs tiis <dodf>RowSft</dodf> objfdt's dommbnd propfrty.
+   *
+   * Tif dommbnd propfrty dontbins b dommbnd string, wiidi must bf bn SQL
+   * qufry, tibt dbn bf fxfdutfd to fill tif rowsft witi dbtb.
+   * Tif dffbult vbluf is <dodf>null</dodf>.
+   *
+   * @rfturn tif dommbnd string; mby bf <dodf>null</dodf>
+   * @sff #sftCommbnd
+   */
+  String gftCommbnd();
+
+  /**
+   * Sfts tiis <dodf>RowSft</dodf> objfdt's dommbnd propfrty to tif givfn
+   * SQL qufry.
+   *
+   * Tiis propfrty is optionbl
+   * wifn b rowsft gfts its dbtb from b dbtb sourdf tibt dofs not support
+   * dommbnds, sudi bs b sprfbdsifft.
+   *
+   * @pbrbm dmd tif SQL qufry tibt will bf usfd to gft tif dbtb for tiis
+   *        <dodf>RowSft</dodf> objfdt; mby bf <dodf>null</dodf>
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftCommbnd
+   */
+  void sftCommbnd(String dmd) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs wiftifr tiis <dodf>RowSft</dodf> objfdt is rfbd-only.
+   * If updbtfs brf possiblf, tif dffbult is for b rowsft to bf
+   * updbtbblf.
+   * <P>
+   * Attfmpts to updbtf b rfbd-only rowsft will rfsult in bn
+   * <dodf>SQLExdfption</dodf> bfing tirown.
+   *
+   * @rfturn <dodf>truf</dodf> if tiis <dodf>RowSft</dodf> objfdt is
+   *         rfbd-only; <dodf>fblsf</dodf> if it is updbtbblf
+   * @sff #sftRfbdOnly
+   */
+  boolfbn isRfbdOnly();
+
+  /**
+   * Sfts wiftifr tiis <dodf>RowSft</dodf> objfdt is rfbd-only to tif
+   * givfn <dodf>boolfbn</dodf>.
+   *
+   * @pbrbm vbluf <dodf>truf</dodf> if rfbd-only; <dodf>fblsf</dodf> if
+   *        updbtbblf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #isRfbdOnly
+   */
+  void sftRfbdOnly(boolfbn vbluf) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif mbximum numbfr of bytfs tibt mby bf rfturnfd
+   * for dfrtbin dolumn vblufs.
+   * Tiis limit bpplifs only to <dodf>BINARY</dodf>,
+   * <dodf>VARBINARY</dodf>, <dodf>LONGVARBINARYBINARY</dodf>, <dodf>CHAR</dodf>,
+   * <dodf>VARCHAR</dodf>, <dodf>LONGVARCHAR</dodf>, <dodf>NCHAR</dodf>
+   * bnd <dodf>NVARCHAR</dodf> dolumns.
+   * If tif limit is fxdffdfd, tif fxdfss dbtb is silfntly disdbrdfd.
+   *
+   * @rfturn tif durrfnt mbximum dolumn sizf limit; zfro mfbns tibt tifrf
+   *          is no limit
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #sftMbxFifldSizf
+   */
+  int gftMbxFifldSizf() tirows SQLExdfption;
+
+  /**
+   * Sfts tif mbximum numbfr of bytfs tibt dbn bf rfturnfd for b dolumn
+   * vbluf to tif givfn numbfr of bytfs.
+   * Tiis limit bpplifs only to <dodf>BINARY</dodf>,
+   * <dodf>VARBINARY</dodf>, <dodf>LONGVARBINARYBINARY</dodf>, <dodf>CHAR</dodf>,
+   * <dodf>VARCHAR</dodf>, <dodf>LONGVARCHAR</dodf>, <dodf>NCHAR</dodf>
+   * bnd <dodf>NVARCHAR</dodf> dolumns.
+   * If tif limit is fxdffdfd, tif fxdfss dbtb is silfntly disdbrdfd.
+   * For mbximum portbbility, usf vblufs grfbtfr tibn 256.
+   *
+   * @pbrbm mbx tif nfw mbx dolumn sizf limit in bytfs; zfro mfbns unlimitfd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftMbxFifldSizf
+   */
+  void sftMbxFifldSizf(int mbx) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif mbximum numbfr of rows tibt tiis <dodf>RowSft</dodf>
+   * objfdt dbn dontbin.
+   * If tif limit is fxdffdfd, tif fxdfss rows brf silfntly droppfd.
+   *
+   * @rfturn tif durrfnt mbximum numbfr of rows tibt tiis <dodf>RowSft</dodf>
+   *         objfdt dbn dontbin; zfro mfbns unlimitfd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #sftMbxRows
+   */
+  int gftMbxRows() tirows SQLExdfption;
+
+  /**
+   * Sfts tif mbximum numbfr of rows tibt tiis <dodf>RowSft</dodf>
+   * objfdt dbn dontbin to tif spfdififd numbfr.
+   * If tif limit is fxdffdfd, tif fxdfss rows brf silfntly droppfd.
+   *
+   * @pbrbm mbx tif nfw mbximum numbfr of rows; zfro mfbns unlimitfd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftMbxRows
+   */
+  void sftMbxRows(int mbx) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs wiftifr fsdbpf prodfssing is fnbblfd for tiis
+   * <dodf>RowSft</dodf> objfdt.
+   * If fsdbpf sdbnning is fnbblfd, wiidi is tif dffbult, tif drivfr will do
+   * fsdbpf substitution bfforf sfnding bn SQL stbtfmfnt to tif dbtbbbsf.
+   *
+   * @rfturn <dodf>truf</dodf> if fsdbpf prodfssing is fnbblfd;
+   *         <dodf>fblsf</dodf> if it is disbblfd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #sftEsdbpfProdfssing
+   */
+  boolfbn gftEsdbpfProdfssing() tirows SQLExdfption;
+
+  /**
+   * Sfts fsdbpf prodfssing for tiis <dodf>RowSft</dodf> objfdt on or
+   * off. If fsdbpf sdbnning is on (tif dffbult), tif drivfr will do
+   * fsdbpf substitution bfforf sfnding bn SQL stbtfmfnt to tif dbtbbbsf.
+   *
+   * @pbrbm fnbblf <dodf>truf</dodf> to fnbblf fsdbpf prodfssing;
+   *        <dodf>fblsf</dodf> to disbblf it
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftEsdbpfProdfssing
+   */
+  void sftEsdbpfProdfssing(boolfbn fnbblf) tirows SQLExdfption;
+
+  /**
+   * Rftrifvfs tif mbximum numbfr of sfdonds tif drivfr will wbit for
+   * b stbtfmfnt to fxfdutf.
+   * If tiis limit is fxdffdfd, bn <dodf>SQLExdfption</dodf> is tirown.
+   *
+   * @rfturn tif durrfnt qufry timfout limit in sfdonds; zfro mfbns
+   *          unlimitfd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #sftQufryTimfout
+   */
+  int gftQufryTimfout() tirows SQLExdfption;
+
+  /**
+   * Sfts tif mbximum timf tif drivfr will wbit for
+   * b stbtfmfnt to fxfdutf to tif givfn numbfr of sfdonds.
+   * If tiis limit is fxdffdfd, bn <dodf>SQLExdfption</dodf> is tirown.
+   *
+   * @pbrbm sfdonds tif nfw qufry timfout limit in sfdonds; zfro mfbns
+   *        tibt tifrf is no limit
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff #gftQufryTimfout
+   */
+  void sftQufryTimfout(int sfdonds) tirows SQLExdfption;
+
+  /**
+   * Sfts tif typf of tiis <dodf>RowSft</dodf> objfdt to tif givfn typf.
+   * Tiis mftiod is usfd to dibngf tif typf of b rowsft, wiidi is by
+   * dffbult rfbd-only bnd non-sdrollbblf.
+   *
+   * @pbrbm typf onf of tif <dodf>RfsultSft</dodf> donstbnts spfdifying b typf:
+   *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+   *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+   *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff jbvb.sql.RfsultSft#gftTypf
+   */
+  void sftTypf(int typf) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dondurrfndy of tiis <dodf>RowSft</dodf> objfdt to tif givfn
+   * dondurrfndy lfvfl. Tiis mftiod is usfd to dibngf tif dondurrfndy lfvfl
+   * of b rowsft, wiidi is by dffbult <dodf>RfsultSft.CONCUR_READ_ONLY</dodf>
+   *
+   * @pbrbm dondurrfndy onf of tif <dodf>RfsultSft</dodf> donstbnts spfdifying b
+   *        dondurrfndy lfvfl:  <dodf>RfsultSft.CONCUR_READ_ONLY</dodf> or
+   *        <dodf>RfsultSft.CONCUR_UPDATABLE</dodf>
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff RfsultSft#gftCondurrfndy
+   */
+  void sftCondurrfndy(int dondurrfndy) tirows SQLExdfption;
+
+  //-----------------------------------------------------------------------
+  // Pbrbmftfrs
+  //-----------------------------------------------------------------------
+
+  /**
+   * Tif <dodf>RowSft</dodf> sfttfr mftiods brf usfd to sft bny input pbrbmftfrs
+   * nffdfd by tif <dodf>RowSft</dodf> objfdt's dommbnd.
+   * Pbrbmftfrs brf sft bt run timf, bs opposfd to dfsign timf.
+   */
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's SQL
+   * dommbnd to SQL <dodf>NULL</dodf>.
+   *
+   * <P><B>Notf:</B> You must spfdify tif pbrbmftfr's SQL typf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm sqlTypf b SQL typf dodf dffinfd by <dodf>jbvb.sql.Typfs</dodf>
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftNull(int pbrbmftfrIndfx, int sqlTypf) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to SQL <dodf>NULL</dodf>.
+     *
+     * <P><B>Notf:</B> You must spfdify tif pbrbmftfr's SQL typf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm sqlTypf tif SQL typf dodf dffinfd in <dodf>jbvb.sql.Typfs</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     */
+    void sftNull(String pbrbmftfrNbmf, int sqlTypf) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's SQL
+   * dommbnd to SQL <dodf>NULL</dodf>. Tiis vfrsion of tif mftiod <dodf>sftNull</dodf>
+   * siould  bf usfd for SQL usfr-dffinfd typfs (UDTs) bnd <dodf>REF</dodf> typf
+   * pbrbmftfrs.  Exbmplfs of UDTs indludf: <dodf>STRUCT</dodf>, <dodf>DISTINCT</dodf>,
+   * <dodf>JAVA_OBJECT</dodf>, bnd nbmfd brrby typfs.
+   *
+   * <P><B>Notf:</B> To bf portbblf, bpplidbtions must givf tif
+   * SQL typf dodf bnd tif fully qublififd SQL typf nbmf wifn spfdifying
+   * b NULL UDT or <dodf>REF</dodf> pbrbmftfr.  In tif dbsf of b UDT,
+   * tif nbmf is tif typf nbmf of tif pbrbmftfr itsflf.  For b <dodf>REF</dodf>
+   * pbrbmftfr, tif nbmf is tif typf nbmf of tif rfffrfndfd typf.  If
+   * b JDBC drivfr dofs not nffd tif typf dodf or typf nbmf informbtion,
+   * it mby ignorf it.
+   *
+   * Altiougi it is intfndfd for UDT bnd <dodf>REF</dodf> pbrbmftfrs,
+   * tiis mftiod mby bf usfd to sft b null pbrbmftfr of bny JDBC typf.
+   * If tif pbrbmftfr dofs not ibvf b usfr-dffinfd or <dodf>REF</dodf> typf,
+   * tif typfNbmf pbrbmftfr is ignorfd.
+   *
+   *
+   * @pbrbm pbrbmIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm sqlTypf b vbluf from <dodf>jbvb.sql.Typfs</dodf>
+   * @pbrbm typfNbmf tif fully qublififd nbmf of bn SQL UDT or tif typf
+   *        nbmf of tif SQL strudturfd typf bfing rfffrfndfd by b <dodf>REF</dodf>
+   *        typf; ignorfd if tif pbrbmftfr is not b UDT or <dodf>REF</dodf> typf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftNull (int pbrbmIndfx, int sqlTypf, String typfNbmf)
+    tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to SQL <dodf>NULL</dodf>.
+     * Tiis vfrsion of tif mftiod <dodf>sftNull</dodf> siould
+     * bf usfd for usfr-dffinfd typfs bnd REF typf pbrbmftfrs.  Exbmplfs
+     * of usfr-dffinfd typfs indludf: STRUCT, DISTINCT, JAVA_OBJECT, bnd
+     * nbmfd brrby typfs.
+     *
+     * <P><B>Notf:</B> To bf portbblf, bpplidbtions must givf tif
+     * SQL typf dodf bnd tif fully-qublififd SQL typf nbmf wifn spfdifying
+     * b NULL usfr-dffinfd or REF pbrbmftfr.  In tif dbsf of b usfr-dffinfd typf
+     * tif nbmf is tif typf nbmf of tif pbrbmftfr itsflf.  For b REF
+     * pbrbmftfr, tif nbmf is tif typf nbmf of tif rfffrfndfd typf.  If
+     * b JDBC drivfr dofs not nffd tif typf dodf or typf nbmf informbtion,
+     * it mby ignorf it.
+     *
+     * Altiougi it is intfndfd for usfr-dffinfd bnd Rff pbrbmftfrs,
+     * tiis mftiod mby bf usfd to sft b null pbrbmftfr of bny JDBC typf.
+     * If tif pbrbmftfr dofs not ibvf b usfr-dffinfd or REF typf, tif givfn
+     * typfNbmf is ignorfd.
+     *
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm sqlTypf b vbluf from <dodf>jbvb.sql.Typfs</dodf>
+     * @pbrbm typfNbmf tif fully-qublififd nbmf of bn SQL usfr-dffinfd typf;
+     *        ignorfd if tif pbrbmftfr is not b usfr-dffinfd typf or
+     *        SQL <dodf>REF</dodf> vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     */
+    void sftNull (String pbrbmftfrNbmf, int sqlTypf, String typfNbmf)
+        tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>boolfbn</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>BIT</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftBoolfbn(int pbrbmftfrIndfx, boolfbn x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>boolfbn</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>BIT</dodf> or <dodf>BOOLEAN</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @sff #gftBoolfbn
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     */
+    void sftBoolfbn(String pbrbmftfrNbmf, boolfbn x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>bytf</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>TINYINT</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftBytf(int pbrbmftfrIndfx, bytf x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>bytf</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>TINYINT</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftBytf
+     * @sindf 1.4
+     */
+    void sftBytf(String pbrbmftfrNbmf, bytf x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>siort</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>SMALLINT</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftSiort(int pbrbmftfrIndfx, siort x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>siort</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>SMALLINT</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftSiort
+     * @sindf 1.4
+     */
+    void sftSiort(String pbrbmftfrNbmf, siort x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>int</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>INTEGER</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftInt(int pbrbmftfrIndfx, int x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>int</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>INTEGER</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftInt
+     * @sindf 1.4
+     */
+    void sftInt(String pbrbmftfrNbmf, int x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>long</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>BIGINT</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftLong(int pbrbmftfrIndfx, long x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>long</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>BIGINT</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftLong
+     * @sindf 1.4
+     */
+    void sftLong(String pbrbmftfrNbmf, long x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>flobt</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>REAL</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftFlobt(int pbrbmftfrIndfx, flobt x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>flobt</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>FLOAT</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftFlobt
+     * @sindf 1.4
+     */
+    void sftFlobt(String pbrbmftfrNbmf, flobt x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>doublf</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>DOUBLE</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftDoublf(int pbrbmftfrIndfx, doublf x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>doublf</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>DOUBLE</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftDoublf
+     * @sindf 1.4
+     */
+    void sftDoublf(String pbrbmftfrNbmf, doublf x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>jbvb.mbti.BigDfdibml</dodf> vbluf.
+   * Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>NUMERIC</dodf> vbluf bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftBigDfdimbl(int pbrbmftfrIndfx, BigDfdimbl x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn
+     * <dodf>jbvb.mbti.BigDfdimbl</dodf> vbluf.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>NUMERIC</dodf> vbluf wifn
+     * it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftBigDfdimbl
+     * @sindf 1.4
+     */
+    void sftBigDfdimbl(String pbrbmftfrNbmf, BigDfdimbl x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb <dodf>String</dodf> vbluf. Bfforf sfnding it to tif
+   * dbtbbbsf, tif drivfr donvfrts tiis to bn SQL <dodf>VARCHAR</dodf> or
+   * <dodf>LONGVARCHAR</dodf> vbluf, dfpfnding on tif brgumfnt's sizf rflbtivf
+   * to tif drivfr's limits on <dodf>VARCHAR</dodf> vblufs.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftString(int pbrbmftfrIndfx, String x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>String</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>VARCHAR</dodf> or <dodf>LONGVARCHAR</dodf> vbluf
+     * (dfpfnding on tif brgumfnt's
+     * sizf rflbtivf to tif drivfr's limits on <dodf>VARCHAR</dodf> vblufs)
+     * wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftString
+     * @sindf 1.4
+     */
+    void sftString(String pbrbmftfrNbmf, String x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn Jbvb brrby of <dodf>bytf</dodf> vblufs. Bfforf sfnding it to tif
+   * dbtbbbsf, tif drivfr donvfrts tiis to bn SQL <dodf>VARBINARY</dodf> or
+   * <dodf>LONGVARBINARY</dodf> vbluf, dfpfnding on tif brgumfnt's sizf rflbtivf
+   * to tif drivfr's limits on <dodf>VARBINARY</dodf> vblufs.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftBytfs(int pbrbmftfrIndfx, bytf x[]) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb brrby of bytfs.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>VARBINARY</dodf> or
+     * <dodf>LONGVARBINARY</dodf> (dfpfnding on tif brgumfnt's sizf rflbtivf
+     * to tif drivfr's limits on <dodf>VARBINARY</dodf> vblufs) wifn it sfnds
+     * it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftBytfs
+     * @sindf 1.4
+     */
+    void sftBytfs(String pbrbmftfrNbmf, bytf x[]) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>jbvb.sql.Dbtf</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>DATE</dodf> vbluf bfforf sfnding it to tif dbtbbbsf, using tif
+   * dffbult <dodf>jbvb.util.Cblfndbr</dodf> to dbldulbtf tif dbtf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftDbtf(int pbrbmftfrIndfx, jbvb.sql.Dbtf x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>jbvb.sql.Timf</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>TIME</dodf> vbluf bfforf sfnding it to tif dbtbbbsf, using tif
+   * dffbult <dodf>jbvb.util.Cblfndbr</dodf> to dbldulbtf it.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftTimf(int pbrbmftfrIndfx, jbvb.sql.Timf x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>jbvb.sql.Timfstbmp</dodf> vbluf. Tif drivfr donvfrts tiis to
+   * bn SQL <dodf>TIMESTAMP</dodf> vbluf bfforf sfnding it to tif dbtbbbsf, using tif
+   * dffbult <dodf>jbvb.util.Cblfndbr</dodf> to dbldulbtf it.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftTimfstbmp(int pbrbmftfrIndfx, jbvb.sql.Timfstbmp x)
+    tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timfstbmp</dodf> vbluf.
+     * Tif drivfr
+     * donvfrts tiis to bn SQL <dodf>TIMESTAMP</dodf> vbluf wifn it sfnds it to tif
+     * dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftTimfstbmp
+     * @sindf 1.4
+     */
+    void sftTimfstbmp(String pbrbmftfrNbmf, jbvb.sql.Timfstbmp x)
+        tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>jbvb.io.InputStrfbm</dodf> vbluf.
+   * It mby bf morf prbdtidbl to sfnd b vfry lbrgf ASCII vbluf vib b
+   * <dodf>jbvb.io.InputStrfbm</dodf> rbtifr tibn bs b <dodf>LONGVARCHAR</dodf>
+   * pbrbmftfr. Tif drivfr will rfbd tif dbtb from tif strfbm
+   * bs nffdfd until it rfbdifs fnd-of-filf.
+   *
+   * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+   * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+   * stbndbrd intfrfbdf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif Jbvb input strfbm tibt dontbins tif ASCII pbrbmftfr vbluf
+   * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftAsdiiStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x, int lfngti)
+    tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm, wiidi will ibvf
+     * tif spfdififd numbfr of bytfs.
+     * Wifn b vfry lbrgf ASCII vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf>. Dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from ASCII to tif dbtbbbsf dibr formbt.
+     *
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif Jbvb input strfbm tibt dontbins tif ASCII pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     */
+    void sftAsdiiStrfbm(String pbrbmftfrNbmf, jbvb.io.InputStrfbm x, int lfngti)
+        tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>jbvb.io.InputStrfbm</dodf> vbluf.
+   * It mby bf morf prbdtidbl to sfnd b vfry lbrgf binbry vbluf vib b
+   * <dodf>jbvb.io.InputStrfbm</dodf> rbtifr tibn bs b <dodf>LONGVARBINARY</dodf>
+   * pbrbmftfr. Tif drivfr will rfbd tif dbtb from tif strfbm
+   * bs nffdfd until it rfbdifs fnd-of-filf.
+   *
+   * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+   * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+   * stbndbrd intfrfbdf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif jbvb input strfbm wiidi dontbins tif binbry pbrbmftfr vbluf
+   * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftBinbryStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x,
+                       int lfngti) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm, wiidi will ibvf
+     * tif spfdififd numbfr of bytfs.
+     * Wifn b vfry lbrgf binbry vbluf is input to b <dodf>LONGVARBINARY</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt. Tif dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.
+     *
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif jbvb input strfbm wiidi dontbins tif binbry pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     */
+    void sftBinbryStrfbm(String pbrbmftfrNbmf, jbvb.io.InputStrfbm x,
+                         int lfngti) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>jbvb.io.Rfbdfr</dodf> vbluf.
+   * It mby bf morf prbdtidbl to sfnd b vfry lbrgf UNICODE vbluf vib b
+   * <dodf>jbvb.io.Rfbdfr</dodf> rbtifr tibn bs b <dodf>LONGVARCHAR</dodf>
+   * pbrbmftfr. Tif drivfr will rfbd tif dbtb from tif strfbm
+   * bs nffdfd until it rfbdifs fnd-of-filf.
+   *
+   * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+   * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+   * stbndbrd intfrfbdf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm rfbdfr tif <dodf>Rfbdfr</dodf> objfdt tibt dontbins tif UNICODE dbtb
+   *        to bf sft
+   * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif strfbm
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftCibrbdtfrStrfbm(int pbrbmftfrIndfx,
+                          Rfbdfr rfbdfr,
+                          int lfngti) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>Rfbdfr</dodf>
+     * objfdt, wiidi is tif givfn numbfr of dibrbdtfrs long.
+     * Wifn b vfry lbrgf UNICODE vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.Rfbdfr</dodf> objfdt. Tif dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from UNICODE to tif dbtbbbsf dibr formbt.
+     *
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt tibt
+     *        dontbins tif UNICODE dbtb usfd bs tif dfsignbtfd pbrbmftfr
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif strfbm
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     */
+    void sftCibrbdtfrStrfbm(String pbrbmftfrNbmf,
+                            jbvb.io.Rfbdfr rfbdfr,
+                            int lfngti) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn input strfbm.
+   * Wifn b vfry lbrgf ASCII vbluf is input to b <dodf>LONGVARCHAR</dodf>
+   * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+   * <dodf>jbvb.io.InputStrfbm</dodf>. Dbtb will bf rfbd from tif strfbm
+   * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+   * do bny nfdfssbry donvfrsion from ASCII to tif dbtbbbsf dibr formbt.
+   *
+   * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+   * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+   * stbndbrd intfrfbdf.
+   * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+   * it migit bf morf fffidifnt to usf b vfrsion of
+   * <dodf>sftAsdiiStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif Jbvb input strfbm tibt dontbins tif ASCII pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+   * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+   * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+   * @sindf 1.6
+   */
+  void sftAsdiiStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x)
+                      tirows SQLExdfption;
+
+   /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm.
+     * Wifn b vfry lbrgf ASCII vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf>. Dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from ASCII to tif dbtbbbsf dibr formbt.
+     *
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftAsdiiStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif Jbvb input strfbm tibt dontbins tif ASCII pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+       * @sindf 1.6
+    */
+    void sftAsdiiStrfbm(String pbrbmftfrNbmf, jbvb.io.InputStrfbm x)
+            tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn input strfbm.
+   * Wifn b vfry lbrgf binbry vbluf is input to b <dodf>LONGVARBINARY</dodf>
+   * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+   * <dodf>jbvb.io.InputStrfbm</dodf> objfdt. Tif dbtb will bf rfbd from tif
+   * strfbm bs nffdfd until fnd-of-filf is rfbdifd.
+   *
+   * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+   * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+   * stbndbrd intfrfbdf.
+   * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+   * it migit bf morf fffidifnt to usf b vfrsion of
+   * <dodf>sftBinbryStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif jbvb input strfbm wiidi dontbins tif binbry pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+   * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+   * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+   * @sindf 1.6
+   */
+  void sftBinbryStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x)
+                       tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm.
+     * Wifn b vfry lbrgf binbry vbluf is input to b <dodf>LONGVARBINARY</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt. Tif dbtb will bf rfbd from tif
+     * strfbm bs nffdfd until fnd-of-filf is rfbdifd.
+     *
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftBinbryStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif jbvb input strfbm wiidi dontbins tif binbry pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
+     */
+    void sftBinbryStrfbm(String pbrbmftfrNbmf, jbvb.io.InputStrfbm x)
+    tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to tif givfn <dodf>Rfbdfr</dodf>
+   * objfdt.
+   * Wifn b vfry lbrgf UNICODE vbluf is input to b <dodf>LONGVARCHAR</dodf>
+   * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+   * <dodf>jbvb.io.Rfbdfr</dodf> objfdt. Tif dbtb will bf rfbd from tif strfbm
+   * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+   * do bny nfdfssbry donvfrsion from UNICODE to tif dbtbbbsf dibr formbt.
+   *
+   * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+   * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+   * stbndbrd intfrfbdf.
+   * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+   * it migit bf morf fffidifnt to usf b vfrsion of
+   * <dodf>sftCibrbdtfrStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt tibt dontbins tif
+   *        Unidodf dbtb
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+   * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+   * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+   * @sindf 1.6
+   */
+  void sftCibrbdtfrStrfbm(int pbrbmftfrIndfx,
+                          jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>Rfbdfr</dodf>
+     * objfdt.
+     * Wifn b vfry lbrgf UNICODE vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.Rfbdfr</dodf> objfdt. Tif dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from UNICODE to tif dbtbbbsf dibr formbt.
+     *
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftCibrbdtfrStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt tibt dontbins tif
+     *        Unidodf dbtb
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
+     */
+    void sftCibrbdtfrStrfbm(String pbrbmftfrNbmf,
+                          jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * to b <dodf>Rfbdfr</dodf> objfdt. Tif
+   * <dodf>Rfbdfr</dodf> rfbds tif dbtb till fnd-of-filf is rfbdifd. Tif
+   * drivfr dofs tif nfdfssbry donvfrsion from Jbvb dibrbdtfr formbt to
+   * tif nbtionbl dibrbdtfr sft in tif dbtbbbsf.
+
+   * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+   * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+   * stbndbrd intfrfbdf.
+   * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+   * it migit bf morf fffidifnt to usf b vfrsion of
+   * <dodf>sftNCibrbdtfrStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+   *
+   * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm vbluf tif pbrbmftfr vbluf
+   * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+   *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+   *  frror dould oddur ; if b dbtbbbsf bddfss frror oddurs; or
+   * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+   * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+   * @sindf 1.6
+   */
+   void sftNCibrbdtfrStrfbm(int pbrbmftfrIndfx, Rfbdfr vbluf) tirows SQLExdfption;
+
+
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn Jbvb <dodf>Objfdt</dodf>.  For intfgrbl vblufs, tif
+   * <dodf>jbvb.lbng</dodf> fquivblfnt objfdts siould bf usfd (for fxbmplf,
+   * bn instbndf of tif dlbss <dodf>Intfgfr</dodf> for bn <dodf>int</dodf>).
+   *
+   * If tif sfdond brgumfnt is bn <dodf>InputStrfbm</dodf> tifn tif strfbm must dontbin
+   * tif numbfr of bytfs spfdififd by sdblfOrLfngti.  If tif sfdond brgumfnt is b
+   * <dodf>Rfbdfr</dodf> tifn tif rfbdfr must dontbin tif numbfr of dibrbdtfrs spfdififd    * by sdblfOrLfngti. If tifsf donditions brf not truf tif drivfr will gfnfrbtf b
+   * <dodf>SQLExdfption</dodf> wifn tif prfpbrfd stbtfmfnt is fxfdutfd.
+   *
+   * <p>Tif givfn Jbvb objfdt will bf donvfrtfd to tif tbrgftSqlTypf
+   * bfforf bfing sfnt to tif dbtbbbsf.
+   * <P>
+   * If tif objfdt is of b dlbss implfmfnting <dodf>SQLDbtb</dodf>,
+   * tif rowsft siould dbll tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+   * to writf tif objfdt to bn <dodf>SQLOutput</dodf> dbtb strfbm.
+   * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+   * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>,  <dodf>NClob</dodf>,
+   *  <dodf>Strudt</dodf>, <dodf>jbvb.nft.URL</dodf>,
+   * or <dodf>Arrby</dodf>, tif drivfr siould pbss it to tif dbtbbbsf bs b
+   * vbluf of tif dorrfsponding SQL typf.
+   *
+   *
+   * <p>Notf tibt tiis mftiod mby bf usfd to pbss dbtbtbbbsf-spfdifid
+   * bbstrbdt dbtb typfs.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @pbrbm tbrgftSqlTypf tif SQL typf (bs dffinfd in <dodf>jbvb.sql.Typfs</dodf>)
+   *        to bf sfnt to tif dbtbbbsf. Tif sdblf brgumfnt mby furtifr qublify tiis
+   *        typf.
+   * @pbrbm sdblfOrLfngti for <dodf>jbvb.sql.Typfs.DECIMAL</dodf>
+   *          or <dodf>jbvb.sql.Typfs.NUMERIC typfs</dodf>,
+   *          tiis is tif numbfr of digits bftfr tif dfdimbl point. For
+   *          Jbvb Objfdt typfs <dodf>InputStrfbm</dodf> bnd <dodf>Rfbdfr</dodf>,
+   *          tiis is tif lfngti
+   *          of tif dbtb in tif strfbm or rfbdfr.  For bll otifr typfs,
+   *          tiis vbluf will bf ignorfd.
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @sff jbvb.sql.Typfs
+   */
+  void sftObjfdt(int pbrbmftfrIndfx, Objfdt x, int tbrgftSqlTypf, int sdblfOrLfngti)
+            tirows SQLExdfption;
+
+  /**
+     * Sfts tif vbluf of tif dfsignbtfd pbrbmftfr witi tif givfn objfdt. Tif sfdond
+     * brgumfnt must bf bn objfdt typf; for intfgrbl vblufs, tif
+     * <dodf>jbvb.lbng</dodf> fquivblfnt objfdts siould bf usfd.
+     *
+     * <p>Tif givfn Jbvb objfdt will bf donvfrtfd to tif givfn tbrgftSqlTypf
+     * bfforf bfing sfnt to tif dbtbbbsf.
+     *
+     * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
+     * intfrfbdf <dodf>SQLDbtb</dodf>),
+     * tif JDBC drivfr siould dbll tif mftiod <dodf>SQLDbtb.writfSQL</dodf> to writf it
+     * to tif SQL dbtb strfbm.
+     * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+     * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>,  <dodf>NClob</dodf>,
+     *  <dodf>Strudt</dodf>, <dodf>jbvb.nft.URL</dodf>,
+     * or <dodf>Arrby</dodf>, tif drivfr siould pbss it to tif dbtbbbsf bs b
+     * vbluf of tif dorrfsponding SQL typf.
+     * <P>
+     * Notf tibt tiis mftiod mby bf usfd to pbss dbtbtbbbsf-
+     * spfdifid bbstrbdt dbtb typfs.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+     * @pbrbm tbrgftSqlTypf tif SQL typf (bs dffinfd in jbvb.sql.Typfs) to bf
+     * sfnt to tif dbtbbbsf. Tif sdblf brgumfnt mby furtifr qublify tiis typf.
+     * @pbrbm sdblf for jbvb.sql.Typfs.DECIMAL or jbvb.sql.Typfs.NUMERIC typfs,
+     *          tiis is tif numbfr of digits bftfr tif dfdimbl point.  For bll otifr
+     *          typfs, tiis vbluf will bf ignorfd.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if <dodf>tbrgftSqlTypf</dodf> is
+     * b <dodf>ARRAY</dodf>, <dodf>BLOB</dodf>, <dodf>CLOB</dodf>,
+     * <dodf>DATALINK</dodf>, <dodf>JAVA_OBJECT</dodf>, <dodf>NCHAR</dodf>,
+     * <dodf>NCLOB</dodf>, <dodf>NVARCHAR</dodf>, <dodf>LONGNVARCHAR</dodf>,
+     *  <dodf>REF</dodf>, <dodf>ROWID</dodf>, <dodf>SQLXML</dodf>
+     * or  <dodf>STRUCT</dodf> dbtb typf bnd tif JDBC drivfr dofs not support
+     * tiis dbtb typf
+     * @sff Typfs
+     * @sff #gftObjfdt
+     * @sindf 1.4
+     */
+    void sftObjfdt(String pbrbmftfrNbmf, Objfdt x, int tbrgftSqlTypf, int sdblf)
+        tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi b Jbvb <dodf>Objfdt</dodf>.  For intfgrbl vblufs, tif
+   * <dodf>jbvb.lbng</dodf> fquivblfnt objfdts siould bf usfd.
+   * Tiis mftiod is likf <dodf>sftObjfdt</dodf> bbovf, but tif sdblf usfd is tif sdblf
+   * of tif sfdond pbrbmftfr.  Sdblbr vblufs ibvf b sdblf of zfro.  Litfrbl
+   * vblufs ibvf tif sdblf prfsfnt in tif litfrbl.
+   * <P>
+   * Evfn tiougi it is supportfd, it is not rfdommfndfd tibt tiis mftiod
+   * bf dbllfd witi flobting point input vblufs.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @pbrbm tbrgftSqlTypf tif SQL typf (bs dffinfd in <dodf>jbvb.sql.Typfs</dodf>)
+   *        to bf sfnt to tif dbtbbbsf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftObjfdt(int pbrbmftfrIndfx, Objfdt x,
+                 int tbrgftSqlTypf) tirows SQLExdfption;
+
+  /**
+     * Sfts tif vbluf of tif dfsignbtfd pbrbmftfr witi tif givfn objfdt.
+     * Tiis mftiod is likf tif mftiod <dodf>sftObjfdt</dodf>
+     * bbovf, fxdfpt tibt it bssumfs b sdblf of zfro.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+     * @pbrbm tbrgftSqlTypf tif SQL typf (bs dffinfd in jbvb.sql.Typfs) to bf
+     *                      sfnt to tif dbtbbbsf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if <dodf>tbrgftSqlTypf</dodf> is
+     * b <dodf>ARRAY</dodf>, <dodf>BLOB</dodf>, <dodf>CLOB</dodf>,
+     * <dodf>DATALINK</dodf>, <dodf>JAVA_OBJECT</dodf>, <dodf>NCHAR</dodf>,
+     * <dodf>NCLOB</dodf>, <dodf>NVARCHAR</dodf>, <dodf>LONGNVARCHAR</dodf>,
+     *  <dodf>REF</dodf>, <dodf>ROWID</dodf>, <dodf>SQLXML</dodf>
+     * or  <dodf>STRUCT</dodf> dbtb typf bnd tif JDBC drivfr dofs not support
+     * tiis dbtb typf
+     * @sff #gftObjfdt
+     * @sindf 1.4
+     */
+    void sftObjfdt(String pbrbmftfrNbmf, Objfdt x, int tbrgftSqlTypf)
+        tirows SQLExdfption;
+
+   /**
+     * Sfts tif vbluf of tif dfsignbtfd pbrbmftfr witi tif givfn objfdt.
+     * Tif sfdond pbrbmftfr must bf of typf <dodf>Objfdt</dodf>; tifrfforf, tif
+     * <dodf>jbvb.lbng</dodf> fquivblfnt objfdts siould bf usfd for built-in typfs.
+     *
+     * <p>Tif JDBC spfdifidbtion spfdififs b stbndbrd mbpping from
+     * Jbvb <dodf>Objfdt</dodf> typfs to SQL typfs.  Tif givfn brgumfnt
+     * will bf donvfrtfd to tif dorrfsponding SQL typf bfforf bfing
+     * sfnt to tif dbtbbbsf.
+     *
+     * <p>Notf tibt tiis mftiod mby bf usfd to pbss dbtbtbbbsf-
+     * spfdifid bbstrbdt dbtb typfs, by using b drivfr-spfdifid Jbvb
+     * typf.
+     *
+     * If tif objfdt is of b dlbss implfmfnting tif intfrfbdf <dodf>SQLDbtb</dodf>,
+     * tif JDBC drivfr siould dbll tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+     * to writf it to tif SQL dbtb strfbm.
+     * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+     * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>,  <dodf>NClob</dodf>,
+     *  <dodf>Strudt</dodf>, <dodf>jbvb.nft.URL</dodf>,
+     * or <dodf>Arrby</dodf>, tif drivfr siould pbss it to tif dbtbbbsf bs b
+     * vbluf of tif dorrfsponding SQL typf.
+     * <P>
+     * Tiis mftiod tirows bn fxdfption if tifrf is bn bmbiguity, for fxbmplf, if tif
+     * objfdt is of b dlbss implfmfnting morf tibn onf of tif intfrfbdfs nbmfd bbovf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf> or if tif givfn
+     *            <dodf>Objfdt</dodf> pbrbmftfr is bmbiguous
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftObjfdt
+     * @sindf 1.4
+     */
+    void sftObjfdt(String pbrbmftfrNbmf, Objfdt x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi b Jbvb <dodf>Objfdt</dodf>.  For intfgrbl vblufs, tif
+   * <dodf>jbvb.lbng</dodf> fquivblfnt objfdts siould bf usfd.
+   *
+   * <p>Tif JDBC spfdifidbtion providfs b stbndbrd mbpping from
+   * Jbvb Objfdt typfs to SQL typfs.  Tif drivfr will donvfrt tif
+   * givfn Jbvb objfdt to its stbndbrd SQL mbpping bfforf sfnding it
+   * to tif dbtbbbsf.
+   *
+   * <p>Notf tibt tiis mftiod mby bf usfd to pbss dbtbtbbbsf-spfdifid
+   * bbstrbdt dbtb typfs by using b drivfr-spfdifid Jbvb typf.
+   *
+   * If tif objfdt is of b dlbss implfmfnting <dodf>SQLDbtb</dodf>,
+   * tif rowsft siould dbll tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+   * to writf tif objfdt to bn <dodf>SQLOutput</dodf> dbtb strfbm.
+   * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+   * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>,  <dodf>NClob</dodf>,
+   *  <dodf>Strudt</dodf>, <dodf>jbvb.nft.URL</dodf>,
+   * or <dodf>Arrby</dodf>, tif drivfr siould pbss it to tif dbtbbbsf bs b
+   * vbluf of tif dorrfsponding SQL typf.
+   *
+   * <P>
+   * An fxdfption is tirown if tifrf is bn bmbiguity, for fxbmplf, if tif
+   * objfdt is of b dlbss implfmfnting morf tibn onf of tifsf intfrfbdfs.
+   *
+   * @pbrbm pbrbmftfrIndfx Tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x Tif objfdt dontbining tif input pbrbmftfr vbluf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftObjfdt(int pbrbmftfrIndfx, Objfdt x) tirows SQLExdfption;
+
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn  <dodf>Rff</dodf> vbluf.  Tif drivfr will donvfrt tiis
+   * to tif bppropribtf <dodf>REF(&lt;strudturfd-typf&gt;)</dodf> vbluf.
+   *
+   * @pbrbm i tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x bn objfdt rfprfsfnting dbtb of bn SQL <dodf>REF</dodf> typf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftRff (int i, Rff x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn  <dodf>Blob</dodf> vbluf.  Tif drivfr will donvfrt tiis
+   * to tif <dodf>BLOB</dodf> vbluf tibt tif <dodf>Blob</dodf> objfdt
+   * rfprfsfnts bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm i tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x bn objfdt rfprfsfnting b BLOB
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftBlob (int i, Blob x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>InputStrfbm</dodf> objfdt.  Tif inputstrfbm must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>PrfpbrfdStbtfmfnt</dodf> is fxfdutfd.
+     * Tiis mftiod difffrs from tif <dodf>sftBinbryStrfbm (int, InputStrfbm, int)</dodf>
+     * mftiod bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf
+     * sfnt to tif sfrvfr bs b <dodf>BLOB</dodf>.  Wifn tif <dodf>sftBinbryStrfbm</dodf> mftiod is usfd,
+     * tif drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARBINARY</dodf> or b <dodf>BLOB</dodf>
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1,
+     * tif sfdond is 2, ...
+     * @pbrbm inputStrfbm An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr
+     * vbluf to.
+     * @pbrbm lfngti tif numbfr of bytfs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>,
+     * if pbrbmftfrIndfx dofs not dorrfspond
+     * to b pbrbmftfr mbrkfr in tif SQL stbtfmfnt,  if tif lfngti spfdififd
+     * is lfss tibn zfro or if tif numbfr of bytfs in tif inputstrfbm dofs not mbtdi
+     * tif spfdififd lfngti.
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftBlob(int pbrbmftfrIndfx, InputStrfbm inputStrfbm, long lfngti)
+        tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>InputStrfbm</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftBinbryStrfbm (int, InputStrfbm)</dodf>
+     * mftiod bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf
+     * sfnt to tif sfrvfr bs b <dodf>BLOB</dodf>.  Wifn tif <dodf>sftBinbryStrfbm</dodf> mftiod is usfd,
+     * tif drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARBINARY</dodf> or b <dodf>BLOB</dodf>
+     *
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftBlob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1,
+     * tif sfdond is 2, ...
+     * @pbrbm inputStrfbm An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr
+     * vbluf to.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs,
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf> or
+     * if pbrbmftfrIndfx dofs not dorrfspond
+     * to b pbrbmftfr mbrkfr in tif SQL stbtfmfnt,
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftBlob(int pbrbmftfrIndfx, InputStrfbm inputStrfbm)
+        tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>InputStrfbm</dodf> objfdt.  Tif <dodf>inputstrfbm</dodf> must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti, otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>CbllbblfStbtfmfnt</dodf> is fxfdutfd.
+     * Tiis mftiod difffrs from tif <dodf>sftBinbryStrfbm (int, InputStrfbm, int)</dodf>
+     * mftiod bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf
+     * sfnt to tif sfrvfr bs b <dodf>BLOB</dodf>.  Wifn tif <dodf>sftBinbryStrfbm</dodf> mftiod is usfd,
+     * tif drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARBINARY</dodf> or b <dodf>BLOB</dodf>
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr to bf sft
+     * tif sfdond is 2, ...
+     *
+     * @pbrbm inputStrfbm An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr
+     * vbluf to.
+     * @pbrbm lfngti tif numbfr of bytfs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption  if pbrbmftfrIndfx dofs not dorrfspond
+     * to b pbrbmftfr mbrkfr in tif SQL stbtfmfnt,  or if tif lfngti spfdififd
+     * is lfss tibn zfro; if tif numbfr of bytfs in tif inputstrfbm dofs not mbtdi
+     * tif spfdififd lfngti; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftBlob(String pbrbmftfrNbmf, InputStrfbm inputStrfbm, long lfngti)
+        tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Blob</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>BLOB</dodf> vbluf wifn it
+     * sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x b <dodf>Blob</dodf> objfdt tibt mbps bn SQL <dodf>BLOB</dodf> vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
+     */
+    void sftBlob (String pbrbmftfrNbmf, Blob x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>InputStrfbm</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftBinbryStrfbm (int, InputStrfbm)</dodf>
+     * mftiod bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf
+     * sfnt to tif sfrvfr bs b <dodf>BLOB</dodf>.  Wifn tif <dodf>sftBinbryStrfbm</dodf> mftiod is usfd,
+     * tif drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnd to tif sfrvfr bs b <dodf>LONGVARBINARY</dodf> or b <dodf>BLOB</dodf>
+     *
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftBlob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm inputStrfbm An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr
+     * vbluf to.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftBlob(String pbrbmftfrNbmf, InputStrfbm inputStrfbm)
+        tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn  <dodf>Clob</dodf> vbluf.  Tif drivfr will donvfrt tiis
+   * to tif <dodf>CLOB</dodf> vbluf tibt tif <dodf>Clob</dodf> objfdt
+   * rfprfsfnts bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm i tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x bn objfdt rfprfsfnting b CLOB
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftClob (int i, Clob x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.  Tif rfbdfr must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>PrfpbrfdStbtfmfnt</dodf> is fxfdutfd.
+     *Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr, int)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>CLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARCHAR</dodf> or b <dodf>CLOB</dodf>
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis mftiod is dbllfd on
+     * b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>, if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt, or if tif lfngti spfdififd is lfss tibn zfro.
+     *
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
+     */
+     void sftClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr, long lfngti)
+       tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>CLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARCHAR</dodf> or b <dodf>CLOB</dodf>
+     *
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftClob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis mftiod is dbllfd on
+     * b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>or if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt
+     *
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
+     */
+     void sftClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr)
+       tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.  Tif <dodf>rfbdfr</dodf> must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>CbllbblfStbtfmfnt</dodf> is fxfdutfd.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr, int)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>CLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnd to tif sfrvfr bs b <dodf>LONGVARCHAR</dodf> or b <dodf>CLOB</dodf>
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr to bf sft
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif lfngti spfdififd is lfss tibn zfro;
+     * b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftClob(String pbrbmftfrNbmf, Rfbdfr rfbdfr, long lfngti)
+       tirows SQLExdfption;
+
+   /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Clob</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>CLOB</dodf> vbluf wifn it
+     * sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x b <dodf>Clob</dodf> objfdt tibt mbps bn SQL <dodf>CLOB</dodf> vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
+     */
+    void sftClob (String pbrbmftfrNbmf, Clob x) tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>CLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnd to tif sfrvfr bs b <dodf>LONGVARCHAR</dodf> or b <dodf>CLOB</dodf>
+     *
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftClob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tiis mftiod is dbllfd on
+     * b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     *
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
+     */
+     void sftClob(String pbrbmftfrNbmf, Rfbdfr rfbdfr)
+       tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn  <dodf>Arrby</dodf> vbluf.  Tif drivfr will donvfrt tiis
+   * to tif <dodf>ARRAY</dodf> vbluf tibt tif <dodf>Arrby</dodf> objfdt
+   * rfprfsfnts bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm i tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x bn objfdt rfprfsfnting bn SQL brrby
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftArrby (int i, Arrby x) tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn  <dodf>jbvb.sql.Dbtf</dodf> vbluf.  Tif drivfr will donvfrt tiis
+   * to bn SQL <dodf>DATE</dodf> vbluf, using tif givfn <dodf>jbvb.util.Cblfndbr</dodf>
+   * objfdt to dbldulbtf tif dbtf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @pbrbm dbl tif <dodf>jbvb.util.Cblfndbr</dodf> objfdt to usf for dbldulbting tif dbtf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftDbtf(int pbrbmftfrIndfx, jbvb.sql.Dbtf x, Cblfndbr dbl)
+    tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Dbtf</dodf> vbluf
+     * using tif dffbult timf zonf of tif virtubl mbdiinf tibt is running
+     * tif bpplidbtion.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>DATE</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftDbtf
+     * @sindf 1.4
+     */
+    void sftDbtf(String pbrbmftfrNbmf, jbvb.sql.Dbtf x)
+        tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Dbtf</dodf> vbluf,
+     * using tif givfn <dodf>Cblfndbr</dodf> objfdt.  Tif drivfr usfs
+     * tif <dodf>Cblfndbr</dodf> objfdt to donstrudt bn SQL <dodf>DATE</dodf> vbluf,
+     * wiidi tif drivfr tifn sfnds to tif dbtbbbsf.  Witi b
+     * b <dodf>Cblfndbr</dodf> objfdt, tif drivfr dbn dbldulbtf tif dbtf
+     * tbking into bddount b dustom timfzonf.  If no
+     * <dodf>Cblfndbr</dodf> objfdt is spfdififd, tif drivfr usfs tif dffbult
+     * timfzonf, wiidi is tibt of tif virtubl mbdiinf running tif bpplidbtion.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @pbrbm dbl tif <dodf>Cblfndbr</dodf> objfdt tif drivfr will usf
+     *            to donstrudt tif dbtf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftDbtf
+     * @sindf 1.4
+     */
+    void sftDbtf(String pbrbmftfrNbmf, jbvb.sql.Dbtf x, Cblfndbr dbl)
+        tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn  <dodf>jbvb.sql.Timf</dodf> vbluf.  Tif drivfr will donvfrt tiis
+   * to bn SQL <dodf>TIME</dodf> vbluf, using tif givfn <dodf>jbvb.util.Cblfndbr</dodf>
+   * objfdt to dbldulbtf it, bfforf sfnding it to tif dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @pbrbm dbl tif <dodf>jbvb.util.Cblfndbr</dodf> objfdt to usf for dbldulbting tif timf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftTimf(int pbrbmftfrIndfx, jbvb.sql.Timf x, Cblfndbr dbl)
+    tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timf</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>TIME</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftTimf
+     * @sindf 1.4
+     */
+    void sftTimf(String pbrbmftfrNbmf, jbvb.sql.Timf x)
+        tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timf</dodf> vbluf,
+     * using tif givfn <dodf>Cblfndbr</dodf> objfdt.  Tif drivfr usfs
+     * tif <dodf>Cblfndbr</dodf> objfdt to donstrudt bn SQL <dodf>TIME</dodf> vbluf,
+     * wiidi tif drivfr tifn sfnds to tif dbtbbbsf.  Witi b
+     * b <dodf>Cblfndbr</dodf> objfdt, tif drivfr dbn dbldulbtf tif timf
+     * tbking into bddount b dustom timfzonf.  If no
+     * <dodf>Cblfndbr</dodf> objfdt is spfdififd, tif drivfr usfs tif dffbult
+     * timfzonf, wiidi is tibt of tif virtubl mbdiinf running tif bpplidbtion.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @pbrbm dbl tif <dodf>Cblfndbr</dodf> objfdt tif drivfr will usf
+     *            to donstrudt tif timf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftTimf
+     * @sindf 1.4
+     */
+    void sftTimf(String pbrbmftfrNbmf, jbvb.sql.Timf x, Cblfndbr dbl)
+        tirows SQLExdfption;
+
+  /**
+   * Sfts tif dfsignbtfd pbrbmftfr in tiis <dodf>RowSft</dodf> objfdt's dommbnd
+   * witi tif givfn  <dodf>jbvb.sql.Timfstbmp</dodf> vbluf.  Tif drivfr will
+   * donvfrt tiis to bn SQL <dodf>TIMESTAMP</dodf> vbluf, using tif givfn
+   * <dodf>jbvb.util.Cblfndbr</dodf> objfdt to dbldulbtf it, bfforf sfnding it to tif
+   * dbtbbbsf.
+   *
+   * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+   * @pbrbm x tif pbrbmftfr vbluf
+   * @pbrbm dbl tif <dodf>jbvb.util.Cblfndbr</dodf> objfdt to usf for dbldulbting tif
+   *        timfstbmp
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftTimfstbmp(int pbrbmftfrIndfx, jbvb.sql.Timfstbmp x, Cblfndbr dbl)
+    tirows SQLExdfption;
+
+  /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timfstbmp</dodf> vbluf,
+     * using tif givfn <dodf>Cblfndbr</dodf> objfdt.  Tif drivfr usfs
+     * tif <dodf>Cblfndbr</dodf> objfdt to donstrudt bn SQL <dodf>TIMESTAMP</dodf> vbluf,
+     * wiidi tif drivfr tifn sfnds to tif dbtbbbsf.  Witi b
+     * b <dodf>Cblfndbr</dodf> objfdt, tif drivfr dbn dbldulbtf tif timfstbmp
+     * tbking into bddount b dustom timfzonf.  If no
+     * <dodf>Cblfndbr</dodf> objfdt is spfdififd, tif drivfr usfs tif dffbult
+     * timfzonf, wiidi is tibt of tif virtubl mbdiinf running tif bpplidbtion.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @pbrbm dbl tif <dodf>Cblfndbr</dodf> objfdt tif drivfr will usf
+     *            to donstrudt tif timfstbmp
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftTimfstbmp
+     * @sindf 1.4
+     */
+    void sftTimfstbmp(String pbrbmftfrNbmf, jbvb.sql.Timfstbmp x, Cblfndbr dbl)
+        tirows SQLExdfption;
+
+  /**
+   * Clfbrs tif pbrbmftfrs sft for tiis <dodf>RowSft</dodf> objfdt's dommbnd.
+   * <P>In gfnfrbl, pbrbmftfr vblufs rfmbin in fordf for rfpfbtfd usf of b
+   * <dodf>RowSft</dodf> objfdt. Sftting b pbrbmftfr vbluf butombtidblly dlfbrs its
+   * prfvious vbluf.  Howfvfr, in somf dbsfs it is usfful to immfdibtfly
+   * rflfbsf tif rfsourdfs usfd by tif durrfnt pbrbmftfr vblufs, wiidi dbn
+   * bf donf by dblling tif mftiod <dodf>dlfbrPbrbmftfrs</dodf>.
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void dlfbrPbrbmftfrs() tirows SQLExdfption;
+
+  //---------------------------------------------------------------------
+  // Rfbding bnd writing dbtb
+  //---------------------------------------------------------------------
+
+  /**
+   * Fills tiis <dodf>RowSft</dodf> objfdt witi dbtb.
+   * <P>
+   * Tif <dodf>fxfdutf</dodf> mftiod mby usf tif following propfrtifs
+   * to drfbtf b donnfdtion for rfbding dbtb: url, dbtb sourdf nbmf,
+   * usfr nbmf, pbssword, trbnsbdtion isolbtion, bnd typf mbp.
+   *
+   * Tif <dodf>fxfdutf</dodf> mftiod  mby usf tif following propfrtifs
+   * to drfbtf b stbtfmfnt to fxfdutf b dommbnd:
+   * dommbnd, rfbd only, mbximum fifld sizf,
+   * mbximum rows, fsdbpf prodfssing, bnd qufry timfout.
+   * <P>
+   * If tif rfquirfd propfrtifs ibvf not bffn sft, bn fxdfption is
+   * tirown.  If tiis mftiod is suddfssful, tif durrfnt dontfnts of tif rowsft brf
+   * disdbrdfd bnd tif rowsft's mftbdbtb is blso (rf)sft.  If tifrf brf
+   * outstbnding updbtfs, tify brf ignorfd.
+   * <P>
+   * If tiis <dodf>RowSft</dodf> objfdt dofs not mbintbin b dontinuous donnfdtion
+   * witi its sourdf of dbtb, it mby usf b rfbdfr (b <dodf>RowSftRfbdfr</dodf>
+   * objfdt) to fill itsflf witi dbtb.  In tiis dbsf, b rfbdfr will ibvf bffn
+   * rfgistfrfd witi tiis <dodf>RowSft</dodf> objfdt, bnd tif mftiod
+   * <dodf>fxfdutf</dodf> will dbll on tif rfbdfr's <dodf>rfbdDbtb</dodf>
+   * mftiod bs pbrt of its implfmfntbtion.
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or bny of tif
+   *            propfrtifs nfdfssbry for mbking b donnfdtion bnd drfbting
+   *            b stbtfmfnt ibvf not bffn sft
+   */
+  void fxfdutf() tirows SQLExdfption;
+
+  //--------------------------------------------------------------------
+  // Evfnts
+  //--------------------------------------------------------------------
+
+  /**
+   * Rfgistfrs tif givfn listfnfr so tibt it will bf notififd of fvfnts
+   * tibt oddur on tiis <dodf>RowSft</dodf> objfdt.
+   *
+   * @pbrbm listfnfr b domponfnt tibt ibs implfmfntfd tif <dodf>RowSftListfnfr</dodf>
+   *        intfrfbdf bnd wbnts to bf notififd wifn fvfnts oddur on tiis
+   *        <dodf>RowSft</dodf> objfdt
+   * @sff #rfmovfRowSftListfnfr
+   */
+  void bddRowSftListfnfr(RowSftListfnfr listfnfr);
+
+  /**
+   * Rfmovfs tif spfdififd listfnfr from tif list of domponfnts tibt will bf
+   * notififd wifn bn fvfnt oddurs on tiis <dodf>RowSft</dodf> objfdt.
+   *
+   * @pbrbm listfnfr b domponfnt tibt ibs bffn rfgistfrfd bs b listfnfr for tiis
+   *        <dodf>RowSft</dodf> objfdt
+   * @sff #bddRowSftListfnfr
+   */
+  void rfmovfRowSftListfnfr(RowSftListfnfr listfnfr);
+
+    /**
+      * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.SQLXML</dodf> objfdt. Tif drivfr donvfrts tiis to bn
+      * SQL <dodf>XML</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+      * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+      * @pbrbm xmlObjfdt b <dodf>SQLXML</dodf> objfdt tibt mbps bn SQL <dodf>XML</dodf> vbluf
+      * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis mftiod
+      *  is dbllfd on b dlosfd rfsult sft,
+      * tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+      *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd
+      * for tif <dodf>SQLXML</dodf> objfdt  or
+      *  if tifrf is bn frror prodfssing tif XML vbluf.  Tif <dodf>gftCbusf</dodf> mftiod
+      *  of tif fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if tif
+      *  strfbm dofs not dontbin vblid XML.
+      * @sindf 1.6
+      */
+     void sftSQLXML(int pbrbmftfrIndfx, SQLXML xmlObjfdt) tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.SQLXML</dodf> objfdt. Tif drivfr donvfrts tiis to bn
+     * <dodf>SQL XML</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm xmlObjfdt b <dodf>SQLXML</dodf> objfdt tibt mbps bn <dodf>SQL XML</dodf> vbluf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs, tiis mftiod
+     *  is dbllfd on b dlosfd rfsult sft,
+     * tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+     *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd
+     * for tif <dodf>SQLXML</dodf> objfdt  or
+     *  if tifrf is bn frror prodfssing tif XML vbluf.  Tif <dodf>gftCbusf</dodf> mftiod
+     *  of tif fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf, if tif
+     *  strfbm dofs not dontbin vblid XML.
+     * @sindf 1.6
+     */
+    void sftSQLXML(String pbrbmftfrNbmf, SQLXML xmlObjfdt) tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.RowId</dodf> objfdt. Tif
+     * drivfr donvfrts tiis to b SQL <dodf>ROWID</dodf> vbluf wifn it sfnds it
+     * to tif dbtbbbsf
+     *
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *
+     * @sindf 1.6
+     */
+    void sftRowId(int pbrbmftfrIndfx, RowId x) tirows SQLExdfption;
+
+    /**
+    * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.RowId</dodf> objfdt. Tif
+    * drivfr donvfrts tiis to b SQL <dodf>ROWID</dodf> wifn it sfnds it to tif
+    * dbtbbbsf.
+    *
+    * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+    * @pbrbm x tif pbrbmftfr vbluf
+    * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+    * @sindf 1.6
+    */
+   void sftRowId(String pbrbmftfrNbmf, RowId x) tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>String</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to b SQL <dodf>NCHAR</dodf> or
+     * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
+     * (dfpfnding on tif brgumfnt's
+     * sizf rflbtivf to tif drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+     * wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur ; or if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+     void sftNString(int pbrbmftfrIndfx, String vbluf) tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>String</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to b SQL <dodf>NCHAR</dodf> or
+     * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf>
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif dolumn to bf sft
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur; or if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    publid void sftNString(String pbrbmftfrNbmf, String vbluf)
+            tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt. Tif
+     * <dodf>Rfbdfr</dodf> rfbds tif dbtb till fnd-of-filf is rfbdifd. Tif
+     * drivfr dofs tif nfdfssbry donvfrsion from Jbvb dibrbdtfr formbt to
+     * tif nbtionbl dibrbdtfr sft in tif dbtbbbsf.
+     * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur ; or if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+     void sftNCibrbdtfrStrfbm(int pbrbmftfrIndfx, Rfbdfr vbluf, long lfngti) tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt. Tif
+     * <dodf>Rfbdfr</dodf> rfbds tif dbtb till fnd-of-filf is rfbdifd. Tif
+     * drivfr dofs tif nfdfssbry donvfrsion from Jbvb dibrbdtfr formbt to
+     * tif nbtionbl dibrbdtfr sft in tif dbtbbbsf.
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif dolumn to bf sft
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur; or if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    publid void sftNCibrbdtfrStrfbm(String pbrbmftfrNbmf, Rfbdfr vbluf, long lfngti)
+            tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt. Tif
+     * <dodf>Rfbdfr</dodf> rfbds tif dbtb till fnd-of-filf is rfbdifd. Tif
+     * drivfr dofs tif nfdfssbry donvfrsion from Jbvb dibrbdtfr formbt to
+     * tif nbtionbl dibrbdtfr sft in tif dbtbbbsf.
+
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftNCibrbdtfrStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur ; if b dbtbbbsf bddfss frror oddurs; or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
+     */
+     void sftNCibrbdtfrStrfbm(String pbrbmftfrNbmf, Rfbdfr vbluf) tirows SQLExdfption;
+
+    /**
+    * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>jbvb.sql.NClob</dodf> objfdt. Tif objfdt
+    * implfmfnts tif <dodf>jbvb.sql.NClob</dodf> intfrfbdf. Tiis <dodf>NClob</dodf>
+    * objfdt mbps to b SQL <dodf>NCLOB</dodf>.
+    * @pbrbm pbrbmftfrNbmf tif nbmf of tif dolumn to bf sft
+    * @pbrbm vbluf tif pbrbmftfr vbluf
+    * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+    *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+    *  frror dould oddur; or if b dbtbbbsf bddfss frror oddurs
+    * @sindf 1.6
+    */
+    void sftNClob(String pbrbmftfrNbmf, NClob vbluf) tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.  Tif <dodf>rfbdfr</dodf> must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>CbllbblfStbtfmfnt</dodf> is fxfdutfd.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr, int)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>NCLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnd to tif sfrvfr bs b <dodf>LONGNVARCHAR</dodf> or b <dodf>NCLOB</dodf>
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr to bf sft
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif lfngti spfdififd is lfss tibn zfro;
+     * if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
+     */
+     void sftNClob(String pbrbmftfrNbmf, Rfbdfr rfbdfr, long lfngti)
+       tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>NCLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnd to tif sfrvfr bs b <dodf>LONGNVARCHAR</dodf> or b <dodf>NCLOB</dodf>
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftNClob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrNbmf tif nbmf of tif pbrbmftfr
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl dibrbdtfr sfts;
+     * if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur;  if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>CbllbblfStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftNClob(String pbrbmftfrNbmf, Rfbdfr rfbdfr)
+       tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.  Tif rfbdfr must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>PrfpbrfdStbtfmfnt</dodf> is fxfdutfd.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr, int)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>NCLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGNVARCHAR</dodf> or b <dodf>NCLOB</dodf>
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif lfngti spfdififd is lfss tibn zfro;
+     * if tif drivfr dofs not support nbtionbl dibrbdtfr sfts;
+     * if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur;  if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftNClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr, long lfngti)
+       tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>jbvb.sql.NClob</dodf> objfdt. Tif drivfr donvfrts tiis to b
+     * SQL <dodf>NCLOB</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur ; or if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+     void sftNClob(int pbrbmftfrIndfx, NClob vbluf) tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>NCLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGNVARCHAR</dodf> or b <dodf>NCLOB</dodf>
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftNClob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt;
+     * if tif drivfr dofs not support nbtionbl dibrbdtfr sfts;
+     * if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur;  if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftNClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr)
+       tirows SQLExdfption;
+
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.nft.URL</dodf> vbluf.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>DATALINK</dodf> vbluf
+     * wifn it sfnds it to tif dbtbbbsf.
+     *
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif <dodf>jbvb.nft.URL</dodf> objfdt to bf sft
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.4
+     */
+    void sftURL(int pbrbmftfrIndfx, jbvb.nft.URL x) tirows SQLExdfption;
+
+
+
+}

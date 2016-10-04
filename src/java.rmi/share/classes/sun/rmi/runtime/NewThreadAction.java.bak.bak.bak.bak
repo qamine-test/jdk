@@ -1,138 +1,690 @@
 /*
- * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf sun.rmi.runtimf;
+pbdkbgf sun.rmi.runtimf;
+pbdkbgf sun.rmi.runtimf;
+pbdkbgf sun.rmi.runtimf;
+pbdkbgf sun.rmi.runtimf;
+
+
+
+
 
 import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 import jbvb.sfdurity.PrivilfgfdAdtion;
 import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+
+
+
 
 /**
- * A PrivilfgfdAdtion for drfbting b nfw thrfbd donvfnifntly with bn
+/**
+/**
+/**
+/**
+ * A PrivilfgfdAdtion for drfbting b nfw tirfbd donvfnifntly witi bn
+ * A PrivilfgfdAdtion for drfbting b nfw tirfbd donvfnifntly witi bn
+ * A PrivilfgfdAdtion for drfbting b nfw tirfbd donvfnifntly witi bn
+ * A PrivilfgfdAdtion for drfbting b nfw tirfbd donvfnifntly witi bn
+ * A PrivilfgfdAdtion for drfbting b nfw tirfbd donvfnifntly witi bn
+ * AddfssControllfr.doPrivilfgfd donstrudt.
+ * AddfssControllfr.doPrivilfgfd donstrudt.
+ * AddfssControllfr.doPrivilfgfd donstrudt.
+ * AddfssControllfr.doPrivilfgfd donstrudt.
  * AddfssControllfr.doPrivilfgfd donstrudt.
  *
- * All donstrudtors bllow thf dhoidf of thf Runnbblf for thf nfw
- * thrfbd to fxfdutf, thf nbmf of thf nfw thrfbd (whidh will bf
- * prffixfd with "RMI "), bnd whfthfr or not it will bf b dbfmon
- * thrfbd.
  *
- * Thf nfw thrfbd mby bf drfbtfd in thf systfm thrfbd group (thf root
- * of thf thrfbd group trff) or bn intfrnblly drfbtfd non-systfm
- * thrfbd group, bs spfdififd bt donstrudtion of this dlbss.
  *
- * Thf nfw thrfbd will hbvf thf systfm dlbss lobdfr bs its initibl
- * dontfxt dlbss lobdfr (thbt is, its dontfxt dlbss lobdfr will NOT bf
- * inhfritfd from thf durrfnt thrfbd).
  *
- * @buthor      Pftfr Jonfs
+ *
+ * All donstrudtors bllow tif dioidf of tif Runnbblf for tif nfw
+ * All donstrudtors bllow tif dioidf of tif Runnbblf for tif nfw
+ * All donstrudtors bllow tif dioidf of tif Runnbblf for tif nfw
+ * All donstrudtors bllow tif dioidf of tif Runnbblf for tif nfw
+ * All donstrudtors bllow tif dioidf of tif Runnbblf for tif nfw
+ * tirfbd to fxfdutf, tif nbmf of tif nfw tirfbd (wiidi will bf
+ * tirfbd to fxfdutf, tif nbmf of tif nfw tirfbd (wiidi will bf
+ * tirfbd to fxfdutf, tif nbmf of tif nfw tirfbd (wiidi will bf
+ * tirfbd to fxfdutf, tif nbmf of tif nfw tirfbd (wiidi will bf
+ * tirfbd to fxfdutf, tif nbmf of tif nfw tirfbd (wiidi will bf
+ * prffixfd witi "RMI "), bnd wiftifr or not it will bf b dbfmon
+ * prffixfd witi "RMI "), bnd wiftifr or not it will bf b dbfmon
+ * prffixfd witi "RMI "), bnd wiftifr or not it will bf b dbfmon
+ * prffixfd witi "RMI "), bnd wiftifr or not it will bf b dbfmon
+ * prffixfd witi "RMI "), bnd wiftifr or not it will bf b dbfmon
+ * tirfbd.
+ * tirfbd.
+ * tirfbd.
+ * tirfbd.
+ * tirfbd.
+ *
+ *
+ *
+ *
+ *
+ * Tif nfw tirfbd mby bf drfbtfd in tif systfm tirfbd group (tif root
+ * Tif nfw tirfbd mby bf drfbtfd in tif systfm tirfbd group (tif root
+ * Tif nfw tirfbd mby bf drfbtfd in tif systfm tirfbd group (tif root
+ * Tif nfw tirfbd mby bf drfbtfd in tif systfm tirfbd group (tif root
+ * Tif nfw tirfbd mby bf drfbtfd in tif systfm tirfbd group (tif root
+ * of tif tirfbd group trff) or bn intfrnblly drfbtfd non-systfm
+ * of tif tirfbd group trff) or bn intfrnblly drfbtfd non-systfm
+ * of tif tirfbd group trff) or bn intfrnblly drfbtfd non-systfm
+ * of tif tirfbd group trff) or bn intfrnblly drfbtfd non-systfm
+ * of tif tirfbd group trff) or bn intfrnblly drfbtfd non-systfm
+ * tirfbd group, bs spfdififd bt donstrudtion of tiis dlbss.
+ * tirfbd group, bs spfdififd bt donstrudtion of tiis dlbss.
+ * tirfbd group, bs spfdififd bt donstrudtion of tiis dlbss.
+ * tirfbd group, bs spfdififd bt donstrudtion of tiis dlbss.
+ * tirfbd group, bs spfdififd bt donstrudtion of tiis dlbss.
+ *
+ *
+ *
+ *
+ *
+ * Tif nfw tirfbd will ibvf tif systfm dlbss lobdfr bs its initibl
+ * Tif nfw tirfbd will ibvf tif systfm dlbss lobdfr bs its initibl
+ * Tif nfw tirfbd will ibvf tif systfm dlbss lobdfr bs its initibl
+ * Tif nfw tirfbd will ibvf tif systfm dlbss lobdfr bs its initibl
+ * Tif nfw tirfbd will ibvf tif systfm dlbss lobdfr bs its initibl
+ * dontfxt dlbss lobdfr (tibt is, its dontfxt dlbss lobdfr will NOT bf
+ * dontfxt dlbss lobdfr (tibt is, its dontfxt dlbss lobdfr will NOT bf
+ * dontfxt dlbss lobdfr (tibt is, its dontfxt dlbss lobdfr will NOT bf
+ * dontfxt dlbss lobdfr (tibt is, its dontfxt dlbss lobdfr will NOT bf
+ * dontfxt dlbss lobdfr (tibt is, its dontfxt dlbss lobdfr will NOT bf
+ * inifritfd from tif durrfnt tirfbd).
+ * inifritfd from tif durrfnt tirfbd).
+ * inifritfd from tif durrfnt tirfbd).
+ * inifritfd from tif durrfnt tirfbd).
+ * inifritfd from tif durrfnt tirfbd).
+ *
+ *
+ *
+ *
+ *
+ * @butior      Pftfr Jonfs
+ * @butior      Pftfr Jonfs
+ * @butior      Pftfr Jonfs
+ * @butior      Pftfr Jonfs
+ * @butior      Pftfr Jonfs
  **/
-publid finbl dlbss NfwThrfbdAdtion implfmfnts PrivilfgfdAdtion<Thrfbd> {
+ **/
+ **/
+ **/
+ **/
+publid finbl dlbss NfwTirfbdAdtion implfmfnts PrivilfgfdAdtion<Tirfbd> {
+publid finbl dlbss NfwTirfbdAdtion implfmfnts PrivilfgfdAdtion<Tirfbd> {
+publid finbl dlbss NfwTirfbdAdtion implfmfnts PrivilfgfdAdtion<Tirfbd> {
+publid finbl dlbss NfwTirfbdAdtion implfmfnts PrivilfgfdAdtion<Tirfbd> {
+publid finbl dlbss NfwTirfbdAdtion implfmfnts PrivilfgfdAdtion<Tirfbd> {
 
-    /** dbdhfd rfffrfndf to thf systfm (root) thrfbd group */
-    stbtid finbl ThrfbdGroup systfmThrfbdGroup =
-        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ThrfbdGroup>() {
-            publid ThrfbdGroup run() {
-                ThrfbdGroup group = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
-                ThrfbdGroup pbrfnt;
-                whilf ((pbrfnt = group.gftPbrfnt()) != null) {
+
+
+
+
+    /** dbdifd rfffrfndf to tif systfm (root) tirfbd group */
+    /** dbdifd rfffrfndf to tif systfm (root) tirfbd group */
+    /** dbdifd rfffrfndf to tif systfm (root) tirfbd group */
+    /** dbdifd rfffrfndf to tif systfm (root) tirfbd group */
+    /** dbdifd rfffrfndf to tif systfm (root) tirfbd group */
+    stbtid finbl TirfbdGroup systfmTirfbdGroup =
+    stbtid finbl TirfbdGroup systfmTirfbdGroup =
+    stbtid finbl TirfbdGroup systfmTirfbdGroup =
+    stbtid finbl TirfbdGroup systfmTirfbdGroup =
+    stbtid finbl TirfbdGroup systfmTirfbdGroup =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+                TirfbdGroup group = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                TirfbdGroup group = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                TirfbdGroup group = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                TirfbdGroup group = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                TirfbdGroup group = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                TirfbdGroup pbrfnt;
+                TirfbdGroup pbrfnt;
+                TirfbdGroup pbrfnt;
+                TirfbdGroup pbrfnt;
+                TirfbdGroup pbrfnt;
+                wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                    group = pbrfnt;
+                    group = pbrfnt;
+                    group = pbrfnt;
+                    group = pbrfnt;
                     group = pbrfnt;
                 }
+                }
+                }
+                }
+                }
+                rfturn group;
+                rfturn group;
+                rfturn group;
+                rfturn group;
                 rfturn group;
             }
-        });
-
-    /**
-     * spfdibl dhild of thf systfm thrfbd group for running tbsks thbt
-     * mby fxfdutf usfr dodf, so thbt thf sfdurity polidy for thrfbds in
-     * thf systfm thrfbd group will not bpply
-     */
-    stbtid finbl ThrfbdGroup usfrThrfbdGroup =
-        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ThrfbdGroup>() {
-            publid ThrfbdGroup run() {
-                rfturn nfw ThrfbdGroup(systfmThrfbdGroup, "RMI Runtimf");
+            }
+            }
+            }
             }
         });
+        });
+        });
+        });
+        });
 
-    privbtf finbl ThrfbdGroup group;
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * spfdibl diild of tif systfm tirfbd group for running tbsks tibt
+     * spfdibl diild of tif systfm tirfbd group for running tbsks tibt
+     * spfdibl diild of tif systfm tirfbd group for running tbsks tibt
+     * spfdibl diild of tif systfm tirfbd group for running tbsks tibt
+     * spfdibl diild of tif systfm tirfbd group for running tbsks tibt
+     * mby fxfdutf usfr dodf, so tibt tif sfdurity polidy for tirfbds in
+     * mby fxfdutf usfr dodf, so tibt tif sfdurity polidy for tirfbds in
+     * mby fxfdutf usfr dodf, so tibt tif sfdurity polidy for tirfbds in
+     * mby fxfdutf usfr dodf, so tibt tif sfdurity polidy for tirfbds in
+     * mby fxfdutf usfr dodf, so tibt tif sfdurity polidy for tirfbds in
+     * tif systfm tirfbd group will not bpply
+     * tif systfm tirfbd group will not bpply
+     * tif systfm tirfbd group will not bpply
+     * tif systfm tirfbd group will not bpply
+     * tif systfm tirfbd group will not bpply
+     */
+     */
+     */
+     */
+     */
+    stbtid finbl TirfbdGroup usfrTirfbdGroup =
+    stbtid finbl TirfbdGroup usfrTirfbdGroup =
+    stbtid finbl TirfbdGroup usfrTirfbdGroup =
+    stbtid finbl TirfbdGroup usfrTirfbdGroup =
+    stbtid finbl TirfbdGroup usfrTirfbdGroup =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+            publid TirfbdGroup run() {
+                rfturn nfw TirfbdGroup(systfmTirfbdGroup, "RMI Runtimf");
+                rfturn nfw TirfbdGroup(systfmTirfbdGroup, "RMI Runtimf");
+                rfturn nfw TirfbdGroup(systfmTirfbdGroup, "RMI Runtimf");
+                rfturn nfw TirfbdGroup(systfmTirfbdGroup, "RMI Runtimf");
+                rfturn nfw TirfbdGroup(systfmTirfbdGroup, "RMI Runtimf");
+            }
+            }
+            }
+            }
+            }
+        });
+        });
+        });
+        });
+        });
+
+
+
+
+
+    privbtf finbl TirfbdGroup group;
+    privbtf finbl TirfbdGroup group;
+    privbtf finbl TirfbdGroup group;
+    privbtf finbl TirfbdGroup group;
+    privbtf finbl TirfbdGroup group;
+    privbtf finbl Runnbblf runnbblf;
+    privbtf finbl Runnbblf runnbblf;
+    privbtf finbl Runnbblf runnbblf;
+    privbtf finbl Runnbblf runnbblf;
     privbtf finbl Runnbblf runnbblf;
     privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+    privbtf finbl String nbmf;
+    privbtf finbl boolfbn dbfmon;
+    privbtf finbl boolfbn dbfmon;
+    privbtf finbl boolfbn dbfmon;
+    privbtf finbl boolfbn dbfmon;
     privbtf finbl boolfbn dbfmon;
 
-    NfwThrfbdAdtion(ThrfbdGroup group, Runnbblf runnbblf,
+
+
+
+
+    NfwTirfbdAdtion(TirfbdGroup group, Runnbblf runnbblf,
+    NfwTirfbdAdtion(TirfbdGroup group, Runnbblf runnbblf,
+    NfwTirfbdAdtion(TirfbdGroup group, Runnbblf runnbblf,
+    NfwTirfbdAdtion(TirfbdGroup group, Runnbblf runnbblf,
+    NfwTirfbdAdtion(TirfbdGroup group, Runnbblf runnbblf,
+                    String nbmf, boolfbn dbfmon)
+                    String nbmf, boolfbn dbfmon)
+                    String nbmf, boolfbn dbfmon)
+                    String nbmf, boolfbn dbfmon)
                     String nbmf, boolfbn dbfmon)
     {
-        this.group = group;
-        this.runnbblf = runnbblf;
-        this.nbmf = nbmf;
-        this.dbfmon = dbfmon;
+    {
+    {
+    {
+    {
+        tiis.group = group;
+        tiis.group = group;
+        tiis.group = group;
+        tiis.group = group;
+        tiis.group = group;
+        tiis.runnbblf = runnbblf;
+        tiis.runnbblf = runnbblf;
+        tiis.runnbblf = runnbblf;
+        tiis.runnbblf = runnbblf;
+        tiis.runnbblf = runnbblf;
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.nbmf = nbmf;
+        tiis.dbfmon = dbfmon;
+        tiis.dbfmon = dbfmon;
+        tiis.dbfmon = dbfmon;
+        tiis.dbfmon = dbfmon;
+        tiis.dbfmon = dbfmon;
+    }
+    }
+    }
+    }
     }
 
-    /**
-     * Crfbtfs bn bdtion thbt will drfbtf b nfw thrfbd in thf
-     * systfm thrfbd group.
-     *
-     * @pbrbm   runnbblf thf Runnbblf for thf nfw thrfbd to fxfdutf
-     *
-     * @pbrbm   nbmf thf nbmf of thf nfw thrfbd
-     *
-     * @pbrbm   dbfmon if truf, nfw thrfbd will bf b dbfmon thrfbd;
-     * if fblsf, nfw thrfbd will not bf b dbfmon thrfbd
-     */
-    publid NfwThrfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon) {
-        this(systfmThrfbdGroup, runnbblf, nbmf, dbfmon);
-    }
+
+
+
 
     /**
-     * Crfbtfs bn bdtion thbt will drfbtf b nfw thrfbd.
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd in tif
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd in tif
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd in tif
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd in tif
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd in tif
+     * systfm tirfbd group.
+     * systfm tirfbd group.
+     * systfm tirfbd group.
+     * systfm tirfbd group.
+     * systfm tirfbd group.
      *
-     * @pbrbm   runnbblf thf Runnbblf for thf nfw thrfbd to fxfdutf
      *
-     * @pbrbm   nbmf thf nbmf of thf nfw thrfbd
      *
-     * @pbrbm   dbfmon if truf, nfw thrfbd will bf b dbfmon thrfbd;
-     * if fblsf, nfw thrfbd will not bf b dbfmon thrfbd
      *
-     * @pbrbm   usfr if truf, thrfbd will bf drfbtfd in b non-systfm
-     * thrfbd group; if fblsf, thrfbd will bf drfbtfd in thf systfm
-     * thrfbd group
+     *
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
      */
-    publid NfwThrfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon,
+     */
+     */
+     */
+     */
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon) {
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon) {
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon) {
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon) {
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon) {
+        tiis(systfmTirfbdGroup, runnbblf, nbmf, dbfmon);
+        tiis(systfmTirfbdGroup, runnbblf, nbmf, dbfmon);
+        tiis(systfmTirfbdGroup, runnbblf, nbmf, dbfmon);
+        tiis(systfmTirfbdGroup, runnbblf, nbmf, dbfmon);
+        tiis(systfmTirfbdGroup, runnbblf, nbmf, dbfmon);
+    }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    /**
+    /**
+    /**
+    /**
+    /**
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd.
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd.
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd.
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd.
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd.
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
+     *
+     *
+     *
+     *
+     *
+     * @pbrbm   usfr if truf, tirfbd will bf drfbtfd in b non-systfm
+     * @pbrbm   usfr if truf, tirfbd will bf drfbtfd in b non-systfm
+     * @pbrbm   usfr if truf, tirfbd will bf drfbtfd in b non-systfm
+     * @pbrbm   usfr if truf, tirfbd will bf drfbtfd in b non-systfm
+     * @pbrbm   usfr if truf, tirfbd will bf drfbtfd in b non-systfm
+     * tirfbd group; if fblsf, tirfbd will bf drfbtfd in tif systfm
+     * tirfbd group; if fblsf, tirfbd will bf drfbtfd in tif systfm
+     * tirfbd group; if fblsf, tirfbd will bf drfbtfd in tif systfm
+     * tirfbd group; if fblsf, tirfbd will bf drfbtfd in tif systfm
+     * tirfbd group; if fblsf, tirfbd will bf drfbtfd in tif systfm
+     * tirfbd group
+     * tirfbd group
+     * tirfbd group
+     * tirfbd group
+     * tirfbd group
+     */
+     */
+     */
+     */
+     */
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon,
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon,
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon,
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon,
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon,
+                           boolfbn usfr)
+                           boolfbn usfr)
+                           boolfbn usfr)
+                           boolfbn usfr)
                            boolfbn usfr)
     {
-        this(usfr ? usfrThrfbdGroup : systfmThrfbdGroup,
+    {
+    {
+    {
+    {
+        tiis(usfr ? usfrTirfbdGroup : systfmTirfbdGroup,
+        tiis(usfr ? usfrTirfbdGroup : systfmTirfbdGroup,
+        tiis(usfr ? usfrTirfbdGroup : systfmTirfbdGroup,
+        tiis(usfr ? usfrTirfbdGroup : systfmTirfbdGroup,
+        tiis(usfr ? usfrTirfbdGroup : systfmTirfbdGroup,
+             runnbblf, nbmf, dbfmon);
+             runnbblf, nbmf, dbfmon);
+             runnbblf, nbmf, dbfmon);
+             runnbblf, nbmf, dbfmon);
              runnbblf, nbmf, dbfmon);
     }
+    }
+    }
+    }
+    }
 
-    publid Thrfbd run() {
+
+
+
+
+    publid Tirfbd run() {
+    publid Tirfbd run() {
+    publid Tirfbd run() {
+    publid Tirfbd run() {
+    publid Tirfbd run() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.dhfdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
+        if (sm != null) {
+        if (sm != null) {
+        if (sm != null) {
+        if (sm != null) {
+            sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
         }
-        Thrfbd t = nfw Thrfbd(group, runnbblf, "RMI " + nbmf);
+        }
+        }
+        }
+        }
+        Tirfbd t = nfw Tirfbd(group, runnbblf, "RMI " + nbmf);
+        Tirfbd t = nfw Tirfbd(group, runnbblf, "RMI " + nbmf);
+        Tirfbd t = nfw Tirfbd(group, runnbblf, "RMI " + nbmf);
+        Tirfbd t = nfw Tirfbd(group, runnbblf, "RMI " + nbmf);
+        Tirfbd t = nfw Tirfbd(group, runnbblf, "RMI " + nbmf);
+        t.sftContfxtClbssLobdfr(ClbssLobdfr.gftSystfmClbssLobdfr());
+        t.sftContfxtClbssLobdfr(ClbssLobdfr.gftSystfmClbssLobdfr());
+        t.sftContfxtClbssLobdfr(ClbssLobdfr.gftSystfmClbssLobdfr());
+        t.sftContfxtClbssLobdfr(ClbssLobdfr.gftSystfmClbssLobdfr());
         t.sftContfxtClbssLobdfr(ClbssLobdfr.gftSystfmClbssLobdfr());
         t.sftDbfmon(dbfmon);
+        t.sftDbfmon(dbfmon);
+        t.sftDbfmon(dbfmon);
+        t.sftDbfmon(dbfmon);
+        t.sftDbfmon(dbfmon);
+        rfturn t;
+        rfturn t;
+        rfturn t;
+        rfturn t;
         rfturn t;
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

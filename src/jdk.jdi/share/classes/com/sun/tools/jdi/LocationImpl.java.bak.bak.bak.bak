@@ -1,227 +1,1135 @@
 /*
- * Copyright (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf dom.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
+
+
+
+
 
 import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.*;
+
+
+
+
 
 import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+import jbvb.util.*;
+
+
+
+
 
 publid dlbss LodbtionImpl fxtfnds MirrorImpl implfmfnts Lodbtion {
+publid dlbss LodbtionImpl fxtfnds MirrorImpl implfmfnts Lodbtion {
+publid dlbss LodbtionImpl fxtfnds MirrorImpl implfmfnts Lodbtion {
+publid dlbss LodbtionImpl fxtfnds MirrorImpl implfmfnts Lodbtion {
+publid dlbss LodbtionImpl fxtfnds MirrorImpl implfmfnts Lodbtion {
     privbtf finbl RfffrfndfTypfImpl dfdlbringTypf;
-    privbtf Mfthod mfthod;
-    privbtf long mfthodRff;
+    privbtf finbl RfffrfndfTypfImpl dfdlbringTypf;
+    privbtf finbl RfffrfndfTypfImpl dfdlbringTypf;
+    privbtf finbl RfffrfndfTypfImpl dfdlbringTypf;
+    privbtf finbl RfffrfndfTypfImpl dfdlbringTypf;
+    privbtf Mftiod mftiod;
+    privbtf Mftiod mftiod;
+    privbtf Mftiod mftiod;
+    privbtf Mftiod mftiod;
+    privbtf Mftiod mftiod;
+    privbtf long mftiodRff;
+    privbtf long mftiodRff;
+    privbtf long mftiodRff;
+    privbtf long mftiodRff;
+    privbtf long mftiodRff;
+    privbtf long dodfIndfx;
+    privbtf long dodfIndfx;
+    privbtf long dodfIndfx;
+    privbtf long dodfIndfx;
     privbtf long dodfIndfx;
     privbtf LinfInfo bbsfLinfInfo = null;
-    privbtf LinfInfo othfrLinfInfo = null;
+    privbtf LinfInfo bbsfLinfInfo = null;
+    privbtf LinfInfo bbsfLinfInfo = null;
+    privbtf LinfInfo bbsfLinfInfo = null;
+    privbtf LinfInfo bbsfLinfInfo = null;
+    privbtf LinfInfo otifrLinfInfo = null;
+    privbtf LinfInfo otifrLinfInfo = null;
+    privbtf LinfInfo otifrLinfInfo = null;
+    privbtf LinfInfo otifrLinfInfo = null;
+    privbtf LinfInfo otifrLinfInfo = null;
 
-    LodbtionImpl(VirtublMbdhinf vm,
-                 Mfthod mfthod, long dodfIndfx) {
+
+
+
+
+    LodbtionImpl(VirtublMbdiinf vm,
+    LodbtionImpl(VirtublMbdiinf vm,
+    LodbtionImpl(VirtublMbdiinf vm,
+    LodbtionImpl(VirtublMbdiinf vm,
+    LodbtionImpl(VirtublMbdiinf vm,
+                 Mftiod mftiod, long dodfIndfx) {
+                 Mftiod mftiod, long dodfIndfx) {
+                 Mftiod mftiod, long dodfIndfx) {
+                 Mftiod mftiod, long dodfIndfx) {
+                 Mftiod mftiod, long dodfIndfx) {
+        supfr(vm);
+        supfr(vm);
+        supfr(vm);
+        supfr(vm);
         supfr(vm);
 
-        this.mfthod = mfthod;
-        this.dodfIndfx = mfthod.isNbtivf()? -1 : dodfIndfx;
-        this.dfdlbringTypf = (RfffrfndfTypfImpl)mfthod.dfdlbringTypf();
+
+
+
+
+        tiis.mftiod = mftiod;
+        tiis.mftiod = mftiod;
+        tiis.mftiod = mftiod;
+        tiis.mftiod = mftiod;
+        tiis.mftiod = mftiod;
+        tiis.dodfIndfx = mftiod.isNbtivf()? -1 : dodfIndfx;
+        tiis.dodfIndfx = mftiod.isNbtivf()? -1 : dodfIndfx;
+        tiis.dodfIndfx = mftiod.isNbtivf()? -1 : dodfIndfx;
+        tiis.dodfIndfx = mftiod.isNbtivf()? -1 : dodfIndfx;
+        tiis.dodfIndfx = mftiod.isNbtivf()? -1 : dodfIndfx;
+        tiis.dfdlbringTypf = (RfffrfndfTypfImpl)mftiod.dfdlbringTypf();
+        tiis.dfdlbringTypf = (RfffrfndfTypfImpl)mftiod.dfdlbringTypf();
+        tiis.dfdlbringTypf = (RfffrfndfTypfImpl)mftiod.dfdlbringTypf();
+        tiis.dfdlbringTypf = (RfffrfndfTypfImpl)mftiod.dfdlbringTypf();
+        tiis.dfdlbringTypf = (RfffrfndfTypfImpl)mftiod.dfdlbringTypf();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /*
-     * This donstrudtor bllows lbzy drfbtion of thf mfthod mirror. This
-     * dbn bf b pfrformbndf sbvings if thf mfthod mirror dofs not yft
+    /*
+    /*
+    /*
+    /*
+     * Tiis donstrudtor bllows lbzy drfbtion of tif mftiod mirror. Tiis
+     * Tiis donstrudtor bllows lbzy drfbtion of tif mftiod mirror. Tiis
+     * Tiis donstrudtor bllows lbzy drfbtion of tif mftiod mirror. Tiis
+     * Tiis donstrudtor bllows lbzy drfbtion of tif mftiod mirror. Tiis
+     * Tiis donstrudtor bllows lbzy drfbtion of tif mftiod mirror. Tiis
+     * dbn bf b pfrformbndf sbvings if tif mftiod mirror dofs not yft
+     * dbn bf b pfrformbndf sbvings if tif mftiod mirror dofs not yft
+     * dbn bf b pfrformbndf sbvings if tif mftiod mirror dofs not yft
+     * dbn bf b pfrformbndf sbvings if tif mftiod mirror dofs not yft
+     * dbn bf b pfrformbndf sbvings if tif mftiod mirror dofs not yft
+     * fxist.
+     * fxist.
+     * fxist.
+     * fxist.
      * fxist.
      */
-    LodbtionImpl(VirtublMbdhinf vm, RfffrfndfTypfImpl dfdlbringTypf,
-                 long mfthodRff, long dodfIndfx) {
+     */
+     */
+     */
+     */
+    LodbtionImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+    LodbtionImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+    LodbtionImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+    LodbtionImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+    LodbtionImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+                 long mftiodRff, long dodfIndfx) {
+                 long mftiodRff, long dodfIndfx) {
+                 long mftiodRff, long dodfIndfx) {
+                 long mftiodRff, long dodfIndfx) {
+                 long mftiodRff, long dodfIndfx) {
+        supfr(vm);
+        supfr(vm);
+        supfr(vm);
+        supfr(vm);
         supfr(vm);
 
-        this.mfthod = null;
-        this.dodfIndfx = dodfIndfx;
-        this.dfdlbringTypf = dfdlbringTypf;
-        this.mfthodRff = mfthodRff;
+
+
+
+
+        tiis.mftiod = null;
+        tiis.mftiod = null;
+        tiis.mftiod = null;
+        tiis.mftiod = null;
+        tiis.mftiod = null;
+        tiis.dodfIndfx = dodfIndfx;
+        tiis.dodfIndfx = dodfIndfx;
+        tiis.dodfIndfx = dodfIndfx;
+        tiis.dodfIndfx = dodfIndfx;
+        tiis.dodfIndfx = dodfIndfx;
+        tiis.dfdlbringTypf = dfdlbringTypf;
+        tiis.dfdlbringTypf = dfdlbringTypf;
+        tiis.dfdlbringTypf = dfdlbringTypf;
+        tiis.dfdlbringTypf = dfdlbringTypf;
+        tiis.dfdlbringTypf = dfdlbringTypf;
+        tiis.mftiodRff = mftiodRff;
+        tiis.mftiodRff = mftiodRff;
+        tiis.mftiodRff = mftiodRff;
+        tiis.mftiodRff = mftiodRff;
+        tiis.mftiodRff = mftiodRff;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
+    publid boolfbn fqubls(Objfdt obj) {
         if ((obj != null) && (obj instbndfof Lodbtion)) {
-            Lodbtion othfr = (Lodbtion)obj;
-            rfturn (mfthod().fqubls(othfr.mfthod())) &&
-                   (dodfIndfx() == othfr.dodfIndfx()) &&
+        if ((obj != null) && (obj instbndfof Lodbtion)) {
+        if ((obj != null) && (obj instbndfof Lodbtion)) {
+        if ((obj != null) && (obj instbndfof Lodbtion)) {
+        if ((obj != null) && (obj instbndfof Lodbtion)) {
+            Lodbtion otifr = (Lodbtion)obj;
+            Lodbtion otifr = (Lodbtion)obj;
+            Lodbtion otifr = (Lodbtion)obj;
+            Lodbtion otifr = (Lodbtion)obj;
+            Lodbtion otifr = (Lodbtion)obj;
+            rfturn (mftiod().fqubls(otifr.mftiod())) &&
+            rfturn (mftiod().fqubls(otifr.mftiod())) &&
+            rfturn (mftiod().fqubls(otifr.mftiod())) &&
+            rfturn (mftiod().fqubls(otifr.mftiod())) &&
+            rfturn (mftiod().fqubls(otifr.mftiod())) &&
+                   (dodfIndfx() == otifr.dodfIndfx()) &&
+                   (dodfIndfx() == otifr.dodfIndfx()) &&
+                   (dodfIndfx() == otifr.dodfIndfx()) &&
+                   (dodfIndfx() == otifr.dodfIndfx()) &&
+                   (dodfIndfx() == otifr.dodfIndfx()) &&
+                   supfr.fqubls(obj);
+                   supfr.fqubls(obj);
+                   supfr.fqubls(obj);
+                   supfr.fqubls(obj);
                    supfr.fqubls(obj);
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
+            rfturn fblsf;
             rfturn fblsf;
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
-    publid int hbshCodf() {
+
+
+
+
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
+    publid int ibsiCodf() {
         /*
-         * TO DO: bfttfr hbsh dodf?
+        /*
+        /*
+        /*
+        /*
+         * TO DO: bfttfr ibsi dodf?
+         * TO DO: bfttfr ibsi dodf?
+         * TO DO: bfttfr ibsi dodf?
+         * TO DO: bfttfr ibsi dodf?
+         * TO DO: bfttfr ibsi dodf?
          */
-        rfturn mfthod().hbshCodf() + (int)dodfIndfx();
+         */
+         */
+         */
+         */
+        rfturn mftiod().ibsiCodf() + (int)dodfIndfx();
+        rfturn mftiod().ibsiCodf() + (int)dodfIndfx();
+        rfturn mftiod().ibsiCodf() + (int)dodfIndfx();
+        rfturn mftiod().ibsiCodf() + (int)dodfIndfx();
+        rfturn mftiod().ibsiCodf() + (int)dodfIndfx();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid int dompbrfTo(Lodbtion objfdt) {
-        LodbtionImpl othfr = (LodbtionImpl)objfdt;
-        int rd = mfthod().dompbrfTo(othfr.mfthod());
+    publid int dompbrfTo(Lodbtion objfdt) {
+    publid int dompbrfTo(Lodbtion objfdt) {
+    publid int dompbrfTo(Lodbtion objfdt) {
+    publid int dompbrfTo(Lodbtion objfdt) {
+        LodbtionImpl otifr = (LodbtionImpl)objfdt;
+        LodbtionImpl otifr = (LodbtionImpl)objfdt;
+        LodbtionImpl otifr = (LodbtionImpl)objfdt;
+        LodbtionImpl otifr = (LodbtionImpl)objfdt;
+        LodbtionImpl otifr = (LodbtionImpl)objfdt;
+        int rd = mftiod().dompbrfTo(otifr.mftiod());
+        int rd = mftiod().dompbrfTo(otifr.mftiod());
+        int rd = mftiod().dompbrfTo(otifr.mftiod());
+        int rd = mftiod().dompbrfTo(otifr.mftiod());
+        int rd = mftiod().dompbrfTo(otifr.mftiod());
         if (rd == 0) {
-            long diff = dodfIndfx() - othfr.dodfIndfx();
+        if (rd == 0) {
+        if (rd == 0) {
+        if (rd == 0) {
+        if (rd == 0) {
+            long diff = dodfIndfx() - otifr.dodfIndfx();
+            long diff = dodfIndfx() - otifr.dodfIndfx();
+            long diff = dodfIndfx() - otifr.dodfIndfx();
+            long diff = dodfIndfx() - otifr.dodfIndfx();
+            long diff = dodfIndfx() - otifr.dodfIndfx();
+            if (diff < 0)
+            if (diff < 0)
+            if (diff < 0)
+            if (diff < 0)
             if (diff < 0)
                 rfturn -1;
+                rfturn -1;
+                rfturn -1;
+                rfturn -1;
+                rfturn -1;
+            flsf if (diff > 0)
+            flsf if (diff > 0)
+            flsf if (diff > 0)
+            flsf if (diff > 0)
             flsf if (diff > 0)
                 rfturn 1;
+                rfturn 1;
+                rfturn 1;
+                rfturn 1;
+                rfturn 1;
+            flsf
+            flsf
+            flsf
+            flsf
             flsf
                 rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+                rfturn 0;
+        }
+        }
+        }
+        }
         }
         rfturn rd;
+        rfturn rd;
+        rfturn rd;
+        rfturn rd;
+        rfturn rd;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid RfffrfndfTypf dfdlbringTypf() {
+    publid RfffrfndfTypf dfdlbringTypf() {
+    publid RfffrfndfTypf dfdlbringTypf() {
+    publid RfffrfndfTypf dfdlbringTypf() {
+    publid RfffrfndfTypf dfdlbringTypf() {
+        rfturn dfdlbringTypf;
+        rfturn dfdlbringTypf;
+        rfturn dfdlbringTypf;
+        rfturn dfdlbringTypf;
         rfturn dfdlbringTypf;
     }
+    }
+    }
+    }
+    }
 
-    publid Mfthod mfthod() {
-        if (mfthod == null) {
-            mfthod = dfdlbringTypf.gftMfthodMirror(mfthodRff);
-            if (mfthod.isNbtivf()) {
+
+
+
+
+    publid Mftiod mftiod() {
+    publid Mftiod mftiod() {
+    publid Mftiod mftiod() {
+    publid Mftiod mftiod() {
+    publid Mftiod mftiod() {
+        if (mftiod == null) {
+        if (mftiod == null) {
+        if (mftiod == null) {
+        if (mftiod == null) {
+        if (mftiod == null) {
+            mftiod = dfdlbringTypf.gftMftiodMirror(mftiodRff);
+            mftiod = dfdlbringTypf.gftMftiodMirror(mftiodRff);
+            mftiod = dfdlbringTypf.gftMftiodMirror(mftiodRff);
+            mftiod = dfdlbringTypf.gftMftiodMirror(mftiodRff);
+            mftiod = dfdlbringTypf.gftMftiodMirror(mftiodRff);
+            if (mftiod.isNbtivf()) {
+            if (mftiod.isNbtivf()) {
+            if (mftiod.isNbtivf()) {
+            if (mftiod.isNbtivf()) {
+            if (mftiod.isNbtivf()) {
+                dodfIndfx = -1;
+                dodfIndfx = -1;
+                dodfIndfx = -1;
+                dodfIndfx = -1;
                 dodfIndfx = -1;
             }
+            }
+            }
+            }
+            }
         }
-        rfturn mfthod;
+        }
+        }
+        }
+        }
+        rfturn mftiod;
+        rfturn mftiod;
+        rfturn mftiod;
+        rfturn mftiod;
+        rfturn mftiod;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid long dodfIndfx() {
-        mfthod();  // bf surf informbtion is up-to-dbtf
+    publid long dodfIndfx() {
+    publid long dodfIndfx() {
+    publid long dodfIndfx() {
+    publid long dodfIndfx() {
+        mftiod();  // bf surf informbtion is up-to-dbtf
+        mftiod();  // bf surf informbtion is up-to-dbtf
+        mftiod();  // bf surf informbtion is up-to-dbtf
+        mftiod();  // bf surf informbtion is up-to-dbtf
+        mftiod();  // bf surf informbtion is up-to-dbtf
+        rfturn dodfIndfx;
+        rfturn dodfIndfx;
+        rfturn dodfIndfx;
+        rfturn dodfIndfx;
         rfturn dodfIndfx;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     LinfInfo gftBbsfLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftBbsfLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftBbsfLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftBbsfLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftBbsfLinfInfo(SDE.Strbtum strbtum) {
+        LinfInfo linfInfo;
+        LinfInfo linfInfo;
+        LinfInfo linfInfo;
+        LinfInfo linfInfo;
         LinfInfo linfInfo;
 
-        /* dhfdk if thfrf is dbdhfd info to usf */
+
+
+
+
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        if (bbsfLinfInfo != null) {
+        if (bbsfLinfInfo != null) {
+        if (bbsfLinfInfo != null) {
+        if (bbsfLinfInfo != null) {
         if (bbsfLinfInfo != null) {
             rfturn bbsfLinfInfo;
+            rfturn bbsfLinfInfo;
+            rfturn bbsfLinfInfo;
+            rfturn bbsfLinfInfo;
+            rfturn bbsfLinfInfo;
+        }
+        }
+        }
+        }
         }
 
-        /* domputf thf linf info */
-        MfthodImpl mfthodImpl = (MfthodImpl)mfthod();
-        linfInfo = mfthodImpl.dodfIndfxToLinfInfo(strbtum,
+
+
+
+
+        /* domputf tif linf info */
+        /* domputf tif linf info */
+        /* domputf tif linf info */
+        /* domputf tif linf info */
+        /* domputf tif linf info */
+        MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+        MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+        MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+        MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+        MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+        linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+        linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+        linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+        linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+        linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+                                                  dodfIndfx());
+                                                  dodfIndfx());
+                                                  dodfIndfx());
+                                                  dodfIndfx());
                                                   dodfIndfx());
 
-        /* dbdhf it */
+
+
+
+
+        /* dbdif it */
+        /* dbdif it */
+        /* dbdif it */
+        /* dbdif it */
+        /* dbdif it */
+        bddBbsfLinfInfo(linfInfo);
+        bddBbsfLinfInfo(linfInfo);
+        bddBbsfLinfInfo(linfInfo);
+        bddBbsfLinfInfo(linfInfo);
         bddBbsfLinfInfo(linfInfo);
 
+
+
+
+
+        rfturn linfInfo;
+        rfturn linfInfo;
+        rfturn linfInfo;
+        rfturn linfInfo;
         rfturn linfInfo;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     LinfInfo gftLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftLinfInfo(SDE.Strbtum strbtum) {
+    LinfInfo gftLinfInfo(SDE.Strbtum strbtum) {
+        LinfInfo linfInfo;
+        LinfInfo linfInfo;
+        LinfInfo linfInfo;
+        LinfInfo linfInfo;
         LinfInfo linfInfo;
 
-        /* bbsf strbtum is donf slighly difffrfntly */
+
+
+
+
+        /* bbsf strbtum is donf sligily difffrfntly */
+        /* bbsf strbtum is donf sligily difffrfntly */
+        /* bbsf strbtum is donf sligily difffrfntly */
+        /* bbsf strbtum is donf sligily difffrfntly */
+        /* bbsf strbtum is donf sligily difffrfntly */
+        if (strbtum.isJbvb()) {
+        if (strbtum.isJbvb()) {
+        if (strbtum.isJbvb()) {
+        if (strbtum.isJbvb()) {
         if (strbtum.isJbvb()) {
             rfturn gftBbsfLinfInfo(strbtum);
+            rfturn gftBbsfLinfInfo(strbtum);
+            rfturn gftBbsfLinfInfo(strbtum);
+            rfturn gftBbsfLinfInfo(strbtum);
+            rfturn gftBbsfLinfInfo(strbtum);
+        }
+        }
+        }
+        }
         }
 
-        /* dhfdk if thfrf is dbdhfd info to usf */
-        linfInfo = othfrLinfInfo; // dopy bfdbusf of dondurrfndy
+
+
+
+
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        /* difdk if tifrf is dbdifd info to usf */
+        linfInfo = otifrLinfInfo; // dopy bfdbusf of dondurrfndy
+        linfInfo = otifrLinfInfo; // dopy bfdbusf of dondurrfndy
+        linfInfo = otifrLinfInfo; // dopy bfdbusf of dondurrfndy
+        linfInfo = otifrLinfInfo; // dopy bfdbusf of dondurrfndy
+        linfInfo = otifrLinfInfo; // dopy bfdbusf of dondurrfndy
+        if (linfInfo != null &&
+        if (linfInfo != null &&
+        if (linfInfo != null &&
+        if (linfInfo != null &&
         if (linfInfo != null &&
                            strbtum.id().fqubls(linfInfo.liStrbtum())) {
+                           strbtum.id().fqubls(linfInfo.liStrbtum())) {
+                           strbtum.id().fqubls(linfInfo.liStrbtum())) {
+                           strbtum.id().fqubls(linfInfo.liStrbtum())) {
+                           strbtum.id().fqubls(linfInfo.liStrbtum())) {
+            rfturn linfInfo;
+            rfturn linfInfo;
+            rfturn linfInfo;
+            rfturn linfInfo;
             rfturn linfInfo;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         int bbsfLinfNumbfr = linfNumbfr(SDE.BASE_STRATUM_NAME);
+        int bbsfLinfNumbfr = linfNumbfr(SDE.BASE_STRATUM_NAME);
+        int bbsfLinfNumbfr = linfNumbfr(SDE.BASE_STRATUM_NAME);
+        int bbsfLinfNumbfr = linfNumbfr(SDE.BASE_STRATUM_NAME);
+        int bbsfLinfNumbfr = linfNumbfr(SDE.BASE_STRATUM_NAME);
+        SDE.LinfStrbtum linfStrbtum =
+        SDE.LinfStrbtum linfStrbtum =
+        SDE.LinfStrbtum linfStrbtum =
+        SDE.LinfStrbtum linfStrbtum =
         SDE.LinfStrbtum linfStrbtum =
                   strbtum.linfStrbtum(dfdlbringTypf, bbsfLinfNumbfr);
+                  strbtum.linfStrbtum(dfdlbringTypf, bbsfLinfNumbfr);
+                  strbtum.linfStrbtum(dfdlbringTypf, bbsfLinfNumbfr);
+                  strbtum.linfStrbtum(dfdlbringTypf, bbsfLinfNumbfr);
+                  strbtum.linfStrbtum(dfdlbringTypf, bbsfLinfNumbfr);
+
+
+
+
 
         if (linfStrbtum != null && linfStrbtum.linfNumbfr() != -1) {
+        if (linfStrbtum != null && linfStrbtum.linfNumbfr() != -1) {
+        if (linfStrbtum != null && linfStrbtum.linfNumbfr() != -1) {
+        if (linfStrbtum != null && linfStrbtum.linfNumbfr() != -1) {
+        if (linfStrbtum != null && linfStrbtum.linfNumbfr() != -1) {
+            linfInfo = nfw StrbtumLinfInfo(strbtum.id(),
+            linfInfo = nfw StrbtumLinfInfo(strbtum.id(),
+            linfInfo = nfw StrbtumLinfInfo(strbtum.id(),
+            linfInfo = nfw StrbtumLinfInfo(strbtum.id(),
             linfInfo = nfw StrbtumLinfInfo(strbtum.id(),
                                            linfStrbtum.linfNumbfr(),
+                                           linfStrbtum.linfNumbfr(),
+                                           linfStrbtum.linfNumbfr(),
+                                           linfStrbtum.linfNumbfr(),
+                                           linfStrbtum.linfNumbfr(),
                                            linfStrbtum.sourdfNbmf(),
-                                           linfStrbtum.sourdfPbth());
+                                           linfStrbtum.sourdfNbmf(),
+                                           linfStrbtum.sourdfNbmf(),
+                                           linfStrbtum.sourdfNbmf(),
+                                           linfStrbtum.sourdfNbmf(),
+                                           linfStrbtum.sourdfPbti());
+                                           linfStrbtum.sourdfPbti());
+                                           linfStrbtum.sourdfPbti());
+                                           linfStrbtum.sourdfPbti());
+                                           linfStrbtum.sourdfPbti());
         } flsf {
-            /* find bfst mbtdh */
-            MfthodImpl mfthodImpl = (MfthodImpl)mfthod();
-            linfInfo = mfthodImpl.dodfIndfxToLinfInfo(strbtum,
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            /* find bfst mbtdi */
+            /* find bfst mbtdi */
+            /* find bfst mbtdi */
+            /* find bfst mbtdi */
+            /* find bfst mbtdi */
+            MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+            MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+            MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+            MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+            MftiodImpl mftiodImpl = (MftiodImpl)mftiod();
+            linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+            linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+            linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+            linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+            linfInfo = mftiodImpl.dodfIndfxToLinfInfo(strbtum,
+                                                      dodfIndfx());
+                                                      dodfIndfx());
+                                                      dodfIndfx());
+                                                      dodfIndfx());
                                                       dodfIndfx());
         }
+        }
+        }
+        }
+        }
 
-        /* dbdhf it */
+
+
+
+
+        /* dbdif it */
+        /* dbdif it */
+        /* dbdif it */
+        /* dbdif it */
+        /* dbdif it */
+        bddStrbtumLinfInfo(linfInfo);
+        bddStrbtumLinfInfo(linfInfo);
+        bddStrbtumLinfInfo(linfInfo);
+        bddStrbtumLinfInfo(linfInfo);
         bddStrbtumLinfInfo(linfInfo);
 
+
+
+
+
+        rfturn linfInfo;
+        rfturn linfInfo;
+        rfturn linfInfo;
+        rfturn linfInfo;
         rfturn linfInfo;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     void bddStrbtumLinfInfo(LinfInfo linfInfo) {
-        othfrLinfInfo = linfInfo;
+    void bddStrbtumLinfInfo(LinfInfo linfInfo) {
+    void bddStrbtumLinfInfo(LinfInfo linfInfo) {
+    void bddStrbtumLinfInfo(LinfInfo linfInfo) {
+    void bddStrbtumLinfInfo(LinfInfo linfInfo) {
+        otifrLinfInfo = linfInfo;
+        otifrLinfInfo = linfInfo;
+        otifrLinfInfo = linfInfo;
+        otifrLinfInfo = linfInfo;
+        otifrLinfInfo = linfInfo;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     void bddBbsfLinfInfo(LinfInfo linfInfo) {
+    void bddBbsfLinfInfo(LinfInfo linfInfo) {
+    void bddBbsfLinfInfo(LinfInfo linfInfo) {
+    void bddBbsfLinfInfo(LinfInfo linfInfo) {
+    void bddBbsfLinfInfo(LinfInfo linfInfo) {
+        bbsfLinfInfo = linfInfo;
+        bbsfLinfInfo = linfInfo;
+        bbsfLinfInfo = linfInfo;
+        bbsfLinfInfo = linfInfo;
         bbsfLinfInfo = linfInfo;
     }
+    }
+    }
+    }
+    }
 
-    publid String sourdfNbmf() throws AbsfntInformbtionExdfption {
+
+
+
+
+    publid String sourdfNbmf() tirows AbsfntInformbtionExdfption {
+    publid String sourdfNbmf() tirows AbsfntInformbtionExdfption {
+    publid String sourdfNbmf() tirows AbsfntInformbtionExdfption {
+    publid String sourdfNbmf() tirows AbsfntInformbtionExdfption {
+    publid String sourdfNbmf() tirows AbsfntInformbtionExdfption {
+        rfturn sourdfNbmf(vm.gftDffbultStrbtum());
+        rfturn sourdfNbmf(vm.gftDffbultStrbtum());
+        rfturn sourdfNbmf(vm.gftDffbultStrbtum());
+        rfturn sourdfNbmf(vm.gftDffbultStrbtum());
         rfturn sourdfNbmf(vm.gftDffbultStrbtum());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid String sourdfNbmf(String strbtumID)
-                               throws AbsfntInformbtionExdfption {
+    publid String sourdfNbmf(String strbtumID)
+    publid String sourdfNbmf(String strbtumID)
+    publid String sourdfNbmf(String strbtumID)
+    publid String sourdfNbmf(String strbtumID)
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+        rfturn sourdfNbmf(dfdlbringTypf.strbtum(strbtumID));
+        rfturn sourdfNbmf(dfdlbringTypf.strbtum(strbtumID));
+        rfturn sourdfNbmf(dfdlbringTypf.strbtum(strbtumID));
+        rfturn sourdfNbmf(dfdlbringTypf.strbtum(strbtumID));
         rfturn sourdfNbmf(dfdlbringTypf.strbtum(strbtumID));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     String sourdfNbmf(SDE.Strbtum strbtum)
-                               throws AbsfntInformbtionExdfption {
+    String sourdfNbmf(SDE.Strbtum strbtum)
+    String sourdfNbmf(SDE.Strbtum strbtum)
+    String sourdfNbmf(SDE.Strbtum strbtum)
+    String sourdfNbmf(SDE.Strbtum strbtum)
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+        rfturn gftLinfInfo(strbtum).liSourdfNbmf();
+        rfturn gftLinfInfo(strbtum).liSourdfNbmf();
+        rfturn gftLinfInfo(strbtum).liSourdfNbmf();
+        rfturn gftLinfInfo(strbtum).liSourdfNbmf();
         rfturn gftLinfInfo(strbtum).liSourdfNbmf();
     }
-
-    publid String sourdfPbth() throws AbsfntInformbtionExdfption {
-        rfturn sourdfPbth(vm.gftDffbultStrbtum());
+    }
+    }
+    }
     }
 
-    publid String sourdfPbth(String strbtumID)
-                               throws AbsfntInformbtionExdfption {
-        rfturn sourdfPbth(dfdlbringTypf.strbtum(strbtumID));
+
+
+
+
+    publid String sourdfPbti() tirows AbsfntInformbtionExdfption {
+    publid String sourdfPbti() tirows AbsfntInformbtionExdfption {
+    publid String sourdfPbti() tirows AbsfntInformbtionExdfption {
+    publid String sourdfPbti() tirows AbsfntInformbtionExdfption {
+    publid String sourdfPbti() tirows AbsfntInformbtionExdfption {
+        rfturn sourdfPbti(vm.gftDffbultStrbtum());
+        rfturn sourdfPbti(vm.gftDffbultStrbtum());
+        rfturn sourdfPbti(vm.gftDffbultStrbtum());
+        rfturn sourdfPbti(vm.gftDffbultStrbtum());
+        rfturn sourdfPbti(vm.gftDffbultStrbtum());
+    }
+    }
+    }
+    }
     }
 
-    String sourdfPbth(SDE.Strbtum strbtum)
-                               throws AbsfntInformbtionExdfption {
-        rfturn gftLinfInfo(strbtum).liSourdfPbth();
+
+
+
+
+    publid String sourdfPbti(String strbtumID)
+    publid String sourdfPbti(String strbtumID)
+    publid String sourdfPbti(String strbtumID)
+    publid String sourdfPbti(String strbtumID)
+    publid String sourdfPbti(String strbtumID)
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+        rfturn sourdfPbti(dfdlbringTypf.strbtum(strbtumID));
+        rfturn sourdfPbti(dfdlbringTypf.strbtum(strbtumID));
+        rfturn sourdfPbti(dfdlbringTypf.strbtum(strbtumID));
+        rfturn sourdfPbti(dfdlbringTypf.strbtum(strbtumID));
+        rfturn sourdfPbti(dfdlbringTypf.strbtum(strbtumID));
     }
+    }
+    }
+    }
+    }
+
+
+
+
+
+    String sourdfPbti(SDE.Strbtum strbtum)
+    String sourdfPbti(SDE.Strbtum strbtum)
+    String sourdfPbti(SDE.Strbtum strbtum)
+    String sourdfPbti(SDE.Strbtum strbtum)
+    String sourdfPbti(SDE.Strbtum strbtum)
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+                               tirows AbsfntInformbtionExdfption {
+        rfturn gftLinfInfo(strbtum).liSourdfPbti();
+        rfturn gftLinfInfo(strbtum).liSourdfPbti();
+        rfturn gftLinfInfo(strbtum).liSourdfPbti();
+        rfturn gftLinfInfo(strbtum).liSourdfPbti();
+        rfturn gftLinfInfo(strbtum).liSourdfPbti();
+    }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid int linfNumbfr() {
+    publid int linfNumbfr() {
+    publid int linfNumbfr() {
+    publid int linfNumbfr() {
+    publid int linfNumbfr() {
+        rfturn linfNumbfr(vm.gftDffbultStrbtum());
+        rfturn linfNumbfr(vm.gftDffbultStrbtum());
+        rfturn linfNumbfr(vm.gftDffbultStrbtum());
+        rfturn linfNumbfr(vm.gftDffbultStrbtum());
         rfturn linfNumbfr(vm.gftDffbultStrbtum());
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid int linfNumbfr(String strbtumID) {
+    publid int linfNumbfr(String strbtumID) {
+    publid int linfNumbfr(String strbtumID) {
+    publid int linfNumbfr(String strbtumID) {
+    publid int linfNumbfr(String strbtumID) {
+        rfturn linfNumbfr(dfdlbringTypf.strbtum(strbtumID));
+        rfturn linfNumbfr(dfdlbringTypf.strbtum(strbtumID));
+        rfturn linfNumbfr(dfdlbringTypf.strbtum(strbtumID));
+        rfturn linfNumbfr(dfdlbringTypf.strbtum(strbtumID));
         rfturn linfNumbfr(dfdlbringTypf.strbtum(strbtumID));
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     int linfNumbfr(SDE.Strbtum strbtum) {
+    int linfNumbfr(SDE.Strbtum strbtum) {
+    int linfNumbfr(SDE.Strbtum strbtum) {
+    int linfNumbfr(SDE.Strbtum strbtum) {
+    int linfNumbfr(SDE.Strbtum strbtum) {
+        rfturn gftLinfInfo(strbtum).liLinfNumbfr();
+        rfturn gftLinfInfo(strbtum).liLinfNumbfr();
+        rfturn gftLinfInfo(strbtum).liLinfNumbfr();
+        rfturn gftLinfInfo(strbtum).liLinfNumbfr();
         rfturn gftLinfInfo(strbtum).liLinfNumbfr();
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
+    publid String toString() {
         if (linfNumbfr() == -1) {
-            rfturn mfthod().toString() + "+" + dodfIndfx();
+        if (linfNumbfr() == -1) {
+        if (linfNumbfr() == -1) {
+        if (linfNumbfr() == -1) {
+        if (linfNumbfr() == -1) {
+            rfturn mftiod().toString() + "+" + dodfIndfx();
+            rfturn mftiod().toString() + "+" + dodfIndfx();
+            rfturn mftiod().toString() + "+" + dodfIndfx();
+            rfturn mftiod().toString() + "+" + dodfIndfx();
+            rfturn mftiod().toString() + "+" + dodfIndfx();
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
         } flsf {
             rfturn dfdlbringTypf().nbmf() + ":" + linfNumbfr();
+            rfturn dfdlbringTypf().nbmf() + ":" + linfNumbfr();
+            rfturn dfdlbringTypf().nbmf() + ":" + linfNumbfr();
+            rfturn dfdlbringTypf().nbmf() + ":" + linfNumbfr();
+            rfturn dfdlbringTypf().nbmf() + ":" + linfNumbfr();
+        }
+        }
+        }
+        }
         }
     }
+    }
+    }
+    }
+    }
+}
+}
+}
+}
 }

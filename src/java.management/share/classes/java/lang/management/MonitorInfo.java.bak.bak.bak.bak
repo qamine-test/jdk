@@ -1,159 +1,795 @@
 /*
- * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+/*
+/*
+/*
+/*
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
- * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
- * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
- * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
- * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
  *
- * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
- * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
- * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
- * bddompbnifd this dodf).
  *
- * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
- * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
- * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
- * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ *
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
+ *
+ *
+ *
+ *
+ *
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ * bddompbnifd tiis dodf).
+ *
+ *
+ *
+ *
+ *
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
+ *
+ *
+ *
+ *
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
+ * qufstions.
+ * qufstions.
+ * qufstions.
  * qufstions.
  */
+ */
+ */
+ */
+ */
+
+
+
+
 
 pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+
+
+
 
 import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import sun.mbnbgfmfnt.MonitorInfoCompositfDbtb;
+import sun.mbnbgfmfnt.MonitorInfoCompositfDbtb;
+import sun.mbnbgfmfnt.MonitorInfoCompositfDbtb;
+import sun.mbnbgfmfnt.MonitorInfoCompositfDbtb;
 import sun.mbnbgfmfnt.MonitorInfoCompositfDbtb;
 
+
+
+
+
+/**
+/**
+/**
+/**
 /**
  * Informbtion bbout bn objfdt monitor lodk.  An objfdt monitor is lodkfd
- * whfn fntfring b syndhronizbtion blodk or mfthod on thbt objfdt.
+ * Informbtion bbout bn objfdt monitor lodk.  An objfdt monitor is lodkfd
+ * Informbtion bbout bn objfdt monitor lodk.  An objfdt monitor is lodkfd
+ * Informbtion bbout bn objfdt monitor lodk.  An objfdt monitor is lodkfd
+ * Informbtion bbout bn objfdt monitor lodk.  An objfdt monitor is lodkfd
+ * wifn fntfring b syndironizbtion blodk or mftiod on tibt objfdt.
+ * wifn fntfring b syndironizbtion blodk or mftiod on tibt objfdt.
+ * wifn fntfring b syndironizbtion blodk or mftiod on tibt objfdt.
+ * wifn fntfring b syndironizbtion blodk or mftiod on tibt objfdt.
+ * wifn fntfring b syndironizbtion blodk or mftiod on tibt objfdt.
  *
- * <h3>MXBfbn Mbpping</h3>
+ *
+ *
+ *
+ *
+ * <i3>MXBfbn Mbpping</i3>
+ * <i3>MXBfbn Mbpping</i3>
+ * <i3>MXBfbn Mbpping</i3>
+ * <i3>MXBfbn Mbpping</i3>
+ * <i3>MXBfbn Mbpping</i3>
  * <tt>MonitorInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
- * with bttributfs bs spfdififd in
- * thf {@link #from from} mfthod.
+ * <tt>MonitorInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * <tt>MonitorInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * <tt>MonitorInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * <tt>MonitorInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * witi bttributfs bs spfdififd in
+ * witi bttributfs bs spfdififd in
+ * witi bttributfs bs spfdififd in
+ * witi bttributfs bs spfdififd in
+ * witi bttributfs bs spfdififd in
+ * tif {@link #from from} mftiod.
+ * tif {@link #from from} mftiod.
+ * tif {@link #from from} mftiod.
+ * tif {@link #from from} mftiod.
+ * tif {@link #from from} mftiod.
  *
- * @buthor  Mbndy Chung
+ *
+ *
+ *
+ *
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @butior  Mbndy Ciung
+ * @sindf   1.6
+ * @sindf   1.6
+ * @sindf   1.6
+ * @sindf   1.6
  * @sindf   1.6
  */
+ */
+ */
+ */
+ */
+publid dlbss MonitorInfo fxtfnds LodkInfo {
+publid dlbss MonitorInfo fxtfnds LodkInfo {
+publid dlbss MonitorInfo fxtfnds LodkInfo {
+publid dlbss MonitorInfo fxtfnds LodkInfo {
 publid dlbss MonitorInfo fxtfnds LodkInfo {
 
-    privbtf int    stbdkDfpth;
+
+
+
+
+    privbtf int    stbdkDfpti;
+    privbtf int    stbdkDfpti;
+    privbtf int    stbdkDfpti;
+    privbtf int    stbdkDfpti;
+    privbtf int    stbdkDfpti;
+    privbtf StbdkTrbdfElfmfnt stbdkFrbmf;
+    privbtf StbdkTrbdfElfmfnt stbdkFrbmf;
+    privbtf StbdkTrbdfElfmfnt stbdkFrbmf;
+    privbtf StbdkTrbdfElfmfnt stbdkFrbmf;
     privbtf StbdkTrbdfElfmfnt stbdkFrbmf;
 
+
+
+
+
+    /**
+    /**
+    /**
+    /**
     /**
      * Construdt b <tt>MonitorInfo</tt> objfdt.
+     * Construdt b <tt>MonitorInfo</tt> objfdt.
+     * Construdt b <tt>MonitorInfo</tt> objfdt.
+     * Construdt b <tt>MonitorInfo</tt> objfdt.
+     * Construdt b <tt>MonitorInfo</tt> objfdt.
      *
-     * @pbrbm dlbssNbmf thf fully qublififd nbmf of thf dlbss of thf lodk objfdt.
-     * @pbrbm idfntityHbshCodf thf {@link Systfm#idfntityHbshCodf
-     *                         idfntity hbsh dodf} of thf lodk objfdt.
-     * @pbrbm stbdkDfpth thf dfpth in thf stbdk trbdf whfrf thf objfdt monitor
+     *
+     *
+     *
+     *
+     * @pbrbm dlbssNbmf tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
+     * @pbrbm dlbssNbmf tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
+     * @pbrbm dlbssNbmf tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
+     * @pbrbm dlbssNbmf tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
+     * @pbrbm dlbssNbmf tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
+     * @pbrbm idfntityHbsiCodf tif {@link Systfm#idfntityHbsiCodf
+     * @pbrbm idfntityHbsiCodf tif {@link Systfm#idfntityHbsiCodf
+     * @pbrbm idfntityHbsiCodf tif {@link Systfm#idfntityHbsiCodf
+     * @pbrbm idfntityHbsiCodf tif {@link Systfm#idfntityHbsiCodf
+     * @pbrbm idfntityHbsiCodf tif {@link Systfm#idfntityHbsiCodf
+     *                         idfntity ibsi dodf} of tif lodk objfdt.
+     *                         idfntity ibsi dodf} of tif lodk objfdt.
+     *                         idfntity ibsi dodf} of tif lodk objfdt.
+     *                         idfntity ibsi dodf} of tif lodk objfdt.
+     *                         idfntity ibsi dodf} of tif lodk objfdt.
+     * @pbrbm stbdkDfpti tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @pbrbm stbdkDfpti tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @pbrbm stbdkDfpti tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @pbrbm stbdkDfpti tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @pbrbm stbdkDfpti tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
      *                   wbs lodkfd.
-     * @pbrbm stbdkFrbmf thf stbdk frbmf thbt lodkfd thf objfdt monitor.
-     * @throws IllfgblArgumfntExdfption if
-     *    <tt>stbdkDfpth</tt> &gf; 0 but <tt>stbdkFrbmf</tt> is <tt>null</tt>,
-     *    or <tt>stbdkDfpth</tt> &lt; 0 but <tt>stbdkFrbmf</tt> is not
+     *                   wbs lodkfd.
+     *                   wbs lodkfd.
+     *                   wbs lodkfd.
+     *                   wbs lodkfd.
+     * @pbrbm stbdkFrbmf tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * @pbrbm stbdkFrbmf tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * @pbrbm stbdkFrbmf tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * @pbrbm stbdkFrbmf tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * @pbrbm stbdkFrbmf tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * @tirows IllfgblArgumfntExdfption if
+     * @tirows IllfgblArgumfntExdfption if
+     * @tirows IllfgblArgumfntExdfption if
+     * @tirows IllfgblArgumfntExdfption if
+     * @tirows IllfgblArgumfntExdfption if
+     *    <tt>stbdkDfpti</tt> &gf; 0 but <tt>stbdkFrbmf</tt> is <tt>null</tt>,
+     *    <tt>stbdkDfpti</tt> &gf; 0 but <tt>stbdkFrbmf</tt> is <tt>null</tt>,
+     *    <tt>stbdkDfpti</tt> &gf; 0 but <tt>stbdkFrbmf</tt> is <tt>null</tt>,
+     *    <tt>stbdkDfpti</tt> &gf; 0 but <tt>stbdkFrbmf</tt> is <tt>null</tt>,
+     *    <tt>stbdkDfpti</tt> &gf; 0 but <tt>stbdkFrbmf</tt> is <tt>null</tt>,
+     *    or <tt>stbdkDfpti</tt> &lt; 0 but <tt>stbdkFrbmf</tt> is not
+     *    or <tt>stbdkDfpti</tt> &lt; 0 but <tt>stbdkFrbmf</tt> is not
+     *    or <tt>stbdkDfpti</tt> &lt; 0 but <tt>stbdkFrbmf</tt> is not
+     *    or <tt>stbdkDfpti</tt> &lt; 0 but <tt>stbdkFrbmf</tt> is not
+     *    or <tt>stbdkDfpti</tt> &lt; 0 but <tt>stbdkFrbmf</tt> is not
+     *       <tt>null</tt>.
+     *       <tt>null</tt>.
+     *       <tt>null</tt>.
+     *       <tt>null</tt>.
      *       <tt>null</tt>.
      */
+     */
+     */
+     */
+     */
     publid MonitorInfo(String dlbssNbmf,
-                       int idfntityHbshCodf,
-                       int stbdkDfpth,
+    publid MonitorInfo(String dlbssNbmf,
+    publid MonitorInfo(String dlbssNbmf,
+    publid MonitorInfo(String dlbssNbmf,
+    publid MonitorInfo(String dlbssNbmf,
+                       int idfntityHbsiCodf,
+                       int idfntityHbsiCodf,
+                       int idfntityHbsiCodf,
+                       int idfntityHbsiCodf,
+                       int idfntityHbsiCodf,
+                       int stbdkDfpti,
+                       int stbdkDfpti,
+                       int stbdkDfpti,
+                       int stbdkDfpti,
+                       int stbdkDfpti,
                        StbdkTrbdfElfmfnt stbdkFrbmf) {
-        supfr(dlbssNbmf, idfntityHbshCodf);
-        if (stbdkDfpth >= 0 && stbdkFrbmf == null) {
-            throw nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpth is " +
-                stbdkDfpth + " but stbdkFrbmf is null");
+                       StbdkTrbdfElfmfnt stbdkFrbmf) {
+                       StbdkTrbdfElfmfnt stbdkFrbmf) {
+                       StbdkTrbdfElfmfnt stbdkFrbmf) {
+                       StbdkTrbdfElfmfnt stbdkFrbmf) {
+        supfr(dlbssNbmf, idfntityHbsiCodf);
+        supfr(dlbssNbmf, idfntityHbsiCodf);
+        supfr(dlbssNbmf, idfntityHbsiCodf);
+        supfr(dlbssNbmf, idfntityHbsiCodf);
+        supfr(dlbssNbmf, idfntityHbsiCodf);
+        if (stbdkDfpti >= 0 && stbdkFrbmf == null) {
+        if (stbdkDfpti >= 0 && stbdkFrbmf == null) {
+        if (stbdkDfpti >= 0 && stbdkFrbmf == null) {
+        if (stbdkDfpti >= 0 && stbdkFrbmf == null) {
+        if (stbdkDfpti >= 0 && stbdkFrbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+                stbdkDfpti + " but stbdkFrbmf is null");
+                stbdkDfpti + " but stbdkFrbmf is null");
+                stbdkDfpti + " but stbdkFrbmf is null");
+                stbdkDfpti + " but stbdkFrbmf is null");
+                stbdkDfpti + " but stbdkFrbmf is null");
         }
-        if (stbdkDfpth < 0 && stbdkFrbmf != null) {
-            throw nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpth is " +
-                stbdkDfpth + " but stbdkFrbmf is not null");
         }
-        this.stbdkDfpth = stbdkDfpth;
-        this.stbdkFrbmf = stbdkFrbmf;
+        }
+        }
+        }
+        if (stbdkDfpti < 0 && stbdkFrbmf != null) {
+        if (stbdkDfpti < 0 && stbdkFrbmf != null) {
+        if (stbdkDfpti < 0 && stbdkFrbmf != null) {
+        if (stbdkDfpti < 0 && stbdkFrbmf != null) {
+        if (stbdkDfpti < 0 && stbdkFrbmf != null) {
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+            tirow nfw IllfgblArgumfntExdfption("Pbrbmftfr stbdkDfpti is " +
+                stbdkDfpti + " but stbdkFrbmf is not null");
+                stbdkDfpti + " but stbdkFrbmf is not null");
+                stbdkDfpti + " but stbdkFrbmf is not null");
+                stbdkDfpti + " but stbdkFrbmf is not null");
+                stbdkDfpti + " but stbdkFrbmf is not null");
+        }
+        }
+        }
+        }
+        }
+        tiis.stbdkDfpti = stbdkDfpti;
+        tiis.stbdkDfpti = stbdkDfpti;
+        tiis.stbdkDfpti = stbdkDfpti;
+        tiis.stbdkDfpti = stbdkDfpti;
+        tiis.stbdkDfpti = stbdkDfpti;
+        tiis.stbdkFrbmf = stbdkFrbmf;
+        tiis.stbdkFrbmf = stbdkFrbmf;
+        tiis.stbdkFrbmf = stbdkFrbmf;
+        tiis.stbdkFrbmf = stbdkFrbmf;
+        tiis.stbdkFrbmf = stbdkFrbmf;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf dfpth in thf stbdk trbdf whfrf thf objfdt monitor
-     * wbs lodkfd.  Thf dfpth is thf indfx to thf <tt>StbdkTrbdfElfmfnt</tt>
-     * brrby rfturnfd in thf {@link ThrfbdInfo#gftStbdkTrbdf} mfthod.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * Rfturns tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * Rfturns tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * Rfturns tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * Rfturns tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * wbs lodkfd.  Tif dfpti is tif indfx to tif <tt>StbdkTrbdfElfmfnt</tt>
+     * wbs lodkfd.  Tif dfpti is tif indfx to tif <tt>StbdkTrbdfElfmfnt</tt>
+     * wbs lodkfd.  Tif dfpti is tif indfx to tif <tt>StbdkTrbdfElfmfnt</tt>
+     * wbs lodkfd.  Tif dfpti is tif indfx to tif <tt>StbdkTrbdfElfmfnt</tt>
+     * wbs lodkfd.  Tif dfpti is tif indfx to tif <tt>StbdkTrbdfElfmfnt</tt>
+     * brrby rfturnfd in tif {@link TirfbdInfo#gftStbdkTrbdf} mftiod.
+     * brrby rfturnfd in tif {@link TirfbdInfo#gftStbdkTrbdf} mftiod.
+     * brrby rfturnfd in tif {@link TirfbdInfo#gftStbdkTrbdf} mftiod.
+     * brrby rfturnfd in tif {@link TirfbdInfo#gftStbdkTrbdf} mftiod.
+     * brrby rfturnfd in tif {@link TirfbdInfo#gftStbdkTrbdf} mftiod.
      *
-     * @rfturn thf dfpth in thf stbdk trbdf whfrf thf objfdt monitor
+     *
+     *
+     *
+     *
+     * @rfturn tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @rfturn tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @rfturn tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @rfturn tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     * @rfturn tif dfpti in tif stbdk trbdf wifrf tif objfdt monitor
+     *         wbs lodkfd, or b nfgbtivf numbfr if not bvbilbblf.
+     *         wbs lodkfd, or b nfgbtivf numbfr if not bvbilbblf.
+     *         wbs lodkfd, or b nfgbtivf numbfr if not bvbilbblf.
+     *         wbs lodkfd, or b nfgbtivf numbfr if not bvbilbblf.
      *         wbs lodkfd, or b nfgbtivf numbfr if not bvbilbblf.
      */
-    publid int gftLodkfdStbdkDfpth() {
-        rfturn stbdkDfpth;
+     */
+     */
+     */
+     */
+    publid int gftLodkfdStbdkDfpti() {
+    publid int gftLodkfdStbdkDfpti() {
+    publid int gftLodkfdStbdkDfpti() {
+    publid int gftLodkfdStbdkDfpti() {
+    publid int gftLodkfdStbdkDfpti() {
+        rfturn stbdkDfpti;
+        rfturn stbdkDfpti;
+        rfturn stbdkDfpti;
+        rfturn stbdkDfpti;
+        rfturn stbdkDfpti;
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
     /**
-     * Rfturns thf stbdk frbmf thbt lodkfd thf objfdt monitor.
+    /**
+    /**
+    /**
+    /**
+     * Rfturns tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * Rfturns tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * Rfturns tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * Rfturns tif stbdk frbmf tibt lodkfd tif objfdt monitor.
+     * Rfturns tif stbdk frbmf tibt lodkfd tif objfdt monitor.
      *
-     * @rfturn <tt>StbdkTrbdfElfmfnt</tt> thbt lodkfd thf objfdt monitor,
+     *
+     *
+     *
+     *
+     * @rfturn <tt>StbdkTrbdfElfmfnt</tt> tibt lodkfd tif objfdt monitor,
+     * @rfturn <tt>StbdkTrbdfElfmfnt</tt> tibt lodkfd tif objfdt monitor,
+     * @rfturn <tt>StbdkTrbdfElfmfnt</tt> tibt lodkfd tif objfdt monitor,
+     * @rfturn <tt>StbdkTrbdfElfmfnt</tt> tibt lodkfd tif objfdt monitor,
+     * @rfturn <tt>StbdkTrbdfElfmfnt</tt> tibt lodkfd tif objfdt monitor,
+     *         or <tt>null</tt> if not bvbilbblf.
+     *         or <tt>null</tt> if not bvbilbblf.
+     *         or <tt>null</tt> if not bvbilbblf.
+     *         or <tt>null</tt> if not bvbilbblf.
      *         or <tt>null</tt> if not bvbilbblf.
      */
+     */
+     */
+     */
+     */
+    publid StbdkTrbdfElfmfnt gftLodkfdStbdkFrbmf() {
+    publid StbdkTrbdfElfmfnt gftLodkfdStbdkFrbmf() {
+    publid StbdkTrbdfElfmfnt gftLodkfdStbdkFrbmf() {
+    publid StbdkTrbdfElfmfnt gftLodkfdStbdkFrbmf() {
     publid StbdkTrbdfElfmfnt gftLodkfdStbdkFrbmf() {
         rfturn stbdkFrbmf;
+        rfturn stbdkFrbmf;
+        rfturn stbdkFrbmf;
+        rfturn stbdkFrbmf;
+        rfturn stbdkFrbmf;
     }
+    }
+    }
+    }
+    }
+
+
+
+
 
     /**
-     * Rfturns b <tt>MonitorInfo</tt> objfdt rfprfsfntfd by thf
+    /**
+    /**
+    /**
+    /**
+     * Rfturns b <tt>MonitorInfo</tt> objfdt rfprfsfntfd by tif
+     * Rfturns b <tt>MonitorInfo</tt> objfdt rfprfsfntfd by tif
+     * Rfturns b <tt>MonitorInfo</tt> objfdt rfprfsfntfd by tif
+     * Rfturns b <tt>MonitorInfo</tt> objfdt rfprfsfntfd by tif
+     * Rfturns b <tt>MonitorInfo</tt> objfdt rfprfsfntfd by tif
      * givfn <tt>CompositfDbtb</tt>.
-     * Thf givfn <tt>CompositfDbtb</tt> must dontbin thf following bttributfs
-     * bs wfll bs thf bttributfs spfdififd in thf
-     * <b hrff="LodkInfo.html#MbppfdTypf">
-     * mbppfd typf</b> for thf {@link LodkInfo} dlbss:
+     * givfn <tt>CompositfDbtb</tt>.
+     * givfn <tt>CompositfDbtb</tt>.
+     * givfn <tt>CompositfDbtb</tt>.
+     * givfn <tt>CompositfDbtb</tt>.
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin tif following bttributfs
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin tif following bttributfs
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin tif following bttributfs
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin tif following bttributfs
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin tif following bttributfs
+     * bs wfll bs tif bttributfs spfdififd in tif
+     * bs wfll bs tif bttributfs spfdififd in tif
+     * bs wfll bs tif bttributfs spfdififd in tif
+     * bs wfll bs tif bttributfs spfdififd in tif
+     * bs wfll bs tif bttributfs spfdififd in tif
+     * <b irff="LodkInfo.itml#MbppfdTypf">
+     * <b irff="LodkInfo.itml#MbppfdTypf">
+     * <b irff="LodkInfo.itml#MbppfdTypf">
+     * <b irff="LodkInfo.itml#MbppfdTypf">
+     * <b irff="LodkInfo.itml#MbppfdTypf">
+     * mbppfd typf</b> for tif {@link LodkInfo} dlbss:
+     * mbppfd typf</b> for tif {@link LodkInfo} dlbss:
+     * mbppfd typf</b> for tif {@link LodkInfo} dlbss:
+     * mbppfd typf</b> for tif {@link LodkInfo} dlbss:
+     * mbppfd typf</b> for tif {@link LodkInfo} dlbss:
      * <blodkquotf>
-     * <tbblf bordfr summbry="Thf bttributfs bnd thfir typfs thf givfn CompositfDbtb dontbins">
+     * <blodkquotf>
+     * <blodkquotf>
+     * <blodkquotf>
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
+     * <tbblf bordfr summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
+     * <tbblf bordfr summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
+     * <tbblf bordfr summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
+     * <tbblf bordfr summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
      * <tr>
-     *   <th blign=lfft>Attributf Nbmf</th>
-     *   <th blign=lfft>Typf</th>
+     * <tr>
+     * <tr>
+     * <tr>
+     * <tr>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
+     *   <ti blign=lfft>Typf</ti>
+     *   <ti blign=lfft>Typf</ti>
+     *   <ti blign=lfft>Typf</ti>
+     *   <ti blign=lfft>Typf</ti>
      * </tr>
+     * </tr>
+     * </tr>
+     * </tr>
+     * </tr>
+     * <tr>
+     * <tr>
+     * <tr>
+     * <tr>
      * <tr>
      *   <td>lodkfdStbdkFrbmf</td>
-     *   <td><tt>CompositfDbtb bs spfdififd in thf
-     *       <b hrff="ThrfbdInfo.html#StbdkTrbdf">stbdkTrbdf</b>
-     *       bttributf dffinfd in thf {@link ThrfbdInfo#from
-     *       ThrfbdInfo.from} mfthod.
+     *   <td>lodkfdStbdkFrbmf</td>
+     *   <td>lodkfdStbdkFrbmf</td>
+     *   <td>lodkfdStbdkFrbmf</td>
+     *   <td>lodkfdStbdkFrbmf</td>
+     *   <td><tt>CompositfDbtb bs spfdififd in tif
+     *   <td><tt>CompositfDbtb bs spfdififd in tif
+     *   <td><tt>CompositfDbtb bs spfdififd in tif
+     *   <td><tt>CompositfDbtb bs spfdififd in tif
+     *   <td><tt>CompositfDbtb bs spfdififd in tif
+     *       <b irff="TirfbdInfo.itml#StbdkTrbdf">stbdkTrbdf</b>
+     *       <b irff="TirfbdInfo.itml#StbdkTrbdf">stbdkTrbdf</b>
+     *       <b irff="TirfbdInfo.itml#StbdkTrbdf">stbdkTrbdf</b>
+     *       <b irff="TirfbdInfo.itml#StbdkTrbdf">stbdkTrbdf</b>
+     *       <b irff="TirfbdInfo.itml#StbdkTrbdf">stbdkTrbdf</b>
+     *       bttributf dffinfd in tif {@link TirfbdInfo#from
+     *       bttributf dffinfd in tif {@link TirfbdInfo#from
+     *       bttributf dffinfd in tif {@link TirfbdInfo#from
+     *       bttributf dffinfd in tif {@link TirfbdInfo#from
+     *       bttributf dffinfd in tif {@link TirfbdInfo#from
+     *       TirfbdInfo.from} mftiod.
+     *       TirfbdInfo.from} mftiod.
+     *       TirfbdInfo.from} mftiod.
+     *       TirfbdInfo.from} mftiod.
+     *       TirfbdInfo.from} mftiod.
+     *       </tt></td>
+     *       </tt></td>
+     *       </tt></td>
+     *       </tt></td>
      *       </tt></td>
      * </tr>
+     * </tr>
+     * </tr>
+     * </tr>
+     * </tr>
      * <tr>
-     *   <td>lodkfdStbdkDfpth</td>
+     * <tr>
+     * <tr>
+     * <tr>
+     * <tr>
+     *   <td>lodkfdStbdkDfpti</td>
+     *   <td>lodkfdStbdkDfpti</td>
+     *   <td>lodkfdStbdkDfpti</td>
+     *   <td>lodkfdStbdkDfpti</td>
+     *   <td>lodkfdStbdkDfpti</td>
+     *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
+     *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
+     *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
+     *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
      *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
      * </tr>
+     * </tr>
+     * </tr>
+     * </tr>
+     * </tr>
+     * </tbblf>
+     * </tbblf>
+     * </tbblf>
+     * </tbblf>
      * </tbblf>
      * </blodkquotf>
+     * </blodkquotf>
+     * </blodkquotf>
+     * </blodkquotf>
+     * </blodkquotf>
+     *
+     *
+     *
+     *
      *
      * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>MonitorInfo</tt>
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>MonitorInfo</tt>
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>MonitorInfo</tt>
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>MonitorInfo</tt>
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>MonitorInfo</tt>
      *
-     * @throws IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
-     *   rfprfsfnt b <tt>MonitorInfo</tt> with thf bttributfs dfsdribfd
+     *
+     *
+     *
+     *
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>MonitorInfo</tt> witi tif bttributfs dfsdribfd
+     *   rfprfsfnt b <tt>MonitorInfo</tt> witi tif bttributfs dfsdribfd
+     *   rfprfsfnt b <tt>MonitorInfo</tt> witi tif bttributfs dfsdribfd
+     *   rfprfsfnt b <tt>MonitorInfo</tt> witi tif bttributfs dfsdribfd
+     *   rfprfsfnt b <tt>MonitorInfo</tt> witi tif bttributfs dfsdribfd
+     *   bbovf.
+     *   bbovf.
+     *   bbovf.
+     *   bbovf.
      *   bbovf.
 
+
+
+
+
+     * @rfturn b <tt>MonitorInfo</tt> objfdt rfprfsfntfd
+     * @rfturn b <tt>MonitorInfo</tt> objfdt rfprfsfntfd
+     * @rfturn b <tt>MonitorInfo</tt> objfdt rfprfsfntfd
+     * @rfturn b <tt>MonitorInfo</tt> objfdt rfprfsfntfd
      * @rfturn b <tt>MonitorInfo</tt> objfdt rfprfsfntfd
      *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
-     *         <tt>null</tt> othfrwisf.
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> otifrwisf.
+     *         <tt>null</tt> otifrwisf.
+     *         <tt>null</tt> otifrwisf.
+     *         <tt>null</tt> otifrwisf.
+     *         <tt>null</tt> otifrwisf.
+     */
+     */
+     */
+     */
      */
     publid stbtid MonitorInfo from(CompositfDbtb dd) {
+    publid stbtid MonitorInfo from(CompositfDbtb dd) {
+    publid stbtid MonitorInfo from(CompositfDbtb dd) {
+    publid stbtid MonitorInfo from(CompositfDbtb dd) {
+    publid stbtid MonitorInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+        if (dd == null) {
+        if (dd == null) {
+        if (dd == null) {
         if (dd == null) {
             rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
+            rfturn null;
         }
+        }
+        }
+        }
+        }
+
+
+
+
 
         if (dd instbndfof MonitorInfoCompositfDbtb) {
+        if (dd instbndfof MonitorInfoCompositfDbtb) {
+        if (dd instbndfof MonitorInfoCompositfDbtb) {
+        if (dd instbndfof MonitorInfoCompositfDbtb) {
+        if (dd instbndfof MonitorInfoCompositfDbtb) {
+            rfturn ((MonitorInfoCompositfDbtb) dd).gftMonitorInfo();
+            rfturn ((MonitorInfoCompositfDbtb) dd).gftMonitorInfo();
+            rfturn ((MonitorInfoCompositfDbtb) dd).gftMonitorInfo();
+            rfturn ((MonitorInfoCompositfDbtb) dd).gftMonitorInfo();
             rfturn ((MonitorInfoCompositfDbtb) dd).gftMonitorInfo();
         } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+        } flsf {
+            MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+            MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+            MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+            MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
             MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
             String dlbssNbmf = MonitorInfoCompositfDbtb.gftClbssNbmf(dd);
-            int idfntityHbshCodf = MonitorInfoCompositfDbtb.gftIdfntityHbshCodf(dd);
-            int stbdkDfpth = MonitorInfoCompositfDbtb.gftLodkfdStbdkDfpth(dd);
+            String dlbssNbmf = MonitorInfoCompositfDbtb.gftClbssNbmf(dd);
+            String dlbssNbmf = MonitorInfoCompositfDbtb.gftClbssNbmf(dd);
+            String dlbssNbmf = MonitorInfoCompositfDbtb.gftClbssNbmf(dd);
+            String dlbssNbmf = MonitorInfoCompositfDbtb.gftClbssNbmf(dd);
+            int idfntityHbsiCodf = MonitorInfoCompositfDbtb.gftIdfntityHbsiCodf(dd);
+            int idfntityHbsiCodf = MonitorInfoCompositfDbtb.gftIdfntityHbsiCodf(dd);
+            int idfntityHbsiCodf = MonitorInfoCompositfDbtb.gftIdfntityHbsiCodf(dd);
+            int idfntityHbsiCodf = MonitorInfoCompositfDbtb.gftIdfntityHbsiCodf(dd);
+            int idfntityHbsiCodf = MonitorInfoCompositfDbtb.gftIdfntityHbsiCodf(dd);
+            int stbdkDfpti = MonitorInfoCompositfDbtb.gftLodkfdStbdkDfpti(dd);
+            int stbdkDfpti = MonitorInfoCompositfDbtb.gftLodkfdStbdkDfpti(dd);
+            int stbdkDfpti = MonitorInfoCompositfDbtb.gftLodkfdStbdkDfpti(dd);
+            int stbdkDfpti = MonitorInfoCompositfDbtb.gftLodkfdStbdkDfpti(dd);
+            int stbdkDfpti = MonitorInfoCompositfDbtb.gftLodkfdStbdkDfpti(dd);
+            StbdkTrbdfElfmfnt stbdkFrbmf = MonitorInfoCompositfDbtb.gftLodkfdStbdkFrbmf(dd);
+            StbdkTrbdfElfmfnt stbdkFrbmf = MonitorInfoCompositfDbtb.gftLodkfdStbdkFrbmf(dd);
+            StbdkTrbdfElfmfnt stbdkFrbmf = MonitorInfoCompositfDbtb.gftLodkfdStbdkFrbmf(dd);
+            StbdkTrbdfElfmfnt stbdkFrbmf = MonitorInfoCompositfDbtb.gftLodkfdStbdkFrbmf(dd);
             StbdkTrbdfElfmfnt stbdkFrbmf = MonitorInfoCompositfDbtb.gftLodkfdStbdkFrbmf(dd);
             rfturn nfw MonitorInfo(dlbssNbmf,
-                                   idfntityHbshCodf,
-                                   stbdkDfpth,
+            rfturn nfw MonitorInfo(dlbssNbmf,
+            rfturn nfw MonitorInfo(dlbssNbmf,
+            rfturn nfw MonitorInfo(dlbssNbmf,
+            rfturn nfw MonitorInfo(dlbssNbmf,
+                                   idfntityHbsiCodf,
+                                   idfntityHbsiCodf,
+                                   idfntityHbsiCodf,
+                                   idfntityHbsiCodf,
+                                   idfntityHbsiCodf,
+                                   stbdkDfpti,
+                                   stbdkDfpti,
+                                   stbdkDfpti,
+                                   stbdkDfpti,
+                                   stbdkDfpti,
+                                   stbdkFrbmf);
+                                   stbdkFrbmf);
+                                   stbdkFrbmf);
+                                   stbdkFrbmf);
                                    stbdkFrbmf);
         }
+        }
+        }
+        }
+        }
+    }
+    }
+    }
+    }
     }
 
+
+
+
+
+}
+}
+}
+}
 }
